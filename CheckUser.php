@@ -1,11 +1,13 @@
 <?php
 
-
 # Not a valid entry point, skip unless MEDIAWIKI is defined
 if (!defined('MEDIAWIKI')) {
 	echo "CheckUser extension";
 	exit(1);
 }
+
+# Internationlisation file
+require_once( 'CheckUser.i18n.php' );
 
 $wgAvailableRights[] = 'checkuser';
 $wgGroupPermissions['checkuser']['checkuser'] = true;
