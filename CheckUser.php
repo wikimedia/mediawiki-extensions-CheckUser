@@ -6,7 +6,7 @@ if (!defined('MEDIAWIKI')) {
 	exit(1);
 }
 
-# Internationlisation file
+# Internationalisation file
 require_once( 'CheckUser.i18n.php' );
 
 $wgAvailableRights[] = 'checkuser';
