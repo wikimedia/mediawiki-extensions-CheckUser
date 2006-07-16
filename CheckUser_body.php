@@ -6,8 +6,10 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 }
 
 # Add messages
-global $wgCheckUserMessages;
-extAddMessages( $wgCheckUserMessages );
+global $wgMessageCache, $wgCheckUserMessages;
+foreach( $wgCheckUserMessages as $key => $value ) {
+	$wgMessageCache->addMessages( $wgCheckUserMessages[$key], $key );
+}
 
 class CheckUser extends UnlistedSpecialPage
 {

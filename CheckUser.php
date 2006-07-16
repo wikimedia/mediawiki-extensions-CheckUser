@@ -7,9 +7,6 @@ if (!defined('MEDIAWIKI')) {
 }
 
 # Internationalisation file
-if ( !function_exists( 'extAddMessages' ) ) {
-	require( dirname(__FILE__) . '/../ExtensionFunctions.php' );
-}
 require_once( 'CheckUser.i18n.php' );
 
 $wgAvailableRights[] = 'checkuser';
