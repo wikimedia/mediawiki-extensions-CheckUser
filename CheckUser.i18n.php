@@ -44,4 +44,7 @@ $wgCheckUserMessages['pt'] = array(
 	'group-checkuser-member' => 'Verificar utilizador',
 	'grouppage-checkuser'    => '{{ns:project}}:Verificar utilizador',
 );
+$wgCheckUserMessages['wa'] = array(
+	'checkuser' => 'Verifyî l\' uzeu',
+);
 ?>
