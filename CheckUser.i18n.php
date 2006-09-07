@@ -53,4 +53,24 @@ $wgCheckUserMessages['pt'] = array(
 $wgCheckUserMessages['wa'] = array(
 	'checkuser' => 'Verifyî l\' uzeu',
 );
+$wgCheckUserMessages['zh-cn'] = array(
+	'checkuser'              => '核对用户',
+	'group-checkuser'        => '账户核查',
+	'group-checkuser-member' => '账户核查',
+	'grouppage-checkuser'    => '{{ns:project}}:账户核查',
+);
+$wgCheckUserMessages['zh-tw'] = array(
+	'checkuser'              => '核對用戶',
+	'group-checkuser'        => '帳戶查核',
+	'group-checkuser-member' => '帳戶查核',
+	'grouppage-checkuser'    => '{{ns:project}}:帳戶查核',
+);
+$wgCheckUserMessages['zh-yue'] = array(
+	'checkuser'              => '核對用戶',
+	'group-checkuser'        => '稽查員',
+	'group-checkuser-member' => '稽查員',
+	'grouppage-checkuser'    => '{{ns:project}}:稽查員',
+);
+$wgCheckUserMessages['zh-hk'] = $wgCheckUserMessages['zh-tw'];
+$wgCheckUserMessages['zh-sg'] = $wgCheckUserMessages['zh-cn'];
 ?>
