@@ -11,7 +11,7 @@ foreach( $wgCheckUserMessages as $key => $value ) {
 	$wgMessageCache->addMessages( $wgCheckUserMessages[$key], $key );
 }
 
-class CheckUser extends UnlistedSpecialPage
+class CheckUser extends SpecialPage
 {
 	function CheckUser() {
 		SpecialPage::SpecialPage('CheckUser', 'checkuser');
@@ -20,10 +20,8 @@ class CheckUser extends UnlistedSpecialPage
 	function execute( $par ) {
 		global $wgRequest, $wgOut, $wgTitle, $wgUser;
 		
-		if ( !in_array( 'checkuser', $wgUser->getRights() ) ) {
-			$wgOut->setArticleRelated( false );
-			$wgOut->setRobotpolicy( 'noindex,nofollow' );
-			$wgOut->errorpage( 'nosuchspecialpage', 'nospecialpagetext' );
+		if( !$wgUser->isAllowed( 'checkuser' ) ) {
+			$wgOut->permissionRequired( 'checkuser' );
 			return;
 		}
 
