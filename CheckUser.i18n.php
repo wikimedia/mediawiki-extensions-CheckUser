@@ -56,6 +56,12 @@ $wgCheckUserMessages['ru'] = array(
 	'group-checkuser-member' => 'проверяющий участников',
 	'grouppage-checkuser'    => '{{ns:project}}:Проверка участников',
 );
+$wgCheckUserMessages['sk'] = array(
+	'checkuser'              => 'Overiť používateľa',
+	'group-checkuser'        => 'Overiť používateľov',
+	'group-checkuser-member' => 'Overiť používateľa',
+	'grouppage-checkuser'    => '{{ns:project}}:Overiť používateľa',
+);
 $wgCheckUserMessages['wa'] = array(
 	'checkuser' => 'Verifyî l\' uzeu',
 );
