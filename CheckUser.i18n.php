@@ -32,6 +32,25 @@ $wgCheckUserMessages['id'] = array(
 	'group-checkuser-member' => 'Pemeriksa',
 	'grouppage-checkuser'    => '{{ns:project}}:Pemeriksa',
 );
+$wgCheckUserMessages['kk-kz'] = array(
+	'checkuser'              => 'Пайдаланушыны тексеру',
+	'group-checkuser'        => 'Пайдаланушы тексерушілер',
+	'group-checkuser-member' => 'пайдаланушы тексеруші',
+	'grouppage-checkuser'    => '{{ns:project}}:Пайдаланушы тексерушілер',
+);
+$wgCheckUserMessages['kk-tr'] = array(
+	'checkuser'              => 'Paýdalanwşını tekserw',
+	'group-checkuser'        => 'Paýdalanwşı tekserwşiler',
+	'group-checkuser-member' => 'paýdalanwşı tekserwşi',
+	'grouppage-checkuser'    => '{{ns:project}}:Paýdalanwşı tekserwşiler',
+);
+$wgCheckUserMessages['kk-cn'] = array(
+	'checkuser'              => 'پايدالانۋشىنى تەكسەرۋ',
+	'group-checkuser'        => 'پايدالانۋشى تەكسەرۋشٴىلەر',
+	'group-checkuser-member' => 'پايدالانۋشى تەكسەرۋشٴى',
+	'grouppage-checkuser'    => '{{ns:project}}:پايدالانۋشى تەكسەرۋشٴىلەر',
+);
+$wgCheckUserMessages['kk'] = $wgCheckUserMessages['kk-kz'];
 $wgCheckUserMessages['nl'] = array(
 	'checkuser'              => 'Rechercheer gebruiker',
 	'group-checkuser'        => 'Rechercheer gebruikers',
