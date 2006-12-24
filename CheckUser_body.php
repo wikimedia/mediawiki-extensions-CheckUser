@@ -72,7 +72,7 @@ class CheckUser extends SpecialPage
 	</table></td><td>IP:</td>
 	<td><table border='0' cellpadding='0'>
 		<tr><td><input type="text" name="ip" value="$encIp" width="50"/></td></tr>
-		<tr><td><input type="submit" name="subipedits" value="Get edits (default)" /><input type="submit" name="subipusers" value="Get users" /></td></tr>
+		<tr><td><input style="font-weight: bold;" type="submit" name="subipedits" value="Get edits" /><input type="submit" name="subipusers" value="Get users" /></td></tr>
 	</table></td>
 </tr></table></form><hr />
 EOT
