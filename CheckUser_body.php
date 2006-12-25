@@ -33,6 +33,8 @@ class CheckUser extends SpecialPage
 		$subipusers = $wgRequest->getBool( 'subipusers' );
 		$subipedits = $wgRequest->getBool( 'subipedits' );
 		$subuser = $wgRequest->getBool( 'subuser' );
+		#enter fix hack
+		$suball = $wgRequest->getBool( 'suball' );
 
 		$this->doTop( $ip, $user, $reason);
 		if ( $ip && $subipedits ) {
@@ -41,9 +43,10 @@ class CheckUser extends SpecialPage
 			$this->doIPUsersRequest( $ip , $reason );
 		} else if ( $user && $subuser ) {
 			$this->doUserRequest( $user , $reason );
-		} else if (!$user && $ip && $subuser) {
-		#this subroutine is a corrector for the "enter" key
-		  	$this->doIPEditsRequest( $ip, $reason);
+		} else if ( !$user && $ip && $suball ) {
+		  	$this->doIPEditsRequest( $ip, $reason );
+		} else if ( $user && !$ip && $suball ) {
+		  	$this->doUserRequest( $user, $reason );
 		} else {
 			$this->showLog();
 		}
@@ -57,22 +60,24 @@ class CheckUser extends SpecialPage
 		$encUser = htmlspecialchars( $user );
 		$encReason = htmlspecialchars( $reason );
 
+		#$wgOut->addHTML( wfMsg('checkuser-summary') );
 		$wgOut->addHTML( <<<EOT
 <form name="checkuser" action="$action" method="post">
 <table border='0' cellpadding='5'><tr>
 	<td>Reason:</td>
 	<td><table border='0' cellpadding='0'>
 	<input type="text" name="reason" value="$encReason" maxlength='150' size='40' />
-	</table></td>
+	</table></td><td></td>
+	<td><input type="submit" name="suball" value="OK" style="visibility: hidden;"/></td>
 </tr><tr>
 	<td>User:</td>
 	<td><table border='0' cellpadding='0'>
-		<tr><input type="text" name="user" value="$encUser" width="50" /></tr>
-		<tr><input type="submit" name="subuser" value="Get IPs" /></tr>
+		<tr><td><input type="text" name="user" value="$encUser" width="50" /></td></tr>
+		<tr><td><input type="submit" name="subuser" value="Get IPs" /></td></tr>
 	</table></td><td>IP:</td>
 	<td><table border='0' cellpadding='0'>
 		<tr><td><input type="text" name="ip" value="$encIp" width="50"/></td></tr>
-		<tr><td><input style="font-weight: bold;" type="submit" name="subipedits" value="Get edits" /><input type="submit" name="subipusers" value="Get users" /></td></tr>
+		<tr><td><input type="submit" name="subipedits" value="Get edits" style="font-weight: bold;"/><input type="submit" name="subipusers" value="Get users" /></td></tr>
 	</table></td>
 </tr></table></form><hr />
 EOT
