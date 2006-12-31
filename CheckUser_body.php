@@ -65,9 +65,9 @@ class CheckUser extends SpecialPage
 <form name="checkuser" action="$action" method="post">
 <table border='0' cellpadding='5'><tr>
 	<td>Reason:</td>
-	<td><table border='0' cellpadding='0'>
-	<input type="text" name="reason" value="$encReason" maxlength='150' size='40' />
-	</table></td><td></td>
+	<td><table border='0' cellpadding='0'><tr>
+	<td><input type="text" name="reason" value="$encReason" maxlength='150' size='40' /></td>
+	</tr></table></td><td></td>
 	<td><input type="submit" name="suball" value="OK" style="visibility: hidden;"/></td>
 </tr><tr>
 	<td>User:</td>
@@ -230,11 +230,15 @@ EOT
 			#for 17-23 queries, return blocs 3-4 in binary
 			if( $bits > 16 && $bits < 24 ) {
 				#Invalid IPs can return wrong results
-				if ( $a > 256 ) $a = 256;
+				if ( $a > 256 ) {
+					$a = 256;
+				}
 				$a_bin = base_convert( $a, 10, 2 );
-				#convert has no starting zeros
-				for ($i=0; $i<8-strlen($a_bin); $i++)
+				#convert has no starting zeroes
+				$zeroes = 8-strlen($a_bin);
+				for ($i=0; $i<$zeroes; ++$i) {
 					$a_bin = "0$a_bin";
+				}
 				$r_bin = substr($a_bin, 0 , $bits - 16);
 				return $r_bin;
 			} else {
@@ -256,8 +260,9 @@ EOT
 		if( preg_match( '#^\d+\.\d+\.(\d+)#', $ip, $matches ) ) {
 			list( $junk, $a ) = $matches;
 			$a_bin = base_convert($a, 10, 2);
-			#convert has no starting zeros
-			for ($i=0; $i<8-strlen($a_bin); $i++)
+			#convert has no starting zeroes
+			$zeroes = 8-strlen($a_bin);
+			for ($i=0; $i < $zeroes; ++$i)
 				$a_bin = "0$a_bin";
 			if( strpos( $a_bin , $bloc3_bin )===0 ) {
 				return true;
