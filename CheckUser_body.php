@@ -457,7 +457,7 @@ EOT
 		if ( $reason ) $reason=' ("' . $reason . '")';
 		else $reason = "";
 		
-		$date=date("H:m, j F Y",$timestamp);
+		$date = date( 'H:i, j F Y', $timestamp );
 		if ( !fwrite( $f, "<li>$date, $checker $autsum $target on $db$reason</li>\n" ) ) {
 			return false;
 		}
