@@ -27,10 +27,10 @@ $wgCheckUserMessages['de'] = array(
 	'grouppage-checkuser'    => '{{ns:project}}:CheckUser',
 );
 $wgCheckUserMessages['fr'] = array(
-	'checkuser'              => 'Vérificateur d\'utilisateur',
-	'group-checkuser'        => 'Vérificateurs d\'utilisateur',
-	'group-checkuser-member' => 'Vérificateur d\'utilisateur',
-	'grouppage-checkuser'    => '{{ns:projet}}:Vérificateur d\'utilisateur',
+	'checkuser'              => 'Vérificateur d’utilisateur',
+	'group-checkuser'        => 'Vérificateurs d’utilisateur',
+	'group-checkuser-member' => 'Vérificateur d’utilisateur',
+	'grouppage-checkuser'    => '{{ns:project}}:Vérificateur d’utilisateur',
 );
 $wgCheckUserMessages['he'] = array(
 	'checkuser'              => 'בדיקת משתמש',
