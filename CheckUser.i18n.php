@@ -99,6 +99,19 @@ $wgCheckUserMessages['sk'] = array(
 	'group-checkuser-member' => 'Revízori',
 	'grouppage-checkuser'    => '{{ns:project}}:Revízia používateľa',
 );
+$wgCheckUserMessages['sr-ec'] = array(
+	'checkuser'              => 'Чекјузер',
+	'group-checkuser'        => 'Чекјузери',
+	'group-checkuser-member' => 'Чекјузер',
+	'grouppage-checkuser'    => '{{ns:project}}:Чекјузер',
+);
+$wgCheckUserMessages['sr-el'] = array(
+	'checkuser'              => 'Čekjuzer',
+	'group-checkuser'        => 'Čekjuzeri',
+	'group-checkuser-member' => 'Čekjuzer',
+	'grouppage-checkuser'    => '{{ns:project}}:Čekjuzer',
+);
+$wgCheckUserMessages['sr'] = $wgCheckUserMessages['sr-ec'];
 $wgCheckUserMessages['wa'] = array(
 	'checkuser' => 'Verifyî l\' uzeu',
 );
