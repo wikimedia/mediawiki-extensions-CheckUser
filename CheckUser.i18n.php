@@ -2,8 +2,7 @@
 /**
  * Internationalisation file for CheckUser extension.
  *
- * @package MediaWiki
- * @subpackage Extensions
+ * @addtogroup Extensions
 */
 
 $wgCheckUserMessages = array();
