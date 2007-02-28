@@ -19,17 +19,17 @@ $wgCheckUserMessages['cs'] = array(
 	'group-checkuser-member' => 'Revizor',
 	'grouppage-checkuser'    => '{{ns:project}}:Revize uživatele',
 );
-$wgCheckUserMessages['fi'] = array(
-	'checkuser'              => 'Osoitepaljastin',
-	'group-checkuser'        => 'Osoitepaljastimen käyttäjät',
-	'group-checkuser-member' => 'Osoitepaljastimen käyttäjä',
-	'grouppage-checkuser'    => '{{ns:project}}:Osoitepaljastin',
-);
 $wgCheckUserMessages['de'] = array(
 	'checkuser'              => 'Checkuser',
 	'group-checkuser'        => 'Checkusers',
 	'group-checkuser-member' => 'Checkuser-Berechtigter',
 	'grouppage-checkuser'    => '{{ns:project}}:CheckUser',
+);
+$wgCheckUserMessages['fi'] = array(
+	'checkuser'              => 'Osoitepaljastin',
+	'group-checkuser'        => 'Osoitepaljastimen käyttäjät',
+	'group-checkuser-member' => 'Osoitepaljastimen käyttäjä',
+	'grouppage-checkuser'    => '{{ns:project}}:Osoitepaljastin',
 );
 $wgCheckUserMessages['fr'] = array(
 	'checkuser'              => 'Vérificateur d’utilisateur',
