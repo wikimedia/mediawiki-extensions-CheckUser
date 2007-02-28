@@ -13,6 +13,12 @@ $wgCheckUserMessages['en'] = array(
 	'group-checkuser-member' => 'Check user',
 	'grouppage-checkuser'    => '{{ns:project}}:Check user',
 );
+$wgCheckUserMessages['ca'] = array(
+	'checkuser'              => 'Comprova l\'usuari',
+	'group-checkuser'        => 'Comprova els usuaris',
+	'group-checkuser-member' => 'Comprova l\'usuari',
+	'grouppage-checkuser'    => '{{ns:project}}:Comprova l\'usuari',
+);
 $wgCheckUserMessages['cs'] = array(
 	'checkuser'              => 'Revize uživatele',
 	'group-checkuser'        => 'Revizoři',
