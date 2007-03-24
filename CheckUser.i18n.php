@@ -117,7 +117,7 @@ $wgCheckUserMessages['ru'] = array(
 	'grouppage-checkuser'    => '{{ns:project}}:Проверка участников',
 );
 $wgCheckUserMessages['sk'] = array(
-	'checkuser'              => 'Revízia používateľa',
+	'checkuser'              => 'Overiť používateľa',
 	'group-checkuser'        => 'Revízor',
 	'group-checkuser-member' => 'Revízori',
 	'grouppage-checkuser'    => '{{ns:project}}:Revízia používateľa',
