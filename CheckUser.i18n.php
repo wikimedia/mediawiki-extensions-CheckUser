@@ -67,6 +67,12 @@ $wgCheckUserMessages['it'] = array(
 	'group-checkuser-member' => 'Controllore',
 	'grouppage-checkuser'    => '{{ns:project}}:Controllo utenze',
 );
+$wgCheckUserMessages['ja'] = array(
+	'checkuser'              => 'チェックユーザー',
+	'group-checkuser'        => 'チェックユーザー',
+	'group-checkuser-member' => 'チェックユーザー',
+	'grouppage-checkuser'    => '{{ns:project}}:チェックユーザー',
+);
 $wgCheckUserMessages['kk-kz'] = array(
 	'checkuser'              => 'Пайдаланушыны тексеру',
 	'group-checkuser'        => 'Пайдаланушы тексерушілер',
