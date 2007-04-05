@@ -8,10 +8,28 @@
 $wgCheckUserMessages = array();
 
 $wgCheckUserMessages['en'] = array(
+	'checkuser-summary'		 => 'This tool scans recent changes to retrieve the IPs used by a user or show the edit/user data for an IP. 
+	Users and edits can be retrieved with an XFF IP by appending the IP with "/xff". IPv4 (CIDR 16-32) and IPv6 (CIDR 64-128) are supported. 
+	No more than 5000 edits will be returned for permormance reasons. Use this in accordance with policy.',
+	'checkuser-logcase'		 => 'The log search is case sensitive.',
 	'checkuser'              => 'Check user',
 	'group-checkuser'        => 'Check users',
 	'group-checkuser-member' => 'Check user',
 	'grouppage-checkuser'    => '{{ns:project}}:Check user',
+	'checkuser-reason'		 => 'Reason',
+	'checkuser-showlog'		 => 'Show log',
+	'checkuser-log'			 => 'Checkuser log',
+	'checkuser-query'		 => 'Query recent changes',
+	'checkuser-target'		 => 'User or IP',
+	'checkuser-users'		 => 'Get users',
+	'checkuser-edits'	  	 => 'Get edits from IP',
+	'checkuser-ips'	  	 	 => 'Get IPs',
+	'checkuser-search'	  	 => 'Search',	
+	'checkuser-empty'	 	 => 'The log contains no items.',
+	'checkuser-nomatch'	  	 => 'No matches found.',
+	'checkuser-check'	  	 => 'Check',
+	'checkuser-log-fail'	 => 'Unable to add log entry',
+	'checkuser-nolog'		 => 'No log file found.'
 );
 $wgCheckUserMessages['br'] = array(
 	'checkuser'              => 'Gwiriañ an implijer',
@@ -43,11 +61,36 @@ $wgCheckUserMessages['fi'] = array(
 	'group-checkuser-member' => 'Osoitepaljastimen käyttäjä',
 	'grouppage-checkuser'    => '{{ns:project}}:Osoitepaljastin',
 );
+$wgCheckUserMessages['es'] = array(
+	'checkuser'              => 'Verificador del usuarios',
+	'group-checkuser'        => 'Verificadors del usuarios',
+	'group-checkuser-member' => 'Verificador del usuarios',
+	'grouppage-checkuser'    => '{{ns:project}}:verificador del usuarios',
+);
 $wgCheckUserMessages['fr'] = array(
-	'checkuser'              => 'Vérificateur d’utilisateur',
-	'group-checkuser'        => 'Vérificateurs d’utilisateur',
-	'group-checkuser-member' => 'Vérificateur d’utilisateur',
-	'grouppage-checkuser'    => '{{ns:project}}:Vérificateur d’utilisateur',
+	'checkuser-summary'		 => 'Cet outil balaye les changements récents pour rechercher l\'IPS employé par un utilisateur, 
+	montrer tous édite par un IP, ou énumère les utilisateurs qui ont employé les IPs. Les utilisateur et modifications peut 
+	être trouvé avec une IP XFF si il finit avec « /xff ». IPv4 (CIDR 16-32) et IPv6(CIDR 64-128) sont soutenus. 
+	Employer ceci selon les chaînes de policy.',
+	'checkuser-logcase'		 => 'La recherche de notation est cas sensible.',
+	'checkuser'              => 'Vérificateur d\'utilisateur',
+	'group-checkuser'        => 'Vérificateurs d\'utilisateur',
+	'group-checkuser-member' => 'Vérificateur d\'utilisateur',
+	'grouppage-checkuser'    => '{{ns:projet}}:Vérificateur d\'utilisateur',
+	'checkuser-reason'		 => 'Expanation ',
+	'checkuser-showlog'		 => 'Montrer la notation',
+	'checkuser-log'			 => 'Notation de Vérificateur d\'utilisateur',
+	'checkuser-query'		 => 'Recherche par les changements récents',
+	'checkuser-target'		 => 'Username ou IP',
+	'checkuser-users'		 => 'Obtenir les users',
+	'checkuser-edits'	  	 => 'Obtenir les modifications de l\'IP',
+	'checkuser-ips'	  	 	 => 'Obtenir les IPs',
+	'checkuser-search'	  	 => 'Recherche',
+	'checkuser-empty'	 	 => 'La notation ne contient aucun article',
+	'checkuser-nomatch'	  	 => 'Rien n\'a trouvé.',
+	'checkuser-check'	  	 => 'Recherche',
+	'checkuser-log-fail'	 => 'Incapable d\'ajouter l\'entrée de notation.',
+	'checkuser-nolog'		 => 'Aucun dossier de notation trouvé.'
 );
 $wgCheckUserMessages['he'] = array(
 	'checkuser'              => 'בדיקת משתמש',
