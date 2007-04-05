@@ -8,9 +8,9 @@
 $wgCheckUserMessages = array();
 
 $wgCheckUserMessages['en'] = array(
-	'checkuser-summary'		 => 'This tool scans recent changes to retrieve the IPs used by a user or show the edit/user data for an IP. 
-	Users and edits can be retrieved with an XFF IP by appending the IP with "/xff". IPv4 (CIDR 16-32) and IPv6 (CIDR 64-128) are supported. 
-	No more than 5000 edits will be returned for permormance reasons. Use this in accordance with policy.',
+	'checkuser-summary'		 => 'This tool scans recent changes to retrieve the IPs used by a user or show the edit/user data for an IP.
+	Users and edits can be retrieved with an XFF IP by appending the IP with "/xff". IPv4 (CIDR 16-32) and IPv6 (CIDR 64-128) are supported.
+	No more than 5000 edits will be returned for performance reasons. Use this in accordance with policy.',
 	'checkuser-logcase'		 => 'The log search is case sensitive.',
 	'checkuser'              => 'Check user',
 	'group-checkuser'        => 'Check users',
@@ -24,7 +24,7 @@ $wgCheckUserMessages['en'] = array(
 	'checkuser-users'		 => 'Get users',
 	'checkuser-edits'	  	 => 'Get edits from IP',
 	'checkuser-ips'	  	 	 => 'Get IPs',
-	'checkuser-search'	  	 => 'Search',	
+	'checkuser-search'	  	 => 'Search',
 	'checkuser-empty'	 	 => 'The log contains no items.',
 	'checkuser-nomatch'	  	 => 'No matches found.',
 	'checkuser-check'	  	 => 'Check',
@@ -68,9 +68,9 @@ $wgCheckUserMessages['es'] = array(
 	'grouppage-checkuser'    => '{{ns:project}}:verificador del usuarios',
 );
 $wgCheckUserMessages['fr'] = array(
-	'checkuser-summary'		 => 'Cet outil balaye les changements récents pour rechercher l\'IPS employé par un utilisateur, 
-	montrer tous édite par un IP, ou énumère les utilisateurs qui ont employé les IPs. Les utilisateur et modifications peut 
-	être trouvé avec une IP XFF si il finit avec « /xff ». IPv4 (CIDR 16-32) et IPv6(CIDR 64-128) sont soutenus. 
+	'checkuser-summary'		 => 'Cet outil balaye les changements récents pour rechercher l\'IPS employé par un utilisateur,
+	montrer tous édite par un IP, ou énumère les utilisateurs qui ont employé les IPs. Les utilisateur et modifications peut
+	être trouvé avec une IP XFF si il finit avec « /xff ». IPv4 (CIDR 16-32) et IPv6(CIDR 64-128) sont soutenus.
 	Employer ceci selon les chaînes de policy.',
 	'checkuser-logcase'		 => 'La recherche de notation est cas sensible.',
 	'checkuser'              => 'Vérificateur d\'utilisateur',
@@ -99,10 +99,29 @@ $wgCheckUserMessages['he'] = array(
 	'grouppage-checkuser'    => '{{ns:project}}:בודק',
 );
 $wgCheckUserMessages['id'] = array(
+	'checkuser-summary'		 => 'Peralatan ini memindai perubahan terbaru untuk mendapatkan IP yang digunakna oleh seorang pengguna atau menunjukkan data suntingan/pengguna untuk suatu IP.
+	Pengguna dan suntingan dapat diperoleh dari suatu IP XFF dengan menambahkan "/xff" pada suatu IP. IPv4 (CIDR 16-32) dan IPv6 (CIDR 64-128) dapat digunakan.
+	Karena alasan kinerja, maksimum hanya 5000 suntingan yang dapat diambil. Harap gunakan peralatan ini sesuai dengan kebijakan yang ada.',
+	'checkuser-logcase'		 => 'Log ini bersifat sensitif terhadap kapitalisasi.',
 	'checkuser'              => 'Periksa pengguna',
 	'group-checkuser'        => 'Pemeriksa',
 	'group-checkuser-member' => 'Pemeriksa',
 	'grouppage-checkuser'    => '{{ns:project}}:Pemeriksa',
+	'checkuser-reason'		 => 'Alasan',
+	'checkuser-showlog'		 => 'Tampilkan log',
+	'checkuser-log'			 => 'Log periksa pengguna',
+	'checkuser-query'		 => 'Kueri perubahan terbaru',
+	'checkuser-target'		 => 'Pengguna atau IP',
+	'checkuser-users'		 => 'Cari pengguna',
+	'checkuser-edits'	  	 => 'Cari suntingan dari IP',
+	'checkuser-ips'	  	 	 => 'Cari IP',
+	'checkuser-search'	  	 => 'Cari',
+	'checkuser-empty'	 	 => 'Log kosong.',
+	'checkuser-nomatch'	  	 => 'Data yang sesuai tidak ditemukan.',
+	'checkuser-check'	  	 => 'Periksa',
+	'checkuser-log-fail'	 => 'Entri log tidak dapat ditambahkan',
+	'checkuser-nolog'		 => 'Berkas log tidak ditemukan.',
+
 );
 $wgCheckUserMessages['it'] = array(
 	'checkuser'              => 'Controllo utenze',
