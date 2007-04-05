@@ -58,34 +58,3 @@ CREATE TABLE /*$wgDBprefix*/cu_changes (
   INDEX (cuc_timestamp)
 ) TYPE=InnoDB;
 
--- Copy important parts of recentchanges into checkuser data table
--- Using this on large wikis will cause lag
-INSERT INTO /*$wgDBprefix*/cu_changes (
-  cuc_timestamp,
-  cuc_user,
-  cuc_user_text,
-  cuc_namespace,
-  cuc_title,
-  cuc_comment,
-  cuc_minor,
-  cuc_page_id,
-  cuc_this_oldid,
-  cuc_last_oldid,
-  cuc_type,
-  cuc_ip,
-  cuc_ip_hex)
-  SELECT
-  rc_timestamp,
-  rc_user,
-  rc_user_text,
-  rc_namespace,
-  rc_title,
-  rc_comment,
-  rc_minor,
-  rc_cur_id,
-  rc_this_oldid,
-  rc_last_oldid,
-  rc_type,
-  rc_ip,
-  HEX(INET_ATON(rc_ip))
-    FROM /*$wgDBprefix*/recentchanges;
