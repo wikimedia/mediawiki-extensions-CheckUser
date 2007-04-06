@@ -8,28 +8,28 @@
 $wgCheckUserMessages = array();
 
 $wgCheckUserMessages['en'] = array(
-	'checkuser-summary'		 => 'This tool scans recent changes to retrieve the IPs used by a user or show the edit/user data for an IP.
+	'checkuser-summary'      => 'This tool scans recent changes to retrieve the IPs used by a user or show the edit/user data for an IP.
 	Users and edits can be retrieved with an XFF IP by appending the IP with "/xff". IPv4 (CIDR 16-32) and IPv6 (CIDR 64-128) are supported.
 	No more than 5000 edits will be returned for performance reasons. Use this in accordance with policy.',
-	'checkuser-logcase'		 => 'The log search is case sensitive.',
+	'checkuser-logcase'      => 'The log search is case sensitive.',
 	'checkuser'              => 'Check user',
 	'group-checkuser'        => 'Check users',
 	'group-checkuser-member' => 'Check user',
 	'grouppage-checkuser'    => '{{ns:project}}:Check user',
-	'checkuser-reason'		 => 'Reason',
-	'checkuser-showlog'		 => 'Show log',
-	'checkuser-log'			 => 'Checkuser log',
-	'checkuser-query'		 => 'Query recent changes',
-	'checkuser-target'		 => 'User or IP',
-	'checkuser-users'		 => 'Get users',
-	'checkuser-edits'	  	 => 'Get edits from IP',
-	'checkuser-ips'	  	 	 => 'Get IPs',
-	'checkuser-search'	  	 => 'Search',
-	'checkuser-empty'	 	 => 'The log contains no items.',
-	'checkuser-nomatch'	  	 => 'No matches found.',
-	'checkuser-check'	  	 => 'Check',
-	'checkuser-log-fail'	 => 'Unable to add log entry',
-	'checkuser-nolog'		 => 'No log file found.'
+	'checkuser-reason'       => 'Reason',
+	'checkuser-showlog'      => 'Show log',
+	'checkuser-log'          => 'Checkuser log',
+	'checkuser-query'        => 'Query recent changes',
+	'checkuser-target'       => 'User or IP',
+	'checkuser-users'        => 'Get users',
+	'checkuser-edits'        => 'Get edits from IP',
+	'checkuser-ips'          => 'Get IPs',
+	'checkuser-search'       => 'Search',
+	'checkuser-empty'        => 'The log contains no items.',
+	'checkuser-nomatch'      => 'No matches found.',
+	'checkuser-check'        => 'Check',
+	'checkuser-log-fail'     => 'Unable to add log entry',
+	'checkuser-nolog'        => 'No log file found.'
 );
 $wgCheckUserMessages['br'] = array(
 	'checkuser'              => 'Gwiriañ an implijer',
@@ -112,10 +112,28 @@ $wgCheckUserMessages['fr'] = array(
 	'checkuser-nolog'		 => 'Aucun dossier de notation trouvé.'
 );
 $wgCheckUserMessages['he'] = array(
+	'checkuser-summary'      => 'כלי זה סורק את השינויים האחרונים במטרה למצוא את כתובות ה־IP שהשתמש בהן משתמש מסוים או כדי להציג את כל המידע על המשתמשים שהשתמשו בכתובת IP ועל העריכות שבוצעו ממנה.
+	ניתן לקבל עריכות ומשתמשים מכתובות IP של הכותרת X-Forwarded-For באמצעות הוספת הטקסט "/xff" לסוף הכתובת. הן כתובות IPv4 (כלומר, CIDR 16-32) והן כתובות IPv6 (כלומר, CIDR 64-128) נתמכות.
+	לא יוחזרו יותר מ־5000 עריכות מסיבות של עומס על השרתים. אנא השתמשו בכלי זה בהתאם למדיניות.',
+	'checkuser-logcase'      => 'החיפוש ביומנים הוא תלוי־רישיות.',
 	'checkuser'              => 'בדיקת משתמש',
 	'group-checkuser'        => 'בודקים',
 	'group-checkuser-member' => 'בודק',
 	'grouppage-checkuser'    => '{{ns:project}}:בודק',
+	'checkuser-reason'       => 'סיבה',
+	'checkuser-showlog'      => 'הצגת יומן',
+	'checkuser-log'          => 'יומן בדיקות',
+	'checkuser-query'        => 'בדוק שינויים אחרונים',
+	'checkuser-target'       => 'שם משתמש או כתובת IP',
+	'checkuser-users'        => 'הצגת משתמשים',
+	'checkuser-edits'        => 'הצגת עריכות מכתובת IP מסוימת',
+	'checkuser-ips'          => 'הצגת כתובות IP',
+	'checkuser-search'       => 'חיפוש',
+	'checkuser-empty'        => 'אין פריטים ביומן.',
+	'checkuser-nomatch'      => 'לא נמצאו התאמות.',
+	'checkuser-check'        => 'בדיקה',
+	'checkuser-log-fail'     => 'לא ניתן היה להוסיף פריט ליומן',
+	'checkuser-nolog'        => 'לא נמצא קובץ יומן.'
 );
 $wgCheckUserMessages['id'] = array(
 	'checkuser-summary'		 => 'Peralatan ini memindai perubahan terbaru untuk mendapatkan IP yang digunakna oleh seorang pengguna atau menunjukkan data suntingan/pengguna untuk suatu IP.
