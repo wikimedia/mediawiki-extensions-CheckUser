@@ -61,8 +61,8 @@ function create_cu_changes( $db, $cutoff = null ) {
 		if ( count( $batch ) ) {
 			$db->insert( 'cu_changes', $batch, __FUNCTION__ );
 		}
-		$blockStart += BLOCK_SIZE;
-		$blockEnd += BLOCK_SIZE;
+		$blockStart += BATCH_SIZE;
+		$blockEnd += BATCH_SIZE;
 		wfWaitForSlaves( 5 );
 	}
 }
