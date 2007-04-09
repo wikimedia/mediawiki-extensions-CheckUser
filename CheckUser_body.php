@@ -47,7 +47,7 @@ class CheckUser extends SpecialPage
 			$ip = ''; 
 			$name = ''; 
 			$xff = $xffip . $xffbit;
-		} else if ( preg_match( '#^([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4})+)(/\d{1,3}|)$#', $user, $matches ) ) {
+		} else if ( preg_match( '#^([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4})+)(/\d{1,3}|)/xff$#', $user, $matches ) ) {
 			# An IPv6 XFF string?
 			list( $junk, $xffip, $xffbit ) = $matches;
 			$ip = ''; 
@@ -359,7 +359,7 @@ class CheckUser extends SpecialPage
 			return array( 'cuc_'.$type.'_hex BETWEEN ' . $db->addQuotes( $start ) . ' AND ' . $db->addQuotes( $end ) );
 		} else if( preg_match( '#^\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}/(\d+)$#', $ip, $matches ) ) {
 			// IPv6 CIDR, 64-128 bits
-			if ( $matches[2] < 64 || $matches[2] > 128 )
+			if ( $matches[1] < 64 || $matches[1] > 128 )
 				return array( 'cuc_'.$type.'_hex' => -1 );
 			list( $start, $end ) = IP::parseRange6( $ip );
 			return array( 'cuc_'.$type.'_hex BETWEEN ' . $db->addQuotes( $start ) . ' AND ' . $db->addQuotes( $end ) );
