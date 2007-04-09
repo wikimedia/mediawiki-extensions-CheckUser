@@ -9,24 +9,35 @@ define( 'BATCH_SIZE', 100 );
 require_once( dirname( __FILE__ ) . '/../../maintenance/commandLine.inc' );
 	
 $db =& wfGetDB( DB_MASTER );
-if ( $db->tableExists( 'cu_changes' ) ) {
+if ( $db->tableExists( 'cu_changes' ) && !isset( $options['force'] ) ) {
 	echo "cu_changes already exists\n";
-} else {
-	create_cu_changes( $db );
+	exit( 1 );
 }
 
-function create_cu_changes( $db ) {
-	global $wgDBtype;
-	$sourcefile = $wgDBtype === 'postgres' ? '/cu_changes.pg.sql' : '/cu_changes.sql';
+$cutoff = isset( $options['cutoff'] ) ? wfTimestamp( TS_MW, $options['cutoff'] ) : null;
+create_cu_changes( $db, $cutoff );
 
-	$db->sourceFile( dirname( __FILE__ ) . $sourcefile );
-
+function create_cu_changes( $db, $cutoff = null ) {
+	if( !$db->tableExists( 'cu_changes' ) ) {
+		$db->sourceFile( dirname( __FILE__ ) . '/cu_changes.sql' );
+	}
+	
+	if( $cutoff ) {
+		// Something leftover... clear old entries to minimize dupes
+		$encCutoff = $db->addQuotes( $db->timestamp( $cutoff ) );
+		$db->delete( 'cu_changes',
+			array( "cuc_timestamp < $encCutoff" ),
+			__METHOD__ );
+		$cutoffCond = "AND rc_timestamp < $encCutoff";
+	}
+	
 	$start = $db->selectField( 'recentchanges', 'MIN(rc_id)', false, __FUNCTION__ );
 	$end = $db->selectField( 'recentchanges', 'MAX(rc_id)', false, __FUNCTION__ );
 	$blockStart = $start;
 	$blockEnd = $start + BATCH_SIZE - 1;
 	while ( $blockEnd <= $end ) {
-		$res = $db->select( 'recentchanges', '*', "rc_id BETWEEN $blockStart AND $blockEnd", __FUNCTION__ );
+		$cond = "rc_id BETWEEN $blockStart AND $blockEnd $cutoffCond";
+		$res = $db->select( 'recentchanges', '*', $cond, __FUNCTION__ );
 		$batch = array();
 		while ( $row = $db->fetchObject( $res ) ) {
 			$batch[] = array( 
@@ -50,8 +61,7 @@ function create_cu_changes( $db ) {
 		}
 		$blockStart += BLOCK_SIZE;
 		$blockEnd += BLOCK_SIZE;
-		if ( function_exists ( 'wgWaitForSlaves' ) )
-			wfWaitForSlaves( 5 );
+		wfWaitForSlaves( 5 );
 	}
 }
 
