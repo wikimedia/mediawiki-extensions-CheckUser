@@ -24,3 +24,8 @@ CREATE TABLE cu_changes (
   cuc_xff_hex    TEXT,
   cuc_agent      TEXT
 );
+
+CREATE INDEX cu_changes_timestamp ON cu_changes(cuc_timestamp);
+CREATE INDEX cu_changes_user ON cu_changes(cuc_user);
+CREATE INDEX cu_changes_iphex ON cu_changes(cuc_ip_hex, cuc_xff_hex);
+
