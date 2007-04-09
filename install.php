@@ -29,6 +29,8 @@ function create_cu_changes( $db, $cutoff = null ) {
 			array( "cuc_timestamp < $encCutoff" ),
 			__METHOD__ );
 		$cutoffCond = "AND rc_timestamp < $encCutoff";
+	} else {
+		$cutoffCond = "";
 	}
 	
 	$start = $db->selectField( 'recentchanges', 'MIN(rc_id)', false, __FUNCTION__ );
