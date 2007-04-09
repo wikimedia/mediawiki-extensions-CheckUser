@@ -321,7 +321,7 @@ class CheckUser extends SpecialPage
 				}
 				$users_edits[$row->cuc_user_text] += 1;
 				$users_first[$row->cuc_user_text] = $row->cuc_timestamp;
-				$ip_xff = ( $row->cuc_xff ) ? htmlspecialchars("$row->cuc_ip <b>XFF</b>: $row->cuc_xff") : htmlspecialchars($row->cuc_ip);
+				$ip_xff = ( $row->cuc_xff ) ? (htmlspecialchars($row->cuc_ip)." <b>XFF</b>: ".htmlspecialchars($row->cuc_xff)) : htmlspecialchars($row->cuc_ip);
 				if ( strpos( $users_ips_info[$row->cuc_user_text], $ip_xff ) === false ) {
 					$users_ips_info[$row->cuc_user_text] = "<li>$ip_xff <br/><i>$row->cuc_agent</i></li>\n".$users_ips_info[$row->cuc_user_text];
 				}
