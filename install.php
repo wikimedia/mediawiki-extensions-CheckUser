@@ -16,8 +16,11 @@ if ( $db->tableExists( 'cu_changes' ) ) {
 }
 
 function create_cu_changes( $db ) {
-	$db->sourceFile( dirname( __FILE__ ) . '/cu_changes.sql' );
-	
+	global $wgDBtype;
+	$sourcefile = $wgDBtype === 'postgres' ? '/cu_changes.pg.sql' : '/cu_changes.sql';
+
+	$db->sourceFile( dirname( __FILE__ ) . $sourcefile );
+
 	$res = $db->select( 'recentchanges', '*', false, __FUNCTION__ );
 	do {
 		$batch = array();
@@ -44,7 +47,8 @@ function create_cu_changes( $db ) {
 			);
 		}
 		$db->insert( 'cu_changes', $batch, __FUNCTION__ );
-		wfWaitForSlaves( 5 );
+		if ( function_exists ( 'wgWaitForSlaves' ) )
+			wfWaitForSlaves( 5 );
 	} while ( $row );
 }
 
