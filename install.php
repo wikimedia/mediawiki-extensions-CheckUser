@@ -21,15 +21,14 @@ function create_cu_changes( $db ) {
 
 	$db->sourceFile( dirname( __FILE__ ) . $sourcefile );
 
-	$res = $db->select( 'recentchanges', '*', false, __FUNCTION__ );
-	do {
+	$start = $db->selectField( 'recentchanges', 'MIN(rc_id)', false, __FUNCTION__ );
+	$end = $db->selectField( 'recentchanges', 'MAX(rc_id)', false, __FUNCTION__ );
+	$blockStart = $start;
+	$blockEnd = $start + BATCH_SIZE - 1;
+	while ( $blockEnd <= $end ) {
+		$res = $db->select( 'recentchanges', '*', "rc_id BETWEEN $blockStart AND $blockEnd", __FUNCTION__ );
 		$batch = array();
-		$row = false;
-		for ( $i = 0; $i < BATCH_SIZE; $i++ ) {
-			$row = $db->fetchObject( $res );
-			if ( !$row ) {
-				break;
-			}
+		while ( $row = $db->fetchObject( $res ) ) {
 			$batch[] = array( 
 				'cuc_timestamp' => $row->rc_timestamp,
 				'cuc_user' => $row->rc_user,
@@ -46,10 +45,14 @@ function create_cu_changes( $db ) {
 				'cuc_ip_hex' => IP::toHex( $row->rc_ip ),
 			);
 		}
-		$db->insert( 'cu_changes', $batch, __FUNCTION__ );
+		if ( count( $batch ) ) {
+			$db->insert( 'cu_changes', $batch, __FUNCTION__ );
+		}
+		$blockStart += BLOCK_SIZE;
+		$blockEnd += BLOCK_SIZE;
 		if ( function_exists ( 'wgWaitForSlaves' ) )
 			wfWaitForSlaves( 5 );
-	} while ( $row );
+	}
 }
 
 ?>
