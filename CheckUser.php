@@ -32,7 +32,7 @@ function efUpdateCheckUserData( $rc ) {
 	$ip = wfGetIP();
 
 	$xff = wfGetForwardedFor();
-	$xff_ip = wfGetLastIPfromXFF( $xff );
+	$xff_ip = wfGetClientIPfromXFF( $xff );
 
 	$agent = wfGetAgent();
 
