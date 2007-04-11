@@ -9,6 +9,13 @@ if (!defined('MEDIAWIKI')) {
 # Internationalisation file
 require_once( 'CheckUser.i18n.php' );
 
+$wgExtensionCredits['specialpage'][] = array(
+	'author' => 'Tim Starling, Aaron Schulz',
+	'name' => 'CheckUser',
+	'url' => 'http://www.mediawiki.org/wiki/Extension:CheckUser',
+	'description' => 'Grants users with the appropriate permission the ability to check user\'s IP addresses and other information'
+);
+
 $wgAvailableRights[] = 'checkuser';
 $wgGroupPermissions['checkuser']['checkuser'] = true;
 
