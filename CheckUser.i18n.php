@@ -257,6 +257,30 @@ $wgCheckUserMessages['sr-el'] = array(
 	'grouppage-checkuser'    => '{{ns:project}}:Čekjuzer',
 );
 $wgCheckUserMessages['sr'] = $wgCheckUserMessages['sr-ec'];
+$wgCheckUserMessages['sv'] = array(
+	'checkuser-summary'      => 'Det här verktyget söker igenom de senaste ändringarna för att hämta IP-adresser för en användare, eller redigeringar och användare för en IP-adress.
+Användare och redigeringar kan visas med IP-adress från XFF genom att lägga till "/xff" efter IP-adressen. Verktyget stödjer IPv4 (CIDR 16-32) och IPv6 (CIDR 64-128).
+På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd verktyget i enlighet med policy.',
+	'checkuser-logcase'      => 'Loggsökning är skiftlägeskänslig.',
+	'checkuser'              => 'Kontroll av användare',
+	'group-checkuser'        => 'Användarkontrollanter',
+	'group-checkuser-member' => 'Användarkontrollant',
+	'grouppage-checkuser'    => '{{ns:project}}:Användarkontrollant',
+	'checkuser-reason'       => 'Anledning',
+	'checkuser-showlog'      => 'Visa logg',
+	'checkuser-log'          => 'Logg över användarkontroller',
+	'checkuser-query'        => 'Sök de senaste ändringarna',
+	'checkuser-target'       => 'Användare eller IP',
+	'checkuser-users'        => 'Hämta användare',
+	'checkuser-edits'        => 'Hämta redigeringar från IP-adress',
+	'checkuser-ips'          => 'Hämta IP-adresser',
+	'checkuser-search'       => 'Sök',
+	'checkuser-empty'        => 'Loggen innehåller inga poster.',
+	'checkuser-nomatch'      => 'Inga träffar hittades.',
+	'checkuser-check'        => 'Kontrollera',
+	'checkuser-log-fail'     => 'Loggposten kunde inte läggas i loggfilen.',
+	'checkuser-nolog'        => 'Hittade ingen loggfil.'
+);
 $wgCheckUserMessages['wa'] = array(
 	'checkuser' => 'Verifyî l\' uzeu',
 );
