@@ -239,10 +239,28 @@ $wgCheckUserMessages['ru'] = array(
 	'grouppage-checkuser'    => '{{ns:project}}:Проверка участников',
 );
 $wgCheckUserMessages['sk'] = array(
+	'checkuser-summary'      => 'Tento nástroj kontroluje Posledné úpravy, aby získal IP adresy používané používateľom alebo zobrazil úpravy/používateľské dáta IP adresy.
+	Používateľov a úpravy je možné získať s XFF IP pridaním "/xff" k IP. Sú podporované IPv4 (CIDR 16-32) a IPv6 (CIDR 64-128).
+	Z dôvodov výkonnosti nebude vrátených viac ako 5000 úprav. Túto funkciu využívajte len v súlade s platnou politikou.',
+	'checkuser-logcase'      => 'Vyhľadávanie v zázname zohľadňuje veľkosť písmen.',
 	'checkuser'              => 'Overiť používateľa',
 	'group-checkuser'        => 'Revízor',
 	'group-checkuser-member' => 'Revízori',
 	'grouppage-checkuser'    => '{{ns:project}}:Revízia používateľa',
+	'checkuser-reason'       => 'Dôvod',
+	'checkuser-showlog'      => 'Zobraziť záznam',
+	'checkuser-log'          => 'Záznam kontroly používateľov',
+	'checkuser-query'        => 'Získať z posledných úprav',
+	'checkuser-target'       => 'Používateľ alebo IP',
+	'checkuser-users'        => 'Získať používateľov',
+	'checkuser-edits'        => 'Získať úpravy z IP',
+	'checkuser-ips'          => 'Získať IP adresy',
+	'checkuser-search'       => 'Hľadať',
+	'checkuser-empty'        => 'Záznam neobsahuje žiadne položky.',
+	'checkuser-nomatch'      => 'Žiadny vyhovujúci záznam.',
+	'checkuser-check'        => 'Skontrolovať',
+	'checkuser-log-fail'     => 'Nebolo možné pridať položku záznamu',
+	'checkuser-nolog'        => 'Nebol nájdený súbor záznamu.',
 );
 $wgCheckUserMessages['sr-ec'] = array(
 	'checkuser'              => 'Чекјузер',
