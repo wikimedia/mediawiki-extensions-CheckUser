@@ -104,29 +104,29 @@ $wgCheckUserMessages['es'] = array(
 	'grouppage-checkuser'    => '{{ns:project}}:verificador del usuarios',
 );
 $wgCheckUserMessages['fr'] = array(
-	'checkuser-summary'		 => 'Cet outil balaye les changements récents pour rechercher l\'IPS employé par un utilisateur,
-	montrer tous édite par un IP, ou énumère les utilisateurs qui ont employé les IPs. Les utilisateur et modifications peut
-	être trouvé avec une IP XFF si il finit avec « /xff ». IPv4 (CIDR 16-32) et IPv6(CIDR 64-128) sont soutenus.
-	Employer ceci selon les chaînes de policy.',
-	'checkuser-logcase'		 => 'La recherche de notation est cas sensible.',
+	'checkuser-summary'		 => 'Cet outil passe en revue les changements récents pour rechercher l\'IPS employée par un utilisateur,
+	montrer toutes les éditions faites par une IP, ou pour  énumèrer les utilisateurs qui ont employé les IPs. Les utilisateurs et les modifications peuvent
+	être trouvés avec une IP XFF s\'il finit avec « /xff ». IPv4 (CIDR 16-32) et IPv6(CIDR 64-128) sont supportés.
+	Employez ceci selon les chaînes de caractères.',
+	'checkuser-logcase'		 => 'La recherche dans le Journal est sensible à la casse.',
 	'checkuser'              => 'Vérificateur d\'utilisateur',
 	'group-checkuser'        => 'Vérificateurs d\'utilisateur',
 	'group-checkuser-member' => 'Vérificateur d\'utilisateur',
 	'grouppage-checkuser'    => '{{ns:projet}}:Vérificateur d\'utilisateur',
-	'checkuser-reason'		 => 'Expanation ',
-	'checkuser-showlog'		 => 'Montrer la notation',
+	'checkuser-reason'		 => 'Explication ',
+	'checkuser-showlog'		 => 'Montrer la liste obtenue',
 	'checkuser-log'			 => 'Notation de Vérificateur d\'utilisateur',
 	'checkuser-query'		 => 'Recherche par les changements récents',
-	'checkuser-target'		 => 'Username ou IP',
-	'checkuser-users'		 => 'Obtenir les users',
+	'checkuser-target'		 => 'Nom de l\'utilisateur ou IP',
+	'checkuser-users'		 => 'Obtenir les utilisateurs',
 	'checkuser-edits'	  	 => 'Obtenir les modifications de l\'IP',
 	'checkuser-ips'	  	 	 => 'Obtenir les IPs',
 	'checkuser-search'	  	 => 'Recherche',
-	'checkuser-empty'	 	 => 'La notation ne contient aucun article',
-	'checkuser-nomatch'	  	 => 'Rien n\'a trouvé.',
+	'checkuser-empty'	 	 => 'Le journal ne contient aucun article',
+	'checkuser-nomatch'	  	 => 'Recherches infructueuses.',
 	'checkuser-check'	  	 => 'Recherche',
-	'checkuser-log-fail'	 => 'Incapable d\'ajouter l\'entrée de notation.',
-	'checkuser-nolog'		 => 'Aucun dossier de notation trouvé.'
+	'checkuser-log-fail'	 => 'Incapable d\'ajouter l\'entrée du journal.',
+	'checkuser-nolog'		 => 'Aucune entrée dans le Journal.'
 );
 $wgCheckUserMessages['he'] = array(
 	'checkuser-summary'      => 'כלי זה סורק את השינויים האחרונים במטרה למצוא את כתובות ה־IP שהשתמש בהן משתמש מסוים או כדי להציג את כל המידע על המשתמשים שהשתמשו בכתובת IP ועל העריכות שבוצעו ממנה.
