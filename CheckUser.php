@@ -25,7 +25,9 @@ $wgCheckUserLog = '/home/wikipedia/logs/checkuser.log';
 $wgCUDMaxAge = 3 * 30 * 24 * 3600;
 
 #Recent changes data hook
+global $wgHooks;
 $wgHooks['RecentChange_save'][] = 'efUpdateCheckUserData';
+$wgHooks['ParserTestTables'][] = 'efCheckUserParserTestTables';
 
 /**
  * Hook function for RecentChange_save
@@ -83,6 +85,15 @@ function efUpdateCheckUserData( $rc ) {
 		$sql = "DELETE FROM $recentchanges WHERE cuc_timestamp < '{$cutoff}'";
 		$dbw->query( $sql );
 	}
+}
+
+/**
+ * Tell the parser test engine to create a stub cu_changes table,
+ * or temporary pages won't save correctly during the test run.
+ */
+function efCheckUserParserTestTables( &$tables ) {
+	$tables[] = 'cu_changes';
+	return true;
 }
 
 if ( !function_exists( 'extAddSpecialPage' ) ) {
