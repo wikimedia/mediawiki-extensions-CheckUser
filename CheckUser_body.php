@@ -27,7 +27,7 @@ class CheckUser extends SpecialPage
 
 		$this->setHeaders();
 
-		$user = $wgRequest->getText( 'user' );
+		$user = $wgRequest->getText( 'user' ) ? $wgRequest->getText( 'user' ) : $wgRequest->getText( 'ip' );
 		$reason = $wgRequest->getText( 'reason' );
 		$checktype = $wgRequest->getVal( 'checktype' );
 
