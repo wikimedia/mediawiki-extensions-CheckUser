@@ -31,6 +31,12 @@ $wgCheckUserMessages['en'] = array(
 	'checkuser-log-fail'     => 'Unable to add log entry',
 	'checkuser-nolog'        => 'No log file found.'
 );
+$wgCheckUserMessages['ar'] = array(
+	'checkuser'              => 'افحص مستخدم',
+	'group-checkuser'        => 'مدققو مستخدم',
+	'group-checkuser-member' => 'مدقق مستخدم',
+	'grouppage-checkuser'    => '{{ns:project}}:تدقيق مستخدم',
+);
 $wgCheckUserMessages['br'] = array(
 	'checkuser'              => 'Gwiriañ an implijer',
 	'group-checkuser'        => 'Gwiriañ an implijerien',
