@@ -221,10 +221,26 @@ $wgCheckUserMessages['nl'] = array(
 	'grouppage-checkuser'    => '{{ns:project}}:Rechercheer gebruiker',
 );
 $wgCheckUserMessages['oc'] = array(
+	'checkuser-summary'      => 'Aqueste esplech passa en revista los cambiaments recents per recercar l\'IPS emplegada per un utilizaire, mostrar totas las edicions fachas per una IP, o per enumerar los utilizaires qu\'an emplegat las IPs. Los utilizaires e las modificacions pòdon èsser trobatss amb una IP XFF se s\'acaba amb « /xff ». IPv4 (CIDR 16-32) e IPv6(CIDR 64-128) son suportats. Emplegatz aquò segon las cadenas de caractèrs.',
+	'checkuser-logcase'      => 'La recèrca dins lo Jornal es sensibla a la cassa.',
 	'checkuser'              => 'Verificator d’utilizaire',
 	'group-checkuser'        => 'Verificators d’utilizaire',
 	'group-checkuser-member' => 'Verificator d’utilizaire',
 	'grouppage-checkuser'    => '{{ns:project}}:Verificator d’utilizaire',
+	'checkuser-reason'       => 'Explicacion',
+	'checkuser-showlog'      => 'Mostrar la lista obtenguda',
+	'checkuser-log'          => 'Notacion de Verificator d\'utilizaire',
+	'checkuser-query'        => 'Recèrca pels darrièrs cambiaments',
+	'checkuser-target'       => 'Nom de l\'utilizaire o IP',
+	'checkuser-users'        => 'Obténer los utilizaires',
+	'checkuser-edits'        => 'Obténer las modificacions de l\'IP',
+	'checkuser-ips'          => 'Obténer las IPs',
+	'checkuser-search'       => 'Recèrca',
+	'checkuser-empty'        => 'Lo jornal conten pas cap d\'article',
+	'checkuser-nomatch'      => 'Recèrcas infructuosas.',
+	'checkuser-check'        => 'Recèrca',
+	'checkuser-log-fail'     => 'Incapaç d\'ajustar la dintrada del jornal.',
+	'checkuser-nolog'        => 'Cap de dintrada dins lo Jornal.',
 );
 $wgCheckUserMessages['pl'] = array(
 	'checkuser'              => 'Sprawdź użytkownika',
