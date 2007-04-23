@@ -217,13 +217,17 @@ class CheckUser extends SpecialPage
 		$cuTitle = SpecialPage::getTitleFor( 'CheckUser' );
 		$line .= '<br/>&nbsp; &nbsp; &nbsp; &nbsp; <small>';
 		# IP
-		$line .= ' <strong>IP</strong>: '.$this->skin->makeKnownLinkObj( $cuTitle, $row->cuc_ip,"user=$row->cuc_ip" );
+		$line .= ' <strong>IP</strong>: '.$this->skin->makeKnownLinkObj( $cuTitle,
+			htmlspecialchars( $row->cuc_ip ),
+			"user=" . urlencode( $row->cuc_ip ) );
 		# XFF
 		if ( $row->cuc_xff !=null ) {
 			# Flag our trusted proxies
 			$c = wfIsTrustedProxy($row->cuc_ip) ? '#F0FFF0' : '#FFFFCC';
 			$line .= '</span>&nbsp;&nbsp;&nbsp;<span style="background-color: '.$c.'"> <strong>XFF</strong>: ';
-			$line .= $this->skin->makeKnownLinkObj( $cuTitle, $row->cuc_xff,"user=$row->cuc_xff/xff" )."</span>";
+			$line .= $this->skin->makeKnownLinkObj( $cuTitle,
+				htmlspecialchars( $row->cuc_xff ),
+				"user=" . urlencode( $row->cuc_xff ) . "/xff" )."</span>";
 		}
 		$line .= "</small></li>\n";
 
