@@ -213,13 +213,19 @@ class CheckUser extends SpecialPage
 			$line .= ' ' . $this->skin->formatComment( $row->cuc_actiontext ) . ' ';
 		# Comment
 		$line .= $this->skin->commentBlock( $row->cuc_comment );
-		$line .= '<br/>&nbsp; &nbsp; &nbsp; &nbsp; <small>';
+		
+		$cuTitle = SpecialPage::getTitleFor( 'CheckUser' );
+		$line .= '<br/>&nbsp; &nbsp; &nbsp; &nbsp; <small><span style="background-color: #F5F5F5">';
 		# IP
-		$line .= ' <strong>IP</strong>: '.htmlspecialchars($row->cuc_ip);
+		$line .= ' <strong>IP</strong>: '.$this->skin->makeKnownLinkObj( $cuTitle, $row->cuc_ip,"user=$row->cuc_ip" );
 		# XFF
-		if ( $row->cuc_xff !=null)
-			$line .= ' <strong>XFF</strong>: '.htmlspecialchars($row->cuc_xff);
-		$line .= "</small></li>\n";
+		if ( $row->cuc_xff !=null ) {
+			# Flag our trusted proxies
+			$c = wfIsTrustedProxy($row->cuc_ip) ? '#F0FFF0' : '#FFFFCC';
+			$line .= '</span>&nbsp;&nbsp;&nbsp;<span style="background-color: '.$c.'"> <strong>XFF</strong>: ';
+			$line .= $this->skin->makeKnownLinkObj( $cuTitle, $row->cuc_xff,"user=$row->cuc_xff/xff" );
+		}
+		$line .= "</span></small></li>\n";
 
 		return $line;
 	}
