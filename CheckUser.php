@@ -45,12 +45,6 @@ function efUpdateCheckUserData( $rc ) {
 
 	$agent = wfGetAgent();
 
-	$rc_actiontext='';
-	if ( $rc_type==RC_LOG ) {
-		$title = Title::newFromText( $rc_title, $rc_namespace );
-		$rc_actiontext = LogPage::actionText( $rc_log_type, $rc_log_action, $title, NULL, LogPage::extractParams($rc_params), false, false, true );
-	}
-
 	$dbw->insert( 'cu_changes',
 		array(
 			'cuc_namespace' => $rc_namespace,
@@ -58,7 +52,7 @@ function efUpdateCheckUserData( $rc ) {
 			'cuc_minor' => $rc_minor,
 			'cuc_user' => $rc_user,
 			'cuc_user_text' => $rc_user_text,
-			'cuc_actiontext' => $rc_actiontext,
+			'cuc_actiontext' => '',
 			'cuc_comment' => $rc_comment,
 			'cuc_page_id' => $rc_cur_id,
 			'cuc_this_oldid' => $rc_this_oldid,
