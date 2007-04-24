@@ -223,7 +223,8 @@ class CheckUser extends SpecialPage
 		# XFF
 		if ( $row->cuc_xff !=null ) {
 			# Flag our trusted proxies
-			$c = wfIsTrustedProxy($row->cuc_ip) ? '#F0FFF0' : '#FFFFCC';
+			list($client,$trusted) = wfGetClientIPfromXFF($row->cuc_xff,$row->cuc_ip);
+			$c = $trusted ? '#F0FFF0' : '#FFFFCC';
 			$line .= '</span>&nbsp;&nbsp;&nbsp;<span style="background-color: '.$c.'"> <strong>XFF</strong>: ';
 			$line .= $this->skin->makeKnownLinkObj( $cuTitle,
 				htmlspecialchars( $row->cuc_xff ),

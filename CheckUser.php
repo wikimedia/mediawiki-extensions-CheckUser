@@ -41,7 +41,7 @@ function efUpdateCheckUserData( $rc ) {
 	$ip = wfGetIP();
 
 	$xff = wfGetForwardedFor();
-	$xff_ip = wfGetLastIPfromXFF( $xff );
+	list($xff_ip,$trusted) = wfGetClientIPfromXFF( $xff );
 
 	$agent = wfGetAgent();
 
@@ -79,6 +79,42 @@ function efUpdateCheckUserData( $rc ) {
 		$sql = "DELETE FROM $recentchanges WHERE cuc_timestamp < '{$cutoff}'";
 		$dbw->query( $sql );
 	}
+}
+
+/**
+ * Locates the client IP within a given XFF string
+ * @param string $xff
+ * @param string $address, the ip that sent this header (optional)
+ * @return array( string, bool )
+ */
+function wfGetClientIPfromXFF( $xff, $address=NULL ) {
+	if ( !$xff ) return array(null, false);
+	// Avoid annoyingly long xff hacks
+	$xff = trim( substr( $xff, 0, 255 ) );
+	$client = null;
+	$trusted = true;
+	// Check each IP, assuming they are separated by commas
+	$ips = explode(',',$xff);
+	foreach( $ips as $n => $ip ) {
+		$ip = trim($ip);
+		// If it is a valid IP, not a hash or such
+		if ( IP::isIPAddress($ip) ) {
+			# The first IP should be the client
+			if ( $n==0 ) {
+				$client = $ip;
+			# Check that all servers are trusted
+			} else if ( !wfIsTrustedProxy($ip) ) {
+				$trusted = false;
+				break;
+			}
+		}
+	}
+	// We still have to test if the IP that sent 
+	// this header is trusted to confirm results
+	if ( !$address || !wfIsTrustedProxy($address) )
+		$trusted = false;
+	
+	return array( $client, $trusted );
 }
 
 /**
