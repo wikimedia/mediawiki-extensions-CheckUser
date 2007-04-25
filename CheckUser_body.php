@@ -228,7 +228,7 @@ class CheckUser extends SpecialPage
 			$line .= '</span>&nbsp;&nbsp;&nbsp;<span style="background-color: '.$c.'"> <strong>XFF</strong>: ';
 			$line .= $this->skin->makeKnownLinkObj( $cuTitle,
 				htmlspecialchars( $row->cuc_xff ),
-				"user=" . urlencode( $row->cuc_xff ) . "/xff" )."</span>";
+				"user=" . urlencode( $client ) . "/xff" )."</span>";
 		}
 		$line .= "</small></li>\n";
 
