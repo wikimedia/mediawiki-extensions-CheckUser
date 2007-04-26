@@ -193,22 +193,76 @@ $wgCheckUserMessages['ja'] = array(
 	'grouppage-checkuser'    => '{{ns:project}}:チェックユーザー',
 );
 $wgCheckUserMessages['kk-kz'] = array(
-	'checkuser'              => 'Пайдаланушыны тексеру',
-	'group-checkuser'        => 'Пайдаланушы тексерушілер',
-	'group-checkuser-member' => 'пайдаланушы тексеруші',
-	'grouppage-checkuser'    => '{{ns:project}}:Пайдаланушы тексерушілер',
+	'checkuser-summary'      => 'Бұл құрал пайдаланушы қолданған IP жайлар үшін, немесе IP жай түзету/пайдаланушы деректерін көрсету үшін жуықтағы өзгерістерді қарап шығады.
+	Пайдаланушыларды мен түзетулерді XFF IP арқылы IP жайға "/xff" дегенді қосып келтіруге болады. IPv4 (CIDR 16-32) және IPv6 (CIDR 64-128) арқауланады.
+	Орындаушылық себептерімен 5000 түзетуден артық қайтарылмамайды. Бұны ережелерге сәйкес пайдаланыңыз.',
+	'checkuser-logcase'      => 'Журналдан іздеу әріп бас-кішілігін айырады.',
+	'checkuser'              => 'Пайдаланушы сынаушы',
+	'group-checkuser'        => 'Пайдаланушы сынаушылар',
+	'group-checkuser-member' => 'пайдаланушы сынаушы',
+	'grouppage-checkuser'    => '{{ns:project}}:Пайдаланушы сынаушы',
+	'checkuser-reason'       => 'Себеп',
+	'checkuser-showlog'      => 'Журналды көрсету',
+	'checkuser-log'          => 'Пайдаланушы сынаушы журналы',
+	'checkuser-query'        => 'Жуықтағы өзгерістерді сұраныстау',
+	'checkuser-target'       => 'Пайдаланушы/IP',
+	'checkuser-users'        => 'Пайдаланушыларды алу',
+	'checkuser-edits'        => 'IP түзетулерін алу',
+	'checkuser-ips'          => 'IP жайларды алу',
+	'checkuser-search'       => 'Іздеу',
+	'checkuser-empty'        => 'Журналда еш жазба жоқ.',
+	'checkuser-nomatch'      => 'Сәйкес табылмады.',
+	'checkuser-check'        => 'Сынау',
+	'checkuser-log-fail'     => 'Журналға жазба үстелінбеді',
+	'checkuser-nolog'        => 'Журнал файлы табылмады.'
 );
 $wgCheckUserMessages['kk-tr'] = array(
-	'checkuser'              => 'Paýdalanwşını tekserw',
-	'group-checkuser'        => 'Paýdalanwşı tekserwşiler',
-	'group-checkuser-member' => 'paýdalanwşı tekserwşi',
-	'grouppage-checkuser'    => '{{ns:project}}:Paýdalanwşı tekserwşiler',
+	'checkuser-summary'      => 'Bul qural paýdalanwşı qoldanğan IP jaýlar üşin, nemese IP jaý tüzetw/paýdalanwşı derekterin körsetw üşin jwıqtağı özgeristerdi qarap şığadı.
+	Paýdalanwşılardı men tüzetwlerdi XFF IP arqılı IP jaýğa "/xff" degendi qosıp keltirwge boladı. IPv4 (CIDR 16-32) jäne IPv6 (CIDR 64-128) arqawlanadı.
+	Orındawşılıq sebepterimen 5000 tüzetwden artıq qaýtarılmamaýdı. Bunı erejelerge säýkes paýdalanıñız.',
+	'checkuser-logcase'      => 'Jwrnaldan izdew ärip bas-kişiligin aýıradı.',
+	'checkuser'              => 'Paýdalanwşı sınawşı',
+	'group-checkuser'        => 'Paýdalanwşı sınawşılar',
+	'group-checkuser-member' => 'paýdalanwşı sınawşı',
+	'grouppage-checkuser'    => '{{ns:project}}:Paýdalanwşı sınawşı',
+	'checkuser-reason'       => 'Sebep',
+	'checkuser-showlog'      => 'Jwrnaldı körsetw',
+	'checkuser-log'          => 'Paýdalanwşı sınawşı jwrnalı',
+	'checkuser-query'        => 'Jwıqtağı özgeristerdi suranıstaw',
+	'checkuser-target'       => 'Paýdalanwşı/IP',
+	'checkuser-users'        => 'Paýdalanwşılardı alw',
+	'checkuser-edits'        => 'IP tüzetwlerin alw',
+	'checkuser-ips'          => 'IP jaýlardı alw',
+	'checkuser-search'       => 'İzdew',
+	'checkuser-empty'        => 'Jwrnalda eş jazba joq.',
+	'checkuser-nomatch'      => 'Säýkes tabılmadı.',
+	'checkuser-check'        => 'Sınaw',
+	'checkuser-log-fail'     => 'Jwrnalğa jazba üstelinbedi',
+	'checkuser-nolog'        => 'Jwrnal faýlı tabılmadı.'
 );
 $wgCheckUserMessages['kk-cn'] = array(
-	'checkuser'              => 'پايدالانۋشىنى تەكسەرۋ',
-	'group-checkuser'        => 'پايدالانۋشى تەكسەرۋشٴىلەر',
-	'group-checkuser-member' => 'پايدالانۋشى تەكسەرۋشٴى',
-	'grouppage-checkuser'    => '{{ns:project}}:پايدالانۋشى تەكسەرۋشٴىلەر',
+	'checkuser-summary'      => 'بۇل قۇرال پايدالانۋشى قولدانعان IP جايلار ٴۇشٴىن, نەمەسە IP جاي تٴۇزەتۋ/پايدالانۋشى دەرەكتەرٴىن كٴورسەتۋ ٴۇشٴىن جۋىقتاعى ٴوزگەرٴىستەردٴى قاراپ شىعادى.
+	پايدالانۋشىلاردى مەن تٴۇزەتۋلەردٴى XFF IP ارقىلى IP جايعا "/xff" دەگەندٴى قوسىپ كەلتٴىرۋگە بولادى. IPv4 (CIDR 16-32) جٴانە IPv6 (CIDR 64-128) ارقاۋلانادى.
+	ورىنداۋشىلىق سەبەپتەرٴىمەن 5000 تٴۇزەتۋدەن ارتىق قايتارىلمامايدى. بۇنى ەرەجەلەرگە سٴايكەس پايدالانىڭىز.',
+	'checkuser-logcase'      => 'جۋرنالدان ٴىزدەۋ ٴارٴىپ باس-كٴىشٴىلٴىگٴىن ايىرادى.',
+	'checkuser'              => 'پايدالانۋشى سىناۋشى',
+	'group-checkuser'        => 'پايدالانۋشى سىناۋشىلار',
+	'group-checkuser-member' => 'پايدالانۋشى سىناۋشى',
+	'grouppage-checkuser'    => '{{ns:project}}:پايدالانۋشى سىناۋشى',
+	'checkuser-reason'       => 'سەبەپ',
+	'checkuser-showlog'      => 'جۋرنالدى كٴورسەتۋ',
+	'checkuser-log'          => 'پايدالانۋشى سىناۋشى جۋرنالى',
+	'checkuser-query'        => 'جۋىقتاعى ٴوزگەرٴىستەردٴى سۇرانىستاۋ',
+	'checkuser-target'       => 'پايدالانۋشى/IP',
+	'checkuser-users'        => 'پايدالانۋشىلاردى الۋ',
+	'checkuser-edits'        => 'IP تٴۇزەتۋلەرٴىن الۋ',
+	'checkuser-ips'          => 'IP جايلاردى الۋ',
+	'checkuser-search'       => 'ٴىزدەۋ',
+	'checkuser-empty'        => 'جۋرنالدا ەش جازبا جوق.',
+	'checkuser-nomatch'      => 'سٴايكەس تابىلمادى.',
+	'checkuser-check'        => 'سىناۋ',
+	'checkuser-log-fail'     => 'جۋرنالعا جازبا ٴۇستەلٴىنبەدٴى',
+	'checkuser-nolog'        => 'جۋرنال فايلى تابىلمادى.'
 );
 $wgCheckUserMessages['kk'] = $wgCheckUserMessages['kk-kz'];
 $wgCheckUserMessages['nl'] = array(
