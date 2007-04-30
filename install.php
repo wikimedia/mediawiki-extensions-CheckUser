@@ -18,8 +18,10 @@ $cutoff = isset( $options['cutoff'] ) ? wfTimestamp( TS_MW, $options['cutoff'] )
 create_cu_changes( $db, $cutoff );
 
 function create_cu_changes( $db, $cutoff = null ) {
+	global $wgDBtype;
 	if( !$db->tableExists( 'cu_changes' ) ) {
-		$db->sourceFile( dirname( __FILE__ ) . '/cu_changes.sql' );
+		$sourcefile = $wgDBtype === 'postgres' ? '/cu_changes.pg.sql' : '/cu_changes.sql';
+		$db->sourceFile( dirname( __FILE__ ) . $sourcefile );
 	}
 	
 	if( $cutoff ) {
@@ -37,7 +39,7 @@ function create_cu_changes( $db, $cutoff = null ) {
 	$end = $db->selectField( 'recentchanges', 'MAX(rc_id)', false, __FUNCTION__ );
 	$blockStart = $start;
 	$blockEnd = $start + BATCH_SIZE - 1;
-	while ( $blockEnd <= $end ) {
+	while ( $blockStart <= $end ) {
 		$cond = "rc_id BETWEEN $blockStart AND $blockEnd $cutoffCond";
 		$res = $db->select( 'recentchanges', '*', $cond, __FUNCTION__ );
 		$batch = array();
@@ -63,8 +65,10 @@ function create_cu_changes( $db, $cutoff = null ) {
 		}
 		$blockStart += BATCH_SIZE;
 		$blockEnd += BATCH_SIZE;
-		wfWaitForSlaves( 5 );
+		if ( function_exists ( 'wgWaitForSlaves' ) )
+			wfWaitForSlaves( 5 );
 	}
+	$db->commit();
 }
 
 ?>
