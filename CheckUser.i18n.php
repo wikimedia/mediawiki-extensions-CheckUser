@@ -156,17 +156,17 @@ $wgCheckUserMessages['he'] = array(
 	'checkuser-nolog'        => 'לא נמצא קובץ יומן.'
 );
 $wgCheckUserMessages['id'] = array(
-	'checkuser-summary'		 => 'Peralatan ini memindai perubahan terbaru untuk mendapatkan IP yang digunakna oleh seorang pengguna atau menunjukkan data suntingan/pengguna untuk suatu IP.
+	'checkuser-summary'		 => 'Peralatan ini memindai perubahan terbaru untuk mendapatkan IP yang digunakan oleh seorang pengguna atau menunjukkan data suntingan/pengguna untuk suatu IP.
 	Pengguna dan suntingan dapat diperoleh dari suatu IP XFF dengan menambahkan "/xff" pada suatu IP. IPv4 (CIDR 16-32) dan IPv6 (CIDR 64-128) dapat digunakan.
 	Karena alasan kinerja, maksimum hanya 5000 suntingan yang dapat diambil. Harap gunakan peralatan ini sesuai dengan kebijakan yang ada.',
 	'checkuser-logcase'		 => 'Log ini bersifat sensitif terhadap kapitalisasi.',
-	'checkuser'              => 'Periksa pengguna',
+	'checkuser'              => 'Pemeriksaan pengguna',
 	'group-checkuser'        => 'Pemeriksa',
 	'group-checkuser-member' => 'Pemeriksa',
 	'grouppage-checkuser'    => '{{ns:project}}:Pemeriksa',
 	'checkuser-reason'		 => 'Alasan',
 	'checkuser-showlog'		 => 'Tampilkan log',
-	'checkuser-log'			 => 'Log periksa pengguna',
+	'checkuser-log'			 => 'Log pemeriksaan pengguna',
 	'checkuser-query'		 => 'Kueri perubahan terbaru',
 	'checkuser-target'		 => 'Pengguna atau IP',
 	'checkuser-users'		 => 'Cari pengguna',
