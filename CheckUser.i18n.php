@@ -300,10 +300,27 @@ $wgCheckUserMessages['pl'] = array(
 	'grouppage-checkuser'    => '{{ns:project}}:Check user',
 );
 $wgCheckUserMessages['pt'] = array(
+	'checkuser-summary'      => 'Esta ferramente varre as Mudanças recentes para obter os endereços de IP de um utilizador ou para exibir os dados de edições/utilizadores para um IP.
+	Utilizadores e edições e edições podem ser obtidos com um IP XFF colocando-se "/xff" no final do endereço. Endereços IPv4 (CIDR 16-32) e IPv6 (CIDR 64-128) são suportados.
+	Não serão retornadas mais de 5000 edições por motivos de desempenho. O uso desta ferramenta deverá estar de acordo com as políticas.',
+	'checkuser-logcase'      => 'As buscas nos registos são sensíveis a letras maiúsculas ou minúsculas.',
 	'checkuser'              => 'Verificar utilizador',
-	'group-checkuser'        => 'Verificar utilizadores',
-	'group-checkuser-member' => 'Verificar utilizador',
-	'grouppage-checkuser'    => '{{ns:project}}:Verificar utilizador',
+	'group-checkuser'        => 'CheckUser',
+	'group-checkuser-member' => 'CheckUsers',
+	'grouppage-checkuser'    => '{{ns:project}}:CheckUser',
+	'checkuser-reason'       => 'Motivo',
+	'checkuser-showlog'      => 'Exibir registos',
+	'checkuser-log'          => 'Registos de verificação de utilizadores',
+	'checkuser-query'        => 'Query recent changes',
+	'checkuser-target'       => 'Utilizador ou IP',
+	'checkuser-users'        => 'Obter utilizadores',
+	'checkuser-edits'        => 'Obter edições de IPs',
+	'checkuser-ips'          => 'Obter IPs',
+	'checkuser-search'       => 'Pesquisar',
+	'checkuser-empty'        => 'O registo não contém itens.',
+	'checkuser-nomatch'      => 'Não foram encontrados resultados.',
+	'checkuser-check'        => 'Verificar',
+	'checkuser-log-fail'     => 'Não foi possível adicionar entradas ao registo',
 );
 $wgCheckUserMessages['ru'] = array(
 	'checkuser'              => 'Проверить участника',
