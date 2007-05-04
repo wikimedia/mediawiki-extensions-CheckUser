@@ -23,6 +23,12 @@ function create_cu_changes( $db, $cutoff = null ) {
 		$sourcefile = $wgDBtype === 'postgres' ? '/cu_changes.pg.sql' : '/cu_changes.sql';
 		$db->sourceFile( dirname( __FILE__ ) . $sourcefile );
 	}
+	// Check if the table is empty
+	$rcRows = $db->selectField( 'recentchanges', 'COUNT(*)', false, __FUNCTION__ );
+	if ( !$rcRows ) {
+		echo "recent_changes is empty; done\n";
+		exit( 1 );
+	}
 	
 	if( $cutoff ) {
 		// Something leftover... clear old entries to minimize dupes
