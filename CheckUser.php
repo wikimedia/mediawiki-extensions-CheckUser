@@ -69,7 +69,7 @@ function efUpdateCheckUserData( $rc ) {
 
 	# Every 1000th edit, prune the checkuser changes table.
 	wfSeedRandom();
-	if ( 0 == mt_rand( 0, 999 ) ) {
+	if ( 0 == mt_rand( 0, 99 ) ) {
 		# Periodically flush old entries from the recentchanges table.
 		global $wgCUDMaxAge;
 
