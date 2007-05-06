@@ -400,9 +400,23 @@ $wgCheckUserMessages['zh-cn'] = array(
 );
 $wgCheckUserMessages['zh-tw'] = array(
 	'checkuser'              => '核對用戶',
-	'group-checkuser'        => '帳戶查核',
-	'group-checkuser-member' => '帳戶查核',
-	'grouppage-checkuser'    => '{{ns:project}}:帳戶查核',
+	'group-checkuser'        => '用戶查核',
+	'group-checkuser-member' => '用戶查核',
+	'grouppage-checkuser'    => '{{ns:project}}:用戶查核',
+	'checkuser-reason'       => '理由',
+	'checkuser-showlog'      => '顯示記錄',
+	'checkuser-log'          => '用戶查核記錄',
+	'checkuser-query'        => '查詢最近更改',
+	'checkuser-target'       => '用戶名稱或IP位扯',
+	'checkuser-users'        => '查詢用戶名稱',
+	'checkuser-edits'        => '從IP位址查詢編輯記錄',
+	'checkuser-ips'          => '查詢IP位址',
+	'checkuser-search'       => '搜尋',
+	'checkuser-empty'        => '記錄裡沒有資料。',
+	'checkuser-nomatch'      => '沒有符合的資訊',
+	'checkuser-check'        => '查詢',
+	'checkuser-log-fail'     => '無法更新記錄。',
+	'checkuser-nolog'        => '找不到記錄檔'
 );
 $wgCheckUserMessages['zh-yue'] = array(
 	'checkuser'              => '核對用戶',
