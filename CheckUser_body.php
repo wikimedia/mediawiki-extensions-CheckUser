@@ -431,6 +431,7 @@ class CheckUser extends SpecialPage
 		if ( !$dbr->numRows( $res ) ) {
 			$s = wfMsgHtml("checkuser-nomatch")."\n";
 		} else {
+			$blockip = SpecialPage::getTitleFor( 'blockip' );
 			$ips_edits=array();
 			while ( $row = $dbr->fetchObject( $res ) ) {
 				if ( !array_key_exists( $row->cuc_ip, $ips_edits ) ) {
@@ -442,9 +443,11 @@ class CheckUser extends SpecialPage
 			}
 			$s = '<ul>';
 			foreach ( $ips_edits as $ip => $edits ) {
-				$s .= '<li><a href="' . $wgTitle->escapeLocalURL( 'user=' . urlencode( $ip ) ) . '">' . $ip . '</a>' . 
-					' (' . $wgLang->timeanddate( $ips_first[$ip] ) . ' -- ' . $wgLang->timeanddate( $ips_last[$ip] ) . ') ' . 
-					' <strong>[' . $edits . ']</strong>' . '</li>';
+				$s = '<li>';
+				$s .= '<a href="' . $wgTitle->escapeLocalURL( 'user=' . urlencode( $ip ) ) . '">' . $ip . '</a>'; 
+				$s .= ' (<a href="' . $blockip->escapeLocalURL( 'ip=' . urlencode( $ip ) ) . '">' . wfMsgHtml('blocklink') . '</a>)';
+				$s .= ' (' . $wgLang->timeanddate( $ips_first[$ip] ) . ' -- ' . $wgLang->timeanddate( $ips_last[$ip] ) . ') '; 
+				$s .= ' <strong>[' . $edits . ']</strong>' . '</li>';
 			}
 			$s .= '</ul>';
 		}

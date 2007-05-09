@@ -111,7 +111,7 @@ function wfGetClientIPfromXFF( $xff, $address=NULL ) {
 	}
 	// We still have to test if the IP that sent 
 	// this header is trusted to confirm results
-	if ( !$address || !wfIsTrustedProxy($address) )
+	if ( $client != $address && (!$address || !wfIsTrustedProxy($address)) )
 		$trusted = false;
 	
 	return array( $client, $trusted );
