@@ -162,11 +162,9 @@ class CheckUser extends SpecialPage
 			// Try to optimize this query
 			$lb = new LinkBatch;
 			while ( $row = $ret->fetchObject() ) {
-				$name = str_replace( ' ', '_', $row->cuc_title );
-				$user = str_replace( ' ', '_', $row->cuc_user_text );
-				$lb->add( $row->cuc_namespace, $name );
-				$lb->add( NS_USER, $user );
-				$lb->add( NS_USER_TALK, $user );
+				$lb->add( $row->cuc_namespace, $row->cuc_title );
+				$lb->add( NS_USER, $row->cuc_user_text );
+				$lb->add( NS_USER_TALK, $row->cuc_user_text );
 			}
 			$lb->execute();
 			$ret->seek( 0 );
@@ -383,7 +381,7 @@ class CheckUser extends SpecialPage
 				foreach( $users_infosets[$name] as $n => $set ) {
 					# IP link
 					$s .= '<li>';
-					$s .= '<a href="' . $wgTitle->escapeLocalURL( 'user=' . urlencode($set[0]) ) . '">' . urlencode($set[0]) . '</a>';
+					$s .= '<a href="' . $wgTitle->escapeLocalURL( 'user=' . urlencode($set[0]) ) . '">' . htmlspecialchars($set[0]) . '</a>';
 					# XFF string, link to /xff search
 					if( $set[1] ) {
 						# Flag our trusted proxies
