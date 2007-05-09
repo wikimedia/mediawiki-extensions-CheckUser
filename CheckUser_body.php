@@ -150,16 +150,29 @@ class CheckUser extends SpecialPage
 		$ip_conds = $this->getIpConds( $dbr, $ip, $xfor );
 		$res = $dbr->select( 'cu_changes', '*', $ip_conds, $fname, 
 			array( 'ORDER BY' => 'cuc_timestamp DESC', 'LIMIT' => 5000 ) );
+		$ret = $dbr->resultObject( $res );
 
 		if( !$dbr->numRows( $res ) ) {
 			$s = wfMsgHtml("checkuser-nomatch")."\n";
 		} else {
 			global $IP;
 			$this->skin = $wgUser->getSkin();
+			// Cache common messages
 			$this->preCacheMessages();
+			// Try to optimize this query
+			$lb = new LinkBatch;
+			while ( $row = $ret->fetchObject() ) {
+				$name = str_replace( ' ', '_', $row->cuc_title );
+				$user = str_replace( ' ', '_', $row->cuc_user_text );
+				$lb->add( $row->cuc_namespace, $name );
+				$lb->add( NS_USER, $user );
+				$lb->add( NS_USER_TALK, $user );
+			}
+			$lb->execute();
+			$ret->seek( 0 );
 
 			$s = '';
-			while( ( $row = $dbr->fetchObject( $res ) ) != false ) {
+			while( $row = $ret->fetchObject() ) {
 				$s .= $this->CUChangesLine( $row );
 			}
 			$s .= '</ul>';
