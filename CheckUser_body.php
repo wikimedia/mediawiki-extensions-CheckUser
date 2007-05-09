@@ -32,22 +32,22 @@ class CheckUser extends SpecialPage
 		$checktype = $wgRequest->getVal( 'checktype' );
 
 		# An IPv4?
-		if ( preg_match( '#^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(/\d{1,2}|)$#', $user ) ) {
+		if( preg_match( '#^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(/\d{1,2}|)$#', $user ) ) {
 			$ip = $user; 
 			$name = ''; 
 			$xff = '';
-		} else if ( preg_match( '#^[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4})+(/\d{1,3}|)$#', $user ) ) {
+		} else if( preg_match( '#^[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4})+(/\d{1,3}|)$#', $user ) ) {
 			# An IPv6?
 			$ip = IP::sanitizeIP($user); 
 			$name = ''; 
 			$xff = '';
-		} else if ( preg_match( '#^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(/\d{1,2}|)/xff$#', $user, $matches ) ) {
+		} else if( preg_match( '#^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(/\d{1,2}|)/xff$#', $user, $matches ) ) {
 			# An IPv4 XFF string?
 			list( $junk, $xffip, $xffbit) = $matches;
 			$ip = ''; 
 			$name = ''; 
 			$xff = $xffip . $xffbit;
-		} else if ( preg_match( '#^([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4})+)(/\d{1,3}|)/xff$#', $user, $matches ) ) {
+		} else if( preg_match( '#^([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4})+)(/\d{1,3}|)/xff$#', $user, $matches ) ) {
 			# An IPv6 XFF string?
 			list( $junk, $xffip, $xffbit ) = $matches;
 			$ip = ''; 
@@ -63,15 +63,15 @@ class CheckUser extends SpecialPage
 		$this->doForm( $user, $reason, $checktype, $ip, $xff, $name );
 		$this->showLog( $user );
 
-		if ( $checktype=='subuserips' ) {
+		if( $checktype=='subuserips' ) {
 			$this->doUserIPsRequest( $name, $reason );
-		} else if ( $xff && $checktype=='subipedits' ) {
+		} else if( $xff && $checktype=='subipedits' ) {
 			$this->doIPEditsRequest( $xff, true, $reason);
-		} else if ( $checktype=='subipedits' ) {
+		} else if( $checktype=='subipedits' ) {
 			$this->doIPEditsRequest( $ip, false, $reason);
-		} else if ( $xff && $checktype=='subipusers' ) {
+		} else if( $xff && $checktype=='subipusers' ) {
 			$this->doIPUsersRequest( $xff, true, $reason );
-		} else if ( $checktype=='subipusers' ) {
+		} else if( $checktype=='subipusers' ) {
 			$this->doIPUsersRequest( $ip, false, $reason );
 		}
 	}
@@ -84,14 +84,14 @@ class CheckUser extends SpecialPage
 		$encReason = htmlspecialchars( $reason );
 		# Fill in requested type if it makes sense
 		$encipusers=0; $encipedits=0; $encuserips=0;
-		if ( $checktype=='subipusers' && ( $ip || $xff ) )
+		if( $checktype=='subipusers' && ( $ip || $xff ) )
 			$encipusers = 1;
-		else if ( $checktype=='subipedits' && ( $ip || $xff ) )
+		else if( $checktype=='subipedits' && ( $ip || $xff ) )
 			$encipedits = 1;
-		else if ( $checktype=='subuserips' && $name )
+		else if( $checktype=='subuserips' && $name )
 			$encuserips = 1;
 		# Defaults otherwise
-		else if ( $ip || $xff )
+		else if( $ip || $xff )
 			$encipedits = 1;
 		else
 			$encuserips = 1;
@@ -132,14 +132,14 @@ class CheckUser extends SpecialPage
 		$fname = 'CheckUser::doIPEditsRequest';
 
 		#invalid IPs are passed in as a blank string
-		if (!$ip) {
+		if(!$ip) {
 			$s = wfMsgHtml('badipaddress');
 			$wgOut->addHTML( $s );
 			return;
 		}
 
 		$xnote = ($xfor) ? ' XFF' : '';
-		if ( !$this->addLogEntry( time() , $wgUser->getName() ,
+		if( !$this->addLogEntry( time() , $wgUser->getName() ,
 			"got edits for$xnote" , htmlspecialchars( $ip ) , $wgDBname , $reason ) )
 		{
 			$wgOut->addHTML( '<p>'.wfMsgHtml('checkuser-log-fail').'</p>' );
@@ -151,7 +151,7 @@ class CheckUser extends SpecialPage
 		$res = $dbr->select( 'cu_changes', '*', $ip_conds, $fname, 
 			array( 'ORDER BY' => 'cuc_timestamp DESC', 'LIMIT' => 5000 ) );
 
-		if ( !$dbr->numRows( $res ) ) {
+		if( !$dbr->numRows( $res ) ) {
 			$s = wfMsgHtml("checkuser-nomatch")."\n";
 		} else {
 			global $IP;
@@ -159,7 +159,7 @@ class CheckUser extends SpecialPage
 			$this->preCacheMessages();
 
 			$s = '';
-			while ( ( $row = $dbr->fetchObject( $res ) ) != false ) {
+			while( ( $row = $dbr->fetchObject( $res ) ) != false ) {
 				$s .= $this->CUChangesLine( $row );
 			}
 			$s .= '</ul>';
@@ -191,7 +191,7 @@ class CheckUser extends SpecialPage
 
 		# Add date headers
 		$date = $wgLang->date( $row->cuc_timestamp, true, true );
-		if ( !isset($this->lastdate) ) {
+		if( !isset($this->lastdate) ) {
 			$this->lastdate = $date;
 			$line = "\n<h4>$date</h4>\n<ul class=\"special\">";
 		} else if( $date != $this->lastdate ) {
@@ -209,7 +209,7 @@ class CheckUser extends SpecialPage
 		$line .= $this->skin->userLink( $row->cuc_user, $row->cuc_user_text );
 		$line .= $this->skin->userToolLinks( $row->cuc_user, $row->cuc_user_text );
 		# Action text, hackish ...
-		if ( $row->cuc_actiontext )
+		if( $row->cuc_actiontext )
 			$line .= ' ' . $this->skin->formatComment( $row->cuc_actiontext ) . ' ';
 		# Comment
 		$line .= $this->skin->commentBlock( $row->cuc_comment );
@@ -221,11 +221,11 @@ class CheckUser extends SpecialPage
 			htmlspecialchars( $row->cuc_ip ),
 			"user=" . urlencode( $row->cuc_ip ) );
 		# XFF
-		if ( $row->cuc_xff !=null ) {
+		if( $row->cuc_xff !=null ) {
 			# Flag our trusted proxies
 			list($client,$trusted) = wfGetClientIPfromXFF($row->cuc_xff,$row->cuc_ip);
 			$c = $trusted ? '#F0FFF0' : '#FFFFCC';
-			$line .= '</span>&nbsp;&nbsp;&nbsp;<span style="background-color: '.$c.'"> <strong>XFF</strong>: ';
+			$line .= '</span>&nbsp;&nbsp;&nbsp;<span style="background-color: '.$c.'"><strong>XFF</strong>: ';
 			$line .= $this->skin->makeKnownLinkObj( $cuTitle,
 				htmlspecialchars( $row->cuc_xff ),
 				"user=" . urlencode( $client ) . "/xff" )."</span>";
@@ -240,23 +240,23 @@ class CheckUser extends SpecialPage
 	 * @create diff/hist/page link
 	 */
 	function getLinkFromRow( $row ) {
-		if ( $row->cuc_type == RC_LOG && $row->cuc_namespace == NS_SPECIAL ) {
+		if( $row->cuc_type == RC_LOG && $row->cuc_namespace == NS_SPECIAL ) {
 			//Log items (old format) and events to logs
 			list( $specialName, $logtype ) = SpecialPage::resolveAliasWithSubpage( $row->cuc_title );
 			$logname = LogPage::logName( $logtype );
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
 			$links = '(' . $this->skin->makeKnownLinkObj( $title, $logname ) . ')';
-		} elseif ( $row->cuc_type == RC_LOG ) {
+		} elseif( $row->cuc_type == RC_LOG ) {
 			//Log items
 			$specialTitle = SpecialPage::getTitleFor( 'Log' );
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
 			$links = '(' . $this->skin->makeKnownLinkObj( $specialTitle, $this->message['log'],
 				wfArrayToCGI( array('page' => $title->getPrefixedText() ) ) ) . ')';
-		} elseif ( !is_null( $row->cuc_this_oldid ) ) {
+		} elseif( !is_null( $row->cuc_this_oldid ) ) {
 			//Everything else
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
 			#new pages
-			if ( $row->cuc_type == RC_NEW ) {
+			if( $row->cuc_type == RC_NEW ) {
 				$links = '(' . $this->message['diff'] . ') ';
 			} else {
 				#diff link
@@ -272,9 +272,9 @@ class CheckUser extends SpecialPage
 					'curid' => $row->cuc_page_id,
 					'action' => 'history' ) ) ) . ') . . ';
 			#some basic flags
-			if ( $row->cuc_type == RC_NEW )
+			if( $row->cuc_type == RC_NEW )
 				$links .= '<span class="newpage">' . $this->message['newpageletter'] . '</span>';
-			if ( $row->cuc_minor )
+			if( $row->cuc_minor )
 				$links .= '<span class="minor">' . $this->message['minoreditletter'] . '</span>';
 			#page link
 			$links .= ' ' . $this->skin->makeLinkObj( $title );
@@ -297,55 +297,95 @@ class CheckUser extends SpecialPage
 		$fname = 'CheckUser::doIPUsersRequest';
 
 		#invalid IPs are passed in as a blank string
-		if (!$ip) {
+		if(!$ip) {
 			$s = wfMsgHtml('badipaddress');
 			$wgOut->addHTML( $s );
 			return;
 		}
 
 		$xnote = ($xfor) ? ' XFF' : '';
-		if ( !$this->addLogEntry( time(), $wgUser->getName() ,
+		if( !$this->addLogEntry( time(), $wgUser->getName() ,
 			"got users for$xnote" , htmlspecialchars( $ip ) , $wgDBname , $reason))
 		{
 			$wgOut->addHTML( '<p>'.wfMsgHtml('checkuser-log-fail').'</p>' );
 		}
+		
+		$sk = $wgUser->getSkin();
 
-		$users_first = array(); 
-		$users_last = array(); 
-		$users_edits = array(); 
-		$users_ips_agents = array();
+		$users_first = $users_last = $users_edits = $users_ids = array();
 
 		$dbr = wfGetDB( DB_SLAVE );
 
 		$ip_conds = $this->getIpConds( $dbr, $ip, $xfor );
-		$res = $dbr->select( 'cu_changes', array( 'cuc_user_text', 'cuc_timestamp', 'cuc_ip', 'cuc_agent', 'cuc_xff' ), 
+		$res = $dbr->select( 'cu_changes', array( 'cuc_user_text', 'cuc_timestamp', 'cuc_user', 'cuc_ip', 'cuc_agent', 'cuc_xff' ), 
 		$ip_conds, $fname, array( 'ORDER BY' => 'cuc_timestamp DESC' ) );
 
-		if ( !$dbr->numRows( $res ) ) {
+		if( !$dbr->numRows( $res ) ) {
 			$s = wfMsgHtml( "checkuser-nomatch" )."\n";
 		} else {
-			while ( ($row = $dbr->fetchObject( $res ) ) != false ) {
-				if ( !array_key_exists( $row->cuc_user_text, $users_edits ) ) {
+			while( ($row = $dbr->fetchObject( $res ) ) != false ) {
+				if( !array_key_exists( $row->cuc_user_text, $users_edits ) ) {
 					$users_last[$row->cuc_user_text] = $row->cuc_timestamp;
 					$users_edits[$row->cuc_user_text] = 0;
-					$users_ips_info[$row->cuc_user_text] = '';
+					$users_ids[$row->cuc_user_text] = $row->cuc_user;
+					$users_infosets[$row->cuc_user_text] = array();
+					$users_agentsets[$row->cuc_user_text] = array();
 				}
 				$users_edits[$row->cuc_user_text] += 1;
 				$users_first[$row->cuc_user_text] = $row->cuc_timestamp;
-				$ip_xff = ( $row->cuc_xff ) ? (htmlspecialchars($row->cuc_ip)." <b>XFF</b>: ".htmlspecialchars($row->cuc_xff)) : htmlspecialchars($row->cuc_ip);
-				if ( strpos( $users_ips_info[$row->cuc_user_text], $ip_xff ) === false ) {
-					$users_ips_info[$row->cuc_user_text] = "<li>$ip_xff <br/><i>$row->cuc_agent</i></li>\n".$users_ips_info[$row->cuc_user_text];
+				# Treat blank or NULL xffs as empty strings
+				$ip_xff = $row->cuc_xff ? $row->cuc_xff : '';
+				$xff_ip_combo = array( $row->cuc_ip, $ip_xff );
+				# Add this IP/XFF combo for this username if it's not already there
+				if( !in_array($xff_ip_combo,$users_infosets[$row->cuc_user_text]) ) {
+					$users_infosets[$row->cuc_user_text][] = $xff_ip_combo;
+					$users_agentsets[$row->cuc_user_text][] = $row->cuc_agent;
 				}
 			}
-			$links = new Linker();
+			# Reverse the order so its first -> last
+			foreach( $users_infosets as $set )
+				$set = array_reverse( $set );
+			foreach( $users_agentsets as $set )
+				$set = array_reverse( $set );
+			
+			$logs = SpecialPage::getTitleFor( 'Log' );
 			$s = '<ul>';
-			foreach ( $users_edits as $name=>$count ) {
-				$links->skin = $wgUser->getSkin();
-				# hack, ALWAYS show contribs links
-				$toollinks = $links->skin->userToolLinks( -1 , $name );
-				$s .= '<li><a href="' . $wgTitle->escapeLocalURL( 'user=' . urlencode( $name ) ) . '">' . htmlspecialchars( $name ) . '</a> ' .
-					$toollinks . ' (' . $wgLang->timeanddate( $users_first[$name] ) . ' -- ' . $wgLang->timeanddate( $users_last[$name] ) . ') ' .
-					' [<strong>' . $count . '</strong>]<ol>' . $users_ips_info[$name] . '</ol></li>';
+			foreach( $users_edits as $name => $count ) {
+				$s .= '<li>';
+				$s .= $sk->userLink( -1 , $name ) . $sk->userToolLinks( -1 , $name ); // hack, ALWAYS show contribs links
+				$s .= ' (<a href="' . $wgTitle->escapeLocalURL( 'user=' . urlencode( $name ) ) . '">' . wfMsgHtml('checkuser-check') . '</a>)';
+				$s .= ' (' . $wgLang->timeanddate( $users_first[$name] ) . ' -- ' . $wgLang->timeanddate( $users_last[$name] ) . ') ';
+				$s .= ' [<strong>' . $count . '</strong>]<br/>';
+				# Check if this user or IP is blocked
+				$block = new Block();
+				$block->fromMaster( false ); // use slaves
+				$ip = IP::isIPAddress( $name ) ? $name : ''; // only check IP blocks if we have an IP 
+				if( $block->load( $ip, $users_ids[$name] ) ) {
+					$userpage = Title::makeTitle( NS_USER, $name );
+					$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('blockedtitle'), 'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
+					$s .= '<strong>(' . $blocklog . ')</strong><br/>';
+				}
+				$s .= '<ol>';
+				# List out each IP/XFF combo for this username, and add the user agent for each
+				foreach( $users_infosets[$name] as $n => $set ) {
+					# IP link
+					$s .= '<li>';
+					$s .= '<a href="' . $wgTitle->escapeLocalURL( 'user=' . urlencode($set[0]) ) . '">' . urlencode($set[0]) . '</a>';
+					# XFF string, link to /xff search
+					if( $set[1] ) {
+						# Flag our trusted proxies
+						list($client,$trusted) = wfGetClientIPfromXFF($set[1],$set[0]);
+						$c = $trusted ? '#F0FFF0' : '#FFFFCC';
+						$s .= '&nbsp;&nbsp;&nbsp;<span style="background-color: '.$c.'"><strong>XFF</strong>: ';
+						$s .= $sk->makeKnownLinkObj( $wgTitle,
+							htmlspecialchars( $set[1] ),
+							"user=" . urlencode( $client ) . "/xff" )."</span>";
+					}
+					$s .= '<br/><i>' .  $users_agentsets[$name][$n] . '</i>';
+					$s .= '</li>';
+				}
+				$s .= '</ol>';
+				$s .= '</li>';
 			}
 			$s .= '</ul>';
 		}
@@ -364,13 +404,13 @@ class CheckUser extends SpecialPage
 		$type = ( $xfor ) ? 'xff' : 'ip';
 		// IPv4 CIDR, 16-32 bits
 		if( preg_match( '#^(\d+\.\d+\.\d+\.\d+)/(\d+)$#', $ip, $matches ) ) {
-			if ( $matches[2] < 16 || $matches[2] > 32 )
+			if( $matches[2] < 16 || $matches[2] > 32 )
 				return array( 'cuc_'.$type.'_hex' => -1 );
 			list( $start, $end ) = IP::parseRange( $ip );
 			return array( 'cuc_'.$type.'_hex BETWEEN ' . $db->addQuotes( $start ) . ' AND ' . $db->addQuotes( $end ) );
 		} else if( preg_match( '#^\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}/(\d+)$#', $ip, $matches ) ) {
 			// IPv6 CIDR, 64-128 bits
-			if ( $matches[1] < 64 || $matches[1] > 128 )
+			if( $matches[1] < 64 || $matches[1] > 128 )
 				return array( 'cuc_'.$type.'_hex' => -1 );
 			list( $start, $end ) = IP::parseRange6( $ip );
 			return array( 'cuc_'.$type.'_hex BETWEEN ' . $db->addQuotes( $start ) . ' AND ' . $db->addQuotes( $end ) );
@@ -405,7 +445,7 @@ class CheckUser extends SpecialPage
 			$user = $userTitle->getText();
 		}
 		#IPs are passed in as a blank string
-		if ( !$user) {
+		if( !$user) {
 			$s = wfMsgHtml('nouserspecified');
 			$wgOut->addHTML( $s );
 			return;
@@ -414,13 +454,13 @@ class CheckUser extends SpecialPage
 		$user_id = User::idFromName($user);
 
 		#if user is not IP or nonexistant
-		if ( !$user_id ) {
+		if( !$user_id ) {
 			$s = wfMsgHtml('nosuchusershort', $user);
 			$wgOut->addHTML( $s );
 			return;
 		}
 
-		if ( !$this->addLogEntry( time() , $wgUser->getName() ,
+		if( !$this->addLogEntry( time() , $wgUser->getName() ,
 			"got IPs for" , htmlspecialchars( $user ) , $wgDBname , $reason) ) 
 		{
 			$wgOut->addHTML( '<p>'.wfMsgHtml('checkuser-log-fail').'</p>' );
@@ -428,13 +468,13 @@ class CheckUser extends SpecialPage
 		$dbr = wfGetDB( DB_SLAVE );
 		$res = $dbr->select( 'cu_changes', array( 'cuc_ip', 'cuc_timestamp' ), array( 'cuc_user' => $user_id ), $fname, 
 			array( 'ORDER BY' => 'cuc_timestamp DESC' ) );
-		if ( !$dbr->numRows( $res ) ) {
+		if( !$dbr->numRows( $res ) ) {
 			$s = wfMsgHtml("checkuser-nomatch")."\n";
 		} else {
 			$blockip = SpecialPage::getTitleFor( 'blockip' );
 			$ips_edits=array();
-			while ( $row = $dbr->fetchObject( $res ) ) {
-				if ( !array_key_exists( $row->cuc_ip, $ips_edits ) ) {
+			while( $row = $dbr->fetchObject( $res ) ) {
+				if( !array_key_exists( $row->cuc_ip, $ips_edits ) ) {
 					$ips_edits[$row->cuc_ip]=0;
 					$ips_last[$row->cuc_ip]=$row->cuc_timestamp;
 				}
@@ -442,7 +482,7 @@ class CheckUser extends SpecialPage
 				$ips_first[$row->cuc_ip]=$row->cuc_timestamp;
 			}
 			$s = '<ul>';
-			foreach ( $ips_edits as $ip => $edits ) {
+			foreach( $ips_edits as $ip => $edits ) {
 				$s = '<li>';
 				$s .= '<a href="' . $wgTitle->escapeLocalURL( 'user=' . urlencode( $ip ) ) . '">' . $ip . '</a>'; 
 				$s .= ' (<a href="' . $blockip->escapeLocalURL( 'ip=' . urlencode( $ip ) ) . '">' . wfMsgHtml('blocklink') . '</a>)';
@@ -481,8 +521,8 @@ class CheckUser extends SpecialPage
 						'log=1&logsearch=' . urlencode($logsearch) . '&user=' . urlencode($user),
 						count($log) <= $limit);
 					#If not filtered empty
-					if ( $log ) {
-						if (count($log) > $limit) array_pop($log);
+					if( $log ) {
+						if(count($log) > $limit) array_pop($log);
 						$output = implode( "\n", $log );
 					} else {
 						$output = "<p>".wfMsgHtml('checkuser-nomatch')."</p>";
@@ -542,7 +582,7 @@ class CheckUser extends SpecialPage
 			if( $num > 0 ) {
 				$log=true;
 				$lmerge = $parts[$num - 1] . $leftover;
-				if ($logsearch)
+				if($logsearch)
 					$srchind = strpos($lmerge, $logsearch);
 				#dont count <li> and </li> tags, lens 4 and 5 resp.
 				if( !$logsearch || (3 < $srchind && $srchind < (strlen($lmerge) - 5)) ) {
@@ -558,7 +598,7 @@ class CheckUser extends SpecialPage
 			}
 			#full lines, lines 2nd to "2nd to last" of chunk
 			for( $i = $num - 2; $i > 0; $i-- ) {
-				if ($logsearch)
+				if($logsearch)
 					$srchind = strpos($parts[$i], $logsearch);
 				if( !$logsearch || (3 < $srchind && $srchind < (strlen($parts[$i]) - 5)) ) {
 					$lineCount++;
@@ -579,9 +619,9 @@ class CheckUser extends SpecialPage
 			}
 		} while( $filePosition > 0 );
 		# leftover
-		if ($logsearch)
+		if($logsearch)
 			$srchind = strpos($leftover, $logsearch);
-		if ( !$logsearch || ( 3 < $srchind && $srchind < ( strlen( $parts[$i] ) - 5 ) ) ) {
+		if( !$logsearch || ( 3 < $srchind && $srchind < ( strlen( $parts[$i] ) - 5 ) ) ) {
 			$lineCount++;
 			if( $lineCount > $offset ) {
 				$lines[] = $leftover;
@@ -589,26 +629,26 @@ class CheckUser extends SpecialPage
 		}
 		fclose( $file );
 		# was the log empty or nothing just met the search?
-		if ( $log ) return $lines;
+		if( $log ) return $lines;
 		else return false;
 	}
 
 	function addLogEntry( $timestamp, $checker , $autsum, $target, $db, $reason ) {
 		global $wgUser, $wgCheckUserLog;
-		if ( $wgCheckUserLog === false ) {
+		if( $wgCheckUserLog === false ) {
 			// No log required, this is not an error
 			return true;
 		}
 
 		$f = fopen( $wgCheckUserLog, 'a' );
-		if ( !$f ) {
+		if( !$f ) {
 			return false;
 		}
-		if ( $reason ) $reason=' ("' . $reason . '")';
+		if( $reason ) $reason=' ("' . $reason . '")';
 		else $reason = "";
 
 		$date=date("H:i, j F Y",$timestamp);
-		if ( !fwrite( $f, "<li>$date, $checker $autsum $target on $db$reason</li>\n" ) ) {
+		if( !fwrite( $f, "<li>$date, $checker $autsum $target on $db$reason</li>\n" ) ) {
 			return false;
 		}
 		fclose( $f );
