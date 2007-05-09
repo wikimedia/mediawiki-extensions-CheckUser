@@ -304,8 +304,8 @@ $wgCheckUserMessages['pl'] = array(
 	'grouppage-checkuser'    => '{{ns:project}}:Check user',
 );
 $wgCheckUserMessages['pt'] = array(
-	'checkuser-summary'      => 'Esta ferramente varre as Mudanças recentes para obter os endereços de IP de um utilizador ou para exibir os dados de edições/utilizadores para um IP.
-	Utilizadores e edições e edições podem ser obtidos com um IP XFF colocando-se "/xff" no final do endereço. Endereços IPv4 (CIDR 16-32) e IPv6 (CIDR 64-128) são suportados.
+	'checkuser-summary'      => 'Esta ferramenta varre as Mudanças recentes para obter os endereços de IP de um utilizador ou para exibir os dados de edições/utilizadores para um IP.
+	Utilizadores edições podem ser obtidos por um IP XFF colocando-se "/xff" no final do endereço. São suportados endereços IPv4 (CIDR 16-32) e IPv6 (CIDR 64-128).
 	Não serão retornadas mais de 5000 edições por motivos de desempenho. O uso desta ferramenta deverá estar de acordo com as políticas.',
 	'checkuser-logcase'      => 'As buscas nos registos são sensíveis a letras maiúsculas ou minúsculas.',
 	'checkuser'              => 'Verificar utilizador',
@@ -315,7 +315,7 @@ $wgCheckUserMessages['pt'] = array(
 	'checkuser-reason'       => 'Motivo',
 	'checkuser-showlog'      => 'Exibir registos',
 	'checkuser-log'          => 'Registos de verificação de utilizadores',
-	'checkuser-query'        => 'Query recent changes',
+	'checkuser-query'        => 'Examinar as Mudanças recentes',
 	'checkuser-target'       => 'Utilizador ou IP',
 	'checkuser-users'        => 'Obter utilizadores',
 	'checkuser-edits'        => 'Obter edições de IPs',
