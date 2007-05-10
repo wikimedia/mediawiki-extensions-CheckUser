@@ -100,7 +100,7 @@ class CheckUser extends SpecialPage
 		$wgOut->addWikiText( wfMsgHtml( 'checkuser-summary' ) );
 		$form = "<form name='checkuser' action='$action' method='post'>";
 		$form .= "<fieldset><legend>".wfMsgHtml( "checkuser-query" )."</legend>";
-		$form .= "<table border='0' cellpadding='5'><tr>";
+		$form .= "<table border='0' cellpadding='2'><tr>";
 		$form .= "<td>".wfMsgHtml( "checkuser-target" ).":</td>";
 		$form .= "<td>".Xml::input( 'user', 46, $encUser, array( 'id' => 'checktarget' ) )."</td>";
 		$form .= "</tr><tr>";
@@ -555,7 +555,7 @@ class CheckUser extends SpecialPage
 				global $wgTitle, $wgUser;
 				$skin = $wgUser->getSkin();
 				$link = $skin->makeKnownLinkObj( $wgTitle, wfMsgHtml('checkuser-showlog'), 'log=1&user=' . urlencode($user) );
-				$wgOut->addHTML( "<p>$link</p>" );
+				$wgOut->addHTML( "<p>(<strong>$link</strong>)</p>" );
 			}
 		}
 	}
