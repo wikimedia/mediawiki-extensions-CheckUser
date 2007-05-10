@@ -494,7 +494,7 @@ class CheckUser extends SpecialPage
 			}
 			$s = '<ul>';
 			foreach( $ips_edits as $ip => $edits ) {
-				$s = '<li>';
+				$s .= '<li>';
 				$s .= '<a href="' . $wgTitle->escapeLocalURL( 'user=' . urlencode( $ip ) ) . '">' . $ip . '</a>'; 
 				$s .= ' (<a href="' . $blockip->escapeLocalURL( 'ip=' . urlencode( $ip ) ) . '">' . wfMsgHtml('blocklink') . '</a>)';
 				$s .= ' (' . $wgLang->timeanddate( $ips_first[$ip] ) . ' -- ' . $wgLang->timeanddate( $ips_last[$ip] ) . ') '; 
