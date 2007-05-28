@@ -52,9 +52,8 @@ CREATE TABLE /*$wgDBprefix*/cu_changes (
   cuc_agent VARCHAR(255) BINARY default NULL,
   
   PRIMARY KEY cuc_id (cuc_id),
-  INDEX (cuc_ip_hex),
-  INDEX (cuc_user),
-  INDEX (cuc_xff_hex),
+  INDEX cuc_ip_hex_time (cuc_ip_hex,cuc_timestamp),
+  INDEX cuc_user_time (cuc_user,cuc_timestamp),
+  INDEX cuc_xff_hex_time (cuc_xff_hex,cuc_timestamp),
   INDEX (cuc_timestamp)
 ) TYPE=InnoDB;
-
