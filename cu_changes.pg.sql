@@ -3,6 +3,8 @@
 -- This is the Postgres version
 -- See cu_changes.sql for details on each column
 
+BEGIN;
+
 CREATE SEQUENCE cu_changes_cu_id_seq;
 CREATE TABLE cu_changes (
   cuc_id         INTEGER  NOT NULL DEFAULT nextval('cu_changes_cu_id_seq'),
@@ -29,3 +31,4 @@ CREATE INDEX cu_changes_timestamp ON cu_changes(cuc_timestamp);
 CREATE INDEX cu_changes_user ON cu_changes(cuc_user);
 CREATE INDEX cu_changes_iphex ON cu_changes(cuc_ip_hex, cuc_xff_hex);
 
+COMMIT;
