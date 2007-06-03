@@ -325,6 +325,7 @@ $wgCheckUserMessages['pt'] = array(
 	'checkuser-nomatch'      => 'Não foram encontrados resultados.',
 	'checkuser-check'        => 'Verificar',
 	'checkuser-log-fail'     => 'Não foi possível adicionar entradas ao registo',
++	'checkuser-nolog'        => 'Não foi encontrado o ficheiro de registos.'
 );
 $wgCheckUserMessages['ru'] = array(
 	'checkuser'              => 'Проверить участника',
