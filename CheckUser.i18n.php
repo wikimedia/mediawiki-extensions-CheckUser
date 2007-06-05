@@ -58,7 +58,7 @@ $wgCheckUserMessages['cs'] = array(
 $wgCheckUserMessages['de'] = array(
 	'checkuser-summary'	 => 'Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers
 	bzw. die Bearbeitungen/Benutzernamen für eine IP-Adresse zu ermitteln. Benutzer und Bearbeitungen können auch nach XFF-IP-Adressen
-	durchsucht werden, indem der IP-Adresse ein „/xff“ angehängt wird. IPv4 (CIDR 16-32 und IPv6 (CIDR 64-128) werden unterstützt.
+	durchsucht werden, indem der IP-Adresse ein „/xff“ angehängt wird. IPv4 (CIDR 16-32) und IPv6 (CIDR 64-128) werden unterstützt.
 	Aus Performance-Gründen werden maximal 5000 Bearbeitungen ausgegeben. Benutze diese in Übereinstimmung mit den Richtlinien.',
 	'checkuser-logcase'	 => 'Die Suche im Logbuch unterscheidet zwischen Groß- und Kleinschreibung.',
 	'checkuser'              => 'Checkuser',
