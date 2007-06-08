@@ -9,7 +9,7 @@ $wgCheckUserMessages = array();
 
 $wgCheckUserMessages['en'] = array(
 	'checkuser-summary'      => 'This tool scans recent changes to retrieve the IPs used by a user or show the edit/user data for an IP.
-	Users and edits can be retrieved with an XFF IP by appending the IP with "/xff". IPv4 (CIDR 16-32) and IPv6 (CIDR 64-128) are supported.
+	Users and edits by a client IP can be retrieved via XFF headers by appending the IP with "/xff". IPv4 (CIDR 16-32) and IPv6 (CIDR 64-128) are supported.
 	No more than 5000 edits will be returned for performance reasons. Use this in accordance with policy.',
 	'checkuser-logcase'      => 'The log search is case sensitive.',
 	'checkuser'              => 'Check user',

@@ -374,7 +374,10 @@ class CheckUser extends SpecialPage
 				if( $block->load( $ip, $users_ids[$name] ) ) {
 					$userpage = Title::makeTitle( NS_USER, $name );
 					$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('blockedtitle'), 'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
-					$s .= '<strong>(' . $blocklog . ')</strong><br/>';
+					if( IP::isIPAddress($block->mAddress) && strpos($block->mAddress,'/') )
+						$s .= '<strong>(' . $blocklog . ' - ' . $block->mAddress . ')</strong><br/>';
+					else
+						$s .= '<strong>(' . $blocklog . ')</strong><br/>';
 				}
 				$s .= '<ol>';
 				# List out each IP/XFF combo for this username, and add the user agent for each
