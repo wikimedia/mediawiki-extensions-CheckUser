@@ -328,10 +328,28 @@ $wgCheckUserMessages['pt'] = array(
 +	'checkuser-nolog'        => 'Não foi encontrado o ficheiro de registos.'
 );
 $wgCheckUserMessages['ru'] = array(
+	'checkuser-summary'      => 'Данный инструмент может быть использован, чтобы получить IP-адреса, использовавшиеся участником, либо чтобы показать правки/участников, работавших с IP-адреса.
+	Правки и пользователи, которые правили с опрделеннного IP-адреса, указанного в X-Forwarded-For, можно получить, добавив префикс <code>/xff</code> к IP-адресу. Поддерживаемые версии IP: 4 (CIDR 16—32) и 6 (CIDR 64—128).
+	Из соображений производительности будут показаны только первые 5000 правок. Используйте эту страницу \'\'\'только в соответствии с правилами\'\'\'.',
+	'checkuser-logcase'      => 'Поиск по журналу чувствителен к регистру.',
 	'checkuser'              => 'Проверить участника',
-	'group-checkuser'        => 'Проверяющие участников',
-	'group-checkuser-member' => 'проверяющий участников',
+	'group-checkuser'        => 'Проверяющие',
+	'group-checkuser-member' => 'проверяющий',
 	'grouppage-checkuser'    => '{{ns:project}}:Проверка участников',
+	'checkuser-reason'       => 'Причина',
+	'checkuser-showlog'      => 'Показать журнал',
+	'checkuser-log'          => 'Журнал проверки участников',
+	'checkuser-query'        => 'Запросить свежие правки',
+	'checkuser-target'       => 'Пользователь или IP-адрес',
+	'checkuser-users'        => 'Получить пользователей',
+	'checkuser-edits'        => 'Запросить правки, сделанные с IP-адреса',
+	'checkuser-ips'          => 'Запросить IP-адреса',
+	'checkuser-search'       => 'Искать',
+	'checkuser-empty'        => 'Журнал пуст.',
+	'checkuser-nomatch'      => 'Совпадений не найдено.',
+	'checkuser-check'        => 'Проверить',
+	'checkuser-log-fail'     => 'Невозможно добавить запись в журнал',
+	'checkuser-nolog'        => 'Файл журнала не найден.'
 );
 $wgCheckUserMessages['sk'] = array(
 	'checkuser-summary'      => 'Tento nástroj kontroluje Posledné úpravy, aby získal IP adresy používané používateľom alebo zobrazil úpravy/používateľské dáta IP adresy.
