@@ -375,7 +375,7 @@ class CheckUser extends SpecialPage
 				if( $block->load( $ip, $users_ids[$name] ) ) {
 					if( IP::isIPAddress($block->mAddress) && strpos($block->mAddress,'/') ) {
 						$userpage = Title::makeTitle( NS_USER, $block->mAddress );
-						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('blockedtitle'), 'type=block&page=' . $userpage->getPrefixedText() );
+						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('blockedtitle'), 'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 						$s .= '<strong>(' . $blocklog . ' - ' . $block->mAddress . ')</strong><br/>';
 					} else {
 						$userpage = Title::makeTitle( NS_USER, $name );
