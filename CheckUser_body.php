@@ -368,16 +368,20 @@ class CheckUser extends SpecialPage
 				$s .= ' (' . $wgLang->timeanddate( $users_first[$name] ) . ' -- ' . $wgLang->timeanddate( $users_last[$name] ) . ') ';
 				$s .= ' [<strong>' . $count . '</strong>]<br/>';
 				# Check if this user or IP is blocked
+				# If so, give a link to the block log
 				$block = new Block();
 				$block->fromMaster( false ); // use slaves
 				$ip = IP::isIPAddress( $name ) ? $name : ''; // only check IP blocks if we have an IP 
 				if( $block->load( $ip, $users_ids[$name] ) ) {
-					$userpage = Title::makeTitle( NS_USER, $name );
-					$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('blockedtitle'), 'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
-					if( IP::isIPAddress($block->mAddress) && strpos($block->mAddress,'/') )
+					if( IP::isIPAddress($block->mAddress) && strpos($block->mAddress,'/') ) {
+						$userpage = Title::makeTitle( NS_USER, $block->mAddress );
+						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('blockedtitle'), 'type=block&page=' . $userpage->getPrefixedText() );
 						$s .= '<strong>(' . $blocklog . ' - ' . $block->mAddress . ')</strong><br/>';
-					else
+					} else {
+						$userpage = Title::makeTitle( NS_USER, $name );
+						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('blockedtitle'), 'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 						$s .= '<strong>(' . $blocklog . ')</strong><br/>';
+					}
 				}
 				$s .= '<ol>';
 				# List out each IP/XFF combo for this username, and add the user agent for each
