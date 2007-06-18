@@ -353,7 +353,7 @@ class CheckUser extends SpecialPage
 					$users_agentsets[$row->cuc_user_text][] = $row->cuc_agent;
 				}
 			}
-			# Reverse the order so its first -> last
+			# Reverse the order so it's first -> last
 			foreach( $users_infosets as $set )
 				$set = array_reverse( $set );
 			foreach( $users_agentsets as $set )
@@ -365,7 +365,7 @@ class CheckUser extends SpecialPage
 				$s .= '<li>';
 				$s .= $sk->userLink( -1 , $name ) . $sk->userToolLinks( -1 , $name ); // hack, ALWAYS show contribs links
 				$s .= ' (<a href="' . $wgTitle->escapeLocalURL( 'user=' . urlencode( $name ) ) . '">' . wfMsgHtml('checkuser-check') . '</a>)';
-				$s .= ' (' . $wgLang->timeanddate( $users_first[$name] ) . ' -- ' . $wgLang->timeanddate( $users_last[$name] ) . ') ';
+				$s .= ' (' . $wgLang->timeanddate( $users_first[$name], true ) . ' -- ' . $wgLang->timeanddate( $users_last[$name], true ) . ') ';
 				$s .= ' [<strong>' . $count . '</strong>]<br/>';
 				# Check if this user or IP is blocked
 				# If so, give a link to the block log
@@ -504,7 +504,7 @@ class CheckUser extends SpecialPage
 				$s .= '<li>';
 				$s .= '<a href="' . $wgTitle->escapeLocalURL( 'user=' . urlencode( $ip ) ) . '">' . $ip . '</a>'; 
 				$s .= ' (<a href="' . $blockip->escapeLocalURL( 'ip=' . urlencode( $ip ) ) . '">' . wfMsgHtml('blocklink') . '</a>)';
-				$s .= ' (' . $wgLang->timeanddate( $ips_first[$ip] ) . ' -- ' . $wgLang->timeanddate( $ips_last[$ip] ) . ') '; 
+				$s .= ' (' . $wgLang->timeanddate( $ips_first[$ip], true ) . ' -- ' . $wgLang->timeanddate( $ips_last[$ip], true ) . ') '; 
 				$s .= ' <strong>[' . $edits . ']</strong>';
 				$s .= '</li>';
 			}
