@@ -353,11 +353,14 @@ class CheckUser extends SpecialPage
 					$users_agentsets[$row->cuc_user_text][] = $row->cuc_agent;
 				}
 			}
+			
 			# Reverse the order so it's first -> last
-			foreach( $users_infosets as $set )
-				$set = array_reverse( $set );
-			foreach( $users_agentsets as $set )
-				$set = array_reverse( $set );
+			foreach( $users_infosets as $name => $set ) {
+				$users_infosets[$name] = array_reverse( $set );
+			}
+			foreach( $users_agentsets as $name => $set ) {
+				$users_agentsets[$name] = array_reverse( $set );
+			}
 			
 			$logs = SpecialPage::getTitleFor( 'Log' );
 			$s = '<ul>';
@@ -477,6 +480,8 @@ class CheckUser extends SpecialPage
 			$wgOut->addHTML( $s );
 			return;
 		}
+		
+		$sk = $wgUser->getSkin();
 
 		if( !$this->addLogEntry( time() , $wgUser->getName() ,
 			"got IPs for" , htmlspecialchars( $user ) , $wgDBname , $reason) ) 
@@ -499,6 +504,8 @@ class CheckUser extends SpecialPage
 				$ips_edits[$row->cuc_ip]+=1;
 				$ips_first[$row->cuc_ip]=$row->cuc_timestamp;
 			}
+			
+			$logs = SpecialPage::getTitleFor( 'Log' );
 			$s = '<ul>';
 			foreach( $ips_edits as $ip => $edits ) {
 				$s .= '<li>';
@@ -506,6 +513,22 @@ class CheckUser extends SpecialPage
 				$s .= ' (<a href="' . $blockip->escapeLocalURL( 'ip=' . urlencode( $ip ) ) . '">' . wfMsgHtml('blocklink') . '</a>)';
 				$s .= ' (' . $wgLang->timeanddate( $ips_first[$ip], true ) . ' -- ' . $wgLang->timeanddate( $ips_last[$ip], true ) . ') '; 
 				$s .= ' <strong>[' . $edits . ']</strong>';
+				
+				# If this IP is blocked, give a link to the block log
+				$block = new Block();
+				$block->fromMaster( false ); // use slaves
+				if( $block->load( $ip, 0 ) ) {
+					if( IP::isIPAddress($block->mAddress) && strpos($block->mAddress,'/') ) {
+						$userpage = Title::makeTitle( NS_USER, $block->mAddress );
+						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('blockedtitle'), 'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
+						$s .= ' <strong>(' . $blocklog . ' - ' . $block->mAddress . ')</strong><br/>';
+					} else {
+						$userpage = Title::makeTitle( NS_USER, $ip );
+						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('blockedtitle'), 'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
+						$s .= ' <strong>(' . $blocklog . ')</strong><br/>';
+					}
+				}
+				
 				$s .= '</li>';
 			}
 			$s .= '</ul>';

@@ -42,6 +42,8 @@ function efUpdateCheckUserData( $rc ) {
 
 	$xff = wfGetForwardedFor();
 	list($xff_ip,$trusted) = wfGetClientIPfromXFF( $xff );
+	// Our squid XFFs can flood this up sometimes
+	$isSquidOnly = wfXFFChainIsSquid( $xff );
 
 	$agent = wfGetAgent();
 
@@ -60,9 +62,9 @@ function efUpdateCheckUserData( $rc ) {
 			'cuc_type' => $rc_type,
 			'cuc_timestamp' => $rc_timestamp,
 			'cuc_ip' => $ip,
-			'cuc_ip_hex' => ($ip) ? IP::toHex( $ip ) : null,
-			'cuc_xff' => $xff,
-			'cuc_xff_hex' => ($xff_ip) ? IP::toHex( $xff_ip ) : null,
+			'cuc_ip_hex' => $ip ? IP::toHex( $ip ) : null,
+			'cuc_xff' => !$isSquidOnly ? $xff : '',
+			'cuc_xff_hex' => ($xff_ip && !$isSquidOnly) ? IP::toHex( $xff_ip ) : null,
 			'cuc_agent' => $agent,
 		), __METHOD__
 	);
@@ -115,6 +117,31 @@ function wfGetClientIPfromXFF( $xff, $address=NULL ) {
 		$trusted = false;
 	
 	return array( $client, $trusted );
+}
+
+function wfXFFChainIsSquid( $xff ) {
+	global $wgSquidServers, $wgSquidServersNoPurge;
+
+	if ( !$xff ) false;
+	// Avoid annoyingly long xff hacks
+	$xff = trim( substr( $xff, 0, 255 ) );
+	$squidOnly = true;
+	// Check each IP, assuming they are separated by commas
+	$ips = explode(',',$xff);
+	foreach( $ips as $n => $ip ) {
+		$ip = trim($ip);
+		// If it is a valid IP, not a hash or such
+		if ( IP::isIPAddress($ip) ) {
+			if ( $n==0 ) {
+				// The first IP should be the client...
+			} else if ( !in_array($ip,$wgSquidServers) && !in_array($ip,$wgSquidServersNoPurge) ) {
+				$squidOnly = false;
+				break;
+			}
+		}
+	}
+	
+	return $squidOnly;
 }
 
 /**
