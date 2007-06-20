@@ -81,6 +81,8 @@ function efUpdateCheckUserData( $rc ) {
 		$sql = "DELETE FROM $recentchanges WHERE cuc_timestamp < '{$cutoff}'";
 		$dbw->query( $sql );
 	}
+	
+	return true;
 }
 
 /**
