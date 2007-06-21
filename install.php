@@ -45,6 +45,8 @@ function create_cu_changes( $db, $cutoff = null ) {
 	$end = $db->selectField( 'recentchanges', 'MAX(rc_id)', false, __FUNCTION__ );
 	$blockStart = $start;
 	$blockEnd = $start + BATCH_SIZE - 1;
+	
+	$db->begin();
 	while ( $blockStart <= $end ) {
 		$cond = "rc_id BETWEEN $blockStart AND $blockEnd $cutoffCond";
 		$res = $db->select( 'recentchanges', '*', $cond, __FUNCTION__ );
