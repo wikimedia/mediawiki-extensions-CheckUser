@@ -378,11 +378,11 @@ class CheckUser extends SpecialPage
 				if( $block->load( $ip, $users_ids[$name] ) ) {
 					if( IP::isIPAddress($block->mAddress) && strpos($block->mAddress,'/') ) {
 						$userpage = Title::makeTitle( NS_USER, $block->mAddress );
-						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('blockedtitle'), 'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
+						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 						$s .= '<strong>(' . $blocklog . ' - ' . $block->mAddress . ')</strong><br/>';
 					} else {
 						$userpage = Title::makeTitle( NS_USER, $name );
-						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('blockedtitle'), 'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
+						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 						$s .= '<strong>(' . $blocklog . ')</strong><br/>';
 					}
 				}
@@ -520,11 +520,11 @@ class CheckUser extends SpecialPage
 				if( $block->load( $ip, 0 ) ) {
 					if( IP::isIPAddress($block->mAddress) && strpos($block->mAddress,'/') ) {
 						$userpage = Title::makeTitle( NS_USER, $block->mAddress );
-						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('blockedtitle'), 'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
+						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 						$s .= ' <strong>(' . $blocklog . ' - ' . $block->mAddress . ')</strong><br/>';
 					} else {
 						$userpage = Title::makeTitle( NS_USER, $ip );
-						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('blockedtitle'), 'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
+						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 						$s .= ' <strong>(' . $blocklog . ')</strong><br/>';
 					}
 				}

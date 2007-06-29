@@ -29,7 +29,8 @@ $wgCheckUserMessages['en'] = array(
 	'checkuser-nomatch'      => 'No matches found.',
 	'checkuser-check'        => 'Check',
 	'checkuser-log-fail'     => 'Unable to add log entry',
-	'checkuser-nolog'        => 'No log file found.'
+	'checkuser-nolog'        => 'No log file found.',
+	'checkuser-blocked'      => 'Blocked',
 );
 $wgCheckUserMessages['ar'] = array(
 	'checkuser'              => 'افحص مستخدم',
