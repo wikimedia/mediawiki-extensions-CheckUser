@@ -79,7 +79,8 @@ $wgCheckUserMessages['de'] = array(
 	'checkuser-nomatch'	 => 'Keine Übereinstimmungen gefunden.',
 	'checkuser-check'	 => 'Ausführen',
 	'checkuser-log-fail'	 => 'Logbuch-Eintrag kann nicht hinzugefügt werden.',
-	'checkuser-nolog'	 => 'Kein Logbuch vorhanden.'
+	'checkuser-nolog'	 => 'Kein Logbuch vorhanden.',
+	'checkuser-blocked'      => 'gesperrt',
 );
 $wgCheckUserMessages['fi'] = array(
 	'checkuser-summary'      => 'Tämän työkalun avulla voidaan tutkia tuoreet muutokset ja paljastaa käyttäjien IP-osoitteet tai noutaa IP-osoitteiden muokkaukset ja käyttäjätiedot.
