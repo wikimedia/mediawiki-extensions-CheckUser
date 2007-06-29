@@ -696,4 +696,4 @@ class CheckUser extends SpecialPage
 		return true;
 	}
 }
-?>
+

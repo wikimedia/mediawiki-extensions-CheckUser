@@ -493,4 +493,4 @@ $wgCheckUserMessages['zh-yue'] = array(
 );
 $wgCheckUserMessages['zh-hk'] = $wgCheckUserMessages['zh-tw'];
 $wgCheckUserMessages['zh-sg'] = $wgCheckUserMessages['zh-cn'];
-?>
+

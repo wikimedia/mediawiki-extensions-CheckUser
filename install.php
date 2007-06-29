@@ -78,4 +78,4 @@ function create_cu_changes( $db, $cutoff = null ) {
 	$db->commit();
 }
 
-?>
+
