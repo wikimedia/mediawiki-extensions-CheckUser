@@ -31,6 +31,11 @@ $wgCheckUserMessages['en'] = array(
 	'checkuser-log-fail'     => 'Unable to add log entry',
 	'checkuser-nolog'        => 'No log file found.',
 	'checkuser-blocked'      => 'Blocked',
+	'checkuser-login'        => 'Logged in, but had a valid session for another account',
+	'checkuser-xff'          => 'XFF:',
+	'checkuser-ip'           => 'IP:',
+	'checkuser-prev-name'    => 'Previous session:',
+	'checkuser-pagelogs'     => 'page logs',
 );
 $wgCheckUserMessages['ar'] = array(
 	'checkuser'              => 'افحص مستخدم',

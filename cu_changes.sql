@@ -51,6 +51,9 @@ CREATE TABLE /*$wgDBprefix*/cu_changes (
   -- User agent
   cuc_agent VARCHAR(255) BINARY default NULL,
   
+  -- Last username from session/cookie data
+  cuc_cookie_user VARCHAR(255) BINARY default NULL,
+  
   PRIMARY KEY cuc_id (cuc_id),
   INDEX cuc_ip_hex_time (cuc_ip_hex,cuc_timestamp),
   INDEX cuc_user_time (cuc_user,cuc_timestamp),

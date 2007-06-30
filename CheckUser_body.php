@@ -120,6 +120,19 @@ class CheckUser extends SpecialPage
 		# Output form
 		$wgOut->addHTML( $form );
 	}
+	
+	/**
+	 * As we use the same small set of messages in various methods and that
+	 * they are called often, we call them once and save them in $this->message
+	 */
+	function preCacheMessages() {
+		// Precache various messages
+		if( !isset( $this->message ) ) {
+			foreach( explode(' ', 'diff hist minoreditletter newpageletter blocklink checkuser-pagelogs' ) as $msg ) {
+				$this->message[$msg] = wfMsgExt( $msg, array( 'escape') );
+			}
+		}
+	}
 
 	/**
 	 * @param string $ip
@@ -181,24 +194,11 @@ class CheckUser extends SpecialPage
 	}
 
 	/**
-	 * As we use the same small set of messages in various methods and that
-	 * they are called often, we call them once and save them in $this->message
-	 */
-	function preCacheMessages() {
-		// Precache various messages
-		if( !isset( $this->message ) ) {
-			foreach( explode(' ', 'diff hist minoreditletter newpageletter blocklink log' ) as $msg ) {
-				$this->message[$msg] = wfMsgExt( $msg, array( 'escape') );
-			}
-		}
-	}
-
-	/**
 	 * @param $row
 	 * @return a streamlined recent changes line with IP data
 	 */
 	function CUChangesLine( $row ) {
-		global $wgLang;
+		global $wgLang, $wgCURecordCookieData;
 
 		# Add date headers
 		$date = $wgLang->date( $row->cuc_timestamp, true, true );
@@ -226,20 +226,26 @@ class CheckUser extends SpecialPage
 		$line .= $this->skin->commentBlock( $row->cuc_comment );
 		
 		$cuTitle = SpecialPage::getTitleFor( 'CheckUser' );
-		$line .= '<br/>&nbsp; &nbsp; &nbsp; &nbsp; <small>';
-		# IP
-		$line .= ' <strong>IP</strong>: '.$this->skin->makeKnownLinkObj( $cuTitle,
-			htmlspecialchars( $row->cuc_ip ),
-			"user=" . urlencode( $row->cuc_ip ) );
-		# XFF
+		$line .= '<br/>&nbsp;&nbsp;&nbsp;<small>';
+		# IP address
+		$line .= ' <strong>' . wfMsgHtml('checkuser-ip') . '</strong> ' .
+			$this->skin->makeKnownLinkObj( $cuTitle, htmlspecialchars($row->cuc_ip), 
+				"user=" . urlencode($row->cuc_ip) );
+		# XFF chain
 		if( $row->cuc_xff !=null ) {
 			# Flag our trusted proxies
 			list($client,$trusted) = wfGetClientIPfromXFF($row->cuc_xff,$row->cuc_ip);
 			$c = $trusted ? '#F0FFF0' : '#FFFFCC';
-			$line .= '</span>&nbsp;&nbsp;&nbsp;<span style="background-color: '.$c.'"><strong>XFF</strong>: ';
+			$line .= '</span>&nbsp;&nbsp;&nbsp;<span style="background-color: '.$c.'">' .
+				'<strong>' . wfMsgHtml('checkuser-xff') . '</strong> ';
 			$line .= $this->skin->makeKnownLinkObj( $cuTitle,
 				htmlspecialchars( $row->cuc_xff ),
 				"user=" . urlencode( $client ) . "/xff" )."</span>";
+		}
+		# Previous username
+		if( $wgCURecordCookieData && $row->cuc_cookie_user !=null ) {
+			$line .= '&nbsp;&nbsp;&nbsp;<strong>' . wfMsgHtml('checkuser-prev-name') . '</strong> ' .
+				$this->skin->userLink( -1, $row->cuc_cookie_user );
 		}
 		$line .= "</small></li>\n";
 
@@ -252,19 +258,22 @@ class CheckUser extends SpecialPage
 	 */
 	function getLinkFromRow( $row ) {
 		if( $row->cuc_type == RC_LOG && $row->cuc_namespace == NS_SPECIAL ) {
-			//Log items (old format) and events to logs
+			// Log items (old format) and events to logs
 			list( $specialName, $logtype ) = SpecialPage::resolveAliasWithSubpage( $row->cuc_title );
 			$logname = LogPage::logName( $logtype );
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
 			$links = '(' . $this->skin->makeKnownLinkObj( $title, $logname ) . ')';
 		} elseif( $row->cuc_type == RC_LOG ) {
-			//Log items
+			// Log items
 			$specialTitle = SpecialPage::getTitleFor( 'Log' );
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
-			$links = '(' . $this->skin->makeKnownLinkObj( $specialTitle, $this->message['log'],
+			$links = '(' . $this->skin->makeKnownLinkObj( $specialTitle, $this->message['checkuser-pagelogs'],
 				wfArrayToCGI( array('page' => $title->getPrefixedText() ) ) ) . ')';
+		} elseif( $row->cuc_type == CU_ALT_LOGIN ) {
+			// Login events
+			$links = '(' . wfMsg('checkuser-login') . ')';
 		} elseif( !is_null( $row->cuc_this_oldid ) ) {
-			//Everything else
+			// Everything else
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
 			#new pages
 			if( $row->cuc_type == RC_NEW ) {
@@ -397,7 +406,7 @@ class CheckUser extends SpecialPage
 						# Flag our trusted proxies
 						list($client,$trusted) = wfGetClientIPfromXFF($set[1],$set[0]);
 						$c = $trusted ? '#F0FFF0' : '#FFFFCC';
-						$s .= '&nbsp;&nbsp;&nbsp;<span style="background-color: '.$c.'"><strong>XFF</strong>: ';
+						$s .= '&nbsp;&nbsp;&nbsp;<span style="background-color: '.$c.'"><strong>'.wfMsgHtml('checkuser-ip').'</strong> ';
 						$s .= $sk->makeKnownLinkObj( $wgTitle,
 							htmlspecialchars( $set[1] ),
 							"user=" . urlencode( $client ) . "/xff" )."</span>";
