@@ -521,11 +521,11 @@ class CheckUser extends SpecialPage
 					if( IP::isIPAddress($block->mAddress) && strpos($block->mAddress,'/') ) {
 						$userpage = Title::makeTitle( NS_USER, $block->mAddress );
 						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
-						$s .= ' <strong>(' . $blocklog . ' - ' . $block->mAddress . ')</strong><br/>';
+						$s .= ' <strong>(' . $blocklog . ' - ' . $block->mAddress . ')</strong>';
 					} else {
 						$userpage = Title::makeTitle( NS_USER, $ip );
 						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
-						$s .= ' <strong>(' . $blocklog . ')</strong><br/>';
+						$s .= ' <strong>(' . $blocklog . ')</strong>';
 					}
 				}
 				
