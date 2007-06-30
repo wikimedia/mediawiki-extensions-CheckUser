@@ -144,7 +144,7 @@ function efCheckUserRecordLogin( &$user, &$mPassword, &$retval ) {
 		'cuc_page_id' => 0,
 		'cuc_this_oldid' => 0,
 		'cuc_last_oldid' => 0,
-		'cuc_type' => CU_RC_LOGIN,
+		'cuc_type' => CU_ALT_LOGIN,
 		'cuc_timestamp' => wfTimestampNow(),
 		'cuc_ip' => $ip,
 		'cuc_ip_hex' => $ip ? IP::toHex( $ip ) : null,
