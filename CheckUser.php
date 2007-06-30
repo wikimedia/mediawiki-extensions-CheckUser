@@ -30,7 +30,7 @@ $wgCUDMaxAge = 3 * 30 * 24 * 3600;
 # It will also be stored during login if the old session data for the usre is 
 # for a different account. (Note that user renames can cause this).
 # If you have an older version of checkuser without the cuc_cookie_user column,
-# run patch-cu_cookies.sql before enabling this
+# run patch-cu_cookie_user.sql before enabling this
 $wgCURecordCookieData = false;
 
 #Recent changes data hook
