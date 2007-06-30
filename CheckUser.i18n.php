@@ -164,7 +164,13 @@ $wgCheckUserMessages['he'] = array(
 	'checkuser-nomatch'      => 'לא נמצאו התאמות.',
 	'checkuser-check'        => 'בדיקה',
 	'checkuser-log-fail'     => 'לא ניתן היה להוסיף פריט ליומן',
-	'checkuser-nolog'        => 'לא נמצא קובץ יומן.'
+	'checkuser-nolog'        => 'לא נמצא קובץ יומן.',
+	'checkuser-blocked'      => 'חסום',
+	'checkuser-login'        => 'מחובר, אבל בעל חיבור תקין לחשבון אחר',
+	'checkuser-xff'          => 'XFF:',
+	'checkuser-ip'           => 'IP:',
+	'checkuser-prev-name'    => 'חיבור קודם:',
+	'checkuser-pagelogs'     => 'יומני דף',
 );
 $wgCheckUserMessages['id'] = array(
 	'checkuser-summary'		 => 'Peralatan ini memindai perubahan terbaru untuk mendapatkan IP yang digunakan oleh seorang pengguna atau menunjukkan data suntingan/pengguna untuk suatu IP.
