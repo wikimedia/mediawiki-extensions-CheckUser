@@ -452,7 +452,8 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 	'checkuser-nomatch'      => 'Inga träffar hittades.',
 	'checkuser-check'        => 'Kontrollera',
 	'checkuser-log-fail'     => 'Loggposten kunde inte läggas i loggfilen.',
-	'checkuser-nolog'        => 'Hittade ingen loggfil.'
+	'checkuser-nolog'        => 'Hittade ingen loggfil.',
+	'checkuser-blocked'      => 'Blockerad'
 );
 $wgCheckUserMessages['wa'] = array(
 	'checkuser' => 'Verifyî l\' uzeu',
@@ -509,4 +510,5 @@ $wgCheckUserMessages['zh-yue'] = array(
 );
 $wgCheckUserMessages['zh-hk'] = $wgCheckUserMessages['zh-tw'];
 $wgCheckUserMessages['zh-sg'] = $wgCheckUserMessages['zh-cn'];
+
 
