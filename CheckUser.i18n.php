@@ -32,8 +32,8 @@ $wgCheckUserMessages['en'] = array(
 	'checkuser-nolog'        => 'No log file found.',
 	'checkuser-blocked'      => 'Blocked',
 	'checkuser-login'        => 'Logged in, but had a valid session for another account',
-	'checkuser-xff'          => 'XFF:',
-	'checkuser-ip'           => 'IP:',
+	'checkuser-xff'          => 'XFF:', # only translate this message to other languages if you have to change it
+	'checkuser-ip'           => 'IP:', # only translate this message to other languages if you have to change it
 	'checkuser-prev-name'    => 'Previous session:',
 	'checkuser-pagelogs'     => 'page logs',
 );
@@ -86,6 +86,9 @@ $wgCheckUserMessages['de'] = array(
 	'checkuser-log-fail'	 => 'Logbuch-Eintrag kann nicht hinzugefügt werden.',
 	'checkuser-nolog'	 => 'Kein Logbuch vorhanden.',
 	'checkuser-blocked'      => 'gesperrt',
+	'checkuser-login'        => 'Angemeldet, aber es war eine gültige Session für einen anderen Benutzernamen vorhanden.',
+	'checkuser-prev-name'    => 'Vorhergehende Session:',
+	'checkuser-pagelogs'     => 'Seiten-Lögbücher',
 );
 $wgCheckUserMessages['fi'] = array(
 	'checkuser-summary'      => 'Tämän työkalun avulla voidaan tutkia tuoreet muutokset ja paljastaa käyttäjien IP-osoitteet tai noutaa IP-osoitteiden muokkaukset ja käyttäjätiedot.
