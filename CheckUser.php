@@ -38,6 +38,7 @@ global $wgHooks;
 $wgHooks['RecentChange_save'][] = 'efUpdateCheckUserData';
 $wgHooks['ParserTestTables'][] = 'efCheckUserParserTestTables';
 $wgHooks['LoginAuthenticateAudit'][] = 'efCheckUserRecordLogin';
+$wgHooks['LoadExtensionSchemaUpdates'][] = 'efCheckUserSchemaUpdates';
 
 /**
  * Hook function for RecentChange_save
@@ -259,6 +260,25 @@ function efGetUsernameFromCookie() {
 		return false;
 	
 	return $name;
+}
+
+function efCheckUserSchemaUpdates() {
+	global $wgDBtype, $wgExtNewFields, $wgExtNewIndexes;
+	
+	# Run install.php
+	require( dirname(__FILE__) . '/install.php' );
+	
+	# FIXME: do postgres index changes!
+	if ($wgDBtype == 'mysql') {	
+		$wgExtNewFields[] = array('cu_changes', 
+			'cuc_cookie_user', dirname(__FILE__) . '/Archives/patch-cuc_cookie_user.sql');
+		$wgExtNewIndexes[] = array('cu_changes', 
+			'cuc_user_time', dirname(__FILE__) . '/Archives/patch-cu_changes_indexes.sql');
+	} else {
+		$wgExtNewFields[] = array('cu_changes', 
+			'cuc_cookie_user', dirname(__FILE__) . 'TEXT');
+	}
+	return true;
 }
 
 /**

@@ -10,12 +10,11 @@ require_once( dirname( __FILE__ ) . '/../../maintenance/commandLine.inc' );
 	
 $db =& wfGetDB( DB_MASTER );
 if ( $db->tableExists( 'cu_changes' ) && !isset( $options['force'] ) ) {
-	echo "cu_changes already exists\n";
-	exit( 1 );
+	echo "...cu_changes already exists.\n";
+} else {
+	$cutoff = isset( $options['cutoff'] ) ? wfTimestamp( TS_MW, $options['cutoff'] ) : null;
+	create_cu_changes( $db, $cutoff );
 }
-
-$cutoff = isset( $options['cutoff'] ) ? wfTimestamp( TS_MW, $options['cutoff'] ) : null;
-create_cu_changes( $db, $cutoff );
 
 function create_cu_changes( $db, $cutoff = null ) {
 	global $wgDBtype;
@@ -23,10 +22,12 @@ function create_cu_changes( $db, $cutoff = null ) {
 		$sourcefile = $wgDBtype === 'postgres' ? '/cu_changes.pg.sql' : '/cu_changes.sql';
 		$db->sourceFile( dirname( __FILE__ ) . $sourcefile );
 	}
+	
+	echo "...cu_changes table added.\n";
 	// Check if the table is empty
 	$rcRows = $db->selectField( 'recentchanges', 'COUNT(*)', false, __FUNCTION__ );
 	if ( !$rcRows ) {
-		echo "recent_changes is empty; done\n";
+		echo "recent_changes is empty; nothing to add.\n";
 		exit( 1 );
 	}
 	
@@ -76,6 +77,8 @@ function create_cu_changes( $db, $cutoff = null ) {
 		wfWaitForSlaves( 5 );
 	}
 	$db->commit();
+	
+	echo "...cu_changes table added and populated.\n";
 }
 
 
