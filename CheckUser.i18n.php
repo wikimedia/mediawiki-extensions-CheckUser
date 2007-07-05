@@ -458,7 +458,36 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 $wgCheckUserMessages['wa'] = array(
 	'checkuser' => 'Verifyî l\' uzeu',
 );
-$wgCheckUserMessages['zh-cn'] = array(
+$wgCheckUserMessages['yue'] = array(
+	'checkuser-summary'      => '呢個工具會響最近更改度掃瞄對一位用戶用過嘅IP地址，或者係睇一個IP嘅用戶資料同埋佢嘅編輯記錄。
+	響用戶同埋用戶端IP嘅編輯係可幾經由XFF頭，加上 "/xff" 就可幾拎到。呢個工具係支援 IPv4 (CIDR 16-32) 同埋 IPv6 (CIDR 64-128)。
+	由於為咗效能方面嘅原因，將唔會顯示多過5000次嘅編輯。請根源政策去用呢個工具。',
+	'checkuser'              => '核對用戶',
+	'group-checkuser'        => '稽查員',
+	'group-checkuser-member' => '稽查員',
+	'grouppage-checkuser'    => '{{ns:project}}:稽查員',
+	'checkuser-reason'       => '原因',
+	'checkuser-showlog'      => '顯示日誌',
+	'checkuser-log'          => '核對用戶日誌',
+	'checkuser-query'        => '查詢最近更改',
+	'checkuser-target'       => '用戶名或IP',
+	'checkuser-users'        => '拎用戶',
+	'checkuser-edits'        => '拎IP嘅編輯',
+	'checkuser-ips'          => '拎IP',
+	'checkuser-search'       => '搵',
+	'checkuser-empty'        => '呢個日誌無任何嘅項目。',
+	'checkuser-nomatch'      => '搵唔到符合嘅資訊。',
+	'checkuser-check'        => '查',
+	'checkuser-log-fail'     => '唔能夠加入日誌項目',
+	'checkuser-nolog'        => '搵唔到日誌檔。',
+	'checkuser-blocked'      => '已經封鎖',
+	'checkuser-login'        => '登入咗，但對另一個戶口係需要一個有效嘅過程',
+	'checkuser-xff'          => 'XFF:',
+	'checkuser-ip'           => 'IP:',
+	'checkuser-prev-name'    => '之前嘅過程:',
+	'checkuser-pagelogs'     => '頁面日誌',
+);
+$wgCheckUserMessages['zh-hans'] = array(
 	'checkuser-summary'      => '本工具会从{{int:recentchanges}}中查询使用者使用过的IP位址，或是一个IP位址发送出来的任何编辑记录。本工具支持IPv4及IPv6的位址。由于技术上的限制，本工具只能查询最近5000笔的记录。请确定你的行为符合守则。',
 	'checkuser-logcase'      => '搜寻时请注意大小写的区分',
 	'checkuser'              => '核对用户',
@@ -480,7 +509,7 @@ $wgCheckUserMessages['zh-cn'] = array(
 	'checkuser-log-fail'     => '无法更新日志。',
 	'checkuser-nolog'        => '找不到记录档'
 );
-$wgCheckUserMessages['zh-tw'] = array(
+$wgCheckUserMessages['zh-hant'] = array(
 	'checkuser-summary'      => '本工具會從{{int:recentchanges}}中查詢使用者使用過的IP位址，或是一個IP位址發送出來的任何編輯記錄。本工具支援IPv4及IPv6的位址。由於技術上的限制，本工具只能查詢最近5000筆的記錄。請確定您的行為符合守則。',
 	'checkuser-logcase'      => '搜尋時請注意大小寫的區分',
  	'checkuser'              => '核對用戶',
@@ -502,13 +531,9 @@ $wgCheckUserMessages['zh-tw'] = array(
 	'checkuser-log-fail'     => '無法更新記錄。',
 	'checkuser-nolog'        => '找不到記錄檔'
 );
-$wgCheckUserMessages['zh-yue'] = array(
-	'checkuser'              => '核對用戶',
-	'group-checkuser'        => '稽查員',
-	'group-checkuser-member' => '稽查員',
-	'grouppage-checkuser'    => '{{ns:project}}:稽查員',
-);
-$wgCheckUserMessages['zh-hk'] = $wgCheckUserMessages['zh-tw'];
-$wgCheckUserMessages['zh-sg'] = $wgCheckUserMessages['zh-cn'];
+$wgCheckUserMessages['zh-cn'] = $wgCheckUserMessages['zh-hans'];
+$wgCheckUserMessages['zh-hk'] = $wgCheckUserMessages['zh-hant'];
+$wgCheckUserMessages['zh-sg'] = $wgCheckUserMessages['zh-hans'];
+$wgCheckUserMessages['zh-tw'] = $wgCheckUserMessages['zh-hant'];
 
 
