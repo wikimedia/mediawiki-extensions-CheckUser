@@ -31,11 +31,6 @@ $wgCheckUserMessages['en'] = array(
 	'checkuser-log-fail'     => 'Unable to add log entry',
 	'checkuser-nolog'        => 'No log file found.',
 	'checkuser-blocked'      => 'Blocked',
-	'checkuser-login'        => 'Logged in, but had a valid session for another account',
-	'checkuser-xff'          => 'XFF:', # only translate this message to other languages if you have to change it
-	'checkuser-ip'           => 'IP:', # only translate this message to other languages if you have to change it
-	'checkuser-prev-name'    => 'Previous session:',
-	'checkuser-pagelogs'     => 'page logs',
 );
 $wgCheckUserMessages['ar'] = array(
 	'checkuser'              => 'افحص مستخدم',
@@ -86,9 +81,6 @@ $wgCheckUserMessages['de'] = array(
 	'checkuser-log-fail'	 => 'Logbuch-Eintrag kann nicht hinzugefügt werden.',
 	'checkuser-nolog'	 => 'Kein Logbuch vorhanden.',
 	'checkuser-blocked'      => 'gesperrt',
-	'checkuser-login'        => 'Angemeldet, aber es war eine gültige Session für einen anderen Benutzernamen vorhanden.',
-	'checkuser-prev-name'    => 'Vorhergehende Session:',
-	'checkuser-pagelogs'     => 'Seiten-Lögbücher',
 );
 $wgCheckUserMessages['fi'] = array(
 	'checkuser-summary'      => 'Tämän työkalun avulla voidaan tutkia tuoreet muutokset ja paljastaa käyttäjien IP-osoitteet tai noutaa IP-osoitteiden muokkaukset ja käyttäjätiedot.
@@ -169,11 +161,6 @@ $wgCheckUserMessages['he'] = array(
 	'checkuser-log-fail'     => 'לא ניתן היה להוסיף פריט ליומן',
 	'checkuser-nolog'        => 'לא נמצא קובץ יומן.',
 	'checkuser-blocked'      => 'חסום',
-	'checkuser-login'        => 'מחובר, אבל בעל חיבור תקין לחשבון אחר',
-	'checkuser-xff'          => 'XFF:',
-	'checkuser-ip'           => 'IP:',
-	'checkuser-prev-name'    => 'חיבור קודם:',
-	'checkuser-pagelogs'     => 'יומני דף',
 );
 $wgCheckUserMessages['id'] = array(
 	'checkuser-summary'		 => 'Peralatan ini memindai perubahan terbaru untuk mendapatkan IP yang digunakan oleh seorang pengguna atau menunjukkan data suntingan/pengguna untuk suatu IP.
@@ -481,11 +468,6 @@ $wgCheckUserMessages['yue'] = array(
 	'checkuser-log-fail'     => '唔能夠加入日誌項目',
 	'checkuser-nolog'        => '搵唔到日誌檔。',
 	'checkuser-blocked'      => '已經封鎖',
-	'checkuser-login'        => '登入咗，但對另一個戶口係需要一個有效嘅過程',
-	'checkuser-xff'          => 'XFF:',
-	'checkuser-ip'           => 'IP:',
-	'checkuser-prev-name'    => '之前嘅過程:',
-	'checkuser-pagelogs'     => '頁面日誌',
 );
 $wgCheckUserMessages['zh-hans'] = array(
 	'checkuser-summary'      => '本工具会从{{int:recentchanges}}中查询使用者使用过的IP位址，或是一个IP位址发送出来的任何编辑记录。本工具支持IPv4及IPv6的位址。由于技术上的限制，本工具只能查询最近5000笔的记录。请确定你的行为符合守则。',
