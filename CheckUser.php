@@ -271,9 +271,9 @@ function efCheckUserSchemaUpdates() {
 	# FIXME: do postgres index changes!
 	if ($wgDBtype == 'mysql') {	
 		$wgExtNewFields[] = array('cu_changes', 
-			'cuc_cookie_user', dirname(__FILE__) . '/Archives/patch-cuc_cookie_user.sql');
+			'cuc_cookie_user', dirname(__FILE__) . '/archives/patch-cuc_cookie_user.sql');
 		$wgExtNewIndexes[] = array('cu_changes', 
-			'cuc_user_time', dirname(__FILE__) . '/Archives/patch-cu_changes_indexes.sql');
+			'cuc_user_time', dirname(__FILE__) . '/archives/patch-cu_changes_indexes.sql');
 	} else {
 		$wgExtNewFields[] = array('cu_changes', 
 			'cuc_cookie_user', dirname(__FILE__) . 'TEXT');
