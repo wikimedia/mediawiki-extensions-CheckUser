@@ -164,7 +164,6 @@ function efCheckUserSchemaUpdates() {
 	# Run install.php
 	require( dirname(__FILE__) . '/install.php' );
 	
-	# FIXME: do postgres index changes!
 	if ($wgDBtype == 'mysql') {	
 		$wgExtNewIndexes[] = array('cu_changes', 
 			'cuc_user_time', dirname(__FILE__) . '/archives/patch-cu_changes_indexes.sql');
