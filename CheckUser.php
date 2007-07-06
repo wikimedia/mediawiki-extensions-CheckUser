@@ -159,7 +159,7 @@ function efXFFChainIsSquid( $xff ) {
 }
 
 function efCheckUserSchemaUpdates() {
-	global $wgDBtype, $wgExtNewFields, $wgExtNewIndexes;
+	global $wgDBtype, $wgExtNewIndexes;
 	
 	# Run install.php
 	require( dirname(__FILE__) . '/install.php' );
