@@ -5,7 +5,7 @@
 ALTER TABLE /*$wgDBprefix*/cu_changes 
   DROP INDEX cuc_ip_hex,
   DROP INDEX cuc_user,
-  DROP INDEX cuc_xff,
+  DROP INDEX cuc_xff_hex,
   ADD INDEX cuc_ip_hex_time (cuc_ip_hex,cuc_timestamp),
   ADD INDEX cuc_user_time (cuc_user,cuc_timestamp),
   ADD INDEX cuc_xff_hex_time (cuc_xff_hex,cuc_timestamp);
