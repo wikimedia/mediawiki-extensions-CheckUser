@@ -332,6 +332,31 @@ $wgCheckUserMessages['pl'] = array(
 	'group-checkuser-member' => 'Check user',
 	'grouppage-checkuser'    => '{{ns:project}}:Check user',
 );
+$wgCheckUserMessages['pms'] = array(
+	'checkuser-summary'      => 'St\'utiss-sì as passa j\'ùltime modìfiche për tiré sù j\'adrësse IP dovra da n\'utent ò pura mostré lòn ch\'as fa da n\'adrëssa IP e che dat utent ch\'a l\'abia associà.
+	J\'utent ch\'a dòvro n\'adrëssa IP e le modìfiche faite d\'ambelelì as peulo tiresse sù ën dovrand le testà XFF, për felo tache-ie dapress l\'adrëssa e "/xff". A travaja tant con la forma IPv4 (CIDR 16-32) che con cola IPv6 (CIDR 64-128).
+	Për na question ëd caria ëd travaj a tira nen sù pì che 5000 modìfiche. A va dovrà comforma a ij deuit për ël process ëd contròl.',
+	'checkuser-logcase'      => 'L\'arsërca ant ël registr a conta ëdcò maiùscole e minùscole.',
+	'checkuser'              => 'Contròl dj\'utent',
+	'group-checkuser'        => 'Controlor',
+	'group-checkuser-member' => 'Controlor',
+	'grouppage-checkuser'    => '{{ns:project}}:Contròl dj\'utent',
+	'checkuser-reason'       => 'Rason',
+	'checkuser-showlog'      => 'Smon ël registr',
+	'checkuser-log'          => 'Registr dël contròl dj\'utent',
+	'checkuser-query'        => 'Anterogassion dj\'ùltime modìfiche',
+	'checkuser-target'       => 'Stranòm ò adrëssa IP',
+	'checkuser-users'        => 'Tira sù j\'utent',
+	'checkuser-edits'        => 'Tiré sù le modìfiche faite da na midema adrëssa IP',
+	'checkuser-ips'          => 'Tiré sù j\'adrësse IP',
+	'checkuser-search'       => 'Sërca',
+	'checkuser-empty'        => 'Ës registr-sì a l\'é veujd.',
+	'checkuser-nomatch'      => 'A-i é pa gnun-a ròba parej.',
+	'checkuser-check'        => 'Contròl',
+	'checkuser-log-fail'     => 'I-i la fom nen a gionte-ie na riga ant sël registr',
+	'checkuser-nolog'        => 'Pa gnun registr ch\'a sia trovasse.',
+	'checkuser-blocked'      => 'Blocà',
+);
 $wgCheckUserMessages['pt'] = array(
 	'checkuser-summary'      => 'Esta ferramenta varre as Mudanças recentes para obter os endereços de IP de um utilizador ou para exibir os dados de edições/utilizadores para um IP.
 	Utilizadores edições podem ser obtidos por um IP XFF colocando-se "/xff" no final do endereço. São suportados endereços IPv4 (CIDR 16-32) e IPv6 (CIDR 64-128).
