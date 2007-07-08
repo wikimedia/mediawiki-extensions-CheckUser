@@ -428,6 +428,7 @@ $wgCheckUserMessages['sk'] = array(
 	'checkuser-check'        => 'Skontrolovať',
 	'checkuser-log-fail'     => 'Nebolo možné pridať položku záznamu',
 	'checkuser-nolog'        => 'Nebol nájdený súbor záznamu.',
+	'checkuser-blocked'      => 'Zablokovaný',
 );
 $wgCheckUserMessages['sr-ec'] = array(
 	'checkuser'              => 'Чекјузер',
