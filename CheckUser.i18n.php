@@ -32,11 +32,28 @@ $wgCheckUserMessages['en'] = array(
 	'checkuser-nolog'        => 'No log file found.',
 	'checkuser-blocked'      => 'Blocked',
 );
+/* Arabic (Meno25) */
 $wgCheckUserMessages['ar'] = array(
-	'checkuser'              => 'افحص مستخدم',
+	'checkuser-logcase'      => 'بحث السجل حساس لحالة الحروف.',
+	'checkuser'              => 'فحص مستخدم',
 	'group-checkuser'        => 'مدققو مستخدم',
 	'group-checkuser-member' => 'مدقق مستخدم',
 	'grouppage-checkuser'    => '{{ns:project}}:تدقيق مستخدم',
+	'checkuser-reason'       => 'السبب',
+	'checkuser-showlog'      => 'عرض السجل',
+	'checkuser-log'          => 'سجل تدقيق المستخدم',
+	'checkuser-query'        => 'فحص أحدث التغييرات',
+	'checkuser-target'       => 'مستخدم أو عنوان أيبي',
+	'checkuser-users'        => 'عرض المستخدمين',
+	'checkuser-edits'        => 'عرض التعديلات من الأيبي',
+	'checkuser-ips'          => 'عرض الأيبيهات',
+	'checkuser-search'       => 'بحث',
+	'checkuser-empty'        => 'لا توجد مدخلات في السجل.',
+	'checkuser-nomatch'      => 'لم يتم العثور على مدخلات مطابقة.',
+	'checkuser-check'        => 'فحص',
+	'checkuser-log-fail'     => 'غير قادر على إضافة مدخلة للسجل',
+	'checkuser-nolog'        => 'لم يتم العثور على ملف سجل.',
+	'checkuser-blocked'      => 'ممنوع',
 );
 $wgCheckUserMessages['br'] = array(
 	'checkuser'              => 'Gwiriañ an implijer',
