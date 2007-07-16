@@ -492,6 +492,7 @@ $wgCheckUserMessages['yue'] = array(
 	'checkuser-summary'      => '呢個工具會響最近更改度掃瞄對一位用戶用過嘅IP地址，或者係睇一個IP嘅用戶資料同埋佢嘅編輯記錄。
 	響用戶同埋用戶端IP嘅編輯係可幾經由XFF頭，加上 "/xff" 就可幾拎到。呢個工具係支援 IPv4 (CIDR 16-32) 同埋 IPv6 (CIDR 64-128)。
 	由於為咗效能方面嘅原因，將唔會顯示多過5000次嘅編輯。請根源政策去用呢個工具。',
+	'checkuser-logcase'      => '搵呢個日誌係有分大細楷嘅。',
 	'checkuser'              => '核對用戶',
 	'group-checkuser'        => '稽查員',
 	'group-checkuser-member' => '稽查員',
@@ -532,7 +533,8 @@ $wgCheckUserMessages['zh-hans'] = array(
 	'checkuser-nomatch'      => '没有符合的资讯',
 	'checkuser-check'        => '查询',
 	'checkuser-log-fail'     => '无法更新日志。',
-	'checkuser-nolog'        => '找不到记录档'
+	'checkuser-nolog'        => '找不到记录档',
+	'checkuser-blocked'      => '已经查封',
 );
 $wgCheckUserMessages['zh-hant'] = array(
 	'checkuser-summary'      => '本工具會從{{int:recentchanges}}中查詢使用者使用過的IP位址，或是一個IP位址發送出來的任何編輯記錄。本工具支援IPv4及IPv6的位址。由於技術上的限制，本工具只能查詢最近5000筆的記錄。請確定您的行為符合守則。',
@@ -554,11 +556,13 @@ $wgCheckUserMessages['zh-hant'] = array(
 	'checkuser-nomatch'      => '沒有符合的資訊',
 	'checkuser-check'        => '查詢',
 	'checkuser-log-fail'     => '無法更新記錄。',
-	'checkuser-nolog'        => '找不到記錄檔'
+	'checkuser-nolog'        => '找不到記錄檔',
+	'checkuser-blocked'      => '已經查封',
 );
 $wgCheckUserMessages['zh-cn'] = $wgCheckUserMessages['zh-hans'];
 $wgCheckUserMessages['zh-hk'] = $wgCheckUserMessages['zh-hant'];
 $wgCheckUserMessages['zh-sg'] = $wgCheckUserMessages['zh-hans'];
 $wgCheckUserMessages['zh-tw'] = $wgCheckUserMessages['zh-hant'];
+
 
 
