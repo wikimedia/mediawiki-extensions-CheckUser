@@ -161,12 +161,20 @@ function efXFFChainIsSquid( $xff ) {
 function efCheckUserSchemaUpdates() {
 	global $wgDBtype, $wgExtNewIndexes;
 	
-	# Run install.php
-	require( dirname(__FILE__) . '/install.php' );
+	# Run install.inc as necessary
+	$base = dirname(__FILE__);
+	
+	$db = wfGetDB( DB_MASTER );
+	if( $db->tableExists( 'cu_changes' ) ) {
+		echo "...cu_changes already exists.\n";
+	} else {
+		require_once "$base/install.inc";
+		create_cu_changes( $db );
+	}
 	
 	if ($wgDBtype == 'mysql') {	
 		$wgExtNewIndexes[] = array('cu_changes', 
-			'cuc_user_time', dirname(__FILE__) . '/archives/patch-cu_changes_indexes.sql');
+			'cuc_user_time', "$base/archives/patch-cu_changes_indexes.sql" );
 	}
 	return true;
 }
