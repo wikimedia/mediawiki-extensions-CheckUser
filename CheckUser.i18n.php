@@ -290,6 +290,19 @@ $wgCheckUserMessages['kk-cn'] = array(
 	'checkuser-nolog'        => 'جۋرنال فايلى تابىلمادى.'
 );
 $wgCheckUserMessages['kk'] = $wgCheckUserMessages['kk-kz'];
+$wgCheckUserMessages['lo'] = array(
+	'checkuser'              => 'ກວດຜູ້ໃຊ້',
+	'checkuser-reason'       => 'ເຫດຜົນ',
+	'checkuser-showlog'      => 'ສະແດງບັນທຶກ',
+	'checkuser-log'          => 'ບັນທຶກການກວດຜູ້ໃຊ້',
+	'checkuser-target'       => 'ຜູ້ໃຊ້ ຫຼື IP',
+	'checkuser-edits'        => 'ເອົາ ການດັດແກ້ ຈາກ ທີ່ຢູ່ IP',
+	'checkuser-ips'          => 'ເອົາ ທີ່ຢູ່ IP',
+	'checkuser-search'       => 'ຊອກຫາ',
+	'checkuser-empty'        => 'ບໍ່ມີເນື້ອໃນຖືກບັນທຶກ',
+	'checkuser-nomatch'      => 'ບໍ່ພົບສິ່ງທີ່ຊອກຫາ',
+	'checkuser-check'        => 'ກວດ',
+);
 $wgCheckUserMessages['nl'] = array(
 	'checkuser'              => 'Rechercheer gebruiker',
 	'group-checkuser'        => 'Rechercheer gebruikers',
