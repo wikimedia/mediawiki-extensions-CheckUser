@@ -146,7 +146,7 @@ class CheckUser extends SpecialPage
 		}
 
 		$dbr = wfGetDB( DB_SLAVE );
-
+		# Limit added for browser limitations and to avoid time outs
 		$ip_conds = $this->getIpConds( $dbr, $ip, $xfor );
 		$res = $dbr->select( 'cu_changes', '*', $ip_conds, $fname, 
 			array( 'ORDER BY' => 'cuc_timestamp DESC', 'LIMIT' => 5000 ) );
@@ -326,10 +326,13 @@ class CheckUser extends SpecialPage
 		$users_first = $users_last = $users_edits = $users_ids = array();
 
 		$dbr = wfGetDB( DB_SLAVE );
-
+		# Limit cap made to stop nasty timeouts
 		$ip_conds = $this->getIpConds( $dbr, $ip, $xfor );
-		$res = $dbr->select( 'cu_changes', array( 'cuc_user_text', 'cuc_timestamp', 'cuc_user', 'cuc_ip', 'cuc_agent', 'cuc_xff' ), 
-		$ip_conds, $fname, array( 'ORDER BY' => 'cuc_timestamp DESC' ) );
+		$res = $dbr->select( 'cu_changes',
+			array( 'cuc_user_text', 'cuc_timestamp', 'cuc_user', 'cuc_ip', 'cuc_agent', 'cuc_xff' ), 
+			$ip_conds,
+			$fname,
+			array( 'ORDER BY' => 'cuc_timestamp DESC', 'LIMIT' => 10,000 ) );
 
 		if( !$dbr->numRows( $res ) ) {
 			$s = wfMsgHtml( "checkuser-nomatch" )."\n";
@@ -366,9 +369,11 @@ class CheckUser extends SpecialPage
 			$s = '<ul>';
 			foreach( $users_edits as $name => $count ) {
 				$s .= '<li>';
-				$s .= $sk->userLink( -1 , $name ) . $sk->userToolLinks( -1 , $name ); // hack, ALWAYS show contribs links
-				$s .= ' (<a href="' . $wgTitle->escapeLocalURL( 'user=' . urlencode( $name ) ) . '">' . wfMsgHtml('checkuser-check') . '</a>)';
-				$s .= ' (' . $wgLang->timeanddate( $users_first[$name], true ) . ' -- ' . $wgLang->timeanddate( $users_last[$name], true ) . ') ';
+				$s .= $sk->userLink( -1 , $name ) . $sk->userToolLinks( -1 , $name );
+				$s .= ' (<a href="' . $wgTitle->escapeLocalURL( 'user=' . urlencode( $name ) ) . 
+					'">' . wfMsgHtml('checkuser-check') . '</a>)';
+				$s .= ' (' . $wgLang->timeanddate( $users_first[$name], true ) . ' -- ' . 
+					$wgLang->timeanddate( $users_last[$name], true ) . ') ';
 				$s .= ' [<strong>' . $count . '</strong>]<br/>';
 				# Check if this user or IP is blocked
 				# If so, give a link to the block log
@@ -489,8 +494,11 @@ class CheckUser extends SpecialPage
 			$wgOut->addHTML( '<p>'.wfMsgHtml('checkuser-log-fail').'</p>' );
 		}
 		$dbr = wfGetDB( DB_SLAVE );
-		$res = $dbr->select( 'cu_changes', array( 'cuc_ip', 'cuc_timestamp' ), array( 'cuc_user' => $user_id ), $fname, 
-			array( 'ORDER BY' => 'cuc_timestamp DESC' ) );
+		# Limit cap made to stop nasty time outs
+		$res = $dbr->select( 'cu_changes', array( 'cuc_ip', 'cuc_timestamp' ), 
+			array( 'cuc_user' => $user_id ), 
+			$fname, 
+			array( 'ORDER BY' => 'cuc_timestamp DESC', 'LIMIT' => 10,000 ) );
 		if( !$dbr->numRows( $res ) ) {
 			$s = wfMsgHtml("checkuser-nomatch")."\n";
 		} else {
