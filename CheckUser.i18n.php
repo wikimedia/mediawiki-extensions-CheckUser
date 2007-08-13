@@ -304,10 +304,29 @@ $wgCheckUserMessages['lo'] = array(
 	'checkuser-check'        => 'ກວດ',
 );
 $wgCheckUserMessages['nl'] = array(
-	'checkuser'              => 'Rechercheer gebruiker',
-	'group-checkuser'        => 'Rechercheer gebruikers',
-	'group-checkuser-member' => 'Rechercheer gebruiker',
-	'grouppage-checkuser'    => '{{ns:project}}:Rechercheer gebruiker',
+	'checkuser-summary'      => 'Dit hulpmiddel bekijkt recente wijzigingen om IP-adressen die een gebruiker heeft gebruikt te achterhalen of toont de bewerkings- en gebruikersgegegevens voor een IP-adres.
+	Gebruikers en bewerkingen van een IP-adres van een client kunnen achterhaald worden via XFF-haeders door "/xff" achter het IP-adres toe te voegen. IPv4 (CIDR 16-32) en IPv6 (CIDR 64-128) worden ondersteund.
+	Om prestatieredenen worden niet meer dan 5.000 bewerkingen getoond. Gebruik dit hulpmiddel volgens het vastgestelde beleid.',
+	'checkuser-logcase'      => 'Zoeken in het logboek is hoofdlettergevoelig.',
+	'checkuser'              => 'Gebruiker controleren',
+	'group-checkuser'        => 'Gebruikers controleren',
+	'group-checkuser-member' => 'Gebruiker controleren',
+	'grouppage-checkuser'    => '{{ns:project}}:Gebruiker controleren',
+	'checkuser-reason'       => 'Reden',
+	'checkuser-showlog'      => 'Toon logboek',
+	'checkuser-log'          => 'Logboek controleren gebruikers',
+	'checkuser-query'        => 'Bevraag recente wijzigingen',
+	'checkuser-target'       => 'Gebruiker of IP-adres',
+	'checkuser-users'        => 'Vraag gebruikers op',
+	'checkuser-edits'        => 'Vraag bewerkingen van IP-adres op',
+	'checkuser-ips'          => 'Vraag IP-adressen op',
+	'checkuser-search'       => 'Zoeken',
+	'checkuser-empty'        => 'Het logboek bevat geen regels.',
+	'checkuser-nomatch'      => 'Geen overeenkomsten gevonden.',
+	'checkuser-check'        => 'Controleer',
+	'checkuser-log-fail'     => 'Logboekregel toevoegen niet mogelijk',
+	'checkuser-nolog'        => 'Geen logboek gevonden.',
+	'checkuser-blocked'      => 'Geblokkeerd',
 );
 $wgCheckUserMessages['no'] = array(
 	'checkuser-summary'      => 'Dette verktøyet går gjennom siste endringer for å hente IP-ene som er brukt av en bruker, eller viser redigerings- eller brukerinformasjonen for en IP.
