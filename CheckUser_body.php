@@ -332,7 +332,7 @@ class CheckUser extends SpecialPage
 			array( 'cuc_user_text', 'cuc_timestamp', 'cuc_user', 'cuc_ip', 'cuc_agent', 'cuc_xff' ), 
 			$ip_conds,
 			$fname,
-			array( 'ORDER BY' => 'cuc_timestamp DESC', 'LIMIT' => 10,000 ) );
+			array( 'ORDER BY' => 'cuc_timestamp DESC', 'LIMIT' => 10000 ) );
 
 		if( !$dbr->numRows( $res ) ) {
 			$s = wfMsgHtml( "checkuser-nomatch" )."\n";
