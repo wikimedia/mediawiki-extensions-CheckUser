@@ -414,7 +414,7 @@ $wgCheckUserMessages['pt'] = array(
 	'checkuser-logcase'      => 'As buscas nos registos são sensíveis a letras maiúsculas ou minúsculas.',
 	'checkuser'              => 'Verificar utilizador',
 	'group-checkuser'        => 'CheckUser',
-	'group-checkuser-member' => 'CheckUsers',
+	'group-checkuser-member' => 'CheckUser',
 	'grouppage-checkuser'    => '{{ns:project}}:CheckUser',
 	'checkuser-reason'       => 'Motivo',
 	'checkuser-showlog'      => 'Exibir registos',
@@ -429,7 +429,8 @@ $wgCheckUserMessages['pt'] = array(
 	'checkuser-nomatch'      => 'Não foram encontrados resultados.',
 	'checkuser-check'        => 'Verificar',
 	'checkuser-log-fail'     => 'Não foi possível adicionar entradas ao registo',
-+	'checkuser-nolog'        => 'Não foi encontrado o ficheiro de registos.'
+	'checkuser-nolog'        => 'Não foi encontrado um arquivo de registos.',
+	'checkuser-blocked'      => 'Bloqueado',
 );
 $wgCheckUserMessages['ru'] = array(
 	'checkuser-summary'      => 'Данный инструмент может быть использован, чтобы получить IP-адреса, использовавшиеся участником, либо чтобы показать правки/участников, работавших с IP-адреса.
@@ -596,7 +597,3 @@ $wgCheckUserMessages['zh-cn'] = $wgCheckUserMessages['zh-hans'];
 $wgCheckUserMessages['zh-hk'] = $wgCheckUserMessages['zh-hant'];
 $wgCheckUserMessages['zh-sg'] = $wgCheckUserMessages['zh-hans'];
 $wgCheckUserMessages['zh-tw'] = $wgCheckUserMessages['zh-hant'];
-
-
-
-
