@@ -146,13 +146,16 @@ class CheckUser extends SpecialPage
 		}
 
 		$dbr = wfGetDB( DB_SLAVE );
-		# Limit added for browser limitations and to avoid time outs
-		$ip_conds = $this->getIpConds( $dbr, $ip, $xfor );
-		$res = $dbr->select( 'cu_changes', '*', $ip_conds, $fname, 
-			array( 'ORDER BY' => 'cuc_timestamp DESC', 'LIMIT' => 5000 ) );
-		$ret = $dbr->resultObject( $res );
 
-		if( !$dbr->numRows( $res ) ) {
+		$ip_conds = $dbr->makeList( $this->getIpConds( $dbr, $ip, $xfor ), LIST_AND );
+		$cu_changes = $dbr->tableName( 'cu_changes' );
+		# Limit added for browser limitations and to avoid time outs
+		$index = $xfor ? 'cuc_xff_hex_time' : 'cuc_ip_hex_time';
+		$sql = "SELECT * FROM $cu_changes FORCE INDEX($index) WHERE $ip_conds 
+			ORDER BY cuc_timestamp DESC LIMIT 5000";
+
+		$ret = $dbr->query( $sql, __METHOD__ );
+		if( !$dbr->numRows( $ret ) ) {
 			$s = wfMsgHtml("checkuser-nomatch")."\n";
 		} else {
 			global $IP;
@@ -177,7 +180,7 @@ class CheckUser extends SpecialPage
 		}
 
 		$wgOut->addHTML( $s );
-		$dbr->freeResult( $res );
+		$dbr->freeResult( $ret );
 	}
 
 	/**
@@ -320,24 +323,27 @@ class CheckUser extends SpecialPage
 		{
 			$wgOut->addHTML( '<p>'.wfMsgHtml('checkuser-log-fail').'</p>' );
 		}
-		
+
 		$sk = $wgUser->getSkin();
 
+		$dbr = wfGetDB( DB_SLAVE );
+
+		$ip_conds = $dbr->makeList( $this->getIpConds( $dbr, $ip, $xfor ), LIST_AND );
+		$cu_changes = $dbr->tableName( 'cu_changes' );
+		$index = $xfor ? 'cuc_xff_hex_time' : 'cuc_ip_hex_time';
+		# Limit cap made to stop nasty timeouts
+		$sql = "SELECT cuc_user_text, cuc_timestamp, cuc_user, cuc_ip, cuc_agent, cuc_xff 
+			FROM $cu_changes FORCE INDEX($index) WHERE $ip_conds 
+			ORDER BY cuc_timestamp DESC LIMIT 10000";
+
+		$ret = $dbr->query( $sql, __METHOD__ );
+		
 		$users_first = $users_last = $users_edits = $users_ids = array();
 
-		$dbr = wfGetDB( DB_SLAVE );
-		# Limit cap made to stop nasty timeouts
-		$ip_conds = $this->getIpConds( $dbr, $ip, $xfor );
-		$res = $dbr->select( 'cu_changes',
-			array( 'cuc_user_text', 'cuc_timestamp', 'cuc_user', 'cuc_ip', 'cuc_agent', 'cuc_xff' ), 
-			$ip_conds,
-			$fname,
-			array( 'ORDER BY' => 'cuc_timestamp DESC', 'LIMIT' => 10000 ) );
-
-		if( !$dbr->numRows( $res ) ) {
+		if( !$dbr->numRows( $ret ) ) {
 			$s = wfMsgHtml( "checkuser-nomatch" )."\n";
 		} else {
-			while( ($row = $dbr->fetchObject( $res ) ) != false ) {
+			while( ($row = $dbr->fetchObject( $ret ) ) != false ) {
 				if( !array_key_exists( $row->cuc_user_text, $users_edits ) ) {
 					$users_last[$row->cuc_user_text] = $row->cuc_timestamp;
 					$users_edits[$row->cuc_user_text] = 0;
@@ -417,7 +423,7 @@ class CheckUser extends SpecialPage
 		}
 
 		$wgOut->addHTML( $s );
-		$dbr->freeResult( $res );
+		$dbr->freeResult( $ret );
 	}
 
 	/**
@@ -494,17 +500,21 @@ class CheckUser extends SpecialPage
 			$wgOut->addHTML( '<p>'.wfMsgHtml('checkuser-log-fail').'</p>' );
 		}
 		$dbr = wfGetDB( DB_SLAVE );
-		# Limit cap made to stop nasty time outs
-		$res = $dbr->select( 'cu_changes', array( 'cuc_ip', 'cuc_timestamp' ), 
-			array( 'cuc_user' => $user_id ), 
-			$fname, 
-			array( 'ORDER BY' => 'cuc_timestamp DESC', 'LIMIT' => 10,000 ) );
-		if( !$dbr->numRows( $res ) ) {
+
+		$cu_changes = $dbr->tableName( 'cu_changes' );
+		# Limit cap made to stop nasty timeouts
+		$sql = "SELECT cuc_ip, cuc_timestamp 
+			FROM $cu_changes FORCE INDEX(cuc_user_time) WHERE cuc_user = $user_id 
+			ORDER BY cuc_timestamp DESC LIMIT 10000";
+
+		$ret = $dbr->query( $sql, __METHOD__ );
+
+		if( !$dbr->numRows( $ret ) ) {
 			$s = wfMsgHtml("checkuser-nomatch")."\n";
 		} else {
 			$blockip = SpecialPage::getTitleFor( 'blockip' );
 			$ips_edits=array();
-			while( $row = $dbr->fetchObject( $res ) ) {
+			while( $row = $dbr->fetchObject( $ret ) ) {
 				if( !array_key_exists( $row->cuc_ip, $ips_edits ) ) {
 					$ips_edits[$row->cuc_ip]=0;
 					$ips_last[$row->cuc_ip]=$row->cuc_timestamp;
@@ -546,6 +556,7 @@ class CheckUser extends SpecialPage
 			$s .= '</ul>';
 		}
 		$wgOut->addHTML( $s );
+		$dbr->freeResult( $ret );
 	}
 
 	function showLog( $user ) {
