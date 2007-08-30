@@ -593,7 +593,9 @@ $wgCheckUserMessages['zh-hant'] = array(
 	'checkuser-nolog'        => '找不到記錄檔',
 	'checkuser-blocked'      => '已經查封',
 );
+$wgCheckUserMessages['zh'] = $wgCheckUserMessages['zh-hans'];
 $wgCheckUserMessages['zh-cn'] = $wgCheckUserMessages['zh-hans'];
 $wgCheckUserMessages['zh-hk'] = $wgCheckUserMessages['zh-hant'];
 $wgCheckUserMessages['zh-sg'] = $wgCheckUserMessages['zh-hans'];
 $wgCheckUserMessages['zh-tw'] = $wgCheckUserMessages['zh-hant'];
+$wgCheckUserMessages['zh-yue'] = $wgCheckUserMessages['yue'];
