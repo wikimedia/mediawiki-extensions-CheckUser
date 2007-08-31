@@ -372,6 +372,7 @@ class CheckUser extends SpecialPage
 			}
 			
 			$logs = SpecialPage::getTitleFor( 'Log' );
+			$blocklist = SpecialPage::getTitleFor( 'Ipblocklist' );
 			$s = '<ul>';
 			foreach( $users_edits as $name => $count ) {
 				$s .= '<li>';
@@ -390,11 +391,14 @@ class CheckUser extends SpecialPage
 					if( IP::isIPAddress($block->mAddress) && strpos($block->mAddress,'/') ) {
 						$userpage = Title::makeTitle( NS_USER, $block->mAddress );
 						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
-						$s .= '<strong>(' . $blocklog . ' - ' . $block->mAddress . ')</strong><br/>';
+						$s .= ' <strong>(' . $blocklog . ' - ' . $block->mAddress . ')</strong>';
+					} else if( $block->mAuto ) {
+						$blocklog = $sk->makeKnownLinkObj( $blocklist, wfMsgHtml('checkuser-blocked'), 'ip=' . urlencode( "#$block->mId" ) );
+						$s .= ' <strong>(' . $blocklog . ')</strong>';
 					} else {
 						$userpage = Title::makeTitle( NS_USER, $name );
 						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
-						$s .= '<strong>(' . $blocklog . ')</strong><br/>';
+						$s .= '<strong>(' . $blocklog . ')</strong>';
 					}
 				}
 				$s .= '<ol>';
