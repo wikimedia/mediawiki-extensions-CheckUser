@@ -180,6 +180,20 @@ $wgCheckUserMessages['he'] = array(
 	'checkuser-nolog'        => 'לא נמצא קובץ יומן.',
 	'checkuser-blocked'      => 'חסום',
 );
+$wgCheckUserMessages['hsb'] = array(
+	'checkuser-logcase'      => 'Pytanje w protokolu rozeznawa mjez wulko- a małopisanjom.',
+	'checkuser-reason'       => 'Přičina',
+	'checkuser-showlog'      => 'Protokol pokazać',
+	'checkuser-query'        => 'Poslednje změny wotprašeć',
+	'checkuser-target'       => 'Wužiwar abo IP-adresa',
+	'checkuser-search'       => 'Pytać',
+	'checkuser-empty'        => 'Protokol njewobsahuje zapiski.',
+	'checkuser-nomatch'      => 'Žane wotpowědniki namakane.',
+	'checkuser-check'        => 'Pruwować',
+	'checkuser-log-fail'     => 'Njemóžno protokolowy zapisk přidać.',
+	'checkuser-nolog'        => 'Žadyn protokol namakany.',
+	'checkuser-blocked'      => 'zablokowany',
+);
 $wgCheckUserMessages['id'] = array(
 	'checkuser-summary'		 => 'Peralatan ini memindai perubahan terbaru untuk mendapatkan IP yang digunakan oleh seorang pengguna atau menunjukkan data suntingan/pengguna untuk suatu IP.
 	Pengguna dan suntingan dapat diperoleh dari suatu IP XFF dengan menambahkan "/xff" pada suatu IP. IPv4 (CIDR 16-32) dan IPv6 (CIDR 64-128) dapat digunakan.
