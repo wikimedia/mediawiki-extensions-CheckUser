@@ -239,7 +239,8 @@ $wgCheckUserMessages['kk-kz'] = array(
 	'checkuser-nomatch'      => 'Сәйкес табылмады.',
 	'checkuser-check'        => 'Сынау',
 	'checkuser-log-fail'     => 'Журналға жазба үстелінбеді',
-	'checkuser-nolog'        => 'Журнал файлы табылмады.'
+	'checkuser-nolog'        => 'Журнал файлы табылмады.',
+	'checkuser-blocked'      => 'Бұғатталған',
 );
 $wgCheckUserMessages['kk-tr'] = array(
 	'checkuser-summary'      => 'Bul qural paýdalanwşı qoldanğan IP jaýlar üşin, nemese IP jaý tüzetw/paýdalanwşı derekterin körsetw üşin jwıqtağı özgeristerdi qarap şığadı.
@@ -263,7 +264,8 @@ $wgCheckUserMessages['kk-tr'] = array(
 	'checkuser-nomatch'      => 'Säýkes tabılmadı.',
 	'checkuser-check'        => 'Sınaw',
 	'checkuser-log-fail'     => 'Jwrnalğa jazba üstelinbedi',
-	'checkuser-nolog'        => 'Jwrnal faýlı tabılmadı.'
+	'checkuser-nolog'        => 'Jwrnal faýlı tabılmadı.',
+	'checkuser-blocked'      => 'Buğattalğan',
 );
 $wgCheckUserMessages['kk-cn'] = array(
 	'checkuser-summary'      => 'بۇل قۇرال پايدالانۋشى قولدانعان IP جايلار ٷشٸن, نەمەسە IP جاي تٷزەتۋ/پايدالانۋشى دەرەكتەرٸن كٶرسەتۋ ٷشٸن جۋىقتاعى ٶزگەرٸستەردٸ قاراپ شىعادى.
@@ -287,7 +289,8 @@ $wgCheckUserMessages['kk-cn'] = array(
 	'checkuser-nomatch'      => 'سٵيكەس تابىلمادى.',
 	'checkuser-check'        => 'سىناۋ',
 	'checkuser-log-fail'     => 'جۋرنالعا جازبا ٷستەلٸنبەدٸ',
-	'checkuser-nolog'        => 'جۋرنال فايلى تابىلمادى.'
+	'checkuser-nolog'        => 'جۋرنال فايلى تابىلمادى.',
+	'checkuser-blocked'      => 'بۇعاتتالعان',
 );
 $wgCheckUserMessages['kk'] = $wgCheckUserMessages['kk-kz'];
 $wgCheckUserMessages['lo'] = array(
