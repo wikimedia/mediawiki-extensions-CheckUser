@@ -158,6 +158,28 @@ $wgCheckUserMessages['fr'] = array(
 	'checkuser-nolog'	 => 'Aucune entrée dans le Journal.',
 	'checkuser-blocked'      => 'Bloqué',
 );
+$wgCheckUserMessages['frc'] = array(
+	'checkuser-summary'      => 'Cet outil observe les derniers changements pour retirer le IP de l\'useur ou pour montrer l\'information de l\'editeur/de l\'useur pour cet IP. Les userus et les changements par le IP d\'un client pouvont être reçus par les en-têtes XFF par additionner le IP avec "/xff". Ipv4 (CIDR 16-32) and IPv6 (CIDR 64-128) sont supportés. Cet outil retourne pas plus que 5000 changements par rapport à la qualité d\'ouvrage.  Usez ça ici en accord avec les régluations.',
+	'checkuser-logcase'      => 'La charche des notes est sensible aux lettres basses ou hautes.',
+	'checkuser'              => '\'Gardez-voir à l\'useur encore',
+	'group-checkuser'        => '\'Gardez-voir aux useurs encore',
+	'group-checkuser-member' => '\'Gardez-voir à l\'useur encore',
+	'grouppage-checkuser'    => '{{ns:project}}:\'Gardez-voir à l\'useur encore',
+	'checkuser-reason'       => 'Raison',
+	'checkuser-showlog'      => 'Montrer les notes',
+	'checkuser-log'          => 'Notes de la Garde d\'useur',
+	'checkuser-query'        => 'Charchez les nouveaux changements',
+	'checkuser-target'       => 'Nom de l\'useur ou IP',
+	'checkuser-users'        => 'Obtenir les useurs',
+	'checkuser-edits'        => 'Obtenir les modifications du IP',
+	'checkuser-ips'          => 'Obtenir les adresses IP',
+	'checkuser-search'       => 'Charche',
+	'checkuser-empty'        => 'Les notes sont vides.',
+	'checkuser-nomatch'      => 'Rien pareil trouvé.',
+	'checkuser-check'        => 'Charche',
+	'checkuser-log-fail'     => 'Pas capable d\'additionner la note',
+	'checkuser-nolog'        => 'Rien trouvé dans les notes.',
+);
 $wgCheckUserMessages['he'] = array(
 	'checkuser-summary'      => 'כלי זה סורק את השינויים האחרונים במטרה למצוא את כתובות ה־IP שהשתמש בהן משתמש מסוים או כדי להציג את כל המידע על המשתמשים שהשתמשו בכתובת IP ועל העריכות שבוצעו ממנה.
 	ניתן לקבל עריכות ומשתמשים מכתובות IP של הכותרת X-Forwarded-For באמצעות הוספת הטקסט "/xff" לסוף הכתובת. הן כתובות IPv4 (כלומר, CIDR 16-32) והן כתובות IPv6 (כלומר, CIDR 64-128) נתמכות.
