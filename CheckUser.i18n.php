@@ -58,6 +58,12 @@ $wgCheckUserMessages['ar'] = array(
 	'checkuser-nolog'        => 'لم يتم العثور على ملف سجل.',
 	'checkuser-blocked'      => 'ممنوع',
 );
+$wgCheckUserMessages['bcl'] = array(
+	'checkuser-reason'       => 'Rason',
+	'checkuser-target'       => 'Parágamit o IP',
+	'checkuser-search'       => 'Hanápon',
+	'checkuser-blocked'      => 'Pigbágat',
+);
 $wgCheckUserMessages['br'] = array(
 	'checkuser'              => 'Gwiriañ an implijer',
 	'group-checkuser'        => 'Gwiriañ an implijerien',
