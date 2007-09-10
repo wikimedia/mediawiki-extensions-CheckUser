@@ -683,7 +683,9 @@ class CheckUser extends SpecialPage
 				$leftover = $parts[0];
 			} else {
 				$leftover = '';
-				break;
+				// Don't give up if there's still space in the file.
+				// We sometimes get big blocks of 0s in the file,
+				// probably due to conflicts via NFS.
 			}
 		} while( $filePosition > 0 );
 		# leftover
