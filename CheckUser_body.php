@@ -334,7 +334,7 @@ class CheckUser extends SpecialPage
 		# Limit cap made to stop nasty timeouts
 		$sql = "SELECT cuc_user_text, cuc_timestamp, cuc_user, cuc_ip, cuc_agent, cuc_xff 
 			FROM $cu_changes FORCE INDEX($index) WHERE $ip_conds 
-			ORDER BY cuc_timestamp DESC LIMIT 10000";
+			ORDER BY cuc_timestamp DESC LIMIT 5000";
 
 		$ret = $dbr->query( $sql, __METHOD__ );
 		
@@ -509,7 +509,7 @@ class CheckUser extends SpecialPage
 		# Limit cap made to stop nasty timeouts
 		$sql = "SELECT cuc_ip, cuc_timestamp 
 			FROM $cu_changes FORCE INDEX(cuc_user_time) WHERE cuc_user = $user_id 
-			ORDER BY cuc_timestamp DESC LIMIT 10000";
+			ORDER BY cuc_timestamp DESC LIMIT 5000";
 
 		$ret = $dbr->query( $sql, __METHOD__ );
 
