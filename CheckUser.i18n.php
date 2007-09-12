@@ -250,6 +250,9 @@ $wgCheckUserMessages['id'] = array(
 	'checkuser-nolog'		 => 'Berkas log tidak ditemukan.',
 
 );
+$wgCheckUserMessages['is'] = array(
+	'checkuser'              => 'Skoða notanda',
+);
 $wgCheckUserMessages['it'] = array(
 	'checkuser'              => 'Controllo utenze',
 	'group-checkuser'        => 'Controllori',
