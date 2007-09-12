@@ -77,7 +77,7 @@ $wgCheckUserMessages['ca'] = array(
 	'grouppage-checkuser'    => '{{ns:project}}:Comprova l\'usuari',
 );
 $wgCheckUserMessages['cs'] = array(
-	'checkuser'              => 'Revize uživatele',
+	'checkuser'              => 'Kontrola uživatele',
 	'group-checkuser'        => 'Revizoři',
 	'group-checkuser-member' => 'Revizor',
 	'grouppage-checkuser'    => '{{ns:project}}:Revize uživatele',
