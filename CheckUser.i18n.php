@@ -354,6 +354,12 @@ $wgCheckUserMessages['lo'] = array(
 	'checkuser-nomatch'      => 'ບໍ່ພົບສິ່ງທີ່ຊອກຫາ',
 	'checkuser-check'        => 'ກວດ',
 );
+$wgCheckUserMessages['nds'] = array(
+	'checkuser'              => 'Bruker nakieken',
+	'group-checkuser'        => 'Brukers nakieken',
+	'group-checkuser-member' => 'Bruker nakieken',
+	'grouppage-checkuser'    => '{{ns:project}}:Checkuser',
+);
 $wgCheckUserMessages['nl'] = array(
 	'checkuser-summary'      => 'Dit hulpmiddel bekijkt recente wijzigingen om IP-adressen die een gebruiker heeft gebruikt te achterhalen of toont de bewerkings- en gebruikersgegegevens voor een IP-adres.
 	Gebruikers en bewerkingen van een IP-adres van een client kunnen achterhaald worden via XFF-haeders door "/xff" achter het IP-adres toe te voegen. IPv4 (CIDR 16-32) en IPv6 (CIDR 64-128) worden ondersteund.
