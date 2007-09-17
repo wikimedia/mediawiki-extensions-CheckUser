@@ -212,18 +212,28 @@ $wgCheckUserMessages['he'] = array(
 	'checkuser-blocked'      => 'חסום',
 );
 $wgCheckUserMessages['hsb'] = array(
+	'checkuser-summary'      => 'Tutón nastroj přepytuje aktualne změny, zo by IP-adresy wužiwarja zwěsćił abo změny abo wužiwarske daty za IP pokazał.
+Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěšo "/xff" na IP-adresu. IPv4 (CIDR 16-32) a IPv6 (CIDR 64-128) so podpěrujetej.',
 	'checkuser-logcase'      => 'Pytanje w protokolu rozeznawa mjez wulko- a małopisanjom.',
+	'checkuser'              => 'Wužiwarja kontrolować',
+	'group-checkuser'        => 'Kontrolerojo',
+	'group-checkuser-member' => 'Kontroler',
+	'grouppage-checkuser'    => '{{ns:project}}:Kontrola wužiwarja',
 	'checkuser-reason'       => 'Přičina',
 	'checkuser-showlog'      => 'Protokol pokazać',
+	'checkuser-log'          => 'Protokol wužiwarskeje kontrole',
 	'checkuser-query'        => 'Poslednje změny wotprašeć',
 	'checkuser-target'       => 'Wužiwar abo IP-adresa',
+	'checkuser-users'        => 'Wužiwarjow pokazać',
+	'checkuser-edits'        => 'Změny z IP-adresy přinjesć',
+	'checkuser-ips'          => 'IP-adresy pokazać',
 	'checkuser-search'       => 'Pytać',
 	'checkuser-empty'        => 'Protokol njewobsahuje zapiski.',
 	'checkuser-nomatch'      => 'Žane wotpowědniki namakane.',
 	'checkuser-check'        => 'Pruwować',
 	'checkuser-log-fail'     => 'Njemóžno protokolowy zapisk přidać.',
 	'checkuser-nolog'        => 'Žadyn protokol namakany.',
-	'checkuser-blocked'      => 'zablokowany',
+	'checkuser-blocked'      => 'Zablokowany',
 );
 $wgCheckUserMessages['id'] = array(
 	'checkuser-summary'		 => 'Peralatan ini memindai perubahan terbaru untuk mendapatkan IP yang digunakan oleh seorang pengguna atau menunjukkan data suntingan/pengguna untuk suatu IP.
