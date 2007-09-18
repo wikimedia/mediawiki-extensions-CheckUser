@@ -62,6 +62,9 @@ class CheckUser extends SpecialPage
 
 		$this->doForm( $user, $reason, $checktype, $ip, $xff, $name );
 		$this->showLog( $user );
+		
+		if( !$wgRequest->wasPosted() )
+			return;
 
 		if( $checktype=='subuserips' ) {
 			$this->doUserIPsRequest( $name, $reason );
