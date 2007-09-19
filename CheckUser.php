@@ -71,7 +71,7 @@ function efUpdateCheckUserData( $rc ) {
 		'cuc_last_oldid' => $rc_last_oldid,
 		'cuc_type' => $rc_type,
 		'cuc_timestamp' => $rc_timestamp,
-		'cuc_ip' => $ip,
+		'cuc_ip' => IP::sanitizeIP($ip),
 		'cuc_ip_hex' => $ip ? IP::toHex( $ip ) : null,
 		'cuc_xff' => !$isSquidOnly ? $xff : '',
 		'cuc_xff_hex' => ($xff_ip && !$isSquidOnly) ? IP::toHex( $xff_ip ) : null,
