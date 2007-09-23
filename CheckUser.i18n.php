@@ -218,7 +218,7 @@ Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěš
 	'checkuser'              => 'Wužiwarja kontrolować',
 	'group-checkuser'        => 'Kontrolerojo',
 	'group-checkuser-member' => 'Kontroler',
-	'grouppage-checkuser'    => '{{ns:project}}:Kontrola wužiwarja',
+	'grouppage-checkuser'    => '{{ns:project}}:Checkuser',
 	'checkuser-reason'       => 'Přičina',
 	'checkuser-showlog'      => 'Protokol pokazać',
 	'checkuser-log'          => 'Protokol wužiwarskeje kontrole',
