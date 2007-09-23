@@ -351,6 +351,9 @@ $wgCheckUserMessages['kk-cn'] = array(
 	'checkuser-blocked'      => 'بۇعاتتالعان',
 );
 $wgCheckUserMessages['kk'] = $wgCheckUserMessages['kk-kz'];
+$wgCheckUserMessages['la'] = array(
+	'checkuser-search'       => 'Quaerere',
+);
 $wgCheckUserMessages['lo'] = array(
 	'checkuser'              => 'ກວດຜູ້ໃຊ້',
 	'checkuser-reason'       => 'ເຫດຜົນ',
