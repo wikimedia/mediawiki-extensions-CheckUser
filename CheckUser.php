@@ -173,10 +173,8 @@ function efCheckUserSchemaUpdates() {
 	}
 	
 	if ($wgDBtype == 'mysql') {	
-		$wgExtNewIndexes[] = array('cu_changes', 'cuc_ip_hex_time', 
-			"$base/archives/patch-cu_changes_indexes.sql" );
-		$wgExtNewIndexes[] = array('cu_changes', 'cuc_user_ip_time', 
-			"$base/archives/patch-cu_changes_indexes2.sql" );
+		$wgExtNewIndexes[] = array('cu_changes', 
+			'cuc_user_time', "$base/archives/patch-cu_changes_indexes.sql" );
 	}
 	return true;
 }
