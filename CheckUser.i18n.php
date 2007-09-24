@@ -108,6 +108,7 @@ $wgCheckUserMessages['de'] = array(
 	'checkuser-log-fail'	 => 'Logbuch-Eintrag kann nicht hinzugefügt werden.',
 	'checkuser-nolog'	 => 'Kein Logbuch vorhanden.',
 	'checkuser-blocked'      => 'gesperrt',
+	'checkuser-too-many'     => 'Die Ausgabeliste ist zu lang, bitte begrenze den IP-Bereich:',
 );
 $wgCheckUserMessages['fi'] = array(
 	'checkuser-summary'      => 'Tämän työkalun avulla voidaan tutkia tuoreet muutokset ja paljastaa käyttäjien IP-osoitteet tai noutaa IP-osoitteiden muokkaukset ja käyttäjätiedot.
