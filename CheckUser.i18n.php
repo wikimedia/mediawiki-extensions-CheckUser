@@ -107,7 +107,6 @@ $wgCheckUserMessages['de'] = array(
 	'checkuser-log-fail'	 => 'Logbuch-Eintrag kann nicht hinzugefügt werden.',
 	'checkuser-nolog'	 => 'Kein Logbuch vorhanden.',
 	'checkuser-blocked'      => 'gesperrt',
-	'checkuser-too-many'     => 'Die Ausgabeliste ist zu lang, bitte begrenze den IP-Bereich:',
 );
 $wgCheckUserMessages['fi'] = array(
 	'checkuser-summary'      => 'Tämän työkalun avulla voidaan tutkia tuoreet muutokset ja paljastaa käyttäjien IP-osoitteet tai noutaa IP-osoitteiden muokkaukset ja käyttäjätiedot.
@@ -211,7 +210,6 @@ $wgCheckUserMessages['he'] = array(
 	'checkuser-log-fail'     => 'לא ניתן היה להוסיף פריט ליומן',
 	'checkuser-nolog'        => 'לא נמצא קובץ יומן.',
 	'checkuser-blocked'      => 'חסום',
-	'checkuser-too-many'     => 'נמצאו תוצאות רבות מדי, אנא צמצו את כתובת ה־IP:',
 );
 $wgCheckUserMessages['hsb'] = array(
 	'checkuser-summary'      => 'Tutón nastroj přepytuje aktualne změny, zo by IP-adresy wužiwarja zwěsćił abo změny abo wužiwarske daty za IP pokazał.
