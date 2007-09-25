@@ -113,8 +113,8 @@ $wgCheckUserMessages['fi'] = array(
 	Käyttäjät ja muokkaukset voidaan hakea myös uudelleenohjausosoitteen (X-Forwarded-For) takaa käyttämällä IP-osoitteen perässä <tt>/xff</tt> -merkintää. Työkalu tukee sekä IPv4 (CIDR 16–32) ja IPv6 (CIDR 64–128) -standardeja.',
 	'checkuser-logcase'      => 'Haku lokista on kirjainkokoriippuvainen.',
 	'checkuser'              => 'Osoitepaljastin',
-	'group-checkuser'        => 'Osoitepaljastimen käyttäjät',
-	'group-checkuser-member' => 'Osoitepaljastimen käyttäjä',
+	'group-checkuser'        => 'osoitepaljastimen käyttäjät',
+	'group-checkuser-member' => 'osoitepaljastimen käyttäjä',
 	'grouppage-checkuser'    => '{{ns:project}}:Osoitepaljastin',
 	'checkuser-reason'       => 'Syy',
 	'checkuser-showlog'      => 'Näytä loki',
@@ -130,6 +130,7 @@ $wgCheckUserMessages['fi'] = array(
 	'checkuser-check'        => 'Tarkasta',
 	'checkuser-log-fail'     => 'Lokitapahtuman lisäys epäonnistui',
 	'checkuser-nolog'        => 'Lokitiedostoa ei löytynyt.',
+	'checkuser-blocked'      => 'Estetty',
 );
 $wgCheckUserMessages['es'] = array(
 	'checkuser'              => 'Verificador del usuarios',
