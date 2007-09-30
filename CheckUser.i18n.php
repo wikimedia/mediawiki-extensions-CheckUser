@@ -108,6 +108,12 @@ $wgCheckUserMessages['de'] = array(
 	'checkuser-nolog'	 => 'Kein Logbuch vorhanden.',
 	'checkuser-blocked'      => 'gesperrt',
 );
+$wgCheckUserMessages['es'] = array(
+	'checkuser'              => 'Verificador del usuarios',
+	'group-checkuser'        => 'Verificadors del usuarios',
+	'group-checkuser-member' => 'Verificador del usuarios',
+	'grouppage-checkuser'    => '{{ns:project}}:verificador del usuarios',
+);
 $wgCheckUserMessages['ext'] = array(
 	'checkuser-reason'       => 'Razón',
 	'checkuser-search'       => 'Landeal',
@@ -135,12 +141,6 @@ $wgCheckUserMessages['fi'] = array(
 	'checkuser-log-fail'     => 'Lokitapahtuman lisäys epäonnistui',
 	'checkuser-nolog'        => 'Lokitiedostoa ei löytynyt.',
 	'checkuser-blocked'      => 'Estetty',
-);
-$wgCheckUserMessages['es'] = array(
-	'checkuser'              => 'Verificador del usuarios',
-	'group-checkuser'        => 'Verificadors del usuarios',
-	'group-checkuser-member' => 'Verificador del usuarios',
-	'grouppage-checkuser'    => '{{ns:project}}:verificador del usuarios',
 );
 $wgCheckUserMessages['fr'] = array(
 	'checkuser-summary'	 => 'Cet outil balaye les changements récents à la recherche de l’adresse IP employée 
@@ -215,6 +215,9 @@ $wgCheckUserMessages['he'] = array(
 	'checkuser-log-fail'     => 'לא ניתן היה להוסיף פריט ליומן',
 	'checkuser-nolog'        => 'לא נמצא קובץ יומן.',
 	'checkuser-blocked'      => 'חסום',
+);
+$wgCheckUserMessages['hr'] = array(
+	'checkuser'              => 'Provjeri suradnika',
 );
 $wgCheckUserMessages['hsb'] = array(
 	'checkuser-summary'      => 'Tutón nastroj přepytuje aktualne změny, zo by IP-adresy wužiwarja zwěsćił abo změny abo wužiwarske daty za IP pokazał.
@@ -506,6 +509,12 @@ $wgCheckUserMessages['pt'] = array(
 	'checkuser-log-fail'     => 'Não foi possível adicionar entradas ao registo',
 	'checkuser-nolog'        => 'Não foi encontrado um arquivo de registos.',
 	'checkuser-blocked'      => 'Bloqueado',
+);
+$wgCheckUserMessages['ro'] = array(
+	'checkuser'              => 'Verifică utilizatorul',
+	'group-checkuser'        => 'Checkuseri',
+	'group-checkuser-member' => 'Checkuser',
+	'grouppage-checkuser'    => '{{ns:project}}:Checkuser',
 );
 $wgCheckUserMessages['ru'] = array(
 	'checkuser-summary'      => 'Данный инструмент может быть использован, чтобы получить IP-адреса, использовавшиеся участником, либо чтобы показать правки/участников, работавших с IP-адреса.
