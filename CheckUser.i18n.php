@@ -146,7 +146,7 @@ $wgCheckUserMessages['fr'] = array(
 	'checkuser-summary'	 => 'Cet outil balaye les changements récents à la recherche de l’adresse IP employée 
 	par un utilisateur, affiche toutes les éditions d’une adresse IP (même enregistrée), ou liste les comptes utilisés 
 	par une adresse IP. Les comptes et modifications peuvent être trouvés avec une IP XFF si elle finit avec « /xff ». 
-	Il est possible d’utiliser les protocoles IPv4 (CIDR 16-32) et IPv6 (CIDR 64-128). 
+	Il est possible d’utiliser les protocoles IPv4 (CIDR 16-32) et IPv6 (CIDR 64-128). Le nombre d’éditions affichables est limité à 5000 pour des questions de performance du serveur.
 	Veuillez utiliser cet outil dans les limites de la charte d’utilisation.',
 	'checkuser-logcase'	 => 'La recherche dans le Journal est sensible à la casse.',
 	'checkuser'              => 'Vérificateur d’utilisateur',
@@ -155,7 +155,7 @@ $wgCheckUserMessages['fr'] = array(
 	'grouppage-checkuser'    => '{{ns:projet}}:Vérificateur d’utilisateur',
 	'checkuser-reason'	 => 'Motif',
 	'checkuser-showlog'	 => 'Afficher le journal',
-	'checkuser-log'	         => 'Notation de Vérificateur d’utilisateur',
+	'checkuser-log'	         => 'Journal de Vérificateur d’utilisateur',
 	'checkuser-query'	 => 'Recherche par les changements récents',
 	'checkuser-target'	 => 'Nom de l’utilisateur ou IP',
 	'checkuser-users'	 => 'Obtenir les utilisateurs',
