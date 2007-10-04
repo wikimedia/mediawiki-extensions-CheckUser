@@ -583,7 +583,7 @@ $wgCheckUserMessages['sv'] = array(
 Användare och redigeringar kan visas med IP-adress från XFF genom att lägga till "/xff" efter IP-adressen. Verktyget stödjer IPv4 (CIDR 16-32) och IPv6 (CIDR 64-128).
 På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd verktyget i enlighet med policy.',
 	'checkuser-logcase'      => 'Loggsökning är skiftlägeskänslig.',
-	'checkuser'              => 'Kontroll av användare',
+	'checkuser'              => 'IP-kontrollant',
 	'group-checkuser'        => 'Användarkontrollanter',
 	'group-checkuser-member' => 'Användarkontrollant',
 	'grouppage-checkuser'    => '{{ns:project}}:Användarkontrollant',
@@ -601,7 +601,7 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 	'checkuser-check'        => 'Kontrollera',
 	'checkuser-log-fail'     => 'Loggposten kunde inte läggas i loggfilen.',
 	'checkuser-nolog'        => 'Hittade ingen loggfil.',
-	'checkuser-blocked'      => 'Blockerad'
+	'checkuser-blocked'      => 'Blockerad',
 );
 $wgCheckUserMessages['wa'] = array(
 	'checkuser' => 'Verifyî l\' uzeu',
