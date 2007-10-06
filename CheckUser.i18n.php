@@ -455,10 +455,24 @@ $wgCheckUserMessages['oc'] = array(
 	'checkuser-nolog'        => 'Cap de dintrada dins lo Jornal.',
 );
 $wgCheckUserMessages['pl'] = array(
+	'checkuser-summary'      => 'To narzędzie skanuje ostatnie zmiany by znaleźć adresy IP użyte przez użytkownika lub pokazać edycje/użytkowników dla adresu IP. Użytkownicy i edycje spod adresu IP mogą być pozyskane przez nagłówki XFF przez dodanie do IP "/xff". Obsługiwane są adresy IPv4 (CIDR 16-32) I IPv6 (CIDR 64-128). Ze względu na wydajność, zostanie zwróconych nie więcej niż 5000 edycji. Prosimy o używanie tej funkcji zgodnie z zasadami.',
+	'checkuser-logcase'      => 'Szukanie w logu jest czułe na wielkość znaków',
 	'checkuser'              => 'Sprawdź użytkownika',
-	'group-checkuser'        => 'Check users',
-	'group-checkuser-member' => 'Check user',
-	'grouppage-checkuser'    => '{{ns:project}}:Check user',
+	'checkuser-reason'       => 'Powód',
+	'checkuser-showlog'      => 'Pokaż log',
+	'checkuser-log'          => 'Log Checkuser',
+	'checkuser-query'        => 'Przeanalizuj ostatnie zmiany',
+	'checkuser-target'       => 'Użytkownik lub IP',
+	'checkuser-users'        => 'Znajdź użytkowników',
+	'checkuser-edits'        => 'Znajdź edycje z IP',
+	'checkuser-ips'          => 'Znajdź adresy IP',
+	'checkuser-search'       => 'Szukaj',
+	'checkuser-empty'        => 'Log nie zawiera żadnych wpisów.',
+	'checkuser-nomatch'      => 'Nie znaleziono niczego.',
+	'checkuser-check'        => 'Log nie zawiera żadnych wpisów.',
+	'checkuser-log-fail'     => 'Nie udało się dodać wpisu do logu.',
+	'checkuser-nolog'        => 'Nie znaleziono pliku logu.',
+	'checkuser-blocked'      => 'Zablokowany',
 );
 $wgCheckUserMessages['pms'] = array(
 	'checkuser-summary'      => 'St\'utiss-sì as passa j\'ùltime modìfiche për tiré sù j\'adrësse IP dovra da n\'utent ò pura mostré lòn ch\'as fa da n\'adrëssa IP e che dat utent ch\'a l\'abia associà.
