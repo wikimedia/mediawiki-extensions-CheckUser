@@ -431,6 +431,7 @@ Av ytelsesgrunner vises maksimalt 5000 redigeringer. Bruk dette verktøyet i sam
 	'checkuser-check'        => 'Sjekk',
 	'checkuser-log-fail'     => 'Kunne ikke legge til loggelement.',
 	'checkuser-nolog'        => 'Ingen loggfil funnet.',
+	'checkuser-blocked'      => 'Blokkert',
 );
 $wgCheckUserMessages['oc'] = array(
 	'checkuser-summary'      => 'Aqueste esplech passa en revista los cambiaments recents per recercar l\'IPS emplegada per un utilizaire, mostrar totas las edicions fachas per una IP, o per enumerar los utilizaires qu\'an emplegat las IPs. Los utilizaires e las modificacions pòdon èsser trobatss amb una IP XFF se s\'acaba amb « /xff ». IPv4 (CIDR 16-32) e IPv6(CIDR 64-128) son suportats. Emplegatz aquò segon las cadenas de caractèrs.',
