@@ -360,6 +360,7 @@ $wgCheckUserMessages['kk-cn'] = array(
 );
 $wgCheckUserMessages['kk'] = $wgCheckUserMessages['kk-kz'];
 $wgCheckUserMessages['la'] = array(
+	'checkuser-reason'       => 'Causa',
 	'checkuser-search'       => 'Quaerere',
 );
 $wgCheckUserMessages['lo'] = array(
