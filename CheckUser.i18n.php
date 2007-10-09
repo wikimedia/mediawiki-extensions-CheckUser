@@ -272,10 +272,24 @@ $wgCheckUserMessages['is'] = array(
 	'checkuser'              => 'Skoða notanda',
 );
 $wgCheckUserMessages['it'] = array(
+	'checkuser-summary'      => 'Questo strumento analizza le modifiche recenti per recuperare gli indirizzi IP utilizzati da un utente o mostrare contributi e dati di un IP. Utenti e contributi di un client IP possono essere rintracciati attraverso gli header XFF aggiungendo all\'IP il suffisso "/xff". Sono supportati IPv4 (CIDR 16-32) e IPv6 (CIDR 64-128). Non saranno restituite più di 5.000 modifiche, per ragioni di prestazioni. Usa questo strumento in stretta conformità alle policy.',
+	'checkuser-logcase'      => 'La ricerca nei log è \'\'case sensitive\'\' (distingue fra maiuscole e minuscole).',
 	'checkuser'              => 'Controllo utenze',
 	'group-checkuser'        => 'Controllori',
 	'group-checkuser-member' => 'Controllore',
 	'grouppage-checkuser'    => '{{ns:project}}:Controllo utenze',
+	'checkuser-reason'       => 'Motivazione',
+	'checkuser-showlog'      => 'Mostra il log',
+	'checkuser-log'          => 'Log dei checkuser',
+	'checkuser-query'        => 'Cerca nelle ultime modifiche',
+	'checkuser-target'       => 'Utente o IP',
+	'checkuser-users'        => 'Cerca utenti',
+	'checkuser-edits'        => 'Vedi i contributi degli IP',
+	'checkuser-ips'          => 'Cerca IP',
+	'checkuser-search'       => 'Cerca',
+	'checkuser-empty'        => 'Il log non contiene dati.',
+	'checkuser-nomatch'      => 'Nessun risultato trovato.',
+	'checkuser-check'        => 'Controlla',
 );
 $wgCheckUserMessages['ja'] = array(
 	'checkuser'              => 'チェックユーザー',
