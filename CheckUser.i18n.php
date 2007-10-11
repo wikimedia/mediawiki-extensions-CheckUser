@@ -59,8 +59,11 @@ $wgCheckUserMessages['ar'] = array(
 	'checkuser-blocked'      => 'ممنوع',
 );
 $wgCheckUserMessages['bcl'] = array(
-	'checkuser-reason'       => 'Rason',
+	'checkuser-reason'       => 'Rasón',
+	'checkuser-showlog'      => 'Ipahiling an mga historial',
 	'checkuser-target'       => 'Parágamit o IP',
+	'checkuser-users'        => 'Kûanón',
+	'checkuser-ips'          => 'Kûanón an mga IP',
 	'checkuser-search'       => 'Hanápon',
 	'checkuser-blocked'      => 'Pigbágat',
 );
