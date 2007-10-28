@@ -32,6 +32,9 @@ $wgCheckUserMessages['en'] = array(
 	'checkuser-nolog'        => 'No log file found.',
 	'checkuser-blocked'      => 'Blocked',
 );
+$wgCheckUserMessages['ang'] = array(
+	'checkuser-reason'       => 'Racu',
+);
 /* Arabic (Meno25) */
 $wgCheckUserMessages['ar'] = array(
 	'checkuser-summary'      => 'هذه الأداة تفحص أحدث التغييرات لاسترجاع الأيبيهات المستخدمة بواسطة مستخدم أو عرض بيانات التعديل/المستخدم لأيبي.
@@ -220,7 +223,27 @@ $wgCheckUserMessages['he'] = array(
 	'checkuser-blocked'      => 'חסום',
 );
 $wgCheckUserMessages['hr'] = array(
+	'checkuser-summary'      => 'Ovaj alat pretražuje nedavne promjene i pronalazi IP adrese suradnika ili prikazuje uređivanja/ime suradnika ako je zadana IP adresa. Suradnici i uređivanja mogu biti dobiveni po XFF zaglavljima dodavanjem "/xff" na kraj IP adrese. Podržane su IPv4 (CIDR 16-32) i IPv6 (CIDR 64-128) adrese. Rezultat ima maksimalno 5.000 zapisa iz tehničkih razloga. Rabite ovaj alat u skladu s pravilima.',
+	'checkuser-logcase'      => 'Provjera evidencije razlikuje velika i mala slova',
 	'checkuser'              => 'Provjeri suradnika',
+	'group-checkuser'        => 'Check users',#identical but defined
+	'group-checkuser-member' => 'Check user',#identical but defined
+	'grouppage-checkuser'    => '{{ns:project}}:Checkuser',
+	'checkuser-reason'       => 'Razlog',
+	'checkuser-showlog'      => 'Pokaži evidenciju',
+	'checkuser-log'          => 'Checkuser evidencija',
+	'checkuser-query'        => 'Provjeri nedavne promjene',
+	'checkuser-target'       => 'Suradnik ili IP',
+	'checkuser-users'        => 'suradničko ime',
+	'checkuser-edits'        => 'uređivanja tog IP-a',
+	'checkuser-ips'          => 'Nađi IP adrese',
+	'checkuser-search'       => 'Traži',
+	'checkuser-empty'        => 'Evidencija je prazna.',
+	'checkuser-nomatch'      => 'Nema suradnika s tom IP adresom.',
+	'checkuser-check'        => 'Provjeri',
+	'checkuser-log-fail'     => 'Ne mogu dodati zapis',
+	'checkuser-nolog'        => 'Evidencijska datoteka nije nađena',
+	'checkuser-blocked'      => 'Blokiran',
 );
 $wgCheckUserMessages['hsb'] = array(
 	'checkuser-summary'      => 'Tutón nastroj přepytuje aktualne změny, zo by IP-adresy wužiwarja zwěsćił abo změny abo wužiwarske daty za IP pokazał.
@@ -273,6 +296,8 @@ $wgCheckUserMessages['id'] = array(
 );
 $wgCheckUserMessages['is'] = array(
 	'checkuser'              => 'Skoða notanda',
+	'group-checkuser'        => 'Athuga notendur',
+	'group-checkuser-member' => 'Athuga notanda',
 );
 $wgCheckUserMessages['it'] = array(
 	'checkuser-summary'      => 'Questo strumento analizza le modifiche recenti per recuperare gli indirizzi IP utilizzati da un utente o mostrare contributi e dati di un IP. Utenti e contributi di un client IP possono essere rintracciati attraverso gli header XFF aggiungendo all\'IP il suffisso "/xff". Sono supportati IPv4 (CIDR 16-32) e IPv6 (CIDR 64-128). Non saranno restituite più di 5.000 modifiche, per ragioni di prestazioni. Usa questo strumento in stretta conformità alle policy.',
@@ -376,6 +401,9 @@ $wgCheckUserMessages['kk-cn'] = array(
 	'checkuser-blocked'      => 'بۇعاتتالعان',
 );
 $wgCheckUserMessages['kk'] = $wgCheckUserMessages['kk-kz'];
+$wgCheckUserMessages['kn'] = array(
+	'checkuser'              => 'ಸದಸ್ಯನನ್ನು ಚೆಕ್ ಮಾಡಿ',
+);
 $wgCheckUserMessages['la'] = array(
 	'checkuser-reason'       => 'Causa',
 	'checkuser-search'       => 'Quaerere',
