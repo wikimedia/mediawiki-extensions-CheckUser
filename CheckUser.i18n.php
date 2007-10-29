@@ -197,6 +197,25 @@ $wgCheckUserMessages['frc'] = array(
 	'checkuser-log-fail'     => 'Pas capable d\'additionner la note',
 	'checkuser-nolog'        => 'Rien trouvé dans les notes.',
 );
+$wgCheckUserMessages['gl'] = array(
+	'checkuser-summary'      => 'Esta ferramenta analiza os cambios recentes para recuperar os enderezos IPs utilizados por un usuario ou amosar as edicións / datos do usuario dun enderezo de IP.
+Os usuarios e as edicións por un cliente IP poden ser recuperados a través das cabeceiras XFF engadindo o enderezo IP con "/ xff". IPv4 (CIDR 16-32) e o IPv6 (CIDR 64-128) están soportadas.',
+	'checkuser-logcase'      => 'O rexistro de búsqueda é sensíbel a maiúsculas e minúsculas.',
+	'checkuser-reason'       => 'Razón',
+	'checkuser-showlog'      => 'Amosar rexistro',
+	'checkuser-query'        => 'Consulta de cambios recentes',
+	'checkuser-target'       => 'Usuario ou enderezo IP',
+	'checkuser-users'        => 'Obter usuarios',
+	'checkuser-edits'        => 'Obter edicións de enderezos IP',
+	'checkuser-ips'          => 'Conseguir enderezos IPs',
+	'checkuser-search'       => 'Buscar',
+	'checkuser-empty'        => 'O rexistro non contén artigos.',
+	'checkuser-nomatch'      => 'Non se atoparon coincidencias.',
+	'checkuser-check'        => 'Comprobar',
+	'checkuser-log-fail'     => 'Non é posíbel engadir unha entrada no rexistro',
+	'checkuser-nolog'        => 'Ningún arquivo de rexistro.',
+	'checkuser-blocked'      => 'Bloqueado',
+);
 $wgCheckUserMessages['he'] = array(
 	'checkuser-summary'      => 'כלי זה סורק את השינויים האחרונים במטרה למצוא את כתובות ה־IP שהשתמש בהן משתמש מסוים או כדי להציג את כל המידע על המשתמשים שהשתמשו בכתובת IP ועל העריכות שבוצעו ממנה.
 	ניתן לקבל עריכות ומשתמשים מכתובות IP של הכותרת X-Forwarded-For באמצעות הוספת הטקסט "/xff" לסוף הכתובת. הן כתובות IPv4 (כלומר, CIDR 16-32) והן כתובות IPv6 (כלומר, CIDR 64-128) נתמכות.
@@ -320,10 +339,28 @@ $wgCheckUserMessages['it'] = array(
 	'checkuser-check'        => 'Controlla',
 );
 $wgCheckUserMessages['ja'] = array(
+	'checkuser-summary'      => 'チェックユーザーでは、利用者が使っているIPアドレスや、IPアドレスから編集及び利用者データを、最近の更新から調査します。
+クライアントIPによる利用者と編集は、IPアドレスと共に「/xff」を追加すれば、XFFヘッダを通して検索出来ます。
+IPv4 (CIDR 16-32) と IPv6 (CIDR 64-128) が利用出来ます。
+パフォーマンス上の理由により、5000件の編集しか返答出来ません。
+方針に従って利用してください。',
+	'checkuser-logcase'      => 'ログの検索では大文字と小文字を区別します。',
 	'checkuser'              => 'チェックユーザー',
 	'group-checkuser'        => 'チェックユーザー',
 	'group-checkuser-member' => 'チェックユーザー',
 	'grouppage-checkuser'    => '{{ns:project}}:チェックユーザー',
+	'checkuser-reason'       => '理由',
+	'checkuser-showlog'      => 'ログを閲覧',
+	'checkuser-log'          => 'チェックユーザー・ログ',
+	'checkuser-query'        => '最近の更新を照会',
+	'checkuser-target'       => '利用者名又はIPアドレス',
+	'checkuser-users'        => '利用者名を得る',
+	'checkuser-edits'        => 'IPアドレスからの編集を得る',
+	'checkuser-ips'          => 'IPアドレスを得る',
+	'checkuser-search'       => '検索',
+	'checkuser-empty'        => 'ログ内にアイテムがありません。',
+	'checkuser-check'        => '調査',
+	'checkuser-nolog'        => 'ログファイルが見つかりません。',
 );
 $wgCheckUserMessages['kk-kz'] = array(
 	'checkuser-summary'      => 'Бұл құрал пайдаланушы қолданған IP жайлар үшін, немесе IP жай түзету/пайдаланушы деректерін көрсету үшін жуықтағы өзгерістерді қарап шығады.
