@@ -608,6 +608,10 @@ $wgCheckUserMessages['pt'] = array(
 	'checkuser-nolog'        => 'Não foi encontrado um arquivo de registos.',
 	'checkuser-blocked'      => 'Bloqueado',
 );
+$wgCheckUserMessages['rm'] = array(
+	'checkuser-reason'       => 'Motiv',
+	'checkuser-search'       => 'Tschertgar',
+);
 $wgCheckUserMessages['ro'] = array(
 	'checkuser'              => 'Verifică utilizatorul',
 	'group-checkuser'        => 'Checkuseri',
