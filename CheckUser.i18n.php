@@ -222,8 +222,13 @@ $wgCheckUserMessages['gl'] = array(
 	'checkuser-summary'      => 'Esta ferramenta analiza os cambios recentes para recuperar os enderezos IPs utilizados por un usuario ou amosar as edicións / datos do usuario dun enderezo de IP.
 Os usuarios e as edicións por un cliente IP poden ser recuperados a través das cabeceiras XFF engadindo o enderezo IP con "/ xff". IPv4 (CIDR 16-32) e o IPv6 (CIDR 64-128) están soportadas.',
 	'checkuser-logcase'      => 'O rexistro de búsqueda é sensíbel a maiúsculas e minúsculas.',
+	'checkuser'              => 'Verificador de usuarios',
+	'group-checkuser'        => 'Verificadores de usuarios',
+	'group-checkuser-member' => 'Verificador usuarios',
+	'grouppage-checkuser'    => '{{ns:project}}:Verificador de usuarios',
 	'checkuser-reason'       => 'Razón',
 	'checkuser-showlog'      => 'Amosar rexistro',
+	'checkuser-log'          => 'Rexistro de verificador de usuarios',
 	'checkuser-query'        => 'Consulta de cambios recentes',
 	'checkuser-target'       => 'Usuario ou enderezo IP',
 	'checkuser-users'        => 'Obter usuarios',
@@ -558,6 +563,7 @@ $wgCheckUserMessages['oc'] = array(
 	'checkuser-check'        => 'Recèrca',
 	'checkuser-log-fail'     => 'Incapaç d\'ajustar la dintrada del jornal.',
 	'checkuser-nolog'        => 'Cap de dintrada dins lo Jornal.',
+	'checkuser-blocked'      => 'Blocat',
 );
 $wgCheckUserMessages['pl'] = array(
 	'checkuser-summary'      => 'To narzędzie skanuje ostatnie zmiany by znaleźć adresy IP użyte przez użytkownika lub pokazać edycje/użytkowników dla adresu IP. Użytkownicy i edycje spod adresu IP mogą być pozyskane przez nagłówki XFF przez dodanie do IP "/xff". Obsługiwane są adresy IPv4 (CIDR 16-32) I IPv6 (CIDR 64-128). Ze względu na wydajność, zostanie zwróconych nie więcej niż 5000 edycji. Prosimy o używanie tej funkcji zgodnie z zasadami.',
