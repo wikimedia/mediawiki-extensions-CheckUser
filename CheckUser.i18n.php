@@ -174,30 +174,26 @@ $wgCheckUserMessages['fi'] = array(
 	'checkuser-blocked'      => 'Estetty',
 );
 $wgCheckUserMessages['fr'] = array(
-	'checkuser-summary'	 => 'Cet outil balaye les changements récents à la recherche de l’adresse IP employée 
-	par un utilisateur, affiche toutes les éditions d’une adresse IP (même enregistrée), ou liste les comptes utilisés 
-	par une adresse IP. Les comptes et modifications peuvent être trouvés avec une IP XFF si elle finit avec « /xff ». 
-	Il est possible d’utiliser les protocoles IPv4 (CIDR 16-32) et IPv6 (CIDR 64-128). Le nombre d’éditions affichables est limité à 5000 pour des questions de performance du serveur.
-	Veuillez utiliser cet outil dans les limites de la charte d’utilisation.',
-	'checkuser-logcase'	 => 'La recherche dans le Journal est sensible à la casse.',
+	'checkuser-summary'      => 'Cet outil parcourt la liste des changements récents à la recherche de l’adresse IP employée par un utilisateur, affiche toutes les éditions d’une adresse IP (même enregistrée), ou liste les comptes utilisés par une adresse IP. Les comptes et les modifications peuvent être trouvés avec une IP XFF si elle finit avec « /xff ». Il est possible d’utiliser les protocoles IPv4 (CIDR 16-32) et IPv6 (CIDR 64-128). Le nombre d’éditions affichables est limité à {{formatnum:5000}} pour des questions de performance du serveur. Veuillez utiliser cet outil dans les limites de la charte d’utilisation.',
+	'checkuser-logcase'      => 'La recherche dans le journal est sensible à la casse.',
 	'checkuser'              => 'Vérificateur d’utilisateur',
 	'group-checkuser'        => 'Vérificateurs d’utilisateur',
 	'group-checkuser-member' => 'Vérificateur d’utilisateur',
 	'grouppage-checkuser'    => '{{ns:projet}}:Vérificateur d’utilisateur',
-	'checkuser-reason'	 => 'Motif',
-	'checkuser-showlog'	 => 'Afficher le journal',
-	'checkuser-log'	         => 'Journal de Vérificateur d’utilisateur',
-	'checkuser-query'	 => 'Recherche par les changements récents',
-	'checkuser-target'	 => 'Nom de l’utilisateur ou IP',
-	'checkuser-users'	 => 'Obtenir les utilisateurs',
-	'checkuser-edits'	 => 'Obtenir les modifications de l’IP',
-	'checkuser-ips'	  	 => 'Obtenir les adresses IP',
-	'checkuser-search'	 => 'Recherche',
-	'checkuser-empty'	 => 'Le journal ne contient aucun article',
-	'checkuser-nomatch'	 => 'Recherches infructueuses.',
-	'checkuser-check'	 => 'Recherche',
-	'checkuser-log-fail'	 => 'Impossible d’ajouter l’entrée du journal.',
-	'checkuser-nolog'	 => 'Aucune entrée dans le Journal.',
+	'checkuser-reason'       => 'Motif',
+	'checkuser-showlog'      => 'Afficher le journal',
+	'checkuser-log'          => 'Journal de vérificateur d’utilisateur',
+	'checkuser-query'        => 'Recherche par les changements récents',
+	'checkuser-target'       => 'Nom d\'utilisateur ou adresse IP',
+	'checkuser-users'        => 'Obtenir les utilisateurs',
+	'checkuser-edits'        => 'Obtenir les modifications de l’adresse IP',
+	'checkuser-ips'          => 'Obtenir les adresses IP',
+	'checkuser-search'       => 'Recherche',
+	'checkuser-empty'        => 'Le journal ne contient aucun article',
+	'checkuser-nomatch'      => 'Recherches infructueuses.',
+	'checkuser-check'        => 'Recherche',
+	'checkuser-log-fail'     => 'Impossible d’ajouter l’entrée du journal.',
+	'checkuser-nolog'        => 'Aucune entrée dans le journal',
 	'checkuser-blocked'      => 'Bloqué',
 );
 $wgCheckUserMessages['frc'] = array(
