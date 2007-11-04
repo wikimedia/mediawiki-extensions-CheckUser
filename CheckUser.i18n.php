@@ -124,6 +124,31 @@ $wgCheckUserMessages['ext'] = array(
 	'checkuser-reason'       => 'Razón',
 	'checkuser-search'       => 'Landeal',
 );
+$wgCheckUserMessages['fa'] = array(
+	'checkuser-summary'      => 'این ابزار تغییرات اخیر را برای به دست آوردن نشانی‌های اینترنتی (IP) استفاده شده توسط یک کاربر و یا تعیین ویرایش‌های انجام شده از طریق یک نشانی اینترنتی جستجو می‌کند.
+کاربرها و ویرایش‌های مرتبط با یک نشانی اینترنتی را می‌توان با توجه به اطلاعات سرآیند XFF (با افزودن «‏‎/xff» به انتهای نشانی IP) پیدا کرد.
+هر دو پروتکل IPv4 (معادل CIDR 16-32) و IPv6 (معادل CIDR 64-128) توسط این ابزار پشتیبانی می‌شوند.',
+	'checkuser-logcase'      => 'جستجوی سیاهه به کوچک یا بزرگ بودن حروف حساس است.',
+	'checkuser'              => 'بازرس کاربر',
+	'group-checkuser'        => 'بازرسان کاربر',
+	'group-checkuser-member' => 'بازرس کاربر',
+	'grouppage-checkuser'    => '{{ns:project}}:بازرسی کاربر',
+	'checkuser-reason'       => 'دلیل',
+	'checkuser-showlog'      => 'نمایش سیاهه',
+	'checkuser-log'          => 'سیاهه بازرسی کاربر',
+	'checkuser-query'        => 'جستجوی تغییرات اخیر',
+	'checkuser-target'       => 'کاربر یا نشانی اینترنتی',
+	'checkuser-users'        => 'فهرست کردن کاربرها',
+	'checkuser-edits'        => 'نمایش ویرایش‌های مربوط به این نشانی اینترنتی',
+	'checkuser-ips'          => 'فهرست کردن نشانی‌های اینترنتی',
+	'checkuser-search'       => 'جستجو',
+	'checkuser-empty'        => 'سیاهه خالی است.',
+	'checkuser-nomatch'      => 'موردی که مطابقت داشته باشد پیدا نشد.',
+	'checkuser-check'        => 'بررسی',
+	'checkuser-log-fail'     => 'امکان افزودن اطلاعات به سیاهه وجود ندارد',
+	'checkuser-nolog'        => 'پرونده سیاهه پیدا نشد.',
+	'checkuser-blocked'      => 'دسترسی قطع شد',
+);
 $wgCheckUserMessages['fi'] = array(
 	'checkuser-summary'      => 'Tämän työkalun avulla voidaan tutkia tuoreet muutokset ja paljastaa käyttäjien IP-osoitteet tai noutaa IP-osoitteiden muokkaukset ja käyttäjätiedot.
 	Käyttäjät ja muokkaukset voidaan hakea myös uudelleenohjausosoitteen (X-Forwarded-For) takaa käyttämällä IP-osoitteen perässä <tt>/xff</tt> -merkintää. Työkalu tukee sekä IPv4 (CIDR 16–32) ja IPv6 (CIDR 64–128) -standardeja.',
