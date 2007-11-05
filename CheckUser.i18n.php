@@ -732,6 +732,9 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 	'checkuser-nolog'        => 'Hittade ingen loggfil.',
 	'checkuser-blocked'      => 'Blockerad',
 );
+$wgCheckUserMessages['tr'] = array(
+	'checkuser'              => 'IP denetçisi',
+);
 $wgCheckUserMessages['wa'] = array(
 	'checkuser' => 'Verifyî l\' uzeu',
 );
