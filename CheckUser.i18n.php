@@ -31,6 +31,7 @@ $wgCheckUserMessages['en'] = array(
 	'checkuser-log-fail'     => 'Unable to add log entry',
 	'checkuser-nolog'        => 'No log file found.',
 	'checkuser-blocked'      => 'Blocked',
+	'checkuser-too-many'     => 'Too many results, please narrow down the IP address:',
 );
 $wgCheckUserMessages['ang'] = array(
 	'checkuser-reason'       => 'Racu',

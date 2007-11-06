@@ -104,7 +104,8 @@ function efUpdateCheckUserData( $rc ) {
  * @return array( string, bool )
  */
 function efGetClientIPfromXFF( $xff, $address=NULL ) {
-	if ( !$xff ) return array(null, false);
+	if( !$xff ) 
+		return array(null, false);
 	// Avoid annoyingly long xff hacks
 	$xff = trim( substr( $xff, 0, 255 ) );
 	$client = null;
@@ -114,12 +115,14 @@ function efGetClientIPfromXFF( $xff, $address=NULL ) {
 	foreach( $ips as $n => $ip ) {
 		$ip = trim($ip);
 		// If it is a valid IP, not a hash or such
-		if ( IP::isIPAddress($ip) ) {
-			# The first IP should be the client
-			if ( $n==0 ) {
-				$client = $ip;
+		if( IP::isIPAddress($ip) ) {
+			# The first IP should be the client.
+			# Start only from the first public IP.
+			if( is_null($client) ) {
+				if( IP::isPublic($ip) )
+					$client = $ip;
 			# Check that all servers are trusted
-			} else if ( !wfIsTrustedProxy($ip) ) {
+			} else if( !wfIsTrustedProxy($ip) ) {
 				$trusted = false;
 				break;
 			}
@@ -136,7 +139,8 @@ function efGetClientIPfromXFF( $xff, $address=NULL ) {
 function efXFFChainIsSquid( $xff ) {
 	global $wgSquidServers, $wgSquidServersNoPurge;
 
-	if ( !$xff ) false;
+	if ( !$xff ) 
+		false;
 	// Avoid annoyingly long xff hacks
 	$xff = trim( substr( $xff, 0, 255 ) );
 	$squidOnly = true;
@@ -173,8 +177,10 @@ function efCheckUserSchemaUpdates() {
 	}
 	
 	if ($wgDBtype == 'mysql') {	
-		$wgExtNewIndexes[] = array('cu_changes', 
-			'cuc_user_time', "$base/archives/patch-cu_changes_indexes.sql" );
+		$wgExtNewIndexes[] = array('cu_changes', 'cuc_ip_hex_time', 
+			"$base/archives/patch-cu_changes_indexes.sql" );
+		$wgExtNewIndexes[] = array('cu_changes', 'cuc_user_ip_time', 
+			"$base/archives/patch-cu_changes_indexes2.sql" );
 	}
 	return true;
 }
@@ -188,9 +194,5 @@ function efCheckUserParserTestTables( &$tables ) {
 	return true;
 }
 
-if ( !function_exists( 'extAddSpecialPage' ) ) {
-	require( dirname(__FILE__) . '/../ExtensionFunctions.php' );
-}
-extAddSpecialPage( dirname(__FILE__) . '/CheckUser_body.php', 'CheckUser', 'CheckUser' );
-
-
+$wgSpecialPages['CheckUser'] = 'CheckUser';
+$wgAutoloadClasses['CheckUser'] = dirname(__FILE__) . '/CheckUser_body.php';

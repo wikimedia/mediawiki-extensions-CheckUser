@@ -36,25 +36,25 @@ class CheckUser extends SpecialPage
 			$ip = $user; 
 			$name = ''; 
 			$xff = '';
+		# An IPv6?
 		} else if( preg_match( '#^[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4})+(/\d{1,3}|)$#', $user ) ) {
-			# An IPv6?
 			$ip = IP::sanitizeIP($user); 
 			$name = ''; 
 			$xff = '';
+		# An IPv4 XFF string?
 		} else if( preg_match( '#^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(/\d{1,2}|)/xff$#', $user, $matches ) ) {
-			# An IPv4 XFF string?
 			list( $junk, $xffip, $xffbit) = $matches;
 			$ip = ''; 
 			$name = ''; 
 			$xff = $xffip . $xffbit;
+		# An IPv6 XFF string?
 		} else if( preg_match( '#^([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4})+)(/\d{1,3}|)/xff$#', $user, $matches ) ) {
-			# An IPv6 XFF string?
 			list( $junk, $xffip, $xffbit ) = $matches;
 			$ip = ''; 
 			$name = ''; 
 			$xff = IP::sanitizeIP( $xffip ) . $xffbit;
+		# A user?
 		} else {
-			# A user?
 			$ip = ''; 
 			$name = $user; 
 			$xff = '';
@@ -133,8 +133,7 @@ class CheckUser extends SpecialPage
 	function doIPEditsRequest( $ip, $xfor = false, $reason = '' ) {
 		global $wgUser, $wgOut, $wgLang, $wgTitle, $wgDBname;
 		$fname = 'CheckUser::doIPEditsRequest';
-
-		#invalid IPs are passed in as a blank string
+		# Invalid IPs are passed in as a blank string
 		if(!$ip) {
 			$s = wfMsgHtml('badipaddress');
 			$wgOut->addHTML( $s );
@@ -152,20 +151,72 @@ class CheckUser extends SpecialPage
 
 		$ip_conds = $dbr->makeList( $this->getIpConds( $dbr, $ip, $xfor ), LIST_AND );
 		$cu_changes = $dbr->tableName( 'cu_changes' );
-		# Limit added for browser limitations and to avoid time outs
+		# Ordered in descent by timestamp. Can cause large filesorts on range scans.
+		# Check how many rows will need sorting ahead of time to see if this is too big.
+		# Also, if we only show 5000, too many will be ignored as well.
 		$index = $xfor ? 'cuc_xff_hex_time' : 'cuc_ip_hex_time';
+		if( strpos($ip,'/') !==false ) {
+			$rangecount = $dbr->selectField( 'cu_changes', 'COUNT(*)',
+				array( $ip_conds ),
+				__METHOD__,
+				array( 'USE INDEX' => $index ) );
+		}
+		# See what is best to do after testing the waters...
+		if( isset($rangecount) && $rangecount > 5000 ) {
+			$sql = "SELECT cuc_ip_hex, COUNT(*) AS count,
+				MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last 
+				FROM $cu_changes FORCE INDEX($index) WHERE $ip_conds 
+				GROUP BY cuc_ip_hex ORDER BY cuc_ip_hex DESC LIMIT 5000";
+			$ret = $dbr->query( $sql, __METHOD__ );
+			# List out each IP that has edits
+			$s = '<h5>' . wfMsg('checkuser-too-many') . '</h5><ul>';
+			while( $row = $ret->fetchObject() ) {
+				# Convert the IP hexes into normal form
+				if( strpos($row->cuc_ip_hex,'v6-') !==false ) {
+					$ip = substr( $row->cuc_ip_hex, 3 );
+   					// Seperate into 8 octets
+   					$ip_oct = substr( $ip, 0, 4 );
+   					for ($n=1; $n < 8; $n++) {
+   						$ip_oct .= ':' . substr($ip, 4*$n, 4);
+   					}
+   					// NO leading zeroes
+   					$ip = preg_replace( '/(^|:)0+' . RE_IPV6_WORD . '/', '$1$2', $ip_oct );
+				} else {
+					$ip = long2ip( wfBaseConvert($row->cuc_ip_hex, 16, 10, 8) );
+				}
+				$s .= '<a href="'.$wgTitle->escapeLocalURL( 'user='.urlencode($ip).'&checktype=subipedits' ) .
+					'">'.$ip.'</a>';
+				if( $row->first == $row->last ) {
+					$s .= ' (' . $wgLang->timeanddate( $row->first, true ) . ') ';
+				} else {
+					$s .= ' (' . $wgLang->timeanddate( $row->first, true ) .
+					' -- ' . $wgLang->timeanddate( $row->last, true ) . ') ';
+				}
+				$s .= ' [<strong>' . $row->count . '</strong>]<br/>';
+			}
+			$s .= '</ul>';
+			$wgOut->addHTML( $s );
+			
+			$dbr->freeResult( $ret );
+			return;
+		} else if( isset($rangecount) && !$rangecount ) {
+			$s = wfMsgHtml("checkuser-nomatch")."\n";
+			$wgOut->addHTML( $s );
+			
+			return;
+		} 
+		# OK, do the real query...
 		$sql = "SELECT * FROM $cu_changes FORCE INDEX($index) WHERE $ip_conds 
 			ORDER BY cuc_timestamp DESC LIMIT 5000";
-
 		$ret = $dbr->query( $sql, __METHOD__ );
+
 		if( !$dbr->numRows( $ret ) ) {
 			$s = wfMsgHtml("checkuser-nomatch")."\n";
 		} else {
-			global $IP;
 			$this->skin = $wgUser->getSkin();
-			// Cache common messages
+			# Cache common messages
 			$this->preCacheMessages();
-			// Try to optimize this query
+			# Try to optimize this query
 			$lb = new LinkBatch;
 			while ( $row = $ret->fetchObject() ) {
 				$lb->add( $row->cuc_namespace, $row->cuc_title );
@@ -174,16 +225,16 @@ class CheckUser extends SpecialPage
 			}
 			$lb->execute();
 			$ret->seek( 0 );
-
+			# List out the edits
 			$s = '';
 			while( $row = $ret->fetchObject() ) {
 				$s .= $this->CUChangesLine( $row );
 			}
 			$s .= '</ul>';
+			$dbr->freeResult( $ret );
 		}
 
 		$wgOut->addHTML( $s );
-		$dbr->freeResult( $ret );
 	}
 
 	/**
@@ -247,6 +298,7 @@ class CheckUser extends SpecialPage
 				htmlspecialchars( $row->cuc_xff ),
 				"user=" . urlencode( $client ) . "/xff" )."</span>";
 		}
+		
 		$line .= "</small></li>\n";
 
 		return $line;
@@ -321,9 +373,8 @@ class CheckUser extends SpecialPage
 		}
 
 		$xnote = ($xfor) ? ' XFF' : '';
-		if( !$this->addLogEntry( time(), $wgUser->getName() ,
-			"got users for$xnote" , htmlspecialchars( $ip ) , $wgDBname , $reason))
-		{
+		if( !$this->addLogEntry( time(), $wgUser->getName(), "got users for$xnote", 
+			htmlspecialchars( $ip ), $wgDBname, $reason ) ) {
 			$wgOut->addHTML( '<p>'.wfMsgHtml('checkuser-log-fail').'</p>' );
 		}
 
@@ -334,13 +385,64 @@ class CheckUser extends SpecialPage
 		$ip_conds = $dbr->makeList( $this->getIpConds( $dbr, $ip, $xfor ), LIST_AND );
 		$cu_changes = $dbr->tableName( 'cu_changes' );
 		$index = $xfor ? 'cuc_xff_hex_time' : 'cuc_ip_hex_time';
-		# Limit cap made to stop nasty timeouts
+		# Ordered in descent by timestamp. Can cause large filesorts on range scans.
+		# Check how many rows will need sorting ahead of time to see if this is too big.
+		if( strpos($ip,'/') !==false ) {
+			$rangecount = $dbr->selectField( 'cu_changes', 'COUNT(*)',
+				array( $ip_conds ),
+				__METHOD__,
+				array( 'USE INDEX' => $index ) );
+		}
+		
+		if( isset($rangecount) && $rangecount > 5000 ) {
+			$sql = "SELECT cuc_ip_hex, COUNT(*) AS count,
+				MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last 
+				FROM $cu_changes FORCE INDEX($index) WHERE $ip_conds 
+				GROUP BY cuc_ip_hex ORDER BY cuc_ip_hex DESC LIMIT 5000";
+			$ret = $dbr->query( $sql, __METHOD__ );
+			# List out each IP that has edits
+			$s = '<h5>' . wfMsg('checkuser-too-many') . '</h5><ul>';
+			while( $row = $ret->fetchObject() ) {
+				# Convert the IP hexes into normal form
+				if( strpos($row->cuc_ip_hex,'v6-') !==false ) {
+					$ip = substr( $row->cuc_ip_hex, 3 );
+   					// Seperate into 8 octets
+   					$ip_oct = substr( $ip, 0, 4 );
+   					for ($n=1; $n < 8; $n++) {
+   						$ip_oct .= ':' . substr($ip, 4*$n, 4);
+   					}
+   					// NO leading zeroes
+   					$ip = preg_replace( '/(^|:)0+' . RE_IPV6_WORD . '/', '$1$2', $ip_oct );
+				} else {
+					$ip = long2ip( wfBaseConvert($row->cuc_ip_hex, 16, 10, 8) );
+				}
+				$s .= '<a href="'.$wgTitle->escapeLocalURL( 'user='.urlencode($ip).'&checktype=subipusers' ) .
+					'">'.$ip.'</a>';
+				if( $row->first == $row->last ) {
+					$s .= ' (' . $wgLang->timeanddate( $row->first, true ) . ') ';
+				} else {
+					$s .= ' (' . $wgLang->timeanddate( $row->first, true ) .
+					' -- ' . $wgLang->timeanddate( $row->last, true ) . ') ';
+				}
+				$s .= ' [<strong>' . $row->count . '</strong>]<br/>';
+			}
+			$s .= '</ul>';
+			$dbr->freeResult( $ret );
+			
+			$wgOut->addHTML( $s );
+			return;
+		} else if( isset($rangecount) && !$rangecount ) {
+			$s = wfMsgHtml("checkuser-nomatch")."\n";
+			$wgOut->addHTML( $s );
+			
+			return;
+		} 
+		# OK, do the real query...
 		$sql = "SELECT cuc_user_text, cuc_timestamp, cuc_user, cuc_ip, cuc_agent, cuc_xff 
 			FROM $cu_changes FORCE INDEX($index) WHERE $ip_conds 
 			ORDER BY cuc_timestamp DESC LIMIT 5000";
-
 		$ret = $dbr->query( $sql, __METHOD__ );
-		
+
 		$users_first = $users_last = $users_edits = $users_ids = array();
 
 		if( !$dbr->numRows( $ret ) ) {
@@ -365,6 +467,7 @@ class CheckUser extends SpecialPage
 					$users_agentsets[$row->cuc_user_text][] = $row->cuc_agent;
 				}
 			}
+			$dbr->freeResult( $ret );
 			
 			# Reverse the order so it's first -> last
 			foreach( $users_infosets as $name => $set ) {
@@ -382,8 +485,12 @@ class CheckUser extends SpecialPage
 				$s .= $sk->userLink( -1 , $name ) . $sk->userToolLinks( -1 , $name );
 				$s .= ' (<a href="' . $wgTitle->escapeLocalURL( 'user=' . urlencode( $name ) ) . 
 					'">' . wfMsgHtml('checkuser-check') . '</a>)';
-				$s .= ' (' . $wgLang->timeanddate( $users_first[$name], true ) . ' -- ' . 
-					$wgLang->timeanddate( $users_last[$name], true ) . ') ';
+				if( $users_first[$name] == $users_last[$name] ) {
+					$s .= ' (' . $wgLang->timeanddate( $users_first[$name], true ) . ') ';
+				} else {
+					$s .= ' (' . $wgLang->timeanddate( $users_first[$name], true ) .
+					' -- ' . $wgLang->timeanddate( $users_last[$name], true ) . ') ';
+				}
 				$s .= ' [<strong>' . $count . '</strong>]<br/>';
 				# Check if this user or IP is blocked
 				# If so, give a link to the block log
@@ -393,14 +500,17 @@ class CheckUser extends SpecialPage
 				if( $block->load( $ip, $users_ids[$name] ) ) {
 					if( IP::isIPAddress($block->mAddress) && strpos($block->mAddress,'/') ) {
 						$userpage = Title::makeTitle( NS_USER, $block->mAddress );
-						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
+						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 
+							'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 						$s .= ' <strong>(' . $blocklog . ' - ' . $block->mAddress . ')</strong>';
 					} else if( $block->mAuto ) {
-						$blocklog = $sk->makeKnownLinkObj( $blocklist, wfMsgHtml('checkuser-blocked'), 'ip=' . urlencode( "#$block->mId" ) );
+						$blocklog = $sk->makeKnownLinkObj( $blocklist, 
+							wfMsgHtml('checkuser-blocked'), 'ip=' . urlencode( "#$block->mId" ) );
 						$s .= ' <strong>(' . $blocklog . ')</strong>';
 					} else {
 						$userpage = Title::makeTitle( NS_USER, $name );
-						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
+						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 
+							'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 						$s .= '<strong>(' . $blocklog . ')</strong>';
 					}
 				}
@@ -409,7 +519,7 @@ class CheckUser extends SpecialPage
 				foreach( $users_infosets[$name] as $n => $set ) {
 					# IP link
 					$s .= '<li>';
-					$s .= '<a href="' . $wgTitle->escapeLocalURL( 'user=' . urlencode($set[0]) ) . '">' . htmlspecialchars($set[0]) . '</a>';
+					$s .= '<a href="'.$wgTitle->escapeLocalURL( 'user='.urlencode($set[0]) ).'">'.htmlspecialchars($set[0]).'</a>';
 					# XFF string, link to /xff search
 					if( $set[1] ) {
 						# Flag our trusted proxies
@@ -430,7 +540,6 @@ class CheckUser extends SpecialPage
 		}
 
 		$wgOut->addHTML( $s );
-		$dbr->freeResult( $ret );
 	}
 
 	/**
@@ -484,7 +593,7 @@ class CheckUser extends SpecialPage
 			$user = $userTitle->getText();
 		}
 		#IPs are passed in as a blank string
-		if( !$user) {
+		if( !$user ) {
 			$s = wfMsgHtml('nouserspecified');
 			$wgOut->addHTML( $s );
 			return;
@@ -507,13 +616,13 @@ class CheckUser extends SpecialPage
 			$wgOut->addHTML( '<p>'.wfMsgHtml('checkuser-log-fail').'</p>' );
 		}
 		$dbr = wfGetDB( DB_SLAVE );
-
+		# Ordering by the latest timestamp makes a small filesort on the IP list
 		$cu_changes = $dbr->tableName( 'cu_changes' );
-		# Limit cap made to stop nasty timeouts
-		$sql = "SELECT cuc_ip, cuc_timestamp 
-			FROM $cu_changes FORCE INDEX(cuc_user_time) WHERE cuc_user = $user_id 
-			ORDER BY cuc_timestamp DESC LIMIT 5000";
-
+		$sql = "SELECT cuc_ip, COUNT(*) AS count, 
+			MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last 
+			FROM $cu_changes FORCE INDEX(cuc_user_ip_time) WHERE cuc_user = $user_id 
+			GROUP BY cuc_ip ORDER BY last";
+		
 		$ret = $dbr->query( $sql, __METHOD__ );
 
 		if( !$dbr->numRows( $ret ) ) {
@@ -522,12 +631,9 @@ class CheckUser extends SpecialPage
 			$blockip = SpecialPage::getTitleFor( 'blockip' );
 			$ips_edits=array();
 			while( $row = $dbr->fetchObject( $ret ) ) {
-				if( !array_key_exists( $row->cuc_ip, $ips_edits ) ) {
-					$ips_edits[$row->cuc_ip]=0;
-					$ips_last[$row->cuc_ip]=$row->cuc_timestamp;
-				}
-				$ips_edits[$row->cuc_ip]+=1;
-				$ips_first[$row->cuc_ip]=$row->cuc_timestamp;
+				$ips_edits[$row->cuc_ip]=$row->count;
+				$ips_first[$row->cuc_ip]=$row->first;
+				$ips_last[$row->cuc_ip]=$row->last;
 			}
 			
 			$logs = SpecialPage::getTitleFor( 'Log' );
@@ -535,9 +641,14 @@ class CheckUser extends SpecialPage
 			$s = '<ul>';
 			foreach( $ips_edits as $ip => $edits ) {
 				$s .= '<li>';
-				$s .= '<a href="' . $wgTitle->escapeLocalURL( 'user=' . urlencode( $ip ) ) . '">' . $ip . '</a>'; 
+				$s .= '<a href="' . $wgTitle->escapeLocalURL( 'user=' . urlencode( $ip ) ) . '">' . $ip . '</a>';
 				$s .= ' (<a href="' . $blockip->escapeLocalURL( 'ip=' . urlencode( $ip ) ) . '">' . wfMsgHtml('blocklink') . '</a>)';
-				$s .= ' (' . $wgLang->timeanddate( $ips_first[$ip], true ) . ' -- ' . $wgLang->timeanddate( $ips_last[$ip], true ) . ') '; 
+				if( $ips_first[$ip] == $ips_last[$ip] ) {
+					$s .= ' (' . $wgLang->timeanddate( $ips_first[$ip], true ) . ') '; 
+				} else {
+					$s .= ' (' . $wgLang->timeanddate( $ips_first[$ip], true ) . 
+						' -- ' . $wgLang->timeanddate( $ips_last[$ip], true ) . ') '; 
+				}
 				$s .= ' <strong>[' . $edits . ']</strong>';
 				
 				# If this IP is blocked, give a link to the block log
@@ -546,14 +657,17 @@ class CheckUser extends SpecialPage
 				if( $block->load( $ip, 0 ) ) {
 					if( IP::isIPAddress($block->mAddress) && strpos($block->mAddress,'/') ) {
 						$userpage = Title::makeTitle( NS_USER, $block->mAddress );
-						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
+						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 
+							'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 						$s .= ' <strong>(' . $blocklog . ' - ' . $block->mAddress . ')</strong>';
 					} else if( $block->mAuto ) {
-						$blocklog = $sk->makeKnownLinkObj( $blocklist, wfMsgHtml('checkuser-blocked'), 'ip=' . urlencode( "#$block->mId" ) );
+						$blocklog = $sk->makeKnownLinkObj( $blocklist, wfMsgHtml('checkuser-blocked'), 
+							'ip=' . urlencode( "#$block->mId" ) );
 						$s .= ' <strong>(' . $blocklog . ')</strong>';
 					} else {
 						$userpage = Title::makeTitle( NS_USER, $ip );
-						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
+						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 
+							'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 						$s .= ' <strong>(' . $blocklog . ')</strong>';
 					}
 				}
