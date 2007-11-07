@@ -251,7 +251,7 @@ $wgCheckUserMessages['he'] = array(
 	'checkuser'              => 'בדיקת משתמש',
 	'group-checkuser'        => 'בודקים',
 	'group-checkuser-member' => 'בודק',
-	'grouppage-checkuser'    => '{{ns:project}}:בודק',
+	'grouppage-checkuser'    => 'Project:בודק',
 	'checkuser-reason'       => 'סיבה',
 	'checkuser-showlog'      => 'הצגת יומן',
 	'checkuser-log'          => 'יומן בדיקות',
@@ -267,6 +267,7 @@ $wgCheckUserMessages['he'] = array(
 	'checkuser-log-fail'     => 'לא ניתן היה להוסיף פריט ליומן',
 	'checkuser-nolog'        => 'לא נמצא קובץ יומן.',
 	'checkuser-blocked'      => 'חסום',
+	'checkuser-too-many'     => 'נמצאו תוצאות רבות מדי, אנא צמצו את כתובת ה־IP:',
 );
 $wgCheckUserMessages['hr'] = array(
 	'checkuser-summary'      => 'Ovaj alat pretražuje nedavne promjene i pronalazi IP adrese suradnika ili prikazuje uređivanja/ime suradnika ako je zadana IP adresa. Suradnici i uređivanja mogu biti dobiveni po XFF zaglavljima dodavanjem "/xff" na kraj IP adrese. Podržane su IPv4 (CIDR 16-32) i IPv6 (CIDR 64-128) adrese. Rezultat ima maksimalno 5.000 zapisa iz tehničkih razloga. Rabite ovaj alat u skladu s pravilima.',
