@@ -242,6 +242,7 @@ Os usuarios e as edicións por un cliente IP poden ser recuperados a través das
 	'checkuser-log-fail'     => 'Non é posíbel engadir unha entrada no rexistro',
 	'checkuser-nolog'        => 'Ningún arquivo de rexistro.',
 	'checkuser-blocked'      => 'Bloqueado',
+	'checkuser-too-many'     => 'Hai demasiados resultados, restrinxa o enderezo IP:',
 );
 $wgCheckUserMessages['he'] = array(
 	'checkuser-summary'      => 'כלי זה סורק את השינויים האחרונים במטרה למצוא את כתובות ה־IP שהשתמש בהן משתמש מסוים או כדי להציג את כל המידע על המשתמשים שהשתמשו בכתובת IP ועל העריכות שבוצעו ממנה.
@@ -315,6 +316,7 @@ Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěš
 	'checkuser-log-fail'     => 'Njemóžno protokolowy zapisk přidać.',
 	'checkuser-nolog'        => 'Žadyn protokol namakany.',
 	'checkuser-blocked'      => 'Zablokowany',
+	'checkuser-too-many'     => 'Přewjele wuslědkow, prošu zamjezuj IP-adresu:',
 );
 $wgCheckUserMessages['id'] = array(
 	'checkuser-summary'		 => 'Peralatan ini memindai perubahan terbaru untuk mendapatkan IP yang digunakan oleh seorang pengguna atau menunjukkan data suntingan/pengguna untuk suatu IP.
@@ -714,7 +716,7 @@ $wgCheckUserMessages['sv'] = array(
 Användare och redigeringar kan visas med IP-adress från XFF genom att lägga till "/xff" efter IP-adressen. Verktyget stödjer IPv4 (CIDR 16-32) och IPv6 (CIDR 64-128).
 På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd verktyget i enlighet med policy.',
 	'checkuser-logcase'      => 'Loggsökning är skiftlägeskänslig.',
-	'checkuser'              => 'IP-kontrollant',
+	'checkuser'              => 'Kontrollera användare',
 	'group-checkuser'        => 'Användarkontrollanter',
 	'group-checkuser-member' => 'Användarkontrollant',
 	'grouppage-checkuser'    => '{{ns:project}}:Användarkontrollant',
