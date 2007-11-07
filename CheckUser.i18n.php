@@ -114,6 +114,7 @@ $wgCheckUserMessages['de'] = array(
 	'checkuser-log-fail'	 => 'Logbuch-Eintrag kann nicht hinzugefügt werden.',
 	'checkuser-nolog'	 => 'Kein Logbuch vorhanden.',
 	'checkuser-blocked'      => 'gesperrt',
+	'checkuser-too-many'     => 'Die Ergebnisliste ist zu lang, bitte grenze den IP-Bereich weiter ein:',
 );
 $wgCheckUserMessages['es'] = array(
 	'checkuser'              => 'Verificador del usuarios',
