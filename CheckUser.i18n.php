@@ -220,6 +220,31 @@ $wgCheckUserMessages['frc'] = array(
 	'checkuser-log-fail'     => 'Pas capable d\'additionner la note',
 	'checkuser-nolog'        => 'Rien trouvé dans les notes.',
 );
+$wgCheckUserMessages['frp'] = array(
+	'checkuser-summary'      => 'Ceti outil parcôrt la lista des dèrriérs changements a la rechèrche de l’adrèce IP empleyê per un utilisator, afiche totes les èdicions d’una adrèce IP (méma enregistrâ), ou ben liste los comptos utilisâs per una adrèce IP.
+	Los comptos et les modificacions pôvont étre trovâs avouéc una IP XFF se sè chavone avouéc « /xff ». O est possiblo d’utilisar los protocolos IPv4 (CIDR 16-32) et IPv6 (CIDR 64-128).
+	Lo nombro d’èdicions afichâbles est limitâ a {{formatnum:5000}} por des quèstions de pèrformence du sèrvior. Volyéd utilisar ceti outil dens les limites de la chârta d’usâjo.',
+	'checkuser-logcase'      => 'La rechèrche dens lo jornal est sensibla a la câssa.',
+	'checkuser'              => 'Controlor d’utilisator',
+	'group-checkuser'        => 'Controlors d’utilisator',
+	'group-checkuser-member' => 'Controlor d’utilisator',
+	'grouppage-checkuser'    => '{{ns:project}}:Controlors d’utilisator',
+	'checkuser-reason'       => 'Rêson',
+	'checkuser-showlog'      => 'Afichiér lo jornal',
+	'checkuser-log'          => 'Jornal de controlor d’utilisator',
+	'checkuser-query'        => 'Rechèrche per los dèrriérs changements',
+	'checkuser-target'       => 'Nom d’utilisator ou adrèce IP',
+	'checkuser-users'        => 'Obtegnir los utilisators',
+	'checkuser-edits'        => 'Obtegnir les modificacions de l’adrèce IP',
+	'checkuser-ips'          => 'Obtegnir les adrèces IP',
+	'checkuser-search'       => 'Rechèrche',
+	'checkuser-empty'        => 'Lo jornal contint gins d’articllo.',
+	'checkuser-nomatch'      => 'Rechèrches que balyont ren.',
+	'checkuser-check'        => 'Rechèrche',
+	'checkuser-log-fail'     => 'Empossiblo d’apondre l’entrâ du jornal.',
+	'checkuser-nolog'        => 'Niona entrâ dens lo jornal.',
+	'checkuser-blocked'      => 'Blocâ',
+);
 $wgCheckUserMessages['gl'] = array(
 	'checkuser-summary'      => 'Esta ferramenta analiza os cambios recentes para recuperar os enderezos IPs utilizados por un usuario ou amosar as edicións / datos do usuario dun enderezo de IP.
 Os usuarios e as edicións por un cliente IP poden ser recuperados a través das cabeceiras XFF engadindo o enderezo IP con "/ xff". IPv4 (CIDR 16-32) e o IPv6 (CIDR 64-128) están soportadas.',
@@ -519,6 +544,7 @@ $wgCheckUserMessages['nl'] = array(
 	'checkuser-log-fail'     => 'Logboekregel toevoegen niet mogelijk',
 	'checkuser-nolog'        => 'Geen logboek gevonden.',
 	'checkuser-blocked'      => 'Geblokkeerd',
+	'checkuser-too-many'     => 'Te veel resultaten. Maak de IP-reeks kleiner:',
 );
 $wgCheckUserMessages['no'] = array(
 	'checkuser-summary'      => 'Dette verktøyet går gjennom siste endringer for å hente IP-ene som er brukt av en bruker, eller viser redigerings- eller brukerinformasjonen for en IP.
