@@ -121,6 +121,7 @@ $wgCheckUserMessages['es'] = array(
 	'group-checkuser'        => 'Verificadors del usuarios',
 	'group-checkuser-member' => 'Verificador del usuarios',
 	'grouppage-checkuser'    => '{{ns:project}}:verificador del usuarios',
+	'checkuser-blocked'      => 'bloqueado',
 );
 $wgCheckUserMessages['ext'] = array(
 	'checkuser-reason'       => 'Razón',
@@ -174,6 +175,7 @@ $wgCheckUserMessages['fi'] = array(
 	'checkuser-log-fail'     => 'Lokitapahtuman lisäys epäonnistui',
 	'checkuser-nolog'        => 'Lokitiedostoa ei löytynyt.',
 	'checkuser-blocked'      => 'Estetty',
+	'checkuser-too-many'     => 'Liian monta tulosta, rajoita IP-osoitetta:',
 );
 $wgCheckUserMessages['fr'] = array(
 	'checkuser-summary'      => 'Cet outil parcourt la liste des changements récents à la recherche de l’adresse IP employée par un utilisateur, affiche toutes les éditions d’une adresse IP (même enregistrée), ou liste les comptes utilisés par une adresse IP. Les comptes et les modifications peuvent être trouvés avec une IP XFF si elle finit avec « /xff ». Il est possible d’utiliser les protocoles IPv4 (CIDR 16-32) et IPv6 (CIDR 64-128). Le nombre d’éditions affichables est limité à {{formatnum:5000}} pour des questions de performance du serveur. Veuillez utiliser cet outil dans les limites de la charte d’utilisation.',
@@ -762,6 +764,10 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 	'checkuser-log-fail'     => 'Loggposten kunde inte läggas i loggfilen.',
 	'checkuser-nolog'        => 'Hittade ingen loggfil.',
 	'checkuser-blocked'      => 'Blockerad',
+);
+$wgCheckUserMessages['tet'] = array(
+	'checkuser-target'       => 'Uza-na\'in ka IP',
+	'checkuser-search'       => 'Buka',
 );
 $wgCheckUserMessages['tr'] = array(
 	'checkuser'              => 'IP denetçisi',
