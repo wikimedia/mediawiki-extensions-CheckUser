@@ -61,6 +61,7 @@ $wgCheckUserMessages['ar'] = array(
 	'checkuser-log-fail'     => 'غير قادر على إضافة مدخلة للسجل',
 	'checkuser-nolog'        => 'لم يتم العثور على ملف سجل.',
 	'checkuser-blocked'      => 'ممنوع',
+	'checkuser-too-many'     => 'نتائج كثيرة جدا، من فضلك قم بتضييق عنوان الأيبي:',
 );
 $wgCheckUserMessages['bcl'] = array(
 	'checkuser-reason'       => 'Rasón',
