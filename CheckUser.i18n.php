@@ -728,6 +728,9 @@ $wgCheckUserMessages['sk'] = array(
 	'checkuser-nolog'        => 'Nebol nájdený súbor záznamu.',
 	'checkuser-blocked'      => 'Zablokovaný',
 );
+$wgCheckUserMessages['sq'] = array(
+	'checkuser'              => 'Kontrollo përdoruesin',
+);
 $wgCheckUserMessages['sr-ec'] = array(
 	'checkuser'              => 'Чекјузер',
 	'group-checkuser'        => 'Чекјузери',
