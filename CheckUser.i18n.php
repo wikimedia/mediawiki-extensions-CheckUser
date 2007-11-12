@@ -517,6 +517,9 @@ $wgCheckUserMessages['lo'] = array(
 	'checkuser-nomatch'      => 'ບໍ່ພົບສິ່ງທີ່ຊອກຫາ',
 	'checkuser-check'        => 'ກວດ',
 );
+$wgCheckUserMessages['mk'] = array(
+	'checkuser'              => 'Провери корисник',
+);
 $wgCheckUserMessages['nds'] = array(
 	'checkuser'              => 'Bruker nakieken',
 	'group-checkuser'        => 'Brukers nakieken',
