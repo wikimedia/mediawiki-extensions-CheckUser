@@ -219,9 +219,10 @@ class CheckUser extends SpecialPage
 			# Try to optimize this query
 			$lb = new LinkBatch;
 			while ( $row = $ret->fetchObject() ) {
+				$userText = str_replace( ' ', '_', $row->cuc_user_text );
 				$lb->add( $row->cuc_namespace, $row->cuc_title );
-				$lb->add( NS_USER, $row->cuc_user_text );
-				$lb->add( NS_USER_TALK, $row->cuc_user_text );
+				$lb->add( NS_USER, $userText );
+				$lb->add( NS_USER_TALK, $userText );
 			}
 			$lb->execute();
 			$ret->seek( 0 );
