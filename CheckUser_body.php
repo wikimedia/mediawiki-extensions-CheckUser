@@ -621,7 +621,7 @@ class CheckUser extends SpecialPage
 		$sql = "SELECT cuc_ip, COUNT(*) AS count, 
 			MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last 
 			FROM $cu_changes FORCE INDEX(cuc_user_ip_time) WHERE cuc_user = $user_id 
-			GROUP BY cuc_ip ORDER BY last";
+			GROUP BY cuc_ip ORDER BY last DESC";
 		
 		$ret = $dbr->query( $sql, __METHOD__ );
 
