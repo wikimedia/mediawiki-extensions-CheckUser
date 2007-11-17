@@ -166,10 +166,11 @@ class CheckUser extends SpecialPage
 			$sql = "SELECT cuc_ip_hex, COUNT(*) AS count,
 				MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last 
 				FROM $cu_changes FORCE INDEX($index) WHERE $ip_conds 
-				GROUP BY cuc_ip_hex ORDER BY cuc_ip_hex DESC LIMIT 5000";
+				GROUP BY cuc_ip_hex ORDER BY cuc_ip_hex LIMIT 5000";
 			$ret = $dbr->query( $sql, __METHOD__ );
 			# List out each IP that has edits
-			$s = '<h5>' . wfMsg('checkuser-too-many') . '</h5><ul>';
+			$s = '<h5>' . wfMsg('checkuser-too-many') . '</h5>';
+			$s .= '<ol>';
 			while( $row = $ret->fetchObject() ) {
 				# Convert the IP hexes into normal form
 				if( strpos($row->cuc_ip_hex,'v6-') !==false ) {
@@ -184,7 +185,7 @@ class CheckUser extends SpecialPage
 				} else {
 					$ip = long2ip( wfBaseConvert($row->cuc_ip_hex, 16, 10, 8) );
 				}
-				$s .= '<a href="'.$wgTitle->escapeLocalURL( 'user='.urlencode($ip).'&checktype=subipedits' ) .
+				$s .= '<li><a href="'.$wgTitle->escapeLocalURL( 'user='.urlencode($ip).'&checktype=subipusers' ) .
 					'">'.$ip.'</a>';
 				if( $row->first == $row->last ) {
 					$s .= ' (' . $wgLang->timeanddate( $row->first, true ) . ') ';
@@ -192,12 +193,12 @@ class CheckUser extends SpecialPage
 					$s .= ' (' . $wgLang->timeanddate( $row->first, true ) .
 					' -- ' . $wgLang->timeanddate( $row->last, true ) . ') ';
 				}
-				$s .= ' [<strong>' . $row->count . '</strong>]<br/>';
+				$s .= " [<strong>" . $row->count . "</strong>]</li>\n";
 			}
-			$s .= '</ul>';
-			$wgOut->addHTML( $s );
-			
+			$s .= '</ol>';
 			$dbr->freeResult( $ret );
+			
+			$wgOut->addHTML( $s );
 			return;
 		} else if( isset($rangecount) && !$rangecount ) {
 			$s = wfMsgHtml("checkuser-nomatch")."\n";
@@ -399,10 +400,11 @@ class CheckUser extends SpecialPage
 			$sql = "SELECT cuc_ip_hex, COUNT(*) AS count,
 				MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last 
 				FROM $cu_changes FORCE INDEX($index) WHERE $ip_conds 
-				GROUP BY cuc_ip_hex ORDER BY cuc_ip_hex DESC LIMIT 5000";
+				GROUP BY cuc_ip_hex ORDER BY cuc_ip_hex LIMIT 5000";
 			$ret = $dbr->query( $sql, __METHOD__ );
 			# List out each IP that has edits
-			$s = '<h5>' . wfMsg('checkuser-too-many') . '</h5><ul>';
+			$s = '<h5>' . wfMsg('checkuser-too-many') . '</h5>';
+			$s .= '<ol>';
 			while( $row = $ret->fetchObject() ) {
 				# Convert the IP hexes into normal form
 				if( strpos($row->cuc_ip_hex,'v6-') !==false ) {
@@ -417,7 +419,7 @@ class CheckUser extends SpecialPage
 				} else {
 					$ip = long2ip( wfBaseConvert($row->cuc_ip_hex, 16, 10, 8) );
 				}
-				$s .= '<a href="'.$wgTitle->escapeLocalURL( 'user='.urlencode($ip).'&checktype=subipusers' ) .
+				$s .= '<li><a href="'.$wgTitle->escapeLocalURL( 'user='.urlencode($ip).'&checktype=subipusers' ) .
 					'">'.$ip.'</a>';
 				if( $row->first == $row->last ) {
 					$s .= ' (' . $wgLang->timeanddate( $row->first, true ) . ') ';
@@ -425,9 +427,9 @@ class CheckUser extends SpecialPage
 					$s .= ' (' . $wgLang->timeanddate( $row->first, true ) .
 					' -- ' . $wgLang->timeanddate( $row->last, true ) . ') ';
 				}
-				$s .= ' [<strong>' . $row->count . '</strong>]<br/>';
+				$s .= " [<strong>" . $row->count . "</strong>]</li>\n";
 			}
-			$s .= '</ul>';
+			$s .= '</ol>';
 			$dbr->freeResult( $ret );
 			
 			$wgOut->addHTML( $s );
