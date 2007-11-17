@@ -69,9 +69,9 @@ class CheckUser extends SpecialPage
 		if( $checktype=='subuserips' ) {
 			$this->doUserIPsRequest( $name, $reason );
 		} else if( $xff && $checktype=='subipedits' ) {
-			$this->doIPEditsRequest( $xff, true, $reason);
+			$this->doIPEditsRequest( $xff, true, $reason );
 		} else if( $checktype=='subipedits' ) {
-			$this->doIPEditsRequest( $ip, false, $reason);
+			$this->doIPEditsRequest( $ip, false, $reason );
 		} else if( $xff && $checktype=='subipusers' ) {
 			$this->doIPUsersRequest( $xff, true, $reason );
 		} else if( $checktype=='subipusers' ) {
@@ -83,8 +83,6 @@ class CheckUser extends SpecialPage
 		global $wgOut, $wgTitle;
 
 		$action = $wgTitle->escapeLocalUrl();
-		$encUser = htmlspecialchars( $user );
-		$encReason = htmlspecialchars( $reason );
 		# Fill in requested type if it makes sense
 		$encipusers=0; $encipedits=0; $encuserips=0;
 		if( $checktype=='subipusers' && ( $ip || $xff ) )
@@ -105,7 +103,7 @@ class CheckUser extends SpecialPage
 		$form .= "<fieldset><legend>".wfMsgHtml( "checkuser-query" )."</legend>";
 		$form .= "<table border='0' cellpadding='2'><tr>";
 		$form .= "<td>".wfMsgHtml( "checkuser-target" ).":</td>";
-		$form .= "<td>".Xml::input( 'user', 46, $encUser, array( 'id' => 'checktarget' ) )."</td>";
+		$form .= "<td>".Xml::input( 'user', 46, $user, array( 'id' => 'checktarget' ) )."</td>";
 		$form .= "</tr><tr>";
 		$form .= "<td></td><td class='checkuserradios'><table border='0' cellpadding='3'><tr>";
 		$form .= "<td>".Xml::radio( 'checktype', 'subuserips', $encuserips, array('id' => 'subuserips') );
@@ -117,7 +115,7 @@ class CheckUser extends SpecialPage
 		$form .= "</tr></table></td>";
 		$form .= "</tr><tr>";
 		$form .= "<td>".wfMsgHtml( "checkuser-reason" ).":</td>";
-		$form .= "<td>".Xml::input( 'reason', 46, $encReason, array( 'maxlength' => '150', 'id' => 'checkreason' ) );
+		$form .= "<td>".Xml::input( 'reason', 46, $reason, array( 'maxlength' => '150', 'id' => 'checkreason' ) );
 		$form .= "&nbsp; &nbsp;".Xml::submitButton( wfMsgHtml( 'checkuser-check' ) )."</td>";
 		$form .= "</tr></table></fieldset></form>";
 		# Output form
@@ -185,7 +183,8 @@ class CheckUser extends SpecialPage
 				} else {
 					$ip = long2ip( wfBaseConvert($row->cuc_ip_hex, 16, 10, 8) );
 				}
-				$s .= '<li><a href="'.$wgTitle->escapeLocalURL( 'user='.urlencode($ip).'&checktype=subipusers' ) .
+				$s .= '<li><a href="'.
+					$wgTitle->escapeLocalURL( 'user='.urlencode($ip).'&reason='.urlencode($reason).'&checktype=subipusers' ) .
 					'">'.$ip.'</a>';
 				if( $row->first == $row->last ) {
 					$s .= ' (' . $wgLang->timeanddate( $row->first, true ) . ') ';
@@ -230,7 +229,7 @@ class CheckUser extends SpecialPage
 			# List out the edits
 			$s = '';
 			while( $row = $ret->fetchObject() ) {
-				$s .= $this->CUChangesLine( $row );
+				$s .= $this->CUChangesLine( $row, $reason );
 			}
 			$s .= '</ul>';
 			$dbr->freeResult( $ret );
@@ -256,7 +255,7 @@ class CheckUser extends SpecialPage
 	 * @param $row
 	 * @return a streamlined recent changes line with IP data
 	 */
-	function CUChangesLine( $row ) {
+	function CUChangesLine( $row, $reason ) {
 		global $wgLang;
 
 		# Add date headers
@@ -289,7 +288,7 @@ class CheckUser extends SpecialPage
 		# IP
 		$line .= ' <strong>IP</strong>: '.$this->skin->makeKnownLinkObj( $cuTitle,
 			htmlspecialchars( $row->cuc_ip ),
-			"user=" . urlencode( $row->cuc_ip ) );
+			"user=".urlencode( $row->cuc_ip ).'&reason='.urlencode($reason) );
 		# XFF
 		if( $row->cuc_xff !=null ) {
 			# Flag our trusted proxies
@@ -298,7 +297,7 @@ class CheckUser extends SpecialPage
 			$line .= '</span>&nbsp;&nbsp;&nbsp;<span style="background-color: '.$c.'"><strong>XFF</strong>: ';
 			$line .= $this->skin->makeKnownLinkObj( $cuTitle,
 				htmlspecialchars( $row->cuc_xff ),
-				"user=" . urlencode( $client ) . "/xff" )."</span>";
+				"user=".urlencode($client)."/xff&reason=".urlencode($reason) )."</span>";
 		}
 		
 		$line .= "</small></li>\n";
@@ -419,7 +418,8 @@ class CheckUser extends SpecialPage
 				} else {
 					$ip = long2ip( wfBaseConvert($row->cuc_ip_hex, 16, 10, 8) );
 				}
-				$s .= '<li><a href="'.$wgTitle->escapeLocalURL( 'user='.urlencode($ip).'&checktype=subipusers' ) .
+				$s .= '<li><a href="'.
+					$wgTitle->escapeLocalURL( 'user='.urlencode($ip).'&reason='.urlencode($reason).'&checktype=subipusers' ) .
 					'">'.$ip.'</a>';
 				if( $row->first == $row->last ) {
 					$s .= ' (' . $wgLang->timeanddate( $row->first, true ) . ') ';
@@ -486,7 +486,7 @@ class CheckUser extends SpecialPage
 			foreach( $users_edits as $name => $count ) {
 				$s .= '<li>';
 				$s .= $sk->userLink( -1 , $name ) . $sk->userToolLinks( -1 , $name );
-				$s .= ' (<a href="' . $wgTitle->escapeLocalURL( 'user=' . urlencode( $name ) ) . 
+				$s .= ' (<a href="' . $wgTitle->escapeLocalURL( 'user='.urlencode($name).'&reason='.urlencode($reason) ) . 
 					'">' . wfMsgHtml('checkuser-check') . '</a>)';
 				if( $users_first[$name] == $users_last[$name] ) {
 					$s .= ' (' . $wgLang->timeanddate( $users_first[$name], true ) . ') ';
@@ -534,7 +534,7 @@ class CheckUser extends SpecialPage
 							"user=" . urlencode( $client ) . "/xff" )."</span>";
 					}
 					$s .= '<br/><i>' .  $users_agentsets[$name][$n] . '</i>';
-					$s .= '</li>';
+					$s .= "</li>\n";
 				}
 				$s .= '</ol>';
 				$s .= '</li>';
@@ -644,8 +644,11 @@ class CheckUser extends SpecialPage
 			$s = '<ul>';
 			foreach( $ips_edits as $ip => $edits ) {
 				$s .= '<li>';
-				$s .= '<a href="' . $wgTitle->escapeLocalURL( 'user=' . urlencode( $ip ) ) . '">' . $ip . '</a>';
-				$s .= ' (<a href="' . $blockip->escapeLocalURL( 'ip=' . urlencode( $ip ) ) . '">' . wfMsgHtml('blocklink') . '</a>)';
+				$s .= '<a href="' . 
+					$wgTitle->escapeLocalURL( 'user='.urlencode($ip) . '&reason='.urlencode($reason) ) . '">' . 
+					htmlspecialchars($ip) . '</a>';
+				$s .= ' (<a href="' . $blockip->escapeLocalURL( 'ip='.urlencode($ip) ).'">' . 
+					wfMsgHtml('blocklink') . '</a>)';
 				if( $ips_first[$ip] == $ips_last[$ip] ) {
 					$s .= ' (' . $wgLang->timeanddate( $ips_first[$ip], true ) . ') '; 
 				} else {
@@ -675,7 +678,7 @@ class CheckUser extends SpecialPage
 					}
 				}
 				
-				$s .= '</li>';
+				$s .= "</li>\n";
 			}
 			$s .= '</ul>';
 		}
