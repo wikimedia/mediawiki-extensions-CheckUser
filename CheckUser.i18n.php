@@ -33,16 +33,19 @@ $wgCheckUserMessages['en'] = array(
 	'checkuser-blocked'      => 'Blocked',
 	'checkuser-too-many'     => 'Too many results, please narrow down the CIDR. Here are the IPs used (5,000 max, sorted by address):',
 );
+$wgCheckUserMessages['af'] = array(
+	'checkuser-search'       => 'Soek',
+);
 $wgCheckUserMessages['ang'] = array(
 	'checkuser-reason'       => 'Racu',
 );
 /* Arabic (Meno25) */
 $wgCheckUserMessages['ar'] = array(
 	'checkuser-summary'      => 'هذه الأداة تفحص أحدث التغييرات لاسترجاع الأيبيهات المستخدمة بواسطة مستخدم أو عرض بيانات التعديل/المستخدم لأيبي.
-	المستخمون و التعديلات بواسطة أيبي عميل يمكن استرجاعها من خلال عناوين XFF عبر طرق الأيبي IP ب"/xff". IPv4 (CIDR 16-32) و IPv6 (CIDR 64-128) مدعومان.
+	المستخمون والتعديلات بواسطة أيبي عميل يمكن استرجاعها من خلال عناوين XFF عبر طرق الأيبي IP ب"/xff". IPv4 (CIDR 16-32) و IPv6 (CIDR 64-128) مدعومان.
 	لا أكثر من 5000 تعديل سيتم عرضها لأسباب تتعلق بالأداء. استخدم هذا بالتوافق مع السياسة.',
 	'checkuser-logcase'      => 'بحث السجل حساس لحالة الحروف.',
-	'checkuser'              => 'فحص مستخدم',
+	'checkuser'              => 'تدقيق مستخدم',
 	'group-checkuser'        => 'مدققو مستخدم',
 	'group-checkuser-member' => 'مدقق مستخدم',
 	'grouppage-checkuser'    => '{{ns:project}}:تدقيق مستخدم',
