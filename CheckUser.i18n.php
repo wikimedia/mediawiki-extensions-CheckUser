@@ -200,6 +200,7 @@ $wgCheckUserMessages['fr'] = array(
 	'checkuser-log-fail'     => 'Impossible d’ajouter l’entrée du journal.',
 	'checkuser-nolog'        => 'Aucune entrée dans le journal',
 	'checkuser-blocked'      => 'Bloqué',
+	'checkuser-too-many'     => 'Trop de résultats. Veuillez limiter la recherche sur les adresses IP :',
 );
 $wgCheckUserMessages['frc'] = array(
 	'checkuser-summary'      => 'Cet outil observe les derniers changements pour retirer le IP de l\'useur ou pour montrer l\'information de l\'editeur/de l\'useur pour cet IP. Les userus et les changements par le IP d\'un client pouvont être reçus par les en-têtes XFF par additionner le IP avec "/xff". Ipv4 (CIDR 16-32) and IPv6 (CIDR 64-128) sont supportés. Cet outil retourne pas plus que 5000 changements par rapport à la qualité d\'ouvrage.  Usez ça ici en accord avec les régluations.',
