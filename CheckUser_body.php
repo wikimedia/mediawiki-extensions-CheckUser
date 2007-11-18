@@ -26,6 +26,7 @@ class CheckUser extends SpecialPage
 		}
 
 		$this->setHeaders();
+		$this->sk = $wgUser->getSkin();
 
 		$user = $wgRequest->getText( 'user' ) ? $wgRequest->getText( 'user' ) : $wgRequest->getText( 'ip' );
 		$reason = $wgRequest->getText( 'reason' );
@@ -213,12 +214,11 @@ class CheckUser extends SpecialPage
 		if( !$dbr->numRows( $ret ) ) {
 			$s = wfMsgHtml("checkuser-nomatch")."\n";
 		} else {
-			$this->skin = $wgUser->getSkin();
 			# Cache common messages
 			$this->preCacheMessages();
 			# Try to optimize this query
 			$lb = new LinkBatch;
-			while ( $row = $ret->fetchObject() ) {
+			while( $row = $ret->fetchObject() ) {
 				$userText = str_replace( ' ', '_', $row->cuc_user_text );
 				$lb->add( $row->cuc_namespace, $row->cuc_title );
 				$lb->add( NS_USER, $userText );
@@ -257,7 +257,6 @@ class CheckUser extends SpecialPage
 	 */
 	function CUChangesLine( $row, $reason ) {
 		global $wgLang;
-
 		# Add date headers
 		$date = $wgLang->date( $row->cuc_timestamp, true, true );
 		if( !isset($this->lastdate) ) {
@@ -271,22 +270,22 @@ class CheckUser extends SpecialPage
 		}	
 		$line .= "<li>";
 		# Create diff/hist/page links
-		$line .= $this->getLinkFromRow( $row );
+		$line .= $this->getLinksFromRow( $row );
 		# Show date
 		$line .= ' . . ' . $wgLang->time( $row->cuc_timestamp, true, true ) . ' . . ';
 		# Userlinks
-		$line .= $this->skin->userLink( $row->cuc_user, $row->cuc_user_text );
-		$line .= $this->skin->userToolLinks( $row->cuc_user, $row->cuc_user_text );
+		$line .= $this->sk->userLink( $row->cuc_user, $row->cuc_user_text );
+		$line .= $this->sk->userToolLinks( $row->cuc_user, $row->cuc_user_text );
 		# Action text, hackish ...
 		if( $row->cuc_actiontext )
-			$line .= ' ' . $this->skin->formatComment( $row->cuc_actiontext ) . ' ';
+			$line .= ' ' . $this->sk->formatComment( $row->cuc_actiontext ) . ' ';
 		# Comment
-		$line .= $this->skin->commentBlock( $row->cuc_comment );
+		$line .= $this->sk->commentBlock( $row->cuc_comment );
 		
 		$cuTitle = SpecialPage::getTitleFor( 'CheckUser' );
 		$line .= '<br/>&nbsp; &nbsp; &nbsp; &nbsp; <small>';
 		# IP
-		$line .= ' <strong>IP</strong>: '.$this->skin->makeKnownLinkObj( $cuTitle,
+		$line .= ' <strong>IP</strong>: '.$this->sk->makeKnownLinkObj( $cuTitle,
 			htmlspecialchars( $row->cuc_ip ),
 			"user=".urlencode( $row->cuc_ip ).'&reason='.urlencode($reason) );
 		# XFF
@@ -295,7 +294,7 @@ class CheckUser extends SpecialPage
 			list($client,$trusted) = efGetClientIPfromXFF($row->cuc_xff,$row->cuc_ip);
 			$c = $trusted ? '#F0FFF0' : '#FFFFCC';
 			$line .= '</span>&nbsp;&nbsp;&nbsp;<span style="background-color: '.$c.'"><strong>XFF</strong>: ';
-			$line .= $this->skin->makeKnownLinkObj( $cuTitle,
+			$line .= $this->sk->makeKnownLinkObj( $cuTitle,
 				htmlspecialchars( $row->cuc_xff ),
 				"user=".urlencode($client)."/xff&reason=".urlencode($reason) )."</span>";
 		}
@@ -309,47 +308,43 @@ class CheckUser extends SpecialPage
 	 * @param $row
 	 * @create diff/hist/page link
 	 */
-	function getLinkFromRow( $row ) {
+	function getLinksFromRow( $row ) {
+		// Log items (old format) and events to logs
 		if( $row->cuc_type == RC_LOG && $row->cuc_namespace == NS_SPECIAL ) {
-			//Log items (old format) and events to logs
 			list( $specialName, $logtype ) = SpecialPage::resolveAliasWithSubpage( $row->cuc_title );
 			$logname = LogPage::logName( $logtype );
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
-			$links = '(' . $this->skin->makeKnownLinkObj( $title, $logname ) . ')';
+			$links = '(' . $this->sk->makeKnownLinkObj( $title, $logname ) . ')';
+		// Log items
 		} elseif( $row->cuc_type == RC_LOG ) {
-			//Log items
-			$specialTitle = SpecialPage::getTitleFor( 'Log' );
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
-			$links = '(' . $this->skin->makeKnownLinkObj( $specialTitle, $this->message['log'],
+			$links = '(' . $this->sk->makeKnownLinkObj( SpecialPage::getTitleFor( 'Log' ), $this->message['log'],
 				wfArrayToCGI( array('page' => $title->getPrefixedText() ) ) ) . ')';
-		} elseif( !is_null( $row->cuc_this_oldid ) ) {
-			//Everything else
+		} else {
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
-			#new pages
+			# New pages
 			if( $row->cuc_type == RC_NEW ) {
 				$links = '(' . $this->message['diff'] . ') ';
 			} else {
-				#diff link
-				$links = ' (' . $this->skin->makeKnownLinkObj( $title, $this->message['diff'],
+				# Diff link
+				$links = ' (' . $this->sk->makeKnownLinkObj( $title, $this->message['diff'],
 					wfArrayToCGI( array(
 						'curid' => $row->cuc_page_id,
 						'diff' => $row->cuc_this_oldid,
 						'oldid' => $row->cuc_last_oldid ) ) ) . ') ';
 			}
-			#history link
-			$links .= ' (' . $this->skin->makeKnownLinkObj( $title, $this->message['hist'],
+			# History link
+			$links .= ' (' . $this->sk->makeKnownLinkObj( $title, $this->message['hist'],
 				wfArrayToCGI( array(
 					'curid' => $row->cuc_page_id,
 					'action' => 'history' ) ) ) . ') . . ';
-			#some basic flags
+			# Some basic flags
 			if( $row->cuc_type == RC_NEW )
 				$links .= '<span class="newpage">' . $this->message['newpageletter'] . '</span>';
 			if( $row->cuc_minor )
 				$links .= '<span class="minor">' . $this->message['minoreditletter'] . '</span>';
-			#page link
-			$links .= ' ' . $this->skin->makeLinkObj( $title );
-		} else {
-			$links = '';
+			# Page link
+			$links .= ' ' . $this->sk->makeLinkObj( $title );
 		}
 		return $links;
 	}
@@ -378,8 +373,6 @@ class CheckUser extends SpecialPage
 			htmlspecialchars( $ip ), $wgDBname, $reason ) ) {
 			$wgOut->addHTML( '<p>'.wfMsgHtml('checkuser-log-fail').'</p>' );
 		}
-
-		$sk = $wgUser->getSkin();
 
 		$dbr = wfGetDB( DB_SLAVE );
 
@@ -485,7 +478,7 @@ class CheckUser extends SpecialPage
 			$s = '<ul>';
 			foreach( $users_edits as $name => $count ) {
 				$s .= '<li>';
-				$s .= $sk->userLink( -1 , $name ) . $sk->userToolLinks( -1 , $name );
+				$s .= $this->sk->userLink( -1 , $name ) . $this->sk->userToolLinks( -1 , $name );
 				$s .= ' (<a href="' . $wgTitle->escapeLocalURL( 'user='.urlencode($name).'&reason='.urlencode($reason) ) . 
 					'">' . wfMsgHtml('checkuser-check') . '</a>)';
 				if( $users_first[$name] == $users_last[$name] ) {
@@ -503,16 +496,16 @@ class CheckUser extends SpecialPage
 				if( $block->load( $ip, $users_ids[$name] ) ) {
 					if( IP::isIPAddress($block->mAddress) && strpos($block->mAddress,'/') ) {
 						$userpage = Title::makeTitle( NS_USER, $block->mAddress );
-						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 
+						$blocklog = $this->sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 
 							'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 						$s .= ' <strong>(' . $blocklog . ' - ' . $block->mAddress . ')</strong>';
 					} else if( $block->mAuto ) {
-						$blocklog = $sk->makeKnownLinkObj( $blocklist, 
+						$blocklog = $this->sk->makeKnownLinkObj( $blocklist, 
 							wfMsgHtml('checkuser-blocked'), 'ip=' . urlencode( "#$block->mId" ) );
 						$s .= ' <strong>(' . $blocklog . ')</strong>';
 					} else {
 						$userpage = Title::makeTitle( NS_USER, $name );
-						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 
+						$blocklog = $this->sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 
 							'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 						$s .= '<strong>(' . $blocklog . ')</strong>';
 					}
@@ -529,7 +522,7 @@ class CheckUser extends SpecialPage
 						list($client,$trusted) = efGetClientIPfromXFF($set[1],$set[0]);
 						$c = $trusted ? '#F0FFF0' : '#FFFFCC';
 						$s .= '&nbsp;&nbsp;&nbsp;<span style="background-color: '.$c.'"><strong>XFF</strong>: ';
-						$s .= $sk->makeKnownLinkObj( $wgTitle,
+						$s .= $this->sk->makeKnownLinkObj( $wgTitle,
 							htmlspecialchars( $set[1] ),
 							"user=" . urlencode( $client ) . "/xff" )."</span>";
 					}
@@ -610,8 +603,6 @@ class CheckUser extends SpecialPage
 			$wgOut->addHTML( $s );
 			return;
 		}
-		
-		$sk = $wgUser->getSkin();
 
 		if( !$this->addLogEntry( time() , $wgUser->getName() ,
 			"got IPs for" , htmlspecialchars( $user ) , $wgDBname , $reason) ) 
@@ -663,16 +654,16 @@ class CheckUser extends SpecialPage
 				if( $block->load( $ip, 0 ) ) {
 					if( IP::isIPAddress($block->mAddress) && strpos($block->mAddress,'/') ) {
 						$userpage = Title::makeTitle( NS_USER, $block->mAddress );
-						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 
+						$blocklog = $this->sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 
 							'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 						$s .= ' <strong>(' . $blocklog . ' - ' . $block->mAddress . ')</strong>';
 					} else if( $block->mAuto ) {
-						$blocklog = $sk->makeKnownLinkObj( $blocklist, wfMsgHtml('checkuser-blocked'), 
+						$blocklog = $this->sk->makeKnownLinkObj( $blocklist, wfMsgHtml('checkuser-blocked'), 
 							'ip=' . urlencode( "#$block->mId" ) );
 						$s .= ' <strong>(' . $blocklog . ')</strong>';
 					} else {
 						$userpage = Title::makeTitle( NS_USER, $ip );
-						$blocklog = $sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 
+						$blocklog = $this->sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 
 							'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 						$s .= ' <strong>(' . $blocklog . ')</strong>';
 					}
@@ -732,9 +723,9 @@ class CheckUser extends SpecialPage
 				}
 			} else {
 				# Hide the log, show a link
-				global $wgTitle, $wgUser;
-				$skin = $wgUser->getSkin();
-				$link = $skin->makeKnownLinkObj( $wgTitle, wfMsgHtml('checkuser-showlog'), 'log=1&user=' . urlencode($user) );
+				global $wgTitle;
+				
+				$link = $this->sk->makeKnownLinkObj( $wgTitle, wfMsgHtml('checkuser-showlog'), 'log=1&user=' . urlencode($user) );
 				$wgOut->addHTML( "<p>(<strong>$link</strong>)</p>" );
 			}
 		}
