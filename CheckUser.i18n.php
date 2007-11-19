@@ -127,6 +127,12 @@ $wgCheckUserMessages['es'] = array(
 	'grouppage-checkuser'    => '{{ns:project}}:verificador del usuarios',
 	'checkuser-blocked'      => 'bloqueado',
 );
+$wgCheckUserMessages['eu'] = array(
+	'checkuser'              => 'Erabiltzailea egiaztatu',
+	'checkuser-reason'       => 'Arrazoia',
+	'checkuser-search'       => 'Bilatu',
+	'checkuser-nomatch'      => 'Ez da bat datorren emaitzarik aurkitu.',
+);
 $wgCheckUserMessages['ext'] = array(
 	'checkuser-reason'       => 'Razón',
 	'checkuser-search'       => 'Landeal',
@@ -609,7 +615,7 @@ $wgCheckUserMessages['oc'] = array(
 $wgCheckUserMessages['pl'] = array(
 	'checkuser-summary'      => 'To narzędzie skanuje ostatnie zmiany by znaleźć adresy IP użyte przez użytkownika lub pokazać edycje/użytkowników dla adresu IP. Użytkownicy i edycje spod adresu IP mogą być pozyskane przez nagłówki XFF przez dodanie do IP "/xff". Obsługiwane są adresy IPv4 (CIDR 16-32) I IPv6 (CIDR 64-128). Ze względu na wydajność, zostanie zwróconych nie więcej niż 5000 edycji. Prosimy o używanie tej funkcji zgodnie z zasadami.',
 	'checkuser-logcase'      => 'Szukanie w logu jest czułe na wielkość znaków',
-	'checkuser'              => 'Sprawdź użytkownika',
+	'checkuser'              => 'Sprawdzanie IP użytkownika',
 	'checkuser-reason'       => 'Powód',
 	'checkuser-showlog'      => 'Pokaż log',
 	'checkuser-log'          => 'Log Checkuser',
