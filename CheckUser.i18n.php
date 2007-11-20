@@ -75,6 +75,32 @@ $wgCheckUserMessages['bcl'] = array(
 	'checkuser-search'       => 'Hanápon',
 	'checkuser-blocked'      => 'Pigbágat',
 );
+$wgCheckUserMessages['bg'] = array(
+	'checkuser-summary'      => 'Този инструмент сканира последните промени и извлича IP адресите, използвани от потребител или показва информацията за редакциите/потребителя за посоченото IP.
+	Потребители и редакции по клиентско IP могат да бъдат извлечени чрез XFF headers като се добави IP с "/xff". Поддържат се IPv4 (CIDR 16-32) и IPv6 (CIDR 64-128).
+	От съображения, свързани с производителността на уикито, ще бъдат показани не повече от 5000 редакции. Използвайте инструмента съобразно установената политика.',
+	'checkuser-logcase'      => 'Търсенето в дневника различава главни от малки букви.',
+	'checkuser'              => 'Проверяване на потребител',
+	'group-checkuser'        => 'Проверяващи',
+	'group-checkuser-member' => 'Проверяващ',
+	'grouppage-checkuser'    => '{{ns:project}}:Проверяващи',
+	'checkuser-reason'       => 'Причина',
+	'checkuser-showlog'      => 'Показване на дневника',
+	'checkuser-log'          => 'Дневник на проверяващите',
+	'checkuser-query'        => 'Заявка към последните промени',
+	'checkuser-target'       => 'Потребител или IP',
+	'checkuser-users'        => 'Извличане на потребители',
+	'checkuser-edits'        => 'Извличане на редакции от IP',
+	'checkuser-ips'          => 'Извличане на IP адреси',
+	'checkuser-search'       => 'Търсене',
+	'checkuser-empty'        => 'Дневникът не съдържа записи.',
+	'checkuser-nomatch'      => 'Няма открити съвпадения.',
+	'checkuser-check'        => 'Проверка',
+	'checkuser-log-fail'     => 'Беше невъзможно да се добави запис в дневника',
+	'checkuser-nolog'        => 'Не беше открит дневник.',
+	'checkuser-blocked'      => 'Блокиран',
+	'checkuser-too-many'     => 'Твърде много резултати. Показани са използваните IP адреси (най-много 5000, сортирани по адрес):',
+);
 $wgCheckUserMessages['br'] = array(
 	'checkuser'              => 'Gwiriañ an implijer',
 	'group-checkuser'        => 'Gwiriañ an implijerien',
