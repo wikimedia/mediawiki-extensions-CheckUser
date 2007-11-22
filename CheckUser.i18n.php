@@ -218,6 +218,7 @@ $wgCheckUserMessages['fo'] = array(
 	'group-checkuser'        => 'Rannsakanar brúkari',
 	'group-checkuser-member' => 'Rannsakanar brúkarir',
 	'grouppage-checkuser'    => '{{ns:project}}:Rannsakanar brúkari',
+	'checkuser-search'       => 'Leita',
 );
 $wgCheckUserMessages['fr'] = array(
 	'checkuser-summary'      => 'Cet outil parcourt la liste des changements récents à la recherche de l’adresse IP employée par un utilisateur, affiche toutes les éditions d’une adresse IP (même enregistrée), ou liste les comptes utilisés par une adresse IP. Les comptes et les modifications peuvent être trouvés avec une IP XFF si elle finit avec « /xff ». Il est possible d’utiliser les protocoles IPv4 (CIDR 16-32) et IPv6 (CIDR 64-128). Le nombre d’éditions affichables est limité à {{formatnum:5000}} pour des questions de performance du serveur. Veuillez utiliser cet outil dans les limites de la charte d’utilisation.',
