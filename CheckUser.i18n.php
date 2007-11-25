@@ -146,6 +146,10 @@ $wgCheckUserMessages['de'] = array(
 	'checkuser-blocked'      => 'gesperrt',
 	'checkuser-too-many'     => 'Die Ergebnisliste ist zu lang, bitte grenze den IP-Bereich weiter ein. Hier sind die benutzten IP-Adressen (maximal 5000, sortiert nach Adresse):',
 );
+$wgCheckUserMessages['el'] = array(
+	'checkuser-target'       => 'Χρήστης ή IP',
+	'checkuser-search'       => 'Αναζήτηση',
+);
 $wgCheckUserMessages['es'] = array(
 	'checkuser'              => 'Verificador del usuarios',
 	'group-checkuser'        => 'Verificadors del usuarios',
@@ -315,6 +319,9 @@ Os usuarios e as edicións por un cliente IP poden ser recuperados a través das
 	'checkuser-nolog'        => 'Ningún arquivo de rexistro.',
 	'checkuser-blocked'      => 'Bloqueado',
 	'checkuser-too-many'     => 'Hai demasiados resultados, restrinxa o enderezo IP:',
+);
+$wgCheckUserMessages['grc'] = array(
+	'checkuser-search'       => 'Ζητεῖν',
 );
 $wgCheckUserMessages['he'] = array(
 	'checkuser-summary'      => 'כלי זה סורק את השינויים האחרונים במטרה למצוא את כתובות ה־IP שהשתמש בהן משתמש מסוים או כדי להציג את כל המידע על המשתמשים שהשתמשו בכתובת IP ועל העריכות שבוצעו ממנה.
