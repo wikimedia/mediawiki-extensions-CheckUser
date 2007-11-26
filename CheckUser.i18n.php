@@ -113,6 +113,9 @@ $wgCheckUserMessages['ca'] = array(
 	'group-checkuser-member' => 'Comprova l\'usuari',
 	'grouppage-checkuser'    => '{{ns:project}}:Comprova l\'usuari',
 );
+$wgCheckUserMessages['cdo'] = array(
+	'checkuser-search'       => 'Sìng-tō̤',
+);
 $wgCheckUserMessages['cs'] = array(
 	'checkuser'              => 'Kontrola uživatele',
 	'group-checkuser'        => 'Revizoři',
