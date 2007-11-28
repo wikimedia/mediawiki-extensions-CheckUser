@@ -374,6 +374,7 @@ $wgCheckUserMessages['hr'] = array(
 	'checkuser-log-fail'     => 'Ne mogu dodati zapis',
 	'checkuser-nolog'        => 'Evidencijska datoteka nije nađena',
 	'checkuser-blocked'      => 'Blokiran',
+	'checkuser-too-many'     => 'Previše rezultata, molimo suzite opseg (CIDR). Slijede rabljene IP adrese (najviše njih 5000, poredano abecedno):',
 );
 $wgCheckUserMessages['hsb'] = array(
 	'checkuser-summary'      => 'Tutón nastroj přepytuje aktualne změny, zo by IP-adresy wužiwarja zwěsćił abo změny abo wužiwarske daty za IP pokazał.
