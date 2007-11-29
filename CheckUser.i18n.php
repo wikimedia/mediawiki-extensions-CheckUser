@@ -728,6 +728,7 @@ $wgCheckUserMessages['pt'] = array(
 	'checkuser-log-fail'     => 'Não foi possível adicionar entradas ao registo',
 	'checkuser-nolog'        => 'Não foi encontrado um arquivo de registos.',
 	'checkuser-blocked'      => 'Bloqueado',
+	'checkuser-too-many'     => 'Demasiados resultados; por favor, restrinja o CIDR. Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
 );
 $wgCheckUserMessages['rm'] = array(
 	'checkuser-reason'       => 'Motiv',
