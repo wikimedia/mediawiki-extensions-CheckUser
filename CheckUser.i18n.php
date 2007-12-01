@@ -574,6 +574,9 @@ $wgCheckUserMessages['lo'] = array(
 $wgCheckUserMessages['mk'] = array(
 	'checkuser'              => 'Провери корисник',
 );
+$wgCheckUserMessages['myv'] = array(
+	'checkuser-search'       => 'Вешнемс',
+);
 $wgCheckUserMessages['nap'] = array(
 	'checkuser-search'       => 'Truova',
 );
