@@ -11,9 +11,10 @@ require_once( 'CheckUser.i18n.php' );
 
 $wgExtensionCredits['specialpage'][] = array(
 	'author' => 'Tim Starling, Aaron Schulz',
+	'version' => '1.1',
 	'name' => 'CheckUser',
 	'url' => 'http://www.mediawiki.org/wiki/Extension:CheckUser',
-	'description' => 'Grants users with the appropriate permission the ability to check user\'s IP addresses and other information'
+	'description' => 'Grants users with the appropriate permission the ability to check user\'s IP addresses and other information',
 );
 
 $wgAvailableRights[] = 'checkuser';
@@ -57,7 +58,7 @@ function efUpdateCheckUserData( $rc ) {
 	} else {
 		$actionText = '';
 	}
-	
+
 	$rcRow = array(
 		'cuc_namespace' => $rc_namespace,
 		'cuc_title' => $rc_title,
@@ -93,7 +94,7 @@ function efUpdateCheckUserData( $rc ) {
 		$sql = "DELETE FROM $recentchanges WHERE cuc_timestamp < '{$cutoff}'";
 		$dbw->query( $sql );
 	}
-	
+
 	return true;
 }
 
@@ -104,7 +105,7 @@ function efUpdateCheckUserData( $rc ) {
  * @return array( string, bool )
  */
 function efGetClientIPfromXFF( $xff, $address=NULL ) {
-	if( !$xff ) 
+	if( !$xff )
 		return array(null, false);
 	// Avoid annoyingly long xff hacks
 	$xff = trim( substr( $xff, 0, 255 ) );
@@ -128,18 +129,18 @@ function efGetClientIPfromXFF( $xff, $address=NULL ) {
 			}
 		}
 	}
-	// We still have to test if the IP that sent 
+	// We still have to test if the IP that sent
 	// this header is trusted to confirm results
 	if ( $client != $address && (!$address || !wfIsTrustedProxy($address)) )
 		$trusted = false;
-	
+
 	return array( $client, $trusted );
 }
 
 function efXFFChainIsSquid( $xff ) {
 	global $wgSquidServers, $wgSquidServersNoPurge;
 
-	if ( !$xff ) 
+	if ( !$xff )
 		false;
 	// Avoid annoyingly long xff hacks
 	$xff = trim( substr( $xff, 0, 255 ) );
@@ -158,16 +159,16 @@ function efXFFChainIsSquid( $xff ) {
 			}
 		}
 	}
-	
+
 	return $squidOnly;
 }
 
 function efCheckUserSchemaUpdates() {
 	global $wgDBtype, $wgExtNewIndexes;
-	
+
 	# Run install.inc as necessary
 	$base = dirname(__FILE__);
-	
+
 	$db = wfGetDB( DB_MASTER );
 	if( $db->tableExists( 'cu_changes' ) ) {
 		echo "...cu_changes already exists.\n";
@@ -175,11 +176,11 @@ function efCheckUserSchemaUpdates() {
 		require_once "$base/install.inc";
 		create_cu_changes( $db );
 	}
-	
-	if ($wgDBtype == 'mysql') {	
-		$wgExtNewIndexes[] = array('cu_changes', 'cuc_ip_hex_time', 
+
+	if ($wgDBtype == 'mysql') {
+		$wgExtNewIndexes[] = array('cu_changes', 'cuc_ip_hex_time',
 			"$base/archives/patch-cu_changes_indexes.sql" );
-		$wgExtNewIndexes[] = array('cu_changes', 'cuc_user_ip_time', 
+		$wgExtNewIndexes[] = array('cu_changes', 'cuc_user_ip_time',
 			"$base/archives/patch-cu_changes_indexes2.sql" );
 	}
 	return true;
