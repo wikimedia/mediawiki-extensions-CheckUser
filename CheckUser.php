@@ -10,7 +10,7 @@ if (!defined('MEDIAWIKI')) {
 require_once( 'CheckUser.i18n.php' );
 
 $wgExtensionCredits['specialpage'][] = array(
-	'author' => 'Tim Starling, Aaron Schulz',
+	'author' => array( 'Tim Starling', 'Aaron Schulz' ),
 	'version' => '1.1',
 	'name' => 'CheckUser',
 	'url' => 'http://www.mediawiki.org/wiki/Extension:CheckUser',
