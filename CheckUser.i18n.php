@@ -839,6 +839,16 @@ Beoarbaidengen fon ne IP-Adresse konnen uk ätter Informatione uut do XFF-Header
 	'checkuser-query'        => 'Lääste Annerengen oufräigje',
 	'checkuser-target'       => 'Benutser of IP-Adresse',
 	'checkuser-users'        => 'Hoal Benutsere',
+	'checkuser-edits'        => 'Hoal Beoarbaidengen fon IP-Adresse',
+	'checkuser-ips'          => 'Hoal IP-Adressen',
+	'checkuser-search'       => 'Säike',
+	'checkuser-empty'        => 'Dät Logbouk änthaalt neen Iendraage.',
+	'checkuser-nomatch'      => 'Neen Uureenstämmengen fuunen.',
+	'checkuser-check'        => 'Uutfiere',
+	'checkuser-log-fail'     => 'Logbouk-Iendraach kon nit bietouföiged wäide.',
+	'checkuser-nolog'        => 'Neen Logbouk fuunen.',
+	'checkuser-blocked'      => 'speerd',
+	'checkuser-too-many'     => 'Ju Lieste fon Resultoate is tou loang, gränsje dän IP-Beräk fääre ien. Hier sunt do benutsede IP-Adressen (maximoal 5000, sortierd ätter Adresse):',
 
 );
 
