@@ -66,6 +66,33 @@ $wgCheckUserMessages['ar'] = array(
 	'checkuser-blocked'      => 'ممنوع',
 	'checkuser-too-many'     => 'نتائج كثيرة جدا، من فضلك قم بتضييق عنوان الأيبي:',
 );
+
+/** Asturian (Asturianu)
+ * @author SPQRobin
+ */
+$wgCheckUserMessages['ast'] = array(
+	'checkuser-summary'  => "Esta ferramienta escanea los cambeos recientes pa obtener les IP usaes por un usuariu o p'amosar les ediciones o usuarios d'una IP.
+	Los usuarios y ediciones correspondientes a una IP puen obtenese per aciu de les cabeceres XFF añadiendo depués de la IP \\\"/xff\\\". Puen usase los protocolos IPv4 (CIDR 16-32) y IPv6 (CIDR 64-128).
+	Por razones de rendimientu nun s'amosarán más de 5.000 ediciones. Emplega esta ferramienta  acordies cola política d'usu.",
+	'checkuser-logcase'  => 'La busca nel rexistru distingue ente mayúscules y minúscules.',
+	'checkuser'          => "Comprobador d'usuarios",
+	'checkuser-reason'   => 'Razón',
+	'checkuser-showlog'  => 'Amosar el rexistru',
+	'checkuser-log'      => "Rexistru de comprobadores d'usuarios",
+	'checkuser-query'    => 'Buscar nos cambeos recientes',
+	'checkuser-target'   => 'Usuariu o IP',
+	'checkuser-users'    => 'Obtener usuarios',
+	'checkuser-edits'    => 'Obtener les ediciones de la IP',
+	'checkuser-ips'      => 'Obtener les IP',
+	'checkuser-search'   => 'Buscar',
+	'checkuser-empty'    => 'El rexistru nun tien nengún artículu.',
+	'checkuser-nomatch'  => "Nun s'atoparon coincidencies.",
+	'checkuser-check'    => 'Comprobar',
+	'checkuser-log-fail' => 'Nun se pue añader la entrada nel rexistru',
+	'checkuser-nolog'    => 'Nun hai entraes nel rexistru.',
+	'checkuser-blocked'  => 'Bloquiáu',
+);
+
 $wgCheckUserMessages['bcl'] = array(
 	'checkuser-reason'       => 'Rasón',
 	'checkuser-showlog'      => 'Ipahiling an mga historial',
