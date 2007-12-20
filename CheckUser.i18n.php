@@ -518,7 +518,7 @@ IPv4 (CIDR 16-32) と IPv6 (CIDR 64-128) が利用出来ます。
 	'checkuser-check'        => '調査',
 	'checkuser-nolog'        => 'ログファイルが見つかりません。',
 );
-$wgCheckUserMessages['kk-kz'] = array(
+$wgCheckUserMessages['kk-cyrl'] = array(
 	'checkuser-summary'      => 'Бұл құрал пайдаланушы қолданған IP жайлар үшін, немесе IP жай түзету/пайдаланушы деректерін көрсету үшін жуықтағы өзгерістерді қарап шығады.
 	Пайдаланушыларды мен түзетулерді XFF IP арқылы IP жайға «/xff» дегенді қосып келтіруге болады. IPv4 (CIDR 16-32) және IPv6 (CIDR 64-128) арқауланады.
 	Орындаушылық себептерімен 5000 түзетуден артық қайтарылмайды. Бұны ережелерге сәйкес пайдаланыңыз.',
@@ -543,7 +543,7 @@ $wgCheckUserMessages['kk-kz'] = array(
 	'checkuser-nolog'        => 'Журнал файлы табылмады.',
 	'checkuser-blocked'      => 'Бұғатталған',
 );
-$wgCheckUserMessages['kk-tr'] = array(
+$wgCheckUserMessages['kk-latn'] = array(
 	'checkuser-summary'      => 'Bul qural paýdalanwşı qoldanğan IP jaýlar üşin, nemese IP jaý tüzetw/paýdalanwşı derekterin körsetw üşin jwıqtağı özgeristerdi qarap şığadı.
 	Paýdalanwşılardı men tüzetwlerdi XFF IP arqılı IP jaýğa «/xff» degendi qosıp keltirwge boladı. IPv4 (CIDR 16-32) jäne IPv6 (CIDR 64-128) arqawlanadı.
 	Orındawşılıq sebepterimen 5000 tüzetwden artıq qaýtarılmaýdı. Bunı erejelerge säýkes paýdalanıñız.',
@@ -568,7 +568,7 @@ $wgCheckUserMessages['kk-tr'] = array(
 	'checkuser-nolog'        => 'Jwrnal faýlı tabılmadı.',
 	'checkuser-blocked'      => 'Buğattalğan',
 );
-$wgCheckUserMessages['kk-cn'] = array(
+$wgCheckUserMessages['kk-arab'] = array(
 	'checkuser-summary'      => 'بۇل قۇرال پايدالانۋشى قولدانعان IP جايلار ٷشٸن, نەمەسە IP جاي تٷزەتۋ/پايدالانۋشى دەرەكتەرٸن كٶرسەتۋ ٷشٸن جۋىقتاعى ٶزگەرٸستەردٸ قاراپ شىعادى.
 	پايدالانۋشىلاردى مەن تٷزەتۋلەردٸ XFF IP ارقىلى IP جايعا «/xff» دەگەندٸ قوسىپ كەلتٸرۋگە بولادى. IPv4 (CIDR 16-32) جٵنە IPv6 (CIDR 64-128) ارقاۋلانادى.
 	ورىنداۋشىلىق سەبەپتەرٸمەن 5000 تٷزەتۋدەن ارتىق قايتارىلمايدى. بۇنى ەرەجەلەرگە سٵيكەس پايدالانىڭىز.',
@@ -593,7 +593,6 @@ $wgCheckUserMessages['kk-cn'] = array(
 	'checkuser-nolog'        => 'جۋرنال فايلى تابىلمادى.',
 	'checkuser-blocked'      => 'بۇعاتتالعان',
 );
-$wgCheckUserMessages['kk'] = $wgCheckUserMessages['kk-kz'];
 $wgCheckUserMessages['kn'] = array(
 	'checkuser'              => 'ಸದಸ್ಯನನ್ನು ಚೆಕ್ ಮಾಡಿ',
 );
@@ -998,6 +997,14 @@ $wgCheckUserMessages['zh-hant'] = array(
 	'checkuser-nolog'        => '找不到記錄檔',
 	'checkuser-blocked'      => '已經查封',
 );
+
+# Kazakh fallbacks
+$wgCheckUserMessages['kk-kz'] = $wgCheckUserMessages['kk-cyrl'];
+$wgCheckUserMessages['kk-tr'] = $wgCheckUserMessages['kk-latn'];
+$wgCheckUserMessages['kk-cn'] = $wgCheckUserMessages['kk-arab'];
+$wgCheckUserMessages['kk'] = $wgCheckUserMessages['kk-cyrl'];
+
+# Chinese fallbacks
 $wgCheckUserMessages['zh'] = $wgCheckUserMessages['zh-hans'];
 $wgCheckUserMessages['zh-cn'] = $wgCheckUserMessages['zh-hans'];
 $wgCheckUserMessages['zh-hk'] = $wgCheckUserMessages['zh-hant'];
