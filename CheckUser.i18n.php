@@ -920,6 +920,16 @@ $wgCheckUserMessages['tet'] = array(
 	'checkuser-target'       => 'Uza-na\'in ka IP',
 	'checkuser-search'       => 'Buka',
 );
+
+/** Tonga (faka-Tonga)
+ * @author SPQRobin
+ */
+$wgCheckUserMessages['to'] = array(
+	'checkuser'              => 'Siviʻi ʻa e ʻetita',
+	'group-checkuser'        => 'Siviʻi kau ʻetita',
+	'group-checkuser-member' => 'Siviʻi ʻa e ʻetita',
+);
+
 $wgCheckUserMessages['tr'] = array(
 	'checkuser'              => 'IP denetçisi',
 );
