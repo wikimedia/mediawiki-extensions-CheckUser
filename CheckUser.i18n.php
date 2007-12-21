@@ -616,6 +616,13 @@ $wgCheckUserMessages['lo'] = array(
 $wgCheckUserMessages['mk'] = array(
 	'checkuser'              => 'Провери корисник',
 );
+
+/** Burmese (Myanmasa) */
+$wgCheckUserMessages['my'] = array(
+	'checkuser-reason' => 'કારણ',
+	'checkuser-search' => 'શોધો',
+);
+
 $wgCheckUserMessages['myv'] = array(
 	'checkuser-search'       => 'Вешнемс',
 );
@@ -792,10 +799,14 @@ $wgCheckUserMessages['ro'] = array(
 	'group-checkuser-member' => 'Checkuser',
 	'grouppage-checkuser'    => '{{ns:project}}:Checkuser',
 );
+
+/** Russian (Русский)
+ * @author .:Ajvol:.
+ */
 $wgCheckUserMessages['ru'] = array(
-	'checkuser-summary'      => 'Данный инструмент может быть использован, чтобы получить IP-адреса, использовавшиеся участником, либо чтобы показать правки/участников, работавших с IP-адреса.
+	'checkuser-summary'      => "Данный инструмент может быть использован, чтобы получить IP-адреса, использовавшиеся участником, либо чтобы показать правки/участников, работавших с IP-адреса.
 	Правки и пользователи, которые правили с опрделеннного IP-адреса, указанного в X-Forwarded-For, можно получить, добавив префикс <code>/xff</code> к IP-адресу. Поддерживаемые версии IP: 4 (CIDR 16—32) и 6 (CIDR 64—128).
-	Из соображений производительности будут показаны только первые 5000 правок. Используйте эту страницу \'\'\'только в соответствии с правилами\'\'\'.',
+	Из соображений производительности будут показаны только первые 5000 правок. Используйте эту страницу '''только в соответствии с правилами'''.",
 	'checkuser-logcase'      => 'Поиск по журналу чувствителен к регистру.',
 	'checkuser'              => 'Проверить участника',
 	'group-checkuser'        => 'Проверяющие',
@@ -814,8 +825,11 @@ $wgCheckUserMessages['ru'] = array(
 	'checkuser-nomatch'      => 'Совпадений не найдено.',
 	'checkuser-check'        => 'Проверить',
 	'checkuser-log-fail'     => 'Невозможно добавить запись в журнал',
-	'checkuser-nolog'        => 'Файл журнала не найден.'
+	'checkuser-nolog'        => 'Файл журнала не найден.',
+	'checkuser-blocked'      => 'Заблокирован',
+	'checkuser-too-many'     => 'Слишком много результатов, пожалуйста, сузьте CIDR. Использованные IP (максимум 5000, отсортировано по адресу):',
 );
+
 $wgCheckUserMessages['sk'] = array(
 	'checkuser-summary'      => 'Tento nástroj kontroluje Posledné úpravy, aby získal IP adresy používané používateľom alebo zobrazil úpravy/používateľské dáta IP adresy.
 	Používateľov a úpravy je možné získať s XFF IP pridaním "/xff" k IP. Sú podporované IPv4 (CIDR 16-32) a IPv6 (CIDR 64-128).
