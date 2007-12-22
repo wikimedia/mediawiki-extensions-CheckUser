@@ -617,12 +617,6 @@ $wgCheckUserMessages['mk'] = array(
 	'checkuser'              => 'Провери корисник',
 );
 
-/** Burmese (Myanmasa) */
-$wgCheckUserMessages['my'] = array(
-	'checkuser-reason' => 'કારણ',
-	'checkuser-search' => 'શોધો',
-);
-
 $wgCheckUserMessages['myv'] = array(
 	'checkuser-search'       => 'Вешнемс',
 );
