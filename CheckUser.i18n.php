@@ -600,6 +600,14 @@ $wgCheckUserMessages['la'] = array(
 	'checkuser-reason'       => 'Causa',
 	'checkuser-search'       => 'Quaerere',
 );
+
+/** Luxembourgish (Lëtzebuergesch)
+ * @author Robby
+ */
+$wgCheckUserMessages['lb'] = array(
+	'checkuser-target' => 'Benotzer oder IP-Adress',
+);
+
 $wgCheckUserMessages['lo'] = array(
 	'checkuser'              => 'ກວດຜູ້ໃຊ້',
 	'checkuser-reason'       => 'ເຫດຜົນ',
