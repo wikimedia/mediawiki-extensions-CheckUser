@@ -162,9 +162,11 @@ class CheckUser extends SpecialPage
 		}
 		# See what is best to do after testing the waters...
 		if( isset($rangecount) && $rangecount > 5000 ) {
+		 	$use_index = $dbr->useIndexClause( $index );
 			$sql = "SELECT cuc_ip_hex, COUNT(*) AS count,
 				MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last 
-				FROM $cu_changes FORCE INDEX($index) WHERE $ip_conds 
+				FROM $cu_changes $use_index
+				WHERE $ip_conds 
 				GROUP BY cuc_ip_hex ORDER BY cuc_ip_hex LIMIT 5000";
 			$ret = $dbr->query( $sql, __METHOD__ );
 			# List out each IP that has edits
@@ -207,8 +209,8 @@ class CheckUser extends SpecialPage
 			return;
 		} 
 		# OK, do the real query...
-		$sql = "SELECT * FROM $cu_changes FORCE INDEX($index) WHERE $ip_conds 
-			ORDER BY cuc_timestamp DESC LIMIT 5000";
+		$use_index = $dbr->useIndexClause( $index );
+		$sql = "SELECT * FROM $cu_changes $use_index WHERE $ip_conds ORDER BY cuc_timestamp DESC LIMIT 5000";
 		$ret = $dbr->query( $sql, __METHOD__ );
 
 		if( !$dbr->numRows( $ret ) ) {
@@ -389,9 +391,10 @@ class CheckUser extends SpecialPage
 		}
 		
 		if( isset($rangecount) && $rangecount > 5000 ) {
+			$use_index = $dbr->useIndexClause( $index );
 			$sql = "SELECT cuc_ip_hex, COUNT(*) AS count,
 				MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last 
-				FROM $cu_changes FORCE INDEX($index) WHERE $ip_conds 
+				FROM $cu_changes $use_index WHERE $ip_conds 
 				GROUP BY cuc_ip_hex ORDER BY cuc_ip_hex LIMIT 5000";
 			$ret = $dbr->query( $sql, __METHOD__ );
 			# List out each IP that has edits
@@ -434,8 +437,9 @@ class CheckUser extends SpecialPage
 			return;
 		} 
 		# OK, do the real query...
+		$use_index = $dbr->useIndexClause( $index );
 		$sql = "SELECT cuc_user_text, cuc_timestamp, cuc_user, cuc_ip, cuc_agent, cuc_xff 
-			FROM $cu_changes FORCE INDEX($index) WHERE $ip_conds 
+			FROM $cu_changes $use_index WHERE $ip_conds 
 			ORDER BY cuc_timestamp DESC LIMIT 5000";
 		$ret = $dbr->query( $sql, __METHOD__ );
 
@@ -612,9 +616,10 @@ class CheckUser extends SpecialPage
 		$dbr = wfGetDB( DB_SLAVE );
 		# Ordering by the latest timestamp makes a small filesort on the IP list
 		$cu_changes = $dbr->tableName( 'cu_changes' );
+		$use_index = $dbr->useIndexClause( 'cuc_user_ip_time' );
 		$sql = "SELECT cuc_ip, COUNT(*) AS count, 
 			MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last 
-			FROM $cu_changes FORCE INDEX(cuc_user_ip_time) WHERE cuc_user = $user_id 
+			FROM $cu_changes $use_index WHERE cuc_user = $user_id 
 			GROUP BY cuc_ip ORDER BY last DESC";
 		
 		$ret = $dbr->query( $sql, __METHOD__ );
