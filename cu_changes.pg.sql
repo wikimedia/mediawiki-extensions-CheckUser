@@ -27,8 +27,6 @@ CREATE TABLE cu_changes (
   cuc_agent      TEXT
 );
 
-CREATE INDEX cuc_ip_hex_time  ON cu_changes( cuc_ip_hex, cuc_timestamp ),
-CREATE INDEX cuc_user_ip_time ON cu_changes( cuc_user, cuc_ip, cuc_timestamp ),
-CREATE INDEX cuc_xff_hex_time ON cu_changes( cuc_xff_hex, cuc_timestamp ),
+CREATE INDEX cu_changes_index ON cu_changes(cuc_user, cuc_ip_hex, cuc_xff_hex, cuc_timestamp);
 
 COMMIT;
