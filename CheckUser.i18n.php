@@ -593,9 +593,11 @@ $wgCheckUserMessages['kk-arab'] = array(
 	'checkuser-nolog'        => 'جۋرنال فايلى تابىلمادى.',
 	'checkuser-blocked'      => 'بۇعاتتالعان',
 );
+
 $wgCheckUserMessages['kn'] = array(
 	'checkuser'              => 'ಸದಸ್ಯನನ್ನು ಚೆಕ್ ಮಾಡಿ',
 );
+
 $wgCheckUserMessages['la'] = array(
 	'checkuser-reason'       => 'Causa',
 	'checkuser-search'       => 'Quaerere',
@@ -605,7 +607,9 @@ $wgCheckUserMessages['la'] = array(
  * @author Robby
  */
 $wgCheckUserMessages['lb'] = array(
-	'checkuser-target' => 'Benotzer oder IP-Adress',
+	'checkuser-reason'  => 'Grond',
+	'checkuser-target'  => 'Benotzer oder IP-Adress',
+	'checkuser-blocked' => 'Gespaart',
 );
 
 $wgCheckUserMessages['lo'] = array(
@@ -621,6 +625,7 @@ $wgCheckUserMessages['lo'] = array(
 	'checkuser-nomatch'      => 'ບໍ່ພົບສິ່ງທີ່ຊອກຫາ',
 	'checkuser-check'        => 'ກວດ',
 );
+
 $wgCheckUserMessages['mk'] = array(
 	'checkuser'              => 'Провери корисник',
 );
