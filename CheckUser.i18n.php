@@ -33,12 +33,15 @@ $wgCheckUserMessages['en'] = array(
 	'checkuser-blocked'      => 'Blocked',
 	'checkuser-too-many'     => 'Too many results, please narrow down the CIDR. Here are the IPs used (5000 max, sorted by address):',
 );
+
 $wgCheckUserMessages['af'] = array(
 	'checkuser-search'       => 'Soek',
 );
+
 $wgCheckUserMessages['ang'] = array(
 	'checkuser-reason'       => 'Racu',
 );
+
 /* Arabic (Meno25) */
 $wgCheckUserMessages['ar'] = array(
 	'checkuser-summary'      => 'هذه الأداة تفحص أحدث التغييرات لاسترجاع الأيبيهات المستخدمة بواسطة مستخدم أو عرض بيانات التعديل/المستخدم لأيبي.
@@ -102,6 +105,7 @@ $wgCheckUserMessages['bcl'] = array(
 	'checkuser-search'       => 'Hanápon',
 	'checkuser-blocked'      => 'Pigbágat',
 );
+
 $wgCheckUserMessages['bg'] = array(
 	'checkuser-summary'      => 'Този инструмент сканира последните промени и извлича IP адресите, използвани от потребител или показва информацията за редакциите/потребителя за посоченото IP.
 	Потребители и редакции по клиентско IP могат да бъдат извлечени чрез XFF headers като се добави IP с "/xff". Поддържат се IPv4 (CIDR 16-32) и IPv6 (CIDR 64-128).
@@ -128,21 +132,25 @@ $wgCheckUserMessages['bg'] = array(
 	'checkuser-blocked'      => 'Блокиран',
 	'checkuser-too-many'     => 'Твърде много резултати. Показани са използваните IP адреси (най-много 5000, сортирани по адрес):',
 );
+
 $wgCheckUserMessages['br'] = array(
 	'checkuser'              => 'Gwiriañ an implijer',
 	'group-checkuser'        => 'Gwiriañ an implijerien',
 	'group-checkuser-member' => 'Gwiriañ an implijer',
 	'grouppage-checkuser'    => '{{ns:project}}:Gwiriañ an implijer',
 );
+
 $wgCheckUserMessages['ca'] = array(
 	'checkuser'              => 'Comprova l\'usuari',
 	'group-checkuser'        => 'Comprova els usuaris',
 	'group-checkuser-member' => 'Comprova l\'usuari',
 	'grouppage-checkuser'    => '{{ns:project}}:Comprova l\'usuari',
 );
+
 $wgCheckUserMessages['cdo'] = array(
 	'checkuser-search'       => 'Sìng-tō̤',
 );
+
 $wgCheckUserMessages['co'] = array(
 	'group-checkuser'        => 'Controllori',
 	'group-checkuser-member' => 'Controllore',
@@ -184,9 +192,13 @@ $wgCheckUserMessages['de'] = array(
 	'checkuser-too-many'     => 'Die Ergebnisliste ist zu lang, bitte grenze den IP-Bereich weiter ein. Hier sind die benutzten IP-Adressen (maximal 5000, sortiert nach Adresse):',
 );
 
+/** Greek (Ελληνικά)
+ * @author Consta
+ */
 $wgCheckUserMessages['el'] = array(
-	'checkuser-target'       => 'Χρήστης ή IP',
-	'checkuser-search'       => 'Αναζήτηση',
+	'checkuser-reason' => 'Λόγος',
+	'checkuser-target' => 'Χρήστης ή IP',
+	'checkuser-search' => 'Αναζήτηση',
 );
 
 $wgCheckUserMessages['es'] = array(
