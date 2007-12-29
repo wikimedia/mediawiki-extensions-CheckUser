@@ -210,7 +210,9 @@ class CheckUser extends SpecialPage
 		} 
 		# OK, do the real query...
 		$use_index = $dbr->useIndexClause( $index );
-		$sql = "SELECT * FROM $cu_changes $use_index WHERE $ip_conds ORDER BY cuc_timestamp DESC LIMIT 5000";
+		$sql = "SELECT cuc_namespace,cuc_title,cuc_user,cuc_user_text,cuc_comment,cuc_actiontext,
+			cuc_timestamp,cuc_minor,cuc_page_id,cuc_type,cuc_this_oldid,cuc_last_oldid,cuc_ip,cuc_xff,cuc_agent 
+			FROM $cu_changes $use_index WHERE $ip_conds ORDER BY cuc_timestamp DESC LIMIT 5000";
 		$ret = $dbr->query( $sql, __METHOD__ );
 
 		if( !$dbr->numRows( $ret ) ) {
@@ -295,11 +297,14 @@ class CheckUser extends SpecialPage
 			# Flag our trusted proxies
 			list($client,$trusted) = efGetClientIPfromXFF($row->cuc_xff,$row->cuc_ip);
 			$c = $trusted ? '#F0FFF0' : '#FFFFCC';
-			$line .= '</span>&nbsp;&nbsp;&nbsp;<span style="background-color: '.$c.'"><strong>XFF</strong>: ';
+			$line .= '&nbsp;&nbsp;&nbsp;<span class="checkuser-xff" style="background-color: '.$c.'"><strong>XFF</strong>: ';
 			$line .= $this->sk->makeKnownLinkObj( $cuTitle,
 				htmlspecialchars( $row->cuc_xff ),
 				"user=".urlencode($client)."/xff&reason=".urlencode($reason) )."</span>";
 		}
+		# User agent
+		$line .= '&nbsp;&nbsp;&nbsp;<span class="checkuser-agent" style="color:#888;">' . 
+			htmlspecialchars( $row->cuc_agent )."</span>";
 		
 		$line .= "</small></li>\n";
 
