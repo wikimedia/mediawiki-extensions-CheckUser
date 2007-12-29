@@ -133,11 +133,19 @@ $wgCheckUserMessages['bg'] = array(
 	'checkuser-too-many'     => 'Твърде много резултати. Показани са използваните IP адреси (най-много 5000, сортирани по адрес):',
 );
 
+/** Breton (Brezhoneg)
+ * @author Fulup
+ */
 $wgCheckUserMessages['br'] = array(
 	'checkuser'              => 'Gwiriañ an implijer',
 	'group-checkuser'        => 'Gwiriañ an implijerien',
 	'group-checkuser-member' => 'Gwiriañ an implijer',
 	'grouppage-checkuser'    => '{{ns:project}}:Gwiriañ an implijer',
+	'checkuser-reason'       => 'Abeg',
+	'checkuser-showlog'      => 'Diskouez ar marilh',
+	'checkuser-search'       => 'Klask',
+	'checkuser-check'        => 'Gwiriañ',
+	'checkuser-blocked'      => 'Stanket',
 );
 
 $wgCheckUserMessages['ca'] = array(
@@ -503,11 +511,23 @@ $wgCheckUserMessages['id'] = array(
 	'checkuser-nolog'		 => 'Berkas log tidak ditemukan.',
 
 );
+
+/** Icelandic (Íslenska)
+ * @author SPQRobin
+ * @author Spacebirdy
+ * @author Jóna Þórunn
+ */
 $wgCheckUserMessages['is'] = array(
 	'checkuser'              => 'Skoða notanda',
 	'group-checkuser'        => 'Athuga notendur',
 	'group-checkuser-member' => 'Athuga notanda',
+	'checkuser-reason'       => 'Ástæða',
+	'checkuser-target'       => 'Notandi eða IP',
+	'checkuser-search'       => 'Leita',
+	'checkuser-nomatch'      => 'Engar niðurstöður fundust.',
+	'checkuser-check'        => 'Athuga',
 );
+
 $wgCheckUserMessages['it'] = array(
 	'checkuser-summary'      => 'Questo strumento analizza le modifiche recenti per recuperare gli indirizzi IP utilizzati da un utente o mostrare contributi e dati di un IP. Utenti e contributi di un client IP possono essere rintracciati attraverso gli header XFF aggiungendo all\'IP il suffisso "/xff". Sono supportati IPv4 (CIDR 16-32) e IPv6 (CIDR 64-128). Non saranno restituite più di 5.000 modifiche, per ragioni di prestazioni. Usa questo strumento in stretta conformità alle policy.',
 	'checkuser-logcase'      => 'La ricerca nei log è \'\'case sensitive\'\' (distingue fra maiuscole e minuscole).',
@@ -528,6 +548,7 @@ $wgCheckUserMessages['it'] = array(
 	'checkuser-nomatch'      => 'Nessun risultato trovato.',
 	'checkuser-check'        => 'Controlla',
 );
+
 $wgCheckUserMessages['ja'] = array(
 	'checkuser-summary'      => 'チェックユーザーでは、利用者が使っているIPアドレスや、IPアドレスから編集及び利用者データを、最近の更新から調査します。
 クライアントIPによる利用者と編集は、IPアドレスと共に「/xff」を追加すれば、XFFヘッダを通して検索出来ます。
@@ -552,6 +573,7 @@ IPv4 (CIDR 16-32) と IPv6 (CIDR 64-128) が利用出来ます。
 	'checkuser-check'        => '調査',
 	'checkuser-nolog'        => 'ログファイルが見つかりません。',
 );
+
 $wgCheckUserMessages['kk-cyrl'] = array(
 	'checkuser-summary'      => 'Бұл құрал пайдаланушы қолданған IP жайлар үшін, немесе IP жай түзету/пайдаланушы деректерін көрсету үшін жуықтағы өзгерістерді қарап шығады.
 	Пайдаланушыларды мен түзетулерді XFF IP арқылы IP жайға «/xff» дегенді қосып келтіруге болады. IPv4 (CIDR 16-32) және IPv6 (CIDR 64-128) арқауланады.
@@ -577,6 +599,7 @@ $wgCheckUserMessages['kk-cyrl'] = array(
 	'checkuser-nolog'        => 'Журнал файлы табылмады.',
 	'checkuser-blocked'      => 'Бұғатталған',
 );
+
 $wgCheckUserMessages['kk-latn'] = array(
 	'checkuser-summary'      => 'Bul qural paýdalanwşı qoldanğan IP jaýlar üşin, nemese IP jaý tüzetw/paýdalanwşı derekterin körsetw üşin jwıqtağı özgeristerdi qarap şığadı.
 	Paýdalanwşılardı men tüzetwlerdi XFF IP arqılı IP jaýğa «/xff» degendi qosıp keltirwge boladı. IPv4 (CIDR 16-32) jäne IPv6 (CIDR 64-128) arqawlanadı.
@@ -602,6 +625,7 @@ $wgCheckUserMessages['kk-latn'] = array(
 	'checkuser-nolog'        => 'Jwrnal faýlı tabılmadı.',
 	'checkuser-blocked'      => 'Buğattalğan',
 );
+
 $wgCheckUserMessages['kk-arab'] = array(
 	'checkuser-summary'      => 'بۇل قۇرال پايدالانۋشى قولدانعان IP جايلار ٷشٸن, نەمەسە IP جاي تٷزەتۋ/پايدالانۋشى دەرەكتەرٸن كٶرسەتۋ ٷشٸن جۋىقتاعى ٶزگەرٸستەردٸ قاراپ شىعادى.
 	پايدالانۋشىلاردى مەن تٷزەتۋلەردٸ XFF IP ارقىلى IP جايعا «/xff» دەگەندٸ قوسىپ كەلتٸرۋگە بولادى. IPv4 (CIDR 16-32) جٵنە IPv6 (CIDR 64-128) ارقاۋلانادى.
