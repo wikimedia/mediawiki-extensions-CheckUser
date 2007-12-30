@@ -5,16 +5,12 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	exit( 1 );
 }
 
-# Add messages
-global $wgMessageCache, $wgCheckUserMessages;
-foreach( $wgCheckUserMessages as $language => $messages ) {
-	$wgMessageCache->addMessages( $messages, $language );
-}
 
 class CheckUser extends SpecialPage
 {
 	function CheckUser() {
 		SpecialPage::SpecialPage('CheckUser', 'checkuser');
+		wfLoadExtensionMessages('CheckUser');
 	}
 
 	function execute( $par ) {

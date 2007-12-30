@@ -7,7 +7,8 @@ if (!defined('MEDIAWIKI')) {
 }
 
 # Internationalisation file
-require_once( 'CheckUser.i18n.php' );
+$dir = dirname(__FILE__) . '/';
+$wgExtensionMessagesFiles['CheckUser'] = $dir . 'CheckUser.i18n.php';
 
 $wgExtensionCredits['specialpage'][] = array(
 	'author' => 'Tim Starling, Aaron Schulz',

@@ -5,9 +5,9 @@
  * @addtogroup Extensions
 */
 
-$wgCheckUserMessages = array();
+$messages = array();
 
-$wgCheckUserMessages['en'] = array(
+$messages['en'] = array(
 	'checkuser-summary'      => 'This tool scans recent changes to retrieve the IPs used by a user or show the edit/user data for an IP.
 	Users and edits by a client IP can be retrieved via XFF headers by appending the IP with "/xff". IPv4 (CIDR 16-32) and IPv6 (CIDR 64-128) are supported.
 	No more than 5000 edits will be returned for performance reasons. Use this in accordance with policy.',
@@ -34,16 +34,16 @@ $wgCheckUserMessages['en'] = array(
 	'checkuser-too-many'     => 'Too many results, please narrow down the CIDR. Here are the IPs used (5000 max, sorted by address):',
 );
 
-$wgCheckUserMessages['af'] = array(
+$messages['af'] = array(
 	'checkuser-search'       => 'Soek',
 );
 
-$wgCheckUserMessages['ang'] = array(
+$messages['ang'] = array(
 	'checkuser-reason'       => 'Racu',
 );
 
 /* Arabic (Meno25) */
-$wgCheckUserMessages['ar'] = array(
+$messages['ar'] = array(
 	'checkuser-summary'      => 'هذه الأداة تفحص أحدث التغييرات لاسترجاع الأيبيهات المستخدمة بواسطة مستخدم أو عرض بيانات التعديل/المستخدم لأيبي.
 	المستخمون والتعديلات بواسطة أيبي عميل يمكن استرجاعها من خلال عناوين XFF عبر طرق الأيبي IP ب"/xff". IPv4 (CIDR 16-32) و IPv6 (CIDR 64-128) مدعومان.
 	لا أكثر من 5000 تعديل سيتم عرضها لأسباب تتعلق بالأداء. استخدم هذا بالتوافق مع السياسة.',
@@ -73,7 +73,7 @@ $wgCheckUserMessages['ar'] = array(
 /** Asturian (Asturianu)
  * @author SPQRobin
  */
-$wgCheckUserMessages['ast'] = array(
+$messages['ast'] = array(
 	'checkuser-summary'  => "Esta ferramienta escanea los cambeos recientes pa obtener les IP usaes por un usuariu o p'amosar les ediciones o usuarios d'una IP.
 	Los usuarios y ediciones correspondientes a una IP puen obtenese per aciu de les cabeceres XFF añadiendo depués de la IP \\\"/xff\\\". Puen usase los protocolos IPv4 (CIDR 16-32) y IPv6 (CIDR 64-128).
 	Por razones de rendimientu nun s'amosarán más de 5.000 ediciones. Emplega esta ferramienta  acordies cola política d'usu.",
@@ -96,7 +96,7 @@ $wgCheckUserMessages['ast'] = array(
 	'checkuser-blocked'  => 'Bloquiáu',
 );
 
-$wgCheckUserMessages['bcl'] = array(
+$messages['bcl'] = array(
 	'checkuser-reason'       => 'Rasón',
 	'checkuser-showlog'      => 'Ipahiling an mga historial',
 	'checkuser-target'       => 'Parágamit o IP',
@@ -106,7 +106,7 @@ $wgCheckUserMessages['bcl'] = array(
 	'checkuser-blocked'      => 'Pigbágat',
 );
 
-$wgCheckUserMessages['bg'] = array(
+$messages['bg'] = array(
 	'checkuser-summary'      => 'Този инструмент сканира последните промени и извлича IP адресите, използвани от потребител или показва информацията за редакциите/потребителя за посоченото IP.
 	Потребители и редакции по клиентско IP могат да бъдат извлечени чрез XFF headers като се добави IP с "/xff". Поддържат се IPv4 (CIDR 16-32) и IPv6 (CIDR 64-128).
 	От съображения, свързани с производителността на уикито, ще бъдат показани не повече от 5000 редакции. Използвайте инструмента съобразно установената политика.',
@@ -136,7 +136,7 @@ $wgCheckUserMessages['bg'] = array(
 /** Breton (Brezhoneg)
  * @author Fulup
  */
-$wgCheckUserMessages['br'] = array(
+$messages['br'] = array(
 	'checkuser'              => 'Gwiriañ an implijer',
 	'group-checkuser'        => 'Gwiriañ an implijerien',
 	'group-checkuser-member' => 'Gwiriañ an implijer',
@@ -148,31 +148,31 @@ $wgCheckUserMessages['br'] = array(
 	'checkuser-blocked'      => 'Stanket',
 );
 
-$wgCheckUserMessages['ca'] = array(
+$messages['ca'] = array(
 	'checkuser'              => 'Comprova l\'usuari',
 	'group-checkuser'        => 'Comprova els usuaris',
 	'group-checkuser-member' => 'Comprova l\'usuari',
 	'grouppage-checkuser'    => '{{ns:project}}:Comprova l\'usuari',
 );
 
-$wgCheckUserMessages['cdo'] = array(
+$messages['cdo'] = array(
 	'checkuser-search'       => 'Sìng-tō̤',
 );
 
-$wgCheckUserMessages['co'] = array(
+$messages['co'] = array(
 	'group-checkuser'        => 'Controllori',
 	'group-checkuser-member' => 'Controllore',
 	'grouppage-checkuser'    => '{{ns:project}}:Controllori',
 );
 
-$wgCheckUserMessages['cs'] = array(
+$messages['cs'] = array(
 	'checkuser'              => 'Kontrola uživatele',
 	'group-checkuser'        => 'Revizoři',
 	'group-checkuser-member' => 'Revizor',
 	'grouppage-checkuser'    => '{{ns:project}}:Revize uživatele',
 );
 
-$wgCheckUserMessages['de'] = array(
+$messages['de'] = array(
 	'checkuser-summary'	 => 'Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers
 	bzw. die Bearbeitungen/Benutzernamen für eine IP-Adresse zu ermitteln. Benutzer und Bearbeitungen einer IP-Adresse können auch nach Informationen aus den XFF-Headern
 	abgefragt werden, indem der IP-Adresse ein „/xff“ angehängt wird. IPv4 (CIDR 16-32) und IPv6 (CIDR 64-128) werden unterstützt.
@@ -203,13 +203,13 @@ $wgCheckUserMessages['de'] = array(
 /** Greek (Ελληνικά)
  * @author Consta
  */
-$wgCheckUserMessages['el'] = array(
+$messages['el'] = array(
 	'checkuser-reason' => 'Λόγος',
 	'checkuser-target' => 'Χρήστης ή IP',
 	'checkuser-search' => 'Αναζήτηση',
 );
 
-$wgCheckUserMessages['es'] = array(
+$messages['es'] = array(
 	'checkuser'              => 'Verificador del usuarios',
 	'group-checkuser'        => 'Verificadors del usuarios',
 	'group-checkuser-member' => 'Verificador del usuarios',
@@ -217,19 +217,19 @@ $wgCheckUserMessages['es'] = array(
 	'checkuser-blocked'      => 'bloqueado',
 );
 
-$wgCheckUserMessages['eu'] = array(
+$messages['eu'] = array(
 	'checkuser'              => 'Erabiltzailea egiaztatu',
 	'checkuser-reason'       => 'Arrazoia',
 	'checkuser-search'       => 'Bilatu',
 	'checkuser-nomatch'      => 'Ez da bat datorren emaitzarik aurkitu.',
 );
 
-$wgCheckUserMessages['ext'] = array(
+$messages['ext'] = array(
 	'checkuser-reason'       => 'Razón',
 	'checkuser-search'       => 'Landeal',
 );
 
-$wgCheckUserMessages['fa'] = array(
+$messages['fa'] = array(
 	'checkuser-summary'      => 'این ابزار تغییرات اخیر را برای به دست آوردن نشانی‌های اینترنتی (IP) استفاده شده توسط یک کاربر و یا تعیین ویرایش‌های انجام شده از طریق یک نشانی اینترنتی جستجو می‌کند.
 کاربرها و ویرایش‌های مرتبط با یک نشانی اینترنتی را می‌توان با توجه به اطلاعات سرآیند XFF (با افزودن «‏‎/xff» به انتهای نشانی IP) پیدا کرد.
 هر دو پروتکل IPv4 (معادل CIDR 16-32) و IPv6 (معادل CIDR 64-128) توسط این ابزار پشتیبانی می‌شوند.',
@@ -255,7 +255,7 @@ $wgCheckUserMessages['fa'] = array(
 	'checkuser-blocked'      => 'دسترسی قطع شد',
 );
 
-$wgCheckUserMessages['fi'] = array(
+$messages['fi'] = array(
 	'checkuser-summary'      => 'Tämän työkalun avulla voidaan tutkia tuoreet muutokset ja paljastaa käyttäjien IP-osoitteet tai noutaa IP-osoitteiden muokkaukset ja käyttäjätiedot.
 	Käyttäjät ja muokkaukset voidaan hakea myös uudelleenohjausosoitteen (X-Forwarded-For) takaa käyttämällä IP-osoitteen perässä <tt>/xff</tt> -merkintää. Työkalu tukee sekä IPv4 (CIDR 16–32) ja IPv6 (CIDR 64–128) -standardeja.',
 	'checkuser-logcase'      => 'Haku lokista on kirjainkokoriippuvainen.',
@@ -281,7 +281,7 @@ $wgCheckUserMessages['fi'] = array(
 	'checkuser-too-many'     => 'Liian monta tulosta, rajoita IP-osoitetta:',
 );
 
-$wgCheckUserMessages['fo'] = array(
+$messages['fo'] = array(
 	'checkuser'              => 'Rannsakanar brúkari',
 	'group-checkuser'        => 'Rannsakanar brúkari',
 	'group-checkuser-member' => 'Rannsakanar brúkarir',
@@ -289,7 +289,7 @@ $wgCheckUserMessages['fo'] = array(
 	'checkuser-search'       => 'Leita',
 );
 
-$wgCheckUserMessages['fr'] = array(
+$messages['fr'] = array(
 	'checkuser-summary'      => 'Cet outil parcourt la liste des changements récents à la recherche de l’adresse IP employée par un utilisateur, affiche toutes les éditions d’une adresse IP (même enregistrée), ou liste les comptes utilisés par une adresse IP. Les comptes et les modifications peuvent être trouvés avec une IP XFF si elle finit avec « /xff ». Il est possible d’utiliser les protocoles IPv4 (CIDR 16-32) et IPv6 (CIDR 64-128). Le nombre d’éditions affichables est limité à {{formatnum:5000}} pour des questions de performance du serveur. Veuillez utiliser cet outil dans les limites de la charte d’utilisation.',
 	'checkuser-logcase'      => 'La recherche dans le journal est sensible à la casse.',
 	'checkuser'              => 'Vérificateur d’utilisateur',
@@ -314,7 +314,7 @@ $wgCheckUserMessages['fr'] = array(
 	'checkuser-too-many'     => 'Trop de résultats. Veuillez limiter la recherche sur les adresses IP :',
 );
 
-$wgCheckUserMessages['frc'] = array(
+$messages['frc'] = array(
 	'checkuser-summary'      => 'Cet outil observe les derniers changements pour retirer le IP de l\'useur ou pour montrer l\'information de l\'editeur/de l\'useur pour cet IP. Les userus et les changements par le IP d\'un client pouvont être reçus par les en-têtes XFF par additionner le IP avec "/xff". Ipv4 (CIDR 16-32) and IPv6 (CIDR 64-128) sont supportés. Cet outil retourne pas plus que 5000 changements par rapport à la qualité d\'ouvrage.  Usez ça ici en accord avec les régluations.',
 	'checkuser-logcase'      => 'La charche des notes est sensible aux lettres basses ou hautes.',
 	'checkuser'              => '\'Gardez-voir à l\'useur encore',
@@ -337,7 +337,7 @@ $wgCheckUserMessages['frc'] = array(
 	'checkuser-nolog'        => 'Rien trouvé dans les notes.',
 );
 
-$wgCheckUserMessages['frp'] = array(
+$messages['frp'] = array(
 	'checkuser-summary'      => 'Ceti outil parcôrt la lista des dèrriérs changements a la rechèrche de l’adrèce IP empleyê per un utilisator, afiche totes les èdicions d’una adrèce IP (méma enregistrâ), ou ben liste los comptos utilisâs per una adrèce IP.
 	Los comptos et les modificacions pôvont étre trovâs avouéc una IP XFF se sè chavone avouéc « /xff ». O est possiblo d’utilisar los protocolos IPv4 (CIDR 16-32) et IPv6 (CIDR 64-128).
 	Lo nombro d’èdicions afichâbles est limitâ a {{formatnum:5000}} por des quèstions de pèrformence du sèrvior. Volyéd utilisar ceti outil dens les limites de la chârta d’usâjo.',
@@ -363,7 +363,7 @@ $wgCheckUserMessages['frp'] = array(
 	'checkuser-blocked'      => 'Blocâ',
 );
 
-$wgCheckUserMessages['gl'] = array(
+$messages['gl'] = array(
 	'checkuser-summary'      => 'Esta ferramenta analiza os cambios recentes para recuperar os enderezos IPs utilizados por un usuario ou amosar as edicións / datos do usuario dun enderezo de IP.
 Os usuarios e as edicións por un cliente IP poden ser recuperados a través das cabeceiras XFF engadindo o enderezo IP con "/ xff". IPv4 (CIDR 16-32) e o IPv6 (CIDR 64-128) están soportadas.',
 	'checkuser-logcase'      => 'O rexistro de búsqueda é sensíbel a maiúsculas e minúsculas.',
@@ -389,17 +389,17 @@ Os usuarios e as edicións por un cliente IP poden ser recuperados a través das
 	'checkuser-too-many'     => 'Hai demasiados resultados, restrinxa o enderezo IP:',
 );
 
-$wgCheckUserMessages['grc'] = array(
+$messages['grc'] = array(
 	'checkuser-search'       => 'Ζητεῖν',
 );
 
 /** Gujarati (ગુજરાતી) */
-$wgCheckUserMessages['gu'] = array(
+$messages['gu'] = array(
 	'checkuser-reason' => 'કારણ',
 	'checkuser-search' => 'શોધો',
 );
 
-$wgCheckUserMessages['he'] = array(
+$messages['he'] = array(
 	'checkuser-summary'      => 'כלי זה סורק את השינויים האחרונים במטרה למצוא את כתובות ה־IP שהשתמש בהן משתמש מסוים או כדי להציג את כל המידע על המשתמשים שהשתמשו בכתובת IP ועל העריכות שבוצעו ממנה.
 	ניתן לקבל עריכות ומשתמשים מכתובות IP של הכותרת X-Forwarded-For באמצעות הוספת הטקסט "/xff" לסוף הכתובת. הן כתובות IPv4 (כלומר, CIDR 16-32) והן כתובות IPv6 (כלומר, CIDR 64-128) נתמכות.
 	לא יוחזרו יותר מ־5000 עריכות מסיבות של עומס על השרתים. אנא השתמשו בכלי זה בהתאם למדיניות.',
@@ -426,7 +426,7 @@ $wgCheckUserMessages['he'] = array(
 	'checkuser-too-many'     => 'נמצאו תוצאות רבות מדי, אנא צמצו את טווח כתובות ה־IP. אלה כתובת ה־IP שנעשה בהן שימוש (מוצגות 5,000 לכל היותר):',
 );
 
-$wgCheckUserMessages['hr'] = array(
+$messages['hr'] = array(
 	'checkuser-summary'      => 'Ovaj alat pretražuje nedavne promjene i pronalazi IP adrese suradnika ili prikazuje uređivanja/ime suradnika ako je zadana IP adresa. Suradnici i uređivanja mogu biti dobiveni po XFF zaglavljima dodavanjem "/xff" na kraj IP adrese. Podržane su IPv4 (CIDR 16-32) i IPv6 (CIDR 64-128) adrese. Rezultat ima maksimalno 5.000 zapisa iz tehničkih razloga. Rabite ovaj alat u skladu s pravilima.',
 	'checkuser-logcase'      => 'Provjera evidencije razlikuje velika i mala slova',
 	'checkuser'              => 'Provjeri suradnika',
@@ -450,7 +450,7 @@ $wgCheckUserMessages['hr'] = array(
 	'checkuser-blocked'      => 'Blokiran',
 	'checkuser-too-many'     => 'Previše rezultata, molimo suzite opseg (CIDR). Slijede rabljene IP adrese (najviše njih 5000, poredano abecedno):',
 );
-$wgCheckUserMessages['hsb'] = array(
+$messages['hsb'] = array(
 	'checkuser-summary'      => 'Tutón nastroj přepytuje aktualne změny, zo by IP-adresy wužiwarja zwěsćił abo změny abo wužiwarske daty za IP pokazał.
 Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěšo "/xff" na IP-adresu. IPv4 (CIDR 16-32) a IPv6 (CIDR 64-128) so podpěrujetej.',
 	'checkuser-logcase'      => 'Pytanje w protokolu rozeznawa mjez wulko- a małopisanjom.',
@@ -479,14 +479,14 @@ Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěš
 /** Hungarian (Magyar)
  * @author Bdanee
  */
-$wgCheckUserMessages['hu'] = array(
+$messages['hu'] = array(
 	'group-checkuser'        => 'IP-ellenőrök',
 	'group-checkuser-member' => 'IP-ellenőr',
 	'grouppage-checkuser'    => '{{ns:project}}:IP-ellenőrök',
 
 );
 
-$wgCheckUserMessages['id'] = array(
+$messages['id'] = array(
 	'checkuser-summary'		 => 'Peralatan ini memindai perubahan terbaru untuk mendapatkan IP yang digunakan oleh seorang pengguna atau menunjukkan data suntingan/pengguna untuk suatu IP.
 	Pengguna dan suntingan dapat diperoleh dari suatu IP XFF dengan menambahkan "/xff" pada suatu IP. IPv4 (CIDR 16-32) dan IPv6 (CIDR 64-128) dapat digunakan.
 	Karena alasan kinerja, maksimum hanya 5000 suntingan yang dapat diambil. Harap gunakan peralatan ini sesuai dengan kebijakan yang ada.',
@@ -517,7 +517,7 @@ $wgCheckUserMessages['id'] = array(
  * @author Spacebirdy
  * @author Jóna Þórunn
  */
-$wgCheckUserMessages['is'] = array(
+$messages['is'] = array(
 	'checkuser'              => 'Skoða notanda',
 	'group-checkuser'        => 'Athuga notendur',
 	'group-checkuser-member' => 'Athuga notanda',
@@ -528,7 +528,7 @@ $wgCheckUserMessages['is'] = array(
 	'checkuser-check'        => 'Athuga',
 );
 
-$wgCheckUserMessages['it'] = array(
+$messages['it'] = array(
 	'checkuser-summary'      => 'Questo strumento analizza le modifiche recenti per recuperare gli indirizzi IP utilizzati da un utente o mostrare contributi e dati di un IP. Utenti e contributi di un client IP possono essere rintracciati attraverso gli header XFF aggiungendo all\'IP il suffisso "/xff". Sono supportati IPv4 (CIDR 16-32) e IPv6 (CIDR 64-128). Non saranno restituite più di 5.000 modifiche, per ragioni di prestazioni. Usa questo strumento in stretta conformità alle policy.',
 	'checkuser-logcase'      => 'La ricerca nei log è \'\'case sensitive\'\' (distingue fra maiuscole e minuscole).',
 	'checkuser'              => 'Controllo utenze',
@@ -549,7 +549,7 @@ $wgCheckUserMessages['it'] = array(
 	'checkuser-check'        => 'Controlla',
 );
 
-$wgCheckUserMessages['ja'] = array(
+$messages['ja'] = array(
 	'checkuser-summary'      => 'チェックユーザーでは、利用者が使っているIPアドレスや、IPアドレスから編集及び利用者データを、最近の更新から調査します。
 クライアントIPによる利用者と編集は、IPアドレスと共に「/xff」を追加すれば、XFFヘッダを通して検索出来ます。
 IPv4 (CIDR 16-32) と IPv6 (CIDR 64-128) が利用出来ます。
@@ -574,7 +574,7 @@ IPv4 (CIDR 16-32) と IPv6 (CIDR 64-128) が利用出来ます。
 	'checkuser-nolog'        => 'ログファイルが見つかりません。',
 );
 
-$wgCheckUserMessages['kk-cyrl'] = array(
+$messages['kk-cyrl'] = array(
 	'checkuser-summary'      => 'Бұл құрал пайдаланушы қолданған IP жайлар үшін, немесе IP жай түзету/пайдаланушы деректерін көрсету үшін жуықтағы өзгерістерді қарап шығады.
 	Пайдаланушыларды мен түзетулерді XFF IP арқылы IP жайға «/xff» дегенді қосып келтіруге болады. IPv4 (CIDR 16-32) және IPv6 (CIDR 64-128) арқауланады.
 	Орындаушылық себептерімен 5000 түзетуден артық қайтарылмайды. Бұны ережелерге сәйкес пайдаланыңыз.',
@@ -600,7 +600,7 @@ $wgCheckUserMessages['kk-cyrl'] = array(
 	'checkuser-blocked'      => 'Бұғатталған',
 );
 
-$wgCheckUserMessages['kk-latn'] = array(
+$messages['kk-latn'] = array(
 	'checkuser-summary'      => 'Bul qural paýdalanwşı qoldanğan IP jaýlar üşin, nemese IP jaý tüzetw/paýdalanwşı derekterin körsetw üşin jwıqtağı özgeristerdi qarap şığadı.
 	Paýdalanwşılardı men tüzetwlerdi XFF IP arqılı IP jaýğa «/xff» degendi qosıp keltirwge boladı. IPv4 (CIDR 16-32) jäne IPv6 (CIDR 64-128) arqawlanadı.
 	Orındawşılıq sebepterimen 5000 tüzetwden artıq qaýtarılmaýdı. Bunı erejelerge säýkes paýdalanıñız.',
@@ -626,7 +626,7 @@ $wgCheckUserMessages['kk-latn'] = array(
 	'checkuser-blocked'      => 'Buğattalğan',
 );
 
-$wgCheckUserMessages['kk-arab'] = array(
+$messages['kk-arab'] = array(
 	'checkuser-summary'      => 'بۇل قۇرال پايدالانۋشى قولدانعان IP جايلار ٷشٸن, نەمەسە IP جاي تٷزەتۋ/پايدالانۋشى دەرەكتەرٸن كٶرسەتۋ ٷشٸن جۋىقتاعى ٶزگەرٸستەردٸ قاراپ شىعادى.
 	پايدالانۋشىلاردى مەن تٷزەتۋلەردٸ XFF IP ارقىلى IP جايعا «/xff» دەگەندٸ قوسىپ كەلتٸرۋگە بولادى. IPv4 (CIDR 16-32) جٵنە IPv6 (CIDR 64-128) ارقاۋلانادى.
 	ورىنداۋشىلىق سەبەپتەرٸمەن 5000 تٷزەتۋدەن ارتىق قايتارىلمايدى. بۇنى ەرەجەلەرگە سٵيكەس پايدالانىڭىز.',
@@ -652,11 +652,11 @@ $wgCheckUserMessages['kk-arab'] = array(
 	'checkuser-blocked'      => 'بۇعاتتالعان',
 );
 
-$wgCheckUserMessages['kn'] = array(
+$messages['kn'] = array(
 	'checkuser'              => 'ಸದಸ್ಯನನ್ನು ಚೆಕ್ ಮಾಡಿ',
 );
 
-$wgCheckUserMessages['la'] = array(
+$messages['la'] = array(
 	'checkuser-reason'       => 'Causa',
 	'checkuser-search'       => 'Quaerere',
 );
@@ -664,13 +664,13 @@ $wgCheckUserMessages['la'] = array(
 /** Luxembourgish (Lëtzebuergesch)
  * @author Robby
  */
-$wgCheckUserMessages['lb'] = array(
+$messages['lb'] = array(
 	'checkuser-reason'  => 'Grond',
 	'checkuser-target'  => 'Benotzer oder IP-Adress',
 	'checkuser-blocked' => 'Gespaart',
 );
 
-$wgCheckUserMessages['lo'] = array(
+$messages['lo'] = array(
 	'checkuser'              => 'ກວດຜູ້ໃຊ້',
 	'checkuser-reason'       => 'ເຫດຜົນ',
 	'checkuser-showlog'      => 'ສະແດງບັນທຶກ',
@@ -684,23 +684,23 @@ $wgCheckUserMessages['lo'] = array(
 	'checkuser-check'        => 'ກວດ',
 );
 
-$wgCheckUserMessages['mk'] = array(
+$messages['mk'] = array(
 	'checkuser'              => 'Провери корисник',
 );
 
-$wgCheckUserMessages['myv'] = array(
+$messages['myv'] = array(
 	'checkuser-search'       => 'Вешнемс',
 );
-$wgCheckUserMessages['nap'] = array(
+$messages['nap'] = array(
 	'checkuser-search'       => 'Truova',
 );
-$wgCheckUserMessages['nds'] = array(
+$messages['nds'] = array(
 	'checkuser'              => 'Bruker nakieken',
 	'group-checkuser'        => 'Brukers nakieken',
 	'group-checkuser-member' => 'Bruker nakieken',
 	'grouppage-checkuser'    => '{{ns:project}}:Checkuser',
 );
-$wgCheckUserMessages['nl'] = array(
+$messages['nl'] = array(
 	'checkuser-summary'      => 'Dit hulpmiddel bekijkt recente wijzigingen om IP-adressen die een gebruiker heeft gebruikt te achterhalen of toont de bewerkings- en gebruikersgegegevens voor een IP-adres.
 	Gebruikers en bewerkingen van een IP-adres van een client kunnen achterhaald worden via XFF-haeders door "/xff" achter het IP-adres toe te voegen. IPv4 (CIDR 16-32) en IPv6 (CIDR 64-128) worden ondersteund.
 	Om prestatieredenen worden niet meer dan 5.000 bewerkingen getoond. Gebruik dit hulpmiddel volgens het vastgestelde beleid.',
@@ -726,7 +726,7 @@ $wgCheckUserMessages['nl'] = array(
 	'checkuser-blocked'      => 'Geblokkeerd',
 	'checkuser-too-many'     => 'Te veel resultaten. Maak de IP-reeks kleiner:',
 );
-$wgCheckUserMessages['no'] = array(
+$messages['no'] = array(
 	'checkuser-summary'      => 'Dette verktøyet går gjennom siste endringer for å hente IP-ene som er brukt av en bruker, eller viser redigerings- eller brukerinformasjonen for en IP.
 
 Brukere og redigeringer kan hentes med en XFF-IP ved å legge til «/xff» bak IP-en. IPv4 (CIDR 16-32) og IPv6 (CIDR 64-128) støttes.
@@ -757,7 +757,7 @@ Av ytelsesgrunner vises maksimalt 5000 redigeringer. Bruk dette verktøyet i sam
 /** Occitan (Occitan)
  * @author Cedric31
  */
-$wgCheckUserMessages['oc'] = array(
+$messages['oc'] = array(
 	'checkuser-summary'      => "Aqueste esplech passa en revista los cambiaments recents per recercar l'IPS emplegada per un utilizaire, mostrar totas las edicions fachas per una IP, o per enumerar los utilizaires qu'an emplegat las IPs. Los utilizaires e las modificacions pòdon èsser trobatss amb una IP XFF se s'acaba amb « /xff ». IPv4 (CIDR 16-32) e IPv6(CIDR 64-128) son suportats. Emplegatz aquò segon las cadenas de caractèrs.",
 	'checkuser-logcase'      => 'La recèrca dins lo Jornal es sensibla a la cassa.',
 	'checkuser'              => 'Verificator d’utilizaire',
@@ -783,7 +783,7 @@ $wgCheckUserMessages['oc'] = array(
 
 );
 
-$wgCheckUserMessages['pl'] = array(
+$messages['pl'] = array(
 	'checkuser-summary'      => 'To narzędzie skanuje ostatnie zmiany by znaleźć adresy IP użyte przez użytkownika lub pokazać edycje/użytkowników dla adresu IP. Użytkownicy i edycje spod adresu IP mogą być pozyskane przez nagłówki XFF przez dodanie do IP "/xff". Obsługiwane są adresy IPv4 (CIDR 16-32) I IPv6 (CIDR 64-128). Ze względu na wydajność, zostanie zwróconych nie więcej niż 5000 edycji. Prosimy o używanie tej funkcji zgodnie z zasadami.',
 	'checkuser-logcase'      => 'Szukanie w logu jest czułe na wielkość znaków',
 	'checkuser'              => 'Sprawdzanie IP użytkownika',
@@ -803,7 +803,7 @@ $wgCheckUserMessages['pl'] = array(
 	'checkuser-nolog'        => 'Nie znaleziono pliku logu.',
 	'checkuser-blocked'      => 'Zablokowany',
 );
-$wgCheckUserMessages['pms'] = array(
+$messages['pms'] = array(
 	'checkuser-summary'      => 'St\'utiss-sì as passa j\'ùltime modìfiche për tiré sù j\'adrësse IP dovra da n\'utent ò pura mostré lòn ch\'as fa da n\'adrëssa IP e che dat utent ch\'a l\'abia associà.
 	J\'utent ch\'a dòvro n\'adrëssa IP e le modìfiche faite d\'ambelelì as peulo tiresse sù ën dovrand le testà XFF, për felo tache-ie dapress l\'adrëssa e "/xff". A travaja tant con la forma IPv4 (CIDR 16-32) che con cola IPv6 (CIDR 64-128).
 	Për na question ëd caria ëd travaj a tira nen sù pì che 5000 modìfiche. A va dovrà comforma a ij deuit për ël process ëd contròl.',
@@ -828,7 +828,7 @@ $wgCheckUserMessages['pms'] = array(
 	'checkuser-nolog'        => 'Pa gnun registr ch\'a sia trovasse.',
 	'checkuser-blocked'      => 'Blocà',
 );
-$wgCheckUserMessages['pt'] = array(
+$messages['pt'] = array(
 	'checkuser-summary'      => 'Esta ferramenta varre as Mudanças recentes para obter os endereços de IP de um utilizador ou para exibir os dados de edições/utilizadores para um IP.
 	Utilizadores edições podem ser obtidos por um IP XFF colocando-se "/xff" no final do endereço. São suportados endereços IPv4 (CIDR 16-32) e IPv6 (CIDR 64-128).
 	Não serão retornadas mais de 5000 edições por motivos de desempenho. O uso desta ferramenta deverá estar de acordo com as políticas.',
@@ -854,11 +854,11 @@ $wgCheckUserMessages['pt'] = array(
 	'checkuser-blocked'      => 'Bloqueado',
 	'checkuser-too-many'     => 'Demasiados resultados; por favor, restrinja o CIDR. Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
 );
-$wgCheckUserMessages['rm'] = array(
+$messages['rm'] = array(
 	'checkuser-reason'       => 'Motiv',
 	'checkuser-search'       => 'Tschertgar',
 );
-$wgCheckUserMessages['ro'] = array(
+$messages['ro'] = array(
 	'checkuser'              => 'Verifică utilizatorul',
 	'group-checkuser'        => 'Checkuseri',
 	'group-checkuser-member' => 'Checkuser',
@@ -868,7 +868,7 @@ $wgCheckUserMessages['ro'] = array(
 /** Russian (Русский)
  * @author .:Ajvol:.
  */
-$wgCheckUserMessages['ru'] = array(
+$messages['ru'] = array(
 	'checkuser-summary'      => "Данный инструмент может быть использован, чтобы получить IP-адреса, использовавшиеся участником, либо чтобы показать правки/участников, работавших с IP-адреса.
 	Правки и пользователи, которые правили с опрделеннного IP-адреса, указанного в X-Forwarded-For, можно получить, добавив префикс <code>/xff</code> к IP-адресу. Поддерживаемые версии IP: 4 (CIDR 16—32) и 6 (CIDR 64—128).
 	Из соображений производительности будут показаны только первые 5000 правок. Используйте эту страницу '''только в соответствии с правилами'''.",
@@ -895,7 +895,7 @@ $wgCheckUserMessages['ru'] = array(
 	'checkuser-too-many'     => 'Слишком много результатов, пожалуйста, сузьте CIDR. Использованные IP (максимум 5000, отсортировано по адресу):',
 );
 
-$wgCheckUserMessages['sk'] = array(
+$messages['sk'] = array(
 	'checkuser-summary'      => 'Tento nástroj kontroluje Posledné úpravy, aby získal IP adresy používané používateľom alebo zobrazil úpravy/používateľské dáta IP adresy.
 	Používateľov a úpravy je možné získať s XFF IP pridaním "/xff" k IP. Sú podporované IPv4 (CIDR 16-32) a IPv6 (CIDR 64-128).
 	Z dôvodov výkonnosti nebude vrátených viac ako 5000 úprav. Túto funkciu využívajte len v súlade s platnou politikou.',
@@ -920,14 +920,14 @@ $wgCheckUserMessages['sk'] = array(
 	'checkuser-nolog'        => 'Nebol nájdený súbor záznamu.',
 	'checkuser-blocked'      => 'Zablokovaný',
 );
-$wgCheckUserMessages['sq'] = array(
+$messages['sq'] = array(
 	'checkuser'              => 'Kontrollo përdoruesin',
 );
 
 /** Seeltersk (Seeltersk)
  * @author Pyt
  */
-$wgCheckUserMessages['stq'] = array(
+$messages['stq'] = array(
 	'checkuser-summary'      => 'Disse Reewe truchsäkt do lääste Annerengen, uum ju IP-Adresse fon n Benutser
 	blw. do Beoarbaidengen/Benutsernoomen foar ne IP-Adresse fäästtoustaalen. Benutsere un
 Beoarbaidengen fon ne IP-Adresse konnen uk ätter Informatione uut do XFF-Headere
@@ -957,20 +957,20 @@ Beoarbaidengen fon ne IP-Adresse konnen uk ätter Informatione uut do XFF-Header
 
 );
 
-$wgCheckUserMessages['sr-ec'] = array(
+$messages['sr-ec'] = array(
 	'checkuser'              => 'Чекјузер',
 	'group-checkuser'        => 'Чекјузери',
 	'group-checkuser-member' => 'Чекјузер',
 	'grouppage-checkuser'    => '{{ns:project}}:Чекјузер',
 );
-$wgCheckUserMessages['sr-el'] = array(
+$messages['sr-el'] = array(
 	'checkuser'              => 'Čekjuzer',
 	'group-checkuser'        => 'Čekjuzeri',
 	'group-checkuser-member' => 'Čekjuzer',
 	'grouppage-checkuser'    => '{{ns:project}}:Čekjuzer',
 );
-$wgCheckUserMessages['sr'] = $wgCheckUserMessages['sr-ec'];
-$wgCheckUserMessages['sv'] = array(
+$messages['sr'] = $messages['sr-ec'];
+$messages['sv'] = array(
 	'checkuser-summary'      => 'Det här verktyget söker igenom de senaste ändringarna för att hämta IP-adresser för en användare, eller redigeringar och användare för en IP-adress.
 Användare och redigeringar kan visas med IP-adress från XFF genom att lägga till "/xff" efter IP-adressen. Verktyget stödjer IPv4 (CIDR 16-32) och IPv6 (CIDR 64-128).
 På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd verktyget i enlighet med policy.',
@@ -995,7 +995,7 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 	'checkuser-nolog'        => 'Hittade ingen loggfil.',
 	'checkuser-blocked'      => 'Blockerad',
 );
-$wgCheckUserMessages['tet'] = array(
+$messages['tet'] = array(
 	'checkuser-target'       => 'Uza-na\'in ka IP',
 	'checkuser-search'       => 'Buka',
 );
@@ -1003,19 +1003,19 @@ $wgCheckUserMessages['tet'] = array(
 /** Tonga (faka-Tonga)
  * @author SPQRobin
  */
-$wgCheckUserMessages['to'] = array(
+$messages['to'] = array(
 	'checkuser'              => 'Siviʻi ʻa e ʻetita',
 	'group-checkuser'        => 'Siviʻi kau ʻetita',
 	'group-checkuser-member' => 'Siviʻi ʻa e ʻetita',
 );
 
-$wgCheckUserMessages['tr'] = array(
+$messages['tr'] = array(
 	'checkuser'              => 'IP denetçisi',
 );
-$wgCheckUserMessages['wa'] = array(
+$messages['wa'] = array(
 	'checkuser' => 'Verifyî l\' uzeu',
 );
-$wgCheckUserMessages['yue'] = array(
+$messages['yue'] = array(
 	'checkuser-summary'      => '呢個工具會響最近更改度掃瞄對一位用戶用過嘅IP地址，或者係睇一個IP嘅用戶資料同埋佢嘅編輯記錄。
 	響用戶同埋用戶端IP嘅編輯係可幾經由XFF頭，加上 "/xff" 就可幾拎到。呢個工具係支援 IPv4 (CIDR 16-32) 同埋 IPv6 (CIDR 64-128)。
 	由於為咗效能方面嘅原因，將唔會顯示多過5000次嘅編輯。請根源政策去用呢個工具。',
@@ -1040,7 +1040,7 @@ $wgCheckUserMessages['yue'] = array(
 	'checkuser-nolog'        => '搵唔到日誌檔。',
 	'checkuser-blocked'      => '已經封鎖',
 );
-$wgCheckUserMessages['zh-hans'] = array(
+$messages['zh-hans'] = array(
 	'checkuser-summary'      => '本工具会从{{int:recentchanges}}中查询使用者使用过的IP位址，或是一个IP位址发送出来的任何编辑记录。本工具支持IPv4及IPv6的位址。由于技术上的限制，本工具只能查询最近5000笔的记录。请确定你的行为符合守则。',
 	'checkuser-logcase'      => '搜寻时请注意大小写的区分',
 	'checkuser'              => '核对用户',
@@ -1063,7 +1063,7 @@ $wgCheckUserMessages['zh-hans'] = array(
 	'checkuser-nolog'        => '找不到记录档',
 	'checkuser-blocked'      => '已经查封',
 );
-$wgCheckUserMessages['zh-hant'] = array(
+$messages['zh-hant'] = array(
 	'checkuser-summary'      => '本工具會從{{int:recentchanges}}中查詢使用者使用過的IP位址，或是一個IP位址發送出來的任何編輯記錄。本工具支援IPv4及IPv6的位址。由於技術上的限制，本工具只能查詢最近5000筆的記錄。請確定您的行為符合守則。',
 	'checkuser-logcase'      => '搜尋時請注意大小寫的區分',
  	'checkuser'              => '核對用戶',
@@ -1088,15 +1088,15 @@ $wgCheckUserMessages['zh-hant'] = array(
 );
 
 # Kazakh fallbacks
-$wgCheckUserMessages['kk-kz'] = $wgCheckUserMessages['kk-cyrl'];
-$wgCheckUserMessages['kk-tr'] = $wgCheckUserMessages['kk-latn'];
-$wgCheckUserMessages['kk-cn'] = $wgCheckUserMessages['kk-arab'];
-$wgCheckUserMessages['kk'] = $wgCheckUserMessages['kk-cyrl'];
+$messages['kk-kz'] = $messages['kk-cyrl'];
+$messages['kk-tr'] = $messages['kk-latn'];
+$messages['kk-cn'] = $messages['kk-arab'];
+$messages['kk'] = $messages['kk-cyrl'];
 
 # Chinese fallbacks
-$wgCheckUserMessages['zh'] = $wgCheckUserMessages['zh-hans'];
-$wgCheckUserMessages['zh-cn'] = $wgCheckUserMessages['zh-hans'];
-$wgCheckUserMessages['zh-hk'] = $wgCheckUserMessages['zh-hant'];
-$wgCheckUserMessages['zh-sg'] = $wgCheckUserMessages['zh-hans'];
-$wgCheckUserMessages['zh-tw'] = $wgCheckUserMessages['zh-hant'];
-$wgCheckUserMessages['zh-yue'] = $wgCheckUserMessages['yue'];
+$messages['zh'] = $messages['zh-hans'];
+$messages['zh-cn'] = $messages['zh-hans'];
+$messages['zh-hk'] = $messages['zh-hant'];
+$messages['zh-sg'] = $messages['zh-hans'];
+$messages['zh-tw'] = $messages['zh-hant'];
+$messages['zh-yue'] = $messages['yue'];
