@@ -478,13 +478,6 @@ class CheckUser extends SpecialPage
 				}
 			}
 			$dbr->freeResult( $ret );
-			# Reverse the order so it's first -> last
-			foreach( $users_infosets as $name => $set ) {
-				$users_infosets[$name] = array_reverse( $set );
-			}
-			foreach( $users_agentsets as $name => $set ) {
-				$users_agentsets[$name] = array_reverse( $set );
-			}
 			
 			$logs = SpecialPage::getTitleFor( 'Log' );
 			$blocklist = SpecialPage::getTitleFor( 'Ipblocklist' );
@@ -525,7 +518,8 @@ class CheckUser extends SpecialPage
 				}
 				$s .= '<ol>';
 				# List out each IP/XFF combo for this username
-				foreach( $users_infosets[$name] as $n => $set ) {
+				for( $i = (count($users_infosets[$name]) - 1); $i >= 0; $i-- ) {
+					$set = $users_infosets[$name][$i];
 					# IP link
 					$s .= '<li>';
 					$s .= '<a href="'.$wgTitle->escapeLocalURL( 'user='.urlencode($set[0]) ).'">'.htmlspecialchars($set[0]).'</a>';
@@ -543,7 +537,8 @@ class CheckUser extends SpecialPage
 				}
 				$s .= '</ol><br/><ol>';
 				# List out each agent for this username
-				foreach( $users_agentsets[$name] as $agent ) {
+				for( $i = (count($users_agentsets[$name]) - 1); $i >= 0; $i-- ) {
+					$agent = $users_agentsets[$name][$i];
 					# IP link
 					$s .= "<li><i>" . htmlspecialchars($agent) . "</i></li>\n";
 				}
