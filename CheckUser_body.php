@@ -108,11 +108,11 @@ class CheckUser extends SpecialPage
 		$form .= "</tr><tr>";
 		$form .= "<td></td><td class='checkuserradios'><table border='0' cellpadding='3'><tr>";
 		$form .= "<td>".Xml::radio( 'checktype', 'subuserips', $encuserips, array('id' => 'subuserips') );
-		$form .= Xml::label( wfMsgHtml("checkuser-ips"), 'subuserips' )."</td>";
+		$form .= " ".Xml::label( wfMsgHtml("checkuser-ips"), 'subuserips' )."</td>";
 		$form .= "<td>".Xml::radio( 'checktype', 'subipedits', $encipedits, array('id' => 'subipedits') );
-		$form .= Xml::label( wfMsgHtml("checkuser-edits"), 'subipedits' )."</td>";
+		$form .= " ".Xml::label( wfMsgHtml("checkuser-edits"), 'subipedits' )."</td>";
 		$form .= "<td>".Xml::radio( 'checktype', 'subipusers', $encipusers, array('id' => 'subipusers') );
-		$form .= Xml::label( wfMsgHtml("checkuser-users"), 'subipusers' )."</td>";
+		$form .= " ".Xml::label( wfMsgHtml("checkuser-users"), 'subipusers' )."</td>";
 		$form .= "</tr></table></td>";
 		$form .= "</tr><tr>";
 		$form .= "<td>".wfMsgHtml( "checkuser-reason" ).":</td>";
