@@ -297,13 +297,14 @@ class CheckUser extends SpecialPage
 			# Flag our trusted proxies
 			list($client,$trusted) = efGetClientIPfromXFF($row->cuc_xff,$row->cuc_ip);
 			$c = $trusted ? '#F0FFF0' : '#FFFFCC';
-			$line .= '&nbsp;&nbsp;&nbsp;<span class="checkuser-xff" style="background-color: '.$c.'"><strong>XFF</strong>: ';
+			$line .= '&nbsp;&nbsp;&nbsp;<span class="mw-checkuser-xff" style="background-color: '.$c.'">'.
+				'<strong>XFF</strong>: ';
 			$line .= $this->sk->makeKnownLinkObj( $cuTitle,
 				htmlspecialchars( $row->cuc_xff ),
 				"user=".urlencode($client)."/xff&reason=".urlencode($reason) )."</span>";
 		}
 		# User agent
-		$line .= '&nbsp;&nbsp;&nbsp;<span class="checkuser-agent" style="color:#888;">' . 
+		$line .= '&nbsp;&nbsp;&nbsp;<span class="mw-checkuser-agent" style="color:#888;">' . 
 			htmlspecialchars( $row->cuc_agent )."</span>";
 		
 		$line .= "</small></li>\n";
@@ -453,7 +454,7 @@ class CheckUser extends SpecialPage
 		if( !$dbr->numRows( $ret ) ) {
 			$s = wfMsgHtml( "checkuser-nomatch" )."\n";
 		} else {
-			while( ($row = $dbr->fetchObject( $ret ) ) != false ) {
+			while( ($row = $dbr->fetchObject($ret) ) != false ) {
 				if( !array_key_exists( $row->cuc_user_text, $users_edits ) ) {
 					$users_last[$row->cuc_user_text] = $row->cuc_timestamp;
 					$users_edits[$row->cuc_user_text] = 0;
@@ -464,16 +465,19 @@ class CheckUser extends SpecialPage
 				$users_edits[$row->cuc_user_text] += 1;
 				$users_first[$row->cuc_user_text] = $row->cuc_timestamp;
 				# Treat blank or NULL xffs as empty strings
-				$ip_xff = $row->cuc_xff ? $row->cuc_xff : '';
-				$xff_ip_combo = array( $row->cuc_ip, $ip_xff );
+				$xff_ip_combo = array( $row->cuc_ip, $row->cuc_xff );
 				# Add this IP/XFF combo for this username if it's not already there
 				if( !in_array($xff_ip_combo,$users_infosets[$row->cuc_user_text]) ) {
 					$users_infosets[$row->cuc_user_text][] = $xff_ip_combo;
-					$users_agentsets[$row->cuc_user_text][] = $row->cuc_agent;
+				}
+				# Add this agent string if it's not already there; 10 max.
+				if( count($users_agentsets[$row->cuc_user_text]) < 10 ) {
+					if( !in_array($row->cuc_agent,$users_agentsets[$row->cuc_user_text]) ) {
+						$users_agentsets[$row->cuc_user_text][] = $row->cuc_agent;
+					}
 				}
 			}
 			$dbr->freeResult( $ret );
-			
 			# Reverse the order so it's first -> last
 			foreach( $users_infosets as $name => $set ) {
 				$users_infosets[$name] = array_reverse( $set );
@@ -520,7 +524,7 @@ class CheckUser extends SpecialPage
 					}
 				}
 				$s .= '<ol>';
-				# List out each IP/XFF combo for this username, and add the user agent for each
+				# List out each IP/XFF combo for this username
 				foreach( $users_infosets[$name] as $n => $set ) {
 					# IP link
 					$s .= '<li>';
@@ -535,8 +539,13 @@ class CheckUser extends SpecialPage
 							htmlspecialchars( $set[1] ),
 							"user=" . urlencode( $client ) . "/xff" )."</span>";
 					}
-					$s .= '<br/><i>' .  $users_agentsets[$name][$n] . '</i>';
 					$s .= "</li>\n";
+				}
+				$s .= '</ol><br/><ol>';
+				# List out each agent for this username
+				foreach( $users_agentsets[$name] as $agent ) {
+					# IP link
+					$s .= "<li><i>" . htmlspecialchars($agent) . "</i></li>\n";
 				}
 				$s .= '</ol>';
 				$s .= '</li>';
