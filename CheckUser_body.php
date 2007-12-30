@@ -465,7 +465,8 @@ class CheckUser extends SpecialPage
 				$users_edits[$row->cuc_user_text] += 1;
 				$users_first[$row->cuc_user_text] = $row->cuc_timestamp;
 				# Treat blank or NULL xffs as empty strings
-				$xff_ip_combo = array( $row->cuc_ip, $row->cuc_xff );
+				$xff = empty($row->cuc_xff) ? null : $row->cuc_xff;
+				$xff_ip_combo = array( $row->cuc_ip, $xff );
 				# Add this IP/XFF combo for this username if it's not already there
 				if( !in_array($xff_ip_combo,$users_infosets[$row->cuc_user_text]) ) {
 					$users_infosets[$row->cuc_user_text][] = $xff_ip_combo;
