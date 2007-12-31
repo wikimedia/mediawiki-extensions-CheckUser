@@ -667,6 +667,7 @@ $messages['la'] = array(
 $messages['lb'] = array(
 	'checkuser-reason'  => 'Grond',
 	'checkuser-target'  => 'Benotzer oder IP-Adress',
+	'checkuser-search'  => 'Sichen',
 	'checkuser-blocked' => 'Gespaart',
 );
 
@@ -691,15 +692,18 @@ $messages['mk'] = array(
 $messages['myv'] = array(
 	'checkuser-search'       => 'Вешнемс',
 );
+
 $messages['nap'] = array(
 	'checkuser-search'       => 'Truova',
 );
+
 $messages['nds'] = array(
 	'checkuser'              => 'Bruker nakieken',
 	'group-checkuser'        => 'Brukers nakieken',
 	'group-checkuser-member' => 'Bruker nakieken',
 	'grouppage-checkuser'    => '{{ns:project}}:Checkuser',
 );
+
 $messages['nl'] = array(
 	'checkuser-summary'      => 'Dit hulpmiddel bekijkt recente wijzigingen om IP-adressen die een gebruiker heeft gebruikt te achterhalen of toont de bewerkings- en gebruikersgegegevens voor een IP-adres.
 	Gebruikers en bewerkingen van een IP-adres van een client kunnen achterhaald worden via XFF-haeders door "/xff" achter het IP-adres toe te voegen. IPv4 (CIDR 16-32) en IPv6 (CIDR 64-128) worden ondersteund.
@@ -726,6 +730,10 @@ $messages['nl'] = array(
 	'checkuser-blocked'      => 'Geblokkeerd',
 	'checkuser-too-many'     => 'Te veel resultaten. Maak de IP-reeks kleiner:',
 );
+
+/** Norwegian (‪Norsk (bokmål)‬)
+ * @author Jon Harald Søby
+ */
 $messages['no'] = array(
 	'checkuser-summary'      => 'Dette verktøyet går gjennom siste endringer for å hente IP-ene som er brukt av en bruker, eller viser redigerings- eller brukerinformasjonen for en IP.
 
@@ -752,6 +760,7 @@ Av ytelsesgrunner vises maksimalt 5000 redigeringer. Bruk dette verktøyet i sam
 	'checkuser-log-fail'     => 'Kunne ikke legge til loggelement.',
 	'checkuser-nolog'        => 'Ingen loggfil funnet.',
 	'checkuser-blocked'      => 'Blokkert',
+	'checkuser-too-many'     => 'For mange resultater, vennligst innskrenk CIDR. Her er de brukte IP-ene (maks 5000, sortert etter adresse):',
 );
 
 /** Occitan (Occitan)
