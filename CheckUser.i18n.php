@@ -665,11 +665,14 @@ $messages['la'] = array(
  * @author Robby
  */
 $messages['lb'] = array(
+	'checkuser'         => 'Benotzer-Check',
 	'checkuser-reason'  => 'Grond',
+	'checkuser-showlog' => 'Logbuch weisen',
 	'checkuser-target'  => 'Benotzer oder IP-Adress',
 	'checkuser-search'  => 'Sichen',
 	'checkuser-blocked' => 'Gespaart',
 );
+
 
 $messages['lo'] = array(
 	'checkuser'              => 'ກວດຜູ້ໃຊ້',
