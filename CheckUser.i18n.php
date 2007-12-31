@@ -1021,9 +1021,18 @@ $messages['to'] = array(
 $messages['tr'] = array(
 	'checkuser'              => 'IP denetçisi',
 );
+
+/** Volapük (Volapük)
+ * @author Malafaya
+ */
+$messages['vo'] = array(
+	'checkuser-reason' => 'Kod',
+);
+
 $messages['wa'] = array(
 	'checkuser' => 'Verifyî l\' uzeu',
 );
+
 $messages['yue'] = array(
 	'checkuser-summary'      => '呢個工具會響最近更改度掃瞄對一位用戶用過嘅IP地址，或者係睇一個IP嘅用戶資料同埋佢嘅編輯記錄。
 	響用戶同埋用戶端IP嘅編輯係可幾經由XFF頭，加上 "/xff" 就可幾拎到。呢個工具係支援 IPv4 (CIDR 16-32) 同埋 IPv6 (CIDR 64-128)。
@@ -1049,6 +1058,7 @@ $messages['yue'] = array(
 	'checkuser-nolog'        => '搵唔到日誌檔。',
 	'checkuser-blocked'      => '已經封鎖',
 );
+
 $messages['zh-hans'] = array(
 	'checkuser-summary'      => '本工具会从{{int:recentchanges}}中查询使用者使用过的IP位址，或是一个IP位址发送出来的任何编辑记录。本工具支持IPv4及IPv6的位址。由于技术上的限制，本工具只能查询最近5000笔的记录。请确定你的行为符合守则。',
 	'checkuser-logcase'      => '搜寻时请注意大小写的区分',
@@ -1072,6 +1082,7 @@ $messages['zh-hans'] = array(
 	'checkuser-nolog'        => '找不到记录档',
 	'checkuser-blocked'      => '已经查封',
 );
+
 $messages['zh-hant'] = array(
 	'checkuser-summary'      => '本工具會從{{int:recentchanges}}中查詢使用者使用過的IP位址，或是一個IP位址發送出來的任何編輯記錄。本工具支援IPv4及IPv6的位址。由於技術上的限制，本工具只能查詢最近5000筆的記錄。請確定您的行為符合守則。',
 	'checkuser-logcase'      => '搜尋時請注意大小寫的區分',
