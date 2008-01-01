@@ -337,6 +337,9 @@ $messages['frc'] = array(
 	'checkuser-nolog'        => 'Rien trouvé dans les notes.',
 );
 
+/** Franco-Provençal (Arpetan)
+ * @author ChrisPtDe
+ */
 $messages['frp'] = array(
 	'checkuser-summary'      => 'Ceti outil parcôrt la lista des dèrriérs changements a la rechèrche de l’adrèce IP empleyê per un utilisator, afiche totes les èdicions d’una adrèce IP (méma enregistrâ), ou ben liste los comptos utilisâs per una adrèce IP.
 	Los comptos et les modificacions pôvont étre trovâs avouéc una IP XFF se sè chavone avouéc « /xff ». O est possiblo d’utilisar los protocolos IPv4 (CIDR 16-32) et IPv6 (CIDR 64-128).
@@ -361,6 +364,7 @@ $messages['frp'] = array(
 	'checkuser-log-fail'     => 'Empossiblo d’apondre l’entrâ du jornal.',
 	'checkuser-nolog'        => 'Niona entrâ dens lo jornal.',
 	'checkuser-blocked'      => 'Blocâ',
+	'checkuser-too-many'     => 'Trop de rèsultats. Volyéd limitar la rechèrche sur les adrèces IP :',
 );
 
 $messages['gl'] = array(
@@ -665,14 +669,15 @@ $messages['la'] = array(
  * @author Robby
  */
 $messages['lb'] = array(
+	'checkuser-logcase' => "D'Sich am Logbuch mecht en Ënnerscheed tëschent groussen a klenge Buchstawen (Caractèren).",
 	'checkuser'         => 'Benotzer-Check',
 	'checkuser-reason'  => 'Grond',
 	'checkuser-showlog' => 'Logbuch weisen',
 	'checkuser-target'  => 'Benotzer oder IP-Adress',
 	'checkuser-search'  => 'Sichen',
+	'checkuser-empty'   => 'Dëst Logbuch ass eidel.',
 	'checkuser-blocked' => 'Gespaart',
 );
-
 
 $messages['lo'] = array(
 	'checkuser'              => 'ກວດຜູ້ໃຊ້',
@@ -795,10 +800,16 @@ $messages['oc'] = array(
 
 );
 
+/** Polish (Polski)
+ * @author Derbeth
+ * @author Sp5uhe
+ */
 $messages['pl'] = array(
 	'checkuser-summary'      => 'To narzędzie skanuje ostatnie zmiany by znaleźć adresy IP użyte przez użytkownika lub pokazać edycje/użytkowników dla adresu IP. Użytkownicy i edycje spod adresu IP mogą być pozyskane przez nagłówki XFF przez dodanie do IP "/xff". Obsługiwane są adresy IPv4 (CIDR 16-32) I IPv6 (CIDR 64-128). Ze względu na wydajność, zostanie zwróconych nie więcej niż 5000 edycji. Prosimy o używanie tej funkcji zgodnie z zasadami.',
 	'checkuser-logcase'      => 'Szukanie w logu jest czułe na wielkość znaków',
 	'checkuser'              => 'Sprawdzanie IP użytkownika',
+	'group-checkuser'        => 'Check users',
+	'group-checkuser-member' => 'Check user',
 	'checkuser-reason'       => 'Powód',
 	'checkuser-showlog'      => 'Pokaż log',
 	'checkuser-log'          => 'Log Checkuser',
@@ -814,7 +825,9 @@ $messages['pl'] = array(
 	'checkuser-log-fail'     => 'Nie udało się dodać wpisu do logu.',
 	'checkuser-nolog'        => 'Nie znaleziono pliku logu.',
 	'checkuser-blocked'      => 'Zablokowany',
+	'checkuser-too-many'     => 'Zbyt wiele wyników, proszę ogranicz CIDR. Użytych adresów IP jest (do 5000 posortowanych wg adresu):',
 );
+
 $messages['pms'] = array(
 	'checkuser-summary'      => 'St\'utiss-sì as passa j\'ùltime modìfiche për tiré sù j\'adrësse IP dovra da n\'utent ò pura mostré lòn ch\'as fa da n\'adrëssa IP e che dat utent ch\'a l\'abia associà.
 	J\'utent ch\'a dòvro n\'adrëssa IP e le modìfiche faite d\'ambelelì as peulo tiresse sù ën dovrand le testà XFF, për felo tache-ie dapress l\'adrëssa e "/xff". A travaja tant con la forma IPv4 (CIDR 16-32) che con cola IPv6 (CIDR 64-128).
