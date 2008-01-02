@@ -578,9 +578,14 @@ $messages['is'] = array(
 	'checkuser-check'        => 'Athuga',
 );
 
+/** Italian (Italiano)
+ * @author Gianfranco
+ * @author BrokenArrow
+ * @author .anaconda
+ */
 $messages['it'] = array(
 	'checkuser-summary'      => 'Questo strumento analizza le modifiche recenti per recuperare gli indirizzi IP utilizzati da un utente o mostrare contributi e dati di un IP. Utenti e contributi di un client IP possono essere rintracciati attraverso gli header XFF aggiungendo all\'IP il suffisso "/xff". Sono supportati IPv4 (CIDR 16-32) e IPv6 (CIDR 64-128). Non saranno restituite più di 5.000 modifiche, per ragioni di prestazioni. Usa questo strumento in stretta conformità alle policy.',
-	'checkuser-logcase'      => 'La ricerca nei log è \'\'case sensitive\'\' (distingue fra maiuscole e minuscole).',
+	'checkuser-logcase'      => "La ricerca nei log è ''case sensitive'' (distingue fra maiuscole e minuscole).",
 	'checkuser'              => 'Controllo utenze',
 	'group-checkuser'        => 'Controllori',
 	'group-checkuser-member' => 'Controllore',
@@ -597,6 +602,10 @@ $messages['it'] = array(
 	'checkuser-empty'        => 'Il log non contiene dati.',
 	'checkuser-nomatch'      => 'Nessun risultato trovato.',
 	'checkuser-check'        => 'Controlla',
+	'checkuser-log-fail'     => 'Impossibile aggiungere la voce al log',
+	'checkuser-nolog'        => 'Non è stato trovato alcun file di log.',
+	'checkuser-blocked'      => 'Bloccato',
+	'checkuser-too-many'     => 'Il numero di risultati è eccessivo, usare un CIDR più ristretto. Di seguito sono indicati gli indirizzi IP utilizzati (fino a un massimo di 5000, ordinati per indirizzo):',
 );
 
 $messages['ja'] = array(
