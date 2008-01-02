@@ -214,26 +214,26 @@ $messages['el'] = array(
  * @author Spacebirdy
  */
 $messages['es'] = array(
-	'checkuser-summary'      => 'Esta herramienta busca en los cambios recientes para obtener las IPs que tiene un usuario o ver la edición/usuario información de una IP.
-Usuarios y ediciones por una IP cliente se puede obtener con encabezamientos XFF por añadir "/xff". IPv4 (CIDR 16-32) y IPv6 (CIDR 64-128) se funcionan.
-No más que 5000 ediciones se habrán devuelto por motivo de rendimiento. Usa esta herramienta de acuerdo con política.',
-	'checkuser-logcase'      => 'El buscador del registro distingue mayúsculas de minúsculas.',
-	'checkuser'              => 'Verificador del usuarios',
-	'group-checkuser'        => 'Verificadors del usuarios',
-	'group-checkuser-member' => 'Verificador del usuarios',
-	'grouppage-checkuser'    => '{{ns:project}}:verificador del usuarios',
+	'checkuser-summary'      => 'Esta herramienta explora los cambios recientes para obtener las IPs usadas por un usuario o la información de ediciones/usuarios hechos/usados por una IP.
+También se puede obtener usuarios y ediciones de un cliente IP vía XFF por añadir "/xff". IPv4 (CIDR 16-32) y IPv6 (CIDR 64-128) funcionan.
+No se muestra más que 5000 ediciones por motivos de rendimiento. Usa esta herramienta en acuerdo con la ley orgánica de protección de datos.',
+	'checkuser-logcase'      => 'El buscador del registro sabe distinguir entre mayúsculas y minúsculas.',
+	'checkuser'              => 'Verificador de usuarios',
+	'group-checkuser'        => 'Verificadores de usuarios',
+	'group-checkuser-member' => 'Verificador de usuarios',
+	'grouppage-checkuser'    => '{{ns:project}}:verificador de usuarios',
 	'checkuser-reason'       => 'Motivo',
 	'checkuser-showlog'      => 'Ver registro',
 	'checkuser-log'          => 'Registro de CheckUser',
 	'checkuser-query'        => 'Buscar en cambios recientes',
 	'checkuser-target'       => 'Usuario o IP',
 	'checkuser-users'        => 'Obtener usuarios',
-	'checkuser-edits'        => 'Obtener ediciones de la IP',
+	'checkuser-edits'        => 'Obtener ediciones de IP',
 	'checkuser-ips'          => 'Obtener IPs',
 	'checkuser-search'       => 'Buscar',
 	'checkuser-empty'        => 'No hay elementos en el registro.',
 	'checkuser-nomatch'      => 'No hay elementos en el registro con esas condiciones.',
-	'checkuser-check'        => 'Inquirir',
+	'checkuser-check'        => 'Examinar',
 	'checkuser-log-fail'     => 'No se puede añadir este elemento al registro.',
 	'checkuser-nolog'        => 'No se encuentra un archivo del registro.',
 	'checkuser-blocked'      => 'bloqueado',
