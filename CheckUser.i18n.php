@@ -209,12 +209,35 @@ $messages['el'] = array(
 	'checkuser-search' => 'Αναζήτηση',
 );
 
+/** Spanish (Español)
+ * @author Dmcdevit
+ * @author Spacebirdy
+ */
 $messages['es'] = array(
+	'checkuser-summary'      => 'Esta herramienta busca en los cambios recientes para obtener las IPs que tiene un usuario o ver la edición/usuario información de una IP.
+Usuarios y ediciones por una IP cliente se puede obtener con encabezamientos XFF por añadir "/xff". IPv4 (CIDR 16-32) y IPv6 (CIDR 64-128) se funcionan.
+No más que 5000 ediciones se habrán devuelto por motivo de rendimiento. Usa esta herramienta de acuerdo con política.',
+	'checkuser-logcase'      => 'El buscador del registro distingue mayúsculas de minúsculas.',
 	'checkuser'              => 'Verificador del usuarios',
 	'group-checkuser'        => 'Verificadors del usuarios',
 	'group-checkuser-member' => 'Verificador del usuarios',
 	'grouppage-checkuser'    => '{{ns:project}}:verificador del usuarios',
+	'checkuser-reason'       => 'Motivo',
+	'checkuser-showlog'      => 'Ver registro',
+	'checkuser-log'          => 'Registro de CheckUser',
+	'checkuser-query'        => 'Buscar en cambios recientes',
+	'checkuser-target'       => 'Usuario o IP',
+	'checkuser-users'        => 'Obtener usuarios',
+	'checkuser-edits'        => 'Obtener ediciones de la IP',
+	'checkuser-ips'          => 'Obtener IPs',
+	'checkuser-search'       => 'Buscar',
+	'checkuser-empty'        => 'No hay elementos en el registro.',
+	'checkuser-nomatch'      => 'No hay elementos en el registro con esas condiciones.',
+	'checkuser-check'        => 'Inquirir',
+	'checkuser-log-fail'     => 'No se puede añadir este elemento al registro.',
+	'checkuser-nolog'        => 'No se encuentra un archivo del registro.',
 	'checkuser-blocked'      => 'bloqueado',
+	'checkuser-too-many'     => 'Hay demasiados resultados. Por favor limita el CIDR. Aquí ves las IPs usadas (5000, ordenar por dirección):',
 );
 
 $messages['eu'] = array(
@@ -365,6 +388,29 @@ $messages['frp'] = array(
 	'checkuser-nolog'        => 'Niona entrâ dens lo jornal.',
 	'checkuser-blocked'      => 'Blocâ',
 	'checkuser-too-many'     => 'Trop de rèsultats. Volyéd limitar la rechèrche sur les adrèces IP :',
+);
+
+/** Irish (Gaeilge)
+ * @author Alison
+ */
+$messages['ga'] = array(
+	'checkuser-logcase'  => 'Tá na logaí seo cásíogair.',
+	'checkuser-reason'   => 'Fáth',
+	'checkuser-showlog'  => 'Taispeáin logaí',
+	'checkuser-log'      => 'Logaí checkuser',
+	'checkuser-query'    => 'Iarratais ar athrú úrnua',
+	'checkuser-target'   => 'Úsáideoir ná seoladh IP',
+	'checkuser-users'    => 'Faigh úsáideoira',
+	'checkuser-edits'    => 'Faigh athraigh don seoladh IP seo',
+	'checkuser-ips'      => 'Faigh Seolaidh IP',
+	'checkuser-search'   => 'Cuardaigh',
+	'checkuser-empty'    => 'Níl aon míreanna sa log.',
+	'checkuser-nomatch'  => 'Ní faigheann aon comhoiriúnaigh.',
+	'checkuser-check'    => 'Iarratais',
+	'checkuser-log-fail' => 'Ní féidir iontráil a cur sa log',
+	'checkuser-nolog'    => 'Ní bhfaigheann comhad loga.',
+	'checkuser-blocked'  => 'Cosanta',
+	'checkuser-too-many' => "Tá le mórán torthaí, caolaigh an CIDR le d'thoil. Seo iad na seolaidh IP (5000 uasta, sórtáilte le seoladh):",
 );
 
 $messages['gl'] = array(
