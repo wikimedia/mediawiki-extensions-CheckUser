@@ -976,6 +976,10 @@ $messages['ru'] = array(
 	'checkuser-too-many'     => 'Слишком много результатов, пожалуйста, сузьте CIDR. Использованные IP (максимум 5000, отсортировано по адресу):',
 );
 
+/** Slovak (Slovenčina)
+ * @author Helix84
+ * @author Martin Kozák
+ */
 $messages['sk'] = array(
 	'checkuser-summary'      => 'Tento nástroj kontroluje Posledné úpravy, aby získal IP adresy používané používateľom alebo zobrazil úpravy/používateľské dáta IP adresy.
 	Používateľov a úpravy je možné získať s XFF IP pridaním "/xff" k IP. Sú podporované IPv4 (CIDR 16-32) a IPv6 (CIDR 64-128).
@@ -1000,7 +1004,9 @@ $messages['sk'] = array(
 	'checkuser-log-fail'     => 'Nebolo možné pridať položku záznamu',
 	'checkuser-nolog'        => 'Nebol nájdený súbor záznamu.',
 	'checkuser-blocked'      => 'Zablokovaný',
+	'checkuser-too-many'     => 'Príliš veľa výsledkov, prosím zúžte CIDR. Tu sú použité IP (max. 5 000, zoradené podľa adresy):',
 );
+
 $messages['sq'] = array(
 	'checkuser'              => 'Kontrollo përdoruesin',
 );
@@ -1044,13 +1050,16 @@ $messages['sr-ec'] = array(
 	'group-checkuser-member' => 'Чекјузер',
 	'grouppage-checkuser'    => '{{ns:project}}:Чекјузер',
 );
+
 $messages['sr-el'] = array(
 	'checkuser'              => 'Čekjuzer',
 	'group-checkuser'        => 'Čekjuzeri',
 	'group-checkuser-member' => 'Čekjuzer',
 	'grouppage-checkuser'    => '{{ns:project}}:Čekjuzer',
 );
+
 $messages['sr'] = $messages['sr-ec'];
+
 $messages['sv'] = array(
 	'checkuser-summary'      => 'Det här verktyget söker igenom de senaste ändringarna för att hämta IP-adresser för en användare, eller redigeringar och användare för en IP-adress.
 Användare och redigeringar kan visas med IP-adress från XFF genom att lägga till "/xff" efter IP-adressen. Verktyget stödjer IPv4 (CIDR 16-32) och IPv6 (CIDR 64-128).
@@ -1076,6 +1085,7 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 	'checkuser-nolog'        => 'Hittade ingen loggfil.',
 	'checkuser-blocked'      => 'Blockerad',
 );
+
 $messages['tet'] = array(
 	'checkuser-target'       => 'Uza-na\'in ka IP',
 	'checkuser-search'       => 'Buka',
