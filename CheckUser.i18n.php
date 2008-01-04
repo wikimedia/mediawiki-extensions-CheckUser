@@ -760,11 +760,16 @@ $messages['nap'] = array(
 	'checkuser-search'       => 'Truova',
 );
 
+/** Low German (Plattdüütsch)
+ * @author Slomox
+ */
 $messages['nds'] = array(
 	'checkuser'              => 'Bruker nakieken',
 	'group-checkuser'        => 'Brukers nakieken',
 	'group-checkuser-member' => 'Bruker nakieken',
 	'grouppage-checkuser'    => '{{ns:project}}:Checkuser',
+	'checkuser-reason'       => 'Grund',
+	'checkuser-search'       => 'Söken',
 );
 
 $messages['nl'] = array(
