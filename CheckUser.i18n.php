@@ -1016,6 +1016,30 @@ $messages['sq'] = array(
 	'checkuser'              => 'Kontrollo përdoruesin',
 );
 
+/** ћирилица (ћирилица)
+ * @author Sasa Stefanovic
+ */
+$messages['sr-ec'] = array(
+	'checkuser'              => 'Чекјузер',
+	'group-checkuser'        => 'Чекјузери',
+	'group-checkuser-member' => 'Чекјузер',
+	'grouppage-checkuser'    => '{{ns:project}}:Чекјузер',
+	'checkuser-reason'       => 'Резлог',
+	'checkuser-target'       => 'Корисник или ИП',
+	'checkuser-search'       => 'Претрага',
+	'checkuser-check'        => 'Провера',
+	'checkuser-blocked'      => 'Блокиран',
+);
+
+$messages['sr'] = $messages['sr-ec'];
+
+$messages['sr-el'] = array(
+	'checkuser'              => 'Čekjuzer',
+	'group-checkuser'        => 'Čekjuzeri',
+	'group-checkuser-member' => 'Čekjuzer',
+	'grouppage-checkuser'    => '{{ns:project}}:Čekjuzer',
+);
+
 /** Seeltersk (Seeltersk)
  * @author Pyt
  */
@@ -1046,24 +1070,7 @@ Beoarbaidengen fon ne IP-Adresse konnen uk ätter Informatione uut do XFF-Header
 	'checkuser-nolog'        => 'Neen Logbouk fuunen.',
 	'checkuser-blocked'      => 'speerd',
 	'checkuser-too-many'     => 'Ju Lieste fon Resultoate is tou loang, gränsje dän IP-Beräk fääre ien. Hier sunt do benutsede IP-Adressen (maximoal 5000, sortierd ätter Adresse):',
-
 );
-
-$messages['sr-ec'] = array(
-	'checkuser'              => 'Чекјузер',
-	'group-checkuser'        => 'Чекјузери',
-	'group-checkuser-member' => 'Чекјузер',
-	'grouppage-checkuser'    => '{{ns:project}}:Чекјузер',
-);
-
-$messages['sr-el'] = array(
-	'checkuser'              => 'Čekjuzer',
-	'group-checkuser'        => 'Čekjuzeri',
-	'group-checkuser-member' => 'Čekjuzer',
-	'grouppage-checkuser'    => '{{ns:project}}:Čekjuzer',
-);
-
-$messages['sr'] = $messages['sr-ec'];
 
 $messages['sv'] = array(
 	'checkuser-summary'      => 'Det här verktyget söker igenom de senaste ändringarna för att hämta IP-adresser för en användare, eller redigeringar och användare för en IP-adress.
