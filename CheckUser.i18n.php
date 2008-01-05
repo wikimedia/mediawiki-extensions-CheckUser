@@ -528,12 +528,29 @@ Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěš
 
 /** Hungarian (Magyar)
  * @author Bdanee
+ * @author KossuthRad
  */
 $messages['hu'] = array(
+	'checkuser-logcase'      => 'A kereső kis- és nagybetűérzékeny.',
+	'checkuser'              => 'IP-ellenőr',
 	'group-checkuser'        => 'IP-ellenőrök',
 	'group-checkuser-member' => 'IP-ellenőr',
 	'grouppage-checkuser'    => '{{ns:project}}:IP-ellenőrök',
-
+	'checkuser-reason'       => 'Ok',
+	'checkuser-showlog'      => 'Napló megjelenítése',
+	'checkuser-log'          => 'IP-ellenőr-napló',
+	'checkuser-query'        => 'Kétséges aktuális változások',
+	'checkuser-target'       => 'User vagy IP',
+	'checkuser-users'        => 'Felhasználók keresése',
+	'checkuser-edits'        => 'Szerkesztések keresése IP-cím alapján',
+	'checkuser-ips'          => 'IP-címek keresése',
+	'checkuser-search'       => 'Keresés',
+	'checkuser-empty'        => 'A napló nem tartalmaz elemeket.',
+	'checkuser-nomatch'      => 'A párja nem található.',
+	'checkuser-check'        => 'Ellenőrzés',
+	'checkuser-log-fail'     => 'Nem sikerült az elem hozzáadása',
+	'checkuser-nolog'        => 'A naplófájl nem található.',
+	'checkuser-blocked'      => 'Blokkolva',
 );
 
 $messages['id'] = array(
