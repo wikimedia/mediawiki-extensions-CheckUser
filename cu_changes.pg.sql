@@ -14,11 +14,11 @@ CREATE TABLE cu_changes (
   cuc_user_text  TEXT     NOT NULL,
   cuc_actiontext TEXT     NOT NULL DEFAULT '',
   cuc_comment    TEXT     NOT NULL DEFAULT '',
-  cuc_minor      CHAR     NOT NULL DEFAULT '0',
+  cuc_minor      CHAR     NOT NULL DEFAULT 0,
   cuc_page_id    INTEGER      NULL REFERENCES page(page_id) ON DELETE SET NULL,
   cuc_this_oldid INTEGER  NOT NULL DEFAULT 0,
-  cuc_last_oldid INTEGER  NOT NULL default 0,
-  cuc_type       SMALLINT NOT NULL default '0',
+  cuc_last_oldid INTEGER  NOT NULL DEFAULT 0,
+  cuc_type       SMALLINT NOT NULL DEFAULT 0,
   cuc_timestamp  TIMESTAMPTZ,
   cuc_ip         CIDR,
   cuc_ip_hex     TEXT,
@@ -27,6 +27,8 @@ CREATE TABLE cu_changes (
   cuc_agent      TEXT
 );
 
-CREATE INDEX cu_changes_index ON cu_changes(cuc_user, cuc_ip_hex, cuc_xff_hex, cuc_timestamp);
+CREATE INDEX cuc_ip_hex_time  ON cu_changes( cuc_ip_hex, cuc_timestamp );
+CREATE INDEX cuc_user_ip_time ON cu_changes( cuc_user, cuc_ip, cuc_timestamp );
+CREATE INDEX cuc_xff_hex_time ON cu_changes( cuc_xff_hex, cuc_timestamp );
 
 COMMIT;
