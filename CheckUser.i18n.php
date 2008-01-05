@@ -148,11 +148,35 @@ $messages['br'] = array(
 	'checkuser-blocked'      => 'Stanket',
 );
 
+/** Catalan (Català)
+ * @author SMP
+ * @author Toniher
+ */
 $messages['ca'] = array(
-	'checkuser'              => 'Comprova l\'usuari',
+	'checkuser-summary'      => "Aquest instrument efectua una cerca als canvis recents per a comprovar les adreces IP fetes servir per un usuari o per a mostrar les edicions d'una certa adreça IP.
+Les edicions i usuaris d'un client IP es poden obtenir via capçaleres XFF afegint /xff al final de la IP. Tant les adreces IPv4 (CIDR 16-32) com les IPv6 (CIDR 64-128) són admeses.
+Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Recordeu que aquesta eina només es pot usar d'acord amb les polítiques corresponents i amb respecte a la legislació sobre privacitat.",
+	'checkuser-logcase'      => 'Les majúscules es tracten de manera diferenciada en la cerca dins el registre.',
+	'checkuser'              => "Comprova l'usuari",
 	'group-checkuser'        => 'Comprova els usuaris',
-	'group-checkuser-member' => 'Comprova l\'usuari',
-	'grouppage-checkuser'    => '{{ns:project}}:Comprova l\'usuari',
+	'group-checkuser-member' => "Comprova l'usuari",
+	'grouppage-checkuser'    => "{{ns:project}}:Comprova l'usuari",
+	'checkuser-reason'       => 'Motiu',
+	'checkuser-showlog'      => 'Mostra registre',
+	'checkuser-log'          => 'Registre de Checkuser',
+	'checkuser-query'        => 'Cerca als canvis recents',
+	'checkuser-target'       => 'Usuari o IP',
+	'checkuser-users'        => 'Retorna els usuaris',
+	'checkuser-edits'        => 'Retorna les edicions de la IP',
+	'checkuser-ips'          => 'Retorna adreces IP',
+	'checkuser-search'       => 'Cerca',
+	'checkuser-empty'        => 'El registre no conté entrades.',
+	'checkuser-nomatch'      => "No s'han trobat coincidències.",
+	'checkuser-check'        => 'Comprova',
+	'checkuser-log-fail'     => "No s'ha pogut afegir al registre",
+	'checkuser-nolog'        => "No s'ha trobat el fitxer del registre.",
+	'checkuser-blocked'      => 'Blocat',
+	'checkuser-too-many'     => 'Hi ha massa resultats, cal que useu un CIDR més petit. Aquí teniu les IP usades (màx. 5000 ordenades per adreça):',
 );
 
 $messages['cdo'] = array(
@@ -531,6 +555,9 @@ Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěš
  * @author KossuthRad
  */
 $messages['hu'] = array(
+	'checkuser-summary'      => 'Ez az eszköz végigvizsgálja a friss változásokat, hogy lekérje egy adott felhasználó IP-címeit vagy megjelenítse egy adott IP-címet használó szerkesztőket és az IP szerkesztéseit.
+Egy kliens IP-cím által végzett szerkesztések és felhasználói XFF fejlécek segítségével kérhetőek le, az IP-cím utáni „/xff” parancssal. Az IPv4 (CIDR 16-32) és az IPv6 (CIDR 64-128) is támogatott.
+Maximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt a szabályoknak megfelelően használd.',
 	'checkuser-logcase'      => 'A kereső kis- és nagybetűérzékeny.',
 	'checkuser'              => 'IP-ellenőr',
 	'group-checkuser'        => 'IP-ellenőrök',
@@ -551,6 +578,7 @@ $messages['hu'] = array(
 	'checkuser-log-fail'     => 'Nem sikerült az elem hozzáadása',
 	'checkuser-nolog'        => 'A naplófájl nem található.',
 	'checkuser-blocked'      => 'Blokkolva',
+	'checkuser-too-many'     => 'Túl sok eredmény, kérlek szűkítsd le a CIDR-t. Itt vannak a használt IP-címek (maximum 5000, cím alapján rendezve):',
 );
 
 $messages['id'] = array(
@@ -748,6 +776,8 @@ $messages['lb'] = array(
 	'checkuser-target'  => 'Benotzer oder IP-Adress',
 	'checkuser-search'  => 'Sichen',
 	'checkuser-empty'   => 'Dëst Logbuch ass eidel.',
+	'checkuser-nomatch' => 'Et goufe keng Iwwereneestëmmunge fonnt.',
+	'checkuser-nolog'   => "D'Logbuch gouf net fonnt.",
 	'checkuser-blocked' => 'Gespaart',
 );
 
