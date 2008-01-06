@@ -781,6 +781,16 @@ $messages['lb'] = array(
 	'checkuser-blocked' => 'Gespaart',
 );
 
+/** Limburgish (Limburgs)
+ * @author Ooswesthoesbes
+ */
+$messages['li'] = array(
+	'checkuser-target'  => 'Gebroeker of IP-adres',
+	'checkuser-search'  => 'Zeuk',
+	'checkuser-check'   => 'Conterleer',
+	'checkuser-blocked' => 'Geblokkeerdj',
+);
+
 $messages['lo'] = array(
 	'checkuser'              => 'ກວດຜູ້ໃຊ້',
 	'checkuser-reason'       => 'ເຫດຜົນ',
