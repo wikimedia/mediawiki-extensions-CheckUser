@@ -1184,9 +1184,11 @@ $messages['tr'] = array(
 /** Volapük (Volapük)
  * @author Malafaya
  */
-$messages['vo'] = array(
-	'checkuser-reason' => 'Kod',
-);
+	'vo' => array(
+		'changeauthor-comment'              => 'Küpet:',
+		'changeauthor-changeauthors-multi'  => 'Votükön lautani(s)',
+		'changeauthor-changeauthors-single' => 'Votükön lautani',
+	),
 
 $messages['wa'] = array(
 	'checkuser' => 'Verifyî l\' uzeu',
