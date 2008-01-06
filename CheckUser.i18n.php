@@ -817,6 +817,7 @@ $messages['nds'] = array(
 	'grouppage-checkuser'    => '{{ns:project}}:Checkuser',
 	'checkuser-reason'       => 'Grund',
 	'checkuser-search'       => 'Söken',
+	'checkuser-nolog'        => 'Keen Loogbook funnen.',
 );
 
 $messages['nl'] = array(
