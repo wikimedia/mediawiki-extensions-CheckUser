@@ -72,6 +72,7 @@ $messages['ar'] = array(
 
 /** Asturian (Asturianu)
  * @author SPQRobin
+ * @author Esbardu
  */
 $messages['ast'] = array(
 	'checkuser-summary'  => "Esta ferramienta escanea los cambeos recientes pa obtener les IP usaes por un usuariu o p'amosar les ediciones o usuarios d'una IP.
@@ -88,11 +89,11 @@ $messages['ast'] = array(
 	'checkuser-edits'    => 'Obtener les ediciones de la IP',
 	'checkuser-ips'      => 'Obtener les IP',
 	'checkuser-search'   => 'Buscar',
-	'checkuser-empty'    => 'El rexistru nun tien nengún artículu.',
+	'checkuser-empty'    => 'El rexistru nun tien nengún elementu.',
 	'checkuser-nomatch'  => "Nun s'atoparon coincidencies.",
 	'checkuser-check'    => 'Comprobar',
 	'checkuser-log-fail' => 'Nun se pue añader la entrada nel rexistru',
-	'checkuser-nolog'    => 'Nun hai entraes nel rexistru.',
+	'checkuser-nolog'    => "Nun s'atopó l'archivu del rexistru.",
 	'checkuser-blocked'  => 'Bloquiáu',
 );
 
@@ -681,6 +682,32 @@ IPv4 (CIDR 16-32) と IPv6 (CIDR 64-128) が利用出来ます。
 	'checkuser-nolog'        => 'ログファイルが見つかりません。',
 );
 
+$messages['kk-arab'] = array(
+	'checkuser-summary'      => 'بۇل قۇرال پايدالانۋشى قولدانعان IP جايلار ٷشٸن, نەمەسە IP جاي تٷزەتۋ/پايدالانۋشى دەرەكتەرٸن كٶرسەتۋ ٷشٸن جۋىقتاعى ٶزگەرٸستەردٸ قاراپ شىعادى.
+	پايدالانۋشىلاردى مەن تٷزەتۋلەردٸ XFF IP ارقىلى IP جايعا «/xff» دەگەندٸ قوسىپ كەلتٸرۋگە بولادى. IPv4 (CIDR 16-32) جٵنە IPv6 (CIDR 64-128) ارقاۋلانادى.
+	ورىنداۋشىلىق سەبەپتەرٸمەن 5000 تٷزەتۋدەن ارتىق قايتارىلمايدى. بۇنى ەرەجەلەرگە سٵيكەس پايدالانىڭىز.',
+	'checkuser-logcase'      => 'جۋرنالدان ٸزدەۋ ٵرٸپ باس-كٸشٸلٸگٸن ايىرادى.',
+	'checkuser'              => 'پايدالانۋشىنى سىناۋ',
+	'group-checkuser'        => 'پايدالانۋشى سىناۋشىلار',
+	'group-checkuser-member' => 'پايدالانۋشى سىناۋشى',
+	'grouppage-checkuser'    => '{{ns:project}}:پايدالانۋشىنى سىناۋ',
+	'checkuser-reason'       => 'سەبەبٸ',
+	'checkuser-showlog'      => 'جۋرنالدى كٶرسەت',
+	'checkuser-log'          => 'پايدالانۋشىنى سىناۋ جۋرنالى',
+	'checkuser-query'        => 'جۋىقتاعى ٶزگەرٸستەردٸ سۇرانىستاۋ',
+	'checkuser-target'       => 'پايدالانۋشى اتى / IP جاي',
+	'checkuser-users'        => 'پايدالانۋشىلاردى كەلتٸرۋ',
+	'checkuser-edits'        => 'IP جايدان جاسالعان تٷزەتۋلەردٸ كەلتٸرۋ',
+	'checkuser-ips'          => 'IP جايلاردى كەلتٸرۋ',
+	'checkuser-search'       => 'ٸزدەۋ',
+	'checkuser-empty'        => 'جۋرنالدا ەش جازبا جوق.',
+	'checkuser-nomatch'      => 'سٵيكەس تابىلمادى.',
+	'checkuser-check'        => 'سىناۋ',
+	'checkuser-log-fail'     => 'جۋرنالعا جازبا ٷستەلٸنبەدٸ',
+	'checkuser-nolog'        => 'جۋرنال فايلى تابىلمادى.',
+	'checkuser-blocked'      => 'بۇعاتتالعان',
+);
+
 $messages['kk-cyrl'] = array(
 	'checkuser-summary'      => 'Бұл құрал пайдаланушы қолданған IP жайлар үшін, немесе IP жай түзету/пайдаланушы деректерін көрсету үшін жуықтағы өзгерістерді қарап шығады.
 	Пайдаланушыларды мен түзетулерді XFF IP арқылы IP жайға «/xff» дегенді қосып келтіруге болады. IPv4 (CIDR 16-32) және IPv6 (CIDR 64-128) арқауланады.
@@ -731,32 +758,6 @@ $messages['kk-latn'] = array(
 	'checkuser-log-fail'     => 'Jwrnalğa jazba üstelinbedi',
 	'checkuser-nolog'        => 'Jwrnal faýlı tabılmadı.',
 	'checkuser-blocked'      => 'Buğattalğan',
-);
-
-$messages['kk-arab'] = array(
-	'checkuser-summary'      => 'بۇل قۇرال پايدالانۋشى قولدانعان IP جايلار ٷشٸن, نەمەسە IP جاي تٷزەتۋ/پايدالانۋشى دەرەكتەرٸن كٶرسەتۋ ٷشٸن جۋىقتاعى ٶزگەرٸستەردٸ قاراپ شىعادى.
-	پايدالانۋشىلاردى مەن تٷزەتۋلەردٸ XFF IP ارقىلى IP جايعا «/xff» دەگەندٸ قوسىپ كەلتٸرۋگە بولادى. IPv4 (CIDR 16-32) جٵنە IPv6 (CIDR 64-128) ارقاۋلانادى.
-	ورىنداۋشىلىق سەبەپتەرٸمەن 5000 تٷزەتۋدەن ارتىق قايتارىلمايدى. بۇنى ەرەجەلەرگە سٵيكەس پايدالانىڭىز.',
-	'checkuser-logcase'      => 'جۋرنالدان ٸزدەۋ ٵرٸپ باس-كٸشٸلٸگٸن ايىرادى.',
-	'checkuser'              => 'پايدالانۋشىنى سىناۋ',
-	'group-checkuser'        => 'پايدالانۋشى سىناۋشىلار',
-	'group-checkuser-member' => 'پايدالانۋشى سىناۋشى',
-	'grouppage-checkuser'    => '{{ns:project}}:پايدالانۋشىنى سىناۋ',
-	'checkuser-reason'       => 'سەبەبٸ',
-	'checkuser-showlog'      => 'جۋرنالدى كٶرسەت',
-	'checkuser-log'          => 'پايدالانۋشىنى سىناۋ جۋرنالى',
-	'checkuser-query'        => 'جۋىقتاعى ٶزگەرٸستەردٸ سۇرانىستاۋ',
-	'checkuser-target'       => 'پايدالانۋشى اتى / IP جاي',
-	'checkuser-users'        => 'پايدالانۋشىلاردى كەلتٸرۋ',
-	'checkuser-edits'        => 'IP جايدان جاسالعان تٷزەتۋلەردٸ كەلتٸرۋ',
-	'checkuser-ips'          => 'IP جايلاردى كەلتٸرۋ',
-	'checkuser-search'       => 'ٸزدەۋ',
-	'checkuser-empty'        => 'جۋرنالدا ەش جازبا جوق.',
-	'checkuser-nomatch'      => 'سٵيكەس تابىلمادى.',
-	'checkuser-check'        => 'سىناۋ',
-	'checkuser-log-fail'     => 'جۋرنالعا جازبا ٷستەلٸنبەدٸ',
-	'checkuser-nolog'        => 'جۋرنال فايلى تابىلمادى.',
-	'checkuser-blocked'      => 'بۇعاتتالعان',
 );
 
 $messages['kn'] = array(
@@ -1092,7 +1093,6 @@ $messages['sr-ec'] = array(
 	'checkuser-blocked'      => 'Блокиран',
 );
 
-$messages['sr'] = $messages['sr-ec'];
 
 $messages['sr-el'] = array(
 	'checkuser'              => 'Čekjuzer',
@@ -1272,10 +1272,11 @@ $messages['zh-hant'] = array(
 );
 
 # Kazakh fallbacks
+$messages['kk'] = $messages['kk-cyrl'];
+$messages['kk-cn'] = $messages['kk-arab'];
 $messages['kk-kz'] = $messages['kk-cyrl'];
 $messages['kk-tr'] = $messages['kk-latn'];
-$messages['kk-cn'] = $messages['kk-arab'];
-$messages['kk'] = $messages['kk-cyrl'];
+$messages['sr'] = $messages['sr-ec'];
 
 # Chinese fallbacks
 $messages['zh'] = $messages['zh-hans'];
