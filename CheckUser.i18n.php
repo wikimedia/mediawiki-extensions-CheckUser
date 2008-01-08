@@ -422,6 +422,9 @@ $messages['frp'] = array(
  * @author Alison
  */
 $messages['ga'] = array(
+	'checkuser-summary'  => 'Scanann an uirlis seo na athruithe is déanaí chun na seolaidh IP úsáideoira a fháil ná taispeáin na sonraí eagarthóireachta/úsáideoira don seoladh IP.
+Is féidir úsáideoirí agus eagarthóireachta mar IP cliant a fháil le ceanntáisc XFF mar an IP a iarcheangail le "/xff". IPv4 (CIDR 16-32) agus IPv6 (CIDR 64-128) atá tacaíocht.
+Le fáth feidhmiúcháin, ní féidir níos mó ná 5000 eagarthóireachta a thabhairt ar ais ar an am cheana. Déan úsáid de réir polsaí.',
 	'checkuser-logcase'  => 'Tá na logaí seo cásíogair.',
 	'checkuser-reason'   => 'Fáth',
 	'checkuser-showlog'  => 'Taispeáin logaí',
@@ -1271,14 +1274,11 @@ $messages['zh-hant'] = array(
 	'checkuser-blocked'      => '已經查封',
 );
 
-# Kazakh fallbacks
 $messages['kk'] = $messages['kk-cyrl'];
 $messages['kk-cn'] = $messages['kk-arab'];
 $messages['kk-kz'] = $messages['kk-cyrl'];
 $messages['kk-tr'] = $messages['kk-latn'];
 $messages['sr'] = $messages['sr-ec'];
-
-# Chinese fallbacks
 $messages['zh'] = $messages['zh-hans'];
 $messages['zh-cn'] = $messages['zh-hans'];
 $messages['zh-hk'] = $messages['zh-hant'];
