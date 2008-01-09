@@ -190,11 +190,32 @@ $messages['co'] = array(
 	'grouppage-checkuser'    => '{{ns:project}}:Controllori',
 );
 
+/** Czech (Česky)
+ * @author Li-sung
+ * @author Beren
+ */
 $messages['cs'] = array(
+	'checkuser-logcase'      => 'Hledání v záznamech rozlišuje velikosti písmen.',
 	'checkuser'              => 'Kontrola uživatele',
 	'group-checkuser'        => 'Revizoři',
 	'group-checkuser-member' => 'Revizor',
 	'grouppage-checkuser'    => '{{ns:project}}:Revize uživatele',
+	'checkuser-reason'       => 'Důvod',
+	'checkuser-showlog'      => 'Zobrazit záznamy',
+	'checkuser-log'          => 'Kniha kontroly uživatelů',
+	'checkuser-query'        => 'Dotaz na poslední změny',
+	'checkuser-target'       => 'Uživatel nebo IP',
+	'checkuser-users'        => 'Najít uživatele',
+	'checkuser-edits'        => 'Najít editace z IP',
+	'checkuser-ips'          => 'Najít IP adresy',
+	'checkuser-search'       => 'Hledat',
+	'checkuser-empty'        => 'Kniha neobsahuje žádné položky',
+	'checkuser-nomatch'      => 'Nic odpovídajícího nebylo nalezeno.',
+	'checkuser-check'        => 'Zkontrolovat',
+	'checkuser-log-fail'     => 'Nepodařilo se zapsat do záznamů',
+	'checkuser-nolog'        => 'Soubor záznamů nebyl nalezen.',
+	'checkuser-blocked'      => 'zablokováno',
+	'checkuser-too-many'     => 'Příliš mnoho výsledků, zkuste omezit CIDR. Níže jsou použité IP adresy (nejvýše 500, seřazené abecedně):',
 );
 
 $messages['de'] = array(
@@ -1052,7 +1073,7 @@ $messages['ru'] = array(
  */
 $messages['sk'] = array(
 	'checkuser-summary'      => 'Tento nástroj kontroluje Posledné úpravy, aby získal IP adresy používané používateľom alebo zobrazil úpravy/používateľské dáta IP adresy.
-	Používateľov a úpravy je možné získať s XFF IP pridaním "/xff" k IP. Sú podporované IPv4 (CIDR 16-32) a IPv6 (CIDR 64-128).
+	Používateľov a úpravy je možné získať s XFF IP pridaním „/xff“ k IP. Sú podporované IPv4 (CIDR 16-32) a IPv6 (CIDR 64-128).
 	Z dôvodov výkonnosti nebude vrátených viac ako 5000 úprav. Túto funkciu využívajte len v súlade s platnou politikou.',
 	'checkuser-logcase'      => 'Vyhľadávanie v zázname zohľadňuje veľkosť písmen.',
 	'checkuser'              => 'Overiť používateľa',
