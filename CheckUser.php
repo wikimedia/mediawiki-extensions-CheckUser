@@ -164,7 +164,7 @@ function efXFFChainIsSquid( $xff ) {
 }
 
 function efCheckUserSchemaUpdates() {
-	global $wgDBtype, $wgExtNewIndexes, $wgExtNewTables;
+	global $wgDBtype, $wgExtNewIndexes;
 	
 	# Run install.inc as necessary
 	$base = dirname(__FILE__);
@@ -177,15 +177,18 @@ function efCheckUserSchemaUpdates() {
 		create_cu_changes( $db );
 	}
 	
+	if( $db->tableExists( 'cu_log' ) ) {
+		echo "...cu_log already exists.\n";
+	} else {
+		require_once "$base/install.inc";
+		create_cu_log( $db );
+	}
+	
 	if ($wgDBtype == 'mysql') {	
 		$wgExtNewIndexes[] = array('cu_changes', 'cuc_ip_hex_time', 
 			"$base/archives/patch-cu_changes_indexes.sql" );
 		$wgExtNewIndexes[] = array('cu_changes', 'cuc_user_ip_time', 
 			"$base/archives/patch-cu_changes_indexes2.sql" );
-		
-		$wgExtNewTables[] = array('cu_log', "$base/cu_log.sql" );
-	} else if( $wgDBtype == 'postgres' ) {
-		$wgExtNewTables[] = array('cu_log', "$base/cu_log.pg.sql" );
 	}
 	return true;
 }
