@@ -34,7 +34,7 @@ CREATE TABLE /*$wgDBprefix*/cu_log (
   PRIMARY KEY (cul_id),
   INDEX (cul_timestamp),
   INDEX cul_user (cul_user, cul_timestamp),
-  INDEX cul_target_id (cul_type, cul_target_id, cul_timestamp),
+  INDEX cul_type_target (cul_type,cul_target_id, cul_timestamp),
   INDEX cul_target_hex (cul_target_hex, cul_timestamp),
   INDEX cul_range_start (cul_range_start, cul_timestamp)
 

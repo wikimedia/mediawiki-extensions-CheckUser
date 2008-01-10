@@ -164,7 +164,7 @@ function efXFFChainIsSquid( $xff ) {
 }
 
 function efCheckUserSchemaUpdates() {
-	global $wgDBtype, $wgExtNewIndexes;
+	global $wgDBtype, $wgExtNewIndexes, $wgExtNewTables;
 	
 	# Run install.inc as necessary
 	$base = dirname(__FILE__);
@@ -182,6 +182,10 @@ function efCheckUserSchemaUpdates() {
 			"$base/archives/patch-cu_changes_indexes.sql" );
 		$wgExtNewIndexes[] = array('cu_changes', 'cuc_user_ip_time', 
 			"$base/archives/patch-cu_changes_indexes2.sql" );
+		
+		$wgExtNewTables[] = array('cu_log', "$base/cu_log.sql" );
+	} else if( $wgDBtype == 'postgres' ) {
+		$wgExtNewTables[] = array('cu_log', "$base/cu_log.pg.sql" );
 	}
 	return true;
 }
