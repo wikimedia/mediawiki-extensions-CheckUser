@@ -47,6 +47,13 @@ $messages['en'] = array(
 	'checkuser-log-ipusers-xff'  => '$1 got users for XFF $2',
 );
 
+/** Message documentation (Message documentation)
+ * @author Lejonel
+ */
+$messages['qqq'] = array(
+	'checkuser' => 'Check user extension. The name of the special page were checkusers can check the IP addresses of users. The message is used in the list of special pages, and at the top of Special:Checkuser.',
+);
+
 $messages['af'] = array(
 	'checkuser-search'       => 'Soek',
 );
@@ -887,31 +894,47 @@ $messages['nds'] = array(
 	'checkuser-nolog'        => 'Keen Loogbook funnen.',
 );
 
+/** Dutch (Nederlands)
+ * @author Siebrand
+ * @author Troefkaart
+ */
 $messages['nl'] = array(
-	'checkuser-summary'      => 'Dit hulpmiddel bekijkt recente wijzigingen om IP-adressen die een gebruiker heeft gebruikt te achterhalen of toont de bewerkings- en gebruikersgegegevens voor een IP-adres.
+	'checkuser-summary'          => 'Dit hulpmiddel bekijkt recente wijzigingen om IP-adressen die een gebruiker heeft gebruikt te achterhalen of toont de bewerkings- en gebruikersgegegevens voor een IP-adres.
 	Gebruikers en bewerkingen van een IP-adres van een client kunnen achterhaald worden via XFF-haeders door "/xff" achter het IP-adres toe te voegen. IPv4 (CIDR 16-32) en IPv6 (CIDR 64-128) worden ondersteund.
 	Om prestatieredenen worden niet meer dan 5.000 bewerkingen getoond. Gebruik dit hulpmiddel volgens het vastgestelde beleid.',
-	'checkuser-logcase'      => 'Zoeken in het logboek is hoofdlettergevoelig.',
-	'checkuser'              => 'Gebruiker controleren',
-	'group-checkuser'        => 'Gebruikers controleren',
-	'group-checkuser-member' => 'Gebruiker controleren',
-	'grouppage-checkuser'    => '{{ns:project}}:Gebruiker controleren',
-	'checkuser-reason'       => 'Reden',
-	'checkuser-showlog'      => 'Toon logboek',
-	'checkuser-log'          => 'Logboek controleren gebruikers',
-	'checkuser-query'        => 'Bevraag recente wijzigingen',
-	'checkuser-target'       => 'Gebruiker of IP-adres',
-	'checkuser-users'        => 'Vraag gebruikers op',
-	'checkuser-edits'        => 'Vraag bewerkingen van IP-adres op',
-	'checkuser-ips'          => 'Vraag IP-adressen op',
-	'checkuser-search'       => 'Zoeken',
-	'checkuser-empty'        => 'Het logboek bevat geen regels.',
-	'checkuser-nomatch'      => 'Geen overeenkomsten gevonden.',
-	'checkuser-check'        => 'Controleer',
-	'checkuser-log-fail'     => 'Logboekregel toevoegen niet mogelijk',
-	'checkuser-nolog'        => 'Geen logboek gevonden.',
-	'checkuser-blocked'      => 'Geblokkeerd',
-	'checkuser-too-many'     => 'Te veel resultaten. Maak de IP-reeks kleiner:',
+	'checkuser-logcase'          => 'Zoeken in het logboek is hoofdlettergevoelig.',
+	'checkuser'                  => 'Gebruiker controleren',
+	'group-checkuser'            => 'Gebruikers controleren',
+	'group-checkuser-member'     => 'Gebruiker controleren',
+	'grouppage-checkuser'        => '{{ns:project}}:Gebruiker controleren',
+	'checkuser-reason'           => 'Reden',
+	'checkuser-showlog'          => 'Toon logboek',
+	'checkuser-log'              => 'Logboek controleren gebruikers',
+	'checkuser-query'            => 'Bevraag recente wijzigingen',
+	'checkuser-target'           => 'Gebruiker of IP-adres',
+	'checkuser-users'            => 'Vraag gebruikers op',
+	'checkuser-edits'            => 'Vraag bewerkingen van IP-adres op',
+	'checkuser-ips'              => 'Vraag IP-adressen op',
+	'checkuser-search'           => 'Zoeken',
+	'checkuser-empty'            => 'Het logboek bevat geen regels.',
+	'checkuser-nomatch'          => 'Geen overeenkomsten gevonden.',
+	'checkuser-check'            => 'Controleer',
+	'checkuser-log-fail'         => 'Logboekregel toevoegen niet mogelijk',
+	'checkuser-nolog'            => 'Geen logboek gevonden.',
+	'checkuser-blocked'          => 'Geblokkeerd',
+	'checkuser-too-many'         => 'Te veel resultaten. Maak de IP-reeks kleiner:',
+	'checkuser-user-nonexistent' => 'De opgegeven gebruiker bestaat niet.',
+	'checkuser-search-form'      => 'Logboekregels zoeken waar de $1 $2 is',
+	'checkuser-search-submit'    => 'Zoeken',
+	'checkuser-search-initiator' => 'aanvrager',
+	'checkuser-search-target'    => 'onderwerp',
+	'checkuser-log-subpage'      => 'Logboek',
+	'checkuser-log-return'       => 'Naar het hoofdformulier van CheckUser terugkeren',
+	'checkuser-log-userips'      => '$1 heeft IP-adressen voor $2',
+	'checkuser-log-ipedits'      => '$1 heeft bewerkingen voor $2',
+	'checkuser-log-ipusers'      => '$1 heeft gebruikers voor $2',
+	'checkuser-log-ipedits-xff'  => '$1 heeft bewerkingen voor XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 heeft gebruikers voor XFF $2',
 );
 
 /** Norwegian (‪Norsk (bokmål)‬)
@@ -1186,30 +1209,45 @@ Beoarbaidengen fon ne IP-Adresse konnen uk ätter Informatione uut do XFF-Header
 	'checkuser-too-many'     => 'Ju Lieste fon Resultoate is tou loang, gränsje dän IP-Beräk fääre ien. Hier sunt do benutsede IP-Adressen (maximoal 5000, sortierd ätter Adresse):',
 );
 
+/** Swedish (Svenska)
+ * @author Lejonel
+ */
 $messages['sv'] = array(
-	'checkuser-summary'      => 'Det här verktyget söker igenom de senaste ändringarna för att hämta IP-adresser för en användare, eller redigeringar och användare för en IP-adress.
+	'checkuser-summary'          => 'Det här verktyget söker igenom de senaste ändringarna för att hämta IP-adresser för en användare, eller redigeringar och användare för en IP-adress.
 Användare och redigeringar kan visas med IP-adress från XFF genom att lägga till "/xff" efter IP-adressen. Verktyget stödjer IPv4 (CIDR 16-32) och IPv6 (CIDR 64-128).
 På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd verktyget i enlighet med policy.',
-	'checkuser-logcase'      => 'Loggsökning är skiftlägeskänslig.',
-	'checkuser'              => 'Kontrollera användare',
-	'group-checkuser'        => 'Användarkontrollanter',
-	'group-checkuser-member' => 'Användarkontrollant',
-	'grouppage-checkuser'    => '{{ns:project}}:Användarkontrollant',
-	'checkuser-reason'       => 'Anledning',
-	'checkuser-showlog'      => 'Visa logg',
-	'checkuser-log'          => 'Logg över användarkontroller',
-	'checkuser-query'        => 'Sök de senaste ändringarna',
-	'checkuser-target'       => 'Användare eller IP',
-	'checkuser-users'        => 'Hämta användare',
-	'checkuser-edits'        => 'Hämta redigeringar från IP-adress',
-	'checkuser-ips'          => 'Hämta IP-adresser',
-	'checkuser-search'       => 'Sök',
-	'checkuser-empty'        => 'Loggen innehåller inga poster.',
-	'checkuser-nomatch'      => 'Inga träffar hittades.',
-	'checkuser-check'        => 'Kontrollera',
-	'checkuser-log-fail'     => 'Loggposten kunde inte läggas i loggfilen.',
-	'checkuser-nolog'        => 'Hittade ingen loggfil.',
-	'checkuser-blocked'      => 'Blockerad',
+	'checkuser-logcase'          => 'Loggsökning är skiftlägeskänslig.',
+	'checkuser'                  => 'Kontrollera användare',
+	'group-checkuser'            => 'Användarkontrollanter',
+	'group-checkuser-member'     => 'Användarkontrollant',
+	'grouppage-checkuser'        => '{{ns:project}}:Användarkontrollant',
+	'checkuser-reason'           => 'Anledning',
+	'checkuser-showlog'          => 'Visa logg',
+	'checkuser-log'              => 'Logg över användarkontroller',
+	'checkuser-query'            => 'Sök de senaste ändringarna',
+	'checkuser-target'           => 'Användare eller IP',
+	'checkuser-users'            => 'Hämta användare',
+	'checkuser-edits'            => 'Hämta redigeringar från IP-adress',
+	'checkuser-ips'              => 'Hämta IP-adresser',
+	'checkuser-search'           => 'Sök',
+	'checkuser-empty'            => 'Loggen innehåller inga poster.',
+	'checkuser-nomatch'          => 'Inga träffar hittades.',
+	'checkuser-check'            => 'Kontrollera',
+	'checkuser-log-fail'         => 'Loggposten kunde inte läggas i loggfilen.',
+	'checkuser-nolog'            => 'Hittade ingen loggfil.',
+	'checkuser-blocked'          => 'Blockerad',
+	'checkuser-user-nonexistent' => 'Användarnamnet som angavs finns inte.',
+	'checkuser-search-form'      => 'Sök  efter poster där $1 är $2',
+	'checkuser-search-submit'    => 'Sök',
+	'checkuser-search-initiator' => 'kontrollanten',
+	'checkuser-search-target'    => 'kontrollmålet',
+	'checkuser-log-subpage'      => 'Logg',
+	'checkuser-log-return'       => 'Gå tillbaka till formuläret för användarkontroll',
+	'checkuser-log-userips'      => '$1 hämtade IP-adresser för $2',
+	'checkuser-log-ipedits'      => '$1 hämtade redigeringar från $2',
+	'checkuser-log-ipusers'      => '$1 hämtade användare från $2',
+	'checkuser-log-ipedits-xff'  => '$1 hämtade redigeringar från XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 hämtade användare från XFF $2',
 );
 
 /** Tetum (Tetun)
