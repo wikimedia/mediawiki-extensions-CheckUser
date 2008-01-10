@@ -68,7 +68,7 @@ function create_cu_changes( $db, $cutoff = null ) {
 }
 
 function create_cu_log( $db ) {
-	global $wgDBtype, $wgCheckUserLog;
+	global $wgDBtype, $wgCheckUserLog, $wgDBname;
 	if( $db->tableExists( 'cu_log' ) ) {
 		echo "...cu_log already exists\n";
 		return;
@@ -101,13 +101,14 @@ function create_cu_log( $db ) {
 
 	$matched = 0;
 	$unmatched = 0;
+	
 
 	while ( false !== ( $line = fgets( $file ) ) ) {
 		$found = false;
 		foreach ( $regexes as $type => $regex ) {
 			$m = false;
 			if ( preg_match( $regex, $line, $m ) ) {
-				if ( $m['wiki'] != wfWikiID() ) {
+				if ( $m['wiki'] != wfWikiID() && $m['wiki'] != $wgDBname ) {
 					continue;
 				}
 
