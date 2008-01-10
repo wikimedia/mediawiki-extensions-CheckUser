@@ -1204,8 +1204,17 @@ $messages['to'] = array(
 	'group-checkuser-member' => 'Siviʻi ʻa e ʻetita',
 );
 
+/** Turkish (Türkçe)
+ * @author SPQRobin
+ * @author Dbl2010
+ */
 $messages['tr'] = array(
 	'checkuser'              => 'IP denetçisi',
+	'group-checkuser'        => 'Denetçiler',
+	'group-checkuser-member' => 'Denetçi',
+	'grouppage-checkuser'    => '{{ns:project}}:Denetçi',
+	'checkuser-reason'       => 'Sebep',
+	'checkuser-search'       => 'Ara',
 );
 
 /** Volapük (Volapük)
