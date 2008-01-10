@@ -13,8 +13,8 @@ class CheckUser extends SpecialPage
 		wfLoadExtensionMessages('CheckUser');
 	}
 
-	function execute( $par ) {
-		global $wgRequest, $wgOut, $wgTitle, $wgUser;
+	function execute( $subpage ) {
+		global $wgRequest, $wgOut, $wgTitle, $wgUser, $wgContLang;
 
 		if( !$wgUser->isAllowed( 'checkuser' ) ) {
 			$wgOut->permissionRequired( 'checkuser' );
@@ -23,6 +23,11 @@ class CheckUser extends SpecialPage
 
 		$this->setHeaders();
 		$this->sk = $wgUser->getSkin();
+
+		if ( $wgContLang->lc( $subpage ) == $wgContLang->lc( wfMsg( 'checkuser-log-subpage' ) ) ) {
+			$this->showLog();
+			return;
+		}
 
 		$user = $wgRequest->getText( 'user' ) ? $wgRequest->getText( 'user' ) : $wgRequest->getText( 'ip' );
 		$reason = $wgRequest->getText( 'reason' );
@@ -58,7 +63,6 @@ class CheckUser extends SpecialPage
 		}
 
 		$this->doForm( $user, $reason, $checktype, $ip, $xff, $name );
-		$this->showLog( $user );
 		
 		if( !$wgRequest->wasPosted() )
 			return;
@@ -74,6 +78,13 @@ class CheckUser extends SpecialPage
 		} else if( $checktype=='subipusers' ) {
 			$this->doIPUsersRequest( $ip, false, $reason );
 		}
+	}
+
+	function getLogSubpageTitle() {
+		if ( !isset( $this->logSubpageTitle ) ) {
+			$this->logSubpageTitle = $this->getTitle( wfMsg( 'checkuser-log-subpage' ) );
+		}
+		return $this->logSubpageTitle;
 	}
 
 	function doForm( $user, $reason, $checktype, $ip, $xff, $name ) {
@@ -95,7 +106,10 @@ class CheckUser extends SpecialPage
 			$encuserips = 1;
 		# Compile our nice form
 		# User box length should fit things like "2001:0db8:85a3:08d3:1319:8a2e:0370:7344/100/xff"
-		$wgOut->addWikiText( wfMsgHtml( 'checkuser-summary' ) );
+		$wgOut->addWikiText( 
+			wfMsg( 'checkuser-summary' ) . 
+			"\n\n[[" . $this->getLogSubpageTitle()->getPrefixedText() . '|' . wfMsg( 'checkuser-showlog' ) . ']]'
+	   	);
 		$form = "<form name='checkuser' action='$action' method='post'>";
 		$form .= "<fieldset><legend>".wfMsgHtml( "checkuser-query" )."</legend>";
 		$form .= "<table border='0' cellpadding='2'><tr>";
@@ -135,10 +149,11 @@ class CheckUser extends SpecialPage
 			return;
 		}
 
-		$xnote = ($xfor) ? ' XFF' : '';
-		if( !$this->addLogEntry( time() , $wgUser->getName() ,
-			"got edits for$xnote" , htmlspecialchars( $ip ) , $wgDBname , $reason ) )
-		{
+		$logType = 'ipedits';
+		if ( $xfor ) {
+			$logType .= '-xff';
+		}
+		if( !$this->addLogEntry( $logType, 'ip', $ip, $reason ) ) {
 			$wgOut->addHTML( '<p>'.wfMsgHtml('checkuser-log-fail').'</p>' );
 		}
 
@@ -372,9 +387,11 @@ class CheckUser extends SpecialPage
 			return;
 		}
 
-		$xnote = ($xfor) ? ' XFF' : '';
-		if( !$this->addLogEntry( time(), $wgUser->getName(), "got users for$xnote", 
-			htmlspecialchars( $ip ), $wgDBname, $reason ) ) {
+		$logType = 'ipusers';
+		if ( $xfor ) {
+			$logType .= '-xff';
+		}
+		if( !$this->addLogEntry( $logType, 'ip', $ip, $reason ) ) {
 			$wgOut->addHTML( '<p>'.wfMsgHtml('checkuser-log-fail').'</p>' );
 		}
 
@@ -614,9 +631,7 @@ class CheckUser extends SpecialPage
 			return;
 		}
 
-		if( !$this->addLogEntry( time() , $wgUser->getName() ,
-			"got IPs for" , htmlspecialchars( $user ) , $wgDBname , $reason) ) 
-		{
+		if( !$this->addLogEntry( 'userips', 'user', $user, $reason, $user_id ) ) {
 			$wgOut->addHTML( '<p>'.wfMsgHtml('checkuser-log-fail').'</p>' );
 		}
 		$dbr = wfGetDB( DB_SLAVE );
@@ -688,166 +703,210 @@ class CheckUser extends SpecialPage
 		$dbr->freeResult( $ret );
 	}
 
-	function showLog( $user ) {
-		global $wgCheckUserLog, $wgOut;
+	function showLog() {
+		global $wgRequest, $wgOut;
+		$type = $wgRequest->getVal( 'cuSearchType' );
+		$target = $wgRequest->getVal( 'cuSearch' );
+		$error = false;
+		$dbr = wfGetDB( DB_SLAVE );
+		$searchConds = false;
+		
+		$wgOut->setPageTitle( wfMsg( 'checkuser-log' ) );
 
-		if( $wgCheckUserLog === false || !file_exists( $wgCheckUserLog ) ) {
-			# No log
-			$wgOut->addHTML("<p>".wfMsgHtml("checkuser-nolog")."</p>");
-			return;
-		} else {
-			global $wgRequest, $wgScript;
+		$wgOut->addHTML( $this->sk->makeKnownLinkObj( $this->getTitle(), wfMsgHtml( 'checkuser-log-return' ) ) );
 
-			if( $wgRequest->getVal( 'log' ) == 1 ) {
-				$logsearch = $wgRequest->getText( 'logsearch' );
-				# Show the log
-				list( $limit, $offset ) = wfCheckLimits();
-				$log = $this->tail( $wgCheckUserLog, $limit, $offset , $logsearch );
-				#If not empty
-				if( $log !==false) {
-					$CUtitle = Title::makeTitle( NS_SPECIAL, 'CheckUser' );
-					$title = $CUtitle->getNsText() . ':' . 'CheckUser';
-					$encLogSearch = htmlspecialchars( $logsearch );
-					$encUser = htmlspecialchars( $user );
-
-					$scroller = wfViewPrevNext( $offset, $limit, $CUtitle,
-						'log=1&logsearch=' . urlencode($logsearch) . '&user=' . urlencode($user),
-						count($log) <= $limit);
-					#If not filtered empty
-					if( $log ) {
-						if(count($log) > $limit) array_pop($log);
-						$output = implode( "\n", $log );
-					} else {
-						$output = "<p>".wfMsgHtml('checkuser-nomatch')."</p>";
-					}
-					$wgOut->addHTML("<fieldset><legend>".wfMsgHtml('checkuser-log').":</legend>
-						<form name='checkuserlog' action='$wgScript' method='get'>
-						<input type='hidden' name='title' value='$title' /><input type='hidden' name='log' value='1' />
-						<input type='hidden' name='user' value='$encUser' /><table border='0' cellpadding='1'><tr>
-						<td>".wfMsgHtml('checkuser-search').":</td>
-						<td><input type='text' name='logsearch' size='20' maxlength='50' value='$encLogSearch' /></td>
-						<td><input type='submit' value='".wfMsgHtml('go')."' /></td>
-						</tr></table><p>".wfMsgHtml('checkuser-logcase')."</p></form>");
-					$wgOut->addHTML( "$scroller\n<ul>$output</ul>\n$scroller\n</fieldset>" );
+		if ( $type === null ) {
+			$type = 'target';
+		} elseif ( $type == 'initiator' ) {
+			$user = User::newFromName( $target );
+			if ( !$user || !$user->getID() ) {
+				$error = 'checkuser-user-nonexistent';
+			} else {
+				$searchConds = array( 'cul_user' => $user->getID() );
+			}
+		} else /* target */ {
+			$type = 'target';
+			// Is it an IP?
+			list( $start, $end ) = IP::parseRange( $target );
+			if ( $start !== false ) {
+				if ( $start == $end ) {
+					$searchConds = 'cul_target_hex = ' . $dbr->addQuotes( $start ) . ' OR ' .
+						'(cul_range_end >= ' . $dbr->addQuotes( $start ) . ' AND ' .
+						'cul_range_start <= ' . $dbr->addQuotes( $end ) . ')';
 				} else {
-					$wgOut->addHTML( "<p>".wfMsgHtml('checkuser-empty')."</p>" );
+					$searchConds = array(
+						'(cul_target_hex >= ' . $dbr->addQuotes( $start ) . ' AND ' . 
+						'cul_target_hex <= ' . $dbr->addQuotes( $end ) . ') OR ' .
+						'(cul_range_end >= ' . $dbr->addQuotes( $start ) . ' AND ' . 
+						'cul_range_start <= ' . $dbr->addQuotes( $end ) . ')'
+					);
 				}
 			} else {
-				# Hide the log, show a link
-				global $wgTitle;
-				
-				$link = $this->sk->makeKnownLinkObj( $wgTitle, wfMsgHtml('checkuser-showlog'), 'log=1&user=' . urlencode($user) );
-				$wgOut->addHTML( "<p>(<strong>$link</strong>)</p>" );
-			}
-		}
-	}
-
-	function tail( $filename, $limit, $offset , $logsearch ) {
-		//wfSuppressWarnings();
-		$file = fopen( $filename, "r" );
-		//wfRestoreWarnings();
-		if( $file === false ) {
-			return false;
-		}
-
-		$filePosition = filesize( $filename );
-		if( $filePosition == 0 ) {
-			return array();
-		}
-
-		$lines = array();
-		$bufSize = 1024;
-		$lineCount = 0; $log = false;
-		$total = $offset + $limit;
-		$leftover = '';
-		do {
-			if( $filePosition < $bufSize ) {
-				$bufSize = $filePosition;
-			}
-			$filePosition -= $bufSize;
-			fseek( $file, $filePosition );
-			$buffer = fread( $file, $bufSize );
-
-			$parts = explode( "\n", $buffer );
-			$num = count( $parts );
-
-			#last line from chunk and first line of previous chunk, both fragements until merged
-			if( $num > 0 ) {
-				$log=true;
-				$lmerge = $parts[$num - 1] . $leftover;
-				if($logsearch)
-					$srchind = strpos($lmerge, $logsearch);
-				#dont count <li> and </li> tags, lens 4 and 5 resp.
-				if( !$logsearch || (3 < $srchind && $srchind < (strlen($lmerge) - 5)) ) {
-					$lineCount++;
-					if( $lineCount > $offset ) {
-						$lines[] = $lmerge;
-						if( $lineCount > $total ) {
-							fclose( $file );
-							return $lines;
-						}
-					}
+				// Is it a user?
+				$user = User::newFromName( $target );
+				if ( $user && $user->getID() ) {
+					$searchConds = array( 
+						'cul_type' => 'userips',
+						'cul_target_id' => $user->getID(),
+					);
+				} else {
+					$error = 'checkuser-user-nonexistent';
 				}
 			}
-			#full lines, lines 2nd to "2nd to last" of chunk
-			for( $i = $num - 2; $i > 0; $i-- ) {
-				if($logsearch)
-					$srchind = strpos($parts[$i], $logsearch);
-				if( !$logsearch || (3 < $srchind && $srchind < (strlen($parts[$i]) - 5)) ) {
-					$lineCount++;
-					if( $lineCount > $offset ) {
-						$lines[] = $parts[$i];
-						if( $lineCount > $total ) {
-							fclose( $file );
-							return $lines;
-						}
-					}
-				}
-			}
-			if( $num > 1 ) {
-				$leftover = $parts[0];
+		}
+
+		$searchTypes = array( 'initiator', 'target' );
+		$select = "<select name=\"cuSearchType\">\n";
+		foreach ( $searchTypes as $searchType ) {
+			if ( $type == $searchType ) {
+				$checked = 'selected="1"';
 			} else {
-				$leftover = '';
-				// Don't give up if there's still space in the file.
-				// We sometimes get big blocks of 0s in the file,
-				// probably due to conflicts via NFS.
+				$checked = '';
 			}
-		} while( $filePosition > 0 );
-		# leftover
-		if($logsearch)
-			$srchind = strpos($leftover, $logsearch);
-		if( !$logsearch || ( 3 < $srchind && $srchind < ( strlen( $parts[$i] ) - 5 ) ) ) {
-			$lineCount++;
-			if( $lineCount > $offset ) {
-				$lines[] = $leftover;
-			}
+			$caption = wfMsgHtml( 'checkuser-search-' . $searchType );
+			$select .= "<option value=\"$searchType\" $checked>$caption</option>\n";
 		}
-		fclose( $file );
-		# was the log empty or nothing just met the search?
-		if( $log ) return $lines;
-		else return false;
+		$select .= "</select>";
+
+		$encTarget = htmlspecialchars( $target );
+		$msgSearch = wfMsgHtml( 'checkuser-search' );
+		$input = "<input type=\"text\" name=\"cuSearch\" value=\"$encTarget\" size=\"40\"/>";
+		$msgSearchForm = wfMsgHtml( 'checkuser-search-form', $select, $input );
+		$formAction = $this->getLogSubpageTitle()->escapeLocalURL();
+		$msgSearchSubmit = '&nbsp;&nbsp;' . wfMsgHtml( 'checkuser-search-submit' ) . '&nbsp;&nbsp;';
+		
+		$s = "<form method=\"GET\" action=\"$formAction\">\n" . 
+			"<fieldset><legend>$msgSearch</legend>\n" . 
+			"$msgSearchForm&nbsp;&nbsp;&nbsp;\n" . 
+			"<input type=\"submit\" name=\"cuSearchSubmit\" value=\"$msgSearchSubmit\"/>\n" . 
+			"</fieldset></form>\n";
+		$wgOut->addHTML( $s );
+
+		if ( $error !== false ) {
+			$wgOut->addWikiText( '<div class="errorbox">' . wfMsg( $error ) . '</div>' );
+			return;
+		}
+
+		$pager = new CheckUserLogPager( $this, $searchConds );
+		$wgOut->addHTML( 
+			$pager->getNavigationBar() . 
+			$pager->getBody() . 
+			$pager->getNavigationBar() );
 	}
 
-	function addLogEntry( $timestamp, $checker , $autsum, $target, $db, $reason ) {
-		global $wgUser, $wgCheckUserLog;
-		if( $wgCheckUserLog === false ) {
-			// No log required, this is not an error
-			return true;
-		}
+	function addLogEntry( $logType, $targetType, $target, $reason, $targetID = 0 ) {
+		global $wgUser;
 
-		$f = fopen( $wgCheckUserLog, 'a' );
-		if( !$f ) {
-			return false;
+		if ( $targetType == 'ip' ) {
+			list( $rangeStart, $rangeEnd ) = IP::parseRange( $target );
+			$targetHex = $rangeStart;
+			if ( $rangeStart == $rangeEnd ) {
+				$rangeStart = $rangeEnd = '';
+			}
+		} else {
+			$targetHex = $rangeStart = $rangeEnd = '';
 		}
-		if( $reason ) $reason=' ("' . $reason . '")';
-		else $reason = "";
-
-		$date=date("H:i, j F Y",$timestamp);
-		if( !fwrite( $f, "<li>$date, $checker $autsum $target on $db$reason</li>\n" ) ) {
-			return false;
-		}
-		fclose( $f );
+		
+		$dbw = wfGetDB( DB_MASTER );
+		$cul_id = $dbw->nextSequenceValue( 'cu_log_cul_id' );
+		$dbw->insert( 'cu_log', 
+			array(
+				'cul_id' => $cul_id,
+				'cul_timestamp' => $dbw->timestamp(),
+				'cul_user' => $wgUser->getID(),
+				'cul_user_text' => $wgUser->getName(),
+				'cul_reason' => $reason,
+				'cul_type' => $logType,
+				'cul_target_id' => $targetID,
+				'cul_target_text' => $target,
+				'cul_target_hex' => $targetHex,
+				'cul_range_start' => $rangeStart,
+				'cul_range_end' => $rangeEnd,
+			), __METHOD__ );
 		return true;
+	}
+}
+
+class CheckUserLogPager extends ReverseChronologicalPager {
+	var $searchConds, $specialPage;
+
+	function __construct( $specialPage, $searchConds ) {
+		parent::__construct();
+		/*
+		$this->messages = array_map( 'wfMsg', 
+			array( 'comma-separator', 'checkuser-log-userips', 'checkuser-log-ipedits', 'checkuser-log-ipusers', 
+			'checkuser-log-ipedits-xff', 'checkuser-log-ipusers-xff' ) );*/
+
+		$this->searchConds = $searchConds;
+		$this->specialPage = $specialPage;
+	}
+
+	function formatRow( $row ) {
+		global $wgLang;
+
+		$skin = $this->getSkin();
+
+		if ( $row->cul_reason === '' ) {
+			$comment = '';
+		} else {
+			$comment = $skin->commentBlock( $row->cul_reason );
+		}
+
+		$user = $skin->userLink( $row->cul_user, $row->cul_user_text );
+
+		if ( $row->cul_type == 'userips' ) {
+			$target = $skin->userLink( $row->cul_target_id, $row->cul_target_text ) . 
+				$skin->userToolLinks( $row->cul_target_id, $row->cul_target_text );
+		} else {
+			$target = $row->cul_target_text;
+		}
+
+		return '<li>' . 
+			$wgLang->timeanddate( $row->cul_timestamp ) . wfMsg( 'comma-separator' ) .
+			wfMsg( 
+				'checkuser-log-' . $row->cul_type,
+				$user,
+				$target 
+			) . 
+			$comment .
+			'</li>';
+	}
+
+	function getStartBody() {
+		if ( $this->getNumRows() ) {
+			return '<ul>';
+		} else {
+			return '';
+		}
+	}
+
+	function getEndBody() {
+		if ( $this->getNumRows() ) {
+			return '</ul>';
+		} else {
+			return '';
+		}
+	}
+
+	function getEmptyBody() {
+		return wfMsgHtml( 'checkuser-empty' );
+	}
+
+	function getQueryInfo() {
+		global $wgRequest;
+		return array(
+			'tables' => 'cu_log',
+			'fields' => '*',
+			'conds' => $this->searchConds
+		);
+	}
+
+	function getIndexField() {
+		return 'cul_timestamp';
+	}
+
+	function getTitle() {
+		return $this->specialPage->getLogSubpageTitle();
 	}
 }
 

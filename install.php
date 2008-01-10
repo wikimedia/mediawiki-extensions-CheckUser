@@ -14,3 +14,8 @@ if ( $db->tableExists( 'cu_changes' ) && !isset( $options['force'] ) ) {
 	$cutoff = isset( $options['cutoff'] ) ? wfTimestamp( TS_MW, $options['cutoff'] ) : null;
 	create_cu_changes( $db, $cutoff );
 }
+if ( $db->tableExists( 'cu_log' ) && !isset( $options['force'] ) ) {
+	echo "...cu_log already exists.\n";
+} else {
+	create_cu_log( $db );
+}

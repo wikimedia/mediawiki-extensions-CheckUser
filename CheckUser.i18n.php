@@ -18,7 +18,7 @@ $messages['en'] = array(
 	'grouppage-checkuser'    => '{{ns:project}}:Check user',
 	'checkuser-reason'       => 'Reason',
 	'checkuser-showlog'      => 'Show log',
-	'checkuser-log'          => 'Checkuser log',
+	'checkuser-log'          => 'CheckUser log',
 	'checkuser-query'        => 'Query recent changes',
 	'checkuser-target'       => 'User or IP',
 	'checkuser-users'        => 'Get users',
@@ -32,6 +32,19 @@ $messages['en'] = array(
 	'checkuser-nolog'        => 'No log file found.',
 	'checkuser-blocked'      => 'Blocked',
 	'checkuser-too-many'     => 'Too many results, please narrow down the CIDR. Here are the IPs used (5000 max, sorted by address):',
+	'checkuser-user-nonexistent' => 'The specified user does not exist.',
+	'checkuser-search-form'  => 'Find log entries where the $1 is $2',
+	'checkuser-search-submit'=> 'Search',
+	'checkuser-search-initiator' => 'initiator',
+	'checkuser-search-target' => 'target',
+	'checkuser-log-subpage'  => 'Log',
+	'checkuser-log-return'   => 'Return to CheckUser main form',
+
+	'checkuser-log-userips'      => '$1 got IPs for $2', 
+	'checkuser-log-ipedits'      => '$1 got edits for $2',
+	'checkuser-log-ipusers'      => '$1 got users for $2', 
+	'checkuser-log-ipedits-xff'  => '$1 got edits for XFF $2', 
+	'checkuser-log-ipusers-xff'  => '$1 got users for XFF $2',
 );
 
 $messages['af'] = array(
