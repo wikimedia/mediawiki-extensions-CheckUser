@@ -400,6 +400,7 @@ $messages['fo'] = array(
 /** French (Français)
  * @author Grondin
  * @author Sherbrooke
+ * @author ChrisPtDe
  */
 $messages['fr'] = array(
 	'checkuser-summary'          => 'Cet outil parcourt la liste des changements récents à la recherche de l’adresse IP employée par un utilisateur, affiche toutes les éditions d’une adresse IP (même enregistrée), ou liste les comptes utilisés par une adresse IP. Les comptes et les modifications peuvent être trouvés avec une IP XFF si elle finit avec « /xff ». Il est possible d’utiliser les protocoles IPv4 (CIDR 16-32) et IPv6 (CIDR 64-128). Le nombre d’éditions affichables est limité à {{formatnum:5000}} pour des questions de performance du serveur. Veuillez utiliser cet outil dans les limites de la charte d’utilisation.',
@@ -424,7 +425,7 @@ $messages['fr'] = array(
 	'checkuser-nolog'            => 'Aucune entrée dans le journal',
 	'checkuser-blocked'          => 'Bloqué',
 	'checkuser-too-many'         => 'Trop de résultats. Veuillez limiter la recherche sur les adresses IP :',
-	'checkuser-user-nonexistent' => "L’uitlisateur indiqué n'existe pas",
+	'checkuser-user-nonexistent' => "L’utilisateur indiqué n'existe pas",
 	'checkuser-search-form'      => 'Chercher le journal des entrées où $1 est $2.',
 	'checkuser-search-submit'    => 'Rechercher',
 	'checkuser-search-initiator' => 'l’initiateur',
