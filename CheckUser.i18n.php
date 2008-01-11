@@ -62,32 +62,47 @@ $messages['ang'] = array(
 	'checkuser-reason'       => 'Racu',
 );
 
-/* Arabic (Meno25) */
+/** Arabic (العربية)
+ * @author Meno25
+ * @author Mido
+ */
 $messages['ar'] = array(
-	'checkuser-summary'      => 'هذه الأداة تفحص أحدث التغييرات لاسترجاع الأيبيهات المستخدمة بواسطة مستخدم أو عرض بيانات التعديل/المستخدم لأيبي.
+	'checkuser-summary'          => 'هذه الأداة تفحص أحدث التغييرات لاسترجاع الأيبيهات المستخدمة بواسطة مستخدم أو عرض بيانات التعديل/المستخدم لأيبي.
 	المستخمون والتعديلات بواسطة أيبي عميل يمكن استرجاعها من خلال عناوين XFF عبر طرق الأيبي IP ب"/xff". IPv4 (CIDR 16-32) و IPv6 (CIDR 64-128) مدعومان.
 	لا أكثر من 5000 تعديل سيتم عرضها لأسباب تتعلق بالأداء. استخدم هذا بالتوافق مع السياسة.',
-	'checkuser-logcase'      => 'بحث السجل حساس لحالة الحروف.',
-	'checkuser'              => 'تدقيق مستخدم',
-	'group-checkuser'        => 'مدققو مستخدم',
-	'group-checkuser-member' => 'مدقق مستخدم',
-	'grouppage-checkuser'    => '{{ns:project}}:تدقيق مستخدم',
-	'checkuser-reason'       => 'السبب',
-	'checkuser-showlog'      => 'عرض السجل',
-	'checkuser-log'          => 'سجل تدقيق المستخدم',
-	'checkuser-query'        => 'فحص أحدث التغييرات',
-	'checkuser-target'       => 'مستخدم أو عنوان أيبي',
-	'checkuser-users'        => 'عرض المستخدمين',
-	'checkuser-edits'        => 'عرض التعديلات من الأيبي',
-	'checkuser-ips'          => 'عرض الأيبيهات',
-	'checkuser-search'       => 'بحث',
-	'checkuser-empty'        => 'لا توجد مدخلات في السجل.',
-	'checkuser-nomatch'      => 'لم يتم العثور على مدخلات مطابقة.',
-	'checkuser-check'        => 'فحص',
-	'checkuser-log-fail'     => 'غير قادر على إضافة مدخلة للسجل',
-	'checkuser-nolog'        => 'لم يتم العثور على ملف سجل.',
-	'checkuser-blocked'      => 'ممنوع',
-	'checkuser-too-many'     => 'نتائج كثيرة جدا، من فضلك قم بتضييق عنوان الأيبي:',
+	'checkuser-logcase'          => 'بحث السجل حساس لحالة الحروف.',
+	'checkuser'                  => 'تدقيق مستخدم',
+	'group-checkuser'            => 'مدققو مستخدم',
+	'group-checkuser-member'     => 'مدقق مستخدم',
+	'grouppage-checkuser'        => '{{ns:project}}:تدقيق مستخدم',
+	'checkuser-reason'           => 'السبب',
+	'checkuser-showlog'          => 'عرض السجل',
+	'checkuser-log'              => 'سجل تدقيق المستخدم',
+	'checkuser-query'            => 'فحص أحدث التغييرات',
+	'checkuser-target'           => 'مستخدم أو عنوان أيبي',
+	'checkuser-users'            => 'عرض المستخدمين',
+	'checkuser-edits'            => 'عرض التعديلات من الأيبي',
+	'checkuser-ips'              => 'عرض الأيبيهات',
+	'checkuser-search'           => 'بحث',
+	'checkuser-empty'            => 'لا توجد مدخلات في السجل.',
+	'checkuser-nomatch'          => 'لم يتم العثور على مدخلات مطابقة.',
+	'checkuser-check'            => 'فحص',
+	'checkuser-log-fail'         => 'غير قادر على إضافة مدخلة للسجل',
+	'checkuser-nolog'            => 'لم يتم العثور على ملف سجل.',
+	'checkuser-blocked'          => 'ممنوع',
+	'checkuser-too-many'         => 'نتائج كثيرة جدا، من فضلك قم بتضييق عنوان الأيبي:',
+	'checkuser-user-nonexistent' => 'المستخدم المحدد غير موجود.',
+	'checkuser-search-form'      => 'اعثر على مدخلات السجل حيث $1 هو $2',
+	'checkuser-search-submit'    => 'بحث',
+	'checkuser-search-initiator' => 'باديء',
+	'checkuser-search-target'    => 'هدف',
+	'checkuser-log-subpage'      => 'سجل',
+	'checkuser-log-return'       => 'ارجع إلى استمارة تدقيق المستخدم الرئيسية',
+	'checkuser-log-userips'      => '$1 حصل على الأيبيهات ل $2',
+	'checkuser-log-ipedits'      => '$1 حصل على التعديلات ل $2',
+	'checkuser-log-ipusers'      => '$1 حصل على المستخدمين ل $2',
+	'checkuser-log-ipedits-xff'  => '$1 حصل على التعديلات للإكس إف إف $2',
+	'checkuser-log-ipusers-xff'  => '$1 حصل على المستخدمين للإكس إف إف $2',
 );
 
 /** Asturian (Asturianu)
@@ -158,15 +173,16 @@ $messages['bg'] = array(
  * @author Fulup
  */
 $messages['br'] = array(
-	'checkuser'              => 'Gwiriañ an implijer',
-	'group-checkuser'        => 'Gwiriañ an implijerien',
-	'group-checkuser-member' => 'Gwiriañ an implijer',
-	'grouppage-checkuser'    => '{{ns:project}}:Gwiriañ an implijer',
-	'checkuser-reason'       => 'Abeg',
-	'checkuser-showlog'      => 'Diskouez ar marilh',
-	'checkuser-search'       => 'Klask',
-	'checkuser-check'        => 'Gwiriañ',
-	'checkuser-blocked'      => 'Stanket',
+	'checkuser'               => 'Gwiriañ an implijer',
+	'group-checkuser'         => 'Gwiriañ an implijerien',
+	'group-checkuser-member'  => 'Gwiriañ an implijer',
+	'grouppage-checkuser'     => '{{ns:project}}:Gwiriañ an implijer',
+	'checkuser-reason'        => 'Abeg',
+	'checkuser-showlog'       => 'Diskouez ar marilh',
+	'checkuser-search'        => 'Klask',
+	'checkuser-check'         => 'Gwiriañ',
+	'checkuser-blocked'       => 'Stanket',
+	'checkuser-search-submit' => 'Klask',
 );
 
 /** Catalan (Català)
@@ -564,54 +580,85 @@ $messages['he'] = array(
 	'checkuser-too-many'     => 'נמצאו תוצאות רבות מדי, אנא צמצו את טווח כתובות ה־IP. אלה כתובת ה־IP שנעשה בהן שימוש (מוצגות 5,000 לכל היותר):',
 );
 
+/** Croatian (Hrvatski)
+ * @author SpeedyGonsales
+ */
 $messages['hr'] = array(
-	'checkuser-summary'      => 'Ovaj alat pretražuje nedavne promjene i pronalazi IP adrese suradnika ili prikazuje uređivanja/ime suradnika ako je zadana IP adresa. Suradnici i uređivanja mogu biti dobiveni po XFF zaglavljima dodavanjem "/xff" na kraj IP adrese. Podržane su IPv4 (CIDR 16-32) i IPv6 (CIDR 64-128) adrese. Rezultat ima maksimalno 5.000 zapisa iz tehničkih razloga. Rabite ovaj alat u skladu s pravilima.',
-	'checkuser-logcase'      => 'Provjera evidencije razlikuje velika i mala slova',
-	'checkuser'              => 'Provjeri suradnika',
-	'group-checkuser'        => 'Check users',#identical but defined
-	'group-checkuser-member' => 'Check user',#identical but defined
-	'grouppage-checkuser'    => '{{ns:project}}:Checkuser',
-	'checkuser-reason'       => 'Razlog',
-	'checkuser-showlog'      => 'Pokaži evidenciju',
-	'checkuser-log'          => 'Checkuser evidencija',
-	'checkuser-query'        => 'Provjeri nedavne promjene',
-	'checkuser-target'       => 'Suradnik ili IP',
-	'checkuser-users'        => 'suradničko ime',
-	'checkuser-edits'        => 'uređivanja tog IP-a',
-	'checkuser-ips'          => 'Nađi IP adrese',
-	'checkuser-search'       => 'Traži',
-	'checkuser-empty'        => 'Evidencija je prazna.',
-	'checkuser-nomatch'      => 'Nema suradnika s tom IP adresom.',
-	'checkuser-check'        => 'Provjeri',
-	'checkuser-log-fail'     => 'Ne mogu dodati zapis',
-	'checkuser-nolog'        => 'Evidencijska datoteka nije nađena',
-	'checkuser-blocked'      => 'Blokiran',
-	'checkuser-too-many'     => 'Previše rezultata, molimo suzite opseg (CIDR). Slijede rabljene IP adrese (najviše njih 5000, poredano abecedno):',
+	'checkuser-summary'          => 'Ovaj alat pretražuje nedavne promjene i pronalazi IP adrese suradnika ili prikazuje uređivanja/ime suradnika ako je zadana IP adresa. Suradnici i uređivanja mogu biti dobiveni po XFF zaglavljima dodavanjem "/xff" na kraj IP adrese. Podržane su IPv4 (CIDR 16-32) i IPv6 (CIDR 64-128) adrese. Rezultat ima maksimalno 5.000 zapisa iz tehničkih razloga. Rabite ovaj alat u skladu s pravilima.',
+	'checkuser-logcase'          => 'Provjera evidencije razlikuje velika i mala slova',
+	'checkuser'                  => 'Provjeri suradnika',
+	'group-checkuser'            => 'Check users',
+	'group-checkuser-member'     => 'Check user',
+	'grouppage-checkuser'        => '{{ns:project}}:Checkuser',
+	'checkuser-reason'           => 'Razlog',
+	'checkuser-showlog'          => 'Pokaži evidenciju',
+	'checkuser-log'              => 'Checkuser evidencija',
+	'checkuser-query'            => 'Provjeri nedavne promjene',
+	'checkuser-target'           => 'Suradnik ili IP',
+	'checkuser-users'            => 'suradničko ime',
+	'checkuser-edits'            => 'uređivanja tog IP-a',
+	'checkuser-ips'              => 'Nađi IP adrese',
+	'checkuser-search'           => 'Traži',
+	'checkuser-empty'            => 'Evidencija je prazna.',
+	'checkuser-nomatch'          => 'Nema suradnika s tom IP adresom.',
+	'checkuser-check'            => 'Provjeri',
+	'checkuser-log-fail'         => 'Ne mogu dodati zapis',
+	'checkuser-nolog'            => 'Evidencijska datoteka nije nađena',
+	'checkuser-blocked'          => 'Blokiran',
+	'checkuser-too-many'         => 'Previše rezultata, molimo suzite opseg (CIDR). Slijede rabljene IP adrese (najviše njih 5000, poredano abecedno):',
+	'checkuser-user-nonexistent' => 'Traženi suradnik (suradničko ime) ne postoji.',
+	'checkuser-search-form'      => 'Nađi zapise u evidenciji gdje $1 je $2',
+	'checkuser-search-submit'    => 'Traži',
+	'checkuser-search-initiator' => 'pokretač',
+	'checkuser-search-target'    => 'cilj (traženi pojam)',
+	'checkuser-log-subpage'      => 'Evidencija',
+	'checkuser-log-return'       => 'Vrati se na glavnu formu za provjeru',
+	'checkuser-log-userips'      => '$1 tražio je IP adrese suradnika $2',
+	'checkuser-log-ipedits'      => '$1 tražio je uređivanja suradnika $2',
+	'checkuser-log-ipusers'      => '$1 tražio je suradnička imena za IP adresu $2',
+	'checkuser-log-ipedits-xff'  => '$1 tražio je uređivanja za XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 tražio je imena suradnika za XFF $2',
 );
+
+/** Upper Sorbian (Hornjoserbsce)
+ * @author Michawiki
+ */
 $messages['hsb'] = array(
-	'checkuser-summary'      => 'Tutón nastroj přepytuje aktualne změny, zo by IP-adresy wužiwarja zwěsćił abo změny abo wužiwarske daty za IP pokazał.
+	'checkuser-summary'          => 'Tutón nastroj přepytuje aktualne změny, zo by IP-adresy wužiwarja zwěsćił abo změny abo wužiwarske daty za IP pokazał.
 Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěšo "/xff" na IP-adresu. IPv4 (CIDR 16-32) a IPv6 (CIDR 64-128) so podpěrujetej.',
-	'checkuser-logcase'      => 'Pytanje w protokolu rozeznawa mjez wulko- a małopisanjom.',
-	'checkuser'              => 'Wužiwarja kontrolować',
-	'group-checkuser'        => 'Kontrolerojo',
-	'group-checkuser-member' => 'Kontroler',
-	'grouppage-checkuser'    => '{{ns:project}}:Checkuser',
-	'checkuser-reason'       => 'Přičina',
-	'checkuser-showlog'      => 'Protokol pokazać',
-	'checkuser-log'          => 'Protokol wužiwarskeje kontrole',
-	'checkuser-query'        => 'Poslednje změny wotprašeć',
-	'checkuser-target'       => 'Wužiwar abo IP-adresa',
-	'checkuser-users'        => 'Wužiwarjow pokazać',
-	'checkuser-edits'        => 'Změny z IP-adresy přinjesć',
-	'checkuser-ips'          => 'IP-adresy pokazać',
-	'checkuser-search'       => 'Pytać',
-	'checkuser-empty'        => 'Protokol njewobsahuje zapiski.',
-	'checkuser-nomatch'      => 'Žane wotpowědniki namakane.',
-	'checkuser-check'        => 'Pruwować',
-	'checkuser-log-fail'     => 'Njemóžno protokolowy zapisk přidać.',
-	'checkuser-nolog'        => 'Žadyn protokol namakany.',
-	'checkuser-blocked'      => 'Zablokowany',
-	'checkuser-too-many'     => 'Přewjele wuslědkow, prošu zamjezuj IP-adresu:',
+	'checkuser-logcase'          => 'Pytanje w protokolu rozeznawa mjez wulko- a małopisanjom.',
+	'checkuser'                  => 'Wužiwarja kontrolować',
+	'group-checkuser'            => 'Kontrolerojo',
+	'group-checkuser-member'     => 'Kontroler',
+	'grouppage-checkuser'        => '{{ns:project}}:Checkuser',
+	'checkuser-reason'           => 'Přičina',
+	'checkuser-showlog'          => 'Protokol pokazać',
+	'checkuser-log'              => 'Protokol wužiwarskeje kontrole',
+	'checkuser-query'            => 'Poslednje změny wotprašeć',
+	'checkuser-target'           => 'Wužiwar abo IP-adresa',
+	'checkuser-users'            => 'Wužiwarjow pokazać',
+	'checkuser-edits'            => 'Změny z IP-adresy přinjesć',
+	'checkuser-ips'              => 'IP-adresy pokazać',
+	'checkuser-search'           => 'Pytać',
+	'checkuser-empty'            => 'Protokol njewobsahuje zapiski.',
+	'checkuser-nomatch'          => 'Žane wotpowědniki namakane.',
+	'checkuser-check'            => 'Pruwować',
+	'checkuser-log-fail'         => 'Njemóžno protokolowy zapisk přidać.',
+	'checkuser-nolog'            => 'Žadyn protokol namakany.',
+	'checkuser-blocked'          => 'Zablokowany',
+	'checkuser-too-many'         => 'Přewjele wuslědkow, prošu zamjezuj IP-adresu:',
+	'checkuser-user-nonexistent' => 'Podaty wužiwar njeeksistuje.',
+	'checkuser-search-form'      => 'Protokolowe zapiski namakać, hdźež $1 je $2',
+	'checkuser-search-submit'    => 'Pytać',
+	'checkuser-search-initiator' => 'iniciator',
+	'checkuser-search-target'    => 'cil',
+	'checkuser-log-subpage'      => 'Protokol',
+	'checkuser-log-return'       => 'Wróćo k hłownemu formularej CheckUser',
+	'checkuser-log-userips'      => '$1 dósta IP za $2',
+	'checkuser-log-ipedits'      => '$1 dósta změny za $2',
+	'checkuser-log-ipusers'      => '$1 dósta wužiwarjow za $2',
+	'checkuser-log-ipedits-xff'  => '$1 dósta změny za XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 dósta wužiwarjow za XFF $2',
 );
 
 /** Hungarian (Magyar)
@@ -867,6 +914,13 @@ $messages['lo'] = array(
 	'checkuser-empty'        => 'ບໍ່ມີເນື້ອໃນຖືກບັນທຶກ',
 	'checkuser-nomatch'      => 'ບໍ່ພົບສິ່ງທີ່ຊອກຫາ',
 	'checkuser-check'        => 'ກວດ',
+);
+
+/** Lithuanian (Lietuvių)
+ * @author Matasg
+ */
+$messages['lt'] = array(
+	'checkuser-check' => 'Tikrinti',
 );
 
 $messages['mk'] = array(
