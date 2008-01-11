@@ -790,7 +790,7 @@ class CheckUser extends SpecialPage
 		$pager = new CheckUserLogPager( $this, $searchConds );
 		$wgOut->addHTML( 
 			$pager->getNavigationBar() . 
-			'<ul>' . $pager->getBody() . '</ul>' .
+			$pager->getBody() .
 			$pager->getNavigationBar() );
 	}
 
