@@ -1,5 +1,7 @@
 <?php
 
+require "cu_log_import.inc";
+
 define( 'BATCH_SIZE', 100 );
 
 function create_cu_changes( $db, $cutoff = null ) {
@@ -67,6 +69,7 @@ function create_cu_changes( $db, $cutoff = null ) {
 	echo "...cu_changes table added and populated.\n";
 }
 
+
 function create_cu_log( $db ) {
 	global $wgDBtype, $wgCheckUserLog, $wgDBname;
 	if( $db->tableExists( 'cu_log' ) ) {
@@ -79,78 +82,16 @@ function create_cu_log( $db ) {
 
 	echo "...cu_log added\n";
 	
-	if ( empty( $wgCheckUserLog ) ) {
+	if( empty( $wgCheckUserLog ) ) {
+		echo "...logging disabled, skipping log import.\n";
+		return;
+	}
+	
+	if( !file_exists( $wgCheckUserLog ) ) {
+		echo "...log file missing, skipping log import.\n";
 		return;
 	}
 
-
-	$file = fopen( $wgCheckUserLog, 'r' );
-
-	$rxTimestamp = '(?P<timestamp>\d+:\d+, \d+ \w+ \d+)';
-	$rxUser = '(?P<user>.*?)';
-	$rxTarget = '(?P<target>.*?)';
-	$rxWiki = '(?P<wiki>[^)]*?)';
-	$rxReason = '(?: \("(?P<reason>.*)"\))?';
-
-	$regexes = array(
-		'ipedits-xff' => "!^<li>$rxTimestamp, $rxUser got edits for XFF $rxTarget on $rxWiki$rxReason</li>!",
-		'ipedits'     => "!^<li>$rxTimestamp, $rxUser got edits for" ." $rxTarget on $rxWiki$rxReason</li>!",
-		'ipusers-xff' => "!^<li>$rxTimestamp, $rxUser got users for XFF $rxTarget on $rxWiki$rxReason</li>!",
-		'ipusers'     => "!^<li>$rxTimestamp, $rxUser got users for" ." $rxTarget on $rxWiki$rxReason</li>!",
-		'userips'     => "!^<li>$rxTimestamp, $rxUser got IPs for".   " $rxTarget on $rxWiki$rxReason</li>!" );
-
-	$matched = 0;
-	$unmatched = 0;
-	
-
-	while ( false !== ( $line = fgets( $file ) ) ) {
-		$found = false;
-		foreach ( $regexes as $type => $regex ) {
-			$m = false;
-			if ( preg_match( $regex, $line, $m ) ) {
-				if ( $m['wiki'] != wfWikiID() && $m['wiki'] != $wgDBname ) {
-					continue;
-				}
-
-				list( $start, $end ) = IP::parseRange( $m['target'] );
-				if ( $start === false ) {
-					$targetUser = User::newFromName( $m['target'] );
-					$targetID = $targetUser ? $targetUser->getID() : 0;
-					$start = $end = $hex = '';
-				} else {
-					$hex = $start;
-					if ( $start == $end ) {
-						$start = $end = '';
-					}
-					$targetID = 0;
-				}
-
-				$user = User::newFromName( $m['user'] );
-				$fields = array(
-					'cul_id' => $db->nextSequenceValue( 'cu_log_cul_id' ),
-					'cul_timestamp' => $db->timestamp( strtotime( $m['timestamp'] ) ),
-					'cul_user' => $user->getID(),
-					'cul_user_text' => $user->getName(),
-					'cul_reason' => isset( $m['reason'] ) ? $m['reason'] : '',
-					'cul_type' => $type,
-					'cul_target_id' => $targetID,
-					'cul_target_text' => $m['target'],
-					'cul_target_hex' => $hex,
-					'cul_range_start' => $start,
-					'cul_range_end' => $end );
-
-				$db->insert( 'cu_log', $fields, __METHOD__ );
-
-				$found = true;
-				break;
-			}
-		}
-		if ( $found ) {
-			$matched ++;
-		} else {
-			$unmatched ++;
-		}
-	}
-	echo "...cu_log table populated: $matched matched rows, $unmatched discarded rows\n";
+	echo "...importing old CheckUser log file...\n";
+	import_cu_log( $db, $wgCheckUserLog );
 }
-
