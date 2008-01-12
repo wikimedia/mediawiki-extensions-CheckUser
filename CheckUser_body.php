@@ -889,7 +889,7 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 	}
 
 	function getEmptyBody() {
-		return wfMsgHtml( 'checkuser-empty' );
+		return '<p>' . wfMsgHtml( 'checkuser-empty' ) . '</p>';
 	}
 
 	function getQueryInfo() {
