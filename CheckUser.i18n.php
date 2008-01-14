@@ -383,30 +383,36 @@ $messages['fa'] = array(
 
 );
 
+/** Finnish (Suomi)
+ * @author Crt
+ * @author Cimon Avaro
+ */
 $messages['fi'] = array(
-	'checkuser-summary'      => 'Tämän työkalun avulla voidaan tutkia tuoreet muutokset ja paljastaa käyttäjien IP-osoitteet tai noutaa IP-osoitteiden muokkaukset ja käyttäjätiedot.
+	'checkuser-summary'          => 'Tämän työkalun avulla voidaan tutkia tuoreet muutokset ja paljastaa käyttäjien IP-osoitteet tai noutaa IP-osoitteiden muokkaukset ja käyttäjätiedot.
 	Käyttäjät ja muokkaukset voidaan hakea myös uudelleenohjausosoitteen (X-Forwarded-For) takaa käyttämällä IP-osoitteen perässä <tt>/xff</tt> -merkintää. Työkalu tukee sekä IPv4 (CIDR 16–32) ja IPv6 (CIDR 64–128) -standardeja.',
-	'checkuser-logcase'      => 'Haku lokista on kirjainkokoriippuvainen.',
-	'checkuser'              => 'Osoitepaljastin',
-	'group-checkuser'        => 'osoitepaljastimen käyttäjät',
-	'group-checkuser-member' => 'osoitepaljastimen käyttäjä',
-	'grouppage-checkuser'    => '{{ns:project}}:Osoitepaljastin',
-	'checkuser-reason'       => 'Syy',
-	'checkuser-showlog'      => 'Näytä loki',
-	'checkuser-log'          => 'Osoitepaljastinloki',
-	'checkuser-query'        => 'Hae tuoreet muutokset',
-	'checkuser-target'       => 'Käyttäjä tai IP-osoite',
-	'checkuser-users'        => 'Hae käyttäjät',
-	'checkuser-edits'        => 'Hae IP-osoitteen muokkaukset',
-	'checkuser-ips'          => 'Hae IP-osoitteet',
-	'checkuser-search'       => 'Etsi',
-	'checkuser-empty'        => 'Ei lokitapahtumia.',
-	'checkuser-nomatch'      => 'Hakuehtoihin sopivia tuloksia ei löytynyt.',
-	'checkuser-check'        => 'Tarkasta',
-	'checkuser-log-fail'     => 'Lokitapahtuman lisäys epäonnistui',
-	'checkuser-nolog'        => 'Lokitiedostoa ei löytynyt.',
-	'checkuser-blocked'      => 'Estetty',
-	'checkuser-too-many'     => 'Liian monta tulosta, rajoita IP-osoitetta:',
+	'checkuser-logcase'          => 'Haku lokista on kirjainkokoriippuvainen.',
+	'checkuser'                  => 'Osoitepaljastin',
+	'group-checkuser'            => 'osoitepaljastimen käyttäjät',
+	'group-checkuser-member'     => 'osoitepaljastimen käyttäjä',
+	'grouppage-checkuser'        => '{{ns:project}}:Osoitepaljastin',
+	'checkuser-reason'           => 'Syy',
+	'checkuser-showlog'          => 'Näytä loki',
+	'checkuser-log'              => 'Osoitepaljastinloki',
+	'checkuser-query'            => 'Hae tuoreet muutokset',
+	'checkuser-target'           => 'Käyttäjä tai IP-osoite',
+	'checkuser-users'            => 'Hae käyttäjät',
+	'checkuser-edits'            => 'Hae IP-osoitteen muokkaukset',
+	'checkuser-ips'              => 'Hae IP-osoitteet',
+	'checkuser-search'           => 'Etsi',
+	'checkuser-empty'            => 'Ei lokitapahtumia.',
+	'checkuser-nomatch'          => 'Hakuehtoihin sopivia tuloksia ei löytynyt.',
+	'checkuser-check'            => 'Tarkasta',
+	'checkuser-log-fail'         => 'Lokitapahtuman lisäys epäonnistui',
+	'checkuser-nolog'            => 'Lokitiedostoa ei löytynyt.',
+	'checkuser-blocked'          => 'Estetty',
+	'checkuser-too-many'         => 'Liian monta tulosta, rajoita IP-osoitetta:',
+	'checkuser-user-nonexistent' => 'Määritettyä käyttäjää ei ole olemassa.',
+	'checkuser-search-submit'    => 'Hae',
 );
 
 $messages['fo'] = array(
