@@ -142,31 +142,38 @@ $messages['bcl'] = array(
 	'checkuser-blocked'      => 'Pigbágat',
 );
 
+/** Bulgarian (Български)
+ * @author DCLXVI
+ */
 $messages['bg'] = array(
-	'checkuser-summary'      => 'Този инструмент сканира последните промени и извлича IP адресите, използвани от потребител или показва информацията за редакциите/потребителя за посоченото IP.
+	'checkuser-summary'       => 'Този инструмент сканира последните промени и извлича IP адресите, използвани от потребител или показва информацията за редакциите/потребителя за посоченото IP.
 	Потребители и редакции по клиентско IP могат да бъдат извлечени чрез XFF headers като се добави IP с "/xff". Поддържат се IPv4 (CIDR 16-32) и IPv6 (CIDR 64-128).
 	От съображения, свързани с производителността на уикито, ще бъдат показани не повече от 5000 редакции. Използвайте инструмента съобразно установената политика.',
-	'checkuser-logcase'      => 'Търсенето в дневника различава главни от малки букви.',
-	'checkuser'              => 'Проверяване на потребител',
-	'group-checkuser'        => 'Проверяващи',
-	'group-checkuser-member' => 'Проверяващ',
-	'grouppage-checkuser'    => '{{ns:project}}:Проверяващи',
-	'checkuser-reason'       => 'Причина',
-	'checkuser-showlog'      => 'Показване на дневника',
-	'checkuser-log'          => 'Дневник на проверяващите',
-	'checkuser-query'        => 'Заявка към последните промени',
-	'checkuser-target'       => 'Потребител или IP',
-	'checkuser-users'        => 'Извличане на потребители',
-	'checkuser-edits'        => 'Извличане на редакции от IP',
-	'checkuser-ips'          => 'Извличане на IP адреси',
-	'checkuser-search'       => 'Търсене',
-	'checkuser-empty'        => 'Дневникът не съдържа записи.',
-	'checkuser-nomatch'      => 'Няма открити съвпадения.',
-	'checkuser-check'        => 'Проверка',
-	'checkuser-log-fail'     => 'Беше невъзможно да се добави запис в дневника',
-	'checkuser-nolog'        => 'Не беше открит дневник.',
-	'checkuser-blocked'      => 'Блокиран',
-	'checkuser-too-many'     => 'Твърде много резултати. Показани са използваните IP адреси (най-много 5000, сортирани по адрес):',
+	'checkuser-logcase'       => 'Търсенето в дневника различава главни от малки букви.',
+	'checkuser'               => 'Проверяване на потребител',
+	'group-checkuser'         => 'Проверяващи',
+	'group-checkuser-member'  => 'Проверяващ',
+	'grouppage-checkuser'     => '{{ns:project}}:Проверяващи',
+	'checkuser-reason'        => 'Причина',
+	'checkuser-showlog'       => 'Показване на дневника',
+	'checkuser-log'           => 'Дневник на проверяващите',
+	'checkuser-query'         => 'Заявка към последните промени',
+	'checkuser-target'        => 'Потребител или IP',
+	'checkuser-users'         => 'Извличане на потребители',
+	'checkuser-edits'         => 'Извличане на редакции от IP',
+	'checkuser-ips'           => 'Извличане на IP адреси',
+	'checkuser-search'        => 'Търсене',
+	'checkuser-empty'         => 'Дневникът не съдържа записи.',
+	'checkuser-nomatch'       => 'Няма открити съвпадения.',
+	'checkuser-check'         => 'Проверка',
+	'checkuser-log-fail'      => 'Беше невъзможно да се добави запис в дневника',
+	'checkuser-nolog'         => 'Не беше открит дневник.',
+	'checkuser-blocked'       => 'Блокиран',
+	'checkuser-too-many'      => 'Твърде много резултати. Показани са използваните IP адреси (най-много 5000, сортирани по адрес):',
+	'checkuser-search-submit' => 'Търсене',
+	'checkuser-search-target' => 'цел',
+	'checkuser-log-subpage'   => 'Дневник',
+	'checkuser-log-return'    => 'Връщане към основния формуляр за проверка',
 );
 
 /** Breton (Brezhoneg)
@@ -238,27 +245,42 @@ $messages['co'] = array(
  * @author Beren
  */
 $messages['cs'] = array(
-	'checkuser-logcase'      => 'Hledání v záznamech rozlišuje velikosti písmen.',
-	'checkuser'              => 'Kontrola uživatele',
-	'group-checkuser'        => 'Revizoři',
-	'group-checkuser-member' => 'Revizor',
-	'grouppage-checkuser'    => '{{ns:project}}:Revize uživatele',
-	'checkuser-reason'       => 'Důvod',
-	'checkuser-showlog'      => 'Zobrazit záznamy',
-	'checkuser-log'          => 'Kniha kontroly uživatelů',
-	'checkuser-query'        => 'Dotaz na poslední změny',
-	'checkuser-target'       => 'Uživatel nebo IP',
-	'checkuser-users'        => 'Najít uživatele',
-	'checkuser-edits'        => 'Najít editace z IP',
-	'checkuser-ips'          => 'Najít IP adresy',
-	'checkuser-search'       => 'Hledat',
-	'checkuser-empty'        => 'Kniha neobsahuje žádné položky',
-	'checkuser-nomatch'      => 'Nic odpovídajícího nebylo nalezeno.',
-	'checkuser-check'        => 'Zkontrolovat',
-	'checkuser-log-fail'     => 'Nepodařilo se zapsat do záznamů',
-	'checkuser-nolog'        => 'Soubor záznamů nebyl nalezen.',
-	'checkuser-blocked'      => 'zablokováno',
-	'checkuser-too-many'     => 'Příliš mnoho výsledků, zkuste omezit CIDR. Níže jsou použité IP adresy (nejvýše 500, seřazené abecedně):',
+	'checkuser-summary'          => 'Tento nástroj zkoumá poslední změny a umožňuje získat IP adresy uživatelů nebo zobrazit editace a uživatele z dané IP adresy.
+Uživatele a editace z klientské IP adresy lze získat z hlaviček XFF přidáním „/xff“ k IP. Je podporováno  IPv4 (CIDR 16-32) a IPv6 (CIDR 64-128).
+Z výkonnostních důvodů lze zobrazit maximálně 5000 editací. Používejte tento nástroj v souladu s pravidly.',
+	'checkuser-logcase'          => 'Hledání v záznamech rozlišuje velikosti písmen.',
+	'checkuser'                  => 'Kontrola uživatele',
+	'group-checkuser'            => 'Revizoři',
+	'group-checkuser-member'     => 'Revizor',
+	'grouppage-checkuser'        => '{{ns:project}}:Revize uživatele',
+	'checkuser-reason'           => 'Důvod',
+	'checkuser-showlog'          => 'Zobrazit záznamy',
+	'checkuser-log'              => 'Kniha kontroly uživatelů',
+	'checkuser-query'            => 'Dotaz na poslední změny',
+	'checkuser-target'           => 'Uživatel nebo IP',
+	'checkuser-users'            => 'Najít uživatele',
+	'checkuser-edits'            => 'Najít editace z IP',
+	'checkuser-ips'              => 'Najít IP adresy',
+	'checkuser-search'           => 'Hledat',
+	'checkuser-empty'            => 'Kniha neobsahuje žádné položky',
+	'checkuser-nomatch'          => 'Nic odpovídajícího nebylo nalezeno.',
+	'checkuser-check'            => 'Zkontrolovat',
+	'checkuser-log-fail'         => 'Nepodařilo se zapsat do záznamů',
+	'checkuser-nolog'            => 'Soubor záznamů nebyl nalezen.',
+	'checkuser-blocked'          => 'zablokováno',
+	'checkuser-too-many'         => 'Příliš mnoho výsledků, zkuste omezit CIDR. Níže jsou použité IP adresy (nejvýše 500, seřazené abecedně):',
+	'checkuser-user-nonexistent' => 'Zadaný uživatel neexistuje.',
+	'checkuser-search-form'      => 'Hledej záznamy, kde $1 je $2',
+	'checkuser-search-submit'    => 'Hledat',
+	'checkuser-search-initiator' => 'kontrolující',
+	'checkuser-search-target'    => 'kontrolováno',
+	'checkuser-log-subpage'      => 'Záznamy',
+	'checkuser-log-return'       => 'Návrat na hlavní formulář Kontroly uživatele',
+	'checkuser-log-userips'      => '$1 zjišťuje IP adresy uživatele $2',
+	'checkuser-log-ipedits'      => '$1 zjišťuje editace z IP $2',
+	'checkuser-log-ipusers'      => '$1 zjišťuje uživatele z IP $2',
+	'checkuser-log-ipedits-xff'  => '$1 zjišťuje editace s XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 zjišťuje uživatele s XFF $2',
 );
 
 $messages['de'] = array(
@@ -744,30 +766,45 @@ Maximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt
 	'checkuser-too-many'     => 'Túl sok eredmény, kérlek szűkítsd le a CIDR-t. Itt vannak a használt IP-címek (maximum 5000, cím alapján rendezve):',
 );
 
+/** Indonesian (Bahasa Indonesia)
+ * @author Borgx
+ */
 $messages['id'] = array(
-	'checkuser-summary'		 => 'Peralatan ini memindai perubahan terbaru untuk mendapatkan IP yang digunakan oleh seorang pengguna atau menunjukkan data suntingan/pengguna untuk suatu IP.
+	'checkuser-summary'          => 'Peralatan ini memindai perubahan terbaru untuk mendapatkan IP yang digunakan oleh seorang pengguna atau menunjukkan data suntingan/pengguna untuk suatu IP.
 	Pengguna dan suntingan dapat diperoleh dari suatu IP XFF dengan menambahkan "/xff" pada suatu IP. IPv4 (CIDR 16-32) dan IPv6 (CIDR 64-128) dapat digunakan.
 	Karena alasan kinerja, maksimum hanya 5000 suntingan yang dapat diambil. Harap gunakan peralatan ini sesuai dengan kebijakan yang ada.',
-	'checkuser-logcase'		 => 'Log ini bersifat sensitif terhadap kapitalisasi.',
-	'checkuser'              => 'Pemeriksaan pengguna',
-	'group-checkuser'        => 'Pemeriksa',
-	'group-checkuser-member' => 'Pemeriksa',
-	'grouppage-checkuser'    => '{{ns:project}}:Pemeriksa',
-	'checkuser-reason'		 => 'Alasan',
-	'checkuser-showlog'		 => 'Tampilkan log',
-	'checkuser-log'			 => 'Log pemeriksaan pengguna',
-	'checkuser-query'		 => 'Kueri perubahan terbaru',
-	'checkuser-target'		 => 'Pengguna atau IP',
-	'checkuser-users'		 => 'Cari pengguna',
-	'checkuser-edits'	  	 => 'Cari suntingan dari IP',
-	'checkuser-ips'	  	 	 => 'Cari IP',
-	'checkuser-search'	  	 => 'Cari',
-	'checkuser-empty'	 	 => 'Log kosong.',
-	'checkuser-nomatch'	  	 => 'Data yang sesuai tidak ditemukan.',
-	'checkuser-check'	  	 => 'Periksa',
-	'checkuser-log-fail'	 => 'Entri log tidak dapat ditambahkan',
-	'checkuser-nolog'		 => 'Berkas log tidak ditemukan.',
-
+	'checkuser-logcase'          => 'Log ini bersifat sensitif terhadap kapitalisasi.',
+	'checkuser'                  => 'Pemeriksaan pengguna',
+	'group-checkuser'            => 'Pemeriksa',
+	'group-checkuser-member'     => 'Pemeriksa',
+	'grouppage-checkuser'        => '{{ns:project}}:Pemeriksa',
+	'checkuser-reason'           => 'Alasan',
+	'checkuser-showlog'          => 'Tampilkan log',
+	'checkuser-log'              => 'Log pemeriksaan pengguna',
+	'checkuser-query'            => 'Kueri perubahan terbaru',
+	'checkuser-target'           => 'Pengguna atau IP',
+	'checkuser-users'            => 'Cari pengguna',
+	'checkuser-edits'            => 'Cari suntingan dari IP',
+	'checkuser-ips'              => 'Cari IP',
+	'checkuser-search'           => 'Cari',
+	'checkuser-empty'            => 'Log kosong.',
+	'checkuser-nomatch'          => 'Data yang sesuai tidak ditemukan.',
+	'checkuser-check'            => 'Periksa',
+	'checkuser-log-fail'         => 'Entri log tidak dapat ditambahkan',
+	'checkuser-nolog'            => 'Berkas log tidak ditemukan.',
+	'checkuser-blocked'          => 'Diblok',
+	'checkuser-too-many'         => 'Terlalu banyak hasil pencarian, mohon persempit CIDR. Berikut adalah alamat-alamat IP yang digunakan (5000 maks, diurut berdasarkan alamat):',
+	'checkuser-user-nonexistent' => 'Pengguna tidak eksis',
+	'checkuser-search-form'      => 'Cari catatan log dimana $1 adalah $2',
+	'checkuser-search-submit'    => 'Cari',
+	'checkuser-search-initiator' => 'pemeriksa',
+	'checkuser-search-target'    => 'target',
+	'checkuser-log-return'       => 'Kembali ke halaman utama Pemeriksa',
+	'checkuser-log-userips'      => '$1 melihat IP dari $2',
+	'checkuser-log-ipedits'      => '$1 melihat suntingan dari $2',
+	'checkuser-log-ipusers'      => '$1 melihat nama pengguna dari $2',
+	'checkuser-log-ipedits-xff'  => '$1 melihat suntingan dari XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 melihat nama pengguna dari XFF $2',
 );
 
 /** Icelandic (Íslenska)
@@ -977,7 +1014,7 @@ $messages['lb'] = array(
 	'checkuser-showlog' => 'Logbuch weisen',
 	'checkuser-target'  => 'Benotzer oder IP-Adress',
 	'checkuser-search'  => 'Sichen',
-	'checkuser-empty'   => 'Dëst Logbuch ass eidel.',
+	'checkuser-empty'   => 'Dës Lëscht ass eidel.',
 	'checkuser-nomatch' => 'Et goufe keng Iwwereneestëmmunge fonnt.',
 	'checkuser-nolog'   => "D'Logbuch gouf net fonnt.",
 	'checkuser-blocked' => 'Gespaart',
@@ -1050,8 +1087,13 @@ $messages['mk'] = array(
 	'checkuser'              => 'Провери корисник',
 );
 
+/** Erzya (эрзянь кель)
+ * @author Tupikovs
+ * @author Amdf
+ */
 $messages['myv'] = array(
-	'checkuser-search'       => 'Вешнемс',
+	'checkuser-target' => 'Совиця эли IP',
+	'checkuser-search' => 'Вешнемс',
 );
 
 $messages['nap'] = array(
@@ -1635,7 +1677,6 @@ $messages['zh-hant'] = array(
 	'checkuser-blocked'      => '已經查封',
 );
 
-# Fallbacks:
 $messages['de-formal'] = $messages['de'];
 $messages['kk'] = $messages['kk-cyrl'];
 $messages['kk-cn'] = $messages['kk-arab'];
