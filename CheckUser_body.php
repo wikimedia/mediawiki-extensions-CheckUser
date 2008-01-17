@@ -166,7 +166,7 @@ class CheckUser extends SpecialPage
 		# Also, if we only show 5000, too many will be ignored as well.
 		$index = $xfor ? 'cuc_xff_hex_time' : 'cuc_ip_hex_time';
 		if( strpos($ip,'/') !==false ) {
-			$rangecount = $dbr->selectField( 'cu_changes', 'COUNT(*)',
+			$rangecount = $dbr->estimateRowCount( 'cu_changes', '*',
 				array( $ip_conds ),
 				__METHOD__,
 				array( 'USE INDEX' => $index ) );
@@ -403,7 +403,7 @@ class CheckUser extends SpecialPage
 		# Ordered in descent by timestamp. Can cause large filesorts on range scans.
 		# Check how many rows will need sorting ahead of time to see if this is too big.
 		if( strpos($ip,'/') !==false ) {
-			$rangecount = $dbr->selectField( 'cu_changes', 'COUNT(*)',
+			$rangecount = $dbr->estimateRowCount( 'cu_changes', '*',
 				array( $ip_conds ),
 				__METHOD__,
 				array( 'USE INDEX' => $index ) );
