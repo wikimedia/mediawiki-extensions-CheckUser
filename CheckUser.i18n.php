@@ -54,6 +54,27 @@ $messages['qqq'] = array(
 	'checkuser' => 'Check user extension. The name of the special page were checkusers can check the IP addresses of users. The message is used in the list of special pages, and at the top of Special:Checkuser.',
 );
 
+/** Kotava (Kotava)
+ * @author Wikimistusik
+ */
+$messages['avk'] = array(
+	'checkuser'               => 'Stujera va favesik',
+	'group-checkuser'         => 'Stujera va favesik',
+	'group-checkuser-member'  => 'Stujera va favesik',
+	'grouppage-checkuser'     => '{{ns:project}}:Stujera va favesik',
+	'checkuser-reason'        => 'Lazava',
+	'checkuser-showlog'       => 'Nedira va "log"',
+	'checkuser-target'        => 'Favesik ok IP mane',
+	'checkuser-search'        => 'Aneyara',
+	'checkuser-empty'         => '"Log" iyeltak tir vlardaf.',
+	'checkuser-nomatch'       => 'Nedoy trasiks',
+	'checkuser-check'         => 'Stujera',
+	'checkuser-nolog'         => 'Mek trasiyin "log" iyeltak.',
+	'checkuser-blocked'       => 'Elekan',
+	'checkuser-search-submit' => 'Aneyara',
+	'checkuser-search-target' => 'jala',
+);
+
 $messages['af'] = array(
 	'checkuser-search'       => 'Soek',
 );
