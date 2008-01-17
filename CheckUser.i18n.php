@@ -54,27 +54,6 @@ $messages['qqq'] = array(
 	'checkuser' => 'Check user extension. The name of the special page were checkusers can check the IP addresses of users. The message is used in the list of special pages, and at the top of Special:Checkuser.',
 );
 
-/** Kotava (Kotava)
- * @author Wikimistusik
- */
-$messages['avk'] = array(
-	'checkuser'               => 'Stujera va favesik',
-	'group-checkuser'         => 'Stujera va favesik',
-	'group-checkuser-member'  => 'Stujera va favesik',
-	'grouppage-checkuser'     => '{{ns:project}}:Stujera va favesik',
-	'checkuser-reason'        => 'Lazava',
-	'checkuser-showlog'       => 'Nedira va "log"',
-	'checkuser-target'        => 'Favesik ok IP mane',
-	'checkuser-search'        => 'Aneyara',
-	'checkuser-empty'         => '"Log" iyeltak tir vlardaf.',
-	'checkuser-nomatch'       => 'Nedoy trasiks',
-	'checkuser-check'         => 'Stujera',
-	'checkuser-nolog'         => 'Mek trasiyin "log" iyeltak.',
-	'checkuser-blocked'       => 'Elekan',
-	'checkuser-search-submit' => 'Aneyara',
-	'checkuser-search-target' => 'jala',
-);
-
 $messages['af'] = array(
 	'checkuser-search'       => 'Soek',
 );
@@ -151,6 +130,27 @@ $messages['ast'] = array(
 	'checkuser-log-fail' => 'Nun se pue añader la entrada nel rexistru',
 	'checkuser-nolog'    => "Nun s'atopó l'archivu del rexistru.",
 	'checkuser-blocked'  => 'Bloquiáu',
+);
+
+/** Kotava (Kotava)
+ * @author Wikimistusik
+ */
+$messages['avk'] = array(
+	'checkuser'               => 'Stujera va favesik',
+	'group-checkuser'         => 'Stujera va favesik',
+	'group-checkuser-member'  => 'Stujera va favesik',
+	'grouppage-checkuser'     => '{{ns:project}}:Stujera va favesik',
+	'checkuser-reason'        => 'Lazava',
+	'checkuser-showlog'       => 'Nedira va "log"',
+	'checkuser-target'        => 'Favesik ok IP mane',
+	'checkuser-search'        => 'Aneyara',
+	'checkuser-empty'         => '"Log" iyeltak tir vlardaf.',
+	'checkuser-nomatch'       => 'Nedoy trasiks',
+	'checkuser-check'         => 'Stujera',
+	'checkuser-nolog'         => 'Mek trasiyin "log" iyeltak.',
+	'checkuser-blocked'       => 'Elekan',
+	'checkuser-search-submit' => 'Aneyara',
+	'checkuser-search-target' => 'jala',
 );
 
 $messages['bcl'] = array(
@@ -1399,6 +1399,15 @@ $messages['pt'] = array(
 	'checkuser-log-ipusers-xff'  => '$1 obteve utilizadores para o XFF $2',
 );
 
+/** Quechua (Runa Simi)
+ * @author AlimanRuna
+ */
+$messages['qu'] = array(
+	'checkuser-summary' => "Kay llamk'anaqa ñaqha hukchasqakunapim maskaykun huk ruraqpa llamk'achisqan IP huchhakunata chaskinapaq icha huk IP huchhap llamk'apusqamanta/ruraqmanta willankunata rikuchinapaq.
+Ruraqkunata icha mink'akuq IP huchhap rurasqankunatapas XFF uma siq'iwanmi chaskiyta atinki IP huchhata \"/xff\" nisqawan yapaspa. IPv4 (CIDR 16-32), IPv6 (CIDR 64-128) nisqakunam llamk'akun.
+Pichqa waranqamanta aswan llamk'apusqakunaqa manam kutimunqachu, allin rikuchinarayku. Kay llamk'anataqa kawpayllakama rurachiy.",
+);
+
 /** Russian (Русский)
  * @author .:Ajvol:.
  */
@@ -1439,6 +1448,13 @@ $messages['ru'] = array(
 	'checkuser-log-ipusers'      => '$1 имеет учётные записи для $2',
 	'checkuser-log-ipedits-xff'  => '$1 имеет правки для XFF $2',
 	'checkuser-log-ipusers-xff'  => '$1 имеет учётные записи для XFF $2',
+);
+
+/** Yakut (Саха тыла)
+ * @author HalanTul
+ */
+$messages['sah'] = array(
+	'checkuser-search-initiator' => 'саҕалааччы',
 );
 
 /** Slovak (Slovenčina)
