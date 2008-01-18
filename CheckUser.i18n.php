@@ -1653,6 +1653,7 @@ $messages['tr'] = array(
 $messages['vo'] = array(
 	'checkuser-reason'           => 'Kod',
 	'checkuser-showlog'          => 'Jonön jenotalisedi',
+	'checkuser-target'           => 'Geban u ladet-IP',
 	'checkuser-search'           => 'Sukolöd',
 	'checkuser-blocked'          => 'Peblokon',
 	'checkuser-user-nonexistent' => 'Geban at no dabinon.',
