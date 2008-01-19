@@ -167,34 +167,35 @@ $messages['bcl'] = array(
  * @author DCLXVI
  */
 $messages['bg'] = array(
-	'checkuser-summary'       => 'Този инструмент сканира последните промени и извлича IP адресите, използвани от потребител или показва информацията за редакциите/потребителя за посоченото IP.
+	'checkuser-summary'          => 'Този инструмент сканира последните промени и извлича IP адресите, използвани от потребител или показва информацията за редакциите/потребителя за посоченото IP.
 	Потребители и редакции по клиентско IP могат да бъдат извлечени чрез XFF headers като се добави IP с "/xff". Поддържат се IPv4 (CIDR 16-32) и IPv6 (CIDR 64-128).
 	От съображения, свързани с производителността на уикито, ще бъдат показани не повече от 5000 редакции. Използвайте инструмента съобразно установената политика.',
-	'checkuser-logcase'       => 'Търсенето в дневника различава главни от малки букви.',
-	'checkuser'               => 'Проверяване на потребител',
-	'group-checkuser'         => 'Проверяващи',
-	'group-checkuser-member'  => 'Проверяващ',
-	'grouppage-checkuser'     => '{{ns:project}}:Проверяващи',
-	'checkuser-reason'        => 'Причина',
-	'checkuser-showlog'       => 'Показване на дневника',
-	'checkuser-log'           => 'Дневник на проверяващите',
-	'checkuser-query'         => 'Заявка към последните промени',
-	'checkuser-target'        => 'Потребител или IP',
-	'checkuser-users'         => 'Извличане на потребители',
-	'checkuser-edits'         => 'Извличане на редакции от IP',
-	'checkuser-ips'           => 'Извличане на IP адреси',
-	'checkuser-search'        => 'Търсене',
-	'checkuser-empty'         => 'Дневникът не съдържа записи.',
-	'checkuser-nomatch'       => 'Няма открити съвпадения.',
-	'checkuser-check'         => 'Проверка',
-	'checkuser-log-fail'      => 'Беше невъзможно да се добави запис в дневника',
-	'checkuser-nolog'         => 'Не беше открит дневник.',
-	'checkuser-blocked'       => 'Блокиран',
-	'checkuser-too-many'      => 'Твърде много резултати. Показани са използваните IP адреси (най-много 5000, сортирани по адрес):',
-	'checkuser-search-submit' => 'Търсене',
-	'checkuser-search-target' => 'цел',
-	'checkuser-log-subpage'   => 'Дневник',
-	'checkuser-log-return'    => 'Връщане към основния формуляр за проверка',
+	'checkuser-logcase'          => 'Търсенето в дневника различава главни от малки букви.',
+	'checkuser'                  => 'Проверяване на потребител',
+	'group-checkuser'            => 'Проверяващи',
+	'group-checkuser-member'     => 'Проверяващ',
+	'grouppage-checkuser'        => '{{ns:project}}:Проверяващи',
+	'checkuser-reason'           => 'Причина',
+	'checkuser-showlog'          => 'Показване на дневника',
+	'checkuser-log'              => 'Дневник на проверяващите',
+	'checkuser-query'            => 'Заявка към последните промени',
+	'checkuser-target'           => 'Потребител или IP',
+	'checkuser-users'            => 'Извличане на потребители',
+	'checkuser-edits'            => 'Извличане на редакции от IP',
+	'checkuser-ips'              => 'Извличане на IP адреси',
+	'checkuser-search'           => 'Търсене',
+	'checkuser-empty'            => 'Дневникът не съдържа записи.',
+	'checkuser-nomatch'          => 'Няма открити съвпадения.',
+	'checkuser-check'            => 'Проверка',
+	'checkuser-log-fail'         => 'Беше невъзможно да се добави запис в дневника',
+	'checkuser-nolog'            => 'Не беше открит дневник.',
+	'checkuser-blocked'          => 'Блокиран',
+	'checkuser-too-many'         => 'Твърде много резултати. Показани са използваните IP адреси (най-много 5000, сортирани по адрес):',
+	'checkuser-user-nonexistent' => 'Посоченият потребител не съществува.',
+	'checkuser-search-submit'    => 'Търсене',
+	'checkuser-search-target'    => 'цел',
+	'checkuser-log-subpage'      => 'Дневник',
+	'checkuser-log-return'       => 'Връщане към основния формуляр за проверка',
 );
 
 /** Breton (Brezhoneg)
@@ -1051,16 +1052,18 @@ $messages['la'] = array(
  * @author Robby
  */
 $messages['lb'] = array(
-	'checkuser-logcase' => "D'Sich am Logbuch mecht en Ënnerscheed tëschent groussen a klenge Buchstawen (Caractèren).",
-	'checkuser'         => 'Benotzer-Check',
-	'checkuser-reason'  => 'Grond',
-	'checkuser-showlog' => 'Logbuch weisen',
-	'checkuser-target'  => 'Benotzer oder IP-Adress',
-	'checkuser-search'  => 'Sichen',
-	'checkuser-empty'   => 'Dës Lëscht ass eidel.',
-	'checkuser-nomatch' => 'Et goufe keng Iwwereneestëmmunge fonnt.',
-	'checkuser-nolog'   => "D'Logbuch gouf net fonnt.",
-	'checkuser-blocked' => 'Gespaart',
+	'checkuser-logcase'          => "D'Sich am Logbuch mecht en Ënnerscheed tëschent groussen a klenge Buchstawen (Caractèren).",
+	'checkuser'                  => 'Benotzer-Check',
+	'checkuser-reason'           => 'Grond',
+	'checkuser-showlog'          => 'Logbuch weisen',
+	'checkuser-target'           => 'Benotzer oder IP-Adress',
+	'checkuser-search'           => 'Sichen',
+	'checkuser-empty'            => 'Dës Lëscht ass eidel.',
+	'checkuser-nomatch'          => 'Et goufe keng Iwwereneestëmmunge fonnt.',
+	'checkuser-nolog'            => "D'Logbuch gouf net fonnt.",
+	'checkuser-blocked'          => 'Gespaart',
+	'checkuser-user-nonexistent' => 'De gesichte Benotzer gëtt et net.',
+	'checkuser-search-submit'    => 'Sichen',
 );
 
 /** Limburgish (Limburgs)
@@ -1670,15 +1673,19 @@ $messages['to'] = array(
 
 /** Turkish (Türkçe)
  * @author SPQRobin
+ * @author Karduelis
  * @author Dbl2010
  */
 $messages['tr'] = array(
-	'checkuser'              => 'IP denetçisi',
-	'group-checkuser'        => 'Denetçiler',
-	'group-checkuser-member' => 'Denetçi',
-	'grouppage-checkuser'    => '{{ns:project}}:Denetçi',
-	'checkuser-reason'       => 'Sebep',
-	'checkuser-search'       => 'Ara',
+	'checkuser'               => 'IP denetçisi',
+	'group-checkuser'         => 'Denetçiler',
+	'group-checkuser-member'  => 'Denetçi',
+	'grouppage-checkuser'     => '{{ns:project}}:Denetçi',
+	'checkuser-reason'        => 'Sebep',
+	'checkuser-target'        => 'Kullanıcı veya IP',
+	'checkuser-search'        => 'Ara',
+	'checkuser-blocked'       => 'Engellendi',
+	'checkuser-search-submit' => 'Ara',
 );
 
 /** Volapük (Volapük)
