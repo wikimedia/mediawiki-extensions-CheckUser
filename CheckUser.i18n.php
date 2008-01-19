@@ -611,30 +611,40 @@ Le fáth feidhmiúcháin, ní féidir níos mó ná 5000 eagarthóireachta a tha
 	'checkuser-too-many' => "Tá le mórán torthaí, caolaigh an CIDR le d'thoil. Seo iad na seolaidh IP (5000 uasta, sórtáilte le seoladh):",
 );
 
+/** Galician (Galego)
+ * @author Alma
+ * @author Xosé
+ */
 $messages['gl'] = array(
-	'checkuser-summary'      => 'Esta ferramenta analiza os cambios recentes para recuperar os enderezos IPs utilizados por un usuario ou amosar as edicións / datos do usuario dun enderezo de IP.
+	'checkuser-summary'          => 'Esta ferramenta analiza os cambios recentes para recuperar os enderezos IPs utilizados por un usuario ou amosar as edicións / datos do usuario dun enderezo de IP.
 Os usuarios e as edicións por un cliente IP poden ser recuperados a través das cabeceiras XFF engadindo o enderezo IP con "/ xff". IPv4 (CIDR 16-32) e o IPv6 (CIDR 64-128) están soportadas.',
-	'checkuser-logcase'      => 'O rexistro de búsqueda é sensíbel a maiúsculas e minúsculas.',
-	'checkuser'              => 'Verificador de usuarios',
-	'group-checkuser'        => 'Verificadores de usuarios',
-	'group-checkuser-member' => 'Verificador usuarios',
-	'grouppage-checkuser'    => '{{ns:project}}:Verificador de usuarios',
-	'checkuser-reason'       => 'Razón',
-	'checkuser-showlog'      => 'Amosar rexistro',
-	'checkuser-log'          => 'Rexistro de verificador de usuarios',
-	'checkuser-query'        => 'Consulta de cambios recentes',
-	'checkuser-target'       => 'Usuario ou enderezo IP',
-	'checkuser-users'        => 'Obter usuarios',
-	'checkuser-edits'        => 'Obter edicións de enderezos IP',
-	'checkuser-ips'          => 'Conseguir enderezos IPs',
-	'checkuser-search'       => 'Buscar',
-	'checkuser-empty'        => 'O rexistro non contén artigos.',
-	'checkuser-nomatch'      => 'Non se atoparon coincidencias.',
-	'checkuser-check'        => 'Comprobar',
-	'checkuser-log-fail'     => 'Non é posíbel engadir unha entrada no rexistro',
-	'checkuser-nolog'        => 'Ningún arquivo de rexistro.',
-	'checkuser-blocked'      => 'Bloqueado',
-	'checkuser-too-many'     => 'Hai demasiados resultados, restrinxa o enderezo IP:',
+	'checkuser-logcase'          => 'O rexistro de búsqueda é sensíbel a maiúsculas e minúsculas.',
+	'checkuser'                  => 'Verificador de usuarios',
+	'group-checkuser'            => 'Verificadores de usuarios',
+	'group-checkuser-member'     => 'Verificador usuarios',
+	'grouppage-checkuser'        => '{{ns:project}}:Verificador de usuarios',
+	'checkuser-reason'           => 'Razón',
+	'checkuser-showlog'          => 'Amosar rexistro',
+	'checkuser-log'              => 'Rexistro de verificador de usuarios',
+	'checkuser-query'            => 'Consulta de cambios recentes',
+	'checkuser-target'           => 'Usuario ou enderezo IP',
+	'checkuser-users'            => 'Obter usuarios',
+	'checkuser-edits'            => 'Obter edicións de enderezos IP',
+	'checkuser-ips'              => 'Conseguir enderezos IPs',
+	'checkuser-search'           => 'Buscar',
+	'checkuser-empty'            => 'O rexistro non contén artigos.',
+	'checkuser-nomatch'          => 'Non se atoparon coincidencias.',
+	'checkuser-check'            => 'Comprobar',
+	'checkuser-log-fail'         => 'Non é posíbel engadir unha entrada no rexistro',
+	'checkuser-nolog'            => 'Ningún arquivo de rexistro.',
+	'checkuser-blocked'          => 'Bloqueado',
+	'checkuser-too-many'         => 'Hai demasiados resultados, restrinxa o enderezo IP:',
+	'checkuser-user-nonexistent' => 'Non existe o usuario especificado.',
+	'checkuser-search-form'      => 'Atopar entradas do rexistro nas que $1 é $2',
+	'checkuser-search-submit'    => 'Procurar',
+	'checkuser-search-initiator' => 'iniciador',
+	'checkuser-search-target'    => 'destino',
+	'checkuser-log-subpage'      => 'Rexistro',
 );
 
 $messages['grc'] = array(
@@ -1415,9 +1425,34 @@ $messages['pt'] = array(
  * @author AlimanRuna
  */
 $messages['qu'] = array(
-	'checkuser-summary' => "Kay llamk'anaqa ñaqha hukchasqakunapim maskaykun huk ruraqpa llamk'achisqan IP huchhakunata chaskinapaq icha huk IP huchhap llamk'apusqamanta/ruraqmanta willankunata rikuchinapaq.
+	'checkuser-summary'          => "Kay llamk'anaqa ñaqha hukchasqakunapim maskaykun huk ruraqpa llamk'achisqan IP huchhakunata chaskinapaq icha huk IP huchhap llamk'apusqamanta/ruraqmanta willankunata rikuchinapaq.
 Ruraqkunata icha mink'akuq IP huchhap rurasqankunatapas XFF uma siq'iwanmi chaskiyta atinki IP huchhata \"/xff\" nisqawan yapaspa. IPv4 (CIDR 16-32), IPv6 (CIDR 64-128) nisqakunam llamk'akun.
 Pichqa waranqamanta aswan llamk'apusqakunaqa manam kutimunqachu, allin rikuchinarayku. Kay llamk'anataqa kawpayllakama rurachiy.",
+	'checkuser-logcase'          => "Hallch'a maskaqqa hatun sananchata uchuy sananchamantam sapaqchan.",
+	'checkuser'                  => 'Ruraqta llanchiy',
+	'group-checkuser'            => 'Ruraqkunata llanchiy',
+	'group-checkuser-member'     => 'Ruraqta llanchiy',
+	'grouppage-checkuser'        => '{{ns:project}}:Ruraqta llanchiy',
+	'checkuser-reason'           => 'Imarayku',
+	'checkuser-showlog'          => "Hallch'ata rikuchiy",
+	'checkuser-log'              => "Ruraq llanchiy hallch'a",
+	'checkuser-query'            => 'Ñaqha hukchasqakunapi maskay',
+	'checkuser-target'           => 'Ruraqpa sutin icha IP huchha',
+	'checkuser-users'            => 'Ruraqkunata chaskiy',
+	'checkuser-edits'            => 'Ruraqkunap hukchasqankunata chaskiy',
+	'checkuser-ips'              => 'IP huchhakunata chaskiy',
+	'checkuser-search'           => 'Maskay',
+	'checkuser-empty'            => "Manam kanchu ima hallch'asqapas.",
+	'checkuser-nomatch'          => 'Manam imapas taripasqachu.',
+	'checkuser-check'            => 'Llanchiy',
+	'checkuser-log-fail'         => "Manam atinichu hallch'aman yapayta",
+	'checkuser-nolog'            => "Manam hallch'ayta tarinichu",
+	'checkuser-blocked'          => "Hark'asqa",
+	'checkuser-too-many'         => "Nisyum tarisqakuna, ama hina kaspa CIDR nisqata k'ichkichay. Kaymi llamk'achisqa IP huchhakuna (5000-kama, tiyay sutikama siq'inchasqa):",
+	'checkuser-user-nonexistent' => 'Nisqayki ruraqqa manam kanchu.',
+	'checkuser-search-initiator' => 'qallarichiq',
+	'checkuser-search-target'    => 'taripana',
+	'checkuser-log-subpage'      => "Hallch'a",
 );
 
 /** Russian (Русский)
