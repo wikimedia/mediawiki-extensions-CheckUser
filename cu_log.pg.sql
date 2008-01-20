@@ -13,7 +13,7 @@ CREATE TABLE cu_log (
   cul_target_text  TEXT     NOT NULL DEFAULT '',
   cul_target_hex   TEXT     NOT NULL DEFAULT '',
   cul_range_start  TEXT     NOT NULL DEFAULT '',
-  cul_range_end    TEXT     NOT NULL DEFAULT '',
+  cul_range_end    TEXT     NOT NULL DEFAULT ''
 );
 
 CREATE INDEX cul_timestamp ON cu_log (cul_timestamp);
