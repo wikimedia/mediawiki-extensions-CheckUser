@@ -782,32 +782,35 @@ Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěš
 /** Hungarian (Magyar)
  * @author Bdanee
  * @author KossuthRad
+ * @author Dorgan
  */
 $messages['hu'] = array(
-	'checkuser-summary'      => 'Ez az eszköz végigvizsgálja a friss változásokat, hogy lekérje egy adott felhasználó IP-címeit vagy megjelenítse egy adott IP-címet használó szerkesztőket és az IP szerkesztéseit.
+	'checkuser-summary'       => 'Ez az eszköz végigvizsgálja a friss változásokat, hogy lekérje egy adott felhasználó IP-címeit vagy megjelenítse egy adott IP-címet használó szerkesztőket és az IP szerkesztéseit.
 Egy kliens IP-cím által végzett szerkesztések és felhasználói XFF fejlécek segítségével kérhetőek le, az IP-cím utáni „/xff” parancssal. Az IPv4 (CIDR 16-32) és az IPv6 (CIDR 64-128) is támogatott.
 Maximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt a szabályoknak megfelelően használd.',
-	'checkuser-logcase'      => 'A kereső kis- és nagybetűérzékeny.',
-	'checkuser'              => 'IP-ellenőr',
-	'group-checkuser'        => 'IP-ellenőrök',
-	'group-checkuser-member' => 'IP-ellenőr',
-	'grouppage-checkuser'    => '{{ns:project}}:IP-ellenőrök',
-	'checkuser-reason'       => 'Ok',
-	'checkuser-showlog'      => 'Napló megjelenítése',
-	'checkuser-log'          => 'IP-ellenőr-napló',
-	'checkuser-query'        => 'Kétséges aktuális változások',
-	'checkuser-target'       => 'User vagy IP',
-	'checkuser-users'        => 'Felhasználók keresése',
-	'checkuser-edits'        => 'Szerkesztések keresése IP-cím alapján',
-	'checkuser-ips'          => 'IP-címek keresése',
-	'checkuser-search'       => 'Keresés',
-	'checkuser-empty'        => 'A napló nem tartalmaz elemeket.',
-	'checkuser-nomatch'      => 'A párja nem található.',
-	'checkuser-check'        => 'Ellenőrzés',
-	'checkuser-log-fail'     => 'Nem sikerült az elem hozzáadása',
-	'checkuser-nolog'        => 'A naplófájl nem található.',
-	'checkuser-blocked'      => 'Blokkolva',
-	'checkuser-too-many'     => 'Túl sok eredmény, kérlek szűkítsd le a CIDR-t. Itt vannak a használt IP-címek (maximum 5000, cím alapján rendezve):',
+	'checkuser-logcase'       => 'A kereső kis- és nagybetűérzékeny.',
+	'checkuser'               => 'IP-ellenőr',
+	'group-checkuser'         => 'IP-ellenőrök',
+	'group-checkuser-member'  => 'IP-ellenőr',
+	'grouppage-checkuser'     => '{{ns:project}}:IP-ellenőrök',
+	'checkuser-reason'        => 'Ok',
+	'checkuser-showlog'       => 'Napló megjelenítése',
+	'checkuser-log'           => 'IP-ellenőr-napló',
+	'checkuser-query'         => 'Kétséges aktuális változások',
+	'checkuser-target'        => 'User vagy IP',
+	'checkuser-users'         => 'Felhasználók keresése',
+	'checkuser-edits'         => 'Szerkesztések keresése IP-cím alapján',
+	'checkuser-ips'           => 'IP-címek keresése',
+	'checkuser-search'        => 'Keresés',
+	'checkuser-empty'         => 'A napló nem tartalmaz elemeket.',
+	'checkuser-nomatch'       => 'A párja nem található.',
+	'checkuser-check'         => 'Ellenőrzés',
+	'checkuser-log-fail'      => 'Nem sikerült az elem hozzáadása',
+	'checkuser-nolog'         => 'A naplófájl nem található.',
+	'checkuser-blocked'       => 'Blokkolva',
+	'checkuser-too-many'      => 'Túl sok eredmény, kérlek szűkítsd le a CIDR-t. Itt vannak a használt IP-címek (maximum 5000, cím alapján rendezve):',
+	'checkuser-search-submit' => 'Keresés',
+	'checkuser-log-subpage'   => 'IP-ellenőrzési napló',
 );
 
 /** Indonesian (Bahasa Indonesia)
@@ -1161,29 +1164,30 @@ $messages['nds'] = array(
 
 /** Dutch (Nederlands)
  * @author Siebrand
+ * @author SPQRobin
  * @author Troefkaart
  */
 $messages['nl'] = array(
 	'checkuser-summary'          => 'Dit hulpmiddel bekijkt recente wijzigingen om IP-adressen die een gebruiker heeft gebruikt te achterhalen of toont de bewerkings- en gebruikersgegegevens voor een IP-adres.
-	Gebruikers en bewerkingen van een IP-adres van een client kunnen achterhaald worden via XFF-haeders door "/xff" achter het IP-adres toe te voegen. IPv4 (CIDR 16-32) en IPv6 (CIDR 64-128) worden ondersteund.
+	Gebruikers en bewerkingen van een IP-adres van een client kunnen achterhaald worden via XFF-headers door "/xff" achter het IP-adres toe te voegen. IPv4 (CIDR 16-32) en IPv6 (CIDR 64-128) worden ondersteund.
 	Om prestatieredenen worden niet meer dan 5.000 bewerkingen getoond. Gebruik dit hulpmiddel volgens het vastgestelde beleid.',
 	'checkuser-logcase'          => 'Zoeken in het logboek is hoofdlettergevoelig.',
 	'checkuser'                  => 'Gebruiker controleren',
-	'group-checkuser'            => 'Gebruikers controleren',
-	'group-checkuser-member'     => 'Gebruiker controleren',
-	'grouppage-checkuser'        => '{{ns:project}}:Gebruiker controleren',
+	'group-checkuser'            => 'Controlegebruikers',
+	'group-checkuser-member'     => 'Controlegebruiker',
+	'grouppage-checkuser'        => '{{ns:project}}:Controlegebruiker',
 	'checkuser-reason'           => 'Reden',
-	'checkuser-showlog'          => 'Toon logboek',
+	'checkuser-showlog'          => 'Logboek tonen',
 	'checkuser-log'              => 'Logboek controleren gebruikers',
 	'checkuser-query'            => 'Bevraag recente wijzigingen',
 	'checkuser-target'           => 'Gebruiker of IP-adres',
-	'checkuser-users'            => 'Vraag gebruikers op',
-	'checkuser-edits'            => 'Vraag bewerkingen van IP-adres op',
-	'checkuser-ips'              => 'Vraag IP-adressen op',
+	'checkuser-users'            => 'Gebruikers opvragen',
+	'checkuser-edits'            => 'Bewerkingen van IP-adres opvragen',
+	'checkuser-ips'              => 'IP-adressen opvragen',
 	'checkuser-search'           => 'Zoeken',
 	'checkuser-empty'            => 'Het logboek bevat geen regels.',
 	'checkuser-nomatch'          => 'Geen overeenkomsten gevonden.',
-	'checkuser-check'            => 'Controleer',
+	'checkuser-check'            => 'Controleren',
 	'checkuser-log-fail'         => 'Logboekregel toevoegen niet mogelijk',
 	'checkuser-nolog'            => 'Geen logboek gevonden.',
 	'checkuser-blocked'          => 'Geblokkeerd',
@@ -1194,7 +1198,7 @@ $messages['nl'] = array(
 	'checkuser-search-initiator' => 'aanvrager',
 	'checkuser-search-target'    => 'onderwerp',
 	'checkuser-log-subpage'      => 'Logboek',
-	'checkuser-log-return'       => 'Naar het hoofdformulier van CheckUser terugkeren',
+	'checkuser-log-return'       => 'Naar het hoofdformulier van ControleGebruiker terugkeren',
 	'checkuser-log-userips'      => '$1 heeft IP-adressen voor $2',
 	'checkuser-log-ipedits'      => '$1 heeft bewerkingen voor $2',
 	'checkuser-log-ipusers'      => '$1 heeft gebruikers voor $2',
@@ -1611,6 +1615,7 @@ Beoarbaidengen fon ne IP-Adresse konnen uk ätter Informatione uut do XFF-Header
 
 /** Swedish (Svenska)
  * @author Lejonel
+ * @author Max sonnelid
  */
 $messages['sv'] = array(
 	'checkuser-summary'          => 'Det här verktyget söker igenom de senaste ändringarna för att hämta IP-adresser för en användare, eller redigeringar och användare för en IP-adress.
@@ -1636,6 +1641,7 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 	'checkuser-log-fail'         => 'Loggposten kunde inte läggas i loggfilen.',
 	'checkuser-nolog'            => 'Hittade ingen loggfil.',
 	'checkuser-blocked'          => 'Blockerad',
+	'checkuser-too-many'         => 'För många resultat, snälla begränska ner CIDRen. Här är IParna använda (högst 5000, sorterade efter adress):',
 	'checkuser-user-nonexistent' => 'Användarnamnet som angavs finns inte.',
 	'checkuser-search-form'      => 'Sök  efter poster där $1 är $2',
 	'checkuser-search-submit'    => 'Sök',
@@ -1648,6 +1654,15 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 	'checkuser-log-ipusers'      => '$1 hämtade användare från $2',
 	'checkuser-log-ipedits-xff'  => '$1 hämtade redigeringar från XFF $2',
 	'checkuser-log-ipusers-xff'  => '$1 hämtade användare från XFF $2',
+);
+
+/** Telugu (తెలుగు)
+ * @author Veeven
+ */
+$messages['te'] = array(
+	'checkuser-reason'        => 'కారణం',
+	'checkuser-search'        => 'వెతుకు',
+	'checkuser-search-submit' => 'వెతుకు',
 );
 
 /** Tetum (Tetun)
