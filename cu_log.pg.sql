@@ -17,9 +17,9 @@ CREATE TABLE cu_log (
 );
 
 CREATE INDEX cul_timestamp ON cu_log (cul_timestamp);
-CREATE INDEX cul_user ON cu_log (cul_user),
-CREATE INDEX cul_type_target ON cu_log (cul_type,cul_target_id),
-CREATE INDEX cul_target_hex ON cu_log (cul_target_hex),
-CREATE INDEX cul_range_start ON cu_log (cul_range_start)
+CREATE INDEX cul_user ON cu_log (cul_user);
+CREATE INDEX cul_type_target ON cu_log (cul_type,cul_target_id);
+CREATE INDEX cul_target_hex ON cu_log (cul_target_hex);
+CREATE INDEX cul_range_start ON cu_log (cul_range_start);
 
 COMMIT;
