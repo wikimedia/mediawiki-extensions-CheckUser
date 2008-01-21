@@ -1708,13 +1708,42 @@ $messages['tr'] = array(
  * @author Malafaya
  */
 $messages['vo'] = array(
+	'checkuser-summary'          => 'Stum at vestigon votükamis brefabüik ad dagetön ladetis-IP fa geban semik pagebölis, ud ad jonön redakama- u gebananünis tefü ladet-IP semik.
+Gebans e redakams se dona-IP kanons pagetön de tiäds: XFF medä läükoy eli „/xff“ ladete-IP. Els IPv4 (CIDR 16-32) e IPv6 (CIDR 64-128) kanons pagebön.
+Redakams no plu 5000 pejonons sekü kods kaenavik. Gebolös stumi at bai nomem.',
+	'checkuser-logcase'          => 'Pö suk in registar mayuds e minuds padifükons.',
+	'checkuser'                  => 'Vestigön gebani',
+	'group-checkuser'            => 'Vestigön gebanis',
+	'group-checkuser-member'     => 'Vestigön gebani',
+	'grouppage-checkuser'        => '{{ns:project}}:Vestigön gebani',
 	'checkuser-reason'           => 'Kod',
 	'checkuser-showlog'          => 'Jonön jenotalisedi',
+	'checkuser-log'              => 'Vestigön gebani: jenotalised',
+	'checkuser-query'            => 'Vestigön votükamis brefabüik',
 	'checkuser-target'           => 'Geban u ladet-IP',
+	'checkuser-users'            => 'Tuvön gebanis',
+	'checkuser-edits'            => 'Tuvön redakamis ladeta-IP',
+	'checkuser-ips'              => 'Tuvön ladetis-IP',
 	'checkuser-search'           => 'Sukolöd',
+	'checkuser-empty'            => 'Lised vagon.',
+	'checkuser-nomatch'          => 'Suk no eplöpon.',
+	'checkuser-check'            => 'Vestigön',
+	'checkuser-log-fail'         => 'No eplöpos ad laükön jenotalisede',
+	'checkuser-nolog'            => 'Ragiv jenotaliseda no petuvon.',
 	'checkuser-blocked'          => 'Peblokon',
+	'checkuser-too-many'         => 'Sukaseks te mödiks, nedol gebön eli CIDR smalikum. Is palisedons ladets-IP pegeböl (jü 5000, peleodüköls ma ladet):',
 	'checkuser-user-nonexistent' => 'Geban at no dabinon.',
+	'checkuser-search-form'      => 'Tuvön lienis jenotaliseda, kö $1 binon $2',
 	'checkuser-search-submit'    => 'Suk',
+	'checkuser-search-initiator' => 'flagan',
+	'checkuser-search-target'    => 'zeil',
+	'checkuser-log-subpage'      => 'Jenotalised',
+	'checkuser-log-return'       => 'Geikön lü cifafomet',
+	'checkuser-log-userips'      => '$1 labon ladetis-IP ela $2',
+	'checkuser-log-ipedits'      => '$1 labon redakamis ela $2',
+	'checkuser-log-ipusers'      => '$1 labon gebanis ela $2',
+	'checkuser-log-ipedits-xff'  => '$1 labon redakamis ela XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 labon gebanis ela XFF $2',
 );
 
 $messages['wa'] = array(
