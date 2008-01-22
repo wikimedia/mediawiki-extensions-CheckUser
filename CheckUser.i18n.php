@@ -198,6 +198,35 @@ $messages['bg'] = array(
 	'checkuser-log-return'       => 'Връщане към основния формуляр за проверка',
 );
 
+/** Bengali (বাংলা)
+ * @author Bellayet
+ */
+$messages['bn'] = array(
+	'checkuser-logcase'          => 'লগ অনুসন্ধান বড়/ছোট হাতের অক্ষরের উপর নির্ভরশীল',
+	'checkuser'                  => 'ব্যবহারকারী পরীক্ষণ',
+	'group-checkuser'            => 'ব্যবহারকারীসমূহ পরীক্ষণ',
+	'group-checkuser-member'     => 'ব্যবহারকারী পরীক্ষণ',
+	'grouppage-checkuser'        => '{{ns:project}}:ব্যবহারকারী পরীক্ষণ',
+	'checkuser-reason'           => 'কারণ',
+	'checkuser-showlog'          => 'লগ দেখাও',
+	'checkuser-log'              => 'CheckUser লগ',
+	'checkuser-query'            => 'সাম্প্রতিক পরিবর্তনসমূহ জানুন',
+	'checkuser-target'           => 'ব্যবহারকারী অথবা আইপি',
+	'checkuser-users'            => 'ব্যবহারকারী সমূহ পাওয়া যাবে',
+	'checkuser-edits'            => 'আইপি থেকে সম্পাদনাসমূহ পাওয়া যাবে',
+	'checkuser-ips'              => 'আইপি সমূহ পাওয়া যাবে',
+	'checkuser-search'           => 'অনুসন্ধান',
+	'checkuser-empty'            => 'এই লগে কিছুই নেই।',
+	'checkuser-nomatch'          => 'এর সাথে মিলে এমন কিছু পাওয়া যায়নি।',
+	'checkuser-check'            => 'পরীক্ষা করুন',
+	'checkuser-log-fail'         => 'লগ ভুক্তিতে যোগ করা সম্ভব হচ্ছে না',
+	'checkuser-nolog'            => 'কোন লগ ফাইল পাওয়া যায়নি।',
+	'checkuser-user-nonexistent' => 'এই নির্দিষ্ট ব্যবহারকারী নেই।',
+	'checkuser-search-submit'    => 'অনুসন্ধান',
+	'checkuser-search-target'    => 'লক্ষ্য',
+	'checkuser-log-subpage'      => 'লগ',
+);
+
 /** Breton (Brezhoneg)
  * @author Fulup
  */
@@ -1615,7 +1644,6 @@ Beoarbaidengen fon ne IP-Adresse konnen uk ätter Informatione uut do XFF-Header
 
 /** Swedish (Svenska)
  * @author Lejonel
- * @author Max sonnelid
  */
 $messages['sv'] = array(
 	'checkuser-summary'          => 'Det här verktyget söker igenom de senaste ändringarna för att hämta IP-adresser för en användare, eller redigeringar och användare för en IP-adress.
@@ -1641,7 +1669,7 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 	'checkuser-log-fail'         => 'Loggposten kunde inte läggas i loggfilen.',
 	'checkuser-nolog'            => 'Hittade ingen loggfil.',
 	'checkuser-blocked'          => 'Blockerad',
-	'checkuser-too-many'         => 'För många resultat, snälla begränska ner CIDRen. Här är IParna använda (högst 5000, sorterade efter adress):',
+	'checkuser-too-many'         => 'För många resultat, du bör söka i ett mindre CIDR-block. Här följer de använda IP-adresserna (högst 5000, sorterade efter adress):',
 	'checkuser-user-nonexistent' => 'Användarnamnet som angavs finns inte.',
 	'checkuser-search-form'      => 'Sök  efter poster där $1 är $2',
 	'checkuser-search-submit'    => 'Sök',
@@ -1701,6 +1729,48 @@ $messages['tr'] = array(
 	'checkuser-search'        => 'Ara',
 	'checkuser-blocked'       => 'Engellendi',
 	'checkuser-search-submit' => 'Ara',
+);
+
+/** Vietnamese (Tiếng Việt)
+ * @author Vinhtantran
+ */
+$messages['vi'] = array(
+	'checkuser-summary'          => 'Công cụ này sẽ quét các thay đổi gần đây để lấy ra các IP được một thành viên sử dụng hoặc hiển thị dữ liệu sửa đổi/tài khoản của một IP.
+Các tài khoản và sửa đổi của một IP có thể được trích ra từ tiêu đề XFF bằng cách thêm vào IP "/xff". IPv4 (CIDR 16-32) và IPv6 (CIDR 64-128) đều được hỗ trợ.
+Không quá 5000 sửa đổi sẽ được trả về vì lý do hiệu suất. Hãy dùng công cụ này theo đúng quy định.',
+	'checkuser-logcase'          => 'Tìm kiếm nhật trình có phân biệt chữ hoa chữ thường',
+	'checkuser'                  => 'Kiểm tra thành viên',
+	'group-checkuser'            => 'Kiểm tra thành viên',
+	'group-checkuser-member'     => 'Kiểm tra thành viên',
+	'grouppage-checkuser'        => '{{ns:project}}:Kiểm tra thành viên',
+	'checkuser-reason'           => 'Lý do',
+	'checkuser-showlog'          => 'Xem nhật trình',
+	'checkuser-log'              => 'Nhật trình Kiểm tra thành viên',
+	'checkuser-query'            => 'Truy vấn các thay đổi gần đây',
+	'checkuser-target'           => 'Thành viên hay IP',
+	'checkuser-users'            => 'Lấy ra thành viên',
+	'checkuser-edits'            => 'Lấy ra sửa đổi của IP',
+	'checkuser-ips'              => 'Lấy ra IP',
+	'checkuser-search'           => 'Tìm kiếm',
+	'checkuser-empty'            => 'Nhật trình hiện chưa có gì.',
+	'checkuser-nomatch'          => 'Không tìm thấy kết quả.',
+	'checkuser-check'            => 'Kiểm tra',
+	'checkuser-log-fail'         => 'Không thể ghi vào nhật trình',
+	'checkuser-nolog'            => 'Không tìm thấy tập tin nhật trình',
+	'checkuser-blocked'          => 'Đã cấm',
+	'checkuser-too-many'         => 'Có quá nhiều kết quả, xin hãy thu hẹp CIDR. Đây là các IP sử dụng (tối đa 5000, xếp theo địa chỉ):',
+	'checkuser-user-nonexistent' => 'Thành viên chỉ định không tồn tại.',
+	'checkuser-search-form'      => 'Tìm thấy các mục nhật trình trong đó $1 là $2',
+	'checkuser-search-submit'    => 'Tìm kiếm',
+	'checkuser-search-initiator' => 'người khởi đầu',
+	'checkuser-search-target'    => 'mục tiêu',
+	'checkuser-log-subpage'      => 'Nhật trình',
+	'checkuser-log-return'       => 'Trả về biểu mẫu chính Kiểm tra thành viên',
+	'checkuser-log-userips'      => '$1 lấy IP để $2',
+	'checkuser-log-ipedits'      => '$1 lấy sửa đổi cho $2',
+	'checkuser-log-ipusers'      => '$1 lấy thành viên cho $2',
+	'checkuser-log-ipedits-xff'  => '$1 lấy sửa đổi cho XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 lấy thành viên cho XFF $2',
 );
 
 /** Volapük (Volapük)
