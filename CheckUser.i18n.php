@@ -221,6 +221,7 @@ $messages['bn'] = array(
 	'checkuser-check'            => 'পরীক্ষা করুন',
 	'checkuser-log-fail'         => 'লগ ভুক্তিতে যোগ করা সম্ভব হচ্ছে না',
 	'checkuser-nolog'            => 'কোন লগ ফাইল পাওয়া যায়নি।',
+	'checkuser-blocked'          => 'বাধা দেওয়া হয়েছে',
 	'checkuser-user-nonexistent' => 'এই নির্দিষ্ট ব্যবহারকারী নেই।',
 	'checkuser-search-submit'    => 'অনুসন্ধান',
 	'checkuser-search-target'    => 'লক্ষ্য',
@@ -1537,7 +1538,23 @@ $messages['ru'] = array(
  * @author HalanTul
  */
 $messages['sah'] = array(
+	'checkuser'                  => 'Кыттааччыны бэрэбиэркэлээ',
+	'grouppage-checkuser'        => '{{ns:project}}:Кыттааччылары бэрэбиэркэлээһин',
+	'checkuser-reason'           => 'Төрүөтэ',
+	'checkuser-showlog'          => 'Сурунаалы көрдөр',
+	'checkuser-edits'            => 'Бу IP-тан оҥоһуллубут көннөрүүлэри көрөргө',
+	'checkuser-ips'              => 'IP-лары көрдөр',
+	'checkuser-search'           => 'Көрдөө',
+	'checkuser-empty'            => 'Сурунаал кураанах',
+	'checkuser-nomatch'          => 'Сөп түбэһиилэр көстүбэтилэр',
+	'checkuser-check'            => 'Бэрэбиэркэлээ',
+	'checkuser-nolog'            => 'Сурунаал билэтэ көстүбэтэ',
+	'checkuser-blocked'          => 'Тугу эмэ гынара бобуллубут',
+	'checkuser-user-nonexistent' => 'Маннык ааттаах кыттааччы суох',
+	'checkuser-search-submit'    => 'Буларга',
 	'checkuser-search-initiator' => 'саҕалааччы',
+	'checkuser-search-target'    => 'сыал-сорук',
+	'checkuser-log-subpage'      => 'Сурунаал',
 );
 
 /** Slovak (Slovenčina)
