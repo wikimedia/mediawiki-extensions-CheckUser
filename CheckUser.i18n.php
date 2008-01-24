@@ -397,6 +397,13 @@ $messages['el'] = array(
 	'checkuser-search' => 'Αναζήτηση',
 );
 
+/** Esperanto (Esperanto)
+ * @author Yekrats
+ */
+$messages['eo'] = array(
+	'checkuser-reason' => 'Kialo',
+);
+
 /** Spanish (Español)
  * @author Dmcdevit
  * @author Spacebirdy
