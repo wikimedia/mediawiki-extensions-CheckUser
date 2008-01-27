@@ -1106,6 +1106,7 @@ $messages['lb'] = array(
 	'checkuser'                  => 'Benotzer-Check',
 	'checkuser-reason'           => 'Grond',
 	'checkuser-showlog'          => 'Logbuch weisen',
+	'checkuser-query'            => 'Rezent Ännerungen offroen',
 	'checkuser-target'           => 'Benotzer oder IP-Adress',
 	'checkuser-search'           => 'Sichen',
 	'checkuser-empty'            => 'Dës Lëscht ass eidel.',
@@ -1564,11 +1565,18 @@ $messages['sah'] = array(
 	'checkuser-log-fail'         => 'Сурунаалга сурук эбэр табыллыбат(а)',
 	'checkuser-nolog'            => 'Сурунаал билэтэ көстүбэтэ',
 	'checkuser-blocked'          => 'Тугу эмэ гынара бобуллубут',
+	'checkuser-too-many'         => 'Наһаа элбэх булулунна, бука диэн CIDR кыччатан биэр. Туһаныллыбыт IP (саамай элбэҕэ 5000, бу аадырыһынан наардаммыт):',
 	'checkuser-user-nonexistent' => 'Маннык ааттаах кыттааччы суох',
+	'checkuser-search-form'      => '$1 сурунаалга $2 буоларын бул',
 	'checkuser-search-submit'    => 'Буларга',
 	'checkuser-search-initiator' => 'саҕалааччы',
 	'checkuser-search-target'    => 'сыал-сорук',
 	'checkuser-log-subpage'      => 'Сурунаал',
+	'checkuser-log-return'       => 'Кытааччылары бэрэбиэркэлээһин сүрүн сирэйигэр төнүн',
+	'checkuser-log-userips'      => '$1 манна анаан $2 IP аадырыстаах',
+	'checkuser-log-ipedits'      => '$1 манна анаан $2 көннөрүүлэрдээх',
+	'checkuser-log-ipusers'      => '$1 манна анаан $2 ааттардаах (учётные записи)',
+	'checkuser-log-ipedits-xff'  => '$1 манна анаан XFF $2 көннөрүүлэрдээх',
 );
 
 /** Slovak (Slovenčina)
