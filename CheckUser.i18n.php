@@ -683,6 +683,12 @@ Os usuarios e as edicións por un cliente IP poden ser recuperados a través das
 	'checkuser-search-initiator' => 'iniciador',
 	'checkuser-search-target'    => 'destino',
 	'checkuser-log-subpage'      => 'Rexistro',
+	'checkuser-log-return'       => 'Voltar ao formulario principal de Verificador de Usuarios',
+	'checkuser-log-userips'      => '$1 enderezos IPs obtidos para $2',
+	'checkuser-log-ipedits'      => '$1 edicións obtidas para $2',
+	'checkuser-log-ipusers'      => '$1 usuarios obtidos para $2',
+	'checkuser-log-ipedits-xff'  => '$1 edicións obtidas para XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 usuarios obtidos para XFF $2',
 );
 
 $messages['grc'] = array(
@@ -902,19 +908,29 @@ $messages['id'] = array(
 );
 
 /** Icelandic (Íslenska)
+ * @author S.Örvarr.S
  * @author SPQRobin
  * @author Spacebirdy
  * @author Jóna Þórunn
  */
 $messages['is'] = array(
-	'checkuser'              => 'Skoða notanda',
-	'group-checkuser'        => 'Athuga notendur',
-	'group-checkuser-member' => 'Athuga notanda',
-	'checkuser-reason'       => 'Ástæða',
-	'checkuser-target'       => 'Notandi eða IP',
-	'checkuser-search'       => 'Leita',
-	'checkuser-nomatch'      => 'Engar niðurstöður fundust.',
-	'checkuser-check'        => 'Athuga',
+	'checkuser'               => 'Skoða notanda',
+	'group-checkuser'         => 'Athuga notendur',
+	'group-checkuser-member'  => 'Athuga notanda',
+	'checkuser-reason'        => 'Ástæða',
+	'checkuser-showlog'       => 'Sýna skrá',
+	'checkuser-query'         => 'Sækja nýlegar breytingar',
+	'checkuser-target'        => 'Notandi eða vistfang',
+	'checkuser-users'         => 'Sækja notendur',
+	'checkuser-edits'         => 'Sækja breytingar eftir vistang',
+	'checkuser-ips'           => 'Sækja vistföng',
+	'checkuser-search'        => 'Leita',
+	'checkuser-nomatch'       => 'Engar niðurstöður fundust.',
+	'checkuser-check'         => 'Athuga',
+	'checkuser-nolog'         => 'Engin skrá fundin.',
+	'checkuser-blocked'       => 'Bannaður',
+	'checkuser-search-submit' => 'Leita',
+	'checkuser-log-subpage'   => 'Skrá',
 );
 
 /** Italian (Italiano)
@@ -1372,6 +1388,7 @@ $messages['pl'] = array(
 	'checkuser-blocked'          => 'Zablokowany',
 	'checkuser-too-many'         => 'Zbyt wiele wyników, proszę ogranicz CIDR. Użytych adresów IP jest (do 5000 posortowanych wg adresu):',
 	'checkuser-user-nonexistent' => 'Taki użytkownik nie istnieje.',
+	'checkuser-search-form'      => 'Szukaj wpisów w logu, dla których $1 jest $2',
 	'checkuser-search-submit'    => 'Szukaj',
 	'checkuser-search-initiator' => 'inicjator',
 	'checkuser-search-target'    => 'cel',
@@ -1740,6 +1757,8 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
  * @author Veeven
  */
 $messages['te'] = array(
+	'group-checkuser'         => 'చెక్‌యూజర్లు',
+	'group-checkuser-member'  => 'చెక్‌యూజరు',
 	'checkuser-reason'        => 'కారణం',
 	'checkuser-showlog'       => 'లాగ్ చూపించు',
 	'checkuser-edits'         => 'ఈ ఐపీ అడ్రస్సు నుండి చేసిన మార్పులను చూపించు',
@@ -1771,28 +1790,32 @@ $messages['to'] = array(
 
 /** Turkish (Türkçe)
  * @author SPQRobin
+ * @author Erkan Yilmaz
  * @author Karduelis
  * @author Dbl2010
  */
 $messages['tr'] = array(
-	'checkuser'               => 'IP denetçisi',
-	'group-checkuser'         => 'Denetçiler',
-	'group-checkuser-member'  => 'Denetçi',
-	'grouppage-checkuser'     => '{{ns:project}}:Denetçi',
-	'checkuser-reason'        => 'Sebep',
-	'checkuser-target'        => 'Kullanıcı veya IP',
-	'checkuser-search'        => 'Ara',
-	'checkuser-blocked'       => 'Engellendi',
-	'checkuser-search-submit' => 'Ara',
+	'checkuser'                  => 'IP denetçisi',
+	'group-checkuser'            => 'Denetçiler',
+	'group-checkuser-member'     => 'Denetçi',
+	'grouppage-checkuser'        => '{{ns:project}}:Denetçi',
+	'checkuser-reason'           => 'Sebep',
+	'checkuser-showlog'          => 'Logu göster',
+	'checkuser-target'           => 'Kullanıcı veya IP',
+	'checkuser-search'           => 'Ara',
+	'checkuser-check'            => 'Kontrol et',
+	'checkuser-blocked'          => 'Engellendi',
+	'checkuser-search-submit'    => 'Ara',
+	'checkuser-search-initiator' => 'Başlatan',
+	'checkuser-search-target'    => 'Hedef',
 );
 
 /** Vietnamese (Tiếng Việt)
  * @author Vinhtantran
+ * @author Minh Nguyen
  */
 $messages['vi'] = array(
-	'checkuser-summary'          => 'Công cụ này sẽ quét các thay đổi gần đây để lấy ra các IP được một thành viên sử dụng hoặc hiển thị dữ liệu sửa đổi/tài khoản của một IP.
-Các tài khoản và sửa đổi của một IP có thể được trích ra từ tiêu đề XFF bằng cách thêm vào IP "/xff". IPv4 (CIDR 16-32) và IPv6 (CIDR 64-128) đều được hỗ trợ.
-Không quá 5000 sửa đổi sẽ được trả về vì lý do hiệu suất. Hãy dùng công cụ này theo đúng quy định.',
+	'checkuser-summary'          => 'Công cụ này sẽ quét các thay đổi gần đây để lấy ra các IP được một thành viên sử dụng hoặc hiển thị dữ liệu sửa đổi/tài khoản của một IP. Các tài khoản và sửa đổi của một IP có thể được trích ra từ tiêu đề XFF bằng cách thêm vào IP “/xff”. IPv4 (CIDR 16-32) và IPv6 (CIDR 64-128) đều được hỗ trợ. Không quá 5000 sửa đổi sẽ được trả về vì lý do hiệu suất. Hãy dùng công cụ này theo đúng quy định.',
 	'checkuser-logcase'          => 'Tìm kiếm nhật trình có phân biệt chữ hoa chữ thường',
 	'checkuser'                  => 'Kiểm tra thành viên',
 	'group-checkuser'            => 'Kiểm tra thành viên',
