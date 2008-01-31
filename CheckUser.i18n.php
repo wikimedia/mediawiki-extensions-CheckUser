@@ -447,32 +447,46 @@ $messages['ext'] = array(
 	'checkuser-search'       => 'Landeal',
 );
 
-# فارسی (Huji)
+/** فارسی (فارسی)
+ * @author Huji
+ */
 $messages['fa'] = array(
-	'checkuser-summary'      => 'این ابزار تغییرات اخیر را برای به دست آوردن نشانی‌های اینترنتی (IP) استفاده شده توسط یک کاربر و یا تعیین ویرایش‌های انجام شده از طریق یک نشانی اینترنتی جستجو می‌کند.
+	'checkuser-summary'          => 'این ابزار تغییرات اخیر را برای به دست آوردن نشانی‌های اینترنتی (IP) استفاده شده توسط یک کاربر و یا تعیین ویرایش‌های انجام شده از طریق یک نشانی اینترنتی جستجو می‌کند.
 کاربرها و ویرایش‌های مرتبط با یک نشانی اینترنتی را می‌توان با توجه به اطلاعات سرآیند XFF (با افزودن «‏‎/xff» به انتهای نشانی IP) پیدا کرد.
 هر دو پروتکل IPv4 (معادل CIDR 16-32) و IPv6 (معادل CIDR 64-128) توسط این ابزار پشتیبانی می‌شوند.',
-	'checkuser-logcase'      => 'جستجوی سیاهه به کوچک یا بزرگ بودن حروف حساس است.',
-	'checkuser'              => 'بازرس کاربر',
-	'group-checkuser'        => 'بازرسان کاربر',
-	'group-checkuser-member' => 'بازرس کاربر',
-	'grouppage-checkuser'    => '{{ns:project}}:بازرسی کاربر',
-	'checkuser-reason'       => 'دلیل',
-	'checkuser-showlog'      => 'نمایش سیاهه',
-	'checkuser-log'          => 'سیاهه بازرسی کاربر',
-	'checkuser-query'        => 'جستجوی تغییرات اخیر',
-	'checkuser-target'       => 'کاربر یا نشانی اینترنتی',
-	'checkuser-users'        => 'فهرست کردن کاربرها',
-	'checkuser-edits'        => 'نمایش ویرایش‌های مربوط به این نشانی اینترنتی',
-	'checkuser-ips'          => 'فهرست کردن نشانی‌های اینترنتی',
-	'checkuser-search'       => 'جستجو',
-	'checkuser-empty'        => 'سیاهه خالی است.',
-	'checkuser-nomatch'      => 'موردی که مطابقت داشته باشد پیدا نشد.',
-	'checkuser-check'        => 'بررسی',
-	'checkuser-log-fail'     => 'امکان افزودن اطلاعات به سیاهه وجود ندارد',
-	'checkuser-nolog'        => 'پرونده سیاهه پیدا نشد.',
-	'checkuser-blocked'      => 'دسترسی قطع شد',
-	'checkuser-too-many'     => 'تعداد نتایج بسیار زیاد است. لطفاً CIDR را باریک‌تر کنید. در زیر نشانی‌های اینترنتی استفاده شده را می‌بینید (حداثر ۵۰۰۰ مورد، به ترتیب نشانی):',
+	'checkuser-logcase'          => 'جستجوی سیاهه به کوچک یا بزرگ بودن حروف حساس است.',
+	'checkuser'                  => 'بازرسی کاربر',
+	'group-checkuser'            => 'بازرسان کاربر',
+	'group-checkuser-member'     => 'بازرس کاربر',
+	'grouppage-checkuser'        => '{{ns:project}}:بازرسی کاربر',
+	'checkuser-reason'           => 'دلیل',
+	'checkuser-showlog'          => 'نمایش سیاهه',
+	'checkuser-log'              => 'سیاهه بازرسی کاربر',
+	'checkuser-query'            => 'جستجوی تغییرات اخیر',
+	'checkuser-target'           => 'کاربر یا نشانی اینترنتی',
+	'checkuser-users'            => 'فهرست کردن کاربرها',
+	'checkuser-edits'            => 'نمایش ویرایش‌های مربوط به این نشانی اینترنتی',
+	'checkuser-ips'              => 'فهرست کردن نشانی‌های اینترنتی',
+	'checkuser-search'           => 'جستجو',
+	'checkuser-empty'            => 'سیاهه خالی است.',
+	'checkuser-nomatch'          => 'موردی که مطابقت داشته باشد پیدا نشد.',
+	'checkuser-check'            => 'بررسی',
+	'checkuser-log-fail'         => 'امکان افزودن اطلاعات به سیاهه وجود ندارد',
+	'checkuser-nolog'            => 'پرونده سیاهه پیدا نشد.',
+	'checkuser-blocked'          => 'دسترسی قطع شد',
+	'checkuser-too-many'         => 'تعداد نتایج بسیار زیاد است. لطفاً CIDR را باریک‌تر کنید. در زیر نشانی‌های اینترنتی استفاده شده را می‌بینید (حداثر ۵۰۰۰ مورد، به ترتیب نشانی):',
+	'checkuser-user-nonexistent' => 'کاربر مورد نظر وجود ندارد.',
+	'checkuser-search-form'      => 'پیدا کردن مواردی در سیاهه‌ها که $1 همان $2 است',
+	'checkuser-search-submit'    => 'جستجو',
+	'checkuser-search-initiator' => 'آغازگر',
+	'checkuser-search-target'    => 'هدف',
+	'checkuser-log-subpage'      => 'سیاهه',
+	'checkuser-log-return'       => 'بازگشت به فرم اصلی بازرسی کاربر',
+	'checkuser-log-userips'      => '$1 نشانی‌های اینترنتی $2 را گرفت',
+	'checkuser-log-ipedits'      => '$1 ویرایش‌های $2 را گرفت',
+	'checkuser-log-ipusers'      => '$1 کاربرهای مربوط به $2 را گرفت',
+	'checkuser-log-ipedits-xff'  => '$1 ویرایش‌های XFF $2 را گرفت',
+	'checkuser-log-ipusers-xff'  => '$1 کاربرهای مربوط به XFF $2 را گرفت',
 
 );
 
