@@ -389,12 +389,16 @@ $messages['de'] = array(
 );
 
 /** Greek (Ελληνικά)
+ * @author ZaDiak
  * @author Consta
  */
 $messages['el'] = array(
-	'checkuser-reason' => 'Λόγος',
-	'checkuser-target' => 'Χρήστης ή IP',
-	'checkuser-search' => 'Αναζήτηση',
+	'checkuser-reason'        => 'Λόγος',
+	'checkuser-target'        => 'Χρήστης ή IP',
+	'checkuser-search'        => 'Αναζήτηση',
+	'checkuser-nomatch'       => 'Δεν βρέθηκαν σχετικές σελίδες.',
+	'checkuser-search-submit' => 'Αναζήτηση',
+	'checkuser-search-target' => 'στόχος',
 );
 
 /** Esperanto (Esperanto)
