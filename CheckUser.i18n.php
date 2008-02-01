@@ -1127,6 +1127,18 @@ $messages['kn'] = array(
 	'checkuser'              => 'ಸದಸ್ಯನನ್ನು ಚೆಕ್ ಮಾಡಿ',
 );
 
+/** Korean (한국어)
+ * @author Klutzy
+ */
+$messages['ko'] = array(
+	'checkuser'              => '체크유저',
+	'group-checkuser'        => '체크유저',
+	'group-checkuser-member' => '체크유저',
+	'grouppage-checkuser'    => '{{ns:project}}:체크유저',
+	'checkuser-reason'       => '이유',
+	'checkuser-search'       => '찾기',
+);
+
 $messages['la'] = array(
 	'checkuser-reason'       => 'Causa',
 	'checkuser-search'       => 'Quaerere',
@@ -1807,8 +1819,8 @@ $messages['to'] = array(
 );
 
 /** Turkish (Türkçe)
- * @author SPQRobin
  * @author Erkan Yilmaz
+ * @author SPQRobin
  * @author Karduelis
  * @author Dbl2010
  */
@@ -1820,6 +1832,8 @@ $messages['tr'] = array(
 	'checkuser-reason'           => 'Sebep',
 	'checkuser-showlog'          => 'Logu göster',
 	'checkuser-target'           => 'Kullanıcı veya IP',
+	'checkuser-users'            => 'Kullanıcıları bulup getir',
+	'checkuser-ips'              => 'IPleri bulup getir',
 	'checkuser-search'           => 'Ara',
 	'checkuser-check'            => 'Kontrol et',
 	'checkuser-blocked'          => 'Engellendi',
