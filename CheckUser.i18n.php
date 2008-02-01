@@ -1566,11 +1566,11 @@ $messages['ru'] = array(
 	'checkuser-search-target'    => 'цель',
 	'checkuser-log-subpage'      => 'Журнал',
 	'checkuser-log-return'       => 'Возврат к главной форме проверки участников',
-	'checkuser-log-userips'      => '$1 имеет IP адреса для $2',
-	'checkuser-log-ipedits'      => '$1 имеет правки для $2',
-	'checkuser-log-ipusers'      => '$1 имеет учётные записи для $2',
-	'checkuser-log-ipedits-xff'  => '$1 имеет правки для XFF $2',
-	'checkuser-log-ipusers-xff'  => '$1 имеет учётные записи для XFF $2',
+	'checkuser-log-userips'      => '$1 получил IP адреса для $2',
+	'checkuser-log-ipedits'      => '$1 получил правки для $2',
+	'checkuser-log-ipusers'      => '$1 получил учётные записи для $2',
+	'checkuser-log-ipedits-xff'  => '$1 получил правки для XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 получил учётные записи для XFF $2',
 );
 
 /** Yakut (Саха тыла)
