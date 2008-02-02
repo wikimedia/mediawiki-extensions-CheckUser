@@ -1161,6 +1161,7 @@ $messages['lb'] = array(
 	'checkuser-blocked'          => 'Gespaart',
 	'checkuser-user-nonexistent' => 'De gesichte Benotzer gëtt et net.',
 	'checkuser-search-submit'    => 'Sichen',
+	'checkuser-log-subpage'      => 'Lëscht',
 );
 
 /** Limburgish (Limburgs)
