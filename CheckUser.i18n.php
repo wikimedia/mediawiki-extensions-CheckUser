@@ -1292,6 +1292,7 @@ $messages['nl'] = array(
 	'checkuser-summary'          => 'Dit hulpmiddel bekijkt recente wijzigingen om IP-adressen die een gebruiker heeft gebruikt te achterhalen of toont de bewerkings- en gebruikersgegegevens voor een IP-adres.
 	Gebruikers en bewerkingen van een IP-adres van een client kunnen achterhaald worden via XFF-headers door "/xff" achter het IP-adres toe te voegen. IPv4 (CIDR 16-32) en IPv6 (CIDR 64-128) worden ondersteund.
 	Om prestatieredenen worden niet meer dan 5.000 bewerkingen getoond. Gebruik dit hulpmiddel volgens het vastgestelde beleid.',
+	'checkuser-desc'             => 'Laat geautoriseerde gebruikers IP-adressen en andere informatie van gebruikers achterhalen',
 	'checkuser-logcase'          => 'Zoeken in het logboek is hoofdlettergevoelig.',
 	'checkuser'                  => 'Gebruiker controleren',
 	'group-checkuser'            => 'Controlegebruikers',
@@ -1331,32 +1332,35 @@ $messages['nl'] = array(
  * @author Jon Harald Søby
  */
 $messages['no'] = array(
-	'checkuser-summary'      => 'Dette verktøyet går gjennom siste endringer for å hente IP-ene som er brukt av en bruker, eller viser redigerings- eller brukerinformasjonen for en IP.
+	'checkuser-summary'       => 'Dette verktøyet går gjennom siste endringer for å hente IP-ene som er brukt av en bruker, eller viser redigerings- eller brukerinformasjonen for en IP.
 
 Brukere og redigeringer kan hentes med en XFF-IP ved å legge til «/xff» bak IP-en. IPv4 (CIDR 16-32) og IPv6 (CIDR 64-128) støttes.
 
 Av ytelsesgrunner vises maksimalt 5000 redigeringer. Bruk dette verktøyet i samsvar med retningslinjer.',
-	'checkuser-logcase'      => 'Loggsøket er sensitivt for store/små bokstaver.',
-	'checkuser'              => 'Brukersjekk',
-	'group-checkuser'        => 'IP-kontrollører',
-	'group-checkuser-member' => 'IP-kontrollør',
-	'grouppage-checkuser'    => '{{ns:project}}:IP-kontrollør',
-	'checkuser-reason'       => 'Grunn',
-	'checkuser-showlog'      => 'Vis logg',
-	'checkuser-log'          => 'Brukersjekkingslogg',
-	'checkuser-query'        => 'Søk i siste endringer',
-	'checkuser-target'       => 'Bruker eller IP',
-	'checkuser-users'        => 'Få brukere',
-	'checkuser-edits'        => 'Få redigeringer fra IP',
-	'checkuser-ips'          => 'Få IP-er',
-	'checkuser-search'       => 'Søk',
-	'checkuser-empty'        => 'Loggen inneholder ingen elementer.',
-	'checkuser-nomatch'      => 'Ingen treff.',
-	'checkuser-check'        => 'Sjekk',
-	'checkuser-log-fail'     => 'Kunne ikke legge til loggelement.',
-	'checkuser-nolog'        => 'Ingen loggfil funnet.',
-	'checkuser-blocked'      => 'Blokkert',
-	'checkuser-too-many'     => 'For mange resultater, vennligst innskrenk CIDR. Her er de brukte IP-ene (maks 5000, sortert etter adresse):',
+	'checkuser-logcase'       => 'Loggsøket er sensitivt for store/små bokstaver.',
+	'checkuser'               => 'Brukersjekk',
+	'group-checkuser'         => 'IP-kontrollører',
+	'group-checkuser-member'  => 'IP-kontrollør',
+	'grouppage-checkuser'     => '{{ns:project}}:IP-kontrollør',
+	'checkuser-reason'        => 'Grunn',
+	'checkuser-showlog'       => 'Vis logg',
+	'checkuser-log'           => 'Brukersjekkingslogg',
+	'checkuser-query'         => 'Søk i siste endringer',
+	'checkuser-target'        => 'Bruker eller IP',
+	'checkuser-users'         => 'Få brukere',
+	'checkuser-edits'         => 'Få redigeringer fra IP',
+	'checkuser-ips'           => 'Få IP-er',
+	'checkuser-search'        => 'Søk',
+	'checkuser-empty'         => 'Loggen inneholder ingen elementer.',
+	'checkuser-nomatch'       => 'Ingen treff.',
+	'checkuser-check'         => 'Sjekk',
+	'checkuser-log-fail'      => 'Kunne ikke legge til loggelement.',
+	'checkuser-nolog'         => 'Ingen loggfil funnet.',
+	'checkuser-blocked'       => 'Blokkert',
+	'checkuser-too-many'      => 'For mange resultater, vennligst innskrenk CIDR. Her er de brukte IP-ene (maks 5000, sortert etter adresse):',
+	'checkuser-search-submit' => 'Søk',
+	'checkuser-search-target' => 'mål',
+	'checkuser-log-subpage'   => 'Logg',
 );
 
 /** Occitan (Occitan)
@@ -1407,6 +1411,16 @@ $messages['pag'] = array(
 	'checkuser-target' => 'Manag-usar odino IP',
 	'checkuser-users'  => 'Alaen so manag-usar',
 	'checkuser-search' => 'Anapen',
+);
+
+/** Pampanga (Kapampangan)
+ * @author SPQRobin
+ */
+$messages['pam'] = array(
+	'checkuser'         => 'Surian ya ing gagamit',
+	'checkuser-reason'  => 'Sangkan',
+	'checkuser-showlog' => 'Pakit ya ing log',
+	'checkuser-search'  => 'Manintun',
 );
 
 /** Polish (Polski)
