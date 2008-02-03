@@ -106,30 +106,46 @@ $messages['ar'] = array(
 );
 
 /** Asturian (Asturianu)
- * @author SPQRobin
  * @author Esbardu
+ * @author SPQRobin
  */
 $messages['ast'] = array(
-	'checkuser-summary'  => "Esta ferramienta escanea los cambeos recientes pa obtener les IP usaes por un usuariu o p'amosar les ediciones o usuarios d'una IP.
+	'checkuser-summary'          => "Esta ferramienta escanea los cambeos recientes pa obtener les IP usaes por un usuariu o p'amosar les ediciones o usuarios d'una IP.
 	Los usuarios y ediciones correspondientes a una IP puen obtenese per aciu de les cabeceres XFF añadiendo depués de la IP \\\"/xff\\\". Puen usase los protocolos IPv4 (CIDR 16-32) y IPv6 (CIDR 64-128).
 	Por razones de rendimientu nun s'amosarán más de 5.000 ediciones. Emplega esta ferramienta  acordies cola política d'usu.",
-	'checkuser-logcase'  => 'La busca nel rexistru distingue ente mayúscules y minúscules.',
-	'checkuser'          => "Comprobador d'usuarios",
-	'checkuser-reason'   => 'Razón',
-	'checkuser-showlog'  => 'Amosar el rexistru',
-	'checkuser-log'      => "Rexistru de comprobadores d'usuarios",
-	'checkuser-query'    => 'Buscar nos cambeos recientes',
-	'checkuser-target'   => 'Usuariu o IP',
-	'checkuser-users'    => 'Obtener usuarios',
-	'checkuser-edits'    => 'Obtener les ediciones de la IP',
-	'checkuser-ips'      => 'Obtener les IP',
-	'checkuser-search'   => 'Buscar',
-	'checkuser-empty'    => 'El rexistru nun tien nengún elementu.',
-	'checkuser-nomatch'  => "Nun s'atoparon coincidencies.",
-	'checkuser-check'    => 'Comprobar',
-	'checkuser-log-fail' => 'Nun se pue añader la entrada nel rexistru',
-	'checkuser-nolog'    => "Nun s'atopó l'archivu del rexistru.",
-	'checkuser-blocked'  => 'Bloquiáu',
+	'checkuser-logcase'          => 'La busca nel rexistru distingue ente mayúscules y minúscules.',
+	'checkuser'                  => "Comprobador d'usuariu",
+	'group-checkuser'            => "Comprobadores d'usuariu",
+	'group-checkuser-member'     => "Comprobador d'usuariu",
+	'grouppage-checkuser'        => "{{ns:project}}:Comprobador d'usuariu",
+	'checkuser-reason'           => 'Razón',
+	'checkuser-showlog'          => 'Amosar el rexistru',
+	'checkuser-log'              => "Rexistru de comprobadores d'usuariu",
+	'checkuser-query'            => 'Buscar nos cambeos recientes',
+	'checkuser-target'           => 'Usuariu o IP',
+	'checkuser-users'            => 'Obtener usuarios',
+	'checkuser-edits'            => 'Obtener les ediciones de la IP',
+	'checkuser-ips'              => 'Obtener les IP',
+	'checkuser-search'           => 'Buscar',
+	'checkuser-empty'            => 'El rexistru nun tien nengún elementu.',
+	'checkuser-nomatch'          => "Nun s'atoparon coincidencies.",
+	'checkuser-check'            => 'Comprobar',
+	'checkuser-log-fail'         => 'Nun se pue añader la entrada nel rexistru',
+	'checkuser-nolog'            => "Nun s'atopó l'archivu del rexistru.",
+	'checkuser-blocked'          => 'Bloquiáu',
+	'checkuser-too-many'         => 'Demasiaos resultaos, por favor mengua la CIDR. Estes son les IP usaes (5.000 como máximo, ordenaes por direición):',
+	'checkuser-user-nonexistent' => "L'usuariu especificáu nun esiste.",
+	'checkuser-search-form'      => 'Atopar les entraes de rexistru onde $1 ye $2',
+	'checkuser-search-submit'    => 'Buscar',
+	'checkuser-search-initiator' => 'aniciador',
+	'checkuser-search-target'    => 'oxetivu',
+	'checkuser-log-subpage'      => 'Rexistru',
+	'checkuser-log-return'       => "Volver al formulariu principal de comprobador d'usuariu",
+	'checkuser-log-userips'      => '$1 obtuvo les IP pa $2',
+	'checkuser-log-ipedits'      => '$1 obtuvo les ediciones pa $2',
+	'checkuser-log-ipusers'      => '$1 obtuvo los usuarios pa $2',
+	'checkuser-log-ipedits-xff'  => '41 obtuvo les ediciones pa XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 obtuvo los usuarios pa XFF $2',
 );
 
 /** Kotava (Kotava)
@@ -1625,6 +1641,7 @@ $messages['sah'] = array(
 	'checkuser-log-ipedits'      => '$1 манна анаан $2 көннөрүүлэрдээх',
 	'checkuser-log-ipusers'      => '$1 манна анаан $2 ааттардаах (учётные записи)',
 	'checkuser-log-ipedits-xff'  => '$1 манна анаан XFF $2 көннөрүүлэрдээх',
+	'checkuser-log-ipusers-xff'  => '$1 кыттаачылары ылбыт (для XFF $2)',
 );
 
 /** Slovak (Slovenčina)
@@ -1792,6 +1809,7 @@ $messages['te'] = array(
 	'group-checkuser-member'  => 'చెక్‌యూజరు',
 	'checkuser-reason'        => 'కారణం',
 	'checkuser-showlog'       => 'లాగ్ చూపించు',
+	'checkuser-target'        => 'వాడుకరి లేదా ఐపీ',
 	'checkuser-edits'         => 'ఈ ఐపీ అడ్రస్సు నుండి చేసిన మార్పులను చూపించు',
 	'checkuser-search'        => 'వెతుకు',
 	'checkuser-nolog'         => 'ఏ లాగ్ ఫైలు కనపడలేదు',
@@ -1808,6 +1826,14 @@ $messages['tet'] = array(
 	'checkuser-edits'  => 'Edita husi IP',
 	'checkuser-ips'    => 'IP sira',
 	'checkuser-search' => 'Buka',
+);
+
+/** Tajik (Тоҷикӣ)
+ * @author Ibrahim
+ */
+$messages['tg'] = array(
+	'checkuser-search'        => 'Ҷустуҷӯ',
+	'checkuser-search-submit' => 'Ҷустуҷӯ',
 );
 
 /** Tonga (faka-Tonga)
