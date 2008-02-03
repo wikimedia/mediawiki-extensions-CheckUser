@@ -14,7 +14,9 @@ $wgExtensionCredits['specialpage'][] = array(
 	'author' => 'Tim Starling, Aaron Schulz',
 	'name' => 'CheckUser',
 	'url' => 'http://www.mediawiki.org/wiki/Extension:CheckUser',
-	'description' => 'Grants users with the appropriate permission the ability to check user\'s IP addresses and other information'
+	'author' => 'Tim Starling, Aaron Schulz',
+	'description' => 'Grants users with the appropriate permission the ability to check user\'s IP addresses and other information',
+	'descriptionmsg'=> 'checkuser-desc',	
 );
 
 $wgAvailableRights[] = 'checkuser';

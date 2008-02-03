@@ -11,6 +11,7 @@ $messages['en'] = array(
 	'checkuser-summary'      => 'This tool scans recent changes to retrieve the IPs used by a user or show the edit/user data for an IP.
 	Users and edits by a client IP can be retrieved via XFF headers by appending the IP with "/xff". IPv4 (CIDR 16-32) and IPv6 (CIDR 64-128) are supported.
 	No more than 5000 edits will be returned for performance reasons. Use this in accordance with policy.',
+	'checkuser-desc'         => 'Grants users with the appropriate permission the ability to check user\'s IP addresses and other information',
 	'checkuser-logcase'      => 'The log search is case sensitive.',
 	'checkuser'              => 'Check user',
 	'group-checkuser'        => 'Check users',
@@ -557,6 +558,7 @@ $messages['fo'] = array(
  */
 $messages['fr'] = array(
 	'checkuser-summary'          => 'Cet outil parcourt la liste des changements récents à la recherche de l’adresse IP employée par un utilisateur, affiche toutes les éditions d’une adresse IP (même enregistrée), ou liste les comptes utilisés par une adresse IP. Les comptes et les modifications peuvent être trouvés avec une IP XFF si elle finit avec « /xff ». Il est possible d’utiliser les protocoles IPv4 (CIDR 16-32) et IPv6 (CIDR 64-128). Le nombre d’éditions affichables est limité à {{formatnum:5000}} pour des questions de performance du serveur. Veuillez utiliser cet outil dans les limites de la charte d’utilisation.',
+	'checkuser-desc'         => 'Donne la possibilité aux personnes dûment autorisées de vérifier les adresses IP des utilisateurs ainsi que d’autres informations les concernant',
 	'checkuser-logcase'          => 'La recherche dans le journal est sensible à la casse.',
 	'checkuser'                  => 'Vérificateur d’utilisateur',
 	'group-checkuser'            => 'Vérificateurs d’utilisateur',
