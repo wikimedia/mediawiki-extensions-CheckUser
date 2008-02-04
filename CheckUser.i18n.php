@@ -114,6 +114,7 @@ $messages['ast'] = array(
 	'checkuser-summary'          => "Esta ferramienta escanea los cambeos recientes pa obtener les IP usaes por un usuariu o p'amosar les ediciones o usuarios d'una IP.
 	Los usuarios y ediciones correspondientes a una IP puen obtenese per aciu de les cabeceres XFF añadiendo depués de la IP \\\"/xff\\\". Puen usase los protocolos IPv4 (CIDR 16-32) y IPv6 (CIDR 64-128).
 	Por razones de rendimientu nun s'amosarán más de 5.000 ediciones. Emplega esta ferramienta  acordies cola política d'usu.",
+	'checkuser-desc'             => "Permite a los usuarios colos permisos afechiscos la posibilidá de comprobar les direiciones IP d'usuarios y otres informaciones",
 	'checkuser-logcase'          => 'La busca nel rexistru distingue ente mayúscules y minúscules.',
 	'checkuser'                  => "Comprobador d'usuariu",
 	'group-checkuser'            => "Comprobadores d'usuariu",
@@ -243,6 +244,11 @@ $messages['bn'] = array(
 	'checkuser-search-submit'    => 'অনুসন্ধান',
 	'checkuser-search-target'    => 'লক্ষ্য',
 	'checkuser-log-subpage'      => 'লগ',
+	'checkuser-log-userips'      => '$2 এর জন্য $1 আইপি  সমূহ পেয়েছে',
+	'checkuser-log-ipedits'      => '$2 এর জন্য $1 সম্পাদনাসমূহ পেয়েছে',
+	'checkuser-log-ipusers'      => '$2 এর জন্য $1 ব্যবহারকারীসমূহ পেয়েছে',
+	'checkuser-log-ipedits-xff'  => '$2 এর জন্য XFF $1 সম্পাদনাসমূহ পেয়েছে',
+	'checkuser-log-ipusers-xff'  => '$2 এর জন্য XFF $1 ব্যবহারকারীসমূহ পেয়েছে',
 );
 
 /** Breton (Brezhoneg)
@@ -823,6 +829,7 @@ $messages['hr'] = array(
 $messages['hsb'] = array(
 	'checkuser-summary'          => 'Tutón nastroj přepytuje aktualne změny, zo by IP-adresy wužiwarja zwěsćił abo změny abo wužiwarske daty za IP pokazał.
 Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěšo "/xff" na IP-adresu. IPv4 (CIDR 16-32) a IPv6 (CIDR 64-128) so podpěrujetej.',
+	'checkuser-desc'             => 'Dawa wužiwarjam z trěbnym prawom móžnosć IP-adresy a druhe informacije wužiwarja kontrolować',
 	'checkuser-logcase'          => 'Pytanje w protokolu rozeznawa mjez wulko- a małopisanjom.',
 	'checkuser'                  => 'Wužiwarja kontrolować',
 	'group-checkuser'            => 'Kontrolerojo',
@@ -1363,6 +1370,13 @@ Av ytelsesgrunner vises maksimalt 5000 redigeringer. Bruk dette verktøyet i sam
 	'checkuser-log-subpage'   => 'Logg',
 );
 
+/** Novial (Novial)
+ * @author MF-Warburg
+ */
+$messages['nov'] = array(
+	'checkuser-search' => 'Sercha',
+);
+
 /** Occitan (Occitan)
  * @author Cedric31
  */
@@ -1495,6 +1509,7 @@ $messages['pt'] = array(
 	'checkuser-summary'          => 'Esta ferramenta varre as Mudanças recentes para obter os endereços de IP de um utilizador ou para exibir os dados de edições/utilizadores para um IP.
 	Utilizadores edições podem ser obtidos por um IP XFF colocando-se "/xff" no final do endereço. São suportados endereços IPv4 (CIDR 16-32) e IPv6 (CIDR 64-128).
 	Não serão retornadas mais de 5000 edições por motivos de desempenho. O uso desta ferramenta deverá estar de acordo com as políticas.',
+	'checkuser-desc'             => 'Concede a utilizadores com a permissão apropriada a possibilidade de verificar os endereços IP de um utilizador e outra informação',
 	'checkuser-logcase'          => 'As buscas nos registos são sensíveis a letras maiúsculas ou minúsculas.',
 	'checkuser'                  => 'Verificar utilizador',
 	'group-checkuser'            => 'CheckUser',
@@ -1668,6 +1683,7 @@ $messages['sk'] = array(
 	'checkuser-summary'          => 'Tento nástroj kontroluje Posledné úpravy, aby získal IP adresy používané používateľom alebo zobrazil úpravy/používateľské dáta IP adresy.
 	Používateľov a úpravy je možné získať s XFF IP pridaním „/xff“ k IP. Sú podporované IPv4 (CIDR 16-32) a IPv6 (CIDR 64-128).
 	Z dôvodov výkonnosti nebude vrátených viac ako 5000 úprav. Túto funkciu využívajte len v súlade s platnou politikou.',
+	'checkuser-desc'             => 'Dáva používateľom s príslušným oprávnením možnosť overovať IP adresu a iné informácie o používateľovi',
 	'checkuser-logcase'          => 'Vyhľadávanie v zázname zohľadňuje veľkosť písmen.',
 	'checkuser'                  => 'Overiť používateľa',
 	'group-checkuser'            => 'Revízor',
