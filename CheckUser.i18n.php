@@ -370,11 +370,15 @@ Z výkonnostních důvodů lze zobrazit maximálně 5000 editací. Používejte 
 	'checkuser-log-ipusers-xff'  => '$1 zjišťuje uživatele s XFF $2',
 );
 
+/** German (Deutsch)
+ * @author Raimond Spekking
+ */
 $messages['de'] = array(
 	'checkuser-summary'	     => 'Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers
 	bzw. die Bearbeitungen/Benutzernamen für eine IP-Adresse zu ermitteln. Benutzer und Bearbeitungen einer IP-Adresse können auch nach Informationen aus den XFF-Headern
 	abgefragt werden, indem der IP-Adresse ein „/xff“ angehängt wird. IPv4 (CIDR 16-32) und IPv6 (CIDR 64-128) werden unterstützt.
 	Aus Performance-Gründen werden maximal 5000 Bearbeitungen ausgegeben. Benutze CheckUser ausschließlich in Übereinstimmung mit den Datenschutzrichtlinien.',
+	'checkuser-desc'             => 'Erlaubt Benutzern mit den entsprechenden Rechten die IP-Adressen sowie weitere Informationen von Benutzern zu prüfen',
 	'checkuser-logcase'	     => 'Die Suche im Logbuch unterscheidet zwischen Groß- und Kleinschreibung.',
 	'checkuser'                  => 'Checkuser',
 	'group-checkuser'            => 'Checkusers',
