@@ -275,6 +275,7 @@ $messages['ca'] = array(
 	'checkuser-summary'          => "Aquest instrument efectua una cerca als canvis recents per a comprovar les adreces IP fetes servir per un usuari o per a mostrar les edicions d'una certa adreça IP.
 Les edicions i usuaris d'un client IP es poden obtenir via capçaleres XFF afegint /xff al final de la IP. Tant les adreces IPv4 (CIDR 16-32) com les IPv6 (CIDR 64-128) són admeses.
 Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Recordeu que aquesta eina només es pot usar d'acord amb les polítiques corresponents i amb respecte a la legislació sobre privacitat.",
+	'checkuser-desc'             => "Permet als usuaris amb els permisos adients l'habilitat de comprovar les adreces IP que fan servir els usuaris enregistrats.",
 	'checkuser-logcase'          => 'Les majúscules es tracten de manera diferenciada en la cerca dins el registre.',
 	'checkuser'                  => "Comprova l'usuari",
 	'group-checkuser'            => 'Comprova els usuaris',
@@ -1200,6 +1201,7 @@ $messages['li'] = array(
 	'checkuser-summary'          => "Dit hölpmiddel bekiek recènte verangeringe óm IP-adresse die 'ne gebroeker haet gebroek te achterhaole of toeantj de bewèrkings- en gebroekersgegaeves veur 'n IP-adres.
 Gebroekers en bewèrkinge van 'n IP-adres van 'ne cliënt kinne achterhaoldj waere via XFF-headers door \"/xff\" achter 't IP-adres toe te voege. IPv4 (CIDR 16-32) en IPv6 (CIDR 64-128) waere óngersteundj.
 Óm prestatiereej waere neet mieë es 5.000 bewèrkinge getoeantj. Gebroek dit hölpmiddel volges 't vasgesteldje beleid.",
+	'checkuser-desc'             => 'Läöt geautproseerde gebroekers IP-adresse en angere informatie van gebroekers achterhaole',
 	'checkuser-logcase'          => "Zeuke in 't logbook is huidlèttergeveulig.",
 	'checkuser'                  => 'Konterleer gebroeker',
 	'group-checkuser'            => 'Gebroekerkonterleerders',
@@ -1612,6 +1614,7 @@ $messages['ru'] = array(
 	'checkuser-summary'          => "Данный инструмент может быть использован, чтобы получить IP-адреса, использовавшиеся участником, либо чтобы показать правки/участников, работавших с IP-адреса.
 	Правки и пользователи, которые правили с опрделеннного IP-адреса, указанного в X-Forwarded-For, можно получить, добавив префикс <code>/xff</code> к IP-адресу. Поддерживаемые версии IP: 4 (CIDR 16—32) и 6 (CIDR 64—128).
 	Из соображений производительности будут показаны только первые 5000 правок. Используйте эту страницу '''только в соответствии с правилами'''.",
+	'checkuser-desc'             => 'Предоставление возможности проверять IP-адреса и другую информацию участников',
 	'checkuser-logcase'          => 'Поиск по журналу чувствителен к регистру.',
 	'checkuser'                  => 'Проверить участника',
 	'group-checkuser'            => 'Проверяющие участников',
@@ -1654,6 +1657,7 @@ $messages['sah'] = array(
 	'checkuser-summary'          => "Бу үстүрүмүөнү кыттааччы IP-ларын көрөргө, эбэтэр IP-аадырыһы туһаммыт хас да кыттааччы уларытыыларын көрөргө туттуохха сөп.
 Биир IP-аадырыстан оҥоһуллубут көннөрүүлэри, эбэтэр ону туһаммыт X-Forwarded-For ыйыллыбыт кыттааччылары көрөргө, бу префиксы IP-га туруоран биэр: <code>/xff</code>. Поддерживаемые версии IP: 4 (CIDR 16—32) и 6 (CIDR 64—128).
 Систиэмэни ноҕуруускалаамаары бастакы 5000 көннөрүү эрэ көрдөрүллүөҕэ. Бу сирэйи '''сиэрдээхтик''' тутун.",
+	'checkuser-desc'             => 'Кыттаачылар IP-ларын уонна кинилэр тустарынан атын сибидиэнньэлэри көрөр кыаҕы биэрии.',
 	'checkuser-logcase'          => 'Сурунаалга көрдөөһүн улахан/кыра буукубалары араарар.',
 	'checkuser'                  => 'Кыттааччыны бэрэбиэркэлээ',
 	'group-checkuser'            => 'Кыттааччылары бэрэбиэркэлээччилэр',
