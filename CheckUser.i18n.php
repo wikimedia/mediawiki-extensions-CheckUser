@@ -55,8 +55,14 @@ $messages['qqq'] = array(
 	'checkuser' => 'Check user extension. The name of the special page were checkusers can check the IP addresses of users. The message is used in the list of special pages, and at the top of Special:Checkuser.',
 );
 
+/** Afrikaans (Afrikaans)
+ * @author SPQRobin
+ */
 $messages['af'] = array(
-	'checkuser-search'       => 'Soek',
+	'checkuser-showlog'       => 'Wys logboek',
+	'checkuser-search'        => 'Soek',
+	'checkuser-search-submit' => 'Soek',
+	'checkuser-log-subpage'   => 'Logboek',
 );
 
 $messages['ang'] = array(
@@ -188,6 +194,7 @@ $messages['bg'] = array(
 	'checkuser-summary'          => 'Този инструмент сканира последните промени и извлича IP адресите, използвани от потребител или показва информацията за редакциите/потребителя за посоченото IP.
 	Потребители и редакции по клиентско IP могат да бъдат извлечени чрез XFF headers като се добави IP с "/xff". Поддържат се IPv4 (CIDR 16-32) и IPv6 (CIDR 64-128).
 	От съображения, свързани с производителността на уикито, ще бъдат показани не повече от 5000 редакции. Използвайте инструмента съобразно установената политика.',
+	'checkuser-desc'             => 'Предоставя на потребители с подходящите права възможност за проверка на потребителски IP адреси и друга информация',
 	'checkuser-logcase'          => 'Търсенето в дневника различава главни от малки букви.',
 	'checkuser'                  => 'Проверяване на потребител',
 	'group-checkuser'            => 'Проверяващи',
@@ -278,9 +285,9 @@ Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Reco
 	'checkuser-desc'             => "Permet als usuaris amb els permisos adients l'habilitat de comprovar les adreces IP que fan servir els usuaris enregistrats.",
 	'checkuser-logcase'          => 'Les majúscules es tracten de manera diferenciada en la cerca dins el registre.',
 	'checkuser'                  => "Comprova l'usuari",
-	'group-checkuser'            => 'Comprova els usuaris',
-	'group-checkuser-member'     => "Comprova l'usuari",
-	'grouppage-checkuser'        => "{{ns:project}}:Comprova l'usuari",
+	'group-checkuser'            => 'Checkusers',
+	'group-checkuser-member'     => 'CheckUser',
+	'grouppage-checkuser'        => '{{ns:project}}:Checkuser',
 	'checkuser-reason'           => 'Motiu',
 	'checkuser-showlog'          => 'Mostra registre',
 	'checkuser-log'              => 'Registre de Checkuser',
@@ -635,6 +642,7 @@ $messages['frp'] = array(
 	'checkuser-summary'          => 'Ceti outil parcôrt la lista des dèrriérs changements a la rechèrche de l’adrèce IP empleyê per un utilisator, afiche totes les èdicions d’una adrèce IP (méma enregistrâ), ou ben liste los comptos utilisâs per una adrèce IP.
 	Los comptos et les modificacions pôvont étre trovâs avouéc una IP XFF se sè chavone avouéc « /xff ». O est possiblo d’utilisar los protocolos IPv4 (CIDR 16-32) et IPv6 (CIDR 64-128).
 	Lo nombro d’èdicions afichâbles est limitâ a {{formatnum:5000}} por des quèstions de pèrformence du sèrvior. Volyéd utilisar ceti outil dens les limites de la chârta d’usâjo.',
+	'checkuser-desc'             => 'Balye la possibilitât a les gens qu’ont la pèrmission que vat avouéc de controlar les adrèces IP des utilisators et pués d’ôtres enformacions los regardent.',
 	'checkuser-logcase'          => 'La rechèrche dens lo jornal est sensibla a la câssa.',
 	'checkuser'                  => 'Controlor d’utilisator',
 	'group-checkuser'            => 'Controlors d’utilisator',
@@ -1590,6 +1598,7 @@ Pichqa waranqamanta aswan llamk'apusqakunaqa manam kutimunqachu, allin rikuchina
 	'checkuser-blocked'          => "Hark'asqa",
 	'checkuser-too-many'         => "Nisyum tarisqakuna, ama hina kaspa CIDR nisqata k'ichkichay. Kaymi llamk'achisqa IP huchhakuna (5000-kama, tiyay sutikama siq'inchasqa):",
 	'checkuser-user-nonexistent' => 'Nisqayki ruraqqa manam kanchu.',
+	'checkuser-search-submit'    => 'Maskay',
 	'checkuser-search-initiator' => 'qallarichiq',
 	'checkuser-search-target'    => 'taripana',
 	'checkuser-log-subpage'      => "Hallch'a",
@@ -1815,6 +1824,7 @@ $messages['sv'] = array(
 	'checkuser-summary'          => 'Det här verktyget söker igenom de senaste ändringarna för att hämta IP-adresser för en användare, eller redigeringar och användare för en IP-adress.
 Användare och redigeringar kan visas med IP-adress från XFF genom att lägga till "/xff" efter IP-adressen. Verktyget stödjer IPv4 (CIDR 16-32) och IPv6 (CIDR 64-128).
 På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd verktyget i enlighet med policy.',
+	'checkuser-desc'             => 'Ger möjlighet för användare med speciell behörighet att kontrollera användares IP-adresser och viss annan information',
 	'checkuser-logcase'          => 'Loggsökning är skiftlägeskänslig.',
 	'checkuser'                  => 'Kontrollera användare',
 	'group-checkuser'            => 'Användarkontrollanter',
@@ -1882,8 +1892,22 @@ $messages['tet'] = array(
  * @author Ibrahim
  */
 $messages['tg'] = array(
-	'checkuser-search'        => 'Ҷустуҷӯ',
-	'checkuser-search-submit' => 'Ҷустуҷӯ',
+	'checkuser'                  => 'Бозрасии корбар',
+	'group-checkuser'            => 'Бозрасии корбарон',
+	'group-checkuser-member'     => 'Бозрасии корбар',
+	'checkuser-reason'           => 'Далел',
+	'checkuser-target'           => 'Корбар ё нишонаи IP',
+	'checkuser-users'            => 'Феҳрист кардани корбарон',
+	'checkuser-edits'            => 'Намоиши вироишҳои марбут ба ин нишонаи IP',
+	'checkuser-ips'              => 'Феҳрист кардани нишонаҳои IP',
+	'checkuser-search'           => 'Ҷустуҷӯ',
+	'checkuser-nomatch'          => 'Мавриде ки мутобиқат дошта бошад пайдо нашуд',
+	'checkuser-blocked'          => 'Дастрасӣ қатъ шуд',
+	'checkuser-user-nonexistent' => 'Корбари мавриди назар вуҷуд надорад.',
+	'checkuser-search-submit'    => 'Ҷустуҷӯ',
+	'checkuser-search-initiator' => 'оғозгар',
+	'checkuser-search-target'    => 'ҳадаф',
+	'checkuser-log-subpage'      => 'Гузориш',
 );
 
 /** Tonga (faka-Tonga)
