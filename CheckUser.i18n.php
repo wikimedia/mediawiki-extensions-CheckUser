@@ -77,6 +77,7 @@ $messages['ar'] = array(
 	'checkuser-summary'          => 'هذه الأداة تفحص أحدث التغييرات لاسترجاع الأيبيهات المستخدمة بواسطة مستخدم أو عرض بيانات التعديل/المستخدم لأيبي.
 	المستخمون والتعديلات بواسطة أيبي عميل يمكن استرجاعها من خلال عناوين XFF عبر طرق الأيبي IP ب"/xff". IPv4 (CIDR 16-32) و IPv6 (CIDR 64-128) مدعومان.
 	لا أكثر من 5000 تعديل سيتم عرضها لأسباب تتعلق بالأداء. استخدم هذا بالتوافق مع السياسة.',
+	'checkuser-desc'             => 'يمنح المستخدمين بالسماح المطلوب القدرة على فحص عناوين الأيبي لمستخدم ما ومعلومات أخرى',
 	'checkuser-logcase'          => 'بحث السجل حساس لحالة الحروف.',
 	'checkuser'                  => 'تدقيق مستخدم',
 	'group-checkuser'            => 'مدققو مستخدم',
@@ -343,6 +344,7 @@ $messages['cs'] = array(
 	'checkuser-summary'          => 'Tento nástroj zkoumá poslední změny a umožňuje získat IP adresy uživatelů nebo zobrazit editace a uživatele z dané IP adresy.
 Uživatele a editace z klientské IP adresy lze získat z hlaviček XFF přidáním „/xff“ k IP. Je podporováno  IPv4 (CIDR 16-32) a IPv6 (CIDR 64-128).
 Z výkonnostních důvodů lze zobrazit maximálně 5000 editací. Používejte tento nástroj v souladu s pravidly.',
+	'checkuser-desc'             => 'Poskytuje uživatelům s příslušným oprávněním možnost zjišťovat IP adresy uživatelů a další související informace',
 	'checkuser-logcase'          => 'Hledání v záznamech rozlišuje velikosti písmen.',
 	'checkuser'                  => 'Kontrola uživatele',
 	'group-checkuser'            => 'Revizoři',
@@ -888,6 +890,7 @@ $messages['hu'] = array(
 	'checkuser-summary'          => 'Ez az eszköz végigvizsgálja a friss változásokat, hogy lekérje egy adott felhasználó IP-címeit vagy megjelenítse egy adott IP-címet használó szerkesztőket és az IP szerkesztéseit.
 Egy kliens IP-cím által végzett szerkesztések és felhasználói XFF fejlécek segítségével kérhetőek le, az IP-cím utáni „/xff” parancssal. Az IPv4 (CIDR 16-32) és az IPv6 (CIDR 64-128) is támogatott.
 Maximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt a szabályoknak megfelelően használd.',
+	'checkuser-desc'             => 'Lehetővé teszi olyan felhasználói jogok kiosztását, mely segítségével megtekinthetőek a felhasználók IP-címei és más adatok',
 	'checkuser-logcase'          => 'A kereső kis- és nagybetűérzékeny.',
 	'checkuser'                  => 'IP-ellenőr',
 	'group-checkuser'            => 'IP-ellenőrök',
@@ -1314,7 +1317,7 @@ $messages['nl'] = array(
 	'checkuser-summary'          => 'Dit hulpmiddel bekijkt recente wijzigingen om IP-adressen die een gebruiker heeft gebruikt te achterhalen of toont de bewerkings- en gebruikersgegegevens voor een IP-adres.
 	Gebruikers en bewerkingen van een IP-adres van een client kunnen achterhaald worden via XFF-headers door "/xff" achter het IP-adres toe te voegen. IPv4 (CIDR 16-32) en IPv6 (CIDR 64-128) worden ondersteund.
 	Om prestatieredenen worden niet meer dan 5.000 bewerkingen getoond. Gebruik dit hulpmiddel volgens het vastgestelde beleid.',
-	'checkuser-desc'             => 'Laat geautoriseerde gebruikers IP-adressen en andere informatie van gebruikers achterhalen',
+	'checkuser-desc'             => 'Laat bevoegde gebruikers IP-adressen en andere informatie van gebruikers achterhalen',
 	'checkuser-logcase'          => 'Zoeken in het logboek is hoofdlettergevoelig.',
 	'checkuser'                  => 'Gebruiker controleren',
 	'group-checkuser'            => 'Controlegebruikers',
@@ -1783,6 +1786,7 @@ $messages['stq'] = array(
 Beoarbaidengen fon ne IP-Adresse konnen uk ätter Informatione uut do XFF-Headere
 	oufräiged wäide, as an ju IP-Adresse n „/xff“ anhonged wäd. (CIDR 16-32) un IPv6 (CIDR 64-128) wäide unnerstutsed.
 	Uut Perfomance-Gruunde wäide maximoal 5000 Beoarbaidengen uutroat. Benutsje CheckUser bloot in Uureenstämmenge mäd do Doatenschutsgjuchtlienjen.',
+	'checkuser-desc'             => 'Ferlööwet Benutsere mäd do äntspreekende Gjuchte do IP-Adressen as uk wiedere Informatione fon Benutsere tou wröigjen.',
 	'checkuser-logcase'          => 'Ju Säike in dät Logbouk unnerschat twiske Groot- un Littikschrieuwen.',
 	'checkuser'                  => 'Checkuser',
 	'group-checkuser'            => 'Checkusers',
@@ -1862,19 +1866,20 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 );
 
 /** Telugu (తెలుగు)
- * @author Mpradeep
  * @author Veeven
+ * @author Mpradeep
  */
 $messages['te'] = array(
-	'group-checkuser'         => 'చెక్‌యూజర్లు',
-	'group-checkuser-member'  => 'చెక్‌యూజరు',
-	'checkuser-reason'        => 'కారణం',
-	'checkuser-showlog'       => 'లాగ్ చూపించు',
-	'checkuser-target'        => 'వాడుకరి లేదా ఐపీ',
-	'checkuser-edits'         => 'ఈ ఐపీ అడ్రస్సు నుండి చేసిన మార్పులను చూపించు',
-	'checkuser-search'        => 'వెతుకు',
-	'checkuser-nolog'         => 'ఏ లాగ్ ఫైలు కనపడలేదు',
-	'checkuser-search-submit' => 'వెతుకు',
+	'group-checkuser'            => 'చెక్‌యూజర్లు',
+	'group-checkuser-member'     => 'చెక్‌యూజరు',
+	'checkuser-reason'           => 'కారణం',
+	'checkuser-showlog'          => 'లాగ్ చూపించు',
+	'checkuser-target'           => 'వాడుకరి లేదా ఐపీ',
+	'checkuser-edits'            => 'ఈ ఐపీ అడ్రస్సు నుండి చేసిన మార్పులను చూపించు',
+	'checkuser-search'           => 'వెతుకు',
+	'checkuser-nolog'            => 'ఏ లాగ్ ఫైలు కనపడలేదు',
+	'checkuser-user-nonexistent' => 'ఆ వాడుకరి ఉనికిలో లేరు.',
+	'checkuser-search-submit'    => 'వెతుకు',
 );
 
 /** Tetum (Tetun)
@@ -1993,6 +1998,7 @@ $messages['vo'] = array(
 	'checkuser-summary'          => 'Stum at vestigon votükamis brefabüik ad dagetön ladetis-IP fa geban semik pagebölis, ud ad jonön redakama- u gebananünis tefü ladet-IP semik.
 Gebans e redakams se dona-IP kanons pagetön de tiäds: XFF medä läükoy eli „/xff“ ladete-IP. Els IPv4 (CIDR 16-32) e IPv6 (CIDR 64-128) kanons pagebön.
 Redakams no plu 5000 pejonons sekü kods kaenavik. Gebolös stumi at bai nomem.',
+	'checkuser-desc'             => 'Gevon gebanes labü däl zesüdik fägi ad vestigön ladeti(s)-IP gebana äsi nünis votik',
 	'checkuser-logcase'          => 'Pö suk in registar mayuds e minuds padifükons.',
 	'checkuser'                  => 'Vestigön gebani',
 	'group-checkuser'            => 'Vestigön gebanis',
