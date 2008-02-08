@@ -1874,10 +1874,14 @@ $messages['te'] = array(
 	'group-checkuser-member'     => 'చెక్‌యూజరు',
 	'checkuser-reason'           => 'కారణం',
 	'checkuser-showlog'          => 'లాగ్ చూపించు',
+	'checkuser-query'            => 'ఇటీవలి మార్పుల్లో చూడండి',
 	'checkuser-target'           => 'వాడుకరి లేదా ఐపీ',
 	'checkuser-edits'            => 'ఈ ఐపీ అడ్రస్సు నుండి చేసిన మార్పులను చూపించు',
 	'checkuser-search'           => 'వెతుకు',
+	'checkuser-empty'            => 'లాగ్&zwnj;లో అంశాలేమీ లేవు.',
+	'checkuser-nomatch'          => 'సామీప్యాలు ఏమీ కనబడలేదు.',
 	'checkuser-nolog'            => 'ఏ లాగ్ ఫైలు కనపడలేదు',
+	'checkuser-blocked'          => 'నిరోధించాం',
 	'checkuser-user-nonexistent' => 'ఆ వాడుకరి ఉనికిలో లేరు.',
 	'checkuser-search-submit'    => 'వెతుకు',
 );
@@ -2111,3 +2115,4 @@ $messages['zh-hant'] = array(
 	'checkuser-nolog'        => '找不到記錄檔',
 	'checkuser-blocked'      => '已經查封',
 );
+
