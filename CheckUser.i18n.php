@@ -446,34 +446,36 @@ $messages['eo'] = array(
 );
 
 /** Spanish (Español)
- * @author Dmcdevit
  * @author Spacebirdy
+ * @author Dmcdevit
+ * @author Lin linao
  */
 $messages['es'] = array(
-	'checkuser-summary'      => 'Esta herramienta explora los cambios recientes para obtener las IPs utilizadas por un usuario o para mostrar la información de ediciones/usuarios de una IP.
+	'checkuser-summary'          => 'Esta herramienta explora los cambios recientes para obtener las IPs utilizadas por un usuario o para mostrar la información de ediciones/usuarios de una IP.
 También se pueden obtener los usuarios y las ediciones de un cliente IP vía XFF añadiendo "/xff". IPv4 (CIDR 16-32) y IPv6 (CIDR 64-128) funcionan.
 No se muestran más de 5000 ediciones por motivos de rendimiento. Usa esta herramienta en acuerdo con la ley orgánica de protección de datos.',
-	'checkuser-logcase'      => 'El buscador de registros distingue entre mayúsculas y minúsculas.',
-	'checkuser'              => 'Verificador de usuarios',
-	'group-checkuser'        => 'Verificadores de usuarios',
-	'group-checkuser-member' => 'Verificador de usuarios',
-	'grouppage-checkuser'    => '{{ns:project}}:verificador de usuarios',
-	'checkuser-reason'       => 'Motivo',
-	'checkuser-showlog'      => 'Ver registro',
-	'checkuser-log'          => 'Registro de CheckUser',
-	'checkuser-query'        => 'Buscar en cambios recientes',
-	'checkuser-target'       => 'Usuario o IP',
-	'checkuser-users'        => 'Obtener usuarios',
-	'checkuser-edits'        => 'Obtener ediciones de IP',
-	'checkuser-ips'          => 'Obtener IPs',
-	'checkuser-search'       => 'Buscar',
-	'checkuser-empty'        => 'No hay elementos en el registro.',
-	'checkuser-nomatch'      => 'No hay elementos en el registro con esas condiciones.',
-	'checkuser-check'        => 'Examinar',
-	'checkuser-log-fail'     => 'No se puede añadir este elemento al registro.',
-	'checkuser-nolog'        => 'No se encuentra ningún archivo del registro',
-	'checkuser-blocked'      => 'bloqueado',
-	'checkuser-too-many'     => 'Hay demasiados resultados. Por favor limita el CIDR. Aquí se ven las IPs usadas (máximo 5000, ordenadas según dirección):',
+	'checkuser-logcase'          => 'El buscador de registros distingue entre mayúsculas y minúsculas.',
+	'checkuser'                  => 'Verificador de usuarios',
+	'group-checkuser'            => 'Verificadores de usuarios',
+	'group-checkuser-member'     => 'Verificador de usuarios',
+	'grouppage-checkuser'        => '{{ns:project}}:verificador de usuarios',
+	'checkuser-reason'           => 'Motivo',
+	'checkuser-showlog'          => 'Ver registro',
+	'checkuser-log'              => 'Registro de CheckUser',
+	'checkuser-query'            => 'Buscar en cambios recientes',
+	'checkuser-target'           => 'Usuario o IP',
+	'checkuser-users'            => 'Obtener usuarios',
+	'checkuser-edits'            => 'Obtener ediciones de IP',
+	'checkuser-ips'              => 'Obtener IPs',
+	'checkuser-search'           => 'Buscar',
+	'checkuser-empty'            => 'No hay elementos en el registro.',
+	'checkuser-nomatch'          => 'No hay elementos en el registro con esas condiciones.',
+	'checkuser-check'            => 'Examinar',
+	'checkuser-log-fail'         => 'No se puede añadir este elemento al registro.',
+	'checkuser-nolog'            => 'No se encuentra ningún archivo del registro',
+	'checkuser-blocked'          => 'bloqueado',
+	'checkuser-too-many'         => 'Hay demasiados resultados. Por favor limita el CIDR. Aquí se ven las IPs usadas (máximo 5000, ordenadas según dirección):',
+	'checkuser-user-nonexistent' => 'El usuario especificado no existe.',
 );
 
 $messages['eu'] = array(
@@ -1203,6 +1205,7 @@ $messages['lb'] = array(
 	'checkuser-blocked'          => 'Gespaart',
 	'checkuser-user-nonexistent' => 'De gesichte Benotzer gëtt et net.',
 	'checkuser-search-submit'    => 'Sichen',
+	'checkuser-search-target'    => 'Zil',
 	'checkuser-log-subpage'      => 'Lëscht',
 );
 
@@ -1867,11 +1870,13 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 
 /** Telugu (తెలుగు)
  * @author Veeven
+ * @author వైజాసత్య
  * @author Mpradeep
  */
 $messages['te'] = array(
-	'group-checkuser'            => 'చెక్‌యూజర్లు',
-	'group-checkuser-member'     => 'చెక్‌యూజరు',
+	'checkuser'                  => 'సభ్యుల తనిఖీ',
+	'group-checkuser'            => 'సభ్యుల తనిఖీదార్లు',
+	'group-checkuser-member'     => 'సభ్యుల తనిఖీదారు',
 	'checkuser-reason'           => 'కారణం',
 	'checkuser-showlog'          => 'లాగ్ చూపించు',
 	'checkuser-query'            => 'ఇటీవలి మార్పుల్లో చూడండి',
@@ -1880,10 +1885,14 @@ $messages['te'] = array(
 	'checkuser-search'           => 'వెతుకు',
 	'checkuser-empty'            => 'లాగ్&zwnj;లో అంశాలేమీ లేవు.',
 	'checkuser-nomatch'          => 'సామీప్యాలు ఏమీ కనబడలేదు.',
+	'checkuser-check'            => 'తనిఖీ',
 	'checkuser-nolog'            => 'ఏ లాగ్ ఫైలు కనపడలేదు',
 	'checkuser-blocked'          => 'నిరోధించాం',
 	'checkuser-user-nonexistent' => 'ఆ వాడుకరి ఉనికిలో లేరు.',
 	'checkuser-search-submit'    => 'వెతుకు',
+	'checkuser-search-initiator' => 'ఆరంభకుడు',
+	'checkuser-search-target'    => 'లక్ష్యం',
+	'checkuser-log-subpage'      => 'లాగ్',
 );
 
 /** Tetum (Tetun)
@@ -1902,22 +1911,33 @@ $messages['tet'] = array(
  * @author Ibrahim
  */
 $messages['tg'] = array(
+	'checkuser-logcase'          => 'Ҷустуҷӯи гузориш ба хурд ё бузрг будани ҳарфҳо ҳасос аст.',
 	'checkuser'                  => 'Бозрасии корбар',
 	'group-checkuser'            => 'Бозрасии корбарон',
 	'group-checkuser-member'     => 'Бозрасии корбар',
+	'grouppage-checkuser'        => '{{ns:project}}:Бозрасии корбар',
 	'checkuser-reason'           => 'Далел',
+	'checkuser-showlog'          => 'Намоиши гузориш',
+	'checkuser-log'              => 'БозрасиКорбар гузориш',
+	'checkuser-query'            => 'Ҷустуҷӯи тағйироти охир',
 	'checkuser-target'           => 'Корбар ё нишонаи IP',
 	'checkuser-users'            => 'Феҳрист кардани корбарон',
 	'checkuser-edits'            => 'Намоиши вироишҳои марбут ба ин нишонаи IP',
 	'checkuser-ips'              => 'Феҳрист кардани нишонаҳои IP',
 	'checkuser-search'           => 'Ҷустуҷӯ',
+	'checkuser-empty'            => 'Гузориш холӣ аст.',
 	'checkuser-nomatch'          => 'Мавриде ки мутобиқат дошта бошад пайдо нашуд',
+	'checkuser-check'            => 'Барраси',
+	'checkuser-log-fail'         => 'Имкони афзудани иттилоот ба гузориш вуҷуд надорад',
+	'checkuser-nolog'            => 'Парвандаи гузориш пайдо нашуд.',
 	'checkuser-blocked'          => 'Дастрасӣ қатъ шуд',
+	'checkuser-too-many'         => 'Теъдоди натоиҷ бисёр зиёд аст. Лутфан CIDRро бориктар кунед. Дар зер нишонаҳои IP-ро мебинед (5000 ҳадди аксар, аз рбатартиби нинона):',
 	'checkuser-user-nonexistent' => 'Корбари мавриди назар вуҷуд надорад.',
 	'checkuser-search-submit'    => 'Ҷустуҷӯ',
 	'checkuser-search-initiator' => 'оғозгар',
 	'checkuser-search-target'    => 'ҳадаф',
 	'checkuser-log-subpage'      => 'Гузориш',
+	'checkuser-log-return'       => 'Бозгашт ба форми аслии бозрасии корбар',
 );
 
 /** Tonga (faka-Tonga)
