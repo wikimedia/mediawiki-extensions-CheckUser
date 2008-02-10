@@ -1050,6 +1050,24 @@ IPv4 (CIDR 16-32) と IPv6 (CIDR 64-128) が利用出来ます。
 	'checkuser-nolog'        => 'ログファイルが見つかりません。',
 );
 
+/** Jutish (Jysk)
+ * @author Huslåke
+ */
+$messages['jut'] = array(
+	'checkuser'              => 'Check user',
+	'group-checkuser'        => 'Check users',
+	'group-checkuser-member' => 'Check user',
+	'grouppage-checkuser'    => '{{ns:project}}:Check user',
+	'checkuser-showlog'      => "Se'n log",
+	'checkuser-log'          => 'CheckUser log',
+	'checkuser-target'       => 'Bruger æller IP',
+	'checkuser-users'        => 'Gæt bruger!',
+	'checkuser-edits'        => 'Gæt redigærer IPs!',
+	'checkuser-ips'          => 'Gæt IP!',
+	'checkuser-search'       => 'Søĝ',
+	'checkuser-check'        => 'Check',
+);
+
 $messages['kk-arab'] = array(
 'checkuser-summary'      => 'بۇل قۇرال پايدالانۋشى قولدانعان IP جايلار ٴۇشىن, نەمەسە IP جاي تۇزەتۋ/پايدالانۋشى دەرەكتەرىن كورسەتۋ ٴۇشىن جۋىقتاعى وزگەرىستەردى قاراپ شىعادى.
 	پايدالانۋشىلاردى مەن تۇزەتۋلەردى XFF IP ارقىلى IP جايعا «/xff» دەگەندى قوسىپ كەلتىرۋگە بولادى. IPv4 (CIDR 16-32) جانە IPv6 (CIDR 64-128) ارقاۋلانادى.
