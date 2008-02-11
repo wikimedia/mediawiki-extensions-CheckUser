@@ -1550,6 +1550,15 @@ $messages['pms'] = array(
 	'checkuser-blocked'      => 'Blocà',
 );
 
+/** Pashto (پښتو)
+ * @author Ahmed-Najib-Biabani-Ibrahimkhel
+ */
+$messages['ps'] = array(
+	'checkuser-reason'        => 'سبب',
+	'checkuser-search'        => 'لټون',
+	'checkuser-search-submit' => 'لټون',
+);
+
 /** Portuguese (Português)
  * @author 555
  * @author Malafaya
