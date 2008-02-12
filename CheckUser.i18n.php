@@ -425,6 +425,14 @@ $messages['de'] = array(
 	'checkuser-log-ipusers-xff'  => '$1 holte Benutzer für XFF $2',
 );
 
+/** Ewe (Eʋegbe)
+ * @author M.M.S.
+ */
+$messages['ee'] = array(
+	'checkuser-search'        => 'Dii',
+	'checkuser-search-submit' => 'Dii',
+);
+
 /** Greek (Ελληνικά)
  * @author ZaDiak
  * @author Consta
@@ -1426,6 +1434,17 @@ $messages['nov'] = array(
 	'checkuser-search' => 'Sercha',
 );
 
+/** Northern Sotho (Sesotho sa Leboa)
+ * @author Mohau
+ */
+$messages['nso'] = array(
+	'checkuser-reason'        => 'Lebaka',
+	'checkuser-target'        => 'Mošomiši goba IP',
+	'checkuser-search'        => 'Fetleka',
+	'checkuser-blocked'       => 'Thibilwe',
+	'checkuser-search-submit' => 'Fetleka',
+);
+
 /** Occitan (Occitan)
  * @author Cedric31
  */
@@ -1913,6 +1932,7 @@ $messages['te'] = array(
 	'checkuser-empty'            => 'లాగ్&zwnj;లో అంశాలేమీ లేవు.',
 	'checkuser-nomatch'          => 'సామీప్యాలు ఏమీ కనబడలేదు.',
 	'checkuser-check'            => 'తనిఖీ',
+	'checkuser-log-fail'         => 'లాగ్&zwnj;లో పద్దుని చేర్చలేకపోయాం',
 	'checkuser-nolog'            => 'ఏ లాగ్ ఫైలు కనపడలేదు',
 	'checkuser-blocked'          => 'నిరోధించాం',
 	'checkuser-user-nonexistent' => 'ఆ వాడుకరి ఉనికిలో లేరు.',
