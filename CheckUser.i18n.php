@@ -1936,6 +1936,7 @@ $messages['te'] = array(
 	'checkuser-nolog'            => 'ఏ లాగ్ ఫైలు కనపడలేదు',
 	'checkuser-blocked'          => 'నిరోధించాం',
 	'checkuser-user-nonexistent' => 'ఆ వాడుకరి ఉనికిలో లేరు.',
+	'checkuser-search-form'      => '$1 అనేది $2గా ఉన్న లాగ్ పద్దులను కనుగొనండి',
 	'checkuser-search-submit'    => 'వెతుకు',
 	'checkuser-search-initiator' => 'ఆరంభకుడు',
 	'checkuser-search-target'    => 'లక్ష్యం',
