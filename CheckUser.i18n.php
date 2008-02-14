@@ -1033,29 +1033,51 @@ $messages['it'] = array(
 	'checkuser-too-many'     => 'Il numero di risultati è eccessivo, usare un CIDR più ristretto. Di seguito sono indicati gli indirizzi IP utilizzati (fino a un massimo di 5000, ordinati per indirizzo):',
 );
 
+/** Japanese (日本語)
+ * @author JtFuruhata
+ * @author Kahusi
+ * @author Suisui
+ */
 $messages['ja'] = array(
-	'checkuser-summary'      => 'チェックユーザーでは、利用者が使っているIPアドレスや、IPアドレスから編集及び利用者データを、最近の更新から調査します。
-クライアントIPによる利用者と編集は、IPアドレスと共に「/xff」を追加すれば、XFFヘッダを通して検索出来ます。
-IPv4 (CIDR 16-32) と IPv6 (CIDR 64-128) が利用出来ます。
+	'checkuser-summary'          => 'このツールは最近の更新から行った調査を元に、ある利用者が使用したIPアドレスの検索、または、あるIPアドレスからなされた編集および利用者名の表示を行います。
+IPアドレスと共に「/xff」オプションを指定すると、XFF（X-Forwarded-For）ヘッダを通じてクライアントIPアドレスを取得し、そこからなされた編集および利用者名の検索をすることが可能です。
+IPv4（16から32ビットのCIDR表記）と IPv6（64から128ビットのCIDR表記）をサポートしています。
 パフォーマンス上の理由により、5000件の編集しか返答出来ません。
-方針に従って利用してください。',
-	'checkuser-logcase'      => 'ログの検索では大文字と小文字を区別します。',
-	'checkuser'              => 'チェックユーザー',
-	'group-checkuser'        => 'チェックユーザー',
-	'group-checkuser-member' => 'チェックユーザー',
-	'grouppage-checkuser'    => '{{ns:project}}:チェックユーザー',
-	'checkuser-reason'       => '理由',
-	'checkuser-showlog'      => 'ログを閲覧',
-	'checkuser-log'          => 'チェックユーザー・ログ',
-	'checkuser-query'        => '最近の更新を照会',
-	'checkuser-target'       => '利用者名又はIPアドレス',
-	'checkuser-users'        => '利用者名を得る',
-	'checkuser-edits'        => 'IPアドレスからの編集を得る',
-	'checkuser-ips'          => 'IPアドレスを得る',
-	'checkuser-search'       => '検索',
-	'checkuser-empty'        => 'ログ内にアイテムがありません。',
-	'checkuser-check'        => '調査',
-	'checkuser-nolog'        => 'ログファイルが見つかりません。',
+「チェックユーザーの方針」に従って利用してください。',
+	'checkuser-desc'             => '利用者のIPアドレスやその他の情報をチェックする権限を持つ特定のユーザーに対し、その能力を与える',
+	'checkuser-logcase'          => 'ログの検索では大文字と小文字を区別します。',
+	'checkuser'                  => 'チェックユーザー',
+	'group-checkuser'            => 'チェックユーザー',
+	'group-checkuser-member'     => 'チェックユーザー',
+	'grouppage-checkuser'        => '{{ns:project}}:チェックユーザー',
+	'checkuser-reason'           => '理由',
+	'checkuser-showlog'          => 'ログを閲覧',
+	'checkuser-log'              => 'チェックユーザー・ログ',
+	'checkuser-query'            => '最近の更新を照会',
+	'checkuser-target'           => '利用者名又はIPアドレス',
+	'checkuser-users'            => '利用者名を得る',
+	'checkuser-edits'            => 'IPアドレスからの編集を得る',
+	'checkuser-ips'              => 'IPアドレスを得る',
+	'checkuser-search'           => '検索',
+	'checkuser-empty'            => 'ログ内にアイテムがありません。',
+	'checkuser-nomatch'          => '該当するものはありません。',
+	'checkuser-check'            => '調査',
+	'checkuser-log-fail'         => 'ログに追加することができません',
+	'checkuser-nolog'            => 'ログファイルが見つかりません。',
+	'checkuser-blocked'          => 'ブロック済み',
+	'checkuser-too-many'         => '検索結果が多すぎます、CIDRの指定を小さく絞り込んでください。利用されたIPは以下の通りです（5000件を上限に、アドレス順でソートされています）:',
+	'checkuser-user-nonexistent' => '指定されたユーザーは存在しません。',
+	'checkuser-search-form'      => 'ログ検索条件　$1 が $2',
+	'checkuser-search-submit'    => '検索',
+	'checkuser-search-initiator' => 'チェック者',
+	'checkuser-search-target'    => 'チェック対象',
+	'checkuser-log-subpage'      => 'ログ',
+	'checkuser-log-return'       => 'チェックユーザーのメインフォームへ戻る',
+	'checkuser-log-userips'      => '$1 は $2 が使用したIPアドレスを取得した',
+	'checkuser-log-ipedits'      => '$1 は $2 からなされた編集を取得した',
+	'checkuser-log-ipusers'      => '$1 は $2 からアクセスされた利用者名を取得した',
+	'checkuser-log-ipedits-xff'  => '$1 は XFF $2 からなされた編集を取得した',
+	'checkuser-log-ipusers-xff'  => '$1 は XFF $2 からアクセスされた利用者名を取得した',
 );
 
 /** Jutish (Jysk)
@@ -1450,6 +1472,7 @@ $messages['nso'] = array(
  */
 $messages['oc'] = array(
 	'checkuser-summary'          => "Aqueste esplech passa en revista los cambiaments recents per recercar l'IPS emplegada per un utilizaire, mostrar totas las edicions fachas per una IP, o per enumerar los utilizaires qu'an emplegat las IPs. Los utilizaires e las modificacions pòdon èsser trobatss amb una IP XFF se s'acaba amb « /xff ». IPv4 (CIDR 16-32) e IPv6(CIDR 64-128) son suportats. Emplegatz aquò segon las cadenas de caractèrs.",
+	'checkuser-desc'             => 'Balha la possibilitat a las personas exprèssament autorizadas de verificar las adreças IP dels utilizaires e mai d’autras entre-senhas los concernent',
 	'checkuser-logcase'          => 'La recèrca dins lo Jornal es sensibla a la cassa.',
 	'checkuser'                  => 'Verificator d’utilizaire',
 	'group-checkuser'            => 'Verificators d’utilizaire',
@@ -1506,11 +1529,12 @@ $messages['pam'] = array(
 );
 
 /** Polish (Polski)
- * @author Derbeth
  * @author Sp5uhe
+ * @author Derbeth
  */
 $messages['pl'] = array(
 	'checkuser-summary'          => 'To narzędzie skanuje ostatnie zmiany by znaleźć adresy IP użyte przez użytkownika lub pokazać edycje/użytkowników dla adresu IP. Użytkownicy i edycje spod adresu IP mogą być pozyskane przez nagłówki XFF przez dodanie do IP "/xff". Obsługiwane są adresy IPv4 (CIDR 16-32) I IPv6 (CIDR 64-128). Ze względu na wydajność, zostanie zwróconych nie więcej niż 5000 edycji. Prosimy o używanie tej funkcji zgodnie z zasadami.',
+	'checkuser-desc'             => 'Umożliwia uprawnionym użytkownikom sprawdzenie adresów IP użytkowników oraz innych informacji',
 	'checkuser-logcase'          => 'Szukanie w logu jest czułe na wielkość znaków',
 	'checkuser'                  => 'Sprawdzanie IP użytkownika',
 	'group-checkuser'            => 'CheckUser',
@@ -1537,10 +1561,13 @@ $messages['pl'] = array(
 	'checkuser-search-submit'    => 'Szukaj',
 	'checkuser-search-initiator' => 'inicjator',
 	'checkuser-search-target'    => 'cel',
-	'checkuser-log-subpage'      => 'Dziennik',
+	'checkuser-log-subpage'      => 'Rejestr',
 	'checkuser-log-return'       => 'Powrót do głównego formularza CheckUser',
 	'checkuser-log-userips'      => '$1 dostał adresy IP dla $2',
 	'checkuser-log-ipedits'      => '$1 dostał edycje dla $2',
+	'checkuser-log-ipusers'      => '$1 otrzymał listę użytkowników adresu IP $2',
+	'checkuser-log-ipedits-xff'  => '$1 otrzymał listę edycji dla XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 otrzymał listę użytkowników dla XFF $2',
 );
 
 $messages['pms'] = array(
