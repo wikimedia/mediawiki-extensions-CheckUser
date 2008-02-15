@@ -1942,19 +1942,26 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 );
 
 /** Telugu (తెలుగు)
+ * @author Chaduvari
  * @author Veeven
  * @author వైజాసత్య
  * @author Mpradeep
  */
 $messages['te'] = array(
+	'checkuser-desc'             => 'వాడుకరి ఐపీ అడ్రసు, ఇతర సమాచారాన్ని చూడగలిగే అనుమతులను వాడుకరులకు ఇస్తుంది',
+	'checkuser-logcase'          => 'లాగ్ అన్వేషణ కోసం ఇంగ్లీషు అన్వేషకం ఇస్తే.., అది కేస్ సెన్సిటివ్.',
 	'checkuser'                  => 'సభ్యుల తనిఖీ',
 	'group-checkuser'            => 'సభ్యుల తనిఖీదార్లు',
 	'group-checkuser-member'     => 'సభ్యుల తనిఖీదారు',
+	'grouppage-checkuser'        => '{{ns:project}}:వాడుకరిని పరిశీలించు',
 	'checkuser-reason'           => 'కారణం',
 	'checkuser-showlog'          => 'లాగ్ చూపించు',
+	'checkuser-log'              => 'వాడుకరిపరిశీలన లాగ్',
 	'checkuser-query'            => 'ఇటీవలి మార్పుల్లో చూడండి',
 	'checkuser-target'           => 'వాడుకరి లేదా ఐపీ',
+	'checkuser-users'            => 'వాడుకరులను తీసుకురా',
 	'checkuser-edits'            => 'ఈ ఐపీ అడ్రస్సు నుండి చేసిన మార్పులను చూపించు',
+	'checkuser-ips'              => 'ఐపీలను తీసుకురా',
 	'checkuser-search'           => 'వెతుకు',
 	'checkuser-empty'            => 'లాగ్&zwnj;లో అంశాలేమీ లేవు.',
 	'checkuser-nomatch'          => 'సామీప్యాలు ఏమీ కనబడలేదు.',
@@ -1962,12 +1969,19 @@ $messages['te'] = array(
 	'checkuser-log-fail'         => 'లాగ్&zwnj;లో పద్దుని చేర్చలేకపోయాం',
 	'checkuser-nolog'            => 'ఏ లాగ్ ఫైలు కనపడలేదు',
 	'checkuser-blocked'          => 'నిరోధించాం',
+	'checkuser-too-many'         => 'మరీ ఎక్కువ ఫలితాలొచ్చాయి. CIDR ను మరింత కుదించండి. వాడిన ఐపీలివిగో (గరిష్ఠంగా 5000 -అడ్రసు వారీగా పేర్చి)',
 	'checkuser-user-nonexistent' => 'ఆ వాడుకరి ఉనికిలో లేరు.',
 	'checkuser-search-form'      => '$1 అనేది $2గా ఉన్న లాగ్ పద్దులను కనుగొనండి',
 	'checkuser-search-submit'    => 'వెతుకు',
 	'checkuser-search-initiator' => 'ఆరంభకుడు',
 	'checkuser-search-target'    => 'లక్ష్యం',
 	'checkuser-log-subpage'      => 'లాగ్',
+	'checkuser-log-return'       => 'CheckUser ముఖ్య ఫారముకు వెళ్ళు',
+	'checkuser-log-userips'      => '$2 కోసం $1 ఐపీలను తెచ్చింది',
+	'checkuser-log-ipedits'      => '$2 కోసం $1 దిద్దుబాట్లను తెచ్చింది',
+	'checkuser-log-ipusers'      => '$2 కోసం $1 వాడుకరులను తెచ్చింది',
+	'checkuser-log-ipedits-xff'  => 'XFF $2 కోసం $1, దిద్దుబాట్లను తెచ్చింది',
+	'checkuser-log-ipusers-xff'  => 'XFF $2 కోసం $1, వాడుకరులను తెచ్చింది',
 );
 
 /** Tetum (Tetun)
