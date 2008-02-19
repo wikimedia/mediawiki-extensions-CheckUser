@@ -1252,19 +1252,27 @@ $messages['la'] = array(
 $messages['lb'] = array(
 	'checkuser-logcase'          => "D'Sich am Logbuch mecht en Ënnerscheed tëschent groussen a klenge Buchstawen (Caractèren).",
 	'checkuser'                  => 'Benotzer-Check',
+	'group-checkuser'            => 'Benotzer Kontrolleren',
+	'group-checkuser-member'     => 'Benotzer Kontroller',
+	'grouppage-checkuser'        => '{{ns:projet}}:Benotzer Kontroller',
 	'checkuser-reason'           => 'Grond',
 	'checkuser-showlog'          => 'Logbuch weisen',
+	'checkuser-log'              => 'Lëscht vun de Benotzer Kontrollen',
 	'checkuser-query'            => 'Rezent Ännerungen offroen',
 	'checkuser-target'           => 'Benotzer oder IP-Adress',
+	'checkuser-users'            => 'Benotzer kréien',
 	'checkuser-search'           => 'Sichen',
 	'checkuser-empty'            => 'Dës Lëscht ass eidel.',
 	'checkuser-nomatch'          => 'Et goufe keng Iwwereneestëmmunge fonnt.',
+	'checkuser-check'            => 'Kontrolléieren',
 	'checkuser-nolog'            => "D'Logbuch gouf net fonnt.",
 	'checkuser-blocked'          => 'Gespaart',
 	'checkuser-user-nonexistent' => 'De gesichte Benotzer gëtt et net.',
 	'checkuser-search-submit'    => 'Sichen',
+	'checkuser-search-initiator' => 'Initiator',
 	'checkuser-search-target'    => 'Zil',
 	'checkuser-log-subpage'      => 'Lëscht',
+	'checkuser-log-return'       => 'Zréck op den Haaptformulair vun der Benotzer Kontroll',
 );
 
 /** Limburgish (Limburgs)
