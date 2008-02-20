@@ -390,6 +390,14 @@ Z výkonnostních důvodů lze zobrazit maximálně 5000 editací. Používejte 
 	'checkuser-log-ipusers-xff'  => '$1 zjišťuje uživatele s XFF $2',
 );
 
+/** Danish (Dansk)
+ * @author M.M.S.
+ */
+$messages['da'] = array(
+	'checkuser-search'        => 'Søg',
+	'checkuser-search-submit' => 'Søg',
+);
+
 /** German (Deutsch)
  * @author Raimond Spekking
  */
