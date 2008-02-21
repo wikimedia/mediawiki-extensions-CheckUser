@@ -1974,6 +1974,9 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
  * @author Mpradeep
  */
 $messages['te'] = array(
+	'checkuser-summary'          => 'ఈ పరికరం ఓ వాడుకరి వాడిన ఐపీలను, లేదా ఒక ఐపీకి చెందిన దిద్దుబాట్లు, వాడుకరుల డేటాను చూపిస్తుంది.
+క్లయంటు ఐపీకి చెందిన వాడుకరులు, దిద్దుబాట్లను ఐపీకి /xff అని చేర్చి, XFF హెడర్ల ద్వారా వెలికితీయవచ్చు. IPv4 (CIDR 16-32) and IPv6 (CIDR 64-128) లు పనిచేస్తాయి.
+పనితనపు కారణాల వలన 5000 దిద్దుబాట్లకు మించి చూపించము. విధానాల కనుగుణంగా దీన్ని వాడండి.',
 	'checkuser-desc'             => 'వాడుకరి ఐపీ అడ్రసు, ఇతర సమాచారాన్ని చూడగలిగే అనుమతులను వాడుకరులకు ఇస్తుంది',
 	'checkuser-logcase'          => 'లాగ్ అన్వేషణ కోసం ఇంగ్లీషు అన్వేషకం ఇస్తే.., అది కేస్ సెన్సిటివ్.',
 	'checkuser'                  => 'సభ్యుల తనిఖీ',
@@ -2094,6 +2097,7 @@ $messages['tr'] = array(
  */
 $messages['vi'] = array(
 	'checkuser-summary'          => 'Công cụ này sẽ quét các thay đổi gần đây để lấy ra các IP được một thành viên sử dụng hoặc hiển thị dữ liệu sửa đổi/tài khoản của một IP. Các tài khoản và sửa đổi của một IP có thể được trích ra từ tiêu đề XFF bằng cách thêm vào IP “/xff”. IPv4 (CIDR 16-32) và IPv6 (CIDR 64-128) đều được hỗ trợ. Không quá 5000 sửa đổi sẽ được trả về vì lý do hiệu suất. Hãy dùng công cụ này theo đúng quy định.',
+	'checkuser-desc'             => 'Cung cấp cho những người đủ tiêu chuẩn khả năng kiểm tra địa chỉ IP và thông tin khác của người dùng khác',
 	'checkuser-logcase'          => 'Tìm kiếm nhật trình có phân biệt chữ hoa chữ thường',
 	'checkuser'                  => 'Kiểm tra thành viên',
 	'group-checkuser'            => 'Kiểm tra thành viên',
