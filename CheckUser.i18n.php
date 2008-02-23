@@ -1269,6 +1269,8 @@ $messages['lb'] = array(
 	'checkuser-query'            => 'Rezent Ännerungen offroen',
 	'checkuser-target'           => 'Benotzer oder IP-Adress',
 	'checkuser-users'            => 'Benotzer kréien',
+	'checkuser-edits'            => "Weis d'Ännerungen vun der IP-Adress",
+	'checkuser-ips'              => 'IP-Adresse kréien/uweisen',
 	'checkuser-search'           => 'Sichen',
 	'checkuser-empty'            => 'Dës Lëscht ass eidel.',
 	'checkuser-nomatch'          => 'Et goufe keng Iwwereneestëmmunge fonnt.',
@@ -1629,6 +1631,7 @@ $messages['ps'] = array(
 	'checkuser-reason'        => 'سبب',
 	'checkuser-search'        => 'لټون',
 	'checkuser-search-submit' => 'لټون',
+	'checkuser-log-subpage'   => 'يادښت',
 );
 
 /** Portuguese (Português)
