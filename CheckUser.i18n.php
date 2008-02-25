@@ -1390,6 +1390,18 @@ $messages['mk'] = array(
 	'checkuser'              => 'Провери корисник',
 );
 
+/** Marathi (मराठी)
+ * @author Mahitgar
+ */
+$messages['mr'] = array(
+	'checkuser-reason'        => 'कारण',
+	'checkuser-search'        => 'शोधा',
+	'checkuser-check'         => 'पडताळा',
+	'checkuser-search-submit' => 'शोधा',
+	'checkuser-search-target' => 'लक्ष्य',
+	'checkuser-log-subpage'   => 'नोंदी',
+);
+
 /** Erzya (эрзянь кель)
  * @author Tupikovs
  * @author Amdf
