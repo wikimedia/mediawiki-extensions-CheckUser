@@ -1246,6 +1246,22 @@ $messages['kk-latn'] = array(
 	'checkuser-log-ipusers-xff'  => 'XFF $2 üşin $1 qatıswşı alındı',
 );
 
+/** Khmer (ភាសាខ្មែរ)
+ * @author Chhorran
+ */
+$messages['km'] = array(
+	'checkuser'               => 'ឆែក អ្នកប្រើប្រាស់',
+	'group-checkuser'         => 'ឆែក អ្នកប្រើប្រាស់',
+	'group-checkuser-member'  => 'ឆែក អ្នកប្រើប្រាស់',
+	'checkuser-reason'        => 'ហេតុផល',
+	'checkuser-showlog'       => 'បង្ហាញ កំណត់ហេតុ',
+	'checkuser-target'        => 'អ្នកប្រើប្រាស់ ឬ IP',
+	'checkuser-search'        => 'ស្វែងរក',
+	'checkuser-check'         => 'ឆែក',
+	'checkuser-search-submit' => 'ស្វែងរក',
+	'checkuser-log-subpage'   => 'កំណត់ហេតុ',
+);
+
 $messages['kn'] = array(
 	'checkuser'              => 'ಸದಸ್ಯನನ್ನು ಚೆಕ್ ಮಾಡಿ',
 );
