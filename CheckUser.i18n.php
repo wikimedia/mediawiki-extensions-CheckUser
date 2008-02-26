@@ -41,10 +41,10 @@ $messages['en'] = array(
 	'checkuser-log-subpage'  => 'Log',
 	'checkuser-log-return'   => 'Return to CheckUser main form',
 
-	'checkuser-log-userips'      => '$1 got IPs for $2', 
+	'checkuser-log-userips'      => '$1 got IPs for $2',
 	'checkuser-log-ipedits'      => '$1 got edits for $2',
-	'checkuser-log-ipusers'      => '$1 got users for $2', 
-	'checkuser-log-ipedits-xff'  => '$1 got edits for XFF $2', 
+	'checkuser-log-ipusers'      => '$1 got users for $2',
+	'checkuser-log-ipedits-xff'  => '$1 got edits for XFF $2',
 	'checkuser-log-ipusers-xff'  => '$1 got users for XFF $2',
 );
 
@@ -436,10 +436,10 @@ $messages['de'] = array(
 	'checkuser-log-subpage'      => 'Logbuch',
 	'checkuser-log-return'       => 'Zurück zum CheckUser-Hauptformular',
 
-	'checkuser-log-userips'      => '$1 holte IP-Adressen für $2', 
+	'checkuser-log-userips'      => '$1 holte IP-Adressen für $2',
 	'checkuser-log-ipedits'      => '$1 holte Bearbeitungen für $2',
-	'checkuser-log-ipusers'      => '$1 holte Benutzer für $2', 
-	'checkuser-log-ipedits-xff'  => '$1 holte Bearbeitungen für XFF $2', 
+	'checkuser-log-ipusers'      => '$1 holte Benutzer für $2',
+	'checkuser-log-ipedits-xff'  => '$1 holte Bearbeitungen für XFF $2',
 	'checkuser-log-ipusers-xff'  => '$1 holte Benutzer für XFF $2',
 );
 
@@ -956,11 +956,13 @@ Maximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt
 
 /** Indonesian (Bahasa Indonesia)
  * @author Borgx
+ * @author IvanLanin
  */
 $messages['id'] = array(
 	'checkuser-summary'          => 'Peralatan ini memindai perubahan terbaru untuk mendapatkan IP yang digunakan oleh seorang pengguna atau menunjukkan data suntingan/pengguna untuk suatu IP.
 	Pengguna dan suntingan dapat diperoleh dari suatu IP XFF dengan menambahkan "/xff" pada suatu IP. IPv4 (CIDR 16-32) dan IPv6 (CIDR 64-128) dapat digunakan.
 	Karena alasan kinerja, maksimum hanya 5000 suntingan yang dapat diambil. Harap gunakan peralatan ini sesuai dengan kebijakan yang ada.',
+	'checkuser-desc'             => 'Memberikan fasilitas bagi pengguna yang memiliki hak akses untuk memeriksa alamat IP dan informasi lain dari pengguna',
 	'checkuser-logcase'          => 'Log ini bersifat sensitif terhadap kapitalisasi.',
 	'checkuser'                  => 'Pemeriksaan pengguna',
 	'group-checkuser'            => 'Pemeriksa',
@@ -987,6 +989,7 @@ $messages['id'] = array(
 	'checkuser-search-submit'    => 'Cari',
 	'checkuser-search-initiator' => 'pemeriksa',
 	'checkuser-search-target'    => 'target',
+	'checkuser-log-subpage'      => 'Log',
 	'checkuser-log-return'       => 'Kembali ke halaman utama Pemeriksa',
 	'checkuser-log-userips'      => '$1 melihat IP dari $2',
 	'checkuser-log-ipedits'      => '$1 melihat suntingan dari $2',
