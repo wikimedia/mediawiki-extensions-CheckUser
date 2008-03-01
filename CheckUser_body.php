@@ -298,7 +298,7 @@ class CheckUser extends SpecialPage
 		$line .= $this->sk->commentBlock( $row->cuc_comment );
 		
 		$cuTitle = SpecialPage::getTitleFor( 'CheckUser' );
-		$line .= '<br/>&nbsp; &nbsp; &nbsp; &nbsp; <small>';
+		$line .= '<br />&nbsp; &nbsp; &nbsp; &nbsp; <small>';
 		# IP
 		$line .= ' <strong>IP</strong>: '.$this->sk->makeKnownLinkObj( $cuTitle,
 			htmlspecialchars( $row->cuc_ip ),
@@ -507,7 +507,7 @@ class CheckUser extends SpecialPage
 					$s .= ' (' . $wgLang->timeanddate( $users_first[$name], true ) .
 					' -- ' . $wgLang->timeanddate( $users_last[$name], true ) . ') ';
 				}
-				$s .= ' [<strong>' . $count . '</strong>]<br/>';
+				$s .= ' [<strong>' . $count . '</strong>]<br />';
 				# Check if this user or IP is blocked
 				# If so, give a link to the block log
 				$block = new Block();
@@ -549,7 +549,7 @@ class CheckUser extends SpecialPage
 					}
 					$s .= "</li>\n";
 				}
-				$s .= '</ol><br/><ol>';
+				$s .= '</ol><br /><ol>';
 				# List out each agent for this username
 				for( $i = (count($users_agentsets[$name]) - 1); $i >= 0; $i-- ) {
 					$agent = $users_agentsets[$name][$i];
