@@ -61,7 +61,11 @@ function efUpdateCheckUserData( $rc ) {
 		$actionText = '';
 	}
 	
+	$dbw = wfGetDB( DB_MASTER );
+	
+	$cuc_id = $dbw->nextSequenceValue( 'cu_changes_cu_id_seq' );
 	$rcRow = array(
+		'cuc_id' => $cuc_id,
 		'cuc_namespace' => $rc_namespace,
 		'cuc_title' => $rc_title,
 		'cuc_minor' => $rc_minor,
@@ -80,8 +84,6 @@ function efUpdateCheckUserData( $rc ) {
 		'cuc_xff_hex' => ($xff_ip && !$isSquidOnly) ? IP::toHex( $xff_ip ) : null,
 		'cuc_agent' => $agent
 	);
-
-	$dbw = wfGetDB( DB_MASTER );
 	$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
 
 	# Every 100th edit, prune the checkuser changes table.

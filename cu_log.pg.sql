@@ -3,7 +3,7 @@ BEGIN;
 
 CREATE SEQUENCE cu_log_cul_id_seq;
 CREATE TABLE cu_log (
-  cul_id           INTEGER  NOT NULL DEFAULT nextval('cu_log_cul_id_seq'),
+  cul_id           INTEGER  NOT NULL DEFAULT nextval('cu_log_cul_id'),
   cul_timestamp    TIMESTAMPTZ,
   cul_user         INTEGER      NULL REFERENCES mwuser(user_id) ON DELETE SET NULL,
   cul_user_text    TEXT     NOT NULL,
