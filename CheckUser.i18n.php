@@ -468,7 +468,11 @@ $messages['el'] = array(
  * @author Yekrats
  */
 $messages['eo'] = array(
-	'checkuser-reason' => 'Kialo',
+	'checkuser-reason'  => 'Kialo',
+	'checkuser-ips'     => 'Prenu IP-adresojn',
+	'checkuser-search'  => 'Serĉu',
+	'checkuser-empty'   => 'La loglibro enhavas nenion.',
+	'checkuser-blocked' => 'Forbarita',
 );
 
 /** Spanish (Español)
@@ -1256,11 +1260,14 @@ $messages['km'] = array(
 	'checkuser'               => 'ឆែក អ្នកប្រើប្រាស់',
 	'group-checkuser'         => 'ឆែក អ្នកប្រើប្រាស់',
 	'group-checkuser-member'  => 'ឆែក អ្នកប្រើប្រាស់',
+	'grouppage-checkuser'     => '{{ns:project}}:ឆែក អ្នកប្រើប្រាស់',
 	'checkuser-reason'        => 'ហេតុផល',
 	'checkuser-showlog'       => 'បង្ហាញ កំណត់ហេតុ',
 	'checkuser-target'        => 'អ្នកប្រើប្រាស់ ឬ IP',
 	'checkuser-search'        => 'ស្វែងរក',
 	'checkuser-check'         => 'ឆែក',
+	'checkuser-nolog'         => 'រកមិនឃើញ ឯកសារ កំណត់ហេតុ ។',
+	'checkuser-blocked'       => 'បាន រាំងខ្ទប់',
 	'checkuser-search-submit' => 'ស្វែងរក',
 	'checkuser-log-subpage'   => 'កំណត់ហេតុ',
 );
