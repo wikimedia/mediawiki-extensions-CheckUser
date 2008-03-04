@@ -189,6 +189,7 @@ $messages['bcl'] = array(
 );
 
 /** Bulgarian (Български)
+ * @author Borislav
  * @author DCLXVI
  */
 $messages['bg'] = array(
@@ -218,10 +219,17 @@ $messages['bg'] = array(
 	'checkuser-blocked'          => 'Блокиран',
 	'checkuser-too-many'         => 'Твърде много резултати. Показани са използваните IP адреси (най-много 5000, сортирани по адрес):',
 	'checkuser-user-nonexistent' => 'Посоченият потребител не съществува.',
+	'checkuser-search-form'      => 'Намиране на записи от дневника, в които $1 е $2',
 	'checkuser-search-submit'    => 'Търсене',
+	'checkuser-search-initiator' => 'инициатор',
 	'checkuser-search-target'    => 'цел',
 	'checkuser-log-subpage'      => 'Дневник',
 	'checkuser-log-return'       => 'Връщане към основния формуляр за проверка',
+	'checkuser-log-userips'      => '$1 е получил айпи адреси за $2',
+	'checkuser-log-ipedits'      => '$1 е получил редакции за $2',
+	'checkuser-log-ipusers'      => '$1 е получил потребители за $2',
+	'checkuser-log-ipedits-xff'  => '$1 е получил редакции за XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 е получил потребители за XFF $2',
 );
 
 /** Bengali (বাংলা)
@@ -468,11 +476,15 @@ $messages['el'] = array(
  * @author Yekrats
  */
 $messages['eo'] = array(
-	'checkuser-reason'  => 'Kialo',
-	'checkuser-ips'     => 'Prenu IP-adresojn',
-	'checkuser-search'  => 'Serĉu',
-	'checkuser-empty'   => 'La loglibro enhavas nenion.',
-	'checkuser-blocked' => 'Forbarita',
+	'checkuser-reason'        => 'Kialo',
+	'checkuser-target'        => 'Uzanto aŭ IP-adreso',
+	'checkuser-ips'           => 'Prenu IP-adresojn',
+	'checkuser-search'        => 'Serĉu',
+	'checkuser-empty'         => 'La loglibro enhavas nenion.',
+	'checkuser-blocked'       => 'Forbarita',
+	'checkuser-search-submit' => 'Serĉu',
+	'checkuser-search-target' => 'celo',
+	'checkuser-log-subpage'   => 'Loglibro',
 );
 
 /** Spanish (Español)
@@ -508,8 +520,13 @@ No se muestran más de 5000 ediciones por motivos de rendimiento. Usa esta herra
 	'checkuser-user-nonexistent' => 'El usuario especificado no existe.',
 );
 
+/** Basque (Euskara)
+ * @author SPQRobin
+ */
 $messages['eu'] = array(
 	'checkuser'              => 'Erabiltzailea egiaztatu',
+	'group-checkuser'        => 'Erabiltzaileak egiaztatu',
+	'group-checkuser-member' => 'Erabiltzailea egiaztatu',
 	'checkuser-reason'       => 'Arrazoia',
 	'checkuser-search'       => 'Bilatu',
 	'checkuser-nomatch'      => 'Ez da bat datorren emaitzarik aurkitu.',
@@ -566,11 +583,14 @@ $messages['fa'] = array(
 
 /** Finnish (Suomi)
  * @author Crt
+ * @author Nike
+ * @author Jack Phoenix
  * @author Cimon Avaro
  */
 $messages['fi'] = array(
 	'checkuser-summary'          => 'Tämän työkalun avulla voidaan tutkia tuoreet muutokset ja paljastaa käyttäjien IP-osoitteet tai noutaa IP-osoitteiden muokkaukset ja käyttäjätiedot.
 	Käyttäjät ja muokkaukset voidaan hakea myös uudelleenohjausosoitteen (X-Forwarded-For) takaa käyttämällä IP-osoitteen perässä <tt>/xff</tt> -merkintää. Työkalu tukee sekä IPv4 (CIDR 16–32) ja IPv6 (CIDR 64–128) -standardeja.',
+	'checkuser-desc'             => 'Antaa oikeutetuille käyttäjille mahdollisuuden tarkistaa käyttäjän IP-osoitteet ja muita tietoja.',
 	'checkuser-logcase'          => 'Haku lokista on kirjainkokoriippuvainen.',
 	'checkuser'                  => 'Osoitepaljastin',
 	'group-checkuser'            => 'osoitepaljastimen käyttäjät',
@@ -593,7 +613,15 @@ $messages['fi'] = array(
 	'checkuser-blocked'          => 'Estetty',
 	'checkuser-too-many'         => 'Liian monta tulosta, rajoita IP-osoitetta:',
 	'checkuser-user-nonexistent' => 'Määritettyä käyttäjää ei ole olemassa.',
+	'checkuser-search-form'      => 'Etsi lokimerkintöjä, joissa $1 on $2',
 	'checkuser-search-submit'    => 'Hae',
+	'checkuser-search-initiator' => 'alullepanija',
+	'checkuser-search-target'    => 'kohde',
+	'checkuser-log-subpage'      => 'Loki',
+	'checkuser-log-return'       => 'Palaa osoitepaljastimen päälomakkeeseen',
+	'checkuser-log-userips'      => '$1 haki käyttäjän $2 IP-osoitteet',
+	'checkuser-log-ipedits'      => '$1 haki käyttäjän $2 muokkaukset',
+	'checkuser-log-ipusers'      => '$1 haki osoitteen $2 käyttämät tunnukset',
 );
 
 $messages['fo'] = array(
@@ -1257,6 +1285,7 @@ $messages['kk-latn'] = array(
  * @author Chhorran
  */
 $messages['km'] = array(
+	'checkuser-logcase'       => 'ស្វែងរក កំណត់ហេតុ ដោយបែងចែក អក្សរធំ អក្សរតូច ។',
 	'checkuser'               => 'ឆែក អ្នកប្រើប្រាស់',
 	'group-checkuser'         => 'ឆែក អ្នកប្រើប្រាស់',
 	'group-checkuser-member'  => 'ឆែក អ្នកប្រើប្រាស់',
@@ -1268,6 +1297,7 @@ $messages['km'] = array(
 	'checkuser-check'         => 'ឆែក',
 	'checkuser-nolog'         => 'រកមិនឃើញ ឯកសារ កំណត់ហេតុ ។',
 	'checkuser-blocked'       => 'បាន រាំងខ្ទប់',
+	'checkuser-too-many'      => 'ច្រើនលទ្ធផល ពេក, សូមបង្រួម CIDR ។ នេះគឺ IP បានប្រើប្រាស់ (អតិបរិមា ៥០០០, រៀបតាម អាស័យដ្ឋាន) ៖',
 	'checkuser-search-submit' => 'ស្វែងរក',
 	'checkuser-log-subpage'   => 'កំណត់ហេតុ',
 );
@@ -1551,7 +1581,7 @@ $messages['nso'] = array(
  */
 $messages['oc'] = array(
 	'checkuser-summary'          => "Aqueste esplech passa en revista los cambiaments recents per recercar l'IPS emplegada per un utilizaire, mostrar totas las edicions fachas per una IP, o per enumerar los utilizaires qu'an emplegat las IPs. Los utilizaires e las modificacions pòdon èsser trobatss amb una IP XFF se s'acaba amb « /xff ». IPv4 (CIDR 16-32) e IPv6(CIDR 64-128) son suportats. Emplegatz aquò segon las cadenas de caractèrs.",
-	'checkuser-desc'             => 'Balha la possibilitat a las personas exprèssament autorizadas de verificar las adreças IP dels utilizaires e mai d’autras entre-senhas los concernent',
+	'checkuser-desc'             => 'Balha la possibilitat a las personas exprèssament autorizadas de verificar las adreças IP dels utilizaires e mai d’autras entresenhas los concernent',
 	'checkuser-logcase'          => 'La recèrca dins lo Jornal es sensibla a la cassa.',
 	'checkuser'                  => 'Verificator d’utilizaire',
 	'group-checkuser'            => 'Verificators d’utilizaire',
@@ -2083,6 +2113,10 @@ $messages['tet'] = array(
  * @author Ibrahim
  */
 $messages['tg'] = array(
+	'checkuser-summary'          => 'Ин абзор тағйироти охирро барои ба даст овардани нишонаҳои интернетӣ IP  истифода шуда тавассути як корбар ё таъйини вироишҳои анчом шуда тариқи як нишонаи интернетӣ IP, ҷустуҷӯ мекунад.
+Корбарон ва вироишҳои як нишонаи интернетии IP-ро метавон бо таваҷҷӯҳ ба иттилоот сар оянд тариқи XFF бо афзудан нишонаи интернетӣ IP бо "/xff" пайдо кард. Ҳар ду протокол IPv4 (CIDR 16-32) ва IPv6 (CIDR 64-128) тавассути ин абзор пуштибонӣ мешаванд.
+На беш аз 5000 вироиш бо далелҳои зудкорӣ баргардонида хоҳанд шуд. Бо мувофиқи сиёсат ва қоидаҳо инро истода кунед.',
+	'checkuser-desc'             => 'Ба корбарон ихтиёроти лозимиро барои баррасии нишонаҳои интернетӣ IP корбарон ва иттилооти дигар, иҷозат медиҳад',
 	'checkuser-logcase'          => 'Ҷустуҷӯи гузориш ба хурд ё бузрг будани ҳарфҳо ҳасос аст.',
 	'checkuser'                  => 'Бозрасии корбар',
 	'group-checkuser'            => 'Бозрасии корбарон',
@@ -2105,11 +2139,17 @@ $messages['tg'] = array(
 	'checkuser-blocked'          => 'Дастрасӣ қатъ шуд',
 	'checkuser-too-many'         => 'Теъдоди натоиҷ бисёр зиёд аст. Лутфан CIDRро бориктар кунед. Дар зер нишонаҳои IP-ро мебинед (5000 ҳадди аксар, аз рбатартиби нинона):',
 	'checkuser-user-nonexistent' => 'Корбари мавриди назар вуҷуд надорад.',
+	'checkuser-search-form'      => 'Пайдо кардани маворид дар гузоришҳо, ки $1 дар он $2 аст',
 	'checkuser-search-submit'    => 'Ҷустуҷӯ',
 	'checkuser-search-initiator' => 'оғозгар',
 	'checkuser-search-target'    => 'ҳадаф',
 	'checkuser-log-subpage'      => 'Гузориш',
 	'checkuser-log-return'       => 'Бозгашт ба форми аслии бозрасии корбар',
+	'checkuser-log-userips'      => '$1 нишонаҳои интернетии IP-ҳои $2ро гирифт',
+	'checkuser-log-ipedits'      => '$1 вироишҳои $2ро гирифт',
+	'checkuser-log-ipusers'      => '$1 корбарони марбут ба $2ро гирифт',
+	'checkuser-log-ipedits-xff'  => '$1 вироишҳои XFF $2ро гирифт',
+	'checkuser-log-ipusers-xff'  => '$1 корбарони марбут ба XFF $2ро гирифт',
 );
 
 /** Tonga (faka-Tonga)
