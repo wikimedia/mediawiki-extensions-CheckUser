@@ -1327,7 +1327,7 @@ $messages['la'] = array(
  * @author Robby
  */
 $messages['lb'] = array(
-	'checkuser-logcase'          => "D'Sich am Logbuch mecht en Ënnerscheed tëschent groussen a klenge Buchstawen (Caractèren).",
+	'checkuser-logcase'          => "D'Sich am Logbuch mecht en Ënnerscheed tëschent groussen a klenge Buchstawen.",
 	'checkuser'                  => 'Benotzer-Check',
 	'group-checkuser'            => 'Benotzer Kontrolleren',
 	'group-checkuser-member'     => 'Benotzer Kontroller',
