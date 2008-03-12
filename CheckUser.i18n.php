@@ -1283,20 +1283,22 @@ $messages['kk-latn'] = array(
 
 /** Khmer (ភាសាខ្មែរ)
  * @author Chhorran
+ * @author Lovekhmer
  */
 $messages['km'] = array(
 	'checkuser-logcase'       => 'ស្វែងរក កំណត់ហេតុ ដោយបែងចែក អក្សរធំ អក្សរតូច ។',
 	'checkuser'               => 'ឆែក អ្នកប្រើប្រាស់',
-	'group-checkuser'         => 'ឆែក អ្នកប្រើប្រាស់',
-	'group-checkuser-member'  => 'ឆែក អ្នកប្រើប្រាស់',
+	'group-checkuser'         => 'ត្រួតពិនិត្យអ្នកប្រើប្រាស់',
+	'group-checkuser-member'  => 'ត្រួតពិនិត្យអ្នកប្រើប្រាស់',
 	'grouppage-checkuser'     => '{{ns:project}}:ឆែក អ្នកប្រើប្រាស់',
 	'checkuser-reason'        => 'ហេតុផល',
 	'checkuser-showlog'       => 'បង្ហាញ កំណត់ហេតុ',
+	'checkuser-log'           => 'កំណត់ហេតុនៃការត្រួតពិនិត្យអ្នកប្រើប្រាស់',
 	'checkuser-target'        => 'អ្នកប្រើប្រាស់ ឬ IP',
 	'checkuser-search'        => 'ស្វែងរក',
 	'checkuser-check'         => 'ឆែក',
 	'checkuser-nolog'         => 'រកមិនឃើញ ឯកសារ កំណត់ហេតុ ។',
-	'checkuser-blocked'       => 'បាន រាំងខ្ទប់',
+	'checkuser-blocked'       => 'បានហាមឃាត់',
 	'checkuser-too-many'      => 'ច្រើនលទ្ធផល ពេក, សូមបង្រួម CIDR ។ នេះគឺ IP បានប្រើប្រាស់ (អតិបរិមា ៥០០០, រៀបតាម អាស័យដ្ឋាន) ៖',
 	'checkuser-search-submit' => 'ស្វែងរក',
 	'checkuser-log-subpage'   => 'កំណត់ហេតុ',
@@ -1434,14 +1436,16 @@ $messages['mk'] = array(
 
 /** Marathi (मराठी)
  * @author Mahitgar
+ * @author Kaustubh
  */
 $messages['mr'] = array(
-	'checkuser-reason'        => 'कारण',
-	'checkuser-search'        => 'शोधा',
-	'checkuser-check'         => 'पडताळा',
-	'checkuser-search-submit' => 'शोधा',
-	'checkuser-search-target' => 'लक्ष्य',
-	'checkuser-log-subpage'   => 'नोंदी',
+	'checkuser-reason'           => 'कारण',
+	'checkuser-search'           => 'शोधा',
+	'checkuser-check'            => 'पडताळा',
+	'checkuser-user-nonexistent' => 'हे सदस्यनाम अस्तित्त्वात नाही.',
+	'checkuser-search-submit'    => 'शोधा',
+	'checkuser-search-target'    => 'लक्ष्य',
+	'checkuser-log-subpage'      => 'नोंदी',
 );
 
 /** Erzya (эрзянь кель)
@@ -1476,9 +1480,10 @@ $messages['nds'] = array(
  * @author Troefkaart
  */
 $messages['nl'] = array(
-	'checkuser-summary'          => 'Dit hulpmiddel bekijkt recente wijzigingen om IP-adressen die een gebruiker heeft gebruikt te achterhalen of toont de bewerkings- en gebruikersgegegevens voor een IP-adres.
-	Gebruikers en bewerkingen van een IP-adres van een client kunnen achterhaald worden via XFF-headers door "/xff" achter het IP-adres toe te voegen. IPv4 (CIDR 16-32) en IPv6 (CIDR 64-128) worden ondersteund.
-	Om prestatieredenen worden niet meer dan 5.000 bewerkingen getoond. Gebruik dit hulpmiddel volgens het vastgestelde beleid.',
+	'checkuser-summary'          => 'Dit hulpmiddel bekijkt recente wijzigingen om IP-adressen die een gebruiker heeft gebruikt te achterhalen of geeft de bewerkings- en gebruikersgegegevens weer voor een IP-adres.
+Gebruikers en bewerkingen van een IP-adres van een client kunnen achterhaald worden via XFF-headers door "/xff" achter het IP-adres toe te voegen. IPv4 (CIDR 16-32) en IPv6 (CIDR 64-128) worden ondersteund.
+Om prestatieredenen worden niet meer dan 5.000 bewerkingen weergegeven.
+Gebruik dit hulpmiddel volgens het vastgestelde beleid.',
 	'checkuser-desc'             => 'Laat bevoegde gebruikers IP-adressen en andere informatie van gebruikers achterhalen',
 	'checkuser-logcase'          => 'Zoeken in het logboek is hoofdlettergevoelig.',
 	'checkuser'                  => 'Gebruiker controleren',
@@ -1486,7 +1491,7 @@ $messages['nl'] = array(
 	'group-checkuser-member'     => 'Controlegebruiker',
 	'grouppage-checkuser'        => '{{ns:project}}:Controlegebruiker',
 	'checkuser-reason'           => 'Reden',
-	'checkuser-showlog'          => 'Logboek tonen',
+	'checkuser-showlog'          => 'Logboek weergeven',
 	'checkuser-log'              => 'Logboek controleren gebruikers',
 	'checkuser-query'            => 'Bevraag recente wijzigingen',
 	'checkuser-target'           => 'Gebruiker of IP-adres',
