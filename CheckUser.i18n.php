@@ -399,11 +399,46 @@ Z výkonnostních důvodů lze zobrazit maximálně 5000 editací. Používejte 
 );
 
 /** Danish (Dansk)
+ * @author Morten
  * @author M.M.S.
  */
 $messages['da'] = array(
-	'checkuser-search'        => 'Søg',
-	'checkuser-search-submit' => 'Søg',
+	'checkuser-summary'          => 'Dette værktøj scanner Seneste ændringer for at finde IP\'er brugt af en bestemt bruger, eller for at vise redigerings- eller brugerdata for en IP.
+Bruger og redigeringer fra en klient IP kan hentes via XFF headers ved at tilføje "/xff" til IP\'en. Ipv4 (CIRD 16-32) og IPv6 (CIDR 64-128) er understøttet.
+For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. Brug kun dette værktøj i overensstemmelse med gældende politiker på {{SITENAME}}.',
+	'checkuser-desc'             => 'Giver brugere med den rette godkendelse muligheden for at checke brugeres IP-adresser og anden information',
+	'checkuser-logcase'          => 'Logsøgning er case sensitiv (der gøres forskel på store og små bogstaver)',
+	'checkuser'                  => 'Checkbruger',
+	'group-checkuser'            => 'Checkbrugere',
+	'group-checkuser-member'     => 'Checkbruger',
+	'grouppage-checkuser'        => '{{ns:project}}:Checkbruger',
+	'checkuser-reason'           => 'Begrundelse',
+	'checkuser-showlog'          => 'Vis log',
+	'checkuser-log'              => 'Checkbrugerlog',
+	'checkuser-query'            => 'Søg i seneste ændringer',
+	'checkuser-target'           => 'Bruger eller IP',
+	'checkuser-users'            => 'Hent brugere',
+	'checkuser-edits'            => 'Hent redigeringer fra IP',
+	'checkuser-ips'              => "Hent IP'er",
+	'checkuser-search'           => 'Søg',
+	'checkuser-empty'            => 'Loggen indeholder ingen poster.',
+	'checkuser-nomatch'          => 'Ingen matchende resultater blev fundet.',
+	'checkuser-check'            => 'Check',
+	'checkuser-log-fail'         => 'Kunne ikke tilføje log-post',
+	'checkuser-nolog'            => 'Logfilen blev ikke fundet.',
+	'checkuser-blocked'          => 'Blokeret',
+	'checkuser-too-many'         => "For mange resultater, gør CIDR'en smallere. Her er de brugte IP'er (max 5000, sorteret efter adresse):",
+	'checkuser-user-nonexistent' => 'Den anførte bruger eksisterer ikke.',
+	'checkuser-search-form'      => 'Find log-poster hvor $1 er $2',
+	'checkuser-search-submit'    => 'Søg',
+	'checkuser-search-target'    => 'mål',
+	'checkuser-log-subpage'      => 'Log',
+	'checkuser-log-return'       => 'Gå tilbage til hovedformularen for checkbruger',
+	'checkuser-log-userips'      => "$1 fik IP'er for $2",
+	'checkuser-log-ipedits'      => '$1 fik redigeringer for $2',
+	'checkuser-log-ipusers'      => '$1 fik brugere for $2',
+	'checkuser-log-ipedits-xff'  => '$1 fik redigeringer for XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 fik brugere for XFF $2',
 );
 
 /** German (Deutsch)
@@ -1291,16 +1326,18 @@ $messages['km'] = array(
 	'group-checkuser'         => 'ត្រួតពិនិត្យអ្នកប្រើប្រាស់',
 	'group-checkuser-member'  => 'ត្រួតពិនិត្យអ្នកប្រើប្រាស់',
 	'grouppage-checkuser'     => '{{ns:project}}:ឆែក អ្នកប្រើប្រាស់',
-	'checkuser-reason'        => 'ហេតុផល',
+	'checkuser-reason'        => 'មូលហេតុ',
 	'checkuser-showlog'       => 'បង្ហាញ កំណត់ហេតុ',
 	'checkuser-log'           => 'កំណត់ហេតុនៃការត្រួតពិនិត្យអ្នកប្រើប្រាស់',
 	'checkuser-target'        => 'អ្នកប្រើប្រាស់ ឬ IP',
 	'checkuser-search'        => 'ស្វែងរក',
-	'checkuser-check'         => 'ឆែក',
+	'checkuser-empty'         => 'មិនមានអ្វីនៅក្នុងកំណត់ហេតុនេះទេ។',
+	'checkuser-check'         => 'ត្រួតពិនិត្យ',
 	'checkuser-nolog'         => 'រកមិនឃើញ ឯកសារ កំណត់ហេតុ ។',
 	'checkuser-blocked'       => 'បានហាមឃាត់',
 	'checkuser-too-many'      => 'ច្រើនលទ្ធផល ពេក, សូមបង្រួម CIDR ។ នេះគឺ IP បានប្រើប្រាស់ (អតិបរិមា ៥០០០, រៀបតាម អាស័យដ្ឋាន) ៖',
 	'checkuser-search-submit' => 'ស្វែងរក',
+	'checkuser-search-target' => 'គោលដៅ',
 	'checkuser-log-subpage'   => 'កំណត់ហេតុ',
 );
 
@@ -1465,13 +1502,21 @@ $messages['nap'] = array(
  * @author Slomox
  */
 $messages['nds'] = array(
-	'checkuser'              => 'Bruker nakieken',
-	'group-checkuser'        => 'Brukers nakieken',
-	'group-checkuser-member' => 'Bruker nakieken',
-	'grouppage-checkuser'    => '{{ns:project}}:Checkuser',
-	'checkuser-reason'       => 'Grund',
-	'checkuser-search'       => 'Söken',
-	'checkuser-nolog'        => 'Keen Loogbook funnen.',
+	'checkuser'                  => 'Bruker nakieken',
+	'group-checkuser'            => 'Brukers nakieken',
+	'group-checkuser-member'     => 'Bruker nakieken',
+	'grouppage-checkuser'        => '{{ns:project}}:Checkuser',
+	'checkuser-reason'           => 'Grund',
+	'checkuser-showlog'          => 'Logbook wiesen',
+	'checkuser-target'           => 'Bruker oder IP',
+	'checkuser-users'            => 'Brukers kriegen',
+	'checkuser-ips'              => 'IPs kriegen',
+	'checkuser-search'           => 'Söken',
+	'checkuser-nolog'            => 'Keen Loogbook funnen.',
+	'checkuser-search-submit'    => 'Söök',
+	'checkuser-search-initiator' => 'Initiater',
+	'checkuser-search-target'    => 'Ziel',
+	'checkuser-log-subpage'      => 'Logbook',
 );
 
 /** Dutch (Nederlands)
