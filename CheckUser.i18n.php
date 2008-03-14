@@ -1472,17 +1472,48 @@ $messages['mk'] = array(
 );
 
 /** Marathi (मराठी)
- * @author Mahitgar
  * @author Kaustubh
+ * @author Mahitgar
  */
 $messages['mr'] = array(
+	'checkuser-summary'          => 'हे उपकरण अलीकडील बदलांमधून एखाद्या सदस्याने वापरलेले अंकपत्ते किंवा एखाद्या अंकपत्त्याची संपादने/सदस्य दाखविते.
+क्लायंट अंकपत्त्यावरील सदस्य अथवा संपादने पाहण्यासाठी अंकपत्त्यानंतर "/xff" द्यावे लागेल.
+IPv4 (CIDR 16-32) आणि IPv6 (CIDR 64-128) वापरता येऊ शकेल.
+एका वेळी ५००० पेक्षा जास्त संपादने दाखविली जाणार नाहीत. हे उपकरण पॉलिसीच्या नियमांना धरून वापरावे.',
+	'checkuser-desc'             => 'सदस्याला इतर सदस्यांचे आंतरजाल अंकपत्ते (आयपी) तपासण्याची तसेच इतर माहिती पाहण्याची परवानगी देतो.',
+	'checkuser-logcase'          => 'लॉगमधील शोध हा लिपीशी संबंधित (case-sensitive) आहे.',
+	'checkuser'                  => 'सदस्य तपासा',
+	'group-checkuser'            => 'सदस्य तपासा',
+	'group-checkuser-member'     => 'सदस्य तपासा',
+	'grouppage-checkuser'        => '{{ns:project}}:सदस्य तपासा',
 	'checkuser-reason'           => 'कारण',
+	'checkuser-showlog'          => 'लॉग दाखवा',
+	'checkuser-log'              => 'Checkuse लॉग',
+	'checkuser-query'            => 'अलीकडील बदल पृच्छा',
+	'checkuser-target'           => 'सदस्य किंवा अंकपत्ता',
+	'checkuser-users'            => 'सदस्य शोधा',
+	'checkuser-edits'            => 'अंकपत्त्याची संपादने शोधा',
+	'checkuser-ips'              => 'अंकपत्ते शोधा',
 	'checkuser-search'           => 'शोधा',
+	'checkuser-empty'            => 'लॉग मध्ये एकही नोंद नाही',
+	'checkuser-nomatch'          => 'नोंदी सापडल्या नाहीत',
 	'checkuser-check'            => 'पडताळा',
+	'checkuser-log-fail'         => 'लॉगमध्ये नोंद वाढविता आलेली नाही.',
+	'checkuser-nolog'            => 'लॉग संचिका सापडलेली नाही.',
+	'checkuser-blocked'          => 'ब्लॉक केलेले आहे',
+	'checkuser-too-many'         => 'खूप निकाल आलेले आहेत, कृपया शोधशब्दांमध्ये योग्य बदल करा. खाली वापरलेल्या अंकपत्त्यांची यादी आहे (जास्तीत जास्त ५०००, अनुक्रमे):',
 	'checkuser-user-nonexistent' => 'हे सदस्यनाम अस्तित्त्वात नाही.',
+	'checkuser-search-form'      => 'अशा नोंदी शोधा जिथे $1 हा $2 आहे.',
 	'checkuser-search-submit'    => 'शोधा',
+	'checkuser-search-initiator' => 'चालक (चालना देणारा)',
 	'checkuser-search-target'    => 'लक्ष्य',
 	'checkuser-log-subpage'      => 'नोंदी',
+	'checkuser-log-return'       => 'CheckUser मुख्य अर्जाकडे परत जा',
+	'checkuser-log-userips'      => '$1 कडे $2 साठीचे अंकपत्ते आहेत',
+	'checkuser-log-ipedits'      => '$1 कडे $2 साठीची संपादने आहेत',
+	'checkuser-log-ipusers'      => '$1 कडे $2 साठीचे सदस्य आहेत',
+	'checkuser-log-ipedits-xff'  => '$1 कडे XFF $2 साठीची संपादने आहेत',
+	'checkuser-log-ipusers-xff'  => '$1 कडे XFF $2 साठीचे सदस्य आहेत',
 );
 
 /** Erzya (эрзянь кель)
