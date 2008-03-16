@@ -65,6 +65,47 @@ $messages['af'] = array(
 	'checkuser-log-subpage'   => 'Logboek',
 );
 
+/** Aragonese (Aragonés)
+ * @author Juanpabl
+ */
+$messages['an'] = array(
+	'checkuser-summary'          => "Ista aina repasa os zaguers cambeos ta mirar as IPs usatas por un usuario u amostrar as edizions y datos d'usuario ta una adreza IP. Os usuarios y edizions feitos por un cliente IP pueden trobar-se por meyo de cabezeras XFF adibindo a IP con \"/xff\". Se da soporte á IPv4 (CIDR 16-32) y IPv6 (CIDR 64-128).
+No s'otendrán más de 5000 edizions por razons de prestazions. Faiga serbir ista aina d'alcuerdo con as politicas d'o procheuto.",
+	'checkuser-desc'             => "Conzede á os usuarios con o premiso adecuau a capazidat ta comprebar as adrezas IP d'os usuarios y atras informazions",
+	'checkuser-logcase'          => 'En mirar os rechistros se fa destinzión entre mayusclas y minusclas.',
+	'checkuser'                  => "Comprebazión d'usuarios",
+	'group-checkuser'            => "Comprebadors d'usuarios",
+	'group-checkuser-member'     => "Comprebador d'usuarios",
+	'grouppage-checkuser'        => "{{ns:project}}:comprebazión d'usuarios",
+	'checkuser-reason'           => 'Razón',
+	'checkuser-showlog'          => 'Amostrar o rechistro',
+	'checkuser-log'              => "Rechistro de CheckUser (comprebazión d'usuarios)",
+	'checkuser-query'            => 'Mirar en os zaguers cambeos',
+	'checkuser-target'           => 'Usuario u adreza IP',
+	'checkuser-users'            => "Otener os nombres d'usuario",
+	'checkuser-edits'            => 'Otener as edizions dende una adreza IP',
+	'checkuser-ips'              => 'Otener as adrezas IP',
+	'checkuser-search'           => 'Mirar',
+	'checkuser-empty'            => 'No bi ha garra elemento en o rechistro.',
+	'checkuser-nomatch'          => "No s'ha trobato garra concordanzia",
+	'checkuser-check'            => 'Comprebar',
+	'checkuser-log-fail'         => "No s'ha puesto adibir ista dentrada ta o rechistro",
+	'checkuser-nolog'            => "No s'ha trobato garra archibo de rechistro.",
+	'checkuser-blocked'          => 'Bloqueyato',
+	'checkuser-too-many'         => 'Bi ha masiaus resultaus. Por fabor, faiga más estreito o CIDR. Aquí bi son as adrezas IP emplegatas (masimo 5000, ordenatas por  adreza):',
+	'checkuser-user-nonexistent' => 'O usuario espezificato no esiste.',
+	'checkuser-search-form'      => "Trobar dentradas d'o rechistro an que o $1 sía $2",
+	'checkuser-search-submit'    => 'Mirar',
+	'checkuser-search-initiator' => "o enzetador d'a consulta",
+	'checkuser-log-subpage'      => 'Rechistro',
+	'checkuser-log-return'       => "Tornar ta o formulario prenzipal de CheckUser (Comprebazión d'usuarios)",
+	'checkuser-log-userips'      => '$1 ha consultato as adrezas IP de $2',
+	'checkuser-log-ipedits'      => '$1 ha consultato as edizions de $2',
+	'checkuser-log-ipusers'      => "$1 ha consultato os nombres d'usuario de $2",
+	'checkuser-log-ipedits-xff'  => "$1 ha consultato as edizions d'o XFF $2",
+	'checkuser-log-ipusers-xff'  => "$1 ha consultato os nombres d'usuario d'o XFF $2",
+);
+
 $messages['ang'] = array(
 	'checkuser-reason'       => 'Racu',
 );
@@ -295,6 +336,7 @@ $messages['br'] = array(
 
 /** Catalan (Català)
  * @author SMP
+ * @author Juanpabl
  * @author Toniher
  */
 $messages['ca'] = array(
@@ -327,7 +369,7 @@ Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Reco
 	'checkuser-search-form'      => 'Cerca entrades al registre on $1 és $2',
 	'checkuser-search-submit'    => 'Cerca',
 	'checkuser-search-initiator' => "l'iniciador",
-	'checkuser-search-target'    => 'el consultat',
+	'checkuser-search-target'    => "o blanco d'a consulta",
 	'checkuser-log-subpage'      => 'Registre',
 	'checkuser-log-return'       => 'Retorna al formulari de CheckUser',
 	'checkuser-log-userips'      => '$1 consulta les IP de $2',
@@ -511,26 +553,28 @@ $messages['el'] = array(
  * @author Yekrats
  */
 $messages['eo'] = array(
-	'checkuser'                 => 'Kontrolu uzanton',
-	'group-checkuser'           => 'Kontrolu uzantojn',
-	'group-checkuser-member'    => 'Kontrolu uzanton',
-	'grouppage-checkuser'       => '{{ns:project}}:Kontrolu uzanton',
-	'checkuser-reason'          => 'Kialo',
-	'checkuser-target'          => 'Uzanto aŭ IP-adreso',
-	'checkuser-users'           => 'Akiru uzantojn',
-	'checkuser-edits'           => 'Akiru redaktojn de IP-adreso',
-	'checkuser-ips'             => 'Prenu IP-adresojn',
-	'checkuser-search'          => 'Serĉu',
-	'checkuser-empty'           => 'La loglibro enhavas nenion.',
-	'checkuser-check'           => 'Kontrolu',
-	'checkuser-blocked'         => 'Forbarita',
-	'checkuser-search-submit'   => 'Serĉu',
-	'checkuser-search-target'   => 'celo',
-	'checkuser-log-subpage'     => 'Loglibro',
-	'checkuser-log-userips'     => '$1 akiris IP-adresojn por $2',
-	'checkuser-log-ipedits'     => '$1 akiris redaktojn por $2',
-	'checkuser-log-ipusers'     => '$1 akiris uzantojn por $2',
-	'checkuser-log-ipedits-xff' => '$1 akiris redaktojn por XFF $2',
+	'checkuser'                  => 'Kontrolu uzanton',
+	'group-checkuser'            => 'Kontrolu uzantojn',
+	'group-checkuser-member'     => 'Kontrolu uzanton',
+	'grouppage-checkuser'        => '{{ns:project}}:Kontrolu uzanton',
+	'checkuser-reason'           => 'Kialo',
+	'checkuser-showlog'          => 'Montru loglibron',
+	'checkuser-target'           => 'Uzanto aŭ IP-adreso',
+	'checkuser-users'            => 'Akiru uzantojn',
+	'checkuser-edits'            => 'Akiru redaktojn de IP-adreso',
+	'checkuser-ips'              => 'Prenu IP-adresojn',
+	'checkuser-search'           => 'Serĉu',
+	'checkuser-empty'            => 'La loglibro enhavas nenion.',
+	'checkuser-check'            => 'Kontrolu',
+	'checkuser-blocked'          => 'Forbarita',
+	'checkuser-search-submit'    => 'Serĉu',
+	'checkuser-search-initiator' => 'inicianto',
+	'checkuser-search-target'    => 'celo',
+	'checkuser-log-subpage'      => 'Loglibro',
+	'checkuser-log-userips'      => '$1 akiris IP-adresojn por $2',
+	'checkuser-log-ipedits'      => '$1 akiris redaktojn por $2',
+	'checkuser-log-ipusers'      => '$1 akiris uzantojn por $2',
+	'checkuser-log-ipedits-xff'  => '$1 akiris redaktojn por XFF $2',
 );
 
 /** Spanish (Español)
@@ -991,6 +1035,7 @@ Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěš
  * @author Bdanee
  * @author KossuthRad
  * @author Dorgan
+ * @author Tgr
  */
 $messages['hu'] = array(
 	'checkuser-summary'          => 'Ez az eszköz végigvizsgálja a friss változásokat, hogy lekérje egy adott felhasználó IP-címeit vagy megjelenítse egy adott IP-címet használó szerkesztőket és az IP szerkesztéseit.
@@ -1028,8 +1073,8 @@ Maximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt
 	'checkuser-log-userips'      => '$1 lekérte $2 IP-címeit',
 	'checkuser-log-ipedits'      => '$1 lekérte $2 szerkesztéseit',
 	'checkuser-log-ipusers'      => '$1 lekérte a(z) $2 IP-címhez tarzozó szerkesztőket',
-	'checkuser-log-ipedits-xff'  => '$ lekérte XFF $2 szerkesztéseit',
-	'checkuser-log-ipusers-xff'  => '$ lekérte XFF $2 szerkesztőit',
+	'checkuser-log-ipedits-xff'  => '$1 lekérte XFF $2 szerkesztéseit',
+	'checkuser-log-ipusers-xff'  => '$1 lekérte XFF $2 szerkesztőit',
 );
 
 /** Indonesian (Bahasa Indonesia)
