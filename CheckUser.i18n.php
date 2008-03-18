@@ -566,6 +566,7 @@ $messages['eo'] = array(
 	'checkuser-search'           => 'Serĉu',
 	'checkuser-empty'            => 'La loglibro enhavas nenion.',
 	'checkuser-check'            => 'Kontrolu',
+	'checkuser-nolog'            => 'Neniu loglibro trovita.',
 	'checkuser-blocked'          => 'Forbarita',
 	'checkuser-search-submit'    => 'Serĉu',
 	'checkuser-search-initiator' => 'inicianto',
