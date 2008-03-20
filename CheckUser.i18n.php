@@ -541,12 +541,43 @@ $messages['ee'] = array(
  * @author Consta
  */
 $messages['el'] = array(
-	'checkuser-reason'        => 'Λόγος',
-	'checkuser-target'        => 'Χρήστης ή IP',
-	'checkuser-search'        => 'Αναζήτηση',
-	'checkuser-nomatch'       => 'Δεν βρέθηκαν σχετικές σελίδες.',
-	'checkuser-search-submit' => 'Αναζήτηση',
-	'checkuser-search-target' => 'στόχος',
+	'checkuser-summary'          => 'Αυτό το εργαλείο ελέγχει τις πρόσφατες αλλαγές για να δει τις IP διευθύνσεις που χρησιμοποιούνται από ένα χρήστη ή δείχνουν τις πληροφορίες μιας επεξεργασίας ήενός χρήστη για ένα IP.
+Χρήστες και επεξεργασίες από ένα σταθερό IP μπορούν να ανακτηθούν μέσω XFF επικεφαλίδων προσαρτήσοντας το IP με "/xff". IP έκδοσης 4 (CIDR 16-32) και IP έκδοσης 6 (CIDR 64-128) υποστηρίζονται.
+Όχι περισσότερες από 5000 επεξεργασίες θα επιστραφούν για λόγους εμφάνισης. Χρησιμοποίησε το αυτό σύμφωνα με την πολιτική.',
+	'checkuser-desc'             => 'Δίνει στους χρήστες με την κατάλληλη άδεια την δυνατότητα να μάθουν την IP διεύθυνση ενός ελεγκτή καθώς και άλλες πληροφορίες',
+	'checkuser-logcase'          => 'Η έρευνα του αρχείου είναι ευαίσθητη',
+	'checkuser'                  => 'Ελεγκτής',
+	'group-checkuser'            => 'Ελεγκτές',
+	'group-checkuser-member'     => 'Ελεγκτής',
+	'grouppage-checkuser'        => '{{ns:project}}:Ελεγκτής',
+	'checkuser-reason'           => 'Λόγος',
+	'checkuser-showlog'          => 'Δείξε το αρχείο',
+	'checkuser-log'              => 'Αρχείο ελεγκτών',
+	'checkuser-query'            => 'Ζήτα τις πρόσφατες αλλαγές',
+	'checkuser-target'           => 'Χρήστης ή IP',
+	'checkuser-users'            => 'Πάρε χρήστες',
+	'checkuser-edits'            => 'Πάρε επεξεργασίες από IP',
+	'checkuser-ips'              => 'Πάρε IP',
+	'checkuser-search'           => 'Αναζήτηση',
+	'checkuser-empty'            => 'Το αρχείο καταγραφών δεν περιέχει τίποτα.',
+	'checkuser-nomatch'          => 'Δεν βρέθηκαν σχετικές σελίδες.',
+	'checkuser-check'            => 'Έλεγξε',
+	'checkuser-log-fail'         => 'Δεν μπόρεσε να ανοίξει το αρχείο καταγραφών',
+	'checkuser-nolog'            => 'Δεν βρέθηκε κανένα αρχείο στις καταγραφές.',
+	'checkuser-blocked'          => 'Φραγμένος',
+	'checkuser-too-many'         => 'Πάρα πολλά αποτελέσματα, παρακαλώμειώστε το CIDR. Εδώ είναι οι διευθύνσεις IP που χρησιμοποιούνται (5000 το μεγαλύτερο, ταξινομημένες κατά διεύθυνση):',
+	'checkuser-user-nonexistent' => 'Ο συγκεκριμένος χρήστης δεν υπάρχει.',
+	'checkuser-search-form'      => 'Βρες τα αρχεία καταγραφών που το $1 είναι $2',
+	'checkuser-search-submit'    => 'Αναζήτηση',
+	'checkuser-search-initiator' => 'ιδρυτής',
+	'checkuser-search-target'    => 'στόχος',
+	'checkuser-log-subpage'      => 'Αρχείο',
+	'checkuser-log-return'       => 'Επέστρεψε στην κύρια μορφή του Ελεγκτή',
+	'checkuser-log-userips'      => '$1 πήρε τις IP διευθύνσεις για $2',
+	'checkuser-log-ipedits'      => '$1 πήρε τις επεξεργασίες για το $2',
+	'checkuser-log-ipusers'      => '$1 πήρε τους χρήστες για το $2',
+	'checkuser-log-ipedits-xff'  => '$1 πήρε τις επεξεργασίες για το XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 πήρε τους χρήστες για το XFF $2',
 );
 
 /** Esperanto (Esperanto)
@@ -559,6 +590,7 @@ $messages['eo'] = array(
 	'grouppage-checkuser'        => '{{ns:project}}:Kontrolu uzanton',
 	'checkuser-reason'           => 'Kialo',
 	'checkuser-showlog'          => 'Montru loglibron',
+	'checkuser-log'              => 'Loglibro pri kontrolado de uzantoj',
 	'checkuser-target'           => 'Uzanto aŭ IP-adreso',
 	'checkuser-users'            => 'Akiru uzantojn',
 	'checkuser-edits'            => 'Akiru redaktojn de IP-adreso',
@@ -2348,6 +2380,17 @@ $messages['tr'] = array(
 	'checkuser-search-submit'    => 'Ara',
 	'checkuser-search-initiator' => 'Başlatan',
 	'checkuser-search-target'    => 'Hedef',
+);
+
+/** Ukrainian (Українська)
+ * @author Ahonc
+ */
+$messages['uk'] = array(
+	'checkuser-reason'  => 'Причина',
+	'checkuser-showlog' => 'Показати журнал',
+	'checkuser-log'     => 'Журнал перевірки користувачів',
+	'checkuser-target'  => 'Користувач або IP-адреса',
+	'checkuser-check'   => 'Перевірити',
 );
 
 /** Vietnamese (Tiếng Việt)
