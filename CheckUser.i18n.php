@@ -601,6 +601,7 @@ $messages['eo'] = array(
 	'checkuser-ips'              => 'Prenu IP-adresojn',
 	'checkuser-search'           => 'Serĉu',
 	'checkuser-empty'            => 'La loglibro enhavas nenion.',
+	'checkuser-nomatch'          => 'Neniujn pafojn trovis.',
 	'checkuser-check'            => 'Kontrolu',
 	'checkuser-nolog'            => 'Neniu loglibro trovita.',
 	'checkuser-blocked'          => 'Forbarita',
