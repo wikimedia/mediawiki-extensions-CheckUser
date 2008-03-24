@@ -588,6 +588,7 @@ $messages['el'] = array(
  * @author Yekrats
  */
 $messages['eo'] = array(
+	'checkuser-logcase'          => 'La loglibra serĉo estas usklecodistinga.',
 	'checkuser'                  => 'Kontrolu uzanton',
 	'group-checkuser'            => 'Kontrolu uzantojn',
 	'group-checkuser-member'     => 'Kontrolu uzanton',
@@ -595,6 +596,7 @@ $messages['eo'] = array(
 	'checkuser-reason'           => 'Kialo',
 	'checkuser-showlog'          => 'Montru loglibron',
 	'checkuser-log'              => 'Loglibro pri kontrolado de uzantoj',
+	'checkuser-query'            => 'Informomendu lastatempajn ŝanĝojn',
 	'checkuser-target'           => 'Uzanto aŭ IP-adreso',
 	'checkuser-users'            => 'Akiru uzantojn',
 	'checkuser-edits'            => 'Akiru redaktojn de IP-adreso',
@@ -898,6 +900,7 @@ Le fáth feidhmiúcháin, ní féidir níos mó ná 5000 eagarthóireachta a tha
 /** Galician (Galego)
  * @author Alma
  * @author Xosé
+ * @author Toliño
  */
 $messages['gl'] = array(
 	'checkuser-summary'          => 'Esta ferramenta analiza os cambios recentes para recuperar os enderezos IPs utilizados por un usuario ou amosar as edicións / datos do usuario dun enderezo de IP.
@@ -915,7 +918,7 @@ Os usuarios e as edicións por un cliente IP poden ser recuperados a través das
 	'checkuser-users'            => 'Obter usuarios',
 	'checkuser-edits'            => 'Obter edicións de enderezos IP',
 	'checkuser-ips'              => 'Conseguir enderezos IPs',
-	'checkuser-search'           => 'Buscar',
+	'checkuser-search'           => 'Procurar',
 	'checkuser-empty'            => 'O rexistro non contén artigos.',
 	'checkuser-nomatch'          => 'Non se atoparon coincidencias.',
 	'checkuser-check'            => 'Comprobar',
@@ -1715,7 +1718,16 @@ Gebruik dit hulpmiddel volgens het vastgestelde beleid.',
 	'checkuser-log-ipusers-xff'  => '$1 heeft gebruikers voor XFF $2',
 );
 
-/** Norwegian (‪Norsk (bokmål)‬)
+/** Norwegian Nynorsk (‪Norsk (nynorsk)‬)
+ * @author Jon Harald Søby
+ */
+$messages['nn'] = array(
+	'checkuser-reason'        => 'Årsak',
+	'checkuser-search'        => 'Søk',
+	'checkuser-search-submit' => 'Søk',
+);
+
+/** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬)
  * @author Jon Harald Søby
  */
 $messages['no'] = array(
@@ -1730,7 +1742,7 @@ Av ytelsesgrunner vises maksimalt 5000 redigeringer. Bruk dette verktøyet i sam
 	'group-checkuser'            => 'IP-kontrollører',
 	'group-checkuser-member'     => 'IP-kontrollør',
 	'grouppage-checkuser'        => '{{ns:project}}:IP-kontrollør',
-	'checkuser-reason'           => 'Grunn',
+	'checkuser-reason'           => 'Årsak',
 	'checkuser-showlog'          => 'Vis logg',
 	'checkuser-log'              => 'Brukersjekkingslogg',
 	'checkuser-query'            => 'Søk i siste endringer',
@@ -2391,11 +2403,20 @@ $messages['tr'] = array(
  * @author Ahonc
  */
 $messages['uk'] = array(
-	'checkuser-reason'  => 'Причина',
-	'checkuser-showlog' => 'Показати журнал',
-	'checkuser-log'     => 'Журнал перевірки користувачів',
-	'checkuser-target'  => 'Користувач або IP-адреса',
-	'checkuser-check'   => 'Перевірити',
+	'checkuser'              => 'Перевірити користувача',
+	'group-checkuser'        => "Чек'юзери",
+	'group-checkuser-member' => "чек'юзер",
+	'grouppage-checkuser'    => '{{ns:project}}:Перевірка користувачів',
+	'checkuser-reason'       => 'Причина',
+	'checkuser-showlog'      => 'Показати журнал',
+	'checkuser-log'          => 'Журнал перевірки користувачів',
+	'checkuser-query'        => 'Запитати останні зміни',
+	'checkuser-target'       => 'Користувач або IP-адреса',
+	'checkuser-users'        => 'Отримати користувачів',
+	'checkuser-edits'        => 'Запитати редагування, зроблені з IP-адреси',
+	'checkuser-ips'          => 'Запитати IP-адреси',
+	'checkuser-search'       => 'Знайти',
+	'checkuser-check'        => 'Перевірити',
 );
 
 /** Vietnamese (Tiếng Việt)
