@@ -371,7 +371,7 @@ Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Reco
 	'checkuser-search-form'      => 'Cerca entrades al registre on $1 és $2',
 	'checkuser-search-submit'    => 'Cerca',
 	'checkuser-search-initiator' => "l'iniciador",
-	'checkuser-search-target'    => "o blanco d'a consulta",
+	'checkuser-search-target'    => 'el consultat',
 	'checkuser-log-subpage'      => 'Registre',
 	'checkuser-log-return'       => 'Retorna al formulari de CheckUser',
 	'checkuser-log-userips'      => '$1 consulta les IP de $2',
@@ -2222,6 +2222,44 @@ Beoarbaidengen fon ne IP-Adresse konnen uk ätter Informatione uut do XFF-Header
 	'checkuser-log-ipusers-xff'  => '$1 hoalde Benutsere foar XFF $2',
 );
 
+/** Sundanese (Basa Sunda)
+ * @author Kandar
+ */
+$messages['su'] = array(
+	'checkuser-desc'             => 'Leler kawenangan pikeun mariksa alamat IP jeung émbaran lianna ti hiji pamaké',
+	'checkuser-logcase'          => 'Panyungsi log ngabédakeun kapitalisasi.',
+	'checkuser'                  => 'Pamaké pamariksa',
+	'group-checkuser'            => 'Pamaké pamariksa',
+	'group-checkuser-member'     => 'Pamaké pamariksa',
+	'grouppage-checkuser'        => '{{ns:project}}:Pamaké pamariksa',
+	'checkuser-reason'           => 'Alesan',
+	'checkuser-showlog'          => 'Témbongkeun log',
+	'checkuser-log'              => 'Log PamakéPamariksa',
+	'checkuser-target'           => 'Landihan atawa IP',
+	'checkuser-users'            => 'Sungsi pamaké',
+	'checkuser-edits'            => 'Sungsi éditan ti IP',
+	'checkuser-ips'              => 'Sungsi IP',
+	'checkuser-search'           => 'Sungsi',
+	'checkuser-empty'            => 'Logna kosong.',
+	'checkuser-nomatch'          => 'Euweuh nu cocog.',
+	'checkuser-check'            => 'Pariksa',
+	'checkuser-log-fail'         => 'Teu bisa nambahkeun kana log',
+	'checkuser-nolog'            => 'Koropak log teu kapanggih.',
+	'checkuser-blocked'          => 'Dipeungpeuk',
+	'checkuser-too-many'         => 'Hasilna loba teuing, heureutan CIDR-na.
+Di handap ieu béréndélan IP nu dipaké (paling loba 5000, disusun dumasar alamat):',
+	'checkuser-user-nonexistent' => 'Euweuh pamaké nu cocog jeung pamundut.',
+	'checkuser-search-form'      => 'Téang éntri log nu $1-na sarua jeung $2',
+	'checkuser-search-submit'    => 'Sungsi',
+	'checkuser-log-subpage'      => 'Log',
+	'checkuser-log-return'       => 'Balik ka formulir utama PamakéPamariksa',
+	'checkuser-log-userips'      => '$1 manggih IP ti $2',
+	'checkuser-log-ipedits'      => '$! manggih éditan ti $2',
+	'checkuser-log-ipusers'      => '$1 manggih pamaké ti $2',
+	'checkuser-log-ipedits-xff'  => '$1 manggih éditan ti XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 manggih pamaké ti XFF $2',
+);
+
 /** Swedish (Svenska)
  * @author Lejonel
  */
@@ -2417,6 +2455,8 @@ $messages['uk'] = array(
 	'checkuser-ips'          => 'Запитати IP-адреси',
 	'checkuser-search'       => 'Знайти',
 	'checkuser-check'        => 'Перевірити',
+	'checkuser-nolog'        => 'Файл журналу не знайдений.',
+	'checkuser-log-subpage'  => 'Журнал',
 );
 
 /** Vietnamese (Tiếng Việt)
