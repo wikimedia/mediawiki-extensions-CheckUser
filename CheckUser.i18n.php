@@ -2577,6 +2577,7 @@ $messages['yue'] = array(
 
 $messages['zh-hans'] = array(
 	'checkuser-summary'      => '本工具会从{{int:recentchanges}}中查询使用者使用过的IP位址，或是一个IP位址发送出来的任何编辑记录。本工具支持IPv4及IPv6的位址。由于技术上的限制，本工具只能查询最近5000笔的记录。请确定你的行为符合守则。',
+	'checkuser-desc'         => '让授权的用户检查用户的IP位址及其他资讯',
 	'checkuser-logcase'      => '搜寻时请注意大小写的区分',
 	'checkuser'              => '核对用户',
 	'group-checkuser'        => '账户核查',
@@ -2601,6 +2602,7 @@ $messages['zh-hans'] = array(
 
 $messages['zh-hant'] = array(
 	'checkuser-summary'      => '本工具會從{{int:recentchanges}}中查詢使用者使用過的IP位址，或是一個IP位址發送出來的任何編輯記錄。本工具支援IPv4及IPv6的位址。由於技術上的限制，本工具只能查詢最近5000筆的記錄。請確定您的行為符合守則。',
+	'checkuser-desc'         => '讓授權的使用者檢查使用者的IP位址及其他資訊',
 	'checkuser-logcase'      => '搜尋時請注意大小寫的區分',
  	'checkuser'              => '核對用戶',
  	'group-checkuser'        => '用戶查核',
@@ -2622,4 +2624,3 @@ $messages['zh-hant'] = array(
 	'checkuser-nolog'        => '找不到記錄檔',
 	'checkuser-blocked'      => '已經查封',
 );
-
