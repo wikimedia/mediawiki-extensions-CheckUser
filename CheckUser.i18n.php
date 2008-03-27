@@ -1593,6 +1593,22 @@ $messages['mk'] = array(
 	'checkuser'              => 'Провери корисник',
 );
 
+/** Malayalam (മലയാളം)
+ * @author Shijualex
+ */
+$messages['ml'] = array(
+	'checkuser'               => 'ചെക്ക് യൂസര്‍',
+	'group-checkuser'         => 'ചെക്ക് യൂസര്‍മാര്‍',
+	'group-checkuser-member'  => 'ചെക്ക് യൂസര്‍',
+	'grouppage-checkuser'     => '{{ns:project}}:ചെക്ക് യൂസര്‍',
+	'checkuser-reason'        => 'കാരണം',
+	'checkuser-showlog'       => 'പ്രവര്‍ത്തനരേഖ കാട്ടുക',
+	'checkuser-log'           => 'ചെക്ക് യൂസര്‍ പ്രവര്‍ത്തനരേഖ',
+	'checkuser-target'        => 'ഉപയോക്താവ് അല്ലെങ്കില്‍ ഐപി',
+	'checkuser-search'        => 'തിരയൂ',
+	'checkuser-search-submit' => 'തിരയൂ',
+);
+
 /** Marathi (मराठी)
  * @author Kaustubh
  * @author Mahitgar
@@ -2258,6 +2274,8 @@ Di handap ieu béréndélan IP nu dipaké (paling loba 5000, disusun dumasar ala
 	'checkuser-user-nonexistent' => 'Euweuh pamaké nu cocog jeung pamundut.',
 	'checkuser-search-form'      => 'Téang éntri log nu $1-na sarua jeung $2',
 	'checkuser-search-submit'    => 'Sungsi',
+	'checkuser-search-initiator' => 'inisiator',
+	'checkuser-search-target'    => 'tujul',
 	'checkuser-log-subpage'      => 'Log',
 	'checkuser-log-return'       => 'Balik ka formulir utama PamakéPamariksa',
 	'checkuser-log-userips'      => '$1 manggih IP ti $2',
