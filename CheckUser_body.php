@@ -808,7 +808,7 @@ class CheckUser extends SpecialPage
 		}
 		
 		$dbw = wfGetDB( DB_MASTER );
-		$cul_id = $dbw->nextSequenceValue( 'cu_log_cul_id' );
+		$cul_id = $dbw->nextSequenceValue( 'cu_log_cul_id_seq' );
 		$dbw->insert( 'cu_log', 
 			array(
 				'cul_id' => $cul_id,

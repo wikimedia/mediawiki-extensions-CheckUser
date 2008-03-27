@@ -69,7 +69,7 @@ function import_cu_log( $db, $log ) {
 			
 			if( $db ) {
 				$fields = array(
-					'cul_id' => $db->nextSequenceValue( 'cu_log_cul_id' ),
+					'cul_id' => $db->nextSequenceValue( 'cu_log_cul_id_seq' ),
 					'cul_timestamp' => $db->timestamp( $data['timestamp'] ),
 					'cul_user' => $user->getID(),
 					'cul_user_text' => $user->getName(),
