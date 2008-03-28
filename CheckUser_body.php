@@ -24,9 +24,21 @@ class CheckUser extends SpecialPage
 		$this->setHeaders();
 		$this->sk = $wgUser->getSkin();
 
-		if ( $wgContLang->lc( $subpage ) == $wgContLang->lc( wfMsg( 'checkuser-log-subpage' ) ) ) {
-			$this->showLog();
-			return;
+		// This is horribly shitty.
+		// Lacking formal aliases, it's tough to ensure we have compatibility.
+		// Links may break, which sucks.
+		// Language fallbacks will not always be properly utilized.
+		$logMatches = array(
+			wfMsgForContent( 'checkuser-log-subpage' ),
+			'Log'
+		);
+		
+		foreach( $logMatches as $log ) {
+			if ( str_replace( '_', ' ', $wgContLang->lc( $subpage ) )
+				== str_replace( '_ ', ' ', $wgContLang->lc( $log ) ) ) {
+				$this->showLog();
+				return;
+			}
 		}
 
 		$user = $wgRequest->getText( 'user' ) ? $wgRequest->getText( 'user' ) : $wgRequest->getText( 'ip' );
@@ -82,7 +94,7 @@ class CheckUser extends SpecialPage
 
 	function getLogSubpageTitle() {
 		if ( !isset( $this->logSubpageTitle ) ) {
-			$this->logSubpageTitle = $this->getTitle( wfMsg( 'checkuser-log-subpage' ) );
+			$this->logSubpageTitle = $this->getTitle( wfMsgForContent( 'checkuser-log-subpage' ) );
 		}
 		return $this->logSubpageTitle;
 	}
