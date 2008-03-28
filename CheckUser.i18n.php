@@ -1077,6 +1077,7 @@ Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěš
  * @author KossuthRad
  * @author Dorgan
  * @author Tgr
+ * @author Grin
  */
 $messages['hu'] = array(
 	'checkuser-summary'          => 'Ez az eszköz végigvizsgálja a friss változásokat, hogy lekérje egy adott felhasználó IP-címeit vagy megjelenítse egy adott IP-címet használó szerkesztőket és az IP szerkesztéseit.
@@ -1109,7 +1110,7 @@ Maximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt
 	'checkuser-search-submit'    => 'Keresés',
 	'checkuser-search-initiator' => 'kezdeményező',
 	'checkuser-search-target'    => 'Cél',
-	'checkuser-log-subpage'      => 'IP-ellenőrzési napló',
+	'checkuser-log-subpage'      => 'Lista',
 	'checkuser-log-return'       => 'Vissza az IP-ellenőri oldalra',
 	'checkuser-log-userips'      => '$1 lekérte $2 IP-címeit',
 	'checkuser-log-ipedits'      => '$1 lekérte $2 szerkesztéseit',
@@ -2625,28 +2626,38 @@ $messages['zh-hans'] = array(
 	'checkuser-blocked'      => '已经查封',
 );
 
+/** Traditional Chinese (‪中文(繁體)‬)
+ * @author Alexsh
+ */
 $messages['zh-hant'] = array(
-	'checkuser-summary'      => '本工具會從{{int:recentchanges}}中查詢使用者使用過的IP位址，或是一個IP位址發送出來的任何編輯記錄。本工具支援IPv4及IPv6的位址。由於技術上的限制，本工具只能查詢最近5000筆的記錄。請確定您的行為符合守則。',
-	'checkuser-desc'         => '讓授權的使用者檢查使用者的IP位址及其他資訊',
-	'checkuser-logcase'      => '搜尋時請注意大小寫的區分',
- 	'checkuser'              => '核對用戶',
- 	'group-checkuser'        => '用戶查核',
- 	'group-checkuser-member' => '用戶查核',
-	'grouppage-checkuser'    => '{{ns:project}}:用戶查核',
-	'checkuser-reason'       => '理由',
-	'checkuser-showlog'      => '顯示記錄',
-	'checkuser-log'          => '用戶查核記錄',
-	'checkuser-query'        => '查詢最近更改',
-	'checkuser-target'       => '用戶名稱或IP位扯',
-	'checkuser-users'        => '查詢用戶名稱',
-	'checkuser-edits'        => '從IP位址查詢編輯記錄',
-	'checkuser-ips'          => '查詢IP位址',
-	'checkuser-search'       => '搜尋',
-	'checkuser-empty'        => '記錄裡沒有資料。',
-	'checkuser-nomatch'      => '沒有符合的資訊',
-	'checkuser-check'        => '查詢',
-	'checkuser-log-fail'     => '無法更新記錄。',
-	'checkuser-nolog'        => '找不到記錄檔',
-	'checkuser-blocked'      => '已經查封',
+	'checkuser-summary'          => '本工具會從{{int:recentchanges}}中查詢使用者使用過的IP位址，或是一個IP位址發送出來的任何編輯記錄。本工具支援IPv4及IPv6的位址。由於技術上的限制，本工具只能查詢最近5000筆的記錄。請確定您的行為符合守則。',
+	'checkuser-desc'             => '讓授權的使用者檢查使用者的IP位址及其他資訊',
+	'checkuser-logcase'          => '搜尋時請注意大小寫的區分',
+	'checkuser'                  => '核對用戶',
+	'group-checkuser'            => '用戶查核',
+	'group-checkuser-member'     => '用戶查核',
+	'grouppage-checkuser'        => '{{ns:project}}:用戶查核',
+	'checkuser-reason'           => '理由',
+	'checkuser-showlog'          => '顯示記錄',
+	'checkuser-log'              => '用戶查核記錄',
+	'checkuser-query'            => '查詢最近更改',
+	'checkuser-target'           => '用戶名稱或IP位扯',
+	'checkuser-users'            => '查詢用戶名稱',
+	'checkuser-edits'            => '從IP位址查詢編輯記錄',
+	'checkuser-ips'              => '查詢IP位址',
+	'checkuser-search'           => '搜尋',
+	'checkuser-empty'            => '記錄裡沒有資料。',
+	'checkuser-nomatch'          => '沒有符合的資訊',
+	'checkuser-check'            => '查詢',
+	'checkuser-log-fail'         => '無法更新記錄。',
+	'checkuser-nolog'            => '找不到記錄檔',
+	'checkuser-blocked'          => '已經查封',
+	'checkuser-user-nonexistent' => '指定的使用者不存在。',
+	'checkuser-search-submit'    => '{{int:Search}}',
+	'checkuser-log-subpage'      => '日誌',
+	'checkuser-log-return'       => '回到主表單',
+	'checkuser-log-userips'      => '$1取得$2的IP訊息',
+	'checkuser-log-ipedits'      => '$1取得$2的編輯記錄',
+	'checkuser-log-ipusers'      => '$1取得$2的用戶訊息',
 );
 
