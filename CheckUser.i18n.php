@@ -2579,6 +2579,7 @@ $messages['yue'] = array(
 	'checkuser-summary'      => '呢個工具會響最近更改度掃瞄對一位用戶用過嘅IP地址，或者係睇一個IP嘅用戶資料同埋佢嘅編輯記錄。
 	響用戶同埋用戶端IP嘅編輯係可幾經由XFF頭，加上 "/xff" 就可幾拎到。呢個工具係支援 IPv4 (CIDR 16-32) 同埋 IPv6 (CIDR 64-128)。
 	由於為咗效能方面嘅原因，將唔會顯示多過5000次嘅編輯。請根源政策去用呢個工具。',
+	'checkuser-desc'         => '畀合適去查用戶IP或其它嘢嘅能力畀用戶',
 	'checkuser-logcase'      => '搵呢個日誌係有分大細楷嘅。',
 	'checkuser'              => '核對用戶',
 	'group-checkuser'        => '稽查員',
