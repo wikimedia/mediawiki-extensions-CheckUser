@@ -324,16 +324,42 @@ IPv4 (CIDR 16-32) এবং IPv6 (CIDR 64-128) এই সরঞ্জামে �
  * @author Fulup
  */
 $messages['br'] = array(
-	'checkuser'               => 'Gwiriañ an implijer',
-	'group-checkuser'         => 'Gwiriañ an implijerien',
-	'group-checkuser-member'  => 'Gwiriañ an implijer',
-	'grouppage-checkuser'     => '{{ns:project}}:Gwiriañ an implijer',
-	'checkuser-reason'        => 'Abeg',
-	'checkuser-showlog'       => 'Diskouez ar marilh',
-	'checkuser-search'        => 'Klask',
-	'checkuser-check'         => 'Gwiriañ',
-	'checkuser-blocked'       => 'Stanket',
-	'checkuser-search-submit' => 'Klask',
+	'checkuser-summary'          => "Furchal a ra an ostilh-mañ ar c'hemmoù diwezhañ a-benn klask ar chomlec'h IP implijet gant un implijer bennak, diskouez a ra holl degasadennoù ur chomlec'h IP (ha pa vefe bet enrollet), pe roll ar c'hontoù implijet gant ur chomlec'h IP. Gallout a ra ar c'hontoù hag ar c'hemmoù bezañ kavet gant un IP XFF mard echu gant \"/xff\". Posupl eo implijout ar protokoloù IPv4 (CIDR 16-32) hag IPv6 (CIDR 64-128). Bevennet eo an niver a gemmoù a c'haller lakaat war wel da {{formatnum:5000}} evit abegoù nerzh ar servijer. Grit gant an ostilh-mañ en ur zoujañ d'ar garta implijout.",
+	'checkuser-desc'             => "Reiñ a ra an tu d'an dud aotreet evit se da wiriañ chomlec'hioù IP an implijerien ha da gaout titouroù all",
+	'checkuser-logcase'          => "Kizidik eo ar c'hlask er marilh ouzh an direnneg (pennlizherennoù/lizherennoù munud)",
+	'checkuser'                  => 'Gwiriañ an implijer',
+	'group-checkuser'            => 'Gwiriañ an implijerien',
+	'group-checkuser-member'     => 'Gwiriañ an implijer',
+	'grouppage-checkuser'        => '{{ns:project}}:Gwiriañ an implijer',
+	'checkuser-reason'           => 'Abeg',
+	'checkuser-showlog'          => 'Diskouez ar marilh',
+	'checkuser-log'              => 'Marilh kontrolliñ an implijerien',
+	'checkuser-query'            => "Klask dre ar c'hemmoù diwezhañ",
+	'checkuser-target'           => 'Implijer pe IP',
+	'checkuser-users'            => 'Kavout an implijerien',
+	'checkuser-edits'            => "Kavout degasadennoù ar chomlec'h IP",
+	'checkuser-ips'              => "Kavout ar chomlec'hioù IP",
+	'checkuser-search'           => 'Klask',
+	'checkuser-empty'            => "N'eus pennad ebet er marilh",
+	'checkuser-nomatch'          => "N'eus bet kavet netra.",
+	'checkuser-check'            => 'Gwiriañ',
+	'checkuser-log-fail'         => "Dibosupl ouzhpennañ ar moned d'ar marilh",
+	'checkuser-nolog'            => 'Restr ebet er marilh',
+	'checkuser-blocked'          => 'Stanket',
+	'checkuser-too-many'         => "Re a zisoc'hoù, strishaat ar CIDR mar plij.
+Setu an IPoù implijet (5000 d'ar muiañ, urzhiet dre ar chomlec'h)",
+	'checkuser-user-nonexistent' => "N'eus ket eus an implijer merket",
+	'checkuser-search-form'      => "Kavout marilh ar monedoù m'eo $1 evit $2",
+	'checkuser-search-submit'    => 'Klask',
+	'checkuser-search-initiator' => 'deraouer',
+	'checkuser-search-target'    => 'pal',
+	'checkuser-log-subpage'      => 'Marilh',
+	'checkuser-log-return'       => "Distreiñ da furmskrid pennañ ar c'hontrolliñ implijerien",
+	'checkuser-log-userips'      => '$1 en deus kavet IPoù evit $2',
+	'checkuser-log-ipedits'      => '$1 en deus kavet kemmoù evit $2',
+	'checkuser-log-ipusers'      => '$1 en deus kavet implijerien evit $2',
+	'checkuser-log-ipedits-xff'  => '$1 en deus kavet kemmoù evit $2 dre XFF',
+	'checkuser-log-ipusers-xff'  => 'Kavet en deus $1 implijerien $2 dre XFF',
 );
 
 /** Catalan (Català)
@@ -1489,6 +1515,7 @@ $messages['la'] = array(
  * @author Robby
  */
 $messages['lb'] = array(
+	'checkuser-desc'             => "Gëtt Benotzer mat den néidege Rechter d'Méiglechkeet d'IP-adressen esou wéi aner Informatiounen iiwert d'Benotzer z'iwwerpréifen",
 	'checkuser-logcase'          => "D'Sich am Logbuch mecht en Ënnerscheed tëschent groussen a klenge Buchstawen.",
 	'checkuser'                  => 'Benotzer-Check',
 	'group-checkuser'            => 'Benotzer Kontrolleren',
@@ -1506,6 +1533,7 @@ $messages['lb'] = array(
 	'checkuser-empty'            => 'Dës Lëscht ass eidel.',
 	'checkuser-nomatch'          => 'Et goufe keng Iwwereneestëmmunge fonnt.',
 	'checkuser-check'            => 'Kontrolléieren',
+	'checkuser-log-fail'         => "D'Aschreiwung an d'Logbuch konnt net gemaach ginn",
 	'checkuser-nolog'            => "D'Logbuch gouf net fonnt.",
 	'checkuser-blocked'          => 'Gespaart',
 	'checkuser-user-nonexistent' => 'De gesichte Benotzer gëtt et net.',
@@ -1514,6 +1542,7 @@ $messages['lb'] = array(
 	'checkuser-search-target'    => 'Zil',
 	'checkuser-log-subpage'      => 'Lëscht',
 	'checkuser-log-return'       => 'Zréck op den Haaptformulair vun der Benotzer Kontroll',
+	'checkuser-log-ipusers-xff'  => "$1 krut d'Benotzer fir XFF $2",
 );
 
 /** Limburgish (Limburgs)
@@ -2327,6 +2356,13 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 	'checkuser-log-ipusers'      => '$1 hämtade användare från $2',
 	'checkuser-log-ipedits-xff'  => '$1 hämtade redigeringar från XFF $2',
 	'checkuser-log-ipusers-xff'  => '$1 hämtade användare från XFF $2',
+);
+
+/** ślůnski (ślůnski)
+ * @author Herr Kriss
+ */
+$messages['szl'] = array(
+	'checkuser-reason' => 'Čymu',
 );
 
 /** Telugu (తెలుగు)
