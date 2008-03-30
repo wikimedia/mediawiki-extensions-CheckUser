@@ -1537,11 +1537,16 @@ $messages['lb'] = array(
 	'checkuser-nolog'            => "D'Logbuch gouf net fonnt.",
 	'checkuser-blocked'          => 'Gespaart',
 	'checkuser-user-nonexistent' => 'De gesichte Benotzer gëtt et net.',
+	'checkuser-search-form'      => 'An de Lëschten fannen, wou den $1 den $2 ass',
 	'checkuser-search-submit'    => 'Sichen',
 	'checkuser-search-initiator' => 'Initiator',
 	'checkuser-search-target'    => 'Zil',
 	'checkuser-log-subpage'      => 'Lëscht',
 	'checkuser-log-return'       => 'Zréck op den Haaptformulair vun der Benotzer Kontroll',
+	'checkuser-log-userips'      => '$1 krut IPen fir $2',
+	'checkuser-log-ipedits'      => '$1 huet Ännerunge kritt fir $2',
+	'checkuser-log-ipusers'      => '$1 huet Benotzer kritt fir $2',
+	'checkuser-log-ipedits-xff'  => '$1 krut ännerunge fir XFF $2',
 	'checkuser-log-ipusers-xff'  => "$1 krut d'Benotzer fir XFF $2",
 );
 
