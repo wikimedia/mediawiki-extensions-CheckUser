@@ -2358,11 +2358,13 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 	'checkuser-log-ipusers-xff'  => '$1 hämtade användare från XFF $2',
 );
 
-/** ślůnski (ślůnski)
+/** Silesian (ślůnski)
  * @author Herr Kriss
  */
 $messages['szl'] = array(
-	'checkuser-reason' => 'Čymu',
+	'checkuser-reason'        => 'Čymu',
+	'checkuser-search'        => 'Šnupej',
+	'checkuser-search-submit' => 'Šnupej',
 );
 
 /** Telugu (తెలుగు)
