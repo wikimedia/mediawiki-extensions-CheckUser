@@ -1640,7 +1640,11 @@ $messages['ml'] = array(
 	'checkuser-showlog'       => 'പ്രവര്‍ത്തനരേഖ കാട്ടുക',
 	'checkuser-log'           => 'ചെക്ക് യൂസര്‍ പ്രവര്‍ത്തനരേഖ',
 	'checkuser-target'        => 'ഉപയോക്താവ് അല്ലെങ്കില്‍ ഐപി',
+	'checkuser-users'         => 'ഉപയോക്താക്കളെ കാട്ടുക',
+	'checkuser-edits'         => 'ഐപിയില്‍ നിന്നുള്ള തിരുത്തലുകള്‍ കാട്ടുക',
+	'checkuser-ips'           => 'ഐപികളെ കാട്ടുക',
 	'checkuser-search'        => 'തിരയൂ',
+	'checkuser-nomatch'       => 'ചേര്‍ച്ചയുള്ളതൊന്നും കണ്ടില്ല',
 	'checkuser-search-submit' => 'തിരയൂ',
 );
 
@@ -2370,6 +2374,14 @@ $messages['szl'] = array(
 	'checkuser-reason'        => 'Čymu',
 	'checkuser-search'        => 'Šnupej',
 	'checkuser-search-submit' => 'Šnupej',
+);
+
+/** Tamil (தமிழ்)
+ * @author Trengarasu
+ */
+$messages['ta'] = array(
+	'checkuser-search'        => 'தேடுக',
+	'checkuser-search-submit' => 'தேடுக',
 );
 
 /** Telugu (తెలుగు)
