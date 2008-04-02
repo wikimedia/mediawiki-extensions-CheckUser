@@ -676,6 +676,13 @@ No se muestran más de 5000 ediciones por motivos de rendimiento. Usa esta herra
 	'checkuser-user-nonexistent' => 'El usuario especificado no existe.',
 );
 
+/** Estonian (Eesti)
+ * @author WikedKentaur
+ */
+$messages['et'] = array(
+	'checkuser-blocked' => 'Blokeeritud',
+);
+
 /** Basque (Euskara)
  * @author SPQRobin
  */
@@ -1014,6 +1021,47 @@ $messages['he'] = array(
 	'checkuser-log-ipusers'     => '$1 בדק את המשתמשים של $2',
 	'checkuser-log-ipedits-xff' => '$1 בדק את העריכות של כתובת ה־XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 בדק את המשתמשים של כתובת ה־XFF $2',
+);
+
+/** Hindi (हिन्दी)
+ * @author Kaustubh
+ */
+$messages['hi'] = array(
+	'checkuser-desc'             => 'सदस्यको अन्य सदस्योंके आईपी एड्रेस एवम्‌ अन्य ज़ानकारी देखने की अनुमति देता हैं।',
+	'checkuser-logcase'          => 'लॉगमें खोज लिपी पर आधारित (case sensitive) हैं।',
+	'checkuser'                  => 'सदस्य जाँच',
+	'group-checkuser'            => 'सदस्य जाँचे',
+	'group-checkuser-member'     => 'सदस्य जाँच',
+	'grouppage-checkuser'        => '{{ns:project}}: सदस्य जाँच',
+	'checkuser-reason'           => 'कारण',
+	'checkuser-showlog'          => 'लॉग दिखायें',
+	'checkuser-log'              => 'सदस्यजाँच लॉग',
+	'checkuser-query'            => 'हाल में हुए बदलाव देखें',
+	'checkuser-target'           => 'सदस्य या आईपी',
+	'checkuser-users'            => 'सदस्य खोजें',
+	'checkuser-edits'            => 'आईपीसे हुए बदलाव खोजें',
+	'checkuser-ips'              => 'आईपी खोजें',
+	'checkuser-search'           => 'खोजें',
+	'checkuser-empty'            => 'इस लॉगमें एकभी आइटेम नहीं हैं।',
+	'checkuser-nomatch'          => 'मिलते जुलते लॉग मिले नहीं।',
+	'checkuser-check'            => 'जाँचें',
+	'checkuser-log-fail'         => 'लॉग एन्ट्री बढा नहीं पायें।',
+	'checkuser-nolog'            => 'लॉग फ़ाईल मिली नहीं।',
+	'checkuser-blocked'          => 'ब्लॉक किया हुआ हैं',
+	'checkuser-too-many'         => 'बहुत सारे रिज़ल्ट, कृपया CIDRमें बदलाव करें।
+नीचे इस्तेमाल हुए आईपी की सूची हैं (ज्यादा से ज्यादा ५०००, अनुक्रममें):',
+	'checkuser-user-nonexistent' => 'दिया हुआ सदस्यनाम अस्तित्वमें नहीं हैं।',
+	'checkuser-search-form'      => 'ऐसे लॉग खोजें जहां $1 यह $2 हैं',
+	'checkuser-search-submit'    => 'खोजें',
+	'checkuser-search-initiator' => 'चालक',
+	'checkuser-search-target'    => 'लक्ष्य',
+	'checkuser-log-subpage'      => 'लॉग',
+	'checkuser-log-return'       => 'सदस्यजाँच मुखपृष्ठपर वापस जायें',
+	'checkuser-log-userips'      => '$1 के पास $2 के लिये आईपी हैं',
+	'checkuser-log-ipedits'      => '$1 के पास $2 के लिये बदलाव हैं',
+	'checkuser-log-ipusers'      => '$1 के पास $2 के लिये सदस्य हैं',
+	'checkuser-log-ipedits-xff'  => '$1 के पास $2 के लिये XFF बदलाव हैं',
+	'checkuser-log-ipusers-xff'  => '$1 के पास $2 के लिये XFF सदस्य हैं',
 );
 
 /** Croatian (Hrvatski)
@@ -2216,19 +2264,20 @@ $messages['sq'] = array(
 	'checkuser'              => 'Kontrollo përdoruesin',
 );
 
-/** ћирилица (ћирилица)
+/** Serbian Cyrillic ekavian (ћирилица)
  * @author Sasa Stefanovic
  */
 $messages['sr-ec'] = array(
-	'checkuser'              => 'Чекјузер',
-	'group-checkuser'        => 'Чекјузери',
-	'group-checkuser-member' => 'Чекјузер',
-	'grouppage-checkuser'    => '{{ns:project}}:Чекјузер',
-	'checkuser-reason'       => 'Резлог',
-	'checkuser-target'       => 'Корисник или ИП',
-	'checkuser-search'       => 'Претрага',
-	'checkuser-check'        => 'Провера',
-	'checkuser-blocked'      => 'Блокиран',
+	'checkuser'               => 'Чекјузер',
+	'group-checkuser'         => 'Чекјузери',
+	'group-checkuser-member'  => 'Чекјузер',
+	'grouppage-checkuser'     => '{{ns:project}}:Чекјузер',
+	'checkuser-reason'        => 'Резлог',
+	'checkuser-target'        => 'Корисник или ИП',
+	'checkuser-search'        => 'Претрага',
+	'checkuser-check'         => 'Провера',
+	'checkuser-blocked'       => 'Блокиран',
+	'checkuser-search-submit' => 'Претрага',
 );
 
 
@@ -2522,22 +2571,23 @@ $messages['tr'] = array(
  * @author Ahonc
  */
 $messages['uk'] = array(
-	'checkuser'              => 'Перевірити користувача',
-	'group-checkuser'        => "Чек'юзери",
-	'group-checkuser-member' => "чек'юзер",
-	'grouppage-checkuser'    => '{{ns:project}}:Перевірка користувачів',
-	'checkuser-reason'       => 'Причина',
-	'checkuser-showlog'      => 'Показати журнал',
-	'checkuser-log'          => 'Журнал перевірки користувачів',
-	'checkuser-query'        => 'Запитати останні зміни',
-	'checkuser-target'       => 'Користувач або IP-адреса',
-	'checkuser-users'        => 'Отримати користувачів',
-	'checkuser-edits'        => 'Запитати редагування, зроблені з IP-адреси',
-	'checkuser-ips'          => 'Запитати IP-адреси',
-	'checkuser-search'       => 'Знайти',
-	'checkuser-check'        => 'Перевірити',
-	'checkuser-nolog'        => 'Файл журналу не знайдений.',
-	'checkuser-log-subpage'  => 'Журнал',
+	'checkuser'               => 'Перевірити користувача',
+	'group-checkuser'         => "Чек'юзери",
+	'group-checkuser-member'  => "чек'юзер",
+	'grouppage-checkuser'     => '{{ns:project}}:Перевірка користувачів',
+	'checkuser-reason'        => 'Причина',
+	'checkuser-showlog'       => 'Показати журнал',
+	'checkuser-log'           => 'Журнал перевірки користувачів',
+	'checkuser-query'         => 'Запитати останні зміни',
+	'checkuser-target'        => 'Користувач або IP-адреса',
+	'checkuser-users'         => 'Отримати користувачів',
+	'checkuser-edits'         => 'Запитати редагування, зроблені з IP-адреси',
+	'checkuser-ips'           => 'Запитати IP-адреси',
+	'checkuser-search'        => 'Знайти',
+	'checkuser-check'         => 'Перевірити',
+	'checkuser-nolog'         => 'Файл журналу не знайдений.',
+	'checkuser-search-submit' => 'Знайти',
+	'checkuser-log-subpage'   => 'Журнал',
 );
 
 /** Vietnamese (Tiếng Việt)
