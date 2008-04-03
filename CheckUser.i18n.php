@@ -1693,7 +1693,12 @@ $messages['ml'] = array(
 	'checkuser-ips'           => 'ഐപികളെ കാട്ടുക',
 	'checkuser-search'        => 'തിരയൂ',
 	'checkuser-nomatch'       => 'ചേര്‍ച്ചയുള്ളതൊന്നും കണ്ടില്ല',
+	'checkuser-check'         => 'പരിശോധിക്കുക',
+	'checkuser-nolog'         => 'പ്രവര്‍ത്തനരേഖ പ്രമാണം കണ്ടില്ല.',
+	'checkuser-blocked'       => 'തടയപ്പെട്ടിരിക്കുന്നു',
 	'checkuser-search-submit' => 'തിരയൂ',
+	'checkuser-search-target' => 'ലക്ഷ്യം',
+	'checkuser-log-subpage'   => 'പ്രവര്‍ത്തനരേഖ',
 );
 
 /** Marathi (मराठी)
@@ -2569,25 +2574,48 @@ $messages['tr'] = array(
 
 /** Ukrainian (Українська)
  * @author Ahonc
+ * @author AS
  */
 $messages['uk'] = array(
-	'checkuser'               => 'Перевірити користувача',
-	'group-checkuser'         => "Чек'юзери",
-	'group-checkuser-member'  => "чек'юзер",
-	'grouppage-checkuser'     => '{{ns:project}}:Перевірка користувачів',
-	'checkuser-reason'        => 'Причина',
-	'checkuser-showlog'       => 'Показати журнал',
-	'checkuser-log'           => 'Журнал перевірки користувачів',
-	'checkuser-query'         => 'Запитати останні зміни',
-	'checkuser-target'        => 'Користувач або IP-адреса',
-	'checkuser-users'         => 'Отримати користувачів',
-	'checkuser-edits'         => 'Запитати редагування, зроблені з IP-адреси',
-	'checkuser-ips'           => 'Запитати IP-адреси',
-	'checkuser-search'        => 'Знайти',
-	'checkuser-check'         => 'Перевірити',
-	'checkuser-nolog'         => 'Файл журналу не знайдений.',
-	'checkuser-search-submit' => 'Знайти',
-	'checkuser-log-subpage'   => 'Журнал',
+	'checkuser-summary'          => 'Цей засіб переглядає нові редагування для отримання IP-адрес, які використовував певний користувач, або щоб знайти редагування/користувача за IP-адресою.
+Редагування і користувачів, що редагували з певної IP-адреси, заначеної в X-Forwarded-For, можна отримати, додавши префікс <code>/xff</code> до IP-адреси. Підтримувані версії IP: 4 (CIDR 16—32) і 6 (CIDR 64—128).
+З огляду на продуктивність буде показано не більше 5000 редагувань.
+Використовуйте цей засіб тільки відповідно до правил.',
+	'checkuser-desc'             => 'Надання можливості перевіряти IP-адреси та іншу інформацію користувачів',
+	'checkuser-logcase'          => 'Пошук у журналі чутливий до регістру.',
+	'checkuser'                  => 'Перевірити користувача',
+	'group-checkuser'            => "Чек'юзери",
+	'group-checkuser-member'     => "чек'юзер",
+	'grouppage-checkuser'        => '{{ns:project}}:Перевірка користувачів',
+	'checkuser-reason'           => 'Причина',
+	'checkuser-showlog'          => 'Показати журнал',
+	'checkuser-log'              => 'Журнал перевірки користувачів',
+	'checkuser-query'            => 'Запитати останні зміни',
+	'checkuser-target'           => 'Користувач або IP-адреса',
+	'checkuser-users'            => 'Отримати користувачів',
+	'checkuser-edits'            => 'Запитати редагування, зроблені з IP-адреси',
+	'checkuser-ips'              => 'Запитати IP-адреси',
+	'checkuser-search'           => 'Знайти',
+	'checkuser-empty'            => 'Журнал порожній.',
+	'checkuser-nomatch'          => 'Не знайдено співпадінь.',
+	'checkuser-check'            => 'Перевірити',
+	'checkuser-log-fail'         => 'Не в змозі додати запис до журналу',
+	'checkuser-nolog'            => 'Файл журналу не знайдений.',
+	'checkuser-blocked'          => 'Заблокований',
+	'checkuser-too-many'         => 'Забагато результатів. Будь ласка, звузьте CIDR.
+Використані IP (максимум 5000, відсортовано за адресою):',
+	'checkuser-user-nonexistent' => 'Зазначений користувач не існує.',
+	'checkuser-search-form'      => 'Знайти записи журналу, де $1 є $2',
+	'checkuser-search-submit'    => 'Знайти',
+	'checkuser-search-initiator' => 'ініціатор',
+	'checkuser-search-target'    => 'ціль',
+	'checkuser-log-subpage'      => 'Журнал',
+	'checkuser-log-return'       => 'Повернення до головної форми перевірки користувачів',
+	'checkuser-log-userips'      => '$1 отримав IP-адреси для $2',
+	'checkuser-log-ipedits'      => '$1 отримав редагування для $2',
+	'checkuser-log-ipusers'      => '$1 отримав облікові записи для $2',
+	'checkuser-log-ipedits-xff'  => '$1 отримав редагування для XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 отримав облікові записи для XFF $2',
 );
 
 /** Vietnamese (Tiếng Việt)
