@@ -938,6 +938,7 @@ Le fáth feidhmiúcháin, ní féidir níos mó ná 5000 eagarthóireachta a tha
 $messages['gl'] = array(
 	'checkuser-summary'          => 'Esta ferramenta analiza os cambios recentes para recuperar os enderezos IPs utilizados por un usuario ou amosar as edicións / datos do usuario dun enderezo de IP.
 Os usuarios e as edicións por un cliente IP poden ser recuperados a través das cabeceiras XFF engadindo o enderezo IP con "/ xff". IPv4 (CIDR 16-32) e o IPv6 (CIDR 64-128) están soportadas.',
+	'checkuser-desc'             => 'Garante que usuarios cos permisos apropiados poidan comprobar os enderezos IP dos usuarios e acceder a outra información',
 	'checkuser-logcase'          => 'O rexistro de búsqueda é sensíbel a maiúsculas e minúsculas.',
 	'checkuser'                  => 'Verificador de usuarios',
 	'group-checkuser'            => 'Verificadores de usuarios',
@@ -1514,8 +1515,8 @@ $messages['kk-latn'] = array(
 );
 
 /** Khmer (ភាសាខ្មែរ)
- * @author Chhorran
  * @author Lovekhmer
+ * @author Chhorran
  */
 $messages['km'] = array(
 	'checkuser-logcase'       => 'ស្វែងរក កំណត់ហេតុ ដោយបែងចែក អក្សរធំ អក្សរតូច ។',
@@ -1524,7 +1525,7 @@ $messages['km'] = array(
 	'group-checkuser-member'  => 'ត្រួតពិនិត្យអ្នកប្រើប្រាស់',
 	'grouppage-checkuser'     => '{{ns:project}}:ឆែក អ្នកប្រើប្រាស់',
 	'checkuser-reason'        => 'មូលហេតុ',
-	'checkuser-showlog'       => 'បង្ហាញ កំណត់ហេតុ',
+	'checkuser-showlog'       => 'បង្ហាញកំណត់ហេតុ',
 	'checkuser-log'           => 'កំណត់ហេតុនៃការត្រួតពិនិត្យអ្នកប្រើប្រាស់',
 	'checkuser-target'        => 'អ្នកប្រើប្រាស់ ឬ IP',
 	'checkuser-search'        => 'ស្វែងរក',
@@ -1680,25 +1681,29 @@ $messages['mk'] = array(
  * @author Shijualex
  */
 $messages['ml'] = array(
-	'checkuser'               => 'ചെക്ക് യൂസര്‍',
-	'group-checkuser'         => 'ചെക്ക് യൂസര്‍മാര്‍',
-	'group-checkuser-member'  => 'ചെക്ക് യൂസര്‍',
-	'grouppage-checkuser'     => '{{ns:project}}:ചെക്ക് യൂസര്‍',
-	'checkuser-reason'        => 'കാരണം',
-	'checkuser-showlog'       => 'പ്രവര്‍ത്തനരേഖ കാട്ടുക',
-	'checkuser-log'           => 'ചെക്ക് യൂസര്‍ പ്രവര്‍ത്തനരേഖ',
-	'checkuser-target'        => 'ഉപയോക്താവ് അല്ലെങ്കില്‍ ഐപി',
-	'checkuser-users'         => 'ഉപയോക്താക്കളെ കാട്ടുക',
-	'checkuser-edits'         => 'ഐപിയില്‍ നിന്നുള്ള തിരുത്തലുകള്‍ കാട്ടുക',
-	'checkuser-ips'           => 'ഐപികളെ കാട്ടുക',
-	'checkuser-search'        => 'തിരയൂ',
-	'checkuser-nomatch'       => 'ചേര്‍ച്ചയുള്ളതൊന്നും കണ്ടില്ല',
-	'checkuser-check'         => 'പരിശോധിക്കുക',
-	'checkuser-nolog'         => 'പ്രവര്‍ത്തനരേഖ പ്രമാണം കണ്ടില്ല.',
-	'checkuser-blocked'       => 'തടയപ്പെട്ടിരിക്കുന്നു',
-	'checkuser-search-submit' => 'തിരയൂ',
-	'checkuser-search-target' => 'ലക്ഷ്യം',
-	'checkuser-log-subpage'   => 'പ്രവര്‍ത്തനരേഖ',
+	'checkuser-logcase'          => 'പ്രവര്‍ത്തന രേഖകള്‍ക്കു വേണ്ടിയുള്ള തിരച്ചില്‍ കേസ് സെന്‍സിറ്റീവ് ആണ്‌.',
+	'checkuser'                  => 'ചെക്ക് യൂസര്‍',
+	'group-checkuser'            => 'ചെക്ക് യൂസര്‍മാര്‍',
+	'group-checkuser-member'     => 'ചെക്ക് യൂസര്‍',
+	'grouppage-checkuser'        => '{{ns:project}}:ചെക്ക് യൂസര്‍',
+	'checkuser-reason'           => 'കാരണം',
+	'checkuser-showlog'          => 'പ്രവര്‍ത്തനരേഖ കാട്ടുക',
+	'checkuser-log'              => 'ചെക്ക് യൂസര്‍ പ്രവര്‍ത്തനരേഖ',
+	'checkuser-target'           => 'ഉപയോക്താവ് അല്ലെങ്കില്‍ ഐപി',
+	'checkuser-users'            => 'ഉപയോക്താക്കളെ കാട്ടുക',
+	'checkuser-edits'            => 'ഐപിയില്‍ നിന്നുള്ള തിരുത്തലുകള്‍ കാട്ടുക',
+	'checkuser-ips'              => 'ഐപികളെ കാട്ടുക',
+	'checkuser-search'           => 'തിരയൂ',
+	'checkuser-empty'            => 'പ്രവര്‍ത്തനരേഖയില്‍ ഇനങ്ങള്‍ ഒന്നുമില്ല',
+	'checkuser-nomatch'          => 'ചേര്‍ച്ചയുള്ളതൊന്നും കണ്ടില്ല',
+	'checkuser-check'            => 'പരിശോധിക്കുക',
+	'checkuser-nolog'            => 'പ്രവര്‍ത്തനരേഖ പ്രമാണം കണ്ടില്ല.',
+	'checkuser-blocked'          => 'തടയപ്പെട്ടിരിക്കുന്നു',
+	'checkuser-user-nonexistent' => 'ഇങ്ങനൊരു ഉപയോക്താവ് വിക്കിയില്‍ നിലവിലില്ല.',
+	'checkuser-search-submit'    => 'തിരയൂ',
+	'checkuser-search-target'    => 'ലക്ഷ്യം',
+	'checkuser-log-subpage'      => 'പ്രവര്‍ത്തനരേഖ',
+	'checkuser-log-return'       => 'ചെക്ക് യൂസറിന്റെ പ്രധാന ഫോമിലേക്ക് തിരിച്ചു പോവുക',
 );
 
 /** Marathi (मराठी)
