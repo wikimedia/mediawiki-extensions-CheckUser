@@ -1683,6 +1683,7 @@ $messages['mk'] = array(
  * @author Shijualex
  */
 $messages['ml'] = array(
+	'checkuser-desc'             => 'ഉപയോക്താക്കള്‍ ഉപയോഗിച്ച ഐപി വിലാസവും മറ്റുവിവരങ്ങളും പരിശോധിക്കുവാനുള്ള അവകാശം കൊടുക്കാന്‍ പ്രാപ്തമാക്കുന്നു',
 	'checkuser-logcase'          => 'പ്രവര്‍ത്തന രേഖകള്‍ക്കു വേണ്ടിയുള്ള തിരച്ചില്‍ കേസ് സെന്‍സിറ്റീവ് ആണ്‌.',
 	'checkuser'                  => 'ചെക്ക് യൂസര്‍',
 	'group-checkuser'            => 'ചെക്ക് യൂസര്‍മാര്‍',
@@ -1691,6 +1692,7 @@ $messages['ml'] = array(
 	'checkuser-reason'           => 'കാരണം',
 	'checkuser-showlog'          => 'പ്രവര്‍ത്തനരേഖ കാട്ടുക',
 	'checkuser-log'              => 'ചെക്ക് യൂസര്‍ പ്രവര്‍ത്തനരേഖ',
+	'checkuser-query'            => 'പുതിയ മാറ്റങ്ങള്‍',
 	'checkuser-target'           => 'ഉപയോക്താവ് അല്ലെങ്കില്‍ ഐപി',
 	'checkuser-users'            => 'ഉപയോക്താക്കളെ കാട്ടുക',
 	'checkuser-edits'            => 'ഐപിയില്‍ നിന്നുള്ള തിരുത്തലുകള്‍ കാട്ടുക',
@@ -1699,13 +1701,23 @@ $messages['ml'] = array(
 	'checkuser-empty'            => 'പ്രവര്‍ത്തനരേഖയില്‍ ഇനങ്ങള്‍ ഒന്നുമില്ല',
 	'checkuser-nomatch'          => 'ചേര്‍ച്ചയുള്ളതൊന്നും കണ്ടില്ല',
 	'checkuser-check'            => 'പരിശോധിക്കുക',
+	'checkuser-log-fail'         => 'പ്രവര്‍ത്തനരേഖയില്‍ ഇനം ചേര്‍ക്കുന്നതിനു കഴിഞ്ഞില്ല',
 	'checkuser-nolog'            => 'പ്രവര്‍ത്തനരേഖ പ്രമാണം കണ്ടില്ല.',
 	'checkuser-blocked'          => 'തടയപ്പെട്ടിരിക്കുന്നു',
+	'checkuser-too-many'         => 'വളരെയധികം ഫലങ്ങള്‍. CIDR ചുരുക്കുക. 
+ഉപയോഗിച്ച IPകള്‍ താഴെ പ്രദര്‍ശിപ്പിച്ചിരിക്കുന്നു (പരമാവധി 5000, വിലാസം അനുസരിച്ച് ക്രമീകരിച്ചത്):',
 	'checkuser-user-nonexistent' => 'ഇങ്ങനൊരു ഉപയോക്താവ് വിക്കിയില്‍ നിലവിലില്ല.',
+	'checkuser-search-form'      => '$1, $2 ആയ പ്രവര്‍ത്തനരേഖാ ഇനങ്ങള്‍ കണ്ടെത്തുന്നു',
 	'checkuser-search-submit'    => 'തിരയൂ',
+	'checkuser-search-initiator' => 'മുന്‍‌കൈ എടുക്കുന്ന ആള്‍',
 	'checkuser-search-target'    => 'ലക്ഷ്യം',
 	'checkuser-log-subpage'      => 'പ്രവര്‍ത്തനരേഖ',
 	'checkuser-log-return'       => 'ചെക്ക് യൂസറിന്റെ പ്രധാന ഫോമിലേക്ക് തിരിച്ചു പോവുക',
+	'checkuser-log-userips'      => '$1നു $2ല്‍ ഐപികള്‍ ഉണ്ട്',
+	'checkuser-log-ipedits'      => '$1നു $2ല്‍ തിരുത്തലുകള്‍ ഉണ്ട്',
+	'checkuser-log-ipusers'      => '$1നു $2ല്‍ ഉപയോക്താക്കള്‍ ഉണ്ട്',
+	'checkuser-log-ipedits-xff'  => '$1നു XFF $2ല്‍ തിരുത്തലുകള്‍ ഉണ്ട്',
+	'checkuser-log-ipusers-xff'  => '$1നു XFF $2ല്‍ ഉപയോക്താക്കള്‍ ഉണ്ട്',
 );
 
 /** Marathi (मराठी)
