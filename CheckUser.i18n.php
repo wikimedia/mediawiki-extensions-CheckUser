@@ -1399,6 +1399,13 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 	'checkuser-log-ipusers-xff'  => '$1 fik brugere for XFF $2',
 );
 
+/** Javanese (Basa Jawa)
+ * @author Meursault2004
+ */
+$messages['jv'] = array(
+	'checkuser-search-submit' => 'Golèk',
+);
+
 $messages['kk-arab'] = array(
 'checkuser-summary'      => 'بۇل قۇرال پايدالانۋشى قولدانعان IP جايلار ٴۇشىن, نەمەسە IP جاي تۇزەتۋ/پايدالانۋشى دەرەكتەرىن كورسەتۋ ٴۇشىن جۋىقتاعى وزگەرىستەردى قاراپ شىعادى.
 	پايدالانۋشىلاردى مەن تۇزەتۋلەردى XFF IP ارقىلى IP جايعا «/xff» دەگەندى قوسىپ كەلتىرۋگە بولادى. IPv4 (CIDR 16-32) جانە IPv6 (CIDR 64-128) ارقاۋلانادى.
@@ -2635,6 +2642,48 @@ $messages['uk'] = array(
 	'checkuser-log-ipusers'      => '$1 отримав облікові записи для $2',
 	'checkuser-log-ipedits-xff'  => '$1 отримав редагування для XFF $2',
 	'checkuser-log-ipusers-xff'  => '$1 отримав облікові записи для XFF $2',
+);
+
+/** Vèneto (Vèneto)
+ * @author Candalua
+ */
+$messages['vec'] = array(
+	'checkuser-summary'          => 'Sto strumento qua l\'analiza le modifiche reçenti par recuperar i indirizi IP doparà da un utente o mostrar contributi e dati de un IP. Utenti e contributi de un client IP i se pol rintraciar atraverso i header XFF, zontàndoghe a l\'IP el suffisso "/xff". Xe suportà IPv4 (CIDR 16-32) e IPv6 (CIDR 64-128). No sarà restituìe piassè de 5.000 modifiche, par ragioni de prestazioni. Dòpara sto strumento in streta conformità a le policy.',
+	'checkuser-desc'             => 'Consente ai utenti co le oportune autorizazion de sotopor a verifica i indirizi IP e altre informazion relative ai utenti',
+	'checkuser-logcase'          => "La riçerca nei registri la xe ''case sensitive'' (cioè la distingue fra majuscole e minuscole).",
+	'checkuser'                  => 'Controlo utenze',
+	'group-checkuser'            => 'Controlori',
+	'group-checkuser-member'     => 'Controlor',
+	'grouppage-checkuser'        => '{{ns:project}}:Controlo utenze',
+	'checkuser-reason'           => 'Motivo',
+	'checkuser-showlog'          => 'Mostra el registro',
+	'checkuser-log'              => 'Registro dei checkuser',
+	'checkuser-query'            => 'Çerca ne le ultime modifiche',
+	'checkuser-target'           => 'Utente o IP',
+	'checkuser-users'            => 'Çerca utenti',
+	'checkuser-edits'            => 'Varda i contributi dei IP',
+	'checkuser-ips'              => 'Çerca IP',
+	'checkuser-search'           => 'Çerca',
+	'checkuser-empty'            => "El registro no'l contien dati.",
+	'checkuser-nomatch'          => 'Nissun risultato catà.',
+	'checkuser-check'            => 'Controla',
+	'checkuser-log-fail'         => 'Inpossibile zontar la voçe al registro',
+	'checkuser-nolog'            => 'No xe stà catà nissun file de registro.',
+	'checkuser-blocked'          => 'Blocà',
+	'checkuser-too-many'         => 'Xe vegnù fora massa risultati, par piaser dòpara un CIDR piassè ristreto.
+Sti qua i xe i IP doparà (fin a un massimo de 5000, ordinà par indirizo):',
+	'checkuser-user-nonexistent' => "L'utente indicà no l'esiste mìa.",
+	'checkuser-search-form'      => 'Cata fora le voçi del registro par le quali $1 el xe $2',
+	'checkuser-search-submit'    => 'Riçerca',
+	'checkuser-search-initiator' => 'iniziator',
+	'checkuser-search-target'    => 'obietivo',
+	'checkuser-log-subpage'      => 'Registro',
+	'checkuser-log-return'       => 'Torna al modulo prinçipal de Controlo utenze',
+	'checkuser-log-userips'      => '$1 el gà otegnù i indirizi IP de $2',
+	'checkuser-log-ipedits'      => '$1 el gà otegnù le modifiche de $2',
+	'checkuser-log-ipusers'      => '$1 el gà otegnù le utenze de $2',
+	'checkuser-log-ipedits-xff'  => '$1 el gà otegnù le modifiche de $2 via XFF',
+	'checkuser-log-ipusers-xff'  => '$1 el gà otegnù le utenze de $2 via XFF',
 );
 
 /** Vietnamese (Tiếng Việt)
