@@ -32,11 +32,14 @@ function create_cu_changes( $db, $cutoff = null ) {
 	
 	$start = $db->selectField( 'recentchanges', 'MIN(rc_id)', false, __FUNCTION__ );
 	$end = $db->selectField( 'recentchanges', 'MAX(rc_id)', false, __FUNCTION__ );
+	# Do remaining chunk
+	$end += BATCH_SIZE - 1;
 	$blockStart = $start;
 	$blockEnd = $start + BATCH_SIZE - 1;
 	
 	$db->begin();
 	while ( $blockStart <= $end ) {
+		echo "...doing rc_id from $blockStart to $blockEnd\n";
 		$cond = "rc_id BETWEEN $blockStart AND $blockEnd $cutoffCond";
 		$res = $db->select( 'recentchanges', '*', $cond, __FUNCTION__ );
 		$batch = array();
@@ -60,8 +63,8 @@ function create_cu_changes( $db, $cutoff = null ) {
 		if ( count( $batch ) ) {
 			$db->insert( 'cu_changes', $batch, __FUNCTION__ );
 		}
-		$blockStart += BATCH_SIZE;
-		$blockEnd += BATCH_SIZE;
+		$blockStart += BATCH_SIZE - 1;
+		$blockEnd += BATCH_SIZE - 1;
 		wfWaitForSlaves( 5 );
 	}
 	$db->commit();
