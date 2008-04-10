@@ -1403,7 +1403,13 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
  * @author Meursault2004
  */
 $messages['jv'] = array(
+	'checkuser-logcase'       => 'Log iki sènsitif marang panrapan aksara gedhé apa cilik',
+	'checkuser-search'        => 'Golèk',
+	'checkuser-nomatch'       => 'Ora ana data sing cocog bisa ditemokaké.',
+	'checkuser-nolog'         => 'Ora ditemokaké berkas log.',
+	'checkuser-blocked'       => 'Diblokir',
 	'checkuser-search-submit' => 'Golèk',
+	'checkuser-log-subpage'   => 'Log',
 );
 
 $messages['kk-arab'] = array(
