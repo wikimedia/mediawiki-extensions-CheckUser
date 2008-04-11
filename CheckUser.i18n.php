@@ -1404,6 +1404,7 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
  */
 $messages['jv'] = array(
 	'checkuser-logcase'       => 'Log iki sènsitif marang panrapan aksara gedhé apa cilik',
+	'checkuser-reason'        => 'Alesan',
 	'checkuser-search'        => 'Golèk',
 	'checkuser-nomatch'       => 'Ora ana data sing cocog bisa ditemokaké.',
 	'checkuser-nolog'         => 'Ora ditemokaké berkas log.',
@@ -1579,7 +1580,7 @@ $messages['la'] = array(
  * @author Robby
  */
 $messages['lb'] = array(
-	'checkuser-desc'             => "Gëtt Benotzer mat den néidege Rechter d'Méiglechkeet d'IP-adressen esou wéi aner Informatiounen iiwert d'Benotzer z'iwwerpréifen",
+	'checkuser-desc'             => "Gëtt Benotzer mat den néidege Rechter d'Méiglechkeet d'IP-Adressen esou wéi aner Informatiounen iiwert d'Benotzer z'iwwerpréifen",
 	'checkuser-logcase'          => "D'Sich am Logbuch mecht en Ënnerscheed tëschent groussen a klenge Buchstawen.",
 	'checkuser'                  => 'Benotzer-Check',
 	'group-checkuser'            => 'Benotzer Kontrolleren',
