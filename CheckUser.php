@@ -73,7 +73,6 @@ function efUpdateCheckUserData( $rc ) {
 		'cuc_user_text' => $rc_user_text,
 		'cuc_actiontext' => $actionText,
 		'cuc_comment' => $rc_comment,
-		'cuc_page_id' => $rc_cur_id,
 		'cuc_this_oldid' => $rc_this_oldid,
 		'cuc_last_oldid' => $rc_last_oldid,
 		'cuc_type' => $rc_type,
@@ -84,6 +83,12 @@ function efUpdateCheckUserData( $rc ) {
 		'cuc_xff_hex' => ($xff_ip && !$isSquidOnly) ? IP::toHex( $xff_ip ) : null,
 		'cuc_agent' => $agent
 	);
+	
+	## On PG, MW unsets cur_id due to schema incompatibilites. So it may not be set!
+	if( isset($rc_cur_id) ) {
+		$rcRow['cuc_page_id'] = $rc_cur_id;
+	}
+	
 	$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
 
 	# Every 100th edit, prune the checkuser changes table.
