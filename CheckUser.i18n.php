@@ -1405,11 +1405,15 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 $messages['jv'] = array(
 	'checkuser-logcase'       => 'Log iki sènsitif marang panrapan aksara gedhé apa cilik',
 	'checkuser-reason'        => 'Alesan',
+	'checkuser-query'         => 'Pitakonan owah-owahan pungkasan',
+	'checkuser-target'        => 'Panganggo utawa IP',
 	'checkuser-search'        => 'Golèk',
 	'checkuser-nomatch'       => 'Ora ana data sing cocog bisa ditemokaké.',
+	'checkuser-check'         => 'Priksa',
 	'checkuser-nolog'         => 'Ora ditemokaké berkas log.',
 	'checkuser-blocked'       => 'Diblokir',
 	'checkuser-search-submit' => 'Golèk',
+	'checkuser-search-target' => 'tujuan',
 	'checkuser-log-subpage'   => 'Log',
 );
 
@@ -2521,12 +2525,13 @@ $messages['te'] = array(
  * @author MF-Warburg
  */
 $messages['tet'] = array(
-	'checkuser-log'    => 'Lista checkuser',
-	'checkuser-target' => "Uza-na'in ka IP",
-	'checkuser-users'  => "Uza-na'in sira",
-	'checkuser-edits'  => 'Edita husi IP',
-	'checkuser-ips'    => 'IP sira',
-	'checkuser-search' => 'Buka',
+	'checkuser-log'           => 'Lista checkuser',
+	'checkuser-target'        => "Uza-na'in ka IP",
+	'checkuser-users'         => "Uza-na'in sira",
+	'checkuser-edits'         => 'Edita husi IP',
+	'checkuser-ips'           => 'IP sira',
+	'checkuser-search'        => 'Buka',
+	'checkuser-search-submit' => 'Buka',
 );
 
 /** Tajik (Тоҷикӣ)
