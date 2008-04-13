@@ -646,9 +646,10 @@ $messages['eo'] = array(
 );
 
 /** Spanish (Español)
- * @author Spacebirdy
  * @author Dmcdevit
+ * @author Spacebirdy
  * @author Lin linao
+ * @author Piolinfax
  */
 $messages['es'] = array(
 	'checkuser-summary'          => 'Esta herramienta explora los cambios recientes para obtener las IPs utilizadas por un usuario o para mostrar la información de ediciones/usuarios de una IP.
@@ -673,7 +674,7 @@ No se muestran más de 5000 ediciones por motivos de rendimiento. Usa esta herra
 	'checkuser-check'            => 'Examinar',
 	'checkuser-log-fail'         => 'No se puede añadir este elemento al registro.',
 	'checkuser-nolog'            => 'No se encuentra ningún archivo del registro',
-	'checkuser-blocked'          => 'bloqueado',
+	'checkuser-blocked'          => 'Bloqueado',
 	'checkuser-too-many'         => 'Hay demasiados resultados. Por favor limita el CIDR. Aquí se ven las IPs usadas (máximo 5000, ordenadas según dirección):',
 	'checkuser-user-nonexistent' => 'El usuario especificado no existe.',
 );
@@ -1605,6 +1606,8 @@ $messages['lb'] = array(
 	'checkuser-log-fail'         => "D'Aschreiwung an d'Logbuch konnt net gemaach ginn",
 	'checkuser-nolog'            => "D'Logbuch gouf net fonnt.",
 	'checkuser-blocked'          => 'Gespaart',
+	'checkuser-too-many'         => 'Zevill Resultater, gitt w.e.g. méi e klenge Beräich vun Ip-adresen un.
+Hei sinn déi benotzten IP-Adressen (max 5000, sortéiert no der Adress):',
 	'checkuser-user-nonexistent' => 'De gesichte Benotzer gëtt et net.',
 	'checkuser-search-form'      => 'An de Lëschten fannen, wou den $1 den $2 ass',
 	'checkuser-search-submit'    => 'Sichen',
