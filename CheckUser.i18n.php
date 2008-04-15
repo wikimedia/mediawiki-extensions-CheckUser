@@ -1405,35 +1405,36 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
  * @author Meursault2004
  */
 $messages['jv'] = array(
-	'checkuser-logcase'         => 'Log iki sènsitif marang panrapan aksara gedhé apa cilik',
-	'checkuser'                 => 'Pamriksan panganggo',
-	'group-checkuser'           => 'Pamriksa panganggo',
-	'group-checkuser-member'    => 'Pamriksa panganggo',
-	'grouppage-checkuser'       => '{{ns:project}}:Pamriksa panganggo',
-	'checkuser-reason'          => 'Alesan',
-	'checkuser-showlog'         => 'Tuduhna log',
-	'checkuser-log'             => 'Log pamriksan panganggo',
-	'checkuser-query'           => 'Pitakonan owah-owahan pungkasan',
-	'checkuser-target'          => 'Panganggo utawa IP',
-	'checkuser-users'           => 'Golèk panganggo',
-	'checkuser-edits'           => 'Golèk suntingan saka IP',
-	'checkuser-ips'             => 'Golèk IP',
-	'checkuser-search'          => 'Golèk',
-	'checkuser-nomatch'         => 'Ora ana data sing cocog bisa ditemokaké.',
-	'checkuser-check'           => 'Priksa',
-	'checkuser-nolog'           => 'Ora ditemokaké berkas log.',
-	'checkuser-blocked'         => 'Diblokir',
-	'checkuser-too-many'        => 'Kakèhan pituwas, tulung CIDR diciyutaké.
+	'checkuser-logcase'          => 'Log iki sènsitif marang panrapan aksara gedhé apa cilik',
+	'checkuser'                  => 'Pamriksan panganggo',
+	'group-checkuser'            => 'Pamriksa panganggo',
+	'group-checkuser-member'     => 'Pamriksa panganggo',
+	'grouppage-checkuser'        => '{{ns:project}}:Pamriksa panganggo',
+	'checkuser-reason'           => 'Alesan',
+	'checkuser-showlog'          => 'Tuduhna log',
+	'checkuser-log'              => 'Log pamriksan panganggo',
+	'checkuser-query'            => 'Pitakonan owah-owahan pungkasan',
+	'checkuser-target'           => 'Panganggo utawa IP',
+	'checkuser-users'            => 'Golèk panganggo',
+	'checkuser-edits'            => 'Golèk suntingan saka IP',
+	'checkuser-ips'              => 'Golèk IP',
+	'checkuser-search'           => 'Golèk',
+	'checkuser-nomatch'          => 'Ora ana data sing cocog bisa ditemokaké.',
+	'checkuser-check'            => 'Priksa',
+	'checkuser-nolog'            => 'Ora ditemokaké berkas log.',
+	'checkuser-blocked'          => 'Diblokir',
+	'checkuser-too-many'         => 'Kakèhan pituwas, tulung CIDR diciyutaké.
 Ing ngisor iki kapacak alamat-alamat IP sing dienggo (maks. 5.000, diurutaké adhedhasar alamat):',
-	'checkuser-search-submit'   => 'Golèk',
-	'checkuser-search-target'   => 'tujuan',
-	'checkuser-log-subpage'     => 'Log',
-	'checkuser-log-return'      => 'Bali menyang kaca utama pamriksa',
-	'checkuser-log-userips'     => '$1 ndeleng IP saka $2',
-	'checkuser-log-ipedits'     => '$1 ndeleng suntingan saka $2',
-	'checkuser-log-ipusers'     => '$1 ndeleng jeneng panganggo saka $2',
-	'checkuser-log-ipedits-xff' => '$1 ndeleng suntingan saka XFF $2',
-	'checkuser-log-ipusers-xff' => '$1 ndeleng jeneng panganggo saka XFF $2',
+	'checkuser-user-nonexistent' => 'Panganggo iki ora ana.',
+	'checkuser-search-submit'    => 'Golèk',
+	'checkuser-search-target'    => 'tujuan',
+	'checkuser-log-subpage'      => 'Log',
+	'checkuser-log-return'       => 'Bali menyang kaca utama pamriksa',
+	'checkuser-log-userips'      => '$1 ndeleng IP saka $2',
+	'checkuser-log-ipedits'      => '$1 ndeleng suntingan saka $2',
+	'checkuser-log-ipusers'      => '$1 ndeleng jeneng panganggo saka $2',
+	'checkuser-log-ipedits-xff'  => '$1 ndeleng suntingan saka XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 ndeleng jeneng panganggo saka XFF $2',
 );
 
 $messages['kk-arab'] = array(
@@ -2029,7 +2030,9 @@ $messages['pam'] = array(
  * @author Derbeth
  */
 $messages['pl'] = array(
-	'checkuser-summary'          => 'To narzędzie skanuje ostatnie zmiany by znaleźć adresy IP użyte przez użytkownika lub pokazać edycje/użytkowników dla adresu IP. Użytkownicy i edycje spod adresu IP mogą być pozyskane przez nagłówki XFF przez dodanie do IP "/xff". Obsługiwane są adresy IPv4 (CIDR 16-32) I IPv6 (CIDR 64-128). Ze względu na wydajność, zostanie zwróconych nie więcej niż 5000 edycji. Prosimy o używanie tej funkcji zgodnie z zasadami.',
+	'checkuser-summary'          => 'To narzędzie skanuje ostatnie zmiany by znaleźć adresy IP użyte przez użytkownika lub pokazać edycje/użytkowników dla adresu IP. Użytkownicy i edycje spod adresu IP mogą być pozyskani przez nagłówki XFF przez dodanie do IP „/xff”. Obsługiwane są adresy IPv4 (CIDR 16-32) I IPv6 (CIDR 64-128).
+Ze względu na wydajność, zostanie zwróconych nie więcej niż 5000 edycji.
+Używaj tej funkcji zgodnie z zasadami.',
 	'checkuser-desc'             => 'Umożliwia uprawnionym użytkownikom sprawdzenie adresów IP użytkowników oraz innych informacji',
 	'checkuser-logcase'          => 'Szukanie w logu jest czułe na wielkość znaków',
 	'checkuser'                  => 'Sprawdzanie IP użytkownika',
