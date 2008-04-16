@@ -97,7 +97,6 @@ function efUpdateCheckUserData( $rc ) {
 		# Periodically flush old entries from the recentchanges table.
 		global $wgCUDMaxAge;
 
-		$dbw = wfGetDB( DB_MASTER );
 		$cutoff = $dbw->timestamp( time() - $wgCUDMaxAge );
 		$recentchanges = $dbw->tableName( 'cu_changes' );
 		$sql = "DELETE FROM $recentchanges WHERE cuc_timestamp < '{$cutoff}'";
