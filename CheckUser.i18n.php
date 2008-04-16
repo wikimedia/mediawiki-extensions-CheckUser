@@ -1242,6 +1242,13 @@ $messages['id'] = array(
 	'checkuser-log-ipusers-xff'  => '$1 melihat nama pengguna dari XFF $2',
 );
 
+/** Ido (Ido)
+ * @author Malafaya
+ */
+$messages['io'] = array(
+	'checkuser-reason' => 'Motivo',
+);
+
 /** Icelandic (Íslenska)
  * @author S.Örvarr.S
  * @author SPQRobin
