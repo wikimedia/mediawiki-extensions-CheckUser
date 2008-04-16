@@ -1405,6 +1405,10 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
  * @author Meursault2004
  */
 $messages['jv'] = array(
+	'checkuser-summary'          => 'Piranti iki nlusuri owah-owahan pungkasan kanggo golèk IP sing dienggo déning sawijining panganggo utawa nuduhaké data suntingan/panganggo kanggo sawijining IP.
+Panganggo lan suntingan bisa dirunut saka sawijining IP XFF mawa nambahaké "/xff" ing sawijining IP. IPv4 (CIDR 16-32) IPv6 (CIDR 64-128) bisa dienggo.
+Amerga déning alesan kinerja, ora luwih saka 5.000 suntingan sing bisa dijupuk. Mangga gunakna piranti iki miturut kawicaksanan sing wis ditetepaké.',
+	'checkuser-desc'             => 'Mènèhi panganggo fasilitas kanggo panganggo sing duwé idin kanggo mriksa alamat IP panganggo lan informasi liyané',
 	'checkuser-logcase'          => 'Log iki sènsitif marang panrapan aksara gedhé apa cilik',
 	'checkuser'                  => 'Pamriksan panganggo',
 	'group-checkuser'            => 'Pamriksa panganggo',
@@ -1419,14 +1423,18 @@ $messages['jv'] = array(
 	'checkuser-edits'            => 'Golèk suntingan saka IP',
 	'checkuser-ips'              => 'Golèk IP',
 	'checkuser-search'           => 'Golèk',
+	'checkuser-empty'            => 'Log iki kosong.',
 	'checkuser-nomatch'          => 'Ora ana data sing cocog bisa ditemokaké.',
 	'checkuser-check'            => 'Priksa',
+	'checkuser-log-fail'         => 'Log èntri ora bisa ditambahaké',
 	'checkuser-nolog'            => 'Ora ditemokaké berkas log.',
 	'checkuser-blocked'          => 'Diblokir',
 	'checkuser-too-many'         => 'Kakèhan pituwas, tulung CIDR diciyutaké.
 Ing ngisor iki kapacak alamat-alamat IP sing dienggo (maks. 5.000, diurutaké adhedhasar alamat):',
 	'checkuser-user-nonexistent' => 'Panganggo iki ora ana.',
+	'checkuser-search-form'      => 'Temokna cathetan log ing ngendi $1 iku $2',
 	'checkuser-search-submit'    => 'Golèk',
+	'checkuser-search-initiator' => 'pamriksa',
 	'checkuser-search-target'    => 'tujuan',
 	'checkuser-log-subpage'      => 'Log',
 	'checkuser-log-return'       => 'Bali menyang kaca utama pamriksa',
@@ -1975,7 +1983,7 @@ $messages['oc'] = array(
 	'group-checkuser'            => 'Verificators d’utilizaire',
 	'group-checkuser-member'     => 'Verificator d’utilizaire',
 	'grouppage-checkuser'        => '{{ns:project}}:Verificator d’utilizaire',
-	'checkuser-reason'           => 'Explicacion',
+	'checkuser-reason'           => 'Motiu :',
 	'checkuser-showlog'          => 'Mostrar la lista obtenguda',
 	'checkuser-log'              => "Notacion de Verificator d'utilizaire",
 	'checkuser-query'            => 'Recèrca pels darrièrs cambiaments',
