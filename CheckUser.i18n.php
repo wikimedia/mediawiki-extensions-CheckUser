@@ -749,8 +749,8 @@ $messages['fa'] = array(
 );
 
 /** Finnish (Suomi)
- * @author Crt
  * @author Nike
+ * @author Crt
  * @author Jack Phoenix
  * @author Cimon Avaro
  */
@@ -789,6 +789,8 @@ $messages['fi'] = array(
 	'checkuser-log-userips'      => '$1 haki käyttäjän $2 IP-osoitteet',
 	'checkuser-log-ipedits'      => '$1 haki käyttäjän $2 muokkaukset',
 	'checkuser-log-ipusers'      => '$1 haki osoitteen $2 käyttämät tunnukset',
+	'checkuser-log-ipedits-xff'  => '$1 haki muokkaukset XFF-osoitteesta $2',
+	'checkuser-log-ipusers-xff'  => '$1 haki käyttäjät XFF-osoitteesta $2',
 );
 
 $messages['fo'] = array(
@@ -992,6 +994,8 @@ $messages['gu'] = array(
  * @author MacTire02
  */
 $messages['gv'] = array(
+	'checkuser-reason'        => 'Fa',
+	'checkuser-search'        => 'Ronsaghey',
 	'checkuser-search-submit' => 'Ronsaghey',
 );
 
