@@ -988,6 +988,13 @@ $messages['gu'] = array(
 	'checkuser-search' => 'શોધો',
 );
 
+/** Manx (Gaelg)
+ * @author MacTire02
+ */
+$messages['gv'] = array(
+	'checkuser-search-submit' => 'Ronsaghey',
+);
+
 $messages['he'] = array(
 	'checkuser-summary'          => 'כלי זה סורק את השינויים האחרונים במטרה למצוא את כתובות ה־IP שהשתמש בהן משתמש מסוים או כדי להציג את כל המידע על המשתמשים שהשתמשו בכתובת IP ועל העריכות שבוצעו ממנה.
 	ניתן לקבל עריכות ומשתמשים מכתובות IP של הכותרת X-Forwarded-For באמצעות הוספת הטקסט "/xff" לסוף הכתובת. הן כתובות IPv4 (כלומר, CIDR 16-32) והן כתובות IPv6 (כלומר, CIDR 64-128) נתמכות.
