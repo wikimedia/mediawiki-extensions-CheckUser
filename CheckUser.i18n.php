@@ -1258,7 +1258,8 @@ $messages['id'] = array(
  * @author Malafaya
  */
 $messages['io'] = array(
-	'checkuser-reason' => 'Motivo',
+	'checkuser-reason'        => 'Motivo',
+	'checkuser-search-submit' => 'Serchar',
 );
 
 /** Icelandic (Íslenska)
@@ -2021,7 +2022,7 @@ $messages['oc'] = array(
 	'checkuser-user-nonexistent' => 'L’utilizaire indicat existís pas',
 	'checkuser-search-form'      => 'Cercar lo jornal de las entradas ont $1 es $2.',
 	'checkuser-search-submit'    => 'Recercar',
-	'checkuser-search-initiator' => 'l’iniciador',
+	'checkuser-search-initiator' => 'l’iniciaire',
 	'checkuser-search-target'    => 'la cibla',
 	'checkuser-log-subpage'      => 'Jornal',
 	'checkuser-log-return'       => "Tornar al formulari principal de la verificacion d'utilizaire",
@@ -2127,8 +2128,8 @@ $messages['pms'] = array(
  */
 $messages['ps'] = array(
 	'checkuser-reason'        => 'سبب',
-	'checkuser-search'        => 'لټون',
-	'checkuser-search-submit' => 'لټون',
+	'checkuser-search'        => 'پلټل',
+	'checkuser-search-submit' => 'پلټل',
 	'checkuser-log-subpage'   => 'يادښت',
 );
 
