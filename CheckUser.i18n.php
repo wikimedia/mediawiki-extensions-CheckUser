@@ -1620,14 +1620,16 @@ $messages['kn'] = array(
 
 /** Korean (한국어)
  * @author Klutzy
+ * @author ToePeu
  */
 $messages['ko'] = array(
-	'checkuser'              => '체크유저',
-	'group-checkuser'        => '체크유저',
-	'group-checkuser-member' => '체크유저',
-	'grouppage-checkuser'    => '{{ns:project}}:체크유저',
-	'checkuser-reason'       => '이유',
-	'checkuser-search'       => '찾기',
+	'checkuser'               => '체크유저',
+	'group-checkuser'         => '체크유저',
+	'group-checkuser-member'  => '체크유저',
+	'grouppage-checkuser'     => '{{ns:project}}:체크유저',
+	'checkuser-reason'        => '이유',
+	'checkuser-search'        => '찾기',
+	'checkuser-search-submit' => '찾기',
 );
 
 $messages['la'] = array(
@@ -1868,6 +1870,7 @@ $messages['nds'] = array(
 	'checkuser-ips'              => 'IPs kriegen',
 	'checkuser-search'           => 'Söken',
 	'checkuser-nolog'            => 'Keen Loogbook funnen.',
+	'checkuser-blocked'          => 'Sperrt',
 	'checkuser-search-submit'    => 'Söök',
 	'checkuser-search-initiator' => 'Initiater',
 	'checkuser-search-target'    => 'Ziel',
