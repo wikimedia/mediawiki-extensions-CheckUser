@@ -650,8 +650,9 @@ $messages['eo'] = array(
 /** Spanish (Español)
  * @author Dmcdevit
  * @author Spacebirdy
- * @author Lin linao
+ * @author Jatrobat
  * @author Piolinfax
+ * @author Lin linao
  */
 $messages['es'] = array(
 	'checkuser-summary'          => 'Esta herramienta explora los cambios recientes para obtener las IPs utilizadas por un usuario o para mostrar la información de ediciones/usuarios de una IP.
@@ -679,6 +680,7 @@ No se muestran más de 5000 ediciones por motivos de rendimiento. Usa esta herra
 	'checkuser-blocked'          => 'Bloqueado',
 	'checkuser-too-many'         => 'Hay demasiados resultados. Por favor limita el CIDR. Aquí se ven las IPs usadas (máximo 5000, ordenadas según dirección):',
 	'checkuser-user-nonexistent' => 'El usuario especificado no existe.',
+	'checkuser-search-submit'    => 'Buscar',
 );
 
 /** Estonian (Eesti)
@@ -1042,8 +1044,13 @@ $messages['he'] = array(
 
 /** Hindi (हिन्दी)
  * @author Kaustubh
+ * @author Shyam
  */
 $messages['hi'] = array(
+	'checkuser-summary'          => 'यह उपकरण एक सदस्य द्वारा हाल में किये गए परिवर्तनों के लिए काम में ली गई सारी IPs को जांचता है, अथवा एक IP का उपयोग करने वाले सभी सदस्यों को जांचता है।
+एक मुवक्किल IP द्वारा किया गए संपादन एवं प्रयोग में ले रहे सभी सदस्यों को "/xff" से IP को जोड़ते हुए XFF शीर्षक के माध्यम से पता लगता है। IPv4 (CIDR 16-32) और IPv6 (CIDR 64-128) द्वारा प्रमाणित है।
+प्रदर्शन के कारण कि वजह से ५००० सम्पादानों से ज्यादा नहीं दिखा पायेगा।
+इसे नीति के अनुसार प्रयोग करें।',
 	'checkuser-desc'             => 'सदस्यको अन्य सदस्योंके आईपी एड्रेस एवम्‌ अन्य ज़ानकारी देखने की अनुमति देता हैं।',
 	'checkuser-logcase'          => 'लॉगमें खोज लिपी पर आधारित (case sensitive) हैं।',
 	'checkuser'                  => 'सदस्य जाँच',
@@ -2652,6 +2659,7 @@ $messages['to'] = array(
  * @author Erkan Yilmaz
  * @author SPQRobin
  * @author Karduelis
+ * @author Mach
  * @author Dbl2010
  */
 $messages['tr'] = array(
@@ -2661,6 +2669,7 @@ $messages['tr'] = array(
 	'grouppage-checkuser'        => '{{ns:project}}:Denetçi',
 	'checkuser-reason'           => 'Sebep',
 	'checkuser-showlog'          => 'Logu göster',
+	'checkuser-log'              => 'Denetçi kaydı',
 	'checkuser-target'           => 'Kullanıcı veya IP',
 	'checkuser-users'            => 'Kullanıcıları bulup getir',
 	'checkuser-ips'              => 'IPleri bulup getir',
@@ -2670,6 +2679,7 @@ $messages['tr'] = array(
 	'checkuser-search-submit'    => 'Ara',
 	'checkuser-search-initiator' => 'Başlatan',
 	'checkuser-search-target'    => 'Hedef',
+	'checkuser-log-subpage'      => 'Kayıt',
 );
 
 /** Ukrainian (Українська)
