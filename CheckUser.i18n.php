@@ -419,6 +419,14 @@ $messages['ce'] = array(
 	'checkuser-target' => 'Юзер я IP-адрес',
 );
 
+/** Chamorro (Chamoru)
+ * @author Jatrobat
+ */
+$messages['ch'] = array(
+	'checkuser-search'        => 'Aligao',
+	'checkuser-search-submit' => 'Aligao',
+);
+
 $messages['co'] = array(
 	'group-checkuser'        => 'Controllori',
 	'group-checkuser-member' => 'Controllore',
@@ -2778,13 +2786,13 @@ $messages['vi'] = array(
 	'checkuser-summary'          => 'Công cụ này sẽ quét các thay đổi gần đây để lấy ra các IP được một thành viên sử dụng hoặc hiển thị dữ liệu sửa đổi/tài khoản của một IP. Các tài khoản và sửa đổi của một IP có thể được trích ra từ tiêu đề XFF bằng cách thêm vào IP “/xff”. IPv4 (CIDR 16-32) và IPv6 (CIDR 64-128) đều được hỗ trợ. Không quá 5000 sửa đổi sẽ được trả về vì lý do hiệu suất. Hãy dùng công cụ này theo đúng quy định.',
 	'checkuser-desc'             => 'Cung cấp cho những người đủ tiêu chuẩn khả năng kiểm tra địa chỉ IP và thông tin khác của người dùng khác',
 	'checkuser-logcase'          => 'Tìm kiếm nhật trình có phân biệt chữ hoa chữ thường',
-	'checkuser'                  => 'Kiểm tra thành viên',
-	'group-checkuser'            => 'Kiểm tra thành viên',
-	'group-checkuser-member'     => 'Kiểm tra thành viên',
-	'grouppage-checkuser'        => '{{ns:project}}:Kiểm tra thành viên',
+	'checkuser'                  => 'Kiểm định viên',
+	'group-checkuser'            => 'Kiểm định viên',
+	'group-checkuser-member'     => 'Kiểm định viên',
+	'grouppage-checkuser'        => '{{ns:project}}:Kiểm định viên',
 	'checkuser-reason'           => 'Lý do',
 	'checkuser-showlog'          => 'Xem nhật trình',
-	'checkuser-log'              => 'Nhật trình Kiểm tra thành viên',
+	'checkuser-log'              => 'Nhật trình CheckUser',
 	'checkuser-query'            => 'Truy vấn các thay đổi gần đây',
 	'checkuser-target'           => 'Thành viên hay IP',
 	'checkuser-users'            => 'Lấy ra thành viên',
@@ -2804,7 +2812,7 @@ $messages['vi'] = array(
 	'checkuser-search-initiator' => 'người khởi đầu',
 	'checkuser-search-target'    => 'mục tiêu',
 	'checkuser-log-subpage'      => 'Nhật trình',
-	'checkuser-log-return'       => 'Trả về biểu mẫu chính Kiểm tra thành viên',
+	'checkuser-log-return'       => 'Quay lại mẫu CheckUser chính',
 	'checkuser-log-userips'      => '$1 lấy IP để $2',
 	'checkuser-log-ipedits'      => '$1 lấy sửa đổi cho $2',
 	'checkuser-log-ipusers'      => '$1 lấy thành viên cho $2',
