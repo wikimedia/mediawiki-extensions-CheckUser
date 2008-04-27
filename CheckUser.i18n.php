@@ -57,6 +57,14 @@ $messages['qqq'] = array(
 	'checkuser' => 'Check user extension. The name of the special page were checkusers can check the IP addresses of users. The message is used in the list of special pages, and at the top of Special:Checkuser.',
 );
 
+/** Karelian (Karjala)
+ * @author Flrn
+ */
+$messages['krl'] = array(
+	'checkuser-search'        => 'Ečindy',
+	'checkuser-search-submit' => 'Ečči',
+);
+
 /** Afrikaans (Afrikaans)
  * @author SPQRobin
  */
@@ -1094,6 +1102,14 @@ $messages['hi'] = array(
 	'checkuser-log-ipusers'      => '$1 के पास $2 के लिये सदस्य हैं',
 	'checkuser-log-ipedits-xff'  => '$1 के पास $2 के लिये XFF बदलाव हैं',
 	'checkuser-log-ipusers-xff'  => '$1 के पास $2 के लिये XFF सदस्य हैं',
+);
+
+/** Hiligaynon (Ilonggo)
+ * @author Jose77
+ */
+$messages['hil'] = array(
+	'checkuser-search'        => 'Pangita-a',
+	'checkuser-search-submit' => 'Pangita-a',
 );
 
 /** Croatian (Hrvatski)
