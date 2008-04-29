@@ -1028,6 +1028,7 @@ $messages['he'] = array(
 	'checkuser'                  => 'בדיקת משתמש',
 	'group-checkuser'            => 'בודקים',
 	'group-checkuser-member'     => 'בודק',
+	'right-checkuser'            => 'מציאת כתובות IP של משתמשים ומידע נוסף',
 	'grouppage-checkuser'        => 'Project:בודק',
 	'checkuser-reason'           => 'סיבה',
 	'checkuser-showlog'          => 'הצגת יומן',
