@@ -87,6 +87,7 @@ No s'otendrán más de 5000 edizions por razons de prestazions. Faiga serbir ist
 	'checkuser'                  => "Comprebazión d'usuarios",
 	'group-checkuser'            => "Comprebadors d'usuarios",
 	'group-checkuser-member'     => "Comprebador d'usuarios",
+	'right-checkuser'            => "Comprebar as adrezas IP de l'usuario y atras informazions",
 	'grouppage-checkuser'        => "{{ns:project}}:comprebazión d'usuarios",
 	'checkuser-reason'           => 'Razón',
 	'checkuser-showlog'          => 'Amostrar o rechistro',
@@ -135,6 +136,7 @@ $messages['ar'] = array(
 	'checkuser'                  => 'تدقيق مستخدم',
 	'group-checkuser'            => 'مدققو مستخدم',
 	'group-checkuser-member'     => 'مدقق مستخدم',
+	'right-checkuser'            => 'التحقق من عناوين الأيبي للمستخدمين ومعلومات أخرى',
 	'grouppage-checkuser'        => '{{ns:project}}:تدقيق مستخدم',
 	'checkuser-reason'           => 'السبب',
 	'checkuser-showlog'          => 'عرض السجل',
@@ -254,6 +256,7 @@ $messages['bg'] = array(
 	'checkuser'                  => 'Проверяване на потребител',
 	'group-checkuser'            => 'Проверяващи',
 	'group-checkuser-member'     => 'Проверяващ',
+	'right-checkuser'            => 'проверяване на потребителски IP адреси и друга информация',
 	'grouppage-checkuser'        => '{{ns:project}}:Проверяващи',
 	'checkuser-reason'           => 'Причина',
 	'checkuser-showlog'          => 'Показване на дневника',
@@ -444,6 +447,7 @@ $messages['co'] = array(
 
 /** Czech (Česky)
  * @author Li-sung
+ * @author Danny B.
  * @author Beren
  */
 $messages['cs'] = array(
@@ -455,6 +459,7 @@ Z výkonnostních důvodů lze zobrazit maximálně 5000 editací. Používejte 
 	'checkuser'                  => 'Kontrola uživatele',
 	'group-checkuser'            => 'Revizoři',
 	'group-checkuser-member'     => 'Revizor',
+	'right-checkuser'            => 'Kontrolování uživatelské IP adresy a dalších informací',
 	'grouppage-checkuser'        => '{{ns:project}}:Revize uživatele',
 	'checkuser-reason'           => 'Důvod',
 	'checkuser-showlog'          => 'Zobrazit záznamy',
@@ -826,14 +831,16 @@ $messages['fo'] = array(
  * @author Grondin
  * @author Sherbrooke
  * @author ChrisPtDe
+ * @author IAlex
  */
 $messages['fr'] = array(
 	'checkuser-summary'          => 'Cet outil parcourt la liste des changements récents à la recherche de l’adresse IP employée par un utilisateur, affiche toutes les éditions d’une adresse IP (même enregistrée), ou liste les comptes utilisés par une adresse IP. Les comptes et les modifications peuvent être trouvés avec une IP XFF si elle finit avec « /xff ». Il est possible d’utiliser les protocoles IPv4 (CIDR 16-32) et IPv6 (CIDR 64-128). Le nombre d’éditions affichables est limité à {{formatnum:5000}} pour des questions de performance du serveur. Veuillez utiliser cet outil dans les limites de la charte d’utilisation.',
-	'checkuser-desc'         => 'Donne la possibilité aux personnes dûment autorisées de vérifier les adresses IP des utilisateurs ainsi que d’autres informations les concernant',
+	'checkuser-desc'             => 'Donne la possibilité aux personnes dûment autorisées de vérifier les adresses IP des utilisateurs ainsi que d’autres informations les concernant',
 	'checkuser-logcase'          => 'La recherche dans le journal est sensible à la casse.',
 	'checkuser'                  => 'Vérificateur d’utilisateur',
 	'group-checkuser'            => 'Vérificateurs d’utilisateur',
 	'group-checkuser-member'     => 'Vérificateur d’utilisateur',
+	'right-checkuser'            => "Vérifier l'adresse IP des utilisateurs et autres informations",
 	'grouppage-checkuser'        => '{{ns:projet}}:Vérificateur d’utilisateur',
 	'checkuser-reason'           => 'Motif',
 	'checkuser-showlog'          => 'Afficher le journal',
@@ -1075,6 +1082,7 @@ $messages['hi'] = array(
 	'checkuser'                  => 'सदस्य जाँच',
 	'group-checkuser'            => 'सदस्य जाँचे',
 	'group-checkuser-member'     => 'सदस्य जाँच',
+	'right-checkuser'            => 'सदस्य का आइपी एड्रेस एवम्‌ अन्य ज़ानकारी जाँचें',
 	'grouppage-checkuser'        => '{{ns:project}}: सदस्य जाँच',
 	'checkuser-reason'           => 'कारण',
 	'checkuser-showlog'          => 'लॉग दिखायें',
@@ -1467,6 +1475,7 @@ Amerga déning alesan kinerja, ora luwih saka 5.000 suntingan sing bisa dijupuk.
 	'checkuser'                  => 'Pamriksan panganggo',
 	'group-checkuser'            => 'Pamriksa panganggo',
 	'group-checkuser-member'     => 'Pamriksa panganggo',
+	'right-checkuser'            => 'Priksa alamat-alamat IP panganggo lan informasi liyané',
 	'grouppage-checkuser'        => '{{ns:project}}:Pamriksa panganggo',
 	'checkuser-reason'           => 'Alesan',
 	'checkuser-showlog'          => 'Tuduhna log',
@@ -1845,6 +1854,7 @@ IPv4 (CIDR 16-32) आणि IPv6 (CIDR 64-128) वापरता येऊ श�
 	'checkuser'                  => 'सदस्य तपासा',
 	'group-checkuser'            => 'सदस्य तपासा',
 	'group-checkuser-member'     => 'सदस्य तपासा',
+	'right-checkuser'            => 'सदस्याचा आयपी अंकपत्ता व इतर माहिती तपासा',
 	'grouppage-checkuser'        => '{{ns:project}}:सदस्य तपासा',
 	'checkuser-reason'           => 'कारण',
 	'checkuser-showlog'          => 'लॉग दाखवा',
@@ -1987,6 +1997,7 @@ Av ytelsesgrunner vises maksimalt 5000 redigeringer. Bruk dette verktøyet i sam
 	'checkuser'                  => 'Brukersjekk',
 	'group-checkuser'            => 'IP-kontrollører',
 	'group-checkuser-member'     => 'IP-kontrollør',
+	'right-checkuser'            => 'Sjekke brukeres IP-adresser og annen informasjon',
 	'grouppage-checkuser'        => '{{ns:project}}:IP-kontrollør',
 	'checkuser-reason'           => 'Årsak',
 	'checkuser-showlog'          => 'Vis logg',
@@ -2046,6 +2057,7 @@ $messages['oc'] = array(
 	'checkuser'                  => 'Verificator d’utilizaire',
 	'group-checkuser'            => 'Verificators d’utilizaire',
 	'group-checkuser-member'     => 'Verificator d’utilizaire',
+	'right-checkuser'            => "Verificar l'adreça IP dels utilizaires e autras entresenhas",
 	'grouppage-checkuser'        => '{{ns:project}}:Verificator d’utilizaire',
 	'checkuser-reason'           => 'Motiu :',
 	'checkuser-showlog'          => 'Mostrar la lista obtenguda',
@@ -2110,6 +2122,7 @@ Używaj tej funkcji zgodnie z zasadami.',
 	'checkuser'                  => 'Sprawdzanie IP użytkownika',
 	'group-checkuser'            => 'CheckUser',
 	'group-checkuser-member'     => 'CheckUser',
+	'right-checkuser'            => 'Sprawdzanie adresów IP oraz innych informacji o użytkownikach',
 	'grouppage-checkuser'        => '{{ns:project}}:CheckUser',
 	'checkuser-reason'           => 'Powód',
 	'checkuser-showlog'          => 'Pokaż log',
@@ -2172,8 +2185,10 @@ $messages['pms'] = array(
  */
 $messages['ps'] = array(
 	'checkuser-reason'        => 'سبب',
+	'checkuser-showlog'       => 'يادښت کتل',
 	'checkuser-search'        => 'پلټل',
 	'checkuser-search-submit' => 'پلټل',
+	'checkuser-search-target' => 'موخه',
 	'checkuser-log-subpage'   => 'يادښت',
 );
 
@@ -2190,6 +2205,7 @@ $messages['pt'] = array(
 	'checkuser'                  => 'Verificar utilizador',
 	'group-checkuser'            => 'CheckUser',
 	'group-checkuser-member'     => 'CheckUser',
+	'right-checkuser'            => 'Verificar o endereço IP de um utilizador e outras informações',
 	'grouppage-checkuser'        => '{{ns:project}}:CheckUser',
 	'checkuser-reason'           => 'Motivo',
 	'checkuser-showlog'          => 'Exibir registos',
@@ -2367,6 +2383,7 @@ $messages['sk'] = array(
 	'checkuser'                  => 'Overiť používateľa',
 	'group-checkuser'            => 'Revízor',
 	'group-checkuser-member'     => 'Revízori',
+	'right-checkuser'            => 'Skontrolovať IP adresy a iné informácie používateľov',
 	'grouppage-checkuser'        => '{{ns:project}}:Revízia používateľa',
 	'checkuser-reason'           => 'Dôvod',
 	'checkuser-showlog'          => 'Zobraziť záznam',
@@ -2513,6 +2530,7 @@ Di handap ieu béréndélan IP nu dipaké (paling loba 5000, disusun dumasar ala
 
 /** Swedish (Svenska)
  * @author Lejonel
+ * @author M.M.S.
  */
 $messages['sv'] = array(
 	'checkuser-summary'          => 'Det här verktyget söker igenom de senaste ändringarna för att hämta IP-adresser för en användare, eller redigeringar och användare för en IP-adress.
@@ -2523,6 +2541,7 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 	'checkuser'                  => 'Kontrollera användare',
 	'group-checkuser'            => 'Användarkontrollanter',
 	'group-checkuser-member'     => 'Användarkontrollant',
+	'right-checkuser'            => 'Kolla användares IP-adresser och annan information',
 	'grouppage-checkuser'        => '{{ns:project}}:Användarkontrollant',
 	'checkuser-reason'           => 'Anledning',
 	'checkuser-showlog'          => 'Visa logg',
@@ -2723,6 +2742,7 @@ $messages['uk'] = array(
 	'checkuser'                  => 'Перевірити користувача',
 	'group-checkuser'            => "Чек'юзери",
 	'group-checkuser-member'     => "чек'юзер",
+	'right-checkuser'            => 'Перевірка IP-адрес та іншої інформації користувача',
 	'grouppage-checkuser'        => '{{ns:project}}:Перевірка користувачів',
 	'checkuser-reason'           => 'Причина',
 	'checkuser-showlog'          => 'Показати журнал',
@@ -2765,6 +2785,7 @@ $messages['vec'] = array(
 	'checkuser'                  => 'Controlo utenze',
 	'group-checkuser'            => 'Controlori',
 	'group-checkuser-member'     => 'Controlor',
+	'right-checkuser'            => "Controla i indirissi IP de l'utente e altre informassion",
 	'grouppage-checkuser'        => '{{ns:project}}:Controlo utenze',
 	'checkuser-reason'           => 'Motivo',
 	'checkuser-showlog'          => 'Mostra el registro',
