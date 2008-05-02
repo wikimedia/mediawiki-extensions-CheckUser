@@ -1,6 +1,8 @@
 <?php
 
-require_once "../../maintenance/commandLine.inc";
+require_once ( getenv('MW_INSTALL_PATH') !== false
+	? getenv('MW_INSTALL_PATH')."/maintenance/commandLine.inc"
+	: dirname( __FILE__ ) . '/../../maintenance/commandLine.inc' );
 require "cu_log_import.inc";
 
 function test_cu_log( $log ) {
