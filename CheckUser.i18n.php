@@ -208,7 +208,7 @@ $messages['ast'] = array(
 	'checkuser-log-userips'      => '$1 obtuvo les IP pa $2',
 	'checkuser-log-ipedits'      => '$1 obtuvo les ediciones pa $2',
 	'checkuser-log-ipusers'      => '$1 obtuvo los usuarios pa $2',
-	'checkuser-log-ipedits-xff'  => '41 obtuvo les ediciones pa XFF $2',
+	'checkuser-log-ipedits-xff'  => '$1 obtuvo les ediciones pa XFF $2',
 	'checkuser-log-ipusers-xff'  => '$1 obtuvo los usuarios pa XFF $2',
 );
 
@@ -389,6 +389,7 @@ Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Reco
 	'checkuser'                  => "Comprova l'usuari",
 	'group-checkuser'            => 'Checkusers',
 	'group-checkuser-member'     => 'CheckUser',
+	'right-checkuser'            => 'Comprovar les adreces IP i altra informació dels usuaris',
 	'grouppage-checkuser'        => '{{ns:project}}:Checkuser',
 	'checkuser-reason'           => 'Motiu',
 	'checkuser-showlog'          => 'Mostra registre',
@@ -659,6 +660,7 @@ $messages['eo'] = array(
 	'checkuser-nolog'            => 'Neniu loglibro trovita.',
 	'checkuser-blocked'          => 'Forbarita',
 	'checkuser-user-nonexistent' => 'La donata uzanto ne ekzistas.',
+	'checkuser-search-form'      => 'Trovi loglibrerojn en kiu la $1 estas $2',
 	'checkuser-search-submit'    => 'Serĉu',
 	'checkuser-search-initiator' => 'inicianto',
 	'checkuser-search-target'    => 'celo',
@@ -1119,6 +1121,7 @@ $messages['hi'] = array(
  * @author Jose77
  */
 $messages['hil'] = array(
+	'checkuser-reason'        => 'Rason',
 	'checkuser-search'        => 'Pangita-a',
 	'checkuser-search-submit' => 'Pangita-a',
 );
@@ -1733,6 +1736,7 @@ Gebroekers en bewèrkinge van 'n IP-adres van 'ne cliënt kinne achterhaoldj wae
 	'checkuser'                  => 'Konterleer gebroeker',
 	'group-checkuser'            => 'Gebroekerkonterleerders',
 	'group-checkuser-member'     => 'Gebroekerkonterleerder',
+	'right-checkuser'            => 'IP-adrèsser en anger gegaeves van gebroekers naokieke',
 	'grouppage-checkuser'        => '{{ns:project}}:Gebroekerkonterleerder',
 	'checkuser-reason'           => 'Reej',
 	'checkuser-showlog'          => 'Toean logbook',
@@ -1943,6 +1947,7 @@ Gebruik dit hulpmiddel volgens het vastgestelde beleid.',
 	'checkuser'                  => 'Gebruiker controleren',
 	'group-checkuser'            => 'Controlegebruikers',
 	'group-checkuser-member'     => 'Controlegebruiker',
+	'right-checkuser'            => 'IP-adressen en andere gegevens van gebruikers nakijken',
 	'grouppage-checkuser'        => '{{ns:project}}:Controlegebruiker',
 	'checkuser-reason'           => 'Reden',
 	'checkuser-showlog'          => 'Logboek weergeven',
@@ -2296,6 +2301,7 @@ $messages['ru'] = array(
 	'checkuser'                  => 'Проверить участника',
 	'group-checkuser'            => 'Проверяющие участников',
 	'group-checkuser-member'     => 'проверяющий участников',
+	'right-checkuser'            => 'проверка IP-адресов участников и другой информации',
 	'grouppage-checkuser'        => '{{ns:project}}:Проверка участников',
 	'checkuser-reason'           => 'Причина',
 	'checkuser-showlog'          => 'Показать журнал',
@@ -2829,6 +2835,7 @@ $messages['vi'] = array(
 	'checkuser'                  => 'Kiểm định viên',
 	'group-checkuser'            => 'Kiểm định viên',
 	'group-checkuser-member'     => 'Kiểm định viên',
+	'right-checkuser'            => 'Kiểm tra địa chỉ IP và các thông tin khác của thành viên',
 	'grouppage-checkuser'        => '{{ns:project}}:Kiểm định viên',
 	'checkuser-reason'           => 'Lý do',
 	'checkuser-showlog'          => 'Xem nhật trình',
