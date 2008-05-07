@@ -68,11 +68,14 @@ $messages['krl'] = array(
 
 /** Afrikaans (Afrikaans)
  * @author SPQRobin
+ * @author Arnobarnard
  */
 $messages['af'] = array(
+	'checkuser-reason'        => 'Rede',
 	'checkuser-showlog'       => 'Wys logboek',
 	'checkuser-search'        => 'Soek',
 	'checkuser-search-submit' => 'Soek',
+	'checkuser-search-target' => 'teiken',
 	'checkuser-log-subpage'   => 'Logboek',
 );
 
@@ -1676,6 +1679,14 @@ $messages['ko'] = array(
 	'checkuser-reason'        => '이유',
 	'checkuser-search'        => '찾기',
 	'checkuser-search-submit' => '찾기',
+);
+
+/** Kinaray-a (Kinaray-a)
+ * @author Jose77
+ */
+$messages['krj'] = array(
+	'checkuser-search'        => 'Sagap',
+	'checkuser-search-submit' => 'Sagap',
 );
 
 $messages['la'] = array(
