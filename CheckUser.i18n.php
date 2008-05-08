@@ -246,6 +246,21 @@ $messages['bcl'] = array(
 	'checkuser-blocked'      => 'Pigbágat',
 );
 
+/** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
+ * @author EugeneZelenko
+ */
+$messages['be-tarask'] = array(
+	'checkuser-reason'        => 'Прычына',
+	'checkuser-showlog'       => 'Паказаць журнал',
+	'checkuser-log'           => 'Журнал праверак удзельнікаў',
+	'checkuser-nomatch'       => 'Супадзеньні ня знойдзеныя.',
+	'checkuser-check'         => 'Праверыць',
+	'checkuser-log-fail'      => 'Немагчыма дадаць запіс у журнал',
+	'checkuser-nolog'         => 'Ня знойдзены файл журнала.',
+	'checkuser-search-submit' => 'Шукаць',
+	'checkuser-log-subpage'   => 'Журнал',
+);
+
 /** Bulgarian (Български)
  * @author Borislav
  * @author DCLXVI
@@ -642,32 +657,34 @@ $messages['el'] = array(
  * @author Yekrats
  */
 $messages['eo'] = array(
-	'checkuser-logcase'          => 'La loglibra serĉo estas usklecodistinga.',
+	'checkuser-logcase'          => 'La protokola serĉo estas usklecodistinga.',
 	'checkuser'                  => 'Kontrolu uzanton',
 	'group-checkuser'            => 'Kontrolu uzantojn',
 	'group-checkuser-member'     => 'Kontrolu uzanton',
 	'grouppage-checkuser'        => '{{ns:project}}:Kontrolu uzanton',
 	'checkuser-reason'           => 'Kialo',
-	'checkuser-showlog'          => 'Montru loglibron',
-	'checkuser-log'              => 'Loglibro pri kontrolado de uzantoj',
+	'checkuser-showlog'          => 'Montri protokolon',
+	'checkuser-log'              => 'Protokolo pri kontrolado de uzantoj',
 	'checkuser-query'            => 'Informomendu lastatempajn ŝanĝojn',
 	'checkuser-target'           => 'Uzanto aŭ IP-adreso',
 	'checkuser-users'            => 'Akiru uzantojn',
 	'checkuser-edits'            => 'Akiru redaktojn de IP-adreso',
 	'checkuser-ips'              => 'Prenu IP-adresojn',
 	'checkuser-search'           => 'Serĉu',
-	'checkuser-empty'            => 'La loglibro enhavas nenion.',
+	'checkuser-empty'            => 'La protokolo estas malplena.',
 	'checkuser-nomatch'          => 'Neniujn pafojn trovis.',
 	'checkuser-check'            => 'Kontrolu',
-	'checkuser-log-fail'         => 'Ne eblis aldoni loglibreron.',
-	'checkuser-nolog'            => 'Neniu loglibro trovita.',
+	'checkuser-log-fail'         => 'Ne eblis aldoni protokoleron.',
+	'checkuser-nolog'            => 'Neniu protokolo estas trovita.',
 	'checkuser-blocked'          => 'Forbarita',
+	'checkuser-too-many'         => 'Tro da rezultoj. Bonvolu malvastigi la CIDR. 
+Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
 	'checkuser-user-nonexistent' => 'La donata uzanto ne ekzistas.',
-	'checkuser-search-form'      => 'Trovi loglibrerojn en kiu la $1 estas $2',
+	'checkuser-search-form'      => 'Trovi protokolerojn en kiu la $1 estas $2',
 	'checkuser-search-submit'    => 'Serĉu',
 	'checkuser-search-initiator' => 'inicianto',
 	'checkuser-search-target'    => 'celo',
-	'checkuser-log-subpage'      => 'Loglibro',
+	'checkuser-log-subpage'      => 'Protokolo',
 	'checkuser-log-return'       => 'Reiru al ĉefa kamparo por kontroli uzantojn',
 	'checkuser-log-userips'      => '$1 akiris IP-adresojn por $2',
 	'checkuser-log-ipedits'      => '$1 akiris redaktojn por $2',
@@ -1733,6 +1750,13 @@ Hei sinn déi benotzten IP-Adressen (max 5000, sortéiert no der Adress):',
 	'checkuser-log-ipusers'      => '$1 huet Benotzer kritt fir $2',
 	'checkuser-log-ipedits-xff'  => '$1 krut ännerunge fir XFF $2',
 	'checkuser-log-ipusers-xff'  => "$1 krut d'Benotzer fir XFF $2",
+);
+
+/** Lingua Franca Nova (Lingua Franca Nova)
+ * @author Malafaya
+ */
+$messages['lfn'] = array(
+	'checkuser-search' => 'Xerca',
 );
 
 /** Limburgish (Limburgs)
