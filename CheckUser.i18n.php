@@ -764,6 +764,7 @@ $messages['fa'] = array(
 	'checkuser'                  => 'بازرسی کاربر',
 	'group-checkuser'            => 'بازرسان کاربر',
 	'group-checkuser-member'     => 'بازرس کاربر',
+	'right-checkuser'            => 'بررسی نشانی اینترنتی و دیگر اطلاعات کاربرها',
 	'grouppage-checkuser'        => '{{ns:project}}:بازرسی کاربر',
 	'checkuser-reason'           => 'دلیل',
 	'checkuser-showlog'          => 'نمایش سیاهه',
