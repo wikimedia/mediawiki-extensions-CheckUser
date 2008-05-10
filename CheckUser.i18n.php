@@ -250,15 +250,29 @@ $messages['bcl'] = array(
  * @author EugeneZelenko
  */
 $messages['be-tarask'] = array(
-	'checkuser-reason'        => 'Прычына',
-	'checkuser-showlog'       => 'Паказаць журнал',
-	'checkuser-log'           => 'Журнал праверак удзельнікаў',
-	'checkuser-nomatch'       => 'Супадзеньні ня знойдзеныя.',
-	'checkuser-check'         => 'Праверыць',
-	'checkuser-log-fail'      => 'Немагчыма дадаць запіс у журнал',
-	'checkuser-nolog'         => 'Ня знойдзены файл журнала.',
-	'checkuser-search-submit' => 'Шукаць',
-	'checkuser-log-subpage'   => 'Журнал',
+	'group-checkuser'            => 'Правяраючыя ўдзельнікаў',
+	'group-checkuser-member'     => 'Правяраючы ўдзельнікаў',
+	'checkuser-reason'           => 'Прычына',
+	'checkuser-showlog'          => 'Паказаць журнал',
+	'checkuser-log'              => 'Журнал праверак удзельнікаў',
+	'checkuser-target'           => 'Рахунак удзельніка альбо IP-адрас',
+	'checkuser-users'            => 'Атрымаць рахункі ўдзельнікаў',
+	'checkuser-edits'            => 'Атрымаць рэдагаваньні, зробленыя з IP-адрасу',
+	'checkuser-ips'              => 'Атрымаць IP-адрасы',
+	'checkuser-empty'            => 'Журнал ня ўтрымлівае запісаў.',
+	'checkuser-nomatch'          => 'Супадзеньні ня знойдзеныя.',
+	'checkuser-check'            => 'Праверыць',
+	'checkuser-log-fail'         => 'Немагчыма дадаць запіс у журнал',
+	'checkuser-nolog'            => 'Ня знойдзены файл журнала.',
+	'checkuser-blocked'          => 'Заблякаваны',
+	'checkuser-search-submit'    => 'Шукаць',
+	'checkuser-search-initiator' => 'ініцыятар',
+	'checkuser-log-subpage'      => 'Журнал',
+	'checkuser-log-userips'      => '$1 атрымаў IP-адрасы для $2',
+	'checkuser-log-ipedits'      => '$1 атрымаў рэдагаваньні для $2',
+	'checkuser-log-ipusers'      => '$1 атрымаў рахункі ўдзельнікаў для $2',
+	'checkuser-log-ipedits-xff'  => '$1 атрымаў рэдагаваньні для XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 атрымаў рахункі ўдзельнікаў для XFF $2',
 );
 
 /** Bulgarian (Български)
@@ -661,6 +675,7 @@ $messages['eo'] = array(
 	'checkuser'                  => 'Kontrolu uzanton',
 	'group-checkuser'            => 'Kontrolu uzantojn',
 	'group-checkuser-member'     => 'Kontrolu uzanton',
+	'right-checkuser'            => 'Kontroli la IP-adreson kaj alian informon de uzanto',
 	'grouppage-checkuser'        => '{{ns:project}}:Kontrolu uzanton',
 	'checkuser-reason'           => 'Kialo',
 	'checkuser-showlog'          => 'Montri protokolon',
@@ -1332,10 +1347,9 @@ $messages['io'] = array(
  * @author S.Örvarr.S
  * @author SPQRobin
  * @author Spacebirdy
- * @author Jóna Þórunn
  */
 $messages['is'] = array(
-	'checkuser'               => 'Skoða notanda',
+	'checkuser'               => 'Athuga notanda',
 	'group-checkuser'         => 'Athuga notendur',
 	'group-checkuser-member'  => 'Athuga notanda',
 	'checkuser-reason'        => 'Ástæða',
@@ -1346,7 +1360,7 @@ $messages['is'] = array(
 	'checkuser-edits'         => 'Sækja breytingar eftir vistang',
 	'checkuser-ips'           => 'Sækja vistföng',
 	'checkuser-search'        => 'Leita',
-	'checkuser-nomatch'       => 'Engar niðurstöður fundust.',
+	'checkuser-nomatch'       => 'Engin samsvörun fannst.',
 	'checkuser-check'         => 'Athuga',
 	'checkuser-nolog'         => 'Engin skrá fundin.',
 	'checkuser-blocked'       => 'Bannaður',
@@ -1662,9 +1676,9 @@ $messages['kk-latn'] = array(
  */
 $messages['km'] = array(
 	'checkuser-logcase'       => 'ស្វែងរក កំណត់ហេតុ ដោយបែងចែក អក្សរធំ អក្សរតូច ។',
-	'checkuser'               => 'ឆែក អ្នកប្រើប្រាស់',
-	'group-checkuser'         => 'ត្រួតពិនិត្យអ្នកប្រើប្រាស់',
-	'group-checkuser-member'  => 'ត្រួតពិនិត្យអ្នកប្រើប្រាស់',
+	'checkuser'               => 'អ្នកត្រួតពិនិត្យអ្នកប្រើប្រាស់',
+	'group-checkuser'         => 'អ្នកត្រួតពិនិត្យអ្នកប្រើប្រាស់',
+	'group-checkuser-member'  => 'អ្នកត្រួតពិនិត្យអ្នកប្រើប្រាស់',
 	'grouppage-checkuser'     => '{{ns:project}}:អ្នកត្រួតពិនិត្យអ្នកប្រើប្រាស់',
 	'checkuser-reason'        => 'មូលហេតុ',
 	'checkuser-showlog'       => 'បង្ហាញកំណត់ហេតុ',
@@ -1673,7 +1687,7 @@ $messages['km'] = array(
 	'checkuser-search'        => 'ស្វែងរក',
 	'checkuser-empty'         => 'មិនមានអ្វីនៅក្នុងកំណត់ហេតុនេះទេ។',
 	'checkuser-check'         => 'ត្រួតពិនិត្យ',
-	'checkuser-nolog'         => 'រកមិនឃើញ ឯកសារ កំណត់ហេតុ ។',
+	'checkuser-nolog'         => 'ឯកសារកំណត់ហេតុមិនត្រូវបានរកឃើញទេ។',
 	'checkuser-blocked'       => 'បានហាមឃាត់',
 	'checkuser-too-many'      => 'ច្រើនលទ្ធផល ពេក, សូមបង្រួម CIDR ។ នេះគឺ IP បានប្រើប្រាស់ (អតិបរិមា ៥០០០, រៀបតាម អាស័យដ្ឋាន) ៖',
 	'checkuser-search-submit' => 'ស្វែងរក',
@@ -1966,6 +1980,7 @@ $messages['nds'] = array(
  */
 $messages['nds-nl'] = array(
 	'checkuser-summary' => 'Dit hulpmiddel scant de lieste mit de leste wiezigingen um de IP-adressen weerumme te haolen dee gebruuk bin deur een gebruker of een bewarking/gebrukersgegevens weergeven veur een IP-adres. Gebrukers en bewarkingen kunnen weerummehaold wonnen mit een XFF-IP deur "/xff" an \'t IP-adres toe te voegen. IPv4 (CIDR 16-32) en IPv6 (CIDR 64-128) wonnen ondersteund. Neet meer as 5.000 bewarkingen wonnen eteund vanwegen prestasierejens. Gebruuk dit in overeenstemming mit \'t beleid.',
+	'checkuser-query'   => 'Zeukopdrachte leste wiezigingen',
 );
 
 /** Dutch (Nederlands)
@@ -2691,7 +2706,7 @@ $messages['tet'] = array(
 	'checkuser-search-submit' => 'Buka',
 );
 
-/** Tajik (Тоҷикӣ)
+/** Tajik (Cyrillic) (Тоҷикӣ/tojikī (Cyrillic))
  * @author Ibrahim
  */
 $messages['tg-cyrl'] = array(
@@ -2703,6 +2718,7 @@ $messages['tg-cyrl'] = array(
 	'checkuser'                  => 'Бозрасии корбар',
 	'group-checkuser'            => 'Бозрасии корбарон',
 	'group-checkuser-member'     => 'Бозрасии корбар',
+	'right-checkuser'            => 'Барраси кардани нишонаи IP ва дигар иттилооти корбар',
 	'grouppage-checkuser'        => '{{ns:project}}:Бозрасии корбар',
 	'checkuser-reason'           => 'Далел',
 	'checkuser-showlog'          => 'Намоиши гузориш',
