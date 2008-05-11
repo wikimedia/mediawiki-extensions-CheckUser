@@ -1015,6 +1015,7 @@ Os usuarios e as edicións por un cliente IP poden ser recuperados a través das
 	'checkuser'                  => 'Verificador de usuarios',
 	'group-checkuser'            => 'Verificadores de usuarios',
 	'group-checkuser-member'     => 'Verificador usuarios',
+	'right-checkuser'            => 'Comprobar os enderezos IP dos usuarios e outra información',
 	'grouppage-checkuser'        => '{{ns:project}}:Verificador de usuarios',
 	'checkuser-reason'           => 'Razón',
 	'checkuser-showlog'          => 'Amosar rexistro',
