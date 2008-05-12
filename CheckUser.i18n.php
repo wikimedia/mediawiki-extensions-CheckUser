@@ -1261,6 +1261,7 @@ Maximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt
 	'checkuser'                  => 'IP-ellenőr',
 	'group-checkuser'            => 'IP-ellenőrök',
 	'group-checkuser-member'     => 'IP-ellenőr',
+	'right-checkuser'            => 'a felhasználók IP-címének és más adatainak ellenőrzése',
 	'grouppage-checkuser'        => '{{ns:project}}:IP-ellenőrök',
 	'checkuser-reason'           => 'Ok',
 	'checkuser-showlog'          => 'Napló megjelenítése',
@@ -1731,11 +1732,12 @@ $messages['la'] = array(
  * @author Robby
  */
 $messages['lb'] = array(
-	'checkuser-desc'             => "Gëtt Benotzer mat den néidege Rechter d'Méiglechkeet d'IP-Adressen esou wéi aner Informatiounen iiwert d'Benotzer z'iwwerpréifen",
+	'checkuser-desc'             => "Gëtt Benotzer mat den néidege Rechter d'Méiglechkeet d'IP-Adressen esou wéi aner Informatiounen iwwert d'Benotzer z'iwwerpréifen",
 	'checkuser-logcase'          => "D'Sich am Logbuch mecht en Ënnerscheed tëschent groussen a klenge Buchstawen.",
 	'checkuser'                  => 'Benotzer-Check',
 	'group-checkuser'            => 'Benotzer Kontrolleren',
 	'group-checkuser-member'     => 'Benotzer Kontroller',
+	'right-checkuser'            => 'Iwwerpréif de Benotzer hir IP-Adressen an aner Informatiounen',
 	'grouppage-checkuser'        => '{{ns:projet}}:Benotzer Kontroller',
 	'checkuser-reason'           => 'Grond',
 	'checkuser-showlog'          => 'Logbuch weisen',
