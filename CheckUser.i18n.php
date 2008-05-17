@@ -1865,6 +1865,7 @@ $messages['ml'] = array(
 	'checkuser'                  => 'ചെക്ക് യൂസര്‍',
 	'group-checkuser'            => 'ചെക്ക് യൂസര്‍മാര്‍',
 	'group-checkuser-member'     => 'ചെക്ക് യൂസര്‍',
+	'right-checkuser'            => 'ചെക്ക് യൂസറിന്റെ ഐപി വിലാസവും മറ്റു വിവരങ്ങളും',
 	'grouppage-checkuser'        => '{{ns:project}}:ചെക്ക് യൂസര്‍',
 	'checkuser-reason'           => 'കാരണം',
 	'checkuser-showlog'          => 'പ്രവര്‍ത്തനരേഖ കാട്ടുക',
@@ -2119,7 +2120,7 @@ $messages['oc'] = array(
 	'right-checkuser'            => "Verificar l'adreça IP dels utilizaires e autras entresenhas",
 	'grouppage-checkuser'        => '{{ns:project}}:Verificator d’utilizaire',
 	'checkuser-reason'           => 'Motiu :',
-	'checkuser-showlog'          => 'Mostrar la lista obtenguda',
+	'checkuser-showlog'          => 'Afichar lo jornal',
 	'checkuser-log'              => "Notacion de Verificator d'utilizaire",
 	'checkuser-query'            => 'Recèrca pels darrièrs cambiaments',
 	'checkuser-target'           => "Nom de l'utilizaire o IP",
@@ -2767,6 +2768,7 @@ $messages['to'] = array(
  * @author SPQRobin
  * @author Karduelis
  * @author Mach
+ * @author Suelnur
  * @author Dbl2010
  */
 $messages['tr'] = array(
@@ -2774,7 +2776,7 @@ $messages['tr'] = array(
 	'group-checkuser'            => 'Denetçiler',
 	'group-checkuser-member'     => 'Denetçi',
 	'grouppage-checkuser'        => '{{ns:project}}:Denetçi',
-	'checkuser-reason'           => 'Sebep',
+	'checkuser-reason'           => 'Neden',
 	'checkuser-showlog'          => 'Logu göster',
 	'checkuser-log'              => 'Denetçi kaydı',
 	'checkuser-target'           => 'Kullanıcı veya IP',
