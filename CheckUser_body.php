@@ -638,7 +638,7 @@ class CheckUser extends SpecialPage
 
 		#if user is not IP or nonexistant
 		if( !$user_id ) {
-			$s = wfMsgHtml('nosuchusershort', $user);
+			$s = wfMsgExt('nosuchusershort',array('parseinline'),$user);
 			$wgOut->addHTML( $s );
 			return;
 		}
@@ -650,7 +650,7 @@ class CheckUser extends SpecialPage
 		# Ordering by the latest timestamp makes a small filesort on the IP list
 		$cu_changes = $dbr->tableName( 'cu_changes' );
 		$use_index = $dbr->useIndexClause( 'cuc_user_ip_time' );
-		$sql = "SELECT cuc_ip, COUNT(*) AS count, 
+		$sql = "SELECT cuc_ip,cuc_ip_hex, COUNT(*) AS count, 
 			MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last 
 			FROM $cu_changes $use_index WHERE cuc_user = $user_id 
 			GROUP BY cuc_ip ORDER BY last DESC";
@@ -663,9 +663,10 @@ class CheckUser extends SpecialPage
 			$blockip = SpecialPage::getTitleFor( 'blockip' );
 			$ips_edits=array();
 			while( $row = $dbr->fetchObject( $ret ) ) {
-				$ips_edits[$row->cuc_ip]=$row->count;
-				$ips_first[$row->cuc_ip]=$row->first;
-				$ips_last[$row->cuc_ip]=$row->last;
+				$ips_edits[$row->cuc_ip] = $row->count;
+				$ips_first[$row->cuc_ip] = $row->first;
+				$ips_last[$row->cuc_ip] = $row->last;
+				$ips_hex[$row->cuc_ip] = $row->cuc_ip_hex;
 			}
 			
 			$logs = SpecialPage::getTitleFor( 'Log' );
@@ -685,6 +686,23 @@ class CheckUser extends SpecialPage
 						' -- ' . $wgLang->timeanddate( $ips_last[$ip], true ) . ') '; 
 				}
 				$s .= ' <strong>[' . $edits . ']</strong>';
+				
+				# If we get some results, it helps to know if the IP in general
+				# has a lot more edits, e.g. "tip of the iceberg"...
+				global $wgMiserMode;
+				if( $wgMiserMode ) {
+					$ipedits = $dbr->estimateRowCount( 'cu_changes', '*',
+						array( 'cuc_ip_hex' => $ips_hex[$ip] ),
+						__METHOD__ );
+				} else {
+					$ipedits = $dbr->selectField( 'cu_changes', 'COUNT(*)',
+						array( 'cuc_ip_hex' => $ips_hex[$ip] ),
+						__METHOD__ );
+				}
+				# Kludge a little for estimates...
+				if( !$wgMiserMode || $ipedits > (1.5*$ips_edits[$ip]) ) {
+					$s .= ' <i>(' . wfMsgHtml('checkuser-ipeditcount',$ipedits) . ')</i>';
+				}
 				
 				# If this IP is blocked, give a link to the block log
 				$block = new Block();

@@ -41,6 +41,7 @@ Here are the IPs used (5000 max, sorted by address):',
 	'checkuser-search-submit'    => 'Search',
 	'checkuser-search-initiator' => 'initiator',
 	'checkuser-search-target'    => 'target',
+	'checkuser-ipeditcount'      => '~$1 from all users',
 	'checkuser-log-subpage'      => 'Log',
 	'checkuser-log-return'       => 'Return to CheckUser main form',
 
