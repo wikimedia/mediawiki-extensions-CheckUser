@@ -606,6 +606,7 @@ $messages['de'] = array(
 	'checkuser-search-submit'    => 'Suche',
 	'checkuser-search-initiator' => 'Initiator',
 	'checkuser-search-target'    => 'Ziel',
+	'checkuser-ipeditcount'      => '~$1 von allen Benutzern',
 	'checkuser-log-subpage'      => 'Logbuch',
 	'checkuser-log-return'       => 'Zurück zum CheckUser-Hauptformular',
 
