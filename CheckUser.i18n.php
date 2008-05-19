@@ -130,6 +130,7 @@ $messages['ang'] = array(
 /** Arabic (العربية)
  * @author Meno25
  * @author Mido
+ * @author Alnokta
  */
 $messages['ar'] = array(
 	'checkuser-summary'          => 'هذه الأداة تفحص أحدث التغييرات لاسترجاع الأيبيهات المستخدمة بواسطة مستخدم أو عرض بيانات التعديل/المستخدم لأيبي.
@@ -163,6 +164,7 @@ $messages['ar'] = array(
 	'checkuser-search-submit'    => 'بحث',
 	'checkuser-search-initiator' => 'باديء',
 	'checkuser-search-target'    => 'هدف',
+	'checkuser-ipeditcount'      => '~$1 من كل المستخدمين',
 	'checkuser-log-subpage'      => 'سجل',
 	'checkuser-log-return'       => 'ارجع إلى استمارة تدقيق المستخدم الرئيسية',
 	'checkuser-log-userips'      => '$1 حصل على الأيبيهات ل $2',
@@ -1149,6 +1151,7 @@ $messages['hi'] = array(
 	'checkuser-search-submit'    => 'खोजें',
 	'checkuser-search-initiator' => 'चालक',
 	'checkuser-search-target'    => 'लक्ष्य',
+	'checkuser-ipeditcount'      => '~$1 सभी सदस्योंसे',
 	'checkuser-log-subpage'      => 'लॉग',
 	'checkuser-log-return'       => 'सदस्यजाँच मुखपृष्ठपर वापस जायें',
 	'checkuser-log-userips'      => '$1 के पास $2 के लिये आईपी हैं',
@@ -1169,13 +1172,16 @@ $messages['hil'] = array(
 
 /** Croatian (Hrvatski)
  * @author SpeedyGonsales
+ * @author Dalibor Bosits
  */
 $messages['hr'] = array(
 	'checkuser-summary'          => 'Ovaj alat pretražuje nedavne promjene i pronalazi IP adrese suradnika ili prikazuje uređivanja/ime suradnika ako je zadana IP adresa. Suradnici i uređivanja mogu biti dobiveni po XFF zaglavljima dodavanjem "/xff" na kraj IP adrese. Podržane su IPv4 (CIDR 16-32) i IPv6 (CIDR 64-128) adrese. Rezultat ima maksimalno 5.000 zapisa iz tehničkih razloga. Rabite ovaj alat u skladu s pravilima.',
+	'checkuser-desc'             => 'Daje suradniku pravo za provjeriti IP adrese suradnika i druge informacije',
 	'checkuser-logcase'          => 'Provjera evidencije razlikuje velika i mala slova',
 	'checkuser'                  => 'Provjeri suradnika',
 	'group-checkuser'            => 'Check users',
 	'group-checkuser-member'     => 'Check user',
+	'right-checkuser'            => 'Provjeravanje IP adrese suradnika i drugih informacija',
 	'grouppage-checkuser'        => '{{ns:project}}:Checkuser',
 	'checkuser-reason'           => 'Razlog',
 	'checkuser-showlog'          => 'Pokaži evidenciju',
@@ -1198,6 +1204,7 @@ $messages['hr'] = array(
 	'checkuser-search-submit'    => 'Traži',
 	'checkuser-search-initiator' => 'pokretač',
 	'checkuser-search-target'    => 'cilj (traženi pojam)',
+	'checkuser-ipeditcount'      => '~$1 od svih suradnika',
 	'checkuser-log-subpage'      => 'Evidencija',
 	'checkuser-log-return'       => 'Vrati se na glavnu formu za provjeru',
 	'checkuser-log-userips'      => '$1 tražio je IP adrese suradnika $2',
@@ -1939,6 +1946,7 @@ IPv4 (CIDR 16-32) आणि IPv6 (CIDR 64-128) वापरता येऊ श�
 	'checkuser-search-submit'    => 'शोधा',
 	'checkuser-search-initiator' => 'चालक (चालना देणारा)',
 	'checkuser-search-target'    => 'लक्ष्य',
+	'checkuser-ipeditcount'      => '~$1 सर्व सदस्यांकडून',
 	'checkuser-log-subpage'      => 'नोंदी',
 	'checkuser-log-return'       => 'CheckUser मुख्य अर्जाकडे परत जा',
 	'checkuser-log-userips'      => '$1 कडे $2 साठीचे अंकपत्ते आहेत',
@@ -2085,6 +2093,7 @@ Av ytelsesgrunner vises maksimalt 5000 redigeringer. Bruk dette verktøyet i sam
 	'checkuser-search-submit'    => 'Søk',
 	'checkuser-search-initiator' => 'IP-kontrolløren',
 	'checkuser-search-target'    => 'målet',
+	'checkuser-ipeditcount'      => '~$1 fra alle brukere',
 	'checkuser-log-subpage'      => 'Logg',
 	'checkuser-log-return'       => 'Tilbake til hovedskjema for brukersjekking',
 	'checkuser-log-userips'      => '$1 fikk IP-adressene til $2',
@@ -2145,6 +2154,7 @@ $messages['oc'] = array(
 	'checkuser-search-submit'    => 'Recercar',
 	'checkuser-search-initiator' => 'l’iniciaire',
 	'checkuser-search-target'    => 'la cibla',
+	'checkuser-ipeditcount'      => '~$1 per totes los utilizaires',
 	'checkuser-log-subpage'      => 'Jornal',
 	'checkuser-log-return'       => "Tornar al formulari principal de la verificacion d'utilizaire",
 	'checkuser-log-userips'      => "$1 a obtengut d'IP per $2",
@@ -2672,6 +2682,7 @@ $messages['te'] = array(
 	'checkuser'                  => 'సభ్యుల తనిఖీ',
 	'group-checkuser'            => 'సభ్యుల తనిఖీదార్లు',
 	'group-checkuser-member'     => 'సభ్యుల తనిఖీదారు',
+	'right-checkuser'            => 'వాడుకరి ఐపీ అడ్రసును, ఇతర సమాచారాన్ని చూడు',
 	'grouppage-checkuser'        => '{{ns:project}}:వాడుకరిని పరిశీలించు',
 	'checkuser-reason'           => 'కారణం',
 	'checkuser-showlog'          => 'లాగ్ చూపించు',
@@ -2694,6 +2705,7 @@ $messages['te'] = array(
 	'checkuser-search-submit'    => 'వెతుకు',
 	'checkuser-search-initiator' => 'ఆరంభకుడు',
 	'checkuser-search-target'    => 'లక్ష్యం',
+	'checkuser-ipeditcount'      => 'వాడుకరులందరి నుండి ~$1',
 	'checkuser-log-subpage'      => 'లాగ్',
 	'checkuser-log-return'       => 'CheckUser ముఖ్య ఫారముకు వెళ్ళు',
 	'checkuser-log-userips'      => '$2 కోసం $1 ఐపీలను తెచ్చింది',
@@ -2878,6 +2890,7 @@ Sti qua i xe i IP doparà (fin a un massimo de 5000, ordinà par indirizo):',
 	'checkuser-search-submit'    => 'Riçerca',
 	'checkuser-search-initiator' => 'iniziator',
 	'checkuser-search-target'    => 'obietivo',
+	'checkuser-ipeditcount'      => '~$1 par tuti i utenti',
 	'checkuser-log-subpage'      => 'Registro',
 	'checkuser-log-return'       => 'Torna al modulo prinçipal de Controlo utenze',
 	'checkuser-log-userips'      => '$1 el gà otegnù i indirizi IP de $2',
