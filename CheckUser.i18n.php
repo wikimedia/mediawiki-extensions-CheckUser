@@ -68,13 +68,18 @@ $messages['krl'] = array(
 );
 
 /** Afrikaans (Afrikaans)
- * @author SPQRobin
  * @author Arnobarnard
+ * @author SPQRobin
  */
 $messages['af'] = array(
 	'checkuser-reason'        => 'Rede',
 	'checkuser-showlog'       => 'Wys logboek',
+	'checkuser-target'        => 'Gebruiker of IP',
+	'checkuser-users'         => 'Kry gebruikers',
+	'checkuser-edits'         => 'Kry wysigings vanaf IP',
+	'checkuser-ips'           => 'Kry IPs',
 	'checkuser-search'        => 'Soek',
+	'checkuser-blocked'       => 'Versper',
 	'checkuser-search-submit' => 'Soek',
 	'checkuser-search-target' => 'teiken',
 	'checkuser-log-subpage'   => 'Logboek',
@@ -1551,6 +1556,7 @@ Ing ngisor iki kapacak alamat-alamat IP sing dienggo (maks. 5.000, diurutaké ad
 	'checkuser-search-submit'    => 'Golèk',
 	'checkuser-search-initiator' => 'pamriksa',
 	'checkuser-search-target'    => 'tujuan',
+	'checkuser-ipeditcount'      => '~$1 saka kabèh panganggo',
 	'checkuser-log-subpage'      => 'Log',
 	'checkuser-log-return'       => 'Bali menyang kaca utama pamriksa',
 	'checkuser-log-userips'      => '$1 ndeleng IP saka $2',
@@ -1773,6 +1779,7 @@ Hei sinn déi benotzten IP-Adressen (max 5000, sortéiert no der Adress):',
 	'checkuser-search-submit'    => 'Sichen',
 	'checkuser-search-initiator' => 'Initiator',
 	'checkuser-search-target'    => 'Zil',
+	'checkuser-ipeditcount'      => '~$1 vun alle Benotzer',
 	'checkuser-log-subpage'      => 'Lëscht',
 	'checkuser-log-return'       => 'Zréck op den Haaptformulair vun der Benotzer Kontroll',
 	'checkuser-log-userips'      => '$1 krut IPen fir $2',
@@ -1901,6 +1908,7 @@ $messages['ml'] = array(
 	'checkuser-search-submit'    => 'തിരയൂ',
 	'checkuser-search-initiator' => 'മുന്‍‌കൈ എടുക്കുന്ന ആള്‍',
 	'checkuser-search-target'    => 'ലക്ഷ്യം',
+	'checkuser-ipeditcount'      => '~$1എല്ലാ ഉപയോക്താക്കളില്‍ നിന്നും',
 	'checkuser-log-subpage'      => 'പ്രവര്‍ത്തനരേഖ',
 	'checkuser-log-return'       => 'ചെക്ക് യൂസറിന്റെ പ്രധാന ഫോമിലേക്ക് തിരിച്ചു പോവുക',
 	'checkuser-log-userips'      => '$1നു $2ല്‍ ഐപികള്‍ ഉണ്ട്',
@@ -2304,6 +2312,7 @@ $messages['pt'] = array(
 	'checkuser-search-submit'    => 'Procurar',
 	'checkuser-search-initiator' => 'iniciador',
 	'checkuser-search-target'    => 'alvo',
+	'checkuser-ipeditcount'      => '~$1 de todos os utilizadores',
 	'checkuser-log-subpage'      => 'Registo',
 	'checkuser-log-return'       => 'Retornar ao formulário principal de CheckUser',
 	'checkuser-log-userips'      => '$1 obteve IPs de $2',
@@ -2483,6 +2492,7 @@ $messages['sk'] = array(
 	'checkuser-search-submit'    => 'Hľadať',
 	'checkuser-search-initiator' => 'začínajúci',
 	'checkuser-search-target'    => 'cieľ',
+	'checkuser-ipeditcount'      => 'asi $1 zo všetkých používateľov',
 	'checkuser-log-subpage'      => 'Záznam',
 	'checkuser-log-return'       => 'Vrátiť sa na hlavný formulár CheckUser',
 	'checkuser-log-userips'      => '$1 má IP adresy $2',
