@@ -2404,6 +2404,7 @@ $messages['ru'] = array(
 	'checkuser-search-submit'    => 'Найти',
 	'checkuser-search-initiator' => 'инициатор',
 	'checkuser-search-target'    => 'цель',
+	'checkuser-ipeditcount'      => '~$1 от всех участников',
 	'checkuser-log-subpage'      => 'Журнал',
 	'checkuser-log-return'       => 'Возврат к главной форме проверки участников',
 	'checkuser-log-userips'      => '$1 получил IP адреса для $2',
