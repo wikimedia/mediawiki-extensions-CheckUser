@@ -812,6 +812,7 @@ $messages['fa'] = array(
 	'checkuser-search-submit'    => 'جستجو',
 	'checkuser-search-initiator' => 'آغازگر',
 	'checkuser-search-target'    => 'هدف',
+	'checkuser-ipeditcount'      => '~$1 از همهٔ کاربران',
 	'checkuser-log-subpage'      => 'سیاهه',
 	'checkuser-log-return'       => 'بازگشت به فرم اصلی بازرسی کاربر',
 	'checkuser-log-userips'      => '$1 نشانی‌های اینترنتی $2 را گرفت',
