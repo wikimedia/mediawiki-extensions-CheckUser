@@ -2861,6 +2861,7 @@ $messages['uk'] = array(
 	'checkuser-search-submit'    => 'Знайти',
 	'checkuser-search-initiator' => 'ініціатор',
 	'checkuser-search-target'    => 'ціль',
+	'checkuser-ipeditcount'      => '~$1 від усіх користувачів',
 	'checkuser-log-subpage'      => 'Журнал',
 	'checkuser-log-return'       => 'Повернення до головної форми перевірки користувачів',
 	'checkuser-log-userips'      => '$1 отримав IP-адреси для $2',
