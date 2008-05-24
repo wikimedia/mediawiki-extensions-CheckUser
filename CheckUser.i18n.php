@@ -692,12 +692,12 @@ $messages['eo'] = array(
 	'checkuser-query'            => 'Informomendu lastatempajn ŝanĝojn',
 	'checkuser-target'           => 'Uzanto aŭ IP-adreso',
 	'checkuser-users'            => 'Akiri uzantojn',
-	'checkuser-edits'            => 'Akiru redaktojn de IP-adreso',
+	'checkuser-edits'            => 'Akiri redaktojn de IP-adreso',
 	'checkuser-ips'              => 'Prenu IP-adresojn',
 	'checkuser-search'           => 'Serĉi',
 	'checkuser-empty'            => 'La protokolo estas malplena.',
 	'checkuser-nomatch'          => 'Neniujn pafojn trovis.',
-	'checkuser-check'            => 'Kontrolu',
+	'checkuser-check'            => 'Kontroli',
 	'checkuser-log-fail'         => 'Ne eblis aldoni protokoleron.',
 	'checkuser-nolog'            => 'Neniu protokolo estas trovita.',
 	'checkuser-blocked'          => 'Forbarita',
@@ -715,6 +715,7 @@ Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
 	'checkuser-log-ipedits'      => '$1 akiris redaktojn por $2',
 	'checkuser-log-ipusers'      => '$1 akiris uzantojn por $2',
 	'checkuser-log-ipedits-xff'  => '$1 akiris redaktojn por XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 akiris uzantojn por XFF $2',
 );
 
 /** Spanish (Español)
@@ -1741,6 +1742,13 @@ $messages['ko'] = array(
 $messages['krj'] = array(
 	'checkuser-search'        => 'Sagap',
 	'checkuser-search-submit' => 'Sagap',
+);
+
+/** Ripoarisch (Ripoarisch)
+ * @author Purodha
+ */
+$messages['ksh'] = array(
+	'checkuser-reason' => 'Aanlass',
 );
 
 $messages['la'] = array(
