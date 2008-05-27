@@ -284,8 +284,8 @@ $messages['be-tarask'] = array(
 );
 
 /** Bulgarian (Български)
- * @author Borislav
  * @author DCLXVI
+ * @author Borislav
  */
 $messages['bg'] = array(
 	'checkuser-summary'          => 'Този инструмент сканира последните промени и извлича IP адресите, използвани от потребител или показва информацията за редакциите/потребителя за посоченото IP.
@@ -319,6 +319,7 @@ $messages['bg'] = array(
 	'checkuser-search-submit'    => 'Търсене',
 	'checkuser-search-initiator' => 'инициатор',
 	'checkuser-search-target'    => 'цел',
+	'checkuser-ipeditcount'      => '~$1 от всички потребители',
 	'checkuser-log-subpage'      => 'Дневник',
 	'checkuser-log-return'       => 'Връщане към основния формуляр за проверка',
 	'checkuser-log-userips'      => '$1 е получил айпи адреси за $2',
@@ -523,6 +524,7 @@ Z výkonnostních důvodů lze zobrazit maximálně 5000 editací. Používejte 
 	'checkuser-search-submit'    => 'Hledat',
 	'checkuser-search-initiator' => 'kontrolující',
 	'checkuser-search-target'    => 'kontrolováno',
+	'checkuser-ipeditcount'      => 'asi $1 ze všech uživatelů',
 	'checkuser-log-subpage'      => 'Záznamy',
 	'checkuser-log-return'       => 'Návrat na hlavní formulář Kontroly uživatele',
 	'checkuser-log-userips'      => '$1 zjišťuje IP adresy uživatele $2',
@@ -1748,7 +1750,9 @@ $messages['krj'] = array(
  * @author Purodha
  */
 $messages['ksh'] = array(
-	'checkuser-reason' => 'Aanlass',
+	'checkuser-reason'        => 'Aanlass',
+	'checkuser-search'        => 'Sööke',
+	'checkuser-search-submit' => 'Sööke',
 );
 
 $messages['la'] = array(
