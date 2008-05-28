@@ -1053,6 +1053,7 @@ Os usuarios e as edicións por un cliente IP poden ser recuperados a través das
 	'checkuser-search-submit'    => 'Procurar',
 	'checkuser-search-initiator' => 'iniciador',
 	'checkuser-search-target'    => 'destino',
+	'checkuser-ipeditcount'      => '~$1 de todos os usuarios',
 	'checkuser-log-subpage'      => 'Rexistro',
 	'checkuser-log-return'       => 'Voltar ao formulario principal de Verificador de Usuarios',
 	'checkuser-log-userips'      => '$1 enderezos IPs obtidos para $2',
@@ -1318,6 +1319,7 @@ Maximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt
 /** Indonesian (Bahasa Indonesia)
  * @author Borgx
  * @author IvanLanin
+ * @author Rex
  */
 $messages['id'] = array(
 	'checkuser-summary'          => 'Peralatan ini memindai perubahan terbaru untuk mendapatkan IP yang digunakan oleh seorang pengguna atau menunjukkan data suntingan/pengguna untuk suatu IP.
@@ -1328,6 +1330,7 @@ $messages['id'] = array(
 	'checkuser'                  => 'Pemeriksaan pengguna',
 	'group-checkuser'            => 'Pemeriksa',
 	'group-checkuser-member'     => 'Pemeriksa',
+	'right-checkuser'            => 'Periksa alamat IP pengguna dan informasi lainnya',
 	'grouppage-checkuser'        => '{{ns:project}}:Pemeriksa',
 	'checkuser-reason'           => 'Alasan',
 	'checkuser-showlog'          => 'Tampilkan log',
@@ -1350,7 +1353,7 @@ $messages['id'] = array(
 	'checkuser-search-submit'    => 'Cari',
 	'checkuser-search-initiator' => 'pemeriksa',
 	'checkuser-search-target'    => 'target',
-	'checkuser-log-subpage'      => 'Log',
+	'checkuser-ipeditcount'      => '~$1 dari seluruh pengguna',
 	'checkuser-log-return'       => 'Kembali ke halaman utama Pemeriksa',
 	'checkuser-log-userips'      => '$1 melihat IP dari $2',
 	'checkuser-log-ipedits'      => '$1 melihat suntingan dari $2',
