@@ -682,6 +682,7 @@ $messages['el'] = array(
  * @author Yekrats
  */
 $messages['eo'] = array(
+	'checkuser-desc'             => 'Rajtigas al uzantoj kun la taŭga permeso la kapableco kontroli la IP-adreson de uzanto kaj alia informo',
 	'checkuser-logcase'          => 'La protokola serĉo estas usklecodistinga.',
 	'checkuser'                  => 'Kontroli uzanton',
 	'group-checkuser'            => 'Kontroli uzantojn',
@@ -1354,6 +1355,7 @@ $messages['id'] = array(
 	'checkuser-search-initiator' => 'pemeriksa',
 	'checkuser-search-target'    => 'target',
 	'checkuser-ipeditcount'      => '~$1 dari seluruh pengguna',
+	'checkuser-log-subpage'      => 'Log',
 	'checkuser-log-return'       => 'Kembali ke halaman utama Pemeriksa',
 	'checkuser-log-userips'      => '$1 melihat IP dari $2',
 	'checkuser-log-ipedits'      => '$1 melihat suntingan dari $2',
@@ -1399,6 +1401,7 @@ $messages['is'] = array(
  * @author BrokenArrow
  * @author Gianfranco
  * @author .anaconda
+ * @author Melos
  */
 $messages['it'] = array(
 	'checkuser-summary'          => 'Questo strumento analizza le modifiche recenti per recuperare gli indirizzi IP utilizzati da un utente o mostrare contributi e dati di un IP. Utenti e contributi di un client IP possono essere rintracciati attraverso gli header XFF aggiungendo all\'IP il suffisso "/xff". Sono supportati IPv4 (CIDR 16-32) e IPv6 (CIDR 64-128). Non saranno restituite più di 5.000 modifiche, per ragioni di prestazioni. Usa questo strumento in stretta conformità alle policy.',
@@ -1407,6 +1410,7 @@ $messages['it'] = array(
 	'checkuser'                  => 'Controllo utenze',
 	'group-checkuser'            => 'Controllori',
 	'group-checkuser-member'     => 'Controllore',
+	'right-checkuser'            => "Visualizza gli indirizzi IP usati dall'utente e altre informazioni",
 	'grouppage-checkuser'        => '{{ns:project}}:Controllo utenze',
 	'checkuser-reason'           => 'Motivazione',
 	'checkuser-showlog'          => 'Mostra il log',
@@ -1429,6 +1433,7 @@ $messages['it'] = array(
 	'checkuser-search-submit'    => 'Ricerca',
 	'checkuser-search-initiator' => 'iniziatore',
 	'checkuser-search-target'    => 'obiettivo',
+	'checkuser-ipeditcount'      => '~$1 complessivamente',
 	'checkuser-log-subpage'      => 'Log',
 	'checkuser-log-return'       => 'Torna al modulo principale di Controllo utenze',
 	'checkuser-log-userips'      => '$1 ha ottenuto gli indirizzi IP di $2',
