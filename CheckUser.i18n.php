@@ -419,6 +419,7 @@ Setu an IPoù implijet (5000 d'ar muiañ, urzhiet dre ar chomlec'h)",
 /** Catalan (Català)
  * @author SMP
  * @author Juanpabl
+ * @author Jordi Roqué
  * @author Toniher
  */
 $messages['ca'] = array(
@@ -453,6 +454,7 @@ Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Reco
 	'checkuser-search-submit'    => 'Cerca',
 	'checkuser-search-initiator' => "l'iniciador",
 	'checkuser-search-target'    => 'el consultat',
+	'checkuser-ipeditcount'      => '~$1 de tots els usuaris',
 	'checkuser-log-subpage'      => 'Registre',
 	'checkuser-log-return'       => 'Retorna al formulari de CheckUser',
 	'checkuser-log-userips'      => '$1 consulta les IP de $2',
@@ -725,8 +727,10 @@ Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
  * @author Dmcdevit
  * @author Spacebirdy
  * @author Jatrobat
+ * @author Lin linao
  * @author Piolinfax
  * @author Lin linao
+ * @author Titoxd
  */
 $messages['es'] = array(
 	'checkuser-summary'          => 'Esta herramienta explora los cambios recientes para obtener las IPs utilizadas por un usuario o para mostrar la información de ediciones/usuarios de una IP.
@@ -736,6 +740,7 @@ No se muestran más de 5000 ediciones por motivos de rendimiento. Usa esta herra
 	'checkuser'                  => 'Verificador de usuarios',
 	'group-checkuser'            => 'Verificadores de usuarios',
 	'group-checkuser-member'     => 'Verificador de usuarios',
+	'right-checkuser'            => 'Comprobar las IPs de los usuarios y obtener otra información relacionada',
 	'grouppage-checkuser'        => '{{ns:project}}:verificador de usuarios',
 	'checkuser-reason'           => 'Motivo',
 	'checkuser-showlog'          => 'Ver registro',
@@ -1238,6 +1243,7 @@ Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěš
 	'checkuser'                  => 'Wužiwarja kontrolować',
 	'group-checkuser'            => 'Kontrolerojo',
 	'group-checkuser-member'     => 'Kontroler',
+	'right-checkuser'            => 'Pruwowanje IP-adresow a druhe informacije wužiwarjow',
 	'grouppage-checkuser'        => '{{ns:project}}:Checkuser',
 	'checkuser-reason'           => 'Přičina',
 	'checkuser-showlog'          => 'Protokol pokazać',
@@ -1260,6 +1266,7 @@ Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěš
 	'checkuser-search-submit'    => 'Pytać',
 	'checkuser-search-initiator' => 'iniciator',
 	'checkuser-search-target'    => 'cil',
+	'checkuser-ipeditcount'      => '~$1 wot wšěch wužiwarjow',
 	'checkuser-log-subpage'      => 'Protokol',
 	'checkuser-log-return'       => 'Wróćo k hłownemu formularej CheckUser',
 	'checkuser-log-userips'      => '$1 dósta IP za $2',
@@ -1308,6 +1315,7 @@ Maximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt
 	'checkuser-search-submit'    => 'Keresés',
 	'checkuser-search-initiator' => 'kezdeményező',
 	'checkuser-search-target'    => 'Cél',
+	'checkuser-ipeditcount'      => '~$1 az összes szerkesztő által',
 	'checkuser-log-subpage'      => 'Lista',
 	'checkuser-log-return'       => 'Vissza az IP-ellenőri oldalra',
 	'checkuser-log-userips'      => '$1 lekérte $2 IP-címeit',
@@ -1778,7 +1786,7 @@ $messages['lb'] = array(
 	'group-checkuser'            => 'Benotzer Kontrolleren',
 	'group-checkuser-member'     => 'Benotzer Kontroller',
 	'right-checkuser'            => 'Iwwerpréif de Benotzer hir IP-Adressen an aner Informatiounen',
-	'grouppage-checkuser'        => '{{ns:projet}}:Benotzer Kontroller',
+	'grouppage-checkuser'        => '{{ns:projet}}:Benotzer-Kontroller',
 	'checkuser-reason'           => 'Grond',
 	'checkuser-showlog'          => 'Logbuch weisen',
 	'checkuser-log'              => 'Lëscht vun de Benotzerkontrollen',
@@ -2010,6 +2018,7 @@ $messages['nds'] = array(
 	'grouppage-checkuser'        => '{{ns:project}}:Checkuser',
 	'checkuser-reason'           => 'Grund',
 	'checkuser-showlog'          => 'Logbook wiesen',
+	'checkuser-log'              => 'Checkuser-Logbook',
 	'checkuser-target'           => 'Bruker oder IP',
 	'checkuser-users'            => 'Brukers kriegen',
 	'checkuser-ips'              => 'IPs kriegen',
@@ -2019,6 +2028,7 @@ $messages['nds'] = array(
 	'checkuser-search-submit'    => 'Söök',
 	'checkuser-search-initiator' => 'Initiater',
 	'checkuser-search-target'    => 'Ziel',
+	'checkuser-ipeditcount'      => '~$1 vun all Brukers',
 	'checkuser-log-subpage'      => 'Logbook',
 );
 
@@ -2600,6 +2610,7 @@ Beoarbaidengen fon ne IP-Adresse konnen uk ätter Informatione uut do XFF-Header
 
 /** Sundanese (Basa Sunda)
  * @author Kandar
+ * @author Irwangatot
  */
 $messages['su'] = array(
 	'checkuser-desc'             => 'Leler kawenangan pikeun mariksa alamat IP jeung émbaran lianna ti hiji pamaké',
@@ -2629,6 +2640,7 @@ Di handap ieu béréndélan IP nu dipaké (paling loba 5000, disusun dumasar ala
 	'checkuser-search-submit'    => 'Sungsi',
 	'checkuser-search-initiator' => 'inisiator',
 	'checkuser-search-target'    => 'tujul',
+	'checkuser-ipeditcount'      => '~$1 ti sakumna pamaké',
 	'checkuser-log-subpage'      => 'Log',
 	'checkuser-log-return'       => 'Balik ka formulir utama PamakéPamariksa',
 	'checkuser-log-userips'      => '$1 manggih IP ti $2',
