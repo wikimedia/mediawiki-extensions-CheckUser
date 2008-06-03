@@ -1455,6 +1455,7 @@ $messages['it'] = array(
  * @author JtFuruhata
  * @author Kahusi
  * @author Suisui
+ * @author Marine-Blue
  */
 $messages['ja'] = array(
 	'checkuser-summary'          => 'このツールは最近の更新から行った調査を元に、ある利用者が使用したIPアドレスの検索、または、あるIPアドレスからなされた編集および利用者名の表示を行います。
@@ -1462,7 +1463,7 @@ IPアドレスと共に「/xff」オプションを指定すると、XFF（X-For
 IPv4（16から32ビットのCIDR表記）と IPv6（64から128ビットのCIDR表記）をサポートしています。
 パフォーマンス上の理由により、5000件の編集しか返答出来ません。
 「チェックユーザーの方針」に従って利用してください。',
-	'checkuser-desc'             => '利用者のIPアドレスやその他の情報をチェックする権限を持つ特定のユーザーに対し、その能力を与える',
+	'checkuser-desc'             => '利用者のIPアドレスやその他の情報をチェックする権限をユーザーに付与する',
 	'checkuser-logcase'          => 'ログの検索では大文字と小文字を区別します。',
 	'checkuser'                  => 'チェックユーザー',
 	'group-checkuser'            => 'チェックユーザー',
@@ -1769,6 +1770,14 @@ $messages['ksh'] = array(
 	'checkuser-reason'        => 'Aanlass',
 	'checkuser-search'        => 'Sööke',
 	'checkuser-search-submit' => 'Sööke',
+);
+
+/** Kurdish (Kurdî / كوردی)
+ * @author Bangin
+ */
+$messages['ku'] = array(
+	'checkuser-search'        => 'Lêbigere',
+	'checkuser-search-submit' => 'Lêbigere',
 );
 
 $messages['la'] = array(
