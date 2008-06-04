@@ -67,6 +67,14 @@ $messages['krl'] = array(
 	'checkuser-search-submit' => 'Ečči',
 );
 
+/** Eastern Mari (Олык Марий йылме)
+ * @author Сай
+ */
+$messages['mhr'] = array(
+	'checkuser-search'        => 'Кычал',
+	'checkuser-search-submit' => 'Кычал',
+);
+
 /** Afrikaans (Afrikaans)
  * @author Arnobarnard
  * @author SPQRobin
@@ -1775,7 +1783,7 @@ $messages['ksh'] = array(
 /** Kurdish (Kurdî / كوردی)
  * @author Bangin
  */
-$messages['ku'] = array(
+$messages['ku-latn'] = array(
 	'checkuser-search'        => 'Lêbigere',
 	'checkuser-search-submit' => 'Lêbigere',
 );
@@ -2270,6 +2278,7 @@ Używaj tej funkcji zgodnie z zasadami.',
 	'checkuser-search-submit'    => 'Szukaj',
 	'checkuser-search-initiator' => 'inicjator',
 	'checkuser-search-target'    => 'cel',
+	'checkuser-ipeditcount'      => '~$1 od wszystkich użytkowników',
 	'checkuser-log-subpage'      => 'Rejestr',
 	'checkuser-log-return'       => 'Powrót do głównego formularza CheckUser',
 	'checkuser-log-userips'      => '$1 dostał adresy IP dla $2',
