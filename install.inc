@@ -15,8 +15,8 @@ function create_cu_changes( $db, $cutoff = null ) {
 	// Check if the table is empty
 	$rcRows = $db->selectField( 'recentchanges', 'COUNT(*)', false, __FUNCTION__ );
 	if ( !$rcRows ) {
-		echo "recent_changes is empty; nothing to add.\n";
-		exit( 1 );
+		echo "recentchanges is empty; nothing to add.\n";
+		return;
 	}
 	
 	if( $cutoff ) {
