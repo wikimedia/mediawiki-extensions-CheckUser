@@ -11,10 +11,9 @@ $dir = dirname(__FILE__) . '/';
 $wgExtensionMessagesFiles['CheckUser'] = $dir . 'CheckUser.i18n.php';
 
 $wgExtensionCredits['specialpage'][] = array(
-	'author' => 'Tim Starling, Aaron Schulz',
+	'author' => array( 'Tim Starling', 'Aaron Schulz' ),
 	'name' => 'CheckUser',
 	'url' => 'http://www.mediawiki.org/wiki/Extension:CheckUser',
-	'author' => 'Tim Starling, Aaron Schulz',
 	'description' => 'Grants users with the appropriate permission the ability to check user\'s IP addresses and other information',
 	'descriptionmsg'=> 'checkuser-desc',	
 );
