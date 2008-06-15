@@ -1759,6 +1759,7 @@ $messages['ko'] = array(
 	'group-checkuser-member'  => '체크유저',
 	'grouppage-checkuser'     => '{{ns:project}}:체크유저',
 	'checkuser-reason'        => '이유',
+	'checkuser-showlog'       => '기록 보기',
 	'checkuser-search'        => '찾기',
 	'checkuser-search-submit' => '찾기',
 );
