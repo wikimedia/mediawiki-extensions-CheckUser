@@ -142,12 +142,12 @@ $messages['ang'] = array(
 
 /** Arabic (العربية)
  * @author Meno25
- * @author Mido
  * @author Alnokta
+ * @author Mido
  */
 $messages['ar'] = array(
 	'checkuser-summary'          => 'هذه الأداة تفحص أحدث التغييرات لاسترجاع الأيبيهات المستخدمة بواسطة مستخدم أو عرض بيانات التعديل/المستخدم لأيبي.
-	المستخمون والتعديلات بواسطة أيبي عميل يمكن استرجاعها من خلال عناوين XFF عبر طرق الأيبي IP ب"/xff". IPv4 (CIDR 16-32) و IPv6 (CIDR 64-128) مدعومان.
+	المستخدمون والتعديلات بواسطة أيبي عميل يمكن استرجاعها من خلال عناوين XFF عبر طرق الأيبي IP ب"/xff". IPv4 (CIDR 16-32) و IPv6 (CIDR 64-128) مدعومان.
 	لا أكثر من 5000 تعديل سيتم عرضها لأسباب تتعلق بالأداء. استخدم هذا بالتوافق مع السياسة.',
 	'checkuser-desc'             => 'يمنح المستخدمين بالسماح المطلوب القدرة على فحص عناوين الأيبي لمستخدم ما ومعلومات أخرى',
 	'checkuser-logcase'          => 'بحث السجل حساس لحالة الحروف.',
@@ -157,13 +157,13 @@ $messages['ar'] = array(
 	'right-checkuser'            => 'التحقق من عناوين الأيبي للمستخدمين ومعلومات أخرى',
 	'grouppage-checkuser'        => '{{ns:project}}:تدقيق مستخدم',
 	'checkuser-reason'           => 'السبب',
-	'checkuser-showlog'          => 'عرض السجل',
+	'checkuser-showlog'          => 'اعرض السجل',
 	'checkuser-log'              => 'سجل تدقيق المستخدم',
 	'checkuser-query'            => 'فحص أحدث التغييرات',
 	'checkuser-target'           => 'مستخدم أو عنوان أيبي',
-	'checkuser-users'            => 'عرض المستخدمين',
-	'checkuser-edits'            => 'عرض التعديلات من الأيبي',
-	'checkuser-ips'              => 'عرض الأيبيهات',
+	'checkuser-users'            => 'اعرض المستخدمين',
+	'checkuser-edits'            => 'اعرض التعديلات من الأيبي',
+	'checkuser-ips'              => 'اعرض الأيبيهات',
 	'checkuser-search'           => 'بحث',
 	'checkuser-empty'            => 'لا توجد مدخلات في السجل.',
 	'checkuser-nomatch'          => 'لم يتم العثور على مدخلات مطابقة.',
@@ -175,7 +175,7 @@ $messages['ar'] = array(
 	'checkuser-user-nonexistent' => 'المستخدم المحدد غير موجود.',
 	'checkuser-search-form'      => 'اعثر على مدخلات السجل حيث $1 هو $2',
 	'checkuser-search-submit'    => 'بحث',
-	'checkuser-search-initiator' => 'باديء',
+	'checkuser-search-initiator' => 'بادىء',
 	'checkuser-search-target'    => 'هدف',
 	'checkuser-ipeditcount'      => '~$1 من كل المستخدمين',
 	'checkuser-log-subpage'      => 'سجل',
@@ -692,6 +692,11 @@ $messages['el'] = array(
  * @author Yekrats
  */
 $messages['eo'] = array(
+	'checkuser-summary'          => 'Ĉi tiu ilo skanas lastajn ŝanĝojn por akiri la IP-adresojn uzatajn de uzanto aŭ montri la datenojn de redakto/uzanto por aparta IP-adreso.
+Uzantoj kaj redaktoj de klienta IP-adreson eblas esti akirita de XFF-titolaro postaldonante "/xff".
+IPv4 (CIDR 16-32) kaj IPv6 (CIDR 64-128) estas subtenata.
+Neniom pli ol 5000 redaktoj estos montrita pro bona datumbaza funkciado.
+Uzu ĉi tion laŭ regularo.',
 	'checkuser-desc'             => 'Rajtigas al uzantoj kun la taŭga permeso la kapableco kontroli la IP-adreson de uzanto kaj alia informo',
 	'checkuser-logcase'          => 'La protokola serĉo estas usklecodistinga.',
 	'checkuser'                  => 'Kontroli uzanton',
@@ -1096,6 +1101,13 @@ $messages['gv'] = array(
 	'checkuser-search-submit' => 'Ronsaghey',
 );
 
+/** Hawaiian (Hawai`i)
+ * @author Singularity
+ */
+$messages['haw'] = array(
+	'checkuser-reason' => 'Kumu',
+);
+
 $messages['he'] = array(
 	'checkuser-summary'          => 'כלי זה סורק את השינויים האחרונים במטרה למצוא את כתובות ה־IP שהשתמש בהן משתמש מסוים או כדי להציג את כל המידע על המשתמשים שהשתמשו בכתובת IP ועל העריכות שבוצעו ממנה.
 ניתן לקבל עריכות ומשתמשים מכתובות IP של הכותרת X-Forwarded-For באמצעות הוספת הטקסט "/xff" לסוף הכתובת. הן כתובות IPv4 (כלומר, CIDR 16-32) והן כתובות IPv6 (כלומר, CIDR 64-128) נתמכות.
@@ -1331,6 +1343,14 @@ Maximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt
 	'checkuser-log-ipusers'      => '$1 lekérte a(z) $2 IP-címhez tarzozó szerkesztőket',
 	'checkuser-log-ipedits-xff'  => '$1 lekérte XFF $2 szerkesztéseit',
 	'checkuser-log-ipusers-xff'  => '$1 lekérte XFF $2 szerkesztőit',
+);
+
+/** Armenian (Հայերեն)
+ * @author Togaed
+ */
+$messages['hy'] = array(
+	'checkuser-search'        => 'Որոնել',
+	'checkuser-search-submit' => 'Որոնել',
 );
 
 /** Indonesian (Bahasa Indonesia)
@@ -2039,15 +2059,24 @@ $messages['nds'] = array(
 	'checkuser-log'              => 'Checkuser-Logbook',
 	'checkuser-target'           => 'Bruker oder IP',
 	'checkuser-users'            => 'Brukers kriegen',
+	'checkuser-edits'            => 'Ännern vun IP-Adress wiesen',
 	'checkuser-ips'              => 'IPs kriegen',
 	'checkuser-search'           => 'Söken',
+	'checkuser-empty'            => 'Dat Logbook is leddig.',
+	'checkuser-nomatch'          => 'Nix funnen, wat övereenstimmt.',
+	'checkuser-check'            => 'Los',
+	'checkuser-log-fail'         => 'Kunn keen Logbook-Indrag tofögen',
 	'checkuser-nolog'            => 'Keen Loogbook funnen.',
 	'checkuser-blocked'          => 'Sperrt',
+	'checkuser-too-many'         => 'To veel funnen, grenz de IP-Reeg wieder in. Dit sünd de bruukten IP-Adressen (maximal 5000, sorteert na Adress):',
+	'checkuser-user-nonexistent' => 'Den angevene Bruker gifft dat nich.',
+	'checkuser-search-form'      => 'Söök na Logbook-Indrääg, bi de $1 $2 is.',
 	'checkuser-search-submit'    => 'Söök',
 	'checkuser-search-initiator' => 'Initiater',
 	'checkuser-search-target'    => 'Ziel',
 	'checkuser-ipeditcount'      => '~$1 vun all Brukers',
 	'checkuser-log-subpage'      => 'Logbook',
+	'checkuser-log-return'       => 'Trüch na dat CheckUser-Hööftformular',
 );
 
 /** Nedersaksisch (Nedersaksisch)
