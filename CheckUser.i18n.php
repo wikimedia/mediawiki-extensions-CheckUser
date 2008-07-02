@@ -75,6 +75,15 @@ $messages['mhr'] = array(
 	'checkuser-search-submit' => 'Кычал',
 );
 
+/** Niuean (native name missing)
+ * @author Jose77
+ */
+$messages['niu'] = array(
+	'checkuser-reason'        => 'Kakano',
+	'checkuser-search'        => 'Kumi',
+	'checkuser-search-submit' => 'Kumi',
+);
+
 /** Afrikaans (Afrikaans)
  * @author Arnobarnard
  * @author SPQRobin
@@ -501,6 +510,7 @@ $messages['co'] = array(
  * @author Li-sung
  * @author Danny B.
  * @author Beren
+ * @author Mormegil
  */
 $messages['cs'] = array(
 	'checkuser-summary'          => 'Tento nástroj zkoumá poslední změny a umožňuje získat IP adresy uživatelů nebo zobrazit editace a uživatele z dané IP adresy.
@@ -534,7 +544,7 @@ Z výkonnostních důvodů lze zobrazit maximálně 5000 editací. Používejte 
 	'checkuser-search-submit'    => 'Hledat',
 	'checkuser-search-initiator' => 'kontrolující',
 	'checkuser-search-target'    => 'kontrolováno',
-	'checkuser-ipeditcount'      => 'asi $1 ze všech uživatelů',
+	'checkuser-ipeditcount'      => 'asi $1 od všech uživatelů',
 	'checkuser-log-subpage'      => 'Záznamy',
 	'checkuser-log-return'       => 'Návrat na hlavní formulář Kontroly uživatele',
 	'checkuser-log-userips'      => '$1 zjišťuje IP adresy uživatele $2',
@@ -542,6 +552,14 @@ Z výkonnostních důvodů lze zobrazit maximálně 5000 editací. Používejte 
 	'checkuser-log-ipusers'      => '$1 zjišťuje uživatele z IP $2',
 	'checkuser-log-ipedits-xff'  => '$1 zjišťuje editace s XFF $2',
 	'checkuser-log-ipusers-xff'  => '$1 zjišťuje uživatele s XFF $2',
+);
+
+/** Church Slavic (Словѣ́ньскъ / ⰔⰎⰑⰂⰡⰐⰠⰔⰍⰟ)
+ * @author ОйЛ
+ */
+$messages['cu'] = array(
+	'checkuser-search'        => 'иска́ниѥ',
+	'checkuser-search-submit' => 'ищи́',
 );
 
 /** Danish (Dansk)
@@ -1074,12 +1092,12 @@ Os usuarios e as edicións por un cliente IP poden ser recuperados a través das
 	'checkuser-search-target'    => 'destino',
 	'checkuser-ipeditcount'      => '~$1 de todos os usuarios',
 	'checkuser-log-subpage'      => 'Rexistro',
-	'checkuser-log-return'       => 'Voltar ao formulario principal de Verificador de Usuarios',
-	'checkuser-log-userips'      => '$1 enderezos IPs obtidos para $2',
-	'checkuser-log-ipedits'      => '$1 edicións obtidas para $2',
-	'checkuser-log-ipusers'      => '$1 usuarios obtidos para $2',
-	'checkuser-log-ipedits-xff'  => '$1 edicións obtidas para XFF $2',
-	'checkuser-log-ipusers-xff'  => '$1 usuarios obtidos para XFF $2',
+	'checkuser-log-return'       => 'Voltar ao formulario principal de verificador de usuarios',
+	'checkuser-log-userips'      => '$1 obteu os enderezos IP de "$2"',
+	'checkuser-log-ipedits'      => '$1 obteu as edicións de "$2"',
+	'checkuser-log-ipusers'      => '$1 obteu os usuarios de "$2"',
+	'checkuser-log-ipedits-xff'  => '$1 obteu as edicións de XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 obteu os usuarios de XFF $2',
 );
 
 $messages['grc'] = array(
@@ -1099,6 +1117,14 @@ $messages['gv'] = array(
 	'checkuser-reason'        => 'Fa',
 	'checkuser-search'        => 'Ronsaghey',
 	'checkuser-search-submit' => 'Ronsaghey',
+);
+
+/** Hakka (Hak-kâ-fa)
+ * @author Hakka
+ */
+$messages['hak'] = array(
+	'checkuser-search'        => 'Chhìm-cháu',
+	'checkuser-search-submit' => 'Chhìm-cháu',
 );
 
 /** Hawaiian (Hawai`i)
@@ -1351,6 +1377,13 @@ Maximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt
 $messages['hy'] = array(
 	'checkuser-search'        => 'Որոնել',
 	'checkuser-search-submit' => 'Որոնել',
+);
+
+/** Interlingua (Interlingua)
+ * @author McDutchie
+ */
+$messages['ia'] = array(
+	'checkuser-reason' => 'Motivo',
 );
 
 /** Indonesian (Bahasa Indonesia)
@@ -2033,6 +2066,46 @@ IPv4 (CIDR 16-32) आणि IPv6 (CIDR 64-128) वापरता येऊ श�
 	'checkuser-log-ipusers-xff'  => '$1 कडे XFF $2 साठीचे सदस्य आहेत',
 );
 
+/** Malay (Bahasa Melayu)
+ * @author Aviator
+ */
+$messages['ms'] = array(
+	'checkuser-summary'          => 'Alat ini mengimbas senarai perubahan terkini untuk mendapatkan senarai IP yang digunakan oleh seseorang pengguna atau memaparkan data sunting/pengguna bagi sesebuah IP. Pengguna dan suntingan oleh sesebuah IP boleh didapatkan melalui pengatas XFF dengan menambah \\"/xff\\" selepas IP tersebut. Kedua-dua format IPv4 (CIDR 16-32) dan IPv6 (CIDR 64-128) disokong. Atas sebab-sebab prestasi, pulangan dihadkan kepada 5000 buah suntingan sahaja. Sila patuhi dasar yang telah ditetapkan.',
+	'checkuser-desc'             => 'Melantik pengguna dengan keizinan untuk membongkar alamat IP pengguna tertentu berserta maklumat-maklumat sulit lain',
+	'checkuser'                  => 'Risik pengguna',
+	'group-checkuser'            => 'Perisik',
+	'group-checkuser-member'     => 'Perisik',
+	'right-checkuser'            => 'Membongkar alamat IP dan maklumat-maklumat sulit lain bagi pengguna tertentu',
+	'grouppage-checkuser'        => '{{ns:project}}:Perisik',
+	'checkuser-reason'           => 'Sebab',
+	'checkuser-showlog'          => 'Papar log',
+	'checkuser-log'              => 'Log perisikan',
+	'checkuser-query'            => 'Imbas perubahan terkini',
+	'checkuser-target'           => 'Pengguna atau IP',
+	'checkuser-users'            => 'Dapatkan senarai pengguna',
+	'checkuser-edits'            => 'Dapatkan senarai suntingan daripada IP',
+	'checkuser-ips'              => 'Dapatkan senarai IP',
+	'checkuser-search'           => 'Cari',
+	'checkuser-empty'            => 'Log ini kosong.',
+	'checkuser-nomatch'          => 'Tiada padanan.',
+	'checkuser-check'            => 'Bongkar',
+	'checkuser-log-fail'         => 'Entri log tidak dapat ditambah',
+	'checkuser-nolog'            => 'Fail log tiada.',
+	'checkuser-blocked'          => 'Disekat',
+	'checkuser-too-many'         => 'Keputusan terlalu besar; sila kecilkan CIDR. Berikut ialah senarai IP yang digunakan (had 5000, mengikut tertib alamat):',
+	'checkuser-user-nonexistent' => 'Pengguna yang dinyatakan tidak wujud.',
+	'checkuser-search-form'      => 'Cari entri yang mana $1 adalah $2',
+	'checkuser-search-submit'    => 'Cari',
+	'checkuser-search-target'    => 'sasaran',
+	'checkuser-log-subpage'      => 'Log',
+	'checkuser-log-return'       => 'Kembali ke borang utama Perisik',
+	'checkuser-log-userips'      => '$1 mendapatkan senarai IP bagi $2',
+	'checkuser-log-ipedits'      => '$1 mendapatkan senarai suntingan bagi $2',
+	'checkuser-log-ipusers'      => '$1 mendapatkan senarai pengguna bagi $2',
+	'checkuser-log-ipedits-xff'  => '$1 mendapatkan senarai suntingan bagi XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 mendapatkan senarai pengguna bagi XFF $2',
+);
+
 /** Erzya (эрзянь кель)
  * @author Tupikovs
  * @author Amdf
@@ -2077,6 +2150,11 @@ $messages['nds'] = array(
 	'checkuser-ipeditcount'      => '~$1 vun all Brukers',
 	'checkuser-log-subpage'      => 'Logbook',
 	'checkuser-log-return'       => 'Trüch na dat CheckUser-Hööftformular',
+	'checkuser-log-userips'      => '$1 hett IP-Adressen för $2 rutsöcht',
+	'checkuser-log-ipedits'      => '$1 hett Ännern vun $2 rutsöcht',
+	'checkuser-log-ipusers'      => '$1 hett Brukers för $2 rutsöcht',
+	'checkuser-log-ipedits-xff'  => '$1 hett Ännern för de XFF-IP $2 rutsöcht',
+	'checkuser-log-ipusers-xff'  => '$1 hett Brukers för de XFF-IP $2 rutsöcht',
 );
 
 /** Nedersaksisch (Nedersaksisch)
@@ -2351,6 +2429,7 @@ $messages['pms'] = array(
 $messages['ps'] = array(
 	'checkuser-reason'        => 'سبب',
 	'checkuser-showlog'       => 'يادښت کتل',
+	'checkuser-target'        => 'کارونکی يا IP پته',
 	'checkuser-search'        => 'پلټل',
 	'checkuser-search-submit' => 'پلټل',
 	'checkuser-search-target' => 'موخه',
