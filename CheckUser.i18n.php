@@ -59,6 +59,14 @@ $messages['qqq'] = array(
 	'checkuser' => 'Check user extension. The name of the special page were checkusers can check the IP addresses of users. The message is used in the list of special pages, and at the top of Special:Checkuser.',
 );
 
+/** Tarifit (Tarifit)
+ * @author Jose77
+ */
+$messages['rif'] = array(
+	'checkuser-search'        => 'Tarzzut',
+	'checkuser-search-submit' => 'Tarzzut',
+);
+
 /** Karelian (Karjala)
  * @author Flrn
  */
@@ -136,6 +144,7 @@ No s'otendrán más de 5000 edizions por razons de prestazions. Faiga serbir ist
 	'checkuser-search-submit'    => 'Mirar',
 	'checkuser-search-initiator' => "o enzetador d'a consulta",
 	'checkuser-search-target'    => 'obchetibo',
+	'checkuser-ipeditcount'      => '~$1 de toz os usuarios',
 	'checkuser-log-subpage'      => 'Rechistro',
 	'checkuser-log-return'       => "Tornar ta o formulario prenzipal de CheckUser (Comprebazión d'usuarios)",
 	'checkuser-log-userips'      => '$1 ha consultato as adrezas IP de $2',
