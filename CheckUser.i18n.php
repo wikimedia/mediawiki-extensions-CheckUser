@@ -59,14 +59,6 @@ $messages['qqq'] = array(
 	'checkuser' => 'Check user extension. The name of the special page were checkusers can check the IP addresses of users. The message is used in the list of special pages, and at the top of Special:Checkuser.',
 );
 
-/** Tarifit (Tarifit)
- * @author Jose77
- */
-$messages['rif'] = array(
-	'checkuser-search'        => 'Tarzzut',
-	'checkuser-search-submit' => 'Tarzzut',
-);
-
 /** Karelian (Karjala)
  * @author Flrn
  */
@@ -75,7 +67,7 @@ $messages['krl'] = array(
 	'checkuser-search-submit' => 'Ečči',
 );
 
-/** Eastern Mari (Олык Марий йылме)
+/** Eastern Mari (Олык Марий)
  * @author Сай
  */
 $messages['mhr'] = array(
@@ -83,7 +75,7 @@ $messages['mhr'] = array(
 	'checkuser-search-submit' => 'Кычал',
 );
 
-/** Niuean (native name missing)
+/** Niuean (ko e vagahau Niuē)
  * @author Jose77
  */
 $messages['niu'] = array(
@@ -2525,6 +2517,14 @@ Pichqa waranqamanta aswan llamk'apusqakunaqa manam kutimunqachu, allin rikuchina
 	'checkuser-search-initiator' => 'qallarichiq',
 	'checkuser-search-target'    => 'taripana',
 	'checkuser-log-subpage'      => "Hallch'a",
+);
+
+/** Tarifit (Tarifit)
+ * @author Jose77
+ */
+$messages['rif'] = array(
+	'checkuser-search'        => 'Tarzzut',
+	'checkuser-search-submit' => 'Tarzzut',
 );
 
 $messages['rm'] = array(
