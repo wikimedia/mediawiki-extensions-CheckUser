@@ -761,7 +761,6 @@ Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
  * @author Jatrobat
  * @author Lin linao
  * @author Piolinfax
- * @author Lin linao
  * @author Titoxd
  */
 $messages['es'] = array(
