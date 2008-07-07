@@ -2081,6 +2081,7 @@ IPv4 (CIDR 16-32) आणि IPv6 (CIDR 64-128) वापरता येऊ श�
 $messages['ms'] = array(
 	'checkuser-summary'          => 'Alat ini mengimbas senarai perubahan terkini untuk mendapatkan senarai IP yang digunakan oleh seseorang pengguna atau memaparkan data sunting/pengguna bagi sesebuah IP. Pengguna dan suntingan oleh sesebuah IP boleh didapatkan melalui pengatas XFF dengan menambah \\"/xff\\" selepas IP tersebut. Kedua-dua format IPv4 (CIDR 16-32) dan IPv6 (CIDR 64-128) disokong. Atas sebab-sebab prestasi, pulangan dihadkan kepada 5000 buah suntingan sahaja. Sila patuhi dasar yang telah ditetapkan.',
 	'checkuser-desc'             => 'Melantik pengguna dengan keizinan untuk membongkar alamat IP pengguna tertentu berserta maklumat-maklumat sulit lain',
+	'checkuser-logcase'          => 'Enjin gelintar log ini sensitif huruf.',
 	'checkuser'                  => 'Risik pengguna',
 	'group-checkuser'            => 'Perisik',
 	'group-checkuser-member'     => 'Perisik',
