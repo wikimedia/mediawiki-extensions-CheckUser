@@ -9,6 +9,7 @@ if (!defined('MEDIAWIKI')) {
 # Internationalisation file
 $dir = dirname(__FILE__) . '/';
 $wgExtensionMessagesFiles['CheckUser'] = $dir . 'CheckUser.i18n.php';
+$wgExtensionAliasesFiles['CheckUser'] = $dir . 'CheckUser.alias.php';
 
 $wgExtensionCredits['specialpage'][] = array(
 	'author' => array( 'Tim Starling', 'Aaron Schulz' ),
