@@ -14,6 +14,13 @@ $aliases['en'] = array(
     'CheckUser'            => array('CheckUser')
 );
 
+/** German
+ * @author Raimond Spekking
+ */
+$aliases['de'] = array(
+	'CheckUser' => array( 'Checkuser' ),
+);
+
 /** Norwegian (Norsk (bokmål))
  * @author Jon Harald Søby
  */
