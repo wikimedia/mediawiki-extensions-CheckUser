@@ -177,7 +177,8 @@ $messages['ar'] = array(
 	'checkuser-log-fail'         => 'غير قادر على إضافة مدخلة للسجل',
 	'checkuser-nolog'            => 'لم يتم العثور على ملف سجل.',
 	'checkuser-blocked'          => 'ممنوع',
-	'checkuser-too-many'         => 'نتائج كثيرة جدا، من فضلك قم بتضييق عنوان الأيبي:',
+	'checkuser-too-many'         => 'نتائج كثيرة جدا، من فضلك قلل الCIDR.
+هذه هي الأيبيهات المستخدمة (5000 كحد أقصى، مرتبة بالعنوان):',
 	'checkuser-user-nonexistent' => 'المستخدم المحدد غير موجود.',
 	'checkuser-search-form'      => 'اعثر على مدخلات السجل حيث $1 هو $2',
 	'checkuser-search-submit'    => 'بحث',
