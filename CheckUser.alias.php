@@ -24,7 +24,7 @@ $aliases['arz'] = array(
 	'CheckUser' => array( 'تدقيق مستخدم' ),
 );
 
-/** German
+/** German (Deutsch)
  * @author Raimond Spekking
  */
 $aliases['de'] = array(
@@ -45,7 +45,7 @@ $aliases['fr'] = array(
  * @author Rotem Liss
  */
 $aliases['he'] = array(
-    'CheckUser' => array( 'בדיקת_משתמש' ),
+	'CheckUser' => array( 'בדיקת_משתמש' ),
 );
 
 /** Haitian (Kreyòl ayisyen) */
@@ -58,10 +58,10 @@ $aliases['nl'] = array(
 	'CheckUser' => array( 'GebruikerControleren' ),
 );
 
-/** Norwegian (Norsk (bokmål))
+/** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬)
  * @author Jon Harald Søby
  */
 $aliases['no'] = array(
-    'CheckUser' => array( 'IP-sjekk' ),
+	'CheckUser' => array( 'IP-sjekk' ),
 );
 
