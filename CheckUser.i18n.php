@@ -80,8 +80,12 @@ $messages['niu'] = array(
 /** Afrikaans (Afrikaans)
  * @author Arnobarnard
  * @author SPQRobin
+ * @author Naudefj
  */
 $messages['af'] = array(
+	'checkuser'               => 'Kontroleer gebruiker',
+	'group-checkuser'         => 'Kontroleer gebruikers',
+	'group-checkuser-member'  => 'Kontroleer gebruiker',
 	'checkuser-reason'        => 'Rede',
 	'checkuser-showlog'       => 'Wys logboek',
 	'checkuser-target'        => 'Gebruiker of IP',
@@ -89,6 +93,8 @@ $messages['af'] = array(
 	'checkuser-edits'         => 'Kry wysigings vanaf IP',
 	'checkuser-ips'           => 'Kry IPs',
 	'checkuser-search'        => 'Soek',
+	'checkuser-empty'         => 'Die logboek het geen inskrywings nie.',
+	'checkuser-check'         => 'Kontroleer',
 	'checkuser-blocked'       => 'Versper',
 	'checkuser-search-submit' => 'Soek',
 	'checkuser-search-target' => 'teiken',
@@ -1401,7 +1407,9 @@ $messages['hy'] = array(
  * @author McDutchie
  */
 $messages['ia'] = array(
-	'checkuser-reason' => 'Motivo',
+	'checkuser-reason'        => 'Motivo',
+	'checkuser-search'        => 'Cercar',
+	'checkuser-search-submit' => 'Cercar',
 );
 
 /** Indonesian (Bahasa Indonesia)
