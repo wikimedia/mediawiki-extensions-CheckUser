@@ -1,4 +1,4 @@
-<?php
+<?PHP
 
 # Not a valid entry point, skip unless MEDIAWIKI is defined
 if (!defined('MEDIAWIKI')) {
@@ -34,6 +34,7 @@ global $wgHooks;
 $wgHooks['RecentChange_save'][] = 'efUpdateCheckUserData';
 $wgHooks['ParserTestTables'][] = 'efCheckUserParserTestTables';
 $wgHooks['LoadExtensionSchemaUpdates'][] = 'efCheckUserSchemaUpdates';
+$wgHooks['ContributionsToolLinks'][] = 'wfLoadContribsLink';
 
 /**
  * Hook function for RecentChange_save
@@ -215,3 +216,16 @@ function efCheckUserParserTestTables( &$tables ) {
 $wgSpecialPages['CheckUser'] = 'CheckUser';
 $wgSpecialPageGroups['CheckUser'] = 'users';
 $wgAutoloadClasses['CheckUser'] = dirname(__FILE__) . '/CheckUser_body.php';
+
+
+function wfLoadContribsLink( $id, $nt, &$links ) {
+    global $wgUser;
+        if( $wgUser->isAllowed( 'checkuser' ) ) {
+	        wfLoadExtensionMessages( 'CheckUser' );
+		$links[] = $wgUser->getSkin()->makeKnownLinkObj(
+			            SpecialPage::getTitleFor( 'CheckUser' ),
+				                wfMsgHtml( 'checkuser' ),'user='.$nt->getDbKey()
+						        );
+	}
+	return true;
+}
