@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 # Not a valid entry point, skip unless MEDIAWIKI is defined
 if (!defined('MEDIAWIKI')) {
@@ -224,8 +224,8 @@ function efLoadCheckUserLink( $id, $nt, &$links ) {
 	        wfLoadExtensionMessages( 'CheckUser' );
 		$links[] = $wgUser->getSkin()->makeKnownLinkObj(
 			            SpecialPage::getTitleFor( 'CheckUser' ),
-				                wfMsgHtml( 'checkuser' ),'user='.$nt->getDbKey()
-						        );
+				                wfMsgHtml( 'checkuser' ),
+				                'user=' . urlencode( $nt->getText() ) );
 	}
 	return true;
 }
