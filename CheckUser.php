@@ -34,7 +34,7 @@ global $wgHooks;
 $wgHooks['RecentChange_save'][] = 'efUpdateCheckUserData';
 $wgHooks['ParserTestTables'][] = 'efCheckUserParserTestTables';
 $wgHooks['LoadExtensionSchemaUpdates'][] = 'efCheckUserSchemaUpdates';
-$wgHooks['ContributionsToolLinks'][] = 'wfLoadContribsLink';
+$wgHooks['ContributionsToolLinks'][] = 'efLoadCheckUserLink';
 
 /**
  * Hook function for RecentChange_save
@@ -218,7 +218,7 @@ $wgSpecialPageGroups['CheckUser'] = 'users';
 $wgAutoloadClasses['CheckUser'] = dirname(__FILE__) . '/CheckUser_body.php';
 
 
-function wfLoadContribsLink( $id, $nt, &$links ) {
+function efLoadCheckUserLink( $id, $nt, &$links ) {
     global $wgUser;
         if( $wgUser->isAllowed( 'checkuser' ) ) {
 	        wfLoadExtensionMessages( 'CheckUser' );
