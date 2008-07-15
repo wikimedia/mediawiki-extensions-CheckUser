@@ -70,3 +70,8 @@ $aliases['no'] = array(
 	'CheckUser' => array( 'IP-sjekk' ),
 );
 
+/** Thai (ไทย) */
+$aliases['th'] = array(
+	'CheckUser' => array( 'ตรวจสอบผู้ใช้' ),
+);
+
