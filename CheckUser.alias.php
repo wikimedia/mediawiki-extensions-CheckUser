@@ -53,6 +53,11 @@ $aliases['ht'] = array(
 	'CheckUser' => array( 'TchekeItilizatè' ),
 );
 
+/** Khmer (ភាសាខ្មែរ) */
+$aliases['km'] = array(
+	'CheckUser' => array( 'ត្រួតពិនិត្យអ្នកប្រើប្រាស់' ),
+);
+
 /** Dutch (Nederlands) */
 $aliases['nl'] = array(
 	'CheckUser' => array( 'GebruikerControleren' ),
