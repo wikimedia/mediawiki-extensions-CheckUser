@@ -265,6 +265,49 @@ $messages['avk'] = array(
 	'checkuser-search-target' => 'jala',
 );
 
+/** Southern Balochi (بلوچی مکرانی)
+ * @author Mostafadaneshvar
+ */
+$messages['bcc'] = array(
+	'checkuser-desc'             => 'کاربرانء اجازت دن  گون مناسبین اجازت آدرسان آی پی یک کاربری و دگه اطلاعاتء کنترل بکنت',
+	'checkuser-logcase'          => 'گردگ ته آمار به الفبای هورد و مزنین حساسنت.',
+	'checkuser'                  => 'کنترل کاربر',
+	'group-checkuser'            => 'کنترل کابران',
+	'group-checkuser-member'     => 'کنترل کاربر',
+	'right-checkuser'            => 'کنترل کن آی پی کاربران و دگه اطلاعاتء',
+	'grouppage-checkuser'        => '{{ns:project}}:کنترل کاربر',
+	'checkuser-reason'           => 'دلیل',
+	'checkuser-showlog'          => 'آمار پیش دار',
+	'checkuser-log'              => 'آمار کنترل کاربر',
+	'checkuser-query'            => 'درخواست نوکین تغییرات',
+	'checkuser-target'           => 'کاربر یا آی پی',
+	'checkuser-users'            => 'بگر کابرانء',
+	'checkuser-edits'            => 'چه آی پی آن اصلاح بگر',
+	'checkuser-ips'              => 'آی پی آن گر',
+	'checkuser-search'           => 'گردگ',
+	'checkuser-empty'            => 'آمار شمال هچ آیتمی نهنت.',
+	'checkuser-nomatch'          => 'هچ همدابی در نکپت',
+	'checkuser-check'            => 'کنترل',
+	'checkuser-log-fail'         => 'نه تونی ورودی آمار اضافه کنت',
+	'checkuser-nolog'            => 'فایل آماری در نه کپت',
+	'checkuser-blocked'          => 'محدود',
+	'checkuser-too-many'         => 'بازگین نتیجه, لطفا CIDR هورد تر کن.
+ادان آی پی آنی هستند که استفاده کننت(5000 ماکسیمم، گون آدرس ردیف بوتگن):',
+	'checkuser-user-nonexistent' => 'مشخص بوتگین کاربر موجود نهنت',
+	'checkuser-search-form'      => 'دیرگیز آمار ورودی جاهی که  $1 هست  $2',
+	'checkuser-search-submit'    => 'گردگ',
+	'checkuser-search-initiator' => 'شروع کنوک',
+	'checkuser-search-target'    => 'هدف',
+	'checkuser-ipeditcount'      => '~$1 چه کلی کابران',
+	'checkuser-log-subpage'      => 'آمار',
+	'checkuser-log-return'       => 'په فرم اصلی کنترل کاربر تر',
+	'checkuser-log-userips'      => '$1 گریت آی پی په $2',
+	'checkuser-log-ipedits'      => '$1 گریت اصلاح په  $2',
+	'checkuser-log-ipusers'      => '$1 کابران گریت په $2',
+	'checkuser-log-ipedits-xff'  => '$1 اصلاح کنت په XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 گریت کابران په XFF $2',
+);
+
 /** Bikol Central (Bikol Central)
  * @author Filipinayzd
  */
@@ -1829,6 +1872,8 @@ $messages['km'] = array(
 	'checkuser-search-submit' => 'ស្វែងរក',
 	'checkuser-search-target' => 'គោលដៅ',
 	'checkuser-log-subpage'   => 'កំណត់ហេតុ',
+	'checkuser-log-userips'   => '$1បានទទួល IPs ដែល$2បានប្រើប្រាស់',
+	'checkuser-log-ipedits'   => '$1បានទទួលចំនួនកំនែប្រែពី$2',
 );
 
 /** Kannada (ಕನ್ನಡ)
