@@ -750,6 +750,7 @@ $messages['el'] = array(
 	'checkuser-search-submit'    => 'Αναζήτηση',
 	'checkuser-search-initiator' => 'ελεγκτής',
 	'checkuser-search-target'    => 'στόχος',
+	'checkuser-ipeditcount'      => '~$1 από όλους τους χρήστες',
 	'checkuser-log-subpage'      => 'Αρχείο',
 	'checkuser-log-return'       => 'Επιστροφή στην κύρια φόρμα ελέγχου χρήστη',
 	'checkuser-log-userips'      => 'Ο $1 πήρε τις IP διευθύνσεις για τον $2',
