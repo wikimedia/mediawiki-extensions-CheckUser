@@ -2788,18 +2788,36 @@ $messages['sq'] = array(
 
 /** Serbian Cyrillic ekavian (ћирилица)
  * @author Sasa Stefanovic
+ * @author Millosh
  */
 $messages['sr-ec'] = array(
-	'checkuser'               => 'Чекјузер',
-	'group-checkuser'         => 'Чекјузери',
-	'group-checkuser-member'  => 'Чекјузер',
-	'grouppage-checkuser'     => '{{ns:project}}:Чекјузер',
-	'checkuser-reason'        => 'Резлог',
-	'checkuser-target'        => 'Корисник или ИП',
-	'checkuser-search'        => 'Претрага',
-	'checkuser-check'         => 'Провера',
-	'checkuser-blocked'       => 'Блокиран',
-	'checkuser-search-submit' => 'Претрага',
+	'checkuser-desc'             => 'Даје сарадницима са одговарајућим правима могућност да провере ИП адресе сарадника и друге информације.',
+	'checkuser-logcase'          => 'Претрага лога је осетљива на мала и велика слова.',
+	'checkuser'                  => 'Чекјузер',
+	'group-checkuser'            => 'Чекјузери',
+	'group-checkuser-member'     => 'Чекјузер',
+	'right-checkuser'            => 'Проверава сарадничке ИП адресе и друге информације.',
+	'grouppage-checkuser'        => '{{ns:project}}:Чекјузер',
+	'checkuser-reason'           => 'Резлог',
+	'checkuser-showlog'          => 'Прикажи лог.',
+	'checkuser-log'              => 'Лог чекјузера.',
+	'checkuser-query'            => 'Упит на скорашње измене.',
+	'checkuser-target'           => 'Корисник или ИП',
+	'checkuser-users'            => 'Прикупљање сарадничких имена.',
+	'checkuser-edits'            => 'Прикупљање измена од стране ИП адресе.',
+	'checkuser-ips'              => 'Прикупља ИП адресе.',
+	'checkuser-search'           => 'Претрага',
+	'checkuser-empty'            => 'Лог не садржи ништа.',
+	'checkuser-nomatch'          => 'Нема погодака.',
+	'checkuser-check'            => 'Провера',
+	'checkuser-log-fail'         => 'Није било могуће додати податак у лог.',
+	'checkuser-nolog'            => 'Ниједан фајл с логовима није пронађен.',
+	'checkuser-blocked'          => 'Блокиран',
+	'checkuser-too-many'         => 'Превише резултата; смањи CIDR. Ево списка коришћених ИП адреса (максимално 5000, сортирано по адреси):',
+	'checkuser-user-nonexistent' => 'Тражени сарадник не постоји.',
+	'checkuser-search-form'      => 'Претрага лога где је $1 једнако $2.',
+	'checkuser-search-submit'    => 'Претрага',
+	'checkuser-search-initiator' => 'покретач',
 );
 
 /** latinica (latinica) */
