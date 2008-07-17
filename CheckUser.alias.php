@@ -41,6 +41,11 @@ $aliases['fr'] = array(
 	'CheckUser' => array( 'Vérificateur d’adresse', 'VérificateurAdresse', 'VerificateurAdresse' ),
 );
 
+/** Galician (Galego) */
+$aliases['gl'] = array(
+	'CheckUser' => array( 'Verificador de usuarios' ),
+);
+
 /** Hebrew (עברית)
  * @author Rotem Liss
  */
@@ -56,6 +61,11 @@ $aliases['ht'] = array(
 /** Khmer (ភាសាខ្មែរ) */
 $aliases['km'] = array(
 	'CheckUser' => array( 'ត្រួតពិនិត្យអ្នកប្រើប្រាស់' ),
+);
+
+/** Malay (Bahasa Melayu) */
+$aliases['ms'] = array(
+	'CheckUser' => array( 'Pemeriksa' ),
 );
 
 /** Dutch (Nederlands) */
