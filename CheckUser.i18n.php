@@ -95,6 +95,7 @@ $messages['af'] = array(
 	'checkuser-search'        => 'Soek',
 	'checkuser-empty'         => 'Die logboek het geen inskrywings nie.',
 	'checkuser-check'         => 'Kontroleer',
+	'checkuser-nolog'         => 'Logboek lêer nie gevind.',
 	'checkuser-blocked'       => 'Versper',
 	'checkuser-search-submit' => 'Soek',
 	'checkuser-search-target' => 'teiken',
@@ -1202,6 +1203,7 @@ $messages['haw'] = array(
 
 /** Hebrew (עברית)
  * @author Rotem Liss
+ * @author Siebrand
  */
 $messages['he'] = array(
 	'checkuser-summary'          => 'כלי זה סורק את השינויים האחרונים במטרה למצוא את כתובות ה־IP שהשתמש בהן משתמש מסוים או כדי להציג את כל המידע על המשתמשים שהשתמשו בכתובת IP ועל העריכות שבוצעו ממנה.
@@ -2210,6 +2212,14 @@ $messages['myv'] = array(
 	'checkuser-search' => 'Вешнемс',
 );
 
+/** Nahuatl (Nahuatl)
+ * @author Fluence
+ */
+$messages['nah'] = array(
+	'checkuser-search'        => 'Tlatēmoāz',
+	'checkuser-search-submit' => 'Tlatēmoāz',
+);
+
 /** Neapolitan (Nnapulitano)
  * @author SPQRobin
  */
@@ -2639,10 +2649,12 @@ $messages['rm'] = array(
  * @author Emily
  */
 $messages['ro'] = array(
-	'checkuser'              => 'Verifică utilizatorul',
-	'group-checkuser'        => 'Checkuseri',
-	'group-checkuser-member' => 'Checkuser',
-	'grouppage-checkuser'    => '{{ns:project}}:Checkuser',
+	'checkuser'               => 'Verifică utilizatorul',
+	'group-checkuser'         => 'Checkuseri',
+	'group-checkuser-member'  => 'Checkuser',
+	'grouppage-checkuser'     => '{{ns:project}}:Checkuser',
+	'checkuser-search'        => 'Caută',
+	'checkuser-search-submit' => 'Caută',
 );
 
 /** Russian (Русский)
