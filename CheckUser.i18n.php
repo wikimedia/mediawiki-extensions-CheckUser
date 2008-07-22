@@ -94,6 +94,7 @@ $messages['af'] = array(
 	'checkuser-ips'           => 'Kry IPs',
 	'checkuser-search'        => 'Soek',
 	'checkuser-empty'         => 'Die logboek het geen inskrywings nie.',
+	'checkuser-nomatch'       => 'Geen resultate gevind.',
 	'checkuser-check'         => 'Kontroleer',
 	'checkuser-nolog'         => 'Logboek lêer nie gevind.',
 	'checkuser-blocked'       => 'Versper',
@@ -433,6 +434,7 @@ IPv4 (CIDR 16-32) এবং IPv6 (CIDR 64-128) এই সরঞ্জামে �
 	'checkuser-search-submit'    => 'অনুসন্ধান',
 	'checkuser-search-initiator' => 'আরম্ভকারী',
 	'checkuser-search-target'    => 'লক্ষ্য',
+	'checkuser-ipeditcount'      => '~$1 সমস্ত ব্যবহাকারী থেকে',
 	'checkuser-log-subpage'      => 'লগ',
 	'checkuser-log-return'       => 'CheckUser মূল ফর্মে ফেরত যান',
 	'checkuser-log-userips'      => '$2 এর জন্য $1 আইপি  সমূহ পেয়েছে',
@@ -1453,9 +1455,48 @@ $messages['hy'] = array(
  * @author McDutchie
  */
 $messages['ia'] = array(
-	'checkuser-reason'        => 'Motivo',
-	'checkuser-search'        => 'Cercar',
-	'checkuser-search-submit' => 'Cercar',
+	'checkuser-summary'          => 'Iste instrumento analysa le modificationes recente pro recuperar le adresses IP usate per un usator o pro monstrar le datos de modificationes e de usatores pro un adresse IP.
+Le usatores e modificationes facite desde un adresse IP de cliente pote esser recuperate via capites XFF per appender "/xff" al IP.
+Es supportate le adresses IPv4 (CIDR 16-32) e IPv6 (CIDR 64-128).
+Non plus de 5000 modificationes essera retornate pro motivos de prestationes.
+Tote uso de iste instrumento debe esser conforme al politicas in vigor.',
+	'checkuser-desc'             => 'Concede al usatores con le autorisation appropriate le capabilitate de verificar le adresses IP e altere informationes de usatores',
+	'checkuser-logcase'          => 'Le recerca del registros distingue inter majusculas e minusculas.',
+	'checkuser'                  => 'Verificar usator',
+	'group-checkuser'            => 'Verificar usatores',
+	'group-checkuser-member'     => 'Verificar usator',
+	'right-checkuser'            => 'Verificar le adresses IP e altere informationes del usator',
+	'grouppage-checkuser'        => '{{ns:project}}:Verificar usator',
+	'checkuser-reason'           => 'Motivo',
+	'checkuser-showlog'          => 'Monstrar registro',
+	'checkuser-log'              => 'Registro de verification de usatores',
+	'checkuser-query'            => 'Consultar le modificationes recente',
+	'checkuser-target'           => 'Usator o IP',
+	'checkuser-users'            => 'Cercar usatores',
+	'checkuser-edits'            => 'Cercar modificationes desde IP',
+	'checkuser-ips'              => 'Cercar IPs',
+	'checkuser-search'           => 'Cercar',
+	'checkuser-empty'            => 'Le registro non contine entratas.',
+	'checkuser-nomatch'          => 'Nihil trovate.',
+	'checkuser-check'            => 'Verificar',
+	'checkuser-log-fail'         => 'Impossibile adder entrata al registro',
+	'checkuser-nolog'            => 'Nulle file de registro trovate.',
+	'checkuser-blocked'          => 'Blocate',
+	'checkuser-too-many'         => 'Troppo de resultatos. Per favor restringe le CIDR.
+Ecce le IPs usate (5000 max, ordinate per adresse):',
+	'checkuser-user-nonexistent' => 'Le usator specificate non existe.',
+	'checkuser-search-form'      => 'Cercar entratas in le registro ubi le $1 es $2',
+	'checkuser-search-submit'    => 'Cercar',
+	'checkuser-search-initiator' => 'initiator',
+	'checkuser-search-target'    => 'objectivo',
+	'checkuser-ipeditcount'      => '~$1 de tote le usatores',
+	'checkuser-log-subpage'      => 'Registro',
+	'checkuser-log-return'       => 'Retornar al formulario principal del verification de usatores',
+	'checkuser-log-userips'      => '$1 obteneva IPs pro $2',
+	'checkuser-log-ipedits'      => '$1 obteneva modificationes pro $2',
+	'checkuser-log-ipusers'      => '$1 obteneva usatores pro $2',
+	'checkuser-log-ipedits-xff'  => '$1 obteneva modificationes pro XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 obteneva usatores pro XFF $2',
 );
 
 /** Indonesian (Bahasa Indonesia)
@@ -2653,8 +2694,13 @@ $messages['ro'] = array(
 	'group-checkuser'         => 'Checkuseri',
 	'group-checkuser-member'  => 'Checkuser',
 	'grouppage-checkuser'     => '{{ns:project}}:Checkuser',
+	'checkuser-reason'        => 'Motiv',
+	'checkuser-showlog'       => 'Arată jurnal',
+	'checkuser-target'        => 'Utilizator sau IP',
 	'checkuser-search'        => 'Caută',
+	'checkuser-blocked'       => 'Blocat',
 	'checkuser-search-submit' => 'Caută',
+	'checkuser-log-subpage'   => 'Jurnal',
 );
 
 /** Russian (Русский)
