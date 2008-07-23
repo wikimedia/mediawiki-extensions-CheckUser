@@ -42,6 +42,7 @@ class CheckUser extends SpecialPage
 		}
 
 		$user = $wgRequest->getText( 'user' ) ? $wgRequest->getText( 'user' ) : $wgRequest->getText( 'ip' );
+		$user = trim($user);
 		$reason = $wgRequest->getText( 'reason' );
 		$checktype = $wgRequest->getVal( 'checktype' );
 
