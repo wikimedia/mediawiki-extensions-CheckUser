@@ -1205,7 +1205,6 @@ $messages['haw'] = array(
 
 /** Hebrew (עברית)
  * @author Rotem Liss
- * @author Siebrand
  */
 $messages['he'] = array(
 	'checkuser-summary'          => 'כלי זה סורק את השינויים האחרונים במטרה למצוא את כתובות ה־IP שהשתמש בהן משתמש מסוים או כדי להציג את כל המידע על המשתמשים שהשתמשו בכתובת IP ועל העריכות שבוצעו ממנה.
