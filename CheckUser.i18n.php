@@ -1994,7 +1994,7 @@ $messages['lb'] = array(
 	'checkuser-query'            => 'Rezent Ännerungen offroen',
 	'checkuser-target'           => 'Benotzer oder IP-Adress',
 	'checkuser-users'            => 'Benotzer kréien',
-	'checkuser-edits'            => "Weis d'Ännerungen vun der IP-Adress",
+	'checkuser-edits'            => "Weis d'Ännerunge vun der IP-Adress",
 	'checkuser-ips'              => 'IP-Adresse kréien/uweisen',
 	'checkuser-search'           => 'Sichen',
 	'checkuser-empty'            => 'Dës Lëscht ass eidel.',
@@ -2256,8 +2256,8 @@ $messages['myv'] = array(
  * @author Fluence
  */
 $messages['nah'] = array(
-	'checkuser-search'        => 'Tlatēmoāz',
-	'checkuser-search-submit' => 'Tlatēmoāz',
+	'checkuser-search'        => 'Tlatēmōz',
+	'checkuser-search-submit' => 'Tlatēmōz',
 );
 
 /** Neapolitan (Nnapulitano)
@@ -2875,6 +2875,15 @@ $messages['sr-ec'] = array(
 	'checkuser-search-form'      => 'Претрага лога где је $1 једнако $2.',
 	'checkuser-search-submit'    => 'Претрага',
 	'checkuser-search-initiator' => 'покретач',
+	'checkuser-search-target'    => 'циљ',
+	'checkuser-ipeditcount'      => '~$1 од свих сарадника',
+	'checkuser-log-subpage'      => 'лог',
+	'checkuser-log-return'       => 'Повратак на основну форму чекјузера.',
+	'checkuser-log-userips'      => '$1 је добио ИП адресе за $2',
+	'checkuser-log-ipedits'      => '$1 је добио измене за $2',
+	'checkuser-log-ipusers'      => '$1 је добио сараднике за $2',
+	'checkuser-log-ipedits-xff'  => '$1 је добио измене за XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 је добио сараднике за XFF $2',
 );
 
 /** latinica (latinica) */
