@@ -83,9 +83,11 @@ $messages['niu'] = array(
  * @author Naudefj
  */
 $messages['af'] = array(
+	'checkuser-logcase'       => 'Die logboek soek-funksie is kassensitief.',
 	'checkuser'               => 'Kontroleer gebruiker',
 	'group-checkuser'         => 'Kontroleer gebruikers',
 	'group-checkuser-member'  => 'Kontroleer gebruiker',
+	'right-checkuser'         => 'Besigtig gebruikers se IP-adresse en ander gegewens',
 	'checkuser-reason'        => 'Rede',
 	'checkuser-showlog'       => 'Wys logboek',
 	'checkuser-target'        => 'Gebruiker of IP',
@@ -96,6 +98,7 @@ $messages['af'] = array(
 	'checkuser-empty'         => 'Die logboek het geen inskrywings nie.',
 	'checkuser-nomatch'       => 'Geen resultate gevind.',
 	'checkuser-check'         => 'Kontroleer',
+	'checkuser-log-fail'      => 'Kan nie logboek inskrywing byvoeg nie',
 	'checkuser-nolog'         => 'Logboek lêer nie gevind.',
 	'checkuser-blocked'       => 'Versper',
 	'checkuser-search-submit' => 'Soek',
@@ -161,8 +164,9 @@ $messages['ang'] = array(
  */
 $messages['ar'] = array(
 	'checkuser-summary'          => 'هذه الأداة تفحص أحدث التغييرات لاسترجاع الأيبيهات المستخدمة بواسطة مستخدم أو عرض بيانات التعديل/المستخدم لأيبي.
-	المستخدمون والتعديلات بواسطة أيبي عميل يمكن استرجاعها من خلال عناوين XFF عبر طرق الأيبي IP ب"/xff". IPv4 (CIDR 16-32) و IPv6 (CIDR 64-128) مدعومان.
-	لا أكثر من 5000 تعديل سيتم عرضها لأسباب تتعلق بالأداء. استخدم هذا بالتوافق مع السياسة.',
+المستخدمون والتعديلات بواسطة أيبي عميل يمكن استرجاعها من خلال عناوين XFF عبر طرق الأيبي IP ب"/xff". IPv4 (CIDR 16-32) و IPv6 (CIDR 64-128) مدعومان.
+	لا أكثر من 5000 تعديل سيتم عرضها لأسباب تتعلق بالأداء.
+استخدم هذا بالتوافق مع السياسة.',
 	'checkuser-desc'             => 'يمنح المستخدمين بالسماح المطلوب القدرة على فحص عناوين الأيبي لمستخدم ما ومعلومات أخرى',
 	'checkuser-logcase'          => 'بحث السجل حساس لحالة الحروف.',
 	'checkuser'                  => 'تدقيق مستخدم',
@@ -171,13 +175,13 @@ $messages['ar'] = array(
 	'right-checkuser'            => 'التحقق من عناوين الأيبي للمستخدمين ومعلومات أخرى',
 	'grouppage-checkuser'        => '{{ns:project}}:تدقيق مستخدم',
 	'checkuser-reason'           => 'السبب',
-	'checkuser-showlog'          => 'اعرض السجل',
+	'checkuser-showlog'          => 'عرض السجل',
 	'checkuser-log'              => 'سجل تدقيق المستخدم',
 	'checkuser-query'            => 'فحص أحدث التغييرات',
 	'checkuser-target'           => 'مستخدم أو عنوان أيبي',
-	'checkuser-users'            => 'اعرض المستخدمين',
-	'checkuser-edits'            => 'اعرض التعديلات من الأيبي',
-	'checkuser-ips'              => 'اعرض الأيبيهات',
+	'checkuser-users'            => 'عرض المستخدمين',
+	'checkuser-edits'            => 'عرض التعديلات من الأيبي',
+	'checkuser-ips'              => 'عرض الأيبيهات',
 	'checkuser-search'           => 'بحث',
 	'checkuser-empty'            => 'لا توجد مدخلات في السجل.',
 	'checkuser-nomatch'          => 'لم يتم العثور على مدخلات مطابقة.',
@@ -2256,6 +2260,7 @@ $messages['myv'] = array(
  * @author Fluence
  */
 $messages['nah'] = array(
+	'checkuser-reason'        => 'Īxtlamatiliztli:',
 	'checkuser-search'        => 'Tlatēmōz',
 	'checkuser-search-submit' => 'Tlatēmōz',
 );
