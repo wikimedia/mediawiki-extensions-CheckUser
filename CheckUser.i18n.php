@@ -668,6 +668,7 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 
 /** German (Deutsch)
  * @author Raimond Spekking
+ * @author Pill
  */
 $messages['de'] = array(
 	'checkuser-summary'          => 'Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers
@@ -677,7 +678,7 @@ $messages['de'] = array(
 	'checkuser-desc'             => 'Erlaubt Benutzern mit den entsprechenden Rechten die IP-Adressen sowie weitere Informationen von Benutzern zu prüfen',
 	'checkuser-logcase'          => 'Die Suche im Logbuch unterscheidet zwischen Groß- und Kleinschreibung.',
 	'checkuser'                  => 'Checkuser',
-	'group-checkuser'            => 'Checkusers',
+	'group-checkuser'            => 'Checkuser',
 	'group-checkuser-member'     => 'Checkuser-Berechtigter',
 	'right-checkuser'            => 'Prüfung von IP-Adressen sowie Verbindungen zwischen IPs und angemeldeten Benutzern',
 	'grouppage-checkuser'        => '{{ns:project}}:CheckUser',
@@ -1094,6 +1095,14 @@ $messages['frp'] = array(
 	'checkuser-log-ipusers'      => '$1 at obtegnu des utilisators por $2',
 	'checkuser-log-ipedits-xff'  => '$1 at obtegnu des modificacions por XFF $2',
 	'checkuser-log-ipusers-xff'  => '$1 at obtegnu des utilisators por XFF $2',
+);
+
+/** Western Frisian (Frysk)
+ * @author Snakesteuben
+ */
+$messages['fy'] = array(
+	'checkuser-search'        => 'Sykje',
+	'checkuser-search-submit' => 'Sykje',
 );
 
 /** Irish (Gaeilge)
