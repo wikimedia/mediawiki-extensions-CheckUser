@@ -2042,6 +2042,7 @@ $messages['lfn'] = array(
 
 /** Limburgish (Limburgs)
  * @author Ooswesthoesbes
+ * @author Matthias
  */
 $messages['li'] = array(
 	'checkuser-summary'          => "Dit hölpmiddel bekiek recènte verangeringe óm IP-adresse die 'ne gebroeker haet gebroek te achterhaole of toeantj de bewèrkings- en gebroekersgegaeves veur 'n IP-adres.
@@ -2075,6 +2076,7 @@ Gebroekers en bewèrkinge van 'n IP-adres van 'ne cliënt kinne achterhaoldj wae
 	'checkuser-search-submit'    => 'Zeuk',
 	'checkuser-search-initiator' => 'aanvraoger',
 	'checkuser-search-target'    => 'óngerwèrp',
+	'checkuser-ipeditcount'      => '~$1 van alle gebroekers',
 	'checkuser-log-subpage'      => 'Logbook',
 	'checkuser-log-return'       => "Nao 't huidformeleer van KonterleerGebroeker trökgaon",
 	'checkuser-log-userips'      => '$1 haet IP-adresse veur $2',
