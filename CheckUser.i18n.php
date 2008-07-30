@@ -1968,9 +1968,48 @@ $messages['krj'] = array(
  * @author Purodha
  */
 $messages['ksh'] = array(
-	'checkuser-reason'        => 'Aanlass',
-	'checkuser-search'        => 'Sööke',
-	'checkuser-search-submit' => 'Sööke',
+	'checkuser-summary'          => 'Met däm Werkzeush he kam_mer de IP Addresse fun Metmaacher fenge, di en de [[Special:Recentchanges|{{int:Recentchanges}}]] shtonn, un mer kann de Metmaacher-Date un Änderonge fenge för en IP-Adress.
+
+Metmaacher un ier Änderong för an IP-Address wäde övver <i lang="en">XFF-header</i> jezeich, wam_mer aan di IP-Address en „<code>/xff</code>“ aanhängk. Wobei wäde IPv4 (CIDR 16-32) un IPv6 (CIDR 64-128) ongershtöz. Leßte jon beß 5000 Änderonge, öm der ßööver nit zo doll ze beschäfteje.
+
+Donn op de Räjelle för dat Werrkzeuch obacht jevve, un et nit bruche, wann De nit darrefs!',
+	'checkuser-desc'             => 'Metmaacher met däm Rääsch dozoh könne de IP-Adresse un annder Date fun de Metmaacher pröfe.',
+	'checkuser-logcase'          => 'Dat Söke em Logbooch deit zwesche jruße un kleine Bochshtave ongerscheide.',
+	'checkuser'                  => 'Metmaacher Pröfe',
+	'group-checkuser'            => 'Metmaacher Pröfe',
+	'group-checkuser-member'     => 'Metmaacher Pröfe',
+	'right-checkuser'            => 'IP-Adresse un ier Bezösch zo de aanjemeldte Metmaacher övverpröfe, un Metmacher ier Date aanlore',
+	'grouppage-checkuser'        => '{{ns:project}}:Metmaacher Pröfe',
+	'checkuser-reason'           => 'Aanlass',
+	'checkuser-showlog'          => 'et Logbooch aanzeije',
+	'checkuser-log'              => 'Logbooch fum Metmaacher-Pröfe',
+	'checkuser-query'            => 'En de {{LCFIRST:{{int:recentchanges}}}} frore',
+	'checkuser-target'           => 'Metmaacher-Name udder IP-Address',
+	'checkuser-users'            => 'Metmaacher holle!',
+	'checkuser-edits'            => 'Änderonge fun dä IP-Address holle!',
+	'checkuser-ips'              => 'IP-Addresse holle!',
+	'checkuser-search'           => 'Sööke',
+	'checkuser-empty'            => 'En däm Logbooch shteit nix dren.',
+	'checkuser-nomatch'          => 'Nix zopaß jefonge.',
+	'checkuser-check'            => 'Pröfe!',
+	'checkuser-log-fail'         => 'Kann nix em Logbooch dobei schriive',
+	'checkuser-nolog'            => 'Kein Logbooch jefonge.',
+	'checkuser-blocked'          => 'jesperrt',
+	'checkuser-too-many'         => 'Zoo fill jefonge, beß esu joot un maach dä CIDR kleijner.
+Hee sin de eetßte 5000 IP-Addresse, zoteeet:',
+	'checkuser-user-nonexistent' => 'Dä Metmaacher jidd_et ja nit.',
+	'checkuser-search-form'      => 'Sök noh Enndräsch em Logbooch, woh $1 $2 es.',
+	'checkuser-search-submit'    => 'Söök!',
+	'checkuser-search-initiator' => 'Metmaacher-Pröfer',
+	'checkuser-search-target'    => 'Wat eß jefrooch? (Metmaacher-Name udder IP-Address)',
+	'checkuser-ipeditcount'      => '~$1 Änderonge fun alle Metmaacher',
+	'checkuser-log-subpage'      => 'Logboch',
+	'checkuser-log-return'       => 'Zerök zor Sigg „Metmaacher Pröfe“',
+	'checkuser-log-userips'      => '$1 hät IP-Adresse jehollt för $2',
+	'checkuser-log-ipedits'      => '$1 hät de Änderonge jehollt för $2',
+	'checkuser-log-ipusers'      => '$1 hät de Metmaacher jehollt för $2',
+	'checkuser-log-ipedits-xff'  => '$1 hät de Änderonge jehollt för XFF $2',
+	'checkuser-log-ipusers-xff'  => '$1 hät de Metmaacher jehollt för XFF $2',
 );
 
 /** Kurdish (Latin) (Kurdî / كوردی (Latin))
