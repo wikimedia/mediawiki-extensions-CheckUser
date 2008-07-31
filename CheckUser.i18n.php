@@ -332,7 +332,7 @@ $messages['bcl'] = array(
  */
 $messages['be-tarask'] = array(
 	'group-checkuser'            => 'Правяраючыя ўдзельнікаў',
-	'group-checkuser-member'     => 'Правяраючы ўдзельнікаў',
+	'group-checkuser-member'     => 'правяраючы ўдзельнікаў',
 	'checkuser-reason'           => 'Прычына',
 	'checkuser-showlog'          => 'Паказаць журнал',
 	'checkuser-log'              => 'Журнал праверак удзельнікаў',
@@ -931,6 +931,7 @@ $messages['fa'] = array(
  * @author Crt
  * @author Jack Phoenix
  * @author Cimon Avaro
+ * @author Agony
  */
 $messages['fi'] = array(
 	'checkuser-summary'          => 'Tämän työkalun avulla voidaan tutkia tuoreet muutokset ja paljastaa käyttäjien IP-osoitteet tai noutaa IP-osoitteiden muokkaukset ja käyttäjätiedot.
@@ -940,6 +941,7 @@ $messages['fi'] = array(
 	'checkuser'                  => 'Osoitepaljastin',
 	'group-checkuser'            => 'osoitepaljastimen käyttäjät',
 	'group-checkuser-member'     => 'osoitepaljastimen käyttäjä',
+	'right-checkuser'            => 'Tarkastaa käyttäjän käyttämät IP-osoitteet sekä muut tiedot',
 	'grouppage-checkuser'        => '{{ns:project}}:Osoitepaljastin',
 	'checkuser-reason'           => 'Syy',
 	'checkuser-showlog'          => 'Näytä loki',
@@ -3048,7 +3050,7 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 	'checkuser-logcase'          => 'Loggsökning är skiftlägeskänslig.',
 	'checkuser'                  => 'Kontrollera användare',
 	'group-checkuser'            => 'Användarkontrollanter',
-	'group-checkuser-member'     => 'Användarkontrollant',
+	'group-checkuser-member'     => 'användarkontrollant',
 	'right-checkuser'            => 'Kolla användares IP-adresser och annan information',
 	'grouppage-checkuser'        => '{{ns:project}}:Användarkontrollant',
 	'checkuser-reason'           => 'Anledning',
