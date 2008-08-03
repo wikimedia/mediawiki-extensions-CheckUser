@@ -16,12 +16,12 @@ $aliases['en'] = array(
 
 /** Arabic (العربية) */
 $aliases['ar'] = array(
-	'CheckUser' => array( 'تدقيق مستخدم' ),
+	'CheckUser' => array( 'تدقيق_مستخدم' ),
 );
 
 /** Egyptian Spoken Arabic (مصرى) */
 $aliases['arz'] = array(
-	'CheckUser' => array( 'تدقيق مستخدم' ),
+	'CheckUser' => array( 'تدقيق_مستخدم' ),
 );
 
 /** German (Deutsch)
