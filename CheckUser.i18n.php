@@ -206,6 +206,13 @@ $messages['ar'] = array(
 	'checkuser-log-ipusers-xff'  => '$1 حصل على المستخدمين للإكس إف إف $2',
 );
 
+/** Egyptian Spoken Arabic (مصرى)
+ * @author Ghaly
+ */
+$messages['arz'] = array(
+	'checkuser-check' => 'فحص',
+);
+
 /** Asturian (Asturianu)
  * @author Esbardu
  * @author SPQRobin
