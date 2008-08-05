@@ -2168,6 +2168,19 @@ $messages['lt'] = array(
 	'checkuser-log-subpage'   => 'Sąrašas',
 );
 
+/** Latvian (Latviešu)
+ * @author Xil
+ */
+$messages['lv'] = array(
+	'checkuser-desc'   => 'Atļauj lietotājiem ar attiecīgām pilnvarām pārbaudīt lietotāja IP adresi un citu informāciju.',
+	'checkuser'        => 'Pārbaudīt lietotāju',
+	'group-checkuser'  => 'Pārbaudīt lietotājus',
+	'checkuser-reason' => 'Iemesls',
+	'checkuser-target' => 'Lietotājs vai IP',
+	'checkuser-search' => 'Meklēt',
+	'checkuser-check'  => 'Pārbaudīt',
+);
+
 /** Macedonian (Македонски)
  * @author Misos
  */
