@@ -69,7 +69,7 @@ $aliases['km'] = array(
 
 /** Malay (Bahasa Melayu) */
 $aliases['ms'] = array(
-	'CheckUser' => array( 'Pemeriksa' ),
+	'CheckUser' => array( 'Perisik' ),
 );
 
 /** Dutch (Nederlands) */
