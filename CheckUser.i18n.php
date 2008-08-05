@@ -215,7 +215,6 @@ $messages['arz'] = array(
 
 /** Asturian (Asturianu)
  * @author Esbardu
- * @author SPQRobin
  */
 $messages['ast'] = array(
 	'checkuser-summary'          => "Esta ferramienta escanea los cambeos recientes pa obtener les IP usaes por un usuariu o p'amosar les ediciones o usuarios d'una IP.
@@ -226,6 +225,7 @@ $messages['ast'] = array(
 	'checkuser'                  => "Comprobador d'usuariu",
 	'group-checkuser'            => "Comprobadores d'usuariu",
 	'group-checkuser-member'     => "Comprobador d'usuariu",
+	'right-checkuser'            => "Comprueba les direiciones IP d'un usuariu entre otres coses",
 	'grouppage-checkuser'        => "{{ns:project}}:Comprobador d'usuariu",
 	'checkuser-reason'           => 'Razón',
 	'checkuser-showlog'          => 'Amosar el rexistru',
@@ -248,6 +248,7 @@ $messages['ast'] = array(
 	'checkuser-search-submit'    => 'Buscar',
 	'checkuser-search-initiator' => 'aniciador',
 	'checkuser-search-target'    => 'oxetivu',
+	'checkuser-ipeditcount'      => '~$1 de tolos usuarios',
 	'checkuser-log-subpage'      => 'Rexistru',
 	'checkuser-log-return'       => "Volver al formulariu principal de comprobador d'usuariu",
 	'checkuser-log-userips'      => '$1 obtuvo les IP pa $2',
@@ -676,6 +677,7 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 /** German (Deutsch)
  * @author Raimond Spekking
  * @author Pill
+ * @author Raymond
  */
 $messages['de'] = array(
 	'checkuser-summary'          => 'Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers
@@ -702,7 +704,7 @@ $messages['de'] = array(
 	'checkuser-nomatch'          => 'Keine Übereinstimmungen gefunden.',
 	'checkuser-check'            => 'Ausführen',
 	'checkuser-log-fail'         => 'Logbuch-Eintrag kann nicht hinzugefügt werden.',
-	'checkuser-nolog'            => 'Kein Logbuch vorhanden.',
+	'checkuser-nolog'            => 'Keine Logbuchdatei vorhanden.',
 	'checkuser-blocked'          => 'gesperrt',
 	'checkuser-too-many'         => 'Die Ergebnisliste ist zu lang, bitte grenze den IP-Bereich weiter ein. Hier sind die benutzten IP-Adressen (maximal 5000, sortiert nach Adresse):',
 	'checkuser-user-nonexistent' => 'Das angegebene Benutzerkonto ist nicht vorhanden.',
