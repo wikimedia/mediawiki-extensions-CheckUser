@@ -788,9 +788,9 @@ Neniom pli ol 5000 redaktoj estos montrita pro bona datumbaza funkciado.
 Uzu ĉi tion laŭ regularo.',
 	'checkuser-desc'             => 'Rajtigas al uzantoj kun la taŭga permeso la kapableco kontroli la IP-adreson de uzanto kaj alia informo',
 	'checkuser-logcase'          => 'La protokola serĉo estas usklecodistinga.',
-	'checkuser'                  => 'Kontroli uzanton',
+	'checkuser'                  => 'Kontrolanto de uzantoj',
 	'group-checkuser'            => 'Kontroli uzantojn',
-	'group-checkuser-member'     => 'Kontroli uzanton',
+	'group-checkuser-member'     => 'Kontrolanto de uzantoj',
 	'right-checkuser'            => 'Kontroli la IP-adreson kaj alian informon de uzanto',
 	'grouppage-checkuser'        => '{{ns:project}}:Kontroli uzanton',
 	'checkuser-reason'           => 'Kialo',
@@ -1979,7 +1979,7 @@ $messages['krj'] = array(
  * @author Purodha
  */
 $messages['ksh'] = array(
-	'checkuser-summary'          => 'Met däm Werkzeush he kam_mer de IP Addresse fun Metmaacher fenge, di en de [[Special:Recentchanges|{{int:Recentchanges}}]] shtonn, un mer kann de Metmaacher-Date un Änderonge fenge för en IP-Adress.
+	'checkuser-summary'          => 'Met däm Werkzeush he kam_mer de IP Addresse fun Metmaacher fenge, di en de [[Special:RecentChanges|{{int:Recentchanges}}]] shtonn, un mer kann de Metmaacher-Date un Änderonge fenge för en IP-Adress.
 
 Metmaacher un ier Änderong för an IP-Address wäde övver <i lang="en">XFF-header</i> jezeich, wam_mer aan di IP-Address en „<code>/xff</code>“ aanhängk. Wobei wäde IPv4 (CIDR 16-32) un IPv6 (CIDR 64-128) ongershtöz. Leßte jon beß 5000 Änderonge, öm der ßööver nit zo doll ze beschäfteje.
 
