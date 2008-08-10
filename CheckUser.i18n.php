@@ -53,6 +53,7 @@ Here are the IPs used (5000 max, sorted by address):',
 );
 
 /** Message documentation (Message documentation)
+ * @author Jon Harald Søby
  * @author Lejonel
  * @author Meno25
  * @author Mormegil
@@ -660,7 +661,7 @@ $messages['cu'] = array(
 );
 
 /** Danish (Dansk)
- * @author Morten
+ * @author Morten LJ
  */
 $messages['da'] = array(
 	'checkuser-summary' => 'Dette værktøj scanner Seneste ændringer for at finde IP\'er brugt af en bestemt bruger, eller for at vise redigerings- eller brugerdata for en IP.
