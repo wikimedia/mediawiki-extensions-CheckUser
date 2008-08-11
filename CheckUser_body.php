@@ -883,7 +883,7 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 			$comment = $skin->commentBlock( $row->cul_reason );
 		}
 
-		$user = $skin->userLink( $row->cul_user, $row->cul_user_text );
+		$user = $skin->userLink( $row->cul_user, $row->user_name );
 
 		if ( $row->cul_type == 'userips' ) {
 			$target = $skin->userLink( $row->cul_target_id, $row->cul_target_text ) . 
@@ -926,9 +926,9 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 	function getQueryInfo() {
 		global $wgRequest;
 		return array(
-			'tables' => 'cu_log',
-			'fields' => '*',
-			'conds' => $this->searchConds
+			'tables' => array('cu_log','user'),
+			'fields' => $this->selectFields(),
+			'conds' => $this->searchConds + array('user_id = cul_user')
 		);
 	}
 
@@ -938,6 +938,11 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 
 	function getTitle() {
 		return $this->specialPage->getLogSubpageTitle();
+	}
+	
+	function selectFields() {
+		return array('cul_id','cul_timestamp','cul_user','cul_reason','cul_type',
+			'cul_target_id','cul_target_text','user_name');
 	}
 }
 
