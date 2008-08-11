@@ -123,7 +123,7 @@ class CheckUser extends SpecialPage
 			wfMsg( 'checkuser-summary' ) . 
 			"\n\n[[" . $this->getLogSubpageTitle()->getPrefixedText() . '|' . wfMsg( 'checkuser-showlog' ) . ']]'
 	   	);
-		$form = "<form name='checkuser' action='$action' method='post'>";
+		$form = "<form name='checkuserform' id='checkuserform' action='$action' method='post'>";
 		$form .= "<fieldset><legend>".wfMsgHtml( "checkuser-query" )."</legend>";
 		$form .= "<table border='0' cellpadding='2'><tr>";
 		$form .= "<td>".wfMsgHtml( "checkuser-target" ).":</td>";
@@ -140,7 +140,8 @@ class CheckUser extends SpecialPage
 		$form .= "</tr><tr>";
 		$form .= "<td>".wfMsgHtml( "checkuser-reason" ).":</td>";
 		$form .= "<td>".Xml::input( 'reason', 46, $reason, array( 'maxlength' => '150', 'id' => 'checkreason' ) );
-		$form .= "&nbsp; &nbsp;".Xml::submitButton( wfMsgHtml( 'checkuser-check' ) )."</td>";
+		$form .= "&nbsp; &nbsp;".Xml::submitButton( wfMsgHtml('checkuser-check'), 
+			array('id' => 'checkusersubmit','name' => 'checkusersubmit') )."</td>";
 		$form .= "</tr></table></fieldset></form>";
 		# Output form
 		$wgOut->addHTML( $form );
