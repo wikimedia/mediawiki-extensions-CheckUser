@@ -869,7 +869,7 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 			array( 'comma-separator', 'checkuser-log-userips', 'checkuser-log-ipedits', 'checkuser-log-ipusers', 
 			'checkuser-log-ipedits-xff', 'checkuser-log-ipusers-xff' ) );*/
 
-		$this->searchConds = $searchConds;
+		$this->searchConds = $searchConds ? $searchConds : array();
 		$this->specialPage = $specialPage;
 	}
 
@@ -926,10 +926,11 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 
 	function getQueryInfo() {
 		global $wgRequest;
+		$this->searchConds[] = 'user_id = cul_user';
 		return array(
 			'tables' => array('cu_log','user'),
 			'fields' => $this->selectFields(),
-			'conds' => $this->searchConds + array('user_id = cul_user')
+			'conds'  => $this->searchConds
 		);
 	}
 
@@ -946,4 +947,3 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 			'cul_target_id','cul_target_text','user_name');
 	}
 }
-
