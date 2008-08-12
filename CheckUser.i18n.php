@@ -66,12 +66,7 @@ Here are the IPs used (5000 max, sorted by address):',
 [http://www.dnsstuff.com/tools/tracert.ch?ip=$1 Traceroute] ·
 [http://www.ip2location.com/$1 Geolocate] ·
 [http://toolserver.org/~krimpet/torcheck.php?ip=$1 Tor check] ·
-[http://toolserver.org/~krimpet/rbhelper.php?db=enwiki_p&ip=$1 Rangeblock finder]&#93;<br/>
-&#91;RIRs: [http://ws.arin.net/whois/?queryinput=$1 America] ·
-[http://www.ripe.net/fcgi-bin/whois?searchtext=$1 Europe] ·
-[http://www.afrinic.net/cgi-bin/whois?query=$1 Africa] ·
-[http://www.apnic.net/apnic-bin/whois.pl?searchtext=$1 Asia-Pacific] ·
-[http://www.lacnic.net/cgi-bin/lacnic/whois?lg=EN&query=$1 Latin America/Caribbean]&#93;', # do not translate or duplicate this message to other languages
+[http://ws.arin.net/whois/?queryinput=$1 WHOIS]]'
 );
 
 /** Message documentation (Message documentation)
