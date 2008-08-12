@@ -739,6 +739,8 @@ class CheckUser extends SpecialPage
 		global $wgRequest, $wgOut;
 		$type = $wgRequest->getVal( 'cuSearchType' );
 		$target = $wgRequest->getVal( 'cuSearch' );
+		$year = $wgRequest->getIntOrNull( 'year' );
+		$month = $wgRequest->getIntOrNull( 'month' );
 		$error = false;
 		$dbr = wfGetDB( DB_SLAVE );
 		$searchConds = false;
@@ -781,7 +783,7 @@ class CheckUser extends SpecialPage
 						'cul_type' => 'userips',
 						'cul_target_id' => $user->getID(),
 					);
-				} else {
+				} else if ( $target ) {
 					$error = 'checkuser-user-nonexistent';
 				}
 			}
@@ -791,7 +793,7 @@ class CheckUser extends SpecialPage
 		$select = "<select name=\"cuSearchType\">\n";
 		foreach ( $searchTypes as $searchType ) {
 			if ( $type == $searchType ) {
-				$checked = 'selected="1"';
+				$checked = 'selected="selected"';
 			} else {
 				$checked = '';
 			}
@@ -807,10 +809,11 @@ class CheckUser extends SpecialPage
 		$formAction = $this->getLogSubpageTitle()->escapeLocalURL();
 		$msgSearchSubmit = '&nbsp;&nbsp;' . wfMsgHtml( 'checkuser-search-submit' ) . '&nbsp;&nbsp;';
 		
-		$s = "<form method=\"GET\" action=\"$formAction\">\n" . 
+		$s = "<form method='get' action=\"$formAction\">\n" . 
 			"<fieldset><legend>$msgSearch</legend>\n" . 
-			"$msgSearchForm&nbsp;&nbsp;&nbsp;\n" . 
-			"<input type=\"submit\" name=\"cuSearchSubmit\" value=\"$msgSearchSubmit\"/>\n" . 
+			"<p>$msgSearchForm</p>\n" . 
+			"<p>" . $this->getDateMenu( $year, $month ) . "&nbsp;&nbsp;&nbsp;\n" .
+			"<input type=\"submit\" name=\"cuSearchSubmit\" value=\"$msgSearchSubmit\"/></p>\n" . 
 			"</fieldset></form>\n";
 		$wgOut->addHTML( $s );
 
@@ -819,11 +822,42 @@ class CheckUser extends SpecialPage
 			return;
 		}
 
-		$pager = new CheckUserLogPager( $this, $searchConds );
+		$pager = new CheckUserLogPager( $this, $searchConds, $year, $month );
 		$wgOut->addHTML( 
 			$pager->getNavigationBar() . 
 			$pager->getBody() .
 			$pager->getNavigationBar() );
+	}
+	
+		/**
+	 * @return string Formatted HTML
+	 * @param int $year
+	 * @param int $month
+	 */
+	private function getDateMenu( $year, $month ) {
+		# Offset overrides year/month selection
+		if( $month && $month !== -1 ) {
+			$encMonth = intval( $month );
+		} else {
+			$encMonth = '';
+		}
+		if ( $year ) {
+			$encYear = intval( $year );
+		} else if( $encMonth ) {
+			$thisMonth = intval( gmdate( 'n' ) );
+			$thisYear = intval( gmdate( 'Y' ) );
+			if( intval($encMonth) > $thisMonth ) {
+				$thisYear--;
+			}
+			$encYear = $thisYear;
+		} else {
+			$encYear = '';
+		}
+		return Xml::label( wfMsg( 'year' ), 'year' ) . ' '.
+			Xml::input( 'year', 4, $encYear, array('id' => 'year', 'maxlength' => 4) ) .
+			' '.
+			Xml::label( wfMsg( 'month' ), 'month' ) . ' '.
+			Xml::monthSelector( $encMonth, -1 );
 	}
 
 	function addLogEntry( $logType, $targetType, $target, $reason, $targetID = 0 ) {
@@ -860,15 +894,16 @@ class CheckUser extends SpecialPage
 }
 
 class CheckUserLogPager extends ReverseChronologicalPager {
-	var $searchConds, $specialPage;
+	var $searchConds, $specialPage, $y, $m;
 
-	function __construct( $specialPage, $searchConds ) {
+	function __construct( $specialPage, $searchConds, $y, $m ) {
 		parent::__construct();
 		/*
 		$this->messages = array_map( 'wfMsg', 
 			array( 'comma-separator', 'checkuser-log-userips', 'checkuser-log-ipedits', 'checkuser-log-ipusers', 
 			'checkuser-log-ipedits-xff', 'checkuser-log-ipusers-xff' ) );*/
 
+		$this->getDateCond( $y, $m );
 		$this->searchConds = $searchConds ? $searchConds : array();
 		$this->specialPage = $specialPage;
 	}
