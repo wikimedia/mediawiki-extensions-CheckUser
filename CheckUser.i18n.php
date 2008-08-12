@@ -61,12 +61,12 @@ Here are the IPs used (5000 max, sorted by address):',
 	'checkuser-email-action'     => 'sent an email to "$1"',
 	'checkuser-email-action2'    => 'sent an email to "$1" (sender at "$2")',
 	
-	'checkuser-toollinks'        => '[[http://openrbl.org/query?$1 RDNS] ·
+	'checkuser-toollinks'        => '<span class="plainlinks">[[http://openrbl.org/query?$1 RDNS] ·
 [http://www.robtex.com/rbls/$1.html RBLs] ·
 [http://www.dnsstuff.com/tools/tracert.ch?ip=$1 Traceroute] ·
 [http://www.ip2location.com/$1 Geolocate] ·
 [http://toolserver.org/~krimpet/torcheck.php?ip=$1 Tor check] ·
-[http://ws.arin.net/whois/?queryinput=$1 WHOIS]]'
+[http://ws.arin.net/whois/?queryinput=$1 WHOIS]]</span>'
 );
 
 /** Message documentation (Message documentation)
