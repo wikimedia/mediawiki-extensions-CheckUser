@@ -93,7 +93,7 @@ class CheckUser extends SpecialPage
 		}
 	}
 
-	protected function getLogSubpageTitle() {
+	public function getLogSubpageTitle() {
 		if ( !isset( $this->logSubpageTitle ) ) {
 			$this->logSubpageTitle = $this->getTitle( wfMsgForContent( 'checkuser-log-subpage' ) );
 		}
