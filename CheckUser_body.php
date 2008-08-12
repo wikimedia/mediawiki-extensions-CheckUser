@@ -93,14 +93,14 @@ class CheckUser extends SpecialPage
 		}
 	}
 
-	function getLogSubpageTitle() {
+	protected function getLogSubpageTitle() {
 		if ( !isset( $this->logSubpageTitle ) ) {
 			$this->logSubpageTitle = $this->getTitle( wfMsgForContent( 'checkuser-log-subpage' ) );
 		}
 		return $this->logSubpageTitle;
 	}
 
-	function doForm( $user, $reason, $checktype, $ip, $xff, $name ) {
+	protected function doForm( $user, $reason, $checktype, $ip, $xff, $name ) {
 		global $wgOut, $wgTitle;
 
 		$action = $wgTitle->escapeLocalUrl();
@@ -153,7 +153,7 @@ class CheckUser extends SpecialPage
 	 * @param string $reason
 	 * Shows all edits in Recent Changes by this IP (or range) and who made them
 	 */
-	function doIPEditsRequest( $ip, $xfor = false, $reason = '' ) {
+	protected function doIPEditsRequest( $ip, $xfor = false, $reason = '' ) {
 		global $wgUser, $wgOut, $wgLang, $wgTitle, $wgDBname;
 		$fname = 'CheckUser::doIPEditsRequest';
 		# Invalid IPs are passed in as a blank string
@@ -271,7 +271,7 @@ class CheckUser extends SpecialPage
 	 * As we use the same small set of messages in various methods and that
 	 * they are called often, we call them once and save them in $this->message
 	 */
-	function preCacheMessages() {
+	protected function preCacheMessages() {
 		// Precache various messages
 		if( !isset( $this->message ) ) {
 			foreach( explode(' ', 'diff hist minoreditletter newpageletter blocklink log' ) as $msg ) {
@@ -284,7 +284,7 @@ class CheckUser extends SpecialPage
 	 * @param $row
 	 * @return a streamlined recent changes line with IP data
 	 */
-	function CUChangesLine( $row, $reason ) {
+	protected function CUChangesLine( $row, $reason ) {
 		global $wgLang;
 		# Add date headers
 		$date = $wgLang->date( $row->cuc_timestamp, true, true );
@@ -341,7 +341,7 @@ class CheckUser extends SpecialPage
 	 * @param $row
 	 * @create diff/hist/page link
 	 */
-	function getLinksFromRow( $row ) {
+	protected function getLinksFromRow( $row ) {
 		// Log items (old format) and events to logs
 		if( $row->cuc_type == RC_LOG && $row->cuc_namespace == NS_SPECIAL ) {
 			list( $specialName, $logtype ) = SpecialPage::resolveAliasWithSubpage( $row->cuc_title );
@@ -390,7 +390,7 @@ class CheckUser extends SpecialPage
 	 * Outputs usernames, latest and earliest found edit date, and count
 	 * List unique IPs used for each user in time order, list corresponding user agent
 	 */
-	function doIPUsersRequest( $ip, $xfor = false, $reason = '' ) {
+	protected function doIPUsersRequest( $ip, $xfor = false, $reason = '' ) {
 		global $wgUser, $wgOut, $wgLang, $wgTitle, $wgDBname;
 		$fname = 'CheckUser::doIPUsersRequest';
 
@@ -522,8 +522,7 @@ class CheckUser extends SpecialPage
 					' -- ' . $wgLang->timeanddate( $users_last[$name], true ) . ') ';
 				}
 				$s .= ' [<strong>' . $count . '</strong>]<br />';
-				# Check if this user or IP is blocked
-				# If so, give a link to the block log
+				# Check if this user or IP is blocked. If so, give a link to the block log...
 				$block = new Block();
 				$block->fromMaster( false ); // use slaves
 				$ip = IP::isIPAddress( $name ) ? $name : ''; // only check IP blocks if we have an IP 
@@ -548,6 +547,18 @@ class CheckUser extends SpecialPage
 					$blocklog = $this->sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-wasblocked'), 
 						'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 					$s .= '<strong>(' . $blocklog . ')</strong>';
+				}
+				# Check for extra user rights...
+				if( $users_ids[$name] ) {
+					$user = User::newFromId( $users_ids[$name] );
+					$list = array();
+					foreach( $user->getGroups() as $group ) {
+						$list[] = self::buildGroupLink( $group );
+					}
+					$groups = implode( ', ', $list );
+					if( $groups ) {
+						$s .= '&nbsp;(' . $groups . ')';
+					}
 				}
 				$s .= '<ol>';
 				# List out each IP/XFF combo for this username
@@ -584,7 +595,7 @@ class CheckUser extends SpecialPage
 		$wgOut->addHTML( $s );
 	}
 	
-	static function userWasBlocked( $name ) {
+	protected static function userWasBlocked( $name ) {
 		$userpage = Title::makeTitle( NS_USER, $name );
 		return wfGetDB( DB_SLAVE )->selectField( 'logging', '1', 
 			array( 'log_type' => 'block',
@@ -594,6 +605,19 @@ class CheckUser extends SpecialPage
 			__METHOD__,
 			array( 'USE INDEX' => 'page_time' ) );
 	}
+	
+	/**
+	 * Format a link to a group description page
+	 *
+	 * @param string $group
+	 * @return string
+	 */
+	protected static function buildGroupLink( $group ) {
+		static $cache = array();
+		if( !isset( $cache[$group] ) )
+			$cache[$group] = User::makeGroupLinkHtml( $group, User::getGroupMember( $group ) );
+		return $cache[$group];
+	}
 
 	/**
 	 * @param Database $db
@@ -601,7 +625,7 @@ class CheckUser extends SpecialPage
 	 * @param string $xfor
 	 * @return array conditions
 	 */
-	function getIpConds( $db, $ip, $xfor = false ) {
+	protected function getIpConds( $db, $ip, $xfor = false ) {
 		$type = ( $xfor ) ? 'xff' : 'ip';
 		// IPv4 CIDR, 16-32 bits
 		if( preg_match( '#^(\d+\.\d+\.\d+\.\d+)/(\d+)$#', $ip, $matches ) ) {
@@ -636,7 +660,7 @@ class CheckUser extends SpecialPage
 	 * Get all IPs used by a user
 	 * Shows first and last date and number of edits
 	 */
-	function doUserIPsRequest( $user , $reason = '') {
+	protected function doUserIPsRequest( $user , $reason = '') {
 		global $wgOut, $wgTitle, $wgLang, $wgUser, $wgDBname;
 		$fname = 'CheckUser::doUserIPsRequest';
 
@@ -753,7 +777,7 @@ class CheckUser extends SpecialPage
 		$dbr->freeResult( $ret );
 	}
 
-	function showLog() {
+	protected function showLog() {
 		global $wgRequest, $wgOut;
 		$type = $wgRequest->getVal( 'cuSearchType' );
 		$target = $wgRequest->getVal( 'cuSearch' );
@@ -852,7 +876,7 @@ class CheckUser extends SpecialPage
 	 * @param int $year
 	 * @param int $month
 	 */
-	private function getDateMenu( $year, $month ) {
+	protected function getDateMenu( $year, $month ) {
 		# Offset overrides year/month selection
 		if( $month && $month !== -1 ) {
 			$encMonth = intval( $month );
@@ -878,7 +902,7 @@ class CheckUser extends SpecialPage
 			Xml::monthSelector( $encMonth, -1 );
 	}
 
-	function addLogEntry( $logType, $targetType, $target, $reason, $targetID = 0 ) {
+	protected function addLogEntry( $logType, $targetType, $target, $reason, $targetID = 0 ) {
 		global $wgUser;
 
 		if ( $targetType == 'ip' ) {
