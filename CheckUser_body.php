@@ -45,6 +45,7 @@ class CheckUser extends SpecialPage
 		$user = trim($user);
 		$reason = $wgRequest->getText( 'reason' );
 		$checktype = $wgRequest->getVal( 'checktype' );
+		$period = $wgRequest->getInt( 'period' );
 
 		# An IPv4?
 		if( preg_match( '#^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(/\d{1,2}|)$#', $user ) ) {
@@ -75,21 +76,21 @@ class CheckUser extends SpecialPage
 			$xff = '';
 		}
 
-		$this->doForm( $user, $reason, $checktype, $ip, $xff, $name );
+		$this->doForm( $user, $reason, $checktype, $ip, $xff, $name, $period );
 		
 		if( !$wgRequest->wasPosted() )
 			return;
 
 		if( $checktype=='subuserips' ) {
-			$this->doUserIPsRequest( $name, $reason );
+			$this->doUserIPsRequest( $name, $reason, $period );
 		} else if( $xff && $checktype=='subipedits' ) {
-			$this->doIPEditsRequest( $xff, true, $reason );
+			$this->doIPEditsRequest( $xff, true, $reason, $period );
 		} else if( $checktype=='subipedits' ) {
-			$this->doIPEditsRequest( $ip, false, $reason );
+			$this->doIPEditsRequest( $ip, false, $reason, $period );
 		} else if( $xff && $checktype=='subipusers' ) {
-			$this->doIPUsersRequest( $xff, true, $reason );
+			$this->doIPUsersRequest( $xff, true, $reason, $period );
 		} else if( $checktype=='subipusers' ) {
-			$this->doIPUsersRequest( $ip, false, $reason );
+			$this->doIPUsersRequest( $ip, false, $reason, $period );
 		}
 	}
 
@@ -100,7 +101,7 @@ class CheckUser extends SpecialPage
 		return $this->logSubpageTitle;
 	}
 
-	protected function doForm( $user, $reason, $checktype, $ip, $xff, $name ) {
+	protected function doForm( $user, $reason, $checktype, $ip, $xff, $name, $period ) {
 		global $wgOut, $wgTitle;
 
 		$action = $wgTitle->escapeLocalUrl();
@@ -127,7 +128,8 @@ class CheckUser extends SpecialPage
 		$form .= "<fieldset><legend>".wfMsgHtml( "checkuser-query" )."</legend>";
 		$form .= "<table border='0' cellpadding='2'><tr>";
 		$form .= "<td>".wfMsgHtml( "checkuser-target" ).":</td>";
-		$form .= "<td>".Xml::input( 'user', 46, $user, array( 'id' => 'checktarget' ) )."</td>";
+		$form .= "<td>".Xml::input( 'user', 46, $user, array( 'id' => 'checktarget' ) );
+		$form .= "&nbsp;".$this->getPeriodMenu( $period ) . "</td>";
 		$form .= "</tr><tr>";
 		$form .= "<td></td><td class='checkuserradios'><table border='0' cellpadding='3'><tr>";
 		$form .= "<td>".Xml::radio( 'checktype', 'subuserips', $encuserips, array('id' => 'subuserips') );
@@ -146,6 +148,21 @@ class CheckUser extends SpecialPage
 		# Output form
 		$wgOut->addHTML( $form );
 	}
+	
+   	/**
+	* Get a selector of time period options
+	* @param int $selected, selected level
+	*/
+	protected function getPeriodMenu( $selected=null ) {
+		$s = "<label for='period'>" . wfMsgHtml('checkuser-period') . "</label>&nbsp;";
+		$s .= Xml::openElement( 'select', array('name' => 'period','id' => 'period','style' => 'margin-top:.25em;') );
+		$s .= Xml::option( wfMsg( "checkuser-week-1" ), 7, $selected===7 );
+		$s .= Xml::option( wfMsg( "checkuser-week-2" ), 14, $selected===14 );
+		$s .= Xml::option( wfMsg( "checkuser-month" ), 31, $selected===31 );
+		$s .= Xml::option( wfMsg( "checkuser-all" ), 0, $selected===0 );
+		$s .= Xml::closeElement('select')."\n";
+		return $s;
+	}
 
 	/**
 	 * @param string $ip
@@ -153,7 +170,7 @@ class CheckUser extends SpecialPage
 	 * @param string $reason
 	 * Shows all edits in Recent Changes by this IP (or range) and who made them
 	 */
-	protected function doIPEditsRequest( $ip, $xfor = false, $reason = '' ) {
+	protected function doIPEditsRequest( $ip, $xfor = false, $reason = '', $period ) {
 		global $wgUser, $wgOut, $wgLang, $wgTitle, $wgDBname;
 		$fname = 'CheckUser::doIPEditsRequest';
 		# Invalid IPs are passed in as a blank string
@@ -164,16 +181,17 @@ class CheckUser extends SpecialPage
 		}
 
 		$logType = 'ipedits';
-		if ( $xfor ) {
+		if( $xfor ) {
 			$logType .= '-xff';
 		}
+		# Record check...
 		if( !$this->addLogEntry( $logType, 'ip', $ip, $reason ) ) {
 			$wgOut->addHTML( '<p>'.wfMsgHtml('checkuser-log-fail').'</p>' );
 		}
 
 		$dbr = wfGetDB( DB_SLAVE );
-
 		$ip_conds = $dbr->makeList( $this->getIpConds( $dbr, $ip, $xfor ), LIST_AND );
+		$time_conds = $this->getTimeConds( $period );
 		$cu_changes = $dbr->tableName( 'cu_changes' );
 		# Ordered in descent by timestamp. Can cause large filesorts on range scans.
 		# Check how many rows will need sorting ahead of time to see if this is too big.
@@ -181,7 +199,7 @@ class CheckUser extends SpecialPage
 		$index = $xfor ? 'cuc_xff_hex_time' : 'cuc_ip_hex_time';
 		if( strpos($ip,'/') !==false ) {
 			$rangecount = $dbr->estimateRowCount( 'cu_changes', '*',
-				array( $ip_conds ),
+				array( $ip_conds, $time_conds ),
 				__METHOD__,
 				array( 'USE INDEX' => $index ) );
 		}
@@ -191,7 +209,7 @@ class CheckUser extends SpecialPage
 			$sql = "SELECT cuc_ip_hex, COUNT(*) AS count,
 				MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last 
 				FROM $cu_changes $use_index
-				WHERE $ip_conds 
+				WHERE $ip_conds AND $time_conds  
 				GROUP BY cuc_ip_hex ORDER BY cuc_ip_hex LIMIT 5000";
 			$ret = $dbr->query( $sql, __METHOD__ );
 			# List out each IP that has edits
@@ -237,7 +255,7 @@ class CheckUser extends SpecialPage
 		$use_index = $dbr->useIndexClause( $index );
 		$sql = "SELECT cuc_namespace,cuc_title,cuc_user,cuc_user_text,cuc_comment,cuc_actiontext,
 			cuc_timestamp,cuc_minor,cuc_page_id,cuc_type,cuc_this_oldid,cuc_last_oldid,cuc_ip,cuc_xff,cuc_agent 
-			FROM $cu_changes $use_index WHERE $ip_conds ORDER BY cuc_timestamp DESC LIMIT 5000";
+			FROM $cu_changes $use_index WHERE $ip_conds AND $time_conds ORDER BY cuc_timestamp DESC LIMIT 5000";
 		$ret = $dbr->query( $sql, __METHOD__ );
 
 		if( !$dbr->numRows( $ret ) ) {
@@ -390,7 +408,7 @@ class CheckUser extends SpecialPage
 	 * Outputs usernames, latest and earliest found edit date, and count
 	 * List unique IPs used for each user in time order, list corresponding user agent
 	 */
-	protected function doIPUsersRequest( $ip, $xfor = false, $reason = '' ) {
+	protected function doIPUsersRequest( $ip, $xfor = false, $reason = '', $period ) {
 		global $wgUser, $wgOut, $wgLang, $wgTitle, $wgDBname;
 		$fname = 'CheckUser::doIPUsersRequest';
 
@@ -412,13 +430,14 @@ class CheckUser extends SpecialPage
 		$dbr = wfGetDB( DB_SLAVE );
 
 		$ip_conds = $dbr->makeList( $this->getIpConds( $dbr, $ip, $xfor ), LIST_AND );
+		$time_conds = $this->getTimeConds( $period );
 		$cu_changes = $dbr->tableName( 'cu_changes' );
 		$index = $xfor ? 'cuc_xff_hex_time' : 'cuc_ip_hex_time';
 		# Ordered in descent by timestamp. Can cause large filesorts on range scans.
 		# Check how many rows will need sorting ahead of time to see if this is too big.
 		if( strpos($ip,'/') !==false ) {
 			$rangecount = $dbr->estimateRowCount( 'cu_changes', '*',
-				array( $ip_conds ),
+				array( $ip_conds, $time_conds ),
 				__METHOD__,
 				array( 'USE INDEX' => $index ) );
 		}
@@ -427,7 +446,7 @@ class CheckUser extends SpecialPage
 			$use_index = $dbr->useIndexClause( $index );
 			$sql = "SELECT cuc_ip_hex, COUNT(*) AS count,
 				MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last 
-				FROM $cu_changes $use_index WHERE $ip_conds 
+				FROM $cu_changes $use_index WHERE $ip_conds AND $time_conds  
 				GROUP BY cuc_ip_hex ORDER BY cuc_ip_hex LIMIT 5000";
 			$ret = $dbr->query( $sql, __METHOD__ );
 			# List out each IP that has edits
@@ -473,7 +492,7 @@ class CheckUser extends SpecialPage
 		# OK, do the real query...
 		$use_index = $dbr->useIndexClause( $index );
 		$sql = "SELECT cuc_user_text, cuc_timestamp, cuc_user, cuc_ip, cuc_agent, cuc_xff 
-			FROM $cu_changes $use_index WHERE $ip_conds 
+			FROM $cu_changes $use_index WHERE $ip_conds AND $time_conds 
 			ORDER BY cuc_timestamp DESC LIMIT 5000";
 		$ret = $dbr->query( $sql, __METHOD__ );
 
@@ -662,6 +681,17 @@ class CheckUser extends SpecialPage
 			return array( 'cuc_'.$type.'_hex' => -1 );
 		}
 	}
+	
+	protected function getTimeConds( $period ) {
+		if( !$period ) {
+			return "1 = 1";
+		}
+		$dbr = wfGetDB( DB_SLAVE );
+		$cutoff_unixtime = time() - ($period * 24 * 3600);
+		$cutoff_unixtime = $cutoff_unixtime - ($cutoff_unixtime % 86400);
+		$cutoff = $dbr->addQuotes( wfTimestamp( TS_MW, $cutoff_unixtime ) );
+		return "cuc_timestamp > $cutoff";
+	}
 
 	/**
 	 * @param string $ip
@@ -670,7 +700,7 @@ class CheckUser extends SpecialPage
 	 * Get all IPs used by a user
 	 * Shows first and last date and number of edits
 	 */
-	protected function doUserIPsRequest( $user , $reason = '') {
+	protected function doUserIPsRequest( $user , $reason = '', $period ) {
 		global $wgOut, $wgTitle, $wgLang, $wgUser, $wgDBname;
 		$fname = 'CheckUser::doUserIPsRequest';
 
@@ -699,12 +729,13 @@ class CheckUser extends SpecialPage
 			$wgOut->addHTML( '<p>'.wfMsgHtml('checkuser-log-fail').'</p>' );
 		}
 		$dbr = wfGetDB( DB_SLAVE );
+		$time_conds = $this->getTimeConds( $period );
 		# Ordering by the latest timestamp makes a small filesort on the IP list
 		$cu_changes = $dbr->tableName( 'cu_changes' );
 		$use_index = $dbr->useIndexClause( 'cuc_user_ip_time' );
 		$sql = "SELECT cuc_ip,cuc_ip_hex, COUNT(*) AS count, 
 			MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last 
-			FROM $cu_changes $use_index WHERE cuc_user = $user_id 
+			FROM $cu_changes $use_index WHERE cuc_user = $user_id AND $time_conds 
 			GROUP BY cuc_ip,cuc_ip_hex ORDER BY last DESC";
 		
 		$ret = $dbr->query( $sql, __METHOD__ );
@@ -842,7 +873,7 @@ class CheckUser extends SpecialPage
 		}
 
 		$searchTypes = array( 'initiator', 'target' );
-		$select = "<select name=\"cuSearchType\">\n";
+		$select = "<select name=\"cuSearchType\" style='margin-top:.25em;'>\n";
 		foreach ( $searchTypes as $searchType ) {
 			if ( $type == $searchType ) {
 				$checked = 'selected="selected"';

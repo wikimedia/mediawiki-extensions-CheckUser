@@ -32,6 +32,8 @@ $wgCUDMaxAge = 3 * 30 * 24 * 3600;
 #Recent changes data hook
 global $wgHooks;
 $wgHooks['RecentChange_save'][] = 'efUpdateCheckUserData';
+$wgHooks['EmailUser'][] = 'efUpdateCheckUserEmailData';
+
 $wgHooks['ParserTestTables'][] = 'efCheckUserParserTestTables';
 $wgHooks['LoadExtensionSchemaUpdates'][] = 'efCheckUserSchemaUpdates';
 $wgHooks['ContributionsToolLinks'][] = 'efLoadCheckUserLink';
@@ -65,46 +67,87 @@ function efUpdateCheckUserData( $rc ) {
 	}
 	
 	$dbw = wfGetDB( DB_MASTER );
-	
 	$cuc_id = $dbw->nextSequenceValue( 'cu_changes_cu_id_seq' );
 	$rcRow = array(
-		'cuc_id' => $cuc_id,
-		'cuc_namespace' => $rc_namespace,
-		'cuc_title' => $rc_title,
-		'cuc_minor' => $rc_minor,
-		'cuc_user' => $rc_user,
-		'cuc_user_text' => $rc_user_text,
+		'cuc_id'         => $cuc_id,
+		'cuc_namespace'  => $rc_namespace,
+		'cuc_title'      => $rc_title,
+		'cuc_minor'      => $rc_minor,
+		'cuc_user'       => $rc_user,
+		'cuc_user_text'  => $rc_user_text,
 		'cuc_actiontext' => $actionText,
-		'cuc_comment' => $rc_comment,
+		'cuc_comment'    => $rc_comment,
 		'cuc_this_oldid' => $rc_this_oldid,
 		'cuc_last_oldid' => $rc_last_oldid,
-		'cuc_type' => $rc_type,
-		'cuc_timestamp' => $rc_timestamp,
-		'cuc_ip' => IP::sanitizeIP($ip),
-		'cuc_ip_hex' => $ip ? IP::toHex( $ip ) : null,
-		'cuc_xff' => !$isSquidOnly ? $xff : '',
-		'cuc_xff_hex' => ($xff_ip && !$isSquidOnly) ? IP::toHex( $xff_ip ) : null,
-		'cuc_agent' => $agent
+		'cuc_type'       => $rc_type,
+		'cuc_timestamp'  => $rc_timestamp,
+		'cuc_ip'         => IP::sanitizeIP($ip),
+		'cuc_ip_hex'     => $ip ? IP::toHex( $ip ) : null,
+		'cuc_xff'        => !$isSquidOnly ? $xff : '',
+		'cuc_xff_hex'    => ($xff_ip && !$isSquidOnly) ? IP::toHex( $xff_ip ) : null,
+		'cuc_agent'      => $agent
 	);
-	
-	## On PG, MW unsets cur_id due to schema incompatibilites. So it may not be set!
+	# On PG, MW unsets cur_id due to schema incompatibilites. So it may not be set!
 	if( isset($rc_cur_id) ) {
 		$rcRow['cuc_page_id'] = $rc_cur_id;
 	}
-	
 	$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
 
 	# Every 100th edit, prune the checkuser changes table.
 	wfSeedRandom();
-	if ( 0 == mt_rand( 0, 99 ) ) {
+	if( 0 == mt_rand( 0, 99 ) ) {
 		# Periodically flush old entries from the recentchanges table.
 		global $wgCUDMaxAge;
-
 		$cutoff = $dbw->timestamp( time() - $wgCUDMaxAge );
 		$recentchanges = $dbw->tableName( 'cu_changes' );
 		$sql = "DELETE FROM $recentchanges WHERE cuc_timestamp < '{$cutoff}'";
 		$dbw->query( $sql );
 	}
+	
+	return true;
+}
+
+/**
+ * Hook function to store email data
+ * Saves user data into the cu_changes table
+ */
+function efUpdateCheckUserEmailData( $to, $from, $subject, $text ) {
+	$user = User::newFromName( $to->name );
+	$userPage = $user->getUserPage();
+	// Get IP
+	$ip = wfGetIP();
+	// Get XFF header
+	$xff = wfGetForwardedFor();
+	list($xff_ip,$trusted) = efGetClientIPfromXFF( $xff );
+	// Our squid XFFs can flood this up sometimes
+	$isSquidOnly = efXFFChainIsSquid( $xff );
+	// Get agent
+	$agent = wfGetAgent();
+	$dbw = wfGetDB( DB_MASTER );
+	$cuc_id = $dbw->nextSequenceValue( 'cu_changes_cu_id_seq' );
+	$rcRow = array(
+		'cuc_id'         => $cuc_id,
+		'cuc_page_id'    => 0,
+		'cuc_namespace'  => $userPage->getNamespace(),
+		'cuc_title'      => '',
+		'cuc_minor'      => 0,
+		'cuc_user'       => $user->getId(),
+		'cuc_user_text'  => $user->getName(),
+		'cuc_actiontext' => $from->address ? 
+			wfMsgForContent('checkuser-email-action2',$to->name,$from->address) : 
+			wfMsgForContent('checkuser-email-action',$to->name),
+		'cuc_comment'    => $subject,
+		'cuc_this_oldid' => 0,
+		'cuc_last_oldid' => 0,
+		'cuc_type'       => RC_LOG,
+		'cuc_timestamp'  => $dbw->timestamp( wfTimestampNow() ),
+		'cuc_ip'         => IP::sanitizeIP($ip),
+		'cuc_ip_hex'     => $ip ? IP::toHex( $ip ) : null,
+		'cuc_xff'        => !$isSquidOnly ? $xff : '',
+		'cuc_xff_hex'    => ($xff_ip && !$isSquidOnly) ? IP::toHex( $xff_ip ) : null,
+		'cuc_agent'      => $agent
+	);
+	$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
 	
 	return true;
 }

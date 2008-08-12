@@ -28,6 +28,11 @@ Use this in accordance with policy.',
 	'checkuser-edits'            => 'Get edits from IP',
 	'checkuser-ips'              => 'Get IPs',
 	'checkuser-search'           => 'Search',
+	'checkuser-period'           => 'Duration:',
+	'checkuser-week-1'           => 'last week',
+	'checkuser-week-2'           => 'last two weeks',
+	'checkuser-month'            => 'last 30 days',
+	'checkuser-all'              => 'all',
 	'checkuser-empty'            => 'The log contains no items.',
 	'checkuser-nomatch'          => 'No matches found.',
 	'checkuser-check'            => 'Check',
@@ -52,6 +57,9 @@ Here are the IPs used (5000 max, sorted by address):',
 	'checkuser-log-ipusers'      => '$1 got users for $2',
 	'checkuser-log-ipedits-xff'  => '$1 got edits for XFF $2',
 	'checkuser-log-ipusers-xff'  => '$1 got users for XFF $2',
+	
+	'checkuser-email-action'     => 'sent an email to "$1"',
+	'checkuser-email-action2'    => 'sent an email to "$1" (sender at "$2")',
 	
 	'checkuser-toollinks'        => '[[http://openrbl.org/query?$1 RDNS] ·
 [http://www.robtex.com/rbls/$1.html RBLs] ·
