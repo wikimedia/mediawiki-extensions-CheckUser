@@ -62,7 +62,7 @@ Here are the IPs used (5000 max, sorted by address):',
 [http://www.ripe.net/fcgi-bin/whois?searchtext=$1 Europe] ·
 [http://www.afrinic.net/cgi-bin/whois?query=$1 Africa] ·
 [http://www.apnic.net/apnic-bin/whois.pl?searchtext=$1 Asia-Pacific] ·
-[http://www.lacnic.net/cgi-bin/lacnic/whois?lg=EN&query=$1 Latin America/Caribbean]&#93;'
+[http://www.lacnic.net/cgi-bin/lacnic/whois?lg=EN&query=$1 Latin America/Caribbean]&#93;', # do not translate or duplicate this message to other languages
 );
 
 /** Message documentation (Message documentation)
@@ -1290,6 +1290,7 @@ $messages['he'] = array(
 	'checkuser-log-fail' => 'לא ניתן היה להוסיף פריט ליומן',
 	'checkuser-nolog' => 'לא נמצא קובץ יומן.',
 	'checkuser-blocked' => 'חסום',
+	'checkuser-wasblocked' => 'נחסם בעבר',
 	'checkuser-too-many' => 'נמצאו תוצאות רבות מדי, אנא צמצו את טווח כתובות ה־IP. להלן כתובת ה־IP שנעשה בהן שימוש (מוצגות 5,000 לכל היותר, וממוינות):',
 	'checkuser-user-nonexistent' => 'המשתמש לא נמצא.',
 	'checkuser-search-form' => 'מציאת ערכים ביומן שבהם ה$1 הוא $2',
