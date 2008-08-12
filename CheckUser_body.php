@@ -555,7 +555,7 @@ class CheckUser extends SpecialPage
 					$key = wfMemcKey( 'acctcreate', 'ip', $ip );
 					$count = intval( $wgMemc->get( $key ) );
 					if( $count ) {
-						$flags[] = '<strong>[' . wfMsgHtml('checkuser-accounts',$count) . ']</strong>';
+						$flags[] = '<strong>[' . wfMsgExt('checkuser-accounts',array('parsemag'),$count) . ']</strong>';
 					}
 				}
 				# Check for extra user rights...
