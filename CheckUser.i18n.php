@@ -34,6 +34,7 @@ Use this in accordance with policy.',
 	'checkuser-log-fail'         => 'Unable to add log entry',
 	'checkuser-nolog'            => 'No log file found.',
 	'checkuser-blocked'          => 'Blocked',
+	'checkuser-wasblocked'       => 'Previously blocked',
 	'checkuser-too-many'         => 'Too many results, please narrow down the CIDR.
 Here are the IPs used (5000 max, sorted by address):',
 	'checkuser-user-nonexistent' => 'The specified user does not exist.',

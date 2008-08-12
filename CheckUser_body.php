@@ -543,6 +543,11 @@ class CheckUser extends SpecialPage
 							'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 						$s .= '<strong>(' . $blocklog . ')</strong>';
 					}
+				} else if( self::userWasBlocked( $name ) ) {
+					$userpage = Title::makeTitle( NS_USER, $name );
+					$blocklog = $this->sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-wasblocked'), 
+						'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
+					$s .= '<strong>(' . $blocklog . ')</strong>';
 				}
 				$s .= '<ol>';
 				# List out each IP/XFF combo for this username
@@ -577,6 +582,17 @@ class CheckUser extends SpecialPage
 		}
 
 		$wgOut->addHTML( $s );
+	}
+	
+	static function userWasBlocked( $name ) {
+		$userpage = Title::makeTitle( NS_USER, $name );
+		return wfGetDB( DB_SLAVE )->selectField( 'logging', '1', 
+			array( 'log_type' => 'block',
+				'log_action' => 'block',
+				'log_namespace' => $userpage->getNamespace(),
+				'log_title' => $userpage->getDBKey() ), 
+			__METHOD__,
+			array( 'USE INDEX' => 'page_time' ) );
 	}
 
 	/**
