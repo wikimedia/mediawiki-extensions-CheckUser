@@ -726,7 +726,9 @@ class CheckUser extends SpecialPage
 						$s .= ' <strong>(' . $blocklog . ')</strong>';
 					}
 				}
-				
+				$s .= "<div style='margin-left:5%'>";
+				$s .= "<small>" . wfMsgExt('checkuser-toollinks',array('parseinline'),urlencode($ip)) . "</small>";
+				$s .= "</div>";
 				$s .= "</li>\n";
 			}
 			$s .= '</ul>';
