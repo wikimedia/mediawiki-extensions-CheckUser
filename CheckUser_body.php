@@ -466,9 +466,10 @@ class CheckUser extends SpecialPage
 		} else if( isset($rangecount) && !$rangecount ) {
 			$s = wfMsgHtml("checkuser-nomatch")."\n";
 			$wgOut->addHTML( $s );
-			
 			return;
-		} 
+		}
+
+		global $wgMemc;
 		# OK, do the real query...
 		$use_index = $dbr->useIndexClause( $index );
 		$sql = "SELECT cuc_user_text, cuc_timestamp, cuc_user, cuc_ip, cuc_agent, cuc_xff 
@@ -477,7 +478,6 @@ class CheckUser extends SpecialPage
 		$ret = $dbr->query( $sql, __METHOD__ );
 
 		$users_first = $users_last = $users_edits = $users_ids = array();
-
 		if( !$dbr->numRows( $ret ) ) {
 			$s = wfMsgHtml( "checkuser-nomatch" )."\n";
 		} else {
@@ -506,7 +506,7 @@ class CheckUser extends SpecialPage
 				}
 			}
 			$dbr->freeResult( $ret );
-			
+
 			$logs = SpecialPage::getTitleFor( 'Log' );
 			$blocklist = SpecialPage::getTitleFor( 'Ipblocklist' );
 			$s = '<ul>';
@@ -522,31 +522,41 @@ class CheckUser extends SpecialPage
 					' -- ' . $wgLang->timeanddate( $users_last[$name], true ) . ') ';
 				}
 				$s .= ' [<strong>' . $count . '</strong>]<br />';
+				$flags = array();
 				# Check if this user or IP is blocked. If so, give a link to the block log...
 				$block = new Block();
 				$block->fromMaster( false ); // use slaves
-				$ip = IP::isIPAddress( $name ) ? $name : ''; // only check IP blocks if we have an IP 
+				$ip = IP::isIPAddress( $name ) ? // If an account, get last IP
+					$name : $users_infosets[$name][count($users_infosets[$name])-1][0];
 				if( $block->load( $ip, $users_ids[$name] ) ) {
 					if( IP::isIPAddress($block->mAddress) && strpos($block->mAddress,'/') ) {
 						$userpage = Title::makeTitle( NS_USER, $block->mAddress );
 						$blocklog = $this->sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 
 							'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
-						$s .= ' <strong>(' . $blocklog . ' - ' . $block->mAddress . ')</strong>';
+						$flags[] = '<strong>(' . $blocklog . ' - ' . $block->mAddress . ')</strong>';
 					} else if( $block->mAuto ) {
 						$blocklog = $this->sk->makeKnownLinkObj( $blocklist, 
 							wfMsgHtml('checkuser-blocked'), 'ip=' . urlencode( "#$block->mId" ) );
-						$s .= ' <strong>(' . $blocklog . ')</strong>';
+						$flags[] = '<strong>(' . $blocklog . ')</strong>';
 					} else {
 						$userpage = Title::makeTitle( NS_USER, $name );
 						$blocklog = $this->sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 
 							'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
-						$s .= '<strong>(' . $blocklog . ')</strong>';
+						$flags[] = '<strong>(' . $blocklog . ')</strong>';
 					}
 				} else if( self::userWasBlocked( $name ) ) {
 					$userpage = Title::makeTitle( NS_USER, $name );
 					$blocklog = $this->sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-wasblocked'), 
 						'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
-					$s .= '<strong>(' . $blocklog . ')</strong>';
+					$flags[] = '<strong>(' . $blocklog . ')</strong>';
+				}
+				# Check how many accounts the user made recently?
+				if( $ip ) {
+					$key = wfMemcKey( 'acctcreate', 'ip', $ip );
+					$count = intval( $wgMemc->get( $key ) );
+					if( $count ) {
+						$flags[] = '<strong>[' . wfMsgHtml('checkuser-accounts',$count) . ']</strong>';
+					}
 				}
 				# Check for extra user rights...
 				if( $users_ids[$name] ) {
@@ -557,9 +567,10 @@ class CheckUser extends SpecialPage
 					}
 					$groups = implode( ', ', $list );
 					if( $groups ) {
-						$s .= '&nbsp;(' . $groups . ')';
+						$flags[] = '<i>(' . $groups . ')</i>';
 					}
 				}
+				$s .= implode(' ',$flags);
 				$s .= '<ol>';
 				# List out each IP/XFF combo for this username
 				for( $i = (count($users_infosets[$name]) - 1); $i >= 0; $i-- ) {
@@ -583,7 +594,6 @@ class CheckUser extends SpecialPage
 				# List out each agent for this username
 				for( $i = (count($users_agentsets[$name]) - 1); $i >= 0; $i-- ) {
 					$agent = $users_agentsets[$name][$i];
-					# IP link
 					$s .= "<li><i>" . htmlspecialchars($agent) . "</i></li>\n";
 				}
 				$s .= '</ol>';
