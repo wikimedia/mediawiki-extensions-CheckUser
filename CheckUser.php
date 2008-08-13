@@ -29,7 +29,10 @@ $wgCheckUserLog = '/home/wikipedia/logs/checkuser.log';
 # How long to keep CU data?
 $wgCUDMaxAge = 3 * 30 * 24 * 3600;
 
-#Recent changes data hook
+# Mass block limits
+$wgCheckUserMaxBlocks = 200;
+
+# Recent changes data hook
 global $wgHooks;
 $wgHooks['RecentChange_save'][] = 'efUpdateCheckUserData';
 $wgHooks['EmailUser'][] = 'efUpdateCheckUserEmailData';

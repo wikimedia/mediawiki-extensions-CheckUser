@@ -46,6 +46,8 @@ class CheckUser extends SpecialPage
 		$reason = $wgRequest->getText( 'reason' );
 		$checktype = $wgRequest->getVal( 'checktype' );
 		$period = $wgRequest->getInt( 'period' );
+		$users = $wgRequest->getArray( 'users' );
+		$tag = $wgRequest->getBool('usetag') ? trim( $wgRequest->getVal( 'tag' ) ) : "";
 
 		# An IPv4?
 		if( preg_match( '#^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(/\d{1,2}|)$#', $user ) ) {
@@ -77,20 +79,21 @@ class CheckUser extends SpecialPage
 		}
 
 		$this->doForm( $user, $reason, $checktype, $ip, $xff, $name, $period );
-		
-		if( !$wgRequest->wasPosted() )
-			return;
-
-		if( $checktype=='subuserips' ) {
-			$this->doUserIPsRequest( $name, $reason, $period );
-		} else if( $xff && $checktype=='subipedits' ) {
-			$this->doIPEditsRequest( $xff, true, $reason, $period );
-		} else if( $checktype=='subipedits' ) {
-			$this->doIPEditsRequest( $ip, false, $reason, $period );
-		} else if( $xff && $checktype=='subipusers' ) {
-			$this->doIPUsersRequest( $xff, true, $reason, $period );
-		} else if( $checktype=='subipusers' ) {
-			$this->doIPUsersRequest( $ip, false, $reason, $period );
+		# Perform one of the various submit operations...
+		if( $wgRequest->wasPosted() ) {
+			if( $wgRequest->getVal('action') === 'block' ) {
+				$this->doMassUserBlock( $users, $reason, $tag );
+			} else if( $checktype=='subuserips' ) {
+				$this->doUserIPsRequest( $name, $reason, $period );
+			} else if( $xff && $checktype=='subipedits' ) {
+				$this->doIPEditsRequest( $xff, true, $reason, $period );
+			} else if( $checktype=='subipedits' ) {
+				$this->doIPEditsRequest( $ip, false, $reason, $period );
+			} else if( $xff && $checktype=='subipusers' ) {
+				$this->doIPUsersRequest( $xff, true, $reason, $period, $tag );
+			} else if( $checktype=='subipusers' ) {
+				$this->doIPUsersRequest( $ip, false, $reason, $period, $tag );
+			}
 		}
 	}
 
@@ -103,7 +106,6 @@ class CheckUser extends SpecialPage
 
 	protected function doForm( $user, $reason, $checktype, $ip, $xff, $name, $period ) {
 		global $wgOut, $wgTitle;
-
 		$action = $wgTitle->escapeLocalUrl();
 		# Fill in requested type if it makes sense
 		$encipusers=0; $encipedits=0; $encuserips=0;
@@ -120,8 +122,7 @@ class CheckUser extends SpecialPage
 			$encuserips = 1;
 		# Compile our nice form
 		# User box length should fit things like "2001:0db8:85a3:08d3:1319:8a2e:0370:7344/100/xff"
-		$wgOut->addWikiText( 
-			wfMsg( 'checkuser-summary' ) . 
+		$wgOut->addWikiText( wfMsg( 'checkuser-summary' ) . 
 			"\n\n[[" . $this->getLogSubpageTitle()->getPrefixedText() . '|' . wfMsg( 'checkuser-showlog' ) . ']]'
 	   	);
 		$form = "<form name='checkuserform' id='checkuserform' action='$action' method='post'>";
@@ -140,7 +141,7 @@ class CheckUser extends SpecialPage
 		$form .= " ".Xml::label( wfMsgHtml("checkuser-users"), 'subipusers' )."</td>";
 		$form .= "</tr></table></td>";
 		$form .= "</tr><tr>";
-		$form .= "<td>".wfMsgHtml( "checkuser-reason" ).":</td>";
+		$form .= "<td>".wfMsgHtml( "checkuser-reason" )."</td>";
 		$form .= "<td>".Xml::input( 'reason', 46, $reason, array( 'maxlength' => '150', 'id' => 'checkreason' ) );
 		$form .= "&nbsp; &nbsp;".Xml::submitButton( wfMsgHtml('checkuser-check'), 
 			array('id' => 'checkusersubmit','name' => 'checkusersubmit') )."</td>";
@@ -163,6 +164,86 @@ class CheckUser extends SpecialPage
 		$s .= Xml::closeElement('select')."\n";
 		return $s;
 	}
+	
+   	/**
+	* Block a list of selected users
+	* @param array $users
+	* @param string $reason
+	* @param string $tag
+	*/
+	protected function doMassUserBlock( $users, $reason = '', $tag = '' ) {
+		global $wgOut, $wgUser, $wgCheckUserMaxBlocks;
+		if( empty($users) || $wgUser->isBlocked(false) ) {
+			$wgOut->addWikiText( wfMsgExt('checkuser-block-failure',array('parsemag')) );
+			return;
+		}
+		$counter = $blockSize = 0;
+		$safeUsers = array();
+		$log = new LogPage( 'block' );
+		foreach( $users as $name ) {
+			# Enforce limits
+			$counter++;
+			$blockSize++;
+			if( $counter > $wgCheckUserMaxBlocks ) {
+				break;
+			}
+			# Lets not go *too* fast
+			if( $blockSize >= 20 ) {
+				$blockSize = 0;
+				wfWaitForSlaves( 5 );
+			}
+			$u = User::newFromName( $name, false );
+			// If user doesn't exist, it ought to be an IP then
+			if( is_null($u) || (!$u->getId() && !IP::isIPAddress( $u->getName() )) ) {
+				continue;
+			}
+			$usertitle = Title::makeTitle( NS_USER, $u->getName() );
+			$userpage = new Article( $usertitle );
+			$safeUsers[] = '[[' . $usertitle->getPrefixedText() . '|' . $usertitle->getText() . ']]';
+			$expirestr = $u->getId() ? 'infinity' : '1 week';
+			$anonOnly = IP::isIPAddress( $u->getName() ) ? 1 : 0;
+			// Create the block
+			$block = new Block( $u->getName(), // victim
+				$u->getId(), // uid
+				$wgUser->getId(), // blocker
+				$reason, // comment
+				wfTimestampNow(), // block time
+				0, // auto ?
+				strtotime( $expirestr ), // duration
+				$anonOnly, // anononly?
+				1, // block account creation?
+				1, // autoblocking?
+				0, // suppress name?
+				0 // block from sending email?
+			);
+			// Kill old blocks, but leave range blocks
+			$oldblock = Block::newFromDB( $u->getName() );
+			if( $oldblock && $oldblock->mAddress == $u->getName() && $block->mRangeStart == $block->mRangeEnd ) {
+				$oldblock->delete();
+			}
+			$block->insert();
+			# Prepare log parameters
+			$logParams = array();
+			$logParams[] = $expirestr;
+			if( $anonOnly ) {
+				$logParams[] = 'anononly';
+			}
+			$logParams[] = 'nocreate';
+			# Add log entry
+			$log->addEntry( 'block', $usertitle, $reason, $logParams );
+			# Tag userpage! (check length to avoid mistakes)
+			if( strlen($tag) > 2 ) {
+				$userpage->doEdit( $tag, $reason, EDIT_MINOR );
+			}
+		}
+		if( !empty($safeUsers) ) {
+			$n = count($safeUsers);
+			$ulist = implode(', ',$safeUsers);
+			$wgOut->addWikiText( wfMsgExt('checkuser-block-success',array('parsemag'),$ulist,$n) );
+		} else {
+			$wgOut->addWikiText( wfMsgExt('checkuser-block-failure',array('parsemag')) );
+		}
+	}
 
 	/**
 	 * @param string $ip
@@ -170,7 +251,7 @@ class CheckUser extends SpecialPage
 	 * @param string $reason
 	 * Shows all edits in Recent Changes by this IP (or range) and who made them
 	 */
-	protected function doIPEditsRequest( $ip, $xfor = false, $reason = '', $period ) {
+	protected function doIPEditsRequest( $ip, $xfor = false, $reason = '', $period = 0 ) {
 		global $wgUser, $wgOut, $wgLang, $wgTitle, $wgDBname;
 		$fname = 'CheckUser::doIPEditsRequest';
 		# Invalid IPs are passed in as a blank string
@@ -408,27 +489,27 @@ class CheckUser extends SpecialPage
 	 * Outputs usernames, latest and earliest found edit date, and count
 	 * List unique IPs used for each user in time order, list corresponding user agent
 	 */
-	protected function doIPUsersRequest( $ip, $xfor = false, $reason = '', $period ) {
+	protected function doIPUsersRequest( $ip, $xfor = false, $reason = '', $period = 0, $tag = '' ) {
 		global $wgUser, $wgOut, $wgLang, $wgTitle, $wgDBname;
 		$fname = 'CheckUser::doIPUsersRequest';
 
-		#invalid IPs are passed in as a blank string
-		if(!$ip) {
+		# Invalid IPs are passed in as a blank string
+		if( !$ip ) {
 			$s = wfMsgHtml('badipaddress');
 			$wgOut->addHTML( $s );
 			return;
 		}
 
 		$logType = 'ipusers';
-		if ( $xfor ) {
+		if( $xfor ) {
 			$logType .= '-xff';
 		}
+		# Log the check...
 		if( !$this->addLogEntry( $logType, 'ip', $ip, $reason ) ) {
 			$wgOut->addHTML( '<p>'.wfMsgHtml('checkuser-log-fail').'</p>' );
 		}
 
 		$dbr = wfGetDB( DB_SLAVE );
-
 		$ip_conds = $dbr->makeList( $this->getIpConds( $dbr, $ip, $xfor ), LIST_AND );
 		$time_conds = $this->getTimeConds( $period );
 		$cu_changes = $dbr->tableName( 'cu_changes' );
@@ -441,7 +522,7 @@ class CheckUser extends SpecialPage
 				__METHOD__,
 				array( 'USE INDEX' => $index ) );
 		}
-		
+		// Are there too many edits?
 		if( isset($rangecount) && $rangecount > 5000 ) {
 			$use_index = $dbr->useIndexClause( $index );
 			$sql = "SELECT cuc_ip_hex, COUNT(*) AS count,
@@ -456,13 +537,7 @@ class CheckUser extends SpecialPage
 				# Convert the IP hexes into normal form
 				if( strpos($row->cuc_ip_hex,'v6-') !==false ) {
 					$ip = substr( $row->cuc_ip_hex, 3 );
-   					// Seperate into 8 octets
-   					$ip_oct = substr( $ip, 0, 4 );
-   					for ($n=1; $n < 8; $n++) {
-   						$ip_oct .= ':' . substr($ip, 4*$n, 4);
-   					}
-   					// NO leading zeroes
-   					$ip = preg_replace( '/(^|:)0+' . RE_IPV6_WORD . '/', '$1$2', $ip_oct );
+					$ip = IP::HextoOctet( $ip );
 				} else {
 					$ip = long2ip( wfBaseConvert($row->cuc_ip_hex, 16, 10, 8) );
 				}
@@ -528,12 +603,16 @@ class CheckUser extends SpecialPage
 
 			$logs = SpecialPage::getTitleFor( 'Log' );
 			$blocklist = SpecialPage::getTitleFor( 'Ipblocklist' );
-			$s = '<ul>';
+			
+			$action = $wgTitle->escapeLocalUrl( 'action=block' );
+			$s = "<form name='checkuserblock' id='checkuserblock' action='$action' method='post'>";
+			$s .= '<ul>';
 			foreach( $users_edits as $name => $count ) {
 				$s .= '<li>';
+				$s .= Xml::check( 'users[]', false, array( 'value' => $name ) ) . '&nbsp;';
 				$s .= $this->sk->userLink( -1 , $name ) . $this->sk->userToolLinks( -1 , $name );
-				$s .= ' (<a href="' . $wgTitle->escapeLocalURL( 'user='.urlencode($name).'&reason='.urlencode($reason) ) . 
-					'">' . wfMsgHtml('checkuser-check') . '</a>)';
+				$s .= ' (<a href="' . $wgTitle->escapeLocalURL( 'user='.urlencode($name) .
+					'&reason='.urlencode($reason) ) . '">' . wfMsgHtml('checkuser-check') . '</a>)';
 				if( $users_first[$name] == $users_last[$name] ) {
 					$s .= ' (' . $wgLang->timeanddate( $users_first[$name], true ) . ') ';
 				} else {
@@ -618,7 +697,20 @@ class CheckUser extends SpecialPage
 				$s .= '</ol>';
 				$s .= '</li>';
 			}
-			$s .= '</ul>';
+			$s .= "</ul>\n";
+			if( $wgUser->isAllowed('block') && !$wgUser->isBlocked() ) {
+				$s.= "<fieldset>\n";
+				$s .= "<legend>" . wfMsgHtml('checkuser-massblock') . "</legend>\n";
+				$s .= "<p>" . wfMsgExt('checkuser-massblock-text',array('parseinline')) . "</p>\n";
+				$s .= "<p>" . Xml::checkLabel( wfMsgHtml( "checkuser-blocktag" ), 'usetag', 'usetag') . '&nbsp;';
+				$s .= Xml::input( 'tag', 46, $tag, array( 'maxlength' => '150', 'id' => 'blocktag' ) ) . "</p>\n";
+				$s .= "<p>" . wfMsgHtml( "checkuser-reason" ) . '&nbsp;';
+				$s .= Xml::input( 'reason', 46, $reason, array( 'maxlength' => '150', 'id' => 'blockreason' ) );
+				$s .= '&nbsp;' . Xml::submitButton( wfMsgHtml('checkuser-massblock-commit'), 
+					array('id' => 'checkuserblocksubmit','name' => 'checkuserblock') ) . "</p>\n";
+				$s .= "</fieldset>\n";
+			}
+			$s .= '</form>';
 		}
 
 		$wgOut->addHTML( $s );
@@ -700,7 +792,7 @@ class CheckUser extends SpecialPage
 	 * Get all IPs used by a user
 	 * Shows first and last date and number of edits
 	 */
-	protected function doUserIPsRequest( $user , $reason = '', $period ) {
+	protected function doUserIPsRequest( $user , $reason = '', $period = 0 ) {
 		global $wgOut, $wgTitle, $wgLang, $wgUser, $wgDBname;
 		$fname = 'CheckUser::doUserIPsRequest';
 
