@@ -35,7 +35,7 @@ $wgCheckUserMaxBlocks = 200;
 # Recent changes data hook
 global $wgHooks;
 $wgHooks['RecentChange_save'][] = 'efUpdateCheckUserData';
-$wgHooks['EmailUser'][] = 'efUpdateCheckUserEmailData';
+//$wgHooks['EmailUser'][] = 'efUpdateCheckUserEmailData'; // do not use at present
 
 $wgHooks['ParserTestTables'][] = 'efCheckUserParserTestTables';
 $wgHooks['LoadExtensionSchemaUpdates'][] = 'efCheckUserSchemaUpdates';
@@ -115,6 +115,8 @@ function efUpdateCheckUserData( $rc ) {
  * Saves user data into the cu_changes table
  */
 function efUpdateCheckUserEmailData( $to, $from, $subject, $text ) {
+	die("Do not use at present.");
+	wfLoadExtensionMessages( 'CheckUser' );
 	$user = User::newFromName( $to->name );
 	$userPage = $user->getUserPage();
 	// Get IP
