@@ -66,7 +66,7 @@ Here are the IPs used (5000 max, sorted by address):',
 [http://www.dnsstuff.com/tools/tracert.ch?ip=$1 Traceroute] ·
 [http://www.ip2location.com/$1 Geolocate] ·
 [http://toolserver.org/~krimpet/torcheck.php?ip=$1 Tor check] ·
-[http://ws.arin.net/whois/?queryinput=$1 WHOIS]]</span>'
+[http://ws.arin.net/whois/?queryinput=$1 WHOIS]]</span>', # do not translate or duplicate this message to other languages
 );
 
 /** Message documentation (Message documentation)
@@ -1299,6 +1299,7 @@ $messages['he'] = array(
 	'checkuser-nolog' => 'לא נמצא קובץ יומן.',
 	'checkuser-blocked' => 'חסום',
 	'checkuser-wasblocked' => 'נחסם בעבר',
+	'checkuser-accounts' => '{{PLURAL:$1|חשבון חדש אחד|$1 חשבונות חדשים}}',
 	'checkuser-too-many' => 'נמצאו תוצאות רבות מדי, אנא צמצו את טווח כתובות ה־IP. להלן כתובת ה־IP שנעשה בהן שימוש (מוצגות 5,000 לכל היותר, וממוינות):',
 	'checkuser-user-nonexistent' => 'המשתמש לא נמצא.',
 	'checkuser-search-form' => 'מציאת ערכים ביומן שבהם ה$1 הוא $2',
