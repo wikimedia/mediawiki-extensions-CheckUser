@@ -125,7 +125,7 @@ class CheckUser extends SpecialPage
 		$wgOut->addWikiText( wfMsg( 'checkuser-summary' ) . 
 			"\n\n[[" . $this->getLogSubpageTitle()->getPrefixedText() . '|' . wfMsg( 'checkuser-showlog' ) . ']]'
 	   	);
-		$form = "<form name='checkuserform' id='checkuserform' action='$action' method='post'>";
+		$form = "<form name='checkuserform' id='checkuserform' action=\"$action\" method='post'>";
 		$form .= "<fieldset><legend>".wfMsgHtml( "checkuser-query" )."</legend>";
 		$form .= "<table border='0' cellpadding='2'><tr>";
 		$form .= "<td>".wfMsgHtml( "checkuser-target" ).":</td>";
@@ -605,7 +605,7 @@ class CheckUser extends SpecialPage
 			$blocklist = SpecialPage::getTitleFor( 'Ipblocklist' );
 			
 			$action = $wgTitle->escapeLocalUrl( 'action=block' );
-			$s = "<form name='checkuserblock' id='checkuserblock' action='$action' method='post'>";
+			$s = "<form name='checkuserblock' id='checkuserblock' action=\"$action\" method='post'>";
 			$s .= '<ul>';
 			foreach( $users_edits as $name => $count ) {
 				$s .= '<li>';
