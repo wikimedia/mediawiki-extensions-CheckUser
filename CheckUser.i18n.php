@@ -1292,6 +1292,11 @@ $messages['he'] = array(
 	'checkuser-edits' => 'הצגת עריכות מכתובת IP מסוימת',
 	'checkuser-ips' => 'הצגת כתובות IP',
 	'checkuser-search' => 'חיפוש',
+	'checkuser-period' => 'פרק זמן:',
+	'checkuser-week-1' => 'השבוע האחרון',
+	'checkuser-week-2' => 'השבועיים האחרונים',
+	'checkuser-month' => '30 הימים האחרונים',
+	'checkuser-all' => 'הכול',
 	'checkuser-empty' => 'אין פריטים ביומן.',
 	'checkuser-nomatch' => 'לא נמצאו התאמות.',
 	'checkuser-check' => 'בדיקה',
@@ -1314,6 +1319,8 @@ $messages['he'] = array(
 	'checkuser-log-ipusers' => '$1 בדק את המשתמשים של $2',
 	'checkuser-log-ipedits-xff' => '$1 בדק את העריכות של כתובת ה־XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 בדק את המשתמשים של כתובת ה־XFF $2',
+	'checkuser-email-action' => 'שלח דואר אלקטרוני למשתמש "$1"',
+	'checkuser-email-action2' => 'שלח דואר אלקטרוני למשתמש "$1" (נשלח מהכתובת "$2")',
 );
 
 /** Hindi (हिन्दी)
