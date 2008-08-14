@@ -93,6 +93,21 @@ class CheckUser extends SpecialPage
 				$this->doIPUsersRequest( $xff, true, $reason, $period, $tag );
 			} else if( $checktype=='subipusers' ) {
 				$this->doIPUsersRequest( $ip, false, $reason, $period, $tag );
+			} else if( $checktype=='subuseredits' ) {
+				$this->doUserEditsRequest( $user, $reason, $period );
+			}
+		}
+	}
+	
+	/**
+	 * As we use the same small set of messages in various methods and that
+	 * they are called often, we call them once and save them in $this->message
+	 */
+	protected function preCacheMessages() {
+		// Precache various messages
+		if( !isset( $this->message ) ) {
+			foreach( explode(' ', 'diff hist minoreditletter newpageletter blocklink log' ) as $msg ) {
+				$this->message[$msg] = wfMsgExt( $msg, array( 'escape') );
 			}
 		}
 	}
@@ -108,13 +123,15 @@ class CheckUser extends SpecialPage
 		global $wgOut, $wgTitle;
 		$action = $wgTitle->escapeLocalUrl();
 		# Fill in requested type if it makes sense
-		$encipusers=0; $encipedits=0; $encuserips=0;
+		$encipusers = $encipedits = $encuserips = $encuseredits = 0;
 		if( $checktype=='subipusers' && ( $ip || $xff ) )
 			$encipusers = 1;
 		else if( $checktype=='subipedits' && ( $ip || $xff ) )
 			$encipedits = 1;
 		else if( $checktype=='subuserips' && $name )
 			$encuserips = 1;
+		else if( $checktype=='subuseredits' && $name )
+			$encuseredits = 1;
 		# Defaults otherwise
 		else if( $ip || $xff )
 			$encipedits = 1;
@@ -139,6 +156,8 @@ class CheckUser extends SpecialPage
 		$form .= " ".Xml::label( wfMsgHtml("checkuser-edits"), 'subipedits' )."</td>";
 		$form .= "<td>".Xml::radio( 'checktype', 'subipusers', $encipusers, array('id' => 'subipusers') );
 		$form .= " ".Xml::label( wfMsgHtml("checkuser-users"), 'subipusers' )."</td>";
+		$form .= "<td>".Xml::radio( 'checktype', 'subuseredits', $encuseredits, array('id' => 'subuseredits') );
+		$form .= " ".Xml::label( wfMsgHtml("checkuser-account"), 'subuseredits' )."</td>";
 		$form .= "</tr></table></td>";
 		$form .= "</tr><tr>";
 		$form .= "<td>".wfMsgHtml( "checkuser-reason" )."</td>";
@@ -252,7 +271,7 @@ class CheckUser extends SpecialPage
 	 * Shows all edits in Recent Changes by this IP (or range) and who made them
 	 */
 	protected function doIPEditsRequest( $ip, $xfor = false, $reason = '', $period = 0 ) {
-		global $wgUser, $wgOut, $wgLang, $wgTitle, $wgDBname;
+		global $wgUser, $wgOut, $wgLang, $wgTitle;
 		$fname = 'CheckUser::doIPEditsRequest';
 		# Invalid IPs are passed in as a blank string
 		if(!$ip) {
@@ -300,13 +319,7 @@ class CheckUser extends SpecialPage
 				# Convert the IP hexes into normal form
 				if( strpos($row->cuc_ip_hex,'v6-') !==false ) {
 					$ip = substr( $row->cuc_ip_hex, 3 );
-   					// Seperate into 8 octets
-   					$ip_oct = substr( $ip, 0, 4 );
-   					for ($n=1; $n < 8; $n++) {
-   						$ip_oct .= ':' . substr($ip, 4*$n, 4);
-   					}
-   					// NO leading zeroes
-   					$ip = preg_replace( '/(^|:)0+' . RE_IPV6_WORD . '/', '$1$2', $ip_oct );
+					$ip = IP::HextoOctet( $ip );
 				} else {
 					$ip = long2ip( wfBaseConvert($row->cuc_ip_hex, 16, 10, 8) );
 				}
@@ -365,18 +378,116 @@ class CheckUser extends SpecialPage
 
 		$wgOut->addHTML( $s );
 	}
-
+	
 	/**
-	 * As we use the same small set of messages in various methods and that
-	 * they are called often, we call them once and save them in $this->message
+	 * @param string $nuser
+	 * @param string $reason
+	 * Shows all edits in Recent Changes by this user
 	 */
-	protected function preCacheMessages() {
-		// Precache various messages
-		if( !isset( $this->message ) ) {
-			foreach( explode(' ', 'diff hist minoreditletter newpageletter blocklink log' ) as $msg ) {
-				$this->message[$msg] = wfMsgExt( $msg, array( 'escape') );
-			}
+	protected function doUserEditsRequest( $user, $reason = '', $period = 0 ) {
+		global $wgUser, $wgOut, $wgLang, $wgTitle;
+		$fname = 'CheckUser::doUserEditsRequest';
+
+		$userTitle = Title::newFromText( $user, NS_USER );
+		if( !is_null( $userTitle ) ) {
+			// normalize the username
+			$user = $userTitle->getText();
 		}
+		# IPs are passed in as a blank string
+		if( !$user ) {
+			$s = wfMsgHtml('nouserspecified');
+			$wgOut->addHTML( $s );
+			return;
+		}
+		# Get ID, works better than text as user may have been renamed
+		$user_id = User::idFromName($user);
+
+		# If user is not IP or nonexistant
+		if( !$user_id ) {
+			$s = wfMsgExt('nosuchusershort',array('parseinline'),$user);
+			$wgOut->addHTML( $s );
+			return;
+		}
+
+		# Record check...
+		if( !$this->addLogEntry( 'useredits', 'user', $user, $reason, $user_id ) ) {
+			$wgOut->addHTML( '<p>'.wfMsgHtml('checkuser-log-fail').'</p>' );
+		}
+
+		$dbr = wfGetDB( DB_SLAVE );
+		$user_cond = "cuc_user = '$user_id'";
+		$time_conds = $this->getTimeConds( $period );
+		$cu_changes = $dbr->tableName( 'cu_changes' );
+		# Ordered in descent by timestamp. Causes large filesorts if there are many edits.
+		# Check how many rows will need sorting ahead of time to see if this is too big.
+		# If it is, sort by IP,time to avoid the filesort.
+		$count = $dbr->estimateRowCount( 'cu_changes', '*',
+			array( $user_cond, $time_conds ),
+			__METHOD__,
+			array( 'USE INDEX' => 'cuc_user_ip_time' ) );
+		# Cache common messages
+		$this->preCacheMessages();
+		# See what is best to do after testing the waters...
+		if( $count > 3000 ) {
+		 	$use_index = $dbr->useIndexClause( 'cuc_user_ip_time' );
+			$sql = "SELECT * FROM $cu_changes $use_index
+				WHERE $user_cond AND $time_conds  
+				ORDER BY cuc_ip ASC, cuc_timestamp DESC LIMIT 5000";
+			$ret = $dbr->query( $sql, __METHOD__ );
+			# Try to optimize this query
+			$lb = new LinkBatch;
+			while( $row = $ret->fetchObject() ) {
+				$lb->add( $row->cuc_namespace, $row->cuc_title );
+			}
+			$lb->execute();
+			$ret->seek( 0 );
+			$s = '';
+			while( $row = $ret->fetchObject() ) {
+				if( !$ip = htmlspecialchars($row->cuc_ip) ) {
+					continue;
+				}
+				if( !isset($lastIP) ) {
+					$lastIP = $row->cuc_ip;
+					$s .= "\n<h2>$ip</h2>\n<div class=\"special\">";
+				} else if( $lastIP != $row->cuc_ip ) {
+					$s .= "</ul></div>\n<h2>$ip</h2>\n<div class=\"special\">";
+					$lastIP = $row->cuc_ip;
+					unset($this->lastdate); // start over
+				}
+				$s .= $this->CUChangesLine( $row, $reason );
+			}
+			$s .= '</ul></div>';
+			$dbr->freeResult( $ret );
+
+			$wgOut->addHTML( $s );
+			return;
+		}
+		# OK, do the real query...
+		$use_index = $dbr->useIndexClause( 'cuc_user_ip_time' );
+		$sql = "SELECT * FROM $cu_changes $use_index 
+			WHERE $user_cond AND $time_conds ORDER BY cuc_timestamp DESC LIMIT 5000";
+		$ret = $dbr->query( $sql, __METHOD__ );
+
+		if( !$dbr->numRows( $ret ) ) {
+			$s = wfMsgHtml("checkuser-nomatch")."\n";
+		} else {
+			# Try to optimize this query
+			$lb = new LinkBatch;
+			while( $row = $ret->fetchObject() ) {
+				$lb->add( $row->cuc_namespace, $row->cuc_title );
+			}
+			$lb->execute();
+			$ret->seek( 0 );
+			# List out the edits
+			$s = '';
+			while( $row = $ret->fetchObject() ) {
+				$s .= $this->CUChangesLine( $row, $reason );
+			}
+			$s .= '</ul>';
+			$dbr->freeResult( $ret );
+		}
+
+		$wgOut->addHTML( $s );
 	}
 
 	/**
@@ -490,7 +601,7 @@ class CheckUser extends SpecialPage
 	 * List unique IPs used for each user in time order, list corresponding user agent
 	 */
 	protected function doIPUsersRequest( $ip, $xfor = false, $reason = '', $period = 0, $tag = '' ) {
-		global $wgUser, $wgOut, $wgLang, $wgTitle, $wgDBname;
+		global $wgUser, $wgOut, $wgLang, $wgTitle;
 		$fname = 'CheckUser::doIPUsersRequest';
 
 		# Invalid IPs are passed in as a blank string
@@ -793,7 +904,7 @@ class CheckUser extends SpecialPage
 	 * Shows first and last date and number of edits
 	 */
 	protected function doUserIPsRequest( $user , $reason = '', $period = 0 ) {
-		global $wgOut, $wgTitle, $wgLang, $wgUser, $wgDBname;
+		global $wgOut, $wgTitle, $wgLang, $wgUserp;
 		$fname = 'CheckUser::doUserIPsRequest';
 
 		$userTitle = Title::newFromText( $user, NS_USER );
@@ -801,16 +912,16 @@ class CheckUser extends SpecialPage
 			// normalize the username
 			$user = $userTitle->getText();
 		}
-		#IPs are passed in as a blank string
+		# IPs are passed in as a blank string
 		if( !$user ) {
 			$s = wfMsgHtml('nouserspecified');
 			$wgOut->addHTML( $s );
 			return;
 		}
-		#get ID, works better than text as user may have been renamed
+		# Get ID, works better than text as user may have been renamed
 		$user_id = User::idFromName($user);
 
-		#if user is not IP or nonexistant
+		# If user is not IP or nonexistant
 		if( !$user_id ) {
 			$s = wfMsgExt('nosuchusershort',array('parseinline'),$user);
 			$wgOut->addHTML( $s );
