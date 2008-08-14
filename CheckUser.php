@@ -35,7 +35,8 @@ $wgCheckUserMaxBlocks = 200;
 # Recent changes data hook
 global $wgHooks;
 $wgHooks['RecentChange_save'][] = 'efUpdateCheckUserData';
-//$wgHooks['EmailUser'][] = 'efUpdateCheckUserEmailData'; // Keep disabled for now pending discussion of privacy issues
+//$wgHooks['EmailUser'][] = 'efUpdateCUEmailData'; // Keep disabled for now pending discussion of privacy issues
+//$wgHooks['User::mailPasswordInternal'][] = 'efUpdateCUPasswordResetData';
 
 $wgHooks['ParserTestTables'][] = 'efCheckUserParserTestTables';
 $wgHooks['LoadExtensionSchemaUpdates'][] = 'efCheckUserSchemaUpdates';
@@ -111,13 +112,52 @@ function efUpdateCheckUserData( $rc ) {
 }
 
 /**
+ * Hook function to store password reset
+ * Saves user data into the cu_changes table
+ */
+function efUpdateCUPasswordResetData( $user, $ip, $account ) {
+	wfLoadExtensionMessages( 'CheckUser' );
+	// Get XFF header
+	$xff = wfGetForwardedFor();
+	list($xff_ip,$trusted) = efGetClientIPfromXFF( $xff );
+	// Our squid XFFs can flood this up sometimes
+	$isSquidOnly = efXFFChainIsSquid( $xff );
+	// Get agent
+	$agent = wfGetAgent();
+	$dbw = wfGetDB( DB_MASTER );
+	$cuc_id = $dbw->nextSequenceValue( 'cu_changes_cu_id_seq' );
+	$rcRow = array(
+		'cuc_id'         => $cuc_id,
+		'cuc_page_id'    => 0,
+		'cuc_namespace'  => NS_USER,
+		'cuc_title'      => '',
+		'cuc_minor'      => 0,
+		'cuc_user'       => $user->getId(),
+		'cuc_user_text'  => $user->getName(),
+		'cuc_actiontext' => wfMsgForContent('checkuser-reset-action',$account->getName()),
+		'cuc_comment'    => '',
+		'cuc_this_oldid' => 0,
+		'cuc_last_oldid' => 0,
+		'cuc_type'       => RC_LOG,
+		'cuc_timestamp'  => $dbw->timestamp( wfTimestampNow() ),
+		'cuc_ip'         => IP::sanitizeIP($ip),
+		'cuc_ip_hex'     => $ip ? IP::toHex( $ip ) : null,
+		'cuc_xff'        => !$isSquidOnly ? $xff : '',
+		'cuc_xff_hex'    => ($xff_ip && !$isSquidOnly) ? IP::toHex( $xff_ip ) : null,
+		'cuc_agent'      => $agent
+	);
+	$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
+	
+	return true;
+}
+
+/**
  * Hook function to store email data
  * Saves user data into the cu_changes table
  */
-function efUpdateCheckUserEmailData( $to, $from, $subject, $text ) {
+function efUpdateCUEmailData( $to, $from, $subject, $text ) {
 	wfLoadExtensionMessages( 'CheckUser' );
 	$user = User::newFromName( $to->name );
-	$userPage = $user->getUserPage();
 	// Get IP
 	$ip = wfGetIP();
 	// Get XFF header
@@ -132,7 +172,7 @@ function efUpdateCheckUserEmailData( $to, $from, $subject, $text ) {
 	$rcRow = array(
 		'cuc_id'         => $cuc_id,
 		'cuc_page_id'    => 0,
-		'cuc_namespace'  => $userPage->getNamespace(),
+		'cuc_namespace'  => NS_USER,
 		'cuc_title'      => '',
 		'cuc_minor'      => 0,
 		'cuc_user'       => $user->getId(),
