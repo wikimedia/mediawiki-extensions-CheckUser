@@ -904,7 +904,7 @@ class CheckUser extends SpecialPage
 	 * Shows first and last date and number of edits
 	 */
 	protected function doUserIPsRequest( $user , $reason = '', $period = 0 ) {
-		global $wgOut, $wgTitle, $wgLang, $wgUserp;
+		global $wgOut, $wgTitle, $wgLang, $wgUser;
 		$fname = 'CheckUser::doUserIPsRequest';
 
 		$userTitle = Title::newFromText( $user, NS_USER );
