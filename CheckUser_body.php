@@ -156,7 +156,7 @@ class CheckUser extends SpecialPage
 	*/
 	protected function getPeriodMenu( $selected=null ) {
 		$s = "<label for='period'>" . wfMsgHtml('checkuser-period') . "</label>&nbsp;";
-		$s .= Xml::openElement( 'select', array('name' => 'period','id' => 'period','style' => 'margin-top:.25em;') );
+		$s .= Xml::openElement( 'select', array('name' => 'period','id' => 'period','style' => 'margin-top:.2em;') );
 		$s .= Xml::option( wfMsg( "checkuser-week-1" ), 7, $selected===7 );
 		$s .= Xml::option( wfMsg( "checkuser-week-2" ), 14, $selected===14 );
 		$s .= Xml::option( wfMsg( "checkuser-month" ), 31, $selected===31 );
@@ -965,7 +965,7 @@ class CheckUser extends SpecialPage
 		}
 
 		$searchTypes = array( 'initiator', 'target' );
-		$select = "<select name=\"cuSearchType\" style='margin-top:.25em;'>\n";
+		$select = "<select name=\"cuSearchType\" style='margin-top:.2em;'>\n";
 		foreach ( $searchTypes as $searchType ) {
 			if ( $type == $searchType ) {
 				$checked = 'selected="selected"';
