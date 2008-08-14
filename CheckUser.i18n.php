@@ -1341,7 +1341,7 @@ $messages['he'] = array(
 	'group-checkuser-member' => 'בודק',
 	'right-checkuser' => 'מציאת כתובות IP של משתמשים ומידע נוסף',
 	'grouppage-checkuser' => '{{ns:project}}:בודק',
-	'checkuser-reason' => 'סיבה',
+	'checkuser-reason' => 'סיבה:',
 	'checkuser-showlog' => 'הצגת יומן',
 	'checkuser-log' => 'יומן בדיקות',
 	'checkuser-query' => 'בדיקת שינויים אחרונים',
@@ -1362,6 +1362,13 @@ $messages['he'] = array(
 	'checkuser-nolog' => 'לא נמצא קובץ יומן.',
 	'checkuser-blocked' => 'חסום',
 	'checkuser-wasblocked' => 'נחסם בעבר',
+	'checkuser-massblock' => 'חסימת המשתמשים שנבחרו',
+	'checkuser-massblock-text' => 'חשבונות המשתמש שנבחרו ייחסמו לצמיתות, עם חסימה אוטומטית וחסימה של יצירת החשבונות.
+כתובות IP ייחסמו לשבוע אחד, עבור משתמשים אנונימיים בלבד, ועם חסימה של יצירת החשבונות.',
+	'checkuser-blocktag' => 'החלפת דפי המשתמש עם:',
+	'checkuser-massblock-commit' => 'חסימת המשתמשים שנבחרו',
+	'checkuser-block-success' => '\'\'\'The {{PLURAL:$2|המשתמש|המשתמשים}} $1 {{PLURAL:$2|חסום|חסומים}} כעת.\'\'\'',
+	'checkuser-block-failure' => '\'\'\'לא נחסמו משתמשים.\'\'\'',
 	'checkuser-accounts' => '{{PLURAL:$1|חשבון חדש אחד|$1 חשבונות חדשים}}',
 	'checkuser-too-many' => 'נמצאו תוצאות רבות מדי, אנא צמצו את טווח כתובות ה־IP. להלן כתובת ה־IP שנעשה בהן שימוש (מוצגות 5,000 לכל היותר, וממוינות):',
 	'checkuser-user-nonexistent' => 'המשתמש לא נמצא.',
@@ -1378,6 +1385,7 @@ $messages['he'] = array(
 	'checkuser-log-ipedits-xff' => '$1 בדק את העריכות של כתובת ה־XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 בדק את המשתמשים של כתובת ה־XFF $2',
 	'checkuser-email-action' => 'שלח דואר אלקטרוני למשתמש "$1"',
+	'checkuser-reset-action' => 'איפס את הסיסמה של המשתמש "$1"',
 );
 
 /** Hindi (हिन्दी)
