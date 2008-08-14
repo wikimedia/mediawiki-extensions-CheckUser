@@ -1351,6 +1351,7 @@ $messages['he'] = array(
 	'checkuser-users' => 'הצגת משתמשים',
 	'checkuser-edits' => 'הצגת עריכות מכתובת IP מסוימת',
 	'checkuser-ips' => 'הצגת כתובות IP',
+	'checkuser-account' => 'הצגת עריכות מחשבון המשתמש',
 	'checkuser-search' => 'חיפוש',
 	'checkuser-period' => 'פרק זמן:',
 	'checkuser-week-1' => 'השבוע האחרון',
@@ -1386,6 +1387,7 @@ $messages['he'] = array(
 	'checkuser-log-ipusers' => '$1 בדק את המשתמשים של $2',
 	'checkuser-log-ipedits-xff' => '$1 בדק את העריכות של כתובת ה־XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 בדק את המשתמשים של כתובת ה־XFF $2',
+	'checkuser-log-useredits' => '$1 בדק את העריכות של $2',
 	'checkuser-email-action' => 'שלח דואר אלקטרוני למשתמש "$1"',
 	'checkuser-reset-action' => 'איפס את הסיסמה של המשתמש "$1"',
 );
