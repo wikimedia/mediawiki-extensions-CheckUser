@@ -67,6 +67,11 @@ $aliases['km'] = array(
 	'CheckUser' => array( 'ត្រួតពិនិត្យអ្នកប្រើប្រាស់' ),
 );
 
+/** Korean (한국어) */
+$aliases['ko'] = array(
+	'CheckUser' => array( '체크유저' ),
+);
+
 /** Malay (Bahasa Melayu) */
 $aliases['ms'] = array(
 	'CheckUser' => array( 'Perisik' ),
