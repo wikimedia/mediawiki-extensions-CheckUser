@@ -65,7 +65,7 @@ Here are the IPs used (5000 max, sorted by address):',
 	'checkuser-log-ipedits-xff'  => '$1 got edits for XFF $2',
 	'checkuser-log-ipusers-xff'  => '$1 got users for XFF $2',
 	
-	'checkuser-email-action'     => 'sent an email to "$1"',
+	'checkuser-email-action'     => 'sent an email to user "$1"',
 	'checkuser-reset-action'     => 'reset password for user "$1"',
 	
 	'checkuser-toollinks'        => '<span class="plainlinks">[[http://openrbl.org/query?$1 RDNS] ·
