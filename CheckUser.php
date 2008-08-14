@@ -156,8 +156,13 @@ function efUpdateCUPasswordResetData( $user, $ip, $account ) {
  * Saves user data into the cu_changes table
  */
 function efUpdateCUEmailData( $to, $from, $subject, $text ) {
+	global $wgSecretKey;
+	if( !$wgSecretKey ) {
+		return true;
+	}
 	wfLoadExtensionMessages( 'CheckUser' );
 	$user = User::newFromName( $to->name );
+	$hash = md5( $user->getEmail() . $user->getId() . $wgSecretKey );
 	// Get IP
 	$ip = wfGetIP();
 	// Get XFF header
@@ -177,7 +182,7 @@ function efUpdateCUEmailData( $to, $from, $subject, $text ) {
 		'cuc_minor'      => 0,
 		'cuc_user'       => $user->getId(),
 		'cuc_user_text'  => $user->getName(),
-		'cuc_actiontext' => wfMsgForContent('checkuser-email-action',$to->name),
+		'cuc_actiontext' => wfMsgForContent('checkuser-email-action',$hash),
 		'cuc_comment'    => '',
 		'cuc_this_oldid' => 0,
 		'cuc_last_oldid' => 0,
