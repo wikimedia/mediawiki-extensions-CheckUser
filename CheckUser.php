@@ -35,7 +35,7 @@ $wgCheckUserMaxBlocks = 200;
 # Recent changes data hook
 global $wgHooks;
 $wgHooks['RecentChange_save'][] = 'efUpdateCheckUserData';
-$wgHooks['EmailUser'][] = 'efUpdateCUEmailData'; // Keep disabled for now pending discussion of privacy issues
+$wgHooks['EmailUser'][] = 'efUpdateCUEmailData';
 $wgHooks['User::mailPasswordInternal'][] = 'efUpdateCUPasswordResetData';
 
 $wgHooks['ParserTestTables'][] = 'efCheckUserParserTestTables';
