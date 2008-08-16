@@ -298,10 +298,18 @@ class CheckUser extends SpecialPage
 		# Also, if we only show 5000, too many will be ignored as well.
 		$index = $xfor ? 'cuc_xff_hex_time' : 'cuc_ip_hex_time';
 		if( strpos($ip,'/') !==false ) {
-			$rangecount = $dbr->estimateRowCount( 'cu_changes', '*',
-				array( $ip_conds, $time_conds ),
-				__METHOD__,
-				array( 'USE INDEX' => $index ) );
+			# Quick index check only OK if no time constraint
+			if( $period ) {
+				$rangecount = $dbr->selectField( 'cu_changes', 'COUNT(*)',
+					array( $ip_conds, $time_conds ),
+					__METHOD__,
+					array( 'USE INDEX' => $index ) );
+			} else {
+				$rangecount = $dbr->estimateRowCount( 'cu_changes', '*',
+					array( $ip_conds ),
+					__METHOD__,
+					array( 'USE INDEX' => $index ) );
+			}
 		}
 		# See what is best to do after testing the waters...
 		if( isset($rangecount) && $rangecount > 5000 ) {
@@ -628,10 +636,18 @@ class CheckUser extends SpecialPage
 		# Ordered in descent by timestamp. Can cause large filesorts on range scans.
 		# Check how many rows will need sorting ahead of time to see if this is too big.
 		if( strpos($ip,'/') !==false ) {
-			$rangecount = $dbr->estimateRowCount( 'cu_changes', '*',
-				array( $ip_conds, $time_conds ),
-				__METHOD__,
-				array( 'USE INDEX' => $index ) );
+			# Quick index check only OK if no time constraint
+			if( $period ) {
+				$rangecount = $dbr->selectField( 'cu_changes', 'COUNT(*)',
+					array( $ip_conds, $time_conds ),
+					__METHOD__,
+					array( 'USE INDEX' => $index ) );
+			} else {
+				$rangecount = $dbr->estimateRowCount( 'cu_changes', '*',
+					array( $ip_conds ),
+					__METHOD__,
+					array( 'USE INDEX' => $index ) );
+			}
 		}
 		// Are there too many edits?
 		if( isset($rangecount) && $rangecount > 5000 ) {
@@ -975,18 +991,16 @@ class CheckUser extends SpecialPage
 				
 				# If we get some results, it helps to know if the IP in general
 				# has a lot more edits, e.g. "tip of the iceberg"...
-				global $wgMiserMode;
-				if( $wgMiserMode ) {
-					$ipedits = $dbr->estimateRowCount( 'cu_changes', '*',
-						array( 'cuc_ip_hex' => $ips_hex[$ip] ),
-						__METHOD__ );
-				} else {
+				$ipedits = $dbr->estimateRowCount( 'cu_changes', '*',
+					array( 'cuc_ip_hex' => $ips_hex[$ip] ),
+					__METHOD__ );
+				# If small enough, get a more accurate count
+				if( $ipedits <= 1000 ) {
 					$ipedits = $dbr->selectField( 'cu_changes', 'COUNT(*)',
 						array( 'cuc_ip_hex' => $ips_hex[$ip] ),
 						__METHOD__ );
 				}
-				# Kludge a little for estimates...
-				if( !$wgMiserMode || $ipedits > (1.5*$ips_edits[$ip]) ) {
+				if( $ipedits > $ips_edits[$ip] ) {
 					$s .= ' <i>(' . wfMsgHtml('checkuser-ipeditcount',$ipedits) . ')</i>';
 				}
 				
