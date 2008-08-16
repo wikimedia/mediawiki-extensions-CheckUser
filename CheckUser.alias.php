@@ -57,6 +57,11 @@ $aliases['he'] = array(
 	'CheckUser' => array( 'בדיקת_משתמש' ),
 );
 
+/** Croatian (Hrvatski) */
+$aliases['hr'] = array(
+	'CheckUser' => array( 'Provjeri_suradnika' ),
+);
+
 /** Haitian (Kreyòl ayisyen) */
 $aliases['ht'] = array(
 	'CheckUser' => array( 'TchekeItilizatè' ),
