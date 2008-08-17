@@ -23,6 +23,7 @@ $wgExtensionCredits['specialpage'][] = array(
 
 $wgAvailableRights[] = 'checkuser';
 $wgGroupPermissions['checkuser']['checkuser'] = true;
+$wgGroupPermissions['checkuser']['checkuser-log'] = true;
 
 $wgCheckUserLog = '/home/wikipedia/logs/checkuser.log';
 

@@ -9,17 +9,17 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 class CheckUser extends SpecialPage
 {
 	function CheckUser() {
-		SpecialPage::SpecialPage('CheckUser', 'checkuser');
+		global $wgUser;
+		if ( $wgUser->isAllowed( 'checkuser' ) || !$wgUser->isAllowed( 'checkuser-log' ) ) {
+			SpecialPage::SpecialPage('CheckUser', 'checkuser');
+		} else {
+			SpecialPage::SpecialPage('CheckUser', 'checkuser-log');
+		}
 		wfLoadExtensionMessages('CheckUser');
 	}
 
 	function execute( $subpage ) {
 		global $wgRequest, $wgOut, $wgTitle, $wgUser, $wgContLang;
-
-		if( !$wgUser->isAllowed( 'checkuser' ) ) {
-			$wgOut->permissionRequired( 'checkuser' );
-			return;
-		}
 
 		$this->setHeaders();
 		$this->sk = $wgUser->getSkin();
@@ -36,9 +36,26 @@ class CheckUser extends SpecialPage
 		foreach( $logMatches as $log ) {
 			if ( str_replace( '_', ' ', $wgContLang->lc( $subpage ) )
 				== str_replace( '_ ', ' ', $wgContLang->lc( $log ) ) ) {
+				if( !$wgUser->isAllowed( 'checkuser-log' ) ) {
+					$wgOut->permissionRequired( 'checkuser-log' );
+					return;
+				}
+
 				$this->showLog();
 				return;
 			}
+		}
+
+		if( !$wgUser->isAllowed( 'checkuser' ) ) {
+			if ( $wgUser->isAllowed( 'checkuser-log' ) ) {
+				$wgOut->addWikiText( wfMsg( 'checkuser-summary' ) . 
+						     "\n\n[[" . $this->getLogSubpageTitle()->getPrefixedText() . '|' . wfMsg( 'checkuser-showlog' ) . ']]'
+					);
+				return;
+			}
+
+			$wgOut->permissionRequired( 'checkuser' );
+			return;
 		}
 
 		$user = $wgRequest->getText( 'user' ) ? $wgRequest->getText( 'user' ) : $wgRequest->getText( 'ip' );
