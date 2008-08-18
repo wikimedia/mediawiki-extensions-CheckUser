@@ -61,6 +61,7 @@ class CheckUser extends SpecialPage
 		$user = $wgRequest->getText( 'user' ) ? $wgRequest->getText( 'user' ) : $wgRequest->getText( 'ip' );
 		$user = trim($user);
 		$reason = $wgRequest->getText( 'reason' );
+		$blockreason = $wgRequest->getText( 'blockreason' );
 		$checktype = $wgRequest->getVal( 'checktype' );
 		$period = $wgRequest->getInt( 'period' );
 		$users = $wgRequest->getArray( 'users' );
@@ -99,7 +100,7 @@ class CheckUser extends SpecialPage
 		# Perform one of the various submit operations...
 		if( $wgRequest->wasPosted() ) {
 			if( $wgRequest->getVal('action') === 'block' ) {
-				$this->doMassUserBlock( $users, $reason, $tag );
+				$this->doMassUserBlock( $users, $blockreason, $tag );
 			} else if( $checktype=='subuserips' ) {
 				$this->doUserIPsRequest( $name, $reason, $period );
 			} else if( $xff && $checktype=='subipedits' ) {
@@ -211,6 +212,12 @@ class CheckUser extends SpecialPage
 		global $wgOut, $wgUser, $wgCheckUserMaxBlocks;
 		if( empty($users) || $wgUser->isBlocked(false) ) {
 			$wgOut->addWikiText( wfMsgExt('checkuser-block-failure',array('parsemag')) );
+			return;
+		} else if( count($users) > $wgCheckUserMaxBlocks ) {
+			$wgOut->addWikiText( wfMsgExt('checkuser-block-limit',array('parsemag')) );
+			return;
+		} else if( !$reason ) {
+			$wgOut->addWikiText( wfMsgExt('checkuser-block-noreason',array('parsemag')) );
 			return;
 		}
 		$counter = $blockSize = 0;
@@ -849,7 +856,7 @@ class CheckUser extends SpecialPage
 				$s .= "<p>" . Xml::checkLabel( wfMsgHtml( "checkuser-blocktag" ), 'usetag', 'usetag') . '&nbsp;';
 				$s .= Xml::input( 'tag', 46, $tag, array( 'maxlength' => '150', 'id' => 'blocktag' ) ) . "</p>\n";
 				$s .= "<p>" . wfMsgHtml( "checkuser-reason" ) . '&nbsp;';
-				$s .= Xml::input( 'reason', 46, $reason, array( 'maxlength' => '150', 'id' => 'blockreason' ) );
+				$s .= Xml::input( 'blockreason', 46, '', array( 'maxlength' => '150', 'id' => 'blockreason' ) );
 				$s .= '&nbsp;' . Xml::submitButton( wfMsgHtml('checkuser-massblock-commit'), 
 					array('id' => 'checkuserblocksubmit','name' => 'checkuserblock') ) . "</p>\n";
 				$s .= "</fieldset>\n";

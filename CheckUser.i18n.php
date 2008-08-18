@@ -49,6 +49,8 @@ Use this in accordance with policy.',
 	'checkuser-massblock-commit' => 'Block selected users',
 	'checkuser-block-success'    => '\'\'\'The {{PLURAL:$2|user|users}} $1 {{PLURAL:$2|is|are}} now blocked.\'\'\'',
 	'checkuser-block-failure'    => '\'\'\'No users blocked.\'\'\'',
+	'checkuser-block-limit'      => 'Too many users selected.',
+	'checkuser-block-noreason'   => 'You must give a reason for the blocks.',
 	'checkuser-accounts'         => '$1 new {{PLURAL:$1|account|accounts}}',
 	'checkuser-too-many'         => 'Too many results, please narrow down the CIDR.
 Here are the IPs used (5000 max, sorted by address):',
