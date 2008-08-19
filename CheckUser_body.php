@@ -138,7 +138,7 @@ class CheckUser extends SpecialPage
 	}
 
 	protected function doForm( $user, $reason, $checktype, $ip, $xff, $name, $period ) {
-		global $wgOut, $wgTitle;
+		global $wgOut, $wgTitle, $wgUser;
 		$action = $wgTitle->escapeLocalUrl();
 		# Fill in requested type if it makes sense
 		$encipusers = $encipedits = $encuserips = $encuseredits = 0;
@@ -157,9 +157,11 @@ class CheckUser extends SpecialPage
 			$encuserips = 1;
 		# Compile our nice form
 		# User box length should fit things like "2001:0db8:85a3:08d3:1319:8a2e:0370:7344/100/xff"
-		$wgOut->addWikiText( wfMsg( 'checkuser-summary' ) . 
-			"\n\n[[" . $this->getLogSubpageTitle()->getPrefixedText() . '|' . wfMsg( 'checkuser-showlog' ) . ']]'
-	   	);
+		if( $wgUser->isAllowed( 'checkuser-log' ) ) {
+			$wgOut->addWikiText( wfMsg( 'checkuser-summary' ) . 
+				"\n\n[[" . $this->getLogSubpageTitle()->getPrefixedText() . '|' . wfMsg( 'checkuser-showlog' ) . ']]'
+			);
+		}
 		$form = "<form name='checkuserform' id='checkuserform' action=\"$action\" method='post'>";
 		$form .= "<fieldset><legend>".wfMsgHtml( "checkuser-query" )."</legend>";
 		$form .= "<table border='0' cellpadding='2'><tr>";
