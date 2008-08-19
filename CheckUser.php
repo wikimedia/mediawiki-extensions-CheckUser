@@ -201,12 +201,13 @@ function efUpdateCUPasswordResetData( $user, $ip, $account ) {
  */
 function efUpdateCUEmailData( $to, $from, $subject, $text ) {
 	global $wgSecretKey;
-	if( !$wgSecretKey ) {
+	if( !$wgSecretKey || $from->name == $to->name ) {
 		return true;
 	}
 	wfLoadExtensionMessages( 'CheckUser' );
-	$user = User::newFromName( $to->name );
-	$hash = md5( $user->getEmail() . $user->getId() . $wgSecretKey );
+	$userFrom = User::newFromName( $from->name );
+	$userTo = User::newFromName( $to->name );
+	$hash = md5( $userTo->getEmail() . $userTo->getId() . $wgSecretKey );
 	// Get IP
 	$ip = wfGetIP();
 	// Get XFF header
@@ -224,8 +225,8 @@ function efUpdateCUEmailData( $to, $from, $subject, $text ) {
 		'cuc_namespace'  => NS_USER,
 		'cuc_title'      => '',
 		'cuc_minor'      => 0,
-		'cuc_user'       => $user->getId(),
-		'cuc_user_text'  => $user->getName(),
+		'cuc_user'       => $userFrom->getId(),
+		'cuc_user_text'  => $userFrom->getName(),
 		'cuc_actiontext' => wfMsgForContent('checkuser-email-action',$hash),
 		'cuc_comment'    => '',
 		'cuc_this_oldid' => 0,
