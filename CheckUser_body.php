@@ -245,7 +245,8 @@ class CheckUser extends SpecialPage
 			$usertitle = Title::makeTitle( NS_USER, $u->getName() );
 			$userpage = new Article( $usertitle );
 			$safeUsers[] = '[[' . $usertitle->getPrefixedText() . '|' . $usertitle->getText() . ']]';
-			$expirestr = $u->getId() ? 'infinity' : '1 week';
+			$expirestr = $u->getId() ? 'indefinite' : '1 week';
+			$expiry = Block::parseExpiryInput( $expirestr );
 			$anonOnly = IP::isIPAddress( $u->getName() ) ? 1 : 0;
 			// Create the block
 			$block = new Block( $u->getName(), // victim
@@ -254,7 +255,7 @@ class CheckUser extends SpecialPage
 				$reason, // comment
 				wfTimestampNow(), // block time
 				0, // auto ?
-				strtotime( $expirestr ), // duration
+				$expiry, // duration
 				$anonOnly, // anononly?
 				1, // block account creation?
 				1, // autoblocking?
