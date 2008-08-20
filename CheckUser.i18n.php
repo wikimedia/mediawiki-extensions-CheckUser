@@ -1538,7 +1538,6 @@ $messages['he'] = array(
 	'checkuser-log-ipedits-xff' => '$1 בדק את העריכות של כתובת ה־XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 בדק את המשתמשים של כתובת ה־XFF $2',
 	'checkuser-log-useredits' => '$1 בדק את העריכות של $2',
-	'checkuser-autocreate-action' => 'נוצר אוטומטית',
 	'checkuser-email-action' => 'שלח דואר אלקטרוני למשתמש "$1"',
 	'checkuser-reset-action' => 'איפס את הסיסמה של המשתמש "$1"',
 );
