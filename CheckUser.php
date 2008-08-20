@@ -22,6 +22,7 @@ $wgExtensionCredits['specialpage'][] = array(
 );
 
 $wgAvailableRights[] = 'checkuser';
+$wgAvailableRights[] = 'checkuser-log';
 $wgGroupPermissions['checkuser']['checkuser'] = true;
 $wgGroupPermissions['checkuser']['checkuser-log'] = true;
 
