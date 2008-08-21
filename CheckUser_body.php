@@ -403,11 +403,11 @@ class CheckUser extends SpecialPage
 			$lb->execute();
 			$ret->seek( 0 );
 			# List out the edits
-			$s = '';
+			$s = '<div id="checkuserresults">';
 			while( $row = $ret->fetchObject() ) {
 				$s .= $this->CUChangesLine( $row, $reason );
 			}
-			$s .= '</ul>';
+			$s .= '</ul></div>';
 			$dbr->freeResult( $ret );
 		}
 
@@ -514,11 +514,11 @@ class CheckUser extends SpecialPage
 			$lb->execute();
 			$ret->seek( 0 );
 			# List out the edits
-			$s = '';
+			$s = '<div id="checkuserresults">';
 			while( $row = $ret->fetchObject() ) {
 				$s .= $this->CUChangesLine( $row, $reason );
 			}
-			$s .= '</ul>';
+			$s .= '</ul></div>';
 			$dbr->freeResult( $ret );
 		}
 
@@ -760,7 +760,7 @@ class CheckUser extends SpecialPage
 			
 			$action = $wgTitle->escapeLocalUrl( 'action=block' );
 			$s = "<form name='checkuserblock' id='checkuserblock' action=\"$action\" method='post'>";
-			$s .= '<ul>';
+			$s .= '<div id="checkuserresults"><ul>';
 			foreach( $users_edits as $name => $count ) {
 				$s .= '<li>';
 				$s .= Xml::check( 'users[]', false, array( 'value' => $name ) ) . '&nbsp;';
@@ -851,7 +851,7 @@ class CheckUser extends SpecialPage
 				$s .= '</ol>';
 				$s .= '</li>';
 			}
-			$s .= "</ul>\n";
+			$s .= "</ul></div>\n";
 			if( $wgUser->isAllowed('block') && !$wgUser->isBlocked() ) {
 				$s.= "<fieldset>\n";
 				$s .= "<legend>" . wfMsgHtml('checkuser-massblock') . "</legend>\n";
@@ -1000,7 +1000,7 @@ class CheckUser extends SpecialPage
 			
 			$logs = SpecialPage::getTitleFor( 'Log' );
 			$blocklist = SpecialPage::getTitleFor( 'Ipblocklist' );
-			$s = '<ul>';
+			$s = '<div id="checkuserresults"><ul>';
 			foreach( $ips_edits as $ip => $edits ) {
 				$s .= '<li>';
 				$s .= '<a href="' . 
@@ -1056,7 +1056,7 @@ class CheckUser extends SpecialPage
 				$s .= "</div>";
 				$s .= "</li>\n";
 			}
-			$s .= '</ul>';
+			$s .= '</ul></div>';
 		}
 		$wgOut->addHTML( $s );
 		$dbr->freeResult( $ret );
