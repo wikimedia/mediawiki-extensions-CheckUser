@@ -82,6 +82,11 @@ $aliases['ms'] = array(
 	'CheckUser' => array( 'Perisik' ),
 );
 
+/** Nedersaksisch (Nedersaksisch) */
+$aliases['nds-nl'] = array(
+	'CheckUser' => array( 'Gebruker_opvragen' ),
+);
+
 /** Dutch (Nederlands) */
 $aliases['nl'] = array(
 	'CheckUser' => array( 'GebruikerControleren' ),
