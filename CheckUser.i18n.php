@@ -240,6 +240,7 @@ $messages['ar'] = array(
 	'group-checkuser' => 'مدققو مستخدم',
 	'group-checkuser-member' => 'مدقق مستخدم',
 	'right-checkuser' => 'التحقق من عناوين الأيبي للمستخدمين ومعلومات أخرى',
+	'right-checkuser-log' => 'رؤية سجل تدقيق المستخدم',
 	'grouppage-checkuser' => '{{ns:project}}:تدقيق مستخدم',
 	'checkuser-reason' => 'السبب:',
 	'checkuser-showlog' => 'عرض السجل',
@@ -270,6 +271,8 @@ $messages['ar'] = array(
 	'checkuser-massblock-commit' => 'منع المستخدمين المختارين',
 	'checkuser-block-success' => "'''{{PLURAL:$2|المستخدم|المستخدمون}} $1 الآن {{PLURAL:$2|ممنوع|ممنوعون}}.'''",
 	'checkuser-block-failure' => "'''لا مستخدمين تم منعهم.'''",
+	'checkuser-block-limit' => 'تم اختيار عدد كبير من المستخدمين.',
+	'checkuser-block-noreason' => 'يجب أن تعطي سببا لعمليات المنع.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|حساب|حساب}} جديد',
 	'checkuser-too-many' => 'نتائج كثيرة جدا، من فضلك قلل الCIDR.
 هذه هي الأيبيهات المستخدمة (5000 كحد أقصى، مرتبة بالعنوان):',
@@ -2365,6 +2368,7 @@ $messages['kn'] = array(
 
 /** Korean (한국어)
  * @author Klutzy
+ * @author Kwj2772
  * @author ToePeu
  */
 $messages['ko'] = array(
@@ -2374,6 +2378,7 @@ $messages['ko'] = array(
 	'grouppage-checkuser' => '{{ns:project}}:체크유저',
 	'checkuser-reason' => '이유',
 	'checkuser-showlog' => '기록 보기',
+	'checkuser-log' => '체크유저 기록',
 	'checkuser-search' => '찾기',
 	'checkuser-search-submit' => '찾기',
 );
