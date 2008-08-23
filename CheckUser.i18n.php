@@ -43,7 +43,7 @@ Use this in accordance with policy.',
 	'checkuser-blocked'          => 'Blocked',
 	'checkuser-wasblocked'       => 'Previously blocked',
 	'checkuser-massblock'        => 'Block selected users',
-	'checkuser-massblock-text'   => 'Selected accounts will be blocked indefinetly, with autoblocking enabled and account creation disabled. 
+	'checkuser-massblock-text'   => 'Selected accounts will be blocked indefinitely, with autoblocking enabled and account creation disabled. 
 	IP addresses will be blocked for 1 week for IP users only and with account creation disabled.',
 	'checkuser-blocktag'         => 'Replace user pages with:',
 	'checkuser-massblock-commit' => 'Block selected users',
