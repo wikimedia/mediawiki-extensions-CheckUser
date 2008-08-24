@@ -1126,6 +1126,7 @@ $messages['fa'] = array(
 	'group-checkuser' => 'بازرسان کاربر',
 	'group-checkuser-member' => 'بازرس کاربر',
 	'right-checkuser' => 'بررسی نشانی اینترنتی و دیگر اطلاعات کاربرها',
+	'right-checkuser-log' => 'مشاهدهٔ سیاههٔ بازرسی کاربر',
 	'grouppage-checkuser' => '{{ns:project}}:بازرسی کاربر',
 	'checkuser-reason' => 'دلیل',
 	'checkuser-showlog' => 'نمایش سیاهه',
@@ -1155,6 +1156,8 @@ $messages['fa'] = array(
 	'checkuser-massblock-commit' => 'بستن کاربرهای انتخاب شده',
 	'checkuser-block-success' => "'''دسترسی {{PLURAL:$2|حساب|حساب‌های}} $1 اینک {{PLURAL:$2|بسته‌است|بسته‌است}}.'''",
 	'checkuser-block-failure' => "'''هیچ کاربری بسته نشد.'''",
+	'checkuser-block-limit' => 'تعداد بیش از اندازه‌ای از کاربران انتخاب شده‌اند.',
+	'checkuser-block-noreason' => 'شما باید دلیلی برای قطع دسترسی‌ها ارائه کنید.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|حساب|حساب}} جدید',
 	'checkuser-too-many' => 'تعداد نتایج بسیار زیاد است. لطفاً CIDR را باریک‌تر کنید. در زیر نشانی‌های اینترنتی استفاده شده را می‌بینید (حداثر ۵۰۰۰ مورد، به ترتیب نشانی):',
 	'checkuser-user-nonexistent' => 'کاربر مورد نظر وجود ندارد.',
@@ -1219,16 +1222,20 @@ $messages['fi'] = array(
 	'checkuser-massblock' => 'Estä valitut käyttäjät',
 	'checkuser-massblock-text' => 'Valitut tunnukset estetään toistaiseksi ("autoblocking", "tunnusten luonti estetty").
 Vain rekisteröimättömien käyttäjien IP-osoitteet estetään yhdeksi viikoksi (myös tunnusten luonti estetty).',
+	'checkuser-blocktag' => 'Korvaa käyttäjäsivut sisällöllä:',
 	'checkuser-massblock-commit' => 'Estä valitut käyttäjät',
 	'checkuser-block-success' => "'''{{PLURAL:$2|Käyttäjä|Käyttäjät}} $1 {{PLURAL:$2|on|ovat}} nyt estetty.'''",
+	'checkuser-block-failure' => "'''Yhtään käyttäjää ei estetty.'''",
 	'checkuser-block-limit' => 'Liian monta käyttäjää valittu.',
 	'checkuser-block-noreason' => 'Estoille on annettava syy.',
+	'checkuser-accounts' => '$1 {{PLURAL:$1|uusi tunnus|uutta tunnusta}}',
 	'checkuser-too-many' => 'Liian monta tulosta, rajoita IP-osoitetta:',
 	'checkuser-user-nonexistent' => 'Määritettyä käyttäjää ei ole olemassa.',
 	'checkuser-search-form' => 'Etsi lokimerkintöjä, joissa $1 on $2',
 	'checkuser-search-submit' => 'Hae',
 	'checkuser-search-initiator' => 'alullepanija',
 	'checkuser-search-target' => 'kohde',
+	'checkuser-ipeditcount' => 'noin $1 muokkausta kaikilta käyttäjiltä',
 	'checkuser-log-subpage' => 'Loki',
 	'checkuser-log-return' => 'Palaa osoitepaljastimen päälomakkeeseen',
 	'checkuser-log-userips' => '$1 haki käyttäjän $2 IP-osoitteet',
@@ -1236,6 +1243,9 @@ Vain rekisteröimättömien käyttäjien IP-osoitteet estetään yhdeksi viikoks
 	'checkuser-log-ipusers' => '$1 haki osoitteen $2 käyttämät tunnukset',
 	'checkuser-log-ipedits-xff' => '$1 haki muokkaukset XFF-osoitteesta $2',
 	'checkuser-log-ipusers-xff' => '$1 haki käyttäjät XFF-osoitteesta $2',
+	'checkuser-log-useredits' => '$1 haki käyttäjän $2 muokkaukset',
+	'checkuser-email-action' => 'käyttäjälle ”$1” lähetetty sähköpostiviesti',
+	'checkuser-reset-action' => 'käyttäjän ”$1” salasana nollattu',
 );
 
 /** Faroese (Føroyskt)
@@ -2057,6 +2067,7 @@ Gli indirizzi IP saranno bloccati per una settimana solo per gli utenti anonimi 
  * @author JtFuruhata
  * @author Kahusi
  * @author Marine-Blue
+ * @author Muttley
  * @author Suisui
  */
 $messages['ja'] = array(
@@ -2071,6 +2082,7 @@ IPv4（16から32ビットのCIDR表記）と IPv6（64から128ビットのCIDR
 	'group-checkuser' => 'チェックユーザー',
 	'group-checkuser-member' => 'チェックユーザー',
 	'right-checkuser' => '利用者のIPアドレスやその他の情報を確認する',
+	'right-checkuser-log' => 'チェックユーザーログを見る',
 	'grouppage-checkuser' => '{{ns:project}}:チェックユーザー',
 	'checkuser-reason' => '理由:',
 	'checkuser-showlog' => 'ログを閲覧',
@@ -2081,12 +2093,26 @@ IPv4（16から32ビットのCIDR表記）と IPv6（64から128ビットのCIDR
 	'checkuser-edits' => 'IPアドレスからの編集を得る',
 	'checkuser-ips' => 'IPアドレスを得る',
 	'checkuser-search' => '検索',
+	'checkuser-period' => '期間:',
+	'checkuser-week-1' => '先週',
+	'checkuser-week-2' => '前2週',
+	'checkuser-month' => '前30日間',
+	'checkuser-all' => 'すべて',
 	'checkuser-empty' => 'ログ内にアイテムがありません。',
 	'checkuser-nomatch' => '該当するものはありません。',
 	'checkuser-check' => '調査',
 	'checkuser-log-fail' => 'ログに追加することができません',
 	'checkuser-nolog' => 'ログファイルが見つかりません。',
 	'checkuser-blocked' => 'ブロック済み',
+	'checkuser-wasblocked' => 'ブロック経験あり',
+	'checkuser-massblock' => '選択した利用者をブロックする',
+	'checkuser-massblock-text' => '選択した利用者は無期限ブロックされ、同時に自動ブロックが作動しアカウント作成も禁止されます。IPアドレスはIP利用者向けに1週間ブロックされ、アカウント作成が禁止されます。',
+	'checkuser-blocktag' => '利用者ページを以下で置き換える:',
+	'checkuser-massblock-commit' => '選択した利用者をブロックする',
+	'checkuser-block-success' => "'''$2人の利用者 $1 が現在ブロックされています。'''",
+	'checkuser-block-failure' => "'''ブロックされたユーザーはありません。'''",
+	'checkuser-block-limit' => '利用者の選択数が多すぎます。',
+	'checkuser-block-noreason' => 'ブロック理由の記入が必要です。',
 	'checkuser-too-many' => '検索結果が多すぎます、CIDRの指定を小さく絞り込んでください。利用されたIPは以下の通りです（5000件を上限に、アドレス順でソートされています）:',
 	'checkuser-user-nonexistent' => '指定されたユーザーは存在しません。',
 	'checkuser-search-form' => 'ログ検索条件　$1 が $2',
@@ -2100,6 +2126,8 @@ IPv4（16から32ビットのCIDR表記）と IPv6（64から128ビットのCIDR
 	'checkuser-log-ipusers' => '$1 は $2 からアクセスされた利用者名を取得した',
 	'checkuser-log-ipedits-xff' => '$1 は XFF $2 からなされた編集を取得した',
 	'checkuser-log-ipusers-xff' => '$1 は XFF $2 からアクセスされた利用者名を取得した',
+	'checkuser-email-action' => '利用者"$1"へメールを送る',
+	'checkuser-reset-action' => '利用者"$1"のパスワードをリセット',
 );
 
 /** Jutish (Jysk)
@@ -2499,12 +2527,19 @@ $messages['lb'] = array(
 	'checkuser-edits' => "Weis d'Ännerunge vun der IP-Adress",
 	'checkuser-ips' => 'IP-Adresse kréien/uweisen',
 	'checkuser-search' => 'Sichen',
+	'checkuser-week-1' => 'lescht Woch',
+	'checkuser-week-2' => 'lescht 2 Wochen',
+	'checkuser-month' => 'lescht 30 Deeg',
+	'checkuser-all' => 'all',
 	'checkuser-empty' => 'Dës Lëscht ass eidel.',
 	'checkuser-nomatch' => 'Et goufe keng Iwwereneestëmmunge fonnt.',
 	'checkuser-check' => 'Kontrolléieren',
 	'checkuser-log-fail' => "D'Aschreiwung an d'Logbuch konnt net gemaach ginn",
 	'checkuser-nolog' => "D'Logbuch gouf net fonnt.",
 	'checkuser-blocked' => 'Gespaart',
+	'checkuser-wasblocked' => 'Virdru gespaart',
+	'checkuser-massblock' => 'Ausgewielte Benotzer spären',
+	'checkuser-block-failure' => "'''Et si keng Benotzer gespaart.'''",
 	'checkuser-too-many' => 'Zevill Resultater, gitt w.e.g. méi e klenge Beräich vun Ip-adresen un.
 Hei sinn déi benotzten IP-Adressen (max 5000, sortéiert no der Adress):',
 	'checkuser-user-nonexistent' => 'De gesichte Benotzer gëtt et net.',
@@ -3966,6 +4001,7 @@ $messages['vec'] = array(
 	'checkuser-massblock-commit' => 'Bloca i utenti selessionà',
 	'checkuser-block-success' => "'''{{PLURAL:$2|L'utente|I utenti}} $1 {{PLURAL:$2|el|i}} xe stà blocà.'''",
 	'checkuser-block-failure' => "'''Nissun utente blocà.'''",
+	'checkuser-block-limit' => 'Ti gà selessionà massa utenti.',
 	'checkuser-accounts' => '$1 account {{PLURAL:$1|novo|novi}}',
 	'checkuser-too-many' => 'Xe vegnù fora massa risultati, par piaser dòpara un CIDR piassè ristreto.
 Sti qua i xe i IP doparà (fin a un massimo de 5000, ordinà par indirizo):',
