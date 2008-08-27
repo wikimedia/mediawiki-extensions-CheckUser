@@ -82,6 +82,11 @@ $aliases['ms'] = array(
 	'CheckUser' => array( 'Perisik' ),
 );
 
+/** Erzya (Эрзянь) */
+$aliases['myv'] = array(
+	'CheckUser' => array( 'ВанкшномсКиеТеицясь' ),
+);
+
 /** Nedersaksisch (Nedersaksisch) */
 $aliases['nds-nl'] = array(
 	'CheckUser' => array( 'Gebruker_opvragen' ),
