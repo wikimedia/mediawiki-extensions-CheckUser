@@ -1034,6 +1034,7 @@ Uzu ĉi tion laŭ regularo.',
 	'checkuser-users' => 'Akiri uzantojn',
 	'checkuser-edits' => 'Akiri redaktojn de IP-adreso',
 	'checkuser-ips' => 'Preni IP-adresojn',
+	'checkuser-account' => 'Teni kontajn redaktojn',
 	'checkuser-search' => 'Serĉi',
 	'checkuser-period' => 'Daŭro:',
 	'checkuser-week-1' => 'lasta semajno',
@@ -1046,9 +1047,15 @@ Uzu ĉi tion laŭ regularo.',
 	'checkuser-log-fail' => 'Ne eblis aldoni protokoleron.',
 	'checkuser-nolog' => 'Neniu protokolo estas trovita.',
 	'checkuser-blocked' => 'Forbarita',
+	'checkuser-wasblocked' => 'Antaŭe forbarita',
+	'checkuser-massblock' => 'Forbari selektitajn uzantojn',
+	'checkuser-blocktag' => 'Anstataŭigi uzanto-paĝojn kun:',
+	'checkuser-massblock-commit' => 'Forbari selektitajn uzantojn',
 	'checkuser-block-success' => "'''La {{PLURAL:$2|uzanto|uzantoj}} $1 estas nun {{PLURAL:$2|forbarita|forbaritaj}}.'''",
 	'checkuser-block-failure' => "'''Neniuj uzantoj forbariĝis.'''",
 	'checkuser-block-limit' => 'Tro da uzantoj selektitaj.',
+	'checkuser-block-noreason' => 'Vi devas doni kialon por la forbaroj.',
+	'checkuser-accounts' => '$1 {{PLURAL:$1|nova konto|novaj kontoj}}',
 	'checkuser-too-many' => 'Tro da rezultoj. Bonvolu malvastigi la CIDR. 
 Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
 	'checkuser-user-nonexistent' => 'La donata uzanto ne ekzistas.',
@@ -1064,6 +1071,7 @@ Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
 	'checkuser-log-ipusers' => '$1 akiris uzantojn por $2',
 	'checkuser-log-ipedits-xff' => '$1 akiris redaktojn por XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 akiris uzantojn por XFF $2',
+	'checkuser-log-useredits' => '$1 tenis redaktojn por $2',
 	'checkuser-email-action' => 'sendis retpoŝton al uzanto "$1"',
 	'checkuser-reset-action' => 'restarigis pasvorton por uzanto "$1"',
 );
@@ -1513,7 +1521,7 @@ Os usuarios e as edicións por un cliente IP poden ser recuperados a través das
 	'checkuser-reset-action' => 'envioulle un novo contrasinal ao usuario "$1"',
 );
 
-/** Gothic (𐌲𐌿𐍄𐌹𐍃𐌺) */
+/** Gothic (������������������������������������) */
 $messages['got'] = array(
 	'checkuser-reason' => 'Faírina',
 );
@@ -2372,6 +2380,7 @@ $messages['kk-latn'] = array(
 /** Khmer (ភាសាខ្មែរ)
  * @author Chhorran
  * @author Lovekhmer
+ * @author គីមស៊្រុន
  */
 $messages['km'] = array(
 	'checkuser-logcase' => 'ការស្វែងរកកំណត់ហេតុដោយបែងចែកអក្សរធំ អក្សរតូច។',
@@ -2380,7 +2389,7 @@ $messages['km'] = array(
 	'group-checkuser-member' => 'អ្នកត្រួតពិនិត្យអ្នកប្រើប្រាស់',
 	'right-checkuser' => 'អាសយដ្ឋានIPនិងពត៌មានដ៏ទៃទៀតនៃការត្រួតពិនិត្យអ្នកប្រើប្រាស់',
 	'grouppage-checkuser' => '{{ns:project}}:អ្នកត្រួតពិនិត្យអ្នកប្រើប្រាស់',
-	'checkuser-reason' => 'មូលហេតុ',
+	'checkuser-reason' => 'មូលហេតុ៖',
 	'checkuser-showlog' => 'បង្ហាញកំណត់ហេតុ',
 	'checkuser-log' => 'កំនត់ហេតុនៃការត្រួតពិនិត្យអ្នកប្រើប្រាស់',
 	'checkuser-target' => 'អ្នកប្រើប្រាស់ ឬ IP',
@@ -2397,8 +2406,14 @@ $messages['km'] = array(
 	'checkuser-check' => 'ត្រួតពិនិត្យ',
 	'checkuser-nolog' => 'ឯកសារកំណត់ហេតុមិនត្រូវបានរកឃើញទេ។',
 	'checkuser-blocked' => 'បានហាមឃាត់',
+	'checkuser-wasblocked' => 'ត្រូវបានរាំងខ្ទប់មុននេះ',
+	'checkuser-massblock' => 'រាំងខ្ទប់អ្នកប្រើប្រាស់ដែលត្រូវបានជ្រើសរើស',
 	'checkuser-blocktag' => 'ជំនួសទំព័រអ្នកប្រើប្រាស់ដោយ៖',
-	'checkuser-block-noreason' => 'អ្នកត្រូវតែផ្តល់មូលហេតុសំរាប់ការហាមឃាត់។',
+	'checkuser-massblock-commit' => 'រាំងខ្ទប់អ្នកប្រើប្រាស់ដែលត្រូវបានជ្រើសរើស',
+	'checkuser-block-success' => "'''{{PLURAL:$2|អ្នកប្រើប្រាស់|អ្នកប្រើប្រាស់}} $1 {{PLURAL:$2|ត្រូវ|ត្រូវ}}បានរាំងខ្ទប់ហើយ។'''",
+	'checkuser-block-failure' => "'''គ្មានអ្នកប្រើប្រាស់ណាម្នាក់ត្រូវបានរាំងខ្ទប់ទេ។'''",
+	'checkuser-block-limit' => 'មានអ្នកប្រើប្រាស់ច្រើនពេកហើយត្រូវបានជ្រើសរើស។',
+	'checkuser-block-noreason' => 'អ្នកត្រូវតែផ្តល់មូលហេតុសំរាប់ការរាំងខ្ទប់។',
 	'checkuser-accounts' => '$1គណនីថ្មី',
 	'checkuser-too-many' => 'ច្រើនលទ្ធផល ពេក, សូមបង្រួម CIDR ។ នេះគឺ IP បានប្រើប្រាស់ (អតិបរិមា ៥០០០, រៀបតាម អាស័យដ្ឋាន) ៖',
 	'checkuser-user-nonexistent' => 'មិនមានអ្នកប្រើប្រាស់ដូចដែលបានបញ្ជាក់ទេ។',
@@ -3279,12 +3294,16 @@ $messages['pt'] = array(
 	'checkuser-week-1' => 'última semana',
 	'checkuser-week-2' => 'últimas duas semanas',
 	'checkuser-month' => 'últimos 30 dias',
+	'checkuser-all' => 'todos',
 	'checkuser-empty' => 'O registo não contém itens.',
 	'checkuser-nomatch' => 'Não foram encontrados resultados.',
 	'checkuser-check' => 'Verificar',
 	'checkuser-log-fail' => 'Não foi possível adicionar entradas ao registo',
 	'checkuser-nolog' => 'Não foi encontrado um arquivo de registos.',
 	'checkuser-blocked' => 'Bloqueado',
+	'checkuser-wasblocked' => 'Previamente bloqueado',
+	'checkuser-massblock-commit' => 'Bloquear utilizadores seleccionados',
+	'checkuser-block-success' => "'''{{PLURAL:$2|O utilizador|Os utilizadores}} $1 {{PLURAL:$2|está|estão}} agora {{PLURAL:$2|bloqueado|bloqueados}}.'''",
 	'checkuser-block-limit' => 'Demasiados utilizadores selecionados.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nova conta|novas contas}}',
 	'checkuser-too-many' => 'Demasiados resultados; por favor, restrinja o CIDR. Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',

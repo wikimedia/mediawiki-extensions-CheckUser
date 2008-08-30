@@ -67,6 +67,11 @@ $aliases['ht'] = array(
 	'CheckUser' => array( 'TchekeItilizatè' ),
 );
 
+/** Indonesian (Bahasa Indonesia) */
+$aliases['id'] = array(
+	'CheckUser' => array( 'Pemeriksa' ),
+);
+
 /** Khmer (ភាសាខ្មែរ) */
 $aliases['km'] = array(
 	'CheckUser' => array( 'ត្រួតពិនិត្យអ្នកប្រើប្រាស់' ),
