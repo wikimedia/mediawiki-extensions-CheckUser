@@ -1521,7 +1521,6 @@ Os usuarios e as edicións por un cliente IP poden ser recuperados a través das
 	'checkuser-reset-action' => 'envioulle un novo contrasinal ao usuario "$1"',
 );
 
-/** Gothic (������������������������������������) */
 $messages['got'] = array(
 	'checkuser-reason' => 'Faírina',
 );
@@ -1605,8 +1604,8 @@ $messages['he'] = array(
 כתובות IP ייחסמו לשבוע אחד, עבור משתמשים אנונימיים בלבד, ועם חסימה של יצירת החשבונות.',
 	'checkuser-blocktag' => 'החלפת דפי המשתמש עם:',
 	'checkuser-massblock-commit' => 'חסימת המשתמשים שנבחרו',
-	'checkuser-block-success' => '\'\'\'The {{PLURAL:$2|המשתמש|המשתמשים}} $1 {{PLURAL:$2|חסום|חסומים}} כעת.\'\'\'',
-	'checkuser-block-failure' => '\'\'\'לא נחסמו משתמשים.\'\'\'',
+	'checkuser-block-success' => "'''The {{PLURAL:$2|המשתמש|המשתמשים}} $1 {{PLURAL:$2|חסום|חסומים}} כעת.'''",
+	'checkuser-block-failure' => "'''לא נחסמו משתמשים.'''",
 	'checkuser-block-limit' => 'נבחרו יותר מדי משתמשים.',
 	'checkuser-block-noreason' => 'עליכם לתת סיבה לחסימות.',
 	'checkuser-accounts' => '{{PLURAL:$1|חשבון חדש אחד|$1 חשבונות חדשים}}',
@@ -2433,11 +2432,13 @@ $messages['kn'] = array(
 );
 
 /** Korean (한국어)
+ * @author Ficell
  * @author Klutzy
  * @author Kwj2772
  * @author ToePeu
  */
 $messages['ko'] = array(
+	'checkuser-desc' => '사용자의 IP 주소를 포함한 정보를 볼 수 있는 권한을 특정한 사용자에게 준다.',
 	'checkuser' => '체크유저',
 	'group-checkuser' => '체크유저',
 	'group-checkuser-member' => '체크유저',
@@ -2447,6 +2448,7 @@ $messages['ko'] = array(
 	'checkuser-log' => '체크유저 기록',
 	'checkuser-search' => '찾기',
 	'checkuser-search-submit' => '찾기',
+	'checkuser-log-userips' => '$1 은(는) $2 이(가) 사용한 IP 주소를 열람했습니다.',
 );
 
 /** Kinaray-a (Kinaray-a)
@@ -3101,6 +3103,7 @@ $messages['nso'] = array(
 
 /** Occitan (Occitan)
  * @author Cedric31
+ * @author IAlex
  */
 $messages['oc'] = array(
 	'checkuser-summary' => "Aqueste esplech passa en revista los cambiaments recents per recercar l'IPS emplegada per un utilizaire, mostrar totas las edicions fachas per una IP, o per enumerar los utilizaires qu'an emplegat las IPs. Los utilizaires e las modificacions pòdon èsser trobatss amb una IP XFF se s'acaba amb « /xff ». IPv4 (CIDR 16-32) e IPv6(CIDR 64-128) son suportats. Emplegatz aquò segon las cadenas de caractèrs.",
@@ -3141,6 +3144,8 @@ Las adreças IP seràn blocadas pendent una setmana unicament pels utilizaires j
 	'checkuser-massblock-commit' => 'Blocar los utilizaires seleccionats',
 	'checkuser-block-success' => "'''{{PLURAL:$2|L’utilizaire|Los utilizaires}} $1 {{PLURAL:$2|ara es blocat|ara son blocats}}.'''",
 	'checkuser-block-failure' => "'''Cap d'utilizaire pas blocat.'''",
+	'checkuser-block-limit' => "Tròp d'utilizaires seleccionats.",
+	'checkuser-block-noreason' => 'Vos cal especificar un motiu pels blocatges.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|compte novèl|comptes novèls}}',
 	'checkuser-too-many' => 'Tròp de resultats. Limitatz la recèrca sus las adreças IP :',
 	'checkuser-user-nonexistent' => 'L’utilizaire indicat existís pas',
@@ -4180,6 +4185,7 @@ Redakams no plu 5000 pejonons sekü kods kaenavik. Gebolös stumi at bai nomem.'
 	'checkuser-log-fail' => 'No eplöpos ad laükön jenotalisede',
 	'checkuser-nolog' => 'Ragiv jenotaliseda no petuvon.',
 	'checkuser-blocked' => 'Peblokon',
+	'checkuser-accounts' => '{{PLURAL:$1|kal|kals}} nulik $1',
 	'checkuser-too-many' => 'Sukaseks te mödiks, nedol gebön eli CIDR smalikum. Is palisedons ladets-IP pegeböl (jü 5000, peleodüköls ma ladet):',
 	'checkuser-user-nonexistent' => 'Geban at no dabinon.',
 	'checkuser-search-form' => 'Tuvön lienis jenotaliseda, kö $1 binon $2',
