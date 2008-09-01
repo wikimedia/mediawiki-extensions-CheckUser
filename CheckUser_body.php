@@ -262,21 +262,25 @@ class CheckUser extends SpecialPage
 				0, // suppress name?
 				0 // block from sending email?
 			);
-			// Kill old blocks, but leave range blocks
 			$oldblock = Block::newFromDB( $u->getName() );
+			/*
+			// Kill old blocks, but leave range blocks
 			if( $oldblock && $oldblock->mAddress == $u->getName() && $block->mRangeStart == $block->mRangeEnd ) {
 				$oldblock->delete();
 			}
-			$block->insert();
-			# Prepare log parameters
-			$logParams = array();
-			$logParams[] = $expirestr;
-			if( $anonOnly ) {
-				$logParams[] = 'anononly';
+			*/
+			if( !$oldblock ) {
+				$block->insert();
+				# Prepare log parameters
+				$logParams = array();
+				$logParams[] = $expirestr;
+				if( $anonOnly ) {
+					$logParams[] = 'anononly';
+				}
+				$logParams[] = 'nocreate';
+				# Add log entry
+				$log->addEntry( 'block', $usertitle, $reason, $logParams );
 			}
-			$logParams[] = 'nocreate';
-			# Add log entry
-			$log->addEntry( 'block', $usertitle, $reason, $logParams );
 			# Tag userpage! (check length to avoid mistakes)
 			if( strlen($tag) > 2 ) {
 				$userpage->doEdit( $tag, $reason, EDIT_MINOR );
