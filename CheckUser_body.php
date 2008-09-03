@@ -222,70 +222,7 @@ class CheckUser extends SpecialPage
 			$wgOut->addWikiText( wfMsgExt('checkuser-block-noreason',array('parsemag')) );
 			return;
 		}
-		$counter = $blockSize = 0;
-		$safeUsers = array();
-		$log = new LogPage( 'block' );
-		foreach( $users as $name ) {
-			# Enforce limits
-			$counter++;
-			$blockSize++;
-			if( $counter > $wgCheckUserMaxBlocks ) {
-				break;
-			}
-			# Lets not go *too* fast
-			if( $blockSize >= 20 ) {
-				$blockSize = 0;
-				wfWaitForSlaves( 5 );
-			}
-			$u = User::newFromName( $name, false );
-			// If user doesn't exist, it ought to be an IP then
-			if( is_null($u) || (!$u->getId() && !IP::isIPAddress( $u->getName() )) ) {
-				continue;
-			}
-			$usertitle = Title::makeTitle( NS_USER, $u->getName() );
-			$userpage = new Article( $usertitle );
-			$safeUsers[] = '[[' . $usertitle->getPrefixedText() . '|' . $usertitle->getText() . ']]';
-			$expirestr = $u->getId() ? 'indefinite' : '1 week';
-			$expiry = Block::parseExpiryInput( $expirestr );
-			$anonOnly = IP::isIPAddress( $u->getName() ) ? 1 : 0;
-			// Create the block
-			$block = new Block( $u->getName(), // victim
-				$u->getId(), // uid
-				$wgUser->getId(), // blocker
-				$reason, // comment
-				wfTimestampNow(), // block time
-				0, // auto ?
-				$expiry, // duration
-				$anonOnly, // anononly?
-				1, // block account creation?
-				1, // autoblocking?
-				0, // suppress name?
-				0 // block from sending email?
-			);
-			$oldblock = Block::newFromDB( $u->getName() );
-			/*
-			// Kill old blocks, but leave range blocks
-			if( $oldblock && $oldblock->mAddress == $u->getName() && $block->mRangeStart == $block->mRangeEnd ) {
-				$oldblock->delete();
-			}
-			*/
-			if( !$oldblock ) {
-				$block->insert();
-				# Prepare log parameters
-				$logParams = array();
-				$logParams[] = $expirestr;
-				if( $anonOnly ) {
-					$logParams[] = 'anononly';
-				}
-				$logParams[] = 'nocreate';
-				# Add log entry
-				$log->addEntry( 'block', $usertitle, $reason, $logParams );
-			}
-			# Tag userpage! (check length to avoid mistakes)
-			if( strlen($tag) > 2 ) {
-				$userpage->doEdit( $tag, $reason, EDIT_MINOR );
-			}
-		}
+		$safeUsers = IPBlockForm::doMassUserBlock( $users, $reason, $tag );
 		if( !empty($safeUsers) ) {
 			$n = count($safeUsers);
 			$ulist = implode(', ',$safeUsers);
