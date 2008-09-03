@@ -188,7 +188,7 @@ No s'otendrán más de 5000 edizions por razons de prestazions. Faiga serbir ist
 	'group-checkuser-member' => "Comprebador d'usuarios",
 	'right-checkuser' => "Comprebar as adrezas IP de l'usuario y atras informazions",
 	'grouppage-checkuser' => "{{ns:project}}:comprebazión d'usuarios",
-	'checkuser-reason' => 'Razón',
+	'checkuser-reason' => 'Razón:',
 	'checkuser-showlog' => 'Amostrar o rechistro',
 	'checkuser-log' => "Rechistro de CheckUser (comprebazión d'usuarios)",
 	'checkuser-query' => 'Mirar en os zaguers cambeos',
@@ -1049,6 +1049,8 @@ Uzu ĉi tion laŭ regularo.',
 	'checkuser-blocked' => 'Forbarita',
 	'checkuser-wasblocked' => 'Antaŭe forbarita',
 	'checkuser-massblock' => 'Forbari selektitajn uzantojn',
+	'checkuser-massblock-text' => 'Selektitaj kontoj estos forbaritaj senlime, kun aŭtomata forbaro ŝaltita kaj kont-kreado malŝaltita.
+IP-adresoj estos forbarita 1 semajnon por IP-uzantoj kun kont-kreado malpermesita.',
 	'checkuser-blocktag' => 'Anstataŭigi uzanto-paĝojn kun:',
 	'checkuser-massblock-commit' => 'Forbari selektitajn uzantojn',
 	'checkuser-block-success' => "'''La {{PLURAL:$2|uzanto|uzantoj}} $1 estas nun {{PLURAL:$2|forbarita|forbaritaj}}.'''",
@@ -2874,9 +2876,11 @@ Bagi pengguna tanpa nama, alamat IP-nya akan disekat selama seminggu, dengan pen
 
 /** Erzya (Эрзянь)
  * @author Amdf
+ * @author Botuzhaleny-sodamo
  * @author Tupikovs
  */
 $messages['myv'] = array(
+	'checkuser-reason' => 'Тувталось:',
 	'checkuser-target' => 'Совиця эли IP',
 	'checkuser-search' => 'Вешнемс',
 );
@@ -2954,8 +2958,8 @@ Gebruik dit hulpmiddel volgens het vastgestelde beleid.',
 	'checkuser-desc' => 'Laat bevoegde gebruikers IP-adressen en andere informatie van gebruikers achterhalen',
 	'checkuser-logcase' => 'Zoeken in het logboek is hoofdlettergevoelig.',
 	'checkuser' => 'Gebruiker controleren',
-	'group-checkuser' => 'Controlegebruikers',
-	'group-checkuser-member' => 'Controlegebruiker',
+	'group-checkuser' => 'controlegebruikers',
+	'group-checkuser-member' => 'controlegebruiker',
 	'right-checkuser' => 'IP-adressen en andere gegevens van gebruikers nakijken',
 	'right-checkuser-log' => 'Het Logboek controleren gebruikers bekijken',
 	'grouppage-checkuser' => '{{ns:project}}:Controlegebruiker',
@@ -3313,9 +3317,13 @@ $messages['pt'] = array(
 	'checkuser-nolog' => 'Não foi encontrado um arquivo de registos.',
 	'checkuser-blocked' => 'Bloqueado',
 	'checkuser-wasblocked' => 'Previamente bloqueado',
+	'checkuser-massblock' => 'Bloquear utilizadores seleccionados',
+	'checkuser-blocktag' => 'Substituir páginas de utilizador com:',
 	'checkuser-massblock-commit' => 'Bloquear utilizadores seleccionados',
 	'checkuser-block-success' => "'''{{PLURAL:$2|O utilizador|Os utilizadores}} $1 {{PLURAL:$2|está|estão}} agora {{PLURAL:$2|bloqueado|bloqueados}}.'''",
+	'checkuser-block-failure' => "'''Nenhum utilizador bloqueado.'''",
 	'checkuser-block-limit' => 'Demasiados utilizadores selecionados.',
+	'checkuser-block-noreason' => 'Tem de especificar um motivo para os bloqueios.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nova conta|novas contas}}',
 	'checkuser-too-many' => 'Demasiados resultados; por favor, restrinja o CIDR. Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
 	'checkuser-user-nonexistent' => 'O utilizador especificado não existe.',
@@ -3949,6 +3957,19 @@ $messages['tg-cyrl'] = array(
 	'checkuser-log-ipusers' => '$1 корбарони марбут ба $2ро гирифт',
 	'checkuser-log-ipedits-xff' => '$1 вироишҳои XFF $2ро гирифт',
 	'checkuser-log-ipusers-xff' => '$1 корбарони марбут ба XFF $2ро гирифт',
+);
+
+/** Thai (ไทย)
+ * @author Octahedron80
+ */
+$messages['th'] = array(
+	'checkuser-search' => 'ค้นหา',
+	'checkuser-period' => 'ระยะเวลา:',
+	'checkuser-week-1' => 'สัปดาห์ที่แล้ว',
+	'checkuser-week-2' => '2 สัปดาห์ที่แล้ว',
+	'checkuser-month' => '30 วันที่แล้ว',
+	'checkuser-all' => 'ทั้งหมด',
+	'checkuser-search-submit' => 'ค้นหา',
 );
 
 /** Tonga (faka-Tonga) */

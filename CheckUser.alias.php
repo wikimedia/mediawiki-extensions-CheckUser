@@ -67,6 +67,11 @@ $aliases['ht'] = array(
 	'CheckUser' => array( 'TchekeItilizatè' ),
 );
 
+/** Hungarian (Magyar) */
+$aliases['hu'] = array(
+	'CheckUser' => array( 'IP-ellenőr' ),
+);
+
 /** Indonesian (Bahasa Indonesia) */
 $aliases['id'] = array(
 	'CheckUser' => array( 'Pemeriksa' ),
@@ -112,5 +117,10 @@ $aliases['no'] = array(
 /** Thai (ไทย) */
 $aliases['th'] = array(
 	'CheckUser' => array( 'ตรวจสอบผู้ใช้' ),
+);
+
+/** Turkish (Türkçe) */
+$aliases['tr'] = array(
+	'CheckUser' => array( 'Denetçi' ),
 );
 
