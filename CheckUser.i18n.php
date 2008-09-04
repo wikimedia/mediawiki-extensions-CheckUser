@@ -541,6 +541,7 @@ $messages['be-tarask'] = array(
 /** Bulgarian (Български)
  * @author Borislav
  * @author DCLXVI
+ * @author Spiritia
  */
 $messages['bg'] = array(
 	'checkuser-summary' => 'Този инструмент сканира последните промени и извлича IP адресите, използвани от потребител или показва информацията за редакциите/потребителя за посоченото IP.
@@ -576,7 +577,10 @@ $messages['bg'] = array(
 	'checkuser-massblock' => 'Блокиране на избраните потребители',
 	'checkuser-blocktag' => 'Заместване на потребителските страници с:',
 	'checkuser-massblock-commit' => 'Блокиране на избраните потребители',
+	'checkuser-block-success' => "'''{{PLURAL:$2|Потребител|Потребители}} $1 {{PLURAL:$2|беше блокиран|бяха блокирани}}.'''",
 	'checkuser-block-failure' => "'''Няма блокирани потребители.'''",
+	'checkuser-block-limit' => 'Избрани са твърде много потребители.',
+	'checkuser-block-noreason' => 'Трябва да се посочи причина за блокиранията.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|нова сметка|нови сметки}}',
 	'checkuser-too-many' => 'Твърде много резултати. Показани са използваните IP адреси (най-много 5000, сортирани по адрес):',
 	'checkuser-user-nonexistent' => 'Посоченият потребител не съществува.',
@@ -1082,6 +1086,7 @@ Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
  * @author Dmcdevit
  * @author Jatrobat
  * @author Lin linao
+ * @author Muro de Aguas
  * @author Piolinfax
  * @author Spacebirdy
  * @author Titoxd
@@ -1090,6 +1095,7 @@ $messages['es'] = array(
 	'checkuser-summary' => 'Esta herramienta explora los cambios recientes para obtener las IPs utilizadas por un usuario o para mostrar la información de ediciones/usuarios de una IP.
 También se pueden obtener los usuarios y las ediciones de un cliente IP vía XFF añadiendo "/xff". IPv4 (CIDR 16-32) y IPv6 (CIDR 64-128) funcionan.
 No se muestran más de 5000 ediciones por motivos de rendimiento. Usa esta herramienta en acuerdo con la ley orgánica de protección de datos.',
+	'checkuser-desc' => 'Permite a los usuarios que tienen permiso especial comprobar las IPs de los usuarios además de otra información.',
 	'checkuser-logcase' => 'El buscador de registros distingue entre mayúsculas y minúsculas.',
 	'checkuser' => 'Verificador de usuarios',
 	'group-checkuser' => 'Verificadores de usuarios',
@@ -1497,6 +1503,8 @@ Os usuarios e as edicións por un cliente IP poden ser recuperados a través das
 	'checkuser-blocked' => 'Bloqueado',
 	'checkuser-wasblocked' => 'Bloqueados anteriormente',
 	'checkuser-massblock' => 'Bloquear os usuarios seleccionados',
+	'checkuser-massblock-text' => 'As contas seleccionadas serán bloqueadas indefinidamente, co bloqueo automático permitido e a creación de contas deshabilitada.  
+Os enderezos IP serán bloqueados cun tempo de duración dunha semana só para os usuarios con IP e coa creación de contas deshabilitada.',
 	'checkuser-blocktag' => 'Substituír as páxinas de usuario por:',
 	'checkuser-massblock-commit' => 'Bloquear os usuarios seleccionados',
 	'checkuser-block-success' => "'''{{PLURAL:$2|O usuario|Os usuarios}} $1 xa {{PLURAL:$2|está|están}} bloqueados.'''",
@@ -2255,7 +2263,7 @@ Ing ngisor iki kapacak alamat-alamat IP sing dienggo (maks. 5.000, diurutaké ad
  * @author Malafaya
  */
 $messages['ka'] = array(
-	'checkuser-reason' => 'მიზეზი',
+	'checkuser-reason' => 'მიზეზი:',
 );
 
 /** Kazakh (Arabic script) (‫قازاقشا (تٴوتە)‬) */
@@ -3416,6 +3424,10 @@ Foloseşte unealta în concordanţă cu politica sitului.',
 	'checkuser-edits' => 'Arată editările IP-ului',
 	'checkuser-ips' => 'Arată IP-urile',
 	'checkuser-search' => 'Caută',
+	'checkuser-period' => 'Durată:',
+	'checkuser-week-1' => 'săptămâna trecută',
+	'checkuser-week-2' => 'ultimele două săptămâni',
+	'checkuser-month' => 'ultimele 30 de zile',
 	'checkuser-empty' => 'Jurnalul nu conţine înregistrări.',
 	'checkuser-nomatch' => 'Nu au fost găsite potriviri.',
 	'checkuser-check' => 'Verifică',
@@ -3427,6 +3439,7 @@ Foloseşte unealta în concordanţă cu politica sitului.',
 	'checkuser-massblock-commit' => 'Blochează utilizatorii aleşi',
 	'checkuser-block-success' => "'''{{PLURAL:$2|Utilizatorul|Utilizatorii}} $1 {{PLURAL:$2|este blocat|sunt blocaţi}}.'''",
 	'checkuser-block-failure' => "'''Niciun utilizator nu este blocat.'''",
+	'checkuser-accounts' => '$1 {{PLURAL:$1|cont nou|conturi noi}}',
 	'checkuser-too-many' => 'Prea multe rezultate, te rog îngustează CIDR.
 Iată IP-urile folosite (maxim 5000, sortate dup adresă):',
 	'checkuser-user-nonexistent' => 'Utilizatorul specificat nu există.',
@@ -3763,7 +3776,7 @@ Di handap ieu béréndélan IP nu dipaké (paling loba 5000, disusun dumasar ala
 	'checkuser-log-subpage' => 'Log',
 	'checkuser-log-return' => 'Balik ka formulir utama PamakéPamariksa',
 	'checkuser-log-userips' => '$1 manggih IP ti $2',
-	'checkuser-log-ipedits' => '$! manggih éditan ti $2',
+	'checkuser-log-ipedits' => '$1 manggih éditan ti $2',
 	'checkuser-log-ipusers' => '$1 manggih pamaké ti $2',
 	'checkuser-log-ipedits-xff' => '$1 manggih éditan ti XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 manggih pamaké ti XFF $2',
