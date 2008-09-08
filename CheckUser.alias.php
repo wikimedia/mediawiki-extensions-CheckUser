@@ -28,6 +28,11 @@ $aliases['arz'] = array(
 	'CheckUser' => array( 'تدقيق_مستخدم' ),
 );
 
+/** Assamese (অসমীয়া) */
+$aliases['as'] = array(
+	'CheckUser' => array( 'সদস্যৰ অনুসন্ধান কৰক' ),
+);
+
 /** German (Deutsch)
  * @author Raimond Spekking
  */
