@@ -275,21 +275,30 @@ class CheckUser extends SpecialPage
 		$sql = "SELECT cuc_ip,cuc_ip_hex, COUNT(*) AS count, 
 			MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last 
 			FROM $cu_changes $use_index WHERE cuc_user = $user_id AND $time_conds 
-			GROUP BY cuc_ip,cuc_ip_hex ORDER BY last DESC LIMIT 5000";
+			GROUP BY cuc_ip,cuc_ip_hex ORDER BY last DESC LIMIT 5001";
 		
 		$ret = $dbr->query( $sql, __METHOD__ );
-
 		if( !$dbr->numRows( $ret ) ) {
 			$s = wfMsgHtml("checkuser-nomatch")."\n";
 		} else {
 			$blockip = SpecialPage::getTitleFor( 'blockip' );
 			$ips_edits = array();
+			$counter = 0;
 			while( $row = $dbr->fetchObject($ret) ) {
+				if( $counter >= 5000 ) {
+					$wgOut->addHTML( wfMsgExt('checkuser-limited',array('parse')) );
+					break;
+				}
 				$ips_edits[$row->cuc_ip] = $row->count;
 				$ips_first[$row->cuc_ip] = $row->first;
 				$ips_last[$row->cuc_ip] = $row->last;
 				$ips_hex[$row->cuc_ip] = $row->cuc_ip_hex;
+				++$counter;
 			}
+			// Count pinging might take some time...make sure it is there
+			wfSuppressWarnings();
+			set_time_limit(60);
+			wfRestoreWarnings();
 			
 			$logs = SpecialPage::getTitleFor( 'Log' );
 			$blocklist = SpecialPage::getTitleFor( 'Ipblocklist' );
@@ -388,7 +397,7 @@ class CheckUser extends SpecialPage
 		# Check how many rows will need sorting ahead of time to see if this is too big.
 		# Also, if we only show 5000, too many will be ignored as well.
 		$index = $xfor ? 'cuc_xff_hex_time' : 'cuc_ip_hex_time';
-		if( strpos($ip,'/') !==false ) {
+		if( strpos($ip,'/') !== false ) {
 			# Quick index check only OK if no time constraint
 			if( $period ) {
 				$rangecount = $dbr->selectField( 'cu_changes', 'COUNT(*)',
@@ -406,6 +415,7 @@ class CheckUser extends SpecialPage
 			set_time_limit(60);
 			wfRestoreWarnings();
 		}
+		$counter = 0;
 		# See what is best to do after testing the waters...
 		if( isset($rangecount) && $rangecount > 5000 ) {
 		 	$use_index = $dbr->useIndexClause( $index );
@@ -413,12 +423,16 @@ class CheckUser extends SpecialPage
 				MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last 
 				FROM $cu_changes $use_index
 				WHERE $ip_conds AND $time_conds  
-				GROUP BY cuc_ip_hex ORDER BY cuc_ip_hex LIMIT 5000";
+				GROUP BY cuc_ip_hex ORDER BY cuc_ip_hex LIMIT 5001";
 			$ret = $dbr->query( $sql, __METHOD__ );
 			# List out each IP that has edits
-			$s = '<h5>' . wfMsg('checkuser-too-many') . '</h5>';
+			$s = wfMsgExt('checkuser-too-many',array('parse'));
 			$s .= '<ol>';
 			while( $row = $ret->fetchObject() ) {
+				if( $counter >= 5000 ) {
+					$wgOut->addHTML( wfMsgExt('checkuser-limited',array('parse')) );
+					break;
+				}
 				# Convert the IP hexes into normal form
 				if( strpos($row->cuc_ip_hex,'v6-') !==false ) {
 					$ip = substr( $row->cuc_ip_hex, 3 );
@@ -436,6 +450,7 @@ class CheckUser extends SpecialPage
 					' -- ' . $wgLang->timeanddate( $row->last, true ) . ') ';
 				}
 				$s .= " [<strong>" . $row->count . "</strong>]</li>\n";
+				++$counter;
 			}
 			$s .= '</ol>';
 			$dbr->freeResult( $ret );
@@ -445,14 +460,13 @@ class CheckUser extends SpecialPage
 		} else if( isset($rangecount) && !$rangecount ) {
 			$s = wfMsgHtml("checkuser-nomatch")."\n";
 			$wgOut->addHTML( $s );
-			
 			return;
 		} 
 		# OK, do the real query...
 		$use_index = $dbr->useIndexClause( $index );
 		$sql = "SELECT cuc_namespace,cuc_title,cuc_user,cuc_user_text,cuc_comment,cuc_actiontext,
 			cuc_timestamp,cuc_minor,cuc_page_id,cuc_type,cuc_this_oldid,cuc_last_oldid,cuc_ip,cuc_xff,cuc_agent 
-			FROM $cu_changes $use_index WHERE $ip_conds AND $time_conds ORDER BY cuc_timestamp DESC LIMIT 5000";
+			FROM $cu_changes $use_index WHERE $ip_conds AND $time_conds ORDER BY cuc_timestamp DESC LIMIT 5001";
 		$ret = $dbr->query( $sql, __METHOD__ );
 
 		if( !$dbr->numRows( $ret ) ) {
@@ -473,7 +487,12 @@ class CheckUser extends SpecialPage
 			# List out the edits
 			$s = '<div id="checkuserresults">';
 			while( $row = $ret->fetchObject() ) {
+				if( $counter >= 5000 ) {
+					$wgOut->addHTML( wfMsgExt('checkuser-limited',array('parse')) );
+					break;
+				}
 				$s .= $this->CUChangesLine( $row, $reason );
+				++$counter;
 			}
 			$s .= '</ul></div>';
 			$dbr->freeResult( $ret );
@@ -524,14 +543,22 @@ class CheckUser extends SpecialPage
 		# Ordered in descent by timestamp. Causes large filesorts if there are many edits.
 		# Check how many rows will need sorting ahead of time to see if this is too big.
 		# If it is, sort by IP,time to avoid the filesort.
-		$count = $dbr->estimateRowCount( 'cu_changes', '*',
-			array( $user_cond, $time_conds ),
-			__METHOD__,
-			array( 'USE INDEX' => 'cuc_user_ip_time' ) );
+		if( $period ) {
+			$count = $dbr->selectField( 'cu_changes', 'COUNT(*)',
+				array( $user_cond, $time_conds ),
+				__METHOD__,
+				array( 'USE INDEX' => 'cuc_user_ip_time' ) );
+		} else {
+			$count = $dbr->estimateRowCount( 'cu_changes', '*',
+				array( $user_cond, $time_conds ),
+				__METHOD__,
+				array( 'USE INDEX' => 'cuc_user_ip_time' ) );
+		}
 		# Cache common messages
 		$this->preCacheMessages();
 		# See what is best to do after testing the waters...
-		if( $count > 3000 ) {
+		if( $count > 5000 ) {
+			$wgOut->addHTML( wfMsgExt('checkuser-limited',array('parse')) );
 		 	$use_index = $dbr->useIndexClause( 'cuc_user_ip_time' );
 			$sql = "SELECT * FROM $cu_changes $use_index
 				WHERE $user_cond AND $time_conds  
@@ -565,6 +592,10 @@ class CheckUser extends SpecialPage
 			$wgOut->addHTML( $s );
 			return;
 		}
+		// Sorting might take some time...make sure it is there
+		wfSuppressWarnings();
+		set_time_limit(60);
+		wfRestoreWarnings();
 		# OK, do the real query...
 		$use_index = $dbr->useIndexClause( 'cuc_user_ip_time' );
 		$sql = "SELECT * FROM $cu_changes $use_index 
@@ -652,12 +683,17 @@ class CheckUser extends SpecialPage
 			$sql = "SELECT cuc_ip_hex, COUNT(*) AS count,
 				MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last 
 				FROM $cu_changes $use_index WHERE $ip_conds AND $time_conds  
-				GROUP BY cuc_ip_hex ORDER BY cuc_ip_hex LIMIT 5000";
+				GROUP BY cuc_ip_hex ORDER BY cuc_ip_hex LIMIT 5001";
 			$ret = $dbr->query( $sql, __METHOD__ );
 			# List out each IP that has edits
 			$s = '<h5>' . wfMsg('checkuser-too-many') . '</h5>';
 			$s .= '<ol>';
+			$counter = 0;
 			while( $row = $ret->fetchObject() ) {
+				if( $counter >= 5000 ) {
+					$wgOut->addHTML( wfMsgExt('checkuser-limited',array('parse')) );
+					break;
+				}
 				# Convert the IP hexes into normal form
 				if( strpos($row->cuc_ip_hex,'v6-') !==false ) {
 					$ip = substr( $row->cuc_ip_hex, 3 );
@@ -675,6 +711,7 @@ class CheckUser extends SpecialPage
 					' -- ' . $wgLang->timeanddate( $row->last, true ) . ') ';
 				}
 				$s .= " [<strong>" . $row->count . "</strong>]</li>\n";
+				++$counter;
 			}
 			$s .= '</ol>';
 			$dbr->freeResult( $ret );
@@ -692,7 +729,7 @@ class CheckUser extends SpecialPage
 		$use_index = $dbr->useIndexClause( $index );
 		$sql = "SELECT cuc_user_text, cuc_timestamp, cuc_user, cuc_ip, cuc_agent, cuc_xff 
 			FROM $cu_changes $use_index WHERE $ip_conds AND $time_conds 
-			ORDER BY cuc_timestamp DESC LIMIT 5000";
+			ORDER BY cuc_timestamp DESC LIMIT 10000";
 		$ret = $dbr->query( $sql, __METHOD__ );
 
 		$users_first = $users_last = $users_edits = $users_ids = array();

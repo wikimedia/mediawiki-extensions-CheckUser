@@ -62,6 +62,8 @@ Here are the IPs used (5000 max, sorted by address):',
 	'checkuser-ipeditcount'      => '~$1 from all users',
 	'checkuser-log-subpage'      => 'Log',
 	'checkuser-log-return'       => 'Return to CheckUser main form',
+	
+	'checkuser-limited'          => '\'\'\'These results have been truncated for performance reasons.\'\'\'',
 
 	'checkuser-log-userips'      => '$1 got IPs for $2',
 	'checkuser-log-ipedits'      => '$1 got edits for $2',
