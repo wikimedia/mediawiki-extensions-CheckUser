@@ -106,6 +106,7 @@ $messages['qqq'] = array(
 	'checkuser-massblock-commit' => '{{Identical|Block selected users}}',
 	'checkuser-search-submit' => '{{Identical|Search}}',
 	'checkuser-ipeditcount' => "This information is shown on the result page of [[mw:Extension:CheckUser|Special:CheckUser]] (when doing the ''{{int:Checkuser-users}}'' check), next to the individual listed IPs. It shows an estimate of the total number of edits from the respective IP (i.e. the number of edits by all users, not only by the requested user). As the comment in the code says: ''If we get some results, it helps to know if the IP in general has a lot more edits, e.g. “tip of the iceberg”…''",
+	'checkuser-limited' => 'A message shown above CheckUser results if the result list would be longer than the specified limit (5000 entries), and has been truncated.',
 	'checkuser-log-userips' => 'This is an entry in the checkuser log when a checkuser checks from which IP addresses a user has edited.
 * Parameter $1 is the user who did the check
 * Parameter $2 is the user that was checked, with links to talk page, contributions, and block (like this: [[User:Username|Username]] ( [[User talk|Talk]] | [[Special:Contributions/Username|contribs]] | [[Special:Blockip|block]]) )',
@@ -286,6 +287,7 @@ $messages['ar'] = array(
 	'checkuser-ipeditcount' => '~$1 من كل المستخدمين',
 	'checkuser-log-subpage' => 'سجل',
 	'checkuser-log-return' => 'ارجع إلى استمارة تدقيق المستخدم الرئيسية',
+	'checkuser-limited' => "'''هذه النتائج تم اختصارها لأسباب تتعلق بالأداء.'''",
 	'checkuser-log-userips' => '$1 حصل على الأيبيهات ل $2',
 	'checkuser-log-ipedits' => '$1 حصل على التعديلات ل $2',
 	'checkuser-log-ipusers' => '$1 حصل على المستخدمين ل $2',
@@ -357,6 +359,7 @@ IPv4 (CIDR 16-32) و IPv6 (CIDR 64-128) مدعومين.
 	'checkuser-ipeditcount' => '~$1 من كل اليوزرز',
 	'checkuser-log-subpage' => 'سجل',
 	'checkuser-log-return' => 'ارجع للاستمارة الرئيسية بتاعة تشييك اليوزرز',
+	'checkuser-limited' => "''' النتايج دي اتعملها اختصار لأسباب متعلقة  بالأداء.'''",
 	'checkuser-log-userips' => '$1 جاب الاى بى بتوع $2',
 	'checkuser-log-ipedits' => '$1 جاب التعديلات بتاعة $2',
 	'checkuser-log-ipusers' => '$1 جاب اليوزرز بتوع $2',
@@ -833,6 +836,7 @@ Z výkonnostních důvodů lze zobrazit maximálně 5000 editací. Používejte 
 	'checkuser-ipeditcount' => 'asi $1 od všech uživatelů',
 	'checkuser-log-subpage' => 'Záznamy',
 	'checkuser-log-return' => 'Návrat na hlavní formulář Kontroly uživatele',
+	'checkuser-limited' => "'''Výsledky byly z výkonnostních důvodů zkráceny.'''",
 	'checkuser-log-userips' => '$1 zjišťuje IP adresy uživatele $2',
 	'checkuser-log-ipedits' => '$1 zjišťuje editace z IP $2',
 	'checkuser-log-ipusers' => '$1 zjišťuje uživatele z IP $2',
@@ -952,6 +956,7 @@ IP-Adressen werden für eine Woche gesperrt (nur für anonyme Benutzer, die Anla
 	'checkuser-ipeditcount' => '~$1 von allen Benutzern',
 	'checkuser-log-subpage' => 'Logbuch',
 	'checkuser-log-return' => 'Zurück zum CheckUser-Hauptformular',
+	'checkuser-limited' => "'''Die Ergebnisliste wurde aus Performancegründen gekürzt.'''",
 	'checkuser-log-userips' => '$1 holte IP-Adressen für $2',
 	'checkuser-log-ipedits' => '$1 holte Bearbeitungen für $2',
 	'checkuser-log-ipusers' => '$1 holte Benutzer für $2',
@@ -1353,6 +1358,7 @@ Les adresses IP seront bloquées pendant une semaine uniquement pour les utilisa
 	'checkuser-ipeditcount' => '~$1 pour tous les utilisateurs',
 	'checkuser-log-subpage' => 'Journal',
 	'checkuser-log-return' => "Retourner au formulaire principal de la vérification d'utilisateur",
+	'checkuser-limited' => "'''Ces résultats ont été tronqués pour des raisons liés à la performance.'''",
 	'checkuser-log-userips' => '$1 a obtenu des IP pour $2',
 	'checkuser-log-ipedits' => '$1 a obtenu des modifications pour $2',
 	'checkuser-log-ipusers' => '$1 a obtenu des utilisateurs pour $2',
@@ -1523,6 +1529,7 @@ Os enderezos IP serán bloqueados cun tempo de duración dunha semana só para o
 	'checkuser-ipeditcount' => '~$1 de todos os usuarios',
 	'checkuser-log-subpage' => 'Rexistro',
 	'checkuser-log-return' => 'Voltar ao formulario principal de verificador de usuarios',
+	'checkuser-limited' => "'''Estes resultados foron truncados por motivos de rendemento.'''",
 	'checkuser-log-userips' => '$1 obteu os enderezos IP de "$2"',
 	'checkuser-log-ipedits' => '$1 obteu as edicións de "$2"',
 	'checkuser-log-ipusers' => '$1 obteu os usuarios de "$2"',
@@ -1990,6 +1997,7 @@ Alamat-alamat IP akan diblokir selama 1 minggu untuk pengguna anonim dan tidak d
 	'checkuser-ipeditcount' => '~$1 dari seluruh pengguna',
 	'checkuser-log-subpage' => 'Log',
 	'checkuser-log-return' => 'Kembali ke halaman utama Pemeriksa',
+	'checkuser-limited' => "'''Hasil berikut telah dipotong agar tidak menurunkan kinerja.'''",
 	'checkuser-log-userips' => '$1 melihat IP dari $2',
 	'checkuser-log-ipedits' => '$1 melihat suntingan dari $2',
 	'checkuser-log-ipusers' => '$1 melihat nama pengguna dari $2',
@@ -2461,6 +2469,7 @@ $messages['ko'] = array(
 	'checkuser' => '체크유저',
 	'group-checkuser' => '체크유저',
 	'group-checkuser-member' => '체크유저',
+	'right-checkuser-log' => '체크유저 기록 보기',
 	'grouppage-checkuser' => '{{ns:project}}:체크유저',
 	'checkuser-reason' => '이유:',
 	'checkuser-showlog' => '기록 보기',
@@ -2468,6 +2477,7 @@ $messages['ko'] = array(
 	'checkuser-search' => '찾기',
 	'checkuser-search-submit' => '찾기',
 	'checkuser-log-userips' => '$1 은(는) $2 이(가) 사용한 IP 주소를 열람했습니다.',
+	'checkuser-email-action' => '사용자 "$1"에게 이메일을 보냄',
 );
 
 /** Kinaray-a (Kinaray-a)
@@ -3017,6 +3027,7 @@ IP-adressen worden één week geblokkeerd voor anonieme gebruikers, met het aanm
 	'checkuser-ipeditcount' => '~$1 van alle gebruikers',
 	'checkuser-log-subpage' => 'Logboek',
 	'checkuser-log-return' => 'Naar het hoofdformulier van ControleGebruiker terugkeren',
+	'checkuser-limited' => "'''Deze resultaten zijn niet volledig om prestatieredenen.'''",
 	'checkuser-log-userips' => '$1 heeft IP-adressen voor $2',
 	'checkuser-log-ipedits' => '$1 heeft bewerkingen voor $2',
 	'checkuser-log-ipusers' => '$1 heeft gebruikers voor $2',
@@ -3094,6 +3105,7 @@ IP-adresser vil blokkeres i én uke for anonyme brukere, med kontooppretting sl�
 	'checkuser-ipeditcount' => '~$1 fra alle brukere',
 	'checkuser-log-subpage' => 'Logg',
 	'checkuser-log-return' => 'Tilbake til hovedskjema for brukersjekking',
+	'checkuser-limited' => "'''Disse resultatene har blitt avkortet av ytelsesgrunner.'''",
 	'checkuser-log-userips' => '$1 fikk IP-adressene til $2',
 	'checkuser-log-ipedits' => '$1 fikk endringer av $2',
 	'checkuser-log-ipusers' => '$1 fikk brukere av $2',
@@ -3177,6 +3189,7 @@ Las adreças IP seràn blocadas pendent una setmana unicament pels utilizaires j
 	'checkuser-ipeditcount' => '~$1 per totes los utilizaires',
 	'checkuser-log-subpage' => 'Jornal',
 	'checkuser-log-return' => "Tornar al formulari principal de la verificacion d'utilizaire",
+	'checkuser-limited' => "'''Aquestes resultats son estats troncats per de rasons ligadas a la performància.'''",
 	'checkuser-log-userips' => "$1 a obtengut d'IP per $2",
 	'checkuser-log-ipedits' => '$1 a obtengut de modificacions per $2',
 	'checkuser-log-ipusers' => "$1 a obtengut d'utilizaires per $2",
@@ -3405,6 +3418,7 @@ $messages['rm'] = array(
 
 /** Romanian (Română)
  * @author Emily
+ * @author Firilacroco
  * @author KlaudiuMihaila
  * @author Mihai
  */
@@ -3420,7 +3434,7 @@ Foloseşte unealta în concordanţă cu politica sitului.',
 	'group-checkuser-member' => 'Checkuser',
 	'right-checkuser' => 'Verifică adresele IP ale utilizatorilor şi alte informaţii',
 	'grouppage-checkuser' => '{{ns:project}}:Checkuser',
-	'checkuser-reason' => 'Motiv',
+	'checkuser-reason' => 'Motiv:',
 	'checkuser-showlog' => 'Arată jurnal',
 	'checkuser-log' => 'Jurnal verificare utilizator',
 	'checkuser-query' => 'Interoghează schimbările recente',
@@ -3522,6 +3536,7 @@ IP-адреса будут заблокированы на 1 неделю для
 	'checkuser-ipeditcount' => '~$1 от всех участников',
 	'checkuser-log-subpage' => 'Журнал',
 	'checkuser-log-return' => 'Возврат к странице проверки участников',
+	'checkuser-limited' => "'''Результаты были усечены чтобы не создавать дополнительной нагрузки на сервер.'''",
 	'checkuser-log-userips' => '$1 получил IP адреса для $2',
 	'checkuser-log-ipedits' => '$1 получил правки для $2',
 	'checkuser-log-ipusers' => '$1 получил учётные записи для $2',
@@ -3632,6 +3647,7 @@ IP adresy sa zablokujú na 1 týždeň pri iba anonymných používateľoch a vy
 	'checkuser-ipeditcount' => 'asi $1 zo všetkých používateľov',
 	'checkuser-log-subpage' => 'Záznam',
 	'checkuser-log-return' => 'Vrátiť sa na hlavný formulár CheckUser',
+	'checkuser-limited' => "'''Tieto výsledky boli z výkonnostných dôvodov skrátené.'''",
 	'checkuser-log-userips' => '$1 má IP adresy $2',
 	'checkuser-log-ipedits' => '$1 má úpravy $2',
 	'checkuser-log-ipusers' => '$1 má používateľov $2',
@@ -3788,6 +3804,7 @@ Di handap ieu béréndélan IP nu dipaké (paling loba 5000, disusun dumasar ala
 );
 
 /** Swedish (Svenska)
+ * @author Boivie
  * @author Lejonel
  * @author Leo Johannes
  * @author M.M.S.
@@ -3845,6 +3862,7 @@ IP-adresser kommer blockeras i en vecka för anonyma användare, med kontoskapan
 	'checkuser-ipeditcount' => '~$1 från alla användare',
 	'checkuser-log-subpage' => 'Logg',
 	'checkuser-log-return' => 'Gå tillbaka till formuläret för användarkontroll',
+	'checkuser-limited' => "'''Dessa resultat har av prestandaskäl blivit avkortade.'''",
 	'checkuser-log-userips' => '$1 hämtade IP-adresser för $2',
 	'checkuser-log-ipedits' => '$1 hämtade redigeringar från $2',
 	'checkuser-log-ipusers' => '$1 hämtade användare från $2',
@@ -4039,6 +4057,7 @@ $messages['uk'] = array(
 	'group-checkuser' => "Чек'юзери",
 	'group-checkuser-member' => "чек'юзер",
 	'right-checkuser' => 'Перевірка IP-адрес та іншої інформації користувача',
+	'right-checkuser-log' => 'Перегляд журналу перевірки користувачів',
 	'grouppage-checkuser' => '{{ns:project}}:Перевірка користувачів',
 	'checkuser-reason' => 'Причина:',
 	'checkuser-showlog' => 'Показати журнал',
@@ -4048,6 +4067,7 @@ $messages['uk'] = array(
 	'checkuser-users' => 'Отримати користувачів',
 	'checkuser-edits' => 'Запитати редагування, зроблені з IP-адреси',
 	'checkuser-ips' => 'Запитати IP-адреси',
+	'checkuser-account' => 'Редагування облікового запису',
 	'checkuser-search' => 'Знайти',
 	'checkuser-empty' => 'Журнал порожній.',
 	'checkuser-nomatch' => 'Не знайдено співпадінь.',
