@@ -39,6 +39,7 @@ global $wgHooks;
 $wgHooks['RecentChange_save'][] = 'efUpdateCheckUserData';
 $wgHooks['EmailUser'][] = 'efUpdateCUEmailData';
 $wgHooks['User::mailPasswordInternal'][] = 'efUpdateCUPasswordResetData';
+$wgHooks['AuthPluginAutoCreate'][] = 'efUpdateAutoCreateData';
 
 $wgHooks['ParserTestTables'][] = 'efCheckUserParserTestTables';
 $wgHooks['LoadExtensionSchemaUpdates'][] = 'efCheckUserSchemaUpdates';
@@ -200,6 +201,48 @@ function efUpdateCUEmailData( $to, $from, $subject, $text ) {
 	$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
 	
 	return true;
+}
+
+/**
+ * Hook function to store autocreation data from the auth plugin
+ * Saves user data into the cu_changes table
+ */
+function efUpdateAutoCreateData( $user ) {
+    wfLoadExtensionMessages( 'CheckUser' );
+    // Get IP
+    $ip = wfGetIP();
+    // Get XFF header
+    $xff = wfGetForwardedFor();
+    list($xff_ip,$trusted) = efGetClientIPfromXFF( $xff );
+    // Our squid XFFs can flood this up sometimes
+    $isSquidOnly = efXFFChainIsSquid( $xff );
+    // Get agent
+    $agent = wfGetAgent();
+    $dbw = wfGetDB( DB_MASTER );
+    $cuc_id = $dbw->nextSequenceValue( 'cu_changes_cu_id_seq' );
+    $rcRow = array(
+        'cuc_id'         => $cuc_id,
+        'cuc_page_id'    => 0,
+        'cuc_namespace'  => NS_USER,
+        'cuc_title'      => '',
+        'cuc_minor'      => 0,
+        'cuc_user'       => $user->getId(),
+        'cuc_user_text'  => $user->getName(),
+        'cuc_actiontext' => wfMsgForContent('checkuser-autocreate-action'),
+        'cuc_comment'    => '',
+        'cuc_this_oldid' => 0,
+        'cuc_last_oldid' => 0,
+        'cuc_type'       => RC_LOG,
+        'cuc_timestamp'  => $dbw->timestamp( wfTimestampNow() ),
+        'cuc_ip'         => IP::sanitizeIP($ip),
+        'cuc_ip_hex'     => $ip ? IP::toHex( $ip ) : null,
+        'cuc_xff'        => !$isSquidOnly ? $xff : '',
+        'cuc_xff_hex'    => ($xff_ip && !$isSquidOnly) ? IP::toHex( $xff_ip ) : null,
+        'cuc_agent'      => $agent
+    );
+    $dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
+    
+    return true;
 }
 
 /**

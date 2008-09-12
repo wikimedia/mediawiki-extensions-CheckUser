@@ -72,6 +72,7 @@ Here are the IPs used (5000 max, sorted by address):',
 	'checkuser-log-ipusers-xff'  => '$1 got users for XFF $2',
 	'checkuser-log-useredits'    => '$1 got edits for $2',
 	
+	'checkuser-autocreate-action' => 'was automatically created',
 	'checkuser-email-action'     => 'sent an email to user "$1"',
 	'checkuser-reset-action'     => 'reset password for user "$1"',
 	
