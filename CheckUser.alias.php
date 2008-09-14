@@ -40,6 +40,11 @@ $aliases['de'] = array(
 	'CheckUser' => array( 'Checkuser' ),
 );
 
+/** Greek (Ελληνικά) */
+$aliases['el'] = array(
+	'CheckUser' => array( 'ΈλεγχοςΧρήστη' ),
+);
+
 /** Finnish (Suomi) */
 $aliases['fi'] = array(
 	'CheckUser' => array( 'Tarkista käyttäjä' ),
