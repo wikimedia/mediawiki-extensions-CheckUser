@@ -361,13 +361,14 @@ IPv4 (CIDR 16-32) و IPv6 (CIDR 64-128) مدعومين.
 	'checkuser-ipeditcount' => '~$1 من كل اليوزرز',
 	'checkuser-log-subpage' => 'سجل',
 	'checkuser-log-return' => 'ارجع للاستمارة الرئيسية بتاعة تشييك اليوزرز',
-	'checkuser-limited' => "''' النتايج دي اتعملها اختصار لأسباب متعلقة  بالأداء.'''",
+	'checkuser-limited' => "''' النتايج دى اتعملها اختصار لأسباب متعلقة  بالأداء.'''",
 	'checkuser-log-userips' => '$1 جاب الاى بى بتوع $2',
 	'checkuser-log-ipedits' => '$1 جاب التعديلات بتاعة $2',
 	'checkuser-log-ipusers' => '$1 جاب اليوزرز بتوع $2',
 	'checkuser-log-ipedits-xff' => '$1 جاب التعديلات للإكس إف إف $2',
 	'checkuser-log-ipusers-xff' => '$1 جاب اليوزرز  لل اكس اف اف بتوع $2',
 	'checkuser-log-useredits' => '$1 جاب التعديلات بتاعة$2',
+	'checkuser-autocreate-action' => 'ابتدا اوتوماتيكى',
 	'checkuser-email-action' => 'ابعت ايميل لليوزر "$1"',
 	'checkuser-reset-action' => 'اضبط من تانى الباسورد بتاعة اليوزر "$1"',
 );
@@ -695,6 +696,7 @@ Setu an IPoù implijet (5000 d'ar muiañ, urzhiet dre ar chomlec'h)",
 );
 
 /** Catalan (Català)
+ * @author Aleator
  * @author Jordi Roqué
  * @author Juanpabl
  * @author Paucabot
@@ -752,6 +754,7 @@ Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Reco
 	'checkuser-log-ipusers' => '$1 consulta els usuaris de $2',
 	'checkuser-log-ipedits-xff' => '$1 consulta les edicions del XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 consulta els usuaris del XFF $2',
+	'checkuser-autocreate-action' => 'fou automàticament creat',
 	'checkuser-email-action' => 'S\'ha enviat un correu electrònic a l\'usuari "$1"',
 );
 
@@ -3600,6 +3603,8 @@ $messages['sah'] = array(
 	'checkuser-log-fail' => 'Сурунаалга сурук эбэр табыллыбат(а)',
 	'checkuser-nolog' => 'Сурунаал билэтэ көстүбэтэ',
 	'checkuser-blocked' => 'Тугу эмэ гынара бобуллубут',
+	'checkuser-block-noreason' => 'Бобуу төрүөтүн этиэхтээххин.',
+	'checkuser-accounts' => '$1 саҥа {{PLURAL:$1|аат|ааттар}}',
 	'checkuser-too-many' => 'Наһаа элбэх булулунна, бука диэн CIDR кыччатан биэр. Туһаныллыбыт IP (саамай элбэҕэ 5000, бу аадырыһынан наардаммыт):',
 	'checkuser-user-nonexistent' => 'Маннык ааттаах кыттааччы суох',
 	'checkuser-search-form' => '$1 сурунаалга $2 буоларын бул',
@@ -4107,7 +4112,7 @@ $messages['uk'] = array(
 	'checkuser-log-fail' => 'Не в змозі додати запис до журналу',
 	'checkuser-nolog' => 'Файл журналу не знайдений.',
 	'checkuser-blocked' => 'Заблокований',
-	'checkuser-wasblocked' => 'Заблокований раніше',
+	'checkuser-wasblocked' => 'Раніше заблокований',
 	'checkuser-massblock' => 'Заблокувати вибраних користувачів',
 	'checkuser-massblock-text' => 'Вибрані облікові записи будуть заблоковані безстроково з автоблокуванням і забороною створення нових облікових записів.
 IP-адреси користувачів, які не увійшли до системи будуть заблоковані на 1 тиждень із забороною створення нових облікових записів.',
@@ -4135,7 +4140,7 @@ IP-адреси користувачів, які не увійшли до сис
 	'checkuser-log-ipedits-xff' => '$1 отримав редагування для XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 отримав облікові записи для XFF $2',
 	'checkuser-autocreate-action' => 'створений автоматично',
-	'checkuser-email-action' => 'відправив листа користувачеві "$1"',
+	'checkuser-email-action' => 'надіслав листа користувачеві «$1»',
 );
 
 /** Vèneto (Vèneto)
