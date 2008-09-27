@@ -1122,6 +1122,7 @@ No se muestran más de 5000 ediciones por motivos de rendimiento. Usa esta herra
 	'group-checkuser' => 'Verificadores de usuarios',
 	'group-checkuser-member' => 'Verificador de usuarios',
 	'right-checkuser' => 'Comprobar las IPs de los usuarios y obtener otra información relacionada',
+	'right-checkuser-log' => 'Ver el registro de verificación de usuarios',
 	'grouppage-checkuser' => '{{ns:project}}:verificador de usuarios',
 	'checkuser-reason' => 'Motivo:',
 	'checkuser-showlog' => 'Ver registro',
@@ -1131,6 +1132,7 @@ No se muestran más de 5000 ediciones por motivos de rendimiento. Usa esta herra
 	'checkuser-users' => 'Obtener usuarios',
 	'checkuser-edits' => 'Obtener ediciones de IP',
 	'checkuser-ips' => 'Obtener IPs',
+	'checkuser-account' => 'Ver contribuciones de la cuenta',
 	'checkuser-search' => 'Buscar',
 	'checkuser-period' => 'Duración:',
 	'checkuser-week-1' => 'la semana pasada',
@@ -1156,7 +1158,13 @@ No se muestran más de 5000 ediciones por motivos de rendimiento. Usa esta herra
 	'checkuser-ipeditcount' => '~$1 de todos los usuarios',
 	'checkuser-log-subpage' => 'Registro',
 	'checkuser-limited' => "'''Estos resultados han sido truncados a causa de motivos de rendimiento.'''",
+	'checkuser-log-userips' => '$1 obtuvo las direcciones IP de $2',
+	'checkuser-log-ipedits' => '$1 obtuvo las contribuciones de $2',
+	'checkuser-log-ipusers' => '$1 obtuvo los usuarios de $2',
+	'checkuser-log-ipedits-xff' => '$1 obtuvo las contribuciones de XFF de $2',
+	'checkuser-log-useredits' => '$1 obtuvo las contribuciones de $2',
 	'checkuser-autocreate-action' => 'fue creada automáticamente',
+	'checkuser-email-action' => 'enviado correo electrónico al usuario «$1»',
 );
 
 /** Estonian (Eesti)
@@ -2673,7 +2681,7 @@ Hei sinn déi benotzten IP-Adressen (max 5000, sortéiert no der Adress):',
 	'checkuser-search-target' => 'Zil',
 	'checkuser-ipeditcount' => '~$1 vun alle Benotzer',
 	'checkuser-log-subpage' => 'Lëscht',
-	'checkuser-log-return' => 'Zréck op den Haaptformulair vun der Benotzer Kontroll',
+	'checkuser-log-return' => 'Zréck op den Haaptformulaire vun der Benotzerkontroll',
 	'checkuser-log-userips' => '$1 krut IPen fir $2',
 	'checkuser-log-ipedits' => '$1 huet Ännerunge kritt fir $2',
 	'checkuser-log-ipusers' => '$1 huet Benotzer kritt fir $2',
@@ -3268,6 +3276,7 @@ $messages['pam'] = array(
 
 /** Polish (Polski)
  * @author Derbeth
+ * @author Leinad
  * @author Sp5uhe
  */
 $messages['pl'] = array(
@@ -3280,6 +3289,7 @@ Używaj tej funkcji zgodnie z zasadami.',
 	'group-checkuser' => 'CheckUser',
 	'group-checkuser-member' => 'CheckUser',
 	'right-checkuser' => 'Sprawdzanie adresów IP oraz innych informacji o użytkownikach',
+	'right-checkuser-log' => 'Podgląd rejestru checkuser',
 	'grouppage-checkuser' => '{{ns:project}}:CheckUser',
 	'checkuser-reason' => 'Powód:',
 	'checkuser-showlog' => 'Pokaż log',
