@@ -123,6 +123,7 @@ $messages['qqq'] = array(
 	'checkuser-log-ipusers-xff' => 'This is an entry in the checkuser log when a checkuser checks which users have used an XFF IP address (XFF means X-Forwarded-For. Some providers use proxies to forward user requests. This effectively means anonymization of requests. To make the requesting user identifiable again, the original requesting IP is transmitted in a separate HTTP header, the XFF header.).
 *Parameter $1 is the user who did the check
 *Parameter $2 is the IP address',
+	'checkuser-autocreate-action' => 'Text of the event displayed in the CheckUser results, corresponding to the automatic creation of a new user account (by CentralAuth).',
 );
 
 /** Karelian (Karjala)
@@ -851,6 +852,7 @@ Z výkonnostních důvodů lze zobrazit maximálně 5000 editací. Používejte 
 	'checkuser-log-ipedits-xff' => '$1 zjišťuje editace s XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 zjišťuje uživatele s XFF $2',
 	'checkuser-log-useredits' => '$1 zjišťuje editace od $2',
+	'checkuser-autocreate-action' => 'byl automaticky vytvořen',
 	'checkuser-email-action' => 'odeslal e-mail uživateli „$1“',
 	'checkuser-reset-action' => 'požádal o nové heslo pro uživatele „$1“',
 );
@@ -1325,6 +1327,7 @@ Vain rekisteröimättömien käyttäjien IP-osoitteet estetään yhdeksi viikoks
 	'checkuser-log-ipedits-xff' => '$1 haki muokkaukset XFF-osoitteesta $2',
 	'checkuser-log-ipusers-xff' => '$1 haki käyttäjät XFF-osoitteesta $2',
 	'checkuser-log-useredits' => '$1 haki käyttäjän $2 muokkaukset',
+	'checkuser-autocreate-action' => 'luotiin automaattisesti',
 	'checkuser-email-action' => 'käyttäjälle ”$1” lähetetty sähköpostiviesti',
 	'checkuser-reset-action' => 'käyttäjän ”$1” salasana nollattu',
 );
@@ -2052,6 +2055,7 @@ Alamat-alamat IP akan diblokir selama 1 minggu untuk pengguna anonim dan tidak d
 	'checkuser-log-ipedits-xff' => '$1 melihat suntingan dari XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 melihat nama pengguna dari XFF $2',
 	'checkuser-log-useredits' => '$1 memiliki suntingan-suntingan untuk $2',
+	'checkuser-autocreate-action' => 'dibuat secara otomatis',
 	'checkuser-email-action' => 'mengirimkan surat-e ke "$1"',
 	'checkuser-reset-action' => 'Set ulang kata sandi pengguna "$1"',
 );
@@ -2531,6 +2535,14 @@ $messages['ko'] = array(
 	'checkuser-search-submit' => '찾기',
 	'checkuser-log-userips' => '$1 은(는) $2 이(가) 사용한 IP 주소를 열람했습니다.',
 	'checkuser-email-action' => '사용자 "$1"에게 이메일을 보냄',
+);
+
+/** Krio (Krio)
+ * @author Jose77
+ */
+$messages['kri'] = array(
+	'checkuser-search' => 'Luk foh am',
+	'checkuser-search-submit' => 'Luk foh am',
 );
 
 /** Kinaray-a (Kinaray-a)
@@ -3092,6 +3104,7 @@ IP-adressen worden één week geblokkeerd voor anonieme gebruikers, met het aanm
 	'checkuser-log-ipedits-xff' => '$1 heeft bewerkingen voor XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 heeft gebruikers voor XFF $2',
 	'checkuser-log-useredits' => '$1 heeft bewerkingen voor $2',
+	'checkuser-autocreate-action' => 'is automatisch aangemaakt',
 	'checkuser-email-action' => 'heeft een e-mail gestuurd aan "$1"',
 	'checkuser-reset-action' => 'heeft het wachtwoord voor gebruiker "$1" opnieuw ingesteld',
 );
@@ -3170,6 +3183,7 @@ IP-adresser vil blokkeres i én uke for anonyme brukere, med kontooppretting sl�
 	'checkuser-log-ipedits-xff' => '$1 fikk endringer av XFF-en $2',
 	'checkuser-log-ipusers-xff' => '$1 fikk brukere av XFF-en $2',
 	'checkuser-log-useredits' => '$1 hentet redigeringer for $2',
+	'checkuser-autocreate-action' => 'ble automatisk opprettet',
 	'checkuser-email-action' => 'sendte e-post til «$1»',
 	'checkuser-reset-action' => 'nullstilte passord for «$1»',
 );
@@ -3254,6 +3268,7 @@ Las adreças IP seràn blocadas pendent una setmana unicament pels utilizaires j
 	'checkuser-log-ipedits-xff' => '$1 a obtengut de modificacions per XFF  $2',
 	'checkuser-log-ipusers-xff' => "$1 a obtengut d'utilizaires per XFF $2",
 	'checkuser-log-useredits' => '$1 a obtengut las modificacions per $2',
+	'checkuser-autocreate-action' => 'es estat creat automaticament',
 	'checkuser-email-action' => 'a mandat un corrièr electronic a « $1 »',
 	'checkuser-reset-action' => 'torna inicializar lo senhal per « $1 »',
 );
@@ -3548,6 +3563,7 @@ $messages['roa-rup'] = array(
 );
 
 /** Russian (Русский)
+ * @author Ferrer
  * @author Silence
  * @author Александр Сигачёв
  */
@@ -3611,6 +3627,7 @@ IP-адреса будут заблокированы на 1 неделю для
 	'checkuser-log-ipedits-xff' => '$1 получил правки для XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 получил учётные записи для XFF $2',
 	'checkuser-log-useredits' => '$1 получил правки $2',
+	'checkuser-autocreate-action' => 'был создан автоматически',
 	'checkuser-email-action' => 'отправил письмо участнику $1',
 	'checkuser-reset-action' => 'сбросил пароль для участника $1',
 );
