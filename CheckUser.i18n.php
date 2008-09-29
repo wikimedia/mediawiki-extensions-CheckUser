@@ -3290,6 +3290,7 @@ $messages['pam'] = array(
 );
 
 /** Polish (Polski)
+ * @author Beau
  * @author Derbeth
  * @author Leinad
  * @author Sp5uhe
@@ -3302,7 +3303,7 @@ Używaj tej funkcji zgodnie z zasadami.',
 	'checkuser-logcase' => 'Szukanie w logu jest czułe na wielkość znaków',
 	'checkuser' => 'Sprawdzanie IP użytkownika',
 	'group-checkuser' => 'CheckUser',
-	'group-checkuser-member' => 'CheckUser',
+	'group-checkuser-member' => 'checkuser',
 	'right-checkuser' => 'Sprawdzanie adresów IP oraz innych informacji o użytkownikach',
 	'right-checkuser-log' => 'Podgląd rejestru checkuser',
 	'grouppage-checkuser' => '{{ns:project}}:CheckUser',
