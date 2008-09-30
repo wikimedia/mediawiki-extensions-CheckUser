@@ -275,7 +275,7 @@ $messages['ar'] = array(
 	'checkuser-blocktag' => 'استبدل صفحات المستخدمين ب:',
 	'checkuser-massblock-commit' => 'منع المستخدمين المختارين',
 	'checkuser-block-success' => "'''{{PLURAL:$2|المستخدم|المستخدمون}} $1 الآن {{PLURAL:$2|ممنوع|ممنوعون}}.'''",
-	'checkuser-block-failure' => "'''لا مستخدمين تم منعهم.'''",
+	'checkuser-block-failure' => "'''لا مستخدمون تم منعهم.'''",
 	'checkuser-block-limit' => 'تم اختيار عدد كبير من المستخدمين.',
 	'checkuser-block-noreason' => 'يجب أن تعطي سببا لعمليات المنع.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|حساب|حساب}} جديد',
@@ -2182,11 +2182,11 @@ IPv4（16から32ビットのCIDR表記）と IPv6（64から128ビットのCIDR
 	'group-checkuser' => 'チェックユーザー',
 	'group-checkuser-member' => 'チェックユーザー',
 	'right-checkuser' => '利用者のIPアドレスやその他の情報を確認する',
-	'right-checkuser-log' => 'チェックユーザーログを見る',
+	'right-checkuser-log' => 'チェックユーザー記録を見る',
 	'grouppage-checkuser' => '{{ns:project}}:チェックユーザー',
 	'checkuser-reason' => '理由:',
 	'checkuser-showlog' => 'ログを閲覧',
-	'checkuser-log' => 'チェックユーザー・ログ',
+	'checkuser-log' => 'チェックユーザー記録',
 	'checkuser-query' => '最近の更新を照会',
 	'checkuser-target' => '利用者名又はIPアドレス',
 	'checkuser-users' => '利用者名を得る',
@@ -3396,6 +3396,7 @@ $messages['ps'] = array(
 /** Portuguese (Português)
  * @author 555
  * @author Malafaya
+ * @author Sir Lestaty de Lioncourt
  */
 $messages['pt'] = array(
 	'checkuser-summary' => 'Esta ferramenta varre as Mudanças recentes para obter os endereços de IP de um utilizador ou para exibir os dados de edições/utilizadores para um IP.
@@ -3407,6 +3408,7 @@ $messages['pt'] = array(
 	'group-checkuser' => 'CheckUser',
 	'group-checkuser-member' => 'CheckUser',
 	'right-checkuser' => 'Verificar o endereço IP de um utilizador e outras informações',
+	'right-checkuser-log' => 'Ver os registros das verificações',
 	'grouppage-checkuser' => '{{ns:project}}:CheckUser',
 	'checkuser-reason' => 'Motivo',
 	'checkuser-showlog' => 'Exibir registos',
@@ -3416,6 +3418,7 @@ $messages['pt'] = array(
 	'checkuser-users' => 'Obter utilizadores',
 	'checkuser-edits' => 'Obter edições de IPs',
 	'checkuser-ips' => 'Obter IPs',
+	'checkuser-account' => 'Obter edições desta conta',
 	'checkuser-search' => 'Pesquisar',
 	'checkuser-period' => 'Duração:',
 	'checkuser-week-1' => 'última semana',
@@ -3430,6 +3433,8 @@ $messages['pt'] = array(
 	'checkuser-blocked' => 'Bloqueado',
 	'checkuser-wasblocked' => 'Previamente bloqueado',
 	'checkuser-massblock' => 'Bloquear utilizadores seleccionados',
+	'checkuser-massblock-text' => 'As contas selecionadas serão bloqueadas indefinidamente, com bloqueio automático ativado e criação de conta desabilitada.
+Endereços IP serão bloqueados por 1 semana com criação de conta desabilitada.',
 	'checkuser-blocktag' => 'Substituir páginas de utilizador com:',
 	'checkuser-massblock-commit' => 'Bloquear utilizadores seleccionados',
 	'checkuser-block-success' => "'''{{PLURAL:$2|O utilizador|Os utilizadores}} $1 {{PLURAL:$2|está|estão}} agora {{PLURAL:$2|bloqueado|bloqueados}}.'''",
@@ -3446,11 +3451,16 @@ $messages['pt'] = array(
 	'checkuser-ipeditcount' => '~$1 de todos os utilizadores',
 	'checkuser-log-subpage' => 'Registo',
 	'checkuser-log-return' => 'Retornar ao formulário principal de CheckUser',
+	'checkuser-limited' => "'''Estes resultados foram removidos por motivos de performance.'''",
 	'checkuser-log-userips' => '$1 obteve IPs de $2',
 	'checkuser-log-ipedits' => '$1 obteve edições de $2',
 	'checkuser-log-ipusers' => '$1 obteve utilizadores de $2',
 	'checkuser-log-ipedits-xff' => '$1 obteve edições para o XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 obteve utilizadores para o XFF $2',
+	'checkuser-log-useredits' => '$1 obteve edições de $2',
+	'checkuser-autocreate-action' => 'foi automaticamente criada',
+	'checkuser-email-action' => 'Enviar email para o utilizador "$1"',
+	'checkuser-reset-action' => 'suprimir a senha do utilizador "$1"',
 );
 
 /** Quechua (Runa Simi)
