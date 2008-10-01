@@ -374,6 +374,14 @@ IPv4 (CIDR 16-32) و IPv6 (CIDR 64-128) مدعومين.
 	'checkuser-reset-action' => 'اضبط من تانى الباسورد بتاعة اليوزر "$1"',
 );
 
+/** Assamese (অসমীয়া)
+ * @author Chaipau
+ */
+$messages['as'] = array(
+	'checkuser-search' => 'সন্ধান কৰক',
+	'checkuser-search-submit' => 'সন্ধান কৰক',
+);
+
 /** Asturian (Asturianu)
  * @author Esbardu
  */
