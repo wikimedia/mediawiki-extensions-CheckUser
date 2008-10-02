@@ -787,12 +787,16 @@ class CheckUser extends SpecialPage
 				$block->fromMaster( false ); // use slaves
 				$ip = IP::isIPAddress( $name ) ? // If an account, get last IP
 					$name : $users_infosets[$name][count($users_infosets[$name])-1][0];
+				# Load user object
+				$user = User::newFromName( $name );
 				if( $block->load( $ip, $users_ids[$name] ) ) {
+					// Range blocked?
 					if( IP::isIPAddress($block->mAddress) && strpos($block->mAddress,'/') ) {
 						$userpage = Title::makeTitle( NS_USER, $block->mAddress );
 						$blocklog = $this->sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 
 							'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 						$flags[] = '<strong>(' . $blocklog . ' - ' . $block->mAddress . ')</strong>';
+					// Auto blocked?
 					} else if( $block->mAuto ) {
 						$blocklog = $this->sk->makeKnownLinkObj( $blocklist, 
 							wfMsgHtml('checkuser-blocked'), 'ip=' . urlencode( "#$block->mId" ) );
@@ -803,23 +807,21 @@ class CheckUser extends SpecialPage
 							'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 						$flags[] = '<strong>(' . $blocklog . ')</strong>';
 					}
+				// Blocked on all wikis?
+				} else if( $user->isBlockedGlobally( $ip ) ) {
+					$flags[] = '<strong>(' . wfMsgHtml('checkuser-gblocked') . ')</strong>';
 				} else if( self::userWasBlocked( $name ) ) {
 					$userpage = Title::makeTitle( NS_USER, $name );
 					$blocklog = $this->sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-wasblocked'), 
 						'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 					$flags[] = '<strong>(' . $blocklog . ')</strong>';
 				}
-				# Check how many accounts the user made recently?
-				if( $ip ) {
-					$key = wfMemcKey( 'acctcreate', 'ip', $ip );
-					$count = intval( $wgMemc->get( $key ) );
-					if( $count ) {
-						$flags[] = '<strong>[' . wfMsgExt('checkuser-accounts',array('parsemag'),$count) . ']</strong>';
-					}
-				}
 				# Check for extra user rights...
 				if( $users_ids[$name] ) {
 					$user = User::newFromId( $users_ids[$name] );
+					if( $user->isLocked() ) {
+						$flags[] = '<b>(' . wfMsgHtml('checkuser-locked') . ')</b>';
+					}
 					$list = array();
 					foreach( $user->getGroups() as $group ) {
 						$list[] = self::buildGroupLink( $group );
@@ -827,6 +829,14 @@ class CheckUser extends SpecialPage
 					$groups = implode( ', ', $list );
 					if( $groups ) {
 						$flags[] = '<i>(' . $groups . ')</i>';
+					}
+				}
+				# Check how many accounts the user made recently?
+				if( $ip ) {
+					$key = wfMemcKey( 'acctcreate', 'ip', $ip );
+					$count = intval( $wgMemc->get( $key ) );
+					if( $count ) {
+						$flags[] = '<strong>[' . wfMsgExt('checkuser-accounts',array('parsemag'),$count) . ']</strong>';
 					}
 				}
 				$s .= implode(' ',$flags);

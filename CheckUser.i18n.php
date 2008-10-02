@@ -41,6 +41,8 @@ Use this in accordance with policy.',
 	'checkuser-log-fail'         => 'Unable to add log entry',
 	'checkuser-nolog'            => 'No log file found.',
 	'checkuser-blocked'          => 'Blocked',
+	'checkuser-gblocked'         => 'Blocked globally',
+	'checkuser-locked'           => 'Locked',
 	'checkuser-wasblocked'       => 'Previously blocked',
 	'checkuser-massblock'        => 'Block selected users',
 	'checkuser-massblock-text'   => 'Selected accounts will be blocked indefinitely, with autoblocking enabled and account creation disabled. 
