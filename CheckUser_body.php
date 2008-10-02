@@ -785,8 +785,7 @@ class CheckUser extends SpecialPage
 				# Check if this user or IP is blocked. If so, give a link to the block log...
 				$block = new Block();
 				$block->fromMaster( false ); // use slaves
-				$ip = IP::isIPAddress( $name ) ? // If an account, get last IP
-					$name : $users_infosets[$name][count($users_infosets[$name])-1][0];
+				$ip = IP::isIPAddress( $name ) ? $name : '';
 				# Load user object
 				$user = User::newFromName( $name );
 				if( $block->load( $ip, $users_ids[$name] ) ) {
@@ -807,8 +806,8 @@ class CheckUser extends SpecialPage
 							'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 						$flags[] = '<strong>(' . $blocklog . ')</strong>';
 					}
-				// Blocked on all wikis?
-				} else if( $user->isBlockedGlobally( $ip ) ) {
+				// IP that is blocked on all wikis?
+				} else if( $ip === $name && $user->isBlockedGlobally( $ip ) ) {
 					$flags[] = '<strong>(' . wfMsgHtml('checkuser-gblocked') . ')</strong>';
 				} else if( self::userWasBlocked( $name ) ) {
 					$userpage = Title::makeTitle( NS_USER, $name );
