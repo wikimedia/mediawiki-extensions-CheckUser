@@ -270,6 +270,8 @@ $messages['ar'] = array(
 	'checkuser-log-fail' => 'غير قادر على إضافة مدخلة للسجل',
 	'checkuser-nolog' => 'لم يتم العثور على ملف سجل.',
 	'checkuser-blocked' => 'ممنوع',
+	'checkuser-gblocked' => 'ممنوع منعا عاما',
+	'checkuser-locked' => 'مغلق',
 	'checkuser-wasblocked' => 'تم منعه مسبقا',
 	'checkuser-massblock' => 'امنع المستخدمين المختارين',
 	'checkuser-massblock-text' => 'الحسابات المختارة سيتم منعها لا نهائيا، مع تفعيل المنع التلقائي وتعطيل إنشاء الحسابات.
@@ -343,6 +345,8 @@ IPv4 (CIDR 16-32) و IPv6 (CIDR 64-128) مدعومين.
 	'checkuser-log-fail' => 'مش قادر يضيف مدخلة للسجل',
 	'checkuser-nolog' => 'سجل الملف ماتلقاش.',
 	'checkuser-blocked' => 'ممنوع',
+	'checkuser-gblocked' => 'ممنوع منعا عاما',
+	'checkuser-locked' => 'مغلق',
 	'checkuser-wasblocked' => 'اتمنع قبل كدا',
 	'checkuser-massblock' => 'امنع اليوزرز اللى اخترتهم.',
 	'checkuser-massblock-text' => 'الحسابات اللى انت اختارتها ح يتمنعو على طول،مش ح يقدرو يفتحو حسابات و ح يتمنعو اوتوماتيكي.
@@ -956,6 +960,8 @@ $messages['de'] = array(
 	'checkuser-log-fail' => 'Logbuch-Eintrag kann nicht hinzugefügt werden.',
 	'checkuser-nolog' => 'Keine Logbuchdatei vorhanden.',
 	'checkuser-blocked' => 'gesperrt',
+	'checkuser-gblocked' => 'global gesperrt',
+	'checkuser-locked' => 'geschlossen',
 	'checkuser-wasblocked' => 'ehemals gesperrt',
 	'checkuser-massblock' => 'Sperre die ausgewählten Benutzer',
 	'checkuser-massblock-text' => 'Die ausgewählten Benutzerkonten werden dauerhaft gesperrt (Autoblock ist aktiv und die Anlage neuer Benutzerkonten wird unterbunden).
@@ -1079,6 +1085,8 @@ Uzu ĉi tion laŭ regularo.',
 	'checkuser-log-fail' => 'Ne eblis aldoni protokoleron.',
 	'checkuser-nolog' => 'Neniu protokolo estas trovita.',
 	'checkuser-blocked' => 'Forbarita',
+	'checkuser-gblocked' => 'Forbarita globale',
+	'checkuser-locked' => 'Ŝlosita',
 	'checkuser-wasblocked' => 'Antaŭe forbarita',
 	'checkuser-massblock' => 'Forbari selektitajn uzantojn',
 	'checkuser-massblock-text' => 'Selektitaj kontoj estos forbaritaj senlime, kun aŭtomata forbaro ŝaltita kaj kont-kreado malŝaltita.
@@ -1391,6 +1399,8 @@ $messages['fr'] = array(
 	'checkuser-log-fail' => 'Impossible d’ajouter l’entrée du journal.',
 	'checkuser-nolog' => 'Aucune entrée dans le journal',
 	'checkuser-blocked' => 'Bloqué',
+	'checkuser-gblocked' => 'Globalement bloqué',
+	'checkuser-locked' => 'Verrouillé',
 	'checkuser-wasblocked' => 'Bloqué précédemment',
 	'checkuser-massblock' => 'Utilisateurs de la plage sélectionnée',
 	'checkuser-massblock-text' => 'Les comptes sélectionnés seront bloqués indéfiniment, avec le blocage automatique activé et la création de compte désactivée.
@@ -1563,6 +1573,8 @@ Os usuarios e as edicións por un cliente IP poden ser recuperados a través das
 	'checkuser-log-fail' => 'Non é posíbel engadir unha entrada no rexistro',
 	'checkuser-nolog' => 'Ningún arquivo de rexistro.',
 	'checkuser-blocked' => 'Bloqueado',
+	'checkuser-gblocked' => 'Bloqueado globalmente',
+	'checkuser-locked' => 'Bloqueado',
 	'checkuser-wasblocked' => 'Bloqueados anteriormente',
 	'checkuser-massblock' => 'Bloquear os usuarios seleccionados',
 	'checkuser-massblock-text' => 'As contas seleccionadas serán bloqueadas indefinidamente, co bloqueo automático permitido e a creación de contas deshabilitada.  
@@ -1796,6 +1808,8 @@ $messages['hr'] = array(
 	'checkuser-log-fail' => 'Ne mogu dodati zapis',
 	'checkuser-nolog' => 'Evidencijska datoteka nije nađena',
 	'checkuser-blocked' => 'Blokiran',
+	'checkuser-gblocked' => 'Globalno blokiran',
+	'checkuser-locked' => 'Zaključan',
 	'checkuser-wasblocked' => 'Prethodno blokiran',
 	'checkuser-massblock' => 'Blokiraj odabrane suradnike',
 	'checkuser-massblock-text' => 'Odabrani suradnički računi će biti blokirani na neograničeno, s uključenim autoblokiranjem i onemogućenim stvaranjem novih računa.
@@ -2140,6 +2154,7 @@ $messages['it'] = array(
 	'checkuser-log-fail' => 'Impossibile aggiungere la voce al log',
 	'checkuser-nolog' => 'Non è stato trovato alcun file di log.',
 	'checkuser-blocked' => 'Bloccato',
+	'checkuser-gblocked' => 'Bloccato globalmente',
 	'checkuser-wasblocked' => 'Bloccato precedentemente',
 	'checkuser-massblock' => 'Blocca utenti selezionati',
 	'checkuser-massblock-text' => 'Gli account selezionati saranno bloccati infinito, con il blocco automatico attivato e la creazione di nuovi account disattivata.
@@ -3089,6 +3104,8 @@ Gebruik dit hulpmiddel volgens het vastgestelde beleid.',
 	'checkuser-log-fail' => 'Logboekregel toevoegen niet mogelijk',
 	'checkuser-nolog' => 'Geen logboek gevonden.',
 	'checkuser-blocked' => 'Geblokkeerd',
+	'checkuser-gblocked' => 'Globaal geblokkeerd',
+	'checkuser-locked' => 'Afgesloten',
 	'checkuser-wasblocked' => 'Eerder geblokkeerd',
 	'checkuser-massblock' => 'Geselecteerde gebruikers blokkeren',
 	'checkuser-massblock-text' => 'De geselecteerde gebruikers worden voor onbepaalde tijd geblokkeerd, met automatische IP-adresblokkade ingeschakeld en het aanmaken van nieuwe gebruikers ingeschakeld.
@@ -3253,6 +3270,8 @@ $messages['oc'] = array(
 	'checkuser-log-fail' => "Incapaç d'ajustar la dintrada del jornal.",
 	'checkuser-nolog' => 'Cap de dintrada dins lo Jornal.',
 	'checkuser-blocked' => 'Blocat',
+	'checkuser-gblocked' => 'Globalament blocat',
+	'checkuser-locked' => 'Varrolhat',
 	'checkuser-wasblocked' => 'Blocat precedentament',
 	'checkuser-massblock' => 'Utilizaires de la plaja seleccionada',
 	'checkuser-massblock-text' => 'Los comptes seleccionats seràn blocats indefinidament, amb lo blocatge automatic activat e la creacion de compte desactivada.
@@ -3755,6 +3774,8 @@ $messages['sk'] = array(
 	'checkuser-log-fail' => 'Nebolo možné pridať položku záznamu',
 	'checkuser-nolog' => 'Nebol nájdený súbor záznamu.',
 	'checkuser-blocked' => 'Zablokovaný',
+	'checkuser-gblocked' => 'Globálne zablokovaný',
+	'checkuser-locked' => 'Zamknutý',
 	'checkuser-wasblocked' => 'už bol zablokovaný',
 	'checkuser-massblock' => 'Zablokovať vybraných používateľov',
 	'checkuser-massblock-text' => 'Vybrané účty sa zablokujú na neurčito, automatické blokovanie bude zapnuté a vytváranie účtov vypnuté.
@@ -3962,6 +3983,7 @@ Di handap ieu béréndélan IP nu dipaké (paling loba 5000, disusun dumasar ala
  * @author Lejonel
  * @author Leo Johannes
  * @author M.M.S.
+ * @author Najami
  */
 $messages['sv'] = array(
 	'checkuser-summary' => 'Det här verktyget söker igenom de senaste ändringarna för att hämta IP-adresser för en användare, eller redigeringar och användare för en IP-adress.
@@ -3996,6 +4018,8 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 	'checkuser-log-fail' => 'Loggposten kunde inte läggas i loggfilen.',
 	'checkuser-nolog' => 'Hittade ingen loggfil.',
 	'checkuser-blocked' => 'Blockerad',
+	'checkuser-gblocked' => 'Blockerad globalt',
+	'checkuser-locked' => 'Låst',
 	'checkuser-wasblocked' => 'Tidigare blockerad',
 	'checkuser-massblock' => 'Blockera valda användare',
 	'checkuser-massblock-text' => 'Valda konton kommer blockeras på obestämd tid, med autoblockering aktiverad och kontoskapande avaktiverat.
