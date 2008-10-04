@@ -311,10 +311,10 @@ class CheckUser extends SpecialPage
 				$s .= ' (<a href="' . $blockip->escapeLocalURL( 'ip='.urlencode($ip) ).'">' . 
 					wfMsgHtml('blocklink') . '</a>)';
 				if( $ips_first[$ip] == $ips_last[$ip] ) {
-					$s .= ' (' . $wgLang->timeanddate( $ips_first[$ip], true ) . ') '; 
+					$s .= ' (' . $wgLang->timeanddate( wfTimestamp(TS_MW,$ips_first[$ip]), true ) . ') '; 
 				} else {
-					$s .= ' (' . $wgLang->timeanddate( $ips_first[$ip], true ) . 
-						' -- ' . $wgLang->timeanddate( $ips_last[$ip], true ) . ') '; 
+					$s .= ' (' . $wgLang->timeanddate( wfTimestamp(TS_MW,$ips_first[$ip]), true ) . 
+						' -- ' . $wgLang->timeanddate( wfTimestamp(TS_MW,$ips_last[$ip]), true ) . ') '; 
 				}
 				$s .= ' <strong>[' . $edits . ']</strong>';
 				
@@ -444,10 +444,10 @@ class CheckUser extends SpecialPage
 					$wgTitle->escapeLocalURL( 'user='.urlencode($ip).'&reason='.urlencode($reason).'&checktype=subipusers' ) .
 					'">'.$ip.'</a>';
 				if( $row->first == $row->last ) {
-					$s .= ' (' . $wgLang->timeanddate( $row->first, true ) . ') ';
+					$s .= ' (' . $wgLang->timeanddate( wfTimestamp(TS_MW,$row->first), true ) . ') ';
 				} else {
-					$s .= ' (' . $wgLang->timeanddate( $row->first, true ) .
-					' -- ' . $wgLang->timeanddate( $row->last, true ) . ') ';
+					$s .= ' (' . $wgLang->timeanddate( wfTimestamp(TS_MW,$row->first), true ) .
+					' -- ' . $wgLang->timeanddate( wfTimestamp(TS_MW,$row->last), true ) . ') ';
 				}
 				$s .= " [<strong>" . $row->count . "</strong>]</li>\n";
 				++$counter;
@@ -705,10 +705,10 @@ class CheckUser extends SpecialPage
 					$wgTitle->escapeLocalURL( 'user='.urlencode($ip).'&reason='.urlencode($reason).'&checktype=subipusers' ) .
 					'">'.$ip.'</a>';
 				if( $row->first == $row->last ) {
-					$s .= ' (' . $wgLang->timeanddate( $row->first, true ) . ') ';
+					$s .= ' (' . $wgLang->timeanddate( wfTimestamp(TS_MW,$row->first), true ) . ') ';
 				} else {
-					$s .= ' (' . $wgLang->timeanddate( $row->first, true ) .
-					' -- ' . $wgLang->timeanddate( $row->last, true ) . ') ';
+					$s .= ' (' . $wgLang->timeanddate( wfTimestamp(TS_MW,$row->first), true ) .
+					' -- ' . $wgLang->timeanddate( wfTimestamp(TS_MW,$row->last), true ) . ') ';
 				}
 				$s .= " [<strong>" . $row->count . "</strong>]</li>\n";
 				++$counter;
@@ -775,10 +775,10 @@ class CheckUser extends SpecialPage
 				$s .= ' (<a href="' . $wgTitle->escapeLocalURL( 'user='.urlencode($name) .
 					'&reason='.urlencode($reason) ) . '">' . wfMsgHtml('checkuser-check') . '</a>)';
 				if( $users_first[$name] == $users_last[$name] ) {
-					$s .= ' (' . $wgLang->timeanddate( $users_first[$name], true ) . ') ';
+					$s .= ' (' . $wgLang->timeanddate( wfTimestamp(TS_MW,$users_first[$name]), true ) . ') ';
 				} else {
-					$s .= ' (' . $wgLang->timeanddate( $users_first[$name], true ) .
-					' -- ' . $wgLang->timeanddate( $users_last[$name], true ) . ') ';
+					$s .= ' (' . $wgLang->timeanddate( wfTimestamp(TS_MW,$users_first[$name]), true ) .
+					' -- ' . $wgLang->timeanddate( wfTimestamp(TS_MW,$users_last[$name]), true ) . ') ';
 				}
 				$s .= ' [<strong>' . $count . '</strong>]<br />';
 				$flags = array();
@@ -1252,7 +1252,8 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 		}
 
 		return '<li>' . 
-			$wgLang->timeanddate( $row->cul_timestamp ) . wfMsg( 'comma-separator' ) .
+			$wgLang->timeanddate( wfTimestamp(TS_MW,$row->cul_timestamp), true ) . 
+			wfMsg( 'comma-separator' ) .
 			wfMsg( 
 				'checkuser-log-' . $row->cul_type,
 				$user,
