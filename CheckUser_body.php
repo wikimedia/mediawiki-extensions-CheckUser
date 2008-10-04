@@ -893,7 +893,7 @@ class CheckUser extends SpecialPage
 	protected function CUChangesLine( $row, $reason ) {
 		global $wgLang;
 		# Add date headers
-		$date = $wgLang->date( $row->cuc_timestamp, true, true );
+		$date = $wgLang->date( wfTimestamp(TS_MW,$row->cuc_timestamp), true, true );
 		if( !isset($this->lastdate) ) {
 			$this->lastdate = $date;
 			$line = "\n<h4>$date</h4>\n<ul class=\"special\">";
@@ -907,7 +907,7 @@ class CheckUser extends SpecialPage
 		# Create diff/hist/page links
 		$line .= $this->getLinksFromRow( $row );
 		# Show date
-		$line .= ' . . ' . $wgLang->time( $row->cuc_timestamp, true, true ) . ' . . ';
+		$line .= ' . . ' . $wgLang->time( wfTimestamp(TS_MW,$row->cuc_timestamp), true, true ) . ' . . ';
 		# Userlinks
 		$line .= $this->sk->userLink( $row->cuc_user, $row->cuc_user_text );
 		$line .= $this->sk->userToolLinks( $row->cuc_user, $row->cuc_user_text );
@@ -1053,7 +1053,7 @@ class CheckUser extends SpecialPage
 		$dbr = wfGetDB( DB_SLAVE );
 		$cutoff_unixtime = time() - ($period * 24 * 3600);
 		$cutoff_unixtime = $cutoff_unixtime - ($cutoff_unixtime % 86400);
-		$cutoff = $dbr->addQuotes( wfTimestamp( TS_MW, $cutoff_unixtime ) );
+		$cutoff = $dbr->addQuotes( $dbr->timestamp( $cutoff_unixtime ) );
 		return "cuc_timestamp > $cutoff";
 	}
 
