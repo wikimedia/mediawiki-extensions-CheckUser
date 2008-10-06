@@ -1166,6 +1166,7 @@ No se muestran más de 5000 ediciones por motivos de rendimiento. Usa esta herra
 	'checkuser-log-fail' => 'No se puede añadir este elemento al registro.',
 	'checkuser-nolog' => 'No se encuentra ningún archivo del registro',
 	'checkuser-blocked' => 'Bloqueado',
+	'checkuser-gblocked' => 'Bloqueado globalmente',
 	'checkuser-wasblocked' => 'Bloqueado anteriormente',
 	'checkuser-massblock' => 'Bloquear usuarios seleccionados',
 	'checkuser-blocktag' => 'Reemplazar páginas del usuario con:',
@@ -1791,7 +1792,7 @@ $messages['hr'] = array(
 	'checkuser-logcase' => 'Pretraživanje evidencije razlikuje velika i mala slova',
 	'checkuser' => 'Provjeri suradnika',
 	'group-checkuser' => 'Provjeritelji',
-	'group-checkuser-member' => 'provjeritelj',
+	'group-checkuser-member' => 'Provjeritelj',
 	'right-checkuser' => 'Provjeravanje IP adrese suradnika i drugih informacija',
 	'right-checkuser-log' => 'Gledanje evidencije provjere suradnika',
 	'grouppage-checkuser' => '{{ns:project}}:Provjeritelji',
@@ -3632,6 +3633,7 @@ $messages['roa-rup'] = array(
 
 /** Russian (Русский)
  * @author Ferrer
+ * @author Kaganer
  * @author Silence
  * @author Александр Сигачёв
  */
@@ -3668,7 +3670,9 @@ $messages['ru'] = array(
 	'checkuser-log-fail' => 'Невозможно добавить запись в журнал',
 	'checkuser-nolog' => 'Файл журнала не найден.',
 	'checkuser-blocked' => 'Заблокирован',
-	'checkuser-wasblocked' => 'Заблокирован ранее',
+	'checkuser-gblocked' => 'Заблокирован глобально',
+	'checkuser-locked' => 'Лишён доп. возможностей',
+	'checkuser-wasblocked' => 'Подвергался блокировке',
 	'checkuser-massblock' => 'Заблокировать выбранных участников',
 	'checkuser-massblock-text' => 'Выбранные учётные записи будут заблокированы бессрочно с автоблокировкой и запретом создания новых учётных записей.
 IP-адреса будут заблокированы на 1 неделю для непредставившихся участников, будет включён запрет на создание учётных записей.',
