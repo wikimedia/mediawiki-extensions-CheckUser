@@ -391,7 +391,7 @@ $messages['ast'] = array(
 	'checkuser-logcase' => 'La busca nel rexistru distingue ente mayúscules y minúscules.',
 	'checkuser' => "Comprobador d'usuariu",
 	'group-checkuser' => "Comprobadores d'usuariu",
-	'group-checkuser-member' => "Comprobador d'usuariu",
+	'group-checkuser-member' => "comprobador d'usuariu",
 	'right-checkuser' => "Comprueba les direiciones IP d'un usuariu entre otres coses",
 	'right-checkuser-log' => "Ver el rexistru de comprobación d'usuarios",
 	'grouppage-checkuser' => "{{ns:project}}:Comprobador d'usuariu",
@@ -3971,6 +3971,8 @@ Beoarbaidengen fon ne IP-Adresse konnen uk ätter Informatione uut do XFF-Header
 	'checkuser-log-fail' => 'Logbouk-Iendraach kon nit bietouföiged wäide.',
 	'checkuser-nolog' => 'Neen Logbouk fuunen.',
 	'checkuser-blocked' => 'speerd',
+	'checkuser-gblocked' => 'globoal speerd',
+	'checkuser-locked' => 'sleeten',
 	'checkuser-wasblocked' => 'fröier speerd',
 	'checkuser-massblock' => 'Speer do uutwäälde Benutsere',
 	'checkuser-massblock-text' => 'Do uutwäälde Benutserkonten wäide duurhaft speerd (Autoblock is aktiv un ju Anloage fon näie Benutserkonten wäd unnerbuunen).
