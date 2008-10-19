@@ -136,14 +136,6 @@ $messages['krl'] = array(
 	'checkuser-search-submit' => 'Ečči',
 );
 
-/** Eastern Mari (Олык Марий)
- * @author Сай
- */
-$messages['mhr'] = array(
-	'checkuser-search' => 'Кычал',
-	'checkuser-search-submit' => 'Кычал',
-);
-
 /** Niuean (ko e vagahau Niuē)
  * @author Jose77
  */
@@ -884,6 +876,7 @@ $messages['cu'] = array(
 );
 
 /** Danish (Dansk)
+ * @author Fredelige
  * @author Morten LJ
  */
 $messages['da'] = array(
@@ -905,12 +898,19 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 	'checkuser-edits' => 'Hent redigeringer fra IP',
 	'checkuser-ips' => "Hent IP'er",
 	'checkuser-search' => 'Søg',
+	'checkuser-week-1' => 'forrige uge',
+	'checkuser-week-2' => 'sidste to uger',
+	'checkuser-month' => 'sidste 30 dage',
+	'checkuser-all' => 'alle',
 	'checkuser-empty' => 'Loggen indeholder ingen poster.',
 	'checkuser-nomatch' => 'Ingen matchende resultater blev fundet.',
 	'checkuser-check' => 'Check',
 	'checkuser-log-fail' => 'Kunne ikke tilføje log-post',
 	'checkuser-nolog' => 'Logfilen blev ikke fundet.',
 	'checkuser-blocked' => 'Blokeret',
+	'checkuser-gblocked' => 'Blokeret globalt',
+	'checkuser-locked' => 'Låst',
+	'checkuser-wasblocked' => 'Tidligere blokkeret',
 	'checkuser-too-many' => "For mange resultater, gør CIDR'en smallere. Her er de brugte IP'er (max 5000, sorteret efter adresse):",
 	'checkuser-user-nonexistent' => 'Den anførte bruger eksisterer ikke.',
 	'checkuser-search-form' => 'Find log-poster hvor $1 er $2',
@@ -1326,6 +1326,7 @@ $messages['fi'] = array(
 	'checkuser-log-fail' => 'Lokitapahtuman lisäys epäonnistui',
 	'checkuser-nolog' => 'Lokitiedostoa ei löytynyt.',
 	'checkuser-blocked' => 'Estetty',
+	'checkuser-gblocked' => 'Estetty globaalisti',
 	'checkuser-wasblocked' => 'Aiemmin estetyt',
 	'checkuser-massblock' => 'Estä valitut käyttäjät',
 	'checkuser-massblock-text' => 'Valitut tunnukset estetään toistaiseksi ("autoblocking", "tunnusten luonti estetty").
@@ -1619,10 +1620,13 @@ $messages['got'] = array(
 );
 
 /** Ancient Greek (Ἀρχαία ἑλληνικὴ)
+ * @author Omnipaedista
  * @author SPQRobin
  */
 $messages['grc'] = array(
+	'checkuser-reason' => 'Αἰτία:',
 	'checkuser-search' => 'Ζητεῖν',
+	'checkuser-period' => 'Διάρκεια:',
 );
 
 /** Gujarati (ગુજરાતી) */
@@ -2368,6 +2372,7 @@ Ing ngisor iki kapacak alamat-alamat IP sing dienggo (maks. 5.000, diurutaké ad
  */
 $messages['ka'] = array(
 	'checkuser-reason' => 'მიზეზი:',
+	'checkuser-all' => 'ყველა',
 );
 
 /** Kazakh (Arabic script) (‫قازاقشا (تٴوتە)‬) */
@@ -2571,6 +2576,7 @@ $messages['ko'] = array(
 	'checkuser-reason' => '이유:',
 	'checkuser-showlog' => '기록 보기',
 	'checkuser-log' => '체크유저 기록',
+	'checkuser-target' => '사용자 혹은 IP',
 	'checkuser-search' => '찾기',
 	'checkuser-check' => '확인',
 	'checkuser-search-submit' => '찾기',
@@ -2849,6 +2855,14 @@ $messages['lv'] = array(
 	'checkuser-target' => 'Lietotājs vai IP',
 	'checkuser-search' => 'Meklēt',
 	'checkuser-check' => 'Pārbaudīt',
+);
+
+/** Eastern Mari (Олык Марий)
+ * @author Сай
+ */
+$messages['mhr'] = array(
+	'checkuser-search' => 'Кычал',
+	'checkuser-search-submit' => 'Кычал',
 );
 
 /** Macedonian (Македонски)
