@@ -45,6 +45,11 @@ $aliases['el'] = array(
 	'CheckUser' => array( 'ΈλεγχοςΧρήστη' ),
 );
 
+/** Persian (فارسی) */
+$aliases['fa'] = array(
+	'CheckUser' => array( 'بازرسی_کاربر' ),
+);
+
 /** Finnish (Suomi) */
 $aliases['fi'] = array(
 	'CheckUser' => array( 'Tarkista käyttäjä' ),
@@ -97,6 +102,11 @@ $aliases['ko'] = array(
 	'CheckUser' => array( '체크유저' ),
 );
 
+/** Luxembourgish (Lëtzebuergesch) */
+$aliases['lb'] = array(
+	'CheckUser' => array( 'Benotzerkontroll' ),
+);
+
 /** Malay (Bahasa Melayu) */
 $aliases['ms'] = array(
 	'CheckUser' => array( 'Perisik' ),
@@ -122,6 +132,11 @@ $aliases['nl'] = array(
  */
 $aliases['no'] = array(
 	'CheckUser' => array( 'IP-sjekk' ),
+);
+
+/** Occitan (Occitan) */
+$aliases['oc'] = array(
+	'CheckUser' => array( 'Verificator d’adreça', 'VerificatorAdreça', 'VerificatorAdreca' ),
 );
 
 /** Thai (ไทย) */
