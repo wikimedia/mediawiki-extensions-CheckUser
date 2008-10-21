@@ -49,8 +49,8 @@ class CheckUser extends SpecialPage
 		if( !$wgUser->isAllowed( 'checkuser' ) ) {
 			if ( $wgUser->isAllowed( 'checkuser-log' ) ) {
 				$wgOut->addWikiText( wfMsg( 'checkuser-summary' ) . 
-						     "\n\n[[" . $this->getLogSubpageTitle()->getPrefixedText() . '|' . wfMsg( 'checkuser-showlog' ) . ']]'
-					);
+					"\n\n[[" . $this->getLogSubpageTitle()->getPrefixedText() . '|' . wfMsg( 'checkuser-showlog' ) . ']]'
+				);
 				return;
 			}
 
@@ -231,6 +231,42 @@ class CheckUser extends SpecialPage
 			$wgOut->addWikiText( wfMsgExt('checkuser-block-failure',array('parsemag')) );
 		}
 	}
+	
+	protected function noMatchesMessage( $userName ) {
+		global $wgLang;
+		$dbr = wfGetDB( DB_SLAVE );
+		$user_id = User::idFromName($userName);
+		if( $user_id ) {
+			$revEdit = $dbr->selectField( 'revision',
+				'rev_timestamp',
+				array( 'rev_user' => $user_id ),
+				__METHOD__,
+				array( 'ORDER BY' => 'rev_timestamp DESC')
+			);
+		} else {
+			$revEdit = $dbr->selectField( 'revision',
+				'rev_timestamp',
+				array( 'rev_user_text' => $userName ),
+				__METHOD__,
+				array( 'ORDER BY' => 'rev_timestamp DESC')
+			);
+		}
+		$logEdit = 0;
+		if( $user_id ) {
+			$logEdit = $dbr->selectField( 'logging',
+				'log_timestamp',
+				array( 'log_user' => $user_id ),
+				__METHOD__,
+				array( 'ORDER BY' => 'log_timestamp DESC')
+			);
+		}
+		$lastEdit = max( $revEdit, $logEdit );
+		if( $lastEdit ) {
+			$lastEdit = $wgLang->timeanddate( wfTimestamp(TS_MW,$lastEdit), true );
+			return wfMsgHtml( 'checkuser-nomatch-edits', $lastEdit );
+		}
+		return wfMsgHtml('checkuser-nomatch');
+	}
 
 	/**
 	 * @param string $ip
@@ -279,7 +315,7 @@ class CheckUser extends SpecialPage
 		
 		$ret = $dbr->query( $sql, __METHOD__ );
 		if( !$dbr->numRows( $ret ) ) {
-			$s = wfMsgHtml("checkuser-nomatch")."\n";
+			$s = $this->noMatchesMessage($user)."\n";
 		} else {
 			$blockip = SpecialPage::getTitleFor( 'blockip' );
 			$ips_edits = array();
@@ -458,7 +494,7 @@ class CheckUser extends SpecialPage
 			$wgOut->addHTML( $s );
 			return;
 		} else if( isset($rangecount) && !$rangecount ) {
-			$s = wfMsgHtml("checkuser-nomatch")."\n";
+			$s = $this->noMatchesMessage($ip)."\n";
 			$wgOut->addHTML( $s );
 			return;
 		} 
@@ -470,7 +506,7 @@ class CheckUser extends SpecialPage
 		$ret = $dbr->query( $sql, __METHOD__ );
 
 		if( !$dbr->numRows( $ret ) ) {
-			$s = wfMsgHtml("checkuser-nomatch")."\n";
+			$s = $this->noMatchesMessage($ip)."\n";
 		} else {
 			# Cache common messages
 			$this->preCacheMessages();
@@ -603,7 +639,7 @@ class CheckUser extends SpecialPage
 		$ret = $dbr->query( $sql, __METHOD__ );
 
 		if( !$dbr->numRows( $ret ) ) {
-			$s = wfMsgHtml("checkuser-nomatch")."\n";
+			$s = $this->noMatchesMessage($user)."\n";
 		} else {
 			# Try to optimize this query
 			$lb = new LinkBatch;
@@ -719,7 +755,7 @@ class CheckUser extends SpecialPage
 			$wgOut->addHTML( $s );
 			return;
 		} else if( isset($rangecount) && !$rangecount ) {
-			$s = wfMsgHtml("checkuser-nomatch")."\n";
+			$s = $this->noMatchesMessage($ip)."\n";
 			$wgOut->addHTML( $s );
 			return;
 		}
@@ -734,7 +770,7 @@ class CheckUser extends SpecialPage
 
 		$users_first = $users_last = $users_edits = $users_ids = array();
 		if( !$dbr->numRows( $ret ) ) {
-			$s = wfMsgHtml( "checkuser-nomatch" )."\n";
+			$s = $this->noMatchesMessage($ip)."\n";
 		} else {
 			while( ($row = $dbr->fetchObject($ret) ) != false ) {
 				if( !array_key_exists( $row->cuc_user_text, $users_edits ) ) {
