@@ -94,6 +94,7 @@ Here are the IPs used (5000 max, sorted by address):',
  * @author Lejonel
  * @author Meno25
  * @author Mormegil
+ * @author Purodha
  * @author Slomox
  */
 $messages['qqq'] = array(
@@ -107,6 +108,8 @@ $messages['qqq'] = array(
 	'checkuser-reason' => '{{Identical|Reason}}',
 	'checkuser-search' => '{{Identical|Search}}',
 	'checkuser-all' => '{{Identical|All}}',
+	'checkuser-nomatch-edits' => '* $1 = date
+* $2 = time',
 	'checkuser-massblock' => '{{Identical|Block selected users}}',
 	'checkuser-massblock-commit' => '{{Identical|Block selected users}}',
 	'checkuser-search-submit' => '{{Identical|Search}}',
@@ -260,6 +263,8 @@ $messages['ar'] = array(
 	'checkuser-all' => 'الكل',
 	'checkuser-empty' => 'لا توجد مدخلات في السجل.',
 	'checkuser-nomatch' => 'لم يتم العثور على مدخلات مطابقة.',
+	'checkuser-nomatch-edits' => 'لا تطابق تم العثور عليه.
+آخر تعديل كان في $1 الساعة $2.',
 	'checkuser-check' => 'فحص',
 	'checkuser-log-fail' => 'غير قادر على إضافة مدخلة للسجل',
 	'checkuser-nolog' => 'لم يتم العثور على ملف سجل.',
@@ -335,6 +340,8 @@ IPv4 (CIDR 16-32) و IPv6 (CIDR 64-128) مدعومين.
 	'checkuser-all' => 'الكل',
 	'checkuser-empty' => 'مافيش حاجة فى السجل.',
 	'checkuser-nomatch' => 'مافيش اى حاجة متطابقة',
+	'checkuser-nomatch-edits' => 'لا تطابق تم العثور عليه.
+آخر تعديل كان فى $1 الساعة $2.',
 	'checkuser-check' => 'فحص',
 	'checkuser-log-fail' => 'مش قادر يضيف مدخلة للسجل',
 	'checkuser-nolog' => 'سجل الملف ماتلقاش.',
@@ -414,6 +421,7 @@ $messages['ast'] = array(
 	'checkuser-all' => 'too',
 	'checkuser-empty' => 'El rexistru nun tien nengún elementu.',
 	'checkuser-nomatch' => "Nun s'atoparon coincidencies.",
+	'checkuser-nomatch-edits' => "Nun s'atoparon coincidencies. La cabera edición foi en $1.",
 	'checkuser-check' => 'Comprobar',
 	'checkuser-log-fail' => 'Nun se pue añader la entrada nel rexistru',
 	'checkuser-nolog' => "Nun s'atopó l'archivu del rexistru.",
@@ -832,6 +840,7 @@ Z výkonnostních důvodů lze zobrazit maximálně 5000 editací. Používejte 
 	'checkuser-all' => 'všechno',
 	'checkuser-empty' => 'Kniha neobsahuje žádné položky',
 	'checkuser-nomatch' => 'Nic odpovídajícího nebylo nalezeno.',
+	'checkuser-nomatch-edits' => 'Nic odpovídajícího nebylo nalezeno. Poslední editace proběhla $2, $1.',
 	'checkuser-check' => 'Zkontrolovat',
 	'checkuser-log-fail' => 'Nepodařilo se zapsat do záznamů',
 	'checkuser-nolog' => 'Soubor záznamů nebyl nalezen.',
@@ -928,6 +937,7 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 );
 
 /** German (Deutsch)
+ * @author Metalhead64
  * @author Pill
  * @author Purodha
  * @author Raimond Spekking
@@ -962,6 +972,7 @@ $messages['de'] = array(
 	'checkuser-all' => 'alle',
 	'checkuser-empty' => 'Das Logbuch enthält keine Einträge.',
 	'checkuser-nomatch' => 'Keine Übereinstimmungen gefunden.',
+	'checkuser-nomatch-edits' => 'Keine Übereinstimmungen gefunden. Letzte Bearbeitung hat am $1 um $2 stattgefunden.',
 	'checkuser-check' => 'Ausführen',
 	'checkuser-log-fail' => 'Logbuch-Eintrag kann nicht hinzugefügt werden.',
 	'checkuser-nolog' => 'Keine Logbuchdatei vorhanden.',
@@ -1087,6 +1098,7 @@ Uzu ĉi tion laŭ regularo.',
 	'checkuser-all' => 'ĉiuj',
 	'checkuser-empty' => 'La protokolo estas malplena.',
 	'checkuser-nomatch' => 'Neniujn pafojn trovis.',
+	'checkuser-nomatch-edits' => 'Neniuj trafoj troviĝis. Lasta redakto estis je $1.',
 	'checkuser-check' => 'Kontroli',
 	'checkuser-log-fail' => 'Ne eblis aldoni protokoleron.',
 	'checkuser-nolog' => 'Neniu protokolo estas trovita.',
@@ -1405,6 +1417,7 @@ $messages['fr'] = array(
 	'checkuser-all' => 'tout',
 	'checkuser-empty' => 'Le journal ne contient aucun article',
 	'checkuser-nomatch' => 'Recherches infructueuses.',
+	'checkuser-nomatch-edits' => 'Aucune occurence trouvée. La dernière modification était le $1.',
 	'checkuser-check' => 'Recherche',
 	'checkuser-log-fail' => 'Impossible d’ajouter l’entrée du journal.',
 	'checkuser-nolog' => 'Aucune entrée dans le journal',
@@ -1579,6 +1592,7 @@ Os usuarios e as edicións por un cliente IP poden ser recuperados a través das
 	'checkuser-all' => 'todos',
 	'checkuser-empty' => 'O rexistro non contén ítems.',
 	'checkuser-nomatch' => 'Non se atoparon coincidencias.',
+	'checkuser-nomatch-edits' => 'Non se atoparon coincidencias. A última edición foi feita o $1.',
 	'checkuser-check' => 'Comprobar',
 	'checkuser-log-fail' => 'Non é posíbel engadir unha entrada no rexistro',
 	'checkuser-nolog' => 'Ningún arquivo de rexistro.',
@@ -1821,6 +1835,7 @@ $messages['hr'] = array(
 	'checkuser-all' => 'sve',
 	'checkuser-empty' => 'Evidencija je prazna.',
 	'checkuser-nomatch' => 'Nema suradnika s tom IP adresom.',
+	'checkuser-nomatch-edits' => 'Nema poklapanja. Zadnja izmjena je bila $1.',
 	'checkuser-check' => 'Provjeri',
 	'checkuser-log-fail' => 'Ne mogu dodati zapis',
 	'checkuser-nolog' => 'Evidencijska datoteka nije nađena',
@@ -2067,6 +2082,7 @@ $messages['id'] = array(
 	'checkuser-all' => 'semua',
 	'checkuser-empty' => 'Log kosong.',
 	'checkuser-nomatch' => 'Data yang sesuai tidak ditemukan.',
+	'checkuser-nomatch-edits' => 'Tidak ditemukan hasil sesuai kriteria yang diberikan. Suntingan terakhir dilakukan pada $2, $1.',
 	'checkuser-check' => 'Periksa',
 	'checkuser-log-fail' => 'Entri log tidak dapat ditambahkan',
 	'checkuser-nolog' => 'Berkas log tidak ditemukan.',
@@ -2639,6 +2655,7 @@ Donn op de Räjelle för dat Werrkzeuch obacht jevve, un et nit bruche, wann De 
 	'checkuser-all' => 'all',
 	'checkuser-empty' => 'En däm Logbooch shteit nix dren.',
 	'checkuser-nomatch' => 'Nix zopaß jefonge.',
+	'checkuser-nomatch-edits' => 'Keine Treffer jefonge. De letzte Änderung wohr aam $1 öm $2 Uhr.',
 	'checkuser-check' => 'Pröfe!',
 	'checkuser-log-fail' => 'Kann nix em Logbooch dobei schriive',
 	'checkuser-nolog' => 'Kein Logbooch jefonge.',
@@ -2997,6 +3014,7 @@ $messages['ms'] = array(
 	'checkuser-all' => 'semua',
 	'checkuser-empty' => 'Log ini kosong.',
 	'checkuser-nomatch' => 'Tiada padanan.',
+	'checkuser-nomatch-edits' => 'Tiada padanan. Suntingan terakhir ialah pada $1.',
 	'checkuser-check' => 'Periksa',
 	'checkuser-log-fail' => 'Daftar log tidak dapat ditambah',
 	'checkuser-nolog' => 'Fail log tiada.',
@@ -3146,6 +3164,8 @@ Gebruik dit hulpmiddel volgens het vastgestelde beleid.',
 	'checkuser-all' => 'alle',
 	'checkuser-empty' => 'Het logboek bevat geen regels.',
 	'checkuser-nomatch' => 'Geen overeenkomsten gevonden.',
+	'checkuser-nomatch-edits' => 'Niets gevonden.
+De laatste bewerking was op $1 om $2.',
 	'checkuser-check' => 'Controleren',
 	'checkuser-log-fail' => 'Logboekregel toevoegen niet mogelijk',
 	'checkuser-nolog' => 'Geen logboek gevonden.',
@@ -3314,6 +3334,7 @@ $messages['oc'] = array(
 	'checkuser-all' => 'tot',
 	'checkuser-empty' => "Lo jornal conten pas cap d'article",
 	'checkuser-nomatch' => 'Recèrcas infructuosas.',
+	'checkuser-nomatch-edits' => "Cap d'ocurréncia pas trobada. La darrièra modificacion èra lo $1.",
 	'checkuser-check' => 'Recèrca',
 	'checkuser-log-fail' => "Incapaç d'ajustar la dintrada del jornal.",
 	'checkuser-nolog' => 'Cap de dintrada dins lo Jornal.',
@@ -3518,6 +3539,7 @@ $messages['pt'] = array(
 	'checkuser-all' => 'todos',
 	'checkuser-empty' => 'O registo não contém itens.',
 	'checkuser-nomatch' => 'Não foram encontrados resultados.',
+	'checkuser-nomatch-edits' => 'Nenhum resultado encontrado. A última edição foi em $1.',
 	'checkuser-check' => 'Verificar',
 	'checkuser-log-fail' => 'Não foi possível adicionar entradas ao registo',
 	'checkuser-nolog' => 'Não foi encontrado um arquivo de registos.',
@@ -3707,6 +3729,8 @@ $messages['ru'] = array(
 	'checkuser-all' => 'все',
 	'checkuser-empty' => 'Журнал пуст.',
 	'checkuser-nomatch' => 'Совпадений не найдено.',
+	'checkuser-nomatch-edits' => 'Соответствий не найдено.
+Последняя правка сделана $1 в $2.',
 	'checkuser-check' => 'Проверить',
 	'checkuser-log-fail' => 'Невозможно добавить запись в журнал',
 	'checkuser-nolog' => 'Файл журнала не найден.',
@@ -3841,6 +3865,8 @@ $messages['sk'] = array(
 	'checkuser-all' => 'všetky',
 	'checkuser-empty' => 'Záznam neobsahuje žiadne položky.',
 	'checkuser-nomatch' => 'Žiadny vyhovujúci záznam.',
+	'checkuser-nomatch-edits' => 'Neboli nájdené zhody.
+Posledná úprava bola $1 o $2.',
 	'checkuser-check' => 'Skontrolovať',
 	'checkuser-log-fail' => 'Nebolo možné pridať položku záznamu',
 	'checkuser-nolog' => 'Nebol nájdený súbor záznamu.',
@@ -4087,6 +4113,8 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 	'checkuser-all' => 'alla',
 	'checkuser-empty' => 'Loggen innehåller inga poster.',
 	'checkuser-nomatch' => 'Inga träffar hittades.',
+	'checkuser-nomatch-edits' => 'Fick ingen träff.
+Senaste redigering var $1 kl $2.',
 	'checkuser-check' => 'Kontrollera',
 	'checkuser-log-fail' => 'Loggposten kunde inte läggas i loggfilen.',
 	'checkuser-nolog' => 'Hittade ingen loggfil.',
@@ -4338,6 +4366,8 @@ $messages['uk'] = array(
 	'checkuser-all' => 'усі',
 	'checkuser-empty' => 'Журнал порожній.',
 	'checkuser-nomatch' => 'Не знайдено співпадінь.',
+	'checkuser-nomatch-edits' => 'Збіги не знайдені.
+Останнє редагування зроблене $1 о $2.',
 	'checkuser-check' => 'Перевірити',
 	'checkuser-log-fail' => 'Не в змозі додати запис до журналу',
 	'checkuser-nolog' => 'Файл журналу не знайдений.',
