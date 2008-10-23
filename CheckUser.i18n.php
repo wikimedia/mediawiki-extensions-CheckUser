@@ -1693,7 +1693,8 @@ $messages['he'] = array(
 	'checkuser-all' => 'הכול',
 	'checkuser-empty' => 'אין פריטים ביומן.',
 	'checkuser-nomatch' => 'לא נמצאו התאמות.',
-	'checkuser-nomatch-edits' => 'לא נמצאו התאמות. העריכה האחרונה בוצעה ב־$1.',
+	'checkuser-nomatch-edits' => 'לא נמצאו התאמות.
+העריכה האחרונה בוצעה ב־$2, $1.',
 	'checkuser-check' => 'בדיקה',
 	'checkuser-log-fail' => 'לא ניתן היה להוסיף פריט ליומן',
 	'checkuser-nolog' => 'לא נמצא קובץ יומן.',
