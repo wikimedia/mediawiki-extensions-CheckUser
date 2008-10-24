@@ -824,10 +824,10 @@ class CheckUser extends SpecialPage
 				$block->fromMaster( false ); // use slaves
 				$ip = IP::isIPAddress( $name ) ? $name : '';
 				# Load user object
-				if(User::getCanonicalName( $name, $validate ) === true)
-				$user = User::newFromName( $name );
+				if ( User::getCanonicalName( $name, $validate ) === true )
+					$user = User::newFromName( $name );
 				else
-				$user = User::newFromSession();
+					$user = User::newFromSession();
 				if( $block->load( $ip, $users_ids[$name] ) ) {
 					// Range blocked?
 					if( IP::isIPAddress($block->mAddress) && strpos($block->mAddress,'/') ) {
