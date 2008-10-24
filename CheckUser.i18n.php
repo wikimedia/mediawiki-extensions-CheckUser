@@ -1592,7 +1592,8 @@ Os usuarios e as edicións por un cliente IP poden ser recuperados a través das
 	'checkuser-all' => 'todos',
 	'checkuser-empty' => 'O rexistro non contén ítems.',
 	'checkuser-nomatch' => 'Non se atoparon coincidencias.',
-	'checkuser-nomatch-edits' => 'Non se atoparon coincidencias. A última edición foi feita o $1.',
+	'checkuser-nomatch-edits' => 'Non se atoparon coincidencias.
+A última edición foi feita o $1 ás $2.',
 	'checkuser-check' => 'Comprobar',
 	'checkuser-log-fail' => 'Non é posíbel engadir unha entrada no rexistro',
 	'checkuser-nolog' => 'Ningún arquivo de rexistro.',
@@ -2187,6 +2188,8 @@ $messages['it'] = array(
 	'checkuser-all' => 'tutti gli edit',
 	'checkuser-empty' => 'Il log non contiene dati.',
 	'checkuser-nomatch' => 'Nessun risultato trovato.',
+	'checkuser-nomatch-edits' => 'Nessun risultato trovato.
+Ultimo edit risalente alle $2 del $1.',
 	'checkuser-check' => 'Controlla',
 	'checkuser-log-fail' => 'Impossibile aggiungere la voce al log',
 	'checkuser-nolog' => 'Non è stato trovato alcun file di log.',
@@ -3014,7 +3017,7 @@ $messages['ms'] = array(
 	'checkuser-all' => 'semua',
 	'checkuser-empty' => 'Log ini kosong.',
 	'checkuser-nomatch' => 'Tiada padanan.',
-	'checkuser-nomatch-edits' => 'Tiada padanan. Suntingan terakhir ialah pada $1.',
+	'checkuser-nomatch-edits' => 'Tiada padanan. Suntingan terakhir ialah pada $1, $2.',
 	'checkuser-check' => 'Periksa',
 	'checkuser-log-fail' => 'Daftar log tidak dapat ditambah',
 	'checkuser-nolog' => 'Fail log tiada.',
@@ -3424,6 +3427,8 @@ Używaj tej funkcji zgodnie z zasadami.',
 	'checkuser-all' => 'wszystkie',
 	'checkuser-empty' => 'Rejestr nie zawiera żadnych wpisów.',
 	'checkuser-nomatch' => 'Nie znaleziono niczego.',
+	'checkuser-nomatch-edits' => 'Brak wskazań.
+Ostatnia edycja była wykonana $1 o $2.',
 	'checkuser-check' => 'Sprawdź',
 	'checkuser-log-fail' => 'Nie udało się dodać wpisu do rejestru',
 	'checkuser-nolog' => 'Nie znaleziono pliku rejestru.',
@@ -3460,7 +3465,7 @@ Użytych adresów IP jest (nie więcej niż 5000, posortowane według adresu):',
 	'checkuser-log-useredits' => '$1 dostał edycje dla $2',
 	'checkuser-autocreate-action' => 'został automatycznie utworzony',
 	'checkuser-email-action' => 'wysłał e-mail do użytkownika „$1”',
-	'checkuser-reset-action' => 'zresetował hasło dla użytkownika „$1”',
+	'checkuser-reset-action' => 'reset hasła dla użytkownika „$1”',
 );
 
 /** Piedmontese (Piemontèis)
