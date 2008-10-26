@@ -1011,6 +1011,62 @@ IP-Adressen werden für eine Woche gesperrt (nur für anonyme Benutzer, die Anla
 	'checkuser-reset-action' => 'Anforderung eines neuen Passwortes für „Benutzer:$1“',
 );
 
+/** Lower Sorbian (Dolnoserbski)
+ * @author Michawiki
+ */
+$messages['dsb'] = array(
+	'checkuser-logcase' => 'Pytanje w protokolu rozeznawaju mjazy wjeliko- a małopisanjom.',
+	'checkuser' => 'Kontrola wužywarjow',
+	'group-checkuser' => 'Kontrolery wužywarjow',
+	'group-checkuser-member' => 'Kontroler wužywarjow',
+	'right-checkuser' => 'Wužywarske IP-adrese a druge informacije kontrolěrowaś',
+	'right-checkuser-log' => 'Protokol kontrole wužywarjow se woglědaś',
+	'grouppage-checkuser' => '{{ns:project}}:Kontroler wužywarjow',
+	'checkuser-reason' => 'Pśicyna:',
+	'checkuser-showlog' => 'Protokol pokazaś',
+	'checkuser-log' => 'Protokol kontrole wužywarjow',
+	'checkuser-target' => 'Wužywaŕ abo IP',
+	'checkuser-users' => 'Wužywarjow wobstaraś',
+	'checkuser-edits' => 'Změny z IP wobstaraś',
+	'checkuser-ips' => 'IP-adrese wobstraś',
+	'checkuser-account' => 'Kontowe změny wobstaraś',
+	'checkuser-search' => 'Pytaś',
+	'checkuser-period' => 'Cas:',
+	'checkuser-week-1' => 'slědny tyźeń',
+	'checkuser-week-2' => 'slědnej dwa tyźenja',
+	'checkuser-month' => 'slědnych 30 dnjow',
+	'checkuser-all' => 'wše',
+	'checkuser-empty' => 'Protokol njewopśimujo žedne zapiski.',
+	'checkuser-nomatch' => 'Žedne wótpowědniki namakane.',
+	'checkuser-nomatch-edits' => 'Žedne wótpowědniki namakane.
+Slědna změna jo $1 $2 była.',
+	'checkuser-check' => 'Kontrolěrowaś',
+	'checkuser-log-fail' => 'Protokolowy zapisk njedajo se pśidaś',
+	'checkuser-nolog' => 'Žedna protokolowa dataja namakana.',
+	'checkuser-blocked' => 'Blokěrowany',
+	'checkuser-gblocked' => 'Globalnje blokěrowany',
+	'checkuser-locked' => 'Zastajony',
+	'checkuser-wasblocked' => 'Do togo blokěrowany',
+	'checkuser-massblock' => 'Wubranych wužywarjow blokěrowaś',
+	'checkuser-blocktag' => 'Wužywarske boki narownaś pśez:',
+	'checkuser-massblock-commit' => 'Wubranych wužywarjow blokěrowaś',
+	'checkuser-block-success' => "'''{{PLURAL:$2|Wužywaŕ|Wužywarja|Wužywarje|Wužywarje}} $1 {{PLURAL:$2|jo|stej|su|su}} něnto {{PLURAL:$2|blokěrowany|blokěrowanej|blokěrowane|blokěrowane}}.'''",
+	'checkuser-block-failure' => "'''Žedne wužywarje blokěrowane.'''",
+	'checkuser-block-limit' => 'Pśewjele wužywarjow wubrane.',
+	'checkuser-block-noreason' => 'Musyš pśicynu za blokěrowanja pódaś.',
+	'checkuser-accounts' => '$1 {{PLURAL:$1|nowe konto|nowej konśe|nowe konta|nowych kontow}}',
+	'checkuser-user-nonexistent' => 'Pódany wužywaŕ njeeksistujo.',
+	'checkuser-search-form' => 'Protokolowe zapiski namakaś, źož $1 jo $2',
+	'checkuser-search-submit' => 'Pytaś',
+	'checkuser-search-initiator' => 'iniciator',
+	'checkuser-search-target' => 'cel',
+	'checkuser-ipeditcount' => '~$1 ze wšych wužywarjow',
+	'checkuser-log-subpage' => 'Protokol',
+	'checkuser-autocreate-action' => 'jo se awtomatiski załožyło',
+	'checkuser-email-action' => 'jo e-mail na wužywarja "$1" pósłał',
+	'checkuser-reset-action' => 'gronidło za wužywarja "$1" wótnowiś',
+);
+
 /** Ewe (Eʋegbe) */
 $messages['ee'] = array(
 	'checkuser-search' => 'Dii',
@@ -1417,7 +1473,7 @@ $messages['fr'] = array(
 	'checkuser-all' => 'tout',
 	'checkuser-empty' => 'Le journal ne contient aucun article',
 	'checkuser-nomatch' => 'Recherches infructueuses.',
-	'checkuser-nomatch-edits' => 'Aucune occurence trouvée. La dernière modification était le $1.',
+	'checkuser-nomatch-edits' => 'Aucune occurence trouvée. La dernière modification était le $1 à $2.',
 	'checkuser-check' => 'Recherche',
 	'checkuser-log-fail' => 'Impossible d’ajouter l’entrée du journal.',
 	'checkuser-nolog' => 'Aucune entrée dans le journal',
@@ -1897,6 +1953,7 @@ Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěš
 	'checkuser-users' => 'Wužiwarjow pokazać',
 	'checkuser-edits' => 'Změny z IP-adresy přinjesć',
 	'checkuser-ips' => 'IP-adresy pokazać',
+	'checkuser-account' => 'Kontowe změny wobstarać',
 	'checkuser-search' => 'Pytać',
 	'checkuser-period' => 'Traće:',
 	'checkuser-week-1' => 'posledni tydźeń',
@@ -1905,6 +1962,8 @@ Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěš
 	'checkuser-all' => 'wšitcy',
 	'checkuser-empty' => 'Protokol njewobsahuje zapiski.',
 	'checkuser-nomatch' => 'Žane wotpowědniki namakane.',
+	'checkuser-nomatch-edits' => 'Žane wotpowědowanja namakane.
+Poslednja změna bě $1 $2.',
 	'checkuser-check' => 'Pruwować',
 	'checkuser-log-fail' => 'Njemóžno protokolowy zapisk přidać.',
 	'checkuser-nolog' => 'Žadyn protokol namakany.',
@@ -1913,6 +1972,9 @@ Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěš
 	'checkuser-locked' => 'Zawrjeny',
 	'checkuser-wasblocked' => 'Prjedy zablokowany',
 	'checkuser-massblock' => 'Wubranych wužiwarjow blokować',
+	'checkuser-massblock-text' => 'Wubrane konta budu so na přeco blokować, awtomatiske blokowanje je aktiwne a załoženje kontow je znjemóžnjene.
+IP-adresy budu so na 1 tydźeń blokować (jenož za IP-wužiwarjow) a załoženje kontow je znjemóžnjene.',
+	'checkuser-blocktag' => 'Wužiwarske strony narunać přez:',
 	'checkuser-massblock-commit' => 'Wubranych wužiwarjow blokować',
 	'checkuser-block-success' => "'''{{PLURAL:$2|Wužiwar|Wužiwarjej|Wužiwarjo|Wužiwarjo}} $1 {{PLURAL:$2|bu|buštaj|buchu|buchu}} nětko {{PLURAL:$2|zablokowany|zablokowanaj|zablokowani|zablokowani}}.'''",
 	'checkuser-block-failure' => "'''Žane wužiwarjo zablokowani.'''",
@@ -1928,11 +1990,16 @@ Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěš
 	'checkuser-ipeditcount' => '~$1 wot wšěch wužiwarjow',
 	'checkuser-log-subpage' => 'Protokol',
 	'checkuser-log-return' => 'Wróćo k hłownemu formularej CheckUser',
+	'checkuser-limited' => "'''Tute wuslědki buchu z wukonowych přičinow wobrězane.'''",
 	'checkuser-log-userips' => '$1 dósta IP za $2',
 	'checkuser-log-ipedits' => '$1 dósta změny za $2',
 	'checkuser-log-ipusers' => '$1 dósta wužiwarjow za $2',
 	'checkuser-log-ipedits-xff' => '$1 dósta změny za XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 dósta wužiwarjow za XFF $2',
+	'checkuser-log-useredits' => '$1 je změny za $2 wobstarał',
+	'checkuser-autocreate-action' => 'bu awtomatisce załožene',
+	'checkuser-email-action' => 'pósła e-mejlku na wužiwarja "$1"',
+	'checkuser-reset-action' => 'hesło za wužiwarja "$1" wobnowić',
 );
 
 /** Hungarian (Magyar)
@@ -2901,6 +2968,7 @@ $messages['lv'] = array(
  * @author Сай
  */
 $messages['mhr'] = array(
+	'checkuser-reason' => 'Амал:',
 	'checkuser-search' => 'Кычал',
 	'checkuser-search-submit' => 'Кычал',
 );
@@ -3266,6 +3334,8 @@ Av ytelsesgrunner vises maksimalt 5000 redigeringer. Bruk dette verktøyet i sam
 	'checkuser-all' => 'alle',
 	'checkuser-empty' => 'Loggen inneholder ingen elementer.',
 	'checkuser-nomatch' => 'Ingen treff.',
+	'checkuser-nomatch-edits' => 'Ingen treff.
+Siste redigering var $2 $1.',
 	'checkuser-check' => 'Sjekk',
 	'checkuser-log-fail' => 'Kunne ikke legge til loggelement.',
 	'checkuser-nolog' => 'Ingen loggfil funnet.',
@@ -3353,7 +3423,8 @@ $messages['oc'] = array(
 	'checkuser-all' => 'tot',
 	'checkuser-empty' => "Lo jornal conten pas cap d'article",
 	'checkuser-nomatch' => 'Recèrcas infructuosas.',
-	'checkuser-nomatch-edits' => "Cap d'ocurréncia pas trobada. La darrièra modificacion èra lo $1.",
+	'checkuser-nomatch-edits' => "Cap d'ocurréncia pas trobada.
+La darrièra modificacion èra lo $1 a §2.",
 	'checkuser-check' => 'Recèrca',
 	'checkuser-log-fail' => "Incapaç d'ajustar la dintrada del jornal.",
 	'checkuser-nolog' => 'Cap de dintrada dins lo Jornal.',
@@ -3560,7 +3631,8 @@ $messages['pt'] = array(
 	'checkuser-all' => 'todos',
 	'checkuser-empty' => 'O registo não contém itens.',
 	'checkuser-nomatch' => 'Não foram encontrados resultados.',
-	'checkuser-nomatch-edits' => 'Nenhum resultado encontrado. A última edição foi em $1.',
+	'checkuser-nomatch-edits' => 'Nenhum resultado encontrado.
+A última edição foi em $1 às $2.',
 	'checkuser-check' => 'Verificar',
 	'checkuser-log-fail' => 'Não foi possível adicionar entradas ao registo',
 	'checkuser-nolog' => 'Não foi encontrado um arquivo de registos.',
