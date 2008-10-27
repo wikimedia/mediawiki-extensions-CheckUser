@@ -1154,7 +1154,7 @@ Uzu ĉi tion laŭ regularo.',
 	'checkuser-all' => 'ĉiuj',
 	'checkuser-empty' => 'La protokolo estas malplena.',
 	'checkuser-nomatch' => 'Neniujn pafojn trovis.',
-	'checkuser-nomatch-edits' => 'Neniuj trafoj troviĝis. Lasta redakto estis je $1.',
+	'checkuser-nomatch-edits' => 'Neniuj trafoj troviĝis. Lasta redakto estis je $1, $2.',
 	'checkuser-check' => 'Kontroli',
 	'checkuser-log-fail' => 'Ne eblis aldoni protokoleron.',
 	'checkuser-nolog' => 'Neniu protokolo estas trovita.',
@@ -2479,6 +2479,7 @@ Ing ngisor iki kapacak alamat-alamat IP sing dienggo (maks. 5.000, diurutaké ad
 $messages['ka'] = array(
 	'checkuser-reason' => 'მიზეზი:',
 	'checkuser-all' => 'ყველა',
+	'checkuser-log-subpage' => 'ჟურნალი',
 );
 
 /** Kazakh (Arabic script) (‫قازاقشا (تٴوتە)‬) */
@@ -4530,6 +4531,8 @@ $messages['vec'] = array(
 	'checkuser-all' => 'tuti quanti',
 	'checkuser-empty' => "El registro no'l contien dati.",
 	'checkuser-nomatch' => 'Nissun risultato catà.',
+	'checkuser-nomatch-edits' => "No xe stà catà nissun risultato.
+L'ultima modìfega la xe stà a le ore $2 del $1.",
 	'checkuser-check' => 'Controla',
 	'checkuser-log-fail' => 'Inpossibile zontar la voçe al registro',
 	'checkuser-nolog' => 'No xe stà catà nissun file de registro.',
