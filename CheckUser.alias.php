@@ -33,6 +33,11 @@ $aliases['as'] = array(
 	'CheckUser' => array( 'সদস্যৰ অনুসন্ধান কৰক' ),
 );
 
+/** Bosnian (Bosanski) */
+$aliases['bs'] = array(
+	'CheckUser' => array( 'ProvjeraKorisnika' ),
+);
+
 /** German (Deutsch)
  * @author Raimond Spekking
  */

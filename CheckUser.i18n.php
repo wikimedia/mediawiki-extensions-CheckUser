@@ -1319,6 +1319,8 @@ $messages['fa'] = array(
 	'checkuser-all' => 'همه',
 	'checkuser-empty' => 'سیاهه خالی است.',
 	'checkuser-nomatch' => 'موردی که مطابقت داشته باشد پیدا نشد.',
+	'checkuser-nomatch-edits' => 'مورد مطابق پیدا نشد.
+آخرین ویرایش در $1 ساعت $2 بود.',
 	'checkuser-check' => 'بررسی',
 	'checkuser-log-fail' => 'امکان افزودن اطلاعات به سیاهه وجود ندارد',
 	'checkuser-nolog' => 'پرونده سیاهه پیدا نشد.',
