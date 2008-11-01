@@ -1894,7 +1894,8 @@ $messages['hr'] = array(
 	'checkuser-all' => 'sve',
 	'checkuser-empty' => 'Evidencija je prazna.',
 	'checkuser-nomatch' => 'Nema suradnika s tom IP adresom.',
-	'checkuser-nomatch-edits' => 'Nema poklapanja. Zadnja izmjena je bila $1.',
+	'checkuser-nomatch-edits' => 'Nema poklapanja.
+Zadnja izmjena je bila $1 u $2.',
 	'checkuser-check' => 'Provjeri',
 	'checkuser-log-fail' => 'Ne mogu dodati zapis',
 	'checkuser-nolog' => 'Evidencijska datoteka nije nađena',
@@ -2009,6 +2010,7 @@ IP-adresy budu so na 1 tydźeń blokować (jenož za IP-wužiwarjow) a załožen
  * @author Dorgan
  * @author Grin
  * @author KossuthRad
+ * @author Terik
  * @author Tgr
  */
 $messages['hu'] = array(
@@ -2021,8 +2023,9 @@ Maximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt
 	'group-checkuser' => 'IP-ellenőrök',
 	'group-checkuser-member' => 'IP-ellenőr',
 	'right-checkuser' => 'a felhasználók IP-címének és más adatainak ellenőrzése',
+	'right-checkuser-log' => 'Checkuser napló megjelenítése',
 	'grouppage-checkuser' => '{{ns:project}}:IP-ellenőrök',
-	'checkuser-reason' => 'Ok',
+	'checkuser-reason' => 'Ok:',
 	'checkuser-showlog' => 'Napló megjelenítése',
 	'checkuser-log' => 'IP-ellenőr-napló',
 	'checkuser-query' => 'Kétséges aktuális változások',
@@ -2030,13 +2033,25 @@ Maximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt
 	'checkuser-users' => 'Felhasználók keresése',
 	'checkuser-edits' => 'Szerkesztések keresése IP-cím alapján',
 	'checkuser-ips' => 'IP-címek keresése',
+	'checkuser-account' => 'Fiókmódosítás szerzése',
 	'checkuser-search' => 'Keresés',
+	'checkuser-period' => 'Időtartam:',
+	'checkuser-week-1' => 'előző hét',
+	'checkuser-week-2' => 'előző két hét',
+	'checkuser-month' => 'előző harminc nap',
+	'checkuser-all' => 'összes',
 	'checkuser-empty' => 'A napló nem tartalmaz elemeket.',
 	'checkuser-nomatch' => 'A párja nem található.',
+	'checkuser-nomatch-edits' => 'Nincs megegyezés.
+Utolsó szerkesztés $1 -én, $2 -kor',
 	'checkuser-check' => 'Ellenőrzés',
 	'checkuser-log-fail' => 'Nem sikerült az elem hozzáadása',
 	'checkuser-nolog' => 'A naplófájl nem található.',
 	'checkuser-blocked' => 'Blokkolva',
+	'checkuser-gblocked' => 'Globálisan blokkolva',
+	'checkuser-locked' => 'Zárva',
+	'checkuser-wasblocked' => 'Előzőleg blokkolva',
+	'checkuser-massblock' => 'Kijelölt felhasználók blokkolása',
 	'checkuser-too-many' => 'Túl sok eredmény, kérlek szűkítsd le a CIDR-t. Itt vannak a használt IP-címek (maximum 5000, cím alapján rendezve):',
 	'checkuser-user-nonexistent' => 'A megadott szerkesztő nem létezik.',
 	'checkuser-search-form' => 'Naplóbejegyzések keresése, ahol $1 $2',
