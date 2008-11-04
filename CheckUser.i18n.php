@@ -716,6 +716,13 @@ Setu an IPoù implijet (5000 d'ar muiañ, urzhiet dre ar chomlec'h)",
 	'checkuser-log-ipusers-xff' => 'Kavet en deus $1 implijerien $2 dre XFF',
 );
 
+/** Bosnian (Bosanski)
+ * @author CERminator
+ */
+$messages['bs'] = array(
+	'checkuser-all' => 'sve',
+);
+
 /** Catalan (Català)
  * @author Aleator
  * @author Jordi Roqué
@@ -3408,6 +3415,8 @@ $messages['nso'] = array(
 	'checkuser-reason' => 'Lebaka',
 	'checkuser-target' => 'Mošomiši goba IP',
 	'checkuser-search' => 'Fetleka',
+	'checkuser-week-1' => 'Beke yago feta',
+	'checkuser-week-2' => 'Beke tše pedi tšago feta',
 	'checkuser-blocked' => 'Thibilwe',
 	'checkuser-search-submit' => 'Fetleka',
 );
