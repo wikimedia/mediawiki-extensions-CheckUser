@@ -2660,6 +2660,7 @@ $messages['km'] = array(
 	'checkuser-check' => 'ត្រួតពិនិត្យ',
 	'checkuser-nolog' => 'ឯកសារកំណត់ហេតុមិនត្រូវបានរកឃើញទេ។',
 	'checkuser-blocked' => 'បានហាមឃាត់',
+	'checkuser-locked' => 'បានចាក់សោ',
 	'checkuser-wasblocked' => 'ត្រូវបានរាំងខ្ទប់មុននេះ',
 	'checkuser-massblock' => 'រាំងខ្ទប់អ្នកប្រើប្រាស់ដែលត្រូវបានជ្រើសរើស',
 	'checkuser-blocktag' => 'ជំនួសទំព័រអ្នកប្រើប្រាស់ដោយ៖',
