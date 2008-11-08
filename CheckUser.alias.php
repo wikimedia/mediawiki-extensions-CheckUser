@@ -33,6 +33,11 @@ $aliases['as'] = array(
 	'CheckUser' => array( 'সদস্যৰ অনুসন্ধান কৰক' ),
 );
 
+/** Bulgarian (Български) */
+$aliases['bg'] = array(
+	'CheckUser' => array( 'Проверка на потребител' ),
+);
+
 /** Bosnian (Bosanski) */
 $aliases['bs'] = array(
 	'CheckUser' => array( 'ProvjeraKorisnika' ),

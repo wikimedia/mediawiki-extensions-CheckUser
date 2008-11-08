@@ -2745,7 +2745,7 @@ Metmaacher un ier Änderong för an IP-Address wäde övver <i lang="en">XFF-hea
 
 Donn op de Räjelle för dat Werrkzeuch obacht jevve, un et nit bruche, wann De nit darrefs!',
 	'checkuser-desc' => 'Metmaacher met däm Rääsch dozoh könne de IP-Adresse un annder Date fun de Metmaacher pröfe.',
-	'checkuser-logcase' => 'Dat Söke em Logbooch deit zwesche jruße un kleine Bochshtave ongerscheide.',
+	'checkuser-logcase' => 'Dat Söke em Logboch deit zwesche jruße un kleine Bochshtave ongerscheide.',
 	'checkuser' => 'Metmaacher Pröfe',
 	'group-checkuser' => 'Metmaacher Pröfe',
 	'group-checkuser-member' => 'Metmaacher Pröfe',
@@ -2753,8 +2753,8 @@ Donn op de Räjelle för dat Werrkzeuch obacht jevve, un et nit bruche, wann De 
 	'right-checkuser-log' => 'Et Logboch fum Övverpröfe fun IP-Adresse un ier Bezösch zo de aanjemeldte Metmaacher, uew.',
 	'grouppage-checkuser' => '{{ns:project}}:Metmaacher Pröfe',
 	'checkuser-reason' => 'Aanlass:',
-	'checkuser-showlog' => 'et Logbooch aanzeije',
-	'checkuser-log' => 'Logbooch fum Metmaacher-Pröfe',
+	'checkuser-showlog' => 'et Logboch aanzeije',
+	'checkuser-log' => 'Logboch fum Metmaacher-Pröfe',
 	'checkuser-query' => 'En de {{LCFIRST:{{int:recentchanges}}}} frore',
 	'checkuser-target' => 'Metmaacher-Name udder IP-Address',
 	'checkuser-users' => 'Metmaacher holle!',
@@ -2767,12 +2767,12 @@ Donn op de Räjelle för dat Werrkzeuch obacht jevve, un et nit bruche, wann De 
 	'checkuser-week-2' => 'de letzte zwei Woche',
 	'checkuser-month' => 'de letz drißich Daach',
 	'checkuser-all' => 'all',
-	'checkuser-empty' => 'En däm Logbooch shteit nix dren.',
+	'checkuser-empty' => 'En däm Logboch shteit nix dren.',
 	'checkuser-nomatch' => 'Nix zopaß jefonge.',
 	'checkuser-nomatch-edits' => 'Keine Treffer jefonge. De letzte Änderung wohr aam $1 öm $2 Uhr.',
 	'checkuser-check' => 'Pröfe!',
-	'checkuser-log-fail' => 'Kann nix em Logbooch dobei schriive',
-	'checkuser-nolog' => 'Kein Logbooch jefonge.',
+	'checkuser-log-fail' => 'Kann nix em Logboch dobei schriive',
+	'checkuser-nolog' => 'Kein Logboch jefonge.',
 	'checkuser-blocked' => 'jesperrt',
 	'checkuser-gblocked' => 'En alle Wikis jesperrt',
 	'checkuser-locked' => 'Zohjemaat un afjeschloße',
@@ -2792,7 +2792,7 @@ es doh och verbodde.',
 	'checkuser-too-many' => 'Zoo fill jefonge, beß esu joot un maach dä CIDR kleijner.
 Hee sin de eetßte 5000 IP-Addresse, zoteeet:',
 	'checkuser-user-nonexistent' => 'Dä Metmaacher jidd_et ja nit.',
-	'checkuser-search-form' => 'Sök noh Enndräsch em Logbooch, woh $1 $2 es.',
+	'checkuser-search-form' => 'Sök noh Enndräsch em Logboch, woh $1 $2 es.',
 	'checkuser-search-submit' => 'Söök!',
 	'checkuser-search-initiator' => 'Metmaacher-Pröfer',
 	'checkuser-search-target' => 'Wat eß jefrooch? (Metmaacher-Name udder IP-Address)',
@@ -2882,6 +2882,7 @@ Hei sinn déi benotzten IP-Adressen (max 5000, sortéiert no der Adress):',
 	'checkuser-ipeditcount' => '~$1 vun alle Benotzer',
 	'checkuser-log-subpage' => 'Lëscht',
 	'checkuser-log-return' => 'Zréck op den Haaptformulaire vun der Benotzerkontroll',
+	'checkuser-limited' => "'''Dës Lëscht gouf aus Grënn vun der performance vun de Servere gekierzt.'''",
 	'checkuser-log-userips' => '$1 krut IPen fir $2',
 	'checkuser-log-ipedits' => '$1 huet Ännerunge kritt fir $2',
 	'checkuser-log-ipusers' => '$1 huet Benotzer kritt fir $2',
@@ -3815,6 +3816,23 @@ Iată IP-urile folosite (maxim 5000, sortate dup adresă):',
 $messages['roa-rup'] = array(
 	'checkuser-reason' => 'Itia',
 	'checkuser-search' => 'Caftã',
+);
+
+/** Tarandíne (Tarandíne)
+ * @author Joetaras
+ */
+$messages['roa-tara'] = array(
+	'checkuser-target' => 'Utende o IP',
+	'checkuser-users' => "Pigghje l'utende",
+	'checkuser-edits' => "Pigghje le cangiaminde da l'IP",
+	'checkuser-ips' => "Pigghje l'IP",
+	'checkuser-account' => "Pigghje le cangiaminde d'u cunde utende",
+	'checkuser-search' => 'Cirche',
+	'checkuser-period' => 'Durete:',
+	'checkuser-week-1' => 'urtema sumane',
+	'checkuser-week-2' => 'urteme doje sumane',
+	'checkuser-month' => 'urteme 30 giurne',
+	'checkuser-all' => 'tutte',
 );
 
 /** Russian (Русский)
