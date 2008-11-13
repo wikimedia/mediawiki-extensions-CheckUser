@@ -724,7 +724,25 @@ Setu an IPoù implijet (5000 d'ar muiañ, urzhiet dre ar chomlec'h)",
  * @author CERminator
  */
 $messages['bs'] = array(
+	'checkuser-summary' => 'Ovaj alat skenira nedavne promjene te vraća IP adrese koje koriste korisnici ili prikazuje podatke o izmjenama i korisnicima za pojedinu IP adresu.
+Korisnici i izmjene nekog IP klijenta mogu biti nađene preko XFF zaglavlja uz primjenu oznake "/xff" pored IP-a. Podržani su i IPv4 (CIDR 16-32) i IPv6 (CIDR 64-128).
+Zbog boljih performansi, neće biti prikazano više od 5000 izmjena.
+Koristite ovo u skladu s pravilima.',
+	'checkuser-logcase' => 'Pretraga zapisa razlikuje velika i mala slova.',
+	'checkuser-reason' => 'Razlog:',
+	'checkuser-showlog' => 'Prikaži zapis',
+	'checkuser-log' => 'Zapis CheckUsera',
+	'checkuser-target' => 'Korisnik ili IP',
+	'checkuser-search' => 'Traži',
+	'checkuser-period' => 'Trajanje:',
+	'checkuser-week-1' => 'zadnja sedmica',
+	'checkuser-week-2' => 'zadnje dvije sedmice',
+	'checkuser-month' => 'zadnjih 30 dana',
 	'checkuser-all' => 'sve',
+	'checkuser-log-fail' => 'Nije moguće dodati stavku zapisa',
+	'checkuser-massblock' => 'Blokiraj odabrane korisnike',
+	'checkuser-massblock-commit' => 'Blokiraj odabrane korisnike',
+	'checkuser-search-submit' => 'Traži',
 );
 
 /** Catalan (Català)
@@ -898,6 +916,7 @@ $messages['cu'] = array(
 );
 
 /** Danish (Dansk)
+ * @author Amjaabc
  * @author Fredelige
  * @author Morten LJ
  */
@@ -932,7 +951,7 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 	'checkuser-blocked' => 'Blokeret',
 	'checkuser-gblocked' => 'Blokeret globalt',
 	'checkuser-locked' => 'Låst',
-	'checkuser-wasblocked' => 'Tidligere blokkeret',
+	'checkuser-wasblocked' => 'Tidligere blokeret',
 	'checkuser-too-many' => "For mange resultater, gør CIDR'en smallere. Her er de brugte IP'er (max 5000, sorteret efter adresse):",
 	'checkuser-user-nonexistent' => 'Den anførte bruger eksisterer ikke.',
 	'checkuser-search-form' => 'Find log-poster hvor $1 er $2',
@@ -2459,6 +2478,7 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 
 /** Javanese (Basa Jawa)
  * @author Meursault2004
+ * @author Pras
  */
 $messages['jv'] = array(
 	'checkuser-summary' => 'Piranti iki nlusuri owah-owahan pungkasan kanggo golèk IP sing dienggo déning sawijining panganggo utawa nuduhaké data suntingan/panganggo kanggo sawijining IP.
@@ -2470,8 +2490,9 @@ Amerga déning alesan kinerja, ora luwih saka 5.000 suntingan sing bisa dijupuk.
 	'group-checkuser' => 'Pamriksa panganggo',
 	'group-checkuser-member' => 'Pamriksa panganggo',
 	'right-checkuser' => 'Priksa alamat-alamat IP panganggo lan informasi liyané',
+	'right-checkuser-log' => 'Pirsani log pamriksa',
 	'grouppage-checkuser' => '{{ns:project}}:Pamriksa panganggo',
-	'checkuser-reason' => 'Alesan',
+	'checkuser-reason' => 'Alesan:',
 	'checkuser-showlog' => 'Tuduhna log',
 	'checkuser-log' => 'Log pamriksan panganggo',
 	'checkuser-query' => 'Pitakonan owah-owahan pungkasan',
@@ -2479,13 +2500,34 @@ Amerga déning alesan kinerja, ora luwih saka 5.000 suntingan sing bisa dijupuk.
 	'checkuser-users' => 'Golèk panganggo',
 	'checkuser-edits' => 'Golèk suntingan saka IP',
 	'checkuser-ips' => 'Golèk IP',
+	'checkuser-account' => 'Pirsani suntingan-suntingan akun',
 	'checkuser-search' => 'Golèk',
+	'checkuser-period' => 'Jangka wektu:',
+	'checkuser-week-1' => 'minggu kapungkur',
+	'checkuser-week-2' => 'rong minggu kapungkur',
+	'checkuser-month' => '30 dina pungkasan',
+	'checkuser-all' => 'kabèh',
 	'checkuser-empty' => 'Log iki kosong.',
 	'checkuser-nomatch' => 'Ora ana data sing cocog bisa ditemokaké.',
+	'checkuser-nomatch-edits' => 'Ora ana sing cocog.
+Suntingan pungkasan ing $2, $1.',
 	'checkuser-check' => 'Priksa',
 	'checkuser-log-fail' => 'Log èntri ora bisa ditambahaké',
 	'checkuser-nolog' => 'Ora ditemokaké berkas log.',
 	'checkuser-blocked' => 'Diblokir',
+	'checkuser-gblocked' => 'Diblokir sacara global',
+	'checkuser-locked' => 'Dikunci',
+	'checkuser-wasblocked' => 'Wis diblokir sadurungé',
+	'checkuser-massblock' => 'Blokir panganggo kapilih',
+	'checkuser-massblock-text' => 'Akun-akun kapilih bakal diblokir salawasé, alamat-alamat IP pungkasan sing dipigunakaké otomatis diblokir lan ora bisa gawé akun.
+Alamat-alamat IP bakal diblokir jroning 1 minggu tumrap panganggo anonim lan ora bisa gawé akun.',
+	'checkuser-blocktag' => 'Ganti kaca panganggo dadi:',
+	'checkuser-massblock-commit' => 'Blokir panganggo kapilih',
+	'checkuser-block-success' => "'''{{PLURAL:$2|Panganggo|panganggo}} $1 {{PLURAL:$2|wis|wis}} diblokir.'''",
+	'checkuser-block-failure' => "'''Ora ana panganggo sing diblokir.'''",
+	'checkuser-block-limit' => 'Cacahing panganggo sing dipilih kakèhan.',
+	'checkuser-block-noreason' => 'Panjenengan kudu mènèhi alesan pamblokiran',
+	'checkuser-accounts' => '$1 {{PLURAL:$1|akun|akun-akun}} anyar',
 	'checkuser-too-many' => 'Kakèhan pituwas, tulung CIDR diciyutaké.
 Ing ngisor iki kapacak alamat-alamat IP sing dienggo (maks. 5.000, diurutaké adhedhasar alamat):',
 	'checkuser-user-nonexistent' => 'Panganggo iki ora ana.',
@@ -2496,11 +2538,16 @@ Ing ngisor iki kapacak alamat-alamat IP sing dienggo (maks. 5.000, diurutaké ad
 	'checkuser-ipeditcount' => '~$1 saka kabèh panganggo',
 	'checkuser-log-subpage' => 'Log',
 	'checkuser-log-return' => 'Bali menyang kaca utama pamriksa',
+	'checkuser-limited' => "'''Kasil iki wis dicekak amarga alesan kinerja.'''",
 	'checkuser-log-userips' => '$1 ndeleng IP saka $2',
 	'checkuser-log-ipedits' => '$1 ndeleng suntingan saka $2',
 	'checkuser-log-ipusers' => '$1 ndeleng jeneng panganggo saka $2',
 	'checkuser-log-ipedits-xff' => '$1 ndeleng suntingan saka XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 ndeleng jeneng panganggo saka XFF $2',
+	'checkuser-log-useredits' => '$1 nduwèni suntingan-suntingan kanggo $2',
+	'checkuser-autocreate-action' => 'digawé sacara otomatis',
+	'checkuser-email-action' => 'Wis ngirim layang-e menyang panganggo "$1"',
+	'checkuser-reset-action' => 'Sèt ulang tembung sandi panganggo "$1"',
 );
 
 /** Georgian (ქართული)
