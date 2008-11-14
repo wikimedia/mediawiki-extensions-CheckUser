@@ -881,6 +881,7 @@ Z výkonnostních důvodů lze zobrazit maximálně 5000 editací. Používejte 
 	'checkuser-massblock' => 'Zablokovat vybrané uživatele',
 	'checkuser-massblock-text' => 'Vybrané účty budou zablokovány do odvolání, se zapnutým automatickým blokováním a zákazem tvorby nových účtů. IP adresy budou zablokovány na týden, pouze pro neregistrované uživatele a se zákazem tvorby nových účtů.',
 	'checkuser-blocktag' => 'Nahradit obsah uživatelských stránek textem:',
+	'checkuser-blocktag-talk' => 'Nahradit obsah uživatelských diskusí textem:',
 	'checkuser-massblock-commit' => 'Zablokovat vybrané uživatele',
 	'checkuser-block-success' => "'''{{PLURAL:$2|Uživatel|Uživatelé}} $1 {{PLURAL:$2|je zablokován|jsou zablokováni}}.'''",
 	'checkuser-block-failure' => "'''Žádný uživatel nebyl zablokován.'''",
@@ -1015,6 +1016,7 @@ $messages['de'] = array(
 	'checkuser-massblock-text' => 'Die ausgewählten Benutzerkonten werden dauerhaft gesperrt (Autoblock ist aktiv und die Anlage neuer Benutzerkonten wird unterbunden).
 IP-Adressen werden für eine Woche gesperrt (nur für anonyme Benutzer, die Anlage neuer Benutzerkonten wird unterbunden).',
 	'checkuser-blocktag' => 'Inhalt der Benutzerseite ersetzen durch:',
+	'checkuser-blocktag-talk' => 'Diskussionsseiten ersetzen durch:',
 	'checkuser-massblock-commit' => 'Sperre die ausgewählten Benutzer',
 	'checkuser-block-success' => "'''{{PLURAL:$2|Der Benutzer|Die Benutzer}} $1 {{PLURAL:$2|wurde|wurden}} gesperrt.'''",
 	'checkuser-block-failure' => "'''Es wurden keine Benutzer gesperrt.'''",
@@ -3347,6 +3349,7 @@ De laatste bewerking was op $1 om $2.',
 	'checkuser-massblock-text' => 'De geselecteerde gebruikers worden voor onbepaalde tijd geblokkeerd, met automatische IP-adresblokkade ingeschakeld en het aanmaken van nieuwe gebruikers ingeschakeld.
 IP-adressen worden één week geblokkeerd voor anonieme gebruikers, met het aanmaken van nieuwe gebruikers uitgeschakeld.',
 	'checkuser-blocktag' => "Gebruikerspagina's vervangen door:",
+	'checkuser-blocktag-talk' => "Overlegpagina's vervangen door:",
 	'checkuser-massblock-commit' => 'Geselecteerde gebruikers blokkeren',
 	'checkuser-block-success' => "'''De {{PLURAL:$2|gebruiker|gebruikers}} $1 {{PLURAL:$2|is|zijn}} geblokkeerd.'''",
 	'checkuser-block-failure' => "'''Geen gebruikers geblokkeerd.'''",
