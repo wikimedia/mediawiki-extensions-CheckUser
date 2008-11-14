@@ -66,6 +66,7 @@ class CheckUser extends SpecialPage
 		$period = $wgRequest->getInt( 'period' );
 		$users = $wgRequest->getArray( 'users' );
 		$tag = $wgRequest->getBool('usetag') ? trim( $wgRequest->getVal( 'tag' ) ) : "";
+		$talkTag = $wgRequest->getBool('usettag') ? trim( $wgRequest->getVal( 'talktag' ) ) : "";
 
 		# An IPv4?
 		if( preg_match( '#^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(/\d{1,2}|)$#', $user ) ) {
@@ -100,7 +101,7 @@ class CheckUser extends SpecialPage
 		# Perform one of the various submit operations...
 		if( $wgRequest->wasPosted() ) {
 			if( $wgRequest->getVal('action') === 'block' ) {
-				$this->doMassUserBlock( $users, $blockreason, $tag );
+				$this->doMassUserBlock( $users, $blockreason, $tag, $talkTag );
 			} else if( $checktype=='subuserips' ) {
 				$this->doUserIPsRequest( $name, $reason, $period );
 			} else if( $xff && $checktype=='subipedits' ) {
@@ -108,9 +109,9 @@ class CheckUser extends SpecialPage
 			} else if( $checktype=='subipedits' ) {
 				$this->doIPEditsRequest( $ip, false, $reason, $period );
 			} else if( $xff && $checktype=='subipusers' ) {
-				$this->doIPUsersRequest( $xff, true, $reason, $period, $tag );
+				$this->doIPUsersRequest( $xff, true, $reason, $period, $tag, $talkTag );
 			} else if( $checktype=='subipusers' ) {
-				$this->doIPUsersRequest( $ip, false, $reason, $period, $tag );
+				$this->doIPUsersRequest( $ip, false, $reason, $period, $tag, $talkTag );
 			} else if( $checktype=='subuseredits' ) {
 				$this->doUserEditsRequest( $user, $reason, $period );
 			}
@@ -210,7 +211,7 @@ class CheckUser extends SpecialPage
 	* @param string $reason
 	* @param string $tag
 	*/
-	protected function doMassUserBlock( $users, $reason = '', $tag = '' ) {
+	protected function doMassUserBlock( $users, $reason = '', $tag = '', $talkTag = '' ) {
 		global $wgOut, $wgUser, $wgCheckUserMaxBlocks;
 		if( empty($users) || $wgUser->isBlocked(false) ) {
 			$wgOut->addWikiText( wfMsgExt('checkuser-block-failure',array('parsemag')) );
@@ -222,7 +223,7 @@ class CheckUser extends SpecialPage
 			$wgOut->addWikiText( wfMsgExt('checkuser-block-noreason',array('parsemag')) );
 			return;
 		}
-		$safeUsers = IPBlockForm::doMassUserBlock( $users, $reason, $tag );
+		$safeUsers = IPBlockForm::doMassUserBlock( $users, $reason, $tag, $talkTag );
 		if( !empty($safeUsers) ) {
 			$n = count($safeUsers);
 			$ulist = implode(', ',$safeUsers);
@@ -665,11 +666,14 @@ class CheckUser extends SpecialPage
 	 * @param string $ip
 	 * @param bool $xfor
 	 * @param string $reason
+	 * @param int $period
+	 * @param string $tag
+	 * @param string $talkTag
 	 * Lists all users in recent changes who used an IP, newest to oldest down
 	 * Outputs usernames, latest and earliest found edit date, and count
 	 * List unique IPs used for each user in time order, list corresponding user agent
 	 */
-	protected function doIPUsersRequest( $ip, $xfor = false, $reason = '', $period = 0, $tag = '' ) {
+	protected function doIPUsersRequest( $ip, $xfor = false, $reason = '', $period = 0, $tag='', $talkTag='' ) {
 		global $wgUser, $wgOut, $wgLang, $wgTitle;
 		$fname = 'CheckUser::doIPUsersRequest';
 
@@ -906,11 +910,18 @@ class CheckUser extends SpecialPage
 			}
 			$s .= "</ul></div>\n";
 			if( $wgUser->isAllowed('block') && !$wgUser->isBlocked() ) {
-				$s.= "<fieldset>\n";
+				$s .= "<fieldset>\n";
 				$s .= "<legend>" . wfMsgHtml('checkuser-massblock') . "</legend>\n";
 				$s .= "<p>" . wfMsgExt('checkuser-massblock-text',array('parseinline')) . "</p>\n";
-				$s .= "<p>" . Xml::checkLabel( wfMsgHtml( "checkuser-blocktag" ), 'usetag', 'usetag') . '&nbsp;';
-				$s .= Xml::input( 'tag', 46, $tag, array( 'maxlength' => '150', 'id' => 'blocktag' ) ) . "</p>\n";
+				$s .= '<table><tr>' .
+					'<td>' . Xml::check( 'usetag', false, array('id' => 'usetag') ) . '</td>' .
+					'<td>' . Xml::label( wfMsgHtml( "checkuser-blocktag" ), 'usetag' ) . '</td>' .
+					'<td>' . Xml::input( 'tag', 46, $tag, array('id' => 'blocktag') ) . '</td>' .
+					'</tr><tr>' .
+					'<td>' . Xml::check( 'usettag', false, array('id' => 'usettag') ) . '</td>' .
+					'<td>' . Xml::label( wfMsgHtml( "checkuser-blocktag-talk" ), 'usettag' ) . '</td>' .
+					'<td>' . Xml::input( 'talktag', 46, $talkTag, array('id' => 'talktag') ).'</td>'.
+					'</tr></table>';
 				$s .= "<p>" . wfMsgHtml( "checkuser-reason" ) . '&nbsp;';
 				$s .= Xml::input( 'blockreason', 46, '', array( 'maxlength' => '150', 'id' => 'blockreason' ) );
 				$s .= '&nbsp;' . Xml::submitButton( wfMsgHtml('checkuser-massblock-commit'), 

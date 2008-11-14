@@ -50,6 +50,7 @@ Last edit was on $1 at $2.',
 	'checkuser-massblock-text'   => 'Selected accounts will be blocked indefinitely, with autoblocking enabled and account creation disabled. 
 	IP addresses will be blocked for 1 week for IP users only and with account creation disabled.',
 	'checkuser-blocktag'         => 'Replace user pages with:',
+	'checkuser-blocktag-talk'    => 'Replace talk pages with:',
 	'checkuser-massblock-commit' => 'Block selected users',
 	'checkuser-block-success'    => '\'\'\'The {{PLURAL:$2|user|users}} $1 {{PLURAL:$2|is|are}} now blocked.\'\'\'',
 	'checkuser-block-failure'    => '\'\'\'No users blocked.\'\'\'',
