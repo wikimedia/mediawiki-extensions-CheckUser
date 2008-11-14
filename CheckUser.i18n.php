@@ -1812,6 +1812,7 @@ $messages['he'] = array(
 	'checkuser-massblock-text' => 'חשבונות המשתמש שנבחרו ייחסמו לצמיתות, עם חסימה אוטומטית וחסימה של יצירת החשבונות.
 כתובות IP ייחסמו לשבוע אחד, עבור משתמשים אנונימיים בלבד, ועם חסימה של יצירת החשבונות.',
 	'checkuser-blocktag' => 'החלפת דפי המשתמש עם:',
+	'checkuser-blocktag-talk' => 'החלפת דפי השיחה עם:',
 	'checkuser-massblock-commit' => 'חסימת המשתמשים שנבחרו',
 	'checkuser-block-success' => "'''The {{PLURAL:$2|המשתמש|המשתמשים}} $1 {{PLURAL:$2|חסום|חסומים}} כעת.'''",
 	'checkuser-block-failure' => "'''לא נחסמו משתמשים.'''",
