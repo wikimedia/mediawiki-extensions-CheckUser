@@ -4124,6 +4124,7 @@ $messages['sq'] = array(
 /** Serbian Cyrillic ekavian (ћирилица)
  * @author Millosh
  * @author Sasa Stefanovic
+ * @author Јованвб
  */
 $messages['sr-ec'] = array(
 	'checkuser-desc' => 'Даје сарадницима са одговарајућим правима могућност да провере ИП адресе сарадника и друге информације.',
@@ -4132,6 +4133,7 @@ $messages['sr-ec'] = array(
 	'group-checkuser' => 'Чекјузери',
 	'group-checkuser-member' => 'Чекјузер',
 	'right-checkuser' => 'Проверава сарадничке ИП адресе и друге информације.',
+	'right-checkuser-log' => 'Погледај чекјузер лог',
 	'grouppage-checkuser' => '{{ns:project}}:Чекјузер',
 	'checkuser-reason' => 'Резлог',
 	'checkuser-showlog' => 'Прикажи лог.',
@@ -4142,12 +4144,23 @@ $messages['sr-ec'] = array(
 	'checkuser-edits' => 'Прикупљање измена од стране ИП адресе.',
 	'checkuser-ips' => 'Прикупља ИП адресе.',
 	'checkuser-search' => 'Претрага',
+	'checkuser-period' => 'Трајање:',
+	'checkuser-week-1' => 'последња недеља',
+	'checkuser-week-2' => 'последње две недеље',
+	'checkuser-month' => 'последњих 30 дана',
+	'checkuser-all' => 'све',
 	'checkuser-empty' => 'Лог не садржи ништа.',
 	'checkuser-nomatch' => 'Нема погодака.',
 	'checkuser-check' => 'Провера',
 	'checkuser-log-fail' => 'Није било могуће додати податак у лог.',
 	'checkuser-nolog' => 'Ниједан фајл с логовима није пронађен.',
 	'checkuser-blocked' => 'Блокиран',
+	'checkuser-wasblocked' => 'Претходно блокиран',
+	'checkuser-massblock' => 'Блокирај изабраног корисника',
+	'checkuser-blocktag' => 'Замени корисничке странице са:',
+	'checkuser-massblock-commit' => 'Блокирај изабраног корисника',
+	'checkuser-block-limit' => 'Превише корисника је изабрано.',
+	'checkuser-block-noreason' => 'Морате дати разлог за блок.',
 	'checkuser-too-many' => 'Превише резултата; смањи CIDR. Ево списка коришћених ИП адреса (максимално 5000, сортирано по адреси):',
 	'checkuser-user-nonexistent' => 'Тражени сарадник не постоји.',
 	'checkuser-search-form' => 'Претрага лога где је $1 једнако $2.',
@@ -4162,6 +4175,8 @@ $messages['sr-ec'] = array(
 	'checkuser-log-ipusers' => '$1 је добио сараднике за $2',
 	'checkuser-log-ipedits-xff' => '$1 је добио измене за XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 је добио сараднике за XFF $2',
+	'checkuser-autocreate-action' => 'је аутоматски направљен',
+	'checkuser-email-action' => 'послат је мејл кориснику "$1"',
 );
 
 /** latinica (latinica) */
