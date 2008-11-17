@@ -3950,6 +3950,7 @@ $messages['ru'] = array(
 	'checkuser-massblock-text' => 'Выбранные учётные записи будут заблокированы бессрочно с автоблокировкой и запретом создания новых учётных записей.
 IP-адреса будут заблокированы на 1 неделю для непредставившихся участников, будет включён запрет на создание учётных записей.',
 	'checkuser-blocktag' => 'Заменить страницы участников на:',
+	'checkuser-blocktag-talk' => 'Заменить страницы обсуждения на:',
 	'checkuser-massblock-commit' => 'Заблокировать выбранных участников',
 	'checkuser-block-success' => "'''Сейчас {{PLURAL:$2|заблокирован $1 участник|заблокированы $1 участника|заблокированы $1 участников}}.'''",
 	'checkuser-block-failure' => "'''Нет заблокированных участников.'''",
@@ -4811,6 +4812,16 @@ Redakams no plu 5000 pejonons sekü kods kaenavik. Gebolös stumi at bai nomem.'
  */
 $messages['wa'] = array(
 	'checkuser' => "Verifyî l' uzeu",
+);
+
+/** Yiddish (ייִדיש)
+ * @author פוילישער
+ */
+$messages['yi'] = array(
+	'checkuser-target' => 'באניצער אדער IP אדרעס',
+	'checkuser-search' => 'זוכן',
+	'checkuser-all' => 'אלע',
+	'checkuser-search-submit' => 'זוכן',
 );
 
 /** Yue (粵語) */
