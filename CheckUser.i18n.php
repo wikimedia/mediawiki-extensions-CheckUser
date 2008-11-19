@@ -1701,6 +1701,7 @@ A última edición foi feita o $1 ás $2.',
 	'checkuser-massblock-text' => 'As contas seleccionadas serán bloqueadas indefinidamente, co bloqueo automático permitido e a creación de contas deshabilitada.  
 Os enderezos IP serán bloqueados cun tempo de duración dunha semana só para os usuarios con IP e coa creación de contas deshabilitada.',
 	'checkuser-blocktag' => 'Substituír as páxinas de usuario por:',
+	'checkuser-blocktag-talk' => 'Substituír as conversas con:',
 	'checkuser-massblock-commit' => 'Bloquear os usuarios seleccionados',
 	'checkuser-block-success' => "'''{{PLURAL:$2|O usuario|Os usuarios}} $1 xa {{PLURAL:$2|está|están}} bloqueados.'''",
 	'checkuser-block-failure' => "'''Non hai ningún usuario bloqueado.'''",
@@ -3890,6 +3891,7 @@ $messages['roa-rup'] = array(
  * @author Joetaras
  */
 $messages['roa-tara'] = array(
+	'checkuser-reason' => 'Mutive:',
 	'checkuser-target' => 'Utende o IP',
 	'checkuser-users' => "Pigghje l'utende",
 	'checkuser-edits' => "Pigghje le cangiaminde da l'IP",
@@ -3901,6 +3903,7 @@ $messages['roa-tara'] = array(
 	'checkuser-week-2' => 'urteme doje sumane',
 	'checkuser-month' => 'urteme 30 giurne',
 	'checkuser-all' => 'tutte',
+	'checkuser-search-submit' => 'Cirche',
 );
 
 /** Russian (Русский)
