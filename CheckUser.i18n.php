@@ -354,6 +354,7 @@ IPv4 (CIDR 16-32) و IPv6 (CIDR 64-128) مدعومين.
 	'checkuser-massblock-text' => 'الحسابات اللى انت اختارتها ح يتمنعو على طول،مش ح يقدرو يفتحو حسابات و ح يتمنعو اوتوماتيكي.
 عناوين الاى بى ح تتمنع لمدة اسبوع واحد بالنسبة للى بيستعملو الاى بى و مش ح يقدرو يفتحو حسابات.',
 	'checkuser-blocktag' => 'بدل صفحات اليوزرز بـ:',
+	'checkuser-blocktag-talk' => 'بدل صفحة النقاش ب',
 	'checkuser-massblock-commit' => 'امنع اليوزرز اللى اخترتهم',
 	'checkuser-block-success' => "'''الـ {{PLURAL:$2|يوزر|يوزرز}} $1 {{PLURAL:$2|بقى ممنوع|بقو ممنوعين}} دلوقتي.'''",
 	'checkuser-block-failure' => "'''مافيش يوزرز ممنوعين'''",
@@ -4087,6 +4088,7 @@ Posledná úprava bola $1 o $2.',
 	'checkuser-massblock-text' => 'Vybrané účty sa zablokujú na neurčito, automatické blokovanie bude zapnuté a vytváranie účtov vypnuté.
 IP adresy sa zablokujú na 1 týždeň pri iba anonymných používateľoch a vytváranie účtov bude vypnuté.',
 	'checkuser-blocktag' => 'Nahradiť používateľké stránky textom:',
+	'checkuser-blocktag-talk' => 'nahradiť diskusné stránky čím:',
 	'checkuser-massblock-commit' => 'Zablokovať vybraných používateľov',
 	'checkuser-block-success' => "'''{{PLURAL:$2|Používateľ|Používatelia}} $1 {{PLURAL:$2|je|sú}} odteraz zablokovaní.'''",
 	'checkuser-block-failure' => "'''Žiaden používateľ nebol zablokovaný.'''",
