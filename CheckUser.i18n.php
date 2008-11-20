@@ -1734,6 +1734,7 @@ $messages['got'] = array(
 );
 
 /** Ancient Greek (Ἀρχαία ἑλληνικὴ)
+ * @author Crazymadlover
  * @author Omnipaedista
  * @author SPQRobin
  */
@@ -1741,6 +1742,7 @@ $messages['grc'] = array(
 	'checkuser-reason' => 'Αἰτία:',
 	'checkuser-search' => 'Ζητεῖν',
 	'checkuser-period' => 'Διάρκεια:',
+	'checkuser-search-submit' => 'Ζητεῖν',
 );
 
 /** Gujarati (ગુજરાતી) */
@@ -2812,11 +2814,11 @@ Donn op de Räjelle för dat Werrkzeuch obacht jevve, un et nit bruche, wann De 
 	'checkuser-desc' => 'Metmaacher met däm Rääsch dozoh könne de IP-Adresse un annder Date fun de Metmaacher pröfe.',
 	'checkuser-logcase' => 'Dat Söke em Logboch deit zwesche jruße un kleine Bochshtave ongerscheide.',
 	'checkuser' => 'Metmaacher Pröfe',
-	'group-checkuser' => 'Metmaacher Pröfe',
-	'group-checkuser-member' => 'Metmaacher Pröfe',
+	'group-checkuser' => 'Metmaacher-Pröfer',
+	'group-checkuser-member' => 'Metmaacher-Pröfer',
 	'right-checkuser' => 'IP-Adresse un ier Bezösch zo de aanjemeldte Metmaacher övverpröfe, un Metmacher ier Date aanlore',
-	'right-checkuser-log' => 'Et Logboch fum Övverpröfe fun IP-Adresse un ier Bezösch zo de aanjemeldte Metmaacher, uew.',
-	'grouppage-checkuser' => '{{ns:project}}:Metmaacher Pröfe',
+	'right-checkuser-log' => 'En et Logboch lohre, fum Övverpröfe fun IP-Adresse un ier Bezösch zo de aanjemeldte Metmaacher, uew.',
+	'grouppage-checkuser' => '{{ns:project}}:Metmaacher-Pröfer',
 	'checkuser-reason' => 'Aanlass:',
 	'checkuser-showlog' => 'et Logboch aanzeije',
 	'checkuser-log' => 'Logboch fum Metmaacher-Pröfe',
@@ -4840,6 +4842,7 @@ $messages['wa'] = array(
 $messages['yi'] = array(
 	'checkuser-target' => 'באניצער אדער IP אדרעס',
 	'checkuser-search' => 'זוכן',
+	'checkuser-month' => 'פֿאריגע 30 טעג',
 	'checkuser-all' => 'אלע',
 	'checkuser-search-submit' => 'זוכן',
 );
