@@ -732,6 +732,9 @@ Korisnici i izmjene nekog IP klijenta mogu biti nađene preko XFF zaglavlja uz p
 Zbog boljih performansi, neće biti prikazano više od 5000 izmjena.
 Koristite ovo u skladu s pravilima.',
 	'checkuser-logcase' => 'Pretraga zapisa razlikuje velika i mala slova.',
+	'group-checkuser' => 'Provjera korisnika',
+	'right-checkuser' => 'Provjera korisničkih IP adresa i drugih informacija',
+	'right-checkuser-log' => 'Pregledanje zapisa provjere korisnika',
 	'checkuser-reason' => 'Razlog:',
 	'checkuser-showlog' => 'Prikaži zapis',
 	'checkuser-log' => 'Zapis CheckUsera',
@@ -742,10 +745,20 @@ Koristite ovo u skladu s pravilima.',
 	'checkuser-week-2' => 'zadnje dvije sedmice',
 	'checkuser-month' => 'zadnjih 30 dana',
 	'checkuser-all' => 'sve',
+	'checkuser-check' => 'Provjeri',
 	'checkuser-log-fail' => 'Nije moguće dodati stavku zapisa',
+	'checkuser-blocked' => 'Blokiran',
 	'checkuser-massblock' => 'Blokiraj odabrane korisnike',
+	'checkuser-blocktag-talk' => 'Mijenja sadržaj stranice za razgovor sa:',
 	'checkuser-massblock-commit' => 'Blokiraj odabrane korisnike',
+	'checkuser-block-limit' => 'Previše korisnika odabrano.',
+	'checkuser-block-noreason' => 'Morate navesti razlog za blokiranje.',
+	'checkuser-user-nonexistent' => 'Navedeni korisnik ne postoji.',
 	'checkuser-search-submit' => 'Traži',
+	'checkuser-search-target' => 'cilj',
+	'checkuser-ipeditcount' => '~$1 od svih korisnika',
+	'checkuser-log-subpage' => 'Zapisnik',
+	'checkuser-autocreate-action' => 'je automatski napravljen',
 );
 
 /** Catalan (Català)
@@ -3562,6 +3575,13 @@ Las adreças IP seràn blocadas pendent una setmana unicament pels utilizaires j
 	'checkuser-autocreate-action' => 'es estat creat automaticament',
 	'checkuser-email-action' => 'a mandat un corrièr electronic a « $1 »',
 	'checkuser-reset-action' => 'torna inicializar lo senhal per « $1 »',
+);
+
+/** Ossetic (Иронау)
+ * @author Amikeco
+ */
+$messages['os'] = array(
+	'checkuser-reason' => 'Аххос:',
 );
 
 /** Pangasinan (Pangasinan) */
