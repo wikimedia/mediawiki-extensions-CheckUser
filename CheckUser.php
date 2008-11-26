@@ -351,8 +351,7 @@ function efCheckUserParserTestTables( &$tables ) {
 
 $wgSpecialPages['CheckUser'] = 'CheckUser';
 $wgSpecialPageGroups['CheckUser'] = 'users';
-$wgAutoloadClasses['CheckUser'] = dirname(__FILE__) . '/CheckUser_body.php';
-
+$wgAutoloadClasses['CheckUser'] = $dir . 'CheckUser_body.php';
 
 function efLoadCheckUserLink( $id, $nt, &$links ) {
     global $wgUser;

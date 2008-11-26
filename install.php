@@ -4,10 +4,11 @@
  * Makes the required database changes for the CheckUser extension
  */
 
+$dir = dirname(__FILE__) . '/';
 require_once ( getenv('MW_INSTALL_PATH') !== false
 	? getenv('MW_INSTALL_PATH')."/maintenance/commandLine.inc"
-	: dirname( __FILE__ ) . '/../../maintenance/commandLine.inc' );
-require_once dirname( __FILE__ ) . '/install.inc';
+	: $dir . '../../maintenance/commandLine.inc' );
+require_once $dir . 'install.inc';
 
 $db =& wfGetDB( DB_MASTER );
 if ( $db->tableExists( 'cu_changes' ) && !isset( $options['force'] ) ) {
