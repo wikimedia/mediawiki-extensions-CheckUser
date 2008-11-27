@@ -732,6 +732,7 @@ Korisnici i izmjene nekog IP klijenta mogu biti nađene preko XFF zaglavlja uz p
 Zbog boljih performansi, neće biti prikazano više od 5000 izmjena.
 Koristite ovo u skladu s pravilima.',
 	'checkuser-logcase' => 'Pretraga zapisa razlikuje velika i mala slova.',
+	'checkuser' => 'Provjera korisnika',
 	'group-checkuser' => 'Provjera korisnika',
 	'right-checkuser' => 'Provjera korisničkih IP adresa i drugih informacija',
 	'right-checkuser-log' => 'Pregledanje zapisa provjere korisnika',
@@ -747,6 +748,7 @@ Koristite ovo u skladu s pravilima.',
 	'checkuser-month' => 'zadnjih 30 dana',
 	'checkuser-all' => 'sve',
 	'checkuser-empty' => 'Zapis ne sadrži stavke.',
+	'checkuser-nomatch' => 'Nisu nađeni traženi rezultati.',
 	'checkuser-check' => 'Provjeri',
 	'checkuser-log-fail' => 'Nije moguće dodati stavku zapisa',
 	'checkuser-nolog' => 'Nije pronađena datoteka zapisa.',
@@ -755,11 +757,13 @@ Koristite ovo u skladu s pravilima.',
 	'checkuser-locked' => 'Zaključano',
 	'checkuser-wasblocked' => 'Ranije blokiran',
 	'checkuser-massblock' => 'Blokiraj odabrane korisnike',
+	'checkuser-blocktag' => 'Mijenja korisničku stranicu sa:',
 	'checkuser-blocktag-talk' => 'Mijenja sadržaj stranice za razgovor sa:',
 	'checkuser-massblock-commit' => 'Blokiraj odabrane korisnike',
 	'checkuser-block-failure' => "'''Nijedan korisnik nije blokiran.'''",
 	'checkuser-block-limit' => 'Previše korisnika odabrano.',
 	'checkuser-block-noreason' => 'Morate navesti razlog za blokiranje.',
+	'checkuser-accounts' => '$1 {{PLURAL:$1|novi korisnik|nova korisnika|novih korisnika}}',
 	'checkuser-too-many' => 'Pronađeno previše rezultata, molimo da suzite CIDR.
 Ovdje su prikazane korištene IP adrese (najviše 5000, poredano po adresi):',
 	'checkuser-user-nonexistent' => 'Navedeni korisnik ne postoji.',
@@ -768,8 +772,10 @@ Ovdje su prikazane korištene IP adrese (najviše 5000, poredano po adresi):',
 	'checkuser-search-target' => 'cilj',
 	'checkuser-ipeditcount' => '~$1 od svih korisnika',
 	'checkuser-log-subpage' => 'Zapisnik',
+	'checkuser-log-useredits' => '$1 nađene izmjene za $2',
 	'checkuser-autocreate-action' => 'je automatski napravljen',
 	'checkuser-email-action' => 'slanje e-mail korisniku "$1"',
+	'checkuser-reset-action' => 'poništi šifru za korisnika "$1"',
 );
 
 /** Catalan (Català)
@@ -2805,12 +2811,22 @@ $messages['ko'] = array(
 	'checkuser-showlog' => '기록 보기',
 	'checkuser-log' => '체크유저 기록',
 	'checkuser-target' => '사용자 혹은 IP',
+	'checkuser-users' => '특정 IP를 사용한 사용자 확인',
+	'checkuser-edits' => '특정 IP에서의 편집을 확인',
+	'checkuser-ips' => 'IP 주소 확인',
 	'checkuser-search' => '찾기',
 	'checkuser-period' => '기간:',
+	'checkuser-week-1' => '지난 1주일',
+	'checkuser-week-2' => '지난 2주일',
 	'checkuser-check' => '확인',
+	'checkuser-wasblocked' => '이미 차단됨',
+	'checkuser-block-failure' => "'''차단된 사용자가 없습니다.'''",
+	'checkuser-block-limit' => '너무 많은 사용자를 선택하였습니다.',
 	'checkuser-search-submit' => '찾기',
 	'checkuser-log-userips' => '$1 은(는) $2 이(가) 사용한 IP 주소를 열람했습니다.',
 	'checkuser-log-ipedits' => '$1 은(는) $2의 편집을 열람했습니다.',
+	'checkuser-log-ipusers' => '$1이(가) $2 IP 주소를 사용한 사용자를 확인하였습니다.',
+	'checkuser-log-useredits' => '$1이(가) $2 IP에서의 편집을 열람하였습니다.',
 	'checkuser-email-action' => '사용자 "$1"에게 이메일을 보냄',
 	'checkuser-reset-action' => '"$1"의 암호를 변경함',
 );
@@ -3431,6 +3447,7 @@ $messages['nn'] = array(
 );
 
 /** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬)
+ * @author Finnrind
  * @author Jon Harald Søby
  */
 $messages['no'] = array(
@@ -3474,7 +3491,7 @@ Siste redigering var $2 $1.',
 	'checkuser-locked' => 'Låst',
 	'checkuser-wasblocked' => 'Tidligere blokkert',
 	'checkuser-massblock' => 'Blokker valgte brukere',
-	'checkuser-massblock-text' => 'Valgte kontoer vil blokkeres på ubestemt ditt, med autoblokkering slått på og kontooppretting slått av.
+	'checkuser-massblock-text' => 'Valgte kontoer vil blokkeres på ubestemt tid, med autoblokkering slått på og kontooppretting slått av.
 IP-adresser vil blokkeres i én uke for anonyme brukere, med kontooppretting slått av.',
 	'checkuser-blocktag' => 'Erstatt brukersider med:',
 	'checkuser-massblock-commit' => 'Blokker valgte brukere',
@@ -3931,6 +3948,7 @@ $messages['roa-rup'] = array(
  * @author Joetaras
  */
 $messages['roa-tara'] = array(
+	'grouppage-checkuser' => '{{ns:project}}:Utende ca verifiche',
 	'checkuser-reason' => 'Mutive:',
 	'checkuser-target' => 'Utende o IP',
 	'checkuser-users' => "Pigghje l'utende",
@@ -3944,6 +3962,13 @@ $messages['roa-tara'] = array(
 	'checkuser-month' => 'urteme 30 giurne',
 	'checkuser-all' => 'tutte',
 	'checkuser-search-submit' => 'Cirche',
+	'checkuser-log-userips' => '$1 ha pigghiete le IP pe $2',
+	'checkuser-log-ipedits' => '$1 ha pigghiete le cangiaminde pe $2',
+	'checkuser-log-ipusers' => '$1 ha pigghiete le utinde pe $2',
+	'checkuser-log-ipedits-xff' => '$1 ha pigghiete le cangiaminde pe XFF $2',
+	'checkuser-log-ipusers-xff' => '$1 ha pigghiete le utinde pe XFF $2',
+	'checkuser-log-useredits' => '$1 ha pigghiete le cangiaminde pe $2',
+	'checkuser-autocreate-action' => 'ha state ccrejete automaticamende',
 );
 
 /** Russian (Русский)
