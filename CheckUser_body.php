@@ -777,6 +777,7 @@ class CheckUser extends SpecialPage
 		if( !$dbr->numRows( $ret ) ) {
 			$s = $this->noMatchesMessage($ip)."\n";
 		} else {
+			global $wgAuth;
 			while( ($row = $dbr->fetchObject($ret) ) != false ) {
 				if( !array_key_exists( $row->cuc_user_text, $users_edits ) ) {
 					$users_last[$row->cuc_user_text] = $row->cuc_timestamp;
@@ -805,30 +806,39 @@ class CheckUser extends SpecialPage
 
 			$logs = SpecialPage::getTitleFor( 'Log' );
 			$blocklist = SpecialPage::getTitleFor( 'Ipblocklist' );
-			
+
 			$action = $wgTitle->escapeLocalUrl( 'action=block' );
 			$s = "<form name='checkuserblock' id='checkuserblock' action=\"$action\" method='post'>";
 			$s .= '<div id="checkuserresults"><ul>';
 			foreach( $users_edits as $name => $count ) {
 				$s .= '<li>';
 				$s .= Xml::check( 'users[]', false, array( 'value' => $name ) ) . '&nbsp;';
+				# Load user object
+				$user = User::newFromName( $name, false );
+				$authUser = $wgAuth->getUserInstance( $user );
+				# Show if account is local only
+				if( $authUser->getId() === 0 ) {
+					$s .= '*';
+				}
+				# Add user tool links
 				$s .= $this->sk->userLink( -1 , $name ) . $this->sk->userToolLinks( -1 , $name );
+				# Add CheckUser link
 				$s .= ' (<a href="' . $wgTitle->escapeLocalURL( 'user='.urlencode($name) .
 					'&reason='.urlencode($reason) ) . '">' . wfMsgHtml('checkuser-check') . '</a>)';
+				# Show edit time range
 				if( $users_first[$name] == $users_last[$name] ) {
 					$s .= ' (' . $wgLang->timeanddate( wfTimestamp(TS_MW,$users_first[$name]), true ) . ') ';
 				} else {
 					$s .= ' (' . $wgLang->timeanddate( wfTimestamp(TS_MW,$users_first[$name]), true ) .
 					' -- ' . $wgLang->timeanddate( wfTimestamp(TS_MW,$users_last[$name]), true ) . ') ';
 				}
+				# Total edit count
 				$s .= ' [<strong>' . $count . '</strong>]<br />';
-				$flags = array();
 				# Check if this user or IP is blocked. If so, give a link to the block log...
 				$block = new Block();
 				$block->fromMaster( false ); // use slaves
 				$ip = IP::isIPAddress( $name ) ? $name : '';
-				# Load user object
-				$user = User::newFromName( $name, false );
+				$flags = array();
 				if( $block->load( $ip, $users_ids[$name] ) ) {
 					// Range blocked?
 					if( IP::isIPAddress($block->mAddress) && strpos($block->mAddress,'/') ) {
