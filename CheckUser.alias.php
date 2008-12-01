@@ -102,6 +102,11 @@ $aliases['id'] = array(
 	'CheckUser' => array( 'Pemeriksa' ),
 );
 
+/** Japanese (日本語) */
+$aliases['ja'] = array(
+	'CheckUser' => array( 'チェックユーザー', 'チェックユーザ' ),
+);
+
 /** Khmer (ភាសាខ្មែរ) */
 $aliases['km'] = array(
 	'CheckUser' => array( 'ត្រួតពិនិត្យអ្នកប្រើប្រាស់' ),

@@ -92,6 +92,7 @@ Here are the IPs used (5000 max, sorted by address):',
 /** Message documentation (Message documentation)
  * @author Darth Kule
  * @author Jon Harald Søby
+ * @author Kwj2772
  * @author Lejonel
  * @author Meno25
  * @author Mormegil
@@ -114,6 +115,7 @@ $messages['qqq'] = array(
 	'checkuser-massblock' => '{{Identical|Block selected users}}',
 	'checkuser-massblock-commit' => '{{Identical|Block selected users}}',
 	'checkuser-search-submit' => '{{Identical|Search}}',
+	'checkuser-search-initiator' => "This is shown on the log page of [[Special:CheckUser]]. Initiator means CheckUser who check someone's information.",
 	'checkuser-ipeditcount' => "This information is shown on the result page of [[mw:Extension:CheckUser|Special:CheckUser]] (when doing the ''{{int:Checkuser-users}}'' check), next to the individual listed IPs. It shows an estimate of the total number of edits from the respective IP (i.e. the number of edits by all users, not only by the requested user). As the comment in the code says: ''If we get some results, it helps to know if the IP in general has a lot more edits, e.g. “tip of the iceberg”…''",
 	'checkuser-limited' => 'A message shown above CheckUser results if the result list would be longer than the specified limit (5000 entries), and has been truncated.',
 	'checkuser-log-userips' => 'This is an entry in the checkuser log when a checkuser checks from which IP addresses a user has edited.
@@ -760,6 +762,7 @@ Koristite ovo u skladu s pravilima.',
 	'checkuser-blocktag' => 'Mijenja korisničku stranicu sa:',
 	'checkuser-blocktag-talk' => 'Mijenja sadržaj stranice za razgovor sa:',
 	'checkuser-massblock-commit' => 'Blokiraj odabrane korisnike',
+	'checkuser-block-success' => "'''{{PLURAL:$2|Korisnik|Korisnici}} $1 {{PLURAL:$2|je sad blokiran|su sada blokirani}}.'''",
 	'checkuser-block-failure' => "'''Nijedan korisnik nije blokiran.'''",
 	'checkuser-block-limit' => 'Previše korisnika odabrano.',
 	'checkuser-block-noreason' => 'Morate navesti razlog za blokiranje.',
@@ -1716,7 +1719,7 @@ Os usuarios e as edicións por un cliente IP poden ser recuperados a través das
 	'checkuser-week-2' => 'últimas dúas semanas',
 	'checkuser-month' => 'últimos 30 días',
 	'checkuser-all' => 'todos',
-	'checkuser-empty' => 'O rexistro non contén ítems.',
+	'checkuser-empty' => 'O rexistro non contén elementos.',
 	'checkuser-nomatch' => 'Non se atoparon coincidencias.',
 	'checkuser-nomatch-edits' => 'Non se atoparon coincidencias.
 A última edición foi feita o $1 ás $2.',
@@ -2379,6 +2382,7 @@ Ultimo edit risalente alle $2 del $1.',
 	'checkuser-massblock-text' => 'Gli account selezionati saranno bloccati infinito, con il blocco automatico attivato e la creazione di nuovi account disattivata.
 Gli indirizzi IP saranno bloccati per una settimana solo per gli utenti anonimi e con la creazione account disattivata.',
 	'checkuser-blocktag' => 'Sostituisci pagine utente con:',
+	'checkuser-blocktag-talk' => 'Sostituisci pagine di discussione con:',
 	'checkuser-massblock-commit' => 'Blocca utenti selezionati',
 	'checkuser-block-success' => "'''{{PLURAL:$2|L'utente|Gli utenti}} $1 {{PLURAL:$2|è adesso bloccato|sono adesso bloccati}}.'''",
 	'checkuser-block-failure' => "'''Nessun utente bloccato.'''",
@@ -2420,7 +2424,7 @@ IPアドレスと共に「/xff」オプションを指定すると、XFF（X-For
 IPv4（16から32ビットのCIDR表記）と IPv6（64から128ビットのCIDR表記）をサポートしています。
 パフォーマンス上の理由により、5000件の編集しか返答出来ません。
 「チェックユーザーの方針」に従って利用してください。',
-	'checkuser-desc' => '利用者のIPアドレスやその他の情報をチェックする権限をユーザーに付与する',
+	'checkuser-desc' => '特定の権限を付与された利用者に対して、利用者のIPアドレスなどの情報のチェックを可能にする',
 	'checkuser-logcase' => 'ログの検索では大文字と小文字を区別します。',
 	'checkuser' => 'チェックユーザー',
 	'group-checkuser' => 'チェックユーザー',
@@ -2818,11 +2822,13 @@ $messages['ko'] = array(
 	'checkuser-period' => '기간:',
 	'checkuser-week-1' => '지난 1주일',
 	'checkuser-week-2' => '지난 2주일',
+	'checkuser-month' => '지난 30일',
 	'checkuser-check' => '확인',
 	'checkuser-wasblocked' => '이미 차단됨',
 	'checkuser-block-failure' => "'''차단된 사용자가 없습니다.'''",
 	'checkuser-block-limit' => '너무 많은 사용자를 선택하였습니다.',
 	'checkuser-search-submit' => '찾기',
+	'checkuser-log-subpage' => '기록',
 	'checkuser-log-userips' => '$1 은(는) $2 이(가) 사용한 IP 주소를 열람했습니다.',
 	'checkuser-log-ipedits' => '$1 은(는) $2의 편집을 열람했습니다.',
 	'checkuser-log-ipusers' => '$1이(가) $2 IP 주소를 사용한 사용자를 확인하였습니다.',
@@ -3494,6 +3500,7 @@ Siste redigering var $2 $1.',
 	'checkuser-massblock-text' => 'Valgte kontoer vil blokkeres på ubestemt tid, med autoblokkering slått på og kontooppretting slått av.
 IP-adresser vil blokkeres i én uke for anonyme brukere, med kontooppretting slått av.',
 	'checkuser-blocktag' => 'Erstatt brukersider med:',
+	'checkuser-blocktag-talk' => 'Erstatt diskusjonssider med:',
 	'checkuser-massblock-commit' => 'Blokker valgte brukere',
 	'checkuser-block-success' => "'''{{PLURAL:$2|Brukeren|Brukerne}} $1 er nå blokkert.'''",
 	'checkuser-block-failure' => "'''Ingen brukere blokkert.'''",
@@ -3585,6 +3592,7 @@ La darrièra modificacion èra lo $1 a §2.",
 	'checkuser-massblock-text' => 'Los comptes seleccionats seràn blocats indefinidament, amb lo blocatge automatic activat e la creacion de compte desactivada.
 Las adreças IP seràn blocadas pendent una setmana unicament pels utilizaires jos IP e la creacion de compte desactivada.',
 	'checkuser-blocktag' => "Remplaça las paginas d'utilizaire per :",
+	'checkuser-blocktag-talk' => 'Remplaçar las paginas de discussion amb :',
 	'checkuser-massblock-commit' => 'Blocar los utilizaires seleccionats',
 	'checkuser-block-success' => "'''{{PLURAL:$2|L’utilizaire|Los utilizaires}} $1 {{PLURAL:$2|ara es blocat|ara son blocats}}.'''",
 	'checkuser-block-failure' => "'''Cap d'utilizaire pas blocat.'''",
@@ -4108,6 +4116,34 @@ IP-аадырыстартан бэлиэтэммэккэ киирии уонна
 	'checkuser-log-ipedits-xff' => '$1 манна анаан XFF $2 көннөрүүлэрдээх',
 	'checkuser-log-ipusers-xff' => '$1 кыттаачылары ылбыт (для XFF $2)',
 	'checkuser-autocreate-action' => 'аптамаатынан оҥоһуллубут',
+);
+
+/** Sinhala (සිංහල)
+ * @author නන්දිමිතුරු
+ */
+$messages['si'] = array(
+	'checkuser-reason' => 'හේතුව:',
+	'checkuser-showlog' => 'ලඝු-සටහන පෙන්වන්න',
+	'checkuser-search' => 'ගවේෂණය',
+	'checkuser-period' => 'කාල සීමාව:',
+	'checkuser-week-1' => 'පසුගිය සතිය',
+	'checkuser-week-2' => 'පසුගිය සති දෙක',
+	'checkuser-month' => 'පසුගිය දින 30',
+	'checkuser-all' => 'සියල්ල',
+	'checkuser-empty' => 'ලඝු-සටහනෙහි කිසිදු අයිතමයක් නොමැත.',
+	'checkuser-nomatch' => 'කිසිදු ගැලපුමක් සමුනොවිනි.',
+	'checkuser-nomatch-edits' => 'කිසිදු ගැලපුමක් සමුනොවිනි. අවසන් සංස්කරණය  $1 වෙත සිදුකොට තිබිණි.',
+	'checkuser-check' => 'පරික්ෂා කරන්න',
+	'checkuser-log-fail' => 'ලඝු-සටහනක් එකතු කිරීමට නොහැක',
+	'checkuser-nolog' => 'ලඝු-සටහන් ගොනුවක් හමු නොවිණි.',
+	'checkuser-log-userips' => 'සංස්කරණය සඳහා  $2 විසින් භාවිත කෙරුණු අන්තර්ජාල ලිපිනයන් $1 විසින් පරික්‍ෂා කොට දැනගෙන ඇත',
+	'checkuser-log-ipedits' => '$2 අන්තර්ජාල ලිපිනය වෙතින් සිදු කෙරුණු සංස්කරණයන් $1 විසින් පරික්‍ෂා කොට දැනගෙන ඇත',
+	'checkuser-log-ipusers' => '$2 අන්තර්ජාල ලිපිනය භාවිතා කල පරිශීලකයන් $1 විසින් පරික්‍ෂා කොට දැනගෙන ඇත',
+	'checkuser-log-ipedits-xff' => '$2 XFF අන්තර්ජාල ලිපිනය මගින් සිදු කෙරුණු සංස්කරණයන් $1 විසින් පරික්‍ෂා කොට දැනගෙන ඇත',
+	'checkuser-log-ipusers-xff' => '$2 XFF අන්තර්ජාල ලිපිනය භාවිතා කල පරිශීලකයන් $1 විසින් පරික්‍ෂා කොට දැනගෙන ඇත',
+	'checkuser-log-useredits' => '$2 අන්තර්ජාල ලිපිනය වෙතින් සිදු කෙරුණු සංස්කරණයන් $1 විසින් පරික්‍ෂා කොට දැනගෙන ඇත',
+	'checkuser-autocreate-action' => 'ස්වයංක්‍රීය ලෙස තැනිණි',
+	'checkuser-email-action' => ' "$1" පරිශීලක වෙත විද්‍යුත්-ගැපෑලක් යැවිණි',
 );
 
 /** Slovak (Slovenčina)
