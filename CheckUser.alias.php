@@ -154,6 +154,11 @@ $aliases['oc'] = array(
 	'CheckUser' => array( 'Verificator d’adreça', 'VerificatorAdreça', 'VerificatorAdreca' ),
 );
 
+/** Swahili (Kiswahili) */
+$aliases['sw'] = array(
+	'CheckUser' => array( 'MtumiajiMwangalizi' ),
+);
+
 /** Thai (ไทย) */
 $aliases['th'] = array(
 	'CheckUser' => array( 'ตรวจสอบผู้ใช้' ),
