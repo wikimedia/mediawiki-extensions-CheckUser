@@ -2433,6 +2433,7 @@ Gli indirizzi IP saranno bloccati per una settimana solo per gli utenti anonimi 
 
 /** Japanese (日本語)
  * @author Aotake
+ * @author Hosiryuhosi
  * @author JtFuruhata
  * @author Kahusi
  * @author Marine-Blue
@@ -2488,7 +2489,7 @@ IPv4（16から32ビットのCIDR表記）と IPv6（64から128ビットのCIDR
 	'checkuser-user-nonexistent' => '指定されたユーザーは存在しません。',
 	'checkuser-search-form' => 'ログ検索条件　$1 が $2',
 	'checkuser-search-submit' => '検索',
-	'checkuser-search-initiator' => 'チェック者',
+	'checkuser-search-initiator' => 'チェック実行者',
 	'checkuser-search-target' => 'チェック対象',
 	'checkuser-ipeditcount' => '全利用者 -$1',
 	'checkuser-log-subpage' => 'ログ',
