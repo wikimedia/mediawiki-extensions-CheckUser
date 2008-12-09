@@ -2756,25 +2756,26 @@ $messages['kk-latn'] = array(
 /** Khmer (ភាសាខ្មែរ)
  * @author Chhorran
  * @author Lovekhmer
+ * @author Thearith
  * @author គីមស៊្រុន
  */
 $messages['km'] = array(
-	'checkuser-desc' => 'ផ្តល់អោយអ្នកប្រើប្រាស់​នូវការអនុញ្ញាតសមគួរដើម្បី​ទទួលបាននូវ​សមត្ថភាព​ក្នុងការត្រួតពិនិត្យអាសយដ្ឋាន IP របស់អ្នកប្រើប្រាស់និង​ពត៌មានផ្សេងៗទៀត',
+	'checkuser-desc' => 'ផ្ដល់ឱ្យអ្នកប្រើប្រាស់​នូវការអនុញ្ញាតសមគួរដើម្បី​ទទួលបាននូវ​សមត្ថភាព​ក្នុងការត្រួតពិនិត្យអាសយដ្ឋាន IP របស់អ្នកប្រើប្រាស់និង​ព័ត៌មានផ្សេងៗទៀត',
 	'checkuser-logcase' => 'ការស្វែងរកកំណត់ហេតុដោយបែងចែកអក្សរធំ អក្សរតូច។',
 	'checkuser' => 'ត្រួតពិនិត្យអ្នកប្រើប្រាស់',
 	'group-checkuser' => 'អ្នកត្រួតពិនិត្យអ្នកប្រើប្រាស់',
 	'group-checkuser-member' => 'អ្នកត្រួតពិនិត្យអ្នកប្រើប្រាស់',
-	'right-checkuser' => 'អាសយដ្ឋានIPនិងពត៌មានដ៏ទៃទៀតនៃការត្រួតពិនិត្យអ្នកប្រើប្រាស់',
-	'right-checkuser-log' => 'មើលកំនត់ហេតុនៃការត្រួតពិនិត្យអ្នកប្រើប្រាស់',
+	'right-checkuser' => 'អាសយដ្ឋានIPនិងព័ត៌មានដ៏ទៃទៀតនៃការត្រួតពិនិត្យអ្នកប្រើប្រាស់',
+	'right-checkuser-log' => 'មើលកំណត់ហេតុនៃការត្រួតពិនិត្យអ្នកប្រើប្រាស់',
 	'grouppage-checkuser' => '{{ns:project}}:អ្នកត្រួតពិនិត្យអ្នកប្រើប្រាស់',
 	'checkuser-reason' => 'មូលហេតុ៖',
 	'checkuser-showlog' => 'បង្ហាញកំណត់ហេតុ',
-	'checkuser-log' => 'កំនត់ហេតុនៃការត្រួតពិនិត្យអ្នកប្រើប្រាស់',
+	'checkuser-log' => 'កំណត់ហេតុនៃការត្រួតពិនិត្យអ្នកប្រើប្រាស់',
 	'checkuser-target' => 'អ្នកប្រើប្រាស់ ឬ IP',
 	'checkuser-users' => 'ទទួលអ្នកប្រើប្រាស់',
-	'checkuser-edits' => 'ទទួលកំនែប្រែពីIP',
+	'checkuser-edits' => 'ទទួលកំណែប្រែពីIP',
 	'checkuser-ips' => 'ទទួលIP',
-	'checkuser-account' => 'ទទួលកំនែប្រែនៃគណនី',
+	'checkuser-account' => 'ទទួលកំណែប្រែនៃគណនី',
 	'checkuser-search' => 'ស្វែងរក',
 	'checkuser-period' => 'រយៈពេល៖',
 	'checkuser-week-1' => 'សប្តាហ៍មុន',
@@ -2804,11 +2805,11 @@ $messages['km'] = array(
 	'checkuser-log-subpage' => 'កំនត់ហេតុ',
 	'checkuser-log-return' => 'ត្រលប់ទៅកាន់បែបបទដើមនៃការត្រួតពិនិត្យអ្នកប្រើប្រាស់',
 	'checkuser-log-userips' => '$1បានទទួល IPs ដែល$2បានប្រើប្រាស់',
-	'checkuser-log-ipedits' => '$1បានទទួលចំនួនកំនែប្រែពី$2',
-	'checkuser-log-useredits' => '$1 បានទទួលកំនែប្រែពី $2',
+	'checkuser-log-ipedits' => '$1បានទទួលចំនួនកំណែប្រែពី$2',
+	'checkuser-log-useredits' => '$1 បានទទួលកំណែប្រែពី $2',
 	'checkuser-autocreate-action' => 'ត្រូវបានបង្កើតដោយស្វ័យប្រវត្តិ',
 	'checkuser-email-action' => 'បានផ្ញើអ៊ីមែលទៅកាន់អ្នកប្រើប្រាស់ "$1"',
-	'checkuser-reset-action' => 'កំនត់ឡើងវិញនូវពាក្យសម្ងាត់របស់អ្នកប្រើប្រាស់"$1"',
+	'checkuser-reset-action' => 'កំណត់ឡើងវិញនូវពាក្យសម្ងាត់របស់អ្នកប្រើប្រាស់"$1"',
 );
 
 /** Kannada (ಕನ್ನಡ)
