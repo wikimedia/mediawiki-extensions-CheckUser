@@ -75,6 +75,11 @@ $aliases['gl'] = array(
 	'CheckUser' => array( 'Verificador de usuarios' ),
 );
 
+/** Swiss German (Alemannisch) */
+$aliases['gsw'] = array(
+	'CheckUser' => array( 'Benutzerpriefig' ),
+);
+
 /** Hebrew (עברית)
  * @author Rotem Liss
  */
