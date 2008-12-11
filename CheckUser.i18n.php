@@ -1889,6 +1889,7 @@ $messages['he'] = array(
 	'checkuser-gblocked' => 'חסום באופן גלובלי',
 	'checkuser-locked' => 'נעול',
 	'checkuser-wasblocked' => 'נחסם בעבר',
+	'checkuser-localonly' => 'חשבון לא מאוחד',
 	'checkuser-massblock' => 'חסימת המשתמשים שנבחרו',
 	'checkuser-massblock-text' => 'חשבונות המשתמש שנבחרו ייחסמו לצמיתות, עם חסימה אוטומטית וחסימה של יצירת החשבונות.
 כתובות IP ייחסמו לשבוע אחד, עבור משתמשים אנונימיים בלבד, ועם חסימה של יצירת החשבונות.',
