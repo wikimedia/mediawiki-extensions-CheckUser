@@ -46,6 +46,7 @@ Last edit was on $1 at $2.',
 	'checkuser-gblocked'         => 'Blocked globally',
 	'checkuser-locked'           => 'Locked',
 	'checkuser-wasblocked'       => 'Previously blocked',
+	'checkuser-localonly'        => 'Not unified',
 	'checkuser-massblock'        => 'Block selected users',
 	'checkuser-massblock-text'   => 'Selected accounts will be blocked indefinitely, with autoblocking enabled and account creation disabled. 
 	IP addresses will be blocked for 1 week for IP users only and with account creation disabled.',

@@ -816,10 +816,6 @@ class CheckUser extends SpecialPage
 				# Load user object
 				$user = User::newFromName( $name, false );
 				$authUser = $wgAuth->getUserInstance( $user );
-				# Show if account is local only
-				if( $authUser->getId() === 0 ) {
-					$s .= '*';
-				}
 				# Add user tool links
 				$s .= $this->sk->userLink( -1 , $name ) . $this->sk->userToolLinks( -1 , $name );
 				# Add CheckUser link
@@ -865,6 +861,10 @@ class CheckUser extends SpecialPage
 					$blocklog = $this->sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-wasblocked'), 
 						'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 					$flags[] = '<strong>(' . $blocklog . ')</strong>';
+				}
+				# Show if account is local only
+				if( $authUser->getId() === 0 ) {
+					$flags[] = '<strong>(' . wfMsgHtml('checkuser-localonly') . ')</strong>';
 				}
 				# Check for extra user rights...
 				if( $users_ids[$name] ) {
