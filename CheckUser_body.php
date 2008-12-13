@@ -815,7 +815,6 @@ class CheckUser extends SpecialPage
 				$s .= Xml::check( 'users[]', false, array( 'value' => $name ) ) . '&nbsp;';
 				# Load user object
 				$user = User::newFromName( $name, false );
-				$authUser = $wgAuth->getUserInstance( $user );
 				# Add user tool links
 				$s .= $this->sk->userLink( -1 , $name ) . $this->sk->userToolLinks( -1 , $name );
 				# Add CheckUser link
@@ -863,7 +862,8 @@ class CheckUser extends SpecialPage
 					$flags[] = '<strong>(' . $blocklog . ')</strong>';
 				}
 				# Show if account is local only
-				if( $authUser->getId() === 0 ) {
+				$authUser = $wgAuth->getUserInstance( $user );
+				if( $user->getId() && $authUser->getId() === 0 ) {
 					$flags[] = '<strong>(' . wfMsgHtml('checkuser-localonly') . ')</strong>';
 				}
 				# Check for extra user rights...
