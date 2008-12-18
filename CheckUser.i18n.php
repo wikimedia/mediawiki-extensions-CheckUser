@@ -98,6 +98,7 @@ Here are the IPs used (5000 max, sorted by address):',
  * @author Meno25
  * @author Mormegil
  * @author Purodha
+ * @author Siebrand
  * @author Slomox
  */
 $messages['qqq'] = array(
@@ -115,6 +116,8 @@ $messages['qqq'] = array(
 * $2 = time',
 	'checkuser-massblock' => '{{Identical|Block selected users}}',
 	'checkuser-massblock-commit' => '{{Identical|Block selected users}}',
+	'checkuser-block-success' => '* $1 is a list of one or more usernames
+* $2 is the number of usernames in $1.',
 	'checkuser-search-submit' => '{{Identical|Search}}',
 	'checkuser-search-initiator' => "This is shown on the log page of [[Special:CheckUser]]. Initiator means CheckUser who check someone's information.",
 	'checkuser-ipeditcount' => "This information is shown on the result page of [[mw:Extension:CheckUser|Special:CheckUser]] (when doing the ''{{int:Checkuser-users}}'' check), next to the individual listed IPs. It shows an estimate of the total number of edits from the respective IP (i.e. the number of edits by all users, not only by the requested user). As the comment in the code says: ''If we get some results, it helps to know if the IP in general has a lot more edits, e.g. “tip of the iceberg”…''",
@@ -1707,10 +1710,10 @@ Le fáth feidhmiúcháin, ní féidir níos mó ná 5000 eagarthóireachta a tha
 	'checkuser-reason' => 'Fáth:',
 	'checkuser-showlog' => 'Taispeáin logaí',
 	'checkuser-log' => 'Logaí checkuser',
-	'checkuser-query' => 'Iarratais ar athrú úrnua',
+	'checkuser-query' => 'Iarratais ar athruithe úrnua',
 	'checkuser-target' => 'Úsáideoir ná seoladh IP',
 	'checkuser-users' => 'Faigh úsáideoira',
-	'checkuser-edits' => 'Faigh athraigh don seoladh IP seo',
+	'checkuser-edits' => 'Faigh athruithe don seoladh IP seo',
 	'checkuser-ips' => 'Faigh Seolaidh IP',
 	'checkuser-search' => 'Cuardaigh',
 	'checkuser-week-1' => 'an tseachtain seo caite',
