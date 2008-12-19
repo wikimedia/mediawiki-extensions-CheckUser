@@ -1430,6 +1430,7 @@ $messages['fa'] = array(
 	'checkuser-gblocked' => 'بسته شده سرتاسری',
 	'checkuser-locked' => 'قفل شده',
 	'checkuser-wasblocked' => 'قبلاً بسته شده',
+	'checkuser-localonly' => 'یکی نشده',
 	'checkuser-massblock' => 'بستن کاربرهای انتخاب شده',
 	'checkuser-massblock-text' => 'حساب‌های انتخاب شده برای همیشه بسته خواهند شد، قطع دسترسی خودکار هم فعال خواهد بود و از ایجاد حساب کاربری هم جلوگیری خواهد شد. نشانی‌های اینترنتی برای یک هفته فقط برای کاربران ناشناس بسته خواهند شد و از ایجاد حساب کاربری توسط آنان جلوگیری خواهد شد.',
 	'checkuser-blocktag' => 'جایگزین کردن صفحهٔ کاربرها با:',
@@ -1844,9 +1845,11 @@ $messages['grc'] = array(
 	'checkuser-log-subpage' => 'Κατάλογος',
 );
 
-/** Gujarati (ગુજરાતી) */
+/** Gujarati (ગુજરાતી)
+ * @author Dsvyas
+ */
 $messages['gu'] = array(
-	'checkuser-reason' => 'કારણ',
+	'checkuser-reason' => 'કારણ:',
 	'checkuser-search' => 'શોધો',
 );
 
@@ -2524,7 +2527,10 @@ IPv4（16から32ビットのCIDR表記）と IPv6（64から128ビットのCIDR
 	'checkuser-log-fail' => 'ログに追加することができません',
 	'checkuser-nolog' => 'ログファイルが見つかりません。',
 	'checkuser-blocked' => 'ブロック済み',
+	'checkuser-gblocked' => 'グローバルブロックされています',
+	'checkuser-locked' => 'ロックされています',
 	'checkuser-wasblocked' => 'ブロック経験あり',
+	'checkuser-localonly' => '統一されません',
 	'checkuser-massblock' => '選択した利用者をブロックする',
 	'checkuser-massblock-text' => '選択した利用者は無期限ブロックされ、同時に自動ブロックが作動しアカウント作成も禁止されます。IPアドレスはIP利用者向けに1週間ブロックされ、アカウント作成が禁止されます。',
 	'checkuser-blocktag' => '利用者ページを以下で置き換える:',
@@ -2844,16 +2850,16 @@ $messages['km'] = array(
 	'checkuser-block-success' => "'''{{PLURAL:$2|អ្នកប្រើប្រាស់|អ្នកប្រើប្រាស់}} $1 {{PLURAL:$2|ត្រូវ|ត្រូវ}}បានរាំងខ្ទប់ហើយ។'''",
 	'checkuser-block-failure' => "'''គ្មានអ្នកប្រើប្រាស់ណាម្នាក់ត្រូវបានរាំងខ្ទប់ទេ។'''",
 	'checkuser-block-limit' => 'មានអ្នកប្រើប្រាស់ច្រើនពេកហើយត្រូវបានជ្រើសរើស។',
-	'checkuser-block-noreason' => 'អ្នកត្រូវតែផ្តល់មូលហេតុសំរាប់ការរាំងខ្ទប់។',
+	'checkuser-block-noreason' => 'អ្នកត្រូវតែផ្ដល់មូលហេតុសម្រាប់ការរាំងខ្ទប់។',
 	'checkuser-accounts' => '$1គណនីថ្មី',
-	'checkuser-too-many' => 'ច្រើនលទ្ធផល ពេក, សូមបង្រួម CIDR ។ នេះគឺ IP បានប្រើប្រាស់ (អតិបរិមា ៥០០០, រៀបតាម អាស័យដ្ឋាន) ៖',
+	'checkuser-too-many' => 'ច្រើនលទ្ធផល​ពេក, សូមបង្រួម CIDR ។ នេះគឺ IP បានប្រើប្រាស់ (អតិបរមា ៥០០០, រៀបតាម​អាសយដ្ឋាន)​៖',
 	'checkuser-user-nonexistent' => 'មិនមានអ្នកប្រើប្រាស់ដូចដែលបានបញ្ជាក់ទេ។',
-	'checkuser-search-form' => 'ស្វែងរកការបញ្ចូលកំនត់ហេតុដែល $1 គឺជា $2',
+	'checkuser-search-form' => 'ស្វែងរកការបញ្ចូលកំណត់ហេតុដែល $1 គឺជា $2',
 	'checkuser-search-submit' => 'ស្វែងរក',
 	'checkuser-search-target' => 'គោលដៅ',
 	'checkuser-ipeditcount' => '~$1 ពីគ្រប់អ្នកប្រើប្រាស់ទាំងអស់',
-	'checkuser-log-subpage' => 'កំនត់ហេតុ',
-	'checkuser-log-return' => 'ត្រលប់ទៅកាន់បែបបទដើមនៃការត្រួតពិនិត្យអ្នកប្រើប្រាស់',
+	'checkuser-log-subpage' => 'កំណត់ហេតុ',
+	'checkuser-log-return' => 'ត្រឡប់ទៅកាន់បែបបទដើមនៃការត្រួតពិនិត្យអ្នកប្រើប្រាស់',
 	'checkuser-log-userips' => '$1បានទទួល IPs ដែល$2បានប្រើប្រាស់',
 	'checkuser-log-ipedits' => '$1បានទទួលចំនួនកំណែប្រែពី$2',
 	'checkuser-log-useredits' => '$1 បានទទួលកំណែប្រែពី $2',
@@ -2914,6 +2920,7 @@ IP 주소는 1주일 (IP만 막음, 계정 생성 금지됨) 차단될 것입니
 	'checkuser-blocktag' => '사용자 문서를 다음 내용으로 바꾸기:',
 	'checkuser-blocktag-talk' => '토론 문서를 다음 내용으로 바꾸기:',
 	'checkuser-massblock-commit' => '선택한 사용자를 차단',
+	'checkuser-block-success' => "'''다음 $2명의 사용자 ($1) 가 성공적으로 차단되었습니다.'''",
 	'checkuser-block-failure' => "'''차단된 사용자가 없습니다.'''",
 	'checkuser-block-limit' => '너무 많은 사용자를 선택하였습니다.',
 	'checkuser-block-noreason' => '차단하는 이유를 반드시 입력해야 합니다.',
@@ -3358,6 +3365,7 @@ $messages['ms'] = array(
 	'checkuser-gblocked' => 'Disekat secara sejagat',
 	'checkuser-locked' => 'Dikunci',
 	'checkuser-wasblocked' => 'Pernah disekat',
+	'checkuser-localonly' => 'Tidak digabungkan',
 	'checkuser-massblock' => 'Sekat pengguna yang ditanda',
 	'checkuser-massblock-text' => 'Akaun-akaun yang dinyatakan akan disekat tanpa had, dengan sekatan automatik diaktifkan dan penciptaan akaun baru dimatikan.
 Bagi pengguna tanpa nama, alamat IP-nya akan disekat selama seminggu, dengan penciptaan akaun dimatikan.',
@@ -3853,7 +3861,7 @@ $messages['pms'] = array(
  * @author Ahmed-Najib-Biabani-Ibrahimkhel
  */
 $messages['ps'] = array(
-	'checkuser-reason' => 'سبب',
+	'checkuser-reason' => 'سبب:',
 	'checkuser-showlog' => 'يادښت کتل',
 	'checkuser-target' => 'کارونکی يا IP پته',
 	'checkuser-search' => 'پلټل',
@@ -4976,9 +4984,11 @@ Lần sửa đổi cuối xảy ra $1 lúc $2.',
 	'checkuser-gblocked' => 'Cấm toàn cầu',
 	'checkuser-locked' => 'Khóa',
 	'checkuser-wasblocked' => 'Đã từng bị cấm',
+	'checkuser-localonly' => 'Chưa thống nhất',
 	'checkuser-massblock' => 'Cấm các người dùng được chọn',
 	'checkuser-massblock-text' => 'Các tài khoản được chọn sẽ bị cấm vô hạn, cũng cấm mở tài khoản và tự động cấm các địa chỉ IP. Những người dùng những địa chỉ IP này sẽ bị cấm một tuần và không được mở tài khoản.',
 	'checkuser-blocktag' => 'Thay thế các trang cá nhân bằng:',
+	'checkuser-blocktag-talk' => 'Thay các trang thảo luận bằng:',
 	'checkuser-massblock-commit' => 'Cấm những người dùng được chọn',
 	'checkuser-block-success' => "'''{{PLURAL:$2|Người|Các người}} dùng $1 mới bị cấm.'''",
 	'checkuser-block-failure' => "'''Không ai bị cấm.'''",
