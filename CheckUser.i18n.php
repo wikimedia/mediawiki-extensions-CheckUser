@@ -549,24 +549,42 @@ $messages['bcl'] = array(
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author EugeneZelenko
+ * @author Jim-by
  * @author Red Winged Duck
  */
 $messages['be-tarask'] = array(
+	'checkuser-summary' => 'Гэты інструмэнт праглядае апошнія зьмены для атрыманьня ІР-адрасоў ўдзельніка альбо паказвае рэдагаваньні/зьвесткі удзельніка па ІР-адрасу. 
+Удзельнікі і рэдагаваньні, якія рабіліся з ІР-адрасу, пазначаным ў загалоўках XFF, можна атрымаць, дадаўшы да ІР-адрасу «/xff». Падтрымліваюцца IPv4 (CIDR 16-32) і IPv6 (CIDR 64-128).
+З прычыны прадукцыйнасьці будуць паказаны ня больш за 5000 рэдагаваньняў.
+Карыстайцеся гэтым інструмэнтам толькі згодна з правіламі.',
+	'checkuser-desc' => 'Даць магчымасьць ўдзельнікам з адпаведнымі правамі правяраць ІР-адрасы і іншую інфармацыю ўдзельнікаў',
+	'checkuser-logcase' => 'Пошук у журнале залежыць ад велічыні літар.',
+	'checkuser' => 'Праверыць ўдзельніка',
 	'group-checkuser' => 'Правяраючыя ўдзельнікаў',
 	'group-checkuser-member' => 'правяраючы ўдзельнікаў',
+	'right-checkuser' => 'Праверка ІР адрасоў і іншай інфармацыі ўдзельніка',
+	'right-checkuser-log' => 'Прагляд журналу праверкі ўдзельнікаў',
+	'grouppage-checkuser' => '{{ns:project}}:Праверка ўдзельніка',
 	'checkuser-reason' => 'Прычына:',
 	'checkuser-showlog' => 'Паказаць журнал',
 	'checkuser-log' => 'Журнал праверак удзельнікаў',
+	'checkuser-query' => 'Запыт апошніх зьменаў',
 	'checkuser-target' => 'Рахунак удзельніка альбо IP-адрас',
 	'checkuser-users' => 'Атрымаць рахункі ўдзельнікаў',
 	'checkuser-edits' => 'Атрымаць рэдагаваньні, зробленыя з IP-адрасу',
 	'checkuser-ips' => 'Атрымаць IP-адрасы',
+	'checkuser-account' => 'Атрымаць рэдагаваньні рахунка ўдзельнікаú',
+	'checkuser-search' => 'Пошук',
+	'checkuser-week-1' => 'апошні тыдзень',
+	'checkuser-week-2' => 'апошнія два тыдні',
+	'checkuser-month' => 'апошнія 30 дзён',
 	'checkuser-empty' => 'Журнал ня ўтрымлівае запісаў.',
 	'checkuser-nomatch' => 'Супадзеньні ня знойдзеныя.',
 	'checkuser-check' => 'Праверыць',
 	'checkuser-log-fail' => 'Немагчыма дадаць запіс у журнал',
 	'checkuser-nolog' => 'Ня знойдзены файл журнала.',
 	'checkuser-blocked' => 'Заблякаваны',
+	'checkuser-gblocked' => 'Заблякаваны глябальна',
 	'checkuser-search-submit' => 'Шукаць',
 	'checkuser-search-initiator' => 'ініцыятар',
 	'checkuser-log-subpage' => 'Журнал',
@@ -1148,7 +1166,7 @@ Slědna změna jo $1 $2 była.',
 	'checkuser-block-limit' => 'Pśewjele wužywarjow wubrane.',
 	'checkuser-block-noreason' => 'Musyš pśicynu za blokěrowanja pódaś.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nowe konto|nowej konśe|nowe konta|nowych kontow}}',
-	'checkuser-user-nonexistent' => 'Pódany wužywaŕ njeeksistujo.',
+	'checkuser-user-nonexistent' => 'Pódany wužywaŕ njeeksistěrujo.',
 	'checkuser-search-form' => 'Protokolowe zapiski namakaś, źož $1 jo $2',
 	'checkuser-search-submit' => 'Pytaś',
 	'checkuser-search-initiator' => 'iniciator',
@@ -2011,6 +2029,7 @@ $messages['hil'] = array(
 /** Croatian (Hrvatski)
  * @author Dalibor Bosits
  * @author SpeedyGonsales
+ * @author Suradnik13
  */
 $messages['hr'] = array(
 	'checkuser-summary' => 'Ovaj alat pretražuje nedavne promjene i pronalazi IP adrese suradnika ili prikazuje uređivanja/ime suradnika ako je zadana IP adresa. Suradnici i uređivanja mogu biti dobiveni po XFF zaglavljima dodavanjem "/xff" na kraj IP adrese. Podržane su IPv4 (CIDR 16-32) i IPv6 (CIDR 64-128) adrese. Rezultat ima maksimalno 5.000 zapisa iz tehničkih razloga. Rabite ovaj alat u skladu s pravilima.',
@@ -2048,6 +2067,7 @@ Zadnja izmjena je bila $1 u $2.',
 	'checkuser-gblocked' => 'Globalno blokiran',
 	'checkuser-locked' => 'Zaključan',
 	'checkuser-wasblocked' => 'Prethodno blokiran',
+	'checkuser-localonly' => 'Nije sjedinjen',
 	'checkuser-massblock' => 'Blokiraj odabrane suradnike',
 	'checkuser-massblock-text' => 'Odabrani suradnički računi će biti blokirani na neograničeno, s uključenim autoblokiranjem i onemogućenim stvaranjem novih računa.
 IP adrese će biti blokirane na 1 tjedan samo za IP suradnike s onemogućenim stvaranjem računa.',
@@ -2933,6 +2953,7 @@ IP 주소는 1주일 (IP만 막음, 계정 생성 금지됨) 차단될 것입니
 	'checkuser-log-userips' => '$1 은(는) $2 이(가) 사용한 IP 주소를 열람했습니다.',
 	'checkuser-log-ipedits' => '$1 은(는) $2의 편집을 열람했습니다.',
 	'checkuser-log-ipusers' => '$1이(가) $2 IP 주소를 사용한 사용자를 확인하였습니다.',
+	'checkuser-log-ipedits-xff' => '$1이(가) XFF $2 IP 주소에서의 편집을 열람하였습니다.',
 	'checkuser-log-ipusers-xff' => '$1이(가) XFF $2 IP 주소를 사용한 사용자의 목록을 열람하였습니다.',
 	'checkuser-log-useredits' => '$1이(가) $2 IP에서의 편집을 열람하였습니다.',
 	'checkuser-autocreate-action' => '계정이 자동으로 생성되었습니다.',
@@ -3865,6 +3886,7 @@ $messages['ps'] = array(
 	'checkuser-showlog' => 'يادښت کتل',
 	'checkuser-target' => 'کارونکی يا IP پته',
 	'checkuser-search' => 'پلټل',
+	'checkuser-all' => 'ټول',
 	'checkuser-search-submit' => 'پلټل',
 	'checkuser-search-target' => 'موخه',
 	'checkuser-log-subpage' => 'يادښت',
