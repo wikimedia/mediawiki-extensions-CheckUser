@@ -198,6 +198,7 @@ No s'otendrán más de 5000 edizions por razons de prestazions. Faiga serbir ist
 	'group-checkuser' => "Comprebadors d'usuarios",
 	'group-checkuser-member' => "Comprebador d'usuarios",
 	'right-checkuser' => "Comprebar as adrezas IP de l'usuario y atras informazions",
+	'right-checkuser-log' => "Beyer o rechistro de comprebazión d'usuarios",
 	'grouppage-checkuser' => "{{ns:project}}:comprebazión d'usuarios",
 	'checkuser-reason' => 'Razón:',
 	'checkuser-showlog' => 'Amostrar o rechistro',
@@ -358,6 +359,7 @@ IPv4 (CIDR 16-32) و IPv6 (CIDR 64-128) مدعومين.
 	'checkuser-gblocked' => 'ممنوع منعا عاما',
 	'checkuser-locked' => 'مغلق',
 	'checkuser-wasblocked' => 'اتمنع قبل كدا',
+	'checkuser-localonly' => 'مش متوحد',
 	'checkuser-massblock' => 'امنع اليوزرز اللى اخترتهم.',
 	'checkuser-massblock-text' => 'الحسابات اللى انت اختارتها ح يتمنعو على طول،مش ح يقدرو يفتحو حسابات و ح يتمنعو اوتوماتيكي.
 عناوين الاى بى ح تتمنع لمدة اسبوع واحد بالنسبة للى بيستعملو الاى بى و مش ح يقدرو يفتحو حسابات.',
@@ -562,19 +564,19 @@ $messages['be-tarask'] = array(
 	'checkuser' => 'Праверыць ўдзельніка',
 	'group-checkuser' => 'Правяраючыя ўдзельнікаў',
 	'group-checkuser-member' => 'правяраючы ўдзельнікаў',
-	'right-checkuser' => 'Праверка ІР адрасоў і іншай інфармацыі ўдзельніка',
-	'right-checkuser-log' => 'Прагляд журналу праверкі ўдзельнікаў',
-	'grouppage-checkuser' => '{{ns:project}}:Праверка ўдзельніка',
+	'right-checkuser' => 'Праверка ІР-адрасоў і іншай інфармацыі ўдзельніка',
+	'right-checkuser-log' => 'Прагляд журнала праверкі ўдзельнікаў',
+	'grouppage-checkuser' => '{{ns:project}}:Праверка ўдзельнікаў',
 	'checkuser-reason' => 'Прычына:',
 	'checkuser-showlog' => 'Паказаць журнал',
 	'checkuser-log' => 'Журнал праверак удзельнікаў',
-	'checkuser-query' => 'Запыт апошніх зьменаў',
+	'checkuser-query' => 'Запытаць апошнія зьмены',
 	'checkuser-target' => 'Рахунак удзельніка альбо IP-адрас',
 	'checkuser-users' => 'Атрымаць рахункі ўдзельнікаў',
 	'checkuser-edits' => 'Атрымаць рэдагаваньні, зробленыя з IP-адрасу',
 	'checkuser-ips' => 'Атрымаць IP-адрасы',
-	'checkuser-account' => 'Атрымаць рэдагаваньні рахунка ўдзельнікаú',
-	'checkuser-search' => 'Пошук',
+	'checkuser-account' => 'Атрымаць рэдагаваньні з рахунку ўдзельніка',
+	'checkuser-search' => 'Шукаць',
 	'checkuser-week-1' => 'апошні тыдзень',
 	'checkuser-week-2' => 'апошнія два тыдні',
 	'checkuser-month' => 'апошнія 30 дзён',
@@ -585,6 +587,8 @@ $messages['be-tarask'] = array(
 	'checkuser-nolog' => 'Ня знойдзены файл журнала.',
 	'checkuser-blocked' => 'Заблякаваны',
 	'checkuser-gblocked' => 'Заблякаваны глябальна',
+	'checkuser-blocktag' => 'Замяніць старонкі ўдзельнікаў на:',
+	'checkuser-blocktag-talk' => 'Замяніць старонкі гутарак ўдзельнікаў на:',
 	'checkuser-search-submit' => 'Шукаць',
 	'checkuser-search-initiator' => 'ініцыятар',
 	'checkuser-log-subpage' => 'Журнал',
@@ -593,6 +597,7 @@ $messages['be-tarask'] = array(
 	'checkuser-log-ipusers' => '$1 атрымаў рахункі ўдзельнікаў для $2',
 	'checkuser-log-ipedits-xff' => '$1 атрымаў рэдагаваньні для XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 атрымаў рахункі ўдзельнікаў для XFF $2',
+	'checkuser-email-action' => 'даслаць ліст удзельніку «$1»',
 );
 
 /** Bulgarian (Български)
@@ -1087,6 +1092,7 @@ $messages['de'] = array(
 	'checkuser-gblocked' => 'global gesperrt',
 	'checkuser-locked' => 'geschlossen',
 	'checkuser-wasblocked' => 'ehemals gesperrt',
+	'checkuser-localonly' => 'nicht zusammengeführt',
 	'checkuser-massblock' => 'Sperre die ausgewählten Benutzer',
 	'checkuser-massblock-text' => 'Die ausgewählten Benutzerkonten werden dauerhaft gesperrt (Autoblock ist aktiv und die Anlage neuer Benutzerkonten wird unterbunden).
 IP-Adressen werden für eine Woche gesperrt (nur für anonyme Benutzer, die Anlage neuer Benutzerkonten wird unterbunden).',
@@ -1357,6 +1363,7 @@ No se muestran más de 5000 ediciones por motivos de rendimiento. Usa esta herra
 	'checkuser-nolog' => 'No se encuentra ningún archivo del registro',
 	'checkuser-blocked' => 'Bloqueado',
 	'checkuser-gblocked' => 'Bloqueado globalmente',
+	'checkuser-locked' => 'Cerrado con llave',
 	'checkuser-wasblocked' => 'Bloqueado anteriormente',
 	'checkuser-massblock' => 'Bloquear usuarios seleccionados',
 	'checkuser-blocktag' => 'Reemplazar páginas del usuario con:',
@@ -1605,6 +1612,7 @@ $messages['fr'] = array(
 	'checkuser-gblocked' => 'Globalement bloqué',
 	'checkuser-locked' => 'Verrouillé',
 	'checkuser-wasblocked' => 'Bloqué précédemment',
+	'checkuser-localonly' => 'Non unifié',
 	'checkuser-massblock' => 'Utilisateurs de la plage sélectionnée',
 	'checkuser-massblock-text' => 'Les comptes sélectionnés seront bloqués indéfiniment, avec le blocage automatique activé et la création de compte désactivée.
 Les adresses IP seront bloquées pendant une semaine uniquement pour les utilisateurs sous IP et la création de compte désactivée.',
@@ -1810,6 +1818,7 @@ A última edición foi feita o $1 ás $2.',
 	'checkuser-gblocked' => 'Bloqueado globalmente',
 	'checkuser-locked' => 'Bloqueado',
 	'checkuser-wasblocked' => 'Bloqueados anteriormente',
+	'checkuser-localonly' => 'Sen unificar',
 	'checkuser-massblock' => 'Bloquear os usuarios seleccionados',
 	'checkuser-massblock-text' => 'As contas seleccionadas serán bloqueadas indefinidamente, co bloqueo automático permitido e a creación de contas deshabilitada.  
 Os enderezos IP serán bloqueados cun tempo de duración dunha semana só para os usuarios con IP e coa creación de contas deshabilitada.',
@@ -1842,6 +1851,7 @@ Os enderezos IP serán bloqueados cun tempo de duración dunha semana só para o
 	'checkuser-reset-action' => 'envioulle un novo contrasinal ao usuario "$1"',
 );
 
+/** Gothic (𐌲𐌿𐍄𐌹𐍃𐌺) */
 $messages['got'] = array(
 	'checkuser-reason' => 'Faírina',
 );
@@ -3539,6 +3549,7 @@ De laatste bewerking was op $1 om $2.',
 	'checkuser-gblocked' => 'Globaal geblokkeerd',
 	'checkuser-locked' => 'Afgesloten',
 	'checkuser-wasblocked' => 'Eerder geblokkeerd',
+	'checkuser-localonly' => 'Niet samengevoegd',
 	'checkuser-massblock' => 'Geselecteerde gebruikers blokkeren',
 	'checkuser-massblock-text' => 'De geselecteerde gebruikers worden voor onbepaalde tijd geblokkeerd, met automatische IP-adresblokkade ingeschakeld en het aanmaken van nieuwe gebruikers ingeschakeld.
 IP-adressen worden één week geblokkeerd voor anonieme gebruikers, met het aanmaken van nieuwe gebruikers uitgeschakeld.',
@@ -3572,11 +3583,13 @@ IP-adressen worden één week geblokkeerd voor anonieme gebruikers, met het aanm
 );
 
 /** Norwegian Nynorsk (‪Norsk (nynorsk)‬)
+ * @author Harald Khan
  * @author Jon Harald Søby
  */
 $messages['nn'] = array(
-	'checkuser-reason' => 'Årsak',
+	'checkuser-reason' => 'Årsak:',
 	'checkuser-search' => 'Søk',
+	'checkuser-blocked' => 'Blokkert',
 	'checkuser-search-submit' => 'Søk',
 );
 
@@ -3624,6 +3637,7 @@ Siste redigering var $2 $1.',
 	'checkuser-gblocked' => 'Blokkert globalt',
 	'checkuser-locked' => 'Låst',
 	'checkuser-wasblocked' => 'Tidligere blokkert',
+	'checkuser-localonly' => 'Ikke sammenslått',
 	'checkuser-massblock' => 'Blokker valgte brukere',
 	'checkuser-massblock-text' => 'Valgte kontoer vil blokkeres på ubestemt tid, med autoblokkering slått på og kontooppretting slått av.
 IP-adresser vil blokkeres i én uke for anonyme brukere, med kontooppretting slått av.',
@@ -3716,6 +3730,7 @@ La darrièra modificacion èra lo $1 a §2.",
 	'checkuser-gblocked' => 'Globalament blocat',
 	'checkuser-locked' => 'Varrolhat',
 	'checkuser-wasblocked' => 'Blocat precedentament',
+	'checkuser-localonly' => 'Pas unificat',
 	'checkuser-massblock' => 'Utilizaires de la plaja seleccionada',
 	'checkuser-massblock-text' => 'Los comptes seleccionats seràn blocats indefinidament, amb lo blocatge automatic activat e la creacion de compte desactivada.
 Las adreças IP seràn blocadas pendent una setmana unicament pels utilizaires jos IP e la creacion de compte desactivada.',
@@ -4132,6 +4147,7 @@ $messages['roa-tara'] = array(
 );
 
 /** Russian (Русский)
+ * @author EugeneZelenko
  * @author Ferrer
  * @author Kaganer
  * @author Silence
@@ -4204,7 +4220,7 @@ IP-адреса будут заблокированы на 1 неделю для
 	'checkuser-log-ipusers-xff' => '$1 получил учётные записи для XFF $2',
 	'checkuser-log-useredits' => '$1 получил правки $2',
 	'checkuser-autocreate-action' => 'был создан автоматически',
-	'checkuser-email-action' => 'отправил письмо участнику $1',
+	'checkuser-email-action' => 'отправил письмо участнику «$1»',
 	'checkuser-reset-action' => 'сбросил пароль для участника $1',
 );
 
@@ -4341,6 +4357,7 @@ Posledná úprava bola $1 o $2.',
 	'checkuser-gblocked' => 'Globálne zablokovaný',
 	'checkuser-locked' => 'Zamknutý',
 	'checkuser-wasblocked' => 'už bol zablokovaný',
+	'checkuser-localonly' => 'Nezjednotené',
 	'checkuser-massblock' => 'Zablokovať vybraných používateľov',
 	'checkuser-massblock-text' => 'Vybrané účty sa zablokujú na neurčito, automatické blokovanie bude zapnuté a vytváranie účtov vypnuté.
 IP adresy sa zablokujú na 1 týždeň pri iba anonymných používateľoch a vytváranie účtov bude vypnuté.',
@@ -4605,6 +4622,7 @@ Senaste redigering var $1 kl $2.',
 	'checkuser-gblocked' => 'Blockerad globalt',
 	'checkuser-locked' => 'Låst',
 	'checkuser-wasblocked' => 'Tidigare blockerad',
+	'checkuser-localonly' => 'Inte sammanslaget',
 	'checkuser-massblock' => 'Blockera valda användare',
 	'checkuser-massblock-text' => 'Valda konton kommer blockeras på obestämd tid, med autoblockering aktiverad och kontoskapande avaktiverat.
 IP-adresser kommer blockeras i en vecka för anonyma användare, med kontoskapande avaktiverat.',
