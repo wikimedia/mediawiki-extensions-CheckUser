@@ -127,6 +127,11 @@ $aliases['lb'] = array(
 	'CheckUser' => array( 'Benotzerkontroll' ),
 );
 
+/** Macedonian (Македонски) */
+$aliases['mk'] = array(
+	'CheckUser' => array( 'ПроверкаНаКорисник' ),
+);
+
 /** Malay (Bahasa Melayu) */
 $aliases['ms'] = array(
 	'CheckUser' => array( 'Perisik' ),

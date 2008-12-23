@@ -555,13 +555,13 @@ $messages['bcl'] = array(
  * @author Red Winged Duck
  */
 $messages['be-tarask'] = array(
-	'checkuser-summary' => 'Гэты інструмэнт праглядае апошнія зьмены для атрыманьня ІР-адрасоў ўдзельніка альбо паказвае рэдагаваньні/зьвесткі удзельніка па ІР-адрасу. 
+	'checkuser-summary' => 'Гэты інструмэнт праглядае апошнія зьмены для атрыманьня ІР-адрасоў удзельніка альбо паказвае рэдагаваньні/зьвесткі ўдзельніка па ІР-адрасе.
 Удзельнікі і рэдагаваньні, якія рабіліся з ІР-адрасу, пазначаным ў загалоўках XFF, можна атрымаць, дадаўшы да ІР-адрасу «/xff». Падтрымліваюцца IPv4 (CIDR 16-32) і IPv6 (CIDR 64-128).
 З прычыны прадукцыйнасьці будуць паказаны ня больш за 5000 рэдагаваньняў.
 Карыстайцеся гэтым інструмэнтам толькі згодна з правіламі.',
-	'checkuser-desc' => 'Даць магчымасьць ўдзельнікам з адпаведнымі правамі правяраць ІР-адрасы і іншую інфармацыю ўдзельнікаў',
+	'checkuser-desc' => 'Даць магчымасьць удзельнікам з адпаведнымі правамі правяраць ІР-адрасы і іншую інфармацыю ўдзельнікаў',
 	'checkuser-logcase' => 'Пошук у журнале залежыць ад велічыні літар.',
-	'checkuser' => 'Праверыць ўдзельніка',
+	'checkuser' => 'Праверыць удзельніка',
 	'group-checkuser' => 'Правяраючыя ўдзельнікаў',
 	'group-checkuser-member' => 'правяраючы ўдзельнікаў',
 	'right-checkuser' => 'Праверка ІР-адрасоў і іншай інфармацыі ўдзельніка',
@@ -577,27 +577,54 @@ $messages['be-tarask'] = array(
 	'checkuser-ips' => 'Атрымаць IP-адрасы',
 	'checkuser-account' => 'Атрымаць рэдагаваньні з рахунку ўдзельніка',
 	'checkuser-search' => 'Шукаць',
+	'checkuser-period' => 'Працягласьць:',
 	'checkuser-week-1' => 'апошні тыдзень',
 	'checkuser-week-2' => 'апошнія два тыдні',
 	'checkuser-month' => 'апошнія 30 дзён',
+	'checkuser-all' => 'усе',
 	'checkuser-empty' => 'Журнал ня ўтрымлівае запісаў.',
 	'checkuser-nomatch' => 'Супадзеньні ня знойдзеныя.',
+	'checkuser-nomatch-edits' => 'Супадзеньняў ня знойдзена.
+Апошняе рэдагаваньне зроблена $1 у $2.',
 	'checkuser-check' => 'Праверыць',
 	'checkuser-log-fail' => 'Немагчыма дадаць запіс у журнал',
 	'checkuser-nolog' => 'Ня знойдзены файл журнала.',
 	'checkuser-blocked' => 'Заблякаваны',
 	'checkuser-gblocked' => 'Заблякаваны глябальна',
+	'checkuser-locked' => 'Заблякаваны',
+	'checkuser-wasblocked' => 'Заблякаваны раней',
+	'checkuser-localonly' => "Не аб'яднаны",
+	'checkuser-massblock' => 'Заблякаваць выбраныя рахункі ўдзельнікаў',
+	'checkuser-massblock-text' => 'Выбраныя рахункі будуць заблякаваны назаўсёды з аўтаматычным блякаваньнем і забаронай стварэньня новых рахункаў.
+ІР-адрасы будуць заблякаваныя на 1 тыдзень для незарэгістраваных удзельнікаў з забаронай стварэньня новых рахункаў.',
 	'checkuser-blocktag' => 'Замяніць старонкі ўдзельнікаў на:',
-	'checkuser-blocktag-talk' => 'Замяніць старонкі гутарак ўдзельнікаў на:',
+	'checkuser-blocktag-talk' => 'Замяніць старонкі гутарак удзельнікаў на:',
+	'checkuser-massblock-commit' => 'Заблякаваць выбраныя рахункі ўдзельнікаў',
+	'checkuser-block-success' => "'''Цяпер $2 {{PLURAL:$2|рахунак удзельніка|рахункі удзельнікаў|рахункаў удзельнікаў}} $1 {{PLURAL:$2|заблякаваны|заблякаваныя|заблякаваныя}}.'''",
+	'checkuser-block-failure' => "'''Няма заблякаваных рахункаў удзельнікаў.'''",
+	'checkuser-block-limit' => 'Выбрана зашмат рахункаў удзельнікаў.',
+	'checkuser-block-noreason' => 'Вам неабходна пазначыць прычыну блякаваньня.',
+	'checkuser-accounts' => '$1 {{PLURAL:$1|новы рахунак|новыя рахункі|новых рахункаў}}',
+	'checkuser-too-many' => 'Зашмат вынікаў, калі ласка, абмяжуйце CIDR.
+Тут знаходзяцца ўжытыя ІР-адрасы (максымальна 5000, адсартаваныя па адрасе):',
+	'checkuser-user-nonexistent' => 'Пазначанага рахунку ўдзельніка не існуе.',
+	'checkuser-search-form' => 'Пошук запісаў у журнале, дзе $1 зьяўляецца $2',
 	'checkuser-search-submit' => 'Шукаць',
 	'checkuser-search-initiator' => 'ініцыятар',
+	'checkuser-search-target' => 'мэта',
+	'checkuser-ipeditcount' => '~$1 ад усіх удзельнікаў',
 	'checkuser-log-subpage' => 'Журнал',
+	'checkuser-log-return' => 'Вярнуцца да галоўнай формы праверкі ўдзельнікаў',
+	'checkuser-limited' => "'''Гэты вынік быў скарочаны, з прычыны прадукцыйнасьці сыстэмы.'''",
 	'checkuser-log-userips' => '$1 атрымаў IP-адрасы для $2',
 	'checkuser-log-ipedits' => '$1 атрымаў рэдагаваньні для $2',
 	'checkuser-log-ipusers' => '$1 атрымаў рахункі ўдзельнікаў для $2',
 	'checkuser-log-ipedits-xff' => '$1 атрымаў рэдагаваньні для XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 атрымаў рахункі ўдзельнікаў для XFF $2',
+	'checkuser-log-useredits' => '$1 атрымаў рэдагаваньні для $2',
+	'checkuser-autocreate-action' => 'быў створаны аўтаматычна',
 	'checkuser-email-action' => 'даслаць ліст удзельніку «$1»',
+	'checkuser-reset-action' => 'скасаваў пароль для ўдзельніка «$1»',
 );
 
 /** Bulgarian (Български)
@@ -762,6 +789,7 @@ $messages['bs'] = array(
 Korisnici i izmjene nekog IP klijenta mogu biti nađene preko XFF zaglavlja uz primjenu oznake "/xff" pored IP-a. Podržani su i IPv4 (CIDR 16-32) i IPv6 (CIDR 64-128).
 Zbog boljih performansi, neće biti prikazano više od 5000 izmjena.
 Koristite ovo u skladu s pravilima.',
+	'checkuser-desc' => 'Omogućuje korisnicima sa adekvatnim dopuštenjima sposobnost da provjeravaju korisničke IP adrese i druge podatke',
 	'checkuser-logcase' => 'Pretraga zapisa razlikuje velika i mala slova.',
 	'checkuser' => 'Provjera korisnika',
 	'group-checkuser' => 'Provjera korisnika',
@@ -797,6 +825,8 @@ Zadnja izmjena je bila dana $1 u $2.',
 	'checkuser-wasblocked' => 'Ranije blokiran',
 	'checkuser-localonly' => 'Nije spojeno',
 	'checkuser-massblock' => 'Blokiraj odabrane korisnike',
+	'checkuser-massblock-text' => 'Odabrani računi će biti neograničeno blokirani, sa omogućenom automatskom blokadom i onemogućenim pravljenjem računa.
+IP adrese će biti blokirane u periodu od jedne sedmice samo za IP korisnike i sa onemogućenim pravljenjem računa.',
 	'checkuser-blocktag' => 'Mijenja korisničku stranicu sa:',
 	'checkuser-blocktag-talk' => 'Mijenja sadržaj stranice za razgovor sa:',
 	'checkuser-massblock-commit' => 'Blokiraj odabrane korisnike',
@@ -815,10 +845,12 @@ Ovdje su prikazane korištene IP adrese (najviše 5000, poredano po adresi):',
 	'checkuser-ipeditcount' => '~$1 od svih korisnika',
 	'checkuser-log-subpage' => 'Zapisnik',
 	'checkuser-log-return' => 'Povratak na glavni obrazac provjere korisnika',
+	'checkuser-limited' => "'''Ovi rezultati su skraćeni iz razloga bolje performanse.'''",
 	'checkuser-log-userips' => 'Korisnik $1 je našao IP adrese za $2',
 	'checkuser-log-ipedits' => 'Korisnik $1 je našao izmjene za $2',
 	'checkuser-log-ipusers' => '$1 je našao korisnike na $2',
 	'checkuser-log-ipedits-xff' => '$1 je našao izmjene za XFF $2',
+	'checkuser-log-ipusers-xff' => 'Korisnik $1 je našao korisnike za XFF $2',
 	'checkuser-log-useredits' => '$1 nađene izmjene za $2',
 	'checkuser-autocreate-action' => 'je automatski napravljen',
 	'checkuser-email-action' => 'slanje e-mail korisniku "$1"',
@@ -1053,12 +1085,11 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
  * @author Pill
  * @author Purodha
  * @author Raimond Spekking
+ * @author Umherirrender
  */
 $messages['de'] = array(
-	'checkuser-summary' => 'Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers
-	bzw. die Bearbeitungen/Benutzernamen für eine IP-Adresse zu ermitteln. Benutzer und Bearbeitungen einer IP-Adresse können auch nach Informationen aus den XFF-Headern
-	abgefragt werden, indem der IP-Adresse ein „/xff“ angehängt wird. IPv4 (CIDR 16-32) und IPv6 (CIDR 64-128) werden unterstützt.
-	Aus Performance-Gründen werden maximal 5000 Bearbeitungen ausgegeben. Benutze CheckUser ausschließlich in Übereinstimmung mit den Datenschutzrichtlinien.',
+	'checkuser-summary' => 'Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers bzw. die Bearbeitungen/Benutzernamen für eine IP-Adresse zu ermitteln. Benutzer und Bearbeitungen einer IP-Adresse können auch nach Informationen aus den XFF-Headern abgefragt werden, indem der IP-Adresse ein „/xff“ angehängt wird. IPv4 (CIDR 16-32) und IPv6 (CIDR 64-128) werden unterstützt.
+Aus Performance-Gründen werden maximal 5000 Bearbeitungen ausgegeben. Benutze CheckUser ausschließlich in Übereinstimmung mit den Datenschutzrichtlinien.',
 	'checkuser-desc' => 'Erlaubt Benutzern mit den entsprechenden Rechten die IP-Adressen sowie weitere Informationen von Benutzern zu prüfen',
 	'checkuser-logcase' => 'Die Suche im Logbuch unterscheidet zwischen Groß- und Kleinschreibung.',
 	'checkuser' => 'Checkuser',
@@ -1129,6 +1160,10 @@ IP-Adressen werden für eine Woche gesperrt (nur für anonyme Benutzer, die Anla
  * @author Michawiki
  */
 $messages['dsb'] = array(
+	'checkuser-summary' => 'Toś ten rěd skanujo aktualne změny, aby wótwołał IP-adresy wužywarja abo pokazał změny/wužywarske daty za IP-adresu.
+Wužywarje a změny IP-adresy daju se pśez głowowe smužki XFF wótwołaś, z tym až "/xff" pśidawa se IP-adresy. IPv4 (CIDR 16-32) a IPv6 (CIDR 64-128) se pódpěratej.
+Z pśicynow wugbałosći wróśijo se nic wěcej ako 5000 změnow. Wužyj CheckUser pó zasadach priwatnosći.',
+	'checkuser-desc' => 'Dajo wužywarjam z wótpowědnym pšawom móžnosć IP-adrese a druge informacije wužywarja kontrolowaś',
 	'checkuser-logcase' => 'Pytanje w protokolu rozeznawaju mjazy wjeliko- a małopisanjom.',
 	'checkuser' => 'Kontrola wužywarjow',
 	'group-checkuser' => 'Kontrolery wužywarjow',
@@ -1164,6 +1199,8 @@ Slědna změna jo $1 $2 była.',
 	'checkuser-wasblocked' => 'Do togo blokěrowany',
 	'checkuser-localonly' => 'Njezjadnośone',
 	'checkuser-massblock' => 'Wubranych wužywarjow blokěrowaś',
+	'checkuser-massblock-text' => 'Wubrane konta blokěruju se na njewěsty cas - awtomatiske blokěrowanje jo aktiwne a załoženje kontow jo znjemóžnjone.
+IP-adrese budu se jano za IP-wužywarjow na 1 tyźeń blokěrowaś - załoženje kontow jo znjemóžnjone.',
 	'checkuser-blocktag' => 'Wužywarske boki narownaś pśez:',
 	'checkuser-blocktag-talk' => 'Diskusijne boki narownaś pśez:',
 	'checkuser-massblock-commit' => 'Wubranych wužywarjow blokěrowaś',
@@ -1172,6 +1209,7 @@ Slědna změna jo $1 $2 była.',
 	'checkuser-block-limit' => 'Pśewjele wužywarjow wubrane.',
 	'checkuser-block-noreason' => 'Musyš pśicynu za blokěrowanja pódaś.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nowe konto|nowej konśe|nowe konta|nowych kontow}}',
+	'checkuser-too-many' => 'Pśewjele wuslědkow, pšosym wobgranicuj IP-wobcerk. How su wužywane IP-adrese (maks. 5000, pséwuběrane pó adresu):',
 	'checkuser-user-nonexistent' => 'Pódany wužywaŕ njeeksistěrujo.',
 	'checkuser-search-form' => 'Protokolowe zapiski namakaś, źož $1 jo $2',
 	'checkuser-search-submit' => 'Pytaś',
@@ -1246,6 +1284,7 @@ $messages['el'] = array(
 );
 
 /** Esperanto (Esperanto)
+ * @author Michawiki
  * @author Yekrats
  */
 $messages['eo'] = array(
@@ -1287,6 +1326,7 @@ Uzu ĉi tion laŭ regularo.',
 	'checkuser-gblocked' => 'Forbarita globale',
 	'checkuser-locked' => 'Ŝlosita',
 	'checkuser-wasblocked' => 'Antaŭe forbarita',
+	'checkuser-localonly' => 'Nekunigita',
 	'checkuser-massblock' => 'Forbari selektitajn uzantojn',
 	'checkuser-massblock-text' => 'Selektitaj kontoj estos forbaritaj senlime, kun aŭtomata forbaro ŝaltita kaj kont-kreado malŝaltita.
 IP-adresoj estos forbarita 1 semajnon por IP-uzantoj kun kont-kreado malpermesita.',
@@ -1523,16 +1563,21 @@ $messages['fi'] = array(
 	'checkuser-all' => 'kaikki',
 	'checkuser-empty' => 'Ei lokitapahtumia.',
 	'checkuser-nomatch' => 'Hakuehtoihin sopivia tuloksia ei löytynyt.',
+	'checkuser-nomatch-edits' => 'Osumia ei löytynyt.
+Viimeinen muokkaus on tehty $1 kello $2.',
 	'checkuser-check' => 'Tarkasta',
 	'checkuser-log-fail' => 'Lokitapahtuman lisäys epäonnistui',
 	'checkuser-nolog' => 'Lokitiedostoa ei löytynyt.',
 	'checkuser-blocked' => 'Estetty',
 	'checkuser-gblocked' => 'Estetty globaalisti',
+	'checkuser-locked' => 'Lukittu',
 	'checkuser-wasblocked' => 'Aiemmin estetyt',
+	'checkuser-localonly' => 'Ei yhdistettynä',
 	'checkuser-massblock' => 'Estä valitut käyttäjät',
 	'checkuser-massblock-text' => 'Valitut tunnukset estetään toistaiseksi ("autoblocking", "tunnusten luonti estetty").
 Vain rekisteröimättömien käyttäjien IP-osoitteet estetään yhdeksi viikoksi (myös tunnusten luonti estetty).',
 	'checkuser-blocktag' => 'Korvaa käyttäjäsivut sisällöllä:',
+	'checkuser-blocktag-talk' => 'Korvaa keskustelusivut sisällöllä:',
 	'checkuser-massblock-commit' => 'Estä valitut käyttäjät',
 	'checkuser-block-success' => "'''{{PLURAL:$2|Käyttäjä|Käyttäjät}} $1 {{PLURAL:$2|on|ovat}} nyt estetty.'''",
 	'checkuser-block-failure' => "'''Yhtään käyttäjää ei estetty.'''",
@@ -1548,6 +1593,7 @@ Vain rekisteröimättömien käyttäjien IP-osoitteet estetään yhdeksi viikoks
 	'checkuser-ipeditcount' => 'noin $1 muokkausta kaikilta käyttäjiltä',
 	'checkuser-log-subpage' => 'Loki',
 	'checkuser-log-return' => 'Palaa osoitepaljastimen päälomakkeeseen',
+	'checkuser-limited' => "'''Nämä tulokset on lyhennetty suorituskykysyistä.'''",
 	'checkuser-log-userips' => '$1 haki käyttäjän $2 IP-osoitteet',
 	'checkuser-log-ipedits' => '$1 haki käyttäjän $2 muokkaukset',
 	'checkuser-log-ipusers' => '$1 haki osoitteen $2 käyttämät tunnukset',
@@ -2876,16 +2922,18 @@ $messages['km'] = array(
 	'checkuser-wasblocked' => 'ត្រូវបានរាំងខ្ទប់មុននេះ',
 	'checkuser-massblock' => 'រាំងខ្ទប់អ្នកប្រើប្រាស់ដែលត្រូវបានជ្រើសរើស',
 	'checkuser-blocktag' => 'ជំនួសទំព័រអ្នកប្រើប្រាស់ដោយ៖',
+	'checkuser-blocktag-talk' => 'ជំនួស​ទំព័រពិភាក្សា​ជាមួយ​៖',
 	'checkuser-massblock-commit' => 'រាំងខ្ទប់អ្នកប្រើប្រាស់ដែលត្រូវបានជ្រើសរើស',
 	'checkuser-block-success' => "'''{{PLURAL:$2|អ្នកប្រើប្រាស់|អ្នកប្រើប្រាស់}} $1 {{PLURAL:$2|ត្រូវ|ត្រូវ}}បានរាំងខ្ទប់ហើយ។'''",
 	'checkuser-block-failure' => "'''គ្មានអ្នកប្រើប្រាស់ណាម្នាក់ត្រូវបានរាំងខ្ទប់ទេ។'''",
 	'checkuser-block-limit' => 'មានអ្នកប្រើប្រាស់ច្រើនពេកហើយត្រូវបានជ្រើសរើស។',
 	'checkuser-block-noreason' => 'អ្នកត្រូវតែផ្ដល់មូលហេតុសម្រាប់ការរាំងខ្ទប់។',
-	'checkuser-accounts' => '$1គណនីថ្មី',
+	'checkuser-accounts' => '{{PLURAL:$1|account|គណនី}} $1 ថ្មី',
 	'checkuser-too-many' => 'ច្រើនលទ្ធផល​ពេក, សូមបង្រួម CIDR ។ នេះគឺ IP បានប្រើប្រាស់ (អតិបរមា ៥០០០, រៀបតាម​អាសយដ្ឋាន)​៖',
 	'checkuser-user-nonexistent' => 'មិនមានអ្នកប្រើប្រាស់ដូចដែលបានបញ្ជាក់ទេ។',
 	'checkuser-search-form' => 'ស្វែងរកការបញ្ចូលកំណត់ហេតុដែល $1 គឺជា $2',
 	'checkuser-search-submit' => 'ស្វែងរក',
+	'checkuser-search-initiator' => 'អ្នកផ្ដួចផ្ដើម',
 	'checkuser-search-target' => 'គោលដៅ',
 	'checkuser-ipeditcount' => '~$1 ពីគ្រប់អ្នកប្រើប្រាស់ទាំងអស់',
 	'checkuser-log-subpage' => 'កំណត់ហេតុ',
@@ -2991,7 +3039,7 @@ $messages['krj'] = array(
  * @author Purodha
  */
 $messages['ksh'] = array(
-	'checkuser-summary' => 'Met däm Werkzeush he kam_mer de IP Addresse fun Metmaacher fenge, di en de [[Special:RecentChanges|{{int:Recentchanges}}]] shtonn, un mer kann de Metmaacher-Date un Änderonge fenge för en IP-Adress.
+	'checkuser-summary' => 'Met däm Werkzeush he kam_mer de IP Addresse fun Metmaacher fenge, di en de {{int:Recentchanges}} shtonn, un mer kann de Metmaacher-Date un Änderonge fenge för en IP-Adress.
 
 Metmaacher un ier Änderong för an IP-Address wäde övver <i lang="en">XFF-header</i> jezeich, wam_mer aan di IP-Address en „<code>/xff</code>“ aanhängk. Wobei wäde IPv4 (CIDR 16-32) un IPv6 (CIDR 64-128) ongershtöz. Leßte jon beß 5000 Änderonge, öm der ßööver nit zo doll ze beschäfteje.
 
@@ -3722,7 +3770,7 @@ $messages['oc'] = array(
 	'checkuser-empty' => "Lo jornal conten pas cap d'article",
 	'checkuser-nomatch' => 'Recèrcas infructuosas.',
 	'checkuser-nomatch-edits' => "Cap d'ocurréncia pas trobada.
-La darrièra modificacion èra lo $1 a §2.",
+La darrièra modificacion èra lo $1 a $2.",
 	'checkuser-check' => 'Recèrca',
 	'checkuser-log-fail' => "Incapaç d'ajustar la dintrada del jornal.",
 	'checkuser-nolog' => 'Cap de dintrada dins lo Jornal.',
