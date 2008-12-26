@@ -186,6 +186,13 @@ $messages['af'] = array(
 	'checkuser-log-subpage' => 'Logboek',
 );
 
+/** Amharic (አማርኛ)
+ * @author Codex Sinaiticus
+ */
+$messages['am'] = array(
+	'checkuser-all' => 'ሁሉ',
+);
+
 /** Aragonese (Aragonés)
  * @author Juanpabl
  */
@@ -1396,6 +1403,7 @@ No se muestran más de 5000 ediciones por motivos de rendimiento. Usa esta herra
 	'checkuser-search' => 'Buscar',
 	'checkuser-period' => 'Duración:',
 	'checkuser-week-1' => 'la semana pasada',
+	'checkuser-all' => 'todos',
 	'checkuser-empty' => 'No hay elementos en el registro.',
 	'checkuser-nomatch' => 'No hay elementos en el registro con esas condiciones.',
 	'checkuser-check' => 'Examinar',
@@ -1405,6 +1413,7 @@ No se muestran más de 5000 ediciones por motivos de rendimiento. Usa esta herra
 	'checkuser-gblocked' => 'Bloqueado globalmente',
 	'checkuser-locked' => 'Cerrado con llave',
 	'checkuser-wasblocked' => 'Bloqueado anteriormente',
+	'checkuser-localonly' => 'No unificado',
 	'checkuser-massblock' => 'Bloquear usuarios seleccionados',
 	'checkuser-blocktag' => 'Reemplazar páginas del usuario con:',
 	'checkuser-massblock-commit' => 'Bloquear usuarios seleccionados',
@@ -5350,6 +5359,7 @@ $messages['zh-hans'] = array(
 
 /** Traditional Chinese (‪中文(繁體)‬)
  * @author Alexsh
+ * @author Wrightbus
  */
 $messages['zh-hant'] = array(
 	'checkuser-summary' => '本工具會從{{int:recentchanges}}中查詢使用者使用過的IP位址，或是一個IP位址發送出來的任何編輯記錄。本工具支援IPv4及IPv6的位址。由於技術上的限制，本工具只能查詢最近5000筆的記錄。請確定您的行為符合守則。',
@@ -5375,6 +5385,7 @@ $messages['zh-hant'] = array(
 	'checkuser-log-fail' => '無法更新記錄。',
 	'checkuser-nolog' => '找不到記錄檔',
 	'checkuser-blocked' => '已經查封',
+	'checkuser-locked' => '已鎖定',
 	'checkuser-too-many' => '太多結果，請收窄CIDR。
 這是使用過嘅IP (最多5000個，按地址排列):',
 	'checkuser-user-nonexistent' => '指定的使用者不存在。',
@@ -5390,5 +5401,8 @@ $messages['zh-hant'] = array(
 	'checkuser-log-ipusers' => '$1取得$2的用戶訊息',
 	'checkuser-log-ipedits-xff' => '$1取得 XFF $2的編輯記錄',
 	'checkuser-log-ipusers-xff' => '$1取得 XFF $2的用戶訊息',
+	'checkuser-autocreate-action' => '經已自動建立',
+	'checkuser-email-action' => '向使用者「$1」發送電郵',
+	'checkuser-reset-action' => '為使用者「$1」重設密碼',
 );
 
