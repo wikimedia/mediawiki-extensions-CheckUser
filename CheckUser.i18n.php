@@ -190,6 +190,7 @@ $messages['af'] = array(
  * @author Codex Sinaiticus
  */
 $messages['am'] = array(
+	'checkuser-reason' => 'ምክንያት:',
 	'checkuser-all' => 'ሁሉ',
 );
 
@@ -1268,12 +1269,19 @@ $messages['el'] = array(
 	'checkuser-edits' => 'Λήψη επεξεργασιών από IP',
 	'checkuser-ips' => 'Λήψη των IP',
 	'checkuser-search' => 'Αναζήτηση',
+	'checkuser-period' => 'Διάρκεια:',
+	'checkuser-week-1' => 'τελευταία εβδομάδα',
+	'checkuser-week-2' => 'τις τελευταίες δύο εβδομάδες',
+	'checkuser-month' => 'τις τελευταίες 30 ημέρες',
+	'checkuser-all' => 'όλα',
 	'checkuser-empty' => 'Το αρχείο καταγραφής δεν περιέχει κανένα αντικείμενο.',
 	'checkuser-nomatch' => 'Δεν βρέθηκαν σχετικές σελίδες.',
 	'checkuser-check' => 'Έλεγχος',
 	'checkuser-log-fail' => 'Δεν είναι δυνατή η προσθήκη εγγραφής στο αρχείο καταγραφών',
 	'checkuser-nolog' => 'Δεν βρέθηκε κανένα αρχείο καταγραφής.',
 	'checkuser-blocked' => 'Φραγμένος',
+	'checkuser-locked' => 'Κλειδωμένο',
+	'checkuser-blocktag' => 'Αντικατάσταση των σελίδων των χρηστών με:',
 	'checkuser-too-many' => 'Πάρα πολλά αποτελέσματα, παρακαλούμε στενέψτε το CIDR. Παρακάτω είναι οι διευθύνσεις IP που χρησιμοποιούνται (με ανώτατο όριο τις 5000, ταξινομημένες κατά διεύθυνση):',
 	'checkuser-user-nonexistent' => 'Ο συγκεκριμένος χρήστης δεν υπάρχει.',
 	'checkuser-search-form' => 'Εύρεση εγγραφών του αρχείου καταγραφής στις οποίες ο $1 είναι $2',
@@ -1303,8 +1311,8 @@ Uzu ĉi tion laŭ regularo.',
 	'checkuser-desc' => 'Rajtigas al uzantoj kun la taŭga permeso la kapableco kontroli la IP-adreson de uzanto kaj alia informo',
 	'checkuser-logcase' => 'La protokola serĉo estas usklecodistinga.',
 	'checkuser' => 'Kontrolanto de uzantoj',
-	'group-checkuser' => 'Kontroli uzantojn',
-	'group-checkuser-member' => 'Kontrolanto de uzantoj',
+	'group-checkuser' => 'Kontrolaj uzantoj',
+	'group-checkuser-member' => 'Kontrola uzanto',
 	'right-checkuser' => 'Kontroli la IP-adreson kaj alian informon de uzanto',
 	'right-checkuser-log' => 'Vidi la protokolon pri kontrolado de uzantoj',
 	'grouppage-checkuser' => '{{ns:project}}:Kontroli uzanton',
@@ -1439,10 +1447,32 @@ No se muestran más de 5000 ediciones por motivos de rendimiento. Usa esta herra
 );
 
 /** Estonian (Eesti)
+ * @author Avjoska
  * @author WikedKentaur
  */
 $messages['et'] = array(
+	'checkuser-search' => 'Otsi',
+	'checkuser-period' => 'Ajavahemik:',
+	'checkuser-week-1' => 'viimane nädal',
+	'checkuser-week-2' => 'viimased kaks nädalat',
+	'checkuser-month' => 'viimased 30 päeva',
+	'checkuser-all' => 'kõik',
+	'checkuser-nolog' => 'Logifaili ei leitud.',
 	'checkuser-blocked' => 'Blokeeritud',
+	'checkuser-gblocked' => 'Globaalselt blokeeritud',
+	'checkuser-locked' => 'Lukustatud',
+	'checkuser-wasblocked' => 'Eelnevalt blokeeritud',
+	'checkuser-blocktag' => 'Asenda kasutajalehed:',
+	'checkuser-blocktag-talk' => 'Asenda arutelulehed:',
+	'checkuser-massblock-commit' => 'Blokeeri valitud kasutajad',
+	'checkuser-block-failure' => "'''Ühtegi kasutajat ei blokeeritud.'''",
+	'checkuser-block-limit' => 'Liiga palju kasutajaid valitud.',
+	'checkuser-block-noreason' => 'Blokeeringule peab andma põhjenduse.',
+	'checkuser-search-submit' => 'Otsi',
+	'checkuser-search-initiator' => 'initsiaator',
+	'checkuser-search-target' => 'sihtmärk',
+	'checkuser-autocreate-action' => 'alustati automaatselt',
+	'checkuser-email-action' => 'e-kiri kasutajale "$1" saadetud',
 );
 
 /** Basque (Euskara) */
