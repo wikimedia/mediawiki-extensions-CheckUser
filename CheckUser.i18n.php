@@ -191,7 +191,9 @@ $messages['af'] = array(
  */
 $messages['am'] = array(
 	'checkuser-reason' => 'ምክንያት:',
+	'checkuser-search' => 'ፍለጋ',
 	'checkuser-all' => 'ሁሉ',
+	'checkuser-search-submit' => 'ፍለጋ',
 );
 
 /** Aragonese (Aragonés)
@@ -2827,6 +2829,7 @@ Ing ngisor iki kapacak alamat-alamat IP sing dienggo (maks. 5.000, diurutaké ad
  */
 $messages['ka'] = array(
 	'checkuser-reason' => 'მიზეზი:',
+	'checkuser-search' => 'ძიება',
 	'checkuser-all' => 'ყველა',
 	'checkuser-log-subpage' => 'ჟურნალი',
 );
@@ -3614,9 +3617,14 @@ Lest Ännern weer an’n $1 üm $2.',
 	'checkuser-locked' => 'slaten',
 	'checkuser-wasblocked' => 'ehrder al sperrt',
 	'checkuser-localonly' => 'Nich tohoopföhrt',
+	'checkuser-massblock' => 'Utwählt Brukers sperren',
+	'checkuser-blocktag' => 'Brukersieden utwesseln gegen:',
+	'checkuser-blocktag-talk' => 'Diskuschoonssieden utwesseln gegen:',
 	'checkuser-massblock-commit' => 'Sperr de utwählten Brukers',
 	'checkuser-block-success' => "'''De {{PLURAL:$2|Bruker|Brukers}} $1 {{PLURAL:$2|is|sünd}} nu sperrt.'''",
 	'checkuser-block-failure' => "'''Kene Brukers sperrt.'''",
+	'checkuser-block-limit' => 'Toveel Brukers utwählt.',
+	'checkuser-block-noreason' => 'Du musst en Grund för de Sperr angeven.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nee Brukerkonto|ne’e Brukerkonten}}',
 	'checkuser-too-many' => 'To veel funnen, grenz de IP-Reeg wieder in. Dit sünd de bruukten IP-Adressen (maximal 5000, sorteert na Adress):',
 	'checkuser-user-nonexistent' => 'Den angevene Bruker gifft dat nich.',
@@ -3627,6 +3635,7 @@ Lest Ännern weer an’n $1 üm $2.',
 	'checkuser-ipeditcount' => '~$1 vun all Brukers',
 	'checkuser-log-subpage' => 'Logbook',
 	'checkuser-log-return' => 'Trüch na dat CheckUser-Hööftformular',
+	'checkuser-limited' => "'''De List mit Resultaten is to lang wesen un körter maakt worrn.'''",
 	'checkuser-log-userips' => '$1 hett IP-Adressen för $2 rutsöcht',
 	'checkuser-log-ipedits' => '$1 hett Ännern vun $2 rutsöcht',
 	'checkuser-log-ipusers' => '$1 hett Brukers för $2 rutsöcht',
@@ -4160,6 +4169,7 @@ A última edição foi em $1 às $2.',
 	'checkuser-gblocked' => 'Bloqueado globalmente',
 	'checkuser-locked' => 'Bloqueado',
 	'checkuser-wasblocked' => 'Previamente bloqueado',
+	'checkuser-localonly' => 'Não unificada',
 	'checkuser-massblock' => 'Bloquear utilizadores seleccionados',
 	'checkuser-massblock-text' => 'As contas selecionadas serão bloqueadas indefinidamente, com bloqueio automático ativado e criação de conta desabilitada.
 Endereços IP serão bloqueados por 1 semana com criação de conta desabilitada.',
