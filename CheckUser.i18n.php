@@ -1961,6 +1961,7 @@ $messages['got'] = array(
  * @author SPQRobin
  */
 $messages['grc'] = array(
+	'grouppage-checkuser' => '{{ns:project}}:Ἔλεγχος χρωμένου',
 	'checkuser-reason' => 'Αἰτία:',
 	'checkuser-search' => 'Ζητεῖν',
 	'checkuser-period' => 'Διάρκεια:',
@@ -5035,6 +5036,13 @@ $messages['tet'] = array(
 	'checkuser-search-submit' => 'Buka',
 );
 
+/** Tajik (Тоҷикӣ)
+ * @author Ibrahim
+ */
+$messages['tg'] = array(
+	'right-checkuser-log' => 'Мушоҳидаи гузоришҳои бозрасии корбарӣ',
+);
+
 /** Tajik (Cyrillic) (Тоҷикӣ (Cyrillic))
  * @author Ibrahim
  */
@@ -5049,7 +5057,7 @@ $messages['tg-cyrl'] = array(
 	'group-checkuser-member' => 'Бозрасии корбар',
 	'right-checkuser' => 'Барраси кардани нишонаи IP ва дигар иттилооти корбар',
 	'grouppage-checkuser' => '{{ns:project}}:Бозрасии корбар',
-	'checkuser-reason' => 'Далел',
+	'checkuser-reason' => 'Сабаб:',
 	'checkuser-showlog' => 'Намоиши гузориш',
 	'checkuser-log' => 'БозрасиКорбар гузориш',
 	'checkuser-query' => 'Ҷустуҷӯи тағйироти охир',
@@ -5058,12 +5066,26 @@ $messages['tg-cyrl'] = array(
 	'checkuser-edits' => 'Намоиши вироишҳои марбут ба ин нишонаи IP',
 	'checkuser-ips' => 'Феҳрист кардани нишонаҳои IP',
 	'checkuser-search' => 'Ҷустуҷӯ',
+	'checkuser-period' => 'Тӯл:',
+	'checkuser-week-1' => 'ҳафта гузашта',
+	'checkuser-week-2' => 'ду ҳафтаи гузашта',
+	'checkuser-month' => '30 рӯзи гузашта',
+	'checkuser-all' => 'ҳама',
 	'checkuser-empty' => 'Гузориш холӣ аст.',
 	'checkuser-nomatch' => 'Мавриде ки мутобиқат дошта бошад пайдо нашуд',
+	'checkuser-nomatch-edits' => 'Ҳеҷ мутобиқате ёфт нашуд.
+Охирин вироиш дар $1 соати $2 буд.',
 	'checkuser-check' => 'Барраси',
 	'checkuser-log-fail' => 'Имкони афзудани иттилоот ба гузориш вуҷуд надорад',
 	'checkuser-nolog' => 'Парвандаи гузориш пайдо нашуд.',
 	'checkuser-blocked' => 'Дастрасӣ қатъ шуд',
+	'checkuser-gblocked' => 'Басташуда сартосарӣ',
+	'checkuser-wasblocked' => 'Қаблан баста шуда',
+	'checkuser-localonly' => 'Якка нашуда',
+	'checkuser-massblock' => 'Корбарони интихобшуда баста шаванд',
+	'checkuser-blocktag' => 'Ҷойгузин кардани саҳифаҳои корбарон бо:',
+	'checkuser-blocktag-talk' => 'Ҷойгузин кардани саҳифаҳои баҳс бо:',
+	'checkuser-block-limit' => 'Теъдоди беш аз шумораи корбарон интихоб шудаанд.',
 	'checkuser-too-many' => 'Теъдоди натоиҷ бисёр зиёд аст. Лутфан CIDRро бориктар кунед. Дар зер нишонаҳои IP-ро мебинед (5000 ҳадди аксар, аз рбатартиби нинона):',
 	'checkuser-user-nonexistent' => 'Корбари мавриди назар вуҷуд надорад.',
 	'checkuser-search-form' => 'Пайдо кардани маворид дар гузоришҳо, ки $1 дар он $2 аст',
@@ -5077,6 +5099,8 @@ $messages['tg-cyrl'] = array(
 	'checkuser-log-ipusers' => '$1 корбарони марбут ба $2ро гирифт',
 	'checkuser-log-ipedits-xff' => '$1 вироишҳои XFF $2ро гирифт',
 	'checkuser-log-ipusers-xff' => '$1 корбарони марбут ба XFF $2ро гирифт',
+	'checkuser-autocreate-action' => 'ба таври худкор эҷод шуда буд',
+	'checkuser-email-action' => 'почтаи электронӣ ба корбар "$1" фиристода шуд',
 );
 
 /** Thai (ไทย)
@@ -5539,7 +5563,9 @@ $messages['yue'] = array(
 	'checkuser-log-ipusers-xff' => '$1 拎到 XFF $2 嘅用戶',
 );
 
-/** Simplified Chinese (‪中文(简体)‬) */
+/** Simplified Chinese (‪中文(简体)‬)
+ * @author Gzdavidwong
+ */
 $messages['zh-hans'] = array(
 	'checkuser-summary' => '本工具会从{{int:recentchanges}}中查询使用者使用过的IP位址，或是一个IP位址发送出来的任何编辑记录。本工具支持IPv4及IPv6的位址。由于技术上的限制，本工具只能查询最近5000笔的记录。请确定你的行为符合守则。',
 	'checkuser-desc' => '让授权的用户检查用户的IP位址及其他资讯',
@@ -5564,6 +5590,7 @@ $messages['zh-hans'] = array(
 	'checkuser-log-fail' => '无法更新日志。',
 	'checkuser-nolog' => '找不到记录档',
 	'checkuser-blocked' => '已经查封',
+	'checkuser-locked' => '已锁定',
 	'checkuser-too-many' => '太多结果，请收窄CIDR。
 这是使用过?IP (最多5000个，按地址排列):',
 	'checkuser-user-nonexistent' => '指定的使用者不存在。',
@@ -5579,6 +5606,9 @@ $messages['zh-hans'] = array(
 	'checkuser-log-ipusers' => '$1取得$2的用户信息',
 	'checkuser-log-ipedits-xff' => '$1取得 XFF $2的编辑记录',
 	'checkuser-log-ipusers-xff' => '$1取得 XFF $2的用户信息',
+	'checkuser-autocreate-action' => '已经自动建立',
+	'checkuser-email-action' => '向用户“$1”发送电邮',
+	'checkuser-reset-action' => '为用户“$1”重新设置密码',
 );
 
 /** Traditional Chinese (‪中文(繁體)‬)
