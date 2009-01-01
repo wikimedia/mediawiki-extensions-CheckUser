@@ -295,7 +295,7 @@ class CheckUser extends SpecialPage
 		# Get ID, works better than text as user may have been renamed
 		$user_id = User::idFromName($user);
 
-		# If user is not IP or nonexistant
+		# If user is not IP or nonexistent
 		if( !$user_id ) {
 			$s = wfMsgExt('nosuchusershort',array('parseinline'),$user);
 			$wgOut->addHTML( $s );
@@ -562,7 +562,7 @@ class CheckUser extends SpecialPage
 		# Get ID, works better than text as user may have been renamed
 		$user_id = User::idFromName($user);
 
-		# If user is not IP or nonexistant
+		# If user is not IP or nonexistent
 		if( !$user_id ) {
 			$s = wfMsgExt('nosuchusershort',array('parseinline'),$user);
 			$wgOut->addHTML( $s );
