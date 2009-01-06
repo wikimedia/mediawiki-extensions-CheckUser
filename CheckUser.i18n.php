@@ -929,6 +929,7 @@ Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Reco
 	'checkuser-log-ipusers-xff' => '$1 consulta els usuaris del XFF $2',
 	'checkuser-autocreate-action' => 'fou automàticament creat',
 	'checkuser-email-action' => 'S\'ha enviat un correu electrònic a l\'usuari "$1"',
+	'checkuser-reset-action' => "reinicia la contrasenya de l'usuari «$1»",
 );
 
 /** Min Dong Chinese (Mìng-dĕ̤ng-ngṳ̄) */
@@ -2653,7 +2654,7 @@ IPv4（16から32ビットのCIDR表記）と IPv6（64から128ビットのCIDR
 	'checkuser-showlog' => 'ログを閲覧',
 	'checkuser-log' => 'チェックユーザー記録',
 	'checkuser-query' => '最近の更新を照会',
-	'checkuser-target' => '利用者名又はIPアドレス',
+	'checkuser-target' => '利用者名またはIPアドレス',
 	'checkuser-users' => '利用者名を得る',
 	'checkuser-edits' => 'IPアドレスからの編集を得る',
 	'checkuser-ips' => 'IPアドレスを得る',
@@ -5492,6 +5493,15 @@ Redakams no plu 5000 pejonons sekü kods kaenavik. Gebolös stumi at bai nomem.'
 	'checkuser-blocked' => 'Peblokon',
 	'checkuser-locked' => 'Pelökofärmükon',
 	'checkuser-wasblocked' => 'Büo päbloköl',
+	'checkuser-localonly' => 'No pebalöl',
+	'checkuser-massblock' => 'Blokön gebanis pevälöl',
+	'checkuser-blocktag' => 'Plaädön gebanapadis me:',
+	'checkuser-blocktag-talk' => 'Plaädön bespikapadis me:',
+	'checkuser-massblock-commit' => 'Blokön gebanis pevälöl',
+	'checkuser-block-success' => "'''{{PLURAL:$2|Geban|Gebans}}: $1 {{PLURAL:$2|peblokon|peblokons}}.'''",
+	'checkuser-block-failure' => "'''Gebans nonik peblokons.'''",
+	'checkuser-block-limit' => 'Gebans tumödik pevälons.',
+	'checkuser-block-noreason' => 'Mutol nunön kodi blokamas.',
 	'checkuser-accounts' => '{{PLURAL:$1|kal|kals}} nulik $1',
 	'checkuser-too-many' => 'Sukaseks te mödiks, nedol gebön eli CIDR smalikum. Is palisedons ladets-IP pegeböl (jü 5000, peleodüköls ma ladet):',
 	'checkuser-user-nonexistent' => 'Geban at no dabinon.',
@@ -5506,6 +5516,10 @@ Redakams no plu 5000 pejonons sekü kods kaenavik. Gebolös stumi at bai nomem.'
 	'checkuser-log-ipusers' => '$1 labon gebanis ela $2',
 	'checkuser-log-ipedits-xff' => '$1 labon redakamis ela XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 labon gebanis ela XFF $2',
+	'checkuser-log-useredits' => '$1 labon redakamis pro $2',
+	'checkuser-autocreate-action' => 'pejafon itjäfidiko',
+	'checkuser-email-action' => 'äsedon penedi leäktronik gebane: „$1“',
+	'checkuser-reset-action' => 'votükön letavödi gebana: „$1“',
 );
 
 /** Walloon (Walon)
