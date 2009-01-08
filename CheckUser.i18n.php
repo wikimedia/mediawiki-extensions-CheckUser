@@ -1490,14 +1490,31 @@ $messages['et'] = array(
 	'checkuser-email-action' => 'e-kiri kasutajale "$1" saadetud',
 );
 
-/** Basque (Euskara) */
+/** Basque (Euskara)
+ * @author Kobazulo
+ */
 $messages['eu'] = array(
 	'checkuser' => 'Erabiltzailea egiaztatu',
 	'group-checkuser' => 'Erabiltzaileak egiaztatu',
 	'group-checkuser-member' => 'Erabiltzailea egiaztatu',
-	'checkuser-reason' => 'Arrazoia',
+	'checkuser-reason' => 'Arrazoia:',
+	'checkuser-target' => 'Lankidea edo IPa',
+	'checkuser-users' => 'Lankideak ikusi',
+	'checkuser-edits' => 'IP baten ekarpenak ikusi',
+	'checkuser-ips' => 'IPak ikusi',
+	'checkuser-account' => 'Kontu baten ekarpenak ikusi',
 	'checkuser-search' => 'Bilatu',
+	'checkuser-period' => 'Iraupena:',
+	'checkuser-week-1' => 'azken astea',
+	'checkuser-week-2' => 'azken bi asteak',
+	'checkuser-month' => 'azken 30 egunak',
 	'checkuser-nomatch' => 'Ez da bat datorren emaitzarik aurkitu.',
+	'checkuser-blocked' => 'Blokeatua',
+	'checkuser-gblocked' => 'Proiektu guztietarako blokeatua',
+	'checkuser-locked' => 'Babestua',
+	'checkuser-wasblocked' => 'Aurretik blokeatua',
+	'checkuser-massblock' => 'Hautatutako lankideak blokeatu',
+	'checkuser-search-submit' => 'Bilatu',
 );
 
 /** Extremaduran (Estremeñu)
@@ -1972,6 +1989,78 @@ $messages['grc'] = array(
 	'checkuser-search-initiator' => 'ἐγκαινιαστής',
 	'checkuser-search-target' => 'στόχος',
 	'checkuser-log-subpage' => 'Κατάλογος',
+);
+
+/** Swiss German (Alemannisch)
+ * @author Als-Holder
+ */
+$messages['gsw'] = array(
+	'checkuser-summary' => 'Des Wärchzyyg dursuecht di letschten Änderige go d IP-Adrässe vun eme Benutzers bzw. d Bearbeitige/Benutzernäme fir e IP-Adräss usefinde. Benutzer un Bearbeitige vun ere IP-Adräss chenne au noch Informatione us dr XFF-Header abgfrogt wäre. Doderzue muess dr IP-Adräss e „/xff“ aaghänkt wäre. IPv4 (CIDR 16-32) un IPv6 (CIDR 64-128) wäre unterstitzt.
+Us Performance-Grind wäre hegschtens 5000 Bearbeitige usgee. Nimm CheckUser usschließli in Ibereinstimmig mit dr Dateschutzrichtlinie.',
+	'checkuser-desc' => 'Erlaubt Benutzer mit dr jewyylige Rächt d IP-Adrässe un wyteri Informatione vu Benutzer z priefe',
+	'checkuser-logcase' => 'D Suech im Logbuech unterscheidet zwische Groß- un Chleischreibig.',
+	'checkuser' => 'Checkuser',
+	'group-checkuser' => 'Checkuser',
+	'group-checkuser-member' => 'Checkuser-Berächtigter',
+	'right-checkuser' => 'Priefig vu IP-Adrässe un Verbindunge zwische IP un aagmäldete Benutzer',
+	'right-checkuser-log' => 'Checkuser-Logbuech aaluege',
+	'grouppage-checkuser' => '{{ns:project}}:CheckUser',
+	'checkuser-reason' => 'Grund:',
+	'checkuser-showlog' => 'Logbuech aazeige',
+	'checkuser-log' => 'Checkuser-Logbuech',
+	'checkuser-query' => 'Letchte Änderige abfroge',
+	'checkuser-target' => 'Benutzer oder IP-Adräss',
+	'checkuser-users' => 'Hol Benutzer',
+	'checkuser-edits' => 'Hol Bearbeitige vun ere IP-Adräss',
+	'checkuser-ips' => 'Hol IP-Adrässe',
+	'checkuser-account' => 'Hol Bearbeitige vum Benutzerkonto',
+	'checkuser-search' => 'Sueche',
+	'checkuser-period' => 'Zytruum:',
+	'checkuser-week-1' => 'letschti 7 Täg',
+	'checkuser-week-2' => 'letschti 14 Täg',
+	'checkuser-month' => 'letschti 30 Täg',
+	'checkuser-all' => 'alli',
+	'checkuser-empty' => 'Im Logbuech het s kei Yyträg.',
+	'checkuser-nomatch' => 'Kei Ibereinstimmige gfunde.',
+	'checkuser-nomatch-edits' => 'Kei Ibereinstimmige gfunde. Letschti Bearbeitig isch am $1 am $2 gsi.',
+	'checkuser-check' => 'Usfiere',
+	'checkuser-log-fail' => 'Logbuech-Yytrag cha nit zuegfiegt wäre.',
+	'checkuser-nolog' => 'Kei Logbuechdatei vorhande.',
+	'checkuser-blocked' => 'Gsperrt',
+	'checkuser-gblocked' => 'Wältwyt gsperrt',
+	'checkuser-locked' => 'Zue',
+	'checkuser-wasblocked' => 'Friejer gsperrt gsi',
+	'checkuser-localonly' => 'Nit zämegfiert',
+	'checkuser-massblock' => 'Sperr di usgwählte Benutzer',
+	'checkuser-massblock-text' => 'Di usgwählte Benutzerkonte wäre fir immer gsperrt (Autoblock isch aktiv un s Aalege vu neije Benutzerkonte wird unterbunde).
+IP-Adrässe wäre fir ei Wuche gsperrt (nume fir anonymi Benutzer, s Aalege vu neije Benutzerkonten wird unterbunde).',
+	'checkuser-blocktag' => 'Inhalt vu dr Benutzersyte ersetze dur:',
+	'checkuser-blocktag-talk' => 'Diskussionssyte ersetze dur:',
+	'checkuser-massblock-commit' => 'Sperr di usgwählte Benutzer',
+	'checkuser-block-success' => "'''{{PLURAL:$2|Dr Benutzer|D Benutzer}} $1 {{PLURAL:$2|isch|sin}} gsperrt wore.'''",
+	'checkuser-block-failure' => "'''S sin kei Benutzer gsperrt wore.'''",
+	'checkuser-block-limit' => 'S sin zvyl Benutzer usgwählt wore.',
+	'checkuser-block-noreason' => 'Du muesch e Grund fir d Sperri aagee.',
+	'checkuser-accounts' => '{{PLURAL:$1|1 nej Benutzerkonto|$1 neiji Benutzerkonte}}',
+	'checkuser-too-many' => 'D Ergebnislischt isch z lang, bitte grenz dr IP-Beryych wyter yy. Do sin di benutzten IP-Adrässe (maximal 5000, sortiert noch Adrässe):',
+	'checkuser-user-nonexistent' => 'S Benutzerkonto, wu Du aagee hesch, isch nit vorhande.',
+	'checkuser-search-form' => 'Suech Logbuechyyträg, wu $1 byyn ene $2 isch.',
+	'checkuser-search-submit' => 'Suech',
+	'checkuser-search-initiator' => 'CheckUser-Berächtigter',
+	'checkuser-search-target' => 'Abfrogziil (Benutzerkonto/IP)',
+	'checkuser-ipeditcount' => '~$1 vu allene Benutzer',
+	'checkuser-log-subpage' => 'Logbuech',
+	'checkuser-log-return' => 'Zruck zum CheckUser-Hauptformular',
+	'checkuser-limited' => "'''D Ergebnislischt isch us Performancegrind gchirzt wore.'''",
+	'checkuser-log-userips' => '$1 het IP-Adrässe fir $2 gholt',
+	'checkuser-log-ipedits' => '$1 het Bearbeitige fir $2 gholt',
+	'checkuser-log-ipusers' => '$1 het Benutzer fir $2 gholt',
+	'checkuser-log-ipedits-xff' => '$1 het Bearbeitige fir XFF $2 gholt',
+	'checkuser-log-ipusers-xff' => '$1 het Benutzer fir XFF $2 gholt',
+	'checkuser-log-useredits' => '$1 het Bearbeitige fir $2 gholt',
+	'checkuser-autocreate-action' => 'isch automatisch aagleit wore',
+	'checkuser-email-action' => 'het e E-Mail an „$1“ gschickt',
+	'checkuser-reset-action' => 'Aaforderig vun eme neije Passwort fir „Benutzer:$1“',
 );
 
 /** Gujarati (ગુજરાતી)
@@ -2833,6 +2922,7 @@ $messages['ka'] = array(
 	'checkuser-reason' => 'მიზეზი:',
 	'checkuser-search' => 'ძიება',
 	'checkuser-all' => 'ყველა',
+	'checkuser-search-submit' => 'ძიება',
 	'checkuser-log-subpage' => 'ჟურნალი',
 );
 
