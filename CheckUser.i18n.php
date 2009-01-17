@@ -1152,7 +1152,7 @@ IP-Adressen werden für eine Woche gesperrt (nur für anonyme Benutzer, die Anla
 	'checkuser-search-submit' => 'Suche',
 	'checkuser-search-initiator' => 'CheckUser-Berechtigter',
 	'checkuser-search-target' => 'Abfrageziel (Benutzerkonto/IP)',
-	'checkuser-ipeditcount' => '~$1 von allen Benutzern',
+	'checkuser-ipeditcount' => '~ $1 von allen Benutzern',
 	'checkuser-log-subpage' => 'Logbuch',
 	'checkuser-log-return' => 'Zurück zum CheckUser-Hauptformular',
 	'checkuser-limited' => "'''Die Ergebnisliste wurde aus Performancegründen gekürzt.'''",
@@ -1868,7 +1868,7 @@ Le fáth feidhmiúcháin, ní féidir níos mó ná 5000 eagarthóireachta a tha
 	'checkuser-week-1' => 'an tseachtain seo caite',
 	'checkuser-week-2' => 'dhá sheachtain seo caite',
 	'checkuser-month' => '30 lae seo caite',
-	'checkuser-all' => 'an t-iomlán',
+	'checkuser-all' => 'iad uile',
 	'checkuser-empty' => 'Níl aon míreanna sa log.',
 	'checkuser-nomatch' => 'Ní faigheann aon comhoiriúnaigh.',
 	'checkuser-check' => 'Iarratais',
@@ -3382,6 +3382,7 @@ Hei sinn déi benotzten IP-Adressen (max 5000, sortéiert no der Adress):',
  */
 $messages['lfn'] = array(
 	'checkuser-search' => 'Xerca',
+	'checkuser-search-submit' => 'Xerca',
 );
 
 /** Limburgish (Limburgs)
@@ -4251,6 +4252,7 @@ $messages['ps'] = array(
 	'checkuser-showlog' => 'يادښت کتل',
 	'checkuser-target' => 'کارونکی يا IP پته',
 	'checkuser-search' => 'پلټل',
+	'checkuser-period' => 'موده:',
 	'checkuser-all' => 'ټول',
 	'checkuser-search-submit' => 'پلټل',
 	'checkuser-search-target' => 'موخه',
