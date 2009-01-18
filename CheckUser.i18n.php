@@ -1973,7 +1973,7 @@ Os enderezos IP serán bloqueados cun tempo de duración dunha semana só para o
 	'checkuser-reset-action' => 'envioulle un novo contrasinal ao usuario "$1"',
 );
 
-/** Gothic (𐌲𐌿𐍄𐌹𐍃𐌺) */
+/** Gothic */
 $messages['got'] = array(
 	'checkuser-reason' => 'Faírina',
 );

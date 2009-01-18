@@ -164,6 +164,11 @@ $aliases['oc'] = array(
 	'CheckUser' => array( 'Verificator d’adreça', 'VerificatorAdreça', 'VerificatorAdreca' ),
 );
 
+/** Sanskrit (संस्कृत) */
+$aliases['sa'] = array(
+	'CheckUser' => array( 'योजकपरिक्षक' ),
+);
+
 /** Swahili (Kiswahili) */
 $aliases['sw'] = array(
 	'CheckUser' => array( 'MtumiajiMwangalizi' ),
