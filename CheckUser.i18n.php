@@ -3156,6 +3156,7 @@ $messages['ko'] = array(
 	'checkuser-month' => '지난 30일',
 	'checkuser-all' => '모두',
 	'checkuser-empty' => '기록이 없습니다.',
+	'checkuser-nomatch' => '일치하는 결과가 없습니다.',
 	'checkuser-nomatch-edits' => '일치하는 결과가 없습니다.
 마지막 편집은 $1 $2에 있었습니다.',
 	'checkuser-check' => '확인',
@@ -3177,7 +3178,10 @@ IP 주소는 1주일 (IP만 막음, 계정 생성 금지됨) 차단될 것입니
 	'checkuser-block-limit' => '너무 많은 사용자를 선택하였습니다.',
 	'checkuser-block-noreason' => '차단하는 이유를 반드시 입력해야 합니다.',
 	'checkuser-accounts' => '$1개의 새 계정',
+	'checkuser-too-many' => '결과가 너무 많습니다. CIDR 범위를 좁혀 주세요.
+다음은 사용되고 있는 IP의 목록입니다 (최대 5000개, 주소별로 정렬됨):',
 	'checkuser-user-nonexistent' => '해당 사용자가 존재하지 않습니다.',
+	'checkuser-search-form' => '$1이 $2인 기록 찾기',
 	'checkuser-search-submit' => '찾기',
 	'checkuser-search-initiator' => '체크유저',
 	'checkuser-search-target' => '대상',
