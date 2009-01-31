@@ -2727,6 +2727,7 @@ Gli indirizzi IP saranno bloccati per una settimana solo per gli utenti anonimi 
  * @author Hosiryuhosi
  * @author JtFuruhata
  * @author Kahusi
+ * @author Kanjy
  * @author Marine-Blue
  * @author Muttley
  * @author Suisui
@@ -2797,7 +2798,7 @@ IPv4（16から32ビットのCIDR表記）と IPv6（64から128ビットのCIDR
 	'checkuser-log-ipusers' => '$1 は $2 からアクセスされた利用者名を取得した',
 	'checkuser-log-ipedits-xff' => '$1 は XFF $2 からなされた編集を取得した',
 	'checkuser-log-ipusers-xff' => '$1 は XFF $2 からアクセスされた利用者名を取得した',
-	'checkuser-log-useredits' => '$1 は $2 への編集があります',
+	'checkuser-log-useredits' => '$1 は $2 による編集を取得した',
 	'checkuser-autocreate-action' => '自動的に作成',
 	'checkuser-email-action' => '利用者"$1"へメールを送る',
 	'checkuser-reset-action' => '利用者"$1"のパスワードをリセット',
@@ -3220,7 +3221,7 @@ $messages['krj'] = array(
  * @author Purodha
  */
 $messages['ksh'] = array(
-	'checkuser-summary' => 'Met däm Werkzeush he kam_mer de IP Addresse fun Metmaacher fenge, di en de {{int:Recentchanges}} shtonn, un mer kann de Metmaacher-Date un Änderonge fenge för en IP-Adress.
+	'checkuser-summary' => 'Met däm Werkzüch he kam_mer de IP Addresse fun Metmaacher fenge, di en de {{int:Recentchanges}} shtonn, un mer kann de Metmaacher-Date un Änderonge fenge för en IP-Adress.
 
 Metmaacher un ier Änderong för an IP-Address wäde övver <i lang="en">XFF-header</i> jezeich, wam_mer aan di IP-Address en „<code>/xff</code>“ aanhängk. Wobei wäde IPv4 (CIDR 16-32) un IPv6 (CIDR 64-128) ongershtöz. Leßte jon beß 5000 Änderonge, öm der ßööver nit zo doll ze beschäfteje.
 
@@ -4148,7 +4149,7 @@ $messages['pam'] = array(
  * @author Sp5uhe
  */
 $messages['pl'] = array(
-	'checkuser-summary' => 'To narzędzie skanuje ostatnie zmiany by znaleźć adresy IP użyte przez użytkownika lub pokazać edycje/użytkowników dla adresu IP. Użytkownicy i edycje spod adresu IP mogą być pozyskani przez nagłówki XFF przez dodanie do IP „/xff”. Obsługiwane są adresy IPv4 (CIDR 16-32) I IPv6 (CIDR 64-128).
+	'checkuser-summary' => 'Narzędzie skanuje ostatnie zmiany, by odnaleźć adresy IP użyte przez użytkownika lub pokazać edycje i użytkowników dla adresu IP. Użytkownicy i edycje spod adresu IP mogą być pozyskani przez nagłówki XFF przez dodanie do IP „/xff”. Obsługiwane są adresy IPv4 (CIDR 16-32) I IPv6 (CIDR 64-128).
 Ze względu na wydajność, zostanie zwróconych nie więcej niż 5000 edycji.
 Używaj tej funkcji zgodnie z zasadami.',
 	'checkuser-desc' => 'Umożliwia uprawnionym użytkownikom sprawdzenie adresów IP użytkowników oraz innych informacji',
@@ -4159,7 +4160,7 @@ Używaj tej funkcji zgodnie z zasadami.',
 	'right-checkuser' => 'Sprawdzanie adresów IP oraz innych informacji o użytkownikach',
 	'right-checkuser-log' => 'Podgląd rejestru checkuser',
 	'grouppage-checkuser' => '{{ns:project}}:CheckUser',
-	'checkuser-reason' => 'Powód:',
+	'checkuser-reason' => 'Powód',
 	'checkuser-showlog' => 'Pokaż rejestr',
 	'checkuser-log' => 'Rejestr CheckUser',
 	'checkuser-query' => 'Przeanalizuj ostatnie zmiany',
@@ -4167,18 +4168,18 @@ Używaj tej funkcji zgodnie z zasadami.',
 	'checkuser-users' => 'Znajdź użytkowników',
 	'checkuser-edits' => 'Znajdź edycje z IP',
 	'checkuser-ips' => 'Znajdź adresy IP',
-	'checkuser-account' => 'Pokaż edycje z konta',
+	'checkuser-account' => 'Pokaż edycje dla konta',
 	'checkuser-search' => 'Szukaj',
-	'checkuser-period' => 'Okres:',
+	'checkuser-period' => 'Okres',
 	'checkuser-week-1' => 'ostatni tydzień',
 	'checkuser-week-2' => 'ostatnie dwa tygodnie',
 	'checkuser-month' => 'ostatnie 30 dni',
 	'checkuser-all' => 'wszystkie',
 	'checkuser-empty' => 'Rejestr nie zawiera żadnych wpisów.',
-	'checkuser-nomatch' => 'Nie znaleziono niczego.',
-	'checkuser-nomatch-edits' => 'Brak wskazań.
-Ostatnia edycja była wykonana $1 o $2.',
-	'checkuser-check' => 'Sprawdź',
+	'checkuser-nomatch' => 'Nie odnaleziono niczego.',
+	'checkuser-nomatch-edits' => 'Nie odnaleziono.
+Ostatnia edycja została wykonana $1 o $2.',
+	'checkuser-check' => 'sprawdź',
 	'checkuser-log-fail' => 'Nie udało się dodać wpisu do rejestru',
 	'checkuser-nolog' => 'Nie znaleziono pliku rejestru.',
 	'checkuser-blocked' => 'Zablokowany',
@@ -4189,8 +4190,8 @@ Ostatnia edycja była wykonana $1 o $2.',
 	'checkuser-massblock' => 'Blokowanie wybranych użytkowników',
 	'checkuser-massblock-text' => 'Wybrane konta zostaną zablokowane na zawsze (z włączoną funkcją automatycznego blokowania adresów IP, spod których łączą się te konta oraz wyłączoną funkcją zapobiegania utworzenia konta).
 Adresy IP anonimowych użytkowników będą blokowane na 1 tydzień z wyłączoną funkcją zapobiegania utworzenia konta.',
-	'checkuser-blocktag' => 'Zamień strony użytkowników z:',
-	'checkuser-blocktag-talk' => 'Zamień strony dyskusji z:',
+	'checkuser-blocktag' => 'Podmień stronę użytkowników na',
+	'checkuser-blocktag-talk' => 'Podmień strony dyskusji użytkowników na',
 	'checkuser-massblock-commit' => 'Zablokuj wybranych użytkowników',
 	'checkuser-block-success' => "'''{{PLURAL:$2|Użytkownik|Użytkownicy}} $1 {{PLURAL:$2|jest|są}} obecnie {{PLURAL:$2|zablokowany|zablokowani}}.'''",
 	'checkuser-block-failure' => "'''Brak zablokowanych użytkowników.'''",
@@ -4200,20 +4201,20 @@ Adresy IP anonimowych użytkowników będą blokowane na 1 tydzień z wyłączon
 	'checkuser-too-many' => 'Zbyt wiele wyników, ogranicz CIDR.
 Użytych adresów IP jest (nie więcej niż 5000, posortowane według adresu):',
 	'checkuser-user-nonexistent' => 'Taki użytkownik nie istnieje.',
-	'checkuser-search-form' => 'Szukaj wpisów w rejestrze, dla których $1 jest $2',
+	'checkuser-search-form' => 'Szukaj wpisów w rejestrze, dla których $1 był $2',
 	'checkuser-search-submit' => 'Szukaj',
-	'checkuser-search-initiator' => 'inicjator',
-	'checkuser-search-target' => 'cel',
+	'checkuser-search-initiator' => 'sprawdzającym',
+	'checkuser-search-target' => 'sprawdzanym',
 	'checkuser-ipeditcount' => '~$1 od wszystkich użytkowników',
 	'checkuser-log-subpage' => 'Rejestr',
 	'checkuser-log-return' => 'Powrót do głównego formularza CheckUser',
-	'checkuser-limited' => "'''Wyniki zostały skrócone ze względu na wydajność.'''",
-	'checkuser-log-userips' => '$1 dostał adresy IP dla $2',
-	'checkuser-log-ipedits' => '$1 dostał edycje dla $2',
-	'checkuser-log-ipusers' => '$1 otrzymał listę użytkowników adresu IP $2',
+	'checkuser-limited' => "'''Długość listy wyników została ograniczona ze względu na wydajność.'''",
+	'checkuser-log-userips' => '$1 otrzymał adresy IP używane przez $2',
+	'checkuser-log-ipedits' => '$1 otrzymał historię edycji dla $2',
+	'checkuser-log-ipusers' => '$1 otrzymał listę użytkowników korzystających z adresu IP $2',
 	'checkuser-log-ipedits-xff' => '$1 otrzymał listę edycji dla XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 otrzymał listę użytkowników dla XFF $2',
-	'checkuser-log-useredits' => '$1 dostał edycje dla $2',
+	'checkuser-log-useredits' => '$1 otrzymał historię edycji wykonane przez $2',
 	'checkuser-autocreate-action' => 'został automatycznie utworzony',
 	'checkuser-email-action' => 'wysłał e-mail do użytkownika „$1”',
 	'checkuser-reset-action' => 'reset hasła dla użytkownika „$1”',
@@ -4507,13 +4508,15 @@ $messages['roa-tara'] = array(
  * @author EugeneZelenko
  * @author Ferrer
  * @author Kaganer
+ * @author Lockal
  * @author Silence
  * @author Александр Сигачёв
  */
 $messages['ru'] = array(
 	'checkuser-summary' => "Данный инструмент может быть использован, чтобы получить IP-адреса, использовавшиеся участником, либо чтобы показать правки/участников, работавших с IP-адреса.
-	Правки и пользователи, которые правили с опрделеннного IP-адреса, указанного в X-Forwarded-For, можно получить, добавив префикс <code>/xff</code> к IP-адресу. Поддерживаемые версии IP: 4 (CIDR 16—32) и 6 (CIDR 64—128).
-	Из соображений производительности будут показаны только первые 5000 правок. Используйте эту страницу '''только в соответствии с правилами'''.",
+Правки и пользователи, которые правили с определённого IP-адреса, указанного в X-Forwarded-For, можно получить, добавив префикс <code>/xff</code> к IP-адресу. Поддерживаемые версии IP: 4 (CIDR 16—32) и 6 (CIDR 64—128).
+Из соображений производительности будут показаны только первые 5000 правок. 
+Используйте эту страницу '''только в соответствии с правилами'''.",
 	'checkuser-desc' => 'Предоставляет возможность проверять IP-адреса и дополнительную информацию участников',
 	'checkuser-logcase' => 'Поиск по журналу чувствителен к регистру.',
 	'checkuser' => 'Проверить участника',
