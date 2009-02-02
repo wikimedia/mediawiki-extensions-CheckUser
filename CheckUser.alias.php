@@ -50,6 +50,11 @@ $aliases['de'] = array(
 	'CheckUser' => array( 'Checkuser' ),
 );
 
+/** Lower Sorbian (Dolnoserbski) */
+$aliases['dsb'] = array(
+	'CheckUser' => array( 'Kontrolny wužywaŕ' ),
+);
+
 /** Greek (Ελληνικά) */
 $aliases['el'] = array(
 	'CheckUser' => array( 'ΈλεγχοςΧρήστη' ),
@@ -90,6 +95,11 @@ $aliases['he'] = array(
 /** Croatian (Hrvatski) */
 $aliases['hr'] = array(
 	'CheckUser' => array( 'Provjeri_suradnika' ),
+);
+
+/** Upper Sorbian (Hornjoserbsce) */
+$aliases['hsb'] = array(
+	'CheckUser' => array( 'Kontrolny wužiwar' ),
 );
 
 /** Haitian (Kreyòl ayisyen) */
