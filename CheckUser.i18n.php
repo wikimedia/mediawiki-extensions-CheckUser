@@ -928,7 +928,7 @@ Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Reco
 	'checkuser-log-ipedits-xff' => '$1 consulta les edicions del XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 consulta els usuaris del XFF $2',
 	'checkuser-autocreate-action' => 'fou automàticament creat',
-	'checkuser-email-action' => 'S\'ha enviat un correu electrònic a l\'usuari "$1"',
+	'checkuser-email-action' => "S'ha enviat un missatge de correu electrònic a {{GENDER:$1|l'usuari|la usuària}} $1",
 	'checkuser-reset-action' => "reinicia la contrasenya de l'usuari «$1»",
 );
 
