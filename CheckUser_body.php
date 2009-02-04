@@ -844,7 +844,7 @@ class CheckUser extends SpecialPage
 					// Auto blocked?
 					} else if( $block->mAuto ) {
 						$blocklog = $this->sk->makeKnownLinkObj( $blocklist, 
-							wfMsgHtml('checkuser-blocked'), 'ip=' . urlencode( "#$block->mId" ) );
+							wfMsgHtml('checkuser-blocked'), 'ip=' . urlencode( "#{$block->mId}" ) );
 						$flags[] = '<strong>(' . $blocklog . ')</strong>';
 					} else {
 						$userpage = Title::makeTitle( NS_USER, $name );
