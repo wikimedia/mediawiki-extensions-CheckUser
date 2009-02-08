@@ -3195,7 +3195,7 @@ IP 주소는 1주일 (IP만 막음, 계정 생성 금지됨) 차단될 것입니
 	'checkuser-log-ipusers' => '$1이(가) $2 IP 주소를 사용한 사용자를 확인하였습니다.',
 	'checkuser-log-ipedits-xff' => '$1이(가) XFF $2 IP 주소에서의 편집을 열람하였습니다.',
 	'checkuser-log-ipusers-xff' => '$1이(가) XFF $2 IP 주소를 사용한 사용자의 목록을 열람하였습니다.',
-	'checkuser-log-useredits' => '$1이(가) $2 IP에서의 편집을 열람하였습니다.',
+	'checkuser-log-useredits' => '$1이(가) $2 사용자의 편집을 열람하였습니다.',
 	'checkuser-autocreate-action' => '계정이 자동으로 생성되었습니다.',
 	'checkuser-email-action' => '사용자 "$1"에게 이메일을 보냄',
 	'checkuser-reset-action' => '"$1"의 암호를 변경함',
