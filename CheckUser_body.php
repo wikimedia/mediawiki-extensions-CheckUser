@@ -116,6 +116,9 @@ class CheckUser extends SpecialPage
 				$this->doUserEditsRequest( $user, $reason, $period );
 			}
 		}
+		# Add CIDR calculation convenience form
+		$wgOut->addHTML( $this->addJsCIDRForm() );
+		$this->addStyles();
 	}
 	
 	/**
@@ -190,6 +193,15 @@ class CheckUser extends SpecialPage
 		$wgOut->addHTML( $form );
 	}
 	
+	/**
+	* Add CSS/JS
+	*/
+	protected function addStyles() {
+		global $wgScriptPath, $wgCheckUserStyleVersion, $wgOut;
+		$encJSFile = htmlspecialchars( "$wgScriptPath/extensions/CheckUser/checkuser.js?$wgCheckUserStyleVersion" );
+		$wgOut->addScript( "<script type=\"text/javascript\" src=\"$encJSFile\"></script>" );
+	}
+	
    	/**
 	* Get a selector of time period options
 	* @param int $selected, selected level
@@ -202,6 +214,20 @@ class CheckUser extends SpecialPage
 		$s .= Xml::option( wfMsg( "checkuser-month" ), 31, $selected===31 );
 		$s .= Xml::option( wfMsg( "checkuser-all" ), 0, $selected===0 );
 		$s .= Xml::closeElement('select')."\n";
+		return $s;
+	}
+	
+   	/**
+	* Make a quick JS form for admins to calculate block ranges
+	*/
+	protected function addJsCIDRForm() {
+		$s = '<fieldset id="mw-checkuser-cidrform" style="display:none;">'.
+			'<legend>'.wfMsgHtml('checkuser-cidr-label').'</legend>';
+		$s .= '<p><textarea id="mw-checkuser-iplist" rows="5" cols="80" onkeyup="updateCIDRresult()"></textarea></p>';
+		$s .= '<p>'.wfMsgHtml('checkuser-cidr-res') . '&nbsp;' .
+			Xml::input( 'mw-checkuser-ipres',35,'',array('id'=>'mw-checkuser-ipres') ) . 
+			'<span id="mw-checkuser-ipnote"></span>';
+		$s .= '</p></fieldset>';
 		return $s;
 	}
 	

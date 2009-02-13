@@ -35,6 +35,8 @@ Use this in accordance with policy.',
 	'checkuser-week-2'           => 'last two weeks',
 	'checkuser-month'            => 'last 30 days',
 	'checkuser-all'              => 'all',
+	'checkuser-cidr-label'       => 'Find common range and affected addresses for a list of IPs',
+	'checkuser-cidr-res'         => 'Common CIDR:',
 	'checkuser-empty'            => 'The log contains no items.',
 	'checkuser-nomatch'          => 'No matches found.',
 	'checkuser-nomatch-edits'    => 'No matches found.
