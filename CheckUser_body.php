@@ -117,7 +117,7 @@ class CheckUser extends SpecialPage
 			}
 		}
 		# Add CIDR calculation convenience form
-		$wgOut->addHTML( $this->addJsCIDRForm() );
+		$this->addJsCIDRForm();
 		$this->addStyles();
 	}
 	
@@ -221,6 +221,7 @@ class CheckUser extends SpecialPage
 	* Make a quick JS form for admins to calculate block ranges
 	*/
 	protected function addJsCIDRForm() {
+		global $wgOut;
 		$s = '<fieldset id="mw-checkuser-cidrform" style="display:none;">'.
 			'<legend>'.wfMsgHtml('checkuser-cidr-label').'</legend>';
 		$s .= '<textarea id="mw-checkuser-iplist" rows="5" cols="50" onkeyup="updateCIDRresult()" onclick="updateCIDRresult()"></textarea><br/>';
@@ -228,7 +229,7 @@ class CheckUser extends SpecialPage
 			Xml::input( 'mw-checkuser-cidr-res',35,'',array('id'=>'mw-checkuser-cidr-res') ) . 
 			'<span id="mw-checkuser-ipnote"></span>';
 		$s .= '</fieldset>';
-		return $s;
+		$wgOut->addHTML( $s );
 	}
 	
    	/**
@@ -314,8 +315,7 @@ class CheckUser extends SpecialPage
 		}
 		# IPs are passed in as a blank string
 		if( !$user ) {
-			$s = wfMsgHtml('nouserspecified');
-			$wgOut->addHTML( $s );
+			$wgOut->addWikiMsg( 'nouserspecified' );
 			return;
 		}
 		# Get ID, works better than text as user may have been renamed
@@ -323,7 +323,7 @@ class CheckUser extends SpecialPage
 
 		# If user is not IP or nonexistent
 		if( !$user_id ) {
-			$s = wfMsgExt('nosuchusershort',array('parseinline'),$user);
+			$s = wfMsgExt('nosuchusershort',array('parse'),$user);
 			$wgOut->addHTML( $s );
 			return;
 		}
@@ -439,8 +439,7 @@ class CheckUser extends SpecialPage
 		$fname = 'CheckUser::doIPEditsRequest';
 		# Invalid IPs are passed in as a blank string
 		if(!$ip) {
-			$s = wfMsgHtml('badipaddress');
-			$wgOut->addHTML( $s );
+			$wgOut->addWikiMsg( 'badipaddress' );
 			return;
 		}
 
@@ -450,7 +449,7 @@ class CheckUser extends SpecialPage
 		}
 		# Record check...
 		if( !$this->addLogEntry( $logType, 'ip', $ip, $reason ) ) {
-			$wgOut->addHTML( '<p>'.wfMsgHtml('checkuser-log-fail').'</p>' );
+			$wgOut->addWikiMsg( 'checkuser-log-fail' );
 		}
 
 		$dbr = wfGetDB( DB_SLAVE );
@@ -581,8 +580,7 @@ class CheckUser extends SpecialPage
 		}
 		# IPs are passed in as a blank string
 		if( !$user ) {
-			$s = wfMsgHtml('nouserspecified');
-			$wgOut->addHTML( $s );
+			$wgOut->addWikiMsg( 'nouserspecified' );
 			return;
 		}
 		# Get ID, works better than text as user may have been renamed
@@ -590,7 +588,7 @@ class CheckUser extends SpecialPage
 
 		# If user is not IP or nonexistent
 		if( !$user_id ) {
-			$s = wfMsgExt('nosuchusershort',array('parseinline'),$user);
+			$s = wfMsgExt('nosuchusershort',array('parse'),$user);
 			$wgOut->addHTML( $s );
 			return;
 		}
@@ -705,8 +703,7 @@ class CheckUser extends SpecialPage
 
 		# Invalid IPs are passed in as a blank string
 		if( !$ip ) {
-			$s = wfMsgHtml('badipaddress');
-			$wgOut->addHTML( $s );
+			$wgOut->addWikiMsg( 'badipaddress' );
 			return;
 		}
 
