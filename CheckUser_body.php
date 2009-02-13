@@ -223,11 +223,11 @@ class CheckUser extends SpecialPage
 	protected function addJsCIDRForm() {
 		$s = '<fieldset id="mw-checkuser-cidrform" style="display:none;">'.
 			'<legend>'.wfMsgHtml('checkuser-cidr-label').'</legend>';
-		$s .= '<p><textarea id="mw-checkuser-iplist" rows="5" cols="80" onkeyup="updateCIDRresult()"></textarea></p>';
-		$s .= '<p>'.wfMsgHtml('checkuser-cidr-res') . '&nbsp;' .
-			Xml::input( 'mw-checkuser-ipres',35,'',array('id'=>'mw-checkuser-ipres') ) . 
+		$s .= '<textarea id="mw-checkuser-iplist" rows="5" cols="50" onkeyup="updateCIDRresult()" onclick="updateCIDRresult()"></textarea><br/>';
+		$s .= wfMsgHtml('checkuser-cidr-res') . '&nbsp;' . 
+			Xml::input( 'mw-checkuser-cidr-res',35,'',array('id'=>'mw-checkuser-cidr-res') ) . 
 			'<span id="mw-checkuser-ipnote"></span>';
-		$s .= '</p></fieldset>';
+		$s .= '</fieldset>';
 		return $s;
 	}
 	
