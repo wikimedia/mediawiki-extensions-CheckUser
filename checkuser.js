@@ -104,7 +104,7 @@ function updateCIDRresult() {
 			// Apply any valid CIDRs
 			if( cidr ) {
 				cidr = cidr.match( /\d+$/ )[0]; // get rid of slash
-				if( cidr >= 64 ) bin = bin.substring(0,cidr); // truncate bin
+				if( cidr >= 96 ) bin = bin.substring(0,cidr); // truncate bin
 			}
 			// Init bin_prefix
 			if( bin_prefix === 0 ) {
@@ -122,7 +122,7 @@ function updateCIDRresult() {
 			// Build the IP in CIDR form
 			var prefix_cidr = bin_prefix.length;
 			// CIDR too small?
-			if( prefix_cidr < 64 ) {
+			if( prefix_cidr < 96 ) {
 				document.getElementById( 'mw-checkuser-cidr-res' ).value = "!";
 				document.getElementById( 'mw-checkuser-ipnote' ).innerHTML = '';
 				return; // too big
