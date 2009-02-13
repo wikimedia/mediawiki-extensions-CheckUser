@@ -1108,8 +1108,8 @@ class CheckUser extends SpecialPage
 			list( $start, $end ) = IP::parseRange( $ip );
 			return array( 'cuc_'.$type.'_hex BETWEEN ' . $db->addQuotes( $start ) . ' AND ' . $db->addQuotes( $end ) );
 		} else if( preg_match( '#^\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}/(\d+)$#', $ip, $matches ) ) {
-			// IPv6 CIDR, 64-128 bits
-			if( $matches[1] < 64 || $matches[1] > 128 )
+			// IPv6 CIDR, 96-128 bits
+			if( $matches[1] < 96 || $matches[1] > 128 )
 				return array( 'cuc_'.$type.'_hex' => -1 );
 			list( $start, $end ) = IP::parseRange6( $ip );
 			return array( 'cuc_'.$type.'_hex BETWEEN ' . $db->addQuotes( $start ) . ' AND ' . $db->addQuotes( $end ) );
