@@ -51,7 +51,8 @@ function updateCIDRresult() {
 			// Get largest common bin_prefix
 			} else {
 				for( x=0; x<bin_prefix.length; x++ ) {
-					if( bin_prefix[x] != bin[x] ) {
+					// Bin_prefix always smaller than bin unless a CIDR was used on bin
+					if( bin[x] == undefined || bin_prefix[x] != bin[x] ) {
 						bin_prefix = bin_prefix.substring(0,x); // shorten bin_prefix
 						break;
 					}
