@@ -1107,7 +1107,7 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 );
 
 /** German (Deutsch)
- * @author Metalhead96
+ * @author Metalhead64
  * @author Pill
  * @author Purodha
  * @author Raimond Spekking
