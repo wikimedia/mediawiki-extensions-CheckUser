@@ -12,8 +12,18 @@ function updateCIDRresult() {
 	form.style.display = 'inline'; // unhide form (JS active)
 	var iplist = document.getElementById( 'mw-checkuser-iplist' );
 	if( !iplist ) return; // no JS form
-	// Each line has one IP or range
-	var ips = iplist.value.split("\n");
+	var text = iplist.value;
+	// Each line should have one IP or range
+	if( text.indexOf("\n") != -1 ) {
+		var ips = text.split("\n");
+	// Try some other delimiters too
+	} else if( text.indexOf("\t") != -1 ) {
+		var ips = text.split("\t");
+	} else if( text.indexOf(",") != -1 ) {
+		var ips = text.split(",");
+	} else {
+		var ips = text.split(";");
+	}
 	var bin_prefix = 0;
 	var prefix_cidr = 0;
 	var prefix = new String( "" );
@@ -25,14 +35,14 @@ function updateCIDRresult() {
 		// ...in the spirit of block.js, call this "addy"
 		var addy = ips[i];
 		// Match the first IP in each list (ignore other garbage)
-		var ipV4 = addy.match(/\b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(\/\d+)?\b/);
-		var ipV6 = addy.match(/\b(:(:[0-9A-Fa-f]{1,4}){1,7}|[0-9A-Fa-f]{1,4}(:{1,2}[0-9A-Fa-f]{1,4}|::$){1,7})(\/\d+)?\b/);
+		var ipV4 = addy.match(/(^|\b)(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(\/\d+)?\b/);
+		var ipV6 = addy.match(/(^|\b)(:(:[0-9A-Fa-f]{1,4}){1,7}|[0-9A-Fa-f]{1,4}(:{1,2}[0-9A-Fa-f]{1,4}|::$){1,7})(\/\d+)?\b/);
 		// Binary form
 		var bin = new String( "" );
 		// Convert the IP to binary form: IPv4
 		if( ipV4 ) {
-			var ip = ipV4[1];
-			var cidr = ipV4[2]; // CIDR, if it exists
+			var ip = ipV4[2];
+			var cidr = ipV4[3]; // CIDR, if it exists
 			// Get each quad integer
 			var blocs = ip.split('.');
 			for( var x=0; x<blocs.length; x++ ) {
@@ -87,8 +97,8 @@ function updateCIDRresult() {
 			if( prefix_cidr == 32 ) prefix_cidr = false;
 		// Convert the IP to binary form: IPv6
 		} else if( ipV6 ) {
-			var ip = ipV6[1];
-			var cidr = ipV6[2];
+			var ip = ipV6[2];
+			var cidr = ipV6[3];
 			// Get each hex octant
 			var blocs = ip.split(':');
 			for( var x=0; x<=7; x++ ) {
