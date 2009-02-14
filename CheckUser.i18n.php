@@ -281,6 +281,8 @@ $messages['ar'] = array(
 	'checkuser-week-2' => 'آخر أسبوعين',
 	'checkuser-month' => 'آخر 30 يوم',
 	'checkuser-all' => 'الكل',
+	'checkuser-cidr-label' => 'جد النطاق المشترك والعناوين المتأثرة لقائمة من الأيبيهات',
+	'checkuser-cidr-res' => 'CIDR مشترك:',
 	'checkuser-empty' => 'لا توجد مدخلات في السجل.',
 	'checkuser-nomatch' => 'لم يتم العثور على مدخلات مطابقة.',
 	'checkuser-nomatch-edits' => 'لا تطابق تم العثور عليه.
@@ -360,6 +362,8 @@ IPv4 (CIDR 16-32) و IPv6 (CIDR 96-128) مدعومين.
 	'checkuser-week-2' => 'الاسبوعين اللى فاتو',
 	'checkuser-month' => 'الـ30 يوم اللى فاتو',
 	'checkuser-all' => 'الكل',
+	'checkuser-cidr-label' => 'لاقى النطاق المشترك و العنواين المتأثره لليستة الايبيهات.',
+	'checkuser-cidr-res' => 'CIDR مشترك:',
 	'checkuser-empty' => 'مافيش حاجة فى السجل.',
 	'checkuser-nomatch' => 'مافيش اى حاجة متطابقة',
 	'checkuser-nomatch-edits' => 'لا تطابق تم العثور عليه.
@@ -594,6 +598,8 @@ $messages['be-tarask'] = array(
 	'checkuser-week-2' => 'апошнія два тыдні',
 	'checkuser-month' => 'апошнія 30 дзён',
 	'checkuser-all' => 'усе',
+	'checkuser-cidr-label' => 'Знайсьці агульны дыяпазон і зьвязпныя адрасы са сьпісам ІР-адрасоў',
+	'checkuser-cidr-res' => 'Агульны CIDR:',
 	'checkuser-empty' => 'Журнал ня ўтрымлівае запісаў.',
 	'checkuser-nomatch' => 'Супадзеньні ня знойдзеныя.',
 	'checkuser-nomatch-edits' => 'Супадзеньняў ня знойдзена.
@@ -824,6 +830,8 @@ Koristite ovo u skladu s pravilima.',
 	'checkuser-week-2' => 'zadnje dvije sedmice',
 	'checkuser-month' => 'zadnjih 30 dana',
 	'checkuser-all' => 'sve',
+	'checkuser-cidr-label' => 'Pronađi zajednički opseg i pogođene adrese za spisak IPova',
+	'checkuser-cidr-res' => 'Zajednički CIDR:',
 	'checkuser-empty' => 'Zapis ne sadrži stavke.',
 	'checkuser-nomatch' => 'Nisu nađeni traženi rezultati.',
 	'checkuser-nomatch-edits' => 'Nije pronađen traženi upit.
@@ -1139,6 +1147,8 @@ Aus Performance-Gründen werden maximal 5000 Bearbeitungen ausgegeben. Benutze C
 	'checkuser-week-2' => 'letzte 14 Tage',
 	'checkuser-month' => 'letzte 30 Tage',
 	'checkuser-all' => 'alle',
+	'checkuser-cidr-label' => 'Finde gemeinschaftliche Range und betroffende Adressen für eine Liste von IP-Adressen',
+	'checkuser-cidr-res' => 'Gemeinschaftliche CIDR:',
 	'checkuser-empty' => 'Das Logbuch enthält keine Einträge.',
 	'checkuser-nomatch' => 'Keine Übereinstimmungen gefunden.',
 	'checkuser-nomatch-edits' => 'Keine Übereinstimmungen gefunden. Letzte Bearbeitung hat am $1 um $2 stattgefunden.',
@@ -1212,6 +1222,8 @@ Z pśicynow wugbałosći wróśijo se nic wěcej ako 5000 změnow. Wužyj CheckU
 	'checkuser-week-2' => 'slědnej dwa tyźenja',
 	'checkuser-month' => 'slědnych 30 dnjow',
 	'checkuser-all' => 'wše',
+	'checkuser-cidr-label' => 'Zgromadny wobcerk a pótrjefjone adrese za lisćinu IP-adresow namakaś',
+	'checkuser-cidr-res' => 'Zgromadny CIDR:',
 	'checkuser-empty' => 'Protokol njewopśimujo žedne zapiski.',
 	'checkuser-nomatch' => 'Žedne wótpowědniki namakane.',
 	'checkuser-nomatch-edits' => 'Žedne wótpowědniki namakane.
@@ -1264,6 +1276,7 @@ $messages['ee'] = array(
 
 /** Greek (Ελληνικά)
  * @author Consta
+ * @author Omnipaedista
  * @author ZaDiak
  * @author Απεργός
  */
@@ -1278,7 +1291,7 @@ $messages['el'] = array(
 	'group-checkuser' => 'Ελεγκτές',
 	'group-checkuser-member' => 'Ελεγκτής',
 	'grouppage-checkuser' => '{{ns:project}}:Ελεγκτής',
-	'checkuser-reason' => 'Λόγος',
+	'checkuser-reason' => 'Λόγος:',
 	'checkuser-showlog' => 'Εμφάνιση αρχείου καταγραφής',
 	'checkuser-log' => 'Αρχείο καταγραφής ελεγχών',
 	'checkuser-query' => 'Αναζήτηση στις πρόσφατες αλλαγές',
@@ -1739,6 +1752,8 @@ $messages['fr'] = array(
 	'checkuser-week-2' => 'les deux dernières semaines',
 	'checkuser-month' => 'les trente derniers jours',
 	'checkuser-all' => 'tout',
+	'checkuser-cidr-label' => "Chercher une plage commune et les adresses affectées pour une liste d'adresses IP",
+	'checkuser-cidr-res' => 'Plage CIDR commune :',
 	'checkuser-empty' => 'Le journal ne contient aucun article',
 	'checkuser-nomatch' => 'Recherches infructueuses.',
 	'checkuser-nomatch-edits' => 'Aucune occurence trouvée. La dernière modification était le $1 à $2.',
@@ -1919,8 +1934,10 @@ Le fáth feidhmiúcháin, ní féidir níos mó ná 5000 eagarthóireachta a tha
  * @author Xosé
  */
 $messages['gl'] = array(
-	'checkuser-summary' => 'Esta ferramenta analiza os cambios recentes para recuperar os enderezos IPs utilizados por un usuario ou amosar as edicións / datos do usuario dun enderezo de IP.
-Os usuarios e as edicións por un cliente IP poden ser recuperados a través das cabeceiras XFF engadindo o enderezo IP con "/ xff". IPv4 (CIDR 16-32) e o IPv6 (CIDR 96-128) están soportadas.',
+	'checkuser-summary' => 'Esta ferramenta analiza os cambios para recuperar os enderezos IP utilizados por un usuario ou amosar as edicións/datos do usuario dun enderezo IP.
+Os usuarios e as edicións por un cliente IP poden ser recuperados a través das cabeceiras XFF engadindo o enderezo IP con "/xff". IPv4 (CIDR 16-32) e IPv6 (CIDR 96-128) están soportados.
+Non se devolverán máis de 5.000 edicións por motivos de rendemento.
+Use isto de acordo coas políticas.',
 	'checkuser-desc' => 'Garante que usuarios cos permisos apropiados poidan comprobar os enderezos IP dos usuarios e acceder a outra información',
 	'checkuser-logcase' => 'O rexistro de búsqueda é sensíbel a maiúsculas e minúsculas.',
 	'checkuser' => 'Verificador de usuarios',
@@ -1935,15 +1952,17 @@ Os usuarios e as edicións por un cliente IP poden ser recuperados a través das
 	'checkuser-query' => 'Consulta de cambios recentes',
 	'checkuser-target' => 'Usuario ou enderezo IP',
 	'checkuser-users' => 'Obter os usuarios',
-	'checkuser-edits' => 'Obter edicións de enderezos IP',
-	'checkuser-ips' => 'Conseguir enderezos IPs',
-	'checkuser-account' => 'Obter as edicións dunha conta',
+	'checkuser-edits' => 'Obter as edicións do enderezo IP',
+	'checkuser-ips' => 'Obter os enderezos IP',
+	'checkuser-account' => 'Obter as edicións da conta',
 	'checkuser-search' => 'Procurar',
 	'checkuser-period' => 'Período:',
 	'checkuser-week-1' => 'última semana',
 	'checkuser-week-2' => 'últimas dúas semanas',
 	'checkuser-month' => 'últimos 30 días',
 	'checkuser-all' => 'todos',
+	'checkuser-cidr-label' => 'Atopar rangos comúns e enderezos afectados para unha lista de enderezos IP',
+	'checkuser-cidr-res' => 'CIDR común:',
 	'checkuser-empty' => 'O rexistro non contén elementos.',
 	'checkuser-nomatch' => 'Non se atoparon coincidencias.',
 	'checkuser-nomatch-edits' => 'Non se atoparon coincidencias.
@@ -1969,7 +1988,7 @@ Os enderezos IP serán bloqueados cun tempo de duración dunha semana só para o
 	'checkuser-accounts' => '{{PLURAL:$1|Unha nova conta|$1 novas contas}}',
 	'checkuser-too-many' => 'Hai demasiados resultados, restrinxa o enderezo IP:',
 	'checkuser-user-nonexistent' => 'Non existe o usuario especificado.',
-	'checkuser-search-form' => 'Atopar entradas do rexistro nas que $1 é $2',
+	'checkuser-search-form' => 'Atopar as entradas do rexistro nas que $1 é $2',
 	'checkuser-search-submit' => 'Procurar',
 	'checkuser-search-initiator' => 'iniciador',
 	'checkuser-search-target' => 'destino',
@@ -2351,6 +2370,8 @@ Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěš
 	'checkuser-week-2' => 'poslednjej dwě njedźeli',
 	'checkuser-month' => 'poslednich 30 dnjow',
 	'checkuser-all' => 'wšitcy',
+	'checkuser-cidr-label' => 'Zhromadny wobłuk a potrjehene adresy za lisćinu IP-adresow namakać',
+	'checkuser-cidr-res' => 'Zhromadny CIDR:',
 	'checkuser-empty' => 'Protokol njewobsahuje zapiski.',
 	'checkuser-nomatch' => 'Žane wotpowědniki namakane.',
 	'checkuser-nomatch-edits' => 'Žane wotpowědowanja namakane.
@@ -2654,11 +2675,14 @@ $messages['is'] = array(
 	'checkuser-users' => 'Sækja notendur',
 	'checkuser-edits' => 'Sækja breytingar eftir vistang',
 	'checkuser-ips' => 'Sækja vistföng',
+	'checkuser-account' => 'Fá breytingar aðgangs',
 	'checkuser-search' => 'Leita',
 	'checkuser-nomatch' => 'Engin samsvörun fannst.',
 	'checkuser-check' => 'Athuga',
 	'checkuser-nolog' => 'Engin skrá fundin.',
 	'checkuser-blocked' => 'Bannaður',
+	'checkuser-locked' => 'Læstur',
+	'checkuser-accounts' => '$1 {{PLURAL:$1|nýr aðgangur|nýir aðgangar}}',
 	'checkuser-search-submit' => 'Leita',
 	'checkuser-log-subpage' => 'Skrá',
 );
@@ -3266,6 +3290,8 @@ Donn op de Räjelle för dat Werrkzeuch obacht jevve, un et nit bruche, wann De 
 	'checkuser-week-2' => 'de letzte zwei Woche',
 	'checkuser-month' => 'de letz drißich Daach',
 	'checkuser-all' => 'all',
+	'checkuser-cidr-label' => 'Fengk der jemeinsame Berett, un de betroffe Addresse, för en Leß vun IP-Addresse',
+	'checkuser-cidr-res' => 'Dä jemeinsame <i lang="en">CIDR</i>:',
 	'checkuser-empty' => 'En däm Logboch shteit nix dren.',
 	'checkuser-nomatch' => 'Nix zopaß jefonge.',
 	'checkuser-nomatch-edits' => 'Keine Treffer jefonge. De letzte Änderung wohr aam $1 öm $2 Uhr.',
@@ -3835,6 +3861,8 @@ Gebruik dit hulpmiddel volgens het vastgestelde beleid.',
 	'checkuser-week-2' => 'laatste twee weken',
 	'checkuser-month' => 'laatste 30 dagen',
 	'checkuser-all' => 'alle',
+	'checkuser-cidr-label' => 'Gemeenschappelijke reeks en getroffen adressen zoeken uit een lijst van IP-adressen',
+	'checkuser-cidr-res' => 'Gemeenschappelijke CIDR:',
 	'checkuser-empty' => 'Het logboek bevat geen regels.',
 	'checkuser-nomatch' => 'Geen overeenkomsten gevonden.',
 	'checkuser-nomatch-edits' => 'Niets gevonden.
@@ -4192,6 +4220,8 @@ Używaj tej funkcji zgodnie z zasadami.',
 	'checkuser-week-2' => 'ostatnie dwa tygodnie',
 	'checkuser-month' => 'ostatnie 30 dni',
 	'checkuser-all' => 'wszystkie',
+	'checkuser-cidr-label' => 'Znajdź wspólny zakres i wpływ na adresy IP z listy',
+	'checkuser-cidr-res' => 'Wspólny CIDR:',
 	'checkuser-empty' => 'Rejestr nie zawiera żadnych wpisów.',
 	'checkuser-nomatch' => 'Nie odnaleziono niczego.',
 	'checkuser-nomatch-edits' => 'Nie odnaleziono.
@@ -4314,6 +4344,8 @@ $messages['pt'] = array(
 	'checkuser-week-2' => 'últimas duas semanas',
 	'checkuser-month' => 'últimos 30 dias',
 	'checkuser-all' => 'todos',
+	'checkuser-cidr-label' => 'Encontrar intervalo comum e endereços afetados para uma lista de IPs',
+	'checkuser-cidr-res' => 'CIDR comum:',
 	'checkuser-empty' => 'O registo não contém itens.',
 	'checkuser-nomatch' => 'Não foram encontrados resultados.',
 	'checkuser-nomatch-edits' => 'Nenhum resultado encontrado.
@@ -4613,6 +4645,8 @@ $messages['sah'] = array(
 	'checkuser' => 'Кыттааччыны бэрэбиэркэлээ',
 	'group-checkuser' => 'Кыттааччылары бэрэбиэркэлээччилэр',
 	'group-checkuser-member' => 'Кыттааччылары бэрэбиэркэлээччи',
+	'right-checkuser' => 'Кыттааччылар IP-ларын уонна атын сибидиэнньэлэрин тургутуу',
+	'right-checkuser-log' => 'Кыттаачылары тургутуу сурунаалын көрүү',
 	'grouppage-checkuser' => '{{ns:project}}:Кыттааччылары бэрэбиэркэлээһин',
 	'checkuser-reason' => 'Төрүөтэ:',
 	'checkuser-showlog' => 'Сурунаалы көрдөр',
@@ -4631,15 +4665,20 @@ $messages['sah'] = array(
 	'checkuser-all' => 'барыта',
 	'checkuser-empty' => 'Сурунаал кураанах',
 	'checkuser-nomatch' => 'Сөп түбэһиилэр көстүбэтилэр',
+	'checkuser-nomatch-edits' => 'Сөп түбэһии көстубэтэ.
+Бүтэһик көннөрүү $1, $2 оҥоһуллубут.',
 	'checkuser-check' => 'Бэрэбиэркэлээ',
 	'checkuser-log-fail' => 'Сурунаалга сурук эбэр табыллыбат(а)',
 	'checkuser-nolog' => 'Сурунаал билэтэ көстүбэтэ',
 	'checkuser-blocked' => 'Тугу эмэ гынара бобуллубут',
+	'checkuser-gblocked' => 'Төгүрүччү хааччахтаммыт',
+	'checkuser-locked' => 'Эбии кыахтара сабыллыбыт',
 	'checkuser-wasblocked' => 'Урут бобуллубут',
 	'checkuser-massblock' => 'Талыллыбыт кыттааччылары боп',
 	'checkuser-massblock-text' => 'Талыллыбыт ааттар болдьоҕо суох бобуллуохтара. Бу ааттар аптамаатынан бобуллуохтара, маннык ааты саҥаттан оҥоруу эмиэ бобуллуо. 
 IP-аадырыстартан бэлиэтэммэккэ киирии уонна саҥа ааты оҥоруу 1 нэдиэлэҕэ бобуллуо.',
 	'checkuser-blocktag' => 'Кыттааччылар сирэйдэрин манныкка уларыт:',
+	'checkuser-blocktag-talk' => 'Ырытыы сирэйдэрин манныкка уларыт:',
 	'checkuser-massblock-commit' => 'Талыллыбыт кыттааччылары боп',
 	'checkuser-block-success' => "'''Билигин {{PLURAL:$2|$1 кыттааччы бобуллубут|$1 кыттааччы бобуллубут}}.'''",
 	'checkuser-block-failure' => "'''Бобуллубут кыттааччы суох.'''",
@@ -4662,6 +4701,8 @@ IP-аадырыстартан бэлиэтэммэккэ киирии уонна
 	'checkuser-log-ipedits-xff' => '$1 манна анаан XFF $2 көннөрүүлэрдээх',
 	'checkuser-log-ipusers-xff' => '$1 кыттаачылары ылбыт (для XFF $2)',
 	'checkuser-autocreate-action' => 'аптамаатынан оҥоһуллубут',
+	'checkuser-email-action' => '"$1" кыттаачыга сурук ыыппыт',
+	'checkuser-reset-action' => '"$1" киирии тылын бырахпыт',
 );
 
 /** Sicilian (Sicilianu)
