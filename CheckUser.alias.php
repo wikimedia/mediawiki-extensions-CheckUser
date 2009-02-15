@@ -112,6 +112,11 @@ $aliases['hu'] = array(
 	'CheckUser' => array( 'IP-ellenőr' ),
 );
 
+/** Interlingua (Interlingua) */
+$aliases['ia'] = array(
+	'CheckUser' => array( 'VerificarUsator' ),
+);
+
 /** Indonesian (Bahasa Indonesia) */
 $aliases['id'] = array(
 	'CheckUser' => array( 'Pemeriksa' ),
@@ -187,6 +192,11 @@ $aliases['sw'] = array(
 /** Thai (ไทย) */
 $aliases['th'] = array(
 	'CheckUser' => array( 'ตรวจสอบผู้ใช้' ),
+);
+
+/** Tagalog (Tagalog) */
+$aliases['tl'] = array(
+	'CheckUser' => array( 'Suriin ang tagagamit' ),
 );
 
 /** Turkish (Türkçe) */

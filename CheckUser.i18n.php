@@ -598,7 +598,7 @@ $messages['be-tarask'] = array(
 	'checkuser-week-2' => 'апошнія два тыдні',
 	'checkuser-month' => 'апошнія 30 дзён',
 	'checkuser-all' => 'усе',
-	'checkuser-cidr-label' => 'Знайсьці агульны дыяпазон і зьвязпныя адрасы са сьпісам ІР-адрасоў',
+	'checkuser-cidr-label' => 'Знайсьці агульны дыяпазон і зьвязаныя адрасы па сьпісу ІР-адрасоў',
 	'checkuser-cidr-res' => 'Агульны CIDR:',
 	'checkuser-empty' => 'Журнал ня ўтрымлівае запісаў.',
 	'checkuser-nomatch' => 'Супадзеньні ня знойдзеныя.',
@@ -1147,7 +1147,7 @@ Aus Performance-Gründen werden maximal 5000 Bearbeitungen ausgegeben. Benutze C
 	'checkuser-week-2' => 'letzte 14 Tage',
 	'checkuser-month' => 'letzte 30 Tage',
 	'checkuser-all' => 'alle',
-	'checkuser-cidr-label' => 'Finde gemeinschaftliche Range und betroffende Adressen für eine Liste von IP-Adressen',
+	'checkuser-cidr-label' => 'Finde gemeinsamen Adressbereich und betroffene Adressen für eine Liste von IP-Adressen',
 	'checkuser-cidr-res' => 'Gemeinschaftliche CIDR:',
 	'checkuser-empty' => 'Das Logbuch enthält keine Einträge.',
 	'checkuser-nomatch' => 'Keine Übereinstimmungen gefunden.',
@@ -2059,6 +2059,8 @@ Us Performance-Grind wäre hegschtens 5000 Bearbeitige usgee. Nimm CheckUser uss
 	'checkuser-week-2' => 'letschti 14 Täg',
 	'checkuser-month' => 'letschti 30 Täg',
 	'checkuser-all' => 'alli',
+	'checkuser-cidr-label' => 'Gmeinschaftligi Range finden un Adrässe, wu s betrifft, fir e Lischt vu IP-Adrässe',
+	'checkuser-cidr-res' => 'Gmeinschaftligi CIDR:',
 	'checkuser-empty' => 'Im Logbuech het s kei Yyträg.',
 	'checkuser-nomatch' => 'Kei Ibereinstimmige gfunde.',
 	'checkuser-nomatch-edits' => 'Kei Ibereinstimmige gfunde. Letschti Bearbeitig isch am $1 am $2 gsi.',
@@ -2297,6 +2299,8 @@ $messages['hr'] = array(
 	'checkuser-week-2' => 'zadnja dva tjedna',
 	'checkuser-month' => 'zadnjih 30 dana',
 	'checkuser-all' => 'sve',
+	'checkuser-cidr-label' => 'Pronađite zajednički raspon i zahvaćene adrese za popis IP-ova',
+	'checkuser-cidr-res' => 'Zajednički CIDR:',
 	'checkuser-empty' => 'Evidencija je prazna.',
 	'checkuser-nomatch' => 'Nema suradnika s tom IP adresom.',
 	'checkuser-nomatch-edits' => 'Nema poklapanja.
@@ -2509,7 +2513,7 @@ $messages['ia'] = array(
 	'checkuser-summary' => 'Iste instrumento analysa le modificationes recente pro recuperar le adresses IP usate per un usator o pro monstrar le datos de modificationes e de usatores pro un adresse IP.
 Le usatores e modificationes facite desde un adresse IP de cliente pote esser recuperate via capites XFF per appender "/xff" al IP.
 Es supportate le adresses IPv4 (CIDR 16-32) e IPv6 (CIDR 96-128).
-Non plus de 5000 modificationes essera retornate pro motivos de prestationes.
+Non plus de 5000 modificationes essera retornate pro non supercargar le systema.
 Tote uso de iste instrumento debe esser conforme al politicas in vigor.',
 	'checkuser-desc' => 'Concede al usatores con le autorisation appropriate le capabilitate de verificar le adresses IP e altere informationes de usatores',
 	'checkuser-logcase' => 'Le recerca del registros distingue inter majusculas e minusculas.',
@@ -2534,6 +2538,8 @@ Tote uso de iste instrumento debe esser conforme al politicas in vigor.',
 	'checkuser-week-2' => 'ultime duo septimanas',
 	'checkuser-month' => 'ultime 30 dies',
 	'checkuser-all' => 'totes',
+	'checkuser-cidr-label' => 'Cercar le gamma commun e le adresses afficite pro un lista de IPs',
+	'checkuser-cidr-res' => 'CIDR commun:',
 	'checkuser-empty' => 'Le registro non contine entratas.',
 	'checkuser-nomatch' => 'Nihil trovate.',
 	'checkuser-nomatch-edits' => 'Nulle resultato trovate.
@@ -2802,7 +2808,9 @@ IPv4（16から32ビットのCIDR表記）と IPv6（96から128ビットのCIDR
 	'checkuser-week-2' => '前2週',
 	'checkuser-month' => '前30日間',
 	'checkuser-all' => 'すべて',
-	'checkuser-empty' => 'ログ内にアイテムがありません。',
+	'checkuser-cidr-label' => 'IPアドレスのリストから共通レンジと影響するアドレスを見つけ出す',
+	'checkuser-cidr-res' => '共通CIDR:',
+	'checkuser-empty' => 'ログ内に項目がありません。',
 	'checkuser-nomatch' => '該当するものはありません。',
 	'checkuser-nomatch-edits' => '該当するものはありません。
 最終編集は $1 $2 です。',
@@ -2826,7 +2834,7 @@ IPv4（16から32ビットのCIDR表記）と IPv6（96から128ビットのCIDR
 	'checkuser-accounts' => '$1つの新しいアカウント',
 	'checkuser-too-many' => '検索結果が多すぎます、CIDRの指定を小さく絞り込んでください。利用されたIPは以下の通りです（5000件を上限に、アドレス順でソートされています）:',
 	'checkuser-user-nonexistent' => '指定されたユーザーは存在しません。',
-	'checkuser-search-form' => 'ログ検索条件　$1 が $2',
+	'checkuser-search-form' => '$1 が $2 であるログ項目を探す',
 	'checkuser-search-submit' => '検索',
 	'checkuser-search-initiator' => 'チェック実行者',
 	'checkuser-search-target' => 'チェック対象',
@@ -3989,6 +3997,7 @@ Her er IP-ene nytta (høgst 5000, sorterte etter adressa):',
 /** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬)
  * @author Finnrind
  * @author Jon Harald Søby
+ * @author Laaknor
  */
 $messages['no'] = array(
 	'checkuser-summary' => 'Dette verktøyet går gjennom siste endringer for å hente IP-ene som er brukt av en bruker, eller viser redigerings- eller brukerinformasjonen for en IP.
@@ -4019,6 +4028,7 @@ Av ytelsesgrunner vises maksimalt 5000 redigeringer. Bruk dette verktøyet i sam
 	'checkuser-week-2' => 'siste to uker',
 	'checkuser-month' => 'siste måned',
 	'checkuser-all' => 'alle',
+	'checkuser-cidr-res' => 'Felles CIDR:',
 	'checkuser-empty' => 'Loggen inneholder ingen elementer.',
 	'checkuser-nomatch' => 'Ingen treff.',
 	'checkuser-nomatch-edits' => 'Ingen treff.
@@ -4065,8 +4075,10 @@ IP-adresser vil blokkeres i én uke for anonyme brukere, med kontooppretting sl�
 
 /** Novial (Novial)
  * @author MF-Warburg
+ * @author Malafaya
  */
 $messages['nov'] = array(
+	'checkuser-reason' => 'Resone:',
 	'checkuser-search' => 'Sercha',
 );
 
@@ -4112,6 +4124,8 @@ $messages['oc'] = array(
 	'checkuser-week-2' => 'las doas darrièras setmanas',
 	'checkuser-month' => 'los 30 darrièrs jorns',
 	'checkuser-all' => 'tot',
+	'checkuser-cidr-label' => "Cercar una plaja comuna e las adreças afectadas per una lista d'adreças IP",
+	'checkuser-cidr-res' => 'Plaja CIDR comuna :',
 	'checkuser-empty' => "Lo jornal conten pas cap d'article",
 	'checkuser-nomatch' => 'Recèrcas infructuosas.',
 	'checkuser-nomatch-edits' => "Cap d'ocurréncia pas trobada.
@@ -4194,9 +4208,10 @@ $messages['pam'] = array(
  * @author Sp5uhe
  */
 $messages['pl'] = array(
-	'checkuser-summary' => 'Narzędzie skanuje ostatnie zmiany, by odnaleźć adresy IP użyte przez użytkownika lub pokazać edycje i użytkowników dla adresu IP. Użytkownicy i edycje spod adresu IP mogą być pozyskani przez nagłówki XFF przez dodanie do IP „/xff”. Obsługiwane są adresy IPv4 (CIDR 16-32) I IPv6 (CIDR 96-128).
+	'checkuser-summary' => 'Narzędzie skanuje ostatnie zmiany, by odnaleźć adresy IP użyte przez użytkownika lub by pokazać edycje i użytkowników dla zadanego adresu IP.
+Użytkownicy i edycje spod adresu IP mogą być pozyskani przez nagłówki XFF przez dodanie do IP „/xff”. Obsługiwane są adresy IPv4 (CIDR 16-32) I IPv6 (CIDR 96-128).
 Ze względu na wydajność, zostanie zwróconych nie więcej niż 5000 edycji.
-Używaj tej funkcji zgodnie z zasadami.',
+Używaj tego narzędzia zgodnie z zasadami.',
 	'checkuser-desc' => 'Umożliwia uprawnionym użytkownikom sprawdzenie adresów IP użytkowników oraz innych informacji',
 	'checkuser-logcase' => 'Szukanie w rejestrze jest czułe na wielkość znaków.',
 	'checkuser' => 'Sprawdzanie IP użytkownika',
@@ -4558,6 +4573,7 @@ $messages['roa-tara'] = array(
  * @author Ferrer
  * @author Kaganer
  * @author Lockal
+ * @author Putnik
  * @author Silence
  * @author Александр Сигачёв
  */
@@ -4589,6 +4605,8 @@ $messages['ru'] = array(
 	'checkuser-week-2' => 'последние две недели',
 	'checkuser-month' => 'последние 30 дней',
 	'checkuser-all' => 'все',
+	'checkuser-cidr-label' => 'Найти общий диапазон и затрагиваемые адреса для списка IP',
+	'checkuser-cidr-res' => 'Общая CIDR:',
 	'checkuser-empty' => 'Журнал пуст.',
 	'checkuser-nomatch' => 'Совпадений не найдено.',
 	'checkuser-nomatch-edits' => 'Соответствий не найдено.
@@ -4836,6 +4854,8 @@ $messages['sk'] = array(
 	'checkuser-week-2' => 'posledné dva týždne',
 	'checkuser-month' => 'posledných 30 dní',
 	'checkuser-all' => 'všetky',
+	'checkuser-cidr-label' => 'Nájsť spoločný rozsah zoznam IP adries a doňho patriace adresy',
+	'checkuser-cidr-res' => 'Spoločná sieť v CIDR zápise:',
 	'checkuser-empty' => 'Záznam neobsahuje žiadne položky.',
 	'checkuser-nomatch' => 'Žiadny vyhovujúci záznam.',
 	'checkuser-nomatch-edits' => 'Neboli nájdené zhody.
@@ -5349,6 +5369,8 @@ Gamitin ito ayon sa patakaran.',
 	'checkuser-week-2' => 'huling dalawang mga linggo',
 	'checkuser-month' => 'huling 30 mga araw',
 	'checkuser-all' => 'lahat',
+	'checkuser-cidr-label' => 'Hanapin ang karaniwang saklaw at apektadong mga adres para sa isang talaan ng mga IP',
+	'checkuser-cidr-res' => 'Karaniwang CIDR:',
 	'checkuser-empty' => 'Walang lamang mga bagay ang talaan.',
 	'checkuser-nomatch' => 'Walang natagpuang mga pagtutugma.',
 	'checkuser-nomatch-edits' => 'Walang natagpuang mga pagtutugma.
