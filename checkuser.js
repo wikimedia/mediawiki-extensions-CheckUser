@@ -30,8 +30,6 @@ function updateCIDRresult() {
 	// Go through each IP in the list, get it's binary form, and track
 	// the largest binary prefix among them
 	for( var i=0; i<ips.length; i++ ) {
-		// Rebuilt formatted bin_prefix for each IP
-		var prefix = "";
 		// ...in the spirit of block.js, call this "addy"
 		var addy = ips[i];
 		// Match the first IP in each list (ignore other garbage)
@@ -39,6 +37,8 @@ function updateCIDRresult() {
 		var ipV6 = addy.match(/(^|\b)(:(:[0-9A-Fa-f]{1,4}){1,7}|[0-9A-Fa-f]{1,4}(:{1,2}[0-9A-Fa-f]{1,4}|::$){1,7})(\/\d+)?\b/);
 		// Binary form
 		var bin = new String( "" );
+		// Rebuilt formatted bin_prefix for each IP
+		if( ipV4 || ipV6 ) prefix = '';
 		// Convert the IP to binary form: IPv4
 		if( ipV4 ) {
 			var ip = ipV4[2];
@@ -77,7 +77,7 @@ function updateCIDRresult() {
 			// CIDR too small?
 			if( prefix_cidr < 16 ) {
 				document.getElementById( 'mw-checkuser-cidr-res' ).value = "!";
-				document.getElementById( 'mw-checkuser-ipnote' ).innerHTML = '';
+				document.getElementById( 'mw-checkuser-ipnote' ).innerHTML = "&gt;"+Math.pow(2,32-prefix_cidr);
 				return; // too big
 			}
 			// Build the IP in dotted-quad form
@@ -98,7 +98,22 @@ function updateCIDRresult() {
 		// Convert the IP to binary form: IPv6
 		} else if( ipV6 ) {
 			var ip = ipV6[2];
-			var cidr = ipV6[3];
+			var cidr = ipV6[0].match( /\/\d+$/ );
+			var abbrevs = ip.match( /::/g );
+			if( abbrevs.length > 1 ) continue; // bad IP!
+			// Expand out "::"s
+			if( abbrevs.length > 0 ) {
+				var colons = ip.match( /:/g );
+				var needed = 7 - (colons.length - 2); // 2 from "::"
+				var insert = '';
+				while( needed > 1 ) {
+					insert += ':0';
+					needed--;
+				}
+				ip = ip.replace( '::', insert + ':' );
+				// For IPs that start with "::", correct the final IP so that it starts with '0' and not ':'
+				if( ip[0] == ':' ) ip = '0' + ip;
+			}
 			// Get each hex octant
 			var blocs = ip.split(':');
 			for( var x=0; x<=7; x++ ) {
@@ -134,7 +149,7 @@ function updateCIDRresult() {
 			// CIDR too small?
 			if( prefix_cidr < 96 ) {
 				document.getElementById( 'mw-checkuser-cidr-res' ).value = "!";
-				document.getElementById( 'mw-checkuser-ipnote' ).innerHTML = '';
+				document.getElementById( 'mw-checkuser-ipnote' ).innerHTML = "&gt;"+Math.pow(2,128-prefix_cidr);
 				return; // too big
 			}
 			// Build the IP in dotted-quad form
@@ -148,11 +163,11 @@ function updateCIDRresult() {
 				}
 				bloc = bloc.toString(16); // convert to hex
 				prefix += ( z == 7 ) ? bloc : bloc + ':';
-				// Is the CIDR meaningful?
-				if( prefix_cidr == 128 ) prefix_cidr = false;
 			}
 			// Get IPs affected
 			ip_count = Math.pow(2,128-prefix_cidr);
+			// Is the CIDR meaningful?
+			if( prefix_cidr == 128 ) prefix_cidr = false;
 		}
 	}
 	// Update form
@@ -162,7 +177,10 @@ function updateCIDRresult() {
 		} else {
 			document.getElementById( 'mw-checkuser-cidr-res' ).value = prefix;
 		}
-		document.getElementById( 'mw-checkuser-ipnote' ).innerHTML = '&nbsp;~' + ip_count;
+		document.getElementById( 'mw-checkuser-ipnote' ).innerHTML = '~' + ip_count;
+	} else {
+		document.getElementById( 'mw-checkuser-cidr-res' ).value = '?';
+		document.getElementById( 'mw-checkuser-ipnote' ).innerHTML = '';
 	}
 	
 }

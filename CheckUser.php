@@ -34,7 +34,7 @@ $wgCUDMaxAge = 3 * 30 * 24 * 3600; // 3 months
 # Mass block limits
 $wgCheckUserMaxBlocks = 200;
 
-$wgCheckUserStyleVersion = 3;
+$wgCheckUserStyleVersion = 4;
 
 # Recent changes data hook
 global $wgHooks;

@@ -68,32 +68,20 @@ class CheckUser extends SpecialPage
 		$tag = $wgRequest->getBool('usetag') ? trim( $wgRequest->getVal( 'tag' ) ) : "";
 		$talkTag = $wgRequest->getBool('usettag') ? trim( $wgRequest->getVal( 'talktag' ) ) : "";
 
-		# An IPv4?
-		if( preg_match( '#^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(/\d{1,2}|)$#', $user ) ) {
-			$ip = $user; 
-			$name = ''; 
+		# An IPv4? An IPv6? CIDR included?
+		if( IP::isIPAddress($user) ) {
+			$ip = IP::sanitizeIP($user);
+			$name = '';
 			$xff = '';
-		# An IPv6?
-		} else if( preg_match( '#^[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4})+(/\d{1,3}|)$#', $user ) ) {
-			$ip = IP::sanitizeIP($user); 
-			$name = ''; 
-			$xff = '';
-		# An IPv4 XFF string?
-		} else if( preg_match( '#^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(/\d{1,2}|)/xff$#', $user, $matches ) ) {
-			list( $junk, $xffip, $xffbit) = $matches;
-			$ip = ''; 
-			$name = ''; 
-			$xff = $xffip . $xffbit;
-		# An IPv6 XFF string?
-		} else if( preg_match( '#^([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4})+)(/\d{1,3}|)/xff$#', $user, $matches ) ) {
-			list( $junk, $xffip, $xffbit ) = $matches;
-			$ip = ''; 
-			$name = ''; 
-			$xff = IP::sanitizeIP( $xffip ) . $xffbit;
+		# An IPv4/IPv6 XFF string? CIDR included?
+		} else if( preg_match('/(.+)\/xff$/',$user,$m) && IP::isIPAddress($m[1]) ) {
+			$ip = '';
+			$name = '';
+			$xff = IP::sanitizeIP($m[1]) . '/xff';
 		# A user?
 		} else {
-			$ip = ''; 
-			$name = $user; 
+			$ip = '';
+			$name = $user;
 			$xff = '';
 		}
 
@@ -227,7 +215,7 @@ class CheckUser extends SpecialPage
 		$s .= '<textarea id="mw-checkuser-iplist" rows="5" cols="50" onkeyup="updateCIDRresult()" onclick="updateCIDRresult()"></textarea><br/>';
 		$s .= wfMsgHtml('checkuser-cidr-res') . '&nbsp;' . 
 			Xml::input( 'mw-checkuser-cidr-res',35,'',array('id'=>'mw-checkuser-cidr-res') ) . 
-			'<span id="mw-checkuser-ipnote"></span>';
+			'&nbsp;<strong id="mw-checkuser-ipnote"></strong>';
 		$s .= '</fieldset>';
 		$wgOut->addHTML( $s );
 	}
@@ -294,7 +282,7 @@ class CheckUser extends SpecialPage
 			$lastEditTime = $wgLang->time( wfTimestamp(TS_MW,$lastEdit), true );
 			return wfMsgHtml( 'checkuser-nomatch-edits', $lastEditDate, $lastEditTime );
 		}
-		return wfMsgHtml('checkuser-nomatch');
+		return wfMsgExt('checkuser-nomatch','parse');
 	}
 
 	/**
