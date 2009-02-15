@@ -57,7 +57,7 @@ function updateCIDRresult() {
 			// Apply any valid CIDRs
 			if( cidr ) {
 				cidr = cidr.match( /\d+$/ )[0]; // get rid of slash
-				if( cidr >= 16 ) bin = bin.substring(0,cidr); // truncate bin
+				bin = bin.substring(0,cidr); // truncate bin
 			}
 			// Init bin_prefix
 			if( bin_prefix === 0 ) {
@@ -98,11 +98,11 @@ function updateCIDRresult() {
 		// Convert the IP to binary form: IPv6
 		} else if( ipV6 ) {
 			var ip = ipV6[2];
-			var cidr = ipV6[0].match( /\/\d+$/ );
+			var cidr = ipV6[0].match( /\/\d+$/ )[0];
 			var abbrevs = ip.match( /::/g );
-			if( abbrevs.length > 1 ) continue; // bad IP!
+			if( abbrevs && abbrevs.length > 1 ) continue; // bad IP!
 			// Expand out "::"s
-			if( abbrevs.length > 0 ) {
+			if( abbrevs && abbrevs.length > 0 ) {
 				var colons = ip.match( /:/g );
 				var needed = 7 - (colons.length - 2); // 2 from "::"
 				var insert = '';
@@ -129,7 +129,7 @@ function updateCIDRresult() {
 			// Apply any valid CIDRs
 			if( cidr ) {
 				cidr = cidr.match( /\d+$/ )[0]; // get rid of slash
-				if( cidr >= 96 ) bin = bin.substring(0,cidr); // truncate bin
+				bin = bin.substring(0,cidr); // truncate bin
 			}
 			// Init bin_prefix
 			if( bin_prefix === 0 ) {
