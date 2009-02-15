@@ -98,7 +98,8 @@ function updateCIDRresult() {
 		// Convert the IP to binary form: IPv6
 		} else if( ipV6 ) {
 			var ip = ipV6[2];
-			var cidr = ipV6[0].match( /\/\d+$/ )[0];
+			var cidr = ipV6[0].match( /\/\d+$/ );
+			cidr = cidr ? cidr[0] : false;
 			var abbrevs = ip.match( /::/g );
 			if( abbrevs && abbrevs.length > 1 ) continue; // bad IP!
 			// Expand out "::"s
