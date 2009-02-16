@@ -1013,6 +1013,8 @@ Z výkonnostních důvodů lze zobrazit maximálně 5000 editací. Používejte 
 	'checkuser-week-2' => 'poslední dva týdny',
 	'checkuser-month' => 'posledních 30 dní',
 	'checkuser-all' => 'všechno',
+	'checkuser-cidr-label' => 'Zjištění společného rozsahu ze seznamu IP adres',
+	'checkuser-cidr-res' => 'Společný CIDR:',
 	'checkuser-empty' => 'Kniha neobsahuje žádné položky',
 	'checkuser-nomatch' => 'Nic odpovídajícího nebylo nalezeno.',
 	'checkuser-nomatch-edits' => 'Nic odpovídajícího nebylo nalezeno. Poslední editace proběhla $2, $1.',
@@ -3916,6 +3918,7 @@ IP-adressen worden één week geblokkeerd voor anonieme gebruikers, met het aanm
 );
 
 /** Norwegian Nynorsk (‪Norsk (nynorsk)‬)
+ * @author Gunnernett
  * @author Harald Khan
  * @author Jon Harald Søby
  */
@@ -3949,6 +3952,8 @@ Nytt dette verktøyet i samsvar med retningsliner.',
 	'checkuser-week-2' => 'siste to veker',
 	'checkuser-month' => 'siste 30 dagar',
 	'checkuser-all' => 'alle',
+	'checkuser-cidr-label' => 'Finn sams talrekkjer og adresser for ei liste over IP-adresser',
+	'checkuser-cidr-res' => 'Sams CIDR:',
 	'checkuser-empty' => 'Loggen inneheld ingen element.',
 	'checkuser-nomatch' => 'Ingen treff.',
 	'checkuser-nomatch-edits' => 'Ingen treff.
@@ -5124,6 +5129,8 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 	'checkuser-week-2' => 'senaste två veckorna',
 	'checkuser-month' => 'senaste 30 dagarna',
 	'checkuser-all' => 'alla',
+	'checkuser-cidr-label' => 'Hitta gemensam range och påverkade adresser för en IP-lista.',
+	'checkuser-cidr-res' => 'Gemensam CIDR:',
 	'checkuser-empty' => 'Loggen innehåller inga poster.',
 	'checkuser-nomatch' => 'Inga träffar hittades.',
 	'checkuser-nomatch-edits' => 'Fick ingen träff.
