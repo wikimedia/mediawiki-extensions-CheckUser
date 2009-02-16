@@ -133,7 +133,6 @@ function efUpdateCUPasswordResetData( $user, $ip, $account ) {
 	$cuc_id = $dbw->nextSequenceValue( 'cu_changes_cu_id_seq' );
 	$rcRow = array(
 		'cuc_id'         => $cuc_id,
-		'cuc_page_id'    => 0,
 		'cuc_namespace'  => NS_USER,
 		'cuc_title'      => '',
 		'cuc_minor'      => 0,
@@ -182,7 +181,6 @@ function efUpdateCUEmailData( $to, $from, $subject, $text ) {
 	$cuc_id = $dbw->nextSequenceValue( 'cu_changes_cu_id_seq' );
 	$rcRow = array(
 		'cuc_id'         => $cuc_id,
-		'cuc_page_id'    => 0,
 		'cuc_namespace'  => NS_USER,
 		'cuc_title'      => '',
 		'cuc_minor'      => 0,
