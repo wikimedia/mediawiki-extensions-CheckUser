@@ -60,6 +60,11 @@ $aliases['el'] = array(
 	'CheckUser' => array( 'ΈλεγχοςΧρήστη' ),
 );
 
+/** Spanish (Español) */
+$aliases['es'] = array(
+	'CheckUser' => array( 'Comprobar_usuario', 'Checkuser' ),
+);
+
 /** Persian (فارسی) */
 $aliases['fa'] = array(
 	'CheckUser' => array( 'بازرسی_کاربر' ),
@@ -114,7 +119,7 @@ $aliases['hu'] = array(
 
 /** Interlingua (Interlingua) */
 $aliases['ia'] = array(
-	'CheckUser' => array( 'VerificarUsator' ),
+	'CheckUser' => array( 'Verificar usator' ),
 );
 
 /** Indonesian (Bahasa Indonesia) */
