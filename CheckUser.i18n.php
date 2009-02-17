@@ -598,7 +598,7 @@ $messages['be-tarask'] = array(
 	'checkuser-week-2' => 'апошнія два тыдні',
 	'checkuser-month' => 'апошнія 30 дзён',
 	'checkuser-all' => 'усе',
-	'checkuser-cidr-label' => 'Знайсьці агульны дыяпазон і зьвязаныя адрасы па сьпісу ІР-адрасоў',
+	'checkuser-cidr-label' => 'Знайсьці агульны дыяпазон і зьвязаныя адрасы па сьпісе ІР-адрасоў',
 	'checkuser-cidr-res' => 'Агульны CIDR:',
 	'checkuser-empty' => 'Журнал ня ўтрымлівае запісаў.',
 	'checkuser-nomatch' => 'Супадзеньні ня знойдзеныя.',
@@ -988,7 +988,7 @@ $messages['co'] = array(
  */
 $messages['cs'] = array(
 	'checkuser-summary' => 'Tento nástroj zkoumá poslední změny a umožňuje získat IP adresy uživatelů nebo zobrazit editace a uživatele z dané IP adresy.
-Uživatele a editace z klientské IP adresy lze získat z hlaviček XFF přidáním „/xff“ k IP. Je podporováno  IPv4 (CIDR 16-32) a IPv6 (CIDR 96-128).
+Uživatele a editace z klientské IP adresy lze získat z hlaviček XFF přidáním „/xff“ k IP. Je podporováno IPv4 (CIDR 16–32) a IPv6 (CIDR 96-128).
 Z výkonnostních důvodů lze zobrazit maximálně 5000 editací. Používejte tento nástroj v souladu s pravidly.',
 	'checkuser-desc' => 'Poskytuje uživatelům s příslušným oprávněním možnost zjišťovat IP adresy uživatelů a další související informace',
 	'checkuser-logcase' => 'Hledání v záznamech rozlišuje velikosti písmen.',
@@ -2664,8 +2664,11 @@ Alamat-alamat IP akan diblokir selama 1 minggu untuk pengguna anonim dan tidak d
  * @author Malafaya
  */
 $messages['io'] = array(
-	'checkuser-reason' => 'Motivo',
+	'checkuser-reason' => 'Motivo:',
+	'checkuser-all' => 'omna',
+	'checkuser-accounts' => '$1 nova {{PLURAL:$1|konto|konti}}',
 	'checkuser-search-submit' => 'Serchar',
+	'checkuser-ipeditcount' => '~$1 di omna uzanti',
 );
 
 /** Icelandic (Íslenska)
@@ -5690,6 +5693,8 @@ $messages['vi'] = array(
 	'checkuser-week-2' => 'hai tuần trước',
 	'checkuser-month' => '30 ngày trước',
 	'checkuser-all' => 'tất cả',
+	'checkuser-cidr-label' => 'Tìm dãy phổ biến và các địa chỉ bị ảnh hưởng của danh sách IP',
+	'checkuser-cidr-res' => 'CIDR thông thường:',
 	'checkuser-empty' => 'Nhật trình hiện chưa có gì.',
 	'checkuser-nomatch' => 'Không tìm thấy kết quả.',
 	'checkuser-nomatch-edits' => 'Không tìm thấy kết quả.
@@ -5889,6 +5894,10 @@ $messages['zh-hans'] = array(
 	'checkuser-edits' => '从IP位址查询编辑日志',
 	'checkuser-ips' => '查询IP位址',
 	'checkuser-search' => '搜索',
+	'checkuser-week-1' => '上星期',
+	'checkuser-week-2' => '前两个星期',
+	'checkuser-month' => '前30天',
+	'checkuser-all' => '所有',
 	'checkuser-empty' => '日志里没有资料。',
 	'checkuser-nomatch' => '没有符合的资讯',
 	'checkuser-check' => '查询',
