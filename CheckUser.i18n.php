@@ -1162,12 +1162,12 @@ Aus Performance-Gründen werden maximal 5000 Bearbeitungen ausgegeben. Benutze C
 	'checkuser-locked' => 'geschlossen',
 	'checkuser-wasblocked' => 'ehemals gesperrt',
 	'checkuser-localonly' => 'nicht zusammengeführt',
-	'checkuser-massblock' => 'Sperre die ausgewählten Benutzer',
+	'checkuser-massblock' => 'Ausgewählte Benutzer sperren',
 	'checkuser-massblock-text' => 'Die ausgewählten Benutzerkonten werden dauerhaft gesperrt (Autoblock ist aktiv und die Anlage neuer Benutzerkonten wird unterbunden).
 IP-Adressen werden für eine Woche gesperrt (nur für anonyme Benutzer, die Anlage neuer Benutzerkonten wird unterbunden).',
 	'checkuser-blocktag' => 'Inhalt der Benutzerseite ersetzen durch:',
 	'checkuser-blocktag-talk' => 'Diskussionsseiten ersetzen durch:',
-	'checkuser-massblock-commit' => 'Sperre die ausgewählten Benutzer',
+	'checkuser-massblock-commit' => 'Ausgewählte Benutzer sperren',
 	'checkuser-block-success' => "'''{{PLURAL:$2|Der Benutzer|Die Benutzer}} $1 {{PLURAL:$2|wurde|wurden}} gesperrt.'''",
 	'checkuser-block-failure' => "'''Es wurden keine Benutzer gesperrt.'''",
 	'checkuser-block-limit' => 'Es wurden zuviele Benutzer ausgewählt.',
@@ -1192,6 +1192,13 @@ IP-Adressen werden für eine Woche gesperrt (nur für anonyme Benutzer, die Anla
 	'checkuser-autocreate-action' => 'automatisch erstellt',
 	'checkuser-email-action' => 'sendete E-Mail an „$1“',
 	'checkuser-reset-action' => 'Anforderung eines neuen Passwortes für „Benutzer:$1“',
+);
+
+/** German (formal address) (Deutsch (Sie-Form))
+ * @author Umherirrender
+ */
+$messages['de-formal'] = array(
+	'checkuser-block-noreason' => 'Sie müssen einen Grund für die Sperre angeben.',
 );
 
 /** Lower Sorbian (Dolnoserbski)
@@ -5629,6 +5636,8 @@ $messages['vec'] = array(
 	'checkuser-week-2' => 'ultime do stimane',
 	'checkuser-month' => 'ultimi 30 zorni',
 	'checkuser-all' => 'tuti quanti',
+	'checkuser-cidr-label' => 'Sercar un interval comune e i indirissi interessà par na lista de IP',
+	'checkuser-cidr-res' => 'CIDR comune:',
 	'checkuser-empty' => "El registro no'l contien dati.",
 	'checkuser-nomatch' => 'Nissun risultato catà.',
 	'checkuser-nomatch-edits' => "No xe stà catà nissun risultato.
