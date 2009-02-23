@@ -184,6 +184,11 @@ $aliases['oc'] = array(
 	'CheckUser' => array( 'Verificator d’adreça', 'VerificatorAdreça', 'VerificatorAdreca' ),
 );
 
+/** Romanian (Română) */
+$aliases['ro'] = array(
+	'CheckUser' => array( 'Verifică utilizator' ),
+);
+
 /** Sanskrit (संस्कृत) */
 $aliases['sa'] = array(
 	'CheckUser' => array( 'योजकपरिक्षक' ),

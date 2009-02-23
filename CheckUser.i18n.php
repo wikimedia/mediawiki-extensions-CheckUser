@@ -1285,6 +1285,7 @@ $messages['ee'] = array(
 
 /** Greek (Ελληνικά)
  * @author Consta
+ * @author Konsnos
  * @author Omnipaedista
  * @author ZaDiak
  * @author Απεργός
@@ -1299,6 +1300,7 @@ $messages['el'] = array(
 	'checkuser' => 'Ελεγκτής',
 	'group-checkuser' => 'Ελεγκτές',
 	'group-checkuser-member' => 'Ελεγκτής',
+	'right-checkuser' => 'Έλεγχος IP διεύθυνσης και άλλων πληροφοριών χρήστη',
 	'grouppage-checkuser' => '{{ns:project}}:Ελεγκτής',
 	'checkuser-reason' => 'Λόγος:',
 	'checkuser-showlog' => 'Εμφάνιση αρχείου καταγραφής',
@@ -1322,6 +1324,7 @@ $messages['el'] = array(
 	'checkuser-blocked' => 'Φραγμένος',
 	'checkuser-locked' => 'Κλειδωμένο',
 	'checkuser-blocktag' => 'Αντικατάσταση των σελίδων των χρηστών με:',
+	'checkuser-massblock-commit' => 'Φραγή επιλεγμένων χρηστών',
 	'checkuser-too-many' => 'Πάρα πολλά αποτελέσματα, παρακαλούμε στενέψτε το CIDR. Παρακάτω είναι οι διευθύνσεις IP που χρησιμοποιούνται (με ανώτατο όριο τις 5000, ταξινομημένες κατά διεύθυνση):',
 	'checkuser-user-nonexistent' => 'Ο συγκεκριμένος χρήστης δεν υπάρχει.',
 	'checkuser-search-form' => 'Εύρεση εγγραφών του αρχείου καταγραφής στις οποίες ο $1 είναι $2',
@@ -1336,6 +1339,7 @@ $messages['el'] = array(
 	'checkuser-log-ipusers' => 'Ο $1 πήρε τους χρήστες για το $2',
 	'checkuser-log-ipedits-xff' => 'Ο $1 πήρε τις επεξεργασίες για το XFF $2',
 	'checkuser-log-ipusers-xff' => 'Ο $1 πήρε τους χρήστες για το XFF $2',
+	'checkuser-autocreate-action' => 'δημιουργήθηκε αυτόματα',
 );
 
 /** Esperanto (Esperanto)
