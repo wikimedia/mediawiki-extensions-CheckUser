@@ -1740,15 +1740,16 @@ $messages['fo'] = array(
  * @author ChrisPtDe
  * @author Grondin
  * @author IAlex
+ * @author PieRRoMaN
  * @author Sherbrooke
  * @author Verdy p
  * @author Zetud
  */
 $messages['fr'] = array(
 	'checkuser-summary' => 'Cet outil parcourt la liste des changements récents à la recherche des adresses IP employées par un utilisateur, affiche toutes les éditions d’une adresse IP (même enregistrée), ou liste les comptes utilisés par une adresse IP.
-Les comptes et modifications faites par une adresse IP cliente d’un proxy externe approuvé peuvent être récupérés via les entêtes XFF en suffisant l’IP avec « /xff ». Les adresses IPv4 (CIDR /16 à /32) et IPv6 (CIDR /96 à /128) sont supportées.
-Le nombre d’éditions affichables est limité à {{formatnum:5000}} pour des questions de performance du serveur.
-Veuillez utiliser cet outil dans les limites de la charte d’utilisation.',
+Les comptes et les modifications faites par une adresse IP cliente d’un proxy externe approuvé peuvent être récupérés via les entêtes XFF en suffisant l’IP avec « /xff ». Les adresses IPv4 (CIDR /16 à /32) et IPv6 (CIDR /96 à /128) sont supportées.
+Le nombre d’éditions affichables est limité à {{formatnum:5000}} pour des questions de performances.
+Veuillez utiliser cet outil dans le respect de la charte d’utilisation.',
 	'checkuser-desc' => 'Donne la possibilité aux utilisateurs dûment autorisés de vérifier les adresses IP des utilisateurs ainsi que d’autres informations les concernant',
 	'checkuser-logcase' => 'La recherche dans le journal est sensible à la casse.',
 	'checkuser' => 'Vérificateur d’utilisateur',
@@ -1776,7 +1777,7 @@ Veuillez utiliser cet outil dans les limites de la charte d’utilisation.',
 	'checkuser-cidr-res' => 'Plage CIDR commune :',
 	'checkuser-empty' => 'Le journal ne contient aucun élément.',
 	'checkuser-nomatch' => 'Recherches infructueuses.',
-	'checkuser-nomatch-edits' => 'Aucune occurence trouvée. La dernière modification était le $1 à $2.',
+	'checkuser-nomatch-edits' => 'Aucune occurrence trouvée. La dernière modification a eu lieu le $1 à $2.',
 	'checkuser-check' => 'Vérifier',
 	'checkuser-log-fail' => 'Impossible d’ajouter l’entrée du journal.',
 	'checkuser-nolog' => 'Aucun fichier journal trouvé.',
@@ -1788,8 +1789,8 @@ Veuillez utiliser cet outil dans les limites de la charte d’utilisation.',
 	'checkuser-massblock' => 'Bloquer les utilisateurs sélectionnés',
 	'checkuser-massblock-text' => 'Les comptes sélectionnés seront bloqués indéfiniment, avec le blocage automatique activé et la création de compte désactivée.
 Les adresses IP seront bloquées pendant une semaine uniquement pour les utilisateurs sous IP et avec la création de compte désactivée.',
-	'checkuser-blocktag' => 'Remplace les pages utilisateur par :',
-	'checkuser-blocktag-talk' => 'Remplacer les pages de discussion avec :',
+	'checkuser-blocktag' => 'Remplacer les pages utilisateur par :',
+	'checkuser-blocktag-talk' => 'Remplacer les pages de discussion par :',
 	'checkuser-massblock-commit' => 'Bloquer les utilisateurs sélectionnés',
 	'checkuser-block-success' => "'''{{PLURAL:$2|L’utilisateur $1 est maintenant bloqué|Les $2 utilisateurs suivants sont maintenant bloqués : $1}}.'''",
 	'checkuser-block-failure' => "'''Aucun utilisateur bloqué.'''",
