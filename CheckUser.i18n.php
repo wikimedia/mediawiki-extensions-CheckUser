@@ -3811,6 +3811,7 @@ Dit Warktüüch dröff blot na de Regeln mit de Richtlienen bruukt warrn.',
 	'checkuser-week-2' => 'leste twee Weken',
 	'checkuser-month' => 'leste 30 Daag',
 	'checkuser-all' => 'all',
+	'checkuser-cidr-res' => 'Gemeensam CIDR:',
 	'checkuser-empty' => 'Dat Logbook is leddig.',
 	'checkuser-nomatch' => 'Nix funnen, wat övereenstimmt.',
 	'checkuser-nomatch-edits' => 'Nix funnen.
