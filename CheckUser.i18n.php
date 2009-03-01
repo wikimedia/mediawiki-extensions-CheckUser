@@ -1746,9 +1746,9 @@ $messages['fo'] = array(
  * @author Zetud
  */
 $messages['fr'] = array(
-	'checkuser-summary' => 'Cet outil parcourt la liste des changements récents à la recherche des adresses IP employées par un utilisateur, affiche toutes les éditions d’une adresse IP (même enregistrée), ou liste les comptes utilisés par une adresse IP.
-Les comptes et les modifications faites par une adresse IP cliente d’un proxy externe approuvé peuvent être récupérés via les entêtes XFF en suffisant l’IP avec « /xff ». Les adresses IPv4 (CIDR /16 à /32) et IPv6 (CIDR /96 à /128) sont supportées.
-Le nombre d’éditions affichables est limité à {{formatnum:5000}} pour des questions de performances.
+	'checkuser-summary' => 'Cet outil parcourt la liste des changements récents à la recherche des adresses IP employées par un utilisateur, affiche toutes les modifications d’une adresse IP (même enregistrée), ou liste les comptes utilisés par une adresse IP.
+Les comptes et les modifications faites par une adresse IP cliente d’un serveur mandataire approuvé peuvent être récupérés via les entêtes XFF en suffisant l’IP avec « /xff ». Les adresses IPv4 (CIDR /16 à /32) et IPv6 (CIDR /96 à /128) sont supportées.
+Le nombre de modifications affichables est limité à {{formatnum:5000}} pour des questions de performance.
 Veuillez utiliser cet outil dans le respect de la charte d’utilisation.',
 	'checkuser-desc' => 'Donne la possibilité aux utilisateurs dûment autorisés de vérifier les adresses IP des utilisateurs ainsi que d’autres informations les concernant',
 	'checkuser-logcase' => 'La recherche dans le journal est sensible à la casse.',
@@ -2724,6 +2724,7 @@ $messages['is'] = array(
  * @author Darth Kule
  * @author Gianfranco
  * @author Melos
+ * @author Pietrodn
  */
 $messages['it'] = array(
 	'checkuser-summary' => 'Questo strumento analizza le modifiche recenti per recuperare gli indirizzi IP utilizzati da un utente o mostrare contributi e dati di un IP. Utenti e contributi di un client IP possono essere rintracciati attraverso gli header XFF aggiungendo all\'IP il suffisso "/xff". Sono supportati IPv4 (CIDR 16-32) e IPv6 (CIDR 96-128). Non saranno restituite più di 5.000 modifiche, per ragioni di prestazioni. Usa questo strumento in stretta conformità alle policy.',
@@ -2750,6 +2751,8 @@ $messages['it'] = array(
 	'checkuser-week-2' => 'ultime due settimane',
 	'checkuser-month' => 'ultimi 30 giorni',
 	'checkuser-all' => 'tutti gli edit',
+	'checkuser-cidr-label' => "Trova l'intervallo comune e gli indirizzi interessati per una lista di IP",
+	'checkuser-cidr-res' => 'CIDR comune:',
 	'checkuser-empty' => 'Il log non contiene dati.',
 	'checkuser-nomatch' => 'Nessun risultato trovato.',
 	'checkuser-nomatch-edits' => 'Nessun risultato trovato.
@@ -2759,6 +2762,7 @@ Ultimo edit risalente alle $2 del $1.',
 	'checkuser-nolog' => 'Non è stato trovato alcun file di log.',
 	'checkuser-blocked' => 'Bloccato',
 	'checkuser-gblocked' => 'Bloccato globalmente',
+	'checkuser-locked' => 'Bloccato',
 	'checkuser-wasblocked' => 'Bloccato precedentemente',
 	'checkuser-localonly' => 'Non unificato',
 	'checkuser-massblock' => 'Blocca utenti selezionati',
@@ -3483,6 +3487,7 @@ Gebroekers en bewèrkinge van 'n IP-adres van 'ne cliënt kinne achterhaoldj wae
 	'group-checkuser' => 'Gebroekerkonterleerders',
 	'group-checkuser-member' => 'Gebroekerkonterleerder',
 	'right-checkuser' => 'IP-adrèsser en anger gegaeves van gebroekers naokieke',
+	'right-checkuser-log' => "Biek 't checkuserlog",
 	'grouppage-checkuser' => '{{ns:project}}:Gebroekerkonterleerder',
 	'checkuser-reason' => 'Reej:',
 	'checkuser-showlog' => 'Toean logbook',
@@ -3492,15 +3497,38 @@ Gebroekers en bewèrkinge van 'n IP-adres van 'ne cliënt kinne achterhaoldj wae
 	'checkuser-users' => 'Vraog gebroekers op',
 	'checkuser-edits' => 'Vraog bewèrkinge van IP-adres op',
 	'checkuser-ips' => 'Vraof IP-adresse op',
+	'checkuser-account' => 'Haol bewerkinge gebroeker op',
 	'checkuser-search' => 'Zeuk',
 	'checkuser-period' => 'Doer:',
+	'checkuser-week-1' => 'leste waek',
+	'checkuser-week-2' => 'leste twee waek',
+	'checkuser-month' => 'leste 30 daag',
 	'checkuser-all' => 'als',
+	'checkuser-cidr-label' => "Zeuk gemeinsjappelikke reeks en getróffe adresse oet 'n IP-adresselies.",
+	'checkuser-cidr-res' => 'Gemeine CIDR:',
 	'checkuser-empty' => "'t Logbook bevat gein regels.",
 	'checkuser-nomatch' => 'Gein euvereinkómste gevónje.',
+	'checkuser-nomatch-edits' => 'Nieks gevónje.
+De lèste bewèrking woor óp $1 óm $2.',
 	'checkuser-check' => 'Conterleer',
 	'checkuser-log-fail' => 'Logbookregel toevoege neet meugelik',
 	'checkuser-nolog' => 'Gein logbook gevónje.',
 	'checkuser-blocked' => 'Geblokkeerdj',
+	'checkuser-gblocked' => 'Globaal vas',
+	'checkuser-locked' => 'Aafgeslaote',
+	'checkuser-wasblocked' => 'Ieëder vas',
+	'checkuser-localonly' => 'Neet samegevoog',
+	'checkuser-massblock' => 'Geselekteerde gebroekers blokkere',
+	'checkuser-massblock-text' => "De geselkteerde gebroekers waere tiedelik geblok mit IP-blokkaasj èn 't neet-aanmake ven gebroekers aan.
+IP's waere ein waek geblok veur anoniem gebroekers, mit 't aanmake ven nuuj gebroekers oet.",
+	'checkuser-blocktag' => 'Vervang gebroekerspaaazjes door:',
+	'checkuser-blocktag-talk' => 'Vervang euverlèkpaazjes door:',
+	'checkuser-massblock-commit' => 'Geselekteerde gebroekers blokke',
+	'checkuser-block-success' => "'''De {{PLURAL:$2|gebroeker|gebroekers}} $1 {{PLURAL:$1|is|zeen}} geblók.'''",
+	'checkuser-block-failure' => "'''Gein gebroekers geblók.'''",
+	'checkuser-block-limit' => 'Te väöl gebroekers gevas.',
+	'checkuser-block-noreason' => "De mós 'ne rieë ópgaeve veure blokkaazjes.",
+	'checkuser-accounts' => '$1 {{PLURAL:$1|nuuje gebroeker|nuuj gebroekers}}',
 	'checkuser-too-many' => 'Te väöl rezultaote. Maak de IP-reiks kleinder:',
 	'checkuser-user-nonexistent' => 'De opgegaeve gebroeker besteit neet.',
 	'checkuser-search-form' => 'Logbookregels zeuke wo de $1 $2 is',
@@ -3510,11 +3538,16 @@ Gebroekers en bewèrkinge van 'n IP-adres van 'ne cliënt kinne achterhaoldj wae
 	'checkuser-ipeditcount' => '~$1 van alle gebroekers',
 	'checkuser-log-subpage' => 'Logbook',
 	'checkuser-log-return' => "Nao 't huidformeleer van KonterleerGebroeker trökgaon",
+	'checkuser-limited' => "'''Dees rizzeltaote zeen neet gans óm perstaasjereeje.'''",
 	'checkuser-log-userips' => '$1 haet IP-adresse veur $2',
 	'checkuser-log-ipedits' => '$1 haet bewèrkinge veur $2',
 	'checkuser-log-ipusers' => '$1 haet gebroekers veur $2',
 	'checkuser-log-ipedits-xff' => '$1 haet bewèrkinge veur XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 haet gebrokers veur XFF $2',
+	'checkuser-log-useredits' => '$1 haet bewèrkinger veur $2',
+	'checkuser-autocreate-action' => 'is autematisch aangemaak',
+	'checkuser-email-action' => 'haet get pós gestuurdj aan "$1"',
+	'checkuser-reset-action' => 'vóng wachwaord veur "$1"',
 );
 
 /** Lao (ລາວ) */
