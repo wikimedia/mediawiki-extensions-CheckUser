@@ -159,6 +159,23 @@ $messages['niu'] = array(
 	'checkuser-search-submit' => 'Kumi',
 );
 
+/** Veps (Vepsan kel')
+ * @author Игорь Бродский
+ */
+$messages['vep'] = array(
+	'checkuser' => 'Kodvda kävutajad',
+	'group-checkuser' => 'Kodvda kävutajid',
+	'checkuser-reason' => 'Sü:',
+	'checkuser-showlog' => 'Ozutada aigkirj',
+	'checkuser-log' => 'Kävutajiden kodvindan aigkirj',
+	'checkuser-query' => 'Ozutada veresid toižetusid',
+	'checkuser-target' => 'Kävutai vai IP-adres',
+	'checkuser-users' => 'Sada kävutajid',
+	'checkuser-edits' => 'Sada toižetusid, kudambad oma tehtud IP-adresalpäi',
+	'checkuser-search' => 'Ectä',
+	'checkuser-all' => 'kaik',
+);
+
 /** Afrikaans (Afrikaans)
  * @author Arnobarnard
  * @author Naudefj
@@ -4748,6 +4765,7 @@ $messages['sah'] = array(
 	'checkuser-week-2' => 'бүтэһик икки нэдиэлэ',
 	'checkuser-month' => 'бүтэһик 30 хонук',
 	'checkuser-all' => 'барыта',
+	'checkuser-cidr-res' => 'Уопсай CIDR:',
 	'checkuser-empty' => 'Сурунаал кураанах',
 	'checkuser-nomatch' => 'Сөп түбэһиилэр көстүбэтилэр',
 	'checkuser-nomatch-edits' => 'Сөп түбэһии көстубэтэ.
@@ -4785,6 +4803,7 @@ IP-аадырыстартан бэлиэтэммэккэ киирии уонна
 	'checkuser-log-ipusers' => '$1 манна анаан $2 ааттардаах (учётные записи)',
 	'checkuser-log-ipedits-xff' => '$1 манна анаан XFF $2 көннөрүүлэрдээх',
 	'checkuser-log-ipusers-xff' => '$1 кыттаачылары ылбыт (для XFF $2)',
+	'checkuser-log-useredits' => '$1 $2 көннөрүүлэрин ылбыт',
 	'checkuser-autocreate-action' => 'аптамаатынан оҥоһуллубут',
 	'checkuser-email-action' => '"$1" кыттаачыга сурук ыыппыт',
 	'checkuser-reset-action' => '"$1" киирии тылын бырахпыт',
