@@ -3918,6 +3918,7 @@ $messages['nds-nl'] = array(
 );
 
 /** Dutch (Nederlands)
+ * @author Erwin85
  * @author SPQRobin
  * @author Siebrand
  * @author Troefkaart
@@ -3985,12 +3986,12 @@ IP-adressen worden één week geblokkeerd voor anonieme gebruikers, met het aanm
 	'checkuser-log-subpage' => 'Logboek',
 	'checkuser-log-return' => 'Naar het hoofdformulier van ControleGebruiker terugkeren',
 	'checkuser-limited' => "'''Deze resultaten zijn niet volledig om prestatieredenen.'''",
-	'checkuser-log-userips' => '$1 heeft IP-adressen voor $2',
-	'checkuser-log-ipedits' => '$1 heeft bewerkingen voor $2',
-	'checkuser-log-ipusers' => '$1 heeft gebruikers voor $2',
-	'checkuser-log-ipedits-xff' => '$1 heeft bewerkingen voor XFF $2',
-	'checkuser-log-ipusers-xff' => '$1 heeft gebruikers voor XFF $2',
-	'checkuser-log-useredits' => '$1 heeft bewerkingen voor $2',
+	'checkuser-log-userips' => '$1 heeft de IP-adressen door $2 opgevraagd',
+	'checkuser-log-ipedits' => '$1 heeft de bewerkingen door $2 opgevraagd',
+	'checkuser-log-ipusers' => '$1 heeft de gebruikers voor $2 opgevraagd',
+	'checkuser-log-ipedits-xff' => '$1 heeft de bewerkingen door XFF $2 opgevraagd',
+	'checkuser-log-ipusers-xff' => '$1 heeft de gebruikers van XFF $2 opgevraagd',
+	'checkuser-log-useredits' => '$1 heeft de bewerkingen door $2 opgevraagd',
 	'checkuser-autocreate-action' => 'is automatisch aangemaakt',
 	'checkuser-email-action' => 'heeft een e-mail gestuurd aan "$1"',
 	'checkuser-reset-action' => 'heeft het wachtwoord voor gebruiker "$1" opnieuw ingesteld',
@@ -4362,7 +4363,7 @@ Użytych adresów IP jest (nie więcej niż 5000, posortowane według adresu):',
 	'checkuser-log-ipusers-xff' => '$1 otrzymał listę użytkowników dla XFF $2',
 	'checkuser-log-useredits' => '$1 otrzymał historię edycji wykonane przez $2',
 	'checkuser-autocreate-action' => 'został automatycznie utworzony',
-	'checkuser-email-action' => 'wysłał e-mail do użytkownika „$1”',
+	'checkuser-email-action' => 'wysłał e‐mail do użytkownika „$1”',
 	'checkuser-reset-action' => 'reset hasła dla użytkownika „$1”',
 );
 
