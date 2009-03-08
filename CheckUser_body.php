@@ -1057,7 +1057,7 @@ class CheckUser extends SpecialPage
 	protected static function userWasBlocked( $name ) {
 		$userpage = Title::makeTitle( NS_USER, $name );
 		return wfGetDB( DB_SLAVE )->selectField( 'logging', '1', 
-			array( 'log_type' => 'block',
+			array( 'log_type' => array('block','suppress'),
 				'log_action' => 'block',
 				'log_namespace' => $userpage->getNamespace(),
 				'log_title' => $userpage->getDBKey() ), 
