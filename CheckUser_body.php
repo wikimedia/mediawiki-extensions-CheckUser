@@ -227,7 +227,7 @@ class CheckUser extends SpecialPage
 	* @param string $tag
 	*/
 	protected function doMassUserBlock( $users, $reason = '', $tag = '', $talkTag = '' ) {
-		global $wgOut, $wgUser, $wgCheckUserMaxBlocks;
+		global $wgOut, $wgUser, $wgCheckUserMaxBlocks, $wgLang;
 		if( empty($users) || $wgUser->isBlocked(false) ) {
 			$wgOut->addWikiText( wfMsgExt('checkuser-block-failure',array('parsemag')) );
 			return;
@@ -239,12 +239,12 @@ class CheckUser extends SpecialPage
 			return;
 		}
 		$safeUsers = IPBlockForm::doMassUserBlock( $users, $reason, $tag, $talkTag );
-		if( !empty($safeUsers) ) {
-			$n = count($safeUsers);
-			$ulist = implode(', ',$safeUsers);
-			$wgOut->addWikiText( wfMsgExt('checkuser-block-success',array('parsemag'),$ulist,$n) );
+		if( !empty( $safeUsers ) ) {
+			$n = count( $safeUsers );
+			$ulist = $wgLang->listToText( $safeUsers );
+			$wgOut->addWikiText( wfMsgExt( 'checkuser-block-success', 'parsemag', $ulist, $wgLang->formatNum( $n ) ) );
 		} else {
-			$wgOut->addWikiText( wfMsgExt('checkuser-block-failure',array('parsemag')) );
+			$wgOut->addWikiText( wfMsgExt( 'checkuser-block-failure', 'parsemag' ) );
 		}
 	}
 	
@@ -884,7 +884,7 @@ class CheckUser extends SpecialPage
 					foreach( $user->getGroups() as $group ) {
 						$list[] = self::buildGroupLink( $group );
 					}
-					$groups = implode( ', ', $list );
+					$groups = $wgLang->commaList( $list );
 					if( $groups ) {
 						$flags[] = '<i>(' . $groups . ')</i>';
 					}
@@ -894,7 +894,7 @@ class CheckUser extends SpecialPage
 					$key = wfMemcKey( 'acctcreate', 'ip', $ip );
 					$count = intval( $wgMemc->get( $key ) );
 					if( $count ) {
-						$flags[] = '<strong>[' . wfMsgExt('checkuser-accounts',array('parsemag'),$count) . ']</strong>';
+						$flags[] = '<strong>[' . wfMsgExt( 'checkuser-accounts', 'parsemag', $wgLang->formatNum( $count ) . ']</strong>';
 					}
 				}
 				$s .= implode(' ',$flags);
