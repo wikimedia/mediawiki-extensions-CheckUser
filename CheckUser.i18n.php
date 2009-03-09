@@ -2169,10 +2169,13 @@ $messages['hak'] = array(
 );
 
 /** Hawaiian (Hawai`i)
+ * @author Kalani
  * @author Singularity
  */
 $messages['haw'] = array(
 	'checkuser-reason' => 'Kumu',
+	'checkuser-search' => 'Huli',
+	'checkuser-search-submit' => 'Huli',
 );
 
 /** Hebrew (עברית)
@@ -3864,6 +3867,7 @@ Dit Warktüüch dröff blot na de Regeln mit de Richtlienen bruukt warrn.',
 	'checkuser-week-2' => 'leste twee Weken',
 	'checkuser-month' => 'leste 30 Daag',
 	'checkuser-all' => 'all',
+	'checkuser-cidr-label' => 'Söök gemeensamen IP-Block un bedrapen Adressen för en List vun IP-Adressen',
 	'checkuser-cidr-res' => 'Gemeensam CIDR:',
 	'checkuser-empty' => 'Dat Logbook is leddig.',
 	'checkuser-nomatch' => 'Nix funnen, wat övereenstimmt.',

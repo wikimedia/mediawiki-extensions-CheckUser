@@ -77,7 +77,7 @@ $aliases['fi'] = array(
 
 /** French (Français) */
 $aliases['fr'] = array(
-	'CheckUser' => array( 'Vérificateur d’adresse', 'VérificateurAdresse', 'VerificateurAdresse' ),
+	'CheckUser' => array( "Vérificateur d'utilisateur", "Vérificateur d'utilisateurs", 'VérificateurUtilisateur', 'VérificateurUtilisateurs', 'Vérificateur d’adresse', 'VérificateurAdresse', 'VerificateurAdresse' ),
 );
 
 /** Galician (Galego) */
