@@ -894,7 +894,7 @@ class CheckUser extends SpecialPage
 					$key = wfMemcKey( 'acctcreate', 'ip', $ip );
 					$count = intval( $wgMemc->get( $key ) );
 					if( $count ) {
-						$flags[] = '<strong>[' . wfMsgExt( 'checkuser-accounts', 'parsemag', $wgLang->formatNum( $count ) . ']</strong>';
+						$flags[] = '<strong>[' . wfMsgExt( 'checkuser-accounts', 'parsemag', $wgLang->formatNum( $count ) ) . ']</strong>';
 					}
 				}
 				$s .= implode(' ',$flags);
