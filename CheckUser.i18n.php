@@ -4494,6 +4494,82 @@ Endereços IP serão bloqueados por 1 semana com criação de conta desabilitada
 	'checkuser-reset-action' => 'suprimir a senha do utilizador "$1"',
 );
 
+/** Brazilian Portuguese (Português do Brasil)
+ * @author Eduardo.mps
+ */
+$messages['pt-br'] = array(
+	'checkuser-summary' => 'Esta ferramenta varre as Mudanças recentes para obter os endereços de IP de um utilizador ou para exibir os dados de edições/utilizadores para um IP.
+Utilizadores e edições podem ser obtidos por um IP XFF colocando-se "/xff" no final do endereço. São suportados endereços IPv4 (CIDR 16-32) e IPv6 (CIDR 96-128).
+Não serão retornadas mais de 5000 edições por motivos de desempenho. O uso desta ferramenta deverá estar de acordo com as políticas.',
+	'checkuser-desc' => 'Concede a utilizadores com a permissão apropriada a possibilidade de verificar os endereços IP de um utilizador e outras informações',
+	'checkuser-logcase' => 'As buscas nos registros são sensíveis a letras maiúsculas ou minúsculas.',
+	'checkuser' => 'Verificar utilizador',
+	'group-checkuser' => 'CheckUser',
+	'group-checkuser-member' => 'CheckUser',
+	'right-checkuser' => 'Verificar o endereço IP de um utilizador e outras informações',
+	'right-checkuser-log' => 'Ver os registros das verificações',
+	'grouppage-checkuser' => '{{ns:project}}:CheckUser',
+	'checkuser-reason' => 'Motivo',
+	'checkuser-showlog' => 'Exibir registros',
+	'checkuser-log' => 'Registros de verificação de utilizadores',
+	'checkuser-query' => 'Examinar as Mudanças recentes',
+	'checkuser-target' => 'Utilizador ou IP',
+	'checkuser-users' => 'Obter utilizadores',
+	'checkuser-edits' => 'Obter edições de IPs',
+	'checkuser-ips' => 'Obter IPs',
+	'checkuser-account' => 'Obter edições desta conta',
+	'checkuser-search' => 'Pesquisar',
+	'checkuser-period' => 'Duração:',
+	'checkuser-week-1' => 'última semana',
+	'checkuser-week-2' => 'últimas duas semanas',
+	'checkuser-month' => 'últimos 30 dias',
+	'checkuser-all' => 'todos',
+	'checkuser-cidr-label' => 'Encontrar intervalo comum e endereços afetados para uma lista de IPs',
+	'checkuser-cidr-res' => 'CIDR comum:',
+	'checkuser-empty' => 'O registro não contém ítens.',
+	'checkuser-nomatch' => 'Não foram encontrados resultados.',
+	'checkuser-nomatch-edits' => 'Nenhum resultado encontrado.
+A última edição foi em $1 às $2.',
+	'checkuser-check' => 'Verificar',
+	'checkuser-log-fail' => 'Não foi possível adicionar entradas ao registro',
+	'checkuser-nolog' => 'Não foi encontrado um arquivo de registros.',
+	'checkuser-blocked' => 'Bloqueado',
+	'checkuser-gblocked' => 'Bloqueado globalmente',
+	'checkuser-locked' => 'Bloqueado',
+	'checkuser-wasblocked' => 'Previamente bloqueado',
+	'checkuser-localonly' => 'Não unificada',
+	'checkuser-massblock' => 'Bloquear utilizadores selecionados',
+	'checkuser-massblock-text' => 'As contas selecionadas serão bloqueadas indefinidamente, com bloqueio automático ativado e criação de conta desabilitada.
+Endereços IP serão bloqueados por 1 semana com criação de conta desabilitada.',
+	'checkuser-blocktag' => 'Substituir páginas de utilizador com:',
+	'checkuser-blocktag-talk' => 'Substituir páginas de discussão por:',
+	'checkuser-massblock-commit' => 'Bloquear utilizadores selecionados',
+	'checkuser-block-success' => "'''{{PLURAL:$2|O utilizador|Os utilizadores}} $1 {{PLURAL:$2|está|estão}} agora {{PLURAL:$2|bloqueado|bloqueados}}.'''",
+	'checkuser-block-failure' => "'''Nenhum utilizador bloqueado.'''",
+	'checkuser-block-limit' => 'Demasiados utilizadores selecionados.',
+	'checkuser-block-noreason' => 'Você deve especificar um motivo para os bloqueios.',
+	'checkuser-accounts' => '$1 {{PLURAL:$1|nova conta|novas contas}}',
+	'checkuser-too-many' => 'Demasiados resultados; por favor, restrinja o CIDR. Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
+	'checkuser-user-nonexistent' => 'O utilizador especificado não existe.',
+	'checkuser-search-form' => 'Procurar entradas no registo onde $1 seja $2',
+	'checkuser-search-submit' => 'Procurar',
+	'checkuser-search-initiator' => 'iniciador',
+	'checkuser-search-target' => 'alvo',
+	'checkuser-ipeditcount' => '~$1 de todos os utilizadores',
+	'checkuser-log-subpage' => 'Registro',
+	'checkuser-log-return' => 'Retornar ao formulário principal de CheckUser',
+	'checkuser-limited' => "'''Estes resultados foram removidos por motivos de performance.'''",
+	'checkuser-log-userips' => '$1 obteve IPs de $2',
+	'checkuser-log-ipedits' => '$1 obteve edições de $2',
+	'checkuser-log-ipusers' => '$1 obteve utilizadores de $2',
+	'checkuser-log-ipedits-xff' => '$1 obteve edições para o XFF $2',
+	'checkuser-log-ipusers-xff' => '$1 obteve utilizadores para o XFF $2',
+	'checkuser-log-useredits' => '$1 obteve edições de $2',
+	'checkuser-autocreate-action' => 'foi automaticamente criada',
+	'checkuser-email-action' => 'Enviar email para o utilizador "$1"',
+	'checkuser-reset-action' => 'suprimir a senha do utilizador "$1"',
+);
+
 /** Quechua (Runa Simi)
  * @author AlimanRuna
  */
