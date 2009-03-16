@@ -3736,6 +3736,7 @@ IPv4 (CIDR 16-32) आणि IPv6 (CIDR 96-128) वापरता येऊ श�
 
 /** Malay (Bahasa Melayu)
  * @author Aviator
+ * @author Izzudin
  * @author Kurniasan
  */
 $messages['ms'] = array(
@@ -3763,6 +3764,8 @@ $messages['ms'] = array(
 	'checkuser-week-2' => 'dua minggu lepas',
 	'checkuser-month' => '30 hari lepas',
 	'checkuser-all' => 'semua',
+	'checkuser-cidr-label' => 'Cari julat biasa dan alamat-alamat terlibat untuk sebuah senarai IP',
+	'checkuser-cidr-res' => 'CIDR biasa:',
 	'checkuser-empty' => 'Log ini kosong.',
 	'checkuser-nomatch' => 'Tiada padanan.',
 	'checkuser-nomatch-edits' => 'Tiada padanan. Suntingan terakhir ialah pada $1, $2.',
