@@ -592,8 +592,8 @@ $messages['be-tarask'] = array(
 Удзельнікі і рэдагаваньні, якія рабіліся з ІР-адрасу, пазначаным ў загалоўках XFF, можна атрымаць, дадаўшы да ІР-адрасу «/xff». Падтрымліваюцца IPv4 (CIDR 16-32) і IPv6 (CIDR 96-128).
 З прычыны прадукцыйнасьці будуць паказаны ня больш за 5000 рэдагаваньняў.
 Карыстайцеся гэтым інструмэнтам толькі згодна з правіламі.',
-	'checkuser-desc' => 'Даць магчымасьць удзельнікам з адпаведнымі правамі правяраць ІР-адрасы і іншую інфармацыю ўдзельнікаў',
-	'checkuser-logcase' => 'Пошук у журнале залежыць ад велічыні літар.',
+	'checkuser-desc' => 'Дае магчымасьць удзельнікам з адпаведнымі правамі правяраць ІР-адрасы і іншую інфармацыю ўдзельнікаў',
+	'checkuser-logcase' => 'Пошук па журнале адчувальны да рэгістру літараў.',
 	'checkuser' => 'Праверыць удзельніка',
 	'group-checkuser' => 'Правяраючыя ўдзельнікаў',
 	'group-checkuser-member' => 'правяраючы ўдзельнікаў',
@@ -641,7 +641,7 @@ $messages['be-tarask'] = array(
 	'checkuser-block-noreason' => 'Вам неабходна пазначыць прычыну блякаваньня.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|новы рахунак|новыя рахункі|новых рахункаў}}',
 	'checkuser-too-many' => 'Зашмат вынікаў, калі ласка, абмяжуйце CIDR.
-Тут знаходзяцца ўжытыя ІР-адрасы (максымальна 5000, адсартаваныя па адрасе):',
+Тут пададзеныя ўжытыя ІР-адрасы (максымум 5000, адсартаваныя паводле адрасу):',
 	'checkuser-user-nonexistent' => 'Пазначанага рахунку ўдзельніка не існуе.',
 	'checkuser-search-form' => 'Пошук запісаў у журнале, дзе $1 зьяўляецца $2',
 	'checkuser-search-submit' => 'Шукаць',
@@ -1392,6 +1392,7 @@ Uzu ĉi tion laŭ regularo.',
 	'checkuser-week-2' => 'lastaj du semajnoj',
 	'checkuser-month' => 'lastaj 30 tagoj',
 	'checkuser-all' => 'ĉiuj',
+	'checkuser-cidr-res' => 'Komuna CIDR:',
 	'checkuser-empty' => 'La protokolo estas malplena.',
 	'checkuser-nomatch' => 'Neniujn pafojn trovis.',
 	'checkuser-nomatch-edits' => 'Neniuj trafoj troviĝis. Lasta redakto estis je $1, $2.',
@@ -2179,6 +2180,7 @@ $messages['haw'] = array(
 );
 
 /** Hebrew (עברית)
+ * @author Amire80
  * @author Rotem Liss
  */
 $messages['he'] = array(
@@ -2233,7 +2235,7 @@ $messages['he'] = array(
 	'checkuser-block-limit' => 'נבחרו יותר מדי משתמשים.',
 	'checkuser-block-noreason' => 'עליכם לתת סיבה לחסימות.',
 	'checkuser-accounts' => '{{PLURAL:$1|חשבון חדש אחד|$1 חשבונות חדשים}}',
-	'checkuser-too-many' => 'נמצאו תוצאות רבות מדי, אנא צמצו את טווח כתובות ה־IP. להלן כתובת ה־IP שנעשה בהן שימוש (מוצגות 5,000 לכל היותר, וממוינות):',
+	'checkuser-too-many' => 'נמצאו תוצאות רבות מדי, אנא צמצמו את טווח כתובות ה־IP. להלן כתובת ה־IP שנעשה בהן שימוש (מוצגות 5,000 לכל היותר, וממוינות):',
 	'checkuser-user-nonexistent' => 'המשתמש לא נמצא.',
 	'checkuser-search-form' => 'מציאת ערכים ביומן שבהם ה$1 הוא $2',
 	'checkuser-search-submit' => 'חיפוש',
@@ -2564,7 +2566,7 @@ Tote uso de iste instrumento debe esser conforme al politicas in vigor.',
 	'group-checkuser-member' => 'Verificator de usatores',
 	'right-checkuser' => 'Verificar le adresses IP e altere informationes del usator',
 	'right-checkuser-log' => 'Vider le registro de verification de usatores',
-	'grouppage-checkuser' => '{{ns:project}}:Verificar usator',
+	'grouppage-checkuser' => '{{ns:project}}:Verificator de usatores',
 	'checkuser-reason' => 'Motivo:',
 	'checkuser-showlog' => 'Monstrar registro',
 	'checkuser-log' => 'Registro de verification de usatores',
@@ -4585,7 +4587,7 @@ Pichqa waranqamanta aswan llamk'apusqakunaqa manam kutimunqachu, allin rikuchina
 	'group-checkuser' => 'Ruraqkunata llanchiy',
 	'group-checkuser-member' => 'Ruraqta llanchiy',
 	'grouppage-checkuser' => '{{ns:project}}:Ruraqta llanchiy',
-	'checkuser-reason' => 'Imarayku',
+	'checkuser-reason' => 'Kayrayku:',
 	'checkuser-showlog' => "Hallch'ata rikuchiy",
 	'checkuser-log' => "Ruraq llanchiy hallch'a",
 	'checkuser-query' => 'Ñaqha hukchasqakunapi maskay',
@@ -4594,12 +4596,22 @@ Pichqa waranqamanta aswan llamk'apusqakunaqa manam kutimunqachu, allin rikuchina
 	'checkuser-edits' => 'Ruraqkunap hukchasqankunata chaskiy',
 	'checkuser-ips' => 'IP huchhakunata chaskiy',
 	'checkuser-search' => 'Maskay',
+	'checkuser-period' => "Kay mit'alla:",
+	'checkuser-week-1' => 'qayna simana',
+	'checkuser-week-2' => 'qayna iskay simana',
+	'checkuser-month' => "qayna kimsa chunka p'unchaw",
+	'checkuser-all' => 'tukuy',
 	'checkuser-empty' => "Manam kanchu ima hallch'asqapas.",
 	'checkuser-nomatch' => 'Manam imapas taripasqachu.',
 	'checkuser-check' => 'Llanchiy',
 	'checkuser-log-fail' => "Manam atinichu hallch'aman yapayta",
 	'checkuser-nolog' => "Manam hallch'ayta tarinichu",
 	'checkuser-blocked' => "Hark'asqa",
+	'checkuser-gblocked' => "Sapsintinpi hark'asqa",
+	'checkuser-locked' => "Wichq'asqa",
+	'checkuser-wasblocked' => "Ñawpaqta hark'asqa",
+	'checkuser-localonly' => 'Manam hukllasqachu',
+	'checkuser-massblock' => "Akllasqa ruraqkunata hark'ay",
 	'checkuser-too-many' => "Nisyum tarisqakuna, ama hina kaspa CIDR nisqata k'ichkichay. Kaymi llamk'achisqa IP huchhakuna (5000-kama, tiyay sutikama siq'inchasqa):",
 	'checkuser-user-nonexistent' => 'Nisqayki ruraqqa manam kanchu.',
 	'checkuser-search-submit' => 'Maskay',
@@ -4893,6 +4905,15 @@ IP-аадырыстартан бэлиэтэммэккэ киирии уонна
 	'checkuser-autocreate-action' => 'аптамаатынан оҥоһуллубут',
 	'checkuser-email-action' => '"$1" кыттаачыга сурук ыыппыт',
 	'checkuser-reset-action' => '"$1" киирии тылын бырахпыт',
+);
+
+/** Sardinian (Sardu)
+ * @author Marzedu
+ */
+$messages['sc'] = array(
+	'checkuser-target' => 'Usuàriu o IP',
+	'checkuser-all' => 'totu',
+	'checkuser-search-submit' => 'Chirca',
 );
 
 /** Sicilian (Sicilianu)
