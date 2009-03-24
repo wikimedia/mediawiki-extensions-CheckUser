@@ -6012,9 +6012,20 @@ $messages['wa'] = array(
 $messages['yi'] = array(
 	'checkuser-target' => 'באניצער אדער IP אדרעס',
 	'checkuser-search' => 'זוכן',
+	'checkuser-week-1' => 'פֿאריגע וואך',
 	'checkuser-month' => 'פֿאריגע 30 טעג',
 	'checkuser-all' => 'אלע',
+	'checkuser-nomatch' => 'נישט געטראפֿן קיין פאָר.',
+	'checkuser-nomatch-edits' => 'נישט געטראפֿן קיין פאָרן.
+לעצטע רעדאַקטירונג געווען אום $1 אין $2.',
+	'checkuser-check' => 'בודק זײַן',
+	'checkuser-log-fail' => 'נישט מעגלעך צולייגן בײַשרײַבונג אין לאג-בוך.',
+	'checkuser-nolog' => 'נישט געפֿונען קיין לאג בוך.',
+	'checkuser-blocked' => 'בלאקירט',
+	'checkuser-gblocked' => 'בלאקירט גלאבאַליש',
+	'checkuser-locked' => 'פֿאַרשלאסן',
 	'checkuser-search-submit' => 'זוכן',
+	'checkuser-search-target' => 'ציל',
 );
 
 /** Yue (粵語) */
