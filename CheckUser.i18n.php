@@ -159,23 +159,6 @@ $messages['niu'] = array(
 	'checkuser-search-submit' => 'Kumi',
 );
 
-/** Veps (Vepsan kel')
- * @author Игорь Бродский
- */
-$messages['vep'] = array(
-	'checkuser' => 'Kodvda kävutajad',
-	'group-checkuser' => 'Kodvda kävutajid',
-	'checkuser-reason' => 'Sü:',
-	'checkuser-showlog' => 'Ozutada aigkirj',
-	'checkuser-log' => 'Kävutajiden kodvindan aigkirj',
-	'checkuser-query' => 'Ozutada veresid toižetusid',
-	'checkuser-target' => 'Kävutai vai IP-adres',
-	'checkuser-users' => 'Sada kävutajid',
-	'checkuser-edits' => 'Sada toižetusid, kudambad oma tehtud IP-adresalpäi',
-	'checkuser-search' => 'Ectä',
-	'checkuser-all' => 'kaik',
-);
-
 /** Afrikaans (Afrikaans)
  * @author Arnobarnard
  * @author Naudefj
@@ -5851,6 +5834,23 @@ Sti qua i xe i IP doparà (fin a un massimo de 5000, ordinà par indirizo):',
 	'checkuser-autocreate-action' => 'xe stà creà automaticamente',
 	'checkuser-email-action' => 'gà mandà na e-mail a "$1"',
 	'checkuser-reset-action' => 'reinposta la password par l\'utente "$1"',
+);
+
+/** Veps (Vepsan kel')
+ * @author Игорь Бродский
+ */
+$messages['vep'] = array(
+	'checkuser' => 'Kodvda kävutajad',
+	'group-checkuser' => 'Kodvda kävutajid',
+	'checkuser-reason' => 'Sü:',
+	'checkuser-showlog' => 'Ozutada aigkirj',
+	'checkuser-log' => 'Kävutajiden kodvindan aigkirj',
+	'checkuser-query' => 'Ozutada veresid toižetusid',
+	'checkuser-target' => 'Kävutai vai IP-adres',
+	'checkuser-users' => 'Sada kävutajid',
+	'checkuser-edits' => 'Sada toižetusid, kudambad oma tehtud IP-adresalpäi',
+	'checkuser-search' => 'Ectä',
+	'checkuser-all' => 'kaik',
 );
 
 /** Vietnamese (Tiếng Việt)
