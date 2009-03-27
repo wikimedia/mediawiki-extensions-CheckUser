@@ -49,7 +49,8 @@ class CheckUser extends SpecialPage
 		if( !$wgUser->isAllowed( 'checkuser' ) ) {
 			if ( $wgUser->isAllowed( 'checkuser-log' ) ) {
 				$wgOut->addWikiText( wfMsg( 'checkuser-summary' ) . 
-					"\n\n[[" . $this->getLogSubpageTitle()->getPrefixedText() . '|' . wfMsg( 'checkuser-showlog' ) . ']]'
+					"\n\n[[" . $this->getLogSubpageTitle()->getPrefixedText() .
+						'|' . wfMsg( 'checkuser-showlog' ) . ']]'
 				);
 				return;
 			}
@@ -58,7 +59,8 @@ class CheckUser extends SpecialPage
 			return;
 		}
 
-		$user = $wgRequest->getText( 'user' ) ? $wgRequest->getText( 'user' ) : $wgRequest->getText( 'ip' );
+		$user = $wgRequest->getText( 'user' ) ?
+			$wgRequest->getText( 'user' ) : $wgRequest->getText( 'ip' );
 		$user = trim($user);
 		$reason = $wgRequest->getText( 'reason' );
 		$blockreason = $wgRequest->getText( 'blockreason' );
@@ -151,7 +153,8 @@ class CheckUser extends SpecialPage
 		# User box length should fit things like "2001:0db8:85a3:08d3:1319:8a2e:0370:7344/100/xff"
 		if( $wgUser->isAllowed( 'checkuser-log' ) ) {
 			$wgOut->addWikiText( wfMsg( 'checkuser-summary' ) . 
-				"\n\n[[" . $this->getLogSubpageTitle()->getPrefixedText() . '|' . wfMsg( 'checkuser-showlog' ) . ']]'
+				"\n\n[[" . $this->getLogSubpageTitle()->getPrefixedText() .
+					'|' . wfMsg( 'checkuser-showlog' ) . ']]'
 			);
 		}
 		$form = "<form name='checkuserform' id='checkuserform' action=\"$action\" method='post'>";
@@ -210,7 +213,7 @@ class CheckUser extends SpecialPage
 	*/
 	protected function addJsCIDRForm() {
 		global $wgOut;
-		$s = '<fieldset id="mw-checkuser-cidrform" style="display:none;">'.
+		$s = '<fieldset id="mw-checkuser-cidrform" style="display:none; clear:both;">'.
 			'<legend>'.wfMsgHtml('checkuser-cidr-label').'</legend>';
 		$s .= '<textarea id="mw-checkuser-iplist" rows="5" cols="50" onkeyup="updateCIDRresult()" onclick="updateCIDRresult()"></textarea><br/>';
 		$s .= wfMsgHtml('checkuser-cidr-res') . '&nbsp;' . 
