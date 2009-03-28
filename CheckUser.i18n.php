@@ -4894,9 +4894,16 @@ IP-аадырыстартан бэлиэтэммэккэ киирии уонна
  * @author Marzedu
  */
 $messages['sc'] = array(
+	'checkuser-reason' => 'Motivu:',
 	'checkuser-target' => 'Usuàriu o IP',
+	'checkuser-search' => 'Chirca',
+	'checkuser-period' => 'Durada:',
+	'checkuser-week-1' => 'ùrtima chida',
+	'checkuser-week-2' => 'ùrtimas duas chidas',
+	'checkuser-month' => 'ùrtimas 30 dies',
 	'checkuser-all' => 'totu',
 	'checkuser-search-submit' => 'Chirca',
+	'checkuser-ipeditcount' => '~$1 dae totu is usuàrios',
 );
 
 /** Sicilian (Sicilianu)
