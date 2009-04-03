@@ -214,3 +214,8 @@ $aliases['tr'] = array(
 	'CheckUser' => array( 'Denetçi' ),
 );
 
+/** Veps (Vepsan kel') */
+$aliases['vep'] = array(
+	'CheckUser' => array( 'KodvdaKävutajad' ),
+);
+
