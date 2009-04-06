@@ -921,6 +921,7 @@ L'última edició va ser el $1 a $2.",
 	'checkuser-nolog' => "No s'ha trobat el fitxer del registre.",
 	'checkuser-blocked' => 'Blocat',
 	'checkuser-gblocked' => 'Blocat globalment',
+	'checkuser-locked' => 'Blocat',
 	'checkuser-wasblocked' => 'Prèviament bloquejat',
 	'checkuser-localonly' => 'No unificat',
 	'checkuser-massblock' => 'Bloqueja els usuaris seleccionats',
@@ -1323,6 +1324,7 @@ $messages['el'] = array(
 	'checkuser-nolog' => 'Δεν βρέθηκε κανένα αρχείο καταγραφής.',
 	'checkuser-blocked' => 'Φραγμένος',
 	'checkuser-locked' => 'Κλειδωμένο',
+	'checkuser-localonly' => 'Μη ενοποιημένο',
 	'checkuser-blocktag' => 'Αντικατάσταση των σελίδων των χρηστών με:',
 	'checkuser-massblock-commit' => 'Φραγή επιλεγμένων χρηστών',
 	'checkuser-too-many' => 'Πάρα πολλά αποτελέσματα, παρακαλούμε στενέψτε το CIDR. Παρακάτω είναι οι διευθύνσεις IP που χρησιμοποιούνται (με ανώτατο όριο τις 5000, ταξινομημένες κατά διεύθυνση):',
@@ -1354,12 +1356,12 @@ Neniom pli ol 5000 redaktoj estos montrita pro bona datumbaza funkciado.
 Uzu ĉi tion laŭ regularo.',
 	'checkuser-desc' => 'Rajtigas al uzantoj kun la taŭga permeso la kapableco kontroli la IP-adreson de uzanto kaj alia informo',
 	'checkuser-logcase' => 'La protokola serĉo estas usklecodistinga.',
-	'checkuser' => 'Kontrolanto de uzantoj',
+	'checkuser' => 'Kontrola uzanto',
 	'group-checkuser' => 'Kontrolaj uzantoj',
 	'group-checkuser-member' => 'Kontrola uzanto',
 	'right-checkuser' => 'Kontroli la IP-adreson kaj alian informon de uzanto',
-	'right-checkuser-log' => 'Vidi la protokolon pri kontrolado de uzantoj',
-	'grouppage-checkuser' => '{{ns:project}}:Kontroli uzanton',
+	'right-checkuser-log' => 'Vidi la protokolon pri kontrolaj uzantoj',
+	'grouppage-checkuser' => '{{ns:project}}:Kontrola uzanto',
 	'checkuser-reason' => 'Kialo:',
 	'checkuser-showlog' => 'Montri protokolon',
 	'checkuser-log' => 'Protokolo pri kontrolado de uzantoj',
@@ -1384,7 +1386,7 @@ Uzu ĉi tion laŭ regularo.',
 	'checkuser-log-fail' => 'Ne eblis aldoni protokoleron.',
 	'checkuser-nolog' => 'Neniu protokolo estas trovita.',
 	'checkuser-blocked' => 'Forbarita',
-	'checkuser-gblocked' => 'Forbarita globale',
+	'checkuser-gblocked' => 'Forbarita ĝenerale',
 	'checkuser-locked' => 'Ŝlosita',
 	'checkuser-wasblocked' => 'Antaŭe forbarita',
 	'checkuser-localonly' => 'Nekunigita',
@@ -5511,9 +5513,11 @@ $messages['tg-cyrl'] = array(
 );
 
 /** Thai (ไทย)
+ * @author Mopza
  * @author Octahedron80
  */
 $messages['th'] = array(
+	'checkuser-reason' => 'เหตุผล:',
 	'checkuser-search' => 'ค้นหา',
 	'checkuser-period' => 'ระยะเวลา:',
 	'checkuser-week-1' => 'สัปดาห์ที่แล้ว',
