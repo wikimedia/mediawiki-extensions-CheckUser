@@ -1326,7 +1326,11 @@ $messages['el'] = array(
 	'checkuser-locked' => 'Κλειδωμένο',
 	'checkuser-localonly' => 'Μη ενοποιημένο',
 	'checkuser-blocktag' => 'Αντικατάσταση των σελίδων των χρηστών με:',
+	'checkuser-blocktag-talk' => 'Αντικαταστήστε τις σελίδες συζήτησης με:',
 	'checkuser-massblock-commit' => 'Φραγή επιλεγμένων χρηστών',
+	'checkuser-block-limit' => 'Έχουν επιλεχθεί πάρα πολλοί χρήστες.',
+	'checkuser-block-noreason' => 'Πρέπει να αιτιολογήσετε τις φραγές.',
+	'checkuser-accounts' => '$1 {{PLURAL:$1|νέος λογαριασμός|νέοι λογαριασμοί}}',
 	'checkuser-too-many' => 'Πάρα πολλά αποτελέσματα, παρακαλούμε στενέψτε το CIDR. Παρακάτω είναι οι διευθύνσεις IP που χρησιμοποιούνται (με ανώτατο όριο τις 5000, ταξινομημένες κατά διεύθυνση):',
 	'checkuser-user-nonexistent' => 'Ο συγκεκριμένος χρήστης δεν υπάρχει.',
 	'checkuser-search-form' => 'Εύρεση εγγραφών του αρχείου καταγραφής στις οποίες ο $1 είναι $2',
@@ -5518,13 +5522,13 @@ $messages['tg-cyrl'] = array(
  */
 $messages['th'] = array(
 	'checkuser-reason' => 'เหตุผล:',
-	'checkuser-search' => 'ค้นหา',
+	'checkuser-search' => 'สืบค้น',
 	'checkuser-period' => 'ระยะเวลา:',
 	'checkuser-week-1' => 'สัปดาห์ที่แล้ว',
 	'checkuser-week-2' => '2 สัปดาห์ที่แล้ว',
 	'checkuser-month' => '30 วันที่แล้ว',
 	'checkuser-all' => 'ทั้งหมด',
-	'checkuser-search-submit' => 'ค้นหา',
+	'checkuser-search-submit' => 'สืบค้น',
 );
 
 /** Tagalog (Tagalog)
