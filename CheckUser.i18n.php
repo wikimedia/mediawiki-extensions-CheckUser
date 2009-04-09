@@ -2037,7 +2037,7 @@ Os enderezos IP serán bloqueados cun tempo de duración dunha semana só para o
 	'checkuser-reset-action' => 'envioulle un novo contrasinal ao usuario "$1"',
 );
 
-/** Gothic */
+/** Gothic (Gothic) */
 $messages['got'] = array(
 	'checkuser-reason' => 'Faírina',
 );
@@ -2738,6 +2738,7 @@ $messages['is'] = array(
  * @author Darth Kule
  * @author Gianfranco
  * @author Melos
+ * @author Nemo bis
  * @author Pietrodn
  */
 $messages['it'] = array(
@@ -2750,7 +2751,7 @@ $messages['it'] = array(
 	'right-checkuser' => "Visualizza gli indirizzi IP usati dall'utente e altre informazioni",
 	'right-checkuser-log' => 'Visualizza il log dei checkuser',
 	'grouppage-checkuser' => '{{ns:project}}:Controllo utenze',
-	'checkuser-reason' => 'Motivazione:',
+	'checkuser-reason' => 'Motivo:',
 	'checkuser-showlog' => 'Mostra il log',
 	'checkuser-log' => 'Log dei checkuser',
 	'checkuser-query' => 'Cerca nelle ultime modifiche',
@@ -5197,6 +5198,8 @@ Beoarbaidengen fon ne IP-Adresse konnen uk ätter Informatione uut do XFF-Header
 	'checkuser-week-2' => 'lääste 14 Deege',
 	'checkuser-month' => 'lääste 30 Deege',
 	'checkuser-all' => 'aal',
+	'checkuser-cidr-label' => 'Fiend gemeensoamen Adressberäk un betroffene Adresse foar ne Lieste fon IP-Adressen',
+	'checkuser-cidr-res' => 'Gemeenskuppelke CIDR:',
 	'checkuser-empty' => 'Dät Logbouk änthaalt neen Iendraage.',
 	'checkuser-nomatch' => 'Neen Uureenstämmengen fuunen.',
 	'checkuser-nomatch-edits' => 'Neen Uureenstimmengen fuunen. Lääste Beoarbaidenge waas an n $1 uum $2.',
@@ -5612,7 +5615,7 @@ Narito ang ginamit na mga IP (5000 pinakamarami, inayos ayon sa adres):',
 	'checkuser-reset-action' => 'muling itakda ang hudyat para kay tagagamit na "$1"',
 );
 
-/** Tonga (faka-Tonga) */
+/** Tonga (lea faka-Tonga) */
 $messages['to'] = array(
 	'checkuser' => 'Siviʻi ʻa e ʻetita',
 	'group-checkuser' => 'Siviʻi kau ʻetita',
