@@ -2489,6 +2489,8 @@ Maximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt
 	'checkuser-week-2' => 'előző két hét',
 	'checkuser-month' => 'előző harminc nap',
 	'checkuser-all' => 'összes',
+	'checkuser-cidr-label' => 'IP-címek listája alapján azok közös tartományának és az érintett címek megkeresése',
+	'checkuser-cidr-res' => 'Közös CIDR:',
 	'checkuser-empty' => 'A napló nem tartalmaz elemeket.',
 	'checkuser-nomatch' => 'A párja nem található.',
 	'checkuser-nomatch-edits' => 'Nincs találat.
