@@ -1286,6 +1286,7 @@ $messages['ee'] = array(
 
 /** Greek (Ελληνικά)
  * @author Consta
+ * @author K sal 15
  * @author Konsnos
  * @author Omnipaedista
  * @author ZaDiak
@@ -1311,6 +1312,7 @@ $messages['el'] = array(
 	'checkuser-users' => 'Λήψη χρηστών',
 	'checkuser-edits' => 'Λήψη επεξεργασιών από IP',
 	'checkuser-ips' => 'Λήψη των IP',
+	'checkuser-account' => 'Λήψη επεξεργασιών του λογαριασμού',
 	'checkuser-search' => 'Αναζήτηση',
 	'checkuser-period' => 'Διάρκεια:',
 	'checkuser-week-1' => 'τελευταία εβδομάδα',
@@ -1319,15 +1321,22 @@ $messages['el'] = array(
 	'checkuser-all' => 'όλα',
 	'checkuser-empty' => 'Το αρχείο καταγραφής δεν περιέχει κανένα αντικείμενο.',
 	'checkuser-nomatch' => 'Δεν βρέθηκαν σχετικές σελίδες.',
+	'checkuser-nomatch-edits' => 'Δεν βρέθηκαν αποτελέσματα που να ταιριάζουν.
+Η τελευταία επεξεργασία ήταν στις $1 στις $2.',
 	'checkuser-check' => 'Έλεγχος',
 	'checkuser-log-fail' => 'Δεν είναι δυνατή η προσθήκη εγγραφής στο αρχείο καταγραφών',
 	'checkuser-nolog' => 'Δεν βρέθηκε κανένα αρχείο καταγραφής.',
 	'checkuser-blocked' => 'Φραγμένος',
+	'checkuser-gblocked' => 'Φραγμένος "παγκοσμίως"',
 	'checkuser-locked' => 'Κλειδωμένο',
+	'checkuser-wasblocked' => 'Προηγουμένως φραγμένος',
 	'checkuser-localonly' => 'Μη ενοποιημένο',
+	'checkuser-massblock' => 'Επιβολή φραγής στους επιλεγμένους χρήστες',
 	'checkuser-blocktag' => 'Αντικατάσταση των σελίδων των χρηστών με:',
 	'checkuser-blocktag-talk' => 'Αντικαταστήστε τις σελίδες συζήτησης με:',
 	'checkuser-massblock-commit' => 'Φραγή επιλεγμένων χρηστών',
+	'checkuser-block-success' => "'''{{PLURAL:$2|Ο χρήστης|Οι χρἠστες}} $1 είναι τώρα {{PLURAL:$2|φραγμένος|φραγμένοι}}.'''",
+	'checkuser-block-failure' => "'''Κανένας χρήστης φραγμένος.'''",
 	'checkuser-block-limit' => 'Έχουν επιλεχθεί πάρα πολλοί χρήστες.',
 	'checkuser-block-noreason' => 'Πρέπει να αιτιολογήσετε τις φραγές.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|νέος λογαριασμός|νέοι λογαριασμοί}}',
@@ -1340,12 +1349,16 @@ $messages['el'] = array(
 	'checkuser-ipeditcount' => '~$1 από όλους τους χρήστες',
 	'checkuser-log-subpage' => 'Αρχείο',
 	'checkuser-log-return' => 'Επιστροφή στην κύρια φόρμα ελέγχου χρήστη',
+	'checkuser-limited' => "'''Αυτά τα αποτελέσματα περικόπησαν για λόγους απόδοσης.'''",
 	'checkuser-log-userips' => 'Ο $1 πήρε τις IP διευθύνσεις για τον $2',
 	'checkuser-log-ipedits' => 'Ο $1 πήρε τις επεξεργασίες για το $2',
 	'checkuser-log-ipusers' => 'Ο $1 πήρε τους χρήστες για το $2',
 	'checkuser-log-ipedits-xff' => 'Ο $1 πήρε τις επεξεργασίες για το XFF $2',
 	'checkuser-log-ipusers-xff' => 'Ο $1 πήρε τους χρήστες για το XFF $2',
+	'checkuser-log-useredits' => '$1 έλαβε τις επεξεργασίες για τον $2',
 	'checkuser-autocreate-action' => 'δημιουργήθηκε αυτόματα',
+	'checkuser-email-action' => 'έστειλε ένα ηλεκτρονικό μήνυμα στον χρήστη "$1"',
+	'checkuser-reset-action' => 'αποστολή νέου κωδικού για τον χρήστη "$1"',
 );
 
 /** Esperanto (Esperanto)
