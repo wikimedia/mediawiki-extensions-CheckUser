@@ -5119,6 +5119,7 @@ $messages['sq'] = array(
  * @author Millosh
  * @author Sasa Stefanovic
  * @author Јованвб
+ * @author Михајло Анђелковић
  */
 $messages['sr-ec'] = array(
 	'checkuser-desc' => 'Даје сарадницима са одговарајућим правима могућност да провере ИП адресе сарадника и друге информације.',
@@ -5149,7 +5150,10 @@ $messages['sr-ec'] = array(
 	'checkuser-log-fail' => 'Није било могуће додати податак у лог.',
 	'checkuser-nolog' => 'Ниједан фајл с логовима није пронађен.',
 	'checkuser-blocked' => 'Блокиран',
+	'checkuser-gblocked' => 'Блокиран глобално',
+	'checkuser-locked' => 'Закључано',
 	'checkuser-wasblocked' => 'Претходно блокиран',
+	'checkuser-localonly' => 'Није унифицирано',
 	'checkuser-massblock' => 'Блокирај изабраног корисника',
 	'checkuser-blocktag' => 'Замени корисничке странице са:',
 	'checkuser-massblock-commit' => 'Блокирај изабраног корисника',
