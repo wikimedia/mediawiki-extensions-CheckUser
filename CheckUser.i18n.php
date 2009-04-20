@@ -100,6 +100,7 @@ Here are the IPs used (5000 max, sorted by address):',
  * @author Meno25
  * @author Mormegil
  * @author Purodha
+ * @author Raymond
  * @author Siebrand
  * @author Slomox
  */
@@ -120,6 +121,9 @@ $messages['qqq'] = array(
 	'checkuser-massblock-commit' => '{{Identical|Block selected users}}',
 	'checkuser-block-success' => '* $1 is a list of one or more usernames
 * $2 is the number of usernames in $1.',
+	'checkuser-search-form' => 'This message is a search form for the checkuser log.
+* $1 is a drop down box with search types
+* $2 is a text input field for the search pattern',
 	'checkuser-search-submit' => '{{Identical|Search}}',
 	'checkuser-search-initiator' => "This is shown on the log page of [[Special:CheckUser]]. Initiator means CheckUser who check someone's information.",
 	'checkuser-ipeditcount' => "This information is shown on the result page of [[mw:Extension:CheckUser|Special:CheckUser]] (when doing the ''{{int:Checkuser-users}}'' check), next to the individual listed IPs. It shows an estimate of the total number of edits from the respective IP (i.e. the number of edits by all users, not only by the requested user). As the comment in the code says: ''If we get some results, it helps to know if the IP in general has a lot more edits, e.g. “tip of the iceberg”…''",
@@ -1066,6 +1070,39 @@ $messages['cu'] = array(
 	'checkuser-search-submit' => 'ищи́',
 );
 
+/** Welsh (Cymraeg)
+ * @author Lloffiwr
+ */
+$messages['cy'] = array(
+	'checkuser-desc' => "Yn rhoi'r gallu i ddefnyddwyr awdurdodedig archwilio cyfeiriadau IP defnyddwyr a gwybodaeth arall amdanynt.",
+	'checkuser-logcase' => 'Yn gwahaniaethu rhwng llythrennau mawr a bach wrth chwilio.',
+	'checkuser' => 'Archwilio defnyddwyr',
+	'group-checkuser' => 'Archwilwyr defnyddwyr',
+	'group-checkuser-member' => 'Archwiliwr defnyddwyr',
+	'right-checkuser' => 'Archwilio cyfeiriadau IP defnyddwyr a gwybodaeth arall amdanynt',
+	'right-checkuser-log' => 'Gweld y lòg archwilio defnyddwyr',
+	'grouppage-checkuser' => '{{ns:project}}:Archwilio defnyddwyr',
+	'checkuser-reason' => 'Rheswm:',
+	'checkuser-showlog' => 'Dangos y lòg',
+	'checkuser-log' => 'Lòg archwilio defnyddwyr',
+	'checkuser-target' => 'Defnyddiwr neu IP',
+	'checkuser-search' => 'Chwilio',
+	'checkuser-period' => 'Cyfnod:',
+	'checkuser-week-1' => 'yr wythnos ddiwethaf',
+	'checkuser-week-2' => 'y pythefnos ddiwethaf',
+	'checkuser-month' => 'y 30 diwrnod diwethaf',
+	'checkuser-all' => 'oll',
+	'checkuser-empty' => "Mae'r lòg yn wag.",
+	'checkuser-check' => 'Archwilio',
+	'checkuser-log-fail' => 'Yn methu ychwanegu cofnod lòg',
+	'checkuser-accounts' => '$1 {{PLURAL:$1|cyfrif|cyfrif|gyfrif|chyfrif|chyfrif|cyfrif}} newydd',
+	'checkuser-search-form' => "Chwilio am gofnodion lòg gyda'r $1 $2",
+	'checkuser-search-submit' => 'Chwilio',
+	'checkuser-log-subpage' => 'Lòg',
+	'checkuser-email-action' => 'wedi anfon e-bost at y defnyddiwr "$1"',
+	'checkuser-reset-action' => 'wedi ailosod y cyfrinair ar gyfer y defnyddiwr "$1"',
+);
+
 /** Danish (Dansk)
  * @author Amjaabc
  * @author Fredelige
@@ -1320,6 +1357,7 @@ $messages['el'] = array(
 	'checkuser-week-2' => 'τις τελευταίες δύο εβδομάδες',
 	'checkuser-month' => 'τις τελευταίες 30 ημέρες',
 	'checkuser-all' => 'όλα',
+	'checkuser-cidr-label' => 'Εύρεση κοινής σειράς και επηρεασμένων διευθύνσεων για μια λίστα IP',
 	'checkuser-cidr-res' => 'Κοινό CIDR:',
 	'checkuser-empty' => 'Το αρχείο καταγραφής δεν περιέχει κανένα αντικείμενο.',
 	'checkuser-nomatch' => 'Δεν βρέθηκαν σχετικές σελίδες.',
@@ -1334,6 +1372,8 @@ $messages['el'] = array(
 	'checkuser-wasblocked' => 'Προηγουμένως φραγμένος',
 	'checkuser-localonly' => 'Μη ενοποιημένο',
 	'checkuser-massblock' => 'Επιβολή φραγής στους επιλεγμένους χρήστες',
+	'checkuser-massblock-text' => 'Οι επιλεγμένοι λογαριασμοί θα φραγούν αόριστα, με αυτοφραγή ενεργοποιημένη και αδύνατη τη δημιουργία λογαριασμού.  
+Οι διευθύνσεις IP θα φραγούν για 1 εβδομάδα για τους IP χρήστες μόνο και με την δημιουρφία λογαριασμού αδύνατη.',
 	'checkuser-blocktag' => 'Αντικατάσταση των σελίδων των χρηστών με:',
 	'checkuser-blocktag-talk' => 'Αντικαταστήστε τις σελίδες συζήτησης με:',
 	'checkuser-massblock-commit' => 'Φραγή επιλεγμένων χρηστών',
@@ -4233,8 +4273,8 @@ $messages['oc'] = array(
 	'checkuser-nomatch-edits' => "Cap d'ocurréncia pas trobada.
 La darrièra modificacion èra lo $1 a $2.",
 	'checkuser-check' => 'Recèrca',
-	'checkuser-log-fail' => "Incapaç d'ajustar la dintrada del jornal.",
-	'checkuser-nolog' => 'Cap de dintrada dins lo Jornal.',
+	'checkuser-log-fail' => "Incapable d'apondre l'entrada del jornal.",
+	'checkuser-nolog' => 'Cap de fichièr jornal pas trobat.',
 	'checkuser-blocked' => 'Blocat',
 	'checkuser-gblocked' => 'Globalament blocat',
 	'checkuser-locked' => 'Varrolhat',
