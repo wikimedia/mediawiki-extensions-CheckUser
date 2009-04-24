@@ -80,6 +80,11 @@ $aliases['fr'] = array(
 	'CheckUser' => array( "Vérificateur d'utilisateur", "Vérificateur d'utilisateurs", 'VérificateurUtilisateur', 'VérificateurUtilisateurs', 'Vérificateur d’adresse', 'VérificateurAdresse', 'VerificateurAdresse' ),
 );
 
+/** Franco-Provençal (Arpetan) */
+$aliases['frp'] = array(
+	'CheckUser' => array( "Controlor d'utilisator", 'ControlorDUtilisator' ),
+);
+
 /** Galician (Galego) */
 $aliases['gl'] = array(
 	'CheckUser' => array( 'Verificador de usuarios' ),
