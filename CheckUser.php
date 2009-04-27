@@ -12,6 +12,7 @@ $wgExtensionMessagesFiles['CheckUser'] = $dir . 'CheckUser.i18n.php';
 $wgExtensionAliasesFiles['CheckUser'] = $dir . 'CheckUser.alias.php';
 
 $wgExtensionCredits['specialpage'][] = array(
+	'path' => __FILE__,
 	'author' => array( 'Tim Starling', 'Aaron Schulz' ),
 	'name' => 'CheckUser',
 	'url' => 'http://www.mediawiki.org/wiki/Extension:CheckUser',
