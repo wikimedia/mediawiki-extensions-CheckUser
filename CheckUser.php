@@ -359,7 +359,7 @@ function efLoadCheckUserLink( $id, $nt, &$links ) {
 	        wfLoadExtensionMessages( 'CheckUser' );
 		$links[] = $wgUser->getSkin()->makeKnownLinkObj(
 			            SpecialPage::getTitleFor( 'CheckUser' ),
-				                wfMsgHtml( 'checkuser' ),
+				                wfMsgHtml( 'checkuser-contribs' ),
 				                'user=' . urlencode( $nt->getText() ) );
 	}
 	return true;
