@@ -914,7 +914,7 @@ class CheckUser extends SpecialPage
 						list($client,$trusted) = efGetClientIPfromXFF($set[1],$set[0]);
 						$c = $trusted ? '#F0FFF0' : '#FFFFCC';
 						$s .= '&nbsp;&nbsp;&nbsp;<span style="background-color: '.$c.'"><strong>XFF</strong>: ';
-						$s .= $this->sk->makeKnownLinkObj( $wgTitle,
+						$s .= $this->sk->makeKnownLinkObj( $this->getTitle(),
 							htmlspecialchars( $set[1] ),
 							"user=" . urlencode( $client ) . "/xff" )."</span>";
 					}
