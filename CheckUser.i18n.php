@@ -2238,6 +2238,7 @@ $messages['he'] = array(
 	'checkuser-desc' => 'מאפשר למשתמשים עם ההרשאות המתאימות לבדוק את כתובת ה־IP של משתמשים',
 	'checkuser-logcase' => 'החיפוש ביומנים הוא תלוי־רישיות.',
 	'checkuser' => 'בדיקת משתמש',
+	'checkuser-contribs' => 'בדיקת כתובות ה־IP',
 	'group-checkuser' => 'בודקים',
 	'group-checkuser-member' => 'בודק',
 	'right-checkuser' => 'מציאת כתובות IP של משתמשים ומידע נוסף',
