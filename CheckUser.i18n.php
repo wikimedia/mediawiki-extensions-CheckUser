@@ -257,6 +257,7 @@ $messages['ang'] = array(
  * @author Alnokta
  * @author Meno25
  * @author Mido
+ * @author OsamaK
  */
 $messages['ar'] = array(
 	'checkuser-summary' => 'هذه الأداة تفحص أحدث التغييرات لاسترجاع الأيبيهات المستخدمة بواسطة مستخدم أو عرض بيانات التعديل/المستخدم لأيبي.
@@ -323,12 +324,12 @@ $messages['ar'] = array(
 	'checkuser-log-subpage' => 'سجل',
 	'checkuser-log-return' => 'ارجع إلى استمارة تدقيق المستخدم الرئيسية',
 	'checkuser-limited' => "'''هذه النتائج تم اختصارها لأسباب تتعلق بالأداء.'''",
-	'checkuser-log-userips' => '$1 حصل على الأيبيهات ل $2',
+	'checkuser-log-userips' => '$1 حصل على آيبيهات $2',
 	'checkuser-log-ipedits' => '$1 حصل على التعديلات ل $2',
-	'checkuser-log-ipusers' => '$1 حصل على المستخدمين ل $2',
+	'checkuser-log-ipusers' => '$1 حصل على مستخدمي $2',
 	'checkuser-log-ipedits-xff' => '$1 حصل على التعديلات للإكس إف إف $2',
 	'checkuser-log-ipusers-xff' => '$1 حصل على المستخدمين للإكس إف إف $2',
-	'checkuser-log-useredits' => '$1 حصل على التعديلات ل$2',
+	'checkuser-log-useredits' => '$1 حصل على تعديلات $2',
 	'checkuser-autocreate-action' => 'تم إنشاؤه تلقائيا',
 	'checkuser-email-action' => 'أرسل بريدا إلكترونيا إلى "$1"',
 	'checkuser-reset-action' => 'أعد ضبط كلمة السر للمستخدم "$1"',
@@ -2809,13 +2810,14 @@ $messages['is'] = array(
  * @author Melos
  * @author Nemo bis
  * @author Pietrodn
+ * @author Stefano-c
  */
 $messages['it'] = array(
 	'checkuser-summary' => 'Questo strumento analizza le modifiche recenti per recuperare gli indirizzi IP utilizzati da un utente o mostrare contributi e dati di un IP. Utenti e contributi di un client IP possono essere rintracciati attraverso gli header XFF aggiungendo all\'IP il suffisso "/xff". Sono supportati IPv4 (CIDR 16-32) e IPv6 (CIDR 96-128). Non saranno restituite più di 5.000 modifiche, per ragioni di prestazioni. Usa questo strumento in stretta conformità alle policy.',
 	'checkuser-desc' => 'Consente agli utenti con le opportune autorizzazioni di sottoporre a verifica gli indirizzi IP e altre informazioni relative agli utenti',
 	'checkuser-logcase' => "La ricerca nei log è ''case sensitive'' (distingue fra maiuscole e minuscole).",
 	'checkuser' => 'Controllo utenze',
-	'checkuser-contribs' => "controlla indirizzi IP dell'utente",
+	'checkuser-contribs' => "controlla gli indirizzi IP dell'utente",
 	'group-checkuser' => 'Controllori',
 	'group-checkuser-member' => 'Controllore',
 	'right-checkuser' => "Visualizza gli indirizzi IP usati dall'utente e altre informazioni",
@@ -3300,6 +3302,7 @@ $messages['ko'] = array(
 	'checkuser-desc' => '사용자의 IP 주소를 포함한 정보를 볼 수 있는 권한을 특정한 사용자에게 준다.',
 	'checkuser-logcase' => '이 기록 검색은 대소문자를 구분합니다.',
 	'checkuser' => '체크유저',
+	'checkuser-contribs' => '사용자 IP를 확인',
 	'group-checkuser' => '체크유저',
 	'group-checkuser-member' => '체크유저',
 	'right-checkuser' => '사용자의 IP 주소와 다른 정보를 확인',
@@ -4502,6 +4505,7 @@ $messages['pt'] = array(
 	'checkuser-desc' => 'Concede a utilizadores com a permissão apropriada a possibilidade de verificar os endereços IP de um utilizador e outra informação',
 	'checkuser-logcase' => 'As buscas nos registos são sensíveis a letras maiúsculas ou minúsculas.',
 	'checkuser' => 'Verificar utilizador',
+	'checkuser-contribs' => 'verificar IPs do utilizador',
 	'group-checkuser' => 'CheckUser',
 	'group-checkuser-member' => 'CheckUser',
 	'right-checkuser' => 'Verificar o endereço IP de um utilizador e outras informações',
