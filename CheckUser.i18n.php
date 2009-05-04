@@ -1493,6 +1493,7 @@ Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
 
 /** Spanish (Español)
  * @author Aleator
+ * @author Crazymadlover
  * @author Dferg
  * @author Dmcdevit
  * @author Jatrobat
@@ -1511,6 +1512,7 @@ No se muestran más de 5000 ediciones por motivos de rendimiento. Usa esta herra
 	'checkuser-desc' => 'Permite a los usuarios que tienen permiso especial comprobar las IPs de los usuarios además de otra información.',
 	'checkuser-logcase' => 'El buscador de registros distingue entre mayúsculas y minúsculas.',
 	'checkuser' => 'Verificador de usuarios',
+	'checkuser-contribs' => 'Verificar IPs de usuario',
 	'group-checkuser' => 'Verificadores de usuarios',
 	'group-checkuser-member' => 'Verificador de usuarios',
 	'right-checkuser' => 'Comprobar las IPs de los usuarios y obtener otra información relacionada',
@@ -1542,7 +1544,7 @@ La última edición fue el $1 a las $2',
 	'checkuser-nolog' => 'No se encuentra ningún archivo del registro',
 	'checkuser-blocked' => 'Bloqueado',
 	'checkuser-gblocked' => 'Bloqueado globalmente',
-	'checkuser-locked' => 'Cerrado con llave',
+	'checkuser-locked' => 'Cuenta bloqueada globalmente',
 	'checkuser-wasblocked' => 'Bloqueado anteriormente',
 	'checkuser-localonly' => 'No unificado',
 	'checkuser-massblock' => 'Bloquear usuarios seleccionados',
@@ -1573,7 +1575,7 @@ Las direcciones IP serán bloqueadas durante una semana con la creación de cuen
 	'checkuser-log-ipusers-xff' => '$1 obtuvo los usuarios para XFF $2',
 	'checkuser-log-useredits' => '$1 obtuvo las contribuciones de $2',
 	'checkuser-autocreate-action' => 'fue creada automáticamente',
-	'checkuser-email-action' => 'enviado correo electrónico al usuario «$1»',
+	'checkuser-email-action' => 'envió correo electrónico al usuario «$1»',
 	'checkuser-reset-action' => 'anular contraseña para el usuario «$1»',
 );
 
@@ -3491,6 +3493,7 @@ $messages['lb'] = array(
 	'checkuser-desc' => "Gëtt Benotzer mat den néidege Rechter d'Méiglechkeet d'IP-Adressen esou wéi aner Informatiounen iwwert d'Benotzer z'iwwerpréifen",
 	'checkuser-logcase' => "D'Sich am Logbuch mecht en Ënnerscheed tëschent groussen a klenge Buchstawen.",
 	'checkuser' => 'Benotzer-Check',
+	'checkuser-contribs' => 'De Benotzer hir Ip-Adrssen iwwerpréifen',
 	'group-checkuser' => 'Benotzer Kontrolleren',
 	'group-checkuser-member' => 'Benotzer Kontroller',
 	'right-checkuser' => 'Iwwerpréif de Benotzer hir IP-Adressen an aner Informatiounen',
