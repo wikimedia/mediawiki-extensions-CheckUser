@@ -147,6 +147,11 @@ $aliases['ko'] = array(
 	'CheckUser' => array( '체크유저' ),
 );
 
+/** Ripoarisch (Ripoarisch) */
+$aliases['ksh'] = array(
+	'CheckUser' => array( 'Metmaacher Pröve', 'Metmaacher Pröfe' ),
+);
+
 /** Luxembourgish (Lëtzebuergesch) */
 $aliases['lb'] = array(
 	'CheckUser' => array( 'Benotzerkontroll' ),
