@@ -245,7 +245,8 @@ class CheckUser extends SpecialPage
 		if( !empty( $safeUsers ) ) {
 			$n = count( $safeUsers );
 			$ulist = $wgLang->listToText( $safeUsers );
-			$wgOut->addWikiText( wfMsgExt( 'checkuser-block-success', 'parsemag', $ulist, $wgLang->formatNum( $n ) ) );
+			$wgOut->addWikiText( wfMsgExt( 'checkuser-block-success', 'parsemag',
+				$ulist, $wgLang->formatNum( $n ) ) );
 		} else {
 			$wgOut->addWikiText( wfMsgExt( 'checkuser-block-failure', 'parsemag' ) );
 		}
@@ -317,7 +318,13 @@ class CheckUser extends SpecialPage
 			$wgOut->addHTML( $s );
 			return;
 		}
-
+		
+		# Demand that a reason be given
+		if( !$reason ) {
+			$wgOut->addWikiText( wfMsgExt('checkuser-noreason',array('parsemag')) );
+			return;
+		}
+		# Record check...
 		if( !$this->addLogEntry( 'userips', 'user', $user, $reason, $user_id ) ) {
 			$wgOut->addHTML( '<p>'.wfMsgHtml('checkuser-log-fail').'</p>' );
 		}
@@ -437,6 +444,11 @@ class CheckUser extends SpecialPage
 		$logType = 'ipedits';
 		if( $xfor ) {
 			$logType .= '-xff';
+		}
+		# Demand that a reason be given
+		if( !$reason ) {
+			$wgOut->addWikiText( wfMsgExt('checkuser-noreason',array('parsemag')) );
+			return;
 		}
 		# Record check...
 		if( !$this->addLogEntry( $logType, 'ip', $ip, $reason ) ) {
@@ -582,6 +594,11 @@ class CheckUser extends SpecialPage
 			return;
 		}
 
+		# Demand that a reason be given
+		if( !$reason ) {
+			$wgOut->addWikiText( wfMsgExt('checkuser-noreason',array('parsemag')) );
+			return;
+		}
 		# Record check...
 		if( !$this->addLogEntry( 'useredits', 'user', $user, $reason, $user_id ) ) {
 			$wgOut->addHTML( '<p>'.wfMsgHtml('checkuser-log-fail').'</p>' );
@@ -699,6 +716,11 @@ class CheckUser extends SpecialPage
 		$logType = 'ipusers';
 		if( $xfor ) {
 			$logType .= '-xff';
+		}
+		# Demand that a reason be given
+		if( !$reason ) {
+			$wgOut->addWikiText( wfMsgExt('checkuser-noreason',array('parsemag')) );
+			return;
 		}
 		# Log the check...
 		if( !$this->addLogEntry( $logType, 'ip', $ip, $reason ) ) {
