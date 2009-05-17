@@ -95,6 +95,11 @@ $aliases['gsw'] = array(
 	'CheckUser' => array( 'Benutzerpriefig' ),
 );
 
+/** Gujarati (ગુજરાતી) */
+$aliases['gu'] = array(
+	'CheckUser' => array( 'સભ્યચકાસ' ),
+);
+
 /** Hebrew (עברית)
  * @author Rotem Liss
  */

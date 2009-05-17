@@ -632,6 +632,7 @@ $messages['be-tarask'] = array(
 	'checkuser-block-failure' => "'''Няма заблякаваных рахункаў удзельнікаў.'''",
 	'checkuser-block-limit' => 'Выбрана зашмат рахункаў удзельнікаў.',
 	'checkuser-block-noreason' => 'Вам неабходна пазначыць прычыну блякаваньня.',
+	'checkuser-noreason' => 'Вам неабходна падаць прычыну гэтага запыту.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|новы рахунак|новыя рахункі|новых рахункаў}}',
 	'checkuser-too-many' => 'Зашмат вынікаў, калі ласка, абмяжуйце CIDR.
 Тут пададзеныя ўжытыя ІР-адрасы (максымум 5000, адсартаваныя паводле адрасу):',
@@ -1219,6 +1220,7 @@ IP-Adressen werden für eine Woche gesperrt (nur für anonyme Benutzer, die Anla
 	'checkuser-block-failure' => "'''Es wurden keine Benutzer gesperrt.'''",
 	'checkuser-block-limit' => 'Es wurden zuviele Benutzer ausgewählt.',
 	'checkuser-block-noreason' => 'Du musst einen Grund für die Sperre angeben.',
+	'checkuser-noreason' => 'Für diese Anfrage muss eine Begründung angegeben werden.',
 	'checkuser-accounts' => '{{PLURAL:$1|1 neues Benutzerkonto|$1 neue Benutzerkonten}}',
 	'checkuser-too-many' => 'Die Ergebnisliste ist zu lang, bitte grenze den IP-Bereich weiter ein. Hier sind die benutzten IP-Adressen (maximal 5000, sortiert nach Adresse):',
 	'checkuser-user-nonexistent' => 'Das angegebene Benutzerkonto ist nicht vorhanden.',
@@ -1561,6 +1563,7 @@ Las direcciones IP serán bloqueadas durante una semana con la creación de cuen
 	'checkuser-block-failure' => "'''No hay usuarios bloqueados.'''",
 	'checkuser-block-limit' => 'Demasiados usarios seleccionados.',
 	'checkuser-block-noreason' => 'Debe dar una razón para los bloqueos.',
+	'checkuser-noreason' => 'Debes dar una razón para esta consulta.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|cuenta nueva|cuentas nuevas}}',
 	'checkuser-too-many' => 'Hay demasiados resultados. Por favor limita el CIDR. Aquí se ven las IPs usadas (máximo 5000, ordenadas según dirección):',
 	'checkuser-user-nonexistent' => 'El usuario especificado no existe.',
@@ -2187,6 +2190,7 @@ IP-Adrässe wäre fir ei Wuche gsperrt (nume fir anonymi Benutzer, s Aalege vu n
 	'checkuser-block-failure' => "'''S sin kei Benutzer gsperrt wore.'''",
 	'checkuser-block-limit' => 'S sin zvyl Benutzer usgwählt wore.',
 	'checkuser-block-noreason' => 'Du muesch e Grund fir d Sperri aagee.',
+	'checkuser-noreason' => 'Du muesch e Grund fir die Abfrog aagee.',
 	'checkuser-accounts' => '{{PLURAL:$1|1 nej Benutzerkonto|$1 neiji Benutzerkonte}}',
 	'checkuser-too-many' => 'D Ergebnislischt isch z lang, bitte grenz dr IP-Beryych wyter yy. Do sin di benutzten IP-Adrässe (maximal 5000, sortiert noch Adrässe):',
 	'checkuser-user-nonexistent' => 'S Benutzerkonto, wu Du aagee hesch, isch nit vorhande.',
@@ -2677,6 +2681,7 @@ Le adresses IP essera blocate durante 1 septimana pro usatores IP solmente e con
 	'checkuser-block-failure' => "'''Nulle usator blocate.'''",
 	'checkuser-block-limit' => 'Troppo de usatores seligite.',
 	'checkuser-block-noreason' => 'Tu debe indicar un motivo pro le blocadas.',
+	'checkuser-noreason' => 'Tu debe dar un motivo pro iste consulta.',
 	'checkuser-accounts' => '$1 nove {{PLURAL:$1|conto|contos}}',
 	'checkuser-too-many' => 'Troppo de resultatos. Per favor restringe le CIDR.
 Ecce le IPs usate (5000 max, ordinate per adresse):',
@@ -2958,6 +2963,7 @@ IPv4（16から32ビットのCIDR表記）と IPv6（96から128ビットのCIDR
 	'checkuser-block-failure' => "'''ブロックされたユーザーはありません。'''",
 	'checkuser-block-limit' => '利用者の選択数が多すぎます。',
 	'checkuser-block-noreason' => 'ブロック理由の記入が必要です。',
+	'checkuser-noreason' => 'この照会には理由を与えなければなりません。',
 	'checkuser-accounts' => '$1つの新しいアカウント',
 	'checkuser-too-many' => '検索結果が多すぎます、CIDRの指定を小さく絞り込んでください。利用されたIPは以下の通りです（5000件を上限に、アドレス順でソートされています）:',
 	'checkuser-user-nonexistent' => '指定されたユーザーは存在しません。',
@@ -3454,6 +3460,7 @@ es doh och verbodde.',
 	'checkuser-block-failure' => "'''Keine Metmaacher jesperrt.'''",
 	'checkuser-block-limit' => 'Zoo fill Metmaacher ußjesoht.',
 	'checkuser-block-noreason' => 'Do moß ävver ene Jrund för et Sperre aanjevve.',
+	'checkuser-noreason' => 'Do moß ene Jrond för hee di Froch aanjävve.',
 	'checkuser-accounts' => '{{PLURAL:$1|Eine|$1|Keine}} neue Metmaacher',
 	'checkuser-too-many' => 'Zoo fill jefonge, beß esu joot un maach dä CIDR kleijner.
 Hee sin de eetßte 5000 IP-Addresse, zoteeet:',
@@ -3498,6 +3505,10 @@ $messages['la'] = array(
  * @author Robby
  */
 $messages['lb'] = array(
+	'checkuser-summary' => "Dës Fonctioun scannt déi rezent Ännerunge fir d'Ip-Adressen déi vun engem Benotzer benotzt goufen ze fannen repektiv d'ännerunge pro Benotzer fir eng IP.
+Benotzer an Ännerunge vun enger IP-Adress kënne och iwwer den XFF header gesicht ginn andeems hannert d'IP-Adress \"/xff\" hannendrugehaang gëtt. IPv4 (CIDR 16-32) an IPv6 (CIDR 96-128) ginn ënnerstetzt.
+Net méi wéi 5000 Ännerunge ginn aus Performance-Grënn zréckgeschéckt.
+Benotzt dës Fonctioun am Aklang mat de Richtlinnen.",
 	'checkuser-desc' => "Gëtt Benotzer mat den néidege Rechter d'Méiglechkeet d'IP-Adressen esou wéi aner Informatiounen iwwert d'Benotzer z'iwwerpréifen",
 	'checkuser-logcase' => "D'Sich am Logbuch mecht en Ënnerscheed tëschent groussen a klenge Buchstawen.",
 	'checkuser' => 'Benotzer-Check',
@@ -3545,6 +3556,7 @@ Déi lescht Ännerung war de() $1 ëm $2.',
 	'checkuser-block-failure' => "'''Et si keng Benotzer gespaart.'''",
 	'checkuser-block-limit' => 'Zevill Benotzer ugewielt.',
 	'checkuser-block-noreason' => "Dir musst e Grond fir d'Spären uginn.",
+	'checkuser-noreason' => 'Dir musst e Grond fir dës Ufro uginn.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|neie Benotzerkont|nei Benotzerkonten}}',
 	'checkuser-too-many' => 'Zevill Resultater, gitt w.e.g. méi e klenge Beräich vun Ip-adresen un.
 Hei sinn déi benotzten IP-Adressen (max 5000, sortéiert no der Adress):',
@@ -4067,6 +4079,7 @@ IP-adressen worden één week geblokkeerd voor anonieme gebruikers, met het aanm
 	'checkuser-block-failure' => "'''Geen gebruikers geblokkeerd.'''",
 	'checkuser-block-limit' => 'Te veel gebruikers geselecteerd.',
 	'checkuser-block-noreason' => 'U moet een reden opgeven voor de blokkades.',
+	'checkuser-noreason' => 'U moet een reden opgeven voor deze zoekopdracht.',
 	'checkuser-accounts' => '$1 nieuwe {{PLURAL:$1|gebruiker|gebruikers}}',
 	'checkuser-too-many' => 'Te veel resultaten. Maak de IP-reeks kleiner:',
 	'checkuser-user-nonexistent' => 'De opgegeven gebruiker bestaat niet.',
@@ -4439,6 +4452,7 @@ Adresy IP anonimowych użytkowników będą blokowane na 1 tydzień z wyłączon
 	'checkuser-block-failure' => "'''Brak zablokowanych użytkowników.'''",
 	'checkuser-block-limit' => 'Wybrano zbyt wielu użytkowników.',
 	'checkuser-block-noreason' => 'Należy podać powód blokad.',
+	'checkuser-noreason' => 'Musisz podać powód wykonania zapytania.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nowe konto|nowe konta|nowych kont}}',
 	'checkuser-too-many' => 'Zbyt wiele wyników, ogranicz CIDR.
 Użytych adresów IP jest (nie więcej niż 5000, posortowane według adresu):',
@@ -5170,6 +5184,7 @@ IP adresy sa zablokujú na 1 týždeň pri iba anonymných používateľoch a vy
 	'checkuser-block-failure' => "'''Žiaden používateľ nebol zablokovaný.'''",
 	'checkuser-block-limit' => 'Bolo zvolených príliš veľa používateľov.',
 	'checkuser-block-noreason' => 'Musíte zadať dôvod blokovaní.',
+	'checkuser-noreason' => 'Musíte uviesť dôvod tejto požiadavky.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nový účet|nové účty|nových účtov}}',
 	'checkuser-too-many' => 'Príliš veľa výsledkov, prosím zúžte CIDR. Tu sú použité IP (max. 5 000, zoradené podľa adresy):',
 	'checkuser-user-nonexistent' => 'Uvedený používateľ neexistuje.',
@@ -6042,6 +6057,7 @@ Lần sửa đổi cuối xảy ra $1 lúc $2.',
 	'checkuser-block-failure' => "'''Không ai bị cấm.'''",
 	'checkuser-block-limit' => 'Đã chọn nhiều người dùng quá.',
 	'checkuser-block-noreason' => 'Phải đưa ra lý do cấm.',
+	'checkuser-noreason' => 'Bạn phải đưa ra lý do truy vấn.',
 	'checkuser-accounts' => '$1 tài khoản mới',
 	'checkuser-too-many' => 'Có quá nhiều kết quả, xin hãy thu hẹp CIDR. Đây là các IP sử dụng (tối đa 5000, xếp theo địa chỉ):',
 	'checkuser-user-nonexistent' => 'Thành viên chỉ định không tồn tại.',
