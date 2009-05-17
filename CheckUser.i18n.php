@@ -2304,6 +2304,7 @@ $messages['he'] = array(
 	'checkuser-block-failure' => "'''לא נחסמו משתמשים.'''",
 	'checkuser-block-limit' => 'נבחרו יותר מדי משתמשים.',
 	'checkuser-block-noreason' => 'עליכם לתת סיבה לחסימות.',
+	'checkuser-noreason' => 'עליכם לכתוב סיבה לבדיקה זו.',
 	'checkuser-accounts' => '{{PLURAL:$1|חשבון חדש אחד|$1 חשבונות חדשים}}',
 	'checkuser-too-many' => 'נמצאו תוצאות רבות מדי, אנא צמצמו את טווח כתובות ה־IP. להלן כתובת ה־IP שנעשה בהן שימוש (מוצגות 5,000 לכל היותר, וממוינות):',
 	'checkuser-user-nonexistent' => 'המשתמש לא נמצא.',
