@@ -866,6 +866,7 @@ IP adrese će biti blokirane u periodu od jedne sedmice samo za IP korisnike i s
 	'checkuser-block-failure' => "'''Nijedan korisnik nije blokiran.'''",
 	'checkuser-block-limit' => 'Previše korisnika odabrano.',
 	'checkuser-block-noreason' => 'Morate navesti razlog za blokiranje.',
+	'checkuser-noreason' => 'Morate navesti razlog za ovaj upit.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|novi korisnik|nova korisnika|novih korisnika}}',
 	'checkuser-too-many' => 'Pronađeno previše rezultata, molimo da suzite CIDR.
 Ovdje su prikazane korištene IP adrese (najviše 5000, poredano po adresi):',
@@ -895,6 +896,7 @@ Ovdje su prikazane korištene IP adrese (najviše 5000, poredano po adresi):',
  * @author Juanpabl
  * @author Paucabot
  * @author SMP
+ * @author Solde
  * @author Toniher
  */
 $messages['ca'] = array(
@@ -904,6 +906,7 @@ Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Reco
 	'checkuser-desc' => "Permet als usuaris amb els permisos adients l'habilitat de comprovar les adreces IP que fan servir els usuaris enregistrats.",
 	'checkuser-logcase' => 'Les majúscules es tracten de manera diferenciada en la cerca dins el registre.',
 	'checkuser' => "Comprova l'usuari",
+	'checkuser-contribs' => 'revisa les IPs dels usuaris',
 	'group-checkuser' => 'Checkusers',
 	'group-checkuser-member' => 'CheckUser',
 	'right-checkuser' => 'Comprovar les adreces IP i altra informació dels usuaris',
@@ -1049,6 +1052,7 @@ Z výkonnostních důvodů lze zobrazit maximálně 5000 editací. Používejte 
 	'checkuser-block-failure' => "'''Žádný uživatel nebyl zablokován.'''",
 	'checkuser-block-limit' => 'Vybráno příliš mnoho uživatelů',
 	'checkuser-block-noreason' => 'Musíte zadat důvod blokování',
+	'checkuser-noreason' => 'K tomuto dotazu musíte uvést důvod.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nový účet|nové účty|nových účtů}}',
 	'checkuser-too-many' => 'Příliš mnoho výsledků, zkuste omezit CIDR. Níže jsou použité IP adresy (nejvýše 500, seřazené abecedně):',
 	'checkuser-user-nonexistent' => 'Zadaný uživatel neexistuje.',
@@ -1220,7 +1224,7 @@ IP-Adressen werden für eine Woche gesperrt (nur für anonyme Benutzer, die Anla
 	'checkuser-block-failure' => "'''Es wurden keine Benutzer gesperrt.'''",
 	'checkuser-block-limit' => 'Es wurden zuviele Benutzer ausgewählt.',
 	'checkuser-block-noreason' => 'Du musst einen Grund für die Sperre angeben.',
-	'checkuser-noreason' => 'Für diese Anfrage muss eine Begründung angegeben werden.',
+	'checkuser-noreason' => 'Für diese Abfrage muss eine Begründung angegeben werden.',
 	'checkuser-accounts' => '{{PLURAL:$1|1 neues Benutzerkonto|$1 neue Benutzerkonten}}',
 	'checkuser-too-many' => 'Die Ergebnisliste ist zu lang, bitte grenze den IP-Bereich weiter ein. Hier sind die benutzten IP-Adressen (maximal 5000, sortiert nach Adresse):',
 	'checkuser-user-nonexistent' => 'Das angegebene Benutzerkonto ist nicht vorhanden.',
@@ -1396,6 +1400,7 @@ $messages['el'] = array(
 	'checkuser-block-failure' => "'''Κανένας χρήστης φραγμένος.'''",
 	'checkuser-block-limit' => 'Έχουν επιλεχθεί πάρα πολλοί χρήστες.',
 	'checkuser-block-noreason' => 'Πρέπει να αιτιολογήσετε τις φραγές.',
+	'checkuser-noreason' => 'Πρέπει να δώσετε μια αιτία για αυτή την ερώτηση.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|νέος λογαριασμός|νέοι λογαριασμοί}}',
 	'checkuser-too-many' => 'Πάρα πολλά αποτελέσματα, παρακαλούμε στενέψτε το CIDR. Παρακάτω είναι οι διευθύνσεις IP που χρησιμοποιούνται (με ανώτατο όριο τις 5000, ταξινομημένες κατά διεύθυνση):',
 	'checkuser-user-nonexistent' => 'Ο συγκεκριμένος χρήστης δεν υπάρχει.',
@@ -4190,6 +4195,7 @@ Her er IP-ene nytta (høgst 5000, sorterte etter adressa):',
  * @author Finnrind
  * @author Jon Harald Søby
  * @author Laaknor
+ * @author Nghtwlkr
  */
 $messages['no'] = array(
 	'checkuser-summary' => 'Dette verktøyet går gjennom siste endringer for å hente IP-ene som er brukt av en bruker, eller viser redigerings- eller brukerinformasjonen for en IP.
@@ -4200,6 +4206,7 @@ Av ytelsesgrunner vises maksimalt 5000 redigeringer. Bruk dette verktøyet i sam
 	'checkuser-desc' => 'Gir brukere med de tilhørende rettighetene muligheten til å sjekke brukeres IP-adresser og annen informasjon',
 	'checkuser-logcase' => 'Loggsøket er sensitivt for store/små bokstaver.',
 	'checkuser' => 'Brukersjekk',
+	'checkuser-contribs' => 'kontrollér brukerens IP-adresser',
 	'group-checkuser' => 'IP-kontrollører',
 	'group-checkuser-member' => 'IP-kontrollør',
 	'right-checkuser' => 'Sjekke brukeres IP-adresser og annen informasjon',
@@ -4220,6 +4227,7 @@ Av ytelsesgrunner vises maksimalt 5000 redigeringer. Bruk dette verktøyet i sam
 	'checkuser-week-2' => 'siste to uker',
 	'checkuser-month' => 'siste måned',
 	'checkuser-all' => 'alle',
+	'checkuser-cidr-label' => 'Finn felles adresseområde og påvirkede adresser for en liste over IP-adresser',
 	'checkuser-cidr-res' => 'Felles CIDR:',
 	'checkuser-empty' => 'Loggen inneholder ingen elementer.',
 	'checkuser-nomatch' => 'Ingen treff.',
@@ -4243,6 +4251,7 @@ IP-adresser vil blokkeres i én uke for anonyme brukere, med kontooppretting sl�
 	'checkuser-block-failure' => "'''Ingen brukere blokkert.'''",
 	'checkuser-block-limit' => 'For mange brukere valgt.',
 	'checkuser-block-noreason' => 'Du må oppgi en blokkeringsgrunn.',
+	'checkuser-noreason' => 'Du må oppgi en grunn for denne spørringen.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|ny konto|nye kontoer}}',
 	'checkuser-too-many' => 'For mange resultater, vennligst innskrenk CIDR. Her er de brukte IP-ene (maks 5000, sortert etter adresse):',
 	'checkuser-user-nonexistent' => 'Det gitte brukernavnet finnes ikke.',
@@ -4341,6 +4350,7 @@ Las adreças IP seràn blocadas pendent una setmana unicament pels utilizaires j
 	'checkuser-block-failure' => "'''Cap d'utilizaire pas blocat.'''",
 	'checkuser-block-limit' => "Tròp d'utilizaires seleccionats.",
 	'checkuser-block-noreason' => 'Vos cal especificar un motiu pels blocatges.',
+	'checkuser-noreason' => 'Vos cal balhar una rason per aquesta requèsta.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|compte novèl|comptes novèls}}',
 	'checkuser-too-many' => 'Tròp de resultats. Limitatz la recèrca sus las adreças IP :',
 	'checkuser-user-nonexistent' => 'L’utilizaire indicat existís pas',
@@ -4914,6 +4924,7 @@ IP-адреса будут заблокированы на 1 неделю для
 	'checkuser-block-failure' => "'''Нет заблокированных участников.'''",
 	'checkuser-block-limit' => 'Выбрано слишком много участников.',
 	'checkuser-block-noreason' => 'Вы должны указать причину блокировок.',
+	'checkuser-noreason' => 'Вы должны указать причину для этого запроса.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|новая учётная запись|новых учётных записи|новых учётных записей}}',
 	'checkuser-too-many' => 'Слишком много результатов, пожалуйста, сузьте CIDR. Использованные IP (максимум 5000, отсортировано по адресу):',
 	'checkuser-user-nonexistent' => 'Указанного участника не существует',
