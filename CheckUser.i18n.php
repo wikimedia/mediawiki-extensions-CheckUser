@@ -6175,9 +6175,14 @@ $messages['wa'] = array(
  * @author פוילישער
  */
 $messages['yi'] = array(
+	'checkuser' => 'בודק זײַן באניצער',
+	'right-checkuser-log' => 'באקוקן דאס קאנטראל לאגבוך',
+	'checkuser-showlog' => 'ווײַזן לאגבוך',
+	'checkuser-log' => 'קאנטראל לאגבוך',
 	'checkuser-target' => 'באניצער אדער IP אדרעס',
 	'checkuser-search' => 'זוכן',
 	'checkuser-week-1' => 'פֿאריגע וואך',
+	'checkuser-week-2' => 'פֿאריגע צוויי וואכן',
 	'checkuser-month' => 'פֿאריגע 30 טעג',
 	'checkuser-all' => 'אלע',
 	'checkuser-nomatch' => 'נישט געטראפֿן קיין פאָר.',
@@ -6189,8 +6194,12 @@ $messages['yi'] = array(
 	'checkuser-blocked' => 'בלאקירט',
 	'checkuser-gblocked' => 'בלאקירט גלאבאַליש',
 	'checkuser-locked' => 'פֿאַרשלאסן',
+	'checkuser-block-limit' => 'צופיל באניצער אויסגעקליבן',
 	'checkuser-search-submit' => 'זוכן',
 	'checkuser-search-target' => 'ציל',
+	'checkuser-log-subpage' => 'לאגבוך',
+	'checkuser-email-action' => 'געשיקט א בליצבריוו צו באניצער "$1"',
+	'checkuser-reset-action' => 'צוריקשטעלן פאסווארט פאר באניצער "$1"',
 );
 
 /** Yue (粵語) */
