@@ -3369,6 +3369,7 @@ IP 주소는 1주일 (IP만 막음, 계정 생성 금지됨) 차단될 것입니
 	'checkuser-block-failure' => "'''차단된 사용자가 없습니다.'''",
 	'checkuser-block-limit' => '너무 많은 사용자를 선택하였습니다.',
 	'checkuser-block-noreason' => '차단하는 이유를 반드시 입력해야 합니다.',
+	'checkuser-noreason' => '당신은 이 명령에 대한 이유를 반드시 제시해야 합니다.',
 	'checkuser-accounts' => '$1개의 새 계정',
 	'checkuser-too-many' => '결과가 너무 많습니다. CIDR 범위를 좁혀 주세요.
 다음은 사용되고 있는 IP의 목록입니다 (최대 5000개, 주소별로 정렬됨):',
