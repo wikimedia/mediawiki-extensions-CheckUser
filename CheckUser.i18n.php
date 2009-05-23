@@ -4169,6 +4169,7 @@ IP-adresser vil verta blokkerte for éi veka for uregistrerte, med kontooppretti
 	'checkuser-block-failure' => "'''Ingen brukarar blokkerte.'''",
 	'checkuser-block-limit' => 'For mange brukarar er valte.',
 	'checkuser-block-noreason' => 'Du må oppgje ei blokkeringsårsak.',
+	'checkuser-noreason' => 'Du må gje opp ei grunngjeving for denne spørjinga.',
 	'checkuser-accounts' => '{{PLURAL:$1|Éin ny konto|$1 nye kontoar}}',
 	'checkuser-too-many' => 'For mange resultat, ver venleg og reduser CIDR.
 Her er IP-ene nytta (høgst 5000, sorterte etter adressa):',
