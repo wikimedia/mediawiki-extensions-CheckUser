@@ -1085,7 +1085,7 @@ class CheckUser extends SpecialPage
 			array( 'log_type' => array('block','suppress'),
 				'log_action' => 'block',
 				'log_namespace' => $userpage->getNamespace(),
-				'log_title' => $userpage->getDBKey() ), 
+				'log_title' => $userpage->getDBkey() ), 
 			__METHOD__,
 			array( 'USE INDEX' => 'page_time' ) );
 	}
