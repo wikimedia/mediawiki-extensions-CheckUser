@@ -5484,6 +5484,7 @@ IP-adresser kommer blockeras i en vecka för anonyma användare, med kontoskapan
 	'checkuser-block-failure' => "'''Ingen användare blockerades.'''",
 	'checkuser-block-limit' => 'För många användare valda.',
 	'checkuser-block-noreason' => 'Du måste ange en anledning för blockeringarna.',
+	'checkuser-noreason' => 'Du måste uppge en anledning för den här frågan.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nytt konto|nya konton}}',
 	'checkuser-too-many' => 'För många resultat, du bör söka i ett mindre CIDR-block. Här följer de IP-adresser som använts (högst 5000, sorterade efter adress):',
 	'checkuser-user-nonexistent' => 'Användarnamnet som angavs finns inte.',
@@ -5978,6 +5979,7 @@ I indirissi IP i vegnarà blocà par na stimana solo par i utenti anonimi e co' 
 	'checkuser-block-failure' => "'''Nissun utente blocà.'''",
 	'checkuser-block-limit' => 'Ti gà selessionà massa utenti.',
 	'checkuser-block-noreason' => 'Ti gà da dar na motivassion par i blochi.',
+	'checkuser-noreason' => 'Te ghè da indicar na motivassion par sta richiesta.',
 	'checkuser-accounts' => '$1 account {{PLURAL:$1|novo|novi}}',
 	'checkuser-too-many' => 'Xe vegnù fora massa risultati, par piaser dòpara un CIDR piassè ristreto.
 Sti qua i xe i IP doparà (fin a un massimo de 5000, ordinà par indirizo):',
