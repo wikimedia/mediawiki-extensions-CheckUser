@@ -927,6 +927,8 @@ Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Reco
 	'checkuser-week-2' => 'Darreres dues setmanes',
 	'checkuser-month' => 'Darrers 30 dies',
 	'checkuser-all' => 'tot',
+	'checkuser-cidr-label' => "Troba un rang comú i les adresses afectades per una llista d'IPs",
+	'checkuser-cidr-res' => 'CIDR comú:',
 	'checkuser-empty' => 'El registre no conté entrades.',
 	'checkuser-nomatch' => "No s'han trobat coincidències.",
 	'checkuser-nomatch-edits' => "No s'ha trobat.
@@ -949,6 +951,7 @@ Les adreces IP seran blocades per una setmana només amb la prohibició de crear
 	'checkuser-block-failure' => "'''No s'han blocat usuaris.'''",
 	'checkuser-block-limit' => 'Massa usuaris seleccionats.',
 	'checkuser-block-noreason' => "Heu d'indicar un motiu pels bloquejos.",
+	'checkuser-noreason' => 'Ha de proveir una raó per a executar aquesta consulta.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nou compte|nous comptes}}',
 	'checkuser-too-many' => 'Hi ha massa resultats, cal que useu un CIDR més petit. Aquí teniu les IP usades (màx. 5000 ordenades per adreça):',
 	'checkuser-user-nonexistent' => "L'usuari especificat no existeix.",
