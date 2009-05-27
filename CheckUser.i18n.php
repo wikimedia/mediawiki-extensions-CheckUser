@@ -1482,6 +1482,7 @@ IP-adresoj estos forbarita 1 semajnon por IP-uzantoj kun kont-kreado malpermesit
 	'checkuser-block-failure' => "'''Neniuj uzantoj forbariĝis.'''",
 	'checkuser-block-limit' => 'Tro da uzantoj selektitaj.',
 	'checkuser-block-noreason' => 'Vi devas doni kialon por la forbaroj.',
+	'checkuser-noreason' => 'Vi devas doni kialon por ĉi tiu informomendo.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nova konto|novaj kontoj}}',
 	'checkuser-too-many' => 'Tro da rezultoj. Bonvolu malvastigi la CIDR. 
 Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
