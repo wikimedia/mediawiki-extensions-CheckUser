@@ -92,6 +92,8 @@ class CheckUser extends SpecialPage
 		if( $wgRequest->wasPosted() ) {
 			if( $wgRequest->getVal('action') === 'block' ) {
 				$this->doMassUserBlock( $users, $blockreason, $tag, $talkTag );
+			} else if( !$this->checkReason($reason) ) {
+				$wgOut->addWikiText( wfMsgExt('checkuser-noreason',array('parsemag')) );
 			} else if( $checktype=='subuserips' ) {
 				$this->doUserIPsRequest( $name, $reason, $period );
 			} else if( $xff && $checktype=='subipedits' ) {
@@ -288,6 +290,11 @@ class CheckUser extends SpecialPage
 		}
 		return wfMsgExt('checkuser-nomatch','parse');
 	}
+	
+	protected function checkReason( $reason ) {
+		global $wgCheckUserForceSummary;
+		return ( !$wgCheckUserForceSummary || strlen($reason) );
+	}
 
 	/**
 	 * @param string $ip
@@ -318,12 +325,7 @@ class CheckUser extends SpecialPage
 			$wgOut->addHTML( $s );
 			return;
 		}
-		
-		# Demand that a reason be given
-		if( !$reason ) {
-			$wgOut->addWikiText( wfMsgExt('checkuser-noreason',array('parsemag')) );
-			return;
-		}
+
 		# Record check...
 		if( !$this->addLogEntry( 'userips', 'user', $user, $reason, $user_id ) ) {
 			$wgOut->addHTML( '<p>'.wfMsgHtml('checkuser-log-fail').'</p>' );
@@ -444,11 +446,6 @@ class CheckUser extends SpecialPage
 		$logType = 'ipedits';
 		if( $xfor ) {
 			$logType .= '-xff';
-		}
-		# Demand that a reason be given
-		if( !$reason ) {
-			$wgOut->addWikiText( wfMsgExt('checkuser-noreason',array('parsemag')) );
-			return;
 		}
 		# Record check...
 		if( !$this->addLogEntry( $logType, 'ip', $ip, $reason ) ) {
@@ -594,11 +591,6 @@ class CheckUser extends SpecialPage
 			return;
 		}
 
-		# Demand that a reason be given
-		if( !$reason ) {
-			$wgOut->addWikiText( wfMsgExt('checkuser-noreason',array('parsemag')) );
-			return;
-		}
 		# Record check...
 		if( !$this->addLogEntry( 'useredits', 'user', $user, $reason, $user_id ) ) {
 			$wgOut->addHTML( '<p>'.wfMsgHtml('checkuser-log-fail').'</p>' );
@@ -716,11 +708,6 @@ class CheckUser extends SpecialPage
 		$logType = 'ipusers';
 		if( $xfor ) {
 			$logType .= '-xff';
-		}
-		# Demand that a reason be given
-		if( !$reason ) {
-			$wgOut->addWikiText( wfMsgExt('checkuser-noreason',array('parsemag')) );
-			return;
 		}
 		# Log the check...
 		if( !$this->addLogEntry( $logType, 'ip', $ip, $reason ) ) {
