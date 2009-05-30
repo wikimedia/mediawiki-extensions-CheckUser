@@ -27,33 +27,39 @@ function updateCIDRresult() {
 	var bin_prefix = 0;
 	var prefix_cidr = 0;
 	var prefix = new String( "" );
-	// Go through each IP in the list, get it's binary form, and track
-	// the largest binary prefix among them
+	// Go through each IP in the list, get it's binary form, and
+	// track the largest binary prefix among them...
 	for( var i=0; i<ips.length; i++ ) {
+		var invalid = false;
 		// ...in the spirit of block.js, call this "addy"
 		var addy = ips[i];
 		// Match the first IP in each list (ignore other garbage)
-		var ipV4 = addy.match(/(^|\b)(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(\/\d+)?\b/);
+		var ipV4 = addy.match(/(^|\b)(\d+\.\d+\.\d+\.\d+)(\/\d+)?\b/);
 		var ipV6 = addy.match(/(^|\b)(:(:[0-9A-Fa-f]{1,4}){1,7}|[0-9A-Fa-f]{1,4}(:{1,2}[0-9A-Fa-f]{1,4}|::$){1,7})(\/\d+)?\b/);
 		// Binary form
 		var bin = new String( "" );
-		// Rebuilt formatted bin_prefix for each IP
-		if( ipV4 || ipV6 ) prefix = '';
 		// Convert the IP to binary form: IPv4
 		if( ipV4 ) {
 			var ip = ipV4[2];
 			var cidr = ipV4[3]; // CIDR, if it exists
 			// Get each quad integer
 			var blocs = ip.split('.');
+			// IANA 1.0.0.0/8, 2.0.0.0/8
+			if( blocs[0] < 3 ) continue;
 			for( var x=0; x<blocs.length; x++ ) {
 				bloc = parseInt( blocs[x], 10 );
-				if( bloc > 255 ) continue; // bad IP!
+				if( bloc > 255 ) {
+					invalid = true; // bad IP!
+					break; // bad IP!
+				}
 				bin_block = bloc.toString(2); // concat bin with binary form of bloc
 				while( bin_block.length < 8 ) {
 					bin_block = "0" + bin_block; // pad out as needed
 				}
 				bin += bin_block;
 			}
+			if( invalid ) continue; // move to next IP
+			prefix = ''; // Rebuild formatted bin_prefix for each IP
 			// Apply any valid CIDRs
 			if( cidr ) {
 				cidr = cidr.match( /\d+$/ )[0]; // get rid of slash
@@ -119,7 +125,10 @@ function updateCIDRresult() {
 			var blocs = ip.split(':');
 			for( var x=0; x<=7; x++ ) {
 				bloc = blocs[x] ? blocs[x] : "0";
-				if( bloc > "ffff" ) continue; // bad IP!
+				if( bloc > "ffff" ) {
+					invalid = true; // bad IP!
+					break; // bad IP!
+				}
 				int_block = hex2int( bloc ); // convert hex -> int
 				bin_block = int_block.toString(2); // concat bin with binary form of bloc
 				while( bin_block.length < 16 ) {
@@ -127,6 +136,8 @@ function updateCIDRresult() {
 				}
 				bin += bin_block;
 			}
+			if( invalid ) continue; // move to next IP
+			prefix = ''; // Rebuild formatted bin_prefix for each IP
 			// Apply any valid CIDRs
 			if( cidr ) {
 				cidr = cidr.match( /\d+$/ )[0]; // get rid of slash
