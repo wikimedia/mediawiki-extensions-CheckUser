@@ -2245,7 +2245,7 @@ $messages['gu'] = array(
  * @author MacTire02
  */
 $messages['gv'] = array(
-	'checkuser-reason' => 'Fa',
+	'checkuser-reason' => 'Fa:',
 	'checkuser-search' => 'Ronsaghey',
 	'checkuser-search-submit' => 'Ronsaghey',
 );
