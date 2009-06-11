@@ -4779,6 +4779,7 @@ Foloseşte unealta în concordanţă cu politica sitului.',
 	'checkuser-desc' => 'Autorizează utilizatorii cu drepturile specifice să poată verifica adresele IP şi alte informaţii',
 	'checkuser-logcase' => 'Căutarea în jurnal este sensibilă la majuscule - minuscule',
 	'checkuser' => 'Verifică utilizatorul',
+	'checkuser-contribs' => 'verifică IP-urile utilizatorilor',
 	'group-checkuser' => 'Checkuseri',
 	'group-checkuser-member' => 'Checkuser',
 	'right-checkuser' => 'Verifică adresele IP ale utilizatorilor şi alte informaţii',
@@ -4799,6 +4800,8 @@ Foloseşte unealta în concordanţă cu politica sitului.',
 	'checkuser-week-2' => 'ultimele două săptămâni',
 	'checkuser-month' => 'ultimele 30 de zile',
 	'checkuser-all' => 'toate',
+	'checkuser-cidr-label' => 'Găseşte o serie comună şi adresele afectate pentru o listă de adrese IP',
+	'checkuser-cidr-res' => 'CIDR comun:',
 	'checkuser-empty' => 'Jurnalul nu conţine înregistrări.',
 	'checkuser-nomatch' => 'Nu au fost găsite potriviri.',
 	'checkuser-nomatch-edits' => 'Niciun rezultat.
@@ -4821,6 +4824,7 @@ Adresele IP vor fi blocate timp de o săptămână şi crearea de conturi va fi 
 	'checkuser-block-failure' => "'''Niciun utilizator nu este blocat.'''",
 	'checkuser-block-limit' => 'Prea mulţi utilizatori selectaţi.',
 	'checkuser-block-noreason' => 'Trebuie să specificaţi un motiv pentru blocări.',
+	'checkuser-noreason' => 'Trebuie să specifici un motiv pentru această interogare.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|cont nou|conturi noi}}',
 	'checkuser-too-many' => 'Prea multe rezultate, te rog îngustează CIDR.
 Iată IP-urile folosite (maxim 5000, sortate dup adresă):',
@@ -4921,7 +4925,7 @@ $messages['ru'] = array(
 	'checkuser-cidr-res' => 'Общая CIDR:',
 	'checkuser-empty' => 'Журнал пуст.',
 	'checkuser-nomatch' => 'Совпадений не найдено.',
-	'checkuser-nomatch-edits' => 'Соответствий не найдено.
+	'checkuser-nomatch-edits' => 'Совпадений не найдено.
 Последняя правка сделана $1 в $2.',
 	'checkuser-check' => 'Проверить',
 	'checkuser-log-fail' => 'Невозможно добавить запись в журнал',
