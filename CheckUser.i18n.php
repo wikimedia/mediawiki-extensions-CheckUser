@@ -907,7 +907,7 @@ Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Reco
 	'checkuser-desc' => "Permet als usuaris amb els permisos adients l'habilitat de comprovar les adreces IP que fan servir els usuaris enregistrats.",
 	'checkuser-logcase' => 'Les majúscules es tracten de manera diferenciada en la cerca dins el registre.',
 	'checkuser' => "Comprova l'usuari",
-	'checkuser-contribs' => 'revisa les IPs dels usuaris',
+	'checkuser-contribs' => "revisa les IP de l'usuari",
 	'group-checkuser' => 'Checkusers',
 	'group-checkuser-member' => 'CheckUser',
 	'right-checkuser' => 'Comprovar les adreces IP i altra informació dels usuaris',
@@ -928,7 +928,7 @@ Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Reco
 	'checkuser-week-2' => 'Darreres dues setmanes',
 	'checkuser-month' => 'Darrers 30 dies',
 	'checkuser-all' => 'tot',
-	'checkuser-cidr-label' => "Troba un rang comú i les adresses afectades per una llista d'IPs",
+	'checkuser-cidr-label' => "Troba un rang comú i les adreces afectades per una llista d'IP",
 	'checkuser-cidr-res' => 'CIDR comú:',
 	'checkuser-empty' => 'El registre no conté entrades.',
 	'checkuser-nomatch' => "No s'han trobat coincidències.",
@@ -952,7 +952,7 @@ Les adreces IP seran blocades per una setmana només amb la prohibició de crear
 	'checkuser-block-failure' => "'''No s'han blocat usuaris.'''",
 	'checkuser-block-limit' => 'Massa usuaris seleccionats.',
 	'checkuser-block-noreason' => "Heu d'indicar un motiu pels bloquejos.",
-	'checkuser-noreason' => 'Ha de proveir una raó per a executar aquesta consulta.',
+	'checkuser-noreason' => 'Heu de donar un motiu per a executar aquesta consulta.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nou compte|nous comptes}}',
 	'checkuser-too-many' => 'Hi ha massa resultats, cal que useu un CIDR més petit. Aquí teniu les IP usades (màx. 5000 ordenades per adreça):',
 	'checkuser-user-nonexistent' => "L'usuari especificat no existeix.",
@@ -4421,6 +4421,19 @@ $messages['pam'] = array(
 	'checkuser-reason' => 'Sangkan',
 	'checkuser-showlog' => 'Pakit ya ing log',
 	'checkuser-search' => 'Manintun',
+);
+
+/** Deitsch (Deitsch)
+ * @author Xqt
+ */
+$messages['pdc'] = array(
+	'checkuser-reason' => 'Grund:',
+	'checkuser-target' => 'Yuuser odder IP',
+	'checkuser-week-1' => 'letscht Woch',
+	'checkuser-week-2' => 'letschte zwo Woche',
+	'checkuser-month' => 'letschte 30 Daag',
+	'checkuser-all' => 'all',
+	'checkuser-blocked' => 'aabunne',
 );
 
 /** Polish (Polski)
