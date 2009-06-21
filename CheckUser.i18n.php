@@ -2948,7 +2948,7 @@ IPv4（16から32ビットのCIDR表記）と IPv6（96から128ビットのCIDR
 	'checkuser-desc' => '特定の権限を付与された利用者に対して、利用者のIPアドレスなどの情報のチェックを可能にする',
 	'checkuser-logcase' => 'ログの検索では大文字と小文字を区別します。',
 	'checkuser' => 'チェックユーザー',
-	'checkuser-contribs' => '利用者またはIPアドレスを調査',
+	'checkuser-contribs' => '利用者のIPを調査',
 	'group-checkuser' => 'チェックユーザー',
 	'group-checkuser-member' => 'チェックユーザー',
 	'right-checkuser' => '利用者のIPアドレスやその他の情報を確認する',
