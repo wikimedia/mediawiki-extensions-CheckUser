@@ -1756,6 +1756,7 @@ $messages['fa'] = array(
  * @author Jaakonam
  * @author Jack Phoenix
  * @author Nike
+ * @author Varusmies
  */
 $messages['fi'] = array(
 	'checkuser-summary' => 'Tämän työkalun avulla voidaan tutkia tuoreet muutokset ja paljastaa käyttäjien IP-osoitteet tai noutaa IP-osoitteiden muokkaukset ja käyttäjätiedot.
@@ -1763,6 +1764,7 @@ $messages['fi'] = array(
 	'checkuser-desc' => 'Antaa oikeutetuille käyttäjille mahdollisuuden tarkistaa käyttäjän IP-osoitteet ja muita tietoja.',
 	'checkuser-logcase' => 'Haku lokista on kirjainkokoriippuvainen.',
 	'checkuser' => 'Osoitepaljastin',
+	'checkuser-contribs' => 'tarkista käyttäjän IP-osoitteet',
 	'group-checkuser' => 'osoitepaljastimen käyttäjät',
 	'group-checkuser-member' => 'osoitepaljastimen käyttäjä',
 	'right-checkuser' => 'Tarkastaa käyttäjän käyttämät IP-osoitteet sekä muut tiedot',
@@ -5357,6 +5359,7 @@ Beoarbaidengen fon ne IP-Adresse konnen uk ätter Informatione uut do XFF-Header
 	'checkuser-desc' => 'Ferlööwet Benutsere mäd do äntspreekende Gjuchte do IP-Adressen as uk wiedere Informatione fon Benutsere tou wröigjen.',
 	'checkuser-logcase' => 'Ju Säike in dät Logbouk unnerschat twiske Groot- un Littikschrieuwen.',
 	'checkuser' => 'Checkuser',
+	'checkuser-contribs' => 'IP-Adrässen Benutser wröigje',
 	'group-checkuser' => 'Checkusers',
 	'group-checkuser-member' => 'Checkuser-Begjuchtigde',
 	'right-checkuser' => 'Wröigenge fon IP-Adressen as uk Ferbiendengen twiske IPs un ounmäldede Benutsere',
@@ -5400,6 +5403,7 @@ IP-Adressen wäide foar een Wiek speerd (bloot foar anonyme Benutsere, ju Anloag
 	'checkuser-block-failure' => "'''Der wuuden neen Benutsere speerd.'''",
 	'checkuser-block-limit' => 'Der wuuden toufuul Benutsere uutwääld.',
 	'checkuser-block-noreason' => 'Du moast n Gruund foar ju Speere anreeke.',
+	'checkuser-noreason' => 'Foar disse Oufroage mout ne Begruundenge ounroat wäide.',
 	'checkuser-accounts' => '{{PLURAL:$1|1 näi Benutserkonto|$1 näie Benutserkonten}}',
 	'checkuser-too-many' => 'Ju Lieste fon Resultoate is tou loang, gränsje dän IP-Beräk fääre ien. Hier sunt do benutsede IP-Adressen (maximoal 5000, sortierd ätter Adresse):',
 	'checkuser-user-nonexistent' => 'Die anroate Benutser bestoant nit.',
