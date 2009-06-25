@@ -1756,6 +1756,7 @@ $messages['fa'] = array(
  * @author Jaakonam
  * @author Jack Phoenix
  * @author Nike
+ * @author Str4nd
  * @author Varusmies
  */
 $messages['fi'] = array(
@@ -1785,6 +1786,8 @@ $messages['fi'] = array(
 	'checkuser-week-2' => 'viimeiset kaksi viikkoa',
 	'checkuser-month' => 'viimeiset 30 päivää',
 	'checkuser-all' => 'kaikki',
+	'checkuser-cidr-label' => 'Etsi yleinen osoiteavaruus annetulle IP-luettelolle',
+	'checkuser-cidr-res' => 'Yleinen CIDR',
 	'checkuser-empty' => 'Ei lokitapahtumia.',
 	'checkuser-nomatch' => 'Hakuehtoihin sopivia tuloksia ei löytynyt.',
 	'checkuser-nomatch-edits' => 'Osumia ei löytynyt.
@@ -1807,6 +1810,7 @@ Vain rekisteröimättömien käyttäjien IP-osoitteet estetään yhdeksi viikoks
 	'checkuser-block-failure' => "'''Yhtään käyttäjää ei estetty.'''",
 	'checkuser-block-limit' => 'Liian monta käyttäjää valittu.',
 	'checkuser-block-noreason' => 'Estoille on annettava syy.',
+	'checkuser-noreason' => 'Sinun tulee antaa syy tälle kyselylle.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|uusi tunnus|uutta tunnusta}}',
 	'checkuser-too-many' => 'Liian monta tulosta, rajoita IP-osoitetta:',
 	'checkuser-user-nonexistent' => 'Määritettyä käyttäjää ei ole olemassa.',
@@ -2730,6 +2734,7 @@ Ecce le IPs usate (5000 max, ordinate per adresse):',
 );
 
 /** Indonesian (Bahasa Indonesia)
+ * @author Bennylin
  * @author Borgx
  * @author IvanLanin
  * @author Rex
@@ -2748,7 +2753,7 @@ Harap gunakan peralatan ini sesuai dengan kebijakan yang ada.',
 	'right-checkuser' => 'Periksa alamat IP pengguna dan informasi lainnya',
 	'right-checkuser-log' => 'Tampilkan log pemeriksa',
 	'grouppage-checkuser' => '{{ns:project}}:Pemeriksa',
-	'checkuser-reason' => 'Alasan',
+	'checkuser-reason' => 'Alasan:',
 	'checkuser-showlog' => 'Tampilkan log',
 	'checkuser-log' => 'Log pemeriksaan pengguna',
 	'checkuser-query' => 'Kueri perubahan terbaru',
@@ -2766,7 +2771,7 @@ Harap gunakan peralatan ini sesuai dengan kebijakan yang ada.',
 	'checkuser-cidr-label' => 'Mencari jangkauan umum dan alamat yang dipengaruhi dari sebuah daftar IP',
 	'checkuser-cidr-res' => 'CIDR umum:',
 	'checkuser-empty' => 'Log kosong.',
-	'checkuser-nomatch' => 'Data yang sesuai tidak ditemukan.',
+	'checkuser-nomatch' => 'Tidak ditemukan data yang cocok.',
 	'checkuser-nomatch-edits' => 'Tidak ditemukan hasil sesuai kriteria yang diberikan. Suntingan terakhir dilakukan pada $2, $1.',
 	'checkuser-check' => 'Periksa',
 	'checkuser-log-fail' => 'Entri log tidak dapat ditambahkan',
@@ -2907,6 +2912,7 @@ Gli indirizzi IP saranno bloccati per una settimana solo per gli utenti anonimi 
 	'checkuser-block-failure' => "'''Nessun utente bloccato.'''",
 	'checkuser-block-limit' => 'Troppi utenti selezionati.',
 	'checkuser-block-noreason' => 'È obbligatorio fornire una motivazione per i blocchi.',
+	'checkuser-noreason' => 'È necessario fornire una motivazione per questa query.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nuovo|nuovi}} account',
 	'checkuser-too-many' => 'Il numero di risultati è eccessivo, usare un CIDR più ristretto. Di seguito sono indicati gli indirizzi IP utilizzati (fino a un massimo di 5000, ordinati per indirizzo):',
 	'checkuser-user-nonexistent' => "L'utente indicato non esiste.",
