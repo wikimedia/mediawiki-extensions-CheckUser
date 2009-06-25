@@ -1180,7 +1180,7 @@ class CheckUser extends SpecialPage
 				$user = User::newFromName( $target );
 				if ( $user && $user->getID() ) {
 					$searchConds = array( 
-						'cul_type' => 'userips',
+						'cul_type' => array('userips','useredits'),
 						'cul_target_id' => $user->getID(),
 					);
 				} else if ( $target ) {
