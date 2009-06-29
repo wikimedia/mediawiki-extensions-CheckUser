@@ -134,7 +134,7 @@ $aliases['ia'] = array(
 
 /** Indonesian (Bahasa Indonesia) */
 $aliases['id'] = array(
-	'CheckUser' => array( 'Pemeriksa' ),
+	'CheckUser' => array( 'Periksa pengguna', 'PeriksaPengguna', 'Pemeriksa' ),
 );
 
 /** Japanese (日本語) */
