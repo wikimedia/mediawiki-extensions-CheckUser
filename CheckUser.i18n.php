@@ -4571,10 +4571,15 @@ $messages['ps'] = array(
 	'checkuser-target' => 'کارونکی يا IP پته',
 	'checkuser-search' => 'پلټل',
 	'checkuser-period' => 'موده:',
+	'checkuser-week-1' => 'تېره اوونۍ',
+	'checkuser-week-2' => 'تېرې دوه اوونۍ',
+	'checkuser-month' => 'تېرې ۳۰ ورځې',
 	'checkuser-all' => 'ټول',
 	'checkuser-search-submit' => 'پلټل',
 	'checkuser-search-target' => 'موخه',
+	'checkuser-ipeditcount' => '~$1 د ټولو کارنانو نه',
 	'checkuser-log-subpage' => 'يادښت',
+	'checkuser-email-action' => 'د "$1" کارن ته يو برېښليک ولېږل شو',
 );
 
 /** Portuguese (Português)
