@@ -2160,6 +2160,7 @@ $messages['grc'] = array(
 	'checkuser-search' => 'Ζητεῖν',
 	'checkuser-period' => 'Διάρκεια:',
 	'checkuser-all' => 'ἅπασαι',
+	'checkuser-check' => 'Ἐλέγχειν',
 	'checkuser-wasblocked' => 'Προηγουμένως πεφραγμένος',
 	'checkuser-search-submit' => 'Ζητεῖν',
 	'checkuser-search-initiator' => 'ἐγκαινιαστής',
@@ -3751,13 +3752,14 @@ $messages['lt'] = array(
 );
 
 /** Latvian (Latviešu)
+ * @author Papuass
  * @author Xil
  * @author Yyy
  */
 $messages['lv'] = array(
 	'checkuser-desc' => 'Atļauj lietotājiem ar attiecīgām pilnvarām pārbaudīt lietotāja IP adresi un citu informāciju.',
 	'checkuser' => 'Pārbaudīt lietotāju',
-	'group-checkuser' => 'Pārbaudīt lietotājus',
+	'group-checkuser' => 'Pārbaudes lietotāji',
 	'checkuser-reason' => 'Iemesls:',
 	'checkuser-target' => 'Lietotājs vai IP',
 	'checkuser-search' => 'Meklēt',
