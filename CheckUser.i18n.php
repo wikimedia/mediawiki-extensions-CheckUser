@@ -337,6 +337,14 @@ $messages['ar'] = array(
 	'checkuser-reset-action' => 'أعد ضبط كلمة السر للمستخدم "$1"',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'checkuser-reason' => 'ܥܠܬܐ:',
+	'checkuser-showlog' => 'ܚܘܝ ܣܓܠܐ',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Ghaly
  * @author Meno25
