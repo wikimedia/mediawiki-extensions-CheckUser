@@ -286,7 +286,7 @@ class CheckUser extends SpecialPage
 		if( $lastEdit ) {
 			$lastEditDate = $wgLang->date( wfTimestamp(TS_MW,$lastEdit), true );
 			$lastEditTime = $wgLang->time( wfTimestamp(TS_MW,$lastEdit), true );
-			return wfMsgHtml( 'checkuser-nomatch-edits', $lastEditDate, $lastEditTime );
+			return wfMsgExt( 'checkuser-nomatch-edits', 'parse', $lastEditDate, $lastEditTime );
 		}
 		return wfMsgExt('checkuser-nomatch','parse');
 	}
