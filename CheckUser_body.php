@@ -1321,7 +1321,7 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 
 		$user = $skin->userLink( $row->cul_user, $row->user_name );
 
-		if ( $row->cul_type == 'userips' ) {
+		if ( $row->cul_type == 'userips' || $row->cul_type == 'useredits' ) {
 			$target = $skin->userLink( $row->cul_target_id, $row->cul_target_text ) . 
 				$skin->userToolLinks( $row->cul_target_id, $row->cul_target_text );
 		} else {
