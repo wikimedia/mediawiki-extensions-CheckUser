@@ -209,6 +209,11 @@ $aliases['sa'] = array(
 	'CheckUser' => array( 'योजकपरिक्षक' ),
 );
 
+/** Slovak (Slovenčina) */
+$aliases['sk'] = array(
+	'CheckUser' => array( 'SkontrolovaťPoužívateľa' ),
+);
+
 /** Swahili (Kiswahili) */
 $aliases['sw'] = array(
 	'CheckUser' => array( 'MtumiajiMwangalizi' ),
