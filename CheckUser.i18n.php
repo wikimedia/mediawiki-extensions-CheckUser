@@ -3608,8 +3608,8 @@ Déi lescht Ännerung war de() $1 ëm $2.',
 	'checkuser-block-noreason' => "Dir musst e Grond fir d'Spären uginn.",
 	'checkuser-noreason' => 'Dir musst e Grond fir dës Ufro uginn.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|neie Benotzerkont|nei Benotzerkonten}}',
-	'checkuser-too-many' => 'Zevill Resultater, gitt w.e.g. méi e klenge Beräich vun Ip-adresen un.
-Hei sinn déi benotzten IP-Adressen (max 5000, sortéiert no der Adress):',
+	'checkuser-too-many' => 'Zevill Resultater, gitt w.e.g. méi e klenge Beräich vun IP-Adressen un.
+Hei sinn déi benotzten IP-Adressen (max 5000, zortéiert no der Adress):',
 	'checkuser-user-nonexistent' => 'De gesichte Benotzer gëtt et net.',
 	'checkuser-search-form' => 'An de Lëschten fannen, wou den $1 den $2 ass',
 	'checkuser-search-submit' => 'Sichen',
@@ -4909,6 +4909,7 @@ $messages['roa-rup'] = array(
 $messages['roa-tara'] = array(
 	'grouppage-checkuser' => '{{ns:project}}:Utende ca verifiche',
 	'checkuser-reason' => 'Mutive:',
+	'checkuser-showlog' => "Fà vedè l'archivije",
 	'checkuser-target' => 'Utende o IP',
 	'checkuser-users' => "Pigghje l'utende",
 	'checkuser-edits' => "Pigghje le cangiaminde da l'IP",
@@ -4920,6 +4921,9 @@ $messages['roa-tara'] = array(
 	'checkuser-week-2' => 'urteme doje sumane',
 	'checkuser-month' => 'urteme 30 giurne',
 	'checkuser-all' => 'tutte',
+	'checkuser-check' => 'Verifiche',
+	'checkuser-blocked' => 'Bloccate',
+	'checkuser-locked' => 'Bloccate',
 	'checkuser-search-submit' => 'Cirche',
 	'checkuser-log-userips' => '$1 ha pigghiete le IP pe $2',
 	'checkuser-log-ipedits' => '$1 ha pigghiete le cangiaminde pe $2',
