@@ -1671,7 +1671,10 @@ $messages['eu'] = array(
 	'checkuser-gblocked' => 'Proiektu guztietarako blokeatua',
 	'checkuser-locked' => 'Babestua',
 	'checkuser-wasblocked' => 'Aurretik blokeatua',
+	'checkuser-localonly' => 'Batu gabe',
 	'checkuser-massblock' => 'Hautatutako lankideak blokeatu',
+	'checkuser-massblock-commit' => 'Aukeratutako erabiltzaileak blokeatu',
+	'checkuser-block-success' => "'''$1 {{PLURAL:$2|erabiltzailea|erabiltzaileak}} blokeaturik {{PLURAL:$2|dago|daude}} orain.'''",
 	'checkuser-block-limit' => 'Lankide gehiegi hautatu duzu.',
 	'checkuser-search-submit' => 'Bilatu',
 	'checkuser-autocreate-action' => 'automatikoki sortua izan da',
@@ -3552,13 +3555,14 @@ $messages['la'] = array(
 );
 
 /** Luxembourgish (Lëtzebuergesch)
+ * @author Les Meloures
  * @author Robby
  */
 $messages['lb'] = array(
-	'checkuser-summary' => "Dës Fonctioun scannt déi rezent Ännerunge fir d'Ip-Adressen déi vun engem Benotzer benotzt goufen ze fannen repektiv d'ännerunge pro Benotzer fir eng IP.
-Benotzer an Ännerunge vun enger IP-Adress kënne och iwwer den XFF header gesicht ginn andeems hannert d'IP-Adress \"/xff\" hannendrugehaang gëtt. IPv4 (CIDR 16-32) an IPv6 (CIDR 96-128) ginn ënnerstetzt.
+	'checkuser-summary' => "Dës Fonctioun scannt déi rezent Ännerunge fir d'Ip-Adressen, déi vun engem Benotzer benotzt goufen, ze fannen, repektiv d'Ännerunge pro Benotzer fir eng IP.
+Benotzer an Ännerunge vun enger IP-Adress kënnen och iwwer den XFF header gesicht ginn andeems hannert d'IP-Adress \"/xff\" hannendrugehaange gëtt. IPv4 (CIDR 16-32) an IPv6 (CIDR 96-128) ginn ënnerstëtzt.
 Net méi wéi 5000 Ännerunge ginn aus Performance-Grënn zréckgeschéckt.
-Benotzt dës Fonctioun am Aklang mat de Richtlinnen.",
+Benotzt dës Fonctioun am Aklang mat den Direktiven.",
 	'checkuser-desc' => "Gëtt Benotzer mat den néidege Rechter d'Méiglechkeet d'IP-Adressen esou wéi aner Informatiounen iwwert d'Benotzer z'iwwerpréifen",
 	'checkuser-logcase' => "D'Sich am Logbuch mecht en Ënnerscheed tëschent groussen a klenge Buchstawen.",
 	'checkuser' => 'Benotzer-Check',
@@ -6326,55 +6330,75 @@ $messages['yue'] = array(
 
 /** Simplified Chinese (‪中文(简体)‬)
  * @author Gzdavidwong
+ * @author PhiLiP
  * @author Wmr89502270
  */
 $messages['zh-hans'] = array(
-	'checkuser-summary' => '本工具会从{{int:recentchanges}}中查询使用者使用过的IP位址，或是一个IP位址发送出来的任何编辑记录。本工具支持IPv4及IPv6的位址。由于技术上的限制，本工具只能查询最近5000笔的记录。请确定你的行为符合守则。',
-	'checkuser-desc' => '让授权的用户检查用户的IP位址及其他资讯',
-	'checkuser-logcase' => '搜寻时请注意大小写的区分',
-	'checkuser' => '核对用户',
+	'checkuser-summary' => '本工具会从最近更改中获取用户使用过的IP地址，可使用XFF头信息来获取同一客户端IP地址下的用户和编辑，即在IP地址后方附加“/xff”。本工具支持IPv4（CIDR 16-32）和IPv6（CIDR 96-128）。由于效率原因，本工具只能查询最近5000笔编辑次数。请确保你的操作符合方针。',
+	'checkuser-desc' => '令已授权用户可以核查用户的IP地址及其他信息',
+	'checkuser-logcase' => '日志搜索是区分大小写的。',
+	'checkuser' => '帐户核查',
+	'checkuser-contribs' => '核查用户IP地址',
 	'group-checkuser' => '账户核查',
 	'group-checkuser-member' => '账户核查',
-	'right-checkuser' => '查核用户的IP地址以及其它的资料',
+	'right-checkuser' => '核查用户的IP地址和其他信息',
+	'right-checkuser-log' => '查看帐户核查日志',
 	'grouppage-checkuser' => '{{ns:project}}:账户核查',
-	'checkuser-reason' => '理由',
+	'checkuser-reason' => '原因：',
 	'checkuser-showlog' => '显示日志',
-	'checkuser-log' => '用户查核日志',
+	'checkuser-log' => '帐户核查日志',
 	'checkuser-query' => '查询最近更改',
-	'checkuser-target' => '用户名称或IP位扯',
-	'checkuser-users' => '查询用户名称',
-	'checkuser-edits' => '从IP位址查询编辑日志',
-	'checkuser-ips' => '查询IP位址',
+	'checkuser-target' => '用户或IP地址',
+	'checkuser-users' => '获取用户',
+	'checkuser-edits' => '根据IP地址获取编辑',
+	'checkuser-ips' => '获取IP地址',
+	'checkuser-account' => '获取帐户编辑',
 	'checkuser-search' => '搜索',
-	'checkuser-week-1' => '上星期',
-	'checkuser-week-2' => '前两个星期',
+	'checkuser-period' => '期限：',
+	'checkuser-week-1' => '上周',
+	'checkuser-week-2' => '前两周',
 	'checkuser-month' => '前30天',
 	'checkuser-all' => '所有',
-	'checkuser-empty' => '日志里没有资料。',
-	'checkuser-nomatch' => '没有符合的资讯',
-	'checkuser-check' => '查询',
+	'checkuser-empty' => '日志里没有项目。',
+	'checkuser-nomatch' => '找不到匹配项目。',
+	'checkuser-nomatch-edits' => '找不到匹配项目。最近一次编辑于$1$2。',
+	'checkuser-check' => '查核',
 	'checkuser-log-fail' => '无法更新日志。',
-	'checkuser-nolog' => '找不到记录档',
-	'checkuser-blocked' => '已经查封',
+	'checkuser-nolog' => '找不到日志文件。',
+	'checkuser-blocked' => '已封禁',
+	'checkuser-gblocked' => '全域封禁',
 	'checkuser-locked' => '已锁定',
-	'checkuser-too-many' => '太多结果，请收窄CIDR。
-这是使用过?IP (最多5000个，按地址排列):',
-	'checkuser-user-nonexistent' => '指定的使用者不存在。',
-	'checkuser-search-form' => '搜寻当 $1 是 $2 时之日志',
+	'checkuser-wasblocked' => '曾封禁',
+	'checkuser-massblock' => '封禁选中用户',
+	'checkuser-massblock-text' => '被选中的帐户将被施以无限期封禁，并启用自动封禁、禁止帐户创建。被选中的IP地址将被封禁一周，仅针对IP用户且禁止帐户创建。',
+	'checkuser-blocktag' => '替换用户页内容：',
+	'checkuser-blocktag-talk' => '替换讨论页内容：',
+	'checkuser-massblock-commit' => '封禁选中用户',
+	'checkuser-block-success' => "'''用户$1已被封禁。'''",
+	'checkuser-block-failure' => "'''未有用户被封禁。'''",
+	'checkuser-block-limit' => '选中用户数量过多。',
+	'checkuser-block-noreason' => '你必须解释此次封禁的原因。',
+	'checkuser-noreason' => '你必须解释此次查询的原因。',
+	'checkuser-accounts' => '$1个新帐户',
+	'checkuser-too-many' => '结果过多，请缩小CIDR的范围。下面列出了使用过的IP地址（最多5000个，按地址排列）：',
+	'checkuser-user-nonexistent' => '指定的用户不存在。',
+	'checkuser-search-form' => '查找当 $1 是 $2 时的日志记录',
 	'checkuser-search-submit' => '搜索',
-	'checkuser-search-initiator' => '创始者',
+	'checkuser-search-initiator' => '操作者',
 	'checkuser-search-target' => '目标',
 	'checkuser-ipeditcount' => '~在全部用户中$1',
 	'checkuser-log-subpage' => '日志',
 	'checkuser-log-return' => '回到查核主表单',
+	'checkuser-limited' => "'''结果已因效率原因而被删减。'''",
 	'checkuser-log-userips' => '$1取得$2的IP信息',
 	'checkuser-log-ipedits' => '$1取得$2的编辑记录',
 	'checkuser-log-ipusers' => '$1取得$2的用户信息',
-	'checkuser-log-ipedits-xff' => '$1取得 XFF $2的编辑记录',
-	'checkuser-log-ipusers-xff' => '$1取得 XFF $2的用户信息',
-	'checkuser-autocreate-action' => '已经自动建立',
+	'checkuser-log-ipedits-xff' => '$1取得XFF $2的编辑记录',
+	'checkuser-log-ipusers-xff' => '$1取得XFF $2的用户信息',
+	'checkuser-log-useredits' => '$1取得$2的编辑记录',
+	'checkuser-autocreate-action' => '已自动创建',
 	'checkuser-email-action' => '向用户“$1”发送电邮',
-	'checkuser-reset-action' => '为用户“$1”重新设置密码',
+	'checkuser-reset-action' => '为用户“$1”重置密码',
 );
 
 /** Traditional Chinese (‪中文(繁體)‬)
