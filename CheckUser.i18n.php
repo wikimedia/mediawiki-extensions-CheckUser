@@ -1620,9 +1620,11 @@ Las direcciones IP serán bloqueadas durante una semana con la creación de cuen
 
 /** Estonian (Eesti)
  * @author Avjoska
+ * @author Pikne
  * @author WikedKentaur
  */
 $messages['et'] = array(
+	'right-checkuser' => 'Kontrollida kasutajate IP-aadresse ja muud teavet',
 	'checkuser-search' => 'Otsi',
 	'checkuser-period' => 'Ajavahemik:',
 	'checkuser-week-1' => 'viimane nädal',
