@@ -319,7 +319,7 @@ $messages['ar'] = array(
 هذه هي الأيبيهات المستخدمة (5000 كحد أقصى، مرتبة بالعنوان):',
 	'checkuser-user-nonexistent' => 'المستخدم المحدد غير موجود.',
 	'checkuser-search-form' => 'اعثر على مدخلات السجل حيث $1 هو $2',
-	'checkuser-search-submit' => 'بحث',
+	'checkuser-search-submit' => 'ابحث',
 	'checkuser-search-initiator' => 'بادىء',
 	'checkuser-search-target' => 'هدف',
 	'checkuser-ipeditcount' => '~$1 من كل المستخدمين',
@@ -1624,6 +1624,7 @@ Las direcciones IP serán bloqueadas durante una semana con la creación de cuen
  * @author WikedKentaur
  */
 $messages['et'] = array(
+	'checkuser-desc' => 'Võimaldab vajalike õigustega kasutajal teise kasutaja IP-aadresse ja muud teavet kontrollida.',
 	'right-checkuser' => 'Kontrollida kasutajate IP-aadresse ja muud teavet',
 	'checkuser-search' => 'Otsi',
 	'checkuser-period' => 'Ajavahemik:',
@@ -4684,6 +4685,7 @@ Endereços IP serão bloqueados por 1 semana com criação de conta desabilitada
 
 /** Brazilian Portuguese (Português do Brasil)
  * @author Eduardo.mps
+ * @author Heldergeovane
  */
 $messages['pt-br'] = array(
 	'checkuser-summary' => 'Esta ferramenta varre as Mudanças recentes para obter os endereços de IP de um utilizador ou para exibir os dados de edições/utilizadores para um IP.
@@ -4737,6 +4739,7 @@ Endereços IP serão bloqueados por 1 semana com criação de conta desabilitada
 	'checkuser-block-failure' => "'''Nenhum utilizador bloqueado.'''",
 	'checkuser-block-limit' => 'Demasiados utilizadores selecionados.',
 	'checkuser-block-noreason' => 'Você deve especificar um motivo para os bloqueios.',
+	'checkuser-noreason' => 'Você deve fornecer um motivo para esta pesquisa.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nova conta|novas contas}}',
 	'checkuser-too-many' => 'Demasiados resultados; por favor, restrinja o CIDR. Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
 	'checkuser-user-nonexistent' => 'O utilizador especificado não existe.',
@@ -6332,6 +6335,7 @@ $messages['yue'] = array(
 
 /** Simplified Chinese (‪中文(简体)‬)
  * @author Gzdavidwong
+ * @author Jimmy xu wrk
  * @author PhiLiP
  * @author Wmr89502270
  */
@@ -6361,6 +6365,8 @@ $messages['zh-hans'] = array(
 	'checkuser-week-2' => '前两周',
 	'checkuser-month' => '前30天',
 	'checkuser-all' => '所有',
+	'checkuser-cidr-label' => '检查指定IP列表的共同区段',
+	'checkuser-cidr-res' => '通用CIDR：',
 	'checkuser-empty' => '日志里没有项目。',
 	'checkuser-nomatch' => '找不到匹配项目。',
 	'checkuser-nomatch-edits' => '找不到匹配项目。最近一次编辑于$1$2。',
@@ -6371,6 +6377,7 @@ $messages['zh-hans'] = array(
 	'checkuser-gblocked' => '全域封禁',
 	'checkuser-locked' => '已锁定',
 	'checkuser-wasblocked' => '曾封禁',
+	'checkuser-localonly' => '未统一',
 	'checkuser-massblock' => '封禁选中用户',
 	'checkuser-massblock-text' => '被选中的帐户将被施以无限期封禁，并启用自动封禁、禁止帐户创建。被选中的IP地址将被封禁一周，仅针对IP用户且禁止帐户创建。',
 	'checkuser-blocktag' => '替换用户页内容：',
