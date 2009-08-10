@@ -5123,6 +5123,7 @@ $messages['sc'] = array(
 );
 
 /** Sicilian (Sicilianu)
+ * @author Melos
  * @author Santu
  */
 $messages['scn'] = array(
@@ -5130,6 +5131,7 @@ $messages['scn'] = array(
 	'checkuser-desc' => "Pirmetti a l'utenti cu li giusti autorizzazzioni du suttapuniri a virifica li nnirizzi IP e àutri nfurmazzioni di l'utenti stissi",
 	'checkuser-logcase' => "La circata nnê log è ''case sensitive'' (diffirènzia ntra maiùsculi e minùsculi)",
 	'checkuser' => 'Cuntrolli utenzi',
+	'checkuser-contribs' => "cuntrolla l'indirizzi IP dô utenti",
 	'group-checkuser' => 'Cuntrullori',
 	'group-checkuser-member' => 'Cuntrullori',
 	'right-checkuser' => "Talìa li nnirizzi IP usati di l'utenti a àutri nfurmazzioni",
@@ -5150,6 +5152,8 @@ $messages['scn'] = array(
 	'checkuser-week-2' => 'ùrtimi dui simani',
 	'checkuser-month' => 'ùrtimi 30 jorna',
 	'checkuser-all' => 'tutti li canciamenti',
+	'checkuser-cidr-label' => "Trova l'intervallu e l'indirizzi intirissati pi na lista di IP",
+	'checkuser-cidr-res' => 'CIDR comuni:',
 	'checkuser-empty' => 'Lu log non havi dati.',
 	'checkuser-nomatch' => 'Nuddu risurtatu attruvatu.',
 	'checkuser-nomatch-edits' => 'Nuddu risurtatu attruvatu.
@@ -5172,6 +5176,7 @@ Li nnirizzi IP vennu bluccati pi na simana sulu pi l'utenti anònimi e câ criaz
 	'checkuser-block-failure' => "'''Nuddu utenti bluccatu.'''",
 	'checkuser-block-limit' => 'Troppi utenti silizziunati.',
 	'checkuser-block-noreason' => 'È òbbricu dari na mutivazzioni pi li blocchi.',
+	'checkuser-noreason' => 'Havi a ndicari nu mutivu pi sta query.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|novo|novi}} account',
 	'checkuser-too-many' => "Li nùmmira dî risulrtati è troppu assai, usari nu CIDR cchiù nicu. Si sècutu sù nnicati li nnirizzi IP utilizzati (nzinu a non chiossai di 5000, misi 'n òrdini pi nnirizzu):",
 	'checkuser-user-nonexistent' => "L'utenti nnicatu non esisti.",
@@ -5377,12 +5382,70 @@ $messages['sr-ec'] = array(
 	'checkuser-reset-action' => 'обнови лозинку за корисника "$1"',
 );
 
-/** latinica (latinica) */
+/** latinica (latinica)
+ * @author Michaello
+ */
 $messages['sr-el'] = array(
+	'checkuser-desc' => 'Daje saradnicima sa odgovarajućim pravima mogućnost da provere IP adrese saradnika i druge informacije.',
+	'checkuser-logcase' => 'Pretraga loga je osetljiva na mala i velika slova.',
 	'checkuser' => 'Čekjuzer',
 	'group-checkuser' => 'Čekjuzeri',
 	'group-checkuser-member' => 'Čekjuzer',
+	'right-checkuser' => 'Proverava saradničke IP adrese i druge informacije.',
+	'right-checkuser-log' => 'Pogledaj čekjuzer log',
 	'grouppage-checkuser' => '{{ns:project}}:Čekjuzer',
+	'checkuser-reason' => 'Rezlog:',
+	'checkuser-showlog' => 'Prikaži log.',
+	'checkuser-log' => 'Log čekjuzera.',
+	'checkuser-query' => 'Upit na skorašnje izmene.',
+	'checkuser-target' => 'Korisnik ili IP',
+	'checkuser-users' => 'Prikupljanje saradničkih imena.',
+	'checkuser-edits' => 'Prikupljanje izmena od strane IP adrese.',
+	'checkuser-ips' => 'Prikuplja IP adrese.',
+	'checkuser-account' => 'Preuzmi izmene naloga',
+	'checkuser-search' => 'Pretraga',
+	'checkuser-period' => 'Trajanje:',
+	'checkuser-week-1' => 'poslednja nedelja',
+	'checkuser-week-2' => 'poslednje dve nedelje',
+	'checkuser-month' => 'poslednjih 30 dana',
+	'checkuser-all' => 'sve',
+	'checkuser-empty' => 'Log ne sadrži ništa.',
+	'checkuser-nomatch' => 'Nema pogodaka.',
+	'checkuser-check' => 'Provera',
+	'checkuser-log-fail' => 'Nije bilo moguće dodati podatak u log.',
+	'checkuser-nolog' => 'Nijedan fajl s logovima nije pronađen.',
+	'checkuser-blocked' => 'Blokiran',
+	'checkuser-gblocked' => 'Blokiran globalno',
+	'checkuser-locked' => 'Zaključano',
+	'checkuser-wasblocked' => 'Prethodno blokiran',
+	'checkuser-localonly' => 'Nije unificirano',
+	'checkuser-massblock' => 'Blokiraj izabranog korisnika',
+	'checkuser-blocktag' => 'Zameni korisničke stranice sa:',
+	'checkuser-blocktag-talk' => 'Zameni strane za razgovor sa:',
+	'checkuser-massblock-commit' => 'Blokiraj izabranog korisnika',
+	'checkuser-block-success' => "'''{{PLURAL:$2|Korisnik|Korisnici}} $1 {{PLURAL:$2|je sada blokiran|su sada blokirani}}.'''",
+	'checkuser-block-failure' => "'''Nema blokiranih korisnika.'''",
+	'checkuser-block-limit' => 'Previše korisnika je izabrano.',
+	'checkuser-block-noreason' => 'Morate dati razlog za blok.',
+	'checkuser-accounts' => '$1 {{PLURAL:$1|novi nalog|novih naloga}}',
+	'checkuser-too-many' => 'Previše rezultata; smanji CIDR. Evo spiska korišćenih IP adresa (maksimalno 5000, sortirano po adresi):',
+	'checkuser-user-nonexistent' => 'Traženi saradnik ne postoji.',
+	'checkuser-search-form' => 'Pretraga loga gde je $1 jednako $2.',
+	'checkuser-search-submit' => 'Pretraga',
+	'checkuser-search-initiator' => 'pokretač',
+	'checkuser-search-target' => 'cilj',
+	'checkuser-ipeditcount' => '~$1 od svih saradnika',
+	'checkuser-log-subpage' => 'log',
+	'checkuser-log-return' => 'Povratak na osnovnu formu čekjuzera.',
+	'checkuser-log-userips' => '$1 je dobio IP adrese za $2',
+	'checkuser-log-ipedits' => '$1 je dobio izmene za $2',
+	'checkuser-log-ipusers' => '$1 je dobio saradnike za $2',
+	'checkuser-log-ipedits-xff' => '$1 je dobio izmene za XFF $2',
+	'checkuser-log-ipusers-xff' => '$1 je dobio saradnike za XFF $2',
+	'checkuser-log-useredits' => '$1 preuzeo izmene od $2',
+	'checkuser-autocreate-action' => 'je automatski napravljen',
+	'checkuser-email-action' => 'poslat je mejl korisniku &quot;$1&quot;',
+	'checkuser-reset-action' => 'obnovi lozinku za korisnika &quot;$1&quot;',
 );
 
 /** Seeltersk (Seeltersk)
