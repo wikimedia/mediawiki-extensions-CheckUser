@@ -1625,7 +1625,9 @@ Las direcciones IP serán bloqueadas durante una semana con la creación de cuen
  */
 $messages['et'] = array(
 	'checkuser-desc' => 'Võimaldab vajalike õigustega kasutajal teise kasutaja IP-aadresse ja muud teavet kontrollida.',
+	'checkuser-logcase' => 'Logi otsing on tõusutundlik.',
 	'right-checkuser' => 'Kontrollida kasutajate IP-aadresse ja muud teavet',
+	'checkuser-target' => 'Kasutaja või IP-aadress',
 	'checkuser-search' => 'Otsi',
 	'checkuser-period' => 'Ajavahemik:',
 	'checkuser-week-1' => 'viimane nädal',
@@ -3791,10 +3793,84 @@ $messages['mhr'] = array(
 );
 
 /** Macedonian (Македонски)
+ * @author Bjankuloski06
  * @author Misos
  */
 $messages['mk'] = array(
+	'checkuser-summary' => 'Оваа алатка врши преглед на скорешни промени за да ги добие IP адресите користени од некој корисник или да ги прикаже податоците за уредувања/корисници за некоја IP адреса.
+Корисниците и уредувањата од клиентска IP адреса можат да се собијат преку XFF наслови со додавање на „/xff“ на IP адресата. Поддржани се IPv4 (CIDR 16-32) и IPv6 (CIDR 96-128).
+Ќе се прикажат највеќе 5000 уредувања од функционални причини.
+Користете го ова во согласност со правилата.',
+	'checkuser-desc' => 'Им дозволува на корисниците со соодветна дозвола да можат да проверуваат IP адреси и други информации за корисници',
+	'checkuser-logcase' => 'Пребарувањето на дневникот разликува големи и букви.',
 	'checkuser' => 'Провери корисник',
+	'checkuser-contribs' => 'провери IP адреси на корисникот',
+	'group-checkuser' => 'Провери корисници',
+	'group-checkuser-member' => 'Провери корисник',
+	'right-checkuser' => 'Провери ги IP адерсите и другите информации на корисникот',
+	'right-checkuser-log' => 'Види дневник на проверување корисник',
+	'grouppage-checkuser' => '{{ns:project}}:Провери корисник',
+	'checkuser-reason' => 'Причина:',
+	'checkuser-showlog' => 'Прикажи дневник',
+	'checkuser-log' => 'Дневник на проверки',
+	'checkuser-query' => 'Побарај скорешни промени',
+	'checkuser-target' => 'Корисник или IP',
+	'checkuser-users' => 'Види корисници',
+	'checkuser-edits' => 'Види уредувања од оваа IP адреса',
+	'checkuser-ips' => 'Види IP адреси',
+	'checkuser-account' => 'Види уредувања на сметката',
+	'checkuser-search' => 'Пребарај',
+	'checkuser-period' => 'Траење:',
+	'checkuser-week-1' => 'минатата седмица',
+	'checkuser-week-2' => 'минатите две недели',
+	'checkuser-month' => 'минатите 30 дена',
+	'checkuser-all' => 'сите',
+	'checkuser-cidr-label' => 'Најди заедничка низа и погодени адреси за листа на IP адреси',
+	'checkuser-cidr-res' => 'Заеднички CIDR:',
+	'checkuser-empty' => 'Дневникот нема записи.',
+	'checkuser-nomatch' => 'Нема совпаѓања.',
+	'checkuser-nomatch-edits' => 'Нема совпаѓања.
+Последното уредување се случило на $1 во $2.',
+	'checkuser-check' => 'Провери',
+	'checkuser-log-fail' => 'Не можам да додадам ставка во дневникот',
+	'checkuser-nolog' => 'Нема пронајдено податотека со дневник.',
+	'checkuser-blocked' => 'Блокиран',
+	'checkuser-gblocked' => 'Блокиран глобално',
+	'checkuser-locked' => 'Заклучено',
+	'checkuser-wasblocked' => 'Претходно блокиран',
+	'checkuser-localonly' => 'Необединета',
+	'checkuser-massblock' => 'Блокирај ги избраните корисници',
+	'checkuser-massblock-text' => 'Избраните сметки ќе бидат трајно блокирани, со овозможено автоблокирање и оневозможено создавање на сметки.  
+IP адресите ќе бидат блокирани 1 недела за само за корисници со IP адреса, и со оневозможено создавање на сметка.',
+	'checkuser-blocktag' => 'Замени ги корисничките страници со:',
+	'checkuser-blocktag-talk' => 'Замени ги страниците за разговор со:',
+	'checkuser-massblock-commit' => 'Блокирај ги избраните корисници',
+	'checkuser-block-success' => "'''{{PLURAL:$2|Корисникот|Корисниците}} $1 {{PLURAL:$2|е|се}} {{PLURAL:$2|блокиран|блокирани}}.'''",
+	'checkuser-block-failure' => "'''Никој не е блокиран.'''",
+	'checkuser-block-limit' => 'Избравте премногу корисници.',
+	'checkuser-block-noreason' => 'Мора да наведете причина за блокирањата.',
+	'checkuser-noreason' => 'Мора да наведете причина за ова барање.',
+	'checkuser-accounts' => '$1 {{PLURAL:$1|нова сметка|нови сметки}}',
+	'checkuser-too-many' => 'Премногу резултати, ограничете го CIDR.
+Еве ги употребените IP адреси (највеќе 5000, подредени по адреса):',
+	'checkuser-user-nonexistent' => 'Назначениот корисник не постои.',
+	'checkuser-search-form' => 'Пронајди ставки во дневникот каде $1 е $2',
+	'checkuser-search-submit' => 'Пребарај',
+	'checkuser-search-initiator' => 'иницијатор',
+	'checkuser-search-target' => 'цел',
+	'checkuser-ipeditcount' => '~$1 од сите корисници',
+	'checkuser-log-subpage' => 'Дневник',
+	'checkuser-log-return' => 'Врати се на главниот образец за проверување корисници',
+	'checkuser-limited' => "'''Резултатите се скратени од функционални причини.'''",
+	'checkuser-log-userips' => '$1 добил(а) IP адреси за $2',
+	'checkuser-log-ipedits' => '$1 добил(а) уредувања за $2',
+	'checkuser-log-ipusers' => '$1 добил(а) корисници за $2',
+	'checkuser-log-ipedits-xff' => '$1 добил(а) уредувања за XFF $2',
+	'checkuser-log-ipusers-xff' => '$1 добил(а) корисници за XFF $2',
+	'checkuser-log-useredits' => '$1 добил(а) уредувања за $2',
+	'checkuser-autocreate-action' => 'беше автоматски создадена',
+	'checkuser-email-action' => 'му испратил(а) е-пошта на корисникот „$1“',
+	'checkuser-reset-action' => 'промени лозинка за корисникот „$1“',
 );
 
 /** Malayalam (മലയാളം)
