@@ -1627,6 +1627,7 @@ $messages['et'] = array(
 	'checkuser-desc' => 'Võimaldab vajalike õigustega kasutajal teise kasutaja IP-aadresse ja muud teavet kontrollida.',
 	'checkuser-logcase' => 'Logi otsing on tõusutundlik.',
 	'right-checkuser' => 'Kontrollida kasutajate IP-aadresse ja muud teavet',
+	'checkuser-reason' => 'Põhjus:',
 	'checkuser-target' => 'Kasutaja või IP-aadress',
 	'checkuser-search' => 'Otsi',
 	'checkuser-period' => 'Ajavahemik:',
@@ -1634,11 +1635,14 @@ $messages['et'] = array(
 	'checkuser-week-2' => 'viimased kaks nädalat',
 	'checkuser-month' => 'viimased 30 päeva',
 	'checkuser-all' => 'kõik',
+	'checkuser-nomatch' => 'Tulemusi ei leitud.',
 	'checkuser-nolog' => 'Logifaili ei leitud.',
 	'checkuser-blocked' => 'Blokeeritud',
 	'checkuser-gblocked' => 'Globaalselt blokeeritud',
 	'checkuser-locked' => 'Lukustatud',
 	'checkuser-wasblocked' => 'Eelnevalt blokeeritud',
+	'checkuser-localonly' => 'Ei ole globaalset kontot',
+	'checkuser-massblock' => 'Blokeeri valitud kasutajad',
 	'checkuser-blocktag' => 'Asenda kasutajalehed:',
 	'checkuser-blocktag-talk' => 'Asenda arutelulehed:',
 	'checkuser-massblock-commit' => 'Blokeeri valitud kasutajad',
@@ -3297,11 +3301,13 @@ $messages['kk-latn'] = array(
  * @author Lovekhmer
  * @author Thearith
  * @author គីមស៊្រុន
+ * @author វ័ណថារិទ្ធ
  */
 $messages['km'] = array(
 	'checkuser-desc' => 'ផ្ដល់ឱ្យអ្នកប្រើប្រាស់​នូវការអនុញ្ញាតសមគួរដើម្បី​ទទួលបាននូវ​សមត្ថភាព​ក្នុងការត្រួតពិនិត្យអាសយដ្ឋាន IP របស់អ្នកប្រើប្រាស់និង​ព័ត៌មានផ្សេងៗទៀត',
 	'checkuser-logcase' => 'ការស្វែងរកកំណត់ហេតុដោយបែងចែកអក្សរធំ អក្សរតូច។',
 	'checkuser' => 'ត្រួតពិនិត្យអ្នកប្រើប្រាស់',
+	'checkuser-contribs' => 'ត្រួតពិនិត្យ ​IP របស់​អ្នកប្រើប្រាស់',
 	'group-checkuser' => 'អ្នកត្រួតពិនិត្យអ្នកប្រើប្រាស់',
 	'group-checkuser-member' => 'អ្នកត្រួតពិនិត្យអ្នកប្រើប្រាស់',
 	'right-checkuser' => 'អាសយដ្ឋានIPនិងព័ត៌មានដ៏ទៃទៀតនៃការត្រួតពិនិត្យអ្នកប្រើប្រាស់',
@@ -3322,6 +3328,7 @@ $messages['km'] = array(
 	'checkuser-month' => '៣០ថ្ងៃមុន',
 	'checkuser-all' => 'ទាំងអស់',
 	'checkuser-empty' => 'មិនមានអ្វីនៅក្នុងកំណត់ហេតុនេះទេ។',
+	'checkuser-nomatch' => 'មិន​មាន​ការគូ​ផ្គង​ដូច​គ្នា​ត្រូវ​បាន​រក​ឃើញ​ទេ។',
 	'checkuser-check' => 'ត្រួតពិនិត្យ',
 	'checkuser-nolog' => 'ឯកសារកំណត់ហេតុមិនត្រូវបានរកឃើញទេ។',
 	'checkuser-blocked' => 'បានហាមឃាត់',
@@ -3347,6 +3354,7 @@ $messages['km'] = array(
 	'checkuser-log-return' => 'ត្រឡប់ទៅកាន់បែបបទដើមនៃការត្រួតពិនិត្យអ្នកប្រើប្រាស់',
 	'checkuser-log-userips' => '$1បានទទួល IPs ដែល$2បានប្រើប្រាស់',
 	'checkuser-log-ipedits' => '$1បានទទួលចំនួនកំណែប្រែពី$2',
+	'checkuser-log-ipedits-xff' => '$1 បានទទួលកំណែប្រែពី XFF $2',
 	'checkuser-log-useredits' => '$1 បានទទួលកំណែប្រែពី $2',
 	'checkuser-autocreate-action' => 'ត្រូវបានបង្កើតដោយស្វ័យប្រវត្តិ',
 	'checkuser-email-action' => 'បានផ្ញើអ៊ីមែលទៅកាន់អ្នកប្រើប្រាស់ "$1"',
@@ -3914,6 +3922,14 @@ $messages['ml'] = array(
 	'checkuser-log-ipusers' => '$1നു $2ല്‍ ഉപയോക്താക്കള്‍ ഉണ്ട്',
 	'checkuser-log-ipedits-xff' => '$1നു XFF $2ല്‍ തിരുത്തലുകള്‍ ഉണ്ട്',
 	'checkuser-log-ipusers-xff' => '$1നു XFF $2ല്‍ ഉപയോക്താക്കള്‍ ഉണ്ട്',
+);
+
+/** Mongolian (Монгол)
+ * @author Chinneeb
+ */
+$messages['mn'] = array(
+	'checkuser-search' => 'Хайх',
+	'checkuser-search-submit' => 'Хайх',
 );
 
 /** Marathi (मराठी)
@@ -5458,7 +5474,7 @@ $messages['sr-ec'] = array(
 	'checkuser-reset-action' => 'обнови лозинку за корисника "$1"',
 );
 
-/** latinica (latinica)
+/** Serbian Latin ekavian (Srpski (latinica))
  * @author Michaello
  */
 $messages['sr-el'] = array(
@@ -5520,8 +5536,8 @@ $messages['sr-el'] = array(
 	'checkuser-log-ipusers-xff' => '$1 je dobio saradnike za XFF $2',
 	'checkuser-log-useredits' => '$1 preuzeo izmene od $2',
 	'checkuser-autocreate-action' => 'je automatski napravljen',
-	'checkuser-email-action' => 'poslat je mejl korisniku &quot;$1&quot;',
-	'checkuser-reset-action' => 'obnovi lozinku za korisnika &quot;$1&quot;',
+	'checkuser-email-action' => 'poslat je mejl korisniku "$1"',
+	'checkuser-reset-action' => 'obnovi lozinku za korisnika "$1"',
 );
 
 /** Seeltersk (Seeltersk)
@@ -6571,6 +6587,10 @@ $messages['zh-hant'] = array(
 	'checkuser-edits' => '從IP位址查詢編輯記錄',
 	'checkuser-ips' => '查詢IP位址',
 	'checkuser-search' => '搜尋',
+	'checkuser-week-1' => '一星期內',
+	'checkuser-week-2' => '兩星期內',
+	'checkuser-month' => '30天內',
+	'checkuser-all' => '全部',
 	'checkuser-empty' => '記錄裡沒有資料。',
 	'checkuser-nomatch' => '沒有符合的資訊',
 	'checkuser-check' => '查詢',
@@ -6578,6 +6598,10 @@ $messages['zh-hant'] = array(
 	'checkuser-nolog' => '找不到記錄檔',
 	'checkuser-blocked' => '已經查封',
 	'checkuser-locked' => '已鎖定',
+	'checkuser-block-failure' => "'''未有使用者被封禁。'''",
+	'checkuser-block-noreason' => '您必須提供進行封禁的理由。',
+	'checkuser-noreason' => '您必須提供進行查詢的理由。',
+	'checkuser-accounts' => '$1個新帳戶',
 	'checkuser-too-many' => '太多結果，請收窄CIDR。
 這是使用過嘅IP (最多5000個，按地址排列):',
 	'checkuser-user-nonexistent' => '指定的使用者不存在。',
