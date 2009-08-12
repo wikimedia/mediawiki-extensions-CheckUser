@@ -5013,9 +5013,13 @@ $messages['roa-rup'] = array(
  * @author Joetaras
  */
 $messages['roa-tara'] = array(
+	'checkuser' => 'Utende verificatore',
+	'group-checkuser' => 'Utinde verificature',
+	'group-checkuser-member' => 'Utende verificatore',
 	'grouppage-checkuser' => '{{ns:project}}:Utende ca verifiche',
 	'checkuser-reason' => 'Mutive:',
 	'checkuser-showlog' => "Fà vedè l'archivije",
+	'checkuser-query' => "Inderroghe l'urteme cangiaminde",
 	'checkuser-target' => 'Utende o IP',
 	'checkuser-users' => "Pigghje l'utende",
 	'checkuser-edits' => "Pigghje le cangiaminde da l'IP",
@@ -5027,10 +5031,28 @@ $messages['roa-tara'] = array(
 	'checkuser-week-2' => 'urteme doje sumane',
 	'checkuser-month' => 'urteme 30 giurne',
 	'checkuser-all' => 'tutte',
+	'checkuser-cidr-res' => 'CIDR Comune:',
+	'checkuser-nomatch' => "Non g'agghie acchiate ninde.",
+	'checkuser-nomatch-edits' => "Non g'agghie acchiate ninde.<br />
+L'urteme cangiamende ha state fatte 'u $1 a le $2.",
 	'checkuser-check' => 'Verifiche',
+	'checkuser-nolog' => 'Nisciune archivije de file acchiate.',
 	'checkuser-blocked' => 'Bloccate',
+	'checkuser-gblocked' => 'Bloccate globbalmende',
 	'checkuser-locked' => 'Bloccate',
+	'checkuser-wasblocked' => 'Bloccate precedendemende',
+	'checkuser-localonly' => 'Non unificate',
+	'checkuser-massblock-commit' => "Bluecche l'utinde scacchiate",
+	'checkuser-block-success' => "'''L'{{PLURAL:$2|utende|utinde}} $1 {{PLURAL:$2|è|sonde}} bloccate.'''",
+	'checkuser-block-failure' => "'''Nisciune utende blccate.'''",
+	'checkuser-block-limit' => 'Troppe utinde scacchiate.',
+	'checkuser-block-noreason' => "Tu à dà 'nu mutive pe le blocche.",
+	'checkuser-noreason' => "Tu à dà 'nu mutive pe st'inderrogazione.",
 	'checkuser-search-submit' => 'Cirche',
+	'checkuser-search-initiator' => 'iniziatore',
+	'checkuser-search-target' => 'destinazione',
+	'checkuser-ipeditcount' => "~$1 da tutte l'utinde",
+	'checkuser-log-subpage' => 'Archivije',
 	'checkuser-log-userips' => '$1 ha pigghiete le IP pe $2',
 	'checkuser-log-ipedits' => '$1 ha pigghiete le cangiaminde pe $2',
 	'checkuser-log-ipusers' => '$1 ha pigghiete le utinde pe $2',
@@ -5038,6 +5060,8 @@ $messages['roa-tara'] = array(
 	'checkuser-log-ipusers-xff' => '$1 ha pigghiete le utinde pe XFF $2',
 	'checkuser-log-useredits' => '$1 ha pigghiete le cangiaminde pe $2',
 	'checkuser-autocreate-action' => 'ha state ccrejete automaticamende',
+	'checkuser-email-action' => 'mannate \'na mail a l\'utende "$1"',
+	'checkuser-reset-action' => 'azzere \'a password pe l\'utende "$1"',
 );
 
 /** Russian (Русский)
