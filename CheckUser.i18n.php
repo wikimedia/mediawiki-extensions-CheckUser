@@ -4066,12 +4066,15 @@ Bagi pengguna tanpa nama, alamat IP-nya akan disekat selama seminggu, dengan pen
  */
 $messages['myv'] = array(
 	'checkuser-reason' => 'Тувталось:',
+	'checkuser-showlog' => 'Невтемс журналонзо',
 	'checkuser-target' => 'Совиця эли IP',
 	'checkuser-search' => 'Вешнэмс',
 	'checkuser-week-1' => 'меельсе тарго',
 	'checkuser-week-2' => 'меельсе кавто таргт',
 	'checkuser-month' => 'меельсе 30 чить',
 	'checkuser-all' => 'весе',
+	'checkuser-blocked' => 'Саймес саезь',
+	'checkuser-locked' => 'Сёлгозь',
 	'checkuser-search-submit' => 'Вешнэмс',
 );
 
