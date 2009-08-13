@@ -4069,6 +4069,7 @@ $messages['myv'] = array(
 	'checkuser-showlog' => 'Невтемс журналонзо',
 	'checkuser-target' => 'Совиця эли IP',
 	'checkuser-search' => 'Вешнэмс',
+	'checkuser-period' => 'Зярс моли:',
 	'checkuser-week-1' => 'меельсе тарго',
 	'checkuser-week-2' => 'меельсе кавто таргт',
 	'checkuser-month' => 'меельсе 30 чить',
