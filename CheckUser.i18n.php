@@ -183,6 +183,11 @@ $messages['af'] = array(
 	'checkuser-edits' => 'Kry wysigings vanaf IP',
 	'checkuser-ips' => 'Kry IPs',
 	'checkuser-search' => 'Soek',
+	'checkuser-period' => 'Duur:',
+	'checkuser-week-1' => 'laaste week',
+	'checkuser-week-2' => 'laaste twee weke',
+	'checkuser-month' => 'laaste 30 dae',
+	'checkuser-all' => 'alle',
 	'checkuser-empty' => 'Die logboek het geen inskrywings nie.',
 	'checkuser-nomatch' => 'Geen resultate gevind.',
 	'checkuser-check' => 'Kontroleer',
@@ -3172,13 +3177,23 @@ Ing ngisor iki kapacak alamat-alamat IP sing dienggo (maks. 5.000, diurutaké ad
 
 /** Georgian (ქართული)
  * @author Malafaya
+ * @author გიორგიმელა
  */
 $messages['ka'] = array(
 	'checkuser-reason' => 'მიზეზი:',
 	'checkuser-search' => 'ძიება',
 	'checkuser-all' => 'ყველა',
+	'checkuser-accounts' => '$1 ახალი {{PLURAL:$1|ანგარიში|ანგარიშები}}',
+	'checkuser-too-many' => 'ძალიან ბევრი რეზულტატი, გთხოვთ შეავიწროოთ CIDR-ი.
+გამოყენებული IP  (მაქსიმუმ 500 სორტირებულია მისამართის თანახმად)',
 	'checkuser-search-submit' => 'ძიება',
+	'checkuser-search-initiator' => 'ინიციატორი',
+	'checkuser-search-target' => 'მიზანი',
+	'checkuser-ipeditcount' => '~$1 ყველა მომხმარებლისგან',
 	'checkuser-log-subpage' => 'ჟურნალი',
+	'checkuser-log-return' => 'მომხმარებელთა შემოწმების გვერდზე დაბრუნება',
+	'checkuser-limited' => "'''რეზულტატები შეიკუმშა სერვერზე დამატებითი დატვირთვის არ შექმნის მიზნით.'''",
+	'checkuser-email-action' => 'გაუგზავნა წერილი მომხმარებელ «$1»-ს',
 );
 
 /** Kazakh (Arabic script) (‫قازاقشا (تٴوتە)‬) */
