@@ -21,13 +21,17 @@ function updateCIDRresult() {
 		var ips = text.split("\t");
 	} else if( text.indexOf(",") != -1 ) {
 		var ips = text.split(",");
+	} else if( text.indexOf("-") != -1 ) {
+		var ips = text.split("-");
+	} else if( text.indexOf(" ") != -1 ) {
+		var ips = text.split(" ");
 	} else {
 		var ips = text.split(";");
 	}
 	var bin_prefix = 0;
 	var prefix_cidr = 0;
 	var prefix = new String( "" );
-	// Go through each IP in the list, get it's binary form, and
+	// Go through each IP in the list, get its binary form, and
 	// track the largest binary prefix among them...
 	for( var i=0; i<ips.length; i++ ) {
 		var invalid = false;
