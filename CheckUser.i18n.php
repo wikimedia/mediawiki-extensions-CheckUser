@@ -6651,7 +6651,7 @@ $messages['zh-hant'] = array(
 	'checkuser-noreason' => '您必須提供進行查詢的理由。',
 	'checkuser-accounts' => '$1個新帳戶',
 	'checkuser-too-many' => '太多結果，請收窄CIDR。
-這是使用過嘅IP (最多5000個，按地址排列):',
+這是使用過嘅IP （最多5000個，按地址排列）:',
 	'checkuser-user-nonexistent' => '指定的使用者不存在。',
 	'checkuser-search-form' => '搜尋當 $1 是 $2 時之日誌',
 	'checkuser-search-submit' => '{{int:Search}}',
