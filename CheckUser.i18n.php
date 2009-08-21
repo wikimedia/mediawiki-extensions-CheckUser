@@ -3398,7 +3398,7 @@ $messages['kn'] = array(
 $messages['ko'] = array(
 	'checkuser-summary' => '이 도구는 특정 사용자가 이용한 IP 또는 특정 IP에 대한 편집/사용자 정보를 조사합니다.
 클라이언트 IP를 통한 사용자와 편집은 IP 주소 뒤에 "/xff"를 더함으로서 XFF 제공자를 통해 조사할 수 있습니다. IPv4 (CIDR 16-32) 와 IPv6 (CIDR 96-128)을 지원합니다.
-기술적 문제로 최대 5000개의 편집만 보여질 것입니다.
+성능상의 이유로 최대 5000개의 편집만 보여질 것입니다.
 이 도구는 정책에 맞게 사용하십시오.',
 	'checkuser-desc' => '사용자의 IP 주소를 포함한 정보를 볼 수 있는 권한을 특정한 사용자에게 준다.',
 	'checkuser-logcase' => '이 기록 검색은 대소문자를 구분합니다.',
@@ -3448,7 +3448,7 @@ IP 주소는 1주일 (IP만 막음, 계정 생성 금지됨) 차단될 것입니
 	'checkuser-block-failure' => "'''차단된 사용자가 없습니다.'''",
 	'checkuser-block-limit' => '너무 많은 사용자를 선택하였습니다.',
 	'checkuser-block-noreason' => '차단하는 이유를 반드시 입력해야 합니다.',
-	'checkuser-noreason' => '당신은 이 명령에 대한 이유를 반드시 제시해야 합니다.',
+	'checkuser-noreason' => '이 명령에 대한 이유를 반드시 제시해야 합니다.',
 	'checkuser-accounts' => '$1개의 새 계정',
 	'checkuser-too-many' => '결과가 너무 많습니다. CIDR 범위를 좁혀 주세요.
 다음은 사용되고 있는 IP의 목록입니다 (최대 5000개, 주소별로 정렬됨):',
@@ -3460,16 +3460,16 @@ IP 주소는 1주일 (IP만 막음, 계정 생성 금지됨) 차단될 것입니
 	'checkuser-ipeditcount' => '모든 사용자로부터 $1개의 편집',
 	'checkuser-log-subpage' => '기록',
 	'checkuser-log-return' => '체크유저 양식으로 돌아가기',
-	'checkuser-limited' => "'''이 결과는 기술적인 이유로 일부분이 제외되었습니다.'''",
-	'checkuser-log-userips' => '$1 은(는) $2 이(가) 사용한 IP 주소를 열람했습니다.',
-	'checkuser-log-ipedits' => '$1 은(는) $2의 편집을 열람했습니다.',
-	'checkuser-log-ipusers' => '$1이(가) $2 IP 주소를 사용한 사용자를 확인하였습니다.',
-	'checkuser-log-ipedits-xff' => '$1이(가) XFF $2 IP 주소에서의 편집을 열람하였습니다.',
-	'checkuser-log-ipusers-xff' => '$1이(가) XFF $2 IP 주소를 사용한 사용자의 목록을 열람하였습니다.',
-	'checkuser-log-useredits' => '$1이(가) $2 사용자의 편집을 열람하였습니다.',
+	'checkuser-limited' => "'''성능상의 이유로 결과 중 일부만 보여줍니다.'''",
+	'checkuser-log-userips' => '$1 사용자는 $2 사용자가 사용한 IP 주소를 열람했습니다.',
+	'checkuser-log-ipedits' => '$1 사용자는 $2의 편집을 열람했습니다.',
+	'checkuser-log-ipusers' => '$1 사용자가 $2 IP 주소를 사용한 사용자를 확인하였습니다.',
+	'checkuser-log-ipedits-xff' => '$1 사용자가 XFF $2 IP 주소에서의 편집을 열람하였습니다.',
+	'checkuser-log-ipusers-xff' => '$1 사용자가 XFF $2 IP 주소를 사용한 사용자의 목록을 열람하였습니다.',
+	'checkuser-log-useredits' => '$1 사용자가 $2 사용자의 편집을 열람하였습니다.',
 	'checkuser-autocreate-action' => '계정이 자동으로 생성되었습니다.',
-	'checkuser-email-action' => '사용자 "$1"에게 이메일을 보냄',
-	'checkuser-reset-action' => '"$1"의 암호를 변경함',
+	'checkuser-email-action' => '"$1" 사용자에게 이메일을 보냄',
+	'checkuser-reset-action' => '"$1" 사용자의 암호를 변경함',
 );
 
 /** Krio (Krio)
