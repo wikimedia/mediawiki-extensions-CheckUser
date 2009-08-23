@@ -1138,6 +1138,7 @@ $messages['cy'] = array(
 	'checkuser-log-fail' => 'Yn methu ychwanegu cofnod lòg',
 	'checkuser-blocked' => 'Wedi ei flocio',
 	'checkuser-gblocked' => "Wedi ei flocio'n wici-gyfan",
+	'checkuser-locked' => 'Ar glo',
 	'checkuser-block-noreason' => 'Rhaid cynnig rheswm dros y blociau.',
 	'checkuser-noreason' => 'Rhaid cynnig rheswm dros yr ymholiad hwn.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|cyfrif|cyfrif|gyfrif|chyfrif|chyfrif|cyfrif}} newydd',
@@ -1661,9 +1662,11 @@ $messages['et'] = array(
 	'checkuser-block-failure' => "'''Ühtegi kasutajat ei blokeeritud.'''",
 	'checkuser-block-limit' => 'Liiga palju kasutajaid valitud.',
 	'checkuser-block-noreason' => 'Blokeeringule peab andma põhjenduse.',
+	'checkuser-user-nonexistent' => 'Etteantud kasutajat pole olemas.',
 	'checkuser-search-submit' => 'Otsi',
 	'checkuser-search-initiator' => 'initsiaator',
 	'checkuser-search-target' => 'sihtmärk',
+	'checkuser-log-subpage' => 'Logi',
 	'checkuser-autocreate-action' => 'alustati automaatselt',
 	'checkuser-email-action' => 'e-kiri kasutajale "$1" saadetud',
 );
@@ -4469,7 +4472,6 @@ $messages['nso'] = array(
 
 /** Occitan (Occitan)
  * @author Cedric31
- * @author IAlex
  */
 $messages['oc'] = array(
 	'checkuser-summary' => "Aqueste esplech passa en revista los cambiaments recents per recercar l'IPS emplegada per un utilizaire, mostrar totas las edicions fachas per una IP, o per enumerar los utilizaires qu'an emplegat las IPs. Los utilizaires e las modificacions pòdon èsser trobatss amb una IP XFF se s'acaba amb « /xff ». IPv4 (CIDR 16-32) e IPv6(CIDR 96-128) son suportats. Emplegatz aquò segon las cadenas de caractèrs.",
@@ -5455,7 +5457,7 @@ $messages['sq'] = array(
 	'checkuser' => 'Kontrollo përdoruesin',
 );
 
-/** Serbian Cyrillic ekavian (ћирилица)
+/** Serbian Cyrillic ekavian (Српски (ћирилица))
  * @author Millosh
  * @author Sasa Stefanovic
  * @author Јованвб
