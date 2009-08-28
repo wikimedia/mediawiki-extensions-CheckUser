@@ -96,6 +96,7 @@ Here are the IPs used (5000 max, sorted by address):',
 
 /** Message documentation (Message documentation)
  * @author Darth Kule
+ * @author Fryed-peach
  * @author Jon Harald Søby
  * @author Kwj2772
  * @author Lejonel
@@ -116,6 +117,7 @@ $messages['qqq'] = array(
 	'right-checkuser-log' => '{{doc-right}}',
 	'checkuser-reason' => '{{Identical|Reason}}',
 	'checkuser-search' => '{{Identical|Search}}',
+	'checkuser-period' => '{{Identical|Duration}}',
 	'checkuser-all' => '{{Identical|All}}',
 	'checkuser-nomatch-edits' => '* $1 = date
 * $2 = time',
@@ -800,7 +802,7 @@ $messages['br'] = array(
 	'group-checkuser' => 'Gwiriañ an implijerien',
 	'group-checkuser-member' => 'Gwiriañ an implijer',
 	'grouppage-checkuser' => '{{ns:project}}:Gwiriañ an implijer',
-	'checkuser-reason' => 'Abeg',
+	'checkuser-reason' => 'Abeg :',
 	'checkuser-showlog' => 'Diskouez ar marilh',
 	'checkuser-log' => 'Marilh kontrolliñ an implijerien',
 	'checkuser-query' => "Klask dre ar c'hemmoù diwezhañ",
@@ -927,7 +929,7 @@ Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Reco
 	'checkuser-desc' => "Permet als usuaris amb els permisos adients l'habilitat de comprovar les adreces IP que fan servir els usuaris enregistrats.",
 	'checkuser-logcase' => 'Les majúscules es tracten de manera diferenciada en la cerca dins el registre.',
 	'checkuser' => "Comprova l'usuari",
-	'checkuser-contribs' => "revisa les IP de l'usuari",
+	'checkuser-contribs' => "comprova les IP de l'usuari",
 	'group-checkuser' => 'Checkusers',
 	'group-checkuser-member' => 'CheckUser',
 	'right-checkuser' => 'Comprovar les adreces IP i altra informació dels usuaris',
@@ -1559,7 +1561,8 @@ Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
 $messages['es'] = array(
 	'checkuser-summary' => 'Esta herramienta explora los cambios recientes para obtener las IPs utilizadas por un usuario o para mostrar la información de ediciones/usuarios de una IP.
 También se pueden obtener los usuarios y las ediciones de un cliente IP vía XFF añadiendo "/xff". IPv4 (CIDR 16-32) y IPv6 (CIDR 96-128) funcionan.
-No se muestran más de 5000 ediciones por motivos de rendimiento. Usa esta herramienta en acuerdo con la ley orgánica de protección de datos.',
+No se muestran más de 5000 ediciones por motivos de rendimiento.
+Usa esta herramienta de acuerdo con las políticas correspondientes.',
 	'checkuser-desc' => 'Permite a los usuarios que tienen permiso especial comprobar las IPs de los usuarios además de otra información.',
 	'checkuser-logcase' => 'El buscador de registros distingue entre mayúsculas y minúsculas.',
 	'checkuser' => 'Verificador de usuarios',
@@ -4677,6 +4680,7 @@ Użytych adresów IP jest (nie więcej niż 5000, posortowane według adresu):',
 
 /** Piedmontese (Piemontèis)
  * @author Bèrto 'd Sèra
+ * @author Dragonòt
  */
 $messages['pms'] = array(
 	'checkuser-summary' => "St'utiss-sì as passa j'ùltime modìfiche për tiré sù j'adrësse IP dovra da n'utent ò pura mostré lòn ch'as fa da n'adrëssa IP e che dat utent ch'a l'abia associà.
@@ -4687,7 +4691,7 @@ $messages['pms'] = array(
 	'group-checkuser' => 'Controlor',
 	'group-checkuser-member' => 'Controlor',
 	'grouppage-checkuser' => "{{ns:project}}:Contròl dj'utent",
-	'checkuser-reason' => 'Rason',
+	'checkuser-reason' => 'Rason:',
 	'checkuser-showlog' => 'Smon ël registr',
 	'checkuser-log' => "Registr dël contròl dj'utent",
 	'checkuser-query' => "Anterogassion dj'ùltime modìfiche",
