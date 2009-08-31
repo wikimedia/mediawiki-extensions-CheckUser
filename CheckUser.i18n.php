@@ -2667,6 +2667,7 @@ Az IP-címeknél csak a be nem jelentkezett felhasználók lesznek blokkolva 1 h
 	'checkuser-block-failure' => "'''Nem lettek szerkesztők blokkolva.'''",
 	'checkuser-block-limit' => 'Túl sok szerkesztőt választottál ki.',
 	'checkuser-block-noreason' => 'Meg kell adnod a blokkolások okát.',
+	'checkuser-noreason' => 'Meg kell adnod a lekérdezés okát.',
 	'checkuser-accounts' => '{{PLURAL:$1|egy|$1}} új felhasználói fiók',
 	'checkuser-too-many' => 'Túl sok eredmény, kérlek szűkítsd le a CIDR-t. Itt vannak a használt IP-címek (maximum 5000, cím alapján rendezve):',
 	'checkuser-user-nonexistent' => 'A megadott szerkesztő nem létezik.',
