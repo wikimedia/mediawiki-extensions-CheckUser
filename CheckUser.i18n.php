@@ -2994,8 +2994,8 @@ Gli indirizzi IP saranno bloccati per una settimana solo per gli utenti anonimi 
  */
 $messages['ja'] = array(
 	'checkuser-summary' => 'このツールは最近の更新から行った調査を元に、ある利用者が使用したIPアドレスの検索、または、あるIPアドレスからなされた編集および利用者名の表示を行います。
-IPアドレスと共に「/xff」オプションを指定すると、XFF（X-Forwarded-For）ヘッダを通じてクライアントIPアドレスを取得し、そこからなされた編集および利用者名の検索をすることが可能です。
-IPv4（16から32ビットのCIDR表記）と IPv6（96から128ビットのCIDR表記）をサポートしています。
+IPアドレスと共に「/xff」オプションを指定すると、XFF(X-Forwarded-For)ヘッダを通じてクライアントIPアドレスを取得し、そこからなされた編集および利用者名の検索をすることが可能です。
+IPv4(16から32ビットのCIDR表記)と IPv6(96から128ビットのCIDR表記)をサポートしています。
 パフォーマンス上の理由により、5000件の編集しか返答出来ません。
 「チェックユーザーの方針」に従って利用してください。',
 	'checkuser-desc' => '特定の権限を付与された利用者に対して、利用者のIPアドレスなどの情報のチェックを可能にする',
@@ -3047,7 +3047,7 @@ IPv4（16から32ビットのCIDR表記）と IPv6（96から128ビットのCIDR
 	'checkuser-block-noreason' => 'ブロック理由の記入が必要です。',
 	'checkuser-noreason' => 'この照会には理由を与えなければなりません。',
 	'checkuser-accounts' => '$1つの新しい{{PLURAL:$1|アカウント}}',
-	'checkuser-too-many' => '検索結果が多すぎます、CIDRの指定を小さく絞り込んでください。利用されたIPは以下の通りです（5000件を上限に、アドレス順でソートされています）:',
+	'checkuser-too-many' => '検索結果が多すぎます、CIDRの指定を小さく絞り込んでください。利用されたIPは以下の通りです(5000件を上限に、アドレス順でソートされています):',
 	'checkuser-user-nonexistent' => '指定されたユーザーは存在しません。',
 	'checkuser-search-form' => '$1 が $2 であるログ項目を探す',
 	'checkuser-search-submit' => '検索',
