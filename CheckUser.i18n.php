@@ -2611,6 +2611,7 @@ IP-adresy budu so na 1 tydźeń blokować (jenož za IP-wužiwarjow) a załožen
 /** Hungarian (Magyar)
  * @author Dani
  * @author Dorgan
+ * @author Glanthor Reviol
  * @author Grin
  * @author KossuthRad
  * @author Terik
@@ -2623,6 +2624,7 @@ Maximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt
 	'checkuser-desc' => 'Lehetővé teszi olyan felhasználói jogok kiosztását, mely segítségével megtekinthetőek a felhasználók IP-címei és más adatok',
 	'checkuser-logcase' => 'A kereső kis- és nagybetűérzékeny.',
 	'checkuser' => 'IP-ellenőr',
+	'checkuser-contribs' => 'az IP-ellenőr IP-címei',
 	'group-checkuser' => 'IP-ellenőrök',
 	'group-checkuser-member' => 'IP-ellenőr',
 	'right-checkuser' => 'a felhasználók IP-címének és más adatainak ellenőrzése',
@@ -2663,7 +2665,7 @@ Az IP-címeknél csak a be nem jelentkezett felhasználók lesznek blokkolva 1 h
 	'checkuser-blocktag' => 'Szerkesztői lapok cseréje erre:',
 	'checkuser-blocktag-talk' => 'Vitalapok cseréje erre:',
 	'checkuser-massblock-commit' => 'Kiválasztott szerkesztők blokkolása',
-	'checkuser-block-success' => "'''A következő szerkesztők blokkolva lettek: $1.'''",
+	'checkuser-block-success' => "'''A következő {{PLURAL:$2|szerkesztő|szerkesztők}} blokkolva {{PLURAL:$2|lett|lettek}}: $1.'''",
 	'checkuser-block-failure' => "'''Nem lettek szerkesztők blokkolva.'''",
 	'checkuser-block-limit' => 'Túl sok szerkesztőt választottál ki.',
 	'checkuser-block-noreason' => 'Meg kell adnod a blokkolások okát.',
