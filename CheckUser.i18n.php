@@ -106,6 +106,7 @@ Here are the IPs used (5000 max, sorted by address):',
  * @author Raymond
  * @author Siebrand
  * @author Slomox
+ * @author Tgr
  */
 $messages['qqq'] = array(
 	'checkuser-desc' => 'Short description of the CheckUser extension, shown on [[Special:Version]]',
@@ -147,6 +148,8 @@ $messages['qqq'] = array(
 	'checkuser-log-ipusers-xff' => 'This is an entry in the checkuser log when a checkuser checks which users have used an XFF IP address (XFF means X-Forwarded-For. Some providers use proxies to forward user requests. This effectively means anonymization of requests. To make the requesting user identifiable again, the original requesting IP is transmitted in a separate HTTP header, the XFF header.).
 *Parameter $1 is the user who did the check
 *Parameter $2 is the IP address',
+	'checkuser-log-useredits' => ":'''$1:''' name of checkuser
+:'''$2:''' name of user whose edits were inspected",
 	'checkuser-autocreate-action' => 'Text of the event displayed in the CheckUser results, corresponding to the automatic creation of a new user account (by CentralAuth).',
 );
 
@@ -175,6 +178,7 @@ $messages['niu'] = array(
 $messages['af'] = array(
 	'checkuser-logcase' => 'Die logboek soek-funksie is kassensitief.',
 	'checkuser' => 'Kontroleer gebruiker',
+	'checkuser-contribs' => 'kontroleer gebruiker se IP-adresse',
 	'group-checkuser' => 'Kontroleer gebruikers',
 	'group-checkuser-member' => 'kontrolegebruiker',
 	'right-checkuser' => 'Besigtig gebruikers se IP-adresse en ander gegewens',
@@ -196,11 +200,23 @@ $messages['af'] = array(
 	'checkuser-log-fail' => 'Kan nie logboek inskrywing byvoeg nie',
 	'checkuser-nolog' => 'Logboek lêer nie gevind.',
 	'checkuser-blocked' => 'Versper',
+	'checkuser-gblocked' => 'Globaal geblokkeer',
+	'checkuser-locked' => 'Gesluit',
+	'checkuser-wasblocked' => 'Vantevore geblokkeer gewees',
 	'checkuser-massblock' => 'Blok geselekteerde gebruikers',
 	'checkuser-massblock-commit' => 'Blok geselekteerde gebruikers',
+	'checkuser-block-limit' => 'Te veel gebruikers gekies.',
+	'checkuser-accounts' => '$1 nuwe {{PLURAL:$1|gebruiker|gebruikers}}',
+	'checkuser-user-nonexistent' => 'Die gespesifiseerde gebruiker bestaan nie.',
 	'checkuser-search-submit' => 'Soek',
+	'checkuser-search-initiator' => 'aanvraer',
 	'checkuser-search-target' => 'teiken',
+	'checkuser-ipeditcount' => '~$1 van alle gebruikers',
 	'checkuser-log-subpage' => 'Logboek',
+	'checkuser-log-useredits' => '$1 het die wysigings deur $2 aangevra',
+	'checkuser-autocreate-action' => 'is outomaties geskep',
+	'checkuser-email-action' => 'het \'n e-pos aan gebruiker "$1" gestuur',
+	'checkuser-reset-action' => 'herstel gebruiker "$1" se wagwoord',
 );
 
 /** Amharic (አማርኛ)
@@ -2686,6 +2702,7 @@ Az IP-címeknél csak a be nem jelentkezett felhasználók lesznek blokkolva 1 h
 	'checkuser-log-ipusers' => '$1 lekérte a(z) $2 IP-címhez tarzozó szerkesztőket',
 	'checkuser-log-ipedits-xff' => '$1 lekérte XFF $2 szerkesztéseit',
 	'checkuser-log-ipusers-xff' => '$1 lekérte XFF $2 szerkesztőit',
+	'checkuser-log-useredits' => '$1 lekérdezte $2 szerkesztéseit',
 	'checkuser-autocreate-action' => 'automatikusan létrehozva',
 	'checkuser-email-action' => 'e-mailt küldött „$1” szerkesztőnek',
 	'checkuser-reset-action' => 'lecserélte „$1” jelszavát',
