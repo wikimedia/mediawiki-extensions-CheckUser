@@ -854,7 +854,7 @@ class CheckUser extends SpecialPage
 				$s .= ' [<strong>' . $count . '</strong>]<br />';
 				# Check if this user or IP is blocked. If so, give a link to the block log...
 				$ip = IP::isIPAddress( $name ) ? $name : '';
-				$flags = $this->userBlockFlags( $ip, $users_ids[$name], $name );
+				$flags = $this->userBlockFlags( $ip, $users_ids[$name], $user );
 				# Show if account is local only
 				$authUser = $wgAuth->getUserInstance( $user );
 				if( $user->getId() && $authUser->getId() === 0 ) {
@@ -862,7 +862,6 @@ class CheckUser extends SpecialPage
 				}
 				# Check for extra user rights...
 				if( $users_ids[$name] ) {
-					$user = User::newFromId( $users_ids[$name] );
 					if( $user->isLocked() ) {
 						$flags[] = '<b>(' . wfMsgHtml('checkuser-locked') . ')</b>';
 					}
@@ -938,7 +937,7 @@ class CheckUser extends SpecialPage
 		$wgOut->addHTML( $s );
 	}
 	
-	protected function userBlockFlags( $ip, $userId, $name ) {
+	protected function userBlockFlags( $ip, $userId, $user ) {
 		static $logs, $blocklist;
 		$logs = SpecialPage::getTitleFor( 'Log' );
 		$blocklist = SpecialPage::getTitleFor( 'Ipblocklist' );
@@ -958,16 +957,16 @@ class CheckUser extends SpecialPage
 					wfMsgHtml('checkuser-blocked'), 'ip=' . urlencode( "#{$block->mId}" ) );
 				$flags[] = '<strong>(' . $blocklog . ')</strong>';
 			} else {
-				$userpage = Title::makeTitle( NS_USER, $name );
+				$userpage = $user->getUserPage();
 				$blocklog = $this->sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-blocked'), 
 					'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 				$flags[] = '<strong>(' . $blocklog . ')</strong>';
 			}
 		// IP that is blocked on all wikis?
-		} else if( $ip === $name && $user->isBlockedGlobally( $ip ) ) {
+		} else if( $ip == $user->getName() && $user->isBlockedGlobally( $ip ) ) {
 			$flags[] = '<strong>(' . wfMsgHtml('checkuser-gblocked') . ')</strong>';
-		} else if( self::userWasBlocked( $name ) ) {
-			$userpage = Title::makeTitle( NS_USER, $name );
+		} else if( self::userWasBlocked( $user->getName() ) ) {
+			$userpage = $user->getUserPage();
 			$blocklog = $this->sk->makeKnownLinkObj( $logs, wfMsgHtml('checkuser-wasblocked'), 
 				'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 			$flags[] = '<strong>(' . $blocklog . ')</strong>';
@@ -1007,8 +1006,9 @@ class CheckUser extends SpecialPage
 		if( isset($flagCache[$row->cuc_user_text]) ) {
 			$flags = $flagCache[$row->cuc_user_text];
 		} else {
+			$user = User::newFromName( $row->cuc_user_text, false );
 			$ip = IP::isIPAddress( $row->cuc_user_text ) ? $row->cuc_user_text : '';
-			$flags = $this->userBlockFlags( $ip, $row->cuc_user, $row->cuc_user_text );
+			$flags = $this->userBlockFlags( $ip, $row->cuc_user, $user );
 			$flagCache[$row->cuc_user_text] = $flags;
 		}
 		# Add any block information
