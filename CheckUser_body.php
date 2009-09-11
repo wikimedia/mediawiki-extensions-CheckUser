@@ -982,7 +982,9 @@ class CheckUser extends SpecialPage
 	 */
 	protected function CUChangesLine( $row, $reason ) {
 		global $wgLang;
-		# Add date headers
+		static $cuTitle, $flagCache;
+		$cuTitle = SpecialPage::getTitleFor( 'CheckUser' );
+		# Add date headers as needed
 		$date = $wgLang->date( wfTimestamp(TS_MW,$row->cuc_timestamp), true, true );
 		if( !isset($this->lastdate) ) {
 			$this->lastdate = $date;
@@ -1001,18 +1003,25 @@ class CheckUser extends SpecialPage
 		# Userlinks
 		$line .= $this->sk->userLink( $row->cuc_user, $row->cuc_user_text );
 		$line .= $this->sk->userToolLinks( $row->cuc_user, $row->cuc_user_text );
+		# Get block info
+		if( isset($flagCache[$row->cuc_user_text]) ) {
+			$flags = $flagCache[$row->cuc_user_text];
+		} else {
+			$ip = IP::isIPAddress( $row->cuc_user_text ) ? $row->cuc_user_text : '';
+			$flags = $this->userBlockFlags( $ip, $row->cuc_user, $row->cuc_user_text );
+			$flagCache[$row->cuc_user_text] = $flags;
+		}
+		# Add any block information
+		if( count($flags) ) $line .= ' ' . implode(' ',$flags);
 		# Action text, hackish ...
 		if( $row->cuc_actiontext )
 			$line .= ' ' . $this->sk->formatComment( $row->cuc_actiontext ) . ' ';
 		# Comment
 		$line .= $this->sk->commentBlock( $row->cuc_comment );
-		
-		$cuTitle = SpecialPage::getTitleFor( 'CheckUser' );
 		$line .= '<br />&nbsp; &nbsp; &nbsp; &nbsp; <small>';
 		# IP
 		$line .= ' <strong>IP</strong>: '.$this->sk->makeKnownLinkObj( $cuTitle,
-			htmlspecialchars( $row->cuc_ip ),
-			"user=".urlencode( $row->cuc_ip ).'&reason='.urlencode($reason) );
+			htmlspecialchars( $row->cuc_ip ), "user=".urlencode( $row->cuc_ip ).'&reason='.urlencode($reason) );
 		# XFF
 		if( $row->cuc_xff !=null ) {
 			# Flag our trusted proxies
