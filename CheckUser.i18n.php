@@ -1171,6 +1171,7 @@ $messages['cy'] = array(
 
 /** Danish (Dansk)
  * @author Amjaabc
+ * @author Byrial
  * @author Fredelige
  * @author Masz
  * @author Morten LJ
@@ -1187,7 +1188,7 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 	'right-checkuser' => 'Tjekke en brugers IP-adresser og andre oplysninger',
 	'right-checkuser-log' => 'Se checkuser-loggen',
 	'grouppage-checkuser' => '{{ns:project}}:Checkbruger',
-	'checkuser-reason' => 'Begrundelse',
+	'checkuser-reason' => 'Begrundelse:',
 	'checkuser-showlog' => 'Vis log',
 	'checkuser-log' => 'Checkbrugerlog',
 	'checkuser-query' => 'Søg i seneste ændringer',
