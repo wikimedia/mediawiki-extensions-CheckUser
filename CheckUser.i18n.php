@@ -1692,6 +1692,7 @@ $messages['et'] = array(
 );
 
 /** Basque (Euskara)
+ * @author An13sa
  * @author Kobazulo
  */
 $messages['eu'] = array(
@@ -1699,6 +1700,7 @@ $messages['eu'] = array(
 	'group-checkuser' => 'Erabiltzaileak egiaztatu',
 	'group-checkuser-member' => 'Erabiltzailea egiaztatu',
 	'checkuser-reason' => 'Arrazoia:',
+	'checkuser-showlog' => 'Erregistroa erakutsi',
 	'checkuser-target' => 'Lankidea edo IPa',
 	'checkuser-users' => 'Lankideak ikusi',
 	'checkuser-edits' => 'IP baten ekarpenak ikusi',
@@ -1721,6 +1723,7 @@ $messages['eu'] = array(
 	'checkuser-block-success' => "'''$1 {{PLURAL:$2|erabiltzailea|erabiltzaileak}} blokeaturik {{PLURAL:$2|dago|daude}} orain.'''",
 	'checkuser-block-limit' => 'Lankide gehiegi hautatu duzu.',
 	'checkuser-search-submit' => 'Bilatu',
+	'checkuser-log-subpage' => 'Erregistroa',
 	'checkuser-autocreate-action' => 'automatikoki sortua izan da',
 	'checkuser-email-action' => '"$1" lankideari posta elektroniko bat bidali',
 	'checkuser-reset-action' => '"$1" lankideari pasahitza berrezarri',
