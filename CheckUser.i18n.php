@@ -6338,6 +6338,11 @@ $messages['vep'] = array(
 	'checkuser-edits' => 'Sada toižetusid, kudambad oma tehtud IP-adresalpäi',
 	'checkuser-search' => 'Ectä',
 	'checkuser-all' => 'kaik',
+	'checkuser-blocked' => 'Blokiruidud',
+	'checkuser-locked' => 'Luklostadud',
+	'checkuser-search-submit' => 'Ectä',
+	'checkuser-search-initiator' => 'iniciator',
+	'checkuser-search-target' => 'met',
 );
 
 /** Vietnamese (Tiếng Việt)
