@@ -4111,6 +4111,13 @@ Bagi pengguna tanpa nama, alamat IP-nya akan disekat selama seminggu, dengan pen
 	'checkuser-reset-action' => 'set semula kata laluan "$1"',
 );
 
+/** Maltese (Malti)
+ * @author Chrisportelli
+ */
+$messages['mt'] = array(
+	'group-checkuser-member' => 'Kontrollatur',
+);
+
 /** Erzya (Эрзянь)
  * @author Amdf
  * @author Botuzhaleny-sodamo
@@ -4228,6 +4235,7 @@ IP-Adressen warrt för IP-Brukers för een Week sperrt un dat Brukerkonto opstel
  */
 $messages['nds-nl'] = array(
 	'checkuser-summary' => 'Dit hulpmiddel scant de lieste mit de leste wiezigingen um de IP-adressen weerumme te haolen dee gebruuk bin deur een gebruker of een bewarking/gebrukersgegevens weergeven veur een IP-adres. Gebrukers en bewarkingen kunnen weerummehaold wonnen mit een XFF-IP deur "/xff" an \'t IP-adres toe te voegen. IPv4 (CIDR 16-32) en IPv6 (CIDR 96-128) wonnen ondersteund. Neet meer as 5.000 bewarkingen wonnen eteund vanwegen prestasierejens. Gebruuk dit in overeenstemming mit \'t beleid.',
+	'checkuser-showlog' => 'Logboek bekieken',
 	'checkuser-query' => 'Zeukopdrachte leste wiezigingen',
 );
 
