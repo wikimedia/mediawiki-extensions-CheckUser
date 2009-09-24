@@ -5503,11 +5503,16 @@ $messages['sq'] = array(
  * @author Sasa Stefanovic
  * @author Јованвб
  * @author Михајло Анђелковић
+ * @author Обрадовић Горан
  */
 $messages['sr-ec'] = array(
+	'checkuser-summary' => 'Ова алатка прегледа скорашње измене и враћа IP адресе које је корисник користио или показује податке о кориснику/изменама за дати IP. Корисници и измене клијентског IP се могу добавити преко XFF заглавља додавањем "/xff" иза IP. Подржани су формати IPv4 (CIDR 16-32) и IPv6 (CIDR 96-128).
+Због перформанси неће бити враћено више од 5000 измена.
+Алатку користите у складу са политиком.',
 	'checkuser-desc' => 'Даје сарадницима са одговарајућим правима могућност да провере ИП адресе сарадника и друге информације.',
 	'checkuser-logcase' => 'Претрага лога је осетљива на мала и велика слова.',
 	'checkuser' => 'Чекјузер',
+	'checkuser-contribs' => 'Провери корисникове IP адресе.',
 	'group-checkuser' => 'Чекјузери',
 	'group-checkuser-member' => 'Чекјузер',
 	'right-checkuser' => 'Проверава сарадничке ИП адресе и друге информације.',
@@ -5528,8 +5533,12 @@ $messages['sr-ec'] = array(
 	'checkuser-week-2' => 'последње две недеље',
 	'checkuser-month' => 'последњих 30 дана',
 	'checkuser-all' => 'све',
+	'checkuser-cidr-label' => 'Пронађи уобичајени опсег и захваћене адресе за списак IP адреса.',
+	'checkuser-cidr-res' => 'Уобичајени CIDR',
 	'checkuser-empty' => 'Лог не садржи ништа.',
 	'checkuser-nomatch' => 'Нема погодака.',
+	'checkuser-nomatch-edits' => 'Нису нађена поклапања.
+Последња измена је била на $1 у $2.',
 	'checkuser-check' => 'Провера',
 	'checkuser-log-fail' => 'Није било могуће додати податак у лог.',
 	'checkuser-nolog' => 'Ниједан фајл с логовима није пронађен.',
@@ -5539,6 +5548,8 @@ $messages['sr-ec'] = array(
 	'checkuser-wasblocked' => 'Претходно блокиран',
 	'checkuser-localonly' => 'Није унифицирано',
 	'checkuser-massblock' => 'Блокирај изабраног корисника',
+	'checkuser-massblock-text' => 'Изабрани налози ће бити блокирани на неодређено, уз обележене опције аутоблокирања и забране прављења налога.
+IP адресе ће бити блокиране на недељу дана за IP кориснике, уз забрану прављења налога.',
 	'checkuser-blocktag' => 'Замени корисничке странице са:',
 	'checkuser-blocktag-talk' => 'Замени стране за разговор са:',
 	'checkuser-massblock-commit' => 'Блокирај изабраног корисника',
@@ -5546,6 +5557,7 @@ $messages['sr-ec'] = array(
 	'checkuser-block-failure' => "'''Нема блокираних корисника.'''",
 	'checkuser-block-limit' => 'Превише корисника је изабрано.',
 	'checkuser-block-noreason' => 'Морате дати разлог за блок.',
+	'checkuser-noreason' => 'Морате да наведете разлог за овај упит.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|нови налог|нових налога}}',
 	'checkuser-too-many' => 'Превише резултата; смањи CIDR. Ево списка коришћених ИП адреса (максимално 5000, сортирано по адреси):',
 	'checkuser-user-nonexistent' => 'Тражени сарадник не постоји.',
@@ -5556,6 +5568,7 @@ $messages['sr-ec'] = array(
 	'checkuser-ipeditcount' => '~$1 од свих сарадника',
 	'checkuser-log-subpage' => 'лог',
 	'checkuser-log-return' => 'Повратак на основну форму чекјузера.',
+	'checkuser-limited' => "'''Ови резултати су скраћени због перформанси.'''",
 	'checkuser-log-userips' => '$1 је добио ИП адресе за $2',
 	'checkuser-log-ipedits' => '$1 је добио измене за $2',
 	'checkuser-log-ipusers' => '$1 је добио сараднике за $2',
