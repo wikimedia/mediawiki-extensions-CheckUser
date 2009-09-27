@@ -1563,6 +1563,7 @@ Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
 
 /** Spanish (Español)
  * @author Aleator
+ * @author AlimanRuna
  * @author Crazymadlover
  * @author Dferg
  * @author Dmcdevit
@@ -3939,6 +3940,7 @@ IP адресите ќе бидат блокирани 1 недела за са�
 );
 
 /** Malayalam (മലയാളം)
+ * @author Praveenp
  * @author Shijualex
  */
 $messages['ml'] = array(
@@ -3949,7 +3951,7 @@ $messages['ml'] = array(
 	'group-checkuser-member' => 'ചെക്ക് യൂസര്‍',
 	'right-checkuser' => 'ചെക്ക് യൂസറിന്റെ ഐപി വിലാസവും മറ്റു വിവരങ്ങളും',
 	'grouppage-checkuser' => '{{ns:project}}:ചെക്ക് യൂസര്‍',
-	'checkuser-reason' => 'കാരണം',
+	'checkuser-reason' => 'കാരണം:',
 	'checkuser-showlog' => 'പ്രവര്‍ത്തനരേഖ കാട്ടുക',
 	'checkuser-log' => 'ചെക്ക് യൂസര്‍ പ്രവര്‍ത്തനരേഖ',
 	'checkuser-query' => 'പുതിയ മാറ്റങ്ങള്‍',
