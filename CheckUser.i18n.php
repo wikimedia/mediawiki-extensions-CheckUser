@@ -1240,8 +1240,8 @@ Aus Performance-Gründen werden maximal 5000 Bearbeitungen ausgegeben. Benutze C
 	'checkuser-contribs' => 'IP-Adressen von Benutzer prüfen',
 	'group-checkuser' => 'Checkuser',
 	'group-checkuser-member' => 'Checkuser-Berechtigter',
-	'right-checkuser' => 'Prüfung von IP-Adressen sowie Verbindungen zwischen IPs und angemeldeten Benutzern',
-	'right-checkuser-log' => 'Ansehen des Checkuser-Logbuches',
+	'right-checkuser' => 'IP-Adressen sowie Verbindungen zwischen IP-Adressen und angemeldeten Benutzern prüfen',
+	'right-checkuser-log' => 'Checkuser-Logbuch ansehen',
 	'grouppage-checkuser' => '{{ns:project}}:CheckUser',
 	'checkuser-reason' => 'Grund:',
 	'checkuser-showlog' => 'Logbuch anzeigen',
@@ -3854,6 +3854,7 @@ $messages['lv'] = array(
 $messages['mhr'] = array(
 	'checkuser-reason' => 'Амал:',
 	'checkuser-search' => 'Кычал',
+	'checkuser-all' => 'чыла',
 	'checkuser-search-submit' => 'Кычал',
 );
 
