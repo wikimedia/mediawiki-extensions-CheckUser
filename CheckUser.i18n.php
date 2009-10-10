@@ -3213,12 +3213,16 @@ Ing ngisor iki kapacak alamat-alamat IP sing dienggo (maks. 5.000, diurutaké ad
 );
 
 /** Georgian (ქართული)
+ * @author BRUTE
  * @author Malafaya
  * @author გიორგიმელა
  */
 $messages['ka'] = array(
+	'checkuser' => 'ჩეკიუზერი',
+	'group-checkuser' => 'ჩეკიუზერები',
 	'checkuser-reason' => 'მიზეზი:',
 	'checkuser-search' => 'ძიება',
+	'checkuser-period' => 'ხანგძლივობა:',
 	'checkuser-all' => 'ყველა',
 	'checkuser-accounts' => '$1 ახალი {{PLURAL:$1|ანგარიში|ანგარიშები}}',
 	'checkuser-too-many' => 'ძალიან ბევრი რეზულტატი, გთხოვთ შეავიწროოთ CIDR-ი.
