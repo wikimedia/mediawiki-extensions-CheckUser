@@ -3224,6 +3224,7 @@ $messages['ka'] = array(
 	'checkuser-search' => 'ძიება',
 	'checkuser-period' => 'ხანგძლივობა:',
 	'checkuser-all' => 'ყველა',
+	'checkuser-gblocked' => 'გლობალურად ბლოკირებული',
 	'checkuser-accounts' => '$1 ახალი {{PLURAL:$1|ანგარიში|ანგარიშები}}',
 	'checkuser-too-many' => 'ძალიან ბევრი რეზულტატი, გთხოვთ შეავიწროოთ CIDR-ი.
 გამოყენებული IP  (მაქსიმუმ 500 სორტირებულია მისამართის თანახმად)',
