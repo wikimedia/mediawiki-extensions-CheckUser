@@ -667,7 +667,7 @@ $messages['be-tarask'] = array(
 	'checkuser-block-noreason' => 'Вам неабходна пазначыць прычыну блякаваньня.',
 	'checkuser-noreason' => 'Вам неабходна падаць прычыну гэтага запыту.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|новы рахунак|новыя рахункі|новых рахункаў}}',
-	'checkuser-too-many' => 'Зашмат вынікаў, калі ласка, абмяжуйце CIDR.
+	'checkuser-too-many' => 'Зашмат вынікаў (згодна з адзнакай запыту), калі ласка, абмяжуйце CIDR.
 Тут пададзеныя ўжытыя ІР-адрасы (максымум 5000, адсартаваныя паводле адрасу):',
 	'checkuser-user-nonexistent' => 'Пазначанага рахунку ўдзельніка не існуе.',
 	'checkuser-search-form' => 'Пошук запісаў у журнале, дзе $1 зьяўляецца $2',
@@ -907,7 +907,7 @@ IP adrese će biti blokirane u periodu od jedne sedmice samo za IP korisnike i s
 	'checkuser-block-noreason' => 'Morate navesti razlog za blokiranje.',
 	'checkuser-noreason' => 'Morate navesti razlog za ovaj upit.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|novi korisnik|nova korisnika|novih korisnika}}',
-	'checkuser-too-many' => 'Pronađeno previše rezultata, molimo da suzite CIDR.
+	'checkuser-too-many' => 'Pronađeno previše rezultata (po procjeni upita), molimo da suzite CIDR.
 Ovdje su prikazane korištene IP adrese (najviše 5000, poredano po adresi):',
 	'checkuser-user-nonexistent' => 'Navedeni korisnik ne postoji.',
 	'checkuser-search-form' => 'Nađi stavke zapisa gdje je $1 jednako $2',
@@ -1368,7 +1368,7 @@ IP-adrese budu se jano za IP-wužywarjow na 1 tyźeń blokěrowaś - załoženje
 	'checkuser-block-noreason' => 'Musyš pśicynu za blokěrowanja pódaś.',
 	'checkuser-noreason' => 'Musyš pśicynu za toś to wótpšašanje pódaś.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nowe konto|nowej konśe|nowe konta|nowych kontow}}',
-	'checkuser-too-many' => 'Pśewjele wuslědkow, pšosym wobgranicuj IP-wobcerk. How su wužywane IP-adrese (maks. 5000, pséwuběrane pó adresu):',
+	'checkuser-too-many' => 'Pśewjele wuslědkow (pó pówoblicenju napšašowanja), pšosym wobgranicuj CIDR. How su wužywane IP-adrese (maks. 5000, pséwuběrane pó adresu):',
 	'checkuser-user-nonexistent' => 'Pódany wužywaŕ njeeksistěrujo.',
 	'checkuser-search-form' => 'Protokolowe zapiski namakaś, źož $1 jo $2',
 	'checkuser-search-submit' => 'Pytaś',
@@ -1910,6 +1910,7 @@ $messages['fo'] = array(
  * @author ChrisPtDe
  * @author Grondin
  * @author IAlex
+ * @author Peter17
  * @author PieRRoMaN
  * @author Sherbrooke
  * @author Verdy p
@@ -1969,8 +1970,8 @@ Les adresses IP seront bloquées pendant une semaine uniquement pour les utilisa
 	'checkuser-block-noreason' => 'Vous devez donner un motif justifiant les blocages.',
 	'checkuser-noreason' => 'Vous devez donner une raison pour cette requête.',
 	'checkuser-accounts' => '$1 nouveau{{PLURAL:$1||x}} compte{{PLURAL:$1||s}}',
-	'checkuser-too-many' => 'Trop de résultats, veuillez affiner l’étendue CIDR.
-Voici un extrait des IP utilisées ({{formatnum:5000}} maximum, triées par adresse) :',
+	'checkuser-too-many' => "Trop de résultats (selon l'estimation de la requête), veuillez affiner l’étendue CIDR.
+Voici un extrait des IP utilisées ({{formatnum:5000}} maximum, triées par adresse) :",
 	'checkuser-user-nonexistent' => 'L’utilisateur indiqué n’existe pas.',
 	'checkuser-search-form' => 'Chercher les entrées de journal où $1 est $2.',
 	'checkuser-search-submit' => 'Rechercher',
@@ -2184,7 +2185,8 @@ Os enderezos IP serán bloqueados cun tempo de duración dunha semana só para o
 	'checkuser-block-noreason' => 'Debe dar unha razón para os bloqueos.',
 	'checkuser-noreason' => 'Debe dar unha razón para esta pescuda.',
 	'checkuser-accounts' => '{{PLURAL:$1|Unha nova conta|$1 novas contas}}',
-	'checkuser-too-many' => 'Hai demasiados resultados, restrinxa o enderezo IP:',
+	'checkuser-too-many' => 'Hai demasiados resultados (segundo a estimación da pesquisa), restrinxa o CIDR.
+Aquí están os enderezos IP usados (máximo 5.000, ordenados por enderezo):',
 	'checkuser-user-nonexistent' => 'Non existe o usuario especificado.',
 	'checkuser-search-form' => 'Atopar as entradas do rexistro nas que $1 é $2',
 	'checkuser-search-submit' => 'Procurar',
@@ -2284,7 +2286,7 @@ IP-Adrässe wäre fir ei Wuche gsperrt (nume fir anonymi Benutzer, s Aalege vu n
 	'checkuser-block-noreason' => 'Du muesch e Grund fir d Sperri aagee.',
 	'checkuser-noreason' => 'Du muesch e Grund fir die Abfrog aagee.',
 	'checkuser-accounts' => '{{PLURAL:$1|1 nej Benutzerkonto|$1 neiji Benutzerkonte}}',
-	'checkuser-too-many' => 'D Ergebnislischt isch z lang, bitte grenz dr IP-Beryych wyter yy. Do sin di benutzten IP-Adrässe (maximal 5000, sortiert noch Adrässe):',
+	'checkuser-too-many' => 'D Ergebnislischt isch z lang (noch ere Abfrogs-Schätzig), bitte gränz dr IP-Beryych wyter yy. Do sin di benutzten IP-Adrässe (maximal 5000, sortiert noch Adrässe):',
 	'checkuser-user-nonexistent' => 'S Benutzerkonto, wu Du aagee hesch, isch nit vorhande.',
 	'checkuser-search-form' => 'Suech Logbuechyyträg, wu $1 byyn ene $2 isch.',
 	'checkuser-search-submit' => 'Suech',
@@ -2610,7 +2612,8 @@ IP-adresy budu so na 1 tydźeń blokować (jenož za IP-wužiwarjow) a załožen
 	'checkuser-block-noreason' => 'Dyrbiš přičinu za zablokowanja podać.',
 	'checkuser-noreason' => 'Dyrbiš přičinu za tute wotprašowanje podać.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nowe konto|nowej konće|nowe konta|nowych kontow}}',
-	'checkuser-too-many' => 'Přewjele wuslědkow, prošu zamjezuj IP-adresu:',
+	'checkuser-too-many' => 'Přewjele wuslědkow (po taksowanju naprašowanja), prošu zamjezuj CIDR.
+Tu su wužiwane IP (maks. 5000, po adresy sortěrowane):',
 	'checkuser-user-nonexistent' => 'Podaty wužiwar njeeksistuje.',
 	'checkuser-search-form' => 'Protokolowe zapiski namakać, hdźež $1 je $2',
 	'checkuser-search-submit' => 'Pytać',
@@ -2694,7 +2697,8 @@ Az IP-címeknél csak a be nem jelentkezett felhasználók lesznek blokkolva 1 h
 	'checkuser-block-noreason' => 'Meg kell adnod a blokkolások okát.',
 	'checkuser-noreason' => 'Meg kell adnod a lekérdezés okát.',
 	'checkuser-accounts' => '{{PLURAL:$1|egy|$1}} új felhasználói fiók',
-	'checkuser-too-many' => 'Túl sok eredmény, kérlek szűkítsd le a CIDR-t. Itt vannak a használt IP-címek (maximum 5000, cím alapján rendezve):',
+	'checkuser-too-many' => 'Túl sok találat (a lekérdezési becslés szerint), kérlek szűkítsd le a CIDR-t.
+Itt vannak a használt IP-címek (maximum 5000, cím alapján rendezve):',
 	'checkuser-user-nonexistent' => 'A megadott szerkesztő nem létezik.',
 	'checkuser-search-form' => 'Naplóbejegyzések keresése, ahol $1 $2',
 	'checkuser-search-submit' => 'Keresés',
@@ -2782,8 +2786,8 @@ Le adresses IP essera blocate durante 1 septimana pro usatores IP solmente e con
 	'checkuser-block-noreason' => 'Tu debe indicar un motivo pro le blocadas.',
 	'checkuser-noreason' => 'Tu debe dar un motivo pro iste consulta.',
 	'checkuser-accounts' => '$1 nove {{PLURAL:$1|conto|contos}}',
-	'checkuser-too-many' => 'Troppo de resultatos. Per favor restringe le CIDR.
-Ecce le IPs usate (5000 max, ordinate per adresse):',
+	'checkuser-too-many' => 'Troppo de resultatos (secundo un estimation del consulta). Per favor restringe le CIDR.
+Ecce le IPs usate (max. 5000, ordinate per adresse):',
 	'checkuser-user-nonexistent' => 'Le usator specificate non existe.',
 	'checkuser-search-form' => 'Cercar entratas in le registro ubi le $1 es $2',
 	'checkuser-search-submit' => 'Cercar',
@@ -2807,6 +2811,7 @@ Ecce le IPs usate (5000 max, ordinate per adresse):',
 /** Indonesian (Bahasa Indonesia)
  * @author Bennylin
  * @author Borgx
+ * @author Irwangatot
  * @author IvanLanin
  * @author Rex
  */
@@ -2864,7 +2869,7 @@ Alamat-alamat IP akan diblokir selama 1 minggu untuk pengguna anonim dan tidak d
 	'checkuser-block-noreason' => 'Anda harus mengisi alasan pemblokiran.',
 	'checkuser-noreason' => 'Anda harus memberikan alasan untuk kueri ini.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|akun|akun-akun}} baru',
-	'checkuser-too-many' => 'Terlalu banyak hasil pencarian, mohon persempit CIDR. Berikut adalah alamat-alamat IP yang digunakan (5000 maks, diurut berdasarkan alamat):',
+	'checkuser-too-many' => 'Terlalu banyak hasil pencarian (menurut perkiraan permintaan), mohon persempit CIDR. Berikut adalah alamat-alamat IP yang digunakan (5000 maks, diurut berdasarkan alamat):',
 	'checkuser-user-nonexistent' => 'Pengguna tidak eksis',
 	'checkuser-search-form' => 'Cari catatan log dimana $1 adalah $2',
 	'checkuser-search-submit' => 'Cari',
@@ -3020,10 +3025,10 @@ Gli indirizzi IP saranno bloccati per una settimana solo per gli utenti anonimi 
  */
 $messages['ja'] = array(
 	'checkuser-summary' => 'このツールは最近の更新から行った調査を元に、ある利用者が使用したIPアドレスの検索、または、あるIPアドレスからなされた編集および利用者名の表示を行います。
-IPアドレスと共に「/xff」オプションを指定すると、XFF(X-Forwarded-For)ヘッダを通じてクライアントIPアドレスを取得し、そこからなされた編集および利用者名の検索をすることが可能です。
-IPv4(16から32ビットのCIDR表記)と IPv6(96から128ビットのCIDR表記)をサポートしています。
+IPアドレスと共に「/xff」オプションを指定すると、XFF (X-Forwarded-For) ヘッダを通じてクライアントIPアドレスを取得し、そこからなされた編集および利用者名の検索をすることが可能です。
+IPv4 (16から32ビットのCIDR表記) と IPv6 (96から128ビットのCIDR表記) をサポートしています。
 パフォーマンス上の理由により、5000件の編集しか返答出来ません。
-「チェックユーザーの方針」に従って利用してください。',
+方針に従って使用してください。',
 	'checkuser-desc' => '特定の権限を付与された利用者に対して、利用者のIPアドレスなどの情報のチェックを可能にする',
 	'checkuser-logcase' => 'ログの検索では大文字と小文字を区別します。',
 	'checkuser' => '利用者の調査',
@@ -3073,7 +3078,7 @@ IPv4(16から32ビットのCIDR表記)と IPv6(96から128ビットのCIDR表記
 	'checkuser-block-noreason' => 'ブロック理由の記入が必要です。',
 	'checkuser-noreason' => 'この照会には理由を与えなければなりません。',
 	'checkuser-accounts' => '$1つの新しい{{PLURAL:$1|アカウント}}',
-	'checkuser-too-many' => '検索結果が多すぎます、CIDRの指定を小さく絞り込んでください。利用されたIPは以下の通りです(5000件を上限に、アドレス順でソートされています):',
+	'checkuser-too-many' => '（照会を推定したところ）検索結果が多すぎます。CIDRの指定を小さく絞り込んでください。利用されたIPは以下の通りです（5000件を上限に、アドレス順で整列されています）:',
 	'checkuser-user-nonexistent' => '指定されたユーザーは存在しません。',
 	'checkuser-search-form' => '$1 が $2 であるログ項目を探す',
 	'checkuser-search-submit' => '検索',
@@ -4308,7 +4313,8 @@ IP-adressen worden één week geblokkeerd voor anonieme gebruikers, met het aanm
 	'checkuser-block-noreason' => 'U moet een reden opgeven voor de blokkades.',
 	'checkuser-noreason' => 'U moet een reden opgeven voor deze zoekopdracht.',
 	'checkuser-accounts' => '$1 nieuwe {{PLURAL:$1|gebruiker|gebruikers}}',
-	'checkuser-too-many' => 'Te veel resultaten. Maak de IP-reeks kleiner:',
+	'checkuser-too-many' => 'Te veel resultaten (volgens de schatting). Maak de IP-reeks kleiner:
+Hieronder worden de gebruikte IP-adressen weergegeven (maximaal 5000, op IP-adres gesorteerd):',
 	'checkuser-user-nonexistent' => 'De opgegeven gebruiker bestaat niet.',
 	'checkuser-search-form' => 'Logboekregels zoeken waar de $1 $2 is',
 	'checkuser-search-submit' => 'Zoeken',
@@ -5200,7 +5206,8 @@ IP-адреса будут заблокированы на 1 неделю для
 	'checkuser-block-noreason' => 'Вы должны указать причину блокировок.',
 	'checkuser-noreason' => 'Вы должны указать причину для этого запроса.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|новая учётная запись|новых учётных записи|новых учётных записей}}',
-	'checkuser-too-many' => 'Слишком много результатов, пожалуйста, сузьте CIDR. Использованные IP (максимум 5000, отсортировано по адресу):',
+	'checkuser-too-many' => 'Слишком много результатов (согласно оценке запроса), пожалуйста, сузьте CIDR.
+Использованные IP (максимум 5000, отсортировано по адресу):',
 	'checkuser-user-nonexistent' => 'Указанного участника не существует',
 	'checkuser-search-form' => 'Найти записи журнала, где $1 является $2',
 	'checkuser-search-submit' => 'Найти',
@@ -5478,7 +5485,8 @@ IP adresy sa zablokujú na 1 týždeň pri iba anonymných používateľoch a vy
 	'checkuser-block-noreason' => 'Musíte zadať dôvod blokovaní.',
 	'checkuser-noreason' => 'Musíte uviesť dôvod tejto požiadavky.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nový účet|nové účty|nových účtov}}',
-	'checkuser-too-many' => 'Príliš veľa výsledkov, prosím zúžte CIDR. Tu sú použité IP (max. 5 000, zoradené podľa adresy):',
+	'checkuser-too-many' => 'Príliš veľa výsledkov (podľa odhadu požiadavky), prosím zúžte CIDR.
+Tu sú použité IP (max. 5 000, zoradené podľa adresy):',
 	'checkuser-user-nonexistent' => 'Uvedený používateľ neexistuje.',
 	'checkuser-search-form' => 'Nájsť položky záznamu, kde $1 je $2',
 	'checkuser-search-submit' => 'Hľadať',
@@ -6178,7 +6186,7 @@ IP adresleri sadece IP kullanıcıları için 1 hafta boyunca engellenecektir ve
 	'checkuser-block-noreason' => 'Engellemeler için bir neden belirtmelisiniz.',
 	'checkuser-noreason' => 'Bu sorgu için bir sebep göstermelisiniz.',
 	'checkuser-accounts' => '$1 yeni {{PLURAL:$1|hesap|hesap}}',
-	'checkuser-too-many' => "Çok fazla sonuç var, lütfen CIDR'ı daraltın.
+	'checkuser-too-many' => "Çok fazla sonuç var (sorgu tahminine göre), lütfen CIDR'ı daraltın.
 Kullanılan IP'ler (max 5000, adrese göre sıralı):",
 	'checkuser-user-nonexistent' => 'Belirtilen kullanıcı mevcut değil.',
 	'checkuser-search-form' => "$1'in $2 olduğu günlük girişlerini bul",
@@ -6432,7 +6440,7 @@ Lần sửa đổi cuối xảy ra $1 lúc $2.',
 	'checkuser-block-noreason' => 'Phải đưa ra lý do cấm.',
 	'checkuser-noreason' => 'Bạn phải đưa ra lý do truy vấn.',
 	'checkuser-accounts' => '{{PLURAL:$1|tài khoản|tài khoản}} mới',
-	'checkuser-too-many' => 'Có quá nhiều kết quả, xin hãy thu hẹp CIDR. Đây là các IP sử dụng (tối đa 5000, xếp theo địa chỉ):',
+	'checkuser-too-many' => 'Có quá nhiều kết quả (theo ước lượng truy vấn). Xin hãy thu hẹp CIDR. Đây là các IP sử dụng (tối đa 5000, xếp theo địa chỉ):',
 	'checkuser-user-nonexistent' => 'Thành viên chỉ định không tồn tại.',
 	'checkuser-search-form' => 'Tìm thấy các mục nhật trình trong đó $1 là $2',
 	'checkuser-search-submit' => 'Tìm kiếm',
