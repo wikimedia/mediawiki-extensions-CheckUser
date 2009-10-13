@@ -62,7 +62,7 @@ Last edit was on $1 at $2.',
 	'checkuser-block-noreason'   => 'You must give a reason for the blocks.',
 	'checkuser-noreason'         => 'You must give a reason for this query.',
 	'checkuser-accounts'         => '$1 new {{PLURAL:$1|account|accounts}}',
-	'checkuser-too-many'         => 'Too many results, please narrow down the CIDR.
+	'checkuser-too-many'         => 'Too many results (according to query estimate), please narrow down the CIDR.
 Here are the IPs used (5000 max, sorted by address):',
 	'checkuser-user-nonexistent' => 'The specified user does not exist.',
 	'checkuser-search-form'      => 'Find log entries where the $1 is $2',
