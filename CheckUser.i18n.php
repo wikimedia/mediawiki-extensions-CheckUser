@@ -1283,7 +1283,7 @@ IP-Adressen werden für eine Woche gesperrt (nur für anonyme Benutzer, die Anla
 	'checkuser-block-noreason' => 'Du musst einen Grund für die Sperre angeben.',
 	'checkuser-noreason' => 'Für diese Abfrage muss eine Begründung angegeben werden.',
 	'checkuser-accounts' => '{{PLURAL:$1|1 neues Benutzerkonto|$1 neue Benutzerkonten}}',
-	'checkuser-too-many' => 'Die Ergebnisliste ist zu lang, bitte grenze den IP-Bereich weiter ein. Hier sind die benutzten IP-Adressen (maximal 5000, sortiert nach Adresse):',
+	'checkuser-too-many' => 'Die Ergebnisliste ist zu lang (nach der Schätzung), bitte grenze den IP-Bereich weiter ein. Hier sind die benutzten IP-Adressen (maximal 5000, sortiert nach Adresse):',
 	'checkuser-user-nonexistent' => 'Das angegebene Benutzerkonto ist nicht vorhanden.',
 	'checkuser-search-form' => 'Suche Logbucheinträge, bei denen $1 $2 ist.',
 	'checkuser-search-submit' => 'Suche',
@@ -3195,8 +3195,8 @@ Alamat-alamat IP bakal diblokir jroning 1 minggu tumrap panganggo anonim lan ora
 	'checkuser-block-limit' => 'Cacahing panganggo sing dipilih kakèhan.',
 	'checkuser-block-noreason' => 'Panjenengan kudu mènèhi alesan pamblokiran',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|akun|akun-akun}} anyar',
-	'checkuser-too-many' => 'Kakèhan pituwas, tulung CIDR diciyutaké.
-Ing ngisor iki kapacak alamat-alamat IP sing dienggo (maks. 5.000, diurutaké adhedhasar alamat):',
+	'checkuser-too-many' => 'Kakèhan pituwas (miturut estimasi piakonan), tulung CIDR diciyutaké. 
+Ing ngisor iki kapacak alamat-alamat IP sing dianggo (maks. 5.000, diurutaké miturut alamat):',
 	'checkuser-user-nonexistent' => 'Panganggo iki ora ana.',
 	'checkuser-search-form' => 'Temokna cathetan log ing ngendi $1 iku $2',
 	'checkuser-search-submit' => 'Golèk',
@@ -3692,7 +3692,7 @@ Déi lescht Ännerung war de() $1 ëm $2.',
 	'checkuser-block-noreason' => "Dir musst e Grond fir d'Spären uginn.",
 	'checkuser-noreason' => 'Dir musst e Grond fir dës Ufro uginn.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|neie Benotzerkont|nei Benotzerkonten}}',
-	'checkuser-too-many' => 'Zevill Resultater, gitt w.e.g. méi e klenge Beräich vun IP-Adressen un.
+	'checkuser-too-many' => 'Zevill Resultater (am Vergäich zu der Schätzung vun der Ufro), gitt w.e.g. méi e klenge Beräich vum CIDR un.
 Hei sinn déi benotzten IP-Adressen (max 5000, zortéiert no der Adress):',
 	'checkuser-user-nonexistent' => 'De gesichte Benotzer gëtt et net.',
 	'checkuser-search-form' => 'An de Lëschten fannen, wou den $1 den $2 ass',
@@ -4579,7 +4579,8 @@ Las adreças IP seràn blocadas pendent una setmana unicament pels utilizaires j
 	'checkuser-block-noreason' => 'Vos cal especificar un motiu pels blocatges.',
 	'checkuser-noreason' => 'Vos cal balhar una rason per aquesta requèsta.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|compte novèl|comptes novèls}}',
-	'checkuser-too-many' => 'Tròp de resultats. Limitatz la recèrca sus las adreças IP :',
+	'checkuser-too-many' => "Tròp de resultats (segon l'estimacion de la requèsta), afinatz l’espandida CIDR.
+Vaquí un extrach de las IP utilizadas ({{formatnum:5000}} maximum, triadas per adreça) :",
 	'checkuser-user-nonexistent' => 'L’utilizaire indicat existís pas',
 	'checkuser-search-form' => 'Cercar lo jornal de las entradas ont $1 es $2.',
 	'checkuser-search-submit' => 'Recercar',
