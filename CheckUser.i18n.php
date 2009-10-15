@@ -1096,7 +1096,8 @@ Z výkonnostních důvodů lze zobrazit maximálně 5000 editací. Používejte 
 	'checkuser-block-noreason' => 'Musíte zadat důvod blokování',
 	'checkuser-noreason' => 'K tomuto dotazu musíte uvést důvod.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nový účet|nové účty|nových účtů}}',
-	'checkuser-too-many' => 'Příliš mnoho výsledků, zkuste omezit CIDR. Níže jsou použité IP adresy (nejvýše 500, seřazené abecedně):',
+	'checkuser-too-many' => 'Příliš mnoho výsledků (podle odhadu dotazu), zkuste omezit CIDR.
+Níže jsou použité IP adresy (nejvýše 5000, seřazené podle adresy):',
 	'checkuser-user-nonexistent' => 'Zadaný uživatel neexistuje.',
 	'checkuser-search-form' => 'Hledej záznamy, kde $1 je $2',
 	'checkuser-search-submit' => 'Hledat',
@@ -5791,6 +5792,7 @@ Di handap ieu béréndélan IP nu dipaké (paling loba 5000, disusun dumasar ala
  * @author M.M.S.
  * @author MagnusA
  * @author Najami
+ * @author Per
  */
 $messages['sv'] = array(
 	'checkuser-summary' => 'Det här verktyget söker igenom de senaste ändringarna för att hämta IP-adresser för en användare, eller redigeringar och användare för en IP-adress.
@@ -5846,7 +5848,7 @@ IP-adresser kommer blockeras i en vecka för anonyma användare, med kontoskapan
 	'checkuser-block-noreason' => 'Du måste ange en anledning för blockeringarna.',
 	'checkuser-noreason' => 'Du måste uppge en anledning för den här frågan.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nytt konto|nya konton}}',
-	'checkuser-too-many' => 'För många resultat, du bör söka i ett mindre CIDR-block. Här följer de IP-adresser som använts (högst 5000, sorterade efter adress):',
+	'checkuser-too-many' => 'För många resultat (enligt uppskattning), du bör söka i ett mindre CIDR-block. Här följer de IP-adresser som använts (högst 5000, sorterade efter adress):',
 	'checkuser-user-nonexistent' => 'Användarnamnet som angavs finns inte.',
 	'checkuser-search-form' => 'Sök efter poster där $1 är $2',
 	'checkuser-search-submit' => 'Sök',
