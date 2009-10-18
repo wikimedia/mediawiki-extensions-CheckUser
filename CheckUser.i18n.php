@@ -1312,6 +1312,58 @@ $messages['de-formal'] = array(
 	'checkuser-block-noreason' => 'Sie müssen einen Grund für die Sperre angeben.',
 );
 
+/** Zazaki (Zazaki)
+ * @author Xoser
+ */
+$messages['diq'] = array(
+	'checkuser-logcase' => 'Ena bigêrayîşê logî case sensitive o.',
+	'checkuser' => 'Karber kontrol bike',
+	'checkuser-contribs' => 'Adresê IP yê karberî kontrol bike',
+	'group-checkuser' => 'Karberî kontrol bike',
+	'group-checkuser-member' => 'Karber kontrol bike',
+	'right-checkuser' => 'Adresê IP yê karberî u enformasyonê binî kontrol bike',
+	'right-checkuser-log' => 'Logê karber-kontrolî bivîne',
+	'grouppage-checkuser' => '{{ns:project}}:Karber kontrol bike',
+	'checkuser-reason' => 'Sebeb:',
+	'checkuser-showlog' => 'Logê mucnayîşî',
+	'checkuser-log' => 'Logê karber-kontrolî',
+	'checkuser-query' => 'Bigêrayîşî de vurnayîşanê penîyan',
+	'checkuser-target' => 'Karber ya zi IP',
+	'checkuser-users' => 'Karberî bivîne',
+	'checkuser-edits' => 'Bivîne vurnayîşê ke IP ra',
+	'checkuser-ips' => 'Adresê IPyî bivîne',
+	'checkuser-account' => 'Bivîne vurnayîşê hesabî',
+	'checkuser-search' => 'Bigêre',
+	'checkuser-period' => 'Sure:',
+	'checkuser-week-1' => 'hefteyê verînî',
+	'checkuser-week-2' => 'di hefteyê verînî',
+	'checkuser-month' => '30 rocê verînî',
+	'checkuser-all' => 'hemî',
+	'checkuser-cidr-res' => 'CIDRê muşterekî',
+	'checkuser-empty' => 'Ena log de çik çin o.',
+	'checkuser-nomatch' => 'Çik çin o.',
+	'checkuser-nomatch-edits' => 'Çik çin o. 
+Vurnayîşê tewr penî seet $1 u rocê $2 de biyo.',
+	'checkuser-check' => 'Kontrol bike',
+	'checkuser-log-fail' => 'Nieşkeno log debiker',
+	'checkuser-nolog' => 'Dosyayê logî çin o.',
+	'checkuser-blocked' => 'Blok biya',
+	'checkuser-gblocked' => 'Global de blok biya',
+	'checkuser-locked' => 'Kilit biya',
+	'checkuser-wasblocked' => 'Verni de blok biya',
+	'checkuser-localonly' => 'Yew niyo',
+	'checkuser-massblock' => 'Karberê ke ti weçîno înan blok bike',
+	'checkuser-blocktag' => 'Pelanê karberan pê înan bivurne:',
+	'checkuser-blocktag-talk' => 'Pelanê minaqeşeyî pê înan bivurne:',
+	'checkuser-massblock-commit' => 'Karberê ke ti weçîno înan blok bike',
+	'checkuser-block-failure' => "'''Çew blok nibiya.'''",
+	'checkuser-block-limit' => 'Ti zaf karberan weçino.',
+	'checkuser-search-submit' => 'Bigêre',
+	'checkuser-search-initiator' => 'başlî kerdoğ',
+	'checkuser-search-target' => 'hedef',
+	'checkuser-log-subpage' => 'Log',
+);
+
 /** Lower Sorbian (Dolnoserbski)
  * @author Michawiki
  */
@@ -3959,9 +4011,11 @@ $messages['ml'] = array(
 	'checkuser-desc' => 'ഉപയോക്താക്കള്‍ ഉപയോഗിച്ച ഐപി വിലാസവും മറ്റുവിവരങ്ങളും പരിശോധിക്കുവാനുള്ള അവകാശം കൊടുക്കാന്‍ പ്രാപ്തമാക്കുന്നു',
 	'checkuser-logcase' => 'പ്രവര്‍ത്തന രേഖകള്‍ക്കു വേണ്ടിയുള്ള തിരച്ചില്‍ കേസ് സെന്‍സിറ്റീവ് ആണ്‌.',
 	'checkuser' => 'ചെക്ക് യൂസര്‍',
+	'checkuser-contribs' => 'ഉപയോക്തൃ ഐ.പി. വിലാസങ്ങൾ പരിശോധിക്കുക',
 	'group-checkuser' => 'ചെക്ക് യൂസര്‍മാര്‍',
 	'group-checkuser-member' => 'ചെക്ക് യൂസര്‍',
 	'right-checkuser' => 'ചെക്ക് യൂസറിന്റെ ഐപി വിലാസവും മറ്റു വിവരങ്ങളും',
+	'right-checkuser-log' => 'ചെക്ക്‌‌യൂസർ രേഖ കാണുക',
 	'grouppage-checkuser' => '{{ns:project}}:ചെക്ക് യൂസര്‍',
 	'checkuser-reason' => 'കാരണം:',
 	'checkuser-showlog' => 'പ്രവര്‍ത്തനരേഖ കാട്ടുക',
@@ -3971,13 +4025,27 @@ $messages['ml'] = array(
 	'checkuser-users' => 'ഉപയോക്താക്കളെ കാട്ടുക',
 	'checkuser-edits' => 'ഐപിയില്‍ നിന്നുള്ള തിരുത്തലുകള്‍ കാട്ടുക',
 	'checkuser-ips' => 'ഐപികളെ കാട്ടുക',
+	'checkuser-account' => 'അംഗത്വത്തിന്റെ തിരുത്തലുകൾ എടുക്കുക',
 	'checkuser-search' => 'തിരയൂ',
+	'checkuser-period' => 'കാലയളവ്:',
+	'checkuser-week-1' => 'കഴിഞ്ഞ ആഴ്‌‌ച്ച',
+	'checkuser-week-2' => 'കഴിഞ്ഞ രണ്ട് ആഴ്ച്ച',
+	'checkuser-month' => 'കഴിഞ്ഞ 30 ദിവസം',
+	'checkuser-all' => 'എല്ലാം',
 	'checkuser-empty' => 'പ്രവര്‍ത്തനരേഖയില്‍ ഇനങ്ങള്‍ ഒന്നുമില്ല',
 	'checkuser-nomatch' => 'ചേര്‍ച്ചയുള്ളതൊന്നും കണ്ടില്ല',
+	'checkuser-nomatch-edits' => 'ഒത്തുപോകുന്നവ കണ്ടെത്താനായില്ല.
+അവസാന തിരുത്തൽ $2 $1-നു ആണ് നടന്നത്.',
 	'checkuser-check' => 'പരിശോധിക്കുക',
 	'checkuser-log-fail' => 'പ്രവര്‍ത്തനരേഖയില്‍ ഇനം ചേര്‍ക്കുന്നതിനു കഴിഞ്ഞില്ല',
 	'checkuser-nolog' => 'പ്രവര്‍ത്തനരേഖ പ്രമാണം കണ്ടില്ല.',
 	'checkuser-blocked' => 'തടയപ്പെട്ടിരിക്കുന്നു',
+	'checkuser-gblocked' => 'ആഗോളമായി തടയപ്പെട്ടിരിക്കുന്നു',
+	'checkuser-locked' => 'പൂട്ടിയിരിക്കുന്നു',
+	'checkuser-wasblocked' => 'മുമ്പേ തടയപ്പെട്ടിരിക്കുന്നു',
+	'checkuser-localonly' => 'സംയോജിതമാക്കപ്പെട്ടിട്ടില്ല',
+	'checkuser-massblock' => 'തിരഞ്ഞെടുത്ത ഉപയോക്താക്കളെ തടയുക',
+	'checkuser-accounts' => 'പുതിയ {{PLURAL:$1|അംഗത്വം|$1അംഗത്വങ്ങൾ}}',
 	'checkuser-too-many' => 'വളരെയധികം ഫലങ്ങള്‍. CIDR ചുരുക്കുക. 
 ഉപയോഗിച്ച IPകള്‍ താഴെ പ്രദര്‍ശിപ്പിച്ചിരിക്കുന്നു (പരമാവധി 5000, വിലാസം അനുസരിച്ച് ക്രമീകരിച്ചത്):',
 	'checkuser-user-nonexistent' => 'ഇങ്ങനൊരു ഉപയോക്താവ് വിക്കിയില്‍ നിലവിലില്ല.',
@@ -3993,6 +4061,8 @@ $messages['ml'] = array(
 	'checkuser-log-ipusers' => '$1നു $2ല്‍ ഉപയോക്താക്കള്‍ ഉണ്ട്',
 	'checkuser-log-ipedits-xff' => '$1നു XFF $2ല്‍ തിരുത്തലുകള്‍ ഉണ്ട്',
 	'checkuser-log-ipusers-xff' => '$1നു XFF $2ല്‍ ഉപയോക്താക്കള്‍ ഉണ്ട്',
+	'checkuser-email-action' => '"$1" എന്ന ഉപയോക്താവിന് ഇമെയിൽ അയച്ചുകഴിഞ്ഞു',
+	'checkuser-reset-action' => '"$1" എന്ന ഉപയോക്താവിന്റെ രഹസ്യവാക്ക് പുനഃക്രമീകരിക്കുക',
 );
 
 /** Mongolian (Монгол)
@@ -4251,6 +4321,7 @@ $messages['nds-nl'] = array(
 	'checkuser-summary' => 'Dit hulpmiddel scant de lieste mit de leste wiezigingen um de IP-adressen weerumme te haolen dee gebruuk bin deur een gebruker of een bewarking/gebrukersgegevens weergeven veur een IP-adres. Gebrukers en bewarkingen kunnen weerummehaold wonnen mit een XFF-IP deur "/xff" an \'t IP-adres toe te voegen. IPv4 (CIDR 16-32) en IPv6 (CIDR 96-128) wonnen ondersteund. Neet meer as 5.000 bewarkingen wonnen eteund vanwegen prestasierejens. Gebruuk dit in overeenstemming mit \'t beleid.',
 	'checkuser-showlog' => 'Logboek bekieken',
 	'checkuser-query' => 'Zeukopdrachte leste wiezigingen',
+	'checkuser-nolog' => 'Gien logboek evunnen.',
 );
 
 /** Dutch (Nederlands)
@@ -4707,7 +4778,7 @@ Adresy IP anonimowych użytkowników będą blokowane na 1 tydzień z wyłączon
 	'checkuser-block-noreason' => 'Należy podać powód blokad.',
 	'checkuser-noreason' => 'Musisz podać powód wykonania zapytania.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nowe konto|nowe konta|nowych kont}}',
-	'checkuser-too-many' => 'Zbyt wiele wyników, ogranicz CIDR.
+	'checkuser-too-many' => 'Zbyt wiele wyników (według szacunku zapytania); ogranicz CIDR.
 Użytych adresów IP jest (nie więcej niż 5000, posortowane według adresu):',
 	'checkuser-user-nonexistent' => 'Taki użytkownik nie istnieje.',
 	'checkuser-search-form' => 'Szukaj wpisów w rejestrze, dla których $1 był $2',
