@@ -1640,6 +1640,7 @@ Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
  * @author Dmcdevit
  * @author Jatrobat
  * @author Lin linao
+ * @author Locos epraix
  * @author Muro de Aguas
  * @author Piolinfax
  * @author Remember the dot
@@ -1702,7 +1703,8 @@ Las direcciones IP serán bloqueadas durante una semana con la creación de cuen
 	'checkuser-block-noreason' => 'Debe dar una razón para los bloqueos.',
 	'checkuser-noreason' => 'Debes dar una razón para esta consulta.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|cuenta nueva|cuentas nuevas}}',
-	'checkuser-too-many' => 'Hay demasiados resultados. Por favor limita el CIDR. Aquí se ven las IPs usadas (máximo 5000, ordenadas según dirección):',
+	'checkuser-too-many' => 'Hay demasiados resultados (estimado), por favor limita el CIDR.
+Aquí se ven las IPs usadas (máximo 5000, ordenadas según dirección):',
 	'checkuser-user-nonexistent' => 'El usuario especificado no existe.',
 	'checkuser-search-form' => 'Encontrar entradas de registros en las que el $1 es $2',
 	'checkuser-search-submit' => 'Buscar',
@@ -2416,6 +2418,7 @@ $messages['haw'] = array(
 /** Hebrew (עברית)
  * @author Amire80
  * @author Rotem Liss
+ * @author YaronSh
  */
 $messages['he'] = array(
 	'checkuser-summary' => 'כלי זה סורק את השינויים האחרונים במטרה למצוא את כתובות ה־IP שהשתמש בהן משתמש מסוים או כדי להציג את כל המידע על המשתמשים שהשתמשו בכתובת IP ועל העריכות שבוצעו ממנה.
@@ -2471,7 +2474,8 @@ $messages['he'] = array(
 	'checkuser-block-noreason' => 'עליכם לתת סיבה לחסימות.',
 	'checkuser-noreason' => 'עליכם לכתוב סיבה לבדיקה זו.',
 	'checkuser-accounts' => '{{PLURAL:$1|חשבון חדש אחד|$1 חשבונות חדשים}}',
-	'checkuser-too-many' => 'נמצאו תוצאות רבות מדי, אנא צמצמו את טווח כתובות ה־IP. להלן כתובת ה־IP שנעשה בהן שימוש (מוצגות 5,000 לכל היותר, וממוינות):',
+	'checkuser-too-many' => 'נמצאו תוצאות רבות מדי, אנא צמצמו את טווח כתובות ה־IP.
+להלן כתובת ה־IP שנעשה בהן שימוש (מוצגות 5,000 לכל היותר, וממוינות לפי כתובת):',
 	'checkuser-user-nonexistent' => 'המשתמש לא נמצא.',
 	'checkuser-search-form' => 'מציאת ערכים ביומן שבהם ה$1 הוא $2',
 	'checkuser-search-submit' => 'חיפוש',
