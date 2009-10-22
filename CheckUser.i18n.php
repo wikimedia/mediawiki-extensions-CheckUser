@@ -2418,6 +2418,7 @@ $messages['haw'] = array(
 /** Hebrew (עברית)
  * @author Amire80
  * @author Rotem Liss
+ * @author Rotemliss
  * @author YaronSh
  */
 $messages['he'] = array(
@@ -2474,8 +2475,8 @@ $messages['he'] = array(
 	'checkuser-block-noreason' => 'עליכם לתת סיבה לחסימות.',
 	'checkuser-noreason' => 'עליכם לכתוב סיבה לבדיקה זו.',
 	'checkuser-accounts' => '{{PLURAL:$1|חשבון חדש אחד|$1 חשבונות חדשים}}',
-	'checkuser-too-many' => 'נמצאו תוצאות רבות מדי, אנא צמצמו את טווח כתובות ה־IP.
-להלן כתובת ה־IP שנעשה בהן שימוש (מוצגות 5,000 לכל היותר, וממוינות לפי כתובת):',
+	'checkuser-too-many' => 'נמצאו תוצאות רבות מדי (לפי הערכה של השאילתה), אנא צמצמו את טווח כתובות ה־IP.
+להלן כתובות ה־IP שנעשה בהן שימוש (מוצגות 5,000 לכל היותר, וממוינות לפי כתובת):',
 	'checkuser-user-nonexistent' => 'המשתמש לא נמצא.',
 	'checkuser-search-form' => 'מציאת ערכים ביומן שבהם ה$1 הוא $2',
 	'checkuser-search-submit' => 'חיפוש',
@@ -4074,6 +4075,7 @@ $messages['ml'] = array(
 	'checkuser-block-failure' => "'''ഒരു ഉപയോക്താവും തടയപ്പെട്ടില്ല.'''",
 	'checkuser-block-limit' => 'നിരവധി ഉപയോക്താക്കളെ തിരഞ്ഞെടുത്തിരിക്കുന്നു.',
 	'checkuser-block-noreason' => 'തടയലിനു ഒരു കാരണം താങ്കൾ നൽകുക.',
+	'checkuser-noreason' => 'ഈ ചോദ്യത്തിനു താങ്കൾ നിർബന്ധമായും കാരണം നൽകേണ്ടതാണ്.',
 	'checkuser-accounts' => 'പുതിയ {{PLURAL:$1|അംഗത്വം|$1അംഗത്വങ്ങൾ}}',
 	'checkuser-too-many' => 'വളരെയധികം ഫലങ്ങള്‍ (ലഭിച്ച ക്വറി അനുസരിച്ച്). CIDR ചുരുക്കുക. 
 ഉപയോഗിച്ച IPകള്‍ താഴെ പ്രദര്‍ശിപ്പിച്ചിരിക്കുന്നു (പരമാവധി 5000, വിലാസം അനുസരിച്ച് ക്രമീകരിച്ചത്):',
@@ -4091,7 +4093,7 @@ $messages['ml'] = array(
 	'checkuser-log-ipusers' => '$1നു $2ല്‍ ഉപയോക്താക്കള്‍ ഉണ്ട്',
 	'checkuser-log-ipedits-xff' => '$1നു XFF $2ല്‍ തിരുത്തലുകള്‍ ഉണ്ട്',
 	'checkuser-log-ipusers-xff' => '$1നു XFF $2ല്‍ ഉപയോക്താക്കള്‍ ഉണ്ട്',
-	'checkuser-log-useredits' => '$1 നടത്തിയ തിരുത്തലുകൾ $1 ശ്രദ്ധിച്ചിരിക്കുന്നു',
+	'checkuser-log-useredits' => '$2 നടത്തിയ തിരുത്തലുകൾ $1 പിടിച്ചിരിക്കുന്നു',
 	'checkuser-autocreate-action' => 'സ്വയം സൃഷ്ടിച്ചതാണ്',
 	'checkuser-email-action' => '"$1" എന്ന ഉപയോക്താവിന് ഇമെയിൽ അയച്ചുകഴിഞ്ഞു',
 	'checkuser-reset-action' => '"$1" എന്ന ഉപയോക്താവിന്റെ രഹസ്യവാക്ക് പുനഃക്രമീകരിക്കുക',
