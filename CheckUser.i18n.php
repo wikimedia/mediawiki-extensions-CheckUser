@@ -6451,7 +6451,7 @@ I indirissi IP i vegnarà blocà par na stimana solo par i utenti anonimi e co' 
 	'checkuser-block-noreason' => 'Ti gà da dar na motivassion par i blochi.',
 	'checkuser-noreason' => 'Te ghè da indicar na motivassion par sta richiesta.',
 	'checkuser-accounts' => '$1 account {{PLURAL:$1|novo|novi}}',
-	'checkuser-too-many' => 'Xe vegnù fora massa risultati, par piaser dòpara un CIDR piassè ristreto.
+	'checkuser-too-many' => 'Vien fora massa risultati (secondo la stima), par piaser dòpara un CIDR piassè ristreto.
 Sti qua i xe i IP doparà (fin a un massimo de 5000, ordinà par indirizo):',
 	'checkuser-user-nonexistent' => "L'utente indicà no l'esiste mìa.",
 	'checkuser-search-form' => 'Cata fora le voçi del registro par le quali $1 el xe $2',
