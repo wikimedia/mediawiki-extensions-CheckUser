@@ -340,7 +340,7 @@ $messages['ar'] = array(
 	'checkuser-block-noreason' => 'يجب أن تعطي سببا لعمليات المنع.',
 	'checkuser-noreason' => 'يجب أن تقدم سببًا لهذا الاستعلام.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|حساب|حساب}} جديد',
-	'checkuser-too-many' => 'نتائج كثيرة جدا، من فضلك قلل الCIDR.
+	'checkuser-too-many' => 'نتائج كثيرة جدا (بناء على استعلام تقريبي)، من فضلك قلل CIDR.
 هذه هي الأيبيهات المستخدمة (5000 كحد أقصى، مرتبة بالعنوان):',
 	'checkuser-user-nonexistent' => 'المستخدم المحدد غير موجود.',
 	'checkuser-search-form' => 'اعثر على مدخلات السجل حيث $1 هو $2',
@@ -1316,6 +1316,11 @@ $messages['de-formal'] = array(
  * @author Xoser
  */
 $messages['diq'] = array(
+	'checkuser-summary' => 'Ena xacet vurnayişanê neweyî skan keno ke adresanê IPyan reyan biyaro ke bimucne datayê karberî ser yew adresê IPyî.
+Karberan u vurnayîşan ke yew IPyê karberî kerd reyna yeno pê XFF u "/xff". IPv4 (CIDR 16-32) u IPv6 (CIDR 96-128) rê zi destek beno. 
+5000 zafyer vurnayîşan sero netice nidano, qe performans hedi beno.
+Ena politika ma ser kar bike.',
+	'checkuser-desc' => 'Karberan rê destur bide ke adresanê IPyan u enformasyonê bînan kontrol bike',
 	'checkuser-logcase' => 'Ena bigêrayîşê logî case sensitive o.',
 	'checkuser' => 'Karber kontrol bike',
 	'checkuser-contribs' => 'Adresê IP yê karberî kontrol bike',
@@ -1339,6 +1344,7 @@ $messages['diq'] = array(
 	'checkuser-week-2' => 'di hefteyê verînî',
 	'checkuser-month' => '30 rocê verînî',
 	'checkuser-all' => 'hemî',
+	'checkuser-cidr-label' => 'Qe yew listeyê IPyanî, yew menzilê ortakî u adresanê IPyanî bivîne',
 	'checkuser-cidr-res' => 'CIDRê muşterekî',
 	'checkuser-empty' => 'Ena log de çik çin o.',
 	'checkuser-nomatch' => 'Çik çin o.',
@@ -1353,6 +1359,8 @@ Vurnayîşê tewr penî seet $1 u rocê $2 de biyo.',
 	'checkuser-wasblocked' => 'Verni de blok biya',
 	'checkuser-localonly' => 'Yew niyo',
 	'checkuser-massblock' => 'Karberê ke ti weçîno înan blok bike',
+	'checkuser-massblock-text' => 'Hesabanê weçineye ebedi blok beno, pê otoblokî a biyo u hesab viraştişî qefilnayo.
+Adresanê IPyan yew hefte blok beno, pê hesab viraştişî qefilnayo.',
 	'checkuser-blocktag' => 'Pelanê karberan pê înan bivurne:',
 	'checkuser-blocktag-talk' => 'Pelanê minaqeşeyî pê înan bivurne:',
 	'checkuser-massblock-commit' => 'Karberê ke ti weçîno înan blok bike',
@@ -1362,6 +1370,8 @@ Vurnayîşê tewr penî seet $1 u rocê $2 de biyo.',
 	'checkuser-block-noreason' => 'Qe blokan, ti gani yew sebeb bide.',
 	'checkuser-noreason' => 'Qe bigêrayîşî, ti gani yew sebeb bide.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|hesab|hesaban}} newî',
+	'checkuser-too-many' => 'Zaf neticiyan esto (ser texminê cigeyrayîşî), şima ra rica keno CIDR qickek bike.
+Tiya de IPyan ke sero kar biyo  (5000 max, pê adresan):',
 	'checkuser-user-nonexistent' => 'Karbero ke ti specife kerd, ay database ma de niesto.',
 	'checkuser-search-form' => 'Entryanê logan ke $1 biy $2, înan bivîne',
 	'checkuser-search-submit' => 'Bigêre',
@@ -4004,8 +4014,8 @@ IP адресите ќе бидат блокирани 1 недела за са�
 	'checkuser-block-noreason' => 'Мора да наведете причина за блокирањата.',
 	'checkuser-noreason' => 'Мора да наведете причина за ова барање.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|нова сметка|нови сметки}}',
-	'checkuser-too-many' => 'Премногу резултати, ограничете го CIDR.
-Еве ги употребените IP адреси (највеќе 5000, подредени по адреса):',
+	'checkuser-too-many' => 'Премногу резултати (според процената на барањето), истенчете го CIDR.
+Еве ги користените IP-адреси (највеќе 5000, сортирани по адреса):',
 	'checkuser-user-nonexistent' => 'Назначениот корисник не постои.',
 	'checkuser-search-form' => 'Пронајди ставки во дневникот каде $1 е $2',
 	'checkuser-search-submit' => 'Пребарај',
