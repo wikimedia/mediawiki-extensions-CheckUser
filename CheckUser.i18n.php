@@ -4362,10 +4362,32 @@ IP-Adressen warrt för IP-Brukers för een Week sperrt un dat Brukerkonto opstel
  * @author Servien
  */
 $messages['nds-nl'] = array(
-	'checkuser-summary' => 'Dit hulpmiddel scant de lieste mit de leste wiezigingen um de IP-adressen weerumme te haolen dee gebruuk bin deur een gebruker of een bewarking/gebrukersgegevens weergeven veur een IP-adres. Gebrukers en bewarkingen kunnen weerummehaold wonnen mit een XFF-IP deur "/xff" an \'t IP-adres toe te voegen. IPv4 (CIDR 16-32) en IPv6 (CIDR 96-128) wonnen ondersteund. Neet meer as 5.000 bewarkingen wonnen eteund vanwegen prestasierejens. Gebruuk dit in overeenstemming mit \'t beleid.',
+	'checkuser-summary' => 'Dit hulpmiddel scant de lieste mit de leste wiezigingen um de IP-adressen weerumme te haolen dee gebruuk bin deur een gebruker of een bewarking/gebrukersgegevens weergeven veur een IP-adres. Gebrukers en bewarkingen kunnen weerummehaold wönnen mit een XFF-IP deur "/xff" an \'t IP-adres toe te voegen. IPv4 (CIDR 16-32) en IPv6 (CIDR 96-128) wönnen ondersteund. Wie laoten neet meer as 5.000 bewarkingen zien vanwegen prestasieredens. Gebruuk dit in overeenstemming mit \'t beleid.',
+	'checkuser-desc' => 'Laot gebrukers mit de beneudigen rechen IP-adressen en aandere infermasie van gebrukers achterhaolen.',
+	'checkuser-logcase' => "De zeukfunctie van 't logboek is heuflettergeveulig",
+	'checkuser' => 'Gebruker naokieken',
+	'checkuser-reason' => 'Reden:',
 	'checkuser-showlog' => 'Logboek bekieken',
+	'checkuser-log' => 'Logboek IP-adrescontreleurs',
 	'checkuser-query' => 'Zeukopdrachte leste wiezigingen',
+	'checkuser-target' => 'Gebruker of IP-adres',
+	'checkuser-users' => 'Gebrukers naokieken',
+	'checkuser-edits' => 'Bewarkingen van IP-adressen naokieken',
+	'checkuser-ips' => 'IP-adressen naokieken',
+	'checkuser-search' => 'Zeuken',
+	'checkuser-empty' => "Der steet gien infermasie in 't logboek.",
+	'checkuser-nomatch' => 'Gien overeenkomsen evunnen.',
+	'checkuser-check' => 'Naokieken',
+	'checkuser-log-fail' => 'Kon gien logboekantekeningen maken',
 	'checkuser-nolog' => 'Gien logboek evunnen.',
+	'checkuser-blocked' => 'Eblokkeerd',
+	'checkuser-too-many' => 'Te veul risseltaoten (volgens de schatting). Maak de IP-reeks kleinder:
+Hieronder staon de gebruken IP-aderssen (maximaal 5.000, op IP-adres econtreleerd):',
+	'checkuser-user-nonexistent' => 'De op-egeven gebruker besteet neet.',
+	'checkuser-search-form' => 'Logboekregels zeuken waor de $1 $2 is',
+	'checkuser-search-submit' => 'Zeuken',
+	'checkuser-search-initiator' => 'anvrager',
+	'checkuser-search-target' => 'onderwarp',
 );
 
 /** Dutch (Nederlands)
