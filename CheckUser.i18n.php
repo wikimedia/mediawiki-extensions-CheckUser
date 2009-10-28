@@ -113,9 +113,11 @@ $messages['qqq'] = array(
 	'checkuser' => 'Check user extension. The name of the special page where checkusers can check the IP addresses of users. The message is used in the list of special pages, and at the top of [[Special:Checkuser]].
 
 {{Identical|Check user}}',
+	'group-checkuser' => '{{Identical|Check user}}',
 	'group-checkuser-member' => '{{Identical|Check user}}',
 	'right-checkuser' => '{{doc-right}}',
 	'right-checkuser-log' => '{{doc-right}}',
+	'grouppage-checkuser' => '{{Identical|Check user}}',
 	'checkuser-reason' => '{{Identical|Reason}}',
 	'checkuser-search' => '{{Identical|Search}}',
 	'checkuser-period' => '{{Identical|Duration}}',
@@ -182,6 +184,7 @@ $messages['af'] = array(
 	'group-checkuser' => 'Kontroleer gebruikers',
 	'group-checkuser-member' => 'kontrolegebruiker',
 	'right-checkuser' => 'Besigtig gebruikers se IP-adresse en ander gegewens',
+	'grouppage-checkuser' => '{{ns:project}}:Kontrolegebruiker',
 	'checkuser-reason' => 'Rede:',
 	'checkuser-showlog' => 'Wys logboek',
 	'checkuser-target' => 'Gebruiker of IP',
