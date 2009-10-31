@@ -812,6 +812,7 @@ IPv4 (CIDR 16-32) এবং IPv6 (CIDR 96-128) এই সরঞ্জামে �
 
 /** Breton (Brezhoneg)
  * @author Fulup
+ * @author Y-M D
  */
 $messages['br'] = array(
 	'checkuser-summary' => "Furchal a ra an ostilh-mañ ar c'hemmoù diwezhañ a-benn klask ar chomlec'h IP implijet gant un implijer bennak, diskouez a ra holl degasadennoù ur chomlec'h IP (ha pa vefe bet enrollet), pe roll ar c'hontoù implijet gant ur chomlec'h IP. Gallout a ra ar c'hontoù hag ar c'hemmoù bezañ kavet gant un IP XFF mard echu gant \"/xff\". Posupl eo implijout ar protokoloù IPv4 (CIDR 16-32) hag IPv6 (CIDR 96-128). Bevennet eo an niver a gemmoù a c'haller lakaat war wel da {{formatnum:5000}} evit abegoù nerzh ar servijer. Grit gant an ostilh-mañ en ur zoujañ d'ar garta implijout.",
@@ -830,6 +831,8 @@ $messages['br'] = array(
 	'checkuser-edits' => "Kavout degasadennoù ar chomlec'h IP",
 	'checkuser-ips' => "Kavout ar chomlec'hioù IP",
 	'checkuser-search' => 'Klask',
+	'checkuser-period' => 'Pad :',
+	'checkuser-all' => 'pep tra',
 	'checkuser-empty' => "N'eus pennad ebet er marilh",
 	'checkuser-nomatch' => "N'eus bet kavet netra.",
 	'checkuser-check' => 'Gwiriañ',
@@ -1543,7 +1546,8 @@ $messages['el'] = array(
 	'checkuser-block-noreason' => 'Πρέπει να αιτιολογήσετε τις φραγές.',
 	'checkuser-noreason' => 'Πρέπει να δώσετε μια αιτία για αυτή την ερώτηση.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|νέος λογαριασμός|νέοι λογαριασμοί}}',
-	'checkuser-too-many' => 'Πάρα πολλά αποτελέσματα, παρακαλούμε στενέψτε το CIDR. Παρακάτω είναι οι διευθύνσεις IP που χρησιμοποιούνται (με ανώτατο όριο τις 5000, ταξινομημένες κατά διεύθυνση):',
+	'checkuser-too-many' => 'Πάρα πολλά αποτελέσματα (σύμφωνα με την εκτίμηση σειράς), παρακαλούμε στενέψτε το CIDR.
+Παρακάτω είναι οι διευθύνσεις IP που χρησιμοποιούνται (με ανώτατο όριο τις 5000, ταξινομημένες κατά διεύθυνση):',
 	'checkuser-user-nonexistent' => 'Ο συγκεκριμένος χρήστης δεν υπάρχει.',
 	'checkuser-search-form' => 'Εύρεση εγγραφών του αρχείου καταγραφής στις οποίες ο $1 είναι $2',
 	'checkuser-search-submit' => 'Αναζήτηση',
@@ -5287,6 +5291,7 @@ L'urteme cangiamende ha state fatte 'u $1 a le $2.",
 /** Russian (Русский)
  * @author EugeneZelenko
  * @author Ferrer
+ * @author Ilya Voyager
  * @author Kaganer
  * @author Lockal
  * @author Putnik
@@ -5295,7 +5300,7 @@ L'urteme cangiamende ha state fatte 'u $1 a le $2.",
  */
 $messages['ru'] = array(
 	'checkuser-summary' => "Данный инструмент может быть использован, чтобы получить IP-адреса, использовавшиеся участником, либо чтобы показать правки/участников, работавших с IP-адреса.
-Правки и пользователи, которые правили с определённого IP-адреса, указанного в X-Forwarded-For, можно получить, добавив префикс <code>/xff</code> к IP-адресу. Поддерживаемые версии IP: 4 (CIDR 16—32) и 6 (CIDR 96—128).
+Правки и пользователи, которые правили с определённого IP-адреса, указанного в X-Forwarded-For, можно получить, добавив постфикс <code>/xff</code> к IP-адресу. Поддерживаемые версии IP: 4 (CIDR 16—32) и 6 (CIDR 96—128).
 Из соображений производительности будут показаны только первые 5000 правок. 
 Используйте эту страницу '''только в соответствии с правилами'''.",
 	'checkuser-desc' => 'Предоставляет возможность проверять IP-адреса и дополнительную информацию участников',
