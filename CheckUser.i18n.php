@@ -1627,7 +1627,7 @@ IP-adresoj estos forbarita 1 semajnon por IP-uzantoj kun kont-kreado malŝaltita
 	'checkuser-block-noreason' => 'Vi devas doni kialon por la forbaroj.',
 	'checkuser-noreason' => 'Vi devas doni kialon por ĉi tiu informomendo.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nova konto|novaj kontoj}}',
-	'checkuser-too-many' => 'Tro da rezultoj. Bonvolu malvastigi la CIDR. 
+	'checkuser-too-many' => 'Tro da rezultoj, laŭ taskoj de serĉomendo. Bonvolu malvastigi la CIDR. 
 Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
 	'checkuser-user-nonexistent' => 'La donata uzanto ne ekzistas.',
 	'checkuser-search-form' => 'Trovi protokolerojn en kiu la $1 estas $2',
@@ -4803,7 +4803,7 @@ Ze względu na wydajność, zostanie zwróconych nie więcej niż 5000 edycji.
 Używaj tego narzędzia zgodnie z zasadami.',
 	'checkuser-desc' => 'Umożliwia uprawnionym użytkownikom sprawdzenie adresów IP użytkowników oraz innych informacji',
 	'checkuser-logcase' => 'Szukanie w rejestrze jest czułe na wielkość znaków.',
-	'checkuser' => 'Sprawdzanie IP użytkownika',
+	'checkuser' => 'Sprawdź IP użytkownika',
 	'checkuser-contribs' => 'sprawdzić adresy IP użytkownika',
 	'group-checkuser' => 'CheckUser',
 	'group-checkuser-member' => 'checkuser',
@@ -4925,6 +4925,7 @@ $messages['ps'] = array(
 
 /** Portuguese (Português)
  * @author 555
+ * @author Hamilton Abreu
  * @author Malafaya
  * @author Sir Lestaty de Lioncourt
  * @author Waldir
@@ -4983,7 +4984,8 @@ Endereços IP serão bloqueados por 1 semana com criação de conta desabilitada
 	'checkuser-block-noreason' => 'Tem de especificar um motivo para os bloqueios.',
 	'checkuser-noreason' => 'Deverá fornecer um motivo para esta pesquisa.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nova conta|novas contas}}',
-	'checkuser-too-many' => 'Demasiados resultados; por favor, restrinja o CIDR. Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
+	'checkuser-too-many' => 'Há demasiados resultados (segundo estimativa de pesquisa); por favor, restrinja o CIDR.
+Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
 	'checkuser-user-nonexistent' => 'O utilizador especificado não existe.',
 	'checkuser-search-form' => 'Procurar entradas no registo onde $1 seja $2',
 	'checkuser-search-submit' => 'Procurar',
