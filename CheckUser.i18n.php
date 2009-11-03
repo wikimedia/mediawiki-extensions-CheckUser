@@ -3083,7 +3083,8 @@ Gli indirizzi IP saranno bloccati per una settimana solo per gli utenti anonimi 
 	'checkuser-block-noreason' => 'È obbligatorio fornire una motivazione per i blocchi.',
 	'checkuser-noreason' => 'È necessario fornire una motivazione per questa query.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nuovo|nuovi}} account',
-	'checkuser-too-many' => 'Il numero di risultati è eccessivo, usare un CIDR più ristretto. Di seguito sono indicati gli indirizzi IP utilizzati (fino a un massimo di 5000, ordinati per indirizzo):',
+	'checkuser-too-many' => 'Troppi risultati (per la query), usa un CIDR più ristretto. 
+Di seguito sono indicati gli indirizzi IP utilizzati (fino a un massimo di 5000, ordinati per indirizzo):',
 	'checkuser-user-nonexistent' => "L'utente indicato non esiste.",
 	'checkuser-search-form' => 'Trova le voci del log per le quali $1 è $2',
 	'checkuser-search-submit' => 'Ricerca',
@@ -4072,6 +4073,7 @@ $messages['ml'] = array(
 	'checkuser-week-2' => 'കഴിഞ്ഞ രണ്ട് ആഴ്ച്ച',
 	'checkuser-month' => 'കഴിഞ്ഞ 30 ദിവസം',
 	'checkuser-all' => 'എല്ലാം',
+	'checkuser-cidr-label' => 'ഐ.പി. വിലാസങ്ങളുടെ പട്ടികയിൽ നിന്നും ബാധകമായ ഐ.പി. വിലാസങ്ങളുടെ സാധാരണ പരിധി കണ്ടെത്തുക',
 	'checkuser-empty' => 'പ്രവര്‍ത്തനരേഖയില്‍ ഇനങ്ങള്‍ ഒന്നുമില്ല',
 	'checkuser-nomatch' => 'ചേര്‍ച്ചയുള്ളതൊന്നും കണ്ടില്ല',
 	'checkuser-nomatch-edits' => 'ഒത്തുപോകുന്നവ കണ്ടെത്താനായില്ല.
@@ -4085,6 +4087,8 @@ $messages['ml'] = array(
 	'checkuser-wasblocked' => 'മുമ്പേ തടയപ്പെട്ടിരിക്കുന്നു',
 	'checkuser-localonly' => 'സംയോജിതമാക്കപ്പെട്ടിട്ടില്ല',
 	'checkuser-massblock' => 'തിരഞ്ഞെടുത്ത ഉപയോക്താക്കളെ തടയുക',
+	'checkuser-massblock-text' => 'സ്വയം തടയൽ ബാധകമായും അംഗത്വ സൃഷ്ടി സാധ്യമല്ലാതെയും തിരഞ്ഞെടുത്ത അംഗത്വങ്ങൾ ക്ലിപ്തമല്ലാത്ത കാലത്തേയ്ക്ക് തടഞ്ഞിരിക്കുന്നു.
+ഐ.പി. വിലാസങ്ങൾ അംഗത്വ സൃഷ്ടി സാധ്യമല്ലാത്ത വിധത്തിൽ ഐ.പി. ഉപയോക്താക്കളെ ഒരു ആഴ്ചത്തേയ്ക്ക് തടഞ്ഞിരിക്കുന്നു.',
 	'checkuser-blocktag' => 'ഉപയോക്തൃതാളുകൾ ഇതുകൊണ്ട് മാറ്റുക:',
 	'checkuser-blocktag-talk' => 'സംവാദം താളുകൾ ഇതുകൊണ്ട് മാറ്റുക:',
 	'checkuser-massblock-commit' => 'തിരഞ്ഞെടുത്ത ഉപയോക്താക്കളെ തടയുക',
