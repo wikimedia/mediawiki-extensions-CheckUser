@@ -811,6 +811,7 @@ IPv4 (CIDR 16-32) এবং IPv6 (CIDR 96-128) এই সরঞ্জামে �
 );
 
 /** Breton (Brezhoneg)
+ * @author Fohanno
  * @author Fulup
  * @author Y-M D
  */
@@ -853,6 +854,7 @@ Setu an IPoù implijet (5000 d'ar muiañ, urzhiet dre ar chomlec'h)",
 	'checkuser-log-ipusers' => '$1 en deus kavet implijerien evit $2',
 	'checkuser-log-ipedits-xff' => '$1 en deus kavet kemmoù evit $2 dre XFF',
 	'checkuser-log-ipusers-xff' => 'Kavet en deus $1 implijerien $2 dre XFF',
+	'checkuser-email-action' => "en deus kaset ur postel d'an implijer « $1 »",
 );
 
 /** Bosnian (Bosanski)
@@ -5344,7 +5346,7 @@ $messages['ru'] = array(
 	'checkuser-nolog' => 'Файл журнала не найден.',
 	'checkuser-blocked' => 'Заблокирован',
 	'checkuser-gblocked' => 'Заблокирован глобально',
-	'checkuser-locked' => 'Лишён доп. возможностей',
+	'checkuser-locked' => 'Глобально закрыт (locked)',
 	'checkuser-wasblocked' => 'Подвергался блокировке',
 	'checkuser-localonly' => 'Не глобальная',
 	'checkuser-massblock' => 'Заблокировать выбранных участников',
