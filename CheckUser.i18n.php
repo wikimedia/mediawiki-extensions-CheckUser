@@ -840,8 +840,10 @@ $messages['br'] = array(
 	'checkuser-log-fail' => "Dibosupl ouzhpennañ ar moned d'ar marilh",
 	'checkuser-nolog' => 'Restr ebet er marilh',
 	'checkuser-blocked' => 'Stanket',
-	'checkuser-too-many' => "Re a zisoc'hoù, strishaat ar CIDR mar plij.
-Setu an IPoù implijet (5000 d'ar muiañ, urzhiet dre ar chomlec'h)",
+	'checkuser-locked' => 'Prennet',
+	'checkuser-block-limit' => 'Re a implijerien diuzet.',
+	'checkuser-too-many' => "Re a zisoc'hoù (hervez istimadur ar reked), strishaat ar CIDR mar plij.
+Setu an IPoù implijet (5000 d'ar muiañ, urzhiet dre ar chomlec'h) :",
 	'checkuser-user-nonexistent' => "N'eus ket eus an implijer merket",
 	'checkuser-search-form' => "Kavout marilh ar monedoù m'eo $1 evit $2",
 	'checkuser-search-submit' => 'Klask',
@@ -1741,7 +1743,7 @@ Aquí se ven las IPs usadas (máximo 5000, ordenadas según dirección):',
 	'checkuser-log-useredits' => '$1 obtuvo las contribuciones de $2',
 	'checkuser-autocreate-action' => 'fue creada automáticamente',
 	'checkuser-email-action' => 'envió correo electrónico al usuario «$1»',
-	'checkuser-reset-action' => 'anular contraseña para el usuario «$1»',
+	'checkuser-reset-action' => 'solicitó un recordatorio de contraseña para el usuario «$1»',
 );
 
 /** Estonian (Eesti)
@@ -5346,7 +5348,7 @@ $messages['ru'] = array(
 	'checkuser-nolog' => 'Файл журнала не найден.',
 	'checkuser-blocked' => 'Заблокирован',
 	'checkuser-gblocked' => 'Заблокирован глобально',
-	'checkuser-locked' => 'Глобально закрыт (locked)',
+	'checkuser-locked' => 'Закрыт',
 	'checkuser-wasblocked' => 'Подвергался блокировке',
 	'checkuser-localonly' => 'Не глобальная',
 	'checkuser-massblock' => 'Заблокировать выбранных участников',
