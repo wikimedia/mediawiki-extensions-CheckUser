@@ -4406,7 +4406,7 @@ Hieronder staon de gebruken IP-aderssen (maximaal 5.000, op IP-adres econtreleer
 );
 
 /** Dutch (Nederlands)
- * @author Erwin85
+ * @author Erwin
  * @author SPQRobin
  * @author Siebrand
  * @author Troefkaart
