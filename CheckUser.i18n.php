@@ -3693,7 +3693,7 @@ es doh och verbodde.',
 	'checkuser-block-noreason' => 'Do moß ävver ene Jrund för et Sperre aanjevve.',
 	'checkuser-noreason' => 'Do moß ene Jrond för hee di Froch aanjävve.',
 	'checkuser-accounts' => '{{PLURAL:$1|Eine|$1|Keine}} neue Metmaacher',
-	'checkuser-too-many' => 'Zoo fill jefonge, beß esu joot un maach dä CIDR kleijner.
+	'checkuser-too-many' => 'Zoo fill jefonge, pä Övverschlaach. Beß esu joot un maach dä CIDR kleijner.
 Hee sin de eetßte 5000 IP-Addresse, zoteeet:',
 	'checkuser-user-nonexistent' => 'Dä Metmaacher jidd_et ja nit.',
 	'checkuser-search-form' => 'Sök noh Enndräsch em Logboch, woh $1 $2 es.',
@@ -4939,9 +4939,11 @@ $messages['ps'] = array(
  * @author Waldir
  */
 $messages['pt'] = array(
-	'checkuser-summary' => 'Esta ferramenta varre as Mudanças recentes para obter os endereços de IP de um utilizador ou para exibir os dados de edições/utilizadores para um IP.
-	Utilizadores edições podem ser obtidos por um IP XFF colocando-se "/xff" no final do endereço. São suportados endereços IPv4 (CIDR 16-32) e IPv6 (CIDR 96-128).
-	Não serão retornadas mais de 5000 edições por motivos de desempenho. O uso desta ferramenta deverá estar de acordo com as políticas.',
+	'checkuser-summary' => 'Esta ferramenta varre as mudanças recentes para obter os endereços IP de um utilizador ou para apresentar os dados de edições/utilizadores para um determinado IP.
+Os utilizadores e edições de um determinado IP, podem ser obtidos através de cabeçalhos XFF, acrescentando "/xff" no final do endereço.
+São suportados endereços IPv4 (CIDR 16-32) e IPv6 (CIDR 96-128).
+Por motivos de desempenho não serão fornecidas mais do que 5000 edições.
+O uso desta ferramenta deverá respeitar as normas e recomendações.',
 	'checkuser-desc' => 'Concede a utilizadores com a permissão apropriada a possibilidade de verificar os endereços IP de um utilizador e outra informação',
 	'checkuser-logcase' => 'As buscas nos registos são sensíveis a letras maiúsculas ou minúsculas.',
 	'checkuser' => 'Verificar utilizador',
@@ -4952,7 +4954,7 @@ $messages['pt'] = array(
 	'right-checkuser-log' => 'Ver os registros das verificações',
 	'grouppage-checkuser' => '{{ns:project}}:CheckUser',
 	'checkuser-reason' => 'Motivo',
-	'checkuser-showlog' => 'Exibir registos',
+	'checkuser-showlog' => 'Mostrar registos',
 	'checkuser-log' => 'Registos de verificação de utilizadores',
 	'checkuser-query' => 'Examinar as Mudanças recentes',
 	'checkuser-target' => 'Utilizador ou IP',
