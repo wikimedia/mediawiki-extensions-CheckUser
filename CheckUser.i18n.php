@@ -311,7 +311,7 @@ $messages['ar'] = array(
 	'checkuser-edits' => 'اعرض التعديلات من الأيبي',
 	'checkuser-ips' => 'اعرض الأيبيهات',
 	'checkuser-account' => 'الحصول على تعديلات الحساب',
-	'checkuser-search' => 'بحث',
+	'checkuser-search' => 'ابحث',
 	'checkuser-period' => 'المدة:',
 	'checkuser-week-1' => 'آخر أسبوع',
 	'checkuser-week-2' => 'آخر أسبوعين',
@@ -4078,6 +4078,7 @@ $messages['ml'] = array(
 	'checkuser-month' => 'കഴിഞ്ഞ 30 ദിവസം',
 	'checkuser-all' => 'എല്ലാം',
 	'checkuser-cidr-label' => 'ഐ.പി. വിലാസങ്ങളുടെ പട്ടികയിൽ നിന്നും ബാധകമായ ഐ.പി. വിലാസങ്ങളുടെ സാധാരണ പരിധി കണ്ടെത്തുക',
+	'checkuser-cidr-res' => 'സാധാരണ CIDR:',
 	'checkuser-empty' => 'പ്രവര്‍ത്തനരേഖയില്‍ ഇനങ്ങള്‍ ഒന്നുമില്ല',
 	'checkuser-nomatch' => 'ചേര്‍ച്ചയുള്ളതൊന്നും കണ്ടില്ല',
 	'checkuser-nomatch-edits' => 'ഒത്തുപോകുന്നവ കണ്ടെത്താനായില്ല.
@@ -4550,8 +4551,8 @@ IP-adresser vil verta blokkerte for éi veka for uregistrerte, med kontooppretti
 	'checkuser-block-noreason' => 'Du må oppgje ei blokkeringsårsak.',
 	'checkuser-noreason' => 'Du må gje opp ei grunngjeving for denne spørjinga.',
 	'checkuser-accounts' => '{{PLURAL:$1|Éin ny konto|$1 nye kontoar}}',
-	'checkuser-too-many' => 'For mange resultat, ver venleg og reduser CIDR.
-Her er IP-ene nytta (høgst 5000, sorterte etter adressa):',
+	'checkuser-too-many' => 'For mange resultat, (i høve til overslag for spørjinga)  ver venleg og reduser CIDR.
+Her er IP-ane nytta (høgst 5000, sorterte etter adressa):',
 	'checkuser-user-nonexistent' => 'Brukarnamnet du oppgav finst ikkje.',
 	'checkuser-search-form' => 'Finn loggelement der $1 er $2',
 	'checkuser-search-submit' => 'Søk',
