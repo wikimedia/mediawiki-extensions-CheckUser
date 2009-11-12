@@ -5735,7 +5735,8 @@ IP адресе ће бити блокиране на недељу дана за
 	'checkuser-block-noreason' => 'Морате дати разлог за блок.',
 	'checkuser-noreason' => 'Морате да наведете разлог за овај упит.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|нови налог|нових налога}}',
-	'checkuser-too-many' => 'Превише резултата; смањи CIDR. Ево списка коришћених ИП адреса (максимално 5000, сортирано по адреси):',
+	'checkuser-too-many' => 'Нађено је превише резултата (према процени захтева). Молимо Вас да сузите CIDR.
+Овде су коришћене IP адресе (највише 5.000, сортираних по адреси):',
 	'checkuser-user-nonexistent' => 'Тражени сарадник не постоји.',
 	'checkuser-search-form' => 'Претрага лога где је $1 једнако $2.',
 	'checkuser-search-submit' => 'Претрага',
@@ -5758,11 +5759,16 @@ IP адресе ће бити блокиране на недељу дана за
 
 /** Serbian Latin ekavian (Srpski (latinica))
  * @author Michaello
+ * @author Михајло Анђелковић
  */
 $messages['sr-el'] = array(
+	'checkuser-summary' => 'Ova alatka pregleda skorašnje izmene i vraća IP adrese koje je korisnik koristio ili pokazuje podatke o korisniku/izmenama za dati IP. Korisnici i izmene klijentskog IP se mogu dobaviti preko XFF zaglavlja dodavanjem "/xff" iza IP. Podržani su formati IPv4 (CIDR 16-32) i IPv6 (CIDR 96-128).
+Zbog performansi neće biti vraćeno više od 5000 izmena.
+Alatku koristite u skladu sa politikom.',
 	'checkuser-desc' => 'Daje saradnicima sa odgovarajućim pravima mogućnost da provere IP adrese saradnika i druge informacije.',
 	'checkuser-logcase' => 'Pretraga loga je osetljiva na mala i velika slova.',
 	'checkuser' => 'Čekjuzer',
+	'checkuser-contribs' => 'Proveri korisnikove IP adrese.',
 	'group-checkuser' => 'Čekjuzeri',
 	'group-checkuser-member' => 'Čekjuzer',
 	'right-checkuser' => 'Proverava saradničke IP adrese i druge informacije.',
@@ -5783,8 +5789,12 @@ $messages['sr-el'] = array(
 	'checkuser-week-2' => 'poslednje dve nedelje',
 	'checkuser-month' => 'poslednjih 30 dana',
 	'checkuser-all' => 'sve',
+	'checkuser-cidr-label' => 'Pronađi uobičajeni opseg i zahvaćene adrese za spisak IP adresa.',
+	'checkuser-cidr-res' => 'Uobičajeni CIDR',
 	'checkuser-empty' => 'Log ne sadrži ništa.',
 	'checkuser-nomatch' => 'Nema pogodaka.',
+	'checkuser-nomatch-edits' => 'Nisu nađena poklapanja.
+Poslednja izmena je bila na $1 u $2.',
 	'checkuser-check' => 'Provera',
 	'checkuser-log-fail' => 'Nije bilo moguće dodati podatak u log.',
 	'checkuser-nolog' => 'Nijedan fajl s logovima nije pronađen.',
@@ -5794,6 +5804,8 @@ $messages['sr-el'] = array(
 	'checkuser-wasblocked' => 'Prethodno blokiran',
 	'checkuser-localonly' => 'Nije unificirano',
 	'checkuser-massblock' => 'Blokiraj izabranog korisnika',
+	'checkuser-massblock-text' => 'Izabrani nalozi će biti blokirani na neodređeno, uz obeležene opcije autoblokiranja i zabrane pravljenja naloga.
+IP adrese će biti blokirane na nedelju dana za IP korisnike, uz zabranu pravljenja naloga.',
 	'checkuser-blocktag' => 'Zameni korisničke stranice sa:',
 	'checkuser-blocktag-talk' => 'Zameni strane za razgovor sa:',
 	'checkuser-massblock-commit' => 'Blokiraj izabranog korisnika',
@@ -5801,8 +5813,10 @@ $messages['sr-el'] = array(
 	'checkuser-block-failure' => "'''Nema blokiranih korisnika.'''",
 	'checkuser-block-limit' => 'Previše korisnika je izabrano.',
 	'checkuser-block-noreason' => 'Morate dati razlog za blok.',
+	'checkuser-noreason' => 'Morate da navedete razlog za ovaj upit.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|novi nalog|novih naloga}}',
-	'checkuser-too-many' => 'Previše rezultata; smanji CIDR. Evo spiska korišćenih IP adresa (maksimalno 5000, sortirano po adresi):',
+	'checkuser-too-many' => 'Nađeno je previše rezultata (prema proceni zahteva). Molimo Vas da suzite CIDR.
+Ovde su korišćene IP adrese (najviše 5.000, sortiranih po adresi):',
 	'checkuser-user-nonexistent' => 'Traženi saradnik ne postoji.',
 	'checkuser-search-form' => 'Pretraga loga gde je $1 jednako $2.',
 	'checkuser-search-submit' => 'Pretraga',
@@ -5811,6 +5825,7 @@ $messages['sr-el'] = array(
 	'checkuser-ipeditcount' => '~$1 od svih saradnika',
 	'checkuser-log-subpage' => 'log',
 	'checkuser-log-return' => 'Povratak na osnovnu formu čekjuzera.',
+	'checkuser-limited' => "'''Ovi rezultati su skraćeni zbog performansi.'''",
 	'checkuser-log-userips' => '$1 je dobio IP adrese za $2',
 	'checkuser-log-ipedits' => '$1 je dobio izmene za $2',
 	'checkuser-log-ipusers' => '$1 je dobio saradnike za $2',
