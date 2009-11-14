@@ -217,7 +217,7 @@ class CheckUser extends SpecialPage
 		global $wgOut;
 		$s = '<fieldset id="mw-checkuser-cidrform" style="display:none; clear:both;">'.
 			'<legend>'.wfMsgHtml('checkuser-cidr-label').'</legend>';
-		$s .= '<textarea id="mw-checkuser-iplist" rows="5" cols="50" onkeyup="updateCIDRresult()" onclick="updateCIDRresult()"></textarea><br/>';
+		$s .= '<textarea id="mw-checkuser-iplist" rows="5" cols="50" onkeyup="updateCIDRresult()" onclick="updateCIDRresult()"></textarea><br />';
 		$s .= wfMsgHtml('checkuser-cidr-res') . '&nbsp;' . 
 			Xml::input( 'mw-checkuser-cidr-res',35,'',array('id'=>'mw-checkuser-cidr-res') ) . 
 			'&nbsp;<strong id="mw-checkuser-ipnote"></strong>';
