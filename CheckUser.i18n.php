@@ -371,6 +371,7 @@ $messages['ar'] = array(
 $messages['arc'] = array(
 	'checkuser-reason' => 'ܥܠܬܐ:',
 	'checkuser-showlog' => 'ܚܘܝ ܣܓܠܐ',
+	'checkuser-all' => 'ܟܠ',
 );
 
 /** Egyptian Spoken Arabic (مصرى)
@@ -2992,7 +2993,12 @@ Alamat-alamat IP akan diblokir selama 1 minggu untuk pengguna anonim dan tidak d
  */
 $messages['io'] = array(
 	'checkuser-reason' => 'Motivo:',
+	'checkuser-target' => 'Uzanto od IP',
+	'checkuser-week-1' => 'lasta semano',
+	'checkuser-week-2' => 'lasta du semani',
+	'checkuser-month' => 'lasta 30 dii',
 	'checkuser-all' => 'omna',
+	'checkuser-cidr-res' => 'Komuna CIDR:',
 	'checkuser-accounts' => '$1 nova {{PLURAL:$1|konto|konti}}',
 	'checkuser-search-submit' => 'Serchar',
 	'checkuser-ipeditcount' => '~$1 di omna uzanti',
