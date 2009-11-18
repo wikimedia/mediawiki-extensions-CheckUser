@@ -4958,7 +4958,7 @@ O uso desta ferramenta deverá respeitar as normas e recomendações.',
 	'group-checkuser' => 'CheckUser',
 	'group-checkuser-member' => 'CheckUser',
 	'right-checkuser' => 'Verificar o endereço IP de um utilizador e outras informações',
-	'right-checkuser-log' => 'Ver os registros das verificações',
+	'right-checkuser-log' => 'Ver o registo das verificações de utilizador',
 	'grouppage-checkuser' => '{{ns:project}}:CheckUser',
 	'checkuser-reason' => 'Motivo',
 	'checkuser-showlog' => 'Mostrar registos',
@@ -5155,9 +5155,13 @@ $messages['rif'] = array(
 	'checkuser-search-submit' => 'Tarzzut',
 );
 
-/** Rhaeto-Romance (Rumantsch) */
+/** Rhaeto-Romance (Rumantsch)
+ * @author Gion-andri
+ */
 $messages['rm'] = array(
-	'checkuser-reason' => 'Motiv',
+	'checkuser-reason' => 'Motiv:',
+	'checkuser-showlog' => 'Mussar il log',
+	'checkuser-target' => "Utilisader u adressa d'IP",
 	'checkuser-search' => 'Tschertgar',
 );
 
