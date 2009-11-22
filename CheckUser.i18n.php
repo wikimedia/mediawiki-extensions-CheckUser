@@ -1683,7 +1683,7 @@ Usa esta herramienta de acuerdo con las políticas correspondientes.',
 	'group-checkuser-member' => 'Verificador de usuarios',
 	'right-checkuser' => 'Comprobar las IPs de los usuarios y obtener otra información relacionada',
 	'right-checkuser-log' => 'Ver el registro de verificación de usuarios',
-	'grouppage-checkuser' => '{{ns:project}}:verificador de usuarios',
+	'grouppage-checkuser' => '{{ns:project}}:Verificador de usuarios',
 	'checkuser-reason' => 'Motivo:',
 	'checkuser-showlog' => 'Ver registro',
 	'checkuser-log' => 'Registro de CheckUser',
@@ -2166,6 +2166,7 @@ $messages['fy'] = array(
 
 /** Irish (Gaeilge)
  * @author Alison
+ * @author Tameamseo
  */
 $messages['ga'] = array(
 	'checkuser-summary' => 'Scanann an uirlis seo na athruithe is déanaí chun na seolaidh IP úsáideoira a fháil ná taispeáin na sonraí eagarthóireachta/úsáideoira don seoladh IP.
@@ -2184,7 +2185,7 @@ Le fáth feidhmiúcháin, ní féidir níos mó ná 5000 eagarthóireachta a tha
 	'checkuser-users' => 'Faigh úsáideoira',
 	'checkuser-edits' => 'Faigh athruithe don seoladh IP seo',
 	'checkuser-ips' => 'Faigh Seolaidh IP',
-	'checkuser-account' => 'Faigh athruithe don cuntas seo',
+	'checkuser-account' => 'Faigh athruithe don chuntas seo',
 	'checkuser-search' => 'Cuardaigh',
 	'checkuser-week-1' => 'an tseachtain seo caite',
 	'checkuser-week-2' => 'dhá sheachtain seo caite',
@@ -2198,7 +2199,7 @@ Le fáth feidhmiúcháin, ní féidir níos mó ná 5000 eagarthóireachta a tha
 	'checkuser-blocked' => 'Cosanta',
 	'checkuser-gblocked' => 'Cosanta domhandach',
 	'checkuser-locked' => 'Glasáilte',
-	'checkuser-massblock' => 'Cur cosc ar na n-úsáideoirí roghnaithe',
+	'checkuser-massblock' => 'Cuir cosc ar na húsáideoirí roghnaithe',
 	'checkuser-massblock-commit' => 'Cur cosc ar na n-úsáideoirí roghnaithe',
 	'checkuser-block-success' => "'''Tá {{PLURAL:$2|an úsáideoir|na n-úsáideoirí}} $1 coiscthe anois.'''",
 	'checkuser-block-failure' => "'''Níl aon úsáideoirí coiscthe.'''",
