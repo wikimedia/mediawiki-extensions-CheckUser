@@ -71,7 +71,8 @@ function efUpdateCheckUserData( $rc ) {
 	// If not, then $rc_comment is the actiontext and comment
 	if( isset($rc_log_type) && $rc_type==RC_LOG ) {
 		$target = Title::makeTitle( $rc_namespace, $rc_title );
-		$actionText = LogPage::actionText( $rc_log_type, $rc_log_action, $target, NULL, LogPage::extractParams($rc_params) );
+		$actionText = LogPage::actionText( $rc_log_type, $rc_log_action, $target,
+			NULL, LogPage::extractParams($rc_params) );
 	} else {
 		$actionText = '';
 	}
