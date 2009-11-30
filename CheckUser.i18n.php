@@ -834,6 +834,9 @@ $messages['br'] = array(
 	'checkuser-ips' => "Kavout ar chomlec'hioù IP",
 	'checkuser-search' => 'Klask',
 	'checkuser-period' => 'Pad :',
+	'checkuser-week-1' => 'Er sizhun ziwezhañ',
+	'checkuser-week-2' => 'en div sizhunvezh ziwezhañ',
+	'checkuser-month' => 'en 30 devezh diwezhañ',
 	'checkuser-all' => 'pep tra',
 	'checkuser-empty' => "N'eus pennad ebet er marilh",
 	'checkuser-nomatch' => "N'eus bet kavet netra.",
@@ -4799,11 +4802,13 @@ $messages['pam'] = array(
 $messages['pdc'] = array(
 	'checkuser-reason' => 'Grund:',
 	'checkuser-target' => 'Yuuser odder IP',
+	'checkuser-search' => 'Uffgucke',
 	'checkuser-week-1' => 'letscht Woch',
 	'checkuser-week-2' => 'letschte zwo Woche',
 	'checkuser-month' => 'letschte 30 Daag',
 	'checkuser-all' => 'all',
 	'checkuser-blocked' => 'aabunne',
+	'checkuser-search-submit' => 'Guck uff',
 );
 
 /** Polish (Polski)
