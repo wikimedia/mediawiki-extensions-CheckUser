@@ -5024,9 +5024,9 @@ Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
 	'checkuser-log-ipedits-xff' => '$1 obteve edições para o XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 obteve utilizadores para o XFF $2',
 	'checkuser-log-useredits' => '$1 obteve edições de $2',
-	'checkuser-autocreate-action' => 'foi automaticamente criada',
-	'checkuser-email-action' => 'Enviar email para o utilizador "$1"',
-	'checkuser-reset-action' => 'suprimir a senha do utilizador "$1"',
+	'checkuser-autocreate-action' => 'foi criada automaticamente',
+	'checkuser-email-action' => 'correio electrónico enviado para o utilizador "$1"',
+	'checkuser-reset-action' => 'foi reiniciada a palavra-chave do utilizador "$1"',
 );
 
 /** Brazilian Portuguese (Português do Brasil)
