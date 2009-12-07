@@ -950,6 +950,7 @@ Ovdje su prikazane korištene IP adrese (najviše 5000, poredano po adresi):',
  * @author Paucabot
  * @author SMP
  * @author Solde
+ * @author Ssola
  * @author Toniher
  */
 $messages['ca'] = array(
@@ -985,7 +986,7 @@ Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Reco
 	'checkuser-empty' => 'El registre no conté entrades.',
 	'checkuser-nomatch' => "No s'han trobat coincidències.",
 	'checkuser-nomatch-edits' => "No s'ha trobat.
-L'última edició va ser el $1 a $2.",
+L'última modificació va ser el $1 a $2.",
 	'checkuser-check' => 'Comprova',
 	'checkuser-log-fail' => "No s'ha pogut afegir al registre",
 	'checkuser-nolog' => "No s'ha trobat el fitxer del registre.",
@@ -5390,7 +5391,7 @@ IP-адреса будут заблокированы на 1 неделю для
 	'checkuser-search-initiator' => 'инициатор',
 	'checkuser-search-target' => 'цель',
 	'checkuser-ipeditcount' => '~$1 от всех участников',
-	'checkuser-log-subpage' => 'Журнал',
+	'checkuser-log-subpage' => 'Log',
 	'checkuser-log-return' => 'Возврат к странице проверки участников',
 	'checkuser-limited' => "'''Результаты были усечены чтобы не создавать дополнительной нагрузки на сервер.'''",
 	'checkuser-log-userips' => '$1 получил IP адреса для $2',
