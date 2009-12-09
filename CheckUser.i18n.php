@@ -845,6 +845,7 @@ $messages['br'] = array(
 	'checkuser-nolog' => 'Restr ebet er marilh',
 	'checkuser-blocked' => 'Stanket',
 	'checkuser-locked' => 'Prennet',
+	'checkuser-block-failure' => '"N\'eus implijer stanket ebet."',
 	'checkuser-block-limit' => 'Re a implijerien diuzet.',
 	'checkuser-too-many' => "Re a zisoc'hoù (hervez istimadur ar reked), strishaat ar CIDR mar plij.
 Setu an IPoù implijet (5000 d'ar muiañ, urzhiet dre ar chomlec'h) :",
@@ -3339,6 +3340,7 @@ $messages['ka'] = array(
 	'checkuser-period' => 'ხანგძლივობა:',
 	'checkuser-all' => 'ყველა',
 	'checkuser-gblocked' => 'გლობალურად ბლოკირებული',
+	'checkuser-locked' => 'დახურვა',
 	'checkuser-accounts' => '$1 ახალი {{PLURAL:$1|ანგარიში|ანგარიშები}}',
 	'checkuser-too-many' => 'ძალიან ბევრი რეზულტატი, გთხოვთ შეავიწროოთ CIDR-ი.
 გამოყენებული IP  (მაქსიმუმ 500 სორტირებულია მისამართის თანახმად)',
