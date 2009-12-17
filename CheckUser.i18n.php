@@ -846,6 +846,7 @@ $messages['br'] = array(
 	'checkuser-nolog' => 'Restr ebet er marilh',
 	'checkuser-blocked' => 'Stanket',
 	'checkuser-locked' => 'Prennet',
+	'checkuser-localonly' => "N'eo ket unvanet",
 	'checkuser-massblock-commit' => 'Stankañ an implijer dibabet',
 	'checkuser-block-success' => "'''Stanket eo an {{PLURAL:$2|implijer|implijerien}} $1 bremañ'''",
 	'checkuser-block-failure' => '"N\'eus implijer stanket ebet."',
@@ -867,6 +868,7 @@ Setu an IPoù implijet (5000 d'ar muiañ, urzhiet dre ar chomlec'h) :",
 	'checkuser-log-ipedits-xff' => '$1 en deus kavet kemmoù evit $2 dre XFF',
 	'checkuser-log-ipusers-xff' => 'Kavet en deus $1 implijerien $2 dre XFF',
 	'checkuser-email-action' => "en deus kaset ur postel d'an implijer « $1 »",
+	'checkuser-reset-action' => 'adderaouekaat ar ger-tremen evit an implijer « $1 »',
 );
 
 /** Bosnian (Bosanski)
