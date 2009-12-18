@@ -4655,7 +4655,8 @@ IP-adresser vil blokkeres i én uke for anonyme brukere, med kontooppretting sl�
 	'checkuser-block-noreason' => 'Du må oppgi en blokkeringsgrunn.',
 	'checkuser-noreason' => 'Du må oppgi en grunn for denne spørringen.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|ny konto|nye kontoer}}',
-	'checkuser-too-many' => 'For mange resultater, vennligst innskrenk CIDR. Her er de brukte IP-ene (maks 5000, sortert etter adresse):',
+	'checkuser-too-many' => 'For mange resultater (ifølge overslag for spørringen), vennligst innskrenk CIDR.
+Her er de brukte IP-ene (maks 5000, sortert etter adresse):',
 	'checkuser-user-nonexistent' => 'Det gitte brukernavnet finnes ikke.',
 	'checkuser-search-form' => 'Finn loggelementer der $1 er $2',
 	'checkuser-search-submit' => 'Søk',
