@@ -3356,6 +3356,9 @@ $messages['ka'] = array(
 	'checkuser-all' => 'ყველა',
 	'checkuser-gblocked' => 'გლობალურად ბლოკირებული',
 	'checkuser-locked' => 'დახურვა',
+	'checkuser-block-limit' => 'არჩეულია ზედმეტად ბევრი მომხმარებელი.',
+	'checkuser-block-noreason' => 'თქვენ უნდა მიუთითოთ ბლოკირების მიზეზი.',
+	'checkuser-noreason' => 'თქვენ უნდა მიუთითოთ მიზეზი ამ შეკითხვისთვის.',
 	'checkuser-accounts' => '$1 ახალი {{PLURAL:$1|ანგარიში|ანგარიშები}}',
 	'checkuser-too-many' => 'ძალიან ბევრი რეზულტატი, გთხოვთ შეავიწროოთ CIDR-ი.
 გამოყენებული IP  (მაქსიმუმ 500 სორტირებულია მისამართის თანახმად)',
