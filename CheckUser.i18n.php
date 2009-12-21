@@ -835,6 +835,7 @@ $messages['br'] = array(
 	'checkuser-users' => 'Kavout an implijerien',
 	'checkuser-edits' => "Kavout degasadennoù ar chomlec'h IP",
 	'checkuser-ips' => "Kavout ar chomlec'hioù IP",
+	'checkuser-account' => 'Gwelet kemmoù ar gont',
 	'checkuser-search' => 'Klask',
 	'checkuser-period' => 'Pad :',
 	'checkuser-week-1' => 'Er sizhun ziwezhañ',
@@ -853,10 +854,14 @@ $messages['br'] = array(
 	'checkuser-wasblocked' => 'Bet stanket a-raok',
 	'checkuser-localonly' => "N'eo ket unvanet",
 	'checkuser-massblock' => 'Stankañ an implijerien dibabet',
+	'checkuser-blocktag' => "Erlec'hiañ ar bajennoù implijer gant :",
+	'checkuser-blocktag-talk' => "Erlec'hiañ ar bajennoù kaozeal gant :",
 	'checkuser-massblock-commit' => 'Stankañ an implijer dibabet',
 	'checkuser-block-success' => "'''Stanket eo an {{PLURAL:$2|implijer|implijerien}} $1 bremañ'''",
 	'checkuser-block-failure' => '"N\'eus implijer stanket ebet."',
 	'checkuser-block-limit' => 'Re a implijerien diuzet.',
+	'checkuser-block-noreason' => "Ret eo deoc'h abegiñ ar stankadennoù.",
+	'checkuser-noreason' => "Ret eo deoc'h abegiñ evit ar reked-mañ.",
 	'checkuser-accounts' => '$1 {{PLURAL:$1|kont|kontoù}} nevez',
 	'checkuser-too-many' => "Re a zisoc'hoù (hervez istimadur ar reked), strishaat ar CIDR mar plij.
 Setu an IPoù implijet (5000 d'ar muiañ, urzhiet dre ar chomlec'h) :",
@@ -1935,6 +1940,7 @@ $messages['fa'] = array(
  * @author Nike
  * @author Str4nd
  * @author Varusmies
+ * @author ZeiP
  */
 $messages['fi'] = array(
 	'checkuser-summary' => 'Tämän työkalun avulla voidaan tutkia tuoreet muutokset ja paljastaa käyttäjien IP-osoitteet tai noutaa IP-osoitteiden muokkaukset ja käyttäjätiedot.
@@ -1989,7 +1995,8 @@ Vain rekisteröimättömien käyttäjien IP-osoitteet estetään yhdeksi viikoks
 	'checkuser-block-noreason' => 'Estoille on annettava syy.',
 	'checkuser-noreason' => 'Sinun tulee antaa syy tälle kyselylle.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|uusi tunnus|uutta tunnusta}}',
-	'checkuser-too-many' => 'Liian monta tulosta, rajoita IP-osoitetta:',
+	'checkuser-too-many' => 'Liian monta tulosta (kyselyarvion mukaan), pienennä CIDR-aluetta.
+Käytetyt IP:t (enintään 5000, järjestetty osoitteen mukaan):',
 	'checkuser-user-nonexistent' => 'Määritettyä käyttäjää ei ole olemassa.',
 	'checkuser-search-form' => 'Etsi lokimerkintöjä, joissa $1 on $2',
 	'checkuser-search-submit' => 'Hae',
