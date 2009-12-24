@@ -344,7 +344,7 @@ class CheckUser extends SpecialPage
 		if( !$dbr->numRows( $ret ) ) {
 			$s = $this->noMatchesMessage($user)."\n";
 		} else {
-			$blockip = SpecialPage::getTitleFor( 'blockip' );
+			$blockip = SpecialPage::getTitleFor( 'Blockip' );
 			$ips_edits = array();
 			$counter = 0;
 			while( $row = $dbr->fetchObject($ret) ) {
