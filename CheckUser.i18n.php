@@ -4934,6 +4934,7 @@ Użytych adresów IP jest (nie więcej niż 5000, posortowane według adresu):',
 );
 
 /** Piedmontese (Piemontèis)
+ * @author Borichèt
  * @author Bèrto 'd Sèra
  * @author Dragonòt
  */
@@ -4948,7 +4949,7 @@ $messages['pms'] = array(
 	'group-checkuser' => 'Controlor',
 	'group-checkuser-member' => 'Controlor',
 	'right-checkuser' => "Contròla l'adrëssa IP ëd l'utent e àutre anformassion",
-	'right-checkuser-log' => 'Varda ël registr dël checkuser',
+	'right-checkuser-log' => 'Varda ël registr dël controlor',
 	'grouppage-checkuser' => "{{ns:project}}:Contròl dj'utent",
 	'checkuser-reason' => 'Rason:',
 	'checkuser-showlog' => 'Smon ël registr',
@@ -4969,47 +4970,47 @@ $messages['pms'] = array(
 	'checkuser-cidr-res' => 'CIDR comun:',
 	'checkuser-empty' => "Ës registr-sì a l'é veujd.",
 	'checkuser-nomatch' => 'A-i é pa gnun-a ròba parej.',
-	'checkuser-nomatch-edits' => "Pa gnun arzultà trovà.
-L'ultima modìfica a l'era ël $1 a $2.",
+	'checkuser-nomatch-edits' => "Gnun arzultà trovà.
+L'ùltima modìfica a l'era ël $1 a $2.",
 	'checkuser-check' => 'Contròl',
 	'checkuser-log-fail' => 'I-i la fom nen a gionte-ie na riga ant sël registr',
 	'checkuser-nolog' => "Pa gnun registr ch'a sia trovasse.",
 	'checkuser-blocked' => 'Blocà',
 	'checkuser-gblocked' => 'Blocà globalment',
-	'checkuser-locked' => 'Fërmà',
+	'checkuser-locked' => 'Sarà',
 	'checkuser-wasblocked' => 'Blocà già prima',
 	'checkuser-localonly' => 'Pa unificà',
 	'checkuser-massblock' => "Blòca j'utent selessionà",
-	'checkuser-massblock-text' => "Ij cont selessionà a saran blocà për sempe, con blòch automàtich abilità e creassion ëd cont disabilità.
-J'adrësse IP a saran blocà për 1 sman-a mach për j'adrësse IP e con creaddion ëd cont disabilità.",
+	'checkuser-massblock-text' => "Ij cont selessionà a saran blocà për sempe, con blocagi automàtich abilità e creassion ëd cont disabilità.
+J'adrësse IP a saran blocà për 1 sman-a mach për j'adrësse IP e con creassion ëd cont disabilità.",
 	'checkuser-blocktag' => 'Rimpiassa le pàgine utent con:',
-	'checkuser-blocktag-talk' => 'Rimpiassa le pàgine ëd discussion con:',
+	'checkuser-blocktag-talk' => 'Rimpiassa le pàgine ëd ciaciarada con:',
 	'checkuser-massblock-commit' => "Blòca j'utent selessionà",
 	'checkuser-block-success' => "'''{{PLURAL:$2|L'utent|J'utent}} $1 {{PLURAL:$2|a l'é|a son}} adess blocà.'''",
 	'checkuser-block-failure' => "'''Pa gnun utent blocà.'''",
 	'checkuser-block-limit' => 'Tròpi utent selessionà.',
-	'checkuser-block-noreason' => 'It deuve dé na rason për ij blòch.',
-	'checkuser-noreason' => 'It deuve dé na rason për sta query.',
+	'checkuser-block-noreason' => 'It deve dé na rason për ij blocagi.',
+	'checkuser-noreason' => 'It deve dé na rason për costa arcesta.',
 	'checkuser-accounts' => '$1 neuv {{PLURAL:$1|cont|cont}}',
-	'checkuser-too-many' => "Tròpi arzultà (për la stima dla query), për piasì strenz ël CIDR.
+	'checkuser-too-many' => "Tròpi arzultà (scond la stima dl'arcesta), për piasì strenz ël CIDR.
 Sì a-i son j'IP dovrà (5000 al pi, ordinà për adrëssa):",
 	'checkuser-user-nonexistent' => "L'utent specificà a esist pa.",
-	'checkuser-search-form' => "Treuva j'intrà dël registr an dova $1 a l'é $2",
+	'checkuser-search-form' => "Treuva j'intrade dël registr andoa $1 a l'é $2",
 	'checkuser-search-submit' => 'Serca',
 	'checkuser-search-initiator' => 'inissiador',
 	'checkuser-search-target' => 'obietiv',
 	'checkuser-ipeditcount' => "~$1 da tùit j'utent",
 	'checkuser-log-subpage' => 'Registr',
-	'checkuser-log-return' => 'Torna a la forma prinsipal dël CheckUser',
+	'checkuser-log-return' => "Torna a la forma prinsipal dël Controlor dj'utent",
 	'checkuser-limited' => "'''Sti arzultà-sì a son ëstàit troncà për rason ëd prestassion.'''",
 	'checkuser-log-userips' => "$1 a l'ha pijà j'adrësse IP da $2",
 	'checkuser-log-ipedits' => "$1 a l'ha pijà le modìfiche për $2",
 	'checkuser-log-ipusers' => "$1 a l'ha pijà j'utent për $2",
 	'checkuser-log-ipedits-xff' => "$1 a l'ha pijà le modìfiche për XFF $2",
 	'checkuser-log-ipusers-xff' => "$1 a l'ha pijà j'utent për XFF $2",
-	'checkuser-log-useredits' => "$1 a l'ha pijà modìfiche për $2",
+	'checkuser-log-useredits' => "$1 a l'ha otnù le modìfiche për $2",
 	'checkuser-autocreate-action' => "a l'é stàit creà automaticament",
-	'checkuser-email-action' => 'manda n\'email a l\'utent "$1"',
+	'checkuser-email-action' => 'a l\'ha mandà un mëssagi ëd pòsta eletrònica a l\'utent "$1"',
 	'checkuser-reset-action' => 'torna amposté la ciav për l\'utent "$1"',
 );
 
@@ -6332,6 +6333,24 @@ $messages['tk'] = array(
 	'checkuser-showlog' => 'Gündeligi görkez',
 	'checkuser-target' => 'Ulanyjy ýa-da IP adresi',
 	'checkuser-search' => 'Gözle',
+	'checkuser-period' => 'Dowamlylyk:',
+	'checkuser-week-1' => 'soňky hepde',
+	'checkuser-week-2' => 'soňky iki hepde',
+	'checkuser-month' => 'soňky 30 gün',
+	'checkuser-all' => 'ählisi',
+	'checkuser-blocked' => 'Blokirlendi',
+	'checkuser-gblocked' => 'Global blokirlendi',
+	'checkuser-locked' => 'Gulply',
+	'checkuser-wasblocked' => 'Ozaldan blokirlenen',
+	'checkuser-massblock' => 'Saýlanylan ulanyjylary blokirle',
+	'checkuser-blocktag' => 'Ulanyjy sahypalaryny şuňa çalşyr:',
+	'checkuser-blocktag-talk' => 'Pikir alyşma sahypalaryny şuňa çalşyr:',
+	'checkuser-massblock-commit' => 'Saýlanylan ulanyjylary blokirle',
+	'checkuser-block-success' => "'''$1 {{PLURAL:$2|ulanyjy|ulanyjy}} indi blokirlendi.'''",
+	'checkuser-block-failure' => "'''Hiç bir ulanyjy blokirlenmedi.'''",
+	'checkuser-block-limit' => 'Aşa köp ulanyjy saýlanyldy.',
+	'checkuser-search-submit' => 'Gözle',
+	'checkuser-log-subpage' => 'Gündelik',
 );
 
 /** Tagalog (Tagalog)
@@ -6508,6 +6527,7 @@ Kullanılan IP'ler (max 5000, adrese göre sıralı):",
 /** Ukrainian (Українська)
  * @author AS
  * @author Ahonc
+ * @author Prima klasy4na
  */
 $messages['uk'] = array(
 	'checkuser-summary' => 'Цей засіб переглядає нові редагування для отримання IP-адрес, які використовував певний користувач, або щоб знайти редагування/користувача за IP-адресою.
@@ -6560,6 +6580,7 @@ IP-адреси користувачів, які не увійшли до сис
 	'checkuser-block-failure' => "'''Немає заблокованих користувачів.'''",
 	'checkuser-block-limit' => 'Вибрано забагато користувачів.',
 	'checkuser-block-noreason' => 'Ви повинні вказати причину блокувань.',
+	'checkuser-noreason' => 'Вам необхідно вказати причину цього запиту.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|новий обліковий запис|нові облікові записи|нових облікових записів}}',
 	'checkuser-too-many' => 'Забагато результатів. Будь ласка, звузьте CIDR.
 Використані IP (максимум 5000, відсортовано за адресою):',
@@ -6914,6 +6935,7 @@ $messages['yue'] = array(
 );
 
 /** Simplified Chinese (‪中文(简体)‬)
+ * @author Gaoxuewei
  * @author Gzdavidwong
  * @author Jimmy xu wrk
  * @author PhiLiP
@@ -6963,7 +6985,7 @@ $messages['zh-hans'] = array(
 	'checkuser-blocktag' => '替换用户页内容：',
 	'checkuser-blocktag-talk' => '替换讨论页内容：',
 	'checkuser-massblock-commit' => '封禁选中用户',
-	'checkuser-block-success' => "'''用户$1已被封禁。'''",
+	'checkuser-block-success' => "'''{{PLURAL:$2|用户|用户}} $1 {{PLURAL:$2|已被|已被}} 封禁。'''",
 	'checkuser-block-failure' => "'''未有用户被封禁。'''",
 	'checkuser-block-limit' => '选中用户数量过多。',
 	'checkuser-block-noreason' => '你必须解释此次封禁的原因。',
