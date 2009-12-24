@@ -2,11 +2,16 @@
 /**
  * Internationalisation file for CheckUser extension.
  *
- * @addtogroup Extensions
-*/
+ * @file
+ * @ingroup Extensions
+ */
 
 $messages = array();
 
+/** English
+ * @author Tim Starling
+ * @author Aaron Schulz
+ */
 $messages['en'] = array(
 	'checkuser-summary'          => 'This tool scans recent changes to retrieve the IP addresses used by a user or show the edit/user data for an IP address.
 Users and edits by a client IP can be retrieved via XFF headers by appending the IP with "/xff". IPv4 (CIDR 16-32) and IPv6 (CIDR 96-128) are supported.
@@ -19,13 +24,13 @@ Use this in accordance with policy.',
 	'group-checkuser'            => 'Check users',
 	'group-checkuser-member'     => 'Check user',
 	'right-checkuser'            => "Check user's IP addresses and other information",
-	'right-checkuser-log'        => "View the checkuser log",
+	'right-checkuser-log'        => 'View the checkuser log',
 	'grouppage-checkuser'        => '{{ns:project}}:Check user',
 	'checkuser-reason'           => 'Reason:',
 	'checkuser-showlog'          => 'Show log',
 	'checkuser-log'              => 'CheckUser log',
 	'checkuser-query'            => 'Query recent changes',
-	'checkuser-target'           => 'User or IP',
+	'checkuser-target'           => 'User or IP:',
 	'checkuser-users'            => 'Get users',
 	'checkuser-edits'            => 'Get edits from IP',
 	'checkuser-ips'              => 'Get IP addresses',
@@ -72,7 +77,7 @@ Here are the IPs used (5000 max, sorted by address):',
 	'checkuser-ipeditcount'      => '~$1 from all users',
 	'checkuser-log-subpage'      => 'Log',
 	'checkuser-log-return'       => 'Return to CheckUser main form',
-	
+
 	'checkuser-limited'          => '\'\'\'These results have been truncated for performance reasons.\'\'\'',
 
 	'checkuser-log-userips'      => '$1 got IP addresses for $2',
@@ -81,11 +86,11 @@ Here are the IPs used (5000 max, sorted by address):',
 	'checkuser-log-ipedits-xff'  => '$1 got edits for XFF $2',
 	'checkuser-log-ipusers-xff'  => '$1 got users for XFF $2',
 	'checkuser-log-useredits'    => '$1 got edits for $2',
-	
+
 	'checkuser-autocreate-action' => 'was automatically created',
 	'checkuser-email-action'     => 'sent an email to user "$1"',
 	'checkuser-reset-action'     => 'reset password for user "$1"',
-	
+
 	'checkuser-toollinks'        => '<span class="plainlinks">[[http://openrbl.org/query?$1 RDNS] ·
 [http://www.robtex.com/rbls/$1.html RBLs] ·
 [http://www.dnsstuff.com/tools/tracert.ch?ip=$1 Traceroute] ·
