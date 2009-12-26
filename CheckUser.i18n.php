@@ -385,7 +385,7 @@ $messages['arc'] = array(
  * @author Ramsis II
  */
 $messages['arz'] = array(
-	'checkuser-summary' => 'الوسيلة دى بتدور فى احدث التغييرات علشان ترجع الايبيهات اللى استعملها يوزر او علشان تعرض بيانات التعديل/اليوزر لعنوان الاى بي.
+	'checkuser-summary' => 'الوسيلة دى بتدور فى احدث التغييرات علشان ترجع الايبيهات اللى استعملها يوزر او علشان تعرض بيانات التعديل/اليوزر لعنوان الاى بى.
 اليوزرز و التعديلات اللى اتعملت من أى بى عميل ممكن تترجع عن طريق عناوين XFF لو زودت على الاى بى "/xff". 
 IPv4 (CIDR 16-32) و IPv6 (CIDR 96-128) مدعومين.
 مش اكتر من 5000 تعديل ممكن تتعرض بسبب الاداء.
@@ -428,12 +428,12 @@ IPv4 (CIDR 16-32) و IPv6 (CIDR 96-128) مدعومين.
 	'checkuser-wasblocked' => 'اتمنع قبل كدا',
 	'checkuser-localonly' => 'مش متوحد',
 	'checkuser-massblock' => 'امنع اليوزرز اللى اخترتهم.',
-	'checkuser-massblock-text' => 'الحسابات اللى انت اختارتها ح يتمنعو على طول،مش ح يقدرو يفتحو حسابات و ح يتمنعو اوتوماتيكي.
+	'checkuser-massblock-text' => 'الحسابات اللى انت اختارتها ح يتمنعو على طول،مش ح يقدرو يفتحو حسابات و ح يتمنعو اوتوماتيكى.
 عناوين الاى بى ح تتمنع لمدة اسبوع واحد بالنسبة للى بيستعملو الاى بى و مش ح يقدرو يفتحو حسابات.',
 	'checkuser-blocktag' => 'بدل صفحات اليوزرز بـ:',
 	'checkuser-blocktag-talk' => 'بدل صفحة النقاش ب',
 	'checkuser-massblock-commit' => 'امنع اليوزرز اللى اخترتهم',
-	'checkuser-block-success' => "'''الـ {{PLURAL:$2|يوزر|يوزرز}} $1 {{PLURAL:$2|بقى ممنوع|بقو ممنوعين}} دلوقتي.'''",
+	'checkuser-block-success' => "'''الـ {{PLURAL:$2|يوزر|يوزرز}} $1 {{PLURAL:$2|بقى ممنوع|بقو ممنوعين}} دلوقتى.'''",
 	'checkuser-block-failure' => "'''مافيش يوزرز ممنوعين'''",
 	'checkuser-block-limit' => 'انت اخترت يوزرز كتار جدا.',
 	'checkuser-block-noreason' => 'لازم تدى سبب لعمليات المنع.',
@@ -847,6 +847,8 @@ $messages['br'] = array(
 	'checkuser-week-2' => 'en div sizhunvezh ziwezhañ',
 	'checkuser-month' => 'en 30 devezh diwezhañ',
 	'checkuser-all' => 'pep tra',
+	'checkuser-cidr-label' => "Klask ul lijorenn boutin hag ar chomlerc'hioù lakaet evit ur roll chomlec'hioù IP",
+	'checkuser-cidr-res' => 'Lijorenn CIDR boutin :',
 	'checkuser-empty' => "N'eus pennad ebet er marilh",
 	'checkuser-nomatch' => "N'eus bet kavet netra.",
 	'checkuser-nomatch-edits' => "N'eobet kavet reveziadenn ebet. Ar c'hemm diwezhañ a oa d'an $1 da $2.",
@@ -859,6 +861,8 @@ $messages['br'] = array(
 	'checkuser-wasblocked' => 'Bet stanket a-raok',
 	'checkuser-localonly' => "N'eo ket unvanet",
 	'checkuser-massblock' => 'Stankañ an implijerien dibabet',
+	'checkuser-massblock-text' => "Ar gontoù dibabet a vo stanket da viken, gant ar stankadur emgefre gweredekaat ha krouidigezh ur gont diweredekaat.
+Ar chomlec'hioù IP a vo stanket e-pad ur sizhunvezh hepken evit an implijerien a ra gant an IP ha krouidigezh ur gont a vo diweredekaat.",
 	'checkuser-blocktag' => "Erlec'hiañ ar bajennoù implijer gant :",
 	'checkuser-blocktag-talk' => "Erlec'hiañ ar bajennoù kaozeal gant :",
 	'checkuser-massblock-commit' => 'Stankañ an implijer dibabet',
@@ -878,6 +882,7 @@ Setu an IPoù implijet (5000 d'ar muiañ, urzhiet dre ar chomlec'h) :",
 	'checkuser-ipeditcount' => '~$1 eus an holl implijerien',
 	'checkuser-log-subpage' => 'Marilh',
 	'checkuser-log-return' => "Distreiñ da furmskrid pennañ ar c'hontrolliñ implijerien",
+	'checkuser-limited' => "'''An disoc'hoù-mañ a zo bet troc'het evit abegoù liammet gant an efedusted.'''",
 	'checkuser-log-userips' => '$1 en deus kavet IPoù evit $2',
 	'checkuser-log-ipedits' => '$1 en deus kavet kemmoù evit $2',
 	'checkuser-log-ipusers' => '$1 en deus kavet implijerien evit $2',
@@ -3576,9 +3581,11 @@ $messages['km'] = array(
 
 /** Kannada (ಕನ್ನಡ)
  * @author HPNadig
+ * @author Nayvik
  */
 $messages['kn'] = array(
 	'checkuser' => 'ಸದಸ್ಯನನ್ನು ಚೆಕ್ ಮಾಡಿ',
+	'checkuser-reason' => 'ಕಾರಣ:',
 );
 
 /** Korean (한국어)
@@ -6329,19 +6336,42 @@ $messages['th'] = array(
  * @author Hanberke
  */
 $messages['tk'] = array(
+	'checkuser-logcase' => 'Gündelik gözlegi baş-setir harpa duýgurdyr.',
+	'checkuser' => 'Ulanyjy barla',
+	'checkuser-contribs' => 'ulanyjy IP adreslerini barla',
+	'group-checkuser' => 'Ulanyjy barlaýjylary',
+	'group-checkuser-member' => 'Ulanyjy barlaýjysy',
+	'right-checkuser' => 'Ulanyjylaryň IP adreslerini we baş maglumatlaryny barla',
+	'right-checkuser-log' => 'Ulanyjy barlaýjysy gündeligini görkez',
+	'grouppage-checkuser' => '{{ns:project}}:Ulanyjy barlaýjysy',
 	'checkuser-reason' => 'Sebäp:',
 	'checkuser-showlog' => 'Gündeligi görkez',
+	'checkuser-log' => 'Ulanyjy barlaýjysy gündeligi',
+	'checkuser-query' => 'Soňky üýtgeşmeleri sora',
 	'checkuser-target' => 'Ulanyjy ýa-da IP adresi',
+	'checkuser-users' => 'Ulanyjylary al',
+	'checkuser-edits' => 'IP-den özgerdişleri al',
+	'checkuser-ips' => 'IP adreslerini al',
+	'checkuser-account' => 'Hasap özgerdişlerini al',
 	'checkuser-search' => 'Gözle',
 	'checkuser-period' => 'Dowamlylyk:',
 	'checkuser-week-1' => 'soňky hepde',
 	'checkuser-week-2' => 'soňky iki hepde',
 	'checkuser-month' => 'soňky 30 gün',
 	'checkuser-all' => 'ählisi',
+	'checkuser-cidr-res' => 'Umumy CIDR:',
+	'checkuser-empty' => 'Gündelikde hiç zat ýok.',
+	'checkuser-nomatch' => 'Gabat gelýän zat tapylmady.',
+	'checkuser-nomatch-edits' => 'Gabat gelýän zat tapylmady.
+Soňky özgerdiş $2, $1 senesinde.',
+	'checkuser-check' => 'Barla',
+	'checkuser-log-fail' => 'Gündelik girişini goşup bolmaýar',
+	'checkuser-nolog' => 'Hiç hili gündelik faýly tapylmady.',
 	'checkuser-blocked' => 'Blokirlendi',
 	'checkuser-gblocked' => 'Global blokirlendi',
 	'checkuser-locked' => 'Gulply',
 	'checkuser-wasblocked' => 'Ozaldan blokirlenen',
+	'checkuser-localonly' => 'Birleşdirilmedik',
 	'checkuser-massblock' => 'Saýlanylan ulanyjylary blokirle',
 	'checkuser-blocktag' => 'Ulanyjy sahypalaryny şuňa çalşyr:',
 	'checkuser-blocktag-talk' => 'Pikir alyşma sahypalaryny şuňa çalşyr:',
@@ -6350,7 +6380,17 @@ $messages['tk'] = array(
 	'checkuser-block-failure' => "'''Hiç bir ulanyjy blokirlenmedi.'''",
 	'checkuser-block-limit' => 'Aşa köp ulanyjy saýlanyldy.',
 	'checkuser-search-submit' => 'Gözle',
+	'checkuser-ipeditcount' => 'ähli ulanyjylardan ~$1',
 	'checkuser-log-subpage' => 'Gündelik',
+	'checkuser-log-userips' => '$1, $2 üçin IP adresleri aldy',
+	'checkuser-log-ipedits' => '$1, $2 üçin özgerdişleri aldy',
+	'checkuser-log-ipusers' => '$1, $2 üçin ulanyjylary aldy',
+	'checkuser-log-ipedits-xff' => '$1, XFF $2 üçin özgerdişleri aldy',
+	'checkuser-log-ipusers-xff' => '$1, XFF $2 üçin ulanyjylary aldy',
+	'checkuser-log-useredits' => '$1, $2 üçin özgerdişleri aldy',
+	'checkuser-autocreate-action' => 'awtomatik döredildi',
+	'checkuser-email-action' => '"$1" ulanyjysyna e-poçta iberdi',
+	'checkuser-reset-action' => '"$1" ulanyjysy üçin paroly başky ýagdaýa getirdi',
 );
 
 /** Tagalog (Tagalog)
@@ -6527,6 +6567,7 @@ Kullanılan IP'ler (max 5000, adrese göre sıralı):",
 /** Ukrainian (Українська)
  * @author AS
  * @author Ahonc
+ * @author NickK
  * @author Prima klasy4na
  */
 $messages['uk'] = array(
@@ -6580,10 +6621,10 @@ IP-адреси користувачів, які не увійшли до сис
 	'checkuser-block-failure' => "'''Немає заблокованих користувачів.'''",
 	'checkuser-block-limit' => 'Вибрано забагато користувачів.',
 	'checkuser-block-noreason' => 'Ви повинні вказати причину блокувань.',
-	'checkuser-noreason' => 'Вам необхідно вказати причину цього запиту.',
+	'checkuser-noreason' => 'Вам необхідно зазначити причину цього запиту.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|новий обліковий запис|нові облікові записи|нових облікових записів}}',
-	'checkuser-too-many' => 'Забагато результатів. Будь ласка, звузьте CIDR.
-Використані IP (максимум 5000, відсортовано за адресою):',
+	'checkuser-too-many' => 'Забагато результатів (згідно з оцінкою запиту), будь ласка, звузьте CIDR.
+Використані IP (максимум 5000, відсортовані за адресою):',
 	'checkuser-user-nonexistent' => 'Зазначений користувач не існує.',
 	'checkuser-search-form' => 'Знайти записи журналу, де $1 є $2',
 	'checkuser-search-submit' => 'Знайти',
@@ -7014,6 +7055,7 @@ $messages['zh-hans'] = array(
 
 /** Traditional Chinese (‪中文(繁體)‬)
  * @author Alexsh
+ * @author Liangent
  * @author Wrightbus
  */
 $messages['zh-hant'] = array(
@@ -7021,9 +7063,11 @@ $messages['zh-hant'] = array(
 	'checkuser-desc' => '讓授權的使用者檢查使用者的IP位址及其他資訊',
 	'checkuser-logcase' => '搜尋時請注意大小寫的區分',
 	'checkuser' => '核對用戶',
+	'checkuser-contribs' => '核查用戶IP地址',
 	'group-checkuser' => '用戶查核',
 	'group-checkuser-member' => '用戶查核',
 	'right-checkuser' => '查核用戶的IP地址以及其它的資料',
+	'right-checkuser-log' => '查看帳戶核查日誌',
 	'grouppage-checkuser' => '{{ns:project}}:用戶查核',
 	'checkuser-reason' => '理由',
 	'checkuser-showlog' => '顯示記錄',
@@ -7033,19 +7077,34 @@ $messages['zh-hant'] = array(
 	'checkuser-users' => '查詢用戶名稱',
 	'checkuser-edits' => '從IP位址查詢編輯記錄',
 	'checkuser-ips' => '查詢IP位址',
+	'checkuser-account' => '獲取帳戶編輯',
 	'checkuser-search' => '搜尋',
+	'checkuser-period' => '期限：',
 	'checkuser-week-1' => '一星期內',
 	'checkuser-week-2' => '兩星期內',
 	'checkuser-month' => '30天內',
 	'checkuser-all' => '全部',
+	'checkuser-cidr-label' => '檢查指定IP列表的共同區段',
+	'checkuser-cidr-res' => '通用CIDR：',
 	'checkuser-empty' => '記錄裡沒有資料。',
 	'checkuser-nomatch' => '沒有符合的資訊',
+	'checkuser-nomatch-edits' => '找不到匹配項目。最近一次編輯於$1$2。',
 	'checkuser-check' => '查詢',
 	'checkuser-log-fail' => '無法更新記錄。',
 	'checkuser-nolog' => '找不到記錄檔',
 	'checkuser-blocked' => '已經查封',
+	'checkuser-gblocked' => '全域封禁',
 	'checkuser-locked' => '已鎖定',
+	'checkuser-wasblocked' => '曾封禁',
+	'checkuser-localonly' => '未統一',
+	'checkuser-massblock' => '封禁選中用戶',
+	'checkuser-massblock-text' => '被選中的帳戶將被施以無限期封禁，並啟用自動封禁、禁止帳戶創建。被選中的IP地址將被封禁一周，僅針對IP用戶且禁止帳戶創建。',
+	'checkuser-blocktag' => '替換用戶頁內容：',
+	'checkuser-blocktag-talk' => '替換討論頁內容：',
+	'checkuser-massblock-commit' => '封禁選中用戶',
+	'checkuser-block-success' => "'''{{PLURAL:$2|用戶|用戶}} $1 {{PLURAL:$2|已被|已被}} 封禁。'''",
 	'checkuser-block-failure' => "'''未有使用者被封禁。'''",
+	'checkuser-block-limit' => '選中用戶數量過多。',
 	'checkuser-block-noreason' => '您必須提供進行封禁的理由。',
 	'checkuser-noreason' => '您必須提供進行查詢的理由。',
 	'checkuser-accounts' => '$1個新帳戶',
@@ -7059,11 +7118,13 @@ $messages['zh-hant'] = array(
 	'checkuser-ipeditcount' => '~在全部用戶中$1',
 	'checkuser-log-subpage' => '日誌',
 	'checkuser-log-return' => '回到主表單',
+	'checkuser-limited' => "'''結果已因效率原因而被刪減。'''",
 	'checkuser-log-userips' => '$1取得$2的IP訊息',
 	'checkuser-log-ipedits' => '$1取得$2的編輯記錄',
 	'checkuser-log-ipusers' => '$1取得$2的用戶訊息',
 	'checkuser-log-ipedits-xff' => '$1取得 XFF $2的編輯記錄',
 	'checkuser-log-ipusers-xff' => '$1取得 XFF $2的用戶訊息',
+	'checkuser-log-useredits' => '$1取得$2的編輯記錄',
 	'checkuser-autocreate-action' => '經已自動建立',
 	'checkuser-email-action' => '向使用者「$1」發送電郵',
 	'checkuser-reset-action' => '為使用者「$1」重設密碼',
