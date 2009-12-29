@@ -14,7 +14,7 @@ $messages = array();
  */
 $messages['en'] = array(
 	'checkuser-summary'          => 'This tool scans recent changes to retrieve the IP addresses used by a user or show the edit/user data for an IP address.
-Users and edits by a client IP can be retrieved via XFF headers by appending the IP with "/xff". IPv4 (CIDR 16-32) and IPv6 (CIDR 96-128) are supported.
+Users and edits by a client IP address can be retrieved via XFF headers by appending the IP address with "/xff". IPv4 (CIDR 16-32) and IPv6 (CIDR 96-128) are supported.
 No more than 5000 edits will be returned for performance reasons.
 Use this in accordance with policy.',
 	'checkuser-desc'             => 'Grants users with the appropriate permission the ability to check user\'s IP addresses and other information',
@@ -30,9 +30,9 @@ Use this in accordance with policy.',
 	'checkuser-showlog'          => 'Show log',
 	'checkuser-log'              => 'CheckUser log',
 	'checkuser-query'            => 'Query recent changes',
-	'checkuser-target'           => 'User or IP:',
+	'checkuser-target'           => 'IP address or username:',
 	'checkuser-users'            => 'Get users',
-	'checkuser-edits'            => 'Get edits from IP',
+	'checkuser-edits'            => 'Get edits from IP address',
 	'checkuser-ips'              => 'Get IP addresses',
 	'checkuser-account'          => 'Get account edits',
 	'checkuser-search'           => 'Search',
