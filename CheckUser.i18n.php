@@ -1472,7 +1472,7 @@ Z pśicynow wugbałosći wróśijo se nic wěcej ako 5000 změnow. Wužyj CheckU
 	'checkuser-showlog' => 'Protokol pokazaś',
 	'checkuser-log' => 'Protokol kontrole wužywarjow',
 	'checkuser-query' => 'Aktualne změny wótpšašaś',
-	'checkuser-target' => 'Wužywaŕ abo IP:',
+	'checkuser-target' => 'IP-adresa abo wužywarske mě:',
 	'checkuser-users' => 'Wužywarjow wobstaraś',
 	'checkuser-edits' => 'Změny z IP wobstaraś',
 	'checkuser-ips' => 'IP-adrese wobstraś',
@@ -2199,6 +2199,7 @@ $messages['frp'] = array(
 	'checkuser-week-2' => 'les doves semanes passâs',
 	'checkuser-month' => 'los 30 jorns passâs',
 	'checkuser-all' => 'tot',
+	'checkuser-cidr-label' => 'Chèrchiér una plage comena et les adrèces afèctâs por una lista d’adrèces IP',
 	'checkuser-cidr-res' => 'Plage CIDR comena :',
 	'checkuser-empty' => 'Lo jornal contint gins d’articllo.',
 	'checkuser-nomatch' => 'Rechèrches que balyont ren.',
@@ -2759,7 +2760,7 @@ Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěš
 	'checkuser-showlog' => 'Protokol pokazać',
 	'checkuser-log' => 'Protokol wužiwarskeje kontrole',
 	'checkuser-query' => 'Poslednje změny wotprašeć',
-	'checkuser-target' => 'Wužiwar abo IP-adresa:',
+	'checkuser-target' => 'IP-adresa abo wužiwarske mjeno:',
 	'checkuser-users' => 'Wužiwarjow pokazać',
 	'checkuser-edits' => 'Změny z IP-adresy přinjesć',
 	'checkuser-ips' => 'IP-adresy pokazać',
@@ -2933,7 +2934,7 @@ Tote uso de iste instrumento debe esser conforme al politicas in vigor.',
 	'checkuser-showlog' => 'Monstrar registro',
 	'checkuser-log' => 'Registro de verification de usatores',
 	'checkuser-query' => 'Consultar le modificationes recente',
-	'checkuser-target' => 'Usator o IP',
+	'checkuser-target' => 'Adresse IP o nomine de usator:',
 	'checkuser-users' => 'Cercar usatores',
 	'checkuser-edits' => 'Cercar modificationes desde IP',
 	'checkuser-ips' => 'Cercar IPs',
@@ -5173,6 +5174,7 @@ Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
 /** Brazilian Portuguese (Português do Brasil)
  * @author Eduardo.mps
  * @author Heldergeovane
+ * @author Luckas Blade
  */
 $messages['pt-br'] = array(
 	'checkuser-summary' => 'Esta ferramenta varre as Mudanças recentes para obter os endereços de IP de um utilizador ou para exibir os dados de edições/utilizadores para um IP.
@@ -5191,7 +5193,7 @@ Não serão retornadas mais de 5000 edições por motivos de desempenho. O uso d
 	'checkuser-showlog' => 'Exibir registros',
 	'checkuser-log' => 'Registros de verificação de utilizadores',
 	'checkuser-query' => 'Examinar as Mudanças recentes',
-	'checkuser-target' => 'Utilizador ou IP',
+	'checkuser-target' => 'Endereço IP ou nome do usuário:',
 	'checkuser-users' => 'Obter utilizadores',
 	'checkuser-edits' => 'Obter edições de IPs',
 	'checkuser-ips' => 'Obter IPs',
@@ -6426,15 +6428,42 @@ Oxirin viroiş dar $1 soati $2 bud.',
 /** Thai (ไทย)
  * @author Mopza
  * @author Octahedron80
+ * @author Woraponboonkerd
  */
 $messages['th'] = array(
+	'checkuser' => 'ตรวจสอบผู้ใช้',
+	'checkuser-contribs' => 'ตรวจสอบหมายเลขไอพีของผู้ใช้',
+	'group-checkuser' => 'ตรวจสอบผู้ใช้',
+	'group-checkuser-member' => 'ตรวจสอบผู้ใช้',
+	'right-checkuser' => 'ตรวจสอบหมายเลขไอพีของผู้ใช้และข้อมูลอื่นๆ',
+	'right-checkuser-log' => 'ดูประวัติการตรวจสอบผู้ใช้',
+	'grouppage-checkuser' => '{{ns:project}}:ตรวจสอบผู้ใช้',
 	'checkuser-reason' => 'เหตุผล:',
+	'checkuser-showlog' => 'แสดงประวัติ',
+	'checkuser-log' => 'ประวัติการตรวจสอบผู้ใช้',
+	'checkuser-query' => 'แบบสอบถามการเปลี่ยนแปลงล่าสุด',
+	'checkuser-target' => 'หมายเลขไอพีหรือชื่อผู้ใช้:',
+	'checkuser-users' => 'รับชื่อผู้ใช้',
+	'checkuser-edits' => 'รับรายการแก้ไขจากหมายเลขไอพี',
+	'checkuser-ips' => 'รับรายการหมายเลขไอพี',
+	'checkuser-account' => 'รับรายการแก้ไขบัญชีผู้ใช้',
 	'checkuser-search' => 'สืบค้น',
 	'checkuser-period' => 'ระยะเวลา:',
 	'checkuser-week-1' => 'สัปดาห์ที่แล้ว',
 	'checkuser-week-2' => '2 สัปดาห์ที่แล้ว',
 	'checkuser-month' => '30 วันที่แล้ว',
 	'checkuser-all' => 'ทั้งหมด',
+	'checkuser-nomatch' => 'ไม่พบสิ่งที่ค้นหา',
+	'checkuser-blocktag' => 'แทนที่หน้าผู้ใช้ด้วย:',
+	'checkuser-blocktag-talk' => 'แทนที่หน้าพูดคุยด้วย:',
+	'checkuser-massblock-commit' => 'ระงับผู้ใช้ที่เลือก',
+	'checkuser-block-success' => "'''{{PLURAL:$2|ผู้ใช้|ผู้ใช้}}ชื่อ $1 {{PLURAL:$2|ได้ถูก|ได้ถูก}}ระงับการใช้แล้ว'''",
+	'checkuser-block-failure' => "'''ไม่มีผู้ใช้ถูกระงับ'''",
+	'checkuser-block-limit' => 'เลือกผู้ใช้มากเกินไป',
+	'checkuser-block-noreason' => 'คุณต้องให้เหตุผลในการระงับด้วย',
+	'checkuser-too-many' => 'มีผลลัพธ์มากเกินไป (จากการคาดคะเนของแบบสอบถาม) กรุณาทำให้ CIDR เฉพาะเจาะจงมากขึ้น
+นี่คือหมายเลขไอพีที่ถูกใช้ (สูงสุด 5000 เรียงตามหมายเลขไอพี)',
+	'checkuser-user-nonexistent' => 'ไม่พบผู้ใช้ที่กำหนด',
 	'checkuser-search-submit' => 'สืบค้น',
 );
 
@@ -6485,6 +6514,7 @@ Soňky özgerdiş $2, $1 senesinde.',
 	'checkuser-block-success' => "'''$1 {{PLURAL:$2|ulanyjy|ulanyjy}} indi blokirlendi.'''",
 	'checkuser-block-failure' => "'''Hiç bir ulanyjy blokirlenmedi.'''",
 	'checkuser-block-limit' => 'Aşa köp ulanyjy saýlanyldy.',
+	'checkuser-accounts' => '$1 täze {{PLURAL:$1|hasap|hasap}}',
 	'checkuser-search-submit' => 'Gözle',
 	'checkuser-ipeditcount' => 'ähli ulanyjylardan ~$1',
 	'checkuser-log-subpage' => 'Gündelik',
