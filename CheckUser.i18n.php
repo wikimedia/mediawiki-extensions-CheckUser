@@ -124,6 +124,7 @@ $messages['qqq'] = array(
 	'right-checkuser-log' => '{{doc-right}}',
 	'grouppage-checkuser' => '{{Identical|Check user}}',
 	'checkuser-reason' => '{{Identical|Reason}}',
+	'checkuser-target' => '{{Identical|IP address or username}}',
 	'checkuser-search' => '{{Identical|Search}}',
 	'checkuser-period' => '{{Identical|Duration}}',
 	'checkuser-all' => '{{Identical|All}}',
@@ -1366,10 +1367,14 @@ IP-Adressen werden für eine Woche gesperrt (nur für anonyme Benutzer, die Anla
 );
 
 /** German (formal address) (Deutsch (Sie-Form))
+ * @author Imre
  * @author Umherirrender
  */
 $messages['de-formal'] = array(
+	'checkuser-summary' => 'Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers bzw. die Bearbeitungen/Benutzernamen für eine IP-Adresse zu ermitteln. Benutzer und Bearbeitungen einer IP-Adresse können auch nach Informationen aus den XFF-Headern abgefragt werden, indem der IP-Adresse ein „/xff“ angehängt wird. IPv4 (CIDR 16-32) und IPv6 (CIDR 96-128) werden unterstützt.
+Aus Performance-Gründen werden maximal 5000 Bearbeitungen ausgegeben. Benutzen Sie CheckUser ausschließlich in Übereinstimmung mit den Datenschutzrichtlinien.',
 	'checkuser-block-noreason' => 'Sie müssen einen Grund für die Sperre angeben.',
+	'checkuser-too-many' => 'Die Ergebnisliste ist zu lang (nach der Schätzung), bitte grenzen Sie den IP-Bereich weiter ein. Hier sind die benutzten IP-Adressen (maximal 5000, sortiert nach Adresse):',
 );
 
 /** Zazaki (Zazaki)
@@ -1393,7 +1398,7 @@ Ena politika ma ser kar bike.',
 	'checkuser-showlog' => 'Logê mucnayîşî',
 	'checkuser-log' => 'Logê karber-kontrolî',
 	'checkuser-query' => 'Bigêrayîşî de vurnayîşanê penîyan',
-	'checkuser-target' => 'Karber ya zi IP:',
+	'checkuser-target' => 'Adresa IP ya zi karber:',
 	'checkuser-users' => 'Karberî bivîne',
 	'checkuser-edits' => 'Bivîne vurnayîşê ke IP ra',
 	'checkuser-ips' => 'Adresê IPyî bivîne',
@@ -3815,7 +3820,7 @@ Hee sin de eetßte 5000 IP-Addresse, zoteeet:',
 	'checkuser-reset-action' => 'Däm Metmaacher „$1“ sing Paßwoot automattesch neu setze',
 );
 
-/** Kurdish (Latin) (Kurdî / كوردی (Latin))
+/** Kurdish (Latin) (Kurdî (Latin))
  * @author Bangin
  */
 $messages['ku-latn'] = array(
@@ -6147,7 +6152,7 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 	'checkuser-showlog' => 'Visa logg',
 	'checkuser-log' => 'Logg över användarkontroller',
 	'checkuser-query' => 'Sök de senaste ändringarna',
-	'checkuser-target' => 'Användare eller IP:',
+	'checkuser-target' => 'IP-adress eller användarnamn:',
 	'checkuser-users' => 'Hämta användare',
 	'checkuser-edits' => 'Hämta redigeringar från IP-adress',
 	'checkuser-ips' => 'Hämta IP-adresser',
@@ -6471,6 +6476,7 @@ $messages['th'] = array(
  * @author Hanberke
  */
 $messages['tk'] = array(
+	'checkuser-desc' => 'Ulanyjylaryň IP adreslerini we beýleki maglumatlaryny barlamak hukugy üçin degişli rugsatlary ulanyjylara berýär',
 	'checkuser-logcase' => 'Gündelik gözlegi baş-setir harpa duýgurdyr.',
 	'checkuser' => 'Ulanyjy barla',
 	'checkuser-contribs' => 'ulanyjy IP adreslerini barla',
@@ -6514,8 +6520,13 @@ Soňky özgerdiş $2, $1 senesinde.',
 	'checkuser-block-success' => "'''$1 {{PLURAL:$2|ulanyjy|ulanyjy}} indi blokirlendi.'''",
 	'checkuser-block-failure' => "'''Hiç bir ulanyjy blokirlenmedi.'''",
 	'checkuser-block-limit' => 'Aşa köp ulanyjy saýlanyldy.',
+	'checkuser-block-noreason' => 'Blokirlemeler üçin sebäp görkezmeli.',
+	'checkuser-noreason' => 'Bu talap üçin sebäp görkezmeli.',
 	'checkuser-accounts' => '$1 täze {{PLURAL:$1|hasap|hasap}}',
+	'checkuser-user-nonexistent' => 'Görkezilen ulanyjy ýok.',
+	'checkuser-search-form' => '$1-iň $2 bolan gündelik girişlerini tap',
 	'checkuser-search-submit' => 'Gözle',
+	'checkuser-search-initiator' => 'başladan',
 	'checkuser-ipeditcount' => 'ähli ulanyjylardan ~$1',
 	'checkuser-log-subpage' => 'Gündelik',
 	'checkuser-log-userips' => '$1, $2 üçin IP adresleri aldy',
