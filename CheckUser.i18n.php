@@ -1378,6 +1378,7 @@ Aus Performance-Gründen werden maximal 5000 Bearbeitungen ausgegeben. Benutzen 
 );
 
 /** Zazaki (Zazaki)
+ * @author Mirzali
  * @author Xoser
  */
 $messages['diq'] = array(
@@ -1398,7 +1399,7 @@ Ena politika ma ser kar bike.',
 	'checkuser-showlog' => 'Logê mucnayîşî',
 	'checkuser-log' => 'Logê karber-kontrolî',
 	'checkuser-query' => 'Bigêrayîşî de vurnayîşanê penîyan',
-	'checkuser-target' => 'Adresa IP ya zi karber:',
+	'checkuser-target' => 'Adresa IPi ya zi namey karberi:',
 	'checkuser-users' => 'Karberî bivîne',
 	'checkuser-edits' => 'Bivîne vurnayîşê ke IP ra',
 	'checkuser-ips' => 'Adresê IPyî bivîne',
@@ -4703,7 +4704,7 @@ Av ytelsesgrunner vises maksimalt 5000 redigeringer. Bruk dette verktøyet i sam
 	'checkuser-showlog' => 'Vis logg',
 	'checkuser-log' => 'Brukersjekkingslogg',
 	'checkuser-query' => 'Søk i siste endringer',
-	'checkuser-target' => 'Bruker eller IP:',
+	'checkuser-target' => 'IP-adresse eller brukernavn:',
 	'checkuser-users' => 'Få brukere',
 	'checkuser-edits' => 'Få redigeringer fra IP',
 	'checkuser-ips' => 'Få IP-er',
