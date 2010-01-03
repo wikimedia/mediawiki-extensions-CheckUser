@@ -4913,6 +4913,7 @@ $messages['pdc'] = array(
  * @author Derbeth
  * @author Leinad
  * @author Sp5uhe
+ * @author Wpedzich
  */
 $messages['pl'] = array(
 	'checkuser-summary' => 'Narzędzie skanuje ostatnie zmiany, by odnaleźć adresy IP użyte przez użytkownika lub by pokazać edycje i użytkowników dla zadanego adresu IP.
@@ -4932,7 +4933,7 @@ Używaj tego narzędzia zgodnie z zasadami.',
 	'checkuser-showlog' => 'Pokaż rejestr',
 	'checkuser-log' => 'Rejestr CheckUser',
 	'checkuser-query' => 'Przeanalizuj ostatnie zmiany',
-	'checkuser-target' => 'Użytkownik lub adres IP',
+	'checkuser-target' => 'Adres IP lub nazwa użytkownika',
 	'checkuser-users' => 'Znajdź użytkowników',
 	'checkuser-edits' => 'Znajdź edycje z IP',
 	'checkuser-ips' => 'Znajdź adresy IP',
