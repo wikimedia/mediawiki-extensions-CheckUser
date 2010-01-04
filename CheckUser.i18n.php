@@ -775,6 +775,7 @@ $messages['bg'] = array(
 	'checkuser-log-ipedits-xff' => '$1 е получил редакции за XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 е получил потребители за XFF $2',
 	'checkuser-email-action' => 'изпрати е-писмо на потребител „$1“',
+	'checkuser-reset-action' => 'промяна на парола за потребител "$1"',
 );
 
 /** Bengali (বাংলা)
@@ -2438,7 +2439,7 @@ Us Performance-Grind wäre hegschtens 5000 Bearbeitige usgee. Nimm CheckUser uss
 	'checkuser-showlog' => 'Logbuech aazeige',
 	'checkuser-log' => 'Checkuser-Logbuech',
 	'checkuser-query' => 'Letchte Änderige abfroge',
-	'checkuser-target' => 'Benutzer oder IP-Adräss',
+	'checkuser-target' => 'IP-Adräss oder Benutzername:',
 	'checkuser-users' => 'Hol Benutzer',
 	'checkuser-edits' => 'Hol Bearbeitige vun ere IP-Adräss',
 	'checkuser-ips' => 'Hol IP-Adrässe',
@@ -6266,6 +6267,8 @@ $messages['te'] = array(
 	'checkuser-log-fail' => 'చిట్టాలో పద్దుని చేర్చలేకపోయాం',
 	'checkuser-nolog' => 'చిట్టా ఫైలేమీ కనపడలేదు.',
 	'checkuser-blocked' => 'నిరోధించాం',
+	'checkuser-gblocked' => 'సార్వత్రికంగా నిరోధించారు',
+	'checkuser-wasblocked' => 'గతంలో నిరోధించబడ్డారు',
 	'checkuser-massblock' => 'ఎంచుకున్న వాడుకరులను నిరోధించు',
 	'checkuser-massblock-commit' => 'ఎంచుకున్న వాడుకరులను నిరోధించు',
 	'checkuser-block-success' => "'''{{PLURAL:$2|వాడుకరి|వాడుకరులు}} $1 ఇప్పుడు {{PLURAL:$2|నిరోధించబడ్డారు|నిరోధించబడ్డారు}}.'''",
