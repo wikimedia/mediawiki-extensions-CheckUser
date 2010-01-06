@@ -5182,6 +5182,7 @@ Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
 /** Brazilian Portuguese (Português do Brasil)
  * @author Eduardo.mps
  * @author Heldergeovane
+ * @author Jesielt
  * @author Luckas Blade
  */
 $messages['pt-br'] = array(
@@ -5238,7 +5239,7 @@ Endereços IP serão bloqueados por 1 semana com criação de conta desabilitada
 	'checkuser-block-noreason' => 'Você deve especificar um motivo para os bloqueios.',
 	'checkuser-noreason' => 'Você deve fornecer um motivo para esta pesquisa.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nova conta|novas contas}}',
-	'checkuser-too-many' => 'Demasiados resultados; por favor, restrinja o CIDR. Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
+	'checkuser-too-many' => 'Há muitos resultados; por favor, restrinja o CIDR. Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
 	'checkuser-user-nonexistent' => 'O utilizador especificado não existe.',
 	'checkuser-search-form' => 'Procurar entradas no registo onde $1 seja $2',
 	'checkuser-search-submit' => 'Procurar',
