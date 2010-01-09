@@ -5080,18 +5080,21 @@ Sì a-i son j'IP dovrà (5000 al pi, ordinà për adrëssa):",
 $messages['ps'] = array(
 	'checkuser-reason' => 'سبب:',
 	'checkuser-showlog' => 'يادښت کتل',
-	'checkuser-target' => 'کارونکی يا IP پته',
+	'checkuser-target' => 'کارن يا IP پته:',
 	'checkuser-search' => 'پلټل',
 	'checkuser-period' => 'موده:',
 	'checkuser-week-1' => 'تېره اوونۍ',
 	'checkuser-week-2' => 'تېرې دوه اوونۍ',
 	'checkuser-month' => 'تېرې ۳۰ ورځې',
 	'checkuser-all' => 'ټول',
+	'checkuser-block-limit' => 'له حد نه ډېر زيات کارنان ټاکل شوي.',
+	'checkuser-block-noreason' => 'د بنديز لګولو لپاره بايد تاسې يو سبب څرګند کړی.',
 	'checkuser-search-submit' => 'پلټل',
 	'checkuser-search-target' => 'موخه',
 	'checkuser-ipeditcount' => '~$1 د ټولو کارنانو نه',
 	'checkuser-log-subpage' => 'يادښت',
 	'checkuser-email-action' => 'د "$1" کارن ته يو برېښليک ولېږل شو',
+	'checkuser-reset-action' => 'د "$1" کارن د پټنوم بيا پرځای کول',
 );
 
 /** Portuguese (Português)
