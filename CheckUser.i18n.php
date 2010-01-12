@@ -2852,7 +2852,7 @@ Maximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt
 	'checkuser-showlog' => 'Napló megjelenítése',
 	'checkuser-log' => 'IP-ellenőr-napló',
 	'checkuser-query' => 'Kétséges aktuális változások',
-	'checkuser-target' => 'Felhasználó vagy IP-cím',
+	'checkuser-target' => 'IP-cím vagy felhasználónév:',
 	'checkuser-users' => 'Felhasználók keresése',
 	'checkuser-edits' => 'Szerkesztések keresése IP-cím alapján',
 	'checkuser-ips' => 'IP-címek keresése',
