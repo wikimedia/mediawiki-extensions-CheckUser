@@ -4256,7 +4256,9 @@ $messages['ml'] = array(
  * @author Chinneeb
  */
 $messages['mn'] = array(
+	'checkuser' => 'Хэрэглэгчийг шалгах',
 	'checkuser-search' => 'Хайх',
+	'checkuser-blocked' => 'Түгжигдсэн',
 	'checkuser-search-submit' => 'Хайх',
 );
 
