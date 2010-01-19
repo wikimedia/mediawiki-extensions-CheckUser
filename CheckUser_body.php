@@ -386,12 +386,12 @@ class CheckUser extends SpecialPage {
 				# If we get some results, it helps to know if the IP in general
 				# has a lot more edits, e.g. "tip of the iceberg"...
 				$ipedits = $dbr->estimateRowCount( 'cu_changes', '*',
-					array( 'cuc_ip_hex' => $ips_hex[$ip] ),
+					array( 'cuc_ip_hex' => $ips_hex[$ip], $time_conds ),
 					__METHOD__ );
 				# If small enough, get a more accurate count
 				if( $ipedits <= 1000 ) {
 					$ipedits = $dbr->selectField( 'cu_changes', 'COUNT(*)',
-						array( 'cuc_ip_hex' => $ips_hex[$ip] ),
+						array( 'cuc_ip_hex' => $ips_hex[$ip], $time_conds ),
 						__METHOD__ );
 				}
 				if( $ipedits > $ips_edits[$ip] ) {
