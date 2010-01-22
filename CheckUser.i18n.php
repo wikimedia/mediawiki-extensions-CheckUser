@@ -2692,8 +2692,8 @@ $messages['hil'] = array(
 
 /** Croatian (Hrvatski)
  * @author Dalibor Bosits
+ * @author Ex13
  * @author SpeedyGonsales
- * @author Suradnik13
  */
 $messages['hr'] = array(
 	'checkuser-summary' => 'Ovaj alat pretražuje nedavne promjene i pronalazi IP adrese suradnika ili prikazuje uređivanja/ime suradnika ako je zadana IP adresa. Suradnici i uređivanja mogu biti dobiveni po XFF zaglavljima dodavanjem "/xff" na kraj IP adrese. Podržane su IPv4 (CIDR 16-32) i IPv6 (CIDR 96-128) adrese. Rezultat ima maksimalno 5.000 zapisa iz tehničkih razloga. Rabite ovaj alat u skladu s pravilima.',
