@@ -4921,7 +4921,7 @@ $messages['pam'] = array(
  */
 $messages['pdc'] = array(
 	'checkuser-reason' => 'Grund:',
-	'checkuser-target' => 'Yuuser odder IP',
+	'checkuser-target' => 'IP-Adress odder Yuusernaame:',
 	'checkuser-search' => 'Uffgucke',
 	'checkuser-week-1' => 'letscht Woch',
 	'checkuser-week-2' => 'letschte zwo Woche',
