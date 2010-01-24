@@ -4083,6 +4083,13 @@ $messages['lv'] = array(
 	'checkuser-check' => 'Pārbaudīt',
 );
 
+/** Malagasy (Malagasy)
+ * @author Jagwar
+ */
+$messages['mg'] = array(
+	'checkuser-nolog' => "Tsy nahitana rakitra tantaran'asa.",
+);
+
 /** Eastern Mari (Олык Марий)
  * @author Сай
  */
@@ -6277,7 +6284,7 @@ $messages['te'] = array(
 	'checkuser-showlog' => 'చిట్టాని చూపించు',
 	'checkuser-log' => 'వాడుకరిపరిశీలనల చిట్టా',
 	'checkuser-query' => 'ఇటీవలి మార్పుల్లో చూడండి',
-	'checkuser-target' => 'వాడుకరి లేదా ఐపీ',
+	'checkuser-target' => 'ఐపీ చిరునామా లేదా వాడుకరిపేరు:',
 	'checkuser-users' => 'వాడుకరులను తీసుకురా',
 	'checkuser-edits' => 'ఈ ఐపీ అడ్రస్సు నుండి చేసిన మార్పులను చూపించు',
 	'checkuser-ips' => 'ఐపీలను తీసుకురా',
