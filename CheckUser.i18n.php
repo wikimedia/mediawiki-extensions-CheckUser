@@ -1732,6 +1732,7 @@ Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
  * @author Jatrobat
  * @author Lin linao
  * @author Locos epraix
+ * @author Manuelt15
  * @author Muro de Aguas
  * @author Piolinfax
  * @author Remember the dot
@@ -1744,7 +1745,7 @@ $messages['es'] = array(
 También se pueden obtener los usuarios y las ediciones de un cliente IP vía XFF añadiendo "/xff". IPv4 (CIDR 16-32) y IPv6 (CIDR 96-128) funcionan.
 No se muestran más de 5000 ediciones por motivos de rendimiento.
 Usa esta herramienta de acuerdo con las políticas correspondientes.',
-	'checkuser-desc' => 'Permite a los usuarios que tienen permiso especial comprobar las IPs de los usuarios además de otra información.',
+	'checkuser-desc' => 'Permite a los usuarios que tienen permiso especial comprobar las IP de los usuarios además de otra información.',
 	'checkuser-logcase' => 'La búsqueda en el registro distingue entre mayúsculas y minúsculas.',
 	'checkuser' => 'Verificador de usuarios',
 	'checkuser-contribs' => 'Verificar IPs de usuario',
@@ -1760,7 +1761,7 @@ Usa esta herramienta de acuerdo con las políticas correspondientes.',
 	'checkuser-target' => 'Usuario o dirección IP:',
 	'checkuser-users' => 'Obtener usuarios',
 	'checkuser-edits' => 'Obtener ediciones de IP',
-	'checkuser-ips' => 'Obtener IPs',
+	'checkuser-ips' => 'Obtener IP',
 	'checkuser-account' => 'Ver contribuciones de la cuenta',
 	'checkuser-search' => 'Buscar',
 	'checkuser-period' => 'Duración:',
@@ -1768,7 +1769,7 @@ Usa esta herramienta de acuerdo con las políticas correspondientes.',
 	'checkuser-week-2' => 'últimas dos semanas',
 	'checkuser-month' => 'últimos 30 días',
 	'checkuser-all' => 'todos',
-	'checkuser-cidr-label' => 'Encontrar rango común y afectados de una lista de direcciones de IPs',
+	'checkuser-cidr-label' => 'Encontrar rango común y afectados de una lista de direcciones de IP',
 	'checkuser-cidr-res' => 'CIDR común:',
 	'checkuser-empty' => 'No hay elementos en el registro.',
 	'checkuser-nomatch' => 'No hay elementos en el registro con esas condiciones.',
