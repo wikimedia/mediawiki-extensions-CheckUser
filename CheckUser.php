@@ -130,7 +130,6 @@ function efUpdateCheckUserData( $rc ) {
 	$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
 
 	# Every 100th edit, prune the checkuser changes table.
-	wfSeedRandom();
 	if( 0 == mt_rand( 0, 99 ) ) {
 		# Periodically flush old entries from the recentchanges table.
 		global $wgCUDMaxAge;
