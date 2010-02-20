@@ -5505,6 +5505,7 @@ L'urteme cangiamende ha state fatte 'u $1 a le $2.",
 );
 
 /** Russian (Русский)
+ * @author DCamer
  * @author EugeneZelenko
  * @author Ferrer
  * @author Ilya Voyager
@@ -5579,7 +5580,7 @@ IP-адреса будут заблокированы на 1 неделю для
 	'checkuser-search-initiator' => 'инициатор',
 	'checkuser-search-target' => 'цель',
 	'checkuser-ipeditcount' => '~$1 от всех участников',
-	'checkuser-log-subpage' => 'Log',
+	'checkuser-log-subpage' => 'Журнал',
 	'checkuser-log-return' => 'Возврат к странице проверки участников',
 	'checkuser-limited' => "'''Результаты были усечены чтобы не создавать дополнительной нагрузки на сервер.'''",
 	'checkuser-log-userips' => '$1 получил IP адреса для $2',
