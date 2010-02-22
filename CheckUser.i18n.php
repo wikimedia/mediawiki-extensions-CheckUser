@@ -5883,6 +5883,7 @@ $messages['sq'] = array(
 /** Serbian Cyrillic ekavian (Српски (ћирилица))
  * @author Millosh
  * @author Sasa Stefanovic
+ * @author Verlor
  * @author Јованвб
  * @author Михајло Анђелковић
  * @author Обрадовић Горан
@@ -5904,7 +5905,7 @@ $messages['sr-ec'] = array(
 	'checkuser-showlog' => 'Прикажи лог.',
 	'checkuser-log' => 'Лог чекјузера.',
 	'checkuser-query' => 'Упит на скорашње измене.',
-	'checkuser-target' => 'Корисник или ИП',
+	'checkuser-target' => 'Корисничко име  или ИП адреса',
 	'checkuser-users' => 'Прикупљање сарадничких имена.',
 	'checkuser-edits' => 'Прикупљање измена од стране ИП адресе.',
 	'checkuser-ips' => 'Прикупља ИП адресе.',
