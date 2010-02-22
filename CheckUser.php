@@ -30,7 +30,6 @@ $wgExtensionCredits['specialpage'][] = array(
 	'name' => 'CheckUser',
 	'version' => '2.3',
 	'url' => 'http://www.mediawiki.org/wiki/Extension:CheckUser',
-	'description' => 'Grants users with the appropriate permission the ability to check user\'s IP addresses and other information',
 	'descriptionmsg'=> 'checkuser-desc',	
 );
 
