@@ -1251,6 +1251,7 @@ $messages['cy'] = array(
  * @author Fredelige
  * @author Masz
  * @author Morten LJ
+ * @author Sarrus
  */
 $messages['da'] = array(
 	'checkuser-summary' => 'Dette værktøj scanner Seneste ændringer for at finde IP\'er brugt af en bestemt bruger, eller for at vise redigerings- eller brugerdata for en IP.
@@ -1259,6 +1260,7 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 	'checkuser-desc' => 'Giver brugere med den rette godkendelse muligheden for at checke brugeres IP-adresser og anden information',
 	'checkuser-logcase' => 'Logsøgning er case sensitiv (der gøres forskel på store og små bogstaver)',
 	'checkuser' => 'Checkbruger',
+	'checkuser-contribs' => 'Tjek brugerens ip-adresser',
 	'group-checkuser' => 'Checkbrugere',
 	'group-checkuser-member' => 'Checkbruger',
 	'right-checkuser' => 'Tjekke en brugers IP-adresser og andre oplysninger',
@@ -1272,7 +1274,9 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 	'checkuser-users' => 'Hent brugere',
 	'checkuser-edits' => 'Hent redigeringer fra IP',
 	'checkuser-ips' => "Hent IP'er",
+	'checkuser-account' => 'Hent kontobidrag',
 	'checkuser-search' => 'Søg',
+	'checkuser-period' => 'Varighed:',
 	'checkuser-week-1' => 'forrige uge',
 	'checkuser-week-2' => 'sidste to uger',
 	'checkuser-month' => 'sidste 30 dage',
@@ -1286,6 +1290,14 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 	'checkuser-gblocked' => 'Blokeret globalt',
 	'checkuser-locked' => 'Låst',
 	'checkuser-wasblocked' => 'Tidligere blokeret',
+	'checkuser-massblock' => 'Bloker valgte brugere',
+	'checkuser-massblock-text' => 'De valgte konti vil blive blokeret uendeligt, med autoblok aktiveret og kontooprettelse blokeret. <br />IP-adresser vil blive blokeret i en uge (en blokering, der kun gælder for ip-adresser) og med kontooprettelse blokeret.',
+	'checkuser-blocktag' => 'Erstat brugersider med:',
+	'checkuser-blocktag-talk' => 'Erstat diskussionssider med:',
+	'checkuser-massblock-commit' => 'Bloker valgte brugere',
+	'checkuser-block-success' => '{{PLURAL:$2|Brugeren|Brugerne}} $1 {{PLURAL:$2|er|er}} nu {{PLURAL:$2|blokeret|blokerede}}',
+	'checkuser-block-noreason' => 'Du skal angive en blokeringsgrund.',
+	'checkuser-noreason' => 'Du må angive en årsag til denne forespøgsel',
 	'checkuser-too-many' => "For mange resultater, gør CIDR'en smallere. Her er de brugte IP'er (max 5000, sorteret efter adresse):",
 	'checkuser-user-nonexistent' => 'Den anførte bruger eksisterer ikke.',
 	'checkuser-search-form' => 'Find log-poster hvor $1 er $2',
@@ -1298,6 +1310,9 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 	'checkuser-log-ipusers' => '$1 fik brugere for $2',
 	'checkuser-log-ipedits-xff' => '$1 fik redigeringer for XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 fik brugere for XFF $2',
+	'checkuser-autocreate-action' => 'blev oprettet automatisk',
+	'checkuser-email-action' => 'sendte en email til "$1"',
+	'checkuser-reset-action' => 'nulstillede adgangskoden for "$1"',
 );
 
 /** German (Deutsch)
