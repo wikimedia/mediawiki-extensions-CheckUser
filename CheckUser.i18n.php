@@ -917,7 +917,7 @@ Setu an IPoù implijet (5000 d'ar muiañ, urzhiet dre ar chomlec'h) :",
 	'checkuser-log-useredits' => '$1 a zo bet kemmet gant $2',
 	'checkuser-autocreate-action' => 'bet krouet ez otomatikel',
 	'checkuser-email-action' => "en deus kaset ur postel d'an implijer « $1 »",
-	'checkuser-reset-action' => 'adderaouekaat ar ger-tremen evit an implijer « $1 »',
+	'checkuser-reset-action' => 'adderaouekaat a ra ger-tremen an implijer "$1"',
 );
 
 /** Bosnian (Bosanski)
@@ -4283,7 +4283,10 @@ $messages['ml'] = array(
  * @author Chinneeb
  */
 $messages['mn'] = array(
-	'checkuser' => 'Хэрэглэгчийг шалгах',
+	'checkuser' => 'Шалгагч хэрэглэгч',
+	'group-checkuser' => 'Шалгагч хэрэглэгчид',
+	'group-checkuser-member' => 'Шалгагч хэрэглэгч',
+	'grouppage-checkuser' => '{{ns:project}}:Шалгагч хэрэглэгч',
 	'checkuser-search' => 'Хайх',
 	'checkuser-blocked' => 'Түгжигдсэн',
 	'checkuser-search-submit' => 'Хайх',
