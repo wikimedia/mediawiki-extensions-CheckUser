@@ -893,7 +893,7 @@ Ar chomlec'hioù IP a vo stanket e-pad ur sizhunvezh hepken evit an implijerien 
 	'checkuser-blocktag-talk' => "Erlec'hiañ ar bajennoù kaozeal gant :",
 	'checkuser-massblock-commit' => 'Stankañ an implijer dibabet',
 	'checkuser-block-success' => "'''Stanket eo an {{PLURAL:$2|implijer|implijerien}} $1 bremañ'''",
-	'checkuser-block-failure' => '"N\'eus implijer stanket ebet."',
+	'checkuser-block-failure' => "'''Implijer ebet stanket.'''",
 	'checkuser-block-limit' => 'Re a implijerien diuzet.',
 	'checkuser-block-noreason' => "Ret eo deoc'h abegiñ ar stankadennoù.",
 	'checkuser-noreason' => "Ret eo deoc'h abegiñ evit ar reked-mañ.",
