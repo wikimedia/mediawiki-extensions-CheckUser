@@ -145,7 +145,7 @@ $aliases['ko'] = array(
 	'CheckUser' => array( '체크유저' ),
 );
 
-/** Ripoarisch (Ripoarisch) */
+/** Colognian (Ripoarisch) */
 $aliases['ksh'] = array(
 	'CheckUser' => array( 'Metmaacher Pröve', 'Metmaacher Pröfe' ),
 );
