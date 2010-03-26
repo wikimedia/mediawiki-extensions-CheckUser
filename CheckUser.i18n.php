@@ -4430,7 +4430,7 @@ $messages['mt'] = array(
 $messages['myv'] = array(
 	'checkuser-reason' => 'Тувталось:',
 	'checkuser-showlog' => 'Невтемс журналонзо',
-	'checkuser-target' => 'Совиця эли IP',
+	'checkuser-target' => 'IP-адресэсь эли совицясь:',
 	'checkuser-search' => 'Вешнэмс',
 	'checkuser-period' => 'Зярс моли:',
 	'checkuser-week-1' => 'меельсе тарго',
@@ -4440,6 +4440,7 @@ $messages['myv'] = array(
 	'checkuser-blocked' => 'Саймес саезь',
 	'checkuser-locked' => 'Сёлгозь',
 	'checkuser-search-submit' => 'Вешнэмс',
+	'checkuser-search-initiator' => 'ушодксонь теиця',
 );
 
 /** Nahuatl (Nāhuatl)
@@ -5894,6 +5895,15 @@ Tu sú použité IP (max. 5 000, zoradené podľa adresy):',
 	'checkuser-autocreate-action' => 'bol automaticky vytvorený',
 	'checkuser-email-action' => 'poslaný email používateľovi „$1”',
 	'checkuser-reset-action' => 'vytvoriť nové heslo pre používateľa „$1”',
+);
+
+/** Slovenian (Slovenščina)
+ * @author Dbc334
+ */
+$messages['sl'] = array(
+	'group-checkuser' => 'Preveri uporabnike',
+	'group-checkuser-member' => 'Preveri uporabnika',
+	'grouppage-checkuser' => '{{ns:project}}:Preveri uporabnika',
 );
 
 /** Albanian (Shqip)
