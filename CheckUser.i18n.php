@@ -6404,8 +6404,11 @@ $messages['te'] = array(
  * @author MF-Warburg
  */
 $messages['tet'] = array(
+	'checkuser' => "Verifika uza-na'in",
+	'checkuser-contribs' => "verifika diresaun IP uza-na'in nian",
 	'group-checkuser' => 'CheckUser',
-	'group-checkuser-member' => 'CheckUser',
+	'group-checkuser-member' => "Ema ne'ebé bele halo CheckUser",
+	'right-checkuser' => "verifika diresaun IP uza-na'in nian no informasaun seluk",
 	'grouppage-checkuser' => '{{ns:project}}:CheckUser',
 	'checkuser-reason' => 'Motivu:',
 	'checkuser-log' => 'Lista checkuser',
