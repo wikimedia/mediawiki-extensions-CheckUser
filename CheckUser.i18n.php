@@ -5954,6 +5954,7 @@ $messages['sl'] = array(
 	'checkuser-search-target' => 'cilj',
 	'checkuser-ipeditcount' => '~$1 od vseh uporabnikov',
 	'checkuser-log-subpage' => 'Dnevnik',
+	'checkuser-autocreate-action' => 'je bil samodejno ustvarjen',
 	'checkuser-email-action' => 'pošlji e-pošto uporabniku »$1«',
 	'checkuser-reset-action' => 'ponastavi geslo uporabnika »$1«',
 );
