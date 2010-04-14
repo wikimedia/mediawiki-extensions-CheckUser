@@ -3043,6 +3043,7 @@ Ecce le IPs usate (max. 5000, ordinate per adresse):',
  * @author Borgx
  * @author Irwangatot
  * @author IvanLanin
+ * @author Iwan Novirion
  * @author Rex
  */
 $messages['id'] = array(
@@ -3063,7 +3064,7 @@ Harap gunakan peralatan ini sesuai dengan kebijakan yang ada.',
 	'checkuser-showlog' => 'Tampilkan log',
 	'checkuser-log' => 'Log pemeriksaan pengguna',
 	'checkuser-query' => 'Kueri perubahan terbaru',
-	'checkuser-target' => 'Pengguna atau IP',
+	'checkuser-target' => 'Alamat IP atau nama pengguna:',
 	'checkuser-users' => 'Cari pengguna',
 	'checkuser-edits' => 'Cari suntingan dari IP',
 	'checkuser-ips' => 'Cari IP',
