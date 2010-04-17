@@ -105,6 +105,7 @@ Here are the IPs used (5000 max, sorted by address):',
  * @author Jon Harald Søby
  * @author Kwj2772
  * @author Lejonel
+ * @author Lloffiwr
  * @author Meno25
  * @author Mormegil
  * @author Purodha
@@ -114,6 +115,7 @@ Here are the IPs used (5000 max, sorted by address):',
  * @author Tgr
  */
 $messages['qqq'] = array(
+	'checkuser-summary' => "Explanation of CheckUser tool. See [http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface screenshot titled 'Basic CheckUser interface'].",
 	'checkuser-desc' => 'Short description of the CheckUser extension, shown on [[Special:Version]]',
 	'checkuser' => 'Check user extension. The name of the special page where checkusers can check the IP addresses of users. The message is used in the list of special pages, and at the top of [[Special:Checkuser]].
 
@@ -124,6 +126,7 @@ $messages['qqq'] = array(
 	'right-checkuser-log' => '{{doc-right}}',
 	'grouppage-checkuser' => '{{Identical|Check user}}',
 	'checkuser-reason' => '{{Identical|Reason}}',
+	'checkuser-query' => "Fieldset label. See [http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface screenshot titled 'Basic CheckUser interface'].",
 	'checkuser-target' => '{{Identical|IP address or username}}',
 	'checkuser-search' => '{{Identical|Search}}',
 	'checkuser-period' => '{{Identical|Duration}}',
