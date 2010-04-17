@@ -95,7 +95,7 @@ class CheckUser extends SpecialPage {
 			if ( $wgRequest->getVal( 'action' ) === 'block' ) {
 				$this->doMassUserBlock( $users, $blockreason, $tag, $talkTag );
 			} elseif ( !$this->checkReason( $reason ) ) {
-				$wgOut->addWikiText( wfMsgExt( 'checkuser-noreason', array( 'parsemag' ) ) );
+				$wgOut->addWikiMsg( 'checkuser-noreason' );
 			} elseif ( $checktype == 'subuserips' ) {
 				$this->doUserIPsRequest( $name, $reason, $period );
 			} elseif ( $xff && $checktype == 'subipedits' ) {
@@ -162,6 +162,7 @@ class CheckUser extends SpecialPage {
 					'|' . wfMsg( 'checkuser-showlog' ) . ']]'
 			);
 		}
+		// FIXME: use more Xml/Html methods
 		$form = "<form name='checkuserform' id='checkuserform' action=\"$action\" method='post'>";
 		$form .= '<fieldset><legend>' . wfMsgHtml( 'checkuser-query' ) . '</legend>';
 		$form .= '<table border="0" cellpadding="2"><tr>';
@@ -171,18 +172,18 @@ class CheckUser extends SpecialPage {
 		$form .= '</tr><tr>';
 		$form .= '<td></td><td class="checkuserradios"><table border="0" cellpadding="3"><tr>';
 		$form .= '<td>' . Xml::radio( 'checktype', 'subuserips', $encuserips, array( 'id' => 'subuserips' ) );
-		$form .= ' ' . Xml::label( wfMsgHtml( 'checkuser-ips' ), 'subuserips' ) . '</td>';
+		$form .= ' ' . Xml::label( wfMsg( 'checkuser-ips' ), 'subuserips' ) . '</td>';
 		$form .= '<td>' . Xml::radio( 'checktype', 'subipedits', $encipedits, array( 'id' => 'subipedits' ) );
-		$form .= ' ' . Xml::label( wfMsgHtml( 'checkuser-edits' ), 'subipedits' ) . '</td>';
+		$form .= ' ' . Xml::label( wfMsg( 'checkuser-edits' ), 'subipedits' ) . '</td>';
 		$form .= '<td>' . Xml::radio( 'checktype', 'subipusers', $encipusers, array( 'id' => 'subipusers' ) );
-		$form .= ' ' . Xml::label( wfMsgHtml( 'checkuser-users' ), 'subipusers' ) . '</td>';
+		$form .= ' ' . Xml::label( wfMsg( 'checkuser-users' ), 'subipusers' ) . '</td>';
 		$form .= '<td>' . Xml::radio( 'checktype', 'subuseredits', $encuseredits, array( 'id' => 'subuseredits' ) );
-		$form .= ' ' . Xml::label( wfMsgHtml( 'checkuser-account' ), 'subuseredits' ) . '</td>';
+		$form .= ' ' . Xml::label( wfMsg( 'checkuser-account' ), 'subuseredits' ) . '</td>';
 		$form .= '</tr></table></td>';
 		$form .= '</tr><tr>';
 		$form .= '<td>' . wfMsgHtml( 'checkuser-reason' ) . '</td>';
 		$form .= '<td>' . Xml::input( 'reason', 46, $reason, array( 'maxlength' => '150', 'id' => 'checkreason' ) );
-		$form .= '&nbsp; &nbsp;' . Xml::submitButton( wfMsgHtml( 'checkuser-check' ),
+		$form .= '&nbsp; &nbsp;' . Xml::submitButton( wfMsg( 'checkuser-check' ),
 			array( 'id' => 'checkusersubmit', 'name' => 'checkusersubmit' ) ) . '</td>';
 		$form .= '</tr></table></fieldset></form>';
 		# Output form
@@ -194,6 +195,7 @@ class CheckUser extends SpecialPage {
 	 */
 	protected function addStyles() {
 		global $wgScriptPath, $wgCheckUserStyleVersion, $wgOut;
+		// FIXME, use Html::
 		$encJSFile = htmlspecialchars( "$wgScriptPath/extensions/CheckUser/checkuser.js?$wgCheckUserStyleVersion" );
 		$wgOut->addScript( "<script type=\"text/javascript\" src=\"$encJSFile\"></script>" );
 	}
@@ -229,6 +231,7 @@ class CheckUser extends SpecialPage {
 	}
 
 	/**
+	 * FIXME: documentation incomplete
 	 * Block a list of selected users
 	 * @param array $users
 	 * @param string $reason
@@ -237,23 +240,22 @@ class CheckUser extends SpecialPage {
 	protected function doMassUserBlock( $users, $reason = '', $tag = '', $talkTag = '' ) {
 		global $wgOut, $wgUser, $wgCheckUserMaxBlocks, $wgLang;
 		if ( empty( $users ) || $wgUser->isBlocked( false ) ) {
-			$wgOut->addWikiText( wfMsgExt( 'checkuser-block-failure', array( 'parsemag' ) ) );
+			$wgOut->addWikiMsg( 'checkuser-block-failure' );
 			return;
 		} elseif ( count( $users ) > $wgCheckUserMaxBlocks ) {
-			$wgOut->addWikiText( wfMsgExt( 'checkuser-block-limit', array( 'parsemag' ) ) );
+			$wgOut->addWikiMsg( 'checkuser-block-limit' );
 			return;
 		} elseif ( !$reason ) {
-			$wgOut->addWikiText( wfMsgExt( 'checkuser-block-noreason', array( 'parsemag' ) ) );
+			$wgOut->addWikiMsg( 'checkuser-block-noreason' );
 			return;
 		}
 		$safeUsers = IPBlockForm::doMassUserBlock( $users, $reason, $tag, $talkTag );
 		if ( !empty( $safeUsers ) ) {
 			$n = count( $safeUsers );
 			$ulist = $wgLang->listToText( $safeUsers );
-			$wgOut->addWikiText( wfMsgExt( 'checkuser-block-success', 'parsemag',
-				$ulist, $wgLang->formatNum( $n ) ) );
+			$wgOut->addWikiMsg( 'checkuser-block-success', $ulist, $wgLang->formatNum( $n ) );
 		} else {
-			$wgOut->addWikiText( wfMsgExt( 'checkuser-block-failure', 'parsemag' ) );
+			$wgOut->addWikiMsg( 'checkuser-block-failure' );
 		}
 	}
 
@@ -289,6 +291,7 @@ class CheckUser extends SpecialPage {
 		if ( $lastEdit ) {
 			$lastEditDate = $wgLang->date( wfTimestamp( TS_MW, $lastEdit ), true );
 			$lastEditTime = $wgLang->time( wfTimestamp( TS_MW, $lastEdit ), true );
+			// FIXME: don't pass around parsed messages
 			return wfMsgExt( 'checkuser-nomatch-edits', 'parse', $lastEditDate, $lastEditTime );
 		}
 		return wfMsgExt( 'checkuser-nomatch', 'parse' );
@@ -300,8 +303,9 @@ class CheckUser extends SpecialPage {
 	}
 
 	/**
-	 * @param string $ip
-	 * @param bool $xfor
+	 * FIXME: documentation out of date
+	 * @param string $ip <???
+	 * @param bool $xfor <???
 	 * @param string $reason
 	 * Get all IPs used by a user
 	 * Shows first and last date and number of edits
@@ -324,6 +328,7 @@ class CheckUser extends SpecialPage {
 
 		# If user is not IP or nonexistent
 		if ( !$user_id ) {
+			// FIXME: addWikiMsg
 			$s = wfMsgExt( 'nosuchusershort', array( 'parse' ), $user );
 			$wgOut->addHTML( $s );
 			return;
@@ -331,6 +336,7 @@ class CheckUser extends SpecialPage {
 
 		# Record check...
 		if ( !$this->addLogEntry( 'userips', 'user', $user, $reason, $user_id ) ) {
+			// FIXME: addWikiMsg
 			$wgOut->addHTML( '<p>' . wfMsgHtml( 'checkuser-log-fail' ) . '</p>' );
 		}
 		$dbr = wfGetDB( DB_SLAVE );
@@ -352,6 +358,7 @@ class CheckUser extends SpecialPage {
 			$counter = 0;
 			while ( $row = $dbr->fetchObject( $ret ) ) {
 				if ( $counter >= 5000 ) {
+					// FIXME: addWikiMSG
 					$wgOut->addHTML( wfMsgExt( 'checkuser-limited', array( 'parse' ) ) );
 					break;
 				}
@@ -440,6 +447,7 @@ class CheckUser extends SpecialPage {
 	 * @param string $ip
 	 * @param bool $xfor
 	 * @param string $reason
+	 * FIXME: $period ???
 	 * Shows all edits in Recent Changes by this IP (or range) and who made them
 	 */
 	protected function doIPEditsRequest( $ip, $xfor = false, $reason = '', $period = 0 ) {
@@ -501,6 +509,7 @@ class CheckUser extends SpecialPage {
 			$s .= '<ol>';
 			while ( $row = $ret->fetchObject() ) {
 				if ( $counter >= 5000 ) {
+					// FIXME: addWikiMsg
 					$wgOut->addHTML( wfMsgExt( 'checkuser-limited', array( 'parse' ) ) );
 					break;
 				}
@@ -559,6 +568,7 @@ class CheckUser extends SpecialPage {
 			$s = '<div id="checkuserresults">';
 			while ( $row = $ret->fetchObject() ) {
 				if ( $counter >= 5000 ) {
+					// FIXME: addWikiMsg
 					$wgOut->addHTML( wfMsgExt( 'checkuser-limited', array( 'parse' ) ) );
 					break;
 				}
