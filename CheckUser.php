@@ -30,7 +30,7 @@ $wgExtensionCredits['specialpage'][] = array(
 	'name' => 'CheckUser',
 	'version' => '2.3',
 	'url' => 'http://www.mediawiki.org/wiki/Extension:CheckUser',
-	'descriptionmsg'=> 'checkuser-desc',	
+	'descriptionmsg' => 'checkuser-desc',
 );
 
 // New user rights
@@ -92,7 +92,7 @@ function efUpdateCheckUserData( $rc ) {
 	// $rc_comment should just be the log_comment
 	// BC: check if log_type and log_action exists
 	// If not, then $rc_comment is the actiontext and comment
-	if( isset( $rc_log_type ) && $rc_type == RC_LOG ) {
+	if ( isset( $rc_log_type ) && $rc_type == RC_LOG ) {
 		$target = Title::makeTitle( $rc_namespace, $rc_title );
 		$actionText = LogPage::actionText( $rc_log_type, $rc_log_action, $target,
 			null, LogPage::extractParams( $rc_params )
@@ -123,13 +123,13 @@ function efUpdateCheckUserData( $rc ) {
 		'cuc_agent'      => $agent
 	);
 	# On PG, MW unsets cur_id due to schema incompatibilites. So it may not be set!
-	if( isset( $rc_cur_id ) ) {
+	if ( isset( $rc_cur_id ) ) {
 		$rcRow['cuc_page_id'] = $rc_cur_id;
 	}
 	$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
 
 	# Every 100th edit, prune the checkuser changes table.
-	if( 0 == mt_rand( 0, 99 ) ) {
+	if ( 0 == mt_rand( 0, 99 ) ) {
 		# Periodically flush old entries from the recentchanges table.
 		global $wgCUDMaxAge;
 		$cutoff = $dbw->timestamp( time() - $wgCUDMaxAge );
@@ -186,7 +186,7 @@ function efUpdateCUPasswordResetData( $user, $ip, $account ) {
  */
 function efUpdateCUEmailData( $to, $from, $subject, $text ) {
 	global $wgSecretKey;
-	if( !$wgSecretKey || $from->name == $to->name ) {
+	if ( !$wgSecretKey || $from->name == $to->name ) {
 		return true;
 	}
 	wfLoadExtensionMessages( 'CheckUser' );
@@ -277,7 +277,7 @@ function efUpdateAutoCreateData( $user ) {
  * @return array( string, bool )
  */
 function efGetClientIPfromXFF( $xff, $address = null ) {
-	if( !$xff ) {
+	if ( !$xff ) {
 		return array( null, false );
 	}
 	// Avoid annoyingly long xff hacks
@@ -286,18 +286,18 @@ function efGetClientIPfromXFF( $xff, $address = null ) {
 	$trusted = true;
 	// Check each IP, assuming they are separated by commas
 	$ips = explode( ',', $xff );
-	foreach( $ips as $n => $ip ) {
+	foreach ( $ips as $n => $ip ) {
 		$ip = trim( $ip );
 		// If it is a valid IP, not a hash or such
-		if( IP::isIPAddress( $ip ) ) {
+		if ( IP::isIPAddress( $ip ) ) {
 			# The first IP should be the client.
 			# Start only from the first public IP.
-			if( is_null( $client ) ) {
-				if( IP::isPublic( $ip ) ) {
+			if ( is_null( $client ) ) {
+				if ( IP::isPublic( $ip ) ) {
 					$client = $ip;
 				}
 			# Check that all servers are trusted
-			} elseif( !wfIsTrustedProxy( $ip ) ) {
+			} elseif ( !wfIsTrustedProxy( $ip ) ) {
 				$trusted = false;
 				break;
 			}
@@ -323,7 +323,7 @@ function efXFFChainIsSquid( $xff ) {
 	$squidOnly = true;
 	// Check each IP, assuming they are separated by commas
 	$ips = explode( ',', $xff );
-	foreach( $ips as $n => $ip ) {
+	foreach ( $ips as $n => $ip ) {
 		$ip = trim( $ip );
 		// If it is a valid IP, not a hash or such
 		if ( IP::isIPAddress( $ip ) ) {
@@ -346,14 +346,14 @@ function efCheckUserSchemaUpdates() {
 	$base = dirname( __FILE__ );
 
 	$db = wfGetDB( DB_MASTER );
-	if( $db->tableExists( 'cu_changes' ) ) {
+	if ( $db->tableExists( 'cu_changes' ) ) {
 		echo "...cu_changes already exists.\n";
 	} else {
 		require_once "$base/install.inc";
 		create_cu_changes( $db );
 	}
 
-	if( $db->tableExists( 'cu_log' ) ) {
+	if ( $db->tableExists( 'cu_log' ) ) {
 		echo "...cu_log already exists.\n";
 	} else {
 		require_once "$base/install.inc";
@@ -397,7 +397,7 @@ $wgAutoloadClasses['CheckUser'] = dirname( __FILE__ ) . '/CheckUser_body.php';
  */
 function efLoadCheckUserLink( $id, $nt, &$links ) {
 	global $wgUser;
-	if( $wgUser->isAllowed( 'checkuser' ) ) {
+	if ( $wgUser->isAllowed( 'checkuser' ) ) {
 		wfLoadExtensionMessages( 'CheckUser' );
 		$links[] = $wgUser->getSkin()->makeKnownLinkObj(
 			SpecialPage::getTitleFor( 'CheckUser' ),

@@ -1,7 +1,7 @@
 <?php
 
-require_once ( getenv('MW_INSTALL_PATH') !== false
-	? getenv('MW_INSTALL_PATH')."/maintenance/commandLine.inc"
+require_once ( getenv( 'MW_INSTALL_PATH' ) !== false
+	? getenv( 'MW_INSTALL_PATH' ) . "/maintenance/commandLine.inc"
 	: dirname( __FILE__ ) . '/../../maintenance/commandLine.inc' );
 require "cu_log_import.inc";
 
@@ -14,9 +14,9 @@ function test_cu_log( $log ) {
 	while ( false !== ( $line = fgets( $file ) ) ) {
 		$found = false;
 		$data = import_cu_log_line( $line );
-		if( $data ) {
+		if ( $data ) {
 			$matched++;
-			if( !$data['timestamp'] ) {
+			if ( !$data['timestamp'] ) {
 				print "[bad timestamp] $line";
 				$badtime++;
 			}
@@ -29,13 +29,13 @@ function test_cu_log( $log ) {
 	print "\n$matched matched, $badtime matched with bad time, $unmatched unprocessed\n";
 }
 
-if( $args ) {
+if ( $args ) {
 	$log = $args[0];
-	if( isset( $options['test'] ) ) {
+	if ( isset( $options['test'] ) ) {
 		test_cu_log( $log );
 	} else {
 		$dryRun = isset( $options['dry-run'] );
-		if( $dryRun ) {
+		if ( $dryRun ) {
 			$db = false;
 			echo "Dry run; no actual imports will be made...\n";
 		} else {
