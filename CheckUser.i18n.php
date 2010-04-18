@@ -125,42 +125,81 @@ $messages['qqq'] = array(
 	'right-checkuser' => '{{doc-right}}',
 	'right-checkuser-log' => '{{doc-right}}',
 	'grouppage-checkuser' => '{{Identical|Check user}}',
-	'checkuser-reason' => '{{Identical|Reason}}',
+	'checkuser-reason' => "Field name on CheckUser Special page. See screenshot '[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]'.
+
+{{Identical|Reason}}",
+	'checkuser-showlog' => "Label for link on CheckUser Special page. See screenshot '[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]'.",
 	'checkuser-query' => "Fieldset label. See [http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface screenshot titled 'Basic CheckUser interface'].",
 	'checkuser-target' => '{{Identical|IP address or username}}',
-	'checkuser-search' => '{{Identical|Search}}',
-	'checkuser-period' => '{{Identical|Duration}}',
+	'checkuser-users' => "Radio button option on CheckUser Special page. See screenshot '[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]'.",
+	'checkuser-edits' => "Radio button option on CheckUser Special page. See screenshot '[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]'.",
+	'checkuser-ips' => "Option on CheckUser Special page. See screenshot '[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]'.",
+	'checkuser-account' => "Radio button option on CheckUser Special page. See screenshot '[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]'.",
+	'checkuser-search' => 'Heading of fieldset on log of CheckUser searches. See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]".
+
+{{Identical|Search}}',
+	'checkuser-period' => "Field name next to drop-down input box on CheckUser Special page. See screenshot '[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]'.
+
+{{Identical|Duration}}",
 	'checkuser-all' => '{{Identical|All}}',
 	'checkuser-nomatch-edits' => '* $1 = date
 * $2 = time',
+	'checkuser-check' => 'Button label on CheckUser Special page. See screenshot \'[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]\'.
+
+Also appears to be used as link to new CheckUser check from the results page of a CheckUser check - see screenshot "Example IP check".',
 	'checkuser-massblock' => '{{Identical|Block selected users}}',
 	'checkuser-massblock-commit' => '{{Identical|Block selected users}}',
 	'checkuser-block-success' => '* $1 is a list of one or more usernames
 * $2 is the number of usernames in $1.',
 	'checkuser-search-form' => 'This message is a search form for the checkuser log.
 * $1 is a drop down box with search types
-* $2 is a text input field for the search pattern',
-	'checkuser-search-submit' => '{{Identical|Search}}',
-	'checkuser-search-initiator' => "This is shown on the log page of [[Special:CheckUser]]. Initiator means CheckUser who check someone's information.",
-	'checkuser-ipeditcount' => "This information is shown on the result page of [[mw:Extension:CheckUser|Special:CheckUser]] (when doing the ''{{int:Checkuser-users}}'' check), next to the individual listed IPs. It shows an estimate of the total number of edits from the respective IP (i.e. the number of edits by all users, not only by the requested user). As the comment in the code says: ''If we get some results, it helps to know if the IP in general has a lot more edits, e.g. “tip of the iceberg”…''",
+* $2 is a text input field for the search pattern
+
+See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]".',
+	'checkuser-search-submit' => 'Button label on log of CheckUser searches. See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]".
+
+{{Identical|Search}}',
+	'checkuser-search-initiator' => 'This message is an option in an input box on the search form for the checkuser log.
+It is parameter $1 in the message {{msg-mw|Checkuser-search-form}}.
+
+See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]".
+
+Initiator means the CheckUser who checks someone\'s information.',
+	'checkuser-ipeditcount' => "This information is shown on the result page of [[mw:Extension:CheckUser#Basic_interface|Special:CheckUser]] (when doing the ''{{int:Checkuser-users}}'' check), next to the individual listed IPs. See screenshot \"Example user name check\". 
+
+\$1 is an estimate of the total number of edits from the respective IP (i.e. the number of edits by all users, not only by the requested user). As the comment in the code says: ''If we get some results, it helps to know if the IP in general has a lot more edits, e.g. “tip of the iceberg”…''",
+	'checkuser-log-return' => 'Link label on log of CheckUser searches. See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]".',
 	'checkuser-limited' => 'A message shown above CheckUser results if the result list would be longer than the specified limit (5000 entries), and has been truncated.',
 	'checkuser-log-userips' => 'This is an entry in the checkuser log when a checkuser checks from which IP addresses a user has edited.
 * Parameter $1 is the user who did the check
-* Parameter $2 is the user that was checked, with links to talk page, contributions, and block (like this: [[User:Username|Username]] ( [[User talk|Talk]] | [[Special:Contributions/Username|contribs]] | [[Special:Blockip|block]]) )',
+* Parameter $2 is the user that was checked, with links to talk page, contributions, and block (like this: [[User:Username|Username]] ( [[User talk|Talk]] | [[Special:Contributions/Username|contribs]] | [[Special:Blockip|block]]) )
+
+See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]".',
 	'checkuser-log-ipedits' => 'This is an entry in the checkuser log when a checkuser checks which edits have been done from an IP address.
 * Parameter $1 is the user who did the check
-* Parameter $2 is the IP address that was checked',
+* Parameter $2 is the IP address that was checked
+
+See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]".',
 	'checkuser-log-ipusers' => 'This is an entry in the checkuser log when a checkuser checks which users have used an IP address.
 *Parameter $1 is the user who did the check
-*Parameter $2 is the IP address',
+*Parameter $2 is the IP address
+
+See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]".',
 	'checkuser-log-ipedits-xff' => 'This is an entry in the checkuser log when a checkuser checks which edits have been done from an XFF IP address (XFF means X-Forwarded-For. Some providers use proxies to forward user requests. This effectively means anonymization of requests. To make the requesting user identifiable again, the original requesting IP is transmitted in a separate HTTP header, the XFF header.).
 * Parameter $1 is the user who did the check
-* Parameter $2 is the IP address that was checked',
+* Parameter $2 is the IP address that was checked
+
+See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]".',
 	'checkuser-log-ipusers-xff' => 'This is an entry in the checkuser log when a checkuser checks which users have used an XFF IP address (XFF means X-Forwarded-For. Some providers use proxies to forward user requests. This effectively means anonymization of requests. To make the requesting user identifiable again, the original requesting IP is transmitted in a separate HTTP header, the XFF header.).
 *Parameter $1 is the user who did the check
-*Parameter $2 is the IP address',
-	'checkuser-log-useredits' => ":'''$1:''' name of checkuser
-:'''$2:''' name of user whose edits were inspected",
+*Parameter $2 is the IP address
+
+See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]".',
+	'checkuser-log-useredits' => "This is an entry in the checkuser log when a checkuser checks which edits have been done from an IP address.
+:'''\$1:''' name of checkuser
+:'''\$2:''' name of user whose edits were inspected
+
+See screenshot \"[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]\".",
 	'checkuser-autocreate-action' => 'Text of the event displayed in the CheckUser results, corresponding to the automatic creation of a new user account (by CentralAuth).',
 );
 
@@ -1219,10 +1258,11 @@ $messages['cy'] = array(
 	'checkuser-reason' => 'Rheswm:',
 	'checkuser-showlog' => 'Dangos y lòg',
 	'checkuser-log' => 'Lòg archwilio defnyddwyr',
+	'checkuser-query' => "Chwilio'r newidiadau diweddar",
 	'checkuser-target' => 'Defnyddiwr neu gyfeiriad IP:',
 	'checkuser-users' => 'Nôl defnyddwyr',
 	'checkuser-edits' => "Nôl golygiadau o'r IP",
-	'checkuser-ips' => 'Nôl IPau',
+	'checkuser-ips' => 'Nôl cyfeiriadau IP',
 	'checkuser-account' => "Nôl y golygiadau a wneuthpwyd trwy'r cyfrif hwn",
 	'checkuser-search' => 'Chwilio',
 	'checkuser-period' => 'Cyfnod:',
@@ -1232,22 +1272,34 @@ $messages['cy'] = array(
 	'checkuser-all' => 'oll',
 	'checkuser-empty' => "Mae'r lòg yn wag.",
 	'checkuser-nomatch' => "Ni chafwyd hyd i ddim yn cyfateb â'r chwiliad.",
-	'checkuser-check' => 'Archwilio',
+	'checkuser-check' => 'Archwilier',
 	'checkuser-log-fail' => 'Yn methu ychwanegu cofnod lòg',
 	'checkuser-blocked' => 'Wedi ei flocio',
 	'checkuser-gblocked' => "Wedi ei flocio'n wici-gyfan",
 	'checkuser-locked' => 'Ar glo',
 	'checkuser-wasblocked' => "Wedi blocio o'r blaen",
+	'checkuser-massblock-commit' => 'Blocier y defnyddwyr dewisedig',
+	'checkuser-block-success' => "'''Gosodwyd bloc ar y {{PLURAL:$2||defnyddiwr|defnyddwyr|defnyddwyr|defnyddwyr|defnyddwyr}} $1.'''",
+	'checkuser-block-failure' => "'''Dim defnyddwyr wedi eu blocio.'''",
+	'checkuser-block-limit' => 'Dewiswyd gormod o ddefnyddwyr.',
 	'checkuser-block-noreason' => 'Rhaid cynnig rheswm dros y blociau.',
 	'checkuser-noreason' => 'Rhaid cynnig rheswm dros yr ymholiad hwn.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|cyfrif|cyfrif|gyfrif|chyfrif|chyfrif|cyfrif}} newydd',
-	'checkuser-search-form' => "Chwilio am gofnodion lòg gyda'r $1 $2",
-	'checkuser-search-submit' => 'Chwilio',
+	'checkuser-user-nonexistent' => "Nid yw'r defnyddiwr a enwyd ar gael.",
+	'checkuser-search-form' => "Canfod y cofnodion lòg sy'n ymwneud â'r $1 $2",
+	'checkuser-search-submit' => 'Chwilier',
+	'checkuser-search-initiator' => 'archwiliwr',
 	'checkuser-search-target' => 'y targed',
 	'checkuser-ipeditcount' => '~$1 gan holl ddefnyddwyr y cyfeiriad IP',
 	'checkuser-log-subpage' => 'Lòg',
-	'checkuser-log-return' => 'Dychwelyd at y brif ffurflen Archwilio Defnyddwyr',
+	'checkuser-log-return' => 'Dychwelyd at brif ffurflen Archwilio Defnyddwyr',
+	'checkuser-limited' => "'''Cwtogwyd ar y canlyniadau hyn er mwyn gallu perfformio'r dasg.'''",
 	'checkuser-log-userips' => '$1 wedi nôl y cyfeiriadau IP ynghlwm wrth $2',
+	'checkuser-log-ipedits' => '$1 wedi nôl y golygiadau gan $2',
+	'checkuser-log-ipusers' => "$1 wedi nôl y defnyddwyr sy'n defnyddio $2",
+	'checkuser-log-ipedits-xff' => "$1 wedi nôl y golygiadau o'r cyfeiriad XFF $2",
+	'checkuser-log-ipusers-xff' => "$1 wedi nôl y defnyddwyr sy'n defnyddio'r cyfeiriad XFF $2",
+	'checkuser-log-useredits' => '$1 wedi nôl y golygiadau gan $2',
 	'checkuser-autocreate-action' => "wedi ei greu'n awtomatig",
 	'checkuser-email-action' => 'wedi anfon e-bost at y defnyddiwr "$1"',
 	'checkuser-reset-action' => 'wedi ailosod y cyfrinair ar gyfer y defnyddiwr "$1"',
