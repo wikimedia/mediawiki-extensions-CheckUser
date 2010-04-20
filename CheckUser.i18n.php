@@ -1272,8 +1272,11 @@ $messages['cy'] = array(
 	'checkuser-all' => 'oll',
 	'checkuser-empty' => "Mae'r lòg yn wag.",
 	'checkuser-nomatch' => "Ni chafwyd hyd i ddim yn cyfateb â'r chwiliad.",
+	'checkuser-nomatch-edits' => "Dim yn cyfateb i'r chwiliad.
+Golygwyd ddiwethaf ar $1 am $2.",
 	'checkuser-check' => 'Archwilier',
 	'checkuser-log-fail' => 'Yn methu ychwanegu cofnod lòg',
+	'checkuser-nolog' => "Dim ffeil lòg i'w gael.",
 	'checkuser-blocked' => 'Wedi ei flocio',
 	'checkuser-gblocked' => "Wedi ei flocio'n wici-gyfan",
 	'checkuser-locked' => 'Ar glo',
