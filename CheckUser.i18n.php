@@ -4171,7 +4171,7 @@ $messages['lv'] = array(
 	'checkuser' => 'Pārbaudīt lietotāju',
 	'group-checkuser' => 'Pārbaudes lietotāji',
 	'checkuser-reason' => 'Iemesls:',
-	'checkuser-target' => 'Lietotājs vai IP',
+	'checkuser-target' => 'IP adrese vai lietotājvārds:',
 	'checkuser-search' => 'Meklēt',
 	'checkuser-check' => 'Pārbaudīt',
 );
