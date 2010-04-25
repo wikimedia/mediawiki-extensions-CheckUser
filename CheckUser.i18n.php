@@ -932,14 +932,14 @@ D'an $1 da $2 eo bet graet ar c'hemm diwezhañ.",
 	'checkuser-massblock' => 'Stankañ an implijerien dibabet',
 	'checkuser-massblock-text' => "Ar gontoù dibabet a vo stanket da viken, gant ar stankadur emgefre gweredekaat ha krouidigezh ur gont diweredekaat.
 Ar chomlec'hioù IP a vo stanket e-pad ur sizhunvezh hepken evit an implijerien a ra gant an IP ha krouidigezh ur gont a vo diweredekaat.",
-	'checkuser-blocktag' => "Erlec'hiañ ar bajennoù implijer gant :",
-	'checkuser-blocktag-talk' => "Erlec'hiañ ar bajennoù kaozeal gant :",
+	'checkuser-blocktag' => "Erlec'hiañ ar pajennoù implijer gant :",
+	'checkuser-blocktag-talk' => "Erlec'hiañ ar pajennoù kaozeal gant :",
 	'checkuser-massblock-commit' => 'Stankañ an implijerien diuzet',
 	'checkuser-block-success' => "'''Stanket eo an {{PLURAL:$2|implijer|implijerien}} $1 bremañ'''",
 	'checkuser-block-failure' => "'''Implijer ebet stanket.'''",
 	'checkuser-block-limit' => 'Re a implijerien diuzet.',
-	'checkuser-block-noreason' => "Ret eo deoc'h abegiñ ar stankadennoù.",
-	'checkuser-noreason' => "Ret eo deoc'h abegiñ evit ar reked-mañ.",
+	'checkuser-block-noreason' => "Ret eo deoc'h reizhabegiñ ar stankadennoù.",
+	'checkuser-noreason' => "Ret eo deoc'h reizhabegiñ an enklask-mañ.",
 	'checkuser-accounts' => '$1 {{PLURAL:$1|kont|kont}} nevez',
 	'checkuser-too-many' => "Re a zisoc'hoù (hervez istimadur ar reked), strishaat ar CIDR mar plij.
 Setu an IPoù implijet (5000 d'ar muiañ, urzhiet dre ar chomlec'h) :",
@@ -3751,6 +3751,8 @@ $messages['km'] = array(
 $messages['kn'] = array(
 	'checkuser' => 'ಸದಸ್ಯನನ್ನು ಚೆಕ್ ಮಾಡಿ',
 	'checkuser-reason' => 'ಕಾರಣ:',
+	'checkuser-search' => 'ಹುಡುಕು',
+	'checkuser-search-submit' => 'ಹುಡುಕು',
 );
 
 /** Korean (한국어)
@@ -5290,7 +5292,7 @@ Endereços IP serão bloqueados por 1 semana com a criação de conta impossibil
 	'checkuser-block-noreason' => 'Tem de especificar um motivo para os bloqueios.',
 	'checkuser-noreason' => 'Deverá fornecer um motivo para esta pesquisa.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nova conta|novas contas}}',
-	'checkuser-too-many' => 'Há demasiados resultados (segundo estimativa de pesquisa); por favor, restrinja o CIDR.
+	'checkuser-too-many' => 'Há demasiados resultados (segundo estimativa da pesquisa); por favor, restrinja o CIDR.
 Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
 	'checkuser-user-nonexistent' => 'O utilizador especificado não existe.',
 	'checkuser-search-form' => 'Procurar entradas no registo onde $1 seja $2',
