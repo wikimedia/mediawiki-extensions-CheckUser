@@ -6946,7 +6946,7 @@ $messages['uk'] = array(
 	'checkuser-cidr-label' => 'Знайти загальний діапазон і задіяні адреси для списку IP-адрес',
 	'checkuser-cidr-res' => 'Спільний CIDR:',
 	'checkuser-empty' => 'Журнал порожній.',
-	'checkuser-nomatch' => 'Не знайдено співпадінь.',
+	'checkuser-nomatch' => 'Не знайдено збігів.',
 	'checkuser-nomatch-edits' => 'Збіги не знайдені.
 Останнє редагування зроблене $1 о $2.',
 	'checkuser-check' => 'Перевірити',
