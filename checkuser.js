@@ -4,7 +4,7 @@
 
 /*
 * This function calculates the common range of a list of
-* IPs. It should be set to update on keyUp. 
+* IPs. It should be set to update on keyUp.
 */
 function updateCIDRresult() {
 	var form = document.getElementById( 'mw-checkuser-cidrform' );

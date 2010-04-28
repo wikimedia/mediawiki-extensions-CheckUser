@@ -15,7 +15,7 @@ $messages = array();
 $messages['en'] = array(
 	'checkuser-summary'          => 'This tool scans recent changes to retrieve the IP addresses used by a user or show the edit/user data for an IP address.
 Users and edits by a client IP address can be retrieved via XFF headers by appending the IP address with "/xff". IPv4 (CIDR 16-32) and IPv6 (CIDR 96-128) are supported.
-No more than 5000 edits will be returned for performance reasons.
+No more than 5,000 edits will be returned for performance reasons.
 Use this in accordance with policy.',
 	'checkuser-desc'             => 'Grants users with the appropriate permission the ability to check user\'s IP addresses and other information',
 	'checkuser-logcase'          => 'The log search is case sensitive.',
@@ -56,7 +56,7 @@ Last edit was on $1 at $2.',
 	'checkuser-wasblocked'       => 'Previously blocked',
 	'checkuser-localonly'        => 'Not unified',
 	'checkuser-massblock'        => 'Block selected users',
-	'checkuser-massblock-text'   => 'Selected accounts will be blocked indefinitely, with autoblocking enabled and account creation disabled. 
+	'checkuser-massblock-text'   => 'Selected accounts will be blocked indefinitely, with autoblocking enabled and account creation disabled.
 	IP addresses will be blocked for 1 week for IP users only and with account creation disabled.',
 	'checkuser-blocktag'         => 'Replace user pages with:',
 	'checkuser-blocktag-talk'    => 'Replace talk pages with:',
@@ -165,7 +165,7 @@ It is parameter $1 in the message {{msg-mw|Checkuser-search-form}}.
 See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]".
 
 Initiator means the CheckUser who checks someone\'s information.',
-	'checkuser-ipeditcount' => "This information is shown on the result page of [[mw:Extension:CheckUser#Basic_interface|Special:CheckUser]] (when doing the ''{{int:Checkuser-users}}'' check), next to the individual listed IPs. See screenshot \"Example user name check\". 
+	'checkuser-ipeditcount' => "This information is shown on the result page of [[mw:Extension:CheckUser#Basic_interface|Special:CheckUser]] (when doing the ''{{int:Checkuser-users}}'' check), next to the individual listed IPs. See screenshot \"Example user name check\".
 
 \$1 is an estimate of the total number of edits from the respective IP (i.e. the number of edits by all users, not only by the requested user). As the comment in the code says: ''If we get some results, it helps to know if the IP in general has a lot more edits, e.g. “tip of the iceberg”…''",
 	'checkuser-log-return' => 'Link label on log of CheckUser searches. See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]".',
@@ -449,7 +449,7 @@ $messages['arc'] = array(
  */
 $messages['arz'] = array(
 	'checkuser-summary' => 'الوسيلة دى بتدور فى احدث التغييرات علشان ترجع الايبيهات اللى استعملها يوزر او علشان تعرض بيانات التعديل/اليوزر لعنوان الاى بى.
-اليوزرز و التعديلات اللى اتعملت من أى بى عميل ممكن تترجع عن طريق عناوين XFF لو زودت على الاى بى "/xff". 
+اليوزرز و التعديلات اللى اتعملت من أى بى عميل ممكن تترجع عن طريق عناوين XFF لو زودت على الاى بى "/xff".
 IPv4 (CIDR 16-32) و IPv6 (CIDR 96-128) مدعومين.
 مش اكتر من 5000 تعديل ممكن تتعرض بسبب الاداء.
 استخدم دا بطريقة موافقة للسياسة.',
@@ -919,7 +919,7 @@ $messages['br'] = array(
 	'checkuser-cidr-res' => 'Lijorenn CIDR boutin :',
 	'checkuser-empty' => "N'eus pennad ebet er marilh",
 	'checkuser-nomatch' => "N'eus bet kavet netra.",
-	'checkuser-nomatch-edits' => "Kenglot ebet kavet. 
+	'checkuser-nomatch-edits' => "Kenglot ebet kavet.
 D'an $1 da $2 eo bet graet ar c'hemm diwezhañ.",
 	'checkuser-check' => 'Gwiriañ',
 	'checkuser-log-fail' => "Dibosupl ouzhpennañ ar moned d'ar marilh",
@@ -1476,7 +1476,7 @@ Aus Performance-Gründen werden maximal 5000 Bearbeitungen ausgegeben. Benutzen 
  */
 $messages['diq'] = array(
 	'checkuser-summary' => 'Ena xacet vurnayişanê neweyî skan keno ke adresanê IPyan reyan biyaro ke bimucne datayê karberî ser yew adresê IPyî.
-Karberan u vurnayîşan ke yew IPyê karberî kerd reyna yeno pê XFF u "/xff". IPv4 (CIDR 16-32) u IPv6 (CIDR 96-128) rê zi destek beno. 
+Karberan u vurnayîşan ke yew IPyê karberî kerd reyna yeno pê XFF u "/xff". IPv4 (CIDR 16-32) u IPv6 (CIDR 96-128) rê zi destek beno.
 5000 zafyer vurnayîşan sero netice nidano, qe performans hedi beno.
 Ena politika ma ser kar bike.',
 	'checkuser-desc' => 'Karberan rê destur bide ke adresanê IPyan u enformasyonê bînan kontrol bike',
@@ -1507,7 +1507,7 @@ Ena politika ma ser kar bike.',
 	'checkuser-cidr-res' => 'CIDRê muşterekî',
 	'checkuser-empty' => 'Ena log de çik çin o.',
 	'checkuser-nomatch' => 'Çik çin o.',
-	'checkuser-nomatch-edits' => 'Çik çin o. 
+	'checkuser-nomatch-edits' => 'Çik çin o.
 Vurnayîşê tewr penî seet $1 u rocê $2 de biyo.',
 	'checkuser-check' => 'Kontrol bike',
 	'checkuser-log-fail' => 'Nieşkeno log debiker',
@@ -1648,7 +1648,7 @@ $messages['ee'] = array(
 $messages['el'] = array(
 	'checkuser-summary' => 'Αυτό το εργαλείο σαρώνει τις πρόσφατες αλλαγές για να ανακτήσει τις IP διευθύνσεις που χρησιμοποιούνται από ένα χρήστη ή για να δείξει τα δεδομένα επεξεργασιών/χρηστών για μία IP.
 Χρήστες και επεξεργασίες από μία σταθερή IP μπορούν να ανακτηθούν μέσω XFF επικεφαλίδων προσαρτώντας "/xff" στην IP. Το IPv4 (CIDR 16-32) και το IPv6 (CIDR 96-128) υποστηρίζονται.
-Όχι περισσότερες από 5000 επεξεργασίες θα επιστραφούν για λόγους απόδοσης. 
+Όχι περισσότερες από 5000 επεξεργασίες θα επιστραφούν για λόγους απόδοσης.
 Χρησιμοποιήστε αυτό σύμφωνα με την πολιτική.',
 	'checkuser-desc' => 'Παρέχει στους χρήστες με την κατάλληλη άδεια την ικανότητα να ελέγχουν τη διεύθυνση IP ενός χρήστη καθώς και άλλες πληροφορίες',
 	'checkuser-logcase' => 'Η αναζήτηση στο αρχείο καταγραφής διακρίνει πεζά από κεφαλαία.',
@@ -1689,7 +1689,7 @@ $messages['el'] = array(
 	'checkuser-wasblocked' => 'Προηγουμένως φραγμένος',
 	'checkuser-localonly' => 'Μη ενοποιημένο',
 	'checkuser-massblock' => 'Επιβολή φραγής στους επιλεγμένους χρήστες',
-	'checkuser-massblock-text' => "Οι επιλεγμένοι λογαριασμοί θα φραγούν επ' αόριστον, με την αυτόματη φραγή ενεργοποιημένη και με αδύνατη τη δημιουργία λογαριασμού.  
+	'checkuser-massblock-text' => "Οι επιλεγμένοι λογαριασμοί θα φραγούν επ' αόριστον, με την αυτόματη φραγή ενεργοποιημένη και με αδύνατη τη δημιουργία λογαριασμού.
 Οι διευθύνσεις IP θα φραγούν για 1 εβδομάδα μόνο για τους χρήστες από IP και με αδύνατη τη δημιουργία λογαριασμού.",
 	'checkuser-blocktag' => 'Αντικατάσταση των σελίδων των χρηστών με:',
 	'checkuser-blocktag-talk' => 'Αντικαταστήστε τις σελίδες συζήτησης με:',
@@ -1781,7 +1781,7 @@ IP-adresoj estos forbarita 1 semajnon por IP-uzantoj kun kont-kreado malŝaltita
 	'checkuser-block-noreason' => 'Vi devas doni kialon por la forbaroj.',
 	'checkuser-noreason' => 'Vi devas doni kialon por ĉi tiu informomendo.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nova konto|novaj kontoj}}',
-	'checkuser-too-many' => 'Tro da rezultoj, laŭ taskoj de serĉomendo. Bonvolu malvastigi la CIDR. 
+	'checkuser-too-many' => 'Tro da rezultoj, laŭ taskoj de serĉomendo. Bonvolu malvastigi la CIDR.
 Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
 	'checkuser-user-nonexistent' => 'La donata uzanto ne ekzistas.',
 	'checkuser-search-form' => 'Trovi protokolerojn en kiu la $1 estas $2',
@@ -1864,7 +1864,7 @@ La última edición fue el $1 a las $2',
 	'checkuser-wasblocked' => 'Bloqueado anteriormente',
 	'checkuser-localonly' => 'No unificada',
 	'checkuser-massblock' => 'Bloquear usuarios seleccionados',
-	'checkuser-massblock-text' => 'Las cuentas seleccionadas serán bloqueadas de forma indefinida, con el autobloqueo habilitado y la creación de cuentas deshabilitada.  
+	'checkuser-massblock-text' => 'Las cuentas seleccionadas serán bloqueadas de forma indefinida, con el autobloqueo habilitado y la creación de cuentas deshabilitada.
 Las direcciones IP serán bloqueadas durante una semana para usuarios anónimos sólamente con la creación de cuentas deshabilitada.',
 	'checkuser-blocktag' => 'Reemplazar páginas del usuario con:',
 	'checkuser-blocktag-talk' => 'Reemplazar las páginas de discusión con:',
@@ -2464,7 +2464,7 @@ A última edición foi feita o $1 ás $2.',
 	'checkuser-wasblocked' => 'Bloqueados anteriormente',
 	'checkuser-localonly' => 'Sen unificar',
 	'checkuser-massblock' => 'Bloquear os usuarios seleccionados',
-	'checkuser-massblock-text' => 'As contas seleccionadas serán bloqueadas indefinidamente, co bloqueo automático permitido e a creación de contas deshabilitada.  
+	'checkuser-massblock-text' => 'As contas seleccionadas serán bloqueadas indefinidamente, co bloqueo automático permitido e a creación de contas deshabilitada.
 Os enderezos IP serán bloqueados cun tempo de duración dunha semana só para os usuarios con IP e coa creación de contas deshabilitada.',
 	'checkuser-blocktag' => 'Substituír as páxinas de usuario por:',
 	'checkuser-blocktag-talk' => 'Substituír as conversas con:',
@@ -3289,7 +3289,7 @@ Gli indirizzi IP saranno bloccati per una settimana solo per gli utenti anonimi 
 	'checkuser-block-noreason' => 'È obbligatorio fornire una motivazione per i blocchi.',
 	'checkuser-noreason' => 'È necessario fornire una motivazione per questa query.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nuovo|nuovi}} account',
-	'checkuser-too-many' => 'Troppi risultati (per la query), usa un CIDR più ristretto. 
+	'checkuser-too-many' => 'Troppi risultati (per la query), usa un CIDR più ristretto.
 Di seguito sono indicati gli indirizzi IP utilizzati (fino a un massimo di 5000, ordinati per indirizzo):',
 	'checkuser-user-nonexistent' => "L'utente indicato non esiste.",
 	'checkuser-search-form' => 'Trova le voci del log per le quali $1 è $2',
@@ -3495,7 +3495,7 @@ Alamat-alamat IP bakal diblokir jroning 1 minggu tumrap panganggo anonim lan ora
 	'checkuser-block-limit' => 'Cacahing panganggo sing dipilih kakèhan.',
 	'checkuser-block-noreason' => 'Panjenengan kudu mènèhi alesan pamblokiran',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|akun|akun-akun}} anyar',
-	'checkuser-too-many' => 'Kakèhan pituwas (miturut estimasi piakonan), tulung CIDR diciyutaké. 
+	'checkuser-too-many' => 'Kakèhan pituwas (miturut estimasi piakonan), tulung CIDR diciyutaké.
 Ing ngisor iki kapacak alamat-alamat IP sing dianggo (maks. 5.000, diurutaké miturut alamat):',
 	'checkuser-user-nonexistent' => 'Panganggo iki ora ana.',
 	'checkuser-search-form' => 'Temokna cathetan log ing ngendi $1 iku $2',
@@ -3533,7 +3533,7 @@ $messages['ka'] = array(
 	'checkuser-gblocked' => 'გლობალურად ბლოკირებული',
 	'checkuser-locked' => 'დახურვა',
 	'checkuser-massblock' => 'დაბლოკეთ არჩეული მომხმარებლები',
-	'checkuser-massblock-text' => 'არჩეული ანგარიშები დაიბლოკება ახალი ანგარიშების ნებართვის შექმნის გარეშე. 
+	'checkuser-massblock-text' => 'არჩეული ანგარიშები დაიბლოკება ახალი ანგარიშების ნებართვის შექმნის გარეშე.
 IP დაიბლოკება ერთი კვირით.',
 	'checkuser-blocktag' => 'ჩაანაცვლეთ მომხმარებლის გვერდები:',
 	'checkuser-blocktag-talk' => 'შეცვალეთ მომხმარებლის გვერდები:',
@@ -4244,7 +4244,7 @@ $messages['mk'] = array(
 	'checkuser-wasblocked' => 'Претходно блокиран',
 	'checkuser-localonly' => 'Необединета',
 	'checkuser-massblock' => 'Блокирај ги избраните корисници',
-	'checkuser-massblock-text' => 'Избраните сметки ќе бидат трајно блокирани, со овозможено автоблокирање и оневозможено создавање на сметки.  
+	'checkuser-massblock-text' => 'Избраните сметки ќе бидат трајно блокирани, со овозможено автоблокирање и оневозможено создавање на сметки.
 IP адресите ќе бидат блокирани 1 недела за само за корисници со IP адреса, и со оневозможено создавање на сметка.',
 	'checkuser-blocktag' => 'Замени ги корисничките страници со:',
 	'checkuser-blocktag-talk' => 'Замени ги страниците за разговор со:',
@@ -4336,7 +4336,7 @@ $messages['ml'] = array(
 	'checkuser-block-noreason' => 'തടയലിനു ഒരു കാരണം താങ്കൾ നൽകുക.',
 	'checkuser-noreason' => 'ഈ ചോദ്യത്തിനു താങ്കൾ നിർബന്ധമായും കാരണം നൽകേണ്ടതാണ്.',
 	'checkuser-accounts' => 'പുതിയ {{PLURAL:$1|അംഗത്വം|$1അംഗത്വങ്ങൾ}}',
-	'checkuser-too-many' => 'വളരെയധികം ഫലങ്ങൾ (ലഭിച്ച ക്വറി അനുസരിച്ച്). CIDR ചുരുക്കുക. 
+	'checkuser-too-many' => 'വളരെയധികം ഫലങ്ങൾ (ലഭിച്ച ക്വറി അനുസരിച്ച്). CIDR ചുരുക്കുക.
 ഉപയോഗിച്ച IPകൾ താഴെ പ്രദർശിപ്പിച്ചിരിക്കുന്നു (പരമാവധി 5000, വിലാസം അനുസരിച്ച് ക്രമീകരിച്ചത്):',
 	'checkuser-user-nonexistent' => 'ഇങ്ങനൊരു ഉപയോക്താവ് വിക്കിയിൽ നിലവിലില്ല.',
 	'checkuser-search-form' => '$1, $2 ആയ പ്രവർത്തനരേഖാ ഇനങ്ങൾ കണ്ടെത്തുന്നു',
@@ -4738,7 +4738,7 @@ $messages['nn'] = array(
 
 Brukarar og endringar frå ein klient-IP kan verta henta gjennom XFF ved å leggja til «/xff» bak IP-en. IPv4 (CIDR 16-32) og IPv6 (CIDR 96-128) er støtta.
 
-Av yteårsaker vert høgst 5000 endringar viste. 
+Av yteårsaker vert høgst 5000 endringar viste.
 Nytt dette verktøyet i samsvar med retningsliner.',
 	'checkuser-desc' => 'Gjev brukarar med dei rette rettane moglegheita til å sjekka IP-adressene til og annan informasjon om brukarar.',
 	'checkuser-logcase' => 'Loggsøket tek omsyn til små og store bokstavar.',
@@ -5508,7 +5508,7 @@ Ultima modificare a fost pe $1 la ora $2.',
 	'checkuser-wasblocked' => 'Blocări anterioare',
 	'checkuser-localonly' => 'Neunificat',
 	'checkuser-massblock' => 'Blochează utilizatorii aleşi',
-	'checkuser-massblock-text' => 'Conturile alese vor fi blocate definitiv, cu blocarea automată activată şi crearea de conturi dezactivată. 
+	'checkuser-massblock-text' => 'Conturile alese vor fi blocate definitiv, cu blocarea automată activată şi crearea de conturi dezactivată.
 Adresele IP vor fi blocate timp de o săptămână şi crearea de conturi va fi dezactivată.',
 	'checkuser-blocktag' => 'Înlocuieşte paginile de utilizator cu:',
 	'checkuser-blocktag-talk' => 'Înlocuieşte paginile de discuţii cu:',
@@ -5622,7 +5622,7 @@ L'urteme cangiamende ha state fatte 'u $1 a le $2.",
 $messages['ru'] = array(
 	'checkuser-summary' => "Данный инструмент может быть использован, чтобы получить IP-адреса, использовавшиеся участником, либо чтобы показать правки/участников, работавших с IP-адреса.
 Правки и пользователи, которые правили с определённого IP-адреса, указанного в X-Forwarded-For, можно получить, добавив постфикс <code>/xff</code> к IP-адресу. Поддерживаемые версии IP: 4 (CIDR 16—32) и 6 (CIDR 96—128).
-Из соображений производительности будут показаны только первые 5000 правок. 
+Из соображений производительности будут показаны только первые 5000 правок.
 Используйте эту страницу '''только в соответствии с правилами'''.",
 	'checkuser-desc' => 'Предоставляет возможность проверять IP-адреса и дополнительную информацию участников',
 	'checkuser-logcase' => 'Поиск по журналу чувствителен к регистру.',
@@ -5742,7 +5742,7 @@ $messages['sah'] = array(
 	'checkuser-wasblocked' => 'Урут бобуллубут',
 	'checkuser-localonly' => 'Биирдэһиллибит аан аат буолбатах',
 	'checkuser-massblock' => 'Талыллыбыт кыттааччылары боп',
-	'checkuser-massblock-text' => 'Талыллыбыт ааттар болдьоҕо суох бобуллуохтара. Бу ааттар аптамаатынан бобуллуохтара, маннык ааты саҥаттан оҥоруу эмиэ бобуллуо. 
+	'checkuser-massblock-text' => 'Талыллыбыт ааттар болдьоҕо суох бобуллуохтара. Бу ааттар аптамаатынан бобуллуохтара, маннык ааты саҥаттан оҥоруу эмиэ бобуллуо.
 IP-аадырыстартан бэлиэтэммэккэ киирии уонна саҥа ааты оҥоруу 1 нэдиэлэҕэ бобуллуо.',
 	'checkuser-blocktag' => 'Кыттааччылар сирэйдэрин манныкка уларыт:',
 	'checkuser-blocktag-talk' => 'Ырытыы сирэйдэрин манныкка уларыт:',

@@ -303,7 +303,7 @@ function efGetClientIPfromXFF( $xff, $address = null ) {
 			}
 		}
 	}
-	// We still have to test if the IP that sent 
+	// We still have to test if the IP that sent
 	// this header is trusted to confirm results
 	if ( $client != $address && ( !$address || !wfIsTrustedProxy( $address ) ) ) {
 		$trusted = false;

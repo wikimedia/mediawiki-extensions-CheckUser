@@ -6,7 +6,6 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 }
 
 class CheckUser extends SpecialPage {
-
 	/**
 	 * Constructor -- set up the new special page
 	 */
@@ -34,7 +33,7 @@ class CheckUser extends SpecialPage {
 			wfMsgForContent( 'checkuser-log-subpage' ),
 			'Log'
 		);
-		
+
 		foreach ( $logMatches as $log ) {
 			if ( str_replace( '_', ' ', $wgContLang->lc( $subpage ) )
 				== str_replace( '_ ', ' ', $wgContLang->lc( $log ) ) ) {
@@ -344,9 +343,9 @@ class CheckUser extends SpecialPage {
 		# Ordering by the latest timestamp makes a small filesort on the IP list
 		$cu_changes = $dbr->tableName( 'cu_changes' );
 		$use_index = $dbr->useIndexClause( 'cuc_user_ip_time' );
-		$sql = "SELECT cuc_ip,cuc_ip_hex, COUNT(*) AS count, 
-			MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last 
-			FROM $cu_changes $use_index WHERE cuc_user = $user_id AND $time_conds 
+		$sql = "SELECT cuc_ip,cuc_ip_hex, COUNT(*) AS count,
+			MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last
+			FROM $cu_changes $use_index WHERE cuc_user = $user_id AND $time_conds
 			GROUP BY cuc_ip,cuc_ip_hex ORDER BY last DESC LIMIT 5001";
 
 		$ret = $dbr->query( $sql, __METHOD__ );
@@ -499,9 +498,9 @@ class CheckUser extends SpecialPage {
 		if ( isset( $rangecount ) && $rangecount > 5000 ) {
 		 	$use_index = $dbr->useIndexClause( $index );
 			$sql = "SELECT cuc_ip_hex, COUNT(*) AS count,
-				MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last 
+				MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last
 				FROM $cu_changes $use_index
-				WHERE $ip_conds AND $time_conds  
+				WHERE $ip_conds AND $time_conds
 				GROUP BY cuc_ip_hex ORDER BY cuc_ip_hex LIMIT 5001";
 			$ret = $dbr->query( $sql, __METHOD__ );
 			# List out each IP that has edits
@@ -545,7 +544,7 @@ class CheckUser extends SpecialPage {
 		# OK, do the real query...
 		$use_index = $dbr->useIndexClause( $index );
 		$sql = "SELECT cuc_namespace,cuc_title,cuc_user,cuc_user_text,cuc_comment,cuc_actiontext,
-			cuc_timestamp,cuc_minor,cuc_page_id,cuc_type,cuc_this_oldid,cuc_last_oldid,cuc_ip,cuc_xff,cuc_agent 
+			cuc_timestamp,cuc_minor,cuc_page_id,cuc_type,cuc_this_oldid,cuc_last_oldid,cuc_ip,cuc_xff,cuc_agent
 			FROM $cu_changes $use_index WHERE $ip_conds AND $time_conds ORDER BY cuc_timestamp DESC LIMIT 5001";
 		$ret = $dbr->query( $sql, __METHOD__ );
 
@@ -640,7 +639,7 @@ class CheckUser extends SpecialPage {
 			$wgOut->addHTML( wfMsgExt( 'checkuser-limited', array( 'parse' ) ) );
 		 	$use_index = $dbr->useIndexClause( 'cuc_user_ip_time' );
 			$sql = "SELECT * FROM $cu_changes $use_index
-				WHERE $user_cond AND $time_conds  
+				WHERE $user_cond AND $time_conds
 				ORDER BY cuc_ip ASC, cuc_timestamp DESC LIMIT 5000";
 			$ret = $dbr->query( $sql, __METHOD__ );
 			# Try to optimize this query
@@ -677,7 +676,7 @@ class CheckUser extends SpecialPage {
 		wfRestoreWarnings();
 		# OK, do the real query...
 		$use_index = $dbr->useIndexClause( 'cuc_user_ip_time' );
-		$sql = "SELECT * FROM $cu_changes $use_index 
+		$sql = "SELECT * FROM $cu_changes $use_index
 			WHERE $user_cond AND $time_conds ORDER BY cuc_timestamp DESC LIMIT 5000";
 		$ret = $dbr->query( $sql, __METHOD__ );
 
@@ -761,8 +760,8 @@ class CheckUser extends SpecialPage {
 		if ( isset( $rangecount ) && $rangecount > 10000 ) {
 			$use_index = $dbr->useIndexClause( $index );
 			$sql = "SELECT cuc_ip_hex, COUNT(*) AS count,
-				MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last 
-				FROM $cu_changes $use_index WHERE $ip_conds AND $time_conds  
+				MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last
+				FROM $cu_changes $use_index WHERE $ip_conds AND $time_conds
 				GROUP BY cuc_ip_hex ORDER BY cuc_ip_hex LIMIT 5001";
 			$ret = $dbr->query( $sql, __METHOD__ );
 			# List out each IP that has edits
@@ -795,7 +794,7 @@ class CheckUser extends SpecialPage {
 			}
 			$s .= '</ol>';
 			$dbr->freeResult( $ret );
-			
+
 			$wgOut->addHTML( $s );
 			return;
 		} elseif ( isset( $rangecount ) && !$rangecount ) {
@@ -807,8 +806,8 @@ class CheckUser extends SpecialPage {
 		global $wgMemc;
 		# OK, do the real query...
 		$use_index = $dbr->useIndexClause( $index );
-		$sql = "SELECT cuc_user_text, cuc_timestamp, cuc_user, cuc_ip, cuc_agent, cuc_xff 
-			FROM $cu_changes $use_index WHERE $ip_conds AND $time_conds 
+		$sql = "SELECT cuc_user_text, cuc_timestamp, cuc_user, cuc_ip, cuc_agent, cuc_xff
+			FROM $cu_changes $use_index WHERE $ip_conds AND $time_conds
 			ORDER BY cuc_timestamp DESC LIMIT 10000";
 		$ret = $dbr->query( $sql, __METHOD__ );
 
@@ -1342,8 +1341,8 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 	function __construct( $specialPage, $searchConds, $y, $m ) {
 		parent::__construct();
 		/*
-		$this->messages = array_map( 'wfMsg', 
-			array( 'comma-separator', 'checkuser-log-userips', 'checkuser-log-ipedits', 'checkuser-log-ipusers', 
+		$this->messages = array_map( 'wfMsg',
+			array( 'comma-separator', 'checkuser-log-userips', 'checkuser-log-ipedits', 'checkuser-log-ipusers',
 			'checkuser-log-ipedits-xff', 'checkuser-log-ipusers-xff' ) );*/
 
 		$this->getDateCond( $y, $m );

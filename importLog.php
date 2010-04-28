@@ -9,7 +9,7 @@ function test_cu_log( $log ) {
 	$matched = 0;
 	$unmatched = 0;
 	$badtime = 0;
-	
+
 	$file = fopen( $log, 'r' );
 	while ( false !== ( $line = fgets( $file ) ) ) {
 		$found = false;
