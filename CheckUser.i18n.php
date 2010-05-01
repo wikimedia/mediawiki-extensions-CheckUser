@@ -3525,12 +3525,16 @@ Ing ngisor iki kapacak alamat-alamat IP sing dianggo (maks. 5.000, diurutaké mi
  * @author გიორგიმელა
  */
 $messages['ka'] = array(
+	'checkuser-desc' => 'ეძლევა შესაძლებლობა შეამოწმოს  IP და მომხმარებლების დამატებითი ინფორმაცია',
 	'checkuser' => 'ჩეკიუზერი',
 	'group-checkuser' => 'ჩეკიუზერები',
 	'checkuser-reason' => 'მიზეზი:',
+	'checkuser-ips' => 'მოითხოვეთ IP',
 	'checkuser-search' => 'ძიება',
 	'checkuser-period' => 'ხანგძლივობა:',
 	'checkuser-all' => 'ყველა',
+	'checkuser-cidr-label' => 'იპოვეთ საერთო დიაპაზონი IP-სთვის',
+	'checkuser-cidr-res' => 'საერთო  CIDR:',
 	'checkuser-blocked' => 'დაბლოკილია',
 	'checkuser-gblocked' => 'გლობალურად ბლოკირებული',
 	'checkuser-locked' => 'დახურვა',
@@ -3558,6 +3562,7 @@ IP დაიბლოკება ერთი კვირით.',
 	'checkuser-log-return' => 'მომხმარებელთა შემოწმების გვერდზე დაბრუნება',
 	'checkuser-limited' => "'''რეზულტატები შეიკუმშა სერვერზე დამატებითი დატვირთვის არ შექმნის მიზნით.'''",
 	'checkuser-log-userips' => '$1 მიიღო IP  $2-თვის',
+	'checkuser-autocreate-action' => 'ავტომატურად შეიქმნა',
 	'checkuser-email-action' => 'გაუგზავნა წერილი მომხმარებელ «$1»-ს',
 );
 
