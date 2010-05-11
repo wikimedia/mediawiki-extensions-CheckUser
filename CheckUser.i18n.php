@@ -1314,6 +1314,7 @@ Golygwyd ddiwethaf ar $1 am $2.",
 /** Danish (Dansk)
  * @author Amjaabc
  * @author Byrial
+ * @author Emilkris33
  * @author Fredelige
  * @author Masz
  * @author Morten LJ
@@ -1336,7 +1337,7 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 	'checkuser-showlog' => 'Vis log',
 	'checkuser-log' => 'Checkbrugerlog',
 	'checkuser-query' => 'Søg i seneste ændringer',
-	'checkuser-target' => 'Bruger eller IP',
+	'checkuser-target' => 'IP-adresse eller brugernavn:',
 	'checkuser-users' => 'Hent brugere',
 	'checkuser-edits' => 'Hent redigeringer fra IP',
 	'checkuser-ips' => "Hent IP'er",
@@ -1364,7 +1365,7 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 	'checkuser-block-success' => '{{PLURAL:$2|Brugeren|Brugerne}} $1 {{PLURAL:$2|er|er}} nu {{PLURAL:$2|blokeret|blokerede}}',
 	'checkuser-block-noreason' => 'Du skal angive en blokeringsgrund.',
 	'checkuser-noreason' => 'Du må angive en årsag til denne forespøgsel',
-	'checkuser-too-many' => "For mange resultater, gør CIDR'en smallere. Her er de brugte IP'er (max 5000, sorteret efter adresse):",
+	'checkuser-too-many' => "For mange resultater, gør CIDR'en mindre. Her er de brugte IP'er (max 5000, sorteret efter adresse):",
 	'checkuser-user-nonexistent' => 'Den anførte bruger eksisterer ikke.',
 	'checkuser-search-form' => 'Find log-poster hvor $1 er $2',
 	'checkuser-search-submit' => 'Søg',
