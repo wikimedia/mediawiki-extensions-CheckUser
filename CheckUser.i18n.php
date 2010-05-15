@@ -3847,6 +3847,13 @@ IP 주소는 1주일 (IP만 막음, 계정 생성 금지됨) 차단될 것입니
 	'checkuser-reset-action' => '"$1" 사용자의 암호를 변경함',
 );
 
+/** Karachay-Balkar (Къарачай-Малкъар)
+ * @author Iltever
+ */
+$messages['krc'] = array(
+	'group-checkuser' => 'Къошулуучуланы тинтиучюле',
+);
+
 /** Krio (Krio)
  * @author Jose77
  */
@@ -5783,11 +5790,12 @@ IP-аадырыстартан бэлиэтэммэккэ киирии уонна
 );
 
 /** Sardinian (Sardu)
+ * @author Andria
  * @author Marzedu
  */
 $messages['sc'] = array(
 	'checkuser-reason' => 'Motivu:',
-	'checkuser-target' => 'Usuàriu o IP',
+	'checkuser-target' => 'Indiritzu IP o nùmene usuàriu:',
 	'checkuser-search' => 'Chirca',
 	'checkuser-period' => 'Durada:',
 	'checkuser-week-1' => 'ùrtima chida',
