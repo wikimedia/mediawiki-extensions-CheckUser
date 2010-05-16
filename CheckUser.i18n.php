@@ -1281,6 +1281,7 @@ Golygwyd ddiwethaf ar $1 am $2.",
 	'checkuser-gblocked' => "Wedi ei flocio'n wici-gyfan",
 	'checkuser-locked' => 'Ar glo',
 	'checkuser-wasblocked' => "Wedi blocio o'r blaen",
+	'checkuser-localonly' => 'Ddim yn unedig',
 	'checkuser-massblock' => 'Blocio twr o defnyddwyr',
 	'checkuser-blocktag-talk' => 'Gosod hyn yn lle tudalennau sgwrs:',
 	'checkuser-massblock-commit' => 'Blocier y defnyddwyr dewisedig',
@@ -7421,6 +7422,7 @@ $messages['zh-hans'] = array(
 
 /** Traditional Chinese (‪中文(繁體)‬)
  * @author Alexsh
+ * @author Horacewai2
  * @author Liangent
  * @author Wrightbus
  */
@@ -7439,7 +7441,7 @@ $messages['zh-hant'] = array(
 	'checkuser-showlog' => '顯示記錄',
 	'checkuser-log' => '用戶查核記錄',
 	'checkuser-query' => '查詢最近更改',
-	'checkuser-target' => '用戶或IP地址：',
+	'checkuser-target' => '目標用戶或IP地址：',
 	'checkuser-users' => '查詢用戶名稱',
 	'checkuser-edits' => '從IP位址查詢編輯記錄',
 	'checkuser-ips' => '查詢IP位址',
