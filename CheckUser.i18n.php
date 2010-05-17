@@ -3326,6 +3326,7 @@ Di seguito sono indicati gli indirizzi IP utilizzati (fino a un massimo di 5000,
  * @author Marine-Blue
  * @author Muttley
  * @author Suisui
+ * @author 青子守歌
  */
 $messages['ja'] = array(
 	'checkuser-summary' => 'このツールは最近の更新から行った調査を元に、ある利用者が使用したIPアドレスの検索、または、あるIPアドレスからなされた編集および利用者名の表示を行います。
@@ -3374,7 +3375,7 @@ IPv4 (16から32ビットのCIDR表記) と IPv6 (96から128ビットのCIDR表
 	'checkuser-massblock' => '選択した利用者をブロックする',
 	'checkuser-massblock-text' => '選択した利用者は無期限ブロックされ、同時に自動ブロックが作動しアカウント作成も禁止されます。IPアドレスはIP利用者向けに1週間ブロックされ、アカウント作成が禁止されます。',
 	'checkuser-blocktag' => '利用者ページを以下で置き換える:',
-	'checkuser-blocktag-talk' => 'ノートページを置換:',
+	'checkuser-blocktag-talk' => 'トークページを置換:',
 	'checkuser-massblock-commit' => '選択した利用者をブロックする',
 	'checkuser-block-success' => "'''{{PLURAL:$2|利用者}} $1 は現在ブロック{{PLURAL:$2|されています}}。'''",
 	'checkuser-block-failure' => "'''ブロックされたユーザーはありません。'''",
