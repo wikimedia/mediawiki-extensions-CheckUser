@@ -2174,6 +2174,7 @@ $messages['fo'] = array(
  * @author IAlex
  * @author Peter17
  * @author PieRRoMaN
+ * @author Quentinv57
  * @author Sherbrooke
  * @author Verdy p
  * @author Zetud
@@ -2187,11 +2188,11 @@ Veuillez utiliser cet outil dans le respect de la charte d’utilisation.',
 	'checkuser-logcase' => 'La recherche dans le journal est sensible à la casse.',
 	'checkuser' => 'Vérificateur d’utilisateur',
 	'checkuser-contribs' => 'vérifier les adresses IP',
-	'group-checkuser' => 'Vérificateurs d’utilisateur',
+	'group-checkuser' => 'Vérificateurs d’utilisateurs',
 	'group-checkuser-member' => 'Vérificateur d’utilisateur',
 	'right-checkuser' => 'Vérifier les adresses IP et autres informations d’un utilisateur',
 	'right-checkuser-log' => 'Visualiser le journal des vérifications d’utilisateurs',
-	'grouppage-checkuser' => '{{ns:project}}:Vérificateur d’utilisateur',
+	'grouppage-checkuser' => '{{ns:project}}:Vérificateurs d’utilisateurs',
 	'checkuser-reason' => 'Motif :',
 	'checkuser-showlog' => 'Afficher le journal',
 	'checkuser-log' => 'Journal des vérifications d’utilisateurs',
@@ -5483,16 +5484,16 @@ $messages['rm'] = array(
  */
 $messages['ro'] = array(
 	'checkuser-summary' => 'Acestă unealtă scanează schimbările recente pentru a regăsi IP-urile folosite de un utilizator sau arată modificările/utilizator pentru un anumit IP.
-Utilizatorii şi modificările efectuate de un client IP pot fi regăsite prin antetele XFF ataşând IP-ul prin intermediul "/xff". IPv4 (CIDR 16-32) şi IPv6 (CIDR 96-128) sunt suportate.
-Nu mai mult de 5000 de editări vor fi întoarse din motive de performanţă.
-Foloseşte unealta în concordanţă cu politica sitului.',
-	'checkuser-desc' => 'Autorizează utilizatorii cu drepturile specifice să poată verifica adresele IP şi alte informaţii',
+Utilizatorii și modificările efectuate de un client IP pot fi regăsite prin antetele XFF atașând IP-ul prin intermediul "/xff". IPv4 (CIDR 16-32) și IPv6 (CIDR 96-128) sunt suportate.
+Nu mai mult de 5000 de editări vor fi întoarse din motive de performanță.
+Folosește unealta în concordanță cu politica sitului.',
+	'checkuser-desc' => 'Autorizează utilizatorii cu drepturile specifice să poată verifica adresele IP și alte informații',
 	'checkuser-logcase' => 'Căutarea în jurnal este sensibilă la majuscule - minuscule',
 	'checkuser' => 'Verifică utilizatorul',
 	'checkuser-contribs' => 'verifică IP-urile utilizatorilor',
 	'group-checkuser' => 'Checkuseri',
 	'group-checkuser-member' => 'Checkuser',
-	'right-checkuser' => 'Verifică adresele IP ale utilizatorilor şi alte informaţii',
+	'right-checkuser' => 'Verifică adresele IP ale utilizatorilor și alte informații',
 	'right-checkuser-log' => 'Vezi jurnalul checkuser',
 	'grouppage-checkuser' => '{{ns:project}}:Checkuser',
 	'checkuser-reason' => 'Motiv:',
@@ -5510,9 +5511,9 @@ Foloseşte unealta în concordanţă cu politica sitului.',
 	'checkuser-week-2' => 'ultimele două săptămâni',
 	'checkuser-month' => 'ultimele 30 de zile',
 	'checkuser-all' => 'toate',
-	'checkuser-cidr-label' => 'Găseşte o serie comună şi adresele afectate pentru o listă de adrese IP',
+	'checkuser-cidr-label' => 'Găsește o serie comună și adresele afectate pentru o listă de adrese IP',
 	'checkuser-cidr-res' => 'CIDR comun:',
-	'checkuser-empty' => 'Jurnalul nu conţine înregistrări.',
+	'checkuser-empty' => 'Jurnalul nu conține înregistrări.',
 	'checkuser-nomatch' => 'Nu au fost găsite potriviri.',
 	'checkuser-nomatch-edits' => 'Niciun rezultat.
 Ultima modificare a fost pe $1 la ora $2.',
@@ -5524,29 +5525,29 @@ Ultima modificare a fost pe $1 la ora $2.',
 	'checkuser-locked' => 'Încuiat',
 	'checkuser-wasblocked' => 'Blocări anterioare',
 	'checkuser-localonly' => 'Neunificat',
-	'checkuser-massblock' => 'Blochează utilizatorii aleşi',
-	'checkuser-massblock-text' => 'Conturile alese vor fi blocate definitiv, cu blocarea automată activată şi crearea de conturi dezactivată.
-Adresele IP vor fi blocate timp de o săptămână şi crearea de conturi va fi dezactivată.',
-	'checkuser-blocktag' => 'Înlocuieşte paginile de utilizator cu:',
-	'checkuser-blocktag-talk' => 'Înlocuieşte paginile de discuţii cu:',
-	'checkuser-massblock-commit' => 'Blochează utilizatorii aleşi',
-	'checkuser-block-success' => "'''{{PLURAL:$2|Utilizatorul|Utilizatorii}} $1 {{PLURAL:$2|este blocat|sunt blocaţi}}.'''",
+	'checkuser-massblock' => 'Blochează utilizatorii aleși',
+	'checkuser-massblock-text' => 'Conturile alese vor fi blocate definitiv, cu blocarea automată activată și crearea de conturi dezactivată.
+Adresele IP vor fi blocate timp de o săptămână și crearea de conturi va fi dezactivată.',
+	'checkuser-blocktag' => 'Înlocuiește paginile de utilizator cu:',
+	'checkuser-blocktag-talk' => 'Înlocuiește paginile de discuții cu:',
+	'checkuser-massblock-commit' => 'Blochează utilizatorii aleși',
+	'checkuser-block-success' => "'''{{PLURAL:$2|Utilizatorul|Utilizatorii}} $1 {{PLURAL:$2|este blocat|sunt blocați}}.'''",
 	'checkuser-block-failure' => "'''Niciun utilizator nu este blocat.'''",
-	'checkuser-block-limit' => 'Prea mulţi utilizatori selectaţi.',
-	'checkuser-block-noreason' => 'Trebuie să specificaţi un motiv pentru blocări.',
+	'checkuser-block-limit' => 'Prea mulți utilizatori selectați.',
+	'checkuser-block-noreason' => 'Trebuie să specificați un motiv pentru blocări.',
 	'checkuser-noreason' => 'Trebuie să specifici un motiv pentru această interogare.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|cont nou|conturi noi}}',
 	'checkuser-too-many' => 'Prea multe rezultate, te rog îngustează CIDR.
 Iată IP-urile folosite (maxim 5000, sortate dup adresă):',
 	'checkuser-user-nonexistent' => 'Utilizatorul specificat nu există.',
-	'checkuser-search-form' => 'Găseşte intrările în jurnal unde $1 este $2',
+	'checkuser-search-form' => 'Găsește intrările în jurnal unde $1 este $2',
 	'checkuser-search-submit' => 'Caută',
-	'checkuser-search-initiator' => 'iniţiator',
-	'checkuser-search-target' => 'destinaţie',
-	'checkuser-ipeditcount' => '~$1 de la toţi utilizatorii',
+	'checkuser-search-initiator' => 'inițiator',
+	'checkuser-search-target' => 'destinație',
+	'checkuser-ipeditcount' => '~$1 de la toți utilizatorii',
 	'checkuser-log-subpage' => 'Jurnal',
 	'checkuser-log-return' => 'Revenire la formularul principal Verifică Utilizatorul',
-	'checkuser-limited' => "'''Aceste rezultate au fost sortate din motive de performanţă.'''",
+	'checkuser-limited' => "'''Aceste rezultate au fost sortate din motive de performanță.'''",
 	'checkuser-log-userips' => '$1 a verificat IP-urile lui $2',
 	'checkuser-log-ipedits' => '$1 a verificat modificările efectuate de $2',
 	'checkuser-log-ipusers' => '$1 a verificat conturile lui $2',
