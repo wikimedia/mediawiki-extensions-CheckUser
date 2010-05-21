@@ -3189,6 +3189,13 @@ Alamat-alamat IP akan diblokir selama 1 minggu untuk pengguna anonim dan tidak d
 	'checkuser-reset-action' => 'Set ulang kata sandi pengguna "$1"',
 );
 
+/** Igbo (Igbo) */
+$messages['ig'] = array(
+	'checkuser-reason' => 'Mgbaghaputa:',
+	'checkuser-search' => 'Chöwá',
+	'checkuser-search-submit' => 'Chöwá',
+);
+
 /** Ido (Ido)
  * @author Malafaya
  */
