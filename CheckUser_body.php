@@ -16,7 +16,6 @@ class CheckUser extends SpecialPage {
 		} else {
 			parent::__construct( 'CheckUser', 'checkuser-log' );
 		}
-		wfLoadExtensionMessages( 'CheckUser' );
 	}
 
 	public function execute( $subpage ) {
