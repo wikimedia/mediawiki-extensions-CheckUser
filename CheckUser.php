@@ -146,6 +146,7 @@ function efUpdateCheckUserData( $rc ) {
  * Saves user data into the cu_changes table
  */
 function efUpdateCUPasswordResetData( $user, $ip, $account ) {
+	wfLoadExtensionMessages( 'CheckUser' );
 	// Get XFF header
 	$xff = wfGetForwardedFor();
 	list( $xff_ip, $trusted ) = efGetClientIPfromXFF( $xff );
@@ -188,6 +189,7 @@ function efUpdateCUEmailData( $to, $from, $subject, $text ) {
 	if ( !$wgSecretKey || $from->name == $to->name ) {
 		return true;
 	}
+	wfLoadExtensionMessages( 'CheckUser' );
 	$userFrom = User::newFromName( $from->name );
 	$userTo = User::newFromName( $to->name );
 	$hash = md5( $userTo->getEmail() . $userTo->getId() . $wgSecretKey );
@@ -231,6 +233,7 @@ function efUpdateCUEmailData( $to, $from, $subject, $text ) {
  * Saves user data into the cu_changes table
  */
 function efUpdateAutoCreateData( $user ) {
+	wfLoadExtensionMessages( 'CheckUser' );
 	// Get IP
 	$ip = wfGetIP();
 	// Get XFF header
@@ -395,6 +398,7 @@ $wgAutoloadClasses['CheckUser'] = dirname( __FILE__ ) . '/CheckUser_body.php';
 function efLoadCheckUserLink( $id, $nt, &$links ) {
 	global $wgUser;
 	if ( $wgUser->isAllowed( 'checkuser' ) ) {
+		wfLoadExtensionMessages( 'CheckUser' );
 		$links[] = $wgUser->getSkin()->makeKnownLinkObj(
 			SpecialPage::getTitleFor( 'CheckUser' ),
 			wfMsgHtml( 'checkuser-contribs' ),
