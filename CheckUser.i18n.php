@@ -3543,6 +3543,7 @@ $messages['ka'] = array(
 	'checkuser-desc' => 'ეძლევა შესაძლებლობა შეამოწმოს  IP და მომხმარებლების დამატებითი ინფორმაცია',
 	'checkuser' => 'ჩეკიუზერი',
 	'group-checkuser' => 'ჩეკიუზერები',
+	'group-checkuser-member' => 'მომხმარებლის შემოწმება',
 	'checkuser-reason' => 'მიზეზი:',
 	'checkuser-showlog' => 'ჟურნალის ჩვენება',
 	'checkuser-target' => 'IP მისამართი ან მომხმარებლის სახელი:',
