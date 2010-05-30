@@ -167,7 +167,7 @@ class CheckUser extends SpecialPage {
 		$form .= '<table border="0" cellpadding="2"><tr>';
 		$form .= '<td>' . wfMsgHtml( 'checkuser-target' ) . '</td>';
 		$form .= '<td>' . Xml::input( 'user', 46, $user, array( 'id' => 'checktarget' ) );
-		$form .= '&nbsp;' . $this->getPeriodMenu( $period ) . '</td>';
+		$form .= '&#160;' . $this->getPeriodMenu( $period ) . '</td>';
 		$form .= '</tr><tr>';
 		$form .= '<td></td><td class="checkuserradios"><table border="0" cellpadding="3"><tr>';
 		$form .= '<td>' . Xml::radio( 'checktype', 'subuserips', $encuserips, array( 'id' => 'subuserips' ) );
@@ -182,7 +182,7 @@ class CheckUser extends SpecialPage {
 		$form .= '</tr><tr>';
 		$form .= '<td>' . wfMsgHtml( 'checkuser-reason' ) . '</td>';
 		$form .= '<td>' . Xml::input( 'reason', 46, $reason, array( 'maxlength' => '150', 'id' => 'checkreason' ) );
-		$form .= '&nbsp; &nbsp;' . Xml::submitButton( wfMsg( 'checkuser-check' ),
+		$form .= '&#160; &#160;' . Xml::submitButton( wfMsg( 'checkuser-check' ),
 			array( 'id' => 'checkusersubmit', 'name' => 'checkusersubmit' ) ) . '</td>';
 		$form .= '</tr></table></fieldset></form>';
 		# Output form
@@ -204,7 +204,7 @@ class CheckUser extends SpecialPage {
 	 * @param int $selected, selected level
 	 */
 	protected function getPeriodMenu( $selected = null ) {
-		$s = '<label for="period">' . wfMsgHtml( 'checkuser-period' ) . '</label>&nbsp;';
+		$s = '<label for="period">' . wfMsgHtml( 'checkuser-period' ) . '</label>&#160;';
 		$s .= Xml::openElement( 'select', array( 'name' => 'period', 'id' => 'period', 'style' => 'margin-top:.2em;' ) );
 		$s .= Xml::option( wfMsg( 'checkuser-week-1' ), 7, $selected === 7 );
 		$s .= Xml::option( wfMsg( 'checkuser-week-2' ), 14, $selected === 14 );
@@ -222,9 +222,9 @@ class CheckUser extends SpecialPage {
 		$s = '<fieldset id="mw-checkuser-cidrform" style="display:none; clear:both;">' .
 			'<legend>' . wfMsgHtml( 'checkuser-cidr-label' ) . '</legend>';
 		$s .= '<textarea id="mw-checkuser-iplist" rows="5" cols="50" onkeyup="updateCIDRresult()" onclick="updateCIDRresult()"></textarea><br />';
-		$s .= wfMsgHtml( 'checkuser-cidr-res' ) . '&nbsp;' .
+		$s .= wfMsgHtml( 'checkuser-cidr-res' ) . '&#160;' .
 			Xml::input( 'mw-checkuser-cidr-res', 35, '', array( 'id' => 'mw-checkuser-cidr-res' ) ) .
-			'&nbsp;<strong id="mw-checkuser-ipnote"></strong>';
+			'&#160;<strong id="mw-checkuser-ipnote"></strong>';
 		$s .= '</fieldset>';
 		$wgOut->addHTML( $s );
 	}
@@ -847,7 +847,7 @@ class CheckUser extends SpecialPage {
 			$s .= '<div id="checkuserresults"><ul>';
 			foreach ( $users_edits as $name => $count ) {
 				$s .= '<li>';
-				$s .= Xml::check( 'users[]', false, array( 'value' => $name ) ) . '&nbsp;';
+				$s .= Xml::check( 'users[]', false, array( 'value' => $name ) ) . '&#160;';
 				# Load user object
 				$user = User::newFromName( $name, false );
 				# Add user tool links
@@ -907,7 +907,7 @@ class CheckUser extends SpecialPage {
 						# Flag our trusted proxies
 						list( $client, $trusted ) = efGetClientIPfromXFF( $set[1], $set[0] );
 						$c = $trusted ? '#F0FFF0' : '#FFFFCC';
-						$s .= '&nbsp;&nbsp;&nbsp;<span style="background-color: ' . $c . '"><strong>XFF</strong>: ';
+						$s .= '&#160;&#160;&#160;<span style="background-color: ' . $c . '"><strong>XFF</strong>: ';
 						$s .= $this->sk->makeKnownLinkObj( $this->getTitle(),
 							htmlspecialchars( $set[1] ),
 							'user=' . urlencode( $client ) . '/xff' ) . '</span>';
@@ -937,9 +937,9 @@ class CheckUser extends SpecialPage {
 					'<td>' . Xml::label( wfMsgHtml( 'checkuser-blocktag-talk' ), 'usettag' ) . '</td>' .
 					'<td>' . Xml::input( 'talktag', 46, $talkTag, array( 'id' => 'talktag' ) ) . '</td>' .
 					'</tr></table>';
-				$s .= '<p>' . wfMsgHtml( 'checkuser-reason' ) . '&nbsp;';
+				$s .= '<p>' . wfMsgHtml( 'checkuser-reason' ) . '&#160;';
 				$s .= Xml::input( 'blockreason', 46, '', array( 'maxlength' => '150', 'id' => 'blockreason' ) );
-				$s .= '&nbsp;' . Xml::submitButton( wfMsgHtml( 'checkuser-massblock-commit' ),
+				$s .= '&#160;' . Xml::submitButton( wfMsgHtml( 'checkuser-massblock-commit' ),
 					array( 'id' => 'checkuserblocksubmit', 'name' => 'checkuserblock' ) ) . "</p>\n";
 				$s .= "</fieldset>\n";
 			}
@@ -1033,7 +1033,7 @@ class CheckUser extends SpecialPage {
 		}
 		# Comment
 		$line .= $this->sk->commentBlock( $row->cuc_comment );
-		$line .= '<br />&nbsp; &nbsp; &nbsp; &nbsp; <small>';
+		$line .= '<br />&#160; &#160; &#160; &#160; <small>';
 		# IP
 		$line .= ' <strong>IP</strong>: ' . $this->sk->makeKnownLinkObj( $cuTitle,
 			htmlspecialchars( $row->cuc_ip ), 'user=' . urlencode( $row->cuc_ip ) . '&reason=' . urlencode( $reason ) );
@@ -1042,14 +1042,14 @@ class CheckUser extends SpecialPage {
 			# Flag our trusted proxies
 			list( $client, $trusted ) = efGetClientIPfromXFF( $row->cuc_xff, $row->cuc_ip );
 			$c = $trusted ? '#F0FFF0' : '#FFFFCC';
-			$line .= '&nbsp;&nbsp;&nbsp;<span class="mw-checkuser-xff" style="background-color: ' . $c . '">' .
+			$line .= '&#160;&#160;&#160;<span class="mw-checkuser-xff" style="background-color: ' . $c . '">' .
 				'<strong>XFF</strong>: ';
 			$line .= $this->sk->makeKnownLinkObj( $cuTitle,
 				htmlspecialchars( $row->cuc_xff ),
 				'user=' . urlencode( $client ) . '/xff&reason=' . urlencode( $reason ) ) . '</span>';
 		}
 		# User agent
-		$line .= '&nbsp;&nbsp;&nbsp;<span class="mw-checkuser-agent" style="color:#888;">' .
+		$line .= '&#160;&#160;&#160;<span class="mw-checkuser-agent" style="color:#888;">' .
 			htmlspecialchars( $row->cuc_agent ) . '</span>';
 
 		$line .= "</small></li>\n";
@@ -1248,12 +1248,12 @@ class CheckUser extends SpecialPage {
 		$input = "<input type=\"text\" name=\"cuSearch\" value=\"$encTarget\" size=\"40\"/>";
 		$msgSearchForm = wfMsgHtml( 'checkuser-search-form', $select, $input );
 		$formAction = $this->getLogSubpageTitle()->escapeLocalURL();
-		$msgSearchSubmit = '&nbsp;&nbsp;' . wfMsgHtml( 'checkuser-search-submit' ) . '&nbsp;&nbsp;';
+		$msgSearchSubmit = '&#160;&#160;' . wfMsgHtml( 'checkuser-search-submit' ) . '&#160;&#160;';
 
 		$s = "<form method='get' action=\"$formAction\">\n" .
 			"<fieldset><legend>$msgSearch</legend>\n" .
 			"<p>$msgSearchForm</p>\n" .
-			"<p>" . $this->getDateMenu( $year, $month ) . "&nbsp;&nbsp;&nbsp;\n" .
+			"<p>" . $this->getDateMenu( $year, $month ) . "&#160;&#160;&#160;\n" .
 			"<input type=\"submit\" name=\"cuSearchSubmit\" value=\"$msgSearchSubmit\"/></p>\n" .
 			"</fieldset></form>\n";
 		$wgOut->addHTML( $s );
