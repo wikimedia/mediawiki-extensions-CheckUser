@@ -4204,6 +4204,7 @@ $messages['lt'] = array(
 );
 
 /** Latvian (Latviešu)
+ * @author GreenZeb
  * @author Papuass
  * @author Xil
  * @author Yyy
@@ -4216,6 +4217,7 @@ $messages['lv'] = array(
 	'checkuser-target' => 'IP adrese vai lietotājvārds:',
 	'checkuser-search' => 'Meklēt',
 	'checkuser-check' => 'Pārbaudīt',
+	'checkuser-search-submit' => 'Meklēt',
 );
 
 /** Malagasy (Malagasy)
