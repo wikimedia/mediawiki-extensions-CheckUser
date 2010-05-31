@@ -3544,11 +3544,13 @@ $messages['ka'] = array(
 	'checkuser' => 'ჩეკიუზერი',
 	'group-checkuser' => 'ჩეკიუზერები',
 	'group-checkuser-member' => 'მომხმარებლის შემოწმება',
+	'grouppage-checkuser' => '{{ns:project}}:მომხმარებლის შემოწმება',
 	'checkuser-reason' => 'მიზეზი:',
 	'checkuser-showlog' => 'ჟურნალის ჩვენება',
 	'checkuser-target' => 'IP მისამართი ან მომხმარებლის სახელი:',
 	'checkuser-users' => 'მომხმარებლების ნახვა',
 	'checkuser-ips' => 'მოითხოვეთ IP',
+	'checkuser-account' => 'ანგარიშის რედაქტირებების ნახვა',
 	'checkuser-search' => 'ძიება',
 	'checkuser-period' => 'ხანგძლივობა:',
 	'checkuser-week-1' => 'გასულ კვირას',
@@ -3561,6 +3563,7 @@ $messages['ka'] = array(
 	'checkuser-blocked' => 'დაბლოკილია',
 	'checkuser-gblocked' => 'გლობალურად ბლოკირებული',
 	'checkuser-locked' => 'დახურვა',
+	'checkuser-localonly' => 'არ არის გაერთიანებული',
 	'checkuser-massblock' => 'დაბლოკეთ არჩეული მომხმარებლები',
 	'checkuser-massblock-text' => 'არჩეული ანგარიშები დაიბლოკება ახალი ანგარიშების ნებართვის შექმნის გარეშე.
 IP დაიბლოკება ერთი კვირით.',
@@ -5247,6 +5250,7 @@ Sì a-i son j'IP dovrà (5000 al pi, ordinà për adrëssa):",
  * @author Ahmed-Najib-Biabani-Ibrahimkhel
  */
 $messages['ps'] = array(
+	'checkuser' => 'کره کتونکی کارن',
 	'checkuser-reason' => 'سبب:',
 	'checkuser-showlog' => 'يادښت کتل',
 	'checkuser-target' => 'کارن يا IP پته:',
@@ -5256,6 +5260,7 @@ $messages['ps'] = array(
 	'checkuser-week-2' => 'تېرې دوه اوونۍ',
 	'checkuser-month' => 'تېرې ۳۰ ورځې',
 	'checkuser-all' => 'ټول',
+	'checkuser-check' => 'کره کتل',
 	'checkuser-block-limit' => 'له حد نه ډېر زيات کارنان ټاکل شوي.',
 	'checkuser-block-noreason' => 'د بنديز لګولو لپاره بايد تاسې يو سبب څرګند کړی.',
 	'checkuser-search-submit' => 'پلټل',
