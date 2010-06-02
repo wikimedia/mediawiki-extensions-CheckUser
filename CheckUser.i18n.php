@@ -3542,6 +3542,7 @@ Ing ngisor iki kapacak alamat-alamat IP sing dianggo (maks. 5.000, diurutaké mi
 $messages['ka'] = array(
 	'checkuser-desc' => 'ეძლევა შესაძლებლობა შეამოწმოს  IP და მომხმარებლების დამატებითი ინფორმაცია',
 	'checkuser' => 'ჩეკიუზერი',
+	'checkuser-contribs' => 'შეამოწმეთ მომხმარებლის IP მისამართები',
 	'group-checkuser' => 'ჩეკიუზერები',
 	'group-checkuser-member' => 'მომხმარებლის შემოწმება',
 	'grouppage-checkuser' => '{{ns:project}}:მომხმარებლის შემოწმება',
