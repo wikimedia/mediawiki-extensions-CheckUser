@@ -1138,6 +1138,7 @@ $messages['cdo'] = array(
 
 /** Chechen (Нохчийн) */
 $messages['ce'] = array(
+	'checkuser-reason' => 'Бахьан:',
 	'checkuser-target' => 'Юзер я IP-адрес',
 );
 
@@ -5280,6 +5281,7 @@ $messages['ps'] = array(
 	'checkuser-month' => 'تېرې ۳۰ ورځې',
 	'checkuser-all' => 'ټول',
 	'checkuser-check' => 'کره کتل',
+	'checkuser-blocked' => 'بنديز لګېدلی',
 	'checkuser-block-limit' => 'له حد نه ډېر زيات کارنان ټاکل شوي.',
 	'checkuser-block-noreason' => 'د بنديز لګولو لپاره بايد تاسې يو سبب څرګند کړی.',
 	'checkuser-search-submit' => 'پلټل',
