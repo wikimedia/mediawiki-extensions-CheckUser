@@ -3206,7 +3206,7 @@ $messages['ig'] = array(
  */
 $messages['io'] = array(
 	'checkuser-reason' => 'Motivo:',
-	'checkuser-target' => 'Uzanto od IP',
+	'checkuser-target' => 'IP-adreso od uzanto-nomo:',
 	'checkuser-week-1' => 'lasta semano',
 	'checkuser-week-2' => 'lasta du semani',
 	'checkuser-month' => 'lasta 30 dii',
