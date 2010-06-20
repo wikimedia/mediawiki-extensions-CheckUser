@@ -5759,6 +5759,14 @@ IP-адреса будут заблокированы на 1 неделю для
 	'checkuser-reset-action' => 'сбросил пароль для участника $1',
 );
 
+/** Rusyn (русиньскый язык)
+ * @author Gazeb
+ */
+$messages['rue'] = array(
+	'checkuser-reason' => 'Причіна:',
+	'checkuser-search' => 'Найти',
+);
+
 /** Yakut (Саха тыла)
  * @author HalanTul
  */
