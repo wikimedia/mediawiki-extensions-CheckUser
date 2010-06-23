@@ -5522,6 +5522,7 @@ $messages['rm'] = array(
 );
 
 /** Romanian (Română)
+ * @author AdiJapan
  * @author Emily
  * @author Firilacroco
  * @author KlaudiuMihaila
@@ -5546,7 +5547,7 @@ Folosește unealta în concordanță cu politica sitului.',
 	'checkuser-showlog' => 'Arată jurnal',
 	'checkuser-log' => 'Jurnal verificare utilizator',
 	'checkuser-query' => 'Interoghează schimbările recente',
-	'checkuser-target' => 'Adresă IP sau nume de utilizator',
+	'checkuser-target' => 'Adresă IP sau nume de utilizator:',
 	'checkuser-users' => 'Arată utilizatorii',
 	'checkuser-edits' => 'Arată editările IP-ului',
 	'checkuser-ips' => 'Arată IP-urile',
@@ -5583,7 +5584,7 @@ Adresele IP vor fi blocate timp de o săptămână și crearea de conturi va fi 
 	'checkuser-block-noreason' => 'Trebuie să specificați un motiv pentru blocări.',
 	'checkuser-noreason' => 'Trebuie să specifici un motiv pentru această interogare.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|cont nou|conturi noi}}',
-	'checkuser-too-many' => 'Prea multe rezultate (în funcţie de estimarea interogării), te rog îngustează CIDR.
+	'checkuser-too-many' => 'Prea multe rezultate (după estimarea interogării), vă rugăm să limitați CIDR.
 Iată IP-urile folosite (maxim 5000, sortate după adresă):',
 	'checkuser-user-nonexistent' => 'Utilizatorul specificat nu există.',
 	'checkuser-search-form' => 'Găsește intrările în jurnal unde $1 este $2',
