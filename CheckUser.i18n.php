@@ -349,7 +349,7 @@ No s'otendrán más de 5000 edicions por razons de prestacions. Faiga servir ist
 
 /** Old English (Ænglisc) */
 $messages['ang'] = array(
-	'checkuser-reason' => 'Racu',
+	'checkuser-reason' => 'Racu:',
 );
 
 /** Arabic (العربية)
@@ -636,7 +636,7 @@ $messages['bcc'] = array(
 	'group-checkuser-member' => 'کنترل کاربر',
 	'right-checkuser' => 'کنترل کن آی پی کاربران و دگه اطلاعاتء',
 	'grouppage-checkuser' => '{{ns:project}}:کنترل کاربر',
-	'checkuser-reason' => 'دلیل',
+	'checkuser-reason' => 'دلیل:',
 	'checkuser-showlog' => 'آمار پیش دار',
 	'checkuser-log' => 'آمار کنترل کاربر',
 	'checkuser-query' => 'درخواست نوکین تغییرات',
@@ -672,7 +672,7 @@ $messages['bcc'] = array(
  * @author Filipinayzd
  */
 $messages['bcl'] = array(
-	'checkuser-reason' => 'Rasón',
+	'checkuser-reason' => 'Rason:',
 	'checkuser-showlog' => 'Ipahiling an mga historial',
 	'checkuser-target' => 'Parágamit o IP',
 	'checkuser-users' => 'Kûanón',
@@ -782,7 +782,7 @@ $messages['bg'] = array(
 	'right-checkuser' => 'проверяване на потребителски IP адреси и друга информация',
 	'right-checkuser-log' => 'Преглеждане на дневника с проверки на потребители',
 	'grouppage-checkuser' => '{{ns:project}}:Проверяващи',
-	'checkuser-reason' => 'Причина',
+	'checkuser-reason' => 'Причина:',
 	'checkuser-showlog' => 'Показване на дневника',
 	'checkuser-log' => 'Дневник на проверяващите',
 	'checkuser-query' => 'Заявка към последните промени',
@@ -917,7 +917,7 @@ $messages['br'] = array(
 	'checkuser-week-2' => 'en div sizhunvezh ziwezhañ',
 	'checkuser-month' => 'en 30 devezh diwezhañ',
 	'checkuser-all' => 'pep tra',
-	'checkuser-cidr-label' => "Klask ul lijorenn boutin hag ar chomlerc'hioù lakaet evit ur roll chomlec'hioù IP",
+	'checkuser-cidr-label' => "Klask ur renk boutin hag ar chomlec'hioù sellet outo en ur roll chomlec'hioù IP",
 	'checkuser-cidr-res' => 'Lijorenn CIDR boutin :',
 	'checkuser-empty' => "N'eus pennad ebet er marilh",
 	'checkuser-nomatch' => "N'eus bet kavet netra.",
@@ -932,8 +932,8 @@ D'an $1 da $2 eo bet graet ar c'hemm diwezhañ.",
 	'checkuser-wasblocked' => 'Bet stanket a-raok',
 	'checkuser-localonly' => "N'eo ket unvanet",
 	'checkuser-massblock' => 'Stankañ an implijerien dibabet',
-	'checkuser-massblock-text' => "Ar gontoù dibabet a vo stanket da viken, gant ar stankadur emgefre gweredekaat ha krouidigezh ur gont diweredekaat.
-Ar chomlec'hioù IP a vo stanket e-pad ur sizhunvezh hepken evit an implijerien a ra gant an IP ha krouidigezh ur gont a vo diweredekaat.",
+	'checkuser-massblock-text' => "Stanket e vo ar c'hontoù dibabet da viken, gweredekaet ar stankañ emgefre ha diweredekaet ar c'hrouiñ kontoù.
+Stanket e vo ar chomlec'hioù IP ur sizhunvezh-pad evit an implijerien dindan IP nemetken, gant ar c'hrouiñ kontoù diweredekaet.",
 	'checkuser-blocktag' => "Erlec'hiañ ar pajennoù implijer gant :",
 	'checkuser-blocktag-talk' => "Erlec'hiañ ar pajennoù kaozeal gant :",
 	'checkuser-massblock-commit' => 'Stankañ an implijerien diuzet',
@@ -953,7 +953,7 @@ Setu an IPoù implijet (5000 d'ar muiañ, urzhiet dre ar chomlec'h) :",
 	'checkuser-ipeditcount' => '~$1 gant an holl implijerien',
 	'checkuser-log-subpage' => 'Marilh',
 	'checkuser-log-return' => "Distreiñ da furmskrid pennañ ar c'hontrolliñ implijerien",
-	'checkuser-limited' => "'''An disoc'hoù-mañ a zo bet troc'het evit abegoù liammet gant an efedusted.'''",
+	'checkuser-limited' => "'''Krennet eo bet an disoc'hoù-mañ evit abegoù efeduster.'''",
 	'checkuser-log-userips' => '$1 en deus kavet IPoù evit $2',
 	'checkuser-log-ipedits' => '$1 en deus bet kemmoù evit $2',
 	'checkuser-log-ipusers' => '$1 en deus kavet implijerien evit $2',
@@ -1992,7 +1992,7 @@ $messages['eu'] = array(
  * @author Better
  */
 $messages['ext'] = array(
-	'checkuser-reason' => 'Razón',
+	'checkuser-reason' => 'Razón:',
 	'checkuser-search' => 'Landeal',
 );
 
@@ -2270,7 +2270,7 @@ $messages['frc'] = array(
 	'group-checkuser' => "'Gardez-voir aux useurs encore",
 	'group-checkuser-member' => "'Gardez-voir à l'useur encore",
 	'grouppage-checkuser' => "{{ns:project}}:'Gardez-voir à l'useur encore",
-	'checkuser-reason' => 'Raison',
+	'checkuser-reason' => 'Raison:',
 	'checkuser-showlog' => 'Montrer les notes',
 	'checkuser-log' => "Notes de la Garde d'useur",
 	'checkuser-query' => 'Charchez les nouveaux changements',
@@ -2637,7 +2637,7 @@ $messages['hak'] = array(
  * @author Singularity
  */
 $messages['haw'] = array(
-	'checkuser-reason' => 'Kumu',
+	'checkuser-reason' => 'Kumu:',
 	'checkuser-search' => 'Huli',
 	'checkuser-search-submit' => 'Huli',
 );
@@ -2740,7 +2740,7 @@ $messages['hi'] = array(
 	'group-checkuser-member' => 'सदस्य जाँच',
 	'right-checkuser' => 'सदस्य का आइपी एड्रेस एवम्‌ अन्य ज़ानकारी जाँचें',
 	'grouppage-checkuser' => '{{ns:project}}: सदस्य जाँच',
-	'checkuser-reason' => 'कारण',
+	'checkuser-reason' => 'कारण:',
 	'checkuser-showlog' => 'लॉग दिखायें',
 	'checkuser-log' => 'सदस्यजाँच लॉग',
 	'checkuser-query' => 'हाल में हुए बदलाव देखें',
@@ -2776,7 +2776,7 @@ $messages['hi'] = array(
  * @author Jose77
  */
 $messages['hil'] = array(
-	'checkuser-reason' => 'Rason',
+	'checkuser-reason' => 'Rason:',
 	'checkuser-search' => 'Pangita-a',
 	'checkuser-search-submit' => 'Pangita-a',
 );
@@ -2874,7 +2874,7 @@ Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěš
 	'right-checkuser' => 'Pruwowanje IP-adresow a druhe informacije wužiwarjow',
 	'right-checkuser-log' => 'Protokol wužiwarskeje kontrole wobhladać',
 	'grouppage-checkuser' => '{{ns:project}}:Checkuser',
-	'checkuser-reason' => 'Přičina',
+	'checkuser-reason' => 'Přičina:',
 	'checkuser-showlog' => 'Protokol pokazać',
 	'checkuser-log' => 'Protokol wužiwarskeje kontrole',
 	'checkuser-query' => 'Poslednje změny wotprašeć',
@@ -3225,7 +3225,7 @@ $messages['is'] = array(
 	'checkuser' => 'Athuga notanda',
 	'group-checkuser' => 'Athuga notendur',
 	'group-checkuser-member' => 'Athuga notanda',
-	'checkuser-reason' => 'Ástæða',
+	'checkuser-reason' => 'Ástæða:',
 	'checkuser-showlog' => 'Sýna skrá',
 	'checkuser-query' => 'Sækja nýlegar breytingar',
 	'checkuser-target' => 'Notandi eða vistfang',
@@ -3430,7 +3430,7 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 	'group-checkuser' => 'Check users',
 	'group-checkuser-member' => 'Check user',
 	'grouppage-checkuser' => '{{ns:project}}:Check user',
-	'checkuser-reason' => 'Begrundelse',
+	'checkuser-reason' => 'Begrundelse:',
 	'checkuser-showlog' => "Se'n log",
 	'checkuser-log' => 'CheckUser log',
 	'checkuser-query' => 'Søĝ i seneste ændrenger',
@@ -3620,7 +3620,7 @@ $messages['kk-arab'] = array(
 	'group-checkuser' => 'قاتىسۋشى سىناۋشىلار',
 	'group-checkuser-member' => 'قاتىسۋشى سىناۋشى',
 	'grouppage-checkuser' => '{{ns:project}}:قاتىسۋشىنى سىناۋ',
-	'checkuser-reason' => 'سەبەبى',
+	'checkuser-reason' => 'سەبەبى:',
 	'checkuser-showlog' => 'جۋرنالدى كورسەت',
 	'checkuser-log' => 'قاتىسۋشى سىناۋ جۋرنالى',
 	'checkuser-query' => 'جۋىقتاعى وزگەرىستەردى سۇرانىمداۋ',
@@ -3660,7 +3660,7 @@ $messages['kk-cyrl'] = array(
 	'group-checkuser' => 'Қатысушы сынаушылар',
 	'group-checkuser-member' => 'қатысушы сынаушы',
 	'grouppage-checkuser' => '{{ns:project}}:Қатысушыны сынау',
-	'checkuser-reason' => 'Себебі',
+	'checkuser-reason' => 'Себебі:',
 	'checkuser-showlog' => 'Журналды көрсет',
 	'checkuser-log' => 'Қатысушы сынау журналы',
 	'checkuser-query' => 'Жуықтағы өзгерістерді сұранымдау',
@@ -3700,7 +3700,7 @@ $messages['kk-latn'] = array(
 	'group-checkuser' => 'Qatıswşı sınawşılar',
 	'group-checkuser-member' => 'qatıswşı sınawşı',
 	'grouppage-checkuser' => '{{ns:project}}:Qatıswşını sınaw',
-	'checkuser-reason' => 'Sebebi',
+	'checkuser-reason' => 'Sebebi:',
 	'checkuser-showlog' => 'Jwrnaldı körset',
 	'checkuser-log' => 'Qatıswşı sınaw jwrnalı',
 	'checkuser-query' => 'Jwıqtağı özgeristerdi suranımdaw',
@@ -4180,7 +4180,7 @@ IP's waere ein waek geblok veur anoniem gebroekers, mit 't aanmake ven nuuj gebr
 /** Lao (ລາວ) */
 $messages['lo'] = array(
 	'checkuser' => 'ກວດຜູ້ໃຊ້',
-	'checkuser-reason' => 'ເຫດຜົນ',
+	'checkuser-reason' => 'ເຫດຜົນ:',
 	'checkuser-showlog' => 'ສະແດງບັນທຶກ',
 	'checkuser-log' => 'ບັນທຶກການກວດຜູ້ໃຊ້',
 	'checkuser-target' => 'ຜູ້ໃຊ້ ຫຼື IP',
@@ -4198,7 +4198,7 @@ $messages['lo'] = array(
  */
 $messages['lt'] = array(
 	'right-checkuser' => 'Tikrinti naudotojo IP adresus ir kitą informaciją',
-	'checkuser-reason' => 'Priežastis',
+	'checkuser-reason' => 'Priežastis:',
 	'checkuser-showlog' => 'Rodyti sąrašą',
 	'checkuser-target' => 'Naudotojas arba IP',
 	'checkuser-users' => 'Gauti naudotojus',
@@ -4447,7 +4447,7 @@ IPv4 (CIDR 16-32) आणि IPv6 (CIDR 96-128) वापरता येऊ श�
 	'group-checkuser-member' => 'सदस्य तपासा',
 	'right-checkuser' => 'सदस्याचा आयपी अंकपत्ता व इतर माहिती तपासा',
 	'grouppage-checkuser' => '{{ns:project}}:सदस्य तपासा',
-	'checkuser-reason' => 'कारण',
+	'checkuser-reason' => 'कारण:',
 	'checkuser-showlog' => 'लॉग दाखवा',
 	'checkuser-log' => 'Checkuse लॉग',
 	'checkuser-query' => 'अलीकडील बदल पृच्छा',
@@ -4969,7 +4969,7 @@ $messages['nov'] = array(
  * @author Mohau
  */
 $messages['nso'] = array(
-	'checkuser-reason' => 'Lebaka',
+	'checkuser-reason' => 'Lebaka:',
 	'checkuser-target' => 'Mošomiši goba IP',
 	'checkuser-search' => 'Fetleka',
 	'checkuser-week-1' => 'Beke yago feta',
@@ -5081,7 +5081,7 @@ $messages['pag'] = array(
 /** Pampanga (Kapampangan) */
 $messages['pam'] = array(
 	'checkuser' => 'Surian ya ing gagamit',
-	'checkuser-reason' => 'Sangkan',
+	'checkuser-reason' => 'Sangkan:',
 	'checkuser-showlog' => 'Pakit ya ing log',
 	'checkuser-search' => 'Manintun',
 );
@@ -5396,7 +5396,7 @@ Não serão retornadas mais de 5000 edições por motivos de desempenho. O uso d
 	'right-checkuser' => 'Verificar os endereços de IP de um usuários e outras informações',
 	'right-checkuser-log' => 'Ver os registros das verificações',
 	'grouppage-checkuser' => '{{ns:project}}:CheckUser',
-	'checkuser-reason' => 'Motivo',
+	'checkuser-reason' => 'Motivo:',
 	'checkuser-showlog' => 'Exibir registros',
 	'checkuser-log' => 'Registros de verificação de usuários',
 	'checkuser-query' => 'Examinar as Mudanças recentes',
@@ -6129,7 +6129,7 @@ $messages['sr-ec'] = array(
 	'right-checkuser' => 'Проверава сарадничке ИП адресе и друге информације.',
 	'right-checkuser-log' => 'Погледај чекјузер лог',
 	'grouppage-checkuser' => '{{ns:project}}:Чекјузер',
-	'checkuser-reason' => 'Резлог:',
+	'checkuser-reason' => 'Разлог:',
 	'checkuser-showlog' => 'Прикажи лог.',
 	'checkuser-log' => 'Лог чекјузера.',
 	'checkuser-query' => 'Упит на скорашње измене.',
@@ -6209,7 +6209,7 @@ Alatku koristite u skladu sa politikom.',
 	'right-checkuser' => 'Proverava saradničke IP adrese i druge informacije.',
 	'right-checkuser-log' => 'Pogledaj čekjuzer log',
 	'grouppage-checkuser' => '{{ns:project}}:Čekjuzer',
-	'checkuser-reason' => 'Rezlog:',
+	'checkuser-reason' => 'Razlog:',
 	'checkuser-showlog' => 'Prikaži log.',
 	'checkuser-log' => 'Log čekjuzera.',
 	'checkuser-query' => 'Upit na skorašnje izmene.',
@@ -6481,7 +6481,7 @@ IP-adresser kommer blockeras i en vecka för anonyma användare, med kontoskapan
  * @author Herr Kriss
  */
 $messages['szl'] = array(
-	'checkuser-reason' => 'Čymu',
+	'checkuser-reason' => 'Čymu:',
 	'checkuser-search' => 'Šnupej',
 	'checkuser-search-submit' => 'Šnupej',
 );
@@ -7369,7 +7369,7 @@ $messages['yue'] = array(
 	'group-checkuser-member' => '稽查員',
 	'right-checkuser' => '核對用戶嘅IP地址同埋其它嘅資料',
 	'grouppage-checkuser' => '{{ns:project}}:稽查員',
-	'checkuser-reason' => '原因',
+	'checkuser-reason' => '原因:',
 	'checkuser-showlog' => '顯示日誌',
 	'checkuser-log' => '核對用戶日誌',
 	'checkuser-query' => '查詢最近更改',
