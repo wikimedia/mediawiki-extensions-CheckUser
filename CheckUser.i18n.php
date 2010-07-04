@@ -216,7 +216,7 @@ $messages['krl'] = array(
  * @author Jose77
  */
 $messages['niu'] = array(
-	'checkuser-reason' => 'Kakano',
+	'checkuser-reason' => 'Kakano:',
 	'checkuser-search' => 'Kumi',
 	'checkuser-search-submit' => 'Kumi',
 );
@@ -612,7 +612,7 @@ $messages['avk'] = array(
 	'group-checkuser' => 'Stujera va favesik',
 	'group-checkuser-member' => 'Stujera va favesik',
 	'grouppage-checkuser' => '{{ns:project}}:Stujera va favesik',
-	'checkuser-reason' => 'Lazava',
+	'checkuser-reason' => 'Lazava :',
 	'checkuser-showlog' => 'Nedira va "log"',
 	'checkuser-target' => 'Favesik ok IP mane',
 	'checkuser-search' => 'Aneyara',
@@ -4116,7 +4116,7 @@ Gebroekers en bewèrkinge van 'n IP-adres van 'ne cliënt kinne achterhaoldj wae
 	'right-checkuser' => 'IP-adrèsser en anger gegaeves van gebroekers naokieke',
 	'right-checkuser-log' => "Biek 't checkuserlog",
 	'grouppage-checkuser' => '{{ns:project}}:Gebroekerkonterleerder',
-	'checkuser-reason' => 'Reej:',
+	'checkuser-reason' => 'Reeje:',
 	'checkuser-showlog' => 'Toean logbook',
 	'checkuser-log' => 'Logbook KonterleerGebroeker',
 	'checkuser-query' => 'Bevraog recènte verangeringe',
@@ -5610,7 +5610,7 @@ Iată IP-urile folosite (maxim 5000, sortate după adresă):',
  * @author Hakka
  */
 $messages['roa-rup'] = array(
-	'checkuser-reason' => 'Itia',
+	'checkuser-reason' => 'Itia:',
 	'checkuser-search' => 'Caftã',
 );
 
@@ -5881,7 +5881,7 @@ $messages['scn'] = array(
 	'right-checkuser' => "Talìa li nnirizzi IP usati di l'utenti a àutri nfurmazzioni",
 	'right-checkuser-log' => 'Talìa li log di li checkuser',
 	'grouppage-checkuser' => '{{ns:project}}:Cuntrollu utenzi',
-	'checkuser-reason' => 'Mutivazzioni',
+	'checkuser-reason' => 'Mutivu:',
 	'checkuser-showlog' => 'Ammustra lu log',
 	'checkuser-log' => 'Log di li checkuser',
 	'checkuser-query' => "Cera nta l'ùrtimi mudìfichi",
@@ -7323,6 +7323,11 @@ Redakam lätik ejenon ün $1, tü $2.',
  */
 $messages['wa'] = array(
 	'checkuser' => "Verifyî l' uzeu",
+);
+
+/** Wu (吴语) */
+$messages['wuu'] = array(
+	'checkuser-reason' => '理由：',
 );
 
 /** Yiddish (ייִדיש)
