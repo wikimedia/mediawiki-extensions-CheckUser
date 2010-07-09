@@ -4775,7 +4775,7 @@ Hieronder worden de gebruikte IP-adressen weergegeven (maximaal 5000, op IP-adre
 	'checkuser-search-target' => 'onderwerp',
 	'checkuser-ipeditcount' => '~$1 van alle gebruikers',
 	'checkuser-log-subpage' => 'Logboek',
-	'checkuser-log-return' => 'Naar het hoofdformulier van ControleGebruiker terugkeren',
+	'checkuser-log-return' => 'Naar het hoofdformulier van GebruikerControleren terugkeren',
 	'checkuser-limited' => "'''Deze resultaten zijn niet volledig om prestatieredenen.'''",
 	'checkuser-log-userips' => '$1 heeft de IP-adressen door $2 opgevraagd',
 	'checkuser-log-ipedits' => '$1 heeft de bewerkingen door $2 opgevraagd',
