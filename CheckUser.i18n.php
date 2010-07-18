@@ -3114,6 +3114,7 @@ Ecce le IPs usate (max. 5000, ordinate per adresse):',
 /** Indonesian (Bahasa Indonesia)
  * @author Bennylin
  * @author Borgx
+ * @author Farras
  * @author Irwangatot
  * @author IvanLanin
  * @author Iwan Novirion
@@ -3174,7 +3175,7 @@ Alamat-alamat IP akan diblokir selama 1 minggu untuk pengguna anonim dan tidak d
 	'checkuser-noreason' => 'Anda harus memberikan alasan untuk kueri ini.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|akun|akun-akun}} baru',
 	'checkuser-too-many' => 'Terlalu banyak hasil pencarian (menurut perkiraan permintaan), mohon persempit CIDR. Berikut adalah alamat-alamat IP yang digunakan (5000 maks, diurut berdasarkan alamat):',
-	'checkuser-user-nonexistent' => 'Pengguna tidak eksis',
+	'checkuser-user-nonexistent' => 'Pengguna yang dimaksud tidak ditemukan',
 	'checkuser-search-form' => 'Cari catatan log dimana $1 adalah $2',
 	'checkuser-search-submit' => 'Cari',
 	'checkuser-search-initiator' => 'pemeriksa',
