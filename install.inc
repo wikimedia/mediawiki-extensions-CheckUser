@@ -73,7 +73,7 @@ function create_cu_changes( $db, $cutoff = null ) {
 }
 
 function create_cu_log( $db ) {
-	global $wgDBtype, $wgCheckUserLog, $wgDBname;
+	global $wgDBtype, $wgCheckUserLog;
 	if( $db->tableExists( 'cu_log' ) ) {
 		echo "...cu_log already exists\n";
 		return;

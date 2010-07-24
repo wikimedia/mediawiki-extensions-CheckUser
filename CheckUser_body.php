@@ -310,7 +310,7 @@ class CheckUser extends SpecialPage {
 	 * Shows first and last date and number of edits
 	 */
 	protected function doUserIPsRequest( $user , $reason = '', $period = 0 ) {
-		global $wgOut, $wgLang, $wgUser;
+		global $wgOut, $wgLang;
 
 		$userTitle = Title::newFromText( $user, NS_USER );
 		if ( !is_null( $userTitle ) ) {
@@ -450,7 +450,7 @@ class CheckUser extends SpecialPage {
 	 * Shows all edits in Recent Changes by this IP (or range) and who made them
 	 */
 	protected function doIPEditsRequest( $ip, $xfor = false, $reason = '', $period = 0 ) {
-		global $wgUser, $wgOut, $wgLang;
+		global $wgOut, $wgLang;
 		$dbr = wfGetDB( DB_SLAVE );
 		# Invalid IPs are passed in as a blank string
 		$ip_conds = $this->getIpConds( $dbr, $ip, $xfor );
@@ -587,7 +587,7 @@ class CheckUser extends SpecialPage {
 	 * Shows all edits in Recent Changes by this user
 	 */
 	protected function doUserEditsRequest( $user, $reason = '', $period = 0 ) {
-		global $wgUser, $wgOut, $wgLang;
+		global $wgOut;
 
 		$userTitle = Title::newFromText( $user, NS_USER );
 		if ( !is_null( $userTitle ) ) {

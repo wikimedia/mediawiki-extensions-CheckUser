@@ -76,7 +76,6 @@ $wgHooks['ContributionsToolLinks'][] = 'efLoadCheckUserLink';
  * Saves user data into the cu_changes table
  */
 function efUpdateCheckUserData( $rc ) {
-	global $wgUser;
 	// Extract params
 	extract( $rc->mAttribs );
 	// Get IP
