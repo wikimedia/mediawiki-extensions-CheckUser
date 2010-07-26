@@ -16,6 +16,9 @@ class CheckUser extends SpecialPage {
 		} else {
 			parent::__construct( 'CheckUser', 'checkuser-log' );
 		}
+
+		$this->sk = $wgUser->getSkin();
+
 		wfLoadExtensionMessages( 'CheckUser' );
 	}
 
@@ -1063,6 +1066,7 @@ class CheckUser extends SpecialPage {
 	 */
 	protected function getLinksFromRow( $row ) {
 		// Log items (old format) and events to logs
+
 		if ( $row->cuc_type == RC_LOG && $row->cuc_namespace == NS_SPECIAL ) {
 			list( $specialName, $logtype ) = SpecialPage::resolveAliasWithSubpage( $row->cuc_title );
 			$logname = LogPage::logName( $logtype );
