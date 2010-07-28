@@ -3195,10 +3195,13 @@ Alamat-alamat IP akan diblokir selama 1 minggu untuk pengguna anonim dan tidak d
 	'checkuser-reset-action' => 'Set ulang kata sandi pengguna "$1"',
 );
 
-/** Igbo (Igbo) */
+/** Igbo (Igbo)
+ * @author Ukabia
+ */
 $messages['ig'] = array(
 	'checkuser-reason' => 'Mgbaghaputa:',
 	'checkuser-search' => 'Chöwá',
+	'checkuser-all' => 'nke nílé',
 	'checkuser-search-submit' => 'Chöwá',
 );
 
