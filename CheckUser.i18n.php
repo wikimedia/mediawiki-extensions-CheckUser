@@ -120,7 +120,9 @@ $messages['qqq'] = array(
 	'checkuser' => 'Check user extension. The name of the special page where checkusers can check the IP addresses of users. The message is used in the list of special pages, and at the top of [[Special:Checkuser]].
 
 {{Identical|Check user}}',
-	'group-checkuser' => '{{Identical|Check user}}',
+	'group-checkuser' => 'Appears to be the name of the group of users (check is a noun, not a verb here).
+
+{{Identical|Check user}}',
 	'group-checkuser-member' => '{{Identical|Check user}}',
 	'right-checkuser' => '{{doc-right}}',
 	'right-checkuser-log' => '{{doc-right}}',
@@ -141,7 +143,12 @@ $messages['qqq'] = array(
 	'checkuser-period' => "Field name next to drop-down input box on CheckUser Special page. See screenshot '[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]'.
 
 {{Identical|Duration}}",
-	'checkuser-all' => '{{Identical|All}}',
+	'checkuser-week-1' => 'Option in drop-down input box "Duration" on CheckUser Special page. See screenshot \'[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]\'.',
+	'checkuser-week-2' => 'Option in drop-down input box "Duration" on CheckUser Special page. See screenshot \'[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]\'.',
+	'checkuser-month' => 'Option in drop-down input box "Duration" on CheckUser Special page. See screenshot \'[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]\'.',
+	'checkuser-all' => 'Option in drop-down input box "Duration" on CheckUser Special page. See screenshot \'[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]\'.
+
+{{Identical|All}}',
 	'checkuser-cidr-res' => 'For an explanation of CIDR see [[WikiPedia:CIDR]].',
 	'checkuser-nomatch-edits' => '* $1 = date
 * $2 = time',
@@ -6479,6 +6486,37 @@ IP-adresser kommer blockeras i en vecka för anonyma användare, med kontoskapan
 	'checkuser-autocreate-action' => 'skapades automatiskt',
 	'checkuser-email-action' => 'skickade ett mejl till användare "$1"',
 	'checkuser-reset-action' => 'återställ lösenord för användare "$1"',
+);
+
+/** Swahili (Kiswahili)
+ * @author Lloffiwr
+ */
+$messages['sw'] = array(
+	'checkuser-desc' => 'Inawezesha watumiaji wenye ruksa wakague anwani za IP za watumiaji na data zingine',
+	'checkuser' => 'Mkaguzi wa watumiaji',
+	'checkuser-contribs' => 'kagua anwani za IP (Itifaki Wavuti) za watumiaji',
+	'group-checkuser' => 'Wakaguzi wa watumiaji',
+	'group-checkuser-member' => 'Mkaguzi wa watumiaji',
+	'right-checkuser' => 'Kukagua anwani za IP na data zingine za watumiaji',
+	'right-checkuser-log' => 'Kutazama kumbukumbu za kukagua watumiaji',
+	'grouppage-checkuser' => '{{ns:project}}:Mkaguzi wa watumiaji',
+	'checkuser-reason' => 'Sababu:',
+	'checkuser-showlog' => 'Onyesha kumbukumbu',
+	'checkuser-log' => 'Kumbukumbu za kukagua Watumiaji',
+	'checkuser-target' => 'Anwani ya IP au jina la mtumiaji:',
+	'checkuser-users' => 'Leta watumiaji',
+	'checkuser-edits' => 'Leta haririo zilizotoka anwani ya IP fulani',
+	'checkuser-ips' => 'Leta anwani za IP',
+	'checkuser-account' => 'Leta haririo za akaunti',
+	'checkuser-search' => 'Tafuta',
+	'checkuser-period' => 'Muda:',
+	'checkuser-week-1' => 'wiki iliyopita',
+	'checkuser-week-2' => 'wiki mbili zilizopita',
+	'checkuser-month' => 'siku 30 zilizopita',
+	'checkuser-all' => 'wote',
+	'checkuser-empty' => 'Kumbukumbu haina kitu.',
+	'checkuser-search-submit' => 'Tafuta',
+	'checkuser-log-subpage' => 'Kumbukumbu',
 );
 
 /** Silesian (Ślůnski)
