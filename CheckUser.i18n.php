@@ -3206,10 +3206,26 @@ Alamat-alamat IP akan diblokir selama 1 minggu untuk pengguna anonim dan tidak d
  * @author Ukabia
  */
 $messages['ig'] = array(
+	'checkuser' => "Lé ọ'bànifé anya",
+	'group-checkuser' => "Lé ọ'bànifé anya",
+	'group-checkuser-member' => "Lé ọ'bànifé anya",
 	'checkuser-reason' => 'Mgbaghaputa:',
+	'checkuser-showlog' => 'Zí ndétu nchétá',
+	'checkuser-edits' => 'Gá nwèté orü shí IP',
+	'checkuser-ips' => 'Gá nwèté ónúọgụgụ IP',
+	'checkuser-account' => "Gá nwèté orü ọ'bànifé",
 	'checkuser-search' => 'Chöwá',
+	'checkuser-period' => 'Ógè ȯ wèrè:',
+	'checkuser-week-1' => 'izù nke gáráni',
+	'checkuser-month' => 'úbochi 30 gárání',
 	'checkuser-all' => 'nke nílé',
+	'checkuser-check' => 'Lechányá',
+	'checkuser-blocked' => 'Kwàchịrị',
+	'checkuser-locked' => 'Gbàchịrị',
 	'checkuser-search-submit' => 'Chöwá',
+	'checkuser-search-initiator' => 'onyé bịdòrò',
+	'checkuser-search-target' => 'nkèọnejé',
+	'checkuser-log-useredits' => '$1 nwèrè orü màkà $2',
 );
 
 /** Ido (Ido)
