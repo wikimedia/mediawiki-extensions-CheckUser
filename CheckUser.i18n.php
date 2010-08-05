@@ -3211,6 +3211,7 @@ $messages['ig'] = array(
 	'group-checkuser-member' => "Lé ọ'bànifé anya",
 	'checkuser-reason' => 'Mgbághapụtà:',
 	'checkuser-showlog' => 'Zí ndétu nchétá',
+	'checkuser-users' => "Wèté ọ'bànifé",
 	'checkuser-edits' => 'Gá nwèté orü shí IP',
 	'checkuser-ips' => 'Gá nwèté ónúọgụgụ IP',
 	'checkuser-account' => "Gá nwèté orü ọ'bànifé",
@@ -3225,6 +3226,7 @@ $messages['ig'] = array(
 	'checkuser-search-submit' => 'Chöwá',
 	'checkuser-search-initiator' => 'onyé bịdòrò',
 	'checkuser-search-target' => 'nkèọnejé',
+	'checkuser-log-subpage' => 'Ndetu-nchétá',
 	'checkuser-log-useredits' => '$1 nwèrè orü màkà $2',
 );
 
