@@ -2631,6 +2631,14 @@ $messages['gv'] = array(
 	'checkuser-search-submit' => 'Ronsaghey',
 );
 
+/** Hausa (هَوُسَ) */
+$messages['ha'] = array(
+	'checkuser-reason' => 'Dalili:',
+	'checkuser-search' => 'Nema',
+	'checkuser-all' => 'duka',
+	'checkuser-search-submit' => 'Nema',
+);
+
 /** Hakka (Hak-kâ-fa)
  * @author Hakka
  */
@@ -4586,6 +4594,8 @@ Bagi pengguna tanpa nama, alamat IP-nya akan disekat selama seminggu, dengan pen
  * @author Chrisportelli
  */
 $messages['mt'] = array(
+	'checkuser-contribs' => 'ikkontrolla l-indirizzi IP tal-utent',
+	'group-checkuser' => 'Kontrollatur',
 	'group-checkuser-member' => 'Kontrollatur',
 );
 
