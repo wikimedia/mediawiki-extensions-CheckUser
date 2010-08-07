@@ -1157,6 +1157,13 @@ $messages['ch'] = array(
 	'checkuser-search-submit' => 'Aligao',
 );
 
+/** Sorani (کوردی) */
+$messages['ckb'] = array(
+	'checkuser-reason' => 'هۆکار:',
+	'checkuser-search' => 'گەڕان',
+	'checkuser-search-submit' => 'گەڕان',
+);
+
 /** Corsican (Corsu) */
 $messages['co'] = array(
 	'group-checkuser' => 'Controllori',
@@ -6149,6 +6156,7 @@ $messages['sq'] = array(
 
 /** Serbian Cyrillic ekavian (Српски (ћирилица))
  * @author Millosh
+ * @author Rancher
  * @author Sasa Stefanovic
  * @author Verlor
  * @author Јованвб
@@ -6162,7 +6170,7 @@ $messages['sr-ec'] = array(
 	'checkuser-desc' => 'Даје сарадницима са одговарајућим правима могућност да провере ИП адресе сарадника и друге информације.',
 	'checkuser-logcase' => 'Претрага лога је осетљива на мала и велика слова.',
 	'checkuser' => 'Чекјузер',
-	'checkuser-contribs' => 'Провери корисникове IP адресе.',
+	'checkuser-contribs' => 'Провери корисникове ИП адресе',
 	'group-checkuser' => 'Чекјузери',
 	'group-checkuser-member' => 'Чекјузер',
 	'right-checkuser' => 'Проверава сарадничке ИП адресе и друге информације.',
@@ -6170,9 +6178,9 @@ $messages['sr-ec'] = array(
 	'grouppage-checkuser' => '{{ns:project}}:Чекјузер',
 	'checkuser-reason' => 'Разлог:',
 	'checkuser-showlog' => 'Прикажи лог.',
-	'checkuser-log' => 'Лог чекјузера.',
+	'checkuser-log' => 'Извештај чекјузера',
 	'checkuser-query' => 'Упит на скорашње измене.',
-	'checkuser-target' => 'Корисничко име  или ИП адреса',
+	'checkuser-target' => 'Корисничко име или ИП адреса:',
 	'checkuser-users' => 'Прикупљање сарадничких имена.',
 	'checkuser-edits' => 'Прикупљање измена од стране ИП адресе.',
 	'checkuser-ips' => 'Прикупља ИП адресе.',
@@ -6185,13 +6193,13 @@ $messages['sr-ec'] = array(
 	'checkuser-all' => 'све',
 	'checkuser-cidr-label' => 'Пронађи уобичајени опсег и захваћене адресе за списак IP адреса.',
 	'checkuser-cidr-res' => 'Уобичајени CIDR',
-	'checkuser-empty' => 'Лог не садржи ништа.',
+	'checkuser-empty' => 'Извештај не садржи ниједну ставку.',
 	'checkuser-nomatch' => 'Нема погодака.',
 	'checkuser-nomatch-edits' => 'Нису нађена поклапања.
 Последња измена је била на $1 у $2.',
 	'checkuser-check' => 'Провера',
-	'checkuser-log-fail' => 'Није било могуће додати податак у лог.',
-	'checkuser-nolog' => 'Ниједан фајл с логовима није пронађен.',
+	'checkuser-log-fail' => 'Додавање податка у извештај није могуће.',
+	'checkuser-nolog' => 'Није пронађен ниједан извештај.',
 	'checkuser-blocked' => 'Блокиран',
 	'checkuser-gblocked' => 'Блокиран глобално',
 	'checkuser-locked' => 'Закључано',
@@ -6205,19 +6213,19 @@ IP адресе ће бити блокиране на недељу дана за
 	'checkuser-massblock-commit' => 'Блокирај изабраног корисника',
 	'checkuser-block-success' => "'''{{PLURAL:$2|Корисник|Корисници}} $1 {{PLURAL:$2|је сада блокиран|су сада блокирани}}.'''",
 	'checkuser-block-failure' => "'''Нема блокираних корисника.'''",
-	'checkuser-block-limit' => 'Превише корисника је изабрано.',
+	'checkuser-block-limit' => 'Изабрано је превише корисника.',
 	'checkuser-block-noreason' => 'Морате дати разлог за блок.',
 	'checkuser-noreason' => 'Морате да наведете разлог за овај упит.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|нови налог|нових налога}}',
 	'checkuser-too-many' => 'Нађено је превише резултата (према процени захтева). Молимо Вас да сузите CIDR.
 Овде су коришћене IP адресе (највише 5.000, сортираних по адреси):',
 	'checkuser-user-nonexistent' => 'Тражени сарадник не постоји.',
-	'checkuser-search-form' => 'Претрага лога где је $1 једнако $2.',
+	'checkuser-search-form' => 'Претражи извештај где је $1 једнако $2.',
 	'checkuser-search-submit' => 'Претрага',
 	'checkuser-search-initiator' => 'покретач',
 	'checkuser-search-target' => 'циљ',
 	'checkuser-ipeditcount' => '~$1 од свих сарадника',
-	'checkuser-log-subpage' => 'лог',
+	'checkuser-log-subpage' => 'извештај',
 	'checkuser-log-return' => 'Повратак на основну форму чекјузера.',
 	'checkuser-limited' => "'''Ови резултати су скраћени због перформанси.'''",
 	'checkuser-log-userips' => '$1 је добио ИП адресе за $2',
@@ -6227,7 +6235,7 @@ IP адресе ће бити блокиране на недељу дана за
 	'checkuser-log-ipusers-xff' => '$1 је добио сараднике за XFF $2',
 	'checkuser-log-useredits' => '$1 преузео измене од $2',
 	'checkuser-autocreate-action' => 'је аутоматски направљен',
-	'checkuser-email-action' => 'послат је мејл кориснику "$1"',
+	'checkuser-email-action' => 'е-порука је послата кориснику „$1“',
 	'checkuser-reset-action' => 'обнови лозинку за корисника "$1"',
 );
 
