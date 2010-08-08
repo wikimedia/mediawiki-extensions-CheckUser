@@ -3446,7 +3446,7 @@ IPv4 (16から32ビットのCIDR表記) と IPv6 (96から128ビットのCIDR表
 	'checkuser-search-submit' => '検索',
 	'checkuser-search-initiator' => '調査実行者',
 	'checkuser-search-target' => '調査対象者',
-	'checkuser-ipeditcount' => '全利用者 -$1',
+	'checkuser-ipeditcount' => 'このIPからの総編集回数 - $1',
 	'checkuser-log-subpage' => 'ログ',
 	'checkuser-log-return' => '利用者調査のメインフォームへ戻る',
 	'checkuser-limited' => "'''パフォーマンスの都合から結果は省略されています。'''",
@@ -3961,11 +3961,11 @@ $messages['krj'] = array(
  * @author Purodha
  */
 $messages['ksh'] = array(
-	'checkuser-summary' => 'Met däm Werkzüch he kam_mer de IP Addresse fun Metmaacher fenge, di en de {{int:Recentchanges}} shtonn, un mer kann de Metmaacher-Date un Änderonge fenge för en IP-Adress.
+	'checkuser-summary' => 'Met däm Werkzüch he kam_mer de <i en="en">IP </i>-Addresse fun Metmaacher fenge, di en de {{int:Recentchanges}} shtonn, un mer kann de Metmaacher-Date un Änderonge fenge för en <i lang="en">IP</i>-Adress.
 
-Metmaacher un ier Änderong för an IP-Address wäde övver <i lang="en">XFF-header</i> jezeich, wam_mer aan di IP-Address en „<code>/xff</code>“ aanhängk. Wobei wäde IPv4 (CIDR 16-32) un IPv6 (CIDR 96-128) ongershtöz. Leßte jon beß 5000 Änderonge, öm der ßööver nit zo doll ze beschäfteje.
+Metmaacher un ier Änderong för an <i lang="en">IP</i>-Address wäde övver <i lang="en">XFF-header</i> jezeich, wam_mer aan di <i lang="en">IP</i>-Address en „<code>/xff</code>“ aanhängk. Dobei wäde <i lang="en">IPv4 (CIDR 16-32)</i> un <i lang="en">IPv6 (CIDR 96-128)</i> ongershtöz. Leßte jon beß 5000 Änderonge, öm der ẞööver nit zo doll ze beschäfteje.
 
-Donn op de Räjelle för dat Werrkzeuch obacht jevve, un et nit bruche, wann De nit darrefs!',
+Donn op de Räjelle för dat Werrkzeuch obach jevve, un et nit bruche, wann De nit darrefs!',
 	'checkuser-desc' => 'Metmaacher met däm Rääsch dozoh könne de IP-Adresse un annder Date fun de Metmaacher pröfe.',
 	'checkuser-logcase' => 'Dat Söke em Logboch deit zwesche jruße un kleine Bochshtave ongerscheide.',
 	'checkuser' => 'Metmaacher Pröfe',
@@ -4500,12 +4500,14 @@ IPv4 (CIDR 16-32) आणि IPv6 (CIDR 96-128) वापरता येऊ श�
 	'checkuser-edits' => 'अंकपत्त्याची संपादने शोधा',
 	'checkuser-ips' => 'अंकपत्ते शोधा',
 	'checkuser-search' => 'शोधा',
+	'checkuser-all' => 'सर्व',
 	'checkuser-empty' => 'लॉग मध्ये एकही नोंद नाही',
 	'checkuser-nomatch' => 'नोंदी सापडल्या नाहीत',
 	'checkuser-check' => 'पडताळा',
 	'checkuser-log-fail' => 'लॉगमध्ये नोंद वाढविता आलेली नाही.',
 	'checkuser-nolog' => 'लॉग संचिका सापडलेली नाही.',
 	'checkuser-blocked' => 'ब्लॉक केलेले आहे',
+	'checkuser-locked' => 'कुलुपबंद',
 	'checkuser-too-many' => 'खूप निकाल आलेले आहेत, कृपया शोधशब्दांमध्ये योग्य बदल करा. खाली वापरलेल्या अंकपत्त्यांची यादी आहे (जास्तीत जास्त ५०००, अनुक्रमे):',
 	'checkuser-user-nonexistent' => 'हे सदस्यनाम अस्तित्त्वात नाही.',
 	'checkuser-search-form' => 'अशा नोंदी शोधा जिथे $1 हा $2 आहे.',
@@ -4520,6 +4522,7 @@ IPv4 (CIDR 16-32) आणि IPv6 (CIDR 96-128) वापरता येऊ श�
 	'checkuser-log-ipusers' => '$1 कडे $2 साठीचे सदस्य आहेत',
 	'checkuser-log-ipedits-xff' => '$1 कडे XFF $2 साठीची संपादने आहेत',
 	'checkuser-log-ipusers-xff' => '$1 कडे XFF $2 साठीचे सदस्य आहेत',
+	'checkuser-log-useredits' => '$1 कडे $2 साठीची संपादने आहेत',
 );
 
 /** Malay (Bahasa Melayu)
@@ -7147,6 +7150,11 @@ IP-адреси користувачів, які не увійшли до сис
 	'checkuser-autocreate-action' => 'створений автоматично',
 	'checkuser-email-action' => 'надіслав листа користувачеві «$1»',
 	'checkuser-reset-action' => 'скинув пароль для користувача $1',
+);
+
+/** Urdu (اردو) */
+$messages['ur'] = array(
+	'checkuser-reason' => 'وجہ:',
 );
 
 /** Vèneto (Vèneto)
