@@ -1255,6 +1255,7 @@ Níže jsou použité IP adresy (nejvýše 5000, seřazené podle adresy):',
  * @author ОйЛ
  */
 $messages['cu'] = array(
+	'checkuser-target' => 'IP число или по́льꙃєватєлꙗ и́мѧ :',
 	'checkuser-search' => 'иска́ниѥ',
 	'checkuser-search-submit' => 'ищи́',
 );
@@ -4445,7 +4446,7 @@ $messages['ml'] = array(
 	'checkuser-user-nonexistent' => 'ഇങ്ങനൊരു ഉപയോക്താവ് വിക്കിയിൽ നിലവിലില്ല.',
 	'checkuser-search-form' => '$1, $2 ആയ പ്രവർത്തനരേഖാ ഇനങ്ങൾ കണ്ടെത്തുന്നു',
 	'checkuser-search-submit' => 'തിരയൂ',
-	'checkuser-search-initiator' => 'മുൻ‌കൈ എടുക്കുന്ന ആൾ',
+	'checkuser-search-initiator' => 'മുൻകൈ എടുക്കുന്ന ആൾ',
 	'checkuser-search-target' => 'ലക്ഷ്യം',
 	'checkuser-ipeditcount' => '~$1എല്ലാ ഉപയോക്താക്കളിൽ നിന്നും',
 	'checkuser-log-subpage' => 'പ്രവർത്തനരേഖ',
