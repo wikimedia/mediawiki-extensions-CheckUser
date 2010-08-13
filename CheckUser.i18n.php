@@ -1404,6 +1404,7 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 );
 
 /** German (Deutsch)
+ * @author Kghbln
  * @author Metalhead64
  * @author Pill
  * @author Purodha
@@ -1451,8 +1452,8 @@ Aus Performance-Gründen werden maximal 5000 Bearbeitungen ausgegeben. Benutze C
 	'checkuser-wasblocked' => 'ehemals gesperrt',
 	'checkuser-localonly' => 'nicht zusammengeführt',
 	'checkuser-massblock' => 'Ausgewählte Benutzer sperren',
-	'checkuser-massblock-text' => 'Die ausgewählten Benutzerkonten werden dauerhaft gesperrt (Autoblock ist aktiv und die Anlage neuer Benutzerkonten wird unterbunden).
-IP-Adressen werden für eine Woche gesperrt (nur für anonyme Benutzer, die Anlage neuer Benutzerkonten wird unterbunden).',
+	'checkuser-massblock-text' => 'Die ausgewählten Benutzerkonten werden dauerhaft gesperrt (Autoblock ist aktiv, die Anlage neuer Benutzerkonten wird unterbunden).
+IP-Adressen werden für eine Woche gesperrt (nur für unangemeldete Benutzer, die Anlage neuer Benutzerkonten wird unterbunden).',
 	'checkuser-blocktag' => 'Inhalt der Benutzerseite ersetzen durch:',
 	'checkuser-blocktag-talk' => 'Diskussionsseiten ersetzen durch:',
 	'checkuser-massblock-commit' => 'Ausgewählte Benutzer sperren',
@@ -2524,7 +2525,7 @@ Aquí están os enderezos IP usados (máximo 5.000, ordenados por enderezo):',
 
 /** Gothic (Gothic) */
 $messages['got'] = array(
-	'checkuser-reason' => 'Faírina',
+	'checkuser-reason' => 'Faírina:',
 );
 
 /** Ancient Greek (Ἀρχαία ἑλληνικὴ)
@@ -2808,6 +2809,7 @@ $messages['hil'] = array(
  * @author Dalibor Bosits
  * @author Ex13
  * @author SpeedyGonsales
+ * @author Tivek
  */
 $messages['hr'] = array(
 	'checkuser-summary' => 'Ovaj alat pretražuje nedavne promjene i pronalazi IP adrese suradnika ili prikazuje uređivanja/ime suradnika ako je zadana IP adresa. Suradnici i uređivanja mogu biti dobiveni po XFF zaglavljima dodavanjem "/xff" na kraj IP adrese. Podržane su IPv4 (CIDR 16-32) i IPv6 (CIDR 96-128) adrese. Rezultat ima maksimalno 5.000 zapisa iz tehničkih razloga. Rabite ovaj alat u skladu s pravilima.',
@@ -2824,7 +2826,7 @@ $messages['hr'] = array(
 	'checkuser-showlog' => 'Pokaži evidenciju',
 	'checkuser-log' => 'Evidencija provjere suradnika',
 	'checkuser-query' => 'Provjeri nedavne promjene',
-	'checkuser-target' => 'Suradnik ili IP',
+	'checkuser-target' => 'IP adresa ili suradnik:',
 	'checkuser-users' => 'Suradnička imena',
 	'checkuser-edits' => 'Uređivanja IP-a',
 	'checkuser-ips' => 'IP adrese',
