@@ -6166,6 +6166,7 @@ $messages['sq'] = array(
  * @author Sasa Stefanovic
  * @author Verlor
  * @author Јованвб
+ * @author Жељко Тодоровић
  * @author Михајло Анђелковић
  * @author Обрадовић Горан
  */
@@ -6173,13 +6174,13 @@ $messages['sr-ec'] = array(
 	'checkuser-summary' => 'Ова алатка прегледа скорашње измене и враћа IP адресе које је корисник користио или показује податке о кориснику/изменама за дати IP. Корисници и измене клијентског IP се могу добавити преко XFF заглавља додавањем "/xff" иза IP. Подржани су формати IPv4 (CIDR 16-32) и IPv6 (CIDR 96-128).
 Због перформанси неће бити враћено више од 5000 измена.
 Алатку користите у складу са политиком.',
-	'checkuser-desc' => 'Даје сарадницима са одговарајућим правима могућност да провере ИП адресе сарадника и друге информације.',
+	'checkuser-desc' => 'Даје корисницима са одговарајућим правима могућност да провере ИП адресе корисника и друге информације.',
 	'checkuser-logcase' => 'Претрага лога је осетљива на мала и велика слова.',
 	'checkuser' => 'Чекјузер',
 	'checkuser-contribs' => 'Провери корисникове ИП адресе',
 	'group-checkuser' => 'Чекјузери',
 	'group-checkuser-member' => 'Чекјузер',
-	'right-checkuser' => 'Проверава сарадничке ИП адресе и друге информације.',
+	'right-checkuser' => 'проверава корисничке ИП адресе и друге информације.',
 	'right-checkuser-log' => 'Погледај чекјузер лог',
 	'grouppage-checkuser' => '{{ns:project}}:Чекјузер',
 	'checkuser-reason' => 'Разлог:',
@@ -6187,7 +6188,7 @@ $messages['sr-ec'] = array(
 	'checkuser-log' => 'Извештај чекјузера',
 	'checkuser-query' => 'Упит на скорашње измене.',
 	'checkuser-target' => 'Корисничко име или ИП адреса:',
-	'checkuser-users' => 'Прикупљање сарадничких имена.',
+	'checkuser-users' => 'Прикупљање корисничких имена.',
 	'checkuser-edits' => 'Прикупљање измена од стране ИП адресе.',
 	'checkuser-ips' => 'Прикупља ИП адресе.',
 	'checkuser-account' => 'Преузми измене налога',
@@ -6225,20 +6226,20 @@ IP адресе ће бити блокиране на недељу дана за
 	'checkuser-accounts' => '$1 {{PLURAL:$1|нови налог|нових налога}}',
 	'checkuser-too-many' => 'Нађено је превише резултата (према процени захтева). Молимо Вас да сузите CIDR.
 Овде су коришћене IP адресе (највише 5.000, сортираних по адреси):',
-	'checkuser-user-nonexistent' => 'Тражени сарадник не постоји.',
+	'checkuser-user-nonexistent' => 'Тражени корисник не постоји.',
 	'checkuser-search-form' => 'Претражи извештај где је $1 једнако $2.',
 	'checkuser-search-submit' => 'Претрага',
 	'checkuser-search-initiator' => 'покретач',
 	'checkuser-search-target' => 'циљ',
-	'checkuser-ipeditcount' => '~$1 од свих сарадника',
+	'checkuser-ipeditcount' => '~$1 од свих корисника',
 	'checkuser-log-subpage' => 'извештај',
 	'checkuser-log-return' => 'Повратак на основну форму чекјузера.',
 	'checkuser-limited' => "'''Ови резултати су скраћени због перформанси.'''",
 	'checkuser-log-userips' => '$1 је добио ИП адресе за $2',
 	'checkuser-log-ipedits' => '$1 је добио измене за $2',
-	'checkuser-log-ipusers' => '$1 је добио сараднике за $2',
+	'checkuser-log-ipusers' => '$1 је добио кориснике за $2',
 	'checkuser-log-ipedits-xff' => '$1 је добио измене за XFF $2',
-	'checkuser-log-ipusers-xff' => '$1 је добио сараднике за XFF $2',
+	'checkuser-log-ipusers-xff' => '$1 је добио кориснике за XFF $2',
 	'checkuser-log-useredits' => '$1 преузео измене од $2',
 	'checkuser-autocreate-action' => 'је аутоматски направљен',
 	'checkuser-email-action' => 'е-порука је послата кориснику „$1“',
