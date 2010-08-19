@@ -12,7 +12,6 @@ function test_cu_log( $log ) {
 
 	$file = fopen( $log, 'r' );
 	while ( false !== ( $line = fgets( $file ) ) ) {
-		$found = false;
 		$data = import_cu_log_line( $line );
 		if ( $data ) {
 			$matched++;

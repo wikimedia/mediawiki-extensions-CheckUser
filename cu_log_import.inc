@@ -43,7 +43,6 @@ function import_cu_log( $db, $log ) {
 	$unmatched = 0;
 
 	while ( false !== ( $line = fgets( $file ) ) ) {
-		$found = false;
 		$data = import_cu_log_line( $line );
 		if( $data ) {
 			if ( $data['wiki'] != wfWikiID() && $data['wiki'] != $wgDBname ) {
