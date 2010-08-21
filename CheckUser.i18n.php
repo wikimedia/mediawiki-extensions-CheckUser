@@ -113,10 +113,11 @@ Here are the IPs used (5000 max, sorted by address):',
  * @author Siebrand
  * @author Slomox
  * @author Tgr
+ * @author The Evil IP address
  */
 $messages['qqq'] = array(
 	'checkuser-summary' => "Explanation of CheckUser tool. See [http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface screenshot titled 'Basic CheckUser interface'].",
-	'checkuser-desc' => 'Short description of the CheckUser extension, shown on [[Special:Version]]',
+	'checkuser-desc' => '{{desc}}',
 	'checkuser' => 'Check user extension. The name of the special page where checkusers can check the IP addresses of users. The message is used in the list of special pages, and at the top of [[Special:Checkuser]].
 
 {{Identical|Check user}}',
