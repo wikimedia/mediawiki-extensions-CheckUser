@@ -2809,6 +2809,7 @@ $messages['hil'] = array(
 /** Croatian (Hrvatski)
  * @author Dalibor Bosits
  * @author Ex13
+ * @author Excaliboor
  * @author SpeedyGonsales
  * @author Tivek
  */
@@ -2864,7 +2865,7 @@ IP adrese će biti blokirane na 1 tjedan samo za IP suradnike s onemogućenim st
 	'checkuser-block-noreason' => 'Morate upisati razlog za blokiranje.',
 	'checkuser-noreason' => 'Morate navesti razlog za ovaj upit.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|novi račun|novih računa}}',
-	'checkuser-too-many' => 'Previše rezultata, molimo suzite opseg (CIDR). Slijede rabljene IP adrese (najviše njih 5000, poredano abecedno):',
+	'checkuser-too-many' => 'Previše rezultata, molimo suzite opseg (CIDR). Slijede korištene IP adrese (max 5000, poredano adresno):',
 	'checkuser-user-nonexistent' => 'Traženi suradnik (suradničko ime) ne postoji.',
 	'checkuser-search-form' => 'Nađi zapise u evidenciji gdje $1 je $2',
 	'checkuser-search-submit' => 'Traži',
