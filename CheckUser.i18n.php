@@ -7075,6 +7075,15 @@ Kullanılan IP'ler (max 5000, adrese göre sıralı):",
 	'checkuser-reset-action' => '"$1" kullanıcısı için parolayı sıfırla',
 );
 
+/** Tatar (Cyrillic) (Татарча/Tatarça (Cyrillic))
+ * @author Ильнар
+ */
+$messages['tt-cyrl'] = array(
+	'group-checkuser' => 'Кулланучыларны тикшереп торучылар',
+	'group-checkuser-member' => 'кулланучыларны тикшереп торучы',
+	'right-checkuser' => 'куланучының IP-юлламасын тикшерү',
+);
+
 /** Ukrainian (Українська)
  * @author AS
  * @author Ahonc
