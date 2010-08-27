@@ -4169,7 +4169,7 @@ Gebroekers en bewèrkinge van 'n IP-adres van 'ne cliënt kinne achterhaoldj wae
 	'checkuser-showlog' => 'Toean logbook',
 	'checkuser-log' => 'Logbook KonterleerGebroeker',
 	'checkuser-query' => 'Bevraog recènte verangeringe',
-	'checkuser-target' => 'Gebroeker of IP-adres',
+	'checkuser-target' => 'IP-adres of gebroekersnaam:',
 	'checkuser-users' => 'Vraog gebroekers op',
 	'checkuser-edits' => 'Vraog bewèrkinge van IP-adres op',
 	'checkuser-ips' => 'Vraof IP-adresse op',
@@ -4205,7 +4205,8 @@ IP's waere ein waek geblok veur anoniem gebroekers, mit 't aanmake ven nuuj gebr
 	'checkuser-block-limit' => 'Te väöl gebroekers gevas.',
 	'checkuser-block-noreason' => "De mós 'ne rieë ópgaeve veure blokkaazjes.",
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nuuje gebroeker|nuuj gebroekers}}',
-	'checkuser-too-many' => 'Te väöl rezultaote. Maak de IP-reiks kleinder:',
+	'checkuser-too-many' => 'Te väöl rezultaote. Maak de IP-reiks kleinder:
+Hie zeen de gebroekde IPs (max 5000, op adres gesorteerd):',
 	'checkuser-user-nonexistent' => 'De opgegaeve gebroeker besteit neet.',
 	'checkuser-search-form' => 'Logbookregels zeuke wo de $1 $2 is',
 	'checkuser-search-submit' => 'Zeuk',
@@ -6250,19 +6251,20 @@ IP адресе ће бити блокиране на недељу дана за
 
 /** Serbian Latin ekavian (Srpski (latinica))
  * @author Michaello
+ * @author Жељко Тодоровић
  * @author Михајло Анђелковић
  */
 $messages['sr-el'] = array(
 	'checkuser-summary' => 'Ova alatka pregleda skorašnje izmene i vraća IP adrese koje je korisnik koristio ili pokazuje podatke o korisniku/izmenama za dati IP. Korisnici i izmene klijentskog IP se mogu dobaviti preko XFF zaglavlja dodavanjem "/xff" iza IP. Podržani su formati IPv4 (CIDR 16-32) i IPv6 (CIDR 96-128).
 Zbog performansi neće biti vraćeno više od 5000 izmena.
 Alatku koristite u skladu sa politikom.',
-	'checkuser-desc' => 'Daje saradnicima sa odgovarajućim pravima mogućnost da provere IP adrese saradnika i druge informacije.',
+	'checkuser-desc' => 'Daje korisnicima sa odgovarajućim pravima mogućnost da provere IP adrese korisnika i druge informacije.',
 	'checkuser-logcase' => 'Pretraga loga je osetljiva na mala i velika slova.',
 	'checkuser' => 'Čekjuzer',
 	'checkuser-contribs' => 'Proveri korisnikove IP adrese.',
 	'group-checkuser' => 'Čekjuzeri',
 	'group-checkuser-member' => 'Čekjuzer',
-	'right-checkuser' => 'Proverava saradničke IP adrese i druge informacije.',
+	'right-checkuser' => 'proverava korisničke IP adrese i druge informacije',
 	'right-checkuser-log' => 'Pogledaj čekjuzer log',
 	'grouppage-checkuser' => '{{ns:project}}:Čekjuzer',
 	'checkuser-reason' => 'Razlog:',
@@ -6270,7 +6272,7 @@ Alatku koristite u skladu sa politikom.',
 	'checkuser-log' => 'Log čekjuzera.',
 	'checkuser-query' => 'Upit na skorašnje izmene.',
 	'checkuser-target' => 'Korisničko ime  ili IP adresa',
-	'checkuser-users' => 'Prikupljanje saradničkih imena.',
+	'checkuser-users' => 'Prikupljanje korisničkih imena.',
 	'checkuser-edits' => 'Prikupljanje izmena od strane IP adrese.',
 	'checkuser-ips' => 'Prikuplja IP adrese.',
 	'checkuser-account' => 'Preuzmi izmene naloga',
@@ -6308,20 +6310,20 @@ IP adrese će biti blokirane na nedelju dana za IP korisnike, uz zabranu pravlje
 	'checkuser-accounts' => '$1 {{PLURAL:$1|novi nalog|novih naloga}}',
 	'checkuser-too-many' => 'Nađeno je previše rezultata (prema proceni zahteva). Molimo Vas da suzite CIDR.
 Ovde su korišćene IP adrese (najviše 5.000, sortiranih po adresi):',
-	'checkuser-user-nonexistent' => 'Traženi saradnik ne postoji.',
+	'checkuser-user-nonexistent' => 'Traženi korisnik ne postoji.',
 	'checkuser-search-form' => 'Pretraga loga gde je $1 jednako $2.',
 	'checkuser-search-submit' => 'Pretraga',
 	'checkuser-search-initiator' => 'pokretač',
 	'checkuser-search-target' => 'cilj',
-	'checkuser-ipeditcount' => '~$1 od svih saradnika',
+	'checkuser-ipeditcount' => '~$1 od svih korisnika',
 	'checkuser-log-subpage' => 'log',
 	'checkuser-log-return' => 'Povratak na osnovnu formu čekjuzera.',
 	'checkuser-limited' => "'''Ovi rezultati su skraćeni zbog performansi.'''",
 	'checkuser-log-userips' => '$1 je dobio IP adrese za $2',
 	'checkuser-log-ipedits' => '$1 je dobio izmene za $2',
-	'checkuser-log-ipusers' => '$1 je dobio saradnike za $2',
+	'checkuser-log-ipusers' => '$1 je dobio korisnike za $2',
 	'checkuser-log-ipedits-xff' => '$1 je dobio izmene za XFF $2',
-	'checkuser-log-ipusers-xff' => '$1 je dobio saradnike za XFF $2',
+	'checkuser-log-ipusers-xff' => '$1 je dobio korisnike za XFF $2',
 	'checkuser-log-useredits' => '$1 preuzeo izmene od $2',
 	'checkuser-autocreate-action' => 'je automatski napravljen',
 	'checkuser-email-action' => 'poslat je mejl korisniku "$1"',
