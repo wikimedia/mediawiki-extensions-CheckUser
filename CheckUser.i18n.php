@@ -56,8 +56,8 @@ Last edit was on $1 at $2.',
 	'checkuser-wasblocked'       => 'Previously blocked',
 	'checkuser-localonly'        => 'Not unified',
 	'checkuser-massblock'        => 'Block selected users',
-	'checkuser-massblock-text'   => 'Selected accounts will be blocked indefinitely, with autoblocking enabled and account creation disabled.
-	IP addresses will be blocked for 1 week for IP users only and with account creation disabled.',
+	'checkuser-massblock-text'   => 'Selected accounts will be blocked indefinitely, with autoblocking of IP addresses enabled and account creation disabled.
+IP addresses will be blocked for one week for anonymous users only and account creation will be disabled.',
 	'checkuser-blocktag'         => 'Replace user pages with:',
 	'checkuser-blocktag-talk'    => 'Replace talk pages with:',
 	'checkuser-massblock-commit' => 'Block selected users',
