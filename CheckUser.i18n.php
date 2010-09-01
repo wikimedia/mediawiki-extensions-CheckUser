@@ -5028,7 +5028,7 @@ $messages['nov'] = array(
  */
 $messages['nso'] = array(
 	'checkuser-reason' => 'Lebaka:',
-	'checkuser-target' => 'Mošomiši goba IP',
+	'checkuser-target' => 'IP atrese goba Mošomiši',
 	'checkuser-search' => 'Fetleka',
 	'checkuser-week-1' => 'Beke yago feta',
 	'checkuser-week-2' => 'Beke tše pedi tšago feta',
