@@ -4163,6 +4163,7 @@ Gebroekers en bewèrkinge van 'n IP-adres van 'ne cliënt kinne achterhaoldj wae
 	'checkuser-desc' => 'Läöt geautproseerde gebroekers IP-adresse en angere informatie van gebroekers achterhaole',
 	'checkuser-logcase' => "Zeuke in 't logbook is huidlèttergeveulig.",
 	'checkuser' => 'Konterleer gebroeker',
+	'checkuser-contribs' => 'Controleer gebroekers-IP',
 	'group-checkuser' => 'Gebroekerkonterleerders',
 	'group-checkuser-member' => 'Gebroekerkonterleerder',
 	'right-checkuser' => 'IP-adrèsser en anger gegaeves van gebroekers naokieke',
@@ -4207,6 +4208,7 @@ IP's waere ein waek geblok veur anoniem gebroekers, mit 't aanmake ven nuuj gebr
 	'checkuser-block-failure' => "'''Gein gebroekers geblók.'''",
 	'checkuser-block-limit' => 'Te väöl gebroekers gevas.',
 	'checkuser-block-noreason' => "De mós 'ne rieë ópgaeve veure blokkaazjes.",
+	'checkuser-noreason' => "De mós 'ne rieë ópgaeve veure zeukópdrach.",
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nuuje gebroeker|nuuj gebroekers}}',
 	'checkuser-too-many' => 'Te väöl rezultaote. Maak de IP-reiks kleinder:
 Hie zeen de gebroekde IPs (max 5000, op adres gesorteerd):',
