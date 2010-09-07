@@ -6569,6 +6569,7 @@ $messages['sw'] = array(
 	'checkuser-month' => 'siku 30 zilizopita',
 	'checkuser-all' => 'wote',
 	'checkuser-empty' => 'Kumbukumbu haina kitu.',
+	'checkuser-check' => 'Chagua',
 	'checkuser-search-submit' => 'Tafuta',
 	'checkuser-log-subpage' => 'Kumbukumbu',
 );
