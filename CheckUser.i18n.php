@@ -5368,7 +5368,7 @@ São suportados endereços IPv4 (CIDR 16-32) e IPv6 (CIDR 96-128).
 Por motivos de desempenho não serão fornecidas mais do que 5000 edições.
 O uso desta ferramenta deverá respeitar as normas e recomendações.',
 	'checkuser-desc' => 'Concede a utilizadores com a permissão apropriada a possibilidade de verificar os endereços IP de um utilizador e outra informação',
-	'checkuser-logcase' => 'As buscas nos registos são sensíveis a letras maiúsculas ou minúsculas.',
+	'checkuser-logcase' => 'As buscas nos registos distinguem maiúsculas de minúsculas.',
 	'checkuser' => 'Verificar utilizador',
 	'checkuser-contribs' => 'verificar IPs do utilizador',
 	'group-checkuser' => 'CheckUser',
