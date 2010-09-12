@@ -338,38 +338,56 @@ function efXFFChainIsSquid( $xff ) {
 	return $squidOnly;
 }
 
-function efCheckUserSchemaUpdates() {
-	global $wgDBtype, $wgExtNewIndexes;
+function efCheckUserSchemaUpdates( $updater = null ) {
+	$base = dirname( __FILE__ );
+	if ( $updater === null ) {
+		global $wgDBtype, $wgExtNewIndexes;
+		efCheckUserCreateTables();
+		if ( $wgDBtype == 'mysql' ) {
+			$wgExtNewIndexes[] = array(
+				'cu_changes', 'cuc_ip_hex_time',
+				"$base/archives/patch-cu_changes_indexes.sql"
+			);
+			$wgExtNewIndexes[] = array(
+				'cu_changes', 'cuc_user_ip_time',
+				"$base/archives/patch-cu_changes_indexes2.sql"
+			);
+		}
+	} else {
+		$updater->addExtensionUpdate( array( 'efCheckUserCreateTables' ) );
+		if ( $updater->getDB()->getType() == 'mysql' ) {
+			$updater->addExtensionUpdate( array( 'addIndex', 'cu_changes',
+				'cuc_ip_hex_time', "$base/archives/patch-cu_changes_indexes.sql", true ) );
+			$updater->addExtensionUpdate( array( 'addIndex', 'cu_changes',
+				'cuc_user_ip_time', "$base/archives/patch-cu_changes_indexes2.sql", true ) );
+		}
+	}
 
-	# Run install.inc as necessary
+	return true;
+}
+
+function efCheckUserCreateTables( $updater = null ) {
+	if ( $updater === null ) {
+		$db = wfGetDB( DB_MASTER );
+	} else {
+		$db = $updater->getDB();
+	}
+
 	$base = dirname( __FILE__ );
 
-	$db = wfGetDB( DB_MASTER );
 	if ( $db->tableExists( 'cu_changes' ) ) {
-		echo "...cu_changes already exists.\n";
+		wfOut( "...cu_changes table already exists.\n" );
 	} else {
 		require_once "$base/install.inc";
 		create_cu_changes( $db );
 	}
 
 	if ( $db->tableExists( 'cu_log' ) ) {
-		echo "...cu_log already exists.\n";
+		wfOut( "...cu_log table already exists.\n" );
 	} else {
 		require_once "$base/install.inc";
 		create_cu_log( $db );
 	}
-
-	if ( $wgDBtype == 'mysql' ) {
-		$wgExtNewIndexes[] = array(
-			'cu_changes', 'cuc_ip_hex_time',
-			"$base/archives/patch-cu_changes_indexes.sql"
-		);
-		$wgExtNewIndexes[] = array(
-			'cu_changes', 'cuc_user_ip_time',
-			"$base/archives/patch-cu_changes_indexes2.sql"
-		);
-	}
-	return true;
 }
 
 /**
