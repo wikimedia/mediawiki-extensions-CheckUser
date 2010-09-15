@@ -2405,7 +2405,7 @@ Le fáth feidhmiúcháin, ní féidir níos mó ná 5000 eagarthóireachta a tha
 	'checkuser-showlog' => 'Taispeáin logaí',
 	'checkuser-log' => 'Logaí checkuser',
 	'checkuser-query' => 'Iarratais ar athruithe úrnua',
-	'checkuser-target' => 'Úsáideoir ná seoladh IP',
+	'checkuser-target' => 'Seoladh IP ná úsáideoir:',
 	'checkuser-users' => 'Faigh úsáideoira',
 	'checkuser-edits' => 'Faigh athruithe don seoladh IP seo',
 	'checkuser-ips' => 'Faigh Seolaidh IP',
@@ -2428,7 +2428,8 @@ Le fáth feidhmiúcháin, ní féidir níos mó ná 5000 eagarthóireachta a tha
 	'checkuser-block-success' => "'''Tá {{PLURAL:$2|an úsáideoir|na n-úsáideoirí}} $1 coiscthe anois.'''",
 	'checkuser-block-failure' => "'''Níl aon úsáideoirí coiscthe.'''",
 	'checkuser-accounts' => '{{PLURAL:$1|Cuntas amháin|$1 cuntais}} nua',
-	'checkuser-too-many' => "Tá le mórán torthaí, caolaigh an CIDR le d'thoil. Seo iad na seolaidh IP (5000 uasta, sórtáilte le seoladh):",
+	'checkuser-too-many' => "Tá le mórán torthaí (de réir meastachán cheist), caolaigh an CIDR le d'thoil.
+Seo iad na seolaidh IP (5000 uasta, sórtáilte le seoladh):",
 	'checkuser-search-submit' => 'Cuardaigh',
 	'checkuser-search-initiator' => 'tionscnóir',
 	'checkuser-search-target' => 'targaid',
