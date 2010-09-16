@@ -542,6 +542,7 @@ $messages['as'] = array(
 );
 
 /** Asturian (Asturianu)
+ * @author Dferg
  * @author Esbardu
  */
 $messages['ast'] = array(
@@ -560,7 +561,7 @@ $messages['ast'] = array(
 	'checkuser-showlog' => 'Amosar el rexistru',
 	'checkuser-log' => "Rexistru de comprobadores d'usuariu",
 	'checkuser-query' => 'Buscar nos cambeos recientes',
-	'checkuser-target' => 'Usuariu o IP',
+	'checkuser-target' => 'IP o usuariu:',
 	'checkuser-users' => 'Obtener usuarios',
 	'checkuser-edits' => 'Obtener les ediciones de la IP',
 	'checkuser-ips' => 'Obtener les IP',
@@ -1854,10 +1855,10 @@ $messages['es'] = array(
 También se pueden obtener los usuarios y las ediciones de un cliente IP vía XFF añadiendo "/xff". IPv4 (CIDR 16-32) y IPv6 (CIDR 96-128) funcionan.
 No se muestran más de 5000 ediciones por motivos de rendimiento.
 Usa esta herramienta de acuerdo con las políticas correspondientes.',
-	'checkuser-desc' => 'Permite a los usuarios que tienen permiso especial comprobar las IP de los usuarios además de otra información.',
+	'checkuser-desc' => 'Permite a los usuarios que tienen los permisos apropiados comprobar las direcciones IP de los usuarios además de otra información.',
 	'checkuser-logcase' => 'La búsqueda en el registro distingue entre mayúsculas y minúsculas.',
 	'checkuser' => 'Verificador de usuarios',
-	'checkuser-contribs' => 'Verificar IPs de usuario',
+	'checkuser-contribs' => 'verificar IPs del usuario',
 	'group-checkuser' => 'Verificadores de usuarios',
 	'group-checkuser-member' => 'Verificador de usuarios',
 	'right-checkuser' => 'Comprobar las IPs de los usuarios y obtener otra información relacionada',
@@ -1871,7 +1872,7 @@ Usa esta herramienta de acuerdo con las políticas correspondientes.',
 	'checkuser-users' => 'Obtener usuarios',
 	'checkuser-edits' => 'Obtener ediciones de IP',
 	'checkuser-ips' => 'Obtener IP',
-	'checkuser-account' => 'Ver contribuciones de la cuenta',
+	'checkuser-account' => 'Obtener contribuciones de la cuenta',
 	'checkuser-search' => 'Buscar',
 	'checkuser-period' => 'Duración:',
 	'checkuser-week-1' => 'la semana pasada',
@@ -1914,7 +1915,7 @@ Aquí se ven las IPs usadas (máximo 5000, ordenadas según dirección):',
 	'checkuser-ipeditcount' => '~$1 de todos los usuarios',
 	'checkuser-log-subpage' => 'Registro',
 	'checkuser-log-return' => 'Volver al formulario principal de CheckUser',
-	'checkuser-limited' => "'''Estos resultados han sido truncados a causa de motivos de rendimiento.'''",
+	'checkuser-limited' => "'''Estos resultados han sido truncados por motivos de rendimiento.'''",
 	'checkuser-log-userips' => '$1 obtuvo las direcciones IP de $2',
 	'checkuser-log-ipedits' => '$1 obtuvo las contribuciones de $2',
 	'checkuser-log-ipusers' => '$1 obtuvo los usuarios de $2',
@@ -3803,7 +3804,7 @@ $messages['km'] = array(
 	'checkuser-reason' => 'មូលហេតុ៖',
 	'checkuser-showlog' => 'បង្ហាញកំណត់ហេតុ',
 	'checkuser-log' => 'កំណត់ហេតុនៃការត្រួតពិនិត្យអ្នកប្រើប្រាស់',
-	'checkuser-target' => 'អ្នកប្រើប្រាស់ ឬ IP',
+	'checkuser-target' => 'អាសយដ្ឋានIP ឬ ឈ្មោះអ្នកប្រើប្រាស់៖',
 	'checkuser-users' => 'ទទួលអ្នកប្រើប្រាស់',
 	'checkuser-edits' => 'ទទួលកំណែប្រែពីIP',
 	'checkuser-ips' => 'ទទួលIP',
