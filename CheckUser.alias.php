@@ -6,215 +6,274 @@
  * @ingroup Extensions
  */
 
-$aliases = array();
-
 /** English
  * @author Jon Harald Søby
  */
-$aliases['en'] = array(
+$specialPageAliases['en'] = array(
 	'CheckUser' => array( 'CheckUser' ),
 );
 
-$aliases['ar'] = array(
-	'CheckUser'   => array( 'تدقيق_مستخدم' ),
+/** Arabic (العربية) */
+$specialPageAliases['ar'] = array(
+	'CheckUser' => array( 'تدقيق_مستخدم' ),
 );
 
-$aliases['arz'] = array(
-	'CheckUser'   => array( 'تدقيق_يوزر' ),
+/** Egyptian Spoken Arabic (مصرى) */
+$specialPageAliases['arz'] = array(
+	'CheckUser' => array( 'تدقيق_يوزر' ),
 );
 
-$aliases['as'] = array(
-	'CheckUser'   => array( 'সদস্যৰ_অনুসন্ধান_কৰক' ),
+/** Assamese (অসমীয়া) */
+$specialPageAliases['as'] = array(
+	'CheckUser' => array( 'সদস্যৰ_অনুসন্ধান_কৰক' ),
 );
 
-$aliases['bg'] = array(
-	'CheckUser'   => array( 'Проверка на потребител' ),
+/** Bulgarian (Български) */
+$specialPageAliases['bg'] = array(
+	'CheckUser' => array( 'Проверка на потребител' ),
 );
 
-$aliases['br'] = array(
-	'CheckUser'   => array( 'GwiriañAozer' ),
+/** Breton (Brezhoneg) */
+$specialPageAliases['br'] = array(
+	'CheckUser' => array( 'GwiriañAozer' ),
 );
 
-$aliases['bs'] = array(
-	'CheckUser'   => array( 'ProvjeraKorisnika' ),
+/** Bosnian (Bosanski) */
+$specialPageAliases['bs'] = array(
+	'CheckUser' => array( 'ProvjeraKorisnika' ),
 );
 
-$aliases['de'] = array(
-	'CheckUser'   => array( 'Checkuser' ),
+/** German (Deutsch) */
+$specialPageAliases['de'] = array(
+	'CheckUser' => array( 'Checkuser' ),
 );
 
-$aliases['dsb'] = array(
-	'CheckUser'   => array( 'Kontrolny_wužywaŕ' ),
+/** Lower Sorbian (Dolnoserbski) */
+$specialPageAliases['dsb'] = array(
+	'CheckUser' => array( 'Kontrolny_wužywaŕ' ),
 );
 
-$aliases['el'] = array(
-	'CheckUser'   => array( 'ΈλεγχοςΧρήστη' ),
+/** Greek (Ελληνικά) */
+$specialPageAliases['el'] = array(
+	'CheckUser' => array( 'ΈλεγχοςΧρήστη' ),
 );
 
-$aliases['eo'] = array(
-	'CheckUser'   => array( 'Kontroli_uzanton' ),
+/** Esperanto (Esperanto) */
+$specialPageAliases['eo'] = array(
+	'CheckUser' => array( 'Kontroli_uzanton' ),
 );
 
-$aliases['es'] = array(
-	'CheckUser'   => array( 'Comprobar_usuario', 'Checkuser' ),
+/** Spanish (Español) */
+$specialPageAliases['es'] = array(
+	'CheckUser' => array( 'Comprobar_usuario', 'Checkuser' ),
 );
 
-$aliases['fa'] = array(
-	'CheckUser'   => array( 'بازرسی_کاربر' ),
+/** Persian (فارسی) */
+$specialPageAliases['fa'] = array(
+	'CheckUser' => array( 'بازرسی_کاربر' ),
 );
 
-$aliases['fi'] = array(
-	'CheckUser'   => array( 'Tarkista_käyttäjä' ),
+/** Finnish (Suomi) */
+$specialPageAliases['fi'] = array(
+	'CheckUser' => array( 'Tarkista_käyttäjä' ),
 );
 
-$aliases['fr'] = array(
-	'CheckUser'   => array( 'Vérificateur_d\'utilisateur', 'Vérificateur_d\'utilisateurs', 'VérificateurUtilisateur', 'VérificateurUtilisateurs', 'Vérificateur_d’adresse' ),
+/** French (Français) */
+$specialPageAliases['fr'] = array(
+	'CheckUser' => array( 'Vérificateur_d\'utilisateur', 'Vérificateur_d\'utilisateurs', 'VérificateurUtilisateur', 'VérificateurUtilisateurs', 'Vérificateur_d’adresse' ),
 );
 
-$aliases['frp'] = array(
-	'CheckUser'   => array( 'Controlor_d\'utilisator', 'ControlorDUtilisator' ),
+/** Franco-Provençal (Arpetan) */
+$specialPageAliases['frp'] = array(
+	'CheckUser' => array( 'Controlor_d\'utilisator', 'ControlorDUtilisator' ),
 );
 
-$aliases['gl'] = array(
-	'CheckUser'   => array( 'Verificador de usuarios' ),
+/** Galician (Galego) */
+$specialPageAliases['gl'] = array(
+	'CheckUser' => array( 'Verificador de usuarios' ),
 );
 
-$aliases['gsw'] = array(
-	'CheckUser'   => array( 'Benutzerpriefig' ),
+/** Swiss German (Alemannisch) */
+$specialPageAliases['gsw'] = array(
+	'CheckUser' => array( 'Benutzerpriefig' ),
 );
 
-$aliases['gu'] = array(
-	'CheckUser'   => array( 'સભ્યચકાસ' ),
+/** Gujarati (ગુજરાતી) */
+$specialPageAliases['gu'] = array(
+	'CheckUser' => array( 'સભ્યચકાસ' ),
 );
 
-$aliases['he'] = array(
-	'CheckUser'   => array( 'בדיקת_משתמש' ),
+/** Hebrew (עברית) */
+$specialPageAliases['he'] = array(
+	'CheckUser' => array( 'בדיקת_משתמש' ),
 );
 
-$aliases['hr'] = array(
-	'CheckUser'   => array( 'Provjeri_suradnika' ),
+/** Croatian (Hrvatski) */
+$specialPageAliases['hr'] = array(
+	'CheckUser' => array( 'Provjeri_suradnika' ),
 );
 
-$aliases['hsb'] = array(
-	'CheckUser'   => array( 'Kontrolny_wužiwar' ),
+/** Upper Sorbian (Hornjoserbsce) */
+$specialPageAliases['hsb'] = array(
+	'CheckUser' => array( 'Kontrolny_wužiwar' ),
 );
 
-$aliases['ht'] = array(
-	'CheckUser'   => array( 'TchekeItilizatè' ),
+/** Haitian (Kreyòl ayisyen) */
+$specialPageAliases['ht'] = array(
+	'CheckUser' => array( 'TchekeItilizatè' ),
 );
 
-$aliases['hu'] = array(
-	'CheckUser'   => array( 'IP-ellenőr' ),
+/** Hungarian (Magyar) */
+$specialPageAliases['hu'] = array(
+	'CheckUser' => array( 'IP-ellenőr' ),
 );
 
-$aliases['ia'] = array(
-	'CheckUser'   => array( 'Verificar_usator' ),
+/** Interlingua (Interlingua) */
+$specialPageAliases['ia'] = array(
+	'CheckUser' => array( 'Verificar_usator' ),
 );
 
-$aliases['id'] = array(
-	'CheckUser'   => array( 'Periksa_pengguna', 'PeriksaPengguna', 'Pemeriksa' ),
+/** Indonesian (Bahasa Indonesia) */
+$specialPageAliases['id'] = array(
+	'CheckUser' => array( 'Periksa_pengguna', 'PeriksaPengguna', 'Pemeriksa' ),
 );
 
-$aliases['ja'] = array(
-	'CheckUser'   => array( 'チェックユーザー', 'チェックユーザ', '利用者調査' ),
+/** Italian (Italiano) */
+$specialPageAliases['it'] = array(
+	'CheckUser' => array( 'CU' ),
 );
 
-$aliases['km'] = array(
-	'CheckUser'   => array( 'ត្រួតពិនិត្យអ្នកប្រើប្រាស់' ),
+/** Japanese (日本語) */
+$specialPageAliases['ja'] = array(
+	'CheckUser' => array( 'チェックユーザー', 'チェックユーザ', '利用者調査' ),
 );
 
-$aliases['ko'] = array(
-	'CheckUser'   => array( '체크유저' ),
+/** Khmer (ភាសាខ្មែរ) */
+$specialPageAliases['km'] = array(
+	'CheckUser' => array( 'ត្រួតពិនិត្យអ្នកប្រើប្រាស់' ),
 );
 
-$aliases['ksh'] = array(
-	'CheckUser'   => array( 'Metmaacher_Pröve', 'Metmaacher_Pröfe' ),
+/** Korean (한국어) */
+$specialPageAliases['ko'] = array(
+	'CheckUser' => array( '체크유저' ),
 );
 
-$aliases['lad'] = array(
-	'CheckUser'   => array( 'KontrolarUsador' ),
+/** Colognian (Ripoarisch) */
+$specialPageAliases['ksh'] = array(
+	'CheckUser' => array( 'Metmaacher_Pröve', 'Metmaacher_Pröfe' ),
 );
 
-$aliases['lb'] = array(
-	'CheckUser'   => array( 'Benotzerkontroll' ),
+/** Ladino (Ladino) */
+$specialPageAliases['lad'] = array(
+	'CheckUser' => array( 'KontrolarUsador' ),
 );
 
-$aliases['mk'] = array(
-	'CheckUser'   => array( 'ПроверкаНаКорисник' ),
+/** Luxembourgish (Lëtzebuergesch) */
+$specialPageAliases['lb'] = array(
+	'CheckUser' => array( 'Benotzerkontroll' ),
 );
 
-$aliases['ml'] = array(
-	'CheckUser'   => array( 'ചെക്ക്‌‌യൂസർ' ),
+/** Macedonian (Македонски) */
+$specialPageAliases['mk'] = array(
+	'CheckUser' => array( 'ПроверкаНаКорисник' ),
 );
 
-$aliases['mr'] = array(
-	'CheckUser'   => array( 'सदस्यतपासनिस' ),
+/** Malayalam (മലയാളം) */
+$specialPageAliases['ml'] = array(
+	'CheckUser' => array( 'ചെക്ക്‌‌യൂസർ' ),
 );
 
-$aliases['ms'] = array(
-	'CheckUser'   => array( 'Perisik' ),
+/** Marathi (मराठी) */
+$specialPageAliases['mr'] = array(
+	'CheckUser' => array( 'सदस्यतपासनिस' ),
 );
 
-$aliases['myv'] = array(
-	'CheckUser'   => array( 'ВанкшномсКиеТеицясь' ),
+/** Malay (Bahasa Melayu) */
+$specialPageAliases['ms'] = array(
+	'CheckUser' => array( 'Perisik' ),
 );
 
-$aliases['nds-nl'] = array(
-	'CheckUser'   => array( 'Gebruker_opvragen' ),
+/** Erzya (Эрзянь) */
+$specialPageAliases['myv'] = array(
+	'CheckUser' => array( 'ВанкшномсКиеТеицясь' ),
 );
 
-$aliases['nl'] = array(
-	'CheckUser'   => array( 'GebruikerControleren' ),
+/** Nedersaksisch (Nedersaksisch) */
+$specialPageAliases['nds-nl'] = array(
+	'CheckUser' => array( 'Gebruker_opvragen' ),
 );
 
-$aliases['no'] = array(
-	'CheckUser'   => array( 'IP-sjekk' ),
+/** Dutch (Nederlands) */
+$specialPageAliases['nl'] = array(
+	'CheckUser' => array( 'GebruikerControleren' ),
 );
 
-$aliases['oc'] = array(
-	'CheckUser'   => array( 'Verificator_d’adreça', 'VerificatorAdreça', 'VerificatorAdreca' ),
+/** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬) */
+$specialPageAliases['no'] = array(
+	'CheckUser' => array( 'IP-sjekk' ),
 );
 
-$aliases['ro'] = array(
-	'CheckUser'   => array( 'Verifică_utilizator' ),
+/** Occitan (Occitan) */
+$specialPageAliases['oc'] = array(
+	'CheckUser' => array( 'Verificator_d’adreça', 'VerificatorAdreça', 'VerificatorAdreca' ),
 );
 
-$aliases['sa'] = array(
-	'CheckUser'   => array( 'योजकपरिक्षक' ),
+/** Romanian (Română) */
+$specialPageAliases['ro'] = array(
+	'CheckUser' => array( 'Verifică_utilizator' ),
 );
 
-$aliases['sk'] = array(
-	'CheckUser'   => array( 'SkontrolovaťPoužívateľa' ),
+/** Sanskrit (संस्कृत) */
+$specialPageAliases['sa'] = array(
+	'CheckUser' => array( 'योजकपरिक्षक' ),
 );
 
-$aliases['sw'] = array(
-	'CheckUser'   => array( 'MtumiajiMwangalizi' ),
+/** Slovak (Slovenčina) */
+$specialPageAliases['sk'] = array(
+	'CheckUser' => array( 'SkontrolovaťPoužívateľa' ),
 );
 
-$aliases['th'] = array(
-	'CheckUser'   => array( 'ตรวจสอบผู้ใช้' ),
+/** Swahili (Kiswahili) */
+$specialPageAliases['sw'] = array(
+	'CheckUser' => array( 'MtumiajiMwangalizi' ),
 );
 
-$aliases['tl'] = array(
-	'CheckUser'   => array( 'Suriin ang tagagamit' ),
+/** Thai (ไทย) */
+$specialPageAliases['th'] = array(
+	'CheckUser' => array( 'ตรวจสอบผู้ใช้' ),
 );
 
-$aliases['tr'] = array(
-	'CheckUser'   => array( 'Denetçi' ),
+/** Tagalog (Tagalog) */
+$specialPageAliases['tl'] = array(
+	'CheckUser' => array( 'Suriin ang tagagamit' ),
 );
 
-$aliases['vec'] = array(
-	'CheckUser'   => array( 'ControlaUtente' ),
+/** Turkish (Türkçe) */
+$specialPageAliases['tr'] = array(
+	'CheckUser' => array( 'Denetçi' ),
 );
 
-$aliases['vep'] = array(
-	'CheckUser'   => array( 'KodvdaKävutajad' ),
+/** Vèneto (Vèneto) */
+$specialPageAliases['vec'] = array(
+	'CheckUser' => array( 'ControlaUtente' ),
 );
 
-$aliases['zh-hans'] = array(
-	'CheckUser'   => array( '用户核查' ),
+/** Veps (Vepsan kel') */
+$specialPageAliases['vep'] = array(
+	'CheckUser' => array( 'KodvdaKävutajad' ),
 );
 
-$aliases['zh-hant'] = array(
-	'CheckUser'   => array( '用戶查核' ),
+/** Simplified Chinese (‪中文(简体)‬) */
+$specialPageAliases['zh-hans'] = array(
+	'CheckUser' => array( '用户核查' ),
 );
+
+/** Traditional Chinese (‪中文(繁體)‬) */
+$specialPageAliases['zh-hant'] = array(
+	'CheckUser' => array( '用戶查核' ),
+);
+
+/**
+ * For backwards compatibility with MediaWiki 1.15 and earlier.
+ */
+$aliases =& $specialPageAliases;
