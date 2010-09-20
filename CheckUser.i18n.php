@@ -6009,10 +6009,17 @@ Li nnirizzi IP vennu bluccati pi na simana sulu pi l'utenti anònimi e câ criaz
 
 /** Sinhala (සිංහල)
  * @author නන්දිමිතුරු
+ * @author බිඟුවා
  */
 $messages['si'] = array(
+	'checkuser' => 'පරීක්ෂක නිළධරයා',
+	'group-checkuser' => 'පරීක්ෂක නිළධරයින්',
+	'group-checkuser-member' => 'පරීක්ෂක නිළධරයා',
+	'grouppage-checkuser' => '{{ns:project}}:පරීක්ෂක නිළධරයා',
 	'checkuser-reason' => 'හේතුව:',
 	'checkuser-showlog' => 'ලඝු-සටහන පෙන්වන්න',
+	'checkuser-target' => 'අන්තර්ජාල ලිපිනය හෝ පරිශීලක නාමය:',
+	'checkuser-users' => 'පරිශීලකයින් ගන්න',
 	'checkuser-search' => 'ගවේෂණය',
 	'checkuser-period' => 'කාල සීමාව:',
 	'checkuser-week-1' => 'පසුගිය සතිය',
@@ -6025,6 +6032,8 @@ $messages['si'] = array(
 	'checkuser-check' => 'පරික්ෂා කරන්න',
 	'checkuser-log-fail' => 'ලඝු-සටහනක් එකතු කිරීමට නොහැක',
 	'checkuser-nolog' => 'ලඝු-සටහන් ගොනුවක් හමු නොවිණි.',
+	'checkuser-blocked' => 'ඇහිරීම',
+	'checkuser-search-submit' => 'ගවේෂණය',
 	'checkuser-log-userips' => 'සංස්කරණය සඳහා  $2 විසින් භාවිත කෙරුණු අන්තර්ජාල ලිපිනයන් $1 විසින් පරික්‍ෂා කොට දැනගෙන ඇත',
 	'checkuser-log-ipedits' => '$2 අන්තර්ජාල ලිපිනය වෙතින් සිදු කෙරුණු සංස්කරණයන් $1 විසින් පරික්‍ෂා කොට දැනගෙන ඇත',
 	'checkuser-log-ipusers' => '$2 අන්තර්ජාල ලිපිනය භාවිතා කල පරිශීලකයන් $1 විසින් පරික්‍ෂා කොට දැනගෙන ඇත',
@@ -6586,9 +6595,13 @@ $messages['szl'] = array(
 );
 
 /** Tamil (தமிழ்)
+ * @author TRYPPN
  * @author Trengarasu
  */
 $messages['ta'] = array(
+	'checkuser' => 'பயனரை கவனி',
+	'group-checkuser' => 'பயனர்களை கவனி',
+	'checkuser-reason' => 'காரணம்:',
 	'checkuser-search' => 'தேடுக',
 	'checkuser-search-submit' => 'தேடுக',
 );
