@@ -6603,10 +6603,12 @@ $messages['ta'] = array(
 	'group-checkuser' => 'பயனர்களை கவனி',
 	'checkuser-reason' => 'காரணம்:',
 	'checkuser-search' => 'தேடுக',
+	'checkuser-period' => 'இடைப்பட்ட காலம்:',
 	'checkuser-week-1' => 'கடந்த வாரம்',
 	'checkuser-week-2' => 'கடந்த இரண்டு வாரங்கள்',
 	'checkuser-month' => 'கடந்த 30 நாட்கள்',
 	'checkuser-all' => 'எல்லாம்',
+	'checkuser-check' => 'சரிபார்க்கவும்',
 	'checkuser-search-submit' => 'தேடுக',
 );
 
