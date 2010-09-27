@@ -6609,7 +6609,10 @@ $messages['ta'] = array(
 	'checkuser-month' => 'கடந்த 30 நாட்கள்',
 	'checkuser-all' => 'எல்லாம்',
 	'checkuser-check' => 'சரிபார்க்கவும்',
+	'checkuser-blocked' => 'தடுக்கப்பட்டது',
+	'checkuser-locked' => 'மூடப்பட்டது',
 	'checkuser-search-submit' => 'தேடுக',
+	'checkuser-search-target' => 'இலக்கு',
 );
 
 /** Telugu (తెలుగు)
