@@ -5046,7 +5046,7 @@ $messages['nso'] = array(
  * @author Cedric31
  */
 $messages['oc'] = array(
-	'checkuser-summary' => "Aqueste esplech passa en revista los cambiaments recents per recercar l'IPS emplegada per un utilizaire, mostrar totas las edicions fachas per una IP, o per enumerar los utilizaires qu'an emplegat las IPs. Los utilizaires e las modificacions pòdon èsser trobatss amb una IP XFF se s'acaba amb « /xff ». IPv4 (CIDR 16-32) e IPv6(CIDR 96-128) son suportats. Emplegatz aquò segon las cadenas de caractèrs.",
+	'checkuser-summary' => "Aquesta aisina passa en revista los cambiaments recents per recercar l'IPS emplegada per un utilizaire, mostrar totas las edicions fachas per una IP, o per enumerar los utilizaires qu'an emplegat las IPs. Los utilizaires e las modificacions pòdon èsser trobatss amb una IP XFF se s'acaba amb « /xff ». IPv4 (CIDR 16-32) e IPv6(CIDR 96-128) son suportats. Emplegatz aquò segon las cadenas de caractèrs.",
 	'checkuser-desc' => 'Balha la possibilitat a las personas exprèssament autorizadas de verificar las adreças IP dels utilizaires e mai d’autras entresenhas los concernent',
 	'checkuser-logcase' => 'La recèrca dins lo Jornal es sensibla a la cassa.',
 	'checkuser' => 'Verificator d’utilizaire',
@@ -5855,7 +5855,7 @@ $messages['sah'] = array(
 	'checkuser-showlog' => 'Сурунаалы көрдөр',
 	'checkuser-log' => 'Кыттаачылары бэрэбиэркэлээһин сурунаала',
 	'checkuser-query' => 'Саҥа көннөрүүлэри көрдөр',
-	'checkuser-target' => 'Кыттааччы эбэтэр IP',
+	'checkuser-target' => 'Кыттааччы аата эбэтэр IP-та',
 	'checkuser-users' => 'Кыттаачылары ыларга',
 	'checkuser-edits' => 'Бу IP-тан оҥоһуллубут көннөрүүлэри көрөргө',
 	'checkuser-ips' => 'IP-лары көрдөр',
@@ -5892,7 +5892,8 @@ IP-аадырыстартан бэлиэтэммэккэ киирии уонна
 	'checkuser-block-noreason' => 'Бобуу төрүөтүн этиэхтээххин.',
 	'checkuser-noreason' => 'Бу ыйытык төрүөтүн ааттыахтааххын.',
 	'checkuser-accounts' => '$1 саҥа {{PLURAL:$1|аат|ааттар}}',
-	'checkuser-too-many' => 'Наһаа элбэх булулунна, бука диэн CIDR кыччатан биэр. Туһаныллыбыт IP (саамай элбэҕэ 5000, бу аадырыһынан наардаммыт):',
+	'checkuser-too-many' => 'Наһаа элбэх булулунна (көрдөбүл түмүгүнэн), бука диэн CIDR кыччатан биэр. 
+Туһаныллыбыт IP (саамай элбэҕэ 5000, бу аадырыһынан наардаммыт):',
 	'checkuser-user-nonexistent' => 'Маннык ааттаах кыттааччы суох',
 	'checkuser-search-form' => '$1 сурунаалга $2 буоларын бул',
 	'checkuser-search-submit' => 'Буларга',
@@ -6611,6 +6612,7 @@ $messages['ta'] = array(
 	'checkuser-check' => 'சரிபார்க்கவும்',
 	'checkuser-blocked' => 'தடுக்கப்பட்டது',
 	'checkuser-locked' => 'மூடப்பட்டது',
+	'checkuser-block-limit' => 'மிக அதிகமான பயனர்கள் தேர்ந்தெடுக்கப்பட்டுள்ளது.',
 	'checkuser-search-submit' => 'தேடுக',
 	'checkuser-search-target' => 'இலக்கு',
 );
