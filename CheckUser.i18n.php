@@ -2507,8 +2507,8 @@ Os enderezos IP bloquearanse cun tempo de duración dunha semana só para os usu
 	'checkuser-block-noreason' => 'Debe dar unha razón para os bloqueos.',
 	'checkuser-noreason' => 'Debe dar unha razón para esta pescuda.',
 	'checkuser-accounts' => '{{PLURAL:$1|Unha nova conta|$1 novas contas}}',
-	'checkuser-too-many' => 'Hai demasiados resultados (segundo a estimación da pesquisa), restrinxa o CIDR.
-Aquí están os enderezos IP usados (máximo 5.000, ordenados por enderezo):',
+	'checkuser-too-many' => 'Hai demasiados resultados (segundo a estimación da pescuda), restrinxa o CIDR.
+Aquí están os enderezos IP usados (máximo de 5.000, ordenados por enderezo):',
 	'checkuser-user-nonexistent' => 'Non existe o usuario especificado.',
 	'checkuser-search-form' => 'Atopar as entradas do rexistro nas que $1 é $2',
 	'checkuser-search-submit' => 'Procurar',
