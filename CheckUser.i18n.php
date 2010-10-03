@@ -5335,9 +5335,11 @@ Sì a-i son j'IP dovrà (5000 al pi, ordinà për adrëssa):",
  */
 $messages['ps'] = array(
 	'checkuser' => 'کره کتونکی کارن',
+	'group-checkuser' => 'کره کتونکي کارنان',
 	'checkuser-reason' => 'سبب:',
 	'checkuser-showlog' => 'يادښت کتل',
 	'checkuser-target' => 'کارن يا IP پته:',
+	'checkuser-users' => 'کارنان راغوښتل',
 	'checkuser-search' => 'پلټل',
 	'checkuser-period' => 'موده:',
 	'checkuser-week-1' => 'تېره اوونۍ',
@@ -5346,6 +5348,10 @@ $messages['ps'] = array(
 	'checkuser-all' => 'ټول',
 	'checkuser-check' => 'کره کتل',
 	'checkuser-blocked' => 'بنديز لګېدلی',
+	'checkuser-locked' => 'تړل شوی',
+	'checkuser-blocktag-talk' => 'د خبرو اترو مخونه ځايناستول سره د:',
+	'checkuser-massblock-commit' => 'په ټاکلي کارنانو بنديز لګول',
+	'checkuser-block-success' => "'''دم مهال د $1 په {{PLURAL:$2|کارن|کارنانو}} {{PLURAL:$2|بنديز لګېدلی|بنديز لګېدلی}}.'''",
 	'checkuser-block-limit' => 'له حد نه ډېر زيات کارنان ټاکل شوي.',
 	'checkuser-block-noreason' => 'د بنديز لګولو لپاره بايد تاسې يو سبب څرګند کړی.',
 	'checkuser-search-submit' => 'پلټل',
@@ -6596,6 +6602,7 @@ $messages['szl'] = array(
 );
 
 /** Tamil (தமிழ்)
+ * @author Karthi.dr
  * @author TRYPPN
  * @author Trengarasu
  */
@@ -6611,7 +6618,11 @@ $messages['ta'] = array(
 	'checkuser-all' => 'எல்லாம்',
 	'checkuser-check' => 'சரிபார்க்கவும்',
 	'checkuser-blocked' => 'தடுக்கப்பட்டது',
+	'checkuser-gblocked' => 'உலக அளவில் தடை செய்யப்பட்டுள்ளது',
 	'checkuser-locked' => 'மூடப்பட்டது',
+	'checkuser-wasblocked' => 'முன்னரே தடைசெய்யப்பட்டது',
+	'checkuser-localonly' => 'ஒன்றாக்கப்டவில்லை',
+	'checkuser-massblock' => 'தெரிவு செய்யப்பட்ட பயனர்களைத் தடை செய்யவும்',
 	'checkuser-block-limit' => 'மிக அதிகமான பயனர்கள் தேர்ந்தெடுக்கப்பட்டுள்ளது.',
 	'checkuser-search-submit' => 'தேடுக',
 	'checkuser-search-target' => 'இலக்கு',
