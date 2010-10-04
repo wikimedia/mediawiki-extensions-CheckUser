@@ -6616,6 +6616,7 @@ $messages['ta'] = array(
 	'checkuser-week-2' => 'கடந்த இரண்டு வாரங்கள்',
 	'checkuser-month' => 'கடந்த 30 நாட்கள்',
 	'checkuser-all' => 'எல்லாம்',
+	'checkuser-nomatch' => 'பொருத்தமானவைகள் ஒன்றும் காணப்படவில்லை.',
 	'checkuser-check' => 'சரிபார்க்கவும்',
 	'checkuser-blocked' => 'தடுக்கப்பட்டது',
 	'checkuser-gblocked' => 'உலக அளவில் தடை செய்யப்பட்டுள்ளது',
