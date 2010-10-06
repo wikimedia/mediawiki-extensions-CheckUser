@@ -6609,6 +6609,7 @@ $messages['szl'] = array(
 $messages['ta'] = array(
 	'checkuser' => 'பயனரை கவனி',
 	'group-checkuser' => 'பயனர்களை கவனி',
+	'group-checkuser-member' => 'பயனரை சரிபார்க்கவும்',
 	'checkuser-reason' => 'காரணம்:',
 	'checkuser-search' => 'தேடுக',
 	'checkuser-period' => 'இடைப்பட்ட காலம்:',
@@ -6627,6 +6628,7 @@ $messages['ta'] = array(
 	'checkuser-block-limit' => 'மிக அதிகமான பயனர்கள் தேர்ந்தெடுக்கப்பட்டுள்ளது.',
 	'checkuser-search-submit' => 'தேடுக',
 	'checkuser-search-target' => 'இலக்கு',
+	'checkuser-autocreate-action' => 'தானகவே உருவாக்கப்பட்டது',
 );
 
 /** Telugu (తెలుగు)
