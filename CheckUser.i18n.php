@@ -6616,7 +6616,7 @@ $messages['ta'] = array(
 	'checkuser-week-1' => 'கடந்த வாரம்',
 	'checkuser-week-2' => 'கடந்த இரண்டு வாரங்கள்',
 	'checkuser-month' => 'கடந்த 30 நாட்கள்',
-	'checkuser-all' => 'எல்லாம்',
+	'checkuser-all' => 'அனைத்தும்',
 	'checkuser-nomatch' => 'பொருத்தமானவைகள் ஒன்றும் காணப்படவில்லை.',
 	'checkuser-check' => 'சரிபார்க்கவும்',
 	'checkuser-blocked' => 'தடுக்கப்பட்டது',
@@ -6627,7 +6627,9 @@ $messages['ta'] = array(
 	'checkuser-massblock' => 'தெரிவு செய்யப்பட்ட பயனர்களைத் தடை செய்யவும்',
 	'checkuser-block-limit' => 'மிக அதிகமான பயனர்கள் தேர்ந்தெடுக்கப்பட்டுள்ளது.',
 	'checkuser-search-submit' => 'தேடுக',
+	'checkuser-search-initiator' => 'தொடக்கக்காரர்',
 	'checkuser-search-target' => 'இலக்கு',
+	'checkuser-log-subpage' => 'பதிகை',
 	'checkuser-autocreate-action' => 'தானகவே உருவாக்கப்பட்டது',
 );
 
