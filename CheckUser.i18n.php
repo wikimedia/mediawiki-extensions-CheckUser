@@ -5336,6 +5336,7 @@ Sì a-i son j'IP dovrà (5000 al pi, ordinà për adrëssa):",
 $messages['ps'] = array(
 	'checkuser' => 'کره کتونکی کارن',
 	'group-checkuser' => 'کره کتونکي کارنان',
+	'group-checkuser-member' => 'کره کتونکی کارن',
 	'checkuser-reason' => 'سبب:',
 	'checkuser-showlog' => 'يادښت کتل',
 	'checkuser-target' => 'کارن يا IP پته:',
