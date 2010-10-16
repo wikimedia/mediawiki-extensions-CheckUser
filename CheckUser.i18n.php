@@ -634,6 +634,26 @@ $messages['avk'] = array(
 	'checkuser-search-target' => 'jala',
 );
 
+/** Bashkir (Башҡорт)
+ * @author Haqmar
+ */
+$messages['ba'] = array(
+	'checkuser-target' => 'Ҡулланыусының IP-адресы йәки исеме:',
+	'checkuser-users' => 'Ҡулланыусыларҙы килтер',
+	'checkuser-edits' => 'IP-адрестан эшләнгән төҙәтеүҙәрҙе килтер',
+	'checkuser-ips' => 'IP-адрестарҙы килтер',
+	'checkuser-account' => 'Иҫәп яҙыуының төҙәтеүҙәрен килтер',
+	'checkuser-search' => 'Эҙләү',
+	'checkuser-period' => 'Оҙайлыҡ:',
+	'checkuser-week-1' => 'һуңғы аҙна',
+	'checkuser-week-2' => 'һуңғы ике аҙна',
+	'checkuser-month' => 'һуңғы 30 көн',
+	'checkuser-all' => 'барыһы',
+	'checkuser-cidr-res' => 'Уртаҡ CIDR:',
+	'checkuser-empty' => 'Журнал буш.',
+	'checkuser-nomatch' => 'Тап килеүҙәр табылманы.',
+);
+
 /** Southern Balochi (بلوچی مکرانی)
  * @author Mostafadaneshvar
  */
@@ -2032,7 +2052,7 @@ $messages['fa'] = array(
 	'checkuser-contribs' => 'بازرسی نشانی‌های آی‌پی کاربر',
 	'group-checkuser' => 'بازرسان کاربر',
 	'group-checkuser-member' => 'بازرس کاربر',
-	'right-checkuser' => 'بازرسی نشانی اینترنتی و دیگر اطلاعات کاربر',
+	'right-checkuser' => 'بازرسی نشانی‌های آی‌پی و دیگر اطلاعات کاربر',
 	'right-checkuser-log' => 'مشاهدهٔ سیاههٔ بازرسی کاربر',
 	'grouppage-checkuser' => '{{ns:project}}:بازرسی کاربر',
 	'checkuser-reason' => 'دلیل:',
@@ -2041,7 +2061,7 @@ $messages['fa'] = array(
 	'checkuser-query' => 'جستجوی تغییرات اخیر',
 	'checkuser-target' => 'نشانی آی‌پی یا نام کاربری:',
 	'checkuser-users' => 'فهرست کردن کاربرها',
-	'checkuser-edits' => 'نمایش ویرایش‌های مربوط به این نشانی اینترنتی',
+	'checkuser-edits' => 'نمایش ویرایش‌های مربوط به این آی‌پی',
 	'checkuser-ips' => 'فهرست کردن نشانی‌های آی‌پی',
 	'checkuser-account' => 'دریافت ویرایش‌های حساب کاربری',
 	'checkuser-search' => 'جستجو',
@@ -2065,7 +2085,7 @@ $messages['fa'] = array(
 	'checkuser-wasblocked' => 'قبلاً بسته شده',
 	'checkuser-localonly' => 'یکی نشده',
 	'checkuser-massblock' => 'بستن کاربرهای انتخاب شده',
-	'checkuser-massblock-text' => 'حساب‌های انتخاب شده برای همیشه بسته خواهند شد، قطع دسترسی خودکار هم فعال خواهد بود و از ایجاد حساب کاربری هم جلوگیری خواهد شد. نشانی‌های اینترنتی برای یک هفته فقط برای کاربران ناشناس بسته خواهند شد و از ایجاد حساب کاربری توسط آنان جلوگیری خواهد شد.',
+	'checkuser-massblock-text' => 'حساب‌های انتخاب شده برای همیشه بسته خواهند شد، قطع دسترسی خودکار هم فعال خواهد بود و از ایجاد حساب کاربری هم جلوگیری خواهد شد. نشانی‌های آی‌پی برای یک هفته فقط برای کاربران ناشناس بسته خواهند شد و از ایجاد حساب کاربری توسط آنان جلوگیری خواهد شد.',
 	'checkuser-blocktag' => 'جایگزین کردن صفحهٔ کاربرها با:',
 	'checkuser-blocktag-talk' => 'جایگزین کردن صفحه‌های بحث با:',
 	'checkuser-massblock-commit' => 'بستن کاربرهای انتخاب شده',
@@ -2076,7 +2096,7 @@ $messages['fa'] = array(
 	'checkuser-noreason' => 'شما باید دلیلی برای این درخواست وارد کنید.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|حساب|حساب}} کاربری جدید',
 	'checkuser-too-many' => 'تعداد نتایج بسیار زیاد است (طبق تخمین‌ها)، لطفاً CIDR را محدودتر کنید.
-در زیر نشانی‌های اینترنتی استفاده شده را می‌بینید (حداکثر ۵۰۰۰ مورد، به ترتیب نشانی):',
+در زیر ای‌پی‌های استفاده شده را می‌بینید (حداکثر ۵۰۰۰ مورد، به ترتیب نشانی):',
 	'checkuser-user-nonexistent' => 'کاربر مورد نظر وجود ندارد.',
 	'checkuser-search-form' => 'پیدا کردن مواردی در سیاهه‌ها که $1 برابر است با $2',
 	'checkuser-search-submit' => 'جستجو',
@@ -4483,6 +4503,7 @@ $messages['mn'] = array(
 	'group-checkuser' => 'Шалгагч хэрэглэгчид',
 	'group-checkuser-member' => 'Шалгагч хэрэглэгч',
 	'grouppage-checkuser' => '{{ns:project}}:Шалгагч хэрэглэгч',
+	'checkuser-reason' => 'Шалтгаан:',
 	'checkuser-search' => 'Хайх',
 	'checkuser-blocked' => 'Түгжигдсэн',
 	'checkuser-search-submit' => 'Хайх',
