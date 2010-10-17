@@ -638,6 +638,17 @@ $messages['avk'] = array(
  * @author Haqmar
  */
 $messages['ba'] = array(
+	'checkuser' => 'Ҡулланыусыны тикшер',
+	'checkuser-contribs' => 'Ҡулланыусынын IP адресын тикшерергә',
+	'group-checkuser' => 'Ҡулланыусыларҙы тикшереүселәр',
+	'group-checkuser-member' => 'Ҡулланыусыларҙы тикшереүсе',
+	'right-checkuser' => 'Ҡулланыусыларҙың IP адрестарын һәм башҡа мәғлүмәттәрен тикшереү',
+	'right-checkuser-log' => 'Ҡулланыусыларҙы тикшереү журналын ҡарау',
+	'grouppage-checkuser' => '{{ns:project}}:Ҡулланыусыларҙы тикшереү',
+	'checkuser-reason' => 'Сәбәп:',
+	'checkuser-showlog' => 'Журналды күрһәт',
+	'checkuser-log' => 'Ҡулланыусыларҙы тикшереү журналы',
+	'checkuser-query' => 'Һуңғы үҙгәрештәрҙе һоратырға',
 	'checkuser-target' => 'Ҡулланыусының IP-адресы йәки исеме:',
 	'checkuser-users' => 'Ҡулланыусыларҙы килтер',
 	'checkuser-edits' => 'IP-адрестан эшләнгән төҙәтеүҙәрҙе килтер',
@@ -649,9 +660,21 @@ $messages['ba'] = array(
 	'checkuser-week-2' => 'һуңғы ике аҙна',
 	'checkuser-month' => 'һуңғы 30 көн',
 	'checkuser-all' => 'барыһы',
+	'checkuser-cidr-label' => 'IP исемлеге өсөн уртаҡ арауыҡты һәм йоғонто яһалған адрестарҙы табырға',
 	'checkuser-cidr-res' => 'Уртаҡ CIDR:',
 	'checkuser-empty' => 'Журнал буш.',
 	'checkuser-nomatch' => 'Тап килеүҙәр табылманы.',
+	'checkuser-nomatch-edits' => 'Тап килгәндәр юҡ.
+Һуңғы төҙәтеү ваҡыты: $1 $2.',
+	'checkuser-check' => 'Тикшерергә',
+	'checkuser-log-fail' => 'Журналға яҙыу өҫтәп булмай',
+	'checkuser-nolog' => 'Журнал файлы табылманы',
+	'checkuser-blocked' => 'Бикле',
+	'checkuser-gblocked' => 'Глобаль кимәлдә бикле',
+	'checkuser-locked' => 'Бикле',
+	'checkuser-wasblocked' => 'Элек бикләнгән',
+	'checkuser-localonly' => 'Глобаль түгел',
+	'checkuser-massblock' => 'Һайланған ҡулланыусыларҙы бикләргә',
 );
 
 /** Southern Balochi (بلوچی مکرانی)
@@ -1966,6 +1989,7 @@ $messages['et'] = array(
 	'checkuser-month' => 'viimased 30 päeva',
 	'checkuser-all' => 'kõik',
 	'checkuser-nomatch' => 'Tulemusi ei leitud.',
+	'checkuser-log-fail' => 'Logisissekande lisamine ei õnnestu.',
 	'checkuser-nolog' => 'Logifaili ei leitud.',
 	'checkuser-blocked' => 'Blokeeritud',
 	'checkuser-gblocked' => 'Globaalselt blokeeritud',
@@ -2715,7 +2739,7 @@ $messages['he'] = array(
 	'checkuser-showlog' => 'הצגת יומן',
 	'checkuser-log' => 'יומן בדיקות',
 	'checkuser-query' => 'בדיקת שינויים אחרונים',
-	'checkuser-target' => 'שם משתמש או כתובת IP:',
+	'checkuser-target' => 'כתובת IP או שם משתמש:',
 	'checkuser-users' => 'הצגת משתמשים',
 	'checkuser-edits' => 'הצגת עריכות מכתובת IP מסוימת',
 	'checkuser-ips' => 'הצגת כתובות IP',
@@ -3877,6 +3901,7 @@ $messages['kn'] = array(
 	'checkuser' => 'ಸದಸ್ಯನನ್ನು ಚೆಕ್ ಮಾಡಿ',
 	'checkuser-reason' => 'ಕಾರಣ:',
 	'checkuser-search' => 'ಹುಡುಕು',
+	'checkuser-all' => 'ಎಲ್ಲಾ',
 	'checkuser-search-submit' => 'ಹುಡುಕು',
 );
 
@@ -5740,12 +5765,15 @@ L'urteme cangiamende ha state fatte 'u $1 a le $2.",
 	'checkuser-locked' => 'Bloccate',
 	'checkuser-wasblocked' => 'Bloccate precedendemende',
 	'checkuser-localonly' => 'Non unificate',
+	'checkuser-blocktag' => 'Sostituisce le pàggene utinde cu:',
+	'checkuser-blocktag-talk' => "Sostituisce le pàggene de le 'ngazzaminde cu:",
 	'checkuser-massblock-commit' => "Bluecche l'utinde scacchiate",
 	'checkuser-block-success' => "'''L'{{PLURAL:$2|utende|utinde}} $1 {{PLURAL:$2|è|sonde}} bloccate.'''",
 	'checkuser-block-failure' => "'''Nisciune utende blccate.'''",
 	'checkuser-block-limit' => 'Troppe utinde scacchiate.',
 	'checkuser-block-noreason' => "Tu à dà 'nu mutive pe le blocche.",
 	'checkuser-noreason' => "Tu à dà 'nu mutive pe st'inderrogazione.",
+	'checkuser-accounts' => '$1 {{PLURAL:$1|cunde utende|cunde utinde}} nuève',
 	'checkuser-user-nonexistent' => "L'utende specificate non g'esiste.",
 	'checkuser-search-submit' => 'Cirche',
 	'checkuser-search-initiator' => 'iniziatore',
@@ -5857,9 +5885,16 @@ IP-адреса будут заблокированы на 1 неделю для
  * @author Gazeb
  */
 $messages['rue'] = array(
+	'checkuser' => 'Перевірити хоснователя',
+	'group-checkuser' => 'Ревізоры',
+	'group-checkuser-member' => 'Ревізор',
 	'checkuser-reason' => 'Причіна:',
 	'checkuser-search' => 'Найти',
+	'checkuser-week-1' => 'послїднїй тыждень',
 	'checkuser-all' => 'вшыткы',
+	'checkuser-check' => 'Перевірити',
+	'checkuser-blocked' => 'Заблокованый',
+	'checkuser-locked' => 'Замкнуто',
 	'checkuser-search-submit' => 'Глядати',
 );
 
