@@ -4332,11 +4332,23 @@ $messages['lt'] = array(
 $messages['lv'] = array(
 	'checkuser-desc' => 'Atļauj lietotājiem ar attiecīgām pilnvarām pārbaudīt lietotāja IP adresi un citu informāciju.',
 	'checkuser' => 'Pārbaudīt lietotāju',
+	'checkuser-contribs' => 'pārbaudīt lietotāja IP adreses',
 	'group-checkuser' => 'Pārbaudītāji',
+	'group-checkuser-member' => 'Pārbaudīt lietotāju',
+	'right-checkuser' => 'Pārbaudīt lietotāja IP adreses un citu informāciju',
 	'checkuser-reason' => 'Iemesls:',
 	'checkuser-target' => 'IP adrese vai lietotājvārds:',
 	'checkuser-search' => 'Meklēt',
+	'checkuser-period' => 'Ilgums:',
+	'checkuser-week-1' => 'pēdējā nedēļa',
+	'checkuser-week-2' => 'pēdējās divas nedēļas',
+	'checkuser-month' => 'pēdējās 30 dienas',
+	'checkuser-all' => 'viss',
 	'checkuser-check' => 'Pārbaudīt',
+	'checkuser-blocked' => 'Bloķēts',
+	'checkuser-wasblocked' => 'Iepriekš bloķēts',
+	'checkuser-localonly' => 'Nav apvienots',
+	'checkuser-massblock' => 'Bloķēt izvēlētos lietotājus',
 	'checkuser-search-submit' => 'Meklēt',
 );
 
