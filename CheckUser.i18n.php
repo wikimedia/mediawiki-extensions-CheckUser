@@ -1988,6 +1988,7 @@ $messages['et'] = array(
 	'checkuser-week-2' => 'viimased kaks nädalat',
 	'checkuser-month' => 'viimased 30 päeva',
 	'checkuser-all' => 'kõik',
+	'checkuser-empty' => 'Logi ei sisalda üksusi.',
 	'checkuser-nomatch' => 'Tulemusi ei leitud.',
 	'checkuser-log-fail' => 'Logisissekande lisamine ei õnnestu.',
 	'checkuser-nolog' => 'Logifaili ei leitud.',
@@ -4542,6 +4543,7 @@ $messages['mn'] = array(
 	'grouppage-checkuser' => '{{ns:project}}:Шалгагч хэрэглэгч',
 	'checkuser-reason' => 'Шалтгаан:',
 	'checkuser-search' => 'Хайх',
+	'checkuser-all' => 'бүгдийг',
 	'checkuser-blocked' => 'Түгжигдсэн',
 	'checkuser-search-submit' => 'Хайх',
 );
@@ -7108,6 +7110,14 @@ $messages['to'] = array(
 	'checkuser' => 'Siviʻi ʻa e ʻetita',
 	'group-checkuser' => 'Siviʻi kau ʻetita',
 	'group-checkuser-member' => 'Siviʻi ʻa e ʻetita',
+);
+
+/** Tok Pisin (Tok Pisin)
+ * @author Iketsi
+ */
+$messages['tpi'] = array(
+	'checkuser-search' => 'Painim',
+	'checkuser-search-submit' => 'Painim',
 );
 
 /** Turkish (Türkçe)
