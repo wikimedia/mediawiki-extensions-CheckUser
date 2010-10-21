@@ -733,6 +733,13 @@ $messages['bcl'] = array(
 	'checkuser-blocked' => 'Pigbágat',
 );
 
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'checkuser-reason' => 'Прычына:',
+);
+
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author EugeneZelenko
  * @author Jim-by
@@ -4338,6 +4345,7 @@ $messages['lv'] = array(
 	'group-checkuser-member' => 'Pārbaudīt lietotāju',
 	'right-checkuser' => 'Pārbaudīt lietotāja IP adreses un citu informāciju',
 	'checkuser-reason' => 'Iemesls:',
+	'checkuser-showlog' => 'Rādīt reģistru',
 	'checkuser-target' => 'IP adrese vai lietotājvārds:',
 	'checkuser-search' => 'Meklēt',
 	'checkuser-period' => 'Ilgums:',
@@ -5747,11 +5755,14 @@ $messages['roa-rup'] = array(
 
 /** Tarandíne (Tarandíne)
  * @author Joetaras
+ * @author Reder
  */
 $messages['roa-tara'] = array(
 	'checkuser' => 'Utende verificatore',
+	'checkuser-contribs' => "condrolle le 'nderizze IP de le utinde",
 	'group-checkuser' => 'Utinde verificature',
 	'group-checkuser-member' => 'Utende verificatore',
+	'right-checkuser' => "Condrolle le 'nderizze IP de le utinde e otre 'mbormazziune",
 	'grouppage-checkuser' => '{{ns:project}}:Utende ca verifiche',
 	'checkuser-reason' => 'Mutive:',
 	'checkuser-showlog' => "Fà vedè l'archivije",
@@ -5773,12 +5784,14 @@ $messages['roa-tara'] = array(
 	'checkuser-nomatch-edits' => "Non g'agghie acchiate ninde.<br />
 L'urteme cangiamende ha state fatte 'u $1 a le $2.",
 	'checkuser-check' => 'Verifiche',
+	'checkuser-log-fail' => "'Mbossibbele aggiungiere 'a vôsce d'u reggistre",
 	'checkuser-nolog' => 'Nisciune archivije de file acchiate.',
 	'checkuser-blocked' => 'Bloccate',
 	'checkuser-gblocked' => 'Bloccate globbalmende',
 	'checkuser-locked' => 'Bloccate',
 	'checkuser-wasblocked' => 'Bloccate precedendemende',
 	'checkuser-localonly' => 'Non unificate',
+	'checkuser-massblock' => "Bluecche l'utinde scacchiate",
 	'checkuser-blocktag' => 'Sostituisce le pàggene utinde cu:',
 	'checkuser-blocktag-talk' => "Sostituisce le pàggene de le 'ngazzaminde cu:",
 	'checkuser-massblock-commit' => "Bluecche l'utinde scacchiate",
@@ -5789,6 +5802,7 @@ L'urteme cangiamende ha state fatte 'u $1 a le $2.",
 	'checkuser-noreason' => "Tu à dà 'nu mutive pe st'inderrogazione.",
 	'checkuser-accounts' => '$1 {{PLURAL:$1|cunde utende|cunde utinde}} nuève',
 	'checkuser-user-nonexistent' => "L'utende specificate non g'esiste.",
+	'checkuser-search-form' => "Acchie le vôsce d'u reggistre addò $1 jè $2",
 	'checkuser-search-submit' => 'Cirche',
 	'checkuser-search-initiator' => 'iniziatore',
 	'checkuser-search-target' => 'destinazione',
@@ -5944,6 +5958,15 @@ $messages['rue'] = array(
 	'checkuser-search-target' => 'ціль',
 	'checkuser-ipeditcount' => 'асі $1 од вшыткых хоснователїв',
 	'checkuser-log-subpage' => 'Лоґ',
+	'checkuser-log-userips' => '$1 обтримав IP адресы про $2',
+	'checkuser-log-ipedits' => '$1 отбримав едітованя про $2',
+	'checkuser-log-ipusers' => '$1 обтримав конта про $2',
+	'checkuser-log-ipedits-xff' => '$1 обтримав едітованя про XFF $2',
+	'checkuser-log-ipusers-xff' => '$1 обтримав конта про XFF $2',
+	'checkuser-log-useredits' => '$1 обтримав едітованя про $2',
+	'checkuser-autocreate-action' => 'створеный автоматічно',
+	'checkuser-email-action' => 'послав ел. пошту хоснователёві „$1“',
+	'checkuser-reset-action' => 'пожадав о нове гесло про хоснователя $1',
 );
 
 /** Yakut (Саха тыла)
