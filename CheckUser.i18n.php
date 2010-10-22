@@ -449,7 +449,14 @@ $messages['ar'] = array(
 $messages['arc'] = array(
 	'checkuser-reason' => 'ܥܠܬܐ:',
 	'checkuser-showlog' => 'ܚܘܝ ܣܓܠܐ',
+	'checkuser-search' => 'ܒܨܝܐ',
+	'checkuser-week-1' => 'ܫܒܘܥܐ ܐܚܪܝܐ',
+	'checkuser-week-2' => 'ܬܪܝܢ ܫܒܘܥ̈ܐ ܐܚܪ̈ܝܐ',
+	'checkuser-month' => 'ܬܠܬܝܢ ܝܘܡܬ̈ܐ ܐܚܪ̈ܝܬܐ',
 	'checkuser-all' => 'ܟܠ',
+	'checkuser-blocked' => 'ܚܪܝܡܐ',
+	'checkuser-locked' => 'ܩܦܝܠܐ',
+	'checkuser-search-submit' => 'ܒܨܝܐ',
 );
 
 /** Egyptian Spoken Arabic (مصرى)
@@ -5914,10 +5921,13 @@ IP-адреса будут заблокированы на 1 неделю для
  */
 $messages['rue'] = array(
 	'checkuser' => 'Перевірити хоснователя',
+	'checkuser-contribs' => 'перевірити IP адресы хоснователя',
 	'group-checkuser' => 'Ревізоры',
 	'group-checkuser-member' => 'Ревізор',
+	'grouppage-checkuser' => '{{ns:project}}:Перевірка хоснователїв',
 	'checkuser-reason' => 'Причіна:',
 	'checkuser-showlog' => 'Указати лоґ',
+	'checkuser-target' => 'IP-адреса або імя хоснователя:',
 	'checkuser-users' => 'Найти хоснователїв',
 	'checkuser-edits' => 'Найти едітованя з IP адресы',
 	'checkuser-ips' => 'Найти IP адресы',
@@ -7068,6 +7078,7 @@ Soňky özgerdiş $2, $1 senesinde.',
 	'checkuser-search-form' => '$1-iň $2 bolan gündelik girişlerini tap',
 	'checkuser-search-submit' => 'Gözle',
 	'checkuser-search-initiator' => 'başladan',
+	'checkuser-search-target' => 'niýetlenilýän',
 	'checkuser-ipeditcount' => 'ähli ulanyjylardan ~$1',
 	'checkuser-log-subpage' => 'Gündelik',
 	'checkuser-log-userips' => '$1, $2 üçin IP adresleri aldy',
