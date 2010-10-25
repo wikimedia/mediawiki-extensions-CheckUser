@@ -3385,6 +3385,7 @@ $messages['is'] = array(
 
 /** Italian (Italiano)
  * @author .anaconda
+ * @author Beta16
  * @author BrokenArrow
  * @author Darth Kule
  * @author Gianfranco
@@ -3399,11 +3400,11 @@ $messages['it'] = array(
 	'checkuser-logcase' => "La ricerca nei log è ''case sensitive'' (distingue fra maiuscole e minuscole).",
 	'checkuser' => 'Controllo utenze',
 	'checkuser-contribs' => "controlla gli indirizzi IP dell'utente",
-	'group-checkuser' => 'Controllori',
-	'group-checkuser-member' => 'Controllore',
+	'group-checkuser' => 'Check users',
+	'group-checkuser-member' => 'Check user',
 	'right-checkuser' => "Visualizza gli indirizzi IP usati dall'utente e altre informazioni",
 	'right-checkuser-log' => 'Visualizza il log dei checkuser',
-	'grouppage-checkuser' => '{{ns:project}}:Controllo utenze',
+	'grouppage-checkuser' => '{{ns:project}}:Check user',
 	'checkuser-reason' => 'Motivo:',
 	'checkuser-showlog' => 'Mostra il log',
 	'checkuser-log' => 'Log dei checkuser',
