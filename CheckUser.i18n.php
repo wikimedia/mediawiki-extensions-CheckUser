@@ -719,6 +719,7 @@ IP адрестар танылмаған ҡатнашыусылар өсөн 1 �
 	'checkuser-log-useredits' => '$1 $2 өсөн үҙгәртеүҙәр алған',
 	'checkuser-autocreate-action' => 'үҙенән-үҙе булдырылған',
 	'checkuser-email-action' => '"$1" ҡатнашыусыһына электрон хат ебәргән',
+	'checkuser-reset-action' => '"$1" ҡатнашыусыһының паролен үҙгәртергә',
 );
 
 /** Southern Balochi (بلوچی مکرانی)
@@ -5174,6 +5175,15 @@ Her er de brukte IP-ene (maks 5000, sortert etter adresse):',
 $messages['nov'] = array(
 	'checkuser-reason' => 'Resone:',
 	'checkuser-search' => 'Sercha',
+);
+
+/** Nouormand (Nouormand)
+ * @author Crochet.david
+ */
+$messages['nrm'] = array(
+	'checkuser-search' => 'Trachi',
+	'checkuser-all' => 'touot',
+	'checkuser-search-submit' => 'Trachi',
 );
 
 /** Northern Sotho (Sesotho sa Leboa)
