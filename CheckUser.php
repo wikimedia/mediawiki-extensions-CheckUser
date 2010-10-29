@@ -145,7 +145,6 @@ function efUpdateCheckUserData( $rc ) {
  * Saves user data into the cu_changes table
  */
 function efUpdateCUPasswordResetData( $user, $ip, $account ) {
-	wfLoadExtensionMessages( 'CheckUser' );
 	// Get XFF header
 	$xff = wfGetForwardedFor();
 	list( $xff_ip, $trusted ) = efGetClientIPfromXFF( $xff );
@@ -283,7 +282,7 @@ function efGetClientIPfromXFF( $xff, $address = null ) {
 	$trusted = true;
 	// Check each IP, assuming they are separated by commas
 	$ips = explode( ',', $xff );
-	foreach ( $ips as $n => $ip ) {
+	foreach ( $ips as $ip ) {
 		$ip = trim( $ip );
 		// If it is a valid IP, not a hash or such
 		if ( IP::isIPAddress( $ip ) ) {
