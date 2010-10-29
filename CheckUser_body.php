@@ -18,8 +18,6 @@ class CheckUser extends SpecialPage {
 		}
 
 		$this->sk = $wgUser->getSkin();
-
-		wfLoadExtensionMessages( 'CheckUser' );
 	}
 
 	public function execute( $subpage ) {
