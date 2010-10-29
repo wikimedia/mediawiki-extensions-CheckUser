@@ -356,7 +356,7 @@ class CheckUser extends SpecialPage {
 			$blockip = SpecialPage::getTitleFor( 'Blockip' );
 			$ips_edits = array();
 			$counter = 0;
-			while ( $row = $dbr->fetchObject( $ret ) ) {
+			foreach ( $ret as $row ) {
 				if ( $counter >= 5000 ) {
 					// FIXME: addWikiMSG
 					$wgOut->addHTML( wfMsgExt( 'checkuser-limited', array( 'parse' ) ) );
@@ -507,7 +507,7 @@ class CheckUser extends SpecialPage {
 			# List out each IP that has edits
 			$s = wfMsgExt( 'checkuser-too-many', array( 'parse' ) );
 			$s .= '<ol>';
-			while ( $row = $ret->fetchObject() ) {
+			foreach ( $ret as $row ) {
 				if ( $counter >= 5000 ) {
 					// FIXME: addWikiMsg
 					$wgOut->addHTML( wfMsgExt( 'checkuser-limited', array( 'parse' ) ) );
@@ -556,7 +556,7 @@ class CheckUser extends SpecialPage {
 			$this->preCacheMessages();
 			# Try to optimize this query
 			$lb = new LinkBatch;
-			while ( $row = $ret->fetchObject() ) {
+			foreach ( $ret as $row ) {
 				$userText = str_replace( ' ', '_', $row->cuc_user_text );
 				$lb->add( $row->cuc_namespace, $row->cuc_title );
 				$lb->add( NS_USER, $userText );
@@ -566,7 +566,7 @@ class CheckUser extends SpecialPage {
 			$ret->seek( 0 );
 			# List out the edits
 			$s = '<div id="checkuserresults">';
-			while ( $row = $ret->fetchObject() ) {
+			foreach ( $ret as $row ) {
 				if ( $counter >= 5000 ) {
 					// FIXME: addWikiMsg
 					$wgOut->addHTML( wfMsgExt( 'checkuser-limited', array( 'parse' ) ) );
@@ -645,13 +645,13 @@ class CheckUser extends SpecialPage {
 			$ret = $dbr->query( $sql, __METHOD__ );
 			# Try to optimize this query
 			$lb = new LinkBatch;
-			while ( $row = $ret->fetchObject() ) {
+			foreach ( $ret as $row ) {
 				$lb->add( $row->cuc_namespace, $row->cuc_title );
 			}
 			$lb->execute();
 			$ret->seek( 0 );
 			$s = '';
-			while ( $row = $ret->fetchObject() ) {
+			foreach ( $ret as $row ) {
 				if ( !$ip = htmlspecialchars( $row->cuc_ip ) ) {
 					continue;
 				}
@@ -686,14 +686,14 @@ class CheckUser extends SpecialPage {
 		} else {
 			# Try to optimize this query
 			$lb = new LinkBatch;
-			while ( $row = $ret->fetchObject() ) {
+			foreach ( $ret as $row ) {
 				$lb->add( $row->cuc_namespace, $row->cuc_title );
 			}
 			$lb->execute();
 			$ret->seek( 0 );
 			# List out the edits
 			$s = '<div id="checkuserresults">';
-			while ( $row = $ret->fetchObject() ) {
+			foreach ( $ret as $row ) {
 				$s .= $this->CUChangesLine( $row, $reason );
 			}
 			$s .= '</ul></div>';
@@ -769,7 +769,7 @@ class CheckUser extends SpecialPage {
 			$s = '<h5>' . wfMsg( 'checkuser-too-many' ) . '</h5>';
 			$s .= '<ol>';
 			$counter = 0;
-			while ( $row = $ret->fetchObject() ) {
+			foreach ( $ret as $row ) {
 				if ( $counter >= 5000 ) {
 					$wgOut->addHTML( wfMsgExt( 'checkuser-limited', array( 'parse' ) ) );
 					break;
