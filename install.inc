@@ -43,7 +43,7 @@ function create_cu_changes( $db, $cutoff = null ) {
 		$cond = "rc_id BETWEEN $blockStart AND $blockEnd $cutoffCond";
 		$res = $db->select( 'recentchanges', '*', $cond, __FUNCTION__ );
 		$batch = array();
-		while ( $row = $db->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			$batch[] = array(
 				'cuc_timestamp' => $row->rc_timestamp,
 				'cuc_user' => $row->rc_user,
