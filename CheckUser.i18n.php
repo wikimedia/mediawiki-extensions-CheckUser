@@ -2570,6 +2570,14 @@ Seo iad na seolaidh IP (5000 uasta, sórtáilte le seoladh):",
 	'checkuser-reset-action' => 'a athshocrú pásfhocal le úsáideoir "$1"',
 );
 
+/** Traditional Gan script (贛語(繁體))
+ * @author Symane
+ */
+$messages['gan-hant'] = array(
+	'checkuser-search' => '尋吖',
+	'checkuser-search-submit' => '尋吖',
+);
+
 /** Galician (Galego)
  * @author Alma
  * @author Toliño
