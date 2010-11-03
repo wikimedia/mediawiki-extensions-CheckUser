@@ -7701,7 +7701,7 @@ Redakams no plu 5000 pejonons sekü kods kaenavik. Gebolös stumi at bai nomem.'
 	'checkuser-showlog' => 'Jonön jenotalisedi',
 	'checkuser-log' => 'Vestigön gebani: jenotalised',
 	'checkuser-query' => 'Vestigön votükamis brefabüik',
-	'checkuser-target' => 'Geban u ladet-IP',
+	'checkuser-target' => 'Ladet-IP u gebananem:',
 	'checkuser-users' => 'Tuvön gebanis',
 	'checkuser-edits' => 'Tuvön redakamis ladeta-IP',
 	'checkuser-ips' => 'Tuvön ladetis-IP',
