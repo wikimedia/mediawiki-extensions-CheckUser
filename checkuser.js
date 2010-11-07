@@ -41,9 +41,12 @@ function updateCIDRresult() {
 		var invalid = false;
 		// ...in the spirit of block.js, call this "addy"
 		var addy = ips[i];
+		// @TODO: get some core JS IP functions
 		// Match the first IP in each list (ignore other garbage)
 		var ipV4 = addy.match(/(^|\b)(\d+\.\d+\.\d+\.\d+)(\/\d+)?\b/);
-		var ipV6 = addy.match(/(^|\b)(:(:[0-9A-Fa-f]{1,4}){1,7}|[0-9A-Fa-f]{1,4}(:{1,2}[0-9A-Fa-f]{1,4}|::$){1,7})(\/\d+)?\b/);
+		// Regexp has 3 cases: (starts with '::',ends with '::',neither)
+		var ipV6 = !addy.match(/::.*::/) // not ambiguous
+			&& addy.match(/(^|\b)(:(:[0-9A-Fa-f]{1,4}){1,7}|[0-9A-Fa-f]{1,4}(::?[0-9A-Fa-f]{1,4}){0,6}::|[0-9A-Fa-f]{1,4}(::?[0-9A-Fa-f]{1,4}){1,7})(\/\d+)?\b/);
 		// Binary form
 		var bin = new String( '' );
 		// Convert the IP to binary form: IPv4
