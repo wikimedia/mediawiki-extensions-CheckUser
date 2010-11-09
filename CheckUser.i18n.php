@@ -4420,6 +4420,7 @@ $messages['lt'] = array(
 );
 
 /** Latvian (Latviešu)
+ * @author Geimeris
  * @author GreenZeb
  * @author Papuass
  * @author Xil
@@ -4446,7 +4447,14 @@ $messages['lv'] = array(
 	'checkuser-wasblocked' => 'Iepriekš bloķēts',
 	'checkuser-localonly' => 'Nav apvienots',
 	'checkuser-massblock' => 'Bloķēt izvēlētos lietotājus',
+	'checkuser-blocktag-talk' => 'Aizstāt lietotāja diskusijas lapu ar:',
+	'checkuser-massblock-commit' => 'Bloķēt izvēlētos lietotājus.',
+	'checkuser-block-failure' => '"\' Neviens lietotājs netika bloķēts." "',
+	'checkuser-block-limit' => 'Izvēlēti pārāk daudzi lietotāji.',
+	'checkuser-block-noreason' => 'Jums jānorāda bloķēšanas iemesli.',
+	'checkuser-accounts' => '$1 {{PLURAL:$1|jauns konts|jauni konti}}',
 	'checkuser-search-submit' => 'Meklēt',
+	'checkuser-email-action' => 'aizsūtīt ziņu uz lietotāja "$1" e-pastu',
 );
 
 /** Malagasy (Malagasy)
