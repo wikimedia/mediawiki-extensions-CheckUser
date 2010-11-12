@@ -1151,7 +1151,7 @@ class CheckUser extends SpecialPage {
 			if ( $matches[1] < 96 || $matches[1] > 128 ) {
 				return false; // invalid
 			}
-			list( $start, $end ) = IP::parseRange6( $ip );
+			list( $start, $end ) = IP::parseRange( $ip );
 			return array( 'cuc_' . $type . '_hex BETWEEN ' . $db->addQuotes( $start ) . ' AND ' . $db->addQuotes( $end ) );
 		} elseif ( preg_match( '#^(\d+)\.(\d+)\.(\d+)\.(\d+)$#', $ip ) ) {
 			// 32 bit IPv4
