@@ -69,8 +69,10 @@ class CheckUser extends SpecialPage {
 		$checktype = $wgRequest->getVal( 'checktype' );
 		$period = $wgRequest->getInt( 'period' );
 		$users = $wgRequest->getArray( 'users' );
-		$tag = $wgRequest->getBool( 'usetag' ) ? trim( $wgRequest->getVal( 'tag' ) ) : '';
-		$talkTag = $wgRequest->getBool( 'usettag' ) ? trim( $wgRequest->getVal( 'talktag' ) ) : '';
+		$tag = $wgRequest->getBool( 'usetag' ) ?
+			trim( $wgRequest->getVal( 'tag' ) ) : '';
+		$talkTag = $wgRequest->getBool( 'usettag' ) ?
+			trim( $wgRequest->getVal( 'talktag' ) ) : '';
 
 		# An IPv4? An IPv6? CIDR included?
 		if ( IP::isIPAddress( $user ) ) {
@@ -90,6 +92,7 @@ class CheckUser extends SpecialPage {
 		}
 
 		$this->doForm( $user, $reason, $checktype, $ip, $xff, $name, $period );
+
 		# Perform one of the various submit operations...
 		if ( $wgRequest->wasPosted() ) {
 			if ( $wgRequest->getVal( 'action' ) === 'block' ) {
@@ -98,16 +101,16 @@ class CheckUser extends SpecialPage {
 				$wgOut->addWikiMsg( 'checkuser-noreason' );
 			} elseif ( $checktype == 'subuserips' ) {
 				$this->doUserIPsRequest( $name, $reason, $period );
-			} elseif ( $xff && $checktype == 'subipedits' ) {
+			} elseif ( $xff && $checktype == 'subedits' ) {
 				$this->doIPEditsRequest( $xff, true, $reason, $period );
-			} elseif ( $checktype == 'subipedits' ) {
+			} elseif ( $ip && $checktype == 'subedits' ) {
 				$this->doIPEditsRequest( $ip, false, $reason, $period );
+			} elseif ( $name && $checktype == 'subedits' ) {
+				$this->doUserEditsRequest( $user, $reason, $period );
 			} elseif ( $xff && $checktype == 'subipusers' ) {
 				$this->doIPUsersRequest( $xff, true, $reason, $period, $tag, $talkTag );
 			} elseif ( $checktype == 'subipusers' ) {
 				$this->doIPUsersRequest( $ip, false, $reason, $period, $tag, $talkTag );
-			} elseif ( $checktype == 'subuseredits' ) {
-				$this->doUserEditsRequest( $user, $reason, $period );
 			}
 		}
 		# Add CIDR calculation convenience form
@@ -139,18 +142,16 @@ class CheckUser extends SpecialPage {
 		global $wgOut, $wgUser;
 		$action = $this->getTitle()->escapeLocalUrl();
 		# Fill in requested type if it makes sense
-		$encipusers = $encipedits = $encuserips = $encuseredits = 0;
+		$encipusers = $encedits = $encuserips = 0;
 		if ( $checktype == 'subipusers' && ( $ip || $xff ) ) {
 			$encipusers = 1;
-		} elseif ( $checktype == 'subipedits' && ( $ip || $xff ) ) {
-			$encipedits = 1;
 		} elseif ( $checktype == 'subuserips' && $name ) {
 			$encuserips = 1;
-		} elseif ( $checktype == 'subuseredits' && $name ) {
-			$encuseredits = 1;
+		} elseif ( $checktype == 'subedits' ) {
+			$encedits = 1;
 		# Defaults otherwise
 		} elseif ( $ip || $xff ) {
-			$encipedits = 1;
+			$encedits = 1;
 		} else {
 			$encuserips = 1;
 		}
@@ -173,12 +174,10 @@ class CheckUser extends SpecialPage {
 		$form .= '<td></td><td class="checkuserradios"><table border="0" cellpadding="3"><tr>';
 		$form .= '<td>' . Xml::radio( 'checktype', 'subuserips', $encuserips, array( 'id' => 'subuserips' ) );
 		$form .= ' ' . Xml::label( wfMsg( 'checkuser-ips' ), 'subuserips' ) . '</td>';
-		$form .= '<td>' . Xml::radio( 'checktype', 'subipedits', $encipedits, array( 'id' => 'subipedits' ) );
-		$form .= ' ' . Xml::label( wfMsg( 'checkuser-edits' ), 'subipedits' ) . '</td>';
+		$form .= '<td>' . Xml::radio( 'checktype', 'subedits', $encedits, array( 'id' => 'subedits' ) );
+		$form .= ' ' . Xml::label( wfMsg( 'checkuser-edits' ), 'subedits' ) . '</td>';
 		$form .= '<td>' . Xml::radio( 'checktype', 'subipusers', $encipusers, array( 'id' => 'subipusers' ) );
 		$form .= ' ' . Xml::label( wfMsg( 'checkuser-users' ), 'subipusers' ) . '</td>';
-		$form .= '<td>' . Xml::radio( 'checktype', 'subuseredits', $encuseredits, array( 'id' => 'subuseredits' ) );
-		$form .= ' ' . Xml::label( wfMsg( 'checkuser-account' ), 'subuseredits' ) . '</td>';
 		$form .= '</tr></table></td>';
 		$form .= '</tr><tr>';
 		$form .= '<td>' . wfMsgHtml( 'checkuser-reason' ) . '</td>';
@@ -259,40 +258,42 @@ class CheckUser extends SpecialPage {
 		}
 	}
 
-	protected function noMatchesMessage( $userName ) {
+	// Give a "no matches found for X" message.
+	// If $checkLast, then mention the last edit by this user or IP.
+	protected function noMatchesMessage( $userName, $checkLast = true ) {
 		global $wgLang;
-		$dbr = wfGetDB( DB_SLAVE );
-		$user_id = User::idFromName( $userName );
-		if ( $user_id ) {
-			$revEdit = $dbr->selectField( 'revision',
-				'rev_timestamp',
-				array( 'rev_user' => $user_id ),
-				__METHOD__,
-				array( 'ORDER BY' => 'rev_timestamp DESC' )
-			);
-		} else {
-			$revEdit = $dbr->selectField( 'revision',
-				'rev_timestamp',
-				array( 'rev_user_text' => $userName ),
-				__METHOD__,
-				array( 'ORDER BY' => 'rev_timestamp DESC' )
-			);
-		}
-		$logEdit = 0;
-		if ( $user_id ) {
-			$logEdit = $dbr->selectField( 'logging',
-				'log_timestamp',
-				array( 'log_user' => $user_id ),
-				__METHOD__,
-				array( 'ORDER BY' => 'log_timestamp DESC' )
-			);
-		}
-		$lastEdit = max( $revEdit, $logEdit );
-		if ( $lastEdit ) {
-			$lastEditDate = $wgLang->date( wfTimestamp( TS_MW, $lastEdit ), true );
-			$lastEditTime = $wgLang->time( wfTimestamp( TS_MW, $lastEdit ), true );
-			// FIXME: don't pass around parsed messages
-			return wfMsgExt( 'checkuser-nomatch-edits', 'parse', $lastEditDate, $lastEditTime );
+		if ( $checkLast ) {
+			$dbr = wfGetDB( DB_SLAVE );
+			$user_id = User::idFromName( $userName );
+			if ( $user_id ) {
+				$revEdit = $dbr->selectField( 'revision',
+					'rev_timestamp',
+					array( 'rev_user' => $user_id ),
+					__METHOD__,
+					array( 'ORDER BY' => 'rev_timestamp DESC' )
+				);
+				$logEdit = $dbr->selectField( 'logging',
+					'log_timestamp',
+					array( 'log_user' => $user_id ),
+					__METHOD__,
+					array( 'ORDER BY' => 'log_timestamp DESC' )
+				);
+			} else {
+				$revEdit = $dbr->selectField( 'revision',
+					'rev_timestamp',
+					array( 'rev_user_text' => $userName ),
+					__METHOD__,
+					array( 'ORDER BY' => 'rev_timestamp DESC' )
+				);
+				$logEdit = false; // no log_user_text index
+			}
+			$lastEdit = max( $revEdit, $logEdit );
+			if ( $lastEdit ) {
+				$lastEditDate = $wgLang->date( wfTimestamp( TS_MW, $lastEdit ), true );
+				$lastEditTime = $wgLang->time( wfTimestamp( TS_MW, $lastEdit ), true );
+				// FIXME: don't pass around parsed messages
+				return wfMsgExt( 'checkuser-nomatch-edits', 'parse', $lastEditDate, $lastEditTime );
+			}
 		}
 		return wfMsgExt( 'checkuser-nomatch', 'parse' );
 	}
@@ -538,7 +539,7 @@ class CheckUser extends SpecialPage {
 			$wgOut->addHTML( $s );
 			return;
 		} elseif ( isset( $rangecount ) && !$rangecount ) {
-			$s = $this->noMatchesMessage( $ip ) . "\n";
+			$s = $this->noMatchesMessage( $ip, !$xfor ) . "\n";
 			$wgOut->addHTML( $s );
 			return;
 		}
@@ -550,7 +551,7 @@ class CheckUser extends SpecialPage {
 		$ret = $dbr->query( $sql, __METHOD__ );
 
 		if ( !$dbr->numRows( $ret ) ) {
-			$s = $this->noMatchesMessage( $ip ) . "\n";
+			$s = $this->noMatchesMessage( $ip, !$xfor ) . "\n";
 		} else {
 			# Cache common messages
 			$this->preCacheMessages();
@@ -799,7 +800,7 @@ class CheckUser extends SpecialPage {
 			$wgOut->addHTML( $s );
 			return;
 		} elseif ( isset( $rangecount ) && !$rangecount ) {
-			$s = $this->noMatchesMessage( $ip ) . "\n";
+			$s = $this->noMatchesMessage( $ip, !$xfor ) . "\n";
 			$wgOut->addHTML( $s );
 			return;
 		}
@@ -814,7 +815,7 @@ class CheckUser extends SpecialPage {
 
 		$users_first = $users_last = $users_edits = $users_ids = array();
 		if ( !$dbr->numRows( $ret ) ) {
-			$s = $this->noMatchesMessage( $ip ) . "\n";
+			$s = $this->noMatchesMessage( $ip, !$xfor ) . "\n";
 		} else {
 			global $wgAuth;
 			while ( ( $row = $dbr->fetchObject( $ret ) ) != false ) {
