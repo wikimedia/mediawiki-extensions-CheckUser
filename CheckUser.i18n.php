@@ -784,6 +784,7 @@ $messages['be'] = array(
  * @author EugeneZelenko
  * @author Jim-by
  * @author Red Winged Duck
+ * @author Wizardist
  */
 $messages['be-tarask'] = array(
 	'checkuser-summary' => 'Гэты інструмэнт праглядае апошнія зьмены для атрыманьня ІР-адрасоў удзельніка альбо паказвае рэдагаваньні/зьвесткі ўдзельніка па ІР-адрасе.
@@ -805,7 +806,7 @@ $messages['be-tarask'] = array(
 	'checkuser-query' => 'Запытаць апошнія зьмены',
 	'checkuser-target' => 'IP-адрас альбо рахунак удзельніка:',
 	'checkuser-users' => 'Атрымаць рахункі ўдзельнікаў',
-	'checkuser-edits' => 'Атрымаць рэдагаваньні, зробленыя з IP-адрасу',
+	'checkuser-edits' => '!Атрымаць рэдагаваньні',
 	'checkuser-ips' => 'Атрымаць IP-адрасы',
 	'checkuser-search' => 'Шукаць',
 	'checkuser-period' => 'Працягласьць:',
@@ -1284,7 +1285,7 @@ Z výkonnostních důvodů lze zobrazit maximálně 5000 editací. Používejte 
 	'checkuser-query' => 'Dotaz na poslední změny',
 	'checkuser-target' => 'IP adresa nebo uživatelské jméno:',
 	'checkuser-users' => 'Najít uživatele',
-	'checkuser-edits' => 'Najít editace z IP',
+	'checkuser-edits' => 'Najít editace',
 	'checkuser-ips' => 'Najít IP adresy',
 	'checkuser-search' => 'Hledat',
 	'checkuser-period' => 'Období:',
@@ -1351,6 +1352,10 @@ $messages['cu'] = array(
  * @author Lloffiwr
  */
 $messages['cy'] = array(
+	'checkuser-summary' => "Mae'r teclyn hwn yn sganio newidiadau diweddar i gael hyd i'r cyfeiriadau IP a ddefnyddir gan ddefnyddiwr, neu i ddangos data golygu neu ddata defnyddiwr ar gyfer rhyw gyfeiriad IP. 
+Gall y teclyn gael hyd i ddefnyddwyr rhyw gyfeiriad IP cleient, neu'r golygiadau a ddaw ohono, drwy atodi \"/xff\" i'r cyfeiriad IP. Mae IPv4 (CIDR 16-32) a IPv6 (CIDR 96-128) yn cael eu cynnal. 
+Ni chaiff mwy na 5,000 o olygiadau eu dychwelyd er mwyn peidio amharu ar berfformiad y wefan. 
+Defnyddiwch hwn yn unol â'n polisi.",
 	'checkuser-desc' => "Yn rhoi'r gallu i ddefnyddwyr awdurdodedig archwilio cyfeiriadau IP defnyddwyr a gwybodaeth arall amdanynt.",
 	'checkuser-logcase' => 'Yn gwahaniaethu rhwng llythrennau mawr a bach wrth chwilio.',
 	'checkuser' => 'Archwilio defnyddwyr',
@@ -1366,7 +1371,7 @@ $messages['cy'] = array(
 	'checkuser-query' => "Chwilio'r newidiadau diweddar",
 	'checkuser-target' => 'Defnyddiwr neu gyfeiriad IP:',
 	'checkuser-users' => 'Nôl defnyddwyr',
-	'checkuser-edits' => "Nôl golygiadau o'r IP",
+	'checkuser-edits' => 'Nôl golygiadau',
 	'checkuser-ips' => 'Nôl cyfeiriadau IP',
 	'checkuser-search' => 'Chwilio',
 	'checkuser-period' => 'Cyfnod:',
@@ -2801,7 +2806,7 @@ $messages['he'] = array(
 	'checkuser-query' => 'בדיקת שינויים אחרונים',
 	'checkuser-target' => 'כתובת IP או שם משתמש:',
 	'checkuser-users' => 'הצגת משתמשים',
-	'checkuser-edits' => 'הצגת עריכות מכתובת IP מסוימת',
+	'checkuser-edits' => 'קבלת עריכות',
 	'checkuser-ips' => 'הצגת כתובות IP',
 	'checkuser-search' => 'חיפוש',
 	'checkuser-period' => 'פרק זמן:',
@@ -5394,7 +5399,7 @@ $messages['pms'] = array(
 	'checkuser-query' => "Anterogassion dj'ùltime modìfiche",
 	'checkuser-target' => 'Adrëssa IP o nòm utent:',
 	'checkuser-users' => "Tira sù j'utent",
-	'checkuser-edits' => 'Tiré sù le modìfiche faite da na midema adrëssa IP',
+	'checkuser-edits' => 'Tiré sù le modìfiche',
 	'checkuser-ips' => "Tiré sù j'adrësse IP",
 	'checkuser-search' => 'Sërca',
 	'checkuser-period' => 'Durà:',
