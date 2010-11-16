@@ -1953,7 +1953,7 @@ Usa esta herramienta de acuerdo con las políticas correspondientes.',
 	'checkuser-query' => 'Buscar en cambios recientes',
 	'checkuser-target' => 'Usuario o dirección IP:',
 	'checkuser-users' => 'Obtener usuarios',
-	'checkuser-edits' => 'Obtener ediciones de IP',
+	'checkuser-edits' => 'Obtener ediciones',
 	'checkuser-ips' => 'Obtener IP',
 	'checkuser-search' => 'Buscar',
 	'checkuser-period' => 'Duración:',
@@ -2123,6 +2123,7 @@ $messages['ext'] = array(
 );
 
 /** Persian (فارسی)
+ * @author Ebraminio
  * @author Huji
  */
 $messages['fa'] = array(
@@ -2146,7 +2147,7 @@ $messages['fa'] = array(
 	'checkuser-query' => 'جستجوی تغییرات اخیر',
 	'checkuser-target' => 'نشانی آی‌پی یا نام کاربری:',
 	'checkuser-users' => 'فهرست کردن کاربرها',
-	'checkuser-edits' => 'نمایش ویرایش‌های مربوط به این آی‌پی',
+	'checkuser-edits' => 'نمایش ویرایش‌ها',
 	'checkuser-ips' => 'فهرست کردن نشانی‌های آی‌پی',
 	'checkuser-search' => 'جستجو',
 	'checkuser-period' => 'بازهٔ زمانی:',
@@ -2684,7 +2685,7 @@ Us Performance-Grind wäre hegschtens 5000 Bearbeitige usgee. Nimm CheckUser uss
 	'checkuser-query' => 'Letchte Änderige abfroge',
 	'checkuser-target' => 'IP-Adräss oder Benutzername:',
 	'checkuser-users' => 'Hol Benutzer',
-	'checkuser-edits' => 'Hol Bearbeitige vun ere IP-Adräss',
+	'checkuser-edits' => 'Bearbeitige abruefe',
 	'checkuser-ips' => 'Hol IP-Adrässe',
 	'checkuser-search' => 'Sueche',
 	'checkuser-period' => 'Zytruum:',
@@ -3427,7 +3428,7 @@ $messages['it'] = array(
 	'checkuser-query' => 'Cerca nelle ultime modifiche',
 	'checkuser-target' => 'Indirizzo IP o nome utente:',
 	'checkuser-users' => 'Cerca utenti',
-	'checkuser-edits' => 'Vedi i contributi degli IP',
+	'checkuser-edits' => 'Vedi i contributi',
 	'checkuser-ips' => 'Cerca IP',
 	'checkuser-search' => 'Cerca',
 	'checkuser-period' => 'Periodo:',
