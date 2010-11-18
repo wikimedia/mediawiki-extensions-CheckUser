@@ -163,16 +163,19 @@ class CheckUser extends SpecialPage {
 					'|' . wfMsg( 'checkuser-showlog' ) . ']]'
 			);
 		}
-		// FIXME: use more Xml/Html methods
-		$form = "<form name='checkuserform' id='checkuserform' action=\"$action\" method='post'>";
+		
+		$form = Xml::openElement( 'form', array ( 'action' => $action, 'name' => 'checkuserform', 'id' => 'checkuserform', 'method' => 'post' ) );
 		$form .= '<fieldset><legend>' . wfMsgHtml( 'checkuser-query' ) . '</legend>';
-		$form .= '<table border="0" cellpadding="2"><tr>';
+		$form .= Xml::openElement( 'table', array( 'border' => '0', 'cellpadding' => '2' ) );
+		$form .= '<tr>';
 		$form .= '<td>' . wfMsgHtml( 'checkuser-target' ) . '</td>';
 		$form .= '<td>' . Xml::input( 'user', 46, $user, array( 'id' => 'checktarget' ) );
 		$form .= '&#160;' . $this->getPeriodMenu( $period ) . '</td>';
 		$form .= '</tr><tr>';
-		$form .= '<td></td><td class="checkuserradios"><table border="0" cellpadding="3"><tr>';
-		$form .= '<td>' . Xml::radio( 'checktype', 'subuserips', $encuserips, array( 'id' => 'subuserips' ) );
+		$form .= '<td></td>';
+		$form .= Xml::openElement('td', array( 'class' => 'checkuserradios' ) );
+		$form .= Xml::openElement( 'table', array( 'border' => '0', 'cellpadding' => '3' ) );
+		$form .= '<tr><td>' . Xml::radio( 'checktype', 'subuserips', $encuserips, array( 'id' => 'subuserips' ) );
 		$form .= ' ' . Xml::label( wfMsg( 'checkuser-ips' ), 'subuserips' ) . '</td>';
 		$form .= '<td>' . Xml::radio( 'checktype', 'subedits', $encedits, array( 'id' => 'subedits' ) );
 		$form .= ' ' . Xml::label( wfMsg( 'checkuser-edits' ), 'subedits' ) . '</td>';
