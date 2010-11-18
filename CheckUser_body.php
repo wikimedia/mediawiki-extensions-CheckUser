@@ -163,10 +163,11 @@ class CheckUser extends SpecialPage {
 					'|' . wfMsg( 'checkuser-showlog' ) . ']]'
 			);
 		}
-		
-		$form = Xml::openElement( 'form', array ( 'action' => $action, 'name' => 'checkuserform', 'id' => 'checkuserform', 'method' => 'post' ) );
+
+		$form = Xml::openElement( 'form', array( 'action' => $action,
+			'name' => 'checkuserform', 'id' => 'checkuserform', 'method' => 'post' ) );
 		$form .= '<fieldset><legend>' . wfMsgHtml( 'checkuser-query' ) . '</legend>';
-		$form .= Xml::openElement( 'table', array( 'border' => '0', 'cellpadding' => '2' ) );
+		$form .= Xml::openElement( 'table', array( 'style' => 'border:0' ) );
 		$form .= '<tr>';
 		$form .= '<td>' . wfMsgHtml( 'checkuser-target' ) . '</td>';
 		$form .= '<td>' . Xml::input( 'user', 46, $user, array( 'id' => 'checktarget' ) );
@@ -174,20 +175,30 @@ class CheckUser extends SpecialPage {
 		$form .= '</tr><tr>';
 		$form .= '<td></td>';
 		$form .= Xml::openElement('td', array( 'class' => 'checkuserradios' ) );
-		$form .= Xml::openElement( 'table', array( 'border' => '0', 'cellpadding' => '3' ) );
-		$form .= '<tr><td>' . Xml::radio( 'checktype', 'subuserips', $encuserips, array( 'id' => 'subuserips' ) );
+		$form .= Xml::openElement( 'table', array( 'style' => 'border:0' ) );
+		$form .= '<tr>';
+		$form .= '<td>' .
+			Xml::radio( 'checktype', 'subuserips', $encuserips, array( 'id' => 'subuserips' ) );
 		$form .= ' ' . Xml::label( wfMsg( 'checkuser-ips' ), 'subuserips' ) . '</td>';
-		$form .= '<td>' . Xml::radio( 'checktype', 'subedits', $encedits, array( 'id' => 'subedits' ) );
+		$form .= '<td>' .
+			Xml::radio( 'checktype', 'subedits', $encedits, array( 'id' => 'subedits' ) );
 		$form .= ' ' . Xml::label( wfMsg( 'checkuser-edits' ), 'subedits' ) . '</td>';
-		$form .= '<td>' . Xml::radio( 'checktype', 'subipusers', $encipusers, array( 'id' => 'subipusers' ) );
+		$form .= '<td>' .
+			Xml::radio( 'checktype', 'subipusers', $encipusers, array( 'id' => 'subipusers' ) );
 		$form .= ' ' . Xml::label( wfMsg( 'checkuser-users' ), 'subipusers' ) . '</td>';
-		$form .= '</tr></table></td>';
+		$form .= '</tr>';
+		$form .= Xml::closeElement( 'table' );
+		$form .= Xml::closeElement( 'td' );
 		$form .= '</tr><tr>';
 		$form .= '<td>' . wfMsgHtml( 'checkuser-reason' ) . '</td>';
-		$form .= '<td>' . Xml::input( 'reason', 46, $reason, array( 'maxlength' => '150', 'id' => 'checkreason' ) );
+		$form .= '<td>' . Xml::input( 'reason', 46, $reason,
+			array( 'maxlength' => '150', 'id' => 'checkreason' ) );
 		$form .= '&#160; &#160;' . Xml::submitButton( wfMsg( 'checkuser-check' ),
 			array( 'id' => 'checkusersubmit', 'name' => 'checkusersubmit' ) ) . '</td>';
-		$form .= '</tr></table></fieldset></form>';
+		$form .= '</tr>';
+		$form .= Xml::closeElement( 'table' );
+		$form .= '</fieldset>';
+		$form .= Xml::closeElement( 'form' );
 		# Output form
 		$wgOut->addHTML( $form );
 	}
