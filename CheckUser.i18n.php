@@ -2094,7 +2094,7 @@ $messages['eu'] = array(
 	'checkuser-showlog' => 'Erregistroa erakutsi',
 	'checkuser-target' => 'IP helbide edo lankide izena:',
 	'checkuser-users' => 'Lankideak ikusi',
-	'checkuser-edits' => 'IP baten ekarpenak ikusi',
+	'checkuser-edits' => 'Aldaketak ikusi',
 	'checkuser-ips' => 'IPak ikusi',
 	'checkuser-search' => 'Bilatu',
 	'checkuser-period' => 'Iraupena:',
@@ -2114,6 +2114,7 @@ $messages['eu'] = array(
 	'checkuser-block-success' => "'''$1 {{PLURAL:$2|erabiltzailea|erabiltzaileak}} blokeaturik {{PLURAL:$2|dago|daude}} orain.'''",
 	'checkuser-block-limit' => 'Lankide gehiegi hautatu duzu.',
 	'checkuser-search-submit' => 'Bilatu',
+	'checkuser-search-target' => 'helburua',
 	'checkuser-log-subpage' => 'Erregistroa',
 	'checkuser-autocreate-action' => 'automatikoki sortua izan da',
 	'checkuser-email-action' => '"$1" lankideari posta elektroniko bat bidali',
@@ -5732,6 +5733,7 @@ $messages['rm'] = array(
  * @author KlaudiuMihaila
  * @author Memo18
  * @author Mihai
+ * @author Minisarm
  */
 $messages['ro'] = array(
 	'checkuser-summary' => 'Acestă unealtă scanează schimbările recente pentru a regăsi IP-urile folosite de un utilizator sau arată modificările/utilizator pentru un anumit IP.
@@ -5753,7 +5755,7 @@ Folosește unealta în concordanță cu politica sitului.',
 	'checkuser-query' => 'Interoghează schimbările recente',
 	'checkuser-target' => 'Adresă IP sau nume de utilizator:',
 	'checkuser-users' => 'Arată utilizatorii',
-	'checkuser-edits' => 'Arată editările IP-ului',
+	'checkuser-edits' => 'Arată editările',
 	'checkuser-ips' => 'Arată IP-urile',
 	'checkuser-search' => 'Caută',
 	'checkuser-period' => 'Durată:',
@@ -7304,7 +7306,7 @@ Bunu ilkelere uygun olarak kullanın.",
 	'checkuser-query' => 'Son değişiklikleri sorgula',
 	'checkuser-target' => 'IP adresi veya kullanıcı adı:',
 	'checkuser-users' => 'Kullanıcıları bulup getir',
-	'checkuser-edits' => "IP'den değişiklikleri al",
+	'checkuser-edits' => 'Değişiklikleri al',
 	'checkuser-ips' => 'IPleri bulup getir',
 	'checkuser-search' => 'Ara',
 	'checkuser-period' => 'Süre:',
