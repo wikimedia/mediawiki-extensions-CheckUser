@@ -6736,7 +6736,7 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 	'checkuser-query' => 'Sök de senaste ändringarna',
 	'checkuser-target' => 'IP-adress eller användarnamn:',
 	'checkuser-users' => 'Hämta användare',
-	'checkuser-edits' => 'Hämta redigeringar från IP-adress',
+	'checkuser-edits' => 'Hämta redigeringar',
 	'checkuser-ips' => 'Hämta IP-adresser',
 	'checkuser-search' => 'Sök',
 	'checkuser-period' => 'Tidsperiod:',
