@@ -2442,7 +2442,7 @@ $messages['frp'] = array(
 	'checkuser-query' => 'Rechèrche per los dèrriérs changements',
 	'checkuser-target' => 'Adrèce IP ou ben nom d’utilisator :',
 	'checkuser-users' => 'Avêr los utilisators',
-	'checkuser-edits' => 'Avêr los changements per una adrèce IP',
+	'checkuser-edits' => 'Avêr los changements',
 	'checkuser-ips' => 'Avêr les adrèces IP',
 	'checkuser-search' => 'Rechèrche',
 	'checkuser-period' => 'Temps :',
@@ -5297,7 +5297,7 @@ $messages['pdc'] = array(
 	'checkuser-week-2' => 'letschte zwo Woche',
 	'checkuser-month' => 'letschte 30 Daag',
 	'checkuser-all' => 'all',
-	'checkuser-blocked' => 'aabunne',
+	'checkuser-blocked' => "g'baerrt",
 	'checkuser-search-submit' => 'Guck uff',
 );
 
