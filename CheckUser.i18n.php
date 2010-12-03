@@ -3524,7 +3524,7 @@ IPv4 (16から32ビットのCIDR表記) と IPv6 (96から128ビットのCIDR表
 	'checkuser-showlog' => 'ログを閲覧',
 	'checkuser-log' => '利用者の調査記録',
 	'checkuser-query' => '最近の更新を照会',
-	'checkuser-target' => 'IPアドレスまたは利用者名:',
+	'checkuser-target' => 'IPアドレスまたは利用者名：',
 	'checkuser-users' => '利用者名を取得する',
 	'checkuser-edits' => '編集を取得',
 	'checkuser-ips' => 'IPアドレスを取得する',
