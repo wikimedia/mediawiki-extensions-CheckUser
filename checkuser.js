@@ -40,7 +40,6 @@ window.updateCIDRresult = function() {
 	// Go through each IP in the list, get its binary form, and
 	// track the largest binary prefix among them...
 	for( var i = 0; i < ips.length; i++ ) {
-		var invalid = false;
 		// ...in the spirit of block.js, call this "addy"
 		var addy = ips[i].replace(/^\s*|\s*$/, '' ); // trim
 		// Match the first IP in each list (ignore other garbage)
@@ -61,23 +60,14 @@ window.updateCIDRresult = function() {
 			// Get each quad integer
 			var blocs = ip.split('.');
 			// IANA 1.0.0.0/8, 2.0.0.0/8
-			if( blocs[0] < 3 ) {
-				continue;
-			}
+			if( blocs[0] <= 2 ) continue;
 			for( var x = 0; x < blocs.length; x++ ) {
 				bloc = parseInt( blocs[x], 10 );
-				if( bloc > 255 ) {
-					invalid = true; // bad IP!
-					break; // bad IP!
-				}
 				bin_block = bloc.toString( 2 ); // concat bin with binary form of bloc
 				while( bin_block.length < 8 ) {
 					bin_block = '0' + bin_block; // pad out as needed
 				}
 				bin += bin_block;
-			}
-			if( invalid ) {
-				continue; // move to next IP
 			}
 			prefix = ''; // Rebuild formatted bin_prefix for each IP
 			// Apply any valid CIDRs
@@ -102,7 +92,8 @@ window.updateCIDRresult = function() {
 			// CIDR too small?
 			if( prefix_cidr < 16 ) {
 				document.getElementById( 'mw-checkuser-cidr-res' ).value = '!';
-				document.getElementById( 'mw-checkuser-ipnote' ).innerHTML = '&gt;' + Math.pow( 2, 32 - prefix_cidr );
+				document.getElementById( 'mw-checkuser-ipnote' ).innerHTML = '&gt;' +
+					Math.pow( 2, 32 - prefix_cidr );
 				return; // too big
 			}
 			// Build the IP in dotted-quad form
@@ -154,19 +145,12 @@ window.updateCIDRresult = function() {
 			var blocs = ip.split(':');
 			for( var x = 0; x <= 7; x++ ) {
 				bloc = blocs[x] ? blocs[x] : '0';
-				if( bloc > 'ffff' ) {
-					invalid = true; // bad IP!
-					break; // bad IP!
-				}
 				int_block = hex2int( bloc ); // convert hex -> int
 				bin_block = int_block.toString( 2 ); // concat bin with binary form of bloc
 				while( bin_block.length < 16 ) {
 					bin_block = '0' + bin_block; // pad out as needed
 				}
 				bin += bin_block;
-			}
-			if( invalid ) {
-				continue; // move to next IP
 			}
 			prefix = ''; // Rebuild formatted bin_prefix for each IP
 			// Apply any valid CIDRs
@@ -191,7 +175,8 @@ window.updateCIDRresult = function() {
 			// CIDR too small?
 			if( prefix_cidr < 96 ) {
 				document.getElementById( 'mw-checkuser-cidr-res' ).value = '!';
-				document.getElementById( 'mw-checkuser-ipnote' ).innerHTML = '&gt;' + Math.pow( 2, 128 - prefix_cidr );
+				document.getElementById( 'mw-checkuser-ipnote' ).innerHTML = '&gt;'
+					+ Math.pow( 2, 128 - prefix_cidr );
 				return; // too big
 			}
 			// Build the IP in dotted-quad form
