@@ -115,7 +115,7 @@ class CheckUser extends SpecialPage {
 		}
 		# Add CIDR calculation convenience form
 		$this->addJsCIDRForm();
-		$this->addStyles();
+		$wgOut->addModules( 'ext.checkUser' ); // JS
 	}
 
 	/**
@@ -201,16 +201,6 @@ class CheckUser extends SpecialPage {
 		$form .= Xml::closeElement( 'form' );
 		# Output form
 		$wgOut->addHTML( $form );
-	}
-
-	/**
-	 * Add CSS/JS
-	 */
-	protected function addStyles() {
-		global $wgScriptPath, $wgCheckUserStyleVersion, $wgOut;
-		// FIXME, use Html::
-		$encJSFile = htmlspecialchars( "$wgScriptPath/extensions/CheckUser/checkuser.js?$wgCheckUserStyleVersion" );
-		$wgOut->addScript( "<script type=\"text/javascript\" src=\"$encJSFile\"></script>" );
 	}
 
 	/**

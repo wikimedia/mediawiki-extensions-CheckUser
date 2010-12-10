@@ -61,7 +61,6 @@ $wgCheckUserForceSummary = false;
 $wgCheckUserStyleVersion = 5;
 
 # Recent changes data hook
-global $wgHooks;
 $wgHooks['RecentChange_save'][] = 'efUpdateCheckUserData';
 $wgHooks['EmailUser'][] = 'efUpdateCUEmailData';
 $wgHooks['User::mailPasswordInternal'][] = 'efUpdateCUPasswordResetData';
@@ -70,6 +69,15 @@ $wgHooks['AuthPluginAutoCreate'][] = 'efUpdateAutoCreateData';
 $wgHooks['ParserTestTables'][] = 'efCheckUserParserTestTables';
 $wgHooks['LoadExtensionSchemaUpdates'][] = 'efCheckUserSchemaUpdates';
 $wgHooks['ContributionsToolLinks'][] = 'efLoadCheckUserLink';
+
+$wgResourceModules['ext.checkUser'] = array(
+	'scripts' 		=> 'checkuser.js',
+	'dependencies' 	=> array( 'mediawiki.legacy.block' ), // IP stuff
+	'localBasePath' => dirname( __FILE__ ),
+    'remoteExtPath' => 'CheckUser',
+);
+
+// TODO: move hooks to CheckUser.hooks.php
 
 /**
  * Hook function for RecentChange_save
