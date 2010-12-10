@@ -74,7 +74,7 @@ $wgResourceModules['ext.checkUser'] = array(
 	'scripts' 		=> 'checkuser.js',
 	'dependencies' 	=> array( 'mediawiki.legacy.block' ), // IP stuff
 	'localBasePath' => dirname( __FILE__ ),
-    'remoteExtPath' => 'CheckUser',
+	'remoteExtPath' => 'CheckUser',
 );
 
 // TODO: move hooks to CheckUser.hooks.php

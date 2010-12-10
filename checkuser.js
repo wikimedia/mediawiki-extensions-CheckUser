@@ -214,7 +214,7 @@ window.updateCIDRresult = function() {
 		document.getElementById( 'mw-checkuser-ipnote' ).innerHTML = '';
 	}
 
-}
+};
 addOnloadHook( updateCIDRresult );
 
 // Utility function to convert hex to integers
@@ -250,4 +250,4 @@ window.hex2int = function( hex ) {
 		intform += digit * Math.pow( 16, hex.length - 1 - i );
 	}
 	return intform;
-}
+};
