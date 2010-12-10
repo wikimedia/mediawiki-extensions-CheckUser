@@ -643,6 +643,14 @@ $messages['avk'] = array(
 	'checkuser-search-target' => 'jala',
 );
 
+/** Azerbaijani (Azərbaycanca)
+ * @author Emperyan
+ */
+$messages['az'] = array(
+	'checkuser-log' => 'Nəzarətçi qeydi',
+	'checkuser-log-fail' => 'Gündəlik girdilər əlavə etilemiyor.',
+);
+
 /** Bashkir (Башҡорт)
  * @author Assele
  * @author Haqmar
