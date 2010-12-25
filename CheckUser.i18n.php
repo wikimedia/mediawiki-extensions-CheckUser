@@ -1768,6 +1768,7 @@ $messages['ee'] = array(
  * @author Assassingr
  * @author Consta
  * @author Crazymadlover
+ * @author Glavkos
  * @author K sal 15
  * @author Konsnos
  * @author Omnipaedista
@@ -1794,7 +1795,7 @@ $messages['el'] = array(
 	'checkuser-query' => 'Αναζήτηση στις πρόσφατες αλλαγές',
 	'checkuser-target' => 'Διεύθυνση IP ή όνομα χρήστη:',
 	'checkuser-users' => 'Λήψη χρηστών',
-	'checkuser-edits' => 'Λήψη επεξεργασιών από IP',
+	'checkuser-edits' => 'Λήψη επεξεργασιών',
 	'checkuser-ips' => 'Λήψη των IP',
 	'checkuser-search' => 'Αναζήτηση',
 	'checkuser-period' => 'Διάρκεια:',
