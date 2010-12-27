@@ -1158,6 +1158,7 @@ Ovdje su prikazane korištene IP adrese (najviše 5000, poredano po adresi):',
 
 /** Catalan (Català)
  * @author Aleator
+ * @author El libre
  * @author Jordi Roqué
  * @author Juanpabl
  * @author Paucabot
@@ -1185,7 +1186,7 @@ Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Reco
 	'checkuser-query' => 'Cerca als canvis recents',
 	'checkuser-target' => "Adreça IP o nom d'usuari:",
 	'checkuser-users' => 'Retorna els usuaris',
-	'checkuser-edits' => 'Retorna les edicions de la IP',
+	'checkuser-edits' => 'Obté edicions',
 	'checkuser-ips' => 'Retorna adreces IP',
 	'checkuser-search' => 'Cerca',
 	'checkuser-period' => 'Durada:',
@@ -1351,6 +1352,14 @@ Níže jsou použité IP adresy (nejvýše 5000, seřazené podle adresy):',
 	'checkuser-autocreate-action' => 'byl automaticky vytvořen',
 	'checkuser-email-action' => 'odeslal e-mail uživateli „$1“',
 	'checkuser-reset-action' => 'požádal o nové heslo pro uživatele „$1“',
+);
+
+/** Kashubian (Kaszëbsczi)
+ * @author Byulent
+ */
+$messages['csb'] = array(
+	'checkuser-search' => 'Szëkba',
+	'checkuser-all' => 'wszëtczé',
 );
 
 /** Church Slavic (Словѣ́ньскъ / ⰔⰎⰑⰂⰡⰐⰠⰔⰍⰟ)
