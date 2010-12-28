@@ -5699,7 +5699,7 @@ Pichqa waranqamanta aswan llamk'apusqakunaqa manam kutimunqachu, allin rikuchina
 	'checkuser-query' => 'Ñaqha hukchasqakunapi maskay',
 	'checkuser-target' => 'IP huchha icha ruraqpa sutin:',
 	'checkuser-users' => 'Ruraqkunata chaskiy',
-	'checkuser-edits' => 'Ruraqkunap hukchasqankunata chaskiy',
+	'checkuser-edits' => "Llamk'apusqakunata chaskiy",
 	'checkuser-ips' => 'IP huchhakunata chaskiy',
 	'checkuser-search' => 'Maskay',
 	'checkuser-period' => "Kay mit'alla:",
