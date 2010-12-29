@@ -5740,7 +5740,7 @@ $messages['rif'] = array(
 $messages['rm'] = array(
 	'checkuser-reason' => 'Motiv:',
 	'checkuser-showlog' => 'Mussar il log',
-	'checkuser-target' => "Utilisader u adressa d'IP",
+	'checkuser-target' => "Adressa IP u num d'utilisader:",
 	'checkuser-search' => 'Tschertgar',
 );
 
