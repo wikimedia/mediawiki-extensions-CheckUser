@@ -4449,7 +4449,7 @@ $messages['lv'] = array(
  * @author Jagwar
  */
 $messages['mg'] = array(
-	'checkuser-nolog' => "Tsy nahitana rakitra tatitr'asa.",
+	'checkuser-nolog' => 'Tsy nahitana rakitra laogy.',
 );
 
 /** Eastern Mari (Олык Марий)
