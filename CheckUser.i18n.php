@@ -6513,7 +6513,7 @@ IP адресе ће бити блокиране на недељу дана за
 	'checkuser-search-initiator' => 'покретач',
 	'checkuser-search-target' => 'циљ',
 	'checkuser-ipeditcount' => '~$1 од свих корисника',
-	'checkuser-log-subpage' => 'извештај',
+	'checkuser-log-subpage' => 'Извештај',
 	'checkuser-log-return' => 'Повратак на основну форму чекјузера.',
 	'checkuser-limited' => "'''Ови резултати су скраћени због перформанси.'''",
 	'checkuser-log-userips' => '$1 је добио ИП адресе за $2',
