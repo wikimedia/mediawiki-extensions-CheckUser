@@ -4407,6 +4407,13 @@ $messages['lt'] = array(
 	'checkuser-reset-action' => 'atstatyti slaptažodį naudotojui "$1"',
 );
 
+/** Latgalian (Latgaļu)
+ * @author Dark Eagle
+ */
+$messages['ltg'] = array(
+	'checkuser-all' => 'vyss',
+);
+
 /** Latvian (Latviešu)
  * @author Geimeris
  * @author GreenZeb
