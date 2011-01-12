@@ -1247,10 +1247,12 @@ $messages['cdo'] = array(
 	'checkuser-search' => 'Sìng-tō̤',
 );
 
-/** Chechen (Нохчийн) */
+/** Chechen (Нохчийн)
+ * @author Sasan700
+ */
 $messages['ce'] = array(
 	'checkuser-reason' => 'Бахьан:',
-	'checkuser-target' => 'Юзер я IP-адрес',
+	'checkuser-target' => 'IP-долу меттиг йа декъашхон цlе:',
 );
 
 /** Chamorro (Chamoru)
