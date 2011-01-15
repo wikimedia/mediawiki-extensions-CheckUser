@@ -7901,6 +7901,7 @@ $messages['zh-hans'] = array(
  * @author Alexsh
  * @author Horacewai2
  * @author Liangent
+ * @author Mark85296341
  * @author Wrightbus
  */
 $messages['zh-hant'] = array(
@@ -7912,7 +7913,7 @@ $messages['zh-hant'] = array(
 	'group-checkuser' => '用戶查核',
 	'group-checkuser-member' => '用戶查核',
 	'right-checkuser' => '查核用戶的IP地址以及其它的資料',
-	'right-checkuser-log' => '查看帳戶核查日誌',
+	'right-checkuser-log' => '檢視帳戶核查日誌',
 	'grouppage-checkuser' => '{{ns:project}}:用戶查核',
 	'checkuser-reason' => '理由',
 	'checkuser-showlog' => '顯示記錄',
@@ -7942,7 +7943,7 @@ $messages['zh-hant'] = array(
 	'checkuser-wasblocked' => '曾封禁',
 	'checkuser-localonly' => '未統一',
 	'checkuser-massblock' => '封禁選中用戶',
-	'checkuser-massblock-text' => '被選中的帳戶將被施以無限期封禁，並啟用自動封禁、禁止帳戶創建。被選中的IP地址將被封禁一周，僅針對IP用戶且禁止帳戶創建。',
+	'checkuser-massblock-text' => '被選中的帳戶將被施以無限期封禁，並啟用自動封禁、禁止帳戶建立。被選中的IP地址將被封禁一周，僅針對IP用戶且禁止帳戶建立。',
 	'checkuser-blocktag' => '替換用戶頁內容：',
 	'checkuser-blocktag-talk' => '替換討論頁內容：',
 	'checkuser-massblock-commit' => '封禁選中用戶',
