@@ -1251,6 +1251,7 @@ $messages['cdo'] = array(
  * @author Sasan700
  */
 $messages['ce'] = array(
+	'group-checkuser' => 'Даржахошка хьовсурш',
 	'checkuser-reason' => 'Бахьан:',
 	'checkuser-target' => 'IP-долу меттиг йа декъашхон цlе:',
 );
