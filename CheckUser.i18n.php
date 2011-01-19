@@ -2153,6 +2153,7 @@ $messages['ext'] = array(
 /** Persian (فارسی)
  * @author Ebraminio
  * @author Huji
+ * @author Mjbmr
  */
 $messages['fa'] = array(
 	'checkuser-summary' => 'این ابزار تغییرات اخیر را برای به دست آوردن نشانی‌های آی‌پی استفاده شده توسط یک کاربر و یا تعیین ویرایش‌ها و اطلاعات کاربری مرتبط با یک نشانی آی‌پی جستجو می‌کند.
@@ -2226,7 +2227,7 @@ $messages['fa'] = array(
 	'checkuser-log-ipusers-xff' => '$1 کاربرهای مربوط به XFF $2 را گرفت',
 	'checkuser-log-useredits' => '$1 ویرایش‌های $2 را گرفت',
 	'checkuser-autocreate-action' => 'به طور خودکار ساخته شد',
-	'checkuser-email-action' => 'به کاربر «$1» رایانامه فرستاد',
+	'checkuser-email-action' => 'به کاربر «$1» پست الکترونیکی ارسال شد',
 	'checkuser-reset-action' => 'گذرواژه کاربر «$1» را از نو تنظیم کرد',
 );
 
