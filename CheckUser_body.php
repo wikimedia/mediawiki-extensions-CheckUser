@@ -74,6 +74,7 @@ class CheckUser extends SpecialPage {
 		$talkTag = $wgRequest->getBool( 'usettag' ) ?
 			trim( $wgRequest->getVal( 'talktag' ) ) : '';
 
+		$m = array();
 		# An IPv4? An IPv6? CIDR included?
 		if ( IP::isIPAddress( $user ) ) {
 			$ip = IP::sanitizeIP( $user );
@@ -1145,6 +1146,7 @@ class CheckUser extends SpecialPage {
 	protected function getIpConds( $db, $ip, $xfor = false ) {
 		$type = ( $xfor ) ? 'xff' : 'ip';
 		// IPv4 CIDR, 16-32 bits
+		$matches = array();
 		if ( preg_match( '#^(\d+\.\d+\.\d+\.\d+)/(\d+)$#', $ip, $matches ) ) {
 			if ( $matches[2] < 16 || $matches[2] > 32 ) {
 				return false; // invalid
