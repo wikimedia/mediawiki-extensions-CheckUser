@@ -50,14 +50,10 @@ class CheckUser extends SpecialPage {
 
 		if ( !$wgUser->isAllowed( 'checkuser' ) ) {
 			if ( $wgUser->isAllowed( 'checkuser-log' ) ) {
-				$wgOut->addWikiText( wfMsg( 'checkuser-summary' ) .
-					"\n\n[[" . $this->getLogSubpageTitle()->getPrefixedText() .
-						'|' . wfMsg( 'checkuser-showlog' ) . ']]'
-				);
-				return;
+				$this->showGuide();
+			} else {
+				$wgOut->permissionRequired( 'checkuser' );
 			}
-
-			$wgOut->permissionRequired( 'checkuser' );
 			return;
 		}
 
@@ -92,7 +88,7 @@ class CheckUser extends SpecialPage {
 			$xff = '';
 		}
 
-		$this->doForm( $user, $reason, $checktype, $ip, $xff, $name, $period );
+		$this->showForm( $user, $reason, $checktype, $ip, $xff, $name, $period );
 
 		# Perform one of the various submit operations...
 		if ( $wgRequest->wasPosted() ) {
@@ -139,7 +135,15 @@ class CheckUser extends SpecialPage {
 		return $this->logSubpageTitle;
 	}
 
-	protected function doForm( $user, $reason, $checktype, $ip, $xff, $name, $period ) {
+	protected function showGuide() {
+		global $wgOut;
+		$wgOut->addWikiText( wfMsg( 'checkuser-summary' ) .
+			"\n\n[[" . $this->getLogSubpageTitle()->getPrefixedText() .
+				'|' . wfMsg( 'checkuser-showlog' ) . ']]'
+		);
+	}
+
+	protected function showForm( $user, $reason, $checktype, $ip, $xff, $name, $period ) {
 		global $wgOut, $wgUser;
 		$action = $this->getTitle()->escapeLocalUrl();
 		# Fill in requested type if it makes sense
@@ -156,14 +160,9 @@ class CheckUser extends SpecialPage {
 		} else {
 			$encuserips = 1;
 		}
-		# Compile our nice form
-		# User box length should fit things like "2001:0db8:85a3:08d3:1319:8a2e:0370:7344/100/xff"
-		if ( $wgUser->isAllowed( 'checkuser-log' ) ) {
-			$wgOut->addWikiText( wfMsg( 'checkuser-summary' ) .
-				"\n\n[[" . $this->getLogSubpageTitle()->getPrefixedText() .
-					'|' . wfMsg( 'checkuser-showlog' ) . ']]'
-			);
-		}
+		# Compile our nice form...
+		# Username field should fit things like "2001:0db8:85a3:08d3:1319:8a2e:0370:7344/100/xff"
+		$this->showGuide(); // explanation text
 
 		$form = Xml::openElement( 'form', array( 'action' => $action,
 			'name' => 'checkuserform', 'id' => 'checkuserform', 'method' => 'post' ) );
