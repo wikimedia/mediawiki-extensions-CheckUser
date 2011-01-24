@@ -3720,6 +3720,7 @@ Ing ngisor iki kapacak alamat-alamat IP sing dianggo (maks. 5.000, diurutaké mi
 
 /** Georgian (ქართული)
  * @author BRUTE
+ * @author Dawid Deutschland
  * @author Malafaya
  * @author გიორგიმელა
  */
@@ -3738,7 +3739,7 @@ $messages['ka'] = array(
 	'checkuser-query' => 'ბოლო ცვლილებების მოთხოვნა',
 	'checkuser-target' => 'IP მისამართი ან მომხმარებლის სახელი:',
 	'checkuser-users' => 'მომხმარებლების ნახვა',
-	'checkuser-edits' => 'IP მისამართების რედაქტირებების ნახვა',
+	'checkuser-edits' => 'რედაქტირებების მიღება',
 	'checkuser-ips' => 'მოითხოვეთ IP',
 	'checkuser-search' => 'ძიება',
 	'checkuser-period' => 'ხანგძლივობა:',
@@ -3786,6 +3787,8 @@ IP დაიბლოკება ერთი კვირით.',
 	'checkuser-log-userips' => '$1 მიიღო IP  $2-თვის',
 	'checkuser-log-ipedits' => '$1 მიიღო რედაქტირებები $2-თვის',
 	'checkuser-log-ipusers' => '$1 მიიღო მომხმარებლები $2-თვის',
+	'checkuser-log-ipedits-xff' => '$1 მიიღო რედაქტირებები XFF $2-თვის',
+	'checkuser-log-ipusers-xff' => '$1 მიიღო მომხმარებლები XFF $2-თვის',
 	'checkuser-log-useredits' => '$1 მიიღო რედაქტირებები $2-თვის',
 	'checkuser-autocreate-action' => 'ავტომატურად შეიქმნა',
 	'checkuser-email-action' => 'გაუგზავნა წერილი მომხმარებელ «$1»-ს',
@@ -4126,7 +4129,7 @@ Donn op de Räjelle för dat Werrkzeuch obach jevve, un et nit bruche, wann De n
 	'checkuser-query' => 'En de {{LCFIRST:{{int:recentchanges}}}} frore',
 	'checkuser-target' => '<code lang="en">IP</code>-Addräß udder Metmaacher-Name:',
 	'checkuser-users' => 'Metmaacher holle!',
-	'checkuser-edits' => 'Änderonge fun dä IP-Address holle!',
+	'checkuser-edits' => 'Änderonge holle!',
 	'checkuser-ips' => 'IP-Addresse holle!',
 	'checkuser-search' => 'Sööke',
 	'checkuser-period' => 'Dor:',
@@ -4185,9 +4188,12 @@ Hee sin de eetßte 5000 IP-Addresse, zoteeet:',
 
 /** Kurdish (Latin) (Kurdî (Latin))
  * @author Bangin
+ * @author George Animal
  */
 $messages['ku-latn'] = array(
+	'checkuser-reason' => 'Sedem:',
 	'checkuser-search' => 'Lêbigere',
+	'checkuser-all' => 'hemû',
 	'checkuser-search-submit' => 'Lêbigere',
 );
 
