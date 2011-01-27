@@ -6503,7 +6503,7 @@ $messages['sr-ec'] = array(
 Последња измена је била на $1 у $2.',
 	'checkuser-check' => 'Провера',
 	'checkuser-log-fail' => 'Додавање податка у извештај није могуће.',
-	'checkuser-nolog' => 'Није пронађен ниједан извештај.',
+	'checkuser-nolog' => 'Извештај није пронађен.',
 	'checkuser-blocked' => 'Блокиран',
 	'checkuser-gblocked' => 'Блокиран глобално',
 	'checkuser-locked' => 'Закључано',
