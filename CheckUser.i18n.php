@@ -2335,6 +2335,7 @@ $messages['fo'] = array(
  * @author Quentinv57
  * @author Sherbrooke
  * @author Verdy p
+ * @author Wyz
  * @author Zetud
  */
 $messages['fr'] = array(
@@ -2347,7 +2348,7 @@ Veuillez utiliser cet outil dans le respect de la charte d’utilisation.',
 	'checkuser' => 'Vérificateur d’utilisateur',
 	'checkuser-contribs' => 'vérifier les adresses IP',
 	'group-checkuser' => 'Vérificateurs d’utilisateurs',
-	'group-checkuser-member' => 'Vérificateur d’utilisateur',
+	'group-checkuser-member' => 'vérificateur d’utilisateur',
 	'right-checkuser' => 'Vérifier les adresses IP et autres informations d’un utilisateur',
 	'right-checkuser-log' => 'Visualiser le journal des vérifications d’utilisateurs',
 	'grouppage-checkuser' => '{{ns:project}}:Vérificateurs d’utilisateurs',
