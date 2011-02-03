@@ -644,10 +644,13 @@ $messages['avk'] = array(
 
 /** Azerbaijani (Azərbaycanca)
  * @author Emperyan
+ * @author PPerviz
  */
 $messages['az'] = array(
 	'checkuser-log' => 'Nəzarətçi qeydi',
+	'checkuser-search' => 'Axtar',
 	'checkuser-log-fail' => 'Gündəlik girdilər əlavə etilemiyor.',
+	'checkuser-search-submit' => 'Axtar',
 );
 
 /** Bashkir (Башҡортса)
