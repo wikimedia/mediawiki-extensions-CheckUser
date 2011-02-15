@@ -56,4 +56,4 @@ CREATE TABLE /*$wgDBprefix*/cu_changes (
   INDEX cuc_user_ip_time (cuc_user,cuc_ip,cuc_timestamp),
   INDEX cuc_xff_hex_time (cuc_xff_hex,cuc_timestamp),
   INDEX (cuc_timestamp)
-) TYPE=InnoDB;
+) /*$wgDBTableOptions*/;
