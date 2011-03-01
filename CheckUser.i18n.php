@@ -547,6 +547,7 @@ $messages['as'] = array(
 /** Asturian (Asturianu)
  * @author Dferg
  * @author Esbardu
+ * @author Xuacu
  */
 $messages['ast'] = array(
 	'checkuser-summary' => "Esta ferramienta escanea los cambeos recientes pa obtener les IP usaes por un usuariu o p'amosar les ediciones o usuarios d'una IP.
@@ -575,6 +576,7 @@ $messages['ast'] = array(
 	'checkuser-week-2' => 'caberes dos selmanes',
 	'checkuser-month' => 'caberos 30 díes',
 	'checkuser-all' => 'too',
+	'checkuser-cidr-label' => "Alcontrar el rangu común y les direiciones IP afeutaes d'una llista de direiciones IP",
 	'checkuser-cidr-res' => 'CIDR común:',
 	'checkuser-empty' => 'El rexistru nun tien nengún elementu.',
 	'checkuser-nomatch' => "Nun s'atoparon coincidencies.",
@@ -600,7 +602,8 @@ Les direiciones IP van ser bloquiaes 1 selmana namái pa usuarios IP y cola crea
 	'checkuser-block-noreason' => 'Tienes que dar un motivu pa los bloqueos.',
 	'checkuser-noreason' => 'Tien de dar un motivu pa esta consulta.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|cuenta nueva|cuentes nueves}}',
-	'checkuser-too-many' => 'Demasiaos resultaos, por favor mengua la CIDR. Estes son les IP usaes (5.000 como máximo, ordenaes por direición):',
+	'checkuser-too-many' => "Demasiaos resultaos (d'alcuerdu col albidru de consulta), mengua la CIDR.
+Estes son les IPs usaes (5000 max, axeitaes por direición):",
 	'checkuser-user-nonexistent' => "L'usuariu especificáu nun esiste.",
 	'checkuser-search-form' => 'Atopar les entraes de rexistru onde $1 ye $2',
 	'checkuser-search-submit' => 'Buscar',
