@@ -71,8 +71,8 @@ $wgHooks['LoadExtensionSchemaUpdates'][] = 'efCheckUserSchemaUpdates';
 $wgHooks['ContributionsToolLinks'][] = 'efLoadCheckUserLink';
 
 $wgResourceModules['ext.checkUser'] = array(
-	'scripts' 		=> 'checkuser.js',
-	'dependencies' 	=> array( 'mediawiki.legacy.block' ), // IP stuff
+	'scripts'       => 'checkuser.js',
+	'dependencies' 	=> array( 'mediawiki.util' ), // IP stuff
 	'localBasePath' => dirname( __FILE__ ),
 	'remoteExtPath' => 'CheckUser',
 );
