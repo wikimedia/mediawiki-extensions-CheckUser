@@ -499,7 +499,7 @@ class CheckUser extends SpecialPage {
 
 	protected function getIPBlockInfo( $ip ) {
 		static $blocklist;
-		$blocklist = SpecialPage::getTitleFor( 'Ipblocklist' );
+		$blocklist = SpecialPage::getTitleFor( 'BlockList' );
 		$block = new Block();
 		$block->fromMaster( false ); // use slaves
 		if ( $block->load( $ip, 0 ) ) {
@@ -1032,7 +1032,7 @@ class CheckUser extends SpecialPage {
 	protected function userBlockFlags( $ip, $userId, $user ) {
 		static $logs, $blocklist;
 		$logs = SpecialPage::getTitleFor( 'Log' );
-		$blocklist = SpecialPage::getTitleFor( 'Ipblocklist' );
+		$blocklist = SpecialPage::getTitleFor( 'BlockList' );
 		$block = new Block();
 		$block->fromMaster( false ); // use slaves
 		$flags = array();
