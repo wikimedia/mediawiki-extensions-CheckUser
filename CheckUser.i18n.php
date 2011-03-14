@@ -1591,7 +1591,7 @@ IP-Adressen werden für eine Woche gesperrt (nur für unangemeldete Benutzer, di
 	'checkuser-search-form' => 'Suche Logbucheinträge, bei denen $1 $2 ist.',
 	'checkuser-search-submit' => 'Suche',
 	'checkuser-search-initiator' => 'CheckUser-Berechtigter',
-	'checkuser-search-target' => 'Abfrageziel (Benutzerkonto/IP)',
+	'checkuser-search-target' => 'Abfrageziel (Benutzerkonto/ IP-Adresse)',
 	'checkuser-ipeditcount' => '~ $1 von allen Benutzern',
 	'checkuser-log-subpage' => 'Logbuch',
 	'checkuser-log-return' => 'Zurück zum CheckUser-Hauptformular',
@@ -6644,9 +6644,9 @@ $messages['stq'] = array(
 	blw. do Beoarbaidengen/Benutsernoomen foar ne IP-Adresse fäästtoustaalen. Benutsere un
 Beoarbaidengen fon ne IP-Adresse konnen uk ätter Informatione uut do XFF-Headere
 	oufräiged wäide, as an ju IP-Adresse n „/xff“ anhonged wäd. (CIDR 16-32) un IPv6 (CIDR 96-128) wäide unnerstutsed.
-	Uut Perfomance-Gruunde wäide maximoal 5000 Beoarbaidengen uutroat. Benutsje CheckUser bloot in Uureenstämmenge mäd do Doatenschutsgjuchtlienjen.',
+	Uut Perfomance-Gruunde wäide maximoal 5000 Beoarbaidengen uutroat. Benutsje CheckUser bloot in Uureenstämmenge mäd do Doatenskutsgjuchtlienjen.',
 	'checkuser-desc' => 'Ferlööwet Benutsere mäd do äntspreekende Gjuchte do IP-Adressen as uk wiedere Informatione fon Benutsere tou wröigjen.',
-	'checkuser-logcase' => 'Ju Säike in dät Logbouk unnerschat twiske Groot- un Littikschrieuwen.',
+	'checkuser-logcase' => 'Ju Säike in dät Logbouk unnerskat twiske Groot- un Littikskrieuwen.',
 	'checkuser' => 'Checkuser',
 	'checkuser-contribs' => 'IP-Adrässen Benutser wröigje',
 	'group-checkuser' => 'Checkusers',
