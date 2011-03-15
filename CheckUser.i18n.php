@@ -5304,10 +5304,11 @@ Vaquí un extrach de las IP utilizadas ({{formatnum:5000}} maximum, triadas per 
 
 /** Oriya (ଓଡ଼ିଆ)
  * @author Jose77
+ * @author Psubhashish
  */
 $messages['or'] = array(
 	'checkuser-search' => 'ସନ୍ଧାନ',
-	'checkuser-search-submit' => 'ସନ୍ଧାନ',
+	'checkuser-search-submit' => 'ଖୋଜିବା',
 );
 
 /** Ossetic (Иронау)
