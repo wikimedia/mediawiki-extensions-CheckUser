@@ -5583,10 +5583,10 @@ O uso desta ferramenta deverá respeitar as normas e recomendações.',
 	'checkuser-all' => 'todos',
 	'checkuser-cidr-label' => 'Encontrar intervalo comum e endereços afetados para uma lista de IPs',
 	'checkuser-cidr-res' => 'CIDR comum:',
-	'checkuser-empty' => 'O registo não contém itens.',
+	'checkuser-empty' => 'O registo não contém entradas.',
 	'checkuser-nomatch' => 'Não foram encontrados resultados.',
-	'checkuser-nomatch-edits' => 'Nenhum resultado encontrado.
-A última edição foi em $1 às $2.',
+	'checkuser-nomatch-edits' => 'Não foi encontrado nenhum resultado.
+A última edição foi a $1 às $2.',
 	'checkuser-check' => 'Verificar',
 	'checkuser-log-fail' => 'Não foi possível adicionar entradas ao registo',
 	'checkuser-nolog' => 'Não foi encontrado nenhum ficheiro de registos.',
