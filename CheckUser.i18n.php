@@ -4825,11 +4825,12 @@ $messages['myv'] = array(
 
 /** Nahuatl (Nāhuatl)
  * @author Fluence
+ * @author Teòtlalili
  */
 $messages['nah'] = array(
 	'checkuser-reason' => 'Īxtlamatiliztli:',
-	'checkuser-search' => 'Tlatēmōz',
-	'checkuser-search-submit' => 'Tlatēmōz',
+	'checkuser-search' => 'Motèmòs',
+	'checkuser-search-submit' => 'Motèmòs',
 );
 
 /** Neapolitan (Nnapulitano) */
