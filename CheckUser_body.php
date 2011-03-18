@@ -296,7 +296,7 @@ class CheckUser extends SpecialPage {
 			$usertalk = new Article( $userTalkTitle );
 			$safeUsers[] = '[[' . $userTitle->getPrefixedText() . '|' . $userTitle->getText() . ']]';
 			$expirestr = $u->getId() ? 'indefinite' : '1 week';
-			$expiry = Block::parseExpiryInput( $expirestr );
+			$expiry = SpecialBlock::parseExpiryInput( $expirestr );
 			$anonOnly = IP::isIPAddress( $u->getName() ) ? 1 : 0;
 			// Create the block
 			$block = new Block( $u->getName(), // victim
