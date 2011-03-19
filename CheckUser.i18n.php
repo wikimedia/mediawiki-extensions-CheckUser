@@ -4947,6 +4947,14 @@ Hieronder staon de gebruken IP-aderssen (maximaal 5.000, op IP-adres econtreleer
 	'checkuser-search-target' => 'onderwarp',
 );
 
+/** Nepali (नेपाली)
+ * @author Bhawani Gautam Rhk
+ */
+$messages['ne'] = array(
+	'checkuser-search' => 'खोज्ने',
+	'checkuser-log-userips' => '$2को लागि $1 आइ पी ठेगाना पाइयो',
+);
+
 /** Dutch (Nederlands)
  * @author Erwin
  * @author SPQRobin
