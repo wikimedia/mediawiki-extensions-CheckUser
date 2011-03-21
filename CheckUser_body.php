@@ -298,21 +298,20 @@ class CheckUser extends SpecialPage {
 			$expirestr = $u->getId() ? 'indefinite' : '1 week';
 			$expiry = SpecialBlock::parseExpiryInput( $expirestr );
 			$anonOnly = IP::isIPAddress( $u->getName() ) ? 1 : 0;
+
 			// Create the block
-			$block = new Block( $u->getName(), // victim
-				$u->getId(), // uid
-				$wgUser->getId(), // blocker
-				$reason, // comment
-				wfTimestampNow(), // block time
-				0, // auto ?
-				$expiry, // duration
-				$anonOnly, // anononly?
-				1, // block account creation?
-				1, // autoblocking?
-				0, // suppress name?
-				0 // block from sending email?
-			);
-			$oldblock = Block::newFromDB( $u->getName(), $u->getId() );
+			$block = new Block();
+			$block->setTarget( $u );
+			$block->setBlocker( $wgUser );
+			$block->mReason = $reason;
+			$block->mExpiry = $expiry;
+			$block->isHardblock( !IP::isIPAddress( $u->getName() ) );
+			$block->isAutoblocking( true );
+			$block->prevents( 'createaccount', true );
+			$block->prevents( 'sendemail', false );
+			$block->prevents( 'editownusertalk', false );
+
+			$oldblock = Block::newFromTarget( $u->getName() );
 			if( !$oldblock ) {
 				$block->insert();
 				# Prepare log parameters
@@ -498,24 +497,30 @@ class CheckUser extends SpecialPage {
 	}
 
 	protected function getIPBlockInfo( $ip ) {
-		static $blocklist;
-		$blocklist = SpecialPage::getTitleFor( 'BlockList' );
-		$block = new Block();
-		$block->fromMaster( false ); // use slaves
-		if ( $block->load( $ip, 0 ) ) {
-			if ( IP::isIPAddress( $block->mAddress ) && strpos( $block->mAddress, '/' ) ) {
-				$userpage = Title::makeTitle( NS_USER, $block->mAddress );
-				$blocklog = $this->sk->makeKnownLinkObj( $logs, wfMsgHtml( 'checkuser-blocked' ),
-					'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
-				return ' <strong>(' . $blocklog . ' - ' . $block->mAddress . ')</strong>';
-			} elseif ( $block->mAuto ) {
-				$blocklog = $this->sk->makeKnownLinkObj( $blocklist, wfMsgHtml( 'checkuser-blocked' ),
-					'ip=' . urlencode( "#$block->mId" ) );
+		$block = Block::newFromTarget( null, $ip, false );
+		if ( $block instanceof Block ) {
+			if ( $block->getType() == Block::TYPE_RANGE ) {
+				$userpage = Title::makeTitle( NS_USER, $block->getTarget() );
+				$blocklog = $this->sk->makeKnownLinkObj(
+					SpecialPage::getTitleFor( 'Log' ),
+					wfMsgHtml( 'checkuser-blocked' ),
+					'type=block&page=' . urlencode( $userpage->getPrefixedText() )
+				);
+				return ' <strong>(' . $blocklog . ' - ' . $block->getTarget() . ')</strong>';
+			} elseif ( $block->getType() == Block::TYPE_AUTO ) {
+				$blocklog = $this->sk->makeKnownLinkObj(
+					SpecialPage::getTitleFor( 'BlockList' ),
+					wfMsgHtml( 'checkuser-blocked' ),
+					'ip=' . urlencode( "#{$block->getId()}" )
+				);
 				return ' <strong>(' . $blocklog . ')</strong>';
 			} else {
-				$userpage = Title::makeTitle( NS_USER, $ip );
-				$blocklog = $this->sk->makeKnownLinkObj( $logs, wfMsgHtml( 'checkuser-blocked' ),
-					'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
+				$userpage = Title::makeTitle( NS_USER, $block->getTarget() );
+				$blocklog = $this->sk->makeKnownLinkObj(
+					SpecialPage::getTitleFor( 'Log' ),
+					wfMsgHtml( 'checkuser-blocked' ),
+					'type=block&page=' . urlencode( $userpage->getPrefixedText() )
+				);
 				return ' <strong>(' . $blocklog . ')</strong>';
 			}
 		}
@@ -1033,25 +1038,33 @@ class CheckUser extends SpecialPage {
 		static $logs, $blocklist;
 		$logs = SpecialPage::getTitleFor( 'Log' );
 		$blocklist = SpecialPage::getTitleFor( 'BlockList' );
-		$block = new Block();
-		$block->fromMaster( false ); // use slaves
+		$block = Block::newFromTarget( $user, $ip, false );
 		$flags = array();
-		if ( $block->load( $ip, $userId ) ) {
+		if ( $block instanceof Block ) {
 			// Range blocked?
-			if ( IP::isIPAddress( $block->mAddress ) && strpos( $block->mAddress, '/' ) ) {
-				$userpage = Title::makeTitle( NS_USER, $block->mAddress );
-				$blocklog = $this->sk->makeKnownLinkObj( $logs, wfMsgHtml( 'checkuser-blocked' ),
-					'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
-				$flags[] = '<strong>(' . $blocklog . ' - ' . $block->mAddress . ')</strong>';
+			if ( $block->getType == Block::TYPE_RANGE ) {
+				$userpage = Title::makeTitle( NS_USER, $block->getTarget() );
+				$blocklog = $this->sk->makeKnownLinkObj(
+					$logs,
+					wfMsgHtml( 'checkuser-blocked' ),
+					'type=block&page=' . urlencode( $userpage->getPrefixedText() )
+				);
+				$flags[] = '<strong>(' . $blocklog . ' - ' . $block->getTarget() . ')</strong>';
 			// Auto blocked?
-			} elseif ( $block->mAuto ) {
-				$blocklog = $this->sk->makeKnownLinkObj( $blocklist,
-					wfMsgHtml( 'checkuser-blocked' ), 'ip=' . urlencode( "#{$block->mId}" ) );
+			} elseif ( $block->getType() == Block::TYPE_AUTO ) {
+				$blocklog = $this->sk->makeKnownLinkObj(
+					$blocklist,
+					wfMsgHtml( 'checkuser-blocked' ),
+					'ip=' . urlencode( "#{$block->getId()}" )
+				);
 				$flags[] = '<strong>(' . $blocklog . ')</strong>';
 			} else {
 				$userpage = $user->getUserPage();
-				$blocklog = $this->sk->makeKnownLinkObj( $logs, wfMsgHtml( 'checkuser-blocked' ),
-					'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
+				$blocklog = $this->sk->makeKnownLinkObj(
+					$logs,
+					wfMsgHtml( 'checkuser-blocked' ),
+					'type=block&page=' . urlencode( $userpage->getPrefixedText() )
+				);
 				$flags[] = '<strong>(' . $blocklog . ')</strong>';
 			}
 		// IP that is blocked on all wikis?
