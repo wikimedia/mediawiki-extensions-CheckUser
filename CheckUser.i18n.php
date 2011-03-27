@@ -5317,7 +5317,7 @@ Vaquí un extrach de las IP utilizadas ({{formatnum:5000}} maximum, triadas per 
  * @author Psubhashish
  */
 $messages['or'] = array(
-	'checkuser-search' => 'ସନ୍ଧାନ',
+	'checkuser-search' => 'ଖୋଜିବା',
 	'checkuser-search-submit' => 'ଖୋଜିବା',
 );
 
