@@ -1183,7 +1183,7 @@ Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Reco
 	'group-checkuser' => 'Checkusers',
 	'group-checkuser-member' => 'CheckUser',
 	'right-checkuser' => 'Comprovar les adreces IP i altra informació dels usuaris',
-	'right-checkuser-log' => 'Vegeu el registre de checkuser',
+	'right-checkuser-log' => 'Veure el registre de checkuser',
 	'grouppage-checkuser' => '{{ns:project}}:Checkuser',
 	'checkuser-reason' => 'Motiu:',
 	'checkuser-showlog' => 'Mostra registre',
