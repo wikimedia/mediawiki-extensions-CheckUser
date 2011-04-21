@@ -606,7 +606,7 @@ Les direiciones IP van ser bloquiaes 1 selmana namái pa usuarios IP y cola crea
 Estes son les IPs usaes (5000 max, axeitaes por direición):",
 	'checkuser-user-nonexistent' => "L'usuariu especificáu nun esiste.",
 	'checkuser-search-form' => 'Atopar les entraes de rexistru onde $1 ye $2',
-	'checkuser-search-submit' => 'Buscar',
+	'checkuser-search-submit' => 'Guetar',
 	'checkuser-search-initiator' => 'aniciador',
 	'checkuser-search-target' => 'oxetivu',
 	'checkuser-ipeditcount' => '~$1 de tolos usuarios',
