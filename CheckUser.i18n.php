@@ -4144,7 +4144,7 @@ Donn op de Räjelle för dat Werrkzeuch obach jevve, un et nit bruche, wann De n
 	'checkuser-users' => 'Metmaacher holle!',
 	'checkuser-edits' => 'Änderonge holle!',
 	'checkuser-ips' => 'IP-Addresse holle!',
-	'checkuser-search' => 'Sööke',
+	'checkuser-search' => 'Söhke',
 	'checkuser-period' => 'Dor:',
 	'checkuser-week-1' => 'letz Woch',
 	'checkuser-week-2' => 'de letzte zwei Woche',
