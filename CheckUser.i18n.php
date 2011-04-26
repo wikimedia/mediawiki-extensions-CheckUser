@@ -955,6 +955,7 @@ $messages['bg'] = array(
 
 /** Bengali (বাংলা)
  * @author Bellayet
+ * @author Wikitanvir
  * @author Zaheen
  */
 $messages['bn'] = array(
@@ -965,14 +966,14 @@ IPv4 (CIDR 16-32) এবং IPv6 (CIDR 96-128) এই সরঞ্জামে �
 	'checkuser-desc' => 'যথাযথ অনুমোদনপ্রাপ্ত ব্যবহারকারীদেরকে অন্য ব্যবহারকারীদের আইপি ঠিকানা এবং অন্যান্য তথ্য পরীক্ষা করার ক্ষমতা দেয়',
 	'checkuser-logcase' => 'লগ অনুসন্ধান বড়/ছোট হাতের অক্ষরের উপর নির্ভরশীল',
 	'checkuser' => 'ব্যবহারকারী পরীক্ষণ',
-	'group-checkuser' => 'ব্যবহারকারীসমূহ পরীক্ষণ',
-	'group-checkuser-member' => 'ব্যবহারকারী পরীক্ষণ',
+	'group-checkuser' => 'ব্যবহারকারী পরীক্ষক',
+	'group-checkuser-member' => 'ব্যবহারকারী পরীক্ষক',
 	'grouppage-checkuser' => '{{ns:project}}:ব্যবহারকারী পরীক্ষণ',
 	'checkuser-reason' => 'কারণ:',
 	'checkuser-showlog' => 'লগ দেখাও',
-	'checkuser-log' => 'CheckUser লগ',
+	'checkuser-log' => 'ব্যবহারকারী পরীক্ষণ লগ',
 	'checkuser-query' => 'সাম্প্রতিক পরিবর্তনসমূহ জানুন',
-	'checkuser-target' => 'আইপি (IP) ঠিকানা অথবা ব্যবহারকারীর নাম:',
+	'checkuser-target' => 'আইপি ঠিকানা বা ব্যবহারকারীর নাম:',
 	'checkuser-users' => 'ব্যবহারকারী সমূহ পাওয়া যাবে',
 	'checkuser-edits' => 'আইপি থেকে সম্পাদনাসমূহ পাওয়া যাবে',
 	'checkuser-ips' => 'আইপি সমূহ পাওয়া যাবে',
@@ -5887,9 +5888,11 @@ $messages['roa-tara'] = array(
 	'group-checkuser' => 'Utinde verificature',
 	'group-checkuser-member' => 'Utende verificatore',
 	'right-checkuser' => "Condrolle le 'nderizze IP de le utinde e otre 'mbormazziune",
+	'right-checkuser-log' => "Vide l'archivije de le checkuser",
 	'grouppage-checkuser' => '{{ns:project}}:Utende ca verifiche',
 	'checkuser-reason' => 'Mutive:',
 	'checkuser-showlog' => "Fà vedè l'archivije",
+	'checkuser-log' => 'Archivije de le CheckUser',
 	'checkuser-query' => "Inderroghe l'urteme cangiaminde",
 	'checkuser-target' => 'Indirizze IP o utende:',
 	'checkuser-users' => "Pigghje l'utende",
