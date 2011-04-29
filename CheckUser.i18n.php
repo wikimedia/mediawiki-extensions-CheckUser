@@ -646,10 +646,12 @@ $messages['avk'] = array(
 );
 
 /** Azerbaijani (Azərbaycanca)
+ * @author Cekli829
  * @author Emperyan
  * @author PPerviz
  */
 $messages['az'] = array(
+	'checkuser-reason' => 'Səbəb:',
 	'checkuser-log' => 'Nəzarətçi qeydi',
 	'checkuser-search' => 'Axtar',
 	'checkuser-log-fail' => 'Gündəlik girdilər əlavə etilemiyor.',
