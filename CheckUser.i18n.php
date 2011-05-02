@@ -1395,7 +1395,7 @@ $messages['csb'] = array(
  */
 $messages['cu'] = array(
 	'checkuser-target' => 'IP число или по́льꙃєватєлꙗ и́мѧ :',
-	'checkuser-search' => 'иска́ниѥ',
+	'checkuser-search' => 'исканиѥ',
 	'checkuser-search-submit' => 'ищи́',
 );
 
