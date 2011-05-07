@@ -5334,10 +5334,13 @@ Vaquí un extrach de las IP utilizadas ({{formatnum:5000}} maximum, triadas per 
 
 /** Oriya (ଓଡ଼ିଆ)
  * @author Jose77
+ * @author Odisha1
  * @author Psubhashish
  */
 $messages['or'] = array(
+	'checkuser-reason' => 'କାରଣ:',
 	'checkuser-search' => 'ଖୋଜିବା',
+	'checkuser-all' => 'ସବୁ',
 	'checkuser-search-submit' => 'ଖୋଜିବା',
 );
 
