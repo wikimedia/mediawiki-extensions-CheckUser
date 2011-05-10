@@ -1354,7 +1354,7 @@ class CheckUser extends SpecialPage {
 		$wgOut->addHTML( $s );
 
 		if ( $error !== false ) {
-			$wgOut->addWikiText( '<div class="errorbox">' . wfMsg( $error ) . '</div>' );
+			$wgOut->wrapWikiMsg( '<div class="errorbox">$1</div>', $error );
 			return;
 		}
 
