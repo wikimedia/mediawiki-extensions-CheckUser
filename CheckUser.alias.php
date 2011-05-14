@@ -8,9 +8,7 @@
 
 $specialPageAliases = array();
 
-/** English
- * @author Jon Harald Søby
- */
+/** English (English) */
 $specialPageAliases['en'] = array(
 	'CheckUser' => array( 'CheckUser' ),
 );
@@ -92,7 +90,7 @@ $specialPageAliases['frp'] = array(
 
 /** Galician (Galego) */
 $specialPageAliases['gl'] = array(
-	'CheckUser' => array( 'Verificador de usuarios' ),
+	'CheckUser' => array( 'Verificador_de_usuarios' ),
 );
 
 /** Swiss German (Alemannisch) */
@@ -118,6 +116,11 @@ $specialPageAliases['hr'] = array(
 /** Upper Sorbian (Hornjoserbsce) */
 $specialPageAliases['hsb'] = array(
 	'CheckUser' => array( 'Kontrolny_wužiwar' ),
+);
+
+/** 湘语 (湘语) */
+$specialPageAliases['hsn'] = array(
+	'CheckUser' => array( '检查用户' ),
 );
 
 /** Haitian (Kreyòl ayisyen) */
@@ -235,6 +238,11 @@ $specialPageAliases['sk'] = array(
 	'CheckUser' => array( 'SkontrolovaťPoužívateľa' ),
 );
 
+/** Albanian (Shqip) */
+$specialPageAliases['sq'] = array(
+	'CheckUser' => array( 'KontrolloPërdorues' ),
+);
+
 /** Swahili (Kiswahili) */
 $specialPageAliases['sw'] = array(
 	'CheckUser' => array( 'MtumiajiMwangalizi' ),
@@ -252,7 +260,7 @@ $specialPageAliases['tl'] = array(
 
 /** Turkish (Türkçe) */
 $specialPageAliases['tr'] = array(
-	'CheckUser' => array( 'Denetçi' ),
+	'CheckUser' => array( 'Denetçi', 'KullanıcıDenetle' ),
 );
 
 /** Vèneto (Vèneto) */
@@ -263,6 +271,11 @@ $specialPageAliases['vec'] = array(
 /** Veps (Vepsan kel') */
 $specialPageAliases['vep'] = array(
 	'CheckUser' => array( 'KodvdaKävutajad' ),
+);
+
+/** Vietnamese (Tiếng Việt) */
+$specialPageAliases['vi'] = array(
+	'CheckUser' => array( 'Kiểm_tra_người_dùng' ),
 );
 
 /** Simplified Chinese (‪中文(简体)‬) */
