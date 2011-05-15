@@ -6500,6 +6500,14 @@ Tukaj so uporabljeni IP-ju (največ 5000, razvrščeni po naslovu):',
 	'checkuser-reset-action' => 'ponastavi geslo uporabnika »$1«',
 );
 
+/** Somali (Soomaaliga)
+ * @author Maax
+ */
+$messages['so'] = array(
+	'checkuser-search' => 'Raadi',
+	'checkuser-search-submit' => 'Raadi',
+);
+
 /** Albanian (Shqip)
  * @author Dori
  */
@@ -6917,13 +6925,14 @@ $messages['szl'] = array(
 
 /** Tamil (தமிழ்)
  * @author Karthi.dr
+ * @author Sodabottle
  * @author TRYPPN
  * @author Trengarasu
  * @author செல்வா
  */
 $messages['ta'] = array(
 	'checkuser' => 'பயனரை கவனி',
-	'group-checkuser' => 'பயனர்களை கவனி',
+	'group-checkuser' => 'பயனர் சோதனை',
 	'group-checkuser-member' => 'பயனரை சரிபார்க்கவும்',
 	'checkuser-reason' => 'காரணம்:',
 	'checkuser-search' => 'தேடுக',
