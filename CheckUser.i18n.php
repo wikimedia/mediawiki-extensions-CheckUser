@@ -87,6 +87,7 @@ Here are the IPs used (5000 max, sorted by address):',
 	'checkuser-log-useredits'    => '$1 got edits for $2',
 
 	'checkuser-autocreate-action' => 'was automatically created',
+	'checkuser-create-action' => 'was created',
 	'checkuser-email-action'     => 'sent an email to user "$1"',
 	'checkuser-reset-action'     => 'reset password for user "$1"',
 

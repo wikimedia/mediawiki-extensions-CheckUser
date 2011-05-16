@@ -65,6 +65,7 @@ $wgHooks['RecentChange_save'][] = 'efUpdateCheckUserData';
 $wgHooks['EmailUser'][] = 'efUpdateCUEmailData';
 $wgHooks['User::mailPasswordInternal'][] = 'efUpdateCUPasswordResetData';
 $wgHooks['AuthPluginAutoCreate'][] = 'efUpdateAutoCreateData';
+$wgHooks['AddNewAccount'][] = 'efAddNewAccount';
 
 $wgHooks['ParserTestTables'][] = 'efCheckUserParserTestTables';
 $wgHooks['LoadExtensionSchemaUpdates'][] = 'efCheckUserSchemaUpdates';
@@ -236,8 +237,21 @@ function efUpdateCUEmailData( $to, $from, $subject, $text ) {
 /**
  * Hook function to store autocreation data from the auth plugin
  * Saves user data into the cu_changes table
+ *
+ * @param $user User
+ *
+ * @return true
  */
 function efUpdateAutoCreateData( $user ) {
+	return efLogUserAccountCreation( $user, 'checkuser-autocreate-action' );
+}
+
+/**
+ * @param $user User
+ * @param $actiontext string
+ * @return bool
+ */
+function efLogUserAccountCreation( $user, $actiontext ) {
 	// Get IP
 	$ip = wfGetIP();
 	// Get XFF header
@@ -257,7 +271,7 @@ function efUpdateAutoCreateData( $user ) {
 		'cuc_minor'      => 0,
 		'cuc_user'       => $user->getId(),
 		'cuc_user_text'  => $user->getName(),
-		'cuc_actiontext' => wfMsgForContent( 'checkuser-autocreate-action' ),
+		'cuc_actiontext' => wfMsgForContent( $actiontext ),
 		'cuc_comment'    => '',
 		'cuc_this_oldid' => 0,
 		'cuc_last_oldid' => 0,
@@ -272,6 +286,18 @@ function efUpdateAutoCreateData( $user ) {
 	$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
 
 	return true;
+}
+
+/**
+ * Hook function to store registration data
+ * Saves user data into the cu_changes table
+ *
+ * @param $user User
+ * @param $byEmail bool
+ * @return bool
+ */
+function efAddNewAccount( $user, $byEmail ) {
+	return efLogUserAccountCreation( $user, 'checkuser-create-action' );
 }
 
 /**
