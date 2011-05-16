@@ -1559,7 +1559,7 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 $messages['de'] = array(
 	'checkuser-summary' => 'Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers bzw. die Bearbeitungen/Benutzernamen für eine IP-Adresse zu ermitteln. Benutzer und Bearbeitungen einer IP-Adresse können auch nach Informationen aus den XFF-Headern abgefragt werden, indem der IP-Adresse ein „/xff“ angehängt wird. IPv4 (CIDR 16-32) und IPv6 (CIDR 96-128) werden unterstützt.
 Aus Performance-Gründen werden maximal 5000 Bearbeitungen ausgegeben. Benutze CheckUser ausschließlich in Übereinstimmung mit den Datenschutzrichtlinien.',
-	'checkuser-desc' => 'Erlaubt Benutzern mit den entsprechenden Rechten die IP-Adressen sowie weitere Informationen von Benutzern zu prüfen',
+	'checkuser-desc' => 'Ermöglicht die Überprüfung von IP-Adressen sowie weiterer Informationen von Benutzern',
 	'checkuser-logcase' => 'Die Suche im Logbuch unterscheidet zwischen Groß- und Kleinschreibung.',
 	'checkuser' => 'Checkuser',
 	'checkuser-contribs' => 'IP-Adressen von Benutzer prüfen',
@@ -1624,6 +1624,7 @@ IP-Adressen werden für eine Woche gesperrt (nur für unangemeldete Benutzer, di
 	'checkuser-log-ipusers-xff' => '$1 holte Benutzer für XFF $2',
 	'checkuser-log-useredits' => '$1 holte Bearbeitungen für $2',
 	'checkuser-autocreate-action' => 'automatisch erstellt',
+	'checkuser-create-action' => 'wurde erstellt',
 	'checkuser-email-action' => 'sendete E-Mail an „$1“',
 	'checkuser-reset-action' => 'Anforderung eines neuen Passwortes für „Benutzer:$1“',
 );
@@ -3300,6 +3301,7 @@ Ecce le IPs usate (max. 5000, ordinate per adresse):',
 	'checkuser-log-ipusers-xff' => '$1 obteneva usatores pro XFF $2',
 	'checkuser-log-useredits' => '$1 obteneva modificationes de $2',
 	'checkuser-autocreate-action' => 'ha essite create automaticamente',
+	'checkuser-create-action' => 'ha essite create',
 	'checkuser-email-action' => 'inviava un e-mail al usator "$1"',
 	'checkuser-reset-action' => 'redefiniva contrasigno pro usator "$1"',
 );
