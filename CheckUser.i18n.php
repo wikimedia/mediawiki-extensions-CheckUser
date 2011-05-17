@@ -442,6 +442,7 @@ $messages['ar'] = array(
 );
 
 /** Aramaic (ܐܪܡܝܐ)
+ * @author 334a
  * @author Basharh
  */
 $messages['arc'] = array(
@@ -450,7 +451,7 @@ $messages['arc'] = array(
 	'checkuser-search' => 'ܒܨܝܐ',
 	'checkuser-week-1' => 'ܫܒܘܥܐ ܐܚܪܝܐ',
 	'checkuser-week-2' => 'ܬܪܝܢ ܫܒܘܥ̈ܐ ܐܚܪ̈ܝܐ',
-	'checkuser-month' => 'ܬܠܬܝܢ ܝܘܡܬ̈ܐ ܐܚܪ̈ܝܬܐ',
+	'checkuser-month' => 'ܬܠܬܝܢ ܝܘܡܬ̈ܐ ܐܚܪ̈ܝܐ',
 	'checkuser-all' => 'ܟܠ',
 	'checkuser-blocked' => 'ܚܪܝܡܐ',
 	'checkuser-locked' => 'ܩܦܝܠܐ',
@@ -2437,6 +2438,7 @@ Voici un extrait des IP utilisées ({{formatnum:5000}} maximum, triées par adre
 	'checkuser-log-ipusers-xff' => '$1 a obtenu des utilisateurs à l’adresse XFF $2',
 	'checkuser-log-useredits' => '$1 a obtenu des modifications par $2',
 	'checkuser-autocreate-action' => 'a été créé automatiquement',
+	'checkuser-create-action' => 'a été créé',
 	'checkuser-email-action' => 'a envoyé un courriel à l’utilisateur « $1 »',
 	'checkuser-reset-action' => 'réinitialise le mot de passe de l’utilisateur « $1 »',
 );
@@ -3313,6 +3315,7 @@ Ecce le IPs usate (max. 5000, ordinate per adresse):',
  * @author Irwangatot
  * @author IvanLanin
  * @author Iwan Novirion
+ * @author Kenrick95
  * @author Rex
  */
 $messages['id'] = array(
@@ -3386,6 +3389,7 @@ Alamat-alamat IP akan diblokir selama 1 minggu untuk pengguna anonim dan tidak d
 	'checkuser-log-ipusers-xff' => '$1 melihat nama pengguna dari XFF $2',
 	'checkuser-log-useredits' => '$1 memiliki suntingan-suntingan untuk $2',
 	'checkuser-autocreate-action' => 'dibuat secara otomatis',
+	'checkuser-create-action' => 'dibuat',
 	'checkuser-email-action' => 'mengirimkan surel ke "$1"',
 	'checkuser-reset-action' => 'Set ulang kata sandi pengguna "$1"',
 );
@@ -4591,6 +4595,7 @@ IP-адресите ќе бидат блокирани 1 недела за са�
 	'checkuser-log-ipusers-xff' => '$1 добил(а) корисници за XFF $2',
 	'checkuser-log-useredits' => '$1 добил(а) уредувања за $2',
 	'checkuser-autocreate-action' => 'беше автоматски создадена',
+	'checkuser-create-action' => 'е создаден',
 	'checkuser-email-action' => 'му испратил(а) е-пошта на корисникот „$1“',
 	'checkuser-reset-action' => 'смени лозинка за корисникот „$1“',
 );
@@ -4671,6 +4676,7 @@ $messages['ml'] = array(
 	'checkuser-log-ipusers-xff' => '$1നു XFF $2ൽ ഉപയോക്താക്കൾ ഉണ്ട്',
 	'checkuser-log-useredits' => '$2 നടത്തിയ തിരുത്തലുകൾ $1 പിടിച്ചിരിക്കുന്നു',
 	'checkuser-autocreate-action' => 'സ്വയം സൃഷ്ടിച്ചതാണ്',
+	'checkuser-create-action' => 'സൃഷ്ടിച്ചിരിക്കുന്നു',
 	'checkuser-email-action' => '"$1" എന്ന ഉപയോക്താവിന് ഇമെയിൽ അയച്ചുകഴിഞ്ഞു',
 	'checkuser-reset-action' => '"$1" എന്ന ഉപയോക്താവിന്റെ രഹസ്യവാക്ക് പുനഃക്രമീകരിക്കുക',
 );
@@ -5057,6 +5063,7 @@ Hieronder worden de gebruikte IP-adressen weergegeven (maximaal 5000, op IP-adre
 	'checkuser-log-ipusers-xff' => '$1 heeft de gebruikers van XFF $2 opgevraagd',
 	'checkuser-log-useredits' => '$1 heeft de bewerkingen door $2 opgevraagd',
 	'checkuser-autocreate-action' => 'is automatisch aangemaakt',
+	'checkuser-create-action' => 'is aangemaakt',
 	'checkuser-email-action' => 'heeft een e-mail gestuurd aan "$1"',
 	'checkuser-reset-action' => 'heeft het wachtwoord voor gebruiker "$1" opnieuw ingesteld',
 );
@@ -5661,6 +5668,7 @@ Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
 	'checkuser-log-ipusers-xff' => '$1 obteve utilizadores para o XFF $2',
 	'checkuser-log-useredits' => '$1 obteve edições de $2',
 	'checkuser-autocreate-action' => 'foi criada automaticamente',
+	'checkuser-create-action' => 'foi criada',
 	'checkuser-email-action' => 'correio electrónico enviado para o utilizador "$1"',
 	'checkuser-reset-action' => 'foi reiniciada a palavra-chave do utilizador "$1"',
 );
@@ -5743,6 +5751,7 @@ Endereços IP serão bloqueados por 1 semana com criação de conta desabilitada
 	'checkuser-log-ipusers-xff' => '$1 obteve usuários para o XFF $2',
 	'checkuser-log-useredits' => '$1 obteve edições de $2',
 	'checkuser-autocreate-action' => 'foi automaticamente criada',
+	'checkuser-create-action' => 'foi criada',
 	'checkuser-email-action' => 'Enviar email para o usuário "$1"',
 	'checkuser-reset-action' => 'suprimir a senha do usuário "$1"',
 );
@@ -5891,6 +5900,7 @@ Iată IP-urile folosite (maxim 5000, sortate după adresă):',
 	'checkuser-log-ipusers-xff' => '$1 a verificat conturile lui XFF $2',
 	'checkuser-log-useredits' => '$1 a verificat modificările efectuate de $2',
 	'checkuser-autocreate-action' => 'a fost creat automat',
+	'checkuser-create-action' => 'a fost creat',
 	'checkuser-email-action' => 'trimite email utilizatorului "$1"',
 	'checkuser-reset-action' => 'schimbă parola pentru utilizatorul "$1"',
 );
@@ -6056,6 +6066,7 @@ IP-адреса будут заблокированы на 1 неделю для
 	'checkuser-log-ipusers-xff' => '$1 получил учётные записи для XFF $2',
 	'checkuser-log-useredits' => '$1 получил правки $2',
 	'checkuser-autocreate-action' => 'был создан автоматически',
+	'checkuser-create-action' => 'создан',
 	'checkuser-email-action' => 'отправил письмо участнику «$1»',
 	'checkuser-reset-action' => 'сбросил пароль для участника $1',
 );
@@ -6499,6 +6510,7 @@ Tukaj so uporabljeni IP-ju (največ 5000, razvrščeni po naslovu):',
 	'checkuser-log-ipusers-xff' => '$1 je pridobil(-a) uporabnike XFF $2',
 	'checkuser-log-useredits' => '$1 je pridobil(-a) urejanja $2',
 	'checkuser-autocreate-action' => 'je bil samodejno ustvarjen',
+	'checkuser-create-action' => 'je bil ustvarjen',
 	'checkuser-email-action' => 'pošlji e-pošto uporabniku »$1«',
 	'checkuser-reset-action' => 'ponastavi geslo uporabnika »$1«',
 );
@@ -7725,6 +7737,7 @@ Lần sửa đổi cuối xảy ra $1 lúc $2.',
 	'checkuser-log-ipusers-xff' => '$1 lấy tên thành viên của XFF $2',
 	'checkuser-log-useredits' => '$1 lấy các sửa đổi của $2',
 	'checkuser-autocreate-action' => 'được tạo ra tự động',
+	'checkuser-create-action' => 'được tạo ra',
 	'checkuser-email-action' => 'gửi thư điện tử cho người dùng “$1”',
 	'checkuser-reset-action' => 'tái tạo mật khẩu của người dùng “$1”',
 );
