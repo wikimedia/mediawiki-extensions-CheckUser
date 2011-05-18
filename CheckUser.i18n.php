@@ -881,6 +881,7 @@ $messages['be-tarask'] = array(
 	'checkuser-log-ipusers-xff' => '$1 атрымаў рахункі ўдзельнікаў для XFF $2',
 	'checkuser-log-useredits' => '$1 атрымаў рэдагаваньні для $2',
 	'checkuser-autocreate-action' => 'быў створаны аўтаматычна',
+	'checkuser-create-action' => 'створаны',
 	'checkuser-email-action' => 'даслаць ліст удзельніку «$1»',
 	'checkuser-reset-action' => 'скасаваў пароль для ўдзельніка «$1»',
 );
@@ -1987,6 +1988,7 @@ Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
  * @author Sanbec
  * @author Spacebirdy
  * @author Titoxd
+ * @author VegaDark
  */
 $messages['es'] = array(
 	'checkuser-summary' => 'Esta herramienta explora los cambios recientes para obtener las IPs utilizadas por un usuario o para mostrar la información de ediciones/usuarios de una IP.
@@ -2060,6 +2062,7 @@ Aquí se ven las IPs usadas (máximo 5000, ordenadas según dirección):',
 	'checkuser-log-ipusers-xff' => '$1 obtuvo los usuarios para XFF $2',
 	'checkuser-log-useredits' => '$1 obtuvo las contribuciones de $2',
 	'checkuser-autocreate-action' => 'fue creada automáticamente',
+	'checkuser-create-action' => 'fue creado',
 	'checkuser-email-action' => 'envió correo electrónico al usuario «$1»',
 	'checkuser-reset-action' => 'solicitó un recordatorio de contraseña para el usuario «$1»',
 );
@@ -2695,6 +2698,7 @@ Aquí están os enderezos IP usados (máximo de 5.000, ordenados por enderezo):'
 	'checkuser-log-ipusers-xff' => '$1 obteu os usuarios de XFF $2',
 	'checkuser-log-useredits' => '"$1" obteu as edicións de "$2"',
 	'checkuser-autocreate-action' => 'foi creada automaticamente',
+	'checkuser-create-action' => 'foi creada',
 	'checkuser-email-action' => 'envioulle un correo electrónico ao usuario "$1"',
 	'checkuser-reset-action' => 'envioulle un novo contrasinal ao usuario "$1"',
 );
@@ -2918,6 +2922,7 @@ $messages['he'] = array(
 	'checkuser-log-ipusers-xff' => '$1 בדק את המשתמשים של כתובת ה־XFF $2',
 	'checkuser-log-useredits' => '$1 בדק את העריכות של $2',
 	'checkuser-autocreate-action' => 'נוצר אוטומטית',
+	'checkuser-create-action' => 'נוצר',
 	'checkuser-email-action' => 'שלח דואר אלקטרוני למשתמש "$1"',
 	'checkuser-reset-action' => 'איפס את הסיסמה של המשתמש "$1"',
 );
@@ -3543,6 +3548,7 @@ Di seguito sono indicati gli indirizzi IP utilizzati (fino a un massimo di 5000,
 	'checkuser-log-ipusers-xff' => '$1 ha ottenuto le utenze di $2 via XFF',
 	'checkuser-log-useredits' => '$1 ha ottenuto i contributi di $2',
 	'checkuser-autocreate-action' => 'è stato creato automaticamente',
+	'checkuser-create-action' => 'è stato creato',
 	'checkuser-email-action' => 'ha inviato una e-mail a "$1"',
 	'checkuser-reset-action' => 'reimposta password per l\'utente "$1"',
 );
