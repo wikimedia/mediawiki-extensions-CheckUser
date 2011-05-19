@@ -1180,6 +1180,7 @@ Ovdje su prikazane korištene IP adrese (najviše 5000, poredano po adresi):',
 	'checkuser-log-ipusers-xff' => 'Korisnik $1 je našao korisnike za XFF $2',
 	'checkuser-log-useredits' => '$1 nađene izmjene za $2',
 	'checkuser-autocreate-action' => 'je automatski napravljen',
+	'checkuser-create-action' => 'je napravljen',
 	'checkuser-email-action' => 'slanje e-mail korisniku "$1"',
 	'checkuser-reset-action' => 'poništi šifru za korisnika "$1"',
 );
@@ -1992,7 +1993,7 @@ Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
  */
 $messages['es'] = array(
 	'checkuser-summary' => 'Esta herramienta explora los cambios recientes para obtener las IPs utilizadas por un usuario o para mostrar la información de ediciones/usuarios de una IP.
-También se pueden obtener los usuarios y las ediciones de un cliente IP vía XFF añadiendo "/xff". IPv4 (CIDR 16-32) y IPv6 (CIDR 96-128) funcionan.
+También se pueden obtener los usuarios y las ediciones de un cliente IP vía XFF añadiendo "/xff" al final de la IP. IPv4 (CIDR 16-32) y IPv6 (CIDR 96-128) funcionan.
 No se muestran más de 5000 ediciones por motivos de rendimiento.
 Usa esta herramienta de acuerdo con las políticas correspondientes.',
 	'checkuser-desc' => 'Permite a los usuarios que tienen los permisos apropiados comprobar las direcciones IP de los usuarios además de otra información.',
@@ -5477,6 +5478,7 @@ Użytych adresów IP jest (nie więcej niż 5000, posortowane według adresu):',
 	'checkuser-log-ipusers-xff' => '$1 otrzymał listę użytkowników dla XFF $2',
 	'checkuser-log-useredits' => '$1 otrzymał historię edycji wykonane przez $2',
 	'checkuser-autocreate-action' => 'został automatycznie utworzony',
+	'checkuser-create-action' => 'utworzono',
 	'checkuser-email-action' => 'wysłał e‐mail do użytkownika „$1”',
 	'checkuser-reset-action' => 'reset hasła dla użytkownika „$1”',
 );
