@@ -417,17 +417,24 @@ class CheckUser extends SpecialPage {
 			// FIXME: addWikiMsg
 			$wgOut->addHTML( '<p>' . wfMsgHtml( 'checkuser-log-fail' ) . '</p>' );
 		}
+
 		$dbr = wfGetDB( DB_SLAVE );
 		$time_conds = $this->getTimeConds( $period );
 		# Ordering by the latest timestamp makes a small filesort on the IP list
-		$cu_changes = $dbr->tableName( 'cu_changes' );
-		$use_index = $dbr->useIndexClause( 'cuc_user_ip_time' );
-		$sql = "SELECT cuc_ip,cuc_ip_hex, COUNT(*) AS count,
-			MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last
-			FROM $cu_changes $use_index WHERE cuc_user = $user_id AND $time_conds
-			GROUP BY cuc_ip,cuc_ip_hex ORDER BY last DESC LIMIT 5001";
 
-		$ret = $dbr->query( $sql, __METHOD__ );
+		$ret = $dbr->select(
+			'cu_changes',
+			array( 'cu_ip', 'cu_ip_hex', 'MIN(cuc_timestamp) AS first', 'MAX(cuc_timestamp) AS last' ),
+			array( 'cuc_user' => $user_id, $time_conds ),
+			__METHOD__,
+			array(
+				'ORDER BY' => 'last DESC',
+				'GROUP BY' => 'cuc_ip,cuc_ip_hex',
+				'LIMIT' => 5001,
+				'USE INDEX' => 'cuc_user_ip_time',
+			)
+		);
+
 		if ( !$dbr->numRows( $ret ) ) {
 			$s = $this->noMatchesMessage( $user ) . "\n";
 		} else {
@@ -493,7 +500,6 @@ class CheckUser extends SpecialPage {
 			$s .= '</ul></div>';
 		}
 		$wgOut->addHTML( $s );
-		$dbr->freeResult( $ret );
 	}
 
 	protected function getIPBlockInfo( $ip ) {
@@ -617,7 +623,6 @@ class CheckUser extends SpecialPage {
 				++$counter;
 			}
 			$s .= '</ol>';
-			$dbr->freeResult( $ret );
 
 			$wgOut->addHTML( $s );
 			return;
@@ -660,7 +665,6 @@ class CheckUser extends SpecialPage {
 				++$counter;
 			}
 			$s .= '</ul></div>';
-			$dbr->freeResult( $ret );
 		}
 
 		$wgOut->addHTML( $s );
@@ -750,7 +754,6 @@ class CheckUser extends SpecialPage {
 				$s .= $this->CUChangesLine( $row, $reason );
 			}
 			$s .= '</ul></div>';
-			$dbr->freeResult( $ret );
 
 			$wgOut->addHTML( $s );
 			return;
@@ -781,7 +784,6 @@ class CheckUser extends SpecialPage {
 				$s .= $this->CUChangesLine( $row, $reason );
 			}
 			$s .= '</ul></div>';
-			$dbr->freeResult( $ret );
 		}
 
 		$wgOut->addHTML( $s );
@@ -878,7 +880,6 @@ class CheckUser extends SpecialPage {
 				++$counter;
 			}
 			$s .= '</ol>';
-			$dbr->freeResult( $ret );
 
 			$wgOut->addHTML( $s );
 			return;
@@ -925,7 +926,6 @@ class CheckUser extends SpecialPage {
 					}
 				}
 			}
-			$dbr->freeResult( $ret );
 
 			$action = $this->getTitle()->escapeLocalURL( 'action=block' );
 			$s = "<form name='checkuserblock' id='checkuserblock' action=\"$action\" method='post'>";
