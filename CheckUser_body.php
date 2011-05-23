@@ -423,7 +423,7 @@ class CheckUser extends SpecialPage {
 
 		$ret = $dbr->select(
 			'cu_changes',
-			array( 'cu_ip', 'cu_ip_hex', 'MIN(cuc_timestamp) AS first', 'MAX(cuc_timestamp) AS last' ),
+			array( 'cuc_ip', 'cuc_ip_hex', 'MIN(cuc_timestamp) AS first', 'MAX(cuc_timestamp) AS last' ),
 			array( 'cuc_user' => $user_id, $time_conds ),
 			__METHOD__,
 			array(
