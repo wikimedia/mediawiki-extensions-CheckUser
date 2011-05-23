@@ -121,7 +121,7 @@ class CheckUser extends SpecialPage {
 	protected function preCacheMessages() {
 		// Precache various messages
 		if ( !isset( $this->message ) ) {
-			foreach ( explode( ' ', 'diff hist minoreditletter newpageletter blocklink log' ) as $msg ) {
+			foreach ( array( 'diff', 'hist', 'minoreditletter', 'newpageletter', 'blocklink', 'log' ) as $msg ) {
 				$this->message[$msg] = wfMsgExt( $msg, array( 'escape' ) );
 			}
 		}
@@ -560,7 +560,6 @@ class CheckUser extends SpecialPage {
 
 		$ip_conds = $dbr->makeList( $ip_conds, LIST_AND );
 		$time_conds = $this->getTimeConds( $period );
-		$cu_changes = $dbr->tableName( 'cu_changes' );
 		# Ordered in descent by timestamp. Can cause large filesorts on range scans.
 		# Check how many rows will need sorting ahead of time to see if this is too big.
 		# Also, if we only show 5000, too many will be ignored as well.
@@ -587,7 +586,7 @@ class CheckUser extends SpecialPage {
 		# See what is best to do after testing the waters...
 		if ( isset( $rangecount ) && $rangecount > 5000 ) {
 			$ret = $dbr->select( 'cu_changes',
-				array( 'cuc_ip_hex', 'COUNT(*) AS count', 'MIN(cuc_timestamp) AS first', 'MAX(cuc_timestamp AS last' ),
+				array( 'cuc_ip_hex', 'COUNT(*) AS count', 'MIN(cuc_timestamp) AS first', 'MAX(cuc_timestamp) AS last' ),
 				array( $ip_conds, $time_conds ),
 				__METHOD___,
 				array(
@@ -639,9 +638,10 @@ class CheckUser extends SpecialPage {
 
 		$ret = $dbr->select(
 			'cu_changes',
-			array( 'cuc_namespace','cuc_title', 'cuc_user', 'cuc_user_text', 'cuc_comment', 'cuc_actiontext',
-			'cuc_timestamp', 'cuc_minor', 'cuc_page_id', 'cuc_type', 'cuc_this_oldid',
-			'cuc_last_oldid', 'cuc_ip', 'cuc_xff','cuc_agent'
+			array(
+				'cuc_namespace','cuc_title', 'cuc_user', 'cuc_user_text', 'cuc_comment', 'cuc_actiontext',
+				'cuc_timestamp', 'cuc_minor', 'cuc_page_id', 'cuc_type', 'cuc_this_oldid',
+				'cuc_last_oldid', 'cuc_ip', 'cuc_xff','cuc_agent'
 			),
 			array( $ip_conds, $time_conds ),
 			__METHOD__,
@@ -720,7 +720,6 @@ class CheckUser extends SpecialPage {
 		$dbr = wfGetDB( DB_SLAVE );
 		$user_cond = "cuc_user = '$user_id'";
 		$time_conds = $this->getTimeConds( $period );
-		$cu_changes = $dbr->tableName( '' );
 		# Ordered in descent by timestamp. Causes large filesorts if there are many edits.
 		# Check how many rows will need sorting ahead of time to see if this is too big.
 		# If it is, sort by IP,time to avoid the filesort.
@@ -850,7 +849,6 @@ class CheckUser extends SpecialPage {
 
 		$ip_conds = $dbr->makeList( $ip_conds, LIST_AND );
 		$time_conds = $this->getTimeConds( $period );
-		$cu_changes = $dbr->tableName( 'cu_changes' );
 		$index = $xfor ? 'cuc_xff_hex_time' : 'cuc_ip_hex_time';
 		# Ordered in descent by timestamp. Can cause large filesorts on range scans.
 		# Check how many rows will need sorting ahead of time to see if this is too big.
@@ -874,12 +872,21 @@ class CheckUser extends SpecialPage {
 		}
 		// Are there too many edits?
 		if ( isset( $rangecount ) && $rangecount > 10000 ) {
-			$use_index = $dbr->useIndexClause( $index );
-			$sql = "SELECT cuc_ip_hex, COUNT(*) AS count,
-				MIN(cuc_timestamp) AS first, MAX(cuc_timestamp) AS last
-				FROM $cu_changes $use_index WHERE $ip_conds AND $time_conds
-				GROUP BY cuc_ip_hex ORDER BY cuc_ip_hex LIMIT 5001";
-			$ret = $dbr->query( $sql, __METHOD__ );
+			$ret = $dbr->select(
+				'cu_changes',
+				array(
+					'cuc_ip_hex', 'COUNT(*) AS count',
+					'MIN(cuc_timestamp) AS first', 'MAX(cuc_timestamp) AS last'
+				),
+				array( $ip_conds, $time_conds ),
+				__METHOD__,
+				array(
+					'GROUP BY' => 'cuc_ip_hex',
+					'ORDER BY' => 'cuc_ip_hex',
+					'LIMIT' => 5001,
+					'USE INDEX' => $index,
+				)
+			);
 			# List out each IP that has edits
 			$s = '<h5>' . wfMsg( 'checkuser-too-many' ) . '</h5>';
 			$s .= '<ol>';
@@ -920,18 +927,27 @@ class CheckUser extends SpecialPage {
 
 		global $wgMemc;
 		# OK, do the real query...
-		$use_index = $dbr->useIndexClause( $index );
-		$sql = "SELECT cuc_user_text, cuc_timestamp, cuc_user, cuc_ip, cuc_agent, cuc_xff
-			FROM $cu_changes $use_index WHERE $ip_conds AND $time_conds
-			ORDER BY cuc_timestamp DESC LIMIT 10000";
-		$ret = $dbr->query( $sql, __METHOD__ );
+
+		$ret = $dbr->select(
+			'cu_changes',
+			array(
+				'cuc_user_text', 'cuc_timestamp', 'cuc_user', 'cuc_ip', 'cuc_agent', 'cuc_xff'
+			),
+			array( $ip_conds, $time_conds ),
+			__METHOD__,
+			array(
+				'ORDER BY' => 'cuc_timestamp DESC',
+				'LIMIT' => 10000,
+				'USE INDEX' => $index,
+			)
+		);
 
 		$users_first = $users_last = $users_edits = $users_ids = array();
 		if ( !$dbr->numRows( $ret ) ) {
 			$s = $this->noMatchesMessage( $ip, !$xfor ) . "\n";
 		} else {
 			global $wgAuth;
-			while ( ( $row = $dbr->fetchObject( $ret ) ) != false ) {
+			foreach( $ret as $row ) {
 				if ( !array_key_exists( $row->cuc_user_text, $users_edits ) ) {
 					$users_last[$row->cuc_user_text] = $row->cuc_timestamp;
 					$users_edits[$row->cuc_user_text] = 0;
