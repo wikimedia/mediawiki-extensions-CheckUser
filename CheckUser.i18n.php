@@ -361,6 +361,7 @@ $messages['ang'] = array(
 
 /** Arabic (العربية)
  * @author Alnokta
+ * @author Ciphers
  * @author Meno25
  * @author Mido
  * @author OsamaK
@@ -385,7 +386,7 @@ $messages['ar'] = array(
 	'checkuser-query' => 'فحص أحدث التغييرات',
 	'checkuser-target' => 'عنوان الأيبي أو اسم المستخدم:',
 	'checkuser-users' => 'اعرض المستخدمين',
-	'checkuser-edits' => 'اعرض التعديلات من الأيبي',
+	'checkuser-edits' => 'الحصول على التعديلات',
 	'checkuser-ips' => 'اعرض الأيبيهات',
 	'checkuser-search' => 'ابحث',
 	'checkuser-period' => 'المدة:',
@@ -437,6 +438,7 @@ $messages['ar'] = array(
 	'checkuser-log-ipusers-xff' => '$1 حصل على المستخدمين للإكس إف إف $2',
 	'checkuser-log-useredits' => '$1 حصل على تعديلات $2',
 	'checkuser-autocreate-action' => 'تم إنشاؤه تلقائيا',
+	'checkuser-create-action' => 'تم إنشاؤه',
 	'checkuser-email-action' => 'أرسل بريدا إلكترونيا إلى "$1"',
 	'checkuser-reset-action' => 'أعد ضبط كلمة السر للمستخدم "$1"',
 );
@@ -2546,6 +2548,7 @@ Vê-que un èxtrèt a les adrèces IP utilisâs ({{formatnum:5000}} u més, triy
 	'checkuser-log-ipusers-xff' => '$1 at obtegnu des utilisators por XFF $2',
 	'checkuser-log-useredits' => '$1 at avu des changements per $2',
 	'checkuser-autocreate-action' => 'at étâ fêt ôtomaticament',
+	'checkuser-create-action' => 'at étâ fêt',
 	'checkuser-email-action' => 'at mandâ un mèssâjo a l’utilisator « $1 »',
 	'checkuser-reset-action' => 'tôrne inicialisar lo mot de pâssa por l’utilisator « $1 »',
 );
@@ -6833,6 +6836,7 @@ Di handap ieu béréndélan IP nu dipaké (paling loba 5000, disusun dumasar ala
  * @author MagnusA
  * @author Najami
  * @author Per
+ * @author WikiPhoenix
  */
 $messages['sv'] = array(
 	'checkuser-summary' => 'Det här verktyget söker igenom de senaste ändringarna för att hämta IP-adresser för en användare, eller redigeringar och användare för en IP-adress.
@@ -6904,6 +6908,7 @@ IP-adresser kommer blockeras i en vecka för anonyma användare, med kontoskapan
 	'checkuser-log-ipusers-xff' => '$1 hämtade användare från XFF $2',
 	'checkuser-log-useredits' => '$1 hämtade redigeringar för $2',
 	'checkuser-autocreate-action' => 'skapades automatiskt',
+	'checkuser-create-action' => 'skapades',
 	'checkuser-email-action' => 'skickade ett mejl till användare "$1"',
 	'checkuser-reset-action' => 'återställ lösenord för användare "$1"',
 );
