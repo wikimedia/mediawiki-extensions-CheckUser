@@ -33,8 +33,11 @@ $wgExtensionCredits['specialpage'][] = array(
 	'descriptionmsg' => 'checkuser-desc',
 );
 
-$wgAutoloadClasses['CheckUserApi'] = dirname(__FILE__) . '/CheckUser_api.php';
-$wgAPIModules['checkuser'] = 'CheckUserApi';
+// Disabled as untested
+// http://www.mediawiki.org/wiki/Special:Code/MediaWiki/88704
+// https://bugzilla.wikimedia.org/show_bug.cgi?id=15129
+// $wgAutoloadClasses['CheckUserApi'] = dirname(__FILE__) . '/CheckUser_api.php';
+// $wgAPIModules['checkuser'] = 'CheckUserApi';
 
 // New user rights
 // 'checkuser' right is required to query IPs/users through Special:CheckUser
