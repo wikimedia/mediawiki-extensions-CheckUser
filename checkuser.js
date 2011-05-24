@@ -2,11 +2,16 @@
 
 /* Every time you change this JS please bump $wgCheckUserStyleVersion in CheckUser.php */
 
+var showResults = function(size, cidr) {
+	$( '#mw-checkuser-cidr-res' ).val( size );
+	$( '#mw-checkuser-ipnote' ).text( cidr );
+};
+
 /*
 * This function calculates the common range of a list of
 * IPs. It should be set to update on keyUp.
 */
-window.updateCIDRresult = function() {
+var updateCIDRresult = function() {
 	var form = document.getElementById( 'mw-checkuser-cidrform' );
 	if( !form ) {
 		return; // no JS form
@@ -16,27 +21,28 @@ window.updateCIDRresult = function() {
 	if( !iplist ) {
 		return; // no JS form
 	}
-	var text = iplist.value;
+	var text = iplist.value, ips;
 	// Each line should have one IP or range
 	if( text.indexOf("\n") != -1 ) {
-		var ips = text.split("\n");
+		ips = text.split("\n");
 	// Try some other delimiters too...
 	} else if( text.indexOf("\t") != -1 ) {
-		var ips = text.split("\t");
+		ips = text.split("\t");
 	} else if( text.indexOf(",") != -1 ) {
-		var ips = text.split(",");
+		ips = text.split(",");
 	} else if( text.indexOf("-") != -1 ) {
-		var ips = text.split("-");
+		ips = text.split("-");
 	} else if( text.indexOf(" ") != -1 ) {
-		var ips = text.split(" ");
+		ips = text.split(" ");
 	} else {
-		var ips = text.split(";");
+		ips = text.split(";");
 	}
 	var bin_prefix = 0;
 	var prefix_cidr = 0;
 	var prefix = new String( '' );
 	var foundV4 = false;
 	var foundV6 = false;
+	var ip_count;
 	// Go through each IP in the list, get its binary form, and
 	// track the largest binary prefix among them...
 	for( var i = 0; i < ips.length; i++ ) {
@@ -63,7 +69,7 @@ window.updateCIDRresult = function() {
 			if( blocs[0] <= 2 ) continue;
 			for( var x = 0; x < blocs.length; x++ ) {
 				bloc = parseInt( blocs[x], 10 );
-				bin_block = bloc.toString( 2 ); // concat bin with binary form of bloc
+				var bin_block = bloc.toString( 2 ); // concat bin with binary form of bloc
 				while( bin_block.length < 8 ) {
 					bin_block = '0' + bin_block; // pad out as needed
 				}
@@ -88,12 +94,10 @@ window.updateCIDRresult = function() {
 				}
 			}
 			// Build the IP in CIDR form
-			var prefix_cidr = bin_prefix.length;
+			prefix_cidr = bin_prefix.length;
 			// CIDR too small?
 			if( prefix_cidr < 16 ) {
-				document.getElementById( 'mw-checkuser-cidr-res' ).value = '!';
-				document.getElementById( 'mw-checkuser-ipnote' ).innerHTML = '&gt;' +
-					Math.pow( 2, 32 - prefix_cidr );
+				showResults( '!',  '>' + Math.pow( 2, 32 - prefix_cidr ) );
 				return; // too big
 			}
 			// Build the IP in dotted-quad form
@@ -145,7 +149,7 @@ window.updateCIDRresult = function() {
 			var blocs = ip.split(':');
 			for( var x = 0; x <= 7; x++ ) {
 				bloc = blocs[x] ? blocs[x] : '0';
-				int_block = hex2int( bloc ); // convert hex -> int
+				var int_block = hex2int( bloc ); // convert hex -> int
 				bin_block = int_block.toString( 2 ); // concat bin with binary form of bloc
 				while( bin_block.length < 16 ) {
 					bin_block = '0' + bin_block; // pad out as needed
@@ -174,9 +178,7 @@ window.updateCIDRresult = function() {
 			var prefix_cidr = bin_prefix.length;
 			// CIDR too small?
 			if( prefix_cidr < 96 ) {
-				document.getElementById( 'mw-checkuser-cidr-res' ).value = '!';
-				document.getElementById( 'mw-checkuser-ipnote' ).innerHTML = '&gt;'
-					+ Math.pow( 2, 128 - prefix_cidr );
+				showResults('!', '>' + Math.pow( 2, 128 - prefix_cidr ) );
 				return; // too big
 			}
 			// Build the IP in dotted-quad form
@@ -203,22 +205,19 @@ window.updateCIDRresult = function() {
 	}
 	// Update form
 	if( prefix != '' ) {
+		var full = prefix;
 		if( prefix_cidr != false ) {
-			document.getElementById( 'mw-checkuser-cidr-res' ).value = prefix + '/' + prefix_cidr;
-		} else {
-			document.getElementById( 'mw-checkuser-cidr-res' ).value = prefix;
+			full += '/' + prefix_cidr;
 		}
-		document.getElementById( 'mw-checkuser-ipnote' ).innerHTML = '~' + ip_count;
+		showResults( '~' + ip_count, full );
 	} else {
-		document.getElementById( 'mw-checkuser-cidr-res' ).value = '?';
-		document.getElementById( 'mw-checkuser-ipnote' ).innerHTML = '';
+		showResults( '?', '' );
 	}
 
 };
-addOnloadHook( updateCIDRresult );
 
 // Utility function to convert hex to integers
-window.hex2int = function( hex ) {
+var hex2int = function( hex ) {
 	hex = new String( hex );
 	hex = hex.toLowerCase();
 	var intform = 0;
@@ -251,3 +250,10 @@ window.hex2int = function( hex ) {
 	}
 	return intform;
 };
+
+$( function() {
+	updateCIDRresult();
+	$('#mw-checkuser-iplist').bind('keyup click', function() {
+		updateCIDRresult();
+	});
+});
