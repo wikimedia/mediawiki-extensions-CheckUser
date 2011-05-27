@@ -2225,7 +2225,7 @@ $messages['fa'] = array(
 	'checkuser-nomatch' => 'موردی که مطابقت داشته باشد پیدا نشد.',
 	'checkuser-nomatch-edits' => 'مورد مطابق پیدا نشد.
 آخرین ویرایش در $1 ساعت $2 بود.',
-	'checkuser-check' => 'بررسی',
+	'checkuser-check' => 'بازرسی',
 	'checkuser-log-fail' => 'امکان افزودن اطلاعات به سیاهه وجود ندارد',
 	'checkuser-nolog' => 'پرونده سیاهه پیدا نشد.',
 	'checkuser-blocked' => 'بسته شده',
@@ -2262,6 +2262,7 @@ $messages['fa'] = array(
 	'checkuser-log-ipusers-xff' => '$1 کاربرهای مربوط به XFF $2 را گرفت',
 	'checkuser-log-useredits' => '$1 ویرایش‌های $2 را گرفت',
 	'checkuser-autocreate-action' => 'به طور خودکار ساخته شد',
+	'checkuser-create-action' => 'ایجاد گردید',
 	'checkuser-email-action' => 'به کاربر «$1» پست الکترونیکی ارسال شد',
 	'checkuser-reset-action' => 'گذرواژه کاربر «$1» را از نو تنظیم کرد',
 );
