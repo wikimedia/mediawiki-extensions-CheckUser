@@ -5924,7 +5924,7 @@ Iată IP-urile folosite (maxim 5000, sortate după adresă):',
 /** Aromanian (Armãneashce)
  * @author Hakka
  */
-$messages['roa-rup'] = array(
+$messages['rup'] = array(
 	'checkuser-reason' => 'Itia:',
 	'checkuser-search' => 'Caftã',
 );
