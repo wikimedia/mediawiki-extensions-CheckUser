@@ -5921,14 +5921,6 @@ Iată IP-urile folosite (maxim 5000, sortate după adresă):',
 	'checkuser-reset-action' => 'schimbă parola pentru utilizatorul "$1"',
 );
 
-/** Aromanian (Armãneashce)
- * @author Hakka
- */
-$messages['rup'] = array(
-	'checkuser-reason' => 'Itia:',
-	'checkuser-search' => 'Caftã',
-);
-
 /** Tarandíne (Tarandíne)
  * @author Joetaras
  * @author Reder
@@ -6162,6 +6154,14 @@ $messages['rue'] = array(
 	'checkuser-autocreate-action' => 'створеный автоматічно',
 	'checkuser-email-action' => 'послав ел. пошту хоснователёві „$1“',
 	'checkuser-reset-action' => 'пожадав о нове гесло про хоснователя $1',
+);
+
+/** Aromanian (Armãneashce)
+ * @author Hakka
+ */
+$messages['rup'] = array(
+	'checkuser-reason' => 'Itia:',
+	'checkuser-search' => 'Caftã',
 );
 
 /** Yakut (Саха тыла)
