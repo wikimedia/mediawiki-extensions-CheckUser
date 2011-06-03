@@ -85,6 +85,8 @@ $wgResourceModules['ext.checkUser'] = array(
  * Saves user data into the cu_changes table
  */
 function efUpdateCheckUserData( $rc ) {
+	global $wgRequest;
+
 	// Extract params
 	extract( $rc->mAttribs );
 	// Get IP
@@ -95,7 +97,7 @@ function efUpdateCheckUserData( $rc ) {
 	// Our squid XFFs can flood this up sometimes
 	$isSquidOnly = efXFFChainIsSquid( $xff );
 	// Get agent
-	$agent = wfGetAgent();
+	$agent = $wgRequest->getHeader( 'User-Agent' );
 	// Store the log action text for log events
 	// $rc_comment should just be the log_comment
 	// BC: check if log_type and log_action exists
@@ -154,13 +156,15 @@ function efUpdateCheckUserData( $rc ) {
  * Saves user data into the cu_changes table
  */
 function efUpdateCUPasswordResetData( $user, $ip, $account ) {
+	global $wgRequest;
+
 	// Get XFF header
 	$xff = wfGetForwardedFor();
 	list( $xff_ip, $trusted ) = efGetClientIPfromXFF( $xff );
 	// Our squid XFFs can flood this up sometimes
 	$isSquidOnly = efXFFChainIsSquid( $xff );
 	// Get agent
-	$agent = wfGetAgent();
+	$agent = $wgRequest->getHeader( 'User-Agent' );
 	$dbw = wfGetDB( DB_MASTER );
 	$cuc_id = $dbw->nextSequenceValue( 'cu_changes_cu_id_seq' );
 	$rcRow = array(
@@ -192,7 +196,7 @@ function efUpdateCUPasswordResetData( $user, $ip, $account ) {
  * Saves user data into the cu_changes table
  */
 function efUpdateCUEmailData( $to, $from, $subject, $text ) {
-	global $wgSecretKey;
+	global $wgSecretKey, $wgRequest;
 	if ( !$wgSecretKey || $from->name == $to->name ) {
 		return true;
 	}
@@ -207,7 +211,7 @@ function efUpdateCUEmailData( $to, $from, $subject, $text ) {
 	// Our squid XFFs can flood this up sometimes
 	$isSquidOnly = efXFFChainIsSquid( $xff );
 	// Get agent
-	$agent = wfGetAgent();
+	$agent = $wgRequest->getHeader( 'User-Agent' );
 	$dbw = wfGetDB( DB_MASTER );
 	$cuc_id = $dbw->nextSequenceValue( 'cu_changes_cu_id_seq' );
 	$rcRow = array(
@@ -252,6 +256,8 @@ function efUpdateAutoCreateData( $user ) {
  * @return bool
  */
 function efLogUserAccountCreation( $user, $actiontext ) {
+	global $wgRequest;
+
 	// Get IP
 	$ip = wfGetIP();
 	// Get XFF header
@@ -260,7 +266,7 @@ function efLogUserAccountCreation( $user, $actiontext ) {
 	// Our squid XFFs can flood this up sometimes
 	$isSquidOnly = efXFFChainIsSquid( $xff );
 	// Get agent
-	$agent = wfGetAgent();
+	$agent = $wgRequest->getHeader( 'User-Agent' );
 	$dbw = wfGetDB( DB_MASTER );
 	$cuc_id = $dbw->nextSequenceValue( 'cu_changes_cu_id_seq' );
 	$rcRow = array(
