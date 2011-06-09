@@ -4833,6 +4833,7 @@ Bagi pengguna tanpa nama, alamat IP-nya akan disekat selama seminggu, dengan pen
 	'checkuser-log-ipusers-xff' => '$1 mendapatkan senarai pengguna bagi XFF $2',
 	'checkuser-log-useredits' => '$1 mendapatkan senarai suntingan bagi $2',
 	'checkuser-autocreate-action' => 'dicipta secara automatik',
+	'checkuser-create-action' => 'telah dicipta',
 	'checkuser-email-action' => 'hantar e-mel kepada "$1"',
 	'checkuser-reset-action' => 'set semula kata laluan "$1"',
 );
