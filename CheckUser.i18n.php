@@ -1385,6 +1385,7 @@ Níže jsou použité IP adresy (nejvýše 5000, seřazené podle adresy):',
 	'checkuser-log-ipusers-xff' => '$1 zjišťuje uživatele s XFF $2',
 	'checkuser-log-useredits' => '$1 zjišťuje editace od $2',
 	'checkuser-autocreate-action' => 'byl automaticky vytvořen',
+	'checkuser-create-action' => 'byl vytvořen',
 	'checkuser-email-action' => 'odeslal e-mail uživateli „$1“',
 	'checkuser-reset-action' => 'požádal o nové heslo pro uživatele „$1“',
 );
@@ -4593,7 +4594,7 @@ IP-адресите ќе бидат блокирани 1 недела за са�
 	'checkuser-accounts' => '$1 {{PLURAL:$1|нова сметка|нови сметки}}',
 	'checkuser-too-many' => 'Премногу резултати (според процената на барањето), истенчете го CIDR.
 Еве ги користените IP-адреси (највеќе 5000, сортирани по адреса):',
-	'checkuser-user-nonexistent' => 'Назначениот корисник не постои.',
+	'checkuser-user-nonexistent' => 'Наведениот корисник не постои.',
 	'checkuser-search-form' => 'Пронајди ставки во дневникот каде $1 е $2',
 	'checkuser-search-submit' => 'Пребарај',
 	'checkuser-search-initiator' => 'иницијатор',
@@ -7923,6 +7924,7 @@ $messages['yue'] = array(
 /** Simplified Chinese (‪中文(简体)‬)
  * @author Gaoxuewei
  * @author Gzdavidwong
+ * @author Hydra
  * @author Jimmy xu wrk
  * @author Liangent
  * @author PhiLiP
@@ -7995,6 +7997,7 @@ $messages['zh-hans'] = array(
 	'checkuser-log-ipusers-xff' => '$1取得XFF $2的用户信息',
 	'checkuser-log-useredits' => '$1取得$2的编辑记录',
 	'checkuser-autocreate-action' => '已自动创建',
+	'checkuser-create-action' => '已创建',
 	'checkuser-email-action' => '向用户“$1”发送电邮',
 	'checkuser-reset-action' => '为用户“$1”重置密码',
 );
