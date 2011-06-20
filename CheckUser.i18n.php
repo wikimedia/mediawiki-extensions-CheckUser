@@ -101,6 +101,7 @@ Here are the IPs used (5000 max, sorted by address):',
 
 /** Message documentation (Message documentation)
  * @author Darth Kule
+ * @author Dferg
  * @author Fryed-peach
  * @author Jon Harald Søby
  * @author Kwj2772
@@ -173,6 +174,7 @@ It is parameter $1 in the message {{msg-mw|Checkuser-search-form}}.
 See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]".
 
 Initiator means the CheckUser who checks someone\'s information.',
+	'checkuser-search-target' => 'The target of the check. The user checked.',
 	'checkuser-ipeditcount' => "This information is shown on the result page of [[mw:Extension:CheckUser#Basic_interface|Special:CheckUser]] (when doing the ''{{int:Checkuser-users}}'' check), next to the individual listed IPs. See screenshot \"Example user name check\".
 
 \$1 is an estimate of the total number of edits from the respective IP (i.e. the number of edits by all users, not only by the requested user). As the comment in the code says: ''If we get some results, it helps to know if the IP in general has a lot more edits, e.g. “tip of the iceberg”…''",
@@ -2003,7 +2005,7 @@ Usa esta herramienta de acuerdo con las políticas correspondientes.',
 	'checkuser-desc' => 'Permite a los usuarios que tienen los permisos apropiados comprobar las direcciones IP de los usuarios además de otra información.',
 	'checkuser-logcase' => 'La búsqueda en el registro distingue entre mayúsculas y minúsculas.',
 	'checkuser' => 'Verificador de usuarios',
-	'checkuser-contribs' => 'verificar IPs del usuario',
+	'checkuser-contribs' => 'verificar las direcciones IP del usuario',
 	'group-checkuser' => 'Verificadores de usuarios',
 	'group-checkuser-member' => 'verificador de usuarios',
 	'right-checkuser' => 'Comprobar las IPs de los usuarios y obtener otra información relacionada',
@@ -2011,7 +2013,7 @@ Usa esta herramienta de acuerdo con las políticas correspondientes.',
 	'grouppage-checkuser' => '{{ns:project}}:Verificador de usuarios',
 	'checkuser-reason' => 'Motivo:',
 	'checkuser-showlog' => 'Ver registro',
-	'checkuser-log' => 'Registro de CheckUser',
+	'checkuser-log' => 'Registro de verificación de usuarios',
 	'checkuser-query' => 'Buscar en cambios recientes',
 	'checkuser-target' => 'Usuario o dirección IP:',
 	'checkuser-users' => 'Obtener usuarios',
@@ -2054,8 +2056,8 @@ Aquí se ven las IPs usadas (máximo 5000, ordenadas según dirección):',
 	'checkuser-user-nonexistent' => 'El usuario especificado no existe.',
 	'checkuser-search-form' => 'Encontrar entradas de registros en las que el $1 es $2',
 	'checkuser-search-submit' => 'Buscar',
-	'checkuser-search-initiator' => 'iniciador',
-	'checkuser-search-target' => 'meta',
+	'checkuser-search-initiator' => 'verificador',
+	'checkuser-search-target' => 'usuario verificado',
 	'checkuser-ipeditcount' => '~$1 de todos los usuarios',
 	'checkuser-log-subpage' => 'Registro',
 	'checkuser-log-return' => 'Volver al formulario principal de CheckUser',
@@ -2068,7 +2070,7 @@ Aquí se ven las IPs usadas (máximo 5000, ordenadas según dirección):',
 	'checkuser-log-useredits' => '$1 obtuvo las contribuciones de $2',
 	'checkuser-autocreate-action' => 'fue creada automáticamente',
 	'checkuser-create-action' => 'fue creado',
-	'checkuser-email-action' => 'envió correo electrónico al usuario «$1»',
+	'checkuser-email-action' => 'envió un correo electrónico al usuario «$1»',
 	'checkuser-reset-action' => 'solicitó un recordatorio de contraseña para el usuario «$1»',
 );
 
