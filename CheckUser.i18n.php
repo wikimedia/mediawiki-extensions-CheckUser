@@ -4272,7 +4272,7 @@ Benotzer an Ännerunge vun enger IP-Adress kënnen och iwwer den XFF header gesi
 Net méi wéi 5000 Ännerunge ginn aus Performance-Grënn zréckgeschéckt.
 Benotzt dës Fonctioun am Aklang mat den Direktiven.",
 	'checkuser-desc' => "Gëtt Benotzer mat den néidege Rechter d'Méiglechkeet d'IP-Adressen esou wéi aner Informatiounen iwwert d'Benotzer z'iwwerpréifen",
-	'checkuser-logcase' => "D'Sich am Logbuch mecht en Ënnerscheed tëschent groussen a klenge Buchstawen.",
+	'checkuser-logcase' => "D'Sichen am Logbuch mécht en Ënnerscheed tëschent groussen a klenge Buschtawen.",
 	'checkuser' => 'Benotzer-Check',
 	'checkuser-contribs' => 'De Benotzer hir Ip-Adrssen iwwerpréifen',
 	'group-checkuser' => 'Benotzer Kontrolleren',
