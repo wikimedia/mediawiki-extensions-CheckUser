@@ -1093,7 +1093,7 @@ class CheckUser extends SpecialPage {
 		$flags = array();
 		if ( $block instanceof Block ) {
 			// Range blocked?
-			if ( $block->getType == Block::TYPE_RANGE ) {
+			if ( $block->getType() == Block::TYPE_RANGE ) {
 				$userpage = Title::makeTitle( NS_USER, $block->getTarget() );
 				$blocklog = $this->sk->makeKnownLinkObj(
 					$logs,
