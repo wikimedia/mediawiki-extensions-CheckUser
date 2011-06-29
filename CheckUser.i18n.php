@@ -6242,6 +6242,7 @@ IP-аадырыстартан бэлиэтэммэккэ киирии уонна
 	'checkuser-log-ipusers-xff' => '$1 кыттаачылары ылбыт (для XFF $2)',
 	'checkuser-log-useredits' => '$1 $2 көннөрүүлэрин ылбыт',
 	'checkuser-autocreate-action' => 'аптамаатынан оҥоһуллубут',
+	'checkuser-create-action' => 'оҥоһуллубут',
 	'checkuser-email-action' => '"$1" кыттаачыга сурук ыыппыт',
 	'checkuser-reset-action' => '"$1" киирии тылын бырахпыт',
 );
