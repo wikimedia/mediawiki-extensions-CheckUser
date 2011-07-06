@@ -7932,6 +7932,7 @@ $messages['yue'] = array(
  * @author Liangent
  * @author PhiLiP
  * @author Wmr89502270
+ * @author Xiaomingyan
  */
 $messages['zh-hans'] = array(
 	'checkuser-summary' => '本工具会从最近更改中获取用户使用过的IP地址，可使用XFF头信息来获取同一客户端IP地址下的用户和编辑，即在IP地址后方附加“/xff”。本工具支持IPv4（CIDR 16-32）和IPv6（CIDR 96-128）。由于效率原因，本工具只能查询最近5000笔编辑次数。请确保你的操作符合方针。',
@@ -7948,7 +7949,7 @@ $messages['zh-hans'] = array(
 	'checkuser-showlog' => '显示日志',
 	'checkuser-log' => '帐户核查日志',
 	'checkuser-query' => '查询最近更改',
-	'checkuser-target' => '目标用户或IP地址：',
+	'checkuser-target' => 'IP地址或用户名：',
 	'checkuser-users' => '获取用户',
 	'checkuser-edits' => '获取编辑',
 	'checkuser-ips' => '获取IP地址',
