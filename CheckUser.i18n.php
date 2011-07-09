@@ -1483,6 +1483,7 @@ Caiff cyfeiriadau IP defnyddwyr anhysbys yn unig eu blocio am wythnos, gyda chre
 	'checkuser-log-ipusers-xff' => "$1 wedi nôl y defnyddwyr sy'n defnyddio'r cyfeiriad XFF $2",
 	'checkuser-log-useredits' => '$1 wedi nôl y golygiadau gan $2',
 	'checkuser-autocreate-action' => "wedi ei greu'n awtomatig",
+	'checkuser-create-action' => 'wedi ei greu',
 	'checkuser-email-action' => 'wedi anfon e-bost at y defnyddiwr "$1"',
 	'checkuser-reset-action' => 'wedi ailosod y cyfrinair ar gyfer y defnyddiwr "$1"',
 );
