@@ -657,8 +657,9 @@ $messages['avk'] = array(
  * @author PPerviz
  */
 $messages['az'] = array(
+	'group-checkuser' => 'Təftişçilər',
 	'checkuser-reason' => 'Səbəb:',
-	'checkuser-log' => 'Nəzarətçi qeydi',
+	'checkuser-log' => 'Təftişçi qeydi',
 	'checkuser-search' => 'Axtar',
 	'checkuser-log-fail' => 'Gündəlik girdilər əlavə etilemiyor.',
 	'checkuser-search-submit' => 'Axtar',
