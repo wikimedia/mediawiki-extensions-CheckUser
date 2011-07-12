@@ -4812,8 +4812,8 @@ $messages['ms'] = array(
 	'checkuser-massblock' => 'Sekat pengguna yang ditanda',
 	'checkuser-massblock-text' => 'Akaun-akaun yang dinyatakan akan disekat tanpa had, dengan sekatan automatik diaktifkan dan penciptaan akaun baru dimatikan.
 Bagi pengguna tanpa nama, alamat IP-nya akan disekat selama seminggu, dengan penciptaan akaun dimatikan.',
-	'checkuser-blocktag' => 'Gantikan laman pengguna tersebut dengan:',
-	'checkuser-blocktag-talk' => 'Gantikan laman perbincangan dengan:',
+	'checkuser-blocktag' => 'Ganti laman pengguna tersebut dengan:',
+	'checkuser-blocktag-talk' => 'Ganti laman perbincangan dengan:',
 	'checkuser-massblock-commit' => 'Sekat pengguna yang ditanda',
 	'checkuser-block-success' => "'''{{PLURAL:$2|Pengguna tersebut|$1 orang pengguna}} telah disekat.'''",
 	'checkuser-block-failure' => "'''Tiada pengguna disekat.'''",
@@ -5573,6 +5573,7 @@ Sì a-i son j'IP dovrà (5000 al pi, ordinà për adrëssa):",
 	'checkuser-log-ipusers-xff' => "$1 a l'ha pijà j'utent për XFF $2",
 	'checkuser-log-useredits' => "$1 a l'ha otnù le modìfiche për $2",
 	'checkuser-autocreate-action' => "a l'é stàit creà automaticament",
+	'checkuser-create-action' => "a l'é stàit creà",
 	'checkuser-email-action' => 'a l\'ha mandà un mëssagi ëd pòsta eletrònica a l\'utent "$1"',
 	'checkuser-reset-action' => 'torna amposté la ciav për l\'utent "$1"',
 );
