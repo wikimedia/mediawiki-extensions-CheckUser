@@ -1,7 +1,5 @@
 /* -- (c) Aaron Schulz 2009 */
 
-/* Every time you change this JS please bump $wgCheckUserStyleVersion in CheckUser.php */
-
 var showResults = function(size, cidr) {
 	$( '#mw-checkuser-cidr-res' ).val( size );
 	$( '#mw-checkuser-ipnote' ).text( cidr );
