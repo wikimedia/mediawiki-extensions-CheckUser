@@ -57,9 +57,6 @@ $wgCheckUserMaxBlocks = 200;
 // each check they do through Special:CheckUser.
 $wgCheckUserForceSummary = false;
 
-// Increment this number every time you touch the .js file.
-$wgCheckUserStyleVersion = 5;
-
 # Recent changes data hook
 $wgHooks['RecentChange_save'][] = 'CheckUserHooks::updateCheckUserData';
 $wgHooks['EmailUser'][] = 'CheckUserHooks::updateCUEmailData';
