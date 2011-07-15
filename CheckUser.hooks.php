@@ -357,4 +357,39 @@ class CheckUserHooks {
 		}
 		return true;
 	}
+
+	/**
+	 * Retroactively autoblocks the last IP used by the user (if it is a user)
+	 * blocked by this Block.
+	 *
+	 * @return Array: block IDs of retroactive autoblocks made
+	 */
+	public static function doRetroactiveAutoblock( Block $block ) {
+		$dbr = wfGetDB( DB_SLAVE );
+
+		$user = User::newFromName( (string)$block->getTarget(), false );
+		if ( !$user->getId() ) {
+			return array(); // user in an IP?
+		}
+
+		$options = array( 'ORDER BY' => 'cuc_timestamp DESC' );
+		$options['LIMIT'] = 1; // just the last IP used
+
+		$res = $dbr->select( 'cu_changes',
+			array( 'cuc_ip' ),
+			array( 'cuc_user' => $user->getId() ),
+			__METHOD__ ,
+			$options
+		);
+
+		# Iterate through IPs used (this is just one or zero for now)
+		foreach ( $res as $row ) {
+			if ( $row->cuc_ip ) {
+				$id = $block->doAutoblock( $row->cuc_ip );
+				if ( $id ) $blockIds[] = $id;
+			}
+		}
+
+		return $blockIds;
+	}
 }
