@@ -362,9 +362,10 @@ class CheckUserHooks {
 	 * Retroactively autoblocks the last IP used by the user (if it is a user)
 	 * blocked by this Block.
 	 *
-	 * @return Array: block IDs of retroactive autoblocks made
+	 * @param Block $block
+	 * @param Array &$blockIds
 	 */
-	public static function doRetroactiveAutoblock( Block $block ) {
+	public static function doRetroactiveAutoblock( Block $block, array &$blockIds ) {
 		$dbr = wfGetDB( DB_SLAVE );
 
 		$user = User::newFromName( (string)$block->getTarget(), false );
@@ -390,6 +391,6 @@ class CheckUserHooks {
 			}
 		}
 
-		return $blockIds;
+		return false; // autoblock handled
 	}
 }

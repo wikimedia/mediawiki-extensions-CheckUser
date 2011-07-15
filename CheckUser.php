@@ -68,6 +68,9 @@ $wgHooks['ParserTestTables'][] = 'CheckUserHooks::checkUserParserTestTables';
 $wgHooks['LoadExtensionSchemaUpdates'][] = 'CheckUserHooks::checkUserSchemaUpdates';
 $wgHooks['ContributionsToolLinks'][] = 'CheckUserHooks::loadCheckUserLink';
 
+# Take over autoblocking
+$wgHooks['PerformRetroactiveAutoblock'][] = 'CheckUserHooks::doRetroactiveAutoblock';
+
 $wgResourceModules['ext.checkUser'] = array(
 	'scripts'       => 'checkuser.js',
 	'dependencies' 	=> array( 'mediawiki.util' ), // IP stuff
