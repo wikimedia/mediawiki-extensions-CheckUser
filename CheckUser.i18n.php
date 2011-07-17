@@ -2826,8 +2826,8 @@ $messages['gu'] = array(
  */
 $messages['gv'] = array(
 	'checkuser-reason' => 'Fa:',
-	'checkuser-search' => 'Ronsaghey',
-	'checkuser-search-submit' => 'Ronsaghey',
+	'checkuser-search' => 'Ronsee',
+	'checkuser-search-submit' => 'Ronsee',
 );
 
 /** Hausa (هَوُسَ) */
