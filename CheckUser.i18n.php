@@ -3843,6 +3843,7 @@ IP დაიბლოკება ერთი კვირით.',
 	'checkuser-log-ipusers-xff' => '$1 მიიღო მომხმარებლები XFF $2-თვის',
 	'checkuser-log-useredits' => '$1 მიიღო რედაქტირებები $2-თვის',
 	'checkuser-autocreate-action' => 'ავტომატურად შეიქმნა',
+	'checkuser-create-action' => 'შეიქმნა',
 	'checkuser-email-action' => 'გაუგზავნა წერილი მომხმარებელ «$1»-ს',
 	'checkuser-reset-action' => 'პაროლის შეცვლა მომხმარებლისთვის "$1"',
 );
