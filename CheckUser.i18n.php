@@ -5375,6 +5375,7 @@ Vaquí un extrach de las IP utilizadas ({{formatnum:5000}} maximum, triadas per 
 $messages['or'] = array(
 	'checkuser-reason' => 'କାରଣ:',
 	'checkuser-search' => 'ଖୋଜିବା',
+	'checkuser-period' => 'ଅବଧି:',
 	'checkuser-all' => 'ସବୁ',
 	'checkuser-search-submit' => 'ଖୋଜିବା',
 );
