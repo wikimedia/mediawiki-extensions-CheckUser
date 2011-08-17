@@ -5002,6 +5002,7 @@ Hieronder staon de gebruken IP-aderssen (maximaal 5.000, op IP-adres ekontroleer
 );
 
 /** Nepali (नेपाली)
+ * @author Bhawani Gautam
  * @author Bhawani Gautam Rhk
  */
 $messages['ne'] = array(
@@ -5380,7 +5381,7 @@ $messages['or'] = array(
 	'checkuser-search-submit' => 'ଖୋଜିବା',
 );
 
-/** Ossetic (Иронау)
+/** Ossetic (Ирон)
  * @author Amikeco
  */
 $messages['os'] = array(
@@ -6176,7 +6177,7 @@ $messages['rup'] = array(
 	'checkuser-search' => 'Caftã',
 );
 
-/** Yakut (Саха тыла)
+/** Sakha (Саха тыла)
  * @author HalanTul
  */
 $messages['sah'] = array(
@@ -7403,7 +7404,7 @@ Narito ang ginamit na mga IP (5000 pinakamarami, inayos ayon sa adres):',
 	'checkuser-reset-action' => 'muling itakda ang hudyat para kay tagagamit na "$1"',
 );
 
-/** Tonga (lea faka-Tonga) */
+/** Tongan (lea faka-Tonga) */
 $messages['to'] = array(
 	'checkuser' => 'Siviʻi ʻa e ʻetita',
 	'group-checkuser' => 'Siviʻi kau ʻetita',
