@@ -6880,7 +6880,7 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 	'checkuser-period' => 'Tidsperiod:',
 	'checkuser-week-1' => 'senaste veckan',
 	'checkuser-week-2' => 'senaste två veckorna',
-	'checkuser-month' => 'senaste 30 dagarna',
+	'checkuser-month' => 'senaste 30 dygnen',
 	'checkuser-all' => 'alla',
 	'checkuser-cidr-label' => 'Hitta gemensam range och påverkade adresser för en IP-lista.',
 	'checkuser-cidr-res' => 'Gemensam CIDR:',
