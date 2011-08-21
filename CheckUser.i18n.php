@@ -626,6 +626,7 @@ Estes son les IPs usaes (5000 max, axeitaes por direición):",
 	'checkuser-log-ipusers-xff' => '$1 obtuvo los usuarios pa XFF $2',
 	'checkuser-log-useredits' => '$1 obtuvo les ediciones de $2',
 	'checkuser-autocreate-action' => 'creóse automáticamente',
+	'checkuser-create-action' => 'se creó',
 	'checkuser-email-action' => 'unvió un corréu electrónicu a "$1"',
 	'checkuser-reset-action' => 'restableció la clave pal usuariu "$1"',
 );
@@ -4717,6 +4718,7 @@ $messages['mn'] = array(
 );
 
 /** Marathi (मराठी)
+ * @author Htt
  * @author Kaustubh
  * @author Mahitgar
  */
@@ -4738,7 +4740,7 @@ IPv4 (CIDR 16-32) आणि IPv6 (CIDR 96-128) वापरता येऊ श�
 	'checkuser-query' => 'अलीकडील बदल पृच्छा',
 	'checkuser-target' => 'सदस्य किंवा अंकपत्ता',
 	'checkuser-users' => 'सदस्य शोधा',
-	'checkuser-edits' => 'अंकपत्त्याची संपादने शोधा',
+	'checkuser-edits' => 'अंकपत्त्याची संपादने मिळवा',
 	'checkuser-ips' => 'अंकपत्ते शोधा',
 	'checkuser-search' => 'शोधा',
 	'checkuser-all' => 'सर्व',
