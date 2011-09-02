@@ -296,6 +296,7 @@ Hieronder word die gebruikte IP-adresse weergegee (maksimum 5000, op IP-adres ge
 	'checkuser-log-ipusers-xff' => '$1 het die gebruikers van XFF $2 opgevra',
 	'checkuser-log-useredits' => '$1 het die wysigings deur $2 aangevra',
 	'checkuser-autocreate-action' => 'is outomaties geskep',
+	'checkuser-create-action' => 'is geskep',
 	'checkuser-email-action' => 'het \'n e-pos aan gebruiker "$1" gestuur',
 	'checkuser-reset-action' => 'herstel gebruiker "$1" se wagwoord',
 );
@@ -1898,6 +1899,7 @@ $messages['el'] = array(
 	'checkuser-log-ipusers-xff' => 'Ο $1 πήρε τους χρήστες για το XFF $2',
 	'checkuser-log-useredits' => '$1 έλαβε τις επεξεργασίες για τον $2',
 	'checkuser-autocreate-action' => 'δημιουργήθηκε αυτόματα',
+	'checkuser-create-action' => 'δημιουργήθηκε',
 	'checkuser-email-action' => 'έστειλε ένα ηλεκτρονικό μήνυμα στον χρήστη "$1"',
 	'checkuser-reset-action' => 'αποστολή νέου κωδικού για τον χρήστη "$1"',
 );
@@ -7518,6 +7520,7 @@ $messages['tt-cyrl'] = array(
 /** Ukrainian (Українська)
  * @author AS
  * @author Ahonc
+ * @author Dim Grits
  * @author NickK
  * @author Prima klasy4na
  */
@@ -7593,6 +7596,7 @@ IP-адреси користувачів, які не увійшли до сис
 	'checkuser-log-ipusers-xff' => '$1 отримав облікові записи для XFF $2',
 	'checkuser-log-useredits' => '$1 отримав редагування $2',
 	'checkuser-autocreate-action' => 'створений автоматично',
+	'checkuser-create-action' => 'створено',
 	'checkuser-email-action' => 'надіслав листа користувачеві «$1»',
 	'checkuser-reset-action' => 'скинув пароль для користувача $1',
 );
