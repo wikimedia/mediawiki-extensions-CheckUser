@@ -1498,6 +1498,7 @@ Caiff cyfeiriadau IP defnyddwyr anhysbys yn unig eu blocio am wythnos, gyda chre
  * @author Fredelige
  * @author Masz
  * @author Morten LJ
+ * @author Peter Alberti
  * @author Sarrus
  */
 $messages['da'] = array(
@@ -1557,6 +1558,7 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 	'checkuser-log-ipedits-xff' => '$1 fik redigeringer for XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 fik brugere for XFF $2',
 	'checkuser-autocreate-action' => 'blev oprettet automatisk',
+	'checkuser-create-action' => 'blev oprettet',
 	'checkuser-email-action' => 'sendte en email til "$1"',
 	'checkuser-reset-action' => 'nulstillede adgangskoden for "$1"',
 );
@@ -1980,6 +1982,7 @@ Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
 	'checkuser-log-ipusers-xff' => '$1 akiris uzantojn por XFF $2',
 	'checkuser-log-useredits' => '$1 tenis redaktojn por $2',
 	'checkuser-autocreate-action' => 'estis aŭtomate kreita',
+	'checkuser-create-action' => 'estis kreita',
 	'checkuser-email-action' => 'sendis retpoŝton al uzanto "$1"',
 	'checkuser-reset-action' => 'restarigis pasvorton por uzanto "$1"',
 );
@@ -2522,6 +2525,8 @@ $messages['frp'] = array(
 	'checkuser-cidr-res' => 'Plage CIDR comena :',
 	'checkuser-empty' => 'Lo jornal contint gins d’articllo.',
 	'checkuser-nomatch' => 'Rechèrches que balyont ren.',
+	'checkuser-nomatch-edits' => 'Gins de corrèspondance trovâ.
+Lo dèrriér changement est arrevâ lo $1 a $2.',
 	'checkuser-check' => 'Rechèrche',
 	'checkuser-log-fail' => 'Empossiblo d’apondre l’entrâ du jornal.',
 	'checkuser-nolog' => 'Gins de fichiér jornal trovâ.',
@@ -2550,6 +2555,7 @@ Vê-que un èxtrèt a les adrèces IP utilisâs ({{formatnum:5000}} u més, triy
 	'checkuser-ipeditcount' => '~$1 per tôs los utilisators',
 	'checkuser-log-subpage' => 'Jornal',
 	'checkuser-log-return' => 'Tornar u formulèro principâl du contrôlo d’utilisator',
+	'checkuser-limited' => "'''Cetos rèsultats ont étâ tronchiês por des rêsons liyês a la pèrformence.'''",
 	'checkuser-log-userips' => '$1 at obtegnu des IP por $2',
 	'checkuser-log-ipedits' => '$1 at avu des changements per l’adrèce IP $2',
 	'checkuser-log-ipusers' => '$1 at obtegnu des utilisators por $2',
@@ -3393,7 +3399,7 @@ Alamat-alamat IP akan diblokir selama 1 minggu untuk pengguna anonim dan tidak d
 	'checkuser-accounts' => '$1 {{PLURAL:$1|akun|akun-akun}} baru',
 	'checkuser-too-many' => 'Terlalu banyak hasil pencarian (menurut perkiraan permintaan), mohon persempit CIDR. Berikut adalah alamat-alamat IP yang digunakan (5000 maks, diurut berdasarkan alamat):',
 	'checkuser-user-nonexistent' => 'Pengguna yang dimaksud tidak ditemukan',
-	'checkuser-search-form' => 'Cari catatan log dimana $1 adalah $2',
+	'checkuser-search-form' => 'Cari catatan log dengan $1 adalah $2',
 	'checkuser-search-submit' => 'Cari',
 	'checkuser-search-initiator' => 'pemeriksa',
 	'checkuser-search-target' => 'target',
@@ -6169,6 +6175,7 @@ $messages['rue'] = array(
 	'checkuser-log-ipusers-xff' => '$1 обтримав конта про XFF $2',
 	'checkuser-log-useredits' => '$1 обтримав едітованя про $2',
 	'checkuser-autocreate-action' => 'створеный автоматічно',
+	'checkuser-create-action' => 'створено',
 	'checkuser-email-action' => 'послав ел. пошту хоснователёві „$1“',
 	'checkuser-reset-action' => 'пожадав о нове гесло про хоснователя $1',
 );
