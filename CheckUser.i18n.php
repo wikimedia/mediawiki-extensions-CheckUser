@@ -1520,7 +1520,7 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 	'checkuser-query' => 'Søg i seneste ændringer',
 	'checkuser-target' => 'IP-adresse eller brugernavn:',
 	'checkuser-users' => 'Hent brugere',
-	'checkuser-edits' => 'Hent redigeringer fra IP',
+	'checkuser-edits' => 'Hent redigeringer',
 	'checkuser-ips' => "Hent IP'er",
 	'checkuser-search' => 'Søg',
 	'checkuser-period' => 'Varighed:',
@@ -1545,6 +1545,7 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 	'checkuser-block-success' => '{{PLURAL:$2|Brugeren|Brugerne}} $1 {{PLURAL:$2|er|er}} nu {{PLURAL:$2|blokeret|blokerede}}',
 	'checkuser-block-noreason' => 'Du skal angive en blokeringsgrund.',
 	'checkuser-noreason' => 'Du må angive en årsag til denne forespøgsel',
+	'checkuser-accounts' => '$1 {{PLURAL:$1|ny konto|nye kontoer}}',
 	'checkuser-too-many' => "For mange resultater, gør CIDR'en mindre. Her er de brugte IP'er (max 5000, sorteret efter adresse):",
 	'checkuser-user-nonexistent' => 'Den anførte bruger eksisterer ikke.',
 	'checkuser-search-form' => 'Find log-poster hvor $1 er $2',
@@ -2285,6 +2286,7 @@ $messages['fa'] = array(
  * @author Jaakonam
  * @author Jack Phoenix
  * @author Nike
+ * @author Olli
  * @author Str4nd
  * @author Varusmies
  * @author ZeiP
@@ -2359,6 +2361,7 @@ Käytetyt IP:t (enintään 5000, järjestetty osoitteen mukaan):',
 	'checkuser-log-ipusers-xff' => '$1 haki käyttäjät XFF-osoitteesta $2',
 	'checkuser-log-useredits' => '$1 haki käyttäjän $2 muokkaukset',
 	'checkuser-autocreate-action' => 'luotiin automaattisesti',
+	'checkuser-create-action' => 'luotiin',
 	'checkuser-email-action' => 'käyttäjälle ”$1” lähetetty sähköpostiviesti',
 	'checkuser-reset-action' => 'käyttäjän ”$1” salasana nollattu',
 );
@@ -4457,10 +4460,15 @@ $messages['lo'] = array(
 );
 
 /** Lithuanian (Lietuvių)
+ * @author Eitvys200
  * @author Homo
  * @author Matasg
  */
 $messages['lt'] = array(
+	'checkuser' => 'Patikrinkite vartotoją',
+	'checkuser-contribs' => 'Patikrinkite vartotojo IP adresus',
+	'group-checkuser' => 'Patikrinkite vartotojus',
+	'group-checkuser-member' => 'Patikrinkite vartotoją',
 	'right-checkuser' => 'Tikrinti naudotojo IP adresus ir kitą informaciją',
 	'checkuser-reason' => 'Priežastis:',
 	'checkuser-showlog' => 'Rodyti sąrašą',
@@ -4469,10 +4477,19 @@ $messages['lt'] = array(
 	'checkuser-edits' => 'Gauti redagavimus iš IP',
 	'checkuser-ips' => 'Gauti IP',
 	'checkuser-search' => 'Ieškoti',
+	'checkuser-period' => 'Trukmė:',
+	'checkuser-week-1' => 'Praeitą savaitę',
+	'checkuser-week-2' => 'Paskutines dvi savaites',
+	'checkuser-month' => 'paskutines 30 dienų',
+	'checkuser-all' => 'visi',
+	'checkuser-nomatch' => 'Atitikmenų nerasta.',
 	'checkuser-check' => 'Tikrinti',
 	'checkuser-blocked' => 'Užblokuotas',
+	'checkuser-gblocked' => 'Užblokuotas globaliai',
+	'checkuser-locked' => 'Užrakintas',
 	'checkuser-massblock' => 'Blokuoti pasirinktus naudotojus',
 	'checkuser-massblock-commit' => 'Blokuoti pasirinktus naudotojus',
+	'checkuser-block-failure' => "'''Nėra užblokuotų vartotijų.'''",
 	'checkuser-block-limit' => 'Pasirinkta per daug naudotojų.',
 	'checkuser-block-noreason' => 'Jūs turite nurodyti blokavimų priežastį.',
 	'checkuser-accounts' => '$1 nauja {{PLURAL:$1|paskyra|paskyros}}',
@@ -4480,8 +4497,13 @@ $messages['lt'] = array(
 Čia pateikiami naudojami IP adresai (daugiausiai 5000, suskirstyti pagal adresus):',
 	'checkuser-user-nonexistent' => 'Nurodytas naudotojas neegzistuoja.',
 	'checkuser-search-submit' => 'Ieškoti',
+	'checkuser-search-target' => 'taikinys',
+	'checkuser-ipeditcount' => '~$1 iš visų vartotojų',
 	'checkuser-log-subpage' => 'Sąrašas',
+	'checkuser-log-userips' => '$1 gavo IP adresų $2',
 	'checkuser-autocreate-action' => 'buvo automatiškai sukurtas',
+	'checkuser-create-action' => 'buvo sukurta',
+	'checkuser-email-action' => 'siųsti el. laišką vartotojui " $1 "',
 	'checkuser-reset-action' => 'atstatyti slaptažodį naudotojui "$1"',
 );
 
