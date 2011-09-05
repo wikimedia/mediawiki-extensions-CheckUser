@@ -657,14 +657,20 @@ $messages['avk'] = array(
  * @author Cekli829
  * @author Emperyan
  * @author PPerviz
+ * @author Vago
  */
 $messages['az'] = array(
 	'group-checkuser' => 'Təftişçilər',
 	'checkuser-reason' => 'Səbəb:',
 	'checkuser-log' => 'Təftişçi qeydi',
 	'checkuser-search' => 'Axtar',
+	'checkuser-period' => 'Müddəti:',
+	'checkuser-week-1' => 'Son həftə',
+	'checkuser-week-2' => 'son iki həftə',
 	'checkuser-log-fail' => 'Gündəlik girdilər əlavə etilemiyor.',
+	'checkuser-locked' => 'Bloklanıb',
 	'checkuser-search-submit' => 'Axtar',
+	'checkuser-create-action' => 'yaradılıb',
 );
 
 /** Bashkir (Башҡортса)
