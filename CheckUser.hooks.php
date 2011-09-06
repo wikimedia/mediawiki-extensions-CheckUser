@@ -12,10 +12,8 @@ class CheckUserHooks {
 		// Get IP
 		$ip = wfGetIP();
 		// Get XFF header
-		$xff = wfGetForwardedFor();
-		list( $xff_ip, $trusted ) = self::getClientIPfromXFF( $xff );
-		// Our squid XFFs can flood this up sometimes
-		$isSquidOnly = self::XFFChainIsSquid( $xff );
+		$xff = $wgRequest->getHeader( 'X-Forwarded-For' );
+		list( $xff_ip, $isSquidOnly ) = self::getClientIPfromXFF( $xff );
 		// Get agent
 		$agent = $wgRequest->getHeader( 'User-Agent' );
 		// Store the log action text for log events
@@ -78,10 +76,8 @@ class CheckUserHooks {
 		global $wgRequest;
 	
 		// Get XFF header
-		$xff = wfGetForwardedFor();
-		list( $xff_ip, $trusted ) = self::getClientIPfromXFF( $xff );
-		// Our squid XFFs can flood this up sometimes
-		$isSquidOnly = self::XFFChainIsSquid( $xff );
+		$xff = $wgRequest->getHeader( 'X-Forwarded-For' );
+		list( $xff_ip, $isSquidOnly ) = self::getClientIPfromXFF( $xff );
 		// Get agent
 		$agent = $wgRequest->getHeader( 'User-Agent' );
 		$dbw = wfGetDB( DB_MASTER );
@@ -125,10 +121,8 @@ class CheckUserHooks {
 		// Get IP
 		$ip = wfGetIP();
 		// Get XFF header
-		$xff = wfGetForwardedFor();
-		list( $xff_ip, $trusted ) = self::getClientIPfromXFF( $xff );
-		// Our squid XFFs can flood this up sometimes
-		$isSquidOnly = self::XFFChainIsSquid( $xff );
+		$xff = $wgRequest->getHeader( 'X-Forwarded-For' );
+		list( $xff_ip, $isSquidOnly ) = self::getClientIPfromXFF( $xff );
 		// Get agent
 		$agent = $wgRequest->getHeader( 'User-Agent' );
 		$dbw = wfGetDB( DB_MASTER );
@@ -180,10 +174,8 @@ class CheckUserHooks {
 		// Get IP
 		$ip = wfGetIP();
 		// Get XFF header
-		$xff = wfGetForwardedFor();
-		list( $xff_ip, $trusted ) = self::getClientIPfromXFF( $xff );
-		// Our squid XFFs can flood this up sometimes
-		$isSquidOnly = self::XFFChainIsSquid( $xff );
+		$xff = $wgRequest->getHeader( 'X-Forwarded-For' );
+		list( $xff_ip, $isSquidOnly ) = self::getClientIPfromXFF( $xff );
 		// Get agent
 		$agent = $wgRequest->getHeader( 'User-Agent' );
 		$dbw = wfGetDB( DB_MASTER );
@@ -228,16 +220,19 @@ class CheckUserHooks {
 	/**
 	 * Locates the client IP within a given XFF string
 	 * @param string $xff
-	 * @param string $address, the ip that sent this header (optional)
 	 * @return array( string, bool )
 	 */
-	public static function getClientIPfromXFF( $xff, $address = null ) {
+	public static function getClientIPfromXFF( $xff ) {
+		global $wgSquidServers, $wgSquidServersNoPurge;
+
 		if ( !$xff ) {
 			return array( null, false );
 		}
+
 		// Avoid annoyingly long xff hacks
 		$xff = trim( substr( $xff, 0, 255 ) );
 		$client = null;
+		$isSquidOnly = true;
 		$trusted = true;
 		// Check each IP, assuming they are separated by commas
 		$ips = explode( ',', $xff );
@@ -251,51 +246,18 @@ class CheckUserHooks {
 					if ( IP::isPublic( $ip ) ) {
 						$client = $ip;
 					}
-				# Check that all servers are trusted
-				} elseif ( !wfIsTrustedProxy( $ip ) ) {
-					$trusted = false;
-					break;
-				}
-			}
-		}
-		// We still have to test if the IP that sent
-		// this header is trusted to confirm results
-		if ( $client != $address && ( !$address || !wfIsTrustedProxy( $address ) ) ) {
-			$trusted = false;
-		}
-	
-		return array( $client, $trusted );
-	}
-	
-	public static function XFFChainIsSquid( $xff ) {
-		global $wgSquidServers, $wgSquidServersNoPurge;
-	
-		if ( !$xff ) {
-			false;
-		}
-		// Avoid annoyingly long xff hacks
-		$xff = trim( substr( $xff, 0, 255 ) );
-		$squidOnly = true;
-		// Check each IP, assuming they are separated by commas
-		$ips = explode( ',', $xff );
-		foreach ( $ips as $n => $ip ) {
-			$ip = trim( $ip );
-			// If it is a valid IP, not a hash or such
-			if ( IP::isIPAddress( $ip ) ) {
-				if ( $n == 0 ) {
-					// The first IP should be the client...
 				} elseif ( !in_array( $ip, $wgSquidServers )
 					&& !in_array( $ip, $wgSquidServersNoPurge ) )
 				{
-					$squidOnly = false;
+					$isSquidOnly = false;
 					break;
 				}
 			}
 		}
-	
-		return $squidOnly;
+
+		return array( $client, $isSquidOnly );
 	}
-	
+
 	public static function checkUserSchemaUpdates( DatabaseUpdater $updater ) {
 		$base = dirname( __FILE__ );
 
