@@ -248,7 +248,7 @@ $messages['af'] = array(
 	'checkuser-query' => 'Navraag op onlangse wysigings',
 	'checkuser-target' => 'IP-adres of gebruikersnaam:',
 	'checkuser-users' => 'Kry gebruikers',
-	'checkuser-edits' => 'Kry wysigings vanaf IP',
+	'checkuser-edits' => 'Kry wysigings',
 	'checkuser-ips' => 'Kry IPs',
 	'checkuser-search' => 'Soek',
 	'checkuser-period' => 'Duur:',
@@ -2545,6 +2545,8 @@ Lo dèrriér changement est arrevâ lo $1 a $2.',
 	'checkuser-wasblocked' => 'Blocâ dês devant',
 	'checkuser-localonly' => 'Pas unifiâ',
 	'checkuser-massblock' => 'Blocar los utilisators chouèsis',
+	'checkuser-massblock-text' => 'Los comptos chouèsis seront blocâs sen fin, avouéc lo blocâjo ôtomatico activâ et la crèacion de compto dèsactivâ.
+Les adrèces IP seront blocâs pendent yona semana por ren que los utilisators pas encartâs et pués la crèacion de compto serat dèsactivâ.',
 	'checkuser-blocktag' => 'Remplaciér les pâges utilisator per :',
 	'checkuser-blocktag-talk' => 'Remplaciér les pâges de discussion per :',
 	'checkuser-massblock-commit' => 'Blocar los utilisators chouèsis',
@@ -6036,6 +6038,7 @@ L'urteme cangiamende ha state fatte 'u $1 a le $2.",
 	'checkuser-log-ipusers-xff' => '$1 ha pigghiete le utinde pe XFF $2',
 	'checkuser-log-useredits' => '$1 ha pigghiete le cangiaminde pe $2',
 	'checkuser-autocreate-action' => 'ha state ccrejete automaticamende',
+	'checkuser-create-action' => 'ha state ccrejate',
 	'checkuser-email-action' => 'mannate \'na mail a l\'utende "$1"',
 	'checkuser-reset-action' => 'azzere \'a password pe l\'utende "$1"',
 );
@@ -8058,6 +8061,7 @@ $messages['zh-hans'] = array(
 
 /** Traditional Chinese (‪中文(繁體)‬)
  * @author Alexsh
+ * @author Anakmalaysia
  * @author Horacewai2
  * @author Liangent
  * @author Mark85296341
@@ -8081,7 +8085,7 @@ $messages['zh-hant'] = array(
 	'checkuser-query' => '查詢最近更改',
 	'checkuser-target' => '目標用戶或IP地址：',
 	'checkuser-users' => '查詢用戶名稱',
-	'checkuser-edits' => '從IP位址查詢編輯記錄',
+	'checkuser-edits' => '獲取編輯',
 	'checkuser-ips' => '查詢IP位址',
 	'checkuser-search' => '搜尋',
 	'checkuser-period' => '期限：',
@@ -8131,6 +8135,7 @@ $messages['zh-hant'] = array(
 	'checkuser-log-ipusers-xff' => '$1取得 XFF $2的用戶訊息',
 	'checkuser-log-useredits' => '$1取得$2的編輯記錄',
 	'checkuser-autocreate-action' => '經已自動建立',
+	'checkuser-create-action' => '已建立',
 	'checkuser-email-action' => '向使用者「$1」發送電郵',
 	'checkuser-reset-action' => '為使用者「$1」重設密碼',
 );
