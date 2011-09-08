@@ -5979,6 +5979,7 @@ Iată IP-urile folosite (maxim 5000, sortate după adresă):',
  * @author Reder
  */
 $messages['roa-tara'] = array(
+	'checkuser-logcase' => "L'archivije de ricerche jè sensibbele a le maiuscole e minuscole.",
 	'checkuser' => 'Utende verificatore',
 	'checkuser-contribs' => "condrolle le 'nderizze IP de le utinde",
 	'group-checkuser' => 'Utinde verificature',
@@ -6031,6 +6032,7 @@ L'urteme cangiamende ha state fatte 'u $1 a le $2.",
 	'checkuser-ipeditcount' => "~$1 da tutte l'utinde",
 	'checkuser-log-subpage' => 'Archivije',
 	'checkuser-log-return' => "Tuèrne a 'u module prengepale de CheckUser",
+	'checkuser-limited' => "'''Chiste resultate onne state tagghiate pe mutive de performance.'''",
 	'checkuser-log-userips' => '$1 ha pigghiete le IP pe $2',
 	'checkuser-log-ipedits' => '$1 ha pigghiete le cangiaminde pe $2',
 	'checkuser-log-ipusers' => '$1 ha pigghiete le utinde pe $2',
