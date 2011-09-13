@@ -30,7 +30,7 @@ $specialPageAliases['as'] = array(
 
 /** Bulgarian (Български) */
 $specialPageAliases['bg'] = array(
-	'CheckUser' => array( 'Проверка на потребител' ),
+	'CheckUser' => array( 'Проверка_на_потребител' ),
 );
 
 /** Breton (Brezhoneg) */
@@ -65,7 +65,7 @@ $specialPageAliases['eo'] = array(
 
 /** Spanish (Español) */
 $specialPageAliases['es'] = array(
-	'CheckUser' => array( 'VerificarUsuario', 'CombrobarUsuario', 'Comprobar_usuario' ),
+	'CheckUser' => array( 'CheckUser', 'VerificarUsuario', 'CombrobarUsuario', 'Comprobar_usuario' ),
 );
 
 /** Persian (فارسی) */
@@ -241,6 +241,11 @@ $specialPageAliases['sk'] = array(
 /** Albanian (Shqip) */
 $specialPageAliases['sq'] = array(
 	'CheckUser' => array( 'KontrolloPërdorues' ),
+);
+
+/** Swedish (Svenska) */
+$specialPageAliases['sv'] = array(
+	'CheckUser' => array( 'Kolla_användare' ),
 );
 
 /** Swahili (Kiswahili) */
