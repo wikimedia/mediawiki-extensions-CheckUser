@@ -5420,11 +5420,17 @@ Vaquí un extrach de las IP utilizadas ({{formatnum:5000}} maximum, triadas per 
  * @author Psubhashish
  */
 $messages['or'] = array(
+	'checkuser' => 'ତନଖି ଚାଳକ',
 	'checkuser-reason' => 'କାରଣ:',
 	'checkuser-search' => 'ଖୋଜିବା',
 	'checkuser-period' => 'ଅବଧି:',
 	'checkuser-all' => 'ସବୁ',
+	'checkuser-check' => 'ଯାଞ୍ଚ କରିବା',
+	'checkuser-blocked' => 'ଅଟକାଯାଇଥିବା',
+	'checkuser-locked' => 'କିଳାଯାଇଅଛି',
 	'checkuser-search-submit' => 'ଖୋଜିବା',
+	'checkuser-search-target' => 'ଲକ୍ଷ',
+	'checkuser-log-subpage' => 'ଲଗ୍',
 );
 
 /** Ossetic (Ирон)
