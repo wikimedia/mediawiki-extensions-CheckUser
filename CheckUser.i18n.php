@@ -1638,7 +1638,7 @@ IP-Adressen werden für eine Woche gesperrt (nur für unangemeldete Benutzer, di
 	'checkuser-search-form' => 'Suche Logbucheinträge, bei denen $1 $2 ist.',
 	'checkuser-search-submit' => 'Suche',
 	'checkuser-search-initiator' => 'CheckUser-Berechtigter',
-	'checkuser-search-target' => 'Abfrageziel (Benutzerkonto/ IP-Adresse)',
+	'checkuser-search-target' => 'Abfrageziel (Benutzerkonto/IP-Adresse)',
 	'checkuser-ipeditcount' => '~ $1 von allen Benutzern',
 	'checkuser-log-subpage' => 'Logbuch',
 	'checkuser-log-return' => 'Zurück zum CheckUser-Hauptformular',
@@ -5339,6 +5339,7 @@ $messages['nso'] = array(
 );
 
 /** Occitan (Occitan)
+ * @author Boulaur
  * @author Cedric31
  */
 $messages['oc'] = array(
@@ -5410,6 +5411,7 @@ Vaquí un extrach de las IP utilizadas ({{formatnum:5000}} maximum, triadas per 
 	'checkuser-log-ipusers-xff' => "$1 a obtengut d'utilizaires per XFF $2",
 	'checkuser-log-useredits' => '$1 a obtengut las modificacions per $2',
 	'checkuser-autocreate-action' => 'es estat creat automaticament',
+	'checkuser-create-action' => 'es estat creat',
 	'checkuser-email-action' => 'a mandat un corrièr electronic a « $1 »',
 	'checkuser-reset-action' => 'torna inicializar lo senhal per « $1 »',
 );
