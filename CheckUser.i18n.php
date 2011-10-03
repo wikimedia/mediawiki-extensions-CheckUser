@@ -4267,6 +4267,7 @@ Hee sin de eetßte 5000 IP-Addresse, zoteeet:',
 	'checkuser-log-ipusers-xff' => '$1 hät de Metmaacher jehollt för XFF $2',
 	'checkuser-log-useredits' => 'dä Metmmacher „$1“ hät dem Metmaacher „$2“ sing Änderunge aanjeloort',
 	'checkuser-autocreate-action' => 'wohd automattesch aanjelaat',
+	'checkuser-create-action' => 'wood aanjelaat',
 	'checkuser-email-action' => 'en e-mail aan „$1“ jescheck',
 	'checkuser-reset-action' => 'Däm Metmaacher „$1“ sing Paßwoot automattesch neu setze',
 );
