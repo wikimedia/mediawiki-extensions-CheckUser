@@ -58,8 +58,8 @@ class CheckUserHooks {
 
 		# Every 100th edit, prune the checkuser changes table.
 		if ( 0 == mt_rand( 0, 99 ) ) {
-			$cutoff = $dbw->timestamp( time() - $wgCUDMaxAge );
-			$dbw->delete( 'cu_changes', array( "cuc_timestamp < '{$cutoff}'" ), __METHOD__ );
+			$encCutoff = $dbw->addQuotes( $dbw->timestamp( time() - $wgCUDMaxAge ) );
+			$dbw->delete( 'cu_changes', array( "cuc_timestamp < $encCutoff" ), __METHOD__ );
 		}
 	
 		return true;
