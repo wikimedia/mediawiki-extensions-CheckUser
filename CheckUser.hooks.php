@@ -58,11 +58,8 @@ class CheckUserHooks {
 
 		# Every 100th edit, prune the checkuser changes table.
 		if ( 0 == mt_rand( 0, 99 ) ) {
-			# Periodically flush old entries from the recentchanges table.
 			$cutoff = $dbw->timestamp( time() - $wgCUDMaxAge );
-			$recentchanges = $dbw->tableName( 'cu_changes' );
-			$sql = "DELETE FROM $recentchanges WHERE cuc_timestamp < '{$cutoff}'";
-			$dbw->query( $sql, __METHOD__ );
+			$dbw->delete( 'cu_changes', array( "cuc_timestamp < '{$cutoff}'" ), __METHOD__ );
 		}
 	
 		return true;
