@@ -115,6 +115,7 @@ Here are the IPs used (5000 max, sorted by address):',
  * @author Slomox
  * @author Tgr
  * @author The Evil IP address
+ * @author Umherirrender
  */
 $messages['qqq'] = array(
 	'checkuser-summary' => "Explanation of CheckUser tool. See [http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface screenshot titled 'Basic CheckUser interface'].",
@@ -122,13 +123,16 @@ $messages['qqq'] = array(
 	'checkuser' => 'Check user extension. The name of the special page where checkusers can check the IP addresses of users. The message is used in the list of special pages, and at the top of [[Special:Checkuser]].
 
 {{Identical|Check user}}',
-	'group-checkuser' => 'Appears to be the name of the group of users (check is a noun, not a verb here).
+	'group-checkuser' => '{{doc-group|checkuser}}
+check is a noun, not a verb here
 
 {{Identical|Check user}}',
-	'group-checkuser-member' => '{{Identical|Check user}}',
-	'right-checkuser' => '{{doc-right}}',
-	'right-checkuser-log' => '{{doc-right}}',
-	'grouppage-checkuser' => '{{Identical|Check user}}',
+	'group-checkuser-member' => '{{doc-group|checkuser|member}}
+{{Identical|Check user}}',
+	'right-checkuser' => '{{doc-right|checkuser}}',
+	'right-checkuser-log' => '{{doc-right|checkuser-log}}',
+	'grouppage-checkuser' => '{{doc-group|checkuser|page}}
+{{Identical|Check user}}',
 	'checkuser-reason' => "Field name on CheckUser Special page. See screenshot '[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]'.
 
 {{Identical|Reason}}",
