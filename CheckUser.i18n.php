@@ -1594,7 +1594,7 @@ Aus Performance-Gründen werden maximal 5000 Bearbeitungen ausgegeben. Benutze C
 	'checkuser' => 'Checkuser',
 	'checkuser-contribs' => 'IP-Adressen von Benutzer prüfen',
 	'group-checkuser' => 'Checkuser',
-	'group-checkuser-member' => 'Checkuser-Berechtigter',
+	'group-checkuser-member' => '{{GENDER:$1|Checkuser-Berechtigter|Checkuser-Berechtigte}}',
 	'right-checkuser' => 'IP-Adressen sowie Verbindungen zwischen IP-Adressen und angemeldeten Benutzern prüfen',
 	'right-checkuser-log' => 'Checkuser-Logbuch ansehen',
 	'grouppage-checkuser' => '{{ns:project}}:CheckUser',
@@ -2413,7 +2413,7 @@ Veuillez utiliser cet outil dans le respect de la charte d’utilisation.',
 	'checkuser' => 'Vérificateur d’utilisateur',
 	'checkuser-contribs' => 'vérifier les adresses IP',
 	'group-checkuser' => 'Vérificateurs d’utilisateurs',
-	'group-checkuser-member' => 'vérificateur d’utilisateur',
+	'group-checkuser-member' => '{{GENDER:$1|vérificateur d’utilisateur|vérificatrice d’utilisateur}}',
 	'right-checkuser' => 'Vérifier les adresses IP et autres informations d’un utilisateur',
 	'right-checkuser-log' => 'Visualiser le journal des vérifications d’utilisateurs',
 	'grouppage-checkuser' => '{{ns:project}}:Vérificateurs d’utilisateurs',
@@ -2675,7 +2675,7 @@ Use isto de acordo coas políticas.',
 	'checkuser' => 'Verificador de usuarios',
 	'checkuser-contribs' => 'comprobar os enderezos IP do usuario',
 	'group-checkuser' => 'Verificadores de usuarios',
-	'group-checkuser-member' => 'verificador de usuarios',
+	'group-checkuser-member' => '{{GENDER:$1|verificador|verificadora}} de usuarios',
 	'right-checkuser' => 'Comprobar os enderezos IP dos usuarios e outra información',
 	'right-checkuser-log' => 'Ver o rexistro de comprobadores de usuarios',
 	'grouppage-checkuser' => '{{ns:project}}:Verificadores de usuarios',
@@ -3918,7 +3918,7 @@ $messages['kk-arab'] = array(
 	'checkuser-log-ipusers-xff' => 'XFF $2 ٴۇشىن $1 قاتىسۋشى الىندى',
 );
 
-/** Kazakh (Cyrillic) (Қазақша (Cyrillic)) */
+/** Kazakh (Cyrillic script) (‪Қазақша (кирил)‬) */
 $messages['kk-cyrl'] = array(
 	'checkuser-summary' => 'Бұл құрал пайдаланушы қолданған IP жайлар үшін, немесе IP жай түзету/пайдаланушы деректерін көрсету үшін жуықтағы өзгерістерді қарап шығады.
 	Пайдаланушыларды мен түзетулерді XFF IP арқылы IP жайға «/xff» дегенді қосып келтіруге болады. IPv4 (CIDR 16-32) және IPv6 (CIDR 96-128) арқауланады.
@@ -3958,7 +3958,7 @@ $messages['kk-cyrl'] = array(
 	'checkuser-log-ipusers-xff' => 'XFF $2 үшін $1 қатысушы алынды',
 );
 
-/** Kazakh (Latin) (Қазақша (Latin)) */
+/** Kazakh (Latin script) (‪Qazaqşa (latın)‬) */
 $messages['kk-latn'] = array(
 	'checkuser-summary' => 'Bul qural paýdalanwşı qoldanğan IP jaýlar üşin, nemese IP jaý tüzetw/paýdalanwşı derekterin körsetw üşin jwıqtağı özgeristerdi qarap şığadı.
 	Paýdalanwşılardı men tüzetwlerdi XFF IP arqılı IP jaýğa «/xff» degendi qosıp keltirwge boladı. IPv4 (CIDR 16-32) jäne IPv6 (CIDR 96-128) arqawlanadı.
@@ -5496,7 +5496,7 @@ Używaj tego narzędzia zgodnie z zasadami.',
 	'checkuser' => 'Sprawdź IP użytkownika',
 	'checkuser-contribs' => 'sprawdzić adresy IP użytkownika',
 	'group-checkuser' => 'CheckUser',
-	'group-checkuser-member' => 'checkuser',
+	'group-checkuser-member' => '{{GENDER:$1|checkuser|checkuserka}}',
 	'right-checkuser' => 'Sprawdzanie adresów IP oraz innych informacji o użytkownikach',
 	'right-checkuser-log' => 'Przeglądanie rejestru checkuser',
 	'grouppage-checkuser' => '{{ns:project}}:CheckUser',
@@ -6624,7 +6624,7 @@ $messages['sq'] = array(
 	'checkuser' => 'Kontrollo përdoruesin',
 );
 
-/** Serbian Cyrillic ekavian (‪Српски (ћирилица)‬)
+/** Serbian (Cyrillic script) (‪Српски (ћирилица)‬)
  * @author Millosh
  * @author Rancher
  * @author Sasa Stefanovic
@@ -6709,7 +6709,7 @@ IP адресе ће бити блокиране на недељу дана за
 	'checkuser-reset-action' => 'обнови лозинку за корисника "$1"',
 );
 
-/** Serbian Latin ekavian (‪Srpski (latinica)‬)
+/** Serbian (Latin script) (‪Srpski (latinica)‬)
  * @author Michaello
  * @author Жељко Тодоровић
  * @author Михајло Анђелковић
@@ -7161,7 +7161,7 @@ $messages['tg'] = array(
 	'right-checkuser-log' => 'Мушоҳидаи гузоришҳои бозрасии корбарӣ',
 );
 
-/** Tajik (Cyrillic) (Тоҷикӣ (Cyrillic))
+/** Tajik (Cyrillic script) (Тоҷикӣ)
  * @author Ibrahim
  */
 $messages['tg-cyrl'] = array(
@@ -7221,7 +7221,7 @@ $messages['tg-cyrl'] = array(
 	'checkuser-email-action' => 'почтаи электронӣ ба корбар "$1" фиристода шуд',
 );
 
-/** Tajik (Latin) (Тоҷикӣ (Latin))
+/** Tajik (Latin script) (tojikī)
  * @author Liangent
  */
 $messages['tg-latn'] = array(
@@ -7568,7 +7568,7 @@ Kullanılan IP'ler (max 5000, adrese göre sıralı):",
 	'checkuser-reset-action' => '"$1" kullanıcısı için parolayı sıfırla',
 );
 
-/** Tatar (Cyrillic) (Татарча/Tatarça (Cyrillic))
+/** Tatar (Cyrillic script) (Татарча)
  * @author Ильнар
  */
 $messages['tt-cyrl'] = array(
