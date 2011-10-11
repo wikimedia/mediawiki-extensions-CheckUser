@@ -1018,7 +1018,7 @@ class CheckUser extends SpecialPage {
 					}
 					$list = array();
 					foreach ( $user->getGroups() as $group ) {
-						$list[] = self::buildGroupLink( $group );
+						$list[] = self::buildGroupLink( $group, $user->getName() );
 					}
 					$groups = $wgLang->commaList( $list );
 					if ( $groups ) {
@@ -1267,12 +1267,13 @@ class CheckUser extends SpecialPage {
 	 * Format a link to a group description page
 	 *
 	 * @param string $group
+	 * @param string $username
 	 * @return string
 	 */
-	protected static function buildGroupLink( $group ) {
+	protected static function buildGroupLink( $group, $username = '#' ) {
 		static $cache = array();
 		if ( !isset( $cache[$group] ) ) {
-			$cache[$group] = User::makeGroupLinkHtml( $group, User::getGroupMember( $group ) );
+			$cache[$group] = User::makeGroupLinkHtml( $group, User::getGroupMember( $group, $username ) );
 		}
 		return $cache[$group];
 	}
