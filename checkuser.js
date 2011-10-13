@@ -1,8 +1,8 @@
 /* -- (c) Aaron Schulz 2009 */
 
 var showResults = function(size, cidr) {
-	$( '#mw-checkuser-cidr-res' ).val( size );
-	$( '#mw-checkuser-ipnote' ).text( cidr );
+	$( '#mw-checkuser-cidr-res' ).val( cidr );
+	$( '#mw-checkuser-ipnote' ).text( size );
 };
 
 /*
