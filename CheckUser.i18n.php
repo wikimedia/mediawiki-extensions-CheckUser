@@ -1289,6 +1289,7 @@ Aquí teniu les IP usades (màx. 5000 ordenades per adreça):",
 	'checkuser-log-ipusers-xff' => '$1 consulta els usuaris del XFF $2',
 	'checkuser-log-useredits' => '$1 consulta les edicions de $2',
 	'checkuser-autocreate-action' => 'fou automàticament creat',
+	'checkuser-create-action' => 'va ser creat',
 	'checkuser-email-action' => "S'ha enviat un missatge de correu electrònic a {{GENDER:$1|l'usuari|la usuària}} $1",
 	'checkuser-reset-action' => "reinicia la contrasenya de l'usuari «$1»",
 );
