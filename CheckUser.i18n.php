@@ -6089,7 +6089,7 @@ $messages['ru'] = array(
 	'checkuser' => 'Проверить участника',
 	'checkuser-contribs' => 'проверить IP-адреса участника',
 	'group-checkuser' => 'Проверяющие участников',
-	'group-checkuser-member' => 'проверяющий участников',
+	'group-checkuser-member' => '{{GENDER:$1|проверяющий участников|проверяющая участников}}',
 	'right-checkuser' => 'проверка IP-адресов и другой информации об участниках',
 	'right-checkuser-log' => 'просмотр журнала проверки участников',
 	'grouppage-checkuser' => '{{ns:project}}:Проверка участников',
@@ -6644,7 +6644,7 @@ $messages['sr-ec'] = array(
 	'checkuser' => 'Чекјузер',
 	'checkuser-contribs' => 'Провери корисникове ИП адресе',
 	'group-checkuser' => 'Чекјузери',
-	'group-checkuser-member' => 'Чекјузер',
+	'group-checkuser-member' => '{{GENDER:$1|чекјузер}}',
 	'right-checkuser' => 'проверава корисничке ИП адресе и друге информације.',
 	'right-checkuser-log' => 'Погледај чекјузер лог',
 	'grouppage-checkuser' => '{{ns:project}}:Чекјузер',
@@ -6654,7 +6654,7 @@ $messages['sr-ec'] = array(
 	'checkuser-query' => 'Упит на скорашње измене.',
 	'checkuser-target' => 'Корисничко име или ИП адреса:',
 	'checkuser-users' => 'Прикупљање корисничких имена.',
-	'checkuser-edits' => 'Прикупљање измена од стране ИП адресе.',
+	'checkuser-edits' => 'Прикажи измене',
 	'checkuser-ips' => 'Прикупи IP адресе',
 	'checkuser-search' => 'Претрага',
 	'checkuser-period' => 'Трајање:',
@@ -6707,7 +6707,7 @@ IP адресе ће бити блокиране на недељу дана за
 	'checkuser-log-useredits' => '$1 преузео измене од $2',
 	'checkuser-autocreate-action' => 'је аутоматски направљен',
 	'checkuser-email-action' => 'е-порука је послата кориснику „$1“',
-	'checkuser-reset-action' => 'обнови лозинку за корисника "$1"',
+	'checkuser-reset-action' => 'поништи лозинку корисника „$1“',
 );
 
 /** Serbian (Latin script) (‪Srpski (latinica)‬)
