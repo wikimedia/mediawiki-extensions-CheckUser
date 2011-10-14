@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Makes the required database changes for the CheckUser extension
  */
 
