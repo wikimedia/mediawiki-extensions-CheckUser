@@ -84,3 +84,9 @@ $wgSpecialPageGroups['CheckUser'] = 'users';
 
 $wgAutoloadClasses['CheckUser'] = dirname( __FILE__ ) . '/CheckUser_body.php';
 $wgAutoloadClasses['CheckUserHooks'] = dirname( __FILE__ ) . '/CheckUser.hooks.php';
+
+// API modules
+$wgAutoloadClasses['ApiQueryCheckUser'] = "$dir/api/ApiQueryCheckUser.php";
+$wgAPIListModules['checkuser'] = 'ApiQueryCheckUser';
+$wgAutoloadClasses['ApiQueryCheckUserLog'] = "$dir/api/ApiQueryCheckUserLog.php";
+$wgAPIListModules['checkuserlog'] = 'ApiQueryCheckUserLog';

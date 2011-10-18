@@ -1284,7 +1284,7 @@ class CheckUser extends SpecialPage {
 	 * @param string $xfor
 	 * @return mixed array/false conditions
 	 */
-	protected function getIpConds( $db, $ip, $xfor = false ) {
+	public static function getIpConds( $db, $ip, $xfor = false ) {
 		$type = ( $xfor ) ? 'xff' : 'ip';
 		// IPv4 CIDR, 16-32 bits
 		$matches = array();
@@ -1452,7 +1452,7 @@ class CheckUser extends SpecialPage {
 			Xml::monthSelector( $encMonth, - 1 );
 	}
 
-	protected function addLogEntry( $logType, $targetType, $target, $reason, $targetID = 0 ) {
+	public static function addLogEntry( $logType, $targetType, $target, $reason, $targetID = 0 ) {
 		global $wgUser;
 
 		if ( $targetType == 'ip' ) {

@@ -27,6 +27,7 @@ Use this in accordance with policy.',
 	'right-checkuser-log'        => 'View the checkuser log',
 	'grouppage-checkuser'        => '{{ns:project}}:Check user',
 	'checkuser-reason'           => 'Reason:',
+	'checkuser-reason-api'       => 'API:',
 	'checkuser-showlog'          => 'Show log',
 	'checkuser-log'              => 'CheckUser log',
 	'checkuser-query'            => 'Query recent changes',
@@ -136,6 +137,7 @@ check is a noun, not a verb here
 	'checkuser-reason' => "Field name on CheckUser Special page. See screenshot '[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]'.
 
 {{Identical|Reason}}",
+	'checkuser-reason-api' => 'Prefixes check user query reasons that are made through the API',
 	'checkuser-showlog' => "Label for link on CheckUser Special page. See screenshot '[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]'.",
 	'checkuser-query' => "Fieldset label. See [http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface screenshot titled 'Basic CheckUser interface'].",
 	'checkuser-target' => '{{Identical|IP address or username}}',
