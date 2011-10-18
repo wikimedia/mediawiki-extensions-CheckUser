@@ -415,7 +415,7 @@ class CheckUser extends SpecialPage {
 		}
 
 		# Record check...
-		if ( !$this->addLogEntry( 'userips', 'user', $user, $reason, $user_id ) ) {
+		if ( !self::addLogEntry( 'userips', 'user', $user, $reason, $user_id ) ) {
 			// FIXME: addWikiMsg
 			$wgOut->addHTML( '<p>' . wfMsgHtml( 'checkuser-log-fail' ) . '</p>' );
 		}
@@ -552,7 +552,7 @@ class CheckUser extends SpecialPage {
 		global $wgOut, $wgLang;
 		$dbr = wfGetDB( DB_SLAVE );
 		# Invalid IPs are passed in as a blank string
-		$ip_conds = $this->getIpConds( $dbr, $ip, $xfor );
+		$ip_conds = self::getIpConds( $dbr, $ip, $xfor );
 		if ( !$ip || $ip_conds === false ) {
 			$wgOut->addWikiMsg( 'badipaddress' );
 			return;
@@ -563,7 +563,7 @@ class CheckUser extends SpecialPage {
 			$logType .= '-xff';
 		}
 		# Record check...
-		if ( !$this->addLogEntry( $logType, 'ip', $ip, $reason ) ) {
+		if ( !self::addLogEntry( $logType, 'ip', $ip, $reason ) ) {
 			$wgOut->addWikiMsg( 'checkuser-log-fail' );
 		}
 
@@ -722,7 +722,7 @@ class CheckUser extends SpecialPage {
 		}
 
 		# Record check...
-		if ( !$this->addLogEntry( 'useredits', 'user', $user, $reason, $user_id ) ) {
+		if ( !self::addLogEntry( 'useredits', 'user', $user, $reason, $user_id ) ) {
 			$wgOut->addHTML( '<p>' . wfMsgHtml( 'checkuser-log-fail' ) . '</p>' );
 		}
 
@@ -841,7 +841,7 @@ class CheckUser extends SpecialPage {
 		global $wgUser, $wgOut, $wgLang;
 		$dbr = wfGetDB( DB_SLAVE );
 		# Invalid IPs are passed in as a blank string
-		$ip_conds = $this->getIpConds( $dbr, $ip, $xfor );
+		$ip_conds = self::getIpConds( $dbr, $ip, $xfor );
 		if ( !$ip || $ip_conds === false ) {
 			$wgOut->addWikiMsg( 'badipaddress' );
 			return;
@@ -852,7 +852,7 @@ class CheckUser extends SpecialPage {
 			$logType .= '-xff';
 		}
 		# Log the check...
-		if ( !$this->addLogEntry( $logType, 'ip', $ip, $reason ) ) {
+		if ( !self::addLogEntry( $logType, 'ip', $ip, $reason ) ) {
 			$wgOut->addHTML( '<p>' . wfMsgHtml( 'checkuser-log-fail' ) . '</p>' );
 		}
 
@@ -1281,7 +1281,7 @@ class CheckUser extends SpecialPage {
 	/**
 	 * @param Database $db
 	 * @param string $ip
-	 * @param string $xfor
+	 * @param string|bool $xfor
 	 * @return mixed array/false conditions
 	 */
 	public static function getIpConds( $db, $ip, $xfor = false ) {

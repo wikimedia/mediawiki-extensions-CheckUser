@@ -24,7 +24,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 
 		$limit = $params['limit'];
 		$target = $params['target'];
-		$reason = wfMsgForContent( 'checkuser-reason-api' ) . ' ' . $params['reason'];
+		$reason = wfMsgForContent( 'checkuser-reason-api', $params['reason'] );
 		$time = wfTimestamp( TS_MW,
 			strtotime( 'now' ) - ( strtotime( $params['timecond'] ? $params['timecond'] : '2 weeks' ) - strtotime( 'now'
 			) )
