@@ -213,11 +213,11 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				ApiBase::PARAM_TYPE => array(
 					'userips',
 					'edits',
-					'ipusers'
+					'ipusers',
 				)
 			),
 			'target' => array(
-				ApiBase::PARAM_REQUIRED => false
+				ApiBase::PARAM_REQUIRED => true,
 			),
 			'reason' => null,
 			'limit' => array(
@@ -225,9 +225,9 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				ApiBase::PARAM_TYPE => 'limit',
 				ApiBase::PARAM_MIN => 1,
 				ApiBase::PARAM_MAX => 5000,
-				ApiBase::PARAM_MAX2 => 5000
+				ApiBase::PARAM_MAX2 => 5000,
 			),
-			'timecond' => null
+			'timecond' => null,
 		);
 	}
 
