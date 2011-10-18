@@ -6,7 +6,7 @@ class CheckUserHooks {
 	 */
 	public static function updateCheckUserData( RecentChange $rc ) {
 		global $wgRequest, $wgCUDMaxAge;
-	
+
 		// Extract params
 		extract( $rc->mAttribs );
 		// Get IP
@@ -28,7 +28,7 @@ class CheckUserHooks {
 		} else {
 			$actionText = '';
 		}
-	
+
 		$dbw = wfGetDB( DB_MASTER );
 		$cuc_id = $dbw->nextSequenceValue( 'cu_changes_cu_id_seq' );
 		$rcRow = array(
@@ -61,17 +61,17 @@ class CheckUserHooks {
 			$encCutoff = $dbw->addQuotes( $dbw->timestamp( time() - $wgCUDMaxAge ) );
 			$dbw->delete( 'cu_changes', array( "cuc_timestamp < $encCutoff" ), __METHOD__ );
 		}
-	
+
 		return true;
 	}
-	
+
 	/**
 	 * Hook function to store password reset
 	 * Saves user data into the cu_changes table
 	 */
 	public static function updateCUPasswordResetData( User $user, $ip, $account ) {
 		global $wgRequest;
-	
+
 		// Get XFF header
 		$xff = $wgRequest->getHeader( 'X-Forwarded-For' );
 		list( $xff_ip, $isSquidOnly ) = self::getClientIPfromXFF( $xff );
@@ -99,10 +99,10 @@ class CheckUserHooks {
 			'cuc_agent'      => $agent
 		);
 		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
-	
+
 		return true;
 	}
-	
+
 	/**
 	 * Hook function to store email data
 	 * Saves user data into the cu_changes table
@@ -144,10 +144,10 @@ class CheckUserHooks {
 			'cuc_agent'      => $agent
 		);
 		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
-	
+
 		return true;
 	}
-	
+
 	/**
 	 * Hook function to store autocreation data from the auth plugin
 	 * Saves user data into the cu_changes table
@@ -159,7 +159,7 @@ class CheckUserHooks {
 	public static function updateAutoCreateData( User $user ) {
 		return self::logUserAccountCreation( $user, 'checkuser-autocreate-action' );
 	}
-	
+
 	/**
 	 * @param $user User
 	 * @param $actiontext string
@@ -167,7 +167,7 @@ class CheckUserHooks {
 	 */
 	public static function logUserAccountCreation( User $user, $actiontext ) {
 		global $wgRequest;
-	
+
 		// Get IP
 		$ip = wfGetIP();
 		// Get XFF header
@@ -198,10 +198,10 @@ class CheckUserHooks {
 			'cuc_agent'      => $agent
 		);
 		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
-	
+
 		return true;
 	}
-	
+
 	/**
 	 * Hook function to store registration data
 	 * Saves user data into the cu_changes table
@@ -213,7 +213,7 @@ class CheckUserHooks {
 	public static function addNewAccount( User $user, $byEmail ) {
 		return self::logUserAccountCreation( $user, 'checkuser-create-action' );
 	}
-	
+
 	/**
 	 * Locates the client IP within a given XFF string
 	 * @param string $xff
@@ -287,7 +287,7 @@ class CheckUserHooks {
 			create_cu_log( $db );
 		}
 	}
-	
+
 	/**
 	 * Tell the parser test engine to create a stub cu_changes table,
 	 * or temporary pages won't save correctly during the test run.
@@ -296,7 +296,7 @@ class CheckUserHooks {
 		$tables[] = 'cu_changes';
 		return true;
 	}
-	
+
 	/**
 	 * Add a link to Special:CheckUser on Special:Contributions/<username> for
 	 * privileged users.

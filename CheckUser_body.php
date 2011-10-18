@@ -176,7 +176,7 @@ class CheckUser extends SpecialPage {
 		$form .= '&#160;' . $this->getPeriodMenu( $period ) . '</td>';
 		$form .= '</tr><tr>';
 		$form .= '<td></td>';
-		$form .= Xml::openElement('td', array( 'class' => 'checkuserradios' ) );
+		$form .= Xml::openElement( 'td', array( 'class' => 'checkuserradios' ) );
 		$form .= Xml::openElement( 'table', array( 'style' => 'border:0' ) );
 		$form .= '<tr>';
 		$form .= '<td>' .
@@ -278,18 +278,18 @@ class CheckUser extends SpecialPage {
 		$counter = $blockSize = 0;
 		$safeUsers = array();
 		$log = new LogPage( 'block' );
-		foreach( $users as $name ) {
+		foreach ( $users as $name ) {
 			# Enforce limits
 			$counter++;
 			$blockSize++;
 			# Lets not go *too* fast
-			if( $blockSize >= 20 ) {
+			if ( $blockSize >= 20 ) {
 				$blockSize = 0;
 				wfWaitForSlaves( 5 );
 			}
 			$u = User::newFromName( $name, false );
 			// If user doesn't exist, it ought to be an IP then
-			if( is_null( $u ) || ( !$u->getId() && !IP::isIPAddress( $u->getName() ) ) ) {
+			if ( is_null( $u ) || ( !$u->getId() && !IP::isIPAddress( $u->getName() ) ) ) {
 				continue;
 			}
 			$userTitle = $u->getUserPage();
@@ -314,12 +314,12 @@ class CheckUser extends SpecialPage {
 			$block->prevents( 'editownusertalk', false );
 
 			$oldblock = Block::newFromTarget( $u->getName() );
-			if( !$oldblock ) {
+			if ( !$oldblock ) {
 				$block->insert();
 				# Prepare log parameters
 				$logParams = array();
 				$logParams[] = $expirestr;
-				if( $anonOnly ) {
+				if ( $anonOnly ) {
 					$logParams[] = 'anononly';
 				}
 				$logParams[] = 'nocreate';
@@ -327,10 +327,10 @@ class CheckUser extends SpecialPage {
 				$log->addEntry( 'block', $userTitle, $reason, $logParams );
 			}
 			# Tag userpage! (check length to avoid mistakes)
-			if( strlen( $tag ) > 2 ) {
+			if ( strlen( $tag ) > 2 ) {
 				$userpage->doEdit( $tag, $reason, EDIT_MINOR );
 			}
-			if( strlen( $talkTag ) > 2 ) {
+			if ( strlen( $talkTag ) > 2 ) {
 				$usertalk->doEdit( $talkTag, $reason, EDIT_MINOR );
 			}
 		}
@@ -648,9 +648,9 @@ class CheckUser extends SpecialPage {
 		$ret = $dbr->select(
 			'cu_changes',
 			array(
-				'cuc_namespace','cuc_title', 'cuc_user', 'cuc_user_text', 'cuc_comment', 'cuc_actiontext',
+				'cuc_namespace', 'cuc_title', 'cuc_user', 'cuc_user_text', 'cuc_comment', 'cuc_actiontext',
 				'cuc_timestamp', 'cuc_minor', 'cuc_page_id', 'cuc_type', 'cuc_this_oldid',
-				'cuc_last_oldid', 'cuc_ip', 'cuc_xff','cuc_agent'
+				'cuc_last_oldid', 'cuc_ip', 'cuc_xff', 'cuc_agent'
 			),
 			array( $ip_conds, $time_conds ),
 			__METHOD__,
@@ -956,7 +956,7 @@ class CheckUser extends SpecialPage {
 			$s = $this->noMatchesMessage( $ip, !$xfor ) . "\n";
 		} else {
 			global $wgAuth;
-			foreach( $ret as $row ) {
+			foreach ( $ret as $row ) {
 				if ( !array_key_exists( $row->cuc_user_text, $users_edits ) ) {
 					$users_last[$row->cuc_user_text] = $row->cuc_timestamp;
 					$users_edits[$row->cuc_user_text] = 0;
