@@ -100,7 +100,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		return array_merge( parent::getPossibleErrors(),
 			array(
 				array( 'permissionerror' ),
-			),
+			)
 		);
 	}
 
