@@ -372,6 +372,7 @@ $messages['ang'] = array(
 
 /** Arabic (العربية)
  * @author Alnokta
+ * @author AwamerT
  * @author Ciphers
  * @author Meno25
  * @author Mido
@@ -392,6 +393,7 @@ $messages['ar'] = array(
 	'right-checkuser-log' => 'رؤية سجل تدقيق المستخدم',
 	'grouppage-checkuser' => '{{ns:project}}:تدقيق مستخدم',
 	'checkuser-reason' => 'السبب:',
+	'checkuser-reason-api' => 'واجهة برمجة التطبيقات',
 	'checkuser-showlog' => 'عرض السجل',
 	'checkuser-log' => 'سجل تدقيق المستخدم',
 	'checkuser-query' => 'فحص أحدث التغييرات',
@@ -1615,6 +1617,7 @@ Aus Performance-Gründen werden maximal 5000 Bearbeitungen ausgegeben. Benutze C
 	'right-checkuser-log' => 'Checkuser-Logbuch ansehen',
 	'grouppage-checkuser' => '{{ns:project}}:CheckUser',
 	'checkuser-reason' => 'Grund:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Logbuch anzeigen',
 	'checkuser-log' => 'Checkuser-Logbuch',
 	'checkuser-query' => 'Letzte Änderungen abfragen',
@@ -2409,6 +2412,7 @@ $messages['fo'] = array(
 
 /** French (Français)
  * @author ChrisPtDe
+ * @author Gomoko
  * @author Grondin
  * @author IAlex
  * @author Peter17
@@ -2434,6 +2438,7 @@ Veuillez utiliser cet outil dans le respect de la charte d’utilisation.',
 	'right-checkuser-log' => 'Visualiser le journal des vérifications d’utilisateurs',
 	'grouppage-checkuser' => '{{ns:project}}:Vérificateurs d’utilisateurs',
 	'checkuser-reason' => 'Motif :',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Afficher le journal',
 	'checkuser-log' => 'Journal des vérifications d’utilisateurs',
 	'checkuser-query' => 'Recherche des modifications récentes',
@@ -2696,6 +2701,7 @@ Use isto de acordo coas políticas.',
 	'right-checkuser-log' => 'Ver o rexistro de comprobadores de usuarios',
 	'grouppage-checkuser' => '{{ns:project}}:Verificadores de usuarios',
 	'checkuser-reason' => 'Motivo:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Amosar o rexistro',
 	'checkuser-log' => 'Rexistro de comprobacións de usuarios',
 	'checkuser-query' => 'Consulta de cambios recentes',
@@ -2922,6 +2928,7 @@ $messages['he'] = array(
 	'right-checkuser-log' => 'צפייה ביומן הבדיקות',
 	'grouppage-checkuser' => '{{ns:project}}:בודק',
 	'checkuser-reason' => 'סיבה:',
+	'checkuser-reason-api' => 'API‏: $1',
 	'checkuser-showlog' => 'הצגת יומן',
 	'checkuser-log' => 'יומן בדיקות',
 	'checkuser-query' => 'בדיקת שינויים אחרונים',
@@ -4627,6 +4634,7 @@ $messages['mk'] = array(
 	'right-checkuser-log' => 'Гледање дневник на проверување на корисник',
 	'grouppage-checkuser' => '{{ns:project}}:Проверувачи',
 	'checkuser-reason' => 'Причина:',
+	'checkuser-reason-api' => 'API:',
 	'checkuser-showlog' => 'Прикажи дневник',
 	'checkuser-log' => 'Дневник на проверки',
 	'checkuser-query' => 'Побарај скорешни промени',
@@ -5668,7 +5676,7 @@ Sì a-i son j'IP dovrà (5000 al pi, ordinà për adrëssa):",
 $messages['ps'] = array(
 	'checkuser' => 'کره کتونکی کارن',
 	'group-checkuser' => 'کره کتونکي کارنان',
-	'group-checkuser-member' => 'کره کتونکی کارن',
+	'group-checkuser-member' => '{{GENDER:$1|کره کتونکی کارن}}',
 	'checkuser-reason' => 'سبب:',
 	'checkuser-showlog' => 'يادښت کتل',
 	'checkuser-target' => 'کارن يا IP پته:',
@@ -6111,6 +6119,7 @@ $messages['ru'] = array(
 	'right-checkuser-log' => 'просмотр журнала проверки участников',
 	'grouppage-checkuser' => '{{ns:project}}:Проверка участников',
 	'checkuser-reason' => 'Причина:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Показать журнал',
 	'checkuser-log' => 'Журнал проверки участников',
 	'checkuser-query' => 'Запросить свежие правки',
@@ -6565,6 +6574,7 @@ Orodje uporabljajte v skladu s pravilnikom.',
 	'right-checkuser-log' => 'Ogled dnevnika preverjanja uporabnikov',
 	'grouppage-checkuser' => '{{ns:project}}:Preveri uporabnika',
 	'checkuser-reason' => 'Razlog:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Prikaži dnevnik',
 	'checkuser-log' => 'Dnevnik CheckUser',
 	'checkuser-query' => 'Poizvedi zadnje spremembe',
@@ -7798,6 +7808,7 @@ $messages['vi'] = array(
 	'right-checkuser-log' => 'Xem nhật trình CheckUser',
 	'grouppage-checkuser' => '{{ns:project}}:Kiểm định viên',
 	'checkuser-reason' => 'Lý do:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Xem nhật trình',
 	'checkuser-log' => 'Nhật trình CheckUser',
 	'checkuser-query' => 'Truy vấn các thay đổi gần đây',
