@@ -25,23 +25,15 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 
 		$this->addTables( 'cu_log' );
 		$this->addOption( 'LIMIT', $limit + 1 );
-		$this->addOption( 'ORDER BY', 'cul_timestamp DESC' );
+		$this->addWhereRange( 'cul_timestamp', 'older', $from, $to );
 
 		$this->addFields( array( 'cul_timestamp', 'cul_user_text', 'cul_reason', 'cul_type', 'cul_target_text' ) );
 
 		if ( isset( $user ) ) {
-			$this->addWhere( "cul_user_text = '$user'" );
+			$this->addWhereFld( 'cul_user_text', $user );
 		}
 		if ( isset( $target ) ) {
-			$this->addWhere( "cul_target_text = '$target'" );
-		}
-		if ( isset( $from ) && isset( $to ) ) {
-			$this->addWhere( "cul_timestamp BETWEEN '$from' AND '$to'" );
-			unset( $from, $to );
-		} elseif ( isset( $from ) ) {
-			$this->addWhere( "cul_timestamp < $from" );
-		} elseif ( isset( $to ) ) {
-			$this->addWhere( "cul_timestamp > $to" );
+			$this->addWhereFld( 'cul_target_text', $target );
 		}
 
 		$res = $this->select( __METHOD__ );

@@ -46,7 +46,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				}
 
 				$this->addFields( array( 'cuc_timestamp', 'cuc_ip', 'cuc_xff' ) );
-				$this->addWhere( "cuc_user_text = '$target'" );
+				$this->addWhereFld( 'cuc_user_text', $target );
 				$res = $this->select( __METHOD__ );
 				$result = $this->getResult();
 
@@ -84,21 +84,21 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					if ( !$cond ) {
 						$this->dieUsage( 'IP or range is invalid', 'invalidip' );
 					}
-					$this->addWhere( "$cond" );
+					$this->addWhere( $cond );
 					$log_type = array( 'ipedits-xff', 'ip' );
 				} elseif ( IP::isIPAddress( $target ) ) {
 					$cond = CheckUser::getIpConds( $db, $target );
 					if ( !$cond ) {
 						$this->dieUsage( 'IP or range is invalid', 'invalidip' );
 					}
-					$this->addWhere( "$cond" );
+					$this->addWhere( $cond );
 					$log_type = array( 'ipedits', 'ip' );
 				} else {
 					$user_id = User::idFromName( $target );
 					if ( !$user_id ) {
 						$this->dieUsage( 'Target user is not exists', 'nosuchuser' );
 					}
-					$this->addWhere( "cuc_user_text = '$target'" );
+					$this->addWhereFld( 'cuc_user_text', $target );
 					$log_type = array( 'useredits', 'user' );
 				}
 
