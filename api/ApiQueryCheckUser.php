@@ -65,16 +65,15 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					}
 				}
 
-				$count = 0;
+				$resultIPs = array();
 				foreach ( array_keys( $ips ) as $ip ) {
-					$ips[$count] = $ips[$ip];
-					$ips[$count]['address'] = $ip;
-					unset( $ips[$ip] );
-					$count++;
+					$newIp = $ips[$ip];
+					$newIp['address'] = $ip;
+					$resultIPs[] = $newIp;
 				}
 
 				CheckUser::addLogEntry( 'userips', 'user', $target, $reason, $user_id );
-				$result->addValue( array( 'query', $this->getModuleName() ), 'userips', $ips );
+				$result->addValue( array( 'query', $this->getModuleName() ), 'userips', $resultIPs );
 				$result->setIndexedTagName_internal( array( 'query', $this->getModuleName(), 'userips' ), 'ip' );
 				break;
 
@@ -109,26 +108,27 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				$result = $this->getResult();
 
 				$edits = array();
-				$count = 0;
 				foreach ( $res as $row ) {
-					$edits[$count]['timestamp'] = $row->cuc_timestamp;
-					$edits[$count]['ns'] = $row->cuc_namespace;
-					$edits[$count]['title'] = $row->cuc_title;
-					$edits[$count]['user'] = $row->cuc_user_text;
+					$edit = array(
+						'timetamp' => $row->cuc_timestamp,
+						'ns' => $row->cuc_namespace,
+						'title' => $row->cuc_title,
+						'user' => $row->cuc_user_text,
+						'ip' => $row->cuc_ip,
+						'agent' => $row->cuc_agent,
+					);
 					if ( $row->cuc_actiontext ) {
-						$edits[$count]['summary'] = $row->cuc_actiontext;
+						$edit['summary'] = $row->cuc_actiontext;
 					} elseif ( $row->cuc_comment ) {
-						$edits[$count]['summary'] = $row->cuc_comment;
+						$edit['summary'] = $row->cuc_comment;
 					}
 					if ( $row->cuc_minor ) {
-						$edits[$count]['minor'] = 'm';
+						$edit['minor'] = 'm';
 					}
-					$edits[$count]['ip'] = $row->cuc_ip;
 					if ( $row->cuc_xff ) {
-						$edits[$count]['xff'] = $row->cuc_xff;
+						$edit['xff'] = $row->cuc_xff;
 					}
-					$edits[$count]['agent'] = $row->cuc_agent;
-					$count++;
+					$edits[] = $edit;
 				}
 
 				CheckUser::addLogEntry( $log_type[0], $log_type[1], $target, $reason, $user_id ? $user_id : '0' );
@@ -176,20 +176,17 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					}
 				}
 
-				$count = 0;
-				foreach ( array_keys( $users ) as $user ) {
-					$users[$count] = $users[$user];
-					$users[$count]['name'] = $user;
-					unset( $users[$user] );
+				$resultUsers = array();
+				foreach ( $users as $userName => $userData ) {
+					$userData['name'] = $userName;
+					$result->setIndexedTagName( $userData['ips'], 'ip' );
+					$result->setIndexedTagName( $userData['agents'], 'agent' );
 
-					$result->setIndexedTagName( $users[$count]['ips'], 'ip' );
-					$result->setIndexedTagName( $users[$count]['agents'], 'agent' );
-
-					$count++;
+					$resultUsers[] = $userData;
 				}
 
 				CheckUser::addLogEntry( $log_type, 'ip', $target, $reason );
-				$result->addValue( array( 'query', $this->getModuleName() ), 'ipusers', $users );
+				$result->addValue( array( 'query', $this->getModuleName() ), 'ipusers', $resultUsers );
 				$result->setIndexedTagName_internal( array( 'query', $this->getModuleName(), 'ipusers' ), 'user' );
 				break;
 

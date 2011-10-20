@@ -39,15 +39,15 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		$res = $this->select( __METHOD__ );
 		$result = $this->getResult();
 
-		$count = 0;
 		$log = array();
 		foreach ( $res as $row ) {
-			$log[$count]['timestamp'] = $row->cul_timestamp;
-			$log[$count]['checkuser'] = $row->cul_user_text;
-			$log[$count]['type'] = $row->cul_type;
-			$log[$count]['reason'] = $row->cul_reason;
-			$log[$count]['target'] = $row->cul_target_text;
-			$count++;
+			$log[] = array(
+				'timestamp' => $row->cul_timestamp,
+				'checkuser' => $row->cul_user_text,
+				'type' => $row->cul_type,
+				'reason' => $row->cul_reason,
+				'target' => $row->curl_target_text,
+			);
 		}
 
 		$result->addValue( array( 'query', $this->getModuleName() ), 'entries', $log );
