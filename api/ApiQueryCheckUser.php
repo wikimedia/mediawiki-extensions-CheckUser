@@ -66,10 +66,9 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				}
 
 				$resultIPs = array();
-				foreach ( array_keys( $ips ) as $ip ) {
-					$newIp = $ips[$ip];
-					$newIp['address'] = $ip;
-					$resultIPs[] = $newIp;
+				foreach ( $ips as $ip => $data ) {
+					$data['address'] = $ip;
+					$resultIPs[] = $data;
 				}
 
 				CheckUser::addLogEntry( 'userips', 'user', $target, $reason, $user_id );
