@@ -20,6 +20,7 @@ Use this in accordance with policy.',
 	'checkuser-desc'             => 'Grants users with the appropriate permission the ability to check user\'s IP addresses and other information',
 	'checkuser-logcase'          => 'The log search is case sensitive.',
 	'checkuser'                  => 'Check user',
+	'checkuserlog'               => 'Check user log',
 	'checkuser-contribs'         => 'check user IP addresses',
 	'group-checkuser'            => 'Check users',
 	'group-checkuser-member'     => '{{GENDER:$1|check user}}',
@@ -29,7 +30,6 @@ Use this in accordance with policy.',
 	'checkuser-reason'           => 'Reason:',
 	'checkuser-reason-api'       => 'API: $1',
 	'checkuser-showlog'          => 'Show log',
-	'checkuser-log'              => 'CheckUser log',
 	'checkuser-query'            => 'Query recent changes',
 	'checkuser-target'           => 'IP address or username:',
 	'checkuser-users'            => 'Get users',
@@ -124,6 +124,7 @@ $messages['qqq'] = array(
 	'checkuser' => 'Check user extension. The name of the special page where checkusers can check the IP addresses of users. The message is used in the list of special pages, and at the top of [[Special:Checkuser]].
 
 {{Identical|Check user}}',
+	'checkuserlog' => 'The name of the special page where checkusers can look at a log of past checkuser actions. The message is used in the list of special pages, and at the top of [[Special:CheckUserLog]].',
 	'group-checkuser' => '{{doc-group|checkuser}}
 check is a noun, not a verb here
 

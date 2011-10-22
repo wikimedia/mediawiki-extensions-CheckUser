@@ -11,6 +11,7 @@ $specialPageAliases = array();
 /** English (English) */
 $specialPageAliases['en'] = array(
 	'CheckUser' => array( 'CheckUser' ),
+	'CheckUserLog' => array( 'CheckUserLog' ),
 );
 
 /** Arabic (العربية) */

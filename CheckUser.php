@@ -81,9 +81,13 @@ $wgResourceModules['ext.checkUser'] = array(
 // Set up the new special page
 $wgSpecialPages['CheckUser'] = 'CheckUser';
 $wgSpecialPageGroups['CheckUser'] = 'users';
+$wgSpecialPages['CheckUserLog'] = 'SpecialCheckUserLog';
+$wgSpecialPageGroups['CheckUserLog'] = 'changes';
 
 $wgAutoloadClasses['CheckUser'] = $dir . '/CheckUser_body.php';
 $wgAutoloadClasses['CheckUserHooks'] = $dir . '/CheckUser.hooks.php';
+$wgAutoloadClasses['CheckUserLogPager'] = $dir . '/CheckUserLogPager.php';
+$wgAutoloadClasses['SpecialCheckUserLog'] = $dir . '/SpecialCheckUserLog.php';
 
 // API modules
 $wgAutoloadClasses['ApiQueryCheckUser'] = "$dir/api/ApiQueryCheckUser.php";
