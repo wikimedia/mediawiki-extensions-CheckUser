@@ -64,6 +64,9 @@ $wgHooks['User::mailPasswordInternal'][] = 'CheckUserHooks::updateCUPasswordRese
 $wgHooks['AuthPluginAutoCreate'][] = 'CheckUserHooks::updateAutoCreateData';
 $wgHooks['AddNewAccount'][] = 'CheckUserHooks::addNewAccount';
 
+# Occasional pruning of CU data
+$wgHooks['ArticleEditUpdatesDeleteFromRecentchanges'][] = 'CheckUserHooks::maybePruneIPData';
+
 $wgHooks['ParserTestTables'][] = 'CheckUserHooks::checkUserParserTestTables';
 $wgHooks['LoadExtensionSchemaUpdates'][] = 'CheckUserHooks::checkUserSchemaUpdates';
 $wgHooks['ContributionsToolLinks'][] = 'CheckUserHooks::loadCheckUserLink';

@@ -5,7 +5,7 @@ class CheckUserHooks {
 	 * Saves user data into the cu_changes table
 	 */
 	public static function updateCheckUserData( RecentChange $rc ) {
-		global $wgRequest, $wgCUDMaxAge;
+		global $wgRequest;
 
 		// Extract params
 		extract( $rc->mAttribs );
@@ -55,12 +55,6 @@ class CheckUserHooks {
 			$rcRow['cuc_page_id'] = $rc_cur_id;
 		}
 		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
-
-		# Every 100th edit, prune the checkuser changes table.
-		if ( 0 == mt_rand( 0, 99 ) ) {
-			$encCutoff = $dbw->addQuotes( $dbw->timestamp( time() - $wgCUDMaxAge ) );
-			$dbw->delete( 'cu_changes', array( "cuc_timestamp < $encCutoff" ), __METHOD__ );
-		}
 
 		return true;
 	}
@@ -212,6 +206,20 @@ class CheckUserHooks {
 	 */
 	public static function addNewAccount( User $user, $byEmail ) {
 		return self::logUserAccountCreation( $user, 'checkuser-create-action' );
+	}
+
+	/**
+	 * Hook function to prune data from the cu_changes table
+	 */
+	public static function maybePruneIPData() {
+		global $wgCUDMaxAge;
+		# Every 100th edit, prune the checkuser changes table.
+		if ( 0 == mt_rand( 0, 99 ) ) {
+			$dbw = wfGetDB( DB_MASTER );
+			$encCutoff = $dbw->addQuotes( $dbw->timestamp( time() - $wgCUDMaxAge ) );
+			$dbw->delete( 'cu_changes', array( "cuc_timestamp < $encCutoff" ), __METHOD__ );
+		}
+		return true;
 	}
 
 	/**
