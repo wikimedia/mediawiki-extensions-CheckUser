@@ -46,9 +46,9 @@ class PurgeOldIPAddressData extends Maintenance {
 				break; // all cleared
 			}
 			// Record the start and end timestamp for the set
-			$blockStart = $res->fetchObject()->$ts_column;
+			$blockStart = $dbw->addQuotes( $res->fetchObject()->$ts_column );
 			$res->seek( $res->numRows() - 1 );
-			$blockEnd = $res->fetchObject()->$ts_column;
+			$blockEnd = $dbw->addQuotes( $res->fetchObject()->$ts_column );
 			$res->free();
 
 			// Do the actual delete...
