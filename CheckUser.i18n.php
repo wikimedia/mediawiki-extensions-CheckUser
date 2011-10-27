@@ -3151,15 +3151,16 @@ Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěš
 	'checkuser-desc' => 'Dawa wužiwarjam z trěbnym prawom móžnosć IP-adresy a druhe informacije wužiwarja kontrolować',
 	'checkuser-logcase' => 'Pytanje w protokolu rozeznawa mjez wulko- a małopisanjom.',
 	'checkuser' => 'Wužiwarja kontrolować',
+	'checkuserlog' => 'Protokol wužiwarskeje kontrole',
 	'checkuser-contribs' => 'Wužiwarske IP přepruwować',
 	'group-checkuser' => 'Kontrolerojo',
-	'group-checkuser-member' => 'Kontroler',
+	'group-checkuser-member' => '{{GENDER:$1|kontroler|kontrolerka}}',
 	'right-checkuser' => 'Pruwowanje IP-adresow a druhe informacije wužiwarjow',
 	'right-checkuser-log' => 'Protokol wužiwarskeje kontrole wobhladać',
 	'grouppage-checkuser' => '{{ns:project}}:Checkuser',
 	'checkuser-reason' => 'Přičina:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Protokol pokazać',
-	'checkuser-log' => 'Protokol wužiwarskeje kontrole',
 	'checkuser-query' => 'Poslednje změny wotprašeć',
 	'checkuser-target' => 'IP-adresa abo wužiwarske mjeno:',
 	'checkuser-users' => 'Wužiwarjow pokazać',
@@ -3215,6 +3216,7 @@ Tu su wužiwane IP (maks. 5000, po adresy sortěrowane):',
 	'checkuser-log-ipusers-xff' => '$1 dósta wužiwarjow za XFF $2',
 	'checkuser-log-useredits' => '$1 je změny za $2 wobstarał',
 	'checkuser-autocreate-action' => 'bu awtomatisce załožene',
+	'checkuser-create-action' => 'bu wutworjeny',
 	'checkuser-email-action' => 'pósła e-mejlku na wužiwarja "$1"',
 	'checkuser-reset-action' => 'hesło za wužiwarja "$1" wobnowić',
 );
@@ -3504,6 +3506,14 @@ $messages['ig'] = array(
 	'checkuser-search-target' => 'nkèọnejé',
 	'checkuser-log-subpage' => 'Ndetu-nchétá',
 	'checkuser-log-useredits' => '$1 nwèrè orü màkà $2',
+);
+
+/** Iloko (Ilokano)
+ * @author Lam-ang
+ */
+$messages['ilo'] = array(
+	'checkuser-search' => 'Biroken',
+	'checkuser-search-submit' => 'Biroken',
 );
 
 /** Ido (Ido)
