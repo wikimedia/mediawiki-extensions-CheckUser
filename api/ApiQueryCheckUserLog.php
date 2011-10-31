@@ -41,7 +41,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 				'checkuser' => $row->cul_user_text,
 				'type' => $row->cul_type,
 				'reason' => $row->cul_reason,
-				'target' => $row->curl_target_text,
+				'target' => $row->cul_target_text,
 			);
 		}
 
