@@ -16,17 +16,12 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		if ( !$wgUser->isAllowed( 'checkuser-log' ) ) {
 			$this->dieUsage( 'You need the checkuser-log right', 'permissionerror' );
 		}
-
-		$user = $params['user'];
-		$limit = $params['limit'];
-		$target = $params['target'];
-		$from = $params['from'];
-		$to = $params['to'];
+	
+		extract( $params );
 
 		$this->addTables( 'cu_log' );
 		$this->addOption( 'LIMIT', $limit + 1 );
 		$this->addWhereRange( 'cul_timestamp', 'older', $from, $to );
-
 		$this->addFields( array( 'cul_timestamp', 'cul_user_text', 'cul_reason', 'cul_type', 'cul_target_text' ) );
 
 		if ( isset( $user ) ) {

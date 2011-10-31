@@ -13,21 +13,19 @@ class ApiQueryCheckUser extends ApiQueryBase {
 
 		$db = $this->getDB( DB_SLAVE );
 		$params = $this->extractRequestParams();
+		extract( $params );
 
 		if ( !$wgUser->isAllowed( 'checkuser' ) ) {
 			$this->dieUsage( 'You need the checkuser right', 'permissionerror' );
 		}
 
-		if ( $wgCheckUserForceSummary && is_null( $params['reason'] ) ) {
-			$this->dieUsage( 'You need define reason for check', 'missingdata' );
+		if ( $wgCheckUserForceSummary && is_null( $reason ) ) {
+			$this->dieUsage( 'You must define reason for check', 'missingdata' );
 		}
 
-		$limit = $params['limit'];
-		$target = $params['target'];
-		$reason = wfMsgForContent( 'checkuser-reason-api', $params['reason'] );
+		$reason = wfMsgForContent( 'checkuser-reason-api', $reason );
 		$time = wfTimestamp( TS_MW,
-			strtotime( 'now' ) - ( strtotime( $params['timecond'] ? $params['timecond'] : '2 weeks' ) - strtotime( 'now'
-			) )
+			strtotime( 'now' ) - ( strtotime( $timecond ? $timecond : '2 weeks' ) - strtotime( 'now' ) )
 		);
 		if ( !$time ) {
 			$this->dieUsage( 'You need use correct time limit (like "2 weeks")', 'invalidtime' );
@@ -38,7 +36,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 		$this->addOption( 'ORDER BY', 'cuc_timestamp DESC' );
 		$this->addWhere( "cuc_timestamp > $time" );
 
-		switch ( $params['request'] ) {
+		switch ( $request ) {
 			case 'userips':
 				$user_id = User::idFromName( $target );
 				if ( !$user_id ) {
@@ -77,7 +75,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				break;
 
 			case 'edits':
-				if ( IP::isIPAddress( $target ) && isset( $params['xff'] ) ) {
+				if ( IP::isIPAddress( $target ) && isset( $xff ) ) {
 					$cond = CheckUser::getIpConds( $db, $target, true );
 					if ( !$cond ) {
 						$this->dieUsage( 'IP or range is invalid', 'invalidip' );
@@ -100,7 +98,8 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$log_type = array( 'useredits', 'user' );
 				}
 
-				$this->addFields( array( 'cuc_namespace', 'cuc_title', 'cuc_user_text', 'cuc_actiontext', 'cuc_comment', 'cuc_minor', 'cuc_timestamp', 'cuc_ip', 'cuc_xff', 'cuc_agent' )
+				$this->addFields( array( 'cuc_namespace', 'cuc_title', 'cuc_user_text', 'cuc_actiontext',
+					'cuc_comment', 'cuc_minor', 'cuc_timestamp', 'cuc_ip', 'cuc_xff', 'cuc_agent' )
 				);
 
 				$res = $this->select( __METHOD__ );
@@ -130,13 +129,13 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$edits[] = $edit;
 				}
 
-				CheckUser::addLogEntry( $log_type[0], $log_type[1], $target, $reason, $user_id ? $user_id : '0' );
+				CheckUser::addLogEntry( $log_type[0], $log_type[1], $target, $reason, isset($user_id) ? $user_id : '0' );
 				$result->addValue( array( 'query', $this->getModuleName() ), 'edits', $edits );
 				$result->setIndexedTagName_internal( array( 'query', $this->getModuleName(), 'edits' ), 'action' );
 				break;
 
 			case 'ipusers':
-				if ( IP::isIPAddress( $target ) && isset( $params['xff'] ) ) {
+				if ( IP::isIPAddress( $target ) && isset( $xff ) ) {
 					$cond = CheckUser::getIpConds( $db, $target, true );
 					$this->addWhere( $cond );
 				} elseif ( IP::isIPAddress( $target ) ) {
@@ -205,7 +204,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 	public function getAllowedParams() {
 		return array(
 			'request' => array(
-				ApiBase::PARAM_REQUIRED => false,
+				ApiBase::PARAM_REQUIRED => true,
 				ApiBase::PARAM_TYPE => array(
 					'userips',
 					'edits',
@@ -224,6 +223,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				ApiBase::PARAM_MAX2 => 5000,
 			),
 			'timecond' => null,
+			'xff' => null,
 		);
 	}
 
@@ -239,6 +239,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 			'reason' => 'Reason to check',
 			'limit' => 'Limit of rows',
 			'timecond' => 'Time limit of user data (like "2 weeks")',
+			'xff' => 'Use xff data instead of IP',
 		);
 	}
 
@@ -261,7 +262,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 	public function getExamples() {
 		return array(
 			'api.php?action=query&list=checkuser&curequest=userips&cutarget=Jimbo_Wales',
-			'api.php?action=query&list=checkuser&curequest=edits&cutarget=127.0.0.1/16/xff&cureason=Some_check',
+			'api.php?action=query&list=checkuser&curequest=edits&cutarget=127.0.0.1/16&xff=1&cureason=Some_check',
 		);
 	}
 
