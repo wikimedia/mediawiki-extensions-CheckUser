@@ -13,7 +13,9 @@ class ApiQueryCheckUser extends ApiQueryBase {
 
 		$db = $this->getDB( DB_SLAVE );
 		$params = $this->extractRequestParams();
-		extract( $params );
+		
+		list( $request, $target, $reason, $timecond, $limit, $xff ) = array( $params['request'],
+			$params['target'], $params['reason'], $params['timecond'], $params['limit'], $params['xff'] );
 
 		if ( !$wgUser->isAllowed( 'checkuser' ) ) {
 			$this->dieUsage( 'You need the checkuser right', 'permissionerror' );

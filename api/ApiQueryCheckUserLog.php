@@ -16,8 +16,9 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		if ( !$wgUser->isAllowed( 'checkuser-log' ) ) {
 			$this->dieUsage( 'You need the checkuser-log right', 'permissionerror' );
 		}
-	
-		extract( $params );
+		
+		list( $user, $limit, $target, $from, $to ) = array( $params['user'], $params['limit'],
+			$params['target'], $params['from'], $params['to'] );
 
 		$this->addTables( 'cu_log' );
 		$this->addOption( 'LIMIT', $limit + 1 );
