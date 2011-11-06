@@ -4263,7 +4263,7 @@ Donn op de Räjelle för dat Werrkzeuch obach jevve, un et nit bruche, wann De n
 	'checkuserlog' => 'Logboch fum Metmaacher-Pröfe',
 	'checkuser-contribs' => 'Metmaacher ier <code lang="en">IP-</code>Addresse pröfe',
 	'group-checkuser' => 'Metmaacher-Pröfer',
-	'group-checkuser-member' => 'Metmaacher-Pröfer',
+	'group-checkuser-member' => '{{GENDER:$1|Metmaacher-Pröfer}}',
 	'right-checkuser' => 'IP-Adresse un ier Bezösch zo de aanjemeldte Metmaacher övverpröfe, un Metmacher ier Date aanlore',
 	'right-checkuser-log' => 'En et Logboch lohre, fum Övverpröfe fun IP-Adresse un ier Bezösch zo de aanjemeldte Metmaacher, uew.',
 	'grouppage-checkuser' => '{{ns:project}}:Metmaacher-Pröfer',
