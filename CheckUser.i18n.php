@@ -4268,6 +4268,7 @@ Donn op de Räjelle för dat Werrkzeuch obach jevve, un et nit bruche, wann De n
 	'right-checkuser-log' => 'En et Logboch lohre, fum Övverpröfe fun IP-Adresse un ier Bezösch zo de aanjemeldte Metmaacher, uew.',
 	'grouppage-checkuser' => '{{ns:project}}:Metmaacher-Pröfer',
 	'checkuser-reason' => 'Aanlass:',
+	'checkuser-reason-api' => '<i lang="en">AP</i>I: $1',
 	'checkuser-showlog' => 'et Logboch aanzeije',
 	'checkuser-query' => 'En de {{LCFIRST:{{int:recentchanges}}}} frore',
 	'checkuser-target' => '<code lang="en">IP</code>-Addräß udder Metmaacher-Name:',
