@@ -8067,6 +8067,7 @@ $messages['yue'] = array(
 );
 
 /** Simplified Chinese (‪中文(简体)‬)
+ * @author Bencmq
  * @author Gaoxuewei
  * @author Gzdavidwong
  * @author Hydra
@@ -8075,6 +8076,7 @@ $messages['yue'] = array(
  * @author PhiLiP
  * @author Wmr89502270
  * @author Xiaomingyan
+ * @author 白布飘扬
  */
 $messages['zh-hans'] = array(
 	'checkuser-summary' => '本工具会从最近更改中获取用户使用过的IP地址，可使用XFF头信息来获取同一客户端IP地址下的用户和编辑，即在IP地址后方附加“/xff”。本工具支持IPv4（CIDR 16-32）和IPv6（CIDR 96-128）。由于效率原因，本工具只能查询最近5000笔编辑次数。请确保你的操作符合方针。',
@@ -8084,11 +8086,12 @@ $messages['zh-hans'] = array(
 	'checkuserlog' => '帐户核查日志',
 	'checkuser-contribs' => '核查用户IP地址',
 	'group-checkuser' => '账户核查',
-	'group-checkuser-member' => '账户核查',
+	'group-checkuser-member' => '{{GENDER:$1|账户核查}}',
 	'right-checkuser' => '核查用户的IP地址和其他信息',
 	'right-checkuser-log' => '查看帐户核查日志',
 	'grouppage-checkuser' => '{{ns:project}}:账户核查',
 	'checkuser-reason' => '原因：',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => '显示日志',
 	'checkuser-query' => '查询最近更改',
 	'checkuser-target' => 'IP地址或用户名：',
@@ -8113,7 +8116,7 @@ $messages['zh-hans'] = array(
 	'checkuser-gblocked' => '全局封禁',
 	'checkuser-locked' => '已锁定',
 	'checkuser-wasblocked' => '曾封禁',
-	'checkuser-localonly' => '未统一',
+	'checkuser-localonly' => '未整合',
 	'checkuser-massblock' => '封禁选中用户',
 	'checkuser-massblock-text' => '被选中的帐户将被施以无限期封禁，并启用自动封禁、禁止帐户创建。被选中的IP地址将被封禁一周，仅针对IP用户且禁止帐户创建。',
 	'checkuser-blocktag' => '替换用户页内容：',
