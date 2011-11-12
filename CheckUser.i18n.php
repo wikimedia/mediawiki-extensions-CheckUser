@@ -7650,6 +7650,7 @@ $messages['tt-cyrl'] = array(
  * @author Dim Grits
  * @author NickK
  * @author Prima klasy4na
+ * @author Sodmy
  */
 $messages['uk'] = array(
 	'checkuser-summary' => 'Цей засіб переглядає нові редагування для отримання IP-адрес, які використовував певний користувач, або щоб знайти редагування/користувача за IP-адресою.
@@ -7667,6 +7668,7 @@ $messages['uk'] = array(
 	'right-checkuser-log' => 'Перегляд журналу перевірки користувачів',
 	'grouppage-checkuser' => '{{ns:project}}:Перевірка користувачів',
 	'checkuser-reason' => 'Причина:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Показати журнал',
 	'checkuser-query' => 'Переглянути останні зміни',
 	'checkuser-target' => "IP-адреса або ім'я користувача:",
