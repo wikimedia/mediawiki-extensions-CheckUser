@@ -5537,6 +5537,7 @@ $messages['pdc'] = array(
 	'checkuser-month' => 'letschte 30 Daag',
 	'checkuser-all' => 'all',
 	'checkuser-blocked' => "g'baerrt",
+	'checkuser-gblocked' => "Iwwerall g'baerrt",
 	'checkuser-search-submit' => 'Guck uff',
 );
 
