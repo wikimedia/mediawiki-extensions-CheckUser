@@ -6,6 +6,8 @@ class SpecialCheckUserLog extends SpecialPage {
 	}
 
 	function execute( $par ) {
+		$this->checkPermissions();
+
 		$out = $this->getOutput();
 		$request = $this->getRequest();
 		$this->setHeaders();
