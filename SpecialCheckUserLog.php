@@ -84,7 +84,7 @@ class SpecialCheckUserLog extends SpecialPage {
 		$s = "<form method='get' action=\"$formAction\">\n" .
 			"<fieldset><legend>$msgSearch</legend>\n" .
 			"<p>$msgSearchForm</p>\n" .
-			"<p>" . $this->getDateMenu( $year, $month ) . "&#160;&#160;&#160;\n" .
+			"<p>" . Xml::dateMenu( $year, $month ) . "&#160;&#160;&#160;\n" .
 			"<input type=\"submit\" name=\"cuSearchSubmit\" value=\"$msgSearchSubmit\"/></p>\n" .
 			"</fieldset></form>\n";
 		$out->addHTML( $s );
@@ -100,36 +100,5 @@ class SpecialCheckUserLog extends SpecialPage {
 			$pager->getBody() .
 			$pager->getNavigationBar()
 		);
-	}
-
-	/**
-	 * @return string Formatted HTML
-	 * @param int $year
-	 * @param int $month
-	 */
-	protected function getDateMenu( $year, $month ) {
-		# Offset overrides year/month selection
-		if ( $month && $month !== - 1 ) {
-			$encMonth = intval( $month );
-		} else {
-			$encMonth = '';
-		}
-		if ( $year ) {
-			$encYear = intval( $year );
-		} elseif ( $encMonth ) {
-			$thisMonth = intval( gmdate( 'n' ) );
-			$thisYear = intval( gmdate( 'Y' ) );
-			if ( intval( $encMonth ) > $thisMonth ) {
-				$thisYear--;
-			}
-			$encYear = $thisYear;
-		} else {
-			$encYear = '';
-		}
-		return Xml::label( wfMsg( 'year' ), 'year' ) . ' ' .
-			Xml::input( 'year', 4, $encYear, array( 'id' => 'year', 'maxlength' => 4 ) ) .
-			' ' .
-			Xml::label( wfMsg( 'month' ), 'month' ) . ' ' .
-			Xml::monthSelector( $encMonth, - 1 );
 	}
 }
