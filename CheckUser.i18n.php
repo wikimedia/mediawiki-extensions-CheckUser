@@ -11,6 +11,7 @@ $messages = array();
 /** English
  * @author Tim Starling
  * @author Aaron Schulz
+ * @author John Du Hart
  */
 $messages['en'] = array(
 	'checkuser-summary'          => 'This tool scans recent changes to retrieve the IP addresses used by a user or show the edit/user data for an IP address.
@@ -26,6 +27,8 @@ Use this in accordance with policy.',
 	'group-checkuser-member'     => '{{GENDER:$1|check user}}',
 	'right-checkuser'            => "Check user's IP addresses and other information",
 	'right-checkuser-log'        => 'View the checkuser log',
+	'action-checkuser' => "check user's IP addresses and other information",
+	'action-checkuser-log' => 'view the checkuser log',
 	'grouppage-checkuser'        => '{{ns:project}}:Check user',
 	'checkuser-reason'           => 'Reason:',
 	'checkuser-reason-api'       => 'API: $1',
@@ -133,6 +136,8 @@ check is a noun, not a verb here
 {{Identical|Check user}}',
 	'right-checkuser' => '{{doc-right|checkuser}}',
 	'right-checkuser-log' => '{{doc-right|checkuser-log}}',
+	'action-checkuser' => '{{doc-action|checkuser}}',
+	'action-checkuser-log' => '{{doc-action|checkuser-log}}',
 	'grouppage-checkuser' => '{{doc-group|checkuser|page}}
 {{Identical|Check user}}',
 	'checkuser-reason' => "Field name on CheckUser Special page. See screenshot '[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]'.
