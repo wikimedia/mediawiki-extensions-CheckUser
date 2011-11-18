@@ -6178,6 +6178,7 @@ L'urteme cangiamende ha state fatte 'u $1 a le $2.",
  * @author Kaganer
  * @author Kv75
  * @author Lockal
+ * @author Ole Yves
  * @author Prima klasy4na
  * @author Putnik
  * @author Silence
@@ -6197,6 +6198,8 @@ $messages['ru'] = array(
 	'group-checkuser-member' => '{{GENDER:$1|проверяющий участников|проверяющая участников}}',
 	'right-checkuser' => 'проверка IP-адресов и другой информации об участниках',
 	'right-checkuser-log' => 'просмотр журнала проверки участников',
+	'action-checkuser' => 'проверка IP-адресов и другой информации об участниках',
+	'action-checkuser-log' => 'просмотр журнала проверки участников',
 	'grouppage-checkuser' => '{{ns:project}}:Проверка участников',
 	'checkuser-reason' => 'Причина:',
 	'checkuser-reason-api' => 'API: $1',
