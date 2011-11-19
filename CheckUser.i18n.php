@@ -2721,7 +2721,7 @@ $messages['gan-hant'] = array(
  * @author Xosé
  */
 $messages['gl'] = array(
-	'checkuser-summary' => 'Esta ferramenta analiza os cambios para recuperar os enderezos IP utilizados por un usuario ou amosar as edicións/datos do usuario dun enderezo IP.
+	'checkuser-summary' => 'Esta ferramenta analiza os cambios para recuperar os enderezos IP utilizados por un usuario ou mostrar as edicións/datos do usuario dun enderezo IP.
 Os usuarios e as edicións por un cliente IP poden ser recuperados a través das cabeceiras XFF engadindo o enderezo IP con "/xff". IPv4 (CIDR 16-32) e IPv6 (CIDR 96-128) están soportados.
 Non se devolverán máis de 5.000 edicións por motivos de rendemento.
 Use isto de acordo coas políticas.',
@@ -2739,7 +2739,7 @@ Use isto de acordo coas políticas.',
 	'grouppage-checkuser' => '{{ns:project}}:Verificadores de usuarios',
 	'checkuser-reason' => 'Motivo:',
 	'checkuser-reason-api' => 'API: $1',
-	'checkuser-showlog' => 'Amosar o rexistro',
+	'checkuser-showlog' => 'Mostrar o rexistro',
 	'checkuser-query' => 'Consulta de cambios recentes',
 	'checkuser-target' => 'Enderezo IP ou nome de usuario:',
 	'checkuser-users' => 'Obter os usuarios',
@@ -3566,12 +3566,15 @@ $messages['io'] = array(
 
 /** Icelandic (Íslenska)
  * @author S.Örvarr.S
+ * @author Snævar
  * @author Spacebirdy
  */
 $messages['is'] = array(
-	'checkuser' => 'Athuga notanda',
-	'group-checkuser' => 'Athuga notendur',
-	'group-checkuser-member' => 'Athuga notanda',
+	'checkuser-desc' => 'Veitir notendum réttindi til að athuga vistföng notenda og aðrar notendaupplýsingar.',
+	'checkuser' => 'Notenda athugandi',
+	'group-checkuser' => 'Notenda athugandi',
+	'group-checkuser-member' => '{{GENDER:$1|notenda athugandi}}',
+	'grouppage-checkuser' => '{{ns:project}}:Notenda athugandi',
 	'checkuser-reason' => 'Ástæða:',
 	'checkuser-showlog' => 'Sýna skrá',
 	'checkuser-query' => 'Sækja nýlegar breytingar',
