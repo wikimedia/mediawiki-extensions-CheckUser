@@ -4405,6 +4405,8 @@ Benotzt dës Fonctioun am Aklang mat den Direktiven.",
 	'group-checkuser-member' => '{{GENDER:$1|Benotzer Kontroller|Benotzer Kontrollerin}}',
 	'right-checkuser' => 'Iwwerpréif de Benotzer hir IP-Adressen an aner Informatiounen',
 	'right-checkuser-log' => "D'Lëscht vun den ''checkuser''-Ufroe weisen",
+	'action-checkuser' => 'IP-Adressen an aner Informatioune vu Benotzer iwwerpréiwen',
+	'action-checkuser-log' => 'Checkuser-Logbuch weisen',
 	'grouppage-checkuser' => '{{ns:project}}:Benotzer-Kontroller',
 	'checkuser-reason' => 'Grond:',
 	'checkuser-reason-api' => 'API: $1',
@@ -5874,6 +5876,7 @@ Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
  * @author Heldergeovane
  * @author Jesielt
  * @author Luckas Blade
+ * @author Pedroca cerebral
  */
 $messages['pt-br'] = array(
 	'checkuser-summary' => 'Esta ferramenta varre as Mudanças recentes para obter os endereços de IP de um usuário ou para exibir os dados de edições/usuários para um IP.
@@ -5888,8 +5891,11 @@ Não serão retornadas mais de 5000 edições por motivos de desempenho. O uso d
 	'group-checkuser-member' => 'CheckUser',
 	'right-checkuser' => 'Verificar os endereços de IP de um usuários e outras informações',
 	'right-checkuser-log' => 'Ver os registros das verificações',
+	'action-checkuser' => 'verificar os endereços IP do usuário e outras informações.',
+	'action-checkuser-log' => 'Ver os registros das verificações',
 	'grouppage-checkuser' => '{{ns:project}}:CheckUser',
 	'checkuser-reason' => 'Motivo:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Exibir registros',
 	'checkuser-query' => 'Examinar as Mudanças recentes',
 	'checkuser-target' => 'Endereço IP ou nome do usuário:',
