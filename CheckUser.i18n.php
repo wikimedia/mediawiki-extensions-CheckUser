@@ -2267,6 +2267,7 @@ $messages['ext'] = array(
  * @author Ebraminio
  * @author Huji
  * @author Mjbmr
+ * @author ZxxZxxZ
  */
 $messages['fa'] = array(
 	'checkuser-summary' => 'این ابزار تغییرات اخیر را برای به دست آوردن نشانی‌های آی‌پی استفاده شده توسط یک کاربر و یا تعیین ویرایش‌ها و اطلاعات کاربری مرتبط با یک نشانی آی‌پی جستجو می‌کند.
@@ -2283,8 +2284,10 @@ $messages['fa'] = array(
 	'group-checkuser-member' => 'بازرس کاربر',
 	'right-checkuser' => 'بازرسی نشانی‌های آی‌پی و دیگر اطلاعات کاربر',
 	'right-checkuser-log' => 'مشاهدهٔ سیاههٔ بازرسی کاربر',
+	'action-checkuser-log' => 'نمایش سیاههٔ بازرسی کاربر',
 	'grouppage-checkuser' => '{{ns:project}}:بازرسی کاربر',
 	'checkuser-reason' => 'دلیل:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'نمایش سیاهه',
 	'checkuser-query' => 'جستجوی تغییرات اخیر',
 	'checkuser-target' => 'نشانی آی‌پی یا نام کاربری:',
