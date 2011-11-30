@@ -2266,6 +2266,7 @@ $messages['ext'] = array(
 /** Persian (فارسی)
  * @author Ebraminio
  * @author Huji
+ * @author MehranVB
  * @author Mjbmr
  * @author ZxxZxxZ
  */
@@ -2284,6 +2285,7 @@ $messages['fa'] = array(
 	'group-checkuser-member' => 'بازرس کاربر',
 	'right-checkuser' => 'بازرسی نشانی‌های آی‌پی و دیگر اطلاعات کاربر',
 	'right-checkuser-log' => 'مشاهدهٔ سیاههٔ بازرسی کاربر',
+	'action-checkuser' => 'بازرسی نشانی‌های آی‌پی و دیگر اطلاعات کاربر',
 	'action-checkuser-log' => 'نمایش سیاههٔ بازرسی کاربر',
 	'grouppage-checkuser' => '{{ns:project}}:بازرسی کاربر',
 	'checkuser-reason' => 'دلیل:',
@@ -4796,6 +4798,8 @@ $messages['ml'] = array(
 	'group-checkuser-member' => '{{GENDER:$1|ഉപയോക്തൃ പരിശോധകൻ|ഉപയോക്തൃ പരിശോധക}}',
 	'right-checkuser' => 'ചെക്ക് യൂസറിന്റെ ഐ.പി. വിലാസവും മറ്റു വിവരങ്ങളും',
 	'right-checkuser-log' => 'ചെക്ക്‌‌യൂസർ രേഖ കാണുക',
+	'action-checkuser' => 'ചെക്ക് യൂസറിന്റെ ഐ.പി. വിലാസവും മറ്റു വിവരങ്ങളും',
+	'action-checkuser-log' => 'ചെക്ക്‌‌യൂസർ രേഖ കാണുക',
 	'grouppage-checkuser' => '{{ns:project}}:ചെക്ക് യൂസർ',
 	'checkuser-reason' => 'കാരണം:',
 	'checkuser-reason-api' => 'എ.പി.ഐ.: $1',
