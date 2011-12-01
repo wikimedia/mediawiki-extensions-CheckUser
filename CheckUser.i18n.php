@@ -2649,7 +2649,7 @@ Vê-que un èxtrèt a les adrèces IP utilisâs ({{formatnum:5000}} u més, triy
 	'checkuser-autocreate-action' => 'at étâ fêt ôtomaticament',
 	'checkuser-create-action' => 'at étâ fêt',
 	'checkuser-email-action' => 'at mandâ un mèssâjo a l’utilisator « $1 »',
-	'checkuser-reset-action' => 'tôrne inicialisar lo mot de pâssa por l’utilisator « $1 »',
+	'checkuser-reset-action' => 'tôrne inicialisar lo contresegno por l’usanciér « $1 »',
 );
 
 /** Western Frisian (Frysk)
