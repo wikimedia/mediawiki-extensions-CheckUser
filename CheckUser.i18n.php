@@ -2576,9 +2576,10 @@ Usez ça ici en accord avec les régulations.',
  * @author ChrisPtDe
  */
 $messages['frp'] = array(
-	'checkuser-summary' => 'Ceti outil parcôrt la lista des dèrriérs changements a la rechèrche de l’adrèce IP empleyê per un utilisator, afiche totes les èdicions d’una adrèce IP (méma enregistrâ), ou ben liste los comptos utilisâs per una adrèce IP.
-	Los comptos et les modificacions pôvont étre trovâs avouéc una IP XFF se sè chavone avouéc « /xff ». O est possiblo d’utilisar los protocolos IPv4 (CIDR 16-32) et IPv6 (CIDR 96-128).
-	Lo nombro d’èdicions afichâbles est limitâ a {{formatnum:5000}} por des quèstions de pèrformence du sèrvior. Volyéd utilisar ceti outil dens les limites de la chârta d’usâjo.',
+	'checkuser-summary' => "Ceti outil parcôrt los dèrriérs changements a la rechèrche de les adrèces IP empleyês per un usanciér, montre tôs los changements d’una adrèce IP (méma encartâ), ou ben liste los comptos utilisâs per una adrèce IP.
+Los comptos et los changements fêts per una adrèce IP clianta d’un sèrvor mandatèro (''proxy'') aprovâ pôvont étre rècupèrâs avouéc les en-tétes XFF en apondent l’adrèce IP avouéc « /xff ». Les adrèces IPv4 (CIDR /16 a /32) et IPv6 (CIDR /96 a /128) sont recognues.
+Lo nombro de changements montrâblos est limitâ a {{formatnum:5000}} por des quèstions de pèrformence.
+Lo volyéd utilisar dedens les limites de la chârta d’usâjo.",
 	'checkuser-desc' => 'Balye la possibilitât a les gens qu’ont la pèrmission que vat avouéc de controlar les adrèces IP des utilisators et pués d’ôtres enformacions los regardent.',
 	'checkuser-logcase' => 'La rechèrche dens lo jornal est sensibla a la câssa.',
 	'checkuser' => 'Controlor d’utilisator',
@@ -2620,10 +2621,10 @@ Lo dèrriér changement est arrevâ lo $1 a $2.',
 	'checkuser-massblock' => 'Blocar los utilisators chouèsis',
 	'checkuser-massblock-text' => 'Los comptos chouèsis seront blocâs sen fin, avouéc lo blocâjo ôtomatico activâ et la crèacion de compto dèsactivâ.
 Les adrèces IP seront blocâs pendent yona semana por ren que los utilisators pas encartâs et pués la crèacion de compto serat dèsactivâ.',
-	'checkuser-blocktag' => 'Remplaciér les pâges utilisator per :',
+	'checkuser-blocktag' => 'Remplaciér les pâges usanciér per :',
 	'checkuser-blocktag-talk' => 'Remplaciér les pâges de discussion per :',
 	'checkuser-massblock-commit' => 'Blocar los utilisators chouèsis',
-	'checkuser-block-success' => "'''{{PLURAL:$2|L’utilisator $1 est ora blocâ|Cetos $2 utilisators sont ora blocâs : $1}}.'''",
+	'checkuser-block-success' => "'''{{PLURAL:$2|L’usanciér $1 est ora blocâ|Cetos $2 usanciérs sont ora blocâs : $1}}.'''",
 	'checkuser-block-failure' => "'''Gins d’utilisator blocâ.'''",
 	'checkuser-block-limit' => 'Trop d’utilisators chouèsis.',
 	'checkuser-block-noreason' => 'Vos dête balyér una rêson por los blocâjos.',
@@ -2631,7 +2632,7 @@ Les adrèces IP seront blocâs pendent yona semana por ren que los utilisators p
 	'checkuser-accounts' => '$1 compto{{PLURAL:$1||s}} novél{{PLURAL:$1||s}}',
 	'checkuser-too-many' => 'Trop de rèsultats (d’aprés l’èstimacion de la requéta), volyéd èpurar l’ètendua CIDR.
 Vê-que un èxtrèt a les adrèces IP utilisâs ({{formatnum:5000}} u més, triyês per adrèce) :',
-	'checkuser-user-nonexistent' => 'L’utilisator endicâ ègziste pas.',
+	'checkuser-user-nonexistent' => 'L’usanciér endicâ ègziste pas.',
 	'checkuser-search-form' => 'Chèrchiér lo jornal de les entrâs yô que $1 est $2.',
 	'checkuser-search-submit' => 'Rechèrchiér',
 	'checkuser-search-initiator' => 'l’iniciator',
@@ -2648,7 +2649,7 @@ Vê-que un èxtrèt a les adrèces IP utilisâs ({{formatnum:5000}} u més, triy
 	'checkuser-log-useredits' => '$1 at avu des changements per $2',
 	'checkuser-autocreate-action' => 'at étâ fêt ôtomaticament',
 	'checkuser-create-action' => 'at étâ fêt',
-	'checkuser-email-action' => 'at mandâ un mèssâjo a l’utilisator « $1 »',
+	'checkuser-email-action' => 'at mandâ un mèssâjo a l’usanciér « $1 »',
 	'checkuser-reset-action' => 'tôrne inicialisar lo contresegno por l’usanciér « $1 »',
 );
 
@@ -5981,7 +5982,7 @@ Pichqa waranqamanta aswan llamk'apusqakunaqa manam kutimunqachu, allin rikuchina
 	'checkuser' => 'Ruraqta llanchiy',
 	'checkuserlog' => "Ruraq llanchiy hallch'a",
 	'group-checkuser' => 'Ruraqkunata llanchiy',
-	'group-checkuser-member' => 'Ruraqta llanchiy',
+	'group-checkuser-member' => '{{GENDER:$1|}}Ruraqta llanchiy',
 	'grouppage-checkuser' => '{{ns:project}}:Ruraqta llanchiy',
 	'checkuser-reason' => 'Kayrayku:',
 	'checkuser-showlog' => "Hallch'ata rikuchiy",
