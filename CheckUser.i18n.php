@@ -1090,6 +1090,8 @@ $messages['br'] = array(
 	'group-checkuser-member' => '{{GENDER:$1|gwirier implijerien|gwirierez implijerien}}',
 	'right-checkuser' => "Gwiriañ chomlec'hioù IP ha titouroù all an implijer",
 	'right-checkuser-log' => 'Gwelet marilh gwiriekadurioù an implijerien',
+	'action-checkuser' => "Gwiriañ chomlec'hioù IP an implijer ha titouroù all",
+	'action-checkuser-log' => 'Gwelet marilh gwiriañ an implijerien',
 	'grouppage-checkuser' => '{{ns:project}}:Gwiriañ an implijer',
 	'checkuser-reason' => 'Abeg :',
 	'checkuser-reason-api' => 'API: $1',
@@ -5605,6 +5607,7 @@ $messages['pdc'] = array(
  * @author Derbeth
  * @author Leinad
  * @author Sp5uhe
+ * @author Woytecr
  * @author Wpedzich
  */
 $messages['pl'] = array(
@@ -5621,6 +5624,8 @@ Używaj tego narzędzia zgodnie z zasadami.',
 	'group-checkuser-member' => '{{GENDER:$1|checkuser|checkuserka}}',
 	'right-checkuser' => 'Sprawdzanie adresów IP oraz innych informacji o użytkownikach',
 	'right-checkuser-log' => 'Przeglądanie rejestru checkuser',
+	'action-checkuser' => 'sprawdzania adresów IP uzytkowników i innych informacji',
+	'action-checkuser-log' => 'przeglądania rejestru checkuser',
 	'grouppage-checkuser' => '{{ns:project}}:CheckUser',
 	'checkuser-reason' => 'Powód',
 	'checkuser-reason-api' => 'API: $1',
