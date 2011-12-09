@@ -150,8 +150,20 @@ class CheckUserHooks {
 	 *
 	 * @return true
 	 */
-	public static function updateAutoCreateData( User $user ) {
+	public static function onAuthPluginAutoCreate( User $user ) {
 		return self::logUserAccountCreation( $user, 'checkuser-autocreate-action' );
+	}
+
+	/**
+	 * Hook function to store registration data
+	 * Saves user data into the cu_changes table
+	 *
+	 * @param $user User
+	 * @param $byEmail bool
+	 * @return bool
+	 */
+	public static function onAddNewAccount( User $user, $byEmail ) {
+		return self::logUserAccountCreation( $user, 'checkuser-create-action' );
 	}
 
 	/**
@@ -194,18 +206,6 @@ class CheckUserHooks {
 		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
 
 		return true;
-	}
-
-	/**
-	 * Hook function to store registration data
-	 * Saves user data into the cu_changes table
-	 *
-	 * @param $user User
-	 * @param $byEmail bool
-	 * @return bool
-	 */
-	public static function addNewAccount( User $user, $byEmail ) {
-		return self::logUserAccountCreation( $user, 'checkuser-create-action' );
 	}
 
 	/**
