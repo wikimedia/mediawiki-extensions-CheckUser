@@ -171,7 +171,7 @@ class CheckUserHooks {
 	 * @param $actiontext string
 	 * @return bool
 	 */
-	public static function logUserAccountCreation( User $user, $actiontext ) {
+	protected static function logUserAccountCreation( User $user, $actiontext ) {
 		global $wgRequest;
 
 		// Get IP
