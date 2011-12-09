@@ -1176,13 +1176,12 @@ class CheckUser extends SpecialPage {
 	 */
 	protected function getLinksFromRow( $row ) {
 		// Log items (old format) and events to logs
-
 		if ( $row->cuc_type == RC_LOG && $row->cuc_namespace == NS_SPECIAL ) {
 			list( $specialName, $logtype ) = SpecialPage::resolveAliasWithSubpage( $row->cuc_title );
 			$logname = LogPage::logName( $logtype );
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
 			$links = '(' . $this->sk->makeKnownLinkObj( $title, $logname ) . ')';
-		// Log items
+		// Log items (newer format)
 		} elseif ( $row->cuc_type == RC_LOG ) {
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
 			$links = '(' . $this->sk->makeKnownLinkObj( SpecialPage::getTitleFor( 'Log' ), $this->message['log'],

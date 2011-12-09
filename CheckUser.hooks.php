@@ -209,6 +209,52 @@ class CheckUserHooks {
 	}
 
 	/**
+	 * Handler for non-standard (edit/log) entries that need IP data
+	 * 
+	 * @param $context IContextSource
+	 * @param $data Array
+	 * @return bool
+	 */
+	protected static function onLoggableUserIPData( IContextSource $context, array $data ) {
+		$user = $context->getUser();
+		$request = $context->getRequest();
+
+		// Get IP address
+		$ip = $request->getIP();
+		// Get XFF header
+		$xff = $request->getHeader( 'X-Forwarded-For' );
+		list( $xff_ip, $isSquidOnly ) = self::getClientIPfromXFF( $xff );
+		// Get agent
+		$agent = $request->getHeader( 'User-Agent' );
+
+		$dbw = wfGetDB( DB_MASTER );
+		$cuc_id = $dbw->nextSequenceValue( 'cu_changes_cu_id_seq' );
+		$rcRow = array(
+			'cuc_id'         => $cuc_id,
+			'cuc_page_id'    => $data['pageid'], // may be 0
+			'cuc_namespace'  => $data['namespace'],
+			'cuc_title'      => $data['title'], // may be ''
+			'cuc_minor'      => 0,
+			'cuc_user'       => $user->getId(),
+			'cuc_user_text'  => $user->getName(),
+			'cuc_actiontext' => $data['action'],
+			'cuc_comment'    => $data['comment'],
+			'cuc_this_oldid' => 0,
+			'cuc_last_oldid' => 0,
+			'cuc_type'       => RC_LOG,
+			'cuc_timestamp'  => $dbw->timestamp( $data['timestamp'] ),
+			'cuc_ip'         => IP::sanitizeIP( $ip ),
+			'cuc_ip_hex'     => $ip ? IP::toHex( $ip ) : null,
+			'cuc_xff'        => !$isSquidOnly ? $xff : '',
+			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IP::toHex( $xff_ip ) : null,
+			'cuc_agent'      => $agent
+		);
+		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
+
+		return true;
+	}
+
+	/**
 	 * Hook function to prune data from the cu_changes table
 	 */
 	public static function maybePruneIPData() {
