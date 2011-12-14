@@ -3560,7 +3560,7 @@ $messages['ig'] = array(
  */
 $messages['ilo'] = array(
 	'checkuser-search' => 'Biroken',
-	'checkuser-search-submit' => 'Biroken',
+	'checkuser-search-submit' => 'Biruken',
 );
 
 /** Ido (Ido)
