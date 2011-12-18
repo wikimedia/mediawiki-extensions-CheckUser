@@ -18,10 +18,10 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	exit( 1 );
 }
 
-# Internationalisation file
+# Internationalisation files
 $dir = dirname( __FILE__ ) . '/';
 $wgExtensionMessagesFiles['CheckUser'] = $dir . 'CheckUser.i18n.php';
-$wgExtensionAliasesFiles['CheckUser'] = $dir . 'CheckUser.alias.php';
+$wgExtensionMessagesFiles['CheckUserAliases'] = $dir . 'CheckUser.alias.php';
 
 // Extension credits that will show up on Special:Version
 $wgExtensionCredits['specialpage'][] = array(
