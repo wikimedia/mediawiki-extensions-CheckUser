@@ -66,7 +66,7 @@ $specialPageAliases['eo'] = array(
 
 /** Spanish (Español) */
 $specialPageAliases['es'] = array(
-	'CheckUser' => array( 'CheckUser', 'VerificarUsuario', 'CombrobarUsuario', 'Comprobar_usuario' ),
+	'CheckUser' => array( 'VerificarUsuario', 'ComprobarUsuario', 'Comprobar_usuario' ),
 );
 
 /** Persian (فارسی) */
@@ -86,7 +86,7 @@ $specialPageAliases['fr'] = array(
 
 /** Franco-Provençal (Arpetan) */
 $specialPageAliases['frp'] = array(
-	'CheckUser' => array( 'Controlor_d\'utilisator', 'ControlorDUtilisator' ),
+	'CheckUser' => array( 'Controlor_d\'usanciér', 'ControlorDUsanciér' ),
 );
 
 /** Galician (Galego) */
@@ -137,6 +137,7 @@ $specialPageAliases['hu'] = array(
 /** Interlingua (Interlingua) */
 $specialPageAliases['ia'] = array(
 	'CheckUser' => array( 'Verificar_usator' ),
+	'CheckUserLog' => array( 'Verificar_registro_de_usatores' ),
 );
 
 /** Indonesian (Bahasa Indonesia) */
@@ -152,6 +153,7 @@ $specialPageAliases['it'] = array(
 /** Japanese (日本語) */
 $specialPageAliases['ja'] = array(
 	'CheckUser' => array( 'チェックユーザー', 'チェックユーザ', '利用者調査' ),
+	'CheckUserLog' => array( 'チェックユーザー記録', '利用者調査記録' ),
 );
 
 /** Khmer (ភាសាខ្មែរ) */
@@ -204,6 +206,11 @@ $specialPageAliases['myv'] = array(
 	'CheckUser' => array( 'ВанкшномсКиеТеицясь' ),
 );
 
+/** Norwegian Bokmål (‪Norsk (bokmål)‬) */
+$specialPageAliases['nb'] = array(
+	'CheckUser' => array( 'IP-sjekk' ),
+);
+
 /** Nedersaksisch (Nedersaksisch) */
 $specialPageAliases['nds-nl'] = array(
 	'CheckUser' => array( 'Gebruker_opvragen' ),
@@ -212,11 +219,7 @@ $specialPageAliases['nds-nl'] = array(
 /** Dutch (Nederlands) */
 $specialPageAliases['nl'] = array(
 	'CheckUser' => array( 'GebruikerControleren' ),
-);
-
-/** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬) */
-$specialPageAliases['nb'] = array(
-	'CheckUser' => array( 'IP-sjekk' ),
+	'CheckUserLog' => array( 'LogboekGebruikerControleren' ),
 );
 
 /** Occitan (Occitan) */
@@ -229,7 +232,7 @@ $specialPageAliases['ro'] = array(
 	'CheckUser' => array( 'Verifică_utilizator' ),
 );
 
-/** Sanskrit (संस्कृत) */
+/** Sanskrit (संस्कृतम्) */
 $specialPageAliases['sa'] = array(
 	'CheckUser' => array( 'योजकपरिक्षक' ),
 );
@@ -274,7 +277,7 @@ $specialPageAliases['vec'] = array(
 	'CheckUser' => array( 'ControlaUtente' ),
 );
 
-/** Veps (Vepsan kel') */
+/** Veps (Vepsän kel') */
 $specialPageAliases['vep'] = array(
 	'CheckUser' => array( 'KodvdaKävutajad' ),
 );
@@ -293,8 +296,3 @@ $specialPageAliases['zh-hans'] = array(
 $specialPageAliases['zh-hant'] = array(
 	'CheckUser' => array( '用戶查核' ),
 );
-
-/**
- * For backwards compatibility with MediaWiki 1.15 and earlier.
- */
-$aliases =& $specialPageAliases;
