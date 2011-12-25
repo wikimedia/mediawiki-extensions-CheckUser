@@ -1888,6 +1888,7 @@ $messages['ee'] = array(
 );
 
 /** Greek (Ελληνικά)
+ * @author AK
  * @author Assassingr
  * @author Consta
  * @author Crazymadlover
@@ -1912,8 +1913,10 @@ $messages['el'] = array(
 	'group-checkuser-member' => 'Ελεγκτής',
 	'right-checkuser' => 'Έλεγχος IP διεύθυνσης και άλλων πληροφοριών χρήστη',
 	'right-checkuser-log' => 'Δείτε τις καταγραφές ελέγχων',
+	'action-checkuser' => 'ελέγξτε διευθύνσεις IP των χρηστών καθώς και άλλες πληροφορίες',
 	'grouppage-checkuser' => '{{ns:project}}:Ελεγκτής',
 	'checkuser-reason' => 'Λόγος:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Εμφάνιση αρχείου καταγραφής',
 	'checkuser-query' => 'Αναζήτηση στις πρόσφατες αλλαγές',
 	'checkuser-target' => 'Διεύθυνση IP ή όνομα χρήστη:',
@@ -3617,9 +3620,11 @@ $messages['is'] = array(
 
 /** Italian (Italiano)
  * @author .anaconda
+ * @author Aushulz
  * @author Beta16
  * @author BrokenArrow
  * @author Darth Kule
+ * @author F. Cosoleto
  * @author Gianfranco
  * @author Melos
  * @author Nemo bis
@@ -3637,8 +3642,11 @@ $messages['it'] = array(
 	'group-checkuser-member' => '{{GENDER:$1|Check user}}',
 	'right-checkuser' => "Visualizza gli indirizzi IP usati dall'utente e altre informazioni",
 	'right-checkuser-log' => 'Visualizza il log dei checkuser',
+	'action-checkuser' => "controlla gli indirizzi IP dell'utente e altre informazioni",
+	'action-checkuser-log' => 'vedere il log dei checkuser',
 	'grouppage-checkuser' => '{{ns:project}}:Check user',
 	'checkuser-reason' => 'Motivo:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Mostra il log',
 	'checkuser-query' => 'Cerca nelle ultime modifiche',
 	'checkuser-target' => 'Indirizzo IP o nome utente:',
@@ -4606,7 +4614,9 @@ $messages['lt'] = array(
 	'group-checkuser' => 'Patikrinkite vartotojus',
 	'group-checkuser-member' => 'Patikrinkite vartotoją',
 	'right-checkuser' => 'Tikrinti naudotojo IP adresus ir kitą informaciją',
+	'action-checkuser' => 'patikrinti vartotojo IP adresą ir kita informaciją',
 	'checkuser-reason' => 'Priežastis:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Rodyti sąrašą',
 	'checkuser-target' => 'Naudotojas arba IP',
 	'checkuser-users' => 'Gauti naudotojus',
@@ -4667,6 +4677,9 @@ $messages['lv'] = array(
 	'checkuser-reason' => 'Iemesls:',
 	'checkuser-showlog' => 'Rādīt reģistru',
 	'checkuser-target' => 'IP adrese vai lietotājvārds:',
+	'checkuser-users' => 'Iegūt lietotājus',
+	'checkuser-edits' => 'Iegūt labojumus',
+	'checkuser-ips' => 'Iegūt IP adreses',
 	'checkuser-search' => 'Meklēt',
 	'checkuser-period' => 'Ilgums:',
 	'checkuser-week-1' => 'pēdējā nedēļa',
@@ -5067,6 +5080,91 @@ $messages['nap'] = array(
 	'checkuser-search' => 'Truova',
 );
 
+/** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬)
+ * @author Audun
+ * @author Finnrind
+ * @author Jon Harald Søby
+ * @author Laaknor
+ * @author Nghtwlkr
+ */
+$messages['nb'] = array(
+	'checkuser-summary' => 'Dette verktøyet går gjennom siste endringer for å hente IP-ene som er brukt av en bruker, eller viser redigerings- eller brukerinformasjonen for en IP.
+
+Brukere og redigeringer kan hentes med en XFF-IP ved å legge til «/xff» bak IP-en. IPv4 (CIDR 16-32) og IPv6 (CIDR 96-128) støttes.
+
+Av ytelsesgrunner vises maksimalt 5000 redigeringer. Bruk dette verktøyet i samsvar med retningslinjer.',
+	'checkuser-desc' => 'Gir brukere med de tilhørende rettighetene muligheten til å sjekke brukeres IP-adresser og annen informasjon',
+	'checkuser-logcase' => 'Loggsøket er sensitivt for store/små bokstaver.',
+	'checkuser' => 'Brukersjekk',
+	'checkuserlog' => 'Brukersjekkingslogg',
+	'checkuser-contribs' => 'kontroller brukerens IP-adresser',
+	'group-checkuser' => 'IP-kontrollører',
+	'group-checkuser-member' => 'IP-kontrollør',
+	'right-checkuser' => 'Sjekke brukeres IP-adresser og annen informasjon',
+	'right-checkuser-log' => 'Se IP-kontrolloggen',
+	'grouppage-checkuser' => '{{ns:project}}:IP-kontrollør',
+	'checkuser-reason' => 'Årsak:',
+	'checkuser-showlog' => 'Vis logg',
+	'checkuser-query' => 'Søk i siste endringer',
+	'checkuser-target' => 'IP-adresse eller brukernavn:',
+	'checkuser-users' => 'Få brukere',
+	'checkuser-edits' => 'Hent redigeringer',
+	'checkuser-ips' => 'Få IP-er',
+	'checkuser-search' => 'Søk',
+	'checkuser-period' => 'Varighet:',
+	'checkuser-week-1' => 'forrige uke',
+	'checkuser-week-2' => 'siste to uker',
+	'checkuser-month' => 'siste måned',
+	'checkuser-all' => 'alle',
+	'checkuser-cidr-label' => 'Finn felles adresseområde og påvirkede adresser for en liste over IP-adresser',
+	'checkuser-cidr-res' => 'Felles CIDR:',
+	'checkuser-empty' => 'Loggen inneholder ingen elementer.',
+	'checkuser-nomatch' => 'Ingen treff.',
+	'checkuser-nomatch-edits' => 'Ingen treff.
+Siste redigering var $2 $1.',
+	'checkuser-check' => 'Sjekk',
+	'checkuser-log-fail' => 'Kunne ikke legge til loggelement.',
+	'checkuser-nolog' => 'Ingen loggfil funnet.',
+	'checkuser-blocked' => 'Blokkert',
+	'checkuser-gblocked' => 'Blokkert globalt',
+	'checkuser-locked' => 'Låst',
+	'checkuser-wasblocked' => 'Tidligere blokkert',
+	'checkuser-localonly' => 'Ikke sammenslått',
+	'checkuser-massblock' => 'Blokker valgte brukere',
+	'checkuser-massblock-text' => 'Valgte kontoer vil blokkeres på ubestemt tid, med autoblokkering slått på og kontooppretting slått av.
+IP-adresser vil blokkeres i én uke for anonyme brukere, med kontooppretting slått av.',
+	'checkuser-blocktag' => 'Erstatt brukersider med:',
+	'checkuser-blocktag-talk' => 'Erstatt diskusjonssider med:',
+	'checkuser-massblock-commit' => 'Blokker valgte brukere',
+	'checkuser-block-success' => "'''{{PLURAL:$2|Brukeren|Brukerne}} $1 er nå blokkert.'''",
+	'checkuser-block-failure' => "'''Ingen brukere blokkert.'''",
+	'checkuser-block-limit' => 'For mange brukere valgt.',
+	'checkuser-block-noreason' => 'Du må oppgi en blokkeringsgrunn.',
+	'checkuser-noreason' => 'Du må oppgi en grunn for denne spørringen.',
+	'checkuser-accounts' => '$1 {{PLURAL:$1|ny konto|nye kontoer}}',
+	'checkuser-too-many' => 'For mange resultater (ifølge overslag for spørringen), vennligst innskrenk CIDR.
+Her er de brukte IP-ene (maks 5000, sortert etter adresse):',
+	'checkuser-user-nonexistent' => 'Det gitte brukernavnet finnes ikke.',
+	'checkuser-search-form' => 'Finn loggelementer der $1 er $2',
+	'checkuser-search-submit' => 'Søk',
+	'checkuser-search-initiator' => 'IP-kontrolløren',
+	'checkuser-search-target' => 'målet',
+	'checkuser-ipeditcount' => '~$1 fra alle brukere',
+	'checkuser-log-subpage' => 'Logg',
+	'checkuser-log-return' => 'Tilbake til hovedskjema for brukersjekking',
+	'checkuser-limited' => "'''Disse resultatene har blitt avkortet av ytelsesgrunner.'''",
+	'checkuser-log-userips' => '$1 fikk IP-adressene til $2',
+	'checkuser-log-ipedits' => '$1 fikk endringer av $2',
+	'checkuser-log-ipusers' => '$1 fikk brukere av $2',
+	'checkuser-log-ipedits-xff' => '$1 fikk endringer av XFF-en $2',
+	'checkuser-log-ipusers-xff' => '$1 fikk brukere av XFF-en $2',
+	'checkuser-log-useredits' => '$1 hentet redigeringer for $2',
+	'checkuser-autocreate-action' => 'ble automatisk opprettet',
+	'checkuser-create-action' => 'ble opprettet',
+	'checkuser-email-action' => 'sendte e-post til «$1»',
+	'checkuser-reset-action' => 'nullstilte passord for «$1»',
+);
+
 /** Low German (Plattdüütsch)
  * @author Slomox
  */
@@ -5357,91 +5455,6 @@ Her er IP-ane nytta (høgst 5000, sorterte etter adressa):',
 	'checkuser-reset-action' => 'nullstilte passord for «$1»',
 );
 
-/** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬)
- * @author Audun
- * @author Finnrind
- * @author Jon Harald Søby
- * @author Laaknor
- * @author Nghtwlkr
- */
-$messages['nb'] = array(
-	'checkuser-summary' => 'Dette verktøyet går gjennom siste endringer for å hente IP-ene som er brukt av en bruker, eller viser redigerings- eller brukerinformasjonen for en IP.
-
-Brukere og redigeringer kan hentes med en XFF-IP ved å legge til «/xff» bak IP-en. IPv4 (CIDR 16-32) og IPv6 (CIDR 96-128) støttes.
-
-Av ytelsesgrunner vises maksimalt 5000 redigeringer. Bruk dette verktøyet i samsvar med retningslinjer.',
-	'checkuser-desc' => 'Gir brukere med de tilhørende rettighetene muligheten til å sjekke brukeres IP-adresser og annen informasjon',
-	'checkuser-logcase' => 'Loggsøket er sensitivt for store/små bokstaver.',
-	'checkuser' => 'Brukersjekk',
-	'checkuserlog' => 'Brukersjekkingslogg',
-	'checkuser-contribs' => 'kontroller brukerens IP-adresser',
-	'group-checkuser' => 'IP-kontrollører',
-	'group-checkuser-member' => 'IP-kontrollør',
-	'right-checkuser' => 'Sjekke brukeres IP-adresser og annen informasjon',
-	'right-checkuser-log' => 'Se IP-kontrolloggen',
-	'grouppage-checkuser' => '{{ns:project}}:IP-kontrollør',
-	'checkuser-reason' => 'Årsak:',
-	'checkuser-showlog' => 'Vis logg',
-	'checkuser-query' => 'Søk i siste endringer',
-	'checkuser-target' => 'IP-adresse eller brukernavn:',
-	'checkuser-users' => 'Få brukere',
-	'checkuser-edits' => 'Hent redigeringer',
-	'checkuser-ips' => 'Få IP-er',
-	'checkuser-search' => 'Søk',
-	'checkuser-period' => 'Varighet:',
-	'checkuser-week-1' => 'forrige uke',
-	'checkuser-week-2' => 'siste to uker',
-	'checkuser-month' => 'siste måned',
-	'checkuser-all' => 'alle',
-	'checkuser-cidr-label' => 'Finn felles adresseområde og påvirkede adresser for en liste over IP-adresser',
-	'checkuser-cidr-res' => 'Felles CIDR:',
-	'checkuser-empty' => 'Loggen inneholder ingen elementer.',
-	'checkuser-nomatch' => 'Ingen treff.',
-	'checkuser-nomatch-edits' => 'Ingen treff.
-Siste redigering var $2 $1.',
-	'checkuser-check' => 'Sjekk',
-	'checkuser-log-fail' => 'Kunne ikke legge til loggelement.',
-	'checkuser-nolog' => 'Ingen loggfil funnet.',
-	'checkuser-blocked' => 'Blokkert',
-	'checkuser-gblocked' => 'Blokkert globalt',
-	'checkuser-locked' => 'Låst',
-	'checkuser-wasblocked' => 'Tidligere blokkert',
-	'checkuser-localonly' => 'Ikke sammenslått',
-	'checkuser-massblock' => 'Blokker valgte brukere',
-	'checkuser-massblock-text' => 'Valgte kontoer vil blokkeres på ubestemt tid, med autoblokkering slått på og kontooppretting slått av.
-IP-adresser vil blokkeres i én uke for anonyme brukere, med kontooppretting slått av.',
-	'checkuser-blocktag' => 'Erstatt brukersider med:',
-	'checkuser-blocktag-talk' => 'Erstatt diskusjonssider med:',
-	'checkuser-massblock-commit' => 'Blokker valgte brukere',
-	'checkuser-block-success' => "'''{{PLURAL:$2|Brukeren|Brukerne}} $1 er nå blokkert.'''",
-	'checkuser-block-failure' => "'''Ingen brukere blokkert.'''",
-	'checkuser-block-limit' => 'For mange brukere valgt.',
-	'checkuser-block-noreason' => 'Du må oppgi en blokkeringsgrunn.',
-	'checkuser-noreason' => 'Du må oppgi en grunn for denne spørringen.',
-	'checkuser-accounts' => '$1 {{PLURAL:$1|ny konto|nye kontoer}}',
-	'checkuser-too-many' => 'For mange resultater (ifølge overslag for spørringen), vennligst innskrenk CIDR.
-Her er de brukte IP-ene (maks 5000, sortert etter adresse):',
-	'checkuser-user-nonexistent' => 'Det gitte brukernavnet finnes ikke.',
-	'checkuser-search-form' => 'Finn loggelementer der $1 er $2',
-	'checkuser-search-submit' => 'Søk',
-	'checkuser-search-initiator' => 'IP-kontrolløren',
-	'checkuser-search-target' => 'målet',
-	'checkuser-ipeditcount' => '~$1 fra alle brukere',
-	'checkuser-log-subpage' => 'Logg',
-	'checkuser-log-return' => 'Tilbake til hovedskjema for brukersjekking',
-	'checkuser-limited' => "'''Disse resultatene har blitt avkortet av ytelsesgrunner.'''",
-	'checkuser-log-userips' => '$1 fikk IP-adressene til $2',
-	'checkuser-log-ipedits' => '$1 fikk endringer av $2',
-	'checkuser-log-ipusers' => '$1 fikk brukere av $2',
-	'checkuser-log-ipedits-xff' => '$1 fikk endringer av XFF-en $2',
-	'checkuser-log-ipusers-xff' => '$1 fikk brukere av XFF-en $2',
-	'checkuser-log-useredits' => '$1 hentet redigeringer for $2',
-	'checkuser-autocreate-action' => 'ble automatisk opprettet',
-	'checkuser-create-action' => 'ble opprettet',
-	'checkuser-email-action' => 'sendte e-post til «$1»',
-	'checkuser-reset-action' => 'nullstilte passord for «$1»',
-);
-
 /** Novial (Novial)
  * @author MF-Warburg
  * @author Malafaya
@@ -5552,15 +5565,22 @@ Vaquí un extrach de las IP utilizadas ({{formatnum:5000}} maximum, triadas per 
 );
 
 /** Oriya (ଓଡ଼ିଆ)
+ * @author Ansumang
  * @author Jose77
  * @author Odisha1
  * @author Psubhashish
  */
 $messages['or'] = array(
 	'checkuser' => 'ତନଖି ଚାଳକ',
+	'group-checkuser' => 'ତନଖି ଚାଳକ',
 	'checkuser-reason' => 'କାରଣ:',
+	'checkuser-reason-api' => 'API: $1',
+	'checkuser-showlog' => 'ଲଗ ଦେଖିବେ',
 	'checkuser-search' => 'ଖୋଜିବା',
 	'checkuser-period' => 'ଅବଧି:',
+	'checkuser-week-1' => 'ଶେଷ ସପ୍ତାହ',
+	'checkuser-week-2' => 'ଶେଷ ଦୁଇ ସପ୍ତାହ',
+	'checkuser-month' => 'ଶେଷ ୩୦ ଦିନ',
 	'checkuser-all' => 'ସବୁ',
 	'checkuser-check' => 'ଯାଞ୍ଚ କରିବା',
 	'checkuser-blocked' => 'ଅଟକାଯାଇଥିବା',
@@ -7080,6 +7100,7 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 	'group-checkuser-member' => '{{GENDER:$1|användarkontrollant}}',
 	'right-checkuser' => 'Kontrollera användares IP-adresser och annan information',
 	'right-checkuser-log' => 'Se loggen över användarkontroller',
+	'action-checkuser' => 'kontrollera användarens IP-adresser och annan information',
 	'grouppage-checkuser' => '{{ns:project}}:Användarkontrollant',
 	'checkuser-reason' => 'Anledning:',
 	'checkuser-reason-api' => 'API: $1',
