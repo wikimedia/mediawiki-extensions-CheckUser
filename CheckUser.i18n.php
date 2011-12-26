@@ -5732,11 +5732,14 @@ $messages['pms'] = array(
 	'checkuserlog' => "Registr dël contròl dj'utent",
 	'checkuser-contribs' => "contròla l'adrëssa IP ëd l'utent",
 	'group-checkuser' => 'Controlor',
-	'group-checkuser-member' => 'Controlor',
+	'group-checkuser-member' => '{{GENDER:$1|controlor}}',
 	'right-checkuser' => "Contròla l'adrëssa IP ëd l'utent e àutre anformassion",
 	'right-checkuser-log' => 'Varda ël registr dël controlor',
+	'action-checkuser' => "contròla l'adrëssa IP ëd l'utent e àutre anformassion",
+	'action-checkuser-log' => 'varda ël registr dël controlor',
 	'grouppage-checkuser' => "{{ns:project}}:Contròl dj'utent",
 	'checkuser-reason' => 'Rason:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Smon ël registr',
 	'checkuser-query' => "Anterogassion dj'ùltime modìfiche",
 	'checkuser-target' => 'Adrëssa IP o nòm utent:',
@@ -6170,6 +6173,7 @@ $messages['roa-tara'] = array(
 	'right-checkuser-log' => "Vide l'archivije de le checkuser",
 	'grouppage-checkuser' => '{{ns:project}}:Utende ca verifiche',
 	'checkuser-reason' => 'Mutive:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => "Fà vedè l'archivije",
 	'checkuser-query' => "Inderroghe l'urteme cangiaminde",
 	'checkuser-target' => 'Indirizze IP o utende:',
@@ -7755,6 +7759,7 @@ $messages['tt-cyrl'] = array(
  * @author NickK
  * @author Prima klasy4na
  * @author Sodmy
+ * @author Тест
  */
 $messages['uk'] = array(
 	'checkuser-summary' => 'Цей засіб переглядає нові редагування для отримання IP-адрес, які використовував певний користувач, або щоб знайти редагування/користувача за IP-адресою.
@@ -7770,6 +7775,7 @@ $messages['uk'] = array(
 	'group-checkuser-member' => "чек'юзер",
 	'right-checkuser' => 'Перевірка IP-адрес та іншої інформації користувача',
 	'right-checkuser-log' => 'Перегляд журналу перевірки користувачів',
+	'action-checkuser-log' => 'перегляд журналу перевірки користувачів',
 	'grouppage-checkuser' => '{{ns:project}}:Перевірка користувачів',
 	'checkuser-reason' => 'Причина:',
 	'checkuser-reason-api' => 'API: $1',
