@@ -2066,6 +2066,7 @@ Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
  * @author Crazymadlover
  * @author Dferg
  * @author Dmcdevit
+ * @author Imre
  * @author Jatrobat
  * @author Lin linao
  * @author Locos epraix
@@ -2092,8 +2093,10 @@ Usa esta herramienta de acuerdo con las políticas correspondientes.',
 	'group-checkuser-member' => 'verificador de usuarios',
 	'right-checkuser' => 'Comprobar las IPs de los usuarios y obtener otra información relacionada',
 	'right-checkuser-log' => 'Ver el registro de verificación de usuarios',
+	'action-checkuser-log' => 'ver el registro de checkuser',
 	'grouppage-checkuser' => '{{ns:project}}:Verificador de usuarios',
 	'checkuser-reason' => 'Motivo:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Ver registro',
 	'checkuser-query' => 'Buscar en cambios recientes',
 	'checkuser-target' => 'Usuario o dirección IP:',
@@ -5812,6 +5815,7 @@ $messages['ps'] = array(
 	'checkuser-showlog' => 'يادښت کتل',
 	'checkuser-target' => 'کارن يا IP پته:',
 	'checkuser-users' => 'کارنان راغوښتل',
+	'checkuser-ips' => 'آی پي پتې ترلاسه کول',
 	'checkuser-search' => 'پلټل',
 	'checkuser-period' => 'موده:',
 	'checkuser-week-1' => 'تېره اوونۍ',
@@ -5820,16 +5824,21 @@ $messages['ps'] = array(
 	'checkuser-all' => 'ټول',
 	'checkuser-check' => 'کره کتل',
 	'checkuser-blocked' => 'بنديز لګېدلی',
+	'checkuser-gblocked' => 'نړېواله بنديز لګېدلی',
 	'checkuser-locked' => 'تړل شوی',
+	'checkuser-massblock' => 'په ټاکلو کارنانو بنديز لګول',
 	'checkuser-blocktag-talk' => 'د خبرو اترو مخونه ځايناستول سره د:',
-	'checkuser-massblock-commit' => 'په ټاکلي کارنانو بنديز لګول',
+	'checkuser-massblock-commit' => 'په ټاکلو کارنانو بنديز لګول',
 	'checkuser-block-success' => "'''دم مهال د $1 په {{PLURAL:$2|کارن|کارنانو}} {{PLURAL:$2|بنديز لګېدلی|بنديز لګېدلی}}.'''",
+	'checkuser-block-failure' => "'''په هېڅ کارن بنديز پلي نشو.'''",
 	'checkuser-block-limit' => 'له حد نه ډېر زيات کارنان ټاکل شوي.',
 	'checkuser-block-noreason' => 'د بنديز لګولو لپاره بايد تاسې يو سبب څرګند کړی.',
 	'checkuser-search-submit' => 'پلټل',
 	'checkuser-search-target' => 'موخه',
 	'checkuser-ipeditcount' => '~$1 د ټولو کارنانو نه',
 	'checkuser-log-subpage' => 'يادښت',
+	'checkuser-autocreate-action' => 'په خپلکاره توګه جوړ شو',
+	'checkuser-create-action' => 'جوړ شو',
 	'checkuser-email-action' => 'د "$1" کارن ته يو برېښليک ولېږل شو',
 	'checkuser-reset-action' => 'د "$1" کارن د پټنوم بيا پرځای کول',
 );
@@ -6163,6 +6172,11 @@ Iată IP-urile folosite (maxim 5000, sortate după adresă):',
  * @author Reder
  */
 $messages['roa-tara'] = array(
+	'checkuser-summary' => "'Stù strumènde condrolle le cangiaminde recende pe' recuperà le 'nderizze IP ausate da 'nu utinde o pe' mostrà le date cangiaminde/utinde dape' 'nu inderizze IP.
+Le utinde e le cangiaminde pòtene essere recuperate da 'nu inderizze IP d'u client ausanne l'indestazione XFF sckaffanne a le 'nderizze IP \"/xff\". IPv4 (CIDR 16-32) e IPv6 (CIDR 96-128) sonde supportate.
+No cchiù de 5,000 cangiaminde honne a essere restituite pe' motive de prestazione.
+Ause quiste d'accorde c'a polìteche.",
+	'checkuser-desc' => "Congede a le utinde cu l'autorizzazzione appropriate 'a capacetata de condrollà le 'nderizze IP de l'utinde e otre 'mbormazzione",
 	'checkuser-logcase' => "L'archivije de ricerche jè sensibbele a le maiuscole e minuscole.",
 	'checkuser' => 'Utende verificatore',
 	'checkuserlog' => 'Archivije de le CheckUser',
@@ -6171,6 +6185,8 @@ $messages['roa-tara'] = array(
 	'group-checkuser-member' => '{{GENDER:$1|utende verificatore}}',
 	'right-checkuser' => "Condrolle le 'nderizze IP de le utinde e otre 'mbormazziune",
 	'right-checkuser-log' => "Vide l'archivije de le checkuser",
+	'action-checkuser' => "Condrolle le 'nderizze IP de le utinde e otre 'mbormazziune",
+	'action-checkuser-log' => "Vide 'u registre de le checkuser",
 	'grouppage-checkuser' => '{{ns:project}}:Utende ca verifiche',
 	'checkuser-reason' => 'Mutive:',
 	'checkuser-reason-api' => 'API: $1',
@@ -6186,6 +6202,7 @@ $messages['roa-tara'] = array(
 	'checkuser-week-2' => 'urteme doje sumane',
 	'checkuser-month' => 'urteme 30 giurne',
 	'checkuser-all' => 'tutte',
+	'checkuser-cidr-label' => "Acchije 'na gamme comune e l'IP colpite pe' 'nu elenghe de inderizze IP",
 	'checkuser-cidr-res' => 'CIDR Comune:',
 	'checkuser-empty' => "L'archivije non ge condène eleminde.",
 	'checkuser-nomatch' => "Non g'agghie acchiate ninde.",
@@ -6200,6 +6217,8 @@ L'urteme cangiamende ha state fatte 'u $1 a le $2.",
 	'checkuser-wasblocked' => 'Bloccate precedendemende',
 	'checkuser-localonly' => 'Non unificate',
 	'checkuser-massblock' => "Bluecche l'utinde scacchiate",
+	'checkuser-massblock-text' => "Le cunde utinde scacchiate honne a essere bloccate pe' 'nu timbe 'ndeterminate, c'u blocche automateche de le inderizze IP e 'a ccrejàzione cunde utinde desattevate.
+Le inderizze IP honne a essere bloccate pe' 'na sumáne sule pe' l'utinde anonime e 'a ccrejàzione cunde utinde ha ddà esere desattevate.",
 	'checkuser-blocktag' => 'Sostituisce le pàggene utinde cu:',
 	'checkuser-blocktag-talk' => "Sostituisce le pàggene de le 'ngazzaminde cu:",
 	'checkuser-massblock-commit' => "Bluecche l'utinde scacchiate",
@@ -6209,6 +6228,8 @@ L'urteme cangiamende ha state fatte 'u $1 a le $2.",
 	'checkuser-block-noreason' => "Tu à dà 'nu mutive pe le blocche.",
 	'checkuser-noreason' => "Tu à dà 'nu mutive pe st'inderrogazione.",
 	'checkuser-accounts' => '$1 {{PLURAL:$1|cunde utende|cunde utinde}} nuève',
+	'checkuser-too-many' => "Ce stonne assaje resultate (seconne 'a stime fatte), pe' piacere restringe 'u CIDR.
+Aqquà ce stonne le IP ausate (5000 masseme, ordenate pe' inderizze):",
 	'checkuser-user-nonexistent' => "L'utende specificate non g'esiste.",
 	'checkuser-search-form' => "Acchie le vôsce d'u reggistre addò $1 jè $2",
 	'checkuser-search-submit' => 'Cirche',
@@ -6584,10 +6605,12 @@ Li nnirizzi IP vennu bluccati pi na simana sulu pi l'utenti anònimi e câ criaz
 
 /** Sinhala (සිංහල)
  * @author නන්දිමිතුරු
+ * @author පසිඳු කාවින්ද
  * @author බිඟුවා
  */
 $messages['si'] = array(
 	'checkuser' => 'පරීක්ෂක නිළධරයා',
+	'checkuserlog' => 'පරිශීලක ලඝු සටහන පිරික්සන්න',
 	'group-checkuser' => 'පරීක්ෂක නිළධරයින්',
 	'group-checkuser-member' => 'පරීක්ෂක නිළධරයා',
 	'grouppage-checkuser' => '{{ns:project}}:පරීක්ෂක නිළධරයා',
@@ -6595,6 +6618,7 @@ $messages['si'] = array(
 	'checkuser-showlog' => 'ලඝු-සටහන පෙන්වන්න',
 	'checkuser-target' => 'අන්තර්ජාල ලිපිනය හෝ පරිශීලක නාමය:',
 	'checkuser-users' => 'පරිශීලකයින් ගන්න',
+	'checkuser-edits' => 'සංස්කරණ ගන්න',
 	'checkuser-search' => 'ගවේෂණය',
 	'checkuser-period' => 'කාල සීමාව:',
 	'checkuser-week-1' => 'පසුගිය සතිය',
@@ -6608,7 +6632,9 @@ $messages['si'] = array(
 	'checkuser-log-fail' => 'ලඝු-සටහනක් එකතු කිරීමට නොහැක',
 	'checkuser-nolog' => 'ලඝු-සටහන් ගොනුවක් හමු නොවිණි.',
 	'checkuser-blocked' => 'ඇහිරීම',
+	'checkuser-locked' => 'අගුළුලා ඇත',
 	'checkuser-search-submit' => 'ගවේෂණය',
+	'checkuser-search-target' => 'ඉලක්කය',
 	'checkuser-log-userips' => 'සංස්කරණය සඳහා  $2 විසින් භාවිත කෙරුණු අන්තර්ජාල ලිපිනයන් $1 විසින් පරික්‍ෂා කොට දැනගෙන ඇත',
 	'checkuser-log-ipedits' => '$2 අන්තර්ජාල ලිපිනය වෙතින් සිදු කෙරුණු සංස්කරණයන් $1 විසින් පරික්‍ෂා කොට දැනගෙන ඇත',
 	'checkuser-log-ipusers' => '$2 අන්තර්ජාල ලිපිනය භාවිතා කල පරිශීලකයන් $1 විසින් පරික්‍ෂා කොට දැනගෙන ඇත',
