@@ -1979,6 +1979,7 @@ $messages['el'] = array(
 );
 
 /** Esperanto (Esperanto)
+ * @author Blahma
  * @author Michawiki
  * @author Yekrats
  */
@@ -1997,6 +1998,8 @@ Uzu ĉi tion laŭ regularo.',
 	'group-checkuser-member' => '{{GENDER:$1|Kontrolanto de IP-adresoj|Kontrolantino de IP-adresoj}}',
 	'right-checkuser' => 'Kontroli la IP-adreson kaj alian informon de uzanto',
 	'right-checkuser-log' => 'Vidi la protokolon pri kontrolantoj de IP-adresoj',
+	'action-checkuser' => 'kontroli la IP-adreson kaj aliajn informojn de la uzanto',
+	'action-checkuser-log' => 'vidi la protokolon pri kontrolantoj de IP-adresoj',
 	'grouppage-checkuser' => '{{ns:project}}:Kontrolanto de IP-adresoj',
 	'checkuser-reason' => 'Kialo:',
 	'checkuser-reason-api' => 'API: $1',
@@ -2600,6 +2603,8 @@ Lo volyéd utilisar dedens les limites de la chârta d’usâjo.",
 	'group-checkuser-member' => 'controlo{{GENDER:$1|r|sa}} d’usanciér',
 	'right-checkuser' => 'Controlar les adrèces IP ux usanciérs et ôtres enformacions',
 	'right-checkuser-log' => 'Vêre lo jornal des contrôlos d’usanciérs',
+	'action-checkuser' => 'controlar les adrèces IP ux usanciérs et ôtres enformacions',
+	'action-checkuser-log' => 'vêre lo jornal des contrôlos d’usanciérs',
 	'grouppage-checkuser' => '{{ns:project}}:Controlors d’usanciér',
 	'checkuser-reason' => 'Rêson :',
 	'checkuser-reason-api' => 'API : $1',
@@ -2631,7 +2636,7 @@ Lo dèrriér changement est arrevâ lo $1 a $2.',
 	'checkuser-localonly' => 'Pas unifiâ',
 	'checkuser-massblock' => 'Blocar los usanciérs chouèsis',
 	'checkuser-massblock-text' => 'Los comptos chouèsis seront blocâs sen fin, avouéc lo blocâjo ôtomatico activâ et la crèacion de compto dèsactivâ.
-Les adrèces IP seront blocâs pendent yona semana por ren que los usanciérs pas encartâs et pués la crèacion de compto serat dèsactivâ.',
+Les adrèces IP seront blocâs pendent yona semana ren que por los usanciérs pas encartâs et pués la crèacion de compto serat dèsactivâ.',
 	'checkuser-blocktag' => 'Remplaciér les pâges usanciér per :',
 	'checkuser-blocktag-talk' => 'Remplaciér les pâges de discussion per :',
 	'checkuser-massblock-commit' => 'Blocar los usanciérs chouèsis',
@@ -3104,7 +3109,9 @@ $messages['hi'] = array(
 	'checkuser-locked' => 'अवरोधित',
 	'checkuser-wasblocked' => 'पहले से ही अवरोध है',
 	'checkuser-localonly' => 'एकीकृत नहीं',
+	'checkuser-massblock' => 'चयनित सदस्यों को रोकें',
 	'checkuser-massblock-commit' => 'चयनित सदस्यों को रोकें',
+	'checkuser-block-success' => "'''{{PLURAL:$2|सदस्य|सदस्यों}} $1 अब अवरोधित हैं ।'''",
 	'checkuser-too-many' => 'बहुत सारे रिज़ल्ट, कृपया CIDRमें बदलाव करें।
 नीचे इस्तेमाल हुए आईपी की सूची हैं (ज्यादा से ज्यादा ५०००, अनुक्रममें):',
 	'checkuser-user-nonexistent' => 'दिया हुआ सदस्यनाम अस्तित्वमें नहीं हैं।',
@@ -3594,7 +3601,7 @@ $messages['ig'] = array(
  * @author Lam-ang
  */
 $messages['ilo'] = array(
-	'checkuser-search' => 'Biroken',
+	'checkuser-search' => 'Biruken',
 	'checkuser-search-submit' => 'Biruken',
 );
 
@@ -6696,6 +6703,7 @@ $messages['si'] = array(
 	'group-checkuser-member' => '{{GENDER:$1|පරීක්ෂක නිලධාරියා}}',
 	'right-checkuser' => 'පරිශීලකයන්ගේ අයිපී ලිපින සහ වෙනත් තොරතුරු පිරික්සන්න',
 	'right-checkuser-log' => 'පරිශීලකපිරික්සුම් ලඝු සටහන නරඹන්න',
+	'action-checkuser' => 'පරිශීලකයන්ගේ අයිපී ලිපින සහ වෙනත් තොරතුරු පිරික්සන්න',
 	'action-checkuser-log' => 'පරිශීලකපිරික්සුම් ලඝු සටහන නරඹන්න',
 	'grouppage-checkuser' => '{{ns:project}}:පරීක්ෂක නිළධරයා',
 	'checkuser-reason' => 'හේතුව:',
@@ -7349,6 +7357,7 @@ $messages['szl'] = array(
 
 /** Tamil (தமிழ்)
  * @author Karthi.dr
+ * @author Shanmugamp7
  * @author Sodabottle
  * @author TRYPPN
  * @author Trengarasu
@@ -7356,23 +7365,44 @@ $messages['szl'] = array(
  */
 $messages['ta'] = array(
 	'checkuser' => 'பயனரை கவனி',
+	'checkuserlog' => 'பயனர் குறிப்பேட்டை சரிபார்',
+	'checkuser-contribs' => 'பயனர் IP முகவரிகளை சரிபார்',
 	'group-checkuser' => 'பயனர் சோதனை',
-	'group-checkuser-member' => 'பயனரை சரிபார்க்கவும்',
+	'group-checkuser-member' => '{{GENDER:$1|பயனரை சரிபார்}}',
+	'right-checkuser' => 'பயனீட்டாளரின் IP முகவரிகள் மற்றும் மற்ற தகவல்களை சரிபார்',
+	'right-checkuser-log' => 'பயனர்சரிபார்த்தல் குறிப்பேடு காண்',
+	'action-checkuser' => 'பயனீட்டாளரின் IP முகவரிகள் மற்றும் மற்ற தகவல்களை சரிபார்',
+	'action-checkuser-log' => 'பயனர்சரிபார்த்தல் குறிப்பேடு காண்',
+	'grouppage-checkuser' => '{{ns:project}}:பயனரை சரிபார்',
 	'checkuser-reason' => 'காரணம்:',
+	'checkuser-reason-api' => 'API: $1',
+	'checkuser-showlog' => 'குறிப்பேடு காண்பி',
+	'checkuser-query' => 'சமீபத்திய மாற்றங்களில் கேள்வி',
+	'checkuser-target' => 'ஐ.பி. முகவரி அல்லது பயனர் பெயர்:',
+	'checkuser-users' => 'பயனீட்டாளர்களை பெறு',
+	'checkuser-edits' => 'திருத்தங்களை பெறு',
+	'checkuser-ips' => 'IP முகவரிகளை பெறு',
 	'checkuser-search' => 'தேடுக',
 	'checkuser-period' => 'இடைப்பட்ட காலம்:',
 	'checkuser-week-1' => 'கடந்த கிழமை (வாரம்)',
 	'checkuser-week-2' => 'கடந்த இரண்டு கிழமைகள் (வாரங்கள்)',
 	'checkuser-month' => 'கடந்த 30 நாட்கள்',
 	'checkuser-all' => 'அனைத்தும்',
+	'checkuser-cidr-res' => 'பொதுவான CIDR:',
+	'checkuser-empty' => 'இந்த குறிப்பேட்டில் உருப்படிகள் எதுவும் இல்லை.',
 	'checkuser-nomatch' => 'பொருத்தமானவைகள் ஒன்றும் காணப்படவில்லை.',
+	'checkuser-nomatch-edits' => 'பொருத்தங்கள் கண்டறியப்படவில்லை.
+கடைசி திருத்தம் $1 ல் $2 மணிக்கு.',
 	'checkuser-check' => 'சரிபார்க்கவும்',
+	'checkuser-log-fail' => 'குறிப்பேடு உள்ளீட்டைச் சேர்க்க இயலவில்லை',
+	'checkuser-nolog' => 'குறிப்பேடு கோப்பு காணப்படவில்லை.',
 	'checkuser-blocked' => 'தடுக்கப்பட்டது',
 	'checkuser-gblocked' => 'உலக அளவில் தடை செய்யப்பட்டுள்ளது',
 	'checkuser-locked' => 'மூடப்பட்டது',
 	'checkuser-wasblocked' => 'முன்னரே தடைசெய்யப்பட்டது',
 	'checkuser-localonly' => 'ஒன்றாக்கப்டவில்லை',
 	'checkuser-massblock' => 'தெரிவு செய்யப்பட்ட பயனர்களைத் தடை செய்யவும்',
+	'checkuser-blocktag' => 'பயனீட்டாளர் பக்கங்கள் உடன் மாற்றிடு:',
 	'checkuser-block-limit' => 'மிக அதிகமான பயனர்கள் தேர்ந்தெடுக்கப்பட்டுள்ளது.',
 	'checkuser-search-submit' => 'தேடுக',
 	'checkuser-search-initiator' => 'தொடக்கக்காரர்',
