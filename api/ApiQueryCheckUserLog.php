@@ -38,7 +38,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		$log = array();
 		foreach ( $res as $row ) {
 			$log[] = array(
-				'timestamp' => $row->cul_timestamp,
+				'timestamp' => wfTimestamp( TS_ISO_8601, $row->cul_timestamp ),
 				'checkuser' => $row->cul_user_text,
 				'type' => $row->cul_type,
 				'reason' => $row->cul_reason,

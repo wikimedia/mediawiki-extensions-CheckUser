@@ -52,7 +52,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 
 				$ips = array();
 				foreach ( $res as $row ) {
-					$timestamp = $row->cuc_timestamp;
+					$timestamp = wfTimestamp( TS_ISO_8601, $row->cuc_timestamp );
 					$ip = strval( $row->cuc_ip );
 					$xff = $row->cuc_xff;
 
@@ -110,7 +110,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				$edits = array();
 				foreach ( $res as $row ) {
 					$edit = array(
-						'timestamp' => $row->cuc_timestamp,
+						'timestamp' => wfTimestamp( TS_ISO_8601, $row->cuc_timestamp ),
 						'ns' => $row->cuc_namespace,
 						'title' => $row->cuc_title,
 						'user' => $row->cuc_user_text,
@@ -160,12 +160,12 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$agent = $row->cuc_agent;
 
 					if ( !isset( $users[$user] ) ) {
-						$users[$user]['end'] = $row->cuc_timestamp;
+						$users[$user]['end'] = wfTimestamp( TS_ISO_8601, $row->cuc_timestamp );
 						$users[$user]['editcount'] = 1;
 						$users[$user]['ips'][] = $ip;
 						$users[$user]['agents'][] = $agent;
 					} else {
-						$users[$user]['start'] = $row->cuc_timestamp;
+						$users[$user]['start'] = wfTimestamp( TS_ISO_8601, $row->cuc_timestamp );
 						$users[$user]['editcount']++;
 						if ( !in_array( $ip, $users[$user]['ips'] ) ) {
 							$users[$user]['ips'][] = $ip;
