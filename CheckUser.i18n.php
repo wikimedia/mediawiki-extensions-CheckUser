@@ -3303,6 +3303,7 @@ Tu su wužiwane IP (maks. 5000, po adresy sortěrowane):',
 );
 
 /** Hungarian (Magyar)
+ * @author Bináris
  * @author Dani
  * @author Dj
  * @author Dorgan
@@ -3381,7 +3382,7 @@ Itt vannak a használt IP-címek (maximum 5000, cím alapján rendezve):',
 	'checkuser-limited' => "'''Teljesítményi okok miatt nem az összes találat lett megjelenítve.'''",
 	'checkuser-log-userips' => '$1 lekérte $2 IP-címeit',
 	'checkuser-log-ipedits' => '$1 lekérte $2 szerkesztéseit',
-	'checkuser-log-ipusers' => '$1 lekérte a(z) $2 IP-címhez tarzozó szerkesztőket',
+	'checkuser-log-ipusers' => '$1 lekérte a(z) $2 IP-címhez tartozó szerkesztőket',
 	'checkuser-log-ipedits-xff' => '$1 lekérte XFF $2 szerkesztéseit',
 	'checkuser-log-ipusers-xff' => '$1 lekérte XFF $2 szerkesztőit',
 	'checkuser-log-useredits' => '$1 lekérdezte $2 szerkesztéseit',
