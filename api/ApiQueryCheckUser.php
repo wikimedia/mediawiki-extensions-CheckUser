@@ -110,7 +110,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				$edits = array();
 				foreach ( $res as $row ) {
 					$edit = array(
-						'timetamp' => $row->cuc_timestamp,
+						'timestamp' => $row->cuc_timestamp,
 						'ns' => $row->cuc_namespace,
 						'title' => $row->cuc_title,
 						'user' => $row->cuc_user_text,
