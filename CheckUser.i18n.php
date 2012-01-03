@@ -248,14 +248,19 @@ $messages['niu'] = array(
  * @author Arnobarnard
  * @author Naudefj
  * @author SPQRobin
+ * @author පසිඳු කාවින්ද
  */
 $messages['af'] = array(
+	'checkuser-desc' => 'Subsidies gebruikers met die toepaslike toestemming om die vermoë om gebruikers se IP-adresse om seker te maak en ander inligting',
 	'checkuser-logcase' => 'Die logboek soek-funksie is kassensitief.',
 	'checkuser' => 'Kontroleer gebruiker',
+	'checkuserlog' => 'Gaan gebruiker log',
 	'checkuser-contribs' => 'kontroleer gebruiker se IP-adresse',
 	'group-checkuser' => 'Kontroleer gebruikers',
 	'group-checkuser-member' => 'kontrolegebruiker',
 	'right-checkuser' => 'Besigtig gebruikers se IP-adresse en ander gegewens',
+	'right-checkuser-log' => 'Bekyk die Check User log',
+	'action-checkuser-log' => 'oog die Check User log',
 	'grouppage-checkuser' => '{{ns:project}}:Kontrolegebruiker',
 	'checkuser-reason' => 'Rede:',
 	'checkuser-reason-api' => 'API: $1',
@@ -271,6 +276,7 @@ $messages['af'] = array(
 	'checkuser-week-2' => 'laaste twee weke',
 	'checkuser-month' => 'laaste 30 dae',
 	'checkuser-all' => 'alle',
+	'checkuser-cidr-label' => "Vind gemeenskaplike omvang en geaffekteerde IP-adresse vir 'n lys van IP-adresse",
 	'checkuser-cidr-res' => 'Gemeenskaplike CIDR:',
 	'checkuser-empty' => 'Die logboek het geen inskrywings nie.',
 	'checkuser-nomatch' => 'Geen resultate gevind.',
@@ -303,6 +309,7 @@ Hieronder word die gebruikte IP-adresse weergegee (maksimum 5000, op IP-adres ge
 	'checkuser-search-target' => 'teiken',
 	'checkuser-ipeditcount' => '~$1 van alle gebruikers',
 	'checkuser-log-subpage' => 'Logboek',
+	'checkuser-log-return' => 'Terug na Check User belangrikste vorm',
 	'checkuser-limited' => "'''Hierdie resultate is vir prestasieredes afgekap.'''",
 	'checkuser-log-userips' => '$1 het die IP-adresse deur $2 opgevra',
 	'checkuser-log-ipedits' => '$1 het die wysigings deur $2 opgevra',
@@ -6518,6 +6525,16 @@ $messages['rup'] = array(
 	'checkuser-search' => 'Caftã',
 );
 
+/** Sanskrit (संस्कृतम्)
+ * @author Ansumang
+ */
+$messages['sa'] = array(
+	'checkuser-reason' => 'कारणम् :',
+	'checkuser-search' => 'अन्वेषणम्',
+	'checkuser-all' => 'सर्वाणि',
+	'checkuser-search-submit' => 'अन्वेषणम्',
+);
+
 /** Sakha (Саха тыла)
  * @author HalanTul
  */
@@ -6750,6 +6767,7 @@ $messages['si'] = array(
 	'checkuser-ipeditcount' => '~$1 සියලුම පරිශිලකයන්ගෙන්',
 	'checkuser-log-subpage' => 'ලඝු සටහන',
 	'checkuser-log-return' => 'පරිශීලකපිරික්සුම් ප්‍රධාන ෆෝරමය වෙත නැවත යන්න',
+	'checkuser-limited' => "'''කාර්ය සාධනය හේතුන් නිසා ප්‍රතිපල ලුප්ත කරන ලදී.'''",
 	'checkuser-log-userips' => 'සංස්කරණය සඳහා  $2 විසින් භාවිත කෙරුණු අන්තර්ජාල ලිපිනයන් $1 විසින් පරික්‍ෂා කොට දැනගෙන ඇත',
 	'checkuser-log-ipedits' => '$2 අන්තර්ජාල ලිපිනය වෙතින් සිදු කෙරුණු සංස්කරණයන් $1 විසින් පරික්‍ෂා කොට දැනගෙන ඇත',
 	'checkuser-log-ipusers' => '$2 අන්තර්ජාල ලිපිනය භාවිතා කල පරිශීලකයන් $1 විසින් පරික්‍ෂා කොට දැනගෙන ඇත',
