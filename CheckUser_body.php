@@ -17,7 +17,7 @@ class CheckUser extends SpecialPage {
 	}
 
 	public function execute( $subpage ) {
-		global $wgRequest, $wgOut, $wgUser, $wgContLang;
+		global $wgRequest, $wgOut;
 
 		$this->checkPermissions();
 		$this->setHeaders();
