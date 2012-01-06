@@ -7111,7 +7111,7 @@ IP адресе ће бити блокиране на недељу дана за
 	'checkuser-accounts' => '$1 {{PLURAL:$1|нови налог|нових налога}}',
 	'checkuser-too-many' => 'Нађено је превише резултата (према процени захтева). Молимо Вас да сузите CIDR.
 Овде су коришћене IP адресе (највише 5.000, сортираних по адреси):',
-	'checkuser-user-nonexistent' => 'Тражени корисник не постоји.',
+	'checkuser-user-nonexistent' => 'Наведени корисник не постоји.',
 	'checkuser-search-form' => 'Претражи извештај где је $1 једнако $2.',
 	'checkuser-search-submit' => 'Претражи',
 	'checkuser-search-initiator' => 'покретач',
