@@ -110,7 +110,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				foreach ( $res as $row ) {
 					$edit = array(
 						'timestamp' => wfTimestamp( TS_ISO_8601, $row->cuc_timestamp ),
-						'ns' => $row->cuc_namespace,
+						'ns' => intval( $row->cuc_namespace ),
 						'title' => $row->cuc_title,
 						'user' => $row->cuc_user_text,
 						'ip' => $row->cuc_ip,
@@ -220,7 +220,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				ApiBase::PARAM_DFLT => 1000,
 				ApiBase::PARAM_TYPE => 'limit',
 				ApiBase::PARAM_MIN => 1,
-				ApiBase::PARAM_MAX => 5000,
+				ApiBase::PARAM_MAX => 500,
 				ApiBase::PARAM_MAX2 => 5000,
 			),
 			'timecond' => null,
