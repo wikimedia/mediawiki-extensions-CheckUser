@@ -77,20 +77,19 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				break;
 
 			case 'edits':
-				if ( IP::isIPAddress( $target ) && isset( $xff ) ) {
-					$cond = CheckUser::getIpConds( $db, $target, true );
+				if ( IP::isIPAddress( $target ) ) {
+					$cond = CheckUser::getIpConds( $db, $target, isset( $xff ) );
 					if ( !$cond ) {
 						$this->dieUsage( 'IP or range is invalid', 'invalidip' );
 					}
 					$this->addWhere( $cond );
-					$log_type = array( 'ipedits-xff', 'ip' );
-				} elseif ( IP::isIPAddress( $target ) ) {
-					$cond = CheckUser::getIpConds( $db, $target );
-					if ( !$cond ) {
-						$this->dieUsage( 'IP or range is invalid', 'invalidip' );
+					$log_type = array();
+					if ( isset( $xff ) ) {
+						$log_type[] = 'ipeditsxff';
+					} else {
+						$log_type[] = 'ipedits';
 					}
-					$this->addWhere( $cond );
-					$log_type = array( 'ipedits', 'ip' );
+					$log_type[] = 'ip' ;
 				} else {
 					$user_id = User::idFromName( $target );
 					if ( !$user_id ) {
@@ -137,14 +136,13 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				break;
 
 			case 'ipusers':
-				if ( IP::isIPAddress( $target ) && isset( $xff ) ) {
-					$cond = CheckUser::getIpConds( $db, $target, true );
-					$this->addWhere( $cond );
-					$log_type = 'ipusersxff';
-				} elseif ( IP::isIPAddress( $target ) ) {
-					$cond = CheckUser::getIpConds( $db, $target );
+				if ( IP::isIPAddress( $target )  ) {
+					$cond = CheckUser::getIpConds( $db, $target, isset( $xff ) );
 					$this->addWhere( $cond );
 					$log_type = 'ipusers';
+					if ( isset( $xff ) ) {
+						$log_type .= 'xff';
+					}
 				} else {
 					$this->dieUsage( 'IP or range is invalid', 'invalidip' );
 				}
