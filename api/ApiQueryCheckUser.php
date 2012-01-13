@@ -140,6 +140,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				if ( IP::isIPAddress( $target ) && isset( $xff ) ) {
 					$cond = CheckUser::getIpConds( $db, $target, true );
 					$this->addWhere( $cond );
+					$log_type = 'ipusersxff';
 				} elseif ( IP::isIPAddress( $target ) ) {
 					$cond = CheckUser::getIpConds( $db, $target );
 					$this->addWhere( $cond );
