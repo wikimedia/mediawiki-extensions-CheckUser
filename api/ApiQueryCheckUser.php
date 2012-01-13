@@ -54,7 +54,6 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				foreach ( $res as $row ) {
 					$timestamp = wfTimestamp( TS_ISO_8601, $row->cuc_timestamp );
 					$ip = strval( $row->cuc_ip );
-					//$xff = $row->cuc_xff;
 
 					if ( !isset( $ips[$ip] ) ) {
 						$ips[$ip]['end'] = $timestamp;
@@ -141,7 +140,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$this->addWhere( $cond );
 					$log_type = 'ipusers';
 					if ( isset( $xff ) ) {
-						$log_type .= 'xff';
+						$log_type .= '-xff';
 					}
 				} else {
 					$this->dieUsage( 'IP or range is invalid', 'invalidip' );
