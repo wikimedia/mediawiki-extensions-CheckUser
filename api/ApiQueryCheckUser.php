@@ -36,7 +36,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 		$this->addTables( 'cu_changes' );
 		$this->addOption( 'LIMIT', $limit + 1 );
 		$this->addOption( 'ORDER BY', 'cuc_timestamp DESC' );
-		$this->addWhere( "cuc_timestamp > $time" );
+		$this->addWhere( "cuc_timestamp > " . $db->addQuotes( $time ) );
 
 		switch ( $request ) {
 			case 'userips':
@@ -54,7 +54,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				foreach ( $res as $row ) {
 					$timestamp = wfTimestamp( TS_ISO_8601, $row->cuc_timestamp );
 					$ip = strval( $row->cuc_ip );
-					$xff = $row->cuc_xff;
+					//$xff = $row->cuc_xff;
 
 					if ( !isset( $ips[$ip] ) ) {
 						$ips[$ip]['end'] = $timestamp;
@@ -85,7 +85,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$this->addWhere( $cond );
 					$log_type = array();
 					if ( isset( $xff ) ) {
-						$log_type[] = 'ipeditsxff';
+						$log_type[] = 'ipedits-xff';
 					} else {
 						$log_type[] = 'ipedits';
 					}

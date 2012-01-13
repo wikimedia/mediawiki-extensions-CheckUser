@@ -1244,7 +1244,7 @@ class CheckUser extends SpecialPage {
 	}
 
 	/**
-	 * @param Database $db
+	 * @param DatabaseBase $db
 	 * @param string $ip
 	 * @param string|bool $xfor
 	 * @return mixed array/false conditions
