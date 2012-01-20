@@ -3332,6 +3332,7 @@ Tu su wužiwane IP (maks. 5000, po adresy sortěrowane):',
  * @author Dorgan
  * @author Glanthor Reviol
  * @author Grin
+ * @author Hunyadym
  * @author KossuthRad
  * @author Terik
  * @author Tgr
@@ -3344,7 +3345,7 @@ Maximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt
 	'checkuser-logcase' => 'A kereső kis- és nagybetűérzékeny.',
 	'checkuser' => 'IP-ellenőr',
 	'checkuserlog' => 'IP-ellenőr-napló',
-	'checkuser-contribs' => 'az IP-ellenőr IP-címei',
+	'checkuser-contribs' => 'a szerkesztő IP-ellenőrzése',
 	'group-checkuser' => 'IP-ellenőrök',
 	'group-checkuser-member' => 'IP-ellenőr',
 	'right-checkuser' => 'a felhasználók IP-címének és más adatainak ellenőrzése',
@@ -7064,7 +7065,7 @@ $messages['sr-ec'] = array(
 	'checkuser-desc' => 'Даје корисницима са одговарајућим правима могућност да провере ИП адресе корисника и друге информације.',
 	'checkuser-logcase' => 'Претрага извештаја је осетљива на мала и велика слова.',
 	'checkuser' => 'Чекјузер',
-	'checkuserlog' => 'Извештај чекјузера',
+	'checkuserlog' => 'Дневник чекјузера',
 	'checkuser-contribs' => 'Провери корисникове ИП адресе',
 	'group-checkuser' => 'Чекјузери',
 	'group-checkuser-member' => '{{GENDER:$1|чекјузер}}',
@@ -7089,13 +7090,13 @@ $messages['sr-ec'] = array(
 	'checkuser-all' => 'све',
 	'checkuser-cidr-label' => 'Пронађи уобичајени опсег и захваћене адресе за списак IP адреса.',
 	'checkuser-cidr-res' => 'Уобичајени CIDR',
-	'checkuser-empty' => 'Извештај не садржи ниједну ставку.',
+	'checkuser-empty' => 'Дневник је празан.',
 	'checkuser-nomatch' => 'Нема погодака.',
 	'checkuser-nomatch-edits' => 'Нису нађена поклапања.
 Последња измена је била на $1 у $2.',
 	'checkuser-check' => 'Провера',
-	'checkuser-log-fail' => 'Додавање податка у извештај није могуће.',
-	'checkuser-nolog' => 'Извештај није пронађен.',
+	'checkuser-log-fail' => 'Не могу да додам ставку у дневник',
+	'checkuser-nolog' => 'Дневник није пронађен.',
 	'checkuser-blocked' => 'Блокиран',
 	'checkuser-gblocked' => 'Блокиран глобално',
 	'checkuser-locked' => 'Закључано',
@@ -7116,12 +7117,12 @@ IP адресе ће бити блокиране на недељу дана за
 	'checkuser-too-many' => 'Нађено је превише резултата (према процени захтева). Молимо Вас да сузите CIDR.
 Овде су коришћене IP адресе (највише 5.000, сортираних по адреси):',
 	'checkuser-user-nonexistent' => 'Наведени корисник не постоји.',
-	'checkuser-search-form' => 'Претражи извештај где је $1 једнако $2.',
+	'checkuser-search-form' => 'Пронађи ставке у дневнику где је $1 једнако $2',
 	'checkuser-search-submit' => 'Претражи',
 	'checkuser-search-initiator' => 'покретач',
 	'checkuser-search-target' => 'циљ',
 	'checkuser-ipeditcount' => '~$1 од свих корисника',
-	'checkuser-log-subpage' => 'Извештај',
+	'checkuser-log-subpage' => 'Дневник',
 	'checkuser-log-return' => 'Повратак на основну форму чекјузера.',
 	'checkuser-limited' => "'''Ови резултати су скраћени због перформанси.'''",
 	'checkuser-log-userips' => '$1 је добио ИП адресе за $2',
