@@ -2185,11 +2185,15 @@ Aquí se ven las IPs usadas (máximo 5000, ordenadas según dirección):',
 $messages['et'] = array(
 	'checkuser-desc' => 'Võimaldab vajalike õigustega kasutajal teise kasutaja IP-aadresse ja muud teavet kontrollida.',
 	'checkuser-logcase' => 'Logi otsing on tõusutundlik.',
-	'checkuser' => 'Kasutaja kontrollimine',
-	'checkuserlog' => 'Kasutajate kontrollimise logi',
+	'checkuser' => 'Kasutajakontroll',
+	'checkuserlog' => 'Kasutajakontrolli logi',
+	'checkuser-contribs' => 'kasutaja IP-aadresside kontroll',
 	'group-checkuser' => 'Kasutaja kontrollijad',
 	'group-checkuser-member' => 'kasutaja kontrollija',
 	'right-checkuser' => 'Kontrollida kasutajate IP-aadresse ja muud teavet',
+	'right-checkuser-log' => 'Vaadata kasutajakontrolli logi',
+	'action-checkuser' => 'kontrollida kasutaja IP-aadresse ja muid andmeid',
+	'action-checkuser-log' => 'vaadata kasutajakontrolli logi',
 	'grouppage-checkuser' => '{{ns:project}}:Kasutaja kontrollijad',
 	'checkuser-reason' => 'Põhjus:',
 	'checkuser-showlog' => 'Näita logi',
@@ -2225,6 +2229,7 @@ Viimane redigeerimisaeg: $1, $2.',
 	'checkuser-block-limit' => 'Liiga palju kasutajaid valitud.',
 	'checkuser-block-noreason' => 'Blokeeringule peab andma põhjenduse.',
 	'checkuser-noreason' => 'Päringu jaoks peab põhjuse andma.',
+	'checkuser-accounts' => '$1 {{PLURAL:$1|uus konto|uut kontot}}',
 	'checkuser-user-nonexistent' => 'Etteantud kasutajat pole olemas.',
 	'checkuser-search-form' => 'Leia logisissekanded, kus $1 on $2',
 	'checkuser-search-submit' => 'Otsi',
@@ -8377,6 +8382,23 @@ Redakam lätik ejenon ün $1, tü $2.',
  */
 $messages['wa'] = array(
 	'checkuser' => "Verifyî l' uzeu",
+);
+
+/** Waray (Winaray)
+ * @author JinJian
+ */
+$messages['war'] = array(
+	'group-checkuser' => 'Mga manginginsayod hin gumaramit',
+	'group-checkuser-member' => '{{HENERO:$1|manginginsayod hin gumaramit}}',
+	'checkuser-all' => 'ngatanan',
+	'checkuser-check' => 'Panginsayori',
+	'checkuser-massblock' => 'Pugngi an mga ginpili nga gumaramit',
+	'checkuser-blocktag' => 'Igliwan an mga pakli-han-gumaramit hin:',
+	'checkuser-blocktag-talk' => 'Igliwan an mga hiruhimanraw-nga-pakli hin:',
+	'checkuser-search-submit' => 'Bilnga',
+	'checkuser-search-initiator' => 'nagpatikang',
+	'checkuser-autocreate-action' => 'in naglugaring kahimo',
+	'checkuser-create-action' => 'in nahimo',
 );
 
 /** Wu (吴语) */
