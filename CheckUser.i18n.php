@@ -2810,7 +2810,7 @@ Use isto de acordo coas políticas.',
 	'checkuser-nomatch-edits' => 'Non se atoparon coincidencias.
 A última edición foi feita o $1 ás $2.',
 	'checkuser-check' => 'Comprobar',
-	'checkuser-log-fail' => 'Non é posíbel engadir unha entrada no rexistro',
+	'checkuser-log-fail' => 'Non é posible engadir unha entrada no rexistro',
 	'checkuser-nolog' => 'Ningún arquivo de rexistro.',
 	'checkuser-blocked' => 'Bloqueado',
 	'checkuser-gblocked' => 'Bloqueado globalmente',
