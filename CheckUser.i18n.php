@@ -659,7 +659,7 @@ Estes son les IPs usaes (5000 max, axeitaes por direición):",
 	'checkuser-autocreate-action' => 'creóse automáticamente',
 	'checkuser-create-action' => 'se creó',
 	'checkuser-email-action' => 'unvió un corréu electrónicu a "$1"',
-	'checkuser-reset-action' => 'restableció la clave pal usuariu "$1"',
+	'checkuser-reset-action' => 'reestableció la conseña del usuariu «$1»',
 );
 
 /** Kotava (Kotava)
@@ -2080,6 +2080,7 @@ Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
 /** Spanish (Español)
  * @author Aleator
  * @author AlimanRuna
+ * @author Armando-Martin
  * @author Crazymadlover
  * @author Dferg
  * @author Dmcdevit
@@ -2108,7 +2109,7 @@ Usa esta herramienta de acuerdo con las políticas correspondientes.',
 	'checkuserlog' => 'Registro de verificación de usuarios',
 	'checkuser-contribs' => 'verificar las direcciones IP del usuario',
 	'group-checkuser' => 'Verificadores de usuarios',
-	'group-checkuser-member' => 'verificador de usuarios',
+	'group-checkuser-member' => '{{GENDER:$1|verificador de usuarios}}',
 	'right-checkuser' => 'Comprobar las IPs de los usuarios y obtener otra información relacionada',
 	'right-checkuser-log' => 'Ver el registro de verificación de usuarios',
 	'action-checkuser' => 'Comprobar las IPs de los usuarios y obtener otra información relacionada',
@@ -2221,6 +2222,8 @@ Viimane redigeerimisaeg: $1, $2.',
 	'checkuser-wasblocked' => 'Eelnevalt blokeeritud',
 	'checkuser-localonly' => 'Ei ole globaalset kontot',
 	'checkuser-massblock' => 'Blokeeri valitud kasutajad',
+	'checkuser-massblock-text' => 'Valitud kontod blokeeritakse igaveseks, seejuures IP-aadressid blokeeritakse automaatselt ja keelatakse uute kontode tegemine.
+Ainult anonüümsed kasutajad blokeeritakse nädalaks ja neil keelatakse uute kontode tegemine.',
 	'checkuser-blocktag' => 'Asenda kasutajalehed:',
 	'checkuser-blocktag-talk' => 'Asenda arutelulehed:',
 	'checkuser-massblock-commit' => 'Blokeeri valitud kasutajad',
