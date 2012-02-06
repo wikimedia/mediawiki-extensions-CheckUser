@@ -16,14 +16,15 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		if ( !$wgUser->isAllowed( 'checkuser-log' ) ) {
 			$this->dieUsage( 'You need the checkuser-log right', 'permissionerror' );
 		}
-		
+
 		list( $user, $limit, $target, $from, $to ) = array( $params['user'], $params['limit'],
 			$params['target'], $params['from'], $params['to'] );
 
 		$this->addTables( 'cu_log' );
 		$this->addOption( 'LIMIT', $limit + 1 );
-		$this->addWhereRange( 'cul_timestamp', 'older', $from, $to );
-		$this->addFields( array( 'cul_timestamp', 'cul_user_text', 'cul_reason', 'cul_type', 'cul_target_text' ) );
+		$this->addTimestampWhereRange( 'cul_timestamp', 'older', $from, $to );
+		$this->addFields( array( 
+			'cul_timestamp', 'cul_user_text', 'cul_reason', 'cul_type', 'cul_target_text' ) );
 
 		if ( isset( $user ) ) {
 			$this->addWhereFld( 'cul_user_text', $user );
@@ -40,31 +41,32 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 			$log[] = array(
 				'timestamp' => wfTimestamp( TS_ISO_8601, $row->cul_timestamp ),
 				'checkuser' => $row->cul_user_text,
-				'type' => $row->cul_type,
-				'reason' => $row->cul_reason,
-				'target' => $row->cul_target_text,
+				'type'      => $row->cul_type,
+				'reason'    => $row->cul_reason,
+				'target'    => $row->cul_target_text,
 			);
 		}
 
 		$result->addValue( array( 'query', $this->getModuleName() ), 'entries', $log );
-		$result->setIndexedTagName_internal( array( 'query', $this->getModuleName(), 'entries' ), 'entry' );
+		$result->setIndexedTagName_internal( 
+			array( 'query', $this->getModuleName(), 'entries' ), 'entry' );
 	}
 
 	public function getAllowedParams() {
 		return array(
-			'user' => null,
+			'user'   => null,
 			'target' => null,
-			'limit' => array(
+			'limit'  => array(
 				ApiBase::PARAM_DFLT => 10,
 				ApiBase::PARAM_TYPE => 'limit',
-				ApiBase::PARAM_MIN => 1,
-				ApiBase::PARAM_MAX => ApiBase::LIMIT_BIG1,
+				ApiBase::PARAM_MIN  => 1,
+				ApiBase::PARAM_MAX  => ApiBase::LIMIT_BIG1,
 				ApiBase::PARAM_MAX2 => ApiBase::LIMIT_BIG2,
 			),
-			'from' => array(
+			'from'  => array(
 				ApiBase::PARAM_TYPE => 'timestamp',
 			),
-			'to' => array(
+			'to'    => array(
 				ApiBase::PARAM_TYPE => 'timestamp',
 			),
 		);
@@ -72,11 +74,11 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 
 	public function getParamDescription() {
 		return array(
-			'user' => 'Username of CheckUser',
+			'user'   => 'Username of CheckUser',
 			'target' => "Checked user or IP-address/range",
-			'limit' => 'Limit of rows',
-			'from' => 'The timestamp to start enumerating from',
-			'to' => 'The timestamp to end enumerating',
+			'limit'  => 'Limit of rows',
+			'from'   => 'The timestamp to start enumerating from',
+			'to'     => 'The timestamp to end enumerating',
 		);
 	}
 
