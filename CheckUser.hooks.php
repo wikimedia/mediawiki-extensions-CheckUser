@@ -22,9 +22,11 @@ class CheckUserHooks {
 		// If not, then $rc_comment is the actiontext and comment
 		if ( isset( $rc_log_type ) && $rc_type == RC_LOG ) {
 			$target = Title::makeTitle( $rc_namespace, $rc_title );
-			$actionText = LogPage::actionText( $rc_log_type, $rc_log_action, $target,
-				null, LogPage::extractParams( $rc_params )
-			);
+			$context = RequestContext::newExtraneousContext( $target );
+
+			$formatter = LogFormatter::newFromRow( $rc->mAttribs );
+			$formatter->setContext( $context );
+			$actionText = $formatter->getPlainActionText();
 		} else {
 			$actionText = '';
 		}
