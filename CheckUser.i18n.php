@@ -8590,6 +8590,7 @@ $messages['zh-hans'] = array(
  * @author Horacewai2
  * @author Liangent
  * @author Mark85296341
+ * @author Oapbtommy
  * @author Waihorace
  * @author Wrightbus
  */
@@ -8649,7 +8650,7 @@ $messages['zh-hant'] = array(
 下面列出了使用過的IP地址（最多5000個，按地址排列）：',
 	'checkuser-user-nonexistent' => '指定的使用者不存在。',
 	'checkuser-search-form' => '搜尋當 $1 是 $2 時之日誌',
-	'checkuser-search-submit' => '{{int:Search}}',
+	'checkuser-search-submit' => '搜尋',
 	'checkuser-search-initiator' => '創始者',
 	'checkuser-search-target' => '目標',
 	'checkuser-ipeditcount' => '~在全部用戶中$1',
