@@ -95,7 +95,7 @@ Here are the IPs used (5000 max, sorted by address):',
 	'checkuser-email-action'     => 'sent an email to user "$1"',
 	'checkuser-reset-action'     => 'reset password for user "$1"',
 
-	'checkuser-toollinks'        => '<span class="plainlinks">[[http://openrbl.org/query?$1 RDNS] ·
+	'checkuser-toollinks'        => '<span class="plainlinks">[[http://whois.domaintools.com/$1 RDNS] ·
 [http://www.robtex.com/rbls/$1.html RBLs] ·
 [http://www.dnsstuff.com/tools/tracert.ch?ip=$1 Traceroute] ·
 [http://www.ip2location.com/$1 Geolocate] ·
