@@ -3760,6 +3760,7 @@ $messages['is'] = array(
 
 /** Italian (Italiano)
  * @author .anaconda
+ * @author Ask21
  * @author Aushulz
  * @author Beta16
  * @author BrokenArrow
@@ -3830,7 +3831,7 @@ Di seguito sono indicati gli indirizzi IP utilizzati (fino a un massimo di 5000,
 	'checkuser-user-nonexistent' => "L'utente indicato non esiste.",
 	'checkuser-search-form' => 'Trova le voci del log per le quali $1 è $2',
 	'checkuser-search-submit' => 'Ricerca',
-	'checkuser-search-initiator' => 'iniziatore',
+	'checkuser-search-initiator' => 'richiedente',
 	'checkuser-search-target' => 'obiettivo',
 	'checkuser-ipeditcount' => '~$1 complessivamente',
 	'checkuser-log-subpage' => 'Log',
