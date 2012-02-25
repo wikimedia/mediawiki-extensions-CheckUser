@@ -584,9 +584,10 @@ $messages['as'] = array(
  * @author Xuacu
  */
 $messages['ast'] = array(
-	'checkuser-summary' => "Esta ferramienta escanea los cambeos recientes pa obtener les IP usaes por un usuariu o p'amosar les ediciones o usuarios d'una IP.
-	Los usuarios y ediciones correspondientes a una IP puen obtenese per aciu de les cabeceres XFF añadiendo depués de la IP \\\"/xff\\\". Puen usase los protocolos IPv4 (CIDR 16-32) y IPv6 (CIDR 96-128).
-	Por razones de rendimientu nun s'amosarán más de 5.000 ediciones. Emplega esta ferramienta  acordies cola política d'usu.",
+	'checkuser-summary' => "Esta ferramienta escanea los cambios recientes pa sacar les IP usaes por un usuariu o p'amosar los datos d'ediciones/usuarios d'una IP.
+Los usuarios y ediciones correspondientes a una IP puen sacase per aciu de les cabeceres XFF amestando depués de la IP \\\"/xff\\\". Puen usase los protocolos IPv4 (CIDR 16-32) ya IPv6 (CIDR 96-128).
+Por razones de rindimientu nun s'amosarán más de 5.000 ediciones.
+Emplega esta ferramienta acordies cola política d'usu.",
 	'checkuser-desc' => "Permite a los usuarios colos permisos afechiscos la posibilidá de comprobar les direiciones IP d'usuarios y otres informaciones",
 	'checkuser-logcase' => 'La busca nel rexistru distingue ente mayúscules y minúscules.',
 	'checkuser' => "Comprobador d'usuariu",
@@ -602,7 +603,7 @@ $messages['ast'] = array(
 	'checkuser-reason' => 'Motivu:',
 	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Amosar el rexistru',
-	'checkuser-query' => 'Buscar nos cambeos recientes',
+	'checkuser-query' => 'Buscar nos cambios recientes',
 	'checkuser-target' => 'IP o usuariu:',
 	'checkuser-users' => 'Obtener usuarios',
 	'checkuser-edits' => 'Obtener les ediciones',
