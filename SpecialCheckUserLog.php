@@ -60,6 +60,10 @@ class SpecialCheckUserLog extends SpecialPage {
 				}
 			}
 		}
+
+		$out->addHTML( $this->getSkin()->makeKnownLinkObj( 
+			Title::makeTitle( NS_SPECIAL, 'CheckUser' ), 
+				wfMsgHtml( 'checkuser-log-return' ) ) );
 		
 		$searchTypes = array( 'initiator', 'target' );
 		$select = "<select name=\"cuSearchType\" style='margin-top:.2em;'>\n";
