@@ -5,6 +5,13 @@ class SpecialCheckUserLog extends SpecialPage {
 		parent::__construct( 'CheckUserLog', 'checkuser-log' );
 	}
 
+	function getCheckUserFormTitle() {
+		if ( !isset( $this->checkUserFormTitle ) ) {
+			$this->checkUserFormTitle = SpecialPage::getTitleFor('CheckUser');
+		}
+		return $this->checkUserFormTitle;
+	}
+
 	function execute( $par ) {
 		$this->checkPermissions();
 
@@ -61,9 +68,9 @@ class SpecialCheckUserLog extends SpecialPage {
 			}
 		}
 
-		$out->addHTML( $this->getSkin()->makeKnownLinkObj( 
-			Title::makeTitle( NS_SPECIAL, 'CheckUser' ), 
-				wfMsgHtml( 'checkuser-log-return' ) ) );
+		$out->addHTML( Linker::linkKnown(
+				$this->getCheckUserFormTitle(),
+				$this->msg( 'checkuser-log-return' ) ) );
 		
 		$searchTypes = array( 'initiator', 'target' );
 		$select = "<select name=\"cuSearchType\" style='margin-top:.2em;'>\n";

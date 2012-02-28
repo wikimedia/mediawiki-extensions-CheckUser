@@ -96,17 +96,17 @@ class CheckUser extends SpecialPage {
 	/**
 	 * @return Title
 	 */
-	public function getLogTitle() {
-		if ( !isset( $this->logSubpageTitle ) ) {
-			$this->logTitle = Title::makeTitle( NS_SPECIAL, 'CheckUserLog' );
+	public function getCheckUserLogTitle() {
+		if ( !isset( $this->checkUserLogTitle ) ) {
+			$this->checkUserLogTitle = SpecialPage::getTitleFor( 'CheckUserLog' );
 		}
-		return $this->logTitle;
+		return $this->checkUserLogTitle;
 	}
 
 	protected function showGuide() {
 		global $wgOut;
 		$wgOut->addWikiText( wfMsg( 'checkuser-summary' ) .
-			"\n\n[[" . $this->getLogTitle()->getPrefixedText() .
+			"\n\n[[" . $this->getCheckUserLogTitle()->getPrefixedText() .
 				'|' . wfMsg( 'checkuser-showlog' ) . ']]'
 		);
 	}
