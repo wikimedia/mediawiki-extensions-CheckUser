@@ -1692,7 +1692,7 @@ IP-Adressen werden für eine Woche gesperrt (nur für unangemeldete Benutzer, di
 	'checkuser-search-initiator' => 'CheckUser-Berechtigter',
 	'checkuser-search-target' => 'Abfrageziel (Benutzerkonto/IP-Adresse)',
 	'checkuser-ipeditcount' => '~ $1 von allen Benutzern',
-	'checkuser-log-return' => 'Zum CheckUser-Hauptformular wechseln',
+	'checkuser-log-return' => 'Zurück zum CheckUser-Hauptformular',
 	'checkuser-limited' => "'''Die Ergebnisliste wurde aus Performancegründen gekürzt.'''",
 	'checkuser-log-userips' => '$1 holte IP-Adressen für $2',
 	'checkuser-log-ipedits' => '$1 holte Bearbeitungen für $2',
@@ -2279,6 +2279,7 @@ $messages['ext'] = array(
 /** Persian (فارسی)
  * @author Ebraminio
  * @author Huji
+ * @author Mehran
  * @author MehranVB
  * @author Mjbmr
  * @author ZxxZxxZ
@@ -5458,6 +5459,7 @@ Hieronder worden de gebruikte IP-adressen weergegeven (maximaal 5000, op IP-adre
  * @author Gunnernett
  * @author Harald Khan
  * @author Jon Harald Søby
+ * @author Njardarlogar
  */
 $messages['nn'] = array(
 	'checkuser-summary' => 'Dette verktøyet går gjennom siste endringar for å henta IP-ane som er nytta av ein brukar, eller syner endrings- eller brukarinformasjon for ein IP.
@@ -5831,7 +5833,7 @@ Użytych adresów IP jest (nie więcej niż 5000, posortowane według adresu):',
 	'checkuser-search-initiator' => 'sprawdzającym',
 	'checkuser-search-target' => 'sprawdzanym',
 	'checkuser-ipeditcount' => '~$1 od wszystkich użytkowników',
-	'checkuser-log-return' => 'Przejście do głównego formularza CheckUser',
+	'checkuser-log-return' => 'Powrót do głównego formularza CheckUser',
 	'checkuser-limited' => "'''Długość listy wyników została ograniczona ze względu na wydajność.'''",
 	'checkuser-log-userips' => '$1 otrzymał adresy IP używane przez $2',
 	'checkuser-log-ipedits' => '$1 otrzymał historię edycji dla $2',
