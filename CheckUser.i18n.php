@@ -643,7 +643,7 @@ Estes son les IPs usaes (5000 max, axeitaes por direición):",
 	'checkuser-search-initiator' => 'aniciador',
 	'checkuser-search-target' => 'oxetivu',
 	'checkuser-ipeditcount' => '~$1 de tolos usuarios',
-	'checkuser-log-return' => "Volver al formulariu principal de comprobador d'usuariu",
+	'checkuser-log-return' => "Cambiar al formulariu principal del comprobador d'usuarios",
 	'checkuser-limited' => "'''Estos resultaos fueron truncaos por motivos de rendimientu.'''",
 	'checkuser-log-userips' => '$1 obtuvo les IP pa $2',
 	'checkuser-log-ipedits' => '$1 obtuvo les ediciones pa $2',
@@ -1692,7 +1692,7 @@ IP-Adressen werden für eine Woche gesperrt (nur für unangemeldete Benutzer, di
 	'checkuser-search-initiator' => 'CheckUser-Berechtigter',
 	'checkuser-search-target' => 'Abfrageziel (Benutzerkonto/IP-Adresse)',
 	'checkuser-ipeditcount' => '~ $1 von allen Benutzern',
-	'checkuser-log-return' => 'Zurück zum CheckUser-Hauptformular',
+	'checkuser-log-return' => 'Zum CheckUser-Hauptformular wechseln',
 	'checkuser-limited' => "'''Die Ergebnisliste wurde aus Performancegründen gekürzt.'''",
 	'checkuser-log-userips' => '$1 holte IP-Adressen für $2',
 	'checkuser-log-ipedits' => '$1 holte Bearbeitungen für $2',
@@ -1862,7 +1862,7 @@ IP-adrese budu se jano za IP-wužywarjow na 1 tyźeń blokěrowaś - załoženje
 	'checkuser-search-initiator' => 'iniciator',
 	'checkuser-search-target' => 'cel',
 	'checkuser-ipeditcount' => '~$1 ze wšych wužywarjow',
-	'checkuser-log-return' => 'Slědk ku głownemu formularoju CheckUser',
+	'checkuser-log-return' => 'Ku głownemu formularoju CheckUser',
 	'checkuser-limited' => "'''Toś te wuslědki su se z pśicynow wugbałosći wobrězali.'''",
 	'checkuser-log-userips' => '$1 jo IP-adrese za $2 wobstarał',
 	'checkuser-log-ipedits' => '$1 jo změny za $2 wobstarał',
@@ -2142,7 +2142,7 @@ Aquí se ven las IPs usadas (máximo 5000, ordenadas según dirección):',
 	'checkuser-search-initiator' => 'verificador',
 	'checkuser-search-target' => 'usuario verificado',
 	'checkuser-ipeditcount' => '~$1 de todos los usuarios',
-	'checkuser-log-return' => 'Volver al formulario principal de CheckUser',
+	'checkuser-log-return' => 'Cambiar al formulario principal de verificador de usuarios (CheckUser)',
 	'checkuser-limited' => "'''Estos resultados han sido truncados por motivos de rendimiento.'''",
 	'checkuser-log-userips' => '$1 obtuvo las direcciones IP de $2',
 	'checkuser-log-ipedits' => '$1 obtuvo las contribuciones de $2',
@@ -2478,7 +2478,7 @@ $messages['fo'] = array(
  */
 $messages['fr'] = array(
 	'checkuser-summary' => 'Cet outil parcourt la liste des changements récents à la recherche des adresses IP employées par un utilisateur, affiche toutes les modifications d’une adresse IP (même enregistrée), ou liste les comptes utilisés par une adresse IP.
-Les comptes et les modifications faites par une adresse IP cliente d’un serveur mandataire approuvé peuvent être récupérés via les entêtes XFF en suffisant l’IP avec « /xff ». Les adresses IPv4 (CIDR /16 à /32) et IPv6 (CIDR /64 à /128) sont supportées.
+Les comptes et les modifications faites par une adresse IP cliente d’un serveur mandataire approuvé peuvent être récupérés via les entêtes XFF en suffisant l’IP avec « /xff ». Les adresses IPv4 (CIDR /16 à /32) et IPv6 (CIDR /96 à /128) sont supportées.
 Le nombre de modifications affichables est limité à {{formatnum:5000}} pour des questions de performance.
 Veuillez utiliser cet outil dans le respect de la charte d’utilisation.',
 	'checkuser-desc' => 'Donne la possibilité aux utilisateurs dûment autorisés de vérifier les adresses IP des utilisateurs ainsi que d’autres informations les concernant',
@@ -2540,7 +2540,7 @@ Voici un extrait des IP utilisées ({{formatnum:5000}} maximum, triées par adre
 	'checkuser-search-initiator' => 'l’initiateur',
 	'checkuser-search-target' => 'la cible',
 	'checkuser-ipeditcount' => '~$1 par tous les utilisateurs',
-	'checkuser-log-return' => 'Retourner au formulaire principal du vérificateur d’utilisateur',
+	'checkuser-log-return' => 'Basculer vers le formulaire principal du vérificateur d’utilisateur',
 	'checkuser-limited' => "'''Ces résultats ont été tronqués pour des raisons liées à la performance.'''",
 	'checkuser-log-userips' => '$1 a obtenu des IP utilisées par « $2 »',
 	'checkuser-log-ipedits' => '$1 a obtenu des modifications par l’adresse $2',
@@ -2588,7 +2588,7 @@ Usez ça ici en accord avec les régulations.',
  */
 $messages['frp'] = array(
 	'checkuser-summary' => "Ceti outil parcôrt los dèrriérs changements a la rechèrche de les adrèces IP empleyês per un usanciér, montre tôs los changements d’una adrèce IP (méma encartâ), ou ben liste los comptos utilisâs per una adrèce IP.
-Los comptos et los changements fêts per una adrèce IP clianta d’un sèrvor mandatèro (''proxy'') aprovâ pôvont étre rècupèrâs avouéc les en-tétes XFF en apondent l’adrèce IP avouéc « /xff ». Les adrèces IPv4 (CIDR /16 a /32) et IPv6 (CIDR /64 a /128) sont recognues.
+Los comptos et los changements fêts per una adrèce IP clianta d’un sèrvor mandatèro (''proxy'') aprovâ pôvont étre rècupèrâs avouéc les en-tétes XFF en apondent l’adrèce IP avouéc « /xff ». Les adrèces IPv4 (CIDR /16 a /32) et IPv6 (CIDR /96 a /128) sont recognues.
 Lo nombro de changements montrâblos est limitâ a {{formatnum:5000}} por des quèstions de pèrformence.
 Lo volyéd utilisar dedens les limites de la chârta d’usâjo.",
 	'checkuser-desc' => 'Balye la possibilitât a les gens qu’ont la pèrmission que vat avouéc de controlar les adrèces IP des usanciérs et pués d’ôtres enformacions los regardent.',
@@ -2813,7 +2813,7 @@ Aquí están os enderezos IP usados (máximo de 5.000, ordenados por enderezo):'
 	'checkuser-search-initiator' => 'iniciador',
 	'checkuser-search-target' => 'destino',
 	'checkuser-ipeditcount' => '~$1 de todos os usuarios',
-	'checkuser-log-return' => 'Volver ao formulario principal de verificador de usuarios',
+	'checkuser-log-return' => 'Cambiar ao formulario principal de verificador de usuarios',
 	'checkuser-limited' => "'''Estes resultados foron truncados por motivos de rendemento.'''",
 	'checkuser-log-userips' => '$1 obteu os enderezos IP de "$2"',
 	'checkuser-log-ipedits' => '$1 obteu as edicións de "$2"',
@@ -3040,7 +3040,7 @@ $messages['he'] = array(
 	'checkuser-search-initiator' => 'בודק',
 	'checkuser-search-target' => 'נבדק',
 	'checkuser-ipeditcount' => 'בערך $1 מכל המשתמשים',
-	'checkuser-log-return' => 'חזרה לטופס הבדיקה הכללי',
+	'checkuser-log-return' => 'מעבר לטופס הבדיקה הראשי',
 	'checkuser-limited' => "'''הדף נקטע כדי לחסוך במשאבים.'''",
 	'checkuser-log-userips' => '$1 בדק את כתובות ה־IP של $2',
 	'checkuser-log-ipedits' => '$1 בדק את העריכות של $2',
@@ -3285,7 +3285,7 @@ Tu su wužiwane IP (maks. 5000, po adresy sortěrowane):',
 	'checkuser-search-initiator' => 'iniciator',
 	'checkuser-search-target' => 'cil',
 	'checkuser-ipeditcount' => '~$1 wot wšěch wužiwarjow',
-	'checkuser-log-return' => 'Wróćo k hłownemu formularej CheckUser',
+	'checkuser-log-return' => 'K hłownemu formularej CheckUser',
 	'checkuser-limited' => "'''Tute wuslědki buchu z wukonowych přičinow wobrězane.'''",
 	'checkuser-log-userips' => '$1 dósta IP za $2',
 	'checkuser-log-ipedits' => '$1 dósta změny za $2',
@@ -3408,9 +3408,9 @@ Non plus de 5000 modificationes essera retornate pro non supercargar le systema.
 Tote uso de iste instrumento debe esser conforme al politicas in vigor.',
 	'checkuser-desc' => 'Concede al usatores con le autorisation appropriate le capabilitate de verificar le adresses IP e altere informationes de usatores',
 	'checkuser-logcase' => 'Le recerca del registros distingue inter majusculas e minusculas.',
-	'checkuser' => 'Verificar usator',
+	'checkuser' => 'Verification de usatores',
 	'checkuserlog' => 'Registro de verification de usatores',
-	'checkuser-contribs' => 'verificar IPs de usatores',
+	'checkuser-contribs' => 'verification de adresses IP de usatores',
 	'group-checkuser' => 'Verificatores de usatores',
 	'group-checkuser-member' => '{{GENDER:$1|verificator|verificatrice}} de usatores',
 	'right-checkuser' => 'Verificar le adresses IP e altere informationes del usator',
@@ -3432,7 +3432,7 @@ Tote uso de iste instrumento debe esser conforme al politicas in vigor.',
 	'checkuser-week-2' => 'ultime duo septimanas',
 	'checkuser-month' => 'ultime 30 dies',
 	'checkuser-all' => 'totes',
-	'checkuser-cidr-label' => 'Cercar le gamma commun e le adresses afficite pro un lista de IPs',
+	'checkuser-cidr-label' => 'Cercar le gamma commun e le adresses IP afficite pro un lista de adresses IP',
 	'checkuser-cidr-res' => 'CIDR commun:',
 	'checkuser-empty' => 'Le registro non contine entratas.',
 	'checkuser-nomatch' => 'Nihil trovate.',
@@ -3466,7 +3466,7 @@ Ecce le IPs usate (max. 5000, ordinate per adresse):',
 	'checkuser-search-initiator' => 'initiator',
 	'checkuser-search-target' => 'objectivo',
 	'checkuser-ipeditcount' => '~$1 de tote le usatores',
-	'checkuser-log-return' => 'Retornar al formulario principal del verification de usatores',
+	'checkuser-log-return' => 'Cambiar al formulario principal del verification de usatores',
 	'checkuser-limited' => "'''Iste resultatos ha essite truncate pro motivos de prestationes.'''",
 	'checkuser-log-userips' => '$1 obteneva IPs pro $2',
 	'checkuser-log-ipedits' => '$1 obteneva modificationes pro $2',
@@ -4878,7 +4878,7 @@ IP-адресите ќе бидат блокирани 1 недела за са�
 	'checkuser-search-initiator' => 'иницијатор',
 	'checkuser-search-target' => 'цел',
 	'checkuser-ipeditcount' => '~$1 од сите корисници',
-	'checkuser-log-return' => 'Назад на главниот образец за проверување корисници',
+	'checkuser-log-return' => 'Префрли ме на главниот образец за проверување корисници',
 	'checkuser-limited' => "'''Резултатите се скратени од функционални причини.'''",
 	'checkuser-log-userips' => '$1 добил(а) IP-адреси за $2',
 	'checkuser-log-ipedits' => '$1 добил(а) уредувања за $2',
@@ -5106,7 +5106,7 @@ Bagi pengguna tanpa nama, alamat IP-nya akan disekat selama seminggu, dengan pen
 	'checkuser-search-initiator' => 'pengasal',
 	'checkuser-search-target' => 'sasaran',
 	'checkuser-ipeditcount' => '~$1 daripada semua pengguna',
-	'checkuser-log-return' => 'Kembali ke borang utama Pemeriksa',
+	'checkuser-log-return' => 'Kembali ke borang utama CheckUser',
 	'checkuser-limited' => 'Hasil-hasil berikut telah dipendekkan atas sebab-sebab prestasi.',
 	'checkuser-log-userips' => '$1 mendapatkan senarai IP bagi $2',
 	'checkuser-log-ipedits' => '$1 mendapatkan senarai suntingan bagi $2',
@@ -5441,7 +5441,7 @@ Hieronder worden de gebruikte IP-adressen weergegeven (maximaal 5000, op IP-adre
 	'checkuser-search-initiator' => 'aanvrager',
 	'checkuser-search-target' => 'onderwerp',
 	'checkuser-ipeditcount' => '~$1 van alle gebruikers',
-	'checkuser-log-return' => 'Naar het hoofdformulier van GebruikerControleren terugkeren',
+	'checkuser-log-return' => 'Naar het hoofdformulier van GebruikerControleren gaan',
 	'checkuser-limited' => "'''Deze resultaten zijn niet volledig om prestatieredenen.'''",
 	'checkuser-log-userips' => '$1 heeft de IP-adressen door $2 opgevraagd',
 	'checkuser-log-ipedits' => '$1 heeft de bewerkingen door $2 opgevraagd',
@@ -5763,6 +5763,7 @@ $messages['pdc'] = array(
  * @author Beau
  * @author Derbeth
  * @author Leinad
+ * @author Saper
  * @author Sovq
  * @author Sp5uhe
  * @author Woytecr
@@ -5833,7 +5834,7 @@ Użytych adresów IP jest (nie więcej niż 5000, posortowane według adresu):',
 	'checkuser-search-initiator' => 'sprawdzającym',
 	'checkuser-search-target' => 'sprawdzanym',
 	'checkuser-ipeditcount' => '~$1 od wszystkich użytkowników',
-	'checkuser-log-return' => 'Powrót do głównego formularza CheckUser',
+	'checkuser-log-return' => 'Przejdź do głównego formularza CheckUser',
 	'checkuser-limited' => "'''Długość listy wyników została ograniczona ze względu na wydajność.'''",
 	'checkuser-log-userips' => '$1 otrzymał adresy IP używane przez $2',
 	'checkuser-log-ipedits' => '$1 otrzymał historię edycji dla $2',
@@ -6214,10 +6215,10 @@ $messages['rm'] = array(
  * @author Minisarm
  */
 $messages['ro'] = array(
-	'checkuser-summary' => 'Acestă unealtă scanează schimbările recente pentru a regăsi IP-urile folosite de un utilizator sau arată modificările/utilizator pentru un anumit IP.
-Utilizatorii și modificările efectuate de un client IP pot fi regăsite prin antetele XFF atașând IP-ul prin intermediul "/xff". IPv4 (CIDR 16-32) și IPv6 (CIDR 64-128) sunt suportate.
-Nu mai mult de 5000 de editări vor fi întoarse din motive de performanță.
-Folosește unealta în concordanță cu politica sitului.',
+	'checkuser-summary' => 'Acestă unealtă scanează schimbările recente pentru a regăsi adresele IP folosite de un utilizator sau arată modificările/utilizatorul pentru o anumită adresă IP.
+Utilizatorii și modificările efectuate de un client IP pot fi regăsite prin antetele XFF atașând adresa IP prin intermediul „/xff”. IPv4 (CIDR 16-32) și IPv6 (CIDR 64-128) sunt acceptate.
+Nu mai mult de 5000 de modificări vor fi returnate din motive de performanță.
+Utilizați unealta în concordanță cu politica proiectului.',
 	'checkuser-desc' => 'Autorizează utilizatorii cu drepturile specifice să poată verifica adresele IP și alte informații',
 	'checkuser-logcase' => 'Căutarea în jurnal este sensibilă la majuscule - minuscule',
 	'checkuser' => 'Verifică utilizatorul',
@@ -6278,7 +6279,7 @@ Iată IP-urile folosite (maxim 5000, sortate după adresă):',
 	'checkuser-search-initiator' => 'inițiator',
 	'checkuser-search-target' => 'destinație',
 	'checkuser-ipeditcount' => '~$1 de la toți utilizatorii',
-	'checkuser-log-return' => 'Revenire la formularul principal Verifică Utilizatorul',
+	'checkuser-log-return' => 'Comută la formularul principal Verifică Utilizatorul',
 	'checkuser-limited' => "'''Aceste rezultate au fost sortate din motive de performanță.'''",
 	'checkuser-log-userips' => '$1 a verificat IP-urile lui $2',
 	'checkuser-log-ipedits' => '$1 a verificat modificările efectuate de $2',
@@ -6378,6 +6379,7 @@ Aqquà ce stonne le IP ausate (5000 masseme, ordenate pe' inderizze):",
 /** Russian (Русский)
  * @author DCamer
  * @author EugeneZelenko
+ * @author Express2000
  * @author Ferrer
  * @author Ilya Voyager
  * @author Kaganer
@@ -6454,7 +6456,7 @@ IP-адреса будут заблокированы на 1 неделю для
 	'checkuser-search-initiator' => 'инициатор',
 	'checkuser-search-target' => 'цель',
 	'checkuser-ipeditcount' => '~$1 от всех участников',
-	'checkuser-log-return' => 'Возврат к странице проверки участников',
+	'checkuser-log-return' => 'Перейти к странице проверки участников',
 	'checkuser-limited' => "'''Результаты были усечены чтобы не создавать дополнительной нагрузки на сервер.'''",
 	'checkuser-log-userips' => '$1 получил IP адреса для $2',
 	'checkuser-log-ipedits' => '$1 получил правки для $2',
