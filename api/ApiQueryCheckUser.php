@@ -93,7 +93,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				} else {
 					$user_id = User::idFromName( $target );
 					if ( !$user_id ) {
-						$this->dieUsage( 'Target user does not exists', 'nosuchuser' );
+						$this->dieUsage( 'Target user does not exist', 'nosuchuser' );
 					}
 					$this->addWhereFld( 'cuc_user_text', $target );
 					$log_type = array( 'useredits', 'user' );
