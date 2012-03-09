@@ -4369,7 +4369,7 @@ IP 주소는 1주일 (IP만 막음, 계정 생성 금지됨) 차단될 것입니
 	'checkuser-search-initiator' => '체크유저',
 	'checkuser-search-target' => '대상',
 	'checkuser-ipeditcount' => '모든 사용자로부터 $1개의 편집',
-	'checkuser-log-return' => '체크유저 양식으로 돌아가기',
+	'checkuser-log-return' => '체크유저 메인 양식으로 전환',
 	'checkuser-limited' => "'''성능상의 이유로 결과 중 일부만 보여줍니다.'''",
 	'checkuser-log-userips' => '$1 사용자는 $2 사용자가 사용한 IP 주소를 열람했습니다.',
 	'checkuser-log-ipedits' => '$1 사용자는 $2의 편집을 열람했습니다.',
