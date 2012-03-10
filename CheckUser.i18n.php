@@ -226,6 +226,8 @@ See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interfa
 
 See screenshot \"[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]\".",
 	'checkuser-autocreate-action' => 'Text of the event displayed in the CheckUser results, corresponding to the automatic creation of a new user account (by CentralAuth).',
+	'group-checkuser.css' => '{{doc-group|checkuser|css}}',
+	'group-checkuser.js' => '{{doc-group|checkuser|js}}',
 );
 
 /** Karelian (Karjala)
