@@ -5,10 +5,6 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 
 	function __construct( $specialPage, $searchConds, $y, $m ) {
 		parent::__construct();
-		/*
-		$this->messages = array_map( 'wfMsg',
-			array( 'comma-separator', 'checkuser-log-userips', 'checkuser-log-ipedits', 'checkuser-log-ipusers',
-			'checkuser-log-ipedits-xff', 'checkuser-log-ipusers-xff' ) );*/
 
 		$this->getDateCond( $y, $m );
 		$this->searchConds = $searchConds ? $searchConds : array();
@@ -18,19 +14,17 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 	function formatRow( $row ) {
 		global $wgLang;
 
-		$skin = $this->getSkin();
-
 		if ( $row->cul_reason === '' ) {
 			$comment = '';
 		} else {
-			$comment = $skin->commentBlock( $row->cul_reason );
+			$comment = Linker::commentBlock( $row->cul_reason );
 		}
 
-		$user = $skin->userLink( $row->cul_user, $row->user_name );
+		$user = Linker::userLink( $row->cul_user, $row->user_name );
 
 		if ( $row->cul_type == 'userips' || $row->cul_type == 'useredits' ) {
-			$target = $skin->userLink( $row->cul_target_id, $row->cul_target_text ) .
-				$skin->userToolLinks( $row->cul_target_id, $row->cul_target_text );
+			$target = Linker::userLink( $row->cul_target_id, $row->cul_target_text ) .
+					Linker::userToolLinks( $row->cul_target_id, $row->cul_target_text );
 		} else {
 			$target = $row->cul_target_text;
 		}
@@ -47,6 +41,9 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 			'</li>';
 	}
 
+	/**
+	 * @return string
+	 */
 	function getStartBody() {
 		if ( $this->getNumRows() ) {
 			return '<ul>';
@@ -55,6 +52,9 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 		}
 	}
 
+	/**
+	 * @return string
+	 */
 	function getEndBody() {
 		if ( $this->getNumRows() ) {
 			return '</ul>';
@@ -63,6 +63,9 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 		}
 	}
 
+	/**
+	 * @return string
+	 */
 	function getEmptyBody() {
 		return '<p>' . wfMsgHtml( 'checkuser-empty' ) . '</p>';
 	}

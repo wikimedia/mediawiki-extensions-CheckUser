@@ -5,6 +5,14 @@ class SpecialCheckUserLog extends SpecialPage {
 		parent::__construct( 'CheckUserLog', 'checkuser-log' );
 	}
 
+	/**
+	 * @var Title
+	 */
+	var $checkUserFormTitle;
+
+	/**
+	 * @return Title
+	 */
 	function getCheckUserFormTitle() {
 		if ( !isset( $this->checkUserFormTitle ) ) {
 			$this->checkUserFormTitle = SpecialPage::getTitleFor('CheckUser');

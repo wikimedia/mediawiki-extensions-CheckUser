@@ -12,8 +12,6 @@ class CheckUser extends SpecialPage {
 	public function __construct() {
 		global $wgUser;
 		parent::__construct( 'CheckUser', 'checkuser' );
-
-		$this->sk = $wgUser->getSkin();
 	}
 
 	public function execute( $subpage ) {
@@ -111,6 +109,15 @@ class CheckUser extends SpecialPage {
 		);
 	}
 
+	/**
+	 * @param $user
+	 * @param $reason
+	 * @param $checktype
+	 * @param $ip
+	 * @param $xff
+	 * @param $name
+	 * @param $period
+	 */
 	protected function showForm( $user, $reason, $checktype, $ip, $xff, $name, $period ) {
 		global $wgOut, $wgUser;
 		$action = $this->getTitle()->escapeLocalUrl();
@@ -174,6 +181,7 @@ class CheckUser extends SpecialPage {
 	/**
 	 * Get a selector of time period options
 	 * @param int $selected, selected level
+	 * @return string
 	 */
 	protected function getPeriodMenu( $selected = null ) {
 		$s = '<label for="period">' . wfMsgHtml( 'checkuser-period' ) . '</label>&#160;';
@@ -303,8 +311,14 @@ class CheckUser extends SpecialPage {
 		return $safeUsers;
 	}
 
-	// Give a "no matches found for X" message.
-	// If $checkLast, then mention the last edit by this user or IP.
+	/**
+	 * Give a "no matches found for X" message.
+	 * If $checkLast, then mention the last edit by this user or IP.
+	 *
+	 * @param $userName
+	 * @param bool $checkLast
+	 * @return String
+	 */
 	protected function noMatchesMessage( $userName, $checkLast = true ) {
 		global $wgLang;
 		if ( $checkLast ) {
@@ -343,6 +357,10 @@ class CheckUser extends SpecialPage {
 		return wfMsgExt( 'checkuser-nomatch', 'parse' );
 	}
 
+	/**
+	 * @param $reason
+	 * @return bool
+	 */
 	protected function checkReason( $reason ) {
 		global $wgCheckUserForceSummary;
 		return ( !$wgCheckUserForceSummary || strlen( $reason ) );
@@ -481,14 +499,14 @@ class CheckUser extends SpecialPage {
 		if ( $block instanceof Block ) {
 			if ( $block->getType() == Block::TYPE_RANGE ) {
 				$userpage = Title::makeTitle( NS_USER, $block->getTarget() );
-				$blocklog = $this->sk->makeKnownLinkObj(
+				$blocklog = Linker::makeKnownLinkObj(
 					SpecialPage::getTitleFor( 'Log' ),
 					wfMsgHtml( 'checkuser-blocked' ),
 					'type=block&page=' . urlencode( $userpage->getPrefixedText() )
 				);
 				return ' <strong>(' . $blocklog . ' - ' . $block->getTarget() . ')</strong>';
 			} elseif ( $block->getType() == Block::TYPE_AUTO ) {
-				$blocklog = $this->sk->makeKnownLinkObj(
+				$blocklog = Linker::makeKnownLinkObj(
 					SpecialPage::getTitleFor( 'BlockList' ),
 					wfMsgHtml( 'checkuser-blocked' ),
 					'ip=' . urlencode( "#{$block->getId()}" )
@@ -496,7 +514,7 @@ class CheckUser extends SpecialPage {
 				return ' <strong>(' . $blocklog . ')</strong>';
 			} else {
 				$userpage = Title::makeTitle( NS_USER, $block->getTarget() );
-				$blocklog = $this->sk->makeKnownLinkObj(
+				$blocklog = Linker::makeKnownLinkObj(
 					SpecialPage::getTitleFor( 'Log' ),
 					wfMsgHtml( 'checkuser-blocked' ),
 					'type=block&page=' . urlencode( $userpage->getPrefixedText() )
@@ -563,7 +581,7 @@ class CheckUser extends SpecialPage {
 			$ret = $dbr->select( 'cu_changes',
 				array( 'cuc_ip_hex', 'COUNT(*) AS count', 'MIN(cuc_timestamp) AS first', 'MAX(cuc_timestamp) AS last' ),
 				array( $ip_conds, $time_conds ),
-				__METHOD___,
+				__METHOD__,
 				array(
 					'GROUP BY' => 'cuc_ip_hex',
 					'ORDER BY' => 'cuc_ip_hex',
@@ -956,7 +974,7 @@ class CheckUser extends SpecialPage {
 				# Load user object
 				$user = User::newFromName( $name, false );
 				# Add user tool links
-				$s .= $this->sk->userLink( - 1 , $name ) . $this->sk->userToolLinks( - 1 , $name );
+				$s .= Linker::userLink( - 1 , $name ) . Linker::userToolLinks( - 1 , $name );
 				# Add CheckUser link
 				$s .= ' (<a href="' . $this->getTitle()->escapeLocalURL( 'user=' . urlencode( $name ) .
 					'&reason=' . urlencode( $reason ) ) . '">' . wfMsgHtml( 'checkuser-check' ) . '</a>)';
@@ -1013,7 +1031,7 @@ class CheckUser extends SpecialPage {
 						list( $client, $trusted ) = CheckUserHooks::getClientIPfromXFF( $set[1], $set[0] );
 						$c = $trusted ? '#F0FFF0' : '#FFFFCC';
 						$s .= '&#160;&#160;&#160;<span style="background-color: ' . $c . '"><strong>XFF</strong>: ';
-						$s .= $this->sk->makeKnownLinkObj( $this->getTitle(),
+						$s .= Linker::makeKnownLinkObj( $this->getTitle(),
 							htmlspecialchars( $set[1] ),
 							'user=' . urlencode( $client ) . '/xff' ) . '</span>';
 					}
@@ -1054,6 +1072,12 @@ class CheckUser extends SpecialPage {
 		$wgOut->addHTML( $s );
 	}
 
+	/**
+	 * @param $ip
+	 * @param $userId
+	 * @param $user User
+	 * @return array
+	 */
 	protected function userBlockFlags( $ip, $userId, $user ) {
 		static $logs, $blocklist;
 		$logs = SpecialPage::getTitleFor( 'Log' );
@@ -1064,7 +1088,7 @@ class CheckUser extends SpecialPage {
 			// Range blocked?
 			if ( $block->getType() == Block::TYPE_RANGE ) {
 				$userpage = Title::makeTitle( NS_USER, $block->getTarget() );
-				$blocklog = $this->sk->makeKnownLinkObj(
+				$blocklog = Linker::makeKnownLinkObj(
 					$logs,
 					wfMsgHtml( 'checkuser-blocked' ),
 					'type=block&page=' . urlencode( $userpage->getPrefixedText() )
@@ -1072,7 +1096,7 @@ class CheckUser extends SpecialPage {
 				$flags[] = '<strong>(' . $blocklog . ' - ' . $block->getTarget() . ')</strong>';
 			// Auto blocked?
 			} elseif ( $block->getType() == Block::TYPE_AUTO ) {
-				$blocklog = $this->sk->makeKnownLinkObj(
+				$blocklog = Linker::makeKnownLinkObj(
 					$blocklist,
 					wfMsgHtml( 'checkuser-blocked' ),
 					'ip=' . urlencode( "#{$block->getId()}" )
@@ -1080,7 +1104,7 @@ class CheckUser extends SpecialPage {
 				$flags[] = '<strong>(' . $blocklog . ')</strong>';
 			} else {
 				$userpage = $user->getUserPage();
-				$blocklog = $this->sk->makeKnownLinkObj(
+				$blocklog =Linker::makeKnownLinkObj(
 					$logs,
 					wfMsgHtml( 'checkuser-blocked' ),
 					'type=block&page=' . urlencode( $userpage->getPrefixedText() )
@@ -1092,7 +1116,7 @@ class CheckUser extends SpecialPage {
 			$flags[] = '<strong>(' . wfMsgHtml( 'checkuser-gblocked' ) . ')</strong>';
 		} elseif ( self::userWasBlocked( $user->getName() ) ) {
 			$userpage = $user->getUserPage();
-			$blocklog = $this->sk->makeKnownLinkObj( $logs, wfMsgHtml( 'checkuser-wasblocked' ),
+			$blocklog = Linker::makeKnownLinkObj( $logs, wfMsgHtml( 'checkuser-wasblocked' ),
 				'type=block&page=' . urlencode( $userpage->getPrefixedText() ) );
 			$flags[] = '<strong>(' . $blocklog . ')</strong>';
 		}
@@ -1125,8 +1149,8 @@ class CheckUser extends SpecialPage {
 		# Show date
 		$line .= ' . . ' . $wgLang->time( wfTimestamp( TS_MW, $row->cuc_timestamp ), true, true ) . ' . . ';
 		# Userlinks
-		$line .= $this->sk->userLink( $row->cuc_user, $row->cuc_user_text );
-		$line .= $this->sk->userToolLinks( $row->cuc_user, $row->cuc_user_text );
+		$line .= Linker::userLink( $row->cuc_user, $row->cuc_user_text );
+		$line .= Linker::userToolLinks( $row->cuc_user, $row->cuc_user_text );
 		# Get block info
 		if ( isset( $flagCache[$row->cuc_user_text] ) ) {
 			$flags = $flagCache[$row->cuc_user_text];
@@ -1142,13 +1166,13 @@ class CheckUser extends SpecialPage {
 		}
 		# Action text, hackish ...
 		if ( $row->cuc_actiontext ) {
-			$line .= ' ' . $this->sk->formatComment( $row->cuc_actiontext ) . ' ';
+			$line .= ' ' . Linker::formatComment( $row->cuc_actiontext ) . ' ';
 		}
 		# Comment
-		$line .= $this->sk->commentBlock( $row->cuc_comment );
+		$line .= Linker::commentBlock( $row->cuc_comment );
 		$line .= '<br />&#160; &#160; &#160; &#160; <small>';
 		# IP
-		$line .= ' <strong>IP</strong>: ' . $this->sk->makeKnownLinkObj( $cuTitle,
+		$line .= ' <strong>IP</strong>: ' . Linker::makeKnownLinkObj( $cuTitle,
 			htmlspecialchars( $row->cuc_ip ), 'user=' . urlencode( $row->cuc_ip ) . '&reason=' . urlencode( $reason ) );
 		# XFF
 		if ( $row->cuc_xff != null ) {
@@ -1157,7 +1181,7 @@ class CheckUser extends SpecialPage {
 			$c = $trusted ? '#F0FFF0' : '#FFFFCC';
 			$line .= '&#160;&#160;&#160;<span class="mw-checkuser-xff" style="background-color: ' . $c . '">' .
 				'<strong>XFF</strong>: ';
-			$line .= $this->sk->makeKnownLinkObj( $cuTitle,
+			$line .= Linker::makeKnownLinkObj( $cuTitle,
 				htmlspecialchars( $row->cuc_xff ),
 				'user=' . urlencode( $client ) . '/xff&reason=' . urlencode( $reason ) ) . '</span>';
 		}
@@ -1180,11 +1204,11 @@ class CheckUser extends SpecialPage {
 			list( $specialName, $logtype ) = SpecialPage::resolveAliasWithSubpage( $row->cuc_title );
 			$logname = LogPage::logName( $logtype );
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
-			$links = '(' . $this->sk->makeKnownLinkObj( $title, $logname ) . ')';
+			$links = '(' . Linker::makeKnownLinkObj( $title, $logname ) . ')';
 		// Log items (newer format)
 		} elseif ( $row->cuc_type == RC_LOG ) {
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
-			$links = '(' . $this->sk->makeKnownLinkObj( SpecialPage::getTitleFor( 'Log' ), $this->message['log'],
+			$links = '(' . Linker::makeKnownLinkObj( SpecialPage::getTitleFor( 'Log' ), $this->message['log'],
 				wfArrayToCGI( array( 'page' => $title->getPrefixedText() ) ) ) . ')';
 		} else {
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
@@ -1193,14 +1217,14 @@ class CheckUser extends SpecialPage {
 				$links = '(' . $this->message['diff'] . ') ';
 			} else {
 				# Diff link
-				$links = ' (' . $this->sk->makeKnownLinkObj( $title, $this->message['diff'],
+				$links = ' (' . Linker::makeKnownLinkObj( $title, $this->message['diff'],
 					wfArrayToCGI( array(
 						'curid' => $row->cuc_page_id,
 						'diff' => $row->cuc_this_oldid,
 						'oldid' => $row->cuc_last_oldid ) ) ) . ') ';
 			}
 			# History link
-			$links .= ' (' . $this->sk->makeKnownLinkObj( $title, $this->message['hist'],
+			$links .= ' (' . Linker::makeKnownLinkObj( $title, $this->message['hist'],
 				wfArrayToCGI( array(
 					'curid' => $row->cuc_page_id,
 					'action' => 'history' ) ) ) . ') . . ';
@@ -1212,7 +1236,7 @@ class CheckUser extends SpecialPage {
 				$links .= '<span class="minor">' . $this->message['minoreditletter'] . '</span>';
 			}
 			# Page link
-			$links .= ' ' . $this->sk->makeLinkObj( $title );
+			$links .= ' ' . Linker::makeLinkObj( $title );
 		}
 		return $links;
 	}
