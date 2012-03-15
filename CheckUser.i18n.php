@@ -4307,6 +4307,7 @@ $messages['kn'] = array(
  * @author Klutzy
  * @author Kwj2772
  * @author ToePeu
+ * @author 관인생략
  */
 $messages['ko'] = array(
 	'checkuser-summary' => '이 도구는 특정 사용자가 이용한 IP 또는 특정 IP에 대한 편집/사용자 정보를 조사합니다.
@@ -4315,16 +4316,16 @@ $messages['ko'] = array(
 이 도구는 정책에 맞게 사용하십시오.',
 	'checkuser-desc' => '사용자의 IP 주소를 포함한 정보를 볼 수 있는 권한을 특정한 사용자에게 준다.',
 	'checkuser-logcase' => '이 기록 검색은 대소문자를 구분합니다.',
-	'checkuser' => '체크유저',
-	'checkuserlog' => '체크유저 기록',
+	'checkuser' => '검사관',
+	'checkuserlog' => '검사관 기록',
 	'checkuser-contribs' => '사용자 IP를 확인',
-	'group-checkuser' => '체크유저',
-	'group-checkuser-member' => '{{GENDER:$1|체크유저}}',
+	'group-checkuser' => '검사관',
+	'group-checkuser-member' => '{{GENDER:$1|검사관}}',
 	'right-checkuser' => '사용자의 IP 주소와 다른 정보를 확인',
-	'right-checkuser-log' => '체크유저 기록 보기',
+	'right-checkuser-log' => '검사관 기록 보기',
 	'action-checkuser' => '사용자의 IP 주소와 다른 정보를 확인할',
-	'action-checkuser-log' => '체크유저 기록을 볼',
-	'grouppage-checkuser' => '{{ns:project}}:체크유저',
+	'action-checkuser-log' => '검사관 기록을 볼',
+	'grouppage-checkuser' => '{{ns:project}}:검사관',
 	'checkuser-reason' => '이유:',
 	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => '기록 보기',
@@ -4373,7 +4374,7 @@ IP 주소는 1주일 (IP만 막음, 계정 생성 금지됨) 차단될 것입니
 	'checkuser-search-initiator' => '체크유저',
 	'checkuser-search-target' => '대상',
 	'checkuser-ipeditcount' => '모든 사용자로부터 $1개의 편집',
-	'checkuser-log-return' => '체크유저 메인 양식으로 전환',
+	'checkuser-log-return' => '검사관 기본 양식으로 돌아가기',
 	'checkuser-limited' => "'''성능상의 이유로 결과 중 일부만 보여줍니다.'''",
 	'checkuser-log-userips' => '$1 사용자는 $2 사용자가 사용한 IP 주소를 열람했습니다.',
 	'checkuser-log-ipedits' => '$1 사용자는 $2의 편집을 열람했습니다.',
