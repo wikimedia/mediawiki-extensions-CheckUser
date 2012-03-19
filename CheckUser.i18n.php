@@ -6817,6 +6817,7 @@ $messages['si'] = array(
 /** Slovak (Slovenčina)
  * @author Helix84
  * @author Martin Kozák
+ * @author Teslaton
  */
 $messages['sk'] = array(
 	'checkuser-summary' => 'Tento nástroj kontroluje Posledné úpravy, aby získal IP adresy používané používateľom alebo zobrazil úpravy/používateľské dáta IP adresy.
@@ -6827,12 +6828,15 @@ $messages['sk'] = array(
 	'checkuser' => 'Overiť používateľa',
 	'checkuserlog' => 'Záznam kontroly používateľov',
 	'checkuser-contribs' => 'skontrolovať IP používateľa',
-	'group-checkuser' => 'Revízor',
-	'group-checkuser-member' => 'Revízori',
+	'group-checkuser' => 'Revízori',
+	'group-checkuser-member' => '{{GENDER:$1|revízor|revízorka|revízor}}',
 	'right-checkuser' => 'Skontrolovať IP adresy a iné informácie používateľov',
 	'right-checkuser-log' => 'Zobraziť záznam kontrol používateľov',
+	'action-checkuser' => 'kontrolovať IP adresu a dalšie údaje používateľa',
+	'action-checkuser-log' => 'zobraziť záznam kontrol používateľov',
 	'grouppage-checkuser' => '{{ns:project}}:Revízia používateľa',
 	'checkuser-reason' => 'Dôvod:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Zobraziť záznam',
 	'checkuser-query' => 'Získať z posledných úprav',
 	'checkuser-target' => 'IP adresa alebo meno používateľa:',
@@ -6879,7 +6883,7 @@ Tu sú použité IP (max. 5 000, zoradené podľa adresy):',
 	'checkuser-search-initiator' => 'začínajúci',
 	'checkuser-search-target' => 'cieľ',
 	'checkuser-ipeditcount' => 'asi $1 zo všetkých používateľov',
-	'checkuser-log-return' => 'Vrátiť sa na hlavný formulár CheckUser',
+	'checkuser-log-return' => 'Návrat na hlavný formulár kontroly používateľa',
 	'checkuser-limited' => "'''Tieto výsledky boli z výkonnostných dôvodov skrátené.'''",
 	'checkuser-log-userips' => '$1 má IP adresy $2',
 	'checkuser-log-ipedits' => '$1 má úpravy $2',
@@ -6888,6 +6892,7 @@ Tu sú použité IP (max. 5 000, zoradené podľa adresy):',
 	'checkuser-log-ipusers-xff' => '$1 má používateľov XFF $2',
 	'checkuser-log-useredits' => '$1 má úpravy $2',
 	'checkuser-autocreate-action' => 'bol automaticky vytvorený',
+	'checkuser-create-action' => 'bol vytvorený',
 	'checkuser-email-action' => 'poslaný email používateľovi „$1”',
 	'checkuser-reset-action' => 'vytvoriť nové heslo pre používateľa „$1”',
 );
