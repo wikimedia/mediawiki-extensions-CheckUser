@@ -20,8 +20,7 @@ class CheckUser extends SpecialPage {
 		$this->checkPermissions();
 		$this->setHeaders();
 
-		$user = $wgRequest->getText( 'user' ) ?
-			$wgRequest->getText( 'user' ) : $wgRequest->getText( 'ip' );
+		$user = $wgRequest->getText( 'user', $wgRequest->getText( 'ip', $subpage ) );
 		$user = trim( $user );
 		$reason = $wgRequest->getText( 'reason' );
 		$blockreason = $wgRequest->getText( 'blockreason' );
