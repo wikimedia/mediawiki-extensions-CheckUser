@@ -99,7 +99,7 @@ Here are the IPs used (5000 max, sorted by address):',
 [http://www.dnsstuff.com/tools/tracert.ch?ip=$1 Traceroute] ·
 [http://www.ip2location.com/$1 Geolocate] ·
 [http://toolserver.org/~overlordq/scripts/checktor.fcgi?ip=$1 Tor check] ·
-[http://whois.arin.net/ui?queryinput=$1 WHOIS]]</span>', # do not translate or duplicate this message to other languages
+[http://ws.arin.net/whois/?queryinput=$1 WHOIS]]</span>', # do not translate or duplicate this message to other languages
 	'group-checkuser.css'        => '/* CSS placed here will affect checkuser only */', # only translate this message to other languages if you have to change it
 	'group-checkuser.js'         => '/* JS placed here will affect checkuser only */', # only translate this message to other languages if you have to change it
 );
@@ -1527,7 +1527,7 @@ Caiff cyfeiriadau IP defnyddwyr anhysbys yn unig eu blocio am wythnos, gyda chre
 	'checkuser-search-initiator' => 'archwiliwr',
 	'checkuser-search-target' => 'y targed',
 	'checkuser-ipeditcount' => '~$1 gan holl ddefnyddwyr y cyfeiriad IP',
-	'checkuser-log-return' => 'Dychwelyd at brif ffurflen Archwilio Defnyddwyr',
+	'checkuser-log-return' => 'Mynd at brif ffurflen Archwilio Defnyddwyr',
 	'checkuser-limited' => "'''Cwtogwyd ar y canlyniadau hyn er mwyn gallu perfformio'r dasg.'''",
 	'checkuser-log-userips' => '$1 wedi nôl y cyfeiriadau IP ynghlwm wrth $2',
 	'checkuser-log-ipedits' => '$1 wedi nôl y golygiadau gan $2',
@@ -5764,6 +5764,19 @@ $messages['pdc'] = array(
 	'checkuser-blocked' => "g'baerrt",
 	'checkuser-gblocked' => "Iwwerall g'baerrt",
 	'checkuser-search-submit' => 'Guck uff',
+);
+
+/** Pälzisch (Pälzisch)
+ * @author Manuae
+ */
+$messages['pfl'] = array(
+	'checkuser-search' => 'Suche',
+	'checkuser-week-1' => 'ledschd Woch',
+	'checkuser-week-2' => 'ledschde zwee Woche',
+	'checkuser-month' => 'ledschde Monad',
+	'checkuser-locked' => 'gschberd',
+	'checkuser-wasblocked' => 'Frija gschberd',
+	'checkuser-block-failure' => "'''S'isch kän Benudza gschberd worre.'''",
 );
 
 /** Polish (Polski)
