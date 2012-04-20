@@ -3822,13 +3822,15 @@ Di seguito sono indicati gli indirizzi IP utilizzati (fino a un massimo di 5000,
  * @author Marine-Blue
  * @author Muttley
  * @author Schu
+ * @author Shirayuki
  * @author Suisui
  * @author Vigorous action
+ * @author Whym
  * @author 青子守歌
  */
 $messages['ja'] = array(
 	'checkuser-summary' => 'このツールは最近の更新を元に、ある利用者が使用したIPアドレスの検索、または、あるIPアドレスからなされた編集および利用者名の表示を行います。
-IPアドレスと共に「/xff」オプションを指定すると、XFF (X-Forwarded-For) ヘッダを通じてクライアントIPアドレスを取得し、そこからなされた編集および利用者名の検索をすることが可能です。
+IPアドレスと共に「/xff」オプションを指定すると、XFF (X-Forwarded-For) ヘッダを通じてクライアントIPアドレスを取得し、そこからなされた編集および利用者名を検索できます。
 IPv4 (16から32ビットのCIDR表記) と IPv6 (96から128ビットのCIDR表記) をサポートしています。
 パフォーマンス上の理由により、最大5000件の編集しか表示出来ません。
 方針に従って使用してください。',
@@ -3838,11 +3840,14 @@ IPv4 (16から32ビットのCIDR表記) と IPv6 (96から128ビットのCIDR表
 	'checkuserlog' => '利用者の調査記録',
 	'checkuser-contribs' => '利用者のIPを調査',
 	'group-checkuser' => '利用者調査者',
-	'group-checkuser-member' => '利用者調査者',
+	'group-checkuser-member' => '{{GENDER:$1|利用者調査者}}',
 	'right-checkuser' => '利用者のIPアドレスやその他の情報を調査',
-	'right-checkuser-log' => '利用者調査ログを表示',
+	'right-checkuser-log' => '利用者調査の記録を閲覧',
+	'action-checkuser' => '利用者のIPアドレスとその他の情報の調査',
+	'action-checkuser-log' => '利用者調査の記録の閲覧',
 	'grouppage-checkuser' => '{{ns:project}}:利用者調査者',
 	'checkuser-reason' => '理由：',
+	'checkuser-reason-api' => 'API：$1',
 	'checkuser-showlog' => 'ログを閲覧',
 	'checkuser-query' => '最近の更新を照会',
 	'checkuser-target' => 'IPアドレスまたは利用者名：',
@@ -3887,7 +3892,7 @@ IPv4 (16から32ビットのCIDR表記) と IPv6 (96から128ビットのCIDR表
 	'checkuser-search-initiator' => '調査実行者',
 	'checkuser-search-target' => '調査対象者',
 	'checkuser-ipeditcount' => '全利用者からの編集回数～$1',
-	'checkuser-log-return' => '利用者調査のメインフォームへ戻る',
+	'checkuser-log-return' => '利用者調査のメインフォームに切り替える',
 	'checkuser-limited' => "'''パフォーマンスの都合から結果は省略されています。'''",
 	'checkuser-log-userips' => '$1 は $2 が使用したIPアドレスを取得',
 	'checkuser-log-ipedits' => '$1 は $2 からなされた編集を取得',
