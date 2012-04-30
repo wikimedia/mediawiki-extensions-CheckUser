@@ -6092,6 +6092,7 @@ Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
  * @author Jesielt
  * @author Luckas Blade
  * @author Pedroca cerebral
+ * @author 555
  */
 $messages['pt-br'] = array(
 	'checkuser-summary' => 'Esta ferramenta varre as Mudanças recentes para obter os endereços de IP de um usuário ou para exibir os dados de edições/usuários para um IP.
@@ -6103,7 +6104,7 @@ Não serão retornadas mais de 5000 edições por motivos de desempenho. O uso d
 	'checkuserlog' => 'Registros de verificação de usuários',
 	'checkuser-contribs' => 'Verificar IPs do usuário',
 	'group-checkuser' => 'CheckUser',
-	'group-checkuser-member' => 'CheckUser',
+	'group-checkuser-member' => '{{GENDER:$1|check user}}',
 	'right-checkuser' => 'Verificar os endereços de IP de um usuários e outras informações',
 	'right-checkuser-log' => 'Ver os registros das verificações',
 	'action-checkuser' => 'verificar os endereços IP do usuário e outras informações.',
