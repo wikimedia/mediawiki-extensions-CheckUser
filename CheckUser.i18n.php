@@ -1722,6 +1722,7 @@ Aus Performance-Gründen werden maximal 5000 Bearbeitungen ausgegeben. Benutzen 
 );
 
 /** Zazaki (Zazaki)
+ * @author Erdemaslancan
  * @author Mirzali
  * @author Xoser
  */
@@ -1736,23 +1737,26 @@ Ena politika ma ser kar bike.',
 	'checkuserlog' => 'Cıkewtışê karberi qontrol ke',
 	'checkuser-contribs' => 'Adresê IP yê karberî kontrol bike',
 	'group-checkuser' => 'Karberî kontrol bike',
-	'group-checkuser-member' => 'Karber kontrol bike',
+	'group-checkuser-member' => '{{GENDER:$1|Kontrolkar}}',
 	'right-checkuser' => 'Adresê IP yê karberî u enformasyonê binî kontrol bike',
 	'right-checkuser-log' => 'Logê karber-kontrolî bivîne',
+	'action-checkuser' => 'Adresê IP yê karberî u melumateê binî kontrol bike',
+	'action-checkuser-log' => 'Rocekane Karber kontroli bıvin',
 	'grouppage-checkuser' => '{{ns:project}}:Karber kontrol bike',
 	'checkuser-reason' => 'Sebeb:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Logê mucnayîşî',
 	'checkuser-query' => 'Bigêrayîşî de vurnayîşanê penîyan',
 	'checkuser-target' => 'Adresa IPi ya zi namey karberi:',
 	'checkuser-users' => 'Karberî bivîne',
-	'checkuser-edits' => 'Bivîne vurnayîşê ke IP ra',
+	'checkuser-edits' => 'vurnayışa peyd bıgi',
 	'checkuser-ips' => 'Adresê IPyî bivîne',
 	'checkuser-search' => 'Bigêre',
 	'checkuser-period' => 'Sure:',
 	'checkuser-week-1' => 'hefteyê verînî',
 	'checkuser-week-2' => 'di hefteyê verînî',
 	'checkuser-month' => '30 rocê verînî',
-	'checkuser-all' => 'hemî',
+	'checkuser-all' => 'Pero',
 	'checkuser-cidr-label' => 'Qe yew listeyê IPyanî, yew menzilê ortakî u adresanê IPyanî bivîne',
 	'checkuser-cidr-res' => 'CIDRê muşterekî',
 	'checkuser-empty' => 'Ena log de çik çin o.',
@@ -1787,7 +1791,7 @@ Tiya de IPyan ke sero kar biyo  (5000 max, pê adresan):',
 	'checkuser-search-initiator' => 'başlî kerdoğ',
 	'checkuser-search-target' => 'hedef',
 	'checkuser-ipeditcount' => '~$1 karberanê hemî ra',
-	'checkuser-log-return' => 'Farmê serî CheckUser rê reyna şî',
+	'checkuser-log-return' => 'Peyd şori form de KarberKontroli',
 	'checkuser-limited' => "'''Ena neticeyan qe sebabanê performansî ra kilm kerd.'''",
 	'checkuser-log-userips' => 'Qe $2, $1adresanê IPyan girewt',
 	'checkuser-log-ipedits' => 'Qe $2, $1vurnayîşan girewt',
@@ -1796,7 +1800,8 @@ Tiya de IPyan ke sero kar biyo  (5000 max, pê adresan):',
 	'checkuser-log-ipusers-xff' => 'Qe $2, $1karberan ser XFF girewt',
 	'checkuser-log-useredits' => 'Qe $2, $1vurnayîşan girewt',
 	'checkuser-autocreate-action' => 'otomatikî ra virziyo',
-	'checkuser-email-action' => 'karberê $1î rê email şîravt',
+	'checkuser-create-action' => 'Vıraziya',
+	'checkuser-email-action' => 'karberê $1î rê email Bırşe',
 	'checkuser-reset-action' => "qe karberê ''$1''î parola reset bike",
 );
 
@@ -6085,6 +6090,7 @@ Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
 );
 
 /** Brazilian Portuguese (Português do Brasil)
+ * @author 555
  * @author Eduardo.mps
  * @author Giro720
  * @author Helder.wiki
@@ -6092,7 +6098,6 @@ Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
  * @author Jesielt
  * @author Luckas Blade
  * @author Pedroca cerebral
- * @author 555
  */
 $messages['pt-br'] = array(
 	'checkuser-summary' => 'Esta ferramenta varre as Mudanças recentes para obter os endereços de IP de um usuário ou para exibir os dados de edições/usuários para um IP.
