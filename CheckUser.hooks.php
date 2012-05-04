@@ -10,7 +10,7 @@ class CheckUserHooks {
 		// Extract params
 		extract( $rc->mAttribs );
 		// Get IP
-		$ip = wfGetIP();
+		$ip = $wgRequest->getIP();
 		// Get XFF header
 		$xff = $wgRequest->getHeader( 'X-Forwarded-For' );
 		list( $xff_ip, $isSquidOnly ) = self::getClientIPfromXFF( $xff );
@@ -112,7 +112,7 @@ class CheckUserHooks {
 		$userTo = User::newFromName( $to->name );
 		$hash = md5( $userTo->getEmail() . $userTo->getId() . $wgSecretKey );
 		// Get IP
-		$ip = wfGetIP();
+		$ip = $wgRequest->getIP();
 		// Get XFF header
 		$xff = $wgRequest->getHeader( 'X-Forwarded-For' );
 		list( $xff_ip, $isSquidOnly ) = self::getClientIPfromXFF( $xff );
@@ -177,7 +177,7 @@ class CheckUserHooks {
 		global $wgRequest;
 
 		// Get IP
-		$ip = wfGetIP();
+		$ip = $wgRequest->getIP();
 		// Get XFF header
 		$xff = $wgRequest->getHeader( 'X-Forwarded-For' );
 		list( $xff_ip, $isSquidOnly ) = self::getClientIPfromXFF( $xff );
@@ -212,7 +212,7 @@ class CheckUserHooks {
 
 	/**
 	 * Handler for non-standard (edit/log) entries that need IP data
-	 * 
+	 *
 	 * @param $context IContextSource
 	 * @param $data Array
 	 * @return bool
