@@ -15,7 +15,7 @@ $messages = array();
  */
 $messages['en'] = array(
 	'checkuser-summary'          => 'This tool scans recent changes to retrieve the IP addresses used by a user or show the edit/user data for an IP address.
-Users and edits by a client IP address can be retrieved via XFF headers by appending the IP address with "/xff". IPv4 (CIDR 16-32) and IPv6 (CIDR 64-128) are supported.
+Users and edits by a client IP address can be retrieved via XFF headers by appending the IP address with "/xff". IPv4 (CIDR 16-32) and IPv6 (CIDR 48-128) are supported.
 No more than 5,000 edits will be returned for performance reasons.
 Use this in accordance with policy.',
 	'checkuser-desc'             => 'Grants users with the appropriate permission the ability to check user\'s IP addresses and other information',
@@ -617,7 +617,7 @@ Emplega esta ferramienta acordies cola política d'usu.",
 	'checkuser-cidr-res' => 'CIDR común:',
 	'checkuser-empty' => 'El rexistru nun tien nengún elementu.',
 	'checkuser-nomatch' => "Nun s'atoparon coincidencies.",
-	'checkuser-nomatch-edits' => "Nun s'atoparon coincidencies. 
+	'checkuser-nomatch-edits' => "Nun s'atoparon coincidencies.
 La cabera edición foi en $1 a $2",
 	'checkuser-check' => 'Comprobar',
 	'checkuser-log-fail' => 'Nun se pue añader la entrada nel rexistru',
@@ -1464,9 +1464,9 @@ $messages['cu'] = array(
  * @author Lloffiwr
  */
 $messages['cy'] = array(
-	'checkuser-summary' => "Mae'r teclyn hwn yn sganio newidiadau diweddar i gael hyd i'r cyfeiriadau IP a ddefnyddir gan ddefnyddiwr, neu i ddangos data golygu neu ddata defnyddiwr ar gyfer rhyw gyfeiriad IP. 
-Gall y teclyn gael hyd i ddefnyddwyr rhyw gyfeiriad IP cleient, neu'r golygiadau a ddaw ohono, drwy atodi \"/xff\" i'r cyfeiriad IP. Mae IPv4 (CIDR 16-32) a IPv6 (CIDR 64-128) yn cael eu cynnal. 
-Ni chaiff mwy na 5,000 o olygiadau eu dychwelyd er mwyn peidio amharu ar berfformiad y wefan. 
+	'checkuser-summary' => "Mae'r teclyn hwn yn sganio newidiadau diweddar i gael hyd i'r cyfeiriadau IP a ddefnyddir gan ddefnyddiwr, neu i ddangos data golygu neu ddata defnyddiwr ar gyfer rhyw gyfeiriad IP.
+Gall y teclyn gael hyd i ddefnyddwyr rhyw gyfeiriad IP cleient, neu'r golygiadau a ddaw ohono, drwy atodi \"/xff\" i'r cyfeiriad IP. Mae IPv4 (CIDR 16-32) a IPv6 (CIDR 64-128) yn cael eu cynnal.
+Ni chaiff mwy na 5,000 o olygiadau eu dychwelyd er mwyn peidio amharu ar berfformiad y wefan.
 Defnyddiwch hwn yn unol â'n polisi.",
 	'checkuser-desc' => "Yn rhoi'r gallu i ddefnyddwyr awdurdodedig archwilio cyfeiriadau IP defnyddwyr a gwybodaeth arall amdanynt.",
 	'checkuser-logcase' => 'Yn gwahaniaethu rhwng llythrennau mawr a bach wrth chwilio.',
@@ -6654,7 +6654,7 @@ IP-аадырыстартан бэлиэтэммэккэ киирии уонна
 	'checkuser-block-noreason' => 'Бобуу төрүөтүн этиэхтээххин.',
 	'checkuser-noreason' => 'Бу ыйытык төрүөтүн ааттыахтааххын.',
 	'checkuser-accounts' => '$1 саҥа {{PLURAL:$1|аат|ааттар}}',
-	'checkuser-too-many' => 'Наһаа элбэх булулунна (көрдөбүл түмүгүнэн), бука диэн CIDR кыччатан биэр. 
+	'checkuser-too-many' => 'Наһаа элбэх булулунна (көрдөбүл түмүгүнэн), бука диэн CIDR кыччатан биэр.
 Туһаныллыбыт IP (саамай элбэҕэ 5000, бу аадырыһынан наардаммыт):',
 	'checkuser-user-nonexistent' => 'Маннык ааттаах кыттааччы суох',
 	'checkuser-search-form' => '$1 сурунаалга $2 буоларын бул',
