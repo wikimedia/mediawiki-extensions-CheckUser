@@ -2487,9 +2487,9 @@ $messages['fo'] = array(
  * @author Zetud
  */
 $messages['fr'] = array(
-	'checkuser-summary' => 'Cet outil parcourt la liste des changements récents à la recherche des adresses IP employées par un utilisateur, affiche toutes les modifications d’une adresse IP (même enregistrée), ou liste les comptes utilisés par une adresse IP.
-Les comptes et les modifications faites par une adresse IP cliente d’un serveur mandataire approuvé peuvent être récupérés via les entêtes XFF en suffisant l’IP avec « /xff ». Les adresses IPv4 (CIDR /16 à /32) et IPv6 (CIDR /96 à /128) sont supportées.
-Le nombre de modifications affichables est limité à {{formatnum:5000}} pour des questions de performance.
+	'checkuser-summary' => 'Cet outil parcourt la liste des changements récents à la recherche des adresses IP employées par un utilisateur ou affiche toutes les données utilisateur d’une adresse IP.
+Les comptes et les modifications faites par une adresse IP cliente peuvent être récupérés via les entêtes XFF en suffisant l’adresse IP avec "/xff". Les adresses IPv4 (CIDR /16 à /32) et IPv6 (CIDR /48 à /128) sont supportées.
+Pas plus de 5000 modifications ne seront renvoyées, pour des questions de performance.
 Veuillez utiliser cet outil dans le respect de la charte d’utilisation.',
 	'checkuser-desc' => 'Donne la possibilité aux utilisateurs dûment autorisés de vérifier les adresses IP des utilisateurs ainsi que d’autres informations les concernant',
 	'checkuser-logcase' => 'La recherche dans le journal est sensible à la casse.',
