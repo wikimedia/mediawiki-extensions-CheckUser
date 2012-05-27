@@ -3839,8 +3839,8 @@ Di seguito sono indicati gli indirizzi IP utilizzati (fino a un massimo di 5000,
 $messages['ja'] = array(
 	'checkuser-summary' => 'このツールは最近の更新を元に、ある利用者が使用したIPアドレスの検索、または、あるIPアドレスからなされた編集および利用者名の表示を行います。
 IPアドレスと共に「/xff」オプションを指定すると、XFF (X-Forwarded-For) ヘッダを通じてクライアントIPアドレスを取得し、そこからなされた編集および利用者名を検索できます。
-IPv4 (16から32ビットのCIDR表記) と IPv6 (48から128ビットのCIDR表記) をサポートしています。
-パフォーマンス上の理由により、最大5000件の編集しか表示出来ません。
+IPv4 (16から32ビットのCIDR表記) と IPv6 (48から128ビットのCIDR表記) に対応しています。
+パフォーマンス上の理由により、最大5000件の編集しか表示できません。
 方針に従って使用してください。',
 	'checkuser-desc' => '特定の権限を付与された利用者に対して、利用者のIPアドレスなどの情報の確認を可能にします。',
 	'checkuser-logcase' => 'ログの検索では大文字と小文字を区別します。',
@@ -3863,7 +3863,7 @@ IPv4 (16から32ビットのCIDR表記) と IPv6 (48から128ビットのCIDR表
 	'checkuser-edits' => '編集を取得',
 	'checkuser-ips' => 'IPアドレスを取得',
 	'checkuser-search' => '検索',
-	'checkuser-period' => '期間:',
+	'checkuser-period' => '期間：',
 	'checkuser-week-1' => '先週',
 	'checkuser-week-2' => '前2週',
 	'checkuser-month' => '前30日間',
@@ -3910,7 +3910,7 @@ IPv4 (16から32ビットのCIDR表記) と IPv6 (48から128ビットのCIDR表
 	'checkuser-log-useredits' => '$1 は $2 による編集を取得',
 	'checkuser-autocreate-action' => '自動的に作成',
 	'checkuser-create-action' => '作成済',
-	'checkuser-email-action' => '利用者"$1"へメールを送る',
+	'checkuser-email-action' => '利用者"$1"へメールを送信',
 	'checkuser-reset-action' => '利用者"$1"のパスワードをリセット',
 );
 
