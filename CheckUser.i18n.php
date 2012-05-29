@@ -4321,6 +4321,7 @@ $messages['kn'] = array(
  * @author Kwj2772
  * @author ToePeu
  * @author 관인생략
+ * @author 아라
  */
 $messages['ko'] = array(
 	'checkuser-summary' => '이 도구는 특정 사용자가 이용한 IP 또는 특정 IP에 대한 편집/사용자 정보를 조사합니다.
@@ -4399,6 +4400,8 @@ IP 주소는 1주일 (IP만 막음, 계정 생성 금지됨) 차단될 것입니
 	'checkuser-create-action' => '생성되었습니다',
 	'checkuser-email-action' => '"$1" 사용자에게 이메일을 보냄',
 	'checkuser-reset-action' => '"$1" 사용자의 암호를 변경함',
+	'group-checkuser.css' => '/* 이 CSS 설정은 검사관에만 적용됩니다 */',
+	'group-checkuser.js' => '/* 이 자바스크립트 설정은 검사관에만 적용됩니다 */',
 );
 
 /** Karachay-Balkar (Къарачай-Малкъар)
