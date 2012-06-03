@@ -6244,7 +6244,7 @@ $messages['rm'] = array(
 	'checkuser-search' => 'Tschertgar',
 );
 
-/** Romanian (Română)
+/** Romanian (română)
  * @author AdiJapan
  * @author Emily
  * @author Firilacroco
