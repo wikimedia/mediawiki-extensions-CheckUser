@@ -3891,9 +3891,10 @@ IPv4 (16から32ビットのCIDR表記) と IPv6 (48から128ビットのCIDR表
 	'checkuser-block-failure' => "'''ブロックされた利用者はありません。'''",
 	'checkuser-block-limit' => '選択した利用者の数が多すぎます。',
 	'checkuser-block-noreason' => 'ブロック理由の記入が必要です。',
-	'checkuser-noreason' => 'この照会には理由を与えなければなりません。',
-	'checkuser-accounts' => '$1つの新しい{{PLURAL:$1|アカウント}}',
-	'checkuser-too-many' => '（照会を推定したところ）検索結果が多すぎます。CIDRの指定を小さく絞り込んでください。利用されたIPは以下の通りです（5000件を上限に、アドレス順で整列されています）:',
+	'checkuser-noreason' => '照会理由の記入が必要です。',
+	'checkuser-accounts' => '新しい$1{{PLURAL:$1|アカウント}}',
+	'checkuser-too-many' => '（クエリーを推定したところ）検索結果が多すぎます。CIDRの指定を小さく絞り込んでください。
+使用されたIPは以下の通り（5000件を上限に、並び順はアドレス順）:',
 	'checkuser-user-nonexistent' => '指定された利用者は存在しません。',
 	'checkuser-search-form' => '$1 が $2 であるログ項目を探す',
 	'checkuser-search-submit' => '検索',
