@@ -2835,6 +2835,8 @@ Aquí están os enderezos IP usados (máximo de 5.000, ordenados por enderezo):'
 	'checkuser-create-action' => 'foi creada',
 	'checkuser-email-action' => 'envioulle un correo electrónico ao usuario "$1"',
 	'checkuser-reset-action' => 'envioulle un novo contrasinal ao usuario "$1"',
+	'group-checkuser.css' => '/* O CSS que se coloque aquí afectará aos verificadores de usuarios */',
+	'group-checkuser.js' => '/* O JS que se coloque aquí afectará aos verificadores de usuarios */',
 );
 
 /** Gothic (Gothic) */
