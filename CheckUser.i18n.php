@@ -23,6 +23,7 @@ Use this in accordance with policy.',
 	'checkuser'                  => 'Check user',
 	'checkuserlog'               => 'Check user log',
 	'checkuser-contribs'         => 'check user IP addresses',
+	'checkuser-contribs-log'     => 'recent user checks',
 	'group-checkuser'            => 'Check users',
 	'group-checkuser-member'     => '{{GENDER:$1|check user}}',
 	'right-checkuser'            => "Check user's IP addresses and other information",
@@ -129,6 +130,7 @@ $messages['qqq'] = array(
 
 {{Identical|Check user}}',
 	'checkuserlog' => 'The name of the special page where checkusers can look at a log of past checkuser actions. The message is used in the list of special pages, and at the top of [[Special:CheckUserLog]].',
+	'checkuser-contribs-log' => "This is a link anchor used in [[Special:Contributions]]/''name'' to link to recent entries in the CheckUser log regarding the user. Displayed only when user viewing the page has the right to view the CheckUser log ('''checkuser-log''' permission).",
 	'group-checkuser' => '{{doc-group|checkuser}}
 check is a noun, not a verb here
 

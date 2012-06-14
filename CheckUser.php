@@ -70,7 +70,7 @@ $wgHooks['ArticleEditUpdatesDeleteFromRecentchanges'][] = 'CheckUserHooks::maybe
 
 $wgHooks['ParserTestTables'][] = 'CheckUserHooks::checkUserParserTestTables';
 $wgHooks['LoadExtensionSchemaUpdates'][] = 'CheckUserHooks::checkUserSchemaUpdates';
-$wgHooks['ContributionsToolLinks'][] = 'CheckUserHooks::loadCheckUserLink';
+$wgHooks['ContributionsToolLinks'][] = 'CheckUserHooks::checkUserContributionsLinks';
 
 # Take over autoblocking
 $wgHooks['PerformRetroactiveAutoblock'][] = 'CheckUserHooks::doRetroactiveAutoblock';

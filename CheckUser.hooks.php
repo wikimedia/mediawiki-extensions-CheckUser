@@ -354,20 +354,28 @@ class CheckUserHooks {
 	}
 
 	/**
-	 * Add a link to Special:CheckUser on Special:Contributions/<username> for
+	 * Add a link to Special:CheckUser and Special:CheckUserLog
+	 * on Special:Contributions/<username> for
 	 * privileged users.
 	 * @param $id Integer: user ID
 	 * @param $nt Title: user page title
 	 * @param $links Array: tool links
 	 * @return true
 	 */
-	public static function loadCheckUserLink( $id, $nt, &$links ) {
+	public static function checkUserContributionsLinks( $id, $nt, &$links ) {
 		global $wgUser;
 		if ( $wgUser->isAllowed( 'checkuser' ) ) {
 			$links[] = $wgUser->getSkin()->makeKnownLinkObj(
 				SpecialPage::getTitleFor( 'CheckUser' ),
 				wfMsgHtml( 'checkuser-contribs' ),
 				'user=' . urlencode( $nt->getText() )
+			);
+		}
+		if ( $wgUser->isAllowed( 'checkuser-log' ) ) {
+			$links[] = $wgUser->getSkin()->makeKnownLinkObj(
+				SpecialPage::getTitleFor( 'CheckUserLog' ),
+				wfMsgHtml( 'checkuser-contribs-log' ),
+				'cuSearchType=target&cuSearch=' . urlencode( $nt->getText() )
 			);
 		}
 		return true;
