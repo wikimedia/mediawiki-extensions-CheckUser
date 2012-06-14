@@ -577,7 +577,7 @@ $messages['as'] = array(
 	'checkuser-search-submit' => 'সন্ধান কৰক',
 );
 
-/** Asturian (Asturianu)
+/** Asturian (asturianu)
  * @author Dferg
  * @author Esbardu
  * @author Xuacu
@@ -682,7 +682,7 @@ $messages['avk'] = array(
 	'checkuser-search-target' => 'jala',
 );
 
-/** Azerbaijani (Azərbaycanca)
+/** Azerbaijani (azərbaycanca)
  * @author Cekli829
  * @author Emperyan
  * @author PPerviz
@@ -845,7 +845,7 @@ $messages['bcl'] = array(
 	'checkuser-blocked' => 'Pigbágat',
 );
 
-/** Belarusian (Беларуская)
+/** Belarusian (беларуская)
  * @author Тест
  */
 $messages['be'] = array(
@@ -937,7 +937,7 @@ $messages['be-tarask'] = array(
 	'checkuser-reset-action' => 'скасаваў пароль для ўдзельніка «$1»',
 );
 
-/** Bulgarian (Български)
+/** Bulgarian (български)
  * @author Borislav
  * @author DCLXVI
  * @author Spiritia
@@ -1079,7 +1079,7 @@ IPv4 (CIDR 16-32) এবং IPv6 (CIDR 48-128) এই সরঞ্জামে �
 	'checkuser-reset-action' => 'ব্যবহারকারী "$1"-এর জন্য শব্দচাবি রিসেট করো',
 );
 
-/** Breton (Brezhoneg)
+/** Breton (brezhoneg)
  * @author Fohanno
  * @author Fulup
  * @author Y-M D
@@ -1160,7 +1160,7 @@ Setu an IPoù implijet (5000 d'ar muiañ, urzhiet dre ar chomlec'h) :",
 	'checkuser-reset-action' => 'adderaouekaat a ra ger-tremen an implijer "$1"',
 );
 
-/** Bosnian (Bosanski)
+/** Bosnian (bosanski)
  * @author CERminator
  */
 $messages['bs'] = array(
@@ -1239,7 +1239,7 @@ Ovdje su prikazane korištene IP adrese (najviše 5000, poredano po adresi):',
 	'checkuser-reset-action' => 'poništi šifru za korisnika "$1"',
 );
 
-/** Catalan (Català)
+/** Catalan (català)
  * @author Aleator
  * @author El libre
  * @author Jordi Roqué
@@ -1347,21 +1347,21 @@ $messages['ch'] = array(
 	'checkuser-search-submit' => 'Aligao',
 );
 
-/** Sorani (کوردی) */
+/** Sorani Kurdish (کوردی) */
 $messages['ckb'] = array(
 	'checkuser-reason' => 'هۆکار:',
 	'checkuser-search' => 'گەڕان',
 	'checkuser-search-submit' => 'گەڕان',
 );
 
-/** Corsican (Corsu) */
+/** Corsican (corsu) */
 $messages['co'] = array(
 	'group-checkuser' => 'Controllori',
 	'group-checkuser-member' => 'Controllore',
 	'grouppage-checkuser' => '{{ns:project}}:Controllori',
 );
 
-/** Czech (Česky)
+/** Czech (česky)
  * @author Beren
  * @author Danny B.
  * @author Li-sung
@@ -1541,7 +1541,7 @@ Caiff cyfeiriadau IP defnyddwyr anhysbys yn unig eu blocio am wythnos, gyda chre
 	'checkuser-reset-action' => 'wedi ailosod y cyfrinair ar gyfer y defnyddiwr "$1"',
 );
 
-/** Danish (Dansk)
+/** Danish (dansk)
  * @author Amjaabc
  * @author Byrial
  * @author Emilkris33
@@ -1886,7 +1886,7 @@ IP-adrese budu se jano za IP-wužywarjow na 1 tyźeń blokěrowaś - załoženje
 	'checkuser-reset-action' => 'gronidło za wužywarja "$1" wótnowiś',
 );
 
-/** Ewe (Eʋegbe) */
+/** Ewe (eʋegbe) */
 $messages['ee'] = array(
 	'checkuser-search' => 'Dii',
 	'checkuser-search-submit' => 'Dii',
@@ -2066,7 +2066,7 @@ Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
 	'checkuser-reset-action' => 'restarigis pasvorton por uzanto "$1"',
 );
 
-/** Spanish (Español)
+/** Spanish (español)
  * @author Aleator
  * @author AlimanRuna
  * @author Armando-Martin
@@ -2166,7 +2166,7 @@ Aquí se ven las IPs usadas (máximo 5000, ordenadas según dirección):',
 	'checkuser-reset-action' => 'solicitó un recordatorio de contraseña para el usuario «$1»',
 );
 
-/** Estonian (Eesti)
+/** Estonian (eesti)
  * @author Avjoska
  * @author Pikne
  * @author WikedKentaur
@@ -2239,7 +2239,7 @@ Ainult anonüümsed kasutajad blokeeritakse nädalaks ja neil keelatakse uute ko
 	'checkuser-email-action' => 'e-kiri kasutajale "$1" saadetud',
 );
 
-/** Basque (Euskara)
+/** Basque (euskara)
  * @author An13sa
  * @author Kobazulo
  */
@@ -2278,7 +2278,7 @@ $messages['eu'] = array(
 	'checkuser-reset-action' => '"$1" lankideari pasahitza berrezarri',
 );
 
-/** Extremaduran (Estremeñu)
+/** Extremaduran (estremeñu)
  * @author Better
  */
 $messages['ext'] = array(
@@ -2373,7 +2373,7 @@ $messages['fa'] = array(
 	'checkuser-reset-action' => 'گذرواژه کاربر «$1» را از نو تنظیم کرد',
 );
 
-/** Finnish (Suomi)
+/** Finnish (suomi)
  * @author Agony
  * @author Cimon Avaro
  * @author Crt
@@ -2462,7 +2462,7 @@ Käytetyt IP:t (enintään 5000, järjestetty osoitteen mukaan):',
 	'checkuser-reset-action' => 'käyttäjän ”$1” salasana nollattu',
 );
 
-/** Faroese (Føroyskt)
+/** Faroese (føroyskt)
  * @author Spacebirdy
  */
 $messages['fo'] = array(
@@ -2473,7 +2473,7 @@ $messages['fo'] = array(
 	'checkuser-search' => 'Leita',
 );
 
-/** French (Français)
+/** French (français)
  * @author ChrisPtDe
  * @author Gomoko
  * @author Grondin
@@ -2564,7 +2564,7 @@ Voici un extrait des IP utilisées ({{formatnum:5000}} maximum, triées par adre
 	'checkuser-reset-action' => 'réinitialise le mot de passe de l’utilisateur « $1 »',
 );
 
-/** Cajun French (Français cadien)
+/** Cajun French (français cadien)
  * @author JeanVoisin
  */
 $messages['frc'] = array(
@@ -2593,7 +2593,7 @@ Usez ça ici en accord avec les régulations.',
 	'checkuser-nolog' => 'Rien trouvé dans les notes.',
 );
 
-/** Franco-Provençal (Arpetan)
+/** Franco-Provençal (arpetan)
  * @author ChrisPtDe
  */
 $messages['frp'] = array(
@@ -2739,13 +2739,13 @@ Seo iad na seolaidh IP (5000 uasta, sórtáilte le seoladh):",
 	'checkuser-reset-action' => 'a athshocrú pásfhocal le úsáideoir "$1"',
 );
 
-/** Simplified Gan script (‪赣语(简体)‬) */
+/** Simplified Gan script (‪赣语（简体）‬) */
 $messages['gan-hans'] = array(
 	'checkuser-search' => '寻吖',
 	'checkuser-search-submit' => '寻吖',
 );
 
-/** Traditional Gan script (‪贛語(繁體)‬)
+/** Traditional Gan script (‪贛語（繁體）‬)
  * @author Symane
  */
 $messages['gan-hant'] = array(
@@ -3155,7 +3155,7 @@ $messages['hil'] = array(
 	'checkuser-search-submit' => 'Pangita-a',
 );
 
-/** Croatian (Hrvatski)
+/** Croatian (hrvatski)
  * @author Dalibor Bosits
  * @author Ex13
  * @author Excaliboor
@@ -3313,7 +3313,7 @@ Tu su wužiwane IP (maks. 5000, po adresy sortěrowane):',
 	'checkuser-reset-action' => 'hesło za wužiwarja "$1" wobnowić',
 );
 
-/** Hungarian (Magyar)
+/** Hungarian (magyar)
  * @author Bináris
  * @author Dani
  * @author Dj
@@ -3411,7 +3411,7 @@ $messages['hy'] = array(
 	'checkuser-search-submit' => 'Որոնել',
 );
 
-/** Interlingua (Interlingua)
+/** Interlingua (interlingua)
  * @author McDutchie
  */
 $messages['ia'] = array(
@@ -3703,7 +3703,7 @@ $messages['io'] = array(
 	'checkuser-ipeditcount' => '~$1 di omna uzanti',
 );
 
-/** Icelandic (Íslenska)
+/** Icelandic (íslenska)
  * @author S.Örvarr.S
  * @author Snævar
  * @author Spacebirdy
@@ -3731,7 +3731,7 @@ $messages['is'] = array(
 	'checkuser-search-submit' => 'Leita',
 );
 
-/** Italian (Italiano)
+/** Italian (italiano)
  * @author .anaconda
  * @author Ask21
  * @author Aushulz
@@ -3917,7 +3917,7 @@ IPv4 (16から32ビットのCIDR表記) と IPv6 (48から128ビットのCIDR表
 	'checkuser-reset-action' => '利用者"$1"のパスワードをリセット',
 );
 
-/** Jutish (Jysk)
+/** Jutish (jysk)
  * @author Huslåke
  */
 $messages['jut'] = array(
@@ -4228,7 +4228,7 @@ $messages['kk-latn'] = array(
 	'checkuser-log-ipusers-xff' => 'XFF $2 üşin $1 qatıswşı alındı',
 );
 
-/** Kalaallisut (Kalaallisut)
+/** Kalaallisut (kalaallisut)
  * @author Qaqqalik
  */
 $messages['kl'] = array(
@@ -4720,7 +4720,7 @@ $messages['lo'] = array(
 	'checkuser-check' => 'ກວດ',
 );
 
-/** Lithuanian (Lietuvių)
+/** Lithuanian (lietuvių)
  * @author Eitvys200
  * @author Homo
  * @author Matasg
@@ -4769,14 +4769,14 @@ $messages['lt'] = array(
 	'checkuser-reset-action' => 'atstatyti slaptažodį naudotojui "$1"',
 );
 
-/** Latgalian (Latgaļu)
+/** Latgalian (latgaļu)
  * @author Dark Eagle
  */
 $messages['ltg'] = array(
 	'checkuser-all' => 'vyss',
 );
 
-/** Latvian (Latviešu)
+/** Latvian (latviešu)
  * @author Geimeris
  * @author GreenZeb
  * @author Papuass
@@ -4834,7 +4834,7 @@ $messages['mhr'] = array(
 	'checkuser-search-submit' => 'Кычал',
 );
 
-/** Macedonian (Македонски)
+/** Macedonian (македонски)
  * @author Bjankuloski06
  * @author Brest
  * @author Misos
@@ -5003,7 +5003,7 @@ $messages['ml'] = array(
 	'checkuser-reset-action' => '"$1" എന്ന ഉപയോക്താവിന്റെ രഹസ്യവാക്ക് പുനഃക്രമീകരിക്കുക',
 );
 
-/** Mongolian (Монгол)
+/** Mongolian (монгол)
  * @author Chinneeb
  */
 $messages['mn'] = array(
@@ -5483,7 +5483,7 @@ Hieronder worden de gebruikte IP-adressen weergegeven (maximaal 5000, op IP-adre
 	'checkuser-reset-action' => 'heeft het wachtwoord voor gebruiker "$1" opnieuw ingesteld',
 );
 
-/** Norwegian Nynorsk (‪Norsk (nynorsk)‬)
+/** Norwegian Nynorsk (‪norsk (nynorsk)‬)
  * @author Gunnernett
  * @author Harald Khan
  * @author Jon Harald Søby
@@ -5597,7 +5597,7 @@ $messages['nso'] = array(
 	'checkuser-search-submit' => 'Fetleka',
 );
 
-/** Occitan (Occitan)
+/** Occitan (occitan)
  * @author Boulaur
  * @author Cedric31
  */
@@ -5800,7 +5800,7 @@ $messages['pfl'] = array(
 	'checkuser-block-failure' => "'''S'isch kän Benudza gschberd worre.'''",
 );
 
-/** Polish (Polski)
+/** Polish (polski)
  * @author Beau
  * @author Derbeth
  * @author Leinad
@@ -6014,7 +6014,7 @@ $messages['ps'] = array(
 	'checkuser-reset-action' => 'د "$1" کارن د پټنوم بيا پرځای کول',
 );
 
-/** Portuguese (Português)
+/** Portuguese (português)
  * @author 555
  * @author Hamilton Abreu
  * @author Malafaya
@@ -6098,7 +6098,7 @@ Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
 	'checkuser-reset-action' => 'foi reiniciada a palavra-chave do utilizador "$1"',
 );
 
-/** Brazilian Portuguese (Português do Brasil)
+/** Brazilian Portuguese (português do Brasil)
  * @author 555
  * @author Eduardo.mps
  * @author Giro720
@@ -6237,7 +6237,7 @@ $messages['rif'] = array(
 	'checkuser-search-submit' => 'Tarzzut',
 );
 
-/** Romansh (Rumantsch)
+/** Romansh (rumantsch)
  * @author Gion-andri
  */
 $messages['rm'] = array(
@@ -6335,7 +6335,7 @@ Iată IP-urile folosite (maxim 5000, sortate după adresă):',
 	'checkuser-reset-action' => 'schimbă parola pentru utilizatorul "$1"',
 );
 
-/** Tarandíne (Tarandíne)
+/** tarandíne (tarandíne)
  * @author Joetaras
  * @author Reder
  */
@@ -6418,7 +6418,7 @@ Aqquà ce stonne le IP ausate (5000 masseme, ordenate pe' inderizze):",
 	'checkuser-reset-action' => 'azzere \'a password pe l\'utende "$1"',
 );
 
-/** Russian (Русский)
+/** Russian (русский)
  * @author DCamer
  * @author EugeneZelenko
  * @author Express2000
@@ -6607,7 +6607,7 @@ $messages['sa'] = array(
 	'checkuser-search-submit' => 'अन्वेषणम्',
 );
 
-/** Sakha (Саха тыла)
+/** Sakha (саха тыла)
  * @author HalanTul
  */
 $messages['sah'] = array(
@@ -6685,7 +6685,7 @@ IP-аадырыстартан бэлиэтэммэккэ киирии уонна
 	'checkuser-reset-action' => '"$1" киирии тылын бырахпыт',
 );
 
-/** Sardinian (Sardu)
+/** Sardinian (sardu)
  * @author Andria
  * @author Marzedu
  */
@@ -6702,7 +6702,7 @@ $messages['sc'] = array(
 	'checkuser-ipeditcount' => '~$1 dae totu is usuàrios',
 );
 
-/** Sicilian (Sicilianu)
+/** Sicilian (sicilianu)
  * @author Melos
  * @author Santu
  */
@@ -6849,7 +6849,7 @@ $messages['si'] = array(
 	'checkuser-reset-action' => 'පරිශිලක "$1" සඳහා මුරපදය යලි සකසන්න',
 );
 
-/** Slovak (Slovenčina)
+/** Slovak (slovenčina)
  * @author Helix84
  * @author Martin Kozák
  * @author Teslaton
@@ -6932,7 +6932,7 @@ Tu sú použité IP (max. 5 000, zoradené podľa adresy):',
 	'checkuser-reset-action' => 'vytvoriť nové heslo pre používateľa „$1”',
 );
 
-/** Slovenian (Slovenščina)
+/** Slovenian (slovenščina)
  * @author Dbc334
  */
 $messages['sl'] = array(
@@ -7022,14 +7022,14 @@ $messages['so'] = array(
 	'checkuser-search-submit' => 'Raadi',
 );
 
-/** Albanian (Shqip)
+/** Albanian (shqip)
  * @author Dori
  */
 $messages['sq'] = array(
 	'checkuser' => 'Kontrollo përdoruesin',
 );
 
-/** Serbian (Cyrillic script) (‪Српски (ћирилица)‬)
+/** Serbian (Cyrillic script) (‪српски (ћирилица)‬)
  * @author Millosh
  * @author Rancher
  * @author Sasa Stefanovic
@@ -7117,7 +7117,7 @@ IP адресе ће бити блокиране на недељу дана за
 	'checkuser-reset-action' => 'поништи лозинку корисника „$1“',
 );
 
-/** Serbian (Latin script) (‪Srpski (latinica)‬)
+/** Serbian (Latin script) (‪srpski (latinica)‬)
  * @author Michaello
  * @author Жељко Тодоровић
  * @author Михајло Анђелковић
@@ -7314,7 +7314,7 @@ Di handap ieu béréndélan IP nu dipaké (paling loba 5000, disusun dumasar ala
 	'checkuser-log-ipusers-xff' => '$1 manggih pamaké ti XFF $2',
 );
 
-/** Swedish (Svenska)
+/** Swedish (svenska)
  * @author Boivie
  * @author Lejonel
  * @author Leo Johannes
@@ -7559,7 +7559,7 @@ $messages['te'] = array(
 	'checkuser-email-action' => 'వాడుకరి "$1"కి ఈమెయిలు పంపించాం',
 );
 
-/** Tetum (Tetun)
+/** Tetum (tetun)
  * @author MF-Warburg
  */
 $messages['tet'] = array(
@@ -7587,7 +7587,7 @@ $messages['tg'] = array(
 	'right-checkuser-log' => 'Мушоҳидаи гузоришҳои бозрасии корбарӣ',
 );
 
-/** Tajik (Cyrillic script) (Тоҷикӣ)
+/** Tajik (Cyrillic script) (тоҷикӣ)
  * @author Ibrahim
  */
 $messages['tg-cyrl'] = array(
@@ -7646,7 +7646,7 @@ $messages['tg-cyrl'] = array(
 	'checkuser-email-action' => 'почтаи электронӣ ба корбар "$1" фиристода шуд',
 );
 
-/** Tajik (Latin script) (Tojikī)
+/** Tajik (Latin script) (tojikī)
  * @author Liangent
  */
 $messages['tg-latn'] = array(
@@ -7989,7 +7989,7 @@ Kullanılan IP'ler (max 5000, adrese göre sıralı):",
 	'checkuser-reset-action' => '"$1" kullanıcısı için parolayı sıfırla',
 );
 
-/** Tatar (Cyrillic script) (Татарча)
+/** Tatar (Cyrillic script) (татарча)
  * @author Ильнар
  */
 $messages['tt-cyrl'] = array(
@@ -7998,7 +7998,7 @@ $messages['tt-cyrl'] = array(
 	'right-checkuser' => 'куланучының IP-юлламасын тикшерү',
 );
 
-/** Ukrainian (Українська)
+/** Ukrainian (українська)
  * @author AS
  * @author Ahonc
  * @author Dim Grits
@@ -8091,7 +8091,7 @@ $messages['ur'] = array(
 	'checkuser-reason' => 'وجہ:',
 );
 
-/** Vèneto (Vèneto)
+/** vèneto (vèneto)
  * @author Candalua
  */
 $messages['vec'] = array(
@@ -8336,7 +8336,7 @@ Redakam lätik ejenon ün $1, tü $2.',
 	'checkuser-reset-action' => 'votükön letavödi gebana: „$1“',
 );
 
-/** Walloon (Walon)
+/** Walloon (walon)
  * @author Srtxg
  */
 $messages['wa'] = array(
@@ -8450,7 +8450,7 @@ $messages['yue'] = array(
 	'checkuser-log-ipusers-xff' => '$1 拎到 XFF $2 嘅用戶',
 );
 
-/** Simplified Chinese (‪中文(简体)‬)
+/** Simplified Chinese (‪中文（简体）‬)
  * @author Bencmq
  * @author Gaoxuewei
  * @author Gzdavidwong
@@ -8536,7 +8536,7 @@ $messages['zh-hans'] = array(
 	'checkuser-reset-action' => '为用户“$1”重置密码',
 );
 
-/** Traditional Chinese (‪中文(繁體)‬)
+/** Traditional Chinese (‪中文（繁體）‬)
  * @author Alexsh
  * @author Anakmalaysia
  * @author Horacewai2
