@@ -4372,7 +4372,7 @@ $messages['ko'] = array(
 	'checkuser-wasblocked' => '이미 차단됨',
 	'checkuser-localonly' => '계정이 통합되지 않음',
 	'checkuser-massblock' => '선택한 사용자 차단',
-	'checkuser-massblock-text' => '선택된 계정은 무기한 (자동 차단 활성화, 계정 생성 금지됨) 차단될 것입니다.
+	'checkuser-massblock-text' => '선택한 계정은 무기한 (자동 차단 활성화, 계정 생성 금지됨) 차단될 것입니다.
 IP 주소는 1주일 (IP만 막음, 계정 생성 금지됨) 차단될 것입니다.',
 	'checkuser-blocktag' => '사용자 문서를 다음 내용으로 바꾸기:',
 	'checkuser-blocktag-talk' => '토론 문서를 다음 내용으로 바꾸기:',
