@@ -99,7 +99,7 @@ Here are the IPs used (5000 max, sorted by address):',
 [http://www.dnsstuff.com/tools/tracert.ch?ip=$1 Traceroute] ·
 [http://www.ip2location.com/$1 Geolocate] ·
 [http://toolserver.org/~overlordq/scripts/checktor.fcgi?ip=$1 Tor check] ·
-[http://ws.arin.net/whois/?queryinput=$1 WHOIS]]</span>', # do not translate or duplicate this message to other languages
+[http://whois.arin.net/rest/ip/$1 WHOIS]]</span>', # do not translate or duplicate this message to other languages
 	'group-checkuser.css'        => '/* CSS placed here will affect checkuser only */', # only translate this message to other languages if you have to change it
 	'group-checkuser.js'         => '/* JS placed here will affect checkuser only */', # only translate this message to other languages if you have to change it
 );
