@@ -124,12 +124,17 @@ Here are the IPs used (5000 max, sorted by address):',
  * @author Umherirrender
  */
 $messages['qqq'] = array(
+	'checkuser-reset-action' => 'Logged text when a user resets a password. Parameters:
+* $1 is the username for which the password was reset. Can be used for GENDER.',
+	'checkuser-email-action'     => 'Logged text when a user sends an e-mail. Parameters:
+* $1 is a salted MD5 hash for the user an e-mail was sent to.',
 	'checkuser-summary' => "Explanation of CheckUser tool. See [http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface screenshot titled 'Basic CheckUser interface'].",
 	'checkuser-desc' => '{{desc}}',
 	'checkuser' => 'Check user extension. The name of the special page where checkusers can check the IP addresses of users. The message is used in the list of special pages, and at the top of [[Special:Checkuser]].
 
 {{Identical|Check user}}',
 	'checkuserlog' => 'The name of the special page where checkusers can look at a log of past checkuser actions. The message is used in the list of special pages, and at the top of [[Special:CheckUserLog]].',
+	'checkuser-contribs' => "This is a link anchor used in [[Special:Contributions]]/''name'' to link to [[Special:CheckUser]]."
 	'checkuser-contribs-log' => "This is a link anchor used in [[Special:Contributions]]/''name'' to link to recent entries in the CheckUser log regarding the user. Displayed only when user viewing the page has the right to view the CheckUser log ('''checkuser-log''' permission).",
 	'group-checkuser' => '{{doc-group|checkuser}}
 check is a noun, not a verb here
@@ -228,6 +233,7 @@ See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interfa
 
 See screenshot \"[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]\".",
 	'checkuser-autocreate-action' => 'Text of the event displayed in the CheckUser results, corresponding to the automatic creation of a new user account (by CentralAuth).',
+	'checkuser-create-action' => 'Text of the event displayed in the CheckUser results. Indicates creation of the user.',
 	'group-checkuser.css' => '{{doc-group|checkuser|css}}',
 	'group-checkuser.js' => '{{doc-group|checkuser|js}}',
 );
@@ -626,7 +632,7 @@ Emplega esta ferramienta acordies cola política d'usu.",
 	'checkuser-cidr-res' => 'CIDR común:',
 	'checkuser-empty' => 'El rexistru nun tien nengún elementu.',
 	'checkuser-nomatch' => "Nun s'atoparon coincidencies.",
-	'checkuser-nomatch-edits' => "Nun s'atoparon coincidencies. 
+	'checkuser-nomatch-edits' => "Nun s'atoparon coincidencies.
 La cabera edición foi en $1 a $2",
 	'checkuser-check' => 'Comprobar',
 	'checkuser-log-fail' => 'Nun se pue añader la entrada nel rexistru',
@@ -1475,9 +1481,9 @@ $messages['cu'] = array(
  * @author Lloffiwr
  */
 $messages['cy'] = array(
-	'checkuser-summary' => "Mae'r teclyn hwn yn sganio newidiadau diweddar i gael hyd i'r cyfeiriadau IP a ddefnyddir gan ddefnyddiwr, neu i ddangos data golygu neu ddata defnyddiwr ar gyfer rhyw gyfeiriad IP. 
-Gall y teclyn gael hyd i ddefnyddwyr rhyw gyfeiriad IP cleient, neu'r golygiadau a ddaw ohono, drwy atodi \"/xff\" i'r cyfeiriad IP. Mae IPv4 (CIDR 16-32) a IPv6 (CIDR 48-128) yn cael eu cynnal. 
-Ni chaiff mwy na 5,000 o olygiadau eu dychwelyd er mwyn peidio amharu ar berfformiad y wefan. 
+	'checkuser-summary' => "Mae'r teclyn hwn yn sganio newidiadau diweddar i gael hyd i'r cyfeiriadau IP a ddefnyddir gan ddefnyddiwr, neu i ddangos data golygu neu ddata defnyddiwr ar gyfer rhyw gyfeiriad IP.
+Gall y teclyn gael hyd i ddefnyddwyr rhyw gyfeiriad IP cleient, neu'r golygiadau a ddaw ohono, drwy atodi \"/xff\" i'r cyfeiriad IP. Mae IPv4 (CIDR 16-32) a IPv6 (CIDR 48-128) yn cael eu cynnal.
+Ni chaiff mwy na 5,000 o olygiadau eu dychwelyd er mwyn peidio amharu ar berfformiad y wefan.
 Defnyddiwch hwn yn unol â'n polisi.",
 	'checkuser-desc' => "Yn rhoi'r gallu i ddefnyddwyr awdurdodedig archwilio cyfeiriadau IP defnyddwyr a gwybodaeth arall amdanynt.",
 	'checkuser-logcase' => 'Yn gwahaniaethu rhwng llythrennau mawr a bach wrth chwilio.',
@@ -6713,7 +6719,7 @@ IP-аадырыстартан бэлиэтэммэккэ киирии уонна
 	'checkuser-block-noreason' => 'Бобуу төрүөтүн этиэхтээххин.',
 	'checkuser-noreason' => 'Бу ыйытык төрүөтүн ааттыахтааххын.',
 	'checkuser-accounts' => '$1 саҥа {{PLURAL:$1|аат|ааттар}}',
-	'checkuser-too-many' => 'Наһаа элбэх булулунна (көрдөбүл түмүгүнэн), бука диэн CIDR кыччатан биэр. 
+	'checkuser-too-many' => 'Наһаа элбэх булулунна (көрдөбүл түмүгүнэн), бука диэн CIDR кыччатан биэр.
 Туһаныллыбыт IP (саамай элбэҕэ 5000, бу аадырыһынан наардаммыт):',
 	'checkuser-user-nonexistent' => 'Маннык ааттаах кыттааччы суох',
 	'checkuser-search-form' => '$1 сурунаалга $2 буоларын бул',

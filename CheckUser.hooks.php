@@ -82,7 +82,7 @@ class CheckUserHooks {
 			'cuc_minor'      => 0,
 			'cuc_user'       => $user->getId(),
 			'cuc_user_text'  => $user->getName(),
-			'cuc_actiontext' => wfMsgForContent( 'checkuser-reset-action', $account->getName() ),
+			'cuc_actiontext' => wfMessage( 'checkuser-reset-action', $account->getName() )->inContentLanguage()->text(),
 			'cuc_comment'    => '',
 			'cuc_this_oldid' => 0,
 			'cuc_last_oldid' => 0,
@@ -127,7 +127,7 @@ class CheckUserHooks {
 			'cuc_minor'      => 0,
 			'cuc_user'       => $userFrom->getId(),
 			'cuc_user_text'  => $userFrom->getName(),
-			'cuc_actiontext' => wfMsgForContent( 'checkuser-email-action', $hash ),
+			'cuc_actiontext' => wfMessage( 'checkuser-email-action', $hash )->inContentLanguage()->text(),
 			'cuc_comment'    => '',
 			'cuc_this_oldid' => 0,
 			'cuc_last_oldid' => 0,
@@ -193,7 +193,7 @@ class CheckUserHooks {
 			'cuc_minor'      => 0,
 			'cuc_user'       => $user->getId(),
 			'cuc_user_text'  => $user->getName(),
-			'cuc_actiontext' => wfMsgForContent( $actiontext ),
+			'cuc_actiontext' => wfMessage( $actiontext )->inContentLanguage()->text(),
 			'cuc_comment'    => '',
 			'cuc_this_oldid' => 0,
 			'cuc_last_oldid' => 0,
@@ -367,14 +367,14 @@ class CheckUserHooks {
 		if ( $wgUser->isAllowed( 'checkuser' ) ) {
 			$links[] = $wgUser->getSkin()->makeKnownLinkObj(
 				SpecialPage::getTitleFor( 'CheckUser' ),
-				wfMsgHtml( 'checkuser-contribs' ),
+				wfMessage( 'checkuser-contribs' )->escaped(),
 				'user=' . urlencode( $nt->getText() )
 			);
 		}
 		if ( $wgUser->isAllowed( 'checkuser-log' ) ) {
 			$links[] = $wgUser->getSkin()->makeKnownLinkObj(
 				SpecialPage::getTitleFor( 'CheckUserLog' ),
-				wfMsgHtml( 'checkuser-contribs-log' ),
+				wfMessage( 'checkuser-contribs-log' )->escaped(),
 				'cuSearchType=target&cuSearch=' . urlencode( $nt->getText() )
 			);
 		}
