@@ -1645,7 +1645,8 @@ Aus Performance-Gründen werden maximal 5000 Bearbeitungen ausgegeben. Benutze C
 	'checkuser-logcase' => 'Die Suche im Logbuch unterscheidet zwischen Groß- und Kleinschreibung.',
 	'checkuser' => 'Checkuser',
 	'checkuserlog' => 'Checkuser-Logbuch',
-	'checkuser-contribs' => 'IP-Adressen von Benutzer prüfen',
+	'checkuser-contribs' => 'IP-Adressen des Benutzers prüfen',
+	'checkuser-contribs-log' => 'aktuelle Benutzerprüfungen',
 	'group-checkuser' => 'Checkuser',
 	'group-checkuser-member' => '{{GENDER:$1|Checkuser-Berechtigter|Checkuser-Berechtigte}}',
 	'right-checkuser' => 'IP-Adressen sowie Zusammenhänge zwischen IP-Adressen und angemeldeten Benutzern prüfen',
@@ -1670,7 +1671,7 @@ Aus Performance-Gründen werden maximal 5000 Bearbeitungen ausgegeben. Benutze C
 	'checkuser-cidr-label' => 'Finde gemeinsamen Adressbereich und betroffene Adressen für eine Liste von IP-Adressen',
 	'checkuser-cidr-res' => 'Gemeinschaftliche CIDR:',
 	'checkuser-empty' => 'Das Logbuch enthält keine Einträge.',
-	'checkuser-nomatch' => 'Keine Übereinstimmungen gefunden.',
+	'checkuser-nomatch' => 'Es wurden Keine Übereinstimmungen gefunden.',
 	'checkuser-nomatch-edits' => 'Keine Übereinstimmungen gefunden. Letzte Bearbeitung hat am $1 um $2 Uhr stattgefunden.',
 	'checkuser-check' => 'Ausführen',
 	'checkuser-log-fail' => 'Logbuch-Eintrag kann nicht hinzugefügt werden.',
@@ -2080,6 +2081,7 @@ Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
  * @author Lin linao
  * @author Locos epraix
  * @author Manuelt15
+ * @author Mr.Ajedrez
  * @author Muro de Aguas
  * @author Piolinfax
  * @author Platonides
@@ -2099,6 +2101,7 @@ Usa esta herramienta de acuerdo con las políticas correspondientes.',
 	'checkuser' => 'Verificador de usuarios',
 	'checkuserlog' => 'Registro de verificación de usuarios',
 	'checkuser-contribs' => 'verificar las direcciones IP del usuario',
+	'checkuser-contribs-log' => 'comprobaciones de usuario recientes',
 	'group-checkuser' => 'Verificadores de usuarios',
 	'group-checkuser-member' => '{{GENDER:$1|verificador de usuarios|verificadora de usuarios}}',
 	'right-checkuser' => 'Comprobar las IPs de los usuarios y obtener otra información relacionada',
@@ -2477,6 +2480,7 @@ $messages['fo'] = array(
 
 /** French (français)
  * @author ChrisPtDe
+ * @author DavidL
  * @author Gomoko
  * @author Grondin
  * @author IAlex
@@ -2498,6 +2502,7 @@ Veuillez utiliser cet outil dans le respect de la charte d’utilisation.',
 	'checkuser' => 'Vérificateur d’utilisateur',
 	'checkuserlog' => 'Journal des vérifications d’utilisateurs',
 	'checkuser-contribs' => 'vérifier les adresses IP',
+	'checkuser-contribs-log' => "Vérifications récentes d'utilisateurs",
 	'group-checkuser' => 'Vérificateurs d’utilisateurs',
 	'group-checkuser-member' => '{{GENDER:$1|vérificateur d’utilisateur|vérificatrice d’utilisateur}}',
 	'right-checkuser' => 'Vérifier les adresses IP et autres informations d’un utilisateur',
@@ -2755,7 +2760,7 @@ $messages['gan-hant'] = array(
 	'checkuser-search-submit' => '尋吖',
 );
 
-/** Galician (Galego)
+/** Galician (galego)
  * @author Alma
  * @author Toliño
  * @author Xosé
@@ -2770,6 +2775,7 @@ Use isto de acordo coas políticas.',
 	'checkuser' => 'Verificador de usuarios',
 	'checkuserlog' => 'Rexistro de comprobacións de usuarios',
 	'checkuser-contribs' => 'comprobar os enderezos IP do usuario',
+	'checkuser-contribs-log' => 'comprobacións recentes',
 	'group-checkuser' => 'Verificadores de usuarios',
 	'group-checkuser-member' => '{{GENDER:$1|verificador|verificadora}} de usuarios',
 	'right-checkuser' => 'Comprobar os enderezos IP dos usuarios e outra información',
@@ -3235,7 +3241,7 @@ IP adrese će biti blokirane na 1 tjedan samo za IP suradnike s onemogućenim st
 	'checkuser-reset-action' => 'ponovno postavi lozinku za suradnika "$1"',
 );
 
-/** Upper Sorbian (Hornjoserbsce)
+/** Upper Sorbian (hornjoserbsce)
  * @author Michawiki
  */
 $messages['hsb'] = array(
@@ -3246,6 +3252,7 @@ Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěš
 	'checkuser' => 'Wužiwarja kontrolować',
 	'checkuserlog' => 'Protokol wužiwarskeje kontrole',
 	'checkuser-contribs' => 'Wužiwarske IP přepruwować',
+	'checkuser-contribs-log' => 'najnowše wužiwarske kontrole',
 	'group-checkuser' => 'Kontrolerojo',
 	'group-checkuser-member' => '{{GENDER:$1|kontroler wužiwarjow|kontrolerka wužiwarjow}}',
 	'right-checkuser' => 'Pruwowanje IP-adresow a druhe informacije wužiwarjow',
@@ -3754,6 +3761,7 @@ $messages['it'] = array(
 	'checkuser' => 'Controllo utenze',
 	'checkuserlog' => 'Registro dei controlli utente',
 	'checkuser-contribs' => "controlla gli indirizzi IP dell'utente",
+	'checkuser-contribs-log' => 'controlli utente recenti',
 	'group-checkuser' => 'Check users',
 	'group-checkuser-member' => '{{GENDER:$1|Check user}}',
 	'right-checkuser' => "Visualizza gli indirizzi IP usati dall'utente e altre informazioni",
@@ -4338,6 +4346,7 @@ $messages['ko'] = array(
 	'checkuser' => '사용자 검사',
 	'checkuserlog' => '사용자 검사 기록',
 	'checkuser-contribs' => '사용자 IP를 확인',
+	'checkuser-contribs-log' => '최근 사용자 검사',
 	'group-checkuser' => '검사관',
 	'group-checkuser-member' => '{{GENDER:$1|검사관}}',
 	'right-checkuser' => '사용자의 IP 주소와 다른 정보를 확인',
@@ -4855,6 +4864,7 @@ $messages['mk'] = array(
 	'checkuser' => 'Провери корисник',
 	'checkuserlog' => 'Дневник на проверки',
 	'checkuser-contribs' => 'провери IP-адреси на корисникот',
+	'checkuser-contribs-log' => 'скорешни проверки',
 	'group-checkuser' => 'Проверувачи на корисници',
 	'group-checkuser-member' => '{{GENDER:$1|проверувач на корисници}}',
 	'right-checkuser' => 'Проверување на корисничка IP-адреса и други информации',
@@ -5420,6 +5430,7 @@ Gebruik dit hulpmiddel volgens het vastgestelde beleid.',
 	'checkuser' => 'Gebruiker controleren',
 	'checkuserlog' => 'Logboek controleren gebruikers',
 	'checkuser-contribs' => 'IP-adressen van gebruiker controleren',
+	'checkuser-contribs-log' => 'recente gebruikerscontroles',
 	'group-checkuser' => 'controlegebruikers',
 	'group-checkuser-member' => '{{GENDER:$1|controlegebruiker}}',
 	'right-checkuser' => 'IP-adressen en andere gegevens van gebruikers bekijken',
@@ -5909,6 +5920,7 @@ $messages['pms'] = array(
 	'checkuser' => "Contròl dj'utent",
 	'checkuserlog' => "Registr dël contròl dj'utent",
 	'checkuser-contribs' => "contròla l'adrëssa IP ëd l'utent",
+	'checkuser-contribs-log' => "ùltim contròj dl'utent",
 	'group-checkuser' => 'Controlor',
 	'group-checkuser-member' => '{{GENDER:$1|controlor}}',
 	'right-checkuser' => "Contròla l'adrëssa IP ëd l'utent e àutre anformassion",
@@ -8205,6 +8217,7 @@ $messages['vi'] = array(
 	'checkuser' => 'Kiểm định viên',
 	'checkuserlog' => 'Nhật trình CheckUser',
 	'checkuser-contribs' => 'kiểm tra IP của người dùng',
+	'checkuser-contribs-log' => 'cuộc kiểm tra gần đây',
 	'group-checkuser' => 'Kiểm định viên',
 	'group-checkuser-member' => '{{GENDER:$1}}kiểm định viên',
 	'right-checkuser' => 'Kiểm tra địa chỉ IP và các thông tin khác của thành viên',
@@ -8245,7 +8258,7 @@ Lần sửa đổi cuối xảy ra $1 lúc $2.',
 	'checkuser-blocktag' => 'Thay thế các trang cá nhân bằng:',
 	'checkuser-blocktag-talk' => 'Thay các trang thảo luận bằng:',
 	'checkuser-massblock-commit' => 'Cấm những người dùng được chọn',
-	'checkuser-block-success' => "'''{{PLURAL:$2|Người|Các người}} dùng $1 mới bị cấm.'''",
+	'checkuser-block-success' => "'''{{PLURAL:$2|Người|Những người}} dùng $1 mới bị cấm.'''",
 	'checkuser-block-failure' => "'''Không ai bị cấm.'''",
 	'checkuser-block-limit' => 'Đã chọn nhiều người dùng quá.',
 	'checkuser-block-noreason' => 'Phải đưa ra lý do cấm.',
