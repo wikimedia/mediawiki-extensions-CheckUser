@@ -28,6 +28,7 @@ $specialPageAliases['arz'] = array(
 /** Assamese (অসমীয়া) */
 $specialPageAliases['as'] = array(
 	'CheckUser' => array( 'সদস্যৰ_অনুসন্ধান_কৰক' ),
+	'CheckUserLog' => array( 'সদস্যৰ_অভিলেখ_চাওক' ),
 );
 
 /** Bulgarian (български) */
@@ -68,7 +69,7 @@ $specialPageAliases['diq'] = array(
 	'CheckUserLog' => array( 'KontrolkarKarberCıkewtış' ),
 );
 
-/** Lower Sorbian (Dolnoserbski) */
+/** Lower Sorbian (dolnoserbski) */
 $specialPageAliases['dsb'] = array(
 	'CheckUser' => array( 'Kontrolny_wužywaŕ' ),
 );
@@ -108,7 +109,7 @@ $specialPageAliases['frp'] = array(
 	'CheckUser' => array( 'Controlor_d\'usanciér', 'ControlorDUsanciér' ),
 );
 
-/** Galician (Galego) */
+/** Galician (galego) */
 $specialPageAliases['gl'] = array(
 	'CheckUser' => array( 'Verificador_de_usuarios' ),
 );
@@ -139,7 +140,7 @@ $specialPageAliases['hr'] = array(
 	'CheckUser' => array( 'Provjeri_suradnika' ),
 );
 
-/** Upper Sorbian (Hornjoserbsce) */
+/** Upper Sorbian (hornjoserbsce) */
 $specialPageAliases['hsb'] = array(
 	'CheckUser' => array( 'Kontrolny_wužiwar' ),
 );
@@ -215,6 +216,7 @@ $specialPageAliases['lb'] = array(
 /** Macedonian (македонски) */
 $specialPageAliases['mk'] = array(
 	'CheckUser' => array( 'ПроверкаНаКорисник' ),
+	'CheckUserLog' => array( 'ПроверкаНаКорисникДневник' ),
 );
 
 /** Malayalam (മലയാളം) */
