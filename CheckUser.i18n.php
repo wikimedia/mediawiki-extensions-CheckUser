@@ -340,7 +340,7 @@ $messages['am'] = array(
 	'checkuser-search-submit' => 'ፍለጋ',
 );
 
-/** Aragonese (Aragonés)
+/** Aragonese (aragonés)
  * @author Juanpabl
  */
 $messages['an'] = array(
@@ -854,7 +854,7 @@ $messages['be'] = array(
 	'checkuser-reason' => 'Прычына:',
 );
 
-/** Belarusian (Taraškievica orthography) (‪Беларуская (тарашкевіца)‬)
+/** Belarusian (Taraškievica orthography) (‪беларуская (тарашкевіца)‬)
  * @author EugeneZelenko
  * @author Jim-by
  * @author Red Winged Duck
@@ -870,6 +870,7 @@ $messages['be-tarask'] = array(
 	'checkuser' => 'Праверыць удзельніка',
 	'checkuserlog' => 'Журнал праверак удзельнікаў',
 	'checkuser-contribs' => 'праверыць IP-адрасы ўдзельніка',
+	'checkuser-contribs-log' => 'нядаўнія праверкі ўдзельніка',
 	'group-checkuser' => 'Правяраючыя ўдзельнікаў',
 	'group-checkuser-member' => '{{GENDER:$1|правяраючы|правяраючая}} ўдзельнікаў',
 	'right-checkuser' => 'Праверка ІР-адрасоў і іншай інфармацыі ўдзельніка',
@@ -1445,7 +1446,7 @@ Níže jsou použité IP adresy (nejvýše 5000, seřazené podle adresy):',
 	'checkuser-reset-action' => 'požádal o nové heslo pro uživatele „$1“',
 );
 
-/** Kashubian (Kaszëbsczi)
+/** Kashubian (kaszëbsczi)
  * @author Byulent
  */
 $messages['csb'] = array(
@@ -1453,7 +1454,7 @@ $messages['csb'] = array(
 	'checkuser-all' => 'wszëtczé',
 );
 
-/** Church Slavic (Словѣ́ньскъ / ⰔⰎⰑⰂⰡⰐⰠⰔⰍⰟ)
+/** Church Slavic (словѣ́ньскъ / ⰔⰎⰑⰂⰡⰐⰠⰔⰍⰟ)
  * @author ОйЛ
  */
 $messages['cu'] = array(
@@ -1475,6 +1476,7 @@ Defnyddiwch hwn yn unol â'n polisi.",
 	'checkuser' => 'Archwilio defnyddwyr',
 	'checkuserlog' => 'Lòg archwilio defnyddwyr',
 	'checkuser-contribs' => 'archwilio IP y defnyddiwr',
+	'checkuser-contribs-log' => "archwiliadau diweddar o'r defnyddiwr",
 	'group-checkuser' => 'Archwilwyr defnyddwyr',
 	'group-checkuser-member' => '{{GENDER:$1|Archwiliwr defnyddwyr}}',
 	'right-checkuser' => 'Archwilio cyfeiriadau IP defnyddwyr a gwybodaeth arall amdanynt',
@@ -1640,7 +1642,7 @@ Seneste redigering var $1 $2.',
  */
 $messages['de'] = array(
 	'checkuser-summary' => 'Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers bzw. die Bearbeitungen/Benutzernamen für eine IP-Adresse zu ermitteln. Benutzer und Bearbeitungen einer IP-Adresse können auch nach Informationen aus den XFF-Headern abgefragt werden, indem der IP-Adresse ein „/xff“ angehängt wird. IPv4 (CIDR 16-32) und IPv6 (CIDR 48-128) werden unterstützt.
-Aus Performance-Gründen werden maximal 5000 Bearbeitungen ausgegeben. Benutze CheckUser ausschließlich in Übereinstimmung mit den Datenschutzrichtlinien.',
+Zur Aufrechterhaltung der Leistungsfähigkeit werden maximal 5000 Bearbeitungen ausgegeben. Benutze CheckUser ausschließlich in Übereinstimmung mit den Datenschutzrichtlinien.',
 	'checkuser-desc' => 'Ermöglicht die Überprüfung von IP-Adressen sowie weiterer Informationen von Benutzern',
 	'checkuser-logcase' => 'Die Suche im Logbuch unterscheidet zwischen Groß- und Kleinschreibung.',
 	'checkuser' => 'Checkuser',
@@ -1668,32 +1670,34 @@ Aus Performance-Gründen werden maximal 5000 Bearbeitungen ausgegeben. Benutze C
 	'checkuser-week-2' => 'letzte 14 Tage',
 	'checkuser-month' => 'letzte 30 Tage',
 	'checkuser-all' => 'alle',
-	'checkuser-cidr-label' => 'Finde gemeinsamen Adressbereich und betroffene Adressen für eine Liste von IP-Adressen',
-	'checkuser-cidr-res' => 'Gemeinschaftliche CIDR:',
+	'checkuser-cidr-label' => 'Gemeinsamen Adressbereich und betroffene Adressen für eine Liste von IP-Adressen ermitteln',
+	'checkuser-cidr-res' => 'Gemeinschaftlicher IP-Adressbereich:',
 	'checkuser-empty' => 'Das Logbuch enthält keine Einträge.',
 	'checkuser-nomatch' => 'Es wurden Keine Übereinstimmungen gefunden.',
-	'checkuser-nomatch-edits' => 'Keine Übereinstimmungen gefunden. Letzte Bearbeitung hat am $1 um $2 Uhr stattgefunden.',
+	'checkuser-nomatch-edits' => 'Es wurde keine Übereinstimmungen gefunden.
+Die letzte Bearbeitung hat am $1 um $2 Uhr stattgefunden.',
 	'checkuser-check' => 'Ausführen',
-	'checkuser-log-fail' => 'Logbuch-Eintrag kann nicht hinzugefügt werden.',
-	'checkuser-nolog' => 'Keine Logbuchdatei vorhanden.',
+	'checkuser-log-fail' => 'Der Logbuch-Eintrag kann nicht hinzugefügt werden.',
+	'checkuser-nolog' => 'Es ist keine Logbuchdatei vorhanden.',
 	'checkuser-blocked' => 'gesperrt',
 	'checkuser-gblocked' => 'global gesperrt',
-	'checkuser-locked' => 'geschlossen',
+	'checkuser-locked' => 'Gesperrt',
 	'checkuser-wasblocked' => 'ehemals gesperrt',
 	'checkuser-localonly' => 'nicht zusammengeführt',
 	'checkuser-massblock' => 'Ausgewählte Benutzer sperren',
 	'checkuser-massblock-text' => 'Die ausgewählten Benutzerkonten werden dauerhaft gesperrt (Autoblock ist aktiv, die Anlage neuer Benutzerkonten wird unterbunden).
 IP-Adressen werden für eine Woche gesperrt (nur für unangemeldete Benutzer, die Anlage neuer Benutzerkonten wird unterbunden).',
-	'checkuser-blocktag' => 'Inhalt der Benutzerseite ersetzen durch:',
-	'checkuser-blocktag-talk' => 'Diskussionsseiten ersetzen durch:',
+	'checkuser-blocktag' => 'Inhalt der Benutzerseiten ersetzen durch:',
+	'checkuser-blocktag-talk' => 'Inhalt der Benutzerdiskussionsseiten ersetzen durch:',
 	'checkuser-massblock-commit' => 'Ausgewählte Benutzer sperren',
 	'checkuser-block-success' => "'''{{PLURAL:$2|Der Benutzer|Die Benutzer}} $1 {{PLURAL:$2|wurde|wurden}} gesperrt.'''",
 	'checkuser-block-failure' => "'''Es wurden keine Benutzer gesperrt.'''",
 	'checkuser-block-limit' => 'Es wurden zu viele Benutzer ausgewählt.',
 	'checkuser-block-noreason' => 'Du musst einen Grund für die Sperre angeben.',
 	'checkuser-noreason' => 'Für diese Abfrage muss eine Begründung angegeben werden.',
-	'checkuser-accounts' => '{{PLURAL:$1|1 neues Benutzerkonto|$1 neue Benutzerkonten}}',
-	'checkuser-too-many' => 'Die Ergebnisliste ist zu lang (nach der Schätzung), bitte grenze den IP-Bereich weiter ein. Hier sind die benutzten IP-Adressen (maximal 5000, sortiert nach Adresse):',
+	'checkuser-accounts' => '$1 {{PLURAL:$1|neues Benutzerkonto|neue Benutzerkonten}}',
+	'checkuser-too-many' => 'Die Ergebnisliste ist zu lang (nach Schätzung der Abfrage). Bitte grenze den IP-Adressbereich weiter ein.
+Es folgen die benutzten IP-Adressen (maximal 5000, sortiert nach Adresse):',
 	'checkuser-user-nonexistent' => 'Das angegebene Benutzerkonto ist nicht vorhanden.',
 	'checkuser-search-form' => 'Suche Logbucheinträge, bei denen $1 $2 ist.',
 	'checkuser-search-submit' => 'Suche',
@@ -1701,14 +1705,14 @@ IP-Adressen werden für eine Woche gesperrt (nur für unangemeldete Benutzer, di
 	'checkuser-search-target' => 'Abfrageziel (Benutzerkonto/IP-Adresse)',
 	'checkuser-ipeditcount' => '~ $1 von allen Benutzern',
 	'checkuser-log-return' => 'Zum CheckUser-Hauptformular wechseln',
-	'checkuser-limited' => "'''Die Ergebnisliste wurde aus Performancegründen gekürzt.'''",
+	'checkuser-limited' => "'''Die Ergebnisliste wurde zur Aufrechterhaltung der Leistungsfähigkeit gekürzt.'''",
 	'checkuser-log-userips' => '$1 holte IP-Adressen für $2',
 	'checkuser-log-ipedits' => '$1 holte Bearbeitungen für $2',
 	'checkuser-log-ipusers' => '$1 holte Benutzer für $2',
 	'checkuser-log-ipedits-xff' => '$1 holte Bearbeitungen für XFF $2',
 	'checkuser-log-ipusers-xff' => '$1 holte Benutzer für XFF $2',
 	'checkuser-log-useredits' => '$1 holte Bearbeitungen für $2',
-	'checkuser-autocreate-action' => 'automatisch erstellt',
+	'checkuser-autocreate-action' => 'wurde automatisch erstellt',
 	'checkuser-create-action' => 'wurde erstellt',
 	'checkuser-email-action' => 'sendete E-Mail an „$1“',
 	'checkuser-reset-action' => 'Anforderung eines neuen Passwortes für „Benutzer:$1“',
@@ -1716,13 +1720,15 @@ IP-Adressen werden für eine Woche gesperrt (nur für unangemeldete Benutzer, di
 
 /** German (formal address) (‪Deutsch (Sie-Form)‬)
  * @author Imre
+ * @author Kghbln
  * @author Umherirrender
  */
 $messages['de-formal'] = array(
 	'checkuser-summary' => 'Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers bzw. die Bearbeitungen/Benutzernamen für eine IP-Adresse zu ermitteln. Benutzer und Bearbeitungen einer IP-Adresse können auch nach Informationen aus den XFF-Headern abgefragt werden, indem der IP-Adresse ein „/xff“ angehängt wird. IPv4 (CIDR 16-32) und IPv6 (CIDR 48-128) werden unterstützt.
-Aus Performance-Gründen werden maximal 5000 Bearbeitungen ausgegeben. Benutzen Sie CheckUser ausschließlich in Übereinstimmung mit den Datenschutzrichtlinien.',
+Zur Aufrechterhaltung der Leistungsfähigkeit werden maximal 5000 Bearbeitungen ausgegeben. Benutzen Sie CheckUser ausschließlich in Übereinstimmung mit den Datenschutzrichtlinien.',
 	'checkuser-block-noreason' => 'Sie müssen einen Grund für die Sperre angeben.',
-	'checkuser-too-many' => 'Die Ergebnisliste ist zu lang (nach der Schätzung), bitte grenzen Sie den IP-Bereich weiter ein. Hier sind die benutzten IP-Adressen (maximal 5000, sortiert nach Adresse):',
+	'checkuser-too-many' => 'Die Ergebnisliste ist zu lang (nach Schätzung der Abfrage). Bitte grenzen Sie den IP-Adressbereich weiter ein.
+Es folgen die benutzten IP-Adressen (maximal 5000, sortiert nach Adresse):',
 );
 
 /** Zazaki (Zazaki)
@@ -1809,7 +1815,7 @@ Tiya de IPyan ke sero kar biyo  (5000 max, pê adresan):',
 	'checkuser-reset-action' => "qe karberê ''$1''î parola reset bike",
 );
 
-/** Lower Sorbian (Dolnoserbski)
+/** Lower Sorbian (dolnoserbski)
  * @author Michawiki
  */
 $messages['dsb'] = array(
@@ -1821,6 +1827,7 @@ Z pśicynow wugbałosći wróśijo se nic wěcej ako 5000 změnow. Wužyj CheckU
 	'checkuser' => 'Kontrola wužywarjow',
 	'checkuserlog' => 'Protokol kontrole wužywarjow',
 	'checkuser-contribs' => 'Wužywarske IP pśeglědaś',
+	'checkuser-contribs-log' => 'nejnowše wužywarske kontrole',
 	'group-checkuser' => 'Kontrolery wužywarjow',
 	'group-checkuser-member' => '{{GENDER:$1|kontroler wužywarjow|kontrolerka wužywarjow}}',
 	'right-checkuser' => 'Wužywarske IP-adrese a druge informacije kontrolěrowaś',
@@ -3007,6 +3014,7 @@ $messages['he'] = array(
 	'checkuser' => 'בדיקת משתמש',
 	'checkuserlog' => 'יומן בדיקות',
 	'checkuser-contribs' => 'בדיקת כתובות ה־IP',
+	'checkuser-contribs-log' => 'בדיקות השוואת כתובת אחרונות של המשתמש',
 	'group-checkuser' => 'בודקים',
 	'group-checkuser-member' => '{{GENDER:$1|בודק|בודקת}}',
 	'right-checkuser' => 'מציאת כתובות IP של משתמשים ומידע נוסף',
@@ -3431,9 +3439,10 @@ Non plus de 5000 modificationes essera retornate pro non supercargar le systema.
 Tote uso de iste instrumento debe esser conforme al politicas in vigor.',
 	'checkuser-desc' => 'Concede al usatores con le autorisation appropriate le capabilitate de verificar le adresses IP e altere informationes de usatores',
 	'checkuser-logcase' => 'Le recerca del registros distingue inter majusculas e minusculas.',
-	'checkuser' => 'Verification de usatores',
+	'checkuser' => 'Verification de usator',
 	'checkuserlog' => 'Registro de verification de usatores',
 	'checkuser-contribs' => 'verification de adresses IP de usatores',
+	'checkuser-contribs-log' => 'verificationes recente de usatores',
 	'group-checkuser' => 'Verificatores de usatores',
 	'group-checkuser-member' => '{{GENDER:$1|verificator|verificatrice}} de usatores',
 	'right-checkuser' => 'Verificar le adresses IP e altere informationes del usator',
@@ -6530,7 +6539,7 @@ IP-адреса будут заблокированы на 1 неделю для
 	'checkuser-reset-action' => 'сбросил пароль для участника $1',
 );
 
-/** Rusyn (Русиньскый)
+/** Rusyn (русиньскый)
  * @author Gazeb
  */
 $messages['rue'] = array(
@@ -7449,7 +7458,7 @@ $messages['sw'] = array(
 	'checkuser-search-submit' => 'Tafuta',
 );
 
-/** Silesian (Ślůnski)
+/** Silesian (ślůnski)
  * @author Herr Kriss
  */
 $messages['szl'] = array(
