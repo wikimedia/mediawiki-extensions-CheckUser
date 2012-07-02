@@ -112,6 +112,7 @@ $specialPageAliases['frp'] = array(
 /** Galician (galego) */
 $specialPageAliases['gl'] = array(
 	'CheckUser' => array( 'Verificador_de_usuarios' ),
+	'CheckUserLog' => array( 'Rexistro_de_verificación_de_usuarios' ),
 );
 
 /** Swiss German (Alemannisch) */
