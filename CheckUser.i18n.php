@@ -6294,6 +6294,7 @@ Utilizați unealta în concordanță cu politica proiectului.',
 	'checkuser' => 'Verifică utilizatorul',
 	'checkuserlog' => 'Jurnal verificare utilizator',
 	'checkuser-contribs' => 'verifică IP-urile utilizatorilor',
+	'checkuser-contribs-log' => 'verificări recente de utilizatori',
 	'group-checkuser' => 'Checkuseri',
 	'group-checkuser-member' => '{{GENDER:$1|checkuser}}',
 	'right-checkuser' => 'Verifică adresele IP ale utilizatorilor și alte informații',
@@ -6359,8 +6360,8 @@ Iată IP-urile folosite (maxim 5000, sortate după adresă):',
 	'checkuser-log-useredits' => '$1 a verificat modificările efectuate de $2',
 	'checkuser-autocreate-action' => 'a fost creat automat',
 	'checkuser-create-action' => 'a fost creat',
-	'checkuser-email-action' => 'trimite email utilizatorului "$1"',
-	'checkuser-reset-action' => 'schimbă parola pentru utilizatorul "$1"',
+	'checkuser-email-action' => 'trimite email utilizatorului „$1”',
+	'checkuser-reset-action' => 'schimbă parola pentru utilizatorul „$1”',
 );
 
 /** tarandíne (tarandíne)
