@@ -122,7 +122,7 @@ $specialPageAliases['gsw'] = array(
 
 /** Gujarati (ગુજરાતી) */
 $specialPageAliases['gu'] = array(
-	'CheckUser' => array( 'સભ્યચકાસ' ),
+	'CheckUser' => array( 'સભ્યચકાસણી' ),
 );
 
 /** Hebrew (עברית) */

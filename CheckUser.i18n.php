@@ -2304,6 +2304,7 @@ $messages['ext'] = array(
  * @author Mehran
  * @author MehranVB
  * @author Mjbmr
+ * @author Reza1615
  * @author ZxxZxxZ
  */
 $messages['fa'] = array(
@@ -2317,6 +2318,7 @@ $messages['fa'] = array(
 	'checkuser' => 'بازرسی کاربر',
 	'checkuserlog' => 'سیاههٔ بازرسی کاربر',
 	'checkuser-contribs' => 'بازرسی نشانی‌های آی‌پی کاربر',
+	'checkuser-contribs-log' => 'چک کاربر اخیر',
 	'group-checkuser' => 'بازرسان کاربر',
 	'group-checkuser-member' => 'بازرس کاربر',
 	'right-checkuser' => 'بازرسی نشانی‌های آی‌پی و دیگر اطلاعات کاربر',
