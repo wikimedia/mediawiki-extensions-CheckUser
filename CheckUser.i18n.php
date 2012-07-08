@@ -1379,6 +1379,7 @@ Z výkonnostních důvodů lze zobrazit maximálně 5000 editací. Používejte 
 	'checkuser' => 'Kontrola uživatele',
 	'checkuserlog' => 'Kniha kontroly uživatelů',
 	'checkuser-contribs' => 'kontrola uživatelových IP',
+	'checkuser-contribs-log' => 'nedávné kontroly uživatele',
 	'group-checkuser' => 'Revizoři',
 	'group-checkuser-member' => '{{GENDER:$1|revizor|revizorka|revizor}}',
 	'right-checkuser' => 'Kontrolování uživatelské IP adresy a dalších informací',
