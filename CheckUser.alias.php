@@ -318,7 +318,7 @@ $specialPageAliases['th'] = array(
 
 /** Tagalog (Tagalog) */
 $specialPageAliases['tl'] = array(
-	'CheckUser' => array( 'Suriin ang tagagamit' ),
+	'CheckUser' => array( 'Suriin_ang_tagagamit' ),
 );
 
 /** Turkish (Türkçe) */
