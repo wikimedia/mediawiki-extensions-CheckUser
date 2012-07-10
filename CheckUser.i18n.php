@@ -4795,7 +4795,7 @@ $messages['lt'] = array(
 	'checkuser-autocreate-action' => 'buvo automatiškai sukurtas',
 	'checkuser-create-action' => 'buvo sukurta',
 	'checkuser-email-action' => 'siųsti el. laišką vartotojui " $1 "',
-	'checkuser-reset-action' => 'atstatyti slaptažodį naudotojui "$1"',
+	'checkuser-reset-action' => 'iš naujo nustatyti slaptažodį naudotojui "$1"',
 );
 
 /** Latgalian (latgaļu)
