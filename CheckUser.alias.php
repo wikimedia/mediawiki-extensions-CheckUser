@@ -329,6 +329,7 @@ $specialPageAliases['tr'] = array(
 /** Ukrainian (українська) */
 $specialPageAliases['uk'] = array(
 	'CheckUser' => array( 'Перевірити_користувача' ),
+	'CheckUserLog' => array( 'Журнал_перевірок_користувачів' ),
 );
 
 /** vèneto (vèneto) */
