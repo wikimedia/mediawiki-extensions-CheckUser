@@ -236,7 +236,7 @@ $specialPageAliases['ms'] = array(
 	'CheckUser' => array( 'Perisik' ),
 );
 
-/** Erzya (Эрзянь) */
+/** Erzya (эрзянь) */
 $specialPageAliases['myv'] = array(
 	'CheckUser' => array( 'ВанкшномсКиеТеицясь' ),
 );
@@ -336,7 +336,7 @@ $specialPageAliases['vec'] = array(
 	'CheckUser' => array( 'ControlaUtente' ),
 );
 
-/** Veps (Vepsän kel’) */
+/** Veps (vepsän kel’) */
 $specialPageAliases['vep'] = array(
 	'CheckUser' => array( 'KodvdaKävutajad' ),
 );

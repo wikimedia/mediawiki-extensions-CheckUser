@@ -713,7 +713,7 @@ $messages['az'] = array(
 	'checkuser-create-action' => 'yaradılıb',
 );
 
-/** Bashkir (Башҡортса)
+/** Bashkir (башҡортса)
  * @author Assele
  * @author Haqmar
  */
@@ -1333,7 +1333,7 @@ $messages['cdo'] = array(
 	'checkuser-search' => 'Sìng-tō̤',
 );
 
-/** Chechen (Нохчийн)
+/** Chechen (нохчийн)
  * @author Sasan700
  */
 $messages['ce'] = array(
@@ -4172,7 +4172,7 @@ $messages['kk-arab'] = array(
 	'checkuser-log-ipusers-xff' => 'XFF $2 ٴۇشىن $1 قاتىسۋشى الىندى',
 );
 
-/** Kazakh (Cyrillic script) (‪Қазақша (кирил)‬) */
+/** Kazakh (Cyrillic script) (‪қазақша (кирил)‬) */
 $messages['kk-cyrl'] = array(
 	'checkuser-summary' => 'Бұл құрал пайдаланушы қолданған IP жайлар үшін, немесе IP жай түзету/пайдаланушы деректерін көрсету үшін жуықтағы өзгерістерді қарап шығады.
 	Пайдаланушыларды мен түзетулерді XFF IP арқылы IP жайға «/xff» дегенді қосып келтіруге болады. IPv4 (CIDR 16-32) және IPv6 (CIDR 48-128) арқауланады.
@@ -4211,7 +4211,7 @@ $messages['kk-cyrl'] = array(
 	'checkuser-log-ipusers-xff' => 'XFF $2 үшін $1 қатысушы алынды',
 );
 
-/** Kazakh (Latin script) (‪Qazaqşa (latın)‬) */
+/** Kazakh (Latin script) (‪qazaqşa (latın)‬) */
 $messages['kk-latn'] = array(
 	'checkuser-summary' => 'Bul qural paýdalanwşı qoldanğan IP jaýlar üşin, nemese IP jaý tüzetw/paýdalanwşı derekterin körsetw üşin jwıqtağı özgeristerdi qarap şığadı.
 	Paýdalanwşılardı men tüzetwlerdi XFF IP arqılı IP jaýğa «/xff» degendi qosıp keltirwge boladı. IPv4 (CIDR 16-32) jäne IPv6 (CIDR 48-128) arqawlanadı.
@@ -4353,7 +4353,7 @@ $messages['ko'] = array(
 클라이언트 IP를 통한 사용자와 편집은 IP 주소 뒤에 "/xff"를 더함으로서 XFF 제공자를 통해 조사할 수 있습니다. IPv4 (CIDR 16-32) 와 IPv6 (CIDR 48-128)을 지원합니다.
 성능상의 이유로 최대 5000개의 편집만 보여질 것입니다.
 이 도구는 정책에 맞게 사용하십시오.',
-	'checkuser-desc' => '사용자의 IP 주소를 포함한 정보를 볼 수 있는 권한을 특정한 사용자에게 준다.',
+	'checkuser-desc' => '사용자의 IP 주소를 포함한 정보를 볼 수 있는 권한을 특정한 사용자에게 줍니다.',
 	'checkuser-logcase' => '이 기록 검색은 대소문자를 구분합니다.',
 	'checkuser' => '사용자 검사',
 	'checkuserlog' => '사용자 검사 기록',
@@ -4395,8 +4395,8 @@ $messages['ko'] = array(
 	'checkuser-wasblocked' => '이미 차단됨',
 	'checkuser-localonly' => '계정이 통합되지 않음',
 	'checkuser-massblock' => '선택한 사용자 차단',
-	'checkuser-massblock-text' => '선택한 계정은 무기한 (자동 차단 활성화, 계정 생성 금지됨) 차단될 것입니다.
-IP 주소는 1주일 (IP만 막음, 계정 생성 금지됨) 차단될 것입니다.',
+	'checkuser-massblock-text' => '선택한 계정은 무기한 (자동 차단 활성화, 계정 만들기 금지됨) 차단될 것입니다.
+IP 주소는 1주일 (IP만 막음, 계정 만들기 금지됨) 차단될 것입니다.',
 	'checkuser-blocktag' => '사용자 문서를 다음 내용으로 바꾸기:',
 	'checkuser-blocktag-talk' => '토론 문서를 다음 내용으로 바꾸기:',
 	'checkuser-massblock-commit' => '선택한 사용자를 차단',
@@ -4430,7 +4430,7 @@ IP 주소는 1주일 (IP만 막음, 계정 생성 금지됨) 차단될 것입니
 	'group-checkuser.js' => '/* 이 자바스크립트 설정은 검사관에만 적용됩니다 */',
 );
 
-/** Karachay-Balkar (Къарачай-Малкъар)
+/** Karachay-Balkar (къарачай-малкъар)
  * @author Iltever
  */
 $messages['krc'] = array(
@@ -4853,7 +4853,7 @@ $messages['mg'] = array(
 	'checkuser-nolog' => 'Tsy nahitana rakitra laogy.',
 );
 
-/** Eastern Mari (Олык Марий)
+/** Eastern Mari (олык марий)
  * @author Сай
  */
 $messages['mhr'] = array(
@@ -5189,7 +5189,7 @@ $messages['mt'] = array(
 	'group-checkuser-member' => 'Kontrollatur',
 );
 
-/** Erzya (Эрзянь)
+/** Erzya (эрзянь)
  * @author Amdf
  * @author Botuzhaleny-sodamo
  * @author Tupikovs
@@ -5225,17 +5225,16 @@ $messages['nap'] = array(
 	'checkuser-search' => 'Truova',
 );
 
-/** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬)
+/** Norwegian Bokmål (‪norsk (bokmål)‬)
  * @author Audun
  * @author Finnrind
- * @author Jon Harald Søby
  * @author Laaknor
  * @author Nghtwlkr
  */
 $messages['nb'] = array(
 	'checkuser-summary' => 'Dette verktøyet går gjennom siste endringer for å hente IP-ene som er brukt av en bruker, eller viser redigerings- eller brukerinformasjonen for en IP.
 
-Brukere og redigeringer kan hentes med en XFF-IP ved å legge til «/xff» bak IP-en. IPv4 (CIDR 16-32) og IPv6 (CIDR 64-128) støttes.
+Brukere og redigeringer kan hentes med en XFF-IP ved å legge til «/xff» bak IP-en. IPv4 (CIDR 16-32) og IPv6 (CIDR 48-128) støttes.
 
 Av ytelsesgrunner vises maksimalt 5000 redigeringer. Bruk dette verktøyet i samsvar med retningslinjer.',
 	'checkuser-desc' => 'Gir brukere med de tilhørende rettighetene muligheten til å sjekke brukeres IP-adresser og annen informasjon',
@@ -5244,11 +5243,14 @@ Av ytelsesgrunner vises maksimalt 5000 redigeringer. Bruk dette verktøyet i sam
 	'checkuserlog' => 'Brukersjekkingslogg',
 	'checkuser-contribs' => 'kontroller brukerens IP-adresser',
 	'group-checkuser' => 'IP-kontrollører',
-	'group-checkuser-member' => 'IP-kontrollør',
+	'group-checkuser-member' => '{{GENDER:$1|IP-kontrollør}}',
 	'right-checkuser' => 'Sjekke brukeres IP-adresser og annen informasjon',
 	'right-checkuser-log' => 'Se IP-kontrolloggen',
+	'action-checkuser' => 'sjekke brukeres IP-adresser og annen informasjon',
+	'action-checkuser-log' => 'se IP-kontrolloggen',
 	'grouppage-checkuser' => '{{ns:project}}:IP-kontrollør',
 	'checkuser-reason' => 'Årsak:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Vis logg',
 	'checkuser-query' => 'Søk i siste endringer',
 	'checkuser-target' => 'IP-adresse eller brukernavn:',
@@ -8206,7 +8208,7 @@ Sti qua i xe i IP doparà (fin a un massimo de 5000, ordinà par indirizo):',
 	'checkuser-reset-action' => 'reinposta la password par l\'utente "$1"',
 );
 
-/** Veps (Vepsän kel’)
+/** Veps (vepsän kel’)
  * @author Игорь Бродский
  */
 $messages['vep'] = array(
