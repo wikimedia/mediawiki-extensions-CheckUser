@@ -572,11 +572,14 @@ IPv4 (CIDR 16-32) و IPv6 (CIDR 48-128) مدعومين.
 );
 
 /** Assamese (অসমীয়া)
+ * @author Bishnu Saikia
  * @author Chaipau
  */
 $messages['as'] = array(
+	'checkuser-reason' => 'কাৰণ:',
 	'checkuser-search' => 'সন্ধান কৰক',
 	'checkuser-search-submit' => 'সন্ধান কৰক',
+	'checkuser-search-target' => 'লক্ষ্য',
 );
 
 /** Asturian (asturianu)
@@ -1747,6 +1750,7 @@ Ena politika ma ser kar bike.',
 	'checkuser' => 'Karber kontrol bike',
 	'checkuserlog' => 'Cıkewtışê karberi qontrol ke',
 	'checkuser-contribs' => 'Adresê IP yê karberî kontrol bike',
+	'checkuser-contribs-log' => 'weynayışê peyênê karberi',
 	'group-checkuser' => 'Karberî kontrol bike',
 	'group-checkuser-member' => '{{GENDER:$1|Kontrolkar}}',
 	'right-checkuser' => 'Adresê IP yê karberî u enformasyonê binî kontrol bike',
@@ -3871,6 +3875,7 @@ IPv4 (16から32ビットのCIDR表記) と IPv6 (48から128ビットのCIDR表
 	'checkuser' => '利用者の調査',
 	'checkuserlog' => '利用者の調査記録',
 	'checkuser-contribs' => '利用者のIPを調査',
+	'checkuser-contribs-log' => '最近の調査記録',
 	'group-checkuser' => '利用者調査者',
 	'group-checkuser-member' => '{{GENDER:$1|利用者調査者}}',
 	'right-checkuser' => '利用者のIPアドレスやその他の情報を調査',
@@ -4964,6 +4969,7 @@ $messages['ml'] = array(
 	'checkuser' => 'ചെക്ക് യൂസർ',
 	'checkuserlog' => 'ചെക്ക് യൂസർ പ്രവർത്തനരേഖ',
 	'checkuser-contribs' => 'ഉപയോക്തൃ ഐ.പി. വിലാസങ്ങൾ പരിശോധിക്കുക',
+	'checkuser-contribs-log' => 'സമീപകാല ഉപയോക്തൃ പരിശോധനകൾ',
 	'group-checkuser' => 'ചെക്ക് യൂസർമാർ',
 	'group-checkuser-member' => '{{GENDER:$1|ഉപയോക്തൃ പരിശോധകൻ|ഉപയോക്തൃ പരിശോധക}}',
 	'right-checkuser' => 'ചെക്ക് യൂസറിന്റെ ഐ.പി. വിലാസവും മറ്റു വിവരങ്ങളും',
