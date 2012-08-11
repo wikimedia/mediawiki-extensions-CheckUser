@@ -124,10 +124,6 @@ Here are the IPs used (5000 max, sorted by address):',
  * @author Umherirrender
  */
 $messages['qqq'] = array(
-	'checkuser-reset-action' => 'Logged text when a user resets a password. Parameters:
-* $1 is the username for which the password was reset. Can be used for GENDER.',
-	'checkuser-email-action'     => 'Logged text when a user sends an e-mail. Parameters:
-* $1 is a salted MD5 hash for the user an e-mail was sent to.',
 	'checkuser-summary' => "Explanation of CheckUser tool. See [http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface screenshot titled 'Basic CheckUser interface'].",
 	'checkuser-desc' => '{{desc}}',
 	'checkuser' => 'Check user extension. The name of the special page where checkusers can check the IP addresses of users. The message is used in the list of special pages, and at the top of [[Special:Checkuser]].
@@ -234,6 +230,10 @@ See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interfa
 See screenshot \"[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]\".",
 	'checkuser-autocreate-action' => 'Text of the event displayed in the CheckUser results, corresponding to the automatic creation of a new user account (by CentralAuth).',
 	'checkuser-create-action' => 'Text of the event displayed in the CheckUser results. Indicates creation of the user.',
+	'checkuser-email-action' => 'Logged text when a user sends an e-mail. Parameters:
+* $1 is a salted MD5 hash for the user an e-mail was sent to.',
+	'checkuser-reset-action' => 'Logged text when a user resets a password. Parameters:
+* $1 is the username for which the password was reset. Can be used for GENDER.',
 	'group-checkuser.css' => '{{doc-group|checkuser|css}}',
 	'group-checkuser.js' => '{{doc-group|checkuser|js}}',
 );
@@ -632,7 +632,7 @@ Emplega esta ferramienta acordies cola política d'usu.",
 	'checkuser-cidr-res' => 'CIDR común:',
 	'checkuser-empty' => 'El rexistru nun tien nengún elementu.',
 	'checkuser-nomatch' => "Nun s'atoparon coincidencies.",
-	'checkuser-nomatch-edits' => "Nun s'atoparon coincidencies.
+	'checkuser-nomatch-edits' => "Nun s'atoparon coincidencies. 
 La cabera edición foi en $1 a $2",
 	'checkuser-check' => 'Comprobar',
 	'checkuser-log-fail' => 'Nun se pue añader la entrada nel rexistru',
@@ -1481,9 +1481,9 @@ $messages['cu'] = array(
  * @author Lloffiwr
  */
 $messages['cy'] = array(
-	'checkuser-summary' => "Mae'r teclyn hwn yn sganio newidiadau diweddar i gael hyd i'r cyfeiriadau IP a ddefnyddir gan ddefnyddiwr, neu i ddangos data golygu neu ddata defnyddiwr ar gyfer rhyw gyfeiriad IP.
-Gall y teclyn gael hyd i ddefnyddwyr rhyw gyfeiriad IP cleient, neu'r golygiadau a ddaw ohono, drwy atodi \"/xff\" i'r cyfeiriad IP. Mae IPv4 (CIDR 16-32) a IPv6 (CIDR 48-128) yn cael eu cynnal.
-Ni chaiff mwy na 5,000 o olygiadau eu dychwelyd er mwyn peidio amharu ar berfformiad y wefan.
+	'checkuser-summary' => "Mae'r teclyn hwn yn sganio newidiadau diweddar i gael hyd i'r cyfeiriadau IP a ddefnyddir gan ddefnyddiwr, neu i ddangos data golygu neu ddata defnyddiwr ar gyfer rhyw gyfeiriad IP. 
+Gall y teclyn gael hyd i ddefnyddwyr rhyw gyfeiriad IP cleient, neu'r golygiadau a ddaw ohono, drwy atodi \"/xff\" i'r cyfeiriad IP. Mae IPv4 (CIDR 16-32) a IPv6 (CIDR 48-128) yn cael eu cynnal. 
+Ni chaiff mwy na 5,000 o olygiadau eu dychwelyd er mwyn peidio amharu ar berfformiad y wefan. 
 Defnyddiwch hwn yn unol â'n polisi.",
 	'checkuser-desc' => "Yn rhoi'r gallu i ddefnyddwyr awdurdodedig archwilio cyfeiriadau IP defnyddwyr a gwybodaeth arall amdanynt.",
 	'checkuser-logcase' => 'Yn gwahaniaethu rhwng llythrennau mawr a bach wrth chwilio.',
@@ -2204,6 +2204,7 @@ $messages['et'] = array(
 	'checkuser' => 'Kasutajakontroll',
 	'checkuserlog' => 'Kasutajakontrolli logi',
 	'checkuser-contribs' => 'kasutaja IP-aadresside kontroll',
+	'checkuser-contribs-log' => 'viimased kasutajakontrollid',
 	'group-checkuser' => 'Kontrollkasutajad',
 	'group-checkuser-member' => 'kontrollkasutaja',
 	'right-checkuser' => 'Kontrollida kasutajate IP-aadresse ja muud teavet',
@@ -2333,7 +2334,7 @@ $messages['fa'] = array(
 	'checkuser' => 'بازرسی کاربر',
 	'checkuserlog' => 'سیاههٔ بازرسی کاربر',
 	'checkuser-contribs' => 'بازرسی نشانی‌های آی‌پی کاربر',
-	'checkuser-contribs-log' => 'چک کاربر اخیر',
+	'checkuser-contribs-log' => 'بازرسی‌های کاربر اخیر',
 	'group-checkuser' => 'بازرسان کاربر',
 	'group-checkuser-member' => 'بازرس کاربر',
 	'right-checkuser' => 'بازرسی نشانی‌های آی‌پی و دیگر اطلاعات کاربر',
@@ -3105,13 +3106,14 @@ $messages['he'] = array(
  * @author Ansumang
  * @author Kaustubh
  * @author Shyam
+ * @author Siddhartha Ghai
  */
 $messages['hi'] = array(
 	'checkuser-summary' => 'यह उपकरण एक सदस्य द्वारा हाल में किये गए परिवर्तनों के लिए काम में ली गई सारी IPs को जांचता है, अथवा एक IP का उपयोग करने वाले सभी सदस्यों को जांचता है।
 एक मुवक्किल IP द्वारा किया गए संपादन एवं प्रयोग में ले रहे सभी सदस्यों को "/xff" से IP को जोड़ते हुए XFF शीर्षक के माध्यम से पता लगता है। IPv4 (CIDR 16-32) और IPv6 (CIDR 48-128) द्वारा प्रमाणित है।
 प्रदर्शन के कारण कि वजह से ५००० सम्पादानों से ज्यादा नहीं दिखा पायेगा।
 इसे नीति के अनुसार प्रयोग करें।',
-	'checkuser-desc' => 'सदस्यको अन्य सदस्योंके आईपी एड्रेस एवम्‌ अन्य ज़ानकारी देखने की अनुमति देता हैं।',
+	'checkuser-desc' => 'उपयुक्त अधिकार रखने वाले सदस्यों को अन्य सदस्यों के आई॰पी पते एवं अन्य जानकारी देखने की अनुमति देता है।',
 	'checkuser-logcase' => 'लॉगमें खोज लिपी पर आधारित (case sensitive) हैं।',
 	'checkuser' => 'सदस्य जाँच',
 	'checkuserlog' => 'सदस्यजाँच लॉग',
@@ -3654,6 +3656,7 @@ Usaren daytoy babaen ti annuroten.',
 	'checkuser' => 'Kitaen ti agar-aramat',
 	'checkuserlog' => 'Kitaen ti listaan ti agar-aramat',
 	'checkuser-contribs' => 'kitaen ti IP a pagtaengan ti agar-aramat',
+	'checkuser-contribs-log' => 'dagiti kinaudi a panagkita ti agar-aramat',
 	'group-checkuser' => 'Kitaen dagiti agar-aramat',
 	'group-checkuser-member' => '{{GENDER:$1|kitaen ti agar-aramat}}',
 	'right-checkuser' => 'Kitaen dagiti IP a pagtaengan ti agar-aramat ken sabsabali a pakaammo.',
@@ -3708,7 +3711,7 @@ Adda ditoy dagiti IP a nausar ( 5000 kangato, nailasin babaen ti pagtaengan):',
 	'checkuser-search-initiator' => 'nangrugi',
 	'checkuser-search-target' => 'puntaan',
 	'checkuser-ipeditcount' => '~$1 manipud kadagiti agar-aramat',
-	'checkuser-log-return' => 'Agsubli idiay umuna a nakabuklan ti CheckUser',
+	'checkuser-log-return' => 'Iyallatiw idiay umuna a nakabuklan ti CheckUser',
 	'checkuser-limited' => "'''Dagitoy a nagbanagan ket napasardeng para iti pannaka-aramid a rason.'''",
 	'checkuser-log-userips' => '$1 ket nakaala ti IP a pagtaengan para iti $2',
 	'checkuser-log-ipedits' => '$1 nakaala dagiti inurnos para iti $2',
@@ -6499,6 +6502,7 @@ $messages['ru'] = array(
 	'checkuser' => 'Проверить участника',
 	'checkuserlog' => 'Журнал проверки участников',
 	'checkuser-contribs' => 'проверить IP-адреса участника',
+	'checkuser-contribs-log' => 'недавние проверки пользователя',
 	'group-checkuser' => 'Проверяющие участников',
 	'group-checkuser-member' => '{{GENDER:$1|проверяющий участников|проверяющая участников}}',
 	'right-checkuser' => 'проверка IP-адресов и другой информации об участниках',
@@ -6720,7 +6724,7 @@ IP-аадырыстартан бэлиэтэммэккэ киирии уонна
 	'checkuser-block-noreason' => 'Бобуу төрүөтүн этиэхтээххин.',
 	'checkuser-noreason' => 'Бу ыйытык төрүөтүн ааттыахтааххын.',
 	'checkuser-accounts' => '$1 саҥа {{PLURAL:$1|аат|ааттар}}',
-	'checkuser-too-many' => 'Наһаа элбэх булулунна (көрдөбүл түмүгүнэн), бука диэн CIDR кыччатан биэр.
+	'checkuser-too-many' => 'Наһаа элбэх булулунна (көрдөбүл түмүгүнэн), бука диэн CIDR кыччатан биэр. 
 Туһаныллыбыт IP (саамай элбэҕэ 5000, бу аадырыһынан наардаммыт):',
 	'checkuser-user-nonexistent' => 'Маннык ааттаах кыттааччы суох',
 	'checkuser-search-form' => '$1 сурунаалга $2 буоларын бул',
