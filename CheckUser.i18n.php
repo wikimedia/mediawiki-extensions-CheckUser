@@ -430,7 +430,7 @@ $messages['ar'] = array(
 	'checkuser-users' => 'اعرض المستخدمين',
 	'checkuser-edits' => 'الحصول على التعديلات',
 	'checkuser-ips' => 'اعرض الأيبيهات',
-	'checkuser-search' => 'ابحث',
+	'checkuser-search' => 'بحث',
 	'checkuser-period' => 'المدة:',
 	'checkuser-week-1' => 'آخر أسبوع',
 	'checkuser-week-2' => 'آخر أسبوعين',
@@ -466,7 +466,7 @@ $messages['ar'] = array(
 هذه هي الأيبيهات المستخدمة (5000 كحد أقصى، مرتبة بالعنوان):',
 	'checkuser-user-nonexistent' => 'المستخدم المحدد غير موجود.',
 	'checkuser-search-form' => 'اعثر على مدخلات السجل حيث $1 هو $2',
-	'checkuser-search-submit' => 'ابحث',
+	'checkuser-search-submit' => 'بحث',
 	'checkuser-search-initiator' => 'بادىء',
 	'checkuser-search-target' => 'هدف',
 	'checkuser-ipeditcount' => '~$1 من كل المستخدمين',
@@ -5205,7 +5205,7 @@ $messages['mt'] = array(
 	'checkuser' => 'Iċċekkja l-utent',
 	'checkuser-contribs' => 'ikkontrolla l-indirizzi IP tal-utent',
 	'group-checkuser' => 'Kontrollatur',
-	'group-checkuser-member' => 'Kontrollatur',
+	'group-checkuser-member' => '{{GENDER:$1|kontrollature}}',
 );
 
 /** Erzya (эрзянь)
@@ -7575,6 +7575,7 @@ $messages['te'] = array(
 	'checkuser' => 'వాడుకరి తనిఖీ',
 	'checkuserlog' => 'వాడుకరిపరిశీలనల చిట్టా',
 	'checkuser-contribs' => 'వాడుకరి ఐపీ అడ్రసులను పరిశీలించు',
+	'checkuser-contribs-log' => 'ఇటీవలి వాడుకరి తనిఖీలు',
 	'group-checkuser' => 'వాడుకరుల తనిఖీదార్లు',
 	'group-checkuser-member' => 'వాడుకరుల తనిఖీదారు',
 	'right-checkuser' => 'వాడుకరి ఐపీ అడ్రసును, ఇతర సమాచారాన్ని చూడు',
@@ -8600,6 +8601,7 @@ $messages['yue'] = array(
 );
 
 /** Simplified Chinese (‪中文（简体）‬)
+ * @author Anakmalaysia
  * @author Bencmq
  * @author Gaoxuewei
  * @author Gzdavidwong
@@ -8618,6 +8620,7 @@ $messages['zh-hans'] = array(
 	'checkuser' => '帐户核查',
 	'checkuserlog' => '帐户核查日志',
 	'checkuser-contribs' => '核查用户IP地址',
+	'checkuser-contribs-log' => '最近的用户检查',
 	'group-checkuser' => '账户核查',
 	'group-checkuser-member' => '{{GENDER:$1|账户核查}}',
 	'right-checkuser' => '核查用户的IP地址和其他信息',
@@ -8671,7 +8674,7 @@ $messages['zh-hans'] = array(
 	'checkuser-search-initiator' => '操作者',
 	'checkuser-search-target' => '目标',
 	'checkuser-ipeditcount' => '~在全部用户中$1',
-	'checkuser-log-return' => '回到查核主表单',
+	'checkuser-log-return' => '切换到用户查核主窗体',
 	'checkuser-limited' => "'''结果已因效率原因而被删减。'''",
 	'checkuser-log-userips' => '$1取得$2的IP信息',
 	'checkuser-log-ipedits' => '$1取得$2的编辑记录',
