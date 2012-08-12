@@ -7509,6 +7509,7 @@ $messages['szl'] = array(
  * @author TRYPPN
  * @author Trengarasu
  * @author செல்வா
+ * @author மதனாஹரன்
  */
 $messages['ta'] = array(
 	'checkuser' => 'பயனரை கவனி',
@@ -7550,14 +7551,19 @@ $messages['ta'] = array(
 	'checkuser-localonly' => 'ஒன்றாக்கப்டவில்லை',
 	'checkuser-massblock' => 'தெரிவு செய்யப்பட்ட பயனர்களைத் தடை செய்யவும்',
 	'checkuser-blocktag' => 'பயனீட்டாளர் பக்கங்கள் உடன் மாற்றிடு:',
+	'checkuser-blocktag-talk' => 'பேச்சுப் பக்கங்களை இதைக் கொண்டு மாற்று:',
 	'checkuser-massblock-commit' => 'தெரிவு செய்யப்பட்ட பயனர்களைத் தடை செய்',
 	'checkuser-block-failure' => "'''எப்பயனரும் தடை செய்யப்படவில்லை.'''",
 	'checkuser-block-limit' => 'மிக அதிகமான பயனர்கள் தேர்ந்தெடுக்கப்பட்டுள்ளது.',
 	'checkuser-block-noreason' => 'தடைக்கான காரணத்தை நீங்கள் கண்டிப்பாகத் தரவேண்டும்.',
+	'checkuser-noreason' => 'நீங்கள் இவ்வினவலுக்கு ஒரு காரணத்தைக் கட்டாயம் வழங்க வேண்டும்.',
+	'checkuser-accounts' => '$1 புதிய {{PLURAL:$1|கணக்கு|கணக்குகள்}}',
+	'checkuser-user-nonexistent' => 'குறிப்பிடப்பட்ட பயனர் காணப்படவில்லை.',
 	'checkuser-search-submit' => 'தேடுக',
 	'checkuser-search-initiator' => 'தொடக்கக்காரர்',
 	'checkuser-search-target' => 'இலக்கு',
 	'checkuser-autocreate-action' => 'தானகவே உருவாக்கப்பட்டது',
+	'checkuser-create-action' => 'உருவாக்கப்பட்டது',
 );
 
 /** Telugu (తెలుగు)
