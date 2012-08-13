@@ -2077,7 +2077,7 @@ Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
 	'checkuser-search-initiator' => 'inicianto',
 	'checkuser-search-target' => 'celo',
 	'checkuser-ipeditcount' => '~$1 de ĉiuj uzantoj',
-	'checkuser-log-return' => 'Reiru al ĉefa kamparo por kontroli uzantojn',
+	'checkuser-log-return' => 'Reiri al ĉefa kamparo por CheckUser',
 	'checkuser-limited' => "'''Ĉi tiuj rezultoj estis stumpigitaj pro laborecaj kialoj.",
 	'checkuser-log-userips' => '$1 akiris IP-adresojn por $2',
 	'checkuser-log-ipedits' => '$1 akiris redaktojn por $2',
@@ -3181,6 +3181,16 @@ $messages['hi'] = array(
 	'checkuser-reset-action' => 'पासवर्ड रीसेट करें "$1" के लिए',
 );
 
+/** Fiji Hindi (Latin script) (Fiji Hindi)
+ * @author Karthi.dr
+ */
+$messages['hif-latn'] = array(
+	'checkuser-reason' => 'Kaaran:',
+	'checkuser-search' => 'Khojo',
+	'checkuser-all' => 'sab',
+	'checkuser-search-submit' => 'Khojo',
+);
+
 /** Hiligaynon (Ilonggo)
  * @author Jose77
  */
@@ -3551,8 +3561,9 @@ Harap gunakan peralatan ini sesuai dengan kebijakan yang ada.',
 	'checkuser' => 'Pemeriksaan pengguna',
 	'checkuserlog' => 'Log pemeriksaan pengguna',
 	'checkuser-contribs' => 'memeriksa IP pengguna',
+	'checkuser-contribs-log' => 'pemeriksaan pengguna terbaru',
 	'group-checkuser' => 'Pemeriksa',
-	'group-checkuser-member' => 'Pemeriksa',
+	'group-checkuser-member' => '{{GENDER:$1|pemeriksa}}',
 	'right-checkuser' => 'Memeriksa alamat IP pengguna dan informasi lainnya',
 	'right-checkuser-log' => 'Melihat log pemeriksa',
 	'grouppage-checkuser' => '{{ns:project}}:Pemeriksa',
@@ -4388,7 +4399,7 @@ $messages['ko'] = array(
 	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => '기록 보기',
 	'checkuser-query' => '쿼리 최근 바뀜',
-	'checkuser-target' => 'IP 주소 또는 계정 이름:',
+	'checkuser-target' => 'IP 주소 또는 사용자 이름:',
 	'checkuser-users' => '특정 IP를 사용한 사용자 확인',
 	'checkuser-edits' => '편집을 확인',
 	'checkuser-ips' => 'IP 주소 확인',
@@ -5200,12 +5211,17 @@ Bagi pengguna tanpa nama, alamat IP-nya akan disekat selama seminggu, dengan pen
 
 /** Maltese (Malti)
  * @author Chrisportelli
+ * @author පසිඳු කාවින්ද
  */
 $messages['mt'] = array(
 	'checkuser' => 'Iċċekkja l-utent',
 	'checkuser-contribs' => 'ikkontrolla l-indirizzi IP tal-utent',
 	'group-checkuser' => 'Kontrollatur',
 	'group-checkuser-member' => '{{GENDER:$1|kontrollature}}',
+	'checkuser-reason' => 'Raġuni:',
+	'checkuser-search' => 'Fittex',
+	'checkuser-all' => 'kollha',
+	'checkuser-search-submit' => 'Fittex',
 );
 
 /** Erzya (эрзянь)
@@ -6848,6 +6864,7 @@ $messages['si'] = array(
 	'checkuser' => 'පරීක්ෂක නිළධරයා',
 	'checkuserlog' => 'පරිශීලක ලඝු සටහන පිරික්සන්න',
 	'checkuser-contribs' => 'පරිශීලකයාගේ අයිපී ලිපිනය පරික්ෂා කරන්න',
+	'checkuser-contribs-log' => 'මෑත පරිශීලක පරික්ෂා',
 	'group-checkuser' => 'පරීක්ෂක නිළධරයින්',
 	'group-checkuser-member' => '{{GENDER:$1|පරීක්ෂක නිලධාරියා}}',
 	'right-checkuser' => 'පරිශීලකයන්ගේ අයිපී ලිපින සහ වෙනත් තොරතුරු පිරික්සන්න',
@@ -7395,11 +7412,13 @@ På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd ve
 	'checkuser' => 'Kontrollera användare',
 	'checkuserlog' => 'Logg över användarkontroller',
 	'checkuser-contribs' => 'kontrollera användarens IP-adresser',
+	'checkuser-contribs-log' => 'senaste användarkontroller',
 	'group-checkuser' => 'Användarkontrollanter',
 	'group-checkuser-member' => '{{GENDER:$1|användarkontrollant}}',
 	'right-checkuser' => 'Kontrollera användares IP-adresser och annan information',
 	'right-checkuser-log' => 'Se loggen över användarkontroller',
 	'action-checkuser' => 'kontrollera användarens IP-adresser och annan information',
+	'action-checkuser-log' => 'visa loggen för IP-kontroll',
 	'grouppage-checkuser' => '{{ns:project}}:Användarkontrollant',
 	'checkuser-reason' => 'Anledning:',
 	'checkuser-reason-api' => 'API: $1',
