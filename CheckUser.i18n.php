@@ -6632,7 +6632,7 @@ $messages['rue'] = array(
 	'checkuser-gblocked' => 'Заблокованый ґлобално',
 	'checkuser-locked' => 'Замкнуто',
 	'checkuser-wasblocked' => 'Скоре блокованый',
-	'checkuser-localonly' => 'Незъєдноченый',
+	'checkuser-localonly' => 'Незъєдиненый',
 	'checkuser-massblock' => 'Заблоковати выбраных хоснователїв',
 	'checkuser-massblock-text' => 'Выбраны конта будуть заблокованы до одволаня із запнутым автоматічным блокованём і заказом створёваня новых конт. IP адресы будуть заблокованы на тыждень, лем про нереґістрованых хоснователїв і із заказом створёваня новых конт.',
 	'checkuser-blocktag' => 'Замінити сторінкы хоснователїв на:',
@@ -7482,6 +7482,7 @@ IP-adresser kommer blockeras i en vecka för anonyma användare, med kontoskapan
 );
 
 /** Swahili (Kiswahili)
+ * @author Kwisha
  * @author Lloffiwr
  */
 $messages['sw'] = array(
@@ -7490,7 +7491,7 @@ $messages['sw'] = array(
 	'checkuserlog' => 'Kumbukumbu za kukagua Watumiaji',
 	'checkuser-contribs' => 'kagua anwani za IP (Itifaki Wavuti) za watumiaji',
 	'group-checkuser' => 'Wakaguzi wa watumiaji',
-	'group-checkuser-member' => 'Mkaguzi wa watumiaji',
+	'group-checkuser-member' => '{{GENDER:$1|kagua mtumiaji}}',
 	'right-checkuser' => 'Kukagua anwani za IP na data zingine za watumiaji',
 	'right-checkuser-log' => 'Kutazama kumbukumbu za kukagua watumiaji',
 	'grouppage-checkuser' => '{{ns:project}}:Mkaguzi wa watumiaji',
@@ -7509,7 +7510,13 @@ $messages['sw'] = array(
 	'checkuser-all' => 'wote',
 	'checkuser-empty' => 'Kumbukumbu haina kitu.',
 	'checkuser-check' => 'Chagua',
+	'checkuser-blocked' => 'Imezuia',
+	'checkuser-locked' => 'Imefungwa',
 	'checkuser-search-submit' => 'Tafuta',
+	'checkuser-search-target' => 'lengo',
+	'checkuser-ipeditcount' => '~$1 kutoka kwa watumiaji wote',
+	'checkuser-create-action' => 'iliumbwa',
+	'checkuser-email-action' => 'ilituma barua pepe kwa mtumiaji "$1"',
 );
 
 /** Silesian (ślůnski)
@@ -7583,6 +7590,7 @@ $messages['ta'] = array(
 	'checkuser-search-target' => 'இலக்கு',
 	'checkuser-autocreate-action' => 'தானகவே உருவாக்கப்பட்டது',
 	'checkuser-create-action' => 'உருவாக்கப்பட்டது',
+	'checkuser-email-action' => '"$1" பயனருக்கு ஒரு மின்னஞ்சல் அனுப்பப்பட்டது',
 );
 
 /** Telugu (తెలుగు)
