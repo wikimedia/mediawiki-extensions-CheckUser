@@ -2270,6 +2270,7 @@ Ainult anonüümsed kasutajad blokeeritakse nädalaks ja neil keelatakse uute ko
 /** Basque (euskara)
  * @author An13sa
  * @author Kobazulo
+ * @author පසිඳු කාවින්ද
  */
 $messages['eu'] = array(
 	'checkuser' => 'Erabiltzailea egiaztatu',
@@ -2277,6 +2278,7 @@ $messages['eu'] = array(
 	'group-checkuser-member' => 'Erabiltzailea egiaztatu',
 	'grouppage-checkuser' => '{{ns:project}}:Lankidea egiaztatu',
 	'checkuser-reason' => 'Arrazoia:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Erregistroa erakutsi',
 	'checkuser-target' => 'IP helbide edo lankide izena:',
 	'checkuser-users' => 'Lankideak ikusi',
@@ -2405,6 +2407,7 @@ $messages['fa'] = array(
 
 /** Finnish (suomi)
  * @author Agony
+ * @author Beluga
  * @author Cimon Avaro
  * @author Crt
  * @author Jaakonam
@@ -2423,6 +2426,7 @@ $messages['fi'] = array(
 	'checkuser' => 'Osoitepaljastin',
 	'checkuserlog' => 'Osoitepaljastinloki',
 	'checkuser-contribs' => 'tarkista käyttäjän IP-osoitteet',
+	'checkuser-contribs-log' => 'viimeisimmät käyttäjätarkistukset',
 	'group-checkuser' => 'osoitepaljastimen käyttäjät',
 	'group-checkuser-member' => '{{GENDER:$1|osoitepaljastimen käyttäjä}}',
 	'right-checkuser' => 'Tarkistaa käyttäjän IP-osoitteet ja muut tiedot',
@@ -4012,6 +4016,7 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 
 /** Javanese (Basa Jawa)
  * @author Meursault2004
+ * @author NoiX180
  * @author Pras
  */
 $messages['jv'] = array(
@@ -4022,17 +4027,22 @@ Amerga déning alesan kinerja, ora luwih saka 5.000 suntingan sing bisa dijupuk.
 	'checkuser-logcase' => 'Log iki sènsitif marang panrapan aksara gedhé apa cilik',
 	'checkuser' => 'Pamriksan panganggo',
 	'checkuserlog' => 'Log pamriksan panganggo',
+	'checkuser-contribs' => 'priksa alamat IP panganggo',
+	'checkuser-contribs-log' => 'papriksan panganggo paling anyar',
 	'group-checkuser' => 'Pamriksa panganggo',
-	'group-checkuser-member' => 'Pamriksa panganggo',
+	'group-checkuser-member' => '{{GENDER:$1|pamiksa}}',
 	'right-checkuser' => 'Priksa alamat-alamat IP panganggo lan informasi liyané',
 	'right-checkuser-log' => 'Pirsani log pamriksa',
+	'action-checkuser' => 'priksa alamat IP lan inpormasi liya panganggo',
+	'action-checkuser-log' => 'delok log pamriksa',
 	'grouppage-checkuser' => '{{ns:project}}:Pamriksa panganggo',
 	'checkuser-reason' => 'Alesan:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Tuduhna log',
 	'checkuser-query' => 'Pitakonan owah-owahan pungkasan',
-	'checkuser-target' => 'Panganggo utawa IP',
+	'checkuser-target' => 'Alamat IP utawa jeneng panganggo:',
 	'checkuser-users' => 'Golèk panganggo',
-	'checkuser-edits' => 'Golèk suntingan saka IP',
+	'checkuser-edits' => 'Éntukaké suntingan',
 	'checkuser-ips' => 'Golèk IP',
 	'checkuser-search' => 'Golèk',
 	'checkuser-period' => 'Jangka wektu:',
@@ -4040,6 +4050,8 @@ Amerga déning alesan kinerja, ora luwih saka 5.000 suntingan sing bisa dijupuk.
 	'checkuser-week-2' => 'rong minggu kapungkur',
 	'checkuser-month' => '30 dina pungkasan',
 	'checkuser-all' => 'kabèh',
+	'checkuser-cidr-label' => 'Temokaké jangkahan umum lan alamat IP kapangaruhi kanggo daptar alamat IP',
+	'checkuser-cidr-res' => 'CIDR umum:',
 	'checkuser-empty' => 'Log iki kosong.',
 	'checkuser-nomatch' => 'Ora ana data sing cocog bisa ditemokaké.',
 	'checkuser-nomatch-edits' => 'Ora ana sing cocog.
@@ -4051,6 +4063,7 @@ Suntingan pungkasan ing $2, $1.',
 	'checkuser-gblocked' => 'Diblokir sacara global',
 	'checkuser-locked' => 'Dikunci',
 	'checkuser-wasblocked' => 'Wis diblokir sadurungé',
+	'checkuser-localonly' => 'Ora digabungaké',
 	'checkuser-massblock' => 'Blokir panganggo kapilih',
 	'checkuser-massblock-text' => 'Akun-akun kapilih bakal diblokir salawasé, alamat-alamat IP pungkasan sing dipigunakaké otomatis diblokir lan ora bisa gawé akun.
 Alamat-alamat IP bakal diblokir jroning 1 minggu tumrap panganggo anonim lan ora bisa gawé akun.',
@@ -4061,6 +4074,7 @@ Alamat-alamat IP bakal diblokir jroning 1 minggu tumrap panganggo anonim lan ora
 	'checkuser-block-failure' => "'''Ora ana panganggo sing diblokir.'''",
 	'checkuser-block-limit' => 'Cacahing panganggo sing dipilih kakèhan.',
 	'checkuser-block-noreason' => 'Panjenengan kudu mènèhi alesan pamblokiran',
+	'checkuser-noreason' => 'Sampéyan kudu ngawèhi alesan kanggo kuèri iki.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|akun|akun-akun}} anyar',
 	'checkuser-too-many' => 'Kakèhan pituwas (miturut estimasi piakonan), tulung CIDR diciyutaké.
 Ing ngisor iki kapacak alamat-alamat IP sing dianggo (maks. 5.000, diurutaké miturut alamat):',
@@ -4070,7 +4084,7 @@ Ing ngisor iki kapacak alamat-alamat IP sing dianggo (maks. 5.000, diurutaké mi
 	'checkuser-search-initiator' => 'pamriksa',
 	'checkuser-search-target' => 'tujuan',
 	'checkuser-ipeditcount' => '~$1 saka kabèh panganggo',
-	'checkuser-log-return' => 'Bali menyang kaca utama pamriksa',
+	'checkuser-log-return' => 'Ganti nèng pormulir utama CheckUser',
 	'checkuser-limited' => "'''Kasil iki wis dicekak amarga alesan kinerja.'''",
 	'checkuser-log-userips' => '$1 ndeleng IP saka $2',
 	'checkuser-log-ipedits' => '$1 ndeleng suntingan saka $2',
@@ -4079,6 +4093,7 @@ Ing ngisor iki kapacak alamat-alamat IP sing dianggo (maks. 5.000, diurutaké mi
 	'checkuser-log-ipusers-xff' => '$1 ndeleng jeneng panganggo saka XFF $2',
 	'checkuser-log-useredits' => '$1 nduwèni suntingan-suntingan kanggo $2',
 	'checkuser-autocreate-action' => 'digawé sacara otomatis',
+	'checkuser-create-action' => 'digawé',
 	'checkuser-email-action' => 'Wis ngirim layang-e menyang panganggo "$1"',
 	'checkuser-reset-action' => 'Sèt ulang tembung sandi panganggo "$1"',
 );
@@ -4095,6 +4110,7 @@ $messages['ka'] = array(
 	'checkuser' => 'მომხმარებლის შემოწმება',
 	'checkuserlog' => 'შემოწმებული მომხმარებელთა ჟურნალი',
 	'checkuser-contribs' => 'შეამოწმეთ მომხმარებლის IP მისამართები',
+	'checkuser-contribs-log' => 'მომხმარებლის ბოლოდროინდელი შემოწმებები',
 	'group-checkuser' => 'ჩეკიუზერები',
 	'group-checkuser-member' => '{{GENDER:$1|მომხმარებლის შემმოწმებელი}}',
 	'right-checkuser' => 'მომხმარებლების IP მისამართებისა და სხვა ინფორმაციების შემოწმება',
@@ -5214,14 +5230,69 @@ Bagi pengguna tanpa nama, alamat IP-nya akan disekat selama seminggu, dengan pen
  * @author පසිඳු කාවින්ද
  */
 $messages['mt'] = array(
+	'checkuser-summary' => "Din l-għodda tanalizza t-tibdil riċenti sabiex tikseb l-indirizzi IP użati minn utent jew turi modifiki u informazzjoni ta' indirizz IP. Utenti u modifiki minn indirizz IP ta' klijent jista' jinkiseb permezz ta' ''headers'' XFF billi iżżid is-suff \"/xff\" mal-IP. IPv4 (CIDR 16-32) and IPv6 (CIDR 48-128) huma sostnuti. Mhux iktar minn 5,000 modifika se jiġu ritornati lura għal raġunijiet ta' prestazzjoni. Uża din l-għodda skont il-politika.",
+	'checkuser-desc' => 'Tagħti l-utenti bil-permess xieraq li jiċċekkjaw l-indirizzi IP u informazzjoni oħra tal-utenti',
+	'checkuser-logcase' => 'It-tfittxija fir-reġistru hija sensittiva għall-ittri kbar u żgħar.',
 	'checkuser' => 'Iċċekkja l-utent',
 	'checkuser-contribs' => 'ikkontrolla l-indirizzi IP tal-utent',
 	'group-checkuser' => 'Kontrollatur',
 	'group-checkuser-member' => '{{GENDER:$1|kontrollature}}',
 	'checkuser-reason' => 'Raġuni:',
+	'checkuser-reason-api' => 'API: $1',
+	'checkuser-showlog' => 'Uri r-reġistru',
+	'checkuser-query' => 'Fittex fit-tibdil riċenti',
+	'checkuser-target' => 'Indirizz IP jew isem tal-utent:',
+	'checkuser-users' => 'Fittex l-utenti',
+	'checkuser-edits' => 'Ara l-modifiki',
+	'checkuser-ips' => 'Fittex l-indirizzi IP',
 	'checkuser-search' => 'Fittex',
+	'checkuser-period' => 'Perjodu:',
+	'checkuser-week-1' => 'l-aħħar ġimgħa',
+	'checkuser-week-2' => 'l-aħħar ġimgħatejn',
+	'checkuser-month' => 'l-aħħar 30 ġurnata',
 	'checkuser-all' => 'kollha',
+	'checkuser-cidr-label' => "Sib l-intervall komuni u l-indirizzi IP affetwati għal lista ta' indirizzi IP",
+	'checkuser-cidr-res' => 'CIDR komuni:',
+	'checkuser-empty' => "Ir-reġistru m'għandu l-ebda daħla.",
+	'checkuser-nomatch' => 'L-ebda riżultat ma nstab.',
+	'checkuser-nomatch-edits' => 'L-ebda riżultat ma nstab.
+L-aħħar modifika saret fil-$1 fil-$2.',
+	'checkuser-check' => 'Iċċekkja',
+	'checkuser-log-fail' => 'Huwa impossibbli li tiġi miżjuda d-daħla fir-reġistru',
+	'checkuser-nolog' => "L-ebda fajl ta' reġistru ma nstab.",
+	'checkuser-blocked' => 'Imblukkat',
+	'checkuser-gblocked' => 'Imblukkat globalment',
+	'checkuser-locked' => 'Imsakkar',
+	'checkuser-wasblocked' => 'Imblukkat preċedentament',
+	'checkuser-localonly' => 'Mhux imwaħħad',
+	'checkuser-massblock' => 'Imblokka l-utenti magħżula',
+	'checkuser-massblock-text' => "Il-kontijiet magħżulta se jiġu mblukkati b'mod indefinit, bl-imblukkar awtomatiku tal-indirizzi IP attivat u l-ħolqien ta' kontijiet ġodda diżattivat. L-indirizzi IP se jiġu mblukkati għal ġimgħa għal utenti anonimi biss u l-ħolqien ta' kontijiet se jiġi diżattivat.",
+	'checkuser-blocktag' => "Issostitwixxi l-paġni tal-utent ma':",
+	'checkuser-blocktag-talk' => "Issostitwixxi l-paġni ta' diskussjoni ma':",
+	'checkuser-massblock-commit' => 'Imblokka l-utenti magħżula',
+	'checkuser-block-success' => "'''{{PLURAL:$2|L-utent|L-utenti}} $1 {{PLURAL:$2|hu issa mblukkat|huma issa mblukkati}}.'''",
+	'checkuser-block-failure' => "'''L-ebda utent imblukkat.'''",
+	'checkuser-block-limit' => 'Ġew magħżulta ħafna utenti.',
+	'checkuser-block-noreason' => 'Trid tagħti raġuni għall-imblukkar.',
+	'checkuser-accounts' => '{{PLURAL:$1|kont ġdid|$1 kontijiet ġodda}}',
+	'checkuser-user-nonexistent' => 'L-utent speċifikat ma jeżistix.',
+	'checkuser-search-form' => 'Sib daħliet fir-reġistru fejn $1 huwa $2',
 	'checkuser-search-submit' => 'Fittex',
+	'checkuser-search-initiator' => 'l-inizjatur',
+	'checkuser-search-target' => 'l-objettiv',
+	'checkuser-ipeditcount' => '~$1 mill-utenti kollha',
+	'checkuser-log-return' => 'Dur għall-formola prinċipali tal-Kontroll tal-utenti',
+	'checkuser-limited' => "'''Dawn ir-riżulati ġew imqassra għal raġunijiet ta' prestazzjoni.'''",
+	'checkuser-log-userips' => "$1 kiseb l-indirizzi IP ta' $2",
+	'checkuser-log-ipedits' => "$1 kiseb il-modifiki ta' $2",
+	'checkuser-log-ipusers' => "$1 kiseb l-utenti ta' $2",
+	'checkuser-log-ipedits-xff' => "$1 kiseb il-modifiki ta' $2 permezz ta' XFF",
+	'checkuser-log-ipusers-xff' => "$1 kiseb l-utenti ta' $2 permezz ta' XFF",
+	'checkuser-log-useredits' => "$1 kiseb il-modifiki ta' $2",
+	'checkuser-autocreate-action' => 'ġie maħluq awtomatikament',
+	'checkuser-create-action' => 'ġie maħluq',
+	'checkuser-email-action' => 'bagħat ittra-e lill-utent "$1"',
+	'checkuser-reset-action' => 'irrisettja l-password għall-utent "$1"',
 );
 
 /** Erzya (эрзянь)
@@ -5550,6 +5621,14 @@ Hieronder worden de gebruikte IP-adressen weergegeven (maximaal 5000, op IP-adre
 	'checkuser-create-action' => 'is aangemaakt',
 	'checkuser-email-action' => 'heeft een e-mail gestuurd aan "$1"',
 	'checkuser-reset-action' => 'heeft het wachtwoord voor gebruiker "$1" opnieuw ingesteld',
+);
+
+/** ‪Nederlands (informeel)‬ (‪Nederlands (informeel)‬)
+ * @author Siebrand
+ */
+$messages['nl-informal'] = array(
+	'checkuser-block-noreason' => 'Je moet een reden opgeven voor de blokkades.',
+	'checkuser-noreason' => 'Je moet een reden opgeven voor deze zoekopdracht.',
 );
 
 /** Norwegian Nynorsk (‪norsk (nynorsk)‬)
