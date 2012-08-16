@@ -5234,9 +5234,16 @@ $messages['mt'] = array(
 	'checkuser-desc' => 'Tagħti l-utenti bil-permess xieraq li jiċċekkjaw l-indirizzi IP u informazzjoni oħra tal-utenti',
 	'checkuser-logcase' => 'It-tfittxija fir-reġistru hija sensittiva għall-ittri kbar u żgħar.',
 	'checkuser' => 'Iċċekkja l-utent',
+	'checkuserlog' => 'Reġistru tal-kontrolli fuq l-utenti',
 	'checkuser-contribs' => 'ikkontrolla l-indirizzi IP tal-utent',
+	'checkuser-contribs-log' => 'kontrolli riċenti fuq l-utenti',
 	'group-checkuser' => 'Kontrollatur',
 	'group-checkuser-member' => '{{GENDER:$1|kontrollature}}',
+	'right-checkuser' => 'Jiċċekkja l-indirizzi IP użati mill-utent u informazzjoni oħra',
+	'right-checkuser-log' => 'Jara r-reġistru tal-kontrolli tal-utenti',
+	'action-checkuser' => 'tiċċekkja l-indirizzi IP użati mill-utent u informazzjoni oħra',
+	'action-checkuser-log' => 'jara r-reġistru tal-kontrolli tal-utenti',
+	'grouppage-checkuser' => '{{ns:project}}:Kontrallatur tal-utenti',
 	'checkuser-reason' => 'Raġuni:',
 	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Uri r-reġistru',
@@ -8271,9 +8278,16 @@ IP-адреси користувачів, які не увійшли до сис
 	'checkuser-reset-action' => 'скинув пароль для користувача $1',
 );
 
-/** Urdu (اردو) */
+/** Urdu (اردو)
+ * @author පසිඳු කාවින්ද
+ */
 $messages['ur'] = array(
 	'checkuser-reason' => 'وجہ:',
+	'checkuser-search' => 'تلاش',
+	'checkuser-all' => 'سب',
+	'checkuser-check' => 'چیک کریں',
+	'checkuser-search-submit' => 'تلاش',
+	'checkuser-search-target' => 'ہدف',
 );
 
 /** vèneto (vèneto)
