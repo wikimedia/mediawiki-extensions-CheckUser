@@ -4862,9 +4862,10 @@ $messages['lv'] = array(
 	'checkuser' => 'Pārbaudīt lietotāju',
 	'checkuser-contribs' => 'pārbaudīt lietotāja IP adreses',
 	'group-checkuser' => 'Pārbaudītāji',
-	'group-checkuser-member' => 'Pārbaudīt lietotāju',
+	'group-checkuser-member' => '{{GENDER:$1|pārbaudīt lietotāju}}',
 	'right-checkuser' => 'Pārbaudīt lietotāja IP adreses un citu informāciju',
 	'checkuser-reason' => 'Iemesls:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Rādīt reģistru',
 	'checkuser-target' => 'IP adrese vai lietotājvārds:',
 	'checkuser-users' => 'Iegūt lietotājus',
@@ -5957,6 +5958,7 @@ $messages['pfl'] = array(
 
 /** Polish (polski)
  * @author Beau
+ * @author BeginaFelicysym
  * @author Derbeth
  * @author Leinad
  * @author Saper
@@ -5975,6 +5977,7 @@ Używaj tego narzędzia zgodnie z zasadami.',
 	'checkuser' => 'Sprawdź IP użytkownika',
 	'checkuserlog' => 'Rejestr CheckUser',
 	'checkuser-contribs' => 'sprawdzić adresy IP użytkownika',
+	'checkuser-contribs-log' => 'ostatnie weryfikacje użytkowników',
 	'group-checkuser' => 'CheckUser',
 	'group-checkuser-member' => '{{GENDER:$1|checkuser|checkuserka}}',
 	'right-checkuser' => 'Sprawdzanie adresów IP oraz innych informacji o użytkownikach',
@@ -8282,9 +8285,18 @@ IP-адреси користувачів, які не увійшли до сис
  * @author පසිඳු කාවින්ද
  */
 $messages['ur'] = array(
+	'checkuser-logcase' => 'لاگ ان کریں تلاش کیس حساس ہے.',
+	'checkuser' => 'صارف کو چیک کریں',
+	'checkuserlog' => 'صارف لاگ ان کریں چیک کریں',
+	'checkuser-contribs-log' => 'حال ہی میں صارف کي',
 	'checkuser-reason' => 'وجہ:',
+	'checkuser-showlog' => 'شو کے لاگ ان کریں',
 	'checkuser-search' => 'تلاش',
+	'checkuser-week-1' => 'گزشتہ ہفتے',
+	'checkuser-week-2' => 'گزشتہ دو ہفتوں',
+	'checkuser-month' => 'گزشتہ 30 دن میں',
 	'checkuser-all' => 'سب',
+	'checkuser-nomatch' => 'کوئی میچ پایا.',
 	'checkuser-check' => 'چیک کریں',
 	'checkuser-search-submit' => 'تلاش',
 	'checkuser-search-target' => 'ہدف',
