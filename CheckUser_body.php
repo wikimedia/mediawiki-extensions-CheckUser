@@ -10,7 +10,6 @@ class CheckUser extends SpecialPage {
 	 * Constructor -- set up the new special page
 	 */
 	public function __construct() {
-		global $wgUser;
 		parent::__construct( 'CheckUser', 'checkuser' );
 	}
 
