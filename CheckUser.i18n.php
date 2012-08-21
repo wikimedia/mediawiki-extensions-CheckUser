@@ -5341,6 +5341,7 @@ $messages['nap'] = array(
 
 /** Norwegian Bokmål (‪norsk (bokmål)‬)
  * @author Audun
+ * @author Danmichaelo
  * @author Finnrind
  * @author Laaknor
  * @author Nghtwlkr
@@ -5356,6 +5357,7 @@ Av ytelsesgrunner vises maksimalt 5000 redigeringer. Bruk dette verktøyet i sam
 	'checkuser' => 'Brukersjekk',
 	'checkuserlog' => 'Brukersjekkingslogg',
 	'checkuser-contribs' => 'kontroller brukerens IP-adresser',
+	'checkuser-contribs-log' => 'nylige brukerkontroller',
 	'group-checkuser' => 'IP-kontrollører',
 	'group-checkuser-member' => '{{GENDER:$1|IP-kontrollør}}',
 	'right-checkuser' => 'Sjekke brukeres IP-adresser og annen informasjon',
@@ -5411,7 +5413,7 @@ Her er de brukte IP-ene (maks 5000, sortert etter adresse):',
 	'checkuser-search-initiator' => 'IP-kontrolløren',
 	'checkuser-search-target' => 'målet',
 	'checkuser-ipeditcount' => '~$1 fra alle brukere',
-	'checkuser-log-return' => 'Tilbake til hovedskjema for brukersjekking',
+	'checkuser-log-return' => 'Gå til hovedskjemaet for CheckUser',
 	'checkuser-limited' => "'''Disse resultatene har blitt avkortet av ytelsesgrunner.'''",
 	'checkuser-log-userips' => '$1 fikk IP-adressene til $2',
 	'checkuser-log-ipedits' => '$1 fikk endringer av $2',
