@@ -230,7 +230,7 @@ See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interfa
 See screenshot \"[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]\".",
 	'checkuser-autocreate-action' => 'Text of the event displayed in the CheckUser results, corresponding to the automatic creation of a new user account (by CentralAuth).',
 	'checkuser-create-action' => 'Text of the event displayed in the CheckUser results. Indicates creation of the user.',
-	'checkuser-email-action' => 'Logged text when a user sends an e-mail. Parameters:
+	'checkuser-email-action' => 'Logged text when a user sends an e-mail. Probably preceded by the name of the checkuser.  Parameters:
 * $1 is a salted MD5 hash for the user an e-mail was sent to.',
 	'checkuser-reset-action' => 'Logged text when a user resets a password. Parameters:
 * $1 is the username for which the password was reset. Can be used for GENDER.',
@@ -7608,7 +7608,7 @@ $messages['sw'] = array(
 	'checkuser-search-target' => 'lengo',
 	'checkuser-ipeditcount' => '~$1 kutoka kwa watumiaji wote',
 	'checkuser-create-action' => 'iliumbwa',
-	'checkuser-email-action' => 'ilituma barua pepe kwa mtumiaji "$1"',
+	'checkuser-email-action' => 'alituma barua pepe kwa mtumiaji "$1"',
 );
 
 /** Silesian (ślůnski)
