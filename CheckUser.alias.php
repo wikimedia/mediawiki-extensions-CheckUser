@@ -324,6 +324,7 @@ $specialPageAliases['tl'] = array(
 /** Turkish (Türkçe) */
 $specialPageAliases['tr'] = array(
 	'CheckUser' => array( 'Denetçi', 'KullanıcıDenetle' ),
+	'CheckUserLog' => array( 'DenetçiGünlüğü' ),
 );
 
 /** Ukrainian (українська) */
