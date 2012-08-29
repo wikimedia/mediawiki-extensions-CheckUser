@@ -286,6 +286,7 @@ class CheckUserHooks {
 		$xff = trim( substr( $xff, 0, 255 ) );
 		$client = null;
 		$isSquidOnly = true;
+		// @todo Unused variable?
 		$trusted = true;
 		// Check each IP, assuming they are separated by commas
 		$ips = explode( ',', $xff );
@@ -365,17 +366,22 @@ class CheckUserHooks {
 	public static function checkUserContributionsLinks( $id, $nt, &$links ) {
 		global $wgUser;
 		if ( $wgUser->isAllowed( 'checkuser' ) ) {
-			$links[] = $wgUser->getSkin()->makeKnownLinkObj(
+			$links[] = Linker::linkKnown(
 				SpecialPage::getTitleFor( 'CheckUser' ),
 				wfMessage( 'checkuser-contribs' )->escaped(),
-				'user=' . urlencode( $nt->getText() )
+				array(),
+				array( 'user' => $nt->getText() )
 			);
 		}
 		if ( $wgUser->isAllowed( 'checkuser-log' ) ) {
-			$links[] = $wgUser->getSkin()->makeKnownLinkObj(
+			$links[] = Linker::linkKnown(
 				SpecialPage::getTitleFor( 'CheckUserLog' ),
 				wfMessage( 'checkuser-contribs-log' )->escaped(),
-				'cuSearchType=target&cuSearch=' . urlencode( $nt->getText() )
+				array(),
+				array(
+					'cuSearchType' => 'target',
+					'cuSearch' => $nt->getText()
+				)
 			);
 		}
 		return true;

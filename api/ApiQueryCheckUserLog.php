@@ -9,11 +9,9 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 	}
 
 	public function execute() {
-		global $wgUser;
-
 		$params = $this->extractRequestParams();
 
-		if ( !$wgUser->isAllowed( 'checkuser-log' ) ) {
+		if ( !$this->getUser()->isAllowed( 'checkuser-log' ) ) {
 			$this->dieUsage( 'You need the checkuser-log right', 'permissionerror' );
 		}
 

@@ -88,17 +88,17 @@ class SpecialCheckUserLog extends SpecialPage {
 			} else {
 				$checked = '';
 			}
-			$caption = wfMsgHtml( 'checkuser-search-' . $searchType );
+			$caption = $this->msg( 'checkuser-search-' . $searchType )->escaped();
 			$select .= "<option value=\"$searchType\" $checked>$caption</option>\n";
 		}
 		$select .= '</select>';
 
 		$encTarget = htmlspecialchars( $target );
-		$msgSearch = wfMsgHtml( 'checkuser-search' );
+		$msgSearch = $this->msg( 'checkuser-search' )->escaped();
 		$input = "<input type=\"text\" name=\"cuSearch\" value=\"$encTarget\" size=\"40\"/>";
-		$msgSearchForm = wfMsgHtml( 'checkuser-search-form', $select, $input );
+		$msgSearchForm = $this->msg( 'checkuser-search-form' )->rawParams( $select, $input )->escaped();
 		$formAction = $this->getTitle()->escapeLocalURL();
-		$msgSearchSubmit = '&#160;&#160;' . wfMsgHtml( 'checkuser-search-submit' ) . '&#160;&#160;';
+		$msgSearchSubmit = '&#160;&#160;' . $this->msg( 'checkuser-search-submit' )->escaped() . '&#160;&#160;';
 
 		$s = "<form method='get' action=\"$formAction\">\n" .
 			"<fieldset><legend>$msgSearch</legend>\n" .
