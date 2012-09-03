@@ -1729,7 +1729,7 @@ Es folgen die benutzten IP-Adressen (maximal 5000, sortiert nach Adresse):',
 	'checkuser-autocreate-action' => 'wurde automatisch erstellt',
 	'checkuser-create-action' => 'wurde erstellt',
 	'checkuser-email-action' => 'sendete E-Mail an „$1“',
-	'checkuser-reset-action' => 'Anforderung eines neuen Passwortes für „Benutzer:$1“',
+	'checkuser-reset-action' => 'forderte ein Passwort für „{{GENDER:$1|Benutzer:$1|Benutzerin:$1|Benutzer:$1}}“ an',
 );
 
 /** German (formal address) (‪Deutsch (Sie-Form)‬)
