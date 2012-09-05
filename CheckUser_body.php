@@ -239,7 +239,8 @@ class CheckUser extends SpecialPage {
 	 * @return Array: list of html-safe usernames
 	 */
 	public static function doMassUserBlockInternal( $users, $reason = '', $tag = '', $talkTag = '' ) {
-		$user = $this->getUser();
+		global $wgUser;
+
 		$counter = $blockSize = 0;
 		$safeUsers = array();
 		$log = new LogPage( 'block' );
@@ -269,7 +270,7 @@ class CheckUser extends SpecialPage {
 			// Create the block
 			$block = new Block();
 			$block->setTarget( $u );
-			$block->setBlocker( $user );
+			$block->setBlocker( $wgUser );
 			$block->mReason = $reason;
 			$block->mExpiry = $expiry;
 			$block->isHardblock( !IP::isIPAddress( $u->getName() ) );
