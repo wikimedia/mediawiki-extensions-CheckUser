@@ -3970,6 +3970,8 @@ IPv4 (16から32ビットのCIDR表記) と IPv6 (48から128ビットのCIDR表
 	'checkuser-create-action' => '作成済',
 	'checkuser-email-action' => '利用者"$1"へメールを送信',
 	'checkuser-reset-action' => '利用者"$1"のパスワードをリセット',
+	'group-checkuser.css' => '/* ここに記述したCSSは利用者調査者のみに影響します */',
+	'group-checkuser.js' => '/* ここに記述したJSは利用者調査者のみに影響します */',
 );
 
 /** Jutish (jysk)
