@@ -7488,6 +7488,7 @@ Di handap ieu béréndélan IP nu dipaké (paling loba 5000, disusun dumasar ala
 );
 
 /** Swedish (svenska)
+ * @author Ainali
  * @author Boivie
  * @author Lejonel
  * @author Leo Johannes
@@ -7561,7 +7562,7 @@ IP-adresser kommer blockeras i en vecka för anonyma användare, med kontoskapan
 	'checkuser-search-initiator' => 'kontrollanten',
 	'checkuser-search-target' => 'kontrollmålet',
 	'checkuser-ipeditcount' => '~$1 från alla användare',
-	'checkuser-log-return' => 'Gå tillbaka till formuläret för användarkontroll',
+	'checkuser-log-return' => 'Växla till CheckUser huvudformulär',
 	'checkuser-limited' => "'''Dessa resultat har av prestandaskäl blivit avkortade.'''",
 	'checkuser-log-userips' => '$1 hämtade IP-adresser för $2',
 	'checkuser-log-ipedits' => '$1 hämtade redigeringar från $2',
