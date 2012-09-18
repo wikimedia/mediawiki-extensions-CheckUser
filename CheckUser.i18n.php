@@ -151,7 +151,9 @@ check is a noun, not a verb here
 	'checkuser-reason-api' => 'Prefixes check user query reasons that are made through the API
 
 * $1 = User specified reason',
-	'checkuser-showlog' => "Label for link on CheckUser Special page. See screenshot '[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]'.",
+	'checkuser-showlog' => "Label for link on CheckUser special page. Linked to CheckUser Log special page.
+
+See screenshot '[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]'.",
 	'checkuser-query' => "Fieldset label. See [http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface screenshot titled 'Basic CheckUser interface'].",
 	'checkuser-target' => '{{Identical|IP address or username}}',
 	'checkuser-users' => "Radio button option on CheckUser Special page. See screenshot '[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]'.",
@@ -169,6 +171,7 @@ check is a noun, not a verb here
 	'checkuser-all' => 'Option in drop-down input box "Duration" on CheckUser Special page. See screenshot \'[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]\'.
 
 {{Identical|All}}',
+	'checkuser-cidr-label' => 'Used as the legend of the fieldset in Special:CheckUser.',
 	'checkuser-cidr-res' => 'For an explanation of CIDR see [[WikiPedia:CIDR]].',
 	'checkuser-nomatch-edits' => '* $1 = date
 * $2 = time',
@@ -3894,16 +3897,16 @@ Di seguito sono indicati gli indirizzi IP utilizzati (fino a un massimo di 5000,
  * @author 青子守歌
  */
 $messages['ja'] = array(
-	'checkuser-summary' => 'このツールは最近の更新を元に、ある利用者が使用したIPアドレスの検索、または、あるIPアドレスからなされた編集および利用者名の表示を行います。
-IPアドレスと共に「/xff」オプションを指定すると、XFF (X-Forwarded-For) ヘッダを通じてクライアントIPアドレスを取得し、そこからなされた編集および利用者名を検索できます。
-IPv4 (16から32ビットのCIDR表記) と IPv6 (48から128ビットのCIDR表記) に対応しています。
-パフォーマンス上の理由により、最大5000件の編集しか表示できません。
+	'checkuser-summary' => 'このツールは、利用者が使用した IP アドレスを取得したり、ある IP アドレスを使用した編集/利用者のデータを表示したりするために、最近の更新の内容を調べます。
+IP アドレスの直後に「/xff」を追加すると、XFF (X-Forwarded-For) ヘッダーからクライアント IP アドレスを取得し、そのアドレスを使用した利用者名や編集を検索できます。
+IPv4 (16～32 ビットの CIDR 表記) と IPv6 (48～128 ビットの CIDR 表記) に対応しています。
+パフォーマンス上の理由により、最大 5000 件の編集しか表示できません。
 方針に従って使用してください。',
-	'checkuser-desc' => '特定の権限を付与された利用者に対して、利用者のIPアドレスなどの情報を確認できるようにする',
+	'checkuser-desc' => '利用者の IP アドレスなどの情報を、適切な権限を持つ利用者が調査できるようにする',
 	'checkuser-logcase' => '記録の検索では大文字/小文字を区別します。',
 	'checkuser' => '利用者の調査',
 	'checkuserlog' => '利用者調査の記録',
-	'checkuser-contribs' => '利用者のIPを調査',
+	'checkuser-contribs' => '利用者のIPアドレスを調査',
 	'checkuser-contribs-log' => '最近の調査記録',
 	'group-checkuser' => '利用者調査者',
 	'group-checkuser-member' => '{{GENDER:$1|利用者調査者}}',
@@ -3914,7 +3917,7 @@ IPv4 (16から32ビットのCIDR表記) と IPv6 (48から128ビットのCIDR表
 	'grouppage-checkuser' => '{{ns:project}}:利用者調査者',
 	'checkuser-reason' => '理由:',
 	'checkuser-reason-api' => 'API: $1',
-	'checkuser-showlog' => 'ログを閲覧',
+	'checkuser-showlog' => '調査記録を表示',
 	'checkuser-query' => '最近の更新の照会',
 	'checkuser-target' => 'IPアドレスまたは利用者名:',
 	'checkuser-users' => '利用者名を取得',
@@ -3926,7 +3929,7 @@ IPv4 (16から32ビットのCIDR表記) と IPv6 (48から128ビットのCIDR表
 	'checkuser-week-2' => '過去 2 週間',
 	'checkuser-month' => '過去 30 日間',
 	'checkuser-all' => 'すべて',
-	'checkuser-cidr-label' => 'IPアドレス一覧から共通レンジと影響を受けるアドレスを見つけ出す',
+	'checkuser-cidr-label' => 'IPアドレス一覧から共通範囲と影響を受けるアドレスを見つける',
 	'checkuser-cidr-res' => '共通CIDR:',
 	'checkuser-empty' => '記録内に項目がありません。',
 	'checkuser-nomatch' => '該当するものはありません。',
@@ -3934,7 +3937,7 @@ IPv4 (16から32ビットのCIDR表記) と IPv6 (48から128ビットのCIDR表
 最終編集は $1 $2 です。',
 	'checkuser-check' => '調査',
 	'checkuser-log-fail' => '記録に項目を追加できません',
-	'checkuser-nolog' => 'ログファイルが見つかりません。',
+	'checkuser-nolog' => '記録ファイルが見つかりません。',
 	'checkuser-blocked' => 'ブロック済',
 	'checkuser-gblocked' => 'グローバルブロックされています',
 	'checkuser-locked' => 'ロック済み',
@@ -3962,12 +3965,12 @@ IPアドレスはIP利用者向けに1週間ブロックされ、アカウント
 	'checkuser-ipeditcount' => '全利用者による編集 ～$1回',
 	'checkuser-log-return' => '利用者調査のメインフォームに切り替える',
 	'checkuser-limited' => "'''パフォーマンス上の理由で、結果は省略されています。'''",
-	'checkuser-log-userips' => '$1 は $2 が使用したIPアドレスを取得',
-	'checkuser-log-ipedits' => '$1 は $2 からなされた編集を取得',
-	'checkuser-log-ipusers' => '$1 は $2 からアクセスされた利用者名を取得',
-	'checkuser-log-ipedits-xff' => '$1 は XFF $2 からなされた編集を取得',
-	'checkuser-log-ipusers-xff' => '$1 は XFF $2 からアクセスされた利用者名を取得',
-	'checkuser-log-useredits' => '$1 は $2 による編集を取得',
+	'checkuser-log-userips' => '$1 が、$2 が使用したIPアドレスを取得',
+	'checkuser-log-ipedits' => '$1 が、$2 からなされた編集を取得',
+	'checkuser-log-ipusers' => '$1 が、$2 を使用した利用者一覧を取得',
+	'checkuser-log-ipedits-xff' => '$1 が、XFF $2 からなされた編集を取得',
+	'checkuser-log-ipusers-xff' => '$1 が、XFF $2 を使用した利用者一覧を取得',
+	'checkuser-log-useredits' => '$1 が、$2 による編集を取得',
 	'checkuser-autocreate-action' => '自動で作成',
 	'checkuser-create-action' => '作成済',
 	'checkuser-email-action' => '利用者「$1」にメールを送信',
