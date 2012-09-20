@@ -57,6 +57,14 @@ $wgCheckUserMaxBlocks = 200;
 // each check they do through Special:CheckUser.
 $wgCheckUserForceSummary = false;
 
+// Public key to encrypt private data that may need to be read later
+// Generate a public key with something like:
+// `openssl genrsa -out cu.key 2048; openssl rsa -in cu.key -pubout > cu.pub`
+// and paste the contents of cu.pub here
+$wgCUPublicKey = <<<CUPUBLICKEY
+
+CUPUBLICKEY;
+
 # Recent changes data hook
 $wgHooks['RecentChange_save'][] = 'CheckUserHooks::updateCheckUserData';
 $wgHooks['EmailUser'][] = 'CheckUserHooks::updateCUEmailData';
@@ -92,6 +100,7 @@ $wgAutoloadClasses['CheckUser'] = $dir . '/CheckUser_body.php';
 $wgAutoloadClasses['CheckUserHooks'] = $dir . '/CheckUser.hooks.php';
 $wgAutoloadClasses['CheckUserLogPager'] = $dir . '/CheckUserLogPager.php';
 $wgAutoloadClasses['SpecialCheckUserLog'] = $dir . '/SpecialCheckUserLog.php';
+$wgAutoloadClasses['CheckUserEncryptedData'] = $dir . '/CheckUserEncryptedData.php';
 
 // API modules
 $wgAutoloadClasses['ApiQueryCheckUser'] = "$dir/api/ApiQueryCheckUser.php";

@@ -24,7 +24,8 @@ CREATE TABLE cu_changes (
   cuc_ip_hex     TEXT,
   cuc_xff        TEXT,
   cuc_xff_hex    TEXT,
-  cuc_agent      TEXT
+  cuc_agent      TEXT,
+  cuc_private    BYTEA
 );
 
 CREATE INDEX cuc_ip_hex_time  ON cu_changes( cuc_ip_hex, cuc_timestamp );

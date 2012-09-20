@@ -104,7 +104,7 @@ class CheckUserHooks {
 	 * Saves user data into the cu_changes table
 	 */
 	public static function updateCUEmailData( $to, $from, $subject, $text ) {
-		global $wgSecretKey, $wgRequest;
+		global $wgSecretKey, $wgRequest, $wgCUPublicKey;
 		if ( !$wgSecretKey || $from->name == $to->name ) {
 			return true;
 		}
@@ -139,6 +139,12 @@ class CheckUserHooks {
 			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IP::toHex( $xff_ip ) : null,
 			'cuc_agent'      => $agent
 		);
+		if ( trim( $wgCUPublicKey ) != '' ) {
+			$privateData = $userTo->getEmail() . ":" . $userTo->getId();
+			$encryptedData = new CheckUserEncryptedData( $privateData, $wgCUPublicKey );
+			$rcRow = array_merge($rcRow, array( 'cuc_private' => serialize( $encryptedData ) ) );
+		}
+
 		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
 
 		return true;
@@ -321,6 +327,9 @@ class CheckUserHooks {
 				'cuc_ip_hex_time', "$base/archives/patch-cu_changes_indexes.sql", true ) );
 			$updater->addExtensionUpdate( array( 'addIndex', 'cu_changes',
 				'cuc_user_ip_time', "$base/archives/patch-cu_changes_indexes2.sql", true ) );
+			$updater->addExtensionField( 'cu_changes', 'cuc_private', "$base/archives/patch-cu_changes_privatedata.sql" );
+		} elseif ( $updater->getDB()->getType() == 'postgres' ) {
+			$updater->addExtensionUpdate( array( 'addPgField', 'cu_changes', 'cuc_private', 'BYTEA' ) );
 		}
 
 		return true;
