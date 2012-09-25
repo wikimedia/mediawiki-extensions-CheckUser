@@ -241,7 +241,7 @@ $specialPageAliases['myv'] = array(
 	'CheckUser' => array( 'ВанкшномсКиеТеицясь' ),
 );
 
-/** Norwegian Bokmål (‪norsk (bokmål)‬) */
+/** Norwegian Bokmål (norsk (bokmål)‎) */
 $specialPageAliases['nb'] = array(
 	'CheckUser' => array( 'IP-sjekk' ),
 	'CheckUserLog' => array( 'IP-sjekkingslogg' ),
@@ -348,13 +348,13 @@ $specialPageAliases['vi'] = array(
 	'CheckUser' => array( 'Kiểm_tra_người_dùng' ),
 );
 
-/** Simplified Chinese (‪中文（简体）‬) */
+/** Simplified Chinese (中文（简体）‎) */
 $specialPageAliases['zh-hans'] = array(
 	'CheckUser' => array( '用户核查' ),
 	'CheckUserLog' => array( '用户核查日志' ),
 );
 
-/** Traditional Chinese (‪中文（繁體）‬) */
+/** Traditional Chinese (中文（繁體）‎) */
 $specialPageAliases['zh-hant'] = array(
 	'CheckUser' => array( '用戶查核' ),
 	'CheckUserLog' => array( '用戶查核日誌' ),
