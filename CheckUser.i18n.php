@@ -7295,7 +7295,7 @@ IP адресе ће бити блокиране на недељу дана за
 	'checkuser-reset-action' => 'поништи лозинку корисника „$1“',
 );
 
-/** Serbian (Latin script) (‪srpski (latinica)‬)
+/** Serbian (Latin script) (srpski (latinica)‎)
  * @author Michaello
  * @author Жељко Тодоровић
  * @author Михајло Анђелковић
@@ -7313,8 +7313,11 @@ Alatku koristite u skladu sa politikom.',
 	'group-checkuser-member' => '{{GENDER:$1|čekjuzer}}',
 	'right-checkuser' => 'proverava korisničke IP adrese i druge informacije',
 	'right-checkuser-log' => 'Pogledaj čekjuzer log',
+	'action-checkuser' => 'proveravanje korisničkih IP adresa i drugih podataka',
+	'action-checkuser-log' => 'gledanje istorije čekjuzera',
 	'grouppage-checkuser' => '{{ns:project}}:Čekjuzer',
 	'checkuser-reason' => 'Razlog:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Prikaži log.',
 	'checkuser-query' => 'Upit na skorašnje izmene.',
 	'checkuser-target' => 'Korisničko ime  ili IP adresa',
@@ -7370,6 +7373,7 @@ Ovde su korišćene IP adrese (najviše 5.000, sortiranih po adresi):',
 	'checkuser-log-ipusers-xff' => '$1 je dobio korisnike za XFF $2',
 	'checkuser-log-useredits' => '$1 preuzeo izmene od $2',
 	'checkuser-autocreate-action' => 'je automatski napravljen',
+	'checkuser-create-action' => 'je napravljen',
 	'checkuser-email-action' => 'poslat je mejl korisniku "$1"',
 	'checkuser-reset-action' => 'obnovi lozinku za korisnika "$1"',
 );
@@ -8837,7 +8841,7 @@ $messages['zh-hans'] = array(
 	'checkuser-reset-action' => '为用户“$1”重置密码',
 );
 
-/** Traditional Chinese (‪中文（繁體）‬)
+/** Traditional Chinese (中文（繁體）‎)
  * @author Alexsh
  * @author Anakmalaysia
  * @author Horacewai2
@@ -8848,12 +8852,13 @@ $messages['zh-hans'] = array(
  * @author Wrightbus
  */
 $messages['zh-hant'] = array(
-	'checkuser-summary' => '本工具會從{{int:recentchanges}}中查詢使用者使用過的IP位址，或是一個IP位址發送出來的任何編輯記錄。本工具支援IPv4及IPv6的位址。由於技術上的限制，本工具只能查詢最近5000筆的記錄。請確定您的行為符合守則。',
+	'checkuser-summary' => '本工具會從最近更改中獲取用戶使用過的IP地址，可使用XFF頭信息來獲取同一客戶端IP地址下的用戶和編輯，即在IP地址後方附加“/xff”。本工具支持IPv4（CIDR 16-32）和IPv6（CIDR 48-128）。由於效率原因，本工具只能查詢最近5000筆編輯次數。請確保你的操作符合方針。',
 	'checkuser-desc' => '讓授權的使用者檢查使用者的IP位址及其他資訊',
 	'checkuser-logcase' => '搜尋時請注意大小寫的區分',
 	'checkuser' => '核對用戶',
 	'checkuserlog' => '用戶查核記錄',
 	'checkuser-contribs' => '核查用戶IP地址',
+	'checkuser-contribs-log' => '最近的用戶檢查',
 	'group-checkuser' => '用戶查核',
 	'group-checkuser-member' => '{{GENDER:$1|賬戶核查}}',
 	'right-checkuser' => '查核用戶的IP地址以及其它的資料',
@@ -8907,7 +8912,7 @@ $messages['zh-hant'] = array(
 	'checkuser-search-initiator' => '創始者',
 	'checkuser-search-target' => '目標',
 	'checkuser-ipeditcount' => '~在全部用戶中$1',
-	'checkuser-log-return' => '回到主表單',
+	'checkuser-log-return' => '切換到用戶查核主窗體',
 	'checkuser-limited' => "'''結果已因效率原因而被刪減。'''",
 	'checkuser-log-userips' => '$1取得$2的IP訊息',
 	'checkuser-log-ipedits' => '$1取得$2的編輯記錄',
