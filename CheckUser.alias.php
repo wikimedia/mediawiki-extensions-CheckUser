@@ -31,6 +31,12 @@ $specialPageAliases['as'] = array(
 	'CheckUserLog' => array( 'সদস্যৰ_অভিলেখ_চাওক' ),
 );
 
+/** Bashkir (башҡортса) */
+$specialPageAliases['ba'] = array(
+	'CheckUser' => array( 'CheckUser' ),
+	'CheckUserLog' => array( 'CheckUserLog' ),
+);
+
 /** Bulgarian (български) */
 $specialPageAliases['bg'] = array(
 	'CheckUser' => array( 'Проверка_на_потребител' ),
