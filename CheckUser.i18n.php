@@ -871,7 +871,7 @@ $messages['be'] = array(
 	'checkuser-reason' => 'Прычына:',
 );
 
-/** Belarusian (Taraškievica orthography) (‪беларуская (тарашкевіца)‬)
+/** Belarusian (Taraškievica orthography) (беларуская (тарашкевіца)‎)
  * @author EugeneZelenko
  * @author Jim-by
  * @author Red Winged Duck
@@ -1736,7 +1736,7 @@ Es folgen die benutzten IP-Adressen (maximal 5000, sortiert nach Adresse):',
 	'checkuser-reset-action' => 'forderte ein Passwort für „{{GENDER:$1|Benutzer:$1|Benutzerin:$1|Benutzer:$1}}“ an',
 );
 
-/** German (formal address) (‪Deutsch (Sie-Form)‬)
+/** German (formal address) (Deutsch (Sie-Form)‎)
  * @author Imre
  * @author Kghbln
  * @author Umherirrender
@@ -2779,13 +2779,13 @@ Seo iad na seolaidh IP (5000 uasta, sórtáilte le seoladh):",
 	'checkuser-reset-action' => 'a athshocrú pásfhocal le úsáideoir "$1"',
 );
 
-/** Simplified Gan script (‪赣语（简体）‬) */
+/** Simplified Gan script (赣语（简体）‎) */
 $messages['gan-hans'] = array(
 	'checkuser-search' => '寻吖',
 	'checkuser-search-submit' => '寻吖',
 );
 
-/** Traditional Gan script (‪贛語（繁體）‬)
+/** Traditional Gan script (贛語（繁體）‎)
  * @author Symane
  */
 $messages['gan-hant'] = array(
@@ -2999,7 +2999,7 @@ $messages['gv'] = array(
 	'checkuser-search-submit' => 'Ronsee',
 );
 
-/** Hausa (هَوُسَ) */
+/** Hausa (Hausa) */
 $messages['ha'] = array(
 	'checkuser-reason' => 'Dalili:',
 	'checkuser-search' => 'Nema',
@@ -4185,7 +4185,7 @@ IP დაიბლოკება ერთი კვირით.',
 	'checkuser-reset-action' => 'პაროლის შეცვლა მომხმარებლისთვის "$1"',
 );
 
-/** Kazakh (Arabic script) (‫قازاقشا (تٴوتە)‬) */
+/** Kazakh (Arabic script) (قازاقشا (تٴوتە)‏) */
 $messages['kk-arab'] = array(
 	'checkuser-summary' => 'بۇل قۇرال پايدالانۋشى قولدانعان IP جايلار ٴۇشىن, نەمەسە IP جاي تۇزەتۋ/پايدالانۋشى دەرەكتەرىن كورسەتۋ ٴۇشىن جۋىقتاعى وزگەرىستەردى قاراپ شىعادى.
 	پايدالانۋشىلاردى مەن تۇزەتۋلەردى XFF IP ارقىلى IP جايعا «/xff» دەگەندى قوسىپ كەلتىرۋگە بولادى. IPv4 (CIDR 16-32) جانە IPv6 (CIDR 48-128) ارقاۋلانادى.
@@ -4224,7 +4224,7 @@ $messages['kk-arab'] = array(
 	'checkuser-log-ipusers-xff' => 'XFF $2 ٴۇشىن $1 قاتىسۋشى الىندى',
 );
 
-/** Kazakh (Cyrillic script) (‪қазақша (кирил)‬) */
+/** Kazakh (Cyrillic script) (қазақша (кирил)‎) */
 $messages['kk-cyrl'] = array(
 	'checkuser-summary' => 'Бұл құрал пайдаланушы қолданған IP жайлар үшін, немесе IP жай түзету/пайдаланушы деректерін көрсету үшін жуықтағы өзгерістерді қарап шығады.
 	Пайдаланушыларды мен түзетулерді XFF IP арқылы IP жайға «/xff» дегенді қосып келтіруге болады. IPv4 (CIDR 16-32) және IPv6 (CIDR 48-128) арқауланады.
@@ -4263,7 +4263,7 @@ $messages['kk-cyrl'] = array(
 	'checkuser-log-ipusers-xff' => 'XFF $2 үшін $1 қатысушы алынды',
 );
 
-/** Kazakh (Latin script) (‪qazaqşa (latın)‬) */
+/** Kazakh (Latin script) (qazaqşa (latın)‎) */
 $messages['kk-latn'] = array(
 	'checkuser-summary' => 'Bul qural paýdalanwşı qoldanğan IP jaýlar üşin, nemese IP jaý tüzetw/paýdalanwşı derekterin körsetw üşin jwıqtağı özgeristerdi qarap şığadı.
 	Paýdalanwşılardı men tüzetwlerdi XFF IP arqılı IP jaýğa «/xff» degendi qosıp keltirwge boladı. IPv4 (CIDR 16-32) jäne IPv6 (CIDR 48-128) arqawlanadı.
@@ -4592,7 +4592,7 @@ Hee sin de eetßte 5000 IP-Addresse, zoteeet:',
 	'group-checkuser.js' => '/* Dat JavaSkrep heh aan dä Stell wirrek nur op de Metmaacher-Pröfer */',
 );
 
-/** Kurdish (Latin script) (‪Kurdî (latînî)‬)
+/** Kurdish (Latin script) (Kurdî (latînî)‎)
  * @author Bangin
  * @author George Animal
  */
@@ -5346,7 +5346,7 @@ $messages['nap'] = array(
 	'checkuser-search' => 'Truova',
 );
 
-/** Norwegian Bokmål (‪norsk (bokmål)‬)
+/** Norwegian Bokmål (norsk (bokmål)‎)
  * @author Audun
  * @author Danmichaelo
  * @author Finnrind
@@ -5640,7 +5640,7 @@ Hieronder worden de gebruikte IP-adressen weergegeven (maximaal 5000, op IP-adre
 	'checkuser-reset-action' => 'heeft het wachtwoord voor gebruiker "$1" opnieuw ingesteld',
 );
 
-/** ‪Nederlands (informeel)‬ (‪Nederlands (informeel)‬)
+/** Nederlands (informeel)‎ (Nederlands (informeel)‎)
  * @author Siebrand
  */
 $messages['nl-informal'] = array(
@@ -5648,7 +5648,7 @@ $messages['nl-informal'] = array(
 	'checkuser-noreason' => 'Je moet een reden opgeven voor deze zoekopdracht.',
 );
 
-/** Norwegian Nynorsk (‪norsk (nynorsk)‬)
+/** Norwegian Nynorsk (norsk (nynorsk)‎)
  * @author Gunnernett
  * @author Harald Khan
  * @author Jon Harald Søby
@@ -7207,7 +7207,7 @@ $messages['sq'] = array(
 	'checkuser' => 'Kontrollo përdoruesin',
 );
 
-/** Serbian (Cyrillic script) (‪српски (ћирилица)‬)
+/** Serbian (Cyrillic script) (српски (ћирилица)‎)
  * @author Millosh
  * @author Rancher
  * @author Sasa Stefanovic
@@ -8753,7 +8753,7 @@ $messages['yue'] = array(
 	'checkuser-log-ipusers-xff' => '$1 拎到 XFF $2 嘅用戶',
 );
 
-/** Simplified Chinese (‪中文（简体）‬)
+/** Simplified Chinese (中文（简体）‎)
  * @author Anakmalaysia
  * @author Bencmq
  * @author Gaoxuewei
