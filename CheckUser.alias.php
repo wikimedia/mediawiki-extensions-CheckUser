@@ -320,6 +320,7 @@ $specialPageAliases['sw'] = array(
 /** Thai (ไทย) */
 $specialPageAliases['th'] = array(
 	'CheckUser' => array( 'ตรวจสอบผู้ใช้' ),
+	'CheckUserLog' => array( 'ปูมตรวจสอบผู้ใช้' ),
 );
 
 /** Tagalog (Tagalog) */
