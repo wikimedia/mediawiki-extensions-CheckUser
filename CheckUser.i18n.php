@@ -1666,7 +1666,7 @@ Zur Aufrechterhaltung der Leistungsfähigkeit werden maximal 5000 Bearbeitungen 
 	'checkuser' => 'Checkuser',
 	'checkuserlog' => 'Checkuser-Logbuch',
 	'checkuser-contribs' => 'IP-Adressen des Benutzers prüfen',
-	'checkuser-contribs-log' => 'aktuelle Benutzerprüfungen',
+	'checkuser-contribs-log' => 'letzte Benutzerprüfungen',
 	'group-checkuser' => 'Checkuser',
 	'group-checkuser-member' => '{{GENDER:$1|Checkuser-Berechtigter|Checkuser-Berechtigte}}',
 	'right-checkuser' => 'IP-Adressen sowie Zusammenhänge zwischen IP-Adressen und angemeldeten Benutzern prüfen',
