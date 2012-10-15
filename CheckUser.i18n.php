@@ -3897,10 +3897,10 @@ Di seguito sono indicati gli indirizzi IP utilizzati (fino a un massimo di 5000,
  * @author 青子守歌
  */
 $messages['ja'] = array(
-	'checkuser-summary' => 'このツールは、利用者が使用した IP アドレスを取得したり、ある IP アドレスを使用した編集/利用者のデータを表示したりするために、最近の更新の内容を調べます。
-IP アドレスの直後に「/xff」を追加すると、XFF (X-Forwarded-For) ヘッダーからクライアント IP アドレスを取得し、そのアドレスを使用した利用者名や編集を検索できます。
-IPv4 (16～32 ビットの CIDR 表記) と IPv6 (48～128 ビットの CIDR 表記) に対応しています。
-パフォーマンス上の理由により、最大 5000 件の編集しか表示できません。
+	'checkuser-summary' => 'このツールは最近の更新を元に、ある利用者が使用したIPアドレスの検索、または、あるIPアドレスからなされた編集および利用者名の表示を行います。
+IPアドレスと共に「/xff」オプションを指定すると、XFF (X-Forwarded-For) ヘッダを通じてクライアントIPアドレスを取得し、そこからなされた編集および利用者名の検索をすることが可能です。
+IPv4 (16から32ビットのCIDR表記) と IPv6 (96から128ビットのCIDR表記) をサポートしています。
+パフォーマンス上の理由により、最大5000件の編集しか表示出来ません。
 方針に従って使用してください。',
 	'checkuser-desc' => '利用者の IP アドレスなどの情報を、適切な権限を持つ利用者が調査できるようにする',
 	'checkuser-logcase' => '記録の検索では大文字/小文字を区別します。',
@@ -3936,42 +3936,42 @@ IPv4 (16～32 ビットの CIDR 表記) と IPv6 (48～128 ビットの CIDR 表
 	'checkuser-nomatch-edits' => '該当するものはありません。
 最終編集は $1 $2 です。',
 	'checkuser-check' => '調査',
-	'checkuser-log-fail' => '記録に項目を追加できません',
-	'checkuser-nolog' => '記録ファイルが見つかりません。',
-	'checkuser-blocked' => 'ブロックされています',
+	'checkuser-log-fail' => 'ログに追加することができません',
+	'checkuser-nolog' => 'ログファイルが見つかりません。',
+	'checkuser-blocked' => 'ブロック済',
 	'checkuser-gblocked' => 'グローバルブロックされています',
-	'checkuser-locked' => 'ロックされています',
+	'checkuser-locked' => 'ロック済み',
 	'checkuser-wasblocked' => '過去にブロックの記録あり',
 	'checkuser-localonly' => '統合されていません',
 	'checkuser-massblock' => '選択した利用者をブロックする',
 	'checkuser-massblock-text' => '選択した利用者は無期限ブロックされ、同時に自動ブロックが作動しアカウント作成も禁止されます。
 IPアドレスはIP利用者向けに1週間ブロックされ、アカウント作成が禁止されます。',
 	'checkuser-blocktag' => '利用者ページを以下で置換:',
-	'checkuser-blocktag-talk' => 'トークページを以下で置換:',
+	'checkuser-blocktag-talk' => 'トークページを置換:',
 	'checkuser-massblock-commit' => '選択した利用者をブロック',
 	'checkuser-block-success' => "'''{{PLURAL:$2|利用者}} $1 はブロック{{PLURAL:$2|されました}}。'''",
 	'checkuser-block-failure' => "'''ブロックされた利用者はありません。'''",
 	'checkuser-block-limit' => '選択した利用者の数が多すぎます。',
-	'checkuser-block-noreason' => 'ブロック理由を記入する必要があります。',
-	'checkuser-noreason' => '照会理由を記入する必要があります。',
+	'checkuser-block-noreason' => 'ブロック理由の記入が必要です。',
+	'checkuser-noreason' => '照会理由の記入が必要です。',
 	'checkuser-accounts' => '新しい$1{{PLURAL:$1|アカウント}}',
 	'checkuser-too-many' => '(クエリーを見積もったところ) 検索結果が多すぎます。CIDRの指定を小さく絞り込んでください。
 使用したIPは以下の通り (上限 5000 件、並び順はアドレス順):',
-	'checkuser-user-nonexistent' => '指定した利用者は存在しません。',
-	'checkuser-search-form' => '$1 が $2 である記録項目を探す',
+	'checkuser-user-nonexistent' => '指定された利用者は存在しません。',
+	'checkuser-search-form' => '$1 が $2 であるログ項目を探す',
 	'checkuser-search-submit' => '検索',
 	'checkuser-search-initiator' => '調査実行者',
 	'checkuser-search-target' => '調査対象者',
 	'checkuser-ipeditcount' => '全利用者による編集 ～$1回',
 	'checkuser-log-return' => '利用者調査のメインフォームに切り替える',
 	'checkuser-limited' => "'''パフォーマンス上の理由で、結果は省略されています。'''",
-	'checkuser-log-userips' => '$1 が、$2 が使用したIPアドレスを取得',
-	'checkuser-log-ipedits' => '$1 が、$2 からなされた編集を取得',
+	'checkuser-log-userips' => '$1 は $2 が使用したIPアドレスを取得',
+	'checkuser-log-ipedits' => '$1 は $2 からなされた編集を取得',
 	'checkuser-log-ipusers' => '$1 が、$2 を使用した利用者一覧を取得',
 	'checkuser-log-ipedits-xff' => '$1 が、XFF $2 からなされた編集を取得',
-	'checkuser-log-ipusers-xff' => '$1 が、XFF $2 を使用した利用者一覧を取得',
-	'checkuser-log-useredits' => '$1 が、$2 による編集を取得',
-	'checkuser-autocreate-action' => '自動で作成',
+	'checkuser-log-ipusers-xff' => '$1 は XFF $2 からアクセスされた利用者名を取得',
+	'checkuser-log-useredits' => '$1 は $2 による編集を取得',
+	'checkuser-autocreate-action' => '自動的に作成',
 	'checkuser-create-action' => '作成済',
 	'checkuser-email-action' => '利用者「$1」にメールを送信',
 	'checkuser-reset-action' => '利用者「$1」のパスワードをリセット',
