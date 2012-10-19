@@ -1568,6 +1568,7 @@ Caiff cyfeiriadau IP defnyddwyr anhysbys yn unig eu blocio am wythnos, gyda chre
  * @author Byrial
  * @author Emilkris33
  * @author Fredelige
+ * @author Kaare
  * @author Masz
  * @author Morten LJ
  * @author Peter Alberti
@@ -1582,6 +1583,7 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 	'checkuser' => 'Checkbruger',
 	'checkuserlog' => 'Checkbrugerlog',
 	'checkuser-contribs' => 'Tjek brugerens ip-adresser',
+	'checkuser-contribs-log' => 'nylige brugertjek',
 	'group-checkuser' => 'Checkbrugere',
 	'group-checkuser-member' => '{{GENDER:$1|checkbruger}}',
 	'right-checkuser' => 'Tjekke en brugers IP-adresser og andre oplysninger',
