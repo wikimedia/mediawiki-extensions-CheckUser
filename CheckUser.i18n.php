@@ -238,25 +238,9 @@ See screenshot \"[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interf
 * $1 is a salted MD5 hash for the user an e-mail was sent to.',
 	'checkuser-reset-action' => 'Logged text when a user resets a password. Parameters:
 * $1 is the username for which the password was reset. Can be used for GENDER.',
+	'checkuser-toollinks' => '{{notranslate}}',
 	'group-checkuser.css' => '{{doc-group|checkuser|css}}',
 	'group-checkuser.js' => '{{doc-group|checkuser|js}}',
-);
-
-/** Karelian (Karjala)
- * @author Flrn
- */
-$messages['krl'] = array(
-	'checkuser-search' => 'Ečindy',
-	'checkuser-search-submit' => 'Ečči',
-);
-
-/** Niuean (ko e vagahau Niuē)
- * @author Jose77
- */
-$messages['niu'] = array(
-	'checkuser-reason' => 'Kakano:',
-	'checkuser-search' => 'Kumi',
-	'checkuser-search-submit' => 'Kumi',
 );
 
 /** Afrikaans (Afrikaans)
@@ -272,7 +256,7 @@ $messages['af'] = array(
 	'checkuserlog' => 'Gaan gebruiker log',
 	'checkuser-contribs' => 'kontroleer gebruiker se IP-adresse',
 	'group-checkuser' => 'Kontroleer gebruikers',
-	'group-checkuser-member' => 'kontrolegebruiker',
+	'group-checkuser-member' => 'kontrolegebruiker', # Fuzzy
 	'right-checkuser' => 'Besigtig gebruikers se IP-adresse en ander gegewens',
 	'right-checkuser-log' => 'Bekyk die Check User log',
 	'action-checkuser' => 'sien gebruikers se IP-adresse en ander inligting',
@@ -326,7 +310,7 @@ Hieronder word die gebruikte IP-adresse weergegee (maksimum 5000, op IP-adres ge
 	'checkuser-search-initiator' => 'aanvraer',
 	'checkuser-search-target' => 'teiken',
 	'checkuser-ipeditcount' => '~$1 van alle gebruikers',
-	'checkuser-log-return' => 'Terug na Check User belangrikste vorm',
+	'checkuser-log-return' => 'Terug na Check User belangrikste vorm', # Fuzzy
 	'checkuser-limited' => "'''Hierdie resultate is vir prestasieredes afgekap.'''",
 	'checkuser-log-userips' => '$1 het die IP-adresse deur $2 opgevra',
 	'checkuser-log-ipedits' => '$1 het die wysigings deur $2 opgevra',
@@ -361,7 +345,7 @@ No s'otendrán más de 5000 edicions por razons de prestacions. Faiga servir ist
 	'checkuser' => "Comprebación d'usuarios",
 	'checkuserlog' => "Rechistro de CheckUser (comprebación d'usuarios)",
 	'group-checkuser' => "Comprebadors d'usuarios",
-	'group-checkuser-member' => "Comprebador d'usuarios",
+	'group-checkuser-member' => "Comprebador d'usuarios", # Fuzzy
 	'right-checkuser' => "Comprebar as adrezas IP de l'usuario y atras informacions",
 	'right-checkuser-log' => "Veyer o rechistro de comprebación d'usuarios",
 	'grouppage-checkuser' => "{{ns:project}}:comprebación d'usuarios",
@@ -387,7 +371,7 @@ No s'otendrán más de 5000 edicions por razons de prestacions. Faiga servir ist
 	'checkuser-search-initiator' => "o encetador d'a consulta",
 	'checkuser-search-target' => 'obchectivo',
 	'checkuser-ipeditcount' => '~$1 de totz os usuarios',
-	'checkuser-log-return' => "Tornar ta o formulario prencipal de CheckUser (Comprebación d'usuarios)",
+	'checkuser-log-return' => "Tornar ta o formulario prencipal de CheckUser (Comprebación d'usuarios)", # Fuzzy
 	'checkuser-log-userips' => '$1 ha consultato as adrezas IP de $2',
 	'checkuser-log-ipedits' => '$1 ha consultato as edicions de $2',
 	'checkuser-log-ipusers' => "$1 ha consultato os nombres d'usuario de $2",
@@ -395,7 +379,8 @@ No s'otendrán más de 5000 edicions por razons de prestacions. Faiga servir ist
 	'checkuser-log-ipusers-xff' => "$1 ha consultato os nombres d'usuario d'o XFF $2",
 );
 
-/** Old English (Ænglisc) */
+/** Old English (Ænglisc)
+ */
 $messages['ang'] = array(
 	'checkuser-reason' => 'Racu:',
 );
@@ -521,7 +506,7 @@ IPv4 (CIDR 16-32) و IPv6 (CIDR 48-128) مدعومين.
 	'checkuser' => 'التشييك على اليوزر',
 	'checkuserlog' => 'سجل تشييك اليوزر',
 	'group-checkuser' => 'التشييك على اليوزرز',
-	'group-checkuser-member' => 'تشييك اليوزر',
+	'group-checkuser-member' => 'تشييك اليوزر', # Fuzzy
 	'right-checkuser' => 'التشييك على عناوين الاى بى لليوزرز و معلومات تانية',
 	'right-checkuser-log' => 'اعرض السجل بتاع تشييك اليوزر',
 	'grouppage-checkuser' => '{{ns:project}}:تشييك اليوزر',
@@ -530,7 +515,7 @@ IPv4 (CIDR 16-32) و IPv6 (CIDR 48-128) مدعومين.
 	'checkuser-query' => 'دور على احدث التغييرات',
 	'checkuser-target' => 'اى بى او يوزر:',
 	'checkuser-users' => 'هات اليوزرز',
-	'checkuser-edits' => 'هات التعديلات من الاى بي',
+	'checkuser-edits' => 'هات التعديلات من الاى بي', # Fuzzy
 	'checkuser-ips' => 'هات الايبيهات',
 	'checkuser-search' => 'تدوير',
 	'checkuser-period' => 'المدة:',
@@ -571,7 +556,7 @@ IPv4 (CIDR 16-32) و IPv6 (CIDR 48-128) مدعومين.
 	'checkuser-search-initiator' => 'البادي',
 	'checkuser-search-target' => 'هدف',
 	'checkuser-ipeditcount' => '~$1 من كل اليوزرز',
-	'checkuser-log-return' => 'ارجع للاستمارة الرئيسية بتاعة تشييك اليوزرز',
+	'checkuser-log-return' => 'ارجع للاستمارة الرئيسية بتاعة تشييك اليوزرز', # Fuzzy
 	'checkuser-limited' => "''' النتايج دى اتعملها اختصار لأسباب متعلقة  بالأداء.'''",
 	'checkuser-log-userips' => '$1 جاب الاى بى بتوع $2',
 	'checkuser-log-ipedits' => '$1 جاب التعديلات بتاعة $2',
@@ -686,11 +671,11 @@ Estes son les IPs usaes (5000 max, axeitaes por direición):",
 $messages['avk'] = array(
 	'checkuser' => 'Stujera va favesik',
 	'group-checkuser' => 'Stujera va favesik',
-	'group-checkuser-member' => 'Stujera va favesik',
+	'group-checkuser-member' => 'Stujera va favesik', # Fuzzy
 	'grouppage-checkuser' => '{{ns:project}}:Stujera va favesik',
 	'checkuser-reason' => 'Lazava :',
 	'checkuser-showlog' => 'Nedira va "log"',
-	'checkuser-target' => 'Favesik ok IP mane',
+	'checkuser-target' => 'Favesik ok IP mane', # Fuzzy
 	'checkuser-search' => 'Aneyara',
 	'checkuser-empty' => '"Log" iyeltak tir vlardaf.',
 	'checkuser-nomatch' => 'Nedoy trasiks',
@@ -745,7 +730,7 @@ IP адрестан эшләнгән үҙгәртеүҙәр һәм ҡатнаш�
 	'checkuserlog' => 'Ҡулланыусыларҙы тикшереү журналы',
 	'checkuser-contribs' => 'Ҡулланыусынын IP адресын тикшерергә',
 	'group-checkuser' => 'Ҡулланыусыларҙы тикшереүселәр',
-	'group-checkuser-member' => 'Ҡулланыусыларҙы тикшереүсе',
+	'group-checkuser-member' => 'Ҡулланыусыларҙы тикшереүсе', # Fuzzy
 	'right-checkuser' => 'Ҡулланыусыларҙың IP адрестарын һәм башҡа мәғлүмәттәрен тикшереү',
 	'right-checkuser-log' => 'Ҡулланыусыларҙы тикшереү журналын ҡарау',
 	'grouppage-checkuser' => '{{ns:project}}:Ҡулланыусыларҙы тикшереү',
@@ -796,7 +781,7 @@ IP адрестар танылмаған ҡатнашыусылар өсөн 1 �
 	'checkuser-search-initiator' => 'башлаусы',
 	'checkuser-search-target' => 'маҡсат',
 	'checkuser-ipeditcount' => 'бөтә ҡатнашыусыларҙан ~$1',
-	'checkuser-log-return' => 'Ҡатнашыусыларҙы тикшереү битенә кире ҡайтырға',
+	'checkuser-log-return' => 'Ҡатнашыусыларҙы тикшереү битенә кире ҡайтырға', # Fuzzy
 	'checkuser-limited' => "'''Һөҙөмтәләр етештереүсәнлек маҡсаттарында киҫелде.'''",
 	'checkuser-log-userips' => '$1 $2 өсөн IP адрестар алған',
 	'checkuser-log-ipedits' => '$1 $2 адресы өсөн үҙгәртеүҙәр алған',
@@ -818,15 +803,15 @@ $messages['bcc'] = array(
 	'checkuser' => 'کنترل کاربر',
 	'checkuserlog' => 'آمار کنترل کاربر',
 	'group-checkuser' => 'کنترل کابران',
-	'group-checkuser-member' => 'کنترل کاربر',
+	'group-checkuser-member' => 'کنترل کاربر', # Fuzzy
 	'right-checkuser' => 'کنترل کن آی پی کاربران و دگه اطلاعاتء',
 	'grouppage-checkuser' => '{{ns:project}}:کنترل کاربر',
 	'checkuser-reason' => 'دلیل:',
 	'checkuser-showlog' => 'آمار پیش دار',
 	'checkuser-query' => 'درخواست نوکین تغییرات',
-	'checkuser-target' => 'کاربر یا آی پی',
+	'checkuser-target' => 'کاربر یا آی پی', # Fuzzy
 	'checkuser-users' => 'بگر کابرانء',
-	'checkuser-edits' => 'چه آی پی آن اصلاح بگر',
+	'checkuser-edits' => 'چه آی پی آن اصلاح بگر', # Fuzzy
 	'checkuser-ips' => 'آی پی آن گر',
 	'checkuser-search' => 'گردگ',
 	'checkuser-empty' => 'آمار شمال هچ آیتمی نهنت.',
@@ -836,14 +821,14 @@ $messages['bcc'] = array(
 	'checkuser-nolog' => 'فایل آماری در نه کپت',
 	'checkuser-blocked' => 'محدود',
 	'checkuser-too-many' => 'بازگین نتیجه, لطفا CIDR هورد تر کن.
-ادان آی پی آنی هستند که استفاده کننت(5000 ماکسیمم، گون آدرس ردیف بوتگن):',
+ادان آی پی آنی هستند که استفاده کننت(5000 ماکسیمم، گون آدرس ردیف بوتگن):', # Fuzzy
 	'checkuser-user-nonexistent' => 'مشخص بوتگین کاربر موجود نهنت',
 	'checkuser-search-form' => 'دیرگیز آمار ورودی جاهی که  $1 هست  $2',
 	'checkuser-search-submit' => 'گردگ',
 	'checkuser-search-initiator' => 'شروع کنوک',
 	'checkuser-search-target' => 'هدف',
 	'checkuser-ipeditcount' => '~$1 چه کلی کابران',
-	'checkuser-log-return' => 'په فرم اصلی کنترل کاربر تر',
+	'checkuser-log-return' => 'په فرم اصلی کنترل کاربر تر', # Fuzzy
 	'checkuser-log-userips' => '$1 گریت آی پی په $2',
 	'checkuser-log-ipedits' => '$1 گریت اصلاح په  $2',
 	'checkuser-log-ipusers' => '$1 کابران گریت په $2',
@@ -857,7 +842,7 @@ $messages['bcc'] = array(
 $messages['bcl'] = array(
 	'checkuser-reason' => 'Rason:',
 	'checkuser-showlog' => 'Ipahiling an mga historial',
-	'checkuser-target' => 'Parágamit o IP',
+	'checkuser-target' => 'Parágamit o IP', # Fuzzy
 	'checkuser-users' => 'Kûanón',
 	'checkuser-ips' => 'Kûanón an mga IP',
 	'checkuser-search' => 'Hanápon',
@@ -973,7 +958,7 @@ $messages['bg'] = array(
 	'checkuserlog' => 'Дневник на проверяващите',
 	'checkuser-contribs' => 'проверка на IP-адреса на потребителя',
 	'group-checkuser' => 'Проверяващи',
-	'group-checkuser-member' => 'Проверяващ',
+	'group-checkuser-member' => 'Проверяващ', # Fuzzy
 	'right-checkuser' => 'проверяване на потребителски IP адреси и друга информация',
 	'right-checkuser-log' => 'Преглеждане на дневника с проверки на потребители',
 	'grouppage-checkuser' => '{{ns:project}}:Проверяващи',
@@ -1013,14 +998,14 @@ $messages['bg'] = array(
 	'checkuser-block-noreason' => 'Трябва да се посочи причина за блокиранията.',
 	'checkuser-noreason' => 'Необходимо е да се посочи основание за тази заявка.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|нова сметка|нови сметки}}',
-	'checkuser-too-many' => 'Твърде много резултати. Показани са използваните IP адреси (най-много 5000, сортирани по адрес):',
+	'checkuser-too-many' => 'Твърде много резултати. Показани са използваните IP адреси (най-много 5000, сортирани по адрес):', # Fuzzy
 	'checkuser-user-nonexistent' => 'Посоченият потребител не съществува.',
 	'checkuser-search-form' => 'Намиране на записи от дневника, в които $1 е $2',
 	'checkuser-search-submit' => 'Търсене',
 	'checkuser-search-initiator' => 'инициатор',
 	'checkuser-search-target' => 'цел',
 	'checkuser-ipeditcount' => '~$1 от всички потребители',
-	'checkuser-log-return' => 'Връщане към основния формуляр за проверка',
+	'checkuser-log-return' => 'Връщане към основния формуляр за проверка', # Fuzzy
 	'checkuser-limited' => "'''Резултатите бяха съкратени от съображения, свързани с производителността на системата.'''",
 	'checkuser-log-userips' => '$1 е получил айпи адреси за $2',
 	'checkuser-log-ipedits' => '$1 е получил редакции за $2',
@@ -1046,14 +1031,14 @@ IPv4 (CIDR 16-32) এবং IPv6 (CIDR 48-128) এই সরঞ্জামে �
 	'checkuser' => 'ব্যবহারকারী পরীক্ষণ',
 	'checkuserlog' => 'ব্যবহারকারী পরীক্ষণ লগ',
 	'group-checkuser' => 'ব্যবহারকারী পরীক্ষক',
-	'group-checkuser-member' => 'ব্যবহারকারী পরীক্ষক',
+	'group-checkuser-member' => 'ব্যবহারকারী পরীক্ষক', # Fuzzy
 	'grouppage-checkuser' => '{{ns:project}}:ব্যবহারকারী পরীক্ষণ',
 	'checkuser-reason' => 'কারণ:',
 	'checkuser-showlog' => 'লগ দেখাও',
 	'checkuser-query' => 'সাম্প্রতিক পরিবর্তনসমূহ জানুন',
 	'checkuser-target' => 'আইপি ঠিকানা বা ব্যবহারকারীর নাম:',
 	'checkuser-users' => 'ব্যবহারকারী সমূহ পাওয়া যাবে',
-	'checkuser-edits' => 'আইপি থেকে সম্পাদনাসমূহ পাওয়া যাবে',
+	'checkuser-edits' => 'আইপি থেকে সম্পাদনাসমূহ পাওয়া যাবে', # Fuzzy
 	'checkuser-ips' => 'আইপি সমূহ পাওয়া যাবে',
 	'checkuser-search' => 'অনুসন্ধান',
 	'checkuser-period' => 'সময়:',
@@ -1081,14 +1066,14 @@ IPv4 (CIDR 16-32) এবং IPv6 (CIDR 48-128) এই সরঞ্জামে �
 	'checkuser-block-noreason' => 'আপনাকে অবশ্যই এই ব্লকগুলোর জন্য একটি কারণ উল্লেখ করতে হবে।',
 	'checkuser-noreason' => 'আপনাকে অবশ্যই এই কোয়েরির জন্য একটি কারণ উল্লেখ করতে হবে।',
 	'checkuser-accounts' => '$1 নতুন {{PLURAL:$1|অ্যাকাউন্ট|অ্যাকাউন্টসমূহ}}',
-	'checkuser-too-many' => 'অত্যধিক সংখ্যক ফলাফল, অনুগ্রহ করে CIDR সীমিত করুন। নিচের আইপিগুলি ব্যবহৃত হয়েছে (সর্বোচ্চ ৫০০০, ঠিকানা অনুযায়ী বিন্যস্ত):',
+	'checkuser-too-many' => 'অত্যধিক সংখ্যক ফলাফল, অনুগ্রহ করে CIDR সীমিত করুন। নিচের আইপিগুলি ব্যবহৃত হয়েছে (সর্বোচ্চ ৫০০০, ঠিকানা অনুযায়ী বিন্যস্ত):', # Fuzzy
 	'checkuser-user-nonexistent' => 'এই নির্দিষ্ট ব্যবহারকারী নেই।',
 	'checkuser-search-form' => 'এমনসব লগ ভুক্তি খুঁজে বের করুন যেখানে $1 হল $2',
 	'checkuser-search-submit' => 'অনুসন্ধান',
 	'checkuser-search-initiator' => 'আরম্ভকারী',
 	'checkuser-search-target' => 'লক্ষ্য',
 	'checkuser-ipeditcount' => '~$1 সমস্ত ব্যবহাকারী থেকে',
-	'checkuser-log-return' => 'CheckUser মূল ফর্মে ফেরত যান',
+	'checkuser-log-return' => 'CheckUser মূল ফর্মে ফেরত যান', # Fuzzy
 	'checkuser-log-userips' => '$2 এর জন্য $1 আইপি  সমূহ পেয়েছে',
 	'checkuser-log-ipedits' => '$2 এর জন্য $1 সম্পাদনাসমূহ পেয়েছে',
 	'checkuser-log-ipusers' => '$2 এর জন্য $1 ব্যবহারকারীসমূহ পেয়েছে',
@@ -1194,7 +1179,7 @@ Koristite ovo u skladu s pravilima.',
 	'checkuserlog' => 'Zapis CheckUsera',
 	'checkuser-contribs' => 'provjeri korisničke IPe',
 	'group-checkuser' => 'Provjera korisnika',
-	'group-checkuser-member' => 'Provjera korisnika',
+	'group-checkuser-member' => 'Provjera korisnika', # Fuzzy
 	'right-checkuser' => 'Provjera korisničkih IP adresa i drugih informacija',
 	'right-checkuser-log' => 'Pregledanje zapisa provjere korisnika',
 	'grouppage-checkuser' => '{{ns:project}}:Provjera korisnika',
@@ -1245,7 +1230,7 @@ Ovdje su prikazane korištene IP adrese (najviše 5000, poredano po adresi):',
 	'checkuser-search-initiator' => 'pokretač',
 	'checkuser-search-target' => 'cilj',
 	'checkuser-ipeditcount' => '~$1 od svih korisnika',
-	'checkuser-log-return' => 'Povratak na glavni obrazac provjere korisnika',
+	'checkuser-log-return' => 'Povratak na glavni obrazac provjere korisnika', # Fuzzy
 	'checkuser-limited' => "'''Ovi rezultati su skraćeni iz razloga bolje performanse.'''",
 	'checkuser-log-userips' => 'Korisnik $1 je našao IP adrese za $2',
 	'checkuser-log-ipedits' => 'Korisnik $1 je našao izmjene za $2',
@@ -1280,7 +1265,7 @@ Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Reco
 	'checkuserlog' => 'Registre de Checkuser',
 	'checkuser-contribs' => "comprova les IP de l'usuari",
 	'group-checkuser' => 'Checkusers',
-	'group-checkuser-member' => 'CheckUser',
+	'group-checkuser-member' => 'CheckUser', # Fuzzy
 	'right-checkuser' => 'Comprovar les adreces IP i altra informació dels usuaris',
 	'right-checkuser-log' => 'Veure el registre de checkuser',
 	'grouppage-checkuser' => '{{ns:project}}:Checkuser',
@@ -1331,7 +1316,7 @@ Aquí teniu les IP usades (màx. 5000 ordenades per adreça):",
 	'checkuser-search-initiator' => "l'iniciador",
 	'checkuser-search-target' => 'el consultat',
 	'checkuser-ipeditcount' => '~$1 de tots els usuaris',
-	'checkuser-log-return' => 'Retorna al formulari de CheckUser',
+	'checkuser-log-return' => 'Retorna al formulari de CheckUser', # Fuzzy
 	'checkuser-limited' => "'''Els resultats s'han trucat per raons de rendiment.'''",
 	'checkuser-log-userips' => '$1 consulta les IP de $2',
 	'checkuser-log-ipedits' => '$1 consulta les edicions de $2',
@@ -1345,7 +1330,8 @@ Aquí teniu les IP usades (màx. 5000 ordenades per adreça):",
 	'checkuser-reset-action' => "reinicia la contrasenya de l'usuari «$1»",
 );
 
-/** Min Dong Chinese (Mìng-dĕ̤ng-ngṳ̄) */
+/** Min Dong Chinese (Mìng-dĕ̤ng-ngṳ̄)
+ */
 $messages['cdo'] = array(
 	'checkuser-search' => 'Sìng-tō̤',
 );
@@ -1367,17 +1353,19 @@ $messages['ch'] = array(
 	'checkuser-search-submit' => 'Aligao',
 );
 
-/** Sorani Kurdish (کوردی) */
+/** Sorani Kurdish (کوردی)
+ */
 $messages['ckb'] = array(
 	'checkuser-reason' => 'هۆکار:',
 	'checkuser-search' => 'گەڕان',
 	'checkuser-search-submit' => 'گەڕان',
 );
 
-/** Corsican (corsu) */
+/** Corsican (corsu)
+ */
 $messages['co'] = array(
 	'group-checkuser' => 'Controllori',
-	'group-checkuser-member' => 'Controllore',
+	'group-checkuser-member' => 'Controllore', # Fuzzy
 	'grouppage-checkuser' => '{{ns:project}}:Controllori',
 );
 
@@ -1917,7 +1905,8 @@ IP-adrese budu se jano za IP-wužywarjow na 1 tyźeń blokěrowaś - załoženje
 	'checkuser-reset-action' => 'gronidło za wužywarja "$1" wótnowiś',
 );
 
-/** Ewe (eʋegbe) */
+/** Ewe (eʋegbe)
+ */
 $messages['ee'] = array(
 	'checkuser-search' => 'Dii',
 	'checkuser-search-submit' => 'Dii',
@@ -2197,6 +2186,12 @@ Aquí se ven las IPs usadas (máximo 5000, ordenadas según dirección):',
 	'checkuser-create-action' => 'fue creado',
 	'checkuser-email-action' => 'envió un correo electrónico al usuario «$1»',
 	'checkuser-reset-action' => 'solicitó un recordatorio de contraseña para el usuario «$1»',
+	'checkuser-toollinks' => '<span class="plainlinks">[[http://openrbl.org/query?$1 RDNS] ·
+[http://www.robtex.com/rbls/$1.html RBLs] ·
+[http://www.dnsstuff.com/tools/tracert.ch?ip=$1 Traceroute] ·
+[http://www.ip2location.com/$1 Geolocate] ·
+[http://toolserver.org/~krimpet/torcheck.php?ip=$1 Comprobar Tor] ·
+[http://ws.arin.net/whois/?queryinput=$1 WHOIS]]</span>',
 );
 
 /** Estonian (eesti)
@@ -2281,7 +2276,7 @@ Ainult anonüümsed kasutajad blokeeritakse nädalaks ja neil keelatakse uute ko
 $messages['eu'] = array(
 	'checkuser' => 'Erabiltzailea egiaztatu',
 	'group-checkuser' => 'Erabiltzaileak egiaztatu',
-	'group-checkuser-member' => 'Erabiltzailea egiaztatu',
+	'group-checkuser-member' => 'Erabiltzailea egiaztatu', # Fuzzy
 	'grouppage-checkuser' => '{{ns:project}}:Lankidea egiaztatu',
 	'checkuser-reason' => 'Arrazoia:',
 	'checkuser-reason-api' => 'API: $1',
@@ -2426,7 +2421,7 @@ $messages['fa'] = array(
  */
 $messages['fi'] = array(
 	'checkuser-summary' => 'Tämän työkalun avulla voidaan tutkia tuoreet muutokset ja paljastaa käyttäjien IP-osoitteet tai noutaa IP-osoitteiden muokkaukset ja käyttäjätiedot.
-	Käyttäjät ja muokkaukset voidaan hakea myös uudelleenohjausosoitteen (X-Forwarded-For) takaa käyttämällä IP-osoitteen perässä <tt>/xff</tt> -merkintää. Työkalu tukee sekä IPv4 (CIDR 16–32) ja IPv6 (CIDR 48–128) -standardeja.',
+	Käyttäjät ja muokkaukset voidaan hakea myös uudelleenohjausosoitteen (X-Forwarded-For) takaa käyttämällä IP-osoitteen perässä <tt>/xff</tt> -merkintää. Työkalu tukee sekä IPv4 (CIDR 16–32) ja IPv6 (CIDR 48–128) -standardeja.', # Fuzzy
 	'checkuser-desc' => 'Antaa oikeutetuille käyttäjille mahdollisuuden tarkistaa käyttäjän IP-osoitteet ja muita tietoja.',
 	'checkuser-logcase' => 'Haku lokista on kirjainkokoriippuvainen.',
 	'checkuser' => 'Osoitepaljastin',
@@ -2508,7 +2503,7 @@ Käytetyt IP:t (enintään 5000, järjestetty osoitteen mukaan):',
 $messages['fo'] = array(
 	'checkuser' => 'Rannsakanar brúkari',
 	'group-checkuser' => 'Rannsakanar brúkari',
-	'group-checkuser-member' => 'Rannsakanar brúkarir',
+	'group-checkuser-member' => 'Rannsakanar brúkarir', # Fuzzy
 	'grouppage-checkuser' => '{{ns:project}}:Rannsakanar brúkari',
 	'checkuser-search' => 'Leita',
 );
@@ -2613,19 +2608,19 @@ $messages['frc'] = array(
 	'checkuser-summary' => 'Cet outil observe les derniers changements pour récupérer l’adresse IP de l’useur ou pour montrer les données de modification et de l’useur de cette adresse IP.
 Les useurs et les modifications par l’adresse IP d’un client peuvent être récupérés par les en-têtes XFF en ajoutant « /xff » à l’adresse IP. Les adresses IPv4 (CIDR 16–32) et IPv6 (CIDR 48-128) sont supportées.
 Pour des raisons de performance, cet outil ne retourne pas plus de 5&nbsp;000 modifications.
-Usez ça ici en accord avec les régulations.',
+Usez ça ici en accord avec les régulations.', # Fuzzy
 	'checkuser-logcase' => 'La charche des notes est sensible aux lettres basses ou hautes.',
 	'checkuser' => "'Gardez-voir à l'useur encore",
 	'checkuserlog' => "Notes de la Garde d'useur",
 	'group-checkuser' => "'Gardez-voir aux useurs encore",
-	'group-checkuser-member' => "'Gardez-voir à l'useur encore",
+	'group-checkuser-member' => "'Gardez-voir à l'useur encore", # Fuzzy
 	'grouppage-checkuser' => "{{ns:project}}:'Gardez-voir à l'useur encore",
 	'checkuser-reason' => 'Raison:',
 	'checkuser-showlog' => 'Montrer les notes',
 	'checkuser-query' => 'Charchez les nouveaux changements',
-	'checkuser-target' => "Nom de l'useur ou IP",
+	'checkuser-target' => "Nom de l'useur ou IP", # Fuzzy
 	'checkuser-users' => 'Obtenir les useurs',
-	'checkuser-edits' => 'Obtenir les modifications du IP',
+	'checkuser-edits' => 'Obtenir les modifications du IP', # Fuzzy
 	'checkuser-ips' => 'Obtenir les adresses IP',
 	'checkuser-search' => 'Charche',
 	'checkuser-empty' => 'Les notes sont vides.',
@@ -2642,7 +2637,7 @@ $messages['frp'] = array(
 	'checkuser-summary' => "Ceti outil parcôrt los dèrriérs changements a la rechèrche de les adrèces IP empleyês per un usanciér, montre tôs los changements d’una adrèce IP (méma encartâ), ou ben liste los comptos utilisâs per una adrèce IP.
 Los comptos et los changements fêts per una adrèce IP clianta d’un sèrvor mandatèro (''proxy'') aprovâ pôvont étre rècupèrâs avouéc les en-tétes XFF en apondent l’adrèce IP avouéc « /xff ». Les adrèces IPv4 (CIDR /16 a /32) et IPv6 (CIDR /96 a /128) sont recognues.
 Lo nombro de changements montrâblos est limitâ a {{formatnum:5000}} por des quèstions de pèrformence.
-Lo volyéd utilisar dedens les limites de la chârta d’usâjo.",
+Lo volyéd utilisar dedens les limites de la chârta d’usâjo.", # Fuzzy
 	'checkuser-desc' => 'Balye la possibilitât a les gens qu’ont la pèrmission que vat avouéc de controlar les adrèces IP des usanciérs et pués d’ôtres enformacions los regardent.',
 	'checkuser-logcase' => 'La rechèrche dens lo jornal est sensibla a la câssa.',
 	'checkuser' => 'Controlor d’usanciér',
@@ -2703,7 +2698,7 @@ Vê-que un èxtrèt a les adrèces IP utilisâs ({{formatnum:5000}} u més, triy
 	'checkuser-search-initiator' => 'l’iniciator',
 	'checkuser-search-target' => 'la ciba',
 	'checkuser-ipeditcount' => '~$1 per tôs los usanciérs',
-	'checkuser-log-return' => 'Tornar u formulèro principâl du contrôlo d’usanciér',
+	'checkuser-log-return' => 'Tornar u formulèro principâl du contrôlo d’usanciér', # Fuzzy
 	'checkuser-limited' => "'''Cetos rèsultats ont étâ tronchiês por des rêsons liyês a la pèrformence.'''",
 	'checkuser-log-userips' => '$1 at obtegnu des IP por $2',
 	'checkuser-log-ipedits' => '$1 at avu des changements per l’adrèce IP $2',
@@ -2737,14 +2732,14 @@ Le fáth feidhmiúcháin, ní féidir níos mó ná 5000 eagarthóireachta a tha
 	'checkuser' => 'Seic úsáideoir',
 	'checkuserlog' => 'Logaí checkuser',
 	'group-checkuser' => 'Seiceanna úsáideoir',
-	'group-checkuser-member' => 'Seic úsáideoir',
+	'group-checkuser-member' => 'Seic úsáideoir', # Fuzzy
 	'right-checkuser-log' => 'Féach ar an log seic úsáideoir',
 	'checkuser-reason' => 'Fáth:',
 	'checkuser-showlog' => 'Taispeáin logaí',
 	'checkuser-query' => 'Iarratais ar athruithe úrnua',
 	'checkuser-target' => 'Seoladh IP ná úsáideoir:',
 	'checkuser-users' => 'Faigh úsáideoira',
-	'checkuser-edits' => 'Faigh athruithe don seoladh IP seo',
+	'checkuser-edits' => 'Faigh athruithe don seoladh IP seo', # Fuzzy
 	'checkuser-ips' => 'Faigh Seolaidh IP',
 	'checkuser-search' => 'Cuardaigh',
 	'checkuser-week-1' => 'an tseachtain seo caite',
@@ -2781,7 +2776,8 @@ Seo iad na seolaidh IP (5000 uasta, sórtáilte le seoladh):",
 	'checkuser-reset-action' => 'a athshocrú pásfhocal le úsáideoir "$1"',
 );
 
-/** Simplified Gan script (赣语（简体）‎) */
+/** Simplified Gan script (赣语（简体）‎)
+ */
 $messages['gan-hans'] = array(
 	'checkuser-search' => '寻吖',
 	'checkuser-search-submit' => '寻吖',
@@ -2878,6 +2874,12 @@ Aquí están os enderezos IP usados (máximo de 5.000, ordenados por enderezo):'
 	'checkuser-create-action' => 'foi creada',
 	'checkuser-email-action' => 'envioulle un correo electrónico ao usuario "$1"',
 	'checkuser-reset-action' => 'envioulle un novo contrasinal ao usuario "$1"',
+	'checkuser-toollinks' => '<span class="plainlinks">[[http://openrbl.org/query?$1 RDNS] ·
+[http://www.robtex.com/rbls/$1.html RBLs] ·
+[http://www.dnsstuff.com/tools/tracert.ch?ip=$1 Traceroute] ·
+[http://www.ip2location.com/$1 Xeolocalización] ·
+[http://toolserver.org/~krimpet/torcheck.php?ip=$1 Comprobación Tor] ·
+[http://ws.arin.net/whois/?queryinput=$1 WHOIS]]</span>',
 	'group-checkuser.css' => '/* O CSS que se coloque aquí afectará soamente aos verificadores de usuarios */',
 	'group-checkuser.js' => '/* O JS que se coloque aquí afectará soamente aos verificadores de usuarios */',
 );
@@ -3001,7 +3003,8 @@ $messages['gv'] = array(
 	'checkuser-search-submit' => 'Ronsee',
 );
 
-/** Hausa (Hausa) */
+/** Hausa (Hausa)
+ */
 $messages['ha'] = array(
 	'checkuser-reason' => 'Dalili:',
 	'checkuser-search' => 'Nema',
@@ -3129,7 +3132,7 @@ $messages['hi'] = array(
 	'checkuserlog' => 'सदस्यजाँच लॉग',
 	'checkuser-contribs' => 'सदस्य आईपी पते जाँच करें',
 	'group-checkuser' => 'सदस्य जाँचे',
-	'group-checkuser-member' => 'सदस्य जाँच',
+	'group-checkuser-member' => 'सदस्य जाँच', # Fuzzy
 	'right-checkuser' => 'सदस्य का आइपी एड्रेस एवम्‌ अन्य ज़ानकारी जाँचें',
 	'right-checkuser-log' => 'चेकईउजर लॉग देखें',
 	'action-checkuser' => 'सदस्य का आइपी पते और अन्य ज़ानकारी जाँचें',
@@ -3139,9 +3142,9 @@ $messages['hi'] = array(
 	'checkuser-reason-api' => 'एपीआई: $1',
 	'checkuser-showlog' => 'लॉग दिखायें',
 	'checkuser-query' => 'हाल में हुए बदलाव देखें',
-	'checkuser-target' => 'सदस्य या आईपी',
+	'checkuser-target' => 'सदस्य या आईपी', # Fuzzy
 	'checkuser-users' => 'सदस्य खोजें',
-	'checkuser-edits' => 'आईपीसे हुए बदलाव खोजें',
+	'checkuser-edits' => 'आईपीसे हुए बदलाव खोजें', # Fuzzy
 	'checkuser-ips' => 'आईपी खोजें',
 	'checkuser-search' => 'खोजें',
 	'checkuser-period' => 'अवधि:',
@@ -3171,14 +3174,14 @@ $messages['hi'] = array(
 	'checkuser-noreason' => 'आपको इस प्रश्न की कारण दर्शाना होगा ।',
 	'checkuser-accounts' => '$1 नया {{PLURAL:$1|खाता|खाते}}',
 	'checkuser-too-many' => 'बहुत सारे रिज़ल्ट, कृपया CIDRमें बदलाव करें।
-नीचे इस्तेमाल हुए आईपी की सूची हैं (ज्यादा से ज्यादा ५०००, अनुक्रममें):',
+नीचे इस्तेमाल हुए आईपी की सूची हैं (ज्यादा से ज्यादा ५०००, अनुक्रममें):', # Fuzzy
 	'checkuser-user-nonexistent' => 'दिया हुआ सदस्यनाम अस्तित्वमें नहीं हैं।',
 	'checkuser-search-form' => 'ऐसे लॉग खोजें जहां $1 यह $2 हैं',
 	'checkuser-search-submit' => 'खोजें',
 	'checkuser-search-initiator' => 'चालक',
 	'checkuser-search-target' => 'लक्ष्य',
 	'checkuser-ipeditcount' => '~$1 सभी सदस्योंसे',
-	'checkuser-log-return' => 'सदस्यजाँच मुखपृष्ठपर वापस जायें',
+	'checkuser-log-return' => 'सदस्यजाँच मुखपृष्ठपर वापस जायें', # Fuzzy
 	'checkuser-log-userips' => '$1 के पास $2 के लिये आईपी हैं',
 	'checkuser-log-ipedits' => '$1 के पास $2 के लिये बदलाव हैं',
 	'checkuser-log-ipusers' => '$1 के पास $2 के लिये सदस्य हैं',
@@ -3225,7 +3228,7 @@ $messages['hr'] = array(
 	'checkuserlog' => 'Evidencija provjere suradnika',
 	'checkuser-contribs' => 'provjeri suradničke IP adrese',
 	'group-checkuser' => 'Provjeritelji',
-	'group-checkuser-member' => 'Provjeritelj',
+	'group-checkuser-member' => 'Provjeritelj', # Fuzzy
 	'right-checkuser' => 'Provjeravanje IP adrese suradnika i drugih informacija',
 	'right-checkuser-log' => 'Gledanje evidencije provjere suradnika',
 	'grouppage-checkuser' => '{{ns:project}}:Provjeritelji',
@@ -3275,7 +3278,7 @@ IP adrese će biti blokirane na 1 tjedan samo za IP suradnike s onemogućenim st
 	'checkuser-search-initiator' => 'provjeritelj',
 	'checkuser-search-target' => 'cilj (traženi pojam)',
 	'checkuser-ipeditcount' => '~$1 od svih suradnika',
-	'checkuser-log-return' => 'Vrati se na stranicu za provjeru',
+	'checkuser-log-return' => 'Vrati se na stranicu za provjeru', # Fuzzy
 	'checkuser-limited' => "'''Ovi rezultati su skraćeni zbog veće učinkovitosti izvođenja.'''",
 	'checkuser-log-userips' => '$1 tražio je IP adrese suradnika $2',
 	'checkuser-log-ipedits' => '$1 tražio je uređivanja suradnika $2',
@@ -3445,7 +3448,7 @@ Itt vannak a használt IP-címek (maximum 5000, cím alapján rendezve):',
 	'checkuser-search-initiator' => 'kezdeményező',
 	'checkuser-search-target' => 'Cél',
 	'checkuser-ipeditcount' => '~$1 az összes szerkesztő által',
-	'checkuser-log-return' => 'Vissza az IP-ellenőri oldalra',
+	'checkuser-log-return' => 'Vissza az IP-ellenőri oldalra', # Fuzzy
 	'checkuser-limited' => "'''Teljesítményi okok miatt nem az összes találat lett megjelenítve.'''",
 	'checkuser-log-userips' => '$1 lekérte $2 IP-címeit',
 	'checkuser-log-ipedits' => '$1 lekérte $2 szerkesztéseit',
@@ -3624,7 +3627,7 @@ Alamat-alamat IP akan diblokir selama 1 minggu untuk pengguna anonim dan tidak d
 	'checkuser-search-initiator' => 'pemeriksa',
 	'checkuser-search-target' => 'target',
 	'checkuser-ipeditcount' => '~$1 dari seluruh pengguna',
-	'checkuser-log-return' => 'Kembali ke halaman utama Pemeriksa',
+	'checkuser-log-return' => 'Kembali ke halaman utama Pemeriksa', # Fuzzy
 	'checkuser-limited' => "'''Hasil berikut telah dipotong agar tidak menurunkan kinerja.'''",
 	'checkuser-log-userips' => '$1 melihat IP dari $2',
 	'checkuser-log-ipedits' => '$1 melihat suntingan dari $2',
@@ -3644,11 +3647,11 @@ Alamat-alamat IP akan diblokir selama 1 minggu untuk pengguna anonim dan tidak d
 $messages['ig'] = array(
 	'checkuser' => "Lé ọ'bànifé anya",
 	'group-checkuser' => "Lé ọ'bànifé anya",
-	'group-checkuser-member' => "Lé ọ'bànifé anya",
+	'group-checkuser-member' => "Lé ọ'bànifé anya", # Fuzzy
 	'checkuser-reason' => 'Mgbághapụtà:',
 	'checkuser-showlog' => 'Zí ndétu nchétá',
 	'checkuser-users' => "Wèté ọ'bànifé",
-	'checkuser-edits' => 'Gá nwèté orü shí IP',
+	'checkuser-edits' => 'Gá nwèté orü shí IP', # Fuzzy
 	'checkuser-ips' => 'Gá nwèté ónúọgụgụ IP',
 	'checkuser-search' => 'Chọwa',
 	'checkuser-period' => 'Ógè ȯ wèrè:',
@@ -3776,9 +3779,9 @@ $messages['is'] = array(
 	'checkuser-reason' => 'Ástæða:',
 	'checkuser-showlog' => 'Sýna skrá',
 	'checkuser-query' => 'Sækja nýlegar breytingar',
-	'checkuser-target' => 'Notandi eða vistfang',
+	'checkuser-target' => 'Notandi eða vistfang', # Fuzzy
 	'checkuser-users' => 'Sækja notendur',
-	'checkuser-edits' => 'Sækja breytingar eftir vistang',
+	'checkuser-edits' => 'Sækja breytingar eftir vistang', # Fuzzy
 	'checkuser-ips' => 'Sækja vistföng',
 	'checkuser-search' => 'Leita',
 	'checkuser-nomatch' => 'Engin samsvörun fannst.',
@@ -3977,6 +3980,12 @@ IPアドレスはIP利用者向けに1週間ブロックされ、アカウント
 	'checkuser-create-action' => '作成済',
 	'checkuser-email-action' => '利用者「$1」にメールを送信',
 	'checkuser-reset-action' => '利用者「$1」のパスワードをリセット',
+	'checkuser-toollinks' => '<span class="plainlinks">[[http://whois.domaintools.com/$1 RDNS] ·
+[http://www.robtex.com/rbls/$1.html RBLs] ·
+[http://www.dnsstuff.com/tools/tracert.ch?ip=$1 Traceroute] ·
+[http://www.ip2location.com/$1 Geolocate] ·
+[http://toolserver.org/~krimpet/torcheck.php?ip=$1 Tor チェック] ·
+[http://whois.arin.net/rest/ip/$1 WHOIS]]</span>',
 	'group-checkuser.css' => '/* ここに記述したCSSは利用者調査者のみに影響します */',
 	'group-checkuser.js' => '/* ここに記述したJSは利用者調査者のみに影響します */',
 );
@@ -3993,14 +4002,14 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 	'checkuser' => 'Check user',
 	'checkuserlog' => 'CheckUser log',
 	'group-checkuser' => 'Check users',
-	'group-checkuser-member' => 'Check user',
+	'group-checkuser-member' => 'Check user', # Fuzzy
 	'grouppage-checkuser' => '{{ns:project}}:Check user',
 	'checkuser-reason' => 'Begrundelse:',
 	'checkuser-showlog' => "Se'n log",
 	'checkuser-query' => 'Søĝ i seneste ændrenger',
-	'checkuser-target' => 'Bruger æller IP',
+	'checkuser-target' => 'Bruger æller IP', # Fuzzy
 	'checkuser-users' => 'Gæt bruger!',
-	'checkuser-edits' => 'Gæt redigærer IPs!',
+	'checkuser-edits' => 'Gæt redigærer IPs!', # Fuzzy
 	'checkuser-ips' => 'Gæt IP!',
 	'checkuser-search' => 'Søĝ',
 	'checkuser-empty' => 'Loggen indeholder ingen poster.',
@@ -4009,13 +4018,13 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 	'checkuser-log-fail' => 'Kunne ikke tilføje log-post',
 	'checkuser-nolog' => 'Logfilen blev ikke fundet.',
 	'checkuser-blocked' => 'Blokeret',
-	'checkuser-too-many' => "For mange resultater, gør CIDR'en smallere. Her er de brugte IP'er (max 5000, sorteret efter adresse):",
+	'checkuser-too-many' => "For mange resultater, gør CIDR'en smallere. Her er de brugte IP'er (max 5000, sorteret efter adresse):", # Fuzzy
 	'checkuser-user-nonexistent' => 'Den anførte bruger eksisterer ikke.',
 	'checkuser-search-form' => 'Find log-poster hvor $1 er $2',
 	'checkuser-search-submit' => 'Søg',
 	'checkuser-search-initiator' => 'initiatår',
 	'checkuser-search-target' => 'mål',
-	'checkuser-log-return' => 'Gå tilbage til hovedformularen for checkbruger',
+	'checkuser-log-return' => 'Gå tilbage til hovedformularen for checkbruger', # Fuzzy
 	'checkuser-log-userips' => "$1 fik IP'er for $2",
 	'checkuser-log-ipedits' => '$1 fik redigeringer for $2',
 	'checkuser-log-ipusers' => '$1 fik brugere for $2',
@@ -4187,7 +4196,8 @@ IP დაიბლოკება ერთი კვირით.',
 	'checkuser-reset-action' => 'პაროლის შეცვლა მომხმარებლისთვის "$1"',
 );
 
-/** Kazakh (Arabic script) (قازاقشا (تٴوتە)‏) */
+/** Kazakh (Arabic script) (قازاقشا (تٴوتە)‏)
+ */
 $messages['kk-arab'] = array(
 	'checkuser-summary' => 'بۇل قۇرال پايدالانۋشى قولدانعان IP جايلار ٴۇشىن, نەمەسە IP جاي تۇزەتۋ/پايدالانۋشى دەرەكتەرىن كورسەتۋ ٴۇشىن جۋىقتاعى وزگەرىستەردى قاراپ شىعادى.
 	پايدالانۋشىلاردى مەن تۇزەتۋلەردى XFF IP ارقىلى IP جايعا «/xff» دەگەندى قوسىپ كەلتىرۋگە بولادى. IPv4 (CIDR 16-32) جانە IPv6 (CIDR 48-128) ارقاۋلانادى.
@@ -4196,14 +4206,14 @@ $messages['kk-arab'] = array(
 	'checkuser' => 'قاتىسۋشىنى سىناۋ',
 	'checkuserlog' => 'قاتىسۋشى سىناۋ جۋرنالى',
 	'group-checkuser' => 'قاتىسۋشى سىناۋشىلار',
-	'group-checkuser-member' => 'قاتىسۋشى سىناۋشى',
+	'group-checkuser-member' => 'قاتىسۋشى سىناۋشى', # Fuzzy
 	'grouppage-checkuser' => '{{ns:project}}:قاتىسۋشىنى سىناۋ',
 	'checkuser-reason' => 'سەبەبى:',
 	'checkuser-showlog' => 'جۋرنالدى كورسەت',
 	'checkuser-query' => 'جۋىقتاعى وزگەرىستەردى سۇرانىمداۋ',
-	'checkuser-target' => 'قاتىسۋشى اتى / IP جاي',
+	'checkuser-target' => 'قاتىسۋشى اتى / IP جاي', # Fuzzy
 	'checkuser-users' => 'قاتىسۋشىلاردى كەلتىرۋ',
-	'checkuser-edits' => 'IP جايدان جاسالعان تۇزەتۋلەردى كەلتىرۋ',
+	'checkuser-edits' => 'IP جايدان جاسالعان تۇزەتۋلەردى كەلتىرۋ', # Fuzzy
 	'checkuser-ips' => 'IP جايلاردى كەلتىرۋ',
 	'checkuser-search' => 'ىزدەۋ',
 	'checkuser-empty' => 'جۋرنالدا ەش جازبا جوق.',
@@ -4212,13 +4222,13 @@ $messages['kk-arab'] = array(
 	'checkuser-log-fail' => 'جۋرنالعا جازبا ۇستەلىنبەدى',
 	'checkuser-nolog' => 'جۋرنال فايلى تابىلمادى.',
 	'checkuser-blocked' => 'بۇعاتتالعان',
-	'checkuser-too-many' => 'تىم كوپ ناتىيجە كەلتىرىلدى, CIDR دەگەندى تارىلتىپ كورىڭىز. مىندا پايدالانىلعان IP جايلار كورسەتىلگەن (بارىنشا 5000, جايىمەن سۇرىپتالعان):',
+	'checkuser-too-many' => 'تىم كوپ ناتىيجە كەلتىرىلدى, CIDR دەگەندى تارىلتىپ كورىڭىز. مىندا پايدالانىلعان IP جايلار كورسەتىلگەن (بارىنشا 5000, جايىمەن سۇرىپتالعان):', # Fuzzy
 	'checkuser-user-nonexistent' => 'ەنگىزىلگەن قاتىسۋشى جوق.',
 	'checkuser-search-form' => 'جۋرنالداعى وقىيعالاردى تابۋ ($1 دەگەن $2 ەكەن جايىنداعى)',
 	'checkuser-search-submit' => 'ىزدەۋ',
 	'checkuser-search-initiator' => 'باستاماشى',
 	'checkuser-search-target' => 'نىسانا',
-	'checkuser-log-return' => 'CheckUser باسقى پىشىنىنە  ورالۋ',
+	'checkuser-log-return' => 'CheckUser باسقى پىشىنىنە  ورالۋ', # Fuzzy
 	'checkuser-log-userips' => '$2 ٴۇشىن $1 IP جاي الىندى',
 	'checkuser-log-ipedits' => '$2 ٴۇشىن $1 تۇزەتۋ الىندى',
 	'checkuser-log-ipusers' => '$2 ٴۇشىن $1 IP قاتىسۋشى الىندى',
@@ -4226,7 +4236,8 @@ $messages['kk-arab'] = array(
 	'checkuser-log-ipusers-xff' => 'XFF $2 ٴۇشىن $1 قاتىسۋشى الىندى',
 );
 
-/** Kazakh (Cyrillic script) (қазақша (кирил)‎) */
+/** Kazakh (Cyrillic script) (қазақша (кирил)‎)
+ */
 $messages['kk-cyrl'] = array(
 	'checkuser-summary' => 'Бұл құрал пайдаланушы қолданған IP жайлар үшін, немесе IP жай түзету/пайдаланушы деректерін көрсету үшін жуықтағы өзгерістерді қарап шығады.
 	Пайдаланушыларды мен түзетулерді XFF IP арқылы IP жайға «/xff» дегенді қосып келтіруге болады. IPv4 (CIDR 16-32) және IPv6 (CIDR 48-128) арқауланады.
@@ -4235,14 +4246,14 @@ $messages['kk-cyrl'] = array(
 	'checkuser' => 'Қатысушыны сынау',
 	'checkuserlog' => 'Қатысушы сынау журналы',
 	'group-checkuser' => 'Қатысушы сынаушылар',
-	'group-checkuser-member' => 'қатысушы сынаушы',
+	'group-checkuser-member' => 'қатысушы сынаушы', # Fuzzy
 	'grouppage-checkuser' => '{{ns:project}}:Қатысушыны сынау',
 	'checkuser-reason' => 'Себебі:',
 	'checkuser-showlog' => 'Журналды көрсет',
 	'checkuser-query' => 'Жуықтағы өзгерістерді сұранымдау',
-	'checkuser-target' => 'Қатысушы аты / IP жай',
+	'checkuser-target' => 'Қатысушы аты / IP жай', # Fuzzy
 	'checkuser-users' => 'Қатысушыларды келтіру',
-	'checkuser-edits' => 'IP жайдан жасалған түзетулерді келтіру',
+	'checkuser-edits' => 'IP жайдан жасалған түзетулерді келтіру', # Fuzzy
 	'checkuser-ips' => 'IP жайларды келтіру',
 	'checkuser-search' => 'Іздеу',
 	'checkuser-empty' => 'Журналда еш жазба жоқ.',
@@ -4251,13 +4262,13 @@ $messages['kk-cyrl'] = array(
 	'checkuser-log-fail' => 'Журналға жазба үстелінбеді',
 	'checkuser-nolog' => 'Журнал файлы табылмады.',
 	'checkuser-blocked' => 'Бұғатталған',
-	'checkuser-too-many' => 'Тым көп нәтиже келтірілді, CIDR дегенді тарылтып көріңіз. Мында пайдаланылған IP жайлар көрсетілген (барынша 5000, жайымен сұрыпталған):',
+	'checkuser-too-many' => 'Тым көп нәтиже келтірілді, CIDR дегенді тарылтып көріңіз. Мында пайдаланылған IP жайлар көрсетілген (барынша 5000, жайымен сұрыпталған):', # Fuzzy
 	'checkuser-user-nonexistent' => 'Енгізілген қатысушы жоқ.',
 	'checkuser-search-form' => 'Журналдағы оқиғаларды табу ($1 деген $2 екен жайындағы)',
 	'checkuser-search-submit' => 'Іздеу',
 	'checkuser-search-initiator' => 'бастамашы',
 	'checkuser-search-target' => 'нысана',
-	'checkuser-log-return' => 'CheckUser басқы пішініне  оралу',
+	'checkuser-log-return' => 'CheckUser басқы пішініне  оралу', # Fuzzy
 	'checkuser-log-userips' => '$2 үшін $1 IP жай алынды',
 	'checkuser-log-ipedits' => '$2 үшін $1 түзету алынды',
 	'checkuser-log-ipusers' => '$2 үшін $1 IP қатысушы алынды',
@@ -4265,7 +4276,8 @@ $messages['kk-cyrl'] = array(
 	'checkuser-log-ipusers-xff' => 'XFF $2 үшін $1 қатысушы алынды',
 );
 
-/** Kazakh (Latin script) (qazaqşa (latın)‎) */
+/** Kazakh (Latin script) (qazaqşa (latın)‎)
+ */
 $messages['kk-latn'] = array(
 	'checkuser-summary' => 'Bul qural paýdalanwşı qoldanğan IP jaýlar üşin, nemese IP jaý tüzetw/paýdalanwşı derekterin körsetw üşin jwıqtağı özgeristerdi qarap şığadı.
 	Paýdalanwşılardı men tüzetwlerdi XFF IP arqılı IP jaýğa «/xff» degendi qosıp keltirwge boladı. IPv4 (CIDR 16-32) jäne IPv6 (CIDR 48-128) arqawlanadı.
@@ -4274,14 +4286,14 @@ $messages['kk-latn'] = array(
 	'checkuser' => 'Qatıswşını sınaw',
 	'checkuserlog' => 'Qatıswşı sınaw jwrnalı',
 	'group-checkuser' => 'Qatıswşı sınawşılar',
-	'group-checkuser-member' => 'qatıswşı sınawşı',
+	'group-checkuser-member' => 'qatıswşı sınawşı', # Fuzzy
 	'grouppage-checkuser' => '{{ns:project}}:Qatıswşını sınaw',
 	'checkuser-reason' => 'Sebebi:',
 	'checkuser-showlog' => 'Jwrnaldı körset',
 	'checkuser-query' => 'Jwıqtağı özgeristerdi suranımdaw',
-	'checkuser-target' => 'Qatıswşı atı / IP jaý',
+	'checkuser-target' => 'Qatıswşı atı / IP jaý', # Fuzzy
 	'checkuser-users' => 'Qatıswşılardı keltirw',
-	'checkuser-edits' => 'IP jaýdan jasalğan tüzetwlerdi keltirw',
+	'checkuser-edits' => 'IP jaýdan jasalğan tüzetwlerdi keltirw', # Fuzzy
 	'checkuser-ips' => 'IP jaýlardı keltirw',
 	'checkuser-search' => 'İzdew',
 	'checkuser-empty' => 'Jwrnalda eş jazba joq.',
@@ -4290,13 +4302,13 @@ $messages['kk-latn'] = array(
 	'checkuser-log-fail' => 'Jwrnalğa jazba üstelinbedi',
 	'checkuser-nolog' => 'Jwrnal faýlı tabılmadı.',
 	'checkuser-blocked' => 'Buğattalğan',
-	'checkuser-too-many' => 'Tım köp nätïje keltirildi, CIDR degendi tarıltıp köriñiz. Mında paýdalanılğan IP jaýlar körsetilgen (barınşa 5000, jaýımen surıptalğan):',
+	'checkuser-too-many' => 'Tım köp nätïje keltirildi, CIDR degendi tarıltıp köriñiz. Mında paýdalanılğan IP jaýlar körsetilgen (barınşa 5000, jaýımen surıptalğan):', # Fuzzy
 	'checkuser-user-nonexistent' => 'Engizilgen qatıswşı joq.',
 	'checkuser-search-form' => 'Jwrnaldağı oqïğalardı tabw ($1 degen $2 eken jaýındağı)',
 	'checkuser-search-submit' => 'İzdew',
 	'checkuser-search-initiator' => 'bastamaşı',
 	'checkuser-search-target' => 'nısana',
-	'checkuser-log-return' => 'CheckUser basqı pişinine  oralw',
+	'checkuser-log-return' => 'CheckUser basqı pişinine  oralw', # Fuzzy
 	'checkuser-log-userips' => '$2 üşin $1 IP jaý alındı',
 	'checkuser-log-ipedits' => '$2 üşin $1 tüzetw alındı',
 	'checkuser-log-ipusers' => '$2 üşin $1 IP qatıswşı alındı',
@@ -4371,7 +4383,7 @@ $messages['km'] = array(
 	'checkuser-search-initiator' => 'អ្នកផ្ដួចផ្ដើម',
 	'checkuser-search-target' => 'គោលដៅ',
 	'checkuser-ipeditcount' => '~$1 ពីគ្រប់អ្នកប្រើប្រាស់ទាំងអស់',
-	'checkuser-log-return' => 'ត្រឡប់ទៅកាន់បែបបទដើមនៃការត្រួតពិនិត្យអ្នកប្រើប្រាស់',
+	'checkuser-log-return' => 'ត្រឡប់ទៅកាន់បែបបទដើមនៃការត្រួតពិនិត្យអ្នកប្រើប្រាស់', # Fuzzy
 	'checkuser-log-userips' => '$1បានទទួល IPs ដែល$2បានប្រើប្រាស់',
 	'checkuser-log-ipedits' => '$1បានទទួលចំនួនកំណែប្រែពី$2',
 	'checkuser-log-ipedits-xff' => '$1 បានទទួលកំណែប្រែពី XFF $2',
@@ -4505,6 +4517,14 @@ $messages['kri'] = array(
 $messages['krj'] = array(
 	'checkuser-search' => 'Sagap',
 	'checkuser-search-submit' => 'Sagap',
+);
+
+/** Karelian (Karjala)
+ * @author Flrn
+ */
+$messages['krl'] = array(
+	'checkuser-search' => 'Ečindy',
+	'checkuser-search-submit' => 'Ečči',
 );
 
 /** Colognian (Ripoarisch)
@@ -4774,7 +4794,7 @@ Hie zeen de gebroekde IPs (max 5000, op adres gesorteerd):',
 	'checkuser-search-initiator' => 'aanvraoger',
 	'checkuser-search-target' => 'óngerwèrp',
 	'checkuser-ipeditcount' => '~$1 van alle gebroekers',
-	'checkuser-log-return' => "Nao 't huidformeleer van KonterleerGebroeker trökgaon",
+	'checkuser-log-return' => "Nao 't huidformeleer van KonterleerGebroeker trökgaon", # Fuzzy
 	'checkuser-limited' => "'''Dees rizzeltaote zeen neet gans óm perstaasjereeje.'''",
 	'checkuser-log-userips' => '$1 haet IP-adresse veur $2',
 	'checkuser-log-ipedits' => '$1 haet bewèrkinge veur $2',
@@ -4788,14 +4808,15 @@ Hie zeen de gebroekde IPs (max 5000, op adres gesorteerd):',
 	'checkuser-reset-action' => 'vóng wachwaord veur "$1"',
 );
 
-/** Lao (ລາວ) */
+/** Lao (ລາວ)
+ */
 $messages['lo'] = array(
 	'checkuser' => 'ກວດຜູ້ໃຊ້',
 	'checkuserlog' => 'ບັນທຶກການກວດຜູ້ໃຊ້',
 	'checkuser-reason' => 'ເຫດຜົນ:',
 	'checkuser-showlog' => 'ສະແດງບັນທຶກ',
-	'checkuser-target' => 'ຜູ້ໃຊ້ ຫຼື IP',
-	'checkuser-edits' => 'ເອົາ ການດັດແກ້ ຈາກ ທີ່ຢູ່ IP',
+	'checkuser-target' => 'ຜູ້ໃຊ້ ຫຼື IP', # Fuzzy
+	'checkuser-edits' => 'ເອົາ ການດັດແກ້ ຈາກ ທີ່ຢູ່ IP', # Fuzzy
 	'checkuser-ips' => 'ເອົາ ທີ່ຢູ່ IP',
 	'checkuser-search' => 'ຊອກຫາ',
 	'checkuser-empty' => 'ບໍ່ມີເນື້ອໃນຖືກບັນທຶກ',
@@ -4812,15 +4833,15 @@ $messages['lt'] = array(
 	'checkuser' => 'Patikrinkite vartotoją',
 	'checkuser-contribs' => 'Patikrinkite vartotojo IP adresus',
 	'group-checkuser' => 'Patikrinkite vartotojus',
-	'group-checkuser-member' => 'Patikrinkite vartotoją',
+	'group-checkuser-member' => 'Patikrinkite vartotoją', # Fuzzy
 	'right-checkuser' => 'Tikrinti naudotojo IP adresus ir kitą informaciją',
 	'action-checkuser' => 'patikrinti vartotojo IP adresą ir kita informaciją',
 	'checkuser-reason' => 'Priežastis:',
 	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Rodyti sąrašą',
-	'checkuser-target' => 'Naudotojas arba IP',
+	'checkuser-target' => 'Naudotojas arba IP', # Fuzzy
 	'checkuser-users' => 'Gauti naudotojus',
-	'checkuser-edits' => 'Gauti redagavimus iš IP',
+	'checkuser-edits' => 'Gauti redagavimus iš IP', # Fuzzy
 	'checkuser-ips' => 'Gauti IP',
 	'checkuser-search' => 'Ieškoti',
 	'checkuser-period' => 'Trukmė:',
@@ -4840,7 +4861,7 @@ $messages['lt'] = array(
 	'checkuser-block-noreason' => 'Jūs turite nurodyti blokavimų priežastį.',
 	'checkuser-accounts' => '$1 nauja {{PLURAL:$1|paskyra|paskyros}}',
 	'checkuser-too-many' => 'Per daug rezultatų, susiaurinkite CIDR.
-Čia pateikiami naudojami IP adresai (daugiausiai 5000, suskirstyti pagal adresus):',
+Čia pateikiami naudojami IP adresai (daugiausiai 5000, suskirstyti pagal adresus):', # Fuzzy
 	'checkuser-user-nonexistent' => 'Nurodytas naudotojas neegzistuoja.',
 	'checkuser-search-submit' => 'Ieškoti',
 	'checkuser-search-target' => 'taikinys',
@@ -5095,7 +5116,7 @@ $messages['ml'] = array(
 $messages['mn'] = array(
 	'checkuser' => 'Шалгагч хэрэглэгч',
 	'group-checkuser' => 'Шалгагч хэрэглэгчид',
-	'group-checkuser-member' => 'Шалгагч хэрэглэгч',
+	'group-checkuser-member' => 'Шалгагч хэрэглэгч', # Fuzzy
 	'grouppage-checkuser' => '{{ns:project}}:Шалгагч хэрэглэгч',
 	'checkuser-reason' => 'Шалтгаан:',
 	'checkuser-search' => 'Хайх',
@@ -5119,7 +5140,7 @@ IPv4 (CIDR 16-32) आणि IPv6 (CIDR 48-128) वापरता येऊ श�
 	'checkuser' => 'सदस्य तपासा',
 	'checkuserlog' => 'Checkuse लॉग',
 	'group-checkuser' => 'सदस्य तपासा',
-	'group-checkuser-member' => 'सदस्य तपासा',
+	'group-checkuser-member' => 'सदस्य तपासा', # Fuzzy
 	'right-checkuser' => 'सदस्याचा आयपी अंकपत्ता व इतर माहिती तपासा',
 	'grouppage-checkuser' => '{{ns:project}}:सदस्य तपासा',
 	'checkuser-reason' => 'कारण:',
@@ -5138,14 +5159,14 @@ IPv4 (CIDR 16-32) आणि IPv6 (CIDR 48-128) वापरता येऊ श�
 	'checkuser-nolog' => 'लॉग संचिका सापडलेली नाही.',
 	'checkuser-blocked' => 'ब्लॉक केलेले आहे',
 	'checkuser-locked' => 'कुलुपबंद',
-	'checkuser-too-many' => 'खूप निकाल आलेले आहेत, कृपया शोधशब्दांमध्ये योग्य बदल करा. खाली वापरलेल्या अंकपत्त्यांची यादी आहे (जास्तीत जास्त ५०००, अनुक्रमे):',
+	'checkuser-too-many' => 'खूप निकाल आलेले आहेत, कृपया शोधशब्दांमध्ये योग्य बदल करा. खाली वापरलेल्या अंकपत्त्यांची यादी आहे (जास्तीत जास्त ५०००, अनुक्रमे):', # Fuzzy
 	'checkuser-user-nonexistent' => 'हे सदस्यनाम अस्तित्त्वात नाही.',
 	'checkuser-search-form' => 'अशा नोंदी शोधा जिथे $1 हा $2 आहे.',
 	'checkuser-search-submit' => 'शोधा',
 	'checkuser-search-initiator' => 'चालक (चालना देणारा)',
 	'checkuser-search-target' => 'लक्ष्य',
 	'checkuser-ipeditcount' => '~$1 सर्व सदस्यांकडून',
-	'checkuser-log-return' => 'CheckUser मुख्य अर्जाकडे परत जा',
+	'checkuser-log-return' => 'CheckUser मुख्य अर्जाकडे परत जा', # Fuzzy
 	'checkuser-log-userips' => '$1 कडे $2 साठीचे अंकपत्ते आहेत',
 	'checkuser-log-ipedits' => '$1 कडे $2 साठीची संपादने आहेत',
 	'checkuser-log-ipusers' => '$1 कडे $2 साठीचे सदस्य आहेत',
@@ -5343,7 +5364,8 @@ $messages['nah'] = array(
 	'checkuser-search-submit' => 'Motèmòs',
 );
 
-/** Neapolitan (Nnapulitano) */
+/** Neapolitan (Nnapulitano)
+ */
 $messages['nap'] = array(
 	'checkuser-search' => 'Truova',
 );
@@ -5450,16 +5472,16 @@ Dit Warktüüch dröff blot na de Regeln mit de Richtlienen bruukt warrn.',
 	'checkuserlog' => 'Checkuser-Logbook',
 	'checkuser-contribs' => 'IP-Adressen vun Bruker prüfen',
 	'group-checkuser' => 'Brukers nakieken',
-	'group-checkuser-member' => 'Bruker nakieken',
+	'group-checkuser-member' => 'Bruker nakieken', # Fuzzy
 	'right-checkuser' => 'IP-Adressen un annere Infos vun Brukers bekieken',
 	'right-checkuser-log' => 'Checkuser-Logbook ankieken',
 	'grouppage-checkuser' => '{{ns:project}}:Checkuser',
 	'checkuser-reason' => 'Grund:',
 	'checkuser-showlog' => 'Logbook wiesen',
 	'checkuser-query' => 'Toletzt ännert affragen',
-	'checkuser-target' => 'Bruker oder IP',
+	'checkuser-target' => 'Bruker oder IP', # Fuzzy
 	'checkuser-users' => 'Brukers kriegen',
-	'checkuser-edits' => 'Ännern vun IP-Adress wiesen',
+	'checkuser-edits' => 'Ännern vun IP-Adress wiesen', # Fuzzy
 	'checkuser-ips' => 'IPs kriegen',
 	'checkuser-search' => 'Söken',
 	'checkuser-period' => 'Duur:',
@@ -5492,14 +5514,14 @@ IP-Adressen warrt för IP-Brukers för een Week sperrt un dat Brukerkonto opstel
 	'checkuser-block-limit' => 'Toveel Brukers utwählt.',
 	'checkuser-block-noreason' => 'Du musst en Grund för de Sperr angeven.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nee Brukerkonto|ne’e Brukerkonten}}',
-	'checkuser-too-many' => 'To veel funnen, grenz de IP-Reeg wieder in. Dit sünd de bruukten IP-Adressen (maximal 5000, sorteert na Adress):',
+	'checkuser-too-many' => 'To veel funnen, grenz de IP-Reeg wieder in. Dit sünd de bruukten IP-Adressen (maximal 5000, sorteert na Adress):', # Fuzzy
 	'checkuser-user-nonexistent' => 'Den angevene Bruker gifft dat nich.',
 	'checkuser-search-form' => 'Söök na Logbook-Indrääg, bi de $1 $2 is.',
 	'checkuser-search-submit' => 'Söök',
 	'checkuser-search-initiator' => 'Initiater',
 	'checkuser-search-target' => 'Ziel',
 	'checkuser-ipeditcount' => '~$1 vun all Brukers',
-	'checkuser-log-return' => 'Trüch na dat CheckUser-Hööftformular',
+	'checkuser-log-return' => 'Trüch na dat CheckUser-Hööftformular', # Fuzzy
 	'checkuser-limited' => "'''De List mit Resultaten is to lang wesen un körter maakt worrn.'''",
 	'checkuser-log-userips' => '$1 hett IP-Adressen för $2 rutsöcht',
 	'checkuser-log-ipedits' => '$1 hett Ännern vun $2 rutsöcht',
@@ -5554,6 +5576,15 @@ Hieronder staon de gebruken IP-aderssen (maximaal 5.000, op IP-adres ekontroleer
 $messages['ne'] = array(
 	'checkuser-search' => 'खोज्ने',
 	'checkuser-log-userips' => '$2को लागि $1 आइ पी ठेगाना पाइयो',
+);
+
+/** Niuean (ko e vagahau Niuē)
+ * @author Jose77
+ */
+$messages['niu'] = array(
+	'checkuser-reason' => 'Kakano:',
+	'checkuser-search' => 'Kumi',
+	'checkuser-search-submit' => 'Kumi',
 );
 
 /** Dutch (Nederlands)
@@ -5669,16 +5700,16 @@ Nytt dette verktøyet i samsvar med retningsliner.',
 	'checkuserlog' => 'Logg over brukarkontrollering',
 	'checkuser-contribs' => 'finn brukaren sine IP-adresser',
 	'group-checkuser' => 'Brukarkontrollørar',
-	'group-checkuser-member' => 'Brukarkontrollør',
+	'group-checkuser-member' => 'Brukarkontrollør', # Fuzzy
 	'right-checkuser' => 'Sjekka IP-adressene til brukarar i tillegg til annan informasjon.',
 	'right-checkuser-log' => 'Sjå brukarkontroll-loggen',
 	'grouppage-checkuser' => '{{ns:project}}:Brukarkontrollør',
 	'checkuser-reason' => 'Årsak:',
 	'checkuser-showlog' => 'Syn logg',
 	'checkuser-query' => 'Søk i siste endringar',
-	'checkuser-target' => 'Brukar eller IP:',
+	'checkuser-target' => 'Brukar eller IP:', # Fuzzy
 	'checkuser-users' => 'Hent brukarar',
-	'checkuser-edits' => 'Hent endringar frå IP',
+	'checkuser-edits' => 'Hent endringar frå IP', # Fuzzy
 	'checkuser-ips' => 'Hent IP-ar',
 	'checkuser-search' => 'Søk',
 	'checkuser-period' => 'Varigskap:',
@@ -5720,7 +5751,7 @@ Her er IP-ane nytta (høgst 5000, sorterte etter adressa):',
 	'checkuser-search-initiator' => 'igangsetjar',
 	'checkuser-search-target' => 'mål',
 	'checkuser-ipeditcount' => '~$1 frå alle brukarar',
-	'checkuser-log-return' => 'Attende til hovudskjema for brukarsjekking',
+	'checkuser-log-return' => 'Attende til hovudskjema for brukarsjekking', # Fuzzy
 	'checkuser-limited' => "'''Desse resultata har vortne avkorta av ytegrunnar.'''",
 	'checkuser-log-userips' => '$1 fekk IP-adressene til $2',
 	'checkuser-log-ipedits' => '$1 fekk endringar av $2',
@@ -5776,7 +5807,7 @@ $messages['oc'] = array(
 	'checkuserlog' => "Notacion de Verificator d'utilizaire",
 	'checkuser-contribs' => 'verificar las adreças IP',
 	'group-checkuser' => 'Verificators d’utilizaire',
-	'group-checkuser-member' => 'Verificator d’utilizaire',
+	'group-checkuser-member' => 'Verificator d’utilizaire', # Fuzzy
 	'right-checkuser' => "Verificar l'adreça IP dels utilizaires e autras entresenhas",
 	'right-checkuser-log' => 'Veire lo jornal de verificacion d’adreça',
 	'grouppage-checkuser' => '{{ns:project}}:Verificator d’utilizaire',
@@ -5785,7 +5816,7 @@ $messages['oc'] = array(
 	'checkuser-query' => 'Recèrca pels darrièrs cambiaments',
 	'checkuser-target' => "Nom d'utilizaire o adreça IP :",
 	'checkuser-users' => 'Obténer los utilizaires',
-	'checkuser-edits' => "Obténer las modificacions de l'IP",
+	'checkuser-edits' => "Obténer las modificacions de l'IP", # Fuzzy
 	'checkuser-ips' => 'Obténer las adreças IP',
 	'checkuser-search' => 'Recèrca',
 	'checkuser-period' => 'Durada :',
@@ -5827,7 +5858,7 @@ Vaquí un extrach de las IP utilizadas ({{formatnum:5000}} maximum, triadas per 
 	'checkuser-search-initiator' => 'l’iniciaire',
 	'checkuser-search-target' => 'la cibla',
 	'checkuser-ipeditcount' => '~$1 per totes los utilizaires',
-	'checkuser-log-return' => "Tornar al formulari principal de la verificacion d'utilizaire",
+	'checkuser-log-return' => "Tornar al formulari principal de la verificacion d'utilizaire", # Fuzzy
 	'checkuser-limited' => "'''Aquestes resultats son estats troncats per de rasons ligadas a la performància.'''",
 	'checkuser-log-userips' => "$1 a obtengut d'IP per $2",
 	'checkuser-log-ipedits' => '$1 a obtengut de modificacions per $2',
@@ -5902,7 +5933,7 @@ $messages['or'] = array(
 	'checkuser-search-initiator' => 'ଆରମ୍ଭକାରୀ',
 	'checkuser-search-target' => 'ଲକ୍ଷ',
 	'checkuser-ipeditcount' => 'ସବୁ ବ୍ୟବହରକାରୀଙ୍କ ଠାରୁ ~$1',
-	'checkuser-log-return' => 'CheckUser ମୂଳ ଆବେଦନ ପତ୍ରକୁ ଫେରିଯାନ୍ତୁ',
+	'checkuser-log-return' => 'CheckUser ମୂଳ ଆବେଦନ ପତ୍ରକୁ ଫେରିଯାନ୍ତୁ', # Fuzzy
 	'checkuser-log-userips' => '$1ଙ୍କ ପାଖରେ $2 ପାଇଁ IP ଠିକଣା ରହିଛି',
 	'checkuser-log-ipedits' => '$1, $2ଙ୍କ ପାଇଁ ସମ୍ପାଦନା କରିଛନ୍ତି',
 	'checkuser-log-ipusers' => '$1ରେ $2 ପାଇଁ ବ୍ୟବହାରକାରୀ ଅଛନ୍ତି',
@@ -5922,15 +5953,17 @@ $messages['os'] = array(
 	'checkuser-reason' => 'Аххос:',
 );
 
-/** Pangasinan (Pangasinan) */
+/** Pangasinan (Pangasinan)
+ */
 $messages['pag'] = array(
 	'checkuser-reason' => 'Katonongan',
-	'checkuser-target' => 'Manag-usar odino IP',
+	'checkuser-target' => 'Manag-usar odino IP', # Fuzzy
 	'checkuser-users' => 'Alaen so manag-usar',
 	'checkuser-search' => 'Anapen',
 );
 
-/** Pampanga (Kapampangan) */
+/** Pampanga (Kapampangan)
+ */
 $messages['pam'] = array(
 	'checkuser' => 'Surian ya ing gagamit',
 	'checkuser-reason' => 'Sangkan:',
@@ -6185,11 +6218,11 @@ $messages['ps'] = array(
 );
 
 /** Portuguese (português)
- * @author 555
  * @author Hamilton Abreu
  * @author Malafaya
  * @author Sir Lestaty de Lioncourt
  * @author Waldir
+ * @author 555
  */
 $messages['pt'] = array(
 	'checkuser-summary' => 'Esta ferramenta varre as mudanças recentes para obter os endereços IP de um utilizador ou para apresentar os dados de edições/utilizadores para um determinado IP.
@@ -6273,7 +6306,6 @@ Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
 );
 
 /** Brazilian Portuguese (português do Brasil)
- * @author 555
  * @author Eduardo.mps
  * @author Giro720
  * @author Helder.wiki
@@ -6281,6 +6313,7 @@ Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
  * @author Jesielt
  * @author Luckas Blade
  * @author Pedroca cerebral
+ * @author 555
  */
 $messages['pt-br'] = array(
 	'checkuser-summary' => 'Esta ferramenta varre as Mudanças recentes para obter os endereços de IP de um usuário ou para exibir os dados de edições/usuários para um IP.
@@ -6798,7 +6831,7 @@ $messages['sah'] = array(
 	'checkuserlog' => 'Кыттаачылары бэрэбиэркэлээһин сурунаала',
 	'checkuser-contribs' => 'кыттааччы IP-тын тургутуу',
 	'group-checkuser' => 'Кыттааччылары бэрэбиэркэлээччилэр',
-	'group-checkuser-member' => 'Кыттааччылары бэрэбиэркэлээччи',
+	'group-checkuser-member' => 'Кыттааччылары бэрэбиэркэлээччи', # Fuzzy
 	'right-checkuser' => 'Кыттааччылар IP-ларын уонна атын сибидиэнньэлэрин тургутуу',
 	'right-checkuser-log' => 'Кыттаачылары тургутуу сурунаалын көрүү',
 	'grouppage-checkuser' => '{{ns:project}}:Кыттааччылары бэрэбиэркэлээһин',
@@ -6849,7 +6882,7 @@ IP-аадырыстартан бэлиэтэммэккэ киирии уонна
 	'checkuser-search-initiator' => 'саҕалааччы',
 	'checkuser-search-target' => 'сыал-сорук',
 	'checkuser-ipeditcount' => '~$1 бары кыттааччылартан',
-	'checkuser-log-return' => 'Кытааччылары бэрэбиэркэлээһин сүрүн сирэйигэр төнүн',
+	'checkuser-log-return' => 'Кытааччылары бэрэбиэркэлээһин сүрүн сирэйигэр төнүн', # Fuzzy
 	'checkuser-limited' => "'''Түмүк, сиэрбэри наһаа ноҕуруускалаамаары, сорҕото быһыллыбыт.'''",
 	'checkuser-log-userips' => '$1 манна анаан $2 IP аадырыстаах',
 	'checkuser-log-ipedits' => '$1 манна анаан $2 көннөрүүлэрдээх',
@@ -6892,16 +6925,16 @@ $messages['scn'] = array(
 	'checkuserlog' => 'Log di li checkuser',
 	'checkuser-contribs' => "cuntrolla l'indirizzi IP dô utenti",
 	'group-checkuser' => 'Cuntrullori',
-	'group-checkuser-member' => 'Cuntrullori',
+	'group-checkuser-member' => 'Cuntrullori', # Fuzzy
 	'right-checkuser' => "Talìa li nnirizzi IP usati di l'utenti a àutri nfurmazzioni",
 	'right-checkuser-log' => 'Talìa li log di li checkuser',
 	'grouppage-checkuser' => '{{ns:project}}:Cuntrollu utenzi',
 	'checkuser-reason' => 'Mutivu:',
 	'checkuser-showlog' => 'Ammustra lu log',
 	'checkuser-query' => "Cera nta l'ùrtimi mudìfichi",
-	'checkuser-target' => 'Utenti o IP',
+	'checkuser-target' => 'Utenti o IP', # Fuzzy
 	'checkuser-users' => 'Cerca utenti',
-	'checkuser-edits' => 'Talìa li cuntribbuti di li IP',
+	'checkuser-edits' => 'Talìa li cuntribbuti di li IP', # Fuzzy
 	'checkuser-ips' => 'Cerca IP',
 	'checkuser-search' => 'Cerca',
 	'checkuser-period' => 'Pirìudu:',
@@ -6935,14 +6968,14 @@ Li nnirizzi IP vennu bluccati pi na simana sulu pi l'utenti anònimi e câ criaz
 	'checkuser-block-noreason' => 'È òbbricu dari na mutivazzioni pi li blocchi.',
 	'checkuser-noreason' => 'Havi a ndicari nu mutivu pi sta query.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|novo|novi}} account',
-	'checkuser-too-many' => "Li nùmmira dî risulrtati è troppu assai, usari nu CIDR cchiù nicu. Si sècutu sù nnicati li nnirizzi IP utilizzati (nzinu a non chiossai di 5000, misi 'n òrdini pi nnirizzu):",
+	'checkuser-too-many' => "Li nùmmira dî risulrtati è troppu assai, usari nu CIDR cchiù nicu. Si sècutu sù nnicati li nnirizzi IP utilizzati (nzinu a non chiossai di 5000, misi 'n òrdini pi nnirizzu):", # Fuzzy
 	'checkuser-user-nonexistent' => "L'utenti nnicatu non esisti.",
 	'checkuser-search-form' => 'Attrova li vuci di li log pi li quali $1 è $2',
 	'checkuser-search-submit' => 'Circata',
 	'checkuser-search-initiator' => 'Nizziaturi',
 	'checkuser-search-target' => 'ubbiettivu',
 	'checkuser-ipeditcount' => "~$1 pi tutti pari l'utenti",
-	'checkuser-log-return' => 'Torna ô mòdulu principali di Cuntrollu utenzi',
+	'checkuser-log-return' => 'Torna ô mòdulu principali di Cuntrollu utenzi', # Fuzzy
 	'checkuser-limited' => "'''Li risurtati foru truncati pi mutivi di pristazzioni.'''",
 	'checkuser-log-userips' => '$1 uttinìu li nnirizzi IP di $2',
 	'checkuser-log-ipedits' => '$1 uttinìu li mudìfichi di $2',
@@ -6953,6 +6986,12 @@ Li nnirizzi IP vennu bluccati pi na simana sulu pi l'utenti anònimi e câ criaz
 	'checkuser-autocreate-action' => 'fu criatu autumàticamenti',
 	'checkuser-email-action' => 'inviau n\' e-mail a "$1"',
 	'checkuser-reset-action' => 'mposta n\'àutra vota password pi l\'utenti "$1"',
+	'checkuser-toollinks' => '<span class="plainlinks">[[http://openrbl.org/query?$1 RDNS] ·
+[http://www.robtex.com/rbls/$1.html RBLs] ·
+[http://www.dnsstuff.com/tools/tracert.ch?ip=$1 Traceroute] ·
+[http://www.ip2location.com/$1 Geolocate] ·
+[http://toolserver.org/~krimpet/torcheck.php?ip=$1 Tor check] ·
+[http://ws.arin.net/whois/?queryinput=$1 WHOIS]]</span>',
 );
 
 /** Sinhala (සිංහල)
@@ -7014,7 +7053,7 @@ $messages['si'] = array(
 	'checkuser-search-initiator' => 'ආරම්භකය',
 	'checkuser-search-target' => 'ඉලක්කය',
 	'checkuser-ipeditcount' => '~$1 සියලුම පරිශිලකයන්ගෙන්',
-	'checkuser-log-return' => 'පරිශීලකපිරික්සුම් ප්‍රධාන ෆෝරමය වෙත නැවත යන්න',
+	'checkuser-log-return' => 'පරිශීලකපිරික්සුම් ප්‍රධාන ෆෝරමය වෙත නැවත යන්න', # Fuzzy
 	'checkuser-limited' => "'''කාර්ය සාධනය හේතුන් නිසා ප්‍රතිපල ලුප්ත කරන ලදී.'''",
 	'checkuser-log-userips' => 'සංස්කරණය සඳහා  $2 විසින් භාවිත කෙරුණු අන්තර්ජාල ලිපිනයන් $1 විසින් පරික්‍ෂා කොට දැනගෙන ඇත',
 	'checkuser-log-ipedits' => '$2 අන්තර්ජාල ලිපිනය වෙතින් සිදු කෙරුණු සංස්කරණයන් $1 විසින් පරික්‍ෂා කොට දැනගෙන ඇත',
@@ -7283,7 +7322,7 @@ IP адресе ће бити блокиране на недељу дана за
 	'checkuser-search-initiator' => 'покретач',
 	'checkuser-search-target' => 'циљ',
 	'checkuser-ipeditcount' => '~$1 од свих корисника',
-	'checkuser-log-return' => 'Повратак на основну форму чекјузера.',
+	'checkuser-log-return' => 'Повратак на основну форму чекјузера.', # Fuzzy
 	'checkuser-limited' => "'''Ови резултати су скраћени због перформанси.'''",
 	'checkuser-log-userips' => '$1 је добио ИП адресе за $2',
 	'checkuser-log-ipedits' => '$1 је добио измене за $2',
@@ -7366,7 +7405,7 @@ Ovde su korišćene IP adrese (najviše 5.000, sortiranih po adresi):',
 	'checkuser-search-initiator' => 'pokretač',
 	'checkuser-search-target' => 'cilj',
 	'checkuser-ipeditcount' => '~$1 od svih korisnika',
-	'checkuser-log-return' => 'Povratak na osnovnu formu čekjuzera.',
+	'checkuser-log-return' => 'Povratak na osnovnu formu čekjuzera.', # Fuzzy
 	'checkuser-limited' => "'''Ovi rezultati su skraćeni zbog performansi.'''",
 	'checkuser-log-userips' => '$1 je dobio IP adrese za $2',
 	'checkuser-log-ipedits' => '$1 je dobio izmene za $2',
@@ -7395,7 +7434,7 @@ Beoarbaidengen fon ne IP-Adresse konnen uk ätter Informatione uut do XFF-Header
 	'checkuserlog' => 'Checkuser-Logbouk',
 	'checkuser-contribs' => 'IP-Adrässen Benutser wröigje',
 	'group-checkuser' => 'Checkusers',
-	'group-checkuser-member' => 'Checkuser-Begjuchtigde',
+	'group-checkuser-member' => 'Checkuser-Begjuchtigde', # Fuzzy
 	'right-checkuser' => 'Wröigenge fon IP-Adressen as uk Ferbiendengen twiske IPs un ounmäldede Benutsere',
 	'right-checkuser-log' => 'Bekiekjen fon dät Checkuser-Logbouk',
 	'grouppage-checkuser' => '{{ns:project}}:CheckUser',
@@ -7444,7 +7483,7 @@ IP-Adressen wäide foar een Wiek speerd (bloot foar anonyme Benutsere, ju Anloag
 	'checkuser-search-initiator' => 'Initiator',
 	'checkuser-search-target' => 'Siel',
 	'checkuser-ipeditcount' => '~$1 fon aal Benutsere',
-	'checkuser-log-return' => 'Tourääch ätter dät CheckUser-Haudformular',
+	'checkuser-log-return' => 'Tourääch ätter dät CheckUser-Haudformular', # Fuzzy
 	'checkuser-limited' => "'''Ju Resultoatelieste wuud uut Performancegruunden kuuted.'''",
 	'checkuser-log-userips' => '$1 hoalde IP-Adressen foar $2',
 	'checkuser-log-ipedits' => '$1 hoalde Beoarbaidengen foar $2',
@@ -7467,13 +7506,13 @@ $messages['su'] = array(
 	'checkuser' => 'Pamaké pamariksa',
 	'checkuserlog' => 'Log PamakéPamariksa',
 	'group-checkuser' => 'Pamaké pamariksa',
-	'group-checkuser-member' => 'Pamaké pamariksa',
+	'group-checkuser-member' => 'Pamaké pamariksa', # Fuzzy
 	'grouppage-checkuser' => '{{ns:project}}:Pamaké pamariksa',
 	'checkuser-reason' => 'Alesan:',
 	'checkuser-showlog' => 'Témbongkeun log',
-	'checkuser-target' => 'Landihan atawa IP',
+	'checkuser-target' => 'Landihan atawa IP', # Fuzzy
 	'checkuser-users' => 'Sungsi pamaké',
-	'checkuser-edits' => 'Sungsi éditan ti IP',
+	'checkuser-edits' => 'Sungsi éditan ti IP', # Fuzzy
 	'checkuser-ips' => 'Sungsi IP',
 	'checkuser-search' => 'Sungsi',
 	'checkuser-empty' => 'Logna kosong.',
@@ -7483,14 +7522,14 @@ $messages['su'] = array(
 	'checkuser-nolog' => 'Koropak log teu kapanggih.',
 	'checkuser-blocked' => 'Dipeungpeuk',
 	'checkuser-too-many' => 'Hasilna loba teuing, heureutan CIDR-na.
-Di handap ieu béréndélan IP nu dipaké (paling loba 5000, disusun dumasar alamat):',
+Di handap ieu béréndélan IP nu dipaké (paling loba 5000, disusun dumasar alamat):', # Fuzzy
 	'checkuser-user-nonexistent' => 'Euweuh pamaké nu cocog jeung pamundut.',
 	'checkuser-search-form' => 'Téang éntri log nu $1-na sarua jeung $2',
 	'checkuser-search-submit' => 'Sungsi',
 	'checkuser-search-initiator' => 'inisiator',
 	'checkuser-search-target' => 'tujul',
 	'checkuser-ipeditcount' => '~$1 ti sakumna pamaké',
-	'checkuser-log-return' => 'Balik ka formulir utama PamakéPamariksa',
+	'checkuser-log-return' => 'Balik ka formulir utama PamakéPamariksa', # Fuzzy
 	'checkuser-log-userips' => '$1 manggih IP ti $2',
 	'checkuser-log-ipedits' => '$1 manggih éditan ti $2',
 	'checkuser-log-ipusers' => '$1 manggih pamaké ti $2',
@@ -7606,7 +7645,7 @@ $messages['sw'] = array(
 	'checkuser-showlog' => 'Onyesha kumbukumbu',
 	'checkuser-target' => 'Anwani ya IP au jina la mtumiaji:',
 	'checkuser-users' => 'Leta watumiaji',
-	'checkuser-edits' => 'Leta haririo zilizotoka anwani ya IP fulani',
+	'checkuser-edits' => 'Leta haririo zilizotoka anwani ya IP fulani', # Fuzzy
 	'checkuser-ips' => 'Leta anwani za IP',
 	'checkuser-search' => 'Tafuta',
 	'checkuser-period' => 'Muda:',
@@ -7716,7 +7755,7 @@ $messages['te'] = array(
 	'checkuser-contribs' => 'వాడుకరి ఐపీ అడ్రసులను పరిశీలించు',
 	'checkuser-contribs-log' => 'ఇటీవలి వాడుకరి తనిఖీలు',
 	'group-checkuser' => 'వాడుకరుల తనిఖీదార్లు',
-	'group-checkuser-member' => 'వాడుకరుల తనిఖీదారు',
+	'group-checkuser-member' => 'వాడుకరుల తనిఖీదారు', # Fuzzy
 	'right-checkuser' => 'వాడుకరి ఐపీ అడ్రసును, ఇతర సమాచారాన్ని చూడు',
 	'grouppage-checkuser' => '{{ns:project}}:వాడుకరిని పరిశీలించు',
 	'checkuser-reason' => 'కారణం:',
@@ -7748,14 +7787,14 @@ $messages['te'] = array(
 	'checkuser-block-noreason' => 'ఈ నిరోధాలకి మీరు తప్పనిసరిగా కారణం ఇవ్వాలి.',
 	'checkuser-noreason' => 'ఈ విచారణకి మీరు తప్పనిసరిగా ఒక కారణాన్ని ఇవ్వాలి.',
 	'checkuser-accounts' => '$1 కొత్త {{PLURAL:$1|ఖాతా|ఖాతాలు}}',
-	'checkuser-too-many' => 'మరీ ఎక్కువ ఫలితాలొచ్చాయి. CIDR ను మరింత కుదించండి. వాడిన ఐపీలివిగో (గరిష్ఠంగా 5000 -అడ్రసు వారీగా పేర్చి)',
+	'checkuser-too-many' => 'మరీ ఎక్కువ ఫలితాలొచ్చాయి. CIDR ను మరింత కుదించండి. వాడిన ఐపీలివిగో (గరిష్ఠంగా 5000 -అడ్రసు వారీగా పేర్చి)', # Fuzzy
 	'checkuser-user-nonexistent' => 'ఆ వాడుకరి ఉనికిలో లేరు.',
 	'checkuser-search-form' => '$1 అనేది $2గా ఉన్న చిట్టా పద్దులను కనుగొనండి',
 	'checkuser-search-submit' => 'వెతుకు',
 	'checkuser-search-initiator' => 'ఆరంభకుడు',
 	'checkuser-search-target' => 'లక్ష్యం',
 	'checkuser-ipeditcount' => 'వాడుకరులందరి నుండి ~$1',
-	'checkuser-log-return' => 'CheckUser ముఖ్య ఫారముకు వెళ్ళు',
+	'checkuser-log-return' => 'CheckUser ముఖ్య ఫారముకు వెళ్ళు', # Fuzzy
 	'checkuser-log-userips' => '$2 కోసం $1 ఐపీలను తెచ్చింది',
 	'checkuser-log-ipedits' => '$2 కోసం $1 దిద్దుబాట్లను తెచ్చింది',
 	'checkuser-log-ipusers' => '$2 కోసం $1 వాడుకరులను తెచ్చింది',
@@ -7804,15 +7843,15 @@ $messages['tg-cyrl'] = array(
 	'checkuser' => 'Бозрасии корбар',
 	'checkuserlog' => 'БозрасиКорбар гузориш',
 	'group-checkuser' => 'Бозрасии корбарон',
-	'group-checkuser-member' => 'Бозрасии корбар',
+	'group-checkuser-member' => 'Бозрасии корбар', # Fuzzy
 	'right-checkuser' => 'Барраси кардани нишонаи IP ва дигар иттилооти корбар',
 	'grouppage-checkuser' => '{{ns:project}}:Бозрасии корбар',
 	'checkuser-reason' => 'Сабаб:',
 	'checkuser-showlog' => 'Намоиши гузориш',
 	'checkuser-query' => 'Ҷустуҷӯи тағйироти охир',
-	'checkuser-target' => 'Корбар ё нишонаи IP',
+	'checkuser-target' => 'Корбар ё нишонаи IP', # Fuzzy
 	'checkuser-users' => 'Феҳрист кардани корбарон',
-	'checkuser-edits' => 'Намоиши вироишҳои марбут ба ин нишонаи IP',
+	'checkuser-edits' => 'Намоиши вироишҳои марбут ба ин нишонаи IP', # Fuzzy
 	'checkuser-ips' => 'Феҳрист кардани нишонаҳои IP',
 	'checkuser-search' => 'Ҷустуҷӯ',
 	'checkuser-period' => 'Тӯл:',
@@ -7835,13 +7874,13 @@ $messages['tg-cyrl'] = array(
 	'checkuser-blocktag' => 'Ҷойгузин кардани саҳифаҳои корбарон бо:',
 	'checkuser-blocktag-talk' => 'Ҷойгузин кардани саҳифаҳои баҳс бо:',
 	'checkuser-block-limit' => 'Теъдоди беш аз шумораи корбарон интихоб шудаанд.',
-	'checkuser-too-many' => 'Теъдоди натоиҷ бисёр зиёд аст. Лутфан CIDRро бориктар кунед. Дар зер нишонаҳои IP-ро мебинед (5000 ҳадди аксар, аз рбатартиби нинона):',
+	'checkuser-too-many' => 'Теъдоди натоиҷ бисёр зиёд аст. Лутфан CIDRро бориктар кунед. Дар зер нишонаҳои IP-ро мебинед (5000 ҳадди аксар, аз рбатартиби нинона):', # Fuzzy
 	'checkuser-user-nonexistent' => 'Корбари мавриди назар вуҷуд надорад.',
 	'checkuser-search-form' => 'Пайдо кардани маворид дар гузоришҳо, ки $1 дар он $2 аст',
 	'checkuser-search-submit' => 'Ҷустуҷӯ',
 	'checkuser-search-initiator' => 'оғозгар',
 	'checkuser-search-target' => 'ҳадаф',
-	'checkuser-log-return' => 'Бозгашт ба форми аслии бозрасии корбар',
+	'checkuser-log-return' => 'Бозгашт ба форми аслии бозрасии корбар', # Fuzzy
 	'checkuser-log-userips' => '$1 нишонаҳои интернетии IP-ҳои $2ро гирифт',
 	'checkuser-log-ipedits' => '$1 вироишҳои $2ро гирифт',
 	'checkuser-log-ipusers' => '$1 корбарони марбут ба $2ро гирифт',
@@ -7863,14 +7902,14 @@ Na beş az 5000 viroiş bo dalelhoi zudkorī bargardonida xohand şud. Bo muvofi
 	'checkuser' => 'Bozrasiji korbar',
 	'checkuserlog' => 'BozrasiKorbar guzoriş',
 	'group-checkuser' => 'Bozrasiji korbaron',
-	'group-checkuser-member' => 'Bozrasiji korbar',
+	'group-checkuser-member' => 'Bozrasiji korbar', # Fuzzy
 	'right-checkuser' => 'Barrasi kardani nişonai IP va digar ittilooti korbar',
 	'grouppage-checkuser' => '{{ns:project}}:Bozrasiji korbar',
 	'checkuser-reason' => 'Sabab:',
 	'checkuser-showlog' => 'Namoişi guzoriş',
 	'checkuser-query' => 'Çustuçūi taƣjiroti oxir',
 	'checkuser-users' => 'Fehrist kardani korbaron',
-	'checkuser-edits' => 'Namoişi viroişhoi marbut ba in nişonai IP',
+	'checkuser-edits' => 'Namoişi viroişhoi marbut ba in nişonai IP', # Fuzzy
 	'checkuser-ips' => 'Fehrist kardani nişonahoi IP',
 	'checkuser-search' => 'Çustuçū',
 	'checkuser-period' => 'Tūl:',
@@ -7898,7 +7937,7 @@ Oxirin viroiş dar $1 soati $2 bud.',
 	'checkuser-search-submit' => 'Çustuçū',
 	'checkuser-search-initiator' => 'oƣozgar',
 	'checkuser-search-target' => 'hadaf',
-	'checkuser-log-return' => 'Bozgaşt ba formi asliji bozrasiji korbar',
+	'checkuser-log-return' => 'Bozgaşt ba formi asliji bozrasiji korbar', # Fuzzy
 	'checkuser-log-userips' => '$1 nişonahoi internetiji IP-hoi $2ro girift',
 	'checkuser-log-ipedits' => '$1 viroişhoi $2ro girift',
 	'checkuser-log-ipusers' => '$1 korbaroni marbut ba $2ro girift',
@@ -7918,7 +7957,7 @@ $messages['th'] = array(
 	'checkuserlog' => 'ประวัติการตรวจสอบผู้ใช้',
 	'checkuser-contribs' => 'ตรวจสอบหมายเลขไอพีของผู้ใช้',
 	'group-checkuser' => 'ตรวจสอบผู้ใช้',
-	'group-checkuser-member' => 'ตรวจสอบผู้ใช้',
+	'group-checkuser-member' => 'ตรวจสอบผู้ใช้', # Fuzzy
 	'right-checkuser' => 'ตรวจสอบหมายเลขไอพีของผู้ใช้และข้อมูลอื่นๆ',
 	'right-checkuser-log' => 'ดูประวัติการตรวจสอบผู้ใช้',
 	'grouppage-checkuser' => '{{ns:project}}:ตรวจสอบผู้ใช้',
@@ -7927,7 +7966,7 @@ $messages['th'] = array(
 	'checkuser-query' => 'แบบสอบถามการเปลี่ยนแปลงล่าสุด',
 	'checkuser-target' => 'หมายเลขไอพีหรือชื่อผู้ใช้:',
 	'checkuser-users' => 'รับชื่อผู้ใช้',
-	'checkuser-edits' => 'รับรายการแก้ไขจากหมายเลขไอพี',
+	'checkuser-edits' => 'รับรายการแก้ไขจากหมายเลขไอพี', # Fuzzy
 	'checkuser-ips' => 'รับรายการหมายเลขไอพี',
 	'checkuser-search' => 'สืบค้น',
 	'checkuser-period' => 'ระยะเวลา:',
@@ -7959,7 +7998,7 @@ $messages['tk'] = array(
 	'checkuserlog' => 'Ulanyjy barlaýjysy gündeligi',
 	'checkuser-contribs' => 'ulanyjy IP adreslerini barla',
 	'group-checkuser' => 'Ulanyjy barlaýjylary',
-	'group-checkuser-member' => 'Ulanyjy barlaýjysy',
+	'group-checkuser-member' => 'Ulanyjy barlaýjysy', # Fuzzy
 	'right-checkuser' => 'Ulanyjylaryň IP adreslerini we baş maglumatlaryny barla',
 	'right-checkuser-log' => 'Ulanyjy barlaýjysy gündeligini görkez',
 	'grouppage-checkuser' => '{{ns:project}}:Ulanyjy barlaýjysy',
@@ -7968,7 +8007,7 @@ $messages['tk'] = array(
 	'checkuser-query' => 'Soňky üýtgeşmeleri sora',
 	'checkuser-target' => 'IP adresi ýa-da ulanyjy ady:',
 	'checkuser-users' => 'Ulanyjylary al',
-	'checkuser-edits' => 'IP-den özgerdişleri al',
+	'checkuser-edits' => 'IP-den özgerdişleri al', # Fuzzy
 	'checkuser-ips' => 'IP adreslerini al',
 	'checkuser-search' => 'Gözle',
 	'checkuser-period' => 'Dowamlylyk:',
@@ -8102,11 +8141,12 @@ Narito ang ginamit na mga IP (5000 pinakamarami, inayos ayon sa adres):',
 	'group-checkuser.js' => '/* Ang JavaScript na inilagay dito ay makakaapekto lamang sa pagsisiyasat ng tagagamit */',
 );
 
-/** Tongan (lea faka-Tonga) */
+/** Tongan (lea faka-Tonga)
+ */
 $messages['to'] = array(
 	'checkuser' => 'Siviʻi ʻa e ʻetita',
 	'group-checkuser' => 'Siviʻi kau ʻetita',
-	'group-checkuser-member' => 'Siviʻi ʻa e ʻetita',
+	'group-checkuser-member' => 'Siviʻi ʻa e ʻetita', # Fuzzy
 );
 
 /** Tok Pisin (Tok Pisin)
@@ -8188,7 +8228,7 @@ Kullanılan IP'ler (max 5000, adrese göre sıralı):",
 	'checkuser-search-initiator' => 'Başlatan',
 	'checkuser-search-target' => 'Hedef',
 	'checkuser-ipeditcount' => 'tüm kullanıcılardan ~$1',
-	'checkuser-log-return' => 'KullancıDenetle ana formuna geri dön',
+	'checkuser-log-return' => 'KullancıDenetle ana formuna geri dön', # Fuzzy
 	'checkuser-limited' => "'''Performans nedeniyle sonuçlar kırpıldı.'''",
 	'checkuser-log-userips' => '$1, $2 için IPleri aldı',
 	'checkuser-log-ipedits' => '$1, $2 için değişiklikleri aldı',
@@ -8206,7 +8246,7 @@ Kullanılan IP'ler (max 5000, adrese göre sıralı):",
  */
 $messages['tt-cyrl'] = array(
 	'group-checkuser' => 'Кулланучыларны тикшереп торучылар',
-	'group-checkuser-member' => 'кулланучыларны тикшереп торучы',
+	'group-checkuser-member' => 'кулланучыларны тикшереп торучы', # Fuzzy
 	'right-checkuser' => 'куланучының IP-юлламасын тикшерү',
 );
 
@@ -8230,7 +8270,7 @@ $messages['uk'] = array(
 	'checkuserlog' => 'Журнал перевірки користувачів',
 	'checkuser-contribs' => 'перевірити IP-адреси користувача',
 	'group-checkuser' => "Чек'юзери",
-	'group-checkuser-member' => "чек'юзер",
+	'group-checkuser-member' => "чек'юзер", # Fuzzy
 	'right-checkuser' => 'Перевірка IP-адрес та іншої інформації користувача',
 	'right-checkuser-log' => 'Перегляд журналу перевірки користувачів',
 	'action-checkuser' => 'перевіряти IP-адреси користувача та іншу інформацію',
@@ -8284,7 +8324,7 @@ IP-адреси користувачів, які не увійшли до сис
 	'checkuser-search-initiator' => 'ініціатор',
 	'checkuser-search-target' => 'ціль',
 	'checkuser-ipeditcount' => '~$1 від усіх користувачів',
-	'checkuser-log-return' => 'Повернення до головної форми перевірки користувачів',
+	'checkuser-log-return' => 'Повернення до головної форми перевірки користувачів', # Fuzzy
 	'checkuser-limited' => "'''Результати урізано, щоб не обтяжувати сервер.'''",
 	'checkuser-log-userips' => '$1 отримав IP-адреси для $2',
 	'checkuser-log-ipedits' => '$1 отримав редагування для $2',
@@ -8296,6 +8336,12 @@ IP-адреси користувачів, які не увійшли до сис
 	'checkuser-create-action' => 'створено',
 	'checkuser-email-action' => 'надіслав листа користувачеві «$1»',
 	'checkuser-reset-action' => 'скинув пароль для користувача $1',
+	'checkuser-toollinks' => '<span class="plainlinks">[[http://openrbl.org/query?$1 RDNS] ·
+[http://www.robtex.com/rbls/$1.html RBLs] ·
+[http://www.dnsstuff.com/tools/tracert.ch?ip=$1 Traceroute] ·
+[http://www.ip2location.com/$1 Geolocate] ·
+[http://toolserver.org/~krimpet/torcheck.php?ip=$1 Перевірка Tor] ·
+[http://ws.arin.net/whois/?queryinput=$1 WHOIS]]</span>',
 );
 
 /** Urdu (اردو)
@@ -8330,7 +8376,7 @@ $messages['vec'] = array(
 	'checkuserlog' => 'Registro dei checkuser',
 	'checkuser-contribs' => 'controlar i indirissi IP',
 	'group-checkuser' => 'Controlori',
-	'group-checkuser-member' => 'Controlor',
+	'group-checkuser-member' => 'Controlor', # Fuzzy
 	'right-checkuser' => "Controla i indirissi IP de l'utente e altre informassion",
 	'right-checkuser-log' => 'Varda el registro del controlo utenti (checkuser)',
 	'grouppage-checkuser' => '{{ns:project}}:Controlo utenze',
@@ -8339,7 +8385,7 @@ $messages['vec'] = array(
 	'checkuser-query' => 'Çerca ne le ultime modifiche',
 	'checkuser-target' => 'Utente o indirisso IP:',
 	'checkuser-users' => 'Çerca utenti',
-	'checkuser-edits' => 'Varda i contributi dei IP',
+	'checkuser-edits' => 'Varda i contributi dei IP', # Fuzzy
 	'checkuser-ips' => 'Çerca IP',
 	'checkuser-search' => 'Çerca',
 	'checkuser-period' => 'Par quanto:',
@@ -8381,7 +8427,7 @@ Sti qua i xe i IP doparà (fin a un massimo de 5000, ordinà par indirizo):',
 	'checkuser-search-initiator' => 'iniziator',
 	'checkuser-search-target' => 'obietivo',
 	'checkuser-ipeditcount' => '~$1 par tuti i utenti',
-	'checkuser-log-return' => 'Torna al modulo prinçipal de Controlo utenze',
+	'checkuser-log-return' => 'Torna al modulo prinçipal de Controlo utenze', # Fuzzy
 	'checkuser-limited' => "'''Sti risultati i xe stà tajà a metà par motivi de prestazion.'''",
 	'checkuser-log-userips' => '$1 el gà otegnù i indirizi IP de $2',
 	'checkuser-log-ipedits' => '$1 el gà otegnù le modifiche de $2',
@@ -8404,9 +8450,9 @@ $messages['vep'] = array(
 	'checkuser-reason' => 'Sü:',
 	'checkuser-showlog' => 'Ozutada aigkirj',
 	'checkuser-query' => 'Ozutada veresid toižetusid',
-	'checkuser-target' => 'Kävutai vai IP-adres',
+	'checkuser-target' => 'Kävutai vai IP-adres', # Fuzzy
 	'checkuser-users' => 'Sada kävutajid',
-	'checkuser-edits' => 'Sada toižetusid, kudambad oma tehtud IP-adresalpäi',
+	'checkuser-edits' => 'Sada toižetusid, kudambad oma tehtud IP-adresalpäi', # Fuzzy
 	'checkuser-search' => 'Ectä',
 	'checkuser-all' => 'kaik',
 	'checkuser-blocked' => 'Blokiruidud',
@@ -8508,7 +8554,7 @@ Redakams no plu 5000 pejonons sekü kods kaenavik. Gebolös stumi at bai nomem.'
 	'checkuser' => 'Vestigön gebani',
 	'checkuserlog' => 'Vestigön gebani: jenotalised',
 	'group-checkuser' => 'Gebanavestigans',
-	'group-checkuser-member' => 'Gebanavestigan',
+	'group-checkuser-member' => 'Gebanavestigan', # Fuzzy
 	'right-checkuser' => 'Kontrolön ladetis-IP e nünis votik tefü geban',
 	'right-checkuser-log' => 'Logön jenotalised gebanikontrolama',
 	'grouppage-checkuser' => '{{ns:project}}:Gebanavestigan',
@@ -8517,7 +8563,7 @@ Redakams no plu 5000 pejonons sekü kods kaenavik. Gebolös stumi at bai nomem.'
 	'checkuser-query' => 'Vestigön votükamis brefabüik',
 	'checkuser-target' => 'Ladet-IP u gebananem:',
 	'checkuser-users' => 'Tuvön gebanis',
-	'checkuser-edits' => 'Tuvön redakamis ladeta-IP',
+	'checkuser-edits' => 'Tuvön redakamis ladeta-IP', # Fuzzy
 	'checkuser-ips' => 'Tuvön ladetis-IP',
 	'checkuser-search' => 'Sukolöd',
 	'checkuser-period' => 'Dul:',
@@ -8546,14 +8592,14 @@ Redakam lätik ejenon ün $1, tü $2.',
 	'checkuser-block-limit' => 'Gebans tumödik pevälons.',
 	'checkuser-block-noreason' => 'Mutol nunön kodi blokamas.',
 	'checkuser-accounts' => '{{PLURAL:$1|kal|kals}} nulik $1',
-	'checkuser-too-many' => 'Sukaseks te mödiks, nedol gebön eli CIDR smalikum. Is palisedons ladets-IP pegeböl (jü 5000, peleodüköls ma ladet):',
+	'checkuser-too-many' => 'Sukaseks te mödiks, nedol gebön eli CIDR smalikum. Is palisedons ladets-IP pegeböl (jü 5000, peleodüköls ma ladet):', # Fuzzy
 	'checkuser-user-nonexistent' => 'Geban at no dabinon.',
 	'checkuser-search-form' => 'Tuvön lienis jenotaliseda, kö $1 binon $2',
 	'checkuser-search-submit' => 'Suk',
 	'checkuser-search-initiator' => 'flagan',
 	'checkuser-search-target' => 'zeil',
 	'checkuser-ipeditcount' => '~$1 de gebans valik',
-	'checkuser-log-return' => 'Geikön lü cifafomet',
+	'checkuser-log-return' => 'Geikön lü cifafomet', # Fuzzy
 	'checkuser-log-userips' => '$1 labon ladetis-IP ela $2',
 	'checkuser-log-ipedits' => '$1 labon redakamis ela $2',
 	'checkuser-log-ipusers' => '$1 labon gebanis ela $2',
@@ -8665,7 +8711,8 @@ $messages['war'] = array(
 	'checkuser-create-action' => 'in nahimo',
 );
 
-/** Wu (吴语) */
+/** Wu (吴语)
+ */
 $messages['wuu'] = array(
 	'checkuser-reason' => '理由：',
 );
@@ -8712,7 +8759,8 @@ $messages['yi'] = array(
 	'checkuser-reset-action' => 'צוריקשטעלן פאסווארט פאר באניצער "$1"',
 );
 
-/** Cantonese (粵語) */
+/** Cantonese (粵語)
+ */
 $messages['yue'] = array(
 	'checkuser-summary' => '呢個工具會響最近更改度掃瞄對一位用戶用過嘅IP地址，或者係睇一個IP嘅用戶資料同埋佢嘅編輯記錄。
 	響用戶同埋用戶端IP嘅編輯係可幾經由XFF頭，加上 "/xff" 就可以拎到。呢個工具係支援 IPv4 (CIDR 16-32) 同埋 IPv6 (CIDR 48-128)。
@@ -8722,15 +8770,15 @@ $messages['yue'] = array(
 	'checkuser' => '核對用戶',
 	'checkuserlog' => '核對用戶日誌',
 	'group-checkuser' => '稽查員',
-	'group-checkuser-member' => '稽查員',
+	'group-checkuser-member' => '稽查員', # Fuzzy
 	'right-checkuser' => '核對用戶嘅IP地址同埋其它嘅資料',
 	'grouppage-checkuser' => '{{ns:project}}:稽查員',
 	'checkuser-reason' => '原因:',
 	'checkuser-showlog' => '顯示日誌',
 	'checkuser-query' => '查詢最近更改',
-	'checkuser-target' => '用戶名或IP',
+	'checkuser-target' => '用戶名或IP', # Fuzzy
 	'checkuser-users' => '拎用戶',
-	'checkuser-edits' => '拎IP嘅編輯',
+	'checkuser-edits' => '拎IP嘅編輯', # Fuzzy
 	'checkuser-ips' => '拎IP',
 	'checkuser-search' => '搵',
 	'checkuser-empty' => '呢個日誌無任何嘅項目。',
@@ -8740,14 +8788,14 @@ $messages['yue'] = array(
 	'checkuser-nolog' => '搵唔到日誌檔。',
 	'checkuser-blocked' => '已經封鎖',
 	'checkuser-too-many' => '太多結果，請收窄個CIDR。
-呢度係個用過嘅IP (最多5000個，按地址排):',
+呢度係個用過嘅IP (最多5000個，按地址排):', # Fuzzy
 	'checkuser-user-nonexistent' => '指定嘅用戶唔存在。',
 	'checkuser-search-form' => '搵當 $1 係 $2 嗰陣時嘅日誌',
 	'checkuser-search-submit' => '搵',
 	'checkuser-search-initiator' => '創始者',
 	'checkuser-search-target' => '目標',
 	'checkuser-ipeditcount' => '~響全部用戶度搵$1',
-	'checkuser-log-return' => '返去核對用戶主要表格',
+	'checkuser-log-return' => '返去核對用戶主要表格', # Fuzzy
 	'checkuser-log-userips' => '$1 拎到 $2 嘅 IP',
 	'checkuser-log-ipedits' => '$1 拎到 $2 嘅編輯',
 	'checkuser-log-ipusers' => '$1 拎到 $2 嘅用戶',
@@ -8927,4 +8975,3 @@ $messages['zh-hant'] = array(
 	'checkuser-email-action' => '向使用者「$1」發送電郵',
 	'checkuser-reset-action' => '為使用者「$1」重設密碼',
 );
-
