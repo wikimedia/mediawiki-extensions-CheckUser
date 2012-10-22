@@ -3980,12 +3980,6 @@ IPアドレスはIP利用者向けに1週間ブロックされ、アカウント
 	'checkuser-create-action' => '作成済',
 	'checkuser-email-action' => '利用者「$1」にメールを送信',
 	'checkuser-reset-action' => '利用者「$1」のパスワードをリセット',
-	'checkuser-toollinks' => '<span class="plainlinks">[[http://whois.domaintools.com/$1 RDNS] ·
-[http://www.robtex.com/rbls/$1.html RBLs] ·
-[http://www.dnsstuff.com/tools/tracert.ch?ip=$1 Traceroute] ·
-[http://www.ip2location.com/$1 Geolocate] ·
-[http://toolserver.org/~krimpet/torcheck.php?ip=$1 Tor チェック] ·
-[http://whois.arin.net/rest/ip/$1 WHOIS]]</span>',
 	'group-checkuser.css' => '/* ここに記述したCSSは利用者調査者のみに影響します */',
 	'group-checkuser.js' => '/* ここに記述したJSは利用者調査者のみに影響します */',
 );
