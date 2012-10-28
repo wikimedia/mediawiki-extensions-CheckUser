@@ -2186,12 +2186,6 @@ Aquí se ven las IPs usadas (máximo 5000, ordenadas según dirección):',
 	'checkuser-create-action' => 'fue creado',
 	'checkuser-email-action' => 'envió un correo electrónico al usuario «$1»',
 	'checkuser-reset-action' => 'solicitó un recordatorio de contraseña para el usuario «$1»',
-	'checkuser-toollinks' => '<span class="plainlinks">[[http://openrbl.org/query?$1 RDNS] ·
-[http://www.robtex.com/rbls/$1.html RBLs] ·
-[http://www.dnsstuff.com/tools/tracert.ch?ip=$1 Traceroute] ·
-[http://www.ip2location.com/$1 Geolocate] ·
-[http://toolserver.org/~krimpet/torcheck.php?ip=$1 Comprobar Tor] ·
-[http://ws.arin.net/whois/?queryinput=$1 WHOIS]]</span>',
 );
 
 /** Estonian (eesti)
@@ -2874,12 +2868,6 @@ Aquí están os enderezos IP usados (máximo de 5.000, ordenados por enderezo):'
 	'checkuser-create-action' => 'foi creada',
 	'checkuser-email-action' => 'envioulle un correo electrónico ao usuario "$1"',
 	'checkuser-reset-action' => 'envioulle un novo contrasinal ao usuario "$1"',
-	'checkuser-toollinks' => '<span class="plainlinks">[[http://openrbl.org/query?$1 RDNS] ·
-[http://www.robtex.com/rbls/$1.html RBLs] ·
-[http://www.dnsstuff.com/tools/tracert.ch?ip=$1 Traceroute] ·
-[http://www.ip2location.com/$1 Xeolocalización] ·
-[http://toolserver.org/~krimpet/torcheck.php?ip=$1 Comprobación Tor] ·
-[http://ws.arin.net/whois/?queryinput=$1 WHOIS]]</span>',
 	'group-checkuser.css' => '/* O CSS que se coloque aquí afectará soamente aos verificadores de usuarios */',
 	'group-checkuser.js' => '/* O JS que se coloque aquí afectará soamente aos verificadores de usuarios */',
 );
@@ -6980,12 +6968,6 @@ Li nnirizzi IP vennu bluccati pi na simana sulu pi l'utenti anònimi e câ criaz
 	'checkuser-autocreate-action' => 'fu criatu autumàticamenti',
 	'checkuser-email-action' => 'inviau n\' e-mail a "$1"',
 	'checkuser-reset-action' => 'mposta n\'àutra vota password pi l\'utenti "$1"',
-	'checkuser-toollinks' => '<span class="plainlinks">[[http://openrbl.org/query?$1 RDNS] ·
-[http://www.robtex.com/rbls/$1.html RBLs] ·
-[http://www.dnsstuff.com/tools/tracert.ch?ip=$1 Traceroute] ·
-[http://www.ip2location.com/$1 Geolocate] ·
-[http://toolserver.org/~krimpet/torcheck.php?ip=$1 Tor check] ·
-[http://ws.arin.net/whois/?queryinput=$1 WHOIS]]</span>',
 );
 
 /** Sinhala (සිංහල)
@@ -8330,12 +8312,6 @@ IP-адреси користувачів, які не увійшли до сис
 	'checkuser-create-action' => 'створено',
 	'checkuser-email-action' => 'надіслав листа користувачеві «$1»',
 	'checkuser-reset-action' => 'скинув пароль для користувача $1',
-	'checkuser-toollinks' => '<span class="plainlinks">[[http://openrbl.org/query?$1 RDNS] ·
-[http://www.robtex.com/rbls/$1.html RBLs] ·
-[http://www.dnsstuff.com/tools/tracert.ch?ip=$1 Traceroute] ·
-[http://www.ip2location.com/$1 Geolocate] ·
-[http://toolserver.org/~krimpet/torcheck.php?ip=$1 Перевірка Tor] ·
-[http://ws.arin.net/whois/?queryinput=$1 WHOIS]]</span>',
 );
 
 /** Urdu (اردو)
