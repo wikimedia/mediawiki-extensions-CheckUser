@@ -2512,6 +2512,7 @@ $messages['fo'] = array(
  * @author PieRRoMaN
  * @author Quentinv57
  * @author Sherbrooke
+ * @author Urhixidur
  * @author Verdy p
  * @author Wyz
  * @author Zetud
@@ -2531,7 +2532,7 @@ Veuillez utiliser cet outil dans le respect de la charte d’utilisation.',
 	'group-checkuser-member' => '{{GENDER:$1|vérificateur d’utilisateur|vérificatrice d’utilisateur}}',
 	'right-checkuser' => 'Vérifier les adresses IP et autres informations d’un utilisateur',
 	'right-checkuser-log' => 'Visualiser le journal des vérifications d’utilisateurs',
-	'action-checkuser' => "vérifier les adresses IP de l'utilisateur et d'autres informations",
+	'action-checkuser' => 'vérifier les adresses IP de l’utilisateur et d’autres informations',
 	'action-checkuser-log' => 'Visualiser le journal des vérifications des utilisateurs',
 	'grouppage-checkuser' => '{{ns:project}}:Vérificateurs d’utilisateurs',
 	'checkuser-reason' => 'Motif :',
@@ -8229,6 +8230,7 @@ $messages['tt-cyrl'] = array(
 /** Ukrainian (українська)
  * @author AS
  * @author Ahonc
+ * @author Base
  * @author Dim Grits
  * @author NickK
  * @author Prima klasy4na
@@ -8245,8 +8247,9 @@ $messages['uk'] = array(
 	'checkuser' => 'Перевірити користувача',
 	'checkuserlog' => 'Журнал перевірки користувачів',
 	'checkuser-contribs' => 'перевірити IP-адреси користувача',
+	'checkuser-contribs-log' => 'недавні перевірки користувача',
 	'group-checkuser' => "Чек'юзери",
-	'group-checkuser-member' => "чек'юзер", # Fuzzy
+	'group-checkuser-member' => "{{GENDER:$1|чек'юзер|чек'юзерка}}",
 	'right-checkuser' => 'Перевірка IP-адрес та іншої інформації користувача',
 	'right-checkuser-log' => 'Перегляд журналу перевірки користувачів',
 	'action-checkuser' => 'перевіряти IP-адреси користувача та іншу інформацію',
@@ -8300,7 +8303,7 @@ IP-адреси користувачів, які не увійшли до сис
 	'checkuser-search-initiator' => 'ініціатор',
 	'checkuser-search-target' => 'ціль',
 	'checkuser-ipeditcount' => '~$1 від усіх користувачів',
-	'checkuser-log-return' => 'Повернення до головної форми перевірки користувачів', # Fuzzy
+	'checkuser-log-return' => 'Перейти до головної сторінки перевірки',
 	'checkuser-limited' => "'''Результати урізано, щоб не обтяжувати сервер.'''",
 	'checkuser-log-userips' => '$1 отримав IP-адреси для $2',
 	'checkuser-log-ipedits' => '$1 отримав редагування для $2',
