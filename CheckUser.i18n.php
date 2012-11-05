@@ -8512,6 +8512,8 @@ Lần sửa đổi cuối xảy ra $1 lúc $2.',
 	'checkuser-create-action' => 'được tạo ra',
 	'checkuser-email-action' => 'gửi thư điện tử cho người dùng “$1”',
 	'checkuser-reset-action' => 'tái tạo mật khẩu của người dùng “$1”',
+	'group-checkuser.css' => '/* Mã CSS tại đây sẽ chỉ ảnh hưởng đến các kiểm tra viên */',
+	'group-checkuser.js' => '/* Mã JS tại đây sẽ chỉ ảnh hưởng đến các kiểm tra viên */',
 );
 
 /** Volapük (Volapük)
