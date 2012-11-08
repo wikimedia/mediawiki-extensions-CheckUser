@@ -5683,7 +5683,7 @@ Nytt dette verktøyet i samsvar med retningsliner.',
 	'checkuserlog' => 'Logg over brukarkontrollering',
 	'checkuser-contribs' => 'finn brukaren sine IP-adresser',
 	'group-checkuser' => 'Brukarkontrollørar',
-	'group-checkuser-member' => 'Brukarkontrollør', # Fuzzy
+	'group-checkuser-member' => '{{GENDER:$1|brukarkontrollør}}',
 	'right-checkuser' => 'Sjekka IP-adressene til brukarar i tillegg til annan informasjon.',
 	'right-checkuser-log' => 'Sjå brukarkontroll-loggen',
 	'grouppage-checkuser' => '{{ns:project}}:Brukarkontrollør',
