@@ -126,7 +126,7 @@ Here are the IPs used (5000 max, sorted by address):',
  */
 $messages['qqq'] = array(
 	'checkuser-summary' => "Explanation of CheckUser tool. See [http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface screenshot titled 'Basic CheckUser interface'].",
-	'checkuser-desc' => '{{desc}}',
+	'checkuser-desc' => '{{desc|name=Check User|url=http://www.mediawiki.org/wiki/Extension:CheckUser}}',
 	'checkuser' => 'Check user extension. The name of the special page where checkusers can check the IP addresses of users. The message is used in the list of special pages, and at the top of [[Special:Checkuser]].
 
 {{Identical|Check user}}',
