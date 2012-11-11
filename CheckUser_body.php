@@ -191,7 +191,7 @@ class CheckUser extends SpecialPage {
 	protected function addJsCIDRForm() {
 		$s = '<fieldset id="mw-checkuser-cidrform" style="display:none; clear:both;">' .
 			'<legend>' . $this->msg( 'checkuser-cidr-label' )->escaped() . '</legend>';
-		$s .= '<textarea id="mw-checkuser-iplist" rows="5" cols="50"></textarea><br />';
+		$s .= '<textarea id="mw-checkuser-iplist" dir="ltr" rows="5" cols="50"></textarea><br />';
 		$s .= $this->msg( 'checkuser-cidr-res' )->escaped() . '&#160;' .
 			Xml::input( 'mw-checkuser-cidr-res', 35, '', array( 'id' => 'mw-checkuser-cidr-res' ) ) .
 			'&#160;<strong id="mw-checkuser-ipnote"></strong>';
