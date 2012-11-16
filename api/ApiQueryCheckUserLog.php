@@ -15,38 +15,73 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 			$this->dieUsage( 'You need the checkuser-log right', 'permissionerror' );
 		}
 
-		list( $user, $limit, $target, $from, $to ) = array( $params['user'], $params['limit'],
-			$params['target'], $params['from'], $params['to'] );
+		$limit = $params['limit'];
+		$continue = $params['continue'];
+		$dir = $params['dir'];
 
 		$this->addTables( 'cu_log' );
 		$this->addOption( 'LIMIT', $limit + 1 );
-		$this->addTimestampWhereRange( 'cul_timestamp', 'older', $from, $to );
-		$this->addFields( array( 
-			'cul_timestamp', 'cul_user_text', 'cul_reason', 'cul_type', 'cul_target_text' ) );
+		$this->addTimestampWhereRange( 'cul_timestamp', $dir, $params['from'], $params['to'] );
+		$this->addFields( array(
+			'cul_id', 'cul_timestamp', 'cul_user_text', 'cul_reason', 'cul_type', 'cul_target_text' ) );
 
-		if ( isset( $user ) ) {
-			$this->addWhereFld( 'cul_user_text', $user );
+		// Order by both timestamp and id
+		$order = ( $dir === 'newer' ? '' : ' DESC' );
+		$this->addOption( 'ORDER BY', array( 'cul_timestamp' . $order, 'cul_id' . $order ) );
+
+		if ( isset( $params['user'] ) ) {
+			$this->addWhereFld( 'cul_user_text', $params['user'] );
 		}
-		if ( isset( $target ) ) {
-			$this->addWhereFld( 'cul_target_text', $target );
+		if ( isset( $params['target'] ) ) {
+			$this->addWhereFld( 'cul_target_text', $params['target'] );
+		}
+
+		if ( $continue !== null ) {
+			$cont = explode( '|', $continue );
+			$op = $dir === 'older' ? '<' : '>';
+			if ( count( $cont ) !== 2 || wfTimestamp( TS_UNIX, $cont[0] ) === false ) {
+				$this->dieUsage( 'Invalid continue param. You should pass the ' .
+								'original value returned by the previous query', '_badcontinue' );
+			}
+
+			$db = $this->getDB();
+			$timestamp = $db->addQuotes( $db->timestamp( $cont[0] ) );
+			$id = intval( $cont[1] );
+
+			$this->addWhere(
+				"cul_timestamp $op $timestamp OR " .
+				"(cul_timestamp = $timestamp AND " .
+				"cul_id $op= $id)"
+			);
 		}
 
 		$res = $this->select( __METHOD__ );
 		$result = $this->getResult();
 
-		$log = array();
+		$count = 0;
+		$makeContinue = function ( $row ) {
+			return wfTimestamp( TS_ISO_8601, $row->cul_timestamp ) . '|' . $row->cul_id;
+		};
 		foreach ( $res as $row ) {
-			$log[] = array(
+			if ( ++$count > $limit ) {
+				$this->setContinueEnumParameter( 'continue', $makeContinue( $row ) );
+				break;
+			}
+			$log = array(
 				'timestamp' => wfTimestamp( TS_ISO_8601, $row->cul_timestamp ),
 				'checkuser' => $row->cul_user_text,
 				'type'      => $row->cul_type,
 				'reason'    => $row->cul_reason,
 				'target'    => $row->cul_target_text,
 			);
+			$fit = $result->addValue( array( 'query', $this->getModuleName(), 'entries' ), null, $log );
+			if ( !$fit ) {
+				$this->setContinueEnumParameter( 'continue', $makeContinue( $row ) );
+				break;
+			}
 		}
 
-		$result->addValue( array( 'query', $this->getModuleName() ), 'entries', $log );
-		$result->setIndexedTagName_internal( 
+		$result->setIndexedTagName_internal(
 			array( 'query', $this->getModuleName(), 'entries' ), 'entry' );
 	}
 
@@ -61,22 +96,35 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 				ApiBase::PARAM_MAX  => ApiBase::LIMIT_BIG1,
 				ApiBase::PARAM_MAX2 => ApiBase::LIMIT_BIG2,
 			),
+			'dir' => array(
+				ApiBase::PARAM_DFLT => 'older',
+				ApiBase::PARAM_TYPE => array(
+					'newer',
+					'older'
+				)
+			),
 			'from'  => array(
 				ApiBase::PARAM_TYPE => 'timestamp',
 			),
 			'to'    => array(
 				ApiBase::PARAM_TYPE => 'timestamp',
 			),
+			'continue' => null,
 		);
 	}
 
 	public function getParamDescription() {
+		$p = $this->getModulePrefix();
 		return array(
 			'user'   => 'Username of CheckUser',
 			'target' => "Checked user or IP-address/range",
 			'limit'  => 'Limit of rows',
+			'dir' => array( "In which direction to enumerate}",
+				" newer          - List oldest first. Note: {$p}from has to be before {$p}to.",
+				" older          - List newest first (default). Note: {$p}from has to be later than {$p}to." ),
 			'from'   => 'The timestamp to start enumerating from',
 			'to'     => 'The timestamp to end enumerating',
+			'continue' => 'When more results are available, use this to continue',
 		);
 	}
 
@@ -94,7 +142,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 
 	public function getExamples() {
 		return array(
-			'api.php?action=query&list=checkuserlog&culuser=WikiSysop&limit=25',
+			'api.php?action=query&list=checkuserlog&culuser=WikiSysop&cullimit=25',
 			'api.php?action=query&list=checkuserlog&cultarget=127.0.0.1&culfrom=20111015230000',
 		);
 	}
