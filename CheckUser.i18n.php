@@ -2183,7 +2183,7 @@ Aquí se ven las IPs usadas (máximo 5000, ordenadas según dirección):',
 	'checkuser-log-ipusers-xff' => '$1 obtuvo los usuarios para XFF $2',
 	'checkuser-log-useredits' => '$1 obtuvo las contribuciones de $2',
 	'checkuser-autocreate-action' => 'fue creada automáticamente',
-	'checkuser-create-action' => 'fue creado',
+	'checkuser-create-action' => 'fue creada',
 	'checkuser-email-action' => 'envió un correo electrónico al usuario «$1»',
 	'checkuser-reset-action' => 'solicitó un recordatorio de contraseña para el usuario «$1»',
 );
