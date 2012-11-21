@@ -1554,6 +1554,7 @@ Caiff cyfeiriadau IP defnyddwyr anhysbys yn unig eu blocio am wythnos, gyda chre
 /** Danish (dansk)
  * @author Amjaabc
  * @author Byrial
+ * @author Christian List
  * @author Emilkris33
  * @author Fredelige
  * @author Kaare
@@ -1635,7 +1636,7 @@ Seneste redigering var $1 $2.',
 	'checkuser-log-useredits' => '$1 hentede redigeringer for $2',
 	'checkuser-autocreate-action' => 'blev oprettet automatisk',
 	'checkuser-create-action' => 'blev oprettet',
-	'checkuser-email-action' => 'sendte en email til "$1"',
+	'checkuser-email-action' => 'sendte en e-mail til "$1"',
 	'checkuser-reset-action' => 'nulstillede adgangskoden for "$1"',
 );
 
