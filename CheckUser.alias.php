@@ -298,6 +298,12 @@ $specialPageAliases['sa'] = array(
 	'CheckUser' => array( 'योजकपरिक्षक' ),
 );
 
+/** Sicilian (sicilianu) */
+$specialPageAliases['scn'] = array(
+	'CheckUser' => array( 'CU' ),
+	'CheckUserLog' => array( 'RegistroCU' ),
+);
+
 /** Slovak (slovenčina) */
 $specialPageAliases['sk'] = array(
 	'CheckUser' => array( 'SkontrolovaťPoužívateľa' ),
@@ -339,6 +345,12 @@ $specialPageAliases['tr'] = array(
 $specialPageAliases['uk'] = array(
 	'CheckUser' => array( 'Перевірити_користувача' ),
 	'CheckUserLog' => array( 'Журнал_перевірок_користувачів' ),
+);
+
+/** Urdu (اردو) */
+$specialPageAliases['ur'] = array(
+	'CheckUser' => array( 'صارف_پڑتال' ),
+	'CheckUserLog' => array( 'نوشتہ_صارف_پڑتال' ),
 );
 
 /** vèneto (vèneto) */
