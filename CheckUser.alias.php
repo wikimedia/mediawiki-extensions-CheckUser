@@ -254,7 +254,7 @@ $specialPageAliases['nb'] = array(
 	'CheckUserLog' => array( 'IP-sjekkingslogg' ),
 );
 
-/** Nedersaksisch (Nedersaksisch) */
+/** Nedersaksies (Nedersaksies) */
 $specialPageAliases['nds-nl'] = array(
 	'CheckUser' => array( 'Gebruker_opvragen' ),
 );
