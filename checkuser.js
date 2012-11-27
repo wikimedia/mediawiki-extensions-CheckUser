@@ -63,8 +63,6 @@ var updateCIDRresult = function() {
 			var cidr = ip_cidr[2] ? ip_cidr[2] : null; // CIDR, if it exists
 			// Get each quad integer
 			var blocs = ip.split('.');
-			// IANA 1.0.0.0/8, 2.0.0.0/8
-			if( blocs[0] <= 2 ) continue;
 			for( var x = 0; x < blocs.length; x++ ) {
 				bloc = parseInt( blocs[x], 10 );
 				var bin_block = bloc.toString( 2 ); // concat bin with binary form of bloc
