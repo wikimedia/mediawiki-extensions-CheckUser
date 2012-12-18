@@ -715,6 +715,13 @@ $messages['az'] = array(
 	'checkuser-create-action' => 'yaradılıb',
 );
 
+/** South Azerbaijani (تورکجه)
+ * @author Ebrahimi-amir
+ */
+$messages['azb'] = array(
+	'checkuser-all' => 'بوتون',
+);
+
 /** Bashkir (башҡортса)
  * @author Assele
  * @author Haqmar
