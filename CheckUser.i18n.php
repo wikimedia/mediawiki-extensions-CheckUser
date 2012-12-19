@@ -3961,7 +3961,7 @@ IPアドレスはIP利用者向けに1週間ブロックされ、アカウント
 	'checkuser-block-noreason' => 'ブロック理由の記入が必要です。',
 	'checkuser-noreason' => '照会理由の記入が必要です。',
 	'checkuser-accounts' => '新しい$1{{PLURAL:$1|アカウント}}',
-	'checkuser-too-many' => '(クエリーを見積もったところ) 検索結果が多すぎます。CIDRの指定を小さく絞り込んでください。
+	'checkuser-too-many' => '(クエリを見積もったところ) 検索結果が多すぎます。CIDRの指定を小さく絞り込んでください。
 使用したIPは以下の通り (上限 5000 件、並び順はアドレス順):',
 	'checkuser-user-nonexistent' => '指定された利用者は存在しません。',
 	'checkuser-search-form' => '$1 が $2 であるログ項目を探す',
