@@ -1257,6 +1257,7 @@ Ovdje su prikazane korištene IP adrese (najviše 5000, poredano po adresi):',
 
 /** Catalan (català)
  * @author Aleator
+ * @author Arnaugir
  * @author El libre
  * @author Jordi Roqué
  * @author Juanpabl
@@ -1276,7 +1277,7 @@ Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Reco
 	'checkuserlog' => 'Registre de Checkuser',
 	'checkuser-contribs' => "comprova les IP de l'usuari",
 	'group-checkuser' => 'Checkusers',
-	'group-checkuser-member' => 'CheckUser', # Fuzzy
+	'group-checkuser-member' => 'CheckUser',
 	'right-checkuser' => 'Comprovar les adreces IP i altra informació dels usuaris',
 	'right-checkuser-log' => 'Veure el registre de checkuser',
 	'grouppage-checkuser' => '{{ns:project}}:Checkuser',
@@ -2030,6 +2031,7 @@ Uzu ĉi tion laŭ regularo.',
 	'checkuser' => 'Kontrolanto de IP-adresoj',
 	'checkuserlog' => 'Protokolo pri kontrolado de uzantoj',
 	'checkuser-contribs' => 'kontroli IP-adresojn de uzantoj',
+	'checkuser-contribs-log' => 'lastaj kontroloj de uzantoj',
 	'group-checkuser' => 'Kontrolaj uzantoj',
 	'group-checkuser-member' => '{{GENDER:$1|Kontrolanto de IP-adresoj|Kontrolantino de IP-adresoj}}',
 	'right-checkuser' => 'Kontroli la IP-adreson kaj alian informon de uzanto',
@@ -3580,6 +3582,8 @@ Harap gunakan peralatan ini sesuai dengan kebijakan yang ada.',
 	'group-checkuser-member' => '{{GENDER:$1|pemeriksa}}',
 	'right-checkuser' => 'Memeriksa alamat IP pengguna dan informasi lainnya',
 	'right-checkuser-log' => 'Melihat log pemeriksa',
+	'action-checkuser' => 'alamat IP dan informasi pemeriksa lainnya',
+	'action-checkuser-log' => 'lihat log pemeriksa',
 	'grouppage-checkuser' => '{{ns:project}}:Pemeriksa',
 	'checkuser-reason' => 'Alasan:',
 	'checkuser-reason-api' => 'API: $1',
@@ -3628,7 +3632,7 @@ Alamat-alamat IP akan diblokir selama 1 minggu untuk pengguna anonim dan tidak d
 	'checkuser-search-initiator' => 'pemeriksa',
 	'checkuser-search-target' => 'target',
 	'checkuser-ipeditcount' => '~$1 dari seluruh pengguna',
-	'checkuser-log-return' => 'Kembali ke halaman utama Pemeriksa', # Fuzzy
+	'checkuser-log-return' => 'Beralih ke bentuk utama Pemeriksa',
 	'checkuser-limited' => "'''Hasil berikut telah dipotong agar tidak menurunkan kinerja.'''",
 	'checkuser-log-userips' => '$1 melihat IP dari $2',
 	'checkuser-log-ipedits' => '$1 melihat suntingan dari $2',
@@ -3770,6 +3774,7 @@ $messages['io'] = array(
  * @author S.Örvarr.S
  * @author Snævar
  * @author Spacebirdy
+ * @author පසිඳු කාවින්ද
  */
 $messages['is'] = array(
 	'checkuser-desc' => 'Veitir notendum réttindi til að athuga vistföng notenda og aðrar notendaupplýsingar.',
@@ -3785,6 +3790,7 @@ $messages['is'] = array(
 	'checkuser-edits' => 'Sækja breytingar eftir vistang', # Fuzzy
 	'checkuser-ips' => 'Sækja vistföng',
 	'checkuser-search' => 'Leita',
+	'checkuser-all' => 'allt',
 	'checkuser-nomatch' => 'Engin samsvörun fannst.',
 	'checkuser-check' => 'Athuga',
 	'checkuser-nolog' => 'Engin skrá fundin.',
@@ -4914,6 +4920,7 @@ $messages['lv'] = array(
 	'checkuser-block-noreason' => 'Jums jānorāda bloķēšanas iemesli.',
 	'checkuser-accounts' => '$1 {{PLURAL:$1|jauns konts|jauni konti}}',
 	'checkuser-search-submit' => 'Meklēt',
+	'checkuser-search-initiator' => 'iniciators',
 	'checkuser-email-action' => 'aizsūtīt ziņu uz lietotāja "$1" e-pastu',
 );
 
@@ -5307,6 +5314,7 @@ L-aħħar modifika saret fil-$1 fil-$2.',
 	'checkuser-block-failure' => "'''L-ebda utent imblukkat.'''",
 	'checkuser-block-limit' => 'Ġew magħżulta ħafna utenti.',
 	'checkuser-block-noreason' => 'Trid tagħti raġuni għall-imblukkar.',
+	'checkuser-noreason' => 'Trid tagħti raġuni għal din it-tfittxija.',
 	'checkuser-accounts' => '{{PLURAL:$1|kont ġdid|$1 kontijiet ġodda}}',
 	'checkuser-user-nonexistent' => 'L-utent speċifikat ma jeżistix.',
 	'checkuser-search-form' => 'Sib daħliet fir-reġistru fejn $1 huwa $2',
@@ -7722,6 +7730,7 @@ $messages['ta'] = array(
 	'checkuser-search-submit' => 'தேடுக',
 	'checkuser-search-initiator' => 'தொடக்கக்காரர்',
 	'checkuser-search-target' => 'இலக்கு',
+	'checkuser-log-ipedits' => '$1, $2-க்கான தொகுப்புகளை பெற்றார்',
 	'checkuser-autocreate-action' => 'தானகவே உருவாக்கப்பட்டது',
 	'checkuser-create-action' => 'உருவாக்கப்பட்டது',
 	'checkuser-email-action' => '"$1" பயனருக்கு ஒரு மின்னஞ்சல் அனுப்பப்பட்டது',
