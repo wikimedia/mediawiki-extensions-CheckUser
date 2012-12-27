@@ -4628,6 +4628,13 @@ $messages['ku-latn'] = array(
 	'checkuser-search-submit' => 'Lêbigere',
 );
 
+/** Kirghiz (Кыргызча)
+ * @author Growingup
+ */
+$messages['ky'] = array(
+	'checkuser-search-submit' => 'Издөө',
+);
+
 /** Latin (Latina)
  * @author SPQRobin
  * @author UV
@@ -5704,17 +5711,21 @@ Nytt dette verktøyet i samsvar med retningsliner.',
 	'checkuser' => 'Brukarsjekk',
 	'checkuserlog' => 'Logg over brukarkontrollering',
 	'checkuser-contribs' => 'finn brukaren sine IP-adresser',
+	'checkuser-contribs-log' => 'nylege brukarkontrollar',
 	'group-checkuser' => 'Brukarkontrollørar',
 	'group-checkuser-member' => '{{GENDER:$1|brukarkontrollør}}',
-	'right-checkuser' => 'Sjekka IP-adressene til brukarar i tillegg til annan informasjon.',
+	'right-checkuser' => 'Sjekka IP-adressene til brukarar og annan informasjon',
 	'right-checkuser-log' => 'Sjå brukarkontroll-loggen',
+	'action-checkuser' => 'sjekka IP-adressene til brukarar og annan informasjon',
+	'action-checkuser-log' => 'sjå brukarkontroll-loggen',
 	'grouppage-checkuser' => '{{ns:project}}:Brukarkontrollør',
 	'checkuser-reason' => 'Årsak:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Syn logg',
 	'checkuser-query' => 'Søk i siste endringar',
-	'checkuser-target' => 'Brukar eller IP:', # Fuzzy
+	'checkuser-target' => 'IP-adresse eller brukarnamn:',
 	'checkuser-users' => 'Hent brukarar',
-	'checkuser-edits' => 'Hent endringar frå IP', # Fuzzy
+	'checkuser-edits' => 'Hent bidrag',
 	'checkuser-ips' => 'Hent IP-ar',
 	'checkuser-search' => 'Søk',
 	'checkuser-period' => 'Varigskap:',
@@ -5756,7 +5767,7 @@ Her er IP-ane nytta (høgst 5000, sorterte etter adressa):',
 	'checkuser-search-initiator' => 'igangsetjar',
 	'checkuser-search-target' => 'mål',
 	'checkuser-ipeditcount' => '~$1 frå alle brukarar',
-	'checkuser-log-return' => 'Attende til hovudskjema for brukarsjekking', # Fuzzy
+	'checkuser-log-return' => 'Byt til hovudskjemaet for CheckUser',
 	'checkuser-limited' => "'''Desse resultata har vortne avkorta av ytegrunnar.'''",
 	'checkuser-log-userips' => '$1 fekk IP-adressene til $2',
 	'checkuser-log-ipedits' => '$1 fekk endringar av $2',
@@ -5765,6 +5776,7 @@ Her er IP-ane nytta (høgst 5000, sorterte etter adressa):',
 	'checkuser-log-ipusers-xff' => '$1 fekk brukarar av XFF-en $2',
 	'checkuser-log-useredits' => '$1 henta endringar for $2',
 	'checkuser-autocreate-action' => 'vart automatisk oppretta',
+	'checkuser-create-action' => 'vart oppretta',
 	'checkuser-email-action' => 'sendte e-post til «$1»',
 	'checkuser-reset-action' => 'nullstilte passord for «$1»',
 );
@@ -5879,6 +5891,7 @@ Vaquí un extrach de las IP utilizadas ({{formatnum:5000}} maximum, triadas per 
 
 /** Oriya (ଓଡ଼ିଆ)
  * @author Ansumang
+ * @author Jnanaranjan Sahu
  * @author Jose77
  * @author Odisha1
  * @author Psubhashish
@@ -5887,6 +5900,7 @@ $messages['or'] = array(
 	'checkuser' => 'ତନଖି ଚାଳକ',
 	'checkuserlog' => 'ବ୍ୟବହାରକାରୀ ଇତିହାସ ପରଖିବେ',
 	'checkuser-contribs' => 'ଆପଣା ବ୍ୟବହାରକାରୀ IP ଠିକଣା ପରଖନ୍ତୁ',
+	'checkuser-contribs-log' => 'ଏବେକାର ବ୍ୟବହାରକାରୀଙ୍କ ନିରୀକ୍ଷଣ',
 	'group-checkuser' => 'ତନଖି ଚାଳକ',
 	'group-checkuser-member' => '{{GENDER:$1|ବ୍ୟବହାରକାରୀଙ୍କୁ ପରଖନ୍ତୁ}}',
 	'right-checkuser' => 'ବ୍ୟବହାରକାରୀଙ୍କର IP ଠିକଣା ଓ ବାକି ତଥ୍ୟ ପରଖନ୍ତୁ',
@@ -7628,6 +7642,7 @@ IP-adresser kommer blockeras i en vecka för anonyma användare, med kontoskapan
 /** Swahili (Kiswahili)
  * @author Kwisha
  * @author Lloffiwr
+ * @author Stephenwanjau
  */
 $messages['sw'] = array(
 	'checkuser-desc' => 'Inawezesha watumiaji wenye ruksa wakague anwani za IP za watumiaji na data zingine',
@@ -7661,6 +7676,7 @@ $messages['sw'] = array(
 	'checkuser-ipeditcount' => '~$1 kutoka kwa watumiaji wote',
 	'checkuser-create-action' => 'iliumbwa',
 	'checkuser-email-action' => 'alituma barua pepe kwa mtumiaji "$1"',
+	'checkuser-reset-action' => 'seti upya nywila ya "$1"',
 );
 
 /** Silesian (ślůnski)
