@@ -717,9 +717,13 @@ $messages['az'] = array(
 
 /** South Azerbaijani (تورکجه)
  * @author Ebrahimi-amir
+ * @author පසිඳු කාවින්ද
  */
 $messages['azb'] = array(
+	'checkuser-reason' => 'ندن:',
+	'checkuser-search' => 'آختار',
 	'checkuser-all' => 'بوتون',
+	'checkuser-search-submit' => 'آختار',
 );
 
 /** Bashkir (башҡортса)
