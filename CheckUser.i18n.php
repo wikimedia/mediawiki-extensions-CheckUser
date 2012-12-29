@@ -1332,7 +1332,7 @@ Aquí teniu les IP usades (màx. 5000 ordenades per adreça):",
 	'checkuser-search-initiator' => "l'iniciador",
 	'checkuser-search-target' => 'el consultat',
 	'checkuser-ipeditcount' => '~$1 de tots els usuaris',
-	'checkuser-log-return' => 'Retorna al formulari de CheckUser', # Fuzzy
+	'checkuser-log-return' => 'Canvia al formulari principal de CheckUser',
 	'checkuser-limited' => "'''Els resultats s'han trucat per raons de rendiment.'''",
 	'checkuser-log-userips' => '$1 consulta les IP de $2',
 	'checkuser-log-ipedits' => '$1 consulta les edicions de $2',
@@ -3205,12 +3205,43 @@ $messages['hi'] = array(
 
 /** Fiji Hindi (Latin script) (Fiji Hindi)
  * @author Karthi.dr
+ * @author Thakurji
  */
 $messages['hif-latn'] = array(
+	'checkuser' => 'Sadasya ke check karo',
+	'checkuserlog' => 'Sadasya ke IP address check karo',
+	'checkuser-contribs' => 'haali ke sadasya ke check',
+	'group-checkuser' => 'Sadasya logan ke check karo',
+	'group-checkuser-member' => '{{GENDER:$1|sadasya ke check karo}}',
+	'right-checkuser' => 'Sadasya ke IP address aur duusra information check karo',
+	'right-checkuser-log' => 'Checkuser log ke dekho',
+	'action-checkuser' => 'sadasya ke IP address aur information check karo',
+	'action-checkuser-log' => 'sadasya ke log ke dekho',
+	'grouppage-checkuser' => '{{ns:project}}:Sadasya check karo',
 	'checkuser-reason' => 'Kaaran:',
+	'checkuser-target' => 'IP address aur naam',
+	'checkuser-users' => 'Sadasya khojo',
+	'checkuser-edits' => 'Badlao khojo',
+	'checkuser-ips' => 'IP addresses khojo',
 	'checkuser-search' => 'Khojo',
+	'checkuser-period' => 'Ketna deri talak:',
+	'checkuser-week-1' => 'pichhle hafta',
+	'checkuser-month' => 'pichhle tiis din',
 	'checkuser-all' => 'sab',
+	'checkuser-empty' => 'Log me koi chij nai hae.',
+	'checkuser-nomatch' => 'Koi match nai mila',
+	'checkuser-check' => 'Check karo',
+	'checkuser-log-fail' => 'Log antry me jorre nai sakaa',
+	'checkuser-nolog' => 'Koi log file nai mila',
+	'checkuser-blocked' => 'Block karaa gais',
+	'checkuser-gblocked' => 'Globally block karaa gais',
+	'checkuser-locked' => 'lock karaa gais',
+	'checkuser-wasblocked' => 'pahile block karaa gais',
+	'checkuser-massblock' => 'Select karaa gais sadasya ke block karo',
 	'checkuser-search-submit' => 'Khojo',
+	'checkuser-create-action' => 'banae dewa gais rahaa',
+	'checkuser-email-action' => 'Sadasya "$1" ke lage email bheja gais',
+	'checkuser-reset-action' => 'Sadasya "$1" ke password ke reset karo',
 );
 
 /** Hiligaynon (Ilonggo)
