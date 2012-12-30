@@ -729,6 +729,7 @@ $messages['azb'] = array(
 /** Bashkir (башҡортса)
  * @author Assele
  * @author Haqmar
+ * @author Ләйсән
  */
 $messages['ba'] = array(
 	'checkuser-summary' => 'Был ҡорал ҡатнашыусы тарафынан ҡулланылған IP адрестарҙы алыр өсөн йәки IP адрестан эшләнгән үҙгәртеүҙәрҙе/ҡатнашыусыларҙы ҡарар өсөн ҡулланыла ала.
@@ -801,6 +802,7 @@ IP адрестар танылмаған ҡатнашыусылар өсөн 1 �
 	'checkuser-log-ipusers-xff' => '$1 XFF $2 өсөн ҡатнашыусыларҙы алған',
 	'checkuser-log-useredits' => '$1 $2 өсөн үҙгәртеүҙәр алған',
 	'checkuser-autocreate-action' => 'үҙенән-үҙе булдырылған',
+	'checkuser-create-action' => 'төҙөлдө',
 	'checkuser-email-action' => '"$1" ҡатнашыусыһына электрон хат ебәргән',
 	'checkuser-reset-action' => '"$1" ҡатнашыусыһының паролен үҙгәртергә',
 );
@@ -3268,7 +3270,7 @@ $messages['hr'] = array(
 	'checkuserlog' => 'Evidencija provjere suradnika',
 	'checkuser-contribs' => 'provjeri suradničke IP adrese',
 	'group-checkuser' => 'Provjeritelji',
-	'group-checkuser-member' => 'Provjeritelj', # Fuzzy
+	'group-checkuser-member' => '{{GENDER:$1|provjeritelj|provjeriteljica}}',
 	'right-checkuser' => 'Provjeravanje IP adrese suradnika i drugih informacija',
 	'right-checkuser-log' => 'Gledanje evidencije provjere suradnika',
 	'grouppage-checkuser' => '{{ns:project}}:Provjeritelji',
