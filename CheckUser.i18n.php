@@ -2709,7 +2709,7 @@ Les adrèces IP seront blocâs pendent yona semana ren que por los usanciérs pa
 	'checkuser-accounts' => '$1 compto{{PLURAL:$1||s}} novél{{PLURAL:$1||s}}',
 	'checkuser-too-many' => 'Trop de rèsultats (d’aprés l’èstimacion de la requéta), volyéd èpurar l’ètendua CIDR.
 Vê-que un èxtrèt a les adrèces IP utilisâs ({{formatnum:5000}} u més, triyês per adrèce) :',
-	'checkuser-user-nonexistent' => 'L’usanciér endicâ ègziste pas.',
+	'checkuser-user-nonexistent' => 'L’utilisator spècifiâ ègziste pas.',
 	'checkuser-search-form' => 'Chèrchiér lo jornal de les entrâs yô que $1 est $2.',
 	'checkuser-search-submit' => 'Rechèrchiér',
 	'checkuser-search-initiator' => 'l’iniciator',
