@@ -1268,6 +1268,7 @@ Ovdje su prikazane korištene IP adrese (najviše 5000, poredano po adresi):',
  * @author Jordi Roqué
  * @author Juanpabl
  * @author Paucabot
+ * @author Pitort
  * @author SMP
  * @author Solde
  * @author Ssola
@@ -1288,6 +1289,7 @@ Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Reco
 	'right-checkuser-log' => 'Veure el registre de checkuser',
 	'grouppage-checkuser' => '{{ns:project}}:Checkuser',
 	'checkuser-reason' => 'Motiu:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Mostra registre',
 	'checkuser-query' => 'Cerca als canvis recents',
 	'checkuser-target' => "Adreça IP o nom d'usuari:",
