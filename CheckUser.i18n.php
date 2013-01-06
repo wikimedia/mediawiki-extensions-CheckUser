@@ -5398,7 +5398,7 @@ $messages['myv'] = array(
 	'checkuser-reason' => 'Тувталось:',
 	'checkuser-showlog' => 'Невтемс журналонзо',
 	'checkuser-target' => 'IP-адресэсь эли совицясь:',
-	'checkuser-search' => 'Вешнэмс',
+	'checkuser-search' => 'Вешнемс',
 	'checkuser-period' => 'Зярс моли:',
 	'checkuser-week-1' => 'меельсе тарго',
 	'checkuser-week-2' => 'меельсе кавто таргт',
@@ -5406,7 +5406,7 @@ $messages['myv'] = array(
 	'checkuser-all' => 'весе',
 	'checkuser-blocked' => 'Саймес саезь',
 	'checkuser-locked' => 'Сёлгозь',
-	'checkuser-search-submit' => 'Вешнэмс',
+	'checkuser-search-submit' => 'Вешнемс',
 	'checkuser-search-initiator' => 'ушодксонь теиця',
 );
 
