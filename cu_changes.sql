@@ -1,10 +1,9 @@
 -- Tables for the CheckUser extension
 -- vim: autoindent syn=mysql sts=2 sw=2
--- Replace /*$wgDBprefix*/ with the proper prefix
 
-CREATE TABLE /*$wgDBprefix*/cu_changes (
+CREATE TABLE /*_*/cu_changes (
   -- Primary key
-  cuc_id INTEGER NOT NULL AUTO_INCREMENT,
+  cuc_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
 
   -- When pages are renamed, their RC entries do _not_ change.
   cuc_namespace int NOT NULL default '0',
@@ -52,11 +51,10 @@ CREATE TABLE /*$wgDBprefix*/cu_changes (
   cuc_agent VARCHAR(255) BINARY default NULL,
 
   -- Private Data
-  cuc_private MEDIUMBLOB default NULL,
-
-  PRIMARY KEY cuc_id (cuc_id),
-  INDEX cuc_ip_hex_time (cuc_ip_hex,cuc_timestamp),
-  INDEX cuc_user_ip_time (cuc_user,cuc_ip,cuc_timestamp),
-  INDEX cuc_xff_hex_time (cuc_xff_hex,cuc_timestamp),
-  INDEX (cuc_timestamp)
+  cuc_private MEDIUMBLOB default NULL
 ) /*$wgDBTableOptions*/;
+
+CREATE INDEX /*i*/cuc_ip_hex_time ON /*_*/cu_changes (cuc_ip_hex,cuc_timestamp);
+CREATE INDEX /*i*/cuc_user_ip_time ON /*_*/cu_changes (cuc_user,cuc_ip,cuc_timestamp);
+CREATE INDEX /*i*/cuc_xff_hex_time ON /*_*/cu_changes (cuc_xff_hex,cuc_timestamp);
+CREATE INDEX /*i*/cuc_timestamp ON /*_*/cu_changes (cuc_timestamp);

@@ -1,9 +1,9 @@
 -- CheckUser log table
 -- vim: autoindent syn=mysql sts=2 sw=2
 
-CREATE TABLE /*$wgDBprefix*/cu_log (
+CREATE TABLE /*_*/cu_log (
   -- Unique identifier
-  cul_id int unsigned not null auto_increment,
+  cul_id int unsigned not null primary key auto_increment,
 
   -- Timestamp of CheckUser action
   cul_timestamp binary(14) not null,
@@ -29,12 +29,11 @@ CREATE TABLE /*$wgDBprefix*/cu_log (
   cul_target_hex varbinary(255) not null default '',
   -- If the target was an IP range, these fields contain the start and end, in hex form
   cul_range_start varbinary(255) not null default '',
-  cul_range_end varbinary(255) not null default '',
-
-  PRIMARY KEY (cul_id),
-  INDEX (cul_timestamp),
-  INDEX cul_user (cul_user, cul_timestamp),
-  INDEX cul_type_target (cul_type,cul_target_id, cul_timestamp),
-  INDEX cul_target_hex (cul_target_hex, cul_timestamp),
-  INDEX cul_range_start (cul_range_start, cul_timestamp)
+  cul_range_end varbinary(255) not null default ''
 ) /*$wgDBTableOptions*/;
+
+CREATE INDEX /*i*/cul_user ON /*_*/cu_log (cul_user, cul_timestamp);
+CREATE INDEX /*i*/cul_type_target ON /*_*/cu_log (cul_type,cul_target_id, cul_timestamp);
+CREATE INDEX /*i*/cul_target_hex ON /*_*/cu_log (cul_target_hex, cul_timestamp);
+CREATE INDEX /*i*/cul_range_start ON /*_*/cu_log (cul_range_start, cul_timestamp);
+CREATE INDEX /*i*/cul_timestamp ON /*_*/cu_log (cul_timestamp);
