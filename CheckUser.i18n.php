@@ -6691,6 +6691,7 @@ Aqquà ce stonne le IP ausate (5000 masseme, ordenate pe' inderizze):",
 );
 
 /** Russian (русский)
+ * @author Cryptocoryne
  * @author DCamer
  * @author EugeneZelenko
  * @author Express2000
@@ -6718,9 +6719,9 @@ $messages['ru'] = array(
 	'checkuser-contribs-log' => 'недавние проверки пользователя',
 	'group-checkuser' => 'Проверяющие участников',
 	'group-checkuser-member' => '{{GENDER:$1|проверяющий участников|проверяющая участников}}',
-	'right-checkuser' => 'проверка IP-адресов и другой информации об участниках',
+	'right-checkuser' => 'проверка IP-адресов и другой информации участников',
 	'right-checkuser-log' => 'просмотр журнала проверки участников',
-	'action-checkuser' => 'проверка IP-адресов и другой информации об участниках',
+	'action-checkuser' => 'проверка IP-адресов и другой информации участников',
 	'action-checkuser-log' => 'просмотр журнала проверки участников',
 	'grouppage-checkuser' => '{{ns:project}}:Проверка участников',
 	'checkuser-reason' => 'Причина:',
