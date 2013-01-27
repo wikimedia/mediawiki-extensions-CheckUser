@@ -5590,7 +5590,7 @@ IP-Adressen warrt för IP-Brukers för een Week sperrt un dat Brukerkonto opstel
 	'checkuser-reset-action' => 'hett en nee Passwoord för Bruker „$1“ feddert',
 );
 
-/** Nedersaksisch (Nedersaksisch)
+/** Nedersaksies (Nedersaksies)
  * @author Servien
  */
 $messages['nds-nl'] = array(
