@@ -4982,6 +4982,7 @@ $messages['lv'] = array(
  */
 $messages['mg'] = array(
 	'checkuser-nolog' => 'Tsy nahitana rakitra laogy.',
+	'checkuser-search-submit' => 'Hikaroka',
 );
 
 /** Eastern Mari (олык марий)
