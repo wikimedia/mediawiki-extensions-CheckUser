@@ -1248,15 +1248,8 @@ class CheckUser extends SpecialPage {
 	 * @create diff/hist/page link
 	 */
 	protected function getLinksFromRow( $row ) {
-		// Log items (old format) and events to logs
-		if ( $row->cuc_type == RC_LOG && $row->cuc_namespace == NS_SPECIAL ) {
-			list( $specialName, $logtype ) = SpecialPageFactory::resolveAlias( $row->cuc_title );
-			$page = new LogPage( $logtype );
-			$logname = $page->getName()->escaped();
-			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
-			$links = '(' . Linker::linkKnown( $title, $logname ) . ')';
-		// Log items (newer format)
-		} elseif ( $row->cuc_type == RC_LOG ) {
+		// Log items
+		if ( $row->cuc_type == RC_LOG ) {
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
 			// @todo FIXME: Hard coded parentheses.
 			$links = '(' . Linker::linkKnown(
