@@ -6286,6 +6286,7 @@ $messages['ps'] = array(
 );
 
 /** Portuguese (português)
+ * @author Dicionarista
  * @author Hamilton Abreu
  * @author Malafaya
  * @author Sir Lestaty de Lioncourt
@@ -6310,7 +6311,7 @@ O uso desta ferramenta deverá respeitar as normas e recomendações.',
 	'right-checkuser-log' => 'Ver o registo das verificações de utilizadores',
 	'action-checkuser' => 'verificar os endereços IP e outras informações de um utilizador',
 	'action-checkuser-log' => 'ver o registo das verificações de utilizadores',
-	'grouppage-checkuser' => '{{ns:project}}:Verificadores de utilizadores',
+	'grouppage-checkuser' => '{{ns:project}}:Verificadores',
 	'checkuser-reason' => 'Motivo:',
 	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Mostrar registos',
@@ -6374,6 +6375,7 @@ Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
 );
 
 /** Brazilian Portuguese (português do Brasil)
+ * @author Dicionarista
  * @author Eduardo.mps
  * @author Giro720
  * @author Helder.wiki
@@ -6398,7 +6400,7 @@ Não serão retornadas mais de 5000 edições por motivos de desempenho. O uso d
 	'right-checkuser-log' => 'Ver os registros das verificações',
 	'action-checkuser' => 'verificar os endereços IP do usuário e outras informações.',
 	'action-checkuser-log' => 'Ver os registros das verificações',
-	'grouppage-checkuser' => '{{ns:project}}:CheckUser',
+	'grouppage-checkuser' => '{{ns:project}}:Verificadores',
 	'checkuser-reason' => 'Motivo:',
 	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Exibir registros',
