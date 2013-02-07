@@ -175,7 +175,8 @@ $specialPageAliases['ia'] = array(
 
 /** Indonesian (Bahasa Indonesia) */
 $specialPageAliases['id'] = array(
-	'CheckUser' => array( 'Periksa_pengguna', 'PeriksaPengguna', 'Pemeriksa' ),
+	'CheckUser' => array( 'Periksa_pengguna', 'PeriksaPengguna', 'Pemeriksaan' ),
+	'CheckUserLog' => array( 'Catatan_pemeriksaan' ),
 );
 
 /** Italian (italiano) */
@@ -249,7 +250,7 @@ $specialPageAliases['myv'] = array(
 	'CheckUser' => array( 'ВанкшномсКиеТеицясь' ),
 );
 
-/** Norwegian Bokmål (norsk (bokmål)‎) */
+/** Norwegian Bokmål (norsk bokmål) */
 $specialPageAliases['nb'] = array(
 	'CheckUser' => array( 'IP-sjekk' ),
 	'CheckUserLog' => array( 'IP-sjekkingslogg' ),
