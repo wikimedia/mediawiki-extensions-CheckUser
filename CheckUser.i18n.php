@@ -125,7 +125,7 @@ Here are the IPs used (5000 max, sorted by address):',
  * @author Umherirrender
  */
 $messages['qqq'] = array(
-	'checkuser-summary' => "Explanation of CheckUser tool. See [http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface screenshot titled 'Basic CheckUser interface'].",
+	'checkuser-summary' => "Explanation of CheckUser tool. See [[mw:Extension:CheckUser#Basic_interface|screenshot titled 'Basic CheckUser interface']].",
 	'checkuser-desc' => '{{desc|name=Check User|url=http://www.mediawiki.org/wiki/Extension:CheckUser}}',
 	'checkuser' => 'Check user extension. The name of the special page where checkusers can check the IP addresses of users. The message is used in the list of special pages, and at the top of [[Special:Checkuser]].
 
@@ -145,37 +145,33 @@ check is a noun, not a verb here
 	'action-checkuser-log' => '{{doc-action|checkuser-log}}',
 	'grouppage-checkuser' => '{{doc-group|checkuser|page}}
 {{Identical|Check user}}',
-	'checkuser-reason' => "Field name on CheckUser Special page. See screenshot '[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]'.
-
+	'checkuser-reason' => "Field name on CheckUser Special page. See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]'.
 {{Identical|Reason}}",
 	'checkuser-reason-api' => 'Prefixes check user query reasons that are made through the API
 
 * $1 = User specified reason',
 	'checkuser-showlog' => "Label for link on CheckUser special page. Linked to CheckUser Log special page.
 
-See screenshot '[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]'.",
-	'checkuser-query' => "Fieldset label. See [http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface screenshot titled 'Basic CheckUser interface'].",
+See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]'.",
+	'checkuser-query' => "Fieldset label. See [[mw:Extension:CheckUser#Basic_interface|screenshot titled 'Basic CheckUser interface']].",
 	'checkuser-target' => '{{Identical|IP address or username}}',
-	'checkuser-users' => "Radio button option on CheckUser Special page. See screenshot '[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]'.",
-	'checkuser-edits' => "Radio button option on CheckUser Special page. See screenshot '[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]'.",
-	'checkuser-ips' => "Option on CheckUser Special page. See screenshot '[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]'.",
-	'checkuser-search' => 'Heading of fieldset on log of CheckUser searches. See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]".
-
+	'checkuser-users' => "Radio button option on CheckUser Special page. See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]'.",
+	'checkuser-edits' => "Radio button option on CheckUser Special page. See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]'.",
+	'checkuser-ips' => "Option on CheckUser Special page. See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]'.",
+	'checkuser-search' => 'Heading of fieldset on log of CheckUser searches. See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".
 {{Identical|Search}}',
-	'checkuser-period' => "Field name next to drop-down input box on CheckUser Special page. See screenshot '[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]'.
-
+	'checkuser-period' => "Field name next to drop-down input box on CheckUser Special page. See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]'.
 {{Identical|Duration}}",
-	'checkuser-week-1' => 'Option in drop-down input box "Duration" on CheckUser Special page. See screenshot \'[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]\'.',
-	'checkuser-week-2' => 'Option in drop-down input box "Duration" on CheckUser Special page. See screenshot \'[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]\'.',
-	'checkuser-month' => 'Option in drop-down input box "Duration" on CheckUser Special page. See screenshot \'[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]\'.',
-	'checkuser-all' => 'Option in drop-down input box "Duration" on CheckUser Special page. See screenshot \'[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]\'.
-
+	'checkuser-week-1' => 'Option in drop-down input box "Duration" on CheckUser Special page. See screenshot \'[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]\'.',
+	'checkuser-week-2' => 'Option in drop-down input box "Duration" on CheckUser Special page. See screenshot \'[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]\'.',
+	'checkuser-month' => 'Option in drop-down input box "Duration" on CheckUser Special page. See screenshot \'[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]\'.',
+	'checkuser-all' => 'Option in drop-down input box "Duration" on CheckUser Special page. See screenshot \'[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]\'.
 {{Identical|All}}',
 	'checkuser-cidr-label' => 'Used as the legend of the fieldset in Special:CheckUser.',
 	'checkuser-cidr-res' => 'For an explanation of CIDR see [[WikiPedia:CIDR]].',
 	'checkuser-nomatch-edits' => '* $1 = date
 * $2 = time',
-	'checkuser-check' => 'Button label on CheckUser Special page. See screenshot \'[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Basic CheckUser interface]\'.
+	'checkuser-check' => 'Button label on CheckUser Special page. See screenshot \'[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]\'.
 
 Also appears to be used as link to new CheckUser check from the results page of a CheckUser check - see screenshot "Example IP check".',
 	'checkuser-massblock' => '{{Identical|Block selected users}}',
@@ -186,52 +182,51 @@ Also appears to be used as link to new CheckUser check from the results page of 
 * $1 is a drop down box with search types
 * $2 is a text input field for the search pattern
 
-See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]".',
-	'checkuser-search-submit' => 'Button label on log of CheckUser searches. See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]".
-
+See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".',
+	'checkuser-search-submit' => 'Button label on log of CheckUser searches. See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".
 {{Identical|Search}}',
 	'checkuser-search-initiator' => 'This message is an option in an input box on the search form for the checkuser log.
 It is parameter $1 in the message {{msg-mw|Checkuser-search-form}}.
 
-See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]".
+See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".
 
 Initiator means the CheckUser who checks someone\'s information.',
 	'checkuser-search-target' => 'The target of the check. The user checked.',
 	'checkuser-ipeditcount' => "This information is shown on the result page of [[mw:Extension:CheckUser#Basic_interface|Special:CheckUser]] (when doing the ''{{int:Checkuser-users}}'' check), next to the individual listed IPs. See [[mw:Extension:CheckUser#Basic_interface|screenshot]] \"Example user name check\").
 
 \$1 is an estimate of the total number of edits from the respective IP (i.e. the number of edits by all users, not only by the requested user). As the comment in the code says: ''If we get some results, it helps to know if the IP in general has a lot more edits, e.g. “tip of the iceberg”…''",
-	'checkuser-log-return' => 'Link label on log of CheckUser searches. See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]".',
+	'checkuser-log-return' => 'Link label on log of CheckUser searches. See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".',
 	'checkuser-limited' => 'A message shown above CheckUser results if the result list would be longer than the specified limit (5000 entries), and has been truncated.',
 	'checkuser-log-userips' => 'This is an entry in the checkuser log when a checkuser checks from which IP addresses a user has edited.
 * Parameter $1 is the user who did the check
 * Parameter $2 is the user that was checked, with links to talk page, contributions, and block (like this: [[User:Username|Username]] ( [[User talk|Talk]] | [[Special:Contributions/Username|contribs]] | [[Special:Blockip|block]]) )
 
-See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]".',
+See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".',
 	'checkuser-log-ipedits' => 'This is an entry in the checkuser log when a checkuser checks which edits have been done from an IP address.
 * Parameter $1 is the user who did the check
 * Parameter $2 is the IP address that was checked
 
-See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]".',
+See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".',
 	'checkuser-log-ipusers' => 'This is an entry in the checkuser log when a checkuser checks which users have used an IP address.
 *Parameter $1 is the user who did the check
 *Parameter $2 is the IP address
 
-See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]".',
+See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".',
 	'checkuser-log-ipedits-xff' => 'This is an entry in the checkuser log when a checkuser checks which edits have been done from an XFF IP address (XFF means X-Forwarded-For. Some providers use proxies to forward user requests. This effectively means anonymization of requests. To make the requesting user identifiable again, the original requesting IP is transmitted in a separate HTTP header, the XFF header.).
 * Parameter $1 is the user who did the check
 * Parameter $2 is the IP address that was checked
 
-See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]".',
+See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".',
 	'checkuser-log-ipusers-xff' => 'This is an entry in the checkuser log when a checkuser checks which users have used an XFF IP address (XFF means X-Forwarded-For. Some providers use proxies to forward user requests. This effectively means anonymization of requests. To make the requesting user identifiable again, the original requesting IP is transmitted in a separate HTTP header, the XFF header.).
 *Parameter $1 is the user who did the check
 *Parameter $2 is the IP address
 
-See screenshot "[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]".',
+See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".',
 	'checkuser-log-useredits' => "This is an entry in the checkuser log when a checkuser checks which edits have been done from an IP address.
 :'''\$1:''' name of checkuser
 :'''\$2:''' name of user whose edits were inspected
 
-See screenshot \"[http://www.mediawiki.org/wiki/Extension:CheckUser#Basic_interface Example log]\".",
+See screenshot \"[[mw:Extension:CheckUser#Basic_interface|Example log]]\".",
 	'checkuser-autocreate-action' => 'Text of the event displayed in the CheckUser results, corresponding to the automatic creation of a new user account (by CentralAuth).',
 	'checkuser-create-action' => 'Text of the event displayed in the CheckUser results. Indicates creation of the user.',
 	'checkuser-email-action' => 'Logged text when a user sends an e-mail. Probably preceded by the name of the checkuser.  Parameters:
