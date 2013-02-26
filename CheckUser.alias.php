@@ -368,6 +368,7 @@ $specialPageAliases['vep'] = array(
 /** Vietnamese (Tiếng Việt) */
 $specialPageAliases['vi'] = array(
 	'CheckUser' => array( 'Kiểm_tra_người_dùng' ),
+	'CheckUserLog' => array( 'Nhật_trình_kiểm_tra_người_dùng' ),
 );
 
 /** Simplified Chinese (中文（简体）‎) */
