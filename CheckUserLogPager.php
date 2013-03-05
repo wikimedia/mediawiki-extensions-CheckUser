@@ -12,12 +12,6 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 	}
 
 	function formatRow( $row ) {
-		if ( $row->cul_reason === '' ) {
-			$comment = '';
-		} else {
-			$comment = Linker::commentBlock( $row->cul_reason );
-		}
-
 		$user = Linker::userLink( $row->cul_user, $row->user_name );
 
 		if ( $row->cul_type == 'userips' || $row->cul_type == 'useredits' ) {
@@ -28,17 +22,17 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 		}
 
 		// Give grep a chance to find the usages:
-		// checkuser-log-userips, checkuser-log-ipedits, checkuser-log-ipusers,
-		// checkuser-log-ipedits-xff, checkuser-log-ipusers-xff, checkuser-log-useredits
+		// checkuser-log-entry-userips, checkuser-log-entry-ipedits,
+		// checkuser-log-entry-ipusers, checkuser-log-entry-ipedits-xff
+		// checkuser-log-entry-ipusers-xff, checkuser-log-entry-useredits
 		return '<li>' .
-			$this->getLanguage()->timeanddate( wfTimestamp( TS_MW, $row->cul_timestamp ), true ) .
-			$this->msg( 'comma-separator' )->text() .
 			$this->msg(
-				'checkuser-log-' . $row->cul_type,
+				'checkuser-log-entry-' . $row->cul_type,
 				$user,
-				$target
+				$target,
+				$this->getLanguage()->timeanddate( wfTimestamp( TS_MW, $row->cul_timestamp ), true )
 			)->text() .
-			$comment .
+			Linker::commentBlock( $row->cul_reason ) .
 			'</li>';
 	}
 
