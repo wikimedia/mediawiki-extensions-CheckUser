@@ -98,7 +98,7 @@ $wgSpecialPageGroups['CheckUserLog'] = 'changes';
 $wgAutoloadClasses['CheckUser'] = $dir . '/CheckUser_body.php';
 $wgAutoloadClasses['CheckUserHooks'] = $dir . '/CheckUser.hooks.php';
 $wgAutoloadClasses['CheckUserLogPager'] = $dir . '/CheckUserLogPager.php';
-$wgAutoloadClasses['SpecialCheckUserLog'] = $dir . '/SpecialCheckUserLog.php';
+$wgAutoloadClasses['SpecialCheckUserLog'] = $dir . '/specials/SpecialCheckUserLog.php';
 $wgAutoloadClasses['CheckUserEncryptedData'] = $dir . '/CheckUserEncryptedData.php';
 
 // API modules
