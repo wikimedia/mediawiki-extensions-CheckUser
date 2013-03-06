@@ -95,7 +95,7 @@ $wgSpecialPageGroups['CheckUser'] = 'users';
 $wgSpecialPages['CheckUserLog'] = 'SpecialCheckUserLog';
 $wgSpecialPageGroups['CheckUserLog'] = 'changes';
 
-$wgAutoloadClasses['CheckUser'] = $dir . '/CheckUser_body.php';
+$wgAutoloadClasses['CheckUser'] = $dir . '/specials/SpecialCheckUser.php';
 $wgAutoloadClasses['CheckUserHooks'] = $dir . '/CheckUser.hooks.php';
 $wgAutoloadClasses['CheckUserLogPager'] = $dir . '/CheckUserLogPager.php';
 $wgAutoloadClasses['SpecialCheckUserLog'] = $dir . '/specials/SpecialCheckUserLog.php';
