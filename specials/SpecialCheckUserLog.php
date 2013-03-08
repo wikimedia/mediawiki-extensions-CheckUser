@@ -80,6 +80,8 @@ class SpecialCheckUserLog extends SpecialPage {
 				$this->getCheckUserFormTitle(),
 				$this->msg( 'checkuser-log-return' ) ) );
 		
+		// Give grep a chance to find the usages:
+		// checkuser-search-initiator, checkuser-search-target
 		$searchTypes = array( 'initiator', 'target' );
 		$select = "<select name=\"cuSearchType\" style='margin-top:.2em;'>\n";
 		foreach ( $searchTypes as $searchType ) {
