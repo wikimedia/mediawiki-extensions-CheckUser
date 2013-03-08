@@ -27,6 +27,9 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 			$target = $row->cul_target_text;
 		}
 
+		// Give grep a chance to find the usages:
+		// checkuser-log-userips, checkuser-log-ipedits, checkuser-log-ipusers,
+		// checkuser-log-ipedits-xff, checkuser-log-ipusers-xff, checkuser-log-useredits
 		return '<li>' .
 			$this->getLanguage()->timeanddate( wfTimestamp( TS_MW, $row->cul_timestamp ), true ) .
 			$this->msg( 'comma-separator' )->text() .
