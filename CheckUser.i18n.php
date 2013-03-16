@@ -178,6 +178,8 @@ Also appears to be used as link to new CheckUser check from the results page of 
 	'checkuser-massblock-commit' => '{{Identical|Block selected users}}',
 	'checkuser-block-success' => '* $1 is a list of one or more usernames
 * $2 is the number of usernames in $1.',
+	'checkuser-accounts' => 'Used in Special:CheckUser. Parameters:
+* $1 - number of accounts',
 	'checkuser-search-form' => 'This message is a search form for the checkuser log.
 * $1 is a drop down box with search types
 * $2 is a text input field for the search pattern
