@@ -1660,6 +1660,7 @@ Seneste redigering var $1 $2.',
 /** German (Deutsch)
  * @author Geitost
  * @author Kghbln
+ * @author MF-Warburg
  * @author Metalhead64
  * @author Pill
  * @author Purodha
@@ -1707,7 +1708,7 @@ Die letzte Bearbeitung hat am $1 um $2 Uhr stattgefunden.',
 	'checkuser-nolog' => 'Es ist keine Logbuchdatei vorhanden.',
 	'checkuser-blocked' => 'gesperrt',
 	'checkuser-gblocked' => 'global gesperrt',
-	'checkuser-locked' => 'Gesperrt',
+	'checkuser-locked' => 'global gesperrt',
 	'checkuser-wasblocked' => 'ehemals gesperrt',
 	'checkuser-localonly' => 'nicht zusammengeführt',
 	'checkuser-massblock' => 'Ausgewählte Benutzer sperren',
