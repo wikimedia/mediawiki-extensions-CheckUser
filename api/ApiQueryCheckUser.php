@@ -234,6 +234,10 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				ApiBase::PARAM_DFLT => '-2 weeks'
 			),
 			'xff'      => null,
+			'token'    => array(
+				ApiBase::PARAM_TYPE => 'string',
+				ApiBase::PARAM_REQUIRED => true,
+			),
 		);
 	}
 
@@ -282,5 +286,13 @@ class ApiQueryCheckUser extends ApiQueryBase {
 
 	public function getVersion() {
 		return __CLASS__ . ': $Id$';
+	}
+
+	public function getTokenSalt() {
+		return '';
+	}
+
+	public function needsToken() {
+		return true;
 	}
 }
