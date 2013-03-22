@@ -88,6 +88,7 @@ $specialPageAliases['el'] = array(
 /** Esperanto (Esperanto) */
 $specialPageAliases['eo'] = array(
 	'CheckUser' => array( 'Kontroli_uzanton' ),
+	'CheckUserLog' => array( 'Protokoloj_de_kontrolado_de_uzantoj' ),
 );
 
 /** Spanish (español) */

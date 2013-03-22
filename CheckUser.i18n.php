@@ -2819,7 +2819,7 @@ Os usuarios e as edicións por un cliente IP poden ser recuperados a través das
 Non se devolverán máis de 5.000 edicións por motivos de rendemento.
 Use isto de acordo coas políticas.',
 	'checkuser-desc' => 'Garante que usuarios cos permisos apropiados poidan comprobar os enderezos IP dos usuarios e acceder a outra información',
-	'checkuser-logcase' => 'O rexistro de búsqueda é sensíbel a maiúsculas e minúsculas.',
+	'checkuser-logcase' => 'A procura no rexistro distingue entre maiúsculas e minúsculas.',
 	'checkuser' => 'Verificador de usuarios',
 	'checkuserlog' => 'Rexistro de comprobacións de usuarios',
 	'checkuser-contribs' => 'comprobar os enderezos IP do usuario',
