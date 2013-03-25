@@ -127,10 +127,12 @@ Here are the IPs used (5000 max, sorted by address):',
 $messages['qqq'] = array(
 	'checkuser-summary' => "Explanation of CheckUser tool. See [[mw:Extension:CheckUser#Basic_interface|screenshot titled 'Basic CheckUser interface']].",
 	'checkuser-desc' => '{{desc|name=Check User|url=http://www.mediawiki.org/wiki/Extension:CheckUser}}',
-	'checkuser' => 'Check user extension. The name of the special page where checkusers can check the IP addresses of users. The message is used in the list of special pages, and at the top of [[Special:Checkuser]].
-
+	'checkuser' => 'Check user extension.
+{{doc-special|CheckUser}}
+In the special page, checkusers can check the IP addresses of users.
 {{Identical|Check user}}',
-	'checkuserlog' => 'The name of the special page where checkusers can look at a log of past checkuser actions. The message is used in the list of special pages, and at the top of [[Special:CheckUserLog]].',
+	'checkuserlog' => '{{doc-special|CheckUserLog}}
+In the special page, checkusers can look at a log of past checkuser actions.',
 	'checkuser-contribs' => "This is a link anchor used in [[Special:Contributions]]/''name'' to link to [[Special:CheckUser]].",
 	'checkuser-contribs-log' => "This is a link anchor used in [[Special:Contributions]]/''name'' to link to recent entries in the CheckUser log regarding the user. Displayed only when user viewing the page has the right to view the CheckUser log ('''checkuser-log''' permission).",
 	'group-checkuser' => '{{doc-group|checkuser}}
@@ -169,17 +171,93 @@ See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interfa
 {{Identical|All}}',
 	'checkuser-cidr-label' => 'Used as the legend of the fieldset in Special:CheckUser.',
 	'checkuser-cidr-res' => 'For an explanation of CIDR see [[WikiPedia:CIDR]].',
+	'checkuser-empty' => 'Used in [[Special:CheckUserLog]], if the CheckUser log is empty.',
+	'checkuser-nomatch' => 'Used in [[Special:CheckUser]].',
 	'checkuser-nomatch-edits' => '* $1 = date
 * $2 = time',
 	'checkuser-check' => 'Button label on CheckUser Special page. See screenshot \'[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]\'.
 
 Also appears to be used as link to new CheckUser check from the results page of a CheckUser check - see screenshot "Example IP check".',
-	'checkuser-massblock' => '{{Identical|Block selected users}}',
-	'checkuser-massblock-commit' => '{{Identical|Block selected users}}',
-	'checkuser-block-success' => '* $1 is a list of one or more usernames
-* $2 is the number of usernames in $1.',
+	'checkuser-log-fail' => 'Used as failure message in [[Special:CheckUser]].',
+	'checkuser-blocked' => 'Used as link text in [[Special:CheckUser]].
+
+The link points to [[Special:Log]] or [[Special:BlockList]].
+
+See also:
+* {{msg-mw|Checkuser-gblocked}}
+* {{msg-mw|Checkuser-wasblocked}}',
+	'checkuser-gblocked' => 'Used a flag in [[Special:CheckUser]].
+
+See also:
+* {{msg-mw|Checkuser-blocked}}
+* {{msg-mw|Checkuser-wasblocked}}',
+	'checkuser-locked' => 'Used as a flag in [[Special:CheckUser]].',
+	'checkuser-wasblocked' => 'Used as link text in [[Special:CheckUser]].
+
+The link points to [[Special:Log]].
+
+See also:
+* {{msg-mw|Checkuser-blocked}}
+* {{msg-mw|Checkuser-gblocked}}',
+	'checkuser-localonly' => 'Used as a flag in [[Special:CheckUser]].',
+	'checkuser-massblock' => 'Used as fieldset label.
+
+This message is followed by the following message:
+* {{msg-mw|Checkuser-massblock-text}}
+{{Identical|Block selected users}}',
+	'checkuser-massblock-text' => 'Used as intro text for the form {{msg-mw|checkuser-massblock}}.',
+	'checkuser-blocktag' => 'Used as checkbox label in [[Special:CheckUser]].
+
+This message is followed by "tag" input box.
+
+See also:
+* {{msg-mw|Checkuser-blocktag-talk}}',
+	'checkuser-blocktag-talk' => 'Used as checkbox label in [[Special:CheckUser]].
+
+This message is followed by "talktag" input box.
+
+See also:
+* {{msg-mw|Checkuser-blocktag}}',
+	'checkuser-massblock-commit' => 'Used as Submit button text in [[Special:CheckUser]].
+{{Identical|Block selected users}}',
+	'checkuser-block-success' => 'Used as success message in [[Special:CheckUser]].
+
+Parameters:
+* $1 - a list of one or more usernames
+* $2 - the number of usernames in <code>$1</code>
+
+See also:
+* {{msg-mw|Checkuser-block-failure}}
+* {{msg-mw|Checkuser-block-limit}}
+* {{msg-mw|Checkuser-block-noreason}}',
+	'checkuser-block-failure' => 'Used as failure message in [[Special:CheckUser]].
+
+See also:
+* {{msg-mw|Checkuser-block-success}}
+* {{msg-mw|Checkuser-block-limit}}
+* {{msg-mw|Checkuser-block-noreason}}',
+	'checkuser-block-limit' => 'Used as failure message in [[Special:CheckUser]].
+
+See also:
+* {{msg-mw|Checkuser-block-success}}
+* {{msg-mw|Checkuser-block-failure}}
+* {{msg-mw|Checkuser-block-noreason}}',
+	'checkuser-block-noreason' => 'Used as failure message in [[Special:CheckUser]].
+
+See also:
+* {{msg-mw|Checkuser-block-success}}
+* {{msg-mw|Checkuser-block-failure}}
+* {{msg-mw|Checkuser-block-limit}}',
+	'checkuser-noreason' => 'Used as error message in [[Special:CheckUser]].',
 	'checkuser-accounts' => 'Used in Special:CheckUser. Parameters:
 * $1 - number of accounts',
+	'checkuser-too-many' => 'Used in [[Special:CheckUser]].
+
+This message is followed by a list of IPs that have edits.
+
+If the number of IPs is 5000 or more, the following message is shown:
+* {{msg-mw|checkuser-limited}}',
+	'checkuser-user-nonexistent' => 'Used as error message in [[Special:CheckUserLog]].',
 	'checkuser-search-form' => 'This message is a search form for the checkuser log.
 * $1 is a drop down box with search types
 * $2 is a text input field for the search pattern
@@ -1371,11 +1449,52 @@ $messages['ch'] = array(
 );
 
 /** Sorani Kurdish (کوردی)
+ * @author Calak
  */
 $messages['ckb'] = array(
-	'checkuser-reason' => 'هۆکار:',
+	'group-checkuser' => 'پشکنەرانی بەکارھێنەر',
+	'group-checkuser-member' => '{{GENDER:$1|پشکنەری بەکارھێنەر}}',
+	'right-checkuser' => 'ناونیشانەکانی ئایپی و زانیارییەکانی تری بەکارھێنەر بپشکنە',
+	'right-checkuser-log' => 'دیتنی لۆگی پشکنینی بەکارھێنەر',
+	'action-checkuser' => 'ناونیشانەکانی ئایپی و زانیارییەکانی تری بەکارھێنەر بپشکنە',
+	'action-checkuser-log' => 'دیتنی لۆگی پشکنینی بەکارھێنەر',
+	'grouppage-checkuser' => '{{ns:project}}:پشکنینی بەکارھێنەر',
+	'checkuser-reason' => 'ھۆکار:',
+	'checkuser-reason-api' => 'API: $1',
+	'checkuser-showlog' => 'لۆگ نیشان بدە',
+	'checkuser-query' => 'دوایین گۆڕانکارییەکان بگەڕێ',
+	'checkuser-target' => 'ناونیشانی ئایپی یان ناوی‌ بەکارھێنەر:',
+	'checkuser-users' => 'بەکارھێنەرەکان پێرست بکە',
+	'checkuser-edits' => 'دەستکارییەکان پێرست بکە',
+	'checkuser-ips' => 'ناونیشانەکان ئایپی پێرست بکە',
 	'checkuser-search' => 'گەڕان',
+	'checkuser-period' => 'ماوە:',
+	'checkuser-week-1' => 'حەوتەیەک لەمە پێش',
+	'checkuser-week-2' => 'دوو حەوتە لەمە پێش',
+	'checkuser-month' => '٣٠ ڕۆژ لەمە پێش',
+	'checkuser-all' => 'ھەموو',
+	'checkuser-cidr-res' => 'CIDR ھاوبەش:',
+	'checkuser-empty' => 'لۆگ ھیچی تێدا نییە.',
+	'checkuser-check' => 'بپشکنە',
+	'checkuser-nolog' => 'پەڕگەی لۆگ نەدۆزرایەوە.',
+	'checkuser-blocked' => 'بەربەست کراو',
+	'checkuser-gblocked' => 'بەربەست کراوی جیھانی',
+	'checkuser-wasblocked' => 'پێشتر بەربەست کراوە',
+	'checkuser-massblock' => 'بەکارھێنەرە ھەڵبژێردراوەکان بەربەست بکە',
+	'checkuser-blocktag' => 'پەڕەکانی بەکارھێنەر جێگۆڕ بکە لەگەڵ:',
+	'checkuser-blocktag-talk' => 'پەڕەکانی لێدوان جێگۆڕ بکە لەگەڵ:',
+	'checkuser-massblock-commit' => 'بەکارھێنەرە ھەڵبژێردراوەکان بەربەست بکە',
+	'checkuser-block-success' => "'''{{PLURAL:$2|بەکارھێنەر|بەکارھێنەرانی}} $1 ئێستا {{PLURAL:$2|بەربەست کراوە|بەربەست کراون}}.'''",
+	'checkuser-block-failure' => "'''ھیچ بەکارھێنەرێک بەربەست نەکراوە.'''",
+	'checkuser-block-limit' => 'ژمارەیەکی زۆر لە بەکارھێنەران ھەڵبژێردراوە.',
+	'checkuser-block-noreason' => 'دەبێ ھۆکارێک بۆ بەرەبەستنەکان بخەیە ڕوو.',
+	'checkuser-noreason' => 'دەبێ ھۆکارێک بۆ ئەم پرسە بخەیە ڕوو.',
+	'checkuser-accounts' => '$1 {{PLURAL:$1|ھەژمار}}ی نوێ',
+	'checkuser-too-many' => 'ژمارەی ئاکامەکان یەکجار زۆرە (بە پێی بەراوردی پرسەکە)، تکایە CIDR بەرتەسک بکەوە.
+ئەمانە ئایپییە بەکارھێنراوەکانن (ئەو پەڕی ٥٠٠٠، ڕیزکراو بە ناونیشان):',
+	'checkuser-user-nonexistent' => 'بەکارھێنەری دەستنیشان کراوە بوونی نییە.',
 	'checkuser-search-submit' => 'گەڕان',
+	'checkuser-search-target' => 'مەبەست',
 );
 
 /** Corsican (corsu)
@@ -3999,7 +4118,7 @@ IPv4 (16から32ビットのCIDR表記) と IPv6 (96から128ビットのCIDR表
 	'checkuser-locked' => 'ロック済み',
 	'checkuser-wasblocked' => '過去にブロックの記録あり',
 	'checkuser-localonly' => '統合されていません',
-	'checkuser-massblock' => '選択した利用者をブロックする',
+	'checkuser-massblock' => '選択した利用者をブロック',
 	'checkuser-massblock-text' => '選択した利用者は無期限ブロックされ、同時に自動ブロックが作動しアカウント作成も禁止されます。
 IPアドレスはIP利用者向けに1週間ブロックされ、アカウント作成が禁止されます。',
 	'checkuser-blocktag' => '利用者ページを以下で置換:',
