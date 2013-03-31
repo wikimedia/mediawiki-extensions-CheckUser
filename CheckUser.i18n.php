@@ -127,6 +127,7 @@ Here are the IPs used (5000 max, sorted by address):',
 $messages['qqq'] = array(
 	'checkuser-summary' => "Explanation of CheckUser tool. See [[mw:Extension:CheckUser#Basic_interface|screenshot titled 'Basic CheckUser interface']].",
 	'checkuser-desc' => '{{desc|name=Check User|url=http://www.mediawiki.org/wiki/Extension:CheckUser}}',
+	'checkuser-logcase' => 'Unused at this time.',
 	'checkuser' => 'Check user extension.
 {{doc-special|CheckUser}}
 In the special page, checkusers can check the IP addresses of users.
@@ -179,6 +180,7 @@ See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interfa
 
 Also appears to be used as link to new CheckUser check from the results page of a CheckUser check - see screenshot "Example IP check".',
 	'checkuser-log-fail' => 'Used as failure message in [[Special:CheckUser]].',
+	'checkuser-nolog' => 'Unused at this time.',
 	'checkuser-blocked' => 'Used as link text in [[Special:CheckUser]].
 
 The link points to [[Special:Log]] or [[Special:BlockList]].
