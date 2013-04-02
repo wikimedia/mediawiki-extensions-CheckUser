@@ -95,8 +95,12 @@ class CheckUser extends SpecialPage {
 	}
 
 	protected function showGuide() {
-		$this->getOutput()->addWikiText( $this->msg( 'checkuser-summary' )->text() .
-			"\n\n[[" . $this->getCheckUserLogTitle()->getPrefixedText() .
+		global $wgCheckUserCIDRLimit;
+		$this->getOutput()->addWikiText( 
+			$this->msg( 'checkuser-summary',
+				$wgCheckUserCIDRLimit['IPv4'],
+				$wgCheckUserCIDRLimit['IPv6'] )->text() .
+				"\n\n[[" . $this->getCheckUserLogTitle()->getPrefixedText() .
 				'|' . $this->msg( 'checkuser-showlog' )->text() . ']]'
 		);
 	}
@@ -1334,18 +1338,19 @@ class CheckUser extends SpecialPage {
 	 * @return mixed array/false conditions
 	 */
 	public static function getIpConds( $db, $ip, $xfor = false ) {
+		global $wgCheckUserCIDRLimit;
 		$type = ( $xfor ) ? 'xff' : 'ip';
 		// IPv4 CIDR, 16-32 bits
 		$matches = array();
 		if ( preg_match( '#^(\d+\.\d+\.\d+\.\d+)/(\d+)$#', $ip, $matches ) ) {
-			if ( $matches[2] < 16 || $matches[2] > 32 ) {
+			if ( $matches[2] < $wgCheckUserCIDRLimit['IPv4'] || $matches[2] > 32 ) {
 				return false; // invalid
 			}
 			list( $start, $end ) = IP::parseRange( $ip );
 			return array( 'cuc_' . $type . '_hex BETWEEN ' . $db->addQuotes( $start ) . ' AND ' . $db->addQuotes( $end ) );
 		} elseif ( preg_match( '#^\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}/(\d+)$#', $ip, $matches ) ) {
 			// IPv6 CIDR, 48-128 bits
-			if ( $matches[1] < 48 || $matches[1] > 128 ) {
+			if ( $matches[1] < $wgCheckUserCIDRLimit['IPv6'] || $matches[1] > 128 ) {
 				return false; // invalid
 			}
 			list( $start, $end ) = IP::parseRange( $ip );
