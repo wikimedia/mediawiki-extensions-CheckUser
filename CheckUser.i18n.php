@@ -105,7 +105,10 @@ Here are the IPs used (5000 max, sorted by address):',
 	'group-checkuser.js'         => '/* JS placed here will affect checkuser only */', # only translate this message to other languages if you have to change it
 );
 
-/** Message documentation (Message documentation)
+/** Message documentation (This is the name of the message documentation language code (qqq). Follow the rules of your languages and use small first letter if it doesn't capitalize language names always.
+
+It might be easier to translate it as "translation guidelines" or "translation help".
+{{Identical|Message documentation}})
  * @author Darth Kule
  * @author Dferg
  * @author Fryed-peach
