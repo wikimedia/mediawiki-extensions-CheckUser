@@ -1888,10 +1888,10 @@ Es folgen die benutzten IP-Adressen (maximal 5000, sortiert nach Adresse):',
  * @author Xoser
  */
 $messages['diq'] = array(
-	'checkuser-summary' => 'Ena xacet vurnayişanê neweyî skan keno ke adresanê IPyan reyan biyaro ke bimucne datayê karberî ser yew adresê IPyî.
-Karberan u vurnayîşan ke yew IPyê karberî kerd reyna yeno pê XFF u "/xff". IPv4 (CIDR 16-32) u IPv6 (CIDR 48-128) rê zi destek beno.
-5000 zafyer vurnayîşan sero netice nidano, qe performans hedi beno.
-Ena politika ma ser kar bike.',
+	'checkuser-summary' => 'Eno xacet vurnayışanê neweyan sken keno ke adresanê IPyan reyna biaro ke bımocno ra yew adresa IPya melumatê karberi ser.
+Karberan u vurnayışan ke yew IPyê karberi kerd a reyna yeno pê XFF u "/xff". IPv4 (CIDR 16-32) u IPv6 (CIDR 48-128) rê zi desteg beno.
+5000 zafêr vurnayışan sero netice nêdano, qet performans hêdi beno.
+Ena politika ma sero kar bıke.',
 	'checkuser-desc' => 'Karberan rê destur bide ke adresanê IPyan u enformasyonê bînan kontrol bike',
 	'checkuser-logcase' => 'Ena bigêrayîşê logî case sensitive o.',
 	'checkuser' => 'Karber kontrol bike',
