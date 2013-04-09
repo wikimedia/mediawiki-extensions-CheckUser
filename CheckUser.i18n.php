@@ -415,8 +415,8 @@ $messages['am'] = array(
  * @author Juanpabl
  */
 $messages['an'] = array(
-	'checkuser-summary' => "Ista aina repasa os zaguers cambeos ta mirar as IPs usatas por un usuario u amostrar as edicions y datos d'usuario ta una adreza IP. Os usuarios y edicions feitos por un cliente IP pueden trobar-se por meyo de cabeceras XFF adhibindo a IP con \"/xff\". Se da soporte a IPv4 (CIDR 16-32) y IPv6 (CIDR 48-128).
-No s'otendrán más de 5000 edicions por razons de prestacions. Faiga servir ista aina d'alcuerdo con as politicas d'o procheuto.",
+	'checkuser-summary' => 'Ista aina repasa os zaguers cambeos ta mirar as IPs usatas por un usuario u amostrar as edicions y datos d\'usuario ta una adreza IP. Os usuarios y edicions feitos por un cliente IP pueden trobar-se por meyo de cabeceras XFF adhibindo a IP con "/xff". Se da soporte a IPv4 (CIDR $1-32) y IPv6 (CIDR $2-128).
+No s\'otendrán más de 5000 edicions por razons de prestacions. Faiga servir ista aina d\'alcuerdo con as politicas d\'o procheuto.',
 	'checkuser-desc' => "Concede a os usuarios con o premiso adecuau a capacidat ta comprebar as adrezas IP d'os usuarios y atras informacions",
 	'checkuser-logcase' => 'En mirar os rechistros se fa destinción entre mayusclas y minusclas.',
 	'checkuser' => "Comprebación d'usuarios",
@@ -472,7 +472,7 @@ $messages['ang'] = array(
  */
 $messages['ar'] = array(
 	'checkuser-summary' => 'هذه الأداة تفحص أحدث التغييرات لاسترجاع الأيبيهات المستخدمة بواسطة مستخدم أو عرض بيانات التعديل/المستخدم لأيبي.
-المستخدمون والتعديلات بواسطة أيبي عميل يمكن استرجاعها من خلال عناوين XFF عبر طرق الأيبي IP ب"/xff". IPv4 (CIDR 16-32) و IPv6 (CIDR 48-128) مدعومان.
+المستخدمون والتعديلات بواسطة أيبي عميل يمكن استرجاعها من خلال عناوين XFF عبر طرق الأيبي IP ب"/xff". IPv4 (CIDR $1-32) و IPv6 (CIDR $2-128) مدعومان.
 	لا أكثر من 5000 تعديل سيتم عرضها لأسباب تتعلق بالأداء.
 استخدم هذا بالتوافق مع السياسة.',
 	'checkuser-desc' => 'يمنح المستخدمين بالسماح المطلوب القدرة على فحص عناوين الأيبي لمستخدم ما ومعلومات أخرى',
@@ -575,7 +575,7 @@ $messages['arc'] = array(
 $messages['arz'] = array(
 	'checkuser-summary' => 'الوسيلة دى بتدور فى احدث التغييرات علشان ترجع الايبيهات اللى استعملها يوزر او علشان تعرض بيانات التعديل/اليوزر لعنوان الاى بى.
 اليوزرز و التعديلات اللى اتعملت من أى بى عميل ممكن تترجع عن طريق عناوين XFF لو زودت على الاى بى "/xff".
-IPv4 (CIDR 16-32) و IPv6 (CIDR 48-128) مدعومين.
+IPv4 (CIDR $1-32) و IPv6 (CIDR $2-128) مدعومين.
 مش اكتر من 5000 تعديل ممكن تتعرض بسبب الاداء.
 استخدم دا بطريقة موافقة للسياسة.',
 	'checkuser-desc' => 'بيدى لليوزرز بعد الاذن المناسب القدرة على التشييك على  عنوان الاى بى بتاع اى يوزر و معلومات تانية',
@@ -664,7 +664,7 @@ $messages['as'] = array(
  */
 $messages['ast'] = array(
 	'checkuser-summary' => "Esta ferramienta escanea los cambios recientes pa sacar les IP usaes por un usuariu o p'amosar los datos d'ediciones/usuarios d'una IP.
-Los usuarios y ediciones correspondientes a una IP puen sacase per aciu de les cabeceres XFF amestando depués de la IP \\\"/xff\\\". Puen usase los protocolos IPv4 (CIDR 16-32) ya IPv6 (CIDR 48-128).
+Los usuarios y ediciones correspondientes a una IP puen sacase per aciu de les cabeceres XFF amestando depués de la IP \\\"/xff\\\". Puen usase los protocolos IPv4 (CIDR \$1-32) ya IPv6 (CIDR \$2-128).
 Por razones de rindimientu nun s'amosarán más de 5.000 ediciones.
 Emplega esta ferramienta acordies cola política d'usu.",
 	'checkuser-desc' => "Permite a los usuarios colos permisos afechiscos la posibilidá de comprobar les direiciones IP d'usuarios y otres informaciones",
@@ -810,7 +810,7 @@ $messages['azb'] = array(
  */
 $messages['ba'] = array(
 	'checkuser-summary' => 'Был ҡорал ҡатнашыусы тарафынан ҡулланылған IP адрестарҙы алыр өсөн йәки IP адрестан эшләнгән үҙгәртеүҙәрҙе/ҡатнашыусыларҙы ҡарар өсөн ҡулланыла ала.
-IP адрестан эшләнгән үҙгәртеүҙәр һәм ҡатнашыусылар күрһәтелгән XFF-башлыҡтар аша, IP адрестан һуң "/xff" өҫтәп, алына ала. IPv4 (CIDR 16-32) һәм IPv6 (CIDR 48-128) ҡулланыла ала.
+IP адрестан эшләнгән үҙгәртеүҙәр һәм ҡатнашыусылар күрһәтелгән XFF-башлыҡтар аша, IP адрестан һуң "/xff" өҫтәп, алына ала. IPv4 (CIDR $1-32) һәм IPv6 (CIDR $2-128) ҡулланыла ала.
 Етештереүсәнлек маҡсаттарында тәүге 5000 үҙгәртеү генә күрһәтеләсәк.
 Был ҡоралды ҡағиҙәләргә ярашлы ҡулланығыҙ.',
 	'checkuser-desc' => 'Ҡатнашыусыларҙың IP адрестарын һәм башҡа мәғлүмәтте тикшереү хоҡуғын  ҡатнашыусыларға бирә',
@@ -954,7 +954,7 @@ $messages['be'] = array(
  */
 $messages['be-tarask'] = array(
 	'checkuser-summary' => 'Гэты інструмэнт праглядае апошнія зьмены для атрыманьня ІР-адрасоў удзельніка альбо паказвае рэдагаваньні/зьвесткі ўдзельніка па ІР-адрасе.
-Удзельнікі і рэдагаваньні, якія рабіліся з ІР-адрасу, пазначаным ў загалоўках XFF, можна атрымаць, дадаўшы да ІР-адрасу «/xff». Падтрымліваюцца IPv4 (CIDR 16-32) і IPv6 (CIDR 48-128).
+Удзельнікі і рэдагаваньні, якія рабіліся з ІР-адрасу, пазначаным ў загалоўках XFF, можна атрымаць, дадаўшы да ІР-адрасу «/xff». Падтрымліваюцца IPv4 (CIDR $1-32) і IPv6 (CIDR $2-128).
 З прычыны прадукцыйнасьці будуць паказаны ня больш за 5000 рэдагаваньняў.
 Карыстайцеся гэтым інструмэнтам толькі згодна з правіламі.',
 	'checkuser-desc' => 'Дае магчымасьць удзельнікам з адпаведнымі правамі правяраць ІР-адрасы і іншую інфармацыю ўдзельнікаў',
@@ -1040,7 +1040,7 @@ $messages['be-tarask'] = array(
  */
 $messages['bg'] = array(
 	'checkuser-summary' => 'Този инструмент сканира последните промени и извлича IP адресите, използвани от потребител или показва информацията за редакциите/потребителя за посоченото IP.
-	Потребители и редакции по клиентско IP могат да бъдат извлечени чрез XFF headers като се добави IP с "/xff". Поддържат се IPv4 (CIDR 16-32) и IPv6 (CIDR 48-128).
+	Потребители и редакции по клиентско IP могат да бъдат извлечени чрез XFF headers като се добави IP с "/xff". Поддържат се IPv4 (CIDR $1-32) и IPv6 (CIDR $2-128).
 	От съображения, свързани с производителността на уикито, ще бъдат показани не повече от 5000 редакции. Използвайте инструмента съобразно установената политика.',
 	'checkuser-desc' => 'Предоставя на потребители с подходящите права възможност за проверка на потребителски IP адреси и друга информация',
 	'checkuser-logcase' => 'Търсенето в дневника различава главни от малки букви.',
@@ -1107,6 +1107,7 @@ $messages['bg'] = array(
 );
 
 /** Bengali (বাংলা)
+ * @author Aftab1995
  * @author Bellayet
  * @author Nasir8891
  * @author Wikitanvir
@@ -1115,7 +1116,7 @@ $messages['bg'] = array(
 $messages['bn'] = array(
 	'checkuser-summary' => 'এই সরঞ্জামটি সাম্প্রতিক পরিবর্তনসমূহ বিশ্লেষণ করে কোন ব্যবহারকারীর ব্যবহৃত আইপিগুলি নিয়ে আসে কিংবা কোন একটি আইপির জন্য সম্পাদনা/ব্যবহারকারী উপাত্ত প্রদর্শন করে।
 কোন ক্লায়েন্ট আইপি-র জন্য ব্যবহারকারী ও সম্পাদনা XFF হেডারসমূহের সাহায্যে নিয়ে আসা যায়; এজন্য আইপির সাথে "/xff" যোগ করতে হয়।
-IPv4 (CIDR 16-32) এবং IPv6 (CIDR 48-128) এই সরঞ্জামে সমর্থিত।
+IPv4 (CIDR $1-32) এবং IPv6 (CIDR $2-128) এই সরঞ্জামে সমর্থিত।
 দক্ষতাজনিত কারণে ৫০০০-এর বেশি সম্পাদনা নিয়ে আসা হবে না। নীতিমালা মেনে এটি ব্যবহার করুন।',
 	'checkuser-desc' => 'যথাযথ অনুমোদনপ্রাপ্ত ব্যবহারকারীদেরকে অন্য ব্যবহারকারীদের আইপি ঠিকানা এবং অন্যান্য তথ্য পরীক্ষা করার ক্ষমতা দেয়',
 	'checkuser-logcase' => 'লগ অনুসন্ধান বড়/ছোট হাতের অক্ষরের উপর নির্ভরশীল',
@@ -1126,13 +1127,17 @@ IPv4 (CIDR 16-32) এবং IPv6 (CIDR 48-128) এই সরঞ্জামে �
 	'group-checkuser' => 'ব্যবহারকারী পরীক্ষক',
 	'group-checkuser-member' => '{{GENDER:$1|ব্যবহারকারী পরীক্ষক}}',
 	'right-checkuser' => 'ব্যবহারকারীর আইপি ঠিকানা এবং অন্যান্য তথ্য যাচাই করুন',
+	'right-checkuser-log' => 'চেকইউজার লগ দেখুন',
+	'action-checkuser' => 'চেকইউজার-এর ঠিকানা এবং অন্যান্য তথ্য',
+	'action-checkuser-log' => 'চেকইউজার লগ দেখুন',
 	'grouppage-checkuser' => '{{ns:project}}:ব্যবহারকারী পরীক্ষণ',
 	'checkuser-reason' => 'কারণ:',
+	'checkuser-reason-api' => 'এপিআই: $1',
 	'checkuser-showlog' => 'লগ দেখাও',
 	'checkuser-query' => 'সাম্প্রতিক পরিবর্তনসমূহ জানুন',
 	'checkuser-target' => 'আইপি ঠিকানা বা ব্যবহারকারীর নাম:',
 	'checkuser-users' => 'ব্যবহারকারী সমূহ পাওয়া যাবে',
-	'checkuser-edits' => 'আইপি থেকে সম্পাদনাসমূহ পাওয়া যাবে', # Fuzzy
+	'checkuser-edits' => 'সম্পাদনাগুলি পান',
 	'checkuser-ips' => 'আইপি সমূহ পাওয়া যাবে',
 	'checkuser-search' => 'অনুসন্ধান',
 	'checkuser-period' => 'সময়:',
@@ -1160,20 +1165,21 @@ IPv4 (CIDR 16-32) এবং IPv6 (CIDR 48-128) এই সরঞ্জামে �
 	'checkuser-block-noreason' => 'আপনাকে অবশ্যই এই ব্লকগুলোর জন্য একটি কারণ উল্লেখ করতে হবে।',
 	'checkuser-noreason' => 'আপনাকে অবশ্যই এই কোয়েরির জন্য একটি কারণ উল্লেখ করতে হবে।',
 	'checkuser-accounts' => '$1 নতুন {{PLURAL:$1|অ্যাকাউন্ট|অ্যাকাউন্টসমূহ}}',
-	'checkuser-too-many' => 'অত্যধিক সংখ্যক ফলাফল, অনুগ্রহ করে CIDR সীমিত করুন। নিচের আইপিগুলি ব্যবহৃত হয়েছে (সর্বোচ্চ ৫০০০, ঠিকানা অনুযায়ী বিন্যস্ত):', # Fuzzy
+	'checkuser-too-many' => 'অত্যধিক সংখ্যক ফলাফল (অনুসন্ধান হিসাব অনুযায়ী), অনুগ্রহ করে CIDR সীমিত করুন। নিচের আইপিগুলি ব্যবহৃত হয়েছে (সর্বোচ্চ ৫০০০, ঠিকানা অনুযায়ী বিন্যস্ত):',
 	'checkuser-user-nonexistent' => 'এই নির্দিষ্ট ব্যবহারকারী নেই।',
 	'checkuser-search-form' => 'এমনসব লগ ভুক্তি খুঁজে বের করুন যেখানে $1 হল $2',
 	'checkuser-search-submit' => 'অনুসন্ধান',
 	'checkuser-search-initiator' => 'আরম্ভকারী',
 	'checkuser-search-target' => 'লক্ষ্য',
 	'checkuser-ipeditcount' => '~$1 সমস্ত ব্যবহাকারী থেকে',
-	'checkuser-log-return' => 'CheckUser মূল ফর্মে ফেরত যান', # Fuzzy
+	'checkuser-log-return' => 'CheckUser মূল ফর্মে ফেরত যান',
 	'checkuser-log-userips' => '$2 এর জন্য $1 আইপি  সমূহ পেয়েছে',
 	'checkuser-log-ipedits' => '$2 এর জন্য $1 সম্পাদনাসমূহ পেয়েছে',
 	'checkuser-log-ipusers' => '$2 এর জন্য $1 ব্যবহারকারীসমূহ পেয়েছে',
 	'checkuser-log-ipedits-xff' => '$2 এর জন্য XFF $1 সম্পাদনাসমূহ পেয়েছে',
 	'checkuser-log-ipusers-xff' => '$2 এর জন্য XFF $1 ব্যবহারকারীসমূহ পেয়েছে',
 	'checkuser-autocreate-action' => 'স্বয়ংক্রিয়ভাবে তৈরি হয়েছিলো',
+	'checkuser-create-action' => 'তৈরি করা হয়েছে',
 	'checkuser-email-action' => 'ব্যবহারকারী "$1"-এর কাছে একটি ই-মেইল পাঠাও',
 	'checkuser-reset-action' => 'ব্যবহারকারী "$1"-এর জন্য শব্দচাবি রিসেট করো',
 );
@@ -1184,7 +1190,7 @@ IPv4 (CIDR 16-32) এবং IPv6 (CIDR 48-128) এই সরঞ্জামে �
  * @author Y-M D
  */
 $messages['br'] = array(
-	'checkuser-summary' => "Furchal a ra an ostilh-mañ ar c'hemmoù diwezhañ a-benn klask ar chomlec'h IP implijet gant un implijer bennak, diskouez a ra holl degasadennoù ur chomlec'h IP (ha pa vefe bet enrollet), pe roll ar c'hontoù implijet gant ur chomlec'h IP. Gallout a ra ar c'hontoù hag ar c'hemmoù bezañ kavet gant un IP XFF mard echu gant \"/xff\". Posupl eo implijout ar protokoloù IPv4 (CIDR 16-32) hag IPv6 (CIDR 48-128). Bevennet eo an niver a gemmoù a c'haller lakaat war wel da {{formatnum:5000}} evit abegoù nerzh ar servijer. Grit gant an ostilh-mañ en ur zoujañ d'ar garta implijout.",
+	'checkuser-summary' => "Furchal a ra an ostilh-mañ ar c'hemmoù diwezhañ a-benn klask ar chomlec'h IP implijet gant un implijer bennak, diskouez a ra holl degasadennoù ur chomlec'h IP (ha pa vefe bet enrollet), pe roll ar c'hontoù implijet gant ur chomlec'h IP. Gallout a ra ar c'hontoù hag ar c'hemmoù bezañ kavet gant un IP XFF mard echu gant \"/xff\". Posupl eo implijout ar protokoloù IPv4 (CIDR \$1-32) hag IPv6 (CIDR \$2-128). Bevennet eo an niver a gemmoù a c'haller lakaat war wel da {{formatnum:5000}} evit abegoù nerzh ar servijer. Grit gant an ostilh-mañ en ur zoujañ d'ar garta implijout.",
 	'checkuser-desc' => "Reiñ a ra an tu d'an dud aotreet evit se da wiriañ chomlec'hioù IP an implijerien ha da gaout titouroù all",
 	'checkuser-logcase' => "Kizidik eo ar c'hlask er marilh ouzh an direnneg (pennlizherennoù/lizherennoù munud)",
 	'checkuser' => 'Gwiriañ an implijer',
@@ -1264,7 +1270,7 @@ Setu an IPoù implijet (5000 d'ar muiañ, urzhiet dre ar chomlec'h) :",
  */
 $messages['bs'] = array(
 	'checkuser-summary' => 'Ovaj alat skenira nedavne promjene te vraća IP adrese koje koriste korisnici ili prikazuje podatke o izmjenama i korisnicima za pojedinu IP adresu.
-Korisnici i izmjene nekog IP klijenta mogu biti nađene preko XFF zaglavlja uz primjenu oznake "/xff" pored IP-a. Podržani su i IPv4 (CIDR 16-32) i IPv6 (CIDR 48-128).
+Korisnici i izmjene nekog IP klijenta mogu biti nađene preko XFF zaglavlja uz primjenu oznake "/xff" pored IP-a. Podržani su i IPv4 (CIDR $1-32) i IPv6 (CIDR $2-128).
 Zbog boljih performansi, neće biti prikazano više od 5000 izmjena.
 Koristite ovo u skladu s pravilima.',
 	'checkuser-desc' => 'Omogućuje korisnicima sa adekvatnim dopuštenjima sposobnost da provjeravaju korisničke IP adrese i druge podatke',
@@ -1353,7 +1359,7 @@ Ovdje su prikazane korištene IP adrese (najviše 5000, poredano po adresi):',
  */
 $messages['ca'] = array(
 	'checkuser-summary' => "Aquest instrument efectua una cerca als canvis recents per a comprovar les adreces IP fetes servir per un usuari o per a mostrar les edicions d'una certa adreça IP.
-Les edicions i usuaris d'un client IP es poden obtenir via capçaleres XFF afegint /xff al final de la IP. Tant les adreces IPv4 (CIDR 16-32) com les IPv6 (CIDR 48-128) són admeses.
+Les edicions i usuaris d'un client IP es poden obtenir via capçaleres XFF afegint /xff al final de la IP. Tant les adreces IPv4 (CIDR $1-32) com les IPv6 (CIDR $2-128) són admeses.
 Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Recordeu que aquesta eina només es pot usar d'acord amb les polítiques corresponents i amb respecte a la legislació sobre privadesa.",
 	'checkuser-desc' => "Permet als usuaris amb els permisos adients l'habilitat de comprovar les adreces IP que fan servir els usuaris enregistrats.",
 	'checkuser-logcase' => 'Les majúscules es tracten de manera diferenciada en la cerca dins el registre.',
@@ -1515,7 +1521,7 @@ $messages['co'] = array(
  */
 $messages['cs'] = array(
 	'checkuser-summary' => 'Tento nástroj zkoumá poslední změny a umožňuje získat IP adresy uživatelů nebo zobrazit editace a uživatele z dané IP adresy.
-Uživatele a editace z klientské IP adresy lze získat z hlaviček XFF přidáním „/xff“ k IP. Je podporováno IPv4 (CIDR 16–32) a IPv6 (CIDR 48-128).
+Uživatele a editace z klientské IP adresy lze získat z hlaviček XFF přidáním „/xff“ k IP. Je podporováno IPv4 (CIDR $1–32) a IPv6 (CIDR $2-128).
 Z výkonnostních důvodů lze zobrazit maximálně 5000 editací. Používejte tento nástroj v souladu s pravidly.',
 	'checkuser-desc' => 'Poskytuje uživatelům s příslušným oprávněním možnost zjišťovat IP adresy uživatelů a další související informace',
 	'checkuser-logcase' => 'Hledání v záznamech rozlišuje velikosti písmen.',
@@ -1612,7 +1618,7 @@ $messages['cu'] = array(
  */
 $messages['cy'] = array(
 	'checkuser-summary' => "Mae'r teclyn hwn yn sganio newidiadau diweddar i gael hyd i'r cyfeiriadau IP a ddefnyddir gan ddefnyddiwr, neu i ddangos data golygu neu ddata defnyddiwr ar gyfer rhyw gyfeiriad IP. 
-Gall y teclyn gael hyd i ddefnyddwyr rhyw gyfeiriad IP cleient, neu'r golygiadau a ddaw ohono, drwy atodi \"/xff\" i'r cyfeiriad IP. Mae IPv4 (CIDR 16-32) a IPv6 (CIDR 48-128) yn cael eu cynnal. 
+Gall y teclyn gael hyd i ddefnyddwyr rhyw gyfeiriad IP cleient, neu'r golygiadau a ddaw ohono, drwy atodi \"/xff\" i'r cyfeiriad IP. Mae IPv4 (CIDR \$1-32) a IPv6 (CIDR \$2-128) yn cael eu cynnal. 
 Ni chaiff mwy na 5,000 o olygiadau eu dychwelyd er mwyn peidio amharu ar berfformiad y wefan. 
 Defnyddiwch hwn yn unol â'n polisi.",
 	'checkuser-desc' => "Yn rhoi'r gallu i ddefnyddwyr awdurdodedig archwilio cyfeiriadau IP defnyddwyr a gwybodaeth arall amdanynt.",
@@ -1703,7 +1709,7 @@ Caiff cyfeiriadau IP defnyddwyr anhysbys yn unig eu blocio am wythnos, gyda chre
  */
 $messages['da'] = array(
 	'checkuser-summary' => 'Dette værktøj scanner Seneste ændringer for at finde IP\'er brugt af en bestemt bruger, eller for at vise redigerings- eller brugerdata for en IP.
-Bruger og redigeringer fra en klient IP kan hentes via XFF headers ved at tilføje "/xff" til IP\'en. Ipv4 (CIRD 16-32) og IPv6 (CIDR 48-128) er understøttet.
+Bruger og redigeringer fra en klient IP kan hentes via XFF headers ved at tilføje "/xff" til IP\'en. Ipv4 (CIRD $1-32) og IPv6 (CIDR $2-128) er understøttet.
 For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. Brug kun dette værktøj i overensstemmelse med gældende politiker på {{SITENAME}}.',
 	'checkuser-desc' => 'Giver brugere med den rette godkendelse muligheden for at checke brugeres IP-adresser og anden information',
 	'checkuser-logcase' => 'Logsøgning er case sensitiv (der gøres forskel på store og små bogstaver)',
@@ -1789,7 +1795,7 @@ Seneste redigering var $1 $2.',
  * @author Umherirrender
  */
 $messages['de'] = array(
-	'checkuser-summary' => 'Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers bzw. die Bearbeitungen/Benutzernamen für eine IP-Adresse zu ermitteln. Benutzer und Bearbeitungen einer IP-Adresse können auch nach Informationen aus den XFF-Headern abgefragt werden, indem der IP-Adresse ein „/xff“ angehängt wird. IPv4 (CIDR 16-32) und IPv6 (CIDR 48-128) werden unterstützt.
+	'checkuser-summary' => 'Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers bzw. die Bearbeitungen/Benutzernamen für eine IP-Adresse zu ermitteln. Benutzer und Bearbeitungen einer IP-Adresse können auch nach Informationen aus den XFF-Headern abgefragt werden, indem der IP-Adresse ein „/xff“ angehängt wird. IPv4 (CIDR $1-32) und IPv6 (CIDR $2-128) werden unterstützt.
 Zur Aufrechterhaltung der Leistungsfähigkeit werden maximal 5000 Bearbeitungen ausgegeben. Benutze CheckUser ausschließlich in Übereinstimmung mit den Datenschutzrichtlinien.',
 	'checkuser-desc' => 'Ermöglicht die Überprüfung von IP-Adressen sowie weiterer Informationen von Benutzern',
 	'checkuser-logcase' => 'Die Suche im Logbuch unterscheidet zwischen Groß- und Kleinschreibung.',
@@ -1872,7 +1878,7 @@ Es folgen die benutzten IP-Adressen (maximal 5000, sortiert nach Adresse):',
  * @author Umherirrender
  */
 $messages['de-formal'] = array(
-	'checkuser-summary' => 'Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers bzw. die Bearbeitungen/Benutzernamen für eine IP-Adresse zu ermitteln. Benutzer und Bearbeitungen einer IP-Adresse können auch nach Informationen aus den XFF-Headern abgefragt werden, indem der IP-Adresse ein „/xff“ angehängt wird. IPv4 (CIDR 16-32) und IPv6 (CIDR 48-128) werden unterstützt.
+	'checkuser-summary' => 'Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers bzw. die Bearbeitungen/Benutzernamen für eine IP-Adresse zu ermitteln. Benutzer und Bearbeitungen einer IP-Adresse können auch nach Informationen aus den XFF-Headern abgefragt werden, indem der IP-Adresse ein „/xff“ angehängt wird. IPv4 (CIDR $1-32) und IPv6 (CIDR $2-128) werden unterstützt.
 Zur Aufrechterhaltung der Leistungsfähigkeit werden maximal 5000 Bearbeitungen ausgegeben. Benutzen Sie CheckUser ausschließlich in Übereinstimmung mit den Datenschutzrichtlinien.',
 	'checkuser-block-noreason' => 'Sie müssen einen Grund für die Sperre angeben.',
 	'checkuser-too-many' => 'Die Ergebnisliste ist zu lang (nach Schätzung der Abfrage). Bitte grenzen Sie den IP-Adressbereich weiter ein.
@@ -1886,7 +1892,7 @@ Es folgen die benutzten IP-Adressen (maximal 5000, sortiert nach Adresse):',
  */
 $messages['diq'] = array(
 	'checkuser-summary' => 'Eno xacet vurnayışanê neweyan sken keno ke adresanê IPyan reyna biaro ke bımocno ra yew adresa IPya melumatê karberi ser.
-Karberan u vurnayışan ke yew IPyê karberi kerd a reyna yeno pê XFF u "/xff". IPv4 (CIDR 16-32) u IPv6 (CIDR 48-128) rê zi desteg beno.
+Karberan u vurnayışan ke yew IPyê karberi kerd a reyna yeno pê XFF u "/xff". IPv4 (CIDR $1-32) u IPv6 (CIDR $2-128) rê zi desteg beno.
 5000 zafêr vurnayışan sero netice nêdano, qet performans hêdi beno.
 Ena politika ma sero kar bıke.',
 	'checkuser-desc' => 'Karberan rê destur bide ke adresanê IPyan u enformasyonê bînan kontrol bike',
@@ -1969,7 +1975,7 @@ Tiya de IPyan ke sero kar biyo  (5000 max, pê adresan):',
  */
 $messages['dsb'] = array(
 	'checkuser-summary' => 'Toś ten rěd skanujo aktualne změny, aby wótwołał IP-adresy wužywarja abo pokazał změny/wužywarske daty za IP-adresu.
-Wužywarje a změny IP-adresy daju se pśez głowowe smužki XFF wótwołaś, z tym až "/xff" pśidawa se IP-adresy. IPv4 (CIDR 16-32) a IPv6 (CIDR 48-128) se pódpěratej.
+Wužywarje a změny IP-adresy daju se pśez głowowe smužki XFF wótwołaś, z tym až "/xff" pśidawa se IP-adresy. IPv4 (CIDR $1-32) a IPv6 (CIDR $2-128) se pódpěratej.
 Z pśicynow wugbałosći wróśijo se nic wěcej ako 5000 změnow. Wužyj CheckUser pó zasadach priwatnosći.',
 	'checkuser-desc' => 'Dajo wužywarjam z wótpowědnym pšawom móžnosć IP-adrese a druge informacije wužywarja kontrolowaś',
 	'checkuser-logcase' => 'Pytanje w protokolu rozeznawaju mjazy wjeliko- a małopisanjom.',
@@ -2066,7 +2072,7 @@ $messages['ee'] = array(
  */
 $messages['el'] = array(
 	'checkuser-summary' => 'Αυτό το εργαλείο σαρώνει τις πρόσφατες αλλαγές για να ανακτήσει τις IP διευθύνσεις που χρησιμοποιούνται από ένα χρήστη ή για να δείξει τα δεδομένα επεξεργασιών/χρηστών για μία IP.
-Χρήστες και επεξεργασίες από μία σταθερή IP μπορούν να ανακτηθούν μέσω XFF επικεφαλίδων προσαρτώντας "/xff" στην IP. Το IPv4 (CIDR 16-32) και το IPv6 (CIDR 48-128) υποστηρίζονται.
+Χρήστες και επεξεργασίες από μία σταθερή IP μπορούν να ανακτηθούν μέσω XFF επικεφαλίδων προσαρτώντας "/xff" στην IP. Το IPv4 (CIDR $1-32) και το IPv6 (CIDR $2-128) υποστηρίζονται.
 Όχι περισσότερες από 5000 επεξεργασίες θα επιστραφούν για λόγους απόδοσης.
 Χρησιμοποιήστε αυτό σύμφωνα με την πολιτική.',
 	'checkuser-desc' => 'Παρέχει στους χρήστες με την κατάλληλη άδεια την ικανότητα να ελέγχουν τη διεύθυνση IP ενός χρήστη καθώς και άλλες πληροφορίες',
@@ -2152,7 +2158,7 @@ $messages['el'] = array(
 $messages['eo'] = array(
 	'checkuser-summary' => 'Ĉi tiu ilo skanas lastajn ŝanĝojn por akiri la IP-adresojn uzatajn de uzanto aŭ montri la datenojn de redakto/uzanto por aparta IP-adreso.
 Uzantoj kaj redaktoj de klienta IP-adreso povas esti akirita per XFF-titolaro postaldonante al la IP-adreso kun "/xff".
-IPv4 (CIDR 16-32) kaj IPv6 (CIDR 48-128) estas subtenataj.
+IPv4 (CIDR $1-32) kaj IPv6 (CIDR $2-128) estas subtenataj.
 Neniom pli ol 5000 redaktoj estos montrita pro bona datumbaza funkciado.
 Uzu ĉi tion laŭ regularo.',
 	'checkuser-desc' => 'Rajtigas al uzantoj kun la taŭga permeso la kapableco kontroli la IP-adreson de uzanto kaj alia informo',
@@ -2253,7 +2259,7 @@ Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
  */
 $messages['es'] = array(
 	'checkuser-summary' => 'Esta herramienta explora los cambios recientes para obtener las IPs utilizadas por un usuario o para mostrar la información de ediciones/usuarios de una IP.
-También se pueden obtener los usuarios y las ediciones de un cliente IP vía XFF añadiendo "/xff" al final de la IP. IPv4 (CIDR 16-32) y IPv6 (CIDR 48-128) funcionan.
+También se pueden obtener los usuarios y las ediciones de un cliente IP vía XFF añadiendo "/xff" al final de la IP. IPv4 (CIDR $1-32) y IPv6 (CIDR $2-128) funcionan.
 No se muestran más de 5000 ediciones por motivos de rendimiento.
 Usa esta herramienta de acuerdo con las políticas correspondientes.',
 	'checkuser-desc' => 'Permite a los usuarios que tienen los permisos apropiados comprobar las direcciones IP de los usuarios además de otra información.',
@@ -2466,7 +2472,7 @@ $messages['ext'] = array(
 $messages['fa'] = array(
 	'checkuser-summary' => 'این ابزار تغییرات اخیر را برای به دست آوردن نشانی‌های آی‌پی استفاده شده توسط یک کاربر و یا تعیین ویرایش‌ها و اطلاعات کاربری مرتبط با یک نشانی آی‌پی جستجو می‌کند.
 کاربرها و ویرایش‌های مرتبط با یک نشانی آی‌پی را می‌توان با توجه به اطلاعات سرآیند XFF (با افزودن «‏‎/xff» به انتهای نشانی آی‌پی) پیدا کرد.
-هر دو پروتکل IPv4 (معادل CIDR 16-32) و IPv6 (معادل CIDR 48-128) توسط این ابزار پشتیبانی می‌شوند.
+هر دو پروتکل IPv4 (معادل CIDR $1-32) و IPv6 (معادل CIDR $2-128) توسط این ابزار پشتیبانی می‌شوند.
 بنا به دلایل عملکردی، بیش از ۵۰۰۰ ویرایش بازگردانده نمی‌شود.
 از این ابزار طبق سیاست‌ها استفاده کنید.',
 	'checkuser-desc' => 'به کاربرها اختیارات لازم را برای بررسی نشانی آی‌پی کاربرها و اطلاعات دیگر می‌دهد',
@@ -2558,7 +2564,7 @@ $messages['fa'] = array(
  */
 $messages['fi'] = array(
 	'checkuser-summary' => 'Tämän työkalun avulla voidaan tutkia tuoreet muutokset ja paljastaa käyttäjien IP-osoitteet tai noutaa IP-osoitteiden muokkaukset ja käyttäjätiedot.
-	Käyttäjät ja muokkaukset voidaan hakea myös uudelleenohjausosoitteen (X-Forwarded-For) takaa käyttämällä IP-osoitteen perässä <tt>/xff</tt> -merkintää. Työkalu tukee sekä IPv4 (CIDR 16–32) ja IPv6 (CIDR 48–128) -standardeja.', # Fuzzy
+	Käyttäjät ja muokkaukset voidaan hakea myös uudelleenohjausosoitteen (X-Forwarded-For) takaa käyttämällä IP-osoitteen perässä <tt>/xff</tt> -merkintää. Työkalu tukee sekä IPv4 (CIDR $1–32) ja IPv6 (CIDR $2–128) -standardeja.', # Fuzzy
 	'checkuser-desc' => 'Antaa oikeutetuille käyttäjille mahdollisuuden tarkistaa käyttäjän IP-osoitteet ja muita tietoja.',
 	'checkuser-logcase' => 'Haku lokista on kirjainkokoriippuvainen.',
 	'checkuser' => 'Osoitepaljastin',
@@ -2662,7 +2668,7 @@ $messages['fo'] = array(
  */
 $messages['fr'] = array(
 	'checkuser-summary' => 'Cet outil parcourt la liste des changements récents à la recherche des adresses IP employées par un utilisateur ou affiche toutes les données utilisateur d’une adresse IP.
-Les comptes et les modifications faites par une adresse IP cliente peuvent être récupérés via les entêtes XFF en suffisant l’adresse IP avec "/xff". Les adresses IPv4 (CIDR /16 à /32) et IPv6 (CIDR /48 à /128) sont supportées.
+Les comptes et les modifications faites par une adresse IP cliente peuvent être récupérés via les entêtes XFF en suffisant l’adresse IP avec "/xff". Les adresses IPv4 (CIDR /$1 à /32) et IPv6 (CIDR /$2 à /128) sont supportées.
 Pas plus de 5000 modifications ne seront renvoyées, pour des questions de performance.
 Veuillez utiliser cet outil dans le respect de la charte d’utilisation.',
 	'checkuser-desc' => 'Donne la possibilité aux utilisateurs dûment autorisés de vérifier les adresses IP des utilisateurs ainsi que d’autres informations les concernant',
@@ -2744,7 +2750,7 @@ Voici un extrait des IP utilisées ({{formatnum:5000}} maximum, triées par adre
  */
 $messages['frc'] = array(
 	'checkuser-summary' => 'Cet outil observe les derniers changements pour récupérer l’adresse IP de l’useur ou pour montrer les données de modification et de l’useur de cette adresse IP.
-Les useurs et les modifications par l’adresse IP d’un client peuvent être récupérés par les en-têtes XFF en ajoutant « /xff » à l’adresse IP. Les adresses IPv4 (CIDR 16–32) et IPv6 (CIDR 48-128) sont supportées.
+Les useurs et les modifications par l’adresse IP d’un client peuvent être récupérés par les en-têtes XFF en ajoutant « /xff » à l’adresse IP. Les adresses IPv4 (CIDR $1–32) et IPv6 (CIDR $2-128) sont supportées.
 Pour des raisons de performance, cet outil ne retourne pas plus de 5&nbsp;000 modifications.
 Usez ça ici en accord avec les régulations.', # Fuzzy
 	'checkuser-logcase' => 'La charche des notes est sensible aux lettres basses ou hautes.',
@@ -2773,7 +2779,7 @@ Usez ça ici en accord avec les régulations.', # Fuzzy
  */
 $messages['frp'] = array(
 	'checkuser-summary' => "Ceti outil parcôrt los dèrriérs changements a la rechèrche de les adrèces IP empleyês per un usanciér, montre tôs los changements d’una adrèce IP (méma encartâ), ou ben liste los comptos utilisâs per una adrèce IP.
-Los comptos et los changements fêts per una adrèce IP clianta d’un sèrvor mandatèro (''proxy'') aprovâ pôvont étre rècupèrâs avouéc les en-tétes XFF en apondent l’adrèce IP avouéc « /xff ». Les adrèces IPv4 (CIDR /16 a /32) et IPv6 (CIDR /96 a /128) sont recognues.
+Los comptos et los changements fêts per una adrèce IP clianta d’un sèrvor mandatèro (''proxy'') aprovâ pôvont étre rècupèrâs avouéc les en-tétes XFF en apondent l’adrèce IP avouéc « /xff ». Les adrèces IPv4 (CIDR /$1 a /32) et IPv6 (CIDR /§2 a /128) sont recognues.
 Lo nombro de changements montrâblos est limitâ a {{formatnum:5000}} por des quèstions de pèrformence.
 Lo volyéd utilisar dedens les limites de la chârta d’usâjo.", # Fuzzy
 	'checkuser-desc' => 'Balye la possibilitât a les gens qu’ont la pèrmission que vat avouéc de controlar les adrèces IP des usanciérs et pués d’ôtres enformacions los regardent.',
@@ -2864,7 +2870,7 @@ $messages['fy'] = array(
  */
 $messages['ga'] = array(
 	'checkuser-summary' => 'Scanann an uirlis seo na athruithe is déanaí chun na seolaidh IP úsáideoira a fháil ná taispeáin na sonraí eagarthóireachta/úsáideoira don seoladh IP.
-Is féidir úsáideoirí agus eagarthóireachta mar IP cliant a fháil le ceanntáisc XFF mar an IP a iarcheangail le "/xff". IPv4 (CIDR 16-32) agus IPv6 (CIDR 48-128) atá tacaíocht.
+Is féidir úsáideoirí agus eagarthóireachta mar IP cliant a fháil le ceanntáisc XFF mar an IP a iarcheangail le "/xff". IPv4 (CIDR $1-32) agus IPv6 (CIDR $2-128) atá tacaíocht.
 Le fáth feidhmiúcháin, ní féidir níos mó ná 5000 eagarthóireachta a thabhairt ar ais ar an am cheana. Déan úsáid de réir polsaí.',
 	'checkuser-logcase' => 'Tá na logaí seo cásíogair.',
 	'checkuser' => 'Seic úsáideoir',
@@ -2936,7 +2942,7 @@ $messages['gan-hant'] = array(
  */
 $messages['gl'] = array(
 	'checkuser-summary' => 'Esta ferramenta analiza os cambios para recuperar os enderezos IP utilizados por un usuario ou mostrar as edicións/datos do usuario dun enderezo IP.
-Os usuarios e as edicións por un cliente IP poden ser recuperados a través das cabeceiras XFF engadindo o enderezo IP con "/xff". IPv4 (CIDR 16-32) e IPv6 (CIDR 48-128) están soportados.
+Os usuarios e as edicións por un cliente IP poden ser recuperados a través das cabeceiras XFF engadindo o enderezo IP con "/xff". IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128) están soportados.
 Non se devolverán máis de 5.000 edicións por motivos de rendemento.
 Use isto de acordo coas políticas.',
 	'checkuser-desc' => 'Garante que usuarios cos permisos apropiados poidan comprobar os enderezos IP dos usuarios e acceder a outra información',
@@ -3044,7 +3050,7 @@ $messages['grc'] = array(
  * @author Als-Holder
  */
 $messages['gsw'] = array(
-	'checkuser-summary' => 'Des Wärchzyyg dursuecht di letschten Änderige go d IP-Adrässe vun eme Benutzers bzw. d Bearbeitige/Benutzernäme fir e IP-Adräss usefinde. Benutzer un Bearbeitige vun ere IP-Adräss chenne au noch Informatione us dr XFF-Header abgfrogt wäre. Doderzue muess dr IP-Adräss e „/xff“ aaghänkt wäre. IPv4 (CIDR 16-32) un IPv6 (CIDR 48-128) wäre unterstitzt.
+	'checkuser-summary' => 'Des Wärchzyyg dursuecht di letschten Änderige go d IP-Adrässe vun eme Benutzers bzw. d Bearbeitige/Benutzernäme fir e IP-Adräss usefinde. Benutzer un Bearbeitige vun ere IP-Adräss chenne au noch Informatione us dr XFF-Header abgfrogt wäre. Doderzue muess dr IP-Adräss e „/xff“ aaghänkt wäre. IPv4 (CIDR $1-32) un IPv6 (CIDR $2-128) wäre unterstitzt.
 Us Performance-Grind wäre hegschtens 5000 Bearbeitige usgee. Nimm CheckUser usschließli in Ibereinstimmig mit dr Dateschutzrichtlinie.',
 	'checkuser-desc' => 'Erlaubt Benutzer mit dr jewyylige Rächt d IP-Adrässe un wyteri Informatione vu Benutzer z priefe',
 	'checkuser-logcase' => 'D Suech im Logbuech unterscheidet zwische Groß- un Chleischreibig.',
@@ -3170,7 +3176,7 @@ $messages['haw'] = array(
  */
 $messages['he'] = array(
 	'checkuser-summary' => 'כלי זה סורק את השינויים האחרונים במטרה למצוא את כתובות ה־IP שהשתמש בהן משתמש מסוים או כדי להציג את כל המידע על המשתמשים שהשתמשו בכתובת IP ועל העריכות שבוצעו ממנה.
-ניתן לקבל עריכות ומשתמשים מכתובות IP של הכותרת X-Forwarded-For באמצעות הוספת הטקסט "/xff" לסוף הכתובת. הן כתובות IPv4 (כלומר, CIDR 16-32) והן כתובות IPv6 (כלומר, CIDR 48-128) נתמכות.
+ניתן לקבל עריכות ומשתמשים מכתובות IP של הכותרת X-Forwarded-For באמצעות הוספת הטקסט "/xff" לסוף הכתובת. הן כתובות IPv4 (כלומר, CIDR $1-32) והן כתובות IPv6 (כלומר, CIDR $2-128) נתמכות.
 לא יוחזרו יותר מ־5000 עריכות מסיבות של עומס על השרתים. אנא השתמשו בכלי זה בהתאם למדיניות.',
 	'checkuser-desc' => 'מאפשר למשתמשים עם ההרשאות המתאימות לבדוק את כתובת ה־IP של משתמשים',
 	'checkuser-logcase' => 'החיפוש ביומנים הוא תלוי־רישיות.',
@@ -3255,7 +3261,7 @@ $messages['he'] = array(
  */
 $messages['hi'] = array(
 	'checkuser-summary' => 'यह उपकरण एक सदस्य द्वारा हाल में किये गए परिवर्तनों के लिए काम में ली गई सारी IPs को जांचता है, अथवा एक IP का उपयोग करने वाले सभी सदस्यों को जांचता है।
-एक मुवक्किल IP द्वारा किया गए संपादन एवं प्रयोग में ले रहे सभी सदस्यों को "/xff" से IP को जोड़ते हुए XFF शीर्षक के माध्यम से पता लगता है। IPv4 (CIDR 16-32) और IPv6 (CIDR 48-128) द्वारा प्रमाणित है।
+एक मुवक्किल IP द्वारा किया गए संपादन एवं प्रयोग में ले रहे सभी सदस्यों को "/xff" से IP को जोड़ते हुए XFF शीर्षक के माध्यम से पता लगता है। IPv4 (CIDR $1-32) और IPv6 (CIDR $2-128) द्वारा प्रमाणित है।
 प्रदर्शन के कारण कि वजह से ५००० सम्पादानों से ज्यादा नहीं दिखा पायेगा।
 इसे नीति के अनुसार प्रयोग करें।',
 	'checkuser-desc' => 'उपयुक्त अधिकार रखने वाले सदस्यों को अन्य सदस्यों के आई॰पी पते एवं अन्य जानकारी देखने की अनुमति देता है।',
@@ -3384,7 +3390,7 @@ $messages['hil'] = array(
  * @author Tivek
  */
 $messages['hr'] = array(
-	'checkuser-summary' => 'Ovaj alat pretražuje nedavne promjene i pronalazi IP adrese suradnika ili prikazuje uređivanja/ime suradnika ako je zadana IP adresa. Suradnici i uređivanja mogu biti dobiveni po XFF zaglavljima dodavanjem "/xff" na kraj IP adrese. Podržane su IPv4 (CIDR 16-32) i IPv6 (CIDR 48-128) adrese. Rezultat ima maksimalno 5.000 zapisa iz tehničkih razloga. Rabite ovaj alat u skladu s pravilima.',
+	'checkuser-summary' => 'Ovaj alat pretražuje nedavne promjene i pronalazi IP adrese suradnika ili prikazuje uređivanja/ime suradnika ako je zadana IP adresa. Suradnici i uređivanja mogu biti dobiveni po XFF zaglavljima dodavanjem "/xff" na kraj IP adrese. Podržane su IPv4 (CIDR $1-32) i IPv6 (CIDR $2-128) adrese. Rezultat ima maksimalno 5.000 zapisa iz tehničkih razloga. Rabite ovaj alat u skladu s pravilima.',
 	'checkuser-desc' => 'Daje suradniku pravo za provjeriti IP adrese suradnika i druge informacije',
 	'checkuser-logcase' => 'Pretraživanje evidencije razlikuje velika i mala slova',
 	'checkuser' => 'Provjeri suradnika',
@@ -3464,7 +3470,7 @@ IP adrese će biti blokirane na 1 tjedan samo za IP suradnike s onemogućenim st
  */
 $messages['hsb'] = array(
 	'checkuser-summary' => 'Tutón nastroj přepytuje aktualne změny, zo by IP-adresy wužiwarja zwěsćił abo změny abo wužiwarske daty za IP pokazał.
-Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěšo "/xff" na IP-adresu. IPv4 (CIDR 16-32) a IPv6 (CIDR 48-128) so podpěrujetej.',
+Wužiwarjo a změny IP-adresy dadźa so přez XFF-hłowy wotwołać, připowěšo "/xff" na IP-adresu. IPv4 (CIDR $1-32) a IPv6 (CIDR $2-128) so podpěrujetej.',
 	'checkuser-desc' => 'Dawa wužiwarjam z trěbnym prawom móžnosć IP-adresy a druhe informacije wužiwarja kontrolować',
 	'checkuser-logcase' => 'Pytanje w protokolu rozeznawa mjez wulko- a małopisanjom.',
 	'checkuser' => 'Wužiwarja kontrolować',
@@ -3554,7 +3560,7 @@ Tu su wužiwane IP (maks. 5000, po adresy sortěrowane):',
  */
 $messages['hu'] = array(
 	'checkuser-summary' => 'Ez az eszköz végigvizsgálja a friss változásokat, hogy lekérje egy adott felhasználó IP-címeit vagy megjelenítse egy adott IP-címet használó szerkesztőket és az IP szerkesztéseit.
-Egy kliens IP-cím által végzett szerkesztések és felhasználói XFF fejlécek segítségével kérhetőek le, az IP-cím utáni „/xff” parancssal. Az IPv4 (CIDR 16-32) és az IPv6 (CIDR 48-128) is támogatott.
+Egy kliens IP-cím által végzett szerkesztések és felhasználói XFF fejlécek segítségével kérhetőek le, az IP-cím utáni „/xff” parancssal. Az IPv4 (CIDR $1-32) és az IPv6 (CIDR $2-128) is támogatott.
 Maximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt a szabályoknak megfelelően használd.',
 	'checkuser-desc' => 'Lehetővé teszi olyan felhasználói jogok kiosztását, mely segítségével megtekinthetőek a felhasználók IP-címei és más adatok',
 	'checkuser-logcase' => 'A kereső kis- és nagybetűérzékeny.',
@@ -3644,7 +3650,7 @@ $messages['hy'] = array(
 $messages['ia'] = array(
 	'checkuser-summary' => 'Iste instrumento analysa le modificationes recente pro recuperar le adresses IP usate per un usator o pro monstrar le datos de modificationes e de usatores pro un adresse IP.
 Le usatores e modificationes facite desde un adresse IP de cliente pote esser recuperate via capites XFF per appender "/xff" al IP.
-Es supportate le adresses IPv4 (CIDR 16-32) e IPv6 (CIDR 48-128).
+Es supportate le adresses IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).
 Non plus de 5000 modificationes essera retornate pro non supercargar le systema.
 Tote uso de iste instrumento debe esser conforme al politicas in vigor.',
 	'checkuser-desc' => 'Concede al usatores con le autorisation appropriate le capabilitate de verificar le adresses IP e altere informationes de usatores',
@@ -3734,7 +3740,7 @@ Ecce le IPs usate (max. 5000, ordinate per adresse):',
  */
 $messages['id'] = array(
 	'checkuser-summary' => 'Peralatan ini memindai perubahan terbaru untuk mengetahui IP seorang pengguna atau menampilkan data suntingan/pengguna untuk suatu IP.
-Pengguna dan suntingan suatu IP dapat diketahui melalui kepala XFF dengan menambahkan "/xff" pada IP tersebut. Alat ini mendukung baik IPv4 (CIDR 16-32) maupun IPv6 (CIDR 48-128).
+Pengguna dan suntingan suatu IP dapat diketahui melalui kepala XFF dengan menambahkan "/xff" pada IP tersebut. Alat ini mendukung baik IPv4 (CIDR $1-32) maupun IPv6 (CIDR $2-128).
 Karena alasan kinerja, maksimum hanya 5000 suntingan yang dapat diambil.
 Harap gunakan peralatan ini sesuai dengan kebijakan yang ada.',
 	'checkuser-desc' => 'Memberikan fasilitas bagi pengguna yang memiliki hak akses untuk memeriksa alamat IP dan informasi lain dari pengguna',
@@ -3842,7 +3848,7 @@ $messages['ig'] = array(
  */
 $messages['ilo'] = array(
 	'checkuser-summary' => 'Daytoy a ramit ket ag-scan kadagiti kaudian a balbaliw tapno agala kadagiti IP a pagtaengan nga inus-usar ti agar-aramat wenno agiparang ti data ti inurnos/agar-aramat para iti IP a pagtaengan.
-Dagiti agar-aramat ket inurnos babaen ti kliente ti IP a pagtaengan ket maala babaen dagiti XFF a paulo babaen ti panagala ti IP a pagtaengan nga addaan ti "/xff". Nasuportaran ti IPv4 (CIDR 16-32) ken IPv6 (CIDR 48-128) .
+Dagiti agar-aramat ket inurnos babaen ti kliente ti IP a pagtaengan ket maala babaen dagiti XFF a paulo babaen ti panagala ti IP a pagtaengan nga addaan ti "/xff". Nasuportaran ti IPv4 (CIDR $1-32) ken IPv6 (CIDR $2-128) .
 
 Usaren daytoy babaen ti annuroten.',
 	'checkuser-desc' => 'Agited kadagiti agar-aramat ti maibagay a pammalubos ti abilidad nga agkita kadagiti IP a pagtaengan ti agar-aramat ken sabsabali pay a pakaammo.',
@@ -3980,7 +3986,7 @@ $messages['is'] = array(
  * @author Stefano-c
  */
 $messages['it'] = array(
-	'checkuser-summary' => 'Questo strumento analizza le modifiche recenti per recuperare gli indirizzi IP utilizzati da un utente o mostrare contributi e dati di un IP. Utenti e contributi di un client IP possono essere rintracciati attraverso gli header XFF aggiungendo all\'IP il suffisso "/xff". Sono supportati IPv4 (CIDR 16-32) e IPv6 (CIDR 48-128). Non saranno restituite più di 5.000 modifiche, per ragioni di prestazioni. Usa questo strumento in stretta conformità alle policy.',
+	'checkuser-summary' => 'Questo strumento analizza le modifiche recenti per recuperare gli indirizzi IP utilizzati da un utente o mostrare contributi e dati di un IP. Utenti e contributi di un client IP possono essere rintracciati attraverso gli header XFF aggiungendo all\'IP il suffisso "/xff". Sono supportati IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128). Non saranno restituite più di 5.000 modifiche, per ragioni di prestazioni. Usa questo strumento in stretta conformità alle policy.',
 	'checkuser-desc' => 'Consente agli utenti con le opportune autorizzazioni di sottoporre a verifica gli indirizzi IP e altre informazioni relative agli utenti',
 	'checkuser-logcase' => "La ricerca nei log è ''case sensitive'' (distingue fra maiuscole e minuscole).",
 	'checkuser' => 'Controllo utenze',
@@ -4074,10 +4080,10 @@ Di seguito sono indicati gli indirizzi IP utilizzati (fino a un massimo di 5000,
  * @author 青子守歌
  */
 $messages['ja'] = array(
-	'checkuser-summary' => 'このツールは最近の更新を元に、ある利用者が使用したIPアドレスの検索、または、あるIPアドレスからなされた編集および利用者名の表示を行います。
-IPアドレスと共に「/xff」オプションを指定すると、XFF (X-Forwarded-For) ヘッダを通じてクライアントIPアドレスを取得し、そこからなされた編集および利用者名の検索をすることが可能です。
-IPv4 (16から32ビットのCIDR表記) と IPv6 (96から128ビットのCIDR表記) をサポートしています。
-パフォーマンス上の理由により、最大5000件の編集しか表示出来ません。
+	'checkuser-summary' => 'このツールは最近の更新をもとに、ある利用者が使用したIPアドレスの検索、または、あるIPアドレスからなされた編集および利用者名の表示を行います。
+IPアドレスと共に「/xff」オプションを指定すると、XFF (X-Forwarded-For) ヘッダーを通じてクライアントIPアドレスを取得し、そこからなされた編集および利用者名の検索をすることができます。
+IPv4 ($1から32ビットのCIDR表記) と IPv6 ($2から128ビットのCIDR表記) に対応しています。
+パフォーマンス上の理由により、最大5000件の編集しか表示できません。
 方針に従って使用してください。',
 	'checkuser-desc' => '利用者の IP アドレスなどの情報を、適切な権限を持つ利用者が調査できるようにする',
 	'checkuser-logcase' => '記録の検索では大文字/小文字を区別します。',
@@ -4161,7 +4167,7 @@ IPアドレスはIP利用者向けに1週間ブロックされ、アカウント
  */
 $messages['jut'] = array(
 	'checkuser-summary' => 'Dette værktøj scanner Seneste ændringer for at finde IP\'er brugt af en bestemt bruger, eller for at vise redigerings- eller brugerdata for en IP.
-Bruger og redigeringer fra en klient IP kan hentes via XFF headers ved at tilføje "/xff" til IP\'en. Ipv4 (CIRD 16-32) og IPv6 (CIDR 48-128) er understøttet.
+Bruger og redigeringer fra en klient IP kan hentes via XFF headers ved at tilføje "/xff" til IP\'en. Ipv4 (CIRD $1-32) og IPv6 (CIDR $2-128) er understøttet.
 For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. Brug kun dette værktøj i overensstemmelse med gældende politiker på {{SITENAME}}.',
 	'checkuser-desc' => 'Giver brugere med den rette godkendelse muligheden for at checke brugeres IP-adresser og anden information',
 	'checkuser-logcase' => 'Logsøgning er case sensitiv (der gøres forskel på store og små bogstaver)',
@@ -4205,7 +4211,7 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
  */
 $messages['jv'] = array(
 	'checkuser-summary' => 'Piranti iki nlusuri owah-owahan pungkasan kanggo golèk IP sing dienggo déning sawijining panganggo utawa nuduhaké data suntingan/panganggo kanggo sawijining IP.
-Panganggo lan suntingan bisa dirunut saka sawijining IP XFF mawa nambahaké "/xff" ing sawijining IP. IPv4 (CIDR 16-32) IPv6 (CIDR 48-128) bisa dienggo.
+Panganggo lan suntingan bisa dirunut saka sawijining IP XFF mawa nambahaké "/xff" ing sawijining IP. IPv4 (CIDR $1-32) IPv6 (CIDR $2-128) bisa dienggo.
 Amerga déning alesan kinerja, ora luwih saka 5.000 suntingan sing bisa dijupuk. Mangga gunakna piranti iki miturut kawicaksanan sing wis ditetepaké.',
 	'checkuser-desc' => 'Mènèhi panganggo fasilitas kanggo panganggo sing duwé idin kanggo mriksa alamat IP panganggo lan informasi liyané',
 	'checkuser-logcase' => 'Log iki sènsitif marang panrapan aksara gedhé apa cilik',
@@ -4366,7 +4372,7 @@ IP დაიბლოკება ერთი კვირით.',
  */
 $messages['kk-arab'] = array(
 	'checkuser-summary' => 'بۇل قۇرال پايدالانۋشى قولدانعان IP جايلار ٴۇشىن, نەمەسە IP جاي تۇزەتۋ/پايدالانۋشى دەرەكتەرىن كورسەتۋ ٴۇشىن جۋىقتاعى وزگەرىستەردى قاراپ شىعادى.
-	پايدالانۋشىلاردى مەن تۇزەتۋلەردى XFF IP ارقىلى IP جايعا «/xff» دەگەندى قوسىپ كەلتىرۋگە بولادى. IPv4 (CIDR 16-32) جانە IPv6 (CIDR 48-128) ارقاۋلانادى.
+	پايدالانۋشىلاردى مەن تۇزەتۋلەردى XFF IP ارقىلى IP جايعا «/xff» دەگەندى قوسىپ كەلتىرۋگە بولادى. IPv4 (CIDR $1-32) جانە IPv6 (CIDR $2-128) ارقاۋلانادى.
 	ورىنداۋشىلىق سەبەپتەرىمەن 5000 تۇزەتۋدەن ارتىق قايتارىلمايدى. بۇنى ەرەجەلەرگە سايكەس پايدالانىڭىز.',
 	'checkuser-logcase' => 'جۋرنالدان ىزدەۋ ٴارىپ باس-كىشىلىگىن ايىرادى.',
 	'checkuser' => 'قاتىسۋشىنى سىناۋ',
@@ -4406,7 +4412,7 @@ $messages['kk-arab'] = array(
  */
 $messages['kk-cyrl'] = array(
 	'checkuser-summary' => 'Бұл құрал пайдаланушы қолданған IP жайлар үшін, немесе IP жай түзету/пайдаланушы деректерін көрсету үшін жуықтағы өзгерістерді қарап шығады.
-	Пайдаланушыларды мен түзетулерді XFF IP арқылы IP жайға «/xff» дегенді қосып келтіруге болады. IPv4 (CIDR 16-32) және IPv6 (CIDR 48-128) арқауланады.
+	Пайдаланушыларды мен түзетулерді XFF IP арқылы IP жайға «/xff» дегенді қосып келтіруге болады. IPv4 (CIDR $1-32) және IPv6 (CIDR $2-128) арқауланады.
 	Орындаушылық себептерімен 5000 түзетуден артық қайтарылмайды. Бұны ережелерге сәйкес пайдаланыңыз.',
 	'checkuser-logcase' => 'Журналдан іздеу әріп бас-кішілігін айырады.',
 	'checkuser' => 'Қатысушыны сынау',
@@ -4446,7 +4452,7 @@ $messages['kk-cyrl'] = array(
  */
 $messages['kk-latn'] = array(
 	'checkuser-summary' => 'Bul qural paýdalanwşı qoldanğan IP jaýlar üşin, nemese IP jaý tüzetw/paýdalanwşı derekterin körsetw üşin jwıqtağı özgeristerdi qarap şığadı.
-	Paýdalanwşılardı men tüzetwlerdi XFF IP arqılı IP jaýğa «/xff» degendi qosıp keltirwge boladı. IPv4 (CIDR 16-32) jäne IPv6 (CIDR 48-128) arqawlanadı.
+	Paýdalanwşılardı men tüzetwlerdi XFF IP arqılı IP jaýğa «/xff» degendi qosıp keltirwge boladı. IPv4 (CIDR $1-32) jäne IPv6 (CIDR $2-128) arqawlanadı.
 	Orındawşılıq sebepterimen 5000 tüzetwden artıq qaýtarılmaýdı. Bunı erejelerge säýkes paýdalanıñız.',
 	'checkuser-logcase' => 'Jwrnaldan izdew ärip bas-kişiligin aýıradı.',
 	'checkuser' => 'Qatıswşını sınaw',
@@ -4586,7 +4592,7 @@ $messages['kn'] = array(
  */
 $messages['ko'] = array(
 	'checkuser-summary' => '이 도구는 특정 사용자가 이용한 IP 또는 특정 IP에 대한 편집/사용자 정보를 검사합니다.
-클라이언트 IP를 통한 사용자와 편집은 IP 주소 뒤에 "/xff"를 더함으로서 XFF 제공자를 통해 조사할 수 있습니다. IPv4 (CIDR 16-32) 와 IPv6 (CIDR 48-128)을 지원합니다.
+클라이언트 IP를 통한 사용자와 편집은 IP 주소 뒤에 "/xff"를 더함으로서 XFF 제공자를 통해 조사할 수 있습니다. IPv4 (CIDR $1-32) 와 IPv6 (CIDR $2-128)을 지원합니다.
 성능상의 이유로 최대 5000개의 편집만 보여질 것입니다.
 이 도구는 정책에 맞게 사용하십시오.',
 	'checkuser-desc' => '사용자의 IP 주소를 포함한 정보를 볼 수 있는 권한을 특정한 사용자에게 줍니다.',
@@ -4703,7 +4709,7 @@ $messages['krl'] = array(
 $messages['ksh'] = array(
 	'checkuser-summary' => 'Met däm Werkzüch he kam_mer de <i en="en">IP </i>-Addresse fun Metmaacher fenge, di en de {{int:Recentchanges}} shtonn, un mer kann de Metmaacher-Date un Änderonge fenge för en <i lang="en">IP</i>-Adress.
 
-Metmaacher un ier Änderong för an <i lang="en">IP</i>-Address wäde övver <i lang="en">XFF-header</i> jezeich, wam_mer aan di <i lang="en">IP</i>-Address en „<code>/xff</code>“ aanhängk. Dobei wäde <i lang="en">IPv4 (CIDR 16-32)</i> un <i lang="en">IPv6 (CIDR 48-128)</i> ongershtöz. Leßte jon beß 5000 Änderonge, öm der ẞööver nit zo doll ze beschäfteje.
+Metmaacher un ier Änderong för an <i lang="en">IP</i>-Address wäde övver <i lang="en">XFF-header</i> jezeich, wam_mer aan di <i lang="en">IP</i>-Address en „<code>/xff</code>“ aanhängk. Dobei wäde <i lang="en">IPv4 (CIDR $1-32)</i> un <i lang="en">IPv6 (CIDR $2-128)</i> ongershtöz. Leßte jon beß 5000 Änderonge, öm der ẞööver nit zo doll ze beschäfteje.
 
 Donn op de Räjelle för dat Werrkzeuch obach jevve, un et nit bruche, wann De nit darrefs!',
 	'checkuser-desc' => 'Metmaacher met däm Rääsch dozoh könne de IP-Adresse un annder Date fun de Metmaacher pröfe.',
@@ -4816,10 +4822,10 @@ $messages['la'] = array(
  * @author Robby
  */
 $messages['lb'] = array(
-	'checkuser-summary' => "Dës Fonctioun scannt déi rezent Ännerunge fir d'Ip-Adressen, déi vun engem Benotzer benotzt goufen, ze fannen, repektiv d'Ännerunge pro Benotzer fir eng IP.
-Benotzer an Ännerunge vun enger IP-Adress kënnen och iwwer den XFF header gesicht ginn andeems hannert d'IP-Adress \"/xff\" hannendrugehaange gëtt. IPv4 (CIDR 16-32) an IPv6 (CIDR 48-128) ginn ënnerstëtzt.
+	'checkuser-summary' => 'Dës Fonctioun scannt déi rezent Ännerunge fir d\'Ip-Adressen, déi vun engem Benotzer benotzt goufen, ze fannen, repektiv d\'Ännerunge pro Benotzer fir eng IP.
+Benotzer an Ännerunge vun enger IP-Adress kënnen och iwwer den XFF header gesicht ginn andeems hannert d\'IP-Adress "/xff" hannendrugehaange gëtt. IPv4 (CIDR $1-32) an IPv6 (CIDR $2-128) ginn ënnerstëtzt.
 Net méi wéi 5000 Ännerunge ginn aus Performance-Grënn zréckgeschéckt.
-Benotzt dës Fonctioun am Aklang mat den Direktiven.",
+Benotzt dës Fonctioun am Aklang mat den Direktiven.',
 	'checkuser-desc' => "Gëtt Benotzer mat den néidege Rechter d'Méiglechkeet d'IP-Adressen esou wéi aner Informatiounen iwwert d'Benotzer z'iwwerpréifen",
 	'checkuser-logcase' => "D'Sichen am Logbuch mécht en Ënnerscheed tëschent groussen a klenge Buschtawen.",
 	'checkuser' => 'Benotzer-Check',
@@ -4909,7 +4915,7 @@ $messages['lfn'] = array(
  */
 $messages['li'] = array(
 	'checkuser-summary' => "Dit hölpmiddel bekiek recènte verangeringe óm IP-adresse die 'ne gebroeker haet gebroek te achterhaole of toeantj de bewèrkings- en gebroekersgegaeves veur 'n IP-adres.
-Gebroekers en bewèrkinge van 'n IP-adres van 'ne cliënt kinne achterhaoldj waere via XFF-headers door \"/xff\" achter 't IP-adres toe te voege. IPv4 (CIDR 16-32) en IPv6 (CIDR 48-128) waere óngersteundj.
+Gebroekers en bewèrkinge van 'n IP-adres van 'ne cliënt kinne achterhaoldj waere via XFF-headers door \"/xff\" achter 't IP-adres toe te voege. IPv4 (CIDR \$1-32) en IPv6 (CIDR \$2-128) waere óngersteundj.
 Óm prestatiereej waere neet mieë es 5.000 bewèrkinge getoeantj. Gebroek dit hölpmiddel volges 't vasgesteldje beleid.",
 	'checkuser-desc' => 'Läöt geautproseerde gebroekers IP-adresse en angere informatie van gebroekers achterhaole',
 	'checkuser-logcase' => "Zeuke in 't logbook is huidlèttergeveulig.",
@@ -5125,7 +5131,7 @@ $messages['mhr'] = array(
  */
 $messages['mk'] = array(
 	'checkuser-summary' => 'Оваа алатка врши преглед на скорешни промени за да ги добие IP-адресите користени од некој корисник или да ги прикаже податоците за уредувања/корисници за некоја IP-адреса.
-Корисниците и уредувањата од клиентска IP-адреса можат да се добијат преку XFF наслови со додавање на „/xff“ на IP-адресата. Поддржани се IPv4 (CIDR 16-32) и IPv6 (CIDR 48-128).
+Корисниците и уредувањата од клиентска IP-адреса можат да се добијат преку XFF наслови со додавање на „/xff“ на IP-адресата. Поддржани се IPv4 (CIDR $1-32) и IPv6 (CIDR $2-128).
 Ќе се прикажат највеќе до 5000 уредувања од функционални причини.
 Користете го ова во согласност со правилата.',
 	'checkuser-desc' => 'Доделува право за проверка на кориснички IP-адреси и други информации',
@@ -5211,7 +5217,7 @@ IP-адресите ќе бидат блокирани 1 недела за са�
  */
 $messages['ml'] = array(
 	'checkuser-summary' => 'ഈ ഉപകരണം സമീപകാലമാറ്റങ്ങൾ പരിശോധിക്കുകയും, ഒരുപയോക്താവ് ഉപയോഗിച്ച ഐ.പി. വിലാസങ്ങൾ ശേഖരിക്കുകയോ അല്ലെങ്കിൽ തിരുത്തലിന്റെ/ഉപയോക്താവിന്റെ വിവരങ്ങൾ പ്രദർശിപ്പിക്കുകയോ ചെയ്യുന്നു.
-ഒരു ക്ലയന്റ് ഐ.പി. വിലാസത്തിൽ നിന്നുള്ള ഉപയോക്താക്കളേയും തിരുത്തലുകളേയും കുറിച്ചുള്ള വിവരങ്ങൾ എക്സ്.എഫ്.എഫ്. (XFF) വഴി ശേഖരിക്കാൻ, ഐ.പി. വിലാസത്തിനൊടുവിൽ  "/xff" എന്നു ചേർത്ത് സാധിക്കുന്നതാണ്. IPv4 (CIDR 16-32) ഒപ്പം IPv6 (CIDR 48-128) എന്നിവ പിന്തുണയ്ക്കുന്നു.
+ഒരു ക്ലയന്റ് ഐ.പി. വിലാസത്തിൽ നിന്നുള്ള ഉപയോക്താക്കളേയും തിരുത്തലുകളേയും കുറിച്ചുള്ള വിവരങ്ങൾ എക്സ്.എഫ്.എഫ്. (XFF) വഴി ശേഖരിക്കാൻ, ഐ.പി. വിലാസത്തിനൊടുവിൽ  "/xff" എന്നു ചേർത്ത് സാധിക്കുന്നതാണ്. IPv4 (CIDR $1-32) ഒപ്പം IPv6 (CIDR $2-128) എന്നിവ പിന്തുണയ്ക്കുന്നു.
 പ്രവർത്തനഗുണം പരിപാലിക്കുന്നതിനായി 5000 തിരുത്തലുകളിലധികം ശേഖരിക്കുന്നതല്ല.
 ഈ സൗകര്യം നയങ്ങൾക്കനുസരിച്ചു മാത്രം ഉപയോഗിക്കേണ്ടതാകുന്നു.',
 	'checkuser-desc' => 'ഉപയോക്താക്കൾ ഉപയോഗിച്ച ഐ.പി. വിലാസവും മറ്റുവിവരങ്ങളും പരിശോധിക്കുവാനുള്ള അവകാശം കൊടുക്കാൻ പ്രാപ്തമാക്കുന്നു',
@@ -5312,7 +5318,7 @@ $messages['mn'] = array(
 $messages['mr'] = array(
 	'checkuser-summary' => 'हे उपकरण अलीकडील बदलांमधून एखाद्या सदस्याने वापरलेले अंकपत्ते किंवा एखाद्या अंकपत्त्याची संपादने/सदस्य दाखविते.
 क्लायंट अंकपत्त्यावरील सदस्य अथवा संपादने पाहण्यासाठी अंकपत्त्यानंतर "/xff" द्यावे लागेल.
-IPv4 (CIDR 16-32) आणि IPv6 (CIDR 48-128) वापरता येऊ शकेल.
+IPv4 (CIDR $1-32) आणि IPv6 (CIDR $2-128) वापरता येऊ शकेल.
 एका वेळी ५००० पेक्षा जास्त संपादने दाखविली जाणार नाहीत. हे उपकरण पॉलिसीच्या नियमांना धरून वापरावे.',
 	'checkuser-desc' => 'सदस्याला इतर सदस्यांचे आंतरजाल अंकपत्ते (आयपी) तपासण्याची तसेच इतर माहिती पाहण्याची परवानगी देतो.',
 	'checkuser-logcase' => 'लॉगमधील शोध हा लिपीशी संबंधित (case-sensitive) आहे.',
@@ -5361,7 +5367,7 @@ IPv4 (CIDR 16-32) आणि IPv6 (CIDR 48-128) वापरता येऊ श�
  * @author Kurniasan
  */
 $messages['ms'] = array(
-	'checkuser-summary' => 'Alat ini mengimbas senarai perubahan terkini untuk mendapatkan senarai IP yang digunakan oleh seseorang pengguna atau memaparkan data sunting/pengguna bagi sesebuah IP. Pengguna dan suntingan oleh sesebuah IP boleh didapatkan melalui pengatas XFF dengan menambah \\"/xff\\" selepas IP tersebut. Kedua-dua format IPv4 (CIDR 16-32) dan IPv6 (CIDR 48-128) disokong. Atas sebab-sebab prestasi, pulangan dihadkan kepada 5000 buah suntingan sahaja. Sila patuhi dasar yang telah ditetapkan.',
+	'checkuser-summary' => 'Alat ini mengimbas senarai perubahan terkini untuk mendapatkan senarai IP yang digunakan oleh seseorang pengguna atau memaparkan data sunting/pengguna bagi sesebuah IP. Pengguna dan suntingan oleh sesebuah IP boleh didapatkan melalui pengatas XFF dengan menambah \\"/xff\\" selepas IP tersebut. Kedua-dua format IPv4 (CIDR $1-32) dan IPv6 (CIDR $2-128) disokong. Atas sebab-sebab prestasi, pulangan dihadkan kepada 5000 buah suntingan sahaja. Sila patuhi dasar yang telah ditetapkan.',
 	'checkuser-desc' => 'Melantik pengguna dengan keizinan untuk membongkar alamat IP pengguna tertentu berserta maklumat-maklumat sulit lain',
 	'checkuser-logcase' => 'Carian log ini sensitif huruf (mengambil kisah kecil besar huruf).',
 	'checkuser' => 'Periksa pengguna',
@@ -5440,7 +5446,7 @@ Bagi pengguna tanpa nama, alamat IP-nya akan disekat selama seminggu, dengan pen
  * @author පසිඳු කාවින්ද
  */
 $messages['mt'] = array(
-	'checkuser-summary' => "Din l-għodda tanalizza t-tibdil riċenti sabiex tikseb l-indirizzi IP użati minn utent jew turi modifiki u informazzjoni ta' indirizz IP. Utenti u modifiki minn indirizz IP ta' klijent jista' jinkiseb permezz ta' ''headers'' XFF billi iżżid is-suff \"/xff\" mal-IP. IPv4 (CIDR 16-32) and IPv6 (CIDR 48-128) huma sostnuti. Mhux iktar minn 5,000 modifika se jiġu ritornati lura għal raġunijiet ta' prestazzjoni. Uża din l-għodda skont il-politika.",
+	'checkuser-summary' => "Din l-għodda tanalizza t-tibdil riċenti sabiex tikseb l-indirizzi IP użati minn utent jew turi modifiki u informazzjoni ta' indirizz IP. Utenti u modifiki minn indirizz IP ta' klijent jista' jinkiseb permezz ta' ''headers'' XFF billi iżżid is-suff \"/xff\" mal-IP. IPv4 (CIDR \$1-32) and IPv6 (CIDR \$2-128) huma sostnuti. Mhux iktar minn 5,000 modifika se jiġu ritornati lura għal raġunijiet ta' prestazzjoni. Uża din l-għodda skont il-politika.",
 	'checkuser-desc' => 'Tagħti l-utenti bil-permess xieraq li jiċċekkjaw l-indirizzi IP u informazzjoni oħra tal-utenti',
 	'checkuser-logcase' => 'It-tfittxija fir-reġistru hija sensittiva għall-ittri kbar u żgħar.',
 	'checkuser' => 'Iċċekkja l-utent',
@@ -5550,7 +5556,7 @@ $messages['nap'] = array(
 	'checkuser-search' => 'Truova',
 );
 
-/** Norwegian Bokmål (norsk (bokmål)‎)
+/** Norwegian Bokmål (norsk bokmål)
  * @author Audun
  * @author Danmichaelo
  * @author Finnrind
@@ -5560,7 +5566,7 @@ $messages['nap'] = array(
 $messages['nb'] = array(
 	'checkuser-summary' => 'Dette verktøyet går gjennom siste endringer for å hente IP-ene som er brukt av en bruker, eller viser redigerings- eller brukerinformasjonen for en IP.
 
-Brukere og redigeringer kan hentes med en XFF-IP ved å legge til «/xff» bak IP-en. IPv4 (CIDR 16-32) og IPv6 (CIDR 48-128) støttes.
+Brukere og redigeringer kan hentes med en XFF-IP ved å legge til «/xff» bak IP-en. IPv4 (CIDR $1-32) og IPv6 (CIDR $2-128) støttes.
 
 Av ytelsesgrunner vises maksimalt 5000 redigeringer. Bruk dette verktøyet i samsvar med retningslinjer.',
 	'checkuser-desc' => 'Gir brukere med de tilhørende rettighetene muligheten til å sjekke brukeres IP-adresser og annen informasjon',
@@ -5643,9 +5649,9 @@ Her er de brukte IP-ene (maks 5000, sortert etter adresse):',
  */
 $messages['nds'] = array(
 	'checkuser-summary' => 'Dit Warktüüch dörsöcht de lesten Ännern na de IP-Adressen, de en Bruker bruukt hett, oder na de Ännern un Brukernaams, de vun en bestimmte IP maakt/bruukt worrn sünd.
-Brukers un Ännern vun XFF-IPs ut köönt ankeken warrn, wenn „/xff“ achter de IP toschreven warrt. IPv4 (CIDR 16-32) un IPv6 (CIDR 48-128) warrt all beid ünnerstütt.
+Brukers un Ännern vun XFF-IPs ut köönt ankeken warrn, wenn „/xff“ achter de IP toschreven warrt. IPv4 (CIDR $1-32) un IPv6 (CIDR $2-128) warrt all beid ünnerstütt.
 De Maximaltall vun trüchlevert Ännern is 5000.
-Dit Warktüüch dröff blot na de Regeln mit de Richtlienen bruukt warrn.',
+Dit Warktüüch dröff blot na de Regeln mit de Richtlienen bruukt warrn.', # Fuzzy
 	'checkuser-desc' => 'Verlöövt Brukers mit de nödigen Rechten, de IP-Adressen un annere Infos vun Brukers natokieken',
 	'checkuser-logcase' => 'De Logbook-Söök maakt en Ünnerscheed twischen grote un lütte Bookstaven.',
 	'checkuser' => 'Bruker nakieken',
@@ -5714,11 +5720,11 @@ IP-Adressen warrt för IP-Brukers för een Week sperrt un dat Brukerkonto opstel
 	'checkuser-reset-action' => 'hett en nee Passwoord för Bruker „$1“ feddert',
 );
 
-/** Nedersaksies (Nedersaksies)
+/** Low Saxon (Netherlands) (Nedersaksies)
  * @author Servien
  */
 $messages['nds-nl'] = array(
-	'checkuser-summary' => 'Dit hulpmiddel bekiekt de leste wiezigingen um IP-adressen weerumme te haolen die gebruukt bin deur n gebruker of geeft de bewarkings-/gebrukersgegevens weer veur n IP-adres. Gebrukers en bewarkingen kunnen weerummehaold wörden mit n XFF-IP deur "/xff" an t IP-adres toe te voegen. IPv4 (CIDR 16-32) en IPv6 (CIDR 48-128) wörden ondersteund. Wie laoten niet meer as 5.000 bewarkingen zien vanwegen prestasieredens. Gebruuk dit in overeenstemming mit t beleid.',
+	'checkuser-summary' => 'Dit hulpmiddel bekiekt de leste wiezigingen um IP-adressen weerumme te haolen die gebruukt bin deur n gebruker of geeft de bewarkings-/gebrukersgegevens weer veur n IP-adres. Gebrukers en bewarkingen kunnen weerummehaold wörden mit n XFF-IP deur "/xff" an t IP-adres toe te voegen. IPv4 (CIDR $1-32) en IPv6 (CIDR $2-128) wörden ondersteund. Wie laoten niet meer as 5.000 bewarkingen zien vanwegen prestasieredens. Gebruuk dit in overeenstemming mit t beleid.',
 	'checkuser-desc' => 'Laot gebrukers mit de beneudigen rechten IP-adressen en aandere informasie van gebrukers achterhaolen.',
 	'checkuser-logcase' => 'De zeukfunksie van t logboek is heufdlettergeveulig',
 	'checkuser' => 'Gebruker naokieken',
@@ -5775,7 +5781,7 @@ $messages['niu'] = array(
  */
 $messages['nl'] = array(
 	'checkuser-summary' => 'Dit hulpmiddel bekijkt recente wijzigingen om IP-adressen die een gebruiker heeft gebruikt te achterhalen of geeft de bewerkings- en gebruikersgegegevens weer voor een IP-adres.
-Gebruikers en bewerkingen van een IP-adres van een client kunnen achterhaald worden via XFF-headers door "/xff" achter het IP-adres toe te voegen. IPv4 (CIDR 16-32) en IPv6 (CIDR 48-128) worden ondersteund.
+Gebruikers en bewerkingen van een IP-adres van een client kunnen achterhaald worden via XFF-headers door "/xff" achter het IP-adres toe te voegen. IPv4 (CIDR $1-32) en IPv6 (CIDR $2-128) worden ondersteund.
 Om prestatieredenen worden niet meer dan 5.000 bewerkingen weergegeven.
 Gebruik dit hulpmiddel volgens het vastgestelde beleid.',
 	'checkuser-desc' => 'Laat bevoegde gebruikers IP-adressen en andere gegevens van gebruikers achterhalen',
@@ -5861,7 +5867,7 @@ $messages['nl-informal'] = array(
 	'checkuser-noreason' => 'Je moet een reden opgeven voor deze zoekopdracht.',
 );
 
-/** Norwegian Nynorsk (norsk (nynorsk)‎)
+/** Norwegian Nynorsk (norsk nynorsk)
  * @author Gunnernett
  * @author Harald Khan
  * @author Jon Harald Søby
@@ -5870,7 +5876,7 @@ $messages['nl-informal'] = array(
 $messages['nn'] = array(
 	'checkuser-summary' => 'Dette verktøyet går gjennom siste endringar for å henta IP-ane som er nytta av ein brukar, eller syner endrings- eller brukarinformasjon for ein IP.
 
-Brukarar og endringar frå ein klient-IP kan verta henta gjennom XFF ved å leggja til «/xff» bak IP-en. IPv4 (CIDR 16-32) og IPv6 (CIDR 48-128) er støtta.
+Brukarar og endringar frå ein klient-IP kan verta henta gjennom XFF ved å leggja til «/xff» bak IP-en. IPv4 (CIDR $1-32) og IPv6 (CIDR $2-128) er støtta.
 
 Av yteårsaker vert høgst 5000 endringar viste.
 Nytt dette verktøyet i samsvar med retningsliner.',
@@ -5985,7 +5991,7 @@ $messages['nso'] = array(
  * @author Cedric31
  */
 $messages['oc'] = array(
-	'checkuser-summary' => "Aquesta aisina passa en revista los cambiaments recents per recercar l'IPS emplegada per un utilizaire, mostrar totas las edicions fachas per una IP, o per enumerar los utilizaires qu'an emplegat las IPs. Los utilizaires e las modificacions pòdon èsser trobatss amb una IP XFF se s'acaba amb « /xff ». IPv4 (CIDR 16-32) e IPv6(CIDR 48-128) son suportats. Emplegatz aquò segon las cadenas de caractèrs.",
+	'checkuser-summary' => "Aquesta aisina passa en revista los cambiaments recents per recercar l'IPS emplegada per un utilizaire, mostrar totas las edicions fachas per una IP, o per enumerar los utilizaires qu'an emplegat las IPs. Los utilizaires e las modificacions pòdon èsser trobatss amb una IP XFF se s'acaba amb « /xff ». IPv4 (CIDR $1-32) e IPv6(CIDR $2-128) son suportats. Emplegatz aquò segon las cadenas de caractèrs.",
 	'checkuser-desc' => 'Balha la possibilitat a las personas exprèssament autorizadas de verificar las adreças IP dels utilizaires e mai d’autras entresenhas los concernent',
 	'checkuser-logcase' => 'La recèrca dins lo Jornal es sensibla a la cassa.',
 	'checkuser' => 'Verificator d’utilizaire',
@@ -6200,7 +6206,7 @@ $messages['pfl'] = array(
  */
 $messages['pl'] = array(
 	'checkuser-summary' => 'Narzędzie skanuje ostatnie zmiany, by odnaleźć adresy IP użyte przez użytkownika lub by pokazać edycje i użytkowników dla zadanego adresu IP.
-Użytkownicy i edycje spod adresu IP mogą być pozyskani przez nagłówki XFF przez dodanie do IP „/xff”. Obsługiwane są adresy IPv4 (CIDR 16-32) I IPv6 (CIDR 48-128).
+Użytkownicy i edycje spod adresu IP mogą być pozyskani przez nagłówki XFF przez dodanie do IP „/xff”. Obsługiwane są adresy IPv4 (CIDR $1-32) I IPv6 (CIDR $2-128).
 Ze względu na wydajność, zostanie zwróconych nie więcej niż 5000 edycji.
 Używaj tego narzędzia zgodnie z zasadami.',
 	'checkuser-desc' => 'Umożliwia uprawnionym użytkownikom sprawdzenie adresów IP użytkowników oraz innych informacji',
@@ -6285,7 +6291,7 @@ Użytych adresów IP jest (nie więcej niż 5000, posortowane według adresu):',
  */
 $messages['pms'] = array(
 	'checkuser-summary' => "St'utiss-sì as passa j'ùltime modìfiche për tiré sù j'adrësse IP dovra da n'utent ò pura mostré lòn ch'as fa da n'adrëssa IP e che dat utent ch'a l'abia associà.
-	J'utent ch'a deuvro n'adrëssa IP e le modìfiche faite d'ambelelì as peulo tiresse sù ën dovrand j'antestassion XFF, për felo tache-ie dapress l'adrëssa e \"/xff\". A marcia tant con la forma IPv4 (CIDR 16-32) che con cola IPv6 (CIDR 48-128).
+	J'utent ch'a deuvro n'adrëssa IP e le modìfiche faite d'ambelelì as peulo tiresse sù ën dovrand j'antestassion XFF, për felo tache-ie dapress l'adrëssa e \"/xff\". A marcia tant con la forma IPv4 (CIDR \$1-32) che con cola IPv6 (CIDR \$2-128).
 	Për na question ëd caria ëd travaj a tira nen sù pì che 5000 modìfiche. A va dovrà conforma ai deuit për ël process ëd contròl.",
 	'checkuser-desc' => "A dà a j'utent con ij përmess aproprià la possibilità ëd controlé j'adrësse IP dj'utent e àutre anformassion",
 	'checkuser-logcase' => "L'arsërca ant ël registr a conta ëdcò maiùscole e minùscole.",
@@ -6415,7 +6421,7 @@ $messages['ps'] = array(
 $messages['pt'] = array(
 	'checkuser-summary' => 'Esta ferramenta varre as mudanças recentes para obter os endereços IP de um utilizador ou para apresentar os dados de edições/utilizadores para um determinado IP.
 Os utilizadores e edições de um determinado IP, podem ser obtidos através de cabeçalhos XFF, acrescentando "/xff" no final do endereço.
-São suportados endereços IPv4 (CIDR 16-32) e IPv6 (CIDR 48-128).
+São suportados endereços IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).
 Por motivos de desempenho não serão fornecidas mais do que 5000 edições.
 O uso desta ferramenta deverá respeitar as normas e recomendações.',
 	'checkuser-desc' => 'Concede a utilizadores com a permissão apropriada a possibilidade de verificar os endereços IP e outra informação de um utilizador',
@@ -6506,7 +6512,7 @@ Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
  */
 $messages['pt-br'] = array(
 	'checkuser-summary' => 'Esta ferramenta varre as Mudanças recentes para obter os endereços de IP de um usuário ou para exibir os dados de edições/usuários para um IP.
-Usuários e edições podem ser obtidos por um IP XFF colocando-se "/xff" no final do endereço. São suportados endereços IPv4 (CIDR 16-32) e IPv6 (CIDR 48-128).
+Usuários e edições podem ser obtidos por um IP XFF colocando-se "/xff" no final do endereço. São suportados endereços IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).
 Não serão retornadas mais de 5000 edições por motivos de desempenho. O uso desta ferramenta deverá estar de acordo com as políticas.',
 	'checkuser-desc' => 'Concede a usuários com a permissão apropriada a possibilidade de verificar os endereços IP de um usuário e outras informações',
 	'checkuser-logcase' => 'As buscas nos registros são sensíveis a letras maiúsculas ou minúsculas.',
@@ -6586,7 +6592,7 @@ Endereços IP serão bloqueados por 1 semana com criação de conta desabilitada
  */
 $messages['qu'] = array(
 	'checkuser-summary' => "Kay llamk'anaqa ñaqha hukchasqakunapim maskaykun huk ruraqpa llamk'achisqan IP huchhakunata chaskinapaq icha huk IP huchhap llamk'apusqamanta/ruraqmanta willankunata rikuchinapaq.
-Ruraqkunata icha mink'akuq IP huchhap rurasqankunatapas XFF uma siq'iwanmi chaskiyta atinki IP huchhata \"/xff\" nisqawan yapaspa. IPv4 (CIDR 16-32), IPv6 (CIDR 48-128) nisqakunam llamk'akun.
+Ruraqkunata icha mink'akuq IP huchhap rurasqankunatapas XFF uma siq'iwanmi chaskiyta atinki IP huchhata \"/xff\" nisqawan yapaspa. IPv4 (CIDR \$1-32), IPv6 (CIDR \$2-128) nisqakunam llamk'akun.
 Pichqa waranqamanta aswan llamk'apusqakunaqa manam kutimunqachu, allin rikuchinarayku. Kay llamk'anataqa kawpayllakama rurachiy.",
 	'checkuser-logcase' => "Hallch'a maskaqqa hatun sananchata uchuy sananchamantam sapaqchan.",
 	'checkuser' => 'Ruraqta llanchiy',
@@ -6654,7 +6660,7 @@ $messages['rm'] = array(
  */
 $messages['ro'] = array(
 	'checkuser-summary' => 'Acestă unealtă scanează schimbările recente pentru a regăsi adresele IP folosite de un utilizator sau arată modificările/utilizatorul pentru o anumită adresă IP.
-Utilizatorii și modificările efectuate de un client IP pot fi regăsite prin antetele XFF atașând adresa IP prin intermediul „/xff”. IPv4 (CIDR 16-32) și IPv6 (CIDR 48-128) sunt acceptate.
+Utilizatorii și modificările efectuate de un client IP pot fi regăsite prin antetele XFF atașând adresa IP prin intermediul „/xff”. IPv4 (CIDR $1-32) și IPv6 (CIDR $2-128) sunt acceptate.
 Nu mai mult de 5000 de modificări vor fi returnate din motive de performanță.
 Utilizați unealta în concordanță cu politica proiectului.',
 	'checkuser-desc' => 'Autorizează utilizatorii cu drepturile specifice să poată verifica adresele IP și alte informații',
@@ -6738,7 +6744,7 @@ Iată IP-urile folosite (maxim 5000, sortate după adresă):',
  */
 $messages['roa-tara'] = array(
 	'checkuser-summary' => "'Stù strumènde condrolle le cangiaminde recende pe' recuperà le 'nderizze IP ausate da 'nu utinde o pe' mostrà le date cangiaminde/utinde dape' 'nu inderizze IP.
-Le utinde e le cangiaminde pòtene essere recuperate da 'nu inderizze IP d'u client ausanne l'indestazione XFF sckaffanne a le 'nderizze IP \"/xff\". IPv4 (CIDR 16-32) e IPv6 (CIDR 48-128) sonde supportate.
+Le utinde e le cangiaminde pòtene essere recuperate da 'nu inderizze IP d'u client ausanne l'indestazione XFF sckaffanne a le 'nderizze IP \"/xff\". IPv4 (CIDR \$1-32) e IPv6 (CIDR \$2-128) sonde supportate.
 No cchiù de 5,000 cangiaminde honne a essere restituite pe' motive de prestazione.
 Ause quiste d'accorde c'a polìteche.",
 	'checkuser-desc' => "Congede a le utinde cu l'autorizzazzione appropriate 'a capacetata de condrollà le 'nderizze IP de l'utinde e otre 'mbormazzione",
@@ -6834,7 +6840,7 @@ Aqquà ce stonne le IP ausate (5000 masseme, ordenate pe' inderizze):",
  */
 $messages['ru'] = array(
 	'checkuser-summary' => "Данный инструмент может быть использован, чтобы получить IP-адреса, использовавшиеся участником, либо чтобы показать правки/участников, работавших с IP-адреса.
-Правки и пользователи, которые правили с определённого IP-адреса, указанного в X-Forwarded-For, можно получить, добавив постфикс <code>/xff</code> к IP-адресу. Поддерживаемые версии IP: 4 (CIDR 16—32) и 6 (CIDR 48-128).
+Правки и пользователи, которые правили с определённого IP-адреса, указанного в X-Forwarded-For, можно получить, добавив постфикс <code>/xff</code> к IP-адресу. Поддерживаемые версии IP: 4 (CIDR $1—32) и 6 (CIDR $2-128).
 Из соображений производительности будут показаны только первые 5000 правок.
 Используйте эту страницу '''только в соответствии с правилами'''.",
 	'checkuser-desc' => 'Предоставляет возможность проверять IP-адреса и дополнительную информацию участников',
@@ -6917,7 +6923,7 @@ IP-адреса будут заблокированы на 1 неделю для
  */
 $messages['rue'] = array(
 	'checkuser-summary' => 'Тот інштрумент бадать послїднї зміны і уможнює здобыти IP адресы хоснователїв або указати едітованя і хоснователя з даной  IP адресы.
-Хоснователї і едітованя з кліентской IP адресы ся дають здобыти з головок XFF приданём „/xff“ ку IP. Є підпороване IPv4 (CIDR 16–32) і IPv6 (CIDR 48-128).
+Хоснователї і едітованя з кліентской IP адресы ся дають здобыти з головок XFF приданём „/xff“ ку IP. Є підпороване IPv4 (CIDR $1–32) і IPv6 (CIDR $2-128).
 З огляду на выкон ся дасть указати максімално 5000 едітовань. Хоснуйте тот інштрумент в згодї з правилами.',
 	'checkuser-desc' => 'Додавать хоснователям з одповідаючіма правами можность здобывати IP адресы хоснователїв і далшы повязаны інформації',
 	'checkuser-logcase' => 'Гляданя в записах чутливе на великость букв.',
@@ -7013,7 +7019,7 @@ $messages['sa'] = array(
  */
 $messages['sah'] = array(
 	'checkuser-summary' => "Бу үстүрүмүөнү кыттааччы IP-ларын көрөргө, эбэтэр IP-аадырыһы туһаммыт хас да кыттааччы уларытыыларын көрөргө туттуохха сөп.
-Биир IP-аадырыстан оҥоһуллубут көннөрүүлэри, эбэтэр ону туһаммыт X-Forwarded-For ыйыллыбыт кыттааччылары көрөргө, бу префиксы IP-га туруоран биэр: <code>/xff</code>. Поддерживаемые версии IP: 4 (CIDR 16—32) и 6 (CIDR 48-128).
+Биир IP-аадырыстан оҥоһуллубут көннөрүүлэри, эбэтэр ону туһаммыт X-Forwarded-For ыйыллыбыт кыттааччылары көрөргө, бу префиксы IP-га туруоран биэр: <code>/xff</code>. Поддерживаемые версии IP: 4 (CIDR $1—32) и 6 (CIDR $2-128).
 Систиэмэни ноҕуруускалаамаары бастакы 5000 көннөрүү эрэ көрдөрүллүөҕэ. Бу сирэйи '''сиэрдээхтик''' тутун.",
 	'checkuser-desc' => 'Кыттаачылар IP-ларын уонна кинилэр тустарынан атын сибидиэнньэлэри көрөр кыаҕы биэрии.',
 	'checkuser-logcase' => 'Сурунаалга көрдөөһүн улахан/кыра буукубалары араарар.',
@@ -7108,7 +7114,7 @@ $messages['sc'] = array(
  * @author Santu
  */
 $messages['scn'] = array(
-	'checkuser-summary' => "Stu strumentu analizza li mudìfichi fatti di picca pi ricupirari li nnirizzi IP utilizzati di n'utenti o ammustrari cuntribbuti e dati di nu IP. Utenti e cuntribbuti di nu client IP ponnu èssiri rintracciati pi menzu dî header XFF juncennu a l'IP lu suffissu \"/xff\". Sunnu suppurtati IPv4 (CIDR 16-32) e IPv6 (CIDR 48-128). Non vènunu turnati chiossai di 5.000 mudifichi, pi mutivi di pristazzioni. Usa stu strumentu 'n stritta cunfurmità a li policy.",
+	'checkuser-summary' => 'Stu strumentu analizza li mudìfichi fatti di picca pi ricupirari li nnirizzi IP utilizzati di n\'utenti o ammustrari cuntribbuti e dati di nu IP. Utenti e cuntribbuti di nu client IP ponnu èssiri rintracciati pi menzu dî header XFF juncennu a l\'IP lu suffissu "/xff". Sunnu suppurtati IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128). Non vènunu turnati chiossai di 5.000 mudifichi, pi mutivi di pristazzioni. Usa stu strumentu \'n stritta cunfurmità a li policy.',
 	'checkuser-desc' => "Pirmetti a l'utenti cu li giusti autorizzazzioni du suttapuniri a virifica li nnirizzi IP e àutri nfurmazzioni di l'utenti stissi",
 	'checkuser-logcase' => "La circata nnê log è ''case sensitive'' (diffirènzia ntra maiùsculi e minùsculi)",
 	'checkuser' => 'Cuntrolli utenzi',
@@ -7258,7 +7264,7 @@ $messages['si'] = array(
  */
 $messages['sk'] = array(
 	'checkuser-summary' => 'Tento nástroj kontroluje Posledné úpravy, aby získal IP adresy používané používateľom alebo zobrazil úpravy/používateľské dáta IP adresy.
-	Používateľov a úpravy je možné získať s XFF IP pridaním „/xff“ k IP. Sú podporované IPv4 (CIDR 16-32) a IPv6 (CIDR 48-128).
+	Používateľov a úpravy je možné získať s XFF IP pridaním „/xff“ k IP. Sú podporované IPv4 (CIDR $1-32) a IPv6 (CIDR $2-128).
 	Z dôvodov výkonnosti nebude vrátených viac ako 5000 úprav. Túto funkciu využívajte len v súlade s platnou politikou.',
 	'checkuser-desc' => 'Dáva používateľom s príslušným oprávnením možnosť overovať IP adresu a iné informácie o používateľovi',
 	'checkuser-logcase' => 'Vyhľadávanie v zázname zohľadňuje veľkosť písmen.',
@@ -7339,7 +7345,7 @@ Tu sú použité IP (max. 5 000, zoradené podľa adresy):',
  */
 $messages['sl'] = array(
 	'checkuser-summary' => 'Orodje pregleda zadnje spremembe, da pridobi IP-naslove, ki jih uporablja uporabnik, ali prikaže podatke urejanja/uporabniške podatke IP-naslova.
-Uporabniki in urejanja odjemalčevega IP-naslova se lahko pridobijo preko glav XFF tako, da se IP-naslovu pripne »/xff«. Podprta sta IPv4 (CIDR 16-32) in IPv6 (CIDR 48-128).
+Uporabniki in urejanja odjemalčevega IP-naslova se lahko pridobijo preko glav XFF tako, da se IP-naslovu pripne »/xff«. Podprta sta IPv4 (CIDR $1-32) in IPv6 (CIDR $2-128).
 Zaradi zmogljivostnih razlogov se ne prikaže več kot 5.000 urejanj.
 Orodje uporabljajte v skladu s pravilnikom.',
 	'checkuser-desc' => 'Dodeli uporabnikom s primernimi dovoljenji možnost preverjanja uporabnikovih IP-naslovov in drugih informacij',
@@ -7443,7 +7449,7 @@ $messages['sq'] = array(
  * @author Обрадовић Горан
  */
 $messages['sr-ec'] = array(
-	'checkuser-summary' => 'Ова алатка прегледа скорашње измене и враћа IP адресе које је корисник користио или показује податке о кориснику/изменама за дати IP. Корисници и измене клијентског IP се могу добавити преко XFF заглавља додавањем "/xff" иза IP. Подржани су формати IPv4 (CIDR 16-32) и IPv6 (CIDR 48-128).
+	'checkuser-summary' => 'Ова алатка прегледа скорашње измене и враћа IP адресе које је корисник користио или показује податке о кориснику/изменама за дати IP. Корисници и измене клијентског IP се могу добавити преко XFF заглавља додавањем "/xff" иза IP. Подржани су формати IPv4 (CIDR $1-32) и IPv6 (CIDR $2-128).
 Због перформанси неће бити враћено више од 5000 измена.
 Алатку користите у складу са политиком.',
 	'checkuser-desc' => 'Даје корисницима са одговарајућим правима могућност да провере ИП адресе корисника и друге информације.',
@@ -7527,7 +7533,7 @@ IP адресе ће бити блокиране на недељу дана за
  * @author Михајло Анђелковић
  */
 $messages['sr-el'] = array(
-	'checkuser-summary' => 'Ova alatka pregleda skorašnje izmene i vraća IP adrese koje je korisnik koristio ili pokazuje podatke o korisniku/izmenama za dati IP. Korisnici i izmene klijentskog IP se mogu dobaviti preko XFF zaglavlja dodavanjem "/xff" iza IP. Podržani su formati IPv4 (CIDR 16-32) i IPv6 (CIDR 48-128).
+	'checkuser-summary' => 'Ova alatka pregleda skorašnje izmene i vraća IP adrese koje je korisnik koristio ili pokazuje podatke o korisniku/izmenama za dati IP. Korisnici i izmene klijentskog IP se mogu dobaviti preko XFF zaglavlja dodavanjem "/xff" iza IP. Podržani su formati IPv4 (CIDR $1-32) i IPv6 (CIDR $2-128).
 Zbog performansi neće biti vraćeno više od 5000 izmena.
 Alatku koristite u skladu sa politikom.',
 	'checkuser-desc' => 'Daje korisnicima sa odgovarajućim pravima mogućnost da provere IP adrese korisnika i druge informacije.',
@@ -7611,7 +7617,7 @@ $messages['stq'] = array(
 	'checkuser-summary' => 'Disse Reewe truchsäkt do lääste Annerengen, uum ju IP-Adresse fon n Benutser
 	blw. do Beoarbaidengen/Benutsernoomen foar ne IP-Adresse fäästtoustaalen. Benutsere un
 Beoarbaidengen fon ne IP-Adresse konnen uk ätter Informatione uut do XFF-Headere
-	oufräiged wäide, as an ju IP-Adresse n „/xff“ anhonged wäd. (CIDR 16-32) un IPv6 (CIDR 48-128) wäide unnerstutsed.
+	oufräiged wäide, as an ju IP-Adresse n „/xff“ anhonged wäd. (CIDR $1-32) un IPv6 (CIDR $2-128) wäide unnerstutsed.
 	Uut Perfomance-Gruunde wäide maximoal 5000 Beoarbaidengen uutroat. Benutsje CheckUser bloot in Uureenstämmenge mäd do Doatenskutsgjuchtlienjen.',
 	'checkuser-desc' => 'Ferlööwet Benutsere mäd do äntspreekende Gjuchte do IP-Adressen as uk wiedere Informatione fon Benutsere tou wröigjen.',
 	'checkuser-logcase' => 'Ju Säike in dät Logbouk unnerskat twiske Groot- un Littikskrieuwen.',
@@ -7735,7 +7741,7 @@ Di handap ieu béréndélan IP nu dipaké (paling loba 5000, disusun dumasar ala
  */
 $messages['sv'] = array(
 	'checkuser-summary' => 'Det här verktyget söker igenom de senaste ändringarna för att hämta IP-adresser för en användare, eller redigeringar och användare för en IP-adress.
-Användare och redigeringar kan visas med IP-adress från XFF genom att lägga till "/xff" efter IP-adressen. Verktyget stödjer IPv4 (CIDR 16-32) och IPv6 (CIDR 48-128).
+Användare och redigeringar kan visas med IP-adress från XFF genom att lägga till "/xff" efter IP-adressen. Verktyget stödjer IPv4 (CIDR $1-32) och IPv6 (CIDR $2-128).
 På grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd verktyget i enlighet med policy.',
 	'checkuser-desc' => 'Ger möjlighet för användare med speciell behörighet att kontrollera användares IP-adresser och viss annan information',
 	'checkuser-logcase' => 'Loggsökning är skiftlägeskänslig.',
@@ -7934,7 +7940,7 @@ $messages['ta'] = array(
  */
 $messages['te'] = array(
 	'checkuser-summary' => 'ఈ పరికరం ఓ వాడుకరి వాడిన ఐపీలను, లేదా ఒక ఐపీకి చెందిన దిద్దుబాట్లు, వాడుకరుల డేటాను చూపిస్తుంది.
-క్లయంటు ఐపీకి చెందిన వాడుకరులు, దిద్దుబాట్లను ఐపీకి /xff అని చేర్చి, XFF హెడర్ల ద్వారా వెలికితీయవచ్చు. IPv4 (CIDR 16-32) and IPv6 (CIDR 48-128) లు పనిచేస్తాయి.
+క్లయంటు ఐపీకి చెందిన వాడుకరులు, దిద్దుబాట్లను ఐపీకి /xff అని చేర్చి, XFF హెడర్ల ద్వారా వెలికితీయవచ్చు. IPv4 (CIDR $1-32) and IPv6 (CIDR $2-128) లు పనిచేస్తాయి.
 పనితనపు కారణాల వలన 5000 దిద్దుబాట్లకు మించి చూపించము. విధానాల కనుగుణంగా దీన్ని వాడండి.',
 	'checkuser-desc' => 'వాడుకరి ఐపీ అడ్రసు, ఇతర సమాచారాన్ని చూడగలిగే అనుమతులను వాడుకరులకు ఇస్తుంది',
 	'checkuser-logcase' => 'చిచ్చా అన్వేషణ కోసం ఇంగ్లీషు అన్వేషకం ఇస్తే, అది కేస్ సెన్సిటివ్.',
@@ -8024,7 +8030,7 @@ $messages['tg'] = array(
  */
 $messages['tg-cyrl'] = array(
 	'checkuser-summary' => 'Ин абзор тағйироти охирро барои ба даст овардани нишонаҳои интернетӣ IP  истифода шуда тавассути як корбар ё таъйини вироишҳои анчом шуда тариқи як нишонаи интернетӣ IP, ҷустуҷӯ мекунад.
-Корбарон ва вироишҳои як нишонаи интернетии IP-ро метавон бо таваҷҷӯҳ ба иттилоот сар оянд тариқи XFF бо афзудан нишонаи интернетӣ IP бо "/xff" пайдо кард. Ҳар ду протокол IPv4 (CIDR 16-32) ва IPv6 (CIDR 48-128) тавассути ин абзор пуштибонӣ мешаванд.
+Корбарон ва вироишҳои як нишонаи интернетии IP-ро метавон бо таваҷҷӯҳ ба иттилоот сар оянд тариқи XFF бо афзудан нишонаи интернетӣ IP бо "/xff" пайдо кард. Ҳар ду протокол IPv4 (CIDR $1-32) ва IPv6 (CIDR $2-128) тавассути ин абзор пуштибонӣ мешаванд.
 На беш аз 5000 вироиш бо далелҳои зудкорӣ баргардонида хоҳанд шуд. Бо мувофиқи сиёсат ва қоидаҳо инро истода кунед.',
 	'checkuser-desc' => 'Ба корбарон ихтиёроти лозимиро барои баррасии нишонаҳои интернетӣ IP корбарон ва иттилооти дигар, иҷозат медиҳад',
 	'checkuser-logcase' => 'Ҷустуҷӯи гузориш ба хурд ё бузрг будани ҳарфҳо ҳасос аст.',
@@ -8083,7 +8089,7 @@ $messages['tg-cyrl'] = array(
  */
 $messages['tg-latn'] = array(
 	'checkuser-summary' => 'In abzor taƣjiroti oxirro baroi ba dast ovardani nişonahoi internetī IP  istifoda şuda tavassuti jak korbar jo ta\'jini viroişhoi ancom şuda tariqi jak nişonai internetī IP, çustuçū mekunad.
-Korbaron va viroişhoi jak nişonai internetiji IP-ro metavon bo tavaççūh ba ittiloot sar ojand tariqi XFF bo afzudan nişonai internetī IP bo "/xff" pajdo kard. Har du protokol IPv4 (CIDR 16-32) va IPv6 (CIDR 48-128) tavassuti in abzor puştibonī meşavand.
+Korbaron va viroişhoi jak nişonai internetiji IP-ro metavon bo tavaççūh ba ittiloot sar ojand tariqi XFF bo afzudan nişonai internetī IP bo "/xff" pajdo kard. Har du protokol IPv4 (CIDR $1-32) va IPv6 (CIDR $2-128) tavassuti in abzor puştibonī meşavand.
 Na beş az 5000 viroiş bo dalelhoi zudkorī bargardonida xohand şud. Bo muvofiqi sijosat va qoidaho inro istoda kuned.',
 	'checkuser-desc' => 'Ba korbaron ixtijoroti lozimiro baroi barrasiji nişonahoi internetī IP korbaron va ittilooti digar, içozat medihad',
 	'checkuser-logcase' => 'Çustuçūi guzoriş ba xurd jo buzrg budani harfho hasos ast.',
@@ -8249,7 +8255,7 @@ Soňky özgerdiş $2, $1 senesinde.',
 $messages['tl'] = array(
 	'checkuser-summary' => 'Nagmamasid ng kamakailang mga pagbabago ang kasangkapang ito upang makuhang muli ang ginamit na mga IP ng tagagamit o ipakita ang dato ng pagbabago/tagagamit para sa isang IP.
 Ang mga tagagamit at mga pagbabagong ginawa ng isang IP ng kliyente ay maaaring kuhaning muli sa pamamagitan ng paggamit ng mga paulong XFF sa pamamagitan ng pagkakabit ng "/xff" sa IP.
-Sinusuportahan ang IPv4 (CIDR 16-32) at ang IPv6 (CIDR 48-128).
+Sinusuportahan ang IPv4 (CIDR $1-32) at ang IPv6 (CIDR $2-128).
 Walang mas mataas sa 5000 mga pagbabago ang ibabalik dahil sa mga kadahilanang pangpagsasagawa.
 Gamitin ito ayon sa patakaran.',
 	'checkuser-desc' => 'Nagbibigay sa mga tagagamit ng naaangkop na pahintulot ang kakayahang suriin ang mga adres ng IP ng tagagamit at iba pang kabatiran (impormasyon)',
@@ -8355,10 +8361,10 @@ $messages['tpi'] = array(
  * @author Vito Genovese
  */
 $messages['tr'] = array(
-	'checkuser-summary' => "Bu araç bir kullanıcı tarafından kullanılan IP'leri almak için son değişiklikleri tarar ya da bir IP için değişiklik/kullanıcı verisini gösterir.
-Alıcı IP'deki kullanıcı ve değişiklikler, IP'ye \"/xff\" eklenmesiyle XFF başlıklarıyla alınabilir. IPv4 (CIDR 16-32) ve IPv6 (CIDR 48-128) desteklenmektedir.
-Performans nedeniyle 5000'den fazla değişiklik dönmeyecektir.
-Bunu ilkelere uygun olarak kullanın.",
+	'checkuser-summary' => 'Bu araç bir kullanıcı tarafından kullanılan IP\'leri almak için son değişiklikleri tarar ya da bir IP için değişiklik/kullanıcı verisini gösterir.
+Alıcı IP\'deki kullanıcı ve değişiklikler, IP\'ye "/xff" eklenmesiyle XFF başlıklarıyla alınabilir. IPv4 (CIDR $1-32) ve IPv6 (CIDR $2-128) desteklenmektedir.
+Performans nedeniyle 5000\'den fazla değişiklik dönmeyecektir.
+Bunu ilkelere uygun olarak kullanın.',
 	'checkuser-desc' => 'Kullanıcıların IP adreslerini ve diğer bilgilerini denetleme yeteneği için, uygun izinleri kullanıcılara tahsis eder',
 	'checkuser-logcase' => 'Günlük araması büyük-küçük harfe duyarlıdır.',
 	'checkuser' => 'IP denetçisi',
@@ -8508,7 +8514,7 @@ $messages['ug-arab'] = array(
  */
 $messages['uk'] = array(
 	'checkuser-summary' => 'Цей засіб переглядає нові редагування для отримання IP-адрес, які використовував певний користувач, або щоб знайти редагування/користувача за IP-адресою.
-Редагування і користувачів, що редагували з певної IP-адреси, заначеної в X-Forwarded-For, можна отримати, додавши префікс <code>/xff</code> до IP-адреси. Підтримувані версії IP: 4 (CIDR 16—32) і 6 (CIDR 48-128).
+Редагування і користувачів, що редагували з певної IP-адреси, заначеної в X-Forwarded-For, можна отримати, додавши префікс <code>/xff</code> до IP-адреси. Підтримувані версії IP: 4 (CIDR $1—32) і 6 (CIDR $2-128).
 З огляду на продуктивність буде показано не більше 5000 редагувань.
 Використовуйте цей засіб тільки відповідно до правил.',
 	'checkuser-desc' => 'Надання можливості перевіряти IP-адреси та іншу інформацію користувачів',
@@ -8611,7 +8617,7 @@ $messages['ur'] = array(
  * @author Candalua
  */
 $messages['vec'] = array(
-	'checkuser-summary' => 'Sto strumento qua l\'analiza le modifiche reçenti par recuperar i indirizi IP doparà da un utente o mostrar contributi e dati de un IP. Utenti e contributi de un client IP i se pol rintraciar atraverso i header XFF, zontàndoghe a l\'IP el suffisso "/xff". Xe suportà IPv4 (CIDR 16-32) e IPv6 (CIDR 48-128). No sarà restituìe piassè de 5.000 modifiche, par ragioni de prestazioni. Dòpara sto strumento in streta conformità a le policy.',
+	'checkuser-summary' => 'Sto strumento qua l\'analiza le modifiche reçenti par recuperar i indirizi IP doparà da un utente o mostrar contributi e dati de un IP. Utenti e contributi de un client IP i se pol rintraciar atraverso i header XFF, zontàndoghe a l\'IP el suffisso "/xff". Xe suportà IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128). No sarà restituìe piassè de 5.000 modifiche, par ragioni de prestazioni. Dòpara sto strumento in streta conformità a le policy.',
 	'checkuser-desc' => 'Consente ai utenti co le oportune autorizazion de sotopor a verifica i indirizi IP e altre informazion relative ai utenti',
 	'checkuser-logcase' => "La riçerca nei registri la xe ''case sensitive'' (cioè la distingue fra majuscole e minuscole).",
 	'checkuser' => 'Controlo utenze',
@@ -8709,7 +8715,7 @@ $messages['vep'] = array(
  * @author Vinhtantran
  */
 $messages['vi'] = array(
-	'checkuser-summary' => 'Công cụ này sẽ quét các thay đổi gần đây để lấy ra các IP được một thành viên sử dụng hoặc hiển thị dữ liệu sửa đổi/tài khoản của một IP. Các tài khoản và sửa đổi của một IP có thể được trích ra từ tiêu đề XFF bằng cách thêm vào IP “/xff”. IPv4 (CIDR 16-32) và IPv6 (CIDR 48-128) đều được hỗ trợ. Không quá 5000 sửa đổi sẽ được trả về vì lý do hiệu suất. Hãy dùng công cụ này theo đúng quy định.',
+	'checkuser-summary' => 'Công cụ này sẽ quét các thay đổi gần đây để lấy ra các IP được một thành viên sử dụng hoặc hiển thị dữ liệu sửa đổi/tài khoản của một IP. Các tài khoản và sửa đổi của một IP có thể được trích ra từ tiêu đề XFF bằng cách thêm vào IP “/xff”. IPv4 (CIDR $1-32) và IPv6 (CIDR $2-128) đều được hỗ trợ. Không quá 5000 sửa đổi sẽ được trả về vì lý do hiệu suất. Hãy dùng công cụ này theo đúng quy định.',
 	'checkuser-desc' => 'Cung cấp cho những người đủ tiêu chuẩn khả năng kiểm tra địa chỉ IP và thông tin khác của người dùng khác',
 	'checkuser-logcase' => 'Tìm kiếm nhật trình có phân biệt chữ hoa chữ thường',
 	'checkuser' => 'Kiểm định viên',
@@ -8791,7 +8797,7 @@ Lần sửa đổi cuối xảy ra $1 lúc $2.',
  */
 $messages['vo'] = array(
 	'checkuser-summary' => 'Stum at vestigon votükamis brefabüik ad dagetön ladetis-IP fa geban semik pagebölis, ud ad jonön redakama- u gebananünis tefü ladet-IP semik.
-Gebans e redakams se dona-IP kanons pagetön de tiäds: XFF medä läükoy eli „/xff“ ladete-IP. Els IPv4 (CIDR 16-32) e IPv6 (CIDR 48-128) kanons pagebön.
+Gebans e redakams se dona-IP kanons pagetön de tiäds: XFF medä läükoy eli „/xff“ ladete-IP. Els IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128) kanons pagebön.
 Redakams no plu 5000 pejonons sekü kods kaenavik. Gebolös stumi at bai nomem.',
 	'checkuser-desc' => 'Gevon gebanes labü däl zesüdik fägi ad vestigön ladeti(s)-IP gebana äsi nünis votik',
 	'checkuser-logcase' => 'Pö suk in registar mayuds e minuds padifükons.',
@@ -8861,7 +8867,7 @@ Redakam lätik ejenon ün $1, tü $2.',
 $messages['wa'] = array(
 	'checkuser-summary' => "Ciste usteye ci rwaite les dierins candjmints po trover les adresses IP eployeyes pa èn uzeu ou mostrer les dnêyes des candjmints/uzeus po ene adresse IP dnêye.
 Les uzeus et candjmints fwaits a pårti d' ene adresse IP polèt esse cwerous après viè les tiestires XFF tot radjoutant «/xff» al fén d' l' adresse IP.
-IPv4 (CIDR /16 a /32) et IPv6 (CIDR /48 a /128) sont ambedeus sopoirtés.
+IPv4 (CIDR /$1 a /32) et IPv6 (CIDR /$2 a /128) sont ambedeus sopoirtés.
 Po des råjhons di performance i gn årè nén d' pus di 5000 responses di rtournêyes.
 Eployîz ciste usteye tot shuvant les rîles.",
 	'checkuser-desc' => "Permete ås cis k' end ont les permissions di cweri les adresses IP et d' ôtès infôrmåcions so les uzeus.",
@@ -9007,7 +9013,7 @@ $messages['yi'] = array(
  */
 $messages['yue'] = array(
 	'checkuser-summary' => '呢個工具會響最近更改度掃瞄對一位用戶用過嘅IP地址，或者係睇一個IP嘅用戶資料同埋佢嘅編輯記錄。
-	響用戶同埋用戶端IP嘅編輯係可幾經由XFF頭，加上 "/xff" 就可以拎到。呢個工具係支援 IPv4 (CIDR 16-32) 同埋 IPv6 (CIDR 48-128)。
+	響用戶同埋用戶端IP嘅編輯係可幾經由XFF頭，加上 "/xff" 就可以拎到。呢個工具係支援 IPv4 (CIDR $1-32) 同埋 IPv6 (CIDR $2-128)。
 	由於為咗效能方面嘅原因，將唔會顯示多過5000次嘅編輯。請跟源政策去用呢個工具。',
 	'checkuser-desc' => '畀合適去查用戶IP或其它嘢嘅能力畀用戶',
 	'checkuser-logcase' => '搵呢個日誌係有分大細楷嘅。',
@@ -9061,7 +9067,7 @@ $messages['yue'] = array(
  * @author 白布飘扬
  */
 $messages['zh-hans'] = array(
-	'checkuser-summary' => '本工具会从最近更改中获取用户使用过的IP地址，可使用XFF头信息来获取同一客户端IP地址下的用户和编辑，即在IP地址后方附加“/xff”。本工具支持IPv4（CIDR 16-32）和IPv6（CIDR 48-128）。由于效率原因，本工具只能查询最近5000笔编辑次数。请确保你的操作符合方针。',
+	'checkuser-summary' => '本工具会从最近更改中获取用户使用过的IP地址，可使用XFF头信息来获取同一客户端IP地址下的用户和编辑，即在IP地址后方附加“/xff”。本工具支持IPv4（CIDR $1-32）和IPv6（CIDR $2-128）。由于效率原因，本工具只能查询最近5000笔编辑次数。请确保你的操作符合方针。',
 	'checkuser-desc' => '令已授权用户可以核查用户的IP地址及其他信息',
 	'checkuser-logcase' => '日志搜索是区分大小写的。',
 	'checkuser' => '帐户核查',
@@ -9146,7 +9152,7 @@ $messages['zh-hans'] = array(
  * @author Wrightbus
  */
 $messages['zh-hant'] = array(
-	'checkuser-summary' => '本工具會從最近更改中獲取用戶使用過的IP地址，可使用XFF頭信息來獲取同一客戶端IP地址下的用戶和編輯，即在IP地址後方附加“/xff”。本工具支持IPv4（CIDR 16-32）和IPv6（CIDR 48-128）。由於效率原因，本工具只能查詢最近5000筆編輯次數。請確保你的操作符合方針。',
+	'checkuser-summary' => '本工具會從最近更改中獲取用戶使用過的IP地址，可使用XFF頭信息來獲取同一客戶端IP地址下的用戶和編輯，即在IP地址後方附加“/xff”。本工具支持IPv4（CIDR $1-32）和IPv6（CIDR $2-128）。由於效率原因，本工具只能查詢最近5000筆編輯次數。請確保你的操作符合方針。',
 	'checkuser-desc' => '讓授權的使用者檢查使用者的IP位址及其他資訊',
 	'checkuser-logcase' => '搜尋時請注意大小寫的區分',
 	'checkuser' => '核對用戶',

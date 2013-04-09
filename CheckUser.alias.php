@@ -25,7 +25,7 @@ $specialPageAliases['arz'] = array(
 	'CheckUser' => array( 'تدقيق_يوزر' ),
 );
 
-/** Assamese (অসমীয়া) */
+/** Assamese (অসমীয়া) */
 $specialPageAliases['as'] = array(
 	'CheckUser' => array( 'সদস্যৰ_অনুসন্ধান_কৰক' ),
 	'CheckUserLog' => array( 'সদস্যৰ_অভিলেখ_চাওক' ),
