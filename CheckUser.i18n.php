@@ -2941,8 +2941,8 @@ $messages['gan-hant'] = array(
  * @author Xosé
  */
 $messages['gl'] = array(
-	'checkuser-summary' => 'Esta ferramenta analiza os cambios para recuperar os enderezos IP utilizados por un usuario ou mostrar as edicións/datos do usuario dun enderezo IP.
-Os usuarios e as edicións por un cliente IP poden ser recuperados a través das cabeceiras XFF engadindo o enderezo IP con "/xff". IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128) están soportados.
+	'checkuser-summary' => 'Esta ferramenta analiza os cambios para recuperar os enderezos IP utilizados por un usuario ou mostrar as edicións ou os datos de usuario dun enderezo IP.
+Os usuarios e as edicións dun cliente IP poden recuperarse a través de cabeceiras XFF, engadindo o sufixo "/xff" ao enderezo IP. IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128) están soportados.
 Non se devolverán máis de 5.000 edicións por motivos de rendemento.
 Use isto de acordo coas políticas.',
 	'checkuser-desc' => 'Garante que usuarios cos permisos apropiados poidan comprobar os enderezos IP dos usuarios e acceder a outra información',
@@ -2961,7 +2961,7 @@ Use isto de acordo coas políticas.',
 	'checkuser-reason' => 'Motivo:',
 	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Mostrar o rexistro',
-	'checkuser-query' => 'Consulta de cambios recentes',
+	'checkuser-query' => 'Examinar os cambios recentes',
 	'checkuser-target' => 'Enderezo IP ou nome de usuario:',
 	'checkuser-users' => 'Obter os usuarios',
 	'checkuser-edits' => 'Obter as edicións',
@@ -2980,7 +2980,7 @@ Use isto de acordo coas políticas.',
 A última edición foi feita o $1 ás $2.',
 	'checkuser-check' => 'Comprobar',
 	'checkuser-log-fail' => 'Non é posible engadir unha entrada no rexistro',
-	'checkuser-nolog' => 'Ningún arquivo de rexistro.',
+	'checkuser-nolog' => 'Non se atopou ningún ficheiro de rexistro.',
 	'checkuser-blocked' => 'Bloqueado',
 	'checkuser-gblocked' => 'Bloqueado globalmente',
 	'checkuser-locked' => 'Bloqueado',
