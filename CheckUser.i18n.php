@@ -660,6 +660,7 @@ $messages['as'] = array(
 /** Asturian (asturianu)
  * @author Dferg
  * @author Esbardu
+ * @author MarcoAurelio
  * @author Xuacu
  */
 $messages['ast'] = array(
@@ -2242,11 +2243,13 @@ Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
  * @author Crazymadlover
  * @author Dferg
  * @author Dmcdevit
+ * @author Hereñu
  * @author Imre
  * @author Jatrobat
  * @author Lin linao
  * @author Locos epraix
  * @author Manuelt15
+ * @author MarcoAurelio
  * @author Mr.Ajedrez
  * @author Muro de Aguas
  * @author Piolinfax
@@ -2261,7 +2264,7 @@ $messages['es'] = array(
 	'checkuser-summary' => 'Esta herramienta explora los cambios recientes para obtener las IPs utilizadas por un usuario o para mostrar la información de ediciones/usuarios de una IP.
 También se pueden obtener los usuarios y las ediciones de un cliente IP vía XFF añadiendo "/xff" al final de la IP. IPv4 (CIDR $1-32) y IPv6 (CIDR $2-128) funcionan.
 No se muestran más de 5000 ediciones por motivos de rendimiento.
-Usa esta herramienta de acuerdo con las políticas correspondientes.',
+Utilícela de acuerdo con las políticas correspondientes.',
 	'checkuser-desc' => 'Permite a los usuarios que tienen los permisos apropiados comprobar las direcciones IP de los usuarios además de otra información.',
 	'checkuser-logcase' => 'La búsqueda en el registro distingue entre mayúsculas y minúsculas.',
 	'checkuser' => 'Verificador de usuarios',
@@ -4734,7 +4737,7 @@ Donn op de Räjelle för dat Werrkzeuch obach jevve, un et nit bruche, wann De n
 	'checkuser-edits' => 'Änderonge holle!',
 	'checkuser-ips' => 'IP-Addresse holle!',
 	'checkuser-search' => 'Söhke',
-	'checkuser-period' => 'Dor:',
+	'checkuser-period' => 'De Door:',
 	'checkuser-week-1' => 'letz Woch',
 	'checkuser-week-2' => 'de letzte zwei Woche',
 	'checkuser-month' => 'de letz drißich Daach',
@@ -4755,7 +4758,7 @@ Donn op de Räjelle för dat Werrkzeuch obach jevve, un et nit bruche, wann De n
 	'checkuser-massblock' => 'Don de usjesoohte Metmaacher sperre',
 	'checkuser-massblock-text' => 'De ußjesoohte Metmaacher wäde för iewich jesperrt, met automattesch
 wigger sperre ennjeschalldt un et Metmaacher-Neu-Aanlääje es verbodde.
-De namelose Metmaacher un ier IP-Adresse wäde för en Woch jesperrt — enlogge fun do es ävver wigger müjjelesch — un et Metmaacher-Neu-Aanlääje
+De namelose Metmaacher un ier IP-Adresse wäde för en Woch jesperrt — enlogge fun do es ävver wigger möjjelesch — un et Metmaacher-Neu-Aanlääje
 es doh och verbodde.',
 	'checkuser-blocktag' => 'Der Metmaacher ier Sigge iere Ennhalt ußtuusche jäje:',
 	'checkuser-blocktag-talk' => 'Donn de Klaafsigge övverschriive met:',
