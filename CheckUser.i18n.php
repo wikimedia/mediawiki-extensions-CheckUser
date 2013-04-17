@@ -4659,7 +4659,7 @@ IP 주소는 1주일 (IP만 막음, 계정 만들기 금지됨) 차단될 것입
 	'checkuser-search-initiator' => '창시자',
 	'checkuser-search-target' => '대상',
 	'checkuser-ipeditcount' => '모든 사용자로부터 편집 $1개',
-	'checkuser-log-return' => '검사관 기본 양식으로 돌아가기',
+	'checkuser-log-return' => '사용자검사 기본 양식으로 돌아가기',
 	'checkuser-limited' => "'''성능상의 이유로 결과 중 일부만 보여줍니다.'''",
 	'checkuser-log-userips' => '$1 사용자는 $2 사용자가 사용한 IP 주소를 얻었습니다.',
 	'checkuser-log-ipedits' => '$1 사용자는 $2의 편집을 얻었습니다.',
@@ -7266,9 +7266,9 @@ $messages['si'] = array(
  * @author Teslaton
  */
 $messages['sk'] = array(
-	'checkuser-summary' => 'Tento nástroj kontroluje Posledné úpravy, aby získal IP adresy používané používateľom alebo zobrazil úpravy/používateľské dáta IP adresy.
-	Používateľov a úpravy je možné získať s XFF IP pridaním „/xff“ k IP. Sú podporované IPv4 (CIDR $1-32) a IPv6 (CIDR $2-128).
-	Z dôvodov výkonnosti nebude vrátených viac ako 5000 úprav. Túto funkciu využívajte len v súlade s platnou politikou.',
+	'checkuser-summary' => 'Tento nástroj kontroluje Posledné úpravy, aby získal IP adresy, ktoré používateľ použil alebo zobrazil úpravy/používateľské dáta IP adresy.
+Používateľov a úpravy je možné získať prostredníctvom hlavičiek XFF pridaním „/xff“ k IP adrese. Sú podporované IPv4 (CIDR $1-32) a IPv6 (CIDR $2-128).
+Z dôvodov výkonnosti nebude vrátených viac ako 5 000 úprav. Túto funkciu využívajte len v súlade s platnou politikou.',
 	'checkuser-desc' => 'Dáva používateľom s príslušným oprávnením možnosť overovať IP adresu a iné informácie o používateľovi',
 	'checkuser-logcase' => 'Vyhľadávanie v zázname zohľadňuje veľkosť písmen.',
 	'checkuser' => 'Overiť používateľa',
