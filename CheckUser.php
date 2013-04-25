@@ -89,7 +89,7 @@ $wgHooks['ContributionsToolLinks'][] = 'CheckUserHooks::checkUserContributionsLi
 $wgHooks['PerformRetroactiveAutoblock'][] = 'CheckUserHooks::doRetroactiveAutoblock';
 
 $wgResourceModules['ext.checkUser'] = array(
-	'scripts'       => 'checkuser.js',
+	'scripts'       => 'modules/ext.checkuser.cidr.js',
 	'dependencies' 	=> array( 'mediawiki.util' ), // IP stuff
 	'localBasePath' => dirname( __FILE__ ),
 	'remoteExtPath' => 'CheckUser',
