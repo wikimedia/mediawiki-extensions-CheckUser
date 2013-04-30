@@ -5127,6 +5127,13 @@ $messages['mhr'] = array(
 	'checkuser-search-submit' => 'Кычал',
 );
 
+/** Minangkabau (Baso Minangkabau)
+ * @author Iwan Novirion
+ */
+$messages['min'] = array(
+	'group-checkuser-member' => '{{GENDER:$1|pamariso}}',
+);
+
 /** Macedonian (македонски)
  * @author Bjankuloski06
  * @author Brest
