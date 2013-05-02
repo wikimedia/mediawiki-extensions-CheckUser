@@ -8623,6 +8623,13 @@ $messages['ur'] = array(
 	'checkuser-search-target' => 'ہدف',
 );
 
+/** Uzbek (oʻzbekcha)
+ * @author CoderSI
+ */
+$messages['uz'] = array(
+	'group-checkuser' => 'Foydalanuvchilarni tekshiruvchilar',
+);
+
 /** vèneto (vèneto)
  * @author Candalua
  */
