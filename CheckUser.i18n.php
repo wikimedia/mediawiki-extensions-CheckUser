@@ -5131,7 +5131,9 @@ $messages['mhr'] = array(
  * @author Iwan Novirion
  */
 $messages['min'] = array(
-	'group-checkuser-member' => '{{GENDER:$1|pamariso}}',
+	'group-checkuser' => 'Pamareso',
+	'group-checkuser-member' => '{{GENDER:$1|pamareso}}',
+	'grouppage-checkuser' => '{{ns:project}}:Pamareso',
 );
 
 /** Macedonian (македонски)
