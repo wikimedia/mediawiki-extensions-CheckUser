@@ -5133,6 +5133,9 @@ $messages['mhr'] = array(
 $messages['min'] = array(
 	'group-checkuser' => 'Pamareso',
 	'group-checkuser-member' => '{{GENDER:$1|pamareso}}',
+	'right-checkuser' => 'Mamareso alamaik IP pangguno dan informasi lainnyo',
+	'right-checkuser-log' => 'Mancaliak log pamareso',
+	'action-checkuser-log' => 'caliak log pamareso',
 	'grouppage-checkuser' => '{{ns:project}}:Pamareso',
 );
 
