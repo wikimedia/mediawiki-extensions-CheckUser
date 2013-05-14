@@ -2243,6 +2243,7 @@ Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
  * @author Crazymadlover
  * @author Dferg
  * @author Dmcdevit
+ * @author Gustronico
  * @author Hereñu
  * @author Imre
  * @author Jatrobat
@@ -2261,8 +2262,8 @@ Jen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):',
  * @author VegaDark
  */
 $messages['es'] = array(
-	'checkuser-summary' => 'Esta herramienta explora los cambios recientes para obtener las IPs utilizadas por un usuario o para mostrar la información de ediciones/usuarios de una IP.
-También se pueden obtener los usuarios y las ediciones de un cliente IP vía XFF añadiendo "/xff" al final de la IP. IPv4 (CIDR $1-32) y IPv6 (CIDR $2-128) funcionan.
+	'checkuser-summary' => 'Esta herramienta explora los cambios recientes para obtener las direcciones IP utilizadas por un usuario, o para mostrar la información de ediciones y usuarios de una cierta dirección IP.
+Se pueden obtener los usuarios y las ediciones de una dirección IP cliente vía XFF añadiendo "/xff" al final de la dirección IP. Funciona con IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).
 No se muestran más de 5000 ediciones por motivos de rendimiento.
 Utilícela de acuerdo con las políticas correspondientes.',
 	'checkuser-desc' => 'Permite a los usuarios que tienen los permisos apropiados comprobar las direcciones IP de los usuarios además de otra información.',
