@@ -236,7 +236,7 @@ class CheckUserHooks {
 	 * @return array( string, bool )
 	 */
 	public static function getClientIPfromXFF( $xff ) {
-		global $wgSquidServers, $wgSquidServersNoPurge;
+		global $wgSquidServers, $wgSquidServersNoPurge, $wgUsePrivateIPs;
 
 		if ( !$xff ) {
 			return array( null, false );
@@ -255,9 +255,9 @@ class CheckUserHooks {
 			// If it is a valid IP, not a hash or such
 			if ( IP::isIPAddress( $ip ) ) {
 				# The first IP should be the client.
-				# Start only from the first public IP.
+				# Start only from the first public IP (unless $wgUsePrivateIPs is set).
 				if ( is_null( $client ) ) {
-					if ( IP::isPublic( $ip ) ) {
+					if ( $wgUsePrivateIPs || IP::isPublic( $ip ) ) {
 						$client = $ip;
 					}
 				} elseif ( !in_array( $ip, $wgSquidServers )
