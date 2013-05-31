@@ -96,7 +96,7 @@ class CheckUser extends SpecialPage {
 
 	protected function showGuide() {
 		global $wgCheckUserCIDRLimit;
-		$this->getOutput()->addWikiText( 
+		$this->getOutput()->addWikiText(
 			$this->msg( 'checkuser-summary',
 				$wgCheckUserCIDRLimit['IPv4'],
 				$wgCheckUserCIDRLimit['IPv6'] )->text() .
@@ -1047,7 +1047,9 @@ class CheckUser extends SpecialPage {
 					# XFF string, link to /xff search
 					if ( $set[1] ) {
 						# Flag our trusted proxies
-						list( $client, $trusted ) = CheckUserHooks::getClientIPfromXFF( $set[1], $set[0] );
+						list( $client ) = CheckUserHooks::getClientIPfromXFF( $set[1] );
+						// XFF was trusted if client came from it
+						$trusted = ( $client === $row->cuc_ip );
 						$c = $trusted ? '#F0FFF0' : '#FFFFCC';
 						$s .= '&#160;&#160;&#160;<span style="background-color: ' . $c . '"><strong>XFF</strong>: ';
 						$s .= Linker::linkKnown(
@@ -1224,7 +1226,8 @@ class CheckUser extends SpecialPage {
 		# XFF
 		if ( $row->cuc_xff != null ) {
 			# Flag our trusted proxies
-			list( $client, $trusted ) = CheckUserHooks::getClientIPfromXFF( $row->cuc_xff, $row->cuc_ip );
+			list( $client ) = CheckUserHooks::getClientIPfromXFF( $row->cuc_xff );
+			$trusted = ( $client === $row->cuc_ip ); // XFF was trusted if client came from it
 			$c = $trusted ? '#F0FFF0' : '#FFFFCC';
 			$line .= '&#160;&#160;&#160;<span class="mw-checkuser-xff" style="background-color: ' . $c . '">' .
 				'<strong>XFF</strong>: ';

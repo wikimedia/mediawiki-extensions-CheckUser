@@ -231,42 +231,59 @@ class CheckUserHooks {
 	}
 
 	/**
-	 * Locates the client IP within a given XFF string
-	 * @param string $xff
-	 * @return array( string, bool )
+	 * Locates the client IP within a given XFF string.
+	 * Unlike the XFF checking to determine a user IP in WebRequest,
+	 * this simply follows the chain and does not account for server trust.
+	 *
+	 * This returns an array containing:
+	 *   - The best guess of the client IP
+	 *   - Whether all the proxies are just squid/varnish
+	 *
+	 * @param string $xff XFF header value
+	 * @return array (string|null, bool)
+	 * @TODO: move this to a utility class
 	 */
 	public static function getClientIPfromXFF( $xff ) {
-		global $wgSquidServers, $wgSquidServersNoPurge, $wgUsePrivateIPs;
+		global $wgUsePrivateIPs;
 
-		if ( !$xff ) {
+		if ( !strlen( $xff ) ) {
 			return array( null, false );
 		}
 
-		// Avoid annoyingly long xff hacks
-		$xff = trim( substr( $xff, 0, 255 ) );
-		$client = null;
-		$isSquidOnly = true;
-		// @todo Unused variable?
-		$trusted = true;
-		// Check each IP, assuming they are separated by commas
-		$ips = explode( ',', $xff );
-		foreach ( $ips as $ip ) {
-			$ip = trim( $ip );
-			// If it is a valid IP, not a hash or such
-			if ( IP::isIPAddress( $ip ) ) {
-				# The first IP should be the client.
-				# Start only from the first public IP (unless $wgUsePrivateIPs is set).
-				if ( is_null( $client ) ) {
-					if ( $wgUsePrivateIPs || IP::isPublic( $ip ) ) {
-						$client = $ip;
-					}
-				} elseif ( !in_array( $ip, $wgSquidServers )
-					&& !in_array( $ip, $wgSquidServersNoPurge ) )
-				{
-					$isSquidOnly = false;
-					break;
-				}
+		# Get the list in the form of <PROXY N, ... PROXY 1, CLIENT>
+		$ipchain = array_map( 'trim', explode( ',', $xff ) );
+		$ipchain = array_reverse( $ipchain );
+
+		$client = null; // best guess of the client IP
+		$isSquidOnly = false; // all proxy servers where site Squid/Varnish servers?
+		# Step through XFF list and find the last address in the list which is a
+		# sensible proxy server. Set $ip to the IP address given by that proxy server,
+		# unless the address is not sensible (e.g. private). However, prefer private
+		# IP addresses over proxy servers controlled by this site (more sensible).
+		foreach ( $ipchain as $i => $curIP ) {
+			$curIP = IP::canonicalize( $curIP );
+			if ( $curIP === null ) {
+				break; // not a valid IP address
 			}
+			$curIsSquid = wfIsConfiguredProxy( $curIP );
+			if ( $client === null ) {
+				$client = $curIP;
+				$isSquidOnly = $curIsSquid;
+			}
+			if (
+				isset( $ipchain[$i + 1] ) &&
+				IP::isIPAddress( $ipchain[$i + 1] ) &&
+				(
+					IP::isPublic( $ipchain[$i + 1] ) ||
+					$wgUsePrivateIPs ||
+					$curIsSquid // bug 48919
+				)
+			) {
+				$client = IP::canonicalize( $ipchain[$i + 1] );
+				$isSquidOnly = ( $isSquidOnly && $curIsSquid );
+				continue;
+			}
+			break;
 		}
 
 		return array( $client, $isSquidOnly );
