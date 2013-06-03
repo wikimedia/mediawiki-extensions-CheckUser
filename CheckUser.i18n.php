@@ -113,6 +113,7 @@ Here are the IPs used (5000 max, sorted by address):',
  * @author Kwj2772
  * @author Lejonel
  * @author Lloffiwr
+ * @author MarcoAurelio
  * @author Meno25
  * @author Mormegil
  * @author Purodha
@@ -646,7 +647,7 @@ IPv4 (CIDR $1-32) و IPv6 (CIDR $2-128) مدعومين.
 	'checkuser-reset-action' => 'اضبط من تانى الباسورد بتاعة اليوزر "$1"',
 );
 
-/** Assamese (অসমীয়া)
+/** Assamese (অসমীয়া)
  * @author Bishnu Saikia
  * @author Chaipau
  */
@@ -6079,7 +6080,7 @@ Vaquí un extrach de las IP utilizadas ({{formatnum:5000}} maximum, triadas per 
 	'checkuser-reset-action' => 'torna inicializar lo senhal per « $1 »',
 );
 
-/** Oriya (ଓଡ଼ିଆ)
+/** Oriya (ଓଡ଼ିଆ)
  * @author Ansumang
  * @author Jnanaranjan Sahu
  * @author Jose77
@@ -6522,6 +6523,7 @@ Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
  * @author Helder.wiki
  * @author Heldergeovane
  * @author Jesielt
+ * @author Luckas
  * @author Luckas Blade
  * @author Pedroca cerebral
  * @author 555
