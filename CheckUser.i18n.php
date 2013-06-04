@@ -5139,6 +5139,10 @@ $messages['min'] = array(
 	'right-checkuser-log' => 'Mancaliak log pamareso',
 	'action-checkuser-log' => 'caliak log pamareso',
 	'grouppage-checkuser' => '{{ns:project}}:Pamareso',
+	'checkuser-week-1' => 'pakan lalu',
+	'checkuser-week-2' => 'duo pakan tarakhia',
+	'checkuser-massblock-text' => 'Akun-akun nan dipiliah ka disakek salamonyo, alamaik-alamaik IP tarakhia nan digunoan otomatih disakek dan indak dipabuliahan mambuek akun.
+Alamaik-alamaik IP ka disakek salamo 1 pakan untuak pangguno anonim dan indak dipabuliahan mambuek akun.',
 );
 
 /** Macedonian (македонски)
