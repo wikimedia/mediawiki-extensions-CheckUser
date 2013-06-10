@@ -211,7 +211,7 @@ $specialPageAliases['ksh'] = array(
 /** Cornish (kernowek) */
 $specialPageAliases['kw'] = array(
 	'CheckUser' => array( 'CheckyaDevnydhyer' ),
-	'CheckUserLog' => array( 'CheckyaCovnotenAnDevnydhyer' ),
+	'CheckUserLog' => array( 'CheckyaKovnotenAnDevnydhyer' ),
 );
 
 /** Ladino (Ladino) */

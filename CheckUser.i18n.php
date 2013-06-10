@@ -690,7 +690,7 @@ Emplega esta ferramienta acordies cola política d'usu.",
 	'checkuser-users' => 'Obtener usuarios',
 	'checkuser-edits' => 'Obtener les ediciones',
 	'checkuser-ips' => 'Obtener les IP',
-	'checkuser-search' => 'Guetar',
+	'checkuser-search' => 'Buscar',
 	'checkuser-period' => 'Duración:',
 	'checkuser-week-1' => 'cabera selmana',
 	'checkuser-week-2' => 'caberes dos selmanes',
@@ -726,7 +726,7 @@ Les direiciones IP van ser bloquiaes 1 selmana namái pa usuarios IP y cola crea
 Estes son les IPs usaes (5000 max, axeitaes por direición):",
 	'checkuser-user-nonexistent' => "L'usuariu especificáu nun esiste.",
 	'checkuser-search-form' => 'Atopar les entraes de rexistru onde $1 ye $2',
-	'checkuser-search-submit' => 'Guetar',
+	'checkuser-search-submit' => 'Buscar',
 	'checkuser-search-initiator' => 'aniciador',
 	'checkuser-search-target' => 'oxetivu',
 	'checkuser-ipeditcount' => '~$1 de tolos usuarios',
@@ -809,6 +809,7 @@ $messages['azb'] = array(
  * @author Assele
  * @author Haqmar
  * @author Ләйсән
+ * @author Рустам Нурыев
  */
 $messages['ba'] = array(
 	'checkuser-summary' => 'Был ҡорал ҡатнашыусы тарафынан ҡулланылған IP адрестарҙы алыр өсөн йәки IP адрестан эшләнгән үҙгәртеүҙәрҙе/ҡатнашыусыларҙы ҡарар өсөн ҡулланыла ала.
@@ -866,7 +867,7 @@ IP адрестар танылмаған ҡатнашыусылар өсөн 1 �
 	'checkuser-accounts' => '$1 {{PLURAL:$1|яңы иҫәп яҙмаһы}}',
 	'checkuser-too-many' => 'Бигерәк күп һөҙөмтә (һорауҙы баһалау быйынса), зинһар, CIDR-ҙы тарайтығыҙ.
 Ҡулланылған IP адрестар (иң күбе — 5000, адрестары буйынса тәртипкә килтерелгән):',
-	'checkuser-user-nonexistent' => 'Күрһәтелгән ҡатнашыусы юк.',
+	'checkuser-user-nonexistent' => 'Күрһәтелгән ҡатнашыусы юҡ.',
 	'checkuser-search-form' => '$1 — $2 булған яҙмаларҙы табырға',
 	'checkuser-search-submit' => 'Эҙләү',
 	'checkuser-search-initiator' => 'башлаусы',
@@ -883,7 +884,7 @@ IP адрестар танылмаған ҡатнашыусылар өсөн 1 �
 	'checkuser-autocreate-action' => 'үҙенән-үҙе булдырылған',
 	'checkuser-create-action' => 'төҙөлдө',
 	'checkuser-email-action' => '"$1" ҡатнашыусыһына электрон хат ебәргән',
-	'checkuser-reset-action' => '"$1" ҡатнашыусыһының паролен үҙгәртергә',
+	'checkuser-reset-action' => '"$1" ҡатнашыусыһының серһүҙен үҙгәртергә',
 );
 
 /** Southern Balochi (بلوچی مکرانی)
@@ -4802,8 +4803,14 @@ Hee sin de eetßte 5000 IP-Addresse, zoteeet:',
 $messages['ku-latn'] = array(
 	'checkuser-reason' => 'Sedem:',
 	'checkuser-search' => 'Lêbigere',
+	'checkuser-week-1' => 'hefteya dawî',
+	'checkuser-week-2' => 'du hefteyên dawî',
+	'checkuser-month' => '30 rojên dawî',
 	'checkuser-all' => 'hemû',
+	'checkuser-block-noreason' => 'Tu divê bo astengkirinan sedemekê bidî.',
 	'checkuser-search-submit' => 'Lêbigere',
+	'checkuser-ipeditcount' => '~$1 ji hemû bikarhêneran',
+	'checkuser-create-action' => 'hat afirandin',
 );
 
 /** Kirghiz (Кыргызча)
@@ -5015,6 +5022,7 @@ $messages['lo'] = array(
 /** Lithuanian (lietuvių)
  * @author Eitvys200
  * @author Homo
+ * @author Mantak111
  * @author Matasg
  */
 $messages['lt'] = array(
@@ -5052,6 +5060,7 @@ $messages['lt'] = array(
 Čia pateikiami naudojami IP adresai (daugiausiai 5000, suskirstyti pagal adresus):', # Fuzzy
 	'checkuser-user-nonexistent' => 'Nurodytas naudotojas neegzistuoja.',
 	'checkuser-search-submit' => 'Ieškoti',
+	'checkuser-search-initiator' => 'iniciatorius',
 	'checkuser-search-target' => 'taikinys',
 	'checkuser-ipeditcount' => '~$1 iš visų vartotojų',
 	'checkuser-log-userips' => '$1 gavo IP adresų $2',
