@@ -99,6 +99,7 @@ $specialPageAliases['es'] = array(
 /** Persian (فارسی) */
 $specialPageAliases['fa'] = array(
 	'CheckUser' => array( 'بازرسی_کاربر' ),
+	'CheckUserLog' => array( 'سیاهه_بازرس_کاربر' ),
 );
 
 /** Finnish (suomi) */
