@@ -188,7 +188,8 @@ The link points to [[Special:Log]] or [[Special:BlockList]].
 
 See also:
 * {{msg-mw|Checkuser-gblocked}}
-* {{msg-mw|Checkuser-wasblocked}}',
+* {{msg-mw|Checkuser-wasblocked}}
+{{Identical|Blocked}}',
 	'checkuser-gblocked' => 'Used a flag in [[Special:CheckUser]].
 
 See also:
