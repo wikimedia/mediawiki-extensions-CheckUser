@@ -2648,12 +2648,13 @@ Käytetyt IP:t (enintään 5000, järjestetty osoitteen mukaan):',
 );
 
 /** Faroese (føroyskt)
+ * @author EileenSanda
  * @author Spacebirdy
  */
 $messages['fo'] = array(
 	'checkuser' => 'Rannsakanar brúkari',
 	'group-checkuser' => 'Rannsakanar brúkari',
-	'group-checkuser-member' => 'Rannsakanar brúkarir', # Fuzzy
+	'group-checkuser-member' => '{{GENDER:$1|kanna brúkara}}',
 	'grouppage-checkuser' => '{{ns:project}}:Rannsakanar brúkari',
 	'checkuser-search' => 'Leita',
 );
