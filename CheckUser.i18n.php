@@ -1445,11 +1445,13 @@ $messages['cdo'] = array(
 
 /** Chechen (нохчийн)
  * @author Sasan700
+ * @author Умар
  */
 $messages['ce'] = array(
 	'group-checkuser' => 'Даржахошка хьовсурш',
 	'checkuser-reason' => 'Бахьан:',
 	'checkuser-target' => 'IP-долу меттиг йа декъашхон цlе:',
+	'checkuser-search-target' => 'Ӏалашо',
 );
 
 /** Chamorro (Chamoru)
