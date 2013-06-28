@@ -63,6 +63,11 @@ $specialPageAliases['ca'] = array(
 	'CheckUserLog' => array( 'Registres_de_les_verificacions_de_comptes_d\'usuari' ),
 );
 
+/** Chechen (нохчийн) */
+$specialPageAliases['ce'] = array(
+	'CheckUserLog' => array( 'Декъашхошан_нисдаршан_тептар' ),
+);
+
 /** German (Deutsch) */
 $specialPageAliases['de'] = array(
 	'CheckUser' => array( 'Checkuser' ),
