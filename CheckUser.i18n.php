@@ -179,7 +179,8 @@ See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interfa
 * $2 = time',
 	'checkuser-check' => 'Button label on CheckUser Special page. See screenshot \'[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]\'.
 
-Also appears to be used as link to new CheckUser check from the results page of a CheckUser check - see screenshot "Example IP check".',
+Also appears to be used as link to new CheckUser check from the results page of a CheckUser check - see screenshot "Example IP check".
+{{Identical|Check}}',
 	'checkuser-log-fail' => 'Used as failure message in [[Special:CheckUser]].',
 	'checkuser-nolog' => 'Unused at this time.',
 	'checkuser-blocked' => 'Used as link text in [[Special:CheckUser]].
