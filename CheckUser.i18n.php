@@ -1439,9 +1439,10 @@ Aquí teniu les IP usades (màx. 5000 ordenades per adreça):",
 );
 
 /** Min Dong Chinese (Mìng-dĕ̤ng-ngṳ̄)
+ * @author Yejianfei
  */
 $messages['cdo'] = array(
-	'checkuser-search' => 'Sìng-tō̤',
+	'checkuser-search' => '尋討',
 );
 
 /** Chechen (нохчийн)
