@@ -266,6 +266,7 @@ $specialPageAliases['nb'] = array(
 /** Low Saxon (Netherlands) (Nedersaksies) */
 $specialPageAliases['nds-nl'] = array(
 	'CheckUser' => array( 'Gebruker_opvragen' ),
+	'CheckUserLog' => array( 'Logboek_gebruker_naokieken' ),
 );
 
 /** Dutch (Nederlands) */
