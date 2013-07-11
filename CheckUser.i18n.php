@@ -1617,9 +1617,13 @@ $messages['csb'] = array(
  * @author ОйЛ
  */
 $messages['cu'] = array(
+	'checkuser-reason' => 'какъ съмꙑслъ :',
 	'checkuser-target' => 'IP число или по́льꙃєватєлꙗ и́мѧ :',
 	'checkuser-search' => 'исканиѥ',
+	'checkuser-all' => 'вьсꙗ',
 	'checkuser-search-submit' => 'ищи́',
+	'checkuser-search-target' => 'цѣль',
+	'checkuser-create-action' => 'сътворѥнъ бѣ',
 );
 
 /** Welsh (Cymraeg)
