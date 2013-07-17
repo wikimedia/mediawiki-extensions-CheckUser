@@ -1454,6 +1454,7 @@ $messages['ce'] = array(
 	'checkuser-reason' => 'Бахьан:',
 	'checkuser-query' => 'Деха керла нисдарш',
 	'checkuser-target' => 'IP-долу меттиг йа декъашхон цlе:',
+	'checkuser-log-fail' => 'Цатарло тептар тӀе дӀаяздар тӀоха',
 	'checkuser-search-target' => 'Ӏалашо',
 );
 
@@ -7304,6 +7305,7 @@ $messages['si'] = array(
 /** Slovak (slovenčina)
  * @author Helix84
  * @author Martin Kozák
+ * @author Sudo77(new)
  * @author Teslaton
  */
 $messages['sk'] = array(
@@ -7315,6 +7317,7 @@ Z dôvodov výkonnosti nebude vrátených viac ako 5 000 úprav. Túto funkciu 
 	'checkuser' => 'Overiť používateľa',
 	'checkuserlog' => 'Záznam kontroly používateľov',
 	'checkuser-contribs' => 'skontrolovať IP používateľa',
+	'checkuser-contribs-log' => 'nedávne kontroly používateľa',
 	'group-checkuser' => 'Revízori',
 	'group-checkuser-member' => '{{GENDER:$1|revízor|revízorka|revízor}}',
 	'right-checkuser' => 'Skontrolovať IP adresy a iné informácie používateľov',
