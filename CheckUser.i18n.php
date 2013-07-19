@@ -5039,7 +5039,9 @@ $messages['lo'] = array(
  */
 $messages['lt'] = array(
 	'checkuser' => 'Patikrinkite vartotoją',
+	'checkuserlog' => 'Peržiūrėti vartotojo žurnalą',
 	'checkuser-contribs' => 'Patikrinkite vartotojo IP adresus',
+	'checkuser-contribs-log' => 'naujausi vartotojo patikrinimai',
 	'group-checkuser' => 'Patikrinkite vartotojus',
 	'group-checkuser-member' => 'Patikrinkite vartotoją', # Fuzzy
 	'right-checkuser' => 'Tikrinti naudotojo IP adresus ir kitą informaciją',
@@ -5047,9 +5049,9 @@ $messages['lt'] = array(
 	'checkuser-reason' => 'Priežastis:',
 	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Rodyti sąrašą',
-	'checkuser-target' => 'Naudotojas arba IP', # Fuzzy
+	'checkuser-target' => 'IP adresas ar vartotojo vardas:',
 	'checkuser-users' => 'Gauti naudotojus',
-	'checkuser-edits' => 'Gauti redagavimus iš IP', # Fuzzy
+	'checkuser-edits' => 'Gauti redagavimus',
 	'checkuser-ips' => 'Gauti IP',
 	'checkuser-search' => 'Ieškoti',
 	'checkuser-period' => 'Trukmė:',
@@ -5057,8 +5059,13 @@ $messages['lt'] = array(
 	'checkuser-week-2' => 'Paskutines dvi savaites',
 	'checkuser-month' => 'paskutines 30 dienų',
 	'checkuser-all' => 'visi',
+	'checkuser-empty' => 'Žurnale nėra jokių elementų.',
 	'checkuser-nomatch' => 'Atitikmenų nerasta.',
+	'checkuser-nomatch-edits' => 'Nerasta jokiu atitikmenų
+Paskutini karta redaguota $1 $2.',
 	'checkuser-check' => 'Tikrinti',
+	'checkuser-log-fail' => 'Neįmanoma pridėti žurnalo įrašo',
+	'checkuser-nolog' => 'Nerastas žurnalo failas',
 	'checkuser-blocked' => 'Užblokuotas',
 	'checkuser-gblocked' => 'Užblokuotas globaliai',
 	'checkuser-locked' => 'Užrakintas',
@@ -6457,6 +6464,7 @@ $messages['ps'] = array(
 /** Portuguese (português)
  * @author Dicionarista
  * @author Hamilton Abreu
+ * @author Luckas
  * @author Malafaya
  * @author Sir Lestaty de Lioncourt
  * @author Waldir
@@ -6509,12 +6517,12 @@ A última edição foi a $1 às $2.',
 	'checkuser-locked' => 'Bloqueado',
 	'checkuser-wasblocked' => 'Previamente bloqueado',
 	'checkuser-localonly' => 'Não unificada',
-	'checkuser-massblock' => 'Bloquear utilizadores seleccionados',
-	'checkuser-massblock-text' => 'As contas seleccionadas serão bloqueadas indefinidamente, com o bloqueio automático activado e a criação de conta impossibilitada.
+	'checkuser-massblock' => 'Bloquear utilizadores selecionados',
+	'checkuser-massblock-text' => 'As contas selecionadas serão bloqueadas indefinidamente, com o bloqueio automático ativado e a criação de conta impossibilitada.
 Endereços IP serão bloqueados por 1 semana com a criação de conta impossibilitada.',
 	'checkuser-blocktag' => 'Substituir páginas de utilizador com:',
 	'checkuser-blocktag-talk' => 'Substituir páginas de discussão por:',
-	'checkuser-massblock-commit' => 'Bloquear utilizadores seleccionados',
+	'checkuser-massblock-commit' => 'Bloquear utilizadores selecionados',
 	'checkuser-block-success' => "'''{{PLURAL:$2|O utilizador|Os utilizadores}} $1 {{PLURAL:$2|está agora bloqueado|estão agora bloqueados}}.'''",
 	'checkuser-block-failure' => "'''Não há utilizadores bloqueados.'''",
 	'checkuser-block-limit' => 'Há demasiados utilizadores selecionados.',
