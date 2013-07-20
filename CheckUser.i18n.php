@@ -1619,10 +1619,11 @@ $messages['csb'] = array(
  */
 $messages['cu'] = array(
 	'checkuser-reason' => 'какъ съмꙑслъ :',
+	'checkuser-showlog' => 'виждь їсторїѩ',
 	'checkuser-target' => 'IP число или польꙃєватєлꙗ имѧ :',
 	'checkuser-search' => 'исканиѥ',
 	'checkuser-all' => 'вьсꙗ',
-	'checkuser-search-submit' => 'ищи́',
+	'checkuser-search-submit' => 'ищи',
 	'checkuser-search-target' => 'цѣль',
 	'checkuser-create-action' => 'сътворѥнъ бѣ',
 );
