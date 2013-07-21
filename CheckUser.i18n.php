@@ -1453,7 +1453,7 @@ $messages['ce'] = array(
 	'group-checkuser' => 'Даржахошка хьовсурш',
 	'checkuser-reason' => 'Бахьан:',
 	'checkuser-query' => 'Деха керла нисдарш',
-	'checkuser-target' => 'IP-долу меттиг йа декъашхон цlе:',
+	'checkuser-target' => 'IP-адрес я декъашхочун цӀе:',
 	'checkuser-log-fail' => 'Цатарло тептар тӀе дӀаяздар тӀоха',
 	'checkuser-search-target' => 'Ӏалашо',
 );
