@@ -65,6 +65,7 @@ $specialPageAliases['ca'] = array(
 
 /** Chechen (нохчийн) */
 $specialPageAliases['ce'] = array(
+	'CheckUser' => array( 'Декъашхочунга_хьажар' ),
 	'CheckUserLog' => array( 'Декъашхошан_нисдаршан_тептар' ),
 );
 

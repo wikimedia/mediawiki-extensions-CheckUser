@@ -1450,11 +1450,16 @@ $messages['cdo'] = array(
  * @author Умар
  */
 $messages['ce'] = array(
+	'checkuser' => 'Декъашхочунга хьажа',
+	'checkuser-contribs' => 'хьажа декъашхочун IP-адресе',
 	'group-checkuser' => 'Даржахошка хьовсурш',
 	'checkuser-reason' => 'Бахьан:',
 	'checkuser-query' => 'Деха керла нисдарш',
 	'checkuser-target' => 'IP-адрес я декъашхочун цӀе:',
+	'checkuser-search' => 'Лаха',
+	'checkuser-check' => 'Хьажа',
 	'checkuser-log-fail' => 'Цатарло тептар тӀе дӀаяздар тӀоха',
+	'checkuser-search-submit' => 'Лаха',
 	'checkuser-search-target' => 'Ӏалашо',
 );
 
