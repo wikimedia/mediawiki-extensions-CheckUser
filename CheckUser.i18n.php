@@ -6627,7 +6627,7 @@ Endereços IP serão bloqueados por 1 semana com criação de conta desabilitada
 	'checkuser-accounts' => '$1 {{PLURAL:$1|nova conta|novas contas}}',
 	'checkuser-too-many' => 'Há muitos resultados; por favor, restrinja o CIDR. Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
 	'checkuser-user-nonexistent' => 'O usuário especificado não existe.',
-	'checkuser-search-form' => 'Procurar entradas no registo onde $1 seja $2',
+	'checkuser-search-form' => 'Procurar entradas no registro onde $1 seja $2',
 	'checkuser-search-submit' => 'Pesquisar',
 	'checkuser-search-initiator' => 'iniciador',
 	'checkuser-search-target' => 'alvo',
