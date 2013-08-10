@@ -4053,8 +4053,8 @@ Ultimo edit risalente alle $2 del $1.',
 	'checkuser-wasblocked' => 'Bloccato precedentemente',
 	'checkuser-localonly' => 'Non unificato',
 	'checkuser-massblock' => 'Blocca utenti selezionati',
-	'checkuser-massblock-text' => 'Gli account selezionati saranno bloccati infinito, con il blocco automatico attivato e la creazione di nuovi account disattivata.
-Gli indirizzi IP saranno bloccati per una settimana solo per gli utenti anonimi e con la creazione account disattivata.',
+	'checkuser-massblock-text' => 'Gli utenti selezionati saranno bloccati infinito, con il blocco automatico attivato e la registrazione disattivata.
+Gli indirizzi IP saranno bloccati per una settimana solo per gli utenti anonimi e con la registrazione disattivata.',
 	'checkuser-blocktag' => 'Sostituisci pagine utente con:',
 	'checkuser-blocktag-talk' => 'Sostituisci pagine di discussione con:',
 	'checkuser-massblock-commit' => 'Blocca utenti selezionati',
@@ -4063,7 +4063,7 @@ Gli indirizzi IP saranno bloccati per una settimana solo per gli utenti anonimi 
 	'checkuser-block-limit' => 'Troppi utenti selezionati.',
 	'checkuser-block-noreason' => 'È obbligatorio fornire una motivazione per i blocchi.',
 	'checkuser-noreason' => 'È necessario fornire una motivazione per questa query.',
-	'checkuser-accounts' => '$1 {{PLURAL:$1|nuovo|nuovi}} account',
+	'checkuser-accounts' => '$1 {{PLURAL:$1|nuova|nuove}} utenze',
 	'checkuser-too-many' => 'Troppi risultati (per la query), usa un CIDR più ristretto.
 Di seguito sono indicati gli indirizzi IP utilizzati (fino a un massimo di 5000, ordinati per indirizzo):',
 	'checkuser-user-nonexistent' => "L'utente indicato non esiste.",
