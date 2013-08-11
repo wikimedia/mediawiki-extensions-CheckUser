@@ -63,6 +63,12 @@ $specialPageAliases['ca'] = array(
 	'CheckUserLog' => array( 'Registres_de_les_verificacions_de_comptes_d\'usuari' ),
 );
 
+/** Min Dong Chinese (Mìng-dĕ̤ng-ngṳ̄) */
+$specialPageAliases['cdo'] = array(
+	'CheckUser' => array( '檢查用戶' ),
+	'CheckUserLog' => array( '檢查用戶日誌' ),
+);
+
 /** Chechen (нохчийн) */
 $specialPageAliases['ce'] = array(
 	'CheckUser' => array( 'Декъашхочунга_хьажар' ),
