@@ -126,7 +126,11 @@ Here are the IPs used (5000 max, sorted by address):',
  * @author Umherirrender
  */
 $messages['qqq'] = array(
-	'checkuser-summary' => "Explanation of CheckUser tool. See [[mw:Extension:CheckUser#Basic_interface|screenshot titled 'Basic CheckUser interface']].",
+	'checkuser-summary' => "Explanation of CheckUser tool. See [[mw:Extension:CheckUser#Basic_interface|screenshot titled 'Basic CheckUser interface']].
+
+Parameters:
+* $1 - an integer. default value: 16
+* $2 - an integer. default value: 48",
 	'checkuser-desc' => '{{desc|name=Check User|url=http://www.mediawiki.org/wiki/Extension:CheckUser}}',
 	'checkuser-logcase' => 'Unused at this time.',
 	'checkuser' => 'Check user extension.
@@ -318,7 +322,9 @@ See screenshot \"[[mw:Extension:CheckUser#Basic_interface|Example log]]\".",
 * $1 is a salted MD5 hash for the user an e-mail was sent to.',
 	'checkuser-reset-action' => 'Logged text when a user resets a password. Parameters:
 * $1 is the username for which the password was reset. Can be used for GENDER.',
-	'checkuser-toollinks' => '{{notranslate}}',
+	'checkuser-toollinks' => '{{notranslate}}
+Parameters:
+* $1 - IP address',
 	'group-checkuser.css' => '{{doc-group|checkuser|css}}',
 	'group-checkuser.js' => '{{doc-group|checkuser|js}}',
 );
