@@ -275,7 +275,8 @@ See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".',
 	'checkuser-search-submit' => 'Button label on log of CheckUser searches. See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".
 {{Identical|Search}}',
 	'checkuser-search-initiator' => 'This message is an option in an input box on the search form for the checkuser log.
-It is parameter $1 in the message {{msg-mw|Checkuser-search-form}}.
+
+Used as <code>$1</code> in the message {{msg-mw|Checkuser-search-form}}.
 
 See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".
 
@@ -6140,7 +6141,7 @@ Vaquí un extrach de las IP utilizadas ({{formatnum:5000}} maximum, triadas per 
 	'checkuser-search-initiator' => 'l’iniciaire',
 	'checkuser-search-target' => 'la cibla',
 	'checkuser-ipeditcount' => '~$1 per totes los utilizaires',
-	'checkuser-log-return' => "Tornar al formulari principal de la verificacion d'utilizaire", # Fuzzy
+	'checkuser-log-return' => "Bascuolar cap al formulari principal del verificator d'utilizaire",
 	'checkuser-limited' => "'''Aquestes resultats son estats troncats per de rasons ligadas a la performància.'''",
 	'checkuser-log-userips' => "$1 a obtengut d'IP per $2",
 	'checkuser-log-ipedits' => '$1 a obtengut de modificacions per $2',
