@@ -9166,6 +9166,7 @@ $messages['yue'] = array(
  * @author Jimmy xu wrk
  * @author Liangent
  * @author PhiLiP
+ * @author Shirayuki
  * @author Wmr89502270
  * @author Xiaomingyan
  * @author 白布飘扬
@@ -9217,7 +9218,7 @@ $messages['zh-hans'] = array(
 	'checkuser-blocktag' => '替换用户页内容：',
 	'checkuser-blocktag-talk' => '替换讨论页内容：',
 	'checkuser-massblock-commit' => '封禁选中用户',
-	'checkuser-block-success' => "'''{{PLURAL:$2|用户|用户}} $1 {{PLURAL:$2|已被|已被}} 封禁。'''",
+	'checkuser-block-success' => "'''{{PLURAL:$2|用户}} $1 {{PLURAL:$2|已被}} 封禁。'''",
 	'checkuser-block-failure' => "'''未有用户被封禁。'''",
 	'checkuser-block-limit' => '选中用户数量过多。',
 	'checkuser-block-noreason' => '你必须解释此次封禁的原因。',
