@@ -2659,6 +2659,7 @@ $messages['fa'] = array(
  * @author Jack Phoenix
  * @author Nike
  * @author Olli
+ * @author Pxos
  * @author Str4nd
  * @author Varusmies
  * @author ZeiP
@@ -2670,14 +2671,14 @@ $messages['fi'] = array(
 	'checkuser-logcase' => 'Haku lokista on kirjainkokoriippuvainen.',
 	'checkuser' => 'Osoitepaljastin',
 	'checkuserlog' => 'Osoitepaljastinloki',
-	'checkuser-contribs' => 'tarkista käyttäjän IP-osoitteet',
-	'checkuser-contribs-log' => 'viimeisimmät käyttäjätarkistukset',
+	'checkuser-contribs' => 'tarkasta käyttäjän IP-osoitteet',
+	'checkuser-contribs-log' => 'viimeisimmät käyttäjätarkastukset',
 	'group-checkuser' => 'osoitepaljastimen käyttäjät',
 	'group-checkuser-member' => '{{GENDER:$1|osoitepaljastimen käyttäjä}}',
-	'right-checkuser' => 'Tarkistaa käyttäjän IP-osoitteet ja muut tiedot',
-	'right-checkuser-log' => 'Tarkastella osoitepaljastuslokia',
-	'action-checkuser' => 'tarkistaa käyttäjän IP-osoitteet ja muut tiedot',
-	'action-checkuser-log' => 'tarkastella osoitepaljastuslokia',
+	'right-checkuser' => 'Tarkastaa käyttäjän IP-osoitteita ja muita tietoja',
+	'right-checkuser-log' => 'Katsoa osoitepaljastuslokia',
+	'action-checkuser' => 'tarkastaa käyttäjän IP-osoitteita ja muita tietoja',
+	'action-checkuser-log' => 'katsoa osoitepaljastuslokia',
 	'grouppage-checkuser' => '{{ns:project}}:Osoitepaljastin',
 	'checkuser-reason' => 'Syy',
 	'checkuser-reason-api' => 'API: $1',
