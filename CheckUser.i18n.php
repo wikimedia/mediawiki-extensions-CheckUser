@@ -6646,7 +6646,7 @@ Endereços IP serão bloqueados por 1 semana com a criação de conta impossibil
 Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
 	'checkuser-user-nonexistent' => 'O utilizador especificado não existe.',
 	'checkuser-search-form' => 'Procurar entradas no registo onde $1 seja $2',
-	'checkuser-search-submit' => 'Procurar',
+	'checkuser-search-submit' => 'Pesquisar',
 	'checkuser-search-initiator' => 'iniciador',
 	'checkuser-search-target' => 'alvo',
 	'checkuser-ipeditcount' => '~$1 de todos os utilizadores',
