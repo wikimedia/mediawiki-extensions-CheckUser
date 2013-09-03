@@ -178,9 +178,15 @@ See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interfa
 	'checkuser-cidr-label' => 'Used as the legend of the fieldset in Special:CheckUser.',
 	'checkuser-cidr-res' => 'For an explanation of CIDR see [[WikiPedia:CIDR]].',
 	'checkuser-empty' => 'Used in [[Special:CheckUserLog]], if the CheckUser log is empty.',
-	'checkuser-nomatch' => 'Used in [[Special:CheckUser]].',
-	'checkuser-nomatch-edits' => '* $1 = date
-* $2 = time',
+	'checkuser-nomatch' => 'Used in [[Special:CheckUser]].
+
+See also:
+* {{msg-mw|Checkuser-nomatch-edits}}',
+	'checkuser-nomatch-edits' => 'Parameters:
+* $1 - date, localized
+* $2 - time, localized
+See also:
+* {{msg-mw|Checkuser-nomatch}}',
 	'checkuser-check' => 'Button label on CheckUser Special page. See screenshot \'[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]\'.
 
 Also appears to be used as link to new CheckUser check from the results page of a CheckUser check - see screenshot "Example IP check".
