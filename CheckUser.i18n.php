@@ -288,9 +288,12 @@ See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".
 
 Initiator means the CheckUser who checks someone\'s information.',
 	'checkuser-search-target' => 'The target of the check. The user checked.',
-	'checkuser-ipeditcount' => "This information is shown on the result page of [[mw:Extension:CheckUser#Basic_interface|Special:CheckUser]] (when doing the ''{{int:Checkuser-users}}'' check), next to the individual listed IPs. See [[mw:Extension:CheckUser#Basic_interface|screenshot]] \"Example user name check\").
+	'checkuser-ipeditcount' => "This information is shown on the result page of [[mw:Extension:CheckUser#Basic_interface|Special:CheckUser]] (when doing the ''{{int:Checkuser-users}}'' check), next to the individual listed IPs.
 
-\$1 is an estimate of the total number of edits from the respective IP (i.e. the number of edits by all users, not only by the requested user). As the comment in the code says: ''If we get some results, it helps to know if the IP in general has a lot more edits, e.g. \"tip of the iceberg\"…''",
+See [[mw:Extension:CheckUser#Basic_interface|screenshot]] \"Example user name check\").
+
+Parameters:
+* \$1 - an estimate of the total number of edits from the respective IP (i.e. the number of edits by all users, not only by the requested user). As the comment in the code says: ''If we get some results, it helps to know if the IP in general has a lot more edits, e.g. \"tip of the iceberg\"…''",
 	'checkuser-log-return' => 'Link label on log of CheckUser searches. See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".',
 	'checkuser-limited' => 'A message shown above CheckUser results if the result list would be longer than the specified limit (5000 entries), and has been truncated.',
 	'checkuser-log-userips' => 'This is an entry in the checkuser log when a checkuser checks from which IP addresses a user has edited.
@@ -6671,6 +6674,7 @@ Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
 );
 
 /** Brazilian Portuguese (português do Brasil)
+ * @author Cainamarques
  * @author Dicionarista
  * @author Eduardo.mps
  * @author Giro720
@@ -6691,6 +6695,7 @@ Não serão retornadas mais de 5000 edições por motivos de desempenho. O uso d
 	'checkuser' => 'Verificar usuário',
 	'checkuserlog' => 'Registros de verificação de usuários',
 	'checkuser-contribs' => 'Verificar IPs do usuário',
+	'checkuser-contribs-log' => 'verificações de usuário recentes',
 	'group-checkuser' => 'CheckUser',
 	'group-checkuser-member' => '{{GENDER:$1|check user}}',
 	'right-checkuser' => 'Verificar os endereços de IP de um usuários e outras informações',
