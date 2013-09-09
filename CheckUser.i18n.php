@@ -297,35 +297,53 @@ Parameters:
 	'checkuser-log-return' => 'Link label on log of CheckUser searches. See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".',
 	'checkuser-limited' => 'A message shown above CheckUser results if the result list would be longer than the specified limit (5000 entries), and has been truncated.',
 	'checkuser-log-userips' => 'This is an entry in the checkuser log when a checkuser checks from which IP addresses a user has edited.
-* Parameter $1 is the user who did the check
-* Parameter $2 is the user that was checked, with links to talk page, contributions, and block (like this: [[User:Username|Username]] ( [[User talk|Talk]] | [[Special:Contributions/Username|contribs]] | [[Special:Blockip|block]]) )
 
-See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".',
+Parameters:
+* $1 - the user who did the check
+* $2 - the user that was checked, with links to talk page, contributions, and block (like this: [[User:Username|Username]] ( [[User talk|Talk]] | [[Special:Contributions/Username|contribs]] | [[Special:Blockip|block]]) )
+
+See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".
+{{Related|Checkuser-log}}',
 	'checkuser-log-ipedits' => 'This is an entry in the checkuser log when a checkuser checks which edits have been done from an IP address.
-* Parameter $1 is the user who did the check
-* Parameter $2 is the IP address that was checked
 
-See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".',
+Parameters:
+* $1 - the user who did the check
+* $2 - the IP address that was checked
+
+See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".
+{{Related|Checkuser-log}}',
 	'checkuser-log-ipusers' => 'This is an entry in the checkuser log when a checkuser checks which users have used an IP address.
-*Parameter $1 is the user who did the check
-*Parameter $2 is the IP address
 
-See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".',
+Parameters:
+* $1 - the user who did the check
+* $2 - the IP address
+
+See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".
+{{Related|Checkuser-log}}',
 	'checkuser-log-ipedits-xff' => 'This is an entry in the checkuser log when a checkuser checks which edits have been done from an XFF IP address (XFF means X-Forwarded-For. Some providers use proxies to forward user requests. This effectively means anonymization of requests. To make the requesting user identifiable again, the original requesting IP is transmitted in a separate HTTP header, the XFF header.).
-* Parameter $1 is the user who did the check
-* Parameter $2 is the IP address that was checked
 
-See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".',
+Parameters:
+* $1 - the user who did the check
+* $2 - the IP address that was checked
+
+See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".
+{{Related|Checkuser-log}}',
 	'checkuser-log-ipusers-xff' => 'This is an entry in the checkuser log when a checkuser checks which users have used an XFF IP address (XFF means X-Forwarded-For. Some providers use proxies to forward user requests. This effectively means anonymization of requests. To make the requesting user identifiable again, the original requesting IP is transmitted in a separate HTTP header, the XFF header.).
-*Parameter $1 is the user who did the check
-*Parameter $2 is the IP address
 
-See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".',
-	'checkuser-log-useredits' => "This is an entry in the checkuser log when a checkuser checks which edits have been done from an IP address.
-:'''\$1:''' name of checkuser
-:'''\$2:''' name of user whose edits were inspected
+Parameters:
+* $1 - the user who did the check
+* $2 - the IP address
 
-See screenshot \"[[mw:Extension:CheckUser#Basic_interface|Example log]]\".",
+See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".
+{{Related|Checkuser-log}}',
+	'checkuser-log-useredits' => 'This is an entry in the checkuser log when a checkuser checks which edits have been done from an IP address.
+
+Parameters:
+* $1 - name of checkuser
+* $2 - name of user whose edits were inspected
+
+See screenshot "[[mw:Extension:CheckUser#Basic_interface|Example log]]".
+{{Related|Checkuser-log}}',
 	'checkuser-autocreate-action' => 'Text of the event displayed in the CheckUser results, corresponding to the automatic creation of a new user account (by CentralAuth).',
 	'checkuser-create-action' => 'Text of the event displayed in the CheckUser results. Indicates creation of the user.',
 	'checkuser-email-action' => 'Logged text when a user sends an e-mail. Probably preceded by the name of the checkuser.  Parameters:
