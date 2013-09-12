@@ -6716,7 +6716,7 @@ Não serão retornadas mais de 5000 edições por motivos de desempenho. O uso d
 	'checkuser-contribs-log' => 'verificações de usuário recentes',
 	'group-checkuser' => 'CheckUser',
 	'group-checkuser-member' => '{{GENDER:$1|check user}}',
-	'right-checkuser' => 'Verificar os endereços de IP de um usuários e outras informações',
+	'right-checkuser' => 'Verificar os endereços de IP e outras informações dos usuários',
 	'right-checkuser-log' => 'Ver os registros das verificações',
 	'action-checkuser' => 'verificar os endereços IP do usuário e outras informações.',
 	'action-checkuser-log' => 'Ver os registros das verificações',
