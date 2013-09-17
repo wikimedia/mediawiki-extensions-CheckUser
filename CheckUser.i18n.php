@@ -175,7 +175,7 @@ See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interfa
 	'checkuser-month' => 'Option in drop-down input box "Duration" on CheckUser Special page. See screenshot \'[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]\'.',
 	'checkuser-all' => 'Option in drop-down input box "Duration" on CheckUser Special page. See screenshot \'[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]\'.
 {{Identical|All}}',
-	'checkuser-cidr-label' => 'Used as the legend of the fieldset in Special:CheckUser.',
+	'checkuser-cidr-label' => 'Used as the fieldset label in [[Special:CheckUser]].',
 	'checkuser-cidr-res' => 'For an explanation of CIDR see [[WikiPedia:CIDR]].',
 	'checkuser-empty' => 'Used in [[Special:CheckUserLog]], if the CheckUser log is empty.',
 	'checkuser-nomatch' => 'Used in [[Special:CheckUser]].
@@ -3300,6 +3300,7 @@ $messages['haw'] = array(
 
 /** Hebrew (עברית)
  * @author Amire80
+ * @author Guycn1
  * @author Rotem Liss
  * @author Rotemliss
  * @author YaronSh
@@ -3318,7 +3319,7 @@ $messages['he'] = array(
 	'group-checkuser-member' => '{{GENDER:$1|בודק|בודקת}}',
 	'right-checkuser' => 'מציאת כתובות IP של משתמשים ומידע נוסף',
 	'right-checkuser-log' => 'צפייה ביומן הבדיקות',
-	'action-checkuser' => 'בדיקה של כתובות ה־IP של המשתמש הזה ומידע אחר',
+	'action-checkuser' => 'בדיקת כתובות ה־IP של משתמש זה ומידע אחר',
 	'action-checkuser-log' => 'להציג את יומן בדיקת המשתמשים',
 	'grouppage-checkuser' => '{{ns:project}}:בודק',
 	'checkuser-reason' => 'סיבה:',
@@ -4268,7 +4269,7 @@ IPv4 ($1から32ビットのCIDR表記) と IPv6 ($2から128ビットのCIDR表
 	'checkuser-massblock-text' => '選択した利用者は無期限ブロックされ、同時に自動ブロックが作動しアカウント作成も禁止されます。
 IPアドレスはIP利用者向けに1週間ブロックされ、アカウント作成が禁止されます。',
 	'checkuser-blocktag' => '利用者ページを以下で置換:',
-	'checkuser-blocktag-talk' => 'トークページを置換:',
+	'checkuser-blocktag-talk' => 'トークページを以下で置換:',
 	'checkuser-massblock-commit' => '選択した利用者をブロック',
 	'checkuser-block-success' => "'''{{PLURAL:$2|利用者}} $1 はブロック{{PLURAL:$2|されました}}。'''",
 	'checkuser-block-failure' => "'''ブロックされた利用者はありません。'''",
@@ -4964,13 +4965,14 @@ $messages['la'] = array(
 /** Luxembourgish (Lëtzebuergesch)
  * @author Les Meloures
  * @author Robby
+ * @author Soued031
  */
 $messages['lb'] = array(
 	'checkuser-summary' => 'Dës Fonctioun scannt déi rezent Ännerunge fir d\'Ip-Adressen, déi vun engem Benotzer benotzt goufen, ze fannen, repektiv d\'Ännerunge pro Benotzer fir eng IP.
 Benotzer an Ännerunge vun enger IP-Adress kënnen och iwwer den XFF header gesicht ginn andeems hannert d\'IP-Adress "/xff" hannendrugehaange gëtt. IPv4 (CIDR $1-32) an IPv6 (CIDR $2-128) ginn ënnerstëtzt.
 Net méi wéi 5000 Ännerunge ginn aus Performance-Grënn zréckgeschéckt.
 Benotzt dës Fonctioun am Aklang mat den Direktiven.',
-	'checkuser-desc' => "Gëtt Benotzer mat den néidege Rechter d'Méiglechkeet d'IP-Adressen esou wéi aner Informatiounen iwwert d'Benotzer z'iwwerpréifen",
+	'checkuser-desc' => "Gëtt Benotzer mat den néidege Rechter d'Méiglechkeet d'IP-Adressen esou wéi aner Informatiounen iwwer d'Benotzer z'iwwerpréiwen",
 	'checkuser-logcase' => "D'Sichen am Logbuch mécht en Ënnerscheed tëschent groussen a klenge Buschtawen.",
 	'checkuser' => 'Benotzer-Check',
 	'checkuserlog' => 'Lëscht vun de Benotzerkontrollen',
