@@ -148,6 +148,7 @@ $specialPageAliases['gu'] = array(
 /** Hebrew (עברית) */
 $specialPageAliases['he'] = array(
 	'CheckUser' => array( 'בדיקת_משתמש' ),
+	'CheckUserLog' => array( 'יומן_בדיקת_משתמשים' ),
 );
 
 /** Hindi (हिन्दी) */

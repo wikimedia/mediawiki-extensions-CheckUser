@@ -1564,6 +1564,7 @@ $messages['ce'] = array(
 	'checkuser-search' => 'Лаха',
 	'checkuser-check' => 'Хьажа',
 	'checkuser-log-fail' => 'Цатарло тептар тӀе дӀаяздар тӀоха',
+	'checkuser-blocked' => 'Блоктоьхна',
 	'checkuser-search-submit' => 'Лаха',
 	'checkuser-search-target' => 'Ӏалашо',
 );
@@ -8459,6 +8460,7 @@ Soňky özgerdiş $2, $1 senesinde.',
 
 /** Tagalog (Tagalog)
  * @author AnakngAraw
+ * @author Sky Harbor
  */
 $messages['tl'] = array(
 	'checkuser-summary' => 'Nagmamasid ng kamakailang mga pagbabago ang kasangkapang ito upang makuhang muli ang ginamit na mga IP ng tagagamit o ipakita ang dato ng pagbabago/tagagamit para sa isang IP.
@@ -8508,8 +8510,8 @@ Ang huling pagbabago ay noong $1 sa $2.',
 	'checkuser-wasblocked' => 'Hinadlangan dati',
 	'checkuser-localonly' => 'Hindi pinag-isa',
 	'checkuser-massblock' => 'Harangin ang napiling mga tagagamit',
-	'checkuser-massblock-text' => 'Ang napiling mga kuwenta ay hahadlangan magpasawalang hanggan, na may pinagaganang kusang pagharang at hindi pinaaandar na paglikha ng akawnt.
-Hahadlangan ang mga adres ng IP sa loob ng 1 linggo para sa mga tagagamit ng IP lamang at hindi pinagagana ang paglikha ng kuwenta.',
+	'checkuser-massblock-text' => "Haharangin ang napiling mga kuwenta nang walang hanggan, na may pinapaganang automatikong pagharang ng mga direksiyong IP at pinasalantang paglikha ng kuwenta.
+Haharangin ang mga direksiyong IP sa loob ng 1 linggo para sa mga 'di-kilalang tagagamit lamang at hindi pinagagana ang paglikha ng kuwenta.",
 	'checkuser-blocktag' => 'Palitan ang mga pahina ng tagagamit ng:',
 	'checkuser-blocktag-talk' => 'Palitan ang mga pahina ng usapan ng:',
 	'checkuser-massblock-commit' => 'Hadlangan ang napiling mga tagagamit',
