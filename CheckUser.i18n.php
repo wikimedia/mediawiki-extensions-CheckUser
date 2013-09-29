@@ -119,6 +119,7 @@ Here are the IPs used (5000 max, sorted by address):',
  * @author Purodha
  * @author Raymond
  * @author Shirayuki
+ * @author Siddhartha Ghai
  * @author Siebrand
  * @author Slomox
  * @author Tgr
@@ -175,7 +176,7 @@ See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interfa
 	'checkuser-month' => 'Option in drop-down input box "Duration" on CheckUser Special page. See screenshot \'[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]\'.',
 	'checkuser-all' => 'Option in drop-down input box "Duration" on CheckUser Special page. See screenshot \'[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]\'.
 {{Identical|All}}',
-	'checkuser-cidr-label' => 'Used as the fieldset label in [[Special:CheckUser]].',
+	'checkuser-cidr-label' => '[[File:Checkuser find common range form (example).png|thumb|Form where string is used with sample data.]]Used as the fieldset label in [[Special:CheckUser]].',
 	'checkuser-cidr-res' => 'For an explanation of CIDR see [[WikiPedia:CIDR]].',
 	'checkuser-empty' => 'Used in [[Special:CheckUserLog]], if the CheckUser log is empty.',
 	'checkuser-nomatch' => 'Used in [[Special:CheckUser]].
@@ -207,11 +208,7 @@ See also:
 * {{msg-mw|Checkuser-blocked}}
 * {{msg-mw|Checkuser-wasblocked}}',
 	'checkuser-locked' => 'Used as a flag in [[Special:CheckUser]].',
-	'checkuser-wasblocked' => 'Used as link text in [[Special:CheckUser]].
-
-The link points to [[Special:Log]].
-
-See also:
+	'checkuser-wasblocked' => 'Used as link text in [[Special:CheckUser]] as extra information indicating that the user was blocked at some point in time. The link points to [[Special:Log]]. See also:
 * {{msg-mw|Checkuser-blocked}}
 * {{msg-mw|Checkuser-gblocked}}',
 	'checkuser-localonly' => 'Used as a flag in [[Special:CheckUser]].',
@@ -221,15 +218,15 @@ This message is followed by the following message:
 * {{msg-mw|Checkuser-massblock-text}}
 {{Identical|Block selected users}}',
 	'checkuser-massblock-text' => 'Used as intro text for the form {{msg-mw|checkuser-massblock}}.',
-	'checkuser-blocktag' => 'Used as checkbox label in [[Special:CheckUser]].
+	'checkuser-blocktag' => '[[File:Special-checkuser-get-users en.png|thumb|Checkuser interface]]Used as checkbox label in [[Special:CheckUser]].
 
-This message is followed by "tag" input box.
+This message is followed by "tag" input box. The input box is for text which replaces the entire wikitext of the concerned page.
 
 See also:
 * {{msg-mw|Checkuser-blocktag-talk}}',
-	'checkuser-blocktag-talk' => 'Used as checkbox label in [[Special:CheckUser]].
+	'checkuser-blocktag-talk' => '[[File:Special-checkuser-get-users en.png|thumb|Checkuser interface]]Used as checkbox label in [[Special:CheckUser]].
 
-This message is followed by "talktag" input box.
+This message is followed by "talktag" input box. The input box is for text which replaces the entire wikitext of the concerned page.
 
 See also:
 * {{msg-mw|Checkuser-blocktag}}',
@@ -2807,7 +2804,7 @@ Veuillez utiliser cet outil dans le respect de la charte d’utilisation.',
 	'checkuser' => 'Vérificateur d’utilisateur',
 	'checkuserlog' => 'Journal des vérifications d’utilisateurs',
 	'checkuser-contribs' => 'vérifier les adresses IP',
-	'checkuser-contribs-log' => "Vérifications récentes d'utilisateurs",
+	'checkuser-contribs-log' => 'Vérifications récentes d’utilisateurs',
 	'group-checkuser' => 'Vérificateurs d’utilisateurs',
 	'group-checkuser-member' => '{{GENDER:$1|vérificateur d’utilisateur|vérificatrice d’utilisateur}}',
 	'right-checkuser' => 'Vérifier les adresses IP et autres informations d’un utilisateur',
@@ -2854,8 +2851,8 @@ Les adresses IP seront bloquées pendant une semaine uniquement pour les utilisa
 	'checkuser-block-noreason' => 'Vous devez donner un motif justifiant les blocages.',
 	'checkuser-noreason' => 'Vous devez donner une raison pour cette requête.',
 	'checkuser-accounts' => '$1 nouveau{{PLURAL:$1||x}} compte{{PLURAL:$1||s}}',
-	'checkuser-too-many' => "Trop de résultats (selon l'estimation de la requête), veuillez affiner l’étendue CIDR.
-Voici un extrait des IP utilisées ({{formatnum:5000}} maximum, triées par adresse) :",
+	'checkuser-too-many' => 'Trop de résultats (selon l’estimation de la requête), veuillez affiner l’étendue CIDR.
+Voici un extrait des IP utilisées ({{formatnum:5000}} maximum, triées par adresse) :',
 	'checkuser-user-nonexistent' => 'L’utilisateur indiqué n’existe pas.',
 	'checkuser-search-form' => 'Chercher les entrées de journal où $1 est $2.',
 	'checkuser-search-submit' => 'Rechercher',
@@ -3383,6 +3380,8 @@ $messages['he'] = array(
 	'checkuser-create-action' => 'נוצר',
 	'checkuser-email-action' => 'שלח דואר אלקטרוני למשתמש "$1"',
 	'checkuser-reset-action' => 'איפס את הסיסמה של המשתמש "$1"',
+	'group-checkuser.css' => '/* הסגנונות הנכתבים כאן ישפיעו על בודקים בלבד */',
+	'group-checkuser.js' => '/* כל סקריפט JavaScript שנכתב כאן ירוץ עבור בודקים בלבד */',
 );
 
 /** Hindi (हिन्दी)
@@ -3423,6 +3422,7 @@ XFF headers का प्रयोग कर के किसी आई॰पी
 	'checkuser-week-2' => 'पिछले दो सप्ताह',
 	'checkuser-month' => 'पिछले तीस दिन',
 	'checkuser-all' => 'सभी',
+	'checkuser-cidr-label' => 'आइ॰पी पतों की सूची के लिए कॉमन रेंज और प्रभावित आइ॰पी पते खोजें',
 	'checkuser-cidr-res' => 'समन्वय CIDR:',
 	'checkuser-empty' => 'इस लॉग में कोई प्रविष्टि नहीं है।',
 	'checkuser-nomatch' => 'कोई मेल खाते परिणाम नहीं मिले।',
@@ -3434,13 +3434,13 @@ XFF headers का प्रयोग कर के किसी आई॰पी
 	'checkuser-blocked' => 'अवरुद्ध',
 	'checkuser-gblocked' => 'वैश्विक रूप से अवरुद्ध',
 	'checkuser-locked' => 'लॉक किया हुआ',
-	'checkuser-wasblocked' => 'पहले से ही अवरोध है',
+	'checkuser-wasblocked' => 'पहले भी अवरुद्ध',
 	'checkuser-localonly' => 'एकीकृत नहीं',
 	'checkuser-massblock' => 'चयनित सदस्यों को अवरोधित करें',
 	'checkuser-massblock-text' => 'चुने गये खाते अनिश्चितकालीन रूप से अवरोधित कर दिये जाएँगे। आई॰पी पतों का स्वचालित रूप से अवरोधन सक्षम होगा और खाता निर्माण अक्षम होगा।
 आई॰पी पते अनामक सदस्यों के लिये एक सप्ताह तक अवरोधित कर दिये जाएँगे और खाता निर्माण अक्षम होगा।',
-	'checkuser-blocktag' => 'सदस्य पृष्ठ बदलें:',
-	'checkuser-blocktag-talk' => 'सदस्य वार्ता पृष्ठ बदलें:',
+	'checkuser-blocktag' => 'सदस्य पृष्ठ को इस पाठ से बदलें:',
+	'checkuser-blocktag-talk' => 'सदस्य वार्ता पृष्ठ को इस पाठ से बदलें:',
 	'checkuser-massblock-commit' => 'चयनित सदस्यों को अवरोधित करें',
 	'checkuser-block-success' => "'''$1 {{PLURAL:$2|सदस्य}} अब अवरुद्ध {{PLURAL:$2|है|हैं}}।'''",
 	'checkuser-block-failure' => "'''कोई सदस्य अवरुद्ध नहीं किये गये।'''",
@@ -4969,10 +4969,10 @@ $messages['la'] = array(
  * @author Soued031
  */
 $messages['lb'] = array(
-	'checkuser-summary' => 'Dës Fonctioun scannt déi rezent Ännerunge fir d\'Ip-Adressen, déi vun engem Benotzer benotzt goufen, ze fannen, repektiv d\'Ännerunge pro Benotzer fir eng IP.
+	'checkuser-summary' => 'Dës Funktioun scannt déi rezent Ännerunge fir d\'Ip-Adressen, déi vun engem Benotzer benotzt goufen, ze fannen, repektiv d\'Ännerunge pro Benotzer fir eng IP.
 Benotzer an Ännerunge vun enger IP-Adress kënnen och iwwer den XFF header gesicht ginn andeems hannert d\'IP-Adress "/xff" hannendrugehaange gëtt. IPv4 (CIDR $1-32) an IPv6 (CIDR $2-128) ginn ënnerstëtzt.
-Net méi wéi 5000 Ännerunge ginn aus Performance-Grënn zréckgeschéckt.
-Benotzt dës Fonctioun am Aklang mat den Direktiven.',
+Net méi wéi 5000 Ännerunge ginn aus Performancegrënn zréckgeschéckt.
+Benotzt dës Funktioun am Aklang mat den Direktiven.',
 	'checkuser-desc' => "Gëtt Benotzer mat den néidege Rechter d'Méiglechkeet d'IP-Adressen esou wéi aner Informatiounen iwwer d'Benotzer z'iwwerpréiwen",
 	'checkuser-logcase' => "D'Sichen am Logbuch mécht en Ënnerscheed tëschent groussen a klenge Buschtawen.",
 	'checkuser' => 'Benotzer-Check',
@@ -6600,7 +6600,7 @@ $messages['ps'] = array(
 	'checkuser-block-failure' => "'''په هېڅ کارن بنديز پلي نشو.'''",
 	'checkuser-block-limit' => 'له حد نه ډېر زيات کارنان ټاکل شوي.',
 	'checkuser-block-noreason' => 'د بنديز لګولو لپاره بايد تاسې يو سبب څرګند کړی.',
-	'checkuser-accounts' => '$1 {{PLURAL:$1|نوی ګڼون|نوي ګڼونونه}}',
+	'checkuser-accounts' => '$1 {{PLURAL:$1|نوی گڼون|نوي گڼونونه}}',
 	'checkuser-search-submit' => 'پلټل',
 	'checkuser-search-initiator' => 'پېلوونکی',
 	'checkuser-search-target' => 'موخه',
