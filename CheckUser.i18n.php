@@ -4974,7 +4974,7 @@ Benotzer an Ännerunge vun enger IP-Adress kënnen och iwwer den XFF header gesi
 Net méi wéi 5000 Ännerunge ginn aus Performancegrënn zréckgeschéckt.
 Benotzt dës Funktioun am Aklang mat den Direktiven.',
 	'checkuser-desc' => "Gëtt Benotzer mat den néidege Rechter d'Méiglechkeet d'IP-Adressen esou wéi aner Informatiounen iwwer d'Benotzer z'iwwerpréiwen",
-	'checkuser-logcase' => "D'Sichen am Logbuch mécht en Ënnerscheed tëschent groussen a klenge Buschtawen.",
+	'checkuser-logcase' => "D'Sichen am Logbuch mécht en Ënnerscheed tëscht grouss a kleng Buschtawen",
 	'checkuser' => 'Benotzer-Check',
 	'checkuserlog' => 'Lëscht vun de Benotzerkontrollen',
 	'checkuser-contribs' => 'De Benotzer hir Ip-Adrssen iwwerpréifen',
