@@ -3278,7 +3278,7 @@ $messages['ha'] = array(
 	'checkuser-search-submit' => 'Nema',
 );
 
-/** Hakka (Hak-kâ-fa)
+/** Hakka (客家語/Hak-kâ-ngî)
  * @author Hakka
  */
 $messages['hak'] = array(
@@ -4947,7 +4947,7 @@ $messages['ku-latn'] = array(
 	'checkuser-create-action' => 'hat afirandin',
 );
 
-/** Kirghiz (Кыргызча)
+/** Kyrgyz (Кыргызча)
  * @author Growingup
  */
 $messages['ky'] = array(
@@ -5751,7 +5751,7 @@ $messages['nah'] = array(
 	'checkuser-search-submit' => 'Motèmòs',
 );
 
-/** Neapolitan (Nnapulitano)
+/** Neapolitan (Napulitano)
  */
 $messages['nap'] = array(
 	'checkuser-search' => 'Truova',
