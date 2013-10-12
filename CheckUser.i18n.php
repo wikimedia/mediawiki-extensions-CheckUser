@@ -4970,7 +4970,7 @@ $messages['la'] = array(
  */
 $messages['lb'] = array(
 	'checkuser-summary' => 'Dës Funktioun scannt déi rezent Ännerunge fir d\'Ip-Adressen, déi vun engem Benotzer benotzt goufen, ze fannen, repektiv d\'Ännerunge pro Benotzer fir eng IP.
-Benotzer an Ännerunge vun enger IP-Adress kënnen och iwwer den XFF header gesicht ginn andeems hannert d\'IP-Adress "/xff" hannendrugehaange gëtt. IPv4 (CIDR $1-32) an IPv6 (CIDR $2-128) ginn ënnerstëtzt.
+Benotzer an Ännerunge vun enger IP-Adress kënnen och iwwer den XFF header gesicht ginn andeems hanner d\'IP-Adress "/xff" hannendrugehaange gëtt. IPv4 (CIDR $1-32) an IPv6 (CIDR $2-128) ginn ënnerstëtzt.
 Net méi wéi 5000 Ännerunge ginn aus Performancegrënn zréckgeschéckt.
 Benotzt dës Funktioun am Aklang mat den Direktiven.',
 	'checkuser-desc' => "Gëtt Benotzer mat den néidege Rechter d'Méiglechkeet d'IP-Adressen esou wéi aner Informatiounen iwwer d'Benotzer z'iwwerpréiwen",
