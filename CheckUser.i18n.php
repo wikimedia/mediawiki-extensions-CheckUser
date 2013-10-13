@@ -1559,6 +1559,7 @@ $messages['ce'] = array(
 	'checkuser-query' => 'Деха керла нисдарш',
 	'checkuser-target' => 'IP-адрес я декъашхочун цӀе:',
 	'checkuser-search' => 'Лаха',
+	'checkuser-all' => 'массо',
 	'checkuser-check' => 'Хьажа',
 	'checkuser-log-fail' => 'Цатарло тептар тӀе дӀаяздар тӀоха',
 	'checkuser-blocked' => 'Блоктоьхна',
