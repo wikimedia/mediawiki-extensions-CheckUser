@@ -73,7 +73,7 @@ $specialPageAliases['cdo'] = array(
 /** Chechen (нохчийн) */
 $specialPageAliases['ce'] = array(
 	'CheckUser' => array( 'Декъашхочунга_хьажар' ),
-	'CheckUserLog' => array( 'Декъашхойн_нисдаршан_тептар' ),
+	'CheckUserLog' => array( 'Декъашхойн_нисдарийн_тептар' ),
 );
 
 /** German (Deutsch) */
