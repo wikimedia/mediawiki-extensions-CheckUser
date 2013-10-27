@@ -135,7 +135,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 	public function getPossibleErrors() {
 		return array_merge( parent::getPossibleErrors(),
 			array(
-				array( 'permissionerror' ),
+				array( 'code' => 'permissionerror', 'info' => 'You need the checkuser-log right' ),
 			)
 		);
 	}
