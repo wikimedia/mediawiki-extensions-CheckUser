@@ -9030,7 +9030,7 @@ Redakams no plu 5000 pejonons sekü kods kaenavik. Gebolös stumi at bai nomem.'
 	'checkuser' => 'Vestigön gebani',
 	'checkuserlog' => 'Vestigön gebani: jenotalised',
 	'group-checkuser' => 'Gebanavestigans',
-	'group-checkuser-member' => 'Gebanavestigan', # Fuzzy
+	'group-checkuser-member' => 'gebanavestigan',
 	'right-checkuser' => 'Kontrolön ladetis-IP e nünis votik tefü geban',
 	'right-checkuser-log' => 'Logön jenotalised gebanikontrolama',
 	'grouppage-checkuser' => '{{ns:project}}:Gebanavestigan',
@@ -9039,7 +9039,7 @@ Redakams no plu 5000 pejonons sekü kods kaenavik. Gebolös stumi at bai nomem.'
 	'checkuser-query' => 'Vestigön votükamis brefabüik',
 	'checkuser-target' => 'Ladet-IP u gebananem:',
 	'checkuser-users' => 'Tuvön gebanis',
-	'checkuser-edits' => 'Tuvön redakamis ladeta-IP', # Fuzzy
+	'checkuser-edits' => 'Sivön redakamis',
 	'checkuser-ips' => 'Tuvön ladetis-IP',
 	'checkuser-search' => 'Sukolöd',
 	'checkuser-period' => 'Dul:',
@@ -9068,7 +9068,8 @@ Redakam lätik ejenon ün $1, tü $2.',
 	'checkuser-block-limit' => 'Gebans tumödik pevälons.',
 	'checkuser-block-noreason' => 'Mutol nunön kodi blokamas.',
 	'checkuser-accounts' => '{{PLURAL:$1|kal|kals}} nulik $1',
-	'checkuser-too-many' => 'Sukaseks te mödiks, nedol gebön eli CIDR smalikum. Is palisedons ladets-IP pegeböl (jü 5000, peleodüköls ma ladet):', # Fuzzy
+	'checkuser-too-many' => 'Sukaseks tu mödiks, nedol gebön eli CIDR smalikum.
+Is palisedons ladets-IP pegeböl (jü 5000, peleodüköls ma ladet):',
 	'checkuser-user-nonexistent' => 'Geban at no dabinon.',
 	'checkuser-search-form' => 'Tuvön lienis jenotaliseda, kö $1 binon $2',
 	'checkuser-search-submit' => 'Suk',
