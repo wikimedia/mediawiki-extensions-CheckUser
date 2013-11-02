@@ -171,7 +171,8 @@ See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interfa
 {{Identical|Search}}',
 	'checkuser-period' => "Field name next to drop-down input box on CheckUser Special page. See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]'.
 {{Identical|Duration}}",
-	'checkuser-week-1' => 'Option in drop-down input box "Duration" on CheckUser Special page. See screenshot \'[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]\'.',
+	'checkuser-week-1' => 'Option in drop-down input box "Duration" on CheckUser Special page. See screenshot \'[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]\'.
+{{Identical|Last week}}',
 	'checkuser-week-2' => 'Option in drop-down input box "Duration" on CheckUser Special page. See screenshot \'[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]\'.',
 	'checkuser-month' => 'Option in drop-down input box "Duration" on CheckUser Special page. See screenshot \'[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]\'.',
 	'checkuser-all' => 'Option in drop-down input box "Duration" on CheckUser Special page. See screenshot \'[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]\'.
@@ -4980,7 +4981,7 @@ $messages['lb'] = array(
 Benotzer an Ännerunge vun enger IP-Adress kënnen och iwwer den XFF header gesicht ginn andeems hanner d\'IP-Adress "/xff" hannendrugehaange gëtt. IPv4 (CIDR $1-32) an IPv6 (CIDR $2-128) ginn ënnerstëtzt.
 Net méi wéi 5000 Ännerunge ginn aus Performancegrënn zréckgeschéckt.
 Benotzt dës Funktioun am Aklang mat den Direktiven.',
-	'checkuser-desc' => "Gëtt Benotzer mat den néidege Rechter d'Méiglechkeet d'IP-Adressen esou wéi aner Informatiounen iwwer d'Benotzer z'iwwerpréiwen",
+	'checkuser-desc' => "Gëtt Benotzer mat den néidege Rechter d'Méiglechkeet d'IP-Adresse sou wéi aner Informatiounen iwwer d'Benotzer z'iwwerpréiwen",
 	'checkuser-logcase' => "D'Sichen am Logbuch mécht en Ënnerscheed tëscht grouss a kleng Buschtawen",
 	'checkuser' => 'Benotzer-Check',
 	'checkuserlog' => 'Lëscht vun de Benotzerkontrollen',
@@ -5011,7 +5012,7 @@ Benotzt dës Funktioun am Aklang mat den Direktiven.',
 	'checkuser-cidr-res' => 'Gemeinsam CIDR:',
 	'checkuser-empty' => 'Dës Lëscht ass eidel.',
 	'checkuser-nomatch' => 'Et goufe keng Iwwereneestëmmunge fonnt.',
-	'checkuser-nomatch-edits' => 'Et gouf näischt esou fonnt.
+	'checkuser-nomatch-edits' => 'Et gouf näischt sou fonnt.
 Déi lescht Ännerung war de() $1 ëm $2.',
 	'checkuser-check' => 'Kontrolléieren',
 	'checkuser-log-fail' => "D'Aschreiwung an d'Logbuch konnt net gemaach ginn",
