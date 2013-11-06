@@ -204,11 +204,11 @@ class CheckUser extends SpecialPage {
 	}
 
 	/**
-	 * FIXME: documentation incomplete
 	 * Block a list of selected users
 	 * @param array $users
 	 * @param string $reason
 	 * @param string $tag
+	 * @param string $talkTag
 	 */
 	protected function doMassUserBlock( $users, $reason = '', $tag = '', $talkTag = '' ) {
 		global $wgCheckUserMaxBlocks;
@@ -388,9 +388,7 @@ class CheckUser extends SpecialPage {
 
 		# If user is not IP or nonexistent
 		if ( !$user_id ) {
-			// FIXME: addWikiMsg
-			$s = $this->msg( 'nosuchusershort', $user )->parseAsBlock();
-			$out->addHTML( $s );
+			$out->addWikiMsgArray( 'nosuchusershort', $user );
 			return;
 		}
 
@@ -431,8 +429,7 @@ class CheckUser extends SpecialPage {
 			$counter = 0;
 			foreach ( $ret as $row ) {
 				if ( $counter >= 5000 ) {
-					// FIXME: addWikiMSG
-					$out->addHTML( $this->msg( 'checkuser-limited' )->parseAsBlock() );
+					$out->addWikiMsg( 'checkuser-limited' );
 					break;
 				}
 				$ips_edits[$row->cuc_ip] = $row->count;
@@ -601,8 +598,7 @@ class CheckUser extends SpecialPage {
 			$s .= '<ol>';
 			foreach ( $ret as $row ) {
 				if ( $counter >= 5000 ) {
-					// @todo FIXME: addWikiMsg
-					$out->addHTML( $this->msg( 'checkuser-limited' )->parseAsBlock() );
+					$out->addWikiMsg( 'checkuser-limited' );
 					break;
 				}
 				# Convert the IP hexes into normal form
@@ -672,8 +668,7 @@ class CheckUser extends SpecialPage {
 			$s = '<div id="checkuserresults">';
 			foreach ( $ret as $row ) {
 				if ( $counter >= 5000 ) {
-					// @todo FIXME: addWikiMsg
-					$out->addHTML( $this->msg( 'checkuser-limited' )->parseAsBlock() );
+					$out->addWikiMsg( 'checkuser-limited' );
 					break;
 				}
 				$s .= $this->CUChangesLine( $row, $reason );
