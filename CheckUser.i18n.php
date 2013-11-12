@@ -2018,6 +2018,7 @@ Es folgen die benutzten IP-Adressen (maximal 5000, sortiert nach Adresse):',
 
 /** Zazaki (Zazaki)
  * @author Erdemaslancan
+ * @author Gorizon
  * @author Mirzali
  * @author Xoser
  */
@@ -2035,13 +2036,13 @@ Ena politika ma sero kar bıke.',
 	'group-checkuser' => 'Karberî kontrol bike',
 	'group-checkuser-member' => '{{GENDER:$1|Kontrolkar}}',
 	'right-checkuser' => 'Adresê IP yê karberî u enformasyonê binî kontrol bike',
-	'right-checkuser-log' => 'Logê karber-kontrolî bivîne',
+	'right-checkuser-log' => 'Qeydé rocekané karber cernayışi bıvin',
 	'action-checkuser' => 'Adresê IP yê karberî u melumateê binî kontrol bike',
 	'action-checkuser-log' => 'Rocekane Karber kontroli bıvin',
 	'grouppage-checkuser' => '{{ns:project}}:Karber kontrol bike',
 	'checkuser-reason' => 'Sebeb:',
 	'checkuser-reason-api' => 'API: $1',
-	'checkuser-showlog' => 'Logê mucnayîşî',
+	'checkuser-showlog' => 'Qeydé asayışi',
 	'checkuser-query' => 'Bigêrayîşî de vurnayîşanê penîyan',
 	'checkuser-target' => 'Adresa IPy ya zi nameyê karberi:',
 	'checkuser-users' => 'Karberî bivîne',
