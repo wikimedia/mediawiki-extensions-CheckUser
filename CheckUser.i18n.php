@@ -1556,6 +1556,7 @@ $messages['ce'] = array(
 	'checkuser' => 'Декъашхочунга хьажа',
 	'checkuser-contribs' => 'хьажа декъашхочун IP-адресе',
 	'group-checkuser' => 'Даржахошка хьовсурш',
+	'group-checkuser-member' => '{{GENDER:$1|декъашхойн тӀе хьожург}}',
 	'right-checkuser' => 'декъашхойн IP-адресашка а кхин хаамашка а хьажар',
 	'right-checkuser-log' => 'декъашхойн зеран тептаре хьажар',
 	'action-checkuser' => 'декъашхойн IP-адресашка а кхин хаамашка а хьажар',
