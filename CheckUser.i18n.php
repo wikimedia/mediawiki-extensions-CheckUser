@@ -1458,6 +1458,7 @@ Ovdje su prikazane korištene IP adrese (najviše 5000, poredano po adresi):',
  * @author El libre
  * @author Jordi Roqué
  * @author Juanpabl
+ * @author Papapep
  * @author Paucabot
  * @author Pitort
  * @author SMP
@@ -1513,7 +1514,7 @@ Les adreces IP seran blocades per una setmana només amb la prohibició de crear
 	'checkuser-blocktag' => "Canvia les pàgines d'usuari per:",
 	'checkuser-blocktag-talk' => 'Reemplaça les pàgines de discussió amb:',
 	'checkuser-massblock-commit' => 'Bloqueja usuaris seleccionats',
-	'checkuser-block-success' => "'''{{PLURAL:$2|L'usuari|Els usuaris}} $1 {{PLURAL:$2|ha estat blocat|han estat blocats}}.'''",
+	'checkuser-block-success' => "'''{{PLURAL:$2|S'ha blocat|S'han blocat}} {{PLURAL:$2|l'usuari|els usuaris}} $1.'''",
 	'checkuser-block-failure' => "'''No s'han blocat usuaris.'''",
 	'checkuser-block-limit' => 'Massa usuaris seleccionats.',
 	'checkuser-block-noreason' => "Heu d'indicar un motiu pels bloquejos.",
@@ -4772,7 +4773,7 @@ $messages['ko'] = array(
 	'checkuser-week-2' => '지난 2주일',
 	'checkuser-month' => '지난 30일',
 	'checkuser-all' => '모두',
-	'checkuser-cidr-label' => 'IP의 공통 범위와 영향을 받는 주소 목록 찾기',
+	'checkuser-cidr-label' => 'IP 주소의 공통 범위와 영향을 받는 주소 목록 찾기',
 	'checkuser-cidr-res' => '공통 CIDR:',
 	'checkuser-empty' => '기록이 없습니다.',
 	'checkuser-nomatch' => '일치하는 결과가 없습니다.',
@@ -4801,7 +4802,7 @@ IP 주소는 1주일 (IP만 막음, 계정 만들기 금지됨) 차단될 것입
 	'checkuser-too-many' => '쿼리 정보의 결과가 너무 많습니다. CIDR 범위를 좁혀 주세요.
 다음은 사용되고 있는 IP의 목록입니다 (최대 5000개, 주소별로 정렬됨):',
 	'checkuser-user-nonexistent' => '해당 사용자가 존재하지 않습니다.',
-	'checkuser-search-form' => '$1이 $2인 기록 찾기',
+	'checkuser-search-form' => '$1이 $2인 기록 항목 찾기',
 	'checkuser-search-submit' => '검색',
 	'checkuser-search-initiator' => '창시자',
 	'checkuser-search-target' => '대상',
