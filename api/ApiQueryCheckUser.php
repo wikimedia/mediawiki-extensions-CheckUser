@@ -264,11 +264,12 @@ class ApiQueryCheckUser extends ApiQueryBase {
 	public function getPossibleErrors() {
 		return array_merge( parent::getPossibleErrors(),
 			array(
-				array( 'nosuchuser' ),
-				array( 'invalidip' ),
-				array( 'permissionerror' ),
-				array( 'invalidmode' ),
-				array( 'missingdata' ),
+				array( 'code' => 'nosuchuser', 'info' => 'Target user does not exist' ),
+				array( 'code' => 'invalidip', 'info' => 'IP or range is invalid' ),
+				array( 'code' => 'permissionerror', 'info' => 'You need the checkuser right' ),
+				array( 'code' => 'invalidmode', 'info' => 'Invalid request mode' ),
+				array( 'code' => 'missingdata', 'info' => 'You must define reason for check' ),
+				array( 'code' => 'invalidtime', 'info' => 'You need use correct time limit (like "2 weeks")' ),
 			)
 		);
 	}
