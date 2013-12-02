@@ -3310,6 +3310,7 @@ $messages['haw'] = array(
 /** Hebrew (עברית)
  * @author Amire80
  * @author Guycn1
+ * @author Guycn2
  * @author Rotem Liss
  * @author Rotemliss
  * @author YaronSh
@@ -3365,7 +3366,7 @@ $messages['he'] = array(
 	'checkuser-blocktag' => 'החלפת דפי המשתמש עם:',
 	'checkuser-blocktag-talk' => 'החלפת דפי השיחה עם:',
 	'checkuser-massblock-commit' => 'חסימת המשתמשים שנבחרו',
-	'checkuser-block-success' => "'''The {{PLURAL:$2|המשתמש|המשתמשים}} $1 {{PLURAL:$2|חסום|חסומים}} כעת.'''",
+	'checkuser-block-success' => "'''ה{{PLURAL:$2|משתמש|משתמשים}} $1 {{PLURAL:$2|חסום|חסומים}} כעת.'''",
 	'checkuser-block-failure' => "'''לא נחסמו משתמשים.'''",
 	'checkuser-block-limit' => 'נבחרו יותר מדי משתמשים.',
 	'checkuser-block-noreason' => 'עליכם לתת סיבה לחסימות.',
