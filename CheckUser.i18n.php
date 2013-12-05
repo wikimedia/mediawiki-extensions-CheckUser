@@ -9293,6 +9293,7 @@ $messages['yue'] = array(
  * @author Hydra
  * @author Jimmy xu wrk
  * @author Liangent
+ * @author Liuxinyu970226
  * @author PhiLiP
  * @author Shirayuki
  * @author Wmr89502270
@@ -9313,7 +9314,7 @@ $messages['zh-hans'] = array(
 	'right-checkuser-log' => '查看帐户核查日志',
 	'action-checkuser' => '核查用户的IP地址和其他信息',
 	'action-checkuser-log' => '查看帐户核查日志',
-	'grouppage-checkuser' => '{{ns:project}}:账户核查',
+	'grouppage-checkuser' => '{{ns:project}}:用户查核',
 	'checkuser-reason' => '原因：',
 	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => '显示日志',
