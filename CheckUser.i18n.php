@@ -1641,7 +1641,7 @@ $messages['co'] = array(
 	'grouppage-checkuser' => '{{ns:project}}:Controllori',
 );
 
-/** Czech (česky)
+/** Czech (čeština)
  * @author Beren
  * @author Danny B.
  * @author Li-sung
@@ -1732,7 +1732,7 @@ $messages['csb'] = array(
 	'checkuser-all' => 'wszëtczé',
 );
 
-/** Church Slavic (словѣ́ньскъ / ⰔⰎⰑⰂⰡⰐⰠⰔⰍⰟ)
+/** Church Slavic (словѣньскъ / ⰔⰎⰑⰂⰡⰐⰠⰔⰍⰟ)
  * @author ОйЛ
  */
 $messages['cu'] = array(
