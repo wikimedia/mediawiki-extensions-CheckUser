@@ -1571,6 +1571,7 @@ $messages['ce'] = array(
 	'checkuser-log-fail' => 'Цатарло тептар тӀе дӀаяздар тӀоха',
 	'checkuser-blocked' => 'Блоктоьхна',
 	'checkuser-gblocked' => 'Глобальни блоктоьхна',
+	'checkuser-locked' => 'Блоктоьхна',
 	'checkuser-block-success' => "'''ХӀинца  {{PLURAL:$2|блоктоьхна $1 декъашхочун|блоктоьхна $1 декъашхойн}}.'''",
 	'checkuser-search-submit' => 'Лаха',
 	'checkuser-search-target' => 'Ӏалашо',
