@@ -1856,7 +1856,7 @@ For at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. B
 	'right-checkuser' => 'Tjekke en brugers IP-adresser og andre oplysninger',
 	'right-checkuser-log' => 'Se tjekbrugerloggen',
 	'action-checkuser' => 'tjekke brugeres IP-adresser og andre oplysninger',
-	'action-checkuser-log' => 'se tejkbrugerloggen',
+	'action-checkuser-log' => 'se tjekbrugerloggen',
 	'grouppage-checkuser' => '{{ns:project}}:Tjekbruger',
 	'checkuser-reason' => 'Begrundelse:',
 	'checkuser-reason-api' => 'API: $1',
