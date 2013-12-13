@@ -6862,10 +6862,11 @@ $messages['rif'] = array(
 
 /** Romansh (rumantsch)
  * @author Gion-andri
+ * @author Kazu89
  */
 $messages['rm'] = array(
 	'checkuser-reason' => 'Motiv:',
-	'checkuser-showlog' => 'Mussar il log',
+	'checkuser-showlog' => 'Mussar il protocol',
 	'checkuser-target' => "Adressa IP u num d'utilisader:",
 	'checkuser-search' => 'Tschertgar',
 );
