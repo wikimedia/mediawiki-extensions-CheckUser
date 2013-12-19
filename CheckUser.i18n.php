@@ -2552,6 +2552,7 @@ Ainult anonüümsed kasutajad blokeeritakse nädalaks ja neil keelatakse uute ko
 /** Basque (euskara)
  * @author An13sa
  * @author Kobazulo
+ * @author Xabier Armendaritz
  * @author පසිඳු කාවින්ද
  */
 $messages['eu'] = array(
@@ -2577,7 +2578,7 @@ $messages['eu'] = array(
 	'checkuser-blocked' => 'Blokeatua',
 	'checkuser-gblocked' => 'Proiektu guztietarako blokeatua',
 	'checkuser-locked' => 'Babestua',
-	'checkuser-wasblocked' => 'Aurretik blokeatua',
+	'checkuser-wasblocked' => 'Lehenago ere blokeatua',
 	'checkuser-localonly' => 'Batu gabe',
 	'checkuser-massblock' => 'Hautatutako lankideak blokeatu',
 	'checkuser-massblock-commit' => 'Aukeratutako erabiltzaileak blokeatu',
