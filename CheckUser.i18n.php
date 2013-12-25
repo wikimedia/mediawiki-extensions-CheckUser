@@ -1575,6 +1575,7 @@ $messages['ce'] = array(
 	'checkuser-block-success' => "'''ХӀинца  {{PLURAL:$2|блоктоьхна $1 декъашхочун|блоктоьхна $1 декъашхойн}}.'''",
 	'checkuser-search-submit' => 'Лаха',
 	'checkuser-search-target' => 'Ӏалашо',
+	'checkuser-create-action' => 'кхолийна',
 );
 
 /** Chamorro (Chamoru)
@@ -7406,6 +7407,13 @@ Li nnirizzi IP vennu bluccati pi na simana sulu pi l'utenti anònimi e câ criaz
 	'checkuser-autocreate-action' => 'fu criatu autumàticamenti',
 	'checkuser-email-action' => 'inviau n\' e-mail a "$1"',
 	'checkuser-reset-action' => 'mposta n\'àutra vota password pi l\'utenti "$1"',
+);
+
+/** Samogitian (žemaitėška)
+ * @author Hugo.arg
+ */
+$messages['sgs'] = array(
+	'checkuser-search' => 'Ėiškuotė',
 );
 
 /** Sinhala (සිංහල)
