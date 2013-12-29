@@ -99,7 +99,7 @@ class SpecialCheckUserLog extends SpecialPage {
 		$msgSearch = $this->msg( 'checkuser-search' )->escaped();
 		$input = "<input type=\"text\" name=\"cuSearch\" value=\"$encTarget\" size=\"40\"/>";
 		$msgSearchForm = $this->msg( 'checkuser-search-form' )->rawParams( $select, $input )->escaped();
-		$formAction = $this->getPageTitle()->escapeLocalURL();
+		$formAction = htmlspecialchars( $this->getPageTitle()->getLocalURL() );
 		$msgSearchSubmit = '&#160;&#160;' . $this->msg( 'checkuser-search-submit' )->escaped() . '&#160;&#160;';
 
 		$s = "<form method='get' action=\"$formAction\">\n" .
