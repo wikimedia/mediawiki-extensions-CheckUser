@@ -115,7 +115,7 @@ class CheckUser extends SpecialPage {
 	 * @param $period
 	 */
 	protected function showForm( $user, $reason, $checktype, $ip, $xff, $name, $period ) {
-		$action = $this->getTitle()->escapeLocalUrl();
+		$action = $this->getPageTitle()->escapeLocalUrl();
 		# Fill in requested type if it makes sense
 		$encipusers = $encedits = $encuserips = 0;
 		if ( $checktype == 'subipusers' && ( $ip || $xff ) ) {
@@ -448,7 +448,7 @@ class CheckUser extends SpecialPage {
 			foreach ( $ips_edits as $ip => $edits ) {
 				$s .= '<li>';
 				$s .= '<a href="' .
-					$this->getTitle()->escapeLocalURL( 'user=' . urlencode( $ip ) . '&reason=' . urlencode( $reason ) ) . '">' .
+					$this->getPageTitle()->escapeLocalURL( 'user=' . urlencode( $ip ) . '&reason=' . urlencode( $reason ) ) . '">' .
 					htmlspecialchars( $ip ) . '</a>';
 				$s .= ' (<a href="' . $blockip->escapeLocalURL( 'ip=' . urlencode( $ip ) ) . '">' .
 					$this->msg( 'blocklink' )->escaped() . '</a>)';
@@ -609,7 +609,7 @@ class CheckUser extends SpecialPage {
 					$ip = long2ip( wfBaseConvert( $row->cuc_ip_hex, 16, 10, 8 ) );
 				}
 				$s .= '<li><a href="' .
-					$this->getTitle()->escapeLocalURL( 'user=' . urlencode( $ip ) . '&reason=' . urlencode( $reason ) . '&checktype=subipusers' ) .
+					$this->getPageTitle()->escapeLocalURL( 'user=' . urlencode( $ip ) . '&reason=' . urlencode( $reason ) . '&checktype=subipusers' ) .
 					'">' . $ip . '</a>';
 				if ( $row->first == $row->last ) {
 					$s .= ' (' . $this->getLanguage()->timeanddate( wfTimestamp( TS_MW, $row->first ), true ) . ') ';
@@ -901,7 +901,7 @@ class CheckUser extends SpecialPage {
 					$ip = long2ip( wfBaseConvert( $row->cuc_ip_hex, 16, 10, 8 ) );
 				}
 				$s .= '<li><a href="' .
-					$this->getTitle()->escapeLocalURL( 'user=' . urlencode( $ip ) . '&reason=' . urlencode( $reason ) . '&checktype=subipusers' ) .
+					$this->getPageTitle()->escapeLocalURL( 'user=' . urlencode( $ip ) . '&reason=' . urlencode( $reason ) . '&checktype=subipusers' ) .
 					'">' . $ip . '</a>';
 				if ( $row->first == $row->last ) {
 					$s .= ' (' . $this->getLanguage()->timeanddate( wfTimestamp( TS_MW, $row->first ), true ) . ') ';
@@ -971,7 +971,7 @@ class CheckUser extends SpecialPage {
 				}
 			}
 
-			$action = $this->getTitle()->escapeLocalURL( 'action=block' );
+			$action = $this->getPageTitle()->escapeLocalURL( 'action=block' );
 			$s = "<form name='checkuserblock' id='checkuserblock' action=\"$action\" method='post'>";
 			$s .= '<div id="checkuserresults"><ul>';
 			foreach ( $users_edits as $name => $count ) {
@@ -982,7 +982,7 @@ class CheckUser extends SpecialPage {
 				# Add user tool links
 				$s .= Linker::userLink( - 1 , $name ) . Linker::userToolLinks( - 1 , $name );
 				# Add CheckUser link
-				$s .= ' (<a href="' . $this->getTitle()->escapeLocalURL( 'user=' . urlencode( $name ) .
+				$s .= ' (<a href="' . $this->getPageTitle()->escapeLocalURL( 'user=' . urlencode( $name ) .
 					'&reason=' . urlencode( $reason ) ) . '">' . $this->msg( 'checkuser-check' )->escaped() . '</a>)';
 				# Show edit time range
 				if ( $users_first[$name] == $users_last[$name] ) {
@@ -1038,7 +1038,7 @@ class CheckUser extends SpecialPage {
 					$set = $users_infosets[$name][$i];
 					# IP link
 					$s .= '<li>';
-					$s .= '<a href="' . $this->getTitle()->escapeLocalURL( 'user=' . urlencode( $set[0] ) ) . '">' . htmlspecialchars( $set[0] ) . '</a>';
+					$s .= '<a href="' . $this->getPageTitle()->escapeLocalURL( 'user=' . urlencode( $set[0] ) ) . '">' . htmlspecialchars( $set[0] ) . '</a>';
 					# XFF string, link to /xff search
 					if ( $set[1] ) {
 						# Flag our trusted proxies
@@ -1048,7 +1048,7 @@ class CheckUser extends SpecialPage {
 						$c = $trusted ? '#F0FFF0' : '#FFFFCC';
 						$s .= '&#160;&#160;&#160;<span style="background-color: ' . $c . '"><strong>XFF</strong>: ';
 						$s .= Linker::linkKnown(
-							$this->getTitle(),
+							$this->getPageTitle(),
 							htmlspecialchars( $set[1] ),
 							array(),
 							array( 'user' => $client . '/xff' )
