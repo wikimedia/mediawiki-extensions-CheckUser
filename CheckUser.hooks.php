@@ -3,6 +3,8 @@ class CheckUserHooks {
 	/**
 	 * Hook function for RecentChange_save
 	 * Saves user data into the cu_changes table
+	 * Note that other extensions (like AbuseFilter) may call this function directly
+	 * if they want to send data to CU without creating a recentchanges entry
 	 */
 	public static function updateCheckUserData( RecentChange $rc ) {
 		global $wgRequest;
