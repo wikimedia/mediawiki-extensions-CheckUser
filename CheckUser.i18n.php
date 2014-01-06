@@ -1894,7 +1894,7 @@ IP-adresser vil blive blokeret i en uge (en blokering, der kun gælder for anony
 	'checkuser-blocktag' => 'Erstat brugersider med:',
 	'checkuser-blocktag-talk' => 'Erstat diskussionssider med:',
 	'checkuser-massblock-commit' => 'Bloker valgte brugere',
-	'checkuser-block-success' => '{{PLURAL:$2|Brugeren|Brugerne}} $1 er nu {{PLURAL:$2|blokeret|blokerede}}',
+	'checkuser-block-success' => "'''{{PLURAL:$2|Brugeren|Brugerne}} $1 er nu {{PLURAL:$2|blokeret|blokerede}}.'''",
 	'checkuser-block-failure' => "'''Ingen brugere blev blokeret.'''",
 	'checkuser-block-limit' => 'Der er valgt for mange brugere.',
 	'checkuser-block-noreason' => 'Du skal angive en blokeringsgrund.',
@@ -7118,12 +7118,12 @@ IP-адреса будут заблокированы на 1 неделю для
 	'checkuser-blocktag' => 'Заменить страницы участников на:',
 	'checkuser-blocktag-talk' => 'Заменить страницы обсуждения на:',
 	'checkuser-massblock-commit' => 'Заблокировать выбранных участников',
-	'checkuser-block-success' => "'''Сейчас {{PLURAL:$2|заблокирован $1 участник|заблокированы $1 участников|заблокированы $1 участника}}.'''", # Fuzzy
+	'checkuser-block-success' => "'''Сейчас {{PLURAL:$2|заблокирован $1 участник|заблокированы $1 участников|заблокированы $1 участника}}.'''",
 	'checkuser-block-failure' => "'''Нет заблокированных участников.'''",
 	'checkuser-block-limit' => 'Выбрано слишком много участников.',
 	'checkuser-block-noreason' => 'Вы должны указать причину блокировок.',
 	'checkuser-noreason' => 'Вы должны указать причину для этого запроса.',
-	'checkuser-accounts' => '$1 {{PLURAL:$1|новая учётная запись|новых учётных записей|новых учётных записи}}', # Fuzzy
+	'checkuser-accounts' => '$1 {{PLURAL:$1|новая учётная запись|новых учётных записей|новых учётных записи}}',
 	'checkuser-too-many' => 'Слишком много результатов (согласно оценке запроса), пожалуйста, сузьте CIDR.
 Использованные IP (максимум 5000, отсортировано по адресу):',
 	'checkuser-user-nonexistent' => 'Указанного участника не существует',
