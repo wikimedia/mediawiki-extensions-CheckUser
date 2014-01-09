@@ -116,6 +116,7 @@ class CheckUser extends SpecialPage {
 	 */
 	protected function showForm( $user, $reason, $checktype, $ip, $xff, $name, $period ) {
 		$action = $this->getPageTitle()->escapeLocalUrl();
+		$action = htmlspecialchars( $this->getPageTitle()->getLocalUrl() );
 		# Fill in requested type if it makes sense
 		$encipusers = $encedits = $encuserips = 0;
 		if ( $checktype == 'subipusers' && ( $ip || $xff ) ) {
@@ -448,9 +449,12 @@ class CheckUser extends SpecialPage {
 			foreach ( $ips_edits as $ip => $edits ) {
 				$s .= '<li>';
 				$s .= '<a href="' .
-					$this->getPageTitle()->escapeLocalURL( 'user=' . urlencode( $ip ) . '&reason=' . urlencode( $reason ) ) . '">' .
+					htmlspecialchars( $this->getPageTitle()->getLocalURL( array(
+						'user' => $ip,
+						'reason' => $reason
+					) ) ) . '">' .
 					htmlspecialchars( $ip ) . '</a>';
-				$s .= ' (<a href="' . $blockip->escapeLocalURL( 'ip=' . urlencode( $ip ) ) . '">' .
+				$s .= ' (<a href="' . htmlspecialchars( $blockip->getLocalURL( 'ip=' . urlencode( $ip ) ) ) . '">' .
 					$this->msg( 'blocklink' )->escaped() . '</a>)';
 				if ( $ips_first[$ip] == $ips_last[$ip] ) {
 					$s .= ' (' . $this->getLanguage()->timeanddate( wfTimestamp( TS_MW, $ips_first[$ip] ), true ) . ') ';
@@ -609,7 +613,11 @@ class CheckUser extends SpecialPage {
 					$ip = long2ip( wfBaseConvert( $row->cuc_ip_hex, 16, 10, 8 ) );
 				}
 				$s .= '<li><a href="' .
-					$this->getPageTitle()->escapeLocalURL( 'user=' . urlencode( $ip ) . '&reason=' . urlencode( $reason ) . '&checktype=subipusers' ) .
+					htmlspecialchars( $this->getPageTitle()->getLocalURL( array(
+						'user' => $ip,
+						'reason=' => $reason,
+						'checktype' => 'subipusers'
+					) ) ) .
 					'">' . $ip . '</a>';
 				if ( $row->first == $row->last ) {
 					$s .= ' (' . $this->getLanguage()->timeanddate( wfTimestamp( TS_MW, $row->first ), true ) . ') ';
@@ -901,7 +909,11 @@ class CheckUser extends SpecialPage {
 					$ip = long2ip( wfBaseConvert( $row->cuc_ip_hex, 16, 10, 8 ) );
 				}
 				$s .= '<li><a href="' .
-					$this->getPageTitle()->escapeLocalURL( 'user=' . urlencode( $ip ) . '&reason=' . urlencode( $reason ) . '&checktype=subipusers' ) .
+					htmlspecialchars( $this->getPageTitle()->getLocalURL( array(
+						'user' => $ip,
+						'reason' => $reason,
+						'checktype' => 'subipusers'
+					) ) ) .
 					'">' . $ip . '</a>';
 				if ( $row->first == $row->last ) {
 					$s .= ' (' . $this->getLanguage()->timeanddate( wfTimestamp( TS_MW, $row->first ), true ) . ') ';
@@ -971,7 +983,7 @@ class CheckUser extends SpecialPage {
 				}
 			}
 
-			$action = $this->getPageTitle()->escapeLocalURL( 'action=block' );
+			$action = htmlspecialchars( $this->getPageTitle()->getLocalURL( 'action=block' ) );
 			$s = "<form name='checkuserblock' id='checkuserblock' action=\"$action\" method='post'>";
 			$s .= '<div id="checkuserresults"><ul>';
 			foreach ( $users_edits as $name => $count ) {
@@ -982,8 +994,10 @@ class CheckUser extends SpecialPage {
 				# Add user tool links
 				$s .= Linker::userLink( - 1 , $name ) . Linker::userToolLinks( - 1 , $name );
 				# Add CheckUser link
-				$s .= ' (<a href="' . $this->getPageTitle()->escapeLocalURL( 'user=' . urlencode( $name ) .
-					'&reason=' . urlencode( $reason ) ) . '">' . $this->msg( 'checkuser-check' )->escaped() . '</a>)';
+				$s .= ' (<a href="' . htmlspecialchars( $this->getPageTitle()->getLocalURL( array(
+						'user' => $name,
+						'reason=' => $reason
+					) ) ) . '">' . $this->msg( 'checkuser-check' )->escaped() . '</a>)';
 				# Show edit time range
 				if ( $users_first[$name] == $users_last[$name] ) {
 					// @todo FIXME: Hard coded parentheses.
@@ -1038,7 +1052,9 @@ class CheckUser extends SpecialPage {
 					$set = $users_infosets[$name][$i];
 					# IP link
 					$s .= '<li>';
-					$s .= '<a href="' . $this->getPageTitle()->escapeLocalURL( 'user=' . urlencode( $set[0] ) ) . '">' . htmlspecialchars( $set[0] ) . '</a>';
+					$s .= '<a href="' .
+						htmlspecialchars( $this->getPageTitle()->getLocalURL( 'user=' . urlencode( $set[0] ) ) ) .
+						'">' . htmlspecialchars( $set[0] ) . '</a>';
 					# XFF string, link to /xff search
 					if ( $set[1] ) {
 						# Flag our trusted proxies
