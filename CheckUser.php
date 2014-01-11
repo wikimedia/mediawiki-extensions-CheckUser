@@ -47,7 +47,7 @@ $wgGroupPermissions['checkuser']['checkuser-log'] = true;
 // the 'cu_log' table in the database.
 $wgCheckUserLog = '/home/wikipedia/logs/checkuser.log';
 
-# How long to keep CU data?
+# How long to keep CU data (in seconds)?
 $wgCUDMaxAge = 3 * 30 * 24 * 3600; // 3 months
 
 # Mass block limits
