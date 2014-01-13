@@ -8854,9 +8854,11 @@ $messages['ur'] = array(
 
 /** Uzbek (oʻzbekcha)
  * @author CoderSI
+ * @author Sociologist
  */
 $messages['uz'] = array(
 	'group-checkuser' => 'Foydalanuvchilarni tekshiruvchilar',
+	'checkuser-autocreate-action' => 'avtomatik ravishda yaratilgan',
 );
 
 /** vèneto (vèneto)
