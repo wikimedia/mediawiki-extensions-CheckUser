@@ -7420,6 +7420,14 @@ $messages['sgs'] = array(
 	'checkuser-search' => 'Ėiškuotė',
 );
 
+/** Serbo-Croatian (srpskohrvatski / српскохрватски)
+ * @author Kolega2357
+ */
+$messages['sh'] = array(
+	'checkuser' => 'Provjera korisnika - Провера корисника',
+	'checkuser-search' => 'Traži',
+);
+
 /** Sinhala (සිංහල)
  * @author නන්දිමිතුරු
  * @author පසිඳු කාවින්ද
@@ -7677,6 +7685,7 @@ $messages['sq'] = array(
 );
 
 /** Serbian (Cyrillic script) (српски (ћирилица)‎)
+ * @author Milicevic01
  * @author Millosh
  * @author Rancher
  * @author Sasa Stefanovic
@@ -7737,12 +7746,12 @@ IP адресе ће бити блокиране на недељу дана за
 	'checkuser-blocktag' => 'Замени корисничке странице са:',
 	'checkuser-blocktag-talk' => 'Замени стране за разговор са:',
 	'checkuser-massblock-commit' => 'Блокирај изабраног корисника',
-	'checkuser-block-success' => "'''{{PLURAL:$2|1=Корисник|Корисници}} $1 {{PLURAL:$2|1=је сада блокиран|су сада блокирани}}.'''", # Fuzzy
+	'checkuser-block-success' => "'''{{PLURAL:$2|Корисник|Корисници}} $1 {{PLURAL:$2|је сада блокиран|су сада блокирани}}.'''",
 	'checkuser-block-failure' => "'''Нема блокираних корисника.'''",
 	'checkuser-block-limit' => 'Изабрано је превише корисника.',
 	'checkuser-block-noreason' => 'Морате дати разлог за блок.',
 	'checkuser-noreason' => 'Морате да наведете разлог за овај упит.',
-	'checkuser-accounts' => '$1 {{PLURAL:$1|1=нови налог|нових налога}}', # Fuzzy
+	'checkuser-accounts' => '$1 {{PLURAL:$1|нови налог|нових налога}}',
 	'checkuser-too-many' => 'Нађено је превише резултата (према процени захтева). Молимо Вас да сузите CIDR.
 Овде су коришћене IP адресе (највише 5.000, сортираних по адреси):',
 	'checkuser-user-nonexistent' => 'Наведени корисник не постоји.',
@@ -7767,6 +7776,7 @@ IP адресе ће бити блокиране на недељу дана за
 
 /** Serbian (Latin script) (srpski (latinica)‎)
  * @author Michaello
+ * @author Milicevic01
  * @author Жељко Тодоровић
  * @author Михајло Анђелковић
  */
@@ -7820,12 +7830,12 @@ IP adrese će biti blokirane na nedelju dana za IP korisnike, uz zabranu pravlje
 	'checkuser-blocktag' => 'Zameni korisničke stranice sa:',
 	'checkuser-blocktag-talk' => 'Zameni strane za razgovor sa:',
 	'checkuser-massblock-commit' => 'Blokiraj izabranog korisnika',
-	'checkuser-block-success' => "'''{{PLURAL:$2|1=Korisnik|Korisnici}} $1 {{PLURAL:$2|1=je sada blokiran|su sada blokirani}}.'''", # Fuzzy
+	'checkuser-block-success' => "'''{{PLURAL:$2|Korisnik|Korisnici}} $1 {{PLURAL:$2|je sada blokiran|su sada blokirani}}.'''",
 	'checkuser-block-failure' => "'''Nema blokiranih korisnika.'''",
 	'checkuser-block-limit' => 'Previše korisnika je izabrano.',
 	'checkuser-block-noreason' => 'Morate dati razlog za blok.',
 	'checkuser-noreason' => 'Morate da navedete razlog za ovaj upit.',
-	'checkuser-accounts' => '$1 {{PLURAL:$1|1=novi nalog|novih naloga}}', # Fuzzy
+	'checkuser-accounts' => '$1 {{PLURAL:$1|novi nalog|novih naloga}}',
 	'checkuser-too-many' => 'Nađeno je previše rezultata (prema proceni zahteva). Molimo Vas da suzite CIDR.
 Ovde su korišćene IP adrese (najviše 5.000, sortiranih po adresi):',
 	'checkuser-user-nonexistent' => 'Traženi korisnik ne postoji.',
