@@ -7696,7 +7696,7 @@ $messages['sq'] = array(
  * @author Обрадовић Горан
  */
 $messages['sr-ec'] = array(
-	'checkuser-summary' => 'Ова алатка прегледа скорашње измене и враћа IP адресе које је корисник користио или показује податке о кориснику/изменама за дати IP. Корисници и измене клијентског IP се могу добавити преко XFF заглавља додавањем „/xff“ иза IP. Подржани су формати IPv4 (CIDR $1-32) и IPv6 (CIDR $2-128).
+	'checkuser-summary' => 'Ова алатка прегледа скорашње измене и враћа IP адресе које је корисник користио или показује податке о кориснику/изменама за дати IP. Корисници и измене клијентског IP се могу добавити преко XFF заглавља додавањем <code>/xff</code> иза IP адресе. Подржани су формати IPv4 (CIDR $1-32) и IPv6 (CIDR $2-128).
 Због перформанси неће бити враћено више од 5000 измена.
 Алатку користите у складу са политиком.',
 	'checkuser-desc' => 'Даје корисницима са одговарајућим правима могућност да провере ИП адресе корисника и друге информације.',
@@ -7781,7 +7781,7 @@ IP адресе ће бити блокиране на недељу дана за
  * @author Михајло Анђелковић
  */
 $messages['sr-el'] = array(
-	'checkuser-summary' => 'Ova alatka pregleda skorašnje izmene i vraća IP adrese koje je korisnik koristio ili pokazuje podatke o korisniku/izmenama za dati IP. Korisnici i izmene klijentskog IP se mogu dobaviti preko XFF zaglavlja dodavanjem „/xff“ iza IP. Podržani su formati IPv4 (CIDR $1-32) i IPv6 (CIDR $2-128).
+	'checkuser-summary' => 'Ova alatka pregleda skorašnje izmene i vraća IP adrese koje je korisnik koristio ili pokazuje podatke o korisniku/izmenama za dati IP. Korisnici i izmene klijentskog IP se mogu dobaviti preko XFF zaglavlja dodavanjem <code>/xff</code> iza IP adrese. Podržani su formati IPv4 (CIDR $1-32) i IPv6 (CIDR $2-128).
 Zbog performansi neće biti vraćeno više od 5000 izmena.
 Alatku koristite u skladu sa politikom.',
 	'checkuser-desc' => 'Daje korisnicima sa odgovarajućim pravima mogućnost da provere IP adrese korisnika i druge informacije.',
