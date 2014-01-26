@@ -7424,8 +7424,8 @@ $messages['sgs'] = array(
  * @author Kolega2357
  */
 $messages['sh'] = array(
-	'checkuser' => 'Provjera korisnika - Провера корисника',
-	'checkuser-search' => 'Traži',
+	'checkuser' => 'Provjera korisnika / Провера корисника',
+	'checkuser-search' => 'Traži / Тражи',
 );
 
 /** Sinhala (සිංහල)
