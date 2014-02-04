@@ -115,7 +115,6 @@ class CheckUser extends SpecialPage {
 	 * @param $period
 	 */
 	protected function showForm( $user, $reason, $checktype, $ip, $xff, $name, $period ) {
-		$action = $this->getPageTitle()->escapeLocalUrl();
 		$action = htmlspecialchars( $this->getPageTitle()->getLocalUrl() );
 		# Fill in requested type if it makes sense
 		$encipusers = $encedits = $encuserips = 0;
