@@ -1266,11 +1266,12 @@ class CheckUser extends SpecialPage {
 	 * @create diff/hist/page link
 	 */
 	protected function getLinksFromRow( $row ) {
+		$links = array();
 		// Log items
 		if ( $row->cuc_type == RC_LOG ) {
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
 			// @todo FIXME: Hard coded parentheses.
-			$links = '(' . Linker::linkKnown(
+			$links['log'] = '(' . Linker::linkKnown(
 				SpecialPage::getTitleFor( 'Log' ),
 				$this->message['log'],
 				array(),
@@ -1280,11 +1281,11 @@ class CheckUser extends SpecialPage {
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
 			# New pages
 			if ( $row->cuc_type == RC_NEW ) {
-				$links = '(' . $this->message['diff'] . ') ';
+				$links['diff'] = '(' . $this->message['diff'] . ') ';
 			} else {
 				# Diff link
 				// @todo FIXME: Hard coded parentheses.
-				$links = ' (' . Linker::linkKnown(
+				$links['diff'] = ' (' . Linker::linkKnown(
 					$title,
 					$this->message['diff'],
 					array(),
@@ -1297,7 +1298,7 @@ class CheckUser extends SpecialPage {
 			}
 			# History link
 			// @todo FIXME: Hard coded parentheses.
-			$links .= ' (' . Linker::linkKnown(
+			$links['history'] = ' (' . Linker::linkKnown(
 				$title,
 				$this->message['hist'],
 				array(),
@@ -1308,15 +1309,22 @@ class CheckUser extends SpecialPage {
 			) . ') . . ';
 			# Some basic flags
 			if ( $row->cuc_type == RC_NEW ) {
-				$links .= '<span class="newpage">' . $this->message['newpageletter'] . '</span>';
+				$links['newpage'] = '<span class="newpage">' . $this->message['newpageletter'] . '</span>';
 			}
 			if ( $row->cuc_minor ) {
-				$links .= '<span class="minor">' . $this->message['minoreditletter'] . '</span>';
+				$links['minor'] = '<span class="minor">' . $this->message['minoreditletter'] . '</span>';
 			}
 			# Page link
-			$links .= ' ' . Linker::link( $title );
+			$links['title'] = Linker::link( $title );
 		}
-		return $links;
+
+		wfRunHooks( 'SpecialCheckUserGetLinksFromRow', array( $this, $row, &$links ) );
+		if ( is_array( $links ) ) {
+			return implode( ' ', $links );
+		} else {
+			wfDebugLog( __CLASS__, __METHOD__ . ': Expected array from SpecialCheckUserGetLinksFromRow $links param, but received ' . gettype( $links ) );
+			return '';
+		}
 	}
 
 	protected static function userWasBlocked( $name ) {
