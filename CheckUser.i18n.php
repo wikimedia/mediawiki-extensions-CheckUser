@@ -2888,6 +2888,8 @@ Voici un extrait des IP utilisées ({{formatnum:5000}} maximum, triées par adre
 	'checkuser-create-action' => 'a été créé',
 	'checkuser-email-action' => 'a envoyé un courriel à l’utilisateur « $1 »',
 	'checkuser-reset-action' => 'réinitialise le mot de passe de l’utilisateur « $1 »',
+	'group-checkuser.css' => '/* Le CSS placé ici n’affectera que les membres du groupe « checkuser » */',
+	'group-checkuser.js' => '/* Le Javascript placé ici n’affectera que les membres du groupe « checkuser » */',
 );
 
 /** Cajun French (français cadien)
