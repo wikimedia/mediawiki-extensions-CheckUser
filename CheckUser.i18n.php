@@ -9406,12 +9406,12 @@ $messages['zh-hans'] = array(
 	'checkuser-summary' => '本工具会从最近更改中获取用户使用过的IP地址，可使用XFF头信息来获取同一客户端IP地址下的用户和编辑，即在IP地址后方附加“/xff”。本工具支持IPv4（CIDR $1-32）和IPv6（CIDR $2-128）。由于效率原因，本工具只能查询最近5000笔编辑次数。请确保你的操作符合方针。',
 	'checkuser-desc' => '令已授权用户可以核查用户的IP地址及其他信息',
 	'checkuser-logcase' => '日志搜索是区分大小写的。',
-	'checkuser' => '账户核查',
+	'checkuser' => '用户查核',
 	'checkuserlog' => '账户核查日志',
 	'checkuser-contribs' => '核查用户IP地址',
 	'checkuser-contribs-log' => '最近的用户检查',
-	'group-checkuser' => '账户核查',
-	'group-checkuser-member' => '{{GENDER:$1|账户核查}}',
+	'group-checkuser' => '用户查核员',
+	'group-checkuser-member' => '{{GENDER:$1|用户查核员}}',
 	'right-checkuser' => '核查用户的IP地址和其他信息',
 	'right-checkuser-log' => '查看帐户核查日志',
 	'action-checkuser' => '核查用户的IP地址和其他信息',
@@ -9475,6 +9475,8 @@ $messages['zh-hans'] = array(
 	'checkuser-create-action' => '已创建',
 	'checkuser-email-action' => '向用户“$1”发送电邮',
 	'checkuser-reset-action' => '为用户“$1”重置密码',
+	'group-checkuser.css' => '/* 放置于此的CSS将只会影响用户查核员 */',
+	'group-checkuser.js' => '/* 放置于此的JS将只会影响用户查核员 */',
 );
 
 /** Traditional Chinese (中文（繁體）‎)
@@ -9482,6 +9484,7 @@ $messages['zh-hans'] = array(
  * @author Anakmalaysia
  * @author Horacewai2
  * @author Liangent
+ * @author Liuxinyu970226
  * @author Mark85296341
  * @author Oapbtommy
  * @author Waihorace
@@ -9495,8 +9498,8 @@ $messages['zh-hant'] = array(
 	'checkuserlog' => '用戶查核記錄',
 	'checkuser-contribs' => '核查用戶IP地址',
 	'checkuser-contribs-log' => '最近的用戶檢查',
-	'group-checkuser' => '用戶查核',
-	'group-checkuser-member' => '{{GENDER:$1|賬戶核查}}',
+	'group-checkuser' => '用戶查核員',
+	'group-checkuser-member' => '{{GENDER:$1|用戶查核員}}',
 	'right-checkuser' => '查核用戶的IP地址以及其它的資料',
 	'right-checkuser-log' => '檢視帳戶核查日誌',
 	'action-checkuser' => '核查用戶的IP地址和其他信息',
