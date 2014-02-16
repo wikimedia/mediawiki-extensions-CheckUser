@@ -2687,7 +2687,7 @@ $messages['fa'] = array(
 	'checkuser-log-useredits' => '$1 ویرایش‌های $2 را گرفت',
 	'checkuser-autocreate-action' => 'به طور خودکار ساخته شد',
 	'checkuser-create-action' => 'ایجاد گردید',
-	'checkuser-email-action' => 'به کاربر «$1» پست الکترونیکی ارسال شد',
+	'checkuser-email-action' => 'به کاربر «$1» رایانامه ارسال شد',
 	'checkuser-reset-action' => 'گذرواژه کاربر «$1» را از نو تنظیم کرد',
 );
 
