@@ -8258,6 +8258,7 @@ $messages['ta'] = array(
 /** Telugu (తెలుగు)
  * @author Chaduvari
  * @author Mpradeep
+ * @author Ravichandra
  * @author Veeven
  * @author వైజాసత్య
  */
@@ -8295,6 +8296,7 @@ $messages['te'] = array(
 	'checkuser-nolog' => 'చిట్టా ఫైలేమీ కనపడలేదు.',
 	'checkuser-blocked' => 'నిరోధించాం',
 	'checkuser-gblocked' => 'సార్వత్రికంగా నిరోధించారు',
+	'checkuser-locked' => 'సంరక్షించబడిన',
 	'checkuser-wasblocked' => 'గతంలో నిరోధించబడ్డారు',
 	'checkuser-massblock' => 'ఎంచుకున్న వాడుకరులను నిరోధించు',
 	'checkuser-massblock-commit' => 'ఎంచుకున్న వాడుకరులను నిరోధించు',
@@ -8317,6 +8319,7 @@ $messages['te'] = array(
 	'checkuser-log-ipusers' => '$2 కోసం $1 వాడుకరులను తెచ్చింది',
 	'checkuser-log-ipedits-xff' => 'XFF $2 కోసం $1, దిద్దుబాట్లను తెచ్చింది',
 	'checkuser-log-ipusers-xff' => 'XFF $2 కోసం $1, వాడుకరులను తెచ్చింది',
+	'checkuser-create-action' => 'సృష్టించబడింది',
 	'checkuser-email-action' => 'వాడుకరి "$1"కి ఈమెయిలు పంపించాం',
 );
 
