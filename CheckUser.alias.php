@@ -24,6 +24,7 @@ $specialPageAliases['ar'] = array(
 /** Egyptian Spoken Arabic (مصرى) */
 $specialPageAliases['arz'] = array(
 	'CheckUser' => array( 'تدقيق_يوزر' ),
+	'CheckUserLog' => array( 'سجل_التشيك-يوزر' ),
 );
 
 /** Assamese (অসমীয়া) */
@@ -307,6 +308,11 @@ $specialPageAliases['pt-br'] = array(
 	'CheckUserLog' => array( 'Registro_de_verificação_de_usuário', 'Registo_de_verificação_de_usuário' ),
 );
 
+/** Quechua (Runa Simi) */
+$specialPageAliases['qu'] = array(
+	'CheckUser' => array( 'RuraqtaLlanchiy' ),
+);
+
 /** Romanian (română) */
 $specialPageAliases['ro'] = array(
 	'CheckUser' => array( 'Verifică_utilizator' ),
@@ -396,8 +402,8 @@ $specialPageAliases['vi'] = array(
 
 /** Simplified Chinese (中文（简体）‎) */
 $specialPageAliases['zh-hans'] = array(
-	'CheckUser' => array( '用户核查' ),
-	'CheckUserLog' => array( '用户核查日志' ),
+	'CheckUser' => array( '用户查核' ),
+	'CheckUserLog' => array( '用户查核日志' ),
 );
 
 /** Traditional Chinese (中文（繁體）‎) */
