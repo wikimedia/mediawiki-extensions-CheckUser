@@ -238,6 +238,7 @@ $specialPageAliases['lad'] = array(
 /** Luxembourgish (Lëtzebuergesch) */
 $specialPageAliases['lb'] = array(
 	'CheckUser' => array( 'Benotzerkontroll' ),
+	'CheckUserLog' => array( 'Logbuch_vun_der_Benotzerkontroll' ),
 );
 
 /** Minangkabau (Baso Minangkabau) */
