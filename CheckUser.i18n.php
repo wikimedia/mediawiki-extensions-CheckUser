@@ -8291,6 +8291,8 @@ $messages['te'] = array(
 	'checkuser-all' => 'అందరూ',
 	'checkuser-empty' => 'చిట్టాలో అంశాలేమీ లేవు.',
 	'checkuser-nomatch' => 'సామీప్యాలు ఏమీ కనబడలేదు.',
+	'checkuser-nomatch-edits' => 'సరిపోయేవేమీ కనిపించలేదు.
+చివరి దిద్దుబాటు $1, $2 న జరిగింది.',
 	'checkuser-check' => 'తనిఖీ',
 	'checkuser-log-fail' => 'చిట్టాలో పద్దుని చేర్చలేకపోయాం',
 	'checkuser-nolog' => 'చిట్టా ఫైలేమీ కనపడలేదు.',
@@ -8319,6 +8321,7 @@ $messages['te'] = array(
 	'checkuser-log-ipusers' => '$2 కోసం $1 వాడుకరులను తెచ్చింది',
 	'checkuser-log-ipedits-xff' => 'XFF $2 కోసం $1, దిద్దుబాట్లను తెచ్చింది',
 	'checkuser-log-ipusers-xff' => 'XFF $2 కోసం $1, వాడుకరులను తెచ్చింది',
+	'checkuser-log-useredits' => '$2 కోసం $1 దిద్దుబాట్లను తెచ్చింది',
 	'checkuser-create-action' => 'సృష్టించబడింది',
 	'checkuser-email-action' => 'వాడుకరి "$1"కి ఈమెయిలు పంపించాం',
 );
