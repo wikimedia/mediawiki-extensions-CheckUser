@@ -614,7 +614,7 @@ class CheckUser extends SpecialPage {
 				$s .= '<li><a href="' .
 					htmlspecialchars( $this->getPageTitle()->getLocalURL( array(
 						'user' => $ip,
-						'reason=' => $reason,
+						'reason' => $reason,
 						'checktype' => 'subipusers'
 					) ) ) .
 					'">' . $ip . '</a>';
@@ -995,7 +995,7 @@ class CheckUser extends SpecialPage {
 				# Add CheckUser link
 				$s .= ' (<a href="' . htmlspecialchars( $this->getPageTitle()->getLocalURL( array(
 						'user' => $name,
-						'reason=' => $reason
+						'reason' => $reason
 					) ) ) . '">' . $this->msg( 'checkuser-check' )->escaped() . '</a>)';
 				# Show edit time range
 				if ( $users_first[$name] == $users_last[$name] ) {
