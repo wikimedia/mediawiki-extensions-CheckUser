@@ -4841,10 +4841,11 @@ $messages['krc'] = array(
 
 /** Krio (Krio)
  * @author Jose77
+ * @author Protostar
  */
 $messages['kri'] = array(
-	'checkuser-search' => 'Luk foh am',
-	'checkuser-search-submit' => 'Luk foh am',
+	'checkuser-search' => 'Sarch',
+	'checkuser-search-submit' => 'Sarch',
 );
 
 /** Kinaray-a (Kinaray-a)
@@ -8292,13 +8293,13 @@ $messages['te'] = array(
 	'checkuser-empty' => 'చిట్టాలో అంశాలేమీ లేవు.',
 	'checkuser-nomatch' => 'సామీప్యాలు ఏమీ కనబడలేదు.',
 	'checkuser-nomatch-edits' => 'సరిపోయేవేమీ కనిపించలేదు.
-చివరి దిద్దుబాటు $1, $2 న జరిగింది.',
+చివరి దిద్దుబాటు $1 న $2 కు జరిగింది.',
 	'checkuser-check' => 'తనిఖీ',
 	'checkuser-log-fail' => 'చిట్టాలో పద్దుని చేర్చలేకపోయాం',
 	'checkuser-nolog' => 'చిట్టా ఫైలేమీ కనపడలేదు.',
 	'checkuser-blocked' => 'నిరోధించాం',
 	'checkuser-gblocked' => 'సార్వత్రికంగా నిరోధించారు',
-	'checkuser-locked' => 'సంరక్షించబడిన',
+	'checkuser-locked' => 'తాళం వెయ్యబడింది',
 	'checkuser-wasblocked' => 'గతంలో నిరోధించబడ్డారు',
 	'checkuser-massblock' => 'ఎంచుకున్న వాడుకరులను నిరోధించు',
 	'checkuser-massblock-commit' => 'ఎంచుకున్న వాడుకరులను నిరోధించు',
@@ -8322,7 +8323,7 @@ $messages['te'] = array(
 	'checkuser-log-ipedits-xff' => 'XFF $2 కోసం $1, దిద్దుబాట్లను తెచ్చింది',
 	'checkuser-log-ipusers-xff' => 'XFF $2 కోసం $1, వాడుకరులను తెచ్చింది',
 	'checkuser-log-useredits' => '$2 కోసం $1 దిద్దుబాట్లను తెచ్చింది',
-	'checkuser-create-action' => 'సృష్టించబడింది',
+	'checkuser-create-action' => 'సృష్టించిన తేదీ',
 	'checkuser-email-action' => 'వాడుకరి "$1"కి ఈమెయిలు పంపించాం',
 );
 
