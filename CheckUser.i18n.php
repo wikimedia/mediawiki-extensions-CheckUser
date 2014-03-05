@@ -3549,6 +3549,7 @@ $messages['hil'] = array(
  * @author Dalibor Bosits
  * @author Ex13
  * @author Excaliboor
+ * @author MaGa
  * @author SpeedyGonsales
  * @author Tivek
  */
@@ -3577,16 +3578,16 @@ $messages['hr'] = array(
 	'checkuser-ips' => 'IP adrese',
 	'checkuser-search' => 'Traži',
 	'checkuser-period' => 'Vrijeme:',
-	'checkuser-week-1' => 'zadnji tjedan',
-	'checkuser-week-2' => 'zadnja dva tjedna',
-	'checkuser-month' => 'zadnjih 30 dana',
+	'checkuser-week-1' => 'posljednji tjedan',
+	'checkuser-week-2' => 'posljednja dva tjedna',
+	'checkuser-month' => 'posljednjih 30 dana',
 	'checkuser-all' => 'sve',
 	'checkuser-cidr-label' => 'Pronađite zajednički raspon i zahvaćene adrese za popis IP-ova',
 	'checkuser-cidr-res' => 'Zajednički CIDR:',
 	'checkuser-empty' => 'Evidencija je prazna.',
 	'checkuser-nomatch' => 'Nema suradnika s tom IP adresom.',
 	'checkuser-nomatch-edits' => 'Nema poklapanja.
-Zadnja izmjena je bila $1 u $2.',
+Posljednja izmjena je bila $1 u $2.',
 	'checkuser-check' => 'Provjeri',
 	'checkuser-log-fail' => 'Ne mogu dodati zapis',
 	'checkuser-nolog' => 'Evidencijska datoteka nije nađena',
