@@ -58,6 +58,8 @@ class CheckUserHooks {
 		if ( isset( $rc_cur_id ) ) {
 			$rcRow['cuc_page_id'] = $rc_cur_id;
 		}
+
+		wfRunHooks( 'CheckUserInsertForRecentChange', array( $rc, &$rcRow ) );
 		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
 
 		return true;
