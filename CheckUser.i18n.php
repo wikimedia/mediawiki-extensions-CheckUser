@@ -1457,6 +1457,7 @@ Ovdje su prikazane korištene IP adrese (najviše 5000, poredano po adresi):',
  * @author Arnaugir
  * @author Chaduvari
  * @author El libre
+ * @author Grondin
  * @author Jordi Roqué
  * @author Juanpabl
  * @author Papapep
@@ -1474,13 +1475,13 @@ Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Reco
 	'checkuser-desc' => "Permet als usuaris amb els permisos adients l'habilitat de comprovar les adreces IP que fan servir els usuaris enregistrats.",
 	'checkuser-logcase' => 'Les majúscules es tracten de manera diferenciada en la cerca dins el registre.',
 	'checkuser' => "Comprova l'usuari",
-	'checkuserlog' => 'Registre de Checkuser',
+	'checkuserlog' => "Registre del verificador de comptes d'usuari",
 	'checkuser-contribs' => "comprova les IP de l'usuari",
-	'group-checkuser' => 'Checkusers',
+	'group-checkuser' => "Verificadors de comptes d'usuari",
 	'group-checkuser-member' => '{{GENDER:$1|వాడుకరి తనిఖీ}}',
 	'right-checkuser' => 'Comprovar les adreces IP i altra informació dels usuaris',
-	'right-checkuser-log' => 'Veure el registre de checkuser',
-	'grouppage-checkuser' => '{{ns:project}}:Checkuser',
+	'right-checkuser-log' => "Veure el registre del verificador de comptes d'usuari",
+	'grouppage-checkuser' => "{{ns:project}}:Verificador de comptes d'usuari",
 	'checkuser-reason' => 'Motiu:',
 	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Mostra registre',
@@ -1529,7 +1530,7 @@ Aquí teniu les IP usades (màx. 5000 ordenades per adreça):",
 	'checkuser-search-initiator' => "l'iniciador",
 	'checkuser-search-target' => 'el consultat',
 	'checkuser-ipeditcount' => '~$1 de tots els usuaris',
-	'checkuser-log-return' => 'Canvia al formulari principal de CheckUser',
+	'checkuser-log-return' => "Canvia al formulari principal de verificador de comptes d'usuari",
 	'checkuser-limited' => "'''Els resultats s'han trucat per raons de rendiment.'''",
 	'checkuser-log-userips' => '$1 consulta les IP de $2',
 	'checkuser-log-ipedits' => '$1 consulta les edicions de $2',
