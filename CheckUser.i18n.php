@@ -1454,6 +1454,7 @@ Ovdje su prikazane korištene IP adrese (najviše 5000, poredano po adresi):',
 
 /** Catalan (català)
  * @author Aleator
+ * @author Ankry
  * @author Arnaugir
  * @author Chaduvari
  * @author El libre
@@ -1478,7 +1479,7 @@ Per raons d'efectivitat i de memòria no es retornen més de 5000 edicions. Reco
 	'checkuserlog' => "Registre del verificador de comptes d'usuari",
 	'checkuser-contribs' => "comprova les IP de l'usuari",
 	'group-checkuser' => "Verificadors de comptes d'usuari",
-	'group-checkuser-member' => '{{GENDER:$1|వాడుకరి తనిఖీ}}',
+	'group-checkuser-member' => 'CheckUser',
 	'right-checkuser' => 'Comprovar les adreces IP i altra informació dels usuaris',
 	'right-checkuser-log' => "Veure el registre del verificador de comptes d'usuari",
 	'grouppage-checkuser' => "{{ns:project}}:Verificador de comptes d'usuari",
@@ -3015,6 +3016,7 @@ $messages['fy'] = array(
 
 /** Irish (Gaeilge)
  * @author Alison
+ * @author Ankry
  * @author Chaduvari
  * @author Tameamseo
  */
@@ -3024,7 +3026,7 @@ Is féidir úsáideoirí agus eagarthóireachta mar IP cliant a fháil le ceannt
 Le fáth feidhmiúcháin, ní féidir níos mó ná 5000 eagarthóireachta a thabhairt ar ais ar an am cheana. Déan úsáid de réir polsaí.',
 	'checkuser-logcase' => 'Tá na logaí seo cásíogair.',
 	'checkuser' => 'Seic úsáideoir',
-	'checkuserlog' => 'వాడుకరుల తనిఖీ లాగ్',
+	'checkuserlog' => 'Logaí checkuser',
 	'group-checkuser' => 'Seiceanna úsáideoir',
 	'group-checkuser-member' => 'Seic úsáideoir', # Fuzzy
 	'right-checkuser-log' => 'Féach ar an log seic úsáideoir',
@@ -3198,6 +3200,7 @@ $messages['grc'] = array(
 /** Swiss German (Alemannisch)
  * @author Als-Chlämens
  * @author Als-Holder
+ * @author Ankry
  * @author Chaduvari
  */
 $messages['gsw'] = array(
@@ -3205,16 +3208,16 @@ $messages['gsw'] = array(
 Us Performance-Grind wäre hegschtens 5000 Bearbeitige usgee. Nimm CheckUser usschließli in Ibereinstimmig mit dr Dateschutzrichtlinie.',
 	'checkuser-desc' => 'Erlaubt Benutzer mit dr jewyylige Rächt d IP-Adrässe un wyteri Informatione vu Benutzer z priefe',
 	'checkuser-logcase' => 'D Suech im Logbuech unterscheidet zwische Groß- un Chleischreibig.',
-	'checkuser' => 'వాడుకరితనిఖీ',
-	'checkuserlog' => 'వాడుకరుల తనిఖీ లాగ్',
+	'checkuser' => 'Checkuser',
+	'checkuserlog' => 'Checkuser-Logbuech',
 	'checkuser-contribs' => 'IP-Adrässe vu Benutzer priefe',
-	'group-checkuser' => 'వాడుకరితనిఖీ',
+	'group-checkuser' => 'Checkuser',
 	'group-checkuser-member' => '{{GENDER:$1|Checkuser-Berächtigter|Checkuser-Berächtigti}}',
 	'right-checkuser' => 'Priefig vu IP-Adrässe un Verbindunge zwische IP un aagmäldete Benutzer',
 	'right-checkuser-log' => 'Checkuser-Logbuech aaluege',
 	'action-checkuser' => 'IP-Adrässe un Verbindunge zwische IP un aagmäldete Benutzer z priefe',
 	'action-checkuser-log' => 's Checkuser-Logbuech aazluege',
-	'grouppage-checkuser' => '{{ns:project}}:వాడుకరితనిఖీ',
+	'grouppage-checkuser' => '{{ns:project}}:CheckUser',
 	'checkuser-reason' => 'Grund:',
 	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'Logbuech aazeige',
@@ -6425,6 +6428,7 @@ $messages['pfl'] = array(
 );
 
 /** Polish (polski)
+ * @author Ankry
  * @author Beau
  * @author BeginaFelicysym
  * @author Chaduvari
@@ -6447,7 +6451,7 @@ Używaj tego narzędzia zgodnie z zasadami.',
 	'checkuserlog' => 'Rejestr CheckUser',
 	'checkuser-contribs' => 'sprawdzić adresy IP użytkownika',
 	'checkuser-contribs-log' => 'ostatnie weryfikacje użytkowników',
-	'group-checkuser' => 'వాడుకరుల తనిఖీ',
+	'group-checkuser' => 'CheckUser',
 	'group-checkuser-member' => '{{GENDER:$1|checkuser|checkuserka}}',
 	'right-checkuser' => 'Sprawdzanie adresów IP oraz innych informacji o użytkownikach',
 	'right-checkuser-log' => 'Przeglądanie rejestru checkuser',
@@ -6733,6 +6737,7 @@ Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
 );
 
 /** Brazilian Portuguese (português do Brasil)
+ * @author Ankry
  * @author Cainamarques
  * @author Chaduvari
  * @author Dicionarista
@@ -6756,7 +6761,7 @@ Não serão retornadas mais de 5000 edições por motivos de desempenho. O uso d
 	'checkuserlog' => 'Registros de verificação de usuários',
 	'checkuser-contribs' => 'Verificar IPs do usuário',
 	'checkuser-contribs-log' => 'verificações de usuário recentes',
-	'group-checkuser' => 'వాడుకరుల తనిఖీ',
+	'group-checkuser' => 'CheckUser',
 	'group-checkuser-member' => '{{GENDER:$1|check user}}',
 	'right-checkuser' => 'Verificar os endereços de IP e outras informações dos usuários',
 	'right-checkuser-log' => 'Ver os registros das verificações',
@@ -7942,6 +7947,7 @@ Ovde su korišćene IP adrese (najviše 5.000, sortiranih po adresi):',
 );
 
 /** Seeltersk (Seeltersk)
+ * @author Ankry
  * @author Chaduvari
  * @author Pyt
  */
@@ -7953,7 +7959,7 @@ Beoarbaidengen fon ne IP-Adresse konnen uk ätter Informatione uut do XFF-Header
 	Uut Perfomance-Gruunde wäide maximoal 5000 Beoarbaidengen uutroat. Benutsje CheckUser bloot in Uureenstämmenge mäd do Doatenskutsgjuchtlienjen.',
 	'checkuser-desc' => 'Ferlööwet Benutsere mäd do äntspreekende Gjuchte do IP-Adressen as uk wiedere Informatione fon Benutsere tou wröigjen.',
 	'checkuser-logcase' => 'Ju Säike in dät Logbouk unnerskat twiske Groot- un Littikskrieuwen.',
-	'checkuser' => 'వాడుకరుల తనిఖీ',
+	'checkuser' => 'Checkuser',
 	'checkuserlog' => 'Checkuser-Logbouk',
 	'checkuser-contribs' => 'IP-Adrässen Benutser wröigje',
 	'group-checkuser' => 'Checkusers',
@@ -8339,6 +8345,7 @@ $messages['te'] = array(
 );
 
 /** Tetum (tetun)
+ * @author Ankry
  * @author Chaduvari
  * @author MF-Warburg
  */
@@ -8346,7 +8353,7 @@ $messages['tet'] = array(
 	'checkuser' => "Verifika uza-na'in",
 	'checkuserlog' => 'Lista checkuser',
 	'checkuser-contribs' => "verifika diresaun IP uza-na'in nian",
-	'group-checkuser' => 'వాడుకరుల తనిఖీ',
+	'group-checkuser' => 'CheckUser',
 	'group-checkuser-member' => "{{GENDER:$1|Ema ne'ebé bele halo CheckUser}}",
 	'right-checkuser' => "verifika diresaun IP uza-na'in nian no informasaun seluk",
 	'grouppage-checkuser' => '{{ns:project}}:CheckUser',
