@@ -8491,25 +8491,35 @@ Oxirin viroiş dar $1 soati $2 bud.',
 );
 
 /** Thai (ไทย)
+ * @author Horus
  * @author Mopza
  * @author Octahedron80
  * @author Woraponboonkerd
  */
 $messages['th'] = array(
+	'checkuser-summary' => 'เครื่องมือนี้สแกนการเปลี่ยนแปลงล่าสดเพื่อให้ได้มาซึ่งเลขที่อยู่ไอพีที่ผู้ใช้ใช้หรือแสดงข้อมูลการแก้ไข/ผู้ใช้เพื่อให้ได้มาซึ่งเลขที่อยู่ไอพี
+ผู้ใช้และการแก้ไขโดยเลขที่อยู่ไอพีรับบริการสามารถได้มาผ่านตัวนำหน้า XFF โดยการผนวกเลขที่อยู่ไอพีกับ "/xff" เครื่องมือนี้รองรับ IPv4 (CIDR $1-32) และ IPv6 (CIDR $2-128)
+จะไม่คืนเกินกว่า 5,000 การแก้ไข ด้วยเหตุผลด้านสมรรถนะ
+ใช้เครื่องมือนี้ตามนโยบาย',
+	'checkuser-desc' => 'อนุญาตอย่างเหมาะสมให้ผู้ใช้สามารถตรวจสอบเลขที่อยู่ไอพีและสารสนเทศอื่นของผู้ใช้',
+	'checkuser-logcase' => 'การค้นหาปูมไวต่ออักษรใหญ่เล็ก',
 	'checkuser' => 'ตรวจสอบผู้ใช้',
 	'checkuserlog' => 'ประวัติการตรวจสอบผู้ใช้',
 	'checkuser-contribs' => 'ตรวจสอบหมายเลขไอพีของผู้ใช้',
+	'checkuser-contribs-log' => 'การตรวจสอบผู้ใช้ล่าสุด',
 	'group-checkuser' => 'ตรวจสอบผู้ใช้',
 	'group-checkuser-member' => 'ตรวจสอบผู้ใช้', # Fuzzy
 	'right-checkuser' => 'ตรวจสอบหมายเลขไอพีของผู้ใช้และข้อมูลอื่นๆ',
 	'right-checkuser-log' => 'ดูประวัติการตรวจสอบผู้ใช้',
+	'action-checkuser' => 'ตรวจสอบเลขที่อยู่ไอพีและสารสนเทศอื่นของผู้ใช้',
+	'action-checkuser-log' => 'ดูปูมการตรวจสอบผู้ใช้',
 	'grouppage-checkuser' => '{{ns:project}}:ตรวจสอบผู้ใช้',
 	'checkuser-reason' => 'เหตุผล:',
 	'checkuser-showlog' => 'แสดงประวัติ',
 	'checkuser-query' => 'แบบสอบถามการเปลี่ยนแปลงล่าสุด',
 	'checkuser-target' => 'หมายเลขไอพีหรือชื่อผู้ใช้:',
 	'checkuser-users' => 'รับชื่อผู้ใช้',
-	'checkuser-edits' => 'รับรายการแก้ไขจากหมายเลขไอพี', # Fuzzy
+	'checkuser-edits' => 'รับรายการแก้ไข',
 	'checkuser-ips' => 'รับรายการหมายเลขไอพี',
 	'checkuser-search' => 'สืบค้น',
 	'checkuser-period' => 'ระยะเวลา:',
@@ -8517,6 +8527,7 @@ $messages['th'] = array(
 	'checkuser-week-2' => '2 สัปดาห์ที่แล้ว',
 	'checkuser-month' => '30 วันที่แล้ว',
 	'checkuser-all' => 'ทั้งหมด',
+	'checkuser-empty' => 'ปูมนี้ไม่มีรายการ',
 	'checkuser-nomatch' => 'ไม่พบสิ่งที่ค้นหา',
 	'checkuser-blocktag' => 'แทนที่หน้าผู้ใช้ด้วย:',
 	'checkuser-blocktag-talk' => 'แทนที่หน้าพูดคุยด้วย:',
