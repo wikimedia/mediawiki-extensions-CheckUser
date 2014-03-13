@@ -8292,6 +8292,7 @@ $messages['te'] = array(
 	'right-checkuser' => 'వాడుకరి ఐపీ అడ్రసును, ఇతర సమాచారాన్ని చూడు',
 	'grouppage-checkuser' => '{{ns:project}}:వాడుకరిని పరిశీలించు',
 	'checkuser-reason' => 'కారణం:',
+	'checkuser-reason-api' => 'API: $1',
 	'checkuser-showlog' => 'చిట్టాని చూపించు',
 	'checkuser-query' => 'ఇటీవలి మార్పుల్లో చూడండి',
 	'checkuser-target' => 'ఐపీ చిరునామా లేదా వాడుకరిపేరు:',
@@ -8340,8 +8341,10 @@ $messages['te'] = array(
 	'checkuser-log-ipedits-xff' => 'XFF $2 కోసం $1, దిద్దుబాట్లను తెచ్చింది',
 	'checkuser-log-ipusers-xff' => 'XFF $2 కోసం $1, వాడుకరులను తెచ్చింది',
 	'checkuser-log-useredits' => '$2 కోసం $1 దిద్దుబాట్లను తెచ్చింది',
+	'checkuser-autocreate-action' => 'యాంత్రికంగా సృష్టించబడింది',
 	'checkuser-create-action' => 'సృష్టించిన తేదీ',
 	'checkuser-email-action' => 'వాడుకరి "$1"కి ఈమెయిలు పంపించాం',
+	'checkuser-reset-action' => '"$1" వాడుకరి సంకేతపదం రీసెట్ చెయ్యి',
 );
 
 /** Tetum (tetun)
