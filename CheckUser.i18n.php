@@ -9494,7 +9494,7 @@ $messages['zh-hans'] = array(
 	'checkuser-block-limit' => '选中用户数量过多。',
 	'checkuser-block-noreason' => '你必须解释此次封禁的原因。',
 	'checkuser-noreason' => '你必须解释此次查询的原因。',
-	'checkuser-accounts' => '$1个新帐户',
+	'checkuser-accounts' => '$1个新{{PLURAL:$1|账户}}',
 	'checkuser-too-many' => '结果过多（根据查询估计），请缩小CIDR的范围。
 下面列出了使用过的IP地址（最多5000个，按地址排列）：',
 	'checkuser-user-nonexistent' => '指定的用户不存在。',
