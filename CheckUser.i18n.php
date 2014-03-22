@@ -3280,10 +3280,15 @@ IP-Adrässe wäre fir ei Wuche gsperrt (nume fir anonymi Benutzer, s Aalege vu n
 
 /** Gujarati (ગુજરાતી)
  * @author Dsvyas
+ * @author KartikMistry
  */
 $messages['gu'] = array(
 	'checkuser-reason' => 'કારણ:',
 	'checkuser-search' => 'શોધો',
+	'checkuser-nolog' => 'કોઇ લૉગ ફાઇલ મળી નહી.',
+	'checkuser-locked' => 'તાળું મારેલ',
+	'checkuser-search-submit' => 'શોધો',
+	'checkuser-search-target' => 'લક્ષ્ય',
 );
 
 /** Manx (Gaelg)
@@ -6737,6 +6742,7 @@ Aqui estão os IPs usados (5000 no máx., ordenados por endereço):',
 );
 
 /** Brazilian Portuguese (português do Brasil)
+ * @author Amgauna
  * @author Ankry
  * @author Cainamarques
  * @author Chaduvari
@@ -6761,7 +6767,7 @@ Não serão retornadas mais de 5000 edições por motivos de desempenho. O uso d
 	'checkuserlog' => 'Registros de verificação de usuários',
 	'checkuser-contribs' => 'Verificar IPs do usuário',
 	'checkuser-contribs-log' => 'verificações de usuário recentes',
-	'group-checkuser' => 'CheckUser',
+	'group-checkuser' => 'Verificação de Usuários',
 	'group-checkuser-member' => '{{GENDER:$1|check user}}',
 	'right-checkuser' => 'Verificar os endereços de IP e outras informações dos usuários',
 	'right-checkuser-log' => 'Ver os registros das verificações',
