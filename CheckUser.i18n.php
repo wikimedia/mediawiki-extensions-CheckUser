@@ -8620,6 +8620,7 @@ Soňky özgerdiş $2, $1 senesinde.',
 
 /** Tagalog (Tagalog)
  * @author AnakngAraw
+ * @author Jojit fb
  * @author Sky Harbor
  */
 $messages['tl'] = array(
@@ -8700,7 +8701,7 @@ Narito ang ginamit na mga IP (5000 pinakamarami, inayos ayon sa adres):',
 	'checkuser-autocreate-action' => 'ay kusang nalikha',
 	'checkuser-create-action' => 'ay nalikha na',
 	'checkuser-email-action' => 'nagpadala ng isang e-liham patungo kay tagagamit na "$1"',
-	'checkuser-reset-action' => 'muling itakda ang hudyat para kay tagagamit na "$1"',
+	'checkuser-reset-action' => 'muling itakda ang password para kay tagagamit na "$1"',
 	'group-checkuser.css' => '/* Ang inilagay na Mga Pilas ng Estilong Lumalagaslas (Cascading Style Sheets) dito ay makakaapekto lamang sa pagsisiyasat ng tagagamit */',
 	'group-checkuser.js' => '/* Ang JavaScript na inilagay dito ay makakaapekto lamang sa pagsisiyasat ng tagagamit */',
 );
