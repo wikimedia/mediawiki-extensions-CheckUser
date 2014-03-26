@@ -1,0 +1,18 @@
+{
+    "@metadata": {
+        "authors": [
+            "Andria",
+            "Marzedu"
+        ]
+    },
+    "checkuser-reason": "Motivu:",
+    "checkuser-target": "Indiritzu IP o nùmene usuàriu:",
+    "checkuser-search": "Chirca",
+    "checkuser-period": "Durada:",
+    "checkuser-week-1": "ùrtima chida",
+    "checkuser-week-2": "ùrtimas duas chidas",
+    "checkuser-month": "ùrtimas 30 dies",
+    "checkuser-all": "totu",
+    "checkuser-search-submit": "Chirca",
+    "checkuser-ipeditcount": "~$1 dae totu is usuàrios"
+}

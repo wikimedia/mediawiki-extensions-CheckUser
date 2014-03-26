@@ -19,7 +19,8 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 }
 
 # Internationalisation files
-$dir = dirname( __FILE__ ) . '/';
+$dir = __DIR__ . '/';
+$wgMessagesDirs['CheckUser'] = __DIR__ . '/i18n';
 $wgExtensionMessagesFiles['CheckUser'] = $dir . 'CheckUser.i18n.php';
 $wgExtensionMessagesFiles['CheckUserAliases'] = $dir . 'CheckUser.alias.php';
 
