@@ -199,7 +199,7 @@ $specialPageAliases['id'] = array(
 /** Italian (italiano) */
 $specialPageAliases['it'] = array(
 	'CheckUser' => array( 'CU' ),
-	'CheckUserLog' => array( 'RegistroCU' ),
+	'CheckUserLog' => array( 'RegistroCheckUser' ),
 );
 
 /** Japanese (日本語) */
