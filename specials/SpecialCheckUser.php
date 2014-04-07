@@ -956,7 +956,6 @@ class CheckUser extends SpecialPage {
 		if ( !$dbr->numRows( $ret ) ) {
 			$s = $this->noMatchesMessage( $ip, !$xfor ) . "\n";
 		} else {
-			global $wgAuth;
 			foreach ( $ret as $row ) {
 				if ( !array_key_exists( $row->cuc_user_text, $users_edits ) ) {
 					$users_last[$row->cuc_user_text] = $row->cuc_timestamp;
@@ -1013,28 +1012,6 @@ class CheckUser extends SpecialPage {
 				# Check if this user or IP is blocked. If so, give a link to the block log...
 				$ip = IP::isIPAddress( $name ) ? $name : '';
 				$flags = $this->userBlockFlags( $ip, $users_ids[$name], $user );
-				# Show if account is local only
-				$authUser = $wgAuth->getUserInstance( $user );
-				if ( $user->getId() && $authUser->getId() === 0 ) {
-					// @todo FIXME: i18n issue: Hard coded parentheses.
-					$flags[] = '<strong>(' . $this->msg( 'checkuser-localonly' )->escaped() . ')</strong>';
-				}
-				# Check for extra user rights...
-				if ( $users_ids[$name] ) {
-					if ( $user->isLocked() ) {
-						// @todo FIXME: i18n issue: Hard coded parentheses.
-						$flags[] = '<b>(' . $this->msg( 'checkuser-locked' )->escaped() . ')</b>';
-					}
-					$list = array();
-					foreach ( $user->getGroups() as $group ) {
-						$list[] = self::buildGroupLink( $group, $user->getName() );
-					}
-					$groups = $this->getLanguage()->commaList( $list );
-					if ( $groups ) {
-						// @todo FIXME: i18n issue: Hard coded parentheses.
-						$flags[] = '<i>(' . $groups . ')</i>';
-					}
-				}
 				# Check how many accounts the user made recently?
 				if ( $ip ) {
 					$key = wfMemcKey( 'acctcreate', 'ip', $ip );
@@ -1113,6 +1090,7 @@ class CheckUser extends SpecialPage {
 	 * @return array
 	 */
 	protected function userBlockFlags( $ip, $userId, $user ) {
+		global $wgAuth;
 		static $logs, $blocklist;
 		$logs = SpecialPage::getTitleFor( 'Log' );
 		$blocklist = SpecialPage::getTitleFor( 'BlockList' );
@@ -1173,6 +1151,30 @@ class CheckUser extends SpecialPage {
 			// @todo FIXME: Hard coded parentheses.
 			$flags[] = '<strong>(' . $blocklog . ')</strong>';
 		}
+
+		# Show if account is local only
+		$authUser = $wgAuth->getUserInstance( $user );
+		if ( $user->getId() && $authUser->getId() === 0 ) {
+			// @todo FIXME: i18n issue: Hard coded parentheses.
+			$flags[] = '<strong>(' . $this->msg( 'checkuser-localonly' )->escaped() . ')</strong>';
+		}
+		# Check for extra user rights...
+		if ( $userId ) {
+			if ( $user->isLocked() ) {
+				// @todo FIXME: i18n issue: Hard coded parentheses.
+				$flags[] = '<b>(' . $this->msg( 'checkuser-locked' )->escaped() . ')</b>';
+			}
+			$list = array();
+			foreach ( $user->getGroups() as $group ) {
+				$list[] = self::buildGroupLink( $group, $user->getName() );
+			}
+			$groups = $this->getLanguage()->commaList( $list );
+			if ( $groups ) {
+				// @todo FIXME: i18n issue: Hard coded parentheses.
+				$flags[] = '<i>(' . $groups . ')</i>';
+			}
+		}
+
 		return $flags;
 	}
 
