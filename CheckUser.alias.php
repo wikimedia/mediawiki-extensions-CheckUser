@@ -349,6 +349,7 @@ $specialPageAliases['sq'] = array(
 /** Swedish (svenska) */
 $specialPageAliases['sv'] = array(
 	'CheckUser' => array( 'Kolla_användare' ),
+	'CheckUserLog' => array( 'Kolla_användare_logg' ),
 );
 
 /** Swahili (Kiswahili) */
