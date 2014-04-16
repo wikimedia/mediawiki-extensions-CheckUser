@@ -1,11 +1,11 @@
 {
-    "@metadata": {
-        "authors": [
-            "Kalani",
-            "Singularity"
-        ]
-    },
-    "checkuser-reason": "Kumu:",
-    "checkuser-search": "Huli",
-    "checkuser-search-submit": "Huli"
+	"@metadata": {
+		"authors": [
+			"Kalani",
+			"Singularity"
+		]
+	},
+	"checkuser-reason": "Kumu:",
+	"checkuser-search": "Huli",
+	"checkuser-search-submit": "Huli"
 }

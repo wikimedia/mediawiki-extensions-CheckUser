@@ -1,7 +1,5 @@
 {
-    "@metadata": {
-        "authors": []
-    },
-    "checkuser-search": "Dii",
-    "checkuser-search-submit": "Dii"
+	"@metadata": [],
+	"checkuser-search": "Dii",
+	"checkuser-search-submit": "Dii"
 }

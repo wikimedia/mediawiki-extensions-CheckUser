@@ -1,9 +1,9 @@
 {
-    "@metadata": {
-        "authors": [
-            "Qaqqalik"
-        ]
-    },
-    "checkuser-search": "Ujarlerit",
-    "checkuser-search-submit": "Ujarlerit"
+	"@metadata": {
+		"authors": [
+			"Qaqqalik"
+		]
+	},
+	"checkuser-search": "Ujarlerit",
+	"checkuser-search-submit": "Ujarlerit"
 }

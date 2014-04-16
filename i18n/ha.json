@@ -1,9 +1,7 @@
 {
-    "@metadata": {
-        "authors": []
-    },
-    "checkuser-reason": "Dalili:",
-    "checkuser-search": "Nema",
-    "checkuser-all": "duka",
-    "checkuser-search-submit": "Nema"
+	"@metadata": [],
+	"checkuser-reason": "Dalili:",
+	"checkuser-search": "Nema",
+	"checkuser-all": "duka",
+	"checkuser-search-submit": "Nema"
 }

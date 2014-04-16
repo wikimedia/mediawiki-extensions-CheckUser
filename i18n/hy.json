@@ -1,9 +1,9 @@
 {
-    "@metadata": {
-        "authors": [
-            "Togaed"
-        ]
-    },
-    "checkuser-search": "Որոնել",
-    "checkuser-search-submit": "Որոնել"
+	"@metadata": {
+		"authors": [
+			"Togaed"
+		]
+	},
+	"checkuser-search": "Որոնել",
+	"checkuser-search-submit": "Որոնել"
 }

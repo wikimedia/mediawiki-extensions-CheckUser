@@ -1,11 +1,11 @@
 {
-    "@metadata": {
-        "authors": [
-            "Сай"
-        ]
-    },
-    "checkuser-reason": "Амал:",
-    "checkuser-search": "Кычал",
-    "checkuser-all": "чыла",
-    "checkuser-search-submit": "Кычал"
+	"@metadata": {
+		"authors": [
+			"Сай"
+		]
+	},
+	"checkuser-reason": "Амал:",
+	"checkuser-search": "Кычал",
+	"checkuser-all": "чыла",
+	"checkuser-search-submit": "Кычал"
 }

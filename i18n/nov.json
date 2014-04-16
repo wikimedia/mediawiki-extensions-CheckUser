@@ -1,10 +1,10 @@
 {
-    "@metadata": {
-        "authors": [
-            "MF-Warburg",
-            "Malafaya"
-        ]
-    },
-    "checkuser-reason": "Resone:",
-    "checkuser-search": "Sercha"
+	"@metadata": {
+		"authors": [
+			"MF-Warburg",
+			"Malafaya"
+		]
+	},
+	"checkuser-reason": "Resone:",
+	"checkuser-search": "Sercha"
 }

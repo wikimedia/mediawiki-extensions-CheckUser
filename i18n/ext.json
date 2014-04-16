@@ -1,9 +1,9 @@
 {
-    "@metadata": {
-        "authors": [
-            "Better"
-        ]
-    },
-    "checkuser-reason": "Razón:",
-    "checkuser-search": "Landeal"
+	"@metadata": {
+		"authors": [
+			"Better"
+		]
+	},
+	"checkuser-reason": "Razón:",
+	"checkuser-search": "Landeal"
 }
