@@ -60,7 +60,7 @@
 	"checkuser-localonly": "未整合",
 	"checkuser-massblock": "封禁选中用户",
 	"checkuser-massblock-text": "被选中的帐户将被施以不限期封禁，并启用自动封禁、禁止帐户创建。被选中的IP地址将被封禁一周，仅针对IP用户且禁止帐户创建。",
-	"checkuser-blocktag": "替换用户页内容：",
+	"checkuser-blocktag": "替换用户页面内容为：",
 	"checkuser-blocktag-talk": "替换讨论页内容：",
 	"checkuser-massblock-commit": "封禁选中用户",
 	"checkuser-block-success": "'''{{PLURAL:$2|用户}} $1 {{PLURAL:$2|已被}} 封禁。'''",
