@@ -48,7 +48,7 @@
 	"checkuser-wasblocked": "Hinadlangan dati",
 	"checkuser-localonly": "Hindi pinag-isa",
 	"checkuser-massblock": "Harangin ang napiling mga tagagamit",
-	"checkuser-massblock-text": "Haharangin ang napiling mga kuwenta nang walang hanggan, na may pinapaganang automatikong pagharang ng mga direksiyong IP at pinasalantang paglikha ng kuwenta.\nHaharangin ang mga direksiyong IP sa loob ng 1 linggo para sa mga 'di-kilalang tagagamit lamang at hindi pinagagana ang paglikha ng kuwenta.",
+	"checkuser-massblock-text": "Haharangin ang napiling mga account nang walang hanggan, na may pinapaganang automatikong pagharang ng mga IP address at pinasalantang paglikha ng account.\nHaharangin ang mga IP address sa loob ng 1 linggo para sa mga 'di-kilalang tagagamit lamang at hindi pinagagana ang paglikha ng account.",
 	"checkuser-blocktag": "Palitan ang mga pahina ng tagagamit ng:",
 	"checkuser-blocktag-talk": "Palitan ang mga pahina ng usapan ng:",
 	"checkuser-massblock-commit": "Hadlangan ang napiling mga tagagamit",
