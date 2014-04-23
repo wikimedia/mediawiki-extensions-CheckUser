@@ -24,7 +24,7 @@
 	"checkuserlog": "Registros de verificação de usuários",
 	"checkuser-contribs": "Verificar IPs do usuário",
 	"checkuser-contribs-log": "verificações de usuário recentes",
-	"group-checkuser": "Verificação de Usuários",
+	"group-checkuser": "Verificadores",
 	"group-checkuser-member": "{{GENDER:$1|check user}}",
 	"right-checkuser": "Verificar os endereços de IP e outras informações dos usuários",
 	"right-checkuser-log": "Ver os registros das verificações",
