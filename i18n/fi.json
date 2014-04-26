@@ -62,7 +62,7 @@
 	"checkuser-blocktag": "Korvaa käyttäjäsivut sisällöllä:",
 	"checkuser-blocktag-talk": "Korvaa keskustelusivut sisällöllä:",
 	"checkuser-massblock-commit": "Estä valitut käyttäjät",
-	"checkuser-block-success": "'''{{PLURAL:$2|Käyttäjä|Käyttäjät}} $1 {{PLURAL:$2|on|ovat}} nyt estetty.'''",
+	"checkuser-block-success": "'''{{PLURAL:$2|Käyttäjä|Käyttäjät}} $1 on nyt estetty.'''",
 	"checkuser-block-failure": "'''Yhtään käyttäjää ei estetty.'''",
 	"checkuser-block-limit": "Liian monta käyttäjää valittu.",
 	"checkuser-block-noreason": "Estoille on annettava syy.",
