@@ -42,7 +42,7 @@
 	"checkuser-log-fail": "Không thể ghi vào nhật trình",
 	"checkuser-nolog": "Không tìm thấy tập tin nhật trình",
 	"checkuser-blocked": "Đã cấm",
-	"checkuser-gblocked": "Cấm toàn cầu",
+	"checkuser-gblocked": "Cấm toàn cục",
 	"checkuser-locked": "Khóa",
 	"checkuser-wasblocked": "Đã từng bị cấm",
 	"checkuser-localonly": "Chưa thống nhất",
