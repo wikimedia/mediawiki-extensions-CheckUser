@@ -29,12 +29,12 @@ class SpecialCheckUserLog extends SpecialPage {
 
 		$type = $request->getVal( 'cuSearchType' );
 		$target = $request->getVal( 'cuSearch' );
+		$target = trim( $target );
 		$year = $request->getIntOrNull( 'year' );
 		$month = $request->getIntOrNull( 'month' );
 		$error = false;
 		$dbr = wfGetDB( DB_SLAVE );
 		$searchConds = false;
-
 		if ( $type === null ) {
 			$type = 'target';
 		} elseif ( $type == 'initiator' ) {
