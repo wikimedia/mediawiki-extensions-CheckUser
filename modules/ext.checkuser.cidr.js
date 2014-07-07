@@ -37,10 +37,11 @@ var updateCIDRresult = function() {
 	}
 	var bin_prefix = 0;
 	var prefix_cidr = 0;
-	var prefix = new String( '' );
+	var prefix = '';
 	var foundV4 = false;
 	var foundV6 = false;
 	var ip_count;
+	var blocs;
 	// Go through each IP in the list, get its binary form, and
 	// track the largest binary prefix among them...
 	for( var i = 0; i < ips.length; i++ ) {
@@ -51,7 +52,8 @@ var updateCIDRresult = function() {
 		var ipV6 = mw.util.isIPv6Address( addy, true );
 		var ip_cidr = addy.match(/^(.*)(?:\/(\d+))?$/);
 		// Binary form
-		var bin = new String( '' );
+		var bin = '';
+		var x = 0, z = 0, start = 0, end = 0, ip, cidr, bloc, bin_block;
 		// Convert the IP to binary form: IPv4
 		if( ipV4 ) {
 			foundV4 = true;
@@ -59,13 +61,13 @@ var updateCIDRresult = function() {
 				prefix = '';
 				break;
 			}
-			var ip = ip_cidr[1];
-			var cidr = ip_cidr[2] ? ip_cidr[2] : null; // CIDR, if it exists
+			ip = ip_cidr[1];
+			cidr = ip_cidr[2] ? ip_cidr[2] : null; // CIDR, if it exists
 			// Get each quad integer
-			var blocs = ip.split('.');
-			for( var x = 0; x < blocs.length; x++ ) {
+			blocs = ip.split('.');
+			for( x = 0; x < blocs.length; x++ ) {
 				bloc = parseInt( blocs[x], 10 );
-				var bin_block = bloc.toString( 2 ); // concat bin with binary form of bloc
+				bin_block = bloc.toString( 2 ); // concat bin with binary form of bloc
 				while( bin_block.length < 8 ) {
 					bin_block = '0' + bin_block; // pad out as needed
 				}
@@ -78,12 +80,12 @@ var updateCIDRresult = function() {
 			}
 			// Init bin_prefix
 			if( bin_prefix === 0 ) {
-				bin_prefix = new String( bin );
+				bin_prefix = bin;
 			// Get largest common bin_prefix
 			} else {
-				for( var x = 0; x < bin_prefix.length; x++ ) {
+				for( x = 0; x < bin_prefix.length; x++ ) {
 					// Bin_prefix always smaller than bin unless a CIDR was used on bin
-					if( bin[x] == undefined || bin_prefix[x] != bin[x] ) {
+					if( bin[x] === undefined || bin_prefix[x] != bin[x] ) {
 						bin_prefix = bin_prefix.substring( 0, x ); // shorten bin_prefix
 						break;
 					}
@@ -97,12 +99,12 @@ var updateCIDRresult = function() {
 				return; // too big
 			}
 			// Build the IP in dotted-quad form
-			for( var z = 0; z <= 3; z++ ) {
-				var bloc = 0;
-				var start = z * 8;
-				var end = start + 7;
-				for( var x = start; x <= end; x++ ) {
-					if( bin_prefix[x] == undefined ) {
+			for( z = 0; z <= 3; z++ ) {
+				bloc = 0;
+				start = z * 8;
+				end = start + 7;
+				for( x = start; x <= end; x++ ) {
+					if( bin_prefix[x] === undefined ) {
 						break;
 					}
 					bloc += parseInt( bin_prefix[x], 10 ) * Math.pow( 2, end - x );
@@ -122,8 +124,8 @@ var updateCIDRresult = function() {
 				prefix = '';
 				break;
 			}
-			var ip = ip_cidr[1];
-			var cidr = ip_cidr[2] ? ip_cidr[2] : null; // CIDR, if it exists
+			ip = ip_cidr[1];
+			cidr = ip_cidr[2] ? ip_cidr[2] : null; // CIDR, if it exists
 			// Expand out "::"s
 			var abbrevs = ip.match( /::/g );
 			if( abbrevs && abbrevs.length > 0 ) {
@@ -142,8 +144,8 @@ var updateCIDRresult = function() {
 				}
 			}
 			// Get each hex octant
-			var blocs = ip.split(':');
-			for( var x = 0; x <= 7; x++ ) {
+			blocs = ip.split(':');
+			for( x = 0; x <= 7; x++ ) {
 				bloc = blocs[x] ? blocs[x] : '0';
 				var int_block = hex2int( bloc ); // convert hex -> int
 				bin_block = int_block.toString( 2 ); // concat bin with binary form of bloc
@@ -159,31 +161,31 @@ var updateCIDRresult = function() {
 			}
 			// Init bin_prefix
 			if( bin_prefix === 0 ) {
-				bin_prefix = new String( bin );
+				bin_prefix = bin;
 			// Get largest common bin_prefix
 			} else {
-				for( var x = 0; x < bin_prefix.length; x++ ) {
+				for( x = 0; x < bin_prefix.length; x++ ) {
 					// Bin_prefix always smaller than bin unless a CIDR was used on bin
-					if( bin[x] == undefined || bin_prefix[x] != bin[x] ) {
+					if( bin[x] === undefined || bin_prefix[x] != bin[x] ) {
 						bin_prefix = bin_prefix.substring( 0, x ); // shorten bin_prefix
 						break;
 					}
 				}
 			}
 			// Build the IP in CIDR form
-			var prefix_cidr = bin_prefix.length;
+			prefix_cidr = bin_prefix.length;
 			// CIDR too small?
 			if( prefix_cidr < 96 ) {
 				showResults('!', '>' + Math.pow( 2, 128 - prefix_cidr ) );
 				return; // too big
 			}
 			// Build the IP in dotted-quad form
-			for( var z = 0; z <= 7; z++ ) {
-				var bloc = 0;
-				var start = z*16;
-				var end = start + 15;
-				for( var x = start; x <= end; x++ ) {
-					if( bin_prefix[x] == undefined ) {
+			for( z = 0; z <= 7; z++ ) {
+				bloc = 0;
+				start = z*16;
+				end = start + 15;
+				for( x = start; x <= end; x++ ) {
+					if( bin_prefix[x] === undefined ) {
 						break;
 					}
 					bloc += parseInt( bin_prefix[x], 10 ) * Math.pow( 2, end - x );
@@ -200,9 +202,9 @@ var updateCIDRresult = function() {
 		}
 	}
 	// Update form
-	if( prefix != '' ) {
+	if( prefix !== '' ) {
 		var full = prefix;
-		if( prefix_cidr != false ) {
+		if( prefix_cidr !== false ) {
 			full += '/' + prefix_cidr;
 		}
 		showResults( '~' + ip_count, full );
@@ -214,7 +216,6 @@ var updateCIDRresult = function() {
 
 // Utility function to convert hex to integers
 var hex2int = function( hex ) {
-	hex = new String( hex );
 	hex = hex.toLowerCase();
 	var intform = 0;
 	for( var i = 0; i < hex.length; i++ ) {
