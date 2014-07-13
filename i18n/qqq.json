@@ -19,7 +19,8 @@
 			"Slomox",
 			"Tgr",
 			"The Evil IP address",
-			"Umherirrender"
+			"Umherirrender",
+			"Liuxinyu970226"
 		]
 	},
 	"checkuser-summary": "Explanation of CheckUser tool. See [[mw:Extension:CheckUser#Basic_interface|screenshot titled 'Basic CheckUser interface']].\n\nParameters:\n* $1 - an integer. default value: 16\n* $2 - an integer. default value: 48",
@@ -60,7 +61,7 @@
 	"checkuser-nolog": "Unused at this time.",
 	"checkuser-blocked": "Used as link text in [[Special:CheckUser]].\n\nThe link points to [[Special:Log]] or [[Special:BlockList]].\n\nSee also:\n* {{msg-mw|Checkuser-gblocked}}\n* {{msg-mw|Checkuser-wasblocked}}\n{{Identical|Blocked}}",
 	"checkuser-gblocked": "Used a flag in [[Special:CheckUser]].\n\nSee also:\n* {{msg-mw|Checkuser-blocked}}\n* {{msg-mw|Checkuser-wasblocked}}",
-	"checkuser-locked": "Used as a flag in [[Special:CheckUser]].",
+	"checkuser-locked": "Used as a flag in [[Special:CheckUser]].\n{{Identical|Locked}}",
 	"checkuser-wasblocked": "Used as link text in [[Special:CheckUser]] as extra information indicating that the user was blocked at some point in time. The link points to [[Special:Log]]. See also:\n* {{msg-mw|Checkuser-blocked}}\n* {{msg-mw|Checkuser-gblocked}}",
 	"checkuser-localonly": "Used as a flag in [[Special:CheckUser]].",
 	"checkuser-massblock": "Used as fieldset label.\n\nThis message is followed by the following message:\n* {{msg-mw|Checkuser-massblock-text}}\n{{Identical|Block selected users}}",

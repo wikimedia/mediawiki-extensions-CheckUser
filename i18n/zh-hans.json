@@ -65,7 +65,7 @@
 	"checkuser-blocktag-talk": "替换讨论页内容：",
 	"checkuser-massblock-commit": "封禁选中用户",
 	"checkuser-block-success": "'''{{PLURAL:$2|用户}} $1 {{PLURAL:$2|已被}} 封禁。'''",
-	"checkuser-block-failure": "'''未有用户被封禁。'''",
+	"checkuser-block-failure": "'''没有用户被封禁。'''",
 	"checkuser-block-limit": "选中用户数量过多。",
 	"checkuser-block-noreason": "你必须解释此次封禁的原因。",
 	"checkuser-noreason": "你必须解释此次查询的原因。",
