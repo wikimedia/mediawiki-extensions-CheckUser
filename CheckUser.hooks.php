@@ -406,4 +406,12 @@ class CheckUserHooks {
 
 		return false; // autoblock handled
 	}
+
+	public static function onUserMergeAccountFields( array &$updateFields ) {
+		$updateFields[] = array( 'cu_changes', 'cuc_user', 'cuc_user_text' );
+		$updateFields[] = array( 'cu_log', 'cul_user', 'cul_user_text' );
+		$updateFields[] = array( 'cu_log', 'cul_target_id' );
+
+		return true;
+	}
 }
