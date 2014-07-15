@@ -57,7 +57,7 @@
 	"checkuser-block-limit": "Previše korisnika je izabrano.",
 	"checkuser-block-noreason": "Morate dati razlog za blok.",
 	"checkuser-noreason": "Morate da navedete razlog za ovaj upit.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|novi nalog|novih naloga}}",
+	"checkuser-accounts": "$1 {{PLURAL:$1|novi nalog|nova naloga|novih naloga}}",
 	"checkuser-too-many": "Nađeno je previše rezultata (prema proceni zahteva). Molimo Vas da suzite CIDR.\nOvde su korišćene IP adrese (najviše 5.000, sortiranih po adresi):",
 	"checkuser-user-nonexistent": "Traženi korisnik ne postoji.",
 	"checkuser-search-form": "Pretraga loga gde je $1 jednako $2.",
