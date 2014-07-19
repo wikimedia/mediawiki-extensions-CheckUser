@@ -1,6 +1,8 @@
 /* -- (c) Aaron Schulz 2009 */
+/*global mediaWiki*/
 
-var showResults = function(size, cidr) {
+( function ( mw, $ ) {
+var showResults = function ( size, cidr ) {
 	$( '#mw-checkuser-cidr-res' ).val( cidr );
 	$( '#mw-checkuser-ipnote' ).text( size );
 };
@@ -9,205 +11,205 @@ var showResults = function(size, cidr) {
 * This function calculates the common range of a list of
 * IPs. It should be set to update on keyUp.
 */
-var updateCIDRresult = function() {
+var updateCIDRresult = function () {
 	var form = document.getElementById( 'mw-checkuser-cidrform' );
-	if( !form ) {
+	if ( !form ) {
 		return; // no JS form
 	}
 	form.style.display = 'inline'; // unhide form (JS active)
 	var iplist = document.getElementById( 'mw-checkuser-iplist' );
-	if( !iplist ) {
+	if ( !iplist ) {
 		return; // no JS form
 	}
 	var text = iplist.value, ips;
 	// Each line should have one IP or range
-	if( text.indexOf("\n") != -1 ) {
-		ips = text.split("\n");
+	if ( text.indexOf( '\n' ) !== -1 ) {
+		ips = text.split( '\n' );
 	// Try some other delimiters too...
-	} else if( text.indexOf("\t") != -1 ) {
-		ips = text.split("\t");
-	} else if( text.indexOf(",") != -1 ) {
-		ips = text.split(",");
-	} else if( text.indexOf("-") != -1 ) {
-		ips = text.split("-");
-	} else if( text.indexOf(" ") != -1 ) {
-		ips = text.split(" ");
+	} else if ( text.indexOf( '\t' ) !== -1 ) {
+		ips = text.split( '\t' );
+	} else if ( text.indexOf( ',' ) !== -1 ) {
+		ips = text.split( ',' );
+	} else if ( text.indexOf( '-' ) !== -1 ) {
+		ips = text.split( '-' );
+	} else if ( text.indexOf( ' ' ) !== -1 ) {
+		ips = text.split( ' ' );
 	} else {
-		ips = text.split(";");
+		ips = text.split( ';' );
 	}
-	var bin_prefix = 0;
-	var prefix_cidr = 0;
+	var binPrefix = 0;
+	var prefixCidr = 0;
 	var prefix = '';
 	var foundV4 = false;
 	var foundV6 = false;
-	var ip_count;
+	var ipCount;
 	var blocs;
 	// Go through each IP in the list, get its binary form, and
 	// track the largest binary prefix among them...
-	for( var i = 0; i < ips.length; i++ ) {
+	for ( var i = 0; i < ips.length; i++ ) {
 		// ...in the spirit of mediawiki.special.block.js, call this "addy"
-		var addy = ips[i].replace(/^\s*|\s*$/, '' ); // trim
+		var addy = ips[i].replace( /^\s*|\s*$/, '' ); // trim
 		// Match the first IP in each list (ignore other garbage)
 		var ipV4 = mw.util.isIPv4Address( addy, true );
 		var ipV6 = mw.util.isIPv6Address( addy, true );
-		var ip_cidr = addy.match(/^(.*)(?:\/(\d+))?$/);
+		var ipCidr = addy.match( /^(.*)(?:\/(\d+))?$/ );
 		// Binary form
 		var bin = '';
-		var x = 0, z = 0, start = 0, end = 0, ip, cidr, bloc, bin_block;
+		var x = 0, z = 0, start = 0, end = 0, ip, cidr, bloc, binBlock;
 		// Convert the IP to binary form: IPv4
-		if( ipV4 ) {
+		if ( ipV4 ) {
 			foundV4 = true;
 			if ( foundV6 ) { // disjoint address space
 				prefix = '';
 				break;
 			}
-			ip = ip_cidr[1];
-			cidr = ip_cidr[2] ? ip_cidr[2] : null; // CIDR, if it exists
+			ip = ipCidr[1];
+			cidr = ipCidr[2] ? ipCidr[2] : null; // CIDR, if it exists
 			// Get each quad integer
-			blocs = ip.split('.');
-			for( x = 0; x < blocs.length; x++ ) {
+			blocs = ip.split( '.' );
+			for ( x = 0; x < blocs.length; x++ ) {
 				bloc = parseInt( blocs[x], 10 );
-				bin_block = bloc.toString( 2 ); // concat bin with binary form of bloc
-				while( bin_block.length < 8 ) {
-					bin_block = '0' + bin_block; // pad out as needed
+				binBlock = bloc.toString( 2 ); // concat bin with binary form of bloc
+				while ( binBlock.length < 8 ) {
+					binBlock = '0' + binBlock; // pad out as needed
 				}
-				bin += bin_block;
+				bin += binBlock;
 			}
-			prefix = ''; // Rebuild formatted bin_prefix for each IP
+			prefix = ''; // Rebuild formatted binPrefix for each IP
 			// Apply any valid CIDRs
-			if( cidr ) {
+			if ( cidr ) {
 				bin = bin.substring( 0, cidr ); // truncate bin
 			}
-			// Init bin_prefix
-			if( bin_prefix === 0 ) {
-				bin_prefix = bin;
-			// Get largest common bin_prefix
+			// Init binPrefix
+			if ( binPrefix === 0 ) {
+				binPrefix = bin;
+			// Get largest common binPrefix
 			} else {
-				for( x = 0; x < bin_prefix.length; x++ ) {
-					// Bin_prefix always smaller than bin unless a CIDR was used on bin
-					if( bin[x] === undefined || bin_prefix[x] != bin[x] ) {
-						bin_prefix = bin_prefix.substring( 0, x ); // shorten bin_prefix
+				for ( x = 0; x < binPrefix.length; x++ ) {
+					// binPrefix always smaller than bin unless a CIDR was used on bin
+					if ( bin[x] === undefined || binPrefix[x] !== bin[x] ) {
+						binPrefix = binPrefix.substring( 0, x ); // shorten binPrefix
 						break;
 					}
 				}
 			}
 			// Build the IP in CIDR form
-			prefix_cidr = bin_prefix.length;
+			prefixCidr = binPrefix.length;
 			// CIDR too small?
-			if( prefix_cidr < 16 ) {
-				showResults( '!',  '>' + Math.pow( 2, 32 - prefix_cidr ) );
+			if ( prefixCidr < 16 ) {
+				showResults( '!',  '>' + Math.pow( 2, 32 - prefixCidr ) );
 				return; // too big
 			}
 			// Build the IP in dotted-quad form
-			for( z = 0; z <= 3; z++ ) {
+			for ( z = 0; z <= 3; z++ ) {
 				bloc = 0;
 				start = z * 8;
 				end = start + 7;
-				for( x = start; x <= end; x++ ) {
-					if( bin_prefix[x] === undefined ) {
+				for ( x = start; x <= end; x++ ) {
+					if ( binPrefix[x] === undefined ) {
 						break;
 					}
-					bloc += parseInt( bin_prefix[x], 10 ) * Math.pow( 2, end - x );
+					bloc += parseInt( binPrefix[x], 10 ) * Math.pow( 2, end - x );
 				}
-				prefix += ( z == 3 ) ? bloc : bloc + '.';
+				prefix += ( z === 3 ) ? bloc : bloc + '.';
 			}
 			// Get IPs affected
-			ip_count = Math.pow( 2, 32 - prefix_cidr );
+			ipCount = Math.pow( 2, 32 - prefixCidr );
 			// Is the CIDR meaningful?
-			if( prefix_cidr == 32 ) {
-				prefix_cidr = false;
+			if ( prefixCidr === 32 ) {
+				prefixCidr = false;
 			}
 		// Convert the IP to binary form: IPv6
-		} else if( ipV6 ) {
+		} else if ( ipV6 ) {
 			foundV6 = true;
 			if ( foundV4 ) { // disjoint address space
 				prefix = '';
 				break;
 			}
-			ip = ip_cidr[1];
-			cidr = ip_cidr[2] ? ip_cidr[2] : null; // CIDR, if it exists
+			ip = ipCidr[1];
+			cidr = ipCidr[2] ? ipCidr[2] : null; // CIDR, if it exists
 			// Expand out "::"s
 			var abbrevs = ip.match( /::/g );
-			if( abbrevs && abbrevs.length > 0 ) {
+			if ( abbrevs && abbrevs.length > 0 ) {
 				var colons = ip.match( /:/g );
 				var needed = 7 - ( colons.length - 2 ); // 2 from "::"
 				var insert = '';
-				while( needed > 1 ) {
+				while ( needed > 1 ) {
 					insert += ':0';
 					needed--;
 				}
 				ip = ip.replace( '::', insert + ':' );
 				// For IPs that start with "::", correct the final IP
 				// so that it starts with '0' and not ':'
-				if( ip[0] == ':' ) {
+				if ( ip[0] === ':' ) {
 					ip = '0' + ip;
 				}
 			}
 			// Get each hex octant
-			blocs = ip.split(':');
-			for( x = 0; x <= 7; x++ ) {
+			blocs = ip.split( ':' );
+			for ( x = 0; x <= 7; x++ ) {
 				bloc = blocs[x] ? blocs[x] : '0';
-				var int_block = hex2int( bloc ); // convert hex -> int
-				bin_block = int_block.toString( 2 ); // concat bin with binary form of bloc
-				while( bin_block.length < 16 ) {
-					bin_block = '0' + bin_block; // pad out as needed
+				var intBlock = hex2int( bloc ); // convert hex -> int
+				binBlock = intBlock.toString( 2 ); // concat bin with binary form of bloc
+				while ( binBlock.length < 16 ) {
+					binBlock = '0' + binBlock; // pad out as needed
 				}
-				bin += bin_block;
+				bin += binBlock;
 			}
-			prefix = ''; // Rebuild formatted bin_prefix for each IP
+			prefix = ''; // Rebuild formatted binPrefix for each IP
 			// Apply any valid CIDRs
-			if( cidr ) {
+			if ( cidr ) {
 				bin = bin.substring( 0, cidr ); // truncate bin
 			}
-			// Init bin_prefix
-			if( bin_prefix === 0 ) {
-				bin_prefix = bin;
-			// Get largest common bin_prefix
+			// Init binPrefix
+			if ( binPrefix === 0 ) {
+				binPrefix = bin;
+			// Get largest common binPrefix
 			} else {
-				for( x = 0; x < bin_prefix.length; x++ ) {
-					// Bin_prefix always smaller than bin unless a CIDR was used on bin
-					if( bin[x] === undefined || bin_prefix[x] != bin[x] ) {
-						bin_prefix = bin_prefix.substring( 0, x ); // shorten bin_prefix
+				for ( x = 0; x < binPrefix.length; x++ ) {
+					// binPrefix always smaller than bin unless a CIDR was used on bin
+					if ( bin[x] === undefined || binPrefix[x] !== bin[x] ) {
+						binPrefix = binPrefix.substring( 0, x ); // shorten binPrefix
 						break;
 					}
 				}
 			}
 			// Build the IP in CIDR form
-			prefix_cidr = bin_prefix.length;
+			prefixCidr = binPrefix.length;
 			// CIDR too small?
-			if( prefix_cidr < 96 ) {
-				showResults('!', '>' + Math.pow( 2, 128 - prefix_cidr ) );
+			if ( prefixCidr < 96 ) {
+				showResults( '!', '>' + Math.pow( 2, 128 - prefixCidr ) );
 				return; // too big
 			}
 			// Build the IP in dotted-quad form
-			for( z = 0; z <= 7; z++ ) {
+			for ( z = 0; z <= 7; z++ ) {
 				bloc = 0;
 				start = z*16;
 				end = start + 15;
-				for( x = start; x <= end; x++ ) {
-					if( bin_prefix[x] === undefined ) {
+				for ( x = start; x <= end; x++ ) {
+					if ( binPrefix[x] === undefined ) {
 						break;
 					}
-					bloc += parseInt( bin_prefix[x], 10 ) * Math.pow( 2, end - x );
+					bloc += parseInt( binPrefix[x], 10 ) * Math.pow( 2, end - x );
 				}
 				bloc = bloc.toString( 16 ); // convert to hex
-				prefix += ( z == 7 ) ? bloc : bloc + ':';
+				prefix += ( z === 7 ) ? bloc : bloc + ':';
 			}
 			// Get IPs affected
-			ip_count = Math.pow( 2, 128 - prefix_cidr );
+			ipCount = Math.pow( 2, 128 - prefixCidr );
 			// Is the CIDR meaningful?
-			if( prefix_cidr == 128 ) {
-				prefix_cidr = false;
+			if ( prefixCidr === 128 ) {
+				prefixCidr = false;
 			}
 		}
 	}
 	// Update form
-	if( prefix !== '' ) {
+	if ( prefix !== '' ) {
 		var full = prefix;
-		if( prefix_cidr !== false ) {
-			full += '/' + prefix_cidr;
+		if ( prefixCidr !== false ) {
+			full += '/' + prefixCidr;
 		}
-		showResults( '~' + ip_count, full );
+		showResults( '~' + ipCount, full );
 	} else {
 		showResults( '?', '' );
 	}
@@ -215,12 +217,12 @@ var updateCIDRresult = function() {
 };
 
 // Utility function to convert hex to integers
-var hex2int = function( hex ) {
+var hex2int = function ( hex ) {
 	hex = hex.toLowerCase();
 	var intform = 0;
-	for( var i = 0; i < hex.length; i++ ) {
+	for ( var i = 0; i < hex.length; i++ ) {
 		var digit = 0;
-		switch( hex[i] ) {
+		switch ( hex[i] ) {
 			case 'a':
 				digit = 10;
 				break;
@@ -248,9 +250,10 @@ var hex2int = function( hex ) {
 	return intform;
 };
 
-$( function() {
+$( function () {
 	updateCIDRresult();
-	$('#mw-checkuser-iplist').bind('keyup click', function() {
+	$( '#mw-checkuser-iplist' ).bind( 'keyup click', function () {
 		updateCIDRresult();
-	});
-});
+	} );
+} );
+} )( mediaWiki, jQuery );
