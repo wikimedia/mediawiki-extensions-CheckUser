@@ -22,7 +22,7 @@
 	"checkuser-contribs-log": "最近的用戶檢查",
 	"group-checkuser": "用戶查核員",
 	"group-checkuser-member": "{{GENDER:$1|用戶查核員}}",
-	"right-checkuser": "查核用戶的IP地址以及其它的資料",
+	"right-checkuser": "查核使用者的 IP 位址與其它資訊",
 	"right-checkuser-log": "檢視帳戶核查日誌",
 	"action-checkuser": "核查用戶的IP地址和其他信息",
 	"action-checkuser-log": "查看帳戶核查日誌",
