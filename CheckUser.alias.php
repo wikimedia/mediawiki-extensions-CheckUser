@@ -297,6 +297,12 @@ $specialPageAliases['oc'] = array(
 	'CheckUser' => array( 'Verificator_d’adreça', 'VerificatorAdreça', 'VerificatorAdreca' ),
 );
 
+/** Punjabi (ਪੰਜਾਬੀ) */
+$specialPageAliases['pa'] = array(
+	'CheckUser' => array( 'ਚੈੱਕ_ਵਰਤੋਂਕਾਰ' ),
+	'CheckUserLog' => array( 'ਚੈੱਕ_ਵਰਤੋਂਕਾਰ_ਚਿੱਠਾ' ),
+);
+
 /** Portuguese (português) */
 $specialPageAliases['pt'] = array(
 	'CheckUser' => array( 'Verificar_usuário' ),
