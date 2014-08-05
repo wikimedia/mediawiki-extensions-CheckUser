@@ -27,7 +27,7 @@
 	"right-checkuser-log": "檢視使用者檢查日誌",
 	"action-checkuser": "檢查使用者的 IP 位址與其他資訊",
 	"action-checkuser-log": "檢視使用者檢查日誌",
-	"grouppage-checkuser": "{{ns:project}}:檢查使用者",
+	"grouppage-checkuser": "{{ns:project}}:使用者查核",
 	"checkuser-reason": "原因：",
 	"checkuser-reason-api": "API：$1",
 	"checkuser-showlog": "顯示日誌",
