@@ -294,6 +294,6 @@ class ApiQueryCheckUser extends ApiQueryBase {
 	}
 
 	public function needsToken() {
-		return true;
+		return 'csrf';
 	}
 }
