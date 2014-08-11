@@ -89,6 +89,6 @@
 	"checkuser-create-action": "已创建",
 	"checkuser-email-action": "向用户“$1”发送电邮",
 	"checkuser-reset-action": "为用户“$1”重置密码",
-	"group-checkuser.css": "/* 放置于此的CSS将只会影响用户查核员 */",
-	"group-checkuser.js": "/* 放置于此的JS将只会影响用户查核员 */"
+	"group-checkuser.css": "/* 放置于此的CSS将只影响用户查核员 */",
+	"group-checkuser.js": "/* 放置于此的JS将只影响用户查核员 */"
 }
