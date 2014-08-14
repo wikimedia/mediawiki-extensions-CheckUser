@@ -32,7 +32,7 @@
 	"checkuser-reason-api": "API：$1",
 	"checkuser-showlog": "顯示日誌",
 	"checkuser-query": "查詢最近變更",
-	"checkuser-target": "IP 位址或使用者名稱：",
+	"checkuser-target": "IP 位址或用戶名：",
 	"checkuser-users": "查詢使用者",
 	"checkuser-edits": "查詢編輯",
 	"checkuser-ips": "查詢 IP 位址",
