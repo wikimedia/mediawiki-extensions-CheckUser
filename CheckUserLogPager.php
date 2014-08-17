@@ -1,7 +1,7 @@
 <?php
 
 class CheckUserLogPager extends ReverseChronologicalPager {
-	var $searchConds, $specialPage, $y, $m;
+	public $searchConds, $specialPage, $y, $m;
 
 	function __construct( $specialPage, $searchConds, $y, $m ) {
 		parent::__construct();

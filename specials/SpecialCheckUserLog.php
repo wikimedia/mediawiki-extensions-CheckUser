@@ -8,7 +8,7 @@ class SpecialCheckUserLog extends SpecialPage {
 	/**
 	 * @var Title
 	 */
-	var $checkUserFormTitle;
+	public $checkUserFormTitle;
 
 	/**
 	 * @return Title
