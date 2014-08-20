@@ -9,7 +9,8 @@
 			"MagnusA",
 			"Najami",
 			"Per",
-			"WikiPhoenix"
+			"WikiPhoenix",
+			"Hangsna"
 		]
 	},
 	"checkuser-summary": "Det här verktyget söker igenom de senaste ändringarna för att hämta IP-adresser för en användare, eller redigeringar och användare för en IP-adress.\nAnvändare och redigeringar kan visas med IP-adress från XFF genom att lägga till \"/xff\" efter IP-adressen. Verktyget stödjer IPv4 (CIDR $1-32) och IPv6 (CIDR $2-128).\nPå grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd verktyget i enlighet med policy.",
@@ -20,7 +21,7 @@
 	"checkuser-contribs": "kontrollera användarens IP-adresser",
 	"checkuser-contribs-log": "senaste användarkontroller",
 	"group-checkuser": "Användarkontrollanter",
-	"group-checkuser-member": "{{GENDER:$1|användarkontrollant}}",
+	"group-checkuser-member": "{{GENDER:$1|IP-kontrollant}}",
 	"right-checkuser": "Kontrollera användares IP-adresser och annan information",
 	"right-checkuser-log": "Se loggen över användarkontroller",
 	"action-checkuser": "kontrollera användarens IP-adresser och annan information",
