@@ -30,7 +30,7 @@
 	"action-checkuser": "tarkastaa käyttäjän IP-osoitteita ja muita tietoja",
 	"action-checkuser-log": "tarkastella osoitepaljastuslokia",
 	"grouppage-checkuser": "{{ns:project}}:Osoitepaljastin",
-	"checkuser-reason": "Syy",
+	"checkuser-reason": "Syy:",
 	"checkuser-reason-api": "API: $1",
 	"checkuser-showlog": "Näytä loki",
 	"checkuser-query": "Hae tuoreet muutokset",
