@@ -9,8 +9,7 @@ class CheckUserHooks {
 	public static function updateCheckUserData( RecentChange $rc ) {
 		global $wgRequest;
 
-		// Extract params
-		extract( $rc->mAttribs );
+		$attribs = $rc->getAttributes();
 		// Get IP
 		$ip = $wgRequest->getIP();
 		// Get XFF header
@@ -22,11 +21,11 @@ class CheckUserHooks {
 		// $rc_comment should just be the log_comment
 		// BC: check if log_type and log_action exists
 		// If not, then $rc_comment is the actiontext and comment
-		if ( isset( $rc_log_type ) && $rc_type == RC_LOG ) {
-			$target = Title::makeTitle( $rc_namespace, $rc_title );
+		if ( isset( $attribs['rc_log_type'] ) && $attribs['rc_type'] == RC_LOG ) {
+			$target = Title::makeTitle( $attribs['rc_namespace'], $attribs['rc_title'] );
 			$context = RequestContext::newExtraneousContext( $target );
 
-			$formatter = LogFormatter::newFromRow( $rc->mAttribs );
+			$formatter = LogFormatter::newFromRow( $rc->getAttributes() );
 			$formatter->setContext( $context );
 			$actionText = $formatter->getPlainActionText();
 		} else {
@@ -37,17 +36,17 @@ class CheckUserHooks {
 		$cuc_id = $dbw->nextSequenceValue( 'cu_changes_cu_id_seq' );
 		$rcRow = array(
 			'cuc_id'         => $cuc_id,
-			'cuc_namespace'  => $rc_namespace,
-			'cuc_title'      => $rc_title,
-			'cuc_minor'      => $rc_minor,
-			'cuc_user'       => $rc_user,
-			'cuc_user_text'  => $rc_user_text,
+			'cuc_namespace'  => $attribs['rc_namespace'],
+			'cuc_title'      => $attribs['rc_title'],
+			'cuc_minor'      => $attribs['rc_minor'],
+			'cuc_user'       => $attribs['rc_user'],
+			'cuc_user_text'  => $attribs['rc_user_text'],
 			'cuc_actiontext' => $actionText,
-			'cuc_comment'    => $rc_comment,
-			'cuc_this_oldid' => $rc_this_oldid,
-			'cuc_last_oldid' => $rc_last_oldid,
-			'cuc_type'       => $rc_type,
-			'cuc_timestamp'  => $rc_timestamp,
+			'cuc_comment'    => $attribs['rc_comment'],
+			'cuc_this_oldid' => $attribs['rc_this_oldid'],
+			'cuc_last_oldid' => $attribs['rc_last_oldid'],
+			'cuc_type'       => $attribs['rc_type'],
+			'cuc_timestamp'  => $attribs['rc_timestamp'],
 			'cuc_ip'         => IP::sanitizeIP( $ip ),
 			'cuc_ip_hex'     => $ip ? IP::toHex( $ip ) : null,
 			'cuc_xff'        => !$isSquidOnly ? $xff : '',
@@ -55,8 +54,8 @@ class CheckUserHooks {
 			'cuc_agent'      => $agent
 		);
 		# On PG, MW unsets cur_id due to schema incompatibilites. So it may not be set!
-		if ( isset( $rc_cur_id ) ) {
-			$rcRow['cuc_page_id'] = $rc_cur_id;
+		if ( isset( $attribs['rc_cur_id'] ) ) {
+			$rcRow['cuc_page_id'] = $attribs['rc_cur_id'];
 		}
 
 		wfRunHooks( 'CheckUserInsertForRecentChange', array( $rc, &$rcRow ) );
