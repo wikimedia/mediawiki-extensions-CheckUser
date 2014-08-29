@@ -261,19 +261,6 @@ class ApiQueryCheckUser extends ApiQueryBase {
 		return 'Allows check which IPs are used by a given username and which usernames are used by a given IP';
 	}
 
-	public function getPossibleErrors() {
-		return array_merge( parent::getPossibleErrors(),
-			array(
-				array( 'code' => 'nosuchuser', 'info' => 'Target user does not exist' ),
-				array( 'code' => 'invalidip', 'info' => 'IP or range is invalid' ),
-				array( 'code' => 'permissionerror', 'info' => 'You need the checkuser right' ),
-				array( 'code' => 'invalidmode', 'info' => 'Invalid request mode' ),
-				array( 'code' => 'missingdata', 'info' => 'You must define reason for check' ),
-				array( 'code' => 'invalidtime', 'info' => 'You need use correct time limit (like "2 weeks")' ),
-			)
-		);
-	}
-
 	public function getExamples() {
 		return array(
 			'api.php?action=query&list=checkuser&curequest=userips&cutarget=Jimbo_Wales',
