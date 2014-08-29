@@ -268,7 +268,7 @@ class CheckUserHooks {
 			if ( $curIP === null ) {
 				break; // not a valid IP address
 			}
-			$curIsSquid = wfIsConfiguredProxy( $curIP );
+			$curIsSquid = IP::isConfiguredProxy( $curIP );
 			if ( $client === null ) {
 				$client = $curIP;
 				$isSquidOnly = $curIsSquid;
