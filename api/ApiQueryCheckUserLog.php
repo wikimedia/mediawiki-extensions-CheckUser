@@ -132,14 +132,6 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		return 'Allows get entries of CheckUser log';
 	}
 
-	public function getPossibleErrors() {
-		return array_merge( parent::getPossibleErrors(),
-			array(
-				array( 'code' => 'permissionerror', 'info' => 'You need the checkuser-log right' ),
-			)
-		);
-	}
-
 	public function getExamples() {
 		return array(
 			'api.php?action=query&list=checkuserlog&culuser=WikiSysop&cullimit=25',
