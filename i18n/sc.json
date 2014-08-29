@@ -2,11 +2,12 @@
 	"@metadata": {
 		"authors": [
 			"Andria",
-			"Marzedu"
+			"Marzedu",
+			"Taxandru"
 		]
 	},
 	"checkuser-reason": "Motivu:",
-	"checkuser-target": "Indiritzu IP o nùmene usuàriu:",
+	"checkuser-target": "Indiritzu IP o nùmene impitadore:",
 	"checkuser-search": "Chirca",
 	"checkuser-period": "Durada:",
 	"checkuser-week-1": "ùrtima chida",
