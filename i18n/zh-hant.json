@@ -70,7 +70,7 @@
 	"checkuser-user-nonexistent": "指定的使用者不存在。",
 	"checkuser-search-form": "尋找 $1 為 $2 的日誌項目",
 	"checkuser-search-submit": "搜尋",
-	"checkuser-search-initiator": "創始者",
+	"checkuser-search-initiator": "操作者",
 	"checkuser-search-target": "目標",
 	"checkuser-ipeditcount": "~從全部使用者中 $1",
 	"checkuser-log-return": "切換至檢查使用者主表單",

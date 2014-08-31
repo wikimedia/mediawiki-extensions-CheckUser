@@ -416,6 +416,6 @@ $specialPageAliases['zh-hans'] = array(
 
 /** Traditional Chinese (中文（繁體）‎) */
 $specialPageAliases['zh-hant'] = array(
-	'CheckUser' => array( '用戶查核' ),
-	'CheckUserLog' => array( '用戶查核日誌' ),
+	'CheckUser' => array( '使用者查核' ),
+	'CheckUserLog' => array( '使用者查核日誌' ),
 );
