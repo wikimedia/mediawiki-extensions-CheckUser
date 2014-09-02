@@ -22,7 +22,7 @@
 	"grouppage-checkuser": "{{ns:project}}:Čekjuzer",
 	"checkuser-reason": "Razlog:",
 	"checkuser-reason-api": "API: $1",
-	"checkuser-showlog": "Prikaži log.",
+	"checkuser-showlog": "Prikaži dnevnik",
 	"checkuser-query": "Upit na skorašnje izmene.",
 	"checkuser-target": "Korisničko ime  ili IP adresa",
 	"checkuser-users": "Prikupljanje korisničkih imena.",

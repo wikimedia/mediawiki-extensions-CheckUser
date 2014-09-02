@@ -28,7 +28,7 @@
 	"grouppage-checkuser": "{{ns:project}}:Чекјузер",
 	"checkuser-reason": "Разлог:",
 	"checkuser-reason-api": "АПИ: $1",
-	"checkuser-showlog": "Прикажи лог.",
+	"checkuser-showlog": "Прикажи дневник",
 	"checkuser-query": "Упит на скорашње измене.",
 	"checkuser-target": "Корисничко име или ИП адреса:",
 	"checkuser-users": "Прикупљање корисничких имена.",
