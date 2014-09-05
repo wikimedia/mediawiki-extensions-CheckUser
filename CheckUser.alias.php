@@ -241,6 +241,12 @@ $specialPageAliases['lb'] = array(
 	'CheckUserLog' => array( 'Logbuch_vun_der_Benotzerkontroll' ),
 );
 
+/** Malagasy (Malagasy) */
+$specialPageAliases['mg'] = array(
+	'CheckUser' => array( 'Mpanamarina_mpikambana', 'MpanamarinaMpikambana' ),
+	'CheckUserLog' => array( 'LaogimpanamarinaMpikambana' ),
+);
+
 /** Minangkabau (Baso Minangkabau) */
 $specialPageAliases['min'] = array(
 	'CheckUser' => array( 'ParesoPangguno' ),
