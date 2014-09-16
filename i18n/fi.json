@@ -34,7 +34,7 @@
 	"checkuser-reason-api": "API: $1",
 	"checkuser-showlog": "Näytä loki",
 	"checkuser-query": "Hae tuoreet muutokset",
-	"checkuser-target": "IP-osoite tai käyttäjätunnus",
+	"checkuser-target": "IP-osoite tai käyttäjätunnus:",
 	"checkuser-users": "Hae käyttäjät",
 	"checkuser-edits": "Hae muokkaukset",
 	"checkuser-ips": "Hae IP-osoitteet",
