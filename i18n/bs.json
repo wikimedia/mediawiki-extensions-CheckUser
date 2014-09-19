@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"CERminator"
+			"CERminator",
+			"KWiki"
 		]
 	},
 	"checkuser-summary": "Ovaj alat skenira nedavne promjene te vraća IP adrese koje koriste korisnici ili prikazuje podatke o izmjenama i korisnicima za pojedinu IP adresu.\nKorisnici i izmjene nekog IP klijenta mogu biti nađene preko XFF zaglavlja uz primjenu oznake \"/xff\" pored IP-a. Podržani su i IPv4 (CIDR $1-32) i IPv6 (CIDR $2-128).\nZbog boljih performansi, neće biti prikazano više od 5000 izmjena.\nKoristite ovo u skladu s pravilima.",
@@ -24,7 +25,7 @@
 	"checkuser-ips": "Nađi IP adrese",
 	"checkuser-search": "Traži",
 	"checkuser-period": "Trajanje:",
-	"checkuser-week-1": "zadnja sedmica",
+	"checkuser-week-1": "Posljednja sedmica",
 	"checkuser-week-2": "zadnje dvije sedmice",
 	"checkuser-month": "zadnjih 30 dana",
 	"checkuser-all": "sve",
@@ -32,7 +33,7 @@
 	"checkuser-cidr-res": "Zajednički CIDR:",
 	"checkuser-empty": "Zapis ne sadrži stavke.",
 	"checkuser-nomatch": "Nisu nađeni traženi rezultati.",
-	"checkuser-nomatch-edits": "Nije pronađen traženi upit.\nZadnja izmjena je bila dana $1 u $2.",
+	"checkuser-nomatch-edits": "Nije pronađen traženi upit.\nPosljednja izmjena bila je $1 u $2.",
 	"checkuser-check": "Provjeri",
 	"checkuser-log-fail": "Nije moguće dodati stavku zapisa",
 	"checkuser-nolog": "Nije pronađena datoteka zapisa.",
