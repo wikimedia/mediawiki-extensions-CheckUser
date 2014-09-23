@@ -169,7 +169,7 @@ $specialPageAliases['hsb'] = array(
 	'CheckUser' => array( 'Kontrolny_wužiwar' ),
 );
 
-/** 湘语 (湘语) */
+/** Xiang Chinese (湘语) */
 $specialPageAliases['hsn'] = array(
 	'CheckUser' => array( '检查用户' ),
 );
@@ -398,7 +398,7 @@ $specialPageAliases['ur'] = array(
 	'CheckUserLog' => array( 'نوشتہ_صارف_پڑتال' ),
 );
 
-/** vèneto (vèneto) */
+/** Venetian (vèneto) */
 $specialPageAliases['vec'] = array(
 	'CheckUser' => array( 'ControlaUtente' ),
 );
