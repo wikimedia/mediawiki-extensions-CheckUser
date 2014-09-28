@@ -78,7 +78,7 @@
 	"checkuser-log-useredits": "$1 {{GENDER:$1|שלף|שלפה}} את העריכות של $2",
 	"checkuser-autocreate-action": "נוצר אוטומטית",
 	"checkuser-create-action": "נוצר",
-	"checkuser-email-action": "שלח דואר אלקטרוני למשתמש \"$1\"",
+	"checkuser-email-action": "נשלח דואר אלקטרוני למשתמש \"$1\"",
 	"checkuser-reset-action": "איפס את הסיסמה של המשתמש \"$1\"",
 	"group-checkuser.css": "/* הסגנונות הנכתבים כאן ישפיעו על בודקים בלבד */",
 	"group-checkuser.js": "/* כל סקריפט JavaScript שנכתב כאן ירוץ עבור בודקים בלבד */"
