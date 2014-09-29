@@ -118,7 +118,8 @@ $specialPageAliases['fa'] = array(
 
 /** Finnish (suomi) */
 $specialPageAliases['fi'] = array(
-	'CheckUser' => array( 'Tarkista_käyttäjä' ),
+	'CheckUser' => array( 'Tarkasta_käyttäjä' ),
+	'CheckUserLog' => array( 'Osoitepaljastusloki' ),
 );
 
 /** French (français) */
