@@ -61,7 +61,7 @@
 	"checkuser-blocktag": "替換使用者頁面為：",
 	"checkuser-blocktag-talk": "替換對話頁面為：",
 	"checkuser-massblock-commit": "封鎖選擇的使用者",
-	"checkuser-block-success": "'''{{PLURAL:$2|使用者|使用者}} $1 {{PLURAL:$2|已被|已被}}封鎖。'''",
+	"checkuser-block-success": "'''{{PLURAL:$2|使用者}} $1 {{PLURAL:$2|已被}}封鎖。'''",
 	"checkuser-block-failure": "'''沒有使用者被封鎖。'''",
 	"checkuser-block-limit": "選擇的使用者過多。",
 	"checkuser-block-noreason": "您必須提供進行禁鎖的原因。",
