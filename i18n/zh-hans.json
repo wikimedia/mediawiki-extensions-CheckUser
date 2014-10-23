@@ -30,7 +30,7 @@
 	"right-checkuser": "核查用户的IP地址和其他信息",
 	"right-checkuser-log": "查看帐户核查日志",
 	"action-checkuser": "核查用户的IP地址和其他信息",
-	"action-checkuser-log": "查看帐户核查日志",
+	"action-checkuser-log": "查看用户查核日志",
 	"grouppage-checkuser": "{{ns:project}}:用户查核",
 	"checkuser-reason": "原因：",
 	"checkuser-reason-api": "API: $1",
