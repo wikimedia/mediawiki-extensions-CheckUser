@@ -241,6 +241,9 @@ class ApiQueryCheckUser extends ApiQueryBase {
 		);
 	}
 
+	/**
+	 * @deprecated since MediaWiki core 1.25
+	 */
 	public function getParamDescription() {
 		return array(
 			'request'  => array(
@@ -257,10 +260,16 @@ class ApiQueryCheckUser extends ApiQueryBase {
 		);
 	}
 
+	/**
+	 * @deprecated since MediaWiki core 1.25
+	 */
 	public function getDescription() {
 		return 'Allows check which IPs are used by a given username and which usernames are used by a given IP';
 	}
 
+	/**
+	 * @deprecated since MediaWiki core 1.25
+	 */
 	public function getExamples() {
 		return array(
 			'api.php?action=query&list=checkuser&curequest=userips&cutarget=Jimbo_Wales',
@@ -268,12 +277,20 @@ class ApiQueryCheckUser extends ApiQueryBase {
 		);
 	}
 
-	public function getHelpUrls() {
-		return 'http://www.mediawiki.org/wiki/Extension:CheckUser#API';
+	/**
+	 * @see ApiBase::getExamplesMessages()
+	 */
+	protected function getExamplesMessages() {
+		return array(
+			'action=query&list=checkuser&curequest=userips&cutarget=Jimbo_Wales'
+				=> 'apihelp-query+checkuser-example-1',
+			'action=query&list=checkuser&curequest=edits&cutarget=127.0.0.1/16&xff=1&cureason=Some_check'
+				=> 'apihelp-query+checkuser-example-2',
+		);
 	}
 
-	public function getVersion() {
-		return __CLASS__ . ': $Id$';
+	public function getHelpUrls() {
+		return 'http://www.mediawiki.org/wiki/Extension:CheckUser#API';
 	}
 
 	public function getTokenSalt() {

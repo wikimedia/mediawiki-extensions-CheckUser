@@ -96,5 +96,22 @@
 	"checkuser-reset-action": "Logged text when a user resets a password. Parameters:\n* $1 - the username for which the password was reset. Can be used for GENDER.",
 	"checkuser-toollinks": "{{notranslate}}\nParameters:\n* $1 - IP address",
 	"group-checkuser.css": "{{doc-group|checkuser|css}}",
-	"group-checkuser.js": "{{doc-group|checkuser|js}}"
+	"group-checkuser.js": "{{doc-group|checkuser|js}}",
+	"apihelp-query+checkuser-description": "{{doc-apihelp-description|query+checkuser}}",
+	"apihelp-query+checkuser-param-request": "{{doc-apihelp-param|query+checkuser|request}}",
+	"apihelp-query+checkuser-param-target": "{{doc-apihelp-param|query+checkuser|target}}",
+	"apihelp-query+checkuser-param-reason": "{{doc-apihelp-param|query+checkuser|reason}}",
+	"apihelp-query+checkuser-param-limit": "{{doc-apihelp-param|query+checkuser|limit}}",
+	"apihelp-query+checkuser-param-timecond": "{{doc-apihelp-param|query+checkuser|timecond}}",
+	"apihelp-query+checkuser-param-xff": "{{doc-apihelp-param|query+checkuser|xff}}",
+	"apihelp-query+checkuser-example-1": "{{doc-apihelp-example|query+checkuser}}",
+	"apihelp-query+checkuser-example-2": "{{doc-apihelp-example|query+checkuser}}",
+	"apihelp-query+checkuserlog-description": "{{doc-apihelp-description|query+checkuserlog}}",
+	"apihelp-query+checkuserlog-param-user": "{{doc-apihelp-param|query+checkuserlog|user}}",
+	"apihelp-query+checkuserlog-param-target": "{{doc-apihelp-param|query+checkuserlog|target}}",
+	"apihelp-query+checkuserlog-param-limit": "{{doc-apihelp-param|query+checkuserlog|limit}}",
+	"apihelp-query+checkuserlog-param-from": "{{doc-apihelp-param|query+checkuserlog|from}}",
+	"apihelp-query+checkuserlog-param-to": "{{doc-apihelp-param|query+checkuserlog|to}}",
+	"apihelp-query+checkuserlog-example-1": "{{doc-apihelp-example|query+checkuserlog}}",
+	"apihelp-query+checkuserlog-example-2": "{{doc-apihelp-example|query+checkuserlog}}"
 }
