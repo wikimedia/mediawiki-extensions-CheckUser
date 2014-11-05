@@ -91,5 +91,20 @@
 	"checkuser-email-action": "利用者「$1」にメールを送信",
 	"checkuser-reset-action": "利用者「$1」のパスワードをリセット",
 	"group-checkuser.css": "/* ここに記述したCSSは利用者調査者のみに影響します */",
-	"group-checkuser.js": "/* ここに記述したJSは利用者調査者のみに影響します */"
+	"group-checkuser.js": "/* ここに記述したJSは利用者調査者のみに影響します */",
+	"apihelp-query+checkuser-description": "指定した利用者名の利用者が使用した IP や、指定した IP を使用した利用者名を調査します。",
+	"apihelp-query+checkuser-param-request": "利用者調査リクエストの種類です:\n;userips:対象利用者の IP を取得します。\n;edits:対象 IP または IP 範囲による編集を取得します。\n;ipusers:対象 IP または IP 範囲を使用した利用者を取得します。",
+	"apihelp-query+checkuser-param-target": "調査する利用者名、IP アドレス、CIDR 範囲のいずれかです。",
+	"apihelp-query+checkuser-param-reason": "調査の理由です。",
+	"apihelp-query+checkuser-param-limit": "行数の上限です。",
+	"apihelp-query+checkuser-param-timecond": "利用者データの期間の上限です (例: \"2 weeks\")。",
+	"apihelp-query+checkuser-param-xff": "IP の代わりに XFF データを使用します。",
+	"apihelp-query+checkuser-example-1": "[[User:Example]] が使用した IP を調査",
+	"apihelp-query+checkuser-example-2": "192.0.2.0/24 からなされた編集を調査",
+	"apihelp-query+checkuserlog-description": "利用者調査の記録から項目を取得します。",
+	"apihelp-query+checkuserlog-param-user": "利用者調査の実行者の利用者名です。",
+	"apihelp-query+checkuserlog-param-target": "利用者調査の対象の利用者、IP アドレス、CIDR 範囲のいずれかです。",
+	"apihelp-query+checkuserlog-param-limit": "行数の上限です。",
+	"apihelp-query+checkuserlog-example-1": "[[User:Example]] の調査を表示",
+	"apihelp-query+checkuserlog-example-2": "192.0.2.0/24 の 2011-10-15T23:00:00Z 以降の調査を表示"
 }
