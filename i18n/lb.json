@@ -76,5 +76,6 @@
 	"checkuser-autocreate-action": "gouf automatesch ugeluecht",
 	"checkuser-create-action": "gouf ugeluecht",
 	"checkuser-email-action": "dem Benotzer \"$1\" eng E-Mail geschéckt",
-	"checkuser-reset-action": "huet d'Passwuert fir de Benotzer \"$1\" zréckgesat"
+	"checkuser-reset-action": "huet d'Passwuert fir de Benotzer \"$1\" zréckgesat",
+	"apihelp-query+checkuser-param-reason": "Grond fir nozekucken."
 }
