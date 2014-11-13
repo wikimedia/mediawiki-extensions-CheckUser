@@ -82,5 +82,6 @@
 	"checkuser-create-action": "wurde erstellt",
 	"checkuser-email-action": "sendete E-Mail an „$1“",
 	"checkuser-reset-action": "forderte ein Passwort für „{{GENDER:$1|Benutzer:$1|Benutzerin:$1|Benutzer:$1}}“ an",
+	"apihelp-query+checkuser-param-target": "IP-Adresse des Benutzernamens oder zu prüfender CIDR-Bereich.",
 	"apihelp-query+checkuser-param-reason": "Grund für die Überprüfung."
 }
