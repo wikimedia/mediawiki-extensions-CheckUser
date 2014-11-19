@@ -79,5 +79,8 @@
 	"checkuser-autocreate-action": "تم إنشاؤه تلقائيا",
 	"checkuser-create-action": "تم إنشاؤه",
 	"checkuser-email-action": "أرسل بريدا إلكترونيا إلى \"$1\"",
-	"checkuser-reset-action": "أعد ضبط كلمة السر للمستخدم \"$1\""
+	"checkuser-reset-action": "أعد ضبط كلمة السر للمستخدم \"$1\"",
+	"apihelp-query+checkuser-param-reason": "السبب للتحقق.",
+	"apihelp-query+checkuser-param-limit": "حد الصفوف",
+	"apihelp-query+checkuserlog-param-limit": "حد الصفوف"
 }
