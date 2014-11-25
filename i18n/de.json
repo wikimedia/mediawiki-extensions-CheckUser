@@ -83,5 +83,7 @@
 	"checkuser-email-action": "sendete E-Mail an „$1“",
 	"checkuser-reset-action": "forderte ein Passwort für „{{GENDER:$1|Benutzer:$1|Benutzerin:$1|Benutzer:$1}}“ an",
 	"apihelp-query+checkuser-param-target": "IP-Adresse des Benutzernamens oder zu prüfender CIDR-Bereich.",
-	"apihelp-query+checkuser-param-reason": "Grund für die Überprüfung."
+	"apihelp-query+checkuser-param-reason": "Grund für die Überprüfung.",
+	"apihelp-query+checkuser-example-1": "IP-Adressen für [[User:Example]] überprüfen",
+	"apihelp-query+checkuser-example-2": "Bearbeitungen von 192.0.2.0/24 überprüfen"
 }
