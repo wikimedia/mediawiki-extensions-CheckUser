@@ -82,5 +82,9 @@
 	"checkuser-email-action": "\"$1\" 사용자에게 이메일을 보냈습니다",
 	"checkuser-reset-action": "\"$1\" 사용자의 비밀번호를 바꿨습니다",
 	"group-checkuser.css": "/* 이 CSS 설정은 검사관에만 적용됩니다 */",
-	"group-checkuser.js": "/* 이 자바스크립트 설정은 검사관에만 적용됩니다 */"
+	"group-checkuser.js": "/* 이 자바스크립트 설정은 검사관에만 적용됩니다 */",
+	"apihelp-query+checkuser-param-request": "검사 요청의 유형:\n;userips: 대상 사용자의 IP를 불러옴.\n;edits: 대상 IP나 대역에서 이루어진 편집을 불러옴.\n;ipusers: 대상 IP나 대역을 사용한 계정을 불러옴.",
+	"apihelp-query+checkuser-param-reason": "검사 이유.",
+	"apihelp-query+checkuser-param-timecond": "사용자 데이터의 시간 제약 (예시: \"2 weeks\").",
+	"apihelp-query+checkuser-param-xff": "IP 대신 XFF 데이터를 이용."
 }
