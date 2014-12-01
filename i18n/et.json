@@ -44,7 +44,7 @@
 	"checkuser-wasblocked": "Varem blokeeritud",
 	"checkuser-localonly": "Ei ole globaalset kontot",
 	"checkuser-massblock": "Blokeeri valitud kasutajad",
-	"checkuser-massblock-text": "Valitud kontod blokeeritakse igaveseks, seejuures IP-aadressid blokeeritakse automaatselt ja keelatakse uute kontode tegemine.\nAinult anonüümsed kasutajad blokeeritakse nädalaks ja neil keelatakse uute kontode tegemine.",
+	"checkuser-massblock-text": "Valitud kontod blokeeritakse määramata ajani, seejuures seotud IP-aadressid blokeeritakse automaatselt ja kontode loomine keelatakse.\nAnonüümsete kasutajate IP-aadressid blokeeritakse üheks nädalaks ja neil keelatakse uute kontode loomine.",
 	"checkuser-blocktag": "Asenda kasutajalehed:",
 	"checkuser-blocktag-talk": "Asenda arutelulehed:",
 	"checkuser-massblock-commit": "Blokeeri valitud kasutajad",
