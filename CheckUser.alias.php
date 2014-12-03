@@ -426,3 +426,9 @@ $specialPageAliases['zh-hant'] = array(
 	'CheckUser' => array( '使用者查核' ),
 	'CheckUserLog' => array( '使用者查核日誌' ),
 );
+
+/** Chinese (Hong Kong) (中文（香港）‎) */
+$specialPageAliases['zh-hk'] = array(
+	'CheckUser' => array( '用戶查核' ),
+	'CheckUserLog' => array( '用戶查核日誌' ),
+);
