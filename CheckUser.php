@@ -29,7 +29,7 @@ $wgExtensionCredits['specialpage'][] = array(
 	'path' => __FILE__,
 	'author' => array( 'Tim Starling', 'Aaron Schulz' ),
 	'name' => 'CheckUser',
-	'version' => '2.3',
+	'version' => '2.4',
 	'url' => 'https://www.mediawiki.org/wiki/Extension:CheckUser',
 	'descriptionmsg' => 'checkuser-desc',
 );
