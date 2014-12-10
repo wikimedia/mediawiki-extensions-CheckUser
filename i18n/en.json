@@ -81,7 +81,7 @@
 	"checkuser-token-fail": "Session failure. Please try again.",
 	"group-checkuser.css": "/* CSS placed here will affect checkuser only */",
 	"group-checkuser.js": "/* JS placed here will affect checkuser only */",
-	"apihelp-query+checkuser-description": "Check which IP addresses are used by a given username or which usernames are used by a given IP.",
+	"apihelp-query+checkuser-description": "Check which IP addresses are used by a given username or which usernames are used by a given IP address.",
 	"apihelp-query+checkuser-param-request": "Type of CheckUser request:\n;userips:Get IP address of target user.\n;edits:Get changes from target IP address or range.\n;ipusers:Get users from target IP address or range.",
 	"apihelp-query+checkuser-param-target": "Username, IP address, or CIDR range to check.",
 	"apihelp-query+checkuser-param-reason": "Reason to check.",
