@@ -415,6 +415,11 @@ $specialPageAliases['vi'] = array(
 	'CheckUserLog' => array( 'Nhật_trình_kiểm_tra_người_dùng' ),
 );
 
+/** Chinese (中文) */
+$specialPageAliases['zh'] = array(
+	'CheckUser' => array( '用户查核', '用戶查核', '使用者查核' ),
+);
+
 /** Simplified Chinese (中文（简体）‎) */
 $specialPageAliases['zh-hans'] = array(
 	'CheckUser' => array( '用户查核' ),
