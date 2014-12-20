@@ -7,7 +7,8 @@
 			"Kwj2772",
 			"ToePeu",
 			"관인생략",
-			"아라"
+			"아라",
+			"Revi"
 		]
 	},
 	"checkuser-summary": "이 도구는 특정 사용자가 이용한 IP 또는 특정 IP에 대한 편집/사용자 정보를 검사합니다.\n클라이언트 IP를 통한 사용자와 편집은 IP 주소 뒤에 \"/xff\"를 더함으로서 XFF 제공자를 통해 조사할 수 있습니다. IPv4 (CIDR $1-32) 와 IPv6 (CIDR $2-128)을 지원합니다.\n성능상의 이유로 최대 5000개의 편집만 보여질 것입니다.\n이 도구는 정책에 맞게 사용하십시오.",
@@ -83,8 +84,21 @@
 	"checkuser-reset-action": "\"$1\" 사용자의 비밀번호를 바꿨습니다",
 	"group-checkuser.css": "/* 이 CSS 설정은 검사관에만 적용됩니다 */",
 	"group-checkuser.js": "/* 이 자바스크립트 설정은 검사관에만 적용됩니다 */",
+	"apihelp-query+checkuser-description": "특정한 사용자가 어떤 IP를 썼는지 확인하거나 특정한 IP를 사용한 계정명 확인",
 	"apihelp-query+checkuser-param-request": "검사 요청의 유형:\n;userips: 대상 사용자의 IP를 불러옴.\n;edits: 대상 IP나 대역에서 이루어진 편집을 불러옴.\n;ipusers: 대상 IP나 대역을 사용한 계정을 불러옴.",
+	"apihelp-query+checkuser-param-target": "검사할 사용자이름, IP주소 혹은 CIDR 범위",
 	"apihelp-query+checkuser-param-reason": "검사 이유.",
+	"apihelp-query+checkuser-param-limit": "검사 한도",
 	"apihelp-query+checkuser-param-timecond": "사용자 데이터의 시간 제약 (예시: \"2 weeks\").",
-	"apihelp-query+checkuser-param-xff": "IP 대신 XFF 데이터를 이용."
+	"apihelp-query+checkuser-param-xff": "IP 대신 XFF 데이터를 이용.",
+	"apihelp-query+checkuser-example-1": "[[User:Example]]에 대해 IP 검사",
+	"apihelp-query+checkuser-example-2": "192.0.2.0/24에 대해 편집 검사",
+	"apihelp-query+checkuserlog-description": "검사관 기록에서 항목 가져오기",
+	"apihelp-query+checkuserlog-param-user": "검사관의 사용자 이름",
+	"apihelp-query+checkuserlog-param-target": "검사된 사용자, IP 주소, CIDR 범위",
+	"apihelp-query+checkuserlog-param-limit": "검사 한도",
+	"apihelp-query+checkuserlog-param-from": "나열을 시작할 타임스탬프",
+	"apihelp-query+checkuserlog-param-to": "나열을 끝낼 타임스탬프",
+	"apihelp-query+checkuserlog-example-1": "[[User:Example]]에 대한 검사 보기",
+	"apihelp-query+checkuserlog-example-2": "192.0.2.0/24에 대한 2011-10-15T23:00:00Z 이후의 검사 보기"
 }
