@@ -47,7 +47,7 @@
 	"checkuser-locked": "Zaključano",
 	"checkuser-wasblocked": "Prethodno blokiran",
 	"checkuser-localonly": "Nije unificirano",
-	"checkuser-massblock": "Blokiraj izabranog korisnika",
+	"checkuser-massblock": "Blokiraj izabrane korisnike",
 	"checkuser-massblock-text": "Izabrani nalozi će biti blokirani na neodređeno, uz obeležene opcije autoblokiranja i zabrane pravljenja naloga.\nIP adrese će biti blokirane na nedelju dana za IP korisnike, uz zabranu pravljenja naloga.",
 	"checkuser-blocktag": "Zameni korisničke stranice sa:",
 	"checkuser-blocktag-talk": "Zameni strane za razgovor sa:",
