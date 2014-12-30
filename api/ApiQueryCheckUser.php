@@ -72,8 +72,13 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				CheckUser::addLogEntry( 'userips', 'user', $target, $reason, $user_id );
 				$result->addValue( array( 
 					'query', $this->getModuleName() ), 'userips', $resultIPs );
-				$result->setIndexedTagName_internal( array( 
-					'query', $this->getModuleName(), 'userips' ), 'ip' );
+				if ( defined( 'ApiResult::META_CONTENT' ) ) {
+					$result->defineIndexedTagName( array( 
+						'query', $this->getModuleName(), 'userips' ), 'ip' );
+				} else {
+					$result->setIndexedTagName_internal( array( 
+						'query', $this->getModuleName(), 'userips' ), 'ip' );
+				}
 				break;
 
 			case 'edits':
@@ -135,8 +140,13 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$target, $reason, isset($user_id) ? $user_id : '0' );
 				$result->addValue( array( 
 					'query', $this->getModuleName() ), 'edits', $edits );
-				$result->setIndexedTagName_internal( array(
-					'query', $this->getModuleName(), 'edits' ), 'action' );
+				if ( defined( 'ApiResult::META_CONTENT' ) ) {
+					$result->defineIndexedTagName( array(
+						'query', $this->getModuleName(), 'edits' ), 'action' );
+				} else {
+					$result->setIndexedTagName_internal( array(
+						'query', $this->getModuleName(), 'edits' ), 'action' );
+				}
 				break;
 
 			case 'ipusers':
@@ -192,8 +202,13 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				CheckUser::addLogEntry( $log_type, 'ip', $target, $reason );
 				$result->addValue( array( 
 					'query', $this->getModuleName() ), 'ipusers', $resultUsers );
-				$result->setIndexedTagName_internal( array( 
-					'query', $this->getModuleName(), 'ipusers' ), 'user' );
+				if ( defined( 'ApiResult::META_CONTENT' ) ) {
+					$result->defineIndexedTagName( array( 
+						'query', $this->getModuleName(), 'ipusers' ), 'user' );
+				} else {
+					$result->setIndexedTagName_internal( array( 
+						'query', $this->getModuleName(), 'ipusers' ), 'user' );
+				}
 				break;
 
 			default:
