@@ -88,5 +88,6 @@
 	"apihelp-query+checkuser-example-1": "IP-Adressen für [[User:Example]] überprüfen",
 	"apihelp-query+checkuser-example-2": "Bearbeitungen von 192.0.2.0/24 überprüfen",
 	"apihelp-query+checkuserlog-description": "Einträge aus dem CheckUser-Logbuch abrufen.",
+	"apihelp-query+checkuserlog-param-user": "Benutzername des zu überprüfenden Benutzers.",
 	"apihelp-query+checkuserlog-param-target": "Überprüfter Benutzer, CIDR-Bereich oder überprüfte IP-Adresse."
 }

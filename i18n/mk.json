@@ -21,7 +21,7 @@
 	"action-checkuser-log": "гледање дневник на проверување на корисник",
 	"grouppage-checkuser": "{{ns:project}}:Проверувачи на корисници",
 	"checkuser-reason": "Причина:",
-	"checkuser-reason-api": "Извршник:",
+	"checkuser-reason-api": "Извршник: $1",
 	"checkuser-showlog": "Прикажи дневник",
 	"checkuser-query": "Побарај скорешни промени",
 	"checkuser-target": "IP-адреса или корисничко име:",
