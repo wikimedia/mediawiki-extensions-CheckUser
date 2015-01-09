@@ -85,5 +85,19 @@
 	"checkuser-autocreate-action": "已自動建立",
 	"checkuser-create-action": "已建立",
 	"checkuser-email-action": "傳送電子郵件給使用者 \"$1\"",
-	"checkuser-reset-action": "為使用者 \"$1\" 重設密碼"
+	"checkuser-reset-action": "為使用者 \"$1\" 重設密碼",
+	"apihelp-query+checkuser-description": "檢查指定使用者使用的IP地址或指定IP地址使用的用戶",
+	"apihelp-query+checkuser-param-request": "用戶查核請求類型：\n;userips:獲取目標用戶的IP。\n;edits:獲取目標IP或地址段所作的更改。\n;ipusers:獲取目標IP或地址段的用戶。",
+	"apihelp-query+checkuser-param-target": "要查核的用戶名IP地址，或CIDR地址段。",
+	"apihelp-query+checkuser-param-reason": "查核原因。",
+	"apihelp-query+checkuser-param-limit": "行數限制。",
+	"apihelp-query+checkuser-param-timecond": "用戶數據的時限（例如「2周」）。",
+	"apihelp-query+checkuser-param-xff": "使用XFF數據代替IP。",
+	"apihelp-query+checkuser-example-1": "查核[[User:Example]]的IP",
+	"apihelp-query+checkuser-example-2": "查核來自192.0.2.0/24的編輯",
+	"apihelp-query+checkuserlog-description": "從用戶查核日誌獲得記錄。",
+	"apihelp-query+checkuserlog-param-user": "用戶查核員的用戶名。",
+	"apihelp-query+checkuserlog-param-target": "已查核的用戶、IP地址或CIDR地址段。",
+	"apihelp-query+checkuserlog-param-limit": "行數限制。",
+	"apihelp-query+checkuserlog-example-1": "顯示[[User:Example]]的查核"
 }
