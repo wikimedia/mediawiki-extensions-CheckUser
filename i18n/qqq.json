@@ -70,6 +70,8 @@
 	"checkuser-massblock-text": "Used as intro text for the form {{msg-mw|checkuser-massblock}}.",
 	"checkuser-blocktag": "[[File:Special-checkuser-get-users en.png|thumb|Checkuser interface]]Used as checkbox label in [[Special:CheckUser]].\n\nThis message is followed by \"tag\" input box. The input box is for text which replaces the entire wikitext of the concerned page.\n\nSee also:\n* {{msg-mw|Checkuser-blocktag-talk}}",
 	"checkuser-blocktag-talk": "[[File:Special-checkuser-get-users en.png|thumb|Checkuser interface]]Used as checkbox label in [[Special:CheckUser]].\n\nThis message is followed by \"talktag\" input box. The input box is for text which replaces the entire wikitext of the concerned page.\n\nSee also:\n* {{msg-mw|Checkuser-blocktag}}",
+	"checkuser-blockemail": "Used as a label for a checkbox asking to block email access.",
+	"checkuser-blocktalk": "Used as a label for a checkbox asking to block talk page access.",
 	"checkuser-massblock-commit": "Used as Submit button text in [[Special:CheckUser]].\n{{Identical|Block selected users}}",
 	"checkuser-block-success": "Used as success message in [[Special:CheckUser]].\n\nParameters:\n* $1 - a list of one or more usernames\n* $2 - the number of usernames in <code>$1</code>\n\nSee also:\n* {{msg-mw|Checkuser-block-failure}}\n* {{msg-mw|Checkuser-block-limit}}\n* {{msg-mw|Checkuser-block-noreason}}",
 	"checkuser-block-failure": "Used as failure message in [[Special:CheckUser]].\n\nSee also:\n* {{msg-mw|Checkuser-block-success}}\n* {{msg-mw|Checkuser-block-limit}}\n* {{msg-mw|Checkuser-block-noreason}}",

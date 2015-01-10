@@ -17,7 +17,9 @@ class CheckUser extends SpecialPage {
 		$user = $request->getText( 'user', $request->getText( 'ip', $subpage ) );
 		$user = trim( $user );
 		$reason = $request->getText( 'reason' );
-		$blockreason = $request->getText( 'blockreason' );
+		$blockreason = $request->getText( 'blockreason', '' );
+		$disableUserTalk = $request->getBool( 'blocktalk', false );
+		$disableEmail = $request->getBool( 'blockemail', false );
 		$checktype = $request->getVal( 'checktype' );
 		$period = $request->getInt( 'period' );
 		$users = $request->getArray( 'users' );
@@ -25,6 +27,12 @@ class CheckUser extends SpecialPage {
 			trim( $request->getVal( 'tag' ) ) : '';
 		$talkTag = $request->getBool( 'usettag' ) ?
 			trim( $request->getVal( 'talktag' ) ) : '';
+
+		$blockParams = array(
+			'reason' => $blockreason,
+			'talk' => $disableUserTalk,
+			'email' => $disableEmail,
+		);
 
 		$m = array();
 		# An IPv4? An IPv6? CIDR included?
@@ -51,7 +59,7 @@ class CheckUser extends SpecialPage {
 			if ( !$this->getUser()->matchEditToken( $request->getVal( 'wpEditToken' ) ) ) {
 				$this->getOutput()->wrapWikiMsg( '<div class="error">$1</div>', 'checkuser-token-fail' );
 			} elseif ( $request->getVal( 'action' ) === 'block' ) {
-				$this->doMassUserBlock( $users, $blockreason, $tag, $talkTag );
+				$this->doMassUserBlock( $users, $blockParams, $tag, $talkTag );
 			} elseif ( !$this->checkReason( $reason ) ) {
 				$this->getOutput()->addWikiMsg( 'checkuser-noreason' );
 			} elseif ( $checktype == 'subuserips' ) {
@@ -209,11 +217,11 @@ class CheckUser extends SpecialPage {
 	/**
 	 * Block a list of selected users
 	 * @param array $users
-	 * @param string $reason
+	 * @param array $blockParams
 	 * @param string $tag
 	 * @param string $talkTag
 	 */
-	protected function doMassUserBlock( $users, $reason = '', $tag = '', $talkTag = '' ) {
+	protected function doMassUserBlock( $users, $blockParams, $tag = '', $talkTag = '' ) {
 		global $wgCheckUserMaxBlocks;
 		if ( empty( $users ) || $this->getUser()->isBlocked( false ) ) {
 			$this->getOutput()->addWikiMsg( 'checkuser-block-failure' );
@@ -221,11 +229,11 @@ class CheckUser extends SpecialPage {
 		} elseif ( count( $users ) > $wgCheckUserMaxBlocks ) {
 			$this->getOutput()->addWikiMsg( 'checkuser-block-limit' );
 			return;
-		} elseif ( !$reason ) {
+		} elseif ( !$blockParams['reason'] ) {
 			$this->getOutput()->addWikiMsg( 'checkuser-block-noreason' );
 			return;
 		}
-		$safeUsers = self::doMassUserBlockInternal( $users, $reason, $tag, $talkTag );
+		$safeUsers = self::doMassUserBlockInternal( $users, $blockParams, $tag, $talkTag );
 		if ( !empty( $safeUsers ) ) {
 			$lang = $this->getLanguage();
 			$n = count( $safeUsers );
@@ -237,16 +245,44 @@ class CheckUser extends SpecialPage {
 	}
 
 	/**
+	 * Return a comma-delimited list of "flags" to be passed to the block log.
+	 * Flags are 'anononly', 'nousertalk', 'noemail', and 'nocreate'.
+	 * @param bool $anonOnly
+	 * @param array $blockParams
+	 * @return string
+	 */
+	protected static function userBlockLogFlags( $anonOnly, $blockParams ) {
+		global $wgBlockAllowsUTEdit;
+		$flags = array();
+
+		if ( $anonOnly ) {
+			$flags[] = 'anononly';
+		}
+
+		if ( $wgBlockAllowsUTEdit && $blockParams['talk'] ) {
+			$flags[] = 'nousertalk';
+		}
+
+		if ( $blockParams['email'] ) {
+			$flags[] = 'noemail';
+		}
+
+		$flags[] = 'nocreate';
+
+		return implode( ',', $flags );
+	}
+
+	/**
 	 * Block a list of selected users
 	 *
 	 * @param $users Array
-	 * @param $reason String
+	 * @param array $blockParams
 	 * @param $tag String: replaces user pages
 	 * @param $talkTag String: replaces user talk pages
 	 * @return Array: list of html-safe usernames
 	 */
-	public static function doMassUserBlockInternal( $users, $reason = '', $tag = '', $talkTag = '' ) {
-		global $wgUser;
+	public static function doMassUserBlockInternal( $users, $blockParams, $tag = '', $talkTag = '' ) {
+		global $wgBlockAllowsUTEdit, $wgUser;
 
 		$counter = $blockSize = 0;
 		$safeUsers = array();
@@ -278,13 +314,13 @@ class CheckUser extends SpecialPage {
 			$block = new Block();
 			$block->setTarget( $u );
 			$block->setBlocker( $wgUser );
-			$block->mReason = $reason;
+			$block->mReason = $blockParams['reason'];
 			$block->mExpiry = $expiry;
 			$block->isHardblock( !IP::isIPAddress( $u->getName() ) );
 			$block->isAutoblocking( true );
 			$block->prevents( 'createaccount', true );
-			$block->prevents( 'sendemail', false );
-			$block->prevents( 'editownusertalk', false );
+			$block->prevents( 'sendemail', ( SpecialBlock::canBlockEmail( $wgUser ) && $blockParams['email'] ) );
+			$block->prevents( 'editownusertalk', ( !$wgBlockAllowsUTEdit || $blockParams['talk'] ) );
 
 			$oldblock = Block::newFromTarget( $u->getName() );
 			if ( !$oldblock ) {
@@ -292,33 +328,35 @@ class CheckUser extends SpecialPage {
 				# Prepare log parameters
 				$logParams = array();
 				$logParams[] = $expirestr;
-				$flags = array( 'nocreate' );
-				if ( $anonOnly ) {
-					$flags[] = 'anononly';
-				}
-				$logParams[] = implode( ',', $flags );
+				$logParams[] = self::userBlockLogFlags( $anonOnly, $blockParams );
+
 				# Add log entry
-				$log->addEntry( 'block', $userTitle, $reason, $logParams );
+				$log->addEntry(
+					'block',
+					$userTitle,
+					$blockParams['reason'],
+					$logParams
+				);
 			}
+
 			# Tag userpage! (check length to avoid mistakes)
 			if ( strlen( $tag ) > 2 ) {
 				$flags = 0;
 				if ( $userpage->exists() ) {
 					$flags |= EDIT_MINOR;
 				}
-				$userpage->doEditContent( new WikitextContent( $tag ), $reason, $flags );
+				$userpage->doEditContent( new WikitextContent( $tag ), $blockParams['reason'], $flags );
 			}
 			if ( strlen( $talkTag ) > 2 ) {
 				$flags = 0;
 				if ( $usertalk->exists() ) {
 					$flags |= EDIT_MINOR;
 				}
-				$usertalk->doEditContent( new WikitextContent( $talkTag ), $reason, $flags );
+				$usertalk->doEditContent( new WikitextContent( $talkTag ), $blockParams['reason'], $flags );
 			}
 		}
 		return $safeUsers;
 	}
-
 	/**
 	 * Give a "no matches found for X" message.
 	 * If $checkLast, then mention the last edit by this user or IP.
@@ -844,6 +882,7 @@ class CheckUser extends SpecialPage {
 	 * List unique IPs used for each user in time order, list corresponding user agent
 	 */
 	protected function doIPUsersRequest( $ip, $xfor = false, $reason = '', $period = 0, $tag = '', $talkTag = '' ) {
+		global $wgBlockAllowsUTEdit;
 		$out = $this->getOutput();
 
 		$dbr = wfGetDB( DB_SLAVE );
@@ -1081,8 +1120,18 @@ class CheckUser extends SpecialPage {
 					'</tr><tr>' .
 					'<td>' . Xml::check( 'usettag', false, array( 'id' => 'usettag' ) ) . '</td>' .
 					'<td>' . Xml::label( $this->msg( 'checkuser-blocktag-talk' )->escaped(), 'usettag' ) . '</td>' .
-					'<td>' . Xml::input( 'talktag', 46, $talkTag, array( 'id' => 'talktag' ) ) . '</td>' .
-					'</tr></table>';
+					'<td>' . Xml::input( 'talktag', 46, $talkTag, array( 'id' => 'talktag' ) ) . '</td>';
+				if ( $wgBlockAllowsUTEdit ) {
+					$s .= '</tr><tr>' .
+						'<td>' . Xml::check( 'blocktalk', false, array( 'id' => 'blocktalk' ) ) . '</td>' .
+						'<td>' . Xml::label( $this->msg( 'checkuser-blocktalk' )->escaped(), 'blocktalk' ) . '</td>';
+				}
+				if ( SpecialBlock::canBlockEmail( $this->getUser() ) ) {
+					$s .= '</tr><tr>' .
+						'<td>' . Xml::check( 'blockemail', false, array( 'id' => 'blockemail' ) ) . '</td>' .
+						'<td>' . Xml::label( $this->msg( 'checkuser-blockemail' )->escaped(), 'blockemail' ) . '</td>';
+				}
+				$s .= '</tr></table>';
 				$s .= '<p>' . $this->msg( 'checkuser-reason' )->escaped() . '&#160;';
 				$s .= Xml::input( 'blockreason', 46, '', array( 'maxlength' => '150', 'id' => 'blockreason' ) );
 				$s .= '&#160;' . Xml::submitButton( $this->msg( 'checkuser-massblock-commit' )->escaped(),

@@ -49,6 +49,8 @@
 	"checkuser-localonly": "Not unified",
 	"checkuser-massblock": "Block selected users",
 	"checkuser-massblock-text": "Selected accounts will be blocked indefinitely, with autoblocking of IP addresses enabled and account creation disabled.\nIP addresses will be blocked for one week for anonymous users only and account creation will be disabled.",
+	"checkuser-blockemail": "Prevent from sending email",
+	"checkuser-blocktalk": "Prevent from editing their own talk page while blocked",
 	"checkuser-blocktag": "Replace user pages with:",
 	"checkuser-blocktag-talk": "Replace talk pages with:",
 	"checkuser-massblock-commit": "Block selected users",
