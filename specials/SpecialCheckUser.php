@@ -48,7 +48,9 @@ class CheckUser extends SpecialPage {
 
 		# Perform one of the various submit operations...
 		if ( $request->wasPosted() ) {
-			if ( $request->getVal( 'action' ) === 'block' ) {
+			if ( !$this->getUser()->matchEditToken( $request->getVal( 'wpEditToken' ) ) ) {
+				$this->getOutput()->wrapWikiMsg( '<div class="error">$1</div>', 'checkuser-token-fail' );
+			} elseif ( $request->getVal( 'action' ) === 'block' ) {
 				$this->doMassUserBlock( $users, $blockreason, $tag, $talkTag );
 			} elseif ( !$this->checkReason( $reason ) ) {
 				$this->getOutput()->addWikiMsg( 'checkuser-noreason' );
@@ -168,6 +170,7 @@ class CheckUser extends SpecialPage {
 		$form .= '</tr>';
 		$form .= Xml::closeElement( 'table' );
 		$form .= '</fieldset>';
+		$form .= Html::hidden( 'wpEditToken', $this->getUser()->getEditToken() );
 		$form .= Xml::closeElement( 'form' );
 		# Output form
 		$this->getOutput()->addHTML( $form );
@@ -1078,6 +1081,7 @@ class CheckUser extends SpecialPage {
 					array( 'id' => 'checkuserblocksubmit', 'name' => 'checkuserblock' ) ) . "</p>\n";
 				$s .= "</fieldset>\n";
 			}
+			$s .= Html::hidden( 'wpEditToken', $this->getUser()->getEditToken() );
 			$s .= '</form>';
 		}
 

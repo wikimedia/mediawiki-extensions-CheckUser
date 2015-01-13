@@ -95,6 +95,7 @@
 	"checkuser-email-action": "Logged text when a user sends an e-mail. Probably preceded by the name of the checkuser.\n\nParameters:\n* $1 - a salted MD5 hash for the user an email was sent to",
 	"checkuser-reset-action": "Logged text when a user resets a password. Parameters:\n* $1 - the username for which the password was reset. Can be used for GENDER.",
 	"checkuser-toollinks": "{{notranslate}}\nParameters:\n* $1 - IP address",
+	"checkuser-token-fail": "Error message shown when the CSRF token does not match the current session.",
 	"group-checkuser.css": "{{doc-group|checkuser|css}}",
 	"group-checkuser.js": "{{doc-group|checkuser|js}}",
 	"apihelp-query+checkuser-description": "{{doc-apihelp-description|query+checkuser}}",
