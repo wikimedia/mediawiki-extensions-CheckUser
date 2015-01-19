@@ -81,5 +81,7 @@
 	"checkuser-autocreate-action": "به طور خودکار ساخته شد",
 	"checkuser-create-action": "ایجاد گردید",
 	"checkuser-email-action": "به کاربر «$1» رایانامه ارسال شد",
-	"checkuser-reset-action": "گذرواژه کاربر «$1» را از نو تنظیم کرد"
+	"checkuser-reset-action": "گذرواژه کاربر «$1» را از نو تنظیم کرد",
+	"apihelp-query+checkuser-param-limit": "محدودهٔ ردیف‌ها",
+	"apihelp-query+checkuser-param-timecond": "محدودهٔ زمانی دادهٔ کاربر (مانند \"دو هفته\")"
 }
