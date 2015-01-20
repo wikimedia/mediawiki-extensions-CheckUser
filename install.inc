@@ -37,7 +37,6 @@ function create_cu_changes( $db, $cutoff = null ) {
 	$blockStart = $start;
 	$blockEnd = $start + BATCH_SIZE - 1;
 
-	$db->begin();
 	while ( $blockStart <= $end ) {
 		echo "...doing rc_id from $blockStart to $blockEnd\n";
 		$cond = "rc_id BETWEEN $blockStart AND $blockEnd $cutoffCond";
@@ -67,7 +66,6 @@ function create_cu_changes( $db, $cutoff = null ) {
 		$blockEnd += BATCH_SIZE - 1;
 		wfWaitForSlaves( 5 );
 	}
-	$db->commit();
 
 	echo "...cu_changes table added and populated.\n";
 }
