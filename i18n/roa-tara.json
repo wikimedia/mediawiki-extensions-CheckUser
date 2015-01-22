@@ -75,5 +75,6 @@
 	"checkuser-autocreate-action": "ha state ccrejete automaticamende",
 	"checkuser-create-action": "ha state ccrejate",
 	"checkuser-email-action": "mannate 'na mail a l'utende \"$1\"",
-	"checkuser-reset-action": "azzere 'a password pe l'utende \"$1\""
+	"checkuser-reset-action": "azzere 'a password pe l'utende \"$1\"",
+	"apihelp-query+checkuser-description": "Verifiche quale IP so ausate da 'nu certe nome utende o quale nome de utinde so ausate da 'nu certe IP"
 }
