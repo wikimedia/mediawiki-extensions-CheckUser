@@ -33,6 +33,12 @@ $specialPageAliases['as'] = array(
 	'CheckUserLog' => array( 'সদস্যৰ_অভিলেখ_চাওক' ),
 );
 
+/** Avaric (авар) */
+$specialPageAliases['av'] = array(
+	'CheckUser' => array( 'Проверить_участника' ),
+	'CheckUserLog' => array( 'Журнал_проверок_участников' ),
+);
+
 /** Bashkir (башҡортса) */
 $specialPageAliases['ba'] = array(
 	'CheckUser' => array( 'CheckUser' ),
@@ -274,6 +280,7 @@ $specialPageAliases['mr'] = array(
 /** Malay (Bahasa Melayu) */
 $specialPageAliases['ms'] = array(
 	'CheckUser' => array( 'Perisik' ),
+	'CheckUserLog' => array( 'Log_perisik' ),
 );
 
 /** Erzya (эрзянь) */
