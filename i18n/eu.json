@@ -4,7 +4,8 @@
 			"An13sa",
 			"Kobazulo",
 			"Xabier Armendaritz",
-			"පසිඳු කාවින්ද"
+			"පසිඳු කාවින්ද",
+			"Subi"
 		]
 	},
 	"checkuser": "Erabiltzailea egiaztatu",
@@ -35,9 +36,11 @@
 	"checkuser-massblock-commit": "Blokeatu aukeratutako erabiltzaileak",
 	"checkuser-block-success": "'''$1 {{PLURAL:$2|erabiltzailea|erabiltzaileak}} blokeaturik {{PLURAL:$2|dago|daude}} orain.'''",
 	"checkuser-block-limit": "Lankide gehiegi hautatu duzu.",
+	"checkuser-accounts": "{{PLURAL:$1|Kontu berri bat|$1 kontu berri}}",
 	"checkuser-search-submit": "Bilatu",
 	"checkuser-search-target": "helburua",
 	"checkuser-autocreate-action": "automatikoki sortua izan da",
+	"checkuser-create-action": "sortu zen",
 	"checkuser-email-action": "\"$1\" lankideari posta elektroniko bat bidali",
 	"checkuser-reset-action": "\"$1\" lankideari pasahitza berrezarri"
 }
