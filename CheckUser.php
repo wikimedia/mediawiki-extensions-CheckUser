@@ -21,7 +21,6 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 # Internationalisation files
 $dir = __DIR__ . '/';
 $wgMessagesDirs['CheckUser'] = __DIR__ . '/i18n';
-$wgExtensionMessagesFiles['CheckUser'] = $dir . 'CheckUser.i18n.php';
 $wgExtensionMessagesFiles['CheckUserAliases'] = $dir . 'CheckUser.alias.php';
 
 // Extension credits that will show up on Special:Version
