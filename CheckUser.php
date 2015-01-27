@@ -103,14 +103,14 @@ $wgSpecialPageGroups['CheckUser'] = 'users';
 $wgSpecialPages['CheckUserLog'] = 'SpecialCheckUserLog';
 $wgSpecialPageGroups['CheckUserLog'] = 'changes';
 
-$wgAutoloadClasses['CheckUser'] = $dir . '/specials/SpecialCheckUser.php';
-$wgAutoloadClasses['CheckUserHooks'] = $dir . '/CheckUser.hooks.php';
-$wgAutoloadClasses['CheckUserLogPager'] = $dir . '/CheckUserLogPager.php';
-$wgAutoloadClasses['SpecialCheckUserLog'] = $dir . '/specials/SpecialCheckUserLog.php';
-$wgAutoloadClasses['CheckUserEncryptedData'] = $dir . '/CheckUserEncryptedData.php';
+$wgAutoloadClasses['CheckUser'] = $dir . 'specials/SpecialCheckUser.php';
+$wgAutoloadClasses['CheckUserHooks'] = $dir . 'CheckUser.hooks.php';
+$wgAutoloadClasses['CheckUserLogPager'] = $dir . 'CheckUserLogPager.php';
+$wgAutoloadClasses['SpecialCheckUserLog'] = $dir . 'specials/SpecialCheckUserLog.php';
+$wgAutoloadClasses['CheckUserEncryptedData'] = $dir . 'CheckUserEncryptedData.php';
 
 // API modules
-$wgAutoloadClasses['ApiQueryCheckUser'] = "$dir/api/ApiQueryCheckUser.php";
+$wgAutoloadClasses['ApiQueryCheckUser'] = $dir . 'api/ApiQueryCheckUser.php';
 $wgAPIListModules['checkuser'] = 'ApiQueryCheckUser';
-$wgAutoloadClasses['ApiQueryCheckUserLog'] = "$dir/api/ApiQueryCheckUserLog.php";
+$wgAutoloadClasses['ApiQueryCheckUserLog'] = $dir . 'api/ApiQueryCheckUserLog.php';
 $wgAPIListModules['checkuserlog'] = 'ApiQueryCheckUserLog';
