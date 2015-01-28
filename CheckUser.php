@@ -31,6 +31,7 @@ $wgExtensionCredits['specialpage'][] = array(
 	'version' => '2.4',
 	'url' => 'https://www.mediawiki.org/wiki/Extension:CheckUser',
 	'descriptionmsg' => 'checkuser-desc',
+	'license-name' => 'GPL-2.0+',
 );
 
 // New user rights
