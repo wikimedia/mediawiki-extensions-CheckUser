@@ -13,7 +13,8 @@
 			"Urhixidur",
 			"Verdy p",
 			"Wyz",
-			"Zetud"
+			"Zetud",
+			"Element303"
 		]
 	},
 	"checkuser-summary": "Cet outil parcourt la liste des changements récents à la recherche des adresses IP employées par un utilisateur ou affiche toutes les données utilisateur d’une adresse IP.\nLes comptes et les modifications faites par une adresse IP cliente peuvent être récupérés via les entêtes XFF en suffisant l’adresse IP avec \"/xff\". Les adresses IPv4 (CIDR /$1 à /32) et IPv6 (CIDR /$2 à /128) sont supportées.\nPas plus de 5000 modifications ne seront renvoyées, pour des questions de performance.\nVeuillez utiliser cet outil dans le respect de la charte d’utilisation.",
@@ -68,7 +69,7 @@
 	"checkuser-block-noreason": "Vous devez donner un motif justifiant les blocages.",
 	"checkuser-noreason": "Vous devez donner une raison pour cette requête.",
 	"checkuser-accounts": "$1 nouveau{{PLURAL:$1||x}} compte{{PLURAL:$1||s}}",
-	"checkuser-too-many": "Trop de résultats (selon l’estimation de la requête), veuillez affiner l’étendue CIDR.\nVoici un extrait des IP utilisées ({{formatnum:5000}} maximum, triées par adresse) :",
+	"checkuser-too-many": "Trop de résultats (selon l’estimation de la requête), veuillez affiner l’étendue CIDR.\nVoici un extrait des adresses IP utilisées ({{formatnum:5000}} maximum, triées par adresse) :",
 	"checkuser-user-nonexistent": "L’utilisateur indiqué n’existe pas.",
 	"checkuser-search-form": "Chercher les entrées de journal où $1 est $2.",
 	"checkuser-search-submit": "Rechercher",
@@ -91,11 +92,11 @@
 	"group-checkuser.js": "/* Le Javascript placé ici n’affectera que les membres du groupe « checkuser » */",
 	"apihelp-query+checkuser-description": "Vérifier quelles adresses IP sont utilisées par un nom d’utilisateur donné ou quels noms d’utilisateur sont utilisés par une adresse IP donnée.",
 	"apihelp-query+checkuser-param-request": "Type de demande CheckUser :\n;userips:Obtenir l’adresse IP de l’utilisateur cible.\n;edits:Obtenir les modifications de l’adresse IP ou de la plage cible.\n;ipusers:Obtenir les utilisateurs de l’adresse IP ou de la plage cible.",
-	"apihelp-query+checkuser-param-target": "Adresse IP de l’utilisateur, ou plage CIDR à vérifier.",
+	"apihelp-query+checkuser-param-target": "Nom d'utilisateur, adresse IP ou plage CIDR à vérifier.",
 	"apihelp-query+checkuser-param-reason": "Motif de vérification.",
 	"apihelp-query+checkuser-param-limit": "Limite de lignes.",
 	"apihelp-query+checkuser-param-timecond": "Limite de temps des données utilisateur (comme « 2 semaines »).",
-	"apihelp-query+checkuser-param-xff": "Utiliser des données XFF au lieu de IP.",
+	"apihelp-query+checkuser-param-xff": "Utiliser des données XFF au lieu d'adresse IP.",
 	"apihelp-query+checkuser-example-1": "Vérifier les adresses IP pour [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Vérifier les modifications pour 192.0.2.0/24",
 	"apihelp-query+checkuserlog-description": "Obtenir les entrées du journal CheckUser.",
