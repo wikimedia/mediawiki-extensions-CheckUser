@@ -82,5 +82,6 @@
 	"group-checkuser.css": "/* O CSS que se coloque aquí afectará soamente aos verificadores de usuarios */",
 	"group-checkuser.js": "/* O JS que se coloque aquí afectará soamente aos verificadores de usuarios */",
 	"apihelp-query+checkuser-description": "Comprobar que enderezos IP son empregados por un usuario concreto ou que nomes de usuario son empregados por un IP específico.",
+	"apihelp-query+checkuser-example-1": "Comprobar enderezos IP para [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Comprobar as edicións de 192.0.2.0/24"
 }

@@ -11,7 +11,8 @@
 			"Sovq",
 			"Sp5uhe",
 			"Woytecr",
-			"Wpedzich"
+			"Wpedzich",
+			"Chrumps"
 		]
 	},
 	"checkuser-summary": "Narzędzie skanuje ostatnie zmiany, by odnaleźć adresy IP użyte przez użytkownika lub by pokazać edycje i użytkowników dla zadanego adresu IP.\nUżytkownicy i edycje spod adresu IP mogą być pozyskani przez nagłówki XFF przez dodanie do IP „/xff”. Obsługiwane są adresy IPv4 (CIDR $1-32) I IPv6 (CIDR $2-128).\nZe względu na wydajność, zostanie zwróconych nie więcej niż 5000 edycji.\nUżywaj tego narzędzia zgodnie z zasadami.",
@@ -84,5 +85,7 @@
 	"checkuser-autocreate-action": "został automatycznie utworzony",
 	"checkuser-create-action": "utworzono",
 	"checkuser-email-action": "wysłał e‐mail do użytkownika „$1”",
-	"checkuser-reset-action": "reset hasła dla użytkownika „$1”"
+	"checkuser-reset-action": "reset hasła dla użytkownika „$1”",
+	"apihelp-query+checkuser-param-target": "Nazwa użytkownika, adres IP lub zakres CIDR do sprawdzenia.",
+	"apihelp-query+checkuser-example-1": "Sprawdź adresy IP dla [[User:Example]]"
 }
