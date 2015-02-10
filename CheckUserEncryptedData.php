@@ -22,12 +22,10 @@ class CheckUserEncryptedData {
 	 * @param $data Mixed: data/object to be encryted
 	 * @param $publicKey: public key for encryption
 	 */
-	function __construct( $data, $publicKey, $algorithmName = 'rc4' ) {
-		wfProfileIn( __METHOD__ );
+	public function __construct( $data, $publicKey, $algorithmName = 'rc4' ) {
 		$this->keyHash = crc32( $publicKey );
 		$this->algName = $algorithmName;
 		$this->encryptData( serialize( $data ), $publicKey );
-		wfProfileOut( __METHOD__ );
 	}
 
 	/**
