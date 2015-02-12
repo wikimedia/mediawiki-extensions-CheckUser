@@ -77,5 +77,8 @@
 	"checkuser-autocreate-action": "dicipta secara automatik",
 	"checkuser-create-action": "telah dicipta",
 	"checkuser-email-action": "hantar e-mel kepada \"$1\"",
-	"checkuser-reset-action": "set semula kata laluan \"$1\""
+	"checkuser-reset-action": "set semula kata laluan \"$1\"",
+	"apihelp-query+checkuser-param-target": "Nama pengguna, alamat IP atau 'CIDR range' untuk disemak.",
+	"apihelp-query+checkuser-param-xff": "Gunakan data XFF daripada alamat IP.",
+	"apihelp-query+checkuser-example-1": "Semak alamat IP untuk [[User:Example]]"
 }
