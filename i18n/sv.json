@@ -11,7 +11,8 @@
 			"Per",
 			"WikiPhoenix",
 			"Hangsna",
-			"Lokal Profil"
+			"Lokal Profil",
+			"Jenniesarina"
 		]
 	},
 	"checkuser-summary": "Det här verktyget söker igenom de senaste ändringarna för att hämta IP-adresser för en användare, eller redigeringar och användare för en IP-adress.\nAnvändare och redigeringar kan visas med IP-adress från XFF genom att lägga till \"/xff\" efter IP-adressen. Verktyget stödjer IPv4 (CIDR $1-32) och IPv6 (CIDR $2-128).\nPå grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd verktyget i enlighet med policy.",
@@ -66,7 +67,7 @@
 	"checkuser-block-noreason": "Du måste ange en anledning för blockeringarna.",
 	"checkuser-noreason": "Du måste uppge en anledning för den här frågan.",
 	"checkuser-accounts": "$1 {{PLURAL:$1|nytt konto|nya konton}}",
-	"checkuser-too-many": "För många resultat (enligt uppskattning), du bör söka i ett mindre CIDR-block. Här följer de IP-adresser som använts (högst 5000, sorterade efter adress):",
+	"checkuser-too-many": "För många resultat (enligt uppskattning). Du bör söka i ett mindre CIDR-block. Här är de IP-adresser som använts (högst 5000, sorterade efter adress):",
 	"checkuser-user-nonexistent": "Användarnamnet som angavs finns inte.",
 	"checkuser-search-form": "Sök efter poster där $1 är $2",
 	"checkuser-search-submit": "Sök",
@@ -85,7 +86,7 @@
 	"checkuser-create-action": "skapades",
 	"checkuser-email-action": "skickade ett mejl till användare \"$1\"",
 	"checkuser-reset-action": "återställ lösenord för användare \"$1\"",
-	"apihelp-query+checkuser-description": "Kontrollera vilka IP-adresser som används av ett visst användarnamn eller vilka användarnamn som används av en visst IP-adress.",
+	"apihelp-query+checkuser-description": "Kontrollera vilka IP-adresser som används av ett visst användarnamn eller vilka användarnamn som används av en viss IP-adress.",
 	"apihelp-query+checkuser-param-request": "Typ av CheckUser begäran:\n;userips:Få IP-adresser för målanvändaren.\n;edits:Få ändringar från mål-IP-adresser eller -intervall.\n;ipusers:Få användare från mål-IP-adresser eller -intervall.",
 	"apihelp-query+checkuser-param-target": "IP-adress för användarnamn, eller CIDR-intervall att kontrollera.",
 	"apihelp-query+checkuser-param-reason": "Skäl att kontrollera.",
