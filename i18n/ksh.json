@@ -76,5 +76,10 @@
 	"checkuser-email-action": "en e-mail aan „$1“ jescheck",
 	"checkuser-reset-action": "Däm Metmaacher „$1“ sing Paßwoot automattesch neu setze",
 	"group-checkuser.css": "/* Dat CSS heh aan dä Stell wirrek nur op de Metmaacher-Pröfer */",
-	"group-checkuser.js": "/* Dat JavaSkrep heh aan dä Stell wirrek nur op de Metmaacher-Pröfer */"
+	"group-checkuser.js": "/* Dat JavaSkrep heh aan dä Stell wirrek nur op de Metmaacher-Pröfer */",
+	"apihelp-query+checkuser-param-reason": "der Jrond för et Pröhfe.",
+	"apihelp-query+checkuser-param-limit": "En Bejränzung för de Aanzahl Reihje.",
+	"apihelp-query+checkuser-param-timecond": "En Bejränzung noh de zigg för der Ömfang vun Aanjahbe övver metmaacher, allso esu jät wi: „3 Woche“",
+	"apihelp-query+checkuser-example-2": "Donn Änderonge vun <code>192.0.2.0/24</code> pröhfe.",
+	"apihelp-query+checkuserlog-example-1": "Donn de Pröhfonge vum [[Metmaacher:Beijschpell]] aanzeije"
 }
