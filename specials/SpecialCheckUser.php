@@ -289,10 +289,11 @@ class CheckUser extends SpecialPage {
 				# Prepare log parameters
 				$logParams = array();
 				$logParams[] = $expirestr;
+				$flags = array( 'nocreate' );
 				if ( $anonOnly ) {
-					$logParams[] = 'anononly';
+					$flags[] = 'anononly';
 				}
-				$logParams[] = 'nocreate';
+				$logParams[] = implode( ',', $flags );
 				# Add log entry
 				$log->addEntry( 'block', $userTitle, $reason, $logParams );
 			}
