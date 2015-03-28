@@ -305,7 +305,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 	}
 
 	public function getHelpUrls() {
-		return 'http://www.mediawiki.org/wiki/Extension:CheckUser#API';
+		return 'https://www.mediawiki.org/wiki/Extension:CheckUser#API';
 	}
 
 	public function getTokenSalt() {
