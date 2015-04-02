@@ -90,6 +90,7 @@
 	"checkuser-create-action": "已创建",
 	"checkuser-email-action": "向用户“$1”发送电邮",
 	"checkuser-reset-action": "为用户“$1”重置密码",
+	"checkuser-token-fail": "会话故障。请重新尝试。",
 	"group-checkuser.css": "/* 放置于此的CSS将只影响用户查核员 */",
 	"group-checkuser.js": "/* 放置于此的JS将只影响用户查核员 */",
 	"apihelp-query+checkuser-description": "检查指定用户名使用的IP地址或指定IP地址使用过的用户名。",
