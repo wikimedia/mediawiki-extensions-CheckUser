@@ -56,7 +56,7 @@
 	"checkuser-block-noreason": "Morate navesti razlog za blokade.",
 	"checkuser-noreason": "Morate navesti razlog za to poizvedbo.",
 	"checkuser-accounts": "$1 {{PLURAL:$1|nov račun|nova računa|novi računi|novih računov}}",
-	"checkuser-too-many": "Preveč rezultatov (glede na oceno poizvedbe), prosimo zožite CIDR.\nTukaj so uporabljeni IP-ju (največ 5000, razvrščeni po naslovu):",
+	"checkuser-too-many": "Preveč rezultatov (glede na oceno poizvedbe), prosimo zožite CIDR.\nTukaj so uporabljeni IP-naslovi (največ 5000, razvrščeni po naslovu):",
 	"checkuser-user-nonexistent": "Določen uporabnik ne obstaja.",
 	"checkuser-search-form": "Najdi dnevniške vnose, kjer je $1 enak $2",
 	"checkuser-search-submit": "Išči",

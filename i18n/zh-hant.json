@@ -84,7 +84,7 @@
 	"checkuser-log-useredits": "$1 取得 $2 的編輯",
 	"checkuser-autocreate-action": "已自動建立",
 	"checkuser-create-action": "已建立",
-	"checkuser-email-action": "傳送電子郵件給使用者 \"$1\"",
+	"checkuser-email-action": "傳送電子郵件聯絡使用者 \"$1\"",
 	"checkuser-reset-action": "為使用者 \"$1\" 重設密碼",
 	"apihelp-query+checkuser-description": "檢查指定使用者使用的IP地址或指定IP地址使用的用戶",
 	"apihelp-query+checkuser-param-request": "用戶查核請求類型：\n;userips:獲取目標用戶的IP。\n;edits:獲取目標IP或地址段所作的更改。\n;ipusers:獲取目標IP或地址段的用戶。",

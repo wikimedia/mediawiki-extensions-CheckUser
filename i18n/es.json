@@ -102,6 +102,9 @@
 	"checkuser-reset-action": "solicitó un recordatorio de contraseña para el usuario «$1»",
 	"checkuser-token-fail": "Fallo en la sesión. Intenta de nuevo.",
 	"apihelp-query+checkuser-param-target": "Nombre de usuario, dirección IP o intervalo CIDR que comprobar.",
+	"apihelp-query+checkuser-param-reason": "Motivo para comprobar.",
+	"apihelp-query+checkuser-param-limit": "Límite de filas.",
 	"apihelp-query+checkuser-param-xff": "Utiliza datos XFF en lugar de direcciones IP.",
-	"apihelp-query+checkuser-example-1": "Comprobar direcciones IP para [[User:Example]]"
+	"apihelp-query+checkuser-example-1": "Comprobar direcciones IP para [[User:Example]]",
+	"apihelp-query+checkuserlog-param-limit": "Límite de filas."
 }

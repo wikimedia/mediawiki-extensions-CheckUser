@@ -248,6 +248,12 @@ $specialPageAliases['lb'] = array(
 	'CheckUserLog' => array( 'Logbuch_vun_der_Benotzerkontroll' ),
 );
 
+/** لوری (لوری) */
+$specialPageAliases['lrc'] = array(
+	'CheckUser' => array( 'وارسی_کاریار' ),
+	'CheckUserLog' => array( 'پهرستنومه_وارسی_کاریار' ),
+);
+
 /** Malagasy (Malagasy) */
 $specialPageAliases['mg'] = array(
 	'CheckUser' => array( 'Mpanamarina_mpikambana', 'MpanamarinaMpikambana' ),
