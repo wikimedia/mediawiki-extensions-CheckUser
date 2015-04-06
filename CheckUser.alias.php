@@ -50,6 +50,12 @@ $specialPageAliases['bg'] = array(
 	'CheckUser' => array( 'Проверка_на_потребител' ),
 );
 
+/** Western Balochi (بلوچی رخشانی) */
+$specialPageAliases['bgn'] = array(
+	'CheckUser' => array( 'کارمرزوکی_تلاشی_کورتین' ),
+	'CheckUserLog' => array( 'کارمرزوکی_تلاشی_ئی_سیاهه' ),
+);
+
 /** Banjar (Bahasa Banjar) */
 $specialPageAliases['bjn'] = array(
 	'CheckUser' => array( 'Tukui_pamakai' ),

@@ -77,5 +77,6 @@
 	"checkuser-autocreate-action": "byl automaticky vytvořen",
 	"checkuser-create-action": "byl vytvořen",
 	"checkuser-email-action": "odeslal e-mail uživateli „$1“",
-	"checkuser-reset-action": "požádal o nové heslo pro uživatele „$1“"
+	"checkuser-reset-action": "požádal o nové heslo pro uživatele „$1“",
+	"checkuser-token-fail": "Chyba relace. Zkuste to prosím znovu."
 }

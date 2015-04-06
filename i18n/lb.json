@@ -77,5 +77,6 @@
 	"checkuser-create-action": "gouf ugeluecht",
 	"checkuser-email-action": "dem Benotzer \"$1\" eng E-Mail geschéckt",
 	"checkuser-reset-action": "huet d'Passwuert fir de Benotzer \"$1\" zréckgesat",
+	"checkuser-token-fail": "Sessiouns-Feeler.Probéiert w.e.g. nach eng Kéier.",
 	"apihelp-query+checkuser-param-reason": "Grond fir nozekucken."
 }
