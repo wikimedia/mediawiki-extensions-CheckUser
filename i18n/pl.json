@@ -86,6 +86,7 @@
 	"checkuser-create-action": "utworzono",
 	"checkuser-email-action": "wysłał e‐mail do użytkownika „$1”",
 	"checkuser-reset-action": "reset hasła dla użytkownika „$1”",
+	"checkuser-token-fail": "Awaria sesji. Spróbuj jeszcze raz.",
 	"apihelp-query+checkuser-param-target": "Nazwa użytkownika, adres IP lub zakres CIDR do sprawdzenia.",
 	"apihelp-query+checkuser-example-1": "Sprawdź adresy IP dla [[User:Example]]"
 }
