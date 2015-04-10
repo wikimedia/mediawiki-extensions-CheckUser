@@ -8,7 +8,8 @@
 			"Sir Lestaty de Lioncourt",
 			"Waldir",
 			"555",
-			"Vitorvicentevalente"
+			"Vitorvicentevalente",
+			"Fúlvio"
 		]
 	},
 	"checkuser-summary": "Esta ferramenta varre as mudanças recentes para obter os endereços IP de um utilizador ou para apresentar os dados de edições/utilizadores para um determinado IP.\nOs utilizadores e edições de um determinado IP, podem ser obtidos através de cabeçalhos XFF, acrescentando \"/xff\" no final do endereço.\nSão suportados endereços IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).\nPor motivos de desempenho não serão fornecidas mais do que 5000 edições.\nO uso desta ferramenta deverá respeitar as normas e recomendações.",
@@ -63,7 +64,7 @@
 	"checkuser-block-noreason": "Tem de especificar um motivo para os bloqueios.",
 	"checkuser-noreason": "Tem de fornecer um motivo para esta pesquisa.",
 	"checkuser-accounts": "$1 {{PLURAL:$1|nova conta|novas contas}}",
-	"checkuser-too-many": "Há demasiados resultados (segundo estimativa da pesquisa); por favor, restrinja o CIDR.\nAqui estão os IPs usados (5000 no máx., ordenados por endereço):",
+	"checkuser-too-many": "Há demasiados resultados (segundo estimativa da pesquisa); por favor, restrinja o CIDR.\nAqui estão os endereços IP utilizados (5000 no máx., ordenados por endereço):",
 	"checkuser-user-nonexistent": "O utilizador especificado não existe.",
 	"checkuser-search-form": "Procurar entradas no registo onde $1 seja $2",
 	"checkuser-search-submit": "Pesquisar",
@@ -81,5 +82,6 @@
 	"checkuser-autocreate-action": "foi criada automaticamente",
 	"checkuser-create-action": "foi criada",
 	"checkuser-email-action": "correio electrónico enviado para o utilizador \"$1\"",
-	"checkuser-reset-action": "foi reiniciada a palavra-chave do utilizador \"$1\""
+	"checkuser-reset-action": "foi reiniciada a palavra-chave do utilizador \"$1\"",
+	"checkuser-token-fail": "Falha na sessão. Por favor, tente novamente."
 }
