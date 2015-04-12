@@ -61,7 +61,7 @@ $wgCheckUserForceSummary = false;
 //Shortest CIDR limits that can be checked in any individual range check
 $wgCheckUserCIDRLimit = array(
 	'IPv4'=>16,
-	'IPv6'=>48,
+	'IPv6'=>32,
 );
 
 // Public key to encrypt private data that may need to be read later

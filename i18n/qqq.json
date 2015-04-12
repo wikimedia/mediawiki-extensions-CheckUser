@@ -23,7 +23,7 @@
 			"Liuxinyu970226"
 		]
 	},
-	"checkuser-summary": "Explanation of CheckUser tool. See [[mw:Extension:CheckUser#Basic_interface|screenshot titled 'Basic CheckUser interface']].\n\nParameters:\n* $1 - an integer. default value: 16\n* $2 - an integer. default value: 48",
+	"checkuser-summary": "Explanation of CheckUser tool. See [[mw:Extension:CheckUser#Basic_interface|screenshot titled 'Basic CheckUser interface']].\n\nParameters:\n* $1 - an integer. default value: 16\n* $2 - an integer. default value: 32",
 	"checkuser-desc": "{{desc|name=Check User|url=https://www.mediawiki.org/wiki/Extension:CheckUser}}",
 	"checkuser-logcase": "Unused at this time.",
 	"checkuser": "Check user extension.\n{{doc-special|CheckUser}}\nIn the special page, checkusers can check the IP addresses of users.\n{{Identical|Check user}}",

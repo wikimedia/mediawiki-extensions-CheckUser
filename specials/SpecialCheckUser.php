@@ -1377,7 +1377,7 @@ class CheckUser extends SpecialPage {
 			list( $start, $end ) = IP::parseRange( $ip );
 			return array( 'cuc_' . $type . '_hex BETWEEN ' . $db->addQuotes( $start ) . ' AND ' . $db->addQuotes( $end ) );
 		} elseif ( preg_match( '#^\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}/(\d+)$#', $ip, $matches ) ) {
-			// IPv6 CIDR, 48-128 bits
+			// IPv6 CIDR, 32-128 bits
 			if ( $matches[1] < $wgCheckUserCIDRLimit['IPv6'] || $matches[1] > 128 ) {
 				return false; // invalid
 			}
