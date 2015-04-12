@@ -137,7 +137,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				}
 
 				CheckUser::addLogEntry( $log_type[0], $log_type[1],
-					$target, $reason, isset($user_id) ? $user_id : '0' );
+					$target, $reason, isset( $user_id ) ? $user_id : '0' );
 				$result->addValue( array(
 					'query', $this->getModuleName() ), 'edits', $edits );
 				if ( defined( 'ApiResult::META_CONTENT' ) ) {

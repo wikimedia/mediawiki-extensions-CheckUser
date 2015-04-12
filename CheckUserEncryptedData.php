@@ -2,7 +2,7 @@
 
 class CheckUserEncryptedData {
 
-	//The data symmetrically encrypted with a random key
+	// The data symmetrically encrypted with a random key
 	public $encString;
 
 	// Symmetric key, encrypted with the public key

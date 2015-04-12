@@ -145,7 +145,7 @@ class CheckUserHooks {
 		if ( trim( $wgCUPublicKey ) != '' ) {
 			$privateData = $userTo->getEmail() . ":" . $userTo->getId();
 			$encryptedData = new CheckUserEncryptedData( $privateData, $wgCUPublicKey );
-			$rcRow = array_merge($rcRow, array( 'cuc_private' => serialize( $encryptedData ) ) );
+			$rcRow = array_merge( $rcRow, array( 'cuc_private' => serialize( $encryptedData ) ) );
 		}
 
 		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );

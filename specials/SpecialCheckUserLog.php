@@ -15,7 +15,7 @@ class SpecialCheckUserLog extends SpecialPage {
 	 */
 	function getCheckUserFormTitle() {
 		if ( !isset( $this->checkUserFormTitle ) ) {
-			$this->checkUserFormTitle = SpecialPage::getTitleFor('CheckUser');
+			$this->checkUserFormTitle = SpecialPage::getTitleFor( 'CheckUser' );
 		}
 		return $this->checkUserFormTitle;
 	}

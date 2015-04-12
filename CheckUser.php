@@ -58,10 +58,10 @@ $wgCheckUserMaxBlocks = 200;
 // each check they do through Special:CheckUser.
 $wgCheckUserForceSummary = false;
 
-//Shortest CIDR limits that can be checked in any individual range check
+// Shortest CIDR limits that can be checked in any individual range check
 $wgCheckUserCIDRLimit = array(
-	'IPv4'=>16,
-	'IPv6'=>32,
+	'IPv4' => 16,
+	'IPv6' => 32,
 );
 
 // Public key to encrypt private data that may need to be read later

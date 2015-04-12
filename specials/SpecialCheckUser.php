@@ -1135,7 +1135,7 @@ class CheckUser extends SpecialPage {
 				$flags[] = '<strong>(' . $blocklog . ')</strong>';
 			} else {
 				$userpage = $user->getUserPage();
-				$blocklog =Linker::linkKnown(
+				$blocklog = Linker::linkKnown(
 					$logs,
 					$this->msg( 'checkuser-blocked' )->escaped(),
 					array(),
@@ -1157,7 +1157,7 @@ class CheckUser extends SpecialPage {
 				$this->msg( 'checkuser-wasblocked' )->escaped(),
 				array(),
 				array(
-					'type'=> 'block',
+					'type' => 'block',
 					'page' => $userpage->getPrefixedText()
 				)
 			);
