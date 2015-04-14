@@ -88,6 +88,7 @@
 	"checkuser-create-action": "a été créé",
 	"checkuser-email-action": "a envoyé un courriel à l’utilisateur « $1 »",
 	"checkuser-reset-action": "réinitialise le mot de passe de l’utilisateur « $1 »",
+	"checkuser-token-fail": "Échec de session. Veuillez réessayer.",
 	"group-checkuser.css": "/* Le CSS placé ici n’affectera que les membres du groupe « checkuser » */",
 	"group-checkuser.js": "/* Le Javascript placé ici n’affectera que les membres du groupe « checkuser » */",
 	"apihelp-query+checkuser-description": "Vérifier quelles adresses IP sont utilisées par un nom d’utilisateur donné ou quels noms d’utilisateur sont utilisés par une adresse IP donnée.",
