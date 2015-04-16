@@ -223,13 +223,27 @@ class CheckUserHooks {
 	 * Hook function to prune data from the cu_changes table
 	 */
 	public static function maybePruneIPData() {
-		global $wgCUDMaxAge;
-		# Every 100th edit, prune the checkuser changes table.
-		if ( 0 == mt_rand( 0, 99 ) ) {
+		# Every 50th edit, prune the checkuser changes table.
+		if ( 0 == mt_rand( 0, 49 ) ) {
+			$fname = __METHOD__;
 			$dbw = wfGetDB( DB_MASTER );
-			$encCutoff = $dbw->addQuotes( $dbw->timestamp( time() - $wgCUDMaxAge ) );
-			$dbw->delete( 'cu_changes', array( "cuc_timestamp < $encCutoff" ), __METHOD__ );
+			$dbw->onTransactionPreCommitOrIdle( function() use ( $dbw, $fname ) {
+				global $wgCUDMaxAge;
+
+				$encCutoff = $dbw->addQuotes( $dbw->timestamp( time() - $wgCUDMaxAge ) );
+				$ids = $dbw->selectFieldValues( 'cu_changes',
+					'cuc_id',
+					array( "cuc_timestamp < $encCutoff" ),
+					$fname,
+					array( 'LIMIT' => 500 )
+				);
+
+				if ( $ids ) {
+					$dbw->delete( 'cu_changes', array( 'cuc_id' => $ids ), $fname );
+				}
+			} );
 		}
+
 		return true;
 	}
 
