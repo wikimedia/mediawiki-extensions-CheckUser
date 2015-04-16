@@ -57,7 +57,7 @@
 	"checkuser-block-noreason": "Tu à dà 'nu mutive pe le blocche.",
 	"checkuser-noreason": "Tu à dà 'nu mutive pe st'inderrogazione.",
 	"checkuser-accounts": "$1 {{PLURAL:$1|cunde utende|cunde utinde}} nuève",
-	"checkuser-too-many": "Ce stonne assaje resultate (seconne 'a stime fatte), pe' piacere restringe 'u CIDR.\nAqquà ce stonne le IP ausate (5000 masseme, ordenate pe' inderizze):",
+	"checkuser-too-many": "Stonne assaje resultate (seconne 'a stime fatte de l'inderrogazzione), pe' piacere restringe 'u CIDR.\nAqquà stonne le IP ausate (5000 masseme, ordenate pe' inderizze):",
 	"checkuser-user-nonexistent": "L'utende specificate non g'esiste.",
 	"checkuser-search-form": "Acchie le vôsce d'u reggistre addò $1 jè $2",
 	"checkuser-search-submit": "Cirche",
@@ -76,5 +76,7 @@
 	"checkuser-create-action": "ha state ccrejate",
 	"checkuser-email-action": "mannate 'na mail a l'utende \"$1\"",
 	"checkuser-reset-action": "azzere 'a password pe l'utende \"$1\"",
-	"apihelp-query+checkuser-description": "Verifiche quale IP so ausate da 'nu certe nome utende o quale nome de utinde so ausate da 'nu certe IP"
+	"checkuser-token-fail": "Sessione fallite. Pruève arrete.",
+	"apihelp-query+checkuser-description": "Verifiche quale IP so ausate da 'nu certe nome utende o quale nome de utinde so ausate da 'nu certe IP.",
+	"apihelp-query+checkuserlog-param-limit": "Limite de righe."
 }
