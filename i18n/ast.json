@@ -59,7 +59,7 @@
 	"checkuser-block-noreason": "Tienes que dar un motivu pa los bloqueos.",
 	"checkuser-noreason": "Tien de dar un motivu pa esta consulta.",
 	"checkuser-accounts": "$1 {{PLURAL:$1|cuenta nueva|cuentes nueves}}",
-	"checkuser-too-many": "Demasiaos resultaos (d'alcuerdu col albidru de consulta), mengua la CIDR.\nEstes son les IPs usaes (5000 max, axeitaes por direición):",
+	"checkuser-too-many": "Demasiaos resultaos (acordies colo albidrao pola consulta), intenta menguar el CIDR.\nEstes son les direiciones IP usaes (5000 max, axeitaes por direición):",
 	"checkuser-user-nonexistent": "L'usuariu especificáu nun esiste.",
 	"checkuser-search-form": "Atopar les entraes de rexistru onde $1 ye $2",
 	"checkuser-search-submit": "Buscar",
@@ -77,5 +77,6 @@
 	"checkuser-autocreate-action": "creóse automáticamente",
 	"checkuser-create-action": "creóse",
 	"checkuser-email-action": "unvió un corréu electrónicu a \"$1\"",
-	"checkuser-reset-action": "reestableció la conseña del usuariu «$1»"
+	"checkuser-reset-action": "reestableció la conseña del usuariu «$1»",
+	"checkuser-token-fail": "Fallu de la sesión. Vuelvi a intentalo."
 }
