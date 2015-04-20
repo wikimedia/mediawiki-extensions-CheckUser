@@ -70,13 +70,13 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				}
 
 				CheckUser::addLogEntry( 'userips', 'user', $target, $reason, $user_id );
-				$result->addValue( array( 
+				$result->addValue( array(
 					'query', $this->getModuleName() ), 'userips', $resultIPs );
 				if ( defined( 'ApiResult::META_CONTENT' ) ) {
-					$result->addIndexedTagName( array( 
+					$result->addIndexedTagName( array(
 						'query', $this->getModuleName(), 'userips' ), 'ip' );
 				} else {
-					$result->setIndexedTagName_internal( array( 
+					$result->setIndexedTagName_internal( array(
 						'query', $this->getModuleName(), 'userips' ), 'ip' );
 				}
 				break;
@@ -104,9 +104,9 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$log_type = array( 'useredits', 'user' );
 				}
 
-				$this->addFields( array( 
+				$this->addFields( array(
 					'cuc_namespace', 'cuc_title', 'cuc_user_text', 'cuc_actiontext',
-					'cuc_comment', 'cuc_minor', 'cuc_timestamp', 'cuc_ip', 'cuc_xff', 'cuc_agent' 
+					'cuc_comment', 'cuc_minor', 'cuc_timestamp', 'cuc_ip', 'cuc_xff', 'cuc_agent'
 				) );
 
 				$res = $this->select( __METHOD__ );
@@ -136,9 +136,9 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$edits[] = $edit;
 				}
 
-				CheckUser::addLogEntry( $log_type[0], $log_type[1], 
+				CheckUser::addLogEntry( $log_type[0], $log_type[1],
 					$target, $reason, isset($user_id) ? $user_id : '0' );
-				$result->addValue( array( 
+				$result->addValue( array(
 					'query', $this->getModuleName() ), 'edits', $edits );
 				if ( defined( 'ApiResult::META_CONTENT' ) ) {
 					$result->addIndexedTagName( array(
@@ -161,7 +161,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$this->dieUsage( 'IP or range is invalid', 'invalidip' );
 				}
 
-				$this->addFields( array( 
+				$this->addFields( array(
 					'cuc_user_text', 'cuc_timestamp', 'cuc_ip', 'cuc_agent' ) );
 
 				$res = $this->select( __METHOD__ );
@@ -200,13 +200,13 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				}
 
 				CheckUser::addLogEntry( $log_type, 'ip', $target, $reason );
-				$result->addValue( array( 
+				$result->addValue( array(
 					'query', $this->getModuleName() ), 'ipusers', $resultUsers );
 				if ( defined( 'ApiResult::META_CONTENT' ) ) {
-					$result->addIndexedTagName( array( 
+					$result->addIndexedTagName( array(
 						'query', $this->getModuleName(), 'ipusers' ), 'user' );
 				} else {
-					$result->setIndexedTagName_internal( array( 
+					$result->setIndexedTagName_internal( array(
 						'query', $this->getModuleName(), 'ipusers' ), 'user' );
 				}
 				break;

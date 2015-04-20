@@ -79,7 +79,7 @@ class SpecialCheckUserLog extends SpecialPage {
 		$out->addHTML( Linker::linkKnown(
 				$this->getCheckUserFormTitle(),
 				$this->msg( 'checkuser-log-return' ) ) );
-		
+
 		// Give grep a chance to find the usages:
 		// checkuser-search-initiator, checkuser-search-target
 		$searchTypes = array( 'initiator', 'target' );
