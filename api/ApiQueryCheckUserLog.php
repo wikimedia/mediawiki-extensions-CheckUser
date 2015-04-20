@@ -82,7 +82,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		}
 
 		if ( defined( 'ApiResult::META_CONTENT' ) ) {
-			$result->defineIndexedTagName( array( 'query', $this->getModuleName(), 'entries' ), 'entry' );
+			$result->addIndexedTagName( array( 'query', $this->getModuleName(), 'entries' ), 'entry' );
 		} else {
 			$result->setIndexedTagName_internal(
 				array( 'query', $this->getModuleName(), 'entries' ), 'entry' );

@@ -73,7 +73,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				$result->addValue( array( 
 					'query', $this->getModuleName() ), 'userips', $resultIPs );
 				if ( defined( 'ApiResult::META_CONTENT' ) ) {
-					$result->defineIndexedTagName( array( 
+					$result->addIndexedTagName( array( 
 						'query', $this->getModuleName(), 'userips' ), 'ip' );
 				} else {
 					$result->setIndexedTagName_internal( array( 
@@ -141,7 +141,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				$result->addValue( array( 
 					'query', $this->getModuleName() ), 'edits', $edits );
 				if ( defined( 'ApiResult::META_CONTENT' ) ) {
-					$result->defineIndexedTagName( array(
+					$result->addIndexedTagName( array(
 						'query', $this->getModuleName(), 'edits' ), 'action' );
 				} else {
 					$result->setIndexedTagName_internal( array(
@@ -203,7 +203,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				$result->addValue( array( 
 					'query', $this->getModuleName() ), 'ipusers', $resultUsers );
 				if ( defined( 'ApiResult::META_CONTENT' ) ) {
-					$result->defineIndexedTagName( array( 
+					$result->addIndexedTagName( array( 
 						'query', $this->getModuleName(), 'ipusers' ), 'user' );
 				} else {
 					$result->setIndexedTagName_internal( array( 
