@@ -221,6 +221,11 @@ $specialPageAliases['ja'] = array(
 	'CheckUserLog' => array( 'チェックユーザー記録', '利用者調査記録' ),
 );
 
+/** Georgian (ქართული) */
+$specialPageAliases['ka'] = array(
+	'CheckUser' => array( 'ჩეკიუზერი' ),
+);
+
 /** Khmer (ភាសាខ្មែរ) */
 $specialPageAliases['km'] = array(
 	'CheckUser' => array( 'ត្រួតពិនិត្យអ្នកប្រើប្រាស់' ),
