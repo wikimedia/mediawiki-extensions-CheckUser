@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Calak"
+			"Calak",
+			"Asoxor"
 		]
 	},
 	"group-checkuser": "پشکنەرانی بەکارھێنەر",
@@ -36,7 +37,7 @@
 	"checkuser-blocktag": "پەڕەکانی بەکارھێنەر جێگۆڕ بکە لەگەڵ:",
 	"checkuser-blocktag-talk": "پەڕەکانی لێدوان جێگۆڕ بکە لەگەڵ:",
 	"checkuser-massblock-commit": "بەکارھێنەرە ھەڵبژێردراوەکان بەربەست بکە",
-	"checkuser-block-success": "'''{{PLURAL:$2|بەکارھێنەر|بەکارھێنەرانی}} $1 ئێستا {{PLURAL:$2|بەربەست کراوە|بەربەست کراون}}.'''",
+	"checkuser-block-success": "'''{{PLURAL:$2|بەکارھێنەر|بەکارھێنەران}} $1 ئێستا {{PLURAL:$2|بەربەست کراوە|بەربەست کراون}}.'''",
 	"checkuser-block-failure": "'''ھیچ بەکارھێنەرێک بەربەست نەکراوە.'''",
 	"checkuser-block-limit": "ژمارەیەکی زۆر لە بەکارھێنەران ھەڵبژێردراوە.",
 	"checkuser-block-noreason": "دەبێ ھۆکارێک بۆ بەرەبەستنەکان بخەیە ڕوو.",
