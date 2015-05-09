@@ -87,6 +87,7 @@
 	"apihelp-query+checkuser-description": "Überprüfen, welche IP-Adressen durch einen bestimmten Benutzernamen oder welche Benutzernamen von einer bestimmten IP-Adresse verwendet werden.",
 	"apihelp-query+checkuser-param-target": "Zu überprüfender Benutzername, CIDR-Bereich oder zu überprüfende IP-Adresse.",
 	"apihelp-query+checkuser-param-reason": "Grund für die Überprüfung.",
+	"apihelp-query+checkuser-param-timecond": "Zeitlimit der Benutzerdaten (wie „2 weeks“).",
 	"apihelp-query+checkuser-param-xff": "XFF-Daten anstelle der IP-Adresse verwenden.",
 	"apihelp-query+checkuser-example-1": "IP-Adressen für [[User:Example]] überprüfen",
 	"apihelp-query+checkuser-example-2": "Bearbeitungen von 192.0.2.0/24 überprüfen",
