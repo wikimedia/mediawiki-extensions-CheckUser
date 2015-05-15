@@ -1438,5 +1438,9 @@ class CheckUser extends SpecialPage {
 			), __METHOD__ );
 		return true;
 	}
+
+	protected function getGroupName() {
+		return 'users';
+	}
 }
 

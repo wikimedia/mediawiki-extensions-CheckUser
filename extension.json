@@ -79,10 +79,6 @@
 		"localBasePath": "",
 		"remoteExtPath": "CheckUser"
 	},
-	"SpecialPageGroups": {
-		"CheckUser": "users",
-		"CheckUserLog": "changes"
-	},
 	"GroupPermissions": {
 		"checkuser": {
 			"checkuser": true,
