@@ -122,4 +122,8 @@ class SpecialCheckUserLog extends SpecialPage {
 			$pager->getNavigationBar()
 		);
 	}
+
+	protected function getGroupName() {
+		return 'changes';
+	}
 }
