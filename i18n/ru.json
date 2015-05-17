@@ -94,6 +94,8 @@
 	"checkuser-token-fail": "Сеанс прерван. Пожалуйста, попробуйте еще раз.",
 	"apihelp-query+checkuser-param-reason": "Причина проверки.",
 	"apihelp-query+checkuser-param-limit": "Ограничение количества строк.",
+	"apihelp-query+checkuser-example-1": "Проверить IP-адреса [[User:Example]]",
+	"apihelp-query+checkuser-example-2": "Проверить правки с 192.0.2.0/24",
 	"apihelp-query+checkuserlog-param-limit": "Ограничение количества строк.",
 	"apihelp-query+checkuserlog-param-from": "Метка времени, с которого нужно начинать перечисление.",
 	"apihelp-query+checkuserlog-param-to": "Метка времени, до которого делать перечисление.",

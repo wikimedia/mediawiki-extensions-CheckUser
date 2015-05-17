@@ -9,7 +9,8 @@
 			"Purodha",
 			"Raimond Spekking",
 			"Umherirrender",
-			"Luke081515"
+			"Luke081515",
+			"Tiin"
 		]
 	},
 	"checkuser-summary": "Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers bzw. die Bearbeitungen/Benutzernamen für eine IP-Adresse zu ermitteln. Benutzer und Bearbeitungen einer IP-Adresse können auch nach Informationen aus den XFF-Headern abgefragt werden, indem der IP-Adresse ein „/xff“ angehängt wird. IPv4 (CIDR $1-32) und IPv6 (CIDR $2-128) werden unterstützt.\nZur Aufrechterhaltung der Leistungsfähigkeit werden maximal 5000 Bearbeitungen ausgegeben. Benutze CheckUser ausschließlich in Übereinstimmung mit den Datenschutzrichtlinien.",
@@ -85,8 +86,10 @@
 	"checkuser-reset-action": "forderte ein Passwort für „{{GENDER:$1|Benutzer:$1|Benutzerin:$1|Benutzer:$1}}“ an",
 	"checkuser-token-fail": "Sitzungsfehler. Bitte erneut versuchen.",
 	"apihelp-query+checkuser-description": "Überprüfen, welche IP-Adressen durch einen bestimmten Benutzernamen oder welche Benutzernamen von einer bestimmten IP-Adresse verwendet werden.",
+	"apihelp-query+checkuser-param-request": "Art der CheckUser-Anfrage:\n;userips:Ermittelt die IP-Adresse des Ziel-Benutzers.\n;edits:Ermittelt Änderungen der Ziel-IP-Adresse oder des Adressbereichs.\n;ipusers:Ermittelt den Benutzer der Ziel-IP-Adresse oder des Adressbereichs.",
 	"apihelp-query+checkuser-param-target": "Zu überprüfender Benutzername, CIDR-Bereich oder zu überprüfende IP-Adresse.",
 	"apihelp-query+checkuser-param-reason": "Grund für die Überprüfung.",
+	"apihelp-query+checkuser-param-limit": "Zeilenlimit.",
 	"apihelp-query+checkuser-param-timecond": "Zeitlimit der Benutzerdaten (wie „2 weeks“).",
 	"apihelp-query+checkuser-param-xff": "XFF-Daten anstelle der IP-Adresse verwenden.",
 	"apihelp-query+checkuser-example-1": "IP-Adressen für [[User:Example]] überprüfen",
@@ -94,6 +97,7 @@
 	"apihelp-query+checkuserlog-description": "Einträge aus dem CheckUser-Logbuch abrufen.",
 	"apihelp-query+checkuserlog-param-user": "Benutzername des zu überprüfenden Benutzers.",
 	"apihelp-query+checkuserlog-param-target": "Überprüfter Benutzer, CIDR-Bereich oder überprüfte IP-Adresse.",
+	"apihelp-query+checkuserlog-param-limit": "Zeilenlimit.",
 	"apihelp-query+checkuserlog-param-from": "Der Zeitstempel, bei dem die Aufzählung beginnen soll.",
 	"apihelp-query+checkuserlog-param-to": "Der Zeitstempel, bei dem die Aufzählung enden soll.",
 	"apihelp-query+checkuserlog-example-1": "Prüfungen von [[User:Example]] anzeigen",
