@@ -18,6 +18,7 @@
 	"group-checkuser-member": "{{GENDER:$1|მომხმარებლის შემმოწმებელი}}",
 	"right-checkuser": "მომხმარებლების IP მისამართებისა და სხვა ინფორმაციების შემოწმება",
 	"right-checkuser-log": "მომხმარებლთა შემოწმების ჟურნალის ხილვა",
+	"action-checkuser-log": "ჩეკიუზერის ჟურნალის ხილვა",
 	"grouppage-checkuser": "{{ns:project}}:მომხმარებლის შემოწმება",
 	"checkuser-reason": "მიზეზი:",
 	"checkuser-reason-api": "API: $1",

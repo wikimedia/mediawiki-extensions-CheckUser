@@ -26,7 +26,8 @@
 			"VegaDark",
 			"Fitoschido",
 			"JasterTDC",
-			"Macofe"
+			"Macofe",
+			"Ryo567"
 		]
 	},
 	"checkuser-summary": "Esta herramienta explora los cambios recientes para obtener las direcciones IP utilizadas por un usuario, o para mostrar la información de ediciones y usuarios de una cierta dirección IP.\nSe pueden obtener los usuarios y las ediciones de una dirección IP cliente vía XFF añadiendo \"/xff\" al final de la dirección IP. Funciona con IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).\nNo se muestran más de 5000 ediciones por motivos de rendimiento.\nUtilícela de acuerdo con las políticas correspondientes.",
@@ -101,10 +102,16 @@
 	"checkuser-email-action": "envió un correo electrónico al usuario «$1»",
 	"checkuser-reset-action": "solicitó un recordatorio de contraseña para el usuario «$1»",
 	"checkuser-token-fail": "Fallo en la sesión. Intenta de nuevo.",
+	"apihelp-query+checkuser-description": "Comprueba qué direcciones IP utiliza el nombre de usuario dado o qué nombres de usuario han utilizado una dirección IP específica.",
 	"apihelp-query+checkuser-param-target": "Nombre de usuario, dirección IP o intervalo CIDR que comprobar.",
 	"apihelp-query+checkuser-param-reason": "Motivo para comprobar.",
 	"apihelp-query+checkuser-param-limit": "Límite de filas.",
+	"apihelp-query+checkuser-param-timecond": "Límite de tiempo de datos del usuario (como \"2 semanas\").",
 	"apihelp-query+checkuser-param-xff": "Utiliza datos XFF en lugar de direcciones IP.",
 	"apihelp-query+checkuser-example-1": "Comprobar direcciones IP para [[User:Example]]",
-	"apihelp-query+checkuserlog-param-limit": "Límite de filas."
+	"apihelp-query+checkuser-example-2": "Comprobar ediciones desde 192.0.2.0/24",
+	"apihelp-query+checkuserlog-param-target": "Se ha comprobado el usuario, dirección IP o CIDR.",
+	"apihelp-query+checkuserlog-param-limit": "Límite de filas.",
+	"apihelp-query+checkuserlog-example-1": "Mostrar verificaciones de [[User:Example]]",
+	"apihelp-query+checkuserlog-example-2": "Mostrar verificaciones de 192.0.2.0/24 después del 15 de octubre de 2011 a las 23:00:00"
 }
