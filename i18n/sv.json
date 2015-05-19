@@ -90,7 +90,7 @@
 	"checkuser-token-fail": "Session misslyckande. Var god försök igen.",
 	"apihelp-query+checkuser-description": "Kontrollera vilka IP-adresser som används av ett visst användarnamn eller vilka användarnamn som används av en viss IP-adress.",
 	"apihelp-query+checkuser-param-request": "Typ av CheckUser begäran:\n;userips:Få IP-adresser för målanvändaren.\n;edits:Få ändringar från mål-IP-adresser eller -intervall.\n;ipusers:Få användare från mål-IP-adresser eller -intervall.",
-	"apihelp-query+checkuser-param-target": "IP-adress för användarnamn, eller CIDR-intervall att kontrollera.",
+	"apihelp-query+checkuser-param-target": "Användarnamn, IP-adress eller CIDR-intervall att kontrollera.",
 	"apihelp-query+checkuser-param-reason": "Skäl att kontrollera.",
 	"apihelp-query+checkuser-param-limit": "Begränsning av rader.",
 	"apihelp-query+checkuser-param-timecond": "Tidsgräns för användardata (som \"2 weeks\").",

@@ -78,5 +78,7 @@
 	"checkuser-reset-action": "azzere 'a password pe l'utende \"$1\"",
 	"checkuser-token-fail": "Sessione fallite. Pruève arrete.",
 	"apihelp-query+checkuser-description": "Verifiche quale IP so ausate da 'nu certe nome utende o quale nome de utinde so ausate da 'nu certe IP.",
-	"apihelp-query+checkuserlog-param-limit": "Limite de righe."
+	"apihelp-query+checkuser-param-limit": "Limite de righe.",
+	"apihelp-query+checkuserlog-param-limit": "Limite de righe.",
+	"apihelp-query+checkuserlog-example-2": "Fà vedè le verifiche de 192.0.2.0/24 apprisse 2011-10-15T23:00:00Z"
 }
