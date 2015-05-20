@@ -75,6 +75,7 @@
 	"checkuser-create-action": "wood aanjelaat",
 	"checkuser-email-action": "en e-mail aan „$1“ jescheck",
 	"checkuser-reset-action": "Däm Metmaacher „$1“ sing Paßwoot automattesch neu setze",
+	"checkuser-token-fail": "Fähler met de Sezongsdahte. Vershögk et norr_ens.",
 	"group-checkuser.css": "/* Dat CSS heh aan dä Stell wirrek nur op de Metmaacher-Övverpröhfer */",
 	"group-checkuser.js": "/* Dat JavaSkrep heh aan dä Stell wirrek nur op de Metmaacher-Övverpröhfer */",
 	"apihelp-query+checkuser-description": "Donn övverpröhve wat för en <i lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"Internet Protocol\">IP</i>-Adräße vun enem metmaacher med enem beschtemmpte Nahme udder wat för en nahme vun Metmaacher övver en beschtemmpte <i lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"Internet Protocol\">IP</i>-Adräß em Wikki opdouche.",
