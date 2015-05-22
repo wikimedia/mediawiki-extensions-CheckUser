@@ -226,10 +226,10 @@ class CheckUserHooks {
 		# Every 50th edit, prune the checkuser changes table.
 		if ( 0 == mt_rand( 0, 49 ) ) {
 			$fname = __METHOD__;
-			$dbw = wfGetDB( DB_MASTER );
-			$dbw->onTransactionPreCommitOrIdle( function() use ( $dbw, $fname ) {
+			DeferredUpdates::addCallableUpdate( function() use ( $fname ) {
 				global $wgCUDMaxAge;
 
+				$dbw = wfGetDB( DB_MASTER );
 				$encCutoff = $dbw->addQuotes( $dbw->timestamp( time() - $wgCUDMaxAge ) );
 				$ids = $dbw->selectFieldValues( 'cu_changes',
 					'cuc_id',
@@ -240,6 +240,7 @@ class CheckUserHooks {
 
 				if ( $ids ) {
 					$dbw->delete( 'cu_changes', array( 'cuc_id' => $ids ), $fname );
+					$dbw->commit( 'flush' );
 				}
 			} );
 		}
