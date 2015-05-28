@@ -106,7 +106,7 @@
 	"apihelp-query+checkuser-param-target": "Nombre de usuario, dirección IP o intervalo CIDR que comprobar.",
 	"apihelp-query+checkuser-param-reason": "Motivo para comprobar.",
 	"apihelp-query+checkuser-param-limit": "Límite de filas.",
-	"apihelp-query+checkuser-param-timecond": "Límite de tiempo de datos del usuario (como \"2 semanas\").",
+	"apihelp-query+checkuser-param-timecond": "Límite de tiempo de datos del usuario (p. ej. \"2 weeks\").",
 	"apihelp-query+checkuser-param-xff": "Utiliza datos XFF en lugar de direcciones IP.",
 	"apihelp-query+checkuser-example-1": "Comprobar direcciones IP para [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Comprobar ediciones desde 192.0.2.0/24",
