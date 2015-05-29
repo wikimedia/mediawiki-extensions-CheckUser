@@ -101,5 +101,6 @@
 		"CheckUserEncryptedData": "CheckUserEncryptedData.php",
 		"ApiQueryCheckUser": "api/ApiQueryCheckUser.php",
 		"ApiQueryCheckUserLog": "api/ApiQueryCheckUserLog.php"
-	}
+	},
+	"manifest_version": 1
 }
