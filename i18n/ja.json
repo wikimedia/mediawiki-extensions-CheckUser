@@ -17,7 +17,8 @@
 			"Whym",
 			"青子守歌",
 			"Rxy",
-			"W.CC"
+			"W.CC",
+			"2nd-player"
 		]
 	},
 	"checkuser-summary": "このツールは最近の更新をもとに、ある利用者が使用したIPアドレスの検索、または、あるIPアドレスからなされた編集および利用者名の表示を行います。\nIPアドレスと共に「/xff」オプションを指定すると、XFF (X-Forwarded-For) ヘッダーを通じてクライアントIPアドレスを取得し、そこからなされた編集および利用者名の検索をすることができます。\nIPv4 ($1から32ビットのCIDR表記) と IPv6 ($2から128ビットのCIDR表記) に対応しています。\nパフォーマンス上の理由により、最大5000件の編集しか表示できません。\n方針に従って使用してください。",
@@ -85,7 +86,7 @@
 	"checkuser-log-ipedits": "$1 は $2 からなされた編集を取得",
 	"checkuser-log-ipusers": "$1 が、$2 を使用した利用者一覧を取得",
 	"checkuser-log-ipedits-xff": "$1 が、XFF $2 からなされた編集を取得",
-	"checkuser-log-ipusers-xff": "$1 は XFF $2 からアクセスされた利用者名を取得",
+	"checkuser-log-ipusers-xff": "$1 は XFF $2 からアクセスした利用者名を取得",
 	"checkuser-log-useredits": "$1 は $2 による編集を取得",
 	"checkuser-autocreate-action": "自動的に作成",
 	"checkuser-create-action": "作成済",

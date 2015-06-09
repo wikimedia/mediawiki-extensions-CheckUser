@@ -15,7 +15,7 @@
 	"checkuser-desc": "Memberikan fasilitas bagi pengguna yang memiliki hak akses untuk memeriksa alamat IP dan informasi lain dari pengguna",
 	"checkuser-logcase": "Log ini bersifat sensitif terhadap kapitalisasi.",
 	"checkuser": "Pemeriksaan pengguna",
-	"checkuserlog": "Log pemeriksaan pengguna",
+	"checkuserlog": "Catatan pemeriksaan pengguna",
 	"checkuser-contribs": "memeriksa IP pengguna",
 	"checkuser-contribs-log": "pemeriksaan pengguna terbaru",
 	"group-checkuser": "Pemeriksa",
