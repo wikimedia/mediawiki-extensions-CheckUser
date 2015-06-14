@@ -259,7 +259,7 @@ $specialPageAliases['lb'] = array(
 	'CheckUserLog' => array( 'Logbuch_vun_der_Benotzerkontroll' ),
 );
 
-/** Northern Luri (لوری مینجایی) */
+/** Northern Luri (لۊری شومالی) */
 $specialPageAliases['lrc'] = array(
 	'CheckUser' => array( 'ڤارئسی_کاریار' ),
 	'CheckUserLog' => array( 'پئھرئستنوٙمە_ڤارئسی_کاریار' ),
