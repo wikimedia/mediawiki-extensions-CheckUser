@@ -14,7 +14,7 @@
 	"right-checkuser-log": "декъашхойн зеран тептаре хьажар",
 	"action-checkuser": "декъашхойн IP-адресашка а кхин хаамашка а хьажар",
 	"action-checkuser-log": "декъашхойн зеран тептаре хьажар",
-	"checkuser-reason": "Бахьна:",
+	"checkuser-reason": "Бахьана:",
 	"checkuser-reason-api": "API: $1",
 	"checkuser-showlog": "Гайта тептар",
 	"checkuser-query": "Деха керла нисдарш",
