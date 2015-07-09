@@ -3,7 +3,8 @@
 		"authors": [
 			"CERminator",
 			"KWiki",
-			"Srdjan m"
+			"Srdjan m",
+			"Semso98"
 		]
 	},
 	"checkuser-summary": "Ovaj alat skenira nedavne promjene te vraća IP adrese koje koriste korisnici ili prikazuje podatke o izmjenama i korisnicima za pojedinu IP adresu.\nKorisnici i izmjene nekog IP klijenta mogu biti nađene preko XFF zaglavlja uz primjenu oznake \"/xff\" pored IP-a. Podržani su i IPv4 (CIDR $1-32) i IPv6 (CIDR $2-128).\nZbog boljih performansi, neće biti prikazano više od 5000 izmjena.\nKoristite ovo u skladu s pravilima.",
@@ -13,7 +14,7 @@
 	"checkuserlog": "Zapisnik CheckUsera",
 	"checkuser-contribs": "provjeri korisničke IPe",
 	"group-checkuser": "Provjera korisnika",
-	"group-checkuser-member": "Provjera korisnika",
+	"group-checkuser-member": "Provjera {{GENDER:$1|korisnika|korisnice}}",
 	"right-checkuser": "Provjera korisničkih IP adresa i drugih informacija",
 	"right-checkuser-log": "Pregledanje zapisa provjere korisnika",
 	"grouppage-checkuser": "{{ns:project}}:Provjera korisnika",
