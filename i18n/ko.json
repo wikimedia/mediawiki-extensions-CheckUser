@@ -87,7 +87,7 @@
 	"checkuser-token-fail": "세션 실패. 다시 시도 하십시오.",
 	"group-checkuser.css": "/* 이 CSS 설정은 검사관에만 적용됩니다 */",
 	"group-checkuser.js": "/* 이 자바스크립트 설정은 검사관에만 적용됩니다 */",
-	"apihelp-query+checkuser-description": "특정한 사용자가 어떤 IP 주소를 썼는지 확인하거나 특정한 IP 주소를 사용한 계정명 확인",
+	"apihelp-query+checkuser-description": "특정한 사용자가 어떤 IP 주소를 썼는지 확인하거나 특정한 IP 주소를 사용한 계정 이름을 확인합니다.",
 	"apihelp-query+checkuser-param-request": "검사 요청의 유형:\n;userips: 대상 사용자의 IP 주소를 불러옴.\n;edits: 대상 IP 주소나 대역에서 이루어진 편집을 불러옴.\n;ipusers: 대상 IP 주소나 대역을 사용한 계정을 불러옴.",
 	"apihelp-query+checkuser-param-target": "검사할 계정 이름, IP 주소 혹은 CIDR 범위",
 	"apihelp-query+checkuser-param-reason": "검사 이유.",
