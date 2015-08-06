@@ -58,7 +58,7 @@ class CheckUserHooks {
 			$rcRow['cuc_page_id'] = $attribs['rc_cur_id'];
 		}
 
-		wfRunHooks( 'CheckUserInsertForRecentChange', array( $rc, &$rcRow ) );
+		Hooks::run( 'CheckUserInsertForRecentChange', array( $rc, &$rcRow ) );
 		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
 
 		return true;
