@@ -1324,7 +1324,7 @@ class CheckUser extends SpecialPage {
 			$links['title'] = Linker::link( $title );
 		}
 
-		wfRunHooks( 'SpecialCheckUserGetLinksFromRow', array( $this, $row, &$links ) );
+		Hooks::run( 'SpecialCheckUserGetLinksFromRow', array( $this, $row, &$links ) );
 		if ( is_array( $links ) ) {
 			return implode( ' ', $links );
 		} else {
