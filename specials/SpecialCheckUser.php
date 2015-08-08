@@ -267,8 +267,8 @@ class CheckUser extends SpecialPage {
 			}
 			$userTitle = $u->getUserPage();
 			$userTalkTitle = $u->getTalkPage();
-			$userpage = new Article( $userTitle );
-			$usertalk = new Article( $userTalkTitle );
+			$userpage = WikiPage::factory( $userTitle );
+			$usertalk = WikiPage::factory( $userTalkTitle );
 			$safeUsers[] = '[[' . $userTitle->getPrefixedText() . '|' . $userTitle->getText() . ']]';
 			$expirestr = $u->getId() ? 'indefinite' : '1 week';
 			$expiry = SpecialBlock::parseExpiryInput( $expirestr );
@@ -302,10 +302,18 @@ class CheckUser extends SpecialPage {
 			}
 			# Tag userpage! (check length to avoid mistakes)
 			if ( strlen( $tag ) > 2 ) {
-				$userpage->doEdit( $tag, $reason, EDIT_MINOR );
+				$flags = 0;
+				if ( $userpage->exists() ) {
+					$flags |= EDIT_MINOR;
+				}
+				$userpage->doEditContent( new WikitextContent( $tag ), $reason, $flags );
 			}
 			if ( strlen( $talkTag ) > 2 ) {
-				$usertalk->doEdit( $talkTag, $reason, EDIT_MINOR );
+				$flags = 0;
+				if ( $usertalk->exists() ) {
+					$flags |= EDIT_MINOR;
+				}
+				$usertalk->doEditContent( new WikitextContent( $talkTag ), $reason, $flags );
 			}
 		}
 		return $safeUsers;
