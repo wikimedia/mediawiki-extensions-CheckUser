@@ -20,7 +20,7 @@
 	"checkuserlog": "Checkuser-Logbuch",
 	"checkuser-contribs": "IP-Adressen des Benutzers prüfen",
 	"checkuser-contribs-log": "letzte Benutzerprüfungen",
-	"group-checkuser": "Checkuser",
+	"group-checkuser": "Checkuser-Berechtigte",
 	"group-checkuser-member": "{{GENDER:$1|Checkuser-Berechtigter|Checkuser-Berechtigte}}",
 	"right-checkuser": "IP-Adressen sowie Zusammenhänge zwischen IP-Adressen und angemeldeten Benutzern prüfen",
 	"right-checkuser-log": "Checkuser-Logbuch einsehen",
