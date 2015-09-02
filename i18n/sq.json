@@ -1,8 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"Dori"
+			"Dori",
+			"Ammartivari"
 		]
 	},
-	"checkuser": "Kontrollo përdoruesin"
+	"checkuser": "Kontrollo përdoruesin",
+	"checkuser-reason": "Arsyeja:",
+	"checkuser-blocked": "Bllokuar",
+	"checkuser-wasblocked": "Bllokuar më parë"
 }
