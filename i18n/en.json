@@ -77,7 +77,7 @@
 	"checkuser-create-action": "was created",
 	"checkuser-email-action": "sent an email to user \"$1\"",
 	"checkuser-reset-action": "reset password for user \"$1\"",
-	"checkuser-toollinks": "<span class=\"plainlinks\">[[http://whois.domaintools.com/$1 RDNS] ·\n[http://www.robtex.com/rbls/$1.html RBLs] ·\n[http://www.dnsstuff.com/tools/tracert.ch?ip=$1 Traceroute] ·\n[http://www.ip2location.com/$1 Geolocate] ·\n[http://toolserver.org/~overlordq/scripts/checktor.fcgi?ip=$1 Tor check] ·\n[http://whois.arin.net/rest/ip/$1 WHOIS]]</span>",
+	"checkuser-toollinks": "<span class=\"plainlinks\">[[https://www.robtex.com/whois/$1.html WHOIS/RDNS] ·\n[https://www.robtex.com/rbls/$1.html RBLs] ·\n[http://www.dnsstuff.com/tools/tracert.ch?ip=$1 Traceroute] ·\n[https://www.ip2location.com/$1 Geolocate] ·\n[https://www.dan.me.uk/torcheck?ip=$1 Tor check]]</span>",
 	"checkuser-token-fail": "Session failure. Please try again.",
 	"group-checkuser.css": "/* CSS placed here will affect checkuser only */",
 	"group-checkuser.js": "/* JS placed here will affect checkuser only */",
