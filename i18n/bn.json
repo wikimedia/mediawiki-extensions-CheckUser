@@ -63,7 +63,7 @@
 	"checkuser-search-submit": "অনুসন্ধান",
 	"checkuser-search-initiator": "আরম্ভকারী",
 	"checkuser-search-target": "লক্ষ্য",
-	"checkuser-ipeditcount": "~$1 সমস্ত ব্যবহাকারী থেকে",
+	"checkuser-ipeditcount": "~$1 সমস্ত ব্যবহারকারী থেকে",
 	"checkuser-log-return": "CheckUser মূল ফর্মে ফেরত যান",
 	"checkuser-log-userips": "$2 এর জন্য $1 আইপি  সমূহ পেয়েছে",
 	"checkuser-log-ipedits": "$2 এর জন্য $1 সম্পাদনাসমূহ পেয়েছে",
