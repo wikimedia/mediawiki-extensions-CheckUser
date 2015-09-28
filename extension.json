@@ -15,7 +15,7 @@
 	"config": {
 		"CheckUserCIDRLimit": {
 			"IPv4": 16,
-			"IPv6": 48
+			"IPv6": 32
 		},
 		"CheckUserMaxBlocks": 200,
 		"CheckUserLog": "/home/wikipedia/logs/checkuser.log",
