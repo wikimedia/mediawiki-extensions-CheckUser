@@ -13,7 +13,8 @@
 			"Nemo bis",
 			"Pietrodn",
 			"Stefano-c",
-			"Nivit"
+			"Nivit",
+			"Lucas2"
 		]
 	},
 	"checkuser-summary": "Questo strumento analizza le modifiche recenti per recuperare gli indirizzi IP utilizzati da un utente o mostrare contributi e dati di un IP. Utenti e contributi di un client IP possono essere rintracciati attraverso gli header XFF aggiungendo all'IP il suffisso \"/xff\". Sono supportati IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128). Non saranno restituite più di 5.000 modifiche, per ragioni di prestazioni. Usa questo strumento in stretta conformità alle policy.",
@@ -23,7 +24,7 @@
 	"checkuserlog": "Registro dei controlli utente",
 	"checkuser-contribs": "controlla gli indirizzi IP dell'utente",
 	"checkuser-contribs-log": "controlli utente recenti",
-	"group-checkuser": "Check users",
+	"group-checkuser": "Check user",
 	"group-checkuser-member": "{{GENDER:$1|Check user}}",
 	"right-checkuser": "Visualizza gli indirizzi IP usati dall'utente e altre informazioni",
 	"right-checkuser-log": "Visualizza il log dei checkuser",
