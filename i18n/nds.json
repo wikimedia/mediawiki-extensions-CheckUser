@@ -60,12 +60,6 @@
 	"checkuser-ipeditcount": "~$1 vun all Brukers",
 	"checkuser-log-return": "Trüch na dat CheckUser-Hööftformular",
 	"checkuser-limited": "'''De List mit Resultaten is to lang wesen un körter maakt worrn.'''",
-	"checkuser-log-userips": "$1 hett IP-Adressen för $2 rutsöcht",
-	"checkuser-log-ipedits": "$1 hett Ännern vun $2 rutsöcht",
-	"checkuser-log-ipusers": "$1 hett Brukers för $2 rutsöcht",
-	"checkuser-log-ipedits-xff": "$1 hett Ännern för de XFF-IP $2 rutsöcht",
-	"checkuser-log-ipusers-xff": "$1 hett Brukers för de XFF-IP $2 rutsöcht",
-	"checkuser-log-useredits": "$1 hett Ännern för $2 haalt",
 	"checkuser-autocreate-action": "automaatsch opstellt",
 	"checkuser-email-action": "hett Bruker „$1“ en E-Mail tostüürt",
 	"checkuser-reset-action": "hett en nee Passwoord för Bruker „$1“ feddert"

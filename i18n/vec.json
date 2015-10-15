@@ -61,12 +61,6 @@
 	"checkuser-ipeditcount": "~$1 par tuti i utenti",
 	"checkuser-log-return": "Torna al modulo prinçipal de Controlo utenze",
 	"checkuser-limited": "'''Sti risultati i xe stà tajà a metà par motivi de prestazion.'''",
-	"checkuser-log-userips": "$1 el gà otegnù i indirizi IP de $2",
-	"checkuser-log-ipedits": "$1 el gà otegnù le modifiche de $2",
-	"checkuser-log-ipusers": "$1 el gà otegnù le utenze de $2",
-	"checkuser-log-ipedits-xff": "$1 el gà otegnù le modifiche de $2 via XFF",
-	"checkuser-log-ipusers-xff": "$1 el gà otegnù le utenze de $2 via XFF",
-	"checkuser-log-useredits": "$1 gà otegnù i contributi de $2",
 	"checkuser-autocreate-action": "xe stà creà automaticamente",
 	"checkuser-email-action": "gà mandà na e-mail a \"$1\"",
 	"checkuser-reset-action": "reinposta la password par l'utente \"$1\""

@@ -33,10 +33,5 @@
 	"checkuser-search-initiator": "شروع کنوک",
 	"checkuser-search-target": "هدف",
 	"checkuser-ipeditcount": "~$1 چه کلی کابران",
-	"checkuser-log-return": "په فرم اصلی کنترل کاربر تر",
-	"checkuser-log-userips": "$1 گریت آی پی په $2",
-	"checkuser-log-ipedits": "$1 گریت اصلاح په  $2",
-	"checkuser-log-ipusers": "$1 کابران گریت په $2",
-	"checkuser-log-ipedits-xff": "$1 اصلاح کنت په XFF $2",
-	"checkuser-log-ipusers-xff": "$1 گریت کابران په XFF $2"
+	"checkuser-log-return": "په فرم اصلی کنترل کاربر تر"
 }

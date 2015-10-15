@@ -46,7 +46,6 @@
 	"checkuser-wasblocked": "पछिल्लो निषेधित",
 	"checkuser-localonly": "एकीकृत छैन",
 	"checkuser-search-submit": "खोज",
-	"checkuser-log-userips": "$2को लागि $1 आइ पी ठेगाना पाइयो",
 	"apihelp-query+checkuser-param-reason": "जाँच्ने कारण।",
 	"apihelp-query+checkuser-param-limit": "पङ्क्तिहरूको सीमा।",
 	"apihelp-query+checkuserlog-param-user": "प्रयोगकर्ताजाँचको प्रयोगकर्ता नाम।",

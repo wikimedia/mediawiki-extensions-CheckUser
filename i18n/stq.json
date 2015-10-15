@@ -63,12 +63,6 @@
 	"checkuser-ipeditcount": "~$1 fon aal Benutsere",
 	"checkuser-log-return": "Tourääch ätter dät CheckUser-Haudformular",
 	"checkuser-limited": "'''Ju Resultoatelieste wuud uut Performancegruunden kuuted.'''",
-	"checkuser-log-userips": "$1 hoalde IP-Adressen foar $2",
-	"checkuser-log-ipedits": "$1 hoalde Beoarbaidengen foar $2",
-	"checkuser-log-ipusers": "$1 hoalde Benutsere foar $2",
-	"checkuser-log-ipedits-xff": "$1 hoalde Beoarbaidengen foar XFF $2",
-	"checkuser-log-ipusers-xff": "$1 hoalde Benutsere foar XFF $2",
-	"checkuser-log-useredits": "$1 hoalde Beoarbaidengen foar $2",
 	"checkuser-autocreate-action": "automatisk moaked",
 	"checkuser-email-action": "E-Mail an „$1“ soand",
 	"checkuser-reset-action": "Anfoarderenge fon n näi Paaswoud foar „Benutser:$1“"

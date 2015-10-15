@@ -47,11 +47,6 @@
 	"checkuser-search-initiator": "оғозгар",
 	"checkuser-search-target": "ҳадаф",
 	"checkuser-log-return": "Бозгашт ба форми аслии бозрасии корбар",
-	"checkuser-log-userips": "$1 нишонаҳои интернетии IP-ҳои $2ро гирифт",
-	"checkuser-log-ipedits": "$1 вироишҳои $2ро гирифт",
-	"checkuser-log-ipusers": "$1 корбарони марбут ба $2ро гирифт",
-	"checkuser-log-ipedits-xff": "$1 вироишҳои XFF $2ро гирифт",
-	"checkuser-log-ipusers-xff": "$1 корбарони марбут ба XFF $2ро гирифт",
 	"checkuser-autocreate-action": "ба таври худкор эҷод шуда буд",
 	"checkuser-email-action": "почтаи электронӣ ба корбар \"$1\" фиристода шуд"
 }

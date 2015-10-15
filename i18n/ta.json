@@ -59,7 +59,6 @@
 	"checkuser-search-submit": "தேடுக",
 	"checkuser-search-initiator": "தொடக்கக்காரர்",
 	"checkuser-search-target": "இலக்கு",
-	"checkuser-log-ipedits": "$1, $2-க்கான தொகுப்புகளை பெற்றார்",
 	"checkuser-autocreate-action": "தானகவே உருவாக்கப்பட்டது",
 	"checkuser-create-action": "உருவாக்கப்பட்டது",
 	"checkuser-email-action": "\"$1\" பயனருக்கு ஒரு மின்னஞ்சல் அனுப்பப்பட்டது"

@@ -32,10 +32,5 @@
 	"checkuser-search-initiator": "inisiator",
 	"checkuser-search-target": "tujul",
 	"checkuser-ipeditcount": "~$1 ti sakumna pamaké",
-	"checkuser-log-return": "Balik ka formulir utama PamakéPamariksa",
-	"checkuser-log-userips": "$1 manggih IP ti $2",
-	"checkuser-log-ipedits": "$1 manggih éditan ti $2",
-	"checkuser-log-ipusers": "$1 manggih pamaké ti $2",
-	"checkuser-log-ipedits-xff": "$1 manggih éditan ti XFF $2",
-	"checkuser-log-ipusers-xff": "$1 manggih pamaké ti XFF $2"
+	"checkuser-log-return": "Balik ka formulir utama PamakéPamariksa"
 }

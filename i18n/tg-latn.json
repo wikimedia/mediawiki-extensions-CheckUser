@@ -45,11 +45,6 @@
 	"checkuser-search-initiator": "oƣozgar",
 	"checkuser-search-target": "hadaf",
 	"checkuser-log-return": "Bozgaşt ba formi asliji bozrasiji korbar",
-	"checkuser-log-userips": "$1 nişonahoi internetiji IP-hoi $2ro girift",
-	"checkuser-log-ipedits": "$1 viroişhoi $2ro girift",
-	"checkuser-log-ipusers": "$1 korbaroni marbut ba $2ro girift",
-	"checkuser-log-ipedits-xff": "$1 viroişhoi XFF $2ro girift",
-	"checkuser-log-ipusers-xff": "$1 korbaroni marbut ba XFF $2ro girift",
 	"checkuser-autocreate-action": "ba tavri xudkor eçod şuda bud",
 	"checkuser-email-action": "poctai elektronī ba korbar \"$1\" firistoda şud"
 }

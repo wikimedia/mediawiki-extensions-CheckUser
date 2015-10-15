@@ -34,10 +34,5 @@
 	"checkuser-search-initiator": "創始者",
 	"checkuser-search-target": "目標",
 	"checkuser-ipeditcount": "~響全部用戶度搵$1",
-	"checkuser-log-return": "返去核對用戶主要表格",
-	"checkuser-log-userips": "$1 拎到 $2 嘅 IP",
-	"checkuser-log-ipedits": "$1 拎到 $2 嘅編輯",
-	"checkuser-log-ipusers": "$1 拎到 $2 嘅用戶",
-	"checkuser-log-ipedits-xff": "$1 拎到 XFF $2 嘅編輯",
-	"checkuser-log-ipusers-xff": "$1 拎到 XFF $2 嘅用戶"
+	"checkuser-log-return": "返去核對用戶主要表格"
 }

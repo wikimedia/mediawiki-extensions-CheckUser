@@ -27,10 +27,5 @@
 	"checkuser-search-submit": "ىزدەۋ",
 	"checkuser-search-initiator": "باستاماشى",
 	"checkuser-search-target": "نىسانا",
-	"checkuser-log-return": "CheckUser باسقى پىشىنىنە  ورالۋ",
-	"checkuser-log-userips": "$2 ٴۇشىن $1 IP جاي الىندى",
-	"checkuser-log-ipedits": "$2 ٴۇشىن $1 تۇزەتۋ الىندى",
-	"checkuser-log-ipusers": "$2 ٴۇشىن $1 IP قاتىسۋشى الىندى",
-	"checkuser-log-ipedits-xff": "XFF $2 ٴۇشىن $1 تۇزەتۋ الىندى",
-	"checkuser-log-ipusers-xff": "XFF $2 ٴۇشىن $1 قاتىسۋشى الىندى"
+	"checkuser-log-return": "CheckUser باسقى پىشىنىنە  ورالۋ"
 }

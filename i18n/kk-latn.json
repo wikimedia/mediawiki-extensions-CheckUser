@@ -27,10 +27,5 @@
 	"checkuser-search-submit": "İzdew",
 	"checkuser-search-initiator": "bastamaşı",
 	"checkuser-search-target": "nısana",
-	"checkuser-log-return": "CheckUser basqı pişinine  oralw",
-	"checkuser-log-userips": "$2 üşin $1 IP jaý alındı",
-	"checkuser-log-ipedits": "$2 üşin $1 tüzetw alındı",
-	"checkuser-log-ipusers": "$2 üşin $1 IP qatıswşı alındı",
-	"checkuser-log-ipedits-xff": "XFF $2 üşin $1 tüzetw alındı",
-	"checkuser-log-ipusers-xff": "XFF $2 üşin $1 qatıswşı alındı"
+	"checkuser-log-return": "CheckUser basqı pişinine  oralw"
 }

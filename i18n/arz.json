@@ -61,12 +61,6 @@
 	"checkuser-ipeditcount": "~$1 من كل اليوزرز",
 	"checkuser-log-return": "ارجع للاستمارة الرئيسية بتاعة تشييك اليوزرز",
 	"checkuser-limited": "''' النتايج دى اتعملها اختصار لأسباب متعلقة  بالأداء.'''",
-	"checkuser-log-userips": "$1 جاب الاى بى بتوع $2",
-	"checkuser-log-ipedits": "$1 جاب التعديلات بتاعة $2",
-	"checkuser-log-ipusers": "$1 جاب اليوزرز بتوع $2",
-	"checkuser-log-ipedits-xff": "$1 جاب التعديلات للإكس إف إف $2",
-	"checkuser-log-ipusers-xff": "$1 جاب اليوزرز  لل اكس اف اف بتوع $2",
-	"checkuser-log-useredits": "$1 جاب التعديلات بتاعة$2",
 	"checkuser-autocreate-action": "ابتدا اوتوماتيكى",
 	"checkuser-email-action": "ابعت ايميل لليوزر \"$1\"",
 	"checkuser-reset-action": "اضبط من تانى الباسورد بتاعة اليوزر \"$1\""

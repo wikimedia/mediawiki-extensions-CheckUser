@@ -49,7 +49,6 @@
 	"checkuser-search-initiator": "iniciatorius",
 	"checkuser-search-target": "taikinys",
 	"checkuser-ipeditcount": "~$1 iš visų vartotojų",
-	"checkuser-log-userips": "$1 gavo IP adresų $2",
 	"checkuser-autocreate-action": "buvo automatiškai sukurtas",
 	"checkuser-create-action": "buvo sukurta",
 	"checkuser-email-action": "siųsti el. laišką vartotojui \" $1 \"",

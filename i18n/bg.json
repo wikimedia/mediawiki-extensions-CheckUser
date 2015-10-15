@@ -61,11 +61,6 @@
 	"checkuser-ipeditcount": "~$1 от всички потребители",
 	"checkuser-log-return": "Връщане към основния формуляр за проверка",
 	"checkuser-limited": "'''Резултатите бяха съкратени от съображения, свързани с производителността на системата.'''",
-	"checkuser-log-userips": "$1 е получил айпи адреси за $2",
-	"checkuser-log-ipedits": "$1 е получил редакции за $2",
-	"checkuser-log-ipusers": "$1 е получил потребители за $2",
-	"checkuser-log-ipedits-xff": "$1 е получил редакции за XFF $2",
-	"checkuser-log-ipusers-xff": "$1 е получил потребители за XFF $2",
 	"checkuser-email-action": "изпрати е-писмо на потребител „$1“",
 	"checkuser-reset-action": "промяна на парола за потребител \"$1\""
 }

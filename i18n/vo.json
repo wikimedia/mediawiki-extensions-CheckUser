@@ -56,12 +56,6 @@
 	"checkuser-search-target": "zeil",
 	"checkuser-ipeditcount": "~$1 de gebans valik",
 	"checkuser-log-return": "Geikön lü cifafomet",
-	"checkuser-log-userips": "$1 labon ladetis-IP ela $2",
-	"checkuser-log-ipedits": "$1 labon redakamis ela $2",
-	"checkuser-log-ipusers": "$1 labon gebanis ela $2",
-	"checkuser-log-ipedits-xff": "$1 labon redakamis ela XFF $2",
-	"checkuser-log-ipusers-xff": "$1 labon gebanis ela XFF $2",
-	"checkuser-log-useredits": "$1 labon redakamis pro $2",
 	"checkuser-autocreate-action": "pejafon itjäfidiko",
 	"checkuser-email-action": "äsedon penedi leäktronik gebane: „$1“",
 	"checkuser-reset-action": "votükön letavödi gebana: „$1“"

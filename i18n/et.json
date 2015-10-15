@@ -61,12 +61,6 @@
 	"checkuser-search-target": "kontrollitav",
 	"checkuser-ipeditcount": "~$1 kõigilt kasutajatelt",
 	"checkuser-log-return": "Mine kasutajakontrolli peavormi juurde",
-	"checkuser-log-userips": "$1 hankis kasutaja $2 IP-aadressid",
-	"checkuser-log-ipedits": "$1 hankis IP-aadressi $2 tehtud muudatused",
-	"checkuser-log-ipusers": "$1 hankis IP-aadressi $2 kasutajad",
-	"checkuser-log-ipedits-xff": "$1 hankis IP-aadressi (XFF) $2 tehtud muudatused",
-	"checkuser-log-ipusers-xff": "$1 hankis IP-aadressi (XFF) $2 kasutajad",
-	"checkuser-log-useredits": "$1 hankis kasutaja $2 tehtud muudatused",
 	"checkuser-autocreate-action": "loodud automaatselt",
 	"checkuser-create-action": "loodud",
 	"checkuser-email-action": "e-kiri kasutajale \"$1\" saadetud"

@@ -52,11 +52,6 @@
 	"checkuser-search-target": "нысана",
 	"checkuser-ipeditcount": "Барлық қатысушылардан ~$1",
 	"checkuser-log-return": "Қатысушыларды тексеру басты пішініне ауысу",
-	"checkuser-log-userips": "$2 үшін $1 IP жай алынды",
-	"checkuser-log-ipedits": "$2 үшін $1 түзету алынды",
-	"checkuser-log-ipusers": "$2 үшін $1 IP қатысушы алынды",
-	"checkuser-log-ipedits-xff": "XFF $2 үшін $1 түзету алынды",
-	"checkuser-log-ipusers-xff": "XFF $2 үшін $1 қатысушы алынды",
 	"checkuser-autocreate-action": "автоматты түрде басталды",
 	"checkuser-create-action": "басталды",
 	"checkuser-email-action": "«$1» деген қатысушыға электронды хат жіберу"

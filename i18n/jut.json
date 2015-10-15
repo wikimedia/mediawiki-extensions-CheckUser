@@ -33,10 +33,5 @@
 	"checkuser-search-submit": "Syeg",
 	"checkuser-search-initiator": "initiatiwtar",
 	"checkuser-search-target": "mol",
-	"checkuser-log-return": "Gå tilbage til hovedformularen for checkbruger",
-	"checkuser-log-userips": "$1 fækk IP'e for $2",
-	"checkuser-log-ipedits": "$1 fækk redigiirenge for $2",
-	"checkuser-log-ipusers": "$1 fækk bruga for $2",
-	"checkuser-log-ipedits-xff": "$1 fækk redigiirenge for XFF $2",
-	"checkuser-log-ipusers-xff": "$1 fækk bruga for XFF $2"
+	"checkuser-log-return": "Gå tilbage til hovedformularen for checkbruger"
 }

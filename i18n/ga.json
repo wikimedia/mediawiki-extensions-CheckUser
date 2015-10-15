@@ -44,12 +44,6 @@
 	"checkuser-search-initiator": "tionscnóir",
 	"checkuser-search-target": "targaid",
 	"checkuser-ipeditcount": "~$1 as na n-úsáideoir go léir",
-	"checkuser-log-userips": "Fuair $1 seolaidh IP le $2",
-	"checkuser-log-ipedits": "Fuair $1 athruithe le $2",
-	"checkuser-log-ipusers": "Fuair $1 úsáideoirí le $2",
-	"checkuser-log-ipedits-xff": "Fuair $1 athruithe le XFF $2",
-	"checkuser-log-ipusers-xff": "Fuair $1 úsáideoirí le XFF $2",
-	"checkuser-log-useredits": "Fuair $1 athruithe le $2",
 	"checkuser-autocreate-action": "a chruthú go huathoibríoch",
 	"checkuser-email-action": "a chur riomhphoist do úsáideoir \"$1\"",
 	"checkuser-reset-action": "a athshocrú pásfhocal le úsáideoir \"$1\""

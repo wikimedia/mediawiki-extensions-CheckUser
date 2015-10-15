@@ -36,10 +36,5 @@
 	"checkuser-search-initiator": "o encetador d'a consulta",
 	"checkuser-search-target": "obchectivo",
 	"checkuser-ipeditcount": "~$1 de totz os usuarios",
-	"checkuser-log-return": "Tornar ta o formulario prencipal de CheckUser (Comprebación d'usuarios)",
-	"checkuser-log-userips": "$1 ha consultato as adrezas IP de $2",
-	"checkuser-log-ipedits": "$1 ha consultato as edicions de $2",
-	"checkuser-log-ipusers": "$1 ha consultato os nombres d'usuario de $2",
-	"checkuser-log-ipedits-xff": "$1 ha consultato as edicions d'o XFF $2",
-	"checkuser-log-ipusers-xff": "$1 ha consultato os nombres d'usuario d'o XFF $2"
+	"checkuser-log-return": "Tornar ta o formulario prencipal de CheckUser (Comprebación d'usuarios)"
 }
