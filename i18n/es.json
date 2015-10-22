@@ -94,6 +94,8 @@
 	"checkuser-log-entry-userips": "$3, $1 obtuvo las direcciones IP de $2",
 	"checkuser-log-entry-ipedits": "$3, $1 obtuvo las contribuciones de $2",
 	"checkuser-log-entry-ipusers": "$3, $1 obtuvo los usuarios de $2",
+	"checkuser-log-entry-ipedits-xff": "$3, $1 obtuvo las contribuciones de XFF $2",
+	"checkuser-log-entry-ipusers-xff": "$3, $1 obtuvo los usuarios de XFF $2",
 	"checkuser-log-entry-useredits": "$3, $1 obtuvo las contribuciones de $2",
 	"checkuser-autocreate-action": "fue creada automáticamente",
 	"checkuser-create-action": "se creó",
