@@ -37,6 +37,7 @@
 	"checkuser-all": "सर्व",
 	"checkuser-empty": "लॉग मध्ये एकही नोंद नाही",
 	"checkuser-nomatch": "नोंदी सापडल्या नाहीत",
+	"checkuser-nomatch-edits": "काहीच अनुरुपन सापडले नाही.\nशेवटले संपादन $2ला $1वर होते.",
 	"checkuser-check": "पडताळा",
 	"checkuser-log-fail": "लॉगमध्ये नोंद वाढविता आलेली नाही.",
 	"checkuser-nolog": "लॉग संचिका सापडलेली नाही.",
@@ -65,8 +66,19 @@
 	"checkuser-ipeditcount": "~$1 सर्व सदस्यांकडून",
 	"checkuser-log-return": "सदस्यतपासच्या मुख्य अर्जाकडे परत जा",
 	"checkuser-limited": "'''उत्तम कामगिरी देण्यासाठीच्या कारणास्तव, निकालात काटछाट करण्यात आली  आहे.'''",
+	"checkuser-log-entry-userips": "$3,$1ने $2साठी अंकपत्ते मिळविले",
+	"checkuser-log-entry-ipedits": "$3,$1ने $2साठी संपादने मिळविली",
+	"checkuser-log-entry-ipusers": "$3,$1ने $2साठी सदस्य मिळविले",
+	"checkuser-log-entry-useredits": "$3,$1ने $2साठी संपादने मिळविली",
 	"checkuser-autocreate-action": "आपोआप निर्माण केल्या गेले",
 	"checkuser-create-action": "निर्माण केल्या गेले",
 	"checkuser-email-action": "\"$1\"ला विपत्र पाठविले",
-	"checkuser-reset-action": "सदस्य $1चा परवलीचा शब्द पुनर्स्थापित करा"
+	"checkuser-reset-action": "सदस्य $1चा परवलीचा शब्द पुनर्स्थापित करा",
+	"checkuser-token-fail": "सत्र अयशस्वी.कृपया पुन्हा प्रयत्न करा.",
+	"apihelp-query+checkuser-description": "दिलेले सदस्यनाव कोणते अंकपत्ते वापरते किंवा दिलेल्या अंकपत्त्याद्वारे कोणती सदस्यनावे वापरल्या जातात ते तपासा.",
+	"apihelp-query+checkuser-param-target": "तपासावयाचे सदस्यनाव, अंकपत्ता किंवा सीआयडीआर रेंज.",
+	"apihelp-query+checkuser-param-reason": "तपासण्याचे कारण.",
+	"apihelp-query+checkuser-param-limit": "ओळींची मर्यादा.",
+	"apihelp-query+checkuser-param-timecond": "सदस्यडाटाची काल मर्यादा(जसे \"२ आठवडे\").",
+	"apihelp-query+checkuserlog-param-limit": "ओळींची मर्यादा."
 }
