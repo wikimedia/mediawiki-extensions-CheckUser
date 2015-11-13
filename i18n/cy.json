@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Lloffiwr"
+			"Lloffiwr",
+			"Robin Owain"
 		]
 	},
 	"checkuser-summary": "Mae'r teclyn hwn yn sganio newidiadau diweddar i gael hyd i'r cyfeiriadau IP a ddefnyddir gan ddefnyddiwr, neu i ddangos data golygu neu ddata defnyddiwr ar gyfer rhyw gyfeiriad IP. \nGall y teclyn gael hyd i ddefnyddwyr rhyw gyfeiriad IP cleient, neu'r golygiadau a ddaw ohono, drwy atodi \"/xff\" i'r cyfeiriad IP. Mae IPv4 (CIDR $1-32) a IPv6 (CIDR $2-128) yn cael eu cynnal. \nNi chaiff mwy na 5,000 o olygiadau eu dychwelyd er mwyn peidio amharu ar berfformiad y wefan. \nDefnyddiwch hwn yn unol â'n polisi.",
@@ -56,7 +57,7 @@
 	"checkuser-block-noreason": "Rhaid cynnig rheswm dros y blociau.",
 	"checkuser-noreason": "Rhaid cynnig rheswm dros yr ymholiad hwn.",
 	"checkuser-accounts": "$1 {{PLURAL:$1|cyfrif|cyfrif|gyfrif|chyfrif|chyfrif|cyfrif}} newydd",
-	"checkuser-too-many": "Mae gormod o lawer o ganlyniadau (yn ôl amcangyfrif yr ymholiad), cyfyngwch y CIDR os gwelwch yn dda. Dyma'r IPau a ddefnyddiwyd (hyd at 5000 ohonynt, yn nhrefn y cyfeiriadau):",
+	"checkuser-too-many": "Mae gormod o lawer o ganlyniadau (yn ôl amcangyfrif yr ymholiad), cyfyngwch y CIDR. Dyma'r IPau a ddefnyddiwyd (hyd at 5000 ohonynt, yn nhrefn y cyfeiriadau):",
 	"checkuser-user-nonexistent": "Nid yw'r defnyddiwr a enwyd ar gael.",
 	"checkuser-search-form": "Canfod y cofnodion lòg sy'n ymwneud â'r $1 $2",
 	"checkuser-search-submit": "Chwilier",
@@ -68,5 +69,6 @@
 	"checkuser-autocreate-action": "wedi ei greu'n awtomatig",
 	"checkuser-create-action": "wedi ei greu",
 	"checkuser-email-action": "wedi anfon e-bost at y defnyddiwr \"$1\"",
-	"checkuser-reset-action": "wedi ailosod y cyfrinair ar gyfer y defnyddiwr \"$1\""
+	"checkuser-reset-action": "wedi ailosod y cyfrinair ar gyfer y defnyddiwr \"$1\"",
+	"checkuser-token-fail": "Methodd y sesiwn; ceisiwch eto."
 }
