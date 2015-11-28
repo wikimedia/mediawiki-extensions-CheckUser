@@ -5,6 +5,6 @@
 		]
 	},
 	"group-checkuser": "Кулланучыларны тикшереп торучылар",
-	"group-checkuser-member": "кулланучыларны тикшереп торучы",
+	"group-checkuser-member": "{{GENDER:$1|кулланучыларны тикшерүче}}",
 	"right-checkuser": "куланучының IP-юлламасын тикшерү"
 }
