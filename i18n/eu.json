@@ -10,7 +10,7 @@
 	},
 	"checkuser": "Erabiltzailea egiaztatu",
 	"group-checkuser": "Erabiltzaileak egiaztatu",
-	"group-checkuser-member": "Erabiltzailea egiaztatu",
+	"group-checkuser-member": "{{GENDER:$1|erabiltzaile egiaztatzailea}}",
 	"grouppage-checkuser": "{{ns:project}}:Lankidea egiaztatu",
 	"checkuser-reason": "Arrazoia:",
 	"checkuser-reason-api": "API: $1",
