@@ -621,7 +621,7 @@ class CheckUser extends SpecialPage {
 					$ip = substr( $row->cuc_ip_hex, 3 );
 					$ip = IP::HextoOctet( $ip );
 				} else {
-					$ip = long2ip( wfBaseConvert( $row->cuc_ip_hex, 16, 10, 8 ) );
+					$ip = long2ip( Wikimedia\base_convert( $row->cuc_ip_hex, 16, 10, 8 ) );
 				}
 				$s .= '<li><a href="' .
 					htmlspecialchars( $this->getPageTitle()->getLocalURL( array(
@@ -915,9 +915,9 @@ class CheckUser extends SpecialPage {
 				# Convert the IP hexes into normal form
 				if ( strpos( $row->cuc_ip_hex, 'v6-' ) !== false ) {
 					$ip = substr( $row->cuc_ip_hex, 3 );
-					$ip = IP::HextoOctet( $ip );
+					$ip = IP::hexToOctet( $ip );
 				} else {
-					$ip = long2ip( wfBaseConvert( $row->cuc_ip_hex, 16, 10, 8 ) );
+					$ip = long2ip( Wikimedia\base_convert( $row->cuc_ip_hex, 16, 10, 8 ) );
 				}
 				$s .= '<li><a href="' .
 					htmlspecialchars( $this->getPageTitle()->getLocalURL( array(
