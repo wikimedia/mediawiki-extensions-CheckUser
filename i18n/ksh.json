@@ -47,6 +47,8 @@
 	"checkuser-localonly": "Nit zosamme jelaht",
 	"checkuser-massblock": "Don de usjesöhk Metmaacher schpärre",
 	"checkuser-massblock-text": "De ußjesohte Metmaacher wähde för ihwich jeschpächt, met automattesch wigger schpärre ennjeschalldt un et Metmaacher_Neu_Aanlähje es verbodde.\nDe nahmelohse Metmaacher un ier <i lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"Internet Protocol\">IP</i>-Adräße wähde för en Woch jeschpächt — Enlogge fun doh es ävver wigger müjjelesch — un et Metmaacher_Neu_Aanlähje es doh och verbodde.",
+	"checkuser-blockemail": "Et <i lang=\"en\">e-mail</i>-Verschecke ongerbenge",
+	"checkuser-blocktalk": "Dä Metmaacher darf sing Klaafsigg nit änndere, esulang wi hä jeschpäächd es",
 	"checkuser-blocktag": "Der Metmaacher ier Sigge iere Ennhalt ußtuusche jäje:",
 	"checkuser-blocktag-talk": "Donn de Klaafsigge övverschrihve met:",
 	"checkuser-massblock-commit": "Ußjesohte Metmaacher schpärre",

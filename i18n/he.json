@@ -52,6 +52,8 @@
 	"checkuser-localonly": "חשבון לא מאוחד",
 	"checkuser-massblock": "חסימת המשתמשים שנבחרו",
 	"checkuser-massblock-text": "חשבונות המשתמש שנבחרו ייחסמו לצמיתות, עם הפעלה של חסימה אוטומטית של כתובות IP וללא אפשרות ליצור חשבון.\nכתובות IP תיחסמנה לשבוע אחד עבור משתמשים אנונימיים בלבד, וללא אפשרות ליצור חשבון.",
+	"checkuser-blockemail": "למנוע שליחת דואר אלקטרוני",
+	"checkuser-blocktalk": "למנוע עריכת את דף שיחת המשתמש בזמן החסימה",
 	"checkuser-blocktag": "החלפת דפי המשתמש עם:",
 	"checkuser-blocktag-talk": "החלפת דפי השיחה עם:",
 	"checkuser-massblock-commit": "חסימת המשתמשים שנבחרו",

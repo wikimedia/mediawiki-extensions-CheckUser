@@ -14,7 +14,8 @@
 			"Verdy p",
 			"Wyz",
 			"Zetud",
-			"Element303"
+			"Element303",
+			"Orlodrim"
 		]
 	},
 	"checkuser-summary": "Cet outil parcourt la liste des changements récents à la recherche des adresses IP employées par un utilisateur ou affiche toutes les données utilisateur d’une adresse IP.\nLes comptes et les modifications faites par une adresse IP cliente peuvent être récupérés via les entêtes XFF en suffisant l’adresse IP avec \"/xff\". Les adresses IPv4 (CIDR /$1 à /32) et IPv6 (CIDR /$2 à /128) sont supportées.\nPas plus de 5000 modifications ne seront renvoyées, pour des questions de performance.\nVeuillez utiliser cet outil dans le respect de la charte d’utilisation.",
@@ -60,6 +61,8 @@
 	"checkuser-localonly": "Non unifié",
 	"checkuser-massblock": "Bloquer les utilisateurs sélectionnés",
 	"checkuser-massblock-text": "Les comptes sélectionnés seront bloqués indéfiniment, avec le blocage automatique activé et la création de compte désactivée.\nLes adresses IP seront bloquées pendant une semaine uniquement pour les utilisateurs sous IP et avec la création de compte désactivée.",
+	"checkuser-blockemail": "Empêcher l’utilisateur d’envoyer des courriels",
+	"checkuser-blocktalk": "Empêcher l’utilisateur de modifier sa page de discussion pendant le blocage",
 	"checkuser-blocktag": "Remplacer les pages utilisateur par :",
 	"checkuser-blocktag-talk": "Remplacer les pages de discussion par :",
 	"checkuser-massblock-commit": "Bloquer les utilisateurs sélectionnés",

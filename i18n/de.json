@@ -57,6 +57,8 @@
 	"checkuser-localonly": "nicht zusammengeführt",
 	"checkuser-massblock": "Ausgewählte Benutzer sperren",
 	"checkuser-massblock-text": "Die ausgewählten Benutzerkonten werden dauerhaft gesperrt (Autoblock ist aktiv, die Anlage neuer Benutzerkonten wird unterbunden).\nIP-Adressen werden für eine Woche gesperrt (nur für unangemeldete Benutzer, die Anlage neuer Benutzerkonten wird unterbunden).",
+	"checkuser-blockemail": "Vom Versenden von E-Mails abhalten",
+	"checkuser-blocktalk": "Vom Bearbeiten der eigenen Diskussionsseite abhalten, während der Benutzer gesperrt ist.",
 	"checkuser-blocktag": "Inhalt der Benutzerseiten ersetzen durch:",
 	"checkuser-blocktag-talk": "Inhalt der Benutzerdiskussionsseiten ersetzen durch:",
 	"checkuser-massblock-commit": "Ausgewählte Benutzer sperren",
