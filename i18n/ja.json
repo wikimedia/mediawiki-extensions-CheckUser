@@ -19,7 +19,8 @@
 			"Rxy",
 			"W.CC",
 			"2nd-player",
-			"Azeha"
+			"Azeha",
+			"Otokoume"
 		]
 	},
 	"checkuser-summary": "このツールは最近の更新をもとに、ある利用者が使用したIPアドレスの検索、または、あるIPアドレスからなされた編集および利用者名の表示を行います。\nIPアドレスと共に「/xff」オプションを指定すると、XFF (X-Forwarded-For) ヘッダーを通じてクライアントIPアドレスを取得し、そこからなされた編集および利用者名の検索をすることができます。\nIPv4 ($1から32ビットのCIDR表記) と IPv6 ($2から128ビットのCIDR表記) に対応しています。\nパフォーマンス上の理由により、最大5000件の編集しか表示できません。\n方針に従って使用してください。",
@@ -65,6 +66,8 @@
 	"checkuser-localonly": "統合されていません",
 	"checkuser-massblock": "選択した利用者をブロック",
 	"checkuser-massblock-text": "選択した利用者は無期限ブロックされ、同時に自動ブロックが作動しアカウント作成も禁止されます。\nIPアドレスはIP利用者向けに1週間ブロックされ、アカウント作成が禁止されます。",
+	"checkuser-blockemail": "メール送信を禁止させる",
+	"checkuser-blocktalk": "この利用者がブロック中に自身のトークページを編集することを禁止させる",
 	"checkuser-blocktag": "利用者ページを以下で置換:",
 	"checkuser-blocktag-talk": "トークページを以下で置換:",
 	"checkuser-massblock-commit": "選択した利用者をブロック",

@@ -59,6 +59,7 @@
 	"checkuser-localonly": "Inte sammanslaget",
 	"checkuser-massblock": "Blockera valda användare",
 	"checkuser-massblock-text": "Valda konton kommer blockeras på obestämd tid, med autoblockering aktiverad och kontoskapande avaktiverat.\nIP-adresser kommer blockeras i en vecka för anonyma användare, med kontoskapande avaktiverat.",
+	"checkuser-blockemail": "Förhindra från att skicka e-post",
 	"checkuser-blocktag": "Ersätt användarsidor med:",
 	"checkuser-blocktag-talk": "Ersätt diskussionssidor med:",
 	"checkuser-massblock-commit": "Blockera valda användare",
