@@ -10,7 +10,8 @@
 			"아라",
 			"Revi",
 			"SeoJeongHo",
-			"IRTC1015"
+			"IRTC1015",
+			"Priviet"
 		]
 	},
 	"checkuser-summary": "이 도구는 특정 사용자가 이용한 IP 또는 특정 IP에 대한 편집/사용자 정보를 검사합니다.\n클라이언트 IP를 통한 사용자와 편집은 IP 주소 뒤에 \"/xff\"를 더함으로서 XFF 제공자를 통해 조사할 수 있습니다. IPv4 (CIDR $1-32) 와 IPv6 (CIDR $2-128)을 지원합니다.\n성능상의 이유로 최대 5000개의 편집만 보여질 것입니다.\n이 도구는 정책에 맞게 사용하십시오.",
@@ -56,6 +57,7 @@
 	"checkuser-localonly": "계정이 통합되지 않음",
 	"checkuser-massblock": "선택한 사용자 차단",
 	"checkuser-massblock-text": "선택한 계정은 무기한 (자동 차단 활성화, 계정 만들기 금지됨) 차단될 것입니다.\nIP 주소는 1주일 (IP만 막음, 계정 만들기 금지됨) 차단될 것입니다.",
+	"checkuser-blockemail": "이메일을 보내지 못하도록 막기",
 	"checkuser-blocktag": "사용자 문서를 다음 내용으로 바꾸기:",
 	"checkuser-blocktag-talk": "토론 문서를 다음 내용으로 바꾸기:",
 	"checkuser-massblock-commit": "선택한 사용자를 차단",

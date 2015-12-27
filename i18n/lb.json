@@ -50,6 +50,7 @@
 	"checkuser-massblock": "Ausgewielt Benotzer spären",
 	"checkuser-massblock-text": "Déi erausgesicht Benotzerkonte gi fir eng onbestëmmt Zäit gespaart, Autoblock ass ageschalt an d'Opmaache vu Benotzerkonten ass ausgeschalt., IP-Adresse gi fir eng Woch gespaart fir IP Benotzer an d'Opmaache vu Benotzerkonten ass ausgeschalt.",
 	"checkuser-blockemail": "Verhënnere fir E-Mailen ze verschécken",
+	"checkuser-blocktalk": "Verhënnere fir seng eegen Diskussiounssäit z'ännere sou laang wéi e gespaart ass",
 	"checkuser-blocktag": "Benotzersäiten duerch dëst ersetzen:",
 	"checkuser-blocktag-talk": "Diskussiounssäiten ersetzen duerch:",
 	"checkuser-massblock-commit": "Ausgewielt Benotzer spären",
