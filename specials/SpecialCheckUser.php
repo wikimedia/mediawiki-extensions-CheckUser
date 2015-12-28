@@ -275,21 +275,19 @@ class CheckUser extends SpecialPage {
 	/**
 	 * Block a list of selected users
 	 *
-	 * @param $users Array
+	 * @param string[] $users
 	 * @param array $blockParams
-	 * @param $tag String: replaces user pages
-	 * @param $talkTag String: replaces user talk pages
-	 * @return Array: list of html-safe usernames
+	 * @param string $tag replaces user pages
+	 * @param string $talkTag replaces user talk pages
+	 * @return string[] List of html-safe usernames which were actually were blocked
 	 */
 	public static function doMassUserBlockInternal( $users, $blockParams, $tag = '', $talkTag = '' ) {
 		global $wgBlockAllowsUTEdit, $wgUser;
 
-		$counter = $blockSize = 0;
+		$blockSize = 0;
 		$safeUsers = array();
-		$log = new LogPage( 'block' );
 		foreach ( $users as $name ) {
 			# Enforce limits
-			$counter++;
 			$blockSize++;
 			# Lets not go *too* fast
 			if ( $blockSize >= 20 ) {
@@ -301,6 +299,13 @@ class CheckUser extends SpecialPage {
 			if ( is_null( $u ) || ( !$u->getId() && !IP::isIPAddress( $u->getName() ) ) ) {
 				continue;
 			}
+
+			$oldBlock = Block::newFromTarget( $u->getName() );
+			if ( $oldBlock ) {
+				// If the user is already blocked, just leave it as is
+				continue;
+			}
+
 			$userTitle = $u->getUserPage();
 			$userTalkTitle = $u->getTalkPage();
 			$userpage = WikiPage::factory( $userTitle );
@@ -321,23 +326,21 @@ class CheckUser extends SpecialPage {
 			$block->prevents( 'createaccount', true );
 			$block->prevents( 'sendemail', ( SpecialBlock::canBlockEmail( $wgUser ) && $blockParams['email'] ) );
 			$block->prevents( 'editownusertalk', ( !$wgBlockAllowsUTEdit || $blockParams['talk'] ) );
+			$status = $block->insert();
 
-			$oldblock = Block::newFromTarget( $u->getName() );
-			if ( !$oldblock ) {
-				$block->insert();
-				# Prepare log parameters
-				$logParams = array();
-				$logParams[] = $expirestr;
-				$logParams[] = self::userBlockLogFlags( $anonOnly, $blockParams );
+			// Prepare log parameters for the block
+			$logParams = array();
+			$logParams['5::duration'] = $expirestr;
+			$logParams['6::flags'] = self::userBlockLogFlags( $anonOnly, $blockParams );
 
-				# Add log entry
-				$log->addEntry(
-					'block',
-					$userTitle,
-					$blockParams['reason'],
-					$logParams
-				);
-			}
+			$logEntry = new ManualLogEntry( 'block', 'block' );
+			$logEntry->setTarget( $userTitle );
+			$logEntry->setComment( $blockParams['reason'] );
+			$logEntry->setPerformer( $wgUser );
+			$logEntry->setParameters( $logParams );
+			$blockIds = array_merge( array( $status['id'] ), $status['autoIds'] );
+			$logEntry->setRelations( array( 'ipb_id' => $blockIds ) );
+			$logEntry->publish( $logEntry->insert() );
 
 			# Tag userpage! (check length to avoid mistakes)
 			if ( strlen( $tag ) > 2 ) {
