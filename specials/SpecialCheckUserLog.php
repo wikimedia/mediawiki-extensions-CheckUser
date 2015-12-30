@@ -69,35 +69,7 @@ class SpecialCheckUserLog extends SpecialPage {
 			}
 		}
 
-		// Give grep a chance to find the usages:
-		// checkuser-search-initiator, checkuser-search-target
-		$searchTypes = array( 'initiator', 'target' );
-		$select = "<select name=\"cuSearchType\" style='margin-top:.2em;'>\n";
-		foreach ( $searchTypes as $searchType ) {
-			if ( $type == $searchType ) {
-				$checked = 'selected="selected"';
-			} else {
-				$checked = '';
-			}
-			$caption = $this->msg( 'checkuser-search-' . $searchType )->escaped();
-			$select .= "<option value=\"$searchType\" $checked>$caption</option>\n";
-		}
-		$select .= '</select>';
-
-		$encTarget = htmlspecialchars( $target );
-		$msgSearch = $this->msg( 'checkuser-search' )->escaped();
-		$input = "<input type=\"text\" name=\"cuSearch\" value=\"$encTarget\" size=\"40\"/>";
-		$msgSearchForm = $this->msg( 'checkuser-search-form' )->rawParams( $select, $input )->escaped();
-		$formAction = htmlspecialchars( $this->getPageTitle()->getLocalURL() );
-		$msgSearchSubmit = '&#160;&#160;' . $this->msg( 'checkuser-search-submit' )->escaped() . '&#160;&#160;';
-
-		$s = "<form method='get' action=\"$formAction\">\n" .
-			"<fieldset><legend>$msgSearch</legend>\n" .
-			"<p>$msgSearchForm</p>\n" .
-			"<p>" . Xml::dateMenu( $year, $month ) . "&#160;&#160;&#160;\n" .
-			"<input type=\"submit\" name=\"cuSearchSubmit\" value=\"$msgSearchSubmit\"/></p>\n" .
-			"</fieldset></form>\n";
-		$out->addHTML( $s );
+		$this->displaySearchForm();
 
 		if ( $error !== false ) {
 			$out->wrapWikiMsg( '<div class="errorbox">$1</div>', $error );
@@ -110,6 +82,50 @@ class SpecialCheckUserLog extends SpecialPage {
 			$pager->getBody() .
 			$pager->getNavigationBar()
 		);
+	}
+
+	/**
+	 * Use an HTMLForm to create and output the search form used on this page.
+	 */
+	protected function displaySearchForm() {
+		$this->getOutput()->addModules( 'mediawiki.userSuggest' );
+		$request = $this->getRequest();
+		$fields = array(
+			'target' => array(
+				'type' => 'user',
+				// validation in execute() currently
+				'exists' => false,
+				'ipallowed' => true,
+				'name' => 'cuSearch',
+				'size' => 40,
+				'cssclass' => 'mw-autocomplete-user', // for mediawiki.userSuggest autocompletions
+				'label-message' => 'checkuser-log-search-target',
+			),
+			'type' => array(
+				'type' => 'radio',
+				'name' => 'cuSearchType',
+				'label-message' => 'checkuser-log-search-type',
+				'options-messages' => array(
+					'checkuser-search-target' => 'target',
+					'checkuser-search-initiator' => 'initiator',
+				),
+				'flatlist' => true,
+				'default' => 'target',
+			),
+			// @todo hack until HTMLFormField has a proper date selector
+			'monthyear' => array(
+				'type' => 'info',
+				'default' => Xml::dateMenu( $request->getInt( 'year' ), $request->getInt( 'month' ) ),
+				'raw' => true,
+			),
+		);
+
+		$form = HTMLForm::factory( 'table', $fields, $this->getContext() );
+		$form->setMethod( 'get' )
+			->setWrapperLegendMsg( 'checkuser-search' )
+			->setSubmitTextMsg( 'checkuser-search-submit' )
+			->prepareForm()
+			->displayForm( false );
 	}
 
 	protected function getGroupName() {
