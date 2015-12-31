@@ -5,27 +5,20 @@ class SpecialCheckUserLog extends SpecialPage {
 		parent::__construct( 'CheckUserLog', 'checkuser-log' );
 	}
 
-	/**
-	 * @var Title
-	 */
-	public $checkUserFormTitle;
-
-	/**
-	 * @return Title
-	 */
-	function getCheckUserFormTitle() {
-		if ( !isset( $this->checkUserFormTitle ) ) {
-			$this->checkUserFormTitle = SpecialPage::getTitleFor( 'CheckUser' );
-		}
-		return $this->checkUserFormTitle;
-	}
-
 	function execute( $par ) {
 		$this->checkPermissions();
 
 		$out = $this->getOutput();
 		$request = $this->getRequest();
 		$this->setHeaders();
+
+		if ( $this->getUser()->isAllowed( 'checkuser' ) ) {
+			$subtitleLink = Linker::linkKnown(
+				SpecialPage::getTitleFor( 'CheckUser' ),
+				$this->msg( 'checkuser-showmain' )->escaped()
+			);
+			$out->addSubtitle( $subtitleLink );
+		}
 
 		$type = $request->getVal( 'cuSearchType' );
 		$target = $request->getVal( 'cuSearch' );
@@ -75,10 +68,6 @@ class SpecialCheckUserLog extends SpecialPage {
 				}
 			}
 		}
-
-		$out->addHTML( Linker::linkKnown(
-				$this->getCheckUserFormTitle(),
-				$this->msg( 'checkuser-log-return' ) ) );
 
 		// Give grep a chance to find the usages:
 		// checkuser-search-initiator, checkuser-search-target

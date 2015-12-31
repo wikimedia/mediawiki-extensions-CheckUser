@@ -14,6 +14,14 @@ class CheckUser extends SpecialPage {
 		$this->checkPermissions();
 		$this->setHeaders();
 
+		if ( $this->getUser()->isAllowed( 'checkuser-log' ) ) {
+			$subtitleLink = Linker::linkKnown(
+				SpecialPage::getTitleFor( 'CheckUserLog' ),
+				$this->msg( 'checkuser-showlog' )->escaped()
+			);
+			$this->getOutput()->addSubtitle( $subtitleLink );
+		}
+
 		$user = $request->getText( 'user', $request->getText( 'ip', $subpage ) );
 		$user = trim( $user );
 		$reason = $request->getText( 'reason' );
@@ -94,24 +102,13 @@ class CheckUser extends SpecialPage {
 		}
 	}
 
-	/**
-	 * @return Title
-	 */
-	public function getCheckUserLogTitle() {
-		if ( !isset( $this->checkUserLogTitle ) ) {
-			$this->checkUserLogTitle = SpecialPage::getTitleFor( 'CheckUserLog' );
-		}
-		return $this->checkUserLogTitle;
-	}
-
 	protected function showGuide() {
 		global $wgCheckUserCIDRLimit;
 		$this->getOutput()->addWikiText(
 			$this->msg( 'checkuser-summary',
 				$wgCheckUserCIDRLimit['IPv4'],
-				$wgCheckUserCIDRLimit['IPv6'] )->text() .
-				"\n\n[[" . $this->getCheckUserLogTitle()->getPrefixedText() .
-				'|' . $this->msg( 'checkuser-showlog' )->text() . ']]'
+				$wgCheckUserCIDRLimit['IPv6']
+			)->text()
 		);
 	}
 
