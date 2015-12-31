@@ -52,11 +52,11 @@ class PurgeOldIPAddressData extends Maintenance {
 			$res->free();
 
 			// Do the actual delete...
-			$dbw->begin();
+			$this->beginTransaction( $dbw, __METHOD__ );
 			$dbw->delete( $table,
 				array( "$ts_column BETWEEN $blockStart AND $blockEnd" ), __METHOD__ );
 			$count += $dbw->affectedRows();
-			$dbw->commit();
+			$this->commitTransaction( $dbw, __METHOD__ );
 
 			wfWaitForSlaves();
 		}
