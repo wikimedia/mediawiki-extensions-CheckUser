@@ -89,6 +89,8 @@
 	"checkuser-search-submit": "Buscar",
 	"checkuser-search-initiator": "verificador",
 	"checkuser-search-target": "usuario verificado",
+	"checkuser-log-search-target": "Destino:",
+	"checkuser-log-search-type": "Buscar por:",
 	"checkuser-ipeditcount": "~$1 de todos los usuarios",
 	"checkuser-showmain": "Cambiar al formulario principal de verificador de usuarios (CheckUser)",
 	"checkuser-limited": "'''Estos resultados han sido truncados por motivos de rendimiento.'''",
