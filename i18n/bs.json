@@ -62,7 +62,7 @@
 	"checkuser-search-initiator": "pokretač",
 	"checkuser-search-target": "cilj",
 	"checkuser-ipeditcount": "~$1 od svih korisnika",
-	"checkuser-showmain": "!!FUZZY!!Povratak na glavni obrazac provjere korisnika",
+	"checkuser-showmain": "Povratak na glavni obrazac provjere korisnika",
 	"checkuser-limited": "'''Ovi rezultati su skraćeni iz razloga bolje performanse.'''",
 	"checkuser-autocreate-action": "je automatski napravljen",
 	"checkuser-create-action": "je napravljen",
