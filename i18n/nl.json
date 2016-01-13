@@ -61,7 +61,7 @@
 	"checkuser-accounts": "$1 nieuwe {{PLURAL:$1|gebruiker|gebruikers}}",
 	"checkuser-too-many": "Te veel resultaten (volgens de schatting). Maak de CIDR kleiner:\nHieronder worden de gebruikte IP-adressen weergegeven (maximaal 5000, op IP-adres gesorteerd):",
 	"checkuser-user-nonexistent": "De opgegeven gebruiker bestaat niet.",
-	"checkuser-search": "Zoeken",
+	"checkuser-search": "Checkuserlogboekregels doorzoeken",
 	"checkuser-search-submit": "Zoeken",
 	"checkuser-search-initiator": "aanvrager",
 	"checkuser-search-target": "onderwerp",
