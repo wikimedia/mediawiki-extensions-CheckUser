@@ -59,7 +59,7 @@
 	"checkuser-search-initiator": "инициатор",
 	"checkuser-search-target": "цел",
 	"checkuser-ipeditcount": "~$1 от всички потребители",
-	"checkuser-showmain": "!!FUZZY!!Връщане към основния формуляр за проверка",
+	"checkuser-showmain": "Връщане към основния формуляр за проверка",
 	"checkuser-limited": "'''Резултатите бяха съкратени от съображения, свързани с производителността на системата.'''",
 	"checkuser-email-action": "изпрати е-писмо на потребител „$1“",
 	"checkuser-reset-action": "промяна на парола за потребител \"$1\""
