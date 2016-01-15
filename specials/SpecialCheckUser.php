@@ -8,6 +8,10 @@ class CheckUser extends SpecialPage {
 		parent::__construct( 'CheckUser', 'checkuser' );
 	}
 
+	public function doesWrites() {
+		return true; // logging
+	}
+
 	public function execute( $subpage ) {
 		$request = $this->getRequest();
 
