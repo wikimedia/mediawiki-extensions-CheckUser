@@ -24,7 +24,7 @@
 	"grouppage-checkuser": "{{ns:project}}:Controlegebruiker",
 	"checkuser-reason": "Reden:",
 	"checkuser-reason-api": "API: $1",
-	"checkuser-showlog": "Logboek weergeven",
+	"checkuser-showlog": "CheckUser-logboek weergeven",
 	"checkuser-query": "Bevraag recente wijzigingen",
 	"checkuser-target": "IP-adres of gebruikersnaam:",
 	"checkuser-users": "Gebruikers opvragen",
