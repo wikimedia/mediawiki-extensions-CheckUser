@@ -46,6 +46,9 @@
 		"UserMergeAccountFields": [
 			"CheckUserHooks::onUserMergeAccountFields"
 		],
+		"RenameUserSQL": [
+			"CheckUserHooks::onRenameUserSQL"
+		],
 		"ArticleEditUpdatesDeleteFromRecentchanges": [
 			"CheckUserHooks::maybePruneIPData"
 		],
