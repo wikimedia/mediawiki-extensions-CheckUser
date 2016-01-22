@@ -79,6 +79,7 @@ $wgHooks['User::mailPasswordInternal'][] = 'CheckUserHooks::updateCUPasswordRese
 $wgHooks['AuthPluginAutoCreate'][] = 'CheckUserHooks::onAuthPluginAutoCreate';
 $wgHooks['AddNewAccount'][] = 'CheckUserHooks::onAddNewAccount';
 $wgHooks['UserMergeAccountFields'][] = 'CheckUserHooks::onUserMergeAccountFields';
+$wgHooks['RenameUserSQL'][] = 'CheckUserHooks::onRenameUserSQL';
 
 # Occasional pruning of CU data
 $wgHooks['ArticleEditUpdatesDeleteFromRecentchanges'][] = 'CheckUserHooks::maybePruneIPData';

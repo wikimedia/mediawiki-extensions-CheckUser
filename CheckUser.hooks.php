@@ -427,4 +427,19 @@ class CheckUserHooks {
 
 		return true;
 	}
+
+	/**
+	 * For integration with the Renameuser extension.
+	 *
+	 * @param RenameuserSQL $renameUserSQL
+	 * @return bool
+	 */
+	public static function onRenameUserSQL( RenameuserSQL $renameUserSQL ) {
+		$renameUserSQL->tables['cu_changes'] = array( 'cuc_user_text', 'cuc_user' );
+		$renameUserSQL->tables['cu_log'] = array( 'cul_user_text', 'cul_user' );
+
+		return true;
+	}
+
+
 }
