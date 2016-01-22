@@ -240,7 +240,6 @@ class CheckUserHooks {
 
 				if ( $ids ) {
 					$dbw->delete( 'cu_changes', array( 'cuc_id' => $ids ), $fname );
-					$dbw->commit( 'flush' );
 				}
 			} );
 		}
