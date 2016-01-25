@@ -22,7 +22,6 @@
 	"checkuser-users": "Керла декъашхой",
 	"checkuser-edits": "Нисдарш хьажа",
 	"checkuser-ips": "Деха IP-адрес",
-	"checkuser-search": "Лахар",
 	"checkuser-period": "Йохалла:",
 	"checkuser-week-1": "тӀаьххьара кӀира",
 	"checkuser-week-2": "тӀаьххьара ши кӀира",
@@ -34,7 +33,10 @@
 	"checkuser-gblocked": "Глобальни блоктоьхна",
 	"checkuser-locked": "Блоктоьхна",
 	"checkuser-block-success": "'''ХӀинца  {{PLURAL:$2|1=блоктоьхна $1 декъашхочун|блоктоьхна $1 декъашхойн}}.'''",
+	"checkuser-search": "Лахар",
 	"checkuser-search-submit": "Лахар",
 	"checkuser-search-target": "Ӏалашо",
+	"checkuser-log-search-target": "Ӏалашо:",
+	"checkuser-log-search-type": "Лахар:",
 	"checkuser-create-action": "кхолийна"
 }

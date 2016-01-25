@@ -40,7 +40,7 @@
 	"grouppage-checkuser": "{{ns:project}}:利用者調査者",
 	"checkuser-reason": "理由:",
 	"checkuser-reason-api": "API: $1",
-	"checkuser-showlog": "チェックユーザー記録をスイッチ",
+	"checkuser-showlog": "チェックユーザー記録に切り替え",
 	"checkuser-query": "最近の更新の照会",
 	"checkuser-target": "IPアドレスまたは利用者名:",
 	"checkuser-users": "利用者名を取得",
