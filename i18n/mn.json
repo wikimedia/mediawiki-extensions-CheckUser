@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Chinneeb"
+			"Chinneeb",
+			"Munkhzaya.E"
 		]
 	},
 	"checkuser": "Шалгагч хэрэглэгч",
@@ -9,8 +10,9 @@
 	"group-checkuser-member": "Шалгагч хэрэглэгч",
 	"grouppage-checkuser": "{{ns:project}}:Шалгагч хэрэглэгч",
 	"checkuser-reason": "Шалтгаан:",
-	"checkuser-search": "Хайх",
 	"checkuser-all": "бүгдийг",
 	"checkuser-blocked": "Түгжигдсэн",
-	"checkuser-search-submit": "Хайх"
+	"checkuser-search": "Хайх",
+	"checkuser-search-submit": "Хайх",
+	"checkuser-log-search-target": "Зорилго:"
 }
