@@ -323,10 +323,10 @@ class CheckUserHooks {
 		return true;
 	}
 
-	public static function checkUserCreateTables( $updater ) {
+	public static function checkUserCreateTables( DatabaseUpdater $updater ) {
 		$base = dirname( __FILE__ );
 
-        $db = $updater->getDB();
+		$db = $updater->getDB();
 		if ( $db->tableExists( 'cu_changes' ) ) {
 			$updater->output( "...cu_changes table already exists.\n" );
 		} else {
