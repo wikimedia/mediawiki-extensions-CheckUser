@@ -9,6 +9,15 @@ class CheckUserHooks {
 	public static function updateCheckUserData( RecentChange $rc ) {
 		global $wgRequest;
 
+		/**
+		 * RC_CATEGORIZE recent changes are generally triggered by other edits.
+		 * Thus there is no reason to store checkuser data about them.
+		 * @see https://phabricator.wikimedia.org/T125209
+		 */
+		if ( defined( 'RC_CATEGORIZE' ) && $rc->getAttribute( 'rc_type' ) == RC_CATEGORIZE ) {
+			return true;
+		}
+
 		$attribs = $rc->getAttributes();
 		// Get IP
 		$ip = $wgRequest->getIP();
