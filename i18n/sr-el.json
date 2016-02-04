@@ -48,6 +48,8 @@
 	"checkuser-localonly": "Nije unificirano",
 	"checkuser-massblock": "Blokiraj izabrane korisnike",
 	"checkuser-massblock-text": "Izabrani nalozi će biti blokirani na neodređeno, uz obeležene opcije autoblokiranja i zabrane pravljenja naloga.\nIP adrese će biti blokirane na nedelju dana za IP korisnike, uz zabranu pravljenja naloga.",
+	"checkuser-blockemail": "Onemogući korisniku da šalje imejlove",
+	"checkuser-blocktalk": "Onemogući korisniku da uređuje svoju stranicu za razgovor",
 	"checkuser-blocktag": "Zameni korisničke stranice sa:",
 	"checkuser-blocktag-talk": "Zameni strane za razgovor sa:",
 	"checkuser-massblock-commit": "Blokiraj izabranog korisnika",
