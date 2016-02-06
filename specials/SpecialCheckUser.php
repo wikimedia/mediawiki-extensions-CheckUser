@@ -260,15 +260,15 @@ class CheckUser extends SpecialPage {
 			$flags[] = 'anononly';
 		}
 
-		if ( $wgBlockAllowsUTEdit && $blockParams['talk'] ) {
-			$flags[] = 'nousertalk';
-		}
+		$flags[] = 'nocreate';
 
 		if ( $blockParams['email'] ) {
 			$flags[] = 'noemail';
 		}
 
-		$flags[] = 'nocreate';
+		if ( $wgBlockAllowsUTEdit && $blockParams['talk'] ) {
+			$flags[] = 'nousertalk';
+		}
 
 		return implode( ',', $flags );
 	}
