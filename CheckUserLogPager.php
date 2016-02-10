@@ -1,14 +1,20 @@
 <?php
 
 class CheckUserLogPager extends ReverseChronologicalPager {
-	public $searchConds, $specialPage, $y, $m;
+	/**
+	 * @var array $searchConds
+	 */
+	protected $searchConds;
 
-	function __construct( $specialPage, $searchConds, $y, $m ) {
-		parent::__construct();
-
-		$this->getDateCond( $y, $m );
-		$this->searchConds = $searchConds ? $searchConds : array();
-		$this->specialPage = $specialPage;
+	/**
+	 * @param IContextSource $context
+	 * @param array $opts Should include 'queryConds', 'year', and 'month' keys
+	 */
+	public function __construct( IContextSource $context, array $conds ) {
+		parent::__construct( $context );
+		$this->searchConds = $conds['queryConds'];
+		// getDateCond() actually *sets* the timestamp offset..
+		$this->getDateCond( $conds['year'], $conds['month'] );
 	}
 
 	function formatRow( $row ) {
@@ -66,11 +72,10 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 	}
 
 	function getQueryInfo() {
-		$this->searchConds[] = 'user_id = cul_user';
 		return array(
 			'tables' => array( 'cu_log', 'user' ),
 			'fields' => $this->selectFields(),
-			'conds'  => $this->searchConds
+			'conds' => array_merge( $this->searchConds, array( 'user_id = cul_user' ) )
 		);
 	}
 

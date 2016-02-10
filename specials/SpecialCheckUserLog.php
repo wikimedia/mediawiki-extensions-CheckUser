@@ -1,16 +1,21 @@
 <?php
 
 class SpecialCheckUserLog extends SpecialPage {
+	/**
+	 * @var string $target
+	 */
+	protected $target;
+
 	public function __construct() {
 		parent::__construct( 'CheckUserLog', 'checkuser-log' );
 	}
 
-	function execute( $par ) {
+	public function execute( $par ) {
+		$this->setHeaders();
 		$this->checkPermissions();
 
 		$out = $this->getOutput();
 		$request = $this->getRequest();
-		$this->setHeaders();
 
 		if ( $this->getUser()->isAllowed( 'checkuser' ) ) {
 			$subtitleLink = Linker::linkKnown(
@@ -20,63 +25,35 @@ class SpecialCheckUserLog extends SpecialPage {
 			$out->addSubtitle( $subtitleLink );
 		}
 
-		$type = $request->getVal( 'cuSearchType' );
-		$target = $request->getVal( 'cuSearch' );
-		$target = trim( $target );
-		$year = $request->getIntOrNull( 'year' );
-		$month = $request->getIntOrNull( 'month' );
-		$error = false;
-		$dbr = wfGetDB( DB_SLAVE );
-		$searchConds = false;
-		if ( $type === null ) {
-			$type = 'target';
-		} elseif ( $type == 'initiator' ) {
-			$user = User::newFromName( $target );
-			if ( !$user || !$user->getID() ) {
-				$error = 'checkuser-user-nonexistent';
-			} else {
-				$searchConds = array( 'cul_user' => $user->getID() );
-			}
-		} else /* target */ {
-			$type = 'target';
-			// Is it an IP?
-			list( $start, $end ) = IP::parseRange( $target );
-			if ( $start !== false ) {
-				if ( $start == $end ) {
-					$searchConds = array( 'cul_target_hex = ' . $dbr->addQuotes( $start ) . ' OR ' .
-						'(cul_range_end >= ' . $dbr->addQuotes( $start ) . ' AND ' .
-						'cul_range_start <= ' . $dbr->addQuotes( $end ) . ')'
-					);
-				} else {
-					$searchConds = array(
-						'(cul_target_hex >= ' . $dbr->addQuotes( $start ) . ' AND ' .
-						'cul_target_hex <= ' . $dbr->addQuotes( $end ) . ') OR ' .
-						'(cul_range_end >= ' . $dbr->addQuotes( $start ) . ' AND ' .
-						'cul_range_start <= ' . $dbr->addQuotes( $end ) . ')'
-					);
-				}
-			} else {
-				// Is it a user?
-				$user = User::newFromName( $target );
-				if ( $user && $user->getID() ) {
-					$searchConds = array(
-						'cul_type' => array( 'userips', 'useredits' ),
-						'cul_target_id' => $user->getID(),
-					);
-				} elseif ( $target ) {
-					$error = 'checkuser-user-nonexistent';
-				}
-			}
-		}
+		$this->target = trim( $request->getVal( 'cuSearch' ) );
+		$type = $request->getVal( 'cuSearchType', 'target' );
 
 		$this->displaySearchForm();
 
-		if ( $error !== false ) {
-			$out->wrapWikiMsg( '<div class="errorbox">$1</div>', $error );
+		// Default to all log entries - we'll add conditions below if a target was provided
+		$searchConds = array();
+
+		if ( $this->target !== '' ) {
+			$searchConds = ( $type === 'initiator' )
+				? $this->getPerformerSearchConds()
+				: $this->getTargetSearchConds();
+		}
+
+		if ( $searchConds === null ) {
+			// Invalid target was input so show an error message and stop from here
+			$out->wrapWikiMsg( "<div class='errorbox'>\n$1\n</div>", 'checkuser-user-nonexistent' );
 			return;
 		}
 
-		$pager = new CheckUserLogPager( $this, $searchConds, $year, $month );
+		$pager = new CheckUserLogPager(
+			$this->getContext(),
+			array(
+				'queryConds' => $searchConds,
+				'year' => $request->getInt( 'year' ),
+				'month' => $request->getInt( 'month' ),
+			)
+		);
+
 		$out->addHTML(
 			$pager->getNavigationBar() .
 			$pager->getBody() .
@@ -88,7 +65,6 @@ class SpecialCheckUserLog extends SpecialPage {
 	 * Use an HTMLForm to create and output the search form used on this page.
 	 */
 	protected function displaySearchForm() {
-		$this->getOutput()->addModules( 'mediawiki.userSuggest' );
 		$request = $this->getRequest();
 		$fields = array(
 			'target' => array(
@@ -98,7 +74,6 @@ class SpecialCheckUserLog extends SpecialPage {
 				'ipallowed' => true,
 				'name' => 'cuSearch',
 				'size' => 40,
-				'cssclass' => 'mw-autocomplete-user', // for mediawiki.userSuggest autocompletions
 				'label-message' => 'checkuser-log-search-target',
 			),
 			'type' => array(
@@ -126,6 +101,60 @@ class SpecialCheckUserLog extends SpecialPage {
 			->setSubmitTextMsg( 'checkuser-search-submit' )
 			->prepareForm()
 			->displayForm( false );
+	}
+
+	/**
+	 * Get DB search conditions depending on the CU performer/initiator
+	 * Use this only for searches by 'initiator' type
+	 *
+	 * @return array|null array if valid target, null if invalid
+	 */
+	protected function getPerformerSearchConds() {
+		$initiator = User::newFromName( $this->target );
+		if ( $initiator && $initiator->getId() ) {
+			return array( 'cul_user' => $initiator->getId() );
+		}
+		return null;
+	}
+
+	/**
+	 * Get DB search conditions according to the CU target given.
+	 *
+	 * @return array|null array if valid target, null if invalid target given
+	 */
+	protected function getTargetSearchConds() {
+		list( $start, $end ) = IP::parseRange( $this->target );
+		$conds = null;
+
+		if ( $start !== false ) {
+			$dbr = wfGetDB( DB_SLAVE );
+			if ( $start === $end ) {
+				// Single IP address
+				$conds = array(
+					'cul_target_hex = ' . $dbr->addQuotes( $start ) . ' OR ' .
+					'(cul_range_end >= ' . $dbr->addQuotes( $start ) . ' AND ' .
+					'cul_range_start <= ' . $dbr->addQuotes( $start ) . ')'
+				);
+			} else {
+				// IP range
+				$conds = array(
+					'(cul_target_hex >= ' . $dbr->addQuotes( $start ) . ' AND ' .
+					'cul_target_hex <= ' . $dbr->addQuotes( $end ) . ') OR ' .
+					'(cul_range_end >= ' . $dbr->addQuotes( $start ) . ' AND ' .
+					'cul_range_start <= ' . $dbr->addQuotes( $end ) . ')'
+				);
+			}
+		} else {
+			$user = User::newFromName( $this->target );
+			if ( $user && $user->getId() ) {
+				// Registered user
+				$conds = array(
+					'cul_type' => array( 'userips', 'useredits' ),
+					'cul_target_id' => $user->getId(),
+				);
+			}
+		}
+		return $conds;
 	}
 
 	protected function getGroupName() {
