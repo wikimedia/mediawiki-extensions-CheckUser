@@ -25,7 +25,7 @@ class SpecialCheckUserLog extends SpecialPage {
 			$out->addSubtitle( $subtitleLink );
 		}
 
-		$this->target = trim( $request->getVal( 'cuSearch' ) );
+		$this->target = trim( $request->getVal( 'cuSearch', $par ) );
 		$type = $request->getVal( 'cuSearchType', 'target' );
 
 		$this->displaySearchForm();
@@ -75,6 +75,7 @@ class SpecialCheckUserLog extends SpecialPage {
 				'name' => 'cuSearch',
 				'size' => 40,
 				'label-message' => 'checkuser-log-search-target',
+				'default' => $this->target,
 			),
 			'type' => array(
 				'type' => 'radio',
