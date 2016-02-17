@@ -29,7 +29,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 		$reason = $this->msg( 'checkuser-reason-api', $reason )->inContentLanguage()->text();
 		$timeCutoff = strtotime( $timecond ); // absolute time
 		if ( !$timeCutoff ) {
-			$this->dieUsage( 'You need use correct time limit (like "2 weeks")', 'invalidtime' );
+			$this->dieUsage( 'You need use correct time limit (like "-2 weeks" or "2 weeks ago")', 'invalidtime' );
 		}
 
 		$this->addTables( 'cu_changes' );
@@ -270,7 +270,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 			'target'   => "Username or IP-address/range to perform check",
 			'reason'   => 'Reason to check',
 			'limit'    => 'Limit of rows',
-			'timecond' => 'Time limit of user data (like "2 weeks")',
+			'timecond' => 'Time limit of user data (like "-2 weeks" or "2 weeks ago")',
 			'xff'      => 'Use xff data instead of IP',
 		);
 	}
