@@ -84,4 +84,27 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 			'cul_target_id', 'cul_target_text', 'user_name'
 		);
 	}
+
+	/**
+	 * Do a batch query for links' existence and add it to LinkCache
+	 *
+	 * @param ResultWrapper $result
+	 */
+	protected function preprocessResults( $result ) {
+		if ( $this->getNumRows() === 0 ) {
+			return;
+		}
+
+		$lb = new LinkBatch;
+		$lb->setCaller( __METHOD__ );
+		foreach ( $result as $row ) {
+			$lb->add( NS_USER, $row->user_name ); // Performer
+			if ( $row->cul_type == 'userips' || $row->cul_type == 'useredits' ) {
+				$lb->add( NS_USER, $row->cul_target_text );
+				$lb->add( NS_USER_TALK, $row->cul_target_text );
+			}
+		}
+		$lb->execute();
+		$result->seek( 0 );
+	}
 }
