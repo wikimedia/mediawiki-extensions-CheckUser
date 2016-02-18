@@ -104,7 +104,7 @@
 	"apihelp-query+checkuser-param-target": "調査する利用者名、IP アドレス、CIDR 範囲のいずれかです。",
 	"apihelp-query+checkuser-param-reason": "調査の理由です。",
 	"apihelp-query+checkuser-param-limit": "行数の上限です。",
-	"apihelp-query+checkuser-param-timecond": "利用者データの期間の上限です (例: \"2 weeks\")。",
+	"apihelp-query+checkuser-param-timecond": "利用者データの期間の上限です (例: \"-2 weeks\" または \"2 weeks ago\")。",
 	"apihelp-query+checkuser-param-xff": "IPアドレス の代わりに XFF データを使用します。",
 	"apihelp-query+checkuser-example-1": "[[User:Example]] が使用した IPアドレス を調査",
 	"apihelp-query+checkuser-example-2": "192.0.2.0/24 からなされた編集を調査",

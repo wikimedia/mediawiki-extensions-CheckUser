@@ -97,7 +97,7 @@
 	"apihelp-query+checkuser-param-target": "Nome utente, indirizzo IP, o range CIDR da controllare.",
 	"apihelp-query+checkuser-param-reason": "Ragione per controllare.",
 	"apihelp-query+checkuser-param-limit": "Limite di righe.",
-	"apihelp-query+checkuser-param-timecond": "Il limite di tempo dei dati utente (come \"2 settimane\").",
+	"apihelp-query+checkuser-param-timecond": "Il limite di tempo dei dati utente (come \"-2 settimane\" o \"2 settimane fa\").",
 	"apihelp-query+checkuser-param-xff": "Utilizzare dati XFF invece dell'indirizzo IP.",
 	"apihelp-query+checkuser-example-1": "Verificare gli indirizzi IP per [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Controllare le modifiche di 192.0.2.0/24",

@@ -92,7 +92,7 @@
 	"apihelp-query+checkuser-param-target": "Имя участника, IP-адрес или CIDR-диапазон для проверки.",
 	"apihelp-query+checkuser-param-reason": "Причина проверки.",
 	"apihelp-query+checkuser-param-limit": "Ограничение количества строк.",
-	"apihelp-query+checkuser-param-timecond": "Ограничение по времени для данных об участнике (например, «2 недели»).",
+	"apihelp-query+checkuser-param-timecond": "Ограничение по времени для данных об участнике (например, «-2 weeks» или «2 weeks ago»).",
 	"apihelp-query+checkuser-param-xff": "Использовать XFF-данные вместо IP-адреса.",
 	"apihelp-query+checkuser-example-1": "Проверить IP-адреса [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Проверить правки с 192.0.2.0/24",

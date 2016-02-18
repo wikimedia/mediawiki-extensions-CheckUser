@@ -15,7 +15,8 @@
 			"Wyz",
 			"Zetud",
 			"Element303",
-			"Orlodrim"
+			"Orlodrim",
+			"Lbayle"
 		]
 	},
 	"checkuser-summary": "Cet outil parcourt la liste des changements récents à la recherche des adresses IP employées par un utilisateur ou affiche toutes les données utilisateur d’une adresse IP.\nLes comptes et les modifications faites par une adresse IP cliente peuvent être récupérés via les entêtes XFF en suffisant l’adresse IP avec \"/xff\". Les adresses IPv4 (CIDR /$1 à /32) et IPv6 (CIDR /$2 à /128) sont supportées.\nPas plus de 5000 modifications ne seront renvoyées, pour des questions de performance.\nVeuillez utiliser cet outil dans le respect de la charte d’utilisation.",
@@ -100,7 +101,7 @@
 	"apihelp-query+checkuser-param-target": "Nom d'utilisateur, adresse IP ou plage CIDR à vérifier.",
 	"apihelp-query+checkuser-param-reason": "Motif de vérification.",
 	"apihelp-query+checkuser-param-limit": "Limite de lignes.",
-	"apihelp-query+checkuser-param-timecond": "Limite de temps des données utilisateur (comme « 2 semaines »).",
+	"apihelp-query+checkuser-param-timecond": "Limite de temps des données de l'utilisateur (comme \"-2 semaines\" ou \"il y a 2 semaines\").",
 	"apihelp-query+checkuser-param-xff": "Utiliser des données XFF au lieu d'adresse IP.",
 	"apihelp-query+checkuser-example-1": "Vérifier les adresses IP pour [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Vérifier les modifications pour 192.0.2.0/24",

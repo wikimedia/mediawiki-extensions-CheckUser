@@ -108,7 +108,7 @@
 	"apihelp-query+checkuser-param-target": "{{doc-apihelp-param|query+checkuser|target}}",
 	"apihelp-query+checkuser-param-reason": "{{doc-apihelp-param|query+checkuser|reason}}",
 	"apihelp-query+checkuser-param-limit": "{{doc-apihelp-param|query+checkuser|limit}}",
-	"apihelp-query+checkuser-param-timecond": "Do not translate \"-2 weeks\" or \"2 weeks ago\". It must be in [http://www.php.net/strtotime original format].\n----\n{{doc-apihelp-param|query+checkuser|timecond}}",
+	"apihelp-query+checkuser-param-timecond": "{{doc-important|Do not translate \"-2 weeks\" or \"2 weeks ago\". It must be in [http://www.php.net/strtotime original format].}}\n----\n{{doc-apihelp-param|query+checkuser|timecond}}",
 	"apihelp-query+checkuser-param-xff": "{{doc-apihelp-param|query+checkuser|xff}}",
 	"apihelp-query+checkuser-example-1": "{{doc-apihelp-example|query+checkuser}}",
 	"apihelp-query+checkuser-example-2": "{{doc-apihelp-example|query+checkuser}}",
