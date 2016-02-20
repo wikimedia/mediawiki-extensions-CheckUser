@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Chase me ladies, I'm the Cavalry"
+			"Chase me ladies, I'm the Cavalry",
+			"Macofe"
 		]
 	},
 	"checkuser-summary": "This tool scans recent changes to retrieve the IP addresses used by a user or show the edit/user data for an IP address.\nUsers and edits by a client IP address can be retrieved via XFF headers by appending the IP address with \"/xff\". IPv4 (CIDR $1-32) and IPv6 (CIDR $2-128) are supported.\nNo more than 5,000 edits will be returned for performance reasons.\nUse this in accordance with policy.",
@@ -26,7 +27,6 @@
 	"checkuser-users": "Get users",
 	"checkuser-edits": "Get edits",
 	"checkuser-ips": "Get IP addresses",
-	"checkuser-search": "Search",
 	"checkuser-period": "Duration:",
 	"checkuser-week-1": "last week",
 	"checkuser-week-2": "last two weeks",
@@ -58,12 +58,12 @@
 	"checkuser-accounts": "$1 new {{PLURAL:$1|account|accounts}}",
 	"checkuser-too-many": "Too many results (according to query estimate), please narrow down the CIDR.\nHere are the IP addresses used (5000 max, sorted by address):",
 	"checkuser-user-nonexistent": "The specified user does not exist.",
-	"checkuser-search-form": "Find log entries where the $1 is $2",
+	"checkuser-search": "Search",
 	"checkuser-search-submit": "Search",
 	"checkuser-search-initiator": "initiator",
 	"checkuser-search-target": "target",
 	"checkuser-ipeditcount": "~$1 from all users",
-	"checkuser-log-return": "Switch to CheckUser main form",
+	"checkuser-showmain": "Switch to CheckUser main form",
 	"checkuser-limited": "'''These results have been truncated for performance reasons.'''",
 	"checkuser-autocreate-action": "was automatically created",
 	"checkuser-create-action": "was created",
@@ -74,7 +74,7 @@
 	"apihelp-query+checkuser-param-target": "Username, IP address, or CIDR range to check.",
 	"apihelp-query+checkuser-param-reason": "Reason to check.",
 	"apihelp-query+checkuser-param-limit": "Limit of rows.",
-	"apihelp-query+checkuser-param-timecond": "Time limit of user data (like \"2 weeks\").",
+	"apihelp-query+checkuser-param-timecond": "Time limit of user data (like \"-2 weeks\" or \"2 weeks ago\").",
 	"apihelp-query+checkuser-param-xff": "Use XFF data instead of IP address.",
 	"apihelp-query+checkuser-example-1": "Check IP addresses for [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Check edits from 192.0.2.0/24",
