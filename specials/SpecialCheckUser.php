@@ -476,7 +476,6 @@ class CheckUser extends SpecialPage {
 		if ( !$dbr->numRows( $ret ) ) {
 			$s = $this->noMatchesMessage( $user ) . "\n";
 		} else {
-			$blockip = SpecialPage::getTitleFor( 'Block' );
 			$ips_edits = array();
 			$counter = 0;
 			foreach ( $ret as $row ) {
@@ -495,18 +494,21 @@ class CheckUser extends SpecialPage {
 			set_time_limit( 60 );
 			wfRestoreWarnings();
 
-			$logs = SpecialPage::getTitleFor( 'Log' );
 			$s = '<div id="checkuserresults"><ul>';
 			foreach ( $ips_edits as $ip => $edits ) {
 				$s .= '<li>';
-				$s .= '<a href="' .
-					htmlspecialchars( $this->getPageTitle()->getLocalURL( array(
+				$s .= $this->getSelfLink( $ip,
+					array(
 						'user' => $ip,
-						'reason' => $reason
-					) ) ) . '">' .
-					htmlspecialchars( $ip ) . '</a>';
-				$s .= ' (<a href="' . htmlspecialchars( $blockip->getLocalURL( 'ip=' . urlencode( $ip ) ) ) . '">' .
-					$this->msg( 'blocklink' )->escaped() . '</a>)';
+						'reason' => $reason,
+					)
+				);
+				$s .= ' ' . $this->msg( 'parentheses' )->rawParams(
+						Linker::linkKnown(
+							SpecialPage::getTitleFor( 'Block', $ip ),
+							$this->msg( 'blocklink' )->escaped()
+						)
+					)->escaped();
 				if ( $ips_first[$ip] == $ips_last[$ip] ) {
 					$s .= ' (' . $this->getLanguage()->timeanddate( wfTimestamp( TS_MW, $ips_first[$ip] ), true ) . ') ';
 				} else {
@@ -664,13 +666,14 @@ class CheckUser extends SpecialPage {
 				} else {
 					$ip = long2ip( Wikimedia\base_convert( $row->cuc_ip_hex, 16, 10, 8 ) );
 				}
-				$s .= '<li><a href="' .
-					htmlspecialchars( $this->getPageTitle()->getLocalURL( array(
+				$s .= '<li>';
+				$s .= $this->getSelfLink( $ip,
+					array(
 						'user' => $ip,
 						'reason' => $reason,
 						'checktype' => 'subipusers'
-					) ) ) .
-					'">' . $ip . '</a>';
+					)
+				);
 				if ( $row->first == $row->last ) {
 					$s .= ' (' . $this->getLanguage()->timeanddate( wfTimestamp( TS_MW, $row->first ), true ) . ') ';
 				} else {
@@ -964,13 +967,14 @@ class CheckUser extends SpecialPage {
 				} else {
 					$ip = long2ip( Wikimedia\base_convert( $row->cuc_ip_hex, 16, 10, 8 ) );
 				}
-				$s .= '<li><a href="' .
-					htmlspecialchars( $this->getPageTitle()->getLocalURL( array(
+				$s .= '<li>';
+				$s .= $this->getSelfLink( $ip,
+					array(
 						'user' => $ip,
 						'reason' => $reason,
 						'checktype' => 'subipusers'
-					) ) ) .
-					'">' . $ip . '</a>';
+					)
+				);
 				if ( $row->first == $row->last ) {
 					$s .= ' (' . $this->getLanguage()->timeanddate( wfTimestamp( TS_MW, $row->first ), true ) . ') ';
 				} else {
@@ -1049,10 +1053,15 @@ class CheckUser extends SpecialPage {
 				// Add user tool links
 				$s .= Linker::userLink( - 1 , $name ) . Linker::userToolLinks( - 1 , $name );
 				// Add CheckUser link
-				$s .= ' (<a href="' . htmlspecialchars( $this->getPageTitle()->getLocalURL( array(
-						'user' => $name,
-						'reason' => $reason
-					) ) ) . '">' . $this->msg( 'checkuser-check' )->escaped() . '</a>)';
+				$s .= ' ' . $this->msg( 'parentheses' )->rawParams(
+					$this->getSelfLink(
+						$this->msg( 'checkuser-check' )->text(),
+						array(
+							'user' => $name,
+							'reason' => $reason
+						)
+					)
+				)->escaped();
 				// Show edit time range
 				if ( $users_first[$name] == $users_last[$name] ) {
 					// @todo FIXME: Hard coded parentheses.
@@ -1085,9 +1094,7 @@ class CheckUser extends SpecialPage {
 					$set = $users_infosets[$name][$i];
 					// IP link
 					$s .= '<li>';
-					$s .= '<a href="' .
-						htmlspecialchars( $this->getPageTitle()->getLocalURL( 'user=' . urlencode( $set[0] ) ) ) .
-						'">' . htmlspecialchars( $set[0] ) . '</a>';
+					$s .= $this->getSelfLink( $set[0], array( 'user' => $set[0] ) );
 					// XFF string, link to /xff search
 					if ( $set[1] ) {
 						// Flag our trusted proxies
@@ -1096,12 +1103,7 @@ class CheckUser extends SpecialPage {
 						$trusted = ( $client === $row->cuc_ip );
 						$c = $trusted ? '#F0FFF0' : '#FFFFCC';
 						$s .= '&#160;&#160;&#160;<span style="background-color: ' . $c . '"><strong>XFF</strong>: ';
-						$s .= Linker::linkKnown(
-							$this->getPageTitle(),
-							htmlspecialchars( $set[1] ),
-							array(),
-							array( 'user' => $client . '/xff' )
-						) . '</span>';
+						$s .= $this->getSelfLink( $set[1], array( 'user' => $client . '/xff' ) ) . '</span>';
 					}
 					$s .= "</li>\n";
 				}
@@ -1149,6 +1151,22 @@ class CheckUser extends SpecialPage {
 		}
 
 		$out->addHTML( $s );
+	}
+
+	/**
+	 * Get an HTML link (<a> element) to Special:CheckUser
+	 *
+	 * @param string $text content to use within <a> tag
+	 * @param array $params query parameters to use in the URL
+	 * @return string
+	 */
+	protected function getSelfLink( $text, array $params ) {
+		return Linker::linkKnown(
+			$this->getPageTitle(),
+			htmlspecialchars( $text ),
+			array(),
+			$params
+		);
 	}
 
 	/**
