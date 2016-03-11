@@ -1,9 +1,7 @@
 <?php
 
 class CheckUser extends SpecialPage {
-	/**
-	 * Constructor -- set up the new special page
-	 */
+
 	public function __construct() {
 		parent::__construct( 'CheckUser', 'checkuser' );
 	}
@@ -47,17 +45,17 @@ class CheckUser extends SpecialPage {
 		);
 
 		$m = array();
-		# An IPv4? An IPv6? CIDR included?
+		// An IPv4? An IPv6? CIDR included?
 		if ( IP::isIPAddress( $user ) ) {
 			$ip = IP::sanitizeIP( $user );
 			$name = '';
 			$xff = '';
-		# An IPv4/IPv6 XFF string? CIDR included?
+		// An IPv4/IPv6 XFF string? CIDR included?
 		} elseif ( preg_match( '/^(.+)\/xff$/', $user, $m ) && IP::isIPAddress( $m[1] ) ) {
 			$ip = '';
 			$name = '';
 			$xff = IP::sanitizeIP( $m[1] );
-		# A user?
+		// A user?
 		} else {
 			$ip = '';
 			$name = $user;
@@ -66,7 +64,7 @@ class CheckUser extends SpecialPage {
 
 		$this->showForm( $user, $reason, $checktype, $ip, $xff, $name, $period );
 
-		# Perform one of the various submit operations...
+		// Perform one of the various submit operations...
 		if ( $request->wasPosted() ) {
 			if ( !$this->getUser()->matchEditToken( $request->getVal( 'wpEditToken' ) ) ) {
 				$this->getOutput()->wrapWikiMsg( '<div class="error">$1</div>', 'checkuser-token-fail' );
@@ -88,9 +86,9 @@ class CheckUser extends SpecialPage {
 				$this->doIPUsersRequest( $ip, false, $reason, $period, $tag, $talkTag );
 			}
 		}
-		# Add CIDR calculation convenience form
+		// Add CIDR calculation convenience JS form
 		$this->addJsCIDRForm();
-		$this->getOutput()->addModules( 'ext.checkUser' ); // JS
+		$this->getOutput()->addModules( 'ext.checkUser' );
 	}
 
 	/**
@@ -98,7 +96,6 @@ class CheckUser extends SpecialPage {
 	 * they are called often, we call them once and save them in $this->message
 	 */
 	protected function preCacheMessages() {
-		// Precache various messages
 		if ( !isset( $this->message ) ) {
 			foreach ( array( 'diff', 'hist', 'minoreditletter', 'newpageletter', 'blocklink', 'log' ) as $msg ) {
 				$this->message[$msg] = $this->msg( $msg )->escaped();
@@ -117,17 +114,19 @@ class CheckUser extends SpecialPage {
 	}
 
 	/**
-	 * @param $user
-	 * @param $reason
-	 * @param $checktype
-	 * @param $ip
-	 * @param $xff
-	 * @param $name
-	 * @param $period
+	 * Show the CheckUser query form
+	 *
+	 * @param string $user
+	 * @param string $reason
+	 * @param string $checktype
+	 * @param string $ip
+	 * @param string $xff
+	 * @param string $name
+	 * @param int $period
 	 */
 	protected function showForm( $user, $reason, $checktype, $ip, $xff, $name, $period ) {
 		$action = htmlspecialchars( $this->getPageTitle()->getLocalUrl() );
-		# Fill in requested type if it makes sense
+		// Fill in requested type if it makes sense
 		$encipusers = $encedits = $encuserips = 0;
 		if ( $checktype == 'subipusers' && ( $ip || $xff ) ) {
 			$encipusers = 1;
@@ -135,14 +134,13 @@ class CheckUser extends SpecialPage {
 			$encuserips = 1;
 		} elseif ( $checktype == 'subedits' ) {
 			$encedits = 1;
-		# Defaults otherwise
+		// Defaults otherwise
 		} elseif ( $ip || $xff ) {
 			$encedits = 1;
 		} else {
 			$encuserips = 1;
 		}
-		# Compile our nice form...
-		# Username field should fit things like "2001:0db8:85a3:08d3:1319:8a2e:0370:7344/100/xff"
+
 		$this->showGuide(); // explanation text
 
 		$form = Xml::openElement( 'form', array( 'action' => $action,
@@ -151,6 +149,7 @@ class CheckUser extends SpecialPage {
 		$form .= Xml::openElement( 'table', array( 'style' => 'border:0' ) );
 		$form .= '<tr>';
 		$form .= '<td>' . $this->msg( 'checkuser-target' )->escaped() . '</td>';
+		// User field should fit things like "2001:0db8:85a3:08d3:1319:8a2e:0370:7344/100/xff"
 		$form .= '<td>' . Xml::input( 'user', 46, $user, array( 'id' => 'checktarget' ) );
 		$form .= '&#160;' . $this->getPeriodMenu( $period ) . '</td>';
 		$form .= '</tr><tr>';
@@ -181,7 +180,7 @@ class CheckUser extends SpecialPage {
 		$form .= '</fieldset>';
 		$form .= Html::hidden( 'wpEditToken', $this->getUser()->getEditToken() );
 		$form .= Xml::closeElement( 'form' );
-		# Output form
+
 		$this->getOutput()->addHTML( $form );
 	}
 
@@ -288,9 +287,9 @@ class CheckUser extends SpecialPage {
 		$blockSize = 0;
 		$safeUsers = array();
 		foreach ( $users as $name ) {
-			# Enforce limits
+			// Enforce limits
 			$blockSize++;
-			# Lets not go *too* fast
+			// Lets not go *too* fast
 			if ( $blockSize >= 20 ) {
 				$blockSize = 0;
 				wfWaitForSlaves( 5 );
@@ -343,7 +342,7 @@ class CheckUser extends SpecialPage {
 			$logEntry->setRelations( array( 'ipb_id' => $blockIds ) );
 			$logEntry->publish( $logEntry->insert() );
 
-			# Tag userpage! (check length to avoid mistakes)
+			// Tag userpage! (check length to avoid mistakes)
 			if ( strlen( $tag ) > 2 ) {
 				$flags = 0;
 				if ( $userpage->exists() ) {
@@ -367,7 +366,7 @@ class CheckUser extends SpecialPage {
 	 *
 	 * @param $userName
 	 * @param bool $checkLast
-	 * @return String
+	 * @return string
 	 */
 	protected function noMatchesMessage( $userName, $checkLast = true ) {
 		if ( $checkLast ) {
@@ -408,7 +407,7 @@ class CheckUser extends SpecialPage {
 	}
 
 	/**
-	 * @param $reason
+	 * @param string $reason
 	 * @return bool
 	 */
 	protected function checkReason( $reason ) {
@@ -417,12 +416,11 @@ class CheckUser extends SpecialPage {
 	}
 
 	/**
-	 * FIXME: documentation out of date
-	 * @param string $ip <???
-	 * @param bool $xfor <???
+	 * Show all the IPs used by a user
+	 *
+	 * @param string $user
 	 * @param string $reason
-	 * Get all IPs used by a user
-	 * Shows first and last date and number of edits
+	 * @param int $period
 	 */
 	protected function doUserIPsRequest( $user , $reason = '', $period = 0 ) {
 		$out = $this->getOutput();
@@ -432,21 +430,21 @@ class CheckUser extends SpecialPage {
 			// normalize the username
 			$user = $userTitle->getText();
 		}
-		# IPs are passed in as a blank string
+		// IPs are passed in as a blank string
 		if ( !$user ) {
 			$out->addWikiMsg( 'nouserspecified' );
 			return;
 		}
-		# Get ID, works better than text as user may have been renamed
+		// Get ID, works better than text as user may have been renamed
 		$user_id = User::idFromName( $user );
 
-		# If user is not IP or nonexistent
+		// If user is not IP or nonexistent
 		if ( !$user_id ) {
 			$out->addWikiMsgArray( 'nosuchusershort', $user );
 			return;
 		}
 
-		# Record check...
+		// Record check...
 		if ( !self::addLogEntry( 'userips', 'user', $user, $reason, $user_id ) ) {
 			// FIXME: addWikiMsg
 			$out->addHTML( '<p>' . $this->msg( 'checkuser-log-fail' )->escaped() . '</p>' );
@@ -454,7 +452,7 @@ class CheckUser extends SpecialPage {
 
 		$dbr = wfGetDB( DB_SLAVE );
 		$time_conds = $this->getTimeConds( $period );
-		# Ordering by the latest timestamp makes a small filesort on the IP list
+		// Ordering by the latest timestamp makes a small filesort on the IP list
 
 		$ret = $dbr->select(
 			'cu_changes',
@@ -518,12 +516,12 @@ class CheckUser extends SpecialPage {
 				}
 				$s .= ' <strong>[' . $edits . ']</strong>';
 
-				# If we get some results, it helps to know if the IP in general
-				# has a lot more edits, e.g. "tip of the iceberg"...
+				// If we get some results, it helps to know if the IP in general
+				// has a lot more edits, e.g. "tip of the iceberg"...
 				$ipedits = $dbr->estimateRowCount( 'cu_changes', '*',
 					array( 'cuc_ip_hex' => $ips_hex[$ip], $time_conds ),
 					__METHOD__ );
-				# If small enough, get a more accurate count
+				// If small enough, get a more accurate count
 				if ( $ipedits <= 1000 ) {
 					$ipedits = $dbr->selectField( 'cu_changes', 'COUNT(*)',
 						array( 'cuc_ip_hex' => $ips_hex[$ip], $time_conds ),
@@ -533,7 +531,7 @@ class CheckUser extends SpecialPage {
 					$s .= ' <i>(' . $this->msg( 'checkuser-ipeditcount', $ipedits )->escaped() . ')</i>';
 				}
 
-				# If this IP is blocked, give a link to the block log
+				// If this IP is blocked, give a link to the block log
 				$s .= $this->getIPBlockInfo( $ip );
 				$s .= '<div style="margin-left:5%">';
 				$s .= '<small>' . $this->msg( 'checkuser-toollinks', urlencode( $ip ) )->parse() . '</small>';
@@ -586,17 +584,18 @@ class CheckUser extends SpecialPage {
 	}
 
 	/**
+	 * Shows all changes made by an IP address or range
+	 *
 	 * @param string $ip
-	 * @param bool $xfor
+	 * @param bool $xfor if query is for XFF
 	 * @param string $reason
-	 * FIXME: $period ???
-	 * Shows all edits in Recent Changes by this IP (or range) and who made them
+	 * @param int $period
 	 */
 	protected function doIPEditsRequest( $ip, $xfor = false, $reason = '', $period = 0 ) {
 		$out = $this->getOutput();
 		$dbr = wfGetDB( DB_SLAVE );
 
-		# Invalid IPs are passed in as a blank string
+		// Invalid IPs are passed in as a blank string
 		$ip_conds = self::getIpConds( $dbr, $ip, $xfor );
 		if ( !$ip || $ip_conds === false ) {
 			$out->addWikiMsg( 'badipaddress' );
@@ -607,19 +606,19 @@ class CheckUser extends SpecialPage {
 		if ( $xfor ) {
 			$logType .= '-xff';
 		}
-		# Record check...
+		// Record check...
 		if ( !self::addLogEntry( $logType, 'ip', $ip, $reason ) ) {
 			$out->addWikiMsg( 'checkuser-log-fail' );
 		}
 
 		$ip_conds = $dbr->makeList( $ip_conds, LIST_AND );
 		$time_conds = $this->getTimeConds( $period );
-		# Ordered in descent by timestamp. Can cause large filesorts on range scans.
-		# Check how many rows will need sorting ahead of time to see if this is too big.
-		# Also, if we only show 5000, too many will be ignored as well.
+		// Ordered in descent by timestamp. Can cause large filesorts on range scans.
+		// Check how many rows will need sorting ahead of time to see if this is too big.
+		// Also, if we only show 5000, too many will be ignored as well.
 		$index = $xfor ? 'cuc_xff_hex_time' : 'cuc_ip_hex_time';
 		if ( strpos( $ip, '/' ) !== false ) {
-			# Quick index check only OK if no time constraint
+			// Quick index check only OK if no time constraint
 			if ( $period ) {
 				$rangecount = $dbr->selectField( 'cu_changes', 'COUNT(*)',
 					array( $ip_conds, $time_conds ),
@@ -637,7 +636,7 @@ class CheckUser extends SpecialPage {
 			wfRestoreWarnings();
 		}
 		$counter = 0;
-		# See what is best to do after testing the waters...
+		// See what is best to do after testing the waters...
 		if ( isset( $rangecount ) && $rangecount > 5000 ) {
 			$ret = $dbr->select( 'cu_changes',
 				array( 'cuc_ip_hex', 'COUNT(*) AS count', 'MIN(cuc_timestamp) AS first', 'MAX(cuc_timestamp) AS last' ),
@@ -650,7 +649,7 @@ class CheckUser extends SpecialPage {
 					'USE INDEX' => $index,
 				)
 			);
-			# List out each IP that has edits
+			// List out each IP that has edits
 			$s = $this->msg( 'checkuser-too-many' )->parseAsBlock();
 			$s .= '<ol>';
 			foreach ( $ret as $row ) {
@@ -658,7 +657,7 @@ class CheckUser extends SpecialPage {
 					$out->addWikiMsg( 'checkuser-limited' );
 					break;
 				}
-				# Convert the IP hexes into normal form
+				// Convert the IP hexes into normal form
 				if ( strpos( $row->cuc_ip_hex, 'v6-' ) !== false ) {
 					$ip = substr( $row->cuc_ip_hex, 3 );
 					$ip = IP::HextoOctet( $ip );
@@ -692,7 +691,7 @@ class CheckUser extends SpecialPage {
 			return;
 		}
 
-		# OK, do the real query...
+		// OK, do the real query...
 
 		$ret = $dbr->select(
 			'cu_changes',
@@ -713,9 +712,9 @@ class CheckUser extends SpecialPage {
 		if ( !$dbr->numRows( $ret ) ) {
 			$s = $this->noMatchesMessage( $ip, !$xfor ) . "\n";
 		} else {
-			# Cache common messages
+			// Cache common messages
 			$this->preCacheMessages();
-			# Try to optimize this query
+			// Try to optimize this query
 			$lb = new LinkBatch;
 			foreach ( $ret as $row ) {
 				$userText = str_replace( ' ', '_', $row->cuc_user_text );
@@ -725,7 +724,7 @@ class CheckUser extends SpecialPage {
 			}
 			$lb->execute();
 			$ret->seek( 0 );
-			# List out the edits
+			// List out the edits
 			$s = '<div id="checkuserresults">';
 			foreach ( $ret as $row ) {
 				if ( $counter >= 5000 ) {
@@ -742,9 +741,11 @@ class CheckUser extends SpecialPage {
 	}
 
 	/**
+	 * Shows all changes made by a particular user
+	 *
 	 * @param string $user
 	 * @param string $reason
-	 * Shows all edits in Recent Changes by this user
+	 * @param int $period
 	 */
 	protected function doUserEditsRequest( $user, $reason = '', $period = 0 ) {
 		$out = $this->getOutput();
@@ -754,22 +755,22 @@ class CheckUser extends SpecialPage {
 			// normalize the username
 			$user = $userTitle->getText();
 		}
-		# IPs are passed in as a blank string
+		// IPs are passed in as a blank string
 		if ( !$user ) {
 			$out->addWikiMsg( 'nouserspecified' );
 			return;
 		}
-		# Get ID, works better than text as user may have been renamed
+		// Get ID, works better than text as user may have been renamed
 		$user_id = User::idFromName( $user );
 
-		# If user is not IP or nonexistent
+		// If user is not IP or nonexistent
 		if ( !$user_id ) {
 			$s = $this->msg( 'nosuchusershort', $user )->parseAsBlock();
 			$out->addHTML( $s );
 			return;
 		}
 
-		# Record check...
+		// Record check...
 		if ( !self::addLogEntry( 'useredits', 'user', $user, $reason, $user_id ) ) {
 			$out->addHTML( '<p>' . $this->msg( 'checkuser-log-fail' )->escaped() . '</p>' );
 		}
@@ -777,9 +778,9 @@ class CheckUser extends SpecialPage {
 		$dbr = wfGetDB( DB_SLAVE );
 		$user_cond = "cuc_user = '$user_id'";
 		$time_conds = $this->getTimeConds( $period );
-		# Ordered in descent by timestamp. Causes large filesorts if there are many edits.
-		# Check how many rows will need sorting ahead of time to see if this is too big.
-		# If it is, sort by IP,time to avoid the filesort.
+		// Ordered in descent by timestamp. Causes large filesorts if there are many edits.
+		// Check how many rows will need sorting ahead of time to see if this is too big.
+		// If it is, sort by IP,time to avoid the filesort.
 		if ( $period ) {
 			$count = $dbr->selectField( 'cu_changes', 'COUNT(*)',
 				array( $user_cond, $time_conds ),
@@ -791,9 +792,9 @@ class CheckUser extends SpecialPage {
 				__METHOD__,
 				array( 'USE INDEX' => 'cuc_user_ip_time' ) );
 		}
-		# Cache common messages
+		// Cache common messages
 		$this->preCacheMessages();
-		# See what is best to do after testing the waters...
+		// See what is best to do after testing the waters...
 		if ( $count > 5000 ) {
 			$out->addHTML( $this->msg( 'checkuser-limited' )->parse() );
 
@@ -808,7 +809,7 @@ class CheckUser extends SpecialPage {
 					'USE INDEX' => 'cuc_user_ip_time'
 				)
 			);
-			# Try to optimize this query
+			// Try to optimize this query
 			$lb = new LinkBatch;
 			foreach ( $ret as $row ) {
 				$lb->add( $row->cuc_namespace, $row->cuc_title );
@@ -840,7 +841,7 @@ class CheckUser extends SpecialPage {
 		set_time_limit( 60 );
 		wfRestoreWarnings();
 
-		# OK, do the real query...
+		// OK, do the real query...
 
 		$ret = $dbr->select(
 			'cu_changes',
@@ -856,14 +857,14 @@ class CheckUser extends SpecialPage {
 		if ( !$dbr->numRows( $ret ) ) {
 			$s = $this->noMatchesMessage( $user ) . "\n";
 		} else {
-			# Try to optimize this query
+			// Try to optimize this query
 			$lb = new LinkBatch;
 			foreach ( $ret as $row ) {
 				$lb->add( $row->cuc_namespace, $row->cuc_title );
 			}
 			$lb->execute();
 			$ret->seek( 0 );
-			# List out the edits
+			// List out the edits
 			$s = '<div id="checkuserresults">';
 			foreach ( $ret as $row ) {
 				$s .= $this->CUChangesLine( $row, $reason );
@@ -875,22 +876,23 @@ class CheckUser extends SpecialPage {
 	}
 
 	/**
+	 * Lists all users in recent changes who used an IP, newest to oldest down
+	 * Outputs usernames, latest and earliest found edit date, and count
+	 * List unique IPs used for each user in time order, list corresponding user agent
+	 *
 	 * @param string $ip
 	 * @param bool $xfor
 	 * @param string $reason
 	 * @param int $period
 	 * @param string $tag
 	 * @param string $talkTag
-	 * Lists all users in recent changes who used an IP, newest to oldest down
-	 * Outputs usernames, latest and earliest found edit date, and count
-	 * List unique IPs used for each user in time order, list corresponding user agent
 	 */
 	protected function doIPUsersRequest( $ip, $xfor = false, $reason = '', $period = 0, $tag = '', $talkTag = '' ) {
 		global $wgBlockAllowsUTEdit;
 		$out = $this->getOutput();
 
 		$dbr = wfGetDB( DB_SLAVE );
-		# Invalid IPs are passed in as a blank string
+		// Invalid IPs are passed in as a blank string
 		$ip_conds = self::getIpConds( $dbr, $ip, $xfor );
 		if ( !$ip || $ip_conds === false ) {
 			$out->addWikiMsg( 'badipaddress' );
@@ -901,7 +903,7 @@ class CheckUser extends SpecialPage {
 		if ( $xfor ) {
 			$logType .= '-xff';
 		}
-		# Log the check...
+		// Log the check...
 		if ( !self::addLogEntry( $logType, 'ip', $ip, $reason ) ) {
 			$out->addHTML( '<p>' . $this->msg( 'checkuser-log-fail' )->escaped() . '</p>' );
 		}
@@ -909,10 +911,10 @@ class CheckUser extends SpecialPage {
 		$ip_conds = $dbr->makeList( $ip_conds, LIST_AND );
 		$time_conds = $this->getTimeConds( $period );
 		$index = $xfor ? 'cuc_xff_hex_time' : 'cuc_ip_hex_time';
-		# Ordered in descent by timestamp. Can cause large filesorts on range scans.
-		# Check how many rows will need sorting ahead of time to see if this is too big.
+		// Ordered in descent by timestamp. Can cause large filesorts on range scans.
+		// Check how many rows will need sorting ahead of time to see if this is too big.
 		if ( strpos( $ip, '/' ) !== false ) {
-			# Quick index check only OK if no time constraint
+			// Quick index check only OK if no time constraint
 			if ( $period ) {
 				$rangecount = $dbr->selectField( 'cu_changes', 'COUNT(*)',
 					array( $ip_conds, $time_conds ),
@@ -946,7 +948,7 @@ class CheckUser extends SpecialPage {
 					'USE INDEX' => $index,
 				)
 			);
-			# List out each IP that has edits
+			// List out each IP that has edits
 			$s = '<h5>' . $this->msg( 'checkuser-too-many' )->escaped() . '</h5>';
 			$s .= '<ol>';
 			$counter = 0;
@@ -955,7 +957,7 @@ class CheckUser extends SpecialPage {
 					$out->addHTML( $this->msg( 'checkuser-limited' )->parseAsBlock() );
 					break;
 				}
-				# Convert the IP hexes into normal form
+				// Convert the IP hexes into normal form
 				if ( strpos( $row->cuc_ip_hex, 'v6-' ) !== false ) {
 					$ip = substr( $row->cuc_ip_hex, 3 );
 					$ip = IP::hexToOctet( $ip );
@@ -991,7 +993,7 @@ class CheckUser extends SpecialPage {
 		}
 
 		global $wgMemc;
-		# OK, do the real query...
+		// OK, do the real query...
 
 		$ret = $dbr->select(
 			'cu_changes',
@@ -1021,14 +1023,14 @@ class CheckUser extends SpecialPage {
 				}
 				$users_edits[$row->cuc_user_text] += 1;
 				$users_first[$row->cuc_user_text] = $row->cuc_timestamp;
-				# Treat blank or NULL xffs as empty strings
+				// Treat blank or NULL xffs as empty strings
 				$xff = empty( $row->cuc_xff ) ? null : $row->cuc_xff;
 				$xff_ip_combo = array( $row->cuc_ip, $xff );
-				# Add this IP/XFF combo for this username if it's not already there
+				// Add this IP/XFF combo for this username if it's not already there
 				if ( !in_array( $xff_ip_combo, $users_infosets[$row->cuc_user_text] ) ) {
 					$users_infosets[$row->cuc_user_text][] = $xff_ip_combo;
 				}
-				# Add this agent string if it's not already there; 10 max.
+				// Add this agent string if it's not already there; 10 max.
 				if ( count( $users_agentsets[$row->cuc_user_text] ) < 10 ) {
 					if ( !in_array( $row->cuc_agent, $users_agentsets[$row->cuc_user_text] ) ) {
 						$users_agentsets[$row->cuc_user_text][] = $row->cuc_agent;
@@ -1042,16 +1044,16 @@ class CheckUser extends SpecialPage {
 			foreach ( $users_edits as $name => $count ) {
 				$s .= '<li>';
 				$s .= Xml::check( 'users[]', false, array( 'value' => $name ) ) . '&#160;';
-				# Load user object
+				// Load user object
 				$user = User::newFromName( $name, false );
-				# Add user tool links
+				// Add user tool links
 				$s .= Linker::userLink( - 1 , $name ) . Linker::userToolLinks( - 1 , $name );
-				# Add CheckUser link
+				// Add CheckUser link
 				$s .= ' (<a href="' . htmlspecialchars( $this->getPageTitle()->getLocalURL( array(
 						'user' => $name,
 						'reason' => $reason
 					) ) ) . '">' . $this->msg( 'checkuser-check' )->escaped() . '</a>)';
-				# Show edit time range
+				// Show edit time range
 				if ( $users_first[$name] == $users_last[$name] ) {
 					// @todo FIXME: Hard coded parentheses.
 					$s .= ' (' . $this->getLanguage()->timeanddate( wfTimestamp( TS_MW, $users_first[$name] ), true ) . ') ';
@@ -1061,13 +1063,13 @@ class CheckUser extends SpecialPage {
 					$s .= ' (' . $lang->timeanddate( wfTimestamp( TS_MW, $users_first[$name] ), true ) .
 					' -- ' . $lang->timeanddate( wfTimestamp( TS_MW, $users_last[$name] ), true ) . ') ';
 				}
-				# Total edit count
+				// Total edit count
 				// @todo FIXME: i18n issue: Hard coded brackets.
 				$s .= ' [<strong>' . $count . '</strong>]<br />';
-				# Check if this user or IP is blocked. If so, give a link to the block log...
+				// Check if this user or IP is blocked. If so, give a link to the block log...
 				$ip = IP::isIPAddress( $name ) ? $name : '';
 				$flags = $this->userBlockFlags( $ip, $users_ids[$name], $user );
-				# Check how many accounts the user made recently?
+				// Check how many accounts the user made recently?
 				if ( $ip ) {
 					$key = wfMemcKey( 'acctcreate', 'ip', $ip );
 					$count = intval( $wgMemc->get( $key ) );
@@ -1078,17 +1080,17 @@ class CheckUser extends SpecialPage {
 				}
 				$s .= implode( ' ', $flags );
 				$s .= '<ol>';
-				# List out each IP/XFF combo for this username
+				// List out each IP/XFF combo for this username
 				for ( $i = ( count( $users_infosets[$name] ) - 1 ); $i >= 0; $i-- ) {
 					$set = $users_infosets[$name][$i];
-					# IP link
+					// IP link
 					$s .= '<li>';
 					$s .= '<a href="' .
 						htmlspecialchars( $this->getPageTitle()->getLocalURL( 'user=' . urlencode( $set[0] ) ) ) .
 						'">' . htmlspecialchars( $set[0] ) . '</a>';
-					# XFF string, link to /xff search
+					// XFF string, link to /xff search
 					if ( $set[1] ) {
-						# Flag our trusted proxies
+						// Flag our trusted proxies
 						list( $client ) = CheckUserHooks::getClientIPfromXFF( $set[1] );
 						// XFF was trusted if client came from it
 						$trusted = ( $client === $row->cuc_ip );
@@ -1104,7 +1106,7 @@ class CheckUser extends SpecialPage {
 					$s .= "</li>\n";
 				}
 				$s .= '</ol><br /><ol>';
-				# List out each agent for this username
+				// List out each agent for this username
 				for ( $i = ( count( $users_agentsets[$name] ) - 1 ); $i >= 0; $i-- ) {
 					$agent = $users_agentsets[$name][$i];
 					$s .= '<li><i>' . htmlspecialchars( $agent ) . "</i></li>\n";
@@ -1218,13 +1220,13 @@ class CheckUser extends SpecialPage {
 			$flags[] = '<strong>(' . $blocklog . ')</strong>';
 		}
 
-		# Show if account is local only
+		// Show if account is local only
 		$authUser = $wgAuth->getUserInstance( $user );
 		if ( $user->getId() && $authUser->getId() === 0 ) {
 			// @todo FIXME: i18n issue: Hard coded parentheses.
 			$flags[] = '<strong>(' . $this->msg( 'checkuser-localonly' )->escaped() . ')</strong>';
 		}
-		# Check for extra user rights...
+		// Check for extra user rights...
 		if ( $userId ) {
 			if ( $user->isLocked() ) {
 				// @todo FIXME: i18n issue: Hard coded parentheses.
@@ -1245,14 +1247,16 @@ class CheckUser extends SpecialPage {
 	}
 
 	/**
-	 * @param Row $row
+	 * Get a streamlined recent changes line with IP data
+	 *
+	 * @param stdClass $row
 	 * @param string $reason
-	 * @return a streamlined recent changes line with IP data
+	 * @return string
 	 */
 	protected function CUChangesLine( $row, $reason ) {
 		static $cuTitle, $flagCache;
 		$cuTitle = SpecialPage::getTitleFor( 'CheckUser' );
-		# Add date headers as needed
+		// Add date headers as needed
 		$date = $this->getLanguage()->date( wfTimestamp( TS_MW, $row->cuc_timestamp ), true, true );
 		if ( !isset( $this->lastdate ) ) {
 			$this->lastdate = $date;
@@ -1264,14 +1268,14 @@ class CheckUser extends SpecialPage {
 			$line = '';
 		}
 		$line .= '<li>';
-		# Create diff/hist/page links
+		// Create diff/hist/page links
 		$line .= $this->getLinksFromRow( $row );
-		# Show date
+		// Show date
 		$line .= ' . . ' . $this->getLanguage()->time( wfTimestamp( TS_MW, $row->cuc_timestamp ), true, true ) . ' . . ';
-		# Userlinks
+		// Userlinks
 		$line .= Linker::userLink( $row->cuc_user, $row->cuc_user_text );
 		$line .= Linker::userToolLinks( $row->cuc_user, $row->cuc_user_text );
-		# Get block info
+		// Get block info
 		if ( isset( $flagCache[$row->cuc_user_text] ) ) {
 			$flags = $flagCache[$row->cuc_user_text];
 		} else {
@@ -1280,18 +1284,18 @@ class CheckUser extends SpecialPage {
 			$flags = $this->userBlockFlags( $ip, $row->cuc_user, $user );
 			$flagCache[$row->cuc_user_text] = $flags;
 		}
-		# Add any block information
+		// Add any block information
 		if ( count( $flags ) ) {
 			$line .= ' ' . implode( ' ', $flags );
 		}
-		# Action text, hackish ...
+		// Action text, hackish ...
 		if ( $row->cuc_actiontext ) {
 			$line .= ' ' . Linker::formatComment( $row->cuc_actiontext ) . ' ';
 		}
-		# Comment
+		// Comment
 		$line .= Linker::commentBlock( $row->cuc_comment );
 		$line .= '<br />&#160; &#160; &#160; &#160; <small>';
-		# IP
+		// IP
 		$line .= ' <strong>IP</strong>: ' . Linker::linkKnown(
 			$cuTitle,
 			htmlspecialchars( $row->cuc_ip ),
@@ -1301,9 +1305,9 @@ class CheckUser extends SpecialPage {
 				'reason' => $reason
 			)
 		);
-		# XFF
+		// XFF
 		if ( $row->cuc_xff != null ) {
-			# Flag our trusted proxies
+			// Flag our trusted proxies
 			list( $client ) = CheckUserHooks::getClientIPfromXFF( $row->cuc_xff );
 			$trusted = ( $client === $row->cuc_ip ); // XFF was trusted if client came from it
 			$c = $trusted ? '#F0FFF0' : '#FFFFCC';
@@ -1319,7 +1323,7 @@ class CheckUser extends SpecialPage {
 				)
 			) . '</span>';
 		}
-		# User agent
+		// User agent
 		$line .= '&#160;&#160;&#160;<span class="mw-checkuser-agent" style="color:#888;">' .
 			htmlspecialchars( $row->cuc_agent ) . '</span>';
 
@@ -1329,8 +1333,8 @@ class CheckUser extends SpecialPage {
 	}
 
 	/**
-	 * @param $row
-	 * @create diff/hist/page link
+	 * @param stdClass $row
+	 * @return string diff, hist and page other links related to the change
 	 */
 	protected function getLinksFromRow( $row ) {
 		$links = array();
@@ -1346,11 +1350,11 @@ class CheckUser extends SpecialPage {
 			) . ')';
 		} else {
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
-			# New pages
+			// New pages
 			if ( $row->cuc_type == RC_NEW ) {
 				$links['diff'] = '(' . $this->message['diff'] . ') ';
 			} else {
-				# Diff link
+				// Diff link
 				// @todo FIXME: Hard coded parentheses.
 				$links['diff'] = ' (' . Linker::linkKnown(
 					$title,
@@ -1363,7 +1367,7 @@ class CheckUser extends SpecialPage {
 					)
 				) . ') ';
 			}
-			# History link
+			// History link
 			// @todo FIXME: Hard coded parentheses.
 			$links['history'] = ' (' . Linker::linkKnown(
 				$title,
@@ -1374,14 +1378,14 @@ class CheckUser extends SpecialPage {
 					'action' => 'history'
 				)
 			) . ') . . ';
-			# Some basic flags
+			// Some basic flags
 			if ( $row->cuc_type == RC_NEW ) {
 				$links['newpage'] = '<span class="newpage">' . $this->message['newpageletter'] . '</span>';
 			}
 			if ( $row->cuc_minor ) {
 				$links['minor'] = '<span class="minor">' . $this->message['minoreditletter'] . '</span>';
 			}
-			# Page link
+			// Page link
 			$links['title'] = Linker::link( $title );
 		}
 
@@ -1424,7 +1428,7 @@ class CheckUser extends SpecialPage {
 	 * @param DatabaseBase $db
 	 * @param string $ip
 	 * @param string|bool $xfor
-	 * @return mixed array/false conditions
+	 * @return array|false array for valid conditions, false if invalid
 	 */
 	public static function getIpConds( $db, $ip, $xfor = false ) {
 		global $wgCheckUserCIDRLimit;
@@ -1453,8 +1457,8 @@ class CheckUser extends SpecialPage {
 			$ip_hex = IP::toHex( $ip );
 			return array( 'cuc_' . $type . '_hex' => $ip_hex );
 		}
-		// throw away this query, incomplete IP, these don't get through the entry point anyway
-		return false; // invalid
+		// Throw away this query, incomplete IP, these don't get through the entry point anyway
+		return false;
 	}
 
 	protected function getTimeConds( $period ) {
