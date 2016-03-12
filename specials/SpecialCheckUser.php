@@ -527,13 +527,7 @@ class CheckUser extends SpecialPage {
 							$this->msg( 'blocklink' )->escaped()
 						)
 					)->escaped();
-				if ( $ips_first[$ip] == $ips_last[$ip] ) {
-					$s .= ' (' . $this->getLanguage()->timeanddate( wfTimestamp( TS_MW, $ips_first[$ip] ), true ) . ') ';
-				} else {
-					$lang = $this->getLanguage();
-					$s .= ' (' . $lang->timeanddate( wfTimestamp( TS_MW, $ips_first[$ip] ), true ) .
-						' -- ' . $lang->timeanddate( wfTimestamp( TS_MW, $ips_last[$ip] ), true ) . ') ';
-				}
+				$s .= ' ' . $this->getTimeRangeString( $ips_first[$ip], $ips_last[$ip] ) . ' ';
 				$s .= ' <strong>[' . $edits . ']</strong>';
 
 				// If we get some results, it helps to know if the IP in general
@@ -696,13 +690,7 @@ class CheckUser extends SpecialPage {
 						'checktype' => 'subipusers'
 					)
 				);
-				if ( $row->first == $row->last ) {
-					$s .= ' (' . $this->getLanguage()->timeanddate( wfTimestamp( TS_MW, $row->first ), true ) . ') ';
-				} else {
-					$lang = $this->getLanguage();
-					$s .= ' (' . $lang->timeanddate( wfTimestamp( TS_MW, $row->first ), true ) .
-					' -- ' . $lang->timeanddate( wfTimestamp( TS_MW, $row->last ), true ) . ') ';
-				}
+				$s .= ' ' . $this->getTimeRangeString( $row->first, $row->last ) . ' ';
 				$s .= ' [<strong>' . $row->count . "</strong>]</li>\n";
 				++$counter;
 			}
@@ -996,13 +984,7 @@ class CheckUser extends SpecialPage {
 						'checktype' => 'subipusers'
 					)
 				);
-				if ( $row->first == $row->last ) {
-					$s .= ' (' . $this->getLanguage()->timeanddate( wfTimestamp( TS_MW, $row->first ), true ) . ') ';
-				} else {
-					$lang = $this->getLanguage();
-					$s .= ' (' . $lang->timeanddate( wfTimestamp( TS_MW, $row->first ), true ) .
-					' -- ' . $lang->timeanddate( wfTimestamp( TS_MW, $row->last ), true ) . ') ';
-				}
+				$s .= ' ' . $this->getTimeRangeString( $row->first, $row->last ) . ' ';
 				// @todo FIXME: Hard coded brackets.
 				$s .= ' [<strong>' . $row->count . "</strong>]</li>\n";
 				++$counter;
@@ -1084,15 +1066,7 @@ class CheckUser extends SpecialPage {
 					)
 				)->escaped();
 				// Show edit time range
-				if ( $users_first[$name] == $users_last[$name] ) {
-					// @todo FIXME: Hard coded parentheses.
-					$s .= ' (' . $this->getLanguage()->timeanddate( wfTimestamp( TS_MW, $users_first[$name] ), true ) . ') ';
-				} else {
-					// @todo FIXME: Hard coded parentheses.
-					$lang = $this->getLanguage();
-					$s .= ' (' . $lang->timeanddate( wfTimestamp( TS_MW, $users_first[$name] ), true ) .
-					' -- ' . $lang->timeanddate( wfTimestamp( TS_MW, $users_last[$name] ), true ) . ') ';
-				}
+				$s .= ' ' . $this->getTimeRangeString( $users_first[$name], $users_last[$name] ) . ' ';
 				// Total edit count
 				// @todo FIXME: i18n issue: Hard coded brackets.
 				$s .= ' [<strong>' . $count . '</strong>]<br />';
@@ -1372,6 +1346,39 @@ class CheckUser extends SpecialPage {
 		$line .= "</small></li>\n";
 
 		return $line;
+	}
+
+	/**
+	 * Get formatted timestamp(s) to show first and last change.
+	 * If the first and last timestamps are different, it's returned
+	 * as "first timestamp -- last timestamp". If both timestamps are
+	 * the same, it will be shown only once.
+	 *
+	 * @param string $first Timestamp of the first change
+	 * @param string $last Timestamp of the last change
+	 * @return string
+	 */
+	protected function getTimeRangeString( $first, $last ) {
+		$s = $this->getFormattedTimestamp( $first );
+		if ( $first !== $last ) {
+			// @todo i18n issue - hardcoded string
+			$s .= ' -- ';
+			$s .= $this->getFormattedTimestamp( $last );
+		}
+		return $s;
+	}
+
+	/**
+	 * Get a formatted timestamp string in the current language
+	 * wrapped in parentheses - for displaying to the user.
+	 *
+	 * @param string $timestamp
+	 * @return string
+	 */
+	protected function getFormattedTimestamp( $timestamp ) {
+		return $this->msg( 'parentheses' )->rawParams(
+			$this->getLanguage()->timeanddate( wfTimestamp( TS_MW, $timestamp ), true )
+		)->escaped();
 	}
 
 	/**
