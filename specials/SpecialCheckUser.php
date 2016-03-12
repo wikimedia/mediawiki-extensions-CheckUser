@@ -1,6 +1,10 @@
 <?php
 
 class CheckUser extends SpecialPage {
+	/**
+	 * @var null|array $message Used to cache frequently used messages
+	 */
+	protected $message = null;
 
 	public function __construct() {
 		parent::__construct( 'CheckUser', 'checkuser' );
@@ -44,22 +48,17 @@ class CheckUser extends SpecialPage {
 			'email' => $disableEmail,
 		);
 
+		$ip = $name = $xff = '';
 		$m = array();
-		// An IPv4? An IPv6? CIDR included?
 		if ( IP::isIPAddress( $user ) ) {
+			// A single IP address or an IP range
 			$ip = IP::sanitizeIP( $user );
-			$name = '';
-			$xff = '';
-		// An IPv4/IPv6 XFF string? CIDR included?
 		} elseif ( preg_match( '/^(.+)\/xff$/', $user, $m ) && IP::isIPAddress( $m[1] ) ) {
-			$ip = '';
-			$name = '';
+			// A single IP address or range with XFF string included
 			$xff = IP::sanitizeIP( $m[1] );
-		// A user?
 		} else {
-			$ip = '';
+			// A user?
 			$name = $user;
-			$xff = '';
 		}
 
 		$this->showForm( $user, $reason, $checktype, $ip, $xff, $name, $period );
@@ -96,8 +95,9 @@ class CheckUser extends SpecialPage {
 	 * they are called often, we call them once and save them in $this->message
 	 */
 	protected function preCacheMessages() {
-		if ( !isset( $this->message ) ) {
-			foreach ( array( 'diff', 'hist', 'minoreditletter', 'newpageletter', 'blocklink', 'log' ) as $msg ) {
+		if ( $this->message === null ) {
+			$msgKeys = array( 'diff', 'hist', 'minoreditletter', 'newpageletter', 'blocklink', 'log' );
+			foreach ( $msgKeys as $msg ) {
 				$this->message[$msg] = $this->msg( $msg )->escaped();
 			}
 		}
@@ -191,7 +191,10 @@ class CheckUser extends SpecialPage {
 	 */
 	protected function getPeriodMenu( $selected = null ) {
 		$s = '<label for="period">' . $this->msg( 'checkuser-period' )->escaped() . '</label>&#160;';
-		$s .= Xml::openElement( 'select', array( 'name' => 'period', 'id' => 'period', 'style' => 'margin-top:.2em;' ) );
+		$s .= Xml::openElement(
+			'select',
+			array( 'name' => 'period', 'id' => 'period', 'style' => 'margin-top:.2em;' )
+		);
 		$s .= Xml::option( $this->msg( 'checkuser-week-1' )->text(), 7, $selected === 7 );
 		$s .= Xml::option( $this->msg( 'checkuser-week-2' )->text(), 14, $selected === 14 );
 		$s .= Xml::option( $this->msg( 'checkuser-month' )->text(), 31, $selected === 31 );
@@ -251,7 +254,7 @@ class CheckUser extends SpecialPage {
 	 * @param array $blockParams
 	 * @return string
 	 */
-	protected static function userBlockLogFlags( $anonOnly, $blockParams ) {
+	protected static function userBlockLogFlags( $anonOnly, array $blockParams ) {
 		global $wgBlockAllowsUTEdit;
 		$flags = array();
 
@@ -281,7 +284,8 @@ class CheckUser extends SpecialPage {
 	 * @param string $talkTag replaces user talk pages
 	 * @return string[] List of html-safe usernames which were actually were blocked
 	 */
-	public static function doMassUserBlockInternal( $users, $blockParams, $tag = '', $talkTag = '' ) {
+	public static function doMassUserBlockInternal( $users, array $blockParams,
+		$tag = '', $talkTag = '' ) {
 		global $wgBlockAllowsUTEdit, $wgUser;
 
 		$blockSize = 0;
@@ -294,26 +298,29 @@ class CheckUser extends SpecialPage {
 				$blockSize = 0;
 				wfWaitForSlaves( 5 );
 			}
+
 			$u = User::newFromName( $name, false );
-			// If user doesn't exist, it ought to be an IP then
-			if ( is_null( $u ) || ( !$u->getId() && !IP::isIPAddress( $u->getName() ) ) ) {
+			// Do some checks to make sure we can block this user first
+			if ( $u === null ) {
+				// Invalid user
+				continue;
+			}
+			$isIP = IP::isIPAddress( $u->getName() );
+			if ( !$u->getId() && !$isIP ) {
+				// Not a registered user or an IP
 				continue;
 			}
 
-			$oldBlock = Block::newFromTarget( $u->getName() );
-			if ( $oldBlock ) {
+			if ( $u->isBlocked() ) {
 				// If the user is already blocked, just leave it as is
 				continue;
 			}
 
 			$userTitle = $u->getUserPage();
 			$userTalkTitle = $u->getTalkPage();
-			$userpage = WikiPage::factory( $userTitle );
-			$usertalk = WikiPage::factory( $userTalkTitle );
-			$safeUsers[] = '[[' . $userTitle->getPrefixedText() . '|' . $userTitle->getText() . ']]';
-			$expirestr = $u->getId() ? 'indefinite' : '1 week';
+			$safeUsers[] = "[[{$userTitle->getPrefixedText()}|{$userTitle->getText()}]]";
+			$expirestr = $isIP ? '1 week' : 'indefinite';
 			$expiry = SpecialBlock::parseExpiryInput( $expirestr );
-			$anonOnly = IP::isIPAddress( $u->getName() ) ? 1 : 0;
 
 			// Create the block
 			$block = new Block();
@@ -321,17 +328,19 @@ class CheckUser extends SpecialPage {
 			$block->setBlocker( $wgUser );
 			$block->mReason = $blockParams['reason'];
 			$block->mExpiry = $expiry;
-			$block->isHardblock( !IP::isIPAddress( $u->getName() ) );
+			$block->isHardblock( !$isIP );
 			$block->isAutoblocking( true );
 			$block->prevents( 'createaccount', true );
-			$block->prevents( 'sendemail', ( SpecialBlock::canBlockEmail( $wgUser ) && $blockParams['email'] ) );
+			$block->prevents( 'sendemail',
+				( SpecialBlock::canBlockEmail( $wgUser ) && $blockParams['email'] )
+			);
 			$block->prevents( 'editownusertalk', ( !$wgBlockAllowsUTEdit || $blockParams['talk'] ) );
 			$status = $block->insert();
 
 			// Prepare log parameters for the block
 			$logParams = array();
 			$logParams['5::duration'] = $expirestr;
-			$logParams['6::flags'] = self::userBlockLogFlags( $anonOnly, $blockParams );
+			$logParams['6::flags'] = self::userBlockLogFlags( $isIP, $blockParams );
 
 			$logEntry = new ManualLogEntry( 'block', 'block' );
 			$logEntry->setTarget( $userTitle );
@@ -342,24 +351,33 @@ class CheckUser extends SpecialPage {
 			$logEntry->setRelations( array( 'ipb_id' => $blockIds ) );
 			$logEntry->publish( $logEntry->insert() );
 
-			// Tag userpage! (check length to avoid mistakes)
-			if ( strlen( $tag ) > 2 ) {
-				$flags = 0;
-				if ( $userpage->exists() ) {
-					$flags |= EDIT_MINOR;
-				}
-				$userpage->doEditContent( new WikitextContent( $tag ), $blockParams['reason'], $flags );
-			}
-			if ( strlen( $talkTag ) > 2 ) {
-				$flags = 0;
-				if ( $usertalk->exists() ) {
-					$flags |= EDIT_MINOR;
-				}
-				$usertalk->doEditContent( new WikitextContent( $talkTag ), $blockParams['reason'], $flags );
-			}
+			// Tag user page and user talk page
+			self::tagPage( $userTitle, $tag, $blockParams['reason'] );
+			self::tagPage( $userTalkTitle, $talkTag, $blockParams['reason'] );
 		}
+
 		return $safeUsers;
 	}
+
+	/**
+	 * Make an edit to the given page with the tag provided
+	 *
+	 * @param Title $title
+	 * @param string $tag
+	 * @param string $summary
+	 */
+	protected static function tagPage( Title $title, $tag, $summary ) {
+		// Check length to avoid mistakes
+		if ( strlen( $tag ) > 2 ) {
+			$page = WikiPage::factory( $title );
+			$flags = 0;
+			if ( $page->exists() ) {
+				$flags |= EDIT_MINOR;
+			}
+			$page->doEditContent( new WikitextContent( $tag ), $summary, $flags );
+		}
+	}
+
 	/**
 	 * Give a "no matches found for X" message.
 	 * If $checkLast, then mention the last edit by this user or IP.
@@ -422,7 +440,7 @@ class CheckUser extends SpecialPage {
 	 * @param string $reason
 	 * @param int $period
 	 */
-	protected function doUserIPsRequest( $user , $reason = '', $period = 0 ) {
+	protected function doUserIPsRequest( $user, $reason = '', $period = 0 ) {
 		$out = $this->getOutput();
 
 		$userTitle = Title::newFromText( $user, NS_USER );
@@ -440,7 +458,7 @@ class CheckUser extends SpecialPage {
 
 		// If user is not IP or nonexistent
 		if ( !$user_id ) {
-			$out->addWikiMsgArray( 'nosuchusershort', $user );
+			$out->addWikiMsg( 'nosuchusershort', $user );
 			return;
 		}
 
@@ -604,11 +622,9 @@ class CheckUser extends SpecialPage {
 			return;
 		}
 
-		$logType = 'ipedits';
-		if ( $xfor ) {
-			$logType .= '-xff';
-		}
-		// Record check...
+		$logType = $xfor ? 'ipedits-xff' : 'ipedits';
+
+		// Record check in the logs
 		if ( !self::addLogEntry( $logType, 'ip', $ip, $reason ) ) {
 			$out->addWikiMsg( 'checkuser-log-fail' );
 		}
@@ -640,8 +656,14 @@ class CheckUser extends SpecialPage {
 		$counter = 0;
 		// See what is best to do after testing the waters...
 		if ( isset( $rangecount ) && $rangecount > 5000 ) {
-			$ret = $dbr->select( 'cu_changes',
-				array( 'cuc_ip_hex', 'COUNT(*) AS count', 'MIN(cuc_timestamp) AS first', 'MAX(cuc_timestamp) AS last' ),
+			$ret = $dbr->select(
+				'cu_changes',
+				array(
+					'cuc_ip_hex',
+					'COUNT(*) AS count',
+					'MIN(cuc_timestamp) AS first',
+					'MAX(cuc_timestamp) AS last'
+				),
 				array( $ip_conds, $time_conds ),
 				__METHOD__,
 				array(
@@ -821,7 +843,8 @@ class CheckUser extends SpecialPage {
 			$ret->seek( 0 );
 			$s = '';
 			foreach ( $ret as $row ) {
-				if ( !$ip = htmlspecialchars( $row->cuc_ip ) ) {
+				$ip = htmlspecialchars( $row->cuc_ip );
+				if ( !$ip ) {
 					continue;
 				}
 				if ( !isset( $lastIP ) ) {
@@ -902,10 +925,8 @@ class CheckUser extends SpecialPage {
 			return;
 		}
 
-		$logType = 'ipusers';
-		if ( $xfor ) {
-			$logType .= '-xff';
-		}
+		$logType = $xfor ? 'ipusers-xff' : 'ipusers';
+
 		// Log the check...
 		if ( !self::addLogEntry( $logType, 'ip', $ip, $reason ) ) {
 			$out->addHTML( '<p>' . $this->msg( 'checkuser-log-fail' )->escaped() . '</p>' );
@@ -1051,7 +1072,7 @@ class CheckUser extends SpecialPage {
 				// Load user object
 				$user = User::newFromName( $name, false );
 				// Add user tool links
-				$s .= Linker::userLink( - 1 , $name ) . Linker::userToolLinks( - 1 , $name );
+				$s .= Linker::userLink( -1, $name ) . Linker::userToolLinks( -1, $name );
 				// Add CheckUser link
 				$s .= ' ' . $this->msg( 'parentheses' )->rawParams(
 					$this->getSelfLink(
@@ -1289,7 +1310,9 @@ class CheckUser extends SpecialPage {
 		// Create diff/hist/page links
 		$line .= $this->getLinksFromRow( $row );
 		// Show date
-		$line .= ' . . ' . $this->getLanguage()->time( wfTimestamp( TS_MW, $row->cuc_timestamp ), true, true ) . ' . . ';
+		$line .= ' . . ' .
+			$this->getLanguage()->time( wfTimestamp( TS_MW, $row->cuc_timestamp ), true, true )
+			. ' . . ';
 		// Userlinks
 		$line .= Linker::userLink( $row->cuc_user, $row->cuc_user_text );
 		$line .= Linker::userToolLinks( $row->cuc_user, $row->cuc_user_text );
@@ -1329,7 +1352,8 @@ class CheckUser extends SpecialPage {
 			list( $client ) = CheckUserHooks::getClientIPfromXFF( $row->cuc_xff );
 			$trusted = ( $client === $row->cuc_ip ); // XFF was trusted if client came from it
 			$c = $trusted ? '#F0FFF0' : '#FFFFCC';
-			$line .= '&#160;&#160;&#160;<span class="mw-checkuser-xff" style="background-color: ' . $c . '">' .
+			$line .= '&#160;&#160;&#160;';
+			$line .= '<span class="mw-checkuser-xff" style="background-color: ' . $c . '">' .
 				'<strong>XFF</strong>: ';
 			$line .= Linker::linkKnown(
 				$cuTitle,
@@ -1411,7 +1435,10 @@ class CheckUser extends SpecialPage {
 		if ( is_array( $links ) ) {
 			return implode( ' ', $links );
 		} else {
-			wfDebugLog( __CLASS__, __METHOD__ . ': Expected array from SpecialCheckUserGetLinksFromRow $links param, but received ' . gettype( $links ) );
+			wfDebugLog( __CLASS__,
+				__METHOD__ . ': Expected array from SpecialCheckUserGetLinksFromRow $links param,'
+				. ' but received ' . gettype( $links )
+			);
 			return '';
 		}
 	}
@@ -1434,7 +1461,7 @@ class CheckUser extends SpecialPage {
 	 * @param string $username
 	 * @return string
 	 */
-	protected static function buildGroupLink( $group, $username = '#' ) {
+	protected static function buildGroupLink( $group, $username ) {
 		static $cache = array();
 		if ( !isset( $cache[$group] ) ) {
 			$cache[$group] = User::makeGroupLinkHtml( $group, User::getGroupMember( $group, $username ) );
@@ -1509,7 +1536,7 @@ class CheckUser extends SpecialPage {
 			array(
 				'cul_id' => $cul_id,
 				'cul_timestamp' => $dbw->timestamp(),
-				'cul_user' => $wgUser->getID(),
+				'cul_user' => $wgUser->getId(),
 				'cul_user_text' => $wgUser->getName(),
 				'cul_reason' => $reason,
 				'cul_type' => $logType,
