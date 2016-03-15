@@ -72,6 +72,7 @@
 	"checkuser-search-submit": "Претражи",
 	"checkuser-search-initiator": "покретач",
 	"checkuser-search-target": "циљ",
+	"checkuser-log-search-target": "Циљ:",
 	"checkuser-ipeditcount": "~$1 од свих корисника",
 	"checkuser-showmain": "Назад на главни образац за проверавање корисника",
 	"checkuser-limited": "'''Ови резултати су скраћени због перформанси.'''",
