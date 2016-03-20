@@ -85,7 +85,7 @@
 	"apihelp-query+checkuser-param-target": "要查核的使用者名稱 IP 地址，或 CIDR 地址段。",
 	"apihelp-query+checkuser-param-reason": "查核原因。",
 	"apihelp-query+checkuser-param-limit": "行數限制。",
-	"apihelp-query+checkuser-param-timecond": "使用者資料的時限 (例如 \"2 weeks\" ) 。",
+	"apihelp-query+checkuser-param-timecond": "使用者資料的時限 (例如 \"-2 weeks\" 或 \"2 weeks ago\" ) 。",
 	"apihelp-query+checkuser-param-xff": "使用 XFF 資料代替 IP。",
 	"apihelp-query+checkuser-example-1": "查核[[User:Example]]的 IP",
 	"apihelp-query+checkuser-example-2": "查核來自 192.0.2.0/24 的編輯",
