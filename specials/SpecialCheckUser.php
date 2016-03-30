@@ -17,6 +17,8 @@ class CheckUser extends SpecialPage {
 	public function execute( $subpage ) {
 		$this->setHeaders();
 		$this->checkPermissions();
+		// Logging and blocking requires writing so stop from here if read-only mode
+		$this->checkReadOnly();
 
 		$out = $this->getOutput();
 		$request = $this->getRequest();
@@ -429,11 +431,13 @@ class CheckUser extends SpecialPage {
 			}
 			$lastEdit = max( $revEdit, $logEdit );
 			if ( $lastEdit ) {
+				$lastEditTime = wfTimestamp( TS_MW, $lastEdit );
 				$lang = $this->getLanguage();
-				$lastEditDate = $lang->date( wfTimestamp( TS_MW, $lastEdit ), true );
-				$lastEditTime = $lang->time( wfTimestamp( TS_MW, $lastEdit ), true );
 				// FIXME: don't pass around parsed messages
-				return $this->msg( 'checkuser-nomatch-edits', $lastEditDate, $lastEditTime )->parseAsBlock();
+				return $this->msg( 'checkuser-nomatch-edits',
+					$lang->date( $lastEditTime, true ),
+					$lang->time( $lastEditTime, true )
+				)->parseAsBlock();
 			}
 		}
 		return $this->msg( 'checkuser-nomatch' )->parseAsBlock();
