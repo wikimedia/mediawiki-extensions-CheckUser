@@ -10,7 +10,8 @@
 			"Hunyadym",
 			"KossuthRad",
 			"Terik",
-			"Tgr"
+			"Tgr",
+			"Wolf Rex"
 		]
 	},
 	"checkuser-summary": "Ez az eszköz végigvizsgálja a friss változásokat, hogy lekérje egy adott felhasználó IP-címeit vagy megjelenítse egy adott IP-címet használó szerkesztőket és az IP szerkesztéseit.\nEgy kliens IP-cím által végzett szerkesztések és felhasználói XFF fejlécek segítségével kérhetőek le, az IP-cím utáni „/xff” parancssal. Az IPv4 (CIDR $1-32) és az IPv6 (CIDR $2-128) is támogatott.\nMaximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt a szabályoknak megfelelően használd.",
@@ -28,13 +29,12 @@
 	"grouppage-checkuser": "{{ns:project}}:IP-ellenőrök",
 	"checkuser-reason": "Ok:",
 	"checkuser-reason-api": "API: $1",
-	"checkuser-showlog": "Napló megjelenítése",
+	"checkuser-showlog": "IP-ellenőrzési napló megjelenítése",
 	"checkuser-query": "Kétséges aktuális változások",
 	"checkuser-target": "IP-cím vagy felhasználónév:",
 	"checkuser-users": "Felhasználók keresése",
 	"checkuser-edits": "Szerkesztések lekérése",
 	"checkuser-ips": "IP-címek keresése",
-	"checkuser-search": "Keresés",
 	"checkuser-period": "Időtartam:",
 	"checkuser-week-1": "előző hét",
 	"checkuser-week-2": "előző két hét",
@@ -66,15 +66,19 @@
 	"checkuser-accounts": "{{PLURAL:$1|egy|$1}} új felhasználói fiók",
 	"checkuser-too-many": "Túl sok találat (a lekérdezési becslés szerint), kérlek, szűkítsd le a CIDR-t.\nItt vannak a használt IP-címek (maximum 5000, cím alapján rendezve):",
 	"checkuser-user-nonexistent": "A megadott szerkesztő nem létezik.",
-	"checkuser-search-form": "Naplóbejegyzések keresése, ahol $1 $2",
+	"checkuser-search": "Keresés a naplófájlokban",
 	"checkuser-search-submit": "Keresés",
 	"checkuser-search-initiator": "kezdeményező",
 	"checkuser-search-target": "Cél",
+	"checkuser-log-search-target": "Cél:",
 	"checkuser-ipeditcount": "~$1 az összes szerkesztő által",
-	"checkuser-log-return": "Vissza az IP-ellenőri oldalra",
+	"checkuser-showmain": "!!FUZZY!!Vissza az IP-ellenőri oldalra",
 	"checkuser-limited": "'''Teljesítményi okok miatt nem az összes találat lett megjelenítve.'''",
 	"checkuser-autocreate-action": "automatikusan létrehozva",
 	"checkuser-create-action": "készült",
 	"checkuser-email-action": "e-mailt küldött „$1” szerkesztőnek",
-	"checkuser-reset-action": "lecserélte „$1” jelszavát"
+	"checkuser-reset-action": "lecserélte „$1” jelszavát",
+	"apihelp-query+checkuser-param-reason": "Az ellenőrzés oka.",
+	"apihelp-query+checkuser-param-xff": "XFF-adat használata IP-cím helyett.",
+	"apihelp-query+checkuserlog-param-user": "Az IP-ellenőr neve."
 }
