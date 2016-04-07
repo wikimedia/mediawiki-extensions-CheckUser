@@ -72,7 +72,7 @@
 	"checkuser-search-target": "Cél",
 	"checkuser-log-search-target": "Cél:",
 	"checkuser-ipeditcount": "~$1 az összes szerkesztő által",
-	"checkuser-showmain": "!!FUZZY!!Vissza az IP-ellenőri oldalra",
+	"checkuser-showmain": "Vissza az IP-ellenőri oldalra",
 	"checkuser-limited": "'''Teljesítményi okok miatt nem az összes találat lett megjelenítve.'''",
 	"checkuser-autocreate-action": "automatikusan létrehozva",
 	"checkuser-create-action": "készült",
