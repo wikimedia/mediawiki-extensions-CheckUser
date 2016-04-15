@@ -68,7 +68,7 @@
 	"checkuser-accounts": "$1 yeni {{PLURAL:$1|hesap|hesap}}",
 	"checkuser-too-many": "Çok fazla sonuç var (sorgu tahminine göre), lütfen CIDR'ı daraltın.\nKullanılan IP'ler (max 5000, adrese göre sıralı):",
 	"checkuser-user-nonexistent": "Belirtilen kullanıcı mevcut değil.",
-	"checkuser-search": "Ara",
+	"checkuser-search": "Denetçi günlüğünde ara",
 	"checkuser-search-submit": "Ara",
 	"checkuser-search-initiator": "Başlatan",
 	"checkuser-search-target": "Hedef",
@@ -77,6 +77,12 @@
 	"checkuser-ipeditcount": "tüm kullanıcılardan ~$1",
 	"checkuser-showmain": "KullancıDenetle ana formuna geri dön",
 	"checkuser-limited": "'''Performans nedeniyle sonuçlar kırpıldı.'''",
+	"checkuser-log-entry-userips": "$3, $1 IP adreslerini aldı:  $2",
+	"checkuser-log-entry-ipedits": "$3, $1 değişiklikleri aldı: $2",
+	"checkuser-log-entry-ipusers": "$3, $1 kullanıcı isimlerini aldı: $2",
+	"checkuser-log-entry-ipedits-xff": "$3, $1 değişiklikleri aldı: XFF $2",
+	"checkuser-log-entry-ipusers-xff": "$3, $1 kullanıcı isimlerini aldı: XFF $2",
+	"checkuser-log-entry-useredits": "$3, $1 değişiklikleri aldı: $2",
 	"checkuser-autocreate-action": "otomatik olarak oluşturuldu",
 	"checkuser-create-action": "oluşturuldu",
 	"checkuser-email-action": "\"$1\" kullanıcısına e-posta gönder",
@@ -92,5 +98,6 @@
 	"apihelp-query+checkuser-example-2": "192.0.2.0/24 tarafından yapılan değişiklikleri kontrol et",
 	"apihelp-query+checkuserlog-param-user": "Denetçi olan kullanıcı adları.",
 	"apihelp-query+checkuserlog-param-target": "Kontrol edilen IP adresleri veya CIDR aralığı.",
-	"apihelp-query+checkuserlog-param-limit": "Satır sınırı."
+	"apihelp-query+checkuserlog-param-limit": "Satır sınırı.",
+	"apihelp-query+checkuserlog-example-1": "[[User:Example]] için yapılan kontrolleri göster"
 }
