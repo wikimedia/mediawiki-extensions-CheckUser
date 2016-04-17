@@ -72,6 +72,20 @@ $wgCUPublicKey = <<<CUPUBLICKEY
 
 CUPUBLICKEY;
 
+/*
+ * This can be used to add a link to Special:MultiLock by CentralAuth
+ * to the Special:CheckUser's mass block form. This requires CentralAuth
+ * extension to be installed on the wiki.
+ * To enable this, set this to an array with a central wiki's database name
+ * and an array with the name(s) of the global group(s) to add the link for.
+ * Example:
+ *  $wgCheckUserCAMultiLock = array(
+ *  	'centralDB' => 'metawiki',
+ *  	'groups' => array( 'steward' )
+ *  );
+ */
+$wgCheckUserCAMultiLock = false;
+
 # Recent changes data hook
 $wgHooks['RecentChange_save'][] = 'CheckUserHooks::updateCheckUserData';
 $wgHooks['EmailUser'][] = 'CheckUserHooks::updateCUEmailData';
@@ -94,6 +108,13 @@ $wgHooks['PerformRetroactiveAutoblock'][] = 'CheckUserHooks::doRetroactiveAutobl
 $wgResourceModules['ext.checkUser'] = array(
 	'scripts'       => 'modules/ext.checkuser.cidr.js',
 	'dependencies' 	=> array( 'mediawiki.util' ), // IP stuff
+	'localBasePath' => dirname( __FILE__ ),
+	'remoteExtPath' => 'CheckUser',
+);
+$wgResourceModules['ext.checkUser.caMultiLock'] = array(
+	'scripts'       => 'modules/ext.checkuser.caMultiLock.js',
+	'dependencies' 	=> array( 'mediawiki.util' ),
+	'messages' => array( 'checkuser-centralauth-multilock' ),
 	'localBasePath' => dirname( __FILE__ ),
 	'remoteExtPath' => 'CheckUser',
 );
