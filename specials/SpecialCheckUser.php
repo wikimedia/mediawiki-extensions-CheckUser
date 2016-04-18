@@ -570,41 +570,46 @@ class CheckUser extends SpecialPage {
 	protected function getIPBlockInfo( $ip ) {
 		$block = Block::newFromTarget( null, $ip, false );
 		if ( $block instanceof Block ) {
-			if ( $block->getType() == Block::TYPE_RANGE ) {
-				$userpage = Title::makeTitle( NS_USER, $block->getTarget() );
-				$blocklog = Linker::linkKnown(
-					SpecialPage::getTitleFor( 'Log' ),
-					$this->msg( 'checkuser-blocked' )->escaped(),
-					array(),
-					array(
-						'type' => 'block',
-						'page' => $userpage->getPrefixedText()
-					)
-				);
-				return ' <strong>(' . $blocklog . ' - ' . $block->getTarget() . ')</strong>';
-			} elseif ( $block->getType() == Block::TYPE_AUTO ) {
-				$blocklog = Linker::linkKnown(
-					SpecialPage::getTitleFor( 'BlockList' ),
-					$this->msg( 'checkuser-blocked' )->escaped(),
-					array(),
-					array( 'ip' => "#{$block->getId()}" )
-				);
-				return ' <strong>(' . $blocklog . ')</strong>';
-			} else {
-				$userpage = Title::makeTitle( NS_USER, $block->getTarget() );
-				$blocklog = Linker::linkKnown(
-					SpecialPage::getTitleFor( 'Log' ),
-					$this->msg( 'checkuser-blocked' )->escaped(),
-					array(),
-					array(
-						'type' => 'block',
-						'page' => $userpage->getPrefixedText()
-					)
-				);
-				return ' <strong>(' . $blocklog . ')</strong>';
-			}
+			return $this->getBlockFlag( $block );
 		}
 		return '';
+	}
+
+	/**
+	 * Get a link to block information about the passed block for displaying to the user.
+	 *
+	 * @param Block $block
+	 * @return string
+	 */
+	protected function getBlockFlag( Block $block ) {
+		if ( $block->getType() == Block::TYPE_AUTO ) {
+			$ret = Linker::linkKnown(
+				SpecialPage::getTitleFor( 'BlockList' ),
+				$this->msg( 'checkuser-blocked' )->escaped(),
+				array(),
+				array( 'wpTarget' => "#{$block->getId()}" )
+			);
+		} else {
+			$userPage = Title::makeTitle( NS_USER, $block->getTarget() );
+			$ret = Linker::linkKnown(
+				SpecialPage::getTitleFor( 'Log' ),
+				$this->msg( 'checkuser-blocked' )->escaped(),
+				array(),
+				array(
+					'type' => 'block',
+					'page' => $userPage->getPrefixedText()
+				)
+			);
+		}
+
+		// Add the blocked range if the block is on a range
+		if ( $block->getType() == Block::TYPE_RANGE ) {
+			$ret .= ' - ' . htmlspecialchars( $block->getTarget() );
+		}
+
+		return '<strong>' .
+			$this->msg( 'parentheses' )->rawParams( $ret )->escaped()
+			. '</strong>';
 	}
 
 	/**
@@ -1202,56 +1207,20 @@ class CheckUser extends SpecialPage {
 	 */
 	protected function userBlockFlags( $ip, $userId, $user ) {
 		global $wgAuth;
-		static $logs, $blocklist;
-		$logs = SpecialPage::getTitleFor( 'Log' );
-		$blocklist = SpecialPage::getTitleFor( 'BlockList' );
-		$block = Block::newFromTarget( $user, $ip, false );
 		$flags = array();
+
+		$block = Block::newFromTarget( $user, $ip, false );
 		if ( $block instanceof Block ) {
-			// Range blocked?
-			if ( $block->getType() == Block::TYPE_RANGE ) {
-				$userpage = Title::makeTitle( NS_USER, $block->getTarget() );
-				$blocklog = Linker::linkKnown(
-					$logs,
-					$this->msg( 'checkuser-blocked' )->escaped(),
-					array(),
-					array(
-						'type' => 'block',
-						'page' => $userpage->getPrefixedText()
-					)
-				);
-				$flags[] = '<strong>(' . $blocklog . ' - ' . $block->getTarget() . ')</strong>';
-			// Auto blocked?
-			} elseif ( $block->getType() == Block::TYPE_AUTO ) {
-				$blocklog = Linker::linkKnown(
-					$blocklist,
-					$this->msg( 'checkuser-blocked' )->escaped(),
-					array(),
-					array( 'ip' => "#{$block->getId()}" )
-				);
-				// @todo FIXME: Hard coded parentheses.
-				$flags[] = '<strong>(' . $blocklog . ')</strong>';
-			} else {
-				$userpage = $user->getUserPage();
-				$blocklog = Linker::linkKnown(
-					$logs,
-					$this->msg( 'checkuser-blocked' )->escaped(),
-					array(),
-					array(
-						'type' => 'block',
-						'page' => $userpage->getPrefixedText()
-					)
-				);
-				// @todo FIXME: Hard coded parentheses.
-				$flags[] = '<strong>(' . $blocklog . ')</strong>';
-			}
-		// IP that is blocked on all wikis?
+			// Locally blocked
+			$flags[] = $this->getBlockFlag( $block );
 		} elseif ( $ip == $user->getName() && $user->isBlockedGlobally( $ip ) ) {
+			// Globally blocked IP
 			$flags[] = '<strong>(' . $this->msg( 'checkuser-gblocked' )->escaped() . ')</strong>';
 		} elseif ( self::userWasBlocked( $user->getName() ) ) {
+			// Previously blocked
 			$userpage = $user->getUserPage();
 			$blocklog = Linker::linkKnown(
-				$logs,
+				SpecialPage::getTitleFor( 'Log' ),
 				$this->msg( 'checkuser-wasblocked' )->escaped(),
 				array(),
 				array(
