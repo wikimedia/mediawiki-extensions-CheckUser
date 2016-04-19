@@ -177,7 +177,7 @@ var updateCIDRresult = function () {
 			// Build the IP in CIDR form
 			prefixCidr = binPrefix.length;
 			// CIDR too small?
-			if ( prefixCidr < 96 ) {
+			if ( prefixCidr < 32 ) {
 				showResults( '!', '>' + Math.pow( 2, 128 - prefixCidr ) );
 				return; // too big
 			}
