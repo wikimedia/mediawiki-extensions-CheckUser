@@ -5,6 +5,8 @@ class CheckUserHooks {
 	 * Saves user data into the cu_changes table
 	 * Note that other extensions (like AbuseFilter) may call this function directly
 	 * if they want to send data to CU without creating a recentchanges entry
+	 * @param RecentChange $rc
+	 * @return bool
 	 */
 	public static function updateCheckUserData( RecentChange $rc ) {
 		global $wgRequest;
@@ -84,6 +86,11 @@ class CheckUserHooks {
 	/**
 	 * Hook function to store password reset
 	 * Saves user data into the cu_changes table
+	 *
+	 * @param User $user Sender
+	 * @param string $ip
+	 * @param User $account Receiver
+	 * @return bool
 	 */
 	public static function updateCUPasswordResetData( User $user, $ip, $account ) {
 		global $wgRequest;
@@ -102,7 +109,8 @@ class CheckUserHooks {
 			'cuc_minor'      => 0,
 			'cuc_user'       => $user->getId(),
 			'cuc_user_text'  => $user->getName(),
-			'cuc_actiontext' => wfMessage( 'checkuser-reset-action', $account->getName() )->inContentLanguage()->text(),
+			'cuc_actiontext' => wfMessage( 'checkuser-reset-action', $account->getName() )
+				->inContentLanguage()->text(),
 			'cuc_comment'    => '',
 			'cuc_this_oldid' => 0,
 			'cuc_last_oldid' => 0,
@@ -122,6 +130,11 @@ class CheckUserHooks {
 	/**
 	 * Hook function to store email data
 	 * Saves user data into the cu_changes table
+	 * @param MailAddress $to
+	 * @param MailAddress $from
+	 * @param string $subject
+	 * @param string $text
+	 * @return bool
 	 */
 	public static function updateCUEmailData( $to, $from, $subject, $text ) {
 		global $wgSecretKey, $wgRequest, $wgCUPublicKey;
@@ -147,7 +160,8 @@ class CheckUserHooks {
 			'cuc_minor'      => 0,
 			'cuc_user'       => $userFrom->getId(),
 			'cuc_user_text'  => $userFrom->getName(),
-			'cuc_actiontext' => wfMessage( 'checkuser-email-action', $hash )->inContentLanguage()->text(),
+			'cuc_actiontext' =>
+				wfMessage( 'checkuser-email-action', $hash )->inContentLanguage()->text(),
 			'cuc_comment'    => '',
 			'cuc_this_oldid' => 0,
 			'cuc_last_oldid' => 0,
@@ -332,9 +346,11 @@ class CheckUserHooks {
 				'cuc_ip_hex_time', "$base/archives/patch-cu_changes_indexes.sql", true ) );
 			$updater->addExtensionUpdate( array( 'addIndex', 'cu_changes',
 				'cuc_user_ip_time', "$base/archives/patch-cu_changes_indexes2.sql", true ) );
-			$updater->addExtensionField( 'cu_changes', 'cuc_private', "$base/archives/patch-cu_changes_privatedata.sql" );
+			$updater->addExtensionField(
+				'cu_changes', 'cuc_private', "$base/archives/patch-cu_changes_privatedata.sql" );
 		} elseif ( $updater->getDB()->getType() == 'postgres' ) {
-			$updater->addExtensionUpdate( array( 'addPgField', 'cu_changes', 'cuc_private', 'BYTEA' ) );
+			$updater->addExtensionUpdate(
+				array( 'addPgField', 'cu_changes', 'cuc_private', 'BYTEA' ) );
 		}
 
 		return true;
@@ -362,6 +378,8 @@ class CheckUserHooks {
 	/**
 	 * Tell the parser test engine to create a stub cu_changes table,
 	 * or temporary pages won't save correctly during the test run.
+	 * @param array $tables
+	 * @return bool
 	 */
 	public static function checkUserParserTestTables( &$tables ) {
 		$tables[] = 'cu_changes';
@@ -374,7 +392,7 @@ class CheckUserHooks {
 	 * privileged users.
 	 * @param $id Integer: user ID
 	 * @param $nt Title: user page title
-	 * @param $links Array: tool links
+	 * @param $links array: tool links
 	 * @return true
 	 */
 	public static function checkUserContributionsLinks( $id, $nt, &$links ) {
@@ -406,7 +424,8 @@ class CheckUserHooks {
 	 * blocked by this Block.
 	 *
 	 * @param Block $block
-	 * @param Array &$blockIds
+	 * @param array &$blockIds
+	 * @return bool
 	 */
 	public static function doRetroactiveAutoblock( Block $block, array &$blockIds ) {
 		$dbr = wfGetDB( DB_SLAVE );
