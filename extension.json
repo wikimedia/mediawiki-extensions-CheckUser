@@ -21,7 +21,8 @@
 		"CheckUserLog": "/home/wikipedia/logs/checkuser.log",
 		"CUPublicKey": "",
 		"CUDMaxAge": 7776000,
-		"CheckUserForceSummary": false
+		"CheckUserForceSummary": false,
+		"CheckUserCAMultiLock": false
 	},
 	"APIListModules": {
 		"checkuser": "ApiQueryCheckUser",
@@ -75,6 +76,15 @@
 			"scripts": "modules/ext.checkuser.cidr.js",
 			"dependencies": [
 				"mediawiki.util"
+			]
+		},
+		"ext.checkUser.caMultiLock": {
+			"scripts": "modules/ext.checkuser.caMultiLock.js",
+			"dependencies": [
+				"mediawiki.util"
+			],
+			"messages": [
+				"checkuser-centralauth-multilock"
 			]
 		}
 	},

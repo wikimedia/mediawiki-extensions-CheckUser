@@ -1146,7 +1146,30 @@ class CheckUser extends SpecialPage {
 	 * @return string
 	 */
 	protected function getBlockForm( $tag, $talkTag ) {
-		global $wgBlockAllowsUTEdit;
+		global $wgBlockAllowsUTEdit, $wgCheckUserCAMultiLock;
+		if ( $wgCheckUserCAMultiLock !== false ) {
+			if ( !class_exists( 'CentralAuthUser' ) ) {
+				// $wgCheckUserCAMultiLock shouldn't be enabled if CA is not loaded
+				throw new Exception( '$wgCheckUserCAMultiLock requires CentralAuth extension.' );
+			}
+
+			$caUserGroups = CentralAuthUser::getInstance( $this->getUser() )->getGlobalGroups();
+			// Only load the script for users in the configured global group(s)
+			if ( count( array_intersect( $wgCheckUserCAMultiLock['groups'], $caUserGroups ) ) ) {
+				$out = $this->getOutput();
+				$out->addModules( 'ext.checkUser.caMultiLock' );
+				$centralMLUrl = WikiMap::getForeignURL(
+					$wgCheckUserCAMultiLock['centralDB'],
+					// Use canonical name instead of local name so that it works
+					// even if the local language is different from central wiki
+					Title::makeTitle( NS_SPECIAL, 'MultiLock' )->getPrefixedText()
+				);
+				if ( $centralMLUrl === false ) {
+					throw new Exception( "Could not retrieve URL for {$wgCheckUserCAMultiLock['centralDB']}" );
+				}
+				$out->addJsConfigVars( 'wgCUCAMultiLockCentral', $centralMLUrl );
+			}
+		}
 
 		$s = "<fieldset>\n";
 		$s .= '<legend>' . $this->msg( 'checkuser-massblock' )->escaped() . "</legend>\n";
