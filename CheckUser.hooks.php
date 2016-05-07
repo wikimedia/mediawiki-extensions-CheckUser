@@ -138,9 +138,13 @@ class CheckUserHooks {
 	 */
 	public static function updateCUEmailData( $to, $from, $subject, $text ) {
 		global $wgSecretKey, $wgRequest, $wgCUPublicKey;
+
 		if ( !$wgSecretKey || $from->name == $to->name ) {
 			return true;
+		} elseif ( wfReadOnly() ) {
+			return true;
 		}
+
 		$userFrom = User::newFromName( $from->name );
 		$userTo = User::newFromName( $to->name );
 		$hash = md5( $userTo->getEmail() . $userTo->getId() . $wgSecretKey );
