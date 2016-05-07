@@ -58,6 +58,7 @@
 	"checkuser-block-failure": "'''Žádný uživatel nebyl zablokován.'''",
 	"checkuser-block-limit": "Vybráno příliš mnoho uživatelů",
 	"checkuser-block-noreason": "Musíte zadat důvod blokování",
+	"checkuser-centralauth-multilock": "Hromadně zamknout vybrané účty",
 	"checkuser-noreason": "K tomuto dotazu musíte uvést důvod.",
 	"checkuser-accounts": "$1 {{PLURAL:$1|nový účet|nové účty|nových účtů}}",
 	"checkuser-too-many": "Příliš mnoho výsledků (podle odhadu dotazu), zkuste omezit CIDR.\nNíže jsou použité IP adresy (nejvýše 5000, seřazené podle adresy):",

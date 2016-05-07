@@ -65,6 +65,7 @@
 	"checkuser-block-failure": "'''Es wurden keine Benutzer gesperrt.'''",
 	"checkuser-block-limit": "Es wurden zu viele Benutzer ausgewählt.",
 	"checkuser-block-noreason": "Du musst einen Grund für die Sperre angeben.",
+	"checkuser-centralauth-multilock": "Ausgewählte Benutzerkonten sperren",
 	"checkuser-noreason": "Für diese Abfrage muss eine Begründung angegeben werden.",
 	"checkuser-accounts": "$1 {{PLURAL:$1|neues Benutzerkonto|neue Benutzerkonten}}",
 	"checkuser-too-many": "Die Ergebnisliste ist zu lang (nach Schätzung der Abfrage). Bitte grenze den IP-Adressbereich weiter ein.\nEs folgen die benutzten IP-Adressen (maximal 5000, sortiert nach Adresse):",
