@@ -473,10 +473,7 @@ class CheckUser extends SpecialPage {
 		}
 
 		// Record check...
-		if ( !self::addLogEntry( 'userips', 'user', $user, $reason, $user_id ) ) {
-			// FIXME: addWikiMsg
-			$out->addHTML( '<p>' . $this->msg( 'checkuser-log-fail' )->escaped() . '</p>' );
-		}
+		self::addLogEntry( 'userips', 'user', $user, $reason, $user_id );
 
 		$dbr = wfGetDB( DB_SLAVE );
 		$time_conds = $this->getTimeConds( $period );
@@ -634,9 +631,7 @@ class CheckUser extends SpecialPage {
 		$logType = $xfor ? 'ipedits-xff' : 'ipedits';
 
 		// Record check in the logs
-		if ( !self::addLogEntry( $logType, 'ip', $ip, $reason ) ) {
-			$out->addWikiMsg( 'checkuser-log-fail' );
-		}
+		self::addLogEntry( $logType, 'ip', $ip, $reason );
 
 		$ip_conds = $dbr->makeList( $ip_conds, LIST_AND );
 		$time_conds = $this->getTimeConds( $period );
@@ -812,9 +807,7 @@ class CheckUser extends SpecialPage {
 		}
 
 		// Record check...
-		if ( !self::addLogEntry( 'useredits', 'user', $user, $reason, $user_id ) ) {
-			$out->addHTML( '<p>' . $this->msg( 'checkuser-log-fail' )->escaped() . '</p>' );
-		}
+		self::addLogEntry( 'useredits', 'user', $user, $reason, $user_id );
 
 		$dbr = wfGetDB( DB_SLAVE );
 		$user_cond = "cuc_user = '$user_id'";
@@ -933,9 +926,7 @@ class CheckUser extends SpecialPage {
 		$logType = $xfor ? 'ipusers-xff' : 'ipusers';
 
 		// Log the check...
-		if ( !self::addLogEntry( $logType, 'ip', $ip, $reason ) ) {
-			$out->addHTML( '<p>' . $this->msg( 'checkuser-log-fail' )->escaped() . '</p>' );
-		}
+		self::addLogEntry( $logType, 'ip', $ip, $reason );
 
 		$ip_conds = $dbr->makeList( $ip_conds, LIST_AND );
 		$time_conds = $this->getTimeConds( $period );
@@ -1541,7 +1532,7 @@ class CheckUser extends SpecialPage {
 	}
 
 	public static function addLogEntry( $logType, $targetType, $target, $reason, $targetID = 0 ) {
-		global $wgUser;
+		$user = RequestContext::getMain()->getUser();
 
 		if ( $targetType == 'ip' ) {
 			list( $rangeStart, $rangeEnd ) = IP::parseRange( $target );
@@ -1553,26 +1544,33 @@ class CheckUser extends SpecialPage {
 			$targetHex = $rangeStart = $rangeEnd = '';
 		}
 
-		$dbw = wfGetDB( DB_MASTER );
-		$dbw->insert( 'cu_log',
-			array(
-				'cul_id' => $dbw->nextSequenceValue( 'cu_log_cul_id_seq' ),
-				'cul_timestamp' => $dbw->timestamp(),
-				'cul_user' => $wgUser->getId(),
-				'cul_user_text' => $wgUser->getName(),
-				'cul_reason' => $reason,
-				'cul_type' => $logType,
-				'cul_target_id' => $targetID,
-				'cul_target_text' => $target,
-				'cul_target_hex' => $targetHex,
-				'cul_range_start' => $rangeStart,
-				'cul_range_end' => $rangeEnd,
-			),
-			__METHOD__
+		$timestamp = time();
+		$data = array(
+			'cul_user' => $user->getId(),
+			'cul_user_text' => $user->getName(),
+			'cul_reason' => $reason,
+			'cul_type' => $logType,
+			'cul_target_id' => $targetID,
+			'cul_target_text' => $target,
+			'cul_target_hex' => $targetHex,
+			'cul_range_start' => $rangeStart,
+			'cul_range_end' => $rangeEnd
 		);
 
-		// @todo FIXME: Callers expect this to return false on failure
-		return true;
+		DeferredUpdates::addCallableUpdate(
+			function () use ( $data, $timestamp ) {
+				$dbw = wfGetDB( DB_MASTER );
+				$dbw->insert(
+					'cu_log',
+					[
+						'cul_id' => $dbw->nextSequenceValue( 'cu_log_cul_id_seq' ),
+						'cul_timestamp' => $dbw->timestamp( $timestamp )
+					] + $data,
+					__METHOD__
+				);
+			},
+			DeferredUpdates::PRESEND // fail on error and show no output
+		);
 	}
 
 	/**
