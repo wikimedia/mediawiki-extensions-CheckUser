@@ -61,6 +61,7 @@
 	"checkuser-block-failure": "'''Non hai ningún usuario bloqueado.'''",
 	"checkuser-block-limit": "Hai seleccionados demasiados usuarios.",
 	"checkuser-block-noreason": "Debe dar unha razón para os bloqueos.",
+	"checkuser-centralauth-multilock": "Bloquear contas múltiples seleccionadas",
 	"checkuser-noreason": "Debe dar unha razón para esta pescuda.",
 	"checkuser-accounts": "{{PLURAL:$1|Unha nova conta|$1 novas contas}}",
 	"checkuser-too-many": "Hai demasiados resultados (segundo a estimación da pescuda), restrinxa o CIDR.\nAquí están os enderezos IP usados (máximo de 5.000, ordenados por enderezo):",
