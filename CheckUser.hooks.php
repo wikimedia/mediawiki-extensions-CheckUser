@@ -475,11 +475,15 @@ class CheckUserHooks {
 	 * @return bool
 	 */
 	public static function onRenameUserSQL( RenameuserSQL $renameUserSQL ) {
-		$renameUserSQL->tables['cu_changes'] = array( 'cuc_user_text', 'cuc_user' );
+		$renameUserSQL->tablesJob['cu_changes'] = [
+			RenameuserSQL::NAME_COL => 'cuc_user_text',
+			RenameuserSQL::UID_COL  => 'cuc_user',
+			RenameuserSQL::TIME_COL => 'cuc_timestamp',
+			'uniqueKey'    => 'cuc_id'
+		];
+
 		$renameUserSQL->tables['cu_log'] = array( 'cul_user_text', 'cul_user' );
 
 		return true;
 	}
-
-
 }
