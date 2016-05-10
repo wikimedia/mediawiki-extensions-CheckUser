@@ -46,7 +46,7 @@
 	"checkuser-empty": "Das Logbuch enthält keine Einträge.",
 	"checkuser-nomatch": "Es wurden keine Übereinstimmungen gefunden.",
 	"checkuser-nomatch-edits": "Es wurde keine Übereinstimmungen gefunden.\nDie letzte Bearbeitung hat am $1 um $2 Uhr stattgefunden.",
-	"checkuser-check": "Ausführen",
+	"checkuser-check": "Abfragen",
 	"checkuser-log-fail": "Der Logbuch-Eintrag kann nicht hinzugefügt werden.",
 	"checkuser-nolog": "Es ist keine Logbuchdatei vorhanden.",
 	"checkuser-blocked": "gesperrt",
