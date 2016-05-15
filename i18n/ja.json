@@ -67,7 +67,7 @@
 	"checkuser-massblock": "選択した利用者をブロック",
 	"checkuser-massblock-text": "選択した利用者は無期限ブロックされ、同時に自動ブロックが作動しアカウント作成も禁止されます。\nIPアドレスはIP利用者向けに1週間ブロックされ、アカウント作成が禁止されます。",
 	"checkuser-blockemail": "メール送信を禁止させる",
-	"checkuser-blocktalk": "この利用者がブロック中に自身のトークページを編集することを禁止させる",
+	"checkuser-blocktalk": "この利用者がブロック中に自身のトークページを編集することを禁止",
 	"checkuser-blocktag": "利用者ページを以下で置換:",
 	"checkuser-blocktag-talk": "トークページを以下で置換:",
 	"checkuser-massblock-commit": "選択した利用者をブロック",
