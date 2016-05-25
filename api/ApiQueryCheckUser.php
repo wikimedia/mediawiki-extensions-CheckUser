@@ -72,13 +72,8 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				CheckUser::addLogEntry( 'userips', 'user', $target, $reason, $user_id );
 				$result->addValue( array(
 					'query', $this->getModuleName() ), 'userips', $resultIPs );
-				if ( defined( 'ApiResult::META_CONTENT' ) ) {
-					$result->addIndexedTagName( array(
-						'query', $this->getModuleName(), 'userips' ), 'ip' );
-				} else {
-					$result->setIndexedTagName_internal( array(
-						'query', $this->getModuleName(), 'userips' ), 'ip' );
-				}
+				$result->addIndexedTagName( array(
+					'query', $this->getModuleName(), 'userips' ), 'ip' );
 				break;
 
 			case 'edits':
@@ -140,13 +135,8 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$target, $reason, isset( $user_id ) ? $user_id : '0' );
 				$result->addValue( array(
 					'query', $this->getModuleName() ), 'edits', $edits );
-				if ( defined( 'ApiResult::META_CONTENT' ) ) {
-					$result->addIndexedTagName( array(
-						'query', $this->getModuleName(), 'edits' ), 'action' );
-				} else {
-					$result->setIndexedTagName_internal( array(
-						'query', $this->getModuleName(), 'edits' ), 'action' );
-				}
+				$result->addIndexedTagName( array(
+					'query', $this->getModuleName(), 'edits' ), 'action' );
 				break;
 
 			case 'ipusers':
@@ -202,13 +192,8 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				CheckUser::addLogEntry( $log_type, 'ip', $target, $reason );
 				$result->addValue( array(
 					'query', $this->getModuleName() ), 'ipusers', $resultUsers );
-				if ( defined( 'ApiResult::META_CONTENT' ) ) {
-					$result->addIndexedTagName( array(
-						'query', $this->getModuleName(), 'ipusers' ), 'user' );
-				} else {
-					$result->setIndexedTagName_internal( array(
-						'query', $this->getModuleName(), 'ipusers' ), 'user' );
-				}
+				$result->addIndexedTagName( array(
+					'query', $this->getModuleName(), 'ipusers' ), 'user' );
 				break;
 
 			default:
@@ -249,46 +234,6 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				ApiBase::PARAM_DFLT => '-2 weeks'
 			),
 			'xff'      => null,
-			'token'    => array(
-				ApiBase::PARAM_TYPE => 'string',
-				ApiBase::PARAM_REQUIRED => true,
-			),
-		);
-	}
-
-	/**
-	 * @deprecated since MediaWiki core 1.25
-	 */
-	public function getParamDescription() {
-		return array(
-			'request'  => array(
-				'Type of CheckUser request',
-				' userips - get IP of target user',
-				' edits   - get changes from target IP or range',
-				' ipusers - get users from target IP or range',
-			),
-			'target'   => "Username or IP-address/range to perform check",
-			'reason'   => 'Reason to check',
-			'limit'    => 'Limit of rows',
-			'timecond' => 'Time limit of user data (like "-2 weeks" or "2 weeks ago")',
-			'xff'      => 'Use xff data instead of IP',
-		);
-	}
-
-	/**
-	 * @deprecated since MediaWiki core 1.25
-	 */
-	public function getDescription() {
-		return 'Allows check which IPs are used by a given username and which usernames are used by a given IP';
-	}
-
-	/**
-	 * @deprecated since MediaWiki core 1.25
-	 */
-	public function getExamples() {
-		return array(
-			'api.php?action=query&list=checkuser&curequest=userips&cutarget=Jimbo_Wales',
-			'api.php?action=query&list=checkuser&curequest=edits&cutarget=127.0.0.1/16&xff=1&cureason=Some_check',
 		);
 	}
 
@@ -306,10 +251,6 @@ class ApiQueryCheckUser extends ApiQueryBase {
 
 	public function getHelpUrls() {
 		return 'https://www.mediawiki.org/wiki/Extension:CheckUser#API';
-	}
-
-	public function getTokenSalt() {
-		return '';
 	}
 
 	public function needsToken() {
