@@ -81,12 +81,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 			}
 		}
 
-		if ( defined( 'ApiResult::META_CONTENT' ) ) {
-			$result->addIndexedTagName( array( 'query', $this->getModuleName(), 'entries' ), 'entry' );
-		} else {
-			$result->setIndexedTagName_internal(
-				array( 'query', $this->getModuleName(), 'entries' ), 'entry' );
-		}
+		$result->addIndexedTagName( array( 'query', $this->getModuleName(), 'entries' ), 'entry' );
 	}
 
 	public function getAllowedParams() {
@@ -106,8 +101,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 					'newer',
 					'older'
 				),
-				/** @todo Once support for MediaWiki < 1.25 is dropped, just use ApiBase::PARAM_HELP_MSG directly */
-				constant( 'ApiBase::PARAM_HELP_MSG' ) ?: '' => 'api-help-param-direction',
+				ApiBase::PARAM_HELP_MSG => 'api-help-param-direction',
 			),
 			'from'  => array(
 				ApiBase::PARAM_TYPE => 'timestamp',
@@ -116,44 +110,8 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 				ApiBase::PARAM_TYPE => 'timestamp',
 			),
 			'continue' => array(
-				/** @todo Once support for MediaWiki < 1.25 is dropped, just use ApiBase::PARAM_HELP_MSG directly */
-				constant( 'ApiBase::PARAM_HELP_MSG' ) ?: '' => 'api-help-param-continue',
+				ApiBase::PARAM_HELP_MSG => 'api-help-param-continue',
 			),
-		);
-	}
-
-	/**
-	 * @deprecated since MediaWiki core 1.25
-	 */
-	public function getParamDescription() {
-		$p = $this->getModulePrefix();
-		return array(
-			'user'   => 'Username of CheckUser',
-			'target' => "Checked user or IP-address/range",
-			'limit'  => 'Limit of rows',
-			'dir' => array( "In which direction to enumerate}",
-				" newer          - List oldest first. Note: {$p}from has to be before {$p}to.",
-				" older          - List newest first (default). Note: {$p}from has to be later than {$p}to." ),
-			'from'   => 'The timestamp to start enumerating from',
-			'to'     => 'The timestamp to end enumerating',
-			'continue' => 'When more results are available, use this to continue',
-		);
-	}
-
-	/**
-	 * @deprecated since MediaWiki core 1.25
-	 */
-	public function getDescription() {
-		return 'Allows get entries of CheckUser log';
-	}
-
-	/**
-	 * @deprecated since MediaWiki core 1.25
-	 */
-	public function getExamples() {
-		return array(
-			'api.php?action=query&list=checkuserlog&culuser=WikiSysop&cullimit=25',
-			'api.php?action=query&list=checkuserlog&cultarget=127.0.0.1&culfrom=20111015230000',
 		);
 	}
 

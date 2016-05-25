@@ -189,27 +189,18 @@ class CheckUserHooks {
 	}
 
 	/**
-	 * Hook function to store autocreation data from the auth plugin
+	 * Hook function to store registration and autocreation data
 	 * Saves user data into the cu_changes table
 	 *
-	 * @param $user User
-	 *
+	 * @param User $user
+	 * @param boolean $autocreated
 	 * @return true
 	 */
-	public static function onAuthPluginAutoCreate( User $user ) {
-		return self::logUserAccountCreation( $user, 'checkuser-autocreate-action' );
-	}
-
-	/**
-	 * Hook function to store registration data
-	 * Saves user data into the cu_changes table
-	 *
-	 * @param $user User
-	 * @param $byEmail bool
-	 * @return bool
-	 */
-	public static function onAddNewAccount( User $user, $byEmail ) {
-		return self::logUserAccountCreation( $user, 'checkuser-create-action' );
+	public static function onLocalUserCreated( User $user, $autocreated ) {
+		return self::logUserAccountCreation(
+			$user,
+			$autocreated ? 'checkuser-autocreate-action' : 'checkuser-create-action'
+		);
 	}
 
 	/**

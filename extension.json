@@ -9,10 +9,14 @@
 	"descriptionmsg": "checkuser-desc",
 	"license-name": "GPL-2.0+",
 	"type": "specialpage",
+	"requires": {
+		"MediaWiki": ">= 1.27.0"
+	},
 	"ExtensionMessagesFiles": {
 		"CheckUserAliases": "CheckUser.alias.php"
 	},
 	"config": {
+		"@doc": "see CheckUser.php",
 		"CheckUserCIDRLimit": {
 			"IPv4": 16,
 			"IPv6": 32
@@ -38,11 +42,8 @@
 		"User::mailPasswordInternal": [
 			"CheckUserHooks::updateCUPasswordResetData"
 		],
-		"AuthPluginAutoCreate": [
-			"CheckUserHooks::onAuthPluginAutoCreate"
-		],
-		"AddNewAccount": [
-			"CheckUserHooks::onAddNewAccount"
+		"LocalUserCreated": [
+			"CheckUserHooks::onLocalUserCreated"
 		],
 		"UserMergeAccountFields": [
 			"CheckUserHooks::onUserMergeAccountFields"

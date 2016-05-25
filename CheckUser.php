@@ -1,78 +1,58 @@
 <?php
-/**
- * CheckUser extension - grants users with the appropriate permission the
- * ability to check user's IP addresses and other information.
- *
- * @file
- * @ingroup Extensions
- * @version 2.3
- * @author Tim Starling
- * @author Aaron Schulz
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
- * @link http://www.mediawiki.org/wiki/Extension:CheckUser Documentation
- */
 
-# Not a valid entry point, skip unless MEDIAWIKI is defined
-if ( !defined( 'MEDIAWIKI' ) ) {
-	echo "CheckUser extension";
-	exit( 1 );
+if ( function_exists( 'wfLoadExtension' ) ) {
+	wfLoadExtension( 'CheckUser' );
+	// Keep i18n globals so mergeMessageFileList.php doesn't break
+	$wgMessagesDirs['CheckUser'] = __DIR__ . '/i18n';
+	$wgExtensionMessagesFiles['CheckUserAliases'] = __DIR__ . '/CheckUser.alias.php';
+	/* wfWarn(
+		'Deprecated PHP entry point used for CheckUser extension. ' .
+		'Please use wfLoadExtension instead, ' .
+		'see https://www.mediawiki.org/wiki/Extension_registration for more details.'
+	); */
+	return;
+} else {
+	die( 'This version of the CheckUser extension requires MediaWiki 1.25+' );
 }
 
-# Internationalisation files
-$dir = __DIR__ . '/';
-$wgMessagesDirs['CheckUser'] = __DIR__ . '/i18n';
-$wgExtensionMessagesFiles['CheckUserAliases'] = $dir . 'CheckUser.alias.php';
+// Global declarations and documentation kept for IDEs and PHP documentors.
+// This code is never executed.
 
-// Extension credits that will show up on Special:Version
-$wgExtensionCredits['specialpage'][] = array(
-	'path' => __FILE__,
-	'author' => array( 'Tim Starling', 'Aaron Schulz' ),
-	'name' => 'CheckUser',
-	'version' => '2.4',
-	'url' => 'https://www.mediawiki.org/wiki/Extension:CheckUser',
-	'descriptionmsg' => 'checkuser-desc',
-	'license-name' => 'GPL-2.0+',
-);
-
-// New user rights
-// 'checkuser' right is required to query IPs/users through Special:CheckUser
-// 'checkuser-log' is required to view the private log of checkuser checks
-$wgAvailableRights[] = 'checkuser';
-$wgAvailableRights[] = 'checkuser-log';
-$wgGroupPermissions['checkuser']['checkuser'] = true;
-$wgGroupPermissions['checkuser']['checkuser-log'] = true;
-
-// Legacy variable, no longer used. Used to point to a file in the server where
-// CheckUser would log all queries done through Special:CheckUser.
-// If this file exists, the installer will try to import data from this file to
-// the 'cu_log' table in the database.
+/**
+ * Legacy variable, no longer used. Used to point to a file in the server where
+ * CheckUser would log all queries done through Special:CheckUser.
+ * If this file exists, the installer will try to import data from this file to
+ * the 'cu_log' table in the database.
+ */
 $wgCheckUserLog = '/home/wikipedia/logs/checkuser.log';
 
-# How long to keep CU data (in seconds)?
+/** How long to keep CU data (in seconds)? */
 $wgCUDMaxAge = 3 * 30 * 24 * 3600; // 3 months
 
-# Mass block limits
+/** Mass block limits */
 $wgCheckUserMaxBlocks = 200;
 
-// Set this to true if you want to force checkusers into giving a reason for
-// each check they do through Special:CheckUser.
+/**
+ * Set this to true if you want to force checkusers into giving a reason for
+ * each check they do through Special:CheckUser.
+ */
 $wgCheckUserForceSummary = false;
 
-// Shortest CIDR limits that can be checked in any individual range check
+/** Shortest CIDR limits that can be checked in any individual range check */
 $wgCheckUserCIDRLimit = array(
 	'IPv4' => 16,
 	'IPv6' => 32,
 );
 
-// Public key to encrypt private data that may need to be read later
-// Generate a public key with something like:
-// `openssl genrsa -out cu.key 2048; openssl rsa -in cu.key -pubout > cu.pub`
-// and paste the contents of cu.pub here
-$wgCUPublicKey = <<<CUPUBLICKEY
+/**
+ * Public key to encrypt private data that may need to be read later
+ * Generate a public key with something like:
+ * `openssl genrsa -out cu.key 2048; openssl rsa -in cu.key -pubout > cu.pub`
+ * and paste the contents of cu.pub here
+ */
+$wgCUPublicKey = '';
 
-CUPUBLICKEY;
-
-/*
+/**
  * This can be used to add a link to Special:MultiLock by CentralAuth
  * to the Special:CheckUser's mass block form. This requires CentralAuth
  * extension to be installed on the wiki.
@@ -85,52 +65,3 @@ CUPUBLICKEY;
  *  );
  */
 $wgCheckUserCAMultiLock = false;
-
-# Recent changes data hook
-$wgHooks['RecentChange_save'][] = 'CheckUserHooks::updateCheckUserData';
-$wgHooks['EmailUser'][] = 'CheckUserHooks::updateCUEmailData';
-$wgHooks['User::mailPasswordInternal'][] = 'CheckUserHooks::updateCUPasswordResetData';
-$wgHooks['AuthPluginAutoCreate'][] = 'CheckUserHooks::onAuthPluginAutoCreate';
-$wgHooks['AddNewAccount'][] = 'CheckUserHooks::onAddNewAccount';
-$wgHooks['UserMergeAccountFields'][] = 'CheckUserHooks::onUserMergeAccountFields';
-$wgHooks['RenameUserSQL'][] = 'CheckUserHooks::onRenameUserSQL';
-
-# Occasional pruning of CU data
-$wgHooks['ArticleEditUpdatesDeleteFromRecentchanges'][] = 'CheckUserHooks::maybePruneIPData';
-
-$wgHooks['ParserTestTables'][] = 'CheckUserHooks::checkUserParserTestTables';
-$wgHooks['LoadExtensionSchemaUpdates'][] = 'CheckUserHooks::checkUserSchemaUpdates';
-$wgHooks['ContributionsToolLinks'][] = 'CheckUserHooks::checkUserContributionsLinks';
-
-# Take over autoblocking
-$wgHooks['PerformRetroactiveAutoblock'][] = 'CheckUserHooks::doRetroactiveAutoblock';
-
-$wgResourceModules['ext.checkUser'] = array(
-	'scripts'       => 'modules/ext.checkuser.cidr.js',
-	'dependencies' 	=> array( 'mediawiki.util' ), // IP stuff
-	'localBasePath' => dirname( __FILE__ ),
-	'remoteExtPath' => 'CheckUser',
-);
-$wgResourceModules['ext.checkUser.caMultiLock'] = array(
-	'scripts'       => 'modules/ext.checkuser.caMultiLock.js',
-	'dependencies' 	=> array( 'mediawiki.util' ),
-	'messages' => array( 'checkuser-centralauth-multilock' ),
-	'localBasePath' => dirname( __FILE__ ),
-	'remoteExtPath' => 'CheckUser',
-);
-
-// Set up the new special page
-$wgSpecialPages['CheckUser'] = 'CheckUser';
-$wgSpecialPages['CheckUserLog'] = 'SpecialCheckUserLog';
-
-$wgAutoloadClasses['CheckUser'] = $dir . 'specials/SpecialCheckUser.php';
-$wgAutoloadClasses['CheckUserHooks'] = $dir . 'CheckUser.hooks.php';
-$wgAutoloadClasses['CheckUserLogPager'] = $dir . 'CheckUserLogPager.php';
-$wgAutoloadClasses['SpecialCheckUserLog'] = $dir . 'specials/SpecialCheckUserLog.php';
-$wgAutoloadClasses['CheckUserEncryptedData'] = $dir . 'CheckUserEncryptedData.php';
-
-// API modules
-$wgAutoloadClasses['ApiQueryCheckUser'] = $dir . 'api/ApiQueryCheckUser.php';
-$wgAPIListModules['checkuser'] = 'ApiQueryCheckUser';
-$wgAutoloadClasses['ApiQueryCheckUserLog'] = $dir . 'api/ApiQueryCheckUserLog.php';
-$wgAPIListModules['checkuserlog'] = 'ApiQueryCheckUserLog';

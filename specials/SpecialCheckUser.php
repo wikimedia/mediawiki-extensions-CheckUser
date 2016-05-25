@@ -1220,7 +1220,6 @@ class CheckUser extends SpecialPage {
 	 * @return array
 	 */
 	protected function userBlockFlags( $ip, $userId, $user ) {
-		global $wgAuth;
 		$flags = array();
 
 		$block = Block::newFromTarget( $user, $ip, false );
@@ -1247,8 +1246,9 @@ class CheckUser extends SpecialPage {
 		}
 
 		// Show if account is local only
-		$authUser = $wgAuth->getUserInstance( $user );
-		if ( $user->getId() && $authUser->getId() === 0 ) {
+		if ( $user->getId() &&
+			CentralIdLookup::factory()->centralIdFromLocalUser( $user, CentralIdLookup::AUDIENCE_RAW ) === 0
+		) {
 			// @todo FIXME: i18n issue: Hard coded parentheses.
 			$flags[] = '<strong>(' . $this->msg( 'checkuser-localonly' )->escaped() . ')</strong>';
 		}
