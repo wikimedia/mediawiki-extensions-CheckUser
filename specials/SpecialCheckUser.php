@@ -741,7 +741,9 @@ class CheckUser extends SpecialPage {
 			$lb = new LinkBatch;
 			foreach ( $ret as $row ) {
 				$userText = str_replace( ' ', '_', $row->cuc_user_text );
-				$lb->add( $row->cuc_namespace, $row->cuc_title );
+				if ( $row->cuc_title !== '' ) {
+					$lb->add( $row->cuc_namespace, $row->cuc_title );
+				}
 				$lb->add( NS_USER, $userText );
 				$lb->add( NS_USER_TALK, $userText );
 			}
@@ -770,7 +772,9 @@ class CheckUser extends SpecialPage {
 		$lb = new LinkBatch();
 		$lb->setCaller( __METHOD__ );
 		foreach ( $rows as $row ) {
-			$lb->add( $row->cuc_namespace, $row->cuc_title );
+			if ( $row->cuc_title !== '' ) {
+				$lb->add( $row->cuc_namespace, $row->cuc_title );
+			}
 		}
 		$lb->execute();
 		$rows->seek( 0 );
