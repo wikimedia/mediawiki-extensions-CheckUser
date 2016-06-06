@@ -18,7 +18,7 @@
 	"checkuser-contribs-log": "בדיקות השוואת כתובת אחרונות של המשתמש",
 	"group-checkuser": "בודקים",
 	"group-checkuser-member": "{{GENDER:$1|בודק|בודקת}}",
-	"right-checkuser": "מציאת כתובות IP של משתמשים ומידע נוסף",
+	"right-checkuser": "מציאת כתובות IP ומידע נוסף של משתמשים",
 	"right-checkuser-log": "צפייה ביומן הבדיקות",
 	"action-checkuser": "בדיקת כתובות ה־IP של משתמש זה ומידע אחר",
 	"action-checkuser-log": "להציג את יומן בדיקת המשתמשים",
