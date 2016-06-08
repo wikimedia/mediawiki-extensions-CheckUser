@@ -53,7 +53,7 @@
 	"checkuser-block-noreason": "Vos cal especificar un motiu pels blocatges.",
 	"checkuser-noreason": "Vos cal balhar una rason per aquesta requèsta.",
 	"checkuser-accounts": "$1 {{PLURAL:$1|compte novèl|comptes novèls}}",
-	"checkuser-too-many": "Tròp de resultats (segon l'estimacion de la requèsta), afinatz l’espandida CIDR.\nVaquí un extrach de las IP utilizadas ({{formatnum:5000}} maximum, triadas per adreça) :",
+	"checkuser-too-many": "Tròp de resultats (segon l'estimacion de la requèsta), afinatz l’espandida CIDR.\nVaquí un extrait de las adreças IP utilizadas ({{formatnum:5000}} maximum, triadas per adreça) :",
 	"checkuser-user-nonexistent": "L’utilizaire indicat existís pas",
 	"checkuser-search": "Recèrca",
 	"checkuser-search-submit": "Recercar",
