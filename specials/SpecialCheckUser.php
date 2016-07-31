@@ -1064,8 +1064,11 @@ class CheckUser extends SpecialPage {
 				$s .= Xml::check( 'users[]', false, array( 'value' => $name ) ) . '&#160;';
 				// Load user object
 				$user = User::newFromName( $name, false );
-				// Add user tool links
-				$s .= Linker::userLink( -1, $name ) . Linker::userToolLinks( -1, $name );
+				// Add user page and tool links
+				$s .= Linker::userLink( -1, $name ) . ' ';
+				$ip = IP::isIPAddress( $name ) ? $name : '';
+				$linksMsgKey = $ip ? 'checkuser-userlinks-ip' : 'checkuser-userlinks';
+				$s .= $this->msg( $linksMsgKey, $name )->parse();
 				// Add CheckUser link
 				$s .= ' ' . $this->msg( 'parentheses' )->rawParams(
 					$this->getSelfLink(
@@ -1082,7 +1085,6 @@ class CheckUser extends SpecialPage {
 				// @todo FIXME: i18n issue: Hard coded brackets.
 				$s .= ' [<strong>' . $count . '</strong>]<br />';
 				// Check if this user or IP is blocked. If so, give a link to the block log...
-				$ip = IP::isIPAddress( $name ) ? $name : '';
 				$flags = $this->userBlockFlags( $ip, $users_ids[$name], $user );
 				// Check how many accounts the user made recently
 				if ( $ip ) {
