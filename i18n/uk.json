@@ -10,7 +10,8 @@
 			"Sodmy",
 			"Тест",
 			"Piramidion",
-			"Alex Khimich"
+			"Alex Khimich",
+			"Ата"
 		]
 	},
 	"checkuser-summary": "Цей засіб переглядає нові редагування для отримання IP-адрес, які використовував певний користувач, або щоб знайти редагування/користувача за IP-адресою.\nРедагування і користувачів, що редагували з певної IP-адреси, заначеної в X-Forwarded-For, можна отримати, додавши префікс <code>/xff</code> до IP-адреси. Підтримувані версії IP: 4 (CIDR $1—32) і 6 (CIDR $2-128).\nЗ огляду на продуктивність буде показано не більше 5000 редагувань.\nВикористовуйте цей засіб тільки відповідно до правил.",
@@ -88,6 +89,8 @@
 	"checkuser-create-action": "створено",
 	"checkuser-email-action": "надіслав листа користувачеві «$1»",
 	"checkuser-reset-action": "скинув пароль для користувача $1",
+	"checkuser-userlinks-ip": "([[User_talk:$1|обговорення]] | [[Special:Contributions/$1|внесок]] | [[Special:Block/$1|блокувати]] | <span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/RDNS]</span>)",
+	"checkuser-userlinks": "([[User_talk:$1|обговорення]] | [[Special:Contributions/$1|внесок]] | [[Special:Block/$1|блокувати]])",
 	"checkuser-token-fail": "Помилка сесії. Будь ласка, спробуйте знову.",
 	"apihelp-query+checkuser-description": "Перевірка того, які IP-адреси використовуються даним іменем користувача, або які імена користувачів використовуються даною IP-адресою.",
 	"apihelp-query+checkuser-param-request": "Тип запиту перевірки користувача:\n;userips:Отримати IP-адреси цільового користувача.\n;edits:Отримати зміни з цільової IP-адреси або діапазону.\n;ipusers:Отримати користувачів з цільової IP-адреси або діапазону.",

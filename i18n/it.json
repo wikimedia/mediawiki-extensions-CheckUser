@@ -91,6 +91,8 @@
 	"checkuser-create-action": "è stato creato",
 	"checkuser-email-action": "ha inviato una e-mail a \"$1\"",
 	"checkuser-reset-action": "reimposta password per l'utente \"$1\"",
+	"checkuser-userlinks-ip": "([[User_talk:$1|discussioni]] | [[Special:Contributions/$1|contributi]] | [[Special:Block/$1|blocca]] | <span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/RDNS]</span>)",
+	"checkuser-userlinks": "([[User_talk:$1|discussioni]] | [[Special:Contributions/$1|contributi]] | [[Special:Block/$1|blocca]])",
 	"checkuser-token-fail": "Errore di sessione. Riprova ancora.",
 	"apihelp-query+checkuser-description": "Controlla quali indirizzi IP vengono usati da un determinato nome utente o quali nomi utente vengono usati da un dato IP.",
 	"apihelp-query+checkuser-param-request": "Tipo di richiesta CheckUser:\n;userips:Ottieni l'indirizzo IP dell'utente osservato.\n;edit:Ottieni i cambiamenti dell'indirizzo IP o range.\n;ipusers:Ottieni gli utenti da un indirizzo IP o range.",

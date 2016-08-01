@@ -95,6 +95,8 @@
 	"checkuser-create-action": "a été créé",
 	"checkuser-email-action": "a envoyé un courriel à l’utilisateur « $1 »",
 	"checkuser-reset-action": "réinitialise le mot de passe de l’utilisateur « $1 »",
+	"checkuser-userlinks-ip": "([[User_talk:$1|discussion]] | [[Special:Contributions/$1|contributions]] | [[Special:Block/$1|blocage]] | <span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/RDNS]</span>)",
+	"checkuser-userlinks": "([[User_talk:$1|discussion]] | [[Special:Contributions/$1|contributions]] | [[Special:Block/$1|blocage]])",
 	"checkuser-token-fail": "Échec de session. Veuillez réessayer.",
 	"group-checkuser.css": "/* Le CSS placé ici n’affectera que les membres du groupe « checkuser » */",
 	"group-checkuser.js": "/* Le Javascript placé ici n’affectera que les membres du groupe « checkuser » */",
