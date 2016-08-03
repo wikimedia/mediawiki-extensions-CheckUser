@@ -99,6 +99,8 @@
 	"checkuser-create-action": "作成済",
 	"checkuser-email-action": "利用者「$1」にメールを送信",
 	"checkuser-reset-action": "利用者「$1」のパスワードをリセット",
+	"checkuser-userlinks-ip": "([[User_talk:$1|トーク]] | [[Special:Contributions/$1|投稿記録]] | [[Special:Block/$1|ブロック]] | <span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/RDNS]</span>)",
+	"checkuser-userlinks": "([[User_talk:$1|トーク]] | [[Special:Contributions/$1|投稿記録]] | [[Special:Block/$1|ブロック]])",
 	"checkuser-token-fail": "セッション失敗。もう一度やり直してください。",
 	"group-checkuser.css": "/* ここに記述したCSSは利用者調査者のみに影響します */",
 	"group-checkuser.js": "/* ここに記述したJSは利用者調査者のみに影響します */",
