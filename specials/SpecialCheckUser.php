@@ -277,17 +277,8 @@ class CheckUser extends SpecialPage {
 		$tag = '', $talkTag = '' ) {
 		global $wgBlockAllowsUTEdit, $wgUser;
 
-		$blockSize = 0;
 		$safeUsers = array();
 		foreach ( $users as $name ) {
-			// Enforce limits
-			$blockSize++;
-			// Lets not go *too* fast
-			if ( $blockSize >= 20 ) {
-				$blockSize = 0;
-				wfWaitForSlaves( 5 );
-			}
-
 			$u = User::newFromName( $name, false );
 			// Do some checks to make sure we can block this user first
 			if ( $u === null ) {
