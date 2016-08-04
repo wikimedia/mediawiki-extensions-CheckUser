@@ -85,6 +85,8 @@
 	"checkuser-create-action": "foi creada",
 	"checkuser-email-action": "envioulle un correo electrónico ao usuario \"$1\"",
 	"checkuser-reset-action": "envioulle un novo contrasinal ao usuario \"$1\"",
+	"checkuser-userlinks-ip": "([[User_talk:$1|conversa]] | [[Special:Contributions/$1|contribucións]] | [[Special:Block/$1|bloquear]] | <span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/RDNS]</span>)",
+	"checkuser-userlinks": "([[User_talk:$1|conversa]] | [[Special:Contributions/$1|contribucións]] | [[Special:Block/$1|bloquear]])",
 	"checkuser-token-fail": "Fallo na sesión. Probe de novo.",
 	"group-checkuser.css": "/* O CSS que se coloque aquí afectará soamente aos verificadores de usuarios */",
 	"group-checkuser.js": "/* O JS que se coloque aquí afectará soamente aos verificadores de usuarios */",

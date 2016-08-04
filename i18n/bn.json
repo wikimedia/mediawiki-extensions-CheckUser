@@ -83,6 +83,8 @@
 	"checkuser-create-action": "তৈরি করা হয়েছে",
 	"checkuser-email-action": "ব্যবহারকারী \"$1\"-এর কাছে একটি ই-মেইল পাঠাও",
 	"checkuser-reset-action": "ব্যবহারকারী \"$1\"-এর জন্য পাসওয়ার্ড পুনঃস্থাপন করো",
+	"checkuser-userlinks-ip": "([[User_talk:$1|আলাপ]] | [[Special:Contributions/$1|অবদান]] | [[Special:Block/$1|বাধা দিন]] | <span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/RDNS]</span>)",
+	"checkuser-userlinks": "([[User_talk:$1|আলাপ]] | [[Special:Contributions/$1|অবদান]] | [[Special:Block/$1|বাধা দিন]])",
 	"checkuser-token-fail": "সেশন ব্যর্থতা। অনুগ্রহপূর্বক আবার চেষ্টা করুন।",
 	"apihelp-query+checkuser-param-reason": "পরীক্ষার কারণ।"
 }
