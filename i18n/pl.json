@@ -87,6 +87,7 @@
 	"checkuser-create-action": "utworzono",
 	"checkuser-email-action": "wysłał e‐mail do użytkownika „$1”",
 	"checkuser-reset-action": "reset hasła dla użytkownika „$1”",
+	"checkuser-userlinks": "([[User_talk:$1|dyskusja]] | [[Special:Contributions/$1|edycje]] | [[Special:Block/$1|zablokuj]])",
 	"checkuser-token-fail": "Awaria sesji. Spróbuj jeszcze raz.",
 	"apihelp-query+checkuser-description": "Umożliwia sprawdzenie, z których adresów IP edytował zadany użytkownik lub odnalezienie nazw użytkowników korzystających z zadanego adresu IP.",
 	"apihelp-query+checkuser-param-request": "Rodzaj zapytania checkuser:\n;userips: Pobierz adresy IP zadanego użytkownika\n;edits: Pobierz edycje z zadanego adresu IP lub ich zakresu\n;ipusers: Pobierz nazwy użytkowników dla zadanego adresu IP lub ich zakresu",
