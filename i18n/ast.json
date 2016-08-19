@@ -83,6 +83,8 @@
 	"checkuser-create-action": "creóse",
 	"checkuser-email-action": "unvió un corréu electrónicu a \"$1\"",
 	"checkuser-reset-action": "reestableció la conseña del usuariu «$1»",
+	"checkuser-userlinks-ip": "([[User_talk:$1|alderique]] | [[Special:Contributions/$1|contribuciones]] | [[Special:Block/$1|bloquiar]] | <span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/RDNS]</span>)",
+	"checkuser-userlinks": "([[User_talk:$1|alderique]] | [[Special:Contributions/$1|contribuciones]] | [[Special:Block/$1|bloquiar]])",
 	"checkuser-token-fail": "Fallu de la sesión. Vuelvi a intentalo.",
 	"apihelp-query+checkuser-description": "Comprobar qué direiciones IP usa un usuariu determináu o que nomes d'usuariu usa una IP determinada.",
 	"apihelp-query+checkuser-param-request": "Tipu de solicitú CheckUser:\n;userips: Devolver la direición IP del usuariu destín.\n;edits: Devolver los cambios de la direición o rangu IP de destín.\n;ipusers: Devolver los usuarios de la direición o rangu IP de destín.",
