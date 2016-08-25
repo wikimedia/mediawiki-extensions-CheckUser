@@ -55,7 +55,7 @@
 	"checkuser-accounts": "$1 {{PLURAL:$1|compte novèl|comptes novèls}}",
 	"checkuser-too-many": "Tròp de resultats (segon l'estimacion de la requèsta), afinatz l’espandida CIDR.\nVaquí un extrait de las adreças IP utilizadas ({{formatnum:5000}} maximum, triadas per adreça) :",
 	"checkuser-user-nonexistent": "L’utilizaire indicat existís pas",
-	"checkuser-search": "Recèrca",
+	"checkuser-search": "Recercar las entradas de jornal de verificacion utilizaire",
 	"checkuser-search-submit": "Recercar",
 	"checkuser-search-initiator": "l’iniciaire",
 	"checkuser-search-target": "la cibla",
