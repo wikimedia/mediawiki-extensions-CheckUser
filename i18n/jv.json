@@ -40,7 +40,7 @@
 	"checkuser-nomatch-edits": "Ora ana sing cocog.\nSuntingan pungkasan ing $2, $1.",
 	"checkuser-check": "Priksa",
 	"checkuser-log-fail": "Log èntri ora bisa ditambahaké",
-	"checkuser-nolog": "Ora ditemokaké berkas log.",
+	"checkuser-nolog": "Barkas log ora ana.",
 	"checkuser-blocked": "Diblokir",
 	"checkuser-gblocked": "Diblokir sacara global",
 	"checkuser-locked": "Dikunci",
