@@ -18,14 +18,6 @@ if ( function_exists( 'wfLoadExtension' ) ) {
 // Global declarations and documentation kept for IDEs and PHP documentors.
 // This code is never executed.
 
-/**
- * Legacy variable, no longer used. Used to point to a file in the server where
- * CheckUser would log all queries done through Special:CheckUser.
- * If this file exists, the installer will try to import data from this file to
- * the 'cu_log' table in the database.
- */
-$wgCheckUserLog = '/home/wikipedia/logs/checkuser.log';
-
 /** How long to keep CU data (in seconds)? */
 $wgCUDMaxAge = 3 * 30 * 24 * 3600; // 3 months
 

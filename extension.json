@@ -22,7 +22,6 @@
 			"IPv6": 32
 		},
 		"CheckUserMaxBlocks": 200,
-		"CheckUserLog": "/home/wikipedia/logs/checkuser.log",
 		"CUPublicKey": "",
 		"CUDMaxAge": 7776000,
 		"CheckUserForceSummary": false,
@@ -58,7 +57,7 @@
 			"CheckUserHooks::checkUserParserTestTables"
 		],
 		"LoadExtensionSchemaUpdates": [
-			"CheckUserHooks::checkUserSchemaUpdates"
+			"CheckUserHooks::onLoadExtensionSchemaUpdates"
 		],
 		"ContributionsToolLinks": [
 			"CheckUserHooks::checkUserContributionsLinks"
@@ -114,7 +113,8 @@
 		"SpecialCheckUserLog": "specials/SpecialCheckUserLog.php",
 		"CheckUserEncryptedData": "CheckUserEncryptedData.php",
 		"ApiQueryCheckUser": "api/ApiQueryCheckUser.php",
-		"ApiQueryCheckUserLog": "api/ApiQueryCheckUserLog.php"
+		"ApiQueryCheckUserLog": "api/ApiQueryCheckUserLog.php",
+		"PopulateCheckUserTable": "maintenance/populateCheckUserTable.php"
 	},
 	"manifest_version": 1
 }
