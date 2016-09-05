@@ -49,7 +49,7 @@
 	"checkuser-massblock": "Blokir panganggo kapilih",
 	"checkuser-massblock-text": "Akun-akun kapilih bakal diblokir salawasé, alamat-alamat IP pungkasan sing dipigunakaké otomatis diblokir lan ora bisa gawé akun.\nAlamat-alamat IP bakal diblokir jroning 1 minggu tumrap panganggo anonim lan ora bisa gawé akun.",
 	"checkuser-blocktag": "Ganti kaca panganggo dadi:",
-	"checkuser-blocktag-talk": "Ganti kaca wicara nganggo:",
+	"checkuser-blocktag-talk": "Ganti kaca parembugan karo:",
 	"checkuser-massblock-commit": "Blokir panganggo kapilih",
 	"checkuser-block-success": "'''{{PLURAL:$2|Panganggo|panganggo}} $1 {{PLURAL:$2|wis|wis}} diblokir.'''",
 	"checkuser-block-failure": "'''Ora ana panganggo sing diblokir.'''",
