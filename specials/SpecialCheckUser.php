@@ -333,8 +333,8 @@ class CheckUser extends SpecialPage {
 			$logEntry->publish( $logEntry->insert() );
 
 			// Tag user page and user talk page
-			self::tagPage( $userTitle, $tag, $blockParams['reason'] );
-			self::tagPage( $userTalkTitle, $talkTag, $blockParams['reason'] );
+			$this->tagPage( $userTitle, $tag, $blockParams['reason'] );
+			$this->tagPage( $userTalkTitle, $talkTag, $blockParams['reason'] );
 		}
 
 		return $safeUsers;
@@ -375,7 +375,7 @@ class CheckUser extends SpecialPage {
 	 * @param string $tag
 	 * @param string $summary
 	 */
-	protected static function tagPage( Title $title, $tag, $summary ) {
+	protected function tagPage( Title $title, $tag, $summary ) {
 		// Check length to avoid mistakes
 		if ( strlen( $tag ) > 2 ) {
 			$page = WikiPage::factory( $title );
@@ -383,7 +383,8 @@ class CheckUser extends SpecialPage {
 			if ( $page->exists() ) {
 				$flags |= EDIT_MINOR;
 			}
-			$page->doEditContent( new WikitextContent( $tag ), $summary, $flags );
+			$page->doEditContent( new WikitextContent( $tag ), $summary,
+				$flags, false, $this->getUser() );
 		}
 	}
 
