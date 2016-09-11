@@ -251,7 +251,7 @@ class CheckUser extends SpecialPage {
 			return;
 		}
 
-		$blockedUsers = self::doMassUserBlockInternal( $users, $blockParams, $tag, $talkTag );
+		$blockedUsers = $this->doMassUserBlockInternal( $users, $blockParams, $tag, $talkTag );
 		$blockedCount = count( $blockedUsers );
 		if ( $blockedCount > 0 ) {
 			$lang = $this->getLanguage();
@@ -273,10 +273,11 @@ class CheckUser extends SpecialPage {
 	 * @param string $talkTag replaces user talk pages
 	 * @return string[] List of html-safe usernames which were actually were blocked
 	 */
-	public static function doMassUserBlockInternal( $users, array $blockParams,
+	protected function doMassUserBlockInternal( $users, array $blockParams,
 		$tag = '', $talkTag = '' ) {
-		global $wgBlockAllowsUTEdit, $wgUser;
+		global $wgBlockAllowsUTEdit;
 
+		$currentUser = $this->getUser();
 		$safeUsers = array();
 		foreach ( $users as $name ) {
 			$u = User::newFromName( $name, false );
@@ -305,14 +306,14 @@ class CheckUser extends SpecialPage {
 			// Create the block
 			$block = new Block();
 			$block->setTarget( $u );
-			$block->setBlocker( $wgUser );
+			$block->setBlocker( $currentUser );
 			$block->mReason = $blockParams['reason'];
 			$block->mExpiry = $expiry;
 			$block->isHardblock( !$isIP );
 			$block->isAutoblocking( true );
 			$block->prevents( 'createaccount', true );
 			$block->prevents( 'sendemail',
-				( SpecialBlock::canBlockEmail( $wgUser ) && $blockParams['email'] )
+				( SpecialBlock::canBlockEmail( $currentUser ) && $blockParams['email'] )
 			);
 			$block->prevents( 'editownusertalk', ( !$wgBlockAllowsUTEdit || $blockParams['talk'] ) );
 			$status = $block->insert();
@@ -325,7 +326,7 @@ class CheckUser extends SpecialPage {
 			$logEntry = new ManualLogEntry( 'block', 'block' );
 			$logEntry->setTarget( $userTitle );
 			$logEntry->setComment( $blockParams['reason'] );
-			$logEntry->setPerformer( $wgUser );
+			$logEntry->setPerformer( $currentUser );
 			$logEntry->setParameters( $logParams );
 			$blockIds = array_merge( array( $status['id'] ), $status['autoIds'] );
 			$logEntry->setRelations( array( 'ipb_id' => $blockIds ) );
