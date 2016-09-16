@@ -540,7 +540,9 @@ class CheckUser extends SpecialPage {
 						__METHOD__ );
 				}
 				if ( $ipedits > $ips_edits[$ip] ) {
-					$s .= ' <i>(' . $this->msg( 'checkuser-ipeditcount', $ipedits )->escaped() . ')</i>';
+					$s .= ' <i>(' .
+						$this->msg( 'checkuser-ipeditcount' )->numParams( $ipedits )->escaped() .
+						')</i>';
 				}
 
 				// If this IP is blocked, give a link to the block log
