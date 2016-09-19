@@ -66,6 +66,8 @@
 	"checkuser-search-submit": "بحث",
 	"checkuser-search-initiator": "بادىء",
 	"checkuser-search-target": "هدف",
+	"checkuser-log-search-target": "الهدف:",
+	"checkuser-log-search-type": "البحث حسب:",
 	"checkuser-ipeditcount": "~$1 من كل المستخدمين",
 	"checkuser-showmain": "غير إلى استمارة تدقيق المستخدم الرئيسية",
 	"checkuser-limited": "'''هذه النتائج تم اختصارها لأسباب تتعلق بالأداء.'''",
