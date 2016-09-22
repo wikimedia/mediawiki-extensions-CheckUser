@@ -1,4 +1,7 @@
 <?php
+
+use MediaWiki\MediaWikiServices;
+
 class CheckUserHooks {
 	/**
 	 * Hook function for RecentChange_save
@@ -297,6 +300,13 @@ class CheckUserHooks {
 		$ipchain = array_map( 'trim', explode( ',', $xff ) );
 		$ipchain = array_reverse( $ipchain );
 
+		if ( class_exists( ProxyLookup::class ) ) { // MW 1.28+
+			$proxyLookup = MediaWikiServices::getInstance()->getProxyLookup();
+		} else {
+			// This is kind of sketch, but is good enough for back-compat
+			$proxyLookup = new IP();
+		}
+
 		$client = null; // best guess of the client IP
 		$isSquidOnly = false; // all proxy servers where site Squid/Varnish servers?
 		# Step through XFF list and find the last address in the list which is a
@@ -308,7 +318,7 @@ class CheckUserHooks {
 			if ( $curIP === null ) {
 				break; // not a valid IP address
 			}
-			$curIsSquid = IP::isConfiguredProxy( $curIP );
+			$curIsSquid = $proxyLookup->isConfiguredProxy( $curIP );
 			if ( $client === null ) {
 				$client = $curIP;
 				$isSquidOnly = $curIsSquid;
