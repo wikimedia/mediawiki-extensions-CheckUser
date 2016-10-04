@@ -14,7 +14,8 @@
 			"Pietrodn",
 			"Stefano-c",
 			"Nivit",
-			"Lucas2"
+			"Lucas2",
+			"Selven"
 		]
 	},
 	"checkuser-summary": "Questo strumento analizza le modifiche recenti per recuperare gli indirizzi IP utilizzati da un utente o mostrare contributi e dati di un IP. Utenti e contributi di un client IP possono essere rintracciati attraverso gli header XFF aggiungendo all'IP il suffisso \"/xff\". Sono supportati IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128). Non saranno restituite più di 5.000 modifiche, per ragioni di prestazioni. Usa questo strumento in stretta conformità alle policy.",
@@ -68,6 +69,7 @@
 	"checkuser-block-failure": "'''Nessun utente bloccato.'''",
 	"checkuser-block-limit": "Troppi utenti selezionati.",
 	"checkuser-block-noreason": "È obbligatorio fornire una motivazione per i blocchi.",
+	"checkuser-centralauth-multilock": "Blocco multiplo degli utenti selezionati",
 	"checkuser-noreason": "È necessario fornire una motivazione per questa query.",
 	"checkuser-accounts": "$1 {{PLURAL:$1|nuova|nuove}} utenze",
 	"checkuser-too-many": "Troppi risultati (per stima della query), per favore usa un CIDR più ristretto.\nQui di seguito ci sono gli indirizzi IP utilizzati (fino a un massimo di 5000, ordinati per indirizzo):",
