@@ -1021,7 +1021,7 @@ class CheckUser extends SpecialPage {
 			)
 		);
 
-		$users_first = $users_last = $users_edits = $users_ids = array();
+		$users_first = $users_last = $users_edits = $users_ids = $users_agentsets = $users_infosets = array();
 		if ( !$dbr->numRows( $ret ) ) {
 			$s = $this->noMatchesMessage( $ip, !$xfor ) . "\n";
 		} else {
@@ -1480,13 +1480,13 @@ class CheckUser extends SpecialPage {
 	protected static function buildGroupLink( $group, $username ) {
 		static $cache = array();
 		if ( !isset( $cache[$group] ) ) {
-			$cache[$group] = User::makeGroupLinkHtml( $group, User::getGroupMember( $group, $username ) );
+			$cache[$group] = User::makeGroupLinkHTML( $group, User::getGroupMember( $group, $username ) );
 		}
 		return $cache[$group];
 	}
 
 	/**
-	 * @param DatabaseBase $db
+	 * @param IDatabase $db
 	 * @param string $ip
 	 * @param string|bool $xfor
 	 * @return array|false array for valid conditions, false if invalid

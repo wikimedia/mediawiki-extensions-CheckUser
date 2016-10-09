@@ -11,7 +11,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 	public function execute() {
 		global $wgCheckUserForceSummary;
 
-		$db = $this->getDB( DB_SLAVE );
+		$db = $this->getDB();
 		$params = $this->extractRequestParams();
 
 		list( $request, $target, $reason, $timecond, $limit, $xff ) = array(

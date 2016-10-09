@@ -8,7 +8,7 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 
 	/**
 	 * @param IContextSource $context
-	 * @param array $opts Should include 'queryConds', 'year', and 'month' keys
+	 * @param array $conds Should include 'queryConds', 'year', and 'month' keys
 	 */
 	public function __construct( IContextSource $context, array $conds ) {
 		parent::__construct( $context );
