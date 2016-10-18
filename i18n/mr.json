@@ -82,6 +82,6 @@
 	"apihelp-query+checkuser-param-target": "तपासावयाचे सदस्यनाव, अंकपत्ता किंवा सीआयडीआर रेंज.",
 	"apihelp-query+checkuser-param-reason": "तपासण्याचे कारण.",
 	"apihelp-query+checkuser-param-limit": "ओळींची मर्यादा.",
-	"apihelp-query+checkuser-param-timecond": "सदस्यडाटाची काल मर्यादा(जसे \"२ आठवडे\").",
+	"apihelp-query+checkuser-param-timecond": "सदस्यडाटाची काल मर्यादा(जसे \"२ आठवडे\" किंवा \"२ आठवड्यांपूर्वी\").",
 	"apihelp-query+checkuserlog-param-limit": "ओळींची मर्यादा."
 }
