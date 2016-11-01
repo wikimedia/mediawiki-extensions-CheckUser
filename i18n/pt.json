@@ -86,7 +86,7 @@
 	"checkuser-autocreate-action": "foi criada automaticamente",
 	"checkuser-create-action": "foi criada",
 	"checkuser-email-action": "correio eletrónico enviado para o utilizador \"$1\"",
-	"checkuser-reset-action": "foi reiniciada a palavra-chave do utilizador \"$1\"",
+	"checkuser-reset-action": "foi reiniciada a palavra-passe do utilizador \"$1\"",
 	"checkuser-userlinks-ip": "([[User_talk:$1|discussão]] | [[Special:Contributions/$1|contribs]] | [[Special:Block/$1|bloquear]] | <span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/RDNS]</span>)",
 	"checkuser-userlinks": "([[User_talk:$1|discussão]] | [[Special:Contributions/$1|contribs]] | [[Special:Block/$1|bloquear]])",
 	"checkuser-token-fail": "Falha na sessão. Por favor, tente novamente.",
