@@ -11,8 +11,12 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 	public function execute() {
 		$params = $this->extractRequestParams();
 
-		if ( !$this->getUser()->isAllowed( 'checkuser-log' ) ) {
-			$this->dieUsage( 'You need the checkuser-log right', 'permissionerror' );
+		if ( is_callable( [ $this, 'checkUserRightsAny' ] ) ) {
+			$this->checkUserRightsAny( 'checkuser-log' );
+		} else {
+			if ( !$this->getUser()->isAllowed( 'checkuser-log' ) ) {
+				$this->dieUsage( 'You need the checkuser-log right', 'permissionerror' );
+			}
 		}
 
 		$limit = $params['limit'];
@@ -39,14 +43,13 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		if ( $continue !== null ) {
 			$cont = explode( '|', $continue );
 			$op = $dir === 'older' ? '<' : '>';
-			if ( count( $cont ) !== 2 || wfTimestamp( TS_UNIX, $cont[0] ) === false ) {
-				$this->dieUsage( 'Invalid continue param. You should pass the ' .
-								'original value returned by the previous query', '_badcontinue' );
-			}
+			$this->dieContinueUsageIf( count( $cont ) !== 2 );
+			$this->dieContinueUsageIf( wfTimestamp( TS_UNIX, $cont[0] ) === false );
 
 			$db = $this->getDB();
 			$timestamp = $db->addQuotes( $db->timestamp( $cont[0] ) );
 			$id = intval( $cont[1] );
+			$this->dieContinueUsageIf( $cont[1] !== (string)$id );
 
 			$this->addWhere(
 				"cul_timestamp $op $timestamp OR " .
