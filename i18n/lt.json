@@ -7,7 +7,7 @@
 			"Matasg"
 		]
 	},
-	"checkuser-desc": "Suteikia vartotojui atitinkamą teisę, galimybę patikrinti vartotojo IP adresus ir kitą informaciją",
+	"checkuser-desc": "Suteikia naudotojams, turintiems atitinkamas teises, galimybę patikrinti naudotojo IP adresus ir kitą informaciją",
 	"checkuser": "Patikrinkite vartotoją",
 	"checkuserlog": "Peržiūrėti vartotojo žurnalą",
 	"checkuser-contribs": "patikrinti naudotojo IP adresus",
