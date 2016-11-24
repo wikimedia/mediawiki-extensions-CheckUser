@@ -413,8 +413,8 @@ $specialPageAliases['tr'] = array(
 
 /** Ukrainian (українська) */
 $specialPageAliases['uk'] = array(
-	'CheckUser' => array( 'Перевірити_користувача' ),
-	'CheckUserLog' => array( 'Журнал_перевірок_користувачів' ),
+	'CheckUser' => array( 'Перевірити_користувача', 'Проверить_участника' ),
+	'CheckUserLog' => array( 'Журнал_перевірок_користувачів', 'Журнал_проверок_участников' ),
 );
 
 /** Urdu (اردو) */
