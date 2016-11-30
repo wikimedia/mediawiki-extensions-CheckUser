@@ -45,6 +45,12 @@ $specialPageAliases['ba'] = array(
 	'CheckUserLog' => array( 'CheckUserLog' ),
 );
 
+/** Bengali (বাংলা) */
+$specialPageAliases['bn'] = array(
+	'CheckUser' => array( 'ব্যবহারকারী_পরীক্ষণ' ),
+	'CheckUserLog' => array( 'ব্যবহারকারী_পরীক্ষণের_লগ' ),
+);
+
 /** Bulgarian (български) */
 $specialPageAliases['bg'] = array(
 	'CheckUser' => array( 'Проверка_на_потребител' ),
