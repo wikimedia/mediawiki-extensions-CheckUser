@@ -40,7 +40,7 @@ class PurgeOldIPAddressData extends Maintenance {
 			$res = $dbw->select( $table, $ts_column,
 				$expiredCond,
 				__METHOD__,
-				array( 'ORDER BY' => "$ts_column ASC", 'LIMIT' => $this->mBatchSize )
+				[ 'ORDER BY' => "$ts_column ASC", 'LIMIT' => $this->mBatchSize ]
 			);
 			if ( !$res->numRows() ) {
 				break; // all cleared
@@ -54,7 +54,7 @@ class PurgeOldIPAddressData extends Maintenance {
 			// Do the actual delete...
 			$this->beginTransaction( $dbw, __METHOD__ );
 			$dbw->delete( $table,
-				array( "$ts_column BETWEEN $blockStart AND $blockEnd" ), __METHOD__ );
+				[ "$ts_column BETWEEN $blockStart AND $blockEnd" ], __METHOD__ );
 			$count += $dbw->affectedRows();
 			$this->commitTransaction( $dbw, __METHOD__ );
 

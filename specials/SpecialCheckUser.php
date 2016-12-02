@@ -45,14 +45,14 @@ class CheckUser extends SpecialPage {
 		$talkTag = $request->getBool( 'usettag' ) ?
 			trim( $request->getVal( 'talktag' ) ) : '';
 
-		$blockParams = array(
+		$blockParams = [
 			'reason' => $blockreason,
 			'talk' => $disableUserTalk,
 			'email' => $disableEmail,
-		);
+		];
 
 		$ip = $name = $xff = '';
-		$m = array();
+		$m = [];
 		if ( IP::isIPAddress( $user ) ) {
 			// A single IP address or an IP range
 			$ip = IP::sanitizeIP( $user );
@@ -132,28 +132,28 @@ class CheckUser extends SpecialPage {
 			$encuserips = 1;
 		}
 
-		$form = Xml::openElement( 'form', array( 'action' => $action,
-			'name' => 'checkuserform', 'id' => 'checkuserform', 'method' => 'post' ) );
+		$form = Xml::openElement( 'form', [ 'action' => $action,
+			'name' => 'checkuserform', 'id' => 'checkuserform', 'method' => 'post' ] );
 		$form .= '<fieldset><legend>' . $this->msg( 'checkuser-query' )->escaped() . '</legend>';
-		$form .= Xml::openElement( 'table', array( 'style' => 'border:0' ) );
+		$form .= Xml::openElement( 'table', [ 'style' => 'border:0' ] );
 		$form .= '<tr>';
 		$form .= '<td>' . $this->msg( 'checkuser-target' )->escaped() . '</td>';
 		// User field should fit things like "2001:0db8:85a3:08d3:1319:8a2e:0370:7344/100/xff"
-		$form .= '<td>' . Xml::input( 'user', 46, $user, array( 'id' => 'checktarget' ) );
+		$form .= '<td>' . Xml::input( 'user', 46, $user, [ 'id' => 'checktarget' ] );
 		$form .= '&#160;' . $this->getPeriodMenu( $period ) . '</td>';
 		$form .= '</tr><tr>';
 		$form .= '<td></td>';
-		$form .= Xml::openElement( 'td', array( 'class' => 'checkuserradios' ) );
-		$form .= Xml::openElement( 'table', array( 'style' => 'border:0' ) );
+		$form .= Xml::openElement( 'td', [ 'class' => 'checkuserradios' ] );
+		$form .= Xml::openElement( 'table', [ 'style' => 'border:0' ] );
 		$form .= '<tr>';
 		$form .= '<td>' .
-			Xml::radio( 'checktype', 'subuserips', $encuserips, array( 'id' => 'subuserips' ) );
+			Xml::radio( 'checktype', 'subuserips', $encuserips, [ 'id' => 'subuserips' ] );
 		$form .= ' ' . Xml::label( $this->msg( 'checkuser-ips' )->text(), 'subuserips' ) . '</td>';
 		$form .= '<td>' .
-			Xml::radio( 'checktype', 'subedits', $encedits, array( 'id' => 'subedits' ) );
+			Xml::radio( 'checktype', 'subedits', $encedits, [ 'id' => 'subedits' ] );
 		$form .= ' ' . Xml::label( $this->msg( 'checkuser-edits' )->text(), 'subedits' ) . '</td>';
 		$form .= '<td>' .
-			Xml::radio( 'checktype', 'subipusers', $encipusers, array( 'id' => 'subipusers' ) );
+			Xml::radio( 'checktype', 'subipusers', $encipusers, [ 'id' => 'subipusers' ] );
 		$form .= ' ' . Xml::label( $this->msg( 'checkuser-users' )->text(), 'subipusers' ) . '</td>';
 		$form .= '</tr>';
 		$form .= Xml::closeElement( 'table' );
@@ -161,9 +161,9 @@ class CheckUser extends SpecialPage {
 		$form .= '</tr><tr>';
 		$form .= '<td>' . $this->msg( 'checkuser-reason' )->escaped() . '</td>';
 		$form .= '<td>' . Xml::input( 'reason', 46, $reason,
-			array( 'maxlength' => '150', 'id' => 'checkreason' ) );
+			[ 'maxlength' => '150', 'id' => 'checkreason' ] );
 		$form .= '&#160; &#160;' . Xml::submitButton( $this->msg( 'checkuser-check' )->text(),
-			array( 'id' => 'checkusersubmit', 'name' => 'checkusersubmit' ) ) . '</td>';
+			[ 'id' => 'checkusersubmit', 'name' => 'checkusersubmit' ] ) . '</td>';
 		$form .= '</tr>';
 		$form .= Xml::closeElement( 'table' );
 		$form .= '</fieldset>';
@@ -182,7 +182,7 @@ class CheckUser extends SpecialPage {
 		$s = '<label for="period">' . $this->msg( 'checkuser-period' )->escaped() . '</label>&#160;';
 		$s .= Xml::openElement(
 			'select',
-			array( 'name' => 'period', 'id' => 'period', 'style' => 'margin-top:.2em;' )
+			[ 'name' => 'period', 'id' => 'period', 'style' => 'margin-top:.2em;' ]
 		);
 		$s .= Xml::option( $this->msg( 'checkuser-week-1' )->text(), 7, $selected === 7 );
 		$s .= Xml::option( $this->msg( 'checkuser-week-2' )->text(), 14, $selected === 14 );
@@ -200,7 +200,7 @@ class CheckUser extends SpecialPage {
 			'<legend>' . $this->msg( 'checkuser-cidr-label' )->escaped() . '</legend>';
 		$s .= '<textarea id="mw-checkuser-iplist" dir="ltr" rows="5" cols="50"></textarea><br />';
 		$s .= $this->msg( 'checkuser-cidr-res' )->escaped() . '&#160;' .
-			Xml::input( 'mw-checkuser-cidr-res', 35, '', array( 'id' => 'mw-checkuser-cidr-res' ) ) .
+			Xml::input( 'mw-checkuser-cidr-res', 35, '', [ 'id' => 'mw-checkuser-cidr-res' ] ) .
 			'&#160;<strong id="mw-checkuser-ipnote"></strong>';
 		$s .= '</fieldset>';
 		$this->getOutput()->addHTML( $s );
@@ -221,7 +221,7 @@ class CheckUser extends SpecialPage {
 	 */
 	protected function preCacheMessages() {
 		if ( $this->message === null ) {
-			$msgKeys = array( 'diff', 'hist', 'minoreditletter', 'newpageletter', 'blocklink', 'log' );
+			$msgKeys = [ 'diff', 'hist', 'minoreditletter', 'newpageletter', 'blocklink', 'log' ];
 			foreach ( $msgKeys as $msg ) {
 				$this->message[$msg] = $this->msg( $msg )->escaped();
 			}
@@ -278,7 +278,7 @@ class CheckUser extends SpecialPage {
 		global $wgBlockAllowsUTEdit;
 
 		$currentUser = $this->getUser();
-		$safeUsers = array();
+		$safeUsers = [];
 		foreach ( $users as $name ) {
 			$u = User::newFromName( $name, false );
 			// Do some checks to make sure we can block this user first
@@ -319,7 +319,7 @@ class CheckUser extends SpecialPage {
 			$status = $block->insert();
 
 			// Prepare log parameters for the block
-			$logParams = array();
+			$logParams = [];
 			$logParams['5::duration'] = $expirestr;
 			$logParams['6::flags'] = self::userBlockLogFlags( $isIP, $blockParams );
 
@@ -328,8 +328,8 @@ class CheckUser extends SpecialPage {
 			$logEntry->setComment( $blockParams['reason'] );
 			$logEntry->setPerformer( $currentUser );
 			$logEntry->setParameters( $logParams );
-			$blockIds = array_merge( array( $status['id'] ), $status['autoIds'] );
-			$logEntry->setRelations( array( 'ipb_id' => $blockIds ) );
+			$blockIds = array_merge( [ $status['id'] ], $status['autoIds'] );
+			$logEntry->setRelations( [ 'ipb_id' => $blockIds ] );
 			$logEntry->publish( $logEntry->insert() );
 
 			// Tag user page and user talk page
@@ -349,7 +349,7 @@ class CheckUser extends SpecialPage {
 	 */
 	protected static function userBlockLogFlags( $anonOnly, array $blockParams ) {
 		global $wgBlockAllowsUTEdit;
-		$flags = array();
+		$flags = [];
 
 		if ( $anonOnly ) {
 			$flags[] = 'anononly';
@@ -403,22 +403,22 @@ class CheckUser extends SpecialPage {
 			if ( $user_id ) {
 				$revEdit = $dbr->selectField( 'revision',
 					'rev_timestamp',
-					array( 'rev_user' => $user_id ),
+					[ 'rev_user' => $user_id ],
 					__METHOD__,
-					array( 'ORDER BY' => 'rev_timestamp DESC' )
+					[ 'ORDER BY' => 'rev_timestamp DESC' ]
 				);
 				$logEdit = $dbr->selectField( 'logging',
 					'log_timestamp',
-					array( 'log_user' => $user_id ),
+					[ 'log_user' => $user_id ],
 					__METHOD__,
-					array( 'ORDER BY' => 'log_timestamp DESC' )
+					[ 'ORDER BY' => 'log_timestamp DESC' ]
 				);
 			} else {
 				$revEdit = $dbr->selectField( 'revision',
 					'rev_timestamp',
-					array( 'rev_user_text' => $userName ),
+					[ 'rev_user_text' => $userName ],
 					__METHOD__,
-					array( 'ORDER BY' => 'rev_timestamp DESC' )
+					[ 'ORDER BY' => 'rev_timestamp DESC' ]
 				);
 				$logEdit = false; // no log_user_text index
 			}
@@ -474,27 +474,27 @@ class CheckUser extends SpecialPage {
 
 		$ret = $dbr->select(
 			'cu_changes',
-			array(
+			[
 				'cuc_ip',
 				'cuc_ip_hex',
 				'COUNT(*) AS count',
 				'MIN(cuc_timestamp) AS first',
 				'MAX(cuc_timestamp) AS last',
-			),
-			array( 'cuc_user' => $user_id, $time_conds ),
+			],
+			[ 'cuc_user' => $user_id, $time_conds ],
 			__METHOD__,
-			array(
+			[
 				'ORDER BY' => 'last DESC',
 				'GROUP BY' => 'cuc_ip,cuc_ip_hex',
 				'LIMIT' => 5001,
 				'USE INDEX' => 'cuc_user_ip_time',
-			)
+			]
 		);
 
 		if ( !$dbr->numRows( $ret ) ) {
 			$s = $this->noMatchesMessage( $user ) . "\n";
 		} else {
-			$ips_edits = array();
+			$ips_edits = [];
 			$counter = 0;
 			foreach ( $ret as $row ) {
 				if ( $counter >= 5000 ) {
@@ -516,10 +516,10 @@ class CheckUser extends SpecialPage {
 			foreach ( $ips_edits as $ip => $edits ) {
 				$s .= '<li>';
 				$s .= $this->getSelfLink( $ip,
-					array(
+					[
 						'user' => $ip,
 						'reason' => $reason,
-					)
+					]
 				);
 				$s .= ' ' . $this->msg( 'parentheses' )->rawParams(
 						Linker::linkKnown(
@@ -533,12 +533,12 @@ class CheckUser extends SpecialPage {
 				// If we get some results, it helps to know if the IP in general
 				// has a lot more edits, e.g. "tip of the iceberg"...
 				$ipedits = $dbr->estimateRowCount( 'cu_changes', '*',
-					array( 'cuc_ip_hex' => $ips_hex[$ip], $time_conds ),
+					[ 'cuc_ip_hex' => $ips_hex[$ip], $time_conds ],
 					__METHOD__ );
 				// If small enough, get a more accurate count
 				if ( $ipedits <= 1000 ) {
 					$ipedits = $dbr->selectField( 'cu_changes', 'COUNT(*)',
-						array( 'cuc_ip_hex' => $ips_hex[$ip], $time_conds ),
+						[ 'cuc_ip_hex' => $ips_hex[$ip], $time_conds ],
 						__METHOD__ );
 				}
 				if ( $ipedits > $ips_edits[$ip] ) {
@@ -578,19 +578,19 @@ class CheckUser extends SpecialPage {
 			$ret = Linker::linkKnown(
 				SpecialPage::getTitleFor( 'BlockList' ),
 				$this->msg( 'checkuser-blocked' )->escaped(),
-				array(),
-				array( 'wpTarget' => "#{$block->getId()}" )
+				[],
+				[ 'wpTarget' => "#{$block->getId()}" ]
 			);
 		} else {
 			$userPage = Title::makeTitle( NS_USER, $block->getTarget() );
 			$ret = Linker::linkKnown(
 				SpecialPage::getTitleFor( 'Log' ),
 				$this->msg( 'checkuser-blocked' )->escaped(),
-				array(),
-				array(
+				[],
+				[
 					'type' => 'block',
 					'page' => $userPage->getPrefixedText()
-				)
+				]
 			);
 		}
 
@@ -638,14 +638,14 @@ class CheckUser extends SpecialPage {
 			// Quick index check only OK if no time constraint
 			if ( $period ) {
 				$rangecount = $dbr->selectField( 'cu_changes', 'COUNT(*)',
-					array( $ip_conds, $time_conds ),
+					[ $ip_conds, $time_conds ],
 					__METHOD__,
-					array( 'USE INDEX' => $index ) );
+					[ 'USE INDEX' => $index ] );
 			} else {
 				$rangecount = $dbr->estimateRowCount( 'cu_changes', '*',
-					array( $ip_conds ),
+					[ $ip_conds ],
 					__METHOD__,
-					array( 'USE INDEX' => $index ) );
+					[ 'USE INDEX' => $index ] );
 			}
 			// Sorting might take some time...make sure it is there
 			wfSuppressWarnings();
@@ -657,20 +657,20 @@ class CheckUser extends SpecialPage {
 		if ( isset( $rangecount ) && $rangecount > 5000 ) {
 			$ret = $dbr->select(
 				'cu_changes',
-				array(
+				[
 					'cuc_ip_hex',
 					'COUNT(*) AS count',
 					'MIN(cuc_timestamp) AS first',
 					'MAX(cuc_timestamp) AS last'
-				),
-				array( $ip_conds, $time_conds ),
+				],
+				[ $ip_conds, $time_conds ],
 				__METHOD__,
-				array(
+				[
 					'GROUP BY' => 'cuc_ip_hex',
 					'ORDER BY' => 'cuc_ip_hex',
 					'LIMIT' => 5001,
 					'USE INDEX' => $index,
-				)
+				]
 			);
 			// List out each IP that has edits
 			$s = $this->msg( 'checkuser-too-many' )->parseAsBlock();
@@ -689,11 +689,11 @@ class CheckUser extends SpecialPage {
 				}
 				$s .= '<li>';
 				$s .= $this->getSelfLink( $ip,
-					array(
+					[
 						'user' => $ip,
 						'reason' => $reason,
 						'checktype' => 'subipusers'
-					)
+					]
 				);
 				$s .= ' ' . $this->getTimeRangeString( $row->first, $row->last ) . ' ';
 				$s .= ' [<strong>' . $row->count . "</strong>]</li>\n";
@@ -713,18 +713,18 @@ class CheckUser extends SpecialPage {
 
 		$ret = $dbr->select(
 			'cu_changes',
-			array(
+			[
 				'cuc_namespace', 'cuc_title', 'cuc_user', 'cuc_user_text', 'cuc_comment', 'cuc_actiontext',
 				'cuc_timestamp', 'cuc_minor', 'cuc_page_id', 'cuc_type', 'cuc_this_oldid',
 				'cuc_last_oldid', 'cuc_ip', 'cuc_xff', 'cuc_agent'
-			),
-			array( $ip_conds, $time_conds ),
+			],
+			[ $ip_conds, $time_conds ],
 			__METHOD__,
-			array(
+			[
 				'ORDER BY' => 'cuc_timestamp DESC',
 				'LIMIT' => 5001,
 				'USE INDEX' => $index,
-			)
+			]
 		);
 
 		if ( !$dbr->numRows( $ret ) ) {
@@ -816,14 +816,14 @@ class CheckUser extends SpecialPage {
 		// If it is, sort by IP,time to avoid the filesort.
 		if ( $period ) {
 			$count = $dbr->selectField( 'cu_changes', 'COUNT(*)',
-				array( $user_cond, $time_conds ),
+				[ $user_cond, $time_conds ],
 				__METHOD__,
-				array( 'USE INDEX' => 'cuc_user_ip_time' ) );
+				[ 'USE INDEX' => 'cuc_user_ip_time' ] );
 		} else {
 			$count = $dbr->estimateRowCount( 'cu_changes', '*',
-				array( $user_cond, $time_conds ),
+				[ $user_cond, $time_conds ],
 				__METHOD__,
-				array( 'USE INDEX' => 'cuc_user_ip_time' ) );
+				[ 'USE INDEX' => 'cuc_user_ip_time' ] );
 		}
 		// Cache common messages
 		$this->preCacheMessages();
@@ -834,13 +834,13 @@ class CheckUser extends SpecialPage {
 			$ret = $dbr->select(
 				'cu_changes',
 				'*',
-				array( $user_cond, $time_conds ),
+				[ $user_cond, $time_conds ],
 				__METHOD__,
-				array(
+				[
 					'ORDER BY' => 'cuc_ip ASC, cuc_timestamp DESC',
 					'LIMIT' => 5000,
 					'USE INDEX' => 'cuc_user_ip_time'
-				)
+				]
 			);
 			// Try to optimize this query
 			$this->doLinkCache( $ret );
@@ -875,13 +875,13 @@ class CheckUser extends SpecialPage {
 		$ret = $dbr->select(
 			'cu_changes',
 			'*',
-			array( $user_cond, $time_conds ),
+			[ $user_cond, $time_conds ],
 			__METHOD__,
-			array(
+			[
 				'ORDER BY' => 'cuc_timestamp DESC',
 				'LIMIT' => 5000,
 				'USE INDEX' => 'cuc_user_ip_time'
-			)
+			]
 		);
 		if ( !$dbr->numRows( $ret ) ) {
 			$s = $this->noMatchesMessage( $user ) . "\n";
@@ -936,14 +936,14 @@ class CheckUser extends SpecialPage {
 			// Quick index check only OK if no time constraint
 			if ( $period ) {
 				$rangecount = $dbr->selectField( 'cu_changes', 'COUNT(*)',
-					array( $ip_conds, $time_conds ),
+					[ $ip_conds, $time_conds ],
 					__METHOD__,
-					array( 'USE INDEX' => $index ) );
+					[ 'USE INDEX' => $index ] );
 			} else {
 				$rangecount = $dbr->estimateRowCount( 'cu_changes', '*',
-					array( $ip_conds ),
+					[ $ip_conds ],
 					__METHOD__,
-					array( 'USE INDEX' => $index ) );
+					[ 'USE INDEX' => $index ] );
 			}
 			// Sorting might take some time...make sure it is there
 			wfSuppressWarnings();
@@ -954,18 +954,18 @@ class CheckUser extends SpecialPage {
 		if ( isset( $rangecount ) && $rangecount > 10000 ) {
 			$ret = $dbr->select(
 				'cu_changes',
-				array(
+				[
 					'cuc_ip_hex', 'COUNT(*) AS count',
 					'MIN(cuc_timestamp) AS first', 'MAX(cuc_timestamp) AS last'
-				),
-				array( $ip_conds, $time_conds ),
+				],
+				[ $ip_conds, $time_conds ],
 				__METHOD__,
-				array(
+				[
 					'GROUP BY' => 'cuc_ip_hex',
 					'ORDER BY' => 'cuc_ip_hex',
 					'LIMIT' => 5001,
 					'USE INDEX' => $index,
-				)
+				]
 			);
 			// List out each IP that has edits
 			$s = '<h5>' . $this->msg( 'checkuser-too-many' )->escaped() . '</h5>';
@@ -985,11 +985,11 @@ class CheckUser extends SpecialPage {
 				}
 				$s .= '<li>';
 				$s .= $this->getSelfLink( $ip,
-					array(
+					[
 						'user' => $ip,
 						'reason' => $reason,
 						'checktype' => 'subipusers'
-					)
+					]
 				);
 				$s .= ' ' . $this->getTimeRangeString( $row->first, $row->last ) . ' ';
 				// @todo FIXME: Hard coded brackets.
@@ -1009,19 +1009,19 @@ class CheckUser extends SpecialPage {
 		// OK, do the real query...
 		$ret = $dbr->select(
 			'cu_changes',
-			array(
+			[
 				'cuc_user_text', 'cuc_timestamp', 'cuc_user', 'cuc_ip', 'cuc_agent', 'cuc_xff'
-			),
-			array( $ip_conds, $time_conds ),
+			],
+			[ $ip_conds, $time_conds ],
 			__METHOD__,
-			array(
+			[
 				'ORDER BY' => 'cuc_timestamp DESC',
 				'LIMIT' => 10000,
 				'USE INDEX' => $index,
-			)
+			]
 		);
 
-		$users_first = $users_last = $users_edits = $users_ids = $users_agentsets = $users_infosets = array();
+		$users_first = $users_last = $users_edits = $users_ids = $users_agentsets = $users_infosets = [];
 		if ( !$dbr->numRows( $ret ) ) {
 			$s = $this->noMatchesMessage( $ip, !$xfor ) . "\n";
 		} else {
@@ -1030,14 +1030,14 @@ class CheckUser extends SpecialPage {
 					$users_last[$row->cuc_user_text] = $row->cuc_timestamp;
 					$users_edits[$row->cuc_user_text] = 0;
 					$users_ids[$row->cuc_user_text] = $row->cuc_user;
-					$users_infosets[$row->cuc_user_text] = array();
-					$users_agentsets[$row->cuc_user_text] = array();
+					$users_infosets[$row->cuc_user_text] = [];
+					$users_agentsets[$row->cuc_user_text] = [];
 				}
 				$users_edits[$row->cuc_user_text] += 1;
 				$users_first[$row->cuc_user_text] = $row->cuc_timestamp;
 				// Treat blank or NULL xffs as empty strings
 				$xff = empty( $row->cuc_xff ) ? null : $row->cuc_xff;
-				$xff_ip_combo = array( $row->cuc_ip, $xff );
+				$xff_ip_combo = [ $row->cuc_ip, $xff ];
 				// Add this IP/XFF combo for this username if it's not already there
 				if ( !in_array( $xff_ip_combo, $users_infosets[$row->cuc_user_text] ) ) {
 					$users_infosets[$row->cuc_user_text][] = $xff_ip_combo;
@@ -1056,7 +1056,7 @@ class CheckUser extends SpecialPage {
 			$s .= '<div id="checkuserresults"><ul>';
 			foreach ( $users_edits as $name => $count ) {
 				$s .= '<li>';
-				$s .= Xml::check( 'users[]', false, array( 'value' => $name ) ) . '&#160;';
+				$s .= Xml::check( 'users[]', false, [ 'value' => $name ] ) . '&#160;';
 				// Load user object
 				$user = User::newFromName( $name, false );
 				// Add user page and tool links
@@ -1068,10 +1068,10 @@ class CheckUser extends SpecialPage {
 				$s .= ' ' . $this->msg( 'parentheses' )->rawParams(
 					$this->getSelfLink(
 						$this->msg( 'checkuser-check' )->text(),
-						array(
+						[
 							'user' => $name,
 							'reason' => $reason
-						)
+						]
 					)
 				)->escaped();
 				// Show edit time range
@@ -1097,7 +1097,7 @@ class CheckUser extends SpecialPage {
 					$set = $users_infosets[$name][$i];
 					// IP link
 					$s .= '<li>';
-					$s .= $this->getSelfLink( $set[0], array( 'user' => $set[0] ) );
+					$s .= $this->getSelfLink( $set[0], [ 'user' => $set[0] ] );
 					// XFF string, link to /xff search
 					if ( $set[1] ) {
 						// Flag our trusted proxies
@@ -1106,7 +1106,7 @@ class CheckUser extends SpecialPage {
 						$trusted = ( $client === $row->cuc_ip );
 						$c = $trusted ? '#F0FFF0' : '#FFFFCC';
 						$s .= '&#160;&#160;&#160;<span style="background-color: ' . $c . '"><strong>XFF</strong>: ';
-						$s .= $this->getSelfLink( $set[1], array( 'user' => $client . '/xff' ) ) . '</span>';
+						$s .= $this->getSelfLink( $set[1], [ 'user' => $client . '/xff' ] ) . '</span>';
 					}
 					$s .= "</li>\n";
 				}
@@ -1167,28 +1167,28 @@ class CheckUser extends SpecialPage {
 		$s .= '<legend>' . $this->msg( 'checkuser-massblock' )->escaped() . "</legend>\n";
 		$s .= $this->msg( 'checkuser-massblock-text' )->parseAsBlock() . "\n";
 		$s .= '<table><tr>' .
-			'<td>' . Xml::check( 'usetag', false, array( 'id' => 'usetag' ) ) . '</td>' .
+			'<td>' . Xml::check( 'usetag', false, [ 'id' => 'usetag' ] ) . '</td>' .
 			'<td>' . Xml::label( $this->msg( 'checkuser-blocktag' )->escaped(), 'usetag' ) . '</td>' .
-			'<td>' . Xml::input( 'tag', 46, $tag, array( 'id' => 'blocktag' ) ) . '</td>' .
+			'<td>' . Xml::input( 'tag', 46, $tag, [ 'id' => 'blocktag' ] ) . '</td>' .
 			'</tr><tr>' .
-			'<td>' . Xml::check( 'usettag', false, array( 'id' => 'usettag' ) ) . '</td>' .
+			'<td>' . Xml::check( 'usettag', false, [ 'id' => 'usettag' ] ) . '</td>' .
 			'<td>' . Xml::label( $this->msg( 'checkuser-blocktag-talk' )->escaped(), 'usettag' ) . '</td>' .
-			'<td>' . Xml::input( 'talktag', 46, $talkTag, array( 'id' => 'talktag' ) ) . '</td>';
+			'<td>' . Xml::input( 'talktag', 46, $talkTag, [ 'id' => 'talktag' ] ) . '</td>';
 		if ( $wgBlockAllowsUTEdit ) {
 			$s .= '</tr><tr>' .
-				'<td>' . Xml::check( 'blocktalk', false, array( 'id' => 'blocktalk' ) ) . '</td>' .
+				'<td>' . Xml::check( 'blocktalk', false, [ 'id' => 'blocktalk' ] ) . '</td>' .
 				'<td>' . Xml::label( $this->msg( 'checkuser-blocktalk' )->escaped(), 'blocktalk' ) . '</td>';
 		}
 		if ( SpecialBlock::canBlockEmail( $this->getUser() ) ) {
 			$s .= '</tr><tr>' .
-				'<td>' . Xml::check( 'blockemail', false, array( 'id' => 'blockemail' ) ) . '</td>' .
+				'<td>' . Xml::check( 'blockemail', false, [ 'id' => 'blockemail' ] ) . '</td>' .
 				'<td>' . Xml::label( $this->msg( 'checkuser-blockemail' )->escaped(), 'blockemail' ) . '</td>';
 		}
 		$s .= '</tr></table>';
 		$s .= '<p>' . $this->msg( 'checkuser-reason' )->escaped() . '&#160;';
-		$s .= Xml::input( 'blockreason', 46, '', array( 'maxlength' => '150', 'id' => 'blockreason' ) );
+		$s .= Xml::input( 'blockreason', 46, '', [ 'maxlength' => '150', 'id' => 'blockreason' ] );
 		$s .= '&#160;' . Xml::submitButton( $this->msg( 'checkuser-massblock-commit' )->escaped(),
-			array( 'id' => 'checkuserblocksubmit', 'name' => 'checkuserblock' ) ) . "</p>\n";
+			[ 'id' => 'checkuserblocksubmit', 'name' => 'checkuserblock' ] ) . "</p>\n";
 		$s .= "</fieldset>\n";
 
 		return $s;
@@ -1209,7 +1209,7 @@ class CheckUser extends SpecialPage {
 		return Linker::linkKnown(
 			$title,
 			htmlspecialchars( $text ),
-			array(),
+			[],
 			$params
 		);
 	}
@@ -1221,7 +1221,7 @@ class CheckUser extends SpecialPage {
 	 * @return array
 	 */
 	protected function userBlockFlags( $ip, $userId, $user ) {
-		$flags = array();
+		$flags = [];
 
 		$block = Block::newFromTarget( $user, $ip, false );
 		if ( $block instanceof Block ) {
@@ -1236,11 +1236,11 @@ class CheckUser extends SpecialPage {
 			$blocklog = Linker::linkKnown(
 				SpecialPage::getTitleFor( 'Log' ),
 				$this->msg( 'checkuser-wasblocked' )->escaped(),
-				array(),
-				array(
+				[],
+				[
 					'type' => 'block',
 					'page' => $userpage->getPrefixedText()
-				)
+				]
 			);
 			// @todo FIXME: Hard coded parentheses.
 			$flags[] = '<strong>(' . $blocklog . ')</strong>';
@@ -1259,7 +1259,7 @@ class CheckUser extends SpecialPage {
 				// @todo FIXME: i18n issue: Hard coded parentheses.
 				$flags[] = '<b>(' . $this->msg( 'checkuser-locked' )->escaped() . ')</b>';
 			}
-			$list = array();
+			$list = [];
 			foreach ( $user->getGroups() as $group ) {
 				$list[] = self::buildGroupLink( $group, $user->getName() );
 			}
@@ -1326,10 +1326,10 @@ class CheckUser extends SpecialPage {
 		// IP
 		$line .= ' <strong>IP</strong>: ';
 		$line .= $this->getSelfLink( $row->cuc_ip,
-			array(
+			[
 				'user' => $row->cuc_ip,
 				'reason' => $reason
-			)
+			]
 		);
 		// XFF
 		if ( $row->cuc_xff != null ) {
@@ -1341,10 +1341,10 @@ class CheckUser extends SpecialPage {
 			$line .= '<span class="mw-checkuser-xff" style="background-color: ' . $c . '">' .
 				'<strong>XFF</strong>: ';
 			$line .= $this->getSelfLink( $row->cuc_xff,
-				array(
+				[
 					'user' => $client . '/xff',
 					'reason' => $reason
-				)
+				]
 			);
 			$line .= '</span>';
 		}
@@ -1393,7 +1393,7 @@ class CheckUser extends SpecialPage {
 	 * @return string diff, hist and page other links related to the change
 	 */
 	protected function getLinksFromRow( $row ) {
-		$links = array();
+		$links = [];
 		// Log items
 		if ( $row->cuc_type == RC_LOG ) {
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
@@ -1401,8 +1401,8 @@ class CheckUser extends SpecialPage {
 			$links['log'] = '(' . Linker::linkKnown(
 				SpecialPage::getTitleFor( 'Log' ),
 				$this->message['log'],
-				array(),
-				array( 'page' => $title->getPrefixedText() )
+				[],
+				[ 'page' => $title->getPrefixedText() ]
 			) . ')';
 		} else {
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
@@ -1415,12 +1415,12 @@ class CheckUser extends SpecialPage {
 				$links['diff'] = ' (' . Linker::linkKnown(
 					$title,
 					$this->message['diff'],
-					array(),
-					array(
+					[],
+					[
 						'curid' => $row->cuc_page_id,
 						'diff' => $row->cuc_this_oldid,
 						'oldid' => $row->cuc_last_oldid
-					)
+					]
 				) . ') ';
 			}
 			// History link
@@ -1428,11 +1428,11 @@ class CheckUser extends SpecialPage {
 			$links['history'] = ' (' . Linker::linkKnown(
 				$title,
 				$this->message['hist'],
-				array(),
-				array(
+				[],
+				[
 					'curid' => $row->cuc_page_id,
 					'action' => 'history'
-				)
+				]
 			) . ') . . ';
 			// Some basic flags
 			if ( $row->cuc_type == RC_NEW ) {
@@ -1445,7 +1445,7 @@ class CheckUser extends SpecialPage {
 			$links['title'] = Linker::link( $title );
 		}
 
-		Hooks::run( 'SpecialCheckUserGetLinksFromRow', array( $this, $row, &$links ) );
+		Hooks::run( 'SpecialCheckUserGetLinksFromRow', [ $this, $row, &$links ] );
 		if ( is_array( $links ) ) {
 			return implode( ' ', $links );
 		} else {
@@ -1460,14 +1460,14 @@ class CheckUser extends SpecialPage {
 	protected static function userWasBlocked( $name ) {
 		$userpage = Title::makeTitle( NS_USER, $name );
 		return (bool)wfGetDB( DB_SLAVE )->selectField( 'logging', '1',
-			array(
-				'log_type' => array( 'block', 'suppress' ),
+			[
+				'log_type' => [ 'block', 'suppress' ],
 				'log_action' => 'block',
 				'log_namespace' => $userpage->getNamespace(),
 				'log_title' => $userpage->getDBkey()
-			),
+			],
 			__METHOD__,
-			array( 'USE INDEX' => 'page_time' ) );
+			[ 'USE INDEX' => 'page_time' ] );
 	}
 
 	/**
@@ -1478,7 +1478,7 @@ class CheckUser extends SpecialPage {
 	 * @return string
 	 */
 	protected static function buildGroupLink( $group, $username ) {
-		static $cache = array();
+		static $cache = [];
 		if ( !isset( $cache[$group] ) ) {
 			$cache[$group] = User::makeGroupLinkHTML( $group, User::getGroupMember( $group, $username ) );
 		}
@@ -1494,28 +1494,28 @@ class CheckUser extends SpecialPage {
 	public static function getIpConds( $db, $ip, $xfor = false ) {
 		global $wgCheckUserCIDRLimit;
 		$type = $xfor ? 'xff' : 'ip';
-		$matches = array();
+		$matches = [];
 		if ( preg_match( '#^(\d+\.\d+\.\d+\.\d+)/(\d+)$#', $ip, $matches ) ) {
 			// IPv4 CIDR, 16-32 bits
 			if ( $matches[2] < $wgCheckUserCIDRLimit['IPv4'] || $matches[2] > 32 ) {
 				return false; // invalid
 			}
 			list( $start, $end ) = IP::parseRange( $ip );
-			return array( 'cuc_' . $type . '_hex BETWEEN ' . $db->addQuotes( $start ) . ' AND ' . $db->addQuotes( $end ) );
+			return [ 'cuc_' . $type . '_hex BETWEEN ' . $db->addQuotes( $start ) . ' AND ' . $db->addQuotes( $end ) ];
 		} elseif ( preg_match( '#^\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}/(\d+)$#', $ip, $matches ) ) {
 			// IPv6 CIDR, 32-128 bits
 			if ( $matches[1] < $wgCheckUserCIDRLimit['IPv6'] || $matches[1] > 128 ) {
 				return false; // invalid
 			}
 			list( $start, $end ) = IP::parseRange( $ip );
-			return array( 'cuc_' . $type . '_hex BETWEEN ' . $db->addQuotes( $start ) . ' AND ' . $db->addQuotes( $end ) );
+			return [ 'cuc_' . $type . '_hex BETWEEN ' . $db->addQuotes( $start ) . ' AND ' . $db->addQuotes( $end ) ];
 		} elseif (
 			// 32 bit IPv4
 			preg_match( '#^(\d+)\.(\d+)\.(\d+)\.(\d+)$#', $ip ) ||
 			// 128 bit IPv6
 			preg_match( '#^\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}$#', $ip )
 		) {
-			return array( "cuc_{$type}_hex" => IP::toHex( $ip ) );
+			return [ "cuc_{$type}_hex" => IP::toHex( $ip ) ];
 		}
 		// Throw away this query, incomplete IP, these don't get through the entry point anyway
 		return false;
@@ -1546,7 +1546,7 @@ class CheckUser extends SpecialPage {
 		}
 
 		$timestamp = time();
-		$data = array(
+		$data = [
 			'cul_user' => $user->getId(),
 			'cul_user_text' => $user->getName(),
 			'cul_reason' => $reason,
@@ -1556,7 +1556,7 @@ class CheckUser extends SpecialPage {
 			'cul_target_hex' => $targetHex,
 			'cul_range_start' => $rangeStart,
 			'cul_range_end' => $rangeEnd
-		);
+		];
 
 		DeferredUpdates::addCallableUpdate(
 			function () use ( $data, $timestamp ) {
@@ -1584,12 +1584,12 @@ class CheckUser extends SpecialPage {
 	 */
 	public function prefixSearchSubpages( $search, $limit, $offset ) {
 		if ( !class_exists( 'UserNamePrefixSearch' ) ) { // check for version 1.27
-			return array();
+			return [];
 		}
 		$user = User::newFromName( $search );
 		if ( !$user ) {
 			// No prefix suggestion for invalid user
-			return array();
+			return [];
 		}
 		// Autocomplete subpage as user list - public to allow caching
 		return UserNamePrefixSearch::search( 'public', $search, $limit, $offset );

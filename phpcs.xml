@@ -2,9 +2,6 @@
 <ruleset>
 	<rule ref="vendor/mediawiki/mediawiki-codesniffer/MediaWiki"/>
 	<file>.</file>
-	<rule ref="Generic.Arrays.DisallowLongArraySyntax.Found">
-		<severity>0</severity>
-	</rule>
 	<rule ref="Generic.Files.LineLength.TooLong">
 		<severity>0</severity>
 	</rule>

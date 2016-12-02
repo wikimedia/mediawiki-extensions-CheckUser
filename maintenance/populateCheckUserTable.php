@@ -41,7 +41,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 			$encCutoff = $db->addQuotes( $db->timestamp( $cutoff ) );
 			$db->delete(
 				'cu_changes',
-				array( "cuc_timestamp < $encCutoff" ),
+				[ "cuc_timestamp < $encCutoff" ],
 				__METHOD__
 			);
 			$cutoffCond = "AND rc_timestamp < $encCutoff";
@@ -62,9 +62,9 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 			$this->output( "...migrating rc_id from $blockStart to $blockEnd\n" );
 			$cond = "rc_id BETWEEN $blockStart AND $blockEnd $cutoffCond";
 			$res = $db->select( 'recentchanges', '*', $cond, __METHOD__ );
-			$batch = array();
+			$batch = [];
 			foreach ( $res as $row ) {
-				$batch[] = array(
+				$batch[] = [
 					'cuc_timestamp' => $row->rc_timestamp,
 					'cuc_user' => $row->rc_user,
 					'cuc_user_text' => $row->rc_user_text,
@@ -78,7 +78,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 					'cuc_type' => $row->rc_type,
 					'cuc_ip' => $row->rc_ip,
 					'cuc_ip_hex' => IP::toHex( $row->rc_ip ),
-				);
+				];
 			}
 			if ( count( $batch ) ) {
 				$db->insert( 'cu_changes', $batch, __METHOD__ );

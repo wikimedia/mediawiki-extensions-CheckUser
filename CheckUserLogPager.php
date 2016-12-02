@@ -72,11 +72,11 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 	}
 
 	function getQueryInfo() {
-		return array(
-			'tables' => array( 'cu_log', 'user' ),
+		return [
+			'tables' => [ 'cu_log', 'user' ],
 			'fields' => $this->selectFields(),
-			'conds' => array_merge( $this->searchConds, array( 'user_id = cul_user' ) )
-		);
+			'conds' => array_merge( $this->searchConds, [ 'user_id = cul_user' ] )
+		];
 	}
 
 	function getIndexField() {
@@ -84,10 +84,10 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 	}
 
 	function selectFields() {
-		return array(
+		return [
 			'cul_id', 'cul_timestamp', 'cul_user', 'cul_reason', 'cul_type',
 			'cul_target_id', 'cul_target_text', 'user_name'
-		);
+		];
 	}
 
 	/**
