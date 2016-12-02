@@ -89,7 +89,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					} else {
 						$log_type[] = 'ipedits';
 					}
-					$log_type[] = 'ip' ;
+					$log_type[] = 'ip';
 				} else {
 					$user_id = User::idFromName( $target );
 					if ( !$user_id ) {
@@ -140,7 +140,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				break;
 
 			case 'ipusers':
-				if ( IP::isIPAddress( $target )  ) {
+				if ( IP::isIPAddress( $target ) ) {
 					$cond = CheckUser::getIpConds( $db, $target, isset( $xff ) );
 					$this->addWhere( $cond );
 					$log_type = 'ipusers';

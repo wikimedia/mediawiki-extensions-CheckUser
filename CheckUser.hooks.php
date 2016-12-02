@@ -461,7 +461,7 @@ class CheckUserHooks {
 		$res = $dbr->select( 'cu_changes',
 			array( 'cuc_ip' ),
 			array( 'cuc_user' => $user->getId() ),
-			__METHOD__ ,
+			__METHOD__,
 			$options
 		);
 
@@ -469,7 +469,9 @@ class CheckUserHooks {
 		foreach ( $res as $row ) {
 			if ( $row->cuc_ip ) {
 				$id = $block->doAutoblock( $row->cuc_ip );
-				if ( $id ) $blockIds[] = $id;
+				if ( $id ) {
+					$blockIds[] = $id;
+				}
 			}
 		}
 
