@@ -2,9 +2,9 @@
 if ( getenv( 'MW_INSTALL_PATH' ) ) {
 	$IP = getenv( 'MW_INSTALL_PATH' );
 } else {
-	$IP = dirname( __FILE__ ) . '/../../..';
+	$IP = __DIR__ . '/../../..';
 }
-require_once( "$IP/maintenance/Maintenance.php" );
+require_once ( "$IP/maintenance/Maintenance.php" );
 
 class PurgeOldIPAddressData extends Maintenance {
 	public function __construct() {
@@ -66,4 +66,4 @@ class PurgeOldIPAddressData extends Maintenance {
 }
 
 $maintClass = "PurgeOldIPAddressData";
-require_once( RUN_MAINTENANCE_IF_MAIN );
+require_once ( RUN_MAINTENANCE_IF_MAIN );
