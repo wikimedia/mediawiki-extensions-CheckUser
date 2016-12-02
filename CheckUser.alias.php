@@ -95,6 +95,11 @@ $specialPageAliases['ce'] = array(
 	'CheckUserLog' => array( 'Декъашхойн_нисдарийн_тептар' ),
 );
 
+$specialPageAliases['cs'] = array(
+	'CheckUser' => array('Zkontrolovat uživatele'),
+	'CheckUserLog' => array('Protokolovací záznamy kontrol uživatele'),
+);
+
 /** German (Deutsch) */
 $specialPageAliases['de'] = array(
 	'CheckUser' => array( 'Checkuser' ),
