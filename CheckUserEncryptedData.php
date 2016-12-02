@@ -57,7 +57,7 @@ class CheckUserEncryptedData {
 	 * @param $publicKey String with ascii-armored block, or the return of openssl_get_publickey
 	 */
 	private function encryptData( $data, $publicKey ) {
-		openssl_seal( $data, $encryptedString, $envelopeKeys, array( $publicKey ), $this->algName );
+		openssl_seal( $data, $encryptedString, $envelopeKeys, [ $publicKey ], $this->algName );
 		$this->encString = $encryptedString;
 		$this->envKeys = $envelopeKeys[0];
 	}

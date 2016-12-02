@@ -22,12 +22,12 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		$this->addTables( 'cu_log' );
 		$this->addOption( 'LIMIT', $limit + 1 );
 		$this->addTimestampWhereRange( 'cul_timestamp', $dir, $params['from'], $params['to'] );
-		$this->addFields( array(
-			'cul_id', 'cul_timestamp', 'cul_user_text', 'cul_reason', 'cul_type', 'cul_target_text' ) );
+		$this->addFields( [
+			'cul_id', 'cul_timestamp', 'cul_user_text', 'cul_reason', 'cul_type', 'cul_target_text' ] );
 
 		// Order by both timestamp and id
 		$order = ( $dir === 'newer' ? '' : ' DESC' );
-		$this->addOption( 'ORDER BY', array( 'cul_timestamp' . $order, 'cul_id' . $order ) );
+		$this->addOption( 'ORDER BY', [ 'cul_timestamp' . $order, 'cul_id' . $order ] );
 
 		if ( isset( $params['user'] ) ) {
 			$this->addWhereFld( 'cul_user_text', $params['user'] );
@@ -67,64 +67,64 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 				$this->setContinueEnumParameter( 'continue', $makeContinue( $row ) );
 				break;
 			}
-			$log = array(
+			$log = [
 				'timestamp' => wfTimestamp( TS_ISO_8601, $row->cul_timestamp ),
 				'checkuser' => $row->cul_user_text,
 				'type'      => $row->cul_type,
 				'reason'    => $row->cul_reason,
 				'target'    => $row->cul_target_text,
-			);
-			$fit = $result->addValue( array( 'query', $this->getModuleName(), 'entries' ), null, $log );
+			];
+			$fit = $result->addValue( [ 'query', $this->getModuleName(), 'entries' ], null, $log );
 			if ( !$fit ) {
 				$this->setContinueEnumParameter( 'continue', $makeContinue( $row ) );
 				break;
 			}
 		}
 
-		$result->addIndexedTagName( array( 'query', $this->getModuleName(), 'entries' ), 'entry' );
+		$result->addIndexedTagName( [ 'query', $this->getModuleName(), 'entries' ], 'entry' );
 	}
 
 	public function getAllowedParams() {
-		return array(
+		return [
 			'user'   => null,
 			'target' => null,
-			'limit'  => array(
+			'limit'  => [
 				ApiBase::PARAM_DFLT => 10,
 				ApiBase::PARAM_TYPE => 'limit',
 				ApiBase::PARAM_MIN  => 1,
 				ApiBase::PARAM_MAX  => ApiBase::LIMIT_BIG1,
 				ApiBase::PARAM_MAX2 => ApiBase::LIMIT_BIG2,
-			),
-			'dir' => array(
+			],
+			'dir' => [
 				ApiBase::PARAM_DFLT => 'older',
-				ApiBase::PARAM_TYPE => array(
+				ApiBase::PARAM_TYPE => [
 					'newer',
 					'older'
-				),
+				],
 				ApiBase::PARAM_HELP_MSG => 'api-help-param-direction',
-			),
-			'from'  => array(
+			],
+			'from'  => [
 				ApiBase::PARAM_TYPE => 'timestamp',
-			),
-			'to'    => array(
+			],
+			'to'    => [
 				ApiBase::PARAM_TYPE => 'timestamp',
-			),
-			'continue' => array(
+			],
+			'continue' => [
 				ApiBase::PARAM_HELP_MSG => 'api-help-param-continue',
-			),
-		);
+			],
+		];
 	}
 
 	/**
 	 * @see ApiBase::getExamplesMessages()
 	 */
 	protected function getExamplesMessages() {
-		return array(
+		return [
 			'action=query&list=checkuserlog&culuser=Example&cullimit=25'
 				=> 'apihelp-query+checkuserlog-example-1',
 			'action=query&list=checkuserlog&cultarget=192.0.2.0/24&culfrom=2011-10-15T23:00:00Z'
 				=> 'apihelp-query+checkuserlog-example-2',
-		);
+		];
 	}
 
 	public function getHelpUrls() {

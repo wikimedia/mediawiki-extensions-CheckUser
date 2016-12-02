@@ -14,9 +14,9 @@ class ApiQueryCheckUser extends ApiQueryBase {
 		$db = $this->getDB();
 		$params = $this->extractRequestParams();
 
-		list( $request, $target, $reason, $timecond, $limit, $xff ) = array(
+		list( $request, $target, $reason, $timecond, $limit, $xff ) = [
 			$params['request'], $params['target'], $params['reason'],
-			$params['timecond'], $params['limit'], $params['xff'] );
+			$params['timecond'], $params['limit'], $params['xff'] ];
 
 		if ( !$this->getUser()->isAllowed( 'checkuser' ) ) {
 			$this->dieUsage( 'You need the checkuser right', 'permissionerror' );
@@ -44,12 +44,12 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$this->dieUsage( 'Target user does not exist', 'nosuchuser' );
 				}
 
-				$this->addFields( array( 'cuc_timestamp', 'cuc_ip', 'cuc_xff' ) );
+				$this->addFields( [ 'cuc_timestamp', 'cuc_ip', 'cuc_xff' ] );
 				$this->addWhereFld( 'cuc_user_text', $target );
 				$res = $this->select( __METHOD__ );
 				$result = $this->getResult();
 
-				$ips = array();
+				$ips = [];
 				foreach ( $res as $row ) {
 					$timestamp = wfTimestamp( TS_ISO_8601, $row->cuc_timestamp );
 					$ip = strval( $row->cuc_ip );
@@ -63,17 +63,17 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					}
 				}
 
-				$resultIPs = array();
+				$resultIPs = [];
 				foreach ( $ips as $ip => $data ) {
 					$data['address'] = $ip;
 					$resultIPs[] = $data;
 				}
 
 				CheckUser::addLogEntry( 'userips', 'user', $target, $reason, $user_id );
-				$result->addValue( array(
-					'query', $this->getModuleName() ), 'userips', $resultIPs );
-				$result->addIndexedTagName( array(
-					'query', $this->getModuleName(), 'userips' ), 'ip' );
+				$result->addValue( [
+					'query', $this->getModuleName() ], 'userips', $resultIPs );
+				$result->addIndexedTagName( [
+					'query', $this->getModuleName(), 'userips' ], 'ip' );
 				break;
 
 			case 'edits':
@@ -83,7 +83,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 						$this->dieUsage( 'IP or range is invalid', 'invalidip' );
 					}
 					$this->addWhere( $cond );
-					$log_type = array();
+					$log_type = [];
 					if ( isset( $xff ) ) {
 						$log_type[] = 'ipedits-xff';
 					} else {
@@ -96,27 +96,27 @@ class ApiQueryCheckUser extends ApiQueryBase {
 						$this->dieUsage( 'Target user does not exist', 'nosuchuser' );
 					}
 					$this->addWhereFld( 'cuc_user_text', $target );
-					$log_type = array( 'useredits', 'user' );
+					$log_type = [ 'useredits', 'user' ];
 				}
 
-				$this->addFields( array(
+				$this->addFields( [
 					'cuc_namespace', 'cuc_title', 'cuc_user_text', 'cuc_actiontext',
 					'cuc_comment', 'cuc_minor', 'cuc_timestamp', 'cuc_ip', 'cuc_xff', 'cuc_agent'
-				) );
+				] );
 
 				$res = $this->select( __METHOD__ );
 				$result = $this->getResult();
 
-				$edits = array();
+				$edits = [];
 				foreach ( $res as $row ) {
-					$edit = array(
+					$edit = [
 						'timestamp' => wfTimestamp( TS_ISO_8601, $row->cuc_timestamp ),
 						'ns'        => intval( $row->cuc_namespace ),
 						'title'     => $row->cuc_title,
 						'user'      => $row->cuc_user_text,
 						'ip'        => $row->cuc_ip,
 						'agent'     => $row->cuc_agent,
-					);
+					];
 					if ( $row->cuc_actiontext ) {
 						$edit['summary'] = $row->cuc_actiontext;
 					} elseif ( $row->cuc_comment ) {
@@ -133,10 +133,10 @@ class ApiQueryCheckUser extends ApiQueryBase {
 
 				CheckUser::addLogEntry( $log_type[0], $log_type[1],
 					$target, $reason, isset( $user_id ) ? $user_id : '0' );
-				$result->addValue( array(
-					'query', $this->getModuleName() ), 'edits', $edits );
-				$result->addIndexedTagName( array(
-					'query', $this->getModuleName(), 'edits' ), 'action' );
+				$result->addValue( [
+					'query', $this->getModuleName() ], 'edits', $edits );
+				$result->addIndexedTagName( [
+					'query', $this->getModuleName(), 'edits' ], 'action' );
 				break;
 
 			case 'ipusers':
@@ -151,13 +151,13 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$this->dieUsage( 'IP or range is invalid', 'invalidip' );
 				}
 
-				$this->addFields( array(
-					'cuc_user_text', 'cuc_timestamp', 'cuc_ip', 'cuc_agent' ) );
+				$this->addFields( [
+					'cuc_user_text', 'cuc_timestamp', 'cuc_ip', 'cuc_agent' ] );
 
 				$res = $this->select( __METHOD__ );
 				$result = $this->getResult();
 
-				$users = array();
+				$users = [];
 				foreach ( $res as $row ) {
 					$user = $row->cuc_user_text;
 					$ip = $row->cuc_ip;
@@ -180,7 +180,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					}
 				}
 
-				$resultUsers = array();
+				$resultUsers = [];
 				foreach ( $users as $userName => $userData ) {
 					$userData['name'] = $userName;
 					$result->setIndexedTagName( $userData['ips'], 'ip' );
@@ -190,10 +190,10 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				}
 
 				CheckUser::addLogEntry( $log_type, 'ip', $target, $reason );
-				$result->addValue( array(
-					'query', $this->getModuleName() ), 'ipusers', $resultUsers );
-				$result->addIndexedTagName( array(
-					'query', $this->getModuleName(), 'ipusers' ), 'user' );
+				$result->addValue( [
+					'query', $this->getModuleName() ], 'ipusers', $resultUsers );
+				$result->addIndexedTagName( [
+					'query', $this->getModuleName(), 'ipusers' ], 'user' );
 				break;
 
 			default:
@@ -210,43 +210,43 @@ class ApiQueryCheckUser extends ApiQueryBase {
 	}
 
 	public function getAllowedParams() {
-		return array(
-			'request'  => array(
+		return [
+			'request'  => [
 				ApiBase::PARAM_REQUIRED => true,
-				ApiBase::PARAM_TYPE => array(
+				ApiBase::PARAM_TYPE => [
 					'userips',
 					'edits',
 					'ipusers',
-				)
-			),
-			'target'   => array(
+				]
+			],
+			'target'   => [
 				ApiBase::PARAM_REQUIRED => true,
-			),
+			],
 			'reason'   => null,
-			'limit'    => array(
+			'limit'    => [
 				ApiBase::PARAM_DFLT => 1000,
 				ApiBase::PARAM_TYPE => 'limit',
 				ApiBase::PARAM_MIN  => 1,
 				ApiBase::PARAM_MAX  => 500,
 				ApiBase::PARAM_MAX2 => 5000,
-			),
-			'timecond' => array(
+			],
+			'timecond' => [
 				ApiBase::PARAM_DFLT => '-2 weeks'
-			),
+			],
 			'xff'      => null,
-		);
+		];
 	}
 
 	/**
 	 * @see ApiBase::getExamplesMessages()
 	 */
 	protected function getExamplesMessages() {
-		return array(
+		return [
 			'action=query&list=checkuser&curequest=userips&cutarget=Jimbo_Wales'
 				=> 'apihelp-query+checkuser-example-1',
 			'action=query&list=checkuser&curequest=edits&cutarget=127.0.0.1/16&xff=1&cureason=Some_check'
 				=> 'apihelp-query+checkuser-example-2',
-		);
+		];
 	}
 
 	public function getHelpUrls() {

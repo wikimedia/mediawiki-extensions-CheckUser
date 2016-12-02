@@ -49,24 +49,24 @@ class ImportCheckUserLogs extends Maintenance {
 		// Strip nulls due to NFS write collisions
 		$line = str_replace( "\0", '', $line );
 
-		$regexes = array(
+		$regexes = [
 			'ipedits-xff' => "!^<li>$rxTimestamp, $rxUser got edits for XFF $rxTarget on $rxWiki$rxReason</li>!",
 			'ipedits'     => "!^<li>$rxTimestamp, $rxUser got edits for" . " $rxTarget on $rxWiki$rxReason</li>!",
 			'ipusers-xff' => "!^<li>$rxTimestamp, $rxUser got users for XFF $rxTarget on $rxWiki$rxReason</li>!",
 			'ipusers'     => "!^<li>$rxTimestamp, $rxUser got users for" . " $rxTarget on $rxWiki$rxReason</li>!",
 			'userips'     => "!^<li>$rxTimestamp, $rxUser got IPs for" .   " $rxTarget on $rxWiki$rxReason</li>!",
-		);
+		];
 
 		foreach ( $regexes as $type => $regex ) {
 			$m = false;
 			if ( preg_match( $regex, $line, $m ) ) {
-				$data = array(
+				$data = [
 					'timestamp' => strtotime( $m['timestamp'] ),
 					'user' => $m['user'],
 					'reason' => isset( $m['reason'] ) ? $m['reason'] : '',
 					'type' => $type,
 					'wiki' => $m['wiki'],
-					'target' => $m['target'] );
+					'target' => $m['target'] ];
 
 				return $data;
 			}
@@ -107,7 +107,7 @@ class ImportCheckUserLogs extends Maintenance {
 
 				if ( !$this->hasOption( 'dry-run' ) ) {
 					$dbw = $this->getDB( DB_MASTER );
-					$fields = array(
+					$fields = [
 						'cul_id' => $dbw->nextSequenceValue( 'cu_log_cul_id_seq' ),
 						'cul_timestamp' => $dbw->timestamp( $data['timestamp'] ),
 						'cul_user' => $user->getID(),
@@ -118,7 +118,7 @@ class ImportCheckUserLogs extends Maintenance {
 						'cul_target_text' => $data['target'],
 						'cul_target_hex' => $hex,
 						'cul_range_start' => $start,
-						'cul_range_end' => $end );
+						'cul_range_end' => $end ];
 
 					$dbw->insert( 'cu_log', $fields, __METHOD__ );
 				}

@@ -31,7 +31,7 @@ class SpecialCheckUserLog extends SpecialPage {
 		$this->displaySearchForm();
 
 		// Default to all log entries - we'll add conditions below if a target was provided
-		$searchConds = array();
+		$searchConds = [];
 
 		if ( $this->target !== '' ) {
 			$searchConds = ( $type === 'initiator' )
@@ -47,11 +47,11 @@ class SpecialCheckUserLog extends SpecialPage {
 
 		$pager = new CheckUserLogPager(
 			$this->getContext(),
-			array(
+			[
 				'queryConds' => $searchConds,
 				'year' => $request->getInt( 'year' ),
 				'month' => $request->getInt( 'month' ),
-			)
+			]
 		);
 
 		$out->addHTML(
@@ -66,8 +66,8 @@ class SpecialCheckUserLog extends SpecialPage {
 	 */
 	protected function displaySearchForm() {
 		$request = $this->getRequest();
-		$fields = array(
-			'target' => array(
+		$fields = [
+			'target' => [
 				'type' => 'user',
 				// validation in execute() currently
 				'exists' => false,
@@ -76,25 +76,25 @@ class SpecialCheckUserLog extends SpecialPage {
 				'size' => 40,
 				'label-message' => 'checkuser-log-search-target',
 				'default' => $this->target,
-			),
-			'type' => array(
+			],
+			'type' => [
 				'type' => 'radio',
 				'name' => 'cuSearchType',
 				'label-message' => 'checkuser-log-search-type',
-				'options-messages' => array(
+				'options-messages' => [
 					'checkuser-search-target' => 'target',
 					'checkuser-search-initiator' => 'initiator',
-				),
+				],
 				'flatlist' => true,
 				'default' => 'target',
-			),
+			],
 			// @todo hack until HTMLFormField has a proper date selector
-			'monthyear' => array(
+			'monthyear' => [
 				'type' => 'info',
 				'default' => Xml::dateMenu( $request->getInt( 'year' ), $request->getInt( 'month' ) ),
 				'raw' => true,
-			),
-		);
+			],
+		];
 
 		$form = HTMLForm::factory( 'table', $fields, $this->getContext() );
 		$form->setMethod( 'get' )
@@ -113,7 +113,7 @@ class SpecialCheckUserLog extends SpecialPage {
 	protected function getPerformerSearchConds() {
 		$initiator = User::newFromName( $this->target );
 		if ( $initiator && $initiator->getId() ) {
-			return array( 'cul_user' => $initiator->getId() );
+			return [ 'cul_user' => $initiator->getId() ];
 		}
 		return null;
 	}
@@ -131,28 +131,28 @@ class SpecialCheckUserLog extends SpecialPage {
 			$dbr = wfGetDB( DB_SLAVE );
 			if ( $start === $end ) {
 				// Single IP address
-				$conds = array(
+				$conds = [
 					'cul_target_hex = ' . $dbr->addQuotes( $start ) . ' OR ' .
 					'(cul_range_end >= ' . $dbr->addQuotes( $start ) . ' AND ' .
 					'cul_range_start <= ' . $dbr->addQuotes( $start ) . ')'
-				);
+				];
 			} else {
 				// IP range
-				$conds = array(
+				$conds = [
 					'(cul_target_hex >= ' . $dbr->addQuotes( $start ) . ' AND ' .
 					'cul_target_hex <= ' . $dbr->addQuotes( $end ) . ') OR ' .
 					'(cul_range_end >= ' . $dbr->addQuotes( $start ) . ' AND ' .
 					'cul_range_start <= ' . $dbr->addQuotes( $end ) . ')'
-				);
+				];
 			}
 		} else {
 			$user = User::newFromName( $this->target );
 			if ( $user && $user->getId() ) {
 				// Registered user
-				$conds = array(
-					'cul_type' => array( 'userips', 'useredits' ),
+				$conds = [
+					'cul_type' => [ 'userips', 'useredits' ],
 					'cul_target_id' => $user->getId(),
-				);
+				];
 			}
 		}
 		return $conds;
