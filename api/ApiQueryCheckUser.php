@@ -18,18 +18,30 @@ class ApiQueryCheckUser extends ApiQueryBase {
 			$params['request'], $params['target'], $params['reason'],
 			$params['timecond'], $params['limit'], $params['xff'] ];
 
-		if ( !$this->getUser()->isAllowed( 'checkuser' ) ) {
-			$this->dieUsage( 'You need the checkuser right', 'permissionerror' );
+		if ( is_callable( [ $this, 'checkUserRightsAny' ] ) ) {
+			$this->checkUserRightsAny( 'checkuser' );
+		} else {
+			if ( !$this->getUser()->isAllowed( 'checkuser' ) ) {
+				$this->dieUsage( 'You need the checkuser right', 'permissionerror' );
+			}
 		}
 
 		if ( $wgCheckUserForceSummary && is_null( $reason ) ) {
-			$this->dieUsage( 'You must define reason for check', 'missingdata' );
+			if ( is_callable( [ $this, 'dieWithError' ] ) ) {
+				$this->dieWithError( 'apierror-checkuser-missingsummary', 'missingdata' );
+			} else {
+				$this->dieUsage( 'You must define reason for check', 'missingdata' );
+			}
 		}
 
 		$reason = $this->msg( 'checkuser-reason-api', $reason )->inContentLanguage()->text();
 		$timeCutoff = strtotime( $timecond ); // absolute time
 		if ( !$timeCutoff ) {
-			$this->dieUsage( 'You need use correct time limit (like "-2 weeks" or "2 weeks ago")', 'invalidtime' );
+			if ( is_callable( [ $this, 'dieWithError' ] ) ) {
+				$this->dieWithError( 'apierror-checkuser-timelimit', 'invalidtime' );
+			} else {
+				$this->dieUsage( 'You need use correct time limit (like "-2 weeks" or "2 weeks ago")', 'invalidtime' );
+			}
 		}
 
 		$this->addTables( 'cu_changes' );
@@ -41,7 +53,11 @@ class ApiQueryCheckUser extends ApiQueryBase {
 			case 'userips':
 				$user_id = User::idFromName( $target );
 				if ( !$user_id ) {
-					$this->dieUsage( 'Target user does not exist', 'nosuchuser' );
+					if ( is_callable( [ $this, 'dieWithError' ] ) ) {
+						$this->dieWithError( [ 'nosuchusershort', wfEscapeWikiText( $target ) ], 'nosuchuser' );
+					} else {
+						$this->dieUsage( 'Target user does not exist', 'nosuchuser' );
+					}
 				}
 
 				$this->addFields( [ 'cuc_timestamp', 'cuc_ip', 'cuc_xff' ] );
@@ -80,7 +96,11 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				if ( IP::isIPAddress( $target ) ) {
 					$cond = CheckUser::getIpConds( $db, $target, isset( $xff ) );
 					if ( !$cond ) {
-						$this->dieUsage( 'IP or range is invalid', 'invalidip' );
+						if ( is_callable( [ $this, 'dieWithError' ] ) ) {
+							$this->dieWithError( 'apierror-badip', 'invalidip' );
+						} else {
+							$this->dieUsage( 'IP or range is invalid', 'invalidip' );
+						}
 					}
 					$this->addWhere( $cond );
 					$log_type = [];
@@ -93,7 +113,11 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				} else {
 					$user_id = User::idFromName( $target );
 					if ( !$user_id ) {
-						$this->dieUsage( 'Target user does not exist', 'nosuchuser' );
+						if ( is_callable( [ $this, 'dieWithError' ] ) ) {
+							$this->dieWithError( [ 'nosuchusershort', wfEscapeWikiText( $target ) ], 'nosuchuser' );
+						} else {
+							$this->dieUsage( 'Target user does not exist', 'nosuchuser' );
+						}
 					}
 					$this->addWhereFld( 'cuc_user_text', $target );
 					$log_type = [ 'useredits', 'user' ];
@@ -148,7 +172,11 @@ class ApiQueryCheckUser extends ApiQueryBase {
 						$log_type .= '-xff';
 					}
 				} else {
-					$this->dieUsage( 'IP or range is invalid', 'invalidip' );
+					if ( is_callable( [ $this, 'dieWithError' ] ) ) {
+						$this->dieWithError( 'apierror-badip', 'invalidip' );
+					} else {
+						$this->dieUsage( 'IP or range is invalid', 'invalidip' );
+					}
 				}
 
 				$this->addFields( [
@@ -197,7 +225,11 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				break;
 
 			default:
-				$this->dieUsage( 'Invalid request mode', 'invalidmode' );
+				if ( is_callable( [ $this, 'dieWithError' ] ) ) {
+					$this->dieWithError( 'apierror-checkuser-invalidmode', 'invalidmode' );
+				} else {
+					$this->dieUsage( 'Invalid request mode', 'invalidmode' );
+				}
 		}
 	}
 
