@@ -11,6 +11,8 @@ class PurgeOldIPAddressData extends Maintenance {
 		parent::__construct();
 		$this->mDescription = "Purge expired rows in CheckUser and RecentChanges";
 		$this->setBatchSize( 200 );
+
+		$this->requireExtension( 'CheckUser' );
 	}
 
 	public function execute() {

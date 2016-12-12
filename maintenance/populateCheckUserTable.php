@@ -18,6 +18,8 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 		$this->addDescription( 'Populate `cu_changes` table with entries from recentchanges' );
 		$this->addOption( 'cutoff', 'Cut-off time for rc_timestamp' );
 		$this->setBatchSize( 100 );
+
+		$this->requireExtension( 'CheckUser' );
 	}
 
 	protected function getUpdateKey() {

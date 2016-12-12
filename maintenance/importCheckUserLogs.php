@@ -17,6 +17,8 @@ class ImportCheckUserLogs extends Maintenance {
 		$this->addOption( 'dry-run', 'Parse and do local lookups, but don\'t perform inserts' );
 		$this->addOption( 'test', 'Test log parser without doing local lookups' );
 		$this->addArg( 'file', 'Log file containing import data', true );
+
+		$this->requireExtension( 'CheckUser' );
 	}
 
 	public function execute() {
