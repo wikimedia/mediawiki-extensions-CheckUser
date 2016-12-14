@@ -30,6 +30,8 @@ var updateCIDRresult = function () {
 		ips = text.split( '\t' );
 	} else if ( text.indexOf( ',' ) !== -1 ) {
 		ips = text.split( ',' );
+	} else if ( text.indexOf( ' - ' ) !== -1 ) {
+		ips = text.split( ' - ' );
 	} else if ( text.indexOf( '-' ) !== -1 ) {
 		ips = text.split( '-' );
 	} else if ( text.indexOf( ' ' ) !== -1 ) {
