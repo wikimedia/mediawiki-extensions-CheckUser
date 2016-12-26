@@ -6,13 +6,14 @@
 			"Mirzali",
 			"Xoser",
 			"Marmase",
-			"Kumkumuk"
+			"Kumkumuk",
+			"1917 Ekim Devrimi"
 		]
 	},
 	"checkuser-summary": "Eno xacet vurnayışanê neweyan sken keno ke adresanê IPyan reyna biaro ke bımocno ra yew adresa IPya melumatê karberi ser.\nKarberan u vurnayışan ke yew IPyê karberi kerd a reyna yeno pê XFF u \"/xff\". IPv4 (CIDR $1-32) u IPv6 (CIDR $2-128) rê zi desteg beno.\n5000 zafêr vurnayışan sero netice nêdano, qet performans hêdi beno.\nEna politika ma sero kar bıke.",
 	"checkuser-desc": "Karberan rê destur bide ke adresanê IPyan u enformasyonê bînan kontrol bike",
 	"checkuser-logcase": "Ena bigêrayîşê logî case sensitive o.",
-	"checkuser": "Karber kontrol bike",
+	"checkuser": "Teftişwan",
 	"checkuserlog": "Cıkewtışê karberi qontrol ke",
 	"checkuser-contribs": "adresanê IPyê karberi kontrol ke",
 	"checkuser-contribs-log": "weynayışê peyênê karberi",
@@ -22,7 +23,7 @@
 	"right-checkuser-log": "Qeydé rocekané karber cernayışi bıvin",
 	"action-checkuser": "adresanê IPyê karberi û melumatê bini kontrol ke",
 	"action-checkuser-log": "Rocekane Karber kontroli bıvin",
-	"grouppage-checkuser": "{{ns:project}}:Karber kontrol bike",
+	"grouppage-checkuser": "{{ns:project}}:Teftişwan",
 	"checkuser-reason": "Sebeb:",
 	"checkuser-reason-api": "API: $1",
 	"checkuser-showlog": "Qeydé asayışi",
