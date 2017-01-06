@@ -131,8 +131,12 @@ class CheckUserHooks {
 	}
 
 	/**
-	 * Hook function to store email data
-	 * Saves user data into the cu_changes table
+	 * Hook function to store email data.
+	 *
+	 * Saves user data into the cu_changes table.
+	 * Uses a deferred update to save the data, because emails can be sent from code paths
+	 * that don't open master connections.
+	 *
 	 * @param MailAddress $to
 	 * @param MailAddress $from
 	 * @param string $subject
@@ -158,10 +162,9 @@ class CheckUserHooks {
 		list( $xff_ip, $isSquidOnly ) = self::getClientIPfromXFF( $xff );
 		// Get agent
 		$agent = $wgRequest->getHeader( 'User-Agent' );
-		$dbw = wfGetDB( DB_MASTER );
-		$cuc_id = $dbw->nextSequenceValue( 'cu_changes_cu_id_seq' );
+
+		$dbr = wfGetDB( DB_SLAVE );
 		$rcRow = [
-			'cuc_id'         => $cuc_id,
 			'cuc_namespace'  => NS_USER,
 			'cuc_title'      => '',
 			'cuc_minor'      => 0,
@@ -173,7 +176,7 @@ class CheckUserHooks {
 			'cuc_this_oldid' => 0,
 			'cuc_last_oldid' => 0,
 			'cuc_type'       => RC_LOG,
-			'cuc_timestamp'  => $dbw->timestamp( wfTimestampNow() ),
+			'cuc_timestamp'  => $dbr->timestamp( wfTimestampNow() ),
 			'cuc_ip'         => IP::sanitizeIP( $ip ),
 			'cuc_ip_hex'     => $ip ? IP::toHex( $ip ) : null,
 			'cuc_xff'        => !$isSquidOnly ? $xff : '',
@@ -186,7 +189,12 @@ class CheckUserHooks {
 			$rcRow = array_merge( $rcRow, [ 'cuc_private' => serialize( $encryptedData ) ] );
 		}
 
-		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
+		$fname = __METHOD__;
+		DeferredUpdates::addCallableUpdate( function () use ( $rcRow, $fname ) {
+			$dbw = wfGetDB( DB_MASTER );
+			$rcRow['cuc_id'] = $dbw->nextSequenceValue( 'cu_changes_cu_id_seq' );
+			$dbw->insert( 'cu_changes', $rcRow, $fname );
+		} );
 
 		return true;
 	}
