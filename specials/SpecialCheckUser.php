@@ -24,9 +24,9 @@ class CheckUser extends SpecialPage {
 		$request = $this->getRequest();
 
 		if ( $this->getUser()->isAllowed( 'checkuser-log' ) ) {
-			$subtitleLink = Linker::linkKnown(
+			$subtitleLink = $this->getLinkRenderer()->makeKnownLink(
 				SpecialPage::getTitleFor( 'CheckUserLog' ),
-				$this->msg( 'checkuser-showlog' )->escaped()
+				$this->msg( 'checkuser-showlog' )->text()
 			);
 			$out->addSubtitle( $subtitleLink );
 		}
@@ -522,9 +522,9 @@ class CheckUser extends SpecialPage {
 					]
 				);
 				$s .= ' ' . $this->msg( 'parentheses' )->rawParams(
-						Linker::linkKnown(
+						$this->getLinkRenderer()->makeKnownLink(
 							SpecialPage::getTitleFor( 'Block', $ip ),
-							$this->msg( 'blocklink' )->escaped()
+							$this->msg( 'blocklink' )->text()
 						)
 					)->escaped();
 				$s .= ' ' . $this->getTimeRangeString( $ips_first[$ip], $ips_last[$ip] ) . ' ';
@@ -575,17 +575,17 @@ class CheckUser extends SpecialPage {
 	 */
 	protected function getBlockFlag( Block $block ) {
 		if ( $block->getType() == Block::TYPE_AUTO ) {
-			$ret = Linker::linkKnown(
+			$ret = $this->getLinkRenderer()->makeKnownLink(
 				SpecialPage::getTitleFor( 'BlockList' ),
-				$this->msg( 'checkuser-blocked' )->escaped(),
+				$this->msg( 'checkuser-blocked' )->text(),
 				[],
 				[ 'wpTarget' => "#{$block->getId()}" ]
 			);
 		} else {
 			$userPage = Title::makeTitle( NS_USER, $block->getTarget() );
-			$ret = Linker::linkKnown(
+			$ret = $this->getLinkRenderer()->makeKnownLink(
 				SpecialPage::getTitleFor( 'Log' ),
-				$this->msg( 'checkuser-blocked' )->escaped(),
+				$this->msg( 'checkuser-blocked' )->text(),
 				[],
 				[
 					'type' => 'block',
@@ -1206,9 +1206,9 @@ class CheckUser extends SpecialPage {
 		if ( $title === null ) {
 			$title = $this->getPageTitle();
 		}
-		return Linker::linkKnown(
+		return $this->getLinkRenderer()->makeKnownLink(
 			$title,
-			htmlspecialchars( $text ),
+			$text,
 			[],
 			$params
 		);
@@ -1233,9 +1233,9 @@ class CheckUser extends SpecialPage {
 		} elseif ( self::userWasBlocked( $user->getName() ) ) {
 			// Previously blocked
 			$userpage = $user->getUserPage();
-			$blocklog = Linker::linkKnown(
+			$blocklog = $this->getLinkRenderer()->makeKnownLink(
 				SpecialPage::getTitleFor( 'Log' ),
-				$this->msg( 'checkuser-wasblocked' )->escaped(),
+				$this->msg( 'checkuser-wasblocked' )->text(),
 				[],
 				[
 					'type' => 'block',
@@ -1398,7 +1398,7 @@ class CheckUser extends SpecialPage {
 		if ( $row->cuc_type == RC_LOG ) {
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
 			// @todo FIXME: Hard coded parentheses.
-			$links['log'] = '(' . Linker::linkKnown(
+			$links['log'] = '(' . $this->getLinkRenderer()->makeKnownLink(
 				SpecialPage::getTitleFor( 'Log' ),
 				$this->message['log'],
 				[],
@@ -1412,7 +1412,7 @@ class CheckUser extends SpecialPage {
 			} else {
 				// Diff link
 				// @todo FIXME: Hard coded parentheses.
-				$links['diff'] = ' (' . Linker::linkKnown(
+				$links['diff'] = ' (' . $this->getLinkRenderer()->makeKnownLink(
 					$title,
 					$this->message['diff'],
 					[],
@@ -1425,7 +1425,7 @@ class CheckUser extends SpecialPage {
 			}
 			// History link
 			// @todo FIXME: Hard coded parentheses.
-			$links['history'] = ' (' . Linker::linkKnown(
+			$links['history'] = ' (' . $this->getLinkRenderer()->makeKnownLink(
 				$title,
 				$this->message['hist'],
 				[],
@@ -1442,7 +1442,7 @@ class CheckUser extends SpecialPage {
 				$links['minor'] = '<span class="minor">' . $this->message['minoreditletter'] . '</span>';
 			}
 			// Page link
-			$links['title'] = Linker::link( $title );
+			$links['title'] = $this->getLinkRenderer()->makeLink( $title );
 		}
 
 		Hooks::run( 'SpecialCheckUserGetLinksFromRow', [ $this, $row, &$links ] );
@@ -1599,4 +1599,3 @@ class CheckUser extends SpecialPage {
 		return 'users';
 	}
 }
-

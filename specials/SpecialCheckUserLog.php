@@ -18,9 +18,9 @@ class SpecialCheckUserLog extends SpecialPage {
 		$request = $this->getRequest();
 
 		if ( $this->getUser()->isAllowed( 'checkuser' ) ) {
-			$subtitleLink = Linker::linkKnown(
+			$subtitleLink = $this->getLinkRenderer()->makeKnownLink(
 				SpecialPage::getTitleFor( 'CheckUser' ),
-				$this->msg( 'checkuser-showmain' )->escaped()
+				$this->msg( 'checkuser-showmain' )->text()
 			);
 			$out->addSubtitle( $subtitleLink );
 		}
