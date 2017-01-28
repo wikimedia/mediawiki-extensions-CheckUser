@@ -113,7 +113,7 @@
 	"apihelp-query+checkuserlog-param-to": "나열을 끝낼 타임스탬프",
 	"apihelp-query+checkuserlog-example-1": "[[User:Example]]에 대한 검사 보기",
 	"apihelp-query+checkuserlog-example-2": "192.0.2.0/24에 대한 2011-10-15T23:00:00Z 이후의 검사 보기",
-	"apierror-checkuser-missingsummary": "검사 이유를 반드시 작성하셔야 합니다.",
+	"apierror-checkuser-missingsummary": "검사 이유를 지정해야 합니다.",
 	"apierror-checkuser-timelimit": "올바른 시간 형식(\"-2주\" 혹은 \"2주 전\"과 같이)으로 사용하셔야 합니다.",
 	"apierror-checkuser-invalidmode": "잘못된 요청 모드"
 }
