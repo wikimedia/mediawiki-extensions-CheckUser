@@ -35,7 +35,7 @@
 	"checkuser-nomatch": "Recèrcas infructuosas.",
 	"checkuser-nomatch-edits": "Cap d'ocurréncia pas trobada.\nLa darrièra modificacion èra lo $1 a $2.",
 	"checkuser-check": "Recèrca",
-	"checkuser-log-fail": "Incapable d'apondre l'entrada del jornal.",
+	"checkuser-log-fail": "Impossible d'apondre l'entrada del jornal.",
 	"checkuser-nolog": "Cap de fichièr jornal pas trobat.",
 	"checkuser-blocked": "Blocat",
 	"checkuser-gblocked": "Globalament blocat",
