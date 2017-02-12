@@ -20,6 +20,12 @@ class CheckUser extends SpecialPage {
 		// Logging and blocking requires writing so stop from here if read-only mode
 		$this->checkReadOnly();
 
+		// Blocked users are not allowed to run checkuser queries (bug T157883)
+		$callingUser = $this->getUser();
+		if ( $callingUser->isBlocked() ) {
+			throw new UserBlockedError( $callingUser->getBlock() );
+		}
+
 		$out = $this->getOutput();
 		$request = $this->getRequest();
 
