@@ -1160,7 +1160,7 @@ class CheckUser extends SpecialPage {
 					$wgCheckUserCAMultiLock['centralDB'],
 					// Use canonical name instead of local name so that it works
 					// even if the local language is different from central wiki
-					Title::makeTitle( NS_SPECIAL, 'MultiLock' )->getPrefixedText()
+					'Special:MultiLock'
 				);
 				if ( $centralMLUrl === false ) {
 					throw new Exception( "Could not retrieve URL for {$wgCheckUserCAMultiLock['centralDB']}" );
