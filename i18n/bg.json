@@ -16,7 +16,7 @@
 	"checkuserlog": "Дневник на проверяващите",
 	"checkuser-contribs": "проверка на IP-адресите на потребителя",
 	"group-checkuser": "Проверяващи",
-	"group-checkuser-member": "Проверяващ",
+	"group-checkuser-member": "{{GENDER:$1|проверяващ}}",
 	"right-checkuser": "Проверяване на потребителски IP адреси и друга информация",
 	"right-checkuser-log": "Преглеждане на дневника с проверки на потребители",
 	"grouppage-checkuser": "{{ns:project}}:Проверяващи",
