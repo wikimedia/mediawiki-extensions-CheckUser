@@ -29,7 +29,6 @@
 	"checkuser-users": "Získať používateľov",
 	"checkuser-edits": "Získať úpravy",
 	"checkuser-ips": "Získať IP adresy",
-	"checkuser-search": "Hľadať",
 	"checkuser-period": "Trvanie:",
 	"checkuser-week-1": "posledný týždeň",
 	"checkuser-week-2": "posledné dva týždne",
@@ -61,15 +60,15 @@
 	"checkuser-accounts": "$1 {{PLURAL:$1|nový účet|nové účty|nových účtov}}",
 	"checkuser-too-many": "Príliš veľa výsledkov (podľa odhadu požiadavky), prosím zúžte CIDR.\nTu sú použité IP (max. 5 000, zoradené podľa adresy):",
 	"checkuser-user-nonexistent": "Uvedený používateľ neexistuje.",
-	"checkuser-search-form": "Nájsť položky záznamu, kde $1 je $2",
+	"checkuser-search": "Hľadať",
 	"checkuser-search-submit": "Hľadať",
 	"checkuser-search-initiator": "začínajúci",
 	"checkuser-search-target": "cieľ",
 	"checkuser-ipeditcount": "asi $1 zo všetkých používateľov",
-	"checkuser-log-return": "Návrat na hlavný formulár kontroly používateľa",
+	"checkuser-showmain": "Návrat na hlavný formulár kontroly používateľa",
 	"checkuser-limited": "'''Tieto výsledky boli z výkonnostných dôvodov skrátené.'''",
 	"checkuser-autocreate-action": "bol automaticky vytvorený",
 	"checkuser-create-action": "bol vytvorený",
-	"checkuser-email-action": "poslaný email používateľovi „$1”",
-	"checkuser-reset-action": "vytvoriť nové heslo pre používateľa „$1”"
+	"checkuser-email-action": "odoslal e-mail používateľovi „$1”",
+	"checkuser-reset-action": "požiadal o nové heslo pre používateľa „$1”"
 }
