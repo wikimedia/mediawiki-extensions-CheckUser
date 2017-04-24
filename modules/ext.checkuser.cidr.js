@@ -1,6 +1,4 @@
 /* -- (c) Aaron Schulz 2009 */
-/*global mediaWiki*/
-
 ( function ( mw, $ ) {
 var showResults = function ( size, cidr ) {
 	$( '#mw-checkuser-cidr-res' ).val( cidr );
