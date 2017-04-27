@@ -31,7 +31,7 @@
 	"checkuserlog": "利用者調査の記録",
 	"checkuser-contribs": "利用者のIPアドレスを調査",
 	"checkuser-contribs-log": "最近の調査記録",
-	"group-checkuser": "利用者調査者",
+	"group-checkuser": "チェックユーザー",
 	"group-checkuser-member": "{{GENDER:$1|利用者調査者}}",
 	"right-checkuser": "利用者のIPアドレスやその他の情報を調査",
 	"right-checkuser-log": "利用者調査の記録を閲覧",
