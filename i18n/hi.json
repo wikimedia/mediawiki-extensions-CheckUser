@@ -25,7 +25,7 @@
 	"grouppage-checkuser": "{{ns:project}}: सदस्य जाँचकर्ता",
 	"checkuser-reason": "कारण:",
 	"checkuser-reason-api": "ए॰पी॰आई: $1",
-	"checkuser-showlog": "लॉग दिखायें",
+	"checkuser-showlog": "सदस्यजाँच लॉग दिखायें",
 	"checkuser-query": "हाल में हुए बदलावों में खोजें",
 	"checkuser-target": "आई॰पी पता या सदस्यनाम:",
 	"checkuser-users": "सदस्य खोजें",
