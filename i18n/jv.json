@@ -18,7 +18,7 @@
 	"right-checkuser": "Priksa alamat-alamat IP panganggo lan informasi liyané",
 	"right-checkuser-log": "Pirsani log pamriksa",
 	"action-checkuser": "priksa alamat IP lan inpormasi liya panganggo",
-	"action-checkuser-log": "delok log pamriksa",
+	"action-checkuser-log": "deleng log pamriksa",
 	"grouppage-checkuser": "{{ns:project}}:Pamriksa panganggo",
 	"checkuser-reason": "Alesan:",
 	"checkuser-reason-api": "API: $1",
@@ -69,5 +69,5 @@
 	"checkuser-autocreate-action": "digawé sacara otomatis",
 	"checkuser-create-action": "digawé",
 	"checkuser-email-action": "Wis ngirim layang-e menyang panganggo \"$1\"",
-	"checkuser-reset-action": "Sèt ulang tembung sandi panganggo \"$1\""
+	"checkuser-reset-action": "setèl ulang tembung wadiné panganggo \"$1\""
 }
