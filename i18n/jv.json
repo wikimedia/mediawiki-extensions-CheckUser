@@ -68,6 +68,6 @@
 	"checkuser-limited": "'''Kasil iki wis dicekak amarga alesan kinerja.'''",
 	"checkuser-autocreate-action": "digawé sacara otomatis",
 	"checkuser-create-action": "digawé",
-	"checkuser-email-action": "Wis ngirim layang-e menyang panganggo \"$1\"",
+	"checkuser-email-action": "ngirim layang-èl nyang panganggo \"$1\"",
 	"checkuser-reset-action": "setèl ulang tembung wadiné panganggo \"$1\""
 }
