@@ -21,7 +21,8 @@
 			"2nd-player",
 			"Azeha",
 			"Otokoume",
-			"Sujiniku"
+			"Sujiniku",
+			"Mirinano"
 		]
 	},
 	"checkuser-summary": "このツールは最近の更新をもとに、ある利用者が使用したIPアドレスの検索、または、あるIPアドレスからなされた編集および利用者名の表示を行います。\nIPアドレスと共に「/xff」オプションを指定すると、XFF (X-Forwarded-For) ヘッダーを通じてクライアントIPアドレスを取得し、そこからなされた編集および利用者名の検索をすることができます。\nIPv4 ($1から32ビットのCIDR表記) と IPv6 ($2から128ビットのCIDR表記) に対応しています。\nパフォーマンス上の理由により、最大5000件の編集しか表示できません。\n方針に従って使用してください。",
@@ -31,7 +32,7 @@
 	"checkuserlog": "利用者調査の記録",
 	"checkuser-contribs": "利用者のIPアドレスを調査",
 	"checkuser-contribs-log": "最近の調査記録",
-	"group-checkuser": "チェックユーザー",
+	"group-checkuser": "利用者調査者",
 	"group-checkuser-member": "{{GENDER:$1|利用者調査者}}",
 	"right-checkuser": "利用者のIPアドレスやその他の情報を調査",
 	"right-checkuser-log": "利用者調査の記録を閲覧",
@@ -80,7 +81,7 @@
 	"checkuser-accounts": "新しい$1{{PLURAL:$1|アカウント}}",
 	"checkuser-too-many": "(クエリを見積もったところ) 検索結果が多すぎます。CIDRの指定を小さく絞り込んでください。\n使用したIPアドレスは以下の通り (上限 5000 件、並び順はアドレス順):",
 	"checkuser-user-nonexistent": "指定された利用者は存在しません。",
-	"checkuser-search": "利用者調査者のログ項目を検索",
+	"checkuser-search": "利用者調査のログ項目を検索",
 	"checkuser-search-submit": "検索",
 	"checkuser-search-initiator": "調査実行者",
 	"checkuser-search-target": "調査対象者",
@@ -115,7 +116,7 @@
 	"apihelp-query+checkuser-example-2": "192.0.2.0/24 からなされた編集を調査",
 	"apihelp-query+checkuserlog-description": "利用者調査の記録から項目を取得します。",
 	"apihelp-query+checkuserlog-param-user": "利用者調査の実行者の利用者名です。",
-	"apihelp-query+checkuserlog-param-target": "利用者調査の対象の利用者、IP アドレス、CIDR 範囲のいずれかです。",
+	"apihelp-query+checkuserlog-param-target": "調査する対象の利用者、IP アドレス、CIDR範囲のいずれかです。",
 	"apihelp-query+checkuserlog-param-limit": "行数の上限です。",
 	"apihelp-query+checkuserlog-param-from": "一覧の開始点となる日時",
 	"apihelp-query+checkuserlog-param-to": "一覧の終了点となる日時",
