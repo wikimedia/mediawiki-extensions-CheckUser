@@ -61,7 +61,7 @@
 	"checkuser-accounts": "$1 {{PLURAL:$1|нова сметка|нови сметки}}",
 	"checkuser-too-many": "Твърде много резултати (според оценката на заявката), моля уточнете CIDR.\nПоказани са използваните IP адреси (най-много 5 000, сортирани по адрес):",
 	"checkuser-user-nonexistent": "Посоченият потребител не съществува.",
-	"checkuser-search": "Търсене в журнала на проверките",
+	"checkuser-search": "Търсене в дневника на проверките",
 	"checkuser-search-submit": "Търсене",
 	"checkuser-search-initiator": "инициатор",
 	"checkuser-search-target": "цел",

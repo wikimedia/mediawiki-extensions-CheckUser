@@ -111,6 +111,7 @@
 	"apihelp-query+checkuser-example-1": "Vérifier les adresses IP pour [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Vérifier les modifications pour 192.0.2.0/24",
 	"apihelp-query+checkuserlog-description": "Obtenir les entrées du journal CheckUser.",
+	"apihelp-query+checkuserlog-summary": "Obtenir les entrées du journal de vérification des utilisateurs.",
 	"apihelp-query+checkuserlog-param-user": "Nom d’utilisateur de CheckUser.",
 	"apihelp-query+checkuserlog-param-target": "Utilisateur, adresse IP ou plage CIDR vérifié.",
 	"apihelp-query+checkuserlog-param-limit": "Limite de lignes.",
