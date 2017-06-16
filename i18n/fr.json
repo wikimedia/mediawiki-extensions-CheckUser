@@ -102,6 +102,7 @@
 	"group-checkuser.css": "/* Le CSS placé ici n’affectera que les membres du groupe « checkuser » */",
 	"group-checkuser.js": "/* Le Javascript placé ici n’affectera que les membres du groupe « checkuser » */",
 	"apihelp-query+checkuser-description": "Vérifier quelles adresses IP sont utilisées par un nom d’utilisateur donné ou quels noms d’utilisateur sont utilisés par une adresse IP donnée.",
+	"apihelp-query+checkuser-summary": "Vérifier quelles adresses IP sont utilisées pour un nom d’utilisateur donné, ou quels noms d’utilisateur sont utilisés pour une adresse IP donnée.",
 	"apihelp-query+checkuser-param-request": "Type de demande CheckUser :\n;userips:Obtenir l’adresse IP de l’utilisateur cible.\n;edits:Obtenir les modifications de l’adresse IP ou de la plage cible.\n;ipusers:Obtenir les utilisateurs de l’adresse IP ou de la plage cible.",
 	"apihelp-query+checkuser-param-target": "Nom d'utilisateur, adresse IP ou plage CIDR à vérifier.",
 	"apihelp-query+checkuser-param-reason": "Motif de vérification.",
