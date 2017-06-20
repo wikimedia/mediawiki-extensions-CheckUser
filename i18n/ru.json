@@ -20,7 +20,8 @@
 			"Mariya",
 			"Ядерный Трамвай",
 			"Cat1987",
-			"Mailman"
+			"Mailman",
+			"Facenapalm"
 		]
 	},
 	"checkuser-summary": "Данный инструмент может быть использован, чтобы получить IP-адреса, использовавшиеся участником, либо чтобы показать правки/участников, работавших с IP-адреса.\nПравки и пользователи, которые правили с определённого IP-адреса, указанного в X-Forwarded-For, можно получить, добавив постфикс <code>/xff</code> к IP-адресу. Поддерживаемые версии IP: 4 (CIDR $1—32) и 6 (CIDR $2—128).\nИз соображений производительности будут показаны только первые 5000 правок.\nИспользуйте эту страницу '''только в соответствии с правилами'''.",
@@ -101,7 +102,8 @@
 	"checkuser-userlinks-ip": "([[User_talk:$1|обсуждение]] | [[Special:Contributions/$1|вклад]] | [[Special:Block/$1|заблокировать]] | <span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/RDNS]</span>)",
 	"checkuser-userlinks": "([[User_talk:$1|обсуждение]] | [[Special:Contributions/$1|вклад]] | [[Special:Block/$1|заблокировать]])",
 	"checkuser-token-fail": "Сеанс прерван. Пожалуйста, попробуйте еще раз.",
-	"apihelp-query+checkuser-description": "Проверить, какие IP-адреса используются заданных именем участника или какие имена участников используются заданным IP-адресом.",
+	"apihelp-query+checkuser-description": "Проверить, какие IP-адреса используются данным именем участника или какие имена участников используются заданным IP-адресом.",
+	"apihelp-query+checkuser-summary": "Проверить, какие IP-адреса используются данным именем участника или какие имена участников используются заданным IP-адресом.",
 	"apihelp-query+checkuser-param-request": "Тип запроса чекюзера:\n;userips:Получить IP-адрес целевого пользователя.\n; edits:Получить изменения, сделанные с целевого IP-адреса или диапазона адресов.\n;ipusers:Получить пользователей по целевому IP-адресу или диапазону.",
 	"apihelp-query+checkuser-param-target": "Имя участника, IP-адрес или CIDR-диапазон для проверки.",
 	"apihelp-query+checkuser-param-reason": "Причина проверки.",
@@ -111,6 +113,7 @@
 	"apihelp-query+checkuser-example-1": "Проверить IP-адреса [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Проверить правки с 192.0.2.0/24",
 	"apihelp-query+checkuserlog-description": "Получить записи из журнала проверки участников (CheckUser).",
+	"apihelp-query+checkuserlog-summary": "Получить записи из журнала проверки участников.",
 	"apihelp-query+checkuserlog-param-user": "Имя пользователя чекюзера.",
 	"apihelp-query+checkuserlog-param-target": "Проверенный участник, IP-адрес или CIDR-диапазон.",
 	"apihelp-query+checkuserlog-param-limit": "Ограничение количества строк.",
