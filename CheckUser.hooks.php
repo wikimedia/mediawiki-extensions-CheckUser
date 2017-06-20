@@ -263,7 +263,7 @@ class CheckUserHooks {
 		# Every 50th edit, prune the checkuser changes table.
 		if ( 0 == mt_rand( 0, 49 ) ) {
 			$fname = __METHOD__;
-			DeferredUpdates::addCallableUpdate( function() use ( $fname ) {
+			DeferredUpdates::addCallableUpdate( function () use ( $fname ) {
 				global $wgCUDMaxAge;
 
 				$dbw = wfGetDB( DB_MASTER );
