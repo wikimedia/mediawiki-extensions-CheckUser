@@ -69,5 +69,7 @@
 	"checkuser-autocreate-action": "je automatski napravljen",
 	"checkuser-create-action": "je napravljen",
 	"checkuser-email-action": "slanje e-mail korisniku \"$1\"",
-	"checkuser-reset-action": "poništi šifru za korisnika \"$1\""
+	"checkuser-reset-action": "poništi šifru za korisnika \"$1\"",
+	"apihelp-query+checkuser-param-timecond": "Vremensko ograničenje za korisničke podatke (npr, \"-2 weeks\" ili \"2 weeks ago\").",
+	"apierror-checkuser-timelimit": "Morate koristiti ispravno vremensko ograničenje (npr, \"-2 weeks\" ili \"2 weeks ago\")."
 }

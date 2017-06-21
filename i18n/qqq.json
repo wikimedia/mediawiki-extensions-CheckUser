@@ -23,7 +23,8 @@
 			"Liuxinyu970226",
 			"Nemo bis",
 			"Revi",
-			"Beta16"
+			"Beta16",
+			"McDutchie"
 		]
 	},
 	"checkuser-summary": "Explanation of CheckUser tool. See [[mw:Extension:CheckUser#Basic_interface|screenshot titled 'Basic CheckUser interface']].\n\nParameters:\n* $1 - an integer. default value: 16\n* $2 - an integer. default value: 32",
@@ -127,6 +128,6 @@
 	"apihelp-query+checkuserlog-example-1": "{{doc-important|Do not translate \"User:Example\".}}\n{{doc-apihelp-example|query+checkuserlog}}",
 	"apihelp-query+checkuserlog-example-2": "{{doc-apihelp-example|query+checkuserlog}}",
 	"apierror-checkuser-missingsummary": "{{doc-apierror}}",
-	"apierror-checkuser-timelimit": "{{doc-apierror}}",
+	"apierror-checkuser-timelimit": "{{doc-important|Do not translate \"-2 weeks\" or \"2 weeks ago\". It must be in [http://www.php.net/strtotime original format].}}",
 	"apierror-checkuser-invalidmode": "{{doc-apierror}}"
 }

@@ -6,7 +6,8 @@
 			"Finnrind",
 			"Laaknor",
 			"Nghtwlkr",
-			"Jon Harald Søby"
+			"Jon Harald Søby",
+			"McDutchie"
 		]
 	},
 	"checkuser-summary": "Dette verktøyet går gjennom siste endringer for å hente IP-ene som er brukt av en bruker, eller viser redigerings- eller brukerinformasjonen for en IP.\n\nBrukere og redigeringer kan hentes med en XFF-IP ved å legge til «/xff» bak IP-en. IPv4 (CIDR $1-32) og IPv6 (CIDR $2-128) støttes.\n\nAv ytelsesgrunner vises maksimalt 5000 redigeringer. Bruk dette verktøyet i samsvar med retningslinjer.",
@@ -92,7 +93,7 @@
 	"apihelp-query+checkuser-param-target": "Brukernavn, IP-adresse eller CIDR-område å sjekke.",
 	"apihelp-query+checkuser-param-reason": "Årsak for kontrollen.",
 	"apihelp-query+checkuser-param-limit": "Begrensning av rader.",
-	"apihelp-query+checkuser-param-timecond": "Tidsgrense for brukerdata (som «-2 weeks» eller «2 uker siden»).",
+	"apihelp-query+checkuser-param-timecond": "Tidsgrense for brukerdata (som «-2 weeks» eller «2 weeks ago»).",
 	"apihelp-query+checkuser-param-xff": "Bruk XFF-data i stedet for IP-adresse.",
 	"apihelp-query+checkuser-example-1": "Sjekk IP-adresser for [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Sjekk redigeringer fra 192.0.2.0/24",

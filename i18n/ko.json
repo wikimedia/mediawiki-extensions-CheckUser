@@ -13,7 +13,8 @@
 			"IRTC1015",
 			"Priviet",
 			"Ykhwong",
-			"Jerrykim306"
+			"Jerrykim306",
+			"McDutchie"
 		]
 	},
 	"checkuser-summary": "이 도구는 최근의 변경 사항을 검사하여 특정 사용자가 이용한 IP 주소를 검색하거나 특정 IP 주소에 대한 편집/사용자 정보를 보여줍니다.\n클라이언트 IP를 통한 사용자와 편집은 IP 주소 뒤에 \"/xff\"를 추가함으로써 XFF 헤더를 통해 조사할 수 있습니다. IPv4 (CIDR $1-32)와 IPv6 (CIDR $2-128)을 지원합니다.\n성능 상의 이유로 최대 5,000개의 편집만 반환됩니다.\n이 도구는 정책에 맞게 사용하십시오.",
@@ -116,6 +117,6 @@
 	"apihelp-query+checkuserlog-example-1": "[[User:Example]]에 대한 검사 보기",
 	"apihelp-query+checkuserlog-example-2": "192.0.2.0/24에 대한 2011-10-15T23:00:00Z 이후의 검사 보기",
 	"apierror-checkuser-missingsummary": "검사 이유를 지정해야 합니다.",
-	"apierror-checkuser-timelimit": "올바른 시간 형식(\"-2주\" 혹은 \"2주 전\"과 같이)으로 사용하셔야 합니다.",
+	"apierror-checkuser-timelimit": "올바른 시간 형식(\"-2 weeks\" 혹은 \"2 weeks ago\"과 같이)으로 사용하셔야 합니다.",
 	"apierror-checkuser-invalidmode": "잘못된 요청 모드"
 }

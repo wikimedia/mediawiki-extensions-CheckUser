@@ -11,7 +11,8 @@
 			"Umherirrender",
 			"Luke081515",
 			"Tiin",
-			"J. 'mach' wust"
+			"J. 'mach' wust",
+			"McDutchie"
 		]
 	},
 	"checkuser-summary": "Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers bzw. die Bearbeitungen/Benutzernamen für eine IP-Adresse zu ermitteln. Benutzer und Bearbeitungen einer IP-Adresse können auch nach Informationen aus den XFF-Headern abgefragt werden, indem der IP-Adresse ein „/xff“ angehängt wird. IPv4 (CIDR $1-32) und IPv6 (CIDR $2-128) werden unterstützt.\nZur Aufrechterhaltung der Leistungsfähigkeit werden maximal 5000 Bearbeitungen ausgegeben. Benutze CheckUser ausschließlich in Übereinstimmung mit den Datenschutzrichtlinien.",
@@ -97,7 +98,7 @@
 	"apihelp-query+checkuser-param-target": "Zu überprüfender Benutzername, CIDR-Bereich oder zu überprüfende IP-Adresse.",
 	"apihelp-query+checkuser-param-reason": "Grund für die Überprüfung.",
 	"apihelp-query+checkuser-param-limit": "Zeilenlimit.",
-	"apihelp-query+checkuser-param-timecond": "Zeitlimit der Benutzerdaten (wie „-2 Wochen“ oder „vor 2 Wochen“).",
+	"apihelp-query+checkuser-param-timecond": "Zeitlimit der Benutzerdaten (wie „-2 weeks“ oder „2 weeks ago“).",
 	"apihelp-query+checkuser-param-xff": "XFF-Daten anstelle der IP-Adresse verwenden.",
 	"apihelp-query+checkuser-example-1": "IP-Adressen für [[User:Example]] überprüfen",
 	"apihelp-query+checkuser-example-2": "Bearbeitungen von 192.0.2.0/24 überprüfen",
@@ -111,6 +112,6 @@
 	"apihelp-query+checkuserlog-example-1": "Prüfungen von [[User:Example]] anzeigen",
 	"apihelp-query+checkuserlog-example-2": "Zeigt Überprüfungen von 192.0.2.0/24 nach 2011-10-15T23:00:00Z",
 	"apierror-checkuser-missingsummary": "Du musst zur Überprüfung einen Grund angeben.",
-	"apierror-checkuser-timelimit": "Du musst das korrekte Zeitlimit verwenden (wie „-2 Wochen“ oder „vor 2 Wochen“).",
+	"apierror-checkuser-timelimit": "Du musst das korrekte Zeitlimit verwenden (wie „-2 weeks“ oder „2 weeks ago“).",
 	"apierror-checkuser-invalidmode": "Ungültiger Abfragemodus"
 }
