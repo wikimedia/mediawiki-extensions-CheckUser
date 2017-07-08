@@ -40,7 +40,10 @@ class ApiQueryCheckUser extends ApiQueryBase {
 			if ( is_callable( [ $this, 'dieWithError' ] ) ) {
 				$this->dieWithError( 'apierror-checkuser-timelimit', 'invalidtime' );
 			} else {
-				$this->dieUsage( 'You need use correct time limit (like "-2 weeks" or "2 weeks ago")', 'invalidtime' );
+				$this->dieUsage(
+					'You need use correct time limit (like "-2 weeks" or "2 weeks ago")',
+					'invalidtime'
+				);
 			}
 		}
 
@@ -54,7 +57,9 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				$user_id = User::idFromName( $target );
 				if ( !$user_id ) {
 					if ( is_callable( [ $this, 'dieWithError' ] ) ) {
-						$this->dieWithError( [ 'nosuchusershort', wfEscapeWikiText( $target ) ], 'nosuchuser' );
+						$this->dieWithError(
+							[ 'nosuchusershort', wfEscapeWikiText( $target ) ], 'nosuchuser'
+						);
 					} else {
 						$this->dieUsage( 'Target user does not exist', 'nosuchuser' );
 					}
@@ -114,7 +119,9 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$user_id = User::idFromName( $target );
 					if ( !$user_id ) {
 						if ( is_callable( [ $this, 'dieWithError' ] ) ) {
-							$this->dieWithError( [ 'nosuchusershort', wfEscapeWikiText( $target ) ], 'nosuchuser' );
+							$this->dieWithError(
+								[ 'nosuchusershort', wfEscapeWikiText( $target ) ], 'nosuchuser'
+							);
 						} else {
 							$this->dieUsage( 'Target user does not exist', 'nosuchuser' );
 						}

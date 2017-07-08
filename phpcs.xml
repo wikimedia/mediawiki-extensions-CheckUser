@@ -10,15 +10,14 @@
 		<exclude name="MediaWiki.Commenting.FunctionComment.MissingDocumentationPublic" />
 		<exclude name="MediaWiki.NamingConventions.LowerCamelFunctionsName.FunctionName" />
 		<exclude name="MediaWiki.WhiteSpace.SpaceBeforeSingleLineComment.NewLineComment" />
+		<exclude name="MediaWiki.ControlStructures.AssignmentInControlStructures.AssignmentInControlStructures" />
+	</rule>
+	<rule ref="Generic.Files.LineLength">
+		<exclude-pattern>CheckUser.alias.php</exclude-pattern>
 	</rule>
 	<file>.</file>
-	<rule ref="Generic.Files.LineLength.TooLong">
-		<severity>0</severity>
-	</rule>
-	<rule ref="MediaWiki.ControlStructures.AssignmentInControlStructures.AssignmentInControlStructures">
-		<severity>0</severity>
-	</rule>
 	<arg name="extensions" value="php,php5,inc" />
-	<arg name="encoding" value="utf8" />
+	<arg name="encoding" value="UTF-8" />
 	<exclude-pattern>vendor</exclude-pattern>
+	<exclude-pattern>node_modules</exclude-pattern>
 </ruleset>

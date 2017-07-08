@@ -58,7 +58,9 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 		$blockStart = $start;
 		$blockEnd = $start + $this->mBatchSize - 1;
 
-		$this->output( "Starting poulation of cu_changes with recentchanges rc_id from $start to $end\n" );
+		$this->output(
+			"Starting poulation of cu_changes with recentchanges rc_id from $start to $end\n"
+		);
 
 		while ( $blockStart <= $end ) {
 			$this->output( "...migrating rc_id from $blockStart to $blockEnd\n" );

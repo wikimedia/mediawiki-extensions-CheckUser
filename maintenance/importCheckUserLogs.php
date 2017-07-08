@@ -52,11 +52,16 @@ class ImportCheckUserLogs extends Maintenance {
 		$line = str_replace( "\0", '', $line );
 
 		$regexes = [
-			'ipedits-xff' => "!^<li>$rxTimestamp, $rxUser got edits for XFF $rxTarget on $rxWiki$rxReason</li>!",
-			'ipedits'     => "!^<li>$rxTimestamp, $rxUser got edits for" . " $rxTarget on $rxWiki$rxReason</li>!",
-			'ipusers-xff' => "!^<li>$rxTimestamp, $rxUser got users for XFF $rxTarget on $rxWiki$rxReason</li>!",
-			'ipusers'     => "!^<li>$rxTimestamp, $rxUser got users for" . " $rxTarget on $rxWiki$rxReason</li>!",
-			'userips'     => "!^<li>$rxTimestamp, $rxUser got IPs for" .   " $rxTarget on $rxWiki$rxReason</li>!",
+			'ipedits-xff' => "!^<li>$rxTimestamp, $rxUser got edits for XFF " .
+				"$rxTarget on $rxWiki$rxReason</li>!",
+			'ipedits'     => "!^<li>$rxTimestamp, $rxUser got edits for" .
+				" $rxTarget on $rxWiki$rxReason</li>!",
+			'ipusers-xff' => "!^<li>$rxTimestamp, $rxUser got users for XFF " .
+				"$rxTarget on $rxWiki$rxReason</li>!",
+			'ipusers'     => "!^<li>$rxTimestamp, $rxUser got users for" .
+				" $rxTarget on $rxWiki$rxReason</li>!",
+			'userips'     => "!^<li>$rxTimestamp, $rxUser got IPs for" .
+				" $rxTarget on $rxWiki$rxReason</li>!",
 		];
 
 		foreach ( $regexes as $type => $regex ) {
@@ -130,7 +135,9 @@ class ImportCheckUserLogs extends Maintenance {
 			$unmatched ++;
 		}
 
-		$this->output( "...cu_log table populated: $matched matched rows, $unmatched discarded rows\n" );
+		$this->output(
+			"...cu_log table populated: $matched matched rows, $unmatched discarded rows\n"
+		);
 	}
 
 	protected function testLog( $file ) {
@@ -151,7 +158,9 @@ class ImportCheckUserLogs extends Maintenance {
 				$unmatched++;
 			}
 		}
-		$this->output( "\n$matched matched, $badtime matched with bad time, $unmatched unprocessed\n" );
+		$this->output(
+			"\n$matched matched, $badtime matched with bad time, $unmatched unprocessed\n"
+		);
 	}
 }
 
