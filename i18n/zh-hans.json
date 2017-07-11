@@ -16,7 +16,9 @@
 			"白布飘扬",
 			"乌拉跨氪",
 			"Mywood",
-			"Yfdyh000"
+			"Yfdyh000",
+			"WhitePhosphorus",
+			"Wmr"
 		]
 	},
 	"checkuser-summary": "本工具会从最近更改中获取用户使用过的IP地址，可使用XFF头信息来获取同一客户端IP地址下的用户和编辑，即在IP地址后方附加“/xff”。本工具支持IPv4（CIDR $1-32）和IPv6（CIDR $2-128）。由于效率原因，本工具只能查询最近5000笔编辑次数。请确保您的操作符合方针。",
@@ -100,6 +102,7 @@
 	"group-checkuser.css": "/* 这里放置的CSS将只影响用户查核员 */",
 	"group-checkuser.js": "/* 这里放置的JS将只影响用户查核员 */",
 	"apihelp-query+checkuser-description": "检查指定用户名使用的IP地址或指定IP地址使用过的用户名。",
+	"apihelp-query+checkuser-summary": "检查指定用户名使用过的IP地址或指定IP地址使用过的用户名。",
 	"apihelp-query+checkuser-param-request": "用户查核请求类型：\n;userips:获取目标用户的IP地址。\n;edits:获取目标IP地址或地址段的更改。\n;ipusers:获取目标IP地址或地址段的用户。",
 	"apihelp-query+checkuser-param-target": "要查核的用户名、IP地址或CIDR地址段。",
 	"apihelp-query+checkuser-param-reason": "查核原因。",
@@ -109,6 +112,7 @@
 	"apihelp-query+checkuser-example-1": "查核[[User:Example]]的IP地址",
 	"apihelp-query+checkuser-example-2": "查核来自192.0.2.0/24的编辑",
 	"apihelp-query+checkuserlog-description": "从用户查核日志获得记录。",
+	"apihelp-query+checkuserlog-summary": "获取用户查核日志中的记录。",
 	"apihelp-query+checkuserlog-param-user": "用户查核员的用户名。",
 	"apihelp-query+checkuserlog-param-target": "已查核的用户、IP地址或CIDR地址段。",
 	"apihelp-query+checkuserlog-param-limit": "限定行数。",
