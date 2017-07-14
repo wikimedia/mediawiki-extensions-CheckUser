@@ -1509,8 +1509,8 @@ class CheckUser extends SpecialPage {
 	protected static function buildGroupLink( $group, $username ) {
 		static $cache = [];
 		if ( !isset( $cache[$group] ) ) {
-			$cache[$group] = User::makeGroupLinkHTML(
-				$group, User::getGroupMember( $group, $username )
+			$cache[$group] = UserGroupMembership::getLink(
+				$group, RequestContext::getMain(), 'html'
 			);
 		}
 		return $cache[$group];
