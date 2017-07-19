@@ -79,6 +79,7 @@
 	"checkuser-search-initiator": "iniciador",
 	"checkuser-search-target": "alvo",
 	"checkuser-log-search-target": "Destinatário:",
+	"checkuser-log-search-type": "Pesquisa para:",
 	"checkuser-ipeditcount": "~$1 de todos os usuários",
 	"checkuser-showmain": "Retornar ao formulário principal de CheckUser",
 	"checkuser-limited": "'''Estes resultados foram removidos por motivos de performance.'''",
