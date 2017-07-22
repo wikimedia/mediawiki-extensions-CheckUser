@@ -63,6 +63,7 @@
 	"checkuser-localonly": "Não unificada",
 	"checkuser-massblock": "Bloquear usuários selecionados",
 	"checkuser-massblock-text": "As contas selecionadas serão bloqueadas indefinidamente, com bloqueio automático ativado e criação de conta desabilitada.\nEndereços IP serão bloqueados por 1 semana com criação de conta desabilitada.",
+	"checkuser-blockemail": "Previne de enviar e-mail",
 	"checkuser-blocktag": "Substituir páginas de usuário com:",
 	"checkuser-blocktag-talk": "Substituir páginas de discussão por:",
 	"checkuser-massblock-commit": "Bloquear usuários selecionados",
