@@ -6,7 +6,8 @@
 			"Siebrand",
 			"Troefkaart",
 			"Sjoerddebruin",
-			"Akoopal"
+			"Akoopal",
+			"Mainframe98"
 		]
 	},
 	"checkuser-summary": "Dit hulpmiddel bekijkt recente wijzigingen om IP-adressen die een gebruiker heeft gebruikt te achterhalen of geeft de bewerkings- en gebruikersgegegevens weer voor een IP-adres.\nGebruikers en bewerkingen van een IP-adres van een client kunnen achterhaald worden via XFF-headers door \"/xff\" achter het IP-adres toe te voegen. IPv4 (CIDR $1-32) en IPv6 (CIDR $2-128) worden ondersteund.\nOm prestatieredenen worden niet meer dan 5.000 bewerkingen weergegeven.\nGebruik dit hulpmiddel volgens het vastgestelde beleid.",
@@ -103,5 +104,6 @@
 	"apihelp-query+checkuserlog-param-from": "Het tijdstip waar de opsomming begint.",
 	"apihelp-query+checkuserlog-param-to": "Het tijdstip waar de opsomming eindigt.",
 	"apihelp-query+checkuserlog-example-1": "Controles van [[User:Example]] weergeven.",
-	"apihelp-query+checkuserlog-example-2": "Controles van 192.0.2.0/24 na 2011-10-15T23:00:00Z weergeven."
+	"apihelp-query+checkuserlog-example-2": "Controles van 192.0.2.0/24 na 2011-10-15T23:00:00Z weergeven.",
+	"apierror-checkuser-missingsummary": "U moet een reden opgeven voor deze controle."
 }
