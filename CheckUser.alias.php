@@ -129,7 +129,8 @@ $specialPageAliases['eo'] = [
 
 /** Spanish (español) */
 $specialPageAliases['es'] = [
-	'CheckUser' => [ 'VerificarUsuario', 'ComprobarUsuario', 'Comprobar_usuario' ],
+	'CheckUser' => [ 'ComprobarUsuario', 'Comprobar_usuario', 'VerificarUsuario', 'Verificar_usuario' ],
+	'CheckUserLog' => [ 'Registro_de_comprobación_de_usuarios', 'Registro_de_verificación_de_usuarios' ],
 ];
 
 /** Persian (فارسی) */
