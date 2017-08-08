@@ -204,7 +204,7 @@ class CheckUserHooks {
 	 * Saves user data into the cu_changes table
 	 *
 	 * @param User $user
-	 * @param boolean $autocreated
+	 * @param bool $autocreated
 	 * @return true
 	 */
 	public static function onLocalUserCreated( User $user, $autocreated ) {
@@ -215,8 +215,8 @@ class CheckUserHooks {
 	}
 
 	/**
-	 * @param $user User
-	 * @param $actiontext string
+	 * @param User $user
+	 * @param string $actiontext
 	 * @return bool
 	 */
 	protected static function logUserAccountCreation( User $user, $actiontext ) {
@@ -258,6 +258,7 @@ class CheckUserHooks {
 
 	/**
 	 * Hook function to prune data from the cu_changes table
+	 * @return true
 	 */
 	public static function maybePruneIPData() {
 		# Every 50th edit, prune the checkuser changes table.
@@ -406,7 +407,7 @@ class CheckUserHooks {
 	/**
 	 * Tell the parser test engine to create a stub cu_changes table,
 	 * or temporary pages won't save correctly during the test run.
-	 * @param array $tables
+	 * @param array &$tables
 	 * @return bool
 	 */
 	public static function checkUserParserTestTables( &$tables ) {
@@ -418,9 +419,9 @@ class CheckUserHooks {
 	 * Add a link to Special:CheckUser and Special:CheckUserLog
 	 * on Special:Contributions/<username> for
 	 * privileged users.
-	 * @param $id Integer: user ID
-	 * @param $nt Title: user page title
-	 * @param $links array: tool links
+	 * @param int $id User ID
+	 * @param Title $nt User page title
+	 * @param array &$links Tool links
 	 * @return true
 	 */
 	public static function checkUserContributionsLinks( $id, $nt, &$links ) {

@@ -19,8 +19,9 @@ class CheckUserEncryptedData {
 	/**
 	 * Create an EncryptedData object from
 	 *
-	 * @param $data Mixed: data/object to be encryted
-	 * @param $publicKey: public key for encryption
+	 * @param mixed $data Data/object to be encryted
+	 * @param string $publicKey Public key for encryption
+	 * @param string $algorithmName
 	 */
 	public function __construct( $data, $publicKey, $algorithmName = 'rc4' ) {
 		$this->keyHash = crc32( $publicKey );
@@ -31,8 +32,9 @@ class CheckUserEncryptedData {
 	/**
 	 * Decrypt the text in this object
 	 *
-	 * @param $privateKey String with ascii-armored block, or the return of openssl_get_privatekey
-	 * @return String plaintext
+	 * @param string $privateKey String with ascii-armored block,
+	 *   or the return of openssl_get_privatekey
+	 * @return string plaintext
 	 */
 	public function getPlaintext( $privateKey ) {
 		$result = openssl_open(
@@ -53,8 +55,9 @@ class CheckUserEncryptedData {
 	/**
 	 * Encrypt data with a public key
 	 *
-	 * @param $data String
-	 * @param $publicKey String with ascii-armored block, or the return of openssl_get_publickey
+	 * @param string $data
+	 * @param string $publicKey String with ascii-armored block,
+	 *   or the return of openssl_get_publickey
 	 */
 	private function encryptData( $data, $publicKey ) {
 		openssl_seal( $data, $encryptedString, $envelopeKeys, [ $publicKey ], $this->algName );

@@ -400,7 +400,7 @@ class CheckUser extends SpecialPage {
 	 * Give a "no matches found for X" message.
 	 * If $checkLast, then mention the last edit by this user or IP.
 	 *
-	 * @param $userName
+	 * @param string $userName
 	 * @param bool $checkLast
 	 * @return string
 	 */
@@ -1241,8 +1241,8 @@ class CheckUser extends SpecialPage {
 	}
 
 	/**
-	 * @param $ip
-	 * @param $userId
+	 * @param string $ip
+	 * @param int $userId
 	 * @param User $user
 	 * @return array
 	 */
