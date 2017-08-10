@@ -6,7 +6,8 @@
 			"Ciphers",
 			"Meno25",
 			"Mido",
-			"OsamaK"
+			"OsamaK",
+			"ديفيد"
 		]
 	},
 	"checkuser-summary": "هذه الأداة تفحص أحدث التغييرات لاسترجاع الأيبيهات المستخدمة بواسطة مستخدم أو عرض بيانات التعديل/المستخدم لأيبي.\nالمستخدمون والتعديلات بواسطة أيبي عميل يمكن استرجاعها من خلال عناوين XFF عبر طرق الأيبي IP ب\"/xff\". IPv4 (CIDR $1-32) و IPv6 (CIDR $2-128) مدعومان.\n\tلا أكثر من 5000 تعديل سيتم عرضها لأسباب تتعلق بالأداء.\nاستخدم هذا بالتوافق مع السياسة.",
@@ -25,7 +26,7 @@
 	"grouppage-checkuser": "{{ns:project}}:تدقيق مستخدم",
 	"checkuser-reason": "السبب:",
 	"checkuser-reason-api": "واجهة برمجة التطبيقات",
-	"checkuser-showlog": "عرض السجل",
+	"checkuser-showlog": "التبديل إلى سجل تدقيق المستخدم",
 	"checkuser-query": "فحص أحدث التغييرات",
 	"checkuser-target": "عنوان الأيبي أو اسم المستخدم:",
 	"checkuser-users": "اعرض المستخدمين",
@@ -62,7 +63,7 @@
 	"checkuser-accounts": "$1 {{PLURAL:$1|حساب|حساب}} جديد",
 	"checkuser-too-many": "نتائج كثيرة جدا (بناء على استعلام تقريبي)، من فضلك قلل CIDR.\nهذه هي الأيبيهات المستخدمة (5000 كحد أقصى، مرتبة بالعنوان):",
 	"checkuser-user-nonexistent": "المستخدم المحدد غير موجود.",
-	"checkuser-search": "بحث",
+	"checkuser-search": "بحث في إدخالات سجل تدقيق المستخدم",
 	"checkuser-search-submit": "بحث",
 	"checkuser-search-initiator": "بادىء",
 	"checkuser-search-target": "هدف",
