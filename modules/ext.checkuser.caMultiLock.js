@@ -27,7 +27,7 @@
 			}
 		} );
 
-		var mlHref = encodeURI( centralURL + '?wpTarget=' + names.join( '\n' ) );
+		var mlHref = centralURL + '?wpTarget=' + encodeURIComponent( names.join( '\n' ) );
 		// Update the href of the link with the latest change
 		$( '#cacu-multilock-link' ).prop( 'href', mlHref );
 	} );
