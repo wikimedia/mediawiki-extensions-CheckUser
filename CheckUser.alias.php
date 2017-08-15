@@ -133,6 +133,12 @@ $specialPageAliases['es'] = [
 	'CheckUserLog' => [ 'Registro_de_comprobación_de_usuarios', 'Registro_de_verificación_de_usuarios' ],
 ];
 
+/** Basque (euskara) */
+$specialPageAliases['eu'] = [
+	'CheckUser' => [ 'Lankidea_egiaztatu' ],
+	'CheckUserLog' => [ 'Lankidearen_erregistroa_egiaztatu' ],
+];
+
 /** Persian (فارسی) */
 $specialPageAliases['fa'] = [
 	'CheckUser' => [ 'بازرسی_کاربر' ],
