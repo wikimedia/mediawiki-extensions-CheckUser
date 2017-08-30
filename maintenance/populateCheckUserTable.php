@@ -62,10 +62,32 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 			"Starting poulation of cu_changes with recentchanges rc_id from $start to $end\n"
 		);
 
+		$commentStore = CommentStore::newKey( 'rc_comment' );
+		$commentQuery = $commentStore->getJoin();
+
 		while ( $blockStart <= $end ) {
 			$this->output( "...migrating rc_id from $blockStart to $blockEnd\n" );
 			$cond = "rc_id BETWEEN $blockStart AND $blockEnd $cutoffCond";
-			$res = $db->select( 'recentchanges', '*', $cond, __METHOD__ );
+			$res = $db->select(
+				[ 'recentchanges' ] + $commentQuery['tables'],
+				[
+					'rc_timestamp',
+					'rc_user',
+					'rc_user_text',
+					'rc_namespace',
+					'rc_title',
+					'rc_minor',
+					'rc_cur_id',
+					'rc_this_oldid',
+					'rc_last_oldid',
+					'rc_type',
+					'rc_ip',
+				] + $commentQuery['fields'],
+				$cond,
+				__METHOD__,
+				[],
+				$commentQuery['joins']
+			);
 			$batch = [];
 			foreach ( $res as $row ) {
 				$batch[] = [
@@ -74,7 +96,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 					'cuc_user_text' => $row->rc_user_text,
 					'cuc_namespace' => $row->rc_namespace,
 					'cuc_title' => $row->rc_title,
-					'cuc_comment' => $row->rc_comment,
+					'cuc_comment' => $commentStore->getComment( $row )->text,
 					'cuc_minor' => $row->rc_minor,
 					'cuc_page_id' => $row->rc_cur_id,
 					'cuc_this_oldid' => $row->rc_this_oldid,
