@@ -28,17 +28,23 @@ class CheckUser extends SpecialPage {
 
 		$out = $this->getOutput();
 		$request = $this->getRequest();
+		$user = $request->getText( 'user', $request->getText( 'ip', $subpage ) );
+		$user = trim( $user );
 
 		if ( $this->getUser()->isAllowed( 'checkuser-log' ) ) {
 			$subtitleLink = $this->getLinkRenderer()->makeKnownLink(
 				SpecialPage::getTitleFor( 'CheckUserLog' ),
 				$this->msg( 'checkuser-showlog' )->text()
 			);
+			if ( !$user === false ) {
+				$subtitleLink .= ' | ' . $this->getLinkRenderer()->makeKnownLink(
+					SpecialPage::getTitleFor( 'CheckUserLog', $user ),
+					$this->msg( 'checkuser-recent-checks' )->text()
+				);
+			}
 			$out->addSubtitle( $subtitleLink );
 		}
 
-		$user = $request->getText( 'user', $request->getText( 'ip', $subpage ) );
-		$user = trim( $user );
 		$reason = $request->getText( 'reason' );
 		$blockreason = $request->getText( 'blockreason', '' );
 		$disableUserTalk = $request->getBool( 'blocktalk', false );
