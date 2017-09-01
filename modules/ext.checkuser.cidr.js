@@ -252,7 +252,7 @@ var hex2int = function ( hex ) {
 
 $( function () {
 	updateCIDRresult();
-	$( '#mw-checkuser-iplist' ).bind( 'keyup click', function () {
+	$( '#mw-checkuser-iplist' ).on( 'keyup click', function () {
 		updateCIDRresult();
 	} );
 } );
