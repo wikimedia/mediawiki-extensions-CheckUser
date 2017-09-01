@@ -64,7 +64,7 @@ class CheckUserHooks {
 			'cuc_user'       => $attribs['rc_user'],
 			'cuc_user_text'  => $attribs['rc_user_text'],
 			'cuc_actiontext' => $actionText,
-			'cuc_comment'    => $attribs['rc_comment'],
+			'cuc_comment'    => $rc->getAttribute( 'rc_comment' ),
 			'cuc_this_oldid' => $attribs['rc_this_oldid'],
 			'cuc_last_oldid' => $attribs['rc_last_oldid'],
 			'cuc_type'       => $attribs['rc_type'],
