@@ -163,7 +163,7 @@ class CheckUserHooks {
 		// Get agent
 		$agent = $wgRequest->getHeader( 'User-Agent' );
 
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_REPLICA );
 		$rcRow = [
 			'cuc_namespace'  => NS_USER,
 			'cuc_title'      => '',
@@ -457,7 +457,7 @@ class CheckUserHooks {
 	 * @return bool
 	 */
 	public static function doRetroactiveAutoblock( Block $block, array &$blockIds ) {
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_REPLICA );
 
 		$user = User::newFromName( (string)$block->getTarget(), false );
 		if ( !$user->getId() ) {

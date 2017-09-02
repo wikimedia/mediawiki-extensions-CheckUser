@@ -128,7 +128,7 @@ class SpecialCheckUserLog extends SpecialPage {
 		$conds = null;
 
 		if ( $start !== false ) {
-			$dbr = wfGetDB( DB_SLAVE );
+			$dbr = wfGetDB( DB_REPLICA );
 			if ( $start === $end ) {
 				// Single IP address
 				$conds = [

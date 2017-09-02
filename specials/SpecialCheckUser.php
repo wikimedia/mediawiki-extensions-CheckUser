@@ -406,7 +406,7 @@ class CheckUser extends SpecialPage {
 	 */
 	protected function noMatchesMessage( $userName, $checkLast = true ) {
 		if ( $checkLast ) {
-			$dbr = wfGetDB( DB_SLAVE );
+			$dbr = wfGetDB( DB_REPLICA );
 			$user_id = User::idFromName( $userName );
 			if ( $user_id ) {
 				$revEdit = $dbr->selectField( 'revision',
@@ -476,7 +476,7 @@ class CheckUser extends SpecialPage {
 		// Record check...
 		self::addLogEntry( 'userips', 'user', $user, $reason, $user_id );
 
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_REPLICA );
 		$time_conds = $this->getTimeConds( $period );
 		// Ordering by the latest timestamp makes a small filesort on the IP list
 
@@ -623,7 +623,7 @@ class CheckUser extends SpecialPage {
 	 */
 	protected function doIPEditsRequest( $ip, $xfor = false, $reason = '', $period = 0 ) {
 		$out = $this->getOutput();
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_REPLICA );
 
 		// Invalid IPs are passed in as a blank string
 		$ip_conds = self::getIpConds( $dbr, $ip, $xfor );
@@ -817,7 +817,7 @@ class CheckUser extends SpecialPage {
 		// Record check...
 		self::addLogEntry( 'useredits', 'user', $user, $reason, $user_id );
 
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_REPLICA );
 		$user_cond = "cuc_user = '$user_id'";
 		$time_conds = $this->getTimeConds( $period );
 		// Ordered in descent by timestamp. Causes large filesorts if there are many edits.
@@ -924,7 +924,7 @@ class CheckUser extends SpecialPage {
 	) {
 		global $wgMemc;
 		$out = $this->getOutput();
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_REPLICA );
 
 		// Invalid IPs are passed in as a blank string
 		$ip_conds = self::getIpConds( $dbr, $ip, $xfor );
@@ -1488,7 +1488,7 @@ class CheckUser extends SpecialPage {
 
 	protected static function userWasBlocked( $name ) {
 		$userpage = Title::makeTitle( NS_USER, $name );
-		return (bool)wfGetDB( DB_SLAVE )->selectField( 'logging', '1',
+		return (bool)wfGetDB( DB_REPLICA )->selectField( 'logging', '1',
 			[
 				'log_type' => [ 'block', 'suppress' ],
 				'log_action' => 'block',
@@ -1561,7 +1561,7 @@ class CheckUser extends SpecialPage {
 		if ( !$period ) {
 			return '1 = 1';
 		}
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_REPLICA );
 		$cutoff_unixtime = time() - ( $period * 24 * 3600 );
 		$cutoff_unixtime = $cutoff_unixtime - ( $cutoff_unixtime % 86400 );
 		$cutoff = $dbr->addQuotes( $dbr->timestamp( $cutoff_unixtime ) );
