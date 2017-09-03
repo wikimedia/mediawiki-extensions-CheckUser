@@ -9,7 +9,8 @@
 			"Waldir",
 			"555",
 			"Vitorvicentevalente",
-			"Fúlvio"
+			"Fúlvio",
+			"RadiX"
 		]
 	},
 	"checkuser-summary": "Esta ferramenta varre as mudanças recentes para obter os endereços IP de um utilizador ou para apresentar os dados de edições/utilizadores para um determinado IP.\nOs utilizadores e edições de um determinado IP, podem ser obtidos através de cabeçalhos XFF, acrescentando \"/xff\" no final do endereço.\nSão suportados endereços IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).\nPor motivos de desempenho não serão fornecidas mais do que 5000 edições.\nO uso desta ferramenta deverá respeitar as normas e recomendações.",
@@ -20,7 +21,7 @@
 	"checkuser-contribs": "verificar endereços IP do utilizador",
 	"checkuser-contribs-log": "verificações de utilizador recentes",
 	"group-checkuser": "Verificadores de utilizadores",
-	"group-checkuser-member": "{{GENDER:$1|verificador|verificadora}} de utilizadores",
+	"group-checkuser-member": "verificador{{GENDER:$1||a|(a)}} de contas",
 	"right-checkuser": "Verificar os endereços IP e outras informações de um utilizador",
 	"right-checkuser-log": "Ver o registo das verificações de utilizadores",
 	"action-checkuser": "verificar os endereços IP e outras informações de um utilizador",

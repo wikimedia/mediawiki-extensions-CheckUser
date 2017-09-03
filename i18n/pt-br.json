@@ -18,7 +18,8 @@
 			"He7d3r",
 			"Araceletorres",
 			"Macofe",
-			"Felipe L. Ewald"
+			"Felipe L. Ewald",
+			"RadiX"
 		]
 	},
 	"checkuser-summary": "Esta ferramenta varre as Mudanças recentes para obter os endereços de IP de um usuário ou para exibir os dados de edições/usuários para um IP.\nUsuários e edições podem ser obtidos por um IP XFF colocando-se \"/xff\" no final do endereço. São suportados endereços IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).\nNão serão retornadas mais de 5000 edições por motivos de desempenho. O uso desta ferramenta deverá estar de acordo com as políticas.",
@@ -29,7 +30,7 @@
 	"checkuser-contribs": "verificar IPs do usuário",
 	"checkuser-contribs-log": "verificações de usuário recentes",
 	"group-checkuser": "Verificadores",
-	"group-checkuser-member": "{{GENDER:$1|check user}}",
+	"group-checkuser-member": "verificador{{GENDER:$1||a|(a)}} de contas",
 	"right-checkuser": "Verificar os endereços de IP e outras informações dos usuários",
 	"right-checkuser-log": "Ver os registros das verificações",
 	"action-checkuser": "verificar os endereços IP do usuário e outras informações",
