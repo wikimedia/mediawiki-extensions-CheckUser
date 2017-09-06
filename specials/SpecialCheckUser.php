@@ -1518,43 +1518,25 @@ class CheckUser extends SpecialPage {
 
 	/**
 	 * @param IDatabase $db
-	 * @param string $ip
+	 * @param string $target an IP address or CIDR range
 	 * @param string|bool $xfor
 	 * @return array|false array for valid conditions, false if invalid
 	 */
-	public static function getIpConds( $db, $ip, $xfor = false ) {
+	public static function getIpConds( $db, $target, $xfor = false ) {
 		global $wgCheckUserCIDRLimit;
 		$type = $xfor ? 'xff' : 'ip';
-		$matches = [];
-		if ( preg_match( '#^(\d+\.\d+\.\d+\.\d+)/(\d+)$#', $ip, $matches ) ) {
-			// IPv4 CIDR, 16-32 bits
-			if ( $matches[2] < $wgCheckUserCIDRLimit['IPv4'] || $matches[2] > 32 ) {
-				return false; // invalid
+		if ( IP::isValidRange( $target ) ) {
+			list( $ip, $range ) = explode( '/', $target, 2 );
+			if ( ( IP::isIPv4( $ip ) && $range < $wgCheckUserCIDRLimit['IPv4'] ) ||
+				( IP::isIPv6( $ip ) && $range < $wgCheckUserCIDRLimit['IPv6'] ) ) {
+					return false; // range is too wide
 			}
-			list( $start, $end ) = IP::parseRange( $ip );
 			return [ 'cuc_' . $type . '_hex BETWEEN ' . $db->addQuotes( $start ) .
 				' AND ' . $db->addQuotes( $end ) ];
-		} elseif ( preg_match(
-			'#^\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}/(\d+)$#',
-			$ip, $matches )
-		) {
-			// IPv6 CIDR, 32-128 bits
-			if ( $matches[1] < $wgCheckUserCIDRLimit['IPv6'] || $matches[1] > 128 ) {
-				return false; // invalid
-			}
-			list( $start, $end ) = IP::parseRange( $ip );
-			return [ 'cuc_' . $type . '_hex BETWEEN ' . $db->addQuotes( $start ) .
-				' AND ' . $db->addQuotes( $end ) ];
-		} elseif (
-			// 32 bit IPv4
-			preg_match( '#^(\d+)\.(\d+)\.(\d+)\.(\d+)$#', $ip ) ||
-			// 128 bit IPv6
-			preg_match( '#^\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}$#', $ip )
-		) {
-			return [ "cuc_{$type}_hex" => IP::toHex( $ip ) ];
+		} elseif ( IP::isValid( $target ) ) {
+				return [ "cuc_{$type}_hex" => IP::toHex( $target ) ];
 		}
-		// Throw away this query, incomplete IP, these don't get through the entry point anyway
-		return false;
+		return false; // invalid IP
 	}
 
 	protected function getTimeConds( $period ) {
