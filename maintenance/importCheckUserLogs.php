@@ -115,7 +115,6 @@ class ImportCheckUserLogs extends Maintenance {
 				if ( !$this->hasOption( 'dry-run' ) ) {
 					$dbw = $this->getDB( DB_MASTER );
 					$fields = [
-						'cul_id' => $dbw->nextSequenceValue( 'cu_log_cul_id_seq' ),
 						'cul_timestamp' => $dbw->timestamp( $data['timestamp'] ),
 						'cul_user' => $user->getID(),
 						'cul_user_text' => $user->getName(),

@@ -55,9 +55,7 @@ class CheckUserHooks {
 		}
 
 		$dbw = wfGetDB( DB_MASTER );
-		$cuc_id = $dbw->nextSequenceValue( 'cu_changes_cu_id_seq' );
 		$rcRow = [
-			'cuc_id'         => $cuc_id,
 			'cuc_namespace'  => $attribs['rc_namespace'],
 			'cuc_title'      => $attribs['rc_title'],
 			'cuc_minor'      => $attribs['rc_minor'],
@@ -104,9 +102,7 @@ class CheckUserHooks {
 		// Get agent
 		$agent = $wgRequest->getHeader( 'User-Agent' );
 		$dbw = wfGetDB( DB_MASTER );
-		$cuc_id = $dbw->nextSequenceValue( 'cu_changes_cu_id_seq' );
 		$rcRow = [
-			'cuc_id'         => $cuc_id,
 			'cuc_namespace'  => NS_USER,
 			'cuc_title'      => '',
 			'cuc_minor'      => 0,
@@ -192,7 +188,6 @@ class CheckUserHooks {
 		$fname = __METHOD__;
 		DeferredUpdates::addCallableUpdate( function () use ( $rcRow, $fname ) {
 			$dbw = wfGetDB( DB_MASTER );
-			$rcRow['cuc_id'] = $dbw->nextSequenceValue( 'cu_changes_cu_id_seq' );
 			$dbw->insert( 'cu_changes', $rcRow, $fname );
 		} );
 
@@ -230,9 +225,7 @@ class CheckUserHooks {
 		// Get agent
 		$agent = $wgRequest->getHeader( 'User-Agent' );
 		$dbw = wfGetDB( DB_MASTER );
-		$cuc_id = $dbw->nextSequenceValue( 'cu_changes_cu_id_seq' );
 		$rcRow = [
-			'cuc_id'         => $cuc_id,
 			'cuc_page_id'    => 0,
 			'cuc_namespace'  => NS_USER,
 			'cuc_title'      => '',

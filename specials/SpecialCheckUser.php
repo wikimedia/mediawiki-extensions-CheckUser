@@ -1582,7 +1582,6 @@ class CheckUser extends SpecialPage {
 				$dbw->insert(
 					'cu_log',
 					[
-						'cul_id' => $dbw->nextSequenceValue( 'cu_log_cul_id_seq' ),
 						'cul_timestamp' => $dbw->timestamp( $timestamp )
 					] + $data,
 					__METHOD__
