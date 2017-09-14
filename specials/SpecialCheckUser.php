@@ -1527,6 +1527,7 @@ class CheckUser extends SpecialPage {
 		$type = $xfor ? 'xff' : 'ip';
 		if ( IP::isValidRange( $target ) ) {
 			list( $ip, $range ) = explode( '/', $target, 2 );
+			list( $start, $end ) = IP::parseRange( $target );
 			if ( ( IP::isIPv4( $ip ) && $range < $wgCheckUserCIDRLimit['IPv4'] ) ||
 				( IP::isIPv6( $ip ) && $range < $wgCheckUserCIDRLimit['IPv6'] ) ) {
 					return false; // range is too wide
