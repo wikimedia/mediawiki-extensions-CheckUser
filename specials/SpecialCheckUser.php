@@ -1074,12 +1074,34 @@ class CheckUser extends SpecialPage {
 				$s .= '<li>';
 				$s .= Xml::check( 'users[]', false, [ 'value' => $name ] ) . '&#160;';
 				// Load user object
-				$user = User::newFromName( $name, false );
+				$usernfn = User::newFromName( $name, false );
 				// Add user page and tool links
-				$s .= Linker::userLink( -1, $name ) . ' ';
+				if ( !IP::isIPAddress( $usernfn ) ) {
+					$idforlinknfn = -1;
+				} else {
+					$idforlinknfn = $users_ids[$name];
+				}
+				$user = User::newFromId( $users_ids[$name] );
+				$classnouser = false;
+				if ( IP::isIPAddress( $name ) !== IP::isIPAddress( $user ) ) {
+					// User does not exist
+					$idforlink = -1;
+					$classnouser = true;
+				} else {
+					$idforlink = $users_ids[$name];
+				}
+				if ( $classnouser === true ) {
+					$s .= '<span class=\'mw-checkuser-nonexistent-user\'>';
+				} else {
+					$s .= '<span>';
+				}
+				$s .= Linker::userLink( $idforlinknfn, $name, $name ) . '</span> ';
 				$ip = IP::isIPAddress( $name ) ? $name : '';
-				$linksMsgKey = $ip ? 'checkuser-userlinks-ip' : 'checkuser-userlinks';
-				$s .= $this->msg( $linksMsgKey, $name )->parse();
+				$s .= Linker::userToolLinksRedContribs(
+					$idforlink, $name, $user->getEditCount() ) . ' ';
+				if ( $ip ) {
+					$s .= $this->msg( 'checkuser-userlinks-ip', $name )->parse();
+				}
 				// Add CheckUser link
 				$s .= ' ' . $this->msg( 'parentheses' )->rawParams(
 					$this->getSelfLink(
@@ -1328,8 +1350,29 @@ class CheckUser extends SpecialPage {
 			$this->getLanguage()->time( wfTimestamp( TS_MW, $row->cuc_timestamp ), true, true )
 			. ' . . ';
 		// Userlinks
-		$line .= Linker::userLink( $row->cuc_user, $row->cuc_user_text );
-		$line .= Linker::userToolLinks( $row->cuc_user, $row->cuc_user_text );
+		$user = User::newFromId( $row->cuc_user );
+		if ( !IP::isIPAddress( $row->cuc_user_text ) ) {
+			$idforlinknfn = -1;
+		} else {
+			$idforlinknfn = $row->cuc_user;
+		}
+		$classnouser = false;
+		if ( IP::isIPAddress( $row->cuc_user_text ) !== IP::isIPAddress( $user ) ) {
+			// User does not exist
+			$idforlink = -1;
+			$classnouser = true;
+		} else {
+			$idforlink = $row->cuc_user;
+		}
+		if ( $classnouser === true ) {
+			$line .= '<span class=\'mw-checkuser-nonexistent-user\'>';
+		} else {
+			$line .= '<span>';
+		}
+		$line .= Linker::userLink(
+			$idforlinknfn, $row->cuc_user_text, $row->cuc_user_text ) . '</span>';
+		$line .= Linker::userToolLinksRedContribs(
+			$idforlink, $row->cuc_user_text, $user->getEditCount() );
 		// Get block info
 		if ( isset( $flagCache[$row->cuc_user_text] ) ) {
 			$flags = $flagCache[$row->cuc_user_text];
