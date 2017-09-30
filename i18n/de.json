@@ -48,6 +48,8 @@
 	"checkuser-nomatch": "Es wurden keine Übereinstimmungen gefunden.",
 	"checkuser-nomatch-edits": "Es wurde keine Übereinstimmungen gefunden.\nDie letzte Bearbeitung hat am $1 um $2 Uhr stattgefunden.",
 	"checkuser-check": "Abfragen",
+	"checkuser-check-this-user": "Diesen Benutzer überprüfen",
+	"checkuser-recent-checks": "Letzte Überprüfungen für diesen Benutzer",
 	"checkuser-log-fail": "Der Logbuch-Eintrag kann nicht hinzugefügt werden.",
 	"checkuser-nolog": "Es ist keine Logbuchdatei vorhanden.",
 	"checkuser-blocked": "gesperrt",

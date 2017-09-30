@@ -55,6 +55,8 @@
 	"checkuser-nomatch": "Recherches infructueuses.",
 	"checkuser-nomatch-edits": "Aucune occurrence trouvée. La dernière modification a eu lieu le $1 à $2.",
 	"checkuser-check": "Vérifier",
+	"checkuser-check-this-user": "Vérifier cet utilisateur",
+	"checkuser-recent-checks": "Dernières vérifications concernant cet utilisateur",
 	"checkuser-log-fail": "Impossible d’ajouter l’entrée du journal.",
 	"checkuser-nolog": "Aucun fichier journal trouvé.",
 	"checkuser-blocked": "Bloqué",

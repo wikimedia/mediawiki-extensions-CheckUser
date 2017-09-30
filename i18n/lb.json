@@ -39,6 +39,7 @@
 	"checkuser-nomatch": "Et goufe keng Iwwereneestëmmunge fonnt.",
 	"checkuser-nomatch-edits": "Et gouf näischt sou fonnt.\nDéi lescht Ännerung war de() $1 ëm $2.",
 	"checkuser-check": "Kontrolléieren",
+	"checkuser-check-this-user": "Dëse Benotzer iwwerpréiwen",
 	"checkuser-log-fail": "D'Aschreiwung an d'Logbuch konnt net gemaach ginn",
 	"checkuser-nolog": "D'Logbuch gouf net fonnt.",
 	"checkuser-blocked": "Gespaart",

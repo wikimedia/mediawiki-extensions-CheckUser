@@ -12,7 +12,8 @@
 			"Sp5uhe",
 			"Woytecr",
 			"Wpedzich",
-			"Chrumps"
+			"Chrumps",
+			"Krottyianock"
 		]
 	},
 	"checkuser-summary": "Narzędzie pozwala na ustalenie adresów IP, z których\nkorzystał użytkownik lub pokazać edycje i nazwy użytkowników edytujących z zadanego adresu IP.\n\nDodając parameter \"/xff\" do adresu IP można odnaleźć użytkowników i edycje przeszukując zapisane nagłówki XFF (X-Forwarded-For).\n\nObsługiwane są zakresy adresów IPv4 (maska CIDR $1-32) i IPv6 (CIDR $2-128).\n\nNarzędzie ze względów wydajnościowych pokazuje co najwyżej 5000 edycji.\n\nPamiętaj o korzystaniu z narzędzia zgodnie z zasadami.",
@@ -48,6 +49,7 @@
 	"checkuser-nomatch": "Brak wyników.",
 	"checkuser-nomatch-edits": "Brak wyników.\nOstatnia edycja została wykonana $1 o $2.",
 	"checkuser-check": "sprawdź",
+	"checkuser-check-this-user": "Sprawdź użytkownika",
 	"checkuser-log-fail": "Nie udało się dodać wpisu do rejestru",
 	"checkuser-nolog": "Nie znaleziono pliku rejestru.",
 	"checkuser-blocked": "Zablokowany",
