@@ -16,16 +16,22 @@ class SpecialCheckUserLog extends SpecialPage {
 
 		$out = $this->getOutput();
 		$request = $this->getRequest();
+		$this->target = trim( $request->getVal( 'cuSearch', $par ) );
 
 		if ( $this->getUser()->isAllowed( 'checkuser' ) ) {
 			$subtitleLink = $this->getLinkRenderer()->makeKnownLink(
 				SpecialPage::getTitleFor( 'CheckUser' ),
 				$this->msg( 'checkuser-showmain' )->text()
 			);
+			if ( !$this->target === false ) {
+				$subtitleLink .= ' | ' . $this->getLinkRenderer()->makeKnownLink(
+					SpecialPage::getTitleFor( 'CheckUser', $this->target ),
+					$this->msg( 'checkuser-check-this-user' )->text()
+				);
+			}
 			$out->addSubtitle( $subtitleLink );
 		}
 
-		$this->target = trim( $request->getVal( 'cuSearch', $par ) );
 		$type = $request->getVal( 'cuSearchType', 'target' );
 
 		$this->displaySearchForm();
