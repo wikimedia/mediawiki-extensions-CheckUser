@@ -1,8 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
-			"Mehtab ahmed"
+			"Mehtab ahmed",
+			"Indus Asia"
 		]
 	},
-	"checkuser-all": "سڀ"
+	"checkuser-all": "سڀ",
+	"checkuser-check-this-user": "هن واپرائيندڙ جي جانچ ڪيو (Check this user)"
 }

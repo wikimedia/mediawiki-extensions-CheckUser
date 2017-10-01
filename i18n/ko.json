@@ -50,6 +50,8 @@
 	"checkuser-nomatch": "일치하는 결과가 없습니다.",
 	"checkuser-nomatch-edits": "일치하는 결과가 없습니다.\n마지막 편집은 $1 $2에 있었습니다.",
 	"checkuser-check": "확인",
+	"checkuser-check-this-user": "이 사용자 검사",
+	"checkuser-recent-checks": "이 사용자의 최근 검사",
 	"checkuser-log-fail": "기록을 남길 수 없습니다",
 	"checkuser-nolog": "기록 파일이 없습니다.",
 	"checkuser-blocked": "차단됨",

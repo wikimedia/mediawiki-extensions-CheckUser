@@ -54,6 +54,8 @@
 	"checkuser-nomatch": "找不到匹配项目。",
 	"checkuser-nomatch-edits": "找不到匹配项目。最近一次编辑于$1$2。",
 	"checkuser-check": "查核",
+	"checkuser-check-this-user": "查核该用户",
+	"checkuser-recent-checks": "对该用户的最近查核",
 	"checkuser-log-fail": "无法更新日志。",
 	"checkuser-nolog": "找不到日志文件。",
 	"checkuser-blocked": "已封禁",

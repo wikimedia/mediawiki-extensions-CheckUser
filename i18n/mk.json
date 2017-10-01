@@ -40,6 +40,8 @@
 	"checkuser-nomatch": "Нема совпаѓања.",
 	"checkuser-nomatch-edits": "Нема совпаѓања.\nПоследното уредување се случило на $1 во $2.",
 	"checkuser-check": "Провери",
+	"checkuser-check-this-user": "Провери го корисников",
+	"checkuser-recent-checks": "Скорешни проверки на корисникот",
 	"checkuser-log-fail": "Не можам да додадам ставка во дневникот",
 	"checkuser-nolog": "Дневникот не е пронајден.",
 	"checkuser-blocked": "Блокиран",
