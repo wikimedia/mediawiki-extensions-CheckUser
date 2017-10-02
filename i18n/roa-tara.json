@@ -38,6 +38,8 @@
 	"checkuser-nomatch": "Non g'agghie acchiate ninde.",
 	"checkuser-nomatch-edits": "Non g'agghie acchiate ninde.<br />\nL'urteme cangiamende ha state fatte 'u $1 a le $2.",
 	"checkuser-check": "Verifiche",
+	"checkuser-check-this-user": "Condrolle stu utende",
+	"checkuser-recent-checks": "Urteme condrolle sus a stu utende",
 	"checkuser-log-fail": "'Mbossibbele aggiungiere 'a vôsce d'u reggistre",
 	"checkuser-nolog": "Nisciune archivije de file acchiate.",
 	"checkuser-blocked": "Bloccate",
