@@ -46,6 +46,8 @@
 	"checkuser-nomatch": "Não foram encontrados resultados.",
 	"checkuser-nomatch-edits": "Não foi encontrado nenhum resultado.\nA última edição foi a $1 às $2.",
 	"checkuser-check": "Verificar",
+	"checkuser-check-this-user": "Verificar este utilizador",
+	"checkuser-recent-checks": "Verificações recentes para este utilizador",
 	"checkuser-log-fail": "Não foi possível adicionar entradas ao registo",
 	"checkuser-nolog": "Não foi encontrado nenhum ficheiro de registos.",
 	"checkuser-blocked": "Bloqueado",
