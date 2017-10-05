@@ -42,6 +42,8 @@
 	"checkuser-nomatch": "לא נמצאו התאמות.",
 	"checkuser-nomatch-edits": "לא נמצאו התאמות.\nהעריכה האחרונה בוצעה ב־$1 ב־$2.",
 	"checkuser-check": "בדיקה",
+	"checkuser-check-this-user": "בדיקת המשתמש הזה",
+	"checkuser-recent-checks": "בדיקות אחרונות עבור המשתמש הזה",
 	"checkuser-log-fail": "לא היה ניתן להוסיף פריט ליומן",
 	"checkuser-nolog": "לא נמצא קובץ יומן.",
 	"checkuser-blocked": "חסום",
