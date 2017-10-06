@@ -44,6 +44,8 @@
 	"checkuser-nomatch": "لم يتم العثور على مدخلات مطابقة.",
 	"checkuser-nomatch-edits": "لا تطابق تم العثور عليه.\nآخر تعديل كان في $1 الساعة $2.",
 	"checkuser-check": "فحص",
+	"checkuser-check-this-user": "دقق هذا المستخدم",
+	"checkuser-recent-checks": "تدقيقات المستخدم الأخيرة",
 	"checkuser-log-fail": "غير قادر على إضافة مدخلة للسجل",
 	"checkuser-nolog": "لم يتم العثور على ملف سجل.",
 	"checkuser-blocked": "ممنوع",
@@ -84,7 +86,12 @@
 	"checkuser-create-action": "تم إنشاؤه",
 	"checkuser-email-action": "أرسل بريدا إلكترونيا إلى \"$1\"",
 	"checkuser-reset-action": "أعد ضبط كلمة السر للمستخدم \"$1\"",
+	"checkuser-userlinks-ip": "([[نقاش_المستخدم:$1|نقاش]] | [[خاص:مساهمات/$1|مساهمات]] | [[خاص:منع/$1|منع]] | <span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/RDNS]</span>)",
+	"checkuser-userlinks": "([[نقاش_المستخدم:$1|نقاش]] | [[خاص:مساهمات/$1|مساهمات]] | [[خاص:منع/$1|منع]])",
+	"checkuser-token-fail": "فشلت الجلسة. يُرجى المحاولة مرة أخرى.",
 	"apihelp-query+checkuser-param-reason": "السبب للتحقق.",
 	"apihelp-query+checkuser-param-limit": "حد الصفوف",
-	"apihelp-query+checkuserlog-param-limit": "حد الصفوف"
+	"apihelp-query+checkuserlog-param-limit": "حد الصفوف",
+	"apierror-checkuser-missingsummary": "يجب عليك تحديد سبب لهذا التدقيق.",
+	"apierror-checkuser-invalidmode": "وضع الطلب غير صالح"
 }
