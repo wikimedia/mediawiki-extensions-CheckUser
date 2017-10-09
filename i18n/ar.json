@@ -87,7 +87,6 @@
 	"checkuser-email-action": "أرسل بريدا إلكترونيا إلى \"$1\"",
 	"checkuser-reset-action": "أعد ضبط كلمة السر للمستخدم \"$1\"",
 	"checkuser-userlinks-ip": "([[نقاش_المستخدم:$1|نقاش]] | [[خاص:مساهمات/$1|مساهمات]] | [[خاص:منع/$1|منع]] | <span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/RDNS]</span>)",
-	"checkuser-userlinks": "([[نقاش_المستخدم:$1|نقاش]] | [[خاص:مساهمات/$1|مساهمات]] | [[خاص:منع/$1|منع]])",
 	"checkuser-token-fail": "فشلت الجلسة. يُرجى المحاولة مرة أخرى.",
 	"apihelp-query+checkuser-param-reason": "السبب للتحقق.",
 	"apihelp-query+checkuser-param-limit": "حد الصفوف",
