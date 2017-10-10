@@ -82,7 +82,6 @@
 	"checkuser-create-action": "ha state ccrejate",
 	"checkuser-email-action": "mannate 'na mail a l'utende \"$1\"",
 	"checkuser-reset-action": "azzere 'a password pe l'utende \"$1\"",
-	"checkuser-userlinks-ip": "([[User_talk:$1|'ngazzaminde]] | [[Special:Contributions/$1|condrebbute]] | [[Special:Block/$1|blocche]] | <span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/RDNS]</span>)",
 	"checkuser-token-fail": "Sessione fallite. Pruève arrete.",
 	"apihelp-query+checkuser-description": "Verifiche quale IP so ausate da 'nu certe nome utende o quale nome de utinde so ausate da 'nu certe IP.",
 	"apihelp-query+checkuser-summary": "Verifiche quale IP so ausate da 'nu certe nome utende o quale nome de utinde so ausate da 'nu certe IP.",

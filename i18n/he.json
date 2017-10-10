@@ -86,7 +86,6 @@
 	"checkuser-create-action": "נוצר",
 	"checkuser-email-action": "נשלח דואר אלקטרוני למשתמש \"$1\"",
 	"checkuser-reset-action": "איפס את הסיסמה של המשתמש \"$1\"",
-	"checkuser-userlinks-ip": "([[User_talk:$1|שיחה]] | [[Special:Contributions/$1|תרומות]] | [[Special:Block/$1|חסימה]] | <span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/RDNS]</span>)",
 	"checkuser-token-fail": "כשל שיחה. נא לנסות שוב.",
 	"group-checkuser.css": "/* הסגנונות הנכתבים כאן ישפיעו על בודקים בלבד */",
 	"group-checkuser.js": "/* כל הסקריפטים הנכתבים כאן ייטענו עבור בודקים בלבד */",

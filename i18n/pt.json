@@ -90,7 +90,6 @@
 	"checkuser-create-action": "foi criada",
 	"checkuser-email-action": "correio eletrónico enviado para o utilizador \"$1\"",
 	"checkuser-reset-action": "foi reiniciada a palavra-passe do utilizador \"$1\"",
-	"checkuser-userlinks-ip": "([[User_talk:$1|discussão]] | [[Special:Contributions/$1|contribs]] | [[Special:Block/$1|bloquear]] | <span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/RDNS]</span>)",
 	"checkuser-token-fail": "Falha na sessão. Por favor, tente novamente.",
 	"apihelp-query+checkuser-description": "Verificar que endereços IP são usados por determinado nome de utilizador ou que nomes de utilizador são usados por um determinado endereço IP.",
 	"apihelp-query+checkuser-summary": "Verificar que endereços IP são usados por determinado nome de utilizador ou que nomes de utilizador são usados por um determinado endereço IP.",
