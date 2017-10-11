@@ -98,8 +98,6 @@
 	"checkuser-create-action": "已创建",
 	"checkuser-email-action": "向用户“$1”发送电邮",
 	"checkuser-reset-action": "为用户“$1”重置密码",
-	"checkuser-userlinks-ip": "（[[User_talk:$1|讨论]] | [[Special:Contributions/$1|贡献]] | [[Special:Block/$1|封禁]] | <span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/RDNS]</span>）",
-	"checkuser-userlinks": "（[[User_talk:$1|讨论]] | [[Special:Contributions/$1|贡献]] | [[Special:Block/$1|封禁]]）",
 	"checkuser-token-fail": "会话故障。请重新尝试。",
 	"group-checkuser.css": "/* 这里放置的CSS将只影响用户查核员 */",
 	"group-checkuser.js": "/* 这里放置的JS将只影响用户查核员 */",

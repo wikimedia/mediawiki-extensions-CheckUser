@@ -19,7 +19,8 @@
 			"Araceletorres",
 			"Macofe",
 			"Felipe L. Ewald",
-			"RadiX"
+			"RadiX",
+			"Eduardo Addad de Oliveira"
 		]
 	},
 	"checkuser-summary": "Esta ferramenta varre as mudanças recentes para obter os endereços de IP de um usuário ou para exibir os dados de edições/usuários para um IP.\nUsuários e edições podem ser obtidos por um IP XFF colocando-se \"/xff\" no final do endereço. São suportados endereços IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).\nNão serão retornadas mais de 5000 edições por motivos de desempenho. O uso desta ferramenta deverá estar de acordo com as políticas.",
@@ -55,6 +56,8 @@
 	"checkuser-nomatch": "Não foram encontrados resultados.",
 	"checkuser-nomatch-edits": "Nenhum resultado encontrado.\nA última edição foi em $1 às $2.",
 	"checkuser-check": "Verificar",
+	"checkuser-check-this-user": "Verificar este usuário",
+	"checkuser-recent-checks": "Verificações recentes para este usuário",
 	"checkuser-log-fail": "Não foi possível adicionar entradas ao registro",
 	"checkuser-nolog": "Não foi encontrado um arquivo de registros.",
 	"checkuser-blocked": "Bloqueado",
@@ -97,8 +100,6 @@
 	"checkuser-create-action": "foi criada",
 	"checkuser-email-action": "enviar email para o usuário \"$1\"",
 	"checkuser-reset-action": "suprimir a senha do usuário \"$1\"",
-	"checkuser-userlinks-ip": "([[User_talk:$1|discussão]] | [[Special:Contributions/$1|contribuições]] | [[Special:Block/$1|bloqueio]] | <span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/RDNS]</span>)",
-	"checkuser-userlinks": "([[User_talk:$1|discussão]] | [[Special:Contributions/$1|contribuições]] | [[Special:Block/$1|bloqueio]])",
 	"checkuser-token-fail": "Falha na sessão. Por favor, tente novamente.",
 	"group-checkuser.css": "/* CSS colocado aqui afetará apenas checkuser */",
 	"group-checkuser.js": "/* JS colocado aqui afetará o usuário do checkeruser */",
