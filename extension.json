@@ -19,7 +19,7 @@
 		"@doc": "see CheckUser.php",
 		"CheckUserCIDRLimit": {
 			"IPv4": 16,
-			"IPv6": 32
+			"IPv6": 19
 		},
 		"CheckUserMaxBlocks": 200,
 		"CUPublicKey": "",
