@@ -1107,6 +1107,10 @@ class CheckUser extends SpecialPage {
 					$idforlink, $name, $user->getEditCount() ) . ' ';
 				if ( $ip ) {
 					$s .= $this->msg( 'checkuser-userlinks-ip', $name )->parse();
+				} elseif ( !$classnouser ) {
+					if ( $this->msg( 'checkuser-userlinks' )->exists() ) {
+						$s .= ' ' . $this->msg( 'checkuser-userlinks', $name )->parse();
+					}
 				}
 				// Add CheckUser link
 				$s .= ' ' . $this->msg( 'parentheses' )->rawParams(
