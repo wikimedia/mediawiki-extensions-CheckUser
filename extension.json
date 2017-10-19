@@ -25,7 +25,9 @@
 		"CUPublicKey": "",
 		"CUDMaxAge": 7776000,
 		"CheckUserForceSummary": false,
-		"CheckUserCAMultiLock": false
+		"CheckUserCAMultiLock": false,
+		"CheckUserCAtoollink":false,
+		"CheckUserGBtoollink":false
 	},
 	"APIListModules": {
 		"checkuser": "ApiQueryCheckUser",
