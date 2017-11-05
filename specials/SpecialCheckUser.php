@@ -928,7 +928,7 @@ class CheckUser extends SpecialPage {
 	protected function doIPUsersRequest(
 		$ip, $xfor = false, $reason = '', $period = 0, $tag = '', $talkTag = ''
 	) {
-		global $wgMemc;
+		global $wgMemc, $wgCheckUserCAtoollink, $wgCheckUserGBtoollink;
 		$out = $this->getOutput();
 		$dbr = wfGetDB( DB_REPLICA );
 
@@ -1122,6 +1122,94 @@ class CheckUser extends SpecialPage {
 						]
 					)
 				)->escaped();
+				// Add global user tools links
+				$linkrenderer = $this->getLinkRenderer();
+				$splang = $this->getLanguage();
+				$aliases = $splang->getSpecialPageAliases();
+				// Add CentralAuth link for real registered users
+				if ( class_exists( 'CentralAuthUser' ) && !IP::isIPAddress( $name )
+					&& !$classnouser && $wgCheckUserCAtoollink !== false
+				) {
+					// Get CentralAuth SpecialPage name in UserLang from the first Alias name
+					$spca = $aliases['CentralAuth'][0];
+					$calinkAlias = str_replace( '_', ' ', $spca );
+					$centralCAUrl = WikiMap::getForeignURL(
+						$wgCheckUserCAtoollink,
+						'Special:CentralAuth'
+					);
+					if ( $centralCAUrl === false ) {
+						throw new Exception(
+							'Could not retrieve URL for {$wgCheckUserCAtoollink}'
+						);
+					}
+					$linkCA = Html::element( 'a',
+						[
+							'href' => $centralCAUrl . "/" . $name,
+							'title' => wfMessage( 'centralauth' ),
+						],
+						$calinkAlias
+					);
+					$s .= ' ' . $this->msg( 'parentheses', $linkCA )->plain();
+				}
+				// Add Globalblocking link link to CentralWiki
+				if ( class_exists( 'GlobalBlocking' ) && IP::isIPAddress( $name )
+					&& $wgCheckUserGBtoollink !== false
+				) {
+					// Get GlobalBlock SpecialPage name in UserLang from the first Alias name
+					$centralGBUrl = WikiMap::getForeignURL(
+						$wgCheckUserGBtoollink['centralDB'],
+						'Special:GlobalBlock'
+					);
+					$spgb = $aliases['GlobalBlock'][0];
+					$gblinkAlias = str_replace( '_', ' ', $spgb );
+					if ( class_exists( 'CentralAuthUser' ) ) {
+						$gbUserGroups = CentralAuthUser::getInstance( $this->getUser() )->getGlobalGroups();
+						// Link to GB via WikiMap since CA require it
+						if ( $centralGBUrl === false ) {
+							throw new Exception(
+								'Could not retrieve URL for {$wgCheckUserGBtoollink}'
+							);
+						}
+						$linkGB = Html::element( 'a',
+							[
+								'href' => $centralGBUrl . "/" . $name,
+								'title' => wfMessage( 'globalblocking-block-submit' ),
+							],
+							$gblinkAlias
+						);
+					} elseif ( $centralGBUrl !== false ) {
+						// Case wikimap configured whithout CentralAuth extension
+						$this->user = $this->getUser();
+						// Get effective Local user groups since there is a wikimap but there is no CA
+						$gbUserGroups = $this->user->getEffectiveGroups();
+						$linkGB = Html::element( 'a',
+							[
+								'href' => $centralGBUrl . "/" . $name,
+								'title' => wfMessage( 'globalblocking-block-submit' ),
+							],
+							$gblinkAlias
+						);
+					} else {
+						// Load local user group instead
+						$gbUserGroups[] = '';
+						$this->user = $this->getUser();
+						$gbtitle = $this->getTitleFor( 'GlobalBlock' );
+						$linkGB = $linkrenderer->makeKnownLink(
+							$gbtitle,
+							$gblinkAlias,
+							[ 'title' => wfMessage( 'globalblocking-block-submit' ) ]
+						);
+						$gbUserCanDo = $this->user->isAllowed( 'globalblock' );
+						if ( $gbUserCanDo === true ) {
+							$wgCheckUserGBtoollink['groups'] = $gbUserGroups;
+						}
+					}
+					// Only load the script for users in the configured global(local) group(s) or
+					// for local user with globalblock permission if there is no WikiMap
+					if ( count( array_intersect( $wgCheckUserGBtoollink['groups'], $gbUserGroups ) ) ) {
+						$s .= ' ' . $this->msg( 'parentheses', $linkGB )->plain();
+					}
+				}
 				// Show edit time range
 				$s .= ' ' . $this->getTimeRangeString( $users_first[$name], $users_last[$name] ) . ' ';
 				// Total edit count
