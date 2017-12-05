@@ -68,7 +68,5 @@
 	"checkuser-autocreate-action": "యాంత్రికంగా సృష్టించబడింది",
 	"checkuser-create-action": "సృష్టించిన తేదీ",
 	"checkuser-email-action": "వాడుకరి \"$1\"కి ఈమెయిలు పంపించాం",
-	"checkuser-reset-action": "\"$1\" వాడుకరి సంకేతపదం రీసెట్ చెయ్యి",
-	"checkuser-userlinks-ip": "([[User_talk:$1|చర్చ]] | [[Special:Contributions/$1|రచనలు]] | [[Special:Block/$1|నిరోధించు]] | <span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/RDNS]</span>)",
-	"checkuser-userlinks": "([[User_talk:$1|చర్చ]] | [[Special:Contributions/$1|రచనలు]] | [[Special:Block/$1|నిరోధించు]])"
+	"checkuser-reset-action": "\"$1\" వాడుకరి సంకేతపదం రీసెట్ చెయ్యి"
 }

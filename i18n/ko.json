@@ -94,8 +94,6 @@
 	"checkuser-create-action": "만들어졌습니다",
 	"checkuser-email-action": "\"$1\" 사용자에게 이메일을 보냈습니다",
 	"checkuser-reset-action": "\"$1\" 사용자의 비밀번호를 재설정했습니다",
-	"checkuser-userlinks-ip": "([[User_talk:$1|토론]] | [[Special:Contributions/$1|기여]] | [[Special:Block/$1|차단]] | <span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/RDNS]</span>)",
-	"checkuser-userlinks": "([[User_talk:$1|토론]] | [[Special:Contributions/$1|기여]] | [[Special:Block/$1|차단]])",
 	"checkuser-token-fail": "세션 실패. 다시 시도하십시오.",
 	"group-checkuser.css": "/* 이 CSS 설정은 검사관에만 적용됩니다 */",
 	"group-checkuser.js": "/* 이 자바스크립트 설정은 검사관에만 적용됩니다 */",

@@ -99,8 +99,6 @@
 	"checkuser-create-action": "создан",
 	"checkuser-email-action": "отправил письмо участнику «$1»",
 	"checkuser-reset-action": "сбросил пароль для участника $1",
-	"checkuser-userlinks-ip": "([[User_talk:$1|обсуждение]] | [[Special:Contributions/$1|вклад]] | [[Special:Block/$1|заблокировать]] | <span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/RDNS]</span>)",
-	"checkuser-userlinks": "([[User_talk:$1|обсуждение]] | [[Special:Contributions/$1|вклад]] | [[Special:Block/$1|заблокировать]])",
 	"checkuser-token-fail": "Сеанс прерван. Пожалуйста, попробуйте еще раз.",
 	"apihelp-query+checkuser-description": "Проверить, какие IP-адреса используются данным именем участника или какие имена участников используются заданным IP-адресом.",
 	"apihelp-query+checkuser-summary": "Проверить, какие IP-адреса используются данным именем участника или какие имена участников используются заданным IP-адресом.",

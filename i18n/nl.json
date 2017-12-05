@@ -85,8 +85,6 @@
 	"checkuser-create-action": "is aangemaakt",
 	"checkuser-email-action": "heeft een e-mail gestuurd aan \"$1\"",
 	"checkuser-reset-action": "heeft het wachtwoord voor gebruiker \"$1\" opnieuw ingesteld",
-	"checkuser-userlinks-ip": "([[User_talk:$1|overleg]] | [[Special:Contributions/$1|bijdragen]] | [[Special:Block/$1|blokkeren]] | <span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/RDNS]</span>)",
-	"checkuser-userlinks": "([[User_talk:$1|overleg]] | [[Special:Contributions/$1|bijdragen]] | [[Special:Block/$1|blokkeren]])",
 	"checkuser-token-fail": "Sessie is mislukt. Probeer het opnieuw.",
 	"apihelp-query+checkuser-description": "Controleer welke IP-adressen gebruikt worden door een opgegeven gebruikersnaam of welke gebruikersnamen worden gebruikt door een opgegeven IP-adres.",
 	"apihelp-query+checkuser-param-request": "Type van het CheckUserverzoek:\n;userips:IP-adres van de doelgebruiker ophalen.\n;edits:Wijzigingen van IP-adres of IP-adresreeks ophalen.\n;ipusers:Gebruikers van IP-adres of IP-adresreeks ophalen.",

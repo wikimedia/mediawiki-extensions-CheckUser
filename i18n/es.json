@@ -105,8 +105,6 @@
 	"checkuser-create-action": "se creó",
 	"checkuser-email-action": "envió un correo electrónico {{GENDER:$1|al usuario|a la usuaria}} «$1»",
 	"checkuser-reset-action": "restableció la contraseña {{GENDER:$1|del usuario|de la usuaria}} «$1»",
-	"checkuser-userlinks-ip": "([[User_talk:$1|discusión]] | [[Special:Contributions/$1|contribuciones]] | [[Special:Block/$1|bloquear]] | <span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/RDNS]</span>)",
-	"checkuser-userlinks": "([[User_talk:$1|discusión]] | [[Special:Contributions/$1|contribuciones]] | [[Special:Block/$1|bloquear]])",
 	"checkuser-token-fail": "Fallo en la sesión. Intenta de nuevo.",
 	"group-checkuser.css": "/* El código CSS colocado aquí sólo afectará a los usuarios con permisos de checkuser */",
 	"group-checkuser.js": "/* El código JavaScript colocado en esta página sólo afectará a los usuarios con permisos de checkuser */",

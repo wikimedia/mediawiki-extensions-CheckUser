@@ -19,7 +19,6 @@
 	"checkuser-users": "Sækja notendur",
 	"checkuser-edits": "Sækja breytingar",
 	"checkuser-ips": "Sækja vistföng",
-	"checkuser-search": "Leita",
 	"checkuser-all": "allt",
 	"checkuser-nomatch": "Engin samsvörun fannst.",
 	"checkuser-check": "Athuga",
@@ -27,5 +26,6 @@
 	"checkuser-blocked": "Bannaður",
 	"checkuser-locked": "Læstur",
 	"checkuser-accounts": "$1 {{PLURAL:$1|nýr aðgangur|nýir aðgangar}}",
+	"checkuser-search": "Leita",
 	"checkuser-search-submit": "Leita"
 }

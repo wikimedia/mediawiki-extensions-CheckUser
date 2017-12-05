@@ -79,8 +79,6 @@
 	"checkuser-create-action": "ha essite create",
 	"checkuser-email-action": "inviava un e-mail al usator \"$1\"",
 	"checkuser-reset-action": "redefiniva contrasigno pro usator \"$1\"",
-	"checkuser-userlinks-ip": "([[User_talk:$1|discussion]] | [[Special:Contributions/$1|contributiones]] | [[Special:Block/$1|blocar]] | <span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/RDNS]</span>)",
-	"checkuser-userlinks": "([[User_talk:$1|discussion]] | [[Special:Contributions/$1|contributiones]] | [[Special:Block/$1|blocar]])",
 	"checkuser-token-fail": "Session fallite. Per favor, essaya de novo.",
 	"apihelp-query+checkuser-description": "Verificar qual nomines de usator usa un adresse IP date o qual adresses IP usa un nomine de usator date.",
 	"apihelp-query+checkuser-summary": "Verificar qual nomines de usator usa un adresse IP date o qual adresses IP usa un nomine de usator date.",

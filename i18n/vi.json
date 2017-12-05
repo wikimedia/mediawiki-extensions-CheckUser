@@ -80,8 +80,6 @@
 	"checkuser-create-action": "được tạo ra",
 	"checkuser-email-action": "gửi thư điện tử cho người dùng “$1”",
 	"checkuser-reset-action": "tái tạo mật khẩu của người dùng “$1”",
-	"checkuser-userlinks-ip": "([[User_talk:$1|thảo luận]] | [[Special:Contributions/$1|đóng góp]] | [[Special:Block/$1|cấm]] | <span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/rDNS]</span>)",
-	"checkuser-userlinks": "([[User_talk:$1|thảo luận]] | [[Special:Contributions/$1|đóng góp]] | [[Special:Block/$1|cấm]])",
 	"checkuser-token-fail": "Phiên làm việc bị thất bại. Xin hãy thử lại.",
 	"group-checkuser.css": "/* Mã CSS tại đây sẽ chỉ ảnh hưởng đến các kiểm tra viên */",
 	"group-checkuser.js": "/* Mã JS tại đây sẽ chỉ ảnh hưởng đến các kiểm tra viên */",
