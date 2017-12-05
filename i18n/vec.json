@@ -58,7 +58,7 @@
 	"checkuser-search-initiator": "iniziator",
 	"checkuser-search-target": "obietivo",
 	"checkuser-ipeditcount": "~$1 par tuti i utenti",
-	"checkuser-showmain": "!!FUZZY!!Torna al modulo prinçipal de Controlo utenze",
+	"checkuser-showmain": "Torna al modulo prinçipal de Controlo utenze",
 	"checkuser-limited": "'''Sti risultati i xe stà tajà a metà par motivi de prestazion.'''",
 	"checkuser-autocreate-action": "xe stà creà automaticamente",
 	"checkuser-email-action": "gà mandà na e-mail a \"$1\"",

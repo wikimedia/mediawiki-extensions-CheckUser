@@ -63,7 +63,7 @@
 	"checkuser-search-initiator": "aanvraer",
 	"checkuser-search-target": "teiken",
 	"checkuser-ipeditcount": "~$1 van alle gebruikers",
-	"checkuser-showmain": "!!FUZZY!!Terug na Check User belangrikste vorm",
+	"checkuser-showmain": "Terug na Check User belangrikste vorm",
 	"checkuser-limited": "'''Hierdie resultate is vir prestasieredes afgekap.'''",
 	"checkuser-autocreate-action": "is outomaties geskep",
 	"checkuser-create-action": "is geskep",
