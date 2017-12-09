@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Test class for CheckUser class
+ * Test class for SpecialCheckUser class
  *
  * @group CheckUser
  * @group Database
  *
- * @covers CheckUser
+ * @covers SpecialCheckUser
  */
-class CheckUserTest extends MediaWikiTestCase {
+class SpecialCheckUserTest extends MediaWikiTestCase {
 
 	function __construct( $name = null, array $data = [], $dataName = '' ) {
 		parent::__construct( $name, $data, $dataName );
@@ -41,7 +41,7 @@ class CheckUserTest extends MediaWikiTestCase {
 	}
 
 	/**
-	 * @covers CheckUser::getIpConds
+	 * @covers SpecialCheckUser::getIpConds
 	 * @dataProvider provideGetIpConds
 	 */
 	public function testGetIpConds( $target, $expected ) {
@@ -49,12 +49,12 @@ class CheckUserTest extends MediaWikiTestCase {
 
 		$this->assertEquals(
 			$expected,
-			CheckUser::getIpConds( $dbr, $target )
+			SpecialCheckUser::getIpConds( $dbr, $target )
 		);
 	}
 
 	/**
-	 * Test cases for CheckUser::getIpConds
+	 * Test cases for SpecialCheckUser::getIpConds
 	 * @return array
 	 */
 	public function provideGetIpConds() {

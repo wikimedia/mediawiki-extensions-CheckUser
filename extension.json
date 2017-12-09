@@ -105,13 +105,13 @@
 		"checkuser-log"
 	],
 	"SpecialPages": {
-		"CheckUser": "CheckUser",
+		"CheckUser": "SpecialCheckUser",
 		"CheckUserLog": "SpecialCheckUserLog"
 	},
 	"AutoloadClasses": {
-		"CheckUser": "specials/SpecialCheckUser.php",
-		"CheckUserHooks": "CheckUser.hooks.php",
+		"CheckUserHooks": "CheckUserHooks.php",
 		"CheckUserLogPager": "CheckUserLogPager.php",
+		"SpecialCheckUser": "specials/SpecialCheckUser.php",
 		"SpecialCheckUserLog": "specials/SpecialCheckUserLog.php",
 		"CheckUserEncryptedData": "CheckUserEncryptedData.php",
 		"ApiQueryCheckUser": "api/ApiQueryCheckUser.php",
