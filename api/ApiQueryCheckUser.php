@@ -90,7 +90,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$resultIPs[] = $data;
 				}
 
-				CheckUser::addLogEntry( 'userips', 'user', $target, $reason, $user_id );
+				SpecialCheckUser::addLogEntry( 'userips', 'user', $target, $reason, $user_id );
 				$result->addValue( [
 					'query', $this->getModuleName() ], 'userips', $resultIPs );
 				$result->addIndexedTagName( [
@@ -99,7 +99,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 
 			case 'edits':
 				if ( IP::isIPAddress( $target ) ) {
-					$cond = CheckUser::getIpConds( $db, $target, isset( $xff ) );
+					$cond = SpecialCheckUser::getIpConds( $db, $target, isset( $xff ) );
 					if ( !$cond ) {
 						if ( is_callable( [ $this, 'dieWithError' ] ) ) {
 							$this->dieWithError( 'apierror-badip', 'invalidip' );
@@ -162,7 +162,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$edits[] = $edit;
 				}
 
-				CheckUser::addLogEntry( $log_type[0], $log_type[1],
+				SpecialCheckUser::addLogEntry( $log_type[0], $log_type[1],
 					$target, $reason, isset( $user_id ) ? $user_id : '0' );
 				$result->addValue( [
 					'query', $this->getModuleName() ], 'edits', $edits );
@@ -172,7 +172,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 
 			case 'ipusers':
 				if ( IP::isIPAddress( $target ) ) {
-					$cond = CheckUser::getIpConds( $db, $target, isset( $xff ) );
+					$cond = SpecialCheckUser::getIpConds( $db, $target, isset( $xff ) );
 					$this->addWhere( $cond );
 					$log_type = 'ipusers';
 					if ( isset( $xff ) ) {
@@ -224,7 +224,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$resultUsers[] = $userData;
 				}
 
-				CheckUser::addLogEntry( $log_type, 'ip', $target, $reason );
+				SpecialCheckUser::addLogEntry( $log_type, 'ip', $target, $reason );
 				$result->addValue( [
 					'query', $this->getModuleName() ], 'ipusers', $resultUsers );
 				$result->addIndexedTagName( [

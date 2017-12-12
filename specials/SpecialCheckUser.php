@@ -1,6 +1,6 @@
 <?php
 
-class CheckUser extends SpecialPage {
+class SpecialCheckUser extends SpecialPage {
 	/**
 	 * @var null|array $message Used to cache frequently used messages
 	 */
