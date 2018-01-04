@@ -7,7 +7,7 @@
 	],
 	"url": "https://www.mediawiki.org/wiki/Extension:CheckUser",
 	"descriptionmsg": "checkuser-desc",
-	"license-name": "GPL-2.0+",
+	"license-name": "GPL-2.0-or-later",
 	"type": "specialpage",
 	"requires": {
 		"MediaWiki": ">= 1.30.0"
