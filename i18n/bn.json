@@ -83,7 +83,7 @@
 	"checkuser-log-entry-useredits": "$3, $1 $2-এর জন্য সম্পাদনাগুলি পেয়েছেন",
 	"checkuser-autocreate-action": "স্বয়ংক্রিয়ভাবে তৈরি হয়েছিলো",
 	"checkuser-create-action": "তৈরি করা হয়েছে",
-	"checkuser-email-action": "ব্যবহারকারী \"$1\"-এর কাছে একটি ই-মেইল পাঠাও",
+	"checkuser-email-action": "ব্যবহারকারী \"$1\" কে একটি ই-মেইল পাঠিয়েছে",
 	"checkuser-reset-action": "ব্যবহারকারী \"$1\"-এর জন্য পাসওয়ার্ড পুনঃস্থাপন করো",
 	"checkuser-token-fail": "সেশন ব্যর্থতা। অনুগ্রহপূর্বক আবার চেষ্টা করুন।",
 	"apihelp-query+checkuser-param-reason": "পরীক্ষার কারণ।"
