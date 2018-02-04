@@ -16,7 +16,6 @@
 		"CheckUserAliases": "CheckUser.alias.php"
 	},
 	"config": {
-		"@doc": "see CheckUser.php",
 		"CheckUserCIDRLimit": {
 			"IPv4": 16,
 			"IPv6": 19
@@ -26,8 +25,9 @@
 		"CUDMaxAge": 7776000,
 		"CheckUserForceSummary": false,
 		"CheckUserCAMultiLock": false,
-		"CheckUserCAtoollink":false,
-		"CheckUserGBtoollink":false
+		"CheckUserCAtoollink": false,
+		"CheckUserGBtoollink": false,
+		"CheckUserLogLogins": false
 	},
 	"APIListModules": {
 		"checkuser": "ApiQueryCheckUser",
@@ -66,6 +66,9 @@
 		],
 		"PerformRetroactiveAutoblock": [
 			"CheckUserHooks::doRetroactiveAutoblock"
+		],
+		"AuthManagerLoginAuthenticateAudit": [
+			"CheckUserHooks::onAuthManagerLoginAuthenticateAudit"
 		]
 	},
 	"MessagesDirs": {

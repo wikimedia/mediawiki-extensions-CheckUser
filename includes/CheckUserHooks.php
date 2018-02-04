@@ -1,6 +1,7 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Auth\AuthenticationResponse;
 
 class CheckUserHooks {
 	/**
@@ -247,6 +248,69 @@ class CheckUserHooks {
 		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
 
 		return true;
+	}
+
+	/**
+	 * @param AuthenticationResponse $ret
+	 * @param User $user
+	 * @param string $username
+	 */
+	public static function onAuthManagerLoginAuthenticateAudit(
+		AuthenticationResponse $ret, $user, $username
+	) {
+		global $wgRequest, $wgCheckUserLogLogins;
+
+		if ( !$wgCheckUserLogLogins ) {
+			return;
+		}
+
+		if ( !$user ) {
+			$user = User::newFromName( $username, 'usable' );
+		}
+
+		if ( !$user ) {
+			return;
+		}
+
+		if ( $ret->status === AuthenticationResponse::FAIL ) {
+			$msg = 'checkuser-login-failure';
+		} elseif ( $ret->status === AuthenticationResponse::PASS ) {
+			$msg = 'checkuser-login-success';
+		} else {
+			// Abstain, Redirect, etc.
+			return;
+		}
+
+		$ip = $wgRequest->getIP();
+		$xff = $wgRequest->getHeader( 'X-Forwarded-For' );
+		list( $xff_ip, $isSquidOnly ) = self::getClientIPfromXFF( $xff );
+		$agent = $wgRequest->getHeader( 'User-Agent' );
+		$userName = $user->getName();
+		$target = "[[User:$userName|$userName]]";
+		$msg = wfMessage( $msg );
+		$msg->params( $target );
+
+		$dbw = wfGetDB( DB_MASTER );
+		$rcRow = [
+			'cuc_page_id'    => 0,
+			'cuc_namespace'  => NS_USER,
+			'cuc_title'      => '',
+			'cuc_minor'      => 0,
+			'cuc_user'       => 0,
+			'cuc_user_text'  => $ip,
+			'cuc_actiontext' => $msg->inContentLanguage()->text(),
+			'cuc_comment'    => '',
+			'cuc_this_oldid' => 0,
+			'cuc_last_oldid' => 0,
+			'cuc_type'       => RC_LOG,
+			'cuc_timestamp'  => $dbw->timestamp( wfTimestampNow() ),
+			'cuc_ip'         => IP::sanitizeIP( $ip ),
+			'cuc_ip_hex'     => $ip ? IP::toHex( $ip ) : null,
+			'cuc_xff'        => !$isSquidOnly ? $xff : '',
+			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IP::toHex( $xff_ip ) : null,
+			'cuc_agent'      => $agent
+		];
+		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
 	}
 
 	/**
