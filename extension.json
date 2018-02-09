@@ -109,13 +109,13 @@
 		"CheckUserLog": "SpecialCheckUserLog"
 	},
 	"AutoloadClasses": {
-		"CheckUserHooks": "CheckUserHooks.php",
-		"CheckUserLogPager": "CheckUserLogPager.php",
-		"SpecialCheckUser": "specials/SpecialCheckUser.php",
-		"SpecialCheckUserLog": "specials/SpecialCheckUserLog.php",
-		"CheckUserEncryptedData": "CheckUserEncryptedData.php",
-		"ApiQueryCheckUser": "api/ApiQueryCheckUser.php",
-		"ApiQueryCheckUserLog": "api/ApiQueryCheckUserLog.php",
+		"CheckUserHooks": "includes/CheckUserHooks.php",
+		"CheckUserLogPager": "includes/CheckUserLogPager.php",
+		"SpecialCheckUser": "includes/specials/SpecialCheckUser.php",
+		"SpecialCheckUserLog": "includes/specials/SpecialCheckUserLog.php",
+		"CheckUserEncryptedData": "includes/CheckUserEncryptedData.php",
+		"ApiQueryCheckUser": "includes/api/ApiQueryCheckUser.php",
+		"ApiQueryCheckUserLog": "includes/api/ApiQueryCheckUserLog.php",
 		"PopulateCheckUserTable": "maintenance/populateCheckUserTable.php"
 	},
 	"manifest_version": 1

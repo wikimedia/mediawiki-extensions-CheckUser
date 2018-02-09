@@ -345,7 +345,7 @@ class CheckUserHooks {
 	}
 
 	public static function onLoadExtensionSchemaUpdates( DatabaseUpdater $updater ) {
-		$base = __DIR__;
+		$base = __DIR__ . '/..';
 		$dbType = $updater->getDB()->getType();
 		$isCUInstalled = $updater->tableExists( 'cu_changes' );
 
@@ -391,7 +391,7 @@ class CheckUserHooks {
 	 * @param string $name Table name
 	 */
 	private static function getTableFileName( $type, $name ) {
-		$file = __DIR__ . '/' . $name;
+		$file = __DIR__ . '/../' . $name;
 		return $type === 'postgres'
 			? $file . '.pg.sql'
 			: $file . '.sql';
