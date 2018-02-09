@@ -9,9 +9,6 @@
 		<exclude name="Squiz.Scope.MethodScope.Missing" />
 		<exclude name="MediaWiki.ControlStructures.AssignmentInControlStructures.AssignmentInControlStructures" />
 	</rule>
-	<rule ref="MediaWiki.Files.ClassMatchesFilename.WrongCase">
-		<exclude-pattern>*/maintenance/*</exclude-pattern>
-	</rule>
 	<rule ref="Generic.Files.LineLength">
 		<exclude-pattern>CheckUser\.alias\.php</exclude-pattern>
 	</rule>
