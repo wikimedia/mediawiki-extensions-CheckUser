@@ -102,7 +102,7 @@ class ImportCheckUserLogs extends Maintenance {
 				list( $start, $end ) = IP::parseRange( $data['target'] );
 				if ( $start === false ) {
 					$targetUser = User::newFromName( $data['target'] );
-					$targetID = $targetUser ? $targetUser->getID() : 0;
+					$targetID = $targetUser ? $targetUser->getId() : 0;
 					$start = $end = $hex = '';
 				} else {
 					$hex = $start;
@@ -116,7 +116,7 @@ class ImportCheckUserLogs extends Maintenance {
 					$dbw = $this->getDB( DB_MASTER );
 					$fields = [
 						'cul_timestamp' => $dbw->timestamp( $data['timestamp'] ),
-						'cul_user' => $user->getID(),
+						'cul_user' => $user->getId(),
 						'cul_user_text' => $user->getName(),
 						'cul_reason' => $data['reason'],
 						'cul_type' => $data['type'],

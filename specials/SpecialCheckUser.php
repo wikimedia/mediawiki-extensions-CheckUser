@@ -128,7 +128,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param int $period
 	 */
 	protected function showForm( $user, $reason, $checktype, $ip, $xff, $name, $period ) {
-		$action = htmlspecialchars( $this->getPageTitle()->getLocalUrl() );
+		$action = htmlspecialchars( $this->getPageTitle()->getLocalURL() );
 		// Fill in requested type if it makes sense
 		$encipusers = $encedits = $encuserips = 0;
 		if ( $checktype == 'subipusers' && ( $ip || $xff ) ) {
@@ -698,7 +698,7 @@ class SpecialCheckUser extends SpecialPage {
 				// Convert the IP hexes into normal form
 				if ( strpos( $row->cuc_ip_hex, 'v6-' ) !== false ) {
 					$ip = substr( $row->cuc_ip_hex, 3 );
-					$ip = IP::HextoOctet( $ip );
+					$ip = IP::hexToOctet( $ip );
 				} else {
 					$ip = long2ip( Wikimedia\base_convert( $row->cuc_ip_hex, 16, 10, 8 ) );
 				}
