@@ -1,5 +1,7 @@
 <?php
 
+use Wikimedia\Rdbms\IResultWrapper;
+
 class CheckUserLogPager extends ReverseChronologicalPager {
 	/**
 	 * @var array $searchConds
@@ -95,7 +97,7 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 	/**
 	 * Do a batch query for links' existence and add it to LinkCache
 	 *
-	 * @param ResultWrapper $result
+	 * @param IResultWrapper $result
 	 */
 	protected function preprocessResults( $result ) {
 		if ( $this->getNumRows() === 0 ) {

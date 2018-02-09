@@ -1,5 +1,8 @@
 <?php
 
+use Wikimedia\Rdbms\IDatabase;
+use Wikimedia\Rdbms\IResultWrapper;
+
 class SpecialCheckUser extends SpecialPage {
 	/**
 	 * @var null|array $message Used to cache frequently used messages
@@ -776,9 +779,9 @@ class SpecialCheckUser extends SpecialPage {
 	}
 
 	/**
-	 * @param ResultWrapper $rows Results with cuc_namespace and cuc_title field
+	 * @param IResultWrapper $rows Results with cuc_namespace and cuc_title field
 	 */
-	protected function doLinkCache( $rows ) {
+	protected function doLinkCache( IResultWrapper $rows ) {
 		$lb = new LinkBatch();
 		$lb->setCaller( __METHOD__ );
 		foreach ( $rows as $row ) {
@@ -1663,7 +1666,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param string|bool $xfor
 	 * @return array|false array for valid conditions, false if invalid
 	 */
-	public static function getIpConds( $db, $target, $xfor = false ) {
+	public static function getIpConds( IDatabase $db, $target, $xfor = false ) {
 		global $wgCheckUserCIDRLimit;
 		$type = $xfor ? 'xff' : 'ip';
 		if ( IP::isValidRange( $target ) ) {
