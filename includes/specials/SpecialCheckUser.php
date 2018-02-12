@@ -522,9 +522,9 @@ class SpecialCheckUser extends SpecialPage {
 				++$counter;
 			}
 			// Count pinging might take some time...make sure it is there
-			MediaWiki\suppressWarnings();
+			Wikimedia\suppressWarnings();
 			set_time_limit( 60 );
-			MediaWiki\restoreWarnings();
+			Wikimedia\restoreWarnings();
 
 			$s = '<div id="checkuserresults"><ul>';
 			foreach ( $ips_edits as $ip => $edits ) {
@@ -663,9 +663,9 @@ class SpecialCheckUser extends SpecialPage {
 					[ 'USE INDEX' => $index ] );
 			}
 			// Sorting might take some time...make sure it is there
-			MediaWiki\suppressWarnings();
+			Wikimedia\suppressWarnings();
 			set_time_limit( 60 );
-			MediaWiki\restoreWarnings();
+			Wikimedia\restoreWarnings();
 		}
 		$counter = 0;
 		// See what is best to do after testing the waters...
@@ -881,9 +881,9 @@ class SpecialCheckUser extends SpecialPage {
 			return;
 		}
 		// Sorting might take some time...make sure it is there
-		MediaWiki\suppressWarnings();
+		Wikimedia\suppressWarnings();
 		set_time_limit( 60 );
-		MediaWiki\restoreWarnings();
+		Wikimedia\restoreWarnings();
 
 		// OK, do the real query...
 
@@ -963,9 +963,9 @@ class SpecialCheckUser extends SpecialPage {
 					[ 'USE INDEX' => $index ] );
 			}
 			// Sorting might take some time...make sure it is there
-			MediaWiki\suppressWarnings();
+			Wikimedia\suppressWarnings();
 			set_time_limit( 120 );
-			MediaWiki\restoreWarnings();
+			Wikimedia\restoreWarnings();
 		}
 		// Are there too many edits?
 		if ( isset( $rangecount ) && $rangecount > 10000 ) {
