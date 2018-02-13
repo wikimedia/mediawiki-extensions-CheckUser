@@ -36,7 +36,7 @@
 	"checkuser-empty": "ปูมนี้ไม่มีรายการ",
 	"checkuser-nomatch": "ไม่พบสิ่งที่ค้นหา",
 	"checkuser-blocktag": "แทนที่หน้าผู้ใช้ด้วย:",
-	"checkuser-blocktag-talk": "แทนที่หน้าพูดคุยด้วย:",
+	"checkuser-blocktag-talk": "แทนที่หน้าคุยด้วย:",
 	"checkuser-massblock-commit": "ระงับผู้ใช้ที่เลือก",
 	"checkuser-block-success": "'''{{PLURAL:$2|ผู้ใช้|ผู้ใช้}}ชื่อ $1 {{PLURAL:$2|ได้ถูก|ได้ถูก}}ระงับการใช้แล้ว'''",
 	"checkuser-block-failure": "'''ไม่มีผู้ใช้ถูกระงับ'''",
