@@ -415,22 +415,25 @@ class CheckUserHooks {
 	 * @param int $id User ID
 	 * @param Title $nt User page title
 	 * @param array &$links Tool links
-	 * @return true
+	 * @param SpecialPage $sp Special page
 	 */
-	public static function checkUserContributionsLinks( $id, $nt, &$links ) {
-		global $wgUser;
-		if ( $wgUser->isAllowed( 'checkuser' ) ) {
-			$links[] = Linker::linkKnown(
+	public static function checkUserContributionsLinks(
+		$id, Title $nt, array &$links, SpecialPage $sp
+	) {
+		$user = $sp->getUser();
+		$linkRenderer = $sp->getLinkRenderer();
+		if ( $user->isAllowed( 'checkuser' ) ) {
+			$links['checkuser'] = $linkRenderer->makeKnownLink(
 				SpecialPage::getTitleFor( 'CheckUser' ),
-				wfMessage( 'checkuser-contribs' )->escaped(),
+				$sp->msg( 'checkuser-contribs' )->text(),
 				[],
 				[ 'user' => $nt->getText() ]
 			);
 		}
-		if ( $wgUser->isAllowed( 'checkuser-log' ) ) {
-			$links[] = Linker::linkKnown(
+		if ( $user->isAllowed( 'checkuser-log' ) ) {
+			$links['checkuser-log'] = $linkRenderer->makeKnownLink(
 				SpecialPage::getTitleFor( 'CheckUserLog' ),
-				wfMessage( 'checkuser-contribs-log' )->escaped(),
+				$sp->msg( 'checkuser-contribs-log' )->text(),
 				[],
 				[
 					'cuSearchType' => 'target',
@@ -438,7 +441,6 @@ class CheckUserHooks {
 				]
 			);
 		}
-		return true;
 	}
 
 	/**
