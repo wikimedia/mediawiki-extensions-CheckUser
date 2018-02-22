@@ -35,7 +35,7 @@ class SpecialCheckUserTest extends MediaWikiTestCase {
 		$this->setMwGlobals( [
 			'wgCheckUserCIDRLimit' => [
 				'IPv4' => 16,
-				'IPv6' => 32,
+				'IPv6' => 19,
 			]
 		] );
 	}
@@ -77,7 +77,7 @@ class SpecialCheckUserTest extends MediaWikiTestCase {
 					' AND \'v6-00000000000000000000000EFFFFFFFF\'' ],
 			],
 			[ '0.17.184.5/15', false ],
-			[ '2000::/31', false ],
+			[ '2000::/16', false ],
 		];
 	}
 }
