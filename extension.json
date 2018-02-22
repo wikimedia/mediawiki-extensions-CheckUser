@@ -17,17 +17,44 @@
 	},
 	"config": {
 		"CheckUserCIDRLimit": {
-			"IPv4": 16,
-			"IPv6": 19
+			"value": {
+				"IPv4": 16,
+				"IPv6": 19
+			},
+			"description": "Shortest CIDR limits that can be checked in any individual range check"
 		},
-		"CheckUserMaxBlocks": 200,
-		"CUPublicKey": "",
-		"CUDMaxAge": 7776000,
-		"CheckUserForceSummary": false,
-		"CheckUserCAMultiLock": false,
-		"CheckUserCAtoollink": false,
-		"CheckUserGBtoollink": false,
-		"CheckUserLogLogins": false
+		"CheckUserMaxBlocks": {
+			"value": 200,
+			"description": "Maximum number of rseus that can be mass blocked simultaneously"
+		},
+		"CUPublicKey": {
+			"value": "",
+			"description": "Public key to encrypt private data that may need to be read later. Generate a public key with something like: `openssl genrsa -out cu.key 2048; openssl rsa -in cu.key -pubout > cu.pub` and paste the contents of cu.pub here."
+		},
+		"CUDMaxAge": {
+			"value": 7776000,
+			"description": "How long to keep CheckUser data (in seconds)"
+		},
+		"CheckUserForceSummary": {
+			"value": false,
+			"description": "Whether to force checkusers into giving a reason for each check they do through Special:CheckUser."
+		},
+		"CheckUserCAMultiLock": {
+			"value": false,
+			"description": "Whether to add a link to Special:MultiLock by CentralAuth to the Special:CheckUser's mass block form. This requires CentralAuth extension to be installed on the wiki. To enable this, set this to an array with a central wiki's database name and an array with the name(s) of the global group(s) to add the link for. Example: [ 'centralDB' => 'metawiki', 'groups' => [ 'steward' ] ]"
+		},
+		"CheckUserCAtoollink": {
+			"value": false,
+			"description": "Whether to add links to CentralAuth in Special:CheckUser results"
+		},
+		"CheckUserGBtoollink": {
+			"value": false,
+			"description": "Whether to add links for glboally blocking accounts shown in Special:CheckUser results"
+		},
+		"CheckUserLogLogins": {
+			"value": false,
+			"description": "Whehter login attempts should be logged in CheckUser logs"
+		}
 	},
 	"APIListModules": {
 		"checkuser": "ApiQueryCheckUser",
@@ -121,5 +148,5 @@
 		"ApiQueryCheckUserLog": "includes/api/ApiQueryCheckUserLog.php",
 		"PopulateCheckUserTable": "maintenance/populateCheckUserTable.php"
 	},
-	"manifest_version": 1
+	"manifest_version": 2
 }
