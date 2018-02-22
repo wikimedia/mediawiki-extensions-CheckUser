@@ -95,6 +95,8 @@
 	"checkuser-email-action": "\"$1\" 사용자에게 이메일을 보냈습니다",
 	"checkuser-reset-action": "\"$1\" 사용자의 비밀번호를 재설정했습니다",
 	"checkuser-token-fail": "세션 실패. 다시 시도하십시오.",
+	"checkuser-login-failure": "{{SITENAME}}에 $1님으로 로그인을 실패했습니다",
+	"checkuser-login-success": "{{SITENAME}}에 $1님으로 성공적으로 로그인했습니다",
 	"group-checkuser.css": "/* 이 CSS 설정은 검사관에만 적용됩니다 */",
 	"group-checkuser.js": "/* 이 자바스크립트 설정은 검사관에만 적용됩니다 */",
 	"apihelp-query+checkuser-description": "특정한 사용자가 어떤 IP 주소를 썼는지 확인하거나 특정한 IP 주소를 사용한 계정 이름을 확인합니다.",

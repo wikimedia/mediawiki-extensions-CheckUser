@@ -93,6 +93,8 @@
 	"checkuser-email-action": "sendete E-Mail an „$1“",
 	"checkuser-reset-action": "forderte ein Passwort für {{GENDER:$1|Benutzer|Benutzerin}} „$1“ an",
 	"checkuser-token-fail": "Sitzungsfehler. Bitte erneut versuchen.",
+	"checkuser-login-failure": "Anmeldung bei {{SITENAME}} als $1 fehlgeschlagen",
+	"checkuser-login-success": "Erfolgreich bei {{SITENAME}} angemeldet als $1",
 	"apihelp-query+checkuser-description": "Überprüfen, welche IP-Adressen durch einen bestimmten Benutzernamen oder welche Benutzernamen von einer bestimmten IP-Adresse verwendet werden.",
 	"apihelp-query+checkuser-param-request": "Art der CheckUser-Anfrage:\n;userips:Ermittelt die IP-Adresse des Ziel-Benutzers.\n;edits:Ermittelt Änderungen der Ziel-IP-Adresse oder des Adressbereichs.\n;ipusers:Ermittelt den Benutzer der Ziel-IP-Adresse oder des Adressbereichs.",
 	"apihelp-query+checkuser-param-target": "Zu überprüfender Benutzername, CIDR-Bereich oder zu überprüfende IP-Adresse.",

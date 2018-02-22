@@ -101,6 +101,8 @@
 	"checkuser-email-action": "enviar email para o usuário \"$1\"",
 	"checkuser-reset-action": "suprimir a senha do usuário \"$1\"",
 	"checkuser-token-fail": "Falha na sessão. Por favor, tente novamente.",
+	"checkuser-login-failure": "Não foi possível entrar em {{SITENAME}} como $1",
+	"checkuser-login-success": "Entrou em {{SITENAME}} como $1",
 	"group-checkuser.css": "/* CSS colocado aqui afetará apenas checkuser */",
 	"group-checkuser.js": "/* JS colocado aqui afetará o usuário do checkeruser */",
 	"apihelp-query+checkuser-description": "Verifique quais endereços IP são utilizados por um determinado nome de usuário ou quais nomes de usuários são utilizados por um determinado endereço IP.",

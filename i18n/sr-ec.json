@@ -70,7 +70,7 @@
 	"checkuser-accounts": "$1 {{PLURAL:$1|нови налог|нова налога|нових налога}}",
 	"checkuser-too-many": "Нађено је превише резултата (према процени захтева). Молимо Вас да сузите CIDR.\nОвде су коришћене ИП адресе (највише 5.000, сортираних по адреси):",
 	"checkuser-user-nonexistent": "Наведени корисник не постоји.",
-	"checkuser-search": "Претрага дневника чекјузера",
+	"checkuser-search": "Претражи дневник чекјузера",
 	"checkuser-search-submit": "Претражи",
 	"checkuser-search-initiator": "покретач",
 	"checkuser-search-target": "циљ",
