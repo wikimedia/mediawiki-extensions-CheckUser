@@ -1130,7 +1130,8 @@ class SpecialCheckUser extends SpecialPage {
 				$splang = $this->getLanguage();
 				$aliases = $splang->getSpecialPageAliases();
 				// Add CentralAuth link for real registered users
-				if ( class_exists( 'CentralAuthUser' ) && !IP::isIPAddress( $name )
+				if ( ExtensionRegistry::getInstance()->isLoaded( 'CentralAuth' )
+					&& !IP::isIPAddress( $name )
 					&& !$classnouser && $wgCheckUserCAtoollink !== false
 				) {
 					// Get CentralAuth SpecialPage name in UserLang from the first Alias name
@@ -1155,7 +1156,8 @@ class SpecialCheckUser extends SpecialPage {
 					$s .= ' ' . $this->msg( 'parentheses', $linkCA )->plain();
 				}
 				// Add Globalblocking link link to CentralWiki
-				if ( class_exists( 'GlobalBlocking' ) && IP::isIPAddress( $name )
+				if ( ExtensionRegistry::getInstance()->isLoaded( 'GlobalBlocking' )
+					&& IP::isIPAddress( $name )
 					&& $wgCheckUserGBtoollink !== false
 				) {
 					// Get GlobalBlock SpecialPage name in UserLang from the first Alias name
@@ -1165,7 +1167,7 @@ class SpecialCheckUser extends SpecialPage {
 					);
 					$spgb = $aliases['GlobalBlock'][0];
 					$gblinkAlias = str_replace( '_', ' ', $spgb );
-					if ( class_exists( 'CentralAuthUser' ) ) {
+					if ( ExtensionRegistry::getInstance()->isLoaded( 'CentralAuth' ) ) {
 						$gbUserGroups = CentralAuthUser::getInstance( $this->getUser() )->getGlobalGroups();
 						// Link to GB via WikiMap since CA require it
 						if ( $centralGBUrl === false ) {
@@ -1283,7 +1285,7 @@ class SpecialCheckUser extends SpecialPage {
 	protected function getBlockForm( $tag, $talkTag ) {
 		global $wgBlockAllowsUTEdit, $wgCheckUserCAMultiLock;
 		if ( $wgCheckUserCAMultiLock !== false ) {
-			if ( !class_exists( 'CentralAuthUser' ) ) {
+			if ( !ExtensionRegistry::getInstance()->isLoaded( 'CentralAuth' ) ) {
 				// $wgCheckUserCAMultiLock shouldn't be enabled if CA is not loaded
 				throw new Exception( '$wgCheckUserCAMultiLock requires CentralAuth extension.' );
 			}
@@ -1745,9 +1747,6 @@ class SpecialCheckUser extends SpecialPage {
 	 * @return string[] Matching subpages
 	 */
 	public function prefixSearchSubpages( $search, $limit, $offset ) {
-		if ( !class_exists( 'UserNamePrefixSearch' ) ) { // check for version 1.27
-			return [];
-		}
 		$user = User::newFromName( $search );
 		if ( !$user ) {
 			// No prefix suggestion for invalid user
