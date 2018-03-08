@@ -11,13 +11,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 	public function execute() {
 		$params = $this->extractRequestParams();
 
-		if ( is_callable( [ $this, 'checkUserRightsAny' ] ) ) {
-			$this->checkUserRightsAny( 'checkuser-log' );
-		} else {
-			if ( !$this->getUser()->isAllowed( 'checkuser-log' ) ) {
-				$this->dieUsage( 'You need the checkuser-log right', 'permissionerror' );
-			}
-		}
+		$this->checkUserRightsAny( 'checkuser-log' );
 
 		$limit = $params['limit'];
 		$continue = $params['continue'];
