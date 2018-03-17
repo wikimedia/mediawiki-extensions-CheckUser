@@ -25,7 +25,7 @@
 		},
 		"CheckUserMaxBlocks": {
 			"value": 200,
-			"description": "Maximum number of rseus that can be mass blocked simultaneously"
+			"description": "Maximum number of users that can be mass blocked simultaneously"
 		},
 		"CUPublicKey": {
 			"value": "",
