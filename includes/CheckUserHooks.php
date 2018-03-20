@@ -453,6 +453,7 @@ class CheckUserHooks {
 	/**
 	 * @param string $type DB type
 	 * @param string $name Table name
+	 * @return string
 	 */
 	private static function getTableFileName( $type, $name ) {
 		$file = __DIR__ . '/../' . $name;

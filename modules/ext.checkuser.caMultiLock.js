@@ -11,7 +11,7 @@
 		$( '<a>', {
 			id: 'cacu-multilock-link',
 			text: mw.msg( 'checkuser-centralauth-multilock' ),
-			href: centralURL,
+			href: centralURL
 		} )
 	);
 
