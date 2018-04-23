@@ -1,8 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
-			"Тест"
+			"Тест",
+			"Artsiom91"
 		]
 	},
-	"checkuser-reason": "Прычына:"
+	"checkuser-reason": "Прычына:",
+	"checkuser-localonly": "Не аб’яднаны"
 }
