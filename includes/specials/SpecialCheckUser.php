@@ -416,30 +416,34 @@ class SpecialCheckUser extends SpecialPage {
 	protected function noMatchesMessage( $userName, $checkLast = true ) {
 		if ( $checkLast ) {
 			$dbr = wfGetDB( DB_REPLICA );
-			$user_id = User::idFromName( $userName );
-			if ( $user_id ) {
-				$revEdit = $dbr->selectField( 'revision',
+			$actorMigration = ActorMigration::newMigration();
+			$user = User::newFromName( $userName, false );
+
+			$lastEdit = false;
+
+			$revWhere = $actorMigration->getWhere( $dbr, 'rev_user', $user );
+			foreach ( $revWhere['orconds'] as $cond ) {
+				$lastEdit = max( $lastEdit, $dbr->selectField(
+					[ 'revision' ] + $revWhere['tables'],
 					'rev_timestamp',
-					[ 'rev_user' => $user_id ],
+					$cond,
 					__METHOD__,
-					[ 'ORDER BY' => 'rev_timestamp DESC' ]
-				);
-				$logEdit = $dbr->selectField( 'logging',
-					'log_timestamp',
-					[ 'log_user' => $user_id ],
-					__METHOD__,
-					[ 'ORDER BY' => 'log_timestamp DESC' ]
-				);
-			} else {
-				$revEdit = $dbr->selectField( 'revision',
-					'rev_timestamp',
-					[ 'rev_user_text' => $userName ],
-					__METHOD__,
-					[ 'ORDER BY' => 'rev_timestamp DESC' ]
-				);
-				$logEdit = false; // no log_user_text index
+					[ 'ORDER BY' => 'rev_timestamp DESC' ],
+					$revWhere['joins']
+				) );
 			}
-			$lastEdit = max( $revEdit, $logEdit );
+			$logWhere = $actorMigration->getWhere( $dbr, 'log_user', $user );
+			foreach ( $logWhere['orconds'] as $cond ) {
+				$lastEdit = max( $lastEdit, $dbr->selectField(
+					[ 'logging' ] + $logWhere['tables'],
+					'log_timestamp',
+					$cond,
+					__METHOD__,
+					[ 'ORDER BY' => 'log_timestamp DESC' ],
+					$logWhere['joins']
+				) );
+			}
+
 			if ( $lastEdit ) {
 				$lastEditTime = wfTimestamp( TS_MW, $lastEdit );
 				$lang = $this->getLanguage();
