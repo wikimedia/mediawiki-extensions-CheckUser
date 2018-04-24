@@ -11,7 +11,8 @@
 			"KossuthRad",
 			"Terik",
 			"Tgr",
-			"Wolf Rex"
+			"Wolf Rex",
+			"Bencemac"
 		]
 	},
 	"checkuser-summary": "Ez az eszköz végigvizsgálja a friss változásokat, hogy lekérje egy adott felhasználó IP-címeit vagy megjelenítse egy adott IP-címet használó szerkesztőket és az IP szerkesztéseit.\nEgy proxy mögötti kliens eredeti adatai XFF-fejlécek segítségével kérhetőek le, az IP-cím utáni „/xff” parancssal. Az IPv4 (CIDR $1-32) és az IPv6 (CIDR $2-128) is támogatott.\nMaximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt a szabályoknak megfelelően használd.",
@@ -20,6 +21,7 @@
 	"checkuser": "IP-ellenőr",
 	"checkuserlog": "IP-ellenőr-napló",
 	"checkuser-contribs": "a szerkesztő IP-ellenőrzése",
+	"checkuser-contribs-log": "legutóbbi IP-ellenőrzések",
 	"group-checkuser": "IP-ellenőrök",
 	"group-checkuser-member": "IP-ellenőr",
 	"right-checkuser": "a felhasználók IP-címének és más adatainak ellenőrzése",
@@ -46,6 +48,8 @@
 	"checkuser-nomatch": "Nincs egyezés.",
 	"checkuser-nomatch-edits": "Nincs találat.\nAz utolsó szerkesztés $1, $2-kor történt.",
 	"checkuser-check": "Ellenőrzés",
+	"checkuser-check-this-user": "Felhasználó ellenőrzése",
+	"checkuser-recent-checks": "Ezen szerkesztő legutóbbi ellenőrzései",
 	"checkuser-log-fail": "Nem sikerült az elem hozzáadása",
 	"checkuser-nolog": "A naplófájl nem található.",
 	"checkuser-blocked": "Blokkolva",
@@ -55,6 +59,8 @@
 	"checkuser-localonly": "Nincs egységesítve",
 	"checkuser-massblock": "Kijelölt szerkesztők blokkolása",
 	"checkuser-massblock-text": "A kiválasztott fiókok örökre blokkolva lesznek autoblokkal és letiltott fiókkészítéssel.\nAz IP-címeknél csak a be nem jelentkezett felhasználók lesznek blokkolva 1 hétre, letiltott fiókkészítéssel.",
+	"checkuser-blockemail": "E-mail küldésének megakadályozása",
+	"checkuser-blocktalk": "Saját vitalap szerkeszthetőségének megakadályozása, mialatt a felhasználó blokkolva van",
 	"checkuser-blocktag": "Szerkesztői lapok cseréje erre:",
 	"checkuser-blocktag-talk": "Vitalapok cseréje erre:",
 	"checkuser-massblock-commit": "Kiválasztott szerkesztők blokkolása",
@@ -78,7 +84,21 @@
 	"checkuser-create-action": "készült",
 	"checkuser-email-action": "e-mailt küldött „$1” szerkesztőnek",
 	"checkuser-reset-action": "lecserélte „$1” jelszavát",
+	"checkuser-token-fail": "Munkamenethiba. Kérlek próbáld újra.",
+	"checkuser-login-failure": "Nem sikerült belépned a(z) {{SITENAME}} oldalra mint $1",
+	"checkuser-login-success": "Sikeresen beléptél a(z) {{SITENAME}} oldalra mint $1",
+	"apihelp-query+checkuser-description": "A megadott felhasználónév által használt IP-címek vagy egy megadott IP-cím által használt felhasználónevek ellenőrzése.",
+	"apihelp-query+checkuser-summary": "A megadott felhasználónév által használt IP-címek vagy egy megadott IP-cím által használt felhasználónevek ellenőrzése.",
+	"apihelp-query+checkuser-param-request": "IP-ellenőri kérelemtípusok:\n;userips:Konkrét felhasználó IP-címeinek lekérdezése.\n;edits:Konkrét IP vagy tartomány közreműködéseinek lekérdezése.\n;ipusers:Konkrét IP-t vagy tartományt használó felhasználók lekérdezése.",
+	"apihelp-query+checkuser-param-target": "Ellenőrizendő felhasználói név, IP-cím vagy CIDR tartomány.",
 	"apihelp-query+checkuser-param-reason": "Az ellenőrzés oka.",
 	"apihelp-query+checkuser-param-xff": "XFF-adat használata IP-cím helyett.",
-	"apihelp-query+checkuserlog-param-user": "Az IP-ellenőr neve."
+	"apihelp-query+checkuser-example-1": "[[User:Example]] IP-címeinek ellenőrzése",
+	"apihelp-query+checkuser-example-2": "192.0.2.0/24 szerkesztéseinek ellenőrzése",
+	"apihelp-query+checkuserlog-param-user": "Az IP-ellenőr neve.",
+	"apihelp-query+checkuserlog-param-target": "Ellenőrzött felhasználó, IP-cím vagy CIDR tartomány.",
+	"apihelp-query+checkuserlog-example-1": "[[User:Example]] ellenőrzéseinek mutatása",
+	"apihelp-query+checkuserlog-example-2": "192.0.2.0/24 ellenőrzéseinek mutatása 2011-10-15T23:00:00Z után",
+	"apierror-checkuser-missingsummary": "Meg kell adnod az ellenőrzés okát.",
+	"apierror-checkuser-invalidmode": "Érvénytelen kérésmód."
 }
