@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"Liuxinyu970226"
+		]
+	},
+	"checkuser": "用戶查核",
+	"checkuserlog": "用戶查核日誌",
+	"group-checkuser": "用戶查核員",
+	"group-checkuser-member": "{{GENDER:$1|用戶查核員}}",
+	"grouppage-checkuser": "{{ns:project}}:用戶查核",
+	"checkuser-target": "IP 位址或用戶名稱：",
+	"checkuser-users": "查詢用戶",
+	"checkuser-block-success": "'''{{PLURAL:$2|用戶}} $1 {{PLURAL:$2|已被}}查封。'''",
+	"checkuser-block-failure": "'''沒有用戶被禁封。'''",
+	"checkuser-ipeditcount": "~於全部用戶中 $1",
+	"checkuser-reset-action": "為用戶「$1」重設密碼"
+}
