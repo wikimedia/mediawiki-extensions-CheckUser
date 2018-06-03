@@ -1,10 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"Liuxinyu970226"
+			"Liuxinyu970226",
+			"A2093064"
 		]
 	},
-	"checkuser": "用戶查核",
+	"checkuser": "查核用戶",
 	"checkuserlog": "用戶查核日誌",
 	"group-checkuser": "用戶查核員",
 	"group-checkuser-member": "{{GENDER:$1|用戶查核員}}",

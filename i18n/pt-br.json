@@ -20,7 +20,8 @@
 			"Macofe",
 			"Felipe L. Ewald",
 			"RadiX",
-			"Eduardo Addad de Oliveira"
+			"Eduardo Addad de Oliveira",
+			"Opraco"
 		]
 	},
 	"checkuser-summary": "Esta ferramenta varre as mudanças recentes para obter os endereços de IP de um usuário ou para exibir os dados de edições/usuários para um IP.\nUsuários e edições podem ser obtidos por um IP XFF colocando-se \"/xff\" no final do endereço. São suportados endereços IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).\nNão serão retornadas mais de 5000 edições por motivos de desempenho. O uso desta ferramenta deverá estar de acordo com as políticas.",
@@ -98,7 +99,7 @@
 	"checkuser-log-entry-useredits": "$3, $1 obteve edições por $2",
 	"checkuser-autocreate-action": "foi automaticamente criada",
 	"checkuser-create-action": "foi criada",
-	"checkuser-email-action": "enviar email para o usuário \"$1\"",
+	"checkuser-email-action": "enviou email para o(a) usuário(a) \"$1\"",
 	"checkuser-reset-action": "suprimir a senha do usuário \"$1\"",
 	"checkuser-token-fail": "Falha na sessão. Por favor, tente novamente.",
 	"checkuser-login-failure": "Não foi possível entrar em {{SITENAME}} como $1",
