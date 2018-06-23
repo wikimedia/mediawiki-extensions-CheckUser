@@ -521,7 +521,7 @@ class CheckUserHooks {
 
 		$user = User::newFromName( (string)$block->getTarget(), false );
 		if ( !$user->getId() ) {
-			return []; // user in an IP?
+			return true; // user in an IP?
 		}
 
 		$options = [ 'ORDER BY' => 'cuc_timestamp DESC' ];
