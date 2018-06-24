@@ -110,11 +110,11 @@ class SpecialCheckUser extends SpecialPage {
 	}
 
 	protected function showIntroductoryText() {
-		global $wgCheckUserCIDRLimit;
+		$cidrLimit = $this->getConfig()->get( 'CheckUserCIDRLimit' );
 		$this->getOutput()->addWikiText(
 			$this->msg( 'checkuser-summary',
-				$wgCheckUserCIDRLimit['IPv4'],
-				$wgCheckUserCIDRLimit['IPv6']
+				$cidrLimit['IPv4'],
+				$cidrLimit['IPv6']
 			)->text()
 		);
 	}
@@ -228,8 +228,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @return bool
 	 */
 	protected function checkReason( $reason ) {
-		global $wgCheckUserForceSummary;
-		return ( !$wgCheckUserForceSummary || strlen( $reason ) );
+		return ( !$this->getConfig()->get( 'CheckUserForceSummary' ) || strlen( $reason ) );
 	}
 
 	/**
@@ -253,14 +252,13 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param string $talkTag
 	 */
 	protected function doMassUserBlock( $users, $blockParams, $tag = '', $talkTag = '' ) {
-		global $wgCheckUserMaxBlocks;
 		$usersCount = count( $users );
 		if ( !$this->getUser()->isAllowed( 'block' ) || $this->getUser()->isBlocked()
 			|| !$usersCount
 		) {
 			$this->getOutput()->addWikiMsg( 'checkuser-block-failure' );
 			return;
-		} elseif ( $usersCount > $wgCheckUserMaxBlocks ) {
+		} elseif ( $usersCount > $this->getConfig()->get( 'CheckUserMaxBlocks' ) ) {
 			$this->getOutput()->addWikiMsg( 'checkuser-block-limit' );
 			return;
 		} elseif ( !$blockParams['reason'] ) {
@@ -292,9 +290,8 @@ class SpecialCheckUser extends SpecialPage {
 	 */
 	protected function doMassUserBlockInternal( $users, array $blockParams,
 		$tag = '', $talkTag = '' ) {
-		global $wgBlockAllowsUTEdit;
-
 		$currentUser = $this->getUser();
+		$blockAllowsUTEdit = $this->getConfig()->get( 'BlockAllowsUTEdit' );
 		$safeUsers = [];
 		foreach ( $users as $name ) {
 			$u = User::newFromName( $name, false );
@@ -332,7 +329,7 @@ class SpecialCheckUser extends SpecialPage {
 			$block->prevents( 'sendemail',
 				( SpecialBlock::canBlockEmail( $currentUser ) && $blockParams['email'] )
 			);
-			$block->prevents( 'editownusertalk', ( !$wgBlockAllowsUTEdit || $blockParams['talk'] ) );
+			$block->prevents( 'editownusertalk', ( !$blockAllowsUTEdit || $blockParams['talk'] ) );
 			$status = $block->insert();
 
 			// Prepare log parameters for the block
@@ -935,7 +932,7 @@ class SpecialCheckUser extends SpecialPage {
 	protected function doIPUsersRequest(
 		$ip, $xfor = false, $reason = '', $period = 0, $tag = '', $talkTag = ''
 	) {
-		global $wgMemc, $wgCheckUserCAtoollink, $wgCheckUserGBtoollink;
+		global $wgMemc;
 		$out = $this->getOutput();
 		$dbr = wfGetDB( DB_REPLICA );
 
@@ -1079,6 +1076,14 @@ class SpecialCheckUser extends SpecialPage {
 				}
 			}
 
+			$centralAuthToollink = ExtensionRegistry::getInstance()->isLoaded( 'CentralAuth' )
+				? $this->getConfig()->get( 'CheckUserCAtoollink' ) : false;
+			$globalBlockingToollink = ExtensionRegistry::getInstance()->isLoaded( 'GlobalBlocking' )
+				? $this->getConfig()->get( 'CheckUserGBtoollink' ) : false;
+			$linkrenderer = $this->getLinkRenderer();
+			$splang = $this->getLanguage();
+			$aliases = $splang->getSpecialPageAliases();
+
 			// @todo FIXME: This form (and checkboxes) shouldn't be initiated for users without 'block' right
 			$action = htmlspecialchars( $this->getPageTitle()->getLocalURL( 'action=block' ) );
 			$s = "<form name='checkuserblock' id='checkuserblock' action=\"$action\" method='post'>";
@@ -1130,43 +1135,39 @@ class SpecialCheckUser extends SpecialPage {
 					)
 				)->escaped();
 				// Add global user tools links
-				$linkrenderer = $this->getLinkRenderer();
-				$splang = $this->getLanguage();
-				$aliases = $splang->getSpecialPageAliases();
 				// Add CentralAuth link for real registered users
-				if ( ExtensionRegistry::getInstance()->isLoaded( 'CentralAuth' )
+				if ( $centralAuthToollink !== false
 					&& !IP::isIPAddress( $name )
-					&& !$classnouser && $wgCheckUserCAtoollink !== false
+					&& !$classnouser
 				) {
 					// Get CentralAuth SpecialPage name in UserLang from the first Alias name
 					$spca = $aliases['CentralAuth'][0];
 					$calinkAlias = str_replace( '_', ' ', $spca );
 					$centralCAUrl = WikiMap::getForeignURL(
-						$wgCheckUserCAtoollink,
+						$centralAuthToollink,
 						'Special:CentralAuth'
 					);
 					if ( $centralCAUrl === false ) {
 						throw new Exception(
-							'Could not retrieve URL for {$wgCheckUserCAtoollink}'
+							'Could not retrieve URL for {$centralAuthToollink}'
 						);
 					}
 					$linkCA = Html::element( 'a',
 						[
 							'href' => $centralCAUrl . "/" . $name,
-							'title' => wfMessage( 'centralauth' ),
+							'title' => $this->msg( 'centralauth' ),
 						],
 						$calinkAlias
 					);
 					$s .= ' ' . $this->msg( 'parentheses', $linkCA )->plain();
 				}
 				// Add Globalblocking link link to CentralWiki
-				if ( ExtensionRegistry::getInstance()->isLoaded( 'GlobalBlocking' )
+				if ( $globalBlockingToollink !== false
 					&& IP::isIPAddress( $name )
-					&& $wgCheckUserGBtoollink !== false
 				) {
 					// Get GlobalBlock SpecialPage name in UserLang from the first Alias name
 					$centralGBUrl = WikiMap::getForeignURL(
-						$wgCheckUserGBtoollink['centralDB'],
+						$globalBlockingToollink['centralDB'],
 						'Special:GlobalBlock'
 					);
 					$spgb = $aliases['GlobalBlock'][0];
@@ -1176,46 +1177,46 @@ class SpecialCheckUser extends SpecialPage {
 						// Link to GB via WikiMap since CA require it
 						if ( $centralGBUrl === false ) {
 							throw new Exception(
-								'Could not retrieve URL for {$wgCheckUserGBtoollink}'
+								'Could not retrieve URL for {$globalBlockingToollink}'
 							);
 						}
 						$linkGB = Html::element( 'a',
 							[
 								'href' => $centralGBUrl . "/" . $name,
-								'title' => wfMessage( 'globalblocking-block-submit' ),
+								'title' => $this->msg( 'globalblocking-block-submit' ),
 							],
 							$gblinkAlias
 						);
 					} elseif ( $centralGBUrl !== false ) {
 						// Case wikimap configured whithout CentralAuth extension
-						$this->user = $this->getUser();
+						$user = $this->getUser();
 						// Get effective Local user groups since there is a wikimap but there is no CA
-						$gbUserGroups = $this->user->getEffectiveGroups();
+						$gbUserGroups = $user->getEffectiveGroups();
 						$linkGB = Html::element( 'a',
 							[
 								'href' => $centralGBUrl . "/" . $name,
-								'title' => wfMessage( 'globalblocking-block-submit' ),
+								'title' => $this->msg( 'globalblocking-block-submit' ),
 							],
 							$gblinkAlias
 						);
 					} else {
 						// Load local user group instead
 						$gbUserGroups[] = '';
-						$this->user = $this->getUser();
+						$user = $this->getUser();
 						$gbtitle = $this->getTitleFor( 'GlobalBlock' );
 						$linkGB = $linkrenderer->makeKnownLink(
 							$gbtitle,
 							$gblinkAlias,
-							[ 'title' => wfMessage( 'globalblocking-block-submit' ) ]
+							[ 'title' => $this->msg( 'globalblocking-block-submit' ) ]
 						);
-						$gbUserCanDo = $this->user->isAllowed( 'globalblock' );
+						$gbUserCanDo = $user->isAllowed( 'globalblock' );
 						if ( $gbUserCanDo === true ) {
-							$wgCheckUserGBtoollink['groups'] = $gbUserGroups;
+							$globalBlockingToollink['groups'] = $gbUserGroups;
 						}
 					}
 					// Only load the script for users in the configured global(local) group(s) or
 					// for local user with globalblock permission if there is no WikiMap
-					if ( count( array_intersect( $wgCheckUserGBtoollink['groups'], $gbUserGroups ) ) ) {
+					if ( count( array_intersect( $globalBlockingToollink['groups'], $gbUserGroups ) ) ) {
 						$s .= ' ' . $this->msg( 'parentheses', $linkGB )->plain();
 					}
 				}
@@ -1287,8 +1288,9 @@ class SpecialCheckUser extends SpecialPage {
 	 * @return string
 	 */
 	protected function getBlockForm( $tag, $talkTag ) {
-		global $wgBlockAllowsUTEdit, $wgCheckUserCAMultiLock;
-		if ( $wgCheckUserCAMultiLock !== false ) {
+		$config = $this->getConfig();
+		$checkUserCAMultiLock = $config->get( 'CheckUserCAMultiLock' );
+		if ( $checkUserCAMultiLock !== false ) {
 			if ( !ExtensionRegistry::getInstance()->isLoaded( 'CentralAuth' ) ) {
 				// $wgCheckUserCAMultiLock shouldn't be enabled if CA is not loaded
 				throw new Exception( '$wgCheckUserCAMultiLock requires CentralAuth extension.' );
@@ -1296,18 +1298,18 @@ class SpecialCheckUser extends SpecialPage {
 
 			$caUserGroups = CentralAuthUser::getInstance( $this->getUser() )->getGlobalGroups();
 			// Only load the script for users in the configured global group(s)
-			if ( count( array_intersect( $wgCheckUserCAMultiLock['groups'], $caUserGroups ) ) ) {
+			if ( count( array_intersect( $checkUserCAMultiLock['groups'], $caUserGroups ) ) ) {
 				$out = $this->getOutput();
 				$out->addModules( 'ext.checkUser.caMultiLock' );
 				$centralMLUrl = WikiMap::getForeignURL(
-					$wgCheckUserCAMultiLock['centralDB'],
+					$checkUserCAMultiLock['centralDB'],
 					// Use canonical name instead of local name so that it works
 					// even if the local language is different from central wiki
 					'Special:MultiLock'
 				);
 				if ( $centralMLUrl === false ) {
 					throw new Exception(
-						"Could not retrieve URL for {$wgCheckUserCAMultiLock['centralDB']}"
+						"Could not retrieve URL for {$checkUserCAMultiLock['centralDB']}"
 					);
 				}
 				$out->addJsConfigVars( 'wgCUCAMultiLockCentral', $centralMLUrl );
@@ -1327,7 +1329,7 @@ class SpecialCheckUser extends SpecialPage {
 			'<td>' . Xml::label( $this->msg( 'checkuser-blocktag-talk' )->escaped(), 'usettag' ) .
 			'</td>' .
 			'<td>' . Xml::input( 'talktag', 46, $talkTag, [ 'id' => 'talktag' ] ) . '</td>';
-		if ( $wgBlockAllowsUTEdit ) {
+		if ( $config->get( 'BlockAllowsUTEdit' ) ) {
 			$s .= '</tr><tr>' .
 				'<td>' . Xml::check( 'blocktalk', false, [ 'id' => 'blocktalk' ] ) . '</td>' .
 				'<td>' . Xml::label( $this->msg( 'checkuser-blocktalk' )->escaped(), 'blocktalk' ) .

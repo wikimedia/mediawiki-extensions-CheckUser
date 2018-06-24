@@ -9,8 +9,6 @@ class ApiQueryCheckUser extends ApiQueryBase {
 	}
 
 	public function execute() {
-		global $wgCheckUserForceSummary;
-
 		$db = $this->getDB();
 		$params = $this->extractRequestParams();
 
@@ -20,7 +18,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 
 		$this->checkUserRightsAny( 'checkuser' );
 
-		if ( $wgCheckUserForceSummary && is_null( $reason ) ) {
+		if ( $this->getConfig()->get( 'CheckUserForceSummary' ) && is_null( $reason ) ) {
 			$this->dieWithError( 'apierror-checkuser-missingsummary', 'missingdata' );
 		}
 
