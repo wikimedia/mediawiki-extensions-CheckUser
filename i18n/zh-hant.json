@@ -39,7 +39,7 @@
 	"checkuser-showlog": "切換到用戶查核日誌",
 	"checkuser-query": "查詢最近變更",
 	"checkuser-target": "IP 位址或使用者名稱：",
-	"checkuser-users": "查詢用戶",
+	"checkuser-users": "查詢使用者",
 	"checkuser-edits": "查詢編輯",
 	"checkuser-ips": "查詢 IP 位址",
 	"checkuser-period": "期間：",
