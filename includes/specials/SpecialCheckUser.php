@@ -1228,7 +1228,7 @@ class SpecialCheckUser extends SpecialPage {
 				$flags = $this->userBlockFlags( $ip, $users_ids[$name], $user );
 				// Check how many accounts the user made recently
 				if ( $ip ) {
-					$key = wfMemcKey( 'acctcreate', 'ip', $ip );
+					$key = $wgMemc->makeKey( 'acctcreate', 'ip', $ip );
 					$count = intval( $wgMemc->get( $key ) );
 					if ( $count ) {
 						// @todo FIXME: i18n issue: Hard coded brackets.
