@@ -6,7 +6,8 @@
 			"Papuass",
 			"Xil",
 			"Yyy",
-			"Zuiks"
+			"Zuiks",
+			"Silraks"
 		]
 	},
 	"checkuser-desc": "Atļauj lietotājiem ar attiecīgām pilnvarām pārbaudīt lietotāja IP adresi un citu informāciju.",
@@ -15,6 +16,7 @@
 	"group-checkuser": "Pārbaudītāji",
 	"group-checkuser-member": "{{GENDER:$1|pārbaudīt lietotāju}}",
 	"right-checkuser": "Pārbaudīt lietotāja IP adreses un citu informāciju",
+	"grouppage-checkuser": "{{ns:project}}:Dalībnieku pārbaudītāji",
 	"checkuser-reason": "Iemesls:",
 	"checkuser-reason-api": "API: $1",
 	"checkuser-showlog": "Rādīt reģistru",

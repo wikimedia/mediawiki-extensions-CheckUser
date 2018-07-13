@@ -15,6 +15,9 @@
 	"checkuser-month": "lasta 30 dii",
 	"checkuser-all": "omna",
 	"checkuser-cidr-res": "Komuna CIDR:",
+	"checkuser-blocked": "Blokusita",
+	"checkuser-gblocked": "Blokusita globale",
+	"checkuser-wasblocked": "Antee blokusita",
 	"checkuser-accounts": "$1 nova {{PLURAL:$1|konto|konti}}",
 	"checkuser-search-submit": "Serchar",
 	"checkuser-ipeditcount": "~$1 di omna uzanti"
