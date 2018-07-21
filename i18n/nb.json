@@ -88,6 +88,8 @@
 	"checkuser-email-action": "sendte e-post til «$1»",
 	"checkuser-reset-action": "nullstilte passord for «$1»",
 	"checkuser-token-fail": "Øktfeil. Prøv igjen.",
+	"checkuser-login-failure": "Kunne ikke logge inn på {{SITENAME}} som $1",
+	"checkuser-login-success": "Logget inn på {{SITENAME}} som $1",
 	"apihelp-query+checkuser-description": "Sjekk hvilke IP-adresser som er brukt av et gitt brukernavn eller hvilke brukernavn som brukes av en gitt IP-adresse.",
 	"apihelp-query+checkuser-summary": "Sjekk hvilke IP-adresser som brukes av et gitt brukernavn eller hvilke brukernavn som brukes av ei gitt IP-adresse.",
 	"apihelp-query+checkuser-param-request": "Type IP-kontrollforespørsel:\n;userips:Hent IP-adresse for målbrukeren.\n;edits:Hent endringer fra mål-IP-en.\n;ipusers:Hent brukere fra mål-IP-en.",
