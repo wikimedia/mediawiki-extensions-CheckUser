@@ -12,7 +12,8 @@
 			"Ömer Berkay",
 			"Sayginer",
 			"McDutchie",
-			"HakanIST"
+			"HakanIST",
+			"Hedda"
 		]
 	},
 	"checkuser-summary": "Bu araç bir kullanıcı tarafından kullanılan IP'leri almak için son değişiklikleri tarar ya da bir IP için değişiklik/kullanıcı verisini gösterir.\nAlıcı IP'deki kullanıcı ve değişiklikler, IP'ye \"/xff\" eklenmesiyle XFF başlıklarıyla alınabilir. IPv4 (CIDR $1-32) ve IPv6 (CIDR $2-128) desteklenmektedir.\nPerformans nedeniyle 5000'den fazla değişiklik dönmeyecektir.\nBunu ilkelere uygun olarak kullanın.",
@@ -48,6 +49,8 @@
 	"checkuser-nomatch": "Eşleşen bulunamadı.",
 	"checkuser-nomatch-edits": "Eşleşen bulunamadı.\nSon değişiklik $1 tarihinde $2 saatinde.",
 	"checkuser-check": "Kontrol et",
+	"checkuser-check-this-user": "Bu kullanıcıyı kontrol et",
+	"checkuser-recent-checks": "Bu kullanıcı için son kontroller",
 	"checkuser-log-fail": "Günlük girdisi eklenemiyor",
 	"checkuser-nolog": "Günlük dosyası bulunamadı.",
 	"checkuser-blocked": "Engellendi",
@@ -91,6 +94,10 @@
 	"checkuser-email-action": "\"$1\" kullanıcısına e-posta gönder",
 	"checkuser-reset-action": "\"$1\" kullanıcısı için parolayı sıfırla",
 	"checkuser-token-fail": "Oturum hatası. Lütfen tekrar deneyin.",
+	"checkuser-login-failure": "$1 olarak {{SITENAME}} sitesinde oturum açma işlemi başarısız oldu",
+	"checkuser-login-success": "$1 olarak {{SITENAME}} sitesinde oturum başarıyla açıldı",
+	"apihelp-query+checkuser-description": "Belirli bir kullanıcı adı tarafından hangi IP adreslerinin kullanıldığını veya kullanıcı adlarının belirli bir IP adresi tarafından kullanıldığını kontrol edin.",
+	"apihelp-query+checkuser-summary": "Belirli bir kullanıcı adı tarafından hangi IP adreslerinin kullanıldığını veya kullanıcı adlarının belirli bir IP adresi tarafından kullanıldığını kontrol edin.",
 	"apihelp-query+checkuser-param-request": "Kullanıcıdenetle isteğinin türü:\n;userips:Hedef kullanıcının IP adreslerini al.\n;edits:Hedef IP adresleri veya IP aralığındaki değişiklikleri al.\nipusers:Hedef IP adresleri veya IP aralığındaki kullanıcıları al.",
 	"apihelp-query+checkuser-param-target": "Kullanıcı adı, IP adresi veya CIDR aralığını kontrol et.",
 	"apihelp-query+checkuser-param-reason": "Kontrol nedeni.",
@@ -99,8 +106,16 @@
 	"apihelp-query+checkuser-param-xff": "IP adresi yerine XFF veri kullanın.",
 	"apihelp-query+checkuser-example-1": "[[User:Example]] için IP adreslerini kontrol et",
 	"apihelp-query+checkuser-example-2": "192.0.2.0/24 tarafından yapılan değişiklikleri kontrol et",
+	"apihelp-query+checkuserlog-description": "Denetçi günlüğünden girdiler alın.",
+	"apihelp-query+checkuserlog-summary": "Denetçi günlüğünden girdiler alın.",
 	"apihelp-query+checkuserlog-param-user": "Denetçi olan kullanıcı adları.",
 	"apihelp-query+checkuserlog-param-target": "Kontrol edilen IP adresleri veya CIDR aralığı.",
 	"apihelp-query+checkuserlog-param-limit": "Satır sınırı.",
-	"apihelp-query+checkuserlog-example-1": "[[User:Example]] için yapılan kontrolleri göster"
+	"apihelp-query+checkuserlog-param-from": "Numaralandırmaya başlamak için zaman bilgisi.",
+	"apihelp-query+checkuserlog-param-to": "Numaralandırmayı sonlandırmak için zaman bilgisi.",
+	"apihelp-query+checkuserlog-example-1": "[[User:Example]] için yapılan kontrolleri göster",
+	"apihelp-query+checkuserlog-example-2": "2011-10-15T23:00:00Z tarihinden sonraki 192.0.2.0/24 kontrollerini göster",
+	"apierror-checkuser-missingsummary": "Kontrol için neden tanımlamanız gerekir.",
+	"apierror-checkuser-timelimit": "Doğru zaman sınırını kullanmanız gerekiyor (''-2 hafta'' veya ''2 hafta önce'' gibi)",
+	"apierror-checkuser-invalidmode": "Geçersiz istek modu"
 }
