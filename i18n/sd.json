@@ -2,10 +2,12 @@
 	"@metadata": {
 		"authors": [
 			"Mehtab ahmed",
-			"Indus Asia"
+			"Indus Asia",
+			"Tweety"
 		]
 	},
 	"group-checkuser": "واپرائيندڙ چڪاسڪار",
+	"checkuser-target": "آئي پي پتو يا واپرائيندڙ نانءُ",
 	"checkuser-edits": "ترميمون وٺو",
 	"checkuser-all": "سڀ",
 	"checkuser-check-this-user": "هن واپرائيندڙ جي جانچ ڪيو (Check this user)",
