@@ -353,7 +353,7 @@ class CheckUserHooks {
 	 *
 	 * @param string $xff XFF header value
 	 * @return array (string|null, bool)
-	 * @TODO: move this to a utility class
+	 * @todo move this to a utility class
 	 */
 	public static function getClientIPfromXFF( $xff ) {
 		global $wgUsePrivateIPs;
