@@ -31,7 +31,7 @@
 	"right-checkuser-log": "Przeglądanie rejestru checkuser",
 	"action-checkuser": "sprawdzania adresów IP uzytkowników i innych informacji",
 	"action-checkuser-log": "przeglądania rejestru checkuser",
-	"grouppage-checkuser": "{{ns:project}}:CheckUser",
+	"grouppage-checkuser": "{{ns:project}}:Checkuser",
 	"checkuser-reason": "Powód",
 	"checkuser-reason-api": "API: $1",
 	"checkuser-showlog": "Przełącz na rejestr CheckUserów",
