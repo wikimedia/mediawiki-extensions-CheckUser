@@ -83,6 +83,8 @@
 	"checkuser-email-action": "mannate 'na mail a l'utende \"$1\"",
 	"checkuser-reset-action": "azzere 'a password pe l'utende \"$1\"",
 	"checkuser-token-fail": "Sessione fallite. Pruève arrete.",
+	"checkuser-login-failure": "Non g'è trasute jndr'à {{SITENAME}} cumme $1",
+	"checkuser-login-success": "E' trasute jndr'à {{SITENAME}} cumme $1",
 	"apihelp-query+checkuser-description": "Verifiche quale IP so ausate da 'nu certe nome utende o quale nome de utinde so ausate da 'nu certe IP.",
 	"apihelp-query+checkuser-summary": "Verifiche quale IP so ausate da 'nu certe nome utende o quale nome de utinde so ausate da 'nu certe IP.",
 	"apihelp-query+checkuser-param-request": "Tipe de richieste de CheckUser:\n;userips:Pigghie l'indirizze IP de l'utende de destinazione.\n;edits:Pigghie le cangiaminde da l'indirizze IP de destinazione o de l'indervalle.\n;ipusers:Pigghie le utinde da l'indirizze IP de destinazione o de l'indervalle..",
