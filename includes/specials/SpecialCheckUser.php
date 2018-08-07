@@ -513,6 +513,9 @@ class SpecialCheckUser extends SpecialPage {
 			$s = $this->noMatchesMessage( $user ) . "\n";
 		} else {
 			$ips_edits = [];
+			$ips_first = [];
+			$ips_last = [];
+			$ips_hex = [];
 			$counter = 0;
 			foreach ( $ret as $row ) {
 				if ( $counter >= 5000 ) {
@@ -1201,7 +1204,7 @@ class SpecialCheckUser extends SpecialPage {
 						);
 					} else {
 						// Load local user group instead
-						$gbUserGroups[] = '';
+						$gbUserGroups = [ '' ];
 						$user = $this->getUser();
 						$gbtitle = $this->getTitleFor( 'GlobalBlock' );
 						$linkGB = $linkrenderer->makeKnownLink(
