@@ -89,6 +89,8 @@
 	"checkuser-email-action": "envioulle un correo electrónico ao usuario \"$1\"",
 	"checkuser-reset-action": "envioulle un novo contrasinal ao usuario \"$1\"",
 	"checkuser-token-fail": "Fallo na sesión. Probe de novo.",
+	"checkuser-login-failure": "Non se puido acceder a {{SITENAME}} como $1",
+	"checkuser-login-success": "Acceso con éxito a {{SITENAME}} como $1",
 	"group-checkuser.css": "/* O CSS que se coloque aquí afectará soamente aos verificadores de usuarios */",
 	"group-checkuser.js": "/* O JS que se coloque aquí afectará soamente aos verificadores de usuarios */",
 	"apihelp-query+checkuser-description": "Comprobar que enderezos IP son empregados por un usuario concreto ou que nomes de usuario son empregados por un IP específico.",
