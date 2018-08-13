@@ -532,6 +532,7 @@ class SpecialCheckUser extends SpecialPage {
 			Wikimedia\suppressWarnings();
 			set_time_limit( 60 );
 			Wikimedia\restoreWarnings();
+			$lang = $this->getLanguage();
 
 			$s = '<div id="checkuserresults"><ul>';
 			foreach ( $ips_edits as $ip => $edits ) {
@@ -549,7 +550,7 @@ class SpecialCheckUser extends SpecialPage {
 						)
 					)->escaped();
 				$s .= ' ' . $this->getTimeRangeString( $ips_first[$ip], $ips_last[$ip] ) . ' ';
-				$s .= ' <strong>[' . $edits . ']</strong>';
+				$s .= ' <strong>[' . $lang->formatNum( $edits ) . ']</strong>';
 
 				// If we get some results, it helps to know if the IP in general
 				// has a lot more edits, e.g. "tip of the iceberg"...
@@ -677,6 +678,7 @@ class SpecialCheckUser extends SpecialPage {
 		$counter = 0;
 		// See what is best to do after testing the waters...
 		if ( isset( $rangecount ) && $rangecount > 5000 ) {
+			$lang = $this->getLanguage();
 			$ret = $dbr->select(
 				'cu_changes',
 				[
@@ -718,7 +720,7 @@ class SpecialCheckUser extends SpecialPage {
 					]
 				);
 				$s .= ' ' . $this->getTimeRangeString( $row->first, $row->last ) . ' ';
-				$s .= ' [<strong>' . $row->count . "</strong>]</li>\n";
+				$s .= ' [<strong>' . $lang->formatNum( $row->count ) . "</strong>]</li>\n";
 				++$counter;
 			}
 			$s .= '</ol>';
@@ -976,6 +978,7 @@ class SpecialCheckUser extends SpecialPage {
 		}
 		// Are there too many edits?
 		if ( isset( $rangecount ) && $rangecount > 10000 ) {
+			$lang = $this->getLanguage();
 			$ret = $dbr->select(
 				'cu_changes',
 				[
@@ -1017,7 +1020,7 @@ class SpecialCheckUser extends SpecialPage {
 				);
 				$s .= ' ' . $this->getTimeRangeString( $row->first, $row->last ) . ' ';
 				// @todo FIXME: Hard coded brackets.
-				$s .= ' [<strong>' . $row->count . "</strong>]</li>\n";
+				$s .= ' [<strong>' . $lang->formatNum( $row->count ) . "</strong>]</li>\n";
 				++$counter;
 			}
 			$s .= '</ol>';
