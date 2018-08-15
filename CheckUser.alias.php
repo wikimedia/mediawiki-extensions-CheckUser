@@ -400,6 +400,16 @@ $specialPageAliases['sq'] = [
 	'CheckUser' => [ 'KontrolloPërdorues' ],
 ];
 
+/** Serbian (Cyrillic script) (српски (ћирилица)‎) */
+$specialPageAliases['sr-ec'] = [
+	'CheckUser' => [ 'Провери_корисника', 'ПровериКорисника' ],
+];
+
+/** Serbian (Latin script) (srpski (latinica)‎) */
+$specialPageAliases['sr-el'] = [
+	'CheckUser' => [ 'Proveri_korisnika', 'ProveriKorisnika' ],
+];
+
 /** Swedish (svenska) */
 $specialPageAliases['sv'] = [
 	'CheckUser' => [ 'Kolla_användare' ],
