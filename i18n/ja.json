@@ -65,7 +65,7 @@
 	"checkuser-log-fail": "ログに追加することができません",
 	"checkuser-nolog": "ログファイルが見つかりません。",
 	"checkuser-blocked": "ブロック済",
-	"checkuser-gblocked": "グローバルブロックされています",
+	"checkuser-gblocked": "グローバルブロック済",
 	"checkuser-locked": "ロック済",
 	"checkuser-wasblocked": "過去にブロックの記録あり",
 	"checkuser-localonly": "統合されていません",
