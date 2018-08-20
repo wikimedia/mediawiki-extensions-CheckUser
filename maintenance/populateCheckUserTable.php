@@ -51,8 +51,8 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 			$cutoffCond = "";
 		}
 
-		$start = $db->selectField( 'recentchanges', 'MIN(rc_id)', false, __METHOD__ );
-		$end = $db->selectField( 'recentchanges', 'MAX(rc_id)', false, __METHOD__ );
+		$start = (int)$db->selectField( 'recentchanges', 'MIN(rc_id)', false, __METHOD__ );
+		$end = (int)$db->selectField( 'recentchanges', 'MAX(rc_id)', false, __METHOD__ );
 		// Do remaining chunk
 		$end += $this->mBatchSize - 1;
 		$blockStart = $start;
