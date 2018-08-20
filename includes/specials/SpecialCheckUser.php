@@ -550,7 +550,7 @@ class SpecialCheckUser extends SpecialPage {
 						)
 					)->escaped();
 				$s .= ' ' . $this->getTimeRangeString( $ips_first[$ip], $ips_last[$ip] ) . ' ';
-				$s .= ' <strong>[' . $lang->formatNum( $edits ) . ']</strong>';
+				$s .= ' <strong>[' . htmlspecialchars( $lang->formatNum( $edits ) ) . ']</strong>';
 
 				// If we get some results, it helps to know if the IP in general
 				// has a lot more edits, e.g. "tip of the iceberg"...
@@ -720,7 +720,8 @@ class SpecialCheckUser extends SpecialPage {
 					]
 				);
 				$s .= ' ' . $this->getTimeRangeString( $row->first, $row->last ) . ' ';
-				$s .= ' [<strong>' . $lang->formatNum( $row->count ) . "</strong>]</li>\n";
+				$s .= ' [<strong>' . htmlspecialchars( $lang->formatNum( $row->count ) ) .
+					"</strong>]</li>\n";
 				++$counter;
 			}
 			$s .= '</ol>';
@@ -824,8 +825,7 @@ class SpecialCheckUser extends SpecialPage {
 
 		// If user is not IP or nonexistent
 		if ( !$user_id ) {
-			$s = $this->msg( 'nosuchusershort', $user )->parseAsBlock();
-			$out->addHTML( $s );
+			$out->addHTML( $this->msg( 'nosuchusershort', $user )->parseAsBlock() );
 			return;
 		}
 
@@ -908,18 +908,18 @@ class SpecialCheckUser extends SpecialPage {
 			]
 		);
 		if ( !$dbr->numRows( $ret ) ) {
-			$s = $this->noMatchesMessage( $user ) . "\n";
+			$html = $this->noMatchesMessage( $user ) . "\n";
 		} else {
 			$this->doLinkCache( $ret );
 			// List out the edits
-			$s = '<div id="checkuserresults">';
+			$html = '<div id="checkuserresults">';
 			foreach ( $ret as $row ) {
-				$s .= $this->CUChangesLine( $row, $reason );
+				$html .= $this->CUChangesLine( $row, $reason );
 			}
-			$s .= '</ul></div>';
+			$html .= '</ul></div>';
 		}
 
-		$out->addHTML( $s );
+		$out->addHTML( $html );
 	}
 
 	/**
@@ -1020,7 +1020,8 @@ class SpecialCheckUser extends SpecialPage {
 				);
 				$s .= ' ' . $this->getTimeRangeString( $row->first, $row->last ) . ' ';
 				// @todo FIXME: Hard coded brackets.
-				$s .= ' [<strong>' . $lang->formatNum( $row->count ) . "</strong>]</li>\n";
+				$s .= ' [<strong>' . htmlspecialchars( $lang->formatNum( $row->count ) ) .
+					"</strong>]</li>\n";
 				++$counter;
 			}
 			$s .= '</ol>';
@@ -1161,11 +1162,11 @@ class SpecialCheckUser extends SpecialPage {
 					$linkCA = Html::element( 'a',
 						[
 							'href' => $centralCAUrl . "/" . $name,
-							'title' => $this->msg( 'centralauth' ),
+							'title' => $this->msg( 'centralauth' )->text(),
 						],
 						$calinkAlias
 					);
-					$s .= ' ' . $this->msg( 'parentheses', $linkCA )->plain();
+					$s .= ' ' . $this->msg( 'parentheses', $linkCA )->escaped();
 				}
 				// Add Globalblocking link link to CentralWiki
 				if ( $globalBlockingToollink !== false
@@ -1189,7 +1190,7 @@ class SpecialCheckUser extends SpecialPage {
 						$linkGB = Html::element( 'a',
 							[
 								'href' => $centralGBUrl . "/" . $name,
-								'title' => $this->msg( 'globalblocking-block-submit' ),
+								'title' => $this->msg( 'globalblocking-block-submit' )->text(),
 							],
 							$gblinkAlias
 						);
@@ -1201,7 +1202,7 @@ class SpecialCheckUser extends SpecialPage {
 						$linkGB = Html::element( 'a',
 							[
 								'href' => $centralGBUrl . "/" . $name,
-								'title' => $this->msg( 'globalblocking-block-submit' ),
+								'title' => $this->msg( 'globalblocking-block-submit' )->text(),
 							],
 							$gblinkAlias
 						);
@@ -1223,14 +1224,14 @@ class SpecialCheckUser extends SpecialPage {
 					// Only load the script for users in the configured global(local) group(s) or
 					// for local user with globalblock permission if there is no WikiMap
 					if ( count( array_intersect( $globalBlockingToollink['groups'], $gbUserGroups ) ) ) {
-						$s .= ' ' . $this->msg( 'parentheses', $linkGB )->plain();
+						$s .= ' ' . $this->msg( 'parentheses', $linkGB )->escaped();
 					}
 				}
 				// Show edit time range
 				$s .= ' ' . $this->getTimeRangeString( $users_first[$name], $users_last[$name] ) . ' ';
 				// Total edit count
 				// @todo FIXME: i18n issue: Hard coded brackets.
-				$s .= ' [<strong>' . $count . '</strong>]<br />';
+				$s .= ' [<strong>' . htmlspecialchars( $count ) . '</strong>]<br />';
 				// Check if this user or IP is blocked. If so, give a link to the block log...
 				$flags = $this->userBlockFlags( $ip, $users_ids[$name], $user );
 				// Check how many accounts the user made recently
@@ -1446,24 +1447,25 @@ class SpecialCheckUser extends SpecialPage {
 	 */
 	protected function CUChangesLine( $row, $reason ) {
 		static $flagCache;
+		$line = '';
 		// Add date headers as needed
-		$date = $this->getLanguage()->date( wfTimestamp( TS_MW, $row->cuc_timestamp ), true, true );
+		$date = htmlspecialchars(
+			$this->getLanguage()->date( wfTimestamp( TS_MW, $row->cuc_timestamp ), true, true )
+		);
 		if ( !isset( $this->lastdate ) ) {
 			$this->lastdate = $date;
-			$line = "\n<h4>$date</h4>\n<ul class=\"special\">";
+			$line .= "\n<h4>$date</h4>\n<ul class=\"special\">";
 		} elseif ( $date != $this->lastdate ) {
-			$line = "</ul>\n<h4>$date</h4>\n<ul class=\"special\">";
+			$line .= "</ul>\n<h4>$date</h4>\n<ul class=\"special\">";
 			$this->lastdate = $date;
-		} else {
-			$line = '';
 		}
 		$line .= '<li>';
 		// Create diff/hist/page links
 		$line .= $this->getLinksFromRow( $row );
 		// Show date
-		$line .= ' . . ' .
+		$line .= ' . . ' . htmlspecialchars(
 			$this->getLanguage()->time( wfTimestamp( TS_MW, $row->cuc_timestamp ), true, true )
-			. ' . . ';
+			) . ' . . ';
 		// Userlinks
 		$user = User::newFromId( $row->cuc_user );
 		if ( !IP::isIPAddress( $row->cuc_user_text ) ) {
@@ -1585,7 +1587,7 @@ class SpecialCheckUser extends SpecialPage {
 			// @todo FIXME: Hard coded parentheses.
 			$links['log'] = '(' . $this->getLinkRenderer()->makeKnownLink(
 				SpecialPage::getTitleFor( 'Log' ),
-				$this->message['log'],
+				new HtmlArmor( $this->message['log'] ),
 				[],
 				[ 'page' => $title->getPrefixedText() ]
 			) . ')';
@@ -1599,7 +1601,7 @@ class SpecialCheckUser extends SpecialPage {
 				// @todo FIXME: Hard coded parentheses.
 				$links['diff'] = ' (' . $this->getLinkRenderer()->makeKnownLink(
 					$title,
-					$this->message['diff'],
+					new HtmlArmor( $this->message['diff'] ),
 					[],
 					[
 						'curid' => $row->cuc_page_id,
@@ -1612,7 +1614,7 @@ class SpecialCheckUser extends SpecialPage {
 			// @todo FIXME: Hard coded parentheses.
 			$links['history'] = ' (' . $this->getLinkRenderer()->makeKnownLink(
 				$title,
-				$this->message['hist'],
+				new HtmlArmor( $this->message['hist'] ),
 				[],
 				[
 					'curid' => $row->cuc_page_id,
