@@ -833,7 +833,7 @@ class SpecialCheckUser extends SpecialPage {
 		self::addLogEntry( 'useredits', 'user', $user, $reason, $user_id );
 
 		$dbr = wfGetDB( DB_REPLICA );
-		$user_cond = "cuc_user = '$user_id'";
+		$user_cond = "cuc_user = " . $dbr->addQuotes( $user_id );
 		$time_conds = $this->getTimeConds( $period );
 		// Ordered in descent by timestamp. Causes large filesorts if there are many edits.
 		// Check how many rows will need sorting ahead of time to see if this is too big.
