@@ -26,7 +26,7 @@
 	"group-checkuser": "Чекјузери",
 	"group-checkuser-member": "{{GENDER:$1|чекјузер}}",
 	"right-checkuser": "проверавање корисничких IP адреса и других информација",
-	"right-checkuser-log": "преглед евиденције чекјузера",
+	"right-checkuser-log": "преглед дневника чекјузера",
 	"action-checkuser": "проверавате корисничке IP адресе и друге информације",
 	"action-checkuser-log": "прегледате дневнике чекјузера",
 	"grouppage-checkuser": "{{ns:project}}:Чекјузер",
