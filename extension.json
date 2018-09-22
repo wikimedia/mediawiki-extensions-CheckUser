@@ -53,7 +53,7 @@
 		},
 		"CheckUserLogLogins": {
 			"value": false,
-			"description": "Whehter login attempts should be logged in CheckUser logs"
+			"description": "Whether login attempts should be logged in CheckUser logs"
 		}
 	},
 	"APIListModules": {
