@@ -45,7 +45,7 @@
 	"checkuser-all": "све",
 	"checkuser-cidr-label": "Проналажење заједничког опсега и погођених адресе за списак IP адреса",
 	"checkuser-cidr-res": "Уобичајени CIDR",
-	"checkuser-empty": "Евиденција је празна.",
+	"checkuser-empty": "Дневник не садржи ставке.",
 	"checkuser-nomatch": "Нема погодака.",
 	"checkuser-nomatch-edits": "Нису нађена поклапања.\nПоследња измена је била на $1 у $2.",
 	"checkuser-check": "Провера",
