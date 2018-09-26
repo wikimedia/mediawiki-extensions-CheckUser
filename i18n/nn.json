@@ -69,6 +69,6 @@
 	"checkuser-limited": "'''Desse resultata har vortne avkorta av ytegrunnar.'''",
 	"checkuser-autocreate-action": "vart automatisk oppretta",
 	"checkuser-create-action": "vart oppretta",
-	"checkuser-email-action": "sendte e-post til «$1»",
+	"checkuser-email-action": "sende e-post til brukaren «$1»",
 	"checkuser-reset-action": "nullstilte passord for «$1»"
 }
