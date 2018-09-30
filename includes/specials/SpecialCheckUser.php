@@ -1736,16 +1736,17 @@ class SpecialCheckUser extends SpecialPage {
 			'cul_range_start' => $rangeStart,
 			'cul_range_end' => $rangeEnd
 		];
+		$fname = __METHOD__;
 
 		DeferredUpdates::addCallableUpdate(
-			function () use ( $data, $timestamp ) {
+			function () use ( $data, $timestamp, $fname ) {
 				$dbw = wfGetDB( DB_MASTER );
 				$dbw->insert(
 					'cu_log',
 					[
 						'cul_timestamp' => $dbw->timestamp( $timestamp )
 					] + $data,
-					__METHOD__
+					$fname
 				);
 			},
 			DeferredUpdates::PRESEND // fail on error and show no output
