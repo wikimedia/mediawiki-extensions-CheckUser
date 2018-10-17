@@ -111,11 +111,10 @@ class SpecialCheckUser extends SpecialPage {
 
 	protected function showIntroductoryText() {
 		$cidrLimit = $this->getConfig()->get( 'CheckUserCIDRLimit' );
-		$this->getOutput()->addWikiText(
-			$this->msg( 'checkuser-summary',
-				$cidrLimit['IPv4'],
-				$cidrLimit['IPv6']
-			)->text()
+		$this->getOutput()->addWikiMsg(
+			'checkuser-summary',
+			$cidrLimit['IPv4'],
+			$cidrLimit['IPv6']
 		);
 	}
 
