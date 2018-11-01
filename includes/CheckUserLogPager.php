@@ -19,7 +19,7 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 		$this->getDateCond( $conds['year'], $conds['month'] );
 	}
 
-	function formatRow( $row ) {
+	public function formatRow( $row ) {
 		$user = Linker::userLink( $row->cul_user, $row->user_name );
 
 		if ( $row->cul_type == 'userips' || $row->cul_type == 'useredits' ) {
@@ -49,7 +49,7 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 	/**
 	 * @return string
 	 */
-	function getStartBody() {
+	public function getStartBody() {
 		if ( $this->getNumRows() ) {
 			return '<ul>';
 		} else {
@@ -60,7 +60,7 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 	/**
 	 * @return string
 	 */
-	function getEndBody() {
+	public function getEndBody() {
 		if ( $this->getNumRows() ) {
 			return '</ul>';
 		} else {
@@ -71,11 +71,11 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 	/**
 	 * @return string
 	 */
-	function getEmptyBody() {
+	public function getEmptyBody() {
 		return '<p>' . $this->msg( 'checkuser-empty' )->escaped() . '</p>';
 	}
 
-	function getQueryInfo() {
+	public function getQueryInfo() {
 		return [
 			'tables' => [ 'cu_log', 'user' ],
 			'fields' => $this->selectFields(),
@@ -83,11 +83,11 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 		];
 	}
 
-	function getIndexField() {
+	public function getIndexField() {
 		return 'cul_timestamp';
 	}
 
-	function selectFields() {
+	public function selectFields() {
 		return [
 			'cul_id', 'cul_timestamp', 'cul_user', 'cul_reason', 'cul_type',
 			'cul_target_id', 'cul_target_text', 'user_name'
