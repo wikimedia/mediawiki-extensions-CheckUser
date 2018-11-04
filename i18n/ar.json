@@ -77,7 +77,7 @@
 	"checkuser-log-search-target": "الهدف:",
 	"checkuser-log-search-type": "البحث حسب:",
 	"checkuser-ipeditcount": "~$1 من كل المستخدمين",
-	"checkuser-showmain": "غير إلى استمارة تدقيق المستخدم الرئيسية",
+	"checkuser-showmain": "تغيير إلى استمارة تدقيق المستخدم الرئيسية",
 	"checkuser-limited": "'''هذه النتائج تم اختصارها لأسباب تتعلق بالأداء.'''",
 	"checkuser-log-entry-userips": "$3، $1 حصل على عناوين الأيبي ل$2",
 	"checkuser-log-entry-ipedits": "$3، $1 حصل على التعديلات ل$2",
