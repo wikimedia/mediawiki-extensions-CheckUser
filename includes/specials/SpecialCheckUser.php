@@ -24,9 +24,9 @@ class SpecialCheckUser extends SpecialPage {
 		$this->checkReadOnly();
 
 		// Blocked users are not allowed to run checkuser queries (bug T157883)
-		$callingUser = $this->getUser();
-		if ( $callingUser->isBlocked() ) {
-			throw new UserBlockedError( $callingUser->getBlock() );
+		$block = $this->getUser()->getBlock();
+		if ( $block && $block->isSitewide() ) {
+			throw new UserBlockedError( $block );
 		}
 
 		$out = $this->getOutput();
