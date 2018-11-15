@@ -12,7 +12,8 @@
 			"Luke081515",
 			"Tiin",
 			"J. 'mach' wust",
-			"McDutchie"
+			"McDutchie",
+			"FF11"
 		]
 	},
 	"checkuser-summary": "Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers bzw. die Bearbeitungen/Benutzernamen für eine IP-Adresse zu ermitteln. Benutzer und Bearbeitungen einer IP-Adresse können auch nach Informationen aus den XFF-Headern abgefragt werden, indem der IP-Adresse ein „/xff“ angehängt wird. IPv4 (CIDR $1-32) und IPv6 (CIDR $2-128) werden unterstützt.\nZur Aufrechterhaltung der Leistungsfähigkeit werden maximal 5000 Bearbeitungen ausgegeben. Benutze CheckUser ausschließlich in Übereinstimmung mit den Datenschutzrichtlinien.",
@@ -96,6 +97,7 @@
 	"checkuser-login-failure": "Anmeldung bei {{SITENAME}} als $1 fehlgeschlagen",
 	"checkuser-login-success": "Erfolgreich bei {{SITENAME}} angemeldet als $1",
 	"apihelp-query+checkuser-description": "Überprüfen, welche IP-Adressen durch einen bestimmten Benutzernamen oder welche Benutzernamen von einer bestimmten IP-Adresse verwendet werden.",
+	"apihelp-query+checkuser-summary": "Überprüfen, welche IP-Adressen durch einen bestimmten Benutzernamen oder welche Benutzernamen von einer bestimmten IP-Adresse verwendet werden.",
 	"apihelp-query+checkuser-param-request": "Art der CheckUser-Anfrage:\n;userips:Ermittelt die IP-Adresse des Ziel-Benutzers.\n;edits:Ermittelt Änderungen der Ziel-IP-Adresse oder des Adressbereichs.\n;ipusers:Ermittelt den Benutzer der Ziel-IP-Adresse oder des Adressbereichs.",
 	"apihelp-query+checkuser-param-target": "Zu überprüfender Benutzername, CIDR-Bereich oder zu überprüfende IP-Adresse.",
 	"apihelp-query+checkuser-param-reason": "Grund für die Überprüfung.",
