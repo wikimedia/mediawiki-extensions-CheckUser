@@ -14,6 +14,12 @@ class SpecialCheckUserLog extends SpecialPage {
 		$this->setHeaders();
 		$this->checkPermissions();
 
+		// Blocked users are not allowed to run checkuser queries (bug T157883)
+		$block = $this->getUser()->getBlock();
+		if ( $block && $block->isSitewide() ) {
+			throw new UserBlockedError( $block );
+		}
+
 		$out = $this->getOutput();
 		$request = $this->getRequest();
 		$this->target = trim( $request->getVal( 'cuSearch', $par ) );
