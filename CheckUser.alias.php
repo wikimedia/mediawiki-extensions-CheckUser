@@ -400,14 +400,16 @@ $specialPageAliases['sq'] = [
 	'CheckUser' => [ 'KontrolloPërdorues' ],
 ];
 
-/** Serbian (Cyrillic script) (српски (ћирилица)‎) */
+/** Serbian (Cyrillic script) (српски (ћирилица)) */
 $specialPageAliases['sr-ec'] = [
 	'CheckUser' => [ 'Провери_корисника', 'ПровериКорисника' ],
+	'CheckUserLog' => [ 'Дневник_чекјузера', 'ДневникЧекјузера' ],
 ];
 
-/** Serbian (Latin script) (srpski (latinica)‎) */
+/** Serbian (Latin script) (srpski (latinica)) */
 $specialPageAliases['sr-el'] = [
 	'CheckUser' => [ 'Proveri_korisnika', 'ProveriKorisnika' ],
+	'CheckUserLog' => [ 'Dnevnik_čekjuzera', 'DnevnikČekjuzera' ],
 ];
 
 /** Swedish (svenska) */
