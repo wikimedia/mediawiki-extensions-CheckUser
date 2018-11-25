@@ -70,8 +70,5 @@
 	"checkuser-create-action": "შეიქმნა",
 	"checkuser-email-action": "გაუგზავნა წერილი მომხმარებელ «$1»-ს",
 	"checkuser-reset-action": "პაროლის შეცვლა მომხმარებლისთვის \"$1\"",
-	"checkuser-token-fail": "სესია შეწყდა. გთხოვთ, თავიდან სცადოთ.",
-	"apihelp-query+checkuser-param-reason": "შეჩერების მიზეზი",
-	"apihelp-query+checkuser-param-limit": "რიგების ლიმიტი",
-	"apihelp-query+checkuserlog-param-limit": "რიგების ლიმიტი"
+	"checkuser-token-fail": "სესია შეწყდა. გთხოვთ, თავიდან სცადოთ."
 }

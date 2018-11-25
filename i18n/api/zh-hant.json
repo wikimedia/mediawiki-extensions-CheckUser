@@ -1,0 +1,33 @@
+{
+	"@metadata": {
+		"authors": [
+			"Cwlin0416",
+			"Kly",
+			"LNDDYL",
+			"Liuxinyu970226",
+			"Waihorace"
+		]
+	},
+	"apihelp-query+checkuser-description": "檢查指定使用者使用的 IP 地址或指定 IP 地址使用的使用者",
+	"apihelp-query+checkuser-summary": "檢查指定使用者使用的 IP 地址或指定 IP 地址使用的使用者",
+	"apihelp-query+checkuser-param-request": "使用者查核請求類型：\n;userips:取得目標使用者的 IP。\n;edits:取得目標 IP 或地址段所作的更改。\n;ipusers:取得目標 IP 或地址段的使用者。",
+	"apihelp-query+checkuser-param-target": "要查核的使用者名稱 IP 地址，或 CIDR 地址段。",
+	"apihelp-query+checkuser-param-reason": "查核原因。",
+	"apihelp-query+checkuser-param-limit": "行數限制。",
+	"apihelp-query+checkuser-param-timecond": "使用者資料的時限 (例如 \"-2 weeks\" 或 \"2 weeks ago\" ) 。",
+	"apihelp-query+checkuser-param-xff": "使用 XFF 資料代替 IP。",
+	"apihelp-query+checkuser-example-1": "查核[[User:Example]]的 IP",
+	"apihelp-query+checkuser-example-2": "查核來自 192.0.2.0/24 的編輯",
+	"apihelp-query+checkuserlog-description": "從使用者查核日誌獲得記錄。",
+	"apihelp-query+checkuserlog-summary": "從使用者查核日誌獲得記錄。",
+	"apihelp-query+checkuserlog-param-user": "使用者查核員的使用者名稱。",
+	"apihelp-query+checkuserlog-param-target": "已查核的使用者、IP 地址或 CIDR 地址段。",
+	"apihelp-query+checkuserlog-param-limit": "行數限制。",
+	"apihelp-query+checkuserlog-param-from": "起始列舉的時間戳記。",
+	"apihelp-query+checkuserlog-param-to": "結束列舉的時間戳記。",
+	"apihelp-query+checkuserlog-example-1": "顯示[[User:Example]]的查核",
+	"apihelp-query+checkuserlog-example-2": "顯示在 2011-10-15T23:00:00Z 之後的 192.0.2.0/24 檢查",
+	"apierror-checkuser-missingsummary": "您必須定義檢查的原因。",
+	"apierror-checkuser-timelimit": "您必須使用正確的時間限制（例如：「-2 weeks」或「2 weeks ago」）。",
+	"apierror-checkuser-invalidmode": "無效請求模式"
+}

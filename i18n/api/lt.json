@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Eitvys200"
+		]
+	},
+	"apihelp-query+checkuser-description": "Patikrinti kokie IP adresai yra naudojami pateikto vartotojo vardo arba kokie vartotojų vardai yra naudojami pateikto IP adreso.",
+	"apihelp-query+checkuser-param-reason": "Tikrinimo priežastis.",
+	"apihelp-query+checkuser-param-limit": "Eilučių limitas.",
+	"apihelp-query+checkuser-example-1": "Patikrinti [[User:Example]] IP adresus",
+	"apihelp-query+checkuser-example-2": "Patikrinti 192.0.2.0/24 keitimus",
+	"apihelp-query+checkuserlog-description": "Gauti įrašus iš CheckUser žurnalo.",
+	"apihelp-query+checkuserlog-param-user": "CheckUser vartotojo vardas.",
+	"apihelp-query+checkuserlog-param-limit": "Eilučių limitas.",
+	"apihelp-query+checkuserlog-example-1": "Rodyti [[User:Example]] patikrinimus",
+	"apihelp-query+checkuserlog-example-2": "Rodyti 192.0.2.0/24 patikrinimus, po 2011-10-15T23:00:00Z",
+	"apierror-checkuser-missingsummary": "Privalote nurodyti tikrinimo priežastį.",
+	"apierror-checkuser-invalidmode": "Negalimas prašymo režimas"
+}

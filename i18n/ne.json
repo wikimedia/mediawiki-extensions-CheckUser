@@ -45,10 +45,5 @@
 	"checkuser-wasblocked": "पछिल्लो निषेधित",
 	"checkuser-localonly": "एकीकृत छैन",
 	"checkuser-search": "खोज्ने",
-	"checkuser-search-submit": "खोज",
-	"apihelp-query+checkuser-param-reason": "जाँच्ने कारण।",
-	"apihelp-query+checkuser-param-limit": "पङ्क्तिहरूको सीमा।",
-	"apihelp-query+checkuserlog-param-user": "प्रयोगकर्ताजाँचको प्रयोगकर्ता नाम।",
-	"apihelp-query+checkuserlog-param-target": "प्रयोगकर्ता जाँच, आइपी ठेगाना, वा सिआइडिआर सीमा।",
-	"apihelp-query+checkuserlog-param-limit": "पङ्क्तिहरूको सीमा।"
+	"checkuser-search-submit": "खोज"
 }

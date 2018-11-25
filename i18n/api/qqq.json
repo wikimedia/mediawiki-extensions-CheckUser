@@ -1,7 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
-			"Zoranzoki21"
+			"Zoranzoki21",
+			"Liuxinyu970226",
+			"Siebrand",
+			"Umherirrender"
 		]
 	},
 	"apihelp-query+checkuser-description": "{{doc-apihelp-description|query+checkuser}}",

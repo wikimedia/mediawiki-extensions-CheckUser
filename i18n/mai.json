@@ -53,6 +53,5 @@
 	"checkuser-ipeditcount": "~$1 सभ प्रयोक्ता सs",
 	"checkuser-autocreate-action": "स्वचालित रूप से निर्माण करल गेल",
 	"checkuser-create-action": "निर्माण करल गेल",
-	"checkuser-email-action": "प्रयोक्ता \"$1\" के ई-पत्र भेजल गेल",
-	"apihelp-query+checkuser-param-reason": "जाँच करे के कारण"
+	"checkuser-email-action": "प्रयोक्ता \"$1\" के ई-पत्र भेजल गेल"
 }

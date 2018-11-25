@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"StanProg"
+		]
+	},
+	"apierror-checkuser-invalidmode": "Невалиден режим на заявката"
+}

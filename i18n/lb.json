@@ -78,6 +78,5 @@
 	"checkuser-email-action": "dem Benotzer \"$1\" eng E-Mail geschéckt",
 	"checkuser-reset-action": "huet d'Passwuert fir de Benotzer \"$1\" zréckgesat",
 	"checkuser-token-fail": "Sessiouns-Feeler.Probéiert w.e.g. nach eng Kéier.",
-	"checkuser-login-success": "Op {{SITENAME}} ageloggt als $1",
-	"apihelp-query+checkuser-param-reason": "Grond fir nozekucken."
+	"checkuser-login-success": "Op {{SITENAME}} ageloggt als $1"
 }

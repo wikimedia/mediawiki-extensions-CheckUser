@@ -91,22 +91,5 @@
 	"checkuser-create-action": "skapades",
 	"checkuser-email-action": "skickade ett mejl till användare \"$1\"",
 	"checkuser-reset-action": "återställ lösenord för användare \"$1\"",
-	"checkuser-token-fail": "Session misslyckande. Var god försök igen.",
-	"apihelp-query+checkuser-description": "Kontrollera vilka IP-adresser som används av ett visst användarnamn eller vilka användarnamn som används av en viss IP-adress.",
-	"apihelp-query+checkuser-param-request": "Typ av CheckUser begäran:\n;userips:Få IP-adresser för målanvändaren.\n;edits:Få ändringar från mål-IP-adresser eller -intervall.\n;ipusers:Få användare från mål-IP-adresser eller -intervall.",
-	"apihelp-query+checkuser-param-target": "Användarnamn, IP-adress eller CIDR-intervall att kontrollera.",
-	"apihelp-query+checkuser-param-reason": "Skäl att kontrollera.",
-	"apihelp-query+checkuser-param-limit": "Begränsning av rader.",
-	"apihelp-query+checkuser-param-timecond": "Tidsgräns för användardata (som \"-2 weeks\" eller \"2 weeks ago\").",
-	"apihelp-query+checkuser-param-xff": "Använd XFF data istället för IP-adress.",
-	"apihelp-query+checkuser-example-1": "Kontrollera IP-adresser för [[User:Example]]",
-	"apihelp-query+checkuser-example-2": "Kontrollera redigeringar från 192.0.2.0/24",
-	"apihelp-query+checkuserlog-description": "Få poster från CheckUser-loggen.",
-	"apihelp-query+checkuserlog-param-user": "Användarnamn för CheckUsern.",
-	"apihelp-query+checkuserlog-param-target": "Kontrollerad användare, IP-adress, eller CIDR-intervall.",
-	"apihelp-query+checkuserlog-param-limit": "Begränsning av rader.",
-	"apihelp-query+checkuserlog-param-from": "Tidsstämpel att börja räkna upp från.",
-	"apihelp-query+checkuserlog-param-to": "Tidsstämpeln att räkna upp till.",
-	"apihelp-query+checkuserlog-example-1": "Visa kontroller av [[User:Example]]",
-	"apihelp-query+checkuserlog-example-2": "Visa kontroller av 192.0.2.0/24 efter 2011-10-15T23:00:00Z"
+	"checkuser-token-fail": "Session misslyckande. Var god försök igen."
 }

@@ -1,0 +1,28 @@
+{
+	"@metadata": {
+		"authors": [
+			"Mainframe98",
+			"Siebrand",
+			"Sjoerddebruin"
+		]
+	},
+	"apihelp-query+checkuser-description": "Controleer welke IP-adressen gebruikt worden door een opgegeven gebruikersnaam of welke gebruikersnamen worden gebruikt door een opgegeven IP-adres.",
+	"apihelp-query+checkuser-summary": "Controleer welke IP-adressen gebruikt worden door een opgegeven gebruikersnaam of welke gebruikersnamen worden gebruikt door een opgegeven IP-adres.",
+	"apihelp-query+checkuser-param-request": "Type van het CheckUserverzoek:\n;userips:IP-adres van de doelgebruiker ophalen.\n;edits:Wijzigingen van IP-adres of IP-adresreeks ophalen.\n;ipusers:Gebruikers van IP-adres of IP-adresreeks ophalen.",
+	"apihelp-query+checkuser-param-target": "Gebruikersnaam, IP-adres, of te controleren CIDR-range.",
+	"apihelp-query+checkuser-param-reason": "Reden voor controleren.",
+	"apihelp-query+checkuser-param-limit": "Limiet voor rijen.",
+	"apihelp-query+checkuser-param-timecond": "Tijdslimiet voor gebruikersgegevens, bijvoorbeeld \"-2 weeks\" of \"2 weeks ago\".",
+	"apihelp-query+checkuser-param-xff": "XFF-gegevens gebruiken in plaats van IP-adres.",
+	"apihelp-query+checkuser-example-1": "IP-adressen controleren voor [[User:Example]].",
+	"apihelp-query+checkuser-example-2": "Bewerkingen controleren voor 192.0.2.0/24.",
+	"apihelp-query+checkuserlog-description": "Regels uit het CheckUserlogboek ophalen.",
+	"apihelp-query+checkuserlog-param-user": "Naam van de gebruiker met CheckUserrechten.",
+	"apihelp-query+checkuserlog-param-target": "Gebruiker, IP-adres of CIDR-range gecontroleerd.",
+	"apihelp-query+checkuserlog-param-limit": "Limiet voor rijen.",
+	"apihelp-query+checkuserlog-param-from": "Het tijdstip waar de opsomming begint.",
+	"apihelp-query+checkuserlog-param-to": "Het tijdstip waar de opsomming eindigt.",
+	"apihelp-query+checkuserlog-example-1": "Controles van [[User:Example]] weergeven.",
+	"apihelp-query+checkuserlog-example-2": "Controles van 192.0.2.0/24 na 2011-10-15T23:00:00Z weergeven.",
+	"apierror-checkuser-missingsummary": "U moet een reden opgeven voor deze controle."
+}

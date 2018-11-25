@@ -1,0 +1,32 @@
+{
+	"@metadata": {
+		"authors": [
+			"FF11",
+			"McDutchie",
+			"Metalhead64",
+			"Tiin"
+		]
+	},
+	"apihelp-query+checkuser-description": "Überprüfen, welche IP-Adressen durch einen bestimmten Benutzernamen oder welche Benutzernamen von einer bestimmten IP-Adresse verwendet werden.",
+	"apihelp-query+checkuser-summary": "Überprüfen, welche IP-Adressen durch einen bestimmten Benutzernamen oder welche Benutzernamen von einer bestimmten IP-Adresse verwendet werden.",
+	"apihelp-query+checkuser-param-request": "Art der CheckUser-Anfrage:\n;userips:Ermittelt die IP-Adresse des Ziel-Benutzers.\n;edits:Ermittelt Änderungen der Ziel-IP-Adresse oder des Adressbereichs.\n;ipusers:Ermittelt den Benutzer der Ziel-IP-Adresse oder des Adressbereichs.",
+	"apihelp-query+checkuser-param-target": "Zu überprüfender Benutzername, CIDR-Bereich oder zu überprüfende IP-Adresse.",
+	"apihelp-query+checkuser-param-reason": "Grund für die Überprüfung.",
+	"apihelp-query+checkuser-param-limit": "Zeilenlimit.",
+	"apihelp-query+checkuser-param-timecond": "Zeitlimit der Benutzerdaten (wie „-2 weeks“ oder „2 weeks ago“).",
+	"apihelp-query+checkuser-param-xff": "XFF-Daten anstelle der IP-Adresse verwenden.",
+	"apihelp-query+checkuser-example-1": "IP-Adressen für [[User:Example]] überprüfen",
+	"apihelp-query+checkuser-example-2": "Bearbeitungen von 192.0.2.0/24 überprüfen",
+	"apihelp-query+checkuserlog-description": "Einträge aus dem CheckUser-Logbuch abrufen.",
+	"apihelp-query+checkuserlog-summary": "Ruft Einträge aus dem Checkuser-Logbuch ab.",
+	"apihelp-query+checkuserlog-param-user": "Benutzername des zu überprüfenden Benutzers.",
+	"apihelp-query+checkuserlog-param-target": "Überprüfter Benutzer, CIDR-Bereich oder überprüfte IP-Adresse.",
+	"apihelp-query+checkuserlog-param-limit": "Zeilenlimit.",
+	"apihelp-query+checkuserlog-param-from": "Der Zeitstempel, bei dem die Aufzählung beginnen soll.",
+	"apihelp-query+checkuserlog-param-to": "Der Zeitstempel, bei dem die Aufzählung enden soll.",
+	"apihelp-query+checkuserlog-example-1": "Prüfungen von [[User:Example]] anzeigen",
+	"apihelp-query+checkuserlog-example-2": "Zeigt Überprüfungen von 192.0.2.0/24 nach 2011-10-15T23:00:00Z",
+	"apierror-checkuser-missingsummary": "Du musst zur Überprüfung einen Grund angeben.",
+	"apierror-checkuser-timelimit": "Du musst das korrekte Zeitlimit verwenden (wie „-2 weeks“ oder „2 weeks ago“).",
+	"apierror-checkuser-invalidmode": "Ungültiger Abfragemodus"
+}
