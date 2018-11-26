@@ -34,7 +34,7 @@
 	"grouppage-checkuser": "{{ns:project}}:Användarkontrollant",
 	"checkuser-reason": "Anledning:",
 	"checkuser-reason-api": "API: $1",
-	"checkuser-showlog": "Visa logg",
+	"checkuser-showlog": "Byt till CheckUser-logg",
 	"checkuser-query": "Sök de senaste ändringarna",
 	"checkuser-target": "IP-adress eller användarnamn:",
 	"checkuser-users": "Hämta användare",
@@ -63,6 +63,7 @@
 	"checkuser-massblock": "Blockera valda användare",
 	"checkuser-massblock-text": "Valda konton kommer blockeras på obestämd tid, med autoblockering aktiverad och kontoskapande avaktiverat.\nIP-adresser kommer blockeras i en vecka för anonyma användare, med kontoskapande avaktiverat.",
 	"checkuser-blockemail": "Förhindra från att skicka e-post",
+	"checkuser-blocktalk": "Förhindra från att redigera sina egna diskussionssidor under blockeringen",
 	"checkuser-blocktag": "Ersätt användarsidor med:",
 	"checkuser-blocktag-talk": "Ersätt diskussionssidor med:",
 	"checkuser-massblock-commit": "Blockera valda användare",
@@ -70,6 +71,7 @@
 	"checkuser-block-failure": "'''Ingen användare blockerades.'''",
 	"checkuser-block-limit": "För många användare valda.",
 	"checkuser-block-noreason": "Du måste ange en anledning för blockeringarna.",
+	"checkuser-centralauth-multilock": "Lås flera markerade konton",
 	"checkuser-noreason": "Du måste uppge en anledning för den här frågan.",
 	"checkuser-accounts": "$1 {{PLURAL:$1|nytt konto|nya konton}}",
 	"checkuser-too-many": "För många resultat (enligt uppskattning). Du bör söka i ett mindre CIDR-block. Här är de IP-adresser som använts (högst 5000, sorterade efter adress):",
@@ -78,6 +80,8 @@
 	"checkuser-search-submit": "Sök",
 	"checkuser-search-initiator": "kontrollanten",
 	"checkuser-search-target": "kontrollmålet",
+	"checkuser-log-search-target": "Mål:",
+	"checkuser-log-search-type": "Sök efter:",
 	"checkuser-ipeditcount": "~$1 från alla användare",
 	"checkuser-showmain": "Växla till CheckUser huvudformulär",
 	"checkuser-limited": "'''Dessa resultat har av prestandaskäl blivit avkortade.'''",
@@ -91,5 +95,7 @@
 	"checkuser-create-action": "skapades",
 	"checkuser-email-action": "skickade ett mejl till användare \"$1\"",
 	"checkuser-reset-action": "återställ lösenord för användare \"$1\"",
-	"checkuser-token-fail": "Session misslyckande. Var god försök igen."
+	"checkuser-token-fail": "Session misslyckande. Var god försök igen.",
+	"checkuser-login-failure": "Misslyckades att logga in på {{SITENAME}} som $1",
+	"checkuser-login-success": "Loggades in på {{SITENAME}} som $1"
 }
