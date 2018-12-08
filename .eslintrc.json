@@ -7,15 +7,8 @@
 		"mw": false
 	},
 	"rules": {
-		"comma-dangle": 0,
-		"computed-property-spacing": 0,
-		"indent": 0,
-		"no-multi-spaces": 0,
-		"no-undef": 0,
 		"no-use-before-define": 0,
 		"one-var": 0,
-		"space-infix-ops": 0,
-		"vars-on-top": 0,
-		"wrap-iife": 0
+		"vars-on-top": 0
 	}
 }
