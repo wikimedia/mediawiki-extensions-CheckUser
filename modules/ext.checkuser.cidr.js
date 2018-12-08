@@ -1,5 +1,5 @@
 /* -- (c) Aaron Schulz 2009 */
-( function ( mw, $ ) {
+( function () {
 var showResults = function ( size, cidr ) {
 	$( '#mw-checkuser-cidr-res' ).val( cidr );
 	$( '#mw-checkuser-ipnote' ).text( size );
@@ -256,4 +256,4 @@ $( function () {
 		updateCIDRresult();
 	} );
 } );
-} )( mediaWiki, jQuery );
+} )();

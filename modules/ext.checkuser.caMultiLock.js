@@ -2,7 +2,7 @@
  * Adds a link to Special:MultiLock on a central wiki if $wgCheckUserCAMultiLock
  * is configured on the Special:CheckUser's block form
  */
-( function ( mw, $ ) {
+( function () {
 	var centralURL = mw.config.get( 'wgCUCAMultiLockCentral' ),
 		$userCheckboxes = $( '#checkuserresults li :checkbox' );
 
@@ -18,7 +18,7 @@
 	// Change the URL of the link when a checkbox's state is changed
 	$userCheckboxes.on( 'change', function () {
 		var names = [];
-		$.each( $userCheckboxes.serializeArray(), function ( i, obj ) {
+		$userCheckboxes.serializeArray().forEach( function ( obj ) {
 			if ( obj.name && obj.name === 'users[]' ) {
 				// Only registered accounts (not IPs) can be locked
 				if ( !mw.util.isIPAddress( obj.value ) ) {
@@ -32,4 +32,4 @@
 		$( '#cacu-multilock-link' ).prop( 'href', mlHref );
 	} );
 
-}( mediaWiki, jQuery ) );
+}() );
