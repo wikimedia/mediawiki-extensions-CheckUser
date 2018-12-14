@@ -11,7 +11,8 @@
 			"Morten LJ",
 			"Peter Alberti",
 			"Sarrus",
-			"Cgtdk"
+			"Cgtdk",
+			"Saederup92"
 		]
 	},
 	"checkuser-summary": "Dette værktøj scanner Seneste ændringer for at finde IP'er brugt af en bestemt bruger, eller for at vise redigerings- eller brugerdata for en IP.\nBruger og redigeringer fra en klient-IP kan hentes via XFF-headers ved at tilføje \"/xff\" til IP'en. Ipv4 (CIRD $1-32) og IPv6 (CIDR $2-128) er understøttet.\nFor at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. Brug kun dette værktøj i overensstemmelse med gældende politiker på {{SITENAME}}.",
@@ -76,6 +77,7 @@
 	"checkuser-search-initiator": "initiativtager",
 	"checkuser-search-target": "mål",
 	"checkuser-log-search-target": "Mål:",
+	"checkuser-log-search-type": "Søg efter:",
 	"checkuser-ipeditcount": "~$1 fra alle brugere",
 	"checkuser-showmain": "Gå til hovedformularen for tjekbruger",
 	"checkuser-limited": "'''Disse resultater er blevet afkortet af hensyn til ydeevnen.'''",
