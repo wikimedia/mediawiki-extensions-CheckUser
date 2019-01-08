@@ -4,7 +4,8 @@
 			"Beren",
 			"Danny B.",
 			"Li-sung",
-			"Mormegil"
+			"Mormegil",
+			"Dvorapa"
 		]
 	},
 	"checkuser-summary": "Tento nástroj zkoumá poslední změny a umožňuje získat IP adresy uživatelů nebo zobrazit editace a uživatele z dané IP adresy.\nUživatele a editace z klientské IP adresy lze získat z hlaviček XFF přidáním „/xff“ k IP. Je podporováno IPv4 (CIDR $1–32) a IPv6 (CIDR $2-128).\nZ výkonnostních důvodů lze zobrazit maximálně 5000 editací. Používejte tento nástroj v souladu s pravidly.",
@@ -86,5 +87,7 @@
 	"checkuser-reset-action": "požádal o nové heslo pro uživatele „$1“",
 	"checkuser-token-fail": "Chyba relace. Zkuste to prosím znovu.",
 	"checkuser-login-failure": "Neúspěšný pokus o přihlášení do {{grammar:2sg|{{SITENAME}}}} jako $1",
-	"checkuser-login-success": "Úspěšné přihlášení do {{grammar:2sg|{{SITENAME}}}} jako $1"
+	"checkuser-login-success": "Úspěšné přihlášení do {{grammar:2sg|{{SITENAME}}}} jako $1",
+	"group-checkuser.css": "/* Zde uvedené CSS bude ovlivňovat pouze revizory */",
+	"group-checkuser.js": "/* Zde uvedený JavaScript bude použit pouze pro revizory */"
 }
