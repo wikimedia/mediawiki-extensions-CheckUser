@@ -91,5 +91,7 @@
 	"checkuser-reset-action": "أعد ضبط كلمة السر للمستخدم \"$1\"",
 	"checkuser-token-fail": "فشلت الجلسة. يُرجى المحاولة مرة أخرى.",
 	"checkuser-login-failure": "أخفق تسجيل الدخول إلى {{SITENAME}} كـ$1",
-	"checkuser-login-success": "تم تسجيل الدخول بنجاح إلى {{SITENAME}} كـ$1"
+	"checkuser-login-success": "تم تسجيل الدخول بنجاح إلى {{SITENAME}} كـ$1",
+	"group-checkuser.css": "/* الأنماط المتراصة CSS المعروضة هنا ستؤثر على مدققي المستخدم فقط */",
+	"group-checkuser.js": "/* الجافا سكريبت المعروضة هنا ستؤثر على مدققي المستخدم فقط */"
 }
