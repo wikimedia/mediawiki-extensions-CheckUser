@@ -6,7 +6,10 @@
 			"Joao Xavier"
 		]
 	},
+	"checkuser": "Kontrolero di adresi IP",
 	"group-checkuser": "Kontroleri dil uzeri",
+	"group-checkuser-member": "{{GENDER:$1|kontrolero di IP-adresi}}",
+	"grouppage-checkuser": "{{ns:project}}:Kontrolero di IP-adresi",
 	"checkuser-reason": "Motivo:",
 	"checkuser-showlog": "Montrez la registro 'CheckUser'",
 	"checkuser-target": "IP-adreso od uzeronomo:",
@@ -20,5 +23,6 @@
 	"checkuser-wasblocked": "Antee blokusita",
 	"checkuser-accounts": "$1 nova {{PLURAL:$1|konto|konti}}",
 	"checkuser-search-submit": "Serchar",
-	"checkuser-ipeditcount": "~$1 di omna uzanti"
+	"checkuser-ipeditcount": "~$1 di omna uzanti",
+	"checkuser-email-action": "sendar e-posto al uzero \"$1\""
 }
