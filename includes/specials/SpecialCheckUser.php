@@ -9,6 +9,11 @@ class SpecialCheckUser extends SpecialPage {
 	 */
 	protected $message = null;
 
+	/**
+	 * @var null|string
+	 */
+	private $lastdate = null;
+
 	public function __construct() {
 		parent::__construct( 'CheckUser', 'checkuser' );
 	}
@@ -879,7 +884,7 @@ class SpecialCheckUser extends SpecialPage {
 				} elseif ( $lastIP != $row->cuc_ip ) {
 					$s .= "</ul></div>\n<h2>$ip</h2>\n<div class=\"special\">";
 					$lastIP = $row->cuc_ip;
-					unset( $this->lastdate ); // start over
+					$this->lastdate = null; // start over
 				}
 				$s .= $this->CUChangesLine( $row, $reason );
 			}
@@ -1451,10 +1456,10 @@ class SpecialCheckUser extends SpecialPage {
 		$date = htmlspecialchars(
 			$this->getLanguage()->date( wfTimestamp( TS_MW, $row->cuc_timestamp ), true, true )
 		);
-		if ( !isset( $this->lastdate ) ) {
+		if ( $this->lastdate === null ) {
 			$this->lastdate = $date;
 			$line .= "\n<h4>$date</h4>\n<ul class=\"special\">";
-		} elseif ( $date != $this->lastdate ) {
+		} elseif ( $date !== $this->lastdate ) {
 			$line .= "</ul>\n<h4>$date</h4>\n<ul class=\"special\">";
 			$this->lastdate = $date;
 		}
