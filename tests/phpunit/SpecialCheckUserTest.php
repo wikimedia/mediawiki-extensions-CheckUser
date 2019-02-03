@@ -10,6 +10,16 @@
  */
 class SpecialCheckUserTest extends MediaWikiTestCase {
 
+	/**
+	 * @var int
+	 */
+	private $lowerThanLimitIPv4;
+
+	/**
+	 * @var int
+	 */
+	private $lowerThanLimitIPv6;
+
 	public function __construct( $name = null, array $data = [], $dataName = '' ) {
 		parent::__construct( $name, $data, $dataName );
 
@@ -38,6 +48,10 @@ class SpecialCheckUserTest extends MediaWikiTestCase {
 				'IPv6' => 19,
 			]
 		] );
+
+		$CIDRLimit = \RequestContext::getMain()->getConfig()->get( 'CheckUserCIDRLimit' );
+		$this->lowerThanLimitIPv4 = $CIDRLimit['IPv4'] - 1;
+		$this->lowerThanLimitIPv6 = $CIDRLimit['IPv6'] - 1;
 	}
 
 	/**
@@ -76,8 +90,66 @@ class SpecialCheckUserTest extends MediaWikiTestCase {
 				[ 0 => 'cuc_ip_hex BETWEEN \'v6-00000000000000000000000E00000000\'' .
 					' AND \'v6-00000000000000000000000EFFFFFFFF\'' ],
 			],
-			[ '0.17.184.5/15', false ],
-			[ '2000::/16', false ],
+			[ "0.17.184.5/{$this->lowerThanLimitIPv4}", false ],
+			[ "2000::/{$this->lowerThanLimitIPv6}", false ],
+		];
+	}
+
+	/**
+	 * @covers SpecialCheckUser::isValidRange
+	 * @dataProvider provideIsValidRange
+	 */
+	public function testIsValidRange( $target, $expected ) {
+		$this->assertEquals(
+			$expected,
+			SpecialCheckUser::isValidRange( $target )
+		);
+	}
+
+	/**
+	 * Test cases for SpecialCheckUser::isValid
+	 * @return array
+	 */
+	public function provideIsValidRange() {
+		return [
+			[ '212.35.31.121', true ],
+			[ '212.35.31.121/32', true ],
+			[ '::e:f:2001', true ],
+			[ '::e:f:2001/96', true ],
+			[ "0.17.184.5/{$this->lowerThanLimitIPv4}", false ],
+			[ "2000::/{$this->lowerThanLimitIPv6}", false ]
+		];
+	}
+
+	/**
+	 * @covers SpecialCheckUser::checkReason
+	 * @dataProvider provideCheckReason
+	 */
+	public function testCheckReason( $config, $reason, $expected ) {
+		$this->setMwGlobals( 'wgCheckUserForceSummary', $config );
+		$class = new ReflectionClass( SpecialCheckUser::class );
+		$method = $class->getMethod( 'checkReason' );
+		$method->setAccessible( true );
+		$instance = $class->newInstanceWithoutConstructor();
+		$property = $class->getProperty( 'reason' );
+		$property->setAccessible( true );
+		$property->setValue( $instance, $reason );
+		$this->assertEquals(
+			$expected,
+			$method->invoke( $instance )
+		);
+	}
+
+	/**
+	 * Test cases for SpecialCheckUser::checkReason
+	 * @return array
+	 */
+	public function provideCheckReason() {
+		return [
+			[ false, '', true ],
+			[ false, 'Test Reason', true ],
+			[ true, '', false ],
+			[ true, 'Test Reason', true ]
 		];
 	}
 }
