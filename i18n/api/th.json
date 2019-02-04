@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Aefgh39622"
+		]
+	},
+	"apihelp-query+checkuserlog-description": "รับหน่วยจากรายการบันทึกการตรวจสอบผู้ใช้"
+}
