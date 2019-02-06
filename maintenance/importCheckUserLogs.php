@@ -131,7 +131,7 @@ class ImportCheckUserLogs extends Maintenance {
 
 				$matched++;
 			}
-			$unmatched ++;
+			$unmatched++;
 		}
 
 		$this->output(
