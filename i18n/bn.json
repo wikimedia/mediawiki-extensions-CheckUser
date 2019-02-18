@@ -22,7 +22,7 @@
 	"right-checkuser": "ব্যবহারকারীর আইপি ঠিকানা এবং অন্যান্য তথ্য যাচাই করুন",
 	"right-checkuser-log": "ব্যবহারকারী পরীক্ষণ লগ দেখুন",
 	"action-checkuser": "ব্যবহারকারীর আইপি ঠিকানা এবং অন্যান্য তথ্য পরীক্ষা",
-	"action-checkuser-log": "ব্যবহারকারী পরীক্ষণ লগ দেখুন",
+	"action-checkuser-log": "ব্যবহারকারী পরীক্ষণ লগ দেখার",
 	"grouppage-checkuser": "{{ns:project}}:ব্যবহারকারী পরীক্ষক",
 	"checkuser-reason": "কারণ:",
 	"checkuser-reason-api": "এপিআই: $1",
