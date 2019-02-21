@@ -37,7 +37,7 @@
 	"checkuser-cidr-res": "CIDR umum:",
 	"checkuser-empty": "Log iki kosong.",
 	"checkuser-nomatch": "Ora ana data sing cocog bisa ditemokaké.",
-	"checkuser-nomatch-edits": "Ora ana sing cocog.\nSuntingan pungkasan ing $2, $1.",
+	"checkuser-nomatch-edits": "Ora ana kang cocog.\nBesutan pungkasan ing $2, $1.",
 	"checkuser-check": "Priksa",
 	"checkuser-log-fail": "Log èntri ora bisa ditambahaké",
 	"checkuser-nolog": "Barkas log ora ana.",
