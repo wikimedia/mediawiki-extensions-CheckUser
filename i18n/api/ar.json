@@ -6,10 +6,10 @@
 			"علاء"
 		]
 	},
-	"apihelp-query+checkuser-description": "تحقق من عناوين الآيبي التي يتم استخدامها بواسطة اسم مستخدم معين أو أي أسماء المستخدمين يتم استخدامها بواسطة عنوان آيبي محدد.",
-	"apihelp-query+checkuser-summary": "تحقق من عناوين الآيبي التي يتم استخدامها بواسطة اسم مستخدم معين أو أي أسماء المستخدمين يتم استخدامها بواسطة عنوان آيبي محدد.",
-	"apihelp-query+checkuser-param-request": "نوع طلب تدقيق المستخدم:\n;userips: احصل على عنوان الآيبي للمستخدم المستهدف.\n;edits:التعديلات: الحصول على تغييرات من عنوان IP آيبي نطاق الهدف.\n;ipusers: احصل على مستخدمين من عنوان آيبي أو نطاق الهدف.",
-	"apihelp-query+checkuser-param-target": "اسم المستخدم أو عنوان آيبي أو نطاق CIDR للتحقق.",
+	"apihelp-query+checkuser-description": "تحقق من عناوين الأيبي التي يتم استخدامها بواسطة اسم مستخدم معين أو أي أسماء مستخدمين يتم استخدامها بواسطة عنوان أيبي محدد.",
+	"apihelp-query+checkuser-summary": "تحقق من عناوين الأيبي التي يتم استخدامها بواسطة اسم مستخدم معين أو أي أسماء مستخدمين يتم استخدامها بواسطة عنوان أيبي محدد.",
+	"apihelp-query+checkuser-param-request": "نوع طلب تدقيق المستخدم:\n;userips: الحصول على عنوان الأيبي للمستخدم المستهدف.\n;edits: الحصول على التغييرات من عنوان الأيبي أو نطاق الأيبي المستهدف.\n;ipusers: الحصول على المستخدمين من عنوان الأيبي أو نطاق الأيبي المستهدف.",
+	"apihelp-query+checkuser-param-target": "اسم المستخدم أو عنوان أيبي أو نطاق CIDR للتحقق.",
 	"apihelp-query+checkuser-param-reason": "السبب للتحقق.",
 	"apihelp-query+checkuser-param-limit": "حد الصفوف",
 	"apihelp-query+checkuser-param-timecond": "الحد الزمني لبيانات المستخدم (مثل \"-2 weeks\" أو \"2 weeks ago\").",
@@ -19,7 +19,7 @@
 	"apihelp-query+checkuserlog-description": "الحصول على إدخالات من سجل تدقيق المستخدم.",
 	"apihelp-query+checkuserlog-summary": "الحصول على إدخالات من سجل تدقيق المستخدم.",
 	"apihelp-query+checkuserlog-param-user": "اسم المستخدم لمدقق المستخدم.",
-	"apihelp-query+checkuserlog-param-target": "تم تدقيق مستخدم أو عنوان آيبي أو نطاق CIDR للتحقق.",
+	"apihelp-query+checkuserlog-param-target": "تم تدقيق مستخدم أو عنوان أيبي أو نطاق CIDR للتحقق.",
 	"apihelp-query+checkuserlog-param-limit": "حد الصفوف",
 	"apihelp-query+checkuserlog-param-from": "الطابع الزمني لبدء العد منه.",
 	"apihelp-query+checkuserlog-param-to": "الطابع الزمني لإنهاء التعداد.",
