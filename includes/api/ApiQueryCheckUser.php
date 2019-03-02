@@ -53,10 +53,13 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$ip = strval( $row->cuc_ip );
 
 					if ( !isset( $ips[$ip] ) ) {
-						$ips[$ip]['end'] = $timestamp;
-						$ips[$ip]['editcount'] = 1;
+						$ips[$ip] = [
+							'end' => $timestamp,
+							'editcount' => 1
+						];
 					} else {
 						$ips[$ip]['start'] = $timestamp;
+						// @phan-suppress-next-line PhanTypeInvalidDimOffset False positive
 						$ips[$ip]['editcount']++;
 					}
 				}
@@ -164,16 +167,21 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$agent = $row->cuc_agent;
 
 					if ( !isset( $users[$user] ) ) {
-						$users[$user]['end'] = wfTimestamp( TS_ISO_8601, $row->cuc_timestamp );
-						$users[$user]['editcount'] = 1;
-						$users[$user]['ips'][] = $ip;
-						$users[$user]['agents'][] = $agent;
+						$users[$user] = [
+							'end' => wfTimestamp( TS_ISO_8601, $row->cuc_timestamp ),
+							'editcount' => 1,
+							'ips' => [ $ip ],
+							'agents' => [ $agent ]
+						];
 					} else {
 						$users[$user]['start'] = wfTimestamp( TS_ISO_8601, $row->cuc_timestamp );
+						// @phan-suppress-next-line PhanTypeInvalidDimOffset False positive
 						$users[$user]['editcount']++;
+						// @phan-suppress-next-line PhanTypeInvalidDimOffset, PhanTypeMismatchArgumentInternal
 						if ( !in_array( $ip, $users[$user]['ips'] ) ) {
 							$users[$user]['ips'][] = $ip;
 						}
+						// @phan-suppress-next-line PhanTypeInvalidDimOffset False positive
 						if ( !in_array( $agent, $users[$user]['agents'] ) ) {
 							$users[$user]['agents'][] = $agent;
 						}
