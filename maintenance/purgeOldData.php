@@ -67,5 +67,5 @@ class PurgeOldData extends Maintenance {
 	}
 }
 
-$maintClass = "PurgeOldData";
+$maintClass = PurgeOldData::class;
 require_once RUN_MAINTENANCE_IF_MAIN;

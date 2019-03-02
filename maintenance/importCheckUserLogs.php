@@ -163,5 +163,5 @@ class ImportCheckUserLogs extends Maintenance {
 	}
 }
 
-$maintClass = 'ImportCheckUserLogs';
+$maintClass = ImportCheckUserLogs::class;
 require_once RUN_MAINTENANCE_IF_MAIN;

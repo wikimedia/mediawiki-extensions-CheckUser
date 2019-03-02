@@ -107,5 +107,5 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 	}
 }
 
-$maintClass = 'PopulateCheckUserTable';
+$maintClass = PopulateCheckUserTable::class;
 require_once RUN_MAINTENANCE_IF_MAIN;
