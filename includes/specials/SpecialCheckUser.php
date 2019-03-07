@@ -329,11 +329,11 @@ class SpecialCheckUser extends SpecialPage {
 			$block->mExpiry = $expiry;
 			$block->isHardblock( !$isIP );
 			$block->isAutoblocking( true );
-			$block->prevents( 'createaccount', true );
-			$block->prevents( 'sendemail',
+			$block->isCreateAccountBlocked( true );
+			$block->isEmailBlocked(
 				( SpecialBlock::canBlockEmail( $currentUser ) && $blockParams['email'] )
 			);
-			$block->prevents( 'editownusertalk', ( !$blockAllowsUTEdit || $blockParams['talk'] ) );
+			$block->isUsertalkEditAllowed( $blockAllowsUTEdit ? !$blockParams['talk'] : false );
 			$status = $block->insert();
 
 			// Prepare log parameters for the block
