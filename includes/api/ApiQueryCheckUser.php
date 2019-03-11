@@ -135,7 +135,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				}
 
 				SpecialCheckUser::addLogEntry( $log_type[0], $log_type[1],
-					$target, $reason, isset( $user_id ) ? $user_id : '0' );
+					$target, $reason, $user_id ?? '0' );
 				$result->addValue( [
 					'query', $this->getModuleName() ], 'edits', $edits );
 				$result->addIndexedTagName( [
@@ -177,7 +177,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 						$users[$user]['start'] = wfTimestamp( TS_ISO_8601, $row->cuc_timestamp );
 						// @phan-suppress-next-line PhanTypeInvalidDimOffset False positive
 						$users[$user]['editcount']++;
-						// @phan-suppress-next-line PhanTypeInvalidDimOffset, PhanTypeMismatchArgumentInternal
+						// @phan-suppress-next-line PhanTypeInvalidDimOffset
 						if ( !in_array( $ip, $users[$user]['ips'] ) ) {
 							$users[$user]['ips'][] = $ip;
 						}

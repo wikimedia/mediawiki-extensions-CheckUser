@@ -65,12 +65,12 @@ class ImportCheckUserLogs extends Maintenance {
 		];
 
 		foreach ( $regexes as $type => $regex ) {
-			$m = false;
+			$m = [];
 			if ( preg_match( $regex, $line, $m ) ) {
 				$data = [
 					'timestamp' => strtotime( $m['timestamp'] ),
 					'user' => $m['user'],
-					'reason' => isset( $m['reason'] ) ? $m['reason'] : '',
+					'reason' => $m['reason'] ?? '',
 					'type' => $type,
 					'wiki' => $m['wiki'],
 					'target' => $m['target'] ];
