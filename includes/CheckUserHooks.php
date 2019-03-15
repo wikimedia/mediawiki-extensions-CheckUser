@@ -446,7 +446,7 @@ class CheckUserHooks {
 			// First time so populate cu_changes with recentchanges data.
 			// Note: We cannot completely rely on updatelog here for old entries
 			// as populateCheckUserTable.php doesn't check for duplicates
-			$updater->addPostDatabaseUpdateMaintenance( 'PopulateCheckUserTable' );
+			$updater->addPostDatabaseUpdateMaintenance( PopulateCheckUserTable::class );
 		}
 	}
 
