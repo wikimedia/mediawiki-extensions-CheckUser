@@ -9,7 +9,7 @@ require_once "$IP/maintenance/Maintenance.php";
 class PurgeOldData extends Maintenance {
 	public function __construct() {
 		parent::__construct();
-		$this->mDescription = "Purge expired rows in CheckUser and RecentChanges";
+		$this->addDescription( 'Purge expired rows in CheckUser and RecentChanges' );
 		$this->setBatchSize( 200 );
 
 		$this->requireExtension( 'CheckUser' );
