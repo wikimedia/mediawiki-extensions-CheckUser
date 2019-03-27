@@ -75,7 +75,7 @@
 	"checkuser-ipeditcount": "~$1 од сите корисници",
 	"checkuser-showmain": "Префрли ме на главниот образец за проверување корисници",
 	"checkuser-limited": "'''Исходов е скратен од делотворрни причини.'''",
-	"checkuser-log-entry-userips": "$3, $1 доби IP-адреси за за $2",
+	"checkuser-log-entry-userips": "$3, $1 доби IP-адреси за $2",
 	"checkuser-log-entry-ipedits": "$3, $1 доби уредувања за $2",
 	"checkuser-log-entry-ipusers": "$3, $1 доби корисници за $2",
 	"checkuser-log-entry-ipedits-xff": "$3, $1 доби уредувања за XFF $2",
