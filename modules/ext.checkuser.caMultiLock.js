@@ -4,9 +4,11 @@
  */
 ( function () {
 	var centralURL = mw.config.get( 'wgCUCAMultiLockCentral' ),
+		// eslint-disable-next-line no-jquery/no-global-selector
 		$userCheckboxes = $( '#checkuserresults li :checkbox' );
 
 	// Initialize the link
+	// eslint-disable-next-line no-jquery/no-global-selector
 	$( '#checkuserblock fieldset' ).append(
 		$( '<a>', {
 			id: 'cacu-multilock-link',
@@ -29,6 +31,7 @@
 
 		var mlHref = centralURL + '?wpTarget=' + encodeURIComponent( names.join( '\n' ) );
 		// Update the href of the link with the latest change
+		// eslint-disable-next-line no-jquery/no-global-selector
 		$( '#cacu-multilock-link' ).prop( 'href', mlHref );
 	} );
 
