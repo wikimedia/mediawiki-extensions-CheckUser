@@ -33,7 +33,7 @@
 	"group-checkuser-member": "{{GENDER:$1|vérificateur d’utilisateur|vérificatrice d’utilisateur}}",
 	"right-checkuser": "Vérifier les adresses IP et autres informations d’un utilisateur",
 	"right-checkuser-log": "Visualiser le journal des vérifications d’utilisateurs",
-	"action-checkuser": "vérifier les adresses IP de l’utilisateur et d’autres informations",
+	"action-checkuser": "vérifier les adresses IP des utilisateurs et d’autres informations",
 	"action-checkuser-log": "Visualiser le journal des vérifications des utilisateurs",
 	"grouppage-checkuser": "{{ns:project}}:Vérificateurs d’utilisateurs",
 	"checkuser-reason": "Motif :",

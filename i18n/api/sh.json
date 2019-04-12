@@ -16,7 +16,7 @@
 	"apihelp-query+checkuser-example-2": "Provjeri izmjene iz 192.0.2.0/24",
 	"apihelp-query+checkuserlog-description": "Daj stavke iz zapisnika CheckUser.",
 	"apihelp-query+checkuserlog-summary": "Daj stavke iz zapisnika CheckUser.",
-	"apihelp-query+checkuserlog-param-user": "Korisničko ime za CheckUser.",
+	"apihelp-query+checkuserlog-param-user": "Korisničko ime provjeritelja (CheckUser).",
 	"apihelp-query+checkuserlog-param-target": "Provjereni korisnik, IP adresa ili CIDR opseg.",
 	"apihelp-query+checkuserlog-param-limit": "Ograničenje redova.",
 	"apihelp-query+checkuserlog-param-from": "Od kojeg datuma i vremena počinje brojanje.",
