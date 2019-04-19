@@ -12,7 +12,7 @@
 	"checkuser": "التشييك على اليوزر",
 	"checkuserlog": "سجل تشييك اليوزر",
 	"group-checkuser": "التشييك على اليوزرز",
-	"group-checkuser-member": "تشييك اليوزر",
+	"group-checkuser-member": "{{GENDER:$1|تشييك اليوزر}}",
 	"right-checkuser": "التشييك على عناوين الاى بى لليوزرز و معلومات تانية",
 	"right-checkuser-log": "اعرض السجل بتاع تشييك اليوزر",
 	"grouppage-checkuser": "{{ns:project}}:تشييك اليوزر",
