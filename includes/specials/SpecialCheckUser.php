@@ -118,6 +118,7 @@ class SpecialCheckUser extends SpecialPage {
 		// Add CIDR calculation convenience JS form
 		$this->addJsCIDRForm();
 		$out->addModules( 'ext.checkUser' );
+		$out->addModuleStyles( 'mediawiki.interface.helpers.styles' );
 	}
 
 	protected function showIntroductoryText() {
@@ -1387,7 +1388,12 @@ class SpecialCheckUser extends SpecialPage {
 			$s .= Linker::userLink( $idforlinknfn, $name, $name ) . '</span> ';
 			$ip = IP::isIPAddress( $name ) ? $name : '';
 			$s .= Linker::userToolLinksRedContribs(
-				$idforlink, $name, $user->getEditCount() ) . ' ';
+				$idforlink,
+				$name,
+				$user->getEditCount(),
+				// don't render parentheses in HTML markup (CSS will provide)
+				false
+			) . ' ';
 			if ( $ip ) {
 				$s .= $this->msg( 'checkuser-userlinks-ip', $name )->parse();
 			} elseif ( !$classnouser ) {
@@ -1752,7 +1758,12 @@ class SpecialCheckUser extends SpecialPage {
 		$line .= Linker::userLink(
 			$idforlinknfn, $row->cuc_user_text, $row->cuc_user_text ) . '</span>';
 		$line .= Linker::userToolLinksRedContribs(
-			$idforlink, $row->cuc_user_text, $user->getEditCount() );
+			$idforlink,
+			$row->cuc_user_text,
+			$user->getEditCount(),
+			// don't render parentheses in HTML markup (CSS will provide)
+			false
+		);
 		// Get block info
 		if ( isset( $flagCache[$row->cuc_user_text] ) ) {
 			$flags = $flagCache[$row->cuc_user_text];
