@@ -63,7 +63,7 @@
 	"checkuser-nolog": "Não foi encontrado um arquivo de registros.",
 	"checkuser-blocked": "Bloqueado",
 	"checkuser-gblocked": "Bloqueado globalmente",
-	"checkuser-locked": "Bloqueado",
+	"checkuser-locked": "bloqueada",
 	"checkuser-wasblocked": "Previamente bloqueado",
 	"checkuser-localonly": "Não unificada",
 	"checkuser-massblock": "Bloquear usuários selecionados",
