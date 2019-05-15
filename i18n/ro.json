@@ -7,7 +7,8 @@
 			"KlaudiuMihaila",
 			"Memo18",
 			"Mihai",
-			"Minisarm"
+			"Minisarm",
+			"Andrei Stroe"
 		]
 	},
 	"checkuser-summary": "Acestă unealtă scanează schimbările recente pentru a regăsi adresele IP folosite de un utilizator sau arată modificările/utilizatorul pentru o anumită adresă IP.\nUtilizatorii și modificările efectuate de un client IP pot fi regăsite prin antetele XFF atașând adresa IP prin intermediul „/xff”. IPv4 (CIDR $1-32) și IPv6 (CIDR $2-128) sunt acceptate.\nNu mai mult de 5000 de modificări vor fi returnate din motive de performanță.\nUtilizați unealta în concordanță cu politica proiectului.",
@@ -26,7 +27,7 @@
 	"grouppage-checkuser": "{{ns:project}}:Checkuser",
 	"checkuser-reason": "Motiv:",
 	"checkuser-reason-api": "API: $1",
-	"checkuser-showlog": "Arată jurnal",
+	"checkuser-showlog": "Comută la jurnalul CheckUser",
 	"checkuser-query": "Interoghează schimbările recente",
 	"checkuser-target": "Adresă IP sau nume de utilizator:",
 	"checkuser-users": "Arată utilizatorii",
@@ -61,9 +62,9 @@
 	"checkuser-block-noreason": "Trebuie să specificați un motiv pentru blocări.",
 	"checkuser-noreason": "Trebuie să specifici un motiv pentru această interogare.",
 	"checkuser-accounts": "$1 {{PLURAL:$1|cont nou|conturi noi}}",
-	"checkuser-too-many": "Prea multe rezultate (după estimarea interogării), vă rugăm să limitați CIDR.\nIată IP-urile folosite (maxim 5000, sortate după adresă):",
+	"checkuser-too-many": "Prea multe rezultate (conform estimării interogării), vă rugăm să limitați CIDR.\nIată IP-urile folosite (maxim 5000, sortate după adresă):",
 	"checkuser-user-nonexistent": "Utilizatorul specificat nu există.",
-	"checkuser-search": "Caută",
+	"checkuser-search": "Caută înregistrări din jurnalul check user",
 	"checkuser-search-submit": "Caută",
 	"checkuser-search-initiator": "inițiator",
 	"checkuser-search-target": "destinație",
