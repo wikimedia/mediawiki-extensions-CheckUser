@@ -68,7 +68,7 @@
 	"checkuser-accounts": "$1 {{PLURAL:$1|nou compte|nous comptes}}",
 	"checkuser-too-many": "Hi ha massa resultats (d'acord amb l'estimació de la consulta), cal que useu un CIDR més petit.\nAquí teniu les IP usades (màx. 5000 ordenades per adreça):",
 	"checkuser-user-nonexistent": "L'usuari especificat no existeix.",
-	"checkuser-search": "Cerca",
+	"checkuser-search": "Cerca les entrades de registre de comprovació d'usuari",
 	"checkuser-search-submit": "Cerca",
 	"checkuser-search-initiator": "l'iniciador",
 	"checkuser-search-target": "el consultat",
