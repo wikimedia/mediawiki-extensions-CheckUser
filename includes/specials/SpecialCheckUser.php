@@ -1,5 +1,6 @@
 <?php
 
+use MediaWiki\Block\DatabaseBlock;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\IResultWrapper;
 
@@ -327,7 +328,7 @@ class SpecialCheckUser extends SpecialPage {
 			$expiry = SpecialBlock::parseExpiryInput( $expirestr );
 
 			// Create the block
-			$block = new Block();
+			$block = new DatabaseBlock();
 			$block->setTarget( $u );
 			$block->setBlocker( $currentUser );
 			$block->mReason = $blockParams['reason'];
@@ -658,8 +659,8 @@ class SpecialCheckUser extends SpecialPage {
 	}
 
 	protected function getIPBlockInfo( $ip ) {
-		$block = Block::newFromTarget( null, $ip, false );
-		if ( $block instanceof Block ) {
+		$block = DatabaseBlock::newFromTarget( null, $ip, false );
+		if ( $block instanceof DatabaseBlock ) {
 			return $this->getBlockFlag( $block );
 		}
 		return '';
@@ -668,11 +669,11 @@ class SpecialCheckUser extends SpecialPage {
 	/**
 	 * Get a link to block information about the passed block for displaying to the user.
 	 *
-	 * @param Block $block
+	 * @param DatabaseBlock $block
 	 * @return string
 	 */
-	protected function getBlockFlag( Block $block ) {
-		if ( $block->getType() == Block::TYPE_AUTO ) {
+	protected function getBlockFlag( DatabaseBlock $block ) {
+		if ( $block->getType() == DatabaseBlock::TYPE_AUTO ) {
 			$ret = $this->getLinkRenderer()->makeKnownLink(
 				SpecialPage::getTitleFor( 'BlockList' ),
 				$this->msg( 'checkuser-blocked' )->text(),
@@ -693,7 +694,7 @@ class SpecialCheckUser extends SpecialPage {
 		}
 
 		// Add the blocked range if the block is on a range
-		if ( $block->getType() == Block::TYPE_RANGE ) {
+		if ( $block->getType() == DatabaseBlock::TYPE_RANGE ) {
 			$ret .= ' - ' . htmlspecialchars( $block->getTarget() );
 		}
 
@@ -1657,8 +1658,8 @@ class SpecialCheckUser extends SpecialPage {
 	protected function userBlockFlags( $ip, $userId, $user ) {
 		$flags = [];
 
-		$block = Block::newFromTarget( $user, $ip, false );
-		if ( $block instanceof Block ) {
+		$block = DatabaseBlock::newFromTarget( $user, $ip, false );
+		if ( $block instanceof DatabaseBlock ) {
 			// Locally blocked
 			$flags[] = $this->getBlockFlag( $block );
 		} elseif ( $ip == $user->getName() && $user->isBlockedGlobally( $ip ) ) {

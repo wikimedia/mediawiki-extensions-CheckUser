@@ -2,6 +2,7 @@
 
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Auth\AuthenticationResponse;
+use MediaWiki\Block\DatabaseBlock;
 
 class CheckUserHooks {
 	/**
@@ -510,13 +511,13 @@ class CheckUserHooks {
 
 	/**
 	 * Retroactively autoblocks the last IP used by the user (if it is a user)
-	 * blocked by this Block.
+	 * blocked by this block.
 	 *
-	 * @param Block $block
+	 * @param DatabaseBlock $block
 	 * @param array &$blockIds
 	 * @return bool
 	 */
-	public static function doRetroactiveAutoblock( Block $block, array &$blockIds ) {
+	public static function doRetroactiveAutoblock( DatabaseBlock $block, array &$blockIds ) {
 		$dbr = wfGetDB( DB_REPLICA );
 
 		$user = User::newFromName( (string)$block->getTarget(), false );
