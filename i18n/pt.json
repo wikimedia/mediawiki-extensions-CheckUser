@@ -55,7 +55,7 @@
 	"checkuser-nolog": "Não foi encontrado nenhum ficheiro de registos.",
 	"checkuser-blocked": "Bloqueado",
 	"checkuser-gblocked": "Bloqueado globalmente",
-	"checkuser-locked": "Travado",
+	"checkuser-locked": "Bloqueado",
 	"checkuser-wasblocked": "Previamente bloqueado",
 	"checkuser-localonly": "Não unificada",
 	"checkuser-massblock": "Bloquear utilizadores selecionados",
