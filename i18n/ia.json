@@ -37,6 +37,8 @@
 	"checkuser-nomatch": "Nihil trovate.",
 	"checkuser-nomatch-edits": "Nulle resultato trovate.\nLe ultime modification esseva le $1 a $2.",
 	"checkuser-check": "Verificar",
+	"checkuser-check-this-user": "Verificar iste usator",
+	"checkuser-recent-checks": "Verificationes recente pro iste usator",
 	"checkuser-log-fail": "Impossibile adder entrata al registro",
 	"checkuser-nolog": "Nulle file de registro trovate.",
 	"checkuser-blocked": "Blocate",
@@ -79,5 +81,7 @@
 	"checkuser-create-action": "ha essite create",
 	"checkuser-email-action": "inviava un e-mail al usator \"$1\"",
 	"checkuser-reset-action": "redefiniva contrasigno pro usator \"$1\"",
-	"checkuser-token-fail": "Session fallite. Per favor, essaya de novo."
+	"checkuser-token-fail": "Session fallite. Per favor, essaya de novo.",
+	"checkuser-login-failure": "Fallimento de aperir session in {{SITENAME}} como $1",
+	"checkuser-login-success": "Session aperite in {{SITENAME}} como $1"
 }
