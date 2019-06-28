@@ -1543,7 +1543,7 @@ class SpecialCheckUser extends SpecialPage {
 			// List out each agent for this username
 			for ( $i = ( count( $users_agentsets[$name] ) - 1 ); $i >= 0; $i-- ) {
 				$agent = $users_agentsets[$name][$i];
-				$s .= '<li><i>' . htmlspecialchars( $agent ) . "</i></li>\n";
+				$s .= '<li><i dir="ltr">' . htmlspecialchars( $agent ) . "</i></li>\n";
 			}
 			$s .= '</ol>';
 			$s .= '</li>';
