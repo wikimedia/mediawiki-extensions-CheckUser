@@ -1643,7 +1643,7 @@ class SpecialCheckUser extends SpecialPage {
 		}
 		return $this->getLinkRenderer()->makeKnownLink(
 			$title,
-			$text,
+			new HtmlArmor( '<bdi>' . htmlspecialchars( $text ) . '</bdi>' ),
 			[],
 			$params
 		);
