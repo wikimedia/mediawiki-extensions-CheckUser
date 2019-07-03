@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Mostafadaneshvar"
+			"Mostafadaneshvar",
+			"Sultanselim baloch"
 		]
 	},
 	"checkuser-desc": "کاربرانء اجازت دن  گون مناسبین اجازت آدرسان آی پی یک کاربری و دگه اطلاعاتء کنترل بکنت",
@@ -29,7 +30,7 @@
 	"checkuser-user-nonexistent": "مشخص بوتگین کاربر موجود نهنت",
 	"checkuser-search": "گردگ",
 	"checkuser-search-submit": "گردگ",
-	"checkuser-search-initiator": "شروع کنوک",
+	"checkuser-search-initiator": "بنٚگݔجۏک",
 	"checkuser-search-target": "هدف",
 	"checkuser-ipeditcount": "~$1 چه کلی کابران",
 	"checkuser-showmain": "په فرم اصلی کنترل کاربر تر"

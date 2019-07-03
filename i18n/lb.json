@@ -72,7 +72,7 @@
 	"checkuser-ipeditcount": "~$1 vun alle Benotzer",
 	"checkuser-showmain": "Op den Haaptformulaire vun CheckUser wiesselen",
 	"checkuser-limited": "'''Dës Lëscht gouf aus Grënn vun der performance vun de Servere gekierzt.'''",
-	"checkuser-log-entry-ipedits": "$3, $1 huet d'Ännerunge vun $2 kritt",
+	"checkuser-log-entry-ipedits": "$3, $1 huet d'Ännerunge vun <bdi>$2</bdi> kritt",
 	"checkuser-autocreate-action": "gouf automatesch ugeluecht",
 	"checkuser-create-action": "gouf ugeluecht",
 	"checkuser-email-action": "dem Benotzer \"$1\" eng E-Mail geschéckt",
