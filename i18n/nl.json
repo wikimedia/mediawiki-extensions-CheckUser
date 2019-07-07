@@ -86,5 +86,7 @@
 	"checkuser-create-action": "is aangemaakt",
 	"checkuser-email-action": "heeft een e-mail gestuurd aan \"$1\"",
 	"checkuser-reset-action": "heeft het wachtwoord voor gebruiker \"$1\" opnieuw ingesteld",
-	"checkuser-token-fail": "Sessie is mislukt. Probeer het opnieuw."
+	"checkuser-token-fail": "Sessie is mislukt. Probeer het opnieuw.",
+	"checkuser-login-failure": "Kon niet als $1 inloggen op {{SITENAME}}",
+	"checkuser-login-success": "Succesvol als $1 op {{SITENAME}} ingelogd"
 }
