@@ -1599,30 +1599,30 @@ class SpecialCheckUser extends SpecialPage {
 		$s .= $this->msg( 'checkuser-massblock-text' )->parseAsBlock() . "\n";
 		$s .= '<table><tr>' .
 			'<td>' . Xml::check( 'usetag', false, [ 'id' => 'usetag' ] ) . '</td>' .
-			'<td>' . Xml::label( $this->msg( 'checkuser-blocktag' )->escaped(), 'usetag' ) .
+			'<td>' . Xml::label( $this->msg( 'checkuser-blocktag' )->text(), 'usetag' ) .
 			'</td>' .
 			'<td>' . Xml::input( 'tag', 46, $tag, [ 'id' => 'blocktag' ] ) . '</td>' .
 			'</tr><tr>' .
 			'<td>' . Xml::check( 'usettag', false, [ 'id' => 'usettag' ] ) . '</td>' .
-			'<td>' . Xml::label( $this->msg( 'checkuser-blocktag-talk' )->escaped(), 'usettag' ) .
+			'<td>' . Xml::label( $this->msg( 'checkuser-blocktag-talk' )->text(), 'usettag' ) .
 			'</td>' .
 			'<td>' . Xml::input( 'talktag', 46, $talkTag, [ 'id' => 'talktag' ] ) . '</td>';
 		if ( $config->get( 'BlockAllowsUTEdit' ) ) {
 			$s .= '</tr><tr>' .
 				'<td>' . Xml::check( 'blocktalk', false, [ 'id' => 'blocktalk' ] ) . '</td>' .
-				'<td>' . Xml::label( $this->msg( 'checkuser-blocktalk' )->escaped(), 'blocktalk' ) .
+				'<td>' . Xml::label( $this->msg( 'checkuser-blocktalk' )->text(), 'blocktalk' ) .
 				'</td>';
 		}
 		if ( SpecialBlock::canBlockEmail( $this->getUser() ) ) {
 			$s .= '</tr><tr>' .
 				'<td>' . Xml::check( 'blockemail', false, [ 'id' => 'blockemail' ] ) . '</td>' .
-				'<td>' . Xml::label( $this->msg( 'checkuser-blockemail' )->escaped(), 'blockemail' )
+				'<td>' . Xml::label( $this->msg( 'checkuser-blockemail' )->text(), 'blockemail' )
 				. '</td>';
 		}
 		$s .= '</tr></table>';
 		$s .= '<p>' . $this->msg( 'checkuser-reason' )->escaped() . '&#160;';
 		$s .= Xml::input( 'blockreason', 46, '', [ 'maxlength' => '150', 'id' => 'blockreason' ] );
-		$s .= '&#160;' . Xml::submitButton( $this->msg( 'checkuser-massblock-commit' )->escaped(),
+		$s .= '&#160;' . Xml::submitButton( $this->msg( 'checkuser-massblock-commit' )->text(),
 			[ 'id' => 'checkuserblocksubmit', 'name' => 'checkuserblock' ] ) . "</p>\n";
 		$s .= "</fieldset>\n";
 
