@@ -3,6 +3,7 @@
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Block\DatabaseBlock;
+use Wikimedia\Rdbms\IDatabase;
 
 class CheckUserHooks {
 	/**
@@ -316,16 +317,24 @@ class CheckUserHooks {
 
 	/**
 	 * Hook function to prune data from the cu_changes table
-	 * @return true
 	 */
 	public static function maybePruneIPData() {
-		# Every 50th edit, prune the checkuser changes table.
-		if ( 0 == mt_rand( 0, 49 ) ) {
-			$fname = __METHOD__;
-			DeferredUpdates::addCallableUpdate( function () use ( $fname ) {
+		if ( mt_rand( 0, 9 ) != 0 ) {
+			return;
+		}
+
+		DeferredUpdates::addUpdate( new AutoCommitUpdate(
+			wfGetDB( DB_MASTER ),
+			__METHOD__,
+			function ( IDatabase $dbw, $fname ) {
 				global $wgCUDMaxAge;
 
-				$dbw = wfGetDB( DB_MASTER );
+				$key = "{$dbw->getDomainID()}:PruneCheckUserData"; // per-wiki
+				$scopedLock = $dbw->getScopedLockAndFlush( $key, $fname, 1 );
+				if ( !$scopedLock ) {
+					return;
+				}
+
 				$encCutoff = $dbw->addQuotes( $dbw->timestamp( time() - $wgCUDMaxAge ) );
 				$ids = $dbw->selectFieldValues( 'cu_changes',
 					'cuc_id',
@@ -337,10 +346,8 @@ class CheckUserHooks {
 				if ( $ids ) {
 					$dbw->delete( 'cu_changes', [ 'cuc_id' => $ids ], $fname );
 				}
-			} );
-		}
-
-		return true;
+			}
+		) );
 	}
 
 	/**

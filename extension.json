@@ -62,7 +62,8 @@
 	},
 	"Hooks": {
 		"RecentChange_save": [
-			"CheckUserHooks::updateCheckUserData"
+			"CheckUserHooks::updateCheckUserData",
+			"CheckUserHooks::maybePruneIPData"
 		],
 		"EmailUser": [
 			"CheckUserHooks::updateCUEmailData"
@@ -78,9 +79,6 @@
 		],
 		"RenameUserSQL": [
 			"CheckUserHooks::onRenameUserSQL"
-		],
-		"ArticleEditUpdatesDeleteFromRecentchanges": [
-			"CheckUserHooks::maybePruneIPData"
 		],
 		"ParserTestTables": [
 			"CheckUserHooks::checkUserParserTestTables"
