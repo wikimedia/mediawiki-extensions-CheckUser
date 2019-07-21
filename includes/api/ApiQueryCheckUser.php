@@ -43,7 +43,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				}
 
 				$this->addFields( [ 'cuc_timestamp', 'cuc_ip', 'cuc_xff' ] );
-				$this->addWhereFld( 'cuc_user_text', $target );
+				$this->addWhereFld( 'cuc_user', $user_id );
 				$res = $this->select( __METHOD__ );
 				$result = $this->getResult();
 
