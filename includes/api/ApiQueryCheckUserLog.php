@@ -126,6 +126,6 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 	}
 
 	public function getHelpUrls() {
-		return 'https://www.mediawiki.org/wiki/Extension:CheckUser#API';
+		return 'https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:CheckUser#API';
 	}
 }
