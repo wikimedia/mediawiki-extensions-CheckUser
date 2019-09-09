@@ -36,7 +36,7 @@
 	"checkuser-block-success": "'''$1 {{PLURAL:$2|erabiltzailea|erabiltzaileak}} blokeaturik {{PLURAL:$2|dago|daude}} orain.'''",
 	"checkuser-block-limit": "Lankide gehiegi hautatu duzu.",
 	"checkuser-accounts": "{{PLURAL:$1|Kontu berri bat|$1 kontu berri}}",
-	"checkuser-search": "Bilatu",
+	"checkuser-search": "Erregistroko sarrerak bilatu",
 	"checkuser-search-submit": "Bilatu",
 	"checkuser-search-target": "helburua",
 	"checkuser-autocreate-action": "automatikoki sortua izan da",
