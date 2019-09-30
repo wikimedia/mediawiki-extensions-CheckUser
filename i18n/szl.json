@@ -1,10 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"Herr Kriss"
+			"Herr Kriss",
+			"Uostofchuodnego"
 		]
 	},
-	"checkuser-reason": "Čymu:",
+	"checkuser-reason": "Powōd:",
 	"checkuser-search": "Šnupej",
 	"checkuser-search-submit": "Šnupej"
 }
