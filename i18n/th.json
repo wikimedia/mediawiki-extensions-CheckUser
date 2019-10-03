@@ -36,6 +36,7 @@
 	"checkuser-week-2": "2 สัปดาห์ที่แล้ว",
 	"checkuser-month": "30 วันที่แล้ว",
 	"checkuser-all": "ทั้งหมด",
+	"checkuser-cidr-label": "ค้นหาช่วงทั่วไปและหมายเลขไอพีที่ได้รับผลกระทบจากรายการหมายเลขไอพี",
 	"checkuser-cidr-res": "CIDR ธรรมดา:",
 	"checkuser-empty": "ปูมนี้ไม่มีรายการ",
 	"checkuser-nomatch": "ไม่พบรายการที่ตรงกัน",
@@ -67,6 +68,9 @@
 	"checkuser-search-submit": "สืบค้น",
 	"checkuser-log-search-type": "ค้นหาตาม:",
 	"checkuser-showmain": "สลับไปยังแบบฟอร์มหลักการตรวจสอบผู้ใช้",
+	"checkuser-log-entry-userips": "$3, $1 ได้รับหมายเลขไอพีจาก $2",
+	"checkuser-log-entry-ipedits": "$3, $1 ได้รับรายการแก้ไขจาก <bdi>$2</bdi>",
+	"checkuser-log-entry-ipusers": "$3, $1 ได้รับชื่อผู้ใช้จาก <bdi>$2</bdi>",
 	"checkuser-login-failure": "ไม่สามารถเข้าสู่ระบบ {{SITENAME}} ในชื่อ $1 ได้",
 	"checkuser-login-success": "เข้าสู่ระบบ {{SITENAME}} ในชื่อ $1 สำเร็จแล้ว"
 }
