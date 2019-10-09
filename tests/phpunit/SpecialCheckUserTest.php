@@ -39,7 +39,7 @@ class SpecialCheckUserTest extends MediaWikiTestCase {
 		);
 	}
 
-	protected function setUp() {
+	protected function setUp() : void {
 		parent::setUp();
 
 		$this->setMwGlobals( [
