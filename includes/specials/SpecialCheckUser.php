@@ -1,6 +1,7 @@
 <?php
 
 use MediaWiki\Block\DatabaseBlock;
+use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\IResultWrapper;
 
@@ -510,23 +511,27 @@ class SpecialCheckUser extends SpecialPage {
 	 */
 	protected function doUserIPsDBRequest( $user_id, $period = 0, $limit = 5001 ) : IResultWrapper {
 		$dbr = wfGetDB( DB_REPLICA );
+		$conds = [ 'cuc_user' => $user_id ];
 		$time_conds = $this->getTimeConds( $period );
-		// Ordering by the latest timestamp makes a small filesort on the IP list
+		if ( $time_conds !== false ) {
+			$conds[] = $time_conds;
+		}
 
+		// Ordering by the latest timestamp makes a small filesort on the IP list
 		return $dbr->select(
 			'cu_changes',
 			[
 				'cuc_ip',
 				'cuc_ip_hex',
-				'COUNT(*) AS count',
-				'MIN(cuc_timestamp) AS first',
-				'MAX(cuc_timestamp) AS last',
+				'count' => 'COUNT(*)',
+				'first' => 'MIN(cuc_timestamp)',
+				'last' => 'MAX(cuc_timestamp)',
 			],
-			[ 'cuc_user' => $user_id, $time_conds ],
+			$conds,
 			__METHOD__,
 			[
 				'ORDER BY' => 'last DESC',
-				'GROUP BY' => 'cuc_ip,cuc_ip_hex',
+				'GROUP BY' => [ 'cuc_ip', 'cuc_ip_hex' ],
 				'LIMIT' => $limit,
 				'USE INDEX' => 'cuc_user_ip_time',
 			]
@@ -543,16 +548,26 @@ class SpecialCheckUser extends SpecialPage {
 	 */
 	protected function getCountForIPedits( array $ips_hex, $ip, $period = 0 ) {
 		$dbr = wfGetDB( DB_REPLICA );
+		$conds = [ 'cuc_ip_hex' => $ips_hex[$ip] ];
 		$time_conds = $this->getTimeConds( $period );
+		if ( $time_conds !== false ) {
+			$conds[] = $time_conds;
+		}
 
-		$ipedits = $dbr->estimateRowCount( 'cu_changes', '*',
-			[ 'cuc_ip_hex' => $ips_hex[$ip], $time_conds ],
-			__METHOD__ );
+		$ipedits = $dbr->estimateRowCount(
+			'cu_changes',
+			'*',
+			$conds,
+			__METHOD__
+		);
 		// If small enough, get a more accurate count
 		if ( $ipedits <= 1000 ) {
-			$ipedits = $dbr->selectField( 'cu_changes', 'COUNT(*)',
-				[ 'cuc_ip_hex' => $ips_hex[$ip], $time_conds ],
-				__METHOD__ );
+			$ipedits = $dbr->selectField(
+				'cu_changes',
+				'COUNT(*)',
+				$conds,
+				__METHOD__
+			);
 		}
 
 		return $ipedits;
@@ -762,20 +777,28 @@ class SpecialCheckUser extends SpecialPage {
 		}
 
 		$dbr = wfGetDB( DB_REPLICA );
-		$ip_conds = $dbr->makeList( self::getIpConds( $dbr, $ip, $xfor ), LIST_AND );
-		$time_conds = $this->getTimeConds( $period );
+		$conds = self::getIpConds( $dbr, $ip, $xfor );
+		if ( $conds === false ) {
+			return -1;
+		}
 		// Quick index check only OK if no time constraint
 		if ( $period ) {
+			$time_conds = $this->getTimeConds( $period );
+			if ( $time_conds !== false ) {
+				$conds[] = $time_conds;
+			}
 			$rangecount = $dbr->selectField(
-				'cu_changes', 'COUNT(*)',
-				[ $ip_conds, $time_conds ],
+				'cu_changes',
+				'COUNT(*)',
+				$conds,
 				__METHOD__,
 				[ 'USE INDEX' => $index ]
 			);
 		} else {
 			$rangecount = $dbr->estimateRowCount(
-				'cu_changes', '*',
-				[ $ip_conds ],
+				'cu_changes',
+				'*',
+				$conds,
 				__METHOD__,
 				[ 'USE INDEX' => $index ]
 			);
@@ -802,18 +825,24 @@ class SpecialCheckUser extends SpecialPage {
 		$ip, $xfor, $index, $period = 0, $limit = 5001
 	) : IResultWrapper {
 		$dbr = wfGetDB( DB_REPLICA );
-		$ip_conds = $dbr->makeList( self::getIpConds( $dbr, $ip, $xfor ), LIST_AND );
+		$conds = self::getIpConds( $dbr, $ip, $xfor );
+		if ( $conds === false ) {
+			return new FakeResultWrapper( [] );
+		}
 		$time_conds = $this->getTimeConds( $period );
+		if ( $time_conds !== false ) {
+			$conds[] = $time_conds;
+		}
 
 		return $dbr->select(
 			'cu_changes',
 			[
 				'cuc_ip_hex',
-				'COUNT(*) AS count',
-				'MIN(cuc_timestamp) AS first',
-				'MAX(cuc_timestamp) AS last'
+				'count' => 'COUNT(*)',
+				'first' => 'MIN(cuc_timestamp)',
+				'last' => 'MAX(cuc_timestamp)',
 			],
-			[ $ip_conds, $time_conds ],
+			$conds,
 			__METHOD__,
 			[
 				'GROUP BY' => 'cuc_ip_hex',
@@ -885,17 +914,23 @@ class SpecialCheckUser extends SpecialPage {
 		$ip, $xfor, $index, $period = 0, $limit = 5001
 	) : IResultWrapper {
 		$dbr = wfGetDB( DB_REPLICA );
-		$ip_conds = $dbr->makeList( self::getIpConds( $dbr, $ip, $xfor ), LIST_AND );
+		$conds = self::getIpConds( $dbr, $ip, $xfor );
+		if ( $conds === false ) {
+			return new FakeResultWrapper( [] );
+		}
 		$time_conds = $this->getTimeConds( $period );
+		if ( $time_conds !== false ) {
+			$conds[] = $time_conds;
+		}
 
 		return $dbr->select(
 			'cu_changes',
 			[
 				'cuc_namespace', 'cuc_title', 'cuc_user', 'cuc_user_text', 'cuc_comment',
 				'cuc_actiontext', 'cuc_timestamp', 'cuc_minor', 'cuc_page_id', 'cuc_type',
-				'cuc_this_oldid', 'cuc_last_oldid', 'cuc_ip', 'cuc_xff', 'cuc_agent'
+				'cuc_this_oldid', 'cuc_last_oldid', 'cuc_ip', 'cuc_xff', 'cuc_agent',
 			],
-			[ $ip_conds, $time_conds ],
+			$conds,
 			__METHOD__,
 			[
 				'ORDER BY' => 'cuc_timestamp DESC',
@@ -1030,20 +1065,25 @@ class SpecialCheckUser extends SpecialPage {
 	 */
 	protected function getCountsForUserEdits( $user_id, $period = 0 ) {
 		$dbr = wfGetDB( DB_REPLICA );
-		$user_cond = "cuc_user = " . $dbr->addQuotes( $user_id );
+		$conds = [ 'cuc_user' => $user_id ];
 		$time_conds = $this->getTimeConds( $period );
+		if ( $time_conds !== false ) {
+			$conds[] = $time_conds;
+		}
 
 		if ( $period ) {
 			return $dbr->selectField(
-				'cu_changes', 'COUNT(*)',
-				[ $user_cond, $time_conds ],
+				'cu_changes',
+				'COUNT(*)',
+				$conds,
 				__METHOD__,
 				[ 'USE INDEX' => 'cuc_user_ip_time' ]
 			);
 		} else {
 			return $dbr->estimateRowCount(
-				'cu_changes', '*',
-				[ $user_cond, $time_conds ],
+				'cu_changes',
+				'*',
+				$conds,
 				__METHOD__,
 				[ 'USE INDEX' => 'cuc_user_ip_time' ]
 			);
@@ -1062,16 +1102,22 @@ class SpecialCheckUser extends SpecialPage {
 		$user_id, $period = 0, $limit = 5000
 	) : IResultWrapper {
 		$dbr = wfGetDB( DB_REPLICA );
-		$user_cond = "cuc_user = " . $dbr->addQuotes( $user_id );
+		$conds = [ 'cuc_user' => $user_id ];
 		$time_conds = $this->getTimeConds( $period );
+		if ( $time_conds !== false ) {
+			$conds[] = $time_conds;
+		}
 
 		return $dbr->select(
-			'cu_changes',
-			'*',
-			[ $user_cond, $time_conds ],
+			'cu_changes', [
+				'cuc_namespace', 'cuc_title', 'cuc_user', 'cuc_user_text', 'cuc_comment',
+				'cuc_actiontext', 'cuc_timestamp', 'cuc_minor', 'cuc_page_id', 'cuc_type',
+				'cuc_this_oldid', 'cuc_last_oldid', 'cuc_ip', 'cuc_xff', 'cuc_agent',
+			],
+			$conds,
 			__METHOD__,
 			[
-				'ORDER BY' => 'cuc_ip ASC, cuc_timestamp DESC',
+				'ORDER BY' => [ 'cuc_ip ASC', 'cuc_timestamp DESC' ],
 				'LIMIT' => $limit,
 				'USE INDEX' => 'cuc_user_ip_time'
 			]
@@ -1120,13 +1166,19 @@ class SpecialCheckUser extends SpecialPage {
 	 */
 	protected function doUserEditsDBRequest( $user_id, $period = 0, $limit = 5000 ) : IResultWrapper {
 		$dbr = wfGetDB( DB_REPLICA );
-		$user_cond = "cuc_user = " . $dbr->addQuotes( $user_id );
+		$conds = [ 'cuc_user' => $user_id ];
 		$time_conds = $this->getTimeConds( $period );
+		if ( $time_conds !== false ) {
+			$conds[] = $time_conds;
+		}
 
 		return $dbr->select(
-			'cu_changes',
-			'*',
-			[ $user_cond, $time_conds ],
+			'cu_changes', [
+				'cuc_namespace', 'cuc_title', 'cuc_user', 'cuc_user_text', 'cuc_comment',
+				'cuc_actiontext', 'cuc_timestamp', 'cuc_minor', 'cuc_page_id', 'cuc_type',
+				'cuc_this_oldid', 'cuc_last_oldid', 'cuc_ip', 'cuc_xff', 'cuc_agent',
+			],
+			$conds,
 			__METHOD__,
 			[
 				'ORDER BY' => 'cuc_timestamp DESC',
@@ -1260,15 +1312,21 @@ class SpecialCheckUser extends SpecialPage {
 		$ip, $xfor, $index, $period = 0, $limit = 10000
 	) : IResultWrapper {
 		$dbr = wfGetDB( DB_REPLICA );
-		$ip_conds = $dbr->makeList( self::getIpConds( $dbr, $ip, $xfor ), LIST_AND );
+		$conds = self::getIpConds( $dbr, $ip, $xfor );
+		if ( $conds === false ) {
+			return new FakeResultWrapper( [] );
+		}
 		$time_conds = $this->getTimeConds( $period );
+		if ( $time_conds !== false ) {
+			$conds[] = $time_conds;
+		}
 
 		return $dbr->select(
 			'cu_changes',
 			[
-				'cuc_user_text', 'cuc_timestamp', 'cuc_user', 'cuc_ip', 'cuc_agent', 'cuc_xff'
+				'cuc_user_text', 'cuc_timestamp', 'cuc_user', 'cuc_ip', 'cuc_agent', 'cuc_xff',
 			],
-			[ $ip_conds, $time_conds ],
+			$conds,
 			__METHOD__,
 			[
 				'ORDER BY' => 'cuc_timestamp DESC',
@@ -1972,7 +2030,8 @@ class SpecialCheckUser extends SpecialPage {
 				'log_title' => $userpage->getDBkey()
 			],
 			__METHOD__,
-			[ 'USE INDEX' => 'page_time' ] );
+			[ 'USE INDEX' => 'page_time' ]
+		);
 	}
 
 	/**
@@ -2035,7 +2094,7 @@ class SpecialCheckUser extends SpecialPage {
 
 	protected function getTimeConds( $period ) {
 		if ( !$period ) {
-			return '1 = 1';
+			return false;
 		}
 		$dbr = wfGetDB( DB_REPLICA );
 		$cutoff_unixtime = time() - ( $period * 24 * 3600 );
