@@ -331,8 +331,8 @@ class SpecialCheckUser extends SpecialPage {
 			$block = new DatabaseBlock();
 			$block->setTarget( $u );
 			$block->setBlocker( $currentUser );
-			$block->mReason = $blockParams['reason'];
-			$block->mExpiry = $expiry;
+			$block->setReason( $blockParams['reason'] );
+			$block->setExpiry( $expiry );
 			$block->isHardblock( !$isIP );
 			$block->isAutoblocking( true );
 			$block->isCreateAccountBlocked( true );
