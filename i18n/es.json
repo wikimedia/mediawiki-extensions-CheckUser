@@ -28,7 +28,8 @@
 			"JasterTDC",
 			"Macofe",
 			"Ryo567",
-			"PoLuX124"
+			"PoLuX124",
+			"Hasley"
 		]
 	},
 	"checkuser-summary": "Esta herramienta explora los cambios recientes para obtener las direcciones IP utilizadas por un usuario, o para mostrar la información de ediciones y usuarios de una cierta dirección IP.\nSe pueden obtener los usuarios y las ediciones de una dirección IP cliente vía XFF añadiendo \"/xff\" al final de la dirección IP. Funciona con IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).\nNo se muestran más de 5000 ediciones por motivos de rendimiento.\nUtilízala de acuerdo con las políticas correspondientes.",
@@ -74,7 +75,7 @@
 	"checkuser-wasblocked": "Bloqueado anteriormente",
 	"checkuser-localonly": "No unificada",
 	"checkuser-massblock": "Bloquear usuarios seleccionados",
-	"checkuser-massblock-text": "Las cuentas seleccionadas serán bloqueadas de forma indefinida, con el autobloqueo habilitado y la creación de cuentas deshabilitada.\nLas direcciones IP serán bloqueadas durante una semana para usuarios anónimos sólamente con la creación de cuentas deshabilitada.",
+	"checkuser-massblock-text": "Las cuentas seleccionadas serán bloqueadas de forma indefinida, con el autobloqueo habilitado y la creación de cuentas deshabilitada.\nLas direcciones IP serán bloqueadas durante una semana para usuarios anónimos solamente con la creación de cuentas deshabilitada.",
 	"checkuser-blockemail": "Impedir que envíe correo electrónico",
 	"checkuser-blocktalk": "Impedir la edición de su propia página de discusión mientras esté bloqueado",
 	"checkuser-blocktag": "Reemplazar páginas del usuario con:",
@@ -82,7 +83,7 @@
 	"checkuser-massblock-commit": "Bloquear usuarios seleccionados",
 	"checkuser-block-success": "'''{{PLURAL:$2|El usuario|Los usuarios}} $1 {{PLURAL:$2|está bloqueado|están bloqueados}}.'''",
 	"checkuser-block-failure": "'''No hay usuarios bloqueados.'''",
-	"checkuser-block-limit": "Demasiados usarios seleccionados.",
+	"checkuser-block-limit": "Demasiados usuarios seleccionados.",
 	"checkuser-block-noreason": "Debes dar una razón para los bloqueos.",
 	"checkuser-centralauth-multilock": "Bloquear globalmente las cuentas seleccionadas",
 	"checkuser-noreason": "Debes dar una razón para esta consulta.",
