@@ -263,7 +263,7 @@ class SpecialCheckUser extends SpecialPage {
 	 */
 	protected function doMassUserBlock( $users, $blockParams, $tag = '', $talkTag = '' ) {
 		$usersCount = count( $users );
-		if ( !$this->getUser()->isAllowed( 'block' ) || $this->getUser()->isBlocked()
+		if ( !$this->getUser()->isAllowed( 'block' ) || $this->getUser()->getBlock()
 			|| !$usersCount
 		) {
 			$this->getOutput()->addWikiMsg( 'checkuser-block-failure' );
@@ -316,7 +316,7 @@ class SpecialCheckUser extends SpecialPage {
 				continue;
 			}
 
-			if ( $u->isBlocked() ) {
+			if ( $u->getBlock() ) {
 				// If the user is already blocked, just leave it as is
 				continue;
 			}
@@ -1549,7 +1549,7 @@ class SpecialCheckUser extends SpecialPage {
 			$s .= '</li>';
 		}
 		$s .= "</ul></div>\n";
-		if ( $this->getUser()->isAllowed( 'block' ) && !$this->getUser()->isBlocked() ) {
+		if ( $this->getUser()->isAllowed( 'block' ) && !$this->getUser()->getBlock() ) {
 			// FIXME: The block <form> is currently added for users without 'block' right
 			// - only the user-visible form is shown appropriately
 			$s .= $this->getBlockForm( $tag, $talkTag );
