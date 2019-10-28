@@ -1437,7 +1437,7 @@ class SpecialCheckUser extends SpecialPage {
 					],
 					$calinkAlias
 				);
-				$s .= ' ' . $this->msg( 'parentheses', $linkCA )->escaped();
+				$s .= ' ' . $this->msg( 'parentheses' )->rawParams( $linkCA )->escaped();
 			}
 			// Add Globalblocking link link to CentralWiki
 			if ( $globalBlockingToollink !== false
@@ -1495,7 +1495,7 @@ class SpecialCheckUser extends SpecialPage {
 				// Only load the script for users in the configured global(local) group(s) or
 				// for local user with globalblock permission if there is no WikiMap
 				if ( count( array_intersect( $globalBlockingToollink['groups'], $gbUserGroups ) ) ) {
-					$s .= ' ' . $this->msg( 'parentheses', $linkGB )->escaped();
+					$s .= ' ' . $this->msg( 'parentheses' )->rawParams( $linkGB )->escaped();
 				}
 			}
 			// Show edit time range
