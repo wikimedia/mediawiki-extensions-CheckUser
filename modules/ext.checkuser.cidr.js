@@ -151,7 +151,7 @@
 				blocs = ip.split( ':' );
 				for ( x = 0; x <= 7; x++ ) {
 					bloc = blocs[ x ] ? blocs[ x ] : '0';
-					var intBlock = hex2int( bloc ); // convert hex -> int
+					var intBlock = parseInt( bloc, 16 ); // convert hex -> int
 					binBlock = intBlock.toString( 2 ); // concat bin with binary form of bloc
 					while ( binBlock.length < 16 ) {
 						binBlock = '0' + binBlock; // pad out as needed
@@ -216,40 +216,6 @@
 			showResults( '?', '' );
 		}
 
-	};
-
-	// Utility function to convert hex to integers
-	var hex2int = function ( hex ) {
-		hex = hex.toLowerCase();
-		var intform = 0;
-		for ( var i = 0; i < hex.length; i++ ) {
-			var digit = 0;
-			switch ( hex[ i ] ) {
-				case 'a':
-					digit = 10;
-					break;
-				case 'b':
-					digit = 11;
-					break;
-				case 'c':
-					digit = 12;
-					break;
-				case 'd':
-					digit = 13;
-					break;
-				case 'e':
-					digit = 14;
-					break;
-				case 'f':
-					digit = 15;
-					break;
-				default:
-					digit = parseInt( hex[ i ], 10 );
-					break;
-			}
-			intform += digit * Math.pow( 16, hex.length - 1 - i );
-		}
-		return intform;
 	};
 
 	$( function () {
