@@ -5,16 +5,15 @@
 ( function () {
 	var centralURL = mw.config.get( 'wgCUCAMultiLockCentral' ),
 		// eslint-disable-next-line no-jquery/no-global-selector
-		$userCheckboxes = $( '#checkuserresults li :checkbox' );
+		$userCheckboxes = $( '#checkuserresults li [type=checkbox]' );
 
 	// Initialize the link
 	// eslint-disable-next-line no-jquery/no-global-selector
 	$( '#checkuserblock fieldset' ).append(
-		$( '<a>', {
+		$( '<a>' ).attr( {
 			id: 'cacu-multilock-link',
-			text: mw.msg( 'checkuser-centralauth-multilock' ),
 			href: centralURL
-		} )
+		} ).text( mw.msg( 'checkuser-centralauth-multilock' ) )
 	);
 
 	// Change the URL of the link when a checkbox's state is changed
