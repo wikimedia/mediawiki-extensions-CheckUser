@@ -28,10 +28,12 @@
 			}
 		} );
 
-		var mlHref = centralURL + '?wpTarget=' + encodeURIComponent( names.join( '\n' ) );
 		// Update the href of the link with the latest change
 		// eslint-disable-next-line no-jquery/no-global-selector
-		$( '#cacu-multilock-link' ).prop( 'href', mlHref );
+		$( '#cacu-multilock-link' ).prop(
+			'href',
+			centralURL + '?wpTarget=' + encodeURIComponent( names.join( '\n' ) )
+		);
 	} );
 
 }() );

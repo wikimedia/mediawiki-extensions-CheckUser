@@ -1,3 +1,4 @@
+/* eslint-disable one-var, vars-on-top */
 /* -- (c) Aaron Schulz 2009 */
 ( function () {
 	var showResults = function ( size, cidr ) {
@@ -7,11 +8,11 @@
 		$( '#mw-checkuser-ipnote' ).text( size );
 	};
 
-	/*
-	* This function calculates the common range of a list of
-	* IPs. It should be set to update on keyUp.
-	*/
-	var updateCIDRresult = function () {
+	/**
+	 * This function calculates the common range of a list of
+	 * IPs. It should be set to update on keyUp.
+	 */
+	function updateCIDRresult() {
 		var form = document.getElementById( 'mw-checkuser-cidrform' );
 		if ( !form ) {
 			return; // no JS form
@@ -216,7 +217,7 @@
 			showResults( '?', '' );
 		}
 
-	};
+	}
 
 	$( function () {
 		updateCIDRresult();
