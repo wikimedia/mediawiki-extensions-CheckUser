@@ -1,4 +1,8 @@
 {
-	"@metadata": [],
-	"checkuser-search": "Truova"
+	"@metadata": {
+		"authors": [
+			"Ruthven"
+		]
+	},
+	"checkuser-search": "Ascia"
 }
