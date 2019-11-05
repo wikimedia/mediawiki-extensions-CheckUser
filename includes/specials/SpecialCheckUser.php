@@ -6,9 +6,9 @@ use Wikimedia\Rdbms\IResultWrapper;
 
 class SpecialCheckUser extends SpecialPage {
 	/**
-	 * @var null|array $message Used to cache frequently used messages
+	 * @var string[] $message Used to cache frequently used messages
 	 */
-	protected $message = null;
+	protected $message = [];
 
 	/**
 	 * @var null|string
@@ -246,7 +246,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * they are called often, we call them once and save them in $this->message
 	 */
 	protected function preCacheMessages() {
-		if ( $this->message === null ) {
+		if ( $this->message === [] ) {
 			$msgKeys = [ 'diff', 'hist', 'minoreditletter', 'newpageletter', 'blocklink', 'log' ];
 			foreach ( $msgKeys as $msg ) {
 				$this->message[$msg] = $this->msg( $msg )->escaped();
@@ -1716,7 +1716,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @return string
 	 */
 	protected function CUChangesLine( $row ) {
-		static $flagCache;
+		static $flagCache = [];
 		$line = '';
 		// Add date headers as needed
 		$date = htmlspecialchars(
@@ -1949,6 +1949,7 @@ class SpecialCheckUser extends SpecialPage {
 		}
 
 		Hooks::run( 'SpecialCheckUserGetLinksFromRow', [ $this, $row, &$links ] );
+		// @phan-suppress-next-line PhanRedundantCondition May set by hook
 		if ( is_array( $links ) ) {
 			return implode( ' ', $links );
 		} else {

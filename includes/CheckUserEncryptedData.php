@@ -62,6 +62,7 @@ class CheckUserEncryptedData {
 	private function encryptData( $data, $publicKey ) {
 		openssl_seal( $data, $encryptedString, $envelopeKeys, [ $publicKey ], $this->algName );
 		$this->encString = $encryptedString;
+		// @phan-suppress-next-line PhanTypeArraySuspiciousNull
 		$this->envKeys = $envelopeKeys[0];
 	}
 }
