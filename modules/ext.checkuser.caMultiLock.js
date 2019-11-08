@@ -1,11 +1,15 @@
 /**
- * Adds a link to Special:MultiLock on a central wiki if $wgCheckUserCAMultiLock
- * is configured on the Special:CheckUser's block form
+ * Enhance Special:CheckUser's block form with a link to CentralAuth's
+ * Special:MultiLock (if installed)
  */
 ( function () {
-	var centralURL = mw.config.get( 'wgCUCAMultiLockCentral' ),
-		// eslint-disable-next-line no-jquery/no-global-selector
-		$userCheckboxes = $( '#checkuserresults li [type=checkbox]' );
+	var $userCheckboxes,
+		centralURL = mw.config.get( 'wgCUCAMultiLockCentral' );
+
+	if ( !centralURL ) {
+		// Ignore. Either this isn't a block form, or CentralAuth isn't setup.
+		return;
+	}
 
 	// Initialize the link
 	// eslint-disable-next-line no-jquery/no-global-selector
@@ -17,6 +21,8 @@
 	);
 
 	// Change the URL of the link when a checkbox's state is changed
+	// eslint-disable-next-line no-jquery/no-global-selector
+	$userCheckboxes = $( '#checkuserresults li [type=checkbox]' );
 	$userCheckboxes.on( 'change', function () {
 		var names = [];
 		$userCheckboxes.serializeArray().forEach( function ( obj ) {

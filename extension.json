@@ -104,13 +104,10 @@
 	},
 	"ResourceModules": {
 		"ext.checkUser": {
-			"scripts": "modules/ext.checkuser.cidr.js",
-			"dependencies": [
-				"mediawiki.util"
-			]
-		},
-		"ext.checkUser.caMultiLock": {
-			"scripts": "modules/ext.checkuser.caMultiLock.js",
+			"scripts": [
+				"modules/ext.checkuser.cidr.js",
+				"modules/ext.checkuser.caMultiLock.js"
+			],
 			"dependencies": [
 				"mediawiki.util"
 			],

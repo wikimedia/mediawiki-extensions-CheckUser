@@ -1578,7 +1578,6 @@ class SpecialCheckUser extends SpecialPage {
 			// Only load the script for users in the configured global group(s)
 			if ( count( array_intersect( $checkUserCAMultiLock['groups'], $caUserGroups ) ) ) {
 				$out = $this->getOutput();
-				$out->addModules( 'ext.checkUser.caMultiLock' );
 				$centralMLUrl = WikiMap::getForeignURL(
 					$checkUserCAMultiLock['centralDB'],
 					// Use canonical name instead of local name so that it works
@@ -1591,6 +1590,7 @@ class SpecialCheckUser extends SpecialPage {
 					);
 				}
 				$out->addJsConfigVars( 'wgCUCAMultiLockCentral', $centralMLUrl );
+				$out->addModules( 'ext.checkUser' );
 			}
 		}
 
