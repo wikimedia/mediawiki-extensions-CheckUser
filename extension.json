@@ -54,6 +54,10 @@
 		"CheckUserLogLogins": {
 			"value": false,
 			"description": "Whether login attempts should be logged in CheckUser logs"
+		},
+		"CheckUserEnableSpecialInvestigate": {
+			"value": false,
+			"description": "Enables Special:Investigate"
 		}
 	},
 	"APIListModules": {
@@ -94,6 +98,9 @@
 		],
 		"AuthManagerLoginAuthenticateAudit": [
 			"CheckUserHooks::onAuthManagerLoginAuthenticateAudit"
+		],
+		"SpecialPage_initList": [
+			"CheckUserHooks::onSpecialPage_initList"
 		]
 	},
 	"MessagesDirs": {
@@ -141,6 +148,7 @@
 		"CheckUserHooks": "includes/CheckUserHooks.php",
 		"CheckUserLogPager": "includes/CheckUserLogPager.php",
 		"SpecialCheckUser": "includes/specials/SpecialCheckUser.php",
+		"SpecialInvestigate": "includes/specials/SpecialInvestigate.php",
 		"SpecialCheckUserLog": "includes/specials/SpecialCheckUserLog.php",
 		"CheckUserEncryptedData": "includes/CheckUserEncryptedData.php",
 		"ApiQueryCheckUser": "includes/api/ApiQueryCheckUser.php",

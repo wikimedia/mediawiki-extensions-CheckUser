@@ -11,6 +11,7 @@
 	"checkuser-logcase": "The log search is case sensitive.",
 	"checkuser": "Check user",
 	"checkuserlog": "Check user log",
+	"checkuser-investigate": "Investigate",
 	"checkuser-contribs": "check user IP addresses",
 	"checkuser-contribs-log": "recent user checks",
 	"group-checkuser": "Check users",

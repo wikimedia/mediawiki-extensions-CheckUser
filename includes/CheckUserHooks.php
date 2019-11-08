@@ -7,6 +7,20 @@ use Wikimedia\Rdbms\IDatabase;
 
 class CheckUserHooks {
 	/**
+	 * @param array &$list
+	 * @return bool
+	 */
+	public static function onSpecialPage_initList( &$list ) {
+		global $wgCheckUserEnableSpecialInvestigate;
+
+		if ( $wgCheckUserEnableSpecialInvestigate ) {
+			$list['Investigate'] = SpecialInvestigate::class;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Hook function for RecentChange_save
 	 * Saves user data into the cu_changes table
 	 * Note that other extensions (like AbuseFilter) may call this function directly
