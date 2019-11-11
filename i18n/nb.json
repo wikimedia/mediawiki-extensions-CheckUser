@@ -89,5 +89,7 @@
 	"checkuser-reset-action": "nullstilte passord for «$1»",
 	"checkuser-token-fail": "Øktfeil. Prøv igjen.",
 	"checkuser-login-failure": "Kunne ikke logge inn på {{SITENAME}} som $1",
-	"checkuser-login-success": "Logget inn på {{SITENAME}} som $1"
+	"checkuser-login-success": "Logget inn på {{SITENAME}} som $1",
+	"group-checkuser.css": "/* CSS plassert her vil kun gjelde IP-kontrollører */",
+	"group-checkuser.js": "/* JavaScript plassert her vil kun gjelde IP-kontrollører */"
 }

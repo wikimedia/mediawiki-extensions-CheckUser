@@ -9,7 +9,7 @@
 	"checkuser-logcase": "De zeukfunksie van t logboek is heufdlettergeveulig",
 	"checkuser": "Gebruker naokieken",
 	"checkuserlog": "Logboek gebrukersscheumers",
-	"group-checkuser": "gebrukers naokieken",
+	"group-checkuser": "gebrukers nåkyken",
 	"group-checkuser-member": "{{GENDER:$1|gebrukersscheumerd}}",
 	"grouppage-checkuser": "{{ns:project}}:Gebrukersscheumerd",
 	"checkuser-reason": "Reden:",
