@@ -26,6 +26,7 @@
 	"checkuser-logcase": "搜尋時請注意大小寫的區分",
 	"checkuser": "查核使用者",
 	"checkuserlog": "檢查使用者日誌",
+	"checkuser-investigate": "調查",
 	"checkuser-contribs": "檢查使用者 IP 位址",
 	"checkuser-contribs-log": "最近的使用者檢查",
 	"group-checkuser": "使用者查核員",
