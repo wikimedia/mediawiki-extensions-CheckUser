@@ -15,6 +15,7 @@
 	"checkuser-logcase": "Loggsøket er sensitivt for store/små bokstaver.",
 	"checkuser": "Brukersjekk",
 	"checkuserlog": "Brukersjekkingslogg",
+	"checkuser-investigate": "Undersøk",
 	"checkuser-contribs": "kontroller brukerens IP-adresser",
 	"checkuser-contribs-log": "nylige brukerkontroller",
 	"group-checkuser": "IP-kontrollører",

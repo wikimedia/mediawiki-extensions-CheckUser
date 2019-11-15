@@ -29,6 +29,7 @@
 	"checkuser-logcase": "As buscas nos registros são sensíveis a letras maiúsculas ou minúsculas.",
 	"checkuser": "Verificar usuário",
 	"checkuserlog": "Registros de verificação de usuários",
+	"checkuser-investigate": "Investigar",
 	"checkuser-contribs": "verificar IPs do usuário",
 	"checkuser-contribs-log": "verificações de usuário recentes",
 	"group-checkuser": "Verificadores",

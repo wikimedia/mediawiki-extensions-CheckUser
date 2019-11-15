@@ -17,6 +17,7 @@
 	"checkuser-logcase": "بحث السجل حساس لحالة الحروف.",
 	"checkuser": "تدقيق مستخدم",
 	"checkuserlog": "سجل تدقيق المستخدم",
+	"checkuser-investigate": "فحص",
 	"checkuser-contribs": "افحص عناوين أيبي المستخدم",
 	"checkuser-contribs-log": "تدقيقات المستخدم الأخيرة",
 	"group-checkuser": "مدققو مستخدم",
