@@ -33,7 +33,6 @@
 	"checkuser-logcase": "Unused at this time.",
 	"checkuser": "Check user extension.\n{{doc-special|CheckUser}}\nIn the special page, checkusers can check the IP addresses of users.\n{{Identical|Check user}}",
 	"checkuserlog": "{{doc-special|CheckUserLog}}\nIn the special page, checkusers can look at a log of past checkuser actions.",
-	"checkuser-investigate": "{{doc-special|Investigate}}\nThe special page is a new version of [[Special::CheckUser]].",
 	"checkuser-contribs": "This is a link anchor used in [[Special:Contributions]]/''name'' to link to [[Special:CheckUser]].",
 	"checkuser-contribs-log": "This is a link anchor used in [[Special:Contributions]]/''name'' to link to recent entries in the CheckUser log regarding the user. Displayed only when user viewing the page has the right to view the CheckUser log ('''checkuser-log''' permission).",
 	"group-checkuser": "{{doc-group|checkuser}}\ncheck is a noun, not a verb here\n\n{{Identical|Check user}}",
@@ -112,5 +111,13 @@
 	"checkuser-login-failure": "Log entry shown in CheckUser logs for failed login attemps",
 	"checkuser-login-success": "Log entry shown in CheckUser logs for successful login attempts",
 	"group-checkuser.css": "{{doc-group|checkuser|css}}",
-	"group-checkuser.js": "{{doc-group|checkuser|js}}"
+	"group-checkuser.js": "{{doc-group|checkuser|js}}",
+	"checkuser-investigate": "{{doc-special|Investigate}}\nThe special page is a new version of [[Special:CheckUser]].",
+	"checkuser-investigate-legend": "Heading for the [[Special:Investigate]] search form.",
+	"checkuser-investigate-targets-label": "Label for a field in the [[Special:Investigate]] search form.",
+	"checkuser-investigate-targets-placeholder": "Placeholder text for a field in the [[Special:Investigate]] search form.",
+	"checkuser-investigate-ipsearch-help": "Help text for a checkbox in the [[Special:Investigate]] search form.",
+	"checkuser-investigate-ipsearch-label": "Label for a checkbox in the [[Special:Investigate]] search form.",
+	"checkuser-investigate-reason-label": "Label for a field in the [[Special:Investigate]] search form.",
+	"checkuser-investigate-reason-placeholder": "Placeholder text for a field in the [[Special:Investigate]] search form."
 }
