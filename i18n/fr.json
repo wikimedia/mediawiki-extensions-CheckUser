@@ -103,5 +103,6 @@
 	"checkuser-login-failure": "Échec de connexion à {{SITENAME}} en tant que $1",
 	"checkuser-login-success": "Connexion réussie à {{SITENAME}} en tant que $1",
 	"group-checkuser.css": "/* Le CSS placé ici n’affectera que les membres du groupe « checkuser » */",
-	"group-checkuser.js": "/* Le Javascript placé ici n’affectera que les membres du groupe « checkuser » */"
+	"group-checkuser.js": "/* Le Javascript placé ici n’affectera que les membres du groupe « checkuser » */",
+	"checkuser-investigate": "Investiguer"
 }

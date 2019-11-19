@@ -10,7 +10,6 @@
 	"checkuser-logcase": "L'archivije de ricerche jè sensibbele a le maiuscole e minuscole.",
 	"checkuser": "Utende verificatore",
 	"checkuserlog": "Archivije de le CheckUser",
-	"checkuser-investigate": "Investighe",
 	"checkuser-contribs": "condrolle le 'nderizze IP de le utinde",
 	"checkuser-contribs-log": "verifiche de le utinde recende",
 	"group-checkuser": "Utinde verificature",
@@ -85,5 +84,6 @@
 	"checkuser-reset-action": "azzere 'a password pe l'utende \"$1\"",
 	"checkuser-token-fail": "Sessione fallite. Pruève arrete.",
 	"checkuser-login-failure": "Non g'è trasute jndr'à {{SITENAME}} cumme $1",
-	"checkuser-login-success": "E' trasute jndr'à {{SITENAME}} cumme $1"
+	"checkuser-login-success": "E' trasute jndr'à {{SITENAME}} cumme $1",
+	"checkuser-investigate": "Investighe"
 }

@@ -13,7 +13,6 @@
 	"checkuser-logcase": "החיפוש ביומנים הוא תלוי־רישיות.",
 	"checkuser": "בדיקת משתמש",
 	"checkuserlog": "יומן בדיקות",
-	"checkuser-investigate": "חקירה",
 	"checkuser-contribs": "בדיקת כתובות ה־IP",
 	"checkuser-contribs-log": "בדיקות אחרונות של המשתמש",
 	"group-checkuser": "בודקים",
@@ -90,5 +89,6 @@
 	"checkuser-login-failure": "לא הצליח להיכנס לאתר {{SITENAME}} בתור $1",
 	"checkuser-login-success": "נכנס בהצלחה לאתר {{SITENAME}} בתור $1",
 	"group-checkuser.css": "/* הסגנונות הנכתבים כאן ישפיעו על בודקים בלבד */",
-	"group-checkuser.js": "/* כל הסקריפטים הנכתבים כאן ייטענו עבור בודקים בלבד */"
+	"group-checkuser.js": "/* כל הסקריפטים הנכתבים כאן ייטענו עבור בודקים בלבד */",
+	"checkuser-investigate": "חקירה"
 }

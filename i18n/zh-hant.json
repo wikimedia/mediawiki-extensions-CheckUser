@@ -26,7 +26,6 @@
 	"checkuser-logcase": "搜尋時請注意大小寫的區分",
 	"checkuser": "查核使用者",
 	"checkuserlog": "檢查使用者日誌",
-	"checkuser-investigate": "調查",
 	"checkuser-contribs": "檢查使用者 IP 位址",
 	"checkuser-contribs-log": "最近的使用者檢查",
 	"group-checkuser": "使用者查核員",
@@ -101,5 +100,6 @@
 	"checkuser-reset-action": "為使用者 \"$1\" 重設密碼",
 	"checkuser-token-fail": "連線階段錯誤，請再試一次。",
 	"checkuser-login-failure": "以$1身分登入{{SITENAME}}失敗",
-	"checkuser-login-success": "成功以$1身分登入{{SITENAME}}"
+	"checkuser-login-success": "成功以$1身分登入{{SITENAME}}",
+	"checkuser-investigate": "調查"
 }

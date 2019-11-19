@@ -13,7 +13,6 @@
 	"checkuser-logcase": "Пребарувањето на дневникот разликува големи и букви.",
 	"checkuser": "Провери корисник",
 	"checkuserlog": "Дневник на проверки",
-	"checkuser-investigate": "Иследи",
 	"checkuser-contribs": "провери IP-адреси на корисникот",
 	"checkuser-contribs-log": "скорешни проверки",
 	"group-checkuser": "Проверувачи на корисници",
@@ -90,5 +89,6 @@
 	"checkuser-login-failure": "Не успеав да ве најавам на {{SITENAME}} како $1",
 	"checkuser-login-success": "Успешно ве најавив на {{SITENAME}} како $1",
 	"group-checkuser.css": "/* Тука поставениот CSS ќе се применува само врз проверувачи на корисници */",
-	"group-checkuser.js": "/* Тука поставениот JS ќе се применува само врз проверувачи на корисници */"
+	"group-checkuser.js": "/* Тука поставениот JS ќе се применува само врз проверувачи на корисници */",
+	"checkuser-investigate": "Иследи"
 }

@@ -23,7 +23,6 @@
 	"checkuser-logcase": "As buscas nos registos distinguem maiúsculas de minúsculas.",
 	"checkuser": "Verificação de utilizadores",
 	"checkuserlog": "Registo das verificações de utilizadores",
-	"checkuser-investigate": "Investigar",
 	"checkuser-contribs": "verificar endereços IP do utilizador",
 	"checkuser-contribs-log": "verificações de utilizador recentes",
 	"group-checkuser": "Verificadores de utilizadores",
@@ -98,5 +97,6 @@
 	"checkuser-reset-action": "foi reiniciada a palavra-passe do utilizador \"$1\"",
 	"checkuser-token-fail": "Falha na sessão. Por favor, tente novamente.",
 	"checkuser-login-failure": "Não foi possível entrar na wiki {{SITENAME}} como $1",
-	"checkuser-login-success": "Entrou na wiki {{SITENAME}} como $1"
+	"checkuser-login-success": "Entrou na wiki {{SITENAME}} como $1",
+	"checkuser-investigate": "Investigar"
 }

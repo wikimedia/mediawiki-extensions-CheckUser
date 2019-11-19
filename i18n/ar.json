@@ -17,7 +17,6 @@
 	"checkuser-logcase": "بحث السجل حساس لحالة الحروف.",
 	"checkuser": "تدقيق مستخدم",
 	"checkuserlog": "سجل تدقيق المستخدم",
-	"checkuser-investigate": "فحص",
 	"checkuser-contribs": "افحص عناوين أيبي المستخدم",
 	"checkuser-contribs-log": "تدقيقات المستخدم الأخيرة",
 	"group-checkuser": "مدققو مستخدم",
@@ -94,5 +93,6 @@
 	"checkuser-login-failure": "أخفق تسجيل الدخول إلى {{SITENAME}} كـ$1",
 	"checkuser-login-success": "تم تسجيل الدخول بنجاح إلى {{SITENAME}} كـ$1",
 	"group-checkuser.css": "/* الأنماط المتراصة CSS المعروضة هنا ستؤثر على مدققي المستخدم فقط */",
-	"group-checkuser.js": "/* الجافا سكريبت المعروضة هنا ستؤثر على مدققي المستخدم فقط */"
+	"group-checkuser.js": "/* الجافا سكريبت المعروضة هنا ستؤثر على مدققي المستخدم فقط */",
+	"checkuser-investigate": "فحص"
 }

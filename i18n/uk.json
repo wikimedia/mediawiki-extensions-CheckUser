@@ -21,7 +21,6 @@
 	"checkuser-logcase": "Пошук у журналі чутливий до регістру.",
 	"checkuser": "Перевірити користувача",
 	"checkuserlog": "Журнал перевірки користувачів",
-	"checkuser-investigate": "Розслідування",
 	"checkuser-contribs": "перевірити IP-адреси користувача",
 	"checkuser-contribs-log": "недавні перевірки користувача",
 	"group-checkuser": "Чек'юзери",
@@ -98,5 +97,6 @@
 	"checkuser-login-failure": "Не вдалося увійти в систему на сайті {{SITENAME}} як $1",
 	"checkuser-login-success": "Виконано вхід у систему на сайті {{SITENAME}} як $1",
 	"group-checkuser.css": "/* Розміщений тут CSS-код буде використаний тільки для чек'юзерів */",
-	"group-checkuser.js": "/* Розміщений тут код JavaScript буде завантажений тільки для чек'юзерів */"
+	"group-checkuser.js": "/* Розміщений тут код JavaScript буде завантажений тільки для чек'юзерів */",
+	"checkuser-investigate": "Розслідування"
 }
