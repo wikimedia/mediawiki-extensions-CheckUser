@@ -119,5 +119,14 @@
 	"checkuser-investigate-ipsearch-help": "Help text for a checkbox in the [[Special:Investigate]] search form.",
 	"checkuser-investigate-ipsearch-label": "Label for a checkbox in the [[Special:Investigate]] search form.",
 	"checkuser-investigate-reason-label": "Label for a field in the [[Special:Investigate]] search form.",
-	"checkuser-investigate-reason-placeholder": "Placeholder text for a field in the [[Special:Investigate]] search form."
+	"checkuser-investigate-reason-placeholder": "Placeholder text for a field in the [[Special:Investigate]] search form.",
+	"checkuser-investigate-preliminary-table-name": "Label for a table header in the [[Special:Investigate]].",
+	"checkuser-investigate-preliminary-table-registration": "Label for a table header in the [[Special:Investigate]].",
+	"checkuser-investigate-preliminary-table-wiki": "Label for a table header in the [[Special:Investigate]].",
+	"checkuser-investigate-preliminary-table-editcount": "Label for a table header in the [[Special:Investigate]].",
+	"checkuser-investigate-preliminary-table-blocked": "Label for a table header in the [[Special:Investigate]].",
+	"checkuser-investigate-preliminary-table-groups": "Label for a table header in the [[Special:Investigate]].",
+	"checkuser-investigate-preliminary-table-edits": "Entry for a table cell in [[Special:Investigate]].",
+	"checkuser-investigate-preliminary-table-blocked": "Entry for a table cell in [[Special:Investigate]].",
+	"checkuser-investigate-preliminary-table-unblocked": "Entry for a table cell in [[Special:Investigate]]."
 }
