@@ -97,5 +97,9 @@
 	"checkuser-create-action": "è stato creato",
 	"checkuser-email-action": "ha inviato una e-mail a \"$1\"",
 	"checkuser-reset-action": "reimposta password per l'utente \"$1\"",
-	"checkuser-token-fail": "Errore di sessione. Riprova ancora."
+	"checkuser-token-fail": "Errore di sessione. Riprova ancora.",
+	"checkuser-investigate-legend": "Cerca per nome utente, indirizzi IP o intervalli di IP",
+	"checkuser-investigate-targets-label": "Nomi utente o indirizzi IP",
+	"checkuser-investigate-targets-placeholder": "Nome utente o 1.1.1.42",
+	"checkuser-investigate-reason-label": "Motivo"
 }

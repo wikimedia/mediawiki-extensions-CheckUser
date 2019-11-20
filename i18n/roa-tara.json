@@ -85,5 +85,9 @@
 	"checkuser-token-fail": "Sessione fallite. Pruève arrete.",
 	"checkuser-login-failure": "Non g'è trasute jndr'à {{SITENAME}} cumme $1",
 	"checkuser-login-success": "E' trasute jndr'à {{SITENAME}} cumme $1",
-	"checkuser-investigate": "Investighe"
+	"checkuser-investigate": "Investighe",
+	"checkuser-investigate-legend": "Cirche nome utinde, indirizze IP o 'ndervalle IP",
+	"checkuser-investigate-targets-label": "Nome de le utinde e indirizze IP",
+	"checkuser-investigate-targets-placeholder": "Nome utende o 1.1.1.42",
+	"checkuser-investigate-reason-label": "Mutive"
 }

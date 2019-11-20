@@ -46,5 +46,6 @@
 	"checkuser-search-initiator": "iniciators",
 	"checkuser-log-search-target": "Mērķis:",
 	"checkuser-log-search-type": "Meklēt pēc:",
-	"checkuser-email-action": "aizsūtīt ziņu uz lietotāja \"$1\" e-pastu"
+	"checkuser-email-action": "aizsūtīt ziņu uz lietotāja \"$1\" e-pastu",
+	"checkuser-investigate-reason-label": "Iemesls"
 }

@@ -99,5 +99,12 @@
 	"checkuser-token-fail": "Awaria sesji. Spróbuj jeszcze raz.",
 	"checkuser-login-failure": "Logowanie do {{SITENAME}} jako $1 nie powiodło się",
 	"checkuser-login-success": "Pomyślnie zalogowano do {{SITENAME}} jako $1",
-	"checkuser-investigate": "Zbadaj"
+	"checkuser-investigate": "Zbadaj",
+	"checkuser-investigate-legend": "Szukaj nazw użytkownika, adresów IP bądź ich zakresów",
+	"checkuser-investigate-targets-label": "Nazwy użytkownika i adresy IP",
+	"checkuser-investigate-targets-placeholder": "NazwaUżytkownika lub 1.1.1.42",
+	"checkuser-investigate-ipsearch-help": "Zaznaczenie tej opcji uwzględni także wszystkie inne konta użytkowników, którzy edytowali lub wykonywali akcje z tych samych adresów IP co podani użytkownicy w przeciągu ostatnich 90 dni.",
+	"checkuser-investigate-ipsearch-label": "Uwzględnij wszystkich użytkowników używających tych samych IP co podani użytkownicy",
+	"checkuser-investigate-reason-label": "Powód",
+	"checkuser-investigate-reason-placeholder": "Przykład: Sprawdzanie NAzwyUżytkownika w związku z podejrzeniem używania pacynki"
 }

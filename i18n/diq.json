@@ -73,5 +73,6 @@
 	"checkuser-autocreate-action": "otomatikî ra virziyo",
 	"checkuser-create-action": "Vıraziya",
 	"checkuser-email-action": "karberê $1î rê email Bırşe",
-	"checkuser-reset-action": "karberê \"$1\" rê parola nên ke"
+	"checkuser-reset-action": "karberê \"$1\" rê parola nên ke",
+	"checkuser-investigate-reason-label": "Sebeb"
 }

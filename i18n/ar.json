@@ -94,5 +94,12 @@
 	"checkuser-login-success": "تم تسجيل الدخول بنجاح إلى {{SITENAME}} كـ$1",
 	"group-checkuser.css": "/* الأنماط المتراصة CSS المعروضة هنا ستؤثر على مدققي المستخدم فقط */",
 	"group-checkuser.js": "/* الجافا سكريبت المعروضة هنا ستؤثر على مدققي المستخدم فقط */",
-	"checkuser-investigate": "فحص"
+	"checkuser-investigate": "فحص",
+	"checkuser-investigate-legend": "البحث عن أسماء المستخدمين أو عناوين الآيبي أو نطاقات الآيبي",
+	"checkuser-investigate-targets-label": "أسماء المستخدمين وعناوين الآيبي",
+	"checkuser-investigate-targets-placeholder": "اسم المستخدم أو 1.1.1.42",
+	"checkuser-investigate-ipsearch-help": "سيؤدي تحديد هذا الخيار أيضا إلى إظهار جميع حسابات المستخدمين الأخرى التي عدلت أو ارتكبت أية إجراءات من عناوين الآيبي نفسها التي استخدمها المستخدمون المعينون في آخر 90 يومًا.",
+	"checkuser-investigate-ipsearch-label": "تضمين جميع المستخدمين الذين يستخدمون نفس عناوين الآيبي كمستخدمين معينين",
+	"checkuser-investigate-reason-label": "السبب",
+	"checkuser-investigate-reason-placeholder": "على سبيل المثال: التحقيق في اسم المستخدم لدمية الجورب المشتبه بها"
 }

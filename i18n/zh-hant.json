@@ -101,5 +101,12 @@
 	"checkuser-token-fail": "連線階段錯誤，請再試一次。",
 	"checkuser-login-failure": "以$1身分登入{{SITENAME}}失敗",
 	"checkuser-login-success": "成功以$1身分登入{{SITENAME}}",
-	"checkuser-investigate": "調查"
+	"checkuser-investigate": "調查",
+	"checkuser-investigate-legend": "搜尋使用者名稱、IP 位址、或是 IP 範圍",
+	"checkuser-investigate-targets-label": "使用者名稱與 IP 位址",
+	"checkuser-investigate-targets-placeholder": "使用者名稱或 1.1.1.42",
+	"checkuser-investigate-ipsearch-help": "採用此選項將會一同顯示出在過去 90 天裡，與指定使用者採用相同 IP 位址，並做過編輯或是提交任何操作的其他全部使用者帳號。",
+	"checkuser-investigate-ipsearch-label": "包含與指定使用者採用相同 IP 的所有使用者",
+	"checkuser-investigate-reason-label": "原因",
+	"checkuser-investigate-reason-placeholder": "範例：調查疑似 sockpuppetry 的使用者名稱"
 }
