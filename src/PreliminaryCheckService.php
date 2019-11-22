@@ -26,7 +26,7 @@ class PreliminaryCheckService {
 	public function __construct( ILBFactory $lbFactory,
 		ExtensionRegistry $extensionRegistry,
 		string $localWikiId
- ) {
+	) {
 		$this->lbFactory = $lbFactory;
 		$this->extensionRegistry = $extensionRegistry;
 		$this->localWikiId = $localWikiId;
