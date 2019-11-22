@@ -152,5 +152,11 @@
 		"ApiQueryCheckUserLog": "includes/api/ApiQueryCheckUserLog.php",
 		"PopulateCheckUserTable": "maintenance/populateCheckUserTable.php"
 	},
+	"ServiceWiringFiles": [
+		"includes/ServiceWiring.php"
+	],
+	"AutoloadNamespaces": {
+		"MediaWiki\\CheckUser\\": "src/"
+	},
 	"manifest_version": 2
 }
