@@ -90,5 +90,12 @@
 	"checkuser-login-success": "נכנס בהצלחה לאתר {{SITENAME}} בתור $1",
 	"group-checkuser.css": "/* הסגנונות הנכתבים כאן ישפיעו על בודקים בלבד */",
 	"group-checkuser.js": "/* כל הסקריפטים הנכתבים כאן ייטענו עבור בודקים בלבד */",
-	"checkuser-investigate": "חקירה"
+	"checkuser-investigate": "חקירה",
+	"checkuser-investigate-legend": "חיפוש שמות משתמש, כתובות IP או טווחי IP",
+	"checkuser-investigate-targets-label": "שמות משתמש וכתובות IP",
+	"checkuser-investigate-targets-placeholder": "שם־משתמש או 1.1.1.42",
+	"checkuser-investigate-ipsearch-help": "סימון האפשרות הזאת יעלה גם את כל חשבונות המשתמש שערכו או ביצעו פעולות כלשהן מאותה כתובת ה־IP כמו המשתמש הנתון ב־90 הימים האחרונים.",
+	"checkuser-investigate-ipsearch-label": "לכלול את כל המשתמשים שמשתמשים באותה כתובת ה־IP כמו המשתמשים הנתונים",
+	"checkuser-investigate-reason-label": "סיבה",
+	"checkuser-investigate-reason-placeholder": "דוגמה: חקירת שם־משתמש בשל חשד להפעלת בובת קש"
 }

@@ -106,7 +106,7 @@
 	"group-checkuser.js": "/* Le Javascript placé ici n’affectera que les membres du groupe « checkuser » */",
 	"checkuser-investigate": "Investiguer",
 	"checkuser-investigate-legend": "Rechercher des noms d’utilisateur, des adresses IP ou des plages d’adresse IP",
-	"checkuser-investigate-targets-label": "Noms d’utilisateur et adresses IP",
+	"checkuser-investigate-targets-label": "Noms d’utilisateurs et adresses IP",
 	"checkuser-investigate-targets-placeholder": "Nom d’utilisateur ou 1.1.1.42",
 	"checkuser-investigate-ipsearch-help": "Cocher cette option rétablira aussi tous les autres comptes utilisateur qui ont modifié ou validé des actions depuis les mêmes adresses IP que les utilisateurs fournis, pendant les derniers 90 jours.",
 	"checkuser-investigate-ipsearch-label": "Inclure tous les utilisateurs qui utilisent les mêmes adresses IP que les utilisateurs donnés",
