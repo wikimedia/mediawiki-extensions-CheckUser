@@ -66,7 +66,7 @@
 	"checkuser-accounts": "{{PLURAL:$1|חשבון חדש אחד|$1 חשבונות חדשים}}",
 	"checkuser-too-many": "נמצאו תוצאות רבות מדי (לפי הערכה של השאילתה). נא לצמצם את ה־CIDR.\nלהלן כתובות ה־IP שנעשה בהן שימוש (מוצגות 5,000 לכל היותר, וממוינות לפי כתובת):",
 	"checkuser-user-nonexistent": "המשתמש שצוין לא נמצא.",
-	"checkuser-search": "חיפוש עיולים ביומן בדיקת משתמשים",
+	"checkuser-search": "חיפוש רשומות ביומן בדיקת משתמשים",
 	"checkuser-search-submit": "חיפוש",
 	"checkuser-search-initiator": "בודק",
 	"checkuser-search-target": "נבדק",
