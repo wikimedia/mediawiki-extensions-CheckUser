@@ -98,5 +98,7 @@
 	"checkuser-login-failure": "{{SITENAME}}에 $1님으로 로그인을 실패했습니다",
 	"checkuser-login-success": "{{SITENAME}}에 $1님으로 성공적으로 로그인했습니다",
 	"group-checkuser.css": "/* 이 CSS 설정은 검사관에만 적용됩니다 */",
-	"group-checkuser.js": "/* 이 자바스크립트 설정은 검사관에만 적용됩니다 */"
+	"group-checkuser.js": "/* 이 자바스크립트 설정은 검사관에만 적용됩니다 */",
+	"checkuser-investigate-targets-placeholder": "사용자 이름 또는 1.1.1.42",
+	"checkuser-investigate-reason-label": "이유"
 }

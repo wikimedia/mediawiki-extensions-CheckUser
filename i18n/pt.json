@@ -102,6 +102,6 @@
 	"checkuser-investigate": "Investigar",
 	"checkuser-investigate-legend": "Pesquisar nomes de utilizador, endereços IP ou gamas IP",
 	"checkuser-investigate-targets-label": "Nomes de utilizador e endereços IP",
-	"checkuser-investigate-targets-placeholder": "Nome de Utilizador ou 1.1.1.42",
+	"checkuser-investigate-targets-placeholder": "Nome de utilizador ou 1.1.1.42",
 	"checkuser-investigate-reason-label": "Motivo"
 }
