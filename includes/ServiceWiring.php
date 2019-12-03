@@ -4,7 +4,8 @@ use MediaWiki\MediaWikiServices;
 use MediaWiki\CheckUser\PreliminaryCheckService;
 
 return [
-	'PreliminaryCheckService' => function ( MediaWikiServices $services ): PreliminaryCheckService {
+	'CheckUserPreliminaryCheckService' =>
+	function ( MediaWikiServices $services ): PreliminaryCheckService {
 		return new PreliminaryCheckService(
 			$services->getDBLoadBalancerFactory(),
 			ExtensionRegistry::getInstance(),
