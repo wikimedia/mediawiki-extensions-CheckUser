@@ -30,35 +30,71 @@ use Wikimedia\Rdbms\FakeResultWrapper;
  * @ingroup Pager
  */
 class PreliminaryCheckPager extends TablePager {
+	/** @var TokenManager */
+	private $tokenManager;
+
 	/** @var PreliminaryCheckService */
 	private $preliminaryCheckService;
 
 	/** @var string[] Array of column name to translated table header message */
 	private $fieldNames;
 
+	/** @var array */
+	private $requestData;
+
 	/**
 	 * @param IContextSource $context
 	 * @param LinkRenderer $linkRenderer
+	 * @param TokenManager $tokenManager
 	 * @param PreliminaryCheckService $preliminaryCheckService
 	 */
 	public function __construct(
 		IContextSource $context,
 		LinkRenderer $linkRenderer,
+		TokenManager $tokenManager,
 		PreliminaryCheckService $preliminaryCheckService
 	) {
 		parent::__construct( $context, $linkRenderer );
+		$this->tokenManager = $tokenManager;
 		$this->preliminaryCheckService = $preliminaryCheckService;
+		$this->requestData = $tokenManager->getDataFromContext( $context );
+		$this->mOffset = $this->requestData['offset'] ?? '';
+	}
+
+	/**
+	 * @inheritDoc
+	 *
+	 * Conceal the offset which may reveal private data.
+	 */
+	public function getPagingQueries() {
+		$user = $this->getContext()->getUser();
+		$queries = parent::getPagingQueries();
+		foreach ( $queries as $key => &$query ) {
+			if ( $query === false ) {
+				continue;
+			}
+
+			if ( isset( $query['offset'] ) ) {
+				// Move the offset into the token.
+				$query['token'] = $this->tokenManager->encode( $user, array_merge( $this->requestData, [
+					'offset' => $query['offset'],
+				] ) );
+				unset( $query['offset'] );
+			} elseif ( isset( $this->requestData['offset'] ) ) {
+				// Remove the offset.
+				$data = $this->requestData;
+				unset( $data['offset'] );
+				$query['token'] = $this->tokenManager->encode( $user, $data );
+			}
+		}
+
+		return $queries;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function doQuery() {
-		$users = array_map(
-			'User::newFromName',
-			explode( "\n", $this->getRequest()->getText( 'targets' ) )
-		);
-
 		$defaultOrder = ( $this->mDefaultDirection === self::DIR_ASCENDING )
 			? self::QUERY_ASCENDING
 			: self::QUERY_DESCENDING;
@@ -67,13 +103,28 @@ class PreliminaryCheckPager extends TablePager {
 		// Extra row so that we can tell whether "next" link should be shown
 		$queryLimit = $this->mLimit + 1;
 
+		if ( $this->mOffset !== '' ) {
+			[ $nameOffset, $wikiOffset ] = explode( '>', $this->mOffset );
+			$offsets = [
+				'name' => $nameOffset,
+				'wiki' => $wikiOffset,
+			];
+		} else {
+			$offsets = false;
+		}
+
 		$pageInfo = [
 			'includeOffset' => $this->mIncludeOffset,
-			 // TODO: Pass offsets through in T239680
-			'offsets' => false,
+			'offsets' => $offsets,
 			'limit' => $queryLimit,
 			'order' => $order,
 		];
+
+		$targets = $this->requestData['targets'] ?? [];
+
+		$users = array_filter( array_map( 'User::newFromName', $targets ), function ( $user ) {
+			return (bool)$user;
+		} );
 
 		if ( $this->mOffset == '' ) {
 			$isFirst = true;

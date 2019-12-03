@@ -3,7 +3,7 @@ namespace MediaWiki\CheckUser;
 
 use ExtensionRegistry;
 use IndexPager;
-use User;
+use MediaWiki\User\UserIdentity;
 use UserGroupMembership;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\ILBFactory;
@@ -36,7 +36,7 @@ class PreliminaryCheckService {
 	/**
 	 * Gets preliminary data for users to start an investigation
 	 *
-	 * @param User[]|string[] $users
+	 * @param UserIdentity[] $users
 	 * @param mixed[] $pageInfo Information for pagination (unused if CentralAuth is
 	 *  not available).
 	 *  - includeOffset: (bool) Include the row specified as the offset
@@ -71,7 +71,7 @@ class PreliminaryCheckService {
 	/**
 	 * Get the preliminary data, if CentralAuth is available.
 	 *
-	 * @param User[]|string[] $users
+	 * @param UserIdentity[] $users
 	 * @param mixed[] $pageInfo Information for pagination. See getPreliminaryData.
 	 * @return array
 	 */
@@ -169,7 +169,7 @@ class PreliminaryCheckService {
 	/**
 	 * Get the preliminary data, if CentralAuth is not available.
 	 *
-	 * @param User[]|string[] $users
+	 * @param UserIdentity[] $users
 	 * @return array
 	 */
 	protected function getLocalUserData( array $users ) : array {
@@ -177,7 +177,7 @@ class PreliminaryCheckService {
 		// are likely to involve very many users, we could paginate.
 		$data = [];
 		foreach ( $users as $user ) {
-			$data[] = $this->getUserData( (string)$user, $this->localWikiId );
+			$data[] = $this->getUserData( $user->getName(), $this->localWikiId );
 		}
 		return $data;
 	}

@@ -18,7 +18,10 @@ class CheckUserHooks {
 		if ( $wgCheckUserEnableSpecialInvestigate ) {
 			$list['Investigate'] = [
 				'class' => SpecialInvestigate::class,
-				'services' => [ 'CheckUserPreliminaryCheckService' ],
+				'services' => [
+					'CheckUserPreliminaryCheckService',
+					'CheckUserTokenManager',
+				],
 			];
 		}
 
