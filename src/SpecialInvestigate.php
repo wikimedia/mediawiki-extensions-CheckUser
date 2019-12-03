@@ -2,9 +2,7 @@
 
 namespace MediaWiki\CheckUser;
 
-use ExtensionRegistry;
 use HTMLForm;
-use NamespaceInfo;
 use OOUI\Element;
 use OOUI\HtmlSnippet;
 use OOUI\IndexLayout;
@@ -12,18 +10,14 @@ use OOUI\TabOptionWidget;
 use OOUI\Tag;
 
 class SpecialInvestigate extends \FormSpecialPage {
+	/** @var PagerFactory */
+	private $preliminaryCheckPagerFactory;
 
-	/** @var PreliminaryCheckService */
-	private $preliminaryCheckService;
-
-	/** @var CompareService */
-	private $compareService;
+	/** @var PagerFactory */
+	private $comparePagerFactory;
 
 	/** @var TokenManager */
 	private $tokenManager;
-
-	/** @var NamespaceInfo */
-	private $namespaceInfo;
 
 	/** @var IndexLayout|null */
 	private $layout;
@@ -32,22 +26,19 @@ class SpecialInvestigate extends \FormSpecialPage {
 	private $requestData;
 
 	/**
-	 * @param PreliminaryCheckService $preliminaryCheckService
-	 * @param CompareService $compareService
+	 * @param PagerFactory $preliminaryCheckPagerFactory
+	 * @param PagerFactory $comparePagerFactory
 	 * @param TokenManager $tokenManager
-	 * @param NamespaceInfo $namespaceInfo
 	 */
 	public function __construct(
-		PreliminaryCheckService $preliminaryCheckService,
-		CompareService $compareService,
-		TokenManager $tokenManager,
-		NamespaceInfo $namespaceInfo
+		PagerFactory $preliminaryCheckPagerFactory,
+		PagerFactory $comparePagerFactory,
+		TokenManager $tokenManager
 	) {
 		parent::__construct( 'Investigate', 'checkuser' );
-		$this->preliminaryCheckService = $preliminaryCheckService;
-		$this->compareService = $compareService;
+		$this->preliminaryCheckPagerFactory = $preliminaryCheckPagerFactory;
+		$this->comparePagerFactory = $comparePagerFactory;
 		$this->tokenManager = $tokenManager;
-		$this->namespaceInfo = $namespaceInfo;
 	}
 
 	/**
@@ -199,14 +190,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	private function addTabContent( string $par ) : self {
 		switch ( $par ) {
 			case $this->getTabParam( 'preliminary-check' ):
-				$pager = new PreliminaryCheckPager(
-					$this->getContext(),
-					$this->getLinkRenderer(),
-					$this->namespaceInfo,
-					$this->tokenManager,
-					ExtensionRegistry::getInstance(),
-					$this->preliminaryCheckService
-				);
+				$pager = $this->preliminaryCheckPagerFactory->createPager( $this->getContext() );
 
 				if ( $pager->getNumRows() ) {
 					$this->addParserOutput( $pager->getFullOutput() );
@@ -218,12 +202,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 
 				return $this;
 			case $this->getTabParam( 'compare' ):
-				$pager = new ComparePager(
-					$this->getContext(),
-					$this->getLinkRenderer(),
-					$this->tokenManager,
-					$this->compareService
-				);
+				$pager = $this->comparePagerFactory->createPager( $this->getContext() );
 
 				if ( $pager->getNumRows() ) {
 					$this->addParserOutput( $pager->getFullOutput() );
