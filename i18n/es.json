@@ -113,5 +113,9 @@
 	"checkuser-login-failure": "Error al tratar de iniciar sesión como \"$1\" en {{SITENAME}}",
 	"checkuser-login-success": "Inició sesión con éxito como \"$1\" en {{SITENAME}}",
 	"group-checkuser.css": "/* El código CSS colocado aquí sólo afectará a los usuarios con permisos de checkuser */",
-	"group-checkuser.js": "/* El código JavaScript colocado en esta página sólo afectará a los usuarios con permisos de checkuser */"
+	"group-checkuser.js": "/* El código JavaScript colocado en esta página sólo afectará a los usuarios con permisos de checkuser */",
+	"checkuser-investigate": "Investigar",
+	"checkuser-investigate-legend": "Buscar nombres de usuario, direcciones IP o intervalos de IP",
+	"checkuser-investigate-targets-label": "Nombres de usuario y direcciones IP",
+	"checkuser-investigate-reason-label": "Motivo"
 }
