@@ -13,7 +13,8 @@
 			"Sayginer",
 			"McDutchie",
 			"HakanIST",
-			"Hedda"
+			"Hedda",
+			"BaRaN6161 TURK"
 		]
 	},
 	"checkuser-summary": "Bu araç bir kullanıcı tarafından kullanılan IP'leri almak için son değişiklikleri tarar ya da bir IP için değişiklik/kullanıcı verisini gösterir.\nAlıcı IP'deki kullanıcı ve değişiklikler, IP'ye \"/xff\" eklenmesiyle XFF başlıklarıyla alınabilir. IPv4 (CIDR $1-32) ve IPv6 (CIDR $2-128) desteklenmektedir.\nPerformans nedeniyle 5000'den fazla değişiklik dönmeyecektir.\nBunu ilkelere uygun olarak kullanın.",
@@ -95,5 +96,13 @@
 	"checkuser-reset-action": "\"$1\" kullanıcısı için parolayı sıfırla",
 	"checkuser-token-fail": "Oturum hatası. Lütfen tekrar deneyin.",
 	"checkuser-login-failure": "$1 olarak {{SITENAME}} sitesinde oturum açma işlemi başarısız oldu",
-	"checkuser-login-success": "$1 olarak {{SITENAME}} sitesinde oturum başarıyla açıldı"
+	"checkuser-login-success": "$1 olarak {{SITENAME}} sitesinde oturum başarıyla açıldı",
+	"checkuser-investigate": "İncele",
+	"checkuser-investigate-legend": "Kullanıcı adlarını, IP adreslerini veya IP aralıklarını arayın",
+	"checkuser-investigate-targets-label": "Kullanıcı adları ve IP adresleri",
+	"checkuser-investigate-targets-placeholder": "KullanıcıAdı veya 1.1.1.42",
+	"checkuser-investigate-ipsearch-help": "Bu seçeneğin işaretlenmesi, son 90 gün içinde, aynı IP adreslerinde verilen kullanıcılarla aynı işlemleri yapan veya düzenleyen diğer tüm kullanıcı hesaplarını da getirir.",
+	"checkuser-investigate-ipsearch-label": "Verilen kullanıcılarla aynı IP’leri kullanan tüm kullanıcıları dahil et",
+	"checkuser-investigate-reason-label": "Sebep",
+	"checkuser-investigate-reason-placeholder": "Örnek: Şüphelenilen çorap kuklası için KullanıcıAdısını Soruşturma"
 }

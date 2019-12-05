@@ -13,7 +13,8 @@
 			"Сербијана",
 			"Acamicamacaraca",
 			"Zoranzoki21",
-			"BadDog"
+			"BadDog",
+			"Вукан Ц"
 		]
 	},
 	"checkuser-summary": "Ова алатка скенира скорашње измене и враћа IP адресе које је корисник користио или приказује податке о кориснику/изменама за дати IP.\nКорисници и измене IP адресе клијента се могу добавити преко XFF заглавља додавањем <code>/xff</code> иза IP адресе. Формати IPv4 (CIDR $1-32) и IPv6 (CIDR $2-128) су подржани.\nНеће бити враћено више од 5.000 измена због перформанси.\nКористите ово у складу с правилима.",
@@ -86,5 +87,7 @@
 	"checkuser-autocreate-action": "је аутоматски направљен",
 	"checkuser-create-action": "је направљен",
 	"checkuser-email-action": "имејл је послат кориснику „$1“",
-	"checkuser-reset-action": "resetuj lozinku za korisnika „$1“"
+	"checkuser-reset-action": "resetuj lozinku za korisnika „$1“",
+	"checkuser-investigate-targets-label": "Корисничко име или IP адреса",
+	"checkuser-investigate-reason-label": "Разлог"
 }
