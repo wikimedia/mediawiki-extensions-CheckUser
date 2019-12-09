@@ -68,5 +68,7 @@
 	"checkuser-autocreate-action": "యాంత్రికంగా సృష్టించబడింది",
 	"checkuser-create-action": "సృష్టించిన తేదీ",
 	"checkuser-email-action": "వాడుకరి \"$1\"కి ఈమెయిలు పంపించాం",
-	"checkuser-reset-action": "\"$1\" వాడుకరి సంకేతపదం రీసెట్ చెయ్యి"
+	"checkuser-reset-action": "\"$1\" వాడుకరి సంకేతపదం రీసెట్ చెయ్యి",
+	"checkuser-investigate-targets-label": "వాడుకరి పేరు,ఐపీ చిరునామాలు",
+	"checkuser-investigate-reason-label": "కారణం"
 }

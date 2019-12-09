@@ -13,7 +13,8 @@
 			"Tiin",
 			"J. 'mach' wust",
 			"McDutchie",
-			"FF11"
+			"FF11",
+			"Tobi 406"
 		]
 	},
 	"checkuser-summary": "Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers bzw. die Bearbeitungen/Benutzernamen für eine IP-Adresse zu ermitteln. Benutzer und Bearbeitungen einer IP-Adresse können auch nach Informationen aus den XFF-Headern abgefragt werden, indem der IP-Adresse ein „/xff“ angehängt wird. IPv4 (CIDR $1-32) und IPv6 (CIDR $2-128) werden unterstützt.\nZur Aufrechterhaltung der Leistungsfähigkeit werden maximal 5000 Bearbeitungen ausgegeben. Benutze CheckUser ausschließlich in Übereinstimmung mit den Datenschutzrichtlinien.",
@@ -95,5 +96,8 @@
 	"checkuser-reset-action": "forderte ein Passwort für {{GENDER:$1|Benutzer|Benutzerin}} „$1“ an",
 	"checkuser-token-fail": "Sitzungsfehler. Bitte erneut versuchen.",
 	"checkuser-login-failure": "Anmeldung bei {{SITENAME}} als $1 fehlgeschlagen",
-	"checkuser-login-success": "Erfolgreich bei {{SITENAME}} angemeldet als $1"
+	"checkuser-login-success": "Erfolgreich bei {{SITENAME}} angemeldet als $1",
+	"checkuser-investigate-targets-label": "Benutzernamen und IP-Adressen",
+	"checkuser-investigate-targets-placeholder": "Benutzername oder 1.1.1.42",
+	"checkuser-investigate-reason-label": "Grund"
 }
