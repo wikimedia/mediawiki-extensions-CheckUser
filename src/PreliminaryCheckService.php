@@ -75,12 +75,13 @@ class PreliminaryCheckService {
 	 * @return CentralAuthUser|null
 	 */
 	protected function getGlobalUser( User $user ): ?CentralAuthUser {
+		$globalUser = null;
 		if ( $this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
 			// work with central auth
 			$globalUser = CentralAuthUser::getInstance( $user );
 		}
 
-		return $globalUser ?: null;
+		return $globalUser;
 	}
 
 	/**
