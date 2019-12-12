@@ -80,5 +80,6 @@
 	"checkuser-token-fail": "Sessiouns-Feeler.Probéiert w.e.g. nach eng Kéier.",
 	"checkuser-login-success": "Op {{SITENAME}} ageloggt als $1",
 	"checkuser-investigate-targets-label": "Benotzernimm oder IP-Adressen",
+	"checkuser-investigate-targets-placeholder": "Benotzernumm oder 1.1.1.42",
 	"checkuser-investigate-reason-label": "Grond"
 }
