@@ -70,7 +70,7 @@ class PreliminaryCheckServiceTest extends MediaWikiTestCase {
 			->setConstructorArgs( [ $lbFactory,
 				$this->getMockExtensionRegistry(),
 				$options['localWikiId']
- ] )
+			] )
 			->setMethods( [ 'isUserBlocked', 'getUserGroups', 'getGlobalUser' ] )
 			->getMock();
 
