@@ -102,7 +102,7 @@ class PreliminaryCheckServiceTest extends MediaWikiTestCase {
 		$users = [ User::newFromName( $user['name'] ) ];
 		$data = $service->getPreliminaryData( $users );
 
-		$this->assertEquals( $data, $expected );
+		$this->assertEquals( $expected, $data );
 	}
 
 	public function preliminaryDataProvider() {
@@ -116,7 +116,7 @@ class PreliminaryCheckServiceTest extends MediaWikiTestCase {
 		];
 
 		return [
-			'User attached to 4 wikis' => [
+			'User attached to 3 wikis' => [
 				$userData,
 				[
 					'attachedWikis' => [ 'enwiki', 'frwiki', 'testwiki' ],
