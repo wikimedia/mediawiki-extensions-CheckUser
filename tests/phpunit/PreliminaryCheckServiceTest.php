@@ -1,6 +1,7 @@
 <?php
 
 use MediaWiki\CheckUser\PreliminaryCheckService;
+use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\ILBFactory;
 use Wikimedia\Rdbms\ILoadBalancer;
@@ -50,6 +51,8 @@ class PreliminaryCheckServiceTest extends MediaWikiTestCase {
 	 * @dataProvider preliminaryDataProvider()
 	 */
 	public function testGetPreliminaryData( $user, $options, $expected ) {
+		$attachedWikis = $options['attachedWikis'] ?? [ 'testwiki' ];
+
 		$dbRef = $this->getMockDb();
 		$dbRef->method( 'selectRow' )
 			->willReturn(
@@ -60,47 +63,55 @@ class PreliminaryCheckServiceTest extends MediaWikiTestCase {
 					'user_editcount' => $user['editcount'],
 				]
 			);
+		$dbRef->method( 'select' )
+			->willReturn(
+				new FakeResultWrapper( array_map(
+					function ( $wiki ) use ( $user ) {
+						return (object)[
+							'lu_name' => $user['name'],
+							'lu_wiki' => $wiki,
+							'lu_name_wiki' => $user['name'] . '>' . $wiki,
+						];
+					},
+					$attachedWikis
+				) )
+			);
 
 		$lb = $this->getMockLoadBalancer();
 		$lb->method( 'getConnectionRef' )->willReturn( $dbRef );
 		$lbFactory = $this->getMockLoadBalancerFactory();
 		$lbFactory->method( 'getMainLB' )->willReturn( $lb );
 
+		$registry = $this->getMockExtensionRegistry();
+		$registry->method( 'isLoaded' )->willReturn( $options['isCentralAuthAvailable'] );
+
 		$service = $this->getMockBuilder( PreliminaryCheckService::class )
-			->setConstructorArgs( [ $lbFactory,
-				$this->getMockExtensionRegistry(),
+			->setConstructorArgs( [
+				$lbFactory,
+				$registry,
 				$options['localWikiId']
 			] )
-			->setMethods( [ 'isUserBlocked', 'getUserGroups', 'getGlobalUser' ] )
+			->setMethods( [ 'getCentralAuthDB', 'isUserBlocked', 'getUserGroups' ] )
 			->getMock();
 
 		$service->method( 'isUserBlocked' )
 			->willReturn( $user['blocked'] );
 		$service->method( 'getUserGroups' )
 			->willReturn( $user['groups'] );
-
-		$globalUserMock = $this->getMockBuilder( CentralAuthUser::class )
-			->setMethods( [ 'listAttached', 'exists' ] )
-			->disableOriginalConstructor()
-			->getMock();
-		$globalUserMock->method( 'exists' )
-			->willReturn( isset( $options['attachedWikis'] ) ? true : false );
-
-		if ( $options['isCentralAuthAvailable'] ) {
-			$globalUserMock->expects( $this->once() )
-				->method( 'listAttached' )
-				->willReturn( $options['attachedWikis'] );
-		} else {
-			$globalUserMock
-				->expects( $this->never() )
-				->method( 'listAttached' );
-		}
-
-		$service->method( 'getGlobalUser' )
-			->willReturn( $globalUserMock );
+		$service->method( 'getCentralAuthDB' )
+			->willReturn( $dbRef );
 
 		$users = [ User::newFromName( $user['name'] ) ];
-		$data = $service->getPreliminaryData( $users );
+		$pageInfo = [
+			'includeOffset' => true,
+			'offsets' => [
+				'name' => 'Test User',
+				'wiki' => $attachedWikis[0],
+			],
+			'limit' => 100,
+			'order' => true,
+		];
+		$data = $service->getPreliminaryData( $users, $pageInfo );
 
 		$this->assertEquals( $expected, $data );
 	}
@@ -124,11 +135,9 @@ class PreliminaryCheckServiceTest extends MediaWikiTestCase {
 					'localWikiId' => 'testwiki',
 				],
 				[
-					$userData['name'] => [
-						'enwiki'  => $userData,
-						'frwiki'  => $userData,
-						'testwiki'  => $userData,
-					],
+					$userData + [ 'wiki' => 'enwiki', 'lu_name_wiki' => 'Test User>enwiki' ],
+					$userData + [ 'wiki' => 'frwiki', 'lu_name_wiki' => 'Test User>frwiki' ],
+					$userData + [ 'wiki' => 'testwiki', 'lu_name_wiki' => 'Test User>testwiki' ],
 				],
 			],
 			'User with only 1 wiki' => [
@@ -139,9 +148,7 @@ class PreliminaryCheckServiceTest extends MediaWikiTestCase {
 					'localWikiId' => 'testwiki',
 				],
 				[
-					$userData['name'] => [
-						'testwiki'  => $userData,
-					],
+					$userData + [ 'wiki' => 'testwiki', 'lu_name_wiki' => 'Test User>testwiki' ],
 				],
 			],
 			'CentralAuth not available' => [
@@ -151,9 +158,7 @@ class PreliminaryCheckServiceTest extends MediaWikiTestCase {
 					'localWikiId' => 'somewiki',
 				],
 				[
-					$userData['name'] => [
-						'somewiki'  => $userData,
-					],
+					$userData + [ 'wiki' => 'somewiki' ],
 				],
 			],
 		];
