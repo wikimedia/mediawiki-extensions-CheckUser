@@ -5,7 +5,8 @@
 			"Martin Kozák",
 			"Sudo77(new)",
 			"Teslaton",
-			"Vlad5250"
+			"Vlad5250",
+			"Luky001"
 		]
 	},
 	"checkuser-summary": "Tento nástroj kontroluje Posledné úpravy, aby získal IP adresy, ktoré používateľ použil alebo zobrazil úpravy/používateľské dáta IP adresy.\nPoužívateľov a úpravy je možné získať prostredníctvom hlavičiek XFF pridaním „/xff“ k IP adrese. Sú podporované IPv4 (CIDR $1-32) a IPv6 (CIDR $2-128).\nZ dôvodov výkonnosti nebude vrátených viac ako 5 000 úprav. Túto funkciu využívajte len v súlade s platnou politikou.",
@@ -24,7 +25,7 @@
 	"grouppage-checkuser": "{{ns:project}}:Revízia používateľa",
 	"checkuser-reason": "Dôvod:",
 	"checkuser-reason-api": "API: $1",
-	"checkuser-showlog": "Zobraziť záznam",
+	"checkuser-showlog": "Prepnúť na protokol kontroly používateľov",
 	"checkuser-query": "Získať z posledných úprav",
 	"checkuser-target": "IP adresa alebo meno používateľa:",
 	"checkuser-users": "Získať používateľov",
@@ -63,9 +64,9 @@
 	"checkuser-centralauth-multilock": "Hromadne zamknúť zvolené účty",
 	"checkuser-noreason": "Musíte uviesť dôvod tejto požiadavky.",
 	"checkuser-accounts": "$1 {{PLURAL:$1|nový účet|nové účty|nových účtov}}",
-	"checkuser-too-many": "Príliš veľa výsledkov (podľa odhadu požiadavky), prosím zúžte CIDR.\nTu sú použité IP (max. 5 000, zoradené podľa adresy):",
+	"checkuser-too-many": "Príliš veľa výsledkov (podľa odhadu požiadavky), prosím, zúžte CIDR.\nTu sú použité IP adresy (max. 5 000, zoradené podľa adresy):",
 	"checkuser-user-nonexistent": "Uvedený používateľ neexistuje.",
-	"checkuser-search": "Hľadať",
+	"checkuser-search": "Hľadanie v záznamoch kontroly používateľov",
 	"checkuser-search-submit": "Hľadať",
 	"checkuser-search-initiator": "začínajúci",
 	"checkuser-search-target": "cieľ",
