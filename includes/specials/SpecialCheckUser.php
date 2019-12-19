@@ -1007,8 +1007,8 @@ class SpecialCheckUser extends SpecialPage {
 		if ( $count > 5000 ) {
 			// See what is best to do after testing the waters...
 			$out->addHTML( $this->msg( 'checkuser-limited' )->parse() );
-			$result = $this->userEditsRequesLimitExceededDB( $user_id, $period );
-			$this->userEditsRequesLimitExceeded( $result );
+			$result = $this->userEditsRequestLimitExceededDB( $user_id, $period );
+			$this->userEditsRequestLimitExceeded( $result );
 			return;
 		}
 		// Sorting might take some time...make sure it is there
@@ -1051,14 +1051,14 @@ class SpecialCheckUser extends SpecialPage {
 	}
 
 	/**
-	 * Issue a DB query for userEditsRequesLimitExceeded
+	 * Issue a DB query for userEditsRequestLimitExceeded
 	 *
 	 * @param int $user_id
 	 * @param int $period
 	 * @param int $limit
 	 * @return IResultWrapper
 	 */
-	protected function userEditsRequesLimitExceededDB(
+	protected function userEditsRequestLimitExceededDB(
 		$user_id, $period = 0, $limit = 5000
 	) : IResultWrapper {
 		$dbr = wfGetDB( DB_REPLICA );
@@ -1084,7 +1084,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param IResultWrapper $result
 	 * @return void
 	 */
-	protected function userEditsRequesLimitExceeded( IResultWrapper $result ) {
+	protected function userEditsRequestLimitExceeded( IResultWrapper $result ) {
 		$out = $this->getOutput();
 
 		// Try to optimize this query
