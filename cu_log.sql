@@ -15,7 +15,8 @@ CREATE TABLE /*_*/cu_log (
   -- Reason given
   cul_reason varchar(255) binary not null,
 
-  -- String indicating the type of query, may be "userips", "ipedits", "ipusers", "ipedits-xff", "ipusers-xff"
+  -- String indicating the type of query, may be:
+  -- "useredits", "userips", "ipedits", "ipusers", "ipedits-xff", "ipusers-xff"
   cul_type varbinary(30) not null,
 
   -- Integer target, interpretation depends on cul_type
