@@ -22,12 +22,8 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 	public function formatRow( $row ) {
 		$user = Linker::userLink( $row->cul_user, $row->user_name );
 
-		if ( $row->cul_type == 'userips' || $row->cul_type == 'useredits' ) {
-			$target = Linker::userLink( $row->cul_target_id, $row->cul_target_text ) .
-					Linker::userToolLinks( $row->cul_target_id, $row->cul_target_text );
-		} else {
-			$target = $row->cul_target_text;
-		}
+		$target = Linker::userLink( $row->cul_target_id, $row->cul_target_text ) .
+			Linker::userToolLinks( $row->cul_target_id, $row->cul_target_text );
 
 		// Give grep a chance to find the usages:
 		// checkuser-log-entry-userips, checkuser-log-entry-ipedits,
