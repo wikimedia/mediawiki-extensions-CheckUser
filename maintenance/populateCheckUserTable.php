@@ -30,7 +30,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 		$db = $this->getDB( DB_MASTER );
 
 		// Check if the table is empty
-		$rcRows = $db->selectField( 'recentchanges', 'COUNT(*)', false, __METHOD__ );
+		$rcRows = $db->selectField( 'recentchanges', 'COUNT(*)', [], __METHOD__ );
 		if ( !$rcRows ) {
 			$this->output( "recentchanges is empty; nothing to add.\n" );
 			return true;
@@ -51,8 +51,8 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 			$cutoffCond = "";
 		}
 
-		$start = (int)$db->selectField( 'recentchanges', 'MIN(rc_id)', false, __METHOD__ );
-		$end = (int)$db->selectField( 'recentchanges', 'MAX(rc_id)', false, __METHOD__ );
+		$start = (int)$db->selectField( 'recentchanges', 'MIN(rc_id)', [], __METHOD__ );
+		$end = (int)$db->selectField( 'recentchanges', 'MAX(rc_id)', [], __METHOD__ );
 		// Do remaining chunk
 		$end += $this->mBatchSize - 1;
 		$blockStart = $start;

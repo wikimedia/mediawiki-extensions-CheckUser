@@ -144,18 +144,18 @@ class SpecialCheckUser extends SpecialPage {
 	protected function showForm( $user, $checktype, $ip, $xff, $name, $period ) {
 		$action = htmlspecialchars( $this->getPageTitle()->getLocalURL() );
 		// Fill in requested type if it makes sense
-		$encipusers = $encedits = $encuserips = 0;
+		$encipusers = $encedits = $encuserips = false;
 		if ( $checktype == 'subipusers' && ( $ip || $xff ) ) {
-			$encipusers = 1;
+			$encipusers = true;
 		} elseif ( $checktype == 'subuserips' && $name ) {
-			$encuserips = 1;
+			$encuserips = true;
 		} elseif ( $checktype == 'subedits' ) {
-			$encedits = 1;
+			$encedits = true;
 		// Defaults otherwise
 		} elseif ( $ip || $xff ) {
-			$encedits = 1;
+			$encedits = true;
 		} else {
-			$encuserips = 1;
+			$encuserips = true;
 		}
 
 		$form = Xml::openElement( 'form', [ 'action' => $action,
@@ -212,10 +212,10 @@ class SpecialCheckUser extends SpecialPage {
 			'select',
 			[ 'name' => 'period', 'id' => 'period', 'style' => 'margin-top:.2em;' ]
 		);
-		$s .= Xml::option( $this->msg( 'checkuser-week-1' )->text(), 7, $selected === 7 );
-		$s .= Xml::option( $this->msg( 'checkuser-week-2' )->text(), 14, $selected === 14 );
-		$s .= Xml::option( $this->msg( 'checkuser-month' )->text(), 31, $selected === 31 );
-		$s .= Xml::option( $this->msg( 'checkuser-all' )->text(), 0, $selected === 0 );
+		$s .= Xml::option( $this->msg( 'checkuser-week-1' )->text(), '7', $selected === 7 );
+		$s .= Xml::option( $this->msg( 'checkuser-week-2' )->text(), '14', $selected === 14 );
+		$s .= Xml::option( $this->msg( 'checkuser-month' )->text(), '31', $selected === 31 );
+		$s .= Xml::option( $this->msg( 'checkuser-all' )->text(), '0', $selected === 0 );
 		$s .= Xml::closeElement( 'select' ) . "\n";
 		return $s;
 	}
@@ -1281,6 +1281,7 @@ class SpecialCheckUser extends SpecialPage {
 	/**
 	 * @param IResultWrapper $result
 	 * @return array[]
+	 * @suppress PhanTypePossiblyInvalidDimOffset All index are set
 	 */
 	protected function getUserSets( IResultWrapper $result ) : array {
 		$userSets = [

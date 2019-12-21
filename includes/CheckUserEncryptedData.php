@@ -34,7 +34,7 @@ class CheckUserEncryptedData {
 	 *
 	 * @param string $privateKey String with ascii-armored block,
 	 *   or the return of openssl_get_privatekey
-	 * @return string plaintext
+	 * @return string|false plaintext
 	 */
 	public function getPlaintext( $privateKey ) {
 		$result = openssl_open(
@@ -60,9 +60,10 @@ class CheckUserEncryptedData {
 	 *   or the return of openssl_get_publickey
 	 */
 	private function encryptData( $data, $publicKey ) {
+		// @phan-suppress-next-line PhanTypeMismatchArgumentInternal
 		openssl_seal( $data, $encryptedString, $envelopeKeys, [ $publicKey ], $this->algName );
 		$this->encString = $encryptedString;
-		// @phan-suppress-next-line PhanTypeArraySuspiciousNull
+		// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
 		$this->envKeys = $envelopeKeys[0];
 	}
 }
