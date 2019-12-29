@@ -43,6 +43,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				}
 
 				$this->addFields( [ 'cuc_timestamp', 'cuc_ip', 'cuc_xff' ] );
+				// @phan-suppress-next-line PhanTypeMismatchArgumentNullable T240141
 				$this->addWhereFld( 'cuc_user', $user_id );
 				$res = $this->select( __METHOD__ );
 				$result = $this->getResult();
@@ -59,7 +60,6 @@ class ApiQueryCheckUser extends ApiQueryBase {
 						];
 					} else {
 						$ips[$ip]['start'] = $timestamp;
-						// @phan-suppress-next-line PhanTypeInvalidDimOffset False positive
 						$ips[$ip]['editcount']++;
 					}
 				}
@@ -202,13 +202,10 @@ class ApiQueryCheckUser extends ApiQueryBase {
 						];
 					} else {
 						$users[$user]['start'] = wfTimestamp( TS_ISO_8601, $row->cuc_timestamp );
-						// @phan-suppress-next-line PhanTypeInvalidDimOffset False positive
 						$users[$user]['editcount']++;
-						// @phan-suppress-next-line PhanTypeInvalidDimOffset
 						if ( !in_array( $ip, $users[$user]['ips'] ) ) {
 							$users[$user]['ips'][] = $ip;
 						}
-						// @phan-suppress-next-line PhanTypeInvalidDimOffset False positive
 						if ( !in_array( $agent, $users[$user]['agents'] ) ) {
 							$users[$user]['agents'][] = $agent;
 						}
