@@ -1,5 +1,9 @@
 <?php
 
+namespace MediaWiki\CheckUser;
+
+use HTMLForm;
+
 class SpecialInvestigate extends \FormSpecialPage {
 	/**
 	 * @inheritDoc

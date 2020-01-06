@@ -145,7 +145,6 @@
 		"CheckUserHooks": "includes/CheckUserHooks.php",
 		"CheckUserLogPager": "includes/CheckUserLogPager.php",
 		"SpecialCheckUser": "includes/specials/SpecialCheckUser.php",
-		"SpecialInvestigate": "includes/specials/SpecialInvestigate.php",
 		"SpecialCheckUserLog": "includes/specials/SpecialCheckUserLog.php",
 		"CheckUserEncryptedData": "includes/CheckUserEncryptedData.php",
 		"ApiQueryCheckUser": "includes/api/ApiQueryCheckUser.php",

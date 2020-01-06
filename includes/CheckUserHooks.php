@@ -3,6 +3,7 @@
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Block\DatabaseBlock;
+use MediaWiki\CheckUser\SpecialInvestigate;
 use Wikimedia\Rdbms\IDatabase;
 
 class CheckUserHooks {
@@ -14,7 +15,7 @@ class CheckUserHooks {
 		global $wgCheckUserEnableSpecialInvestigate;
 
 		if ( $wgCheckUserEnableSpecialInvestigate ) {
-			$list['Investigate'] = SpecialInvestigate::class;
+			$list['Investigate'] = [ 'class' => SpecialInvestigate::class ];
 		}
 
 		return true;
