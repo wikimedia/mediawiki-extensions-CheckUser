@@ -94,7 +94,6 @@ class SpecialInvestigate extends \FormSpecialPage {
 				'type' => 'text',
 				'name' => 'reason',
 				'label-message' => $prefix . '-reason-label',
-				'placeholder' => $this->msg( $prefix . '-reason-placeholder' )->text(),
 				'required' => true,
 			],
 		];
