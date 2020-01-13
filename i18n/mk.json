@@ -84,7 +84,7 @@
 	"checkuser-autocreate-action": "беше автоматски создадена",
 	"checkuser-create-action": "е создаден",
 	"checkuser-email-action": "му испрати е-пошта на корисникот „$1“",
-	"checkuser-reset-action": "смени лозинка за корисникот „$1“",
+	"checkuser-reset-action": "смени јавка за корисникот „$1“",
 	"checkuser-token-fail": "Седницата не успеа. Обидете се повторно.",
 	"checkuser-login-failure": "Не успеав да ве најавам на {{SITENAME}} како $1",
 	"checkuser-login-success": "Успешно ве најавив на {{SITENAME}} како $1",
