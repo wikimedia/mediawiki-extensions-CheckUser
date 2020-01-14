@@ -1,12 +1,12 @@
 <?php
 namespace MediaWiki\CheckUser;
 
-use User;
-use ExtensionRegistry;
 use CentralAuthUser;
+use ExtensionRegistry;
+use User;
 use UserGroupMembership;
-use Wikimedia\Rdbms\ILBFactory;
 use Wikimedia\Rdbms\IDatabase;
+use Wikimedia\Rdbms\ILBFactory;
 
 class PreliminaryCheckService {
 	/** @var ILBFactory */

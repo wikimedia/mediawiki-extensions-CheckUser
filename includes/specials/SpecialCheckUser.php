@@ -475,7 +475,7 @@ class SpecialCheckUser extends SpecialPage {
 		$out = $this->getOutput();
 
 		$userTitle = Title::newFromText( $user, NS_USER );
-		if ( !is_null( $userTitle ) ) {
+		if ( $userTitle !== null ) {
 			// normalize the username
 			$user = $userTitle->getText();
 		}
@@ -977,7 +977,7 @@ class SpecialCheckUser extends SpecialPage {
 		$out = $this->getOutput();
 
 		$userTitle = Title::newFromText( $user, NS_USER );
-		if ( !is_null( $userTitle ) ) {
+		if ( $userTitle !== null ) {
 			// normalize the username
 			$user = $userTitle->getText();
 		}

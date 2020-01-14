@@ -18,7 +18,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 
 		$this->checkUserRightsAny( 'checkuser' );
 
-		if ( $this->getConfig()->get( 'CheckUserForceSummary' ) && is_null( $reason ) ) {
+		if ( $this->getConfig()->get( 'CheckUserForceSummary' ) && $reason === null ) {
 			$this->dieWithError( 'apierror-checkuser-missingsummary', 'missingdata' );
 		}
 
