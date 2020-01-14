@@ -69,39 +69,17 @@
 			"CheckUserHooks::updateCheckUserData",
 			"CheckUserHooks::maybePruneIPData"
 		],
-		"EmailUser": [
-			"CheckUserHooks::updateCUEmailData"
-		],
-		"User::mailPasswordInternal": [
-			"CheckUserHooks::updateCUPasswordResetData"
-		],
-		"LocalUserCreated": [
-			"CheckUserHooks::onLocalUserCreated"
-		],
-		"UserMergeAccountFields": [
-			"CheckUserHooks::onUserMergeAccountFields"
-		],
-		"RenameUserSQL": [
-			"CheckUserHooks::onRenameUserSQL"
-		],
-		"ParserTestTables": [
-			"CheckUserHooks::checkUserParserTestTables"
-		],
-		"LoadExtensionSchemaUpdates": [
-			"CheckUserHooks::onLoadExtensionSchemaUpdates"
-		],
-		"ContributionsToolLinks": [
-			"CheckUserHooks::checkUserContributionsLinks"
-		],
-		"PerformRetroactiveAutoblock": [
-			"CheckUserHooks::doRetroactiveAutoblock"
-		],
-		"AuthManagerLoginAuthenticateAudit": [
-			"CheckUserHooks::onAuthManagerLoginAuthenticateAudit"
-		],
-		"SpecialPage_initList": [
-			"CheckUserHooks::onSpecialPage_initList"
-		]
+		"EmailUser": "CheckUserHooks::updateCUEmailData",
+		"User::mailPasswordInternal": "CheckUserHooks::updateCUPasswordResetData",
+		"LocalUserCreated": "CheckUserHooks::onLocalUserCreated",
+		"UserMergeAccountFields": "CheckUserHooks::onUserMergeAccountFields",
+		"RenameUserSQL": "CheckUserHooks::onRenameUserSQL",
+		"ParserTestTables": "CheckUserHooks::checkUserParserTestTables",
+		"LoadExtensionSchemaUpdates": "CheckUserHooks::onLoadExtensionSchemaUpdates",
+		"ContributionsToolLinks": "CheckUserHooks::checkUserContributionsLinks",
+		"PerformRetroactiveAutoblock": "CheckUserHooks::doRetroactiveAutoblock",
+		"AuthManagerLoginAuthenticateAudit": "CheckUserHooks::onAuthManagerLoginAuthenticateAudit",
+		"SpecialPage_initList": "CheckUserHooks::onSpecialPage_initList"
 	},
 	"MessagesDirs": {
 		"CheckUser": [
