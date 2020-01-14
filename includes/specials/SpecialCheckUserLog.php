@@ -2,7 +2,7 @@
 
 class SpecialCheckUserLog extends SpecialPage {
 	/**
-	 * @var string $target
+	 * @var string
 	 */
 	protected $target;
 

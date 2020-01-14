@@ -4,7 +4,7 @@ use Wikimedia\Rdbms\IResultWrapper;
 
 class CheckUserLogPager extends ReverseChronologicalPager {
 	/**
-	 * @var array $searchConds
+	 * @var array
 	 */
 	protected $searchConds;
 
