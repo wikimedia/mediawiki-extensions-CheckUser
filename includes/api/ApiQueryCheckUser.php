@@ -10,11 +10,15 @@ class ApiQueryCheckUser extends ApiQueryBase {
 
 	public function execute() {
 		$db = $this->getDB();
-		$params = $this->extractRequestParams();
 
-		list( $request, $target, $reason, $timecond, $limit, $xff ) = [
-			$params['request'], $params['target'], $params['reason'],
-			$params['timecond'], $params['limit'], $params['xff'] ];
+		[
+			'request' => $request,
+			'target' => $target,
+			'reason' => $reason,
+			'timecond' => $timecond,
+			'limit' => $limit,
+			'xff' => $xff,
+		] = $this->extractRequestParams();
 
 		$this->checkUserRightsAny( 'checkuser' );
 
