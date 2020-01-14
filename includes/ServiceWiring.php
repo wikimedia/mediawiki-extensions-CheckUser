@@ -1,7 +1,7 @@
 <?php
 
-use MediaWiki\MediaWikiServices;
 use MediaWiki\CheckUser\PreliminaryCheckService;
+use MediaWiki\MediaWikiServices;
 
 return [
 	'CheckUserPreliminaryCheckService' =>

@@ -1,9 +1,9 @@
 <?php
 
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\SpecialInvestigate;
+use MediaWiki\MediaWikiServices;
 use Wikimedia\Rdbms\IDatabase;
 
 class CheckUserHooks {

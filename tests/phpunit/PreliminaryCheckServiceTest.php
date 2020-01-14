@@ -1,9 +1,9 @@
 <?php
 
+use MediaWiki\CheckUser\PreliminaryCheckService;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\ILBFactory;
 use Wikimedia\Rdbms\ILoadBalancer;
-use MediaWiki\CheckUser\PreliminaryCheckService;
 
 /**
  * Test class for PreliminaryCheckService class
