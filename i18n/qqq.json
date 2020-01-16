@@ -120,12 +120,13 @@
 	"checkuser-investigate-ipsearch-label": "Label for a checkbox in the [[Special:Investigate]] search form.",
 	"checkuser-investigate-reason-label": "Label for a field in the [[Special:Investigate]] search form.",
 	"checkuser-investigate-reason-placeholder": "Placeholder text for a field in the [[Special:Investigate]] search form.",
-	"checkuser-investigate-preliminary-table-name": "Label for a table header in the [[Special:Investigate]].",
-	"checkuser-investigate-preliminary-table-registration": "Label for a table header in the [[Special:Investigate]].",
-	"checkuser-investigate-preliminary-table-wiki": "Label for a table header in the [[Special:Investigate]].",
-	"checkuser-investigate-preliminary-table-editcount": "Label for a table header in the [[Special:Investigate]].",
-	"checkuser-investigate-preliminary-table-blocked": "Entry for a table cell in [[Special:Investigate]].",
-	"checkuser-investigate-preliminary-table-groups": "Label for a table header in the [[Special:Investigate]].",
-	"checkuser-investigate-preliminary-table-edits": "Entry for a table cell in [[Special:Investigate]].",
-	"checkuser-investigate-preliminary-table-unblocked": "Entry for a table cell in [[Special:Investigate]]."
+	"checkuser-investigate-preliminary-table-cell-blocked": "Entry for a table cell in [[Special:Investigate]].",
+	"checkuser-investigate-preliminary-table-cell-edits": "Entry for a table cell in [[Special:Investigate]].",
+	"checkuser-investigate-preliminary-table-cell-unblocked": "Entry for a table cell in [[Special:Investigate]].",
+	"checkuser-investigate-preliminary-table-header-blocked": "Label for a table header in [[Special:Investigate]].",
+	"checkuser-investigate-preliminary-table-header-editcount": "Label for a table header in [[Special:Investigate]].",
+	"checkuser-investigate-preliminary-table-header-groups": "Label for a table header in [[Special:Investigate]].",
+	"checkuser-investigate-preliminary-table-header-name": "Label for a table header in [[Special:Investigate]].",
+	"checkuser-investigate-preliminary-table-header-registration": "Label for a table header in [[Special:Investigate]].",
+	"checkuser-investigate-preliminary-table-header-wiki": "Label for a table header in [[Special:Investigate]]."
 }

@@ -141,18 +141,18 @@ class PreliminaryCheckPager extends TablePager {
 			break;
 			case 'editcount':
 				$formatted = $this->msg(
-					'checkuser-investigate-preliminary-table-edits',
+					'checkuser-investigate-preliminary-table-cell-edits',
 					$value
 				)->parse();
 			break;
 			case 'blocked':
 				if ( $value ) {
 					$formatted = $this->msg(
-						'checkuser-investigate-preliminary-table-blocked'
+						'checkuser-investigate-preliminary-table-cell-blocked'
 					)->parse();
 				} else {
 					$formatted = $this->msg(
-						'checkuser-investigate-preliminary-table-unblocked'
+						'checkuser-investigate-preliminary-table-cell-unblocked'
 					)->parse();
 				}
 			break;
@@ -177,12 +177,12 @@ class PreliminaryCheckPager extends TablePager {
 	public function getFieldNames() {
 		if ( $this->fieldNames === null ) {
 			$this->fieldNames = [
-				'name' => 'checkuser-investigate-preliminary-table-name',
-				'registration' => 'checkuser-investigate-preliminary-table-registration',
-				'wiki' => 'checkuser-investigate-preliminary-table-wiki',
-				'editcount' => 'checkuser-investigate-preliminary-table-editcount',
-				'blocked' => 'checkuser-investigate-preliminary-table-blocked',
-				'groups' => 'checkuser-investigate-preliminary-table-groups',
+				'name' => 'checkuser-investigate-preliminary-table-header-name',
+				'registration' => 'checkuser-investigate-preliminary-table-header-registration',
+				'wiki' => 'checkuser-investigate-preliminary-table-header-wiki',
+				'editcount' => 'checkuser-investigate-preliminary-table-header-editcount',
+				'blocked' => 'checkuser-investigate-preliminary-table-header-blocked',
+				'groups' => 'checkuser-investigate-preliminary-table-header-groups',
 			];
 			foreach ( $this->fieldNames as $key => $val ) {
 				$this->fieldNames[$key] = $this->msg( $val )->text();

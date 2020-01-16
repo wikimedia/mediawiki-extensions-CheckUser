@@ -98,13 +98,13 @@
 	"checkuser-investigate-ipsearch-label": "Include all users who are using the same IPs as the given users",
 	"checkuser-investigate-reason-label": "Reason",
 	"checkuser-investigate-reason-placeholder": "Example: Investigating UserName for suspected sockpuppetry",
-	"checkuser-investigate-preliminary-table-name": "Username",
-	"checkuser-investigate-preliminary-table-registration": "Date attached",
-	"checkuser-investigate-preliminary-table-wiki": "Wiki",
-	"checkuser-investigate-preliminary-table-editcount": "Edits",
-	"checkuser-investigate-preliminary-table-blocked": "Status",
-	"checkuser-investigate-preliminary-table-groups": "Groups",
-	"checkuser-investigate-preliminary-table-edits": "$1 {{PLURAL:$1|edit|edits}}",
-	"checkuser-investigate-preliminary-table-blocked": "Blocked",
-	"checkuser-investigate-preliminary-table-unblocked": "Not blocked"
+	"checkuser-investigate-preliminary-table-cell-blocked": "Blocked",
+	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|edit|edits}}",
+	"checkuser-investigate-preliminary-table-cell-unblocked": "Not blocked",
+	"checkuser-investigate-preliminary-table-header-blocked": "Status",
+	"checkuser-investigate-preliminary-table-header-editcount": "Edits",
+	"checkuser-investigate-preliminary-table-header-groups": "Groups",
+	"checkuser-investigate-preliminary-table-header-name": "Username",
+	"checkuser-investigate-preliminary-table-header-registration": "Date attached",
+	"checkuser-investigate-preliminary-table-header-wiki": "Wiki"
 }
