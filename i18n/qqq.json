@@ -124,9 +124,8 @@
 	"checkuser-investigate-preliminary-table-registration": "Label for a table header in the [[Special:Investigate]].",
 	"checkuser-investigate-preliminary-table-wiki": "Label for a table header in the [[Special:Investigate]].",
 	"checkuser-investigate-preliminary-table-editcount": "Label for a table header in the [[Special:Investigate]].",
-	"checkuser-investigate-preliminary-table-blocked": "Label for a table header in the [[Special:Investigate]].",
+	"checkuser-investigate-preliminary-table-blocked": "Entry for a table cell in [[Special:Investigate]].",
 	"checkuser-investigate-preliminary-table-groups": "Label for a table header in the [[Special:Investigate]].",
 	"checkuser-investigate-preliminary-table-edits": "Entry for a table cell in [[Special:Investigate]].",
-	"checkuser-investigate-preliminary-table-blocked": "Entry for a table cell in [[Special:Investigate]].",
 	"checkuser-investigate-preliminary-table-unblocked": "Entry for a table cell in [[Special:Investigate]]."
 }
