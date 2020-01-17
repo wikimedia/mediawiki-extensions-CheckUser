@@ -256,7 +256,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 			],
 			'reason'   => null,
 			'limit'    => [
-				ApiBase::PARAM_DFLT => 1000,
+				ApiBase::PARAM_DFLT => 500,
 				ApiBase::PARAM_TYPE => 'limit',
 				ApiBase::PARAM_MIN  => 1,
 				ApiBase::PARAM_MAX  => 500,
