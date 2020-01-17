@@ -99,5 +99,12 @@
 	"checkuser-login-failure": "Misslyckades att logga in på {{SITENAME}} som $1",
 	"checkuser-login-success": "Loggades in på {{SITENAME}} som $1",
 	"checkuser-investigate-targets-label": "Användarnamn och IP-adresser",
-	"checkuser-investigate-reason-label": "Anledning"
+	"checkuser-investigate-reason-label": "Anledning",
+	"checkuser-investigate-preliminary-table-cell-blocked": "Blockerad",
+	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|redigering|redigeringar}}",
+	"checkuser-investigate-preliminary-table-cell-unblocked": "Inte blockerad",
+	"checkuser-investigate-preliminary-table-header-editcount": "Redigeringar",
+	"checkuser-investigate-preliminary-table-header-groups": "Grupper",
+	"checkuser-investigate-preliminary-table-header-name": "Användarnamn",
+	"checkuser-investigate-preliminary-table-header-wiki": "Wiki"
 }

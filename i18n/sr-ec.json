@@ -89,5 +89,10 @@
 	"checkuser-email-action": "имејл је послат кориснику „$1“",
 	"checkuser-reset-action": "resetuj lozinku za korisnika „$1“",
 	"checkuser-investigate-targets-label": "Корисничко име или IP адреса",
-	"checkuser-investigate-reason-label": "Разлог"
+	"checkuser-investigate-reason-label": "Разлог",
+	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|измена|измене|измена}}",
+	"checkuser-investigate-preliminary-table-header-editcount": "Измене",
+	"checkuser-investigate-preliminary-table-header-groups": "Групе",
+	"checkuser-investigate-preliminary-table-header-name": "Корисничко име",
+	"checkuser-investigate-preliminary-table-header-wiki": "Вики"
 }

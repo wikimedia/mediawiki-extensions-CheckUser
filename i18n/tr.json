@@ -104,5 +104,7 @@
 	"checkuser-investigate-ipsearch-help": "Bu seçeneğin işaretlenmesi, son 90 gün içinde, aynı IP adreslerinde verilen kullanıcılarla aynı işlemleri yapan veya düzenleyen diğer tüm kullanıcı hesaplarını da getirir.",
 	"checkuser-investigate-ipsearch-label": "Verilen kullanıcılarla aynı IP’leri kullanan tüm kullanıcıları dahil et",
 	"checkuser-investigate-reason-label": "Sebep",
-	"checkuser-investigate-reason-placeholder": "Örnek: Şüphelenilen çorap kuklası için KullanıcıAdısını Soruşturma"
+	"checkuser-investigate-reason-placeholder": "Örnek: Şüphelenilen çorap kuklası için KullanıcıAdısını Soruşturma",
+	"checkuser-investigate-preliminary-table-cell-unblocked": "Engellenmemiş",
+	"checkuser-investigate-preliminary-table-header-groups": "Gruplar"
 }

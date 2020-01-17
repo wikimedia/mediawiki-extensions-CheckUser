@@ -113,5 +113,13 @@
 	"checkuser-investigate-ipsearch-help": "A seleção dessa opção também exibirá todas as outras contas de usuário que editaram ou confirmaram ações dos mesmos endereços IP que os usuários fornecidos nos últimos 90 dias.",
 	"checkuser-investigate-ipsearch-label": "Incluir todos os usuários que estão usando os mesmos IPs que os usuários fornecidos",
 	"checkuser-investigate-reason-label": "Razão",
-	"checkuser-investigate-reason-placeholder": "Exemplo: Investigando nome de usuário para suspeita de sockpuppetry"
+	"checkuser-investigate-reason-placeholder": "Exemplo: Investigando nome de usuário para suspeita de sockpuppetry",
+	"checkuser-investigate-preliminary-table-cell-blocked": "Bloqueado",
+	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|edição|edições}}",
+	"checkuser-investigate-preliminary-table-cell-unblocked": "Não bloqueado",
+	"checkuser-investigate-preliminary-table-header-editcount": "Edições",
+	"checkuser-investigate-preliminary-table-header-groups": "Grupos",
+	"checkuser-investigate-preliminary-table-header-name": "Nome de usuário",
+	"checkuser-investigate-preliminary-table-header-registration": "Data anexada",
+	"checkuser-investigate-preliminary-table-header-wiki": "Wiki"
 }

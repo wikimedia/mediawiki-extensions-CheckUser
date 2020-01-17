@@ -97,5 +97,13 @@
 	"checkuser-investigate-ipsearch-help": "Штиклирајќи ја оваа можност воедно ќе се дадат сите останати сметки со кои се извршени уредувања или дејства од истите IP-адреси како на укажаните корисници во текот на изминатите 90 дена.",
 	"checkuser-investigate-ipsearch-label": "Вклучи ги сите корисници кои ги користат истите IP-адреси како на укажаните корисници",
 	"checkuser-investigate-reason-label": "Причина",
-	"checkuser-investigate-reason-placeholder": "Пример: Иследување на корисничко име под сомнение за марионетство"
+	"checkuser-investigate-reason-placeholder": "Пример: Иследување на корисничко име под сомнение за марионетство",
+	"checkuser-investigate-preliminary-table-cell-blocked": "Блокиран",
+	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|уредување|уредувања}}",
+	"checkuser-investigate-preliminary-table-cell-unblocked": "Неблокиран",
+	"checkuser-investigate-preliminary-table-header-editcount": "Уредувања",
+	"checkuser-investigate-preliminary-table-header-groups": "Групи",
+	"checkuser-investigate-preliminary-table-header-name": "Корисничко име",
+	"checkuser-investigate-preliminary-table-header-registration": "Датум на приложување",
+	"checkuser-investigate-preliminary-table-header-wiki": "Вики"
 }

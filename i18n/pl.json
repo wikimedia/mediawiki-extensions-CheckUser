@@ -106,5 +106,12 @@
 	"checkuser-investigate-ipsearch-help": "Zaznaczenie tej opcji uwzględni także wszystkie inne konta użytkowników, którzy edytowali lub wykonywali akcje z tych samych adresów IP co podani użytkownicy w przeciągu ostatnich 90 dni.",
 	"checkuser-investigate-ipsearch-label": "Uwzględnij wszystkich użytkowników używających tych samych IP co podani użytkownicy",
 	"checkuser-investigate-reason-label": "Powód",
-	"checkuser-investigate-reason-placeholder": "Przykład: Sprawdzanie NAzwyUżytkownika w związku z podejrzeniem używania pacynki"
+	"checkuser-investigate-reason-placeholder": "Przykład: Sprawdzanie NAzwyUżytkownika w związku z podejrzeniem używania pacynki",
+	"checkuser-investigate-preliminary-table-cell-blocked": "Zablokowany",
+	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|edycja|edycje|edycji}}",
+	"checkuser-investigate-preliminary-table-cell-unblocked": "Niezablokowany",
+	"checkuser-investigate-preliminary-table-header-editcount": "Edycje",
+	"checkuser-investigate-preliminary-table-header-groups": "Grupy",
+	"checkuser-investigate-preliminary-table-header-name": "Nazwa użytkownika",
+	"checkuser-investigate-preliminary-table-header-registration": "Data dołączenia"
 }

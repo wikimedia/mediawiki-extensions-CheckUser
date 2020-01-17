@@ -72,5 +72,6 @@
 	"checkuser-autocreate-action": "je automatski stvoren",
 	"checkuser-create-action": "je napravljen",
 	"checkuser-email-action": "poslan email za \"$1\"",
-	"checkuser-reset-action": "ponovno postavi zaporku za suradnika \"$1\""
+	"checkuser-reset-action": "ponovno postavi zaporku za suradnika \"$1\"",
+	"checkuser-investigate-preliminary-table-header-groups": "Skupine"
 }

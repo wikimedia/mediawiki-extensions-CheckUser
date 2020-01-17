@@ -113,12 +113,12 @@
 	"checkuser-investigate-ipsearch-label": "Inclure tous les utilisateurs qui utilisent les mêmes adresses IP que les utilisateurs donnés",
 	"checkuser-investigate-reason-label": "Motif",
 	"checkuser-investigate-reason-placeholder": "Exemple : enquêter sur UserName pour un faux-nez suspecté",
-	"checkuser-investigate-preliminary-table-name": "Nom d’utilisateur",
-	"checkuser-investigate-preliminary-table-registration": "Date attachée",
-	"checkuser-investigate-preliminary-table-wiki": "Wiki",
-	"checkuser-investigate-preliminary-table-editcount": "Modifications",
-	"checkuser-investigate-preliminary-table-blocked": "Bloqué",
-	"checkuser-investigate-preliminary-table-groups": "Groupes",
-	"checkuser-investigate-preliminary-table-edits": "$1 {{PLURAL:$1|modification|modifications}}",
-	"checkuser-investigate-preliminary-table-unblocked": "Non bloqué"
+	"checkuser-investigate-preliminary-table-cell-blocked": "Bloqué",
+	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|modification|modifications}}",
+	"checkuser-investigate-preliminary-table-cell-unblocked": "Non bloqué",
+	"checkuser-investigate-preliminary-table-header-editcount": "Modifications",
+	"checkuser-investigate-preliminary-table-header-groups": "Groupes",
+	"checkuser-investigate-preliminary-table-header-name": "Nom d’utilisateur",
+	"checkuser-investigate-preliminary-table-header-registration": "Date attachée",
+	"checkuser-investigate-preliminary-table-header-wiki": "Wiki"
 }

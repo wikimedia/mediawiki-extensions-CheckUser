@@ -104,5 +104,14 @@
 	"checkuser-investigate-ipsearch-help": "Aktivierung dieser Option wird auch alle anderen Benutzerkonten anzeigen, die in den letzten 90 Tagen Bearbeitungen oder Aktionen mit denselben IP-Adressen wie die angegebenen Benutzer getätigt haben.",
 	"checkuser-investigate-ipsearch-label": "Inklusive aller Benutzer, die dieselben IP-Adressen als die angegebenen Benutzer verwenden",
 	"checkuser-investigate-reason-label": "Grund",
-	"checkuser-investigate-reason-placeholder": "Beispiel: Untersuchen des Benutzernamens auf verdächtige Sockenpuppenspielerei"
+	"checkuser-investigate-reason-placeholder": "Beispiel: Untersuchen des Benutzernamens auf verdächtige Sockenpuppenspielerei",
+	"checkuser-investigate-preliminary-table-cell-blocked": "Gesperrt",
+	"checkuser-investigate-preliminary-table-cell-edits": "{{PLURAL:$1|Eine Bearbeitung|$1 Bearbeitungen}}",
+	"checkuser-investigate-preliminary-table-cell-unblocked": "Nicht gesperrt",
+	"checkuser-investigate-preliminary-table-header-blocked": "Status",
+	"checkuser-investigate-preliminary-table-header-editcount": "Bearbeitungen",
+	"checkuser-investigate-preliminary-table-header-groups": "Gruppen",
+	"checkuser-investigate-preliminary-table-header-name": "Benutzername",
+	"checkuser-investigate-preliminary-table-header-registration": "Datum der Anlage",
+	"checkuser-investigate-preliminary-table-header-wiki": "Wiki"
 }

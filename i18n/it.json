@@ -101,5 +101,12 @@
 	"checkuser-investigate-legend": "Cerca per nome utente, indirizzi IP o intervalli di IP",
 	"checkuser-investigate-targets-label": "Nomi utente o indirizzi IP",
 	"checkuser-investigate-targets-placeholder": "Nome utente o 1.1.1.42",
-	"checkuser-investigate-reason-label": "Motivo"
+	"checkuser-investigate-reason-label": "Motivo",
+	"checkuser-investigate-preliminary-table-cell-blocked": "Bloccato",
+	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|modifica|modifiche}}",
+	"checkuser-investigate-preliminary-table-cell-unblocked": "Non bloccato",
+	"checkuser-investigate-preliminary-table-header-editcount": "Modifiche",
+	"checkuser-investigate-preliminary-table-header-groups": "Gruppi",
+	"checkuser-investigate-preliminary-table-header-name": "Nome utente",
+	"checkuser-investigate-preliminary-table-header-wiki": "Wiki"
 }
