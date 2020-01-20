@@ -91,5 +91,6 @@
 	"checkuser-investigate-targets-placeholder": "Nome utende o 1.1.1.42",
 	"checkuser-investigate-ipsearch-label": "'Nglude tutte le utinde ca stonne ausane 'u stesse IP de certe utinde",
 	"checkuser-investigate-reason-label": "Mutive",
-	"checkuser-investigate-reason-placeholder": "Esembie: Investigazione d'u nome utende pe 'nu sospette de ccrejazione de pupazze a cazette"
+	"checkuser-investigate-reason-placeholder": "Esembie: Investigazione d'u nome utende pe 'nu sospette de ccrejazione de pupazze a cazette",
+	"checkuser-investigate-preliminary-table-header-blocked": "State"
 }

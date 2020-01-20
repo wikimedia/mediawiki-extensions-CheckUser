@@ -13,7 +13,8 @@
 			"Tgr",
 			"Wolf Rex",
 			"Bencemac",
-			"Csigabi"
+			"Csigabi",
+			"Csega"
 		]
 	},
 	"checkuser-summary": "Ez az eszköz végigvizsgálja a friss változásokat, hogy lekérje egy adott felhasználó IP-címeit vagy megjelenítse egy adott IP-címet használó szerkesztőket és az IP szerkesztéseit.\nEgy proxy mögötti kliens eredeti adatai XFF-fejlécek segítségével kérhetőek le, az IP-cím utáni „/xff” parancssal. Az IPv4 (CIDR $1-32) és az IPv6 (CIDR $2-128) is támogatott.\nMaximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt a szabályoknak megfelelően használd.",
@@ -94,5 +95,6 @@
 	"checkuser-reset-action": "lecserélte „$1” jelszavát",
 	"checkuser-token-fail": "Munkamenethiba. Kérlek próbáld újra.",
 	"checkuser-login-failure": "Nem sikerült belépned a(z) {{SITENAME}} oldalra mint $1",
-	"checkuser-login-success": "Sikeresen beléptél a(z) {{SITENAME}} oldalra mint $1"
+	"checkuser-login-success": "Sikeresen beléptél a(z) {{SITENAME}} oldalra mint $1",
+	"checkuser-investigate-preliminary-table-header-blocked": "Állapot"
 }

@@ -6,7 +6,8 @@
 			"Excaliboor",
 			"MaGa",
 			"SpeedyGonsales",
-			"Tivek"
+			"Tivek",
+			"Neptune, the Mystic"
 		]
 	},
 	"checkuser-summary": "Ovaj alat pretražuje nedavne promjene i pronalazi IP adrese suradnika ili prikazuje uređivanja/ime suradnika ako je zadana IP adresa. Suradnici i uređivanja mogu biti dobiveni po XFF zaglavljima dodavanjem \"/xff\" na kraj IP adrese. Podržane su IPv4 (CIDR $1-32) i IPv6 (CIDR $2-128) adrese. Rezultat ima maksimalno 5.000 zapisa iz tehničkih razloga. Rabite ovaj alat u skladu s pravilima.",
@@ -73,5 +74,6 @@
 	"checkuser-create-action": "je napravljen",
 	"checkuser-email-action": "poslan email za \"$1\"",
 	"checkuser-reset-action": "ponovno postavi zaporku za suradnika \"$1\"",
+	"checkuser-investigate-preliminary-table-header-blocked": "Stanje",
 	"checkuser-investigate-preliminary-table-header-groups": "Skupine"
 }

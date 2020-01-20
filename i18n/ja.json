@@ -24,7 +24,8 @@
 			"Sujiniku",
 			"Mirinano",
 			"Yusuke1109",
-			"Penn Station"
+			"Penn Station",
+			"Buntschann"
 		]
 	},
 	"checkuser-summary": "このツールは最近の更新をもとに、ある利用者が使用したIPアドレスの検索、または、あるIPアドレスからなされた編集および利用者名の表示を行います。\nIPアドレスと共に「/xff」オプションを指定すると、XFF (X-Forwarded-For) ヘッダーを通じてクライアントIPアドレスを取得し、そこからなされた編集および利用者名の検索をすることができます。\nIPv4 ($1から32ビットのCIDR表記) と IPv6 ($2から128ビットのCIDR表記) に対応しています。\nパフォーマンス上の理由により、最大5000件の編集しか表示できません。\n方針に従って使用してください。",
@@ -108,5 +109,6 @@
 	"checkuser-login-failure": "$1として{{SITENAME}}にログインできませんでした",
 	"checkuser-login-success": "$1として{{SITENAME}}にログインしました",
 	"group-checkuser.css": "/* ここに記述したCSSは利用者調査者のみに影響します */",
-	"group-checkuser.js": "/* ここに記述したJSは利用者調査者のみに影響します */"
+	"group-checkuser.js": "/* ここに記述したJSは利用者調査者のみに影響します */",
+	"checkuser-investigate-preliminary-table-header-blocked": "状態"
 }

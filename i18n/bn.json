@@ -97,5 +97,6 @@
 	"checkuser-investigate-ipsearch-help": "এই বিকল্পটি টিক দিলে অন্য সমস্ত ব্যবহারকারীর অ্যাকাউন্টও আসবে যা গত ৯০ দিনের মধ্যে প্রদত্ত ব্যবহারকারীদের মতো একই আইপি ঠিকানা থেকে সম্পাদনা বা কোনও ক্রিয়াকলাপ সম্পাদন করেছে।",
 	"checkuser-investigate-ipsearch-label": "প্রদত্ত ব্যবহারকারীদের মতো একই আইপি ব্যবহার করছেন এমন সমস্ত ব্যবহারকারীদেরকে অন্তর্ভুক্ত করুন",
 	"checkuser-investigate-reason-label": "কারণ",
-	"checkuser-investigate-reason-placeholder": "উদাহরণ: সন্দেহজনক সকপাপেট্রির জন্য ব্যবহারকারী নামকে তদন্ত করা"
+	"checkuser-investigate-reason-placeholder": "উদাহরণ: সন্দেহজনক সকপাপেট্রির জন্য ব্যবহারকারী নামকে তদন্ত করা",
+	"checkuser-investigate-preliminary-table-header-blocked": "অবস্থা"
 }

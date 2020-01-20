@@ -103,6 +103,7 @@
 	"checkuser-investigate-preliminary-table-cell-blocked": "Blockerad",
 	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|redigering|redigeringar}}",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "Inte blockerad",
+	"checkuser-investigate-preliminary-table-header-blocked": "Status",
 	"checkuser-investigate-preliminary-table-header-editcount": "Redigeringar",
 	"checkuser-investigate-preliminary-table-header-groups": "Grupper",
 	"checkuser-investigate-preliminary-table-header-name": "Användarnamn",

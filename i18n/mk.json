@@ -101,6 +101,7 @@
 	"checkuser-investigate-preliminary-table-cell-blocked": "Блокиран",
 	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|уредување|уредувања}}",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "Неблокиран",
+	"checkuser-investigate-preliminary-table-header-blocked": "Статус",
 	"checkuser-investigate-preliminary-table-header-editcount": "Уредувања",
 	"checkuser-investigate-preliminary-table-header-groups": "Групи",
 	"checkuser-investigate-preliminary-table-header-name": "Корисничко име",

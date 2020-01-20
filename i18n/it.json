@@ -105,6 +105,7 @@
 	"checkuser-investigate-preliminary-table-cell-blocked": "Bloccato",
 	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|modifica|modifiche}}",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "Non bloccato",
+	"checkuser-investigate-preliminary-table-header-blocked": "Stato",
 	"checkuser-investigate-preliminary-table-header-editcount": "Modifiche",
 	"checkuser-investigate-preliminary-table-header-groups": "Gruppi",
 	"checkuser-investigate-preliminary-table-header-name": "Nome utente",

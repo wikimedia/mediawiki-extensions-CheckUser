@@ -25,7 +25,8 @@
 			"Revi",
 			"Beta16",
 			"McDutchie",
-			"Purodha Blissenbach"
+			"Purodha Blissenbach",
+			"Amire80"
 		]
 	},
 	"checkuser-summary": "Explanation of CheckUser tool. See [[mw:Extension:CheckUser#Basic_interface|screenshot titled 'Basic CheckUser interface']].\n\nParameters:\n* $1 - an integer. default value: 16\n* $2 - an integer. default value: 32",
@@ -127,6 +128,6 @@
 	"checkuser-investigate-preliminary-table-header-editcount": "Label for a table header in [[Special:Investigate]].",
 	"checkuser-investigate-preliminary-table-header-groups": "Label for a table header in [[Special:Investigate]].",
 	"checkuser-investigate-preliminary-table-header-name": "Label for a table header in [[Special:Investigate]].",
-	"checkuser-investigate-preliminary-table-header-registration": "Label for a table header in [[Special:Investigate]].",
+	"checkuser-investigate-preliminary-table-header-registration": "Label for a table header in [[Special:Investigate]]. Means \"the day on which (the account) was attached\".",
 	"checkuser-investigate-preliminary-table-header-wiki": "Label for a table header in [[Special:Investigate]]."
 }
