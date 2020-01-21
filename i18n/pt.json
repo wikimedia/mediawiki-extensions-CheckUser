@@ -106,5 +106,14 @@
 	"checkuser-investigate-ipsearch-help": "Marcar esta opção também apanhará todas as outras contas de utilizador que editaram ou efetuaram operações desde os mesmos endereços IP que os utilizadores fornecidos, nos últimos 90 dias.",
 	"checkuser-investigate-ipsearch-label": "Incluir todos os utilizadores que estão a usar os mesmos endereços IP que os utilizadores fornecidos",
 	"checkuser-investigate-reason-label": "Motivo",
-	"checkuser-investigate-reason-placeholder": "Examplo: investigar UserName por uso suspeito de contas fantoches"
+	"checkuser-investigate-reason-placeholder": "Examplo: investigar UserName por uso suspeito de contas fantoches",
+	"checkuser-investigate-preliminary-table-cell-blocked": "Bloqueado",
+	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|edição|edições}}",
+	"checkuser-investigate-preliminary-table-cell-unblocked": "Não bloqueado",
+	"checkuser-investigate-preliminary-table-header-blocked": "Estado",
+	"checkuser-investigate-preliminary-table-header-editcount": "Edições",
+	"checkuser-investigate-preliminary-table-header-groups": "Grupos",
+	"checkuser-investigate-preliminary-table-header-name": "Nome de utilizador",
+	"checkuser-investigate-preliminary-table-header-registration": "Data de anexado",
+	"checkuser-investigate-preliminary-table-header-wiki": "Wiki"
 }
