@@ -107,6 +107,5 @@
 	"checkuser-reset-action": "сбросил пароль для участника $1",
 	"checkuser-token-fail": "Сеанс прерван. Пожалуйста, попробуйте ещё раз.",
 	"checkuser-login-failure": "Не удалось войти в {{SITENAME}} в качестве $1",
-	"checkuser-login-success": "Успешно вошел в систему {{SITENAME}} как $1",
-	"checkuser-investigate-reason-placeholder": "Текст местозаполнителя для поля в форме Special: Investigate search."
+	"checkuser-login-success": "Успешно вошел в систему {{SITENAME}} как $1"
 }

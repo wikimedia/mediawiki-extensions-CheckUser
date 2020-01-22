@@ -100,7 +100,7 @@
 	"checkuser-token-fail": "Errore di sessione. Riprova ancora.",
 	"checkuser-investigate-legend": "Cerca per nome utente, indirizzi IP o intervalli di IP",
 	"checkuser-investigate-targets-label": "Nomi utente o indirizzi IP",
-	"checkuser-investigate-targets-placeholder": "Nome utente o 1.1.1.42",
+	"checkuser-investigate-targets-placeholder": "Nome utente o 1.1.1.1",
 	"checkuser-investigate-reason-label": "Motivo",
 	"checkuser-investigate-preliminary-table-cell-blocked": "Bloccato",
 	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|modifica|modifiche}}",

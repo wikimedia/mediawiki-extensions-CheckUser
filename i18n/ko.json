@@ -102,10 +102,9 @@
 	"checkuser-investigate": "조사하기",
 	"checkuser-investigate-legend": "계정 이름, IP 주소 또는 IP 대역 검색",
 	"checkuser-investigate-targets-label": "계정 이름과 IP 주소",
-	"checkuser-investigate-targets-placeholder": "사용자 이름 또는 1.1.1.42",
+	"checkuser-investigate-targets-placeholder": "사용자 이름 또는 1.1.1.1",
 	"checkuser-investigate-ipsearch-help": "이 옵션을 선택하면 지난 90일간 입력한 사용자와 같은 IP 주소에서 편집하거나 어떤 동작을 수행한 모든 다른 사용자 계정을 찾습니다.",
 	"checkuser-investigate-ipsearch-label": "입력한 사용자와 같은 IP를 사용하는 모든 사용자를 포함하기",
 	"checkuser-investigate-reason-label": "이유",
-	"checkuser-investigate-reason-placeholder": "예시: 다중 계정 의심으로 UserName을 조사함",
 	"checkuser-investigate-preliminary-table-header-blocked": "상태"
 }

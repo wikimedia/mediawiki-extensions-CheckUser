@@ -92,9 +92,8 @@
 	"checkuser-investigate": "Investigar",
 	"checkuser-investigate-legend": "Buscar nomes d'usuariu, direiciones IP o intervalos d'IP",
 	"checkuser-investigate-targets-label": "Nomes d'usuariu y direcciones IP",
-	"checkuser-investigate-targets-placeholder": "Nome d'Usuariu o 1.1.1.42",
+	"checkuser-investigate-targets-placeholder": "Nome d'Usuariu o 1.1.1.1",
 	"checkuser-investigate-ipsearch-help": "El marcar esta opción va facer qu'apaezan toles otres cuentes d'usuariu qu'editaron o ficieron otres aiciones dende les mesmes direiciones IP que los usuarios daos nos 90 díes anteriores.",
 	"checkuser-investigate-ipsearch-label": "Incluir tolos usuarios qu'usen les mesmes direiciones IP que los usuarios daos",
-	"checkuser-investigate-reason-label": "Motivu",
-	"checkuser-investigate-reason-placeholder": "Exemplu: Investigar a UserName por sospeches de «sock puppet»"
+	"checkuser-investigate-reason-label": "Motivu"
 }
