@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Calak",
-			"Asoxor"
+			"Asoxor",
+			"ئارام بکر"
 		]
 	},
 	"group-checkuser": "پشکنەرانی بەکارھێنەر",
@@ -46,5 +47,6 @@
 	"checkuser-user-nonexistent": "بەکارھێنەری دەستنیشان کراوە بوونی نییە.",
 	"checkuser-search": "گەڕان",
 	"checkuser-search-submit": "گەڕان",
-	"checkuser-search-target": "مەبەست"
+	"checkuser-search-target": "مەبەست",
+	"checkuser-investigate-preliminary-table-header-blocked": "ڕەوش"
 }
