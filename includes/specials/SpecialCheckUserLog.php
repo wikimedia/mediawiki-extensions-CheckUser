@@ -12,6 +12,7 @@ class SpecialCheckUserLog extends SpecialPage {
 
 	public function execute( $par ) {
 		$this->setHeaders();
+		$this->addHelpLink( 'Extension:CheckUser' );
 		$this->checkPermissions();
 
 		// Blocked users are not allowed to run checkuser queries (bug T157883)

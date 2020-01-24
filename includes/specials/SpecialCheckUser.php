@@ -32,6 +32,7 @@ class SpecialCheckUser extends SpecialPage {
 
 	public function execute( $subpage ) {
 		$this->setHeaders();
+		$this->addHelpLink( 'Extension:CheckUser' );
 		$this->checkPermissions();
 		// Logging and blocking requires writing so stop from here if read-only mode
 		$this->checkReadOnly();
