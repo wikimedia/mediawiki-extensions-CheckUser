@@ -2,6 +2,7 @@
 
 use MediaWiki\CheckUser\CompareService;
 use MediaWiki\MediaWikiServices;
+use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IResultWrapper;
 
 /**
@@ -113,56 +114,56 @@ class CompareServiceTest extends MediaWikiTestCase {
 				'cuc_user_text'  => '1.2.3.4',
 				'cuc_type'       => RC_NEW,
 				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IP::toHex( '1.2.3.4' ),
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cuc_agent'      => 'foo user agent',
 			], [
 				'cuc_user'       => 0,
 				'cuc_user_text'  => '1.2.3.4',
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IP::toHex( '1.2.3.4' ),
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cuc_agent'      => 'foo user agent',
 			], [
 				'cuc_user'       => 0,
 				'cuc_user_text'  => '1.2.3.4',
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IP::toHex( '1.2.3.4' ),
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cuc_agent'      => 'bar user agent',
 			], [
 				'cuc_user'       => 0,
 				'cuc_user_text'  => '1.2.3.5',
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip'         => '1.2.3.5',
-				'cuc_ip_hex'     => IP::toHex( '1.2.3.5' ),
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
 				'cuc_agent'      => 'bar user agent',
 			], [
 				'cuc_user'       => 0,
 				'cuc_user_text'  => '1.2.3.5',
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip'         => '1.2.3.5',
-				'cuc_ip_hex'     => IP::toHex( '1.2.3.5' ),
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
 				'cuc_agent'      => 'foo user agent',
 			], [
 				'cuc_user'       => 1,
 				'cuc_user_text'  => 'User1',
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IP::toHex( '1.2.3.4' ),
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cuc_agent'      => 'foo user agent',
 			], [
 				'cuc_user'       => 2,
 				'cuc_user_text'  => 'User2',
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IP::toHex( '1.2.3.4' ),
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cuc_agent'      => 'foo user agent',
 			], [
 				'cuc_user'       => 1,
 				'cuc_user_text'  => 'User1',
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip'         => '1.2.3.5',
-				'cuc_ip_hex'     => IP::toHex( '1.2.3.5' ),
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
 				'cuc_agent'      => 'foo user agent',
 			],
 		];

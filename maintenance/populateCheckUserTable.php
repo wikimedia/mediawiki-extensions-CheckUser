@@ -1,5 +1,7 @@
 <?php
 
+use Wikimedia\IPUtils;
+
 $IP = getenv( 'MW_INSTALL_PATH' );
 if ( $IP === false ) {
 	$IP = __DIR__ . '/../../..';
@@ -91,7 +93,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 					'cuc_last_oldid' => $row->rc_last_oldid,
 					'cuc_type' => $row->rc_type,
 					'cuc_ip' => $row->rc_ip,
-					'cuc_ip_hex' => IP::toHex( $row->rc_ip ),
+					'cuc_ip_hex' => IPUtils::toHex( $row->rc_ip ),
 				];
 			}
 			if ( count( $batch ) ) {
