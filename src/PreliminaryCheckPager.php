@@ -121,9 +121,7 @@ class PreliminaryCheckPager extends TablePager {
 	 * @return string
 	 */
 	public function formatValue( $name, $value ) {
-		$row = $this->mCurrentRow;
 		$language = $this->getLanguage();
-		$linkRenderer = $this->getLinkRenderer();
 
 		// TODO: Format according to task
 		$formatted = '';
