@@ -120,6 +120,7 @@
 	"checkuser-investigate-ipsearch-help": "Help text for a checkbox in the [[Special:Investigate]] search form.",
 	"checkuser-investigate-ipsearch-label": "Label for a checkbox in the [[Special:Investigate]] search form.",
 	"checkuser-investigate-reason-label": "Label for a field in the [[Special:Investigate]] search form.",
+	"checkuser-investigate-preliminary-table-empty": "Message shown when there are no results for an investigation.",
 	"checkuser-investigate-preliminary-table-cell-blocked": "Entry for a table cell in [[Special:Investigate]].",
 	"checkuser-investigate-preliminary-table-cell-edits": "Entry for a table cell in [[Special:Investigate]].",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "Entry for a table cell in [[Special:Investigate]].",

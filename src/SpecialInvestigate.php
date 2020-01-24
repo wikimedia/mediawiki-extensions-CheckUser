@@ -123,7 +123,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 		if ( $this->pager->getNumRows() ) {
 			$out->addParserOutputContent( $this->pager->getFullOutput() );
 		} else {
-			$out->addWikiMsg( 'checkuser-investigate-table-empty' );
+			$out->addWikiMsg( 'checkuser-investigate-preliminary-table-empty' );
 		}
 
 		return \Status::newGood();
