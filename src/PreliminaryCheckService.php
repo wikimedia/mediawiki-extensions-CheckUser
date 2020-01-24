@@ -47,6 +47,10 @@ class PreliminaryCheckService {
 	 * @return array
 	 */
 	public function getPreliminaryData( array $users, array $pageInfo ) : array {
+		if ( !$users ) {
+			return [];
+		}
+
 		if ( $this->extensionRegistry->isLoaded( 'CentralAuth' ) && $pageInfo ) {
 			$data = $this->getGlobalUserData( $users, $pageInfo );
 		} else {
@@ -74,11 +78,6 @@ class PreliminaryCheckService {
 	protected function getGlobalUserData( array $users, array $pageInfo ) : array {
 		$db = $this->getCentralAuthDB();
 
-		$usernames = [];
-		foreach ( $users as $user ) {
-			$usernames[] = $db->addQuotes( $user );
-		}
-
 		$userInfo = [];
 		$userInfo['tables'] = 'localuser';
 		$userInfo['fields'] = [
@@ -86,7 +85,8 @@ class PreliminaryCheckService {
 			'lu_wiki',
 			'lu_name_wiki' => $db->buildConcat( [ 'lu_name', '\'>\'', 'lu_wiki' ] ),
 		];
-		$userInfo['conds'] = [ 'lu_name IN (' . implode( ',', $usernames ) . ')' ];
+
+		$userInfo['conds']['lu_name'] = array_map( 'strval', $users );
 
 		$offsets = $pageInfo['offsets'];
 		if ( $offsets && isset( $offsets['name'] ) && isset( $offsets['wiki'] ) ) {
