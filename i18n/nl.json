@@ -90,5 +90,16 @@
 	"checkuser-login-failure": "Kon niet als $1 inloggen op {{SITENAME}}",
 	"checkuser-login-success": "Succesvol als $1 op {{SITENAME}} ingelogd",
 	"checkuser-investigate": "Onderzoeken",
-	"checkuser-investigate-reason-label": "Reden"
+	"checkuser-investigate-targets-label": "Gebruikersnaam of IP-adres",
+	"checkuser-investigate-targets-placeholder": "Gebruikersnaam of 1.1.1.1",
+	"checkuser-investigate-reason-label": "Reden",
+	"checkuser-investigate-preliminary-table-cell-blocked": "Geblokkeerd",
+	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|bewerking|bewerkingen}}",
+	"checkuser-investigate-preliminary-table-cell-unblocked": "Niet geblokkeerd",
+	"checkuser-investigate-preliminary-table-header-blocked": "Status",
+	"checkuser-investigate-preliminary-table-header-editcount": "Bewerkingen",
+	"checkuser-investigate-preliminary-table-header-groups": "Groepen",
+	"checkuser-investigate-preliminary-table-header-name": "Gebruikersnaam",
+	"checkuser-investigate-preliminary-table-header-registration": "Koppelingsdatum",
+	"checkuser-investigate-preliminary-table-header-wiki": "Wiki"
 }

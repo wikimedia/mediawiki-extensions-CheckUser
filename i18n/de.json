@@ -104,6 +104,7 @@
 	"checkuser-investigate-ipsearch-help": "Aktivierung dieser Option wird auch alle anderen Benutzerkonten anzeigen, die in den letzten 90 Tagen Bearbeitungen oder Aktionen mit denselben IP-Adressen wie die angegebenen Benutzer getätigt haben.",
 	"checkuser-investigate-ipsearch-label": "Inklusive aller Benutzer, die dieselben IP-Adressen als die angegebenen Benutzer verwenden",
 	"checkuser-investigate-reason-label": "Grund",
+	"checkuser-investigate-preliminary-table-empty": "Es gibt keine Ergebnisse.",
 	"checkuser-investigate-preliminary-table-cell-blocked": "Gesperrt",
 	"checkuser-investigate-preliminary-table-cell-edits": "{{PLURAL:$1|Eine Bearbeitung|$1 Bearbeitungen}}",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "Nicht gesperrt",
