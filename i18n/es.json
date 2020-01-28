@@ -118,6 +118,17 @@
 	"checkuser-investigate": "Investigar",
 	"checkuser-investigate-legend": "Buscar nombres de usuario, direcciones IP o intervalos de IP",
 	"checkuser-investigate-targets-label": "Nombres de usuario y direcciones IP",
+	"checkuser-investigate-targets-placeholder": "Nombre de usuario o dirección IP",
+	"checkuser-investigate-ipsearch-help": "Marcando esta opción el sistema devolverá todos los usuarios registrados que han editado o realizado acciones desde la misma dirección IP para los usuarios dados en los últimos 90 días.",
+	"checkuser-investigate-ipsearch-label": "Incluir como usuarios dados a todos los que han usado la misma dirección IP",
 	"checkuser-investigate-reason-label": "Motivo",
-	"checkuser-investigate-preliminary-table-header-blocked": "Estado"
+	"checkuser-investigate-preliminary-table-empty": "No hay resultados.",
+	"checkuser-investigate-preliminary-table-cell-blocked": "Bloqueado",
+	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|edición|ediciones}}",
+	"checkuser-investigate-preliminary-table-cell-unblocked": "No bloqueado",
+	"checkuser-investigate-preliminary-table-header-blocked": "Estado",
+	"checkuser-investigate-preliminary-table-header-editcount": "Ediciones",
+	"checkuser-investigate-preliminary-table-header-groups": "Grupos",
+	"checkuser-investigate-preliminary-table-header-name": "Nombre de usuario",
+	"checkuser-investigate-preliminary-table-header-wiki": "Wiki"
 }

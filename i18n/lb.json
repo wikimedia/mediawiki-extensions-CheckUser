@@ -81,5 +81,6 @@
 	"checkuser-login-success": "Op {{SITENAME}} ageloggt als $1",
 	"checkuser-investigate-targets-label": "Benotzernimm oder IP-Adressen",
 	"checkuser-investigate-targets-placeholder": "Benotzernumm oder 1.1.1.1",
-	"checkuser-investigate-reason-label": "Grond"
+	"checkuser-investigate-reason-label": "Grond",
+	"checkuser-investigate-preliminary-table-empty": "Et gëtt keng Resultater."
 }

@@ -97,6 +97,7 @@
 	"checkuser-investigate-ipsearch-help": "סימון האפשרות הזאת יעלה גם את כל חשבונות המשתמש שערכו או ביצעו פעולות כלשהן מאותה כתובת ה־IP כמו המשתמש הנתון ב־90 הימים האחרונים.",
 	"checkuser-investigate-ipsearch-label": "לכלול את כל המשתמשים שמשתמשים באותה כתובת ה־IP כמו המשתמשים הנתונים",
 	"checkuser-investigate-reason-label": "סיבה",
+	"checkuser-investigate-preliminary-table-empty": "אין תוצאות.",
 	"checkuser-investigate-preliminary-table-cell-blocked": "חסום",
 	"checkuser-investigate-preliminary-table-cell-edits": "{{PLURAL:$1|עריכה אחת|$1 עריכות}}",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "לא חסום",

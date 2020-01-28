@@ -9,7 +9,8 @@
 			"OsamaK",
 			"ديفيد",
 			"علاء",
-			"AHmed Khaled"
+			"AHmed Khaled",
+			"محمد أحمد عبد الفتاح"
 		]
 	},
 	"checkuser-summary": ";ملاحظات\n* تفحص هذه الأداة أحدث التغييرات بهدف استرجاع عنوان الآي بي المُستخدم بواسطة مستخدم ما أو بهدف إظهار تعديلات/بيانات عنوان الآي بي.\n* المستخدمون والتعديلات التي تتم بواسطة عنوان آي بي العميل من الممكن استرجاعها من خلال رؤوس XFF ويتم ذلك من خلال إلحاق \"/xff\" في نهاية عنوان الآي بي. عناوين آي بي في4 (CIDR $1-32) وَآي بي في6 (CIDR $2-128) مدعومة.\n* لن يتم عرض أكثر من 5000 تعديل لأسباب تتعلق بالأداء.\n* استخدام هذه الأداة يتم وفقاً للسياسات.",
@@ -101,6 +102,7 @@
 	"checkuser-investigate-ipsearch-help": "سيؤدي تحديد هذا الخيار أيضا إلى إظهار جميع حسابات المستخدمين الأخرى التي عدلت أو ارتكبت أية إجراءات من عناوين الآيبي نفسها التي استخدمها المستخدمون المعينون في آخر 90 يومًا.",
 	"checkuser-investigate-ipsearch-label": "تضمين جميع المستخدمين الذين يستخدمون نفس عناوين الآيبي كمستخدمين معينين",
 	"checkuser-investigate-reason-label": "السبب",
+	"checkuser-investigate-preliminary-table-empty": "لا توجد نتائج.",
 	"checkuser-investigate-preliminary-table-cell-blocked": "ممنوع",
 	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|تعديل|تعديلات}}",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "غير ممنوع",

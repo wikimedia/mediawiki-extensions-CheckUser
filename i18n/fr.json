@@ -112,6 +112,7 @@
 	"checkuser-investigate-ipsearch-help": "Cocher cette option rétablira aussi tous les autres comptes utilisateur qui ont modifié ou validé des actions depuis les mêmes adresses IP que les utilisateurs fournis, pendant les derniers 90 jours.",
 	"checkuser-investigate-ipsearch-label": "Inclure tous les utilisateurs qui utilisent les mêmes adresses IP que les utilisateurs donnés",
 	"checkuser-investigate-reason-label": "Motif",
+	"checkuser-investigate-preliminary-table-empty": "Il n’y a aucun résultat.",
 	"checkuser-investigate-preliminary-table-cell-blocked": "Bloqué",
 	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|modification|modifications}}",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "Non bloqué",
