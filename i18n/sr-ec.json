@@ -103,6 +103,7 @@
 	"checkuser-investigate-targets-placeholder": "Корисничко име или 1.1.1.1",
 	"checkuser-investigate-ipsearch-label": "Уврсти све кориснике који користе исти IP као наведени корисници",
 	"checkuser-investigate-reason-label": "Разлог",
+	"checkuser-investigate-preliminary-table-empty": "Нема резултата.",
 	"checkuser-investigate-preliminary-table-cell-blocked": "Блокиран",
 	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|измена|измене|измена}}",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "Није блокиран",
