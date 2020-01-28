@@ -95,7 +95,13 @@ class PreliminaryCheckService {
 		}
 
 		$queryInfo = $this->buildGlobalUserQueryInfo( $userInfo, $pageInfo );
-		$rows = $db->select( ...$queryInfo );
+		$rows = $db->select(
+			$queryInfo['tables'],
+			$queryInfo['fields'],
+			$queryInfo['conds'],
+			$queryInfo['fname'],
+			$queryInfo['options']
+		);
 
 		return $this->getLocalDataForGlobalUser( $rows );
 	}
@@ -136,11 +142,11 @@ class PreliminaryCheckService {
 		$options['LIMIT'] = intval( $pageInfo['limit'] );
 
 		return [
-			$userInfo['tables'],
-			$userInfo['fields'],
-			$conds,
-			__METHOD__,
-			$options,
+			'tables' => $userInfo['tables'],
+			'fields' => $userInfo['fields'],
+			'conds' => $conds,
+			'fname' => __METHOD__,
+			'options' => $options,
 		];
 	}
 
