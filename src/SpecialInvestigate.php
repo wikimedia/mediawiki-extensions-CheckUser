@@ -83,13 +83,6 @@ class SpecialInvestigate extends \FormSpecialPage {
 				'ipallowed' => true,
 				'iprange' => true,
 			],
-			'IpSearch' => [
-				'type' => 'check',
-				'name' => 'ipSearch',
-				'label-message' => $prefix . '-ipsearch-label',
-				'help-message' => $prefix . '-ipsearch-help',
-				'disabled' => true,
-			],
 			'Reason' => [
 				'type' => 'text',
 				'name' => 'reason',
