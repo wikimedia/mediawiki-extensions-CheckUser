@@ -183,6 +183,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					}
 				} else {
 					$this->dieWithError( 'apierror-badip', 'invalidip' );
+					throw new LogicException();
 				}
 
 				$this->addFields( [
