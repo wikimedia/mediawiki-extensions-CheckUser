@@ -1,6 +1,7 @@
 <?php
 
 use MediaWiki\Block\DatabaseBlock;
+use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\IResultWrapper;
@@ -82,12 +83,12 @@ class SpecialCheckUser extends SpecialPage {
 
 		$ip = $name = $xff = '';
 		$m = [];
-		if ( IP::isIPAddress( $user ) ) {
+		if ( IPUtils::isIPAddress( $user ) ) {
 			// A single IP address or an IP range
-			$ip = IP::sanitizeIP( $user );
-		} elseif ( preg_match( '/^(.+)\/xff$/', $user, $m ) && IP::isIPAddress( $m[1] ) ) {
+			$ip = IPUtils::sanitizeIP( $user );
+		} elseif ( preg_match( '/^(.+)\/xff$/', $user, $m ) && IPUtils::isIPAddress( $m[1] ) ) {
 			// A single IP address or range with XFF string included
-			$xff = IP::sanitizeIP( $m[1] );
+			$xff = IPUtils::sanitizeIP( $m[1] );
 		} else {
 			// A user?
 			$name = $user;
@@ -312,7 +313,7 @@ class SpecialCheckUser extends SpecialPage {
 				// Invalid user
 				continue;
 			}
-			$isIP = IP::isIPAddress( $u->getName() );
+			$isIP = IPUtils::isIPAddress( $u->getName() );
 			if ( !$u->getId() && !$isIP ) {
 				// Not a registered user or an IP
 				continue;
@@ -879,7 +880,7 @@ class SpecialCheckUser extends SpecialPage {
 			// Convert the IP hexes into normal form
 			if ( strpos( $row->cuc_ip_hex, 'v6-' ) !== false ) {
 				$ip = substr( $row->cuc_ip_hex, 3 );
-				$ip = IP::hexToOctet( $ip );
+				$ip = IPUtils::hexToOctet( $ip );
 			} else {
 				$ip = long2ip( Wikimedia\base_convert( $row->cuc_ip_hex, 16, 10, 8 ) );
 			}
@@ -1427,14 +1428,14 @@ class SpecialCheckUser extends SpecialPage {
 			// Load user object
 			$usernfn = User::newFromName( $name, false );
 			// Add user page and tool links
-			if ( !IP::isIPAddress( $usernfn ) ) {
+			if ( !IPUtils::isIPAddress( $usernfn ) ) {
 				$idforlinknfn = -1;
 			} else {
 				$idforlinknfn = $users_ids[$name];
 			}
 			$user = User::newFromId( $users_ids[$name] );
 			$classnouser = false;
-			if ( IP::isIPAddress( $name ) !== IP::isIPAddress( $user ) ) {
+			if ( IPUtils::isIPAddress( $name ) !== IPUtils::isIPAddress( $user ) ) {
 				// User does not exist
 				$idforlink = -1;
 				$classnouser = true;
@@ -1447,7 +1448,7 @@ class SpecialCheckUser extends SpecialPage {
 				$s .= '<span>';
 			}
 			$s .= Linker::userLink( $idforlinknfn, $name, $name ) . '</span> ';
-			$ip = IP::isIPAddress( $name ) ? $name : '';
+			$ip = IPUtils::isIPAddress( $name ) ? $name : '';
 			$s .= Linker::userToolLinksRedContribs(
 				$idforlink,
 				$name,
@@ -1475,7 +1476,7 @@ class SpecialCheckUser extends SpecialPage {
 			// Add global user tools links
 			// Add CentralAuth link for real registered users
 			if ( $centralAuthToollink !== false
-				&& !IP::isIPAddress( $name )
+				&& !IPUtils::isIPAddress( $name )
 				&& !$classnouser
 			) {
 				// Get CentralAuth SpecialPage name in UserLang from the first Alias name
@@ -1501,7 +1502,7 @@ class SpecialCheckUser extends SpecialPage {
 			}
 			// Add Globalblocking link link to CentralWiki
 			if ( $globalBlockingToollink !== false
-				&& IP::isIPAddress( $name )
+				&& IPUtils::isIPAddress( $name )
 			) {
 				// Get GlobalBlock SpecialPage name in UserLang from the first Alias name
 				$centralGBUrl = WikiMap::getForeignURL(
@@ -1798,13 +1799,13 @@ class SpecialCheckUser extends SpecialPage {
 			) . ' . . ';
 		// Userlinks
 		$user = User::newFromId( $row->cuc_user );
-		if ( !IP::isIPAddress( $row->cuc_user_text ) ) {
+		if ( !IPUtils::isIPAddress( $row->cuc_user_text ) ) {
 			$idforlinknfn = -1;
 		} else {
 			$idforlinknfn = $row->cuc_user;
 		}
 		$classnouser = false;
-		if ( IP::isIPAddress( $row->cuc_user_text ) !== IP::isIPAddress( $user ) ) {
+		if ( IPUtils::isIPAddress( $row->cuc_user_text ) !== IPUtils::isIPAddress( $user ) ) {
 			// User does not exist
 			$idforlink = -1;
 			$classnouser = true;
@@ -1830,7 +1831,7 @@ class SpecialCheckUser extends SpecialPage {
 			$flags = $flagCache[$row->cuc_user_text];
 		} else {
 			$user = User::newFromName( $row->cuc_user_text, false );
-			$ip = IP::isIPAddress( $row->cuc_user_text ) ? $row->cuc_user_text : '';
+			$ip = IPUtils::isIPAddress( $row->cuc_user_text ) ? $row->cuc_user_text : '';
 			$flags = $this->userBlockFlags( $ip, $row->cuc_user, $user );
 			$flagCache[$row->cuc_user_text] = $flags;
 		}
@@ -2058,16 +2059,16 @@ class SpecialCheckUser extends SpecialPage {
 	 */
 	public static function isValidRange( $target ) {
 		$CIDRLimit = \RequestContext::getMain()->getConfig()->get( 'CheckUserCIDRLimit' );
-		if ( IP::isValidRange( $target ) ) {
+		if ( IPUtils::isValidRange( $target ) ) {
 			list( $ip, $range ) = explode( '/', $target, 2 );
-			if ( ( IP::isIPv4( $ip ) && $range < $CIDRLimit['IPv4'] ) ||
-				( IP::isIPv6( $ip ) && $range < $CIDRLimit['IPv6'] ) ) {
+			if ( ( IPUtils::isIPv4( $ip ) && $range < $CIDRLimit['IPv4'] ) ||
+				( IPUtils::isIPv6( $ip ) && $range < $CIDRLimit['IPv6'] ) ) {
 					return false; // range is too wide
 			}
 			return true;
 		}
 
-		return IP::isValid( $target );
+		return IPUtils::isValid( $target );
 	}
 
 	/**
@@ -2083,12 +2084,12 @@ class SpecialCheckUser extends SpecialPage {
 			return false;
 		}
 
-		if ( IP::isValidRange( $target ) ) {
-			list( $start, $end ) = IP::parseRange( $target );
+		if ( IPUtils::isValidRange( $target ) ) {
+			list( $start, $end ) = IPUtils::parseRange( $target );
 			return [ 'cuc_' . $type . '_hex BETWEEN ' . $db->addQuotes( $start ) .
 				' AND ' . $db->addQuotes( $end ) ];
-		} elseif ( IP::isValid( $target ) ) {
-				return [ "cuc_{$type}_hex" => IP::toHex( $target ) ];
+		} elseif ( IPUtils::isValid( $target ) ) {
+				return [ "cuc_{$type}_hex" => IPUtils::toHex( $target ) ];
 		}
 		return false; // invalid IP
 	}
@@ -2108,7 +2109,7 @@ class SpecialCheckUser extends SpecialPage {
 		$user = RequestContext::getMain()->getUser();
 
 		if ( $targetType == 'ip' ) {
-			list( $rangeStart, $rangeEnd ) = IP::parseRange( $target );
+			list( $rangeStart, $rangeEnd ) = IPUtils::parseRange( $target );
 			$targetHex = $rangeStart;
 			if ( $rangeStart == $rangeEnd ) {
 				$rangeStart = $rangeEnd = '';

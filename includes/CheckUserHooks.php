@@ -4,6 +4,7 @@ use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\SpecialInvestigate;
 use MediaWiki\MediaWikiServices;
+use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IDatabase;
 
 class CheckUserHooks {
@@ -88,10 +89,10 @@ class CheckUserHooks {
 			'cuc_last_oldid' => $attribs['rc_last_oldid'],
 			'cuc_type'       => $attribs['rc_type'],
 			'cuc_timestamp'  => $attribs['rc_timestamp'],
-			'cuc_ip'         => IP::sanitizeIP( $ip ),
-			'cuc_ip_hex'     => $ip ? IP::toHex( $ip ) : null,
+			'cuc_ip'         => IPUtils::sanitizeIP( $ip ),
+			'cuc_ip_hex'     => $ip ? IPUtils::toHex( $ip ) : null,
 			'cuc_xff'        => !$isSquidOnly ? $xff : '',
-			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IP::toHex( $xff_ip ) : null,
+			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
 			'cuc_agent'      => $agent
 		];
 		# On PG, MW unsets cur_id due to schema incompatibilites. So it may not be set!
@@ -136,10 +137,10 @@ class CheckUserHooks {
 			'cuc_last_oldid' => 0,
 			'cuc_type'       => RC_LOG,
 			'cuc_timestamp'  => $dbw->timestamp( wfTimestampNow() ),
-			'cuc_ip'         => IP::sanitizeIP( $ip ),
-			'cuc_ip_hex'     => $ip ? IP::toHex( $ip ) : null,
+			'cuc_ip'         => IPUtils::sanitizeIP( $ip ),
+			'cuc_ip_hex'     => $ip ? IPUtils::toHex( $ip ) : null,
 			'cuc_xff'        => !$isSquidOnly ? $xff : '',
-			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IP::toHex( $xff_ip ) : null,
+			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
 			'cuc_agent'      => $agent
 		];
 		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
@@ -194,10 +195,10 @@ class CheckUserHooks {
 			'cuc_last_oldid' => 0,
 			'cuc_type'       => RC_LOG,
 			'cuc_timestamp'  => $dbr->timestamp( wfTimestampNow() ),
-			'cuc_ip'         => IP::sanitizeIP( $ip ),
-			'cuc_ip_hex'     => $ip ? IP::toHex( $ip ) : null,
+			'cuc_ip'         => IPUtils::sanitizeIP( $ip ),
+			'cuc_ip_hex'     => $ip ? IPUtils::toHex( $ip ) : null,
 			'cuc_xff'        => !$isSquidOnly ? $xff : '',
-			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IP::toHex( $xff_ip ) : null,
+			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
 			'cuc_agent'      => $agent
 		];
 		if ( trim( $wgCUPublicKey ) != '' ) {
@@ -259,10 +260,10 @@ class CheckUserHooks {
 			'cuc_last_oldid' => 0,
 			'cuc_type'       => RC_LOG,
 			'cuc_timestamp'  => $dbw->timestamp( wfTimestampNow() ),
-			'cuc_ip'         => IP::sanitizeIP( $ip ),
-			'cuc_ip_hex'     => $ip ? IP::toHex( $ip ) : null,
+			'cuc_ip'         => IPUtils::sanitizeIP( $ip ),
+			'cuc_ip_hex'     => $ip ? IPUtils::toHex( $ip ) : null,
 			'cuc_xff'        => !$isSquidOnly ? $xff : '',
-			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IP::toHex( $xff_ip ) : null,
+			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
 			'cuc_agent'      => $agent
 		];
 		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
@@ -324,10 +325,10 @@ class CheckUserHooks {
 			'cuc_last_oldid' => 0,
 			'cuc_type'       => RC_LOG,
 			'cuc_timestamp'  => $dbw->timestamp( wfTimestampNow() ),
-			'cuc_ip'         => IP::sanitizeIP( $ip ),
-			'cuc_ip_hex'     => $ip ? IP::toHex( $ip ) : null,
+			'cuc_ip'         => IPUtils::sanitizeIP( $ip ),
+			'cuc_ip_hex'     => $ip ? IPUtils::toHex( $ip ) : null,
 			'cuc_xff'        => !$isSquidOnly ? $xff : '',
-			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IP::toHex( $xff_ip ) : null,
+			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
 			'cuc_agent'      => $agent
 		];
 		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
@@ -401,7 +402,7 @@ class CheckUserHooks {
 		# unless the address is not sensible (e.g. private). However, prefer private
 		# IP addresses over proxy servers controlled by this site (more sensible).
 		foreach ( $ipchain as $i => $curIP ) {
-			$curIP = IP::canonicalize( $curIP );
+			$curIP = IPUtils::canonicalize( $curIP );
 			if ( $curIP === null ) {
 				break; // not a valid IP address
 			}
@@ -412,14 +413,14 @@ class CheckUserHooks {
 			}
 			if (
 				isset( $ipchain[$i + 1] ) &&
-				IP::isIPAddress( $ipchain[$i + 1] ) &&
+				IPUtils::isIPAddress( $ipchain[$i + 1] ) &&
 				(
-					IP::isPublic( $ipchain[$i + 1] ) ||
+					IPUtils::isPublic( $ipchain[$i + 1] ) ||
 					$wgUsePrivateIPs ||
 					$curIsSquid // bug 48919
 				)
 			) {
-				$client = IP::canonicalize( $ipchain[$i + 1] );
+				$client = IPUtils::canonicalize( $ipchain[$i + 1] );
 				$isSquidOnly = ( $isSquidOnly && $curIsSquid );
 				continue;
 			}

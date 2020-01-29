@@ -1,5 +1,7 @@
 <?php
 
+use Wikimedia\IPUtils;
+
 /**
  * CheckUser API Query Module
  */
@@ -82,7 +84,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				break;
 
 			case 'edits':
-				if ( IP::isIPAddress( $target ) ) {
+				if ( IPUtils::isIPAddress( $target ) ) {
 					$cond = SpecialCheckUser::getIpConds( $db, $target, isset( $xff ) );
 					if ( !$cond ) {
 						$this->dieWithError( 'apierror-badip', 'invalidip' );
@@ -174,7 +176,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				break;
 
 			case 'ipusers':
-				if ( IP::isIPAddress( $target ) ) {
+				if ( IPUtils::isIPAddress( $target ) ) {
 					$cond = SpecialCheckUser::getIpConds( $db, $target, isset( $xff ) );
 					$this->addWhere( $cond );
 					$log_type = 'ipusers';

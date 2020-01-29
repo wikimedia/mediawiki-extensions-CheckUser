@@ -1,5 +1,7 @@
 <?php
 
+use Wikimedia\IPUtils;
+
 $IP = getenv( 'MW_INSTALL_PATH' );
 if ( $IP === false ) {
 	$IP = __DIR__ . '/../../..';
@@ -99,7 +101,7 @@ class ImportCheckUserLogs extends Maintenance {
 				// Local wiki lookups...
 				$user = User::newFromName( $data['user'] );
 
-				list( $start, $end ) = IP::parseRange( $data['target'] );
+				list( $start, $end ) = IPUtils::parseRange( $data['target'] );
 				if ( $start === false ) {
 					$targetUser = User::newFromName( $data['target'] );
 					$targetID = $targetUser ? $targetUser->getId() : 0;
