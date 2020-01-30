@@ -20,6 +20,7 @@ class CheckUserHooks {
 				'class' => SpecialInvestigate::class,
 				'services' => [
 					'CheckUserPreliminaryCheckService',
+					'CheckUserCompareService',
 					'CheckUserTokenManager',
 				],
 			];
