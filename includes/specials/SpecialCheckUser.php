@@ -578,7 +578,7 @@ class SpecialCheckUser extends SpecialPage {
 	/**
 	 * @param IResultWrapper $result
 	 * @param int $limit
-	 * @return array[]
+	 * @return array
 	 */
 	protected function getIPSets( IResultWrapper $result, $limit = 5000 ) : array {
 		$ipSets = [
@@ -1341,7 +1341,6 @@ class SpecialCheckUser extends SpecialPage {
 	/**
 	 * @param IResultWrapper $result
 	 * @return array[]
-	 * @suppress PhanTypePossiblyInvalidDimOffset All index are set
 	 */
 	protected function getUserSets( IResultWrapper $result ) : array {
 		$userSets = [
