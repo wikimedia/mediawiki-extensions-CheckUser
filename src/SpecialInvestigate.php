@@ -11,37 +11,12 @@ class SpecialInvestigate extends \FormSpecialPage {
 	/** @var PreliminaryCheckPager */
 	private $pager;
 
-	/** @var HTMLForm */
-	private $form;
-
 	/**
 	 * @param PreliminaryCheckService $preliminaryCheckService
 	 */
 	public function __construct( PreliminaryCheckService $preliminaryCheckService ) {
 		parent::__construct( 'Investigate', 'checkuser' );
 		$this->preliminaryCheckService = $preliminaryCheckService;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function execute( $par ) {
-		// Override parent in order to display form after submit
-		$this->setParameter( $par );
-		$this->setHeaders();
-
-		// This will throw exceptions if there's a problem
-		$this->checkExecutePermissions( $this->getUser() );
-
-		$securityLevel = $this->getLoginSecurityLevel();
-		if ( $securityLevel !== false && !$this->checkLoginSecurityLevel( $securityLevel ) ) {
-			return;
-		}
-
-		$this->form = $this->getForm();
-		if ( $this->form->show() ) {
-			$this->onSuccess();
-		}
 	}
 
 	/**
@@ -105,7 +80,6 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @inheritDoc
 	 */
 	public function onSubmit( array $data ) {
-		$this->form->displayForm( false );
 		$out = $this->getOutput();
 
 		$this->pager = new PreliminaryCheckPager(
