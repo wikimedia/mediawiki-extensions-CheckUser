@@ -72,6 +72,5 @@
 	"checkuser-email-action": "\"$1\" എന്ന ഉപയോക്താവിന് ഇമെയിൽ അയച്ചുകഴിഞ്ഞു",
 	"checkuser-reset-action": "\"$1\" എന്ന ഉപയോക്താവിന്റെ രഹസ്യവാക്ക് പുനഃക്രമീകരിക്കുക",
 	"checkuser-investigate-targets-label": "ഉപയോക്തൃനാമങ്ങളും ഐ.പി വിലാസങ്ങളും",
-	"checkuser-investigate-ipsearch-label": "ഉപയോക്താവിന്റെ ഐ.പി ഉപയോഗിക്കുന്ന എല്ലാ ഉപയോക്താക്കളെയും ഉൾപ്പെടുത്തുക",
 	"checkuser-investigate-reason-label": "കാരണം"
 }

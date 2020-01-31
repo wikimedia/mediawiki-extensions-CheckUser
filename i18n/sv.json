@@ -100,6 +100,7 @@
 	"checkuser-login-success": "Loggades in på {{SITENAME}} som $1",
 	"checkuser-investigate-targets-label": "Användarnamn och IP-adresser",
 	"checkuser-investigate-reason-label": "Anledning",
+	"checkuser-investigate-preliminary-table-empty": "Det finns inga resultat.",
 	"checkuser-investigate-preliminary-table-cell-blocked": "Blockerad",
 	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|redigering|redigeringar}}",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "Inte blockerad",

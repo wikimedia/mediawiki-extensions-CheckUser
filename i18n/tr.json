@@ -101,8 +101,6 @@
 	"checkuser-investigate-legend": "Kullanıcı adlarını, IP adreslerini veya IP aralıklarını arayın",
 	"checkuser-investigate-targets-label": "Kullanıcı adları ve IP adresleri",
 	"checkuser-investigate-targets-placeholder": "KullanıcıAdı veya 1.1.1.1",
-	"checkuser-investigate-ipsearch-help": "Bu seçeneğin işaretlenmesi, son 90 gün içinde, aynı IP adreslerinde verilen kullanıcılarla aynı işlemleri yapan veya düzenleyen diğer tüm kullanıcı hesaplarını da getirir.",
-	"checkuser-investigate-ipsearch-label": "Verilen kullanıcılarla aynı IP’leri kullanan tüm kullanıcıları dahil et",
 	"checkuser-investigate-reason-label": "Sebep",
 	"checkuser-investigate-preliminary-table-empty": "Sonuç yok.",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "Engellenmemiş",

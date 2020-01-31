@@ -103,8 +103,6 @@
 	"checkuser-investigate-legend": "Pesquisar nomes de utilizador, endereços IP ou gamas IP",
 	"checkuser-investigate-targets-label": "Nomes de utilizador e endereços IP",
 	"checkuser-investigate-targets-placeholder": "Nome de utilizador ou 1.1.1.1",
-	"checkuser-investigate-ipsearch-help": "Marcar esta opção também apanhará todas as outras contas de utilizador que editaram ou efetuaram operações desde os mesmos endereços IP que os utilizadores fornecidos, nos últimos 90 dias.",
-	"checkuser-investigate-ipsearch-label": "Incluir todos os utilizadores que estão a usar os mesmos endereços IP que os utilizadores fornecidos",
 	"checkuser-investigate-reason-label": "Motivo",
 	"checkuser-investigate-preliminary-table-cell-blocked": "Bloqueado",
 	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|edição|edições}}",

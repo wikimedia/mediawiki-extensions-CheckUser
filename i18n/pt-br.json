@@ -110,8 +110,6 @@
 	"checkuser-investigate-legend": "Pesquise nomes de usuário, endereços IP ou intervalos de IP",
 	"checkuser-investigate-targets-label": "Nomes de usuário e endereços IP",
 	"checkuser-investigate-targets-placeholder": "Mome de usuário ou 1.1.1.1",
-	"checkuser-investigate-ipsearch-help": "A seleção dessa opção também exibirá todas as outras contas de usuário que editaram ou confirmaram ações dos mesmos endereços IP que os usuários fornecidos nos últimos 90 dias.",
-	"checkuser-investigate-ipsearch-label": "Incluir todos os usuários que estão usando os mesmos IPs que os usuários fornecidos",
 	"checkuser-investigate-reason-label": "Razão",
 	"checkuser-investigate-preliminary-table-empty": "Não há resultados.",
 	"checkuser-investigate-preliminary-table-cell-blocked": "Bloqueado",

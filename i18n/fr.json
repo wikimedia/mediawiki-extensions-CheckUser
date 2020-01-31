@@ -109,8 +109,6 @@
 	"checkuser-investigate-legend": "Rechercher des noms d’utilisateur, des adresses IP ou des plages d’adresse IP",
 	"checkuser-investigate-targets-label": "Noms d’utilisateurs et adresses IP",
 	"checkuser-investigate-targets-placeholder": "Nom d’utilisateur ou 1.1.1.1",
-	"checkuser-investigate-ipsearch-help": "Cocher cette option rétablira aussi tous les autres comptes utilisateur qui ont modifié ou validé des actions depuis les mêmes adresses IP que les utilisateurs fournis, pendant les derniers 90 jours.",
-	"checkuser-investigate-ipsearch-label": "Inclure tous les utilisateurs qui utilisent les mêmes adresses IP que les utilisateurs donnés",
 	"checkuser-investigate-reason-label": "Motif",
 	"checkuser-investigate-preliminary-table-empty": "Il n’y a aucun résultat.",
 	"checkuser-investigate-preliminary-table-cell-blocked": "Bloqué",
