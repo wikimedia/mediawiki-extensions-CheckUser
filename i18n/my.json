@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Ninjastrikers"
+			"Ninjastrikers",
+			"Dr Lotus Black"
 		]
 	},
 	"checkuser": "စုံစမ်းစစ်ဆေးသူ",
@@ -29,5 +30,7 @@
 	"checkuser-check": "စုံစမ်းစစ်ဆေးရန်",
 	"checkuser-check-this-user": "ဤအသုံးပြုသူအား စုံစမ်းစစ်ဆေးရန်",
 	"checkuser-recent-checks": "ဤအသုံးပြုသူအတွက် မကြာသေးမီက စုံစမ်းစစ်ဆေးမှုများ",
-	"checkuser-search-submit": "ရှာဖွေရန်"
+	"checkuser-search-submit": "ရှာဖွေရန်",
+	"checkuser-investigate-preliminary-table-empty": "ရလဒ်များ မရှိပါ။",
+	"checkuser-investigate-preliminary-table-header-blocked": "အခြေအနေ"
 }

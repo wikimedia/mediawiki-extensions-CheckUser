@@ -103,6 +103,13 @@
 	"checkuser-investigate-targets-placeholder": "KullanıcıAdı veya 1.1.1.1",
 	"checkuser-investigate-reason-label": "Sebep",
 	"checkuser-investigate-preliminary-table-empty": "Sonuç yok.",
+	"checkuser-investigate-preliminary-table-cell-blocked": "Engellendi",
+	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|düzenleme|düzenleme}}",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "Engellenmemiş",
-	"checkuser-investigate-preliminary-table-header-groups": "Gruplar"
+	"checkuser-investigate-preliminary-table-header-blocked": "Durum",
+	"checkuser-investigate-preliminary-table-header-editcount": "Düzenlemeler",
+	"checkuser-investigate-preliminary-table-header-groups": "Gruplar",
+	"checkuser-investigate-preliminary-table-header-name": "Kullanıcı adı",
+	"checkuser-investigate-preliminary-table-header-registration": "Eklenme tarihi",
+	"checkuser-investigate-preliminary-table-header-wiki": "Viki"
 }

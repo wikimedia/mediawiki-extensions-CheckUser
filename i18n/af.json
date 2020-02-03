@@ -4,7 +4,8 @@
 			"Arnobarnard",
 			"Naudefj",
 			"SPQRobin",
-			"පසිඳු කාවින්ද"
+			"පසිඳු කාවින්ද",
+			"Joris Darlington Quarshie"
 		]
 	},
 	"checkuser-desc": "Subsidies gebruikers met die toepaslike toestemming om die vermoë om gebruikers se IP-adresse om seker te maak en ander inligting",
@@ -68,5 +69,7 @@
 	"checkuser-autocreate-action": "is outomaties geskep",
 	"checkuser-create-action": "is geskep",
 	"checkuser-email-action": "het 'n e-pos aan gebruiker \"$1\" gestuur",
-	"checkuser-reset-action": "herstel gebruiker \"$1\" se wagwoord"
+	"checkuser-reset-action": "herstel gebruiker \"$1\" se wagwoord",
+	"checkuser-investigate-targets-placeholder": "Gebruikersnaam of 1.1.1.1",
+	"checkuser-investigate-preliminary-table-empty": "Daar is geen resultate nie."
 }
