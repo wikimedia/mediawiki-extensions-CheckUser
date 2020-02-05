@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser;
 
 use ExtensionRegistry;
 use HTMLForm;
+use NamespaceInfo;
 use OOUI\Element;
 use OOUI\HtmlSnippet;
 use OOUI\IndexLayout;
@@ -21,6 +22,9 @@ class SpecialInvestigate extends \FormSpecialPage {
 	/** @var TokenManager */
 	private $tokenManager;
 
+	/** @var NamespaceInfo */
+	private $namespaceInfo;
+
 	/** @var IndexLayout|null */
 	private $layout;
 
@@ -31,16 +35,19 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @param PreliminaryCheckService $preliminaryCheckService
 	 * @param CompareService $compareService
 	 * @param TokenManager $tokenManager
+	 * @param NamespaceInfo $namespaceInfo
 	 */
 	public function __construct(
 		PreliminaryCheckService $preliminaryCheckService,
 		CompareService $compareService,
-		TokenManager $tokenManager
+		TokenManager $tokenManager,
+		NamespaceInfo $namespaceInfo
 	) {
 		parent::__construct( 'Investigate', 'checkuser' );
 		$this->preliminaryCheckService = $preliminaryCheckService;
 		$this->compareService = $compareService;
 		$this->tokenManager = $tokenManager;
+		$this->namespaceInfo = $namespaceInfo;
 	}
 
 	/**
@@ -80,7 +87,6 @@ class SpecialInvestigate extends \FormSpecialPage {
 		}
 
 		$this->addTabs( $par )->addTabContent( $par );
-
 		$this->getOutput()->addHTML( $this->getLayout() );
 	}
 
@@ -196,6 +202,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 				$pager = new PreliminaryCheckPager(
 					$this->getContext(),
 					$this->getLinkRenderer(),
+					$this->namespaceInfo,
 					$this->tokenManager,
 					ExtensionRegistry::getInstance(),
 					$this->preliminaryCheckService

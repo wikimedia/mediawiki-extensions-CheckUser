@@ -22,15 +22,21 @@
 namespace MediaWiki\CheckUser;
 
 use ExtensionRegistry;
+use Html;
 use IContextSource;
 use MediaWiki\Linker\LinkRenderer;
+use NamespaceInfo;
 use TablePager;
+use WikiMap;
 use Wikimedia\Rdbms\FakeResultWrapper;
 
 /**
  * @ingroup Pager
  */
 class PreliminaryCheckPager extends TablePager {
+	/** @var NamespaceInfo */
+	private $namespaceInfo;
+
 	/** @var TokenManager */
 	private $tokenManager;
 
@@ -49,6 +55,7 @@ class PreliminaryCheckPager extends TablePager {
 	/**
 	 * @param IContextSource $context
 	 * @param LinkRenderer $linkRenderer
+	 * @param NamespaceInfo $namespaceInfo
 	 * @param TokenManager $tokenManager
 	 * @param ExtensionRegistry $extensionRegistry
 	 * @param PreliminaryCheckService $preliminaryCheckService
@@ -56,6 +63,7 @@ class PreliminaryCheckPager extends TablePager {
 	public function __construct(
 		IContextSource $context,
 		LinkRenderer $linkRenderer,
+		NamespaceInfo $namespaceInfo,
 		TokenManager $tokenManager,
 		ExtensionRegistry $extensionRegistry,
 		PreliminaryCheckService $preliminaryCheckService
@@ -68,6 +76,7 @@ class PreliminaryCheckPager extends TablePager {
 
 		parent::__construct( $context, $linkRenderer );
 
+		$this->namespaceInfo = $namespaceInfo;
 		$this->tokenManager = $tokenManager;
 		$this->preliminaryCheckService = $preliminaryCheckService;
 		$this->requestData = $tokenManager->getDataFromContext( $context );
@@ -118,8 +127,8 @@ class PreliminaryCheckPager extends TablePager {
 	 */
 	public function formatValue( $name, $value ) {
 		$language = $this->getLanguage();
+		$row = $this->mCurrentRow;
 
-		// TODO: Format according to task
 		$formatted = '';
 		switch ( $name ) {
 			case 'name':
@@ -131,13 +140,31 @@ class PreliminaryCheckPager extends TablePager {
 				);
 			break;
 			case 'wiki':
-				$formatted = htmlspecialchars( $value );
+				$wiki = WikiMap::getWiki( $row->wiki );
+				$formatted = Html::element(
+					'a',
+					[
+						'href' => $wiki->getFullUrl(
+							$this->namespaceInfo->getCanonicalName( NS_USER ) . ':' . $row->name
+						),
+					],
+					$wiki->getDisplayName()
+				);
 			break;
 			case 'editcount':
-				$formatted = $this->msg(
-					'checkuser-investigate-preliminary-table-cell-edits',
-					$value
-				)->parse();
+				$wiki = WikiMap::getWiki( $row->wiki );
+				$formatted = Html::rawElement(
+					'a',
+					[
+						'href' => $wiki->getFullUrl(
+							$this->namespaceInfo->getCanonicalName( NS_SPECIAL ) . ':Contributions/' . $row->name
+						),
+					],
+					$this->msg(
+						'checkuser-investigate-preliminary-table-cell-edits',
+						$value
+					)->parse()
+				);
 			break;
 			case 'blocked':
 				if ( $value ) {

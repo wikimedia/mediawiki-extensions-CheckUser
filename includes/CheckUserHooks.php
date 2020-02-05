@@ -22,6 +22,7 @@ class CheckUserHooks {
 					'CheckUserPreliminaryCheckService',
 					'CheckUserCompareService',
 					'CheckUserTokenManager',
+					'NamespaceInfo',
 				],
 			];
 		}
