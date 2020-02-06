@@ -3,6 +3,11 @@
 namespace MediaWiki\CheckUser;
 
 use HTMLForm;
+use OOUI\Element;
+use OOUI\HtmlSnippet;
+use OOUI\IndexLayout;
+use OOUI\TabOptionWidget;
+use OOUI\Tag;
 
 class SpecialInvestigate extends \FormSpecialPage {
 
@@ -11,6 +16,9 @@ class SpecialInvestigate extends \FormSpecialPage {
 
 	/** @var TokenManager */
 	private $tokenManager;
+
+	/** @var IndexLayout|null */
+	private $layout;
 
 	/** @var array|null */
 	private $requestData;
@@ -44,7 +52,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @inheritDoc
 	 */
 	public function execute( $par ) {
-		// If the request was POST or the request has no targets, show the form.
+		// If the request was POST or the request has no data, show the form.
 		if ( $this->getRequest()->wasPosted() || $this->getRequestData() === [] ) {
 			return parent::execute( $par );
 		}
@@ -62,20 +70,167 @@ class SpecialInvestigate extends \FormSpecialPage {
 			return;
 		}
 
-		$out = $this->getOutput();
+		$this->addTabs( $par )->addTabContent( $par );
 
-		$pager = new PreliminaryCheckPager(
-			$this->getContext(),
-			$this->getLinkRenderer(),
-			$this->tokenManager,
-			$this->preliminaryCheckService
-		);
+		$this->getOutput()->addHTML( $this->getLayout() );
+	}
 
-		if ( $pager->getNumRows() ) {
-			$out->addParserOutputContent( $pager->getFullOutput() );
-		} else {
-			$out->addWikiMsg( 'checkuser-investigate-preliminary-table-empty' );
+	/**
+	 * Returns the OOUI Index Layout and adds the module dependencies for OOUI.
+	 *
+	 * @return IndexLayout
+	 */
+	private function getLayout() : IndexLayout {
+		if ( $this->layout === null ) {
+			$this->getOutput()->enableOOUI();
+			$this->getOutput()->addModuleStyles( [
+				'oojs-ui-widgets.styles',
+			] );
+
+			$this->layout = new IndexLayout( [
+				'framed' => false,
+				'expanded' => false,
+			] );
 		}
+
+		return $this->layout;
+	}
+
+	/**
+	 * Add tabs to the layout. Provide the current tab so that tab can be highlighted.
+	 *
+	 * @param string $par
+	 * @return self
+	 */
+	private function addTabs( string $par ) : self {
+		$config = [];
+		[
+			'tabSelectWidget' => $tabSelectWidget,
+		] = $this->getLayout()->getConfig( $config );
+
+		// Create token without pagination data (if necessary).
+		$requestData = $this->getRequestData();
+		$token = $this->getRequest()->getVal( 'token' );
+		if ( isset( $requestData['offset'] ) ) {
+			unset( $requestData['offset'] );
+			$token = $this->tokenManager->encode(
+				$this->getUser(),
+				$requestData
+			);
+		}
+
+		$tabs = array_map( function ( $tab ) use ( $par, $token ) {
+			$label = $this->getTabName( $tab );
+			return new TabOptionWidget( [
+				'label' => $label,
+				'labelElement' => ( new Tag( 'a' ) )->setAttributes( [
+					'href' => $this->getPageTitle( $label )->getLocalURL( [
+						'token' => $token,
+					] ),
+				] ),
+				'selected' => ( $par === $this->getTabParam( $tab ) ),
+			] );
+		}, [
+			'preliminary-check',
+			'compare',
+			'timeline',
+		] );
+
+		$tabSelectWidget->addItems( $tabs );
+
+		return $this;
+	}
+
+	/**
+	 * Add HTML to Layout.
+	 *
+	 * @param string $html
+	 * @return self
+	 */
+	private function addHtml( string $html ) : self {
+		$config = [];
+		[
+			'contentPanel' => $contentPanel
+		] = $this->getLayout()->getConfig( $config );
+
+		$contentPanel->addItems( [
+			new Element( [
+				'content' => new HtmlSnippet( $html ),
+			] ),
+		] );
+
+		return $this;
+	}
+
+	/**
+	 * Add Pager Output to Layout.
+	 *
+	 * @param \ParserOutput $parserOutput
+	 * @return self
+	 */
+	private function addParserOutput( \ParserOutput $parserOutput ) : self {
+		$this->getOutput()->addParserOutputMetadata( $parserOutput );
+		$this->addHTML( $parserOutput->getText() );
+
+		return $this;
+	}
+
+	/**
+	 * Add Tab content to Layout
+	 *
+	 * @param string $par
+	 * @return self
+	 */
+	private function addTabContent( string $par ) : self {
+		switch ( $par ) {
+			case $this->getTabParam( 'preliminary-check' ):
+				$pager = new PreliminaryCheckPager(
+					$this->getContext(),
+					$this->getLinkRenderer(),
+					$this->tokenManager,
+					$this->preliminaryCheckService
+				);
+
+				if ( $pager->getNumRows() ) {
+					$this->addParserOutput( $pager->getFullOutput() );
+				} else {
+					$this->addHTML(
+						$this->msg( 'checkuser-investigate-preliminary-table-empty' )->parse()
+					);
+				}
+
+				return $this;
+			case $this->getTabParam( 'compare' ):
+				// @TODO Add Content.
+				return $this;
+			case $this->getTabParam( 'timeline' ):
+				// @TODO Add Content.
+				return $this;
+			default:
+				return $this;
+		}
+	}
+
+	/**
+	 * Given a tab name, return the subpage $par.
+	 *
+	 * @param string $tab
+	 *
+	 * @return string
+	 */
+	private function getTabParam( string $tab ) : string {
+		return str_replace( ' ', '_', $this->getTabName( $tab ) );
+	}
+
+	/**
+	 * Given a tab name, return the supage tab name.
+	 *
+	 * @param string $tab
+	 *
+	 * @return string
+	 */
+	private function getTabName( string $tab ) : string {
+		return $this->msg( 'checkuser-investigate-tab-' . $tab )->parse();
 	}
 
 	/**
@@ -162,11 +317,10 @@ class SpecialInvestigate extends \FormSpecialPage {
 			]
 		);
 
-		// Redirect back to self.
-		$url = wfAppendQuery(
-			$this->getRequest()->getRequestURL(),
-			wfArrayToCgi( [ 'token' => $token ] )
-		);
+		// Redirect to preliminary check.
+		$url = $this->getPageTitle( $this->getTabName( 'preliminary-check' ) )->getFullUrlForRedirect( [
+			'token' => $token,
+		] );
 		$this->getOutput()->redirect( $url );
 
 		return \Status::newGood();
