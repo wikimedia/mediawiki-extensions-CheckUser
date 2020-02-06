@@ -61,7 +61,6 @@
 	"checkuser-block-noreason": "You must give a reason for the blocks.",
 	"checkuser-centralauth-multilock": "Multi lock selected accounts",
 	"checkuser-noreason": "You must give a reason for this query.",
-	"checkuser-accounts": "$1 new {{PLURAL:$1|account|accounts}}",
 	"checkuser-too-many": "Too many results (according to query estimate), please narrow down the CIDR.\nHere are the IP addresses used (5000 max, sorted by address):",
 	"checkuser-user-nonexistent": "The specified user does not exist.",
 	"checkuser-search": "Search check user log entries",

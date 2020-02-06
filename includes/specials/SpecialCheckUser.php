@@ -1393,7 +1393,6 @@ class SpecialCheckUser extends SpecialPage {
 	protected function doIPUsersRequestOutput(
 		IResultWrapper $result, $ip, $xfor, $tag = '', $talkTag = ''
 	) {
-		global $wgMemc;
 		$out = $this->getOutput();
 
 		if ( !$result->numRows() ) {
@@ -1565,17 +1564,6 @@ class SpecialCheckUser extends SpecialPage {
 			$s .= ' [<strong>' . htmlspecialchars( $count ) . '</strong>]<br />';
 			// Check if this user or IP is blocked. If so, give a link to the block log...
 			$flags = $this->userBlockFlags( $ip, $users_ids[$name], $user );
-			// Check how many accounts the user made recently
-			if ( $ip ) {
-				$key = $wgMemc->makeKey( 'acctcreate', 'ip', $ip );
-				$count = intval( $wgMemc->get( $key ) );
-				if ( $count ) {
-					// @todo FIXME: i18n issue: Hard coded brackets.
-					$flags[] = '<strong>[' .
-						$this->msg( 'checkuser-accounts' )->numParams( $count )->escaped() .
-						']</strong>';
-				}
-			}
 			$s .= implode( ' ', $flags );
 			$s .= '<ol>';
 			// List out each IP/XFF combo for this username

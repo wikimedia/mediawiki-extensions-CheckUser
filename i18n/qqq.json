@@ -84,7 +84,6 @@
 	"checkuser-block-noreason": "Used as failure message in [[Special:CheckUser]].\n\nSee also:\n* {{msg-mw|Checkuser-block-success}}\n* {{msg-mw|Checkuser-block-failure}}\n* {{msg-mw|Checkuser-block-limit}}",
 	"checkuser-centralauth-multilock": "Label of link to Special:MultiLock shown on Special:CheckUser's block form.\n\nCf. {{msg-mw|multilock}}.",
 	"checkuser-noreason": "Used as error message in [[Special:CheckUser]].",
-	"checkuser-accounts": "Used in Special:CheckUser. Parameters:\n* $1 - number of accounts",
 	"checkuser-too-many": "Used in [[Special:CheckUser]].\n\nThis message is followed by a list of IPs that have edits.\n\nIf the number of IPs is 5000 or more, the following message is shown:\n* {{msg-mw|checkuser-limited}}",
 	"checkuser-user-nonexistent": "Used as error message in [[Special:CheckUserLog]].",
 	"checkuser-search": "Heading of fieldset on log of CheckUser searches. See screenshot \"[[mw:Extension:CheckUser#Basic_interface|Example log]]",
