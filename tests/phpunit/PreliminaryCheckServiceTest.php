@@ -47,12 +47,10 @@ class PreliminaryCheckServiceTest extends MediaWikiTestCase {
 	}
 
 	/**
-	 * @covers ::getPreliminaryData
-	 * @dataProvider preliminaryDataProvider()
+	 * @covers ::preprocessResults
+	 * @dataProvider preprocessResultsProvider()
 	 */
-	public function testGetPreliminaryData( $user, $options, $expected ) {
-		$attachedWikis = $options['attachedWikis'] ?? [ 'testwiki' ];
-
+	public function testPreprocessResults( $user, $options, $expected ) {
 		$dbRef = $this->getMockDb();
 		$dbRef->method( 'selectRow' )
 			->willReturn(
@@ -62,19 +60,6 @@ class PreliminaryCheckServiceTest extends MediaWikiTestCase {
 					'user_registration' => $user['registration'],
 					'user_editcount' => $user['editcount'],
 				]
-			);
-		$dbRef->method( 'select' )
-			->willReturn(
-				new FakeResultWrapper( array_map(
-					function ( $wiki ) use ( $user ) {
-						return (object)[
-							'lu_name' => $user['name'],
-							'lu_wiki' => $wiki,
-							'lu_name_wiki' => $user['name'] . '>' . $wiki,
-						];
-					},
-					$attachedWikis
-				) )
 			);
 
 		$lb = $this->getMockLoadBalancer();
@@ -101,22 +86,33 @@ class PreliminaryCheckServiceTest extends MediaWikiTestCase {
 		$service->method( 'getCentralAuthDB' )
 			->willReturn( $dbRef );
 
-		$users = [ User::newFromName( $user['name'] ) ];
-		$pageInfo = [
-			'includeOffset' => true,
-			'offsets' => [
-				'name' => 'Test User',
-				'wiki' => $attachedWikis[0],
-			],
-			'limit' => 100,
-			'order' => true,
-		];
-		$data = $service->getPreliminaryData( $users, $pageInfo );
+		if ( $options['isCentralAuthAvailable'] ) {
+			$rows = new FakeResultWrapper( array_map(
+				function ( $wiki ) use ( $user ) {
+					return (object)[
+						'lu_name' => $user['name'],
+						'lu_wiki' => $wiki,
+					];
+				},
+				$options['attachedWikis']
+			) );
+		} else {
+			$rows = new FakeResultWrapper( [
+				[
+					'user_id' => $user['id'],
+					'user_name' => $user['name'],
+					'user_registration' => $user['registration'],
+					'user_editcount' => $user['editcount'],
+					'wiki' => $options['localWikiId'],
+				]
+			] );
+		}
 
+		$data = $service->preprocessResults( $rows );
 		$this->assertEquals( $expected, $data );
 	}
 
-	public function preliminaryDataProvider() {
+	public function preprocessResultsProvider() {
 		$userData = [
 			'id' => 1,
 			'name' => 'Test User',
@@ -135,9 +131,9 @@ class PreliminaryCheckServiceTest extends MediaWikiTestCase {
 					'localWikiId' => 'testwiki',
 				],
 				[
-					$userData + [ 'wiki' => 'enwiki', 'lu_name_wiki' => 'Test User>enwiki' ],
-					$userData + [ 'wiki' => 'frwiki', 'lu_name_wiki' => 'Test User>frwiki' ],
-					$userData + [ 'wiki' => 'testwiki', 'lu_name_wiki' => 'Test User>testwiki' ],
+					$userData + [ 'wiki' => 'enwiki' ],
+					$userData + [ 'wiki' => 'frwiki' ],
+					$userData + [ 'wiki' => 'testwiki' ],
 				],
 			],
 			'User with only 1 wiki' => [
@@ -148,7 +144,7 @@ class PreliminaryCheckServiceTest extends MediaWikiTestCase {
 					'localWikiId' => 'testwiki',
 				],
 				[
-					$userData + [ 'wiki' => 'testwiki', 'lu_name_wiki' => 'Test User>testwiki' ],
+					$userData + [ 'wiki' => 'testwiki' ],
 				],
 			],
 			'CentralAuth not available' => [
