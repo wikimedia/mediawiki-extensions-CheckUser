@@ -31,6 +31,18 @@ class SpecialInvestigate extends \FormSpecialPage {
 	/**
 	 * @inheritDoc
 	 */
+	protected function preText() {
+		// Add necessary styles
+		$this->getOutput()->addModuleStyles( [
+			'mediawiki.widgets.TagMultiselectWidget.styles',
+		] );
+
+		return '';
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function execute( $par ) {
 		// If the request was POST or the request has no targets, show the form.
 		if ( $this->getRequest()->wasPosted() || $this->getRequestData() === [] ) {
