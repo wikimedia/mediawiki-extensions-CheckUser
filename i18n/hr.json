@@ -74,6 +74,8 @@
 	"checkuser-create-action": "je napravljen",
 	"checkuser-email-action": "poslan email za \"$1\"",
 	"checkuser-reset-action": "ponovno postavi zaporku za suradnika \"$1\"",
+	"checkuser-investigate-targets-placeholder": "Suradničko ime ili 1.1.1.1",
+	"checkuser-investigate-preliminary-table-empty": "Nema rezultata.",
 	"checkuser-investigate-preliminary-table-header-blocked": "Stanje",
 	"checkuser-investigate-preliminary-table-header-groups": "Skupine"
 }
