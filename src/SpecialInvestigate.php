@@ -120,7 +120,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 		if ( isset( $requestData['offset'] ) ) {
 			unset( $requestData['offset'] );
 			$token = $this->tokenManager->encode(
-				$this->getUser(),
+				$this->getRequest()->getSession(),
 				$requestData
 			);
 		}
@@ -312,7 +312,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 */
 	private function getRequestData() : array {
 		if ( $this->requestData === null ) {
-			$this->requestData = $this->tokenManager->getDataFromContext( $this->getContext() );
+			$this->requestData = $this->tokenManager->getDataFromRequest( $this->getRequest() );
 		}
 
 		return $this->requestData;
@@ -324,7 +324,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	public function onSubmit( array $data ) {
 		// Store the targets in a signed token.
 		$token = $this->tokenManager->encode(
-			$this->getUser(),
+			$this->getRequest()->getSession(),
 			[
 				'targets' => explode( "\n", $data['Targets'] ?? '' ),
 			]

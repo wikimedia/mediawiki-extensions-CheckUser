@@ -79,7 +79,7 @@ class PreliminaryCheckPager extends TablePager {
 		$this->namespaceInfo = $namespaceInfo;
 		$this->tokenManager = $tokenManager;
 		$this->preliminaryCheckService = $preliminaryCheckService;
-		$this->requestData = $tokenManager->getDataFromContext( $context );
+		$this->requestData = $tokenManager->getDataFromRequest( $context->getRequest() );
 		$this->mOffset = $this->requestData['offset'] ?? '';
 	}
 
@@ -89,7 +89,7 @@ class PreliminaryCheckPager extends TablePager {
 	 * Conceal the offset which may reveal private data.
 	 */
 	public function getPagingQueries() {
-		$user = $this->getContext()->getUser();
+		$session = $this->getContext()->getRequest()->getSession();
 		$queries = parent::getPagingQueries();
 		foreach ( $queries as $key => &$query ) {
 			if ( $query === false ) {
@@ -98,7 +98,7 @@ class PreliminaryCheckPager extends TablePager {
 
 			if ( isset( $query['offset'] ) ) {
 				// Move the offset into the token.
-				$query['token'] = $this->tokenManager->encode( $user, array_merge( $this->requestData, [
+				$query['token'] = $this->tokenManager->encode( $session, array_merge( $this->requestData, [
 					'offset' => $query['offset'],
 				] ) );
 				unset( $query['offset'] );
@@ -106,7 +106,7 @@ class PreliminaryCheckPager extends TablePager {
 				// Remove the offset.
 				$data = $this->requestData;
 				unset( $data['offset'] );
-				$query['token'] = $this->tokenManager->encode( $user, $data );
+				$query['token'] = $this->tokenManager->encode( $session, $data );
 			}
 		}
 
