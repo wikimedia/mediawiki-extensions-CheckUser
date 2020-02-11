@@ -128,5 +128,6 @@
 	"checkuser-investigate-preliminary-table-header-editcount": "Ediciones",
 	"checkuser-investigate-preliminary-table-header-groups": "Grupos",
 	"checkuser-investigate-preliminary-table-header-name": "Nombre de usuario",
+	"checkuser-investigate-preliminary-table-header-registration": "Fecha de unificación",
 	"checkuser-investigate-preliminary-table-header-wiki": "Wiki"
 }
