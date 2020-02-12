@@ -52,6 +52,8 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @inheritDoc
 	 */
 	public function execute( $par ) {
+		$this->getOutput()->addModuleStyles( 'ext.checkUser.investigate' );
+
 		// If the request was POST or the request has no data, show the form.
 		if ( $this->getRequest()->wasPosted() || $this->getRequestData() === [] ) {
 			return parent::execute( $par );

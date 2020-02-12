@@ -102,6 +102,11 @@
 			"messages": [
 				"checkuser-centralauth-multilock"
 			]
+		},
+		"ext.checkUser.investigate": {
+			"styles": [
+				"modules/ext.checkuser.investigate.less"
+			]
 		}
 	},
 	"ResourceFileModulePaths": {
