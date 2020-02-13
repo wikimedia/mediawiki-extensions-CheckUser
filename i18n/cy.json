@@ -55,7 +55,6 @@
 	"checkuser-block-limit": "Dewiswyd gormod o ddefnyddwyr.",
 	"checkuser-block-noreason": "Rhaid cynnig rheswm dros y blociau.",
 	"checkuser-noreason": "Rhaid cynnig rheswm dros yr ymholiad hwn.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|cyfrif|cyfrif|gyfrif|chyfrif|chyfrif|cyfrif}} newydd",
 	"checkuser-too-many": "Mae gormod o lawer o ganlyniadau (yn ôl amcangyfrif yr ymholiad), cyfyngwch y CIDR. Dyma'r IPau a ddefnyddiwyd (hyd at 5000 ohonynt, yn nhrefn y cyfeiriadau):",
 	"checkuser-user-nonexistent": "Nid yw'r defnyddiwr a enwyd ar gael.",
 	"checkuser-search": "Chwiliwch a gwirwch logiau'r defnyddiwr",

@@ -68,7 +68,6 @@
 	"checkuser-block-noreason": "يجب أن تعطي سببا لعمليات المنع.",
 	"checkuser-centralauth-multilock": "منع متعدد للحسابات المحددة",
 	"checkuser-noreason": "يجب أن تقدم سببًا لهذا الاستعلام.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|حساب|حساب}} جديد",
 	"checkuser-too-many": "نتائج كثيرة جدا (بناء على استعلام تقريبي)، من فضلك قلل CIDR.\nهذه هي الأيبيهات المستخدمة (5000 كحد أقصى، مرتبة بالعنوان):",
 	"checkuser-user-nonexistent": "المستخدم المحدد غير موجود.",
 	"checkuser-search": "بحث في إدخالات سجل تدقيق المستخدم",

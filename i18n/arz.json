@@ -50,7 +50,6 @@
 	"checkuser-block-failure": "'''مافيش يوزرز ممنوعين'''",
 	"checkuser-block-limit": "انت اخترت يوزرز كتار جدا.",
 	"checkuser-block-noreason": "لازم تدى سبب لعمليات المنع.",
-	"checkuser-accounts": "$1 جديد {{PLURAL:$1|حساب|حسابات}}",
 	"checkuser-too-many": "فى نتايج كتيرة جدا, لو سمحت تقلل الـ CIDR.\nدول الايبيهات المستعملة (5000 كحد اقصى, مترتبين بالعنوان):",
 	"checkuser-user-nonexistent": "اليوزر المتحدد مش موجود",
 	"checkuser-search": "تدوير",

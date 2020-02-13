@@ -71,7 +71,6 @@
 	"checkuser-block-limit": "Túl sok szerkesztőt választottál ki.",
 	"checkuser-block-noreason": "Meg kell adnod a blokkolások okát.",
 	"checkuser-noreason": "Meg kell adnod a lekérdezés okát.",
-	"checkuser-accounts": "{{PLURAL:$1|egy|$1}} új felhasználói fiók",
 	"checkuser-too-many": "Túl sok találat (a lekérdezési becslés szerint), kérlek, szűkítsd le a CIDR-t.\nItt vannak a használt IP-címek (maximum 5000, cím alapján rendezve):",
 	"checkuser-user-nonexistent": "A megadott szerkesztő nem létezik.",
 	"checkuser-search": "Keresés a naplófájlokban",

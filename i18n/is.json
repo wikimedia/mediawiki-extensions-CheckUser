@@ -30,7 +30,6 @@
 	"checkuser-nolog": "Engin skrá fundin.",
 	"checkuser-blocked": "Bannaður",
 	"checkuser-locked": "Læstur",
-	"checkuser-accounts": "$1 {{PLURAL:$1|nýr aðgangur|nýir aðgangar}}",
 	"checkuser-search": "Leita",
 	"checkuser-search-submit": "Leita",
 	"checkuser-search-target": "markmið",

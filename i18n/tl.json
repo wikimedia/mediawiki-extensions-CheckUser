@@ -56,7 +56,6 @@
 	"checkuser-block-limit": "Napakaraming napiling mga tagagamit.",
 	"checkuser-block-noreason": "Dapat kang magbigay ng isang dahilan para sa mga paghahadlang.",
 	"checkuser-noreason": "Dapat kang magbigay ng dahilan para sa tanong na ito.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|bagong account|mga bagong account}}",
 	"checkuser-too-many": "Napakaraming mga resulta (ayon sa taya ng pagtatanong), pakikiputan pababa ang CIDR.\nNarito ang ginamit na mga IP (5000 pinakamarami, inayos ayon sa adres):",
 	"checkuser-user-nonexistent": "Hindi umiiral ang tinukoy na tagagamit.",
 	"checkuser-search": "Maghanap",

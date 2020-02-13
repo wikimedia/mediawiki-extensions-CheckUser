@@ -53,7 +53,6 @@
 	"checkuser-block-limit": "மிக அதிகமான பயனர்கள் தேர்ந்தெடுக்கப்பட்டுள்ளது.",
 	"checkuser-block-noreason": "தடைக்கான காரணத்தை நீங்கள் கண்டிப்பாகத் தரவேண்டும்.",
 	"checkuser-noreason": "நீங்கள் இவ்வினவலுக்கு ஒரு காரணத்தைக் கட்டாயம் வழங்க வேண்டும்.",
-	"checkuser-accounts": "$1 புதிய {{PLURAL:$1|கணக்கு|கணக்குகள்}}",
 	"checkuser-user-nonexistent": "குறிப்பிடப்பட்ட பயனர் காணப்படவில்லை.",
 	"checkuser-search": "தேடுக",
 	"checkuser-search-submit": "தேடுக",

@@ -65,7 +65,6 @@
 	"checkuser-block-noreason": "Du må oppgi en blokkeringsgrunn.",
 	"checkuser-centralauth-multilock": "Lås flere valgte kontoer",
 	"checkuser-noreason": "Du må oppgi en grunn for denne spørringen.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|ny konto|nye kontoer}}",
 	"checkuser-too-many": "For mange resultater (ifølge overslag for spørringen), vennligst innskrenk CIDR.\nHer er de brukte IP-ene (maks 5000, sortert etter adresse):",
 	"checkuser-user-nonexistent": "Det gitte brukernavnet finnes ikke.",
 	"checkuser-search": "Søk i IP-kontroll-loggoppføringer",

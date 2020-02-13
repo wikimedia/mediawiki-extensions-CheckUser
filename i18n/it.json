@@ -75,7 +75,6 @@
 	"checkuser-block-noreason": "È obbligatorio fornire una motivazione per i blocchi.",
 	"checkuser-centralauth-multilock": "Blocco multiplo degli utenti selezionati",
 	"checkuser-noreason": "È necessario fornire una motivazione per questa query.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|nuova|nuove}} utenze",
 	"checkuser-too-many": "Troppi risultati (per stima della query), per favore usa un CIDR più ristretto.\nQui di seguito ci sono gli indirizzi IP utilizzati (fino a un massimo di 5000, ordinati per indirizzo):",
 	"checkuser-user-nonexistent": "L'utente indicato non esiste.",
 	"checkuser-search": "Cerca nel registro check user",

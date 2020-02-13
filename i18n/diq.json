@@ -60,7 +60,6 @@
 	"checkuser-block-limit": "Ti zaf karberan weçino.",
 	"checkuser-block-noreason": "Qe blokan, ti gani yew sebeb bide.",
 	"checkuser-noreason": "Qe bigêrayîşî, ti gani yew sebeb bide.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|hesab|hesaban}} newî",
 	"checkuser-too-many": "Zaf neticiyan esto (ser texminê cigeyrayîşî), şima ra rica keno CIDR qickek bike.\nTiya de IPyan ke sero kar biyo  (5000 max, pê adresan):",
 	"checkuser-user-nonexistent": "Karbero ke ti specife kerd, ay database ma de niesto.",
 	"checkuser-search": "Cı geyre",

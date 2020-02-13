@@ -65,7 +65,6 @@
 	"checkuser-block-limit": "Massa usuaris seleccionats.",
 	"checkuser-block-noreason": "Heu d'indicar un motiu pels blocatges.",
 	"checkuser-noreason": "Heu de donar un motiu per a executar aquesta consulta.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|nou compte|nous comptes}}",
 	"checkuser-too-many": "Hi ha massa resultats (d'acord amb l'estimació de la consulta), cal que useu un CIDR més petit.\nAquí teniu les IP usades (màx. 5000 ordenades per adreça):",
 	"checkuser-user-nonexistent": "L'usuari especificat no existeix.",
 	"checkuser-search": "Cerca les entrades de registre de comprovació d'usuari",

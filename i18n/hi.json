@@ -59,7 +59,6 @@
 	"checkuser-block-limit": "बहुत ज़्यादा सदस्य चुने हैं।",
 	"checkuser-block-noreason": "आपको अवरोध का कारण देना होगा।",
 	"checkuser-noreason": "आपको इस खोज का कारण देना होगा।",
-	"checkuser-accounts": "$1 {{PLURAL:$1|नया खाता|नये खाते}}",
 	"checkuser-too-many": "बहुत सारे परिणाम (खोज अंदाज़े अनुसार)। कृपया CIDR छोटा करें।\nनीचे प्रयुक्त आई॰पी पतों की सूची हैं (अधिकतम पाँच हज़ार, अनुक्रम में):",
 	"checkuser-user-nonexistent": "निर्दिष्ट सदस्य मौजूद नहीं है।",
 	"checkuser-search": "खोजें",

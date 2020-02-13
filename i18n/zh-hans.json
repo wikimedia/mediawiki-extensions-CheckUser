@@ -76,7 +76,6 @@
 	"checkuser-block-noreason": "您必须解释此次封禁的原因。",
 	"checkuser-centralauth-multilock": "多重锁定选定帐户",
 	"checkuser-noreason": "您必须解释此次查询的原因。",
-	"checkuser-accounts": "$1个新{{PLURAL:$1|账户}}",
 	"checkuser-too-many": "结果过多（根据查询估计），请缩小CIDR的范围。\n下面列出了使用过的IP地址（最多5000个，按地址排列）：",
 	"checkuser-user-nonexistent": "指定的用户不存在。",
 	"checkuser-search": "搜索用户查核日志记录",

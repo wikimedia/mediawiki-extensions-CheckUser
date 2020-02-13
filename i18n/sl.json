@@ -60,7 +60,6 @@
 	"checkuser-block-noreason": "Potrebno je navesti razlog blokiranj.",
 	"checkuser-centralauth-multilock": "Zakleni izbrane račune",
 	"checkuser-noreason": "Potrebno je navesti razlog za to poizvedbo.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|nov račun|nova računa|novi računi|novih računov}}",
 	"checkuser-too-many": "Preveč rezultatov (glede na oceno poizvedbe), prosimo zožite CIDR.\nTukaj so uporabljeni IP-naslovi (največ 5000, razvrščeni po naslovu):",
 	"checkuser-user-nonexistent": "Navedeni uporabnik ne obstaja.",
 	"checkuser-search": "Iskanje vnosov v dnevniku preverjanj uporabnikov",

@@ -56,7 +56,6 @@
 	"checkuser-block-limit": "Zoh fill Metmaacher sin ußjesoht.",
 	"checkuser-block-noreason": "Do moß ävver ene Jrond för et Schpärre aanjävve.",
 	"checkuser-noreason": "Do moß ene Jrond för heh di Övverpröhvong aanjävve.",
-	"checkuser-accounts": "{{PLURAL:$1|Eine|$1|Keine}} neue Metmaacher",
 	"checkuser-too-many": "Zoo fill jefonge, pä Övverschlaach. Beß esu jood un maach dä <i lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"Classless Inter-Domain Routing\">CIDR</i>-Berätt kleijner.\nHeh sin de eetßte 5000 <i lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"Internet Protocol\">IP</i>-Adräße, zottehrt:",
 	"checkuser-user-nonexistent": "Dä aanjejovve Metmaacher jidd_et jaa nit.",
 	"checkuser-search": "Söhk em Logbohch vum Metmaacher-Övverwaache",

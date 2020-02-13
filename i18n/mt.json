@@ -55,7 +55,6 @@
 	"checkuser-block-limit": "Ġew magħżulta ħafna utenti.",
 	"checkuser-block-noreason": "Trid tagħti raġuni għall-imblukkar.",
 	"checkuser-noreason": "Trid tagħti raġuni għal din it-tfittxija.",
-	"checkuser-accounts": "{{PLURAL:$1|kont ġdid|$1 kontijiet ġodda}}",
 	"checkuser-user-nonexistent": "L-utent speċifikat ma jeżistix.",
 	"checkuser-search": "Fittex",
 	"checkuser-search-submit": "Fittex",

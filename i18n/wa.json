@@ -53,7 +53,6 @@
 	"checkuser-block-limit": "Pår trop d' uzeus ont stî tchoezis.",
 	"checkuser-block-noreason": "Vos dvoz dner ene råjhon d' pocwè les blocaedjes.",
 	"checkuser-noreason": "Vos dvoz dner ene råjhon di pocwè ç' cweraedje ci.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|novea conte|noveas contes}}",
 	"checkuser-too-many": "Pår trop di rzultats (d' après l' estimaedje), dinez s' i vs plait on CIDR pus tene.\nVochal on boket des rzultats ({{formatnum:5000}} macsimom, relîts pa adresse):",
 	"checkuser-user-nonexistent": "L' uzeu dmandé n' egzistêye nén.",
 	"checkuser-search": "Cweri",

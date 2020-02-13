@@ -69,7 +69,6 @@
 	"checkuser-block-limit": "Der er valgt for mange brugere.",
 	"checkuser-block-noreason": "Du skal angive en blokeringsgrund.",
 	"checkuser-noreason": "Du skal angive en begrundelse for denne forespørgsel.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|ny konto|nye kontoer}}",
 	"checkuser-too-many": "For mange resultater, gør CIDR'en mindre. Her er de brugte IP'er (maks. 5000, sorteret efter adresse):",
 	"checkuser-user-nonexistent": "Den anførte bruger eksisterer ikke.",
 	"checkuser-search": "Søg i tjekbrugerloggen",

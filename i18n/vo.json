@@ -46,7 +46,6 @@
 	"checkuser-block-failure": "'''Gebans nonik peblokons.'''",
 	"checkuser-block-limit": "Gebans tumödik pevälons.",
 	"checkuser-block-noreason": "Mutol nunön kodi blokamas.",
-	"checkuser-accounts": "{{PLURAL:$1|kal|kals}} nulik $1",
 	"checkuser-too-many": "Sukaseks tu mödiks, nedol gebön eli CIDR smalikum.\nIs palisedons ladets-IP pegeböl (jü 5000, peleodüköls ma ladet):",
 	"checkuser-user-nonexistent": "Geban at no dabinon.",
 	"checkuser-search": "Sukolöd",

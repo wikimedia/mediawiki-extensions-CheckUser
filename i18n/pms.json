@@ -56,7 +56,6 @@
 	"checkuser-block-limit": "Tròpi utent selessionà.",
 	"checkuser-block-noreason": "It deve dé na rason për ij blocagi.",
 	"checkuser-noreason": "It deve dé na rason për costa arcesta.",
-	"checkuser-accounts": "$1 neuv {{PLURAL:$1|cont|cont}}",
 	"checkuser-too-many": "Tròpi arzultà (scond la stima dl'arcesta), për piasì strenz ël CIDR.\nSì a-i son j'IP dovrà (5000 al pi, ordinà për adrëssa):",
 	"checkuser-user-nonexistent": "L'utent specificà a esist pa.",
 	"checkuser-search": "Sërca",

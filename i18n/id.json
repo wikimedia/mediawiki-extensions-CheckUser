@@ -69,7 +69,6 @@
 	"checkuser-block-noreason": "Anda harus mengisi alasan pemblokiran.",
 	"checkuser-centralauth-multilock": "Kunci beberapa akun terpilih",
 	"checkuser-noreason": "Anda harus memberikan alasan untuk kueri ini.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|akun|akun-akun}} baru",
 	"checkuser-too-many": "Terlalu banyak hasil pencarian (menurut perkiraan permintaan), mohon persempit CIDR. Berikut adalah alamat-alamat IP yang digunakan (5000 maksimum, diurut berdasarkan alamat):",
 	"checkuser-user-nonexistent": "Pengguna yang dimaksud tidak ditemukan",
 	"checkuser-search": "Cari entri log pengguna",

@@ -73,7 +73,6 @@
 	"checkuser-block-noreason": "Du måste ange en anledning för blockeringarna.",
 	"checkuser-centralauth-multilock": "Lås flera markerade konton",
 	"checkuser-noreason": "Du måste uppge en anledning för den här frågan.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|nytt konto|nya konton}}",
 	"checkuser-too-many": "För många resultat (enligt uppskattning). Du bör söka i ett mindre CIDR-block. Här är de IP-adresser som använts (högst 5000, sorterade efter adress):",
 	"checkuser-user-nonexistent": "Användarnamnet som angavs finns inte.",
 	"checkuser-search": "Sök",

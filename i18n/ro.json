@@ -61,7 +61,6 @@
 	"checkuser-block-limit": "Prea mulți utilizatori selectați.",
 	"checkuser-block-noreason": "Trebuie să specificați un motiv pentru blocări.",
 	"checkuser-noreason": "Trebuie să specifici un motiv pentru această interogare.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|cont nou|conturi noi}}",
 	"checkuser-too-many": "Prea multe rezultate (conform estimării interogării), vă rugăm să limitați CIDR.\nIată IP-urile folosite (maxim 5000, sortate după adresă):",
 	"checkuser-user-nonexistent": "Utilizatorul specificat nu există.",
 	"checkuser-search": "Caută înregistrări din jurnalul check user",

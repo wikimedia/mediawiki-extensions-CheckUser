@@ -48,7 +48,6 @@
 	"checkuser-block-limit": "بەك كۆپ ئىشلەتكۈچى تاللاندى.",
 	"checkuser-block-noreason": "توسۇش سەۋەبىنى چۈشەندۈرۈڭ.",
 	"checkuser-noreason": "بۇ سۈرۈشتۈرۈشنىڭ سەۋەبىنى چۈشەندۈرۈڭ.",
-	"checkuser-accounts": "$1 يېڭى {{PLURAL:$1|ھېسابات}}",
 	"checkuser-user-nonexistent": "بەلگىلەنگەن ئىشلەتكۈچى مەۋجۇت ئەمەس.",
 	"checkuser-search": "ئىزدە",
 	"checkuser-search-submit": "ئىزدە",

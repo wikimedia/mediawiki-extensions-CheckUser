@@ -64,7 +64,6 @@
 	"checkuser-block-noreason": "Tienes que dar un motivu pa los bloqueos.",
 	"checkuser-centralauth-multilock": "Candar múltiples cuentes esbillaes",
 	"checkuser-noreason": "Tien de dar un motivu pa esta consulta.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|cuenta nueva|cuentes nueves}}",
 	"checkuser-too-many": "Demasiaos resultaos (acordies colo albidrao pola consulta), intenta menguar el CIDR.\nEstes son les direiciones IP usaes (5000 max, axeitaes por direición):",
 	"checkuser-user-nonexistent": "L'usuariu especificáu nun esiste.",
 	"checkuser-search": "Buscar entraes nel rexistru de check user",

@@ -37,7 +37,6 @@
 	"checkuser-massblock-commit": "Cur cosc ar na n-úsáideoirí roghnaithe",
 	"checkuser-block-success": "'''Tá {{PLURAL:$2|an úsáideoir|na n-úsáideoirí}} $1 coiscthe anois.'''",
 	"checkuser-block-failure": "'''Níl aon úsáideoirí coiscthe.'''",
-	"checkuser-accounts": "{{PLURAL:$1|Cuntas amháin|$1 cuntais}} nua",
 	"checkuser-too-many": "Tá le mórán torthaí (de réir meastachán cheist), caolaigh an CIDR le d'thoil.\nSeo iad na seolaidh IP (5000 uasta, sórtáilte le seoladh):",
 	"checkuser-search": "Cuardaigh",
 	"checkuser-search-submit": "Cuardaigh",

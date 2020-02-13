@@ -47,7 +47,6 @@
 	"checkuser-block-limit": "Aşa köp ulanyjy saýlanyldy.",
 	"checkuser-block-noreason": "Blokirlemeler üçin sebäp görkezmeli.",
 	"checkuser-noreason": "Bu talap üçin sebäp görkezmeli.",
-	"checkuser-accounts": "$1 täze {{PLURAL:$1|hasap|hasap}}",
 	"checkuser-user-nonexistent": "Görkezilen ulanyjy ýok.",
 	"checkuser-search": "Gözle",
 	"checkuser-search-submit": "Gözle",

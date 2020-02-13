@@ -60,7 +60,6 @@
 	"checkuser-block-noreason": "Tu à dà 'nu mutive pe le blocche.",
 	"checkuser-centralauth-multilock": "Blocche le cunde scacchiate",
 	"checkuser-noreason": "Tu à dà 'nu mutive pe st'inderrogazione.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|cunde utende|cunde utinde}} nuève",
 	"checkuser-too-many": "Stonne assaje resultate (seconne 'a stime fatte de l'inderrogazzione), pe' piacere restringe 'u CIDR.\nAqquà stonne le IP ausate (5000 masseme, ordenate pe' inderizze):",
 	"checkuser-user-nonexistent": "L'utende specificate non g'esiste.",
 	"checkuser-search": "Cirche le vôsce jndr'à l'archivije ''check user''",

@@ -51,7 +51,6 @@
 	"checkuser-block-limit": "Pasirinkta per daug naudotojų.",
 	"checkuser-block-noreason": "Jūs turite nurodyti blokavimų priežastį.",
 	"checkuser-noreason": "Šiai užklausai turite pateikti priežastį.",
-	"checkuser-accounts": "$1 nauja {{PLURAL:$1|paskyra|paskyros}}",
 	"checkuser-too-many": "Per daug rezultatų, susiaurinkite CIDR.\nČia pateikiami naudojami IP adresai (daugiausiai 5000, suskirstyti pagal adresus):",
 	"checkuser-user-nonexistent": "Nurodytas naudotojas neegzistuoja.",
 	"checkuser-search": "Ieškoti",

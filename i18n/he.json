@@ -63,7 +63,6 @@
 	"checkuser-block-noreason": "יש לתת סיבה לחסימות.",
 	"checkuser-centralauth-multilock": "נעילה מרובה של חשבונות שנבחרו",
 	"checkuser-noreason": "יש לכתוב סיבה לשאילתה הזאת.",
-	"checkuser-accounts": "{{PLURAL:$1|חשבון חדש אחד|$1 חשבונות חדשים}}",
 	"checkuser-too-many": "נמצאו תוצאות רבות מדי (לפי הערכה של השאילתה). נא לצמצם את ה־CIDR.\nלהלן כתובות ה־IP שנעשה בהן שימוש (מוצגות 5,000 לכל היותר, וממוינות לפי כתובת):",
 	"checkuser-user-nonexistent": "המשתמש שצוין לא נמצא.",
 	"checkuser-search": "חיפוש רשומות ביומן בדיקת משתמשים",

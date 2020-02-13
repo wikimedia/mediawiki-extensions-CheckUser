@@ -88,7 +88,6 @@
 	"checkuser-block-noreason": "Debes dar una razón para los bloqueos.",
 	"checkuser-centralauth-multilock": "Bloquear globalmente las cuentas seleccionadas",
 	"checkuser-noreason": "Debes dar una razón para esta consulta.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|cuenta nueva|cuentas nuevas}}",
 	"checkuser-too-many": "Hay demasiados resultados (de acuerdo al estimado de la consulta). Prueba limitar el CIDR.\nAquí se ven las IPs usadas (máximo 5000, ordenadas por dirección):",
 	"checkuser-user-nonexistent": "El usuario especificado no existe.",
 	"checkuser-search": "Buscar entradas del registro de CheckUser",

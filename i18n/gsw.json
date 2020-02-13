@@ -56,7 +56,6 @@
 	"checkuser-block-limit": "S sin zvyl Benutzer usgwählt wore.",
 	"checkuser-block-noreason": "Du muesch e Grund fir d Sperri aagee.",
 	"checkuser-noreason": "Du muesch e Grund fir die Abfrog aagee.",
-	"checkuser-accounts": "{{PLURAL:$1|1 nej Benutzerkonto|$1 neiji Benutzerkonte}}",
 	"checkuser-too-many": "D Ergebnislischt isch z lang (noch ere Abfrogs-Schätzig), bitte gränz dr IP-Beryych wyter yy. Do sin di benutzten IP-Adrässe (maximal 5000, sortiert noch Adrässe):",
 	"checkuser-user-nonexistent": "S Benutzerkonto, wu Du aagee hesch, isch nit vorhande.",
 	"checkuser-search": "Sueche",

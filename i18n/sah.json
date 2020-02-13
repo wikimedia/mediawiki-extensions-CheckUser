@@ -50,7 +50,6 @@
 	"checkuser-block-limit": "Наһаа элбэх киһини талбыккын",
 	"checkuser-block-noreason": "Бобуу төрүөтүн этиэхтээххин.",
 	"checkuser-noreason": "Бу ыйытык төрүөтүн ааттыахтааххын.",
-	"checkuser-accounts": "$1 саҥа {{PLURAL:$1|аат|ааттар}}",
 	"checkuser-too-many": "Наһаа элбэх булулунна (көрдөбүл түмүгүнэн), бука диэн CIDR кыччатан биэр. \nТуһаныллыбыт IP (саамай элбэҕэ 5000, бу аадырыһынан наардаммыт):",
 	"checkuser-user-nonexistent": "Маннык ааттаах кыттааччы суох",
 	"checkuser-search": "Көрдөө",

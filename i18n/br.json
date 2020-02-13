@@ -57,7 +57,6 @@
 	"checkuser-block-limit": "Re a implijerien diuzet.",
 	"checkuser-block-noreason": "Ret eo deoc'h reizhabegiñ ar stankadennoù.",
 	"checkuser-noreason": "Ret eo deoc'h reizhabegiñ an enklask-mañ.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|kont|kont}} nevez",
 	"checkuser-too-many": "Re a zisoc'hoù (hervez istimadur ar reked), strishaat ar CIDR mar plij.\nSetu an IPoù implijet (5000 d'ar muiañ, urzhiet dre ar chomlec'h) :",
 	"checkuser-user-nonexistent": "N'eus ket eus an implijer merket",
 	"checkuser-search": "Klask",

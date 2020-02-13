@@ -40,7 +40,6 @@
 	"checkuser-block-failure": "\"' Neviens lietotājs netika bloķēts.\" \"",
 	"checkuser-block-limit": "Izvēlēti pārāk daudzi lietotāji.",
 	"checkuser-block-noreason": "Jums jānorāda bloķēšanas iemesli.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|jauni konti|jauns konts|jauni konti}}",
 	"checkuser-search": "Meklēt",
 	"checkuser-search-submit": "Meklēt",
 	"checkuser-search-initiator": "iniciators",

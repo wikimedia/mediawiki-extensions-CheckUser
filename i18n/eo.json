@@ -57,7 +57,6 @@
 	"checkuser-block-limit": "Tro da uzantoj elektitaj.",
 	"checkuser-block-noreason": "Vi devas doni kialon por la forbaroj.",
 	"checkuser-noreason": "Vi devas doni kialon por ĉi tiu informomendo.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|nova konto|novaj kontoj}}",
 	"checkuser-too-many": "Tro da rezultoj, laŭ taskoj de serĉomendo. Bonvolu malvastigi la CIDR.\nJen la IP-adresoj uzitaj (maksimume 5000, ordigita laŭ adresoj):",
 	"checkuser-user-nonexistent": "La donata uzanto ne ekzistas.",
 	"checkuser-search": "Serĉi",

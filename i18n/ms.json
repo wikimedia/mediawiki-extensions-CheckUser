@@ -57,7 +57,6 @@
 	"checkuser-block-limit": "Terlalu banyak pengguna dipilih.",
 	"checkuser-block-noreason": "Anda hendaklah memberikan sebab sekatan.",
 	"checkuser-noreason": "Anda hendaklah memberikan sebab bagi pertanyaan ini.",
-	"checkuser-accounts": "$1 akaun baru",
 	"checkuser-too-many": "Terlalu banyak keputusan (berdasarkan anggaran pertanyaan); sila kecilkan CIDR. Yang berikut ialah senarai IP yang digunakan (had 5000, diisihkan mengikut alamat):",
 	"checkuser-user-nonexistent": "Pengguna yang dinyatakan tidak wujud.",
 	"checkuser-search": "Cari",

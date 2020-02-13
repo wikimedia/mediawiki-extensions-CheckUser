@@ -63,7 +63,6 @@
 	"checkuser-block-noreason": "Musíte zadať dôvod blokovaní.",
 	"checkuser-centralauth-multilock": "Hromadne zamknúť zvolené účty",
 	"checkuser-noreason": "Musíte uviesť dôvod tejto požiadavky.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|nový účet|nové účty|nových účtov}}",
 	"checkuser-too-many": "Príliš veľa výsledkov (podľa odhadu požiadavky), prosím, zúžte CIDR.\nTu sú použité IP adresy (max. 5 000, zoradené podľa adresy):",
 	"checkuser-user-nonexistent": "Uvedený používateľ neexistuje.",
 	"checkuser-search": "Hľadanie v záznamoch kontroly používateľov",

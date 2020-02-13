@@ -53,7 +53,6 @@
 	"checkuser-block-limit": "Trop d’usanciérs chouèsis.",
 	"checkuser-block-noreason": "Vos dête balyér una rêson por los blocâjos.",
 	"checkuser-noreason": "Vos dête balyér una rêson por cela requéta.",
-	"checkuser-accounts": "$1 compto{{PLURAL:$1||s}} novél{{PLURAL:$1||s}}",
 	"checkuser-too-many": "Trop de rèsultats (d’aprés l’èstimacion de la requéta), volyéd èpurar l’ètendua CIDR.\nVê-que un èxtrèt a les adrèces IP utilisâs ({{formatnum:5000}} u més, triyês per adrèce) :",
 	"checkuser-user-nonexistent": "L’utilisator spècifiâ ègziste pas.",
 	"checkuser-search": "Rechèrche",

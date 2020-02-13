@@ -54,7 +54,6 @@
 	"checkuser-block-limit": "ବହୁ ଅଧିକ ବ୍ୟବହାରକାରୀଙ୍କୁ ବଛାଗଲା ।",
 	"checkuser-block-noreason": "ଆପଣଙ୍କୁ ଅଟକ ପାଇଁ ଏକ କାରଣ ଦେବାକୁ ପଡ଼ିବ ।",
 	"checkuser-noreason": "ଆପଣଙ୍କୁ ଏହି ପ୍ରଶ୍ନ ପାଇଁ ଏକ କାରଣ ଦେବାକୁ ପଡ଼ିବ ।",
-	"checkuser-accounts": "$1 ଗୋଟି ନୂଆ {{PLURAL:$1|ଖାତା|ଖାତା}}",
 	"checkuser-user-nonexistent": "ଆପଣ ଖୋଜୁଥିବା ବ୍ୟବହାରକାରୀ ମିଳୁନାହାନ୍ତି ।",
 	"checkuser-search": "ଖୋଜନ୍ତୁ",
 	"checkuser-search-submit": "ଖୋଜନ୍ତୁ",

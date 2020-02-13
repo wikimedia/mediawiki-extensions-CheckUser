@@ -56,7 +56,6 @@
 	"checkuser-block-limit": "Te veel gebruikers gekies.",
 	"checkuser-block-noreason": "U moet 'n rede vir die blokkades verskaf.",
 	"checkuser-noreason": "U moet 'n rede vir hierdie navraag verskaf.",
-	"checkuser-accounts": "$1 nuwe {{PLURAL:$1|gebruiker|gebruikers}}",
 	"checkuser-too-many": "Te veel resultate (volgens skatting). Maak die IP-reeks kleiner.\nHieronder word die gebruikte IP-adresse weergegee (maksimum 5000, op IP-adres gesorteer):",
 	"checkuser-user-nonexistent": "Die gespesifiseerde gebruiker bestaan nie.",
 	"checkuser-search": "Soek",

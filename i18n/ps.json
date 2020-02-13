@@ -32,7 +32,6 @@
 	"checkuser-block-failure": "'''په هېڅ کارن بنديز پلي نشو.'''",
 	"checkuser-block-limit": "له حد نه ډېر زيات کارنان ټاکل شوي.",
 	"checkuser-block-noreason": "تاسې بايد د بنديز لگولو يو سبب څرگند کړئ.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|نوی گڼون|نوي گڼونونه}}",
 	"checkuser-search": "پلټل",
 	"checkuser-search-submit": "پلټل",
 	"checkuser-search-initiator": "پېلوونکی",

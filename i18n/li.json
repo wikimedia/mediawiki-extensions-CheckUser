@@ -61,7 +61,6 @@
 	"checkuser-block-noreason": "De mós 'ne rieë ópgaeve veure blokkaazjes.",
 	"checkuser-centralauth-multilock": "Sloet alle gesillekteerde konto's",
 	"checkuser-noreason": "De mós 'ne rieë ópgaeve veure zeukópdrach.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|nuuje gebroeker|nuuj gebroekers}}",
 	"checkuser-too-many": "Te väöl rezultaote (volges de sjatting). Maak de CIDR kleinder:\nHie zeen de gebroekde IPs (max. 5000, op adres gesorteerd):",
 	"checkuser-user-nonexistent": "De opgegaeve gebroeker besteit neet.",
 	"checkuser-search": "Doorzeuk checkuserlogbookregele",

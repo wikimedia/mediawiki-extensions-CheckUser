@@ -52,7 +52,6 @@
 	"checkuser-block-limit": "Liiga palju kasutajaid valitud.",
 	"checkuser-block-noreason": "Blokeeringule peab andma põhjenduse.",
 	"checkuser-noreason": "Päringu jaoks peab põhjuse andma.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|uus konto|uut kontot}}",
 	"checkuser-user-nonexistent": "Etteantud kasutajat pole olemas.",
 	"checkuser-search": "Kasutajakontrolli logi sissekannete otsimine",
 	"checkuser-search-submit": "Otsi",

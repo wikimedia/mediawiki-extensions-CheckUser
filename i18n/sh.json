@@ -60,7 +60,6 @@
 	"checkuser-block-noreason": "Morate navesti razlog za blokiranje.",
 	"checkuser-centralauth-multilock": "Višekratno zaključavanje računa",
 	"checkuser-noreason": "Morate da navedete razlog za ovaj upit.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|novi račun|novih računa}}",
 	"checkuser-too-many": "Previše stavki (prema proceni zahteva). Molimo Vas da suzite CIDR.\nOvde su korišćene IP adrese (najviše 5.000, sortiranih po adresi):",
 	"checkuser-user-nonexistent": "Navedeni korisnik ne postoji.",
 	"checkuser-search": "Pretraži stavke u zapisniku provjeravača",

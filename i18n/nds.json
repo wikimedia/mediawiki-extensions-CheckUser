@@ -50,7 +50,6 @@
 	"checkuser-block-failure": "'''Kene Brukers sperrt.'''",
 	"checkuser-block-limit": "Toveel Brukers utwählt.",
 	"checkuser-block-noreason": "Du musst en Grund för de Sperr angeven.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|nee Brukerkonto|ne’e Brukerkonten}}",
 	"checkuser-too-many": "To veel funnen, grenz de IP-Reeg wieder in. Dit sünd de bruukten IP-Adressen (maximal 5000, sorteert na Adress):",
 	"checkuser-user-nonexistent": "Den angevene Bruker gifft dat nich.",
 	"checkuser-search": "Söken",

@@ -54,7 +54,6 @@
 	"checkuser-block-limit": "Pśewjele wužywarjow wubrane.",
 	"checkuser-block-noreason": "Musyš pśicynu za blokěrowanja pódaś.",
 	"checkuser-noreason": "Musyš pśicynu za toś to wótpšašanje pódaś.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|nowe konto|nowej konśe|nowe konta|nowych kontow}}",
 	"checkuser-too-many": "Pśewjele wuslědkow (pó pówoblicenju napšašowanja), pšosym wobgranicuj CIDR. How su wužywane IP-adrese (maks. 5000, pséwuběrane pó adresu):",
 	"checkuser-user-nonexistent": "Pódany wužywaŕ njeeksistěrujo.",
 	"checkuser-search": "Pytaś",

@@ -58,7 +58,6 @@
 	"checkuser-block-noreason": "Phải đưa ra lý do cấm.",
 	"checkuser-centralauth-multilock": "Khóa các tài khoản được chọn",
 	"checkuser-noreason": "Bạn phải đưa ra lý do truy vấn.",
-	"checkuser-accounts": "$1 tài khoản mới",
 	"checkuser-too-many": "Có quá nhiều kết quả (theo ước lượng truy vấn). Xin hãy thu hẹp CIDR. Đây là các địa chỉ IP được sử dụng (tối đa 5.000, xếp theo địa chỉ):",
 	"checkuser-user-nonexistent": "Thành viên chỉ định không tồn tại.",
 	"checkuser-search": "Tìm kiếm mục trong nhật trình CheckUser",

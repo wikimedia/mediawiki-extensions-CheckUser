@@ -54,7 +54,6 @@
 	"checkuser-block-limit": "Přewjele wužiwarjow wubrane.",
 	"checkuser-block-noreason": "Dyrbiš přičinu za zablokowanja podać.",
 	"checkuser-noreason": "Dyrbiš přičinu za tute wotprašowanje podać.",
-	"checkuser-accounts": "$1 {{PLURAL:$1|nowe konto|nowej konće|nowe konta|nowych kontow}}",
 	"checkuser-too-many": "Přewjele wuslědkow (po taksowanju naprašowanja), prošu zamjezuj CIDR.\nTu su wužiwane IP (maks. 5000, po adresy sortěrowane):",
 	"checkuser-user-nonexistent": "Podaty wužiwar njeeksistuje.",
 	"checkuser-search": "Pytać",
