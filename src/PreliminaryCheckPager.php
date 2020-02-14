@@ -21,6 +21,7 @@
 
 namespace MediaWiki\CheckUser;
 
+use ExtensionRegistry;
 use IContextSource;
 use MediaWiki\Linker\LinkRenderer;
 use TablePager;
@@ -42,19 +43,31 @@ class PreliminaryCheckPager extends TablePager {
 	/** @var array */
 	private $requestData;
 
+	/** @var bool */
+	private $globalCheck;
+
 	/**
 	 * @param IContextSource $context
 	 * @param LinkRenderer $linkRenderer
 	 * @param TokenManager $tokenManager
+	 * @param ExtensionRegistry $extensionRegistry
 	 * @param PreliminaryCheckService $preliminaryCheckService
 	 */
 	public function __construct(
 		IContextSource $context,
 		LinkRenderer $linkRenderer,
 		TokenManager $tokenManager,
+		ExtensionRegistry $extensionRegistry,
 		PreliminaryCheckService $preliminaryCheckService
 	) {
+		// This must be done before getIndexField is called by the parent constructor
+		$this->globalCheck = $extensionRegistry->isLoaded( 'CentralAuth' );
+		if ( $this->globalCheck ) {
+			$this->mDb = \CentralAuthUtils::getCentralReplicaDB();
+		}
+
 		parent::__construct( $context, $linkRenderer );
+
 		$this->tokenManager = $tokenManager;
 		$this->preliminaryCheckService = $preliminaryCheckService;
 		$this->requestData = $tokenManager->getDataFromContext( $context );
@@ -89,74 +102,6 @@ class PreliminaryCheckPager extends TablePager {
 		}
 
 		return $queries;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function doQuery() {
-		$defaultOrder = ( $this->mDefaultDirection === self::DIR_ASCENDING )
-			? self::QUERY_ASCENDING
-			: self::QUERY_DESCENDING;
-		$order = $this->mIsBackwards ? self::oppositeOrder( $defaultOrder ) : $defaultOrder;
-
-		// Extra row so that we can tell whether "next" link should be shown
-		$queryLimit = $this->mLimit + 1;
-
-		if ( $this->mOffset !== '' ) {
-			[ $nameOffset, $wikiOffset ] = explode( '>', $this->mOffset );
-			$offsets = [
-				'name' => $nameOffset,
-				'wiki' => $wikiOffset,
-			];
-		} else {
-			$offsets = false;
-		}
-
-		$pageInfo = [
-			'includeOffset' => $this->mIncludeOffset,
-			'offsets' => $offsets,
-			'limit' => $queryLimit,
-			'order' => $order,
-		];
-
-		$targets = $this->requestData['targets'] ?? [];
-
-		$users = array_filter( array_map( 'User::newFromName', $targets ), function ( $user ) {
-			return (bool)$user;
-		} );
-
-		if ( $this->mOffset == '' ) {
-			$isFirst = true;
-		} else {
-			// If there's an offset, we may or may not be at the first entry.
-			// The only way to tell is to run the query in the opposite
-			// direction see if we get a row.
-			$oldIncludeOffset = $this->mIncludeOffset;
-			$this->mIncludeOffset = !$this->mIncludeOffset;
-			$oppositeOrder = self::oppositeOrder( $order );
-
-			$pageInfoTemp = [
-				'includeOffset' => $this->mIncludeOffset,
-				'offsets' => false,
-				'limit' => 1,
-				'order' => $oppositeOrder,
-			];
-
-			$checkResult = $this->preliminaryCheckService
-				->getPreliminaryData( $users, $pageInfoTemp );
-			$checkResult = new FakeResultWrapper( $checkResult );
-			$isFirst = !$checkResult->numRows();
-			$this->mIncludeOffset = $oldIncludeOffset;
-		}
-
-		$result = $this->preliminaryCheckService->getPreliminaryData( $users, $pageInfo );
-		$this->mResult = new FakeResultWrapper( $result );
-
-		$this->extractResultInfo( $isFirst, $queryLimit, $this->mResult );
-		$this->mQueryDone = true;
-
-		$this->mResult->rewind();
 	}
 
 	/**
@@ -216,6 +161,13 @@ class PreliminaryCheckPager extends TablePager {
 	/**
 	 * @inheritDoc
 	 */
+	public function getIndexField() {
+		return $this->globalCheck ? [ [ 'lu_name', 'lu_wiki' ] ] : 'user_name';
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function getDefaultSort() {
 		return '';
 	}
@@ -241,13 +193,23 @@ class PreliminaryCheckPager extends TablePager {
 	}
 
 	/**
-	 * Abstract method override. Returns an empty array to be compatible with parent,
-	 * but should not be called.
-	 *
-	 * @return array
+	 * @inheritDoc
 	 */
 	public function getQueryInfo() {
-		// doQuery is overridden, so nothing to do here
-		return [];
+		$targets = $this->requestData['targets'] ?? [];
+		$users = array_filter( array_map( 'User::newFromName', $targets ), function ( $user ) {
+			return (bool)$user;
+		} );
+
+		return $this->preliminaryCheckService->getQueryInfo( $users );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function preprocessResults( $result ) {
+		$this->mResult = new FakeResultWrapper(
+			$this->preliminaryCheckService->preprocessResults( $result )
+		);
 	}
 }

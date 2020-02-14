@@ -2,8 +2,8 @@
 namespace MediaWiki\CheckUser;
 
 use ExtensionRegistry;
-use IndexPager;
-use MediaWiki\User\UserIdentity;
+use stdClass;
+use User;
 use UserGroupMembership;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\ILBFactory;
@@ -34,166 +34,129 @@ class PreliminaryCheckService {
 	}
 
 	/**
-	 * Gets preliminary data for users to start an investigation
+	 * Get the information needed to build a query for the preliminary check. The
+	 * query will be different depending on whether CentralAuth is available. Any
+	 * information for paginating is handled in the PreliminaryCheckPager.
 	 *
-	 * @param UserIdentity[] $users
-	 * @param mixed[] $pageInfo Information for pagination (unused if CentralAuth is
-	 *  not available).
-	 *  - includeOffset: (bool) Include the row specified as the offset
-	 *  - offsets: (string[]|bool) Starting row, defined by user name and wiki, or
-	 *    false if there is no offset.
-	 *  - limit: (int) Maximum number of rows
-	 *  - order: (bool) IndexPager::QUERY_ASCENDING or IndexPager::QUERY_DESCENDING
+	 * @param User[] $users
 	 * @return array
 	 */
-	public function getPreliminaryData( array $users, array $pageInfo ) : array {
-		if ( !$users ) {
-			return [];
-		}
-
-		if ( $this->extensionRegistry->isLoaded( 'CentralAuth' ) && $pageInfo ) {
-			$data = $this->getGlobalUserData( $users, $pageInfo );
+	public function getQueryInfo( array $users ) : array {
+		if ( $this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
+			$info = $this->getGlobalQueryInfo( $users );
 		} else {
-			$data = $this->getLocalUserData( $users );
+			$info = $this->getLocalQueryInfo( $users );
+		}
+		return $info;
+	}
+
+	/**
+	 * Get the information for building a query if CentralAuth is available.
+	 *
+	 * @param User[] $users
+	 * @return array
+	 */
+	protected function getGlobalQueryInfo( array $users ) : array {
+		return [
+			'tables' => 'localuser',
+			'fields' => [
+				'lu_name',
+				'lu_wiki',
+			],
+			'conds' => $this->buildUserConds( $users, 'lu_name' ),
+		];
+	}
+
+	/**
+	 * Get the information for building a query if CentralAuth is unavailable.
+	 *
+	 * @param User[]|string[] $users
+	 * @return array
+	 */
+	protected function getLocalQueryInfo( array $users ) : array {
+		return [
+			'tables' => 'user',
+			'fields' => [
+				'user_name',
+				'user_id',
+				'user_editcount',
+				'user_registration',
+			],
+			'conds' => $this->buildUserConds( $users, 'user_name' ),
+		];
+	}
+
+	/**
+	 * @param User[] $users
+	 * @param string $field
+	 * @return array
+	 */
+	protected function buildUserConds( array $users, string $field ) : array {
+		if ( !$users ) {
+			return [ 0 ];
+		}
+		return [ $field => array_map( 'strval', $users ) ];
+	}
+
+	/**
+	 * Get the replica database of a local wiki, given a wiki ID.
+	 *
+	 * @param string $wikiId
+	 * @return IDatabase
+	 */
+	protected function getLocalDb( $wikiId ) : IDatabase {
+		return $this->lbFactory->getMainLB( $wikiId )->getConnectionRef( DB_REPLICA, [], $wikiId );
+	}
+
+	/**
+	 * Perform additional queries to get the required data that is not returned
+	 * by the pager's query. (The pager performs the query that is used for
+	 * pagination.)
+	 *
+	 * @param IResultWrapper $rows
+	 * @return array
+	 */
+	public function preprocessResults( IResultWrapper $rows ) : array {
+		$data = [];
+		foreach ( $rows as $row ) {
+			if ( $this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
+				$localRow = $this->getLocalUserData( $row->lu_name, $row->lu_wiki );
+				$data[] = $this->getAdditionalLocalData( $localRow, $row->lu_wiki );
+			} else {
+				$data[] = $this->getAdditionalLocalData( $row, $this->localWikiId );
+			}
 		}
 		return $data;
 	}
 
 	/**
-	 * Get the CentralAuth replica database. For mocking in tests.
+	 * Get basic user information for a given user's account on a given wiki.
 	 *
-	 * @return IDatabase
+	 * @param string $username
+	 * @param string $wikiId
+	 * @return stdClass|bool
 	 */
-	protected function getCentralAuthDB() : IDatabase {
-		return \CentralAuthUtils::getCentralReplicaDB();
-	}
-
-	/**
-	 * Get the preliminary data, if CentralAuth is available.
-	 *
-	 * @param UserIdentity[] $users
-	 * @param mixed[] $pageInfo Information for pagination. See getPreliminaryData.
-	 * @return array
-	 */
-	protected function getGlobalUserData( array $users, array $pageInfo ) : array {
-		$db = $this->getCentralAuthDB();
-
-		$userInfo = [];
-		$userInfo['tables'] = 'localuser';
-		$userInfo['fields'] = [
-			'lu_name',
-			'lu_wiki',
-			'lu_name_wiki' => $db->buildConcat( [ 'lu_name', '\'>\'', 'lu_wiki' ] ),
-		];
-
-		$userInfo['conds']['lu_name'] = array_map( 'strval', $users );
-
-		$offsets = $pageInfo['offsets'];
-		if ( $offsets && isset( $offsets['name'] ) && isset( $offsets['wiki'] ) ) {
-			$pageInfo['offsets']['name'] = $db->addQuotes( $offsets['name'] );
-			$pageInfo['offsets']['wiki'] = $db->addQuotes( $offsets['wiki'] );
-		}
-
-		$queryInfo = $this->buildGlobalUserQueryInfo( $userInfo, $pageInfo );
-		$rows = $db->select(
+	public function getLocalUserData( string $username, string $wikiId ) {
+		$db = $this->getLocalDb( $wikiId );
+		$queryInfo = $this->getLocalQueryInfo( [ $username ] );
+		return $db->selectRow(
 			$queryInfo['tables'],
 			$queryInfo['fields'],
 			$queryInfo['conds'],
-			$queryInfo['fname'],
-			$queryInfo['options']
+			__METHOD__
 		);
-
-		return $this->getLocalDataForGlobalUser( $rows );
 	}
 
 	/**
-	 * Build variables to use by the database wrapper. See also
-	 * IndexPager::buildQueryInfo.
+	 * Get blocked status and user groups for a given user's account on a
+	 * given wiki.
 	 *
-	 * @param mixed[] $userInfo
-	 * @param mixed[] $pageInfo Information for pagination. See getPreliminaryData.
-	 * @return array
-	 */
-	protected function buildGlobalUserQueryInfo( array $userInfo, array $pageInfo ) : array {
-		$conds = $userInfo['conds'];
-		$options = [];
-		$sortColumns = [ 'lu_name', 'lu_wiki' ];
-
-		if ( $pageInfo['order'] === IndexPager::QUERY_ASCENDING ) {
-			$options['ORDER BY'] = $sortColumns;
-			$nameOperators = [ '>=', '>' ];
-			$wikiOperator = $pageInfo['includeOffset'] ? '>=' : '>';
-		} else {
-			$orderBy = [];
-			foreach ( $sortColumns as $col ) {
-				$orderBy[] = $col . ' DESC';
-			}
-			$options['ORDER BY'] = $orderBy;
-			$nameOperators = [ '<=', '<' ];
-			$wikiOperator = $pageInfo['includeOffset'] ? '<=' : '<';
-		}
-
-		if ( $pageInfo['offsets'] ) {
-			$conds[] = 'lu_name' . $nameOperators[0] . $pageInfo['offsets']['name'];
-			$conds[] = 'lu_name' . $nameOperators[1] . $pageInfo['offsets']['name'] .
-				' OR lu_wiki' .	$wikiOperator . $pageInfo['offsets']['wiki'];
-		}
-
-		$options['LIMIT'] = intval( $pageInfo['limit'] );
-
-		return [
-			'tables' => $userInfo['tables'],
-			'fields' => $userInfo['fields'],
-			'conds' => $conds,
-			'fname' => __METHOD__,
-			'options' => $options,
-		];
-	}
-
-	/**
-	 * Get data from the about each user's account from each wiki.
-	 *
-	 * @param IResultWrapper $rows Accounts found by CentralAuth
-	 * @return array
-	 */
-	protected function getLocalDataForGlobalUser( IResultWrapper $rows ) : array {
-		$data = [];
-		foreach ( $rows as $row ) {
-			$rowData = $this->getUserData( $row->lu_name, $row->lu_wiki );
-			$rowData['lu_name_wiki'] = $row->lu_name_wiki;
-			$data[] = $rowData;
-		}
-		return $data;
-	}
-
-	/**
-	 * Get the preliminary data, if CentralAuth is not available.
-	 *
-	 * @param UserIdentity[] $users
-	 * @return array
-	 */
-	protected function getLocalUserData( array $users ) : array {
-		// No pagination if CentralAuth is not loaded. If investigations
-		// are likely to involve very many users, we could paginate.
-		$data = [];
-		foreach ( $users as $user ) {
-			$data[] = $this->getUserData( $user->getName(), $this->localWikiId );
-		}
-		return $data;
-	}
-
-	/**
-	 * @param string $username
+	 * @param stdClass|bool $row
 	 * @param string $wikiId
 	 * @return array
 	 */
-	private function getUserData( string $username, string $wikiId ): array {
-		$db = $this->lbFactory->getMainLB( $wikiId )->getConnectionRef( DB_REPLICA, [], $wikiId );
-		$fields = [
-			'user_id', 'user_name', 'user_editcount', 'user_registration',
-		];
-		$conds = [ 'user_name' => $username ];
-		$row = $db->selectRow( 'user', $fields, $conds, __METHOD__ );
+	protected function getAdditionalLocalData( $row, string $wikiId ) : array {
+		$db = $this->getLocalDb( $wikiId );
 
 		return [
 			'id' => $row->user_id,

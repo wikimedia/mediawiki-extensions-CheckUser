@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser;
 
+use ExtensionRegistry;
 use HTMLForm;
 use OOUI\Element;
 use OOUI\HtmlSnippet;
@@ -196,6 +197,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 					$this->getContext(),
 					$this->getLinkRenderer(),
 					$this->tokenManager,
+					ExtensionRegistry::getInstance(),
 					$this->preliminaryCheckService
 				);
 
