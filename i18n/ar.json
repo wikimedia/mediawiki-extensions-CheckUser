@@ -96,6 +96,7 @@
 	"group-checkuser.js": "/* الجافا سكريبت المعروضة هنا ستؤثر على مدققي المستخدم فقط */",
 	"checkuser-investigate": "فحص",
 	"checkuser-investigate-legend": "البحث عن أسماء المستخدمين أو عناوين الآيبي أو نطاقات الآيبي",
+	"checkuser-investigate-tab-compare": "قارن",
 	"checkuser-investigate-targets-label": "أسماء المستخدمين وعناوين الآيبي",
 	"checkuser-investigate-targets-placeholder": "اسم المستخدم أو 1.1.1.1",
 	"checkuser-investigate-reason-label": "السبب",

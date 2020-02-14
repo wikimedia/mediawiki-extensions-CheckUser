@@ -98,6 +98,8 @@
 	"checkuser-reset-action": "reimposta password per l'utente \"$1\"",
 	"checkuser-token-fail": "Errore di sessione. Riprova ancora.",
 	"checkuser-investigate-legend": "Cerca per nome utente, indirizzi IP o intervalli di IP",
+	"checkuser-investigate-tab-preliminary-check": "Controllo preliminare",
+	"checkuser-investigate-tab-compare": "Confronta",
 	"checkuser-investigate-targets-label": "Nomi utente o indirizzi IP",
 	"checkuser-investigate-targets-placeholder": "Nome utente o 1.1.1.1",
 	"checkuser-investigate-reason-label": "Motivo",

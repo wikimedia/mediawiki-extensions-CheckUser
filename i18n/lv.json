@@ -46,6 +46,7 @@
 	"checkuser-log-search-target": "Mērķis:",
 	"checkuser-log-search-type": "Meklēt pēc:",
 	"checkuser-email-action": "aizsūtīt ziņu uz lietotāja \"$1\" e-pastu",
+	"checkuser-investigate-tab-compare": "Salīdzināt",
 	"checkuser-investigate-reason-label": "Iemesls",
 	"checkuser-investigate-preliminary-table-header-blocked": "Statuss"
 }
