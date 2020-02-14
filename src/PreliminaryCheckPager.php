@@ -217,7 +217,7 @@ class PreliminaryCheckPager extends TablePager {
 	 * @inheritDoc
 	 */
 	public function getDefaultSort() {
-		return 'lu_name_wiki';
+		return '';
 	}
 
 	/**
