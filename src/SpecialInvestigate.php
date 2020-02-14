@@ -275,12 +275,14 @@ class SpecialInvestigate extends \FormSpecialPage {
 				'ipallowed' => true,
 				'iprange' => true,
 				'default' => implode( "\n", $data['targets'] ?? [] ),
+				'autocomplete' => false,
 			],
 			'Reason' => [
 				'type' => 'text',
 				'name' => 'reason',
 				'label-message' => $prefix . '-reason-label',
 				'required' => true,
+				'autocomplete' => false,
 			],
 		];
 	}
