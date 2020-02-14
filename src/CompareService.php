@@ -24,8 +24,9 @@ class CompareService {
 	 * @return array
 	 */
 	public function getTotalEditsFromIp(
-		string $ip, string $excludeUser = null
-	) {
+		string $ip,
+		string $excludeUser = null
+	): array {
 		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
 		$conds = [
 			'cuc_ip' => $ip,
@@ -58,8 +59,10 @@ class CompareService {
 	public function getQueryInfo( array $users ): array {
 		return [
 			'fields' => [
+				'cuc_user',
 				'cuc_user_text',
 				'cuc_ip',
+				'cuc_ip_hex',
 				'first_edit' => 'MIN(cuc_timestamp)',
 				'last_edit' => 'MAX(cuc_timestamp)',
 				'total_edits' => 'count(*)',

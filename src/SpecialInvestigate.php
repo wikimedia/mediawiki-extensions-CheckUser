@@ -14,6 +14,9 @@ class SpecialInvestigate extends \FormSpecialPage {
 	/** @var PreliminaryCheckService */
 	private $preliminaryCheckService;
 
+	/** @var CompareService */
+	private $compareService;
+
 	/** @var TokenManager */
 	private $tokenManager;
 
@@ -25,14 +28,17 @@ class SpecialInvestigate extends \FormSpecialPage {
 
 	/**
 	 * @param PreliminaryCheckService $preliminaryCheckService
+	 * @param CompareService $compareService
 	 * @param TokenManager $tokenManager
 	 */
 	public function __construct(
 		PreliminaryCheckService $preliminaryCheckService,
+		CompareService $compareService,
 		TokenManager $tokenManager
 	) {
 		parent::__construct( 'Investigate', 'checkuser' );
 		$this->preliminaryCheckService = $preliminaryCheckService;
+		$this->compareService = $compareService;
 		$this->tokenManager = $tokenManager;
 	}
 
@@ -203,7 +209,20 @@ class SpecialInvestigate extends \FormSpecialPage {
 
 				return $this;
 			case $this->getTabParam( 'compare' ):
-				// @TODO Add Content.
+				$pager = new ComparePager(
+					$this->getContext(),
+					$this->getLinkRenderer(),
+					$this->tokenManager,
+					$this->compareService
+				);
+
+				if ( $pager->getNumRows() ) {
+					$this->addParserOutput( $pager->getFullOutput() );
+				} else {
+					$this->addHTML(
+						$this->msg( 'checkuser-investigate-preliminary-table-empty' )->parse()
+					);
+				}
 				return $this;
 			case $this->getTabParam( 'timeline' ):
 				// @TODO Add Content.
