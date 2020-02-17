@@ -78,8 +78,15 @@
 	"checkuser-reset-action": "huet d'Passwuert fir de Benotzer \"$1\" zréckgesat",
 	"checkuser-token-fail": "Sessiouns-Feeler.Probéiert w.e.g. nach eng Kéier.",
 	"checkuser-login-success": "Op {{SITENAME}} ageloggt als $1",
+	"checkuser-investigate-tab-compare": "Vergläichen",
+	"checkuser-investigate-tab-timeline": "Chronologie",
 	"checkuser-investigate-targets-label": "Benotzernimm oder IP-Adressen",
 	"checkuser-investigate-targets-placeholder": "Benotzernumm oder 1.1.1.1",
 	"checkuser-investigate-reason-label": "Grond",
-	"checkuser-investigate-preliminary-table-empty": "Et gëtt keng Resultater."
+	"checkuser-investigate-preliminary-table-empty": "Et gëtt keng Resultater.",
+	"checkuser-investigate-compare-table-cell-unregistered": "Net-ugemellt",
+	"checkuser-investigate-compare-table-cell-other-edits": "<i>(~$1 vun alle Benotzer)</i>",
+	"checkuser-investigate-compare-table-header-username": "Benotzernumm",
+	"checkuser-investigate-compare-table-header-activity": "Datumsberäich",
+	"checkuser-investigate-compare-table-header-ip": "IP"
 }

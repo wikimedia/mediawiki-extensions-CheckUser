@@ -113,5 +113,12 @@
 	"checkuser-investigate-preliminary-table-header-groups": "Gruplar",
 	"checkuser-investigate-preliminary-table-header-name": "Kullanıcı adı",
 	"checkuser-investigate-preliminary-table-header-registration": "Eklenme tarihi",
-	"checkuser-investigate-preliminary-table-header-wiki": "Viki"
+	"checkuser-investigate-preliminary-table-header-wiki": "Viki",
+	"checkuser-investigate-compare-table-cell-unregistered": "Kayıtsız",
+	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|düzenleme|düzenleme}}]</b>",
+	"checkuser-investigate-compare-table-cell-other-edits": "<i>(~Tüm kullanıcılardan $1)</i>",
+	"checkuser-investigate-compare-table-header-username": "Kullanıcı adı",
+	"checkuser-investigate-compare-table-header-activity": "Tarih aralığı",
+	"checkuser-investigate-compare-table-header-ip": "IP",
+	"checkuser-investigate-compare-table-header-useragent": "Kullanıcı temsilcisi"
 }

@@ -20,7 +20,9 @@
 			"Yasten",
 			"Wladek92",
 			"McDutchie",
-			"Thibaut120094"
+			"Thibaut120094",
+			"Derugon",
+			"Pamputt"
 		]
 	},
 	"checkuser-summary": "Cet outil parcourt la liste des changements récents à la recherche des adresses IP employées par un utilisateur ou affiche toutes les données utilisateur d’une adresse IP.\nLes comptes et les modifications faites par une adresse IP cliente peuvent être récupérés via les entêtes XFF en suffixant l’adresse IP avec \"/xff\". Les adresses IPv4 (CIDR /$1 à /32) et IPv6 (CIDR /$2 à /128) sont prises en charge.\nPas plus de 5000 modifications ne seront renvoyées, pour des questions de performance.\nVeuillez utiliser cet outil dans le respect de la charte d’utilisation.",
@@ -121,5 +123,12 @@
 	"checkuser-investigate-preliminary-table-header-groups": "Groupes",
 	"checkuser-investigate-preliminary-table-header-name": "Nom d’utilisateur",
 	"checkuser-investigate-preliminary-table-header-registration": "Date attachée",
-	"checkuser-investigate-preliminary-table-header-wiki": "Wiki"
+	"checkuser-investigate-preliminary-table-header-wiki": "Wiki",
+	"checkuser-investigate-compare-table-cell-unregistered": "Non inscrit",
+	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|modification|modifications}}]</b>",
+	"checkuser-investigate-compare-table-cell-other-edits": "<i>(~$1 de tous les utilisateurs)</i>",
+	"checkuser-investigate-compare-table-header-username": "Nom d’utilisateur",
+	"checkuser-investigate-compare-table-header-activity": "Plage de dates",
+	"checkuser-investigate-compare-table-header-ip": "IP",
+	"checkuser-investigate-compare-table-header-useragent": "Agent utilisateur"
 }

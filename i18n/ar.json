@@ -96,6 +96,7 @@
 	"group-checkuser.js": "/* الجافا سكريبت المعروضة هنا ستؤثر على مدققي المستخدم فقط */",
 	"checkuser-investigate": "فحص",
 	"checkuser-investigate-legend": "البحث عن أسماء المستخدمين أو عناوين الآيبي أو نطاقات الآيبي",
+	"checkuser-investigate-tab-preliminary-check": "تحقق ابتدائي",
 	"checkuser-investigate-tab-compare": "قارن",
 	"checkuser-investigate-targets-label": "أسماء المستخدمين وعناوين الآيبي",
 	"checkuser-investigate-targets-placeholder": "اسم المستخدم أو 1.1.1.1",
@@ -109,5 +110,8 @@
 	"checkuser-investigate-preliminary-table-header-groups": "المجموعات",
 	"checkuser-investigate-preliminary-table-header-name": "اسم المستخدم",
 	"checkuser-investigate-preliminary-table-header-registration": "البيانات المرفقة",
-	"checkuser-investigate-preliminary-table-header-wiki": "الويكي"
+	"checkuser-investigate-preliminary-table-header-wiki": "الويكي",
+	"checkuser-investigate-compare-table-cell-unregistered": "غير مسجل",
+	"checkuser-investigate-compare-table-header-username": "اسم المستخدم:",
+	"checkuser-investigate-compare-table-header-activity": "نطاق التاريخ"
 }

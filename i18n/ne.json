@@ -4,7 +4,8 @@
 			"Bhawani Gautam",
 			"Bhawani Gautam Rhk",
 			"बिप्लब आनन्द",
-			"NehalDaveND"
+			"NehalDaveND",
+			"पर्वत सुबेदी"
 		]
 	},
 	"checkuser": "प्रयोगकर्ता जाँच",
@@ -45,5 +46,13 @@
 	"checkuser-wasblocked": "पछिल्लो निषेधित",
 	"checkuser-localonly": "एकीकृत छैन",
 	"checkuser-search": "खोज्ने",
-	"checkuser-search-submit": "खोज"
+	"checkuser-search-submit": "खोज",
+	"checkuser-investigate-tab-compare": "तुलना गर्नुहोस्",
+	"checkuser-investigate-tab-timeline": "समयरेखा",
+	"checkuser-investigate-preliminary-table-empty": "कुनैपनि नतिजाहरू भेटिएनन्",
+	"checkuser-investigate-compare-table-cell-unregistered": "दर्ता नभएकाे",
+	"checkuser-investigate-compare-table-header-username": "प्रयोगकर्ता नाम",
+	"checkuser-investigate-compare-table-header-activity": "मिति सीमा",
+	"checkuser-investigate-compare-table-header-ip": "आई पी",
+	"checkuser-investigate-compare-table-header-useragent": "प्रयोगकर्ता दलाल"
 }

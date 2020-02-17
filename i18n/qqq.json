@@ -26,7 +26,8 @@
 			"Beta16",
 			"McDutchie",
 			"Purodha Blissenbach",
-			"Amire80"
+			"Amire80",
+			"Robby"
 		]
 	},
 	"checkuser-summary": "Explanation of CheckUser tool. See [[mw:Extension:CheckUser#Basic_interface|screenshot titled 'Basic CheckUser interface']].\n\nParameters:\n* $1 - an integer. default value: 16\n* $2 - an integer. default value: 32",
@@ -115,8 +116,8 @@
 	"checkuser-investigate": "{{doc-special|Investigate}}\nThe special page is a new version of [[Special:CheckUser]].",
 	"checkuser-investigate-legend": "Heading for the [[Special:Investigate]] search form.",
 	"checkuser-investigate-tab-preliminary-check": "Label for the Preliminary Check tab.",
-	"checkuser-investigate-tab-compare": "Label for the Compare tab.",
-	"checkuser-investigate-tab-timeline": "Label for the Timeline tab.",
+	"checkuser-investigate-tab-compare": "Label for the Compare tab.\n{{Identical|Compare}}",
+	"checkuser-investigate-tab-timeline": "Label for the Timeline tab.\n{{Identical|Timeline}}",
 	"checkuser-investigate-targets-label": "Label for a field in the [[Special:Investigate]] search form.",
 	"checkuser-investigate-targets-placeholder": "Placeholder text for a field in the [[Special:Investigate]] search form.",
 	"checkuser-investigate-reason-label": "Label for a field in the [[Special:Investigate]] search form.",

@@ -114,5 +114,12 @@
 	"checkuser-investigate-preliminary-table-header-groups": "Групи",
 	"checkuser-investigate-preliminary-table-header-name": "Ім'я користувача",
 	"checkuser-investigate-preliminary-table-header-registration": "Дата долучення",
-	"checkuser-investigate-preliminary-table-header-wiki": "Вікі"
+	"checkuser-investigate-preliminary-table-header-wiki": "Вікі",
+	"checkuser-investigate-compare-table-cell-unregistered": "Незареєстровані",
+	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|редагування|редагування|редагувань}}]</b>",
+	"checkuser-investigate-compare-table-cell-other-edits": "<i>(~$1 від усіх користувачів)</i>",
+	"checkuser-investigate-compare-table-header-username": "Ім'я користувача",
+	"checkuser-investigate-compare-table-header-activity": "Діапазон дат",
+	"checkuser-investigate-compare-table-header-ip": "IP",
+	"checkuser-investigate-compare-table-header-useragent": "User Agent"
 }
