@@ -29,7 +29,7 @@ CREATE TABLE /*_*/cu_changes (
   -- rev_id of the prior revision, for generating diff links.
   cuc_last_oldid int(10) unsigned NOT NULL default '0',
 
-  -- Edit/new/log
+  -- RecentChange type identifiers: RC_EDIT, RC_NEW or RC_LOG
   cuc_type tinyint(3) unsigned NOT NULL default '0',
 
   -- Event timestamp
