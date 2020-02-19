@@ -96,9 +96,18 @@ class ComparePager extends TablePager {
 	/**
 	 * @inheritDoc
 	 */
+	protected function getTableClass() {
+		return parent::getTableClass() . ' ext-checkuser-investigate-table';
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function getCellAttrs( $field, $value ) {
+		$attributes = parent::getCellAttrs( $field, $value );
+		$attributes['class'] = $attributes['class'] ?? '';
+
 		$row = $this->mCurrentRow;
-		$attr = [];
 		$targets = $this->requestData['targets'];
 		switch ( $field ) {
 			case 'cuc_ip':
@@ -108,22 +117,28 @@ class ComparePager extends TablePager {
 					}
 
 					if ( IPUtils::isValidRange( $target ) && IPUtils::isInRange( $value, $target ) ) {
-						$attr['class'] = 'ext-checkuser-compare-table-cell-dark';
+						$attributes['class'] .= ' ext-checkuser-compare-table-cell-dark';
 						break;
 					} elseif ( IPUtils::toHex( $target ) === $row->cuc_ip_hex ) {
-						$attr['class'] = 'ext-checkuser-compare-table-cell-dark';
+						$attributes['class'] .= ' ext-checkuser-compare-table-cell-dark';
 						break;
 					}
 				}
+				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-pinnable';
+				$attributes['data-' . $field] = $value;
 				break;
 			case 'cuc_user_text':
 				if ( !IPUtils::isIpAddress( $value ) && in_array( $value, $targets ) ) {
-					$attr['class'] = 'ext-checkuser-compare-table-cell-dark';
+					$attributes['class'] .= ' ext-checkuser-compare-table-cell-dark';
 				}
+				break;
+			case 'cuc_agent':
+				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-pinnable';
+				$attributes['data-' . $field] = $value;
 				break;
 		}
 
-		return $attr;
+		return $attributes;
 	}
 
 	/**

@@ -121,6 +121,28 @@ class PreliminaryCheckPager extends TablePager {
 	}
 
 	/**
+	 * @inheritDoc
+	 */
+	protected function getTableClass() {
+		return parent::getTableClass() . ' ext-checkuser-investigate-table';
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getCellAttrs( $field, $value ) {
+		$attributes = parent::getCellAttrs( $field, $value );
+		$attributes['class'] = $attributes['class'] ?? '';
+
+		if ( $field === 'wiki' || $field === 'registration' ) {
+			$attributes['class'] .= ' ext-checkuser-investigate-table-cell-pinnable';
+			$attributes['data-' . $field] = $value;
+		}
+
+		return $attributes;
+	}
+
+	/**
 	 * @param string $name
 	 * @param mixed $value
 	 * @return string
