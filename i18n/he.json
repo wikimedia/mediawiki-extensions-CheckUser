@@ -107,7 +107,7 @@
 	"checkuser-investigate-preliminary-table-header-name": "שם משתמש",
 	"checkuser-investigate-preliminary-table-header-registration": "תאריך השיוך",
 	"checkuser-investigate-preliminary-table-header-wiki": "ויקי",
-	"checkuser-investigate-compare-table-cell-unregistered": "לא רשומים",
+	"checkuser-investigate-compare-table-cell-unregistered": "לא רשום",
 	"checkuser-investigate-compare-table-cell-edits": "<b>[{{PLURAL:$1|עריכה אחת|$1 עריכות}}]</b>",
 	"checkuser-investigate-compare-table-cell-other-edits": "<i>(~$1 מכל המשתמשים)</i>",
 	"checkuser-investigate-compare-table-header-username": "שם משתמש",
