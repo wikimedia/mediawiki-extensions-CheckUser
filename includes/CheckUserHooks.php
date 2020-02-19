@@ -19,10 +19,9 @@ class CheckUserHooks {
 			$list['Investigate'] = [
 				'class' => SpecialInvestigate::class,
 				'services' => [
-					'CheckUserPreliminaryCheckService',
-					'CheckUserCompareService',
-					'CheckUserTokenManager',
-					'NamespaceInfo',
+					'CheckUserPreliminaryCheckPagerFactory',
+					'CheckUserComparePagerFactory',
+					'CheckUserTokenManager'
 				],
 			];
 		}
