@@ -108,10 +108,10 @@ class ComparePager extends TablePager {
 					}
 
 					if ( IPUtils::isValidRange( $target ) && IPUtils::isInRange( $row->cuc_ip, $target ) ) {
-						$attr['class'] = 'compare-table-cell-dark-bg';
+						$attr['class'] = 'ext-checkuser-compare-table-cell-dark';
 						break;
 					} elseif ( IPUtils::toHex( $target ) === $row->cuc_ip_hex ) {
-						$attr['class'] = 'compare-table-cell-dark-bg';
+						$attr['class'] = 'ext-checkuser-compare-table-cell-dark';
 						break;
 					}
 				}
@@ -119,7 +119,7 @@ class ComparePager extends TablePager {
 			case 'username':
 				$value = $row->cuc_user_text;
 				if ( !IPUtils::isIpAddress( $value ) && in_array( $value, $targets ) ) {
-					$attr['class'] = 'compare-table-cell-dark-bg';
+					$attr['class'] = 'ext-checkuser-compare-table-cell-dark';
 				}
 				break;
 		}
