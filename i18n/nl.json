@@ -92,6 +92,8 @@
 	"checkuser-login-success": "Succesvol als $1 op {{SITENAME}} ingelogd",
 	"checkuser-investigate": "Onderzoeken",
 	"checkuser-investigate-legend": "Zoeken naar gebruikersnamen, IP-adressen of IP bereiken",
+	"checkuser-investigate-tab-compare": "Vergelijken",
+	"checkuser-investigate-tab-timeline": "Tijdlijn",
 	"checkuser-investigate-targets-label": "Gebruikersnaam of IP-adres",
 	"checkuser-investigate-targets-placeholder": "Gebruikersnaam of 1.1.1.1",
 	"checkuser-investigate-reason-label": "Reden",
@@ -104,5 +106,10 @@
 	"checkuser-investigate-preliminary-table-header-groups": "Groepen",
 	"checkuser-investigate-preliminary-table-header-name": "Gebruikersnaam",
 	"checkuser-investigate-preliminary-table-header-registration": "Koppelingsdatum",
-	"checkuser-investigate-preliminary-table-header-wiki": "Wiki"
+	"checkuser-investigate-preliminary-table-header-wiki": "Wiki",
+	"checkuser-investigate-compare-table-cell-unregistered": "Niet-geregistreerd",
+	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|bewerking|bewerkingen}}]</b>",
+	"checkuser-investigate-compare-table-cell-other-edits": "<i>(~$1 van alle gebruikers)</i>",
+	"checkuser-investigate-compare-table-header-username": "Gebruikersnaam",
+	"checkuser-investigate-compare-table-header-ip": "IP-adres"
 }
