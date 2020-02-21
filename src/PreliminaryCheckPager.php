@@ -133,12 +133,12 @@ class PreliminaryCheckPager extends TablePager {
 		switch ( $name ) {
 			case 'name':
 				$formatted = htmlspecialchars( $value );
-			break;
+				break;
 			case 'registration':
 				$formatted = htmlspecialchars(
 					$language->userTimeAndDate( $value, $this->getUser() )
 				);
-			break;
+				break;
 			case 'wiki':
 				$wiki = WikiMap::getWiki( $row->wiki );
 				$formatted = Html::element(
@@ -150,7 +150,7 @@ class PreliminaryCheckPager extends TablePager {
 					],
 					$wiki->getDisplayName()
 				);
-			break;
+				break;
 			case 'editcount':
 				$wiki = WikiMap::getWiki( $row->wiki );
 				$formatted = Html::rawElement(
@@ -165,7 +165,7 @@ class PreliminaryCheckPager extends TablePager {
 						$value
 					)->parse()
 				);
-			break;
+				break;
 			case 'blocked':
 				if ( $value ) {
 					$formatted = $this->msg(
@@ -176,10 +176,10 @@ class PreliminaryCheckPager extends TablePager {
 						'checkuser-investigate-preliminary-table-cell-unblocked'
 					)->parse();
 				}
-			break;
+				break;
 			case 'groups':
 				$formatted = htmlspecialchars( implode( ', ', $value ) );
-			break;
+				break;
 		}
 
 		return $formatted;
