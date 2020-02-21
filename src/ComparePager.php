@@ -101,13 +101,13 @@ class ComparePager extends TablePager {
 		$attr = [];
 		$targets = $this->requestData['targets'];
 		switch ( $field ) {
-			case 'ip':
+			case 'cuc_ip':
 				foreach ( $targets as $target ) {
 					if ( !IPUtils::isIPAddress( $target ) ) {
 						continue;
 					}
 
-					if ( IPUtils::isValidRange( $target ) && IPUtils::isInRange( $row->cuc_ip, $target ) ) {
+					if ( IPUtils::isValidRange( $target ) && IPUtils::isInRange( $value, $target ) ) {
 						$attr['class'] = 'ext-checkuser-compare-table-cell-dark';
 						break;
 					} elseif ( IPUtils::toHex( $target ) === $row->cuc_ip_hex ) {
@@ -116,8 +116,7 @@ class ComparePager extends TablePager {
 					}
 				}
 				break;
-			case 'username':
-				$value = $row->cuc_user_text;
+			case 'cuc_user_text':
 				if ( !IPUtils::isIpAddress( $value ) && in_array( $value, $targets ) ) {
 					$attr['class'] = 'ext-checkuser-compare-table-cell-dark';
 				}
@@ -137,19 +136,19 @@ class ComparePager extends TablePager {
 		$row = $this->mCurrentRow;
 
 		switch ( $name ) {
-			case 'username':
-				if ( IPUtils::isValid( $row->cuc_user_text ) ) {
+			case 'cuc_user_text':
+				if ( IPUtils::isValid( $value ) ) {
 					$formatted = $this->msg( 'checkuser-investigate-compare-table-cell-unregistered' );
 				} else {
-					$formatted = Linker::userLink( $row->cuc_user, $row->cuc_user_text );
+					$formatted = Linker::userLink( $row->cuc_user, $value );
 				}
 				break;
-			case 'ip':
-				$formatted = Html::rawElement( 'b', [], htmlspecialchars( $row->cuc_ip ) );
+			case 'cuc_ip':
+				$formatted = Html::rawElement( 'b', [], htmlspecialchars( $value ) );
 
 				// get other edits
 				$otherEdits = '';
-				$edits = $this->compareService->getTotalEditsFromIp( $row->cuc_ip );
+				$edits = $this->compareService->getTotalEditsFromIp( $value );
 				if ( !empty( $edits['total_edits'] ) ) {
 					$otherEdits = Html::rawElement(
 						'span',
@@ -171,8 +170,8 @@ class ComparePager extends TablePager {
 				);
 
 				break;
-			case 'useragent':
-				$formatted = htmlspecialchars( $row->cuc_agent );
+			case 'cuc_agent':
+				$formatted = htmlspecialchars( $value );
 				break;
 			case 'activity':
 				$firstEdit = $language->date( $row->first_edit );
@@ -206,9 +205,9 @@ class ComparePager extends TablePager {
 	public function getFieldNames() {
 		if ( $this->fieldNames === null ) {
 			$this->fieldNames = [
-				'username' => 'checkuser-investigate-compare-table-header-username',
-				'ip' => 'checkuser-investigate-compare-table-header-ip',
-				'useragent' => 'checkuser-investigate-compare-table-header-useragent',
+				'cuc_user_text' => 'checkuser-investigate-compare-table-header-username',
+				'cuc_ip' => 'checkuser-investigate-compare-table-header-ip',
+				'cuc_agent' => 'checkuser-investigate-compare-table-header-useragent',
 				'activity' => 'checkuser-investigate-compare-table-header-activity',
 			];
 			foreach ( $this->fieldNames as $key => $val ) {
