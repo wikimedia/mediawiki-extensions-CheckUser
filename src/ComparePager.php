@@ -144,7 +144,11 @@ class ComparePager extends TablePager {
 				}
 				break;
 			case 'cuc_ip':
-				$formatted = Html::rawElement( 'b', [], htmlspecialchars( $value ) );
+				$formatted = Html::rawElement(
+					'span',
+					[ 'class' => "ext-checkuser-compare-table-cell-ip" ],
+					htmlspecialchars( $value )
+				);
 
 				// get other edits
 				$otherEdits = '';
