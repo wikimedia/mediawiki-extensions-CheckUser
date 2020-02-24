@@ -196,7 +196,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 					$this->addParserOutput( $pager->getFullOutput() );
 				} else {
 					$this->addHTML(
-						$this->msg( 'checkuser-investigate-preliminary-table-empty' )->parse()
+						$this->msg( 'checkuser-investigate-notice-no-results' )->parse()
 					);
 				}
 
@@ -208,7 +208,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 					$this->addParserOutput( $pager->getFullOutput() );
 				} else {
 					$this->addHTML(
-						$this->msg( 'checkuser-investigate-preliminary-table-empty' )->parse()
+						$this->msg( 'checkuser-investigate-notice-no-results' )->parse()
 					);
 				}
 				return $this;
