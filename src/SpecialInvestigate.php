@@ -6,8 +6,10 @@ use HTMLForm;
 use OOUI\Element;
 use OOUI\HtmlSnippet;
 use OOUI\IndexLayout;
+use OOUI\MessageWidget;
 use OOUI\TabOptionWidget;
 use OOUI\Tag;
+use Wikimedia\IPUtils;
 
 class SpecialInvestigate extends \FormSpecialPage {
 	/** @var PagerFactory */
@@ -24,6 +26,9 @@ class SpecialInvestigate extends \FormSpecialPage {
 
 	/** @var array|null */
 	private $requestData;
+
+	/** string|null */
+	private $tokenWithoutPaginationData;
 
 	/**
 	 * @param PagerFactory $preliminaryCheckPagerFactory
@@ -58,6 +63,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 */
 	public function execute( $par ) {
 		$this->getOutput()->addModuleStyles( 'ext.checkUser.investigate' );
+		$this->getOutput()->addModules( 'oojs-ui.styles.icons-content' );
 
 		// If the request was POST or the request has no data, show the form.
 		if ( $this->getRequest()->wasPosted() || $this->getRequestData() === [] ) {
@@ -114,16 +120,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 			'tabSelectWidget' => $tabSelectWidget,
 		] = $this->getLayout()->getConfig( $config );
 
-		// Create token without pagination data (if necessary).
-		$requestData = $this->getRequestData();
-		$token = $this->getRequest()->getVal( 'token' );
-		if ( isset( $requestData['offset'] ) ) {
-			unset( $requestData['offset'] );
-			$token = $this->tokenManager->encode(
-				$this->getRequest()->getSession(),
-				$requestData
-			);
-		}
+		$token = $this->getTokenWithoutPaginationData();
 
 		$tabs = array_map( function ( $tab ) use ( $par, $token ) {
 			$label = $this->getTabName( $tab );
@@ -145,6 +142,25 @@ class SpecialInvestigate extends \FormSpecialPage {
 		$tabSelectWidget->addItems( $tabs );
 
 		return $this;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	private function getTokenWithoutPaginationData() {
+		if ( $this->tokenWithoutPaginationData === null ) {
+			$requestData = $this->getRequestData();
+			$token = $this->getRequest()->getVal( 'token' );
+			if ( isset( $requestData['offset'] ) ) {
+				unset( $requestData['offset'] );
+				$token = $this->tokenManager->encode(
+					$this->getRequest()->getSession(),
+					$requestData
+				);
+			}
+			$this->tokenWithoutPaginationData = $token;
+		}
+		return $this->tokenWithoutPaginationData;
 	}
 
 	/**
@@ -191,13 +207,33 @@ class SpecialInvestigate extends \FormSpecialPage {
 		switch ( $par ) {
 			case $this->getTabParam( 'preliminary-check' ):
 				$pager = $this->preliminaryCheckPagerFactory->createPager( $this->getContext() );
+				$hasIpTargets = (bool)array_filter(
+					$this->getRequestData()['targets'] ?? [],
+					function ( $target ) {
+						return IPUtils::isIPAddress( $target );
+					}
+				);
 
 				if ( $pager->getNumRows() ) {
 					$this->addParserOutput( $pager->getFullOutput() );
-				} else {
+				} elseif ( !$hasIpTargets ) {
 					$this->addHTML(
 						$this->msg( 'checkuser-investigate-notice-no-results' )->parse()
 					);
+				}
+
+				if ( $hasIpTargets ) {
+					$compareLabel = $this->msg( 'checkuser-investigate-tab-compare' )->parse();
+					// getFullURL handles the query params:
+					// https://www.mediawiki.org/wiki/Help:Links#External_links_to_internal_pages
+					$link = $this->getPageTitle( $compareLabel )->getFullURL( [
+						'token' => $this->getTokenWithoutPaginationData(),
+					] );
+					$message = $this->msg( 'checkuser-investigate-preliminary-notice-ip-targets', $link )->parse();
+					$this->addHTML( new MessageWidget( [
+						'type' => 'notice',
+						'label' => new HtmlSnippet( $message )
+					] ) );
 				}
 
 				return $this;

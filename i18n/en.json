@@ -98,6 +98,7 @@
 	"checkuser-investigate-targets-label": "Usernames and IP addresses",
 	"checkuser-investigate-targets-placeholder": "UserName or 1.1.1.1",
 	"checkuser-investigate-reason-label": "Reason",
+	"checkuser-investigate-preliminary-notice-ip-targets": "The Preliminary Check table doesn't include any information on IPs. See the <span class=\"plainlinks\">[$1 Compare tab]</span> for those details.",
 	"checkuser-investigate-preliminary-table-cell-blocked": "Blocked",
 	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|edit|edits}}",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "Not blocked",
