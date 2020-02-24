@@ -78,6 +78,7 @@
 	"checkuser-reset-action": "huet d'Passwuert fir de Benotzer \"$1\" zréckgesat",
 	"checkuser-token-fail": "Sessiouns-Feeler.Probéiert wgl. nach eng Kéier.",
 	"checkuser-login-success": "Op {{SITENAME}} ageloggt als $1",
+	"checkuser-investigate-tab-preliminary-check": "Kontroll virum Ufank",
 	"checkuser-investigate-tab-compare": "Vergläichen",
 	"checkuser-investigate-tab-timeline": "Chronologie",
 	"checkuser-investigate-targets-label": "Benotzernimm oder IP-Adressen",
