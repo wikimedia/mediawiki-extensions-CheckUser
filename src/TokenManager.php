@@ -3,27 +3,22 @@
 namespace MediaWiki\CheckUser;
 
 use Firebase\JWT\JWT;
-use MediaWiki\User\UserIdentity;
+use MediaWiki\Session\Session;
 
 class TokenManager {
 	/** @var string */
 	private const SIGNING_ALGO = 'HS256';
 
 	/** @var string|null */
-	private $encryptionAlgorithm;
-
-	/** @var string */
-	private $wikiId;
+	private $cipherMethod;
 
 	/** @var string */
 	private $secret;
 
 	/**
-	 * @param string $wikiId
 	 * @param string $secret
 	 */
 	public function __construct(
-		string $wikiId,
 		string $secret
 	) {
 		if ( $secret === '' ) {
@@ -31,25 +26,24 @@ class TokenManager {
 				'CheckUser Token Manager requires $wgSecretKey to be set.'
 			);
 		}
-		$this->wikiId = $wikiId;
 		$this->secret = $secret;
 	}
 
 	/**
-	 * Get data from Context.
+	 * Get data from the the request.
 	 *
-	 * @param \IContextSource $context
+	 * @param \WebRequest $request
 	 * @return array
 	 */
-	public function getDataFromContext( \IContextSource $context ) : array {
-		$token = $context->getRequest()->getVal( 'token' );
+	public function getDataFromRequest( \WebRequest $request ) : array {
+		$token = $request->getVal( 'token' );
 
 		if ( empty( $token ) ) {
 			return [];
 		}
 
 		try {
-			return $this->decode( $context->getUser(), $token );
+			return $this->decode( $request->getSession(), $token );
 		} catch ( \Exception $e ) {
 			return [];
 		}
@@ -58,26 +52,20 @@ class TokenManager {
 	/**
 	 * Creates a token
 	 *
-	 * @param UserIdentity $currentUser
+	 * @param Session $session
 	 * @param array $data
 	 * @return string
 	 */
-	public function encode( UserIdentity $currentUser, array $data ) : string {
+	public function encode( Session $session, array $data ) : string {
+		$key = $this->getSessionKey( $session );
 		return JWT::encode(
 			[
-				// Issuer https://tools.ietf.org/html/rfc7519#section-4.1.1
-				'iss' => $this->wikiId,
-				// Subject https://tools.ietf.org/html/rfc7519#section-4.1.2
-				'sub' => $currentUser->getName(),
 				// Expiration Time https://tools.ietf.org/html/rfc7519#section-4.1.4
 				'exp' => \MWTimestamp::time() + 86400, // 24 hours from now
 				// Encrypt the form data to pevent it from being leaked.
-				'data' => $this->encrypt(
-					$data,
-					$this->wikiId . $currentUser->getName()
-				),
+				'data' => $this->encrypt( $data, $this->getInitializationVector( $key ) ),
 			],
-			$this->secret,
+			$this->getSigningKey( $key ),
 			self::SIGNING_ALGO
 		);
 	}
@@ -86,40 +74,37 @@ class TokenManager {
 	 * Encrypt private data.
 	 *
 	 * @param mixed $input
-	 * @param string $seed
+	 * @param string $iv
 	 * @return string
 	 */
-	private function encrypt( $input, string $seed ) : string {
+	private function encrypt( $input, string $iv ) : string {
 		return openssl_encrypt(
 			\FormatJson::encode( $input ),
-			$this->getEncryptionAlgorithm(),
+			$this->getCipherMethod(),
 			$this->secret,
 			0,
-			$this->getInitializationVector( $seed )
+			$iv
 		);
 	}
 
 	/**
 	 * Decode the JWT and return the targets.
 	 *
-	 * @param UserIdentity $currentUser
+	 * @param Session $session
 	 * @param string $token
 	 * @return array
 	 */
-	public function decode( UserIdentity $currentUser, string $token ) : array {
-		$payload = JWT::decode( $token, $this->secret, [ self::SIGNING_ALGO ] );
-
-		if ( $payload->iss !== $this->wikiId ) {
-			throw new \Exception( 'Invalid Token' );
-		}
-
-		if ( !$currentUser->equals( \User::newFromName( $payload->sub ) ) ) {
-			throw new \Exception( 'Invalid Token' );
-		}
+	public function decode( Session $session, string $token ) : array {
+		$key = $this->getSessionKey( $session );
+		$payload = JWT::decode(
+			$token,
+			$this->getSigningKey( $key ),
+			[ self::SIGNING_ALGO ]
+		);
 
 		return $this->decrypt(
 			$payload->data,
-			$this->wikiId . $currentUser->getName()
+			$this->getInitializationVector( $key )
 		);
 	}
 
@@ -127,16 +112,16 @@ class TokenManager {
 	 * Decrypt private data.
 	 *
 	 * @param string $input
-	 * @param string $seed
+	 * @param string $iv
 	 * @return array
 	 */
-	private function decrypt( string $input, string $seed ) : array {
+	private function decrypt( string $input, string $iv ) : array {
 		$decrypted = openssl_decrypt(
 			$input,
-			$this->getEncryptionAlgorithm(),
+			$this->getCipherMethod(),
 			$this->secret,
 			0,
-			$this->getInitializationVector( $seed )
+			$iv
 		);
 
 		if ( $decrypted === false ) {
@@ -147,37 +132,70 @@ class TokenManager {
 	}
 
 	/**
-	 * Get the Initialization Vector.
+	 * Get the initialization vector.
 	 *
 	 * This must be consistent between encryption and decryption
 	 * and must be no more than 16 bytes in length.
 	 *
-	 * @param string $seed
+	 * @param string $sessionKey
 	 * @return string
 	 */
-	private function getInitializationVector( string $seed ) : string {
-		return hash_hmac( 'md5', $seed, $this->secret, true );
+	private function getInitializationVector( string $sessionKey ) : string {
+		return hash_hmac( 'md5', $sessionKey, $this->secret, true );
 	}
 
 	/**
 	 * Decide what type of encryption to use, based on system capabilities.
 	 *
-	 * @see \MediaWiki\Session\Session::getEncryptionAlgorithm()
+	 * @see Session::getEncryptionAlgorithm()
 	 *
 	 * @return string
 	 */
-	private function getEncryptionAlgorithm() : string {
-		if ( !$this->encryptionAlgorithm ) {
+	private function getCipherMethod() : string {
+		if ( !$this->cipherMethod ) {
 			$methods = openssl_get_cipher_methods();
 			if ( in_array( 'aes-256-ctr', $methods, true ) ) {
-				$this->encryptionAlgorithm = 'aes-256-ctr';
+				$this->cipherMethod = 'aes-256-ctr';
 			} elseif ( in_array( 'aes-256-cbc', $methods, true ) ) {
-				$this->encryptionAlgorithm = 'aes-256-cbc';
+				$this->cipherMethod = 'aes-256-cbc';
 			} else {
 				throw new \Exception( 'No valid cipher method found with openssl_get_cipher_methods()' );
 			}
 		}
 
-		return $this->encryptionAlgorithm;
+		return $this->cipherMethod;
+	}
+
+	/**
+	 * Get the session key suitable for the signing key and initialization vector.
+	 *
+	 * For the initialization vector, this must be consistent between encryption and decryption
+	 * and must be no more than 16 bytes in length.
+	 *
+	 * This is retrieved from the session or randomly generated and stored in the session. This means
+	 * that a token cannot be shared between sessions.
+	 *
+	 * @param Session $session
+	 *
+	 * @return string
+	 */
+	private function getSessionKey( Session $session ) : string {
+		$key = $session->get( 'CheckUserTokenKey' );
+		if ( $key === null ) {
+			$key = base64_encode( random_bytes( 16 ) );
+			$session->set( 'CheckUserTokenKey', $key );
+		}
+
+		return base64_decode( $key );
+	}
+
+	/**
+	 * Get the signing key.
+	 *
+	 * @param string $sessionKey
+	 * @return string
+	 */
+	private function getSigningKey( string $sessionKey ) : string {
+		return hash_hmac( 'sha256', $sessionKey, $this->secret );
 	}
 }

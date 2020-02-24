@@ -22,7 +22,6 @@ return [
 	},
 	'CheckUserTokenManager' => function ( MediaWikiServices $services ) : TokenManager {
 		return new TokenManager(
-			WikiMap::getCurrentWikiDbDomain()->getId(),
 			$services->getMainConfig()->get( 'SecretKey' )
 		);
 	},

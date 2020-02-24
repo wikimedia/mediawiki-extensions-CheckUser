@@ -2,6 +2,7 @@
 
 use Firebase\JWT\JWT;
 use MediaWiki\CheckUser\TokenManager;
+use MediaWiki\Session\SessionManager;
 
 /**
  * Test class for TokenManager class
@@ -25,29 +26,28 @@ class TokenManagerTest extends MediaWikiTestCase {
 	}
 
 	/**
-	 * @covers \MediaWiki\CheckUser\TokenManager::getDataFromContext
+	 * @covers \MediaWiki\CheckUser\TokenManager::getDataFromRequest
 	 * @covers \MediaWiki\CheckUser\TokenManager::decode
 	 */
-	public function testGetDataFromContext() {
+	public function testGetDataFromRequest() {
 		$token = implode( '.', [
 			'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9',
-			'eyJpc3MiOiJ0ZXN0Iiwic3ViIjoiQWRtaW4iLCJleHAiOjg2NDAwLCJkYXRhIjoiYU1lZVwv'
-			. 'TFpTQkpFZ2tJcGMzdEJ6aDlqbTFtRlU2eGxsV1RDWHluU2wyUmpjWTRTNSJ9',
-			'oMorADQiUXO6R-XO7K39bDcupJGirVgtC7IcCzUrtjQ',
+			'eyJleHAiOjg2NDAwLCJkYXRhIjoiSWNIMFFzUWdYMEJZ'
+				. 'QlJYWG9HMnRoM0p0aXV6OWhmMVZRZEJkV2RPRnYxRFM3dzdEIn0',
+			'JLeReeDltxD205gB_N1veuYmHVo1oMXLUA3UCX6l3OA',
 		] );
 		$request = new \FauxRequest(
 			[
 				'token' => $token,
+			],
+			false,
+			[
+				'CheckUserTokenKey' => base64_encode( 'test' ),
 			]
 		);
-		$context = $this->createMock( \IContextSource::class );
-		$context->method( 'getRequest' )
-			->willReturn( $request );
-		$context->method( 'getUser' )
-			->willReturn( User::newFromName( 'admin' ) );
 
-		$tokenManager = new TokenManager( 'test', 'abcdef' );
-		$data = $tokenManager->getDataFromContext( $context );
+		$tokenManager = new TokenManager( 'abcdef' );
+		$data = $tokenManager->getDataFromRequest( $request );
 		$this->assertSame( [
 			'targets' => [
 				'Example',
@@ -61,61 +61,45 @@ class TokenManagerTest extends MediaWikiTestCase {
 	 * @covers \MediaWiki\CheckUser\TokenManager::decode
 	 */
 	public function testEncodeDecode() {
-		$tokenManager = new TokenManager( 'test', 'abcdef' );
-		$currentUser = User::newFromName( 'Admin' );
-		$user = User::newFromName( 'Example' );
-		$range = '10.0.0.0/8';
-		$targets = [ $user->getName(), $range ];
-		$encoded = $tokenManager->encode( $currentUser, [
+		$tokenManager = new TokenManager( 'abcdef' );
+		$targets = [ 'Example', '10.0.0.0/8' ];
+		$request = new \FauxRequest( [], false, [
+			'CheckUserTokenKey' => base64_encode( 'test' ),
+		] );
+
+		$encoded = $tokenManager->encode( $request->getSession(), [
 			'targets' => $targets
 		] );
-		$this->assertSame(
-			implode( '.', [
-				'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9',
-				'eyJpc3MiOiJ0ZXN0Iiwic3ViIjoiQWRtaW4iLCJleHAiOjg2NDAwLCJkYXRhIjoiYU1lZVwv'
-				. 'TFpTQkpFZ2tJcGMzdEJ6aDlqbTFtRlU2eGxsV1RDWHluU2wyUmpjWTRTNSJ9',
-				'oMorADQiUXO6R-XO7K39bDcupJGirVgtC7IcCzUrtjQ',
-			] ),
-			$encoded
-		);
 
-		$decoded = $tokenManager->decode( $currentUser, $encoded );
+		$decoded = $tokenManager->decode( $request->getSession(), $encoded );
 		$this->assertIsArray( $decoded );
 		$this->assertCount( 1, $decoded );
 		$this->arrayHasKey( 'targets', $decoded );
-		$this->assertCount( 2, $decoded['targets'] );
-
-		[ $decodedUser, $decodedRange ] = $decoded['targets'];
-
-		$this->assertSame( $user->getName(), $decodedUser );
-		$this->assertSame( $range, $decodedRange );
+		$this->assertSame( $targets, $decoded['targets'] );
 	}
 
 	/**
 	 * @covers \MediaWiki\CheckUser\TokenManager::decode
 	 */
-	public function testDecodeWikiFailure() {
-		$this->expectExceptionMessage( 'Invalid Token' );
+	public function testDecodeSecretFailure() {
+		$this->expectExceptionMessage( 'Signature verification failed' );
 
-		$tokenManager = new TokenManager( 'test', 'abcdef' );
-		$currentUser = User::newFromName( 'admin' );
-		$encoded = $tokenManager->encode( $currentUser, [] );
+		$tokenManager = new TokenManager( 'abcdef' );
+		$session = SessionManager::singleton()->getEmptySession();
+		$encoded = $tokenManager->encode( $session, [] );
 
-		$tokenManager = new TokenManager( 'test2', 'abcdef' );
-		$decoded = $tokenManager->decode( $currentUser, $encoded );
+		$tokenManager = new TokenManager( 'abcdef2' );
+		$decoded = $tokenManager->decode( $session, $encoded );
 	}
 
 	/**
 	 * @covers \MediaWiki\CheckUser\TokenManager::decode
 	 */
-	public function testDecodeUserFailure() {
-		$this->expectExceptionMessage( 'Invalid Token' );
+	public function testDecodeSessionFailure() {
+		$this->expectExceptionMessage( 'Signature verification failed' );
 
-		$tokenManager = new TokenManager( 'test', 'abcdef' );
-		$currentUser = User::newFromName( 'admin' );
-		$encoded = $tokenManager->encode( $currentUser, [] );
-
-		$currentUser = User::newFromName( 'admin2' );
-		$decoded = $tokenManager->decode( $currentUser, $encoded );
+		$tokenManager = new TokenManager( 'abcdef' );
+		$encoded = $tokenManager->encode( SessionManager::singleton()->getEmptySession(), [] );
+		$decoded = $tokenManager->decode( SessionManager::singleton()->getEmptySession(), $encoded );
 	}
 }
