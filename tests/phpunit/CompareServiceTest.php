@@ -3,6 +3,7 @@
 use MediaWiki\CheckUser\CompareService;
 use MediaWiki\MediaWikiServices;
 use Wikimedia\IPUtils;
+use Wikimedia\Rdbms\ILoadBalancer;
 
 /**
  * @group CheckUser
@@ -100,6 +101,16 @@ class CompareServiceTest extends MediaWikiTestCase {
 				],
 			],
 		];
+	}
+
+	public function testGetQueryInfoNoTargets() {
+		$this->expectException( \LogicException::class );
+
+		$compareService = new CompareService(
+			$this->createMock( ILoadBalancer::class )
+		);
+
+		$compareService->getQueryInfo( [] );
 	}
 
 	/**

@@ -27,7 +27,10 @@ class SpecialInvestigate extends \FormSpecialPage {
 	/** @var array|null */
 	private $requestData;
 
-	/** string|null */
+	/** @var HTMLForm|null */
+	private $form;
+
+	/** @var string|null */
 	private $tokenWithoutPaginationData;
 
 	/**
@@ -65,26 +68,18 @@ class SpecialInvestigate extends \FormSpecialPage {
 		$this->getOutput()->addModuleStyles( 'ext.checkUser.investigate.styles' );
 		$this->getOutput()->addModules( [ 'ext.checkUser.investigate' ] );
 
-		// If the request was POST or the request has no data, show the form.
-		if ( $this->getRequest()->wasPosted() || $this->getRequestData() === [] ) {
-			return parent::execute( $par );
+		parent::execute( $par );
+
+		// Show the tabs if there is any request data.
+		// The tabs should also be shown even if the form was a POST request because
+		// the filters could have failed validation.
+		if ( $this->getRequestData() !== [] ) {
+			// Clear the existing form so it can be part of the tab layout.
+			$this->getOutput()->clearHTML();
+
+			$this->addTabs( $par )->addTabContent( $par );
+			$this->getOutput()->addHTML( $this->getLayout() );
 		}
-
-		// Perform the access checks ourselves.
-		// @see parent::execute().
-		$this->setParameter( $par );
-		$this->setHeaders();
-
-		// This will throw exceptions if there's a problem
-		$this->checkExecutePermissions( $this->getUser() );
-
-		$securityLevel = $this->getLoginSecurityLevel();
-		if ( $securityLevel !== false && !$this->checkLoginSecurityLevel( $securityLevel ) ) {
-			return;
-		}
-
-		$this->addTabs( $par )->addTabContent( $par );
-		$this->getOutput()->addHTML( $this->getLayout() );
 	}
 
 	/**
@@ -149,16 +144,9 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 */
 	private function getTokenWithoutPaginationData() {
 		if ( $this->tokenWithoutPaginationData === null ) {
-			$requestData = $this->getRequestData();
-			$token = $this->getRequest()->getVal( 'token' );
-			if ( isset( $requestData['offset'] ) ) {
-				unset( $requestData['offset'] );
-				$token = $this->tokenManager->encode(
-					$this->getRequest()->getSession(),
-					$requestData
-				);
-			}
-			$this->tokenWithoutPaginationData = $token;
+			$this->tokenWithoutPaginationData = $this->getUpdatedToken( [
+				'offset' => null,
+			] );
 		}
 		return $this->tokenWithoutPaginationData;
 	}
@@ -238,6 +226,9 @@ class SpecialInvestigate extends \FormSpecialPage {
 
 				return $this;
 			case $this->getTabParam( 'compare' ):
+				// Add the filter form.
+				$this->addHTML( $this->getForm()->getHTML( $this->getForm()->wasSubmitted() ) );
+
 				$pager = $this->comparePagerFactory->createPager( $this->getContext() );
 
 				if ( $pager->getNumRows() ) {
@@ -261,6 +252,9 @@ class SpecialInvestigate extends \FormSpecialPage {
 				}
 				return $this;
 			case $this->getTabParam( 'timeline' ):
+				// Add the filter form.
+				$this->addHTML( $this->getForm()->getHTML( $this->getForm()->wasSubmitted() ) );
+
 				// @TODO Add Content.
 				return $this;
 			default:
@@ -314,34 +308,79 @@ class SpecialInvestigate extends \FormSpecialPage {
 	/**
 	 * @inheritDoc
 	 */
-	protected function getFormFields() {
-		$prefix = $this->getMessagePrefix();
-		$data = $this->getRequestData();
+	protected function getForm() {
+		if ( $this->form === null ) {
+			$this->form = parent::getForm();
+		}
 
-		return [
-			'Targets' => [
+		return $this->form;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function getFormFields() {
+		$data = $this->getRequestData();
+		$prefix = $this->getMessagePrefix();
+
+		if ( $data === [] ) {
+			return [
+				'Targets' => [
+					'type' => 'usersmultiselect',
+					'name' => 'targets',
+					'label-message' => $prefix . '-targets-label',
+					'placeholder' => $this->msg( $prefix . '-targets-placeholder' )->text(),
+					'required' => true,
+					'max' => 2,
+					'exists' => true,
+					'ipallowed' => true,
+					'iprange' => true,
+					'default' => implode( "\n", $data['targets'] ?? [] ),
+					'input' => [
+						'autocomplete' => false,
+					],
+				],
+				'Reason' => [
+					'type' => 'text',
+					'name' => 'reason',
+					'label-message' => $prefix . '-reason-label',
+					'required' => true,
+					'autocomplete' => false,
+				],
+			];
+		}
+
+		$fields = [];
+
+		// Filters for both Compare & Timeline
+		$compareTab = $this->getTabParam( 'compare' );
+		$timelineTab = $this->getTabParam( 'timeline' );
+
+		// Filters for both Compare & Timeline
+		if ( in_array( $this->par, [ $compareTab, $timelineTab ], true ) ) {
+			$fields['HideTargets'] = [
 				'type' => 'usersmultiselect',
 				'name' => 'targets',
-				'label-message' => $prefix . '-targets-label',
-				'placeholder' => $this->msg( $prefix . '-targets-placeholder' )->text(),
-				'required' => true,
-				'max' => 2,
-				'exists' => true,
+				'label-message' => $prefix . '-filters-hide-targets-label',
+				'exists' => false, // Implies 'required'. @see https://phabricator.wikimedia.org/T246958
 				'ipallowed' => true,
 				'iprange' => true,
-				'default' => implode( "\n", $data['targets'] ?? [] ),
+				'default' => implode( "\n", $data['hide-targets'] ?? [] ),
 				'input' => [
 					'autocomplete' => false,
 				],
-			],
-			'Reason' => [
-				'type' => 'text',
-				'name' => 'reason',
-				'label-message' => $prefix . '-reason-label',
-				'required' => true,
-				'autocomplete' => false,
-			],
-		];
+			];
+		}
+
+		if ( $this->par === $compareTab ) {
+			// @TODO Add filters specific to the compare tab.
+		}
+
+		if ( $this->par === $timelineTab ) {
+			// @TODO Add filters specific to the timeline tab.
+		}
+
+		return $fields;
 	}
 
 	/**
@@ -350,7 +389,18 @@ class SpecialInvestigate extends \FormSpecialPage {
 	protected function alterForm( HTMLForm $form ) {
 		// Not done by default in OOUI forms, but done here to match
 		// intended design in T237034. See FormSpecialPage::getForm
-		$form->setWrapperLegendMsg( $this->getMessagePrefix() . '-legend' );
+		if ( $this->getRequestData() === [] ) {
+			$form->setWrapperLegendMsg( $this->getMessagePrefix() . '-legend' );
+		} else {
+			$tabs = [ $this->getTabParam( 'compare' ), $this->getTabParam( 'timeline' ) ];
+			if ( in_array( $this->par, $tabs ) ) {
+				$form->setAction( $this->getRequest()->getRequestURL() );
+				$form->setWrapperLegendMsg( $this->getMessagePrefix() . '-filters-legend' );
+				// If the page is a result of a POST then validation failed, and the form should be open.
+				// If the page is a result of a GET then validation succeeded and the form should be closed.
+				$form->setCollapsibleOptions( !$this->getRequest()->wasPosted() );
+			}
+		}
 	}
 
 	/**
@@ -370,18 +420,28 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @inheritDoc
 	 */
 	public function onSubmit( array $data ) {
-		// Store the targets in a signed token.
-		$token = $this->tokenManager->encode(
-			$this->getRequest()->getSession(),
-			[
-				'targets' => explode( "\n", $data['Targets'] ?? '' ),
-			]
-		);
+		$update = [
+			'offset' => null,
+		];
 
-		// Redirect to preliminary check.
-		$url = $this->getPageTitle( $this->getTabName( 'preliminary-check' ) )->getFullUrlForRedirect( [
-			'token' => $token,
-		] );
+		if ( isset( $data['Targets' ] ) ) {
+			$update['targets'] = $this->getArrayFromField( $data, 'Targets' );
+		}
+		if ( isset( $data['HideTargets' ] ) ) {
+			$update['hide-targets'] = $this->getArrayFromField( $data, 'HideTargets' );
+		}
+
+		$token = $this->getUpdatedToken( $update );
+
+		if ( isset( $this->par ) && $this->par !== '' ) {
+			// Redirect to the same subpage with an updated token.
+			$url = $this->getRedirectUrl( $token );
+		} else {
+			// Redirect to preliminary check.
+			$url = $this->getPageTitle( $this->getTabName( 'preliminary-check' ) )->getFullUrlForRedirect( [
+				'token' => $token,
+			] );
+		}
 		$this->getOutput()->redirect( $url );
 
 		return \Status::newGood();
@@ -392,5 +452,62 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 */
 	protected function getGroupName() {
 		return 'users';
+	}
+
+	/**
+	 * Get an updated token.
+	 *
+	 * Preforms an array merge on the updates with what is in the current token.
+	 * Setting a value to null will remove it.
+	 *
+	 * @param array $update
+	 * @return string
+	 */
+	private function getUpdatedToken( array $update = [] ) : string {
+		$data = array_filter( array_merge( $this->getRequestData(), $update ), function ( $value ) {
+			return $value !== null;
+		} );
+
+		return $this->tokenManager->encode(
+			$this->getRequest()->getSession(),
+			$data
+		);
+	}
+
+	/**
+	 * Get a redirect URL with a token
+	 *
+	 * @param string $token
+	 * @return string
+	 */
+	private function getRedirectUrl( string $token ) : string {
+		$parts = wfParseURL( $this->getRequest()->getFullRequestURL() );
+		$query = wfCgiToArray( $parts['query'] );
+		$query['token'] = $token;
+		$parts['query'] = wfArrayToCgi( $query );
+		return wfAssembleUrl( $parts );
+	}
+
+	/**
+	 * Get an array of values from a new line seperated field.
+	 *
+	 * @param array $data
+	 * @param string $field
+	 * @return string[]
+	 */
+	private function getArrayFromField( array $data, string $field ) : array {
+		if ( !isset( $data[$field] ) ) {
+			return [];
+		}
+
+		if ( !is_string( $data[$field] ) ) {
+			return [];
+		}
+
+		if ( $data[$field] === '' ) {
+			return [];
+		}
+
+		return explode( "\n", $data[$field] );
 	}
 }

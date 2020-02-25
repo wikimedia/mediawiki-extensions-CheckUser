@@ -16,7 +16,7 @@ class ComparePagerTest extends MediaWikiTestCase {
 	/**
 	 * @dataProvider provideDoQuery
 	 */
-	public function testDoQuery( $targets, $expected ) {
+	public function testDoQuery( $targets, $hideTargets, $expected ) {
 		$services = MediaWikiServices::getInstance();
 
 		$tokenManager = $this->getMockBuilder( TokenManager::class )
@@ -24,7 +24,10 @@ class ComparePagerTest extends MediaWikiTestCase {
 			->setMethods( [ 'getDataFromRequest' ] )
 			->getMock();
 		$tokenManager->method( 'getDataFromRequest' )
-			->willReturn( [ 'targets' => $targets ] );
+			->willReturn( [
+				'targets' => $targets,
+				'hide-targets' => $hideTargets,
+			] );
 
 		$compareService = $this->getMockBuilder( CompareService::class )
 			->setConstructorArgs( [ $services->getDBLoadBalancer() ] )
@@ -54,12 +57,13 @@ class ComparePagerTest extends MediaWikiTestCase {
 
 	public function provideDoQuery() {
 		return [
-			[ [ 'User1' ], 2 ],
-			[ [ 'User1', 'InvalidUser', '1.2.3.9/120' ], 2 ],
-			[ [ 'User1', '' ], 2 ],
-			[ [ 'User2' ], 1 ],
-			[ [ '1.2.3.4' ], 4 ],
-			[ [ '1.2.3.0/24' ], 7 ],
+			[ [ 'User1' ], [], 2 ],
+			[ [ 'User1', 'InvalidUser', '1.2.3.9/120' ], [], 2 ],
+			[ [ 'User1', '' ], [], 2 ],
+			[ [ 'User2' ], [], 1 ],
+			[ [ 'User2' ], [ 'User2' ], 0 ],
+			[ [ '1.2.3.4' ], [], 4 ],
+			[ [ '1.2.3.0/24' ], [], 7 ],
 		];
 	}
 
