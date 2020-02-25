@@ -4,6 +4,6 @@
 			"Starladin"
 		]
 	},
-	"checkuser-investigate-preliminary-table-empty": "Degügn resultac.",
+	"checkuser-investigate-notice-no-results": "Degügn resultac.",
 	"checkuser-investigate-preliminary-table-header-blocked": "Status"
 }
