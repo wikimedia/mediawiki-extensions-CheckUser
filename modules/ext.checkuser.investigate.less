@@ -8,6 +8,46 @@
 	}
 }
 
+.ext-checkuser-investigate-table-button-pin.oo-ui-buttonElement {
+	display: none;
+}
+
+.ext-checkuser-investigate-table.mw-datatable.ext-checkuser-investigate-table-pinned {
+	.ext-checkuser-investigate-table-row-pinned td,
+	.ext-checkuser-investigate-table-row-pinned-data-match td {
+		background-color: #fef6e7;
+	}
+
+	tr {
+		td.ext-checkuser-investigate-table-cell-pinned,
+		td.ext-checkuser-investigate-table-cell-pinned-data-match {
+			background-color: #fc3;
+
+			.ext-checkuser-investigate-table-button-pin {
+				display: block;
+			}
+		}
+	}
+}
+
+.ext-checkuser-investigate-table.mw-datatable:not( .ext-checkuser-investigate-table-pinned ) {
+	.ext-checkuser-investigate-table-row-hover-data-match td,
+	tr:hover td {
+		background-color: #fef6e7;
+	}
+
+	tr {
+		td.ext-checkuser-investigate-table-cell-hover-data-match,
+		td:hover.ext-checkuser-investigate-table-cell-pinnable {
+			background-color: #fc3;
+
+			.ext-checkuser-investigate-table-button-pin {
+				display: block;
+			}
+		}
+	}
+}
+
 .mw-special-Investigate {
 	// Apply the text colors to the links.
 	.oo-ui-tabOptionWidget a {

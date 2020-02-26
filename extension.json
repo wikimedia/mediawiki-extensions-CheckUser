@@ -103,9 +103,19 @@
 				"checkuser-centralauth-multilock"
 			]
 		},
-		"ext.checkUser.investigate": {
+		"ext.checkUser.investigate.styles": {
 			"styles": [
 				"modules/ext.checkuser.investigate.less"
+			]
+		},
+		"ext.checkUser.investigate": {
+			"scripts": [
+				"modules/ext.checkuser.investigate.js"
+			],
+			"dependencies": [
+				"oojs-ui-widgets",
+				"oojs-ui.styles.icons-content",
+				"oojs-ui.styles.icons-moderation"
 			]
 		}
 	},
