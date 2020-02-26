@@ -2,18 +2,26 @@
 
 namespace MediaWiki\CheckUser;
 
-use MediaWiki\User\UserIdentity;
+use User;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\ILoadBalancer;
+use Wikimedia\Rdbms\Subquery;
 
 class CompareService {
-
 	/** @var ILoadBalancer */
 	private $loadBalancer;
 
-	public function __construct( ILoadBalancer $loadBalancer ) {
+	/** @var int */
+	private $limit;
+
+	/**
+	 * @param ILoadBalancer $loadBalancer
+	 * @param int $limit Maximum number of rows to access (T245499)
+	 */
+	public function __construct( ILoadBalancer $loadBalancer, $limit = 100000 ) {
 		$this->loadBalancer = $loadBalancer;
+		$this->limit = $limit;
 	}
 
 	/**
@@ -53,25 +61,40 @@ class CompareService {
 	/**
 	 * Get the compare query info
 	 *
-	 * @param string[]|UserIdentity[] $users
+	 * @param string[] $targets
 	 * @return array
 	 */
-	public function getQueryInfo( array $users ): array {
+	public function getQueryInfo( array $targets ): array {
+		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
+		$limit = (int)( $this->limit / count( $targets ) );
+
+		$sqlText = [];
+		foreach ( $targets as $target ) {
+			$info = $this->getQueryInfoForSingleTarget( $target, $limit );
+			if ( $info !== null ) {
+				$sqlText[] = $db->selectSQLText(
+					$info['tables'],
+					$info['fields'],
+					$info['conds'],
+					__METHOD__,
+					$info['options']
+				);
+			}
+		}
+
+		$derivedTable = $db->unionQueries( $sqlText, $db::UNION_DISTINCT );
+
 		return [
+			'tables' => [ 'a' => new Subquery( $derivedTable ) ],
 			'fields' => [
-				'cuc_user',
-				'cuc_user_text',
-				'cuc_ip',
-				'cuc_ip_hex',
-				'first_edit' => 'MIN(cuc_timestamp)',
-				'last_edit' => 'MAX(cuc_timestamp)',
+				'a.cuc_user',
+				'a.cuc_user_text',
+				'a.cuc_ip',
+				'a.cuc_ip_hex',
+				'a.cuc_agent',
+				'first_edit' => 'MIN(a.cuc_timestamp)',
+				'last_edit' => 'MAX(a.cuc_timestamp)',
 				'total_edits' => 'count(*)',
-				'cuc_agent',
-			],
-			'tables' => 'cu_changes',
-			'conds' => [
-				'cuc_type' => [ RC_EDIT, RC_NEW ],
-				$this->buildUserPredicate( $users ),
 			],
 			'options' => [
 				'GROUP BY' => [
@@ -84,53 +107,136 @@ class CompareService {
 	}
 
 	/**
-	 * Builds a query predicate depending on what type of
-	 * users are being passed in
+	 * Get the query info for a single target.
 	 *
-	 * @param string[]|UserIdentity[] $users
-	 * @return string
+	 * For the main investigation, this becomes a subquery that contributes to a derived
+	 * table, used by getQueryInfo.
+	 *
+	 * For a limit check, this query is used to check whether the number of results for
+	 * the target exceed the limit-per-target in getQueryInfo.
+	 *
+	 * @param string $target
+	 * @param int $limitPerTarget
+	 * @param bool $limitCheck
+	 * @return array|null Return null for invalid target
 	 */
-	private function buildUserPredicate( array $users ): string {
-		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
-		$usernames = [];
-		$ips = [];
-		$ranges = [];
-		foreach ( $users as $user ) {
-			if ( $user instanceof UserIdentity ) {
-				$user = $user->getName();
-			} else {
-				$user = (string)$user;
-			}
-
-			if ( IPUtils::isIpAddress( $user ) ) {
-				if ( IPUtils::isValid( $user ) ) {
-					$ips[] = IPUtils::toHex( $user );
-				} elseif ( IPUtils::isValidRange( $user ) ) {
-					$ranges[] = IPUtils::parseRange( $user );
-				}
-			} else {
-				$usernames[] = $user;
-			}
+	public function getQueryInfoForSingleTarget(
+		$target,
+		int $limitPerTarget,
+		$limitCheck = false
+	) : ?array {
+		if ( $limitCheck ) {
+			$orderBy = null;
+			$offset = $limitPerTarget;
+			$limit = 1;
+		} else {
+			$orderBy = 'cuc_timestamp';
+			$offset = null;
+			$limit = $limitPerTarget;
 		}
 
+		$conds = $this->buildUserConds( $target );
+		if ( $conds === [] ) {
+			return null;
+		}
+
+		// TODO: Add timestamp conditions (T246261)
+		$conds['cuc_type'] = [ RC_EDIT, RC_NEW ];
+
+		return [
+			'tables' => 'cu_changes',
+			'fields' => [
+				'cuc_user',
+				'cuc_user_text',
+				'cuc_ip',
+				'cuc_ip_hex',
+				'cuc_agent',
+				'cuc_timestamp',
+			],
+			'conds' => $conds,
+			'options' => [
+				'ORDER BY' => $orderBy,
+				'LIMIT' => $limit,
+				'OFFSET' => $offset,
+			],
+		];
+	}
+
+	/**
+	 * Builds a query predicate depending on what type of
+	 * target is passed in
+	 *
+	 * @param string $target
+	 * @return string[]
+	 */
+	private function buildUserConds( $target ) : array {
+		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
 		$conds = [];
-		if ( $ranges ) {
-			foreach ( $ranges as $range ) {
+
+		if ( IPUtils::isIpAddress( $target ) ) {
+			if ( IPUtils::isValid( $target ) ) {
+				$conds['cuc_ip_hex'] = IPUtils::toHex( $target );
+			} elseif ( IPUtils::isValidRange( $target ) ) {
+				$range = IPUtils::parseRange( $target );
 				$conds[] = $db->makeList( [
 					'cuc_ip_hex >= ' . $db->addQuotes( $range[0] ),
 					'cuc_ip_hex <=' . $db->addQuotes( $range[1] )
 				], IDatabase::LIST_AND );
 			}
+		} else {
+			// TODO: This may filter out invalid values, changing the number of
+			// targets. The per-target limit should change too (T246393).
+			$userId = $this->getUserId( $target );
+			if ( $userId ) {
+				$conds['cuc_user'] = $userId;
+			}
 		}
 
-		if ( $usernames ) {
-			$conds['cuc_user_text'] = $usernames;
+		return $conds;
+	}
+
+	/**
+	 * Get user ID from a user name; for mocking in tests.
+	 *
+	 * @param string $username
+	 * @return int|null Id, or null if the username is invalid or non-existent
+	 */
+	protected function getUserId( $username ) : ?int {
+		return User::idFromName( $username );
+	}
+
+	/**
+	 * Check if we have incomplete data for any of the targets.
+	 *
+	 * @param string[] $targets
+	 * @return string[]
+	 */
+	public function getTargetsOverLimit( array $targets ) : array {
+		if ( $targets === [] ) {
+			return $targets;
 		}
 
-		if ( $ips ) {
-			$conds['cuc_ip_hex'] = $ips;
+		$targetsOverLimit = [];
+		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
+
+		$offset = (int)( $this->limit / count( $targets ) );
+
+		foreach ( $targets as $target ) {
+			$info = $this->getQueryInfoForSingleTarget( $target, $offset, true );
+			if ( $info !== null ) {
+				$limitCheck = $db->select(
+					$info['tables'],
+					$info['fields'],
+					$info['conds'],
+					__METHOD__,
+					$info['options']
+				);
+				if ( $limitCheck->numRows() > 0 ) {
+					$targetsOverLimit[] = $target;
+				}
+			}
 		}
 
-		return $db->makeList( $conds, IDatabase::LIST_OR );
+		return $targetsOverLimit;
 	}
 }

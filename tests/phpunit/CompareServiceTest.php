@@ -3,12 +3,11 @@
 use MediaWiki\CheckUser\CompareService;
 use MediaWiki\MediaWikiServices;
 use Wikimedia\IPUtils;
-use Wikimedia\Rdbms\IResultWrapper;
 
 /**
  * @group CheckUser
  * @group Database
- * @coversDefaultClass \MediaWiki\CheckUser\CompareService
+ * @covers \MediaWiki\CheckUser\CompareService
  */
 class CompareServiceTest extends MediaWikiTestCase {
 
@@ -29,40 +28,124 @@ class CompareServiceTest extends MediaWikiTestCase {
 	}
 
 	/**
-	 * @covers ::getTotalEditsFromIp
-	 * @dataProvider provideCompareData
+	 * Sanity check for the subqueries built by getQueryInfo. Checks for the presence
+	 * of valid targets and the presence of the expected per-target limit. Whitespace
+	 * is not always predictable so look for the bare minimum in the SQL string.
+	 *
+	 * Invalid targets are tested in ComparePagerTest::testDoQuery.
+	 *
+	 * @dataProvider provideGetQueryInfo
 	 */
-	public function testGetCompareData( $users, $expected ) {
-		$result = $this->getCompareData( $users );
-		$this->assertEquals( $result->numRows(), $expected );
+	public function testGetQueryInfo( $targets, $expected ) {
+		$services = MediaWikiServices::getInstance();
+
+		$compareService = $this->getMockBuilder( CompareService::class )
+			->setConstructorArgs( [ $services->getDBLoadBalancer() ] )
+			->setMethods( [ 'getUserId' ] )
+			->getMock();
+		$compareService->method( 'getUserId' )
+			->will( $this->returnValueMap( [
+				[ 'User1', 11111, ],
+			] ) );
+
+		$queryInfo = $compareService->getQueryInfo( $targets );
+
+		foreach ( $expected['targets'] as $target ) {
+			$this->assertTrue( strpos( $queryInfo['tables']['a'], $target ) !== false );
+		}
+
+		$this->assertTrue( strpos( $queryInfo['tables']['a'], $expected['limit'] ) !== false );
 	}
 
-	public function provideCompareData() {
+	public function provideGetQueryInfo() {
 		return [
-			[ [ 'User1' ], 2 ],
-			[ [ 'User1', 'InvalidUser', '1.2.3.9/120' ], 2 ],
-			[ [ 'User1', '' ], 2 ],
-			[ [ 'User2' ], 1 ],
-			[ [ '1.2.3.4' ], 4 ],
-			[ [ '1.2.3.0/24' ], 7 ],
-			[ [ 'User1','User2' ], 3 ],
-			[ [ 'User1','User2', '1.2.3.4' ], 5 ],
+			'Valid username' => [
+				[ 'User1' ],
+				[
+					'targets' => [ '11111' ],
+					'limit' => '100000',
+				],
+			],
+			'Single valid IP' => [
+				[ '0:0:0:0:0:0:0:1' ],
+				[
+					'targets' => [ 'v6-00000000000000000000000000000001' ],
+					'limit' => '100000',
+				],
+			],
+			'Two valid IPs' => [
+				[ '0:0:0:0:0:0:0:1', '1.2.3.4' ],
+				[
+					'targets' => [
+						'v6-00000000000000000000000000000001',
+						'01020304'
+					],
+					'limit' => '50000',
+				],
+			],
+			'Valid IP addresses and IP range' => [
+				[
+					'0:0:0:0:0:0:0:1',
+					'1.2.3.4',
+					'1.2.3.4/16',
+				],
+				[
+					'targets' => [
+						'v6-00000000000000000000000000000001',
+						'01020304',
+						'01020000',
+						'0102FFFF',
+					],
+					'limit' => '33333',
+				],
+			],
 		];
 	}
 
-	private function getCompareData( array $users ): IResultWrapper {
-		[
-			'tables' => $tables,
-			'fields' => $fields,
-			'conds' => $conds,
-			'options' => $options
-		] = $this->getCompareService()->getQueryInfo( $users );
+	/**
+	 * @dataProvider provideGetQueryInfoForSingleTarget
+	 */
+	public function testGetQueryInfoForSingleTarget( $options, $expected ) {
+		$info = $this->getCompareService()->getQueryInfoForSingleTarget(
+			'1.2.3.4',
+			$options['limitPerTarget'],
+			$options['limitCheck']
+		);
 
-		return $this->db->select( $tables, $fields, $conds, __METHOD__, $options );
+		$this->assertSame( $expected['orderBy'], $info['options']['ORDER BY'] );
+		$this->assertSame( $expected['limit'], $info['options']['LIMIT'] );
+		$this->assertSame( $expected['offset'], $info['options']['OFFSET'] );
+	}
+
+	public function provideGetQueryInfoForSingleTarget() {
+		$limitPerTarget = 100;
+		return [
+			'Main investigation' => [
+				[
+					'limitPerTarget' => $limitPerTarget,
+					'limitCheck' => false,
+				],
+				[
+					'orderBy' => 'cuc_timestamp',
+					'offset' => null,
+					'limit' => $limitPerTarget
+				]
+			],
+			'Limit check' => [
+				[
+					'limitPerTarget' => $limitPerTarget,
+					'limitCheck' => true,
+				],
+				[
+					'orderBy' => null,
+					'offset' => $limitPerTarget,
+					'limit' => 1
+				]
+			],
+		];
 	}
 
 	/**
-	 * @covers ::getTotalEditsFromIp
 	 * @dataProvider provideTotalEditsFromIp()
 	 */
 	public function testGetTotalEditsFromIp( $data, $expected ) {
@@ -107,7 +190,7 @@ class CompareServiceTest extends MediaWikiTestCase {
 		];
 	}
 
-	public function addDBDataOnce() {
+	public function addDBData() {
 		$testData = [
 			[
 				'cuc_user'       => 0,
@@ -145,21 +228,21 @@ class CompareServiceTest extends MediaWikiTestCase {
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
 				'cuc_agent'      => 'foo user agent',
 			], [
-				'cuc_user'       => 1,
+				'cuc_user'       => 11111,
 				'cuc_user_text'  => 'User1',
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip'         => '1.2.3.4',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cuc_agent'      => 'foo user agent',
 			], [
-				'cuc_user'       => 2,
+				'cuc_user'       => 22222,
 				'cuc_user_text'  => 'User2',
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip'         => '1.2.3.4',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cuc_agent'      => 'foo user agent',
 			], [
-				'cuc_user'       => 1,
+				'cuc_user'       => 11111,
 				'cuc_user_text'  => 'User1',
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip'         => '1.2.3.5',
@@ -185,5 +268,7 @@ class CompareServiceTest extends MediaWikiTestCase {
 		foreach ( $testData as $row ) {
 			$this->db->insert( 'cu_changes', $row + $commonData );
 		}
+
+		$this->tablesUsed[] = 'cu_changes';
 	}
 }

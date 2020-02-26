@@ -243,4 +243,14 @@ class ComparePager extends TablePager {
 		$targets = $this->requestData['targets'] ?: [];
 		return $this->compareService->getQueryInfo( $targets );
 	}
+
+	/**
+	 * Check if we have incomplete data for any of the targets.
+	 *
+	 * @return string[] Targets whose limits were exceeded (if any)
+	 */
+	public function getTargetsOverLimit() : array {
+		$targets = $this->requestData['targets'] ?: [];
+		return $this->compareService->getTargetsOverLimit( $targets );
+	}
 }
