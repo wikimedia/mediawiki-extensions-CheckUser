@@ -105,6 +105,7 @@
 	"checkuser-investigate-targets-label": "Benutzernamen und IP-Adressen",
 	"checkuser-investigate-targets-placeholder": "Benutzername oder 1.1.1.1",
 	"checkuser-investigate-reason-label": "Grund",
+	"checkuser-investigate-preliminary-notice-ip-targets": "Die Tabelle der Vorabprüfung enthält keine Informationen über IPs. Siehe den <span class=\"plainlinks\">[$1 Vergleich-Tab]<span> für diese Details.",
 	"checkuser-investigate-preliminary-table-cell-blocked": "Gesperrt",
 	"checkuser-investigate-preliminary-table-cell-edits": "{{PLURAL:$1|Eine Bearbeitung|$1 Bearbeitungen}}",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "Nicht gesperrt",
