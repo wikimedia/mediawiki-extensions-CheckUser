@@ -102,7 +102,7 @@ class CompareServiceTest extends MediaWikiTestCase {
 				], [
 					'total_edits' => 3,
 					'total_users' => 2,
- ],
+				],
 			],
 		];
 	}
