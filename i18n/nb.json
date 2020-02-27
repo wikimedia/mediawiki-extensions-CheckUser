@@ -94,6 +94,9 @@
 	"checkuser-investigate": "Undersøk",
 	"checkuser-investigate-legend": "Søk etter brukernavn, IP-adresser eller IP-intervaller",
 	"checkuser-investigate-notice-no-results": "Det er ingen resultater.",
+	"checkuser-investigate-tab-preliminary-check": "Innledende sjekk",
+	"checkuser-investigate-tab-compare": "Sammenlign",
+	"checkuser-investigate-tab-timeline": "Tidslinje",
 	"checkuser-investigate-targets-label": "Brukernavn og IP-adresser",
 	"checkuser-investigate-targets-placeholder": "Brukernavn eller 1.1.1.1",
 	"checkuser-investigate-reason-label": "Årsak",
@@ -105,5 +108,12 @@
 	"checkuser-investigate-preliminary-table-header-groups": "Grupper",
 	"checkuser-investigate-preliminary-table-header-name": "Brukernavn",
 	"checkuser-investigate-preliminary-table-header-registration": "Dato tilknyttet",
-	"checkuser-investigate-preliminary-table-header-wiki": "Wiki"
+	"checkuser-investigate-preliminary-table-header-wiki": "Wiki",
+	"checkuser-investigate-compare-table-cell-unregistered": "Uregistrert",
+	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|redigering|redigeringer}}]</b>",
+	"checkuser-investigate-compare-table-cell-other-edits": "<i>(~$1 fra alle brukere)</i>",
+	"checkuser-investigate-compare-table-header-username": "Brukernavn",
+	"checkuser-investigate-compare-table-header-activity": "Datoområde",
+	"checkuser-investigate-compare-table-header-ip": "IP",
+	"checkuser-investigate-compare-table-header-useragent": "Brukeragent"
 }

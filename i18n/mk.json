@@ -98,6 +98,7 @@
 	"checkuser-investigate-targets-label": "Кориснички имиња и IP-адреси",
 	"checkuser-investigate-targets-placeholder": "Корисничко име или 1.1.1.1",
 	"checkuser-investigate-reason-label": "Причина",
+	"checkuser-investigate-preliminary-notice-ip-targets": "Табелата за прелиминарни проверки не вклучува никакви информации за IP-адреси. Тие поединости можете да ги погледате на <span class=\"plainlinks\">[$1 јазичето за споредба]</span>.",
 	"checkuser-investigate-preliminary-table-cell-blocked": "Блокиран",
 	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|уредување|уредувања}}",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "Неблокиран",

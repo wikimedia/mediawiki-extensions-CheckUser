@@ -98,6 +98,7 @@
 	"checkuser-investigate-targets-label": "שמות משתמש וכתובות IP",
 	"checkuser-investigate-targets-placeholder": "שם־משתמש או 1.1.1.1",
 	"checkuser-investigate-reason-label": "סיבה",
+	"checkuser-investigate-preliminary-notice-ip-targets": "טבלת הבדיקה המקדמית אינה כוללת שום מידע על כתובות IP. ר' את <span class=\"plainlinks\">[$1 הלשונית \"השוואה\"]</span> בשביל הפרטים האלה.",
 	"checkuser-investigate-preliminary-table-cell-blocked": "חסום",
 	"checkuser-investigate-preliminary-table-cell-edits": "{{PLURAL:$1|עריכה אחת|$1 עריכות}}",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "לא חסום",
