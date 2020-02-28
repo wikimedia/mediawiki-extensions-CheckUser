@@ -4,11 +4,9 @@ namespace MediaWiki\CheckUser;
 
 interface PagerFactory {
 	/**
-	 * Factory to create the TablePager
+	 * Factory to create the pager
 	 *
 	 * @param \IContextSource $context
-	 *
-	 * @return \TablePager
 	 */
-	public function createPager( \IContextSource $context ) : \TablePager;
+	public function createPager( \IContextSource $context );
 }
