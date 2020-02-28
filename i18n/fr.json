@@ -115,6 +115,7 @@
 	"checkuser-investigate-targets-label": "Noms d’utilisateurs et adresses IP",
 	"checkuser-investigate-targets-placeholder": "Nom d’utilisateur ou 1.1.1.1",
 	"checkuser-investigate-reason-label": "Motif",
+	"checkuser-investigate-preliminary-notice-ip-targets": "La table des contrôles préliminaires n’inclut aucune information sur les adresses IP. Voir l’<span class=\"plainlinks\">[$1 onglet Comparaison]</span> pour ces détails.",
 	"checkuser-investigate-preliminary-table-cell-blocked": "Bloqué",
 	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|modification|modifications}}",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "Non bloqué",
