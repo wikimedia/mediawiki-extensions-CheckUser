@@ -44,7 +44,7 @@ class PreliminaryCheckPagerFactory implements PagerFactory {
 	/**
 	 * @inheritDoc
 	 */
-	public function createPager( \IContextSource $context ) : \TablePager {
+	public function createPager( \IContextSource $context ) : PreliminaryCheckPager {
 		return new PreliminaryCheckPager(
 			$context,
 			$this->linkRenderer,
