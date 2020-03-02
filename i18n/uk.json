@@ -106,6 +106,7 @@
 	"checkuser-investigate-targets-label": "Імена користувачів та IP-адреси",
 	"checkuser-investigate-targets-placeholder": "Ім'я користувача або 1.1.1.1",
 	"checkuser-investigate-reason-label": "Причина",
+	"checkuser-investigate-preliminary-notice-ip-targets": "Таблиця попередньої перевірки не містить жодної інформації про IP-адреси. Див. <span class=\"plainlinks\">[$1 вкладку порівняння]</span>, аби переглянути такі подробиці.",
 	"checkuser-investigate-preliminary-table-cell-blocked": "Заблоковано",
 	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|редагування|редагування|редагувань}}",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "Не заблоковано",
