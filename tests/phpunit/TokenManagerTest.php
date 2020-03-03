@@ -9,7 +9,7 @@ use MediaWiki\Session\SessionManager;
  *
  * @group CheckUser
  *
- * @coversDefaultClass \MediaWiki\CheckUser\TokenManager
+ * @covers \MediaWiki\CheckUser\TokenManager
  */
 class TokenManagerTest extends MediaWikiTestCase {
 
@@ -25,10 +25,6 @@ class TokenManagerTest extends MediaWikiTestCase {
 		JWT::$timestamp = null;
 	}
 
-	/**
-	 * @covers \MediaWiki\CheckUser\TokenManager::getDataFromRequest
-	 * @covers \MediaWiki\CheckUser\TokenManager::decode
-	 */
 	public function testGetDataFromRequest() {
 		$token = implode( '.', [
 			'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9',
@@ -56,10 +52,6 @@ class TokenManagerTest extends MediaWikiTestCase {
 		], $data );
 	}
 
-	/**
-	 * @covers \MediaWiki\CheckUser\TokenManager::encode
-	 * @covers \MediaWiki\CheckUser\TokenManager::decode
-	 */
 	public function testEncodeDecode() {
 		$tokenManager = new TokenManager( 'abcdef' );
 		$targets = [ 'Example', '10.0.0.0/8' ];
@@ -78,9 +70,6 @@ class TokenManagerTest extends MediaWikiTestCase {
 		$this->assertSame( $targets, $decoded['targets'] );
 	}
 
-	/**
-	 * @covers \MediaWiki\CheckUser\TokenManager::decode
-	 */
 	public function testDecodeSecretFailure() {
 		$this->expectExceptionMessage( 'Signature verification failed' );
 
@@ -92,9 +81,6 @@ class TokenManagerTest extends MediaWikiTestCase {
 		$decoded = $tokenManager->decode( $session, $encoded );
 	}
 
-	/**
-	 * @covers \MediaWiki\CheckUser\TokenManager::decode
-	 */
 	public function testDecodeSessionFailure() {
 		$this->expectExceptionMessage( 'Signature verification failed' );
 

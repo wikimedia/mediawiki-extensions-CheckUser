@@ -29,6 +29,7 @@ use NamespaceInfo;
 use TablePager;
 use WikiMap;
 use Wikimedia\Rdbms\FakeResultWrapper;
+use Wikimedia\Rdbms\IDatabase;
 
 /**
  * @ingroup Pager
@@ -40,6 +41,9 @@ class PreliminaryCheckPager extends TablePager {
 	/** @var TokenManager */
 	private $tokenManager;
 
+	/** @var ExtensionRegistry */
+	private $extensionRegistry;
+
 	/** @var PreliminaryCheckService */
 	private $preliminaryCheckService;
 
@@ -48,9 +52,6 @@ class PreliminaryCheckPager extends TablePager {
 
 	/** @var array */
 	private $requestData;
-
-	/** @var bool */
-	private $globalCheck;
 
 	/**
 	 * @param IContextSource $context
@@ -68,10 +69,11 @@ class PreliminaryCheckPager extends TablePager {
 		ExtensionRegistry $extensionRegistry,
 		PreliminaryCheckService $preliminaryCheckService
 	) {
+		$this->extensionRegistry = $extensionRegistry;
+
 		// This must be done before getIndexField is called by the parent constructor
-		$this->globalCheck = $extensionRegistry->isLoaded( 'CentralAuth' );
-		if ( $this->globalCheck ) {
-			$this->mDb = \CentralAuthUtils::getCentralReplicaDB();
+		if ( $this->isGlobalCheck() ) {
+			$this->mDb = $this->getCentralReplicaDB();
 		}
 
 		parent::__construct( $context, $linkRenderer );
@@ -189,7 +191,7 @@ class PreliminaryCheckPager extends TablePager {
 	 * @inheritDoc
 	 */
 	public function getIndexField() {
-		return $this->globalCheck ? [ [ 'lu_name', 'lu_wiki' ] ] : 'user_name';
+		return $this->isGlobalCheck() ? [ [ 'lu_name', 'lu_wiki' ] ] : 'user_name';
 	}
 
 	/**
@@ -238,5 +240,22 @@ class PreliminaryCheckPager extends TablePager {
 		$this->mResult = new FakeResultWrapper(
 			$this->preliminaryCheckService->preprocessResults( $result )
 		);
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isGlobalCheck(): bool {
+		return $this->extensionRegistry->isLoaded( 'CentralAuth' )
+			&& is_callable( [ '\CentralAuthUtils', 'getCentralReplicaDB' ] );
+	}
+
+	/**
+	 * @return IDatabase|null
+	 */
+	protected function getCentralReplicaDB(): ?IDatabase {
+		if ( is_callable( [ '\CentralAuthUtils', 'getCentralReplicaDB' ] ) ) {
+			return \CentralAuthUtils::getCentralReplicaDB();
+		}
 	}
 }

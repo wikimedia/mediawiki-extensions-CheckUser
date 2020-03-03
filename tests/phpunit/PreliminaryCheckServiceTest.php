@@ -10,8 +10,7 @@ use Wikimedia\Rdbms\ILoadBalancer;
  * Test class for PreliminaryCheckService class
  *
  * @group CheckUser
- *
- * @coversDefaultClass \MediaWiki\CheckUser\PreliminaryCheckService
+ * @covers \MediaWiki\CheckUser\PreliminaryCheckService
  */
 class PreliminaryCheckServiceTest extends MediaWikiTestCase {
 	/**
@@ -47,7 +46,6 @@ class PreliminaryCheckServiceTest extends MediaWikiTestCase {
 	}
 
 	/**
-	 * @covers ::preprocessResults
 	 * @dataProvider preprocessResultsProvider()
 	 */
 	public function testPreprocessResults( $user, $options, $expected ) {
@@ -155,6 +153,57 @@ class PreliminaryCheckServiceTest extends MediaWikiTestCase {
 				],
 				[
 					$userData + [ 'wiki' => 'somewiki' ],
+				],
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider getQueryInfoProvider()
+	 */
+	public function testGetQueryInfo( $users, $options, $expected ) {
+		$lbFactory = $this->getMockLoadBalancerFactory();
+		$registry = $this->getMockExtensionRegistry();
+
+		$registry->method( 'isLoaded' )->willReturn( $options['isCentralAuthAvailable'] );
+
+		$service = new PreliminaryCheckService( $lbFactory, $registry, 'devwiki' );
+		$result = $service->getQueryInfo( $users );
+
+		$this->assertSame(
+			array_replace_recursive( $result, $expected ),
+			$result
+		);
+	}
+
+	public function getQueryInfoProvider() {
+		return [
+			'local users as string' => [
+				[ 'UserA', 'UserB' ],
+				[ 'isCentralAuthAvailable' => false ],
+				[
+					'tables' => 'user',
+					'conds' => [
+						'user_name' => [ 'UserA', 'UserB' ],
+					],
+				],
+			],
+			'empty users' => [
+				[],
+				[ 'isCentralAuthAvailable' => false ],
+				[
+					'tables' => 'user',
+					'conds' => [ 0 ],
+				],
+			],
+			'global users as string' => [
+				[ 'UserA', 'UserB' ],
+				[ 'isCentralAuthAvailable' => true ],
+				[
+					'tables' => 'localuser',
+					'conds' => [
+						'lu_name' => [ 'UserA', 'UserB' ],
+					],
 				],
 			],
 		];
