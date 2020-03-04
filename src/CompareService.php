@@ -77,6 +77,9 @@ class CompareService {
 		foreach ( $targets as $target ) {
 			$info = $this->getQueryInfoForSingleTarget( $target, $limit );
 			if ( $info !== null ) {
+				if ( !$db->unionSupportsOrderAndLimit() ) {
+					unset( $info['options']['ORDER BY'], $info['options']['LIMIT'] );
+				}
 				$sqlText[] = $db->selectSQLText(
 					$info['tables'],
 					$info['fields'],
@@ -222,9 +225,15 @@ class CompareService {
 			return $targets;
 		}
 
-		$targetsOverLimit = [];
 		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
 
+		// If the database does not support order and limit on a UNION
+		// then none of the targets can be over the limit.
+		if ( !$db->unionSupportsOrderAndLimit() ) {
+			return [];
+		}
+
+		$targetsOverLimit = [];
 		$offset = (int)( $this->limit / count( $targets ) );
 
 		foreach ( $targets as $target ) {
