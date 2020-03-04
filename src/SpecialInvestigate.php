@@ -407,7 +407,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 		if ( in_array( $this->par, [ $compareTab, $timelineTab ], true ) ) {
 			$fields['HideTargets'] = [
 				'type' => 'usersmultiselect',
-				'name' => 'targets',
+				'name' => 'hide-targets',
 				'label-message' => $prefix . '-filters-hide-targets-label',
 				'exists' => false, // Implies 'required'. @see https://phabricator.wikimedia.org/T246958
 				'ipallowed' => true,
@@ -420,7 +420,10 @@ class SpecialInvestigate extends \FormSpecialPage {
 		}
 
 		if ( $this->par === $compareTab ) {
-			// @TODO Add filters specific to the compare tab.
+			$fields['Targets'] = [
+				'type' => 'hidden',
+				'name' => 'targets',
+			];
 		}
 
 		if ( $this->par === $timelineTab ) {
@@ -478,12 +481,18 @@ class SpecialInvestigate extends \FormSpecialPage {
 			$update['hide-targets'] = $this->getArrayFromField( $data, 'HideTargets' );
 		}
 		if ( isset( $data['Targets' ] ) ) {
+			$tokenData = $this->getTokenData();
 			$update['targets'] = $this->getArrayFromField( $data, 'Targets' );
 
 			$this->addLogEntries(
 				$update['targets'],
-				$update['reason'] ?? $this->getTokenData()['reason']
+				$update['reason'] ?? $tokenData['reason']
 			);
+
+			$update['targets'] = array_unique( array_merge(
+				$update['targets'],
+				$tokenData['targets'] ?? []
+			) );
 		}
 
 		$token = $this->getUpdatedToken( $update );
