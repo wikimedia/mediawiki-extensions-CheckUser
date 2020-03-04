@@ -117,10 +117,10 @@ class ComparePager extends TablePager {
 					}
 
 					if ( IPUtils::isValidRange( $target ) && IPUtils::isInRange( $value, $target ) ) {
-						$attributes['class'] .= ' ext-checkuser-compare-table-cell-dark';
+						$attributes['class'] .= ' ext-checkuser-compare-table-cell-target';
 						break;
 					} elseif ( IPUtils::toHex( $target ) === $row->cuc_ip_hex ) {
-						$attributes['class'] .= ' ext-checkuser-compare-table-cell-dark';
+						$attributes['class'] .= ' ext-checkuser-compare-table-cell-target';
 						break;
 					}
 				}
@@ -129,7 +129,7 @@ class ComparePager extends TablePager {
 				break;
 			case 'cuc_user_text':
 				if ( !IPUtils::isIpAddress( $value ) && in_array( $value, $targets ) ) {
-					$attributes['class'] .= ' ext-checkuser-compare-table-cell-dark';
+					$attributes['class'] .= ' ext-checkuser-compare-table-cell-target';
 				}
 				break;
 			case 'cuc_agent':
