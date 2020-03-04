@@ -241,6 +241,18 @@ class SpecialInvestigate extends \FormSpecialPage {
 				$pager = $this->comparePagerFactory->createPager( $this->getContext() );
 
 				if ( $pager->getNumRows() ) {
+					$targetsOverLimit = $pager->getTargetsOverLimit();
+					if ( $targetsOverLimit ) {
+						$message = $this->msg(
+							'checkuser-investigate-compare-notice-exceeded-limit',
+							$this->getLanguage()->commaList( $targetsOverLimit )
+						)->parse();
+						$this->addHTML( new MessageWidget( [
+							'type' => 'warning',
+							'label' => new HtmlSnippet( $message )
+						] ) );
+					}
+
 					$this->addParserOutput( $pager->getFullOutput() );
 				} else {
 					$this->addHTML(
