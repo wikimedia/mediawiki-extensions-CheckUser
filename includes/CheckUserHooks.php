@@ -614,7 +614,9 @@ class CheckUserHooks {
 	) {
 		$user = $sp->getUser();
 		$linkRenderer = $sp->getLinkRenderer();
-		if ( $user->isAllowed( 'checkuser' ) ) {
+		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
+
+		if ( $permissionManager->userHasRight( $user, 'checkuser' ) ) {
 			$links['checkuser'] = $linkRenderer->makeKnownLink(
 				SpecialPage::getTitleFor( 'CheckUser' ),
 				$sp->msg( 'checkuser-contribs' )->text(),
@@ -622,7 +624,7 @@ class CheckUserHooks {
 				[ 'user' => $nt->getText() ]
 			);
 		}
-		if ( $user->isAllowed( 'checkuser-log' ) ) {
+		if ( $permissionManager->userHasRight( $user, 'checkuser-log' ) ) {
 			$links['checkuser-log'] = $linkRenderer->makeKnownLink(
 				SpecialPage::getTitleFor( 'CheckUserLog' ),
 				$sp->msg( 'checkuser-contribs-log' )->text(),
