@@ -115,6 +115,7 @@
 	"checkuser-investigate-preliminary-table-header-name": "Kullanıcı adı",
 	"checkuser-investigate-preliminary-table-header-registration": "Eklenme tarihi",
 	"checkuser-investigate-preliminary-table-header-wiki": "Viki",
+	"checkuser-investigate-compare-notice-exceeded-limit": "Teknik sınırlamalar nedeniyle sunulabilecek kayıt sayısına ulaştık. Aşağıdaki hedefler için döndürülen veriler eksik: $1. Lütfen daha az hedef, daha küçük zaman aralığı veya daha dar IP aralıkları kullanmayı deneyin.",
 	"checkuser-investigate-compare-table-cell-unregistered": "Kayıtsız",
 	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|düzenleme|düzenleme}}]</b>",
 	"checkuser-investigate-compare-table-cell-other-edits": "<i>(~Tüm kullanıcılardan $1)</i>",
