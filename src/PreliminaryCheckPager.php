@@ -62,9 +62,8 @@ class PreliminaryCheckPager extends InvestigatePager {
 		ExtensionRegistry $extensionRegistry,
 		PreliminaryCheckService $preliminaryCheckService
 	) {
+		// This must be done before getIndexField is called by the TablePager constructor
 		$this->extensionRegistry = $extensionRegistry;
-
-		// This must be done before getIndexField is called by the parent constructor
 		if ( $this->isGlobalCheck() ) {
 			$this->mDb = $this->getCentralReplicaDB();
 		}
