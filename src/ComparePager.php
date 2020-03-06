@@ -26,18 +26,11 @@ use Html;
 use IContextSource;
 use Linker;
 use MediaWiki\Linker\LinkRenderer;
-use TablePager;
 use Wikimedia\IPUtils;
 
-class ComparePager extends TablePager {
-	/** @var TokenManager */
-	private $tokenManager;
-
+class ComparePager extends InvestigatePager {
 	/** @var CompareService */
 	private $compareService;
-
-	/** @var array */
-	private $requestData;
 
 	/** @var array */
 	private $fieldNames;
@@ -48,56 +41,8 @@ class ComparePager extends TablePager {
 		TokenManager $tokenManager,
 		CompareService $compareService
 	) {
-		parent::__construct( $context, $linkRenderer );
-		$this->tokenManager = $tokenManager;
+		parent::__construct( $context, $linkRenderer, $tokenManager );
 		$this->compareService = $compareService;
-
-		$this->requestData = $tokenManager->getDataFromRequest( $context->getRequest() );
-		$this->mOffset = $this->requestData['offset'] ?? '';
-	}
-
-	/**
-	 * @inheritDoc
-	 *
-	 * Conceal the offset which may reveal private data.
-	 */
-	public function getPagingQueries() {
-		$session = $this->getContext()->getRequest()->getSession();
-		$queries = parent::getPagingQueries();
-		foreach ( $queries as $key => &$query ) {
-			if ( $query === false ) {
-				continue;
-			}
-
-			if ( isset( $query['offset'] ) ) {
-				// Move the offset into the token.
-				$query['token'] = $this->tokenManager->encode( $session, array_merge( $this->requestData, [
-					'offset' => $query['offset'],
-				] ) );
-				unset( $query['offset'] );
-			} elseif ( isset( $this->requestData['offset'] ) ) {
-				// Remove the offset.
-				$data = $this->requestData;
-				unset( $data['offset'] );
-				$query['token'] = $this->tokenManager->encode( $session, $data );
-			}
-		}
-
-		return $queries;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function isFieldSortable( $field ) {
-		return false;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	protected function getTableClass() {
-		return parent::getTableClass() . ' ext-checkuser-investigate-table';
 	}
 
 	/**
@@ -209,13 +154,6 @@ class ComparePager extends TablePager {
 	 */
 	public function getIndexField() {
 		return [ [ 'cuc_user_text', 'cuc_ip', 'cuc_agent' ] ];
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getDefaultSort() {
-		return '';
 	}
 
 	/**

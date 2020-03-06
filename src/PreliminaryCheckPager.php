@@ -26,7 +26,6 @@ use Html;
 use IContextSource;
 use MediaWiki\Linker\LinkRenderer;
 use NamespaceInfo;
-use TablePager;
 use WikiMap;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IDatabase;
@@ -34,12 +33,9 @@ use Wikimedia\Rdbms\IDatabase;
 /**
  * @ingroup Pager
  */
-class PreliminaryCheckPager extends TablePager {
+class PreliminaryCheckPager extends InvestigatePager {
 	/** @var NamespaceInfo */
 	private $namespaceInfo;
-
-	/** @var TokenManager */
-	private $tokenManager;
 
 	/** @var ExtensionRegistry */
 	private $extensionRegistry;
@@ -49,9 +45,6 @@ class PreliminaryCheckPager extends TablePager {
 
 	/** @var string[] Array of column name to translated table header message */
 	private $fieldNames;
-
-	/** @var array */
-	private $requestData;
 
 	/**
 	 * @param IContextSource $context
@@ -76,57 +69,10 @@ class PreliminaryCheckPager extends TablePager {
 			$this->mDb = $this->getCentralReplicaDB();
 		}
 
-		parent::__construct( $context, $linkRenderer );
+		parent::__construct( $context, $linkRenderer, $tokenManager );
 
 		$this->namespaceInfo = $namespaceInfo;
-		$this->tokenManager = $tokenManager;
 		$this->preliminaryCheckService = $preliminaryCheckService;
-		$this->requestData = $tokenManager->getDataFromRequest( $context->getRequest() );
-		$this->mOffset = $this->requestData['offset'] ?? '';
-	}
-
-	/**
-	 * @inheritDoc
-	 *
-	 * Conceal the offset which may reveal private data.
-	 */
-	public function getPagingQueries() {
-		$session = $this->getContext()->getRequest()->getSession();
-		$queries = parent::getPagingQueries();
-		foreach ( $queries as $key => &$query ) {
-			if ( $query === false ) {
-				continue;
-			}
-
-			if ( isset( $query['offset'] ) ) {
-				// Move the offset into the token.
-				$query['token'] = $this->tokenManager->encode( $session, array_merge( $this->requestData, [
-					'offset' => $query['offset'],
-				] ) );
-				unset( $query['offset'] );
-			} elseif ( isset( $this->requestData['offset'] ) ) {
-				// Remove the offset.
-				$data = $this->requestData;
-				unset( $data['offset'] );
-				$query['token'] = $this->tokenManager->encode( $session, $data );
-			}
-		}
-
-		return $queries;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function isFieldSortable( $field ) {
-		return false;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	protected function getTableClass() {
-		return parent::getTableClass() . ' ext-checkuser-investigate-table';
 	}
 
 	/**
@@ -214,13 +160,6 @@ class PreliminaryCheckPager extends TablePager {
 	 */
 	public function getIndexField() {
 		return $this->isGlobalCheck() ? [ [ 'lu_name', 'lu_wiki' ] ] : 'user_name';
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getDefaultSort() {
-		return '';
 	}
 
 	/**
