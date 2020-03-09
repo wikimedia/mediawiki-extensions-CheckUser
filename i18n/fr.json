@@ -111,7 +111,7 @@
 	"checkuser-investigate-notice-no-results": "Il n’y a aucun résultat.",
 	"checkuser-investigate-tab-preliminary-check": "Vérification préliminaire",
 	"checkuser-investigate-tab-compare": "Comparer",
-	"checkuser-investigate-tab-timeline": "Planning",
+	"checkuser-investigate-tab-timeline": "Planification",
 	"checkuser-investigate-targets-label": "Noms d’utilisateurs et adresses IP",
 	"checkuser-investigate-targets-placeholder": "Nom d’utilisateur ou 1.1.1.1",
 	"checkuser-investigate-reason-label": "Motif",
