@@ -1,6 +1,7 @@
 <?php
 
 use MediaWiki\Block\DatabaseBlock;
+use MediaWiki\Revision\RevisionRecord;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IDatabase;
@@ -1857,7 +1858,11 @@ class SpecialCheckUser extends SpecialPage {
 					);
 				}
 			}
-			if ( $rev->userCan( Revision::DELETED_COMMENT ) ) {
+			if ( RevisionRecord::userCanBitfield(
+				$rev->getVisibility(),
+				RevisionRecord::DELETED_COMMENT,
+				$this->getUser()
+			) ) {
 				$line .= Linker::commentBlock( $row->cuc_comment );
 			} else {
 				$line .= Linker::commentBlock(

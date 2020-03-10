@@ -1,5 +1,6 @@
 <?php
 
+use MediaWiki\Revision\RevisionRecord;
 use Wikimedia\IPUtils;
 
 /**
@@ -152,7 +153,11 @@ class ApiQueryCheckUser extends ApiQueryBase {
 								"Couldn't fetch revision cu_changes table links to (cuc_this_oldid {$row->cuc_this_oldid})"
 							);
 						}
-						if ( $rev->userCan( Revision::DELETED_COMMENT ) ) {
+						if ( RevisionRecord::userCanBitfield(
+							$rev->getVisibility(),
+							RevisionRecord::DELETED_COMMENT,
+							$this->getUser()
+						) ) {
 							$edit['summary'] = $row->cuc_comment;
 						} else {
 							$edit['summary'] = $this->msg( 'rev-deleted-comment' )->text();
