@@ -27,6 +27,7 @@ use IContextSource;
 use Linker;
 use MediaWiki\Linker\LinkRenderer;
 use Wikimedia\IPUtils;
+use Wikimedia\Rdbms\FakeResultWrapper;
 
 class ComparePager extends InvestigatePager {
 	/** @var CompareService */
@@ -34,6 +35,9 @@ class ComparePager extends InvestigatePager {
 
 	/** @var array */
 	private $fieldNames;
+
+	/** @var string[] */
+	private $filteredTargets;
 
 	public function __construct(
 		IContextSource $context,
@@ -43,6 +47,11 @@ class ComparePager extends InvestigatePager {
 	) {
 		parent::__construct( $context, $linkRenderer, $tokenManager );
 		$this->compareService = $compareService;
+
+		$this->filteredTargets = array_diff(
+			$this->requestData['targets'] ?? [],
+			$this->requestData['hide-targets'] ?? []
+		);
 	}
 
 	/**
@@ -53,10 +62,9 @@ class ComparePager extends InvestigatePager {
 		$attributes['class'] = $attributes['class'] ?? '';
 
 		$row = $this->mCurrentRow;
-		$targets = $this->requestData['targets'];
 		switch ( $field ) {
 			case 'cuc_ip':
-				foreach ( $targets as $target ) {
+				foreach ( $this->filteredTargets as $target ) {
 					if ( !IPUtils::isIPAddress( $target ) ) {
 						continue;
 					}
@@ -73,7 +81,7 @@ class ComparePager extends InvestigatePager {
 				$attributes['data-' . $field] = $value;
 				break;
 			case 'cuc_user_text':
-				if ( !IPUtils::isIpAddress( $value ) && in_array( $value, $targets ) ) {
+				if ( !IPUtils::isIpAddress( $value ) && in_array( $value, $this->filteredTargets ) ) {
 					$attributes['class'] .= ' ext-checkuser-compare-table-cell-target';
 				}
 				break;
@@ -176,10 +184,25 @@ class ComparePager extends InvestigatePager {
 
 	/**
 	 * @inheritDoc
+	 *
+	 * Handle special case where all targets are filtered.
+	 */
+	public function doQuery() {
+		// If there are no targets, there is no need to run the query and an empty result can be used.
+		if ( $this->filteredTargets === [] ) {
+			$this->mResult = new FakeResultWrapper( [] );
+			$this->mQueryDone = true;
+			return $this->mResult;
+		}
+
+		return parent::doQuery();
+	}
+
+	/**
+	 * @inheritDoc
 	 */
 	public function getQueryInfo() {
-		$targets = $this->requestData['targets'] ?: [];
-		return $this->compareService->getQueryInfo( $targets );
+		return $this->compareService->getQueryInfo( $this->filteredTargets );
 	}
 
 	/**
@@ -188,7 +211,6 @@ class ComparePager extends InvestigatePager {
 	 * @return string[] Targets whose limits were exceeded (if any)
 	 */
 	public function getTargetsOverLimit() : array {
-		$targets = $this->requestData['targets'] ?: [];
-		return $this->compareService->getTargetsOverLimit( $targets );
+		return $this->compareService->getTargetsOverLimit( $this->filteredTargets );
 	}
 }

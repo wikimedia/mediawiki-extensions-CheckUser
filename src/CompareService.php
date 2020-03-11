@@ -66,6 +66,11 @@ class CompareService {
 	 */
 	public function getQueryInfo( array $targets ): array {
 		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
+
+		if ( $targets === [] ) {
+			throw new \LogicException( 'Cannot get query info when $targets is empty.' );
+		}
+
 		$limit = (int)( $this->limit / count( $targets ) );
 
 		$sqlText = [];
