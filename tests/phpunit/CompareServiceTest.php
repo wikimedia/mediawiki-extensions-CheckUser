@@ -137,7 +137,7 @@ class CompareServiceTest extends MediaWikiTestCase {
 					'limitCheck' => false,
 				],
 				[
-					'orderBy' => 'cuc_timestamp',
+					'orderBy' => 'cuc_timestamp DESC',
 					'offset' => null,
 					'limit' => $limitPerTarget
 				]

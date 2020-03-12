@@ -135,7 +135,7 @@ class CompareService {
 			$offset = $limitPerTarget;
 			$limit = 1;
 		} else {
-			$orderBy = 'cuc_timestamp';
+			$orderBy = 'cuc_timestamp DESC';
 			$offset = null;
 			$limit = $limitPerTarget;
 		}
