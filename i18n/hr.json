@@ -80,6 +80,8 @@
 	"checkuser-investigate-targets-placeholder": "Suradničko ime ili 1.1.1.1",
 	"checkuser-investigate-preliminary-table-header-blocked": "Stanje",
 	"checkuser-investigate-preliminary-table-header-groups": "Skupine",
+	"checkuser-investigate-filters-legend": "Filtri",
+	"checkuser-investigate-filters-hide-targets-label": "Skrij navedene suradnike ili IP-adrese",
 	"checkuser-investigate-compare-table-cell-unregistered": "Neregistrirani",
 	"checkuser-investigate-compare-table-header-username": "Suradničko ime"
 }

@@ -2,13 +2,18 @@
 	"@metadata": {
 		"authors": [
 			"Dsvyas",
-			"KartikMistry"
+			"KartikMistry",
+			"CptViraj"
 		]
 	},
 	"checkuser-reason": "કારણ:",
+	"checkuser-all": "બધા",
 	"checkuser-nolog": "કોઇ લૉગ ફાઇલ મળી નહી.",
 	"checkuser-locked": "તાળું મારેલ",
 	"checkuser-search": "શોધો",
 	"checkuser-search-submit": "શોધો",
-	"checkuser-search-target": "લક્ષ્ય"
+	"checkuser-search-target": "લક્ષ્ય",
+	"checkuser-investigate-reason-label": "કારણ",
+	"checkuser-investigate-preliminary-table-header-name": "સભ્યનામ",
+	"checkuser-investigate-compare-table-header-username": "સભ્યનામ"
 }

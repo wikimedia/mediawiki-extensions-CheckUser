@@ -117,6 +117,8 @@
 	"checkuser-investigate-preliminary-table-header-registration": "Дата долучення",
 	"checkuser-investigate-preliminary-table-header-wiki": "Вікі",
 	"checkuser-investigate-compare-notice-exceeded-limit": "Через технічні обмеження ми досягли максимальної кількості записів, які можна презентувати. Виведені для вказаних цілей дані є неповними: $1. Будь ласка, спробуйте використати менше цілей, коротше часове вікно, чи вужчі IP-діапазони.",
+	"checkuser-investigate-filters-legend": "Фільтри",
+	"checkuser-investigate-filters-hide-targets-label": "Приховати вказаних користувачів чи IP-адреси",
 	"checkuser-investigate-compare-table-cell-unregistered": "Незареєстровані",
 	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|редагування|редагування|редагувань}}]</b>",
 	"checkuser-investigate-compare-table-cell-other-edits": "<i>(~$1 від усіх користувачів)</i>",

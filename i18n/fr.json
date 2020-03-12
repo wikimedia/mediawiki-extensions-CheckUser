@@ -22,7 +22,8 @@
 			"McDutchie",
 			"Thibaut120094",
 			"Derugon",
-			"Pamputt"
+			"Pamputt",
+			"Eneelk"
 		]
 	},
 	"checkuser-summary": "Cet outil parcourt la liste des changements récents à la recherche des adresses IP employées par un utilisateur ou affiche toutes les données utilisateur d’une adresse IP.\nLes comptes et les modifications faites par une adresse IP cliente peuvent être récupérés via les entêtes XFF en suffixant l’adresse IP avec \"/xff\". Les adresses IPv4 (CIDR /$1 à /32) et IPv6 (CIDR /$2 à /128) sont prises en charge.\nPas plus de 5000 modifications ne seront renvoyées, pour des questions de performance.\nVeuillez utiliser cet outil dans le respect de la charte d’utilisation.",
@@ -126,6 +127,8 @@
 	"checkuser-investigate-preliminary-table-header-registration": "Date attachée",
 	"checkuser-investigate-preliminary-table-header-wiki": "Wiki",
 	"checkuser-investigate-compare-notice-exceeded-limit": "Suite à des limitations techniques nous avons atteint la limite du nombre d’enregistrements présentables. Les données renvoyées pour les cibles suivantes sont incomplètes : $1. Veuillez réessayer en utilisant moins de cibles, une fenêtre de temps plus fine ou des plages IP plus étroites.",
+	"checkuser-investigate-filters-legend": "Filtres",
+	"checkuser-investigate-filters-hide-targets-label": "Masquer les utilisateurs ou adresses IP suivants",
 	"checkuser-investigate-compare-table-cell-unregistered": "Non inscrit",
 	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|modification|modifications}}]</b>",
 	"checkuser-investigate-compare-table-cell-other-edits": "<i>(~$1 de tous les utilisateurs)</i>",

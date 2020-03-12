@@ -85,6 +85,8 @@
 	"checkuser-investigate-targets-label": "Benotzernimm oder IP-Adressen",
 	"checkuser-investigate-targets-placeholder": "Benotzernumm oder 1.1.1.1",
 	"checkuser-investigate-reason-label": "Grond",
+	"checkuser-investigate-filters-legend": "Filteren",
+	"checkuser-investigate-filters-hide-targets-label": "Dës Benotzer oder IPen verstoppen",
 	"checkuser-investigate-compare-table-cell-unregistered": "Net-ugemellt",
 	"checkuser-investigate-compare-table-cell-other-edits": "<i>(~$1 vun alle Benotzer)</i>",
 	"checkuser-investigate-compare-table-header-username": "Benotzernumm",
