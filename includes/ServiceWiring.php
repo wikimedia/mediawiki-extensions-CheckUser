@@ -2,6 +2,7 @@
 
 use MediaWiki\CheckUser\ComparePagerFactory;
 use MediaWiki\CheckUser\CompareService;
+use MediaWiki\CheckUser\InvestigateLogPagerFactory;
 use MediaWiki\CheckUser\PreliminaryCheckPagerFactory;
 use MediaWiki\CheckUser\PreliminaryCheckService;
 use MediaWiki\CheckUser\TokenManager;
@@ -23,6 +24,13 @@ return [
 	'CheckUserTokenManager' => function ( MediaWikiServices $services ) : TokenManager {
 		return new TokenManager(
 			$services->getMainConfig()->get( 'SecretKey' )
+		);
+	},
+	'CheckUserInvestigateLogPagerFactory' => function (
+		MediaWikiServices $services
+	) : InvestigateLogPagerFactory {
+		return new InvestigateLogPagerFactory(
+			$services->getLinkRenderer()
 		);
 	},
 	'CheckUserPreliminaryCheckPagerFactory' => function (
