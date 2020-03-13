@@ -111,5 +111,7 @@
 	"checkuser-investigate-preliminary-table-header-editcount": "Modifiche",
 	"checkuser-investigate-preliminary-table-header-groups": "Gruppi",
 	"checkuser-investigate-preliminary-table-header-name": "Nome utente",
-	"checkuser-investigate-preliminary-table-header-wiki": "Wiki"
+	"checkuser-investigate-preliminary-table-header-wiki": "Wiki",
+	"checkuser-investigate-filters-legend": "Filtri",
+	"checkuser-investigate-filters-hide-targets-label": "Nascondi i seguenti utenti o IP"
 }

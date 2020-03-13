@@ -128,5 +128,7 @@
 	"checkuser-investigate-preliminary-table-header-groups": "Grupos",
 	"checkuser-investigate-preliminary-table-header-name": "Nombre de usuario",
 	"checkuser-investigate-preliminary-table-header-registration": "Fecha de unificación",
-	"checkuser-investigate-preliminary-table-header-wiki": "Wiki"
+	"checkuser-investigate-preliminary-table-header-wiki": "Wiki",
+	"checkuser-investigate-filters-legend": "Filtros",
+	"checkuser-investigate-filters-hide-targets-label": "Ocultar las cuentas o IP siguientes"
 }
