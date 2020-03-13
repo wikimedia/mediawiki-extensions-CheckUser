@@ -60,6 +60,19 @@ class SpecialInvestigateLog extends FormSpecialPage {
 			$pager->getBody() .
 			$pager->getNavigationBar()
 		);
+
+		$this->addPageSubtitle();
+	}
+
+	/**
+	 * Add page subtitle linking to Special:Investigate
+	 */
+	private function addPageSubtitle() {
+		$subtitle = $this->getLinkRenderer()->makeKnownLink(
+			self::getTitleFor( 'Investigate' ),
+			$this->msg( 'checkuser-investigate-log-subtitle' )->text()
+		);
+		$this->getOutput()->addSubtitle( $subtitle );
 	}
 
 	/**
