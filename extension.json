@@ -52,7 +52,7 @@
 		},
 		"CheckUserGBtoollink": {
 			"value": false,
-			"description": "Whether to add links for glboally blocking accounts shown in Special:CheckUser results"
+			"description": "Whether to add links for globally blocking accounts shown in Special:CheckUser results"
 		},
 		"CheckUserLogLogins": {
 			"value": false,
