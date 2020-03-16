@@ -9,6 +9,8 @@ use OOUI\IndexLayout;
 use OOUI\MessageWidget;
 use OOUI\TabOptionWidget;
 use OOUI\Tag;
+use SpecialCheckUser;
+use User;
 use Wikimedia\IPUtils;
 
 class SpecialInvestigate extends \FormSpecialPage {
@@ -424,11 +426,19 @@ class SpecialInvestigate extends \FormSpecialPage {
 			'offset' => null,
 		];
 
-		if ( isset( $data['Targets' ] ) ) {
-			$update['targets'] = $this->getArrayFromField( $data, 'Targets' );
+		if ( isset( $data['Reason'] ) ) {
+			$update['reason'] = $data['Reason'];
 		}
 		if ( isset( $data['HideTargets' ] ) ) {
 			$update['hide-targets'] = $this->getArrayFromField( $data, 'HideTargets' );
+		}
+		if ( isset( $data['Targets' ] ) ) {
+			$update['targets'] = $this->getArrayFromField( $data, 'Targets' );
+
+			$this->addLogEntries(
+				$update['targets'],
+				$update['reason'] ?? $this->getRequestData()['reason']
+			);
 		}
 
 		$token = $this->getUpdatedToken( $update );
@@ -445,6 +455,35 @@ class SpecialInvestigate extends \FormSpecialPage {
 		$this->getOutput()->redirect( $url );
 
 		return \Status::newGood();
+	}
+
+	/**
+	 * Add a log entry for each target under investigation.
+	 *
+	 * @param string[] $targets
+	 * @param string $reason
+	 */
+	protected function addLogEntries( array $targets, string $reason ) {
+		$logType = 'investigate';
+
+		foreach ( $targets as $target ) {
+			if ( IPUtils::isIPAddress( $target ) ) {
+				$targetType = 'ip';
+				$targetId = 0;
+			} else {
+				// The form validated that the user exists on this wiki
+				$targetType = 'user';
+				$targetId = User::idFromName( $target );
+			}
+
+			SpecialCheckUser::addLogEntry(
+				$logType,
+				$targetType,
+				$target,
+				$reason,
+				$targetId
+			);
+		}
 	}
 
 	/**
