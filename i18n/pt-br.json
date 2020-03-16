@@ -21,7 +21,8 @@
 			"Felipe L. Ewald",
 			"RadiX",
 			"Eduardo Addad de Oliveira",
-			"Opraco"
+			"Opraco",
+			"Rodrigo codignoli"
 		]
 	},
 	"checkuser-summary": "Esta ferramenta varre as mudanças recentes para obter os endereços de IP de um usuário ou para exibir os dados de edições/usuários para um IP.\nUsuários e edições podem ser obtidos por um IP XFF colocando-se \"/xff\" no final do endereço. São suportados endereços IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).\nNão serão retornadas mais de 5000 edições por motivos de desempenho. O uso desta ferramenta deverá estar de acordo com as políticas.",
@@ -105,6 +106,9 @@
 	"checkuser-login-success": "Entrou em {{SITENAME}} como $1",
 	"group-checkuser.css": "/* CSS colocado aqui afetará apenas checkuser */",
 	"group-checkuser.js": "/* JS colocado aqui afetará o usuário do checkeruser */",
+	"checkuser-investigate-log": "Logs de investigação",
+	"checkuser-investigate-log-entry": "$3, o usuario $1 procurou informações de <bdi>$2</bdi> por $4",
+	"checkuser-investigate-log-empty": "Não há logs disponíveis",
 	"checkuser-investigate": "Investigar",
 	"checkuser-investigate-legend": "Pesquise nomes de usuário, endereços IP ou intervalos de IP",
 	"checkuser-investigate-notice-no-results": "Não há resultados.",

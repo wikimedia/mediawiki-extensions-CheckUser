@@ -1,9 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"Togaed"
+			"Togaed",
+			"Kareyac"
 		]
 	},
 	"checkuser-search": "Որոնել",
-	"checkuser-search-submit": "Որոնել"
+	"checkuser-search-submit": "Որոնել",
+	"checkuser-investigate-filters-legend": "Զտիչներ"
 }

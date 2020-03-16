@@ -30,7 +30,8 @@
 			"Ryo567",
 			"PoLuX124",
 			"Hasley",
-			"Joanmp17"
+			"Joanmp17",
+			"Canaan9801"
 		]
 	},
 	"checkuser-summary": "Esta herramienta explora los cambios recientes para obtener las direcciones IP utilizadas por un usuario, o para mostrar la información de ediciones y usuarios de una cierta dirección IP.\nSe pueden obtener los usuarios y las ediciones de una dirección IP cliente vía XFF añadiendo «/xff» al final de la dirección IP. Funciona con IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).\nNo se muestran más de 5000 ediciones por motivos de rendimiento.\nUtilízala de acuerdo con las políticas correspondientes.",
@@ -114,6 +115,9 @@
 	"checkuser-login-success": "Inició sesión con éxito como \"$1\" en {{SITENAME}}",
 	"group-checkuser.css": "/* El código CSS colocado aquí sólo afectará a los usuarios con permisos de checkuser */",
 	"group-checkuser.js": "/* El código JavaScript colocado en esta página sólo afectará a los usuarios con permisos de checkuser */",
+	"checkuser-investigate-log": "Registros de investigación",
+	"checkuser-investigate-log-entry": "$3, $1 buscó información para <bdi>$2</bdi> $4",
+	"checkuser-investigate-log-empty": "No se encontraron ningunas entradas del registro de investigación.",
 	"checkuser-investigate": "Investigar",
 	"checkuser-investigate-legend": "Buscar nombres de usuario, direcciones IP o intervalos de IP",
 	"checkuser-investigate-notice-no-results": "No hay resultados.",
