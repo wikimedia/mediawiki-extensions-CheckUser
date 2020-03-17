@@ -2,7 +2,10 @@
 
 namespace MediaWiki\CheckUser;
 
+use HTML;
 use HTMLForm;
+use OOUI\ButtonGroupWidget;
+use OOUI\ButtonWidget;
 use OOUI\Element;
 use OOUI\HtmlSnippet;
 use OOUI\IndexLayout;
@@ -79,6 +82,8 @@ class SpecialInvestigate extends \FormSpecialPage {
 			// Clear the existing form so it can be part of the tab layout.
 			$this->getOutput()->clearHTML();
 
+			$this->addIndicators();
+			$this->addPageSubtitle();
 			$this->addTabs( $par )->addTabContent( $par );
 			$this->getOutput()->addHTML( $this->getLayout() );
 		}
@@ -298,6 +303,46 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 */
 	protected function getMessagePrefix() {
 		return 'checkuser-' . strtolower( $this->getName() );
+	}
+
+	/**
+	 * Add page subtitle including the name of the targets
+	 * in the investigation
+	 */
+	private function addPageSubtitle() {
+		$targets = $this->getRequestData()['targets'] ?? [];
+		if ( $targets ) {
+			$targets = $this->getLanguage()->listToText( array_map( function ( $target ) {
+				return HTML::rawElement( 'strong', [], htmlspecialchars( $target ) );
+			}, $targets ) );
+			$subtitle = $this->msg( 'checkuser-investigate-page-subtitle', $targets );
+			$this->getOutput()->addSubtitle( $subtitle );
+		}
+	}
+
+	/**
+	 * Add buttons to start a new investigation and linking
+	 * to InvestigateLog page
+	 */
+	private function addIndicators() {
+		$btnGroup = new ButtonGroupWidget( [
+			'items' => [
+				new ButtonWidget( [
+					'label' => $this->msg( 'checkuser-investigate-indicator-new-investigation' )->text(),
+					'href' => self::getTitleFor( 'Investigate' )->getLinkURL(),
+					'target' => '_blank',
+				] ),
+				new ButtonWidget( [
+					'label' => $this->msg( 'checkuser-investigate-indicator-logs' )->text(),
+					'href' => self::getTitleFor( 'InvestigateLog' )->getLinkURL(),
+					'target' => '_blank',
+				] ),
+			]
+		] );
+
+		$this->getOutput()->setIndicators( [
+			'ext-checkuser-investigation-btns' => $btnGroup,
+		] );
 	}
 
 	/**
