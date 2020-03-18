@@ -43,6 +43,8 @@
 	"right-checkuser-log": "{{doc-right|checkuser-log}}",
 	"action-checkuser": "{{doc-action|checkuser}}",
 	"action-checkuser-log": "{{doc-action|checkuser-log}}",
+	"right-investigate": "{{doc-right|investigate}}",
+	"action-investigate": "{{doc-action|investigate}}",
 	"grouppage-checkuser": "{{doc-group|checkuser|page}}\n{{Identical|Check user}}",
 	"checkuser-reason": "Field name on CheckUser Special page. See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]'.\n{{Identical|Reason}}",
 	"checkuser-reason-api": "Prefixes check user query reasons that are made through the API\n\n* $1 = User specified reason\n{{Identical|API}}",

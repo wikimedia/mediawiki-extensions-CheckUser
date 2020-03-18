@@ -82,7 +82,8 @@
 		"ContributionsToolLinks": "CheckUserHooks::checkUserContributionsLinks",
 		"PerformRetroactiveAutoblock": "CheckUserHooks::doRetroactiveAutoblock",
 		"AuthManagerLoginAuthenticateAudit": "CheckUserHooks::onAuthManagerLoginAuthenticateAudit",
-		"SpecialPage_initList": "CheckUserHooks::onSpecialPage_initList"
+		"SpecialPage_initList": "CheckUserHooks::onSpecialPage_initList",
+		"UserGetAllRights": "CheckUserHooks::onUserGetAllRights"
 	},
 	"MessagesDirs": {
 		"CheckUser": [
