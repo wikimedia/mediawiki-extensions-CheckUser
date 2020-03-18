@@ -85,5 +85,6 @@
 	"checkuser-email-action": "sendte en e-mail til \"$1\"",
 	"checkuser-reset-action": "nulstillede adgangskoden for \"$1\"",
 	"checkuser-token-fail": "Sessionsfejl. Prøv venligst igen.",
-	"checkuser-investigate-targets-placeholder": "Brugernavn eller 1.1.1.1"
+	"checkuser-investigate-targets-placeholder": "Brugernavn eller 1.1.1.1",
+	"checkuser-investigate-filters-legend": "Filtre"
 }
