@@ -151,6 +151,7 @@ class CompareService {
 		return [
 			'tables' => 'cu_changes',
 			'fields' => [
+				'cuc_id',
 				'cuc_user',
 				'cuc_user_text',
 				'cuc_ip',
