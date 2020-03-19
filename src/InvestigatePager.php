@@ -30,7 +30,7 @@ abstract class InvestigatePager extends TablePager {
 	private $tokenManager;
 
 	/** @var array */
-	protected $requestData;
+	protected $tokenData;
 
 	public function __construct(
 		IContextSource $context,
@@ -40,8 +40,8 @@ abstract class InvestigatePager extends TablePager {
 		parent::__construct( $context, $linkRenderer );
 
 		$this->tokenManager = $tokenManager;
-		$this->requestData = $tokenManager->getDataFromRequest( $context->getRequest() );
-		$this->mOffset = $this->requestData['offset'] ?? '';
+		$this->tokenData = $tokenManager->getDataFromRequest( $context->getRequest() );
+		$this->mOffset = $this->tokenData['offset'] ?? '';
 	}
 
 	/**
@@ -59,13 +59,13 @@ abstract class InvestigatePager extends TablePager {
 
 			if ( isset( $query['offset'] ) ) {
 				// Move the offset into the token.
-				$query['token'] = $this->tokenManager->encode( $session, array_merge( $this->requestData, [
+				$query['token'] = $this->tokenManager->encode( $session, array_merge( $this->tokenData, [
 					'offset' => $query['offset'],
 				] ) );
 				unset( $query['offset'] );
-			} elseif ( isset( $this->requestData['offset'] ) ) {
+			} elseif ( isset( $this->tokenData['offset'] ) ) {
 				// Remove the offset.
-				$data = $this->requestData;
+				$data = $this->tokenData;
 				unset( $data['offset'] );
 				$query['token'] = $this->tokenManager->encode( $session, $data );
 			}

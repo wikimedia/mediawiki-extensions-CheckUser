@@ -30,7 +30,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	private $layout;
 
 	/** @var array|null */
-	private $requestData;
+	private $tokenData;
 
 	/** @var HTMLForm|null */
 	private $form;
@@ -78,7 +78,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 		// Show the tabs if there is any request data.
 		// The tabs should also be shown even if the form was a POST request because
 		// the filters could have failed validation.
-		if ( $this->getRequestData() !== [] ) {
+		if ( $this->getTokenData() !== [] ) {
 			// Clear the existing form so it can be part of the tab layout.
 			$this->getOutput()->clearHTML();
 
@@ -203,7 +203,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 			case $this->getTabParam( 'preliminary-check' ):
 				$pager = $this->preliminaryCheckPagerFactory->createPager( $this->getContext() );
 				$hasIpTargets = (bool)array_filter(
-					$this->getRequestData()['targets'] ?? [],
+					$this->getTokenData()['targets'] ?? [],
 					function ( $target ) {
 						return IPUtils::isIPAddress( $target );
 					}
@@ -310,7 +310,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * in the investigation
 	 */
 	private function addPageSubtitle() {
-		$targets = $this->getRequestData()['targets'] ?? [];
+		$targets = $this->getTokenData()['targets'] ?? [];
 		if ( $targets ) {
 			$targets = $this->getLanguage()->listToText( array_map( function ( $target ) {
 				return HTML::rawElement( 'strong', [], htmlspecialchars( $target ) );
@@ -367,7 +367,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @inheritDoc
 	 */
 	protected function getFormFields() {
-		$data = $this->getRequestData();
+		$data = $this->getTokenData();
 		$prefix = $this->getMessagePrefix();
 
 		if ( $data === [] ) {
@@ -436,7 +436,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	protected function alterForm( HTMLForm $form ) {
 		// Not done by default in OOUI forms, but done here to match
 		// intended design in T237034. See FormSpecialPage::getForm
-		if ( $this->getRequestData() === [] ) {
+		if ( $this->getTokenData() === [] ) {
 			$form->setWrapperLegendMsg( $this->getMessagePrefix() . '-legend' );
 		} else {
 			$tabs = [ $this->getTabParam( 'compare' ), $this->getTabParam( 'timeline' ) ];
@@ -455,12 +455,12 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 *
 	 * @return array
 	 */
-	private function getRequestData() : array {
-		if ( $this->requestData === null ) {
-			$this->requestData = $this->tokenManager->getDataFromRequest( $this->getRequest() );
+	private function getTokenData() : array {
+		if ( $this->tokenData === null ) {
+			$this->tokenData = $this->tokenManager->getDataFromRequest( $this->getRequest() );
 		}
 
-		return $this->requestData;
+		return $this->tokenData;
 	}
 
 	/**
@@ -482,7 +482,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 
 			$this->addLogEntries(
 				$update['targets'],
-				$update['reason'] ?? $this->getRequestData()['reason']
+				$update['reason'] ?? $this->getTokenData()['reason']
 			);
 		}
 
@@ -548,7 +548,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @return string
 	 */
 	private function getUpdatedToken( array $update = [] ) : string {
-		$data = array_filter( array_merge( $this->getRequestData(), $update ), function ( $value ) {
+		$data = array_filter( array_merge( $this->getTokenData(), $update ), function ( $value ) {
 			return $value !== null;
 		} );
 

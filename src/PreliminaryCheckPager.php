@@ -185,7 +185,7 @@ class PreliminaryCheckPager extends InvestigatePager {
 	 * @inheritDoc
 	 */
 	public function getQueryInfo() {
-		$targets = $this->requestData['targets'] ?? [];
+		$targets = $this->tokenData['targets'] ?? [];
 		$users = array_filter( array_map( 'User::newFromName', $targets ), function ( $user ) {
 			return (bool)$user;
 		} );

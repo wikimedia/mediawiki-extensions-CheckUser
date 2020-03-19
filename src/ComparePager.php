@@ -49,8 +49,8 @@ class ComparePager extends InvestigatePager {
 		$this->compareService = $compareService;
 
 		$this->filteredTargets = array_diff(
-			$this->requestData['targets'] ?? [],
-			$this->requestData['hide-targets'] ?? []
+			$this->tokenData['targets'] ?? [],
+			$this->tokenData['hide-targets'] ?? []
 		);
 	}
 
