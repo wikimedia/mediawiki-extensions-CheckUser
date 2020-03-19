@@ -97,6 +97,7 @@
 	"checkuser-email-action": "ha inviato una e-mail a \"$1\"",
 	"checkuser-reset-action": "reimposta password per l'utente \"$1\"",
 	"checkuser-token-fail": "Errore di sessione. Riprova ancora.",
+	"checkuser-investigate-indicator-logs": "Registri",
 	"checkuser-investigate-legend": "Cerca per nome utente, indirizzi IP o intervalli di IP",
 	"checkuser-investigate-notice-no-results": "Non ci sono risultati.",
 	"checkuser-investigate-tab-preliminary-check": "Controllo preliminare",
