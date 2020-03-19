@@ -78,11 +78,12 @@ class ComparePager extends InvestigatePager {
 					}
 				}
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-pinnable';
+				$attributes['class'] .= ' ext-checkuser-compare-table-cell-ip-target';
 				$attributes['data-' . $field] = $value;
 				break;
 			case 'cuc_user_text':
 				if ( !IPUtils::isIpAddress( $value ) ) {
-					$attributes['class'] .= ' ext-checkuser-compare-table-cell-user';
+					$attributes['class'] .= ' ext-checkuser-compare-table-cell-user-target';
 					if ( in_array( $value, $this->filteredTargets ) ) {
 						$attributes['class'] .= ' ext-checkuser-compare-table-cell-target';
 					}

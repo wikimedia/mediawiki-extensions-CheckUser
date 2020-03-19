@@ -118,8 +118,10 @@
 				"oojs-ui.styles.icons-moderation"
 			],
 			"messages": [
-				"checkuser-investigate-compare-table-button-add-targets-label",
-				"checkuser-investigate-compare-table-button-add-targets-title"
+				"checkuser-investigate-compare-table-button-add-ip-targets-label",
+				"checkuser-investigate-compare-table-button-add-ip-targets-title",
+				"checkuser-investigate-compare-table-button-add-user-targets-label",
+				"checkuser-investigate-compare-table-button-add-user-targets-title"
 			]
 		}
 	},

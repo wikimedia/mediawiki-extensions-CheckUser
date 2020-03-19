@@ -63,24 +63,35 @@
 		$tableCell.append( toggleButton.$element );
 	} );
 
-	// Add buttons for extra targets
-	$( 'td.ext-checkuser-compare-table-cell-user' ).each( function () {
-		var $tableCell = $( this ),
-			// eslint-disable-next-line no-jquery/no-class-state
-			isTarget = $tableCell.hasClass( 'ext-checkuser-compare-table-cell-target' ),
+	function addButtonForExtraTargets( $tableCell, type, field ) {
+		// eslint-disable-next-line no-jquery/no-class-state
+		var isTarget = $tableCell.hasClass( 'ext-checkuser-compare-table-cell-target' ),
 			button = new OO.ui.ButtonWidget( {
 				disabled: isTarget,
-				label: mw.msg( 'checkuser-investigate-compare-table-button-add-targets-label' ),
-				title: isTarget ? mw.msg( 'checkuser-investigate-compare-table-button-add-targets-title' ) : undefined,
+				// The following messages can be built here:
+				// * checkuser-investigate-compare-table-button-add-user-targets-label
+				// * checkuser-investigate-compare-table-button-add-ip-targets-label
+				label: mw.msg( 'checkuser-investigate-compare-table-button-add-' + type + '-targets-label' ),
+				title: isTarget ? mw.msg( 'checkuser-investigate-compare-table-button-add-' + type + '-targets-title' ) : undefined,
 				classes: [ 'ext-checkuser-compare-table-button-add-targets' ],
 				flags: [ 'primary', 'progressive' ]
 			} );
 
 		button.on( 'click', function () {
-			$( 'input[name=targets]' ).val( $tableCell.data( 'cuc_user_text' ) );
+			$( 'input[name=targets]' ).val( $tableCell.data( field ) );
 			$( '.mw-htmlform' ).trigger( 'submit' );
 		} );
 
 		$tableCell.append( button.$element );
+	}
+
+	// Add buttons for extra user targets
+	$( 'td.ext-checkuser-compare-table-cell-user-target' ).each( function () {
+		addButtonForExtraTargets( $( this ), 'user', 'cuc_user_text' );
+	} );
+
+	// Add buttons for extra IP targets
+	$( 'td.ext-checkuser-compare-table-cell-ip-target' ).each( function () {
+		addButtonForExtraTargets( $( this ), 'ip', 'cuc_ip' );
 	} );
 }() );
