@@ -22,7 +22,7 @@
 
 namespace MediaWiki\CheckUser;
 
-use HTML;
+use Html;
 use Linker;
 use ReverseChronologicalPager;
 
@@ -74,7 +74,7 @@ class InvestigateLogPager extends ReverseChronologicalPager {
 			$reason
 		)->text();
 
-		return HTML::rawElement( 'li', [], $message );
+		return Html::rawElement( 'li', [], $message );
 	}
 
 	/**
@@ -95,6 +95,6 @@ class InvestigateLogPager extends ReverseChronologicalPager {
 	 * @inheritDoc
 	 */
 	public function getEmptyBody() {
-		return HTML::rawElement( 'p', [], $this->msg( 'checkuser-investigate-log-empty' )->text() );
+		return Html::rawElement( 'p', [], $this->msg( 'checkuser-investigate-log-empty' )->text() );
 	}
 }

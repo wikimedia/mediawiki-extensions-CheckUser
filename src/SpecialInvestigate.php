@@ -2,7 +2,7 @@
 
 namespace MediaWiki\CheckUser;
 
-use HTML;
+use Html;
 use HTMLForm;
 use OOUI\ButtonGroupWidget;
 use OOUI\ButtonWidget;
@@ -313,7 +313,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 		$targets = $this->getTokenData()['targets'] ?? [];
 		if ( $targets ) {
 			$targets = $this->getLanguage()->listToText( array_map( function ( $target ) {
-				return HTML::rawElement( 'strong', [], htmlspecialchars( $target ) );
+				return Html::rawElement( 'strong', [], htmlspecialchars( $target ) );
 			}, $targets ) );
 			$subtitle = $this->msg( 'checkuser-investigate-page-subtitle', $targets );
 			$this->getOutput()->addSubtitle( $subtitle );
