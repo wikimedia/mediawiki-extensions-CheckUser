@@ -91,6 +91,7 @@
 	"checkuser-login-failure": "Kon niet als $1 inloggen op {{SITENAME}}",
 	"checkuser-login-success": "Succesvol als $1 op {{SITENAME}} ingelogd",
 	"checkuser-investigate": "Onderzoeken",
+	"checkuser-investigate-indicator-logs": "Logboeken",
 	"checkuser-investigate-legend": "Zoeken naar gebruikersnamen, IP-adressen of IP bereiken",
 	"checkuser-investigate-notice-no-results": "Er zijn geen resultaten.",
 	"checkuser-investigate-tab-compare": "Vergelijken",
