@@ -409,7 +409,8 @@ class SpecialInvestigate extends \FormSpecialPage {
 				'type' => 'usersmultiselect',
 				'name' => 'targets',
 				'label-message' => $prefix . '-filters-hide-targets-label',
-				'exists' => false, // Implies 'required'. @see https://phabricator.wikimedia.org/T246958
+				'exists' => true,
+				'required' => false,
 				'ipallowed' => true,
 				'iprange' => true,
 				'default' => implode( "\n", $data['hide-targets'] ?? [] ),
