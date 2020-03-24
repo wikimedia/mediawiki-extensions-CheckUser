@@ -607,4 +607,17 @@ class CheckUserHooks {
 
 		return true;
 	}
+
+	/**
+	 * Register rights
+	 *
+	 * @param array &$rights
+	 */
+	public static function onUserGetAllRights( array &$rights ) {
+		global $wgCheckUserEnableSpecialInvestigate;
+
+		if ( $wgCheckUserEnableSpecialInvestigate ) {
+			$rights[] = 'investigate';
+		}
+	}
 }

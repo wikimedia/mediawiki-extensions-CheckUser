@@ -48,7 +48,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 		PagerFactory $comparePagerFactory,
 		TokenManager $tokenManager
 	) {
-		parent::__construct( 'Investigate', 'checkuser' );
+		parent::__construct( 'Investigate', 'investigate' );
 		$this->preliminaryCheckPagerFactory = $preliminaryCheckPagerFactory;
 		$this->comparePagerFactory = $comparePagerFactory;
 		$this->tokenManager = $tokenManager;
