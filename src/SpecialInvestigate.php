@@ -378,7 +378,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 					'label-message' => $prefix . '-targets-label',
 					'placeholder' => $this->msg( $prefix . '-targets-placeholder' )->text(),
 					'required' => true,
-					'max' => 2,
+					'max' => 10,
 					'exists' => true,
 					'ipallowed' => true,
 					'iprange' => true,
