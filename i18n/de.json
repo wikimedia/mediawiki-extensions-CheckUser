@@ -30,6 +30,8 @@
 	"right-checkuser-log": "Checkuser-Logbuch einsehen",
 	"action-checkuser": "IP-Adressen sowie Zusammenhänge zwischen IP-Adressen und angemeldeten Benutzern zu prüfen",
 	"action-checkuser-log": "das Checkuser-Logbuch einzusehen",
+	"right-investigate": "Verwendung von [[Special:Investigate]] und das Protokoll früherer Untersuchungen einsehen",
+	"action-investigate": "Verwendung von [[Special:Investigate]] und das Protokoll früherer Untersuchungen einsehen",
 	"grouppage-checkuser": "{{ns:project}}:CheckUser",
 	"checkuser-reason": "Grund:",
 	"checkuser-reason-api": "API: $1",
