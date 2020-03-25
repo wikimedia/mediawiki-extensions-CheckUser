@@ -1,6 +1,7 @@
 <?php
 
 use MediaWiki\Block\DatabaseBlock;
+use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionRecord;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
@@ -1837,7 +1838,9 @@ class SpecialCheckUser extends SpecialPage {
 			if ( !$rev ) {
 				// Assume revision is deleted
 				$dbr = wfGetDB( DB_REPLICA );
-				$queryInfo = Revision::getArchiveQueryInfo();
+				$queryInfo = MediaWikiServices::getInstance()
+					->getRevisionStore()
+					->getArchiveQueryInfo();
 				$tmp = $dbr->selectRow(
 					$queryInfo['tables'],
 					$queryInfo['fields'],
