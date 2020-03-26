@@ -46,8 +46,8 @@
 		toggleClass( $tableCell, value, 'pinned-data-match' );
 	}
 
+	// Add buttons for pinnable highlighting
 	$( 'td.ext-checkuser-investigate-table-cell-pinnable' ).on( 'mouseover mouseout', toggleClassForHover );
-
 	$( 'td.ext-checkuser-investigate-table-cell-pinnable' ).each( function () {
 		var $tableCell = $( this ),
 			key = getDataKey( $tableCell ),
@@ -61,5 +61,26 @@
 
 		toggleButton.on( 'change', toggleClassForPin.bind( this, $tableCell ) );
 		$tableCell.append( toggleButton.$element );
+	} );
+
+	// Add buttons for extra targets
+	$( 'td.ext-checkuser-compare-table-cell-user' ).each( function () {
+		var $tableCell = $( this ),
+			// eslint-disable-next-line no-jquery/no-class-state
+			isTarget = $tableCell.hasClass( 'ext-checkuser-compare-table-cell-target' ),
+			button = new OO.ui.ButtonWidget( {
+				disabled: isTarget,
+				label: mw.msg( 'checkuser-investigate-compare-table-button-add-targets-label' ),
+				title: isTarget ? mw.msg( 'checkuser-investigate-compare-table-button-add-targets-title' ) : undefined,
+				classes: [ 'ext-checkuser-compare-table-button-add-targets' ],
+				flags: [ 'primary', 'progressive' ]
+			} );
+
+		button.on( 'click', function () {
+			$( 'input[name=targets]' ).val( $tableCell.data( 'cuc_user_text' ) );
+			$( '.mw-htmlform' ).trigger( 'submit' );
+		} );
+
+		$tableCell.append( button.$element );
 	} );
 }() );

@@ -81,8 +81,12 @@ class ComparePager extends InvestigatePager {
 				$attributes['data-' . $field] = $value;
 				break;
 			case 'cuc_user_text':
-				if ( !IPUtils::isIpAddress( $value ) && in_array( $value, $this->filteredTargets ) ) {
-					$attributes['class'] .= ' ext-checkuser-compare-table-cell-target';
+				if ( !IPUtils::isIpAddress( $value ) ) {
+					$attributes['class'] .= ' ext-checkuser-compare-table-cell-user';
+					if ( in_array( $value, $this->filteredTargets ) ) {
+						$attributes['class'] .= ' ext-checkuser-compare-table-cell-target';
+					}
+					$attributes['data-' . $field] = $value;
 				}
 				break;
 			case 'cuc_agent':
