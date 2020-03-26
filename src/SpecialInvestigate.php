@@ -412,7 +412,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 				'exists' => true,
 				'required' => false,
 				'ipallowed' => true,
-				'iprange' => true,
+				'iprange' => false,
 				'default' => implode( "\n", $data['hide-targets'] ?? [] ),
 				'input' => [
 					'autocomplete' => false,
