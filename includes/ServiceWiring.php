@@ -5,6 +5,7 @@ use MediaWiki\CheckUser\CompareService;
 use MediaWiki\CheckUser\InvestigateLogPagerFactory;
 use MediaWiki\CheckUser\PreliminaryCheckPagerFactory;
 use MediaWiki\CheckUser\PreliminaryCheckService;
+use MediaWiki\CheckUser\TimelineService;
 use MediaWiki\CheckUser\TokenManager;
 use MediaWiki\MediaWikiServices;
 
@@ -20,6 +21,9 @@ return [
 	},
 	'CheckUserCompareService' => function ( MediaWikiServices $services ) : CompareService {
 		return new CompareService( $services->getDBLoadBalancer() );
+	},
+	'CheckUserTimelineService' => function ( MediaWikiServices $services ) : TimelineService {
+		return new TimelineService( $services->getDBLoadBalancer() );
 	},
 	'CheckUserTokenManager' => function ( MediaWikiServices $services ) : TokenManager {
 		return new TokenManager(
