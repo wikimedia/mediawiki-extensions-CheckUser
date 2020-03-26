@@ -1,5 +1,6 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionRecord;
 use Wikimedia\IPUtils;
 
@@ -133,7 +134,9 @@ class ApiQueryCheckUser extends ApiQueryBase {
 						$rev = Revision::newFromId( $row->cuc_this_oldid );
 						if ( !$rev ) {
 							$dbr = wfGetDB( DB_REPLICA );
-							$queryInfo = Revision::getArchiveQueryInfo();
+							$queryInfo = MediaWikiServices::getInstance()
+								->getRevisionStore()
+								->getArchiveQueryInfo();
 							$tmp = $dbr->selectRow(
 								$queryInfo['tables'],
 								$queryInfo['fields'],
