@@ -1,5 +1,6 @@
 /* eslint-disable no-jquery/no-global-selector */
 ( function () {
+	// Attributes used for pinnable highlighting
 	var dataAttributes = [ 'registration', 'wiki', 'cuc_ip', 'cuc_agent' ],
 		toggleButtons = {};
 
@@ -46,21 +47,63 @@
 		toggleClass( $tableCell, value, 'pinned-data-match' );
 	}
 
-	// Add buttons for pinnable highlighting
-	$( 'td.ext-checkuser-investigate-table-cell-pinnable' ).on( 'mouseover mouseout', toggleClassForHover );
-	$( 'td.ext-checkuser-investigate-table-cell-pinnable' ).each( function () {
-		var $tableCell = $( this ),
-			key = getDataKey( $tableCell ),
+	function filterValue( $tableCell ) {
+		$( 'textarea[name=exclude-targets]' ).val( function () {
+			return this.value + '\n' + $tableCell.data( 'target' );
+		} );
+		$( '.mw-htmlform' ).trigger( 'submit' );
+	}
+
+	function appendButtonGroup( $tableCell, buttonTypes ) {
+		var key = getDataKey( $tableCell ),
+			buttons = [],
+			buttonGroup,
+			toggleButton,
+			filterButton;
+
+		if ( buttonTypes.toggle ) {
 			toggleButton = new OO.ui.ToggleButtonWidget( {
 				icon: 'pushPin',
 				classes: [ 'ext-checkuser-investigate-table-button-pin' ]
 			} );
+			toggleButtons[ key ] = toggleButtons[ key ] || [];
+			toggleButtons[ key ].push( toggleButton );
+			toggleButton.on( 'change', toggleClassForPin.bind( null, $tableCell ) );
+			buttons.push( toggleButton );
+		}
 
-		toggleButtons[ key ] = toggleButtons[ key ] || [];
-		toggleButtons[ key ].push( toggleButton );
+		if ( buttonTypes.filter ) {
+			filterButton = new OO.ui.ButtonWidget( {
+				icon: 'close',
+				classes: [ 'ext-checkuser-investigate-table-button-filter' ]
+			} );
+			filterButton.on( 'click', filterValue.bind( null, $tableCell ) );
+			buttons.push( filterButton );
+		}
 
-		toggleButton.on( 'change', toggleClassForPin.bind( this, $tableCell ) );
-		$tableCell.append( toggleButton.$element );
+		if ( buttons.length > 0 ) {
+			buttonGroup = new OO.ui.ButtonGroupWidget( {
+				items: buttons,
+				classes: [ 'ext-checkuser-investigate-table-button-group' ]
+			} );
+			$tableCell.append( buttonGroup.$element );
+		}
+	}
+
+	$( 'td.ext-checkuser-investigate-table-cell-pinnable' ).on( 'mouseover mouseout', toggleClassForHover );
+
+	// Add buttons for pinnable highlighting and/or filtering
+	$( '.ext-checkuser-investigate-table-preliminary-check td.ext-checkuser-investigate-table-cell-pinnable' ).each( function () {
+		appendButtonGroup( $( this ), { toggle: true } );
+	} );
+	$( '.ext-checkuser-investigate-table-compare .ext-checkuser-compare-table-cell-ip-target' ).each( function () {
+		appendButtonGroup( $( this ), { toggle: true, filter: true } );
+	} );
+	$( '.ext-checkuser-investigate-table-compare .ext-checkuser-compare-table-cell-user-agent' ).each( function () {
+		appendButtonGroup( $( this ), { toggle: true } );
+	} );
+	$( 'td.ext-checkuser-compare-table-cell-user-target' ).each( function () {
+		appendButtonGroup( $( this ), { filter: true } );
 	} );
 
 	function addButtonForExtraTargets( $tableCell, type, field ) {

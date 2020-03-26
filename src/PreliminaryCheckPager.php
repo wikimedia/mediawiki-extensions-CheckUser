@@ -77,6 +77,13 @@ class PreliminaryCheckPager extends InvestigatePager {
 	/**
 	 * @inheritDoc
 	 */
+	protected function getTableClass() {
+		return parent::getTableClass() . ' ext-checkuser-investigate-table-preliminary-check';
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function getCellAttrs( $field, $value ) {
 		$attributes = parent::getCellAttrs( $field, $value );
 		$attributes['class'] = $attributes['class'] ?? '';

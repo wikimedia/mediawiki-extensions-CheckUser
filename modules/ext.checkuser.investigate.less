@@ -1,14 +1,47 @@
-.mw-datatable .ext-checkuser-compare-table-cell-target {
-	width: 200px;
-	background: #eaecf0;
+.mw-datatable {
+	.ext-checkuser-compare-table-cell-target {
+		width: 200px;
+		background: #eaecf0;
 
-	a,
-	.ext-checkuser-compare-table-cell-ip {
-		font-weight: bold;
+		a,
+		.ext-checkuser-compare-table-cell-ip {
+			font-weight: bold;
+		}
+
+		.ext-checkuser-compare-table-button-add-targets {
+			display: none;
+		}
+	}
+
+	.ext-checkuser-compare-table-cell-target:hover {
+		.ext-checkuser-compare-table-button-add-targets {
+			display: block;
+		}
+	}
+
+	.ext-checkuser-compare-table-cell-user-target {
+		.ext-checkuser-investigate-table-button-group {
+			display: none;
+		}
+
+		.ext-checkuser-investigate-table-button-filter {
+			display: none;
+		}
+	}
+
+	.ext-checkuser-compare-table-cell-user-target:hover {
+		.ext-checkuser-investigate-table-button-group {
+			display: block;
+		}
+
+		.ext-checkuser-investigate-table-button-filter {
+			display: inline-block;
+		}
 	}
 }
 
-.ext-checkuser-investigate-table-button-pin.oo-ui-buttonElement {
+.ext-checkuser-investigate-table-button-pin.oo-ui-buttonElement,
+.ext-checkuser-investigate-table-button-filter.oo-ui-buttonElement {
 	display: none;
 }
 
@@ -23,8 +56,13 @@
 		td.ext-checkuser-investigate-table-cell-pinned-data-match {
 			background-color: #fc3;
 
-			.ext-checkuser-investigate-table-button-pin {
+			.ext-checkuser-investigate-table-button-group {
 				display: block;
+			}
+
+			.ext-checkuser-investigate-table-button-pin,
+			.ext-checkuser-investigate-table-button-filter {
+				display: inline-block;
 			}
 		}
 	}
@@ -41,8 +79,13 @@
 		td:hover.ext-checkuser-investigate-table-cell-pinnable {
 			background-color: #fc3;
 
-			.ext-checkuser-investigate-table-button-pin {
+			.ext-checkuser-investigate-table-button-group {
 				display: block;
+			}
+
+			.ext-checkuser-investigate-table-button-pin,
+			.ext-checkuser-investigate-table-button-filter {
+				display: inline-block;
 			}
 		}
 	}
@@ -52,14 +95,6 @@
 	display: block;
 	margin-top: 0.25em;
 	margin-bottom: 0.25em;
-}
-
-.ext-checkuser-compare-table-cell-target .ext-checkuser-compare-table-button-add-targets {
-	display: none;
-}
-
-.ext-checkuser-compare-table-cell-target:hover .ext-checkuser-compare-table-button-add-targets {
-	display: block;
 }
 
 .mw-special-Investigate {
