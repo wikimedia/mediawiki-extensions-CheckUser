@@ -1834,6 +1834,7 @@ class SpecialCheckUser extends SpecialPage {
 		}
 		// Comment
 		if ( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW ) {
+			// $rev can be either a Revision or a RevisionRecord
 			$rev = Revision::newFromId( $row->cuc_this_oldid );
 			if ( !$rev ) {
 				// Assume revision is deleted
@@ -1850,7 +1851,9 @@ class SpecialCheckUser extends SpecialPage {
 					$queryInfo['joins']
 				);
 				if ( $tmp ) {
-					$rev = Revision::newFromArchiveRow( $tmp );
+					$rev = MediaWikiServices::getInstance()
+						->getRevisionFactory()
+						->newRevisionFromArchiveRow( $tmp );
 				}
 
 				if ( !$rev ) {
