@@ -5,6 +5,7 @@ use MediaWiki\CheckUser\CompareService;
 use MediaWiki\CheckUser\InvestigateLogPagerFactory;
 use MediaWiki\CheckUser\PreliminaryCheckPagerFactory;
 use MediaWiki\CheckUser\PreliminaryCheckService;
+use MediaWiki\CheckUser\TimelinePagerFactory;
 use MediaWiki\CheckUser\TimelineService;
 use MediaWiki\CheckUser\TokenManager;
 use MediaWiki\CheckUser\TokenQueryManager;
@@ -59,6 +60,15 @@ return [
 			$services->getLinkRenderer(),
 			$services->get( 'CheckUserTokenQueryManager' ),
 			$services->get( 'CheckUserCompareService' )
+		);
+	},
+	'CheckUserTimelinePagerFactory' => function (
+		MediaWikiServices $services
+	) : TimelinePagerFactory {
+		return new TimelinePagerFactory(
+			$services->getLinkRenderer(),
+			$services->get( 'CheckUserTokenQueryManager' ),
+			$services->get( 'CheckUserTimelineService' )
 		);
 	},
 ];

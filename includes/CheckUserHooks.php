@@ -22,7 +22,8 @@ class CheckUserHooks {
 				'services' => [
 					'CheckUserPreliminaryCheckPagerFactory',
 					'CheckUserComparePagerFactory',
-					'CheckUserTokenQueryManager'
+					'CheckUserTimelinePagerFactory',
+					'CheckUserTokenQueryManager',
 				],
 			];
 
