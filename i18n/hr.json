@@ -82,6 +82,8 @@
 	"checkuser-investigate-preliminary-table-header-groups": "Skupine",
 	"checkuser-investigate-filters-legend": "Filtri",
 	"checkuser-investigate-filters-hide-targets-label": "Skrij navedene suradnike ili IP-adrese",
+	"checkuser-investigate-compare-table-button-add-targets-label": "Prikaži sve IP adrese ovog suradnika",
+	"checkuser-investigate-compare-table-button-add-targets-title": "Sve IP adrese kojima se služio ovaj suradnik već su navedene u tablici",
 	"checkuser-investigate-compare-table-cell-unregistered": "Neregistrirani",
 	"checkuser-investigate-compare-table-header-username": "Suradničko ime"
 }
