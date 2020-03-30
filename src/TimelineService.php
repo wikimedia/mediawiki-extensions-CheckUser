@@ -65,7 +65,7 @@ class TimelineService {
 			}
 		}
 
-		return $conds ? $db->makeList( $conds, IDatabase::LIST_OR ) : '0';
+		return $conds ? $db->makeList( $conds, IDatabase::LIST_OR ) : $db->addQuotes( false );
 	}
 
 	/**
