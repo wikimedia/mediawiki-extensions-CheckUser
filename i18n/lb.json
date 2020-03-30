@@ -89,6 +89,8 @@
 	"checkuser-investigate-reason-label": "Grond",
 	"checkuser-investigate-filters-legend": "Filteren",
 	"checkuser-investigate-filters-hide-targets-label": "Dës Benotzer oder IPen verstoppen",
+	"checkuser-investigate-compare-table-button-add-targets-label": "All IP-Adresse vun dësem Benotzer weisen",
+	"checkuser-investigate-compare-table-button-add-targets-title": "All IP-Adressen déi vun dësem Benotzer benotzt gi si schonn an der Tabell",
 	"checkuser-investigate-compare-table-cell-unregistered": "Net-ugemellt",
 	"checkuser-investigate-compare-table-cell-other-edits": "<i>(~$1 vun alle Benotzer)</i>",
 	"checkuser-investigate-compare-table-header-username": "Benotzernumm",
