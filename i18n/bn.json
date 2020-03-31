@@ -96,6 +96,6 @@
 	"checkuser-investigate-targets-placeholder": "ব্যবহারকারী নাম বা 1.1.1.1",
 	"checkuser-investigate-reason-label": "কারণ",
 	"checkuser-investigate-preliminary-table-header-blocked": "অবস্থা",
-	"checkuser-investigate-compare-table-button-add-targets-label": "এই ব্যবহারকারীর সমস্ত আইপি দেখান",
-	"checkuser-investigate-compare-table-button-add-targets-title": "এই ব্যবহারকারীর দ্বারা ব্যবহৃত সমস্ত আইপি ইতিমধ্যে সারণীতে রয়েছে"
+	"checkuser-investigate-compare-table-button-add-user-targets-label": "এই ব্যবহারকারীর সমস্ত আইপি দেখান",
+	"checkuser-investigate-compare-table-button-add-user-targets-title": "এই ব্যবহারকারীর দ্বারা ব্যবহৃত সমস্ত আইপি ইতিমধ্যে সারণীতে রয়েছে"
 }

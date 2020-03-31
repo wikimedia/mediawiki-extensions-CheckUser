@@ -119,7 +119,9 @@
 	"checkuser-investigate-preliminary-table-header-name": "اسم المستخدم",
 	"checkuser-investigate-preliminary-table-header-registration": "البيانات المرفقة",
 	"checkuser-investigate-preliminary-table-header-wiki": "الويكي",
+	"checkuser-investigate-filters-legend": "المرشحات",
 	"checkuser-investigate-compare-table-cell-unregistered": "غير مسجل",
 	"checkuser-investigate-compare-table-header-username": "اسم المستخدم:",
-	"checkuser-investigate-compare-table-header-activity": "نطاق التاريخ"
+	"checkuser-investigate-compare-table-header-activity": "نطاق التاريخ",
+	"checkuser-investigate-compare-table-header-useragent": "وكيل المستخدم"
 }

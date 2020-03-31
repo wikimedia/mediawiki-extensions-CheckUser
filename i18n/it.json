@@ -115,5 +115,5 @@
 	"checkuser-investigate-preliminary-table-header-wiki": "Wiki",
 	"checkuser-investigate-filters-legend": "Filtri",
 	"checkuser-investigate-filters-hide-targets-label": "Nascondi i seguenti utenti o IP",
-	"checkuser-investigate-compare-table-button-add-targets-label": "Mostra tutti gli IP di questo utente"
+	"checkuser-investigate-compare-table-button-add-user-targets-label": "Mostra tutti gli IP di questo utente"
 }
