@@ -36,7 +36,23 @@ class ComparePager extends InvestigatePager {
 	/** @var array */
 	private $fieldNames;
 
-	/** @var string[] */
+	/**
+	 * Targets whose results should not be included in the investigation.
+	 * Targets in this list may or may not also be in the $targets list.
+	 * Either way, no activity related to these targets will appear in the
+	 * results.
+	 *
+	 * @var string[]
+	 */
+	private $excludeTargets;
+
+	/**
+	 * Targets that have been added to the investigation but that are not
+	 * present in $excludeTargets. These are the targets that will actually
+	 * be investigated.
+	 *
+	 * @var string[]
+	 */
 	private $filteredTargets;
 
 	public function __construct(
@@ -48,9 +64,10 @@ class ComparePager extends InvestigatePager {
 		parent::__construct( $context, $linkRenderer, $tokenManager );
 		$this->compareService = $compareService;
 
+		$this->excludeTargets = $this->tokenData['exclude-targets'] ?? [];
 		$this->filteredTargets = array_diff(
 			$this->tokenData['targets'] ?? [],
-			$this->tokenData['exclude-targets'] ?? []
+			$this->excludeTargets
 		);
 	}
 
@@ -207,7 +224,7 @@ class ComparePager extends InvestigatePager {
 	 * @inheritDoc
 	 */
 	public function getQueryInfo() {
-		return $this->compareService->getQueryInfo( $this->filteredTargets );
+		return $this->compareService->getQueryInfo( $this->filteredTargets, $this->excludeTargets );
 	}
 
 	/**
@@ -216,6 +233,9 @@ class ComparePager extends InvestigatePager {
 	 * @return string[] Targets whose limits were exceeded (if any)
 	 */
 	public function getTargetsOverLimit() : array {
-		return $this->compareService->getTargetsOverLimit( $this->filteredTargets );
+		return $this->compareService->getTargetsOverLimit(
+			$this->filteredTargets,
+			$this->excludeTargets
+		);
 	}
 }

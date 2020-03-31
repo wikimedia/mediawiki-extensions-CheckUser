@@ -62,7 +62,9 @@ class ComparePagerTest extends MediaWikiTestCase {
 			[ [ 'User1', '' ], [], 2 ],
 			[ [ 'User2' ], [], 1 ],
 			[ [ 'User2' ], [ 'User2' ], 0 ],
+			[ [ 'User2' ], [ '1.2.3.4' ], 0 ],
 			[ [ '1.2.3.4' ], [], 4 ],
+			[ [ '1.2.3.4' ], [ 'User1', 'User2' ], 2 ],
 			[ [ '1.2.3.0/24' ], [], 7 ],
 		];
 	}

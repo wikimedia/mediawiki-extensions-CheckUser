@@ -62,20 +62,20 @@ class CompareService {
 	 * Get the compare query info
 	 *
 	 * @param string[] $targets
+	 * @param string[] $excludeTargets
 	 * @return array
 	 */
-	public function getQueryInfo( array $targets ): array {
+	public function getQueryInfo( array $targets, array $excludeTargets ): array {
 		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
 
 		if ( $targets === [] ) {
 			throw new \LogicException( 'Cannot get query info when $targets is empty.' );
 		}
-
 		$limit = (int)( $this->limit / count( $targets ) );
 
 		$sqlText = [];
 		foreach ( $targets as $target ) {
-			$info = $this->getQueryInfoForSingleTarget( $target, $limit );
+			$info = $this->getQueryInfoForSingleTarget( $target, $excludeTargets, $limit );
 			if ( $info !== null ) {
 				if ( !$db->unionSupportsOrderAndLimit() ) {
 					unset( $info['options']['ORDER BY'], $info['options']['LIMIT'] );
@@ -124,12 +124,14 @@ class CompareService {
 	 * the target exceed the limit-per-target in getQueryInfo.
 	 *
 	 * @param string $target
+	 * @param string[] $excludeTargets
 	 * @param int $limitPerTarget
 	 * @param bool $limitCheck
 	 * @return array|null Return null for invalid target
 	 */
 	public function getQueryInfoForSingleTarget(
-		$target,
+		string $target,
+		array $excludeTargets,
 		int $limitPerTarget,
 		$limitCheck = false
 	) : ?array {
@@ -147,6 +149,8 @@ class CompareService {
 		if ( $conds === [] ) {
 			return null;
 		}
+
+		$this->buildExcludeTargetsConds( $excludeTargets, $conds );
 
 		// TODO: Add timestamp conditions (T246261)
 		$conds['cuc_type'] = [ RC_EDIT, RC_NEW ];
@@ -205,6 +209,35 @@ class CompareService {
 	}
 
 	/**
+	 * @param string[] $excludeTargets
+	 * @param string[] &$conds
+	 */
+	private function buildExcludeTargetsConds( array $excludeTargets, &$conds ) {
+		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
+
+		$ipExcludeTargets = [];
+		$userExcludeTargets = [];
+
+		foreach ( $excludeTargets as $excludeTarget ) {
+			if ( IPUtils::isIpAddress( $excludeTarget ) ) {
+				$ipExcludeTargets[] = IPUtils::toHex( $excludeTarget );
+			} else {
+				$userId = $this->getUserId( $excludeTarget );
+				if ( $userId ) {
+					$userExcludeTargets[] = $userId;
+				}
+			}
+		}
+
+		if ( count( $ipExcludeTargets ) > 0 ) {
+			$conds[] = 'cuc_ip_hex NOT IN (' . $db->makeList( $ipExcludeTargets ) . ')';
+		}
+		if ( count( $userExcludeTargets ) > 0 ) {
+			$conds[] = 'cuc_user NOT IN (' . $db->makeList( $userExcludeTargets ) . ')';
+		}
+	}
+
+	/**
 	 * Get user ID from a user name; for mocking in tests.
 	 *
 	 * @param string $username
@@ -218,9 +251,10 @@ class CompareService {
 	 * Check if we have incomplete data for any of the targets.
 	 *
 	 * @param string[] $targets
+	 * @param string[] $excludeTargets
 	 * @return string[]
 	 */
-	public function getTargetsOverLimit( array $targets ) : array {
+	public function getTargetsOverLimit( array $targets, array $excludeTargets ) : array {
 		if ( $targets === [] ) {
 			return $targets;
 		}
@@ -237,7 +271,7 @@ class CompareService {
 		$offset = (int)( $this->limit / count( $targets ) );
 
 		foreach ( $targets as $target ) {
-			$info = $this->getQueryInfoForSingleTarget( $target, $offset, true );
+			$info = $this->getQueryInfoForSingleTarget( $target, $excludeTargets, $offset, true );
 			if ( $info !== null ) {
 				$limitCheck = $db->select(
 					$info['tables'],
