@@ -16,7 +16,7 @@ class ComparePagerTest extends MediaWikiTestCase {
 	/**
 	 * @dataProvider provideDoQuery
 	 */
-	public function testDoQuery( $targets, $hideTargets, $expected ) {
+	public function testDoQuery( $targets, $excludeTargets, $expected ) {
 		$services = MediaWikiServices::getInstance();
 
 		$tokenManager = $this->getMockBuilder( TokenManager::class )
@@ -26,7 +26,7 @@ class ComparePagerTest extends MediaWikiTestCase {
 		$tokenManager->method( 'getDataFromRequest' )
 			->willReturn( [
 				'targets' => $targets,
-				'hide-targets' => $hideTargets,
+				'exclude-targets' => $excludeTargets,
 			] );
 
 		$compareService = $this->getMockBuilder( CompareService::class )

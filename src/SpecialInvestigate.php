@@ -405,15 +405,15 @@ class SpecialInvestigate extends \FormSpecialPage {
 
 		// Filters for both Compare & Timeline
 		if ( in_array( $this->par, [ $compareTab, $timelineTab ], true ) ) {
-			$fields['HideTargets'] = [
+			$fields['ExcludeTargets'] = [
 				'type' => 'usersmultiselect',
-				'name' => 'hide-targets',
-				'label-message' => $prefix . '-filters-hide-targets-label',
+				'name' => 'exclude-targets',
+				'label-message' => $prefix . '-filters-exclude-targets-label',
 				'exists' => true,
 				'required' => false,
 				'ipallowed' => true,
 				'iprange' => false,
-				'default' => implode( "\n", $data['hide-targets'] ?? [] ),
+				'default' => implode( "\n", $data['exclude-targets'] ?? [] ),
 				'input' => [
 					'autocomplete' => false,
 				],
@@ -478,8 +478,8 @@ class SpecialInvestigate extends \FormSpecialPage {
 		if ( isset( $data['Reason'] ) ) {
 			$update['reason'] = $data['Reason'];
 		}
-		if ( isset( $data['HideTargets' ] ) ) {
-			$update['hide-targets'] = $this->getArrayFromField( $data, 'HideTargets' );
+		if ( isset( $data['ExcludeTargets' ] ) ) {
+			$update['exclude-targets'] = $this->getArrayFromField( $data, 'ExcludeTargets' );
 		}
 		if ( isset( $data['Targets' ] ) ) {
 			$tokenData = $this->getTokenData();

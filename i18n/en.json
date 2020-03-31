@@ -118,7 +118,7 @@
 	"checkuser-investigate-preliminary-table-header-registration": "Date attached",
 	"checkuser-investigate-preliminary-table-header-wiki": "Wiki",
 	"checkuser-investigate-filters-legend": "Filters",
-	"checkuser-investigate-filters-hide-targets-label": "Hide the following users or IPs",
+	"checkuser-investigate-filters-exclude-targets-label": "Hide the following users or IPs",
 	"checkuser-investigate-compare-notice-exceeded-limit": "Due to technical limitations we've reached the number of records that can be presented. The data returned for the following targets is incomplete: $1. Please try using fewer targets, smaller time window or narrower IP ranges.",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Show all users on this IP",
 	"checkuser-investigate-compare-table-button-add-ip-targets-title": "All users on this IP are already in the table",
