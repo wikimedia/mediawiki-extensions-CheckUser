@@ -129,7 +129,7 @@
 	"checkuser-investigate-preliminary-table-header-registration": "日期已附上",
 	"checkuser-investigate-preliminary-table-header-wiki": "Wiki",
 	"checkuser-investigate-filters-legend": "篩選",
-	"checkuser-investigate-filters-hide-targets-label": "隱藏以下使用者或 IP",
+	"checkuser-investigate-filters-exclude-targets-label": "隱藏以下使用者或 IP",
 	"checkuser-investigate-compare-notice-exceeded-limit": "由於技術上的限制，我們已達到可呈現紀錄的數量。以下目標所回傳的資料內容不完整：$1。請嘗試使用較少的目標、較小的時窗、或是較窄的 IP 範圍。",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "顯示在此 IP 的全部使用者",
 	"checkuser-investigate-compare-table-button-add-ip-targets-title": "在此 IP 的全部使用者已在表格",

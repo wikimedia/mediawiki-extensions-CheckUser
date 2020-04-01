@@ -115,5 +115,5 @@
 	"checkuser-investigate-preliminary-table-header-name": "Användarnamn",
 	"checkuser-investigate-preliminary-table-header-wiki": "Wiki",
 	"checkuser-investigate-filters-legend": "Filter",
-	"checkuser-investigate-filters-hide-targets-label": "Dölj följande användare eller IP-adresser"
+	"checkuser-investigate-filters-exclude-targets-label": "Dölj följande användare eller IP-adresser"
 }

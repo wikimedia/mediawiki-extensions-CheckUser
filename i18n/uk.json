@@ -126,7 +126,7 @@
 	"checkuser-investigate-preliminary-table-header-registration": "Дата долучення",
 	"checkuser-investigate-preliminary-table-header-wiki": "Вікі",
 	"checkuser-investigate-filters-legend": "Фільтри",
-	"checkuser-investigate-filters-hide-targets-label": "Приховати вказаних користувачів чи IP-адреси",
+	"checkuser-investigate-filters-exclude-targets-label": "Приховати вказаних користувачів чи IP-адреси",
 	"checkuser-investigate-compare-notice-exceeded-limit": "Через технічні обмеження ми досягли максимальної кількості записів, які можна презентувати. Виведені для вказаних цілей дані є неповними: $1. Будь ласка, спробуйте використати менше цілей, коротше часове вікно, чи вужчі IP-діапазони.",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "Показати всі IP-адреси цього користувача",
 	"checkuser-investigate-compare-table-button-add-user-targets-title": "Усі IP-адреси, які використовує користувач, уже показані в таблиці",

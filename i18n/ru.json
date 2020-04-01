@@ -116,7 +116,7 @@
 	"checkuser-investigate-page-subtitle": "Текущее исследование за $1",
 	"checkuser-investigate-indicator-new-investigation": "Новое исследование",
 	"checkuser-investigate-tab-compare": "Сравнить",
-	"checkuser-investigate-filters-hide-targets-label": "Скрыть следующих пользователей или IP-адреса",
+	"checkuser-investigate-filters-exclude-targets-label": "Скрыть следующих пользователей или IP-адреса",
 	"checkuser-investigate-compare-notice-exceeded-limit": "Из-за технических ограничений мы достигли количества записей, которые могут быть представлены. Данные, возвращаемые для следующих целей, являются неполными: $1. Пожалуйста, попробуйте использовать меньшее количество целей, меньшее временное окно или более узкие диапазоны IP-адресов.",
 	"checkuser-investigate-compare-table-cell-unregistered": "Незарегистрированные",
 	"checkuser-investigate-compare-table-cell-other-edits": "<i>(~$1 от всех пользователей)</i>",

@@ -69,5 +69,7 @@
 	"checkuser-autocreate-action": "zo bet krouet ent emgefre",
 	"checkuser-create-action": "zo bet krouet",
 	"checkuser-email-action": "en deus kaset ur postel d'an implijer « $1 »",
-	"checkuser-reset-action": "adderaouekaat a ra ger-tremen an implijer \"$1\""
+	"checkuser-reset-action": "adderaouekaat a ra ger-tremen an implijer \"$1\"",
+	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Diskouez holl implijerien an IP-mañ",
+	"checkuser-investigate-compare-table-button-add-ip-targets-title": "Emañ holl implijierien an IP-mañ en daolenn c'hoazh"
 }

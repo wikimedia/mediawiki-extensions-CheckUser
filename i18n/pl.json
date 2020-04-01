@@ -126,7 +126,7 @@
 	"checkuser-investigate-preliminary-table-header-registration": "Data dołączenia",
 	"checkuser-investigate-preliminary-table-header-wiki": "Wiki",
 	"checkuser-investigate-filters-legend": "Filtry",
-	"checkuser-investigate-filters-hide-targets-label": "Ukryj poniższych użytkowników lub IP",
+	"checkuser-investigate-filters-exclude-targets-label": "Ukryj poniższych użytkowników lub IP",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "Pokaż wszystkie adresy IP tego użytkownika",
 	"checkuser-investigate-compare-table-button-add-user-targets-title": "Wszystkie adresy IP używane przez tego użytkownika znajdują się już w tabeli",
 	"checkuser-investigate-compare-table-cell-unregistered": "Niezarejestrowany",

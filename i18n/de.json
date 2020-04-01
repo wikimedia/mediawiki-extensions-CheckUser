@@ -125,7 +125,7 @@
 	"checkuser-investigate-preliminary-table-header-registration": "Datum der Anlage",
 	"checkuser-investigate-preliminary-table-header-wiki": "Wiki",
 	"checkuser-investigate-filters-legend": "Filter",
-	"checkuser-investigate-filters-hide-targets-label": "Die folgenden Benutzer oder IP-Adressen verbergen",
+	"checkuser-investigate-filters-exclude-targets-label": "Die folgenden Benutzer oder IP-Adressen verbergen",
 	"checkuser-investigate-compare-notice-exceeded-limit": "Aufgrund technischer Beschränkungen haben wir die Anzahl der Datensätze erreicht, die präsentiert werden können. Die Daten, die für die folgenden Ziele zurückgegeben werden, sind unvollständig: $1. Bitte versuche, weniger Ziele, ein kleineres Zeitfenster oder engere IP-Bereiche zu verwenden.",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Zeige alle Benutzer mit dieser IP-Adresse",
 	"checkuser-investigate-compare-table-button-add-ip-targets-title": "Alle Benztzer mit dieser IP-Adresse sind bereits in der Tabelle",
