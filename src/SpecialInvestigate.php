@@ -576,7 +576,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 */
 	private function getRedirectUrl( string $token ) : string {
 		$parts = wfParseURL( $this->getRequest()->getFullRequestURL() );
-		$query = wfCgiToArray( $parts['query'] );
+		$query = isset( $parts['query'] ) ? wfCgiToArray( $parts['query'] ) : [];
 		$query['token'] = $token;
 		$parts['query'] = wfArrayToCgi( $query );
 		return wfAssembleUrl( $parts );
