@@ -131,6 +131,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					if ( $row->cuc_actiontext ) {
 						$edit['summary'] = $row->cuc_actiontext;
 					} elseif ( $row->cuc_comment ) {
+						// $rev can be either a Revision or a RevisionRecord
 						$rev = Revision::newFromId( $row->cuc_this_oldid );
 						if ( !$rev ) {
 							$dbr = wfGetDB( DB_REPLICA );
@@ -146,7 +147,9 @@ class ApiQueryCheckUser extends ApiQueryBase {
 								$queryInfo['joins']
 							);
 							if ( $tmp ) {
-								$rev = Revision::newFromArchiveRow( $tmp );
+								$rev = MediaWikiServices::getInstance()
+									->getRevisionFactory()
+									->newRevisionFromArchiveRow( $tmp );
 							}
 						}
 						if ( !$rev ) {
