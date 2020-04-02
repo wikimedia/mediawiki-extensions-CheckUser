@@ -7,6 +7,7 @@ use MediaWiki\CheckUser\PreliminaryCheckPagerFactory;
 use MediaWiki\CheckUser\PreliminaryCheckService;
 use MediaWiki\CheckUser\TimelineService;
 use MediaWiki\CheckUser\TokenManager;
+use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\MediaWikiServices;
 
 return [
@@ -30,6 +31,11 @@ return [
 			$services->getMainConfig()->get( 'SecretKey' )
 		);
 	},
+	'CheckUserTokenQueryManager' => function ( MediaWikiServices $services ) : TokenQueryManager {
+		return new TokenQueryManager(
+			$services->get( 'CheckUserTokenManager' )
+		);
+	},
 	'CheckUserInvestigateLogPagerFactory' => function (
 		MediaWikiServices $services
 	) : InvestigateLogPagerFactory {
@@ -44,14 +50,14 @@ return [
 			$services->getLinkRenderer(),
 			$services->getNamespaceInfo(),
 			\ExtensionRegistry::getInstance(),
-			$services->get( 'CheckUserTokenManager' ),
+			$services->get( 'CheckUserTokenQueryManager' ),
 			$services->get( 'CheckUserPreliminaryCheckService' )
 		);
 	},
 	'CheckUserComparePagerFactory' => function ( MediaWikiServices $services ) : ComparePagerFactory {
 		return new ComparePagerFactory(
 			$services->getLinkRenderer(),
-			$services->get( 'CheckUserTokenManager' ),
+			$services->get( 'CheckUserTokenQueryManager' ),
 			$services->get( 'CheckUserCompareService' )
 		);
 	},

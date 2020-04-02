@@ -23,8 +23,8 @@ class SpecialInvestigate extends \FormSpecialPage {
 	/** @var PagerFactory */
 	private $comparePagerFactory;
 
-	/** @var TokenManager */
-	private $tokenManager;
+	/** @var TokenQueryManager */
+	private $tokenQueryManager;
 
 	/** @var IndexLayout|null */
 	private $layout;
@@ -41,17 +41,17 @@ class SpecialInvestigate extends \FormSpecialPage {
 	/**
 	 * @param PagerFactory $preliminaryCheckPagerFactory
 	 * @param PagerFactory $comparePagerFactory
-	 * @param TokenManager $tokenManager
+	 * @param TokenQueryManager $tokenQueryManager
 	 */
 	public function __construct(
 		PagerFactory $preliminaryCheckPagerFactory,
 		PagerFactory $comparePagerFactory,
-		TokenManager $tokenManager
+		TokenQueryManager $tokenQueryManager
 	) {
 		parent::__construct( 'Investigate', 'investigate' );
 		$this->preliminaryCheckPagerFactory = $preliminaryCheckPagerFactory;
 		$this->comparePagerFactory = $comparePagerFactory;
-		$this->tokenManager = $tokenManager;
+		$this->tokenQueryManager = $tokenQueryManager;
 	}
 
 	/**
@@ -470,7 +470,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 */
 	private function getTokenData() : array {
 		if ( $this->tokenData === null ) {
-			$this->tokenData = $this->tokenManager->getDataFromRequest( $this->getRequest() );
+			$this->tokenData = $this->tokenQueryManager->getDataFromRequest( $this->getRequest() );
 		}
 
 		return $this->tokenData;
@@ -566,14 +566,10 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @param array $update
 	 * @return string
 	 */
-	private function getUpdatedToken( array $update = [] ) : string {
-		$data = array_filter( array_merge( $this->getTokenData(), $update ), function ( $value ) {
-			return $value !== null;
-		} );
-
-		return $this->tokenManager->encode(
-			$this->getRequest()->getSession(),
-			$data
+	private function getUpdatedToken( array $update ) : string {
+		return $this->tokenQueryManager->updateToken(
+			$this->getRequest(),
+			$update
 		);
 	}
 

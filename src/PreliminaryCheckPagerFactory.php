@@ -14,8 +14,8 @@ class PreliminaryCheckPagerFactory implements PagerFactory {
 	/** @var \ExtensionRegistry */
 	private $extensionRegistry;
 
-	/** @var TokenManager */
-	private $tokenManager;
+	/** @var TokenQueryManager */
+	private $tokenQueryManager;
 
 	/** @var PreliminaryCheckService */
 	private $preliminaryCheck;
@@ -24,20 +24,20 @@ class PreliminaryCheckPagerFactory implements PagerFactory {
 	 * @param LinkRenderer $linkRenderer
 	 * @param \NamespaceInfo $namespaceInfo
 	 * @param \ExtensionRegistry $extensionRegistry
-	 * @param TokenManager $tokenManager
+	 * @param TokenQueryManager $tokenQueryManager
 	 * @param PreliminaryCheckService $preliminaryCheck
 	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		\NamespaceInfo $namespaceInfo,
 		\ExtensionRegistry $extensionRegistry,
-		TokenManager $tokenManager,
+		TokenQueryManager $tokenQueryManager,
 		PreliminaryCheckService $preliminaryCheck
 	) {
 		$this->linkRenderer = $linkRenderer;
 		$this->namespaceInfo = $namespaceInfo;
 		$this->extensionRegistry = $extensionRegistry;
-		$this->tokenManager = $tokenManager;
+		$this->tokenQueryManager = $tokenQueryManager;
 		$this->preliminaryCheck = $preliminaryCheck;
 	}
 
@@ -49,7 +49,7 @@ class PreliminaryCheckPagerFactory implements PagerFactory {
 			$context,
 			$this->linkRenderer,
 			$this->namespaceInfo,
-			$this->tokenManager,
+			$this->tokenQueryManager,
 			$this->extensionRegistry,
 			$this->preliminaryCheck
 		);

@@ -30,26 +30,6 @@ class TokenManager {
 	}
 
 	/**
-	 * Get data from the the request.
-	 *
-	 * @param \WebRequest $request
-	 * @return array
-	 */
-	public function getDataFromRequest( \WebRequest $request ) : array {
-		$token = $request->getVal( 'token' );
-
-		if ( empty( $token ) ) {
-			return [];
-		}
-
-		try {
-			return $this->decode( $request->getSession(), $token );
-		} catch ( \Exception $e ) {
-			return [];
-		}
-	}
-
-	/**
 	 * Creates a token
 	 *
 	 * @param Session $session

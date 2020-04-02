@@ -26,12 +26,16 @@ use Html;
 use IContextSource;
 use Linker;
 use MediaWiki\Linker\LinkRenderer;
+use TablePager;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
 
-class ComparePager extends InvestigatePager {
+class ComparePager extends TablePager {
 	/** @var CompareService */
 	private $compareService;
+
+	/** @var TokenQueryManager */
+	private $tokenQueryManager;
 
 	/** @var array */
 	private $fieldNames;
@@ -58,15 +62,19 @@ class ComparePager extends InvestigatePager {
 	public function __construct(
 		IContextSource $context,
 		LinkRenderer $linkRenderer,
-		TokenManager $tokenManager,
+		TokenQueryManager $tokenQueryManager,
 		CompareService $compareService
 	) {
-		parent::__construct( $context, $linkRenderer, $tokenManager );
+		parent::__construct( $context, $linkRenderer );
 		$this->compareService = $compareService;
+		$this->tokenQueryManager = $tokenQueryManager;
 
-		$this->excludeTargets = $this->tokenData['exclude-targets'] ?? [];
+		$tokenData = $tokenQueryManager->getDataFromRequest( $context->getRequest() );
+		$this->mOffset = $tokenData['offset'] ?? '';
+
+		$this->excludeTargets = $tokenData['exclude-targets'] ?? [];
 		$this->filteredTargets = array_diff(
-			$this->tokenData['targets'] ?? [],
+			$tokenData['targets'] ?? [],
 			$this->excludeTargets
 		);
 	}
@@ -75,7 +83,9 @@ class ComparePager extends InvestigatePager {
 	 * @inheritDoc
 	 */
 	protected function getTableClass() {
-		return parent::getTableClass() . ' ext-checkuser-investigate-table-compare';
+		return parent::getTableClass() .
+			' ext-checkuser-investigate-table' .
+			' ext-checkuser-investigate-table-compare';
 	}
 
 	/**
@@ -249,6 +259,31 @@ class ComparePager extends InvestigatePager {
 		return $this->compareService->getTargetsOverLimit(
 			$this->filteredTargets,
 			$this->excludeTargets
+		);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isFieldSortable( $field ) {
+		return false;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getDefaultSort() {
+		return '';
+	}
+
+	/**
+	 * @inheritDoc
+	 *
+	 * Conceal the offset which may reveal private data.
+	 */
+	public function getPagingQueries() {
+		return $this->tokenQueryManager->getPagingQueries(
+			$this->getRequest(), parent::getPagingQueries()
 		);
 	}
 }
