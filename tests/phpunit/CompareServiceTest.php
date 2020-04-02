@@ -37,7 +37,7 @@ class CompareServiceTest extends MediaWikiTestCase {
 	 *
 	 * @dataProvider provideGetQueryInfo
 	 */
-	public function testGetQueryInfo( $targets, $expected ) {
+	public function testGetQueryInfo( $options, $expected ) {
 		$services = MediaWikiServices::getInstance();
 
 		$compareService = $this->getMockBuilder( CompareService::class )
@@ -47,48 +47,78 @@ class CompareServiceTest extends MediaWikiTestCase {
 		$compareService->method( 'getUserId' )
 			->will( $this->returnValueMap( [
 				[ 'User1', 11111, ],
+				[ 'User2', 22222, ],
 			] ) );
 
-		$queryInfo = $compareService->getQueryInfo( $targets );
+		$queryInfo = $compareService->getQueryInfo( $options['targets'], $options['excludeTargets'] );
 
 		foreach ( $expected['targets'] as $target ) {
 			$this->assertTrue( strpos( $queryInfo['tables']['a'], $target ) !== false );
 		}
 
+		foreach ( $expected['excludeTargets'] as $excludeTarget ) {
+			$this->assertTrue( strpos( $queryInfo['tables']['a'], $excludeTarget ) !== false );
+		}
 		$this->assertTrue( strpos( $queryInfo['tables']['a'], $expected['limit'] ) !== false );
 	}
 
 	public function provideGetQueryInfo() {
 		return [
-			'Valid username' => [
-				[ 'User1' ],
+			'Valid username, excluded IP' => [
+				[
+					'targets' => [ 'User1' ],
+					'excludeTargets' => [ '0:0:0:0:0:0:0:1' ],
+				],
 				[
 					'targets' => [ '11111' ],
+					'excludeTargets' => [ 'v6-00000000000000000000000000000001' ],
 					'limit' => '100000',
 				],
 			],
-			'Single valid IP' => [
-				[ '0:0:0:0:0:0:0:1' ],
+			'Single valid IP, excluded username' => [
+				[
+					'targets' => [ '0:0:0:0:0:0:0:1' ],
+					'excludeTargets' => [ 'User1' ],
+				],
 				[
 					'targets' => [ 'v6-00000000000000000000000000000001' ],
+					'excludeTargets' => [ '11111' ],
 					'limit' => '100000',
+				],
+			],
+			'Valid username and IP, excluded username and IP' => [
+				[
+					'targets' => [ 'User1', '1.2.3.4' ],
+					'excludeTargets' => [ 'User2', '1.2.3.5' ],
+				],
+				[
+					'targets' => [ '11111', '01020304' ],
+					'excludeTargets' => [ '22222', '01020305' ],
+					'limit' => '50000',
 				],
 			],
 			'Two valid IPs' => [
-				[ '0:0:0:0:0:0:0:1', '1.2.3.4' ],
+				[
+					'targets' => [ '0:0:0:0:0:0:0:1', '1.2.3.4' ],
+					'excludeTargets' => [],
+				],
 				[
 					'targets' => [
 						'v6-00000000000000000000000000000001',
 						'01020304'
 					],
+					'excludeTargets' => [],
 					'limit' => '50000',
 				],
 			],
 			'Valid IP addresses and IP range' => [
 				[
-					'0:0:0:0:0:0:0:1',
-					'1.2.3.4',
-					'1.2.3.4/16',
+					'targets' => [
+						'0:0:0:0:0:0:0:1',
+						'1.2.3.4',
+						'1.2.3.4/16',
+					],
+					'excludeTargets' => [],
 				],
 				[
 					'targets' => [
@@ -97,6 +127,7 @@ class CompareServiceTest extends MediaWikiTestCase {
 						'01020000',
 						'0102FFFF',
 					],
+					'excludeTargets' => [],
 					'limit' => '33333',
 				],
 			],
@@ -110,7 +141,7 @@ class CompareServiceTest extends MediaWikiTestCase {
 			$this->createMock( ILoadBalancer::class )
 		);
 
-		$compareService->getQueryInfo( [] );
+		$compareService->getQueryInfo( [], [] );
 	}
 
 	/**
@@ -119,6 +150,7 @@ class CompareServiceTest extends MediaWikiTestCase {
 	public function testGetQueryInfoForSingleTarget( $options, $expected ) {
 		$info = $this->getCompareService()->getQueryInfoForSingleTarget(
 			'1.2.3.4',
+			[],
 			$options['limitPerTarget'],
 			$options['limitCheck']
 		);
