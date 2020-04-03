@@ -1834,9 +1834,10 @@ class SpecialCheckUser extends SpecialPage {
 		}
 		// Comment
 		if ( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW ) {
-			// $rev can be either a Revision or a RevisionRecord
-			$rev = Revision::newFromId( $row->cuc_this_oldid );
-			if ( !$rev ) {
+			$revRecord = MediaWikiServices::getInstance()
+				->getRevisionLookup()
+				->getRevisionById( $row->cuc_this_oldid );
+			if ( !$revRecord ) {
 				// Assume revision is deleted
 				$dbr = wfGetDB( DB_REPLICA );
 				$queryInfo = MediaWikiServices::getInstance()
@@ -1851,12 +1852,12 @@ class SpecialCheckUser extends SpecialPage {
 					$queryInfo['joins']
 				);
 				if ( $tmp ) {
-					$rev = MediaWikiServices::getInstance()
+					$revRecord = MediaWikiServices::getInstance()
 						->getRevisionFactory()
 						->newRevisionFromArchiveRow( $tmp );
 				}
 
-				if ( !$rev ) {
+				if ( !$revRecord ) {
 					// This shouldn't happen, CheckUser points to a revision
 					// that isn't in revision nor archive table?
 					throw new Exception(
@@ -1865,7 +1866,7 @@ class SpecialCheckUser extends SpecialPage {
 				}
 			}
 			if ( RevisionRecord::userCanBitfield(
-				$rev->getVisibility(),
+				$revRecord->getVisibility(),
 				RevisionRecord::DELETED_COMMENT,
 				$this->getUser()
 			) ) {

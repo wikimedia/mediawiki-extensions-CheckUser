@@ -131,9 +131,10 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					if ( $row->cuc_actiontext ) {
 						$edit['summary'] = $row->cuc_actiontext;
 					} elseif ( $row->cuc_comment ) {
-						// $rev can be either a Revision or a RevisionRecord
-						$rev = Revision::newFromId( $row->cuc_this_oldid );
-						if ( !$rev ) {
+						$revRecord = MediaWikiServices::getInstance()
+							->getRevisionLookup()
+							->getRevisionById( $row->cuc_this_oldid );
+						if ( !$revRecord ) {
 							$dbr = wfGetDB( DB_REPLICA );
 							$queryInfo = MediaWikiServices::getInstance()
 								->getRevisionStore()
@@ -147,12 +148,12 @@ class ApiQueryCheckUser extends ApiQueryBase {
 								$queryInfo['joins']
 							);
 							if ( $tmp ) {
-								$rev = MediaWikiServices::getInstance()
+								$revRecord = MediaWikiServices::getInstance()
 									->getRevisionFactory()
 									->newRevisionFromArchiveRow( $tmp );
 							}
 						}
-						if ( !$rev ) {
+						if ( !$revRecord ) {
 							// This shouldn't happen, CheckUser points to a revision
 							// that isn't in revision nor archive table?
 							throw new Exception(
@@ -160,7 +161,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 							);
 						}
 						if ( RevisionRecord::userCanBitfield(
-							$rev->getVisibility(),
+							$revRecord->getVisibility(),
 							RevisionRecord::DELETED_COMMENT,
 							$this->getUser()
 						) ) {
