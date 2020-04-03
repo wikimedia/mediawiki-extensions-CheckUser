@@ -2,9 +2,11 @@
 	"@metadata": {
 		"authors": [
 			"Ebrahimi-amir",
-			"පසිඳු කාවින්ද"
+			"පසිඳු කාවින්ද",
+			"E THP"
 		]
 	},
+	"checkuser": "تفتیشچیلر",
 	"checkuser-reason": "ندن:",
 	"checkuser-all": "بوتون",
 	"checkuser-search": "آختار",
