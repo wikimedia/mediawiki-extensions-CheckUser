@@ -121,6 +121,9 @@ class ComparePager extends InvestigatePager {
 				$attributes['class'] .= ' ext-checkuser-compare-table-cell-user-agent';
 				$attributes['data-' . $field] = $value;
 				break;
+			case 'activity':
+				$attributes['class'] .= ' ext-checkuser-compare-table-cell-activity';
+				break;
 		}
 
 		return $attributes;
