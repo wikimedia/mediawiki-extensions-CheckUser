@@ -114,6 +114,7 @@
 	"checkuser-investigate-preliminary-table-header-name": "사용자 이름",
 	"checkuser-investigate-preliminary-table-header-wiki": "위키",
 	"checkuser-investigate-filters-legend": "필터",
+	"checkuser-investigate-compare-table-button-add-ip-targets-label": "이 IP의 모든 사용자 표시",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "이 사용자의 모든 IP 표시",
 	"checkuser-investigate-compare-table-button-add-user-targets-title": "이 사용자가 사용 중인 모든 IP가 이미 테이블에 있습니다",
 	"checkuser-investigate-compare-table-cell-unregistered": "등록 안 됨",
