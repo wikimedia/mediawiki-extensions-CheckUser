@@ -233,12 +233,16 @@ class SpecialInvestigate extends \FormSpecialPage {
 
 				return $this;
 			case $this->getTabParam( 'compare' ):
-				// Add the filter form.
-				$this->addHTML( $this->getForm()->getHTML( $this->getForm()->wasSubmitted() ) );
-
 				$pager = $this->comparePagerFactory->createPager( $this->getContext() );
+				$numRows = $pager->getNumRows();
+				$numFilters = count( $this->getTokenData()['exclude-targets'] ?? [] );
 
-				if ( $pager->getNumRows() ) {
+				if ( $numRows || $numFilters ) {
+					// Add the filter form field.
+					$this->addHTML( $this->getForm()->getHTML( $this->getForm()->wasSubmitted() ) );
+				}
+
+				if ( $numRows ) {
 					$targetsOverLimit = $pager->getTargetsOverLimit();
 					if ( $targetsOverLimit ) {
 						$message = $this->msg(
@@ -253,9 +257,14 @@ class SpecialInvestigate extends \FormSpecialPage {
 
 					$this->addParserOutput( $pager->getFullOutput() );
 				} else {
-					$this->addHTML(
-						$this->msg( 'checkuser-investigate-notice-no-results' )->parse()
-					);
+					$messageKey = $numFilters ?
+						'checkuser-investigate-compare-notice-no-results-filters' :
+						'checkuser-investigate-compare-notice-no-results';
+					$message = $this->msg( $messageKey )->parse();
+					$this->addHTML( new MessageWidget( [
+						'type' => 'warning',
+						'label' => new HtmlSnippet( $message )
+					] ) );
 				}
 				return $this;
 			case $this->getTabParam( 'timeline' ):
