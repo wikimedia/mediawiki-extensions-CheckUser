@@ -56,16 +56,16 @@ class ComparePagerTest extends MediaWikiTestCase {
 	}
 
 	public function provideDoQuery() {
+		// $targets, $excludeTargets, $expected
 		return [
-			[ [ 'User1' ], [], 2 ],
-			[ [ 'User1', 'InvalidUser', '1.2.3.9/120' ], [], 2 ],
-			[ [ 'User1', '' ], [], 2 ],
-			[ [ 'User2' ], [], 1 ],
-			[ [ 'User2' ], [ 'User2' ], 0 ],
-			[ [ 'User2' ], [ '1.2.3.4' ], 0 ],
-			[ [ '1.2.3.4' ], [], 4 ],
-			[ [ '1.2.3.4' ], [ 'User1', 'User2' ], 2 ],
-			[ [ '1.2.3.0/24' ], [], 7 ],
+			'Valid and invalid targets' => [ [ 'User1', 'InvalidUser', '1.2.3.9/120' ], [], 2 ],
+			'Valid and empty targets' => [ [ 'User1', '' ], [], 2 ],
+			'Valid user target' => [ [ 'User2' ], [], 1 ],
+			'Valid user target with excluded name' => [ [ 'User2' ], [ 'User2' ], 0 ],
+			'Valid user target with excluded IP' => [ [ 'User2' ], [ '1.2.3.4' ], 0 ],
+			'Valid IP target' => [ [ '1.2.3.4' ], [], 4 ],
+			'Valid IP target with users excluded' => [ [ '1.2.3.4' ], [ 'User1', 'User2' ], 2 ],
+			'Valid IP range target' => [ [ '1.2.3.0/24' ], [], 7 ],
 		];
 	}
 
