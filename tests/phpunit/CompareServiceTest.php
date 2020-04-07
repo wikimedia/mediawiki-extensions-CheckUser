@@ -193,7 +193,7 @@ class CompareServiceTest extends MediaWikiTestCase {
 	 */
 	public function testGetTotalEditsFromIp( $data, $expected ) {
 		$result = $this->getCompareService()->getTotalEditsFromIp(
-			$data['ip'], $data['userAgent'], $data['excludeUser'] ?? null
+			$data['ip'], $data['excludeUser'] ?? null
 		);
 
 		$this->assertEquals( $expected, $result );
@@ -201,32 +201,20 @@ class CompareServiceTest extends MediaWikiTestCase {
 
 	public function provideTotalEditsFromIp() {
 		return [
-			[
+			'IP address with multiple users' => [
 				[
-					'ip' => '1.2.3.5',
-					'userAgent' => 'bar user agent',
+					'ip' => '1.2.3.5'
 				], [
 					'total_edits' => 3,
 					'total_users' => 2,
 				],
 			],
-			[
+			'IP address with multiple users, excluding a user' => [
 				[
 					'ip' => '1.2.3.4',
-					'userAgent' => 'foo user agent',
 					'excludeUser' => 'User1'
 				], [
-					'total_edits' => 5,
-					'total_users' => 3,
-				],
-			],
-			[
-				[
-					'ip' => '1.2.3.5',
-					'userAgent' => 'foo user agent',
-					'excludeUser' => 'User1'
-				], [
-					'total_edits' => 3,
+					'total_edits' => 4,
 					'total_users' => 2,
 				],
 			],
