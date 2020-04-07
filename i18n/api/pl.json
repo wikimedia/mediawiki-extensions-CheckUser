@@ -2,10 +2,10 @@
 	"@metadata": {
 		"authors": [
 			"Chrumps",
+			"Rail",
 			"Railfail536",
 			"Saper",
-			"Woytecr",
-			"Rail"
+			"Woytecr"
 		]
 	},
 	"apihelp-query+checkuser-description": "Umożliwia sprawdzenie, z których adresów IP edytował zadany użytkownik lub odnalezienie nazw użytkowników korzystających z zadanego adresu IP.",

@@ -1,20 +1,20 @@
 {
 	"@metadata": {
 		"authors": [
+			"BaRaN6161 TURK",
 			"Dbl2010",
 			"Erkan Yilmaz",
+			"HakanIST",
+			"Hedda",
 			"Joseph",
 			"Karduelis",
 			"Mach",
+			"McDutchie",
+			"Sadrettin",
+			"Sayginer",
 			"Suelnur",
 			"Vito Genovese",
-			"Sadrettin",
-			"Ömer Berkay",
-			"Sayginer",
-			"McDutchie",
-			"HakanIST",
-			"Hedda",
-			"BaRaN6161 TURK"
+			"Ömer Berkay"
 		]
 	},
 	"checkuser-summary": "Bu araç bir kullanıcı tarafından kullanılan IP'leri almak için son değişiklikleri tarar ya da bir IP için değişiklik/kullanıcı verisini gösterir.\nAlıcı IP'deki kullanıcı ve değişiklikler, IP'ye \"/xff\" eklenmesiyle XFF başlıklarıyla alınabilir. IPv4 (CIDR $1-32) ve IPv6 (CIDR $2-128) desteklenmektedir.\nPerformans nedeniyle 5000'den fazla değişiklik dönmeyecektir.\nBunu ilkelere uygun olarak kullanın.",

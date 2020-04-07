@@ -1,9 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
+			"Joao Xavier",
 			"Malafaya",
-			"Robin van der Vliet",
-			"Joao Xavier"
+			"Robin van der Vliet"
 		]
 	},
 	"checkuser": "Kontrolero di adresi IP",

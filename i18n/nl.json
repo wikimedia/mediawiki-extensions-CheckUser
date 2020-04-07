@@ -1,14 +1,14 @@
 {
 	"@metadata": {
 		"authors": [
+			"Akoopal",
+			"Elroy",
 			"Erwin",
+			"Mainframe98",
 			"SPQRobin",
 			"Siebrand",
-			"Troefkaart",
 			"Sjoerddebruin",
-			"Akoopal",
-			"Mainframe98",
-			"Elroy"
+			"Troefkaart"
 		]
 	},
 	"checkuser-summary": "Dit hulpmiddel bekijkt recente wijzigingen om IP-adressen die een gebruiker heeft gebruikt te achterhalen of geeft de bewerkings- en gebruikersgegegevens weer voor een IP-adres.\nGebruikers en bewerkingen van een IP-adres van een client kunnen achterhaald worden via XFF-headers door \"/xff\" achter het IP-adres toe te voegen. IPv4 (CIDR $1-32) en IPv6 (CIDR $2-128) worden ondersteund.\nOm prestatieredenen worden niet meer dan 5.000 bewerkingen weergegeven.\nGebruik dit hulpmiddel volgens het vastgestelde beleid.",

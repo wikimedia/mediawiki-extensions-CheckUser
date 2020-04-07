@@ -1,10 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
+			"Andibing",
 			"Chase me ladies, I'm the Cavalry",
-			"Macofe",
 			"Guycn2",
-			"Andibing"
+			"Macofe"
 		]
 	},
 	"checkuser-summary": "This tool scans recent changes to retrieve the IP addresses used by a user or show the edit/user data for an IP address.\nUsers and edits by a client IP address can be retrieved via XFF headers by appending the IP address with \"/xff\". IPv4 (CIDR $1-32) and IPv6 (CIDR $2-128) are supported.\nNo more than 5,000 edits will be returned for performance reasons.\nUse this in accordance with policy.",

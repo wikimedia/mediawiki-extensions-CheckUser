@@ -1,14 +1,14 @@
 {
 	"@metadata": {
 		"authors": [
+			"Bugoslav",
 			"Dalibor Bosits",
 			"Ex13",
 			"Excaliboor",
 			"MaGa",
-			"SpeedyGonsales",
-			"Tivek",
 			"Neptune, the Mystic",
-			"Bugoslav"
+			"SpeedyGonsales",
+			"Tivek"
 		]
 	},
 	"checkuser-summary": "Ovaj alat pretražuje nedavne promjene i pronalazi IP adrese suradnika ili prikazuje uređivanja/ime suradnika ako je zadana IP adresa. Suradnici i uređivanja mogu biti dobiveni po XFF zaglavljima dodavanjem \"/xff\" na kraj IP adrese. Podržane su IPv4 (CIDR $1-32) i IPv6 (CIDR $2-128) adrese. Rezultat ima maksimalno 5.000 zapisa iz tehničkih razloga. Rabite ovaj alat u skladu s pravilima.",

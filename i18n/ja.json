@@ -1,7 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
+			"2nd-player",
 			"Aotake",
+			"Azeha",
+			"Buntschann",
 			"Fievarsty",
 			"Fryed-peach",
 			"Hosiryuhosi",
@@ -9,23 +12,20 @@
 			"Kahusi",
 			"Kanjy",
 			"Marine-Blue",
+			"Mirinano",
 			"Muttley",
+			"Otokoume",
+			"Penn Station",
+			"Rxy",
 			"Schu",
 			"Shirayuki",
 			"Suisui",
-			"Vigorous action",
-			"Whym",
-			"青子守歌",
-			"Rxy",
-			"W.CC",
-			"2nd-player",
-			"Azeha",
-			"Otokoume",
 			"Sujiniku",
-			"Mirinano",
+			"Vigorous action",
+			"W.CC",
+			"Whym",
 			"Yusuke1109",
-			"Penn Station",
-			"Buntschann"
+			"青子守歌"
 		]
 	},
 	"checkuser-summary": "このツールは最近の更新をもとに、ある利用者が使用したIPアドレスの検索、または、あるIPアドレスからなされた編集および利用者名の表示を行います。\nIPアドレスと共に「/xff」オプションを指定すると、XFF (X-Forwarded-For) ヘッダーを通じてクライアントIPアドレスを取得し、そこからなされた編集および利用者名の検索をすることができます。\nIPv4 ($1から32ビットのCIDR表記) と IPv6 ($2から128ビットのCIDR表記) に対応しています。\nパフォーマンス上の理由により、最大5000件の編集しか表示できません。\n方針に従って使用してください。",

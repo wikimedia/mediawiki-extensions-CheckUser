@@ -3,6 +3,7 @@
 		"authors": [
 			"Amjaabc",
 			"Byrial",
+			"Cgtdk",
 			"Christian List",
 			"Emilkris33",
 			"Fredelige",
@@ -10,9 +11,8 @@
 			"Masz",
 			"Morten LJ",
 			"Peter Alberti",
-			"Sarrus",
-			"Cgtdk",
-			"Saederup92"
+			"Saederup92",
+			"Sarrus"
 		]
 	},
 	"checkuser-summary": "Dette værktøj scanner Seneste ændringer for at finde IP'er brugt af en bestemt bruger, eller for at vise redigerings- eller brugerdata for en IP.\nBruger og redigeringer fra en klient-IP kan hentes via XFF-headers ved at tilføje \"/xff\" til IP'en. Ipv4 (CIRD $1-32) og IPv6 (CIDR $2-128) er understøttet.\nFor at sikre programmelets ydeevne kan maksimalt 5000 redigeringer returneres. Brug kun dette værktøj i overensstemmelse med gældende politiker på {{SITENAME}}.",

@@ -3,11 +3,11 @@
 		"authors": [
 			"Cekli829",
 			"Emperyan",
-			"PPerviz",
-			"Vago",
-			"Vugar 1981",
 			"Neriman2003",
-			"Toghrul Rahimli"
+			"PPerviz",
+			"Toghrul Rahimli",
+			"Vago",
+			"Vugar 1981"
 		]
 	},
 	"checkuser-summary": "Bu alət bir istifadəçi tərəfindən istifadə olunan IP ünvanlarını almaq və ya bir IP ünvan üçün redaktə/istifadəçi məlumatlarını göstərmək üçün son dəyişiklikləri yoxlayır. Bir müştəri IP ünvanı ilə istifadəçilər və redaktələr IP ünvana \"/xff\"  əlavə edərək XFF başlıqları əldə edə bilər. IPv4 (CIDR $1-32) və IPv6 (CIDR $2-128) ilə dəstəklənir. Performans səbəbləri üçün 5,000-dən çox redaktə qaytarılmayacaq. Bunu siyasətə uyğun olaraq istifadə edin.",

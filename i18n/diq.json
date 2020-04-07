@@ -1,14 +1,14 @@
 {
 	"@metadata": {
 		"authors": [
+			"1917 Ekim Devrimi",
 			"Erdemaslancan",
 			"Gorizon",
-			"Mirzali",
-			"Xoser",
-			"Marmase",
 			"Kumkumuk",
-			"1917 Ekim Devrimi",
-			"Orbot707"
+			"Marmase",
+			"Mirzali",
+			"Orbot707",
+			"Xoser"
 		]
 	},
 	"checkuser-summary": "Eno xacet vurnayışanê neweyan sken keno ke adresanê IPyan reyna biaro ke bımocno ra yew adresa IPya melumatê karberi ser.\nKarberan u vurnayışan ke yew IPyê karberi kerd a reyna yeno pê XFF u \"/xff\". IPv4 (CIDR $1-32) u IPv6 (CIDR $2-128) rê zi desteg beno.\n5000 zafêr vurnayışan sero netice nêdano, qet performans hêdi beno.\nEna politika ma sero kar bıke.",

@@ -1,5 +1,7 @@
 {
-	"@metadata": [],
+	"@metadata": {
+		"authors": []
+	},
 	"checkuser-search": "寻吖",
 	"checkuser-search-submit": "寻吖"
 }

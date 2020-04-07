@@ -3,8 +3,8 @@
 		"authors": [
 			"Blahma",
 			"Michawiki",
-			"Yekrats",
-			"Robin van der Vliet"
+			"Robin van der Vliet",
+			"Yekrats"
 		]
 	},
 	"checkuser-summary": "Ĉi tiu ilo skanas lastajn ŝanĝojn por akiri la IP-adresojn uzatajn de uzanto aŭ montri la datenojn de redakto/uzanto por aparta IP-adreso.\nUzantoj kaj redaktoj de klienta IP-adreso povas esti akirita per XFF-titolaro postaldonante al la IP-adreso kun \"/xff\".\nIPv4 (CIDR $1-32) kaj IPv6 (CIDR $2-128) estas subtenataj.\nNeniom pli ol 5000 redaktoj estos montrita pro bona datumbaza funkciado.\nUzu ĉi tion laŭ regularo.",

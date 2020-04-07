@@ -3,8 +3,8 @@
 		"authors": [
 			"CERminator",
 			"KWiki",
-			"Srdjan m",
-			"Semso98"
+			"Semso98",
+			"Srdjan m"
 		]
 	},
 	"checkuser-summary": "Ovaj alat skenira nedavne promjene te vraća IP adrese koje koriste korisnici ili prikazuje podatke o izmjenama i korisnicima za pojedinu IP adresu.\nKorisnici i izmjene nekog IP klijenta mogu biti nađene preko XFF zaglavlja uz primjenu oznake \"/xff\" pored IP-a. Podržani su i IPv4 (CIDR $1-32) i IPv6 (CIDR $2-128).\nZbog boljih performansi, neće biti prikazano više od 5000 izmjena.\nKoristite ovo u skladu s pravilima.",
