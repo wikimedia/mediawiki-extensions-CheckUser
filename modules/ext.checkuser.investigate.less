@@ -1,8 +1,18 @@
 @import 'mediawiki.ui/variables.less';
 
+// OOUIHTMLForm specifics
+@ooui-font-size-browser: 16; // Assumed browser default of `16px`.
+@ooui-font-size-base: 0.875em; // Equals `14px` at browser default of `16px`.
+@font-size-small: 13 / @ooui-font-size-browser / @ooui-font-size-base;
+
 .mw-datatable {
 	&.ext-checkuser-investigate-table tr:hover td {
 		background-color: @background-color-base;
+	}
+
+	&.ext-checkuser-investigate-table th {
+		background-color: @colorGray14;
+		border-bottom-width: 2px;
 	}
 
 	.ext-checkuser-compare-table-cell-target {
@@ -49,10 +59,12 @@
 
 	.ext-checkuser-compare-table-cell-user-agent {
 		border-right-width: 0;
+		font-size: @font-size-small;
 	}
 
 	.ext-checkuser-compare-table-cell-activity {
 		border-left-width: 0;
+		text-align: right;
 	}
 }
 
@@ -118,6 +130,10 @@
 }
 
 .mw-special-Investigate {
+	.ext-checkuser-investigate-indicators {
+		top: -4px;
+	}
+
 	// Apply the text colors to the links.
 	.oo-ui-tabOptionWidget a {
 		color: inherit;

@@ -74,7 +74,7 @@
 
 		if ( buttonTypes.filter ) {
 			filterButton = new OO.ui.ButtonWidget( {
-				icon: 'close',
+				icon: 'funnel',
 				classes: [ 'ext-checkuser-investigate-table-button-filter' ]
 			} );
 			filterButton.on( 'click', filterValue.bind( null, $tableCell ) );

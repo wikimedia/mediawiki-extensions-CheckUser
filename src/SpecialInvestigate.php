@@ -335,6 +335,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 */
 	private function addIndicators() {
 		$btnGroup = new ButtonGroupWidget( [
+			'classes' => [ 'ext-checkuser-investigate-indicators' ],
 			'items' => [
 				new ButtonWidget( [
 					'label' => $this->msg( 'checkuser-investigate-indicator-new-investigation' )->text(),
