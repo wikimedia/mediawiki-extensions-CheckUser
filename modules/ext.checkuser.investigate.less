@@ -1,7 +1,12 @@
+@import 'mediawiki.ui/variables.less';
+
 .mw-datatable {
+	&.ext-checkuser-investigate-table tr:hover td {
+		background-color: @background-color-base;
+	}
+
 	.ext-checkuser-compare-table-cell-target {
 		width: 200px;
-		background: #eaecf0;
 
 		a,
 		.ext-checkuser-compare-table-cell-ip {
@@ -11,12 +16,15 @@
 		.ext-checkuser-compare-table-button-add-targets {
 			display: none;
 		}
-	}
 
-	.ext-checkuser-compare-table-cell-target:hover {
-		.ext-checkuser-compare-table-button-add-targets {
+		&:hover .ext-checkuser-compare-table-button-add-targets {
 			display: block;
 		}
+	}
+
+	.ext-checkuser-compare-table-cell-target,
+	tr:hover td.ext-checkuser-compare-table-cell-target {
+		background: @colorGray14;
 	}
 
 	.ext-checkuser-compare-table-cell-user-target {
