@@ -25,33 +25,6 @@ class TokenManagerTest extends MediaWikiTestCase {
 		JWT::$timestamp = null;
 	}
 
-	public function testGetDataFromRequest() {
-		$token = implode( '.', [
-			'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9',
-			'eyJleHAiOjg2NDAwLCJkYXRhIjoiSWNIMFFzUWdYMEJZ'
-				. 'QlJYWG9HMnRoM0p0aXV6OWhmMVZRZEJkV2RPRnYxRFM3dzdEIn0',
-			'JLeReeDltxD205gB_N1veuYmHVo1oMXLUA3UCX6l3OA',
-		] );
-		$request = new \FauxRequest(
-			[
-				'token' => $token,
-			],
-			false,
-			[
-				'CheckUserTokenKey' => base64_encode( 'test' ),
-			]
-		);
-
-		$tokenManager = new TokenManager( 'abcdef' );
-		$data = $tokenManager->getDataFromRequest( $request );
-		$this->assertSame( [
-			'targets' => [
-				'Example',
-				'10.0.0.0/8'
-			],
-		], $data );
-	}
-
 	public function testEncodeDecode() {
 		$tokenManager = new TokenManager( 'abcdef' );
 		$targets = [ 'Example', '10.0.0.0/8' ];

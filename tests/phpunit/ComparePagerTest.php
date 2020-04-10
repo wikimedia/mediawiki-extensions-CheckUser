@@ -2,7 +2,7 @@
 
 use MediaWiki\CheckUser\ComparePager;
 use MediaWiki\CheckUser\CompareService;
-use MediaWiki\CheckUser\TokenManager;
+use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\MediaWikiServices;
 use Wikimedia\IPUtils;
 
@@ -19,11 +19,11 @@ class ComparePagerTest extends MediaWikiTestCase {
 	public function testDoQuery( $targets, $excludeTargets, $expected ) {
 		$services = MediaWikiServices::getInstance();
 
-		$tokenManager = $this->getMockBuilder( TokenManager::class )
-			->setConstructorArgs( [ 'secret' ] )
+		$tokenQueryManager = $this->getMockBuilder( TokenQueryManager::class )
+			->disableOriginalConstructor()
 			->setMethods( [ 'getDataFromRequest' ] )
 			->getMock();
-		$tokenManager->method( 'getDataFromRequest' )
+		$tokenQueryManager->method( 'getDataFromRequest' )
 			->willReturn( [
 				'targets' => $targets,
 				'exclude-targets' => $excludeTargets,
@@ -47,7 +47,7 @@ class ComparePagerTest extends MediaWikiTestCase {
 		$pager = new ComparePager(
 			RequestContext::getMain(),
 			$services->get( 'LinkRenderer' ),
-			$tokenManager,
+			$tokenQueryManager,
 			$compareService
 		);
 		$pager->doQuery();

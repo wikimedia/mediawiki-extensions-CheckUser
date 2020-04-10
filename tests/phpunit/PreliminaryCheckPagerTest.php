@@ -2,7 +2,7 @@
 
 use MediaWiki\CheckUser\PreliminaryCheckPager;
 use MediaWiki\CheckUser\PreliminaryCheckService;
-use MediaWiki\CheckUser\TokenManager;
+use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\MediaWikiServices;
 use Wikimedia\Rdbms\ILBFactory;
 
@@ -21,10 +21,10 @@ class PreliminaryCheckPagerTest extends MediaWikiTestCase {
 	}
 
 	/**
-	 * @return MockObject|TokenManager
+	 * @return MockObject|TokenQueryManager
 	 */
-	private function getMockTokenManager() {
-		return $this->getMockBuilder( TokenManager::class )
+	private function getMockTokenQueryManager() {
+		return $this->getMockBuilder( TokenQueryManager::class )
 			->disableOriginalConstructor()->getMock();
 	}
 
@@ -40,8 +40,8 @@ class PreliminaryCheckPagerTest extends MediaWikiTestCase {
 		$registry = $this->getMockExtensionRegistry();
 		$registry->method( 'isLoaded' )->willReturn( true );
 
-		$tokenManager = $this->getMockTokenManager();
-		$tokenManager->method( 'getDataFromRequest' )->willReturn( [
+		$tokenQueryManager = $this->getMockTokenQueryManager();
+		$tokenQueryManager->method( 'getDataFromRequest' )->willReturn( [
 			'targets' => [ 'UserA', 'UserB', '1.2.3.4' ]
 		] );
 
@@ -54,7 +54,7 @@ class PreliminaryCheckPagerTest extends MediaWikiTestCase {
 		$pager = new PreliminaryCheckPager( RequestContext::getMain(),
 			$services->getLinkRenderer(),
 			$services->getNamespaceInfo(),
-			$tokenManager,
+			$tokenQueryManager,
 			$registry,
 			$preliminaryCheckService
 		);
@@ -78,7 +78,7 @@ class PreliminaryCheckPagerTest extends MediaWikiTestCase {
 			RequestContext::getMain(),
 			$services->getLinkRenderer(),
 			$services->getNamespaceInfo(),
-			$services->get( 'CheckUserTokenManager' ),
+			$services->get( 'CheckUserTokenQueryManager' ),
 			$this->getMockExtensionRegistry(),
 			$this->getMockPreliminaryCheckService()
 		);
@@ -93,7 +93,7 @@ class PreliminaryCheckPagerTest extends MediaWikiTestCase {
 			->setConstructorArgs( [ RequestContext::getMain(),
 				$services->getLinkRenderer(),
 				$services->getNamespaceInfo(),
-				$services->get( 'CheckUserTokenManager' ),
+				$services->get( 'CheckUserTokenQueryManager' ),
 				$registry,
 				$preliminaryCheckService
 			 ] )

@@ -8,24 +8,24 @@ class ComparePagerFactory implements PagerFactory {
 	/** @var LinkRenderer */
 	private $linkRenderer;
 
-	/** @var TokenManager */
-	private $tokenManager;
+	/** @var TokenQueryManager */
+	private $tokenQueryManager;
 
 	/** @var CompareService */
 	private $compare;
 
 	/**
 	 * @param LinkRenderer $linkRenderer
-	 * @param TokenManager $tokenManager
+	 * @param TokenQueryManager $tokenQueryManager
 	 * @param CompareService $compare
 	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
-		TokenManager $tokenManager,
+		TokenQueryManager $tokenQueryManager,
 		CompareService $compare
 	) {
 		$this->linkRenderer = $linkRenderer;
-		$this->tokenManager = $tokenManager;
+		$this->tokenQueryManager = $tokenQueryManager;
 		$this->compare = $compare;
 	}
 
@@ -36,7 +36,7 @@ class ComparePagerFactory implements PagerFactory {
 		return new ComparePager(
 			$context,
 			$this->linkRenderer,
-			$this->tokenManager,
+			$this->tokenQueryManager,
 			$this->compare
 		);
 	}

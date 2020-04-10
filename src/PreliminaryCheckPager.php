@@ -26,6 +26,7 @@ use Html;
 use IContextSource;
 use MediaWiki\Linker\LinkRenderer;
 use NamespaceInfo;
+use TablePager;
 use WikiMap;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IDatabase;
@@ -33,12 +34,18 @@ use Wikimedia\Rdbms\IDatabase;
 /**
  * @ingroup Pager
  */
-class PreliminaryCheckPager extends InvestigatePager {
+class PreliminaryCheckPager extends TablePager {
 	/** @var NamespaceInfo */
 	private $namespaceInfo;
 
 	/** @var ExtensionRegistry */
 	private $extensionRegistry;
+
+	/** @var array */
+	protected $tokenData;
+
+	/** @var TokenQueryManager */
+	private $tokenQueryManager;
 
 	/** @var PreliminaryCheckService */
 	private $preliminaryCheckService;
@@ -50,7 +57,7 @@ class PreliminaryCheckPager extends InvestigatePager {
 	 * @param IContextSource $context
 	 * @param LinkRenderer $linkRenderer
 	 * @param NamespaceInfo $namespaceInfo
-	 * @param TokenManager $tokenManager
+	 * @param TokenQueryManager $tokenQueryManager
 	 * @param ExtensionRegistry $extensionRegistry
 	 * @param PreliminaryCheckService $preliminaryCheckService
 	 */
@@ -58,7 +65,7 @@ class PreliminaryCheckPager extends InvestigatePager {
 		IContextSource $context,
 		LinkRenderer $linkRenderer,
 		NamespaceInfo $namespaceInfo,
-		TokenManager $tokenManager,
+		TokenQueryManager $tokenQueryManager,
 		ExtensionRegistry $extensionRegistry,
 		PreliminaryCheckService $preliminaryCheckService
 	) {
@@ -68,17 +75,22 @@ class PreliminaryCheckPager extends InvestigatePager {
 			$this->mDb = $this->getCentralReplicaDB();
 		}
 
-		parent::__construct( $context, $linkRenderer, $tokenManager );
-
+		parent::__construct( $context, $linkRenderer );
 		$this->namespaceInfo = $namespaceInfo;
 		$this->preliminaryCheckService = $preliminaryCheckService;
+		$this->tokenQueryManager = $tokenQueryManager;
+
+		$this->tokenData = $tokenQueryManager->getDataFromRequest( $context->getRequest() );
+		$this->mOffset = $this->tokenData['offset'] ?? '';
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	protected function getTableClass() {
-		return parent::getTableClass() . ' ext-checkuser-investigate-table-preliminary-check';
+		return parent::getTableClass() .
+			' ext-checkuser-investigate-table' .
+			' ext-checkuser-investigate-table-preliminary-check';
 	}
 
 	/**
@@ -224,5 +236,30 @@ class PreliminaryCheckPager extends InvestigatePager {
 		if ( is_callable( [ '\CentralAuthUtils', 'getCentralReplicaDB' ] ) ) {
 			return \CentralAuthUtils::getCentralReplicaDB();
 		}
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isFieldSortable( $field ) {
+		return false;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getDefaultSort() {
+		return '';
+	}
+
+	/**
+	 * @inheritDoc
+	 *
+	 * Conceal the offset which may reveal private data.
+	 */
+	public function getPagingQueries() {
+		return $this->tokenQueryManager->getPagingQueries(
+			$this->getRequest(), parent::getPagingQueries()
+		);
 	}
 }

@@ -22,7 +22,7 @@ class CheckUserHooks {
 				'services' => [
 					'CheckUserPreliminaryCheckPagerFactory',
 					'CheckUserComparePagerFactory',
-					'CheckUserTokenManager'
+					'CheckUserTokenQueryManager'
 				],
 			];
 
