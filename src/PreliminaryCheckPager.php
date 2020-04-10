@@ -100,9 +100,20 @@ class PreliminaryCheckPager extends TablePager {
 		$attributes = parent::getCellAttrs( $field, $value );
 		$attributes['class'] = $attributes['class'] ?? '';
 
-		if ( $field === 'wiki' || $field === 'registration' ) {
-			$attributes['class'] .= ' ext-checkuser-investigate-table-cell-pinnable';
-			$attributes['data-' . $field] = $value;
+		switch ( $field ) {
+			case 'wiki':
+				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-pinnable';
+				$attributes['data-' . $field] = $value;
+				break;
+			case 'registration':
+				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-pinnable';
+				$date = $this->getLanguage()->userDate(
+					$value,
+					$this->getUser(),
+					[ 'format' => 'ISO 8601' ]
+				);
+				$attributes['data-' . $field] = $date;
+				break;
 		}
 
 		return $attributes;
