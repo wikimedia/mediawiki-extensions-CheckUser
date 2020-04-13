@@ -13,6 +13,7 @@
 	"checkuser-reason": "Motivo:",
 	"checkuser-showlog": "Montrez la registro 'CheckUser'",
 	"checkuser-target": "IP-adreso od uzeronomo:",
+	"checkuser-period": "Durado:",
 	"checkuser-week-1": "lasta semano",
 	"checkuser-week-2": "lasta du semani",
 	"checkuser-month": "lasta 30 dii",
@@ -27,5 +28,6 @@
 	"checkuser-block-noreason": "Vu mustas informar la motivo pri blokuso.",
 	"checkuser-search-submit": "Serchar",
 	"checkuser-ipeditcount": "~$1 di omna uzanti",
-	"checkuser-email-action": "sendar e-posto al uzero \"$1\""
+	"checkuser-email-action": "sendar e-posto al uzero \"$1\"",
+	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Montrez omna uzeri en ca IP-adreso"
 }

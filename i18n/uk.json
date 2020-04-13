@@ -128,6 +128,8 @@
 	"checkuser-investigate-filters-legend": "Фільтри",
 	"checkuser-investigate-filters-exclude-targets-label": "Приховати вказаних користувачів чи IP-адреси",
 	"checkuser-investigate-compare-notice-exceeded-limit": "Через технічні обмеження ми досягли максимальної кількості записів, які можна презентувати. Виведені для вказаних цілей дані є неповними: $1. Будь ласка, спробуйте використати менше цілей, коротше часове вікно, чи вужчі IP-діапазони.",
+	"checkuser-investigate-compare-notice-no-results": "Нічого не знайдено, оскільки останні 90 днів не було редагувань з цих IP",
+	"checkuser-investigate-compare-notice-no-results-filters": "За цими критеріями нічого не знайдено. Спробуйте вилучити певні фільтри для розширення області пошуку.",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Показати всіх користувачів цієї IP-адреси",
 	"checkuser-investigate-compare-table-button-add-ip-targets-title": "Усі користувачі цієї IP-адреси вже подані в таблиці",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "Показати всі IP-адреси цього користувача",

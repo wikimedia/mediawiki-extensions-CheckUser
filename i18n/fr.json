@@ -138,7 +138,7 @@
 	"checkuser-investigate-filters-legend": "Filtres",
 	"checkuser-investigate-filters-exclude-targets-label": "Masquer les utilisateurs ou adresses IP suivants",
 	"checkuser-investigate-compare-notice-exceeded-limit": "Suite à des limitations techniques nous avons atteint la limite du nombre d’enregistrements présentables. Les données renvoyées pour les cibles suivantes sont incomplètes : $1. Veuillez réessayer en utilisant moins de cibles, une fenêtre de temps plus fine ou des plages IP plus étroites.",
-	"checkuser-investigate-compare-notice-no-results": "Il n’y a pas de résultat : il n’y a pas eu de modification faite par ces utilisateurs ou des adresses IP au cours des quatre-vingt-dix derniers jours",
+	"checkuser-investigate-compare-notice-no-results": "Il n’y a pas de résultat : il n’y a pas eu de modification faite par ces utilisateurs ou des adresses IP au cours des quatre-vingt-dix derniers jours",
 	"checkuser-investigate-compare-notice-no-results-filters": "Il n&y a pas de résultat correspondant à ces critères de filtrage. Essayer de supprimer certains filtres pour élargir la recherche.",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Afficher tous les utilisateurs de cette adresse IP",
 	"checkuser-investigate-compare-table-button-add-ip-targets-title": "Tous les utilisateurs sur cette adresse IP figurent déjà dans la table",

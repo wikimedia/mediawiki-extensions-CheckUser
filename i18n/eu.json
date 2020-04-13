@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"An13sa",
+			"Joseba",
 			"Kobazulo",
 			"Subi",
 			"Xabier Armendaritz",
@@ -41,5 +42,8 @@
 	"checkuser-autocreate-action": "automatikoki sortua izan da",
 	"checkuser-create-action": "sortu zen",
 	"checkuser-email-action": "\"$1\" lankideari posta elektroniko bat bidali",
-	"checkuser-reset-action": "\"$1\" lankideari pasahitza berrezarri"
+	"checkuser-reset-action": "\"$1\" lankideari pasahitza berrezarri",
+	"checkuser-investigate-compare-notice-no-results-filters": "Filtratzeko irizpide hauek erabilita ez dago emaitzarik. Saiatu filtro batzuk ezabatzen bilaketa orokor baterako",
+	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Ip honetako erabiltzaile guztiak erakutsi",
+	"checkuser-investigate-compare-table-button-add-ip-targets-title": "IP honetako erabiltzaile guztiak iada zerrendan daude"
 }
