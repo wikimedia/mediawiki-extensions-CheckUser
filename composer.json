@@ -21,6 +21,6 @@
 		"phan-taint-check-plugin": "2.0.1"
 	},
 	"require": {
-		"firebase/php-jwt": "~5.1.0"
+		"firebase/php-jwt": "~5.2.0"
 	}
 }
