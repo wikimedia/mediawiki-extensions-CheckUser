@@ -6,6 +6,10 @@
 @font-size-small: 13 / @ooui-font-size-browser / @ooui-font-size-base;
 
 .mw-datatable {
+	&.ext-checkuser-investigate-table td {
+		vertical-align: top;
+	}
+
 	&.ext-checkuser-investigate-table tr:hover td {
 		background-color: @background-color-base;
 	}
@@ -22,14 +26,6 @@
 		.ext-checkuser-compare-table-cell-ip {
 			font-weight: bold;
 		}
-
-		.ext-checkuser-compare-table-button-add-targets {
-			display: none;
-		}
-
-		&:hover .ext-checkuser-compare-table-button-add-targets {
-			display: block;
-		}
 	}
 
 	.ext-checkuser-compare-table-cell-target,
@@ -37,23 +33,18 @@
 		background: @colorGray14;
 	}
 
-	.ext-checkuser-compare-table-cell-user-target {
-		.ext-checkuser-investigate-table-button-group {
-			display: none;
-		}
+	.ext-checkuser-investigate-table-cell-interactive {
+		// Leave horizontal space for buttons before they are appended
+		padding-right: 4.5em;
 
-		.ext-checkuser-investigate-table-button-filter {
-			display: none;
+		.ext-checkuser-investigate-table-select {
+			visibility: hidden;
 		}
 	}
 
-	.ext-checkuser-compare-table-cell-user-target:hover {
-		.ext-checkuser-investigate-table-button-group {
-			display: block;
-		}
-
-		.ext-checkuser-investigate-table-button-filter {
-			display: inline-block;
+	.ext-checkuser-investigate-table-cell-interactive:hover {
+		.ext-checkuser-investigate-table-select {
+			visibility: visible;
 		}
 	}
 
@@ -68,9 +59,35 @@
 	}
 }
 
+// Leave vertical space for buttons before they are appended
+.ext-checkuser-investigate-table-cell-interactive:before {
+	content: '';
+	float: right;
+	width: 0;
+
+	.ext-checkuser-investigate-table-preliminary-check & {
+		min-height: 2.5em;
+	}
+
+	.ext-checkuser-investigate-table-compare & {
+		min-height: 5em;
+	}
+}
+
+.ext-checkuser-investigate-table-options-container {
+	float: right;
+	width: 3em;
+	margin-right: -4em;
+	text-align: center;
+
+	.oo-ui-menuSelectWidget {
+		text-align: left;
+	}
+}
+
 .ext-checkuser-investigate-table-button-pin.oo-ui-buttonElement,
-.ext-checkuser-investigate-table-button-filter.oo-ui-buttonElement {
-	display: none;
+.ext-checkuser-investigate-table-select.oo-ui-buttonElement {
+	visibility: hidden;
 }
 
 .ext-checkuser-investigate-table.mw-datatable.ext-checkuser-investigate-table-pinned {
@@ -86,13 +103,9 @@
 		}
 
 		td:hover.ext-checkuser-investigate-table-cell-pinned {
-			.ext-checkuser-investigate-table-button-group {
-				display: block;
-			}
-
-			.ext-checkuser-investigate-table-button-pin,
-			.ext-checkuser-investigate-table-button-filter {
-				display: inline-block;
+			.ext-checkuser-investigate-table-select,
+			.ext-checkuser-investigate-table-button-pin {
+				visibility: visible;
 			}
 		}
 	}
@@ -111,22 +124,12 @@
 		}
 
 		td:hover.ext-checkuser-investigate-table-cell-pinnable {
-			.ext-checkuser-investigate-table-button-group {
-				display: block;
-			}
-
-			.ext-checkuser-investigate-table-button-pin,
-			.ext-checkuser-investigate-table-button-filter {
-				display: inline-block;
+			.ext-checkuser-investigate-table-select,
+			.ext-checkuser-investigate-table-button-pin {
+				visibility: visible;
 			}
 		}
 	}
-}
-
-.oo-ui-buttonElement.ext-checkuser-compare-table-button-add-targets {
-	display: block;
-	margin-top: 0.25em;
-	margin-bottom: 0.25em;
 }
 
 .mw-special-Investigate {

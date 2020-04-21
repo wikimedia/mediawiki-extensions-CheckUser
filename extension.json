@@ -121,9 +121,8 @@
 			],
 			"messages": [
 				"checkuser-investigate-compare-table-button-add-ip-targets-label",
-				"checkuser-investigate-compare-table-button-add-ip-targets-title",
 				"checkuser-investigate-compare-table-button-add-user-targets-label",
-				"checkuser-investigate-compare-table-button-add-user-targets-title"
+				"checkuser-investigate-compare-table-button-filter-label"
 			]
 		}
 	},

@@ -54,12 +54,21 @@
 		$( '.mw-htmlform' ).trigger( 'submit' );
 	}
 
-	function appendButtonGroup( $tableCell, buttonTypes ) {
-		var key = getDataKey( $tableCell ),
-			buttons = [],
-			buttonGroup,
-			toggleButton,
-			filterButton;
+	function addTargets( $tableCell, field ) {
+		$( 'input[name=targets]' ).val( $tableCell.data( field ) );
+		$( '.mw-htmlform' ).trigger( 'submit' );
+	}
+
+	function appendButtons( $tableCell, buttonTypes ) {
+		// eslint-disable-next-line no-jquery/no-class-state
+		var isTarget = $tableCell.hasClass( 'ext-checkuser-compare-table-cell-target' ),
+			$optionsContainer = $( '<div>' ).addClass( 'ext-checkuser-investigate-table-options-container' ),
+			key = getDataKey( $tableCell ),
+			options = [],
+			selectWidget,
+			toggleButton;
+
+		$tableCell.prepend( $optionsContainer );
 
 		if ( buttonTypes.toggle ) {
 			toggleButton = new OO.ui.ToggleButtonWidget( {
@@ -69,73 +78,76 @@
 			toggleButtons[ key ] = toggleButtons[ key ] || [];
 			toggleButtons[ key ].push( toggleButton );
 			toggleButton.on( 'change', toggleClassForPin.bind( null, $tableCell ) );
-			buttons.push( toggleButton );
+			$optionsContainer.append( toggleButton.$element );
 		}
 
 		if ( buttonTypes.filter ) {
-			filterButton = new OO.ui.ButtonWidget( {
+			options.push( new OO.ui.MenuOptionWidget( {
 				icon: 'funnel',
-				classes: [ 'ext-checkuser-investigate-table-button-filter' ],
-				flags: [ 'destructive' ]
-			} );
-			filterButton.on( 'click', filterValue.bind( null, $tableCell ) );
-			buttons.push( filterButton );
+				label: mw.msg( 'checkuser-investigate-compare-table-button-filter-label' ),
+				data: 'filter'
+			} ) );
 		}
 
-		if ( buttons.length > 0 ) {
-			buttonGroup = new OO.ui.ButtonGroupWidget( {
-				items: buttons,
-				classes: [ 'ext-checkuser-investigate-table-button-group' ]
+		if ( buttonTypes.addUsers ) {
+			options.push( new OO.ui.MenuOptionWidget( {
+				disabled: isTarget,
+				icon: 'add',
+				label: mw.msg( 'checkuser-investigate-compare-table-button-add-user-targets-label' ),
+				data: 'addUsers'
+			} ) );
+		}
+
+		if ( buttonTypes.addIps ) {
+			options.push( new OO.ui.MenuOptionWidget( {
+				disabled: isTarget,
+				icon: 'add',
+				label: mw.msg( 'checkuser-investigate-compare-table-button-add-ip-targets-label' ),
+				data: 'addIps'
+			} ) );
+		}
+
+		if ( options.length > 0 ) {
+			selectWidget = new OO.ui.ButtonMenuSelectWidget( {
+				icon: 'ellipsis',
+				framed: false,
+				classes: [ 'ext-checkuser-investigate-table-select' ],
+				menu: {
+					horizontalPosition: 'end',
+					items: options
+				}
 			} );
-			$tableCell.append( buttonGroup.$element );
+
+			selectWidget.getMenu().on( 'choose', function ( item ) {
+				switch ( item.getData() ) {
+					case 'filter':
+						filterValue( $tableCell );
+						break;
+					case 'addIps':
+						addTargets( $tableCell, 'cuc_user_text' );
+						break;
+					case 'addUsers':
+						addTargets( $tableCell, 'cuc_ip' );
+						break;
+				}
+			} );
+
+			$optionsContainer.append( selectWidget.$element );
 		}
 	}
 
 	$( 'td.ext-checkuser-investigate-table-cell-pinnable' ).on( 'mouseover mouseout', toggleClassForHover );
 
-	// Add buttons for pinnable highlighting and/or filtering
 	$( '.ext-checkuser-investigate-table-preliminary-check td.ext-checkuser-investigate-table-cell-pinnable' ).each( function () {
-		appendButtonGroup( $( this ), { toggle: true } );
-	} );
-	$( '.ext-checkuser-investigate-table-compare .ext-checkuser-compare-table-cell-ip-target' ).each( function () {
-		appendButtonGroup( $( this ), { toggle: true, filter: true } );
+		appendButtons( $( this ), { toggle: true } );
 	} );
 	$( '.ext-checkuser-investigate-table-compare .ext-checkuser-compare-table-cell-user-agent' ).each( function () {
-		appendButtonGroup( $( this ), { toggle: true } );
+		appendButtons( $( this ), { toggle: true } );
+	} );
+	$( '.ext-checkuser-investigate-table-compare .ext-checkuser-compare-table-cell-ip-target' ).each( function () {
+		appendButtons( $( this ), { toggle: true, filter: true, addUsers: true } );
 	} );
 	$( 'td.ext-checkuser-compare-table-cell-user-target' ).each( function () {
-		appendButtonGroup( $( this ), { filter: true } );
-	} );
-
-	function addButtonForExtraTargets( $tableCell, type, field ) {
-		// eslint-disable-next-line no-jquery/no-class-state
-		var isTarget = $tableCell.hasClass( 'ext-checkuser-compare-table-cell-target' ),
-			button = new OO.ui.ButtonWidget( {
-				disabled: isTarget,
-				// The following messages can be built here:
-				// * checkuser-investigate-compare-table-button-add-user-targets-label
-				// * checkuser-investigate-compare-table-button-add-ip-targets-label
-				label: mw.msg( 'checkuser-investigate-compare-table-button-add-' + type + '-targets-label' ),
-				title: isTarget ? mw.msg( 'checkuser-investigate-compare-table-button-add-' + type + '-targets-title' ) : undefined,
-				classes: [ 'ext-checkuser-compare-table-button-add-targets' ],
-				flags: [ 'primary', 'progressive' ]
-			} );
-
-		button.on( 'click', function () {
-			$( 'input[name=targets]' ).val( $tableCell.data( field ) );
-			$( '.mw-htmlform' ).trigger( 'submit' );
-		} );
-
-		$tableCell.append( button.$element );
-	}
-
-	// Add buttons for extra user targets
-	$( 'td.ext-checkuser-compare-table-cell-user-target' ).each( function () {
-		addButtonForExtraTargets( $( this ), 'user', 'cuc_user_text' );
-	} );
-
-	// Add buttons for extra IP targets
-	$( 'td.ext-checkuser-compare-table-cell-ip-target' ).each( function () {
-		addButtonForExtraTargets( $( this ), 'ip', 'cuc_ip' );
+		appendButtons( $( this ), { filter: true, addIps: true } );
 	} );
 }() );

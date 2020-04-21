@@ -111,12 +111,14 @@ class ComparePager extends TablePager {
 						break;
 					}
 				}
+				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-interactive';
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-pinnable';
 				$attributes['class'] .= ' ext-checkuser-compare-table-cell-ip-target';
 				$attributes['data-' . $field] = $value;
 				$attributes['data-target'] = $value;
 				break;
 			case 'cuc_user_text':
+				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-interactive';
 				if ( !IPUtils::isIpAddress( $value ) ) {
 					$attributes['class'] .= ' ext-checkuser-compare-table-cell-user-target';
 					if ( in_array( $value, $this->filteredTargets ) ) {
@@ -127,6 +129,7 @@ class ComparePager extends TablePager {
 				}
 				break;
 			case 'cuc_agent':
+				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-interactive';
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-pinnable';
 				$attributes['class'] .= ' ext-checkuser-compare-table-cell-user-agent';
 				$attributes['data-' . $field] = $value;
