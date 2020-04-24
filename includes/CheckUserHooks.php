@@ -53,7 +53,7 @@ class CheckUserHooks {
 		 * Thus there is no reason to store checkuser data about them.
 		 * @see https://phabricator.wikimedia.org/T125209
 		 */
-		if ( defined( 'RC_CATEGORIZE' ) && $rc->getAttribute( 'rc_type' ) == RC_CATEGORIZE ) {
+		if ( $rc->getAttribute( 'rc_type' ) == RC_CATEGORIZE ) {
 			return true;
 		}
 		/**
@@ -61,7 +61,7 @@ class CheckUserHooks {
 		 * Thus there is no reason to store checkuser data about them.
 		 * @see https://phabricator.wikimedia.org/T125664
 		 */
-		if ( defined( 'RC_EXTERNAL' ) && $rc->getAttribute( 'rc_type' ) == RC_EXTERNAL ) {
+		if ( $rc->getAttribute( 'rc_type' ) == RC_EXTERNAL ) {
 			return true;
 		}
 
