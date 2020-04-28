@@ -110,12 +110,18 @@
 			]
 		},
 		"ext.checkUser.investigate": {
-			"scripts": [
-				"modules/ext.checkuser.investigate.js"
+			"packageFiles": [
+				"modules/ext.checkuser.investigate.js",
+				{
+					"name": "modules/message.json",
+					"callback": "MediaWiki\\CheckUser\\ToolLinksMessages::getParsedMessage",
+					"callbackParam": "checkuser-toollinks"
+				}
 			],
 			"dependencies": [
 				"oojs-ui-widgets",
 				"oojs-ui.styles.icons-content",
+				"oojs-ui.styles.icons-editing-core",
 				"oojs-ui.styles.icons-interactions",
 				"oojs-ui.styles.icons-moderation"
 			],
