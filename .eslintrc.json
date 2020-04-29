@@ -7,8 +7,5 @@
 	],
 	"globals": {
 		"OO": "readonly"
-	},
-	"rules": {
-		"mediawiki/class-doc": "warn"
 	}
 }

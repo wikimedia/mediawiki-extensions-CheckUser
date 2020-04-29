@@ -20,10 +20,16 @@
 			}
 
 			$matches = $( 'td[data-' + dataAttribute + '="' + dataValue + '"]' );
+			// The following messages can be passed here:
+			// * ext-checkuser-investigate-table-cell-hover-data-match
+			// * ext-checkuser-investigate-table-cell-pinned-data-match
 			$matches.toggleClass( cellClass, value );
 
 			// Rows should be highlighted iff they contain highlighted cells
 			$matches.closest( 'tr' ).each( function () {
+				// The following messages can be passed here:
+				// * ext-checkuser-investigate-table-row-hover-data-match
+				// * ext-checkuser-investigate-table-row-pinned-data-match
 				$( this ).toggleClass(
 					rowClass,
 					!!$( this ).find( '.' + cellClass ).length
