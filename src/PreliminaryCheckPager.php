@@ -140,30 +140,44 @@ class PreliminaryCheckPager extends TablePager {
 				break;
 			case 'wiki':
 				$wiki = WikiMap::getWiki( $row->wiki );
-				$formatted = Html::element(
-					'a',
-					[
-						'href' => $wiki->getFullUrl(
-							$this->namespaceInfo->getCanonicalName( NS_USER ) . ':' . $row->name
-						),
-					],
-					$wiki->getDisplayName()
-				);
+				if ( $wiki ) {
+					$formatted = Html::element(
+						'a',
+						[
+							'href' => $wiki->getFullUrl(
+								$this->namespaceInfo->getCanonicalName( NS_USER ) . ':' . $row->name
+							),
+						],
+						$wiki->getDisplayName()
+					);
+				} else {
+					$formatted = $this->msg( 'checkuser-investigate-preliminary-table-cell-wiki-nowiki' )->text();
+				}
 				break;
 			case 'editcount':
 				$wiki = WikiMap::getWiki( $row->wiki );
-				$formatted = Html::rawElement(
-					'a',
-					[
-						'href' => $wiki->getFullUrl(
-							$this->namespaceInfo->getCanonicalName( NS_SPECIAL ) . ':Contributions/' . $row->name
-						),
-					],
-					$this->msg(
-						'checkuser-investigate-preliminary-table-cell-edits',
-						$value
-					)->parse()
-				);
+				if ( $wiki ) {
+					$formatted = Html::rawElement(
+						'a',
+						[
+							'href' => $wiki->getFullUrl(
+								$this->namespaceInfo->getCanonicalName( NS_SPECIAL ) . ':Contributions/' . $row->name
+							),
+						],
+						$this->msg(
+							'checkuser-investigate-preliminary-table-cell-edits',
+							$value
+						)->parse()
+					);
+				} else {
+					$formatted = $this->getLinkRenderer()->makeKnownLink(
+						\SpecialPage::getTitleFor( 'Contributions', $row->name ),
+						$this->msg(
+							'checkuser-investigate-preliminary-table-cell-edits',
+							$value
+						)->parse()
+					);
+				}
 				break;
 			case 'blocked':
 				if ( $value ) {
@@ -196,7 +210,7 @@ class PreliminaryCheckPager extends TablePager {
 	 */
 	public function getFieldNames() {
 		if ( $this->fieldNames === null ) {
-			$this->fieldNames = [
+			$fullFieldNames = [
 				'name' => 'checkuser-investigate-preliminary-table-header-name',
 				'registration' => 'checkuser-investigate-preliminary-table-header-registration',
 				'wiki' => 'checkuser-investigate-preliminary-table-header-wiki',
@@ -204,6 +218,14 @@ class PreliminaryCheckPager extends TablePager {
 				'blocked' => 'checkuser-investigate-preliminary-table-header-blocked',
 				'groups' => 'checkuser-investigate-preliminary-table-header-groups',
 			];
+
+			if ( $this->isGlobalCheck() ) {
+				$this->fieldNames = $fullFieldNames;
+			} else {
+				unset( $fullFieldNames['wiki'] );
+				$this->fieldNames = $fullFieldNames;
+			}
+
 			foreach ( $this->fieldNames as $key => $val ) {
 				$this->fieldNames[$key] = $this->msg( $val )->text();
 			}

@@ -117,6 +117,7 @@
 	"checkuser-investigate-preliminary-table-header-name": "Username",
 	"checkuser-investigate-preliminary-table-header-registration": "Date attached",
 	"checkuser-investigate-preliminary-table-header-wiki": "Wiki",
+	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Wiki not found",
 	"checkuser-investigate-filters-legend": "Filters",
 	"checkuser-investigate-filters-exclude-targets-label": "Hide the following users or IPs",
 	"checkuser-investigate-compare-notice-exceeded-limit": "Due to technical limitations we've reached the number of records that can be presented. The data returned for the following targets is incomplete: $1. Please try using fewer targets, smaller time window or narrower IP ranges.",
