@@ -112,7 +112,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 
 				$this->addFields( [
 					'cuc_namespace', 'cuc_title', 'cuc_user_text', 'cuc_actiontext', 'cuc_this_oldid',
-					'cuc_comment', 'cuc_minor', 'cuc_timestamp', 'cuc_ip', 'cuc_xff', 'cuc_agent'
+					'cuc_comment', 'cuc_minor', 'cuc_timestamp', 'cuc_ip', 'cuc_xff', 'cuc_agent', 'cuc_type'
 				] );
 
 				$res = $this->select( __METHOD__ );
@@ -128,46 +128,50 @@ class ApiQueryCheckUser extends ApiQueryBase {
 						'ip'        => $row->cuc_ip,
 						'agent'     => $row->cuc_agent,
 					];
+
 					if ( $row->cuc_actiontext ) {
 						$edit['summary'] = $row->cuc_actiontext;
 					} elseif ( $row->cuc_comment ) {
-						$revRecord = MediaWikiServices::getInstance()
-							->getRevisionLookup()
-							->getRevisionById( $row->cuc_this_oldid );
-						if ( !$revRecord ) {
-							$dbr = wfGetDB( DB_REPLICA );
-							$queryInfo = MediaWikiServices::getInstance()
-								->getRevisionStore()
-								->getArchiveQueryInfo();
-							$tmp = $dbr->selectRow(
-								$queryInfo['tables'],
-								$queryInfo['fields'],
-								[ 'ar_rev_id' => $row->cuc_this_oldid ],
-								__METHOD__,
-								[],
-								$queryInfo['joins']
-							);
-							if ( $tmp ) {
-								$revRecord = MediaWikiServices::getInstance()
-									->getRevisionFactory()
-									->newRevisionFromArchiveRow( $tmp );
+						$edit['summary'] = $row->cuc_comment;
+						if ( $row->cuc_this_oldid != 0 &&
+							( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW )
+						) {
+							$revRecord = MediaWikiServices::getInstance()
+								->getRevisionLookup()
+								->getRevisionById( $row->cuc_this_oldid );
+							if ( !$revRecord ) {
+								$dbr = wfGetDB( DB_REPLICA );
+								$queryInfo = MediaWikiServices::getInstance()
+									->getRevisionStore()
+									->getArchiveQueryInfo();
+								$tmp = $dbr->selectRow(
+									$queryInfo['tables'],
+									$queryInfo['fields'],
+									[ 'ar_rev_id' => $row->cuc_this_oldid ],
+									__METHOD__,
+									[],
+									$queryInfo['joins']
+								);
+								if ( $tmp ) {
+									$revRecord = MediaWikiServices::getInstance()
+										->getRevisionFactory()
+										->newRevisionFromArchiveRow( $tmp );
+								}
 							}
-						}
-						if ( !$revRecord ) {
-							// This shouldn't happen, CheckUser points to a revision
-							// that isn't in revision nor archive table?
-							throw new Exception(
-								"Couldn't fetch revision cu_changes table links to (cuc_this_oldid {$row->cuc_this_oldid})"
-							);
-						}
-						if ( RevisionRecord::userCanBitfield(
-							$revRecord->getVisibility(),
-							RevisionRecord::DELETED_COMMENT,
-							$this->getUser()
-						) ) {
-							$edit['summary'] = $row->cuc_comment;
-						} else {
-							$edit['summary'] = $this->msg( 'rev-deleted-comment' )->text();
+							if ( !$revRecord ) {
+								// This shouldn't happen, CheckUser points to a revision
+								// that isn't in revision nor archive table?
+								throw new Exception(
+									"Couldn't fetch revision cu_changes table links to (cuc_this_oldid {$row->cuc_this_oldid})"
+								);
+							}
+							if ( !RevisionRecord::userCanBitfield(
+								$revRecord->getVisibility(),
+								RevisionRecord::DELETED_COMMENT,
+								$this->getUser()
+							) ) {
+								$edit['summary'] = $this->msg( 'rev-deleted-comment' )->text();
+							}
 						}
 					}
 					if ( $row->cuc_minor ) {
