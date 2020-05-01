@@ -119,6 +119,7 @@
 	"checkuser-investigate-preliminary-table-header-name": "اسم المستخدم",
 	"checkuser-investigate-preliminary-table-header-registration": "البيانات المرفقة",
 	"checkuser-investigate-preliminary-table-header-wiki": "الويكي",
+	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "لم يعثر على الويكي",
 	"checkuser-investigate-filters-legend": "المرشحات",
 	"checkuser-investigate-compare-table-cell-unregistered": "غير مسجل",
 	"checkuser-investigate-compare-table-header-username": "اسم المستخدم:",

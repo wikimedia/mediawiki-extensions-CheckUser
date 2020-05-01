@@ -113,6 +113,7 @@
 	"checkuser-investigate-preliminary-table-header-groups": "그룹",
 	"checkuser-investigate-preliminary-table-header-name": "사용자 이름",
 	"checkuser-investigate-preliminary-table-header-wiki": "위키",
+	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "위키를 찾을 수 없습니다",
 	"checkuser-investigate-filters-legend": "필터",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "이 IP의 모든 사용자 표시",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "이 사용자의 모든 IP 표시",
