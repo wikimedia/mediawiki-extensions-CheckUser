@@ -71,6 +71,7 @@
 	"checkuser-email-action": "en deus kaset ur postel d'an implijer « $1 »",
 	"checkuser-reset-action": "adderaouekaat a ra ger-tremen an implijer \"$1\"",
 	"checkuser-investigate-indicator-logs": "Marilhoù",
+	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "N'eo ket bet kavet ar wiki",
 	"checkuser-investigate-compare-notice-no-results": "N'eus disoc'h ebet : an implijerien pe IPoù-se n'o deus graet kemm ebet e-kerzh an 90 deiz diwezhañ.",
 	"checkuser-investigate-compare-notice-no-results-filters": "Disoc'h ebet ne glot gant an dezverkoù silañ-mañ. Dilamit siloù zo evit ledanaat ar c'hlask.",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Diskouez holl implijerien an IP-mañ",

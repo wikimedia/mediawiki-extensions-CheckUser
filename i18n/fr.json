@@ -135,6 +135,7 @@
 	"checkuser-investigate-preliminary-table-header-name": "Nom d’utilisateur",
 	"checkuser-investigate-preliminary-table-header-registration": "Date attachée",
 	"checkuser-investigate-preliminary-table-header-wiki": "Wiki",
+	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Wiki introuvable",
 	"checkuser-investigate-filters-legend": "Filtres",
 	"checkuser-investigate-filters-exclude-targets-label": "Masquer les utilisateurs ou adresses IP suivants",
 	"checkuser-investigate-compare-notice-exceeded-limit": "Suite à des limitations techniques nous avons atteint la limite du nombre d’enregistrements présentables. Les données renvoyées pour les cibles suivantes sont incomplètes : $1. Veuillez réessayer en utilisant moins de cibles, une fenêtre de temps plus fine ou des plages IP plus étroites.",

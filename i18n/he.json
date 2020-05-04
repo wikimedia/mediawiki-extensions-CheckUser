@@ -117,6 +117,7 @@
 	"checkuser-investigate-preliminary-table-header-name": "שם משתמש",
 	"checkuser-investigate-preliminary-table-header-registration": "תאריך השיוך",
 	"checkuser-investigate-preliminary-table-header-wiki": "ויקי",
+	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "ויקי לא נמצא",
 	"checkuser-investigate-filters-legend": "מסננים",
 	"checkuser-investigate-filters-exclude-targets-label": "הסתרת המשתמשים או כתובות ה־IP האלה",
 	"checkuser-investigate-compare-notice-exceeded-limit": "בשל מגבלות טכניות, הגענו למספר המרבי של רשומות שאפשר להציג. הנתונים שהוחזרו ליעדים הבעים אינם מלאים $1. נא לנסות להשתמש בפחות יעדים, חלון זמן קטן יותר, או טווחי IP צרים יותר.",

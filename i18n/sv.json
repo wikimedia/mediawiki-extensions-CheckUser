@@ -120,6 +120,7 @@
 	"checkuser-investigate-preliminary-table-header-groups": "Grupper",
 	"checkuser-investigate-preliminary-table-header-name": "Användarnamn",
 	"checkuser-investigate-preliminary-table-header-wiki": "Wiki",
+	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Wikin hittades inte",
 	"checkuser-investigate-filters-legend": "Filter",
 	"checkuser-investigate-filters-exclude-targets-label": "Dölj följande användare eller IP-adresser",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Visa alla användare på denna IP-adress",
