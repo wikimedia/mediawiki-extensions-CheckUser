@@ -16,6 +16,9 @@ class TimelinePager extends ReverseChronologicalPager {
 	/** @var TimelineRowFormatter */
 	private $timelineRowFormatter;
 
+	/** @var string|null */
+	private $lastDateHeader;
+
 	/** @var TokenQueryManager */
 	private $tokenQueryManager;
 
@@ -56,8 +59,28 @@ class TimelinePager extends ReverseChronologicalPager {
 	 * @inheritDoc
 	 */
 	public function formatRow( $row ) {
-		$data = $this->timelineRowFormatter->format( $row );
-		return Html::rawElement( 'li', [], $data );
+		$line = '';
+		$dateHeader = $this->getLanguage()->date( wfTimestamp( TS_MW, $row->cuc_timestamp ), true, true );
+		if ( $this->lastDateHeader === null ) {
+			$this->lastDateHeader = $dateHeader;
+			$line .= Html::rawElement( 'h4', [], $dateHeader );
+			$line .= Html::openElement( 'ul' );
+		} elseif ( $this->lastDateHeader !== $dateHeader ) {
+			$this->lastDateHeader = $dateHeader;
+
+			// Start a new list with a new date header
+			$line .= Html::closeElement( 'ul' );
+			$line .= Html::rawElement( 'h4', [], $dateHeader );
+			$line .= Html::openElement( 'ul' );
+		}
+
+		$line .= Html::rawElement(
+			'li',
+			[],
+			$this->timelineRowFormatter->format( $row )
+		);
+
+		return $line;
 	}
 
 	/**
@@ -92,14 +115,7 @@ class TimelinePager extends ReverseChronologicalPager {
 	/**
 	 * @inheritDoc
 	 */
-	public function getStartBody() {
-		return $this->getNumRows() ? '<ul>' : '';
-	}
-
-	/**
-	 * @inheritDoc
-	 */
 	public function getEndBody() {
-		return $this->getNumRows() ? '</ul>' : '';
+		return $this->getNumRows() ? Html::closeElement( 'ul' ) : '';
 	}
 }
