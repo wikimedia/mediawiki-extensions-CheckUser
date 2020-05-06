@@ -23,6 +23,9 @@ class SpecialInvestigate extends \FormSpecialPage {
 	/** @var PagerFactory */
 	private $comparePagerFactory;
 
+	/** @var TimelinePagerFactory */
+	private $timelinePagerFactory;
+
 	/** @var TokenQueryManager */
 	private $tokenQueryManager;
 
@@ -41,16 +44,20 @@ class SpecialInvestigate extends \FormSpecialPage {
 	/**
 	 * @param PagerFactory $preliminaryCheckPagerFactory
 	 * @param PagerFactory $comparePagerFactory
+	 * @param PagerFactory $timelinePagerFactory
 	 * @param TokenQueryManager $tokenQueryManager
 	 */
 	public function __construct(
 		PagerFactory $preliminaryCheckPagerFactory,
 		PagerFactory $comparePagerFactory,
+		PagerFactory $timelinePagerFactory,
 		TokenQueryManager $tokenQueryManager
 	) {
 		parent::__construct( 'Investigate', 'investigate' );
 		$this->preliminaryCheckPagerFactory = $preliminaryCheckPagerFactory;
 		$this->comparePagerFactory = $comparePagerFactory;
+		$this->timelinePagerFactory = $timelinePagerFactory;
+
 		$this->tokenQueryManager = $tokenQueryManager;
 	}
 
@@ -268,10 +275,28 @@ class SpecialInvestigate extends \FormSpecialPage {
 				}
 				return $this;
 			case $this->getTabParam( 'timeline' ):
-				// Add the filter form.
-				$this->addHTML( $this->getForm()->getHTML( $this->getForm()->wasSubmitted() ) );
+				$pager = $this->timelinePagerFactory->createPager( $this->getContext() );
+				$numRows = $pager->getNumRows();
+				$numFilters = count( $this->getTokenData()['exclude-targets'] ?? [] );
 
-				// @TODO Add Content.
+				if ( $numRows || $numFilters ) {
+					// Add the filter form field.
+					// TODO: enable once filters are working
+					// $this->addHTML( $this->getForm()->getHTML( $this->getForm()->wasSubmitted() ) );
+				}
+
+				if ( $numRows ) {
+					$this->addParserOutput( $pager->getFullOutput() );
+				} else {
+					$messageKey = $numFilters ?
+						'checkuser-investigate-timeline-notice-no-results-filters' :
+						'checkuser-investigate-timeline-notice-no-results';
+					$message = $this->msg( $messageKey )->parse();
+					$this->addHTML( new MessageWidget( [
+						'type' => 'warning',
+						'label' => new HtmlSnippet( $message )
+					] ) );
+				}
 				return $this;
 			default:
 				return $this;
