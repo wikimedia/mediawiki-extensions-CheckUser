@@ -4,6 +4,11 @@
 	var dataAttributes = [ 'registration', 'wiki', 'cuc_ip', 'cuc_agent' ],
 		toggleButtons = {};
 
+	// The message 'checkuser-toollinks' was parsed in PHP, since translations
+	// may contain wikitext that is too complex for the JS parser:
+	// https://www.mediawiki.org/wiki/Manual:Messages_API#Feature_support_in_JavaScript
+	mw.messages.set( require( './message.json' ) );
+
 	function getDataKey( $element ) {
 		return JSON.stringify( $element.data() );
 	}
@@ -72,7 +77,9 @@
 			key = getDataKey( $tableCell ),
 			options = [],
 			selectWidget,
-			toggleButton;
+			toggleButton,
+			message,
+			$links;
 
 		$tableCell.prepend( $optionsContainer );
 
@@ -91,7 +98,7 @@
 			options.push( new OO.ui.MenuOptionWidget( {
 				icon: 'funnel',
 				label: mw.msg( 'checkuser-investigate-compare-table-button-filter-label' ),
-				data: 'filter'
+				data: { type: 'filter' }
 			} ) );
 		}
 
@@ -100,7 +107,7 @@
 				disabled: isTarget,
 				icon: 'add',
 				label: mw.msg( 'checkuser-investigate-compare-table-button-add-user-targets-label' ),
-				data: 'addUsers'
+				data: { type: 'addUsers' }
 			} ) );
 		}
 
@@ -109,8 +116,25 @@
 				disabled: isTarget,
 				icon: 'add',
 				label: mw.msg( 'checkuser-investigate-compare-table-button-add-ip-targets-label' ),
-				data: 'addIps'
+				data: { type: 'addIps' }
 			} ) );
+		}
+
+		if ( buttonTypes.toolLinks ) {
+			message = mw.msg( 'checkuser-toollinks', $tableCell.data( 'cuc_ip' ) );
+			$links = $( '<div>' ).html( message ).find( 'a' );
+			$links.each( function ( i, $link ) {
+				var label = $link.text,
+					href = $link.getAttribute( 'href' );
+				options.push( new OO.ui.MenuOptionWidget( {
+					icon: 'linkExternal',
+					label: label,
+					data: {
+						type: 'toolLinks',
+						href: href
+					}
+				} ) );
+			} );
 		}
 
 		if ( options.length > 0 ) {
@@ -125,7 +149,8 @@
 			} );
 
 			selectWidget.getMenu().on( 'choose', function ( item ) {
-				switch ( item.getData() ) {
+				var data = item.getData();
+				switch ( data.type ) {
 					case 'filter':
 						filterValue( $tableCell );
 						break;
@@ -135,6 +160,8 @@
 					case 'addUsers':
 						addTargets( $tableCell, 'cuc_ip' );
 						break;
+					case 'toolLinks':
+						window.open( data.href, '_blank' );
 				}
 			} );
 
@@ -151,7 +178,7 @@
 		appendButtons( $( this ), { toggle: true } );
 	} );
 	$( '.ext-checkuser-investigate-table-compare .ext-checkuser-compare-table-cell-ip-target' ).each( function () {
-		appendButtons( $( this ), { toggle: true, filter: true, addUsers: true } );
+		appendButtons( $( this ), { toggle: true, filter: true, addUsers: true, toolLinks: true } );
 	} );
 	$( 'td.ext-checkuser-compare-table-cell-user-target' ).each( function () {
 		appendButtons( $( this ), { filter: true, addIps: true } );
