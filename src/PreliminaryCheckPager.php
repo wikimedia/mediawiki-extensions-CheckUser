@@ -102,10 +102,12 @@ class PreliminaryCheckPager extends TablePager {
 
 		switch ( $field ) {
 			case 'wiki':
+				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-interactive';
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-pinnable';
 				$attributes['data-' . $field] = $value;
 				break;
 			case 'registration':
+				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-interactive';
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-pinnable';
 				$date = $this->getLanguage()->userDate(
 					$value,
