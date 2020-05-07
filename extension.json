@@ -144,7 +144,8 @@
 	},
 	"AvailableRights": [
 		"checkuser",
-		"checkuser-log"
+		"checkuser-log",
+		"investigate"
 	],
 	"SpecialPages": {
 		"CheckUser": "SpecialCheckUser",
