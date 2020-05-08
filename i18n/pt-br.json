@@ -136,6 +136,8 @@
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Wiki não encontrada",
 	"checkuser-investigate-filters-legend": "Filtros",
 	"checkuser-investigate-filters-exclude-targets-label": "Ocultar os seguintes usuários ou IPs",
+	"checkuser-investigate-timeline-notice-no-results": "Não há resultados: não houve atividade registrada desses usuários ou IPs nos últimos 90 dias",
+	"checkuser-investigate-timeline-notice-no-results-filters": "Não há resultados correspondentes a esses critérios de filtragem. Tente remover alguns filtros para ampliar a pesquisa.",
 	"checkuser-investigate-compare-notice-exceeded-limit": "Devido a limitações técnicas, alcançamos o número de registros que podem ser apresentados. Os dados retornados para os seguintes destinos estão incompletos: $1. Tente usar menos destinos, janela de tempo menor ou intervalos de IP mais estreitos.",
 	"checkuser-investigate-compare-notice-no-results": "Não há resultados: não houve edições desses usuários ou IPs nos últimos 90 dias",
 	"checkuser-investigate-compare-notice-no-results-filters": "Não há resultados correspondentes a esses critérios de filtragem. Tente remover alguns filtros para ampliar a pesquisa.",
