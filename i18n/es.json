@@ -9,6 +9,7 @@
 			"Dferg",
 			"Dmcdevit",
 			"Fitoschido",
+			"Geryescalier",
 			"Gustronico",
 			"Hasley",
 			"Hereñu",
@@ -135,7 +136,12 @@
 	"checkuser-investigate-preliminary-table-header-name": "Nombre de usuario",
 	"checkuser-investigate-preliminary-table-header-registration": "Fecha de unificación",
 	"checkuser-investigate-preliminary-table-header-wiki": "Wiki",
+	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Wiki no encontrado",
 	"checkuser-investigate-filters-legend": "Filtros",
 	"checkuser-investigate-filters-exclude-targets-label": "Ocultar las cuentas o IP siguientes",
-	"checkuser-investigate-compare-table-button-add-user-targets-label": "Mostrar todas las IP de esta cuenta"
+	"checkuser-investigate-timeline-notice-no-results": "No hay resultados: no se ha registrado actividad de estos usuarios o IP en los últimos 90 días",
+	"checkuser-investigate-timeline-notice-no-results-filters": "No hay resultados que coincidan con estos criterios de filtrado. Intenta eliminar algunos filtros para ampliar la búsqueda.",
+	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Mostrar todas las IP de este usuario",
+	"checkuser-investigate-compare-table-button-add-user-targets-label": "Mostrar todos los usuarios en esta IP",
+	"checkuser-investigate-compare-table-button-filter-label": "Filtrar desde resultados"
 }
