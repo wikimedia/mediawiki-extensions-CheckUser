@@ -15,22 +15,27 @@ class TimelinePagerFactory implements PagerFactory {
 	/** @var TimelineService */
 	private $service;
 
+	/** @var TimelineRowFormatterFactory */
+	private $rowFormatterFactory;
+
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		TokenQueryManager $tokenQueryManager,
-		TimelineService $service
+		TimelineService $service,
+		TimelineRowFormatterFactory $rowFormatterFactory
 	) {
 		$this->linkRenderer = $linkRenderer;
 		$this->tokenQueryManager = $tokenQueryManager;
 		$this->service = $service;
+		$this->rowFormatterFactory = $rowFormatterFactory;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function createPager( IContextSource $context ) : TimelinePager {
-		$rowFormatter = new TimelineRowFormatter(
-			$this->linkRenderer, $context->getUser(), $context->getLanguage()
+		$rowFormatter = $this->rowFormatterFactory->createRowFormatter(
+			$context->getUser(), $context->getLanguage()
 		);
 
 		return new TimelinePager(

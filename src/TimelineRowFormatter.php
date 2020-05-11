@@ -7,15 +7,31 @@ use HtmlArmor;
 use Language;
 use Linker;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\Revision\RevisionFactory;
+use MediaWiki\Revision\RevisionLookup;
+use MediaWiki\Revision\RevisionStore;
 use Message;
 use SpecialPage;
 use Title;
 use User;
+use Wikimedia\Rdbms\ILoadBalancer;
 
 class TimelineRowFormatter {
 
 	/** @var LinkRenderer */
 	private $linkRenderer;
+
+	/** @var ILoadBalancer */
+	private $loadBalancer;
+
+	/** @var RevisionLookup */
+	private $revisionLookup;
+
+	/** @var RevisionStore */
+	private $revisionStore;
+
+	/** @var RevisionFactory */
+	private $revisionFactory;
 
 	/** @var array */
 	private $message = [];
@@ -26,8 +42,20 @@ class TimelineRowFormatter {
 	/** @var User */
 	private $user;
 
-	public function __construct( LinkRenderer $linkRenderer, User $user, Language $language ) {
+	public function __construct(
+		LinkRenderer $linkRenderer,
+		ILoadBalancer $loadBalancer,
+		RevisionLookup $revisionLookup,
+		RevisionStore $revisionStore,
+		RevisionFactory $revisionFactory,
+		User $user,
+		Language $language
+	) {
 		$this->linkRenderer = $linkRenderer;
+		$this->loadBalancer = $loadBalancer;
+		$this->revisionLookup = $revisionLookup;
+		$this->revisionStore = $revisionStore;
+		$this->revisionFactory = $revisionFactory;
 		$this->user = $user;
 		$this->language = $language;
 
