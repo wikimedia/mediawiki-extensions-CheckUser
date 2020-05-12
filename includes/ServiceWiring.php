@@ -71,7 +71,9 @@ return [
 			$services->getDBLoadBalancer(),
 			$services->getRevisionLookup(),
 			$services->getRevisionStore(),
-			$services->getRevisionFactory()
+			$services->getRevisionFactory(),
+			$services->getTitleFormatter(),
+			$services->getSpecialPageFactory()
 		);
 	},
 	'CheckUserTimelinePagerFactory' => function (

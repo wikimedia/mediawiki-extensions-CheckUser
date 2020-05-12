@@ -7,13 +7,15 @@ use HtmlArmor;
 use Language;
 use Linker;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\Linker\LinkTarget;
 use MediaWiki\Revision\RevisionFactory;
 use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
+use MediaWiki\SpecialPage\SpecialPageFactory;
 use Message;
-use SpecialPage;
-use Title;
+use TitleFormatter;
+use TitleValue;
 use User;
 use Wikimedia\Rdbms\ILoadBalancer;
 
@@ -34,6 +36,12 @@ class TimelineRowFormatter {
 	/** @var RevisionFactory */
 	private $revisionFactory;
 
+	/** @var TitleFormatter */
+	private $titleFormatter;
+
+	/** @var SpecialPageFactory */
+	private $specialPageFactory;
+
 	/** @var array */
 	private $message = [];
 
@@ -49,6 +57,8 @@ class TimelineRowFormatter {
 		RevisionLookup $revisionLookup,
 		RevisionStore $revisionStore,
 		RevisionFactory $revisionFactory,
+		TitleFormatter $titleFormatter,
+		SpecialPageFactory $specialPageFactory,
 		User $user,
 		Language $language
 	) {
@@ -57,6 +67,8 @@ class TimelineRowFormatter {
 		$this->revisionLookup = $revisionLookup;
 		$this->revisionStore = $revisionStore;
 		$this->revisionFactory = $revisionFactory;
+		$this->titleFormatter = $titleFormatter;
+		$this->specialPageFactory = $specialPageFactory;
 		$this->user = $user;
 		$this->language = $language;
 
@@ -170,7 +182,12 @@ class TimelineRowFormatter {
 	private function getLinks( \stdClass $row ) : string {
 		// Note: this is incomplete. It should match the checks
 		// in SpecialCheckUser when displaying the same info
-		$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
+		$title = TitleValue::tryNew( (int)$row->cuc_namespace, $row->cuc_title );
+
+		if ( !$title ) {
+			return '';
+		}
+
 		$links = [];
 
 		if ( $row->cuc_type == RC_LOG ) {
@@ -193,17 +210,17 @@ class TimelineRowFormatter {
 	}
 
 	/**
-	 * @param Title $title
+	 * @param LinkTarget $title
 	 * @return string
 	 */
-	private function getLogLink( Title $title ) : string {
+	private function getLogLink( LinkTarget $title ) : string {
 		return $this->msg( 'parentheses' )
 			->rawParams(
 				$this->linkRenderer->makeKnownLink(
-					SpecialPage::getTitleFor( 'Log' ),
+					new TitleValue( NS_SPECIAL, $this->specialPageFactory->getLocalNameFor( 'Log' ) ),
 					new HtmlArmor( $this->message['log'] ),
 					[],
-					[ 'page' => $title->getPrefixedText() ]
+					[ 'page' => $this->titleFormatter->getPrefixedText( $title ) ]
 				)
 			)->escaped();
 	}
@@ -217,7 +234,12 @@ class TimelineRowFormatter {
 			return '';
 		}
 
-		$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
+		$title = TitleValue::tryNew( (int)$row->cuc_namespace, $row->cuc_title );
+
+		if ( !$title ) {
+			return '';
+		}
+
 		return $this->msg( 'parentheses' )
 			->rawParams(
 				$this->linkRenderer->makeKnownLink(
@@ -242,7 +264,12 @@ class TimelineRowFormatter {
 			return '';
 		}
 
-		$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
+		$title = TitleValue::tryNew( (int)$row->cuc_namespace, $row->cuc_title );
+
+		if ( !$title ) {
+			return '';
+		}
+
 		return $this->msg( 'parentheses' )
 			->rawParams(
 				$this->linkRenderer->makeKnownLink(

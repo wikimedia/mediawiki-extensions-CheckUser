@@ -7,6 +7,8 @@ use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Revision\RevisionFactory;
 use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\Revision\RevisionStore;
+use MediaWiki\SpecialPage\SpecialPageFactory;
+use TitleFormatter;
 use User;
 use Wikimedia\Rdbms\ILoadBalancer;
 
@@ -27,18 +29,28 @@ class TimelineRowFormatterFactory {
 	/** @var RevisionFactory */
 	private $revisionFactory;
 
+	/** @var TitleFormatter */
+	private $titleFormatter;
+
+	/** @var SpecialPageFactory */
+	private $specialPageFactory;
+
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		ILoadBalancer $loadBalancer,
 		RevisionLookup $revisionLookup,
 		RevisionStore $revisionStore,
-		RevisionFactory $revisionFactory
+		RevisionFactory $revisionFactory,
+		TitleFormatter $titleFormatter,
+		SpecialPageFactory $specialPageFactory
 	) {
 		$this->linkRenderer = $linkRenderer;
 		$this->loadBalancer = $loadBalancer;
 		$this->revisionLookup = $revisionLookup;
 		$this->revisionStore = $revisionStore;
 		$this->revisionFactory = $revisionFactory;
+		$this->titleFormatter = $titleFormatter;
+		$this->specialPageFactory = $specialPageFactory;
 	}
 
 	/**
@@ -55,6 +67,8 @@ class TimelineRowFormatterFactory {
 			$this->revisionLookup,
 			$this->revisionStore,
 			$this->revisionFactory,
+			$this->titleFormatter,
+			$this->specialPageFactory,
 			$user,
 			$language
 		);
