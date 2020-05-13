@@ -54,7 +54,7 @@ class TimelineService {
 					$range = IPUtils::parseRange( $target );
 					$conds[] = $db->makeList( [
 						'cuc_ip_hex >= ' . $db->addQuotes( $range[0] ),
-						'cuc_ip_hex <=' . $db->addQuotes( $range[1] )
+						'cuc_ip_hex <= ' . $db->addQuotes( $range[1] )
 					], IDatabase::LIST_AND );
 				}
 			} else {
