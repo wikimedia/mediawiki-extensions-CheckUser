@@ -9,6 +9,7 @@ use Linker;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Revision\RevisionFactory;
 use MediaWiki\Revision\RevisionLookup;
+use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use Message;
 use SpecialPage;
@@ -78,27 +79,62 @@ class TimelineRowFormatter {
 			$this->getActionText( $row->cuc_actiontext ),
 			$this->getIpInfo( $row->cuc_ip ),
 			$this->getUserAgent( $row->cuc_agent ),
-			$this->getComment( $row->cuc_comment )
+			$this->getComment( $row )
 		);
 	}
 
 	/**
-	 * @param string $comment
+	 * Show the comment, or redact if appropriate. If the revision is not found,
+	 * show nothing.
+	 *
+	 * @param \stdClass $row
 	 * @return string
 	 */
-	private function getComment( string $comment ) : string {
-		// Note: this is incomplete. It should match the checks
-		// in SpecialCheckUser when displaying the same info
-		// $user will be used to determine wether a comment can be
-		// displayed or not
+	private function getComment( \stdClass $row ) : string {
+		$comment = '';
 
-		// This method will depend on RevisionLookup, RevisionStore,
-		// LoadBalancer and RevisionFactory being injected
+		if (
+			$row->cuc_this_oldid != 0 &&
+			( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW )
+		) {
+			$revRecord = $this->revisionLookup->getRevisionById( $row->cuc_this_oldid );
+			if ( !$revRecord ) {
+				// Revision may have been deleted
+				$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
+				$queryInfo = $this->revisionStore->getArchiveQueryInfo();
+				$archiveRow = $db->selectRow(
+					$queryInfo['tables'],
+					$queryInfo['fields'],
+					[ 'ar_rev_id' => $row->cuc_this_oldid ],
+					__METHOD__,
+					[],
+					$queryInfo['joins']
+				);
+				if ( $archiveRow ) {
+					$revRecord = $this->revisionFactory->newRevisionFromArchiveRow( $archiveRow );
+				}
+			}
+			if (
+				$revRecord instanceof RevisionRecord &&
+				RevisionRecord::userCanBitfield(
+					$revRecord->getVisibility(),
+					RevisionRecord::DELETED_COMMENT,
+					$this->user
+				)
+			) {
+				$comment = Linker::revComment( $revRecord );
+			} else {
+				$comment = Linker::commentBlock(
+					$this->msg( 'rev-deleted-comment' )->text(),
+					null,
+					false,
+					null,
+					false
+				);
+			}
+		}
 
-		// TODO: Return only after checking that the user
-		// has the rights to see the comment
-		// return Linker::commentBlock( $comment );
-		return '';
+		return $comment;
 	}
 
 	/**
