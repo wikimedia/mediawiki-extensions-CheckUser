@@ -19,6 +19,9 @@ class TimelinePager extends ReverseChronologicalPager {
 	/** @var TimelineRowFormatter */
 	private $timelineRowFormatter;
 
+	/** @var string */
+	private $start;
+
 	/** @var string|null */
 	private $lastDateHeader;
 
@@ -49,6 +52,7 @@ class TimelinePager extends ReverseChronologicalPager {
 		LinkRenderer $linkRenderer,
 		HookContainer $hookContainer,
 		TokenQueryManager $tokenQueryManager,
+		DurationManager $durationManager,
 		TimelineService $timelineService,
 		TimelineRowFormatter $timelineRowFormatter
 	) {
@@ -65,13 +69,18 @@ class TimelinePager extends ReverseChronologicalPager {
 			$tokenData['targets'] ?? [],
 			$this->excludeTargets
 		);
+		$this->start = $durationManager->getTimestampFromRequest( $context->getRequest() );
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function getQueryInfo() {
-		return $this->timelineService->getQueryInfo( $this->filteredTargets, $this->excludeTargets );
+		return $this->timelineService->getQueryInfo(
+			$this->filteredTargets,
+			$this->excludeTargets,
+			$this->start
+		);
 	}
 
 	/**

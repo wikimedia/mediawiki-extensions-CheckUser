@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests;
 
 use MediaWiki\CheckUser\ComparePager;
 use MediaWiki\CheckUser\CompareService;
+use MediaWiki\CheckUser\DurationManager;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\CheckUser\UserManager;
 use MediaWiki\MediaWikiServices;
@@ -51,10 +52,13 @@ class ComparePagerTest extends MediaWikiTestCase {
 			$userManager
 		);
 
+		$durationManager = $this->createMock( DurationManager::class );
+
 		$pager = new ComparePager(
 			RequestContext::getMain(),
 			$services->get( 'LinkRenderer' ),
 			$tokenQueryManager,
+			$durationManager,
 			$compareService
 		);
 		$pager->doQuery();

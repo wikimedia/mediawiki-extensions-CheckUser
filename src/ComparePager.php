@@ -68,10 +68,14 @@ class ComparePager extends TablePager {
 	 */
 	private $filteredTargets;
 
+	/** @var string */
+	private $start;
+
 	public function __construct(
 		IContextSource $context,
 		LinkRenderer $linkRenderer,
 		TokenQueryManager $tokenQueryManager,
+		DurationManager $durationManager,
 		CompareService $compareService
 	) {
 		parent::__construct( $context, $linkRenderer );
@@ -86,6 +90,8 @@ class ComparePager extends TablePager {
 			$tokenData['targets'] ?? [],
 			$this->excludeTargets
 		);
+
+		$this->start = $durationManager->getTimestampFromRequest( $context->getRequest() );
 	}
 
 	/**
@@ -270,7 +276,11 @@ class ComparePager extends TablePager {
 	 * @inheritDoc
 	 */
 	public function getQueryInfo() {
-		return $this->compareService->getQueryInfo( $this->filteredTargets, $this->excludeTargets );
+		return $this->compareService->getQueryInfo(
+			$this->filteredTargets,
+			$this->excludeTargets,
+			$this->start
+		);
 	}
 
 	/**
@@ -281,7 +291,8 @@ class ComparePager extends TablePager {
 	public function getTargetsOverLimit() : array {
 		return $this->compareService->getTargetsOverLimit(
 			$this->filteredTargets,
-			$this->excludeTargets
+			$this->excludeTargets,
+			$this->start
 		);
 	}
 

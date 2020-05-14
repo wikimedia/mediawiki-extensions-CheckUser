@@ -16,6 +16,9 @@ class TimelinePagerFactory implements PagerFactory {
 	/** @var TokenQueryManager */
 	private $tokenQueryManager;
 
+	/** @var DurationManager */
+	private $durationManager;
+
 	/** @var TimelineService */
 	private $service;
 
@@ -26,12 +29,14 @@ class TimelinePagerFactory implements PagerFactory {
 		LinkRenderer $linkRenderer,
 		HookContainer $hookContainer,
 		TokenQueryManager $tokenQueryManager,
+		DurationManager $durationManager,
 		TimelineService $service,
 		TimelineRowFormatterFactory $rowFormatterFactory
 	) {
 		$this->linkRenderer = $linkRenderer;
 		$this->hookContainer = $hookContainer;
 		$this->tokenQueryManager = $tokenQueryManager;
+		$this->durationManager = $durationManager;
 		$this->service = $service;
 		$this->rowFormatterFactory = $rowFormatterFactory;
 	}
@@ -49,6 +54,7 @@ class TimelinePagerFactory implements PagerFactory {
 			$this->linkRenderer,
 			$this->hookContainer,
 			$this->tokenQueryManager,
+			$this->durationManager,
 			$this->service,
 			$rowFormatter
 		 );

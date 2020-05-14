@@ -122,4 +122,21 @@ abstract class ChangeService {
 
 		return $conds;
 	}
+
+	/**
+	 * Build conditions for the start timeestamp.
+	 *
+	 * @param string $start timestamp
+	 * @return array conditions
+	 */
+	protected function buildStartConds( string $start ) : array {
+		if ( $start === '' ) {
+			return [];
+		}
+
+		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
+		return [
+			'cuc_timestamp >= ' . $db->addQuotes( $start ),
+		];
+	}
 }

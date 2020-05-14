@@ -8,9 +8,10 @@ class TimelineService extends ChangeService {
 	 *
 	 * @param string[] $targets
 	 * @param string[] $excludeTargets
+	 * @param string $start
 	 * @return array
 	 */
-	public function getQueryInfo( array $targets, array $excludeTargets ): array {
+	public function getQueryInfo( array $targets, array $excludeTargets, string $start ): array {
 		return [
 			'tables' => 'cu_changes',
 			'fields' => [
@@ -20,7 +21,8 @@ class TimelineService extends ChangeService {
 			],
 			'conds' => array_merge(
 				$this->buildTargetCondsMultiple( $targets ),
-				$this->buildExcludeTargetsConds( $excludeTargets )
+				$this->buildExcludeTargetsConds( $excludeTargets ),
+				$this->buildStartConds( $start )
 			),
 		];
 	}

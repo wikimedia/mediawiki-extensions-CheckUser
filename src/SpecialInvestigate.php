@@ -29,6 +29,9 @@ class SpecialInvestigate extends \FormSpecialPage {
 	/** @var TokenQueryManager */
 	private $tokenQueryManager;
 
+	/** @var DurationManager */
+	private $durationManager;
+
 	/** @var IndexLayout|null */
 	private $layout;
 
@@ -46,19 +49,21 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @param PagerFactory $comparePagerFactory
 	 * @param PagerFactory $timelinePagerFactory
 	 * @param TokenQueryManager $tokenQueryManager
+	 * @param DurationManager $durationManager
 	 */
 	public function __construct(
 		PagerFactory $preliminaryCheckPagerFactory,
 		PagerFactory $comparePagerFactory,
 		PagerFactory $timelinePagerFactory,
-		TokenQueryManager $tokenQueryManager
+		TokenQueryManager $tokenQueryManager,
+		DurationManager $durationManager
 	) {
 		parent::__construct( 'Investigate', 'investigate' );
 		$this->preliminaryCheckPagerFactory = $preliminaryCheckPagerFactory;
 		$this->comparePagerFactory = $comparePagerFactory;
 		$this->timelinePagerFactory = $timelinePagerFactory;
-
 		$this->tokenQueryManager = $tokenQueryManager;
+		$this->durationManager = $durationManager;
 	}
 
 	/**
@@ -147,6 +152,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 				'labelElement' => ( new Tag( 'a' ) )->setAttributes( [
 					'href' => $this->getPageTitle( $param )->getLocalURL( [
 						'token' => $token,
+						'duration' => $this->getDuration() ?: null,
 					] ),
 				] ),
 				'selected' => ( $par === $param ),
@@ -410,6 +416,27 @@ class SpecialInvestigate extends \FormSpecialPage {
 		$data = $this->getTokenData();
 		$prefix = $this->getMessagePrefix();
 
+		$duration = [
+			'type' => 'select',
+			'name' => 'duration',
+			'label-message' => $prefix . '-duration-label',
+			'options-messages' => [
+				$prefix . '-duration-option-all' => '',
+				$prefix . '-duration-option-1w' => 'P1W',
+				$prefix . '-duration-option-2w' => 'P2W',
+				$prefix . '-duration-option-30d' => 'P30D',
+			],
+			// If this duration in the URL is not in the list, "all" is displayed.
+			'default' => $this->getDuration(),
+			'validation-callback' => function ( $value ) {
+				if ( !$this->durationManager->isValid( $value ) ) {
+					return $this->getMessagePrefix() . '-duration-invalid';
+				}
+
+				return true;
+			}
+		];
+
 		if ( $data === [] ) {
 			return [
 				'Targets' => [
@@ -427,6 +454,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 						'autocomplete' => false,
 					],
 				],
+				'Duration' => $duration,
 				'Reason' => [
 					'type' => 'text',
 					'name' => 'reason',
@@ -458,6 +486,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 					'autocomplete' => false,
 				],
 			];
+			$fields['Duration'] = $duration;
 		}
 
 		if ( $this->par === $compareTab ) {
@@ -540,11 +569,15 @@ class SpecialInvestigate extends \FormSpecialPage {
 
 		if ( isset( $this->par ) && $this->par !== '' ) {
 			// Redirect to the same subpage with an updated token.
-			$url = $this->getRedirectUrl( $token );
+			$url = $this->getRedirectUrl( [
+				'token' => $token,
+				'duration' => $data['Duration'] ?: null,
+			] );
 		} else {
 			// Redirect to compare tab
 			$url = $this->getPageTitle( $this->getTabParam( 'compare' ) )->getFullUrlForRedirect( [
 				'token' => $token,
+				'duration' => $data['Duration'] ?: null,
 			] );
 		}
 		$this->getOutput()->redirect( $url );
@@ -605,16 +638,18 @@ class SpecialInvestigate extends \FormSpecialPage {
 	}
 
 	/**
-	 * Get a redirect URL with a token
+	 * Get a redirect URL with a new query string.
 	 *
-	 * @param string $token
+	 * @param array $update
 	 * @return string
 	 */
-	private function getRedirectUrl( string $token ) : string {
+	private function getRedirectUrl( array $update ) : string {
 		$parts = wfParseURL( $this->getRequest()->getFullRequestURL() );
 		$query = isset( $parts['query'] ) ? wfCgiToArray( $parts['query'] ) : [];
-		$query['token'] = $token;
-		$parts['query'] = wfArrayToCgi( $query );
+		$data = array_filter( array_merge( $query, $update ), function ( $value ) {
+			return $value !== null;
+		} );
+		$parts['query'] = wfArrayToCgi( $data );
 		return wfAssembleUrl( $parts );
 	}
 
@@ -647,6 +682,16 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @return bool
 	 */
 	private function usingFilters() : bool {
-		return count( $this->getTokenData()['exclude-targets'] ?? [] ) > 0;
+		return count( $this->getTokenData()['exclude-targets'] ?? [] ) > 0
+			|| $this->getDuration() !== '';
+	}
+
+	/**
+	 * Get the duration from the request.
+	 *
+	 * @return string
+	 */
+	private function getDuration() : string {
+		return $this->durationManager->getFromRequest( $this->getRequest() );
 	}
 }

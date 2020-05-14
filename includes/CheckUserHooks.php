@@ -24,6 +24,7 @@ class CheckUserHooks {
 					'CheckUserComparePagerFactory',
 					'CheckUserTimelinePagerFactory',
 					'CheckUserTokenQueryManager',
+					'CheckUserDurationManager',
 				],
 			];
 
