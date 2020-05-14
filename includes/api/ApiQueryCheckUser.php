@@ -101,12 +101,13 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$log_type[] = 'ip';
 				} else {
 					$user_id = User::idFromName( $target );
-					if ( !$user_id ) {
+					if ( $user_id === null ) {
 						$this->dieWithError(
 							[ 'nosuchusershort', wfEscapeWikiText( $target ) ], 'nosuchuser'
 						);
 					}
-					$this->addWhereFld( 'cuc_user_text', $target );
+					// @phan-suppress-next-line PhanTypeMismatchArgumentNullable T240141
+					$this->addWhereFld( 'cuc_user', $user_id );
 					$log_type = [ 'useredits', 'user' ];
 				}
 
