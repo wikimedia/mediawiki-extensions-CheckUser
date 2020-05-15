@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"BaRaN6161 TURK",
 			"Hedda",
 			"McDutchie",
 			"Sadrettin",
@@ -9,7 +10,7 @@
 	},
 	"apihelp-query+checkuser-description": "Belirli bir kullanıcı adı tarafından hangi IP adreslerinin kullanıldığını veya kullanıcı adlarının belirli bir IP adresi tarafından kullanıldığını kontrol edin.",
 	"apihelp-query+checkuser-summary": "Belirli bir kullanıcı adı tarafından hangi IP adreslerinin kullanıldığını veya kullanıcı adlarının belirli bir IP adresi tarafından kullanıldığını kontrol edin.",
-	"apihelp-query+checkuser-param-request": "Kullanıcıdenetle isteğinin türü:\n;userips:Hedef kullanıcının IP adreslerini al.\n;edits:Hedef IP adresleri veya IP aralığındaki değişiklikleri al.\nipusers:Hedef IP adresleri veya IP aralığındaki kullanıcıları al.",
+	"apihelp-query+checkuser-param-request": "Denetçi isteğinin türü:\n;userips:Hedef kullanıcının IP adreslerini al.\n;edits:Hedef IP adresleri veya IP aralığındaki değişiklikleri al.\nipusers:Hedef IP adresleri veya IP aralığındaki kullanıcıları al.",
 	"apihelp-query+checkuser-param-target": "Kullanıcı adı, IP adresi veya CIDR aralığını kontrol et.",
 	"apihelp-query+checkuser-param-reason": "Kontrol nedeni.",
 	"apihelp-query+checkuser-param-limit": "Satır sınırı",
@@ -17,8 +18,8 @@
 	"apihelp-query+checkuser-param-xff": "IP adresi yerine XFF veri kullanın.",
 	"apihelp-query+checkuser-example-1": "[[User:Example]] için IP adreslerini kontrol et",
 	"apihelp-query+checkuser-example-2": "192.0.2.0/24 tarafından yapılan değişiklikleri kontrol et",
-	"apihelp-query+checkuserlog-description": "Denetçi günlüğünden girdiler alın.",
-	"apihelp-query+checkuserlog-summary": "Denetçi günlüğünden girdiler alın.",
+	"apihelp-query+checkuserlog-description": "Denetçi günlüğünden girdileri alın.",
+	"apihelp-query+checkuserlog-summary": "Denetçi günlüğünden girdileri alın.",
 	"apihelp-query+checkuserlog-param-user": "Denetçi olan kullanıcı adları.",
 	"apihelp-query+checkuserlog-param-target": "Kontrol edilen IP adresleri veya CIDR aralığı.",
 	"apihelp-query+checkuserlog-param-limit": "Satır sınırı.",
@@ -27,6 +28,6 @@
 	"apihelp-query+checkuserlog-example-1": "[[User:Example]] için yapılan kontrolleri göster",
 	"apihelp-query+checkuserlog-example-2": "2011-10-15T23:00:00Z tarihinden sonraki 192.0.2.0/24 kontrollerini göster",
 	"apierror-checkuser-missingsummary": "Kontrol için neden tanımlamanız gerekir.",
-	"apierror-checkuser-timelimit": "Doğru zaman sınırını kullanmanız gerekiyor (''-2 hafta'' veya ''2 hafta önce'' gibi)",
+	"apierror-checkuser-timelimit": "Doğru zaman sınırını kullanmanız gerekiyor (\"-2 weeks\" veya \"2 weeks ago\" gibi)",
 	"apierror-checkuser-invalidmode": "Geçersiz istek modu"
 }

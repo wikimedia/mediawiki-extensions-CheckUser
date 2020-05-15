@@ -3,6 +3,7 @@
 		"authors": [
 			"Acamicamacaraca",
 			"BadDog",
+			"FriedrickMILBarbarossa",
 			"Milicevic01",
 			"Millosh",
 			"Rancher",
@@ -24,8 +25,8 @@
 	"checkuserlog": "Дневник провере корисника",
 	"checkuser-contribs": "провери корисничке IP адресе",
 	"checkuser-contribs-log": "недавне провере",
-	"group-checkuser": "Проверивачи",
-	"group-checkuser-member": "{{GENDER:$1|проверавач|проверавачица}}",
+	"group-checkuser": "Чекјузери",
+	"group-checkuser-member": "{{GENDER:$1|чекјузер}}",
 	"right-checkuser": "проверавање корисничких IP адреса и других информација",
 	"right-checkuser-log": "преглед дневника провере корисника",
 	"action-checkuser": "проверавате корисничке IP адресе и друге информације",
