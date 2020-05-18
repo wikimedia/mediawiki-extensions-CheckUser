@@ -84,7 +84,7 @@ class TimelineRowFormatter {
 	 */
 	public function format( \stdClass $row ) : string {
 		return sprintf(
-			'%s . . %s . . %s %s %s %s %s',
+			'%s . . %s . . %s %s . . %s . . %s%s',
 			$this->getLinks( $row ),
 			$this->getTime( $row->cuc_timestamp ),
 			$this->getUserLinks( $row ),
@@ -146,7 +146,7 @@ class TimelineRowFormatter {
 			}
 		}
 
-		return $comment;
+		return $comment === '' ? $comment : ' . . ' . $comment;
 	}
 
 	/**
@@ -180,8 +180,6 @@ class TimelineRowFormatter {
 	 * @return string
 	 */
 	private function getLinks( \stdClass $row ) : string {
-		// Note: this is incomplete. It should match the checks
-		// in SpecialCheckUser when displaying the same info
 		$title = TitleValue::tryNew( (int)$row->cuc_namespace, $row->cuc_title );
 
 		if ( !$title ) {
@@ -192,6 +190,7 @@ class TimelineRowFormatter {
 
 		if ( $row->cuc_type == RC_LOG ) {
 			$links['log'] = $this->getLogLink( $title );
+			$line = $links['log'];
 		} else {
 			$links['diff'] = $this->getDiffLink( $row );
 			$links['history'] = $this->getHistoryLink( $row );
@@ -201,12 +200,15 @@ class TimelineRowFormatter {
 				$links += $flags;
 			}
 
+			$line = implode( ' ', $links );
 			$links['title'] = $this->linkRenderer->makeLink( $title );
+			$line .= ' . . ' . $links['title'];
 		}
 
-		// TODO: add hook and validation
+		// TODO: add hook and validation.
+		// $links array and keys are preserved for now, for passing into this hook.
 
-		return implode( ' ', $links );
+		return $line;
 	}
 
 	/**
