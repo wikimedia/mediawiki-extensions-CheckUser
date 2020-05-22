@@ -1,7 +1,11 @@
 <?php
 
+namespace MediaWiki\CheckUser\Tests;
+
+use FauxRequest;
 use MediaWiki\CheckUser\TokenManager;
 use MediaWiki\CheckUser\TokenQueryManager;
+use MediaWikiTestCase;
 
 /**
  * Test class for TokenQueryManager class

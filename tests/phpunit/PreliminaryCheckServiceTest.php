@@ -1,6 +1,10 @@
 <?php
 
+namespace MediaWiki\CheckUser\Tests;
+
+use ExtensionRegistry;
 use MediaWiki\CheckUser\PreliminaryCheckService;
+use MediaWikiTestCase;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\ILBFactory;

@@ -1,9 +1,14 @@
 <?php
 
+namespace MediaWiki\CheckUser\Tests;
+
+use ExtensionRegistry;
 use MediaWiki\CheckUser\PreliminaryCheckPager;
 use MediaWiki\CheckUser\PreliminaryCheckService;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\MediaWikiServices;
+use MediaWikiTestCase;
+use RequestContext;
 use Wikimedia\Rdbms\ILBFactory;
 
 /**

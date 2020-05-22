@@ -1,5 +1,11 @@
 <?php
 
+namespace MediaWiki\CheckUser\Tests;
+
+use MediaWikiTestCase;
+use ReflectionClass;
+use SpecialCheckUser;
+
 /**
  * Test class for SpecialCheckUser class
  *

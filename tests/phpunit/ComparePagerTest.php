@@ -1,9 +1,13 @@
 <?php
 
+namespace MediaWiki\CheckUser\Tests;
+
 use MediaWiki\CheckUser\ComparePager;
 use MediaWiki\CheckUser\CompareService;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\MediaWikiServices;
+use MediaWikiTestCase;
+use RequestContext;
 use Wikimedia\IPUtils;
 
 /**

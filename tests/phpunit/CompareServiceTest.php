@@ -1,7 +1,10 @@
 <?php
 
+namespace MediaWiki\CheckUser\Tests;
+
 use MediaWiki\CheckUser\CompareService;
 use MediaWiki\MediaWikiServices;
+use MediaWikiTestCase;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\ILoadBalancer;
 

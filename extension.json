@@ -166,6 +166,9 @@
 	"AutoloadNamespaces": {
 		"MediaWiki\\CheckUser\\": "src/"
 	},
+	"TestAutoloadNamespaces": {
+		"MediaWiki\\CheckUser\\Test\\": "tests/phpunit/"
+	},
 	"load_composer_autoloader": true,
 	"manifest_version": 2
 }

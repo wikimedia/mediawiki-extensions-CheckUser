@@ -1,8 +1,11 @@
 <?php
 
+namespace MediaWiki\CheckUser\Tests;
+
 use Firebase\JWT\JWT;
 use MediaWiki\CheckUser\TokenManager;
 use MediaWiki\Session\SessionManager;
+use MediaWikiTestCase;
 
 /**
  * Test class for TokenManager class
