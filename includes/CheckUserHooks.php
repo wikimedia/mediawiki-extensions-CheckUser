@@ -6,6 +6,13 @@ use MediaWiki\Block\DatabaseBlock;
 use Wikimedia\Rdbms\IDatabase;
 
 class CheckUserHooks {
+
+	/**
+	 * The maximum number of bytes that fit in CheckUser's text fields
+	 * (cuc_agent,cuc_actiontext,cuc_comment,cuc_xff)
+	 */
+	private const TEXT_FIELD_LENGTH = 255;
+
 	/**
 	 * Hook function for RecentChange_save
 	 * Saves user data into the cu_changes table
@@ -57,7 +64,18 @@ class CheckUserHooks {
 			$actionText = '';
 		}
 
-		$dbw = wfGetDB( DB_MASTER );
+		$comment = $rc->getAttribute( 'rc_comment' );
+
+		$services = MediaWikiServices::getInstance();
+		$contLang = $services->getContentLanguage();
+
+		// (T199323) Truncate text fields prior to database insertion
+		// Attempting to insert too long text will cause an error in MariaDB/MySQL strict mode
+		$actionText = $contLang->truncateForDatabase( $actionText, self::TEXT_FIELD_LENGTH );
+		$agent = $contLang->truncateForDatabase( $agent, self::TEXT_FIELD_LENGTH );
+		$xff = $contLang->truncateForDatabase( $xff, self::TEXT_FIELD_LENGTH );
+		$comment = $contLang->truncateForDatabase( $comment, self::TEXT_FIELD_LENGTH );
+
 		$rcRow = [
 			'cuc_namespace'  => $attribs['rc_namespace'],
 			'cuc_title'      => $attribs['rc_title'],
@@ -65,7 +83,7 @@ class CheckUserHooks {
 			'cuc_user'       => $attribs['rc_user'],
 			'cuc_user_text'  => $attribs['rc_user_text'],
 			'cuc_actiontext' => $actionText,
-			'cuc_comment'    => $rc->getAttribute( 'rc_comment' ),
+			'cuc_comment'    => $comment,
 			'cuc_this_oldid' => $attribs['rc_this_oldid'],
 			'cuc_last_oldid' => $attribs['rc_last_oldid'],
 			'cuc_type'       => $attribs['rc_type'],
@@ -82,6 +100,8 @@ class CheckUserHooks {
 		}
 
 		Hooks::run( 'CheckUserInsertForRecentChange', [ $rc, &$rcRow ] );
+
+		$dbw = $services->getDBLoadBalancer()->getConnectionRef( DB_MASTER );
 		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
 
 		return true;
