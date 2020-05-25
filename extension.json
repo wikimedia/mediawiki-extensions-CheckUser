@@ -123,9 +123,12 @@
 				"oojs-ui.styles.icons-content",
 				"oojs-ui.styles.icons-editing-core",
 				"oojs-ui.styles.icons-interactions",
-				"oojs-ui.styles.icons-moderation"
+				"oojs-ui.styles.icons-moderation",
+				"mediawiki.widgets"
 			],
 			"messages": [
+				"checkuser-investigate-compare-copy-button-label",
+				"checkuser-investigate-compare-copy-message-label",
 				"checkuser-investigate-compare-table-button-add-ip-targets-label",
 				"checkuser-investigate-compare-table-button-add-user-targets-label",
 				"checkuser-investigate-compare-table-button-filter-label"
