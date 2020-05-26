@@ -31,11 +31,11 @@ class TimelineServiceTest extends MediaWikiTestCase {
 		$q = $timelineService->getQueryInfo( $targets );
 
 		foreach ( $expected['targets'] as $target ) {
-			$this->assertTrue( strpos( $q['conds'][0], $target ) !== false );
+			$this->assertStringContainsString( $target, $q['conds'][0] );
 		}
 
 		foreach ( $expected['conds'] as $cond ) {
-			$this->assertTrue( strpos( $q['conds'][0], $cond ) !== false );
+			$this->assertStringContainsString( $cond, $q['conds'][0] );
 		}
 	}
 

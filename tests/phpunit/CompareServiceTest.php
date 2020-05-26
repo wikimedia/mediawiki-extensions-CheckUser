@@ -56,13 +56,13 @@ class CompareServiceTest extends MediaWikiTestCase {
 		$queryInfo = $compareService->getQueryInfo( $options['targets'], $options['excludeTargets'] );
 
 		foreach ( $expected['targets'] as $target ) {
-			$this->assertTrue( strpos( $queryInfo['tables']['a'], $target ) !== false );
+			$this->assertStringContainsString( $target, $queryInfo['tables']['a'] );
 		}
 
 		foreach ( $expected['excludeTargets'] as $excludeTarget ) {
-			$this->assertTrue( strpos( $queryInfo['tables']['a'], $excludeTarget ) !== false );
+			$this->assertStringContainsString( $excludeTarget, $queryInfo['tables']['a'] );
 		}
-		$this->assertTrue( strpos( $queryInfo['tables']['a'], $expected['limit'] ) !== false );
+		$this->assertStringContainsString( $expected['limit'], $queryInfo['tables']['a'] );
 	}
 
 	public function provideGetQueryInfo() {
