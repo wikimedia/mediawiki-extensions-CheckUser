@@ -82,7 +82,15 @@ class CompareServiceTest extends MediaWikiTestCase {
 		foreach ( $expected['excludeTargets'] as $excludeTarget ) {
 			$this->assertStringContainsString( $excludeTarget, $queryInfo['tables']['a'] );
 		}
-		$this->assertStringContainsString( $expected['limit'], $queryInfo['tables']['a'] );
+
+		$services = MediaWikiServices::getInstance();
+		$db = $services->getDBLoadBalancer()->getConnectionRef( DB_REPLICA );
+		// TODO Perhaps a separate test method could check both scenarios with a mock DB.
+		if ( $db->unionSupportsOrderAndLimit() ) {
+			$this->assertStringContainsString( 'LIMIT ' . $expected['limit'], $queryInfo['tables']['a'] );
+		} else {
+			$this->assertStringNotContainsString( 'LIMIT', $queryInfo['tables']['a'] );
+		}
 	}
 
 	public function provideGetQueryInfo() {
