@@ -95,11 +95,11 @@ class CompareService {
 		return [
 			'tables' => [ 'a' => new Subquery( $derivedTable ) ],
 			'fields' => [
-				'a.cuc_user',
-				'a.cuc_user_text',
-				'a.cuc_ip',
-				'a.cuc_ip_hex',
-				'a.cuc_agent',
+				'cuc_user' => 'a.cuc_user',
+				'cuc_user_text' => 'a.cuc_user_text',
+				'cuc_ip' => 'a.cuc_ip',
+				'cuc_ip_hex' => 'a.cuc_ip_hex',
+				'cuc_agent' => 'a.cuc_agent',
 				'first_edit' => 'MIN(a.cuc_timestamp)',
 				'last_edit' => 'MAX(a.cuc_timestamp)',
 				'total_edits' => 'count(*)',
