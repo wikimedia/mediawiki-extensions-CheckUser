@@ -81,6 +81,7 @@ class SpecialCheckUser extends SpecialPage {
 			'reason' => $blockreason,
 			'talk' => $disableUserTalk,
 			'email' => $disableEmail,
+			'reblock' => $request->getBool( 'reblock' )
 		];
 
 		$ip = $name = $xff = '';
@@ -281,7 +282,13 @@ class SpecialCheckUser extends SpecialPage {
 			return;
 		}
 
-		$blockedUsers = $this->doMassUserBlockInternal( $users, $blockParams, $tag, $talkTag );
+		$blockedUsers = $this->doMassUserBlockInternal(
+			$users,
+			$blockParams,
+			$tag,
+			$talkTag,
+			$blockParams['reblock']
+		);
 		$blockedCount = count( $blockedUsers );
 		if ( $blockedCount > 0 ) {
 			$lang = $this->getLanguage();
@@ -301,10 +308,11 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param array $blockParams
 	 * @param string $tag replaces user pages
 	 * @param string $talkTag replaces user talk pages
+	 * @param bool $reblock
 	 * @return string[] List of html-safe usernames which were actually were blocked
 	 */
 	protected function doMassUserBlockInternal( $users, array $blockParams,
-		$tag = '', $talkTag = '' ) {
+		$tag = '', $talkTag = '', $reblock = false ) {
 		$currentUser = $this->getUser();
 		$blockAllowsUTEdit = $this->getConfig()->get( 'BlockAllowsUTEdit' );
 		$safeUsers = [];
@@ -321,80 +329,42 @@ class SpecialCheckUser extends SpecialPage {
 				continue;
 			}
 
-			if ( $u->getBlock() ) {
-				// If the user is already blocked, just leave it as is
+			if ( $u->getBlock() && !$reblock ) {
 				continue;
 			}
 
-			$userTitle = $u->getUserPage();
-			$userTalkTitle = $u->getTalkPage();
-			$safeUsers[] = "[[{$userTitle->getPrefixedText()}|{$userTitle->getText()}]]";
-			$expirestr = $isIP ? '1 week' : 'indefinite';
-			$expiry = SpecialBlock::parseExpiryInput( $expirestr );
+			if (
+				SpecialBlock::canBlockEmail( $this->getUser() ) ||
+				!isset( $blockParams['email' ] ) ||
+				$blockParams['email'] === false
+			) {
+				$res = SpecialBlock::processForm( [
+					'Target' => $u->getName(),
+					'Reason' => [ $blockParams['reason'] ],
+					'Expiry' => $isIP ? '1 week' : 'indefinite',
+					'HardBlock' => !$isIP,
+					'CreateAccount' => true,
+					'AutoBlock' => true,
+					'DisableEmail' => $blockParams['email'] ?? false,
+					'DisableUTEdit' => $blockParams['talk'],
+					'Reblock' => $reblock,
+					'Confirm' => true,
+					'Watch' => false,
+				], $this->getContext() );
 
-			// Create the block
-			$block = new DatabaseBlock();
-			$block->setTarget( $u );
-			$block->setBlocker( $currentUser );
-			$block->setReason( $blockParams['reason'] );
-			$block->setExpiry( $expiry );
-			$block->isHardblock( !$isIP );
-			$block->isAutoblocking( true );
-			$block->isCreateAccountBlocked( true );
-			$block->isEmailBlocked(
-				( SpecialBlock::canBlockEmail( $currentUser ) && $blockParams['email'] )
-			);
-			$block->isUsertalkEditAllowed( $blockAllowsUTEdit ? !$blockParams['talk'] : false );
-			$status = $block->insert();
+				$userPage = $u->getUserPage();
 
-			// Prepare log parameters for the block
-			$logParams = [];
-			$logParams['5::duration'] = $expirestr;
-			$logParams['6::flags'] = self::userBlockLogFlags( $isIP, $blockParams );
+				if ( $res === true ) {
+					$safeUsers[] = "[[{$userPage->getPrefixedText()}|{$userPage->getText()}]]";
+				}
 
-			$logEntry = new ManualLogEntry( 'block', 'block' );
-			$logEntry->setTarget( $userTitle );
-			$logEntry->setComment( $blockParams['reason'] );
-			$logEntry->setPerformer( $currentUser );
-			$logEntry->setParameters( $logParams );
-			$blockIds = array_merge( [ $status['id'] ], $status['autoIds'] );
-			$logEntry->setRelations( [ 'ipb_id' => $blockIds ] );
-			$logEntry->publish( $logEntry->insert() );
-
-			// Tag user page and user talk page
-			$this->tagPage( $userTitle, $tag, $blockParams['reason'] );
-			$this->tagPage( $userTalkTitle, $talkTag, $blockParams['reason'] );
+				// Tag user page and user talk page
+				$this->tagPage( $userPage, $tag, $blockParams['reason'] );
+				$this->tagPage( $u->getTalkPage(), $talkTag, $blockParams['reason'] );
+			}
 		}
 
 		return $safeUsers;
-	}
-
-	/**
-	 * Return a comma-delimited list of "flags" to be passed to the block log.
-	 * Flags are 'anononly', 'nocreate', 'noemail' and 'nousertalk'.
-	 * @param bool $anonOnly
-	 * @param array $blockParams
-	 * @return string
-	 */
-	protected static function userBlockLogFlags( $anonOnly, array $blockParams ) {
-		global $wgBlockAllowsUTEdit;
-		$flags = [];
-
-		if ( $anonOnly ) {
-			$flags[] = 'anononly';
-		}
-
-		$flags[] = 'nocreate';
-
-		if ( $blockParams['email'] ) {
-			$flags[] = 'noemail';
-		}
-
-		if ( $wgBlockAllowsUTEdit && $blockParams['talk'] ) {
-			$flags[] = 'nousertalk';
-		}
-
-		return implode( ',', $flags );
 	}
 
 	/**
@@ -1669,6 +1639,9 @@ class SpecialCheckUser extends SpecialPage {
 				'<td>' . Xml::label( $this->msg( 'checkuser-blockemail' )->text(), 'blockemail' )
 				. '</td>';
 		}
+		$s .= '<tr><td>' . Xml::check( 'reblock', false, [ 'id' => 'reblock' ] ) . '</td>';
+		$s .= '<td>' . Xml::label( $this->msg( 'checkuser-reblock' )->text(), 'reblock' )
+			. '</td></tr>';
 		$s .= '</tr></table>';
 		$s .= '<p>' . $this->msg( 'checkuser-reason' )->escaped() . '&#160;';
 		$s .= Xml::input( 'blockreason', 46, '', [ 'maxlength' => '150', 'id' => 'blockreason' ] );
