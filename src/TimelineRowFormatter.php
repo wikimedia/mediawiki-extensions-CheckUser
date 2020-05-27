@@ -7,7 +7,6 @@ use HtmlArmor;
 use Language;
 use Linker;
 use MediaWiki\Linker\LinkRenderer;
-use MediaWiki\Linker\LinkTarget;
 use MediaWiki\Revision\RevisionFactory;
 use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
@@ -80,19 +79,27 @@ class TimelineRowFormatter {
 	 * depending on user privileges
 	 *
 	 * @param \stdClass $row
-	 * @return string
+	 * @return array
 	 */
-	public function format( \stdClass $row ) : string {
-		return sprintf(
-			'%s . . %s . . %s %s . . %s . . %s%s',
-			$this->getLinks( $row ),
-			$this->getTime( $row->cuc_timestamp ),
-			$this->getUserLinks( $row ),
-			$this->getActionText( $row->cuc_actiontext ),
-			$this->getIpInfo( $row->cuc_ip ),
-			$this->getUserAgent( $row->cuc_agent ),
-			$this->getComment( $row )
-		);
+	public function getFormattedRowItems( \stdClass $row ) : array {
+		return [
+			'links' => [
+				'logLink' => $this->getLogLink( $row ),
+				'diffLink' => $this->getDiffLink( $row ),
+				'historyLink' => $this->getHistoryLink( $row ),
+				'newPageFlag' => $this->getNewPageFlag( (int)$row->cuc_type ),
+				'minorFlag' => $this->getMinorFlag( (bool)$row->cuc_minor ),
+			],
+			'info' => [
+				'title' => $this->getTitleLink( $row ),
+				'time' => $this->getTime( $row->cuc_timestamp ),
+				'userLinks' => $this->getUserLinks( $row ),
+				'actionText' => $this->getActionText( $row->cuc_actiontext ),
+				'ipInfo' => $this->getIpInfo( $row->cuc_ip ),
+				'userAgent' => $this->getUserAgent( $row->cuc_agent ),
+				'comment' => $this->getComment( $row ),
+			],
+		];
 	}
 
 	/**
@@ -146,7 +153,7 @@ class TimelineRowFormatter {
 			}
 		}
 
-		return $comment === '' ? $comment : ' . . ' . $comment;
+		return $comment;
 	}
 
 	/**
@@ -179,43 +186,34 @@ class TimelineRowFormatter {
 	 * @param \stdClass $row
 	 * @return string
 	 */
-	private function getLinks( \stdClass $row ) : string {
+	private function getTitleLink( \stdClass $row ) : string {
+		if ( $row->cuc_type == RC_LOG ) {
+			return '';
+		}
+
 		$title = TitleValue::tryNew( (int)$row->cuc_namespace, $row->cuc_title );
 
 		if ( !$title ) {
 			return '';
 		}
 
-		$links = [];
-
-		if ( $row->cuc_type == RC_LOG ) {
-			$links['log'] = $this->getLogLink( $title );
-			$line = $links['log'];
-		} else {
-			$links['diff'] = $this->getDiffLink( $row );
-			$links['history'] = $this->getHistoryLink( $row );
-			$flags = $this->getFlags( (int)$row->cuc_type, (bool)$row->cuc_minor );
-
-			if ( $flags ) {
-				$links += $flags;
-			}
-
-			$line = implode( ' ', $links );
-			$links['title'] = $this->linkRenderer->makeLink( $title );
-			$line .= ' . . ' . $links['title'];
-		}
-
-		// TODO: add hook and validation.
-		// $links array and keys are preserved for now, for passing into this hook.
-
-		return $line;
+		return $this->linkRenderer->makeLink( $title );
 	}
 
 	/**
-	 * @param LinkTarget $title
+	 * @param \stdClass $row
 	 * @return string
 	 */
-	private function getLogLink( LinkTarget $title ) : string {
+	private function getLogLink( \stdClass $row ) : string {
+		if ( $row->cuc_type != RC_LOG ) {
+			return '';
+		}
+
+		$title = TitleValue::tryNew( (int)$row->cuc_namespace, $row->cuc_title );
+
+		if ( !$title ) {
+			return '';
+		}
 		return $this->msg( 'parentheses' )
 			->rawParams(
 				$this->linkRenderer->makeKnownLink(
@@ -232,7 +230,7 @@ class TimelineRowFormatter {
 	 * @return string
 	 */
 	private function getDiffLink( \stdClass $row ) : string {
-		if ( $row->cuc_type == RC_NEW ) {
+		if ( $row->cuc_type == RC_NEW || $row->cuc_type == RC_LOG ) {
 			return '';
 		}
 
@@ -262,7 +260,7 @@ class TimelineRowFormatter {
 	 * @return string
 	 */
 	private function getHistoryLink( \stdClass $row ) : string {
-		if ( $row->cuc_type == RC_NEW ) {
+		if ( $row->cuc_type == RC_NEW || $row->cuc_type == RC_LOG ) {
 			return '';
 		}
 
@@ -288,25 +286,31 @@ class TimelineRowFormatter {
 
 	/**
 	 * @param int $type
-	 * @param bool $minor
-	 * @return array
+	 * @return string
 	 */
-	private function getFlags( int $type, bool $minor ) : array {
-		$flags = [];
+	private function getNewPageFlag( int $type ) : string {
 		if ( $type == RC_NEW ) {
-			$flags['newpage'] = Html::rawElement( 'span',
+			return Html::rawElement( 'span',
 				[ 'class' => 'newpage' ],
 				$this->message['newpageletter']
 			);
 		}
+		return '';
+	}
+
+	/**
+	 * @param bool $minor
+	 * @return string
+	 */
+	private function getMinorFlag( bool $minor ) : string {
 		if ( $minor ) {
-			$flags['minor'] = Html::rawElement(
+			return Html::rawElement(
 				'span',
 				[ 'class' => 'minor' ],
 				$this->message['minoreditletter']
 			);
 		}
-		return $flags;
+		return '';
 	}
 
 	/**

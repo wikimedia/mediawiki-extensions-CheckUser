@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser;
 
+use Hooks;
 use Html;
 use IContextSource;
 use MediaWiki\Linker\LinkRenderer;
@@ -9,7 +10,6 @@ use ParserOutput;
 use ReverseChronologicalPager;
 
 class TimelinePager extends ReverseChronologicalPager {
-
 	/** @var TimelineService */
 	private $timelineService;
 
@@ -74,10 +74,40 @@ class TimelinePager extends ReverseChronologicalPager {
 			$line .= Html::openElement( 'ul' );
 		}
 
+		$rowItems = $this->timelineRowFormatter->getFormattedRowItems( $row );
+
+		Hooks::run( 'CheckUserFormatRow', [ $this->getContext(), $row, &$rowItems ] );
+
+		// @phan-suppress-next-line PhanRedundantCondition May set by hook
+		if ( !is_array( $rowItems ) || !isset( $rowItems['links'] ) || !isset( $rowItems['info'] ) ) {
+			wfDebugLog(
+				__CLASS__,
+				__METHOD__ . ': Expected array with keys \'links\' and \'info\''
+					. ' from CheckUserFormatRow $rowItems param'
+			);
+			return '';
+		}
+
+		$formattedLinks = implode( ' ', array_filter(
+			$rowItems['links'],
+			function ( $item ) {
+				return $item !== '';
+			} )
+		);
+
+		$formatted = implode( ' . . ', array_filter(
+			array_merge(
+				[ $formattedLinks ],
+				$rowItems['info']
+			), function ( $item ) {
+				return $item !== '';
+			} )
+		);
+
 		$line .= Html::rawElement(
 			'li',
 			[],
-			$this->timelineRowFormatter->format( $row )
+			$formatted
 		);
 
 		return $line;
