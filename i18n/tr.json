@@ -67,6 +67,7 @@
 	"checkuser-blocktalk": "Engelliyken kendi mesaj sayfasında değişiklik yapmasını önle",
 	"checkuser-blocktag": "Kullanıcı sayfalarını şununla yer değiştir:",
 	"checkuser-blocktag-talk": "Tartışma sayfalarını şununla yer değiştir:",
+	"checkuser-reblock": "Mevcut engelleri geçersiz kıl",
 	"checkuser-massblock-commit": "Seçili kullanıcıları engelle",
 	"checkuser-block-success": "'''$1 {{PLURAL:$2|kullanıcısı|kullanıcıları}} artık engellendi.'''",
 	"checkuser-block-failure": "'''Hiçbir kullanıcı engellenmedi.'''",

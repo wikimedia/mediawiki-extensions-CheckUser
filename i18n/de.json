@@ -67,6 +67,7 @@
 	"checkuser-blocktalk": "Vom Bearbeiten der eigenen Diskussionsseite abhalten, während der Benutzer gesperrt ist.",
 	"checkuser-blocktag": "Inhalt der Benutzerseiten ersetzen durch:",
 	"checkuser-blocktag-talk": "Inhalt der Benutzerdiskussionsseiten ersetzen durch:",
+	"checkuser-reblock": "Bestehende Sperren überschreiben",
 	"checkuser-massblock-commit": "Ausgewählte Benutzer sperren",
 	"checkuser-block-success": "'''{{PLURAL:$2|Der Benutzer|Die Benutzer}} $1 {{PLURAL:$2|wurde|wurden}} gesperrt.'''",
 	"checkuser-block-failure": "'''Es wurden keine Benutzer gesperrt.'''",
