@@ -306,20 +306,25 @@ class CheckUserHooks {
 			return;
 		}
 
-		if ( $ret->status === AuthenticationResponse::FAIL ) {
-			$msg = 'checkuser-login-failure';
-		} elseif ( $ret->status === AuthenticationResponse::PASS ) {
-			$msg = 'checkuser-login-success';
-		} else {
-			// Abstain, Redirect, etc.
-			return;
-		}
-
 		$ip = $wgRequest->getIP();
 		$xff = $wgRequest->getHeader( 'X-Forwarded-For' );
 		list( $xff_ip, $isSquidOnly ) = self::getClientIPfromXFF( $xff );
 		$agent = $wgRequest->getHeader( 'User-Agent' );
 		$userName = $user->getName();
+
+		if ( $ret->status === AuthenticationResponse::FAIL ) {
+			$msg = 'checkuser-login-failure';
+			$cuc_user = 0;
+			$cuc_user_text = $ip;
+		} elseif ( $ret->status === AuthenticationResponse::PASS ) {
+			$msg = 'checkuser-login-success';
+			$cuc_user = $user->getId();
+			$cuc_user_text = $userName;
+		} else {
+			// Abstain, Redirect, etc.
+			return;
+		}
+
 		$target = "[[User:$userName|$userName]]";
 		$msg = wfMessage( $msg );
 		$msg->params( $target );
@@ -330,8 +335,8 @@ class CheckUserHooks {
 			'cuc_namespace'  => NS_USER,
 			'cuc_title'      => '',
 			'cuc_minor'      => 0,
-			'cuc_user'       => 0,
-			'cuc_user_text'  => $ip,
+			'cuc_user'       => $cuc_user,
+			'cuc_user_text'  => $cuc_user_text,
 			'cuc_actiontext' => $msg->inContentLanguage()->text(),
 			'cuc_comment'    => '',
 			'cuc_this_oldid' => 0,
