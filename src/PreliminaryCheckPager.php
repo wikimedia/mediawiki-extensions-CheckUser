@@ -21,6 +21,7 @@
 
 namespace MediaWiki\CheckUser;
 
+use CentralAuthUtils;
 use ExtensionRegistry;
 use Html;
 use IContextSource;
@@ -261,16 +262,17 @@ class PreliminaryCheckPager extends TablePager {
 	 */
 	public function isGlobalCheck(): bool {
 		return $this->extensionRegistry->isLoaded( 'CentralAuth' )
-			&& is_callable( [ '\CentralAuthUtils', 'getCentralReplicaDB' ] );
+			&& is_callable( [ CentralAuthUtils::class, 'getCentralReplicaDB' ] );
 	}
 
 	/**
 	 * @return IDatabase|null
 	 */
 	protected function getCentralReplicaDB(): ?IDatabase {
-		if ( is_callable( [ '\CentralAuthUtils', 'getCentralReplicaDB' ] ) ) {
-			return \CentralAuthUtils::getCentralReplicaDB();
+		if ( is_callable( [ CentralAuthUtils::class, 'getCentralReplicaDB' ] ) ) {
+			return CentralAuthUtils::getCentralReplicaDB();
 		}
+		return null;
 	}
 
 	/**
