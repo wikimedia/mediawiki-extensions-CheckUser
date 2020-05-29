@@ -177,7 +177,7 @@ class PreliminaryCheckPager extends TablePager {
 						$this->msg(
 							'checkuser-investigate-preliminary-table-cell-edits',
 							$value
-						)->parse()
+						)->text()
 					);
 				}
 				break;
