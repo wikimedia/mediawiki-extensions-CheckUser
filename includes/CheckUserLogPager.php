@@ -25,6 +25,8 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 		$target = Linker::userLink( $row->cul_target_id, $row->cul_target_text ) .
 			Linker::userToolLinks( $row->cul_target_id, $row->cul_target_text );
 
+		$lang = $this->getLanguage();
+		$contextUser = $this->getUser();
 		// Give grep a chance to find the usages:
 		// checkuser-log-entry-userips, checkuser-log-entry-ipedits,
 		// checkuser-log-entry-ipusers, checkuser-log-entry-ipedits-xff
@@ -34,9 +36,9 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 				'checkuser-log-entry-' . $row->cul_type,
 				$user,
 				$target,
-				$this->getLanguage()->timeanddate( wfTimestamp( TS_MW, $row->cul_timestamp ), true ),
-				$this->getLanguage()->date( wfTimestamp( TS_MW, $row->cul_timestamp ), true ),
-				$this->getLanguage()->time( wfTimestamp( TS_MW, $row->cul_timestamp ), true )
+				$lang->userTimeAndDate( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser ),
+				$lang->userDate( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser ),
+				$lang->userTime( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser )
 			)->text() .
 			Linker::commentBlock( $row->cul_reason ) .
 			'</li>';

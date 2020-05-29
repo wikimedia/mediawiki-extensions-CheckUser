@@ -66,11 +66,12 @@ class InvestigateLogPager extends ReverseChronologicalPager {
 		$reason = Linker::commentBlock( $row->cul_reason );
 
 		$language = $this->getLanguage();
+		$user = $this->getUser();
 		$message = $this->msg(
 			'checkuser-investigate-log-entry',
 			$checkUser,
 			$target,
-			$language->timeanddate( wfTimestamp( TS_MW, $row->cul_timestamp ), true ),
+			$language->userTimeAndDate( wfTimestamp( TS_MW, $row->cul_timestamp ), $user ),
 			$reason
 		)->text();
 
