@@ -286,8 +286,7 @@ class SpecialCheckUser extends SpecialPage {
 			$users,
 			$blockParams,
 			$tag,
-			$talkTag,
-			$blockParams['reblock']
+			$talkTag
 		);
 		$blockedCount = count( $blockedUsers );
 		if ( $blockedCount > 0 ) {
@@ -308,11 +307,14 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param array $blockParams
 	 * @param string $tag replaces user pages
 	 * @param string $talkTag replaces user talk pages
-	 * @param bool $reblock
 	 * @return string[] List of html-safe usernames which were actually were blocked
 	 */
-	protected function doMassUserBlockInternal( $users, array $blockParams,
-		$tag = '', $talkTag = '', $reblock = false ) {
+	protected function doMassUserBlockInternal(
+		$users,
+		array $blockParams,
+		$tag = '',
+		$talkTag = ''
+	) {
 		$currentUser = $this->getUser();
 		$blockAllowsUTEdit = $this->getConfig()->get( 'BlockAllowsUTEdit' );
 		$safeUsers = [];
@@ -329,7 +331,7 @@ class SpecialCheckUser extends SpecialPage {
 				continue;
 			}
 
-			if ( $u->getBlock() && !$reblock ) {
+			if ( $u->getBlock() && !$blockParams['reblock'] ) {
 				continue;
 			}
 
@@ -347,7 +349,7 @@ class SpecialCheckUser extends SpecialPage {
 					'AutoBlock' => true,
 					'DisableEmail' => $blockParams['email'] ?? false,
 					'DisableUTEdit' => $blockParams['talk'],
-					'Reblock' => $reblock,
+					'Reblock' => $blockParams['reblock'],
 					'Confirm' => true,
 					'Watch' => false,
 				], $this->getContext() );
