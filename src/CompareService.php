@@ -37,7 +37,7 @@ class CompareService {
 	): array {
 		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
 		$conds = [
-			'cuc_ip' => $ip,
+			'cuc_ip_hex' => IPUtils::toHex( $ip ),
 			'cuc_type' => [ RC_EDIT, RC_NEW ],
 		];
 
@@ -48,8 +48,7 @@ class CompareService {
 		$data = $db->selectRow(
 			'cu_changes',
 			[
-				'total_edits' => 'COUNT(*)',
-				'total_users' => 'COUNT(distinct cuc_user_text)'
+				'total_edits' => 'COUNT(*)'
 			],
 			$conds,
 			__METHOD__

@@ -209,7 +209,6 @@ class CompareServiceTest extends MediaWikiTestCase {
 					'ip' => '1.2.3.5'
 				], [
 					'total_edits' => 3,
-					'total_users' => 2,
 				],
 			],
 			'IP address with multiple users, excluding a user' => [
@@ -218,7 +217,6 @@ class CompareServiceTest extends MediaWikiTestCase {
 					'excludeUser' => 'User1'
 				], [
 					'total_edits' => 4,
-					'total_users' => 2,
 				],
 			],
 		];
