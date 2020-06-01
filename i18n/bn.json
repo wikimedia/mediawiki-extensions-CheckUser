@@ -107,6 +107,7 @@
 	"checkuser-investigate-preliminary-table-header-name": "ব্যবহারকারী নাম",
 	"checkuser-investigate-preliminary-table-header-wiki": "উইকি",
 	"checkuser-investigate-filters-legend": "ছাঁকনি",
+	"checkuser-investigate-compare-copy-button-label": "উইকিপাঠ্য দেখান",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "এই ব্যবহারকারীর সমস্ত আইপি দেখান",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "এই আইপির সমস্ত ব্যবহারকারীকে দেখান",
 	"checkuser-investigate-compare-table-button-filter-label": "ফলাফল থেকে ছাঁকুন",

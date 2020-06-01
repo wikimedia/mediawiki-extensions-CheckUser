@@ -90,6 +90,7 @@
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Wiki gouf net fonnt",
 	"checkuser-investigate-filters-legend": "Filteren",
 	"checkuser-investigate-filters-exclude-targets-label": "Dës Benotzer oder IPen verstoppen",
+	"checkuser-investigate-compare-copy-button-label": "Wikitext weisen",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "All IP-Adresse vun dësem Benotzer weisen",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "Weist all Benotzer mat dëser IP-Adress",
 	"checkuser-investigate-compare-table-button-filter-label": "Aus de Resultater filteren",

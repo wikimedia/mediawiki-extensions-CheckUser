@@ -134,6 +134,8 @@
 	"checkuser-investigate-filters-exclude-targets-label": "隱藏以下使用者或 IP",
 	"checkuser-investigate-timeline-notice-no-results": "沒有結果：沒有在過去 90 天來自這些使用者或 IP 的記錄活動",
 	"checkuser-investigate-timeline-notice-no-results-filters": "沒有符合這些篩選條件的結果。嘗試移除一些篩選來擴大搜尋。",
+	"checkuser-investigate-compare-copy-button-label": "顯示 wiki 語法",
+	"checkuser-investigate-compare-copy-message-label": "您想要將此資訊複製成 wiki 語法表格嗎？",
 	"checkuser-investigate-compare-notice-exceeded-limit": "由於技術上的限制，我們已達到可呈現紀錄的數量。以下目標所回傳的資料內容不完整：$1。請嘗試使用較少的目標、較小的時窗、或是較窄的 IP 範圍。",
 	"checkuser-investigate-compare-notice-no-results": "沒有結果：沒有在過去 90 天來自這些使用者或 IP 的結果",
 	"checkuser-investigate-compare-notice-no-results-filters": "沒有符合這些篩選條件的結果。嘗試移除一些篩選來擴大搜尋。",
