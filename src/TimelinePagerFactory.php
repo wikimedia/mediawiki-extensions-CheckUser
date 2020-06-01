@@ -3,11 +3,15 @@
 namespace MediaWiki\CheckUser;
 
 use IContextSource;
+use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\Linker\LinkRenderer;
 
 class TimelinePagerFactory implements PagerFactory {
 	/** @var LinkRenderer */
 	private $linkRenderer;
+
+	/** @var HookContainer */
+	private $hookContainer;
 
 	/** @var TokenQueryManager */
 	private $tokenQueryManager;
@@ -20,11 +24,13 @@ class TimelinePagerFactory implements PagerFactory {
 
 	public function __construct(
 		LinkRenderer $linkRenderer,
+		HookContainer $hookContainer,
 		TokenQueryManager $tokenQueryManager,
 		TimelineService $service,
 		TimelineRowFormatterFactory $rowFormatterFactory
 	) {
 		$this->linkRenderer = $linkRenderer;
+		$this->hookContainer = $hookContainer;
 		$this->tokenQueryManager = $tokenQueryManager;
 		$this->service = $service;
 		$this->rowFormatterFactory = $rowFormatterFactory;
@@ -41,6 +47,7 @@ class TimelinePagerFactory implements PagerFactory {
 		return new TimelinePager(
 			$context,
 			$this->linkRenderer,
+			$this->hookContainer,
 			$this->tokenQueryManager,
 			$this->service,
 			$rowFormatter

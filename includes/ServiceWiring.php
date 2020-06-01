@@ -81,6 +81,7 @@ return [
 	) : TimelinePagerFactory {
 		return new TimelinePagerFactory(
 			$services->getLinkRenderer(),
+			$services->getHookContainer(),
 			$services->get( 'CheckUserTokenQueryManager' ),
 			$services->get( 'CheckUserTimelineService' ),
 			$services->get( 'CheckUserTimelineRowFormatterFactory' )

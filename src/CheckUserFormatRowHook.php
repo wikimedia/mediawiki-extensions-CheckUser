@@ -1,0 +1,22 @@
+<?php
+
+namespace MediaWiki\CheckUser;
+
+use IContextSource;
+
+interface CheckUserFormatRowHook {
+	/**
+	 * Use this hook to modify a row in the Timeline pager for Special:Investigate.
+	 *
+	 * @since 1.35
+	 *
+	 * @param IContextSource $context
+	 * @param \stdClass $row
+	 * @param array &$rowItems
+	 */
+	public function onCheckUserFormatRow(
+		IContextSource $context,
+		\stdClass $row,
+		array &$rowItems
+	);
+}

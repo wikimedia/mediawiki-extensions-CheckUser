@@ -2,14 +2,17 @@
 
 namespace MediaWiki\CheckUser;
 
-use Hooks;
 use Html;
 use IContextSource;
+use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\Linker\LinkRenderer;
 use ParserOutput;
 use ReverseChronologicalPager;
 
 class TimelinePager extends ReverseChronologicalPager {
+	/** @var HookRunner */
+	private $hookRunner;
+
 	/** @var TimelineService */
 	private $timelineService;
 
@@ -28,11 +31,13 @@ class TimelinePager extends ReverseChronologicalPager {
 	public function __construct(
 		IContextSource $context,
 		LinkRenderer $linkRenderer,
+		HookContainer $hookContainer,
 		TokenQueryManager $tokenQueryManager,
 		TimelineService $timelineService,
 		TimelineRowFormatter $timelineRowFormatter
 	) {
 		parent::__construct( $context, $linkRenderer );
+		$this->hookRunner = new HookRunner( $hookContainer );
 		$this->timelineService = $timelineService;
 		$this->timelineRowFormatter = $timelineRowFormatter;
 		$this->tokenQueryManager = $tokenQueryManager;
@@ -76,9 +81,8 @@ class TimelinePager extends ReverseChronologicalPager {
 
 		$rowItems = $this->timelineRowFormatter->getFormattedRowItems( $row );
 
-		Hooks::run( 'CheckUserFormatRow', [ $this->getContext(), $row, &$rowItems ] );
+		$this->hookRunner->onCheckUserFormatRow( $this->getContext(), $row, $rowItems );
 
-		// @phan-suppress-next-line PhanRedundantCondition May set by hook
 		if ( !is_array( $rowItems ) || !isset( $rowItems['links'] ) || !isset( $rowItems['info'] ) ) {
 			wfDebugLog(
 				__CLASS__,
