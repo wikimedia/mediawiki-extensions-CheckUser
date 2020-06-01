@@ -225,7 +225,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 				}
 
 				if ( $hasIpTargets ) {
-					$compareLabel = $this->msg( 'checkuser-investigate-tab-compare' )->parse();
+					$compareLabel = $this->msg( 'checkuser-investigate-tab-compare' )->text();
 					// getFullURL handles the query params:
 					// https://www.mediawiki.org/wiki/Help:Links#External_links_to_internal_pages
 					$link = $this->getPageTitle( $compareLabel )->getFullURL( [
@@ -322,7 +322,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @return string
 	 */
 	private function getTabName( string $tab ) : string {
-		return $this->msg( 'checkuser-investigate-tab-' . $tab )->parse();
+		return $this->msg( 'checkuser-investigate-tab-' . $tab )->text();
 	}
 
 	/**
