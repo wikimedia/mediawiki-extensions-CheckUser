@@ -21,7 +21,7 @@
 	"group-checkuser": "Weynayoği",
 	"group-checkuser-member": "{{GENDER:$1|Kontrolkar}}",
 	"right-checkuser": "Adresanê IPyê karberi û melumatê bini kontrol ke",
-	"right-checkuser-log": "Qeydé rocekané karber cernayışi bıvin",
+	"right-checkuser-log": "Roceka Tetqiqwani bıvênên",
 	"action-checkuser": "adresanê IPyê karberi û melumatê bini kontrol ke",
 	"action-checkuser-log": "Rocekane Karber kontroli bıvin",
 	"grouppage-checkuser": "{{ns:project}}:Teftişwan",
