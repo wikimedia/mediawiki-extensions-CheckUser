@@ -1,9 +1,11 @@
 @import 'mediawiki.ui/variables.less';
+@import 'mediawiki.mixins.less';
 
 // OOUIHTMLForm specifics
 @ooui-font-size-browser: 16; // Assumed browser default of `16px`.
 @ooui-font-size-base: 0.875em; // Equals `14px` at browser default of `16px`.
 @font-size-small: 13 / @ooui-font-size-browser / @ooui-font-size-base;
+@transition-base: 100ms;
 
 .mw-datatable {
 	&.ext-checkuser-investigate-table td {
@@ -97,12 +99,14 @@
 .ext-checkuser-investigate-table.mw-datatable.ext-checkuser-investigate-table-pinned {
 	.ext-checkuser-investigate-table-row-pinned td,
 	.ext-checkuser-investigate-table-row-pinned-data-match td {
+		.transition( background-color @transition-base );
 		background-color: #fef6e7;
 	}
 
 	tr {
 		td.ext-checkuser-investigate-table-cell-pinned,
 		td.ext-checkuser-investigate-table-cell-pinned-data-match {
+			.transition( background-color @transition-base );
 			background-color: #fc3;
 		}
 
