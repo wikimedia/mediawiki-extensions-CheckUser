@@ -537,8 +537,8 @@ class SpecialInvestigate extends \FormSpecialPage {
 			// Redirect to the same subpage with an updated token.
 			$url = $this->getRedirectUrl( $token );
 		} else {
-			// Redirect to preliminary check.
-			$url = $this->getPageTitle( $this->getTabName( 'preliminary-check' ) )->getFullUrlForRedirect( [
+			// Redirect to compare tab
+			$url = $this->getPageTitle( $this->getTabName( 'compare' ) )->getFullUrlForRedirect( [
 				'token' => $token,
 			] );
 		}
