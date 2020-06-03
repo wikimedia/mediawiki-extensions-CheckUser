@@ -431,10 +431,11 @@ class SpecialCheckUser extends SpecialPage {
 			if ( $lastEdit ) {
 				$lastEditTime = wfTimestamp( TS_MW, $lastEdit );
 				$lang = $this->getLanguage();
+				$contextUser = $this->getUser();
 				// FIXME: don't pass around parsed messages
 				return $this->msg( 'checkuser-nomatch-edits',
-					$lang->date( $lastEditTime, true ),
-					$lang->time( $lastEditTime, true )
+					$lang->userDate( $lastEditTime, $contextUser ),
+					$lang->userTime( $lastEditTime, $contextUser )
 				)->parseAsBlock();
 			}
 		}
@@ -1745,7 +1746,7 @@ class SpecialCheckUser extends SpecialPage {
 		$line = '';
 		// Add date headers as needed
 		$date = htmlspecialchars(
-			$this->getLanguage()->date( wfTimestamp( TS_MW, $row->cuc_timestamp ), true, true )
+			$this->getLanguage()->userDate( wfTimestamp( TS_MW, $row->cuc_timestamp ), $this->getUser() )
 		);
 		if ( $this->lastdate === null ) {
 			$this->lastdate = $date;
@@ -1759,7 +1760,7 @@ class SpecialCheckUser extends SpecialPage {
 		$line .= $this->getLinksFromRow( $row );
 		// Show date
 		$line .= ' . . ' . htmlspecialchars(
-			$this->getLanguage()->time( wfTimestamp( TS_MW, $row->cuc_timestamp ), true, true )
+			$this->getLanguage()->userTime( wfTimestamp( TS_MW, $row->cuc_timestamp ), $this->getUser() )
 			) . ' . . ';
 		// Userlinks
 		$user = User::newFromId( $row->cuc_user );
@@ -1908,7 +1909,7 @@ class SpecialCheckUser extends SpecialPage {
 			$s .= ' -- ';
 			$s .= $this->getFormattedTimestamp( $last );
 		}
-		return $this->msg( 'parentheses' )->rawParams( $s )->escaped();
+		return $this->msg( 'parentheses' )->params( $s )->escaped();
 	}
 
 	/**
@@ -1919,8 +1920,8 @@ class SpecialCheckUser extends SpecialPage {
 	 * @return string
 	 */
 	protected function getFormattedTimestamp( $timestamp ) {
-		return $this->getLanguage()->timeanddate(
-			wfTimestamp( TS_MW, $timestamp ), true
+		return $this->getLanguage()->userTimeAndDate(
+			wfTimestamp( TS_MW, $timestamp ), $this->getUser()
 		);
 	}
 

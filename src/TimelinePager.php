@@ -65,7 +65,7 @@ class TimelinePager extends ReverseChronologicalPager {
 	 */
 	public function formatRow( $row ) {
 		$line = '';
-		$dateHeader = $this->getLanguage()->date( wfTimestamp( TS_MW, $row->cuc_timestamp ), true, true );
+		$dateHeader = $this->getLanguage()->userDate( wfTimestamp( TS_MW, $row->cuc_timestamp ), $this->getUser() );
 		if ( $this->lastDateHeader === null ) {
 			$this->lastDateHeader = $dateHeader;
 			$line .= Html::rawElement( 'h4', [], $dateHeader );

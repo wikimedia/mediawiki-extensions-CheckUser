@@ -194,9 +194,9 @@ class ComparePager extends TablePager {
 				$formatted = htmlspecialchars( $value );
 				break;
 			case 'activity':
-				$firstEdit = $language->date( $row->first_edit );
-				$lastEdit = $language->date( $row->last_edit );
-				$formatted = $firstEdit . ' - ' . $lastEdit;
+				$firstEdit = $language->userDate( $row->first_edit, $this->getUser() );
+				$lastEdit = $language->userDate( $row->last_edit, $this->getUser() );
+				$formatted = htmlspecialchars( $firstEdit . ' - ' . $lastEdit );
 				break;
 			default:
 				$formatted = '';

@@ -319,7 +319,7 @@ class TimelineRowFormatter {
 	 */
 	private function getTime( string $timestamp ) : string {
 		return htmlspecialchars(
-			$this->language->time( wfTimestamp( TS_MW, $timestamp ), true, true )
+			$this->language->userTime( wfTimestamp( TS_MW, $timestamp ), $this->user )
 		);
 	}
 
