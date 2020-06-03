@@ -83,6 +83,7 @@
 	"checkuser-blocktalk": "Impedir la edición de su propia página de discusión mientras esté bloqueado",
 	"checkuser-blocktag": "Reemplazar páginas del usuario con:",
 	"checkuser-blocktag-talk": "Reemplazar las páginas de discusión con:",
+	"checkuser-reblock": "Hacer prevalecer sobre bloqueos existentes",
 	"checkuser-massblock-commit": "Bloquear usuarios seleccionados",
 	"checkuser-block-success": "'''{{PLURAL:$2|El usuario|Los usuarios}} $1 {{PLURAL:$2|está bloqueado|están bloqueados}}.'''",
 	"checkuser-block-failure": "'''No hay usuarios bloqueados.'''",

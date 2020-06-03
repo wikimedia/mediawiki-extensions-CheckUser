@@ -12,6 +12,7 @@
 			"Mywood",
 			"PhiLiP",
 			"Shirayuki",
+			"SomeyaMako",
 			"WhitePhosphorus",
 			"Wmr",
 			"Wmr89502270",
@@ -70,6 +71,7 @@
 	"checkuser-blocktalk": "在封禁期间阻止编辑他们自己的讨论页",
 	"checkuser-blocktag": "替换用户页面内容为：",
 	"checkuser-blocktag-talk": "替换讨论页内容：",
+	"checkuser-reblock": "覆盖现有的封禁",
 	"checkuser-massblock-commit": "封禁选中用户",
 	"checkuser-block-success": "'''{{PLURAL:$2|用户}} $1 {{PLURAL:$2|已被}}封禁。'''",
 	"checkuser-block-failure": "'''没有用户被封禁。'''",
@@ -103,5 +105,10 @@
 	"checkuser-login-success": "成功作为$1登录至{{SITENAME}}",
 	"group-checkuser.css": "/* 这里放置的CSS将只影响用户查核员 */",
 	"group-checkuser.js": "/* 这里放置的JS将只影响用户查核员 */",
-	"checkuser-investigate-indicator-logs": "日志"
+	"checkuser-investigate-indicator-logs": "日志",
+	"checkuser-investigate-compare-copy-button-label": "显示维基文本",
+	"checkuser-investigate-compare-copy-message-label": "您是否想要将这些信息复制为维基文本格式的表格？",
+	"checkuser-investigate-compare-table-button-add-ip-targets-label": "显示该用户使用的所有IP",
+	"checkuser-investigate-compare-table-button-add-user-targets-label": "显示使用该IP的所有用户",
+	"checkuser-investigate-compare-table-button-filter-label": "从结果中筛选"
 }
