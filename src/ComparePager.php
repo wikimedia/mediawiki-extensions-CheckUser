@@ -83,9 +83,13 @@ class ComparePager extends TablePager {
 	 * @inheritDoc
 	 */
 	protected function getTableClass() {
-		return parent::getTableClass() .
-			' ext-checkuser-investigate-table' .
-			' ext-checkuser-investigate-table-compare';
+		$sortableClass = $this->mIsFirst && $this->mIsLast ? 'sortable' : '';
+		return implode( ' ', [
+			parent::getTableClass(),
+			$sortableClass,
+			'ext-checkuser-investigate-table',
+			'ext-checkuser-investigate-table-compare'
+		] );
 	}
 
 	/**

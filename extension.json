@@ -119,6 +119,7 @@
 				}
 			],
 			"dependencies": [
+				"jquery.tablesorter",
 				"oojs-ui-widgets",
 				"oojs-ui.styles.icons-content",
 				"oojs-ui.styles.icons-editing-core",
