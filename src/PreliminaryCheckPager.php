@@ -73,6 +73,7 @@ class PreliminaryCheckPager extends TablePager {
 		// This must be done before getIndexField is called by the TablePager constructor
 		$this->extensionRegistry = $extensionRegistry;
 		if ( $this->isGlobalCheck() ) {
+			// @phan-suppress-next-line PhanPossiblyNullTypeMismatchProperty
 			$this->mDb = $this->getCentralReplicaDB();
 		}
 
