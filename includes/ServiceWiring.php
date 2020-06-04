@@ -10,6 +10,7 @@ use MediaWiki\CheckUser\TimelineRowFormatterFactory;
 use MediaWiki\CheckUser\TimelineService;
 use MediaWiki\CheckUser\TokenManager;
 use MediaWiki\CheckUser\TokenQueryManager;
+use MediaWiki\CheckUser\UserManager;
 use MediaWiki\MediaWikiServices;
 
 return [
@@ -23,10 +24,16 @@ return [
 		);
 	},
 	'CheckUserCompareService' => function ( MediaWikiServices $services ) : CompareService {
-		return new CompareService( $services->getDBLoadBalancer() );
+		return new CompareService(
+			$services->getDBLoadBalancer(),
+			$services->get( 'CheckUserUserManager' )
+		);
 	},
 	'CheckUserTimelineService' => function ( MediaWikiServices $services ) : TimelineService {
-		return new TimelineService( $services->getDBLoadBalancer() );
+		return new TimelineService(
+			$services->getDBLoadBalancer(),
+			$services->get( 'CheckUserUserManager' )
+		);
 	},
 	'CheckUserTokenManager' => function ( MediaWikiServices $services ) : TokenManager {
 		return new TokenManager(
@@ -87,4 +94,9 @@ return [
 			$services->get( 'CheckUserTimelineRowFormatterFactory' )
 		);
 	},
+	'CheckUserUserManager' => function (
+		MediaWikiServices $services
+	) : UserManager {
+		return new UserManager();
+	}
 ];

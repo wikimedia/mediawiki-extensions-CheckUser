@@ -3,9 +3,11 @@
 namespace MediaWiki\CheckUser\Tests;
 
 use MediaWiki\CheckUser\TimelineService;
-use MediaWiki\MediaWikiServices;
+use MediaWiki\CheckUser\UserManager;
 use MediaWikiTestCase;
 use Wikimedia\IPUtils;
+use Wikimedia\Rdbms\Database;
+use Wikimedia\Rdbms\ILoadBalancer;
 
 /**
  * @group CheckUser
@@ -17,18 +19,25 @@ class TimelineServiceTest extends MediaWikiTestCase {
 	 * @dataProvider provideGetQueryInfo
 	 */
 	public function testGetQueryInfo( $targets, $expected ) {
-		$services = MediaWikiServices::getInstance();
-		$timelineService = $this->getMockBuilder( TimelineService::class )
-			->setConstructorArgs( [ $services->getDBLoadBalancer() ] )
-			->setMethods( [ 'getUserId' ] )
-			->getMock();
+		$db = $this->getMockBuilder( Database::class )
+			->disableOriginalConstructor()
+			->getMockForAbstractClass();
+		$db->method( 'strencode' )
+			->will( $this->returnArgument( 0 ) );
 
-		$timelineService->method( 'getUserId' )
+		$loadBalancer = $this->createMock( ILoadBalancer::class );
+		$loadBalancer->method( 'getConnectionRef' )
+			->willReturn( $db );
+
+		$userManager = $this->createMock( UserManager::class );
+		$userManager->method( 'idFromName' )
 			->will( $this->returnValueMap( [
 				[ 'User1', 11111, ],
 			] ) );
 
-		$q = $timelineService->getQueryInfo( $targets );
+		$timelineService = new TimelineService( $loadBalancer, $userManager );
+
+		$q = $timelineService->getQueryInfo( $targets, [] );
 
 		foreach ( $expected['targets'] as $target ) {
 			$this->assertStringContainsString( $target, $q['conds'][0] );

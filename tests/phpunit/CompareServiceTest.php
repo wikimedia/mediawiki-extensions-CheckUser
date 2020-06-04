@@ -3,9 +3,11 @@
 namespace MediaWiki\CheckUser\Tests;
 
 use MediaWiki\CheckUser\CompareService;
+use MediaWiki\CheckUser\UserManager;
 use MediaWiki\MediaWikiServices;
 use MediaWikiTestCase;
 use Wikimedia\IPUtils;
+use Wikimedia\Rdbms\Database;
 use Wikimedia\Rdbms\ILoadBalancer;
 
 /**
@@ -41,17 +43,35 @@ class CompareServiceTest extends MediaWikiTestCase {
 	 * @dataProvider provideGetQueryInfo
 	 */
 	public function testGetQueryInfo( $options, $expected ) {
-		$services = MediaWikiServices::getInstance();
+		$db = $this->getMockBuilder( Database::class )
+			->setMethods( [
+				'dbSchema',
+				'tablePrefix',
+			] )
+			->disableOriginalConstructor()
+			->getMockForAbstractClass();
+		$db->method( 'strencode' )
+			->will( $this->returnArgument( 0 ) );
+		$db->method( 'dbSchema' )
+			->willReturn( '' );
+		$db->method( 'tablePrefix' )
+			->willReturn( '' );
 
-		$compareService = $this->getMockBuilder( CompareService::class )
-			->setConstructorArgs( [ $services->getDBLoadBalancer() ] )
-			->setMethods( [ 'getUserId' ] )
-			->getMock();
-		$compareService->method( 'getUserId' )
+		$loadBalancer = $this->createMock( ILoadBalancer::class );
+		$loadBalancer->method( 'getConnectionRef' )
+			->willReturn( $db );
+
+		$userManager = $this->createMock( UserManager::class );
+		$userManager->method( 'idFromName' )
 			->will( $this->returnValueMap( [
 				[ 'User1', 11111, ],
 				[ 'User2', 22222, ],
 			] ) );
+
+		$compareService = new CompareService(
+			$loadBalancer,
+			$userManager
+		);
 
 		$queryInfo = $compareService->getQueryInfo( $options['targets'], $options['excludeTargets'] );
 
@@ -141,7 +161,8 @@ class CompareServiceTest extends MediaWikiTestCase {
 		$this->expectException( \LogicException::class );
 
 		$compareService = new CompareService(
-			$this->createMock( ILoadBalancer::class )
+			$this->createMock( ILoadBalancer::class ),
+			$this->createMock( UserManager::class )
 		);
 
 		$compareService->getQueryInfo( [], [] );
@@ -151,7 +172,22 @@ class CompareServiceTest extends MediaWikiTestCase {
 	 * @dataProvider provideGetQueryInfoForSingleTarget
 	 */
 	public function testGetQueryInfoForSingleTarget( $options, $expected ) {
-		$info = $this->getCompareService()->getQueryInfoForSingleTarget(
+		$db = $this->getMockBuilder( Database::class )
+			->disableOriginalConstructor()
+			->getMockForAbstractClass();
+		$db->method( 'strencode' )
+			->will( $this->returnArgument( 0 ) );
+
+		$loadBalancer = $this->createMock( ILoadBalancer::class );
+		$loadBalancer->method( 'getConnectionRef' )
+			->willReturn( $db );
+
+		$compareServcice = new CompareService(
+			$loadBalancer,
+			$this->createMock( UserManager::class )
+		);
+
+		$info = $compareServcice->getQueryInfoForSingleTarget(
 			'1.2.3.4',
 			[],
 			$options['limitPerTarget'],
