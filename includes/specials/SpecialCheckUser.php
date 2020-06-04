@@ -1580,6 +1580,7 @@ class SpecialCheckUser extends SpecialPage {
 		}
 		$s .= "</form>\n";
 
+		// @phan-suppress-next-line SecurityCheck-XSS False positive
 		$out->addHTML( $s );
 	}
 
