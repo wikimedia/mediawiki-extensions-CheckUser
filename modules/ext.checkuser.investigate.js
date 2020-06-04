@@ -85,18 +85,6 @@
 
 		$tableCell.prepend( $optionsContainer );
 
-		if ( buttonTypes.toggle ) {
-			toggleButton = new OO.ui.ToggleButtonWidget( {
-				icon: 'pushPin',
-				framed: false,
-				classes: [ 'ext-checkuser-investigate-table-button-pin' ]
-			} );
-			toggleButtons[ key ] = toggleButtons[ key ] || [];
-			toggleButtons[ key ].push( toggleButton );
-			toggleButton.on( 'change', toggleClassForPin.bind( null, $tableCell ) );
-			$optionsContainer.append( toggleButton.$element );
-		}
-
 		if ( buttonTypes.filter ) {
 			options.push( new OO.ui.MenuOptionWidget( {
 				icon: 'funnel',
@@ -169,6 +157,18 @@
 			} );
 
 			$optionsContainer.append( selectWidget.$element );
+		}
+
+		if ( buttonTypes.toggle ) {
+			toggleButton = new OO.ui.ToggleButtonWidget( {
+				icon: 'pushPin',
+				framed: false,
+				classes: [ 'ext-checkuser-investigate-table-button-pin' ]
+			} );
+			toggleButtons[ key ] = toggleButtons[ key ] || [];
+			toggleButtons[ key ].push( toggleButton );
+			toggleButton.on( 'change', toggleClassForPin.bind( null, $tableCell ) );
+			$optionsContainer.append( toggleButton.$element );
 		}
 	}
 
