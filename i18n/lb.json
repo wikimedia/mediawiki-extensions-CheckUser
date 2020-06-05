@@ -54,6 +54,7 @@
 	"checkuser-blocktalk": "Verhënnere fir seng eegen Diskussiounssäit z'ännere sou laang wéi e gespaart ass",
 	"checkuser-blocktag": "Benotzersäiten duerch dëst ersetzen:",
 	"checkuser-blocktag-talk": "Diskussiounssäiten ersetzen duerch:",
+	"checkuser-reblock": "Spären déi et gëtt iwwerschreiwen",
 	"checkuser-massblock-commit": "Ausgewielt Benotzer spären",
 	"checkuser-block-success": "'''{{PLURAL:$2|De Benotzer|D'Benotzer}} $1 {{PLURAL:$2|ass|sinn}} elo gespaart.'''",
 	"checkuser-block-failure": "'''Et si keng Benotzer gespaart.'''",
