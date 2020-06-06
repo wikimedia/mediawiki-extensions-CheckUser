@@ -1,5 +1,6 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
 use Wikimedia\IPUtils;
 
 $IP = getenv( 'MW_INSTALL_PATH' );
@@ -64,6 +65,8 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 			"Starting poulation of cu_changes with recentchanges rc_id from $start to $end\n"
 		);
 
+		$lbFactory = MediaWikiServices::getInstance()->getDBLoadBalancerFactory();
+
 		$commentStore = CommentStore::getStore();
 		$rcQuery = RecentChange::getQueryInfo();
 
@@ -101,7 +104,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 			}
 			$blockStart += $this->mBatchSize - 1;
 			$blockEnd += $this->mBatchSize - 1;
-			wfWaitForSlaves( 5 );
+			$lbFactory->waitForReplication( [ 'ifWritesSince' => 5 ] );
 		}
 
 		$this->output( "...cu_changes table has been populated.\n" );
