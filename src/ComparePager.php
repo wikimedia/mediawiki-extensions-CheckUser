@@ -22,6 +22,7 @@
 
 namespace MediaWiki\CheckUser;
 
+use DateTime;
 use Html;
 use IContextSource;
 use Linker;
@@ -140,6 +141,9 @@ class ComparePager extends TablePager {
 				break;
 			case 'activity':
 				$attributes['class'] .= ' ext-checkuser-compare-table-cell-activity';
+				$start = new DateTime( $row->first_edit );
+				$end = new DateTime( $row->last_edit );
+				$attributes['data-sort-value'] = $start->format( 'Ymd' ) . $end->format( 'Ymd' );
 				break;
 		}
 
