@@ -90,5 +90,6 @@
 	"checkuser-create-action": "dibuat",
 	"checkuser-email-action": "mengirimkan surel ke \"$1\"",
 	"checkuser-reset-action": "Set ulang kata sandi pengguna \"$1\"",
-	"checkuser-token-fail": "Kegagalan sesi. Silakan coba kembali."
+	"checkuser-token-fail": "Kegagalan sesi. Silakan coba kembali.",
+	"checkuser-investigate-tab-preliminary-check": "Informasi akun"
 }

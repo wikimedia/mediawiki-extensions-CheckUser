@@ -75,6 +75,7 @@
 	"checkuser-email-action": "poslan email za \"$1\"",
 	"checkuser-reset-action": "ponovno postavi zaporku za suradnika \"$1\"",
 	"checkuser-investigate-notice-no-results": "Nema rezultata.",
+	"checkuser-investigate-tab-preliminary-check": "Informacije o računu",
 	"checkuser-investigate-tab-compare": "Usporedi",
 	"checkuser-investigate-tab-timeline": "Vremenska crta",
 	"checkuser-investigate-targets-placeholder": "Suradničko ime ili 1.1.1.1",

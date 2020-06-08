@@ -29,6 +29,7 @@
 	"checkuser-search-submit": "Serchar",
 	"checkuser-ipeditcount": "~$1 di omna uzanti",
 	"checkuser-email-action": "sendar e-posto al uzero \"$1\"",
+	"checkuser-investigate-tab-preliminary-check": "Informo pri la konto",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Montrez omna IP-adresi de ca uzero",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "Montrez omna uzeri en ca IP"
 }

@@ -19,6 +19,7 @@
 			"Xiaomingyan",
 			"Yfdyh000",
 			"乌拉跨氪",
+			"列维劳德",
 			"白布飘扬",
 			"铁桶"
 		]
@@ -106,6 +107,7 @@
 	"group-checkuser.css": "/* 这里放置的CSS将只影响用户查核员 */",
 	"group-checkuser.js": "/* 这里放置的JS将只影响用户查核员 */",
 	"checkuser-investigate-indicator-logs": "日志",
+	"checkuser-investigate-tab-preliminary-check": "账户信息",
 	"checkuser-investigate-compare-copy-button-label": "显示维基文本",
 	"checkuser-investigate-compare-copy-message-label": "您是否想要将这些信息复制为维基文本格式的表格？",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "显示该用户使用的所有IP",
