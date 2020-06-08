@@ -1,7 +1,8 @@
 /* eslint-disable no-jquery/no-global-selector */
 ( function () {
 	// Attributes used for pinnable highlighting
-	var dataAttributes = [ 'registration', 'wiki', 'cuc_ip', 'cuc_agent' ],
+	var highlightData = mw.storage.session.get( 'checkuser-investigate-highlight' ),
+		dataAttributes = [ 'registration', 'wiki', 'cuc_ip', 'cuc_agent' ],
 		toggleButtons = {};
 
 	// The message 'checkuser-toollinks' was parsed in PHP, since translations
@@ -48,7 +49,7 @@
 		toggleClass( $( this ), event.type === 'mouseover', 'hover-data-match' );
 	}
 
-	function toggleClassForPin( $tableCell, value ) {
+	function onToggleButtonChange( $tableCell, value ) {
 		$( '.ext-checkuser-investigate-table' ).toggleClass( 'ext-checkuser-investigate-table-pinned', value );
 		$tableCell.toggleClass( 'ext-checkuser-investigate-table-cell-pinned', value );
 
@@ -58,6 +59,12 @@
 			button.setFlags( { progressive: value } );
 		} );
 		toggleClass( $tableCell, value, 'pinned-data-match' );
+
+		if ( value ) {
+			mw.storage.session.set( 'checkuser-investigate-highlight', getDataKey( $tableCell ) );
+		} else {
+			mw.storage.session.remove( 'checkuser-investigate-highlight' );
+		}
 	}
 
 	function filterValue( $tableCell ) {
@@ -167,7 +174,7 @@
 			} );
 			toggleButtons[ key ] = toggleButtons[ key ] || [];
 			toggleButtons[ key ].push( toggleButton );
-			toggleButton.on( 'change', toggleClassForPin.bind( null, $tableCell ) );
+			toggleButton.on( 'change', onToggleButtonChange.bind( null, $tableCell ) );
 			$optionsContainer.append( toggleButton.$element );
 		}
 	}
@@ -186,6 +193,15 @@
 	$( 'td.ext-checkuser-compare-table-cell-user-target' ).each( function () {
 		appendButtons( $( this ), { filter: true, addIps: true } );
 	} );
+
+	// Persist highlights across paginated tabs
+	if (
+		highlightData !== null &&
+		toggleButtons[ highlightData ] &&
+		toggleButtons[ highlightData ].length > 0
+	) {
+		toggleButtons[ highlightData ][ 0 ].setValue( true );
+	}
 
 	/**
 	 * Feature for copying wikitext version of the Compare results table (T251361).
