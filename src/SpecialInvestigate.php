@@ -69,6 +69,9 @@ class SpecialInvestigate extends \FormSpecialPage {
 		$this->getOutput()->addModuleStyles( [
 			'mediawiki.widgets.TagMultiselectWidget.styles',
 		] );
+		// Add button link to the log page on the main form.
+		// Open in the current tab.
+		$this->addIndicators( /** $newTab */ false, /** $logOnly */ true );
 
 		return '';
 	}
@@ -357,27 +360,36 @@ class SpecialInvestigate extends \FormSpecialPage {
 	/**
 	 * Add buttons to start a new investigation and linking
 	 * to InvestigateLog page
+	 *
+	 * @param bool $newTab Whether to open the link in a new tab
+	 * @param bool $logOnly Whether to show only the log button
 	 */
-	private function addIndicators() {
-		$btnGroup = new ButtonGroupWidget( [
-			'classes' => [ 'ext-checkuser-investigate-indicators' ],
-			'items' => [
-				new ButtonWidget( [
-					'label' => $this->msg( 'checkuser-investigate-indicator-new-investigation' )->text(),
-					'href' => self::getTitleFor( 'Investigate' )->getLinkURL(),
-					'target' => '_blank',
-				] ),
-				new ButtonWidget( [
-					'label' => $this->msg( 'checkuser-investigate-indicator-logs' )->text(),
-					'href' => self::getTitleFor( 'InvestigateLog' )->getLinkURL(),
-					'target' => '_blank',
-				] ),
-			]
+	private function addIndicators( $newTab = true, $logOnly = false ) {
+		$log = new ButtonWidget( [
+			'label' => $this->msg( 'checkuser-investigate-indicator-logs' )->text(),
+			'href' => self::getTitleFor( 'InvestigateLog' )->getLinkURL(),
+			'target' => $newTab ? '_blank' : '',
 		] );
 
-		$this->getOutput()->setIndicators( [
-			'ext-checkuser-investigation-btns' => $btnGroup,
+		$newForm = new ButtonWidget( [
+			'label' => $this->msg( 'checkuser-investigate-indicator-new-investigation' )->text(),
+			'href' => self::getTitleFor( 'Investigate' )->getLinkURL(),
+			'target' => $newTab ? '_blank' : '',
 		] );
+
+		if ( $logOnly ) {
+			$this->getOutput()->setIndicators( [
+				'ext-checkuser-investigation-btns' => $log,
+			] );
+		} else {
+			$this->getOutput()->setIndicators( [
+				'ext-checkuser-investigation-btns' => new ButtonGroupWidget( [
+					'classes' => [ 'ext-checkuser-investigate-indicators' ],
+					'items' => [ $newForm, $log ],
+
+				] ),
+			] );
+		}
 	}
 
 	/**
