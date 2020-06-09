@@ -2,9 +2,10 @@
 namespace MediaWiki\CheckUser;
 
 use ExtensionRegistry;
+use MediaWiki\User\UserGroupManagerFactory;
+use MediaWiki\User\UserIdentityValue;
 use stdClass;
 use User;
-use UserGroupMembership;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\ILBFactory;
 use Wikimedia\Rdbms\IResultWrapper;
@@ -12,6 +13,9 @@ use Wikimedia\Rdbms\IResultWrapper;
 class PreliminaryCheckService {
 	/** @var ILBFactory */
 	private $lbFactory;
+
+	/** @var UserGroupManagerFactory */
+	private $userGroupManagerFactory;
 
 	/** @var string */
 	private $localWikiId;
@@ -22,14 +26,17 @@ class PreliminaryCheckService {
 	/**
 	 * @param ILBFactory $lbFactory
 	 * @param ExtensionRegistry $extensionRegistry
+	 * @param UserGroupManagerFactory $userGroupManagerFactory
 	 * @param string $localWikiId
 	 */
 	public function __construct( ILBFactory $lbFactory,
 		ExtensionRegistry $extensionRegistry,
+		UserGroupManagerFactory $userGroupManagerFactory,
 		string $localWikiId
 	) {
 		$this->lbFactory = $lbFactory;
 		$this->extensionRegistry = $extensionRegistry;
+		$this->userGroupManagerFactory = $userGroupManagerFactory;
 		$this->localWikiId = $localWikiId;
 	}
 
@@ -164,19 +171,13 @@ class PreliminaryCheckService {
 			'registration' => $row->user_registration,
 			'editcount' => $row->user_editcount,
 			'blocked' => $this->isUserBlocked( $row->user_id, $db ),
-			'groups' => $this->getUserGroups( $row->user_id, $db ),
+			'groups' => $this->userGroupManagerFactory
+				->getUserGroupManager( $wikiId )
+				->getUserGroups(
+					new UserIdentityValue( (int)$row->user_id, $row->user_name, 0 )
+				),
 			'wiki' => $wikiId,
 		];
-	}
-
-	/**
-	 * @param int $userId
-	 * @param IDatabase $db Database connection
-	 * @return string[]
-	 */
-	protected function getUserGroups( int $userId, IDatabase $db ): array {
-		$groupMembership = UserGroupMembership::getMembershipsForUser( $userId, $db );
-		return array_keys( $groupMembership );
 	}
 
 	/**
