@@ -7,6 +7,7 @@ use MediaWiki\CheckUser\PreliminaryCheckPager;
 use MediaWiki\CheckUser\PreliminaryCheckService;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\User\UserGroupManagerFactory;
 use MediaWikiTestCase;
 use RequestContext;
 use Wikimedia\Rdbms\ILBFactory;
@@ -53,7 +54,12 @@ class PreliminaryCheckPagerTest extends MediaWikiTestCase {
 		$lbf = $this->getMockBuilder( ILBFactory::class )
 			->disableOriginalConstructor()->getMock();
 
-		$preliminaryCheckService = new PreliminaryCheckService( $lbf, $registry, 'testwiki' );
+		$preliminaryCheckService = new PreliminaryCheckService(
+			$lbf,
+			$registry,
+			$this->createNoOpMock( UserGroupManagerFactory::class ),
+			'testwiki'
+		);
 
 		$services = MediaWikiServices::getInstance();
 		$pager = new PreliminaryCheckPager( RequestContext::getMain(),

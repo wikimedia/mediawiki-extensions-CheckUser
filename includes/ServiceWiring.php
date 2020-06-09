@@ -19,6 +19,7 @@ return [
 		return new PreliminaryCheckService(
 			$services->getDBLoadBalancerFactory(),
 			ExtensionRegistry::getInstance(),
+			$services->getUserGroupManagerFactory(),
 			WikiMap::getCurrentWikiDbDomain()->getId()
 		);
 	},

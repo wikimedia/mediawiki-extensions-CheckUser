@@ -4,6 +4,8 @@ namespace MediaWiki\CheckUser\Tests;
 
 use ExtensionRegistry;
 use MediaWiki\CheckUser\PreliminaryCheckService;
+use MediaWiki\User\UserGroupManager;
+use MediaWiki\User\UserGroupManagerFactory;
 use MediaWikiTestCase;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IDatabase;
@@ -72,10 +74,16 @@ class PreliminaryCheckServiceTest extends MediaWikiTestCase {
 		$registry = $this->getMockExtensionRegistry();
 		$registry->method( 'isLoaded' )->willReturn( $options['isCentralAuthAvailable'] );
 
+		$ugm = $this->createNoOpMock( UserGroupManager::class, [ 'getUserGroups' ] );
+		$ugm->method( 'getUserGroups' )->willReturn( $user['groups'] );
+		$ugmf = $this->createNoOpMock( UserGroupManagerFactory::class, [ 'getUserGroupManager' ] );
+		$ugmf->method( 'getUserGroupManager' )->willReturn( $ugm );
+
 		$service = $this->getMockBuilder( PreliminaryCheckService::class )
 			->setConstructorArgs( [
 				$lbFactory,
 				$registry,
+				$ugmf,
 				$options['localWikiId']
 			] )
 			->setMethods( [ 'getCentralAuthDB', 'isUserBlocked', 'getUserGroups' ] )
@@ -171,7 +179,12 @@ class PreliminaryCheckServiceTest extends MediaWikiTestCase {
 
 		$registry->method( 'isLoaded' )->willReturn( $options['isCentralAuthAvailable'] );
 
-		$service = new PreliminaryCheckService( $lbFactory, $registry, 'devwiki' );
+		$service = new PreliminaryCheckService(
+			$lbFactory,
+			$registry,
+			$this->createNoOpMock( UserGroupManagerFactory::class ),
+			'devwiki'
+		);
 		$result = $service->getQueryInfo( $users );
 
 		$this->assertSame(
