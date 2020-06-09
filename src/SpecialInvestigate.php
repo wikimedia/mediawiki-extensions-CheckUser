@@ -136,14 +136,15 @@ class SpecialInvestigate extends \FormSpecialPage {
 
 		$tabs = array_map( function ( $tab ) use ( $par, $token ) {
 			$label = $this->getTabName( $tab );
+			$param = $this->getTabParam( $tab );
 			return new TabOptionWidget( [
 				'label' => $label,
 				'labelElement' => ( new Tag( 'a' ) )->setAttributes( [
-					'href' => $this->getPageTitle( $label )->getLocalURL( [
+					'href' => $this->getPageTitle( $param )->getLocalURL( [
 						'token' => $token,
 					] ),
 				] ),
-				'selected' => ( $par === $this->getTabParam( $tab ) ),
+				'selected' => ( $par === $param ),
 			] );
 		}, [
 			'preliminary-check',
@@ -228,10 +229,10 @@ class SpecialInvestigate extends \FormSpecialPage {
 				}
 
 				if ( $hasIpTargets ) {
-					$compareLabel = $this->msg( 'checkuser-investigate-tab-compare' )->text();
+					$compareParam = $this->getTabParam( 'compare' );
 					// getFullURL handles the query params:
 					// https://www.mediawiki.org/wiki/Help:Links#External_links_to_internal_pages
-					$link = $this->getPageTitle( $compareLabel )->getFullURL( [
+					$link = $this->getPageTitle( $compareParam )->getFullURL( [
 						'token' => $this->getTokenWithoutPaginationData(),
 					] );
 					$message = $this->msg( 'checkuser-investigate-preliminary-notice-ip-targets', $link )->parse();
@@ -550,7 +551,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 			$url = $this->getRedirectUrl( $token );
 		} else {
 			// Redirect to compare tab
-			$url = $this->getPageTitle( $this->getTabName( 'compare' ) )->getFullUrlForRedirect( [
+			$url = $this->getPageTitle( $this->getTabParam( 'compare' ) )->getFullUrlForRedirect( [
 				'token' => $token,
 			] );
 		}
