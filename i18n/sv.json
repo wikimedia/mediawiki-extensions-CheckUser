@@ -107,6 +107,7 @@
 	"checkuser-investigate-indicator-logs": "Loggar",
 	"checkuser-investigate-legend": "Sök efter användarnamn, IP-adress eller IP-intervall",
 	"checkuser-investigate-notice-no-results": "Det finns inga resultat.",
+	"checkuser-investigate-tab-preliminary-check": "Kontoinformation",
 	"checkuser-investigate-tab-compare": "Jämför",
 	"checkuser-investigate-tab-timeline": "Tidslinje",
 	"checkuser-investigate-targets-label": "Användarnamn och IP-adresser",

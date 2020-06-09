@@ -93,6 +93,7 @@
 	"checkuser-investigate": "তদন্ত করুন",
 	"checkuser-investigate-indicator-logs": "লগ",
 	"checkuser-investigate-legend": "ব্যবহারকারীর নামগুলি, আইপি ঠিকানাগুলি বা আইপি পরিসীমাগুলির জন্য অনুসন্ধান করুন",
+	"checkuser-investigate-tab-preliminary-check": "অ্যাকাউন্টের তথ্য",
 	"checkuser-investigate-tab-compare": "তুলনা করুন",
 	"checkuser-investigate-tab-timeline": "সময়ক্রম",
 	"checkuser-investigate-targets-label": "ব্যবহারকারী নামগুলি বা আইপি ঠিকানাগুলি",
