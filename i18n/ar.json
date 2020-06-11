@@ -62,6 +62,7 @@
 	"checkuser-blocktalk": "امنع هذا المستخدم من تعديل صفحة نقاشه ما دام ممنوعا",
 	"checkuser-blocktag": "استبدل صفحات المستخدمين ب:",
 	"checkuser-blocktag-talk": "استبدل صفحات النقاش ب:",
+	"checkuser-reblock": "تجاوز المنع الحالي",
 	"checkuser-massblock-commit": "منع المستخدمين المختارين",
 	"checkuser-block-success": "'''{{PLURAL:$2|المستخدم|المستخدمون}} $1 الآن {{PLURAL:$2|ممنوع|ممنوعون}}.'''",
 	"checkuser-block-failure": "'''لا مستخدمون تم منعهم.'''",
