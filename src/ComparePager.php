@@ -121,6 +121,7 @@ class ComparePager extends TablePager {
 				$attributes['class'] .= ' ext-checkuser-compare-table-cell-ip-target';
 				$attributes['data-' . $field] = $value;
 				$attributes['data-target'] = $value;
+				$attributes['data-sort-value'] = IPUtils::toHex( $value );
 				break;
 			case 'cuc_user_text':
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-interactive';
@@ -132,12 +133,18 @@ class ComparePager extends TablePager {
 					$attributes['data-' . $field] = $value;
 					$attributes['data-target'] = $value;
 				}
+				// Store the sort value as an attribute, to avoid using the table cell contents
+				// as the sort value, since UI elements are added to the table cell.
+				$attributes['data-sort-value'] = $value;
 				break;
 			case 'cuc_agent':
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-interactive';
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-pinnable';
 				$attributes['class'] .= ' ext-checkuser-compare-table-cell-user-agent';
 				$attributes['data-' . $field] = $value;
+				// Store the sort value as an attribute, to avoid using the table cell contents
+				// as the sort value, since UI elements are added to the table cell.
+				$attributes['data-sort-value'] = $value;
 				break;
 			case 'activity':
 				$attributes['class'] .= ' ext-checkuser-compare-table-cell-activity';
