@@ -89,8 +89,13 @@ class SpecialInvestigate extends \FormSpecialPage {
 		// The tabs should also be shown even if the form was a POST request because
 		// the filters could have failed validation.
 		if ( $this->getTokenData() !== [] ) {
-			// Clear the existing form so it can be part of the tab layout.
-			$this->getOutput()->clearHTML();
+			// Remove the filters, unless a valid tab that supports filters is selected.
+			if ( !in_array( $par, [
+				$this->getTabParam( 'compare' ),
+				$this->getTabParam( 'timeline' ),
+			] ) ) {
+				$this->getOutput()->clearHTML();
+			}
 
 			$this->addIndicators();
 			$this->addPageSubtitle();
@@ -246,12 +251,6 @@ class SpecialInvestigate extends \FormSpecialPage {
 			case $this->getTabParam( 'compare' ):
 				$pager = $this->comparePagerFactory->createPager( $this->getContext() );
 				$numRows = $pager->getNumRows();
-				$numFilters = count( $this->getTokenData()['exclude-targets'] ?? [] );
-
-				if ( $numRows || $numFilters ) {
-					// Add the filter form field.
-					$this->addHTML( $this->getForm()->getHTML( $this->getForm()->wasSubmitted() ) );
-				}
 
 				if ( $numRows ) {
 					$targetsOverLimit = $pager->getTargetsOverLimit();
@@ -268,7 +267,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 
 					$this->addParserOutput( $pager->getFullOutput() );
 				} else {
-					$messageKey = $numFilters ?
+					$messageKey = $this->usingFilters() ?
 						'checkuser-investigate-compare-notice-no-results-filters' :
 						'checkuser-investigate-compare-notice-no-results';
 					$message = $this->msg( $messageKey )->parse();
@@ -281,18 +280,11 @@ class SpecialInvestigate extends \FormSpecialPage {
 			case $this->getTabParam( 'timeline' ):
 				$pager = $this->timelinePagerFactory->createPager( $this->getContext() );
 				$numRows = $pager->getNumRows();
-				$numFilters = count( $this->getTokenData()['exclude-targets'] ?? [] );
-
-				if ( $numRows || $numFilters ) {
-					// Add the filter form field.
-					// TODO: enable once filters are working
-					// $this->addHTML( $this->getForm()->getHTML( $this->getForm()->wasSubmitted() ) );
-				}
 
 				if ( $numRows ) {
 					$this->addParserOutput( $pager->getFullOutput() );
 				} else {
-					$messageKey = $numFilters ?
+					$messageKey = $this->usingFilters() ?
 						'checkuser-investigate-timeline-notice-no-results-filters' :
 						'checkuser-investigate-timeline-notice-no-results';
 					$message = $this->msg( $messageKey )->parse();
@@ -647,5 +639,14 @@ class SpecialInvestigate extends \FormSpecialPage {
 		}
 
 		return explode( "\n", $data[$field] );
+	}
+
+	/**
+	 * Determine if the filters are in use by the current request.
+	 *
+	 * @return bool
+	 */
+	private function usingFilters() : bool {
+		return count( $this->getTokenData()['exclude-targets'] ?? [] ) > 0;
 	}
 }

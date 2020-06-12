@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Tests;
 use MediaWiki\CheckUser\ComparePager;
 use MediaWiki\CheckUser\CompareService;
 use MediaWiki\CheckUser\TokenQueryManager;
+use MediaWiki\CheckUser\UserManager;
 use MediaWiki\MediaWikiServices;
 use MediaWikiTestCase;
 use RequestContext;
@@ -33,11 +34,8 @@ class ComparePagerTest extends MediaWikiTestCase {
 				'exclude-targets' => $excludeTargets,
 			] );
 
-		$compareService = $this->getMockBuilder( CompareService::class )
-			->setConstructorArgs( [ $services->getDBLoadBalancer() ] )
-			->setMethods( [ 'getUserId' ] )
-			->getMock();
-		$compareService->method( 'getUserId' )
+		$userManager = $this->createMock( UserManager::class );
+		$userManager->method( 'idFromName' )
 			->will(
 				$this->returnValueMap( [
 					[ 'User1', 11111, ],
@@ -47,6 +45,11 @@ class ComparePagerTest extends MediaWikiTestCase {
 					[ '1.2.3.9/120', 0 ]
 				] )
 			);
+
+		$compareService = new CompareService(
+			$services->getDBLoadBalancer(),
+			$userManager
+		);
 
 		$pager = new ComparePager(
 			RequestContext::getMain(),

@@ -2,25 +2,25 @@
 
 namespace MediaWiki\CheckUser;
 
-use User;
 use Wikimedia\IPUtils;
-use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\ILoadBalancer;
 use Wikimedia\Rdbms\Subquery;
 
-class CompareService {
-	/** @var ILoadBalancer */
-	private $loadBalancer;
-
+class CompareService extends ChangeService {
 	/** @var int */
 	private $limit;
 
 	/**
 	 * @param ILoadBalancer $loadBalancer
+	 * @param UserManager $userManager
 	 * @param int $limit Maximum number of rows to access (T245499)
 	 */
-	public function __construct( ILoadBalancer $loadBalancer, $limit = 100000 ) {
-		$this->loadBalancer = $loadBalancer;
+	public function __construct(
+		ILoadBalancer $loadBalancer,
+		UserManager $userManager,
+		$limit = 100000
+	) {
+		parent::__construct( $loadBalancer, $userManager );
 		$this->limit = $limit;
 	}
 
@@ -144,12 +144,12 @@ class CompareService {
 			$limit = $limitPerTarget;
 		}
 
-		$conds = $this->buildUserConds( $target );
+		$conds = $this->buildTargetConds( $target );
 		if ( $conds === [] ) {
 			return null;
 		}
 
-		$this->buildExcludeTargetsConds( $excludeTargets, $conds );
+		$conds = array_merge( $conds, $this->buildExcludeTargetsConds( $excludeTargets ) );
 
 		// TODO: Add timestamp conditions (T246261)
 		$conds['cuc_type'] = [ RC_EDIT, RC_NEW ];
@@ -172,78 +172,6 @@ class CompareService {
 				'OFFSET' => $offset,
 			],
 		];
-	}
-
-	/**
-	 * Builds a query predicate depending on what type of
-	 * target is passed in
-	 *
-	 * @param string $target
-	 * @return string[]
-	 */
-	private function buildUserConds( $target ) : array {
-		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
-		$conds = [];
-
-		if ( IPUtils::isIpAddress( $target ) ) {
-			if ( IPUtils::isValid( $target ) ) {
-				$conds['cuc_ip_hex'] = IPUtils::toHex( $target );
-			} elseif ( IPUtils::isValidRange( $target ) ) {
-				$range = IPUtils::parseRange( $target );
-				$conds[] = $db->makeList( [
-					'cuc_ip_hex >= ' . $db->addQuotes( $range[0] ),
-					'cuc_ip_hex <= ' . $db->addQuotes( $range[1] )
-				], IDatabase::LIST_AND );
-			}
-		} else {
-			// TODO: This may filter out invalid values, changing the number of
-			// targets. The per-target limit should change too (T246393).
-			$userId = $this->getUserId( $target );
-			if ( $userId ) {
-				$conds['cuc_user'] = $userId;
-			}
-		}
-
-		return $conds;
-	}
-
-	/**
-	 * @param string[] $excludeTargets
-	 * @param string[] &$conds
-	 */
-	private function buildExcludeTargetsConds( array $excludeTargets, &$conds ) {
-		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
-
-		$ipExcludeTargets = [];
-		$userExcludeTargets = [];
-
-		foreach ( $excludeTargets as $excludeTarget ) {
-			if ( IPUtils::isIpAddress( $excludeTarget ) ) {
-				$ipExcludeTargets[] = IPUtils::toHex( $excludeTarget );
-			} else {
-				$userId = $this->getUserId( $excludeTarget );
-				if ( $userId ) {
-					$userExcludeTargets[] = $userId;
-				}
-			}
-		}
-
-		if ( count( $ipExcludeTargets ) > 0 ) {
-			$conds[] = 'cuc_ip_hex NOT IN (' . $db->makeList( $ipExcludeTargets ) . ')';
-		}
-		if ( count( $userExcludeTargets ) > 0 ) {
-			$conds[] = 'cuc_user NOT IN (' . $db->makeList( $userExcludeTargets ) . ')';
-		}
-	}
-
-	/**
-	 * Get user ID from a user name; for mocking in tests.
-	 *
-	 * @param string $username
-	 * @return int|null Id, or null if the username is invalid or non-existent
-	 */
-	protected function getUserId( $username ) : ?int {
-		return User::idFromName( $username );
 	}
 
 	/**
