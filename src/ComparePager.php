@@ -42,6 +42,14 @@ class ComparePager extends TablePager {
 	private $fieldNames;
 
 	/**
+	 * Holds a cache of iphex => edit-count to avoid
+	 * recurring queries to the database for the same ip
+	 *
+	 * @var array
+	 */
+	private $ipTotalEdits;
+
+	/**
 	 * Targets whose results should not be included in the investigation.
 	 * Targets in this list may or may not also be in the $targets list.
 	 * Either way, no activity related to these targets will appear in the
@@ -176,14 +184,18 @@ class ComparePager extends TablePager {
 
 				// get other edits
 				$otherEdits = '';
-				$edits = $this->compareService->getTotalEditsFromIp( $value );
-				if ( !empty( $edits['total_edits'] ) ) {
+				$ipHex = $row->cuc_ip_hex;
+				if ( !isset( $this->ipTotalEdits[$ipHex] ) ) {
+					$this->ipTotalEdits[$ipHex] = $this->compareService->getTotalEditsFromIp( $ipHex );
+				}
+
+				if ( $this->ipTotalEdits[$ipHex] ) {
 					$otherEdits = Html::rawElement(
 						'span',
 						[],
 						$this->msg(
 							'checkuser-investigate-compare-table-cell-other-edits',
-							$edits['total_edits']
+							$this->ipTotalEdits[$ipHex]
 						)->parse()
 					);
 				}

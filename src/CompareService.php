@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser;
 
-use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\ILoadBalancer;
 use Wikimedia\Rdbms\Subquery;
 
@@ -27,17 +26,17 @@ class CompareService extends ChangeService {
 	/**
 	 * Get edits made from an ip
 	 *
-	 * @param string $ip
+	 * @param string $ipHex
 	 * @param string|null $excludeUser
-	 * @return array
+	 * @return int
 	 */
 	public function getTotalEditsFromIp(
-		string $ip,
+		string $ipHex,
 		string $excludeUser = null
-	): array {
+	) : int {
 		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
 		$conds = [
-			'cuc_ip_hex' => IPUtils::toHex( $ip ),
+			'cuc_ip_hex' => $ipHex,
 			'cuc_type' => [ RC_EDIT, RC_NEW ],
 		];
 
@@ -45,16 +44,7 @@ class CompareService extends ChangeService {
 			$conds[] = 'cuc_user_text != ' . $db->addQuotes( $excludeUser );
 		}
 
-		$data = $db->selectRow(
-			'cu_changes',
-			[
-				'total_edits' => 'COUNT(*)'
-			],
-			$conds,
-			__METHOD__
-		);
-
-		return $data ? (array)$data : [];
+		return $db->selectRowCount( 'cu_changes', '*', $conds, __METHOD__ );
 	}
 
 	/**
