@@ -217,7 +217,7 @@ class ComparePager extends TablePager {
 	 * @inheritDoc
 	 */
 	public function getIndexField() {
-		return [ [ 'cuc_user_text', 'cuc_ip', 'cuc_agent' ] ];
+		return [ [ 'cuc_user_text', 'cuc_ip_hex', 'cuc_agent' ] ];
 	}
 
 	/**
