@@ -250,18 +250,16 @@ class CompareServiceTest extends MediaWikiTestCase {
 		return [
 			'IP address with multiple users' => [
 				[
-					'ip' => '1.2.3.5'
-				], [
-					'total_edits' => 3,
+					'ip' => IPUtils::toHex( '1.2.3.5' )
 				],
+				3,
 			],
 			'IP address with multiple users, excluding a user' => [
 				[
-					'ip' => '1.2.3.4',
+					'ip' => IPUtils::toHex( '1.2.3.4' ),
 					'excludeUser' => 'User1'
-				], [
-					'total_edits' => 4,
 				],
+				4,
 			],
 		];
 	}
