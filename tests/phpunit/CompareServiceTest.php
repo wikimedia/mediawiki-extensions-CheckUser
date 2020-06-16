@@ -73,7 +73,7 @@ class CompareServiceTest extends MediaWikiTestCase {
 			$userManager
 		);
 
-		$queryInfo = $compareService->getQueryInfo( $options['targets'], $options['excludeTargets'] );
+		$queryInfo = $compareService->getQueryInfo( $options['targets'], $options['excludeTargets'], $options['start'] );
 
 		foreach ( $expected['targets'] as $target ) {
 			$this->assertStringContainsString( $target, $queryInfo['tables']['a'] );
@@ -83,13 +83,13 @@ class CompareServiceTest extends MediaWikiTestCase {
 			$this->assertStringContainsString( $excludeTarget, $queryInfo['tables']['a'] );
 		}
 
-		$services = MediaWikiServices::getInstance();
-		$db = $services->getDBLoadBalancer()->getConnectionRef( DB_REPLICA );
-		// TODO Perhaps a separate test method could check both scenarios with a mock DB.
-		if ( $db->unionSupportsOrderAndLimit() ) {
-			$this->assertStringContainsString( 'LIMIT ' . $expected['limit'], $queryInfo['tables']['a'] );
+		$this->assertStringContainsString( 'LIMIT ' . $expected['limit'], $queryInfo['tables']['a'] );
+
+		[ 'start' => $start ] = $expected;
+		if ( $start === '' ) {
+			$this->assertStringNotContainsString( 'cuc_timestamp >=', $queryInfo['tables']['a'] );
 		} else {
-			$this->assertStringNotContainsString( 'LIMIT', $queryInfo['tables']['a'] );
+			$this->assertStringContainsString( "cuc_timestamp >= '$start'", $queryInfo['tables']['a'] );
 		}
 	}
 
@@ -99,39 +99,59 @@ class CompareServiceTest extends MediaWikiTestCase {
 				[
 					'targets' => [ 'User1' ],
 					'excludeTargets' => [ '0:0:0:0:0:0:0:1' ],
+					'start' => ''
 				],
 				[
 					'targets' => [ '11111' ],
 					'excludeTargets' => [ 'v6-00000000000000000000000000000001' ],
 					'limit' => '100000',
+					'start' => ''
+				],
+			],
+			'Valid username, excluded IP, with start' => [
+				[
+					'targets' => [ 'User1' ],
+					'excludeTargets' => [ '0:0:0:0:0:0:0:1' ],
+					'start' => '111'
+				],
+				[
+					'targets' => [ '11111' ],
+					'excludeTargets' => [ 'v6-00000000000000000000000000000001' ],
+					'limit' => '100000',
+					'start' => '111'
 				],
 			],
 			'Single valid IP, excluded username' => [
 				[
 					'targets' => [ '0:0:0:0:0:0:0:1' ],
 					'excludeTargets' => [ 'User1' ],
+					'start' => ''
 				],
 				[
 					'targets' => [ 'v6-00000000000000000000000000000001' ],
 					'excludeTargets' => [ '11111' ],
 					'limit' => '100000',
+					'start' => ''
 				],
 			],
 			'Valid username and IP, excluded username and IP' => [
 				[
 					'targets' => [ 'User1', '1.2.3.4' ],
 					'excludeTargets' => [ 'User2', '1.2.3.5' ],
+					'start' => ''
 				],
 				[
 					'targets' => [ '11111', '01020304' ],
 					'excludeTargets' => [ '22222', '01020305' ],
 					'limit' => '50000',
+					'start' => ''
 				],
 			],
 			'Two valid IPs' => [
 				[
 					'targets' => [ '0:0:0:0:0:0:0:1', '1.2.3.4' ],
 					'excludeTargets' => [],
+					'start' => ''
 				],
 				[
 					'targets' => [
@@ -140,6 +160,7 @@ class CompareServiceTest extends MediaWikiTestCase {
 					],
 					'excludeTargets' => [],
 					'limit' => '50000',
+					'start' => ''
 				],
 			],
 			'Valid IP addresses and IP range' => [
@@ -150,6 +171,7 @@ class CompareServiceTest extends MediaWikiTestCase {
 						'1.2.3.4/16',
 					],
 					'excludeTargets' => [],
+					'start' => ''
 				],
 				[
 					'targets' => [
@@ -160,6 +182,7 @@ class CompareServiceTest extends MediaWikiTestCase {
 					],
 					'excludeTargets' => [],
 					'limit' => '33333',
+					'start' => ''
 				],
 			],
 		];
@@ -173,7 +196,7 @@ class CompareServiceTest extends MediaWikiTestCase {
 			$this->createMock( UserManager::class )
 		);
 
-		$compareService->getQueryInfo( [], [] );
+		$compareService->getQueryInfo( [], [], '' );
 	}
 
 	/**
@@ -198,6 +221,7 @@ class CompareServiceTest extends MediaWikiTestCase {
 		$info = $compareServcice->getQueryInfoForSingleTarget(
 			'1.2.3.4',
 			[],
+			'',
 			$options['limitPerTarget'],
 			$options['limitCheck']
 		);

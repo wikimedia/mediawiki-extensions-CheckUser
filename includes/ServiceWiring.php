@@ -2,6 +2,7 @@
 
 use MediaWiki\CheckUser\ComparePagerFactory;
 use MediaWiki\CheckUser\CompareService;
+use MediaWiki\CheckUser\DurationManager;
 use MediaWiki\CheckUser\InvestigateLogPagerFactory;
 use MediaWiki\CheckUser\PreliminaryCheckPagerFactory;
 use MediaWiki\CheckUser\PreliminaryCheckService;
@@ -46,6 +47,9 @@ return [
 			$services->get( 'CheckUserTokenManager' )
 		);
 	},
+	'CheckUserDurationManager' => function ( MediaWikiServices $services ) : DurationManager {
+		return new DurationManager();
+	},
 	'CheckUserInvestigateLogPagerFactory' => function (
 		MediaWikiServices $services
 	) : InvestigateLogPagerFactory {
@@ -68,6 +72,7 @@ return [
 		return new ComparePagerFactory(
 			$services->getLinkRenderer(),
 			$services->get( 'CheckUserTokenQueryManager' ),
+			$services->get( 'CheckUserDurationManager' ),
 			$services->get( 'CheckUserCompareService' )
 		);
 	},
@@ -91,6 +96,7 @@ return [
 			$services->getLinkRenderer(),
 			$services->getHookContainer(),
 			$services->get( 'CheckUserTokenQueryManager' ),
+			$services->get( 'CheckUserDurationManager' ),
 			$services->get( 'CheckUserTimelineService' ),
 			$services->get( 'CheckUserTimelineRowFormatterFactory' )
 		);

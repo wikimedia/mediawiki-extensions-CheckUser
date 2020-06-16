@@ -52,9 +52,10 @@ class CompareService extends ChangeService {
 	 *
 	 * @param string[] $targets
 	 * @param string[] $excludeTargets
+	 * @param string $start
 	 * @return array
 	 */
-	public function getQueryInfo( array $targets, array $excludeTargets ): array {
+	public function getQueryInfo( array $targets, array $excludeTargets, string $start ): array {
 		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
 
 		if ( $targets === [] ) {
@@ -64,11 +65,12 @@ class CompareService extends ChangeService {
 
 		$sqlText = [];
 		foreach ( $targets as $target ) {
-			$info = $this->getQueryInfoForSingleTarget( $target, $excludeTargets, $limit );
+			$info = $this->getQueryInfoForSingleTarget( $target, $excludeTargets, $start, $limit );
 			if ( $info !== null ) {
 				if ( !$db->unionSupportsOrderAndLimit() ) {
 					unset( $info['options']['ORDER BY'], $info['options']['LIMIT'] );
 				}
+
 				$sqlText[] = $db->selectSQLText(
 					$info['tables'],
 					$info['fields'],
@@ -114,6 +116,7 @@ class CompareService extends ChangeService {
 	 *
 	 * @param string $target
 	 * @param string[] $excludeTargets
+	 * @param string $start
 	 * @param int $limitPerTarget
 	 * @param bool $limitCheck
 	 * @return array|null Return null for invalid target
@@ -121,6 +124,7 @@ class CompareService extends ChangeService {
 	public function getQueryInfoForSingleTarget(
 		string $target,
 		array $excludeTargets,
+		string $start,
 		int $limitPerTarget,
 		$limitCheck = false
 	) : ?array {
@@ -139,9 +143,12 @@ class CompareService extends ChangeService {
 			return null;
 		}
 
-		$conds = array_merge( $conds, $this->buildExcludeTargetsConds( $excludeTargets ) );
+		$conds = array_merge(
+			$conds,
+			$this->buildExcludeTargetsConds( $excludeTargets ),
+			$this->buildStartConds( $start )
+		);
 
-		// TODO: Add timestamp conditions (T246261)
 		$conds['cuc_type'] = [ RC_EDIT, RC_NEW ];
 
 		return [
@@ -169,9 +176,14 @@ class CompareService extends ChangeService {
 	 *
 	 * @param string[] $targets
 	 * @param string[] $excludeTargets
+	 * @param string $start
 	 * @return string[]
 	 */
-	public function getTargetsOverLimit( array $targets, array $excludeTargets ) : array {
+	public function getTargetsOverLimit(
+		array $targets,
+		array $excludeTargets,
+		string $start
+	) : array {
 		if ( $targets === [] ) {
 			return $targets;
 		}
@@ -188,7 +200,7 @@ class CompareService extends ChangeService {
 		$offset = (int)( $this->limit / count( $targets ) );
 
 		foreach ( $targets as $target ) {
-			$info = $this->getQueryInfoForSingleTarget( $target, $excludeTargets, $offset, true );
+			$info = $this->getQueryInfoForSingleTarget( $target, $excludeTargets, $start, $offset, true );
 			if ( $info !== null ) {
 				$limitCheck = $db->select(
 					$info['tables'],
