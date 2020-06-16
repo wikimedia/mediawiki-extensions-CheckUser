@@ -7,7 +7,7 @@ use MediaWiki\CheckUser\CompareService;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\CheckUser\UserManager;
 use MediaWiki\MediaWikiServices;
-use MediaWikiTestCase;
+use MediaWikiIntegrationTestCase;
 use RequestContext;
 use Wikimedia\IPUtils;
 
@@ -16,7 +16,7 @@ use Wikimedia\IPUtils;
  * @group Database
  * @covers \MediaWiki\CheckUser\ComparePager
  */
-class ComparePagerTest extends MediaWikiTestCase {
+class ComparePagerTest extends MediaWikiIntegrationTestCase {
 
 	/**
 	 * @dataProvider provideDoQuery

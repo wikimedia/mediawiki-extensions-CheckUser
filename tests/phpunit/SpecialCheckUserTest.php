@@ -2,7 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests;
 
-use MediaWikiTestCase;
+use MediaWikiIntegrationTestCase;
 use ReflectionClass;
 use SpecialCheckUser;
 
@@ -14,7 +14,7 @@ use SpecialCheckUser;
  *
  * @covers SpecialCheckUser
  */
-class SpecialCheckUserTest extends MediaWikiTestCase {
+class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 
 	/**
 	 * @var int

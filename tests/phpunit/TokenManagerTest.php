@@ -5,7 +5,7 @@ namespace MediaWiki\CheckUser\Tests;
 use Firebase\JWT\JWT;
 use MediaWiki\CheckUser\TokenManager;
 use MediaWiki\Session\SessionManager;
-use MediaWikiTestCase;
+use MediaWikiIntegrationTestCase;
 
 /**
  * Test class for TokenManager class
@@ -14,7 +14,7 @@ use MediaWikiTestCase;
  *
  * @covers \MediaWiki\CheckUser\TokenManager
  */
-class TokenManagerTest extends MediaWikiTestCase {
+class TokenManagerTest extends MediaWikiIntegrationTestCase {
 
 	public function setUp() : void {
 		parent::setUp();

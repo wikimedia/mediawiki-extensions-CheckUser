@@ -5,7 +5,7 @@ namespace MediaWiki\CheckUser\Tests;
 use MediaWiki\CheckUser\CompareService;
 use MediaWiki\CheckUser\UserManager;
 use MediaWiki\MediaWikiServices;
-use MediaWikiTestCase;
+use MediaWikiIntegrationTestCase;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\Database;
 use Wikimedia\Rdbms\ILoadBalancer;
@@ -15,7 +15,7 @@ use Wikimedia\Rdbms\ILoadBalancer;
  * @group Database
  * @covers \MediaWiki\CheckUser\CompareService
  */
-class CompareServiceTest extends MediaWikiTestCase {
+class CompareServiceTest extends MediaWikiIntegrationTestCase {
 
 	/** @var CompareService */
 	private $service;
