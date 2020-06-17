@@ -217,11 +217,10 @@
 				$table = $table.clone();
 
 				$table.find( '.oo-ui-widget, .ext-checkuser-investigate-table-options-container' ).remove();
-
 				$table.find( '.mw-userlink' )
 					.attr( 'rel', 'mw:WikiLink' )
 					.attr( 'href', function () {
-						return $( this ).attr( 'title' );
+						return new mw.Uri( $( this ).attr( 'href' ) ).toString();
 					} );
 
 				$table.find( '[class]' ).addBack( '[class]' ).removeAttr( 'class' );
