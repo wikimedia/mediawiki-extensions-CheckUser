@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Bangin",
+			"Bikarhêner",
 			"George Animal"
 		]
 	},
@@ -14,5 +15,10 @@
 	"checkuser-search": "Lêbigere",
 	"checkuser-search-submit": "Lêbigere",
 	"checkuser-ipeditcount": "~$1 ji hemû bikarhêneran",
-	"checkuser-create-action": "hat afirandin"
+	"checkuser-create-action": "hat afirandin",
+	"checkuser-investigate-duration-label": "Mawe",
+	"checkuser-investigate-duration-option-all": "Hemû",
+	"checkuser-investigate-duration-option-1w": "Hefteya dawî",
+	"checkuser-investigate-duration-option-2w": "2 heftiyên dawîn",
+	"checkuser-investigate-duration-option-30d": "30 rojên dawî"
 }
