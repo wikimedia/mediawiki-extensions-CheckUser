@@ -110,6 +110,7 @@
 	"checkuser-investigate-tab-compare": "قارن",
 	"checkuser-investigate-targets-label": "أسماء المستخدمين وعناوين الآيبي",
 	"checkuser-investigate-targets-placeholder": "اسم المستخدم أو 1.1.1.1",
+	"checkuser-investigate-duration-option-1w": "الأسبوع الماضي",
 	"checkuser-investigate-reason-label": "السبب",
 	"checkuser-investigate-preliminary-table-cell-blocked": "ممنوع",
 	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|تعديل|تعديلات}}",
