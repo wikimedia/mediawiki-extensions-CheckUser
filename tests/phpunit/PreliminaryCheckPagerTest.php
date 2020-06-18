@@ -8,7 +8,7 @@ use MediaWiki\CheckUser\PreliminaryCheckService;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\User\UserGroupManagerFactory;
-use MediaWikiTestCase;
+use MediaWikiIntegrationTestCase;
 use RequestContext;
 use Wikimedia\Rdbms\ILBFactory;
 
@@ -16,7 +16,7 @@ use Wikimedia\Rdbms\ILBFactory;
  * @group CheckUser
  * @covers \MediaWiki\CheckUser\PreliminaryCheckPager
  */
-class PreliminaryCheckPagerTest extends MediaWikiTestCase {
+class PreliminaryCheckPagerTest extends MediaWikiIntegrationTestCase {
 
 	/**
 	 * @return MockObject|ExtensionRegistry

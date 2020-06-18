@@ -4,7 +4,7 @@ namespace MediaWiki\CheckUser\Tests;
 
 use MediaWiki\CheckUser\TimelineService;
 use MediaWiki\CheckUser\UserManager;
-use MediaWikiTestCase;
+use MediaWikiIntegrationTestCase;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\Database;
 use Wikimedia\Rdbms\ILoadBalancer;
@@ -13,7 +13,7 @@ use Wikimedia\Rdbms\ILoadBalancer;
  * @group CheckUser
  * @covers \MediaWiki\CheckUser\TimelineService
  */
-class TimelineServiceTest extends MediaWikiTestCase {
+class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 
 	/**
 	 * @dataProvider provideGetQueryInfo

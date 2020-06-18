@@ -5,7 +5,7 @@ namespace MediaWiki\CheckUser\Tests;
 use FauxRequest;
 use MediaWiki\CheckUser\TokenManager;
 use MediaWiki\CheckUser\TokenQueryManager;
-use MediaWikiTestCase;
+use MediaWikiIntegrationTestCase;
 
 /**
  * Test class for TokenQueryManager class
@@ -14,7 +14,7 @@ use MediaWikiTestCase;
  *
  * @covers \MediaWiki\CheckUser\TokenQueryManager
  */
-class TokenQueryManagerTest extends MediaWikiTestCase {
+class TokenQueryManagerTest extends MediaWikiIntegrationTestCase {
 
 	/**
 	 * @return MockObject|TokenManager

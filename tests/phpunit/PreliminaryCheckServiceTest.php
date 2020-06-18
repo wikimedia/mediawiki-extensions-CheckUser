@@ -6,7 +6,7 @@ use ExtensionRegistry;
 use MediaWiki\CheckUser\PreliminaryCheckService;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserGroupManagerFactory;
-use MediaWikiTestCase;
+use MediaWikiIntegrationTestCase;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\ILBFactory;
@@ -18,7 +18,7 @@ use Wikimedia\Rdbms\ILoadBalancer;
  * @group CheckUser
  * @covers \MediaWiki\CheckUser\PreliminaryCheckService
  */
-class PreliminaryCheckServiceTest extends MediaWikiTestCase {
+class PreliminaryCheckServiceTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * @return MockObject|ILoadBalancer
 	 */
