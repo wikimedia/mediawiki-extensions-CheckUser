@@ -4,7 +4,8 @@
 			"Anakmalaysia",
 			"Aviator",
 			"Izzudin",
-			"Kurniasan"
+			"Kurniasan",
+			"Tofeiku"
 		]
 	},
 	"checkuser-summary": "Alat ini mengimbas senarai perubahan terkini untuk mendapatkan senarai IP yang digunakan oleh seseorang pengguna atau memaparkan data sunting/pengguna bagi sesebuah IP. Pengguna dan suntingan oleh sesebuah IP boleh didapatkan melalui pengatas XFF dengan menambah \\\"/xff\\\" selepas IP tersebut. Kedua-dua format IPv4 (CIDR $1-32) dan IPv6 (CIDR $2-128) disokong. Atas sebab-sebab prestasi, pulangan dihadkan kepada 5000 buah suntingan sahaja. Sila patuhi dasar yang telah ditetapkan.",
@@ -69,5 +70,12 @@
 	"checkuser-autocreate-action": "dicipta secara automatik",
 	"checkuser-create-action": "telah dicipta",
 	"checkuser-email-action": "hantar e-mel kepada \"$1\"",
-	"checkuser-reset-action": "set semula kata laluan \"$1\""
+	"checkuser-reset-action": "set semula kata laluan \"$1\"",
+	"checkuser-investigate-tab-preliminary-check": "Maklumat akaun",
+	"checkuser-investigate-duration-label": "Tempoh",
+	"checkuser-investigate-duration-option-all": "Semua",
+	"checkuser-investigate-duration-option-1w": "Minggu lepas",
+	"checkuser-investigate-duration-option-2w": "2 minggu lepas",
+	"checkuser-investigate-duration-option-30d": "30 hari lepas",
+	"checkuser-investigate-compare-copy-button-label": "Tunjuk wikiteks"
 }
