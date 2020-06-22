@@ -47,6 +47,7 @@ class CheckUserHooks {
 				'class' => SpecialInvestigateBlock::class,
 				'services' => [
 					'PermissionManager',
+					'TitleFormatter',
 					'UserFactory',
 				]
 			];

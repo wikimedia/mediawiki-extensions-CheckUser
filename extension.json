@@ -140,6 +140,19 @@
 				"checkuser-investigate-compare-table-button-add-user-targets-label",
 				"checkuser-investigate-compare-table-button-filter-label"
 			]
+		},
+		"ext.checkUser.investigateblock.styles": {
+			"styles": [
+				"modules/ext.checkuser.investigateblock.less"
+			]
+		},
+		"ext.checkUser.investigateblock": {
+			"packageFiles": [
+				"modules/ext.checkuser.investigateblock.js"
+			],
+			"dependencies": [
+				"oojs-ui-widgets"
+			]
 		}
 	},
 	"ResourceFileModulePaths": {

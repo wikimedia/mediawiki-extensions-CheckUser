@@ -2,12 +2,17 @@
 
 namespace MediaWiki\CheckUser;
 
+use ApiMain;
+use DerivativeRequest;
+use Exception;
 use FormSpecialPage;
 use Linker;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserNameUtils;
 use SpecialBlock;
+use TitleFormatter;
+use TitleValue;
 use User;
 use Wikimedia\IPUtils;
 
@@ -15,19 +20,27 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 	/** @var PermissionManager */
 	private $permissionManager;
 
+	/** @var TitleFormatter */
+	private $titleFormatter;
+
 	/** @var UserFactory */
 	private $userFactory;
 
 	/** @var array */
 	private $blockedUsers = [];
 
+	/** @var bool */
+	private $noticesFailed = false;
+
 	public function __construct(
 		PermissionManager $permissionManager,
+		TitleFormatter $titleFormatter,
 		UserFactory $userFactory
 	) {
 		parent::__construct( 'InvestigateBlock', 'investigate' );
 
 		$this->permissionManager = $permissionManager;
+		$this->titleFormatter = $titleFormatter;
 		$this->userFactory = $userFactory;
 	}
 
@@ -50,8 +63,12 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 	 * @inheritDoc
 	 */
 	public function getFormFields() {
+		$this->getOutput()->addModules( [
+			'ext.checkUser.investigateblock'
+		] );
 		$this->getOutput()->addModuleStyles( [
 			'mediawiki.widgets.TagMultiselectWidget.styles',
+			'ext.checkUser.investigateblock.styles',
 		] );
 		$this->getOutput()->enableOOUI();
 
@@ -60,7 +77,6 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 
 		$fields['Targets'] = [
 			'type' => 'usersmultiselect',
-			'label-message' => $prefix . '-targets-label',
 			'ipallowed' => true,
 			'iprange' => true,
 			'autofocus' => true,
@@ -69,6 +85,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 			'input' => [
 				'autocomplete' => false,
 			],
+			'section' => 'target',
 		];
 
 		if ( SpecialBlock::canBlockEmail( $this->getUser() ) ) {
@@ -76,6 +93,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 				'type' => 'check',
 				'label-message' => $prefix . '-email-label',
 				'default' => false,
+				'section' => 'actions',
 			];
 		}
 
@@ -84,6 +102,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 				'type' => 'check',
 				'label-message' => $prefix . '-usertalk-label',
 				'default' => false,
+				'section' => 'actions',
 			];
 		}
 
@@ -91,15 +110,60 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 			'type' => 'check',
 			'label-message' => $prefix . '-reblock-label',
 			'default' => false,
+			'section' => 'actions',
 		];
 
 		$fields['Reason'] = [
 			'type' => 'text',
-			'label-message' => $prefix . '-reason-label',
 			'maxlength' => 150,
 			'required' => true,
 			'autocomplete' => false,
+			'section' => 'reason',
 		];
+
+		$pageNoticeClass = 'ext-checkuser-investigate-block-notice';
+		$pageNoticePosition = [
+			'type' => 'select',
+			'cssclass' => $pageNoticeClass,
+			'label-message' => $prefix . '-notice-position-label',
+			'options-messages' => [
+				$prefix . '-notice-prepend' => 'prependtext',
+				$prefix . '-notice-replace' => 'text',
+				$prefix . '-notice-append' => 'appendtext',
+			],
+			'section' => 'options',
+		];
+		$pageNoticeText = [
+			'type' => 'text',
+			'cssclass' => $pageNoticeClass,
+			'label-message' => $prefix . '-notice-text-label',
+			'default' => '',
+			'section' => 'options',
+		];
+
+		$fields['UserPageNotice'] = [
+			'type' => 'check',
+			'label-message' => $prefix . '-notice-user-page-label',
+			'default' => false,
+			'section' => 'options',
+		];
+		$fields['UserPageNoticePosition'] = array_merge(
+			$pageNoticePosition,
+			[ 'default' => 'prependtext' ]
+		);
+		$fields['UserPageNoticeText'] = $pageNoticeText;
+
+		$fields['TalkPageNotice'] = [
+			'type' => 'check',
+			'label-message' => $prefix . '-notice-talk-page-label',
+			'default' => false,
+			'section' => 'options',
+		];
+		$fields['TalkPageNoticePosition'] = array_merge(
+			$pageNoticePosition,
+			[ 'default' => 'appendtext' ]
+		);
+		$fields['TalkPageNoticeText'] = $pageNoticeText;
 
 		return $fields;
 	}
@@ -162,6 +226,24 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 
 			if ( $result === true ) {
 				$this->blockedUsers[] = $target;
+
+				if ( $data['UserPageNotice'] ) {
+					$this->addNoticeToPage(
+						$this->getTargetPage( NS_USER, $target ),
+						$data['UserPageNoticeText'],
+						$data['UserPageNoticePosition'],
+						$data['Reason']
+					);
+				}
+
+				if ( $data['TalkPageNotice'] ) {
+					$this->addNoticeToPage(
+						$this->getTargetPage( NS_USER_TALK, $target ),
+						$data['TalkPageNoticeText'],
+						$data['TalkPageNoticePosition'],
+						$data['Reason']
+					);
+				}
 			}
 		}
 
@@ -170,6 +252,56 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 		}
 
 		return true;
+	}
+
+	/**
+	 * @param int $namespace
+	 * @param string $target Must be a valid IP address or a valid user name
+	 * @return string
+	 */
+	private function getTargetPage( int $namespace, string $target ) : string {
+		return $this->titleFormatter->getPrefixedText(
+			new TitleValue( $namespace, $target )
+		);
+	}
+
+	/**
+	 * Add a notice to a given page. The notice may be prepended or appended,
+	 * or it may replace the page.
+	 *
+	 * @param string $title Page to which to add the notice
+	 * @param string $notice The notice, as wikitext
+	 * @param string $position One of 'prependtext', 'appendtext' or 'text'
+	 * @param string $summary Edit summary
+	 */
+	private function addNoticeToPage(
+		string $title,
+		string $notice,
+		string $position,
+		string $summary
+	) : void {
+		$apiParams = [
+			'action' => 'edit',
+			'title' => $title,
+			$position => $notice,
+			'summary' => $summary,
+			'token' => $this->getUser()->getEditToken(),
+		];
+
+		$api = new ApiMain(
+			new DerivativeRequest(
+				$this->getRequest(),
+				$apiParams,
+				true // was posted
+			),
+			true // enable write
+		);
+
+		try {
+			$api->execute();
+		} catch ( Exception $e ) {
+			$this->noticesFailed = true;
+		}
 	}
 
 	/**
@@ -185,13 +317,20 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 		}, $this->blockedUsers );
 
 		$language = $this->getLanguage();
-		$message = $this->msg( $this->getMessagePrefix() . '-success' )
+		$prefix = $this->getMessagePrefix();
+
+		$blockedMessage = $this->msg( $prefix . '-success' )
 			->rawParams( $language->listToText( $blockedUsers ) )
 			->params( $language->formatNum( count( $blockedUsers ) ) )
 			->parseAsBlock();
 
 		$out = $this->getOutput();
 		$out->setPageTitle( $this->msg( 'blockipsuccesssub' ) );
-		$out->addHtml( $message );
+		$out->addHtml( $blockedMessage );
+
+		if ( $this->noticesFailed ) {
+			$failedNoticesMessage = $this->msg( $prefix . '-notices-failed' );
+			$out->addHtml( $failedNoticesMessage );
+		}
 	}
 }
