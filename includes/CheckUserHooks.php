@@ -3,6 +3,7 @@
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\SpecialInvestigate;
+use MediaWiki\CheckUser\SpecialInvestigateBlock;
 use MediaWiki\CheckUser\SpecialInvestigateLog;
 use MediaWiki\MediaWikiServices;
 use Wikimedia\IPUtils;
@@ -33,6 +34,14 @@ class CheckUserHooks {
 				'services' => [
 					'CheckUserInvestigateLogPagerFactory',
 				],
+			];
+
+			$list['InvestigateBlock'] = [
+				'class' => SpecialInvestigateBlock::class,
+				'services' => [
+					'PermissionManager',
+					'UserFactory',
+				]
 			];
 		}
 

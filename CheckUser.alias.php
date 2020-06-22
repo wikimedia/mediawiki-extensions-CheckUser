@@ -13,6 +13,7 @@ $specialPageAliases['en'] = [
 	'CheckUser' => [ 'CheckUser' ],
 	'CheckUserLog' => [ 'CheckUserLog' ],
 	'Investigate' => [ 'Investigate' ],
+	'InvestigateBlock' => [ 'InvestigateBlock' ],
 	'InvestigateLog' => [ 'InvestigateLog' ],
 ];
 
