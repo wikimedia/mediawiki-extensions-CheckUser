@@ -3,6 +3,7 @@
 		"authors": [
 			"Asoxor",
 			"Calak",
+			"Cwtiyar",
 			"ئارام بکر"
 		]
 	},
@@ -47,5 +48,10 @@
 	"checkuser-search": "گەڕان",
 	"checkuser-search-submit": "گەڕان",
 	"checkuser-search-target": "مەبەست",
+	"checkuser-investigate-duration-label": "ماوە",
+	"checkuser-investigate-duration-option-all": "هەمووی",
+	"checkuser-investigate-duration-option-1w": "ھەفتەی پێشوو",
+	"checkuser-investigate-duration-option-2w": "کۆتا ٢ هەفتە",
+	"checkuser-investigate-duration-option-30d": "٣٠ ڕۆژ لەمەو پێش",
 	"checkuser-investigate-preliminary-table-header-blocked": "ڕەوش"
 }

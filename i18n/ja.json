@@ -77,6 +77,7 @@
 	"checkuser-blocktalk": "この利用者がブロック中に自身のトークページを編集することを禁止",
 	"checkuser-blocktag": "利用者ページを以下で置換:",
 	"checkuser-blocktag-talk": "トークページを以下で置換:",
+	"checkuser-reblock": "既に設定されているブロックを上書き",
 	"checkuser-massblock-commit": "選択した利用者をブロック",
 	"checkuser-block-success": "'''{{PLURAL:$2|利用者}} $1 はブロック{{PLURAL:$2|されました}}。'''",
 	"checkuser-block-failure": "'''ブロックされた利用者はありません。'''",
