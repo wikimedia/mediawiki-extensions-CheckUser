@@ -126,6 +126,7 @@
 				"oojs-ui.styles.icons-interactions",
 				"oojs-ui.styles.icons-moderation",
 				"mediawiki.storage",
+				"mediawiki.Uri",
 				"mediawiki.widgets"
 			],
 			"messages": [
