@@ -96,6 +96,8 @@
 	"checkuser-login-success": "تم تسجيل الدخول بنجاح إلى {{SITENAME}} كـ$1",
 	"group-checkuser.css": "/* الأنماط المتراصة CSS المعروضة هنا ستؤثر على مدققي المستخدم فقط */",
 	"group-checkuser.js": "/* الجافا سكريبت المعروضة هنا ستؤثر على مدققي المستخدم فقط */",
+	"checkuser-investigateblock": "منع المستخدمين",
+	"checkuser-investigateblock-reason-label": "السبب",
 	"checkuser-investigate-log": "سجلات التحقيق",
 	"checkuser-investigate-log-entry": "$3, $1 بحث عن معلومات لـ<bdi>$2</bdi> $4",
 	"checkuser-investigate-log-empty": "لم يتم العثور على مدخلات سجل التحقيق.",
