@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Abijeet Patro",
 			"Ansumang",
 			"Kaustubh",
 			"Sfic",
@@ -74,5 +75,6 @@
 	"checkuser-email-action": "सदस्य \"$1\" को ई-मेल भेजा गया",
 	"checkuser-reset-action": "\"$1\" के लिए पासवर्ड रीसेट करें",
 	"group-checkuser.css": "/* यहाँ पर दी सी॰एस॰एस केवल सदस्य जाँचकर्ताओं के लिये होगी */",
-	"group-checkuser.js": "/* यहाँ पर दी जावास्क्रिप्ट केवल सदस्य जाँचकर्ताओं के लिए होगी */"
+	"group-checkuser.js": "/* यहाँ पर दी जावास्क्रिप्ट केवल सदस्य जाँचकर्ताओं के लिए होगी */",
+	"checkuser-investigateblock-reason-label": "कारण"
 }
