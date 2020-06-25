@@ -34,6 +34,7 @@ class CheckUserHooks {
 					'CheckUserTokenQueryManager',
 					'CheckUserDurationManager',
 					'CheckUserEventLogger',
+					'CheckUserGuidedTourLauncher',
 				],
 			];
 

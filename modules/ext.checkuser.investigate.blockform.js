@@ -1,4 +1,3 @@
-/* eslint-disable no-jquery/no-global-selector */
 module.exports = function addBlockForm() {
 	// Attributes used for pinnable highlighting
 	var blockButton = OO.ui.infuse( $( '.ext-checkuser-investigate-subtitle-block-button' ) ),

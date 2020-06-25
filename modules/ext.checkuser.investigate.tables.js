@@ -97,6 +97,9 @@ module.exports = function setupTables() {
 		if ( buttonTypes.filter ) {
 			options.push( new OO.ui.MenuOptionWidget( {
 				icon: 'funnel',
+				classes: [
+					'ext-checkuser-investigate-button-filter-ip'
+				],
 				label: mw.msg( 'checkuser-investigate-compare-table-button-filter-label' ),
 				data: { type: 'filter' }
 			} ) );
@@ -106,6 +109,9 @@ module.exports = function setupTables() {
 			options.push( new OO.ui.MenuOptionWidget( {
 				disabled: isTarget,
 				icon: 'add',
+				classes: [
+					'ext-checkuser-investigate-button-add-user-targets'
+				],
 				label: mw.msg( 'checkuser-investigate-compare-table-button-add-user-targets-label' ),
 				data: { type: 'addUsers' }
 			} ) );

@@ -52,6 +52,9 @@ module.exports = function addCopyFeature() {
 
 	wikitextButton = new OO.ui.ButtonWidget( {
 		label: mw.msg( 'checkuser-investigate-compare-copy-button-label' ),
+		classes: [
+			'ext-checkuser-investigate-copy-button'
+		],
 		flags: [ 'primary', 'progressive' ]
 	} );
 	wikitextButton.on( 'click', onWikitextButtonClick );

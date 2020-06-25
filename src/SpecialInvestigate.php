@@ -4,6 +4,8 @@ namespace MediaWiki\CheckUser;
 
 use Html;
 use HTMLForm;
+use MediaWiki\CheckUser\GuidedTour\TourLauncher;
+use MediaWiki\CheckUser\HookHandler\Preferences;
 use OOUI\ButtonGroupWidget;
 use OOUI\ButtonWidget;
 use OOUI\Element;
@@ -39,6 +41,9 @@ class SpecialInvestigate extends \FormSpecialPage {
 	/** @var EventLogger */
 	private $eventLogger;
 
+	/** @var TourLauncher */
+	private $tourLauncher;
+
 	/** @var IndexLayout|null */
 	private $layout;
 
@@ -51,6 +56,15 @@ class SpecialInvestigate extends \FormSpecialPage {
 	/** @var string|null */
 	private $tokenWithoutPaginationData;
 
+	/** @var int */
+	private const MAX_TARGETS = 10;
+
+	/** @var string */
+	private const TOUR_INVESTIGATE = 'checkuserinvestigate';
+
+	/** @var string */
+	private const TOUR_INVESTIGATE_FORM = 'checkuserinvestigateform';
+
 	/**
 	 * @param PagerFactory $preliminaryCheckPagerFactory
 	 * @param PagerFactory $comparePagerFactory
@@ -58,6 +72,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @param TokenQueryManager $tokenQueryManager
 	 * @param DurationManager $durationManager
 	 * @param EventLogger $eventLogger
+	 * @param TourLauncher $tourLauncher
 	 */
 	public function __construct(
 		PagerFactory $preliminaryCheckPagerFactory,
@@ -65,7 +80,8 @@ class SpecialInvestigate extends \FormSpecialPage {
 		PagerFactory $timelinePagerFactory,
 		TokenQueryManager $tokenQueryManager,
 		DurationManager $durationManager,
-		EventLogger $eventLogger
+		EventLogger $eventLogger,
+		TourLauncher $tourLauncher
 	) {
 		parent::__construct( 'Investigate', 'investigate' );
 		$this->preliminaryCheckPagerFactory = $preliminaryCheckPagerFactory;
@@ -74,6 +90,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 		$this->tokenQueryManager = $tokenQueryManager;
 		$this->durationManager = $durationManager;
 		$this->eventLogger = $eventLogger;
+		$this->tourLauncher = $tourLauncher;
 	}
 
 	/**
@@ -116,6 +133,8 @@ class SpecialInvestigate extends \FormSpecialPage {
 			$this->addPageSubtitle();
 			$this->addTabs( $par )->addTabContent( $par );
 			$this->getOutput()->addHTML( $this->getLayout() );
+		} else {
+			$this->launchTour( self::TOUR_INVESTIGATE_FORM );
 		}
 	}
 
@@ -290,6 +309,9 @@ class SpecialInvestigate extends \FormSpecialPage {
 							'label' => new HtmlSnippet( $message )
 						] ) );
 					}
+
+					// Only start the tour if there are results on the page.
+					$this->launchTour( self::TOUR_INVESTIGATE );
 
 					$this->addParserOutput( $pager->getFullOutput() );
 				} else {
@@ -549,14 +571,17 @@ class SpecialInvestigate extends \FormSpecialPage {
 		];
 
 		if ( $data === [] ) {
+			$this->getOutput()->addJsConfigVars( 'wgCheckUserInvestigateMaxTargets', self::MAX_TARGETS );
+
 			return [
 				'Targets' => [
 					'type' => 'usersmultiselect',
 					'name' => 'targets',
 					'label-message' => $prefix . '-targets-label',
 					'placeholder' => $this->msg( $prefix . '-targets-placeholder' )->text(),
+					'id' => 'targets',
 					'required' => true,
-					'max' => 10,
+					'max' => self::MAX_TARGETS,
 					'exists' => true,
 					'ipallowed' => true,
 					'iprange' => true,
@@ -813,5 +838,35 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 */
 	private function getDuration() : string {
 		return $this->durationManager->getFromRequest( $this->getRequest() );
+	}
+
+	/**
+	 * Launches the tour unless the user has already completed or canceled it.
+	 *
+	 * @param string $tour
+	 * @return void
+	 */
+	private function launchTour( string $tour ) : void {
+		$preference = '';
+		$step = '';
+
+		switch ( $tour ) {
+			case self::TOUR_INVESTIGATE_FORM:
+				$preference = Preferences::INVESTIGATE_FORM_TOUR_SEEN;
+				$step = 'targets';
+				break;
+			case self::TOUR_INVESTIGATE:
+				$preference = Preferences::INVESTIGATE_TOUR_SEEN;
+				$step = 'useragents';
+				break;
+			default:
+				return;
+		}
+
+		if ( $this->getUser()->getOption( $preference ) ) {
+			return;
+		}
+
+		$this->tourLauncher->launchTour( $tour, $step );
 	}
 }
