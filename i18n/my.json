@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Dr Lotus Black",
-			"Ninjastrikers"
+			"Ninjastrikers",
+			"Teitei Para"
 		]
 	},
 	"checkuser": "စုံစမ်းစစ်ဆေးသူ",
@@ -31,6 +32,10 @@
 	"checkuser-check-this-user": "ဤအသုံးပြုသူအား စုံစမ်းစစ်ဆေးရန်",
 	"checkuser-recent-checks": "ဤအသုံးပြုသူအတွက် မကြာသေးမီက စုံစမ်းစစ်ဆေးမှုများ",
 	"checkuser-search-submit": "ရှာဖွေရန်",
+	"checkuser-investigateblock": "အသုံးပြုသူများကို ပိတ်ပင်ရန်",
+	"checkuser-investigateblock-email-label": "အီးမေးလ်ပို့ခြင်းကို တားဆီးရန်",
+	"checkuser-investigateblock-reason-label": "အကြောင်းပြချက်",
+	"checkuser-investigateblock-targets-label": "အသုံးပြုသူအမည် သို့မဟုတ် အီးမေးလ်လိပ်စာ",
 	"checkuser-investigate-notice-no-results": "ရလဒ်များ မရှိပါ။",
 	"checkuser-investigate-preliminary-table-header-blocked": "အခြေအနေ"
 }
