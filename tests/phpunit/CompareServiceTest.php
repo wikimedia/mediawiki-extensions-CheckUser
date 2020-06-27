@@ -73,7 +73,11 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 			$userManager
 		);
 
-		$queryInfo = $compareService->getQueryInfo( $options['targets'], $options['excludeTargets'], $options['start'] );
+		$queryInfo = $compareService->getQueryInfo(
+			$options['targets'],
+			$options['excludeTargets'],
+			$options['start']
+		);
 
 		foreach ( $expected['targets'] as $target ) {
 			$this->assertStringContainsString( $target, $queryInfo['tables']['a'] );

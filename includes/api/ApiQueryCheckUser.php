@@ -163,7 +163,8 @@ class ApiQueryCheckUser extends ApiQueryBase {
 								// This shouldn't happen, CheckUser points to a revision
 								// that isn't in revision nor archive table?
 								throw new Exception(
-									"Couldn't fetch revision cu_changes table links to (cuc_this_oldid {$row->cuc_this_oldid})"
+									"Couldn't fetch revision cu_changes table links to " .
+										"(cuc_this_oldid {$row->cuc_this_oldid})"
 								);
 							}
 							if ( !RevisionRecord::userCanBitfield(
