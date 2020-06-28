@@ -64,7 +64,7 @@ class CheckUserHooks {
 	 * @return bool
 	 */
 	public static function updateCheckUserData( RecentChange $rc ) {
-		global $wgRequest;
+		global $wgRequest, $wgCheckUserLogAdditionalRights;
 
 		/**
 		 * RC_CATEGORIZE recent changes are generally triggered by other edits.
@@ -96,12 +96,17 @@ class CheckUserHooks {
 		// BC: check if log_type and log_action exists
 		// If not, then $rc_comment is the actiontext and comment
 		if ( isset( $attribs['rc_log_type'] ) && $attribs['rc_type'] == RC_LOG ) {
+			$pm = MediaWikiServices::getInstance()->getPermissionManager();
 			$target = Title::makeTitle( $attribs['rc_namespace'], $attribs['rc_title'] );
 			$context = RequestContext::newExtraneousContext( $target );
+
+			$scope = $pm->addTemporaryUserRights( $context->getUser(), $wgCheckUserLogAdditionalRights );
 
 			$formatter = LogFormatter::newFromRow( $rc->getAttributes() );
 			$formatter->setContext( $context );
 			$actionText = $formatter->getPlainActionText();
+
+			\Wikimedia\ScopedCallback::consume( $scope );
 		} else {
 			$actionText = '';
 		}

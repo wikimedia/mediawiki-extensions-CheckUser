@@ -61,6 +61,10 @@
 		"CheckUserEnableSpecialInvestigate": {
 			"value": false,
 			"description": "Enables Special:Investigate"
+		},
+		"CheckUserLogAdditionalRights": {
+			"value": [],
+			"description": "Additional rights to be used when adding CheckUser log entries"
 		}
 	},
 	"APIListModules": {
