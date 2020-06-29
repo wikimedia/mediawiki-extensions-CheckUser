@@ -112,7 +112,7 @@
 	"group-checkuser.js": "/* Le Javascript placé ici n’affectera que les membres du groupe « checkuser » */",
 	"checkuser-investigateblock": "Bloquer les utilisateurs",
 	"checkuser-investigateblock-email-label": "Empêcher l’envoi de courriel",
-	"checkuser-investigateblock-failure": "Aucun utilisateur n’a été bloqué. Pour annuler les blocages existants, cocher la case 'rebloquer'. Un blocage ne sera pas écrasé si le nouveau blocage est identique à l’existant.",
+	"checkuser-investigateblock-failure": "Aucun utilisateur n’a été bloqué. Pour confirmer les blocages existants, cocher la case 'rebloquer'. Un blocage ne sera pas écrasé si le nouveau blocage est identique à l’existant.",
 	"checkuser-investigateblock-reason-label": "Motif",
 	"checkuser-investigateblock-reblock-label": "Écraser les blocages existants",
 	"checkuser-investigateblock-success": "{{PLURAL:$2|L’utilisateur $1 est désormais bloqué|Les utilisateurs $1 sont désormais bloqués}}.",

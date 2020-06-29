@@ -27,6 +27,7 @@
 			"Prima klasy4na",
 			"Putnik",
 			"Silence",
+			"Teretalexev",
 			"Александр Сигачёв",
 			"Ядерный Трамвай"
 		]
@@ -110,6 +111,9 @@
 	"checkuser-token-fail": "Сеанс прерван. Пожалуйста, попробуйте ещё раз.",
 	"checkuser-login-failure": "Не удалось войти в {{SITENAME}} в качестве $1",
 	"checkuser-login-success": "Успешно вошел в систему {{SITENAME}} как $1",
+	"checkuser-investigateblock": "Заблокированные участники",
+	"checkuser-investigateblock-reblock-label": "Переписать существующие блокировки",
+	"checkuser-investigateblock-success": "Сейчас {{PLURAL:$2|заблокирован $1 участник|заблокированы $1 участника|заблокированы $1 участников}}.",
 	"checkuser-investigate-log": "Журнал исследований",
 	"checkuser-investigate-log-entry": "$3, $1 посмотрел информацию для <bdi>$2</bdi> $4",
 	"checkuser-investigate-log-empty": "Записи журнала исследований не найдены.",

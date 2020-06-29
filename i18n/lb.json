@@ -79,6 +79,8 @@
 	"checkuser-reset-action": "huet d'Passwuert fir de Benotzer \"$1\" zréckgesat",
 	"checkuser-token-fail": "Sessiouns-Feeler.Probéiert wgl. nach eng Kéier.",
 	"checkuser-login-success": "Op {{SITENAME}} ageloggt als $1",
+	"checkuser-investigateblock": "Benotzer spären",
+	"checkuser-investigateblock-reason-label": "Grond",
 	"checkuser-investigate-indicator-new-investigation": "Nei Enquête",
 	"checkuser-investigate-indicator-logs": "Logbicher",
 	"checkuser-investigate-notice-no-results": "Et gëtt keng Resultater.",

@@ -122,7 +122,7 @@
 	"checkuser-investigateblock": "{{doc-special|InvestigateBlock}}",
 	"checkuser-investigateblock-email-label": "Label for a checkbox in the [[Special:InvestigateBlock]] form",
 	"checkuser-investigateblock-failure": "Message shown after submitting the [[Special:InvestigateBlock]] form if no blocks were made",
-	"checkuser-investigateblock-reason-label": "Label for a text input in the [[Special:InvestigateBlock]] form",
+	"checkuser-investigateblock-reason-label": "Label for a text input in the [[Special:InvestigateBlock]] form\n{{identical|Reason}}",
 	"checkuser-investigateblock-reblock-label": "Label for a checkbox in the [[Special:InvestigateBlock]] form",
 	"checkuser-investigateblock-success": "Message shown after submitting the [[Special:InvestigateBlock]] form if blocks were made",
 	"checkuser-investigateblock-targets-label": "Label for a field in the [[Special:InvestigateBlock]] form",

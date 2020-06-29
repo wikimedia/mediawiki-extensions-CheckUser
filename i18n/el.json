@@ -8,6 +8,7 @@
 			"Glavkos",
 			"K sal 15",
 			"Konsnos",
+			"Norhorn",
 			"Omnipaedista",
 			"Protnet",
 			"ZaDiak",
@@ -76,5 +77,9 @@
 	"checkuser-autocreate-action": "δημιουργήθηκε αυτόματα",
 	"checkuser-create-action": "δημιουργήθηκε",
 	"checkuser-email-action": "έστειλε ένα ηλεκτρονικό μήνυμα στον χρήστη \"$1\"",
-	"checkuser-reset-action": "αποστολή νέου κωδικού για τον χρήστη \"$1\""
+	"checkuser-reset-action": "αποστολή νέου κωδικού για τον χρήστη \"$1\"",
+	"checkuser-investigateblock": "Αποκλεισμένοι χρήστες",
+	"checkuser-investigateblock-email-label": "Αποτροπή αποστολής μηνύματος ηλεκτρονικού ταχυδρομείου",
+	"checkuser-investigateblock-reason-label": "Αιτία",
+	"checkuser-investigateblock-targets-label": "Ονόματα χρήστη και διευθύνσεις IP"
 }

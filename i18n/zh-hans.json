@@ -20,6 +20,7 @@
 			"Yfdyh000",
 			"乌拉跨氪",
 			"列维劳德",
+			"沈澄心",
 			"白布飘扬",
 			"铁桶"
 		]
@@ -106,6 +107,10 @@
 	"checkuser-login-success": "成功作为$1登录至{{SITENAME}}",
 	"group-checkuser.css": "/* 这里放置的CSS将只影响用户查核员 */",
 	"group-checkuser.js": "/* 这里放置的JS将只影响用户查核员 */",
+	"checkuser-investigateblock": "封禁用户",
+	"checkuser-investigateblock-email-label": "阻止发送电子邮件",
+	"checkuser-investigateblock-reason-label": "原因",
+	"checkuser-investigateblock-usertalk-label": "在封禁期间阻止其编辑自己的讨论页",
 	"checkuser-investigate-indicator-logs": "日志",
 	"checkuser-investigate-tab-preliminary-check": "账户信息",
 	"checkuser-investigate-duration-label": "期限",

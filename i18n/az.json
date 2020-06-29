@@ -7,6 +7,7 @@
 			"PPerviz",
 			"Toghrul Rahimli",
 			"Vago",
+			"Vesely35",
 			"Vugar 1981"
 		]
 	},
@@ -90,5 +91,6 @@
 	"checkuser-login-failure": "$1 olaraq {{SITENAME}} saytına daxil olmaq uğursuz oldu",
 	"checkuser-login-success": "$1 olaraq {{SITENAME}} saytına daxil olmaq uğurla alındı",
 	"group-checkuser.css": "/* Burada yerləşən CSS yalnız təftişçilərə şamil olunur */",
-	"group-checkuser.js": "/* Burada yerləşən CSS yalnız təftişçilərə şamil olunur */"
+	"group-checkuser.js": "/* Burada yerləşən CSS yalnız təftişçilərə şamil olunur */",
+	"checkuser-investigateblock-success": "'''{{PLURAL:$2|İstifadəçi|İstifadəçilər}} $1 bloklanıb'''"
 }
