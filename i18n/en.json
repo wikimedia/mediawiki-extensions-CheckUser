@@ -94,7 +94,7 @@
 	"group-checkuser.js": "/* JS placed here will affect checkuser only */",
 	"checkuser-investigateblock": "Block users",
 	"checkuser-investigateblock-email-label": "Prevent from sending email",
-	"checkuser-investigateblock-failure": "No users were blocked. To override existing blocks, check the 'reblock' box. A block will not be overridden if the new block is identical to the existing block.",
+	"checkuser-investigateblock-failure": "No users were blocked. To override existing blocks, check: \"{{int:checkuser-investigateblock-reblock-label}}\". A block will not be overridden if the new block is identical to the existing block.",
 	"checkuser-investigateblock-reason-label": "Reason",
 	"checkuser-investigateblock-reblock-label": "Override existing blocks",
 	"checkuser-investigateblock-success": "The {{PLURAL:$2|user|users}} $1 {{PLURAL:$2|is|are}} now blocked.",
