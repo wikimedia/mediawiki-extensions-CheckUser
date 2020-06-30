@@ -101,7 +101,7 @@
 	"checkuser-login-success": "Erfolgreich bei {{SITENAME}} angemeldet als $1",
 	"checkuser-investigateblock": "Benutzer sperren",
 	"checkuser-investigateblock-email-label": "Vom Versenden von E-Mails abhalten",
-	"checkuser-investigateblock-failure": "Es wurden keine Benutzer gesperrt. Um bestehende Sperren aufzuheben, markiere das Kästchen „erneut sperren“. Eine Sperre wird nicht außer Kraft gesetzt, wenn die neue Sperre mit der bestehenden Sperre identisch ist.",
+	"checkuser-investigateblock-failure": "Es wurden keine Benutzer gesperrt. Um bestehende Sperren aufzuheben, markiere das Kästchen „{{int:checkuser-investigateblock-reblock-label}}“. Eine Sperre wird nicht außer Kraft gesetzt, wenn die neue Sperre mit der bestehenden Sperre identisch ist.",
 	"checkuser-investigateblock-reason-label": "Grund",
 	"checkuser-investigateblock-reblock-label": "Bestehende Sperren überschreiben",
 	"checkuser-investigateblock-success": "{{PLURAL:$2|Der Benutzer|Die Benutzer}} $1 {{PLURAL:$2|wurde|wurden}} gesperrt.",

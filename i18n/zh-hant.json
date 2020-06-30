@@ -105,7 +105,7 @@
 	"checkuser-login-success": "成功以$1身分登入{{SITENAME}}",
 	"checkuser-investigateblock": "封鎖使用者",
 	"checkuser-investigateblock-email-label": "禁止傳送電郵",
-	"checkuser-investigateblock-failure": "沒有要被封鎖的使用者。要覆蓋現有的封鎖，請勾選「重新封鎖」方框。若新的封鎖與現有封鎖內容相同，則不會做出覆蓋。",
+	"checkuser-investigateblock-failure": "沒有要被封鎖的使用者。要覆蓋現有的封鎖，請勾選：「{{int:checkuser-investigateblock-reblock-label}}」。若新的封鎖與現有封鎖內容相同，則不會做出覆蓋。",
 	"checkuser-investigateblock-reason-label": "原因",
 	"checkuser-investigateblock-reblock-label": "覆蓋現有的封鎖",
 	"checkuser-investigateblock-success": "{{PLURAL:$2|使用者}}$1{{PLURAL:$2|現已被}}封鎖。",
