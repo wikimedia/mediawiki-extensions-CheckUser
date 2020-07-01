@@ -3,6 +3,7 @@
 use MediaWiki\CheckUser\ComparePagerFactory;
 use MediaWiki\CheckUser\CompareService;
 use MediaWiki\CheckUser\DurationManager;
+use MediaWiki\CheckUser\EventLogger;
 use MediaWiki\CheckUser\InvestigateLogPagerFactory;
 use MediaWiki\CheckUser\PreliminaryCheckPagerFactory;
 use MediaWiki\CheckUser\PreliminaryCheckService;
@@ -105,5 +106,12 @@ return [
 		MediaWikiServices $services
 	) : UserManager {
 		return new UserManager();
+	},
+	'CheckUserEventLogger' => function (
+		 MediaWikiServices $services
+	) : EventLogger {
+		return new EventLogger(
+			\ExtensionRegistry::getInstance()
+		);
 	}
 ];

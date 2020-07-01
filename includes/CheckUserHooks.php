@@ -33,6 +33,7 @@ class CheckUserHooks {
 					'CheckUserTimelinePagerFactory',
 					'CheckUserTokenQueryManager',
 					'CheckUserDurationManager',
+					'CheckUserEventLogger',
 				],
 			];
 
@@ -49,6 +50,7 @@ class CheckUserHooks {
 					'PermissionManager',
 					'TitleFormatter',
 					'UserFactory',
+					'CheckUserEventLogger',
 				]
 			];
 		}
