@@ -23,7 +23,7 @@
 	"apihelp-query+checkuserlog-param-user": "Denetçi olan kullanıcı adları.",
 	"apihelp-query+checkuserlog-param-target": "Kontrol edilen IP adresleri veya CIDR aralığı.",
 	"apihelp-query+checkuserlog-param-limit": "Satır sınırı.",
-	"apihelp-query+checkuserlog-param-from": "Numaralandırmaya başlamak için zaman bilgisi.",
+	"apihelp-query+checkuserlog-param-from": "Numaralandırmaya başlamak için zaman damgası.",
 	"apihelp-query+checkuserlog-param-to": "Numaralandırmayı sonlandırmak için zaman bilgisi.",
 	"apihelp-query+checkuserlog-example-1": "[[User:Example]] için yapılan kontrolleri göster",
 	"apihelp-query+checkuserlog-example-2": "2011-10-15T23:00:00Z tarihinden sonraki 192.0.2.0/24 kontrollerini göster",

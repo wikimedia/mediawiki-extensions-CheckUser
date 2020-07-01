@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Actualisateur",
 			"ChrisPtDe",
 			"DavidL",
 			"Derugon",
@@ -111,13 +112,12 @@
 	"group-checkuser.css": "/* Le CSS placé ici n’affectera que les membres du groupe « checkuser » */",
 	"group-checkuser.js": "/* Le Javascript placé ici n’affectera que les membres du groupe « checkuser » */",
 	"checkuser-investigateblock": "Bloquer les utilisateurs",
+	"checkuser-investigateblock-reason": "Motif",
 	"checkuser-investigateblock-email-label": "Empêcher l’envoi de courriel",
-	"checkuser-investigateblock-failure": "Aucun utilisateur n’a été bloqué. Pour confirmer les blocages existants, cocher la case 'rebloquer'. Un blocage ne sera pas écrasé si le nouveau blocage est identique à l’existant.",
-	"checkuser-investigateblock-reason-label": "Motif",
-	"checkuser-investigateblock-reblock-label": "Écraser les blocages existants",
-	"checkuser-investigateblock-success": "{{PLURAL:$2|L’utilisateur $1 est désormais bloqué|Les utilisateurs $1 sont désormais bloqués}}.",
-	"checkuser-investigateblock-targets-label": "Noms d’utilisateur et adresses IP",
 	"checkuser-investigateblock-usertalk-label": "Empêcher de modifier leur propre page de discussion en étant bloqué",
+	"checkuser-investigateblock-reblock-label": "Écraser les blocages existants",
+	"checkuser-investigateblock-failure": "Aucun utilisateur n’a été bloqué. Pour confirmer les blocages existants, cocher « {{int:checkuser-investigateblock-reblock-label}} ». Un blocage ne sera pas écrasé si le nouveau est identique à l’existant.",
+	"checkuser-investigateblock-success": "{{PLURAL:$2|L’utilisateur $1 est désormais bloqué|Les utilisateurs $1 sont désormais bloqués}}.",
 	"checkuser-investigate-log": "Journaux des investigations",
 	"checkuser-investigate-log-entry": "$3, $1 a recherché des informations sur <bdi>$2</bdi> $4",
 	"checkuser-investigate-log-empty": "Aucun entrée trouvée dans le journal des investigations.",
