@@ -107,7 +107,7 @@
 	"checkuser-investigateblock-notice-append": "Append to page",
 	"checkuser-investigateblock-notice-prepend": "Prepend to page",
 	"checkuser-investigateblock-notice-replace": "Replace page",
-	"checkuser-investigateblock-failure": "No users were blocked. To override existing blocks, check the 'reblock' box. A block will not be overridden if the new block is identical to the existing block.",
+	"checkuser-investigateblock-failure": "No users were blocked. To override existing blocks, check: \"{{int:checkuser-investigateblock-reblock-label}}\". A block will not be overridden if the new block is identical to the existing block.",
 	"checkuser-investigateblock-success": "The {{PLURAL:$2|user|users}} $1 {{PLURAL:$2|is|are}} now blocked.",
 	"checkuser-investigateblock-notices-failed": "Some notices could not be added to the user pages or user talk pages.",
 	"checkuser-investigate-log": "Investigation logs",
