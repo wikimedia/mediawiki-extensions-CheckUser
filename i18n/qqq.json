@@ -120,6 +120,7 @@
 	"group-checkuser.css": "{{doc-group|checkuser|css}}",
 	"group-checkuser.js": "{{doc-group|checkuser|js}}",
 	"checkuser-investigateblock": "{{doc-special|InvestigateBlock}}",
+	"checkuser-investigateblock-target": "Label for a section of the form on [[Special:InvestigateBlock]]",
 	"checkuser-investigateblock-actions": "Label for a section of the form on [[Special:InvestigateBlock]]",
 	"checkuser-investigateblock-reason": "Label for a text input in the [[Special:InvestigateBlock]] form\n{{identical|Reason}}",
 	"checkuser-investigateblock-options": "Label for a section of the form on [[Special:InvestigateBlock]]",
