@@ -119,7 +119,7 @@
 				{
 					"name": "modules/message.json",
 					"callback": "MediaWiki\\CheckUser\\ToolLinksMessages::getParsedMessage",
-					"callbackParam": "checkuser-toollinks"
+					"callbackParam": "checkuser-investigate-compare-toollinks"
 				}
 			],
 			"dependencies": [

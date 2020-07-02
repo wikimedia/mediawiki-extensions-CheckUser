@@ -119,7 +119,7 @@
 		}
 
 		if ( buttonTypes.toolLinks ) {
-			message = mw.msg( 'checkuser-toollinks', $tableCell.data( 'cuc_ip' ) );
+			message = mw.msg( 'checkuser-investigate-compare-toollinks', $tableCell.data( 'cuc_ip' ) );
 			$links = $( '<div>' ).html( message ).find( 'a' );
 			$links.each( function ( i, $link ) {
 				var label = $link.text,
