@@ -3,6 +3,7 @@
 		"authors": [
 			"Dferg",
 			"Esbardu",
+			"Fitoschido",
 			"Macofe",
 			"MarcoAurelio",
 			"McDutchie",
@@ -45,7 +46,7 @@
 	"checkuser-check-this-user": "Comprobar esti usuariu",
 	"checkuser-recent-checks": "Comprobaciones recién pa esti usuariu",
 	"checkuser-log-fail": "Nun se pue añader la entrada nel rexistru",
-	"checkuser-nolog": "Nun s'atopó l'archivu del rexistru.",
+	"checkuser-nolog": "Nun s'atopó'l ficheru del rexistru.",
 	"checkuser-blocked": "Bloquiáu",
 	"checkuser-gblocked": "Bloquiáu globalmente",
 	"checkuser-locked": "Candáu",

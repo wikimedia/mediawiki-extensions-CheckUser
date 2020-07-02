@@ -110,6 +110,7 @@
 	"group-checkuser.css": "/* CSS colocado aqui afetará apenas checkuser */",
 	"group-checkuser.js": "/* JS colocado aqui afetará o usuário do checkeruser */",
 	"checkuser-investigateblock": "Bloquear usuários",
+	"checkuser-investigateblock-target": "Nomes de usuário e endereços IP",
 	"checkuser-investigateblock-reason": "Motivo",
 	"checkuser-investigateblock-email-label": "Previne de enviar e-mail",
 	"checkuser-investigateblock-usertalk-label": "Evite editar sua própria página de discussão enquanto estiver bloqueada",

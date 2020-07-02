@@ -68,6 +68,9 @@
 	"checkuser-create-action": "సృష్టించిన తేదీ",
 	"checkuser-email-action": "వాడుకరి \"$1\"కి ఈమెయిలు పంపించాం",
 	"checkuser-reset-action": "\"$1\" వాడుకరి సంకేతపదం రీసెట్ చెయ్యి",
+	"checkuser-investigateblock-actions": "నిరోధించాల్సిన చర్యలు",
+	"checkuser-investigateblock-options": "అదనపు ఎంపికలు",
+	"checkuser-investigateblock-notice-position-label": "స్థానం",
 	"checkuser-investigate-tab-preliminary-check": "ఖాతా సమాచారం",
 	"checkuser-investigate-targets-label": "వాడుకరి పేరు,ఐపీ చిరునామాలు",
 	"checkuser-investigate-reason-label": "కారణం"

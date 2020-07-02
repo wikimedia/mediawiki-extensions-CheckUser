@@ -118,7 +118,7 @@
 	"checkuser-investigateblock-notice-append": "在頁面末端",
 	"checkuser-investigateblock-notice-prepend": "在頁面頂端",
 	"checkuser-investigateblock-notice-replace": "取代頁面",
-	"checkuser-investigateblock-failure": "沒有要被封鎖的使用者。要覆蓋現有的封鎖，請勾選「重新封鎖」方框。若新的封鎖與現有封鎖內容相同，則不會做出覆蓋。",
+	"checkuser-investigateblock-failure": "沒有要被封鎖的使用者。要覆蓋現有的封鎖，請勾選：「{{int:checkuser-investigateblock-reblock-label}}」。若新的封鎖與現有封鎖內容相同，則不會做出覆蓋。",
 	"checkuser-investigateblock-success": "{{PLURAL:$2|使用者}}$1{{PLURAL:$2|現已被}}封鎖。",
 	"checkuser-investigateblock-notices-failed": "一些通知可能無法添加到使用者頁面或是使用者的討論頁。",
 	"checkuser-investigate-log": "調查日誌",
