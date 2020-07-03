@@ -79,6 +79,11 @@
 	"checkuser-email-action": "έστειλε ένα ηλεκτρονικό μήνυμα στον χρήστη \"$1\"",
 	"checkuser-reset-action": "αποστολή νέου κωδικού για τον χρήστη \"$1\"",
 	"checkuser-investigateblock": "Αποκλεισμένοι χρήστες",
+	"checkuser-investigateblock-target": "Ονόματα χρήστη και διευθύνσεις IP",
+	"checkuser-investigateblock-actions": "Ενέργειες για φραγή",
 	"checkuser-investigateblock-reason": "Αιτία",
-	"checkuser-investigateblock-email-label": "Αποτροπή αποστολής μηνύματος ηλεκτρονικού ταχυδρομείου"
+	"checkuser-investigateblock-email-label": "Αποτροπή αποστολής μηνύματος ηλεκτρονικού ταχυδρομείου",
+	"checkuser-investigateblock-notice-position-label": "Θέση",
+	"checkuser-investigateblock-notice-text-label": "Κείμενο wiki",
+	"checkuser-investigateblock-notice-replace": "Αντικατάσταση σελίδας"
 }

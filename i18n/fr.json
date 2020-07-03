@@ -126,7 +126,7 @@
 	"checkuser-investigateblock-notice-append": "Ajouter à la page",
 	"checkuser-investigateblock-notice-prepend": "Mettre au début de la page",
 	"checkuser-investigateblock-notice-replace": "Remplacer la page",
-	"checkuser-investigateblock-failure": "Aucun utilisateur n’a été bloqué. Pour confirmer les blocages existants, cocher « {{int:checkuser-investigateblock-reblock-label}} ». Un blocage ne sera pas écrasé si le nouveau est identique à l’existant.",
+	"checkuser-investigateblock-failure": "Aucun utilisateur n’a été bloqué. Pour confirmer les blocages existants, cocher « {{int:checkuser-investigateblock-reblock-label}} ». Un blocage ne sera pas écrasé si le nouveau est identique à l’existant.",
 	"checkuser-investigateblock-success": "{{PLURAL:$2|L’utilisateur $1 est désormais bloqué|Les utilisateurs $1 sont désormais bloqués}}.",
 	"checkuser-investigateblock-notices-failed": "Certaines notes ne peuvent pas être ajoutées aux pages utilisateur ou aux pages de discussion utilisateur.",
 	"checkuser-investigate-log": "Journaux des investigations",
