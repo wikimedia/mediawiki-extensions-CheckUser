@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Leducthn",
 			"Minh Nguyen",
 			"Vinhtantran"
 		]
@@ -81,5 +82,6 @@
 	"checkuser-reset-action": "tái tạo mật khẩu của người dùng “$1”",
 	"checkuser-token-fail": "Phiên làm việc bị thất bại. Xin hãy thử lại.",
 	"group-checkuser.css": "/* Mã CSS tại đây sẽ chỉ ảnh hưởng đến các kiểm tra viên */",
-	"group-checkuser.js": "/* Mã JS tại đây sẽ chỉ ảnh hưởng đến các kiểm tra viên */"
+	"group-checkuser.js": "/* Mã JS tại đây sẽ chỉ ảnh hưởng đến các kiểm tra viên */",
+	"checkuser-investigateblock-notice-text-label": "Wikitext"
 }

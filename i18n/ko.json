@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Albamhandae",
+			"Ellif",
 			"Ficell",
 			"IRTC1015",
 			"Jerrykim306",
@@ -98,6 +99,13 @@
 	"checkuser-login-success": "{{SITENAME}}에 $1님으로 성공적으로 로그인했습니다",
 	"group-checkuser.css": "/* 이 CSS 설정은 검사관에만 적용됩니다 */",
 	"group-checkuser.js": "/* 이 자바스크립트 설정은 검사관에만 적용됩니다 */",
+	"checkuser-investigateblock-target": "계정 이름과 IP 주소",
+	"checkuser-investigateblock-actions": "차단할 행위",
+	"checkuser-investigateblock-notice-user-page-label": "사용자 문서에 알림 남기기",
+	"checkuser-investigateblock-notice-position-label": "위치",
+	"checkuser-investigateblock-notice-text-label": "위키텍스트",
+	"checkuser-investigateblock-notice-append": "페이지에 덧붙이기",
+	"checkuser-investigateblock-notice-replace": "페이지 바꾸기",
 	"checkuser-investigate": "조사하기",
 	"checkuser-investigate-indicator-logs": "기록",
 	"checkuser-investigate-legend": "계정 이름, IP 주소 또는 IP 대역 검색",

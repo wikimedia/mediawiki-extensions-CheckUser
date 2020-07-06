@@ -117,7 +117,7 @@
 	"checkuser-investigateblock-notice-append": "Dodaj do strony",
 	"checkuser-investigateblock-notice-prepend": "Dołącz na początku strony",
 	"checkuser-investigateblock-notice-replace": "Zastąp stronę",
-	"checkuser-investigateblock-failure": "Nie zablokowano żadnego użytkownika. Aby nadpisać istniejące blokady zaznacz pole: „reblock”. Blokada nie zostanie nadpisana, jeśli jej nowe parametry pokrywają się z istniejącymi.",
+	"checkuser-investigateblock-failure": "Nie zablokowano żadnego użytkownika. Aby nadpisać istniejące blokady zaznacz pole: „{{int:checkuser-investigateblock-reblock-label}}”. Blokada nie zostanie nadpisana, jeśli jej nowe parametry pokrywają się z istniejącymi.",
 	"checkuser-investigateblock-success": "{{PLURAL:$2|Użytkownik|Użytkownicy}} $1 {{PLURAL:$2|jest|są}} obecnie {{PLURAL:$2|zablokowany|zablokowani}}.",
 	"checkuser-investigateblock-notices-failed": "Niektóre notki nie mogły zostać dodane do stron lub dyskusji użytkowników.",
 	"checkuser-investigate-log": "Rejestr sprawdzeń",

@@ -40,5 +40,7 @@
 	"checkuser-search-target": "Ӏалашо",
 	"checkuser-log-search-target": "Ӏалашо:",
 	"checkuser-log-search-type": "Лахар:",
-	"checkuser-create-action": "кхолийна"
+	"checkuser-create-action": "кхолийна",
+	"checkuser-investigateblock": "Блоктоьхна декъашхой",
+	"checkuser-investigateblock-notice-text-label": "Викийоза"
 }
