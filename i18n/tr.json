@@ -114,7 +114,7 @@
 	"checkuser-investigateblock-notice-append": "Sayfaya ekle",
 	"checkuser-investigateblock-notice-prepend": "Sayfa başa ekle",
 	"checkuser-investigateblock-notice-replace": "Sayfayı değiştir",
-	"checkuser-investigateblock-failure": "Hiçbir kullanıcı engellenmedi. Mevcut engelleri geçersiz kılmak için 'reblock' kutusunu işaretleyin. Yeni engel mevcut engeli aynı ise bir engel geçersiz kılmayacaktır.",
+	"checkuser-investigateblock-failure": "Hiçbir kullanıcı engellenmedi. Mevcut blokları geçersiz kılmak için şunları kontrol edin: \"{{int:checkuser-investigateblock-reblock-label}}\". Yeni engel mevcut engel ile aynı ise bir engel geçersiz kılmayacaktır.",
 	"checkuser-investigateblock-success": "$1 {{PLURAL:$2|kullanıcısı|kullanıcıları}} artık engellendi.",
 	"checkuser-investigateblock-notices-failed": "Bazı bildirimler kullanıcı sayfalarına veya kullanıcı mesaj sayfalarına eklenemedi.",
 	"checkuser-investigate-log": "Araştırma günlükleri",
