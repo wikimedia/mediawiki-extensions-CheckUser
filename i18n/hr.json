@@ -94,6 +94,8 @@
 	"checkuser-investigate-filters-legend": "Filtri",
 	"checkuser-investigate-filters-exclude-targets-label": "Skrij navedene suradnike ili IP-adrese",
 	"checkuser-investigate-compare-copy-button-label": "Pokaži wikitekst",
+	"checkuser-investigate-compare-toollinks-geolocate": "Geolociraj",
+	"checkuser-investigate-compare-toollinks-tor-check": "Provjera Tora",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Pokaži sve suradnike s ovoga IP-a",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "Prikaži sve IP adrese ovog suradnika",
 	"checkuser-investigate-compare-table-cell-unregistered": "Neregistrirani",

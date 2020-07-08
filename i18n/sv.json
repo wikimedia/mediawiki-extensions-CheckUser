@@ -104,6 +104,7 @@
 	"checkuser-investigateblock-options": "Ytterligare alternativ",
 	"checkuser-investigateblock-notice-position-label": "Position",
 	"checkuser-investigateblock-notice-text-label": "Wikitext",
+	"checkuser-investigateblock-notice-replace": "Ersätt sida",
 	"checkuser-investigate-log": "Undersökningsloggar",
 	"checkuser-investigate-log-entry": "$3, $1 kollade upp information om <bdi>$2</bdi> $4",
 	"checkuser-investigate": "Undersök",
