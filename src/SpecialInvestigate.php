@@ -7,11 +7,15 @@ use HTMLForm;
 use OOUI\ButtonGroupWidget;
 use OOUI\ButtonWidget;
 use OOUI\Element;
+use OOUI\FieldLayout;
+use OOUI\FieldsetLayout;
+use OOUI\HorizontalLayout;
 use OOUI\HtmlSnippet;
 use OOUI\IndexLayout;
 use OOUI\MessageWidget;
 use OOUI\TabOptionWidget;
 use OOUI\Tag;
+use OOUI\Widget;
 use SpecialCheckUser;
 use User;
 use Wikimedia\IPUtils;
@@ -393,17 +397,73 @@ class SpecialInvestigate extends \FormSpecialPage {
 	}
 
 	/**
-	 * Add page subtitle including the name of the targets
-	 * in the investigation
+	 * Add page subtitle including the name of the targets in the investigation,
+	 * and a block form. Add the block form elements that are visible initially,
+	 * to avoid a flicker on page load.
 	 */
 	private function addPageSubtitle() {
 		$targets = $this->getTokenData()['targets'] ?? [];
 		if ( $targets ) {
-			$targets = $this->getLanguage()->listToText( array_map( function ( $target ) {
+			$this->getOutput()->addJsConfigVars( 'wgCheckUserInvestigateTargets', $targets );
+
+			$targetsText = $this->getLanguage()->listToText( array_map( function ( $target ) {
 				return Html::rawElement( 'strong', [], htmlspecialchars( $target ) );
 			}, $targets ) );
-			$subtitle = $this->msg( 'checkuser-investigate-page-subtitle', $targets );
-			$this->getOutput()->addSubtitle( $subtitle );
+			$subtitle = $this->msg( 'checkuser-investigate-page-subtitle', $targetsText );
+
+			// Placeholder, to allow the FieldLayout label to be shown before the
+			// JavaScript loads. This will be replaced by a TagMultiselect (which
+			// has not yet been implemented in PHP).
+			$placeholderWidget = new Widget( [
+				'classes' => [ 'ext-checkuser-investigate-subtitle-placeholder-widget' ],
+			] );
+			$targetsLayout = new FieldLayout(
+				$placeholderWidget,
+				[
+					'label' => new HtmlSnippet( $subtitle->parse() ),
+					'align' => 'top',
+					'infusable' => true,
+					'classes' => [
+						'ext-checkuser-investigate-subtitle-targets-layout'
+					]
+				]
+			);
+
+			$blockButton = new ButtonWidget( [
+				'infusable' => true,
+				'label' => $this->msg( 'checkuser-investigate-subtitle-block-button-label' )->text(),
+				'flags' => [ 'primary', 'progressive' ],
+				'classes' => [
+					'ext-checkuser-investigate-subtitle-block-button',
+				],
+			] );
+			$buttonsLayout = new FieldLayout(
+				new Widget( [
+					'content' => new HorizontalLayout( [
+						'items' => [
+							$blockButton,
+						]
+					] )
+				] ),
+				[
+					'align' => 'top',
+					'infusable' => true,
+				]
+			);
+
+			$blockFieldset = new FieldsetLayout( [
+				'classes' => [
+					'ext-checkuser-investigate-subtitle-fieldset'
+				],
+				'items' => [
+					$targetsLayout,
+					$buttonsLayout,
+				]
+			] );
+
+			$this->getOutput()->prependHTML(
+				$blockFieldset
+			);
 		}
 	}
 
