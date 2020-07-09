@@ -131,6 +131,8 @@
 	"checkuser-investigate-duration-option-2w": "上两周",
 	"checkuser-investigate-duration-option-30d": "前30天",
 	"checkuser-investigate-compare-copy-button-label": "显示维基文本",
+	"checkuser-investigate-compare-toollinks-geolocate": "定位",
+	"checkuser-investigate-compare-toollinks-tor-check": "Tor检查",
 	"checkuser-investigate-compare-copy-message-label": "您是否想要将这些信息复制为维基文本格式的表格？",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "显示该用户使用的所有IP",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "显示使用该IP的所有用户",
