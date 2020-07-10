@@ -32,6 +32,9 @@ class SpecialInvestigate extends \FormSpecialPage {
 	/** @var DurationManager */
 	private $durationManager;
 
+	/** @var EventLogger */
+	private $eventLogger;
+
 	/** @var IndexLayout|null */
 	private $layout;
 
@@ -50,13 +53,15 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @param PagerFactory $timelinePagerFactory
 	 * @param TokenQueryManager $tokenQueryManager
 	 * @param DurationManager $durationManager
+	 * @param EventLogger $eventLogger
 	 */
 	public function __construct(
 		PagerFactory $preliminaryCheckPagerFactory,
 		PagerFactory $comparePagerFactory,
 		PagerFactory $timelinePagerFactory,
 		TokenQueryManager $tokenQueryManager,
-		DurationManager $durationManager
+		DurationManager $durationManager,
+		EventLogger $eventLogger
 	) {
 		parent::__construct( 'Investigate', 'investigate' );
 		$this->preliminaryCheckPagerFactory = $preliminaryCheckPagerFactory;
@@ -64,6 +69,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 		$this->timelinePagerFactory = $timelinePagerFactory;
 		$this->tokenQueryManager = $tokenQueryManager;
 		$this->durationManager = $durationManager;
+		$this->eventLogger = $eventLogger;
 	}
 
 	/**
@@ -221,6 +227,8 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @return self
 	 */
 	private function addTabContent( string $par ) : self {
+		$startTime = $this->eventLogger->getTime();
+
 		switch ( $par ) {
 			case $this->getTabParam( 'preliminary-check' ):
 				$pager = $this->preliminaryCheckPagerFactory->createPager( $this->getContext() );
@@ -253,7 +261,15 @@ class SpecialInvestigate extends \FormSpecialPage {
 					] ) );
 				}
 
-				return $this;
+				$this->logQuery( [
+					'tab' => 'preliminary-check',
+					'resultsCount' => $pager->getNumRows(),
+					'resultsIncomplete' => false,
+					'queryTime' => $this->eventLogger->getTime() - $startTime,
+				] );
+
+				break;
+
 			case $this->getTabParam( 'compare' ):
 				$pager = $this->comparePagerFactory->createPager( $this->getContext() );
 				$numRows = $pager->getNumRows();
@@ -282,7 +298,16 @@ class SpecialInvestigate extends \FormSpecialPage {
 						'label' => new HtmlSnippet( $message )
 					] ) );
 				}
-				return $this;
+
+				$this->logQuery( [
+					'tab' => 'compare',
+					'resultsCount' => $numRows,
+					'resultsIncomplete' => $numRows && $targetsOverLimit,
+					'queryTime' => $this->eventLogger->getTime() - $startTime,
+				] );
+
+				break;
+
 			case $this->getTabParam( 'timeline' ):
 				$pager = $this->timelinePagerFactory->createPager( $this->getContext() );
 				$numRows = $pager->getNumRows();
@@ -299,10 +324,36 @@ class SpecialInvestigate extends \FormSpecialPage {
 						'label' => new HtmlSnippet( $message )
 					] ) );
 				}
-				return $this;
-			default:
-				return $this;
+
+				$this->logQuery( [
+					'tab' => 'timeline',
+					'resultsCount' => $pager->getNumRows(),
+					'resultsIncomplete' => false,
+					'queryTime' => $this->eventLogger->getTime() - $startTime,
+				] );
+
+				break;
 		}
+
+		return $this;
+	}
+
+	/**
+	 * @param array $logData
+	 */
+	private function logQuery( array $logData ) : void {
+		$relevantTargetsCount = count( array_diff(
+			$this->getTokenData()['targets'] ?? [],
+			$this->getTokenData()['exclude-targets'] ?? []
+		) );
+
+		$this->eventLogger->logEvent( array_merge(
+			[
+				'action' => 'query',
+				'relevantTargetsCount' => $relevantTargetsCount,
+			],
+			$logData
+		) );
 	}
 
 	/**
@@ -548,11 +599,14 @@ class SpecialInvestigate extends \FormSpecialPage {
 			$update['reason'] = $data['Reason'];
 		}
 		if ( isset( $data['ExcludeTargets' ] ) ) {
-			$update['exclude-targets'] = $this->getArrayFromField( $data, 'ExcludeTargets' );
+			$submittedExcludeTargets = $this->getArrayFromField( $data, 'ExcludeTargets' );
+			$update['exclude-targets'] = $submittedExcludeTargets;
 		}
 		if ( isset( $data['Targets' ] ) ) {
 			$tokenData = $this->getTokenData();
-			$update['targets'] = $this->getArrayFromField( $data, 'Targets' );
+
+			$submittedTargets = $this->getArrayFromField( $data, 'Targets' );
+			$update['targets'] = $submittedTargets;
 
 			$this->addLogEntries(
 				$update['targets'],
@@ -581,6 +635,12 @@ class SpecialInvestigate extends \FormSpecialPage {
 			] );
 		}
 		$this->getOutput()->redirect( $url );
+
+		$this->eventLogger->logEvent( [
+			'action' => 'submit',
+			'targetsCount' => count( $submittedTargets ?? [] ),
+			'excludeTargetsCount' => count( $submittedExcludeTargets ?? [] ),
+		] );
 
 		return \Status::newGood();
 	}

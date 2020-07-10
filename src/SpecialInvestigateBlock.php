@@ -26,6 +26,9 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 	/** @var UserFactory */
 	private $userFactory;
 
+	/** @var EventLogger */
+	private $eventLogger;
+
 	/** @var array */
 	private $blockedUsers = [];
 
@@ -35,13 +38,15 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 	public function __construct(
 		PermissionManager $permissionManager,
 		TitleFormatter $titleFormatter,
-		UserFactory $userFactory
+		UserFactory $userFactory,
+		EventLogger $eventLogger
 	) {
 		parent::__construct( 'InvestigateBlock', 'investigate' );
 
 		$this->permissionManager = $permissionManager;
 		$this->titleFormatter = $titleFormatter;
 		$this->userFactory = $userFactory;
+		$this->eventLogger = $eventLogger;
 	}
 
 	/**
@@ -247,7 +252,15 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 			}
 		}
 
-		if ( count( $this->blockedUsers ) === 0 ) {
+		$blockedUsersCount = count( $this->blockedUsers );
+
+		$this->eventLogger->logEvent( [
+			'action' => 'block',
+			'targetsCount' => count( $targets ),
+			'relevantTargetsCount' => $blockedUsersCount,
+		] );
+
+		if ( $blockedUsersCount === 0 ) {
 			return $this->getMessagePrefix() . '-failure';
 		}
 
