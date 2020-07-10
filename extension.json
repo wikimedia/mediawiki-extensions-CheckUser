@@ -115,7 +115,9 @@
 		},
 		"ext.checkUser.investigate": {
 			"packageFiles": [
-				"modules/ext.checkuser.investigate.js",
+				"modules/ext.checkuser.investigate.init.js",
+				"modules/ext.checkuser.investigate.tables.js",
+				"modules/ext.checkuser.investigate.copy.js",
 				{
 					"name": "modules/message.json",
 					"callback": "MediaWiki\\CheckUser\\ToolLinksMessages::getParsedMessage",
