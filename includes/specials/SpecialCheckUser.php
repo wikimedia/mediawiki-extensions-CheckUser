@@ -483,10 +483,16 @@ class SpecialCheckUser extends SpecialPage {
 	 *
 	 * @param int $user_id
 	 * @param int $period
-	 * @param int $limit
+	 * @param int|null $limit
 	 * @return IResultWrapper
 	 */
-	protected function doUserIPsDBRequest( $user_id, $period = 0, $limit = 5001 ) : IResultWrapper {
+	protected function doUserIPsDBRequest( $user_id, $period = 0, $limit = null ) : IResultWrapper {
+		if ( $limit === null ) {
+			// We add 1 to the row count here because the number of rows returned is used to determine
+			// whether the data has been truncated.
+			$limit = $this->getConfig()->get( 'CheckUserMaximumRowCount' ) + 1;
+		}
+
 		$dbr = wfGetDB( DB_REPLICA );
 		$conds = [ 'cuc_user' => $user_id ];
 		$time_conds = $this->getTimeConds( $period );
@@ -552,10 +558,14 @@ class SpecialCheckUser extends SpecialPage {
 
 	/**
 	 * @param IResultWrapper $result
-	 * @param int $limit
+	 * @param int|null $limit
 	 * @return array
 	 */
-	protected function getIPSets( IResultWrapper $result, $limit = 5000 ) : array {
+	protected function getIPSets( IResultWrapper $result, $limit = null ) : array {
+		if ( $limit === null ) {
+			$limit = $this->getConfig()->get( 'CheckUserMaximumRowCount' );
+		}
+
 		$ipSets = [
 			'edits' => [],
 			'first' => [],
@@ -722,7 +732,7 @@ class SpecialCheckUser extends SpecialPage {
 		// Check how many rows will need sorting ahead of time to see if this is too big.
 		// Also, if we only show 5000, too many will be ignored as well.
 		$rangecount = $this->getIPEditsCount( $ip, $xfor, $index, $period );
-		if ( $rangecount > 5000 ) {
+		if ( $rangecount > $this->getConfig()->get( 'CheckUserMaximumRowCount' ) ) {
 			// See what is best to do after testing the waters...
 			$result = $this->IPEditsTooManyDB( $ip, $xfor, $index, $period );
 			$this->IPEditsTooMany( $result, $ip, $xfor );
@@ -795,12 +805,18 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param bool $xfor if query is for XFF
 	 * @param string $index
 	 * @param int $period
-	 * @param int $limit
+	 * @param int|null $limit
 	 * @return IResultWrapper
 	 */
 	protected function IPEditsTooManyDB(
-		$ip, $xfor, $index, $period = 0, $limit = 5001
+		$ip, $xfor, $index, $period = 0, $limit = null
 	) : IResultWrapper {
+		if ( $limit === null ) {
+			// We add 1 to the row count here because the number of rows returned is used to determine
+			// whether the data has been truncated.
+			$limit = $this->getConfig()->get( 'CheckUserMaximumRowCount' ) + 1;
+		}
+
 		$dbr = wfGetDB( DB_REPLICA );
 		$conds = self::getIpConds( $dbr, $ip, $xfor );
 		if ( $conds === false ) {
@@ -836,14 +852,18 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param IResultWrapper $result
 	 * @param string $ip
 	 * @param bool $xfor if query is for XFF
-	 * @param int $limit
+	 * @param int|null $limit
 	 */
-	protected function IPEditsTooMany( IResultWrapper $result, $ip, $xfor, $limit = 5000 ) {
+	protected function IPEditsTooMany( IResultWrapper $result, $ip, $xfor, $limit = null ) {
+		if ( $limit === null ) {
+			$limit = $this->getConfig()->get( 'CheckUserMaximumRowCount' );
+		}
+
 		$out = $this->getOutput();
 		$lang = $this->getLanguage();
 
 		// List out each IP that has edits
-		$s = $this->msg( 'checkuser-too-many' )->parseAsBlock();
+		$s = $this->msg( 'checkuser-too-many', $lang->formatNum( $limit ) )->parseAsBlock();
 		$s .= '<ol>';
 
 		$counter = 0;
@@ -884,12 +904,18 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param bool $xfor if query is for XFF
 	 * @param string $index
 	 * @param int $period
-	 * @param int $limit
+	 * @param int|null $limit
 	 * @return IResultWrapper
 	 */
 	protected function doIPEditsDBRequest(
-		$ip, $xfor, $index, $period = 0, $limit = 5001
+		$ip, $xfor, $index, $period = 0, $limit = null
 	) : IResultWrapper {
+		if ( $limit === null ) {
+			// We add 1 to the row count here because the number of rows returned is used to determine
+			// whether the data has been truncated.
+			$limit = $this->getConfig()->get( 'CheckUserMaximumRowCount' ) + 1;
+		}
+
 		$dbr = wfGetDB( DB_REPLICA );
 		$conds = self::getIpConds( $dbr, $ip, $xfor );
 		if ( $conds === false ) {
@@ -951,7 +977,7 @@ class SpecialCheckUser extends SpecialPage {
 		$s = '<div id="checkuserresults">';
 		$counter = 0;
 		foreach ( $result as $row ) {
-			if ( $counter >= 5000 ) {
+			if ( $counter >= $this->getConfig()->get( 'CheckUserMaximumRowCount' ) ) {
 				$out->addWikiMsg( 'checkuser-limited' );
 				break;
 			}
@@ -1016,10 +1042,11 @@ class SpecialCheckUser extends SpecialPage {
 		// Check how many rows will need sorting ahead of time to see if this is too big.
 		// If it is, sort by IP,time to avoid the filesort.
 		$count = $this->getCountsForUserEdits( $user_id, $period );
-		if ( $count > 5000 ) {
+		$limit = $this->getConfig()->get( 'CheckUserMaximumRowCount' );
+		if ( $count > $limit ) {
 			// See what is best to do after testing the waters...
 			$out->addHTML( $this->msg( 'checkuser-limited' )->parse() );
-			$result = $this->userEditsRequestLimitExceededDB( $user_id, $period );
+			$result = $this->userEditsRequestLimitExceededDB( $user_id, $period, $limit );
 			$this->userEditsRequestLimitExceeded( $result );
 			return;
 		}
@@ -1072,12 +1099,16 @@ class SpecialCheckUser extends SpecialPage {
 	 *
 	 * @param int $user_id
 	 * @param int $period
-	 * @param int $limit
+	 * @param int|null $limit
 	 * @return IResultWrapper
 	 */
 	protected function userEditsRequestLimitExceededDB(
-		$user_id, $period = 0, $limit = 5000
+		$user_id, $period = 0, $limit = null
 	) : IResultWrapper {
+		if ( $limit === null ) {
+			$limit = $this->getConfig()->get( 'CheckUserMaximumRowCount' );
+		}
+
 		$dbr = wfGetDB( DB_REPLICA );
 		$conds = [ 'cuc_user' => $user_id ];
 		$time_conds = $this->getTimeConds( $period );
@@ -1138,10 +1169,14 @@ class SpecialCheckUser extends SpecialPage {
 	 *
 	 * @param int $user_id
 	 * @param int $period
-	 * @param int $limit
+	 * @param int|null $limit
 	 * @return IResultWrapper
 	 */
-	protected function doUserEditsDBRequest( $user_id, $period = 0, $limit = 5000 ) : IResultWrapper {
+	protected function doUserEditsDBRequest( $user_id, $period = 0, $limit = null ) : IResultWrapper {
+		if ( $limit === null ) {
+			$limit = $this->getConfig()->get( 'CheckUserMaximumRowCount' );
+		}
+
 		$dbr = wfGetDB( DB_REPLICA );
 		$conds = [ 'cuc_user' => $user_id ];
 		$time_conds = $this->getTimeConds( $period );

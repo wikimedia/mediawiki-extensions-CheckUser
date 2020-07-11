@@ -285,7 +285,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				ApiBase::PARAM_TYPE => 'limit',
 				ApiBase::PARAM_MIN  => 1,
 				ApiBase::PARAM_MAX  => 500,
-				ApiBase::PARAM_MAX2 => 5000,
+				ApiBase::PARAM_MAX2 => $this->getConfig()->get( 'CheckUserMaximumRowCount' ),
 			],
 			'timecond' => [
 				ApiBase::PARAM_DFLT => '-2 weeks'
