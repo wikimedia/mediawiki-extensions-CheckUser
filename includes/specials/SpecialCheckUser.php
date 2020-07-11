@@ -1038,26 +1038,16 @@ class SpecialCheckUser extends SpecialPage {
 
 		// Cache common messages
 		$this->preCacheMessages();
-		// Ordered in descent by timestamp. Causes large filesorts if there are many edits.
-		// Check how many rows will need sorting ahead of time to see if this is too big.
-		// If it is, sort by IP,time to avoid the filesort.
-		$count = $this->getCountsForUserEdits( $user_id, $period );
 		$limit = $this->getConfig()->get( 'CheckUserMaximumRowCount' );
-		if ( $count > $limit ) {
-			// See what is best to do after testing the waters...
-			$out->addHTML( $this->msg( 'checkuser-limited' )->parse() );
-			$result = $this->userEditsRequestLimitExceededDB( $user_id, $period, $limit );
-			$this->userEditsRequestLimitExceeded( $result );
-			return;
-		}
+
 		// Sorting might take some time...make sure it is there
 		Wikimedia\suppressWarnings();
 		set_time_limit( 60 );
 		Wikimedia\restoreWarnings();
 
 		// OK, do the real query...
-		$result = $this->doUserEditsDBRequest( $user_id, $period );
-		$this->doUserEditsRequestOutput( $result, $user );
+		$result = $this->doUserEditsDBRequest( $user_id, $period, $limit );
+		$this->doUserEditsRequestOutput( $result, $user, $limit );
 	}
 
 	/**
@@ -1092,76 +1082,6 @@ class SpecialCheckUser extends SpecialPage {
 				[ 'USE INDEX' => 'cuc_user_ip_time' ]
 			);
 		}
-	}
-
-	/**
-	 * Issue a DB query for userEditsRequestLimitExceeded
-	 *
-	 * @param int $user_id
-	 * @param int $period
-	 * @param int|null $limit
-	 * @return IResultWrapper
-	 */
-	protected function userEditsRequestLimitExceededDB(
-		$user_id, $period = 0, $limit = null
-	) : IResultWrapper {
-		if ( $limit === null ) {
-			$limit = $this->getConfig()->get( 'CheckUserMaximumRowCount' );
-		}
-
-		$dbr = wfGetDB( DB_REPLICA );
-		$conds = [ 'cuc_user' => $user_id ];
-		$time_conds = $this->getTimeConds( $period );
-		if ( $time_conds !== false ) {
-			$conds[] = $time_conds;
-		}
-
-		return $dbr->select(
-			'cu_changes', [
-				'cuc_namespace', 'cuc_title', 'cuc_user', 'cuc_user_text', 'cuc_comment',
-				'cuc_actiontext', 'cuc_timestamp', 'cuc_minor', 'cuc_page_id', 'cuc_type',
-				'cuc_this_oldid', 'cuc_last_oldid', 'cuc_ip', 'cuc_xff', 'cuc_agent',
-			],
-			$conds,
-			__METHOD__,
-			[
-				'ORDER BY' => [ 'cuc_ip ASC', 'cuc_timestamp DESC' ],
-				'LIMIT' => $limit,
-				'USE INDEX' => 'cuc_user_ip_time'
-			]
-		);
-	}
-
-	/**
-	 * Return "checkuser-limited" error with some hints
-	 *
-	 * @param IResultWrapper $result
-	 * @return void
-	 */
-	protected function userEditsRequestLimitExceeded( IResultWrapper $result ) {
-		$out = $this->getOutput();
-
-		// Try to optimize this query
-		$this->doLinkCache( $result );
-		$s = '';
-		foreach ( $result as $row ) {
-			$ip = htmlspecialchars( $row->cuc_ip );
-			if ( !$ip ) {
-				continue;
-			}
-			if ( !isset( $lastIP ) ) {
-				$lastIP = $row->cuc_ip;
-				$s .= "\n<h2>$ip</h2>\n<div class=\"special\">";
-			} elseif ( $lastIP != $row->cuc_ip ) {
-				$s .= "</ul></div>\n<h2>$ip</h2>\n<div class=\"special\">";
-				$lastIP = $row->cuc_ip;
-				$this->lastdate = null; // start over
-			}
-			$s .= $this->CUChangesLine( $row );
-		}
-		$s .= '</ul></div>';
-
-		$out->addHTML( $s );
 	}
 
 	/**
@@ -1205,14 +1125,25 @@ class SpecialCheckUser extends SpecialPage {
 	 *
 	 * @param IResultWrapper $result
 	 * @param string $user
+	 * @param int|null $limit
 	 * @return void
 	 */
-	protected function doUserEditsRequestOutput( IResultWrapper $result, $user ) {
+	protected function doUserEditsRequestOutput( IResultWrapper $result, $user, $limit = null ) {
+		if ( $limit === null ) {
+			$limit = $this->getConfig()->get( 'CheckUserMaximumRowCount' );
+		}
+
 		$out = $this->getOutput();
 
 		if ( !$result->numRows() ) {
 			$out->addHTML( $this->noMatchesMessage( $user ) . "\n" );
 			return;
+		}
+
+		if ( $result->numRows() >= $limit ) {
+			// If the actual row count is at or over the limit, provide a warning
+			// that the results may have been truncated
+			$out->addHTML( $this->msg( 'checkuser-limited' )->parse() );
 		}
 
 		$this->doLinkCache( $result );
