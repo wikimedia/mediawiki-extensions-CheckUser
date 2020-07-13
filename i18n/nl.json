@@ -2,7 +2,6 @@
 	"@metadata": {
 		"authors": [
 			"Akoopal",
-			"Dutchy45",
 			"Elroy",
 			"Erwin",
 			"Mainframe98",
@@ -70,7 +69,7 @@
 	"checkuser-block-noreason": "U moet een reden opgeven voor de blokkades.",
 	"checkuser-centralauth-multilock": "Lock alle geselecteerde gebruikers",
 	"checkuser-noreason": "U moet een reden opgeven voor deze zoekopdracht.",
-	"checkuser-too-many": "Te veel resultaten (volgens de schatting). Maak de CIDR kleiner:\nHieronder worden de gebruikte IP-adressen weergegeven (maximaal $1, op IP-adres gesorteerd):",
+	"checkuser-too-many": "Te veel resultaten (volgens de schatting). Maak de CIDR kleiner:\nHieronder worden de gebruikte IP-adressen weergegeven (maximaal 5000, op IP-adres gesorteerd):",
 	"checkuser-user-nonexistent": "De opgegeven gebruiker bestaat niet.",
 	"checkuser-search": "Checkuserlogboekregels doorzoeken",
 	"checkuser-search-submit": "Zoeken",

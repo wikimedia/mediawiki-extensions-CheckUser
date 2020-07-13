@@ -79,7 +79,7 @@
 	"checkuser-block-noreason": "您必須提供進行禁鎖的原因。",
 	"checkuser-centralauth-multilock": "多重鎖定選定帳戶",
 	"checkuser-noreason": "您必須提供進行查詢的原因。",
-	"checkuser-too-many": "查詢結果過多 (根據查詢估計)，請縮小 CIDR 的範圍。\n以下為使用到的 IP 位址 (最多 $1 個，依位址排列)：",
+	"checkuser-too-many": "查詢結果過多 (根據查詢估計)，請縮小 CIDR 的範圍。\n以下為使用到的 IP 位址 (最多 5000 個，依位址排列)：",
 	"checkuser-user-nonexistent": "指定的使用者不存在。",
 	"checkuser-search": "搜尋用戶查核日誌",
 	"checkuser-search-submit": "搜尋",

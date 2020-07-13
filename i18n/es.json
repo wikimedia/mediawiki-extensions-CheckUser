@@ -145,8 +145,6 @@
 	"checkuser-investigate-filters-exclude-targets-label": "Ocultar las cuentas o IP siguientes",
 	"checkuser-investigate-timeline-notice-no-results": "No hay resultados: no se ha registrado actividad de estos usuarios o IP en los últimos 90 días",
 	"checkuser-investigate-timeline-notice-no-results-filters": "No hay resultados que coincidan con estos criterios de filtrado. Intenta eliminar algunos filtros para ampliar la búsqueda.",
-	"checkuser-investigate-compare-toollinks-geolocate": "Geolocalizar",
-	"checkuser-investigate-compare-toollinks-tor-check": "Comprobación de Tor",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Mostrar todas las IP de este usuario",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "Mostrar todos los usuarios en esta IP",
 	"checkuser-investigate-compare-table-button-filter-label": "Filtrar desde resultados"

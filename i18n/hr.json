@@ -61,7 +61,7 @@
 	"checkuser-block-limit": "Odabrano je previše suradnika.",
 	"checkuser-block-noreason": "Morate upisati razlog za blokiranje.",
 	"checkuser-noreason": "Morate navesti razlog za ovaj upit.",
-	"checkuser-too-many": "Pronađeno je previše rezultata (prema procjeni upita), molimo Vas, suzite opseg CIDR-a. Slijede rabljene IP adrese (najviše njih $1, poredane po adresi):",
+	"checkuser-too-many": "Pronađeno je previše rezultata (prema procjeni upita), molimo Vas, suzite opseg CIDR-a. Slijede rabljene IP adrese (najviše njih 5000, poredane po adresi):",
 	"checkuser-user-nonexistent": "Traženi suradnik (suradničko ime) ne postoji.",
 	"checkuser-search": "Traži",
 	"checkuser-search-submit": "Traži",
