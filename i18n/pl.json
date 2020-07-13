@@ -78,7 +78,7 @@
 	"checkuser-block-noreason": "Należy podać powód blokad.",
 	"checkuser-centralauth-multilock": "Zablokuj wybrane konta",
 	"checkuser-noreason": "Musisz podać powód wykonania zapytania.",
-	"checkuser-too-many": "System oszacował, że zapytanie zwróci zbyt wiele wyników; spróbuj zawęzić zakres CIDR.\n\nPoniżej wyświetlono pierwszych 5000 adresów IP (posortowane według adresu):",
+	"checkuser-too-many": "System oszacował, że zapytanie zwróci zbyt wiele wyników; spróbuj zawęzić zakres CIDR.\n\nPoniżej wyświetlono używane adresy IP (maksymalnie $1, posortowane według adresu):",
 	"checkuser-user-nonexistent": "Taki użytkownik nie istnieje.",
 	"checkuser-search": "Szukaj w rejestrze checkuserów",
 	"checkuser-search-submit": "Szukaj",
