@@ -1,5 +1,3 @@
-/* eslint-disable no-jquery/no-global-selector */
-
 /**
  * Add highlight pinning capability and tool links to tables.
  */

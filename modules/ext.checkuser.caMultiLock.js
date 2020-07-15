@@ -12,7 +12,6 @@
 	}
 
 	// Initialize the link
-	// eslint-disable-next-line no-jquery/no-global-selector
 	$( '#checkuserblock fieldset' ).append(
 		$( '<a>' ).attr( {
 			id: 'cacu-multilock-link',
@@ -21,7 +20,6 @@
 	);
 
 	// Change the URL of the link when a checkbox's state is changed
-	// eslint-disable-next-line no-jquery/no-global-selector
 	$userCheckboxes = $( '#checkuserresults li [type=checkbox]' );
 	$userCheckboxes.on( 'change', function () {
 		var names = [];
@@ -35,7 +33,6 @@
 		} );
 
 		// Update the href of the link with the latest change
-		// eslint-disable-next-line no-jquery/no-global-selector
 		$( '#cacu-multilock-link' ).prop(
 			'href',
 			centralURL + '?wpTarget=' + encodeURIComponent( names.join( '\n' ) )

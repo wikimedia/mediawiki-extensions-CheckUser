@@ -1,5 +1,3 @@
-/* eslint-disable no-jquery/no-global-selector */
-
 /**
  * Feature for copying wikitext version of the Compare results table (T251361).
  * This feature is available for wikis that have Parsoid/RESTBase.

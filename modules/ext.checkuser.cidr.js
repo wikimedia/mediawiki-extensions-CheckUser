@@ -2,9 +2,7 @@
 /* -- (c) Aaron Schulz 2009 */
 ( function () {
 	var showResults = function ( size, cidr ) {
-		// eslint-disable-next-line no-jquery/no-global-selector
 		$( '#mw-checkuser-cidr-res' ).val( cidr );
-		// eslint-disable-next-line no-jquery/no-global-selector
 		$( '#mw-checkuser-ipnote' ).text( size );
 	};
 
@@ -221,7 +219,6 @@
 
 	$( function () {
 		updateCIDRresult();
-		// eslint-disable-next-line no-jquery/no-global-selector
 		$( '#mw-checkuser-iplist' ).on( 'keyup click', function () {
 			updateCIDRresult();
 		} );
