@@ -75,7 +75,7 @@
 	"checkuser-block-noreason": "Engellemeler için bir neden belirtmelisiniz.",
 	"checkuser-centralauth-multilock": "Seçili hesapları toplu kilitle",
 	"checkuser-noreason": "Bu sorgu için bir gerekçe göstermelisiniz.",
-	"checkuser-too-many": "Çok fazla sonuç var (sorgu tahminine göre), lütfen CIDR'ı daraltın.\nKullanılan IP'ler (maks 5000, adrese göre sıralı):",
+	"checkuser-too-many": "Çok fazla sonuç var (sorgu tahminine göre), lütfen CIDR'ı daraltın.\nKullanılan IP' adresleri (maksimum $1, adrese göre sıralı):",
 	"checkuser-user-nonexistent": "Belirtilen kullanıcı mevcut değil.",
 	"checkuser-search": "Denetçi günlüğünde ara",
 	"checkuser-search-submit": "Ara",
