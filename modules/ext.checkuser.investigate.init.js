@@ -1,5 +1,3 @@
-/* eslint-disable no-jquery/no-global-selector */
-
 ( function () {
 	var addBlockForm = require( './ext.checkuser.investigate.blockform.js' ),
 		setupTables = require( './ext.checkuser.investigate.tables.js' ),

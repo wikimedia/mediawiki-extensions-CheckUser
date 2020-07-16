@@ -1,4 +1,3 @@
-/* eslint-disable no-jquery/no-global-selector */
 ( function () {
 	var userPageWidget,
 		userPagePositionWidget,
