@@ -134,6 +134,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 			$this->layout = new IndexLayout( [
 				'framed' => false,
 				'expanded' => false,
+				'classes' => [ 'ext-checkuser-investigate-tabs-indexLayout' ],
 			] );
 		}
 
