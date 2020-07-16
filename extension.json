@@ -99,6 +99,13 @@
 			"i18n/api"
 		]
 	},
+	"attributes": {
+		"EventLogging": {
+			"Schemas": {
+				"SpecialInvestigate": 20261100
+			}
+		}
+	},
 	"ResourceModules": {
 		"ext.checkUser": {
 			"scripts": [

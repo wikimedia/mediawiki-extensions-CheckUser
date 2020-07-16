@@ -27,6 +27,7 @@ class EventLogger {
 		if ( $this->extensionRegistry->isLoaded( 'EventLogging' ) ) {
 			EventLogging::logEvent(
 				'SpecialInvestigate',
+				// Revision ID of the schema - keep this in sync with extension.json
 				20261100,
 				$event
 			);

@@ -12,6 +12,10 @@ module.exports = function setupTables() {
 	// https://www.mediawiki.org/wiki/Manual:Messages_API#Feature_support_in_JavaScript
 	mw.messages.set( require( './message.json' ) );
 
+	function logEvent( data ) {
+		mw.track( 'event.SpecialInvestigate', data );
+	}
+
 	function getDataKey( $element ) {
 		return JSON.stringify( $element.data() );
 	}
@@ -161,7 +165,12 @@ module.exports = function setupTables() {
 						addTargets( $tableCell, 'cuc_ip' );
 						break;
 					case 'toolLinks':
+						logEvent( {
+							action: 'tool',
+							tool: data.href
+						} );
 						window.open( data.href, '_blank' );
+						break;
 				}
 			} );
 
@@ -177,6 +186,13 @@ module.exports = function setupTables() {
 			toggleButtons[ key ] = toggleButtons[ key ] || [];
 			toggleButtons[ key ].push( toggleButton );
 			toggleButton.on( 'change', onToggleButtonChange.bind( null, $tableCell ) );
+			// Log the click not the change, since clicking on one button
+			// can lead to several other buttons changing
+			toggleButton.on( 'click', function () {
+				if ( toggleButton.getValue() ) {
+					logEvent( { action: 'pin' } );
+				}
+			} );
 			$optionsContainer.append( toggleButton.$element );
 		}
 	}
