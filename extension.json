@@ -75,6 +75,15 @@
 		"checkuser": "ApiQueryCheckUser",
 		"checkuserlog": "ApiQueryCheckUserLog"
 	},
+	"DefaultUserOptions": {
+		"checkuser-investigate-tour-seen": 0,
+		"checkuser-investigate-form-tour-seen": 0
+	},
+	"HookHandlers": {
+		"preferences": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\Preferences"
+		}
+	},
 	"Hooks": {
 		"RecentChange_save": [
 			"CheckUserHooks::updateCheckUserData",
@@ -91,7 +100,8 @@
 		"PerformRetroactiveAutoblock": "CheckUserHooks::doRetroactiveAutoblock",
 		"AuthManagerLoginAuthenticateAudit": "CheckUserHooks::onAuthManagerLoginAuthenticateAudit",
 		"SpecialPage_initList": "CheckUserHooks::onSpecialPage_initList",
-		"UserGetAllRights": "CheckUserHooks::onUserGetAllRights"
+		"UserGetAllRights": "CheckUserHooks::onUserGetAllRights",
+		"GetPreferences": "preferences"
 	},
 	"MessagesDirs": {
 		"CheckUser": [
@@ -162,6 +172,37 @@
 			],
 			"dependencies": [
 				"oojs-ui-widgets"
+			]
+		},
+		"ext.guidedTour.tour.checkuserinvestigateform": {
+			"scripts": [
+				"modules/tours/checkuserinvestigateform.js"
+			],
+			"dependencies": "ext.guidedTour",
+			"messages": [
+				"checkuser-investigate-tour-targets-title",
+				"checkuser-investigate-tour-targets-desc"
+			]
+		},
+		"ext.guidedTour.tour.checkuserinvestigate": {
+			"scripts": [
+				"modules/tours/checkuserinvestigate.js"
+			],
+			"dependencies": [
+				"ext.guidedTour",
+				"ext.checkUser.investigate"
+			],
+			"messages": [
+				"checkuser-investigate-tour-useragents-title",
+				"checkuser-investigate-tour-useragents-desc",
+				"checkuser-investigate-tour-addusertargets-title",
+				"checkuser-investigate-tour-addusertargets-desc",
+				"checkuser-investigate-tour-filterip-title",
+				"checkuser-investigate-tour-filterip-desc",
+				"checkuser-investigate-tour-block-title",
+				"checkuser-investigate-tour-block-desc",
+				"checkuser-investigate-tour-copywikitext-title",
+				"checkuser-investigate-tour-copywikitext-desc"
 			]
 		}
 	},

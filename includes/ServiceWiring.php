@@ -4,6 +4,7 @@ use MediaWiki\CheckUser\ComparePagerFactory;
 use MediaWiki\CheckUser\CompareService;
 use MediaWiki\CheckUser\DurationManager;
 use MediaWiki\CheckUser\EventLogger;
+use MediaWiki\CheckUser\GuidedTour\TourLauncher;
 use MediaWiki\CheckUser\InvestigateLogPagerFactory;
 use MediaWiki\CheckUser\PreliminaryCheckPagerFactory;
 use MediaWiki\CheckUser\PreliminaryCheckService;
@@ -50,6 +51,11 @@ return [
 	},
 	'CheckUserDurationManager' => function ( MediaWikiServices $services ) : DurationManager {
 		return new DurationManager();
+	},
+	'CheckUserGuidedTourLauncher' => function ( MediaWikiServices $services ) : TourLauncher {
+		return new TourLauncher(
+			ExtensionRegistry::getInstance()
+		);
 	},
 	'CheckUserInvestigateLogPagerFactory' => function (
 		MediaWikiServices $services
