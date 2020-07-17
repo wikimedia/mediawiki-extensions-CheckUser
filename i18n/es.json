@@ -31,6 +31,7 @@
 			"Ryo567",
 			"Sanbec",
 			"Spacebirdy",
+			"Suecarmol",
 			"Titoxd",
 			"VegaDark"
 		]
@@ -124,6 +125,9 @@
 	"checkuser-investigate-log-entry": "El $3, $1 buscó información sobre <bdi>$2</bdi> $4",
 	"checkuser-investigate-log-empty": "No se encontró ninguna entrada en el registro de investigación.",
 	"checkuser-investigate": "Investigar",
+	"checkuser-investigate-subtitle-block-button-label": "Bloquear",
+	"checkuser-investigate-subtitle-cancel-button-label": "Cancelar",
+	"checkuser-investigate-subtitle-continue-button-label": "Continuar",
 	"checkuser-investigate-indicator-new-investigation": "Investigación nueva",
 	"checkuser-investigate-indicator-logs": "Registros",
 	"checkuser-investigate-legend": "Buscar nombres de usuario, direcciones IP o intervalos de IP",
