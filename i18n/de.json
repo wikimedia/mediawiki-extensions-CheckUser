@@ -172,5 +172,17 @@
 	"checkuser-investigate-compare-table-header-username": "Benutzername",
 	"checkuser-investigate-compare-table-header-activity": "Datumsbereich",
 	"checkuser-investigate-compare-table-header-ip": "IP-Adresse",
-	"checkuser-investigate-compare-table-header-useragent": "User-Agent"
+	"checkuser-investigate-compare-table-header-useragent": "User-Agent",
+	"checkuser-investigate-tour-targets-title": "Überprüfung mehrerer Benutzer und IP-Adressen?",
+	"checkuser-investigate-tour-targets-desc": "Ergänze bis zu $1 {{PLURAL:$1|Benutzername oder IP-Adresse|Benutzernamen oder IP-Adressen}} und erhalte alle Informationen an einem Ort. Keine Sorge, wir erstellen für jeden von ihnen einen separaten CheckUser-Logbucheintrag.",
+	"checkuser-investigate-tour-useragents-title": "Passende User Agents?",
+	"checkuser-investigate-tour-useragents-desc": "Bewege den Mauszeiger über eine Zelle, um alle anderen Zeilen mit den gleichen Daten hervorzuheben. Klicke auf das Pin-Symbol, um die Hervorhebung beim Durchlaufen der Daten eingeschaltet zu lassen.",
+	"checkuser-investigate-tour-addusertargets-title": "Brauchst du mehr Kontext?",
+	"checkuser-investigate-tour-addusertargets-desc": "Klicke, um alle anderen Benutzer unter dieser IP-Adresse zu sehen. Du kannst dies auch für Benutzer tun und alle IP-Adressen sehen, die sie verwendet haben. Es wird automatisch ein CheckUser-Logbucheintrag erstellt.",
+	"checkuser-investigate-tour-filterip-title": "Untersuchung eingrenzen?",
+	"checkuser-investigate-tour-filterip-desc": "Entferne das Durcheinander, indem du Benutzernamen, IP-Adressen oder User Agents herausfilterst. Willst du alle Daten sehen? Verwende das Filter-Panel oben, um die Filter zu entfernen.",
+	"checkuser-investigate-tour-block-title": "Sperren?",
+	"checkuser-investigate-tour-block-desc": "Ermöglicht es dir, die Benutzer auszuwählen, die du sperren möchtest, und führt dich dann zum Sperrformular, um die entsprechende Sperre auszuwählen.",
+	"checkuser-investigate-tour-copywikitext-title": "Daten kopieren?",
+	"checkuser-investigate-tour-copywikitext-desc": "Kopiere die Vergleichstabelle mit einem Klick und bringe sie in das CU-Wiki. Beachte, dass du nur das kopierst, was sichtbar ist und nicht alle Seiten der Untersuchung."
 }

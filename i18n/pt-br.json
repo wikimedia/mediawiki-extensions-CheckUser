@@ -133,6 +133,9 @@
 	"checkuser-investigate-log-subtitle": "Mudar para o formulário de investigar",
 	"checkuser-investigate": "Investigar",
 	"checkuser-investigate-page-subtitle": "Investigação atual para $1",
+	"checkuser-investigate-subtitle-block-button-label": "Bloquear",
+	"checkuser-investigate-subtitle-cancel-button-label": "Cancelar",
+	"checkuser-investigate-subtitle-continue-button-label": "Continuar",
 	"checkuser-investigate-indicator-new-investigation": "Nova investigação",
 	"checkuser-investigate-indicator-logs": "Registros",
 	"checkuser-investigate-legend": "Pesquise nomes de usuário, endereços IP ou intervalos de IP",
@@ -179,5 +182,15 @@
 	"checkuser-investigate-compare-table-header-username": "Nome de usuário",
 	"checkuser-investigate-compare-table-header-activity": "Intervalo de data",
 	"checkuser-investigate-compare-table-header-ip": "IP",
-	"checkuser-investigate-compare-table-header-useragent": "Agente de usuário"
+	"checkuser-investigate-compare-table-header-useragent": "Agente de usuário",
+	"checkuser-investigate-tour-targets-title": "Verificando vários usuários e IPs?",
+	"checkuser-investigate-tour-useragents-title": "Correspondente a agentes do usuário?",
+	"checkuser-investigate-tour-useragents-desc": "Passe o mouse sobre uma célula para destacar todas as outras linhas que possuem os mesmos dados. Clique no ícone de alfinete para manter o destaque à medida que avança nos dados.",
+	"checkuser-investigate-tour-addusertargets-title": "Precisa de mais contexto?",
+	"checkuser-investigate-tour-filterip-title": "Restringindo sua investigação?",
+	"checkuser-investigate-tour-filterip-desc": "Remova a confusão filtrando nomes de usuários, IPs ou agentes de usuários. Deseja os dados de volta? Use o painel Filtro na parte superior para remover os filtros.",
+	"checkuser-investigate-tour-block-title": "Deseja bloquear?",
+	"checkuser-investigate-tour-block-desc": "Permite selecionar os usuários que você deseja bloquear e, em seguida, leva você ao formulário do bloco para escolher o bloco apropriado.",
+	"checkuser-investigate-tour-copywikitext-title": "Deseja copiar os dados?",
+	"checkuser-investigate-tour-copywikitext-desc": "Copie a tabela de comparação com um clique e leve-a para o CUWiki. Observe que você está apenas copiando o que é visível e não todas as páginas da investigação."
 }

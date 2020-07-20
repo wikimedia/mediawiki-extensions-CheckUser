@@ -176,5 +176,7 @@
 	"checkuser-investigate-compare-table-header-username": "使用者名稱",
 	"checkuser-investigate-compare-table-header-activity": "日期範圍",
 	"checkuser-investigate-compare-table-header-ip": "IP",
-	"checkuser-investigate-compare-table-header-useragent": "使用者代理"
+	"checkuser-investigate-compare-table-header-useragent": "使用者代理",
+	"checkuser-investigate-tour-targets-title": "檢查多個使用者與 IP？",
+	"checkuser-investigate-tour-copywikitext-title": "想要複製資料？"
 }
