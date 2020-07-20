@@ -68,7 +68,6 @@
 	"checkuser-block-noreason": "יש לתת סיבה לחסימות.",
 	"checkuser-centralauth-multilock": "נעילה מרובה של חשבונות שנבחרו",
 	"checkuser-noreason": "יש לכתוב סיבה לשאילתה הזאת.",
-	"checkuser-too-many": "",
 	"checkuser-user-nonexistent": "המשתמש שצוין לא נמצא.",
 	"checkuser-search": "חיפוש רשומות ביומן בדיקת משתמשים",
 	"checkuser-search-submit": "חיפוש",
@@ -118,9 +117,6 @@
 	"checkuser-investigate-log-subtitle": "מעבר לטופס חקירה",
 	"checkuser-investigate": "חקירה",
 	"checkuser-investigate-page-subtitle": "חקירה נוכחית עבור $1",
-	"checkuser-investigate-subtitle-block-button-label": "",
-	"checkuser-investigate-subtitle-cancel-button-label": "",
-	"checkuser-investigate-subtitle-continue-button-label": "",
 	"checkuser-investigate-indicator-new-investigation": "חקירה חדשה",
 	"checkuser-investigate-indicator-logs": "יומנים",
 	"checkuser-investigate-legend": "חיפוש שמות משתמש, כתובות IP או טווחי IP",
@@ -168,9 +164,6 @@
 	"checkuser-investigate-compare-table-header-activity": "טווח תאריכים",
 	"checkuser-investigate-compare-table-header-ip": "כתובת IP",
 	"checkuser-investigate-compare-table-header-useragent": "סוכן לקוח",
-	"checkuser-investigate-tour-targets-title": "",
-	"checkuser-investigate-tour-targets-desc": "",
-	"checkuser-investigate-tour-useragents-title": "",
 	"checkuser-investigate-tour-useragents-desc": "ריחוף מעל תא ידגיש את כל השורות האחרות עם אותם התונים. לחיצה על סמל הסיכה תשמור על ההדגשה בזמן המעבר על הנתונים.",
 	"checkuser-investigate-tour-filterip-title": "לצמצם את החקירה שלך?"
 }
