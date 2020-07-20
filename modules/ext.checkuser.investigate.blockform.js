@@ -3,9 +3,17 @@ module.exports = function addBlockForm() {
 	var blockButton = OO.ui.infuse( $( '.ext-checkuser-investigate-subtitle-block-button' ) ),
 		$placeholderWidget = $( '.ext-checkuser-investigate-subtitle-placeholder-widget' ),
 		targets = mw.config.get( 'wgCheckUserInvestigateTargets' ),
-		targetsWidget = new OO.ui.TagMultiselectWidget( {
-			allowedValues: targets,
-			selected: targets
+		excludeTargets = mw.config.get( 'wgCheckUserInvestigateExcludeTargets' ),
+		targetsWidget = new OO.ui.MenuTagMultiselectWidget( {
+			options: excludeTargets.map( function ( target ) {
+				return {
+					data: target,
+					label: target
+				};
+			} ),
+			selected: targets.filter( function ( target ) {
+				return excludeTargets.indexOf( target ) === -1;
+			} )
 		} ),
 		continueButton = new OO.ui.ButtonWidget( {
 			label: mw.msg( 'checkuser-investigate-subtitle-continue-button-label' ),

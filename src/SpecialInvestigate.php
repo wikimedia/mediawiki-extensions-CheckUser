@@ -426,7 +426,12 @@ class SpecialInvestigate extends \FormSpecialPage {
 	private function addPageSubtitle() {
 		$targets = $this->getTokenData()['targets'] ?? [];
 		if ( $targets ) {
-			$this->getOutput()->addJsConfigVars( 'wgCheckUserInvestigateTargets', $targets );
+			$excludeTargets = $this->getTokenData()['exclude-targets'] ?? [];
+
+			$this->getOutput()->addJsConfigVars( [
+				'wgCheckUserInvestigateTargets' => $targets,
+				'wgCheckUserInvestigateExcludeTargets' => $excludeTargets,
+			] );
 
 			$targetsText = $this->getLanguage()->listToText( array_map( function ( $target ) {
 				return Html::rawElement( 'strong', [], htmlspecialchars( $target ) );
