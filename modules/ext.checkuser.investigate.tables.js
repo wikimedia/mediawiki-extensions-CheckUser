@@ -57,7 +57,6 @@ module.exports = function setupTables() {
 
 		toggleButtons[ getDataKey( $tableCell ) ].forEach( function ( button ) {
 			button.setValue( value );
-			// HACK: Until frameless toggle button is implemented (T249841)
 			button.setFlags( { progressive: value } );
 		} );
 		toggleClass( $tableCell, value, 'pinned-data-match' );
