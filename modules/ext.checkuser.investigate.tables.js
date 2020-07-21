@@ -112,7 +112,9 @@ module.exports = function setupTables() {
 				classes: [
 					'ext-checkuser-investigate-button-add-user-targets'
 				],
-				label: mw.msg( 'checkuser-investigate-compare-table-button-add-user-targets-label' ),
+				label: $tableCell.data( 'edits' ) === $tableCell.data( 'all-edits' ) ?
+					mw.msg( 'checkuser-investigate-compare-table-button-add-user-targets-log-label' ) :
+					mw.msg( 'checkuser-investigate-compare-table-button-add-user-targets-label' ),
 				data: { type: 'addUsers' }
 			} ) );
 		}
