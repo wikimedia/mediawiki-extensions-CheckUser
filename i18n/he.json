@@ -68,6 +68,7 @@
 	"checkuser-block-noreason": "יש לתת סיבה לחסימות.",
 	"checkuser-centralauth-multilock": "נעילה מרובה של חשבונות שנבחרו",
 	"checkuser-noreason": "יש לכתוב סיבה לשאילתה הזאת.",
+	"checkuser-too-many": "יותר מדי תוצאות (לפי ההערכה של השאילתה), נא לצמצם את ה־CIDR.\nהנה כתובת ה־IP שהיו בשימוש ($1 לכל היות, ממוינות לפי הכתובת):",
 	"checkuser-user-nonexistent": "המשתמש שצוין לא נמצא.",
 	"checkuser-search": "חיפוש רשומות ביומן בדיקת משתמשים",
 	"checkuser-search-submit": "חיפוש",
@@ -117,6 +118,9 @@
 	"checkuser-investigate-log-subtitle": "מעבר לטופס חקירה",
 	"checkuser-investigate": "חקירה",
 	"checkuser-investigate-page-subtitle": "חקירה נוכחית עבור $1",
+	"checkuser-investigate-subtitle-block-button-label": "חסימה",
+	"checkuser-investigate-subtitle-cancel-button-label": "ביטול",
+	"checkuser-investigate-subtitle-continue-button-label": "למהשיך",
 	"checkuser-investigate-indicator-new-investigation": "חקירה חדשה",
 	"checkuser-investigate-indicator-logs": "יומנים",
 	"checkuser-investigate-legend": "חיפוש שמות משתמש, כתובות IP או טווחי IP",
@@ -164,6 +168,10 @@
 	"checkuser-investigate-compare-table-header-activity": "טווח תאריכים",
 	"checkuser-investigate-compare-table-header-ip": "כתובת IP",
 	"checkuser-investigate-compare-table-header-useragent": "סוכן לקוח",
+	"checkuser-investigate-tour-targets-title": "לבדוק מספר משתמשים וכתובות IP?",
+	"checkuser-investigate-tour-targets-desc": "נא להוסיף {{PLURAL:$1|שם משתמש או כתובת IP|עד $1 שמות משתמש או כתובות IP}} כדי לקבל את כל המידע במקום אחד. אין מה לדאוג, אנחנו ניצור יומן בדיקה נפרד עבור כל אחד מהם.",
+	"checkuser-investigate-tour-useragents-title": "סוכני לקוח תואמים?",
 	"checkuser-investigate-tour-useragents-desc": "ריחוף מעל תא ידגיש את כל השורות האחרות עם אותם התונים. לחיצה על סמל הסיכה תשמור על ההדגשה בזמן המעבר על הנתונים.",
+	"checkuser-investigate-tour-addusertargets-title": "דרוש עוד הקשר?",
 	"checkuser-investigate-tour-filterip-title": "לצמצם את החקירה שלך?"
 }

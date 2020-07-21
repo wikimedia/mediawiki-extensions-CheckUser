@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Srdjan m"
+			"Srdjan m",
+			"Srđan"
 		]
 	},
 	"apihelp-query+checkuser-param-timecond": "Vremensko ograničenje za korisničke podatke (npr, \"-2 weeks\" ili \"2 weeks ago\").",

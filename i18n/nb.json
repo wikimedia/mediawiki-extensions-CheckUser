@@ -118,6 +118,9 @@
 	"checkuser-investigate-log-subtitle": "Bytt til undersøkelsesskjema",
 	"checkuser-investigate": "Undersøk",
 	"checkuser-investigate-page-subtitle": "Pågående undersøkelse for $1",
+	"checkuser-investigate-subtitle-block-button-label": "Blokker",
+	"checkuser-investigate-subtitle-cancel-button-label": "Avbryt",
+	"checkuser-investigate-subtitle-continue-button-label": "Fortsett",
 	"checkuser-investigate-indicator-new-investigation": "Ny undersøkelse",
 	"checkuser-investigate-indicator-logs": "Logger",
 	"checkuser-investigate-legend": "Søk etter brukernavn, IP-adresser eller IP-intervaller",
@@ -164,5 +167,10 @@
 	"checkuser-investigate-compare-table-header-username": "Brukernavn",
 	"checkuser-investigate-compare-table-header-activity": "Datoområde",
 	"checkuser-investigate-compare-table-header-ip": "IP",
-	"checkuser-investigate-compare-table-header-useragent": "Brukeragent"
+	"checkuser-investigate-compare-table-header-useragent": "Brukeragent",
+	"checkuser-investigate-tour-targets-title": "Sjekke flere brukere og IP-er?",
+	"checkuser-investigate-tour-targets-desc": "Legg til opptil $1 {{PLURAL:$1|brukernavn eller IP|brukernavn eller IP-er}} og få all informasjonen på ett sted. Vi vil opprette en separat brukersjekklogg for hver av dem.",
+	"checkuser-investigate-tour-useragents-title": "Matchende brukeragenter?",
+	"checkuser-investigate-tour-addusertargets-title": "Trenger du mer kontekst?",
+	"checkuser-investigate-tour-addusertargets-desc": "Klikk for å se alle andre brukere på IP-en.  Du kan gjøre dette for brukere også for å se hvilke IP-er de har brukt. Vi oppretter automatisk brukersjekkloggoppføringer for deg."
 }
