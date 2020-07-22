@@ -112,6 +112,7 @@
 	"checkuser-investigateblock-notice-append": "페이지에 덧붙이기",
 	"checkuser-investigateblock-notice-replace": "페이지 바꾸기",
 	"checkuser-investigate": "조사하기",
+	"checkuser-investigate-subtitle-cancel-button-label": "취소",
 	"checkuser-investigate-indicator-logs": "기록",
 	"checkuser-investigate-legend": "계정 이름, IP 주소 또는 IP 대역 검색",
 	"checkuser-investigate-notice-no-results": "결과가 없습니다.",
@@ -143,5 +144,6 @@
 	"checkuser-investigate-compare-table-header-username": "사용자 이름",
 	"checkuser-investigate-compare-table-header-activity": "날짜 범위",
 	"checkuser-investigate-compare-table-header-ip": "IP",
-	"checkuser-investigate-compare-table-header-useragent": "사용자 에이전트"
+	"checkuser-investigate-compare-table-header-useragent": "사용자 에이전트",
+	"checkuser-investigate-tour-copywikitext-title": "데이터를 복사하시겠습니까?"
 }

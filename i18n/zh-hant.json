@@ -178,5 +178,7 @@
 	"checkuser-investigate-compare-table-header-ip": "IP",
 	"checkuser-investigate-compare-table-header-useragent": "使用者代理",
 	"checkuser-investigate-tour-targets-title": "檢查多個使用者與 IP？",
+	"checkuser-investigate-tour-filterip-title": "縮小您的調查？",
+	"checkuser-investigate-tour-filterip-desc": "透過篩選使用者名稱、IP、或是使用者代理來消除雜亂內容。若想恢復成原來的資料，請使用在頂端的篩選面板把篩選給移除。",
 	"checkuser-investigate-tour-copywikitext-title": "想要複製資料？"
 }

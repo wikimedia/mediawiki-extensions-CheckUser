@@ -168,10 +168,16 @@
 	"checkuser-investigate-compare-table-header-activity": "טווח תאריכים",
 	"checkuser-investigate-compare-table-header-ip": "כתובת IP",
 	"checkuser-investigate-compare-table-header-useragent": "סוכן לקוח",
-	"checkuser-investigate-tour-targets-title": "לבדוק מספר משתמשים וכתובות IP?",
-	"checkuser-investigate-tour-targets-desc": "נא להוסיף {{PLURAL:$1|שם משתמש או כתובת IP|עד $1 שמות משתמש או כתובות IP}} כדי לקבל את כל המידע במקום אחד. אין מה לדאוג, אנחנו ניצור יומן בדיקה נפרד עבור כל אחד מהם.",
-	"checkuser-investigate-tour-useragents-title": "סוכני לקוח תואמים?",
-	"checkuser-investigate-tour-useragents-desc": "ריחוף מעל תא ידגיש את כל השורות האחרות עם אותם התונים. לחיצה על סמל הסיכה תשמור על ההדגשה בזמן המעבר על הנתונים.",
-	"checkuser-investigate-tour-addusertargets-title": "דרוש עוד הקשר?",
-	"checkuser-investigate-tour-filterip-title": "לצמצם את החקירה שלך?"
+	"checkuser-investigate-tour-targets-title": "{{GENDER:|בודק|בודקת}} מספר משתמשים וכתובות IP?",
+	"checkuser-investigate-tour-targets-desc": "{{GENDER:|הוסף|הוסיפי}} {{PLURAL:$1|שם משתמש או כתובת IP|עד $1 שמות משתמש או כתובות IP}} כדי לקבל את כל המידע במקום אחד. אין מה לדאוג, אנחנו ניצור יומן בדיקה נפרד עבור כל אחד מהם.",
+	"checkuser-investigate-tour-useragents-title": "התאמת סוכני לקוח?",
+	"checkuser-investigate-tour-useragents-desc": "{{GENDER:|רחף|רחפי}} מעל תא כדי להדגיש את כל השורות האחרות עם אותם התונים. {{GENDER:|לחץ|לחצי}} על סמל הסיכה כדי לשמור על ההדגשה בזמן המעבר על הנתונים.",
+	"checkuser-investigate-tour-addusertargets-title": "{{GENDER:|זקוק|זקוקה}} לעוד הקשר?",
+	"checkuser-investigate-tour-addusertargets-desc": "{{GENDER:|לחץ|לחצי}} כדי לראות את כל המשתמשים בכתובת ה־IP הזאת. {{GENDER:|אתה יכול|את יכולה}} לעשות את זה גם עבור משתמשים, ולראות את כל כתובות ה־IP שהם השתמשו בהן. אנחנו ניצור פריט יומן בדיקה באופן אוטומטי בשבילך.",
+	"checkuser-investigate-tour-filterip-title": "{{GENDER:|מצמצם|מצמצמת}} את החקירה שלך?",
+	"checkuser-investigate-tour-filterip-desc": "{{GENDER:|סלק|סלקי}} את הבלגן באמצעות סינון שמות משתמש, כתובות IP, או סוכני לקוח. רוצה את הנתונים חזרה? {{GENDER:|השתמש|השתמשי}} בחלונית \"מסננים\" למעלה כדי לכבות את המסננים.",
+	"checkuser-investigate-tour-block-title": "רוצה לחסום?",
+	"checkuser-investigate-tour-block-desc": "זה מאפשר לך לבחור את המשתמשים {{GENDER:|שתרצה|שתרצי}} לחסום ואז לוקח אותך לטופס החסימה כדי לבחור את החסימה המתאימה.",
+	"checkuser-investigate-tour-copywikitext-title": "רוצה להעתיק את הנתונים?",
+	"checkuser-investigate-tour-copywikitext-desc": "{{GENDER:|העתק|העתיקי}} את טבלת ההשוואה בלחיצה אחת {{GENDER:|וקח|וקחי}} אותה ל־CUWiki. {{GENDER:|שים|שימי}} לב לכך {{GENDER:|שאתה מעתיק|שאת מעתיקה}} רק את מה שמוצג ולא את כל הדפים של החקירה."
 }
