@@ -204,7 +204,7 @@
 	"checkuser-investigate-tour-addusertargets-title": "Title of addusertargets step in investigate guided tour.",
 	"checkuser-investigate-tour-addusertargets-desc": "Description of addusertargets step in investigate guided tour.",
 	"checkuser-investigate-tour-filterip-title": "[[File:Screenshot of Special-Investigate Guided Tour - Filter.png|thumb|Form where string is used in English.]] Title of filterip step in investigate guided tour.",
-	"checkuser-investigate-tour-filterip-desc": "Description of filterip step in investigate guided tour.",
+	"checkuser-investigate-tour-filterip-desc": "[[File:Screenshot of Special-Investigate Guided Tour - Filter.png|thumb|Form where string is used in English.]]\nDescription of filterip step in investigate guided tour. The title of \"Filters panel\" is {{msg-mw|Checkuser-investigate-filters-legend}}.",
 	"checkuser-investigate-tour-block-title": "Title of block step in investigate guided tour.",
 	"checkuser-investigate-tour-block-desc": "Description of block step in investigate guided tour.",
 	"checkuser-investigate-tour-copywikitext-title": "Title of copywikitext step in investigate guided tour.",

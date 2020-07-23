@@ -196,7 +196,7 @@
 	"checkuser-investigate-tour-addusertargets-title": "Besoin de plus de contexte ?",
 	"checkuser-investigate-tour-addusertargets-desc": "Cliquez pour voir tous les autres utilisateurs sur l’IP. Vous pouvez également le faire pour les utilisateurs et voir toutes les adresses IP qu’ils utilisent. Nous créerons automatiquement un élément de journal Vérificateurs d'adresses IP pour vous.",
 	"checkuser-investigate-tour-filterip-title": "Affiner votre investigation ?",
-	"checkuser-investigate-tour-filterip-desc": "Supprimez l’encombrement en filtrant les noms d’utilisateur, les adresses IP ou les agents utilisateurs. Désirez-vous récupérer les données ? Utilisez le panneau Filtre en haut pour retirer les filtres.",
+	"checkuser-investigate-tour-filterip-desc": "Supprimez l’encombrement en filtrant les noms d’utilisateur, les adresses IP ou les agents utilisateurs. Désirez-vous récupérer les données ? Utilisez le panneau Filtres en haut pour retirer les filtres.",
 	"checkuser-investigate-tour-block-title": "Voulez-vous bloquer ?",
 	"checkuser-investigate-tour-block-desc": "Vous permet de sélectionner les utilisateurs que vous souhaitez bloquer, puis vous amène au formulaire de blocage pour choisir le blocage approprié.",
 	"checkuser-investigate-tour-copywikitext-title": "Voulez-vous copier les données ?",

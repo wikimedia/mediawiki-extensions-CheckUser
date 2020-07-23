@@ -147,5 +147,6 @@
 	"checkuser-investigate-compare-table-header-username": "利用者名",
 	"checkuser-investigate-compare-table-header-activity": "日付範囲",
 	"checkuser-investigate-compare-table-header-ip": "IPアドレス",
-	"checkuser-investigate-compare-table-header-useragent": "ユーザーエージェント"
+	"checkuser-investigate-compare-table-header-useragent": "ユーザーエージェント",
+	"checkuser-investigate-tour-filterip-desc": "ユーザー名、IPアドレスまたはエージェント情報を除外してスッキリさせましょう。元へ戻したい？上部にある絞り込みパネルを使って絞り込み条件を削除して下さい。"
 }
