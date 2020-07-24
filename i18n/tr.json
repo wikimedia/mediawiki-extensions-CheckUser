@@ -180,7 +180,7 @@
 	"checkuser-investigate-tour-addusertargets-title": "Daha fazla bağlam mı gerekiyor?",
 	"checkuser-investigate-tour-addusertargets-desc": "IP'deki diğer tüm kullanıcıları görmek için tıklayın. Bunu Kullanıcılar için de yapabilir ve kullandıkları tüm IP'leri görebilirsiniz. Sizin için otomatik olarak bir Denetçi günlük öğesi oluştururuz.",
 	"checkuser-investigate-tour-filterip-title": "Soruşturmanı daraltıyor musun?",
-	"checkuser-investigate-tour-filterip-desc": "Kullanıcı adlarını, IP'leri veya kullanıcı aracılarını filtreleyerek dağınıklığı kaldırın. Verileri geri getirmek ister misin? Filtreleri kaldırmak için üstteki Filtre panelini kullanın.",
+	"checkuser-investigate-tour-filterip-desc": "Kullanıcı adlarını, IP'leri veya kullanıcı aracılarını filtreleyerek dağınıklığı kaldırın. Verileri geri getirmek ister misin? Filtreleri kaldırmak için üstteki Filtreler panelini kullanın.",
 	"checkuser-investigate-tour-block-title": "Engellemek mi istiyorsun?",
 	"checkuser-investigate-tour-block-desc": "Engellemek istediğiniz kullanıcıları seçmenize olanak tanır ve ardından uygun engeli seçmek için engel formuna götürür.",
 	"checkuser-investigate-tour-copywikitext-title": "Verileri kopyalamak ister misiniz?",

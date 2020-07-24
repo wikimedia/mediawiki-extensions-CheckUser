@@ -188,7 +188,7 @@
 	"checkuser-investigate-tour-useragents-desc": "Passe o mouse sobre uma célula para destacar todas as outras linhas que possuem os mesmos dados. Clique no ícone de alfinete para manter o destaque à medida que avança nos dados.",
 	"checkuser-investigate-tour-addusertargets-title": "Precisa de mais contexto?",
 	"checkuser-investigate-tour-filterip-title": "Restringindo sua investigação?",
-	"checkuser-investigate-tour-filterip-desc": "Remova a confusão filtrando nomes de usuários, IPs ou agentes de usuários. Deseja os dados de volta? Use o painel Filtro na parte superior para remover os filtros.",
+	"checkuser-investigate-tour-filterip-desc": "Remova a confusão filtrando nomes de usuários, IPs ou agentes de usuários. Deseja os dados de volta? Use o painel de filtros na parte superior para remover os filtros.",
 	"checkuser-investigate-tour-block-title": "Deseja bloquear?",
 	"checkuser-investigate-tour-block-desc": "Permite selecionar os usuários que você deseja bloquear e, em seguida, leva você ao formulário do bloco para escolher o bloco apropriado.",
 	"checkuser-investigate-tour-copywikitext-title": "Deseja copiar os dados?",

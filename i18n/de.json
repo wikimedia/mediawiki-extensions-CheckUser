@@ -165,6 +165,7 @@
 	"checkuser-investigate-compare-notice-no-results-filters": "Es gibt keine Ergebnisse, die diesen Filterkriterien entsprechen. Versuche, einige Filter zu entfernen, um die Suche zu erweitern.",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Zeige alle IP-Adressen von diesem Benutzer",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "Zeige alle Benutzer mit dieser IP-Adresse",
+	"checkuser-investigate-compare-table-button-add-user-targets-log-label": "Diese IP-Adresse zur Untersuchung hinzufügen",
 	"checkuser-investigate-compare-table-button-filter-label": "Aus den Ergebnissen filtern",
 	"checkuser-investigate-compare-table-cell-unregistered": "Unregistriert",
 	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|Bearbeitung|Bearbeitungen}}]</b>",
