@@ -162,6 +162,7 @@
 	"checkuser-investigate-compare-notice-no-results-filters": "There are no results matching these filtering criteria. Try removing some filters to broaden the search.",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Show all IPs of this user",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "Show all users on this IP",
+	"checkuser-investigate-compare-table-button-add-user-targets-log-label": "Add this IP to investigation",
 	"checkuser-investigate-compare-table-button-filter-label": "Filter from results",
 	"checkuser-investigate-compare-table-cell-unregistered": "Unregistered",
 	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|edit|edits}}]</b>",
