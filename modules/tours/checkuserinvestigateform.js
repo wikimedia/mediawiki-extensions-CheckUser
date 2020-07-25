@@ -25,6 +25,7 @@
 		attachTo: '#targets',
 		position: 'bottom',
 		closeOnClickOutside: false,
+		overlay: true,
 		onHide: function () {
 			// Api.saveOption will save a string instead of a bool. :(
 			( new mw.Api() ).saveOption( 'checkuser-investigate-form-tour-seen', 1 );
