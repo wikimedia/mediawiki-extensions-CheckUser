@@ -73,10 +73,11 @@ module.exports = function addCopyFeature() {
 	} );
 	copyTextLayout.toggle( false );
 
-	$( '.oo-ui-indexLayout-stackLayout' ).append(
-		messageWidget.$element.append(
-			wikitextButton.$element,
-			copyTextLayout.$element
-		)
-	);
+	$( '.ext-checkuser-investigate-tabs-indexLayout .oo-ui-indexLayout-stackLayout' )
+		.append(
+			messageWidget.$element.append(
+				wikitextButton.$element,
+				copyTextLayout.$element
+			)
+		);
 };
