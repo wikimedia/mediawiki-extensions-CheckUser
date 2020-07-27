@@ -25,6 +25,7 @@
 		attachTo: '.ext-checkuser-compare-table-cell-user-agent',
 		position: 'left',
 		closeOnClickOutside: false,
+		overlay: true,
 		onShow: function () {
 			$( this.attachTo ).first().addClass( 'ext-checkuser-investigate-active' );
 		},
@@ -59,6 +60,7 @@
 		position: 'right',
 		closeOnClickOutside: false,
 		autoFocus: false,
+		overlay: true,
 		onShow: handleIpTargetOnShow,
 		onHide: handleIpTargetOnHide
 	} )
@@ -73,6 +75,7 @@
 		position: 'right',
 		closeOnClickOutside: false,
 		autoFocus: false,
+		overlay: true,
 		onShow: handleIpTargetOnShow,
 		onHide: handleIpTargetOnHide
 	} )
@@ -86,6 +89,7 @@
 		attachTo: '.ext-checkuser-investigate-subtitle-block-button',
 		position: 'bottomLeft',
 		closeOnClickOutside: false,
+		overlay: true,
 		buttons: [
 			{
 				action: 'back'
@@ -106,6 +110,7 @@
 		attachTo: '.ext-checkuser-investigate-copy-button',
 		position: 'topLeft',
 		closeOnClickOutside: false,
+		overlay: true,
 		buttons: [
 			{
 				action: 'back'
