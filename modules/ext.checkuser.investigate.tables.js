@@ -174,7 +174,7 @@ module.exports = function setupTables() {
 					case 'toolLinks':
 						logEvent( {
 							action: 'tool',
-							tool: data.href
+							tool: new mw.Uri( data.href ).host
 						} );
 						window.open( data.href, '_blank' );
 						break;
