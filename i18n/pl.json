@@ -168,6 +168,7 @@
 	"checkuser-investigate-compare-notice-no-results-filters": "Brak wyników spełniających podane kryteria filtrowania. Spróbuj usunąć niektóre filtry aby zwiększyć zakres wyszukiwania.",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Pokaż wszystkie IP tego użytkownika",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "Pokaż wszystkich użytkowników z tego IP",
+	"checkuser-investigate-compare-table-button-add-user-targets-log-label": "Dodaj to IP do sprawdzenia",
 	"checkuser-investigate-compare-table-button-filter-label": "Filtruj z wyników",
 	"checkuser-investigate-compare-table-cell-unregistered": "Niezarejestrowany",
 	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|edycja|edycje|edycji}}]</b>",

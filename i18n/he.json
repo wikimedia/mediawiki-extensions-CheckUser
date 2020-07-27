@@ -160,6 +160,7 @@
 	"checkuser-investigate-compare-notice-no-results-filters": "אין תוצאות שמתאימות לחיפוש הזה. נא לנסות להסיר חלק מהמסננים כדי להרחיב את החיפוש.",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "הצגת כל כתובות ה־IP של המשתמש הזה",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "הצגת כל המשתמשים בכתובת ה־IP הזאת",
+	"checkuser-investigate-compare-table-button-add-user-targets-log-label": "הוספת כתובת ה־IP הזאת לחקירה",
 	"checkuser-investigate-compare-table-button-filter-label": "לסנן מהתוצאות",
 	"checkuser-investigate-compare-table-cell-unregistered": "לא רשום",
 	"checkuser-investigate-compare-table-cell-edits": "<b>[{{PLURAL:$1|עריכה אחת|$1 עריכות}}]</b>",

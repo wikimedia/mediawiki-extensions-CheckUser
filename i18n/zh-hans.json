@@ -140,5 +140,6 @@
 	"checkuser-investigate-compare-copy-message-label": "您是否想要将这些信息复制为维基文本格式的表格？",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "显示该用户使用的所有IP",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "显示使用该IP的所有用户",
+	"checkuser-investigate-compare-table-button-add-user-targets-log-label": "添加此IP到调查中",
 	"checkuser-investigate-compare-table-button-filter-label": "从结果中筛选"
 }

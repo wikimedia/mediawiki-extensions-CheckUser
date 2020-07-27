@@ -165,6 +165,7 @@
 	"checkuser-investigate-compare-notice-no-results-filters": "Bu filtreleme ölçütleriyle eşleşen sonuç bulunamadı. Aramayı genişletmek için bazı filtreleri kaldırmayı deneyin.",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Bu IP'deki tüm kullanıcıyı göster",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "Bu kullanıcının tüm IP'yi göster",
+	"checkuser-investigate-compare-table-button-add-user-targets-log-label": "Bu IP'yi araştırmaya ekle",
 	"checkuser-investigate-compare-table-button-filter-label": "Sonuçlara göre filtrele",
 	"checkuser-investigate-compare-table-cell-unregistered": "Kayıtsız",
 	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 düzenleme]</b>",

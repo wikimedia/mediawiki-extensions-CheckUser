@@ -181,6 +181,7 @@
 	"checkuser-investigate-compare-notice-no-results-filters": "Il n’y a pas de résultat correspondant à ces critères de filtrage. Essayez d'enlever certains filtres pour élargir la recherche.",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Afficher toues les adresses IP de cet utilisateur",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "Afficher tous les utilisateurs ayant cette adresse IP",
+	"checkuser-investigate-compare-table-button-add-user-targets-log-label": "Ajouter cette adresse IP pour investigation",
 	"checkuser-investigate-compare-table-button-filter-label": "Filtrer les résultats",
 	"checkuser-investigate-compare-table-cell-unregistered": "Non inscrit",
 	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|modification|modifications}}]</b>",

@@ -143,6 +143,7 @@
 	"checkuser-investigate-compare-toollinks-geolocate": "地点の設定",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "この利用者が使ったすべてのIPアドレスを表示",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "このIPアドレスを使ったすべての利用者を表示",
+	"checkuser-investigate-compare-table-button-add-user-targets-log-label": "このIPアドレスを調査に追加",
 	"checkuser-investigate-compare-table-cell-edits": "<b>[$1{{PLURAL:$1|回編集}}]</b>",
 	"checkuser-investigate-compare-table-header-username": "利用者名",
 	"checkuser-investigate-compare-table-header-activity": "日付範囲",

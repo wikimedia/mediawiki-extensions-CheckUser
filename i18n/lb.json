@@ -117,5 +117,6 @@
 	"checkuser-investigate-compare-table-cell-other-edits": "<i>(~$1 vun alle Benotzer)</i>",
 	"checkuser-investigate-compare-table-header-username": "Benotzernumm",
 	"checkuser-investigate-compare-table-header-activity": "Datumsberäich",
-	"checkuser-investigate-compare-table-header-ip": "IP"
+	"checkuser-investigate-compare-table-header-ip": "IP",
+	"checkuser-investigate-tour-addusertargets-title": "Braucht Dir méi Kontext?"
 }
