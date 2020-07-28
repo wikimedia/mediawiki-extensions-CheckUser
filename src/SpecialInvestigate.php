@@ -112,10 +112,16 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @inheritDoc
 	 */
 	public function execute( $par ) {
+		parent::execute( $par );
+
+		// If the form submission results in a redirect, there is no need to
+		// generate content for the page.
+		if ( $this->getOutput()->getRedirect() !== '' ) {
+			return;
+		}
+
 		$this->getOutput()->addModuleStyles( 'ext.checkUser.investigate.styles' );
 		$this->getOutput()->addModules( [ 'ext.checkUser.investigate' ] );
-
-		parent::execute( $par );
 
 		// Show the tabs if there is any request data.
 		// The tabs should also be shown even if the form was a POST request because
