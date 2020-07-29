@@ -55,7 +55,8 @@ return [
 	},
 	'CheckUserGuidedTourLauncher' => function ( MediaWikiServices $services ) : TourLauncher {
 		return new TourLauncher(
-			ExtensionRegistry::getInstance()
+			ExtensionRegistry::getInstance(),
+			$services->getLinkRenderer()
 		);
 	},
 	'CheckUserInvestigateLogPagerFactory' => function (

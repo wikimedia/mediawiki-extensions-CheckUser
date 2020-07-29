@@ -172,6 +172,7 @@
 	"checkuser-investigate-compare-table-header-activity": "Date range",
 	"checkuser-investigate-compare-table-header-ip": "IP",
 	"checkuser-investigate-compare-table-header-useragent": "User agent",
+	"checkuser-investigate-subtitle-link-restart-tour": "Restart Tour",
 	"checkuser-investigate-tour-targets-title": "Checking multiple users and IPs?",
 	"checkuser-investigate-tour-targets-desc": "Add up to $1 {{PLURAL:$1|Username or IP|Usernames or IPs}} and get all the information in one place. Don’t worry, we’ll create a separate CheckUser log for each of them.",
 	"checkuser-investigate-tour-useragents-title": "Matching User Agents?",

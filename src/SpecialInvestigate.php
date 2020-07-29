@@ -6,7 +6,10 @@ use Html;
 use HTMLForm;
 use Language;
 use MediaWiki\CheckUser\GuidedTour\TourLauncher;
+use MediaWiki\CheckUser\Hook\CheckUserSubtitleLinksHook;
 use MediaWiki\CheckUser\HookHandler\Preferences;
+use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\User\UserOptionsManager;
 use Message;
 use OOUI\ButtonGroupWidget;
 use OOUI\ButtonWidget;
@@ -27,6 +30,9 @@ use Wikimedia\IPUtils;
 class SpecialInvestigate extends \FormSpecialPage {
 	/** @var Language */
 	private $contentLanguage;
+
+	/** @var UserOptionsManager */
+	private $userOptionsManager;
 
 	/** @var PagerFactory */
 	private $preliminaryCheckPagerFactory;
@@ -49,6 +55,9 @@ class SpecialInvestigate extends \FormSpecialPage {
 	/** @var TourLauncher */
 	private $tourLauncher;
 
+	/** @var CheckUserSubtitleLinksHook */
+	private $subtitleLinksHookRunner;
+
 	/** @var IndexLayout|null */
 	private $layout;
 
@@ -70,8 +79,16 @@ class SpecialInvestigate extends \FormSpecialPage {
 	/** @var string */
 	private const TOUR_INVESTIGATE_FORM = 'checkuserinvestigateform';
 
+	/** @var string[] */
+	private const TOURS = [
+		self::TOUR_INVESTIGATE,
+		self::TOUR_INVESTIGATE_FORM,
+	];
+
 	/**
+	 * @param LinkRenderer $linkRenderer
 	 * @param Language $contentLanguage
+	 * @param UserOptionsManager $userOptionsManager
 	 * @param PagerFactory $preliminaryCheckPagerFactory
 	 * @param PagerFactory $comparePagerFactory
 	 * @param PagerFactory $timelinePagerFactory
@@ -79,19 +96,25 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @param DurationManager $durationManager
 	 * @param EventLogger $eventLogger
 	 * @param TourLauncher $tourLauncher
+	 * @param CheckUserSubtitleLinksHook $subtitleLinksHookRunner
 	 */
 	public function __construct(
+		LinkRenderer $linkRenderer,
 		Language $contentLanguage,
+		UserOptionsManager $userOptionsManager,
 		PagerFactory $preliminaryCheckPagerFactory,
 		PagerFactory $comparePagerFactory,
 		PagerFactory $timelinePagerFactory,
 		TokenQueryManager $tokenQueryManager,
 		DurationManager $durationManager,
 		EventLogger $eventLogger,
-		TourLauncher $tourLauncher
+		TourLauncher $tourLauncher,
+		CheckUserSubtitleLinksHook $subtitleLinksHookRunner
 	) {
 		parent::__construct( 'Investigate', 'investigate' );
+		$this->setLinkRenderer( $linkRenderer );
 		$this->contentLanguage = $contentLanguage;
+		$this->userOptionsManager = $userOptionsManager;
 		$this->preliminaryCheckPagerFactory = $preliminaryCheckPagerFactory;
 		$this->comparePagerFactory = $comparePagerFactory;
 		$this->timelinePagerFactory = $timelinePagerFactory;
@@ -99,6 +122,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 		$this->durationManager = $durationManager;
 		$this->eventLogger = $eventLogger;
 		$this->tourLauncher = $tourLauncher;
+		$this->subtitleLinksHookRunner = $subtitleLinksHookRunner;
 	}
 
 	/**
@@ -120,6 +144,11 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @inheritDoc
 	 */
 	public function execute( $par ) {
+		// The tour is being explicitly launched by the user, reset their preferences.
+		if ( $this->reLaunchTour() ) {
+			return;
+		}
+
 		parent::execute( $par );
 
 		// If the form submission results in a redirect, there is no need to
@@ -144,12 +173,16 @@ class SpecialInvestigate extends \FormSpecialPage {
 			}
 
 			$this->addIndicators();
-			$this->addPageSubtitle();
+			$this->addBlockForm();
 			$this->addTabs( $par )->addTabContent( $par );
 			$this->getOutput()->addHTML( $this->getLayout() );
 		} else {
 			$this->launchTour( self::TOUR_INVESTIGATE_FORM );
 		}
+
+		// Add the links after any previous HTML has been cleared.
+		$this->addSubtitle();
+		$this->addHelpLink( 'https://meta.wikimedia.org/wiki/Special:MyLanguage/Help:Special_Investigate', true );
 	}
 
 	/**
@@ -441,7 +474,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * and a block form. Add the block form elements that are visible initially,
 	 * to avoid a flicker on page load.
 	 */
-	private function addPageSubtitle() {
+	private function addBlockForm() {
 		$targets = $this->getTokenData()['targets'] ?? [];
 		if ( $targets ) {
 			$excludeTargets = $this->getTokenData()['exclude-targets'] ?? [];
@@ -541,7 +574,6 @@ class SpecialInvestigate extends \FormSpecialPage {
 				'ext-checkuser-investigation-btns' => new ButtonGroupWidget( [
 					'classes' => [ 'ext-checkuser-investigate-indicators' ],
 					'items' => [ $newForm, $log ],
-
 				] ),
 			] );
 		}
@@ -864,12 +896,60 @@ class SpecialInvestigate extends \FormSpecialPage {
 	}
 
 	/**
+	 * Relaunch Tour Intercept
+	 *
+	 * Intercepts a request and relaunches the tour by updating the user preferences and setting
+	 * a redirect.
+	 *
+	 * @return bool If the tour is being relaunched and a redirect was set.
+	 */
+	public function reLaunchTour() : bool {
+		if ( !in_array( $this->getRequest()->getVal( 'tour' ), self::TOURS, true ) ) {
+			return false;
+		}
+
+		$user = $this->getUser();
+
+		$options = [];
+		switch ( $this->getRequest()->getVal( 'tour' ) ) {
+			case self::TOUR_INVESTIGATE_FORM:
+				$options = [
+					Preferences::INVESTIGATE_FORM_TOUR_SEEN,
+					Preferences::INVESTIGATE_TOUR_SEEN,
+				];
+			break;
+			case self::TOUR_INVESTIGATE:
+				$options = [
+					Preferences::INVESTIGATE_TOUR_SEEN,
+				];
+			break;
+		}
+
+		foreach ( $options as $option ) {
+			$this->userOptionsManager->setOption( $user, $option, null );
+		}
+
+		$this->userOptionsManager->saveOptions( $user );
+
+		$parts = wfParseUrl( $this->getRequest()->getFullRequestURL() );
+		$query = wfCgiToArray( $parts['query'] ?? '' );
+		$query['tour'] = null;
+		$parts['query'] = wfArrayToCgi( $query );
+
+		$this->getOutput()->redirect( wfAssembleUrl( $parts ) );
+
+		return true;
+	}
+
+	/**
 	 * Launches the tour unless the user has already completed or canceled it.
 	 *
 	 * @param string $tour
 	 * @return void
 	 */
 	private function launchTour( string $tour ) : void {
+		$user = $this->getUser();
+
 		$preference = '';
 		$step = '';
 
@@ -886,10 +966,47 @@ class SpecialInvestigate extends \FormSpecialPage {
 				return;
 		}
 
-		if ( $this->getUser()->getOption( $preference ) ) {
+		if ( $this->userOptionsManager->getOption( $user, $preference ) ) {
 			return;
 		}
 
 		$this->tourLauncher->launchTour( $tour, $step );
+	}
+
+	/**
+	 * Add the subtitle to the page.
+	 */
+	private function addSubtitle() : void {
+		$subpage = false;
+		$token = null;
+		$tour = self::TOUR_INVESTIGATE_FORM;
+
+		if ( $this->getTokenData() !== [] ) {
+			$token = $this->getTokenWithoutPaginationData();
+			$subpage = $this->getTabParam( 'compare' );
+			$tour = self::TOUR_INVESTIGATE;
+		}
+
+		$links = [
+			$this->getLinkRenderer()->makeLink( self::getTitleValueFor( 'CheckUser' ) ),
+			$this->tourLauncher->makeTourLink(
+				$tour,
+				$this->getPageTitle( $subpage ),
+				$this->msg( 'checkuser-investigate-subtitle-link-restart-tour' )->text(),
+				[],
+				[
+					'token' => $token,
+					'duration' => $this->getDuration() ?: null,
+				]
+			),
+		];
+
+		$this->subtitleLinksHookRunner->onCheckUserSubtitleLinks( $this->getContext(), $links );
+
+		$subtitle = implode( ' | ', array_filter( $links, function ( $link ) {
+			return (bool)$link;
+		} ) );
+
+		$this->getOutput()->setSubtitle( $subtitle );
 	}
 }

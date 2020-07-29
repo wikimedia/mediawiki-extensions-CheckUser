@@ -28,7 +28,9 @@ class CheckUserHooks {
 			$list['Investigate'] = [
 				'class' => SpecialInvestigate::class,
 				'services' => [
+					'LinkRenderer',
 					'ContentLanguage',
+					'UserOptionsManager',
 					'CheckUserPreliminaryCheckPagerFactory',
 					'CheckUserComparePagerFactory',
 					'CheckUserTimelinePagerFactory',
@@ -36,6 +38,7 @@ class CheckUserHooks {
 					'CheckUserDurationManager',
 					'CheckUserEventLogger',
 					'CheckUserGuidedTourLauncher',
+					'CheckUserHookRunner',
 				],
 			];
 

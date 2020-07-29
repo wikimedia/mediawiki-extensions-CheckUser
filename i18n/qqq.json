@@ -199,6 +199,7 @@
 	"checkuser-investigate-compare-table-header-activity": "Label for a table header in [[Special:Investigate]].",
 	"checkuser-investigate-compare-table-header-ip": "Label for a table header in [[Special:Investigate]].",
 	"checkuser-investigate-compare-table-header-useragent": "Label for a table header in [[Special:Investigate]].",
+	"checkuser-investigate-subtitle-link-restart-tour": "Text for the link in the subtitle of [[Special:Investigate]] that will restart the guided tour.",
 	"checkuser-investigate-tour-targets-title": "Title of targets step in the investigate form guided tour.",
 	"checkuser-investigate-tour-targets-desc": "Description of targets step in the investigate form guided tour.\n\nParameters:\n* $1 - number of targets allowed on the [[Special:Investigate]] form.",
 	"checkuser-investigate-tour-useragents-title": "Title of useragents step in investigate guided tour.",

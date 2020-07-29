@@ -75,10 +75,6 @@
 		"checkuser": "ApiQueryCheckUser",
 		"checkuserlog": "ApiQueryCheckUserLog"
 	},
-	"DefaultUserOptions": {
-		"checkuser-investigate-tour-seen": 0,
-		"checkuser-investigate-form-tour-seen": 0
-	},
 	"HookHandlers": {
 		"preferences": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\Preferences"
