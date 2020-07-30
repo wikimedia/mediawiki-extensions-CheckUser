@@ -160,6 +160,7 @@
 	"checkuser-investigate-compare-notice-no-results-filters": "Det er ingen resultater som matcher filterkriteriene. Prøv å fjerne noen filtre for å utvide søket.",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Vis alle IP-ene til denne brukeren",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "Vis alle brukere på denne IP-en",
+	"checkuser-investigate-compare-table-button-add-user-targets-log-label": "Legg til denne IP-en i etterforskningen",
 	"checkuser-investigate-compare-table-button-filter-label": "Filtrer fra resultater",
 	"checkuser-investigate-compare-table-cell-unregistered": "Uregistrert",
 	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|redigering|redigeringer}}]</b>",
