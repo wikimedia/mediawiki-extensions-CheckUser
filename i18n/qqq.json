@@ -119,6 +119,7 @@
 	"checkuser-login-success": "Log entry shown in CheckUser logs for successful login attempts",
 	"group-checkuser.css": "{{doc-group|checkuser|css}}",
 	"group-checkuser.js": "{{doc-group|checkuser|js}}",
+	"checkuser-link-investigate-label": "Label for a link to [[Special:Investigate]] from [[Special:CheckUser]].",
 	"checkuser-investigateblock": "{{doc-special|InvestigateBlock}}",
 	"checkuser-investigateblock-target": "Label for a section of the form on [[Special:InvestigateBlock]]",
 	"checkuser-investigateblock-actions": "Label for a section of the form on [[Special:InvestigateBlock]]",

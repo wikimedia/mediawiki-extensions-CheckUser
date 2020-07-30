@@ -65,6 +65,17 @@ class SpecialCheckUser extends SpecialPage {
 			$out->addSubtitle( $subtitleLink );
 		}
 
+		if ( $this->getConfig()->get( 'CheckUserEnableSpecialInvestigate' ) ) {
+			$out->enableOOUI();
+			$out->addModuleStyles( 'oojs-ui.styles.icons-interactions' );
+			$icon = new OOUI\IconWidget( [ 'icon' => 'lightbulb' ] );
+			$investigateLink = $this->getLinkRenderer()->makeKnownLink(
+				SpecialPage::getTitleFor( 'Investigate' ),
+				$this->msg( 'checkuser-link-investigate-label' )->text()
+			);
+			$out->setIndicators( [ 'investigate-link' => $icon . $investigateLink ] );
+		}
+
 		$this->reason = $request->getText( 'reason' );
 		$blockreason = $request->getText( 'blockreason', '' );
 		$disableUserTalk = $request->getBool( 'blocktalk', false );
