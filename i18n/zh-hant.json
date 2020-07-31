@@ -103,6 +103,7 @@
 	"checkuser-token-fail": "連線階段錯誤，請再試一次。",
 	"checkuser-login-failure": "以$1身分登入{{SITENAME}}失敗",
 	"checkuser-login-success": "成功以$1身分登入{{SITENAME}}",
+	"checkuser-link-investigate-label": "嘗試新的使用者檢查工具",
 	"checkuser-investigateblock": "封鎖使用者",
 	"checkuser-investigateblock-target": "使用者名稱與 IP 位址",
 	"checkuser-investigateblock-actions": "封鎖操作",
