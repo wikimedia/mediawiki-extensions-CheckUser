@@ -28,6 +28,7 @@ class CheckUserHooks {
 			$list['Investigate'] = [
 				'class' => SpecialInvestigate::class,
 				'services' => [
+					'ContentLanguage',
 					'CheckUserPreliminaryCheckPagerFactory',
 					'CheckUserComparePagerFactory',
 					'CheckUserTimelinePagerFactory',

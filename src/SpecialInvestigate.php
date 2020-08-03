@@ -4,8 +4,10 @@ namespace MediaWiki\CheckUser;
 
 use Html;
 use HTMLForm;
+use Language;
 use MediaWiki\CheckUser\GuidedTour\TourLauncher;
 use MediaWiki\CheckUser\HookHandler\Preferences;
+use Message;
 use OOUI\ButtonGroupWidget;
 use OOUI\ButtonWidget;
 use OOUI\Element;
@@ -23,6 +25,9 @@ use User;
 use Wikimedia\IPUtils;
 
 class SpecialInvestigate extends \FormSpecialPage {
+	/** @var Language */
+	private $contentLanguage;
+
 	/** @var PagerFactory */
 	private $preliminaryCheckPagerFactory;
 
@@ -66,6 +71,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	private const TOUR_INVESTIGATE_FORM = 'checkuserinvestigateform';
 
 	/**
+	 * @param Language $contentLanguage
 	 * @param PagerFactory $preliminaryCheckPagerFactory
 	 * @param PagerFactory $comparePagerFactory
 	 * @param PagerFactory $timelinePagerFactory
@@ -75,6 +81,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @param TourLauncher $tourLauncher
 	 */
 	public function __construct(
+		Language $contentLanguage,
 		PagerFactory $preliminaryCheckPagerFactory,
 		PagerFactory $comparePagerFactory,
 		PagerFactory $timelinePagerFactory,
@@ -84,6 +91,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 		TourLauncher $tourLauncher
 	) {
 		parent::__construct( 'Investigate', 'investigate' );
+		$this->contentLanguage = $contentLanguage;
 		$this->preliminaryCheckPagerFactory = $preliminaryCheckPagerFactory;
 		$this->comparePagerFactory = $comparePagerFactory;
 		$this->timelinePagerFactory = $timelinePagerFactory;
@@ -181,7 +189,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 		$token = $this->getTokenWithoutPaginationData();
 
 		$tabs = array_map( function ( $tab ) use ( $par, $token ) {
-			$label = $this->getTabName( $tab );
+			$label = $this->getTabMessage( $tab )->text();
 			$param = $this->getTabParam( $tab );
 			return new TabOptionWidget( [
 				'label' => $label,
@@ -392,23 +400,26 @@ class SpecialInvestigate extends \FormSpecialPage {
 	/**
 	 * Given a tab name, return the subpage $par.
 	 *
+	 * Since the page title is always in the content language, the subpage should be also.
+	 *
 	 * @param string $tab
 	 *
 	 * @return string
 	 */
 	private function getTabParam( string $tab ) : string {
-		return str_replace( ' ', '_', $this->getTabName( $tab ) );
+		$name = $this->getTabMessage( $tab )->inLanguage( $this->contentLanguage )->text();
+		return str_replace( ' ', '_', $name );
 	}
 
 	/**
-	 * Given a tab name, return the supage tab name.
+	 * Given a tab name, return the subpage tab message.
 	 *
 	 * @param string $tab
 	 *
-	 * @return string
+	 * @return Message
 	 */
-	private function getTabName( string $tab ) : string {
-		return $this->msg( 'checkuser-investigate-tab-' . $tab )->text();
+	private function getTabMessage( string $tab ) : Message {
+		return $this->msg( 'checkuser-investigate-tab-' . $tab );
 	}
 
 	/**
