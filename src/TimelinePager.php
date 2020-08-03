@@ -4,14 +4,14 @@ namespace MediaWiki\CheckUser;
 
 use Html;
 use IContextSource;
-use MediaWiki\HookContainer\HookContainer;
+use MediaWiki\CheckUser\Hook\CheckUserFormatRowHook;
 use MediaWiki\Linker\LinkRenderer;
 use ParserOutput;
 use ReverseChronologicalPager;
 
 class TimelinePager extends ReverseChronologicalPager {
-	/** @var HookRunner */
-	private $hookRunner;
+	/** @var CheckUserFormatRowHook */
+	private $formatRowHookRunner;
 
 	/** @var TimelineService */
 	private $timelineService;
@@ -50,14 +50,14 @@ class TimelinePager extends ReverseChronologicalPager {
 	public function __construct(
 		IContextSource $context,
 		LinkRenderer $linkRenderer,
-		HookContainer $hookContainer,
+		CheckUserFormatRowHook $formatRowHookRunner,
 		TokenQueryManager $tokenQueryManager,
 		DurationManager $durationManager,
 		TimelineService $timelineService,
 		TimelineRowFormatter $timelineRowFormatter
 	) {
 		parent::__construct( $context, $linkRenderer );
-		$this->hookRunner = new HookRunner( $hookContainer );
+		$this->formatRowHookRunner = $formatRowHookRunner;
 		$this->timelineService = $timelineService;
 		$this->timelineRowFormatter = $timelineRowFormatter;
 		$this->tokenQueryManager = $tokenQueryManager;
@@ -111,7 +111,7 @@ class TimelinePager extends ReverseChronologicalPager {
 
 		$rowItems = $this->timelineRowFormatter->getFormattedRowItems( $row );
 
-		$this->hookRunner->onCheckUserFormatRow( $this->getContext(), $row, $rowItems );
+		$this->formatRowHookRunner->onCheckUserFormatRow( $this->getContext(), $row, $rowItems );
 
 		if ( !is_array( $rowItems ) || !isset( $rowItems['links'] ) || !isset( $rowItems['info'] ) ) {
 			wfDebugLog(

@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser;
+namespace MediaWiki\CheckUser\Hook;
 
 use IContextSource;
 use MediaWiki\HookContainer\HookContainer;
@@ -13,6 +13,9 @@ class HookRunner implements CheckUserFormatRowHook {
 		$this->container = $container;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function onCheckUserFormatRow(
 		IContextSource $context,
 		\stdClass $row,

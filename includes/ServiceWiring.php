@@ -5,6 +5,7 @@ use MediaWiki\CheckUser\CompareService;
 use MediaWiki\CheckUser\DurationManager;
 use MediaWiki\CheckUser\EventLogger;
 use MediaWiki\CheckUser\GuidedTour\TourLauncher;
+use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\InvestigateLogPagerFactory;
 use MediaWiki\CheckUser\PreliminaryCheckPagerFactory;
 use MediaWiki\CheckUser\PreliminaryCheckService;
@@ -101,7 +102,7 @@ return [
 	) : TimelinePagerFactory {
 		return new TimelinePagerFactory(
 			$services->getLinkRenderer(),
-			$services->getHookContainer(),
+			$services->get( 'CheckUserHookRunner' ),
 			$services->get( 'CheckUserTokenQueryManager' ),
 			$services->get( 'CheckUserDurationManager' ),
 			$services->get( 'CheckUserTimelineService' ),
@@ -118,6 +119,13 @@ return [
 	) : EventLogger {
 		return new EventLogger(
 			\ExtensionRegistry::getInstance()
+		);
+	},
+	'CheckUserHookRunner' => function (
+		MediaWikiServices $services
+	) : HookRunner {
+		return new HookRunner(
+			$services->getHookContainer()
 		);
 	}
 ];
