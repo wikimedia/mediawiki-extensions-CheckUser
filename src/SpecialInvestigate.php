@@ -517,7 +517,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 
 		$newForm = new ButtonWidget( [
 			'label' => $this->msg( 'checkuser-investigate-indicator-new-investigation' )->text(),
-			'href' => self::getTitleFor( 'Investigate' )->getLinkURL(),
+			'href' => $this->getPageTitle()->getLinkURL(),
 			'target' => $newTab ? '_blank' : '',
 		] );
 
