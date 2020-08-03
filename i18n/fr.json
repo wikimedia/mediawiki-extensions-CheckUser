@@ -112,6 +112,7 @@
 	"checkuser-login-success": "Connexion réussie à {{SITENAME}} en tant que $1",
 	"group-checkuser.css": "/* Le CSS placé ici n’affectera que les membres du groupe « checkuser » */",
 	"group-checkuser.js": "/* Le Javascript placé ici n’affectera que les membres du groupe « checkuser » */",
+	"checkuser-link-investigate-label": "Essayer le nouvel outil CheckUser",
 	"checkuser-investigateblock": "Bloquer les utilisateurs",
 	"checkuser-investigateblock-target": "Noms d’utilisateur et adresses IP",
 	"checkuser-investigateblock-actions": "Actions à bloquer",

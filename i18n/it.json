@@ -99,6 +99,7 @@
 	"checkuser-email-action": "ha inviato una e-mail a \"$1\"",
 	"checkuser-reset-action": "reimposta password per l'utente \"$1\"",
 	"checkuser-token-fail": "Errore di sessione. Riprova ancora.",
+	"checkuser-link-investigate-label": "Prova il nuovo strumento CheckUser",
 	"checkuser-investigateblock": "Blocca utenti",
 	"checkuser-investigateblock-target": "Nomi utente o indirizzi IP",
 	"checkuser-investigateblock-actions": "Azioni da bloccare",

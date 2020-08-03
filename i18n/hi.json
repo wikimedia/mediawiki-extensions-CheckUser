@@ -3,6 +3,7 @@
 		"authors": [
 			"Abijeet Patro",
 			"Ansumang",
+			"Archana mathur",
 			"Kaustubh",
 			"Sfic",
 			"Shyam",
@@ -76,6 +77,7 @@
 	"checkuser-reset-action": "\"$1\" के लिए पासवर्ड रीसेट करें",
 	"group-checkuser.css": "/* यहाँ पर दी सी॰एस॰एस केवल सदस्य जाँचकर्ताओं के लिये होगी */",
 	"group-checkuser.js": "/* यहाँ पर दी जावास्क्रिप्ट केवल सदस्य जाँचकर्ताओं के लिए होगी */",
+	"checkuser-link-investigate-label": "नया इस्तमाल करने वाला  उपकरण  आज़माएं",
 	"checkuser-investigateblock-reason": "कारण",
 	"checkuser-investigate-subtitle-cancel-button-label": "रद्द करें",
 	"checkuser-investigate-subtitle-continue-button-label": "जारी रखें"

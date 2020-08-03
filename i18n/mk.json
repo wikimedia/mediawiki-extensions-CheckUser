@@ -92,6 +92,7 @@
 	"checkuser-login-success": "Успешно ве најавив на {{SITENAME}} како $1",
 	"group-checkuser.css": "/* Тука поставениот CSS ќе се применува само врз проверувачи */",
 	"group-checkuser.js": "/* Тука поставениот JS ќе се применува само врз проверувачи */",
+	"checkuser-link-investigate-label": "Пробајте ја новата алатка „Проверка на корисници“",
 	"checkuser-investigateblock": "Блокирај корисници",
 	"checkuser-investigateblock-target": "Кориснички имиња и IP-адреси",
 	"checkuser-investigateblock-actions": "Дејства за блокирање",

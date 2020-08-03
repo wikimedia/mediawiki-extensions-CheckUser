@@ -75,7 +75,7 @@
 	"checkuser-noreason": "Морате да наведете разлог за овај упит.",
 	"checkuser-too-many": "Пронађено јее превише резултата (према процени захтева), сузите CIDR.\nОвде су коришћене IP адресе (највише 5.000, поређене по адреси):",
 	"checkuser-user-nonexistent": "Наведени корисник не постоји.",
-	"checkuser-search": "Претрага уноса у евиденцији проверавача",
+	"checkuser-search": "Претрага ставки у дневнику чекјузера",
 	"checkuser-search-submit": "Претражи",
 	"checkuser-search-initiator": "покретач",
 	"checkuser-search-target": "циљ",

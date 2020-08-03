@@ -68,7 +68,7 @@
 	"checkuser-block-limit": "Massa usuaris seleccionats.",
 	"checkuser-block-noreason": "Heu d'indicar un motiu pels blocatges.",
 	"checkuser-noreason": "Heu de donar un motiu per a executar aquesta consulta.",
-	"checkuser-too-many": "Hi ha massa resultats (d'acord amb l'estimació de la consulta), cal que useu un CIDR més petit.\nAquí teniu les IP usades (màx. 1$, ordenades per adreça):",
+	"checkuser-too-many": "Hi ha massa resultats (d'acord amb l'estimació de la consulta), cal que useu un CIDR més petit.\nAquí teniu les IP usades (màx. $1, ordenades per adreça):",
 	"checkuser-user-nonexistent": "L'usuari especificat no existeix.",
 	"checkuser-search": "Cerca les entrades de registre de comprovació d'usuari",
 	"checkuser-search-submit": "Cerca",
@@ -81,6 +81,7 @@
 	"checkuser-create-action": "va ser creat",
 	"checkuser-email-action": "S'ha enviat un missatge de correu electrònic a {{GENDER:$1|l'usuari|la usuària}} $1",
 	"checkuser-reset-action": "reinicia la contrasenya de l'usuari «$1»",
+	"checkuser-link-investigate-label": "Provi la nova eina CheckUser",
 	"checkuser-investigate-log": "Registres de recerca",
 	"checkuser-investigate-log-empty": "No s’ha trobat cap registre de recerca",
 	"checkuser-investigate-tour-addusertargets-title": "Necessiteu més context?"

@@ -113,6 +113,7 @@
 	"checkuser-investigateblock-notice-replace": "페이지 바꾸기",
 	"checkuser-investigate": "조사하기",
 	"checkuser-investigate-subtitle-cancel-button-label": "취소",
+	"checkuser-investigate-subtitle-continue-button-label": "계속",
 	"checkuser-investigate-indicator-logs": "기록",
 	"checkuser-investigate-legend": "계정 이름, IP 주소 또는 IP 대역 검색",
 	"checkuser-investigate-notice-no-results": "결과가 없습니다.",

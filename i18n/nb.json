@@ -94,6 +94,7 @@
 	"checkuser-login-success": "Logget inn på {{SITENAME}} som $1",
 	"group-checkuser.css": "/* CSS plassert her vil kun gjelde IP-kontrollører */",
 	"group-checkuser.js": "/* JavaScript plassert her vil kun gjelde IP-kontrollører */",
+	"checkuser-link-investigate-label": "Prøv det nye IP-kontrollverktøyet",
 	"checkuser-investigateblock": "Blokker brukere",
 	"checkuser-investigateblock-target": "Brukernavn og IP-adresser",
 	"checkuser-investigateblock-actions": "Handlinger som skal blokkeres",

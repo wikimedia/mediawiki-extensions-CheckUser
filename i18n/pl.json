@@ -102,6 +102,7 @@
 	"checkuser-token-fail": "Awaria sesji. Spróbuj jeszcze raz.",
 	"checkuser-login-failure": "Logowanie do {{GRAMMAR:D.lp|{{SITENAME}}}} jako $1 nie powiodło się",
 	"checkuser-login-success": "Pomyślnie zalogowano do {{GRAMMAR:D.lp|{{SITENAME}}}} jako $1",
+	"checkuser-link-investigate-label": "Wypróbuj nowe narzędzie CheckUser",
 	"checkuser-investigateblock": "Zablokuj użytkowników",
 	"checkuser-investigateblock-target": "Nazwy użytkownika i adresy IP",
 	"checkuser-investigateblock-actions": "Czynności, które zablokować",

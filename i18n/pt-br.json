@@ -110,6 +110,7 @@
 	"checkuser-login-success": "Entrou em {{SITENAME}} como $1",
 	"group-checkuser.css": "/* CSS colocado aqui afetará apenas checkuser */",
 	"group-checkuser.js": "/* JS colocado aqui afetará o usuário do checkeruser */",
+	"checkuser-link-investigate-label": "Experimente a nova ferramenta CheckUser",
 	"checkuser-investigateblock": "Bloquear usuários",
 	"checkuser-investigateblock-target": "Nomes de usuário e endereços IP",
 	"checkuser-investigateblock-actions": "Ações a serem bloqueadas",
