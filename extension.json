@@ -149,6 +149,7 @@
 				"oojs-ui.styles.icons-editing-core",
 				"oojs-ui.styles.icons-interactions",
 				"oojs-ui.styles.icons-moderation",
+				"oojs-ui.styles.icons-user",
 				"mediawiki.storage",
 				"mediawiki.Title",
 				"mediawiki.Uri",
@@ -160,6 +161,8 @@
 				"checkuser-investigate-compare-table-button-add-ip-targets-label",
 				"checkuser-investigate-compare-table-button-add-user-targets-label",
 				"checkuser-investigate-compare-table-button-add-user-targets-log-label",
+				"checkuser-investigate-compare-table-button-checks-label",
+				"checkuser-investigate-compare-table-button-contribs-label",
 				"checkuser-investigate-compare-table-button-filter-label",
 				"checkuser-investigate-subtitle-cancel-button-label",
 				"checkuser-investigate-subtitle-continue-button-label"
