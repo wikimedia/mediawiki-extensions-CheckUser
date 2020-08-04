@@ -48,7 +48,7 @@ module.exports = function addCopyFeature() {
 		label: mw.msg( 'checkuser-investigate-compare-copy-message-label' ),
 		classes: [ 'ext-checkuser-investigate-copy-message' ]
 	} );
-	messageWidget.setIcon( 'articles' );
+	messageWidget.setIcon( 'table' );
 
 	wikitextButton = new OO.ui.ButtonWidget( {
 		label: mw.msg( 'checkuser-investigate-compare-copy-button-label' ),
