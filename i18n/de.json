@@ -175,6 +175,7 @@
 	"checkuser-investigate-compare-table-header-activity": "Datumsbereich",
 	"checkuser-investigate-compare-table-header-ip": "IP-Adresse",
 	"checkuser-investigate-compare-table-header-useragent": "User-Agent",
+	"checkuser-investigate-subtitle-link-restart-tour": "Tour neu starten",
 	"checkuser-investigate-tour-targets-title": "Überprüfung mehrerer Benutzer und IP-Adressen?",
 	"checkuser-investigate-tour-targets-desc": "Ergänze bis zu $1 {{PLURAL:$1|Benutzername oder IP-Adresse|Benutzernamen oder IP-Adressen}} und erhalte alle Informationen an einem Ort. Keine Sorge, wir erstellen für jeden von ihnen einen separaten CheckUser-Logbucheintrag.",
 	"checkuser-investigate-tour-useragents-title": "Passende User Agents?",

@@ -34,7 +34,7 @@
 	"grouppage-checkuser": "{{ns:project}}:Verificador de comptes d'usuari",
 	"checkuser-reason": "Motiu:",
 	"checkuser-reason-api": "API: $1",
-	"checkuser-showlog": "Mostra registre",
+	"checkuser-showlog": "Canviar al registre de CheckUser",
 	"checkuser-query": "Cerca als canvis recents",
 	"checkuser-target": "Adreça IP o nom d'usuari:",
 	"checkuser-users": "Retorna els usuaris",
