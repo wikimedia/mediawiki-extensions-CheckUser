@@ -170,6 +170,7 @@
 	"checkuser-investigate-compare-table-header-activity": "Datoområde",
 	"checkuser-investigate-compare-table-header-ip": "IP",
 	"checkuser-investigate-compare-table-header-useragent": "Brukeragent",
+	"checkuser-investigate-subtitle-link-restart-tour": "Begynn omvisningen på nytt",
 	"checkuser-investigate-tour-targets-title": "Sjekke flere brukere og IP-er?",
 	"checkuser-investigate-tour-targets-desc": "Legg til opptil $1 {{PLURAL:$1|brukernavn eller IP|brukernavn eller IP-er}} og få all informasjonen på ett sted. Vi vil opprette en separat brukersjekklogg for hver av dem.",
 	"checkuser-investigate-tour-useragents-title": "Matchende brukeragenter?",

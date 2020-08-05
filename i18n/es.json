@@ -17,6 +17,7 @@
 			"JasterTDC",
 			"Jatrobat",
 			"Joanmp17",
+			"KATRINE1993",
 			"Lin linao",
 			"Locos epraix",
 			"Macofe",
@@ -178,6 +179,7 @@
 	"checkuser-investigate-compare-table-header-activity": "Intervalo de fechas",
 	"checkuser-investigate-compare-table-header-ip": "IP",
 	"checkuser-investigate-compare-table-header-useragent": "Agente de usuario",
+	"checkuser-investigate-subtitle-link-restart-tour": "Reempezar Giro",
 	"checkuser-investigate-tour-targets-title": "¿Comprobando múltiples usuarios y direcciones IP?",
 	"checkuser-investigate-tour-addusertargets-title": "¿Hace falta más contexto?"
 }

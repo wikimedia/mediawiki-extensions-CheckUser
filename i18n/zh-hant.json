@@ -179,6 +179,7 @@
 	"checkuser-investigate-compare-table-header-activity": "日期範圍",
 	"checkuser-investigate-compare-table-header-ip": "IP",
 	"checkuser-investigate-compare-table-header-useragent": "使用者代理",
+	"checkuser-investigate-subtitle-link-restart-tour": "重新開始導覽",
 	"checkuser-investigate-tour-targets-title": "檢查多個使用者與 IP？",
 	"checkuser-investigate-tour-targets-desc": "合計 $1 {{PLURAL:$1|個使用者名稱或 IP}}，並將所有資訊集中在一起。別擔心，我們會為各個建立單獨的 CheckUser 日誌。",
 	"checkuser-investigate-tour-useragents-title": "匹配使用者代理？",

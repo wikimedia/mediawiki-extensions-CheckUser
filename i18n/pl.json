@@ -178,6 +178,7 @@
 	"checkuser-investigate-compare-table-header-activity": "Zakres dat",
 	"checkuser-investigate-compare-table-header-ip": "IP",
 	"checkuser-investigate-compare-table-header-useragent": "Aplikacja klienta",
+	"checkuser-investigate-subtitle-link-restart-tour": "Ponów wycieczkę po narzędziu",
 	"checkuser-investigate-tour-targets-title": "Sprawdzasz wielu użytkowników i IP?",
 	"checkuser-investigate-tour-targets-desc": "Dodaj do $1 {{PLURAL:$1|nazwy użytkownika|nazw użytkowników}} lub IP i pozyskaj informacje na ich temat w jednym miejscu. Nie martw się, w rejestrze sprawdzeń powstaną oddzielne wpisy dla każdego z nich.",
 	"checkuser-investigate-tour-useragents-title": "Dopasowujesz aplikacje klientów?",

@@ -170,6 +170,7 @@
 	"checkuser-investigate-compare-table-header-activity": "טווח תאריכים",
 	"checkuser-investigate-compare-table-header-ip": "כתובת IP",
 	"checkuser-investigate-compare-table-header-useragent": "סוכן לקוח",
+	"checkuser-investigate-subtitle-link-restart-tour": "להתחיל את הסיור מחדש",
 	"checkuser-investigate-tour-targets-title": "{{GENDER:|בודק|בודקת}} מספר משתמשים וכתובות IP?",
 	"checkuser-investigate-tour-targets-desc": "{{GENDER:|הוסף|הוסיפי}} {{PLURAL:$1|שם משתמש או כתובת IP|עד $1 שמות משתמש או כתובות IP}} כדי לקבל את כל המידע במקום אחד. אין מה לדאוג, אנחנו ניצור יומן בדיקה נפרד עבור כל אחד מהם.",
 	"checkuser-investigate-tour-useragents-title": "התאמת סוכני לקוח?",

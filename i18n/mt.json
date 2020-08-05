@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Chrisportelli",
+			"ToniSant",
 			"පසිඳු කාවින්ද"
 		]
 	},
@@ -66,5 +67,6 @@
 	"checkuser-autocreate-action": "ġie maħluq awtomatikament",
 	"checkuser-create-action": "ġie maħluq",
 	"checkuser-email-action": "bagħat ittra-e lill-utent \"$1\"",
-	"checkuser-reset-action": "irrisettja l-password għall-utent \"$1\""
+	"checkuser-reset-action": "irrisettja l-password għall-utent \"$1\"",
+	"checkuser-investigate-duration-option-30d": "L-aħħar 30 jum"
 }
