@@ -4,7 +4,6 @@
 module.exports = function setupTables() {
 	// Attributes used for pinnable highlighting
 	var highlightData = mw.storage.session.get( 'checkuser-investigate-highlight' ),
-		dataAttributes = [ 'registration', 'wiki', 'cuc_ip', 'cuc_agent' ],
 		toggleButtons = {};
 
 	// The message 'checkuser-toollinks' was parsed in PHP, since translations
@@ -17,36 +16,34 @@ module.exports = function setupTables() {
 	}
 
 	function getDataKey( $element ) {
-		return JSON.stringify( $element.data() );
+		return JSON.stringify( [
+			$element.data( 'field' ),
+			$element.data( 'value' )
+		] );
 	}
 
 	function updateMatchingElements( $target, value, classSuffix ) {
-		dataAttributes.forEach( function ( dataAttribute ) {
-			var $matches,
-				dataValue = $target.data( dataAttribute ),
-				cellClass = 'ext-checkuser-investigate-table-cell-' + classSuffix,
-				rowClass = 'ext-checkuser-investigate-table-row-' + classSuffix;
+		var $matches,
+			dataField = $target.data( 'field' ),
+			dataValue = $target.data( 'value' ),
+			cellClass = 'ext-checkuser-investigate-table-cell-' + classSuffix,
+			rowClass = 'ext-checkuser-investigate-table-row-' + classSuffix;
 
-			if ( dataValue === undefined ) {
-				return;
-			}
+		$matches = $( 'td[data-field="' + dataField + '"][data-value="' + dataValue + '"]' );
+		// The following messages can be passed here:
+		// * ext-checkuser-investigate-table-cell-hover-data-match
+		// * ext-checkuser-investigate-table-cell-pinned-data-match
+		$matches.toggleClass( cellClass, value );
 
-			$matches = $( 'td[data-' + dataAttribute + '="' + dataValue + '"]' );
+		// Rows should be highlighted iff they contain highlighted cells
+		$matches.closest( 'tr' ).each( function () {
 			// The following messages can be passed here:
-			// * ext-checkuser-investigate-table-cell-hover-data-match
-			// * ext-checkuser-investigate-table-cell-pinned-data-match
-			$matches.toggleClass( cellClass, value );
-
-			// Rows should be highlighted iff they contain highlighted cells
-			$matches.closest( 'tr' ).each( function () {
-				// The following messages can be passed here:
-				// * ext-checkuser-investigate-table-row-hover-data-match
-				// * ext-checkuser-investigate-table-row-pinned-data-match
-				$( this ).toggleClass(
-					rowClass,
-					!!$( this ).find( '.' + cellClass ).length
-				);
-			} );
+			// * ext-checkuser-investigate-table-row-hover-data-match
+			// * ext-checkuser-investigate-table-row-pinned-data-match
+			$( this ).toggleClass(
+				rowClass,
+				!!$( this ).find( '.' + cellClass ).length
+			);
 		} );
 	}
 
@@ -74,7 +71,7 @@ module.exports = function setupTables() {
 
 	function filterValue( $tableCell ) {
 		$( 'textarea[name=exclude-targets]' ).val( function () {
-			return this.value + '\n' + $tableCell.data( 'target' );
+			return this.value + '\n' + $tableCell.data( 'value' );
 		} );
 		$( '.mw-htmlform' ).trigger( 'submit' );
 	}

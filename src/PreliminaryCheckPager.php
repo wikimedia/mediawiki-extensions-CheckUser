@@ -106,7 +106,8 @@ class PreliminaryCheckPager extends TablePager {
 			case 'wiki':
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-interactive';
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-pinnable';
-				$attributes['data-' . $field] = $value;
+				$attributes['data-field'] = $field;
+				$attributes['data-value'] = $value;
 				break;
 			case 'registration':
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-interactive';
@@ -116,7 +117,8 @@ class PreliminaryCheckPager extends TablePager {
 					$this->getUser(),
 					[ 'format' => 'ISO 8601' ]
 				);
-				$attributes['data-' . $field] = $date;
+				$attributes['data-field'] = $field;
+				$attributes['data-value'] = $date;
 				break;
 		}
 
