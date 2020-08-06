@@ -186,6 +186,7 @@
 	"checkuser-investigate-compare-table-header-activity": "Intervalo de data",
 	"checkuser-investigate-compare-table-header-ip": "IP",
 	"checkuser-investigate-compare-table-header-useragent": "Agente de usuário",
+	"checkuser-investigate-subtitle-link-restart-tour": "Reiniciar tour",
 	"checkuser-investigate-tour-targets-title": "Verificando vários usuários e IPs?",
 	"checkuser-investigate-tour-useragents-title": "Correspondente a agentes do usuário?",
 	"checkuser-investigate-tour-useragents-desc": "Passe o mouse sobre uma célula para destacar todas as outras linhas que possuem os mesmos dados. Clique no ícone de alfinete para manter o destaque à medida que avança nos dados.",
