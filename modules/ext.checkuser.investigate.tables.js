@@ -20,7 +20,7 @@ module.exports = function setupTables() {
 		return JSON.stringify( $element.data() );
 	}
 
-	function toggleClass( $target, value, classSuffix ) {
+	function updateMatchingElements( $target, value, classSuffix ) {
 		dataAttributes.forEach( function ( dataAttribute ) {
 			var $matches,
 				dataValue = $target.data( dataAttribute ),
@@ -50,9 +50,9 @@ module.exports = function setupTables() {
 		} );
 	}
 
-	function toggleClassForHover( event ) {
+	function onPinnableCellHover( event ) {
 		// Toggle on for mouseover, off for mouseout
-		toggleClass( $( this ), event.type === 'mouseover', 'hover-data-match' );
+		updateMatchingElements( $( this ), event.type === 'mouseover', 'hover-data-match' );
 	}
 
 	function onToggleButtonChange( $tableCell, value ) {
@@ -63,7 +63,7 @@ module.exports = function setupTables() {
 			button.setValue( value );
 			button.setFlags( { progressive: value } );
 		} );
-		toggleClass( $tableCell, value, 'pinned-data-match' );
+		updateMatchingElements( $tableCell, value, 'pinned-data-match' );
 
 		if ( value ) {
 			mw.storage.session.set( 'checkuser-investigate-highlight', getDataKey( $tableCell ) );
@@ -204,7 +204,7 @@ module.exports = function setupTables() {
 		}
 	}
 
-	$( 'td.ext-checkuser-investigate-table-cell-pinnable' ).on( 'mouseover mouseout', toggleClassForHover );
+	$( 'td.ext-checkuser-investigate-table-cell-pinnable' ).on( 'mouseover mouseout', onPinnableCellHover );
 
 	$( '.ext-checkuser-investigate-table-preliminary-check td.ext-checkuser-investigate-table-cell-pinnable' ).each( function () {
 		appendButtons( $( this ), { toggle: true } );
