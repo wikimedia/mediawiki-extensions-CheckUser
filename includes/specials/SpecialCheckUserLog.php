@@ -1,5 +1,6 @@
 <?php
 
+use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\MediaWikiServices;
 use Wikimedia\IPUtils;
 
@@ -9,8 +10,12 @@ class SpecialCheckUserLog extends SpecialPage {
 	 */
 	protected $target;
 
-	public function __construct() {
+	/** @var LinkBatchFactory */
+	private $linkBatchFactory;
+
+	public function __construct( LinkBatchFactory $linkBatchFactory ) {
 		parent::__construct( 'CheckUserLog', 'checkuser-log' );
+		$this->linkBatchFactory = $linkBatchFactory;
 	}
 
 	public function execute( $par ) {
@@ -68,7 +73,8 @@ class SpecialCheckUserLog extends SpecialPage {
 				'queryConds' => $searchConds,
 				'year' => $request->getInt( 'year' ),
 				'month' => $request->getInt( 'month' ),
-			]
+			],
+			$this->linkBatchFactory
 		);
 
 		$out->addHTML(

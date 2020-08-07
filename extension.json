@@ -231,8 +231,18 @@
 		"checkuser-log"
 	],
 	"SpecialPages": {
-		"CheckUser": "SpecialCheckUser",
-		"CheckUserLog": "SpecialCheckUserLog"
+		"CheckUser": {
+			"class": "SpecialCheckUser",
+			"services": [
+				"LinkBatchFactory"
+			]
+		},
+		"CheckUserLog": {
+			"class": "SpecialCheckUserLog",
+			"services": [
+				"LinkBatchFactory"
+			]
+		}
 	},
 	"AutoloadClasses": {
 		"CheckUserHooks": "includes/CheckUserHooks.php",

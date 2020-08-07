@@ -1,5 +1,6 @@
 <?php
 
+use MediaWiki\Cache\LinkBatchFactory;
 use Wikimedia\Rdbms\IResultWrapper;
 
 class CheckUserLogPager extends ReverseChronologicalPager {
@@ -8,15 +9,20 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 	 */
 	protected $searchConds;
 
+	/** @var LinkBatchFactory */
+	private $linkBatchFactory;
+
 	/**
 	 * @param IContextSource $context
 	 * @param array $conds Should include 'queryConds', 'year', and 'month' keys
+	 * @param LinkBatchFactory $linkBatchFactory
 	 */
-	public function __construct( IContextSource $context, array $conds ) {
+	public function __construct( IContextSource $context, array $conds, LinkBatchFactory $linkBatchFactory ) {
 		parent::__construct( $context );
 		$this->searchConds = $conds['queryConds'];
 		// getDateCond() actually *sets* the timestamp offset..
 		$this->getDateCond( $conds['year'], $conds['month'] );
+		$this->linkBatchFactory = $linkBatchFactory;
 	}
 
 	public function formatRow( $row ) {
@@ -108,7 +114,7 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 			return;
 		}
 
-		$lb = new LinkBatch;
+		$lb = $this->linkBatchFactory->newLinkBatch();
 		$lb->setCaller( __METHOD__ );
 		foreach ( $result as $row ) {
 			$lb->add( NS_USER, $row->user_name ); // Performer

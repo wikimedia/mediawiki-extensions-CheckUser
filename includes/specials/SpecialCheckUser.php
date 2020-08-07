@@ -1,6 +1,7 @@
 <?php
 
 use MediaWiki\Block\DatabaseBlock;
+use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionRecord;
 use Wikimedia\IPUtils;
@@ -25,8 +26,12 @@ class SpecialCheckUser extends SpecialPage {
 	 */
 	protected $reason = '';
 
-	public function __construct( $name = 'CheckUser', $restriction = 'checkuser' ) {
-		parent::__construct( $name, $restriction );
+	/** @var LinkBatchFactory */
+	private $linkBatchFactory;
+
+	public function __construct( LinkBatchFactory $linkBatchFactory ) {
+		parent::__construct( 'CheckUser', 'checkuser' );
+		$this->linkBatchFactory = $linkBatchFactory;
 	}
 
 	public function doesWrites() {
@@ -977,7 +982,7 @@ class SpecialCheckUser extends SpecialPage {
 		// Cache common messages
 		$this->preCacheMessages();
 		// Try to optimize this query
-		$lb = new LinkBatch;
+		$lb = $this->linkBatchFactory->newLinkBatch();
 		foreach ( $result as $row ) {
 			$userText = str_replace( ' ', '_', $row->cuc_user_text );
 			if ( $row->cuc_title !== '' ) {
@@ -1008,7 +1013,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param IResultWrapper $rows Results with cuc_namespace and cuc_title field
 	 */
 	protected function doLinkCache( IResultWrapper $rows ) {
-		$lb = new LinkBatch();
+		$lb = $this->linkBatchFactory->newLinkBatch();
 		$lb->setCaller( __METHOD__ );
 		foreach ( $rows as $row ) {
 			if ( $row->cuc_title !== '' ) {
