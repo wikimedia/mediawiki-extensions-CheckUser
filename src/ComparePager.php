@@ -134,8 +134,8 @@ class ComparePager extends TablePager {
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-interactive';
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-pinnable';
 				$attributes['class'] .= ' ext-checkuser-compare-table-cell-ip-target';
-				$attributes['data-' . $field] = $value;
-				$attributes['data-target'] = $value;
+				$attributes['data-field'] = $field;
+				$attributes['data-value'] = $value;
 				$attributes['data-sort-value'] = $ipHex;
 				$attributes['data-edits'] = $row->total_edits;
 				$attributes['data-all-edits'] = $this->ipTotalEdits[$ipHex];
@@ -147,8 +147,8 @@ class ComparePager extends TablePager {
 					if ( in_array( $value, $this->filteredTargets ) ) {
 						$attributes['class'] .= ' ext-checkuser-compare-table-cell-target';
 					}
-					$attributes['data-' . $field] = $value;
-					$attributes['data-target'] = $value;
+					$attributes['data-field'] = $field;
+					$attributes['data-value'] = $value;
 				}
 				// Store the sort value as an attribute, to avoid using the table cell contents
 				// as the sort value, since UI elements are added to the table cell.
@@ -158,7 +158,8 @@ class ComparePager extends TablePager {
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-interactive';
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-pinnable';
 				$attributes['class'] .= ' ext-checkuser-compare-table-cell-user-agent';
-				$attributes['data-' . $field] = $value;
+				$attributes['data-field'] = $field;
+				$attributes['data-value'] = $value;
 				// Store the sort value as an attribute, to avoid using the table cell contents
 				// as the sort value, since UI elements are added to the table cell.
 				$attributes['data-sort-value'] = $value;
