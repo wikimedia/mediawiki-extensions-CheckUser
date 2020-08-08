@@ -81,7 +81,7 @@ module.exports = function setupTables() {
 		$( '.mw-htmlform' ).trigger( 'submit' );
 	}
 
-	function appendButtons( $tableCell, buttonTypes ) {
+	function appendButtons( $tableCell, buttonTypes, targetField ) {
 		// eslint-disable-next-line no-jquery/no-class-state
 		var isTarget = $tableCell.hasClass( 'ext-checkuser-compare-table-cell-target' ),
 			$optionsContainer = $( '<div>' ).addClass( 'ext-checkuser-investigate-table-options-container' ),
@@ -128,6 +128,33 @@ module.exports = function setupTables() {
 			} ) );
 		}
 
+		if ( buttonTypes.contribs ) {
+			options.push( new OO.ui.MenuOptionWidget( {
+				icon: 'userContributions',
+				label: mw.msg( 'checkuser-investigate-compare-table-button-contribs-label' ),
+				data: {
+					type: 'toolLinks',
+					href: new mw.Title( 'Special:Contributions' ).getUrl( {
+						target: $tableCell.data( targetField )
+					} ),
+					tool: 'Special:Contributions'
+				}
+			} ) );
+		}
+
+		if ( buttonTypes.checks ) {
+			options.push( new OO.ui.MenuOptionWidget( {
+				icon: 'check',
+				label: mw.msg( 'checkuser-investigate-compare-table-button-checks-label' ),
+				data: {
+					type: 'toolLinks',
+					// TODO: Filter the log by the target, after T259791
+					href: new mw.Title( 'Special:InvestigateLog' ).getUrl(),
+					tool: 'Special:InvestigateLog'
+				}
+			} ) );
+		}
+
 		if ( buttonTypes.toolLinks ) {
 			message = mw.msg( 'checkuser-investigate-compare-toollinks', $tableCell.data( 'cuc_ip' ) );
 			$links = $( '<div>' ).html( message ).find( 'a' );
@@ -139,7 +166,8 @@ module.exports = function setupTables() {
 					label: label,
 					data: {
 						type: 'toolLinks',
-						href: href
+						href: href,
+						tool: new mw.Uri( href ).host
 					}
 				} ) );
 			} );
@@ -163,15 +191,15 @@ module.exports = function setupTables() {
 						filterValue( $tableCell );
 						break;
 					case 'addIps':
-						addTargets( $tableCell, 'cuc_user_text' );
+						addTargets( $tableCell, targetField );
 						break;
 					case 'addUsers':
-						addTargets( $tableCell, 'cuc_ip' );
+						addTargets( $tableCell, targetField );
 						break;
 					case 'toolLinks':
 						logEvent( {
 							action: 'tool',
-							tool: new mw.Uri( data.href ).host
+							tool: data.tool
 						} );
 						window.open( data.href, '_blank' );
 						break;
@@ -203,18 +231,41 @@ module.exports = function setupTables() {
 
 	$( 'td.ext-checkuser-investigate-table-cell-pinnable' ).on( 'mouseover mouseout', onPinnableCellHover );
 
-	$( '.ext-checkuser-investigate-table-preliminary-check td.ext-checkuser-investigate-table-cell-pinnable' ).each( function () {
-		appendButtons( $( this ), { toggle: true } );
-	} );
-	$( '.ext-checkuser-investigate-table-compare .ext-checkuser-compare-table-cell-user-agent' ).each( function () {
-		appendButtons( $( this ), { toggle: true } );
-	} );
-	$( '.ext-checkuser-investigate-table-compare .ext-checkuser-compare-table-cell-ip-target' ).each( function () {
-		appendButtons( $( this ), { toggle: true, filter: true, addUsers: true, toolLinks: true } );
-	} );
-	$( 'td.ext-checkuser-compare-table-cell-user-target' ).each( function () {
-		appendButtons( $( this ), { filter: true, addIps: true } );
-	} );
+	$( '.ext-checkuser-investigate-table-preliminary-check td.ext-checkuser-investigate-table-cell-pinnable' )
+		.each( function () {
+			appendButtons( $( this ), {
+				toggle: true
+			} );
+		} );
+
+	$( '.ext-checkuser-investigate-table-compare .ext-checkuser-compare-table-cell-user-agent' )
+		.each( function () {
+			appendButtons( $( this ), {
+				toggle: true
+			} );
+		} );
+
+	$( '.ext-checkuser-investigate-table-compare .ext-checkuser-compare-table-cell-ip-target' )
+		.each( function () {
+			appendButtons( $( this ), {
+				toggle: true,
+				filter: true,
+				addUsers: true,
+				contribs: true,
+				checks: true,
+				toolLinks: true
+			}, 'cuc_ip' );
+		} );
+
+	$( 'td.ext-checkuser-compare-table-cell-user-target' )
+		.each( function () {
+			appendButtons( $( this ), {
+				filter: true,
+				addIps: true,
+				contribs: true,
+				checks: true
+			}, 'cuc_user_text' );
+		} );
 
 	// Persist highlights across paginated tabs
 	if (
