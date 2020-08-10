@@ -158,8 +158,6 @@
 	"checkuser-investigate-timeline-notice-no-results": "Немає результатів: у цих користувачів чи IP не було активності за останні 90 днів",
 	"checkuser-investigate-timeline-notice-no-results-filters": "За цими критеріями нічого не знайдено. Спробуйте вилучити певні фільтри для розширення області пошуку.",
 	"checkuser-investigate-compare-copy-button-label": "Показати вікітекст",
-	"checkuser-investigate-compare-toollinks-geolocate": "Визначити місцезнаходження",
-	"checkuser-investigate-compare-toollinks-tor-check": "Перевірити Tor",
 	"checkuser-investigate-compare-copy-message-label": "Хочете скопіювати цю інформацію у форматі вікітаблиці?",
 	"checkuser-investigate-compare-notice-exceeded-limit": "Через технічні обмеження ми досягли максимальної кількості записів, які можна презентувати. Виведені для вказаних цілей дані є неповними: $1. Будь ласка, спробуйте використати менше цілей, коротше часове вікно, чи вужчі IP-діапазони.",
 	"checkuser-investigate-compare-notice-no-results": "Нічого не знайдено, оскільки останні 90 днів не було редагувань з цих IP",

@@ -1,8 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"Kaganer"
+			"Kaganer",
+			"Kotwys"
 		]
 	},
-	"checkuser-all": "ваньзэ"
+	"checkuser-all": "ваньзэ",
+	"checkuser-investigate-compare-table-button-checks-label": "Эскеронъёс",
+	"checkuser-investigate-subtitle-link-restart-tour": "Турез выльысь кутсконо"
 }

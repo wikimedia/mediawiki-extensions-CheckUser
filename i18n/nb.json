@@ -153,8 +153,6 @@
 	"checkuser-investigate-timeline-notice-no-results": "Det er ingen resultater: det har ikke vært noen aktivitet fra disse brukerne eller IP-ene de siste 90 dagene",
 	"checkuser-investigate-timeline-notice-no-results-filters": "Det er ingen resultater som matcher disse filtreringskriteriene. Prøv å fjerne noen filtre for å utvide søket.",
 	"checkuser-investigate-compare-copy-button-label": "Vis wikitekst",
-	"checkuser-investigate-compare-toollinks-geolocate": "Geolokasjon",
-	"checkuser-investigate-compare-toollinks-tor-check": "Tor-sjekk",
 	"checkuser-investigate-compare-copy-message-label": "Ønsker du å kopiere denne informasjonen til en wikiteksttabell?",
 	"checkuser-investigate-compare-notice-exceeded-limit": "På grunn av tekniske begrensninger har vi nådd maksimalt antall oppføringer som kan presenteres. Dataene som returneres for følgende mål er ufullstendige: $1. Prøv med færre mål, et mindre tidsvindu eller smalere IP-intervaller.",
 	"checkuser-investigate-compare-notice-no-results": "Det er ingen resultater: det har ikke vært noen redigeringer fra disse brukerne eller IP-adressene de siste 90 dagene",

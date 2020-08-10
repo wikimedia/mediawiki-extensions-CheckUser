@@ -115,6 +115,7 @@
 	"checkuser-investigate-preliminary-table-header-name": "Brugernavn",
 	"checkuser-investigate-filters-legend": "Filtre",
 	"checkuser-investigate-compare-copy-button-label": "Vis wikitekst",
+	"checkuser-investigate-compare-table-button-contribs-label": "Bidrag",
 	"checkuser-investigate-compare-table-header-username": "Brugernavn",
 	"checkuser-investigate-compare-table-header-ip": "IP",
 	"checkuser-investigate-tour-addusertargets-title": "Har du brug for mere kontekst?"
