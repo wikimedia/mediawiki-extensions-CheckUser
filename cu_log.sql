@@ -17,6 +17,7 @@ CREATE TABLE /*_*/cu_log (
 
   -- String indicating the type of query, may be:
   -- "useredits", "userips", "ipedits", "ipusers", "ipedits-xff", "ipusers-xff"
+  -- or "investigate" if the check was performed from Special:Investigate
   cul_type varbinary(30) not null,
 
   -- Integer target, interpretation depends on cul_type
