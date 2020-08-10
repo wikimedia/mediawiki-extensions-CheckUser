@@ -76,12 +76,12 @@ module.exports = function setupTables() {
 		$( '.mw-htmlform' ).trigger( 'submit' );
 	}
 
-	function addTargets( $tableCell, field ) {
-		$( 'input[name=targets]' ).val( $tableCell.data( field ) );
+	function addTargets( $tableCell ) {
+		$( 'input[name=targets]' ).val( $tableCell.data( 'value' ) );
 		$( '.mw-htmlform' ).trigger( 'submit' );
 	}
 
-	function appendButtons( $tableCell, buttonTypes, targetField ) {
+	function appendButtons( $tableCell, buttonTypes ) {
 		// eslint-disable-next-line no-jquery/no-class-state
 		var isTarget = $tableCell.hasClass( 'ext-checkuser-compare-table-cell-target' ),
 			$optionsContainer = $( '<div>' ).addClass( 'ext-checkuser-investigate-table-options-container' ),
@@ -135,7 +135,7 @@ module.exports = function setupTables() {
 				data: {
 					type: 'toolLinks',
 					href: new mw.Title( 'Special:Contributions' ).getUrl( {
-						target: $tableCell.data( targetField )
+						target: $tableCell.data( 'value' )
 					} ),
 					tool: 'Special:Contributions'
 				}
@@ -156,7 +156,7 @@ module.exports = function setupTables() {
 		}
 
 		if ( buttonTypes.toolLinks ) {
-			message = mw.msg( 'checkuser-investigate-compare-toollinks', $tableCell.data( 'cuc_ip' ) );
+			message = mw.msg( 'checkuser-investigate-compare-toollinks', $tableCell.data( 'value' ) );
 			$links = $( '<div>' ).html( message ).find( 'a' );
 			$links.each( function ( i, $link ) {
 				var label = $link.text,
@@ -191,10 +191,10 @@ module.exports = function setupTables() {
 						filterValue( $tableCell );
 						break;
 					case 'addIps':
-						addTargets( $tableCell, targetField );
+						addTargets( $tableCell );
 						break;
 					case 'addUsers':
-						addTargets( $tableCell, targetField );
+						addTargets( $tableCell );
 						break;
 					case 'toolLinks':
 						logEvent( {
@@ -254,7 +254,7 @@ module.exports = function setupTables() {
 				contribs: true,
 				checks: true,
 				toolLinks: true
-			}, 'cuc_ip' );
+			} );
 		} );
 
 	$( 'td.ext-checkuser-compare-table-cell-user-target' )
@@ -264,7 +264,7 @@ module.exports = function setupTables() {
 				addIps: true,
 				contribs: true,
 				checks: true
-			}, 'cuc_user_text' );
+			} );
 		} );
 
 	// Persist highlights across paginated tabs
