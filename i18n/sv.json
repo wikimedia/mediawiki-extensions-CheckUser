@@ -15,6 +15,7 @@
 			"McDutchie",
 			"Najami",
 			"Per",
+			"Sabelöga",
 			"WikiPhoenix"
 		]
 	},
@@ -133,8 +134,11 @@
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Wikin hittades inte",
 	"checkuser-investigate-filters-legend": "Filter",
 	"checkuser-investigate-filters-exclude-targets-label": "Dölj följande användare eller IP-adresser",
+	"checkuser-investigate-compare-toollinks-ipcheck": "Proxy-kontroll",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Visa alla IP-adress för denna användare",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "Visa alla användare på denna IP-adress",
+	"checkuser-investigate-compare-table-button-checks-label": "Kontroller",
+	"checkuser-investigate-compare-table-button-contribs-label": "Bidragsgivare",
 	"checkuser-investigate-compare-table-button-filter-label": "Filtrera från resultat",
 	"checkuser-investigate-compare-table-cell-unregistered": "Oregistrerade",
 	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|redigering|redigeringar}}]</b>",
