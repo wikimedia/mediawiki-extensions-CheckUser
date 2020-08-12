@@ -144,16 +144,17 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @inheritDoc
 	 */
 	public function execute( $par ) {
-		// The tour is being explicitly launched by the user, reset their preferences.
-		if ( $this->reLaunchTour() ) {
-			return;
-		}
-
+		// Always call the parent method in order to check execute permissions.
 		parent::execute( $par );
 
 		// If the form submission results in a redirect, there is no need to
 		// generate content for the page.
 		if ( $this->getOutput()->getRedirect() !== '' ) {
+			return;
+		}
+
+		// The tour is being explicitly launched by the user, reset their preferences.
+		if ( $this->reLaunchTour() ) {
 			return;
 		}
 
@@ -904,6 +905,10 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @return bool If the tour is being relaunched and a redirect was set.
 	 */
 	public function reLaunchTour() : bool {
+		if ( $this->getRequest()->getMethod() !== 'GET' ) {
+			return false;
+		}
+
 		if ( !in_array( $this->getRequest()->getVal( 'tour' ), self::TOURS, true ) ) {
 			return false;
 		}
