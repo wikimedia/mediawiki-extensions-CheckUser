@@ -33,6 +33,7 @@
 			"Sanbec",
 			"Spacebirdy",
 			"Suecarmol",
+			"Sukanya121",
 			"Titoxd",
 			"VegaDark"
 		]
@@ -170,6 +171,7 @@
 	"checkuser-investigate-timeline-notice-no-results-filters": "No hay resultados que coincidan con estos criterios de filtrado. Intenta eliminar algunos filtros para ampliar la búsqueda.",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Mostrar todas las IP de este usuario",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "Mostrar todos los usuarios en esta IP",
+	"checkuser-investigate-compare-table-button-checks-label": "Verificar",
 	"checkuser-investigate-compare-table-button-filter-label": "Filtrar desde resultados",
 	"checkuser-investigate-compare-table-cell-unregistered": "No registrado",
 	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|edición|ediciones}}]</b>",
