@@ -29,7 +29,7 @@ class SpecialInvestigateLog extends FormSpecialPage {
 	private $pagerFactory;
 
 	public function __construct( PagerFactory $pagerFactory ) {
-		parent::__construct( 'InvestigateLog', 'investigate' );
+		parent::__construct( 'InvestigateLog', 'checkuser-log' );
 
 		$this->pagerFactory = $pagerFactory;
 	}

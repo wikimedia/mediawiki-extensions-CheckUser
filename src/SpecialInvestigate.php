@@ -111,7 +111,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 		TourLauncher $tourLauncher,
 		CheckUserSubtitleLinksHook $subtitleLinksHookRunner
 	) {
-		parent::__construct( 'Investigate', 'investigate' );
+		parent::__construct( 'Investigate', 'checkuser' );
 		$this->setLinkRenderer( $linkRenderer );
 		$this->contentLanguage = $contentLanguage;
 		$this->userOptionsManager = $userOptionsManager;

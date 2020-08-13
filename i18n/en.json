@@ -19,8 +19,6 @@
 	"right-checkuser-log": "View the checkuser log",
 	"action-checkuser": "check users' IP addresses and other information",
 	"action-checkuser-log": "view the checkuser log",
-	"right-investigate": "Use [[Special:Investigate]] and view the log of prior investigations",
-	"action-investigate": "use [[Special:Investigate]] and view the log of prior investigations",
 	"grouppage-checkuser": "{{ns:project}}:Check user",
 	"checkuser-reason": "Reason:",
 	"checkuser-reason-api": "API: $1",
