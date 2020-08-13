@@ -183,7 +183,10 @@ class SpecialInvestigate extends \FormSpecialPage {
 
 		// Add the links after any previous HTML has been cleared.
 		$this->addSubtitle();
-		$this->addHelpLink( 'https://meta.wikimedia.org/wiki/Special:MyLanguage/Help:Special_Investigate', true );
+		$this->addHelpLink(
+			'https://meta.wikimedia.org/wiki/Special:MyLanguage/Help:Special_Investigate',
+			true
+		);
 	}
 
 	/**
