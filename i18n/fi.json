@@ -97,5 +97,6 @@
 	"checkuser-token-fail": "Istuntovirhe. Ole hyvä ja yritä uudelleen.",
 	"checkuser-investigate-subtitle-block-button-label": "Estä",
 	"checkuser-investigate-subtitle-cancel-button-label": "Peruuta",
-	"checkuser-investigate-subtitle-continue-button-label": "Jatka"
+	"checkuser-investigate-subtitle-continue-button-label": "Jatka",
+	"checkuser-investigate-compare-table-button-contribs-label": "Muokkaukset"
 }
