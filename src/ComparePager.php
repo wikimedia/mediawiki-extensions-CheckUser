@@ -172,6 +172,9 @@ class ComparePager extends TablePager {
 				break;
 		}
 
+		// Add each cell to the tab index.
+		$attributes['tabindex'] = 0;
+
 		return $attributes;
 	}
 
