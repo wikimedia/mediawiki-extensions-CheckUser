@@ -27,10 +27,10 @@
 		closeOnClickOutside: false,
 		overlay: true,
 		onShow: function () {
-			$( this.attachTo ).first().addClass( 'ext-checkuser-investigate-active' );
+			$( this.attachTo ).first().trigger( 'mouseover' );
 		},
 		onHide: function () {
-			$( this.attachTo ).first().removeClass( 'ext-checkuser-investigate-active' );
+			$( this.attachTo ).first().trigger( 'mouseout' );
 
 			// Api.saveOption will save a string instead of a bool. :(
 			( new mw.Api() ).saveOption( 'checkuser-investigate-tour-seen', 1 );
@@ -41,6 +41,7 @@
 	function handleIpTargetOnShow() {
 		var $cell = $( '.ext-checkuser-compare-table-cell-ip-target' ).first();
 
+		$cell.trigger( 'mouseover' );
 		$cell.addClass( 'ext-checkuser-investigate-active' );
 		// @TODO This causes a flicker between steps, maybe there is a way to force it to stay open?
 		$( '.ext-checkuser-investigate-table-select .oo-ui-buttonElement-button', $cell ).first().trigger(
@@ -49,6 +50,7 @@
 	}
 
 	function handleIpTargetOnHide() {
+		$( '.ext-checkuser-compare-table-cell-ip-target' ).first().trigger( 'mouseout' );
 		$( '.ext-checkuser-compare-table-cell-ip-target' ).first().removeClass( 'ext-checkuser-investigate-active' );
 	}
 
