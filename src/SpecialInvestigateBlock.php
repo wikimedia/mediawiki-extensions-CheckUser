@@ -41,7 +41,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 		UserFactory $userFactory,
 		EventLogger $eventLogger
 	) {
-		parent::__construct( 'InvestigateBlock', 'investigate' );
+		parent::__construct( 'InvestigateBlock', 'checkuser' );
 
 		$this->permissionManager = $permissionManager;
 		$this->titleFormatter = $titleFormatter;
