@@ -49,7 +49,7 @@ module.exports = function setupTables() {
 
 	function onPinnableCellHover( event ) {
 		// Toggle on for mouseover, off for mouseout
-		updateMatchingElements( $( this ), event.type === 'mouseover', 'hover-data-match' );
+		updateMatchingElements( $( this ), event.type === 'mouseover' || event.type === 'focusin', 'hover-data-match' );
 	}
 
 	function onToggleButtonChange( $tableCell, value ) {
@@ -229,7 +229,12 @@ module.exports = function setupTables() {
 		}
 	}
 
-	$( 'td.ext-checkuser-investigate-table-cell-pinnable' ).on( 'mouseover mouseout', onPinnableCellHover );
+	$( 'td.ext-checkuser-investigate-table-cell-pinnable' ).on( 'mouseover mouseout focusin focusout', onPinnableCellHover );
+
+	// Prevent the user from putting a table cell into focus.
+	$( '.ext-checkuser-investigate-table td' ).on( 'mousedown', function ( e ) {
+		e.preventDefault();
+	} );
 
 	$( '.ext-checkuser-investigate-table-preliminary-check td.ext-checkuser-investigate-table-cell-pinnable' )
 		.each( function () {

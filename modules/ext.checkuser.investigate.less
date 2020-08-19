@@ -31,8 +31,11 @@
 	}
 
 	.ext-checkuser-compare-table-cell-target,
-	tr:hover td.ext-checkuser-compare-table-cell-target {
-		background: @colorGray14;
+	tr:hover,
+	tr:focus-within {
+		td.ext-checkuser-compare-table-cell-target {
+			background: @colorGray14;
+		}
 	}
 
 	.ext-checkuser-investigate-table-cell-interactive {
@@ -103,14 +106,16 @@
 		background-color: #fef6e7;
 	}
 
-	tr {
-		td.ext-checkuser-investigate-table-cell-pinned,
-		td.ext-checkuser-investigate-table-cell-pinned-data-match {
-			.transition( background-color @transition-base );
-			background-color: #fc3;
-		}
+	td.ext-checkuser-investigate-table-cell-pinned,
+	td.ext-checkuser-investigate-table-cell-pinned-data-match {
+		.transition( background-color @transition-base );
+		background-color: #fc3;
+	}
 
-		td:hover.ext-checkuser-investigate-table-cell-pinned {
+	td:hover,
+	td:focus,
+	td:focus-within {
+		&.ext-checkuser-investigate-table-cell-pinned {
 			.ext-checkuser-investigate-table-select,
 			.ext-checkuser-investigate-table-button-pin {
 				visibility: visible;
@@ -120,23 +125,32 @@
 }
 
 .ext-checkuser-investigate-table.mw-datatable:not( .ext-checkuser-investigate-table-pinned ) {
-	.ext-checkuser-investigate-table-row-hover-data-match td,
-	tr:hover td {
-		background-color: #fef6e7;
-	}
-
 	tr {
 		td.ext-checkuser-investigate-table-cell-hover-data-match,
-		td:hover.ext-checkuser-investigate-table-cell-pinnable {
+		td:hover.ext-checkuser-investigate-table-cell-pinnable,
+		td:focus.ext-checkuser-investigate-table-cell-pinnable,
+		td:focus-within.ext-checkuser-investigate-table-cell-pinnable {
 			background-color: #fc3;
 		}
 
-		td.ext-checkuser-investigate-active.ext-checkuser-investigate-table-cell-pinnable,
-		td:hover.ext-checkuser-investigate-table-cell-pinnable {
+		td.ext-checkuser-investigate-active,
+		td:hover.ext-checkuser-investigate-table-cell-pinnable,
+		td:focus.ext-checkuser-investigate-table-cell-pinnable,
+		td:focus-within.ext-checkuser-investigate-table-cell-pinnable {
+			/* stylelint-disable no-descending-specificity */
 			.ext-checkuser-investigate-table-select,
 			.ext-checkuser-investigate-table-button-pin {
 				visibility: visible;
 			}
+			/* stylelint-enable no-descending-specificity */
+		}
+	}
+
+	.ext-checkuser-investigate-table-row-hover-data-match td,
+	tr:hover,
+	tr:focus-within {
+		td {
+			background-color: #fef6e7;
 		}
 	}
 }
