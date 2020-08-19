@@ -29,8 +29,6 @@
 	"right-checkuser-log": "Перегляд журналу перевірки користувачів",
 	"action-checkuser": "перевірку IP-адрес та іншої інформації про користувача",
 	"action-checkuser-log": "перегляд журналу перевірки користувачів",
-	"right-investigate": "Використання сторінки [[Special:Investigate]] та перегляд журналу попередніх розслідувань",
-	"action-investigate": "використання сторінки [[Special:Investigate]] та перегляд журналу попередніх розслідувань",
 	"grouppage-checkuser": "{{ns:project}}:Чек'юзери",
 	"checkuser-reason": "Причина:",
 	"checkuser-reason-api": "API: $1",

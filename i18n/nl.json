@@ -27,7 +27,6 @@
 	"right-checkuser-log": "Het Logboek controleren gebruikers bekijken",
 	"action-checkuser": "IP-adressen en andere gegevens van gebruikers te bekijken",
 	"action-checkuser-log": "het Logboek controleren gebruikers te bekijken",
-	"right-investigate": "Gebruik maken van [[Special:Investigate]] en het logboek van belangrijke onderzoeken bekijken",
 	"grouppage-checkuser": "{{ns:project}}:Controlegebruiker",
 	"checkuser-reason": "Reden:",
 	"checkuser-reason-api": "API: $1",

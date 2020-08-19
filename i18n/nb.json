@@ -23,8 +23,6 @@
 	"right-checkuser-log": "Se IP-kontrolloggen",
 	"action-checkuser": "sjekke brukeres IP-adresser og annen informasjon",
 	"action-checkuser-log": "se IP-kontrolloggen",
-	"right-investigate": "Bruke [[Special:Investigate]] og vise loggen for tidligere undersøkelser",
-	"action-investigate": "bruke [[Special:Investigate]] og vise loggen for tidligere undersøkelser",
 	"grouppage-checkuser": "{{ns:project}}:IP-kontrollør",
 	"checkuser-reason": "Årsak:",
 	"checkuser-reason-api": "API: $1",

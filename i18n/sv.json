@@ -32,8 +32,6 @@
 	"right-checkuser-log": "Se loggen över användarkontroller",
 	"action-checkuser": "kontrollera användarens IP-adresser och annan information",
 	"action-checkuser-log": "visa loggen för IP-kontroll",
-	"right-investigate": "Använd [[Special:Investigate]] och visa loggen för tidigare undersökningar",
-	"action-investigate": "använda [[Special:Investigate]] och visa loggen för tidigare undersökningar",
 	"grouppage-checkuser": "{{ns:project}}:Användarkontrollant",
 	"checkuser-reason": "Anledning:",
 	"checkuser-reason-api": "API: $1",

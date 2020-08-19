@@ -34,8 +34,6 @@
 	"right-checkuser-log": "檢視使用者檢查日誌",
 	"action-checkuser": "檢查使用者的 IP 位址與其他資訊",
 	"action-checkuser-log": "檢視使用者檢查日誌",
-	"right-investigate": "使用 [[Special:Investigate]] 來檢視事前調查的日誌",
-	"action-investigate": "使用 [[Special:Investigate]] 來檢視事前調查的日誌",
 	"grouppage-checkuser": "{{ns:project}}:使用者查核",
 	"checkuser-reason": "原因：",
 	"checkuser-reason-api": "API：$1",

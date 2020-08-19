@@ -33,8 +33,6 @@
 	"right-checkuser-log": "Przeglądanie rejestru checkuser",
 	"action-checkuser": "sprawdzania adresów IP uzytkowników i innych informacji",
 	"action-checkuser-log": "przeglądania rejestru checkuser",
-	"right-investigate": "Dostęp do [[Special:Investigate|Specjalna:Investigate]] i podgląd rejestru poprzednich sprawdzeń",
-	"action-investigate": "używania [[Special:Investigate|Specjalna:Investigate]] i przeglądania rejestru poprzednich sprawdzeń",
 	"grouppage-checkuser": "{{ns:project}}:Checkuser",
 	"checkuser-reason": "Powód",
 	"checkuser-reason-api": "API: $1",

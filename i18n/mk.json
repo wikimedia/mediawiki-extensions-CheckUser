@@ -21,8 +21,6 @@
 	"right-checkuser-log": "Гледање дневник на проверување на корисник",
 	"action-checkuser": "проверување на корисничка IP-адреса и други информации",
 	"action-checkuser-log": "гледање дневник на проверување на корисник",
-	"right-investigate": "Употреба на „[[Special:Investigate|Службена:Иследување]]“ за за преглед на дневникот на претходни иследувања",
-	"action-investigate": "употреба на „[[Special:Investigate|Службена:Иследување]]“ за за преглед на дневникот на претходни иследувања",
 	"grouppage-checkuser": "{{ns:project}}:Проверувачи",
 	"checkuser-reason": "Причина:",
 	"checkuser-reason-api": "API: $1",

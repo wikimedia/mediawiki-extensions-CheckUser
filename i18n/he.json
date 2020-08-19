@@ -23,8 +23,6 @@
 	"right-checkuser-log": "צפייה ביומן הבדיקות",
 	"action-checkuser": "למצוא כתובות IP ומידע נוסף של משתמשים",
 	"action-checkuser-log": "לצפות ביומן הבדיקות",
-	"right-investigate": "שימוש ב[[Special:Investigate|מיוחד:חקירה]] והצגת היומן של חקירות קודמות",
-	"action-investigate": "להשתמש ב[[Special:Investigate|מיוחד:חקירה]] ולהציג את היומן של חקירות קודמות",
 	"grouppage-checkuser": "{{ns:project}}:בודק",
 	"checkuser-reason": "סיבה:",
 	"checkuser-reason-api": "API‏: $1",

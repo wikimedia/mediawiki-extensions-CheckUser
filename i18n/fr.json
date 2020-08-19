@@ -41,8 +41,6 @@
 	"right-checkuser-log": "Visualiser le journal des vérifications d’utilisateurs",
 	"action-checkuser": "vérifier les adresses IP des utilisateurs et d’autres informations",
 	"action-checkuser-log": "Visualiser le journal des vérifications des utilisateurs",
-	"right-investigate": "Utiliser [[Special:Investigate]] et afficher le journal des investigations précédentes",
-	"action-investigate": "utiliser [[Special:Investigate]] et afficher le journal des investigations précédentes",
 	"grouppage-checkuser": "{{ns:project}}:Vérificateurs d’utilisateurs",
 	"checkuser-reason": "Motif :",
 	"checkuser-reason-api": "API: $1",

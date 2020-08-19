@@ -30,8 +30,6 @@
 	"right-checkuser-log": "Denetçi günlüğünü gör",
 	"action-checkuser": "denetçilerin IP adresleri ve diğer bilgileri",
 	"action-checkuser-log": "denetçi günlüğünü gör",
-	"right-investigate": "[[Special:Investigate]] kullanın ve önceki araştırmaların günlüğünü görüntüleyin",
-	"action-investigate": "[[Special:Investigate]] kullanın ve önceki araştırmaların günlüğünü görüntüleyin",
 	"grouppage-checkuser": "{{ns:project}}:Denetçi",
 	"checkuser-reason": "Gerekçe:",
 	"checkuser-reason-api": "API: $1",

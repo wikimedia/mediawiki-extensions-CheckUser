@@ -39,8 +39,6 @@
 	"right-checkuser-log": "Ver os registros das verificações",
 	"action-checkuser": "verificar os endereços IP do usuário e outras informações",
 	"action-checkuser-log": "ver os registros das verificações",
-	"right-investigate": "Use [[Special:Investigate]] e visualize o registro de investigações anteriores",
-	"action-investigate": "use [[Special:Investigate]] e visualize o registro de investigações anteriores",
 	"grouppage-checkuser": "{{ns:project}}:Verificadores",
 	"checkuser-reason": "Motivo:",
 	"checkuser-reason-api": "API: $1",
