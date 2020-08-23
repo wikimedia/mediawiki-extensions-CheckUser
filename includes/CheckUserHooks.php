@@ -371,7 +371,7 @@ class CheckUserHooks {
 	public static function onAuthManagerLoginAuthenticateAudit(
 		AuthenticationResponse $ret, $user, $username
 	) {
-		global $wgRequest, $wgCheckUserLogLogins;
+		global $wgRequest, $wgCheckUserLogLogins, $wgCheckUserLogSuccessfulBotLogins;
 
 		if ( !$wgCheckUserLogLogins ) {
 			return;
@@ -383,6 +383,19 @@ class CheckUserHooks {
 
 		if ( !$user ) {
 			return;
+		}
+
+		if (
+			$wgCheckUserLogSuccessfulBotLogins !== true &&
+			$ret->status === AuthenticationResponse::PASS
+		) {
+			$userGroups = MediaWikiServices::getInstance()
+				->getUserGroupManager()
+				->getUserGroups( $user );
+
+			if ( in_array( 'bot', $userGroups ) ) {
+				return;
+			}
 		}
 
 		$ip = $wgRequest->getIP();

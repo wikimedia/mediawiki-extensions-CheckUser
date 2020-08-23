@@ -58,6 +58,10 @@
 			"value": false,
 			"description": "Whether login attempts should be logged in CheckUser logs"
 		},
+		"CheckUserLogSuccessfulBotLogins": {
+			"value": true,
+			"description": "Whether successful login attempts of accounts in the 'bot' user group should be logged in CheckUser logs (assuming wgCheckUserLogLogins is also true)"
+		},
 		"CheckUserEnableSpecialInvestigate": {
 			"value": false,
 			"description": "Enables Special:Investigate"
