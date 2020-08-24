@@ -1450,7 +1450,7 @@ class SpecialCheckUser extends SpecialPage {
 				);
 				$s .= ' ' . $this->msg( 'parentheses' )->rawParams( $linkCA )->escaped();
 			}
-			// Add Globalblocking link link to CentralWiki
+			// Add Globalblocking link to CentralWiki
 			if ( $globalBlockingToollink !== false
 				&& IPUtils::isIPAddress( $name )
 			) {
@@ -1477,7 +1477,7 @@ class SpecialCheckUser extends SpecialPage {
 						$gblinkAlias
 					);
 				} elseif ( $centralGBUrl !== false ) {
-					// Case wikimap configured whithout CentralAuth extension
+					// Case wikimap configured without CentralAuth extension
 					$user = $this->getUser();
 					// Get effective Local user groups since there is a wikimap but there is no CA
 					$gbUserGroups = $user->getEffectiveGroups();
