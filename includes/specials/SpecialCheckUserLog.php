@@ -1,5 +1,6 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
 use Wikimedia\IPUtils;
 
 class SpecialCheckUserLog extends SpecialPage {
@@ -26,8 +27,9 @@ class SpecialCheckUserLog extends SpecialPage {
 		$out = $this->getOutput();
 		$request = $this->getRequest();
 		$this->target = trim( $request->getVal( 'cuSearch', $par ) );
+		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
 
-		if ( $this->getUser()->isAllowed( 'checkuser' ) ) {
+		if ( $permissionManager->userHasRight( $this->getUser(), 'checkuser' ) ) {
 			$subtitleLink = $this->getLinkRenderer()->makeKnownLink(
 				SpecialPage::getTitleFor( 'CheckUser' ),
 				$this->msg( 'checkuser-showmain' )->text()

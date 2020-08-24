@@ -50,8 +50,9 @@ class SpecialCheckUser extends SpecialPage {
 		$request = $this->getRequest();
 		$user = $request->getText( 'user', $request->getText( 'ip', $subpage ) );
 		$user = trim( $user );
+		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
 
-		if ( $this->getUser()->isAllowed( 'checkuser-log' ) ) {
+		if ( $permissionManager->userHasRight( $this->getUser(), 'checkuser-log' ) ) {
 			$subtitleLink = $this->getLinkRenderer()->makeKnownLink(
 				SpecialPage::getTitleFor( 'CheckUserLog' ),
 				$this->msg( 'checkuser-showlog' )->text()
@@ -280,7 +281,10 @@ class SpecialCheckUser extends SpecialPage {
 	 */
 	protected function doMassUserBlock( $users, $blockParams, $tag = '', $talkTag = '' ) {
 		$usersCount = count( $users );
-		if ( !$this->getUser()->isAllowed( 'block' ) || $this->getUser()->getBlock()
+		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
+
+		if ( !$permissionManager->userHasRight( $this->getUser(), 'block' )
+			|| $this->getUser()->getBlock()
 			|| !$usersCount
 		) {
 			$this->getOutput()->addWikiMsg( 'checkuser-block-failure' );
@@ -1367,6 +1371,7 @@ class SpecialCheckUser extends SpecialPage {
 		$linkrenderer = $this->getLinkRenderer();
 		$splang = $this->getLanguage();
 		$aliases = $splang->getSpecialPageAliases();
+		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
 
 		// @todo FIXME: This form (and checkboxes) shouldn't be initiated for users without 'block' right
 		$action = htmlspecialchars( $this->getPageTitle()->getLocalURL( 'action=block' ) );
@@ -1498,7 +1503,7 @@ class SpecialCheckUser extends SpecialPage {
 						$gblinkAlias,
 						[ 'title' => $this->msg( 'globalblocking-block-submit' ) ]
 					);
-					$gbUserCanDo = $user->isAllowed( 'globalblock' );
+					$gbUserCanDo = $permissionManager->userHasRight( $user, 'globalblock' );
 					if ( $gbUserCanDo === true ) {
 						$globalBlockingToollink['groups'] = $gbUserGroups;
 					}
@@ -1549,7 +1554,9 @@ class SpecialCheckUser extends SpecialPage {
 			$s .= '</li>';
 		}
 		$s .= "</ul></div>\n";
-		if ( $this->getUser()->isAllowed( 'block' ) && !$this->getUser()->getBlock() ) {
+		if ( $permissionManager->userHasRight( $this->getUser(), 'block' )
+			&& !$this->getUser()->getBlock()
+		) {
 			// FIXME: The block <form> is currently added for users without 'block' right
 			// - only the user-visible form is shown appropriately
 			$s .= $this->getBlockForm( $tag, $talkTag );
