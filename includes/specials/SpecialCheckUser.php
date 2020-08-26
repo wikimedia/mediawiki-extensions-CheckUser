@@ -1952,7 +1952,7 @@ class SpecialCheckUser extends SpecialPage {
 				new HtmlArmor( $this->message['hist'] ),
 				[],
 				[
-					'curid' => $row->cuc_page_id,
+					'curid' => $title->exists() ? $row->cuc_page_id : null,
 					'action' => 'history'
 				]
 			) . ') . . ';
