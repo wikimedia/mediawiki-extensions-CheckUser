@@ -42,7 +42,7 @@ module.exports = function setupTables() {
 			// * ext-checkuser-investigate-table-row-pinned-data-match
 			$( this ).toggleClass(
 				rowClass,
-				!!$( this ).find( '.' + cellClass ).length
+				value
 			);
 		} );
 	}
