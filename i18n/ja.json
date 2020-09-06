@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"129femtoseconds",
 			"2nd-player",
 			"Aotake",
 			"Azeha",
@@ -75,8 +76,8 @@
 	"checkuser-localonly": "統合されていません",
 	"checkuser-massblock": "選択した利用者をブロック",
 	"checkuser-massblock-text": "選択した利用者は無期限ブロックされ、同時に自動ブロックが作動しアカウント作成も禁止されます。\nIPアドレスはIP利用者向けに1週間ブロックされ、アカウント作成が禁止されます。",
-	"checkuser-blockemail": "メール送信を禁止させる",
-	"checkuser-blocktalk": "この利用者がブロック中に自身のトークページを編集することを禁止",
+	"checkuser-blockemail": "メール送信を禁止する",
+	"checkuser-blocktalk": "この利用者がブロック中に自身のトークページを編集することを禁止する",
 	"checkuser-blocktag": "利用者ページを以下で置換:",
 	"checkuser-blocktag-talk": "トークページを以下で置換:",
 	"checkuser-reblock": "既に設定されているブロックを上書き",
@@ -122,7 +123,7 @@
 	"checkuser-investigate-indicator-logs": "記録",
 	"checkuser-investigate-legend": "利用者名、IPアドレス、IPアドレス範囲で検索",
 	"checkuser-investigate-notice-no-results": "結果はありません。",
-	"checkuser-investigate-tab-compare": "比較",
+	"checkuser-investigate-tab-compare": "IPアドレスとユーザーエージェント",
 	"checkuser-investigate-tab-timeline": "時系列",
 	"checkuser-investigate-targets-label": "利用者名またはIPアドレス",
 	"checkuser-investigate-targets-placeholder": "利用者名 or 1.1.1.1",
