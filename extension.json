@@ -117,9 +117,11 @@
 	},
 	"ResourceModules": {
 		"ext.checkUser": {
+			"localBasePath": "modules/ext.checkUser",
+			"remoteExtPath": "CheckUser/modules/ext.checkUser",
 			"scripts": [
-				"modules/ext.checkuser.cidr.js",
-				"modules/ext.checkuser.caMultiLock.js"
+				"cidr.js",
+				"caMultiLock.js"
 			],
 			"dependencies": [
 				"mediawiki.util"
@@ -129,18 +131,22 @@
 			]
 		},
 		"ext.checkUser.investigate.styles": {
+			"localBasePath": "modules/ext.checkUser.investigate.styles/",
+			"remoteExtPath": "CheckUser/modules/ext.checkUser.investigate.styles/",
 			"styles": [
-				"modules/ext.checkuser.investigate.less"
+				"investigate.less"
 			]
 		},
 		"ext.checkUser.investigate": {
+			"localBasePath": "modules/ext.checkUser.investigate",
+			"remoteExtPath": "CheckUser/modules/ext.checkUser.investigate",
 			"packageFiles": [
-				"modules/ext.checkuser.investigate.init.js",
-				"modules/ext.checkuser.investigate.tables.js",
-				"modules/ext.checkuser.investigate.copy.js",
-				"modules/ext.checkuser.investigate.blockform.js",
+				"init.js",
+				"tables.js",
+				"copy.js",
+				"blockform.js",
 				{
-					"name": "modules/message.json",
+					"name": "message.json",
 					"callback": "MediaWiki\\CheckUser\\ToolLinksMessages::getParsedMessage",
 					"callbackParam": "checkuser-investigate-compare-toollinks"
 				}
@@ -172,21 +178,27 @@
 			]
 		},
 		"ext.checkUser.investigateblock.styles": {
+			"localBasePath": "modules/ext.checkUser.investigateblock.styles",
+			"remoteExtPath": "CheckUser/modules/ext.checkUser.investigateblock.styles",
 			"styles": [
-				"modules/ext.checkuser.investigateblock.less"
+				"investigateblock.less"
 			]
 		},
 		"ext.checkUser.investigateblock": {
+			"localBasePath": "modules/ext.checkUser.investigateblock",
+			"remoteExtPath": "CheckUser/modules/ext.checkUser.investigateblock",
 			"packageFiles": [
-				"modules/ext.checkuser.investigateblock.js"
+				"investigateblock.js"
 			],
 			"dependencies": [
 				"oojs-ui-widgets"
 			]
 		},
 		"ext.guidedTour.tour.checkuserinvestigateform": {
+			"localBasePath": "modules/ext.guidedTour.tour.checkuserinvestigateform",
+			"remoteExtPath": "CheckUser/modules/ext.guidedTour.tour.checkuserinvestigateform",
 			"scripts": [
-				"modules/tours/checkuserinvestigateform.js"
+				"checkuserinvestigateform.js"
 			],
 			"dependencies": "ext.guidedTour",
 			"messages": [
@@ -195,8 +207,10 @@
 			]
 		},
 		"ext.guidedTour.tour.checkuserinvestigate": {
+			"localBasePath": "modules/ext.guidedTour.tour.checkuserinvestigate",
+			"remoteExtPath": "CheckUser/modules/ext.guidedTour.tour.checkuserinvestigate",
 			"scripts": [
-				"modules/tours/checkuserinvestigate.js"
+				"checkuserinvestigate.js"
 			],
 			"dependencies": [
 				"ext.guidedTour",
@@ -215,10 +229,6 @@
 				"checkuser-investigate-tour-copywikitext-desc"
 			]
 		}
-	},
-	"ResourceFileModulePaths": {
-		"localBasePath": "",
-		"remoteExtPath": "CheckUser"
 	},
 	"GroupPermissions": {
 		"checkuser": {
