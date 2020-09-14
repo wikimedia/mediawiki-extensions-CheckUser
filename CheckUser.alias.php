@@ -134,6 +134,8 @@ $specialPageAliases['eo'] = [
 $specialPageAliases['es'] = [
 	'CheckUser' => [ 'ComprobarUsuario', 'Comprobar_usuario', 'VerificarUsuario', 'Verificar_usuario' ],
 	'CheckUserLog' => [ 'Registro_de_comprobación_de_usuarios', 'Registro_de_verificación_de_usuarios' ],
+	'Investigate' => [ 'Investigar', 'Investigación' ],
+	'InvestigateLog' => [ 'Registro_de_investigaciones' ],
 ];
 
 /** Basque (euskara) */
