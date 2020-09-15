@@ -374,15 +374,16 @@ class SpecialCheckUser extends SpecialPage {
 					'Watch' => false,
 				], $this->getContext() );
 
-				$userPage = $u->getUserPage();
-
 				if ( $res === true ) {
+					$userPage = $u->getUserPage();
+
 					$safeUsers[] = "[[{$userPage->getPrefixedText()}|{$userPage->getText()}]]";
+
+					// Tag user page and user talk page
+					$this->tagPage( $userPage, $tag, $blockParams['reason'] );
+					$this->tagPage( $u->getTalkPage(), $talkTag, $blockParams['reason'] );
 				}
 
-				// Tag user page and user talk page
-				$this->tagPage( $userPage, $tag, $blockParams['reason'] );
-				$this->tagPage( $u->getTalkPage(), $talkTag, $blockParams['reason'] );
 			}
 		}
 
