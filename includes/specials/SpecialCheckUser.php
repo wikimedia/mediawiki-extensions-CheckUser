@@ -1391,10 +1391,11 @@ class SpecialCheckUser extends SpecialPage {
 			// Add user page and tool links
 			if ( !IPUtils::isIPAddress( $usernfn ) ) {
 				$idforlinknfn = -1;
+				$user = User::newFromId( $users_ids[$name] );
 			} else {
 				$idforlinknfn = $users_ids[$name];
+				$user = $usernfn;
 			}
-			$user = User::newFromId( $users_ids[$name] );
 			$classnouser = false;
 			if ( IPUtils::isIPAddress( $name ) !== IPUtils::isIPAddress( $user ) ) {
 				// User does not exist
