@@ -1,5 +1,6 @@
 <?php
 
+use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\MediaWikiServices;
@@ -29,9 +30,21 @@ class SpecialCheckUser extends SpecialPage {
 	/** @var LinkBatchFactory */
 	private $linkBatchFactory;
 
-	public function __construct( LinkBatchFactory $linkBatchFactory ) {
+	/** @var BlockPermissionCheckerFactory */
+	private $blockPermissionCheckerFactory;
+
+	/**
+	 * @param LinkBatchFactory $linkBatchFactory
+	 * @param BlockPermissionCheckerFactory $blockPermissionCheckerFactory
+	 */
+	public function __construct(
+		LinkBatchFactory $linkBatchFactory,
+		BlockPermissionCheckerFactory $blockPermissionCheckerFactory
+	) {
 		parent::__construct( 'CheckUser', 'checkuser' );
+
 		$this->linkBatchFactory = $linkBatchFactory;
+		$this->blockPermissionCheckerFactory = $blockPermissionCheckerFactory;
 	}
 
 	public function doesWrites() {
@@ -361,9 +374,14 @@ class SpecialCheckUser extends SpecialPage {
 			}
 
 			if (
-				SpecialBlock::canBlockEmail( $this->getUser() ) ||
 				!isset( $blockParams['email' ] ) ||
-				$blockParams['email'] === false
+				$blockParams['email'] === false ||
+				$this->blockPermissionCheckerFactory
+					->newBlockPermissionChecker(
+						$u,
+						$this->getUser()
+					)
+					->checkEmailPermissions()
 			) {
 				$res = SpecialBlock::processForm( [
 					'Target' => $u->getName(),
@@ -1632,7 +1650,14 @@ class SpecialCheckUser extends SpecialPage {
 				'<td>' . Xml::label( $this->msg( 'checkuser-blocktalk' )->text(), 'blocktalk' ) .
 				'</td>';
 		}
-		if ( SpecialBlock::canBlockEmail( $this->getUser() ) ) {
+		if (
+			$this->blockPermissionCheckerFactory
+				->newBlockPermissionChecker(
+					null,
+					$this->getUser()
+				)
+				->checkEmailPermissions()
+		) {
 			$s .= '</tr><tr>' .
 				'<td>' . Xml::check( 'blockemail', false, [ 'id' => 'blockemail' ] ) . '</td>' .
 				'<td>' . Xml::label( $this->msg( 'checkuser-blockemail' )->text(), 'blockemail' )
