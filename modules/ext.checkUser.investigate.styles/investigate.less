@@ -45,11 +45,13 @@
 		.ext-checkuser-investigate-table-select {
 			visibility: hidden;
 		}
-	}
 
-	.ext-checkuser-investigate-table-cell-interactive:hover {
-		.ext-checkuser-investigate-table-select {
-			visibility: visible;
+		&:hover,
+		&:focus,
+		&:focus-within {
+			.ext-checkuser-investigate-table-select {
+				visibility: visible;
+			}
 		}
 	}
 
@@ -104,45 +106,47 @@
 	.ext-checkuser-investigate-table-row-pinned-data-match td {
 		.transition( background-color @transition-base );
 		background-color: #fef6e7;
-	}
 
-	td.ext-checkuser-investigate-table-cell-pinned,
-	td.ext-checkuser-investigate-table-cell-pinned-data-match {
-		.transition( background-color @transition-base );
-		background-color: #fc3;
-	}
+		&.ext-checkuser-investigate-table-cell-pinned,
+		&.ext-checkuser-investigate-table-cell-pinned-data-match {
+			.transition( background-color @transition-base );
+			background-color: #fc3;
+		}
 
-	td:hover,
-	td:focus,
-	td:focus-within {
-		&.ext-checkuser-investigate-table-cell-pinned {
-			.ext-checkuser-investigate-table-select,
-			.ext-checkuser-investigate-table-button-pin {
+		&:hover,
+		&:focus,
+		&:focus-within {
+			.ext-checkuser-investigate-table-select {
 				visibility: visible;
+			}
+
+			&.ext-checkuser-investigate-table-cell-pinned {
+				.ext-checkuser-investigate-table-button-pin {
+					visibility: visible;
+				}
 			}
 		}
 	}
 }
 
+/* stylelint-disable no-descending-specificity */
 .ext-checkuser-investigate-table.mw-datatable:not( .ext-checkuser-investigate-table-pinned ) {
 	tr {
+		td.ext-checkuser-investigate-active,
+		td:hover,
+		td:focus,
+		td:focus-within {
+			.ext-checkuser-investigate-table-select,
+			.ext-checkuser-investigate-table-button-pin {
+				visibility: visible;
+			}
+		}
+
 		td.ext-checkuser-investigate-table-cell-hover-data-match,
 		td:hover.ext-checkuser-investigate-table-cell-pinnable,
 		td:focus.ext-checkuser-investigate-table-cell-pinnable,
 		td:focus-within.ext-checkuser-investigate-table-cell-pinnable {
 			background-color: #fc3;
-		}
-
-		td.ext-checkuser-investigate-active,
-		td:hover.ext-checkuser-investigate-table-cell-pinnable,
-		td:focus.ext-checkuser-investigate-table-cell-pinnable,
-		td:focus-within.ext-checkuser-investigate-table-cell-pinnable {
-			/* stylelint-disable no-descending-specificity */
-			.ext-checkuser-investigate-table-select,
-			.ext-checkuser-investigate-table-button-pin {
-				visibility: visible;
-			}
-			/* stylelint-enable no-descending-specificity */
 		}
 	}
 
@@ -154,6 +158,7 @@
 		}
 	}
 }
+/* stylelint-enable no-descending-specificity */
 
 .ext-checkuser-investigate-copy-message {
 	max-width: none;
