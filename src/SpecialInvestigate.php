@@ -132,6 +132,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 		// Add necessary styles
 		$this->getOutput()->addModuleStyles( [
 			'mediawiki.widgets.TagMultiselectWidget.styles',
+			'ext.checkUser.styles',
 		] );
 		// Add button link to the log page on the main form.
 		// Open in the current tab.
@@ -158,8 +159,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 			return;
 		}
 
-		$this->getOutput()->addModuleStyles( 'ext.checkUser.investigate.styles' );
-		$this->getOutput()->addModules( [ 'ext.checkUser.investigate' ] );
+		$this->getOutput()->addModules( [ 'ext.checkUser' ] );
 
 		// Show the tabs if there is any request data.
 		// The tabs should also be shown even if the form was a POST request because
