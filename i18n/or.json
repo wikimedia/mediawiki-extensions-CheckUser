@@ -34,7 +34,7 @@
 	"checkuser-all": "ସବୁ",
 	"checkuser-cidr-label": "ଏକ IP ଠିକଣାର ତାଲିକା ନିମନ୍ତେ ଏକ ସାଧାରଣ ସୀମା ଓ ପ୍ରଭାବିତ IP ଠିକଣାମାନ ଦିଅନ୍ତୁ",
 	"checkuser-cidr-res": "ସାଧାରଣ CIDR:",
-	"checkuser-empty": "ଇତିହାସରେ କିଛି ବି ବିଷୟ ନାହିଁ ।",
+	"checkuser-empty": "ଇତିହାସରେ କୌଣସି ବିଷୟ ନାହିଁ ।",
 	"checkuser-nomatch": "କିଛି ମେଳହେଲା ନାହିଁ ।",
 	"checkuser-nomatch-edits": "କିଛି ବି ମେଳ ଖାଇଲା ନାହିଁ ।\nଶେଷ ବଦଳଟି $1 ଦିନ $2 ବେଳେ ହୋଇଥିଲା ।",
 	"checkuser-check": "ଯାଞ୍ଚ କରିବା",
