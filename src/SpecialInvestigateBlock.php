@@ -223,7 +223,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 				'CreateAccount' => true,
 				'AutoBlock' => true,
 				'DisableEmail' => $blockEmail,
-				'DisableUTEdit' => $data['DisableUTEdit'],
+				'DisableUTEdit' => $data['DisableUTEdit'] ?? false,
 				'Reblock' => $data['Reblock'],
 				'Confirm' => true,
 				'Watch' => false,
