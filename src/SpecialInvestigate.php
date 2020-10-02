@@ -557,30 +557,28 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @param bool $logOnly Whether to show only the log button
 	 */
 	private function addIndicators( $newTab = true, $logOnly = false ) {
-		$log = new ButtonWidget( [
-			'label' => $this->msg( 'checkuser-investigate-indicator-logs' )->text(),
-			'href' => self::getTitleFor( 'InvestigateLog' )->getLinkURL(),
-			'target' => $newTab ? '_blank' : '',
-		] );
+		$buttons = [
+			new ButtonWidget( [
+				'label' => $this->msg( 'checkuser-investigate-indicator-logs' )->text(),
+				'href' => self::getTitleFor( 'InvestigateLog' )->getLinkURL(),
+				'target' => $newTab ? '_blank' : '',
+			] ),
+		];
 
-		$newForm = new ButtonWidget( [
-			'label' => $this->msg( 'checkuser-investigate-indicator-new-investigation' )->text(),
-			'href' => $this->getPageTitle()->getLinkURL(),
-			'target' => $newTab ? '_blank' : '',
-		] );
-
-		if ( $logOnly ) {
-			$this->getOutput()->setIndicators( [
-				'ext-checkuser-investigation-btns' => $log,
-			] );
-		} else {
-			$this->getOutput()->setIndicators( [
-				'ext-checkuser-investigation-btns' => new ButtonGroupWidget( [
-					'classes' => [ 'ext-checkuser-investigate-indicators' ],
-					'items' => [ $newForm, $log ],
-				] ),
+		if ( !$logOnly ) {
+			$buttons[] = new ButtonWidget( [
+				'label' => $this->msg( 'checkuser-investigate-indicator-new-investigation' )->text(),
+				'href' => $this->getPageTitle()->getLinkURL(),
+				'target' => $newTab ? '_blank' : '',
 			] );
 		}
+
+		$this->getOutput()->setIndicators( [
+			'ext-checkuser-investigation-btns' => new ButtonGroupWidget( [
+				'classes' => [ 'ext-checkuser-investigate-indicators' ],
+				'items' => $buttons,
+			] ),
+		] );
 	}
 
 	/**
