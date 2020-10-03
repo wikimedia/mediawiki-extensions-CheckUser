@@ -100,6 +100,8 @@ $specialPageAliases['ce'] = [
 $specialPageAliases['cs'] = [
 	'CheckUser' => [ 'Zkontrolovat uživatele' ],
 	'CheckUserLog' => [ 'Protokolovací záznamy kontrol uživatele' ],
+	'Investigate' => [ 'Prošetřit_uživatele' ],
+	'InvestigateLog' => [ 'Protokolovací_záznamy_prošetřování_uživatelů' ],
 ];
 
 /** German (Deutsch) */
