@@ -119,34 +119,17 @@
 		"ext.checkUser": {
 			"localBasePath": "modules/ext.checkUser",
 			"remoteExtPath": "CheckUser/modules/ext.checkUser",
-			"scripts": [
-				"cidr.js",
-				"caMultiLock.js"
-			],
-			"dependencies": [
-				"mediawiki.util"
-			],
-			"messages": [
-				"checkuser-centralauth-multilock"
-			]
-		},
-		"ext.checkUser.investigate.styles": {
-			"localBasePath": "modules/ext.checkUser.investigate.styles/",
-			"remoteExtPath": "CheckUser/modules/ext.checkUser.investigate.styles/",
-			"styles": [
-				"investigate.less"
-			]
-		},
-		"ext.checkUser.investigate": {
-			"localBasePath": "modules/ext.checkUser.investigate",
-			"remoteExtPath": "CheckUser/modules/ext.checkUser.investigate",
 			"packageFiles": [
-				"init.js",
-				"tables.js",
-				"copy.js",
-				"blockform.js",
+				"dispatcher.js",
+				"checkuser/cidr.js",
+				"checkuser/caMultiLock.js",
+				"investigateblock/investigateblock.js",
+				"investigate/init.js",
+				"investigate/tables.js",
+				"investigate/copy.js",
+				"investigate/blockform.js",
 				{
-					"name": "message.json",
+					"name": "investigate/message.json",
 					"callback": "MediaWiki\\CheckUser\\ToolLinksMessages::getParsedMessage",
 					"callbackParam": "checkuser-investigate-compare-toollinks"
 				}
@@ -162,9 +145,11 @@
 				"mediawiki.storage",
 				"mediawiki.Title",
 				"mediawiki.Uri",
+				"mediawiki.util",
 				"mediawiki.widgets"
 			],
 			"messages": [
+				"checkuser-centralauth-multilock",
 				"checkuser-investigate-compare-copy-button-label",
 				"checkuser-investigate-compare-copy-message-label",
 				"checkuser-investigate-compare-table-button-add-ip-targets-label",
@@ -177,21 +162,12 @@
 				"checkuser-investigate-subtitle-continue-button-label"
 			]
 		},
-		"ext.checkUser.investigateblock.styles": {
-			"localBasePath": "modules/ext.checkUser.investigateblock.styles",
-			"remoteExtPath": "CheckUser/modules/ext.checkUser.investigateblock.styles",
+		"ext.checkUser.styles": {
+			"localBasePath": "modules/ext.checkUser.styles",
+			"remoteExtPath": "CheckUser/modules/ext.checkUser.styles",
 			"styles": [
+				"investigate.less",
 				"investigateblock.less"
-			]
-		},
-		"ext.checkUser.investigateblock": {
-			"localBasePath": "modules/ext.checkUser.investigateblock",
-			"remoteExtPath": "CheckUser/modules/ext.checkUser.investigateblock",
-			"packageFiles": [
-				"investigateblock.js"
-			],
-			"dependencies": [
-				"oojs-ui-widgets"
 			]
 		},
 		"ext.guidedTour.tour.checkuserinvestigateform": {
@@ -214,7 +190,7 @@
 			],
 			"dependencies": [
 				"ext.guidedTour",
-				"ext.checkUser.investigate"
+				"ext.checkUser"
 			],
 			"messages": [
 				"checkuser-investigate-tour-useragents-title",

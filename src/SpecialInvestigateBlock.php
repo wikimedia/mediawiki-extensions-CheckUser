@@ -69,11 +69,11 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 	 */
 	public function getFormFields() {
 		$this->getOutput()->addModules( [
-			'ext.checkUser.investigateblock'
+			'ext.checkUser'
 		] );
 		$this->getOutput()->addModuleStyles( [
 			'mediawiki.widgets.TagMultiselectWidget.styles',
-			'ext.checkUser.investigateblock.styles',
+			'ext.checkUser.styles',
 		] );
 		$this->getOutput()->enableOOUI();
 
