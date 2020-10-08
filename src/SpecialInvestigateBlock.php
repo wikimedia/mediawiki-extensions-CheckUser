@@ -7,16 +7,23 @@ use DerivativeRequest;
 use Exception;
 use FormSpecialPage;
 use Linker;
+use MediaWiki\Block\BlockPermissionCheckerFactory;
+use MediaWiki\Block\BlockUserFactory;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserNameUtils;
-use SpecialBlock;
 use TitleFormatter;
 use TitleValue;
 use User;
 use Wikimedia\IPUtils;
 
 class SpecialInvestigateBlock extends FormSpecialPage {
+	/** @var BlockUserFactory */
+	private $blockUserFactory;
+
+	/** @var BlockPermissionCheckerFactory */
+	private $blockPermissionCheckerFactory;
+
 	/** @var PermissionManager */
 	private $permissionManager;
 
@@ -36,6 +43,8 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 	private $noticesFailed = false;
 
 	public function __construct(
+		BlockUserFactory $blockUserFactory,
+		BlockPermissionCheckerFactory $blockPermissionCheckerFactory,
 		PermissionManager $permissionManager,
 		TitleFormatter $titleFormatter,
 		UserFactory $userFactory,
@@ -43,6 +52,8 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 	) {
 		parent::__construct( 'InvestigateBlock', 'checkuser' );
 
+		$this->blockUserFactory = $blockUserFactory;
+		$this->blockPermissionCheckerFactory = $blockPermissionCheckerFactory;
 		$this->permissionManager = $permissionManager;
 		$this->titleFormatter = $titleFormatter;
 		$this->userFactory = $userFactory;
@@ -93,7 +104,11 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 			'section' => 'target',
 		];
 
-		if ( SpecialBlock::canBlockEmail( $this->getUser() ) ) {
+		if (
+			$this->blockPermissionCheckerFactory
+				->newBlockPermissionChecker( null, $this->getUser() )
+				->checkEmailPermissions()
+		) {
 			$fields['DisableEmail'] = [
 				'type' => 'check',
 				'label-message' => $prefix . '-email-label',
@@ -200,7 +215,6 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 	public function onSubmit( array $data ) {
 		$this->blockedUsers = [];
 		$targets = explode( "\n", $data['Targets'] );
-		$canBlockEmail = SpecialBlock::canBlockEmail( $this->getUser() );
 
 		foreach ( $targets as $target ) {
 			$isIP = IPUtils::isIPAddress( $target );
@@ -213,23 +227,22 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 			}
 
 			$expiry = $isIP ? '1 week' : 'indefinite';
-			$blockEmail = $canBlockEmail ? $data['DisableEmail'] : false;
 
-			$result = SpecialBlock::processForm( [
-				'Target' => $target,
-				'Reason' => [ $data['Reason'] ],
-				'Expiry' => $expiry,
-				'HardBlock' => !$isIP,
-				'CreateAccount' => true,
-				'AutoBlock' => true,
-				'DisableEmail' => $blockEmail,
-				'DisableUTEdit' => $data['DisableUTEdit'] ?? false,
-				'Reblock' => $data['Reblock'],
-				'Confirm' => true,
-				'Watch' => false,
-			], $this->getContext() );
+			$status = $this->blockUserFactory->newBlockUser(
+				$target,
+				$this->getUser(),
+				$expiry,
+				$data['Reason'],
+				[
+					'isHardBlock' => !$isIP,
+					'isCreateAccountBlocked' => true,
+					'isAutoblocking' => true,
+					'isEmailBlocked' => $data['DisableEmail'] ?? false,
+					'isUserTalkEditBlocked' => $data['DisableUTEdit'] ?? false,
+				]
+			)->placeBlock( $data['Reblock'] );
 
-			if ( $result === true ) {
+			if ( $status->isOK() ) {
 				$this->blockedUsers[] = $target;
 
 				if ( $data['UserPageNotice'] ) {
