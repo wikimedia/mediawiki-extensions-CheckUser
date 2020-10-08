@@ -330,8 +330,12 @@ class TimelineRowFormatter {
 	private function getUserLinks( \stdClass $row ) : string {
 		// Note: this is incomplete. It should match the checks
 		// in SpecialCheckUser when displaying the same info
-		$user = User::newFromId( $row->cuc_user );
-		$userId = $user->getId();
+		$userId = $row->cuc_user;
+		if ( $userId > 0 ) {
+			$user = User::newFromId( $userId );
+		} else { // This is an IP
+			$user = User::newFromName( $row->cuc_user_text, false );
+		}
 
 		$links = Html::rawElement(
 			'span', [], Linker::userLink( $userId, $user->getName() )
