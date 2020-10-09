@@ -155,6 +155,7 @@
 	"checkuser-investigate-timeline-notice-no-results": "لا توجد نتائج: لم يكن هناك أي نشاط مسجل من هؤلاء المستخدمين أو عناوين الآيبي في آخر 90 يومًا",
 	"checkuser-investigate-timeline-notice-no-results-filters": "لا توجد نتائج مطابقة لمعايير الترشحيح هذه. حاول إزالة بعض المرشحات لتوسيع البحث.",
 	"checkuser-investigate-compare-copy-button-label": "أظهر نص الويكي",
+	"checkuser-investigate-compare-toollinks-whois": "WHOIS",
 	"checkuser-investigate-compare-toollinks-ipcheck": "تحقق من البروكسي",
 	"checkuser-investigate-compare-copy-message-label": "هل ترغب في نسخ هذه المعلومات على شكل جدول ويكي؟",
 	"checkuser-investigate-compare-notice-exceeded-limit": "نظرًا لقيودٍ تقنية، فقد وصلنا إلى عدد سجلات التي يمكن تقديمها. البيانات التي تم إرجاعها للأهداف التالية غير كاملة: $1. يرجى محاولة استخدام أهداف أقل أو نافذة زمنية أصغر أو نطاقات آيبي أضيق.",
@@ -174,5 +175,16 @@
 	"checkuser-investigate-compare-table-header-ip": "آيبي",
 	"checkuser-investigate-compare-table-header-useragent": "وكيل المستخدم",
 	"checkuser-investigate-subtitle-link-restart-tour": "أعد تشغيل الجولة",
-	"checkuser-investigate-tour-targets-title": "تدقيق عدة مستخدمين وعناوين آيبي؟"
+	"checkuser-investigate-tour-targets-title": "تدقيق عدة مستخدمين وعناوين آيبي؟",
+	"checkuser-investigate-tour-targets-desc": "أضف ما يصل إلى $1 {{PLURAL:$1|مستخدم أو آيبي|مستخدمين أو آيبيهات}} واحصل على جميع المعلومات في مكانٍ واحد. لا تقلق، سننشئ سجل تدقيق مستخدم منفصلًا لكلٍ منهم.",
+	"checkuser-investigate-tour-useragents-title": "مطابقة أجهزة المستخدمين؟",
+	"checkuser-investigate-tour-useragents-desc": "مرر مؤشر الفأرة فوق خلية لتمييز جميع الصفوف الأخرى التي لها نفس البيانات. انقر فوق رمز الدبوس للاحتفاظ بالتمييز أثناء استعراض البيانات.",
+	"checkuser-investigate-tour-addusertargets-title": "هل تحتاج إلى مزيد من القرائن؟",
+	"checkuser-investigate-tour-addusertargets-desc": "انقر لرؤية جميع المستخدمين الآخرين ضمن نفس الآيبي. يمكنك القيام بذلك للمستخدمين أيضًا، ومشاهدة جميع الآيبيهات التي كانوا يستخدمونها. سننشئ لك عنصر سجل تدقيق المستخدم بشكلٍ تلقائي.",
+	"checkuser-investigate-tour-filterip-title": "تضييق تدقيقك؟",
+	"checkuser-investigate-tour-filterip-desc": "أزل التشويش عن طريق تصفية أسماء المستخدمين أو الآيبيهات أو أجهزة المستخدمين. هل تريد استعادة البيانات؟ استخدم لوحة المرشحات في الأعلى لإزالة المرشحات.",
+	"checkuser-investigate-tour-block-title": "ترغب بالمنع؟",
+	"checkuser-investigate-tour-block-desc": "يسمح لك بتحديد المستخدمين الذين ترغب في منعهم ثم ينقلك إلى نموذج المنع لاختيار المنع المناسب.",
+	"checkuser-investigate-tour-copywikitext-title": "ترغب بنسخ البيانات؟",
+	"checkuser-investigate-tour-copywikitext-desc": "انسخ جدول المقارنة بنقرة واحدة وخذه إلى ويكي المدققين. لاحظ أنك تنسخ فقط ما هو مرئي وليس كل صفحات التدقيق."
 }
