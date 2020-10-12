@@ -21,6 +21,9 @@ $specialPageAliases['en'] = [
 $specialPageAliases['ar'] = [
 	'CheckUser' => [ 'تدقيق_مستخدم' ],
 	'CheckUserLog' => [ 'سجل_تدقيق_المستخدم' ],
+	'Investigate' => [ 'تحقيق' ],
+	'InvestigateBlock' => [ 'منع_التحقيق' ],
+	'InvestigateLog' => [ 'سجل_التحقيق' ],
 ];
 
 /** Egyptian Arabic (مصرى) */
