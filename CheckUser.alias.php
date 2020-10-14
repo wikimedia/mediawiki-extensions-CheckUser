@@ -153,6 +153,9 @@ $specialPageAliases['eu'] = [
 $specialPageAliases['fa'] = [
 	'CheckUser' => [ 'بازرسی_کاربر' ],
 	'CheckUserLog' => [ 'سیاهه_بازرس_کاربر' ],
+	'Investigate' => [ 'بررسی' ],
+	'InvestigateBlock' => [ 'بررسی_بستن' ],
+	'InvestigateLog' => [ 'سیاهه_بررسی' ],
 ];
 
 /** Finnish (suomi) */
