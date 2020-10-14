@@ -52,6 +52,8 @@ class CheckUserHooks {
 			$list['InvestigateBlock'] = [
 				'class' => SpecialInvestigateBlock::class,
 				'services' => [
+					'BlockUserFactory',
+					'BlockPermissionCheckerFactory',
 					'PermissionManager',
 					'TitleFormatter',
 					'UserFactory',
