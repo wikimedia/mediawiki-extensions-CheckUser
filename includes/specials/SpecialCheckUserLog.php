@@ -34,18 +34,12 @@ class SpecialCheckUserLog extends SpecialPage {
 		$this->target = trim( $request->getVal( 'cuSearch', $par ) );
 		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
 
-		// Normalise target parameter and ignore if not valid (T217713)
-		// It must be valid when making a link to Special:CheckUser/<user>.
-		$target = $request->getVal( 'cuSearch', $par );
-		$userTitle = Title::makeTitleSafe( NS_USER, $target );
-		$this->target = $userTitle ? $userTitle->getText() : null;
-
 		if ( $permissionManager->userHasRight( $this->getUser(), 'checkuser' ) ) {
 			$subtitleLink = $this->getLinkRenderer()->makeKnownLink(
 				SpecialPage::getTitleFor( 'CheckUser' ),
 				$this->msg( 'checkuser-showmain' )->text()
 			);
-			if ( $this->target !== null ) {
+			if ( !$this->target === false ) {
 				$subtitleLink .= ' | ' . $this->getLinkRenderer()->makeKnownLink(
 					SpecialPage::getTitleFor( 'CheckUser', $this->target ),
 					$this->msg( 'checkuser-check-this-user' )->text()
