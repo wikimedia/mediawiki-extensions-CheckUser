@@ -57,17 +57,12 @@ class SpecialCheckUser extends SpecialPage {
 		$user = trim( $user );
 		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
 
-		// Normalise 'user' parameter and ignore if not valid (T217713)
-		// It must be valid when making a link to Special:CheckUserLog/<user>.
-		$userTitle = Title::makeTitleSafe( NS_USER, $user );
-		$user = $userTitle ? $userTitle->getText() : '';
-
 		if ( $permissionManager->userHasRight( $this->getUser(), 'checkuser-log' ) ) {
 			$subtitleLink = $this->getLinkRenderer()->makeKnownLink(
 				SpecialPage::getTitleFor( 'CheckUserLog' ),
 				$this->msg( 'checkuser-showlog' )->text()
 			);
-			if ( $user !== '' ) {
+			if ( !$user === false ) {
 				$subtitleLink .= ' | ' . $this->getLinkRenderer()->makeKnownLink(
 					SpecialPage::getTitleFor( 'CheckUserLog', $user ),
 					$this->msg( 'checkuser-recent-checks' )->text()
