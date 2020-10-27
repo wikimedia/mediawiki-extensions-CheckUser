@@ -80,16 +80,10 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 	}
 
 	public function getQueryInfo() {
-		// Filter out log entries from Special:Investigate
-		$excludeType = $this->mDb->addQuotes( 'investigate' );
 		return [
 			'tables' => [ 'cu_log', 'user' ],
 			'fields' => $this->selectFields(),
-			'conds' => array_merge(
-				$this->searchConds,
-				[ 'user_id = cul_user' ],
-				[ 'cul_type != ' . $excludeType ]
-			)
+			'conds' => array_merge( $this->searchConds, [ 'user_id = cul_user' ] )
 		];
 	}
 

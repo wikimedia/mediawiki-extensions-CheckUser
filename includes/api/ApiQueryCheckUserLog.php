@@ -9,7 +9,6 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 	}
 
 	public function execute() {
-		$db = $this->getDB();
 		$params = $this->extractRequestParams();
 
 		$this->checkUserRightsAny( 'checkuser-log' );
@@ -35,15 +34,13 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 			$this->addWhereFld( 'cul_target_text', $params['target'] );
 		}
 
-		// Filter out log entries from Special:Investigate
-		$this->addWhere( 'cul_type != ' . $db->addQuotes( 'investigate' ) );
-
 		if ( $continue !== null ) {
 			$cont = explode( '|', $continue );
 			$op = $dir === 'older' ? '<' : '>';
 			$this->dieContinueUsageIf( count( $cont ) !== 2 );
 			$this->dieContinueUsageIf( wfTimestamp( TS_UNIX, $cont[0] ) === false );
 
+			$db = $this->getDB();
 			$timestamp = $db->addQuotes( $db->timestamp( $cont[0] ) );
 			$id = intval( $cont[1] );
 			$this->dieContinueUsageIf( $cont[1] !== (string)$id );
