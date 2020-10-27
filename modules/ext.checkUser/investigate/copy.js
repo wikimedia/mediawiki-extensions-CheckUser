@@ -13,7 +13,7 @@ module.exports = function addCopyFeature() {
 
 			$table.find( '.oo-ui-widget, .ext-checkuser-investigate-table-options-container' ).remove();
 			$table.find( '.mw-userlink' )
-				.attr( 'rel', 'mw:WikiLink' )
+				.attr( 'rel', 'mw:ExtLink' )
 				.attr( 'href', function () {
 					return new mw.Uri( $( this ).attr( 'href' ) ).toString();
 				} );
