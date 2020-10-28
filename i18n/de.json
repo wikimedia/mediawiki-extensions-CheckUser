@@ -90,6 +90,7 @@
 	"checkuser-log-entry-ipedits-xff": "$1 rief am $3 die Bearbeitungen für XFF <bdi>$2</bdi> ab",
 	"checkuser-log-entry-ipusers-xff": "$1 rief am $3 die Benutzer für XFF <bdi>$2</bdi> ab",
 	"checkuser-log-entry-useredits": "$1 rief am $3 die Bearbeitungen für $2 ab",
+	"checkuser-log-entry-investigate": "$3, $1 hat Informationen nachgeschlagen für $2",
 	"checkuser-autocreate-action": "wurde automatisch erstellt",
 	"checkuser-create-action": "wurde erstellt",
 	"checkuser-email-action": "sendete E-Mail an „$1“",
