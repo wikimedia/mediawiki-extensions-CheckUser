@@ -12,7 +12,7 @@ use Wikimedia\Rdbms\IResultWrapper;
 
 class SpecialCheckUser extends SpecialPage {
 	/**
-	 * @var string[] $message Used to cache frequently used messages
+	 * @var string[] Used to cache frequently used messages
 	 */
 	protected $message = [];
 

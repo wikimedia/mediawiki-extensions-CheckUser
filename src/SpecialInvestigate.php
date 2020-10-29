@@ -923,12 +923,12 @@ class SpecialInvestigate extends \FormSpecialPage {
 					Preferences::INVESTIGATE_FORM_TOUR_SEEN,
 					Preferences::INVESTIGATE_TOUR_SEEN,
 				];
-			break;
+				break;
 			case self::TOUR_INVESTIGATE:
 				$options = [
 					Preferences::INVESTIGATE_TOUR_SEEN,
 				];
-			break;
+				break;
 		}
 
 		foreach ( $options as $option ) {
