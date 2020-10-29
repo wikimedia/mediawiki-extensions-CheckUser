@@ -91,6 +91,7 @@
 	"checkuser-log-entry-ipedits-xff": "$3, $1 değişiklikleri aldı: XFF <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers-xff": "$3, $1 kullanıcı isimlerini aldı: XFF <bdi>$2</bdi>",
 	"checkuser-log-entry-useredits": "$3, $1 değişiklikleri aldı: $2",
+	"checkuser-log-entry-investigate": "$3, $1, $2 için bilgi aradı",
 	"checkuser-autocreate-action": "otomatik olarak oluşturuldu",
 	"checkuser-create-action": "oluşturuldu",
 	"checkuser-email-action": "\"$1\" kullanıcısına e-posta gönder",
