@@ -81,6 +81,7 @@
 	"checkuser-log-entry-ipedits-xff": "$3, $1 доби уредувања за XFF <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers-xff": "$3, $1 доби корисници за XFF <bdi>$2</bdi>",
 	"checkuser-log-entry-useredits": "$3, $1 доби уредувања за $2",
+	"checkuser-log-entry-investigate": "$3, $1 побара информации за $2",
 	"checkuser-autocreate-action": "беше автоматски создадена",
 	"checkuser-create-action": "е создаден",
 	"checkuser-email-action": "му испрати е-пошта на корисникот „$1“",
