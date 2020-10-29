@@ -14,7 +14,6 @@ $specialPageAliases['en'] = [
 	'CheckUserLog' => [ 'CheckUserLog' ],
 	'Investigate' => [ 'Investigate' ],
 	'InvestigateBlock' => [ 'InvestigateBlock' ],
-	'InvestigateLog' => [ 'InvestigateLog' ],
 ];
 
 /** Arabic (العربية) */
@@ -23,7 +22,6 @@ $specialPageAliases['ar'] = [
 	'CheckUserLog' => [ 'سجل_تدقيق_المستخدم' ],
 	'Investigate' => [ 'تحقيق' ],
 	'InvestigateBlock' => [ 'منع_التحقيق' ],
-	'InvestigateLog' => [ 'سجل_التحقيق' ],
 ];
 
 /** Egyptian Arabic (مصرى) */
@@ -104,7 +102,6 @@ $specialPageAliases['cs'] = [
 	'CheckUser' => [ 'Zkontrolovat uživatele' ],
 	'CheckUserLog' => [ 'Protokolovací záznamy kontrol uživatele' ],
 	'Investigate' => [ 'Prošetřit_uživatele' ],
-	'InvestigateLog' => [ 'Protokolovací_záznamy_prošetřování_uživatelů' ],
 ];
 
 /** German (Deutsch) */
@@ -140,7 +137,6 @@ $specialPageAliases['es'] = [
 	'CheckUser' => [ 'ComprobarUsuario', 'Comprobar_usuario', 'VerificarUsuario', 'Verificar_usuario' ],
 	'CheckUserLog' => [ 'Registro_de_comprobación_de_usuarios', 'Registro_de_verificación_de_usuarios' ],
 	'Investigate' => [ 'Investigar', 'Investigación' ],
-	'InvestigateLog' => [ 'Registro_de_investigaciones' ],
 ];
 
 /** Basque (euskara) */
@@ -155,7 +151,6 @@ $specialPageAliases['fa'] = [
 	'CheckUserLog' => [ 'سیاهه_بازرس_کاربر' ],
 	'Investigate' => [ 'بررسی' ],
 	'InvestigateBlock' => [ 'بررسی_بستن' ],
-	'InvestigateLog' => [ 'سیاهه_بررسی' ],
 ];
 
 /** Finnish (suomi) */
@@ -195,7 +190,6 @@ $specialPageAliases['he'] = [
 	'CheckUser' => [ 'בדיקת_משתמש' ],
 	'CheckUserLog' => [ 'יומן_בדיקת_משתמשים' ],
 	'Investigate' => [ 'חקירה' ],
-	'InvestigateLog' => [ 'יומן_חקירות' ],
 ];
 
 /** Hindi (हिन्दी) */

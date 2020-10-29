@@ -6,7 +6,6 @@ use MediaWiki\CheckUser\DurationManager;
 use MediaWiki\CheckUser\EventLogger;
 use MediaWiki\CheckUser\GuidedTour\TourLauncher;
 use MediaWiki\CheckUser\Hook\HookRunner;
-use MediaWiki\CheckUser\InvestigateLogPagerFactory;
 use MediaWiki\CheckUser\PreliminaryCheckPagerFactory;
 use MediaWiki\CheckUser\PreliminaryCheckService;
 use MediaWiki\CheckUser\TimelinePagerFactory;
@@ -56,13 +55,6 @@ return [
 	'CheckUserGuidedTourLauncher' => function ( MediaWikiServices $services ) : TourLauncher {
 		return new TourLauncher(
 			ExtensionRegistry::getInstance(),
-			$services->getLinkRenderer()
-		);
-	},
-	'CheckUserInvestigateLogPagerFactory' => function (
-		MediaWikiServices $services
-	) : InvestigateLogPagerFactory {
-		return new InvestigateLogPagerFactory(
 			$services->getLinkRenderer()
 		);
 	},
