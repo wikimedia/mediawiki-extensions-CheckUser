@@ -1,7 +1,7 @@
 <?php
 
 use MediaWiki\Cache\LinkBatchFactory;
-use MediaWiki\MediaWikiServices;
+use MediaWiki\Permissions\PermissionManager;
 use Wikimedia\IPUtils;
 
 class SpecialCheckUserLog extends SpecialPage {
@@ -13,9 +13,16 @@ class SpecialCheckUserLog extends SpecialPage {
 	/** @var LinkBatchFactory */
 	private $linkBatchFactory;
 
-	public function __construct( LinkBatchFactory $linkBatchFactory ) {
+	/** @var PermissionManager */
+	private $permissionManager;
+
+	public function __construct(
+		LinkBatchFactory $linkBatchFactory,
+		PermissionManager $permissionManager
+	) {
 		parent::__construct( 'CheckUserLog', 'checkuser-log' );
 		$this->linkBatchFactory = $linkBatchFactory;
+		$this->permissionManager = $permissionManager;
 	}
 
 	public function execute( $par ) {
@@ -83,10 +90,7 @@ class SpecialCheckUserLog extends SpecialPage {
 	 * Add subtitle links to the page
 	 */
 	private function addSubtitle() : void {
-		// TODO: Inject permission manager
-		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
-
-		if ( $permissionManager->userHasRight( $this->getUser(), 'checkuser' ) ) {
+		if ( $this->permissionManager->userHasRight( $this->getUser(), 'checkuser' ) ) {
 			$links = [
 				$this->getLinkRenderer()->makeKnownLink(
 					SpecialPage::getTitleFor( 'CheckUser' ),
