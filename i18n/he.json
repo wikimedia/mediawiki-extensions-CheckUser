@@ -83,6 +83,7 @@
 	"checkuser-log-entry-ipedits-xff": "$3, משתמש $1 קיבל עריכות עבור ה־XFF בכתובת <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers-xff": "$3, משתמש $1 קיבל משתמשים עבור ה־XFF בכתובת <bdi>$2</bdi>",
 	"checkuser-log-entry-useredits": "$3, משתמש $1 קיבל עריכות עבור  $2",
+	"checkuser-log-entry-investigate": "$3, $1 {{GENDER:$1|חיפש|חיפשה}} מידע על $2",
 	"checkuser-autocreate-action": "נוצר אוטומטית",
 	"checkuser-create-action": "נוצר",
 	"checkuser-email-action": "נשלח דואר אלקטרוני למשתמש \"$1\"",
