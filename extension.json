@@ -227,7 +227,8 @@
 		"CheckUserLog": {
 			"class": "SpecialCheckUserLog",
 			"services": [
-				"LinkBatchFactory"
+				"LinkBatchFactory",
+				"PermissionManager"
 			]
 		}
 	},
