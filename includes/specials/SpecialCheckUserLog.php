@@ -182,7 +182,7 @@ class SpecialCheckUserLog extends SpecialPage {
 			if ( $user && $user->getId() ) {
 				// Registered user
 				$conds = [
-					'cul_type' => [ 'userips', 'useredits' ],
+					'cul_type' => [ 'userips', 'useredits', 'investigate' ],
 					'cul_target_id' => $user->getId(),
 				];
 			}
