@@ -31,7 +31,6 @@ class SpecialCheckUserLog extends SpecialPage {
 
 		$out = $this->getOutput();
 		$request = $this->getRequest();
-		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
 
 		// Normalise target parameter and ignore if not valid (T217713)
 		// It must be valid when making a link to Special:CheckUserLog/<user>.
@@ -42,20 +41,7 @@ class SpecialCheckUserLog extends SpecialPage {
 			$this->target = $userTitle ? $userTitle->getText() : '';
 		}
 
-		if ( $permissionManager->userHasRight( $this->getUser(), 'checkuser' ) ) {
-			$subtitleLink = $this->getLinkRenderer()->makeKnownLink(
-				SpecialPage::getTitleFor( 'CheckUser' ),
-				$this->msg( 'checkuser-showmain' )->text()
-			);
-
-			if ( $this->target !== '' ) {
-				$subtitleLink .= ' | ' . $this->getLinkRenderer()->makeKnownLink(
-					SpecialPage::getTitleFor( 'CheckUser', $this->target ),
-					$this->msg( 'checkuser-check-this-user' )->text()
-				);
-			}
-			$out->addSubtitle( $subtitleLink );
-		}
+		$this->addSubtitle();
 
 		$type = $request->getVal( 'cuSearchType', 'target' );
 
@@ -91,6 +77,43 @@ class SpecialCheckUserLog extends SpecialPage {
 			$pager->getBody() .
 			$pager->getNavigationBar()
 		);
+	}
+
+	/**
+	 * Add subtitle links to the page
+	 */
+	private function addSubtitle() : void {
+		// TODO: Inject permission manager
+		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
+
+		if ( $permissionManager->userHasRight( $this->getUser(), 'checkuser' ) ) {
+			$links = [
+				$this->getLinkRenderer()->makeKnownLink(
+					SpecialPage::getTitleFor( 'CheckUser' ),
+					$this->msg( 'checkuser-showmain' )->text()
+				),
+				$this->getLinkRenderer()->makeKnownLink(
+					SpecialPage::getTitleFor( 'Investigate' ),
+					$this->msg( 'checkuser-show-investigate' )->text()
+				),
+			];
+
+			if ( $this->target !== '' ) {
+				$links[] = $this->getLinkRenderer()->makeKnownLink(
+					SpecialPage::getTitleFor( 'CheckUser', $this->target ),
+					$this->msg( 'checkuser-check-this-user' )->text()
+				);
+
+				$links[] = $this->getLinkRenderer()->makeKnownLink(
+					SpecialPage::getTitleFor( 'Investigate' ),
+					$this->msg( 'checkuser-investigate-this-user' )->text(),
+					[],
+					[ 'targets' => $this->target ]
+				);
+			}
+
+			$this->getOutput()->addSubtitle( implode( ' | ', $links ) );
+		}
 	}
 
 	/**

@@ -550,8 +550,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	}
 
 	/**
-	 * Add buttons to start a new investigation and linking
-	 * to InvestigateLog page
+	 * Add buttons to start a new investigation and linking to log page
 	 *
 	 * @param bool $newTab Whether to open the link in a new tab
 	 * @param bool $logOnly Whether to show only the log button
@@ -560,7 +559,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 		$buttons = [
 			new ButtonWidget( [
 				'label' => $this->msg( 'checkuser-investigate-indicator-logs' )->text(),
-				'href' => self::getTitleFor( 'InvestigateLog' )->getLinkURL(),
+				'href' => self::getTitleFor( 'CheckUserLog' )->getLinkURL(),
 				'target' => $newTab ? '_blank' : '',
 			] ),
 		];
