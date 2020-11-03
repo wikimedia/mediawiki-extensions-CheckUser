@@ -49,6 +49,7 @@
 	"checkuser-nomatch-edits": "Ingen matchende resultater blev fundet.\nSeneste redigering var $1 $2.",
 	"checkuser-check": "Tjek",
 	"checkuser-check-this-user": "Tjek denne bruger",
+	"checkuser-investigate-this-user": "Undersøg denne bruger",
 	"checkuser-recent-checks": "Nylige tjek af denne bruger",
 	"checkuser-log-fail": "Kunne ikke tilføje log-post",
 	"checkuser-nolog": "Logfilen blev ikke fundet.",

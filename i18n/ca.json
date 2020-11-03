@@ -82,7 +82,5 @@
 	"checkuser-email-action": "S'ha enviat un missatge de correu electrònic a {{GENDER:$1|l'usuari|la usuària}} $1",
 	"checkuser-reset-action": "reinicia la contrasenya de l'usuari «$1»",
 	"checkuser-link-investigate-label": "Provi la nova eina CheckUser",
-	"checkuser-investigate-log": "Registres de recerca",
-	"checkuser-investigate-log-empty": "No s’ha trobat cap registre de recerca",
 	"checkuser-investigate-tour-addusertargets-title": "Necessiteu més context?"
 }
