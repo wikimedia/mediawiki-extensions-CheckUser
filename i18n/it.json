@@ -89,7 +89,7 @@
 	"checkuser-log-search-type": "Ricerca per:",
 	"checkuser-ipeditcount": "~$1 da tutti gli utenti",
 	"checkuser-showmain": "Passa al modulo principale CheckUser",
-	"checkuser-show-investigate": "Cambia modulo di controllo",
+	"checkuser-show-investigate": "Cambia modulo principale di controllo",
 	"checkuser-limited": "'''I risultati sono stati troncati per motivi di prestazioni.'''",
 	"checkuser-log-entry-userips": "$3, $1 ha ottenuto gli indirizzi IP di $2",
 	"checkuser-log-entry-ipedits": "$3, $1 ha ottenuto le modifiche di <bdi>$2</bdi>",

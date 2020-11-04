@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Ajam",
 			"Alirezaaa",
 			"Danialbehzadi",
 			"E THP",
@@ -49,6 +50,7 @@
 	"checkuser-nomatch-edits": "مورد مطابق پیدا نشد.\nآخرین ویرایش در $1 ساعت $2 بود.",
 	"checkuser-check": "بازرسی",
 	"checkuser-check-this-user": "بازرسی این کاربر",
+	"checkuser-investigate-this-user": "بررسی این کاربر",
 	"checkuser-recent-checks": "بازرسی‌های اخیر این کاربر",
 	"checkuser-log-fail": "امکان افزودن اطلاعات به سیاهه وجود ندارد",
 	"checkuser-nolog": "پروندهٔ سیاهه پیدا نشد.",
@@ -80,6 +82,7 @@
 	"checkuser-log-search-type": "جستجو با:",
 	"checkuser-ipeditcount": "~$1 از همهٔ کاربران",
 	"checkuser-showmain": "رفتن به فرم اصلی بازرسی کاربر",
+	"checkuser-show-investigate": "رفتن به فرم بررسی اصلی",
 	"checkuser-limited": "'''این نتایج برای کارآیی سامانه کوتاه شده‌اند.'''",
 	"checkuser-log-entry-userips": "$3، $1 نشانی‌های آی‌پی $2 را گرفت",
 	"checkuser-log-entry-ipedits": "$3، $1 ویرایش‌های <bdi>$2</bdi> را گرفت",
