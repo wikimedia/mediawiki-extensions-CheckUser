@@ -518,7 +518,9 @@ class CheckUserHooks {
 		# unless the address is not sensible (e.g. private). However, prefer private
 		# IP addresses over proxy servers controlled by this site (more sensible).
 		foreach ( $ipchain as $i => $curIP ) {
-			$curIP = IPUtils::canonicalize( $curIP );
+			$curIP = IPUtils::canonicalize(
+				WebRequest::canonicalizeIPv6LoopbackAddress( $curIP )
+			);
 			if ( $curIP === null ) {
 				// not a valid IP address
 				break;
@@ -538,7 +540,9 @@ class CheckUserHooks {
 					$curIsSquid
 				)
 			) {
-				$client = IPUtils::canonicalize( $ipchain[$i + 1] );
+				$client = IPUtils::canonicalize(
+					WebRequest::canonicalizeIPv6LoopbackAddress( $ipchain[$i + 1] )
+				);
 				$isSquidOnly = ( $isSquidOnly && $curIsSquid );
 				continue;
 			}

@@ -178,8 +178,8 @@ class SpecialCheckUser extends SpecialPage {
 	 *
 	 * @param string $user
 	 * @param string $checktype
-	 * @param string $ip
-	 * @param string $xff
+	 * @param ?string $ip
+	 * @param ?string $xff
 	 * @param string $name
 	 * @param int $period
 	 */
@@ -1207,7 +1207,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * Outputs usernames, latest and earliest found edit date, and count
 	 * List unique IPs used for each user in time order, list corresponding user agent
 	 *
-	 * @param string $ip
+	 * @param ?string $ip
 	 * @param bool $xfor
 	 * @param int $period
 	 * @param string $tag
