@@ -16,6 +16,7 @@
 			"Najami",
 			"Per",
 			"Sabelöga",
+			"Smetanakaviar",
 			"WikiPhoenix"
 		]
 	},
@@ -85,7 +86,7 @@
 	"checkuser-log-search-type": "Sök efter:",
 	"checkuser-ipeditcount": "~$1 från alla användare",
 	"checkuser-showmain": "Växla till CheckUser huvudformulär",
-	"checkuser-show-investigate": "Byt till undersökningsformuläret",
+	"checkuser-show-investigate": "Byt till \"Undersök huvudformuläret\"",
 	"checkuser-limited": "'''Dessa resultat har av prestandaskäl blivit avkortade.'''",
 	"checkuser-log-entry-userips": "$3, $1 hämtade IP-adresser för $2",
 	"checkuser-log-entry-ipedits": "$3, $1 hämtade redigeringar för <bdi>$2</bdi>",
