@@ -1,11 +1,9 @@
 <?php
 
-use MediaWiki\MediaWikiServices;
-
 if ( getenv( 'MW_INSTALL_PATH' ) ) {
 	$IP = getenv( 'MW_INSTALL_PATH' );
 } else {
-	$IP = __DIR__ . '/../../..';
+	$IP = dirname( __DIR__, 3 );
 }
 require_once "$IP/maintenance/Maintenance.php";
 
@@ -19,15 +17,18 @@ class PurgeOldData extends Maintenance {
 	}
 
 	public function execute() {
-		global $wgCUDMaxAge, $wgRCMaxAge, $wgPutIPinRC;
+		$config = $this->getConfig();
+		$CUDMaxAge = $config->get( 'CUDMaxAge' );
+		$RCMaxAge = $config->get( 'RCMaxAge' );
+		$PutIPinRC = $config->get( 'PutIPinRC' );
 
 		$this->output( "Purging data from cu_changes..." );
-		$count = $this->prune( 'cu_changes', 'cuc_timestamp', $wgCUDMaxAge );
+		$count = $this->prune( 'cu_changes', 'cuc_timestamp', $CUDMaxAge );
 		$this->output( $count . " rows.\n" );
 
-		if ( $wgPutIPinRC ) {
+		if ( $PutIPinRC ) {
 			$this->output( "Purging data from recentchanges..." );
-			$count = $this->prune( 'recentchanges', 'rc_timestamp', $wgRCMaxAge );
+			$count = $this->prune( 'recentchanges', 'rc_timestamp', $RCMaxAge );
 			$this->output( $count . " rows.\n" );
 		}
 
@@ -35,10 +36,7 @@ class PurgeOldData extends Maintenance {
 	}
 
 	protected function prune( $table, $ts_column, $maxAge ) {
-		$dbw = wfGetDB( DB_MASTER );
-
-		$lbFactory = MediaWikiServices::getInstance()->getDBLoadBalancerFactory();
-
+		$dbw = $this->getDB( DB_MASTER );
 		$expiredCond = "$ts_column < " . $dbw->addQuotes( $dbw->timestamp( time() - $maxAge ) );
 
 		$count = 0;
@@ -65,7 +63,6 @@ class PurgeOldData extends Maintenance {
 			$count += $dbw->affectedRows();
 			$this->commitTransaction( $dbw, __METHOD__ );
 
-			$lbFactory->waitForReplication();
 		}
 
 		return $count;
