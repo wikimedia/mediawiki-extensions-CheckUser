@@ -148,8 +148,9 @@ module.exports = function setupTables() {
 				label: mw.msg( 'checkuser-investigate-compare-table-button-checks-label' ),
 				data: {
 					type: 'toolLinks',
-					// TODO: Filter the log by the target - T266796
-					href: new mw.Title( 'Special:CheckUserLog' ).getUrl(),
+					href: new mw.Title( 'Special:CheckUserLog' ).getUrl( {
+						cuSearch: $tableCell.data( 'value' )
+					} ),
 					tool: 'Special:InvestigateLog'
 				}
 			} ) );
