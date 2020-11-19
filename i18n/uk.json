@@ -82,7 +82,7 @@
 	"checkuser-log-search-type": "Пошук за:",
 	"checkuser-ipeditcount": "~$1 від усіх користувачів",
 	"checkuser-showmain": "Перейти до головної сторінки перевірки",
-	"checkuser-show-investigate": "Перемкнути на форму розслідування",
+	"checkuser-show-investigate": "Перемкнути на основну форму розслідування",
 	"checkuser-limited": "'''Результати урізано, щоб не обтяжувати сервер.'''",
 	"checkuser-log-entry-userips": "$3, $1 отримав IP-адреси для $2",
 	"checkuser-log-entry-ipedits": "$3, $1 отримав редагування для <bdi>$2</bdi>",
