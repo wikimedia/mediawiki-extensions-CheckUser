@@ -90,7 +90,7 @@ class ImportCheckUserLogs extends Maintenance {
 		$matched = 0;
 		$unmatched = 0;
 
-		while ( false !== ( $line = fgets( $file ) ) ) {
+		while ( ( $line = fgets( $file ) ) !== false ) {
 			$data = $this->parseLogLine( $line );
 			if ( $data ) {
 				if ( $data['wiki'] != wfWikiID() && $data['wiki'] != $wgDBname ) {
@@ -146,7 +146,7 @@ class ImportCheckUserLogs extends Maintenance {
 		$unmatched = 0;
 		$badtime = 0;
 
-		while ( false !== ( $line = fgets( $file ) ) ) {
+		while ( ( $line = fgets( $file ) ) !== false ) {
 			$data = $this->parseLogLine( $line );
 			if ( $data ) {
 				$matched++;
