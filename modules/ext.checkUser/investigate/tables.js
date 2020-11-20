@@ -88,9 +88,24 @@ module.exports = function setupTables() {
 			key = getDataKey( $tableCell ),
 			options = [],
 			selectWidget,
+			contribsOptionWidget,
+			checksOptionWidget,
 			toggleButton,
 			message,
 			$links;
+
+		/**
+		 * Hack for setting an icon as the indicator. Call setIndicator with
+		 * a dummy indicator type, to do everything that is needed to set an
+		 * indicator, then swap in the class for the newWindow icon.
+		 *
+		 * @param {OO.ui.MenuOptionWidget} optionWidget
+		 */
+		function setNewWindowIndicator( optionWidget ) {
+			optionWidget.setIndicator( 'placeholder' );
+			optionWidget.$indicator.removeClass( 'oo-ui-indicator-placeholder' );
+			optionWidget.$indicator.addClass( 'oo-ui-icon-newWindow' );
+		}
 
 		$tableCell.prepend( $optionsContainer );
 
@@ -129,7 +144,7 @@ module.exports = function setupTables() {
 		}
 
 		if ( buttonTypes.contribs ) {
-			options.push( new OO.ui.MenuOptionWidget( {
+			contribsOptionWidget = new OO.ui.MenuOptionWidget( {
 				icon: 'userContributions',
 				label: mw.msg( 'checkuser-investigate-compare-table-button-contribs-label' ),
 				data: {
@@ -139,11 +154,13 @@ module.exports = function setupTables() {
 					} ),
 					tool: 'Special:Contributions'
 				}
-			} ) );
+			} );
+			setNewWindowIndicator( contribsOptionWidget );
+			options.push( contribsOptionWidget );
 		}
 
 		if ( buttonTypes.checks ) {
-			options.push( new OO.ui.MenuOptionWidget( {
+			checksOptionWidget = new OO.ui.MenuOptionWidget( {
 				icon: 'check',
 				label: mw.msg( 'checkuser-investigate-compare-table-button-checks-label' ),
 				data: {
@@ -153,24 +170,29 @@ module.exports = function setupTables() {
 					} ),
 					tool: 'Special:InvestigateLog'
 				}
-			} ) );
+			} );
+			setNewWindowIndicator( checksOptionWidget );
+			options.push( checksOptionWidget );
 		}
 
 		if ( buttonTypes.toolLinks ) {
 			message = mw.msg( 'checkuser-investigate-compare-toollinks', $tableCell.data( 'value' ) );
 			$links = $( '<div>' ).html( message ).find( 'a' );
 			$links.each( function ( i, $link ) {
-				var label = $link.text,
+				var optionWidget,
+					label = $link.text,
 					href = $link.getAttribute( 'href' );
-				options.push( new OO.ui.MenuOptionWidget( {
-					icon: 'linkExternal',
+				optionWidget = new OO.ui.MenuOptionWidget( {
+					icon: 'globe',
 					label: label,
 					data: {
 						type: 'toolLinks',
 						href: href,
 						tool: new mw.Uri( href ).host
 					}
-				} ) );
+				} );
+				setNewWindowIndicator( optionWidget );
+				options.push( optionWidget );
 			} );
 		}
 
