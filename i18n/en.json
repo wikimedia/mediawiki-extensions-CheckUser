@@ -117,6 +117,7 @@
 	"checkuser-investigate-subtitle-block-button-label": "Block",
 	"checkuser-investigate-subtitle-cancel-button-label": "Cancel",
 	"checkuser-investigate-subtitle-continue-button-label": "Continue",
+	"checkuser-investigate-subtitle-show-checkuser": "Switch to CheckUser",
 	"checkuser-investigate-indicator-new-investigation": "New investigation",
 	"checkuser-investigate-indicator-logs": "Logs",
 	"checkuser-investigate-legend": "Search for usernames, IP addresses or IP ranges",
