@@ -41,7 +41,8 @@ class TokenManager {
 		return JWT::encode(
 			[
 				// Expiration Time https://tools.ietf.org/html/rfc7519#section-4.1.4
-				'exp' => \MWTimestamp::time() + 86400, // 24 hours from now
+				// 24 hours from now
+				'exp' => \MWTimestamp::time() + 86400,
 				// Encrypt the form data to pevent it from being leaked.
 				'data' => $this->encrypt( $data, $this->getInitializationVector( $key ) ),
 			],

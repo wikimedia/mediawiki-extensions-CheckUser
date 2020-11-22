@@ -2,18 +2,22 @@
 
 class CheckUserEncryptedData {
 
-	// The data symmetrically encrypted with a random key
+	/** @var string|null The data symmetrically encrypted with a random key */
 	public $encString;
 
-	// Symmetric key, encrypted with the public key
+	/** @var string|null Symmetric key, encrypted with the public key */
 	public $envKeys;
 
-	// algorithm name, passed into openssl 'method' param. Kept as a variable here in case
-	// the class definition needs to change, and we have serialized objects stored.
+	/**
+	 * @var string algorithm name, passed into openssl 'method' param. Kept as a variable here in case
+	 * the class definition needs to change, and we have serialized objects stored.
+	 */
 	private $algName;
 
-	// Hash of the public key, in case you've used multiple keys, and need to identify the
-	// correct private key
+	/**
+	 * @var int Hash of the public key, in case you've used multiple keys, and need to identify the
+	 * correct private key
+	 */
 	private $keyHash;
 
 	/**

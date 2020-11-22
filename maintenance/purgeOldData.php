@@ -48,7 +48,8 @@ class PurgeOldData extends Maintenance {
 				[ 'ORDER BY' => "$ts_column ASC", 'LIMIT' => $this->mBatchSize ]
 			);
 			if ( !$res->numRows() ) {
-				break; // all cleared
+				// all cleared
+				break;
 			}
 			// Record the start and end timestamp for the set
 			$blockStart = $dbw->addQuotes( $res->fetchRow()[$ts_column] );

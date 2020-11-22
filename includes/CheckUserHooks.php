@@ -460,7 +460,8 @@ class CheckUserHooks {
 			function ( IDatabase $dbw, $fname ) {
 				global $wgCUDMaxAge;
 
-				$key = "{$dbw->getDomainID()}:PruneCheckUserData"; // per-wiki
+				// per-wiki
+				$key = "{$dbw->getDomainID()}:PruneCheckUserData";
 				$scopedLock = $dbw->getScopedLockAndFlush( $key, $fname, 1 );
 				if ( !$scopedLock ) {
 					return;
@@ -507,8 +508,11 @@ class CheckUserHooks {
 
 		$proxyLookup = MediaWikiServices::getInstance()->getProxyLookup();
 
-		$client = null; // best guess of the client IP
-		$isSquidOnly = false; // all proxy servers where site Squid/Varnish servers?
+		// best guess of the client IP
+		$client = null;
+
+		// all proxy servers where site Squid/Varnish servers?
+		$isSquidOnly = false;
 		# Step through XFF list and find the last address in the list which is a
 		# sensible proxy server. Set $ip to the IP address given by that proxy server,
 		# unless the address is not sensible (e.g. private). However, prefer private
@@ -516,7 +520,8 @@ class CheckUserHooks {
 		foreach ( $ipchain as $i => $curIP ) {
 			$curIP = IPUtils::canonicalize( $curIP );
 			if ( $curIP === null ) {
-				break; // not a valid IP address
+				// not a valid IP address
+				break;
 			}
 			$curIsSquid = $proxyLookup->isConfiguredProxy( $curIP );
 			if ( $client === null ) {
@@ -529,7 +534,8 @@ class CheckUserHooks {
 				(
 					IPUtils::isPublic( $ipchain[$i + 1] ) ||
 					$wgUsePrivateIPs ||
-					$curIsSquid // bug 48919
+					// bug 48919
+					$curIsSquid
 				)
 			) {
 				$client = IPUtils::canonicalize( $ipchain[$i + 1] );
@@ -657,11 +663,14 @@ class CheckUserHooks {
 
 		$user = User::newFromName( (string)$block->getTarget(), false );
 		if ( !$user->getId() ) {
-			return true; // user in an IP?
+			// user in an IP?
+			return true;
 		}
 
 		$options = [ 'ORDER BY' => 'cuc_timestamp DESC' ];
-		$options['LIMIT'] = 1; // just the last IP used
+
+		// just the last IP used
+		$options['LIMIT'] = 1;
 
 		$res = $dbr->select( 'cu_changes',
 			[ 'cuc_ip' ],
@@ -680,7 +689,8 @@ class CheckUserHooks {
 			}
 		}
 
-		return false; // autoblock handled
+		// autoblock handled
+		return false;
 	}
 
 	public static function onUserMergeAccountFields( array &$updateFields ) {

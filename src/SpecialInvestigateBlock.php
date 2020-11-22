@@ -318,9 +318,11 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 			new DerivativeRequest(
 				$this->getRequest(),
 				$apiParams,
-				true // was posted
+				// was posted
+				true
 			),
-			true // enable write
+			// enable write
+			true
 		);
 
 		try {

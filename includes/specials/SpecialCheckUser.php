@@ -48,7 +48,8 @@ class SpecialCheckUser extends SpecialPage {
 	}
 
 	public function doesWrites() {
-		return true; // logging
+		// logging
+		return true;
 	}
 
 	public function execute( $subpage ) {
@@ -1893,7 +1894,8 @@ class SpecialCheckUser extends SpecialPage {
 		if ( $row->cuc_xff != null ) {
 			// Flag our trusted proxies
 			list( $client ) = CheckUserHooks::getClientIPfromXFF( $row->cuc_xff );
-			$trusted = ( $client === $row->cuc_ip ); // XFF was trusted if client came from it
+			// XFF was trusted if client came from it
+			$trusted = ( $client === $row->cuc_ip );
 			$c = $trusted ? '#F0FFF0' : '#FFFFCC';
 			$line .= '&#160;&#160;&#160;';
 			$line .= '<span class="mw-checkuser-xff" style="background-color: ' . $c . '">' .
@@ -2059,7 +2061,8 @@ class SpecialCheckUser extends SpecialPage {
 			list( $ip, $range ) = explode( '/', $target, 2 );
 			if ( ( IPUtils::isIPv4( $ip ) && $range < $CIDRLimit['IPv4'] ) ||
 				( IPUtils::isIPv6( $ip ) && $range < $CIDRLimit['IPv6'] ) ) {
-					return false; // range is too wide
+					// range is too wide
+					return false;
 			}
 			return true;
 		}
@@ -2087,7 +2090,8 @@ class SpecialCheckUser extends SpecialPage {
 		} elseif ( IPUtils::isValid( $target ) ) {
 				return [ "cuc_{$type}_hex" => IPUtils::toHex( $target ) ];
 		}
-		return false; // invalid IP
+		// invalid IP
+		return false;
 	}
 
 	protected function getTimeConds( $period ) {
@@ -2139,7 +2143,8 @@ class SpecialCheckUser extends SpecialPage {
 					$fname
 				);
 			},
-			DeferredUpdates::PRESEND // fail on error and show no output
+			// fail on error and show no output
+			DeferredUpdates::PRESEND
 		);
 	}
 

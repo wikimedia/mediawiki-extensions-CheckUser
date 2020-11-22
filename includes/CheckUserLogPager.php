@@ -111,7 +111,9 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 		$lb = $this->linkBatchFactory->newLinkBatch();
 		$lb->setCaller( __METHOD__ );
 		foreach ( $result as $row ) {
-			$lb->add( NS_USER, $row->user_name ); // Performer
+			// Performer
+			$lb->add( NS_USER, $row->user_name );
+
 			if ( $row->cul_type == 'userips' || $row->cul_type == 'useredits' ) {
 				$lb->add( NS_USER, $row->cul_target_text );
 				$lb->add( NS_USER_TALK, $row->cul_target_text );

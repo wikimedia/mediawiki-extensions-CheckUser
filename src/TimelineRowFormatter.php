@@ -333,7 +333,8 @@ class TimelineRowFormatter {
 		$userId = $row->cuc_user;
 		if ( $userId > 0 ) {
 			$user = User::newFromId( $userId );
-		} else { // This is an IP
+		} else {
+			// This is an IP
 			$user = User::newFromName( $row->cuc_user_text, false );
 		}
 
