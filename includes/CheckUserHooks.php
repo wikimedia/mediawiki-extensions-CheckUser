@@ -534,7 +534,7 @@ class CheckUserHooks {
 				(
 					IPUtils::isPublic( $ipchain[$i + 1] ) ||
 					$wgUsePrivateIPs ||
-					// bug 48919
+					// T50919
 					$curIsSquid
 				)
 			) {
