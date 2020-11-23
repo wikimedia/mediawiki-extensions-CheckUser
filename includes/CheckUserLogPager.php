@@ -37,17 +37,20 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 		// checkuser-log-entry-userips, checkuser-log-entry-ipedits,
 		// checkuser-log-entry-ipusers, checkuser-log-entry-ipedits-xff
 		// checkuser-log-entry-ipusers-xff, checkuser-log-entry-useredits
-		return '<li>' .
-			$this->msg(
-				'checkuser-log-entry-' . $row->cul_type,
-				$user,
-				$target,
-				$lang->userTimeAndDate( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser ),
-				$lang->userDate( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser ),
-				$lang->userTime( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser )
-			)->text() .
-			Linker::commentBlock( $row->cul_reason ) .
-			'</li>';
+		$rowContent = $this->msg(
+			'checkuser-log-entry-' . $row->cul_type,
+			$user,
+			$target,
+			$lang->userTimeAndDate( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser ),
+			$lang->userDate( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser ),
+			$lang->userTime( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser )
+		)->text();
+		$rowContent .= Linker::commentBlock( $row->cul_reason );
+
+		$attribs = [
+			'data-mw-culogid' => $row->cul_id,
+		];
+		return Html::rawElement( 'li', $attribs, $rowContent ) . "\n";
 	}
 
 	/**
