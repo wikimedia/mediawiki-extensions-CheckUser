@@ -144,6 +144,7 @@
 	"checkuser-investigate-subtitle-block-button-label": "Label for a button in [[Special:Investigate]].\n{{identical|Block}}",
 	"checkuser-investigate-subtitle-cancel-button-label": "Label for a button in [[Special:Investigate]].\n{{identical|Cancel}}",
 	"checkuser-investigate-subtitle-continue-button-label": "Label for a button linking to [[Special:InvestigateBlock]].\n{{identical|Continue}}",
+	"checkuser-investigate-subtitle-show-checkuser": "Label for a button linking to [[Special:CheckUser]].",
 	"checkuser-investigate-indicator-new-investigation": "Label for a button linking to [[Special:Investigate]].",
 	"checkuser-investigate-indicator-logs": "Label for a button linking to [[Special:CheckUserLog]].",
 	"checkuser-investigate-legend": "Heading for the [[Special:Investigate]] search form.",
