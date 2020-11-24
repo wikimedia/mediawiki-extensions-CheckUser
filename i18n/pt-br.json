@@ -135,6 +135,7 @@
 	"checkuser-investigate-subtitle-block-button-label": "Bloquear",
 	"checkuser-investigate-subtitle-cancel-button-label": "Cancelar",
 	"checkuser-investigate-subtitle-continue-button-label": "Continuar",
+	"checkuser-investigate-subtitle-show-checkuser": "Mudar para CheckUser",
 	"checkuser-investigate-indicator-new-investigation": "Nova investigação",
 	"checkuser-investigate-indicator-logs": "Registros",
 	"checkuser-investigate-legend": "Pesquise nomes de usuário, endereços IP ou intervalos de IP",

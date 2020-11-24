@@ -119,6 +119,7 @@
 	"checkuser-investigate-subtitle-block-button-label": "חסימה",
 	"checkuser-investigate-subtitle-cancel-button-label": "ביטול",
 	"checkuser-investigate-subtitle-continue-button-label": "למהשיך",
+	"checkuser-investigate-subtitle-show-checkuser": "מעבר לבדיקת משתמש",
 	"checkuser-investigate-indicator-new-investigation": "חקירה חדשה",
 	"checkuser-investigate-indicator-logs": "יומנים",
 	"checkuser-investigate-legend": "חיפוש שמות משתמש, כתובות IP או טווחי IP",

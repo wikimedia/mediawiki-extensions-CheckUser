@@ -129,6 +129,7 @@
 	"checkuser-investigate-subtitle-block-button-label": "Blokuj",
 	"checkuser-investigate-subtitle-cancel-button-label": "Anuluj",
 	"checkuser-investigate-subtitle-continue-button-label": "Kontynuuj",
+	"checkuser-investigate-subtitle-show-checkuser": "Przejdź do CheckUser",
 	"checkuser-investigate-indicator-new-investigation": "Nowe sprawdzenie",
 	"checkuser-investigate-indicator-logs": "Rejestry",
 	"checkuser-investigate-legend": "Szukaj nazw użytkownika, adresów IP bądź ich zakresów",

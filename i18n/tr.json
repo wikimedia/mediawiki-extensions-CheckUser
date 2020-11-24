@@ -125,6 +125,7 @@
 	"checkuser-investigate-subtitle-block-button-label": "Engelle",
 	"checkuser-investigate-subtitle-cancel-button-label": "İptal",
 	"checkuser-investigate-subtitle-continue-button-label": "Devam et",
+	"checkuser-investigate-subtitle-show-checkuser": "Denetçi olarak değiştir",
 	"checkuser-investigate-indicator-new-investigation": "Yeni soruşturma",
 	"checkuser-investigate-indicator-logs": "Günlükler",
 	"checkuser-investigate-legend": "Kullanıcı adlarını, IP adreslerini veya IP aralıklarını arayın",
