@@ -149,7 +149,7 @@
 	"checkuser-investigate-timeline-notice-no-results": "There are no results: there has been no recorded activity from these users or IPs in the last 90 days",
 	"checkuser-investigate-timeline-notice-no-results-filters": "There are no results matching these filtering criteria. Try removing some filters to broaden the search.",
 	"checkuser-investigate-compare-copy-button-label": "Show wikitext",
-	"checkuser-investigate-compare-toollinks": "[[https://whois.toolforge.org/gateway.py?lookup=true&ip=$1 {{int:checkuser-investigate-compare-toollinks-whois}}]\n[[https://ipcheck.toolforge.org/index.php?ip=$1 {{int:checkuser-investigate-compare-toollinks-ipcheck}}]",
+	"checkuser-investigate-compare-toollinks": "[https://whois.toolforge.org/gateway.py?lookup=true&ip=$1 {{int:checkuser-investigate-compare-toollinks-whois}}]\n[https://ipcheck.toolforge.org/index.php?ip=$1 {{int:checkuser-investigate-compare-toollinks-ipcheck}}]",
 	"checkuser-investigate-compare-toollinks-whois": "WHOIS",
 	"checkuser-investigate-compare-toollinks-ipcheck": "Proxy check",
 	"checkuser-investigate-compare-copy-message-label": "Would you like to copy this information as a Wikitext table?",
