@@ -59,7 +59,7 @@
 	"checkuser-block-noreason": "Tu debe indicar un motivo pro le blocadas.",
 	"checkuser-centralauth-multilock": "Multi-blocar le contos seligite",
 	"checkuser-noreason": "Tu debe dar un motivo pro iste consulta.",
-	"checkuser-too-many": "Troppo de resultatos (per estimation del consulta). Per favor, specifica un CIDR plus stricte.\nEcce le IPs usate (max. 5000, ordinate per adresse):",
+	"checkuser-too-many": "Troppo de resultatos (per estimation del consulta). Per favor, specifica un CIDR plus stricte.\nEcce le IPs usate (max. $1, ordinate per adresse):",
 	"checkuser-user-nonexistent": "Le usator specificate non existe.",
 	"checkuser-search": "Cercar entratas de registro CheckUser",
 	"checkuser-search-submit": "Cercar",
