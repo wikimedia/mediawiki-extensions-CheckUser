@@ -111,7 +111,7 @@
 	"attributes": {
 		"EventLogging": {
 			"Schemas": {
-				"SpecialInvestigate": 20261100
+				"SpecialInvestigate": "/analytics/legacy/specialinvestigate/1.0.0"
 			}
 		}
 	},
