@@ -46,6 +46,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 			case 'userips':
 				$user_id = User::idFromName( $target );
 				if ( !$user_id ) {
+					// @phan-suppress-next-line SecurityCheck-DoubleEscaped T269895
 					$this->dieWithError(
 						[ 'nosuchusershort', wfEscapeWikiText( $target ) ], 'nosuchuser'
 					);
@@ -103,6 +104,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				} else {
 					$user_id = User::idFromName( $target );
 					if ( $user_id === null ) {
+						// @phan-suppress-next-line SecurityCheck-DoubleEscaped T269895
 						$this->dieWithError(
 							[ 'nosuchusershort', wfEscapeWikiText( $target ) ], 'nosuchuser'
 						);

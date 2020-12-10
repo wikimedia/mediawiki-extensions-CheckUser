@@ -184,7 +184,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param int $period
 	 */
 	protected function showForm( $user, $checktype, $ip, $xff, $name, $period ) {
-		$action = htmlspecialchars( $this->getPageTitle()->getLocalURL() );
+		$action = $this->getPageTitle()->getLocalURL();
 		// Fill in requested type if it makes sense
 		$encipusers = $encedits = $encuserips = false;
 		if ( $checktype == 'subipusers' && ( $ip || $xff ) ) {
@@ -2100,7 +2100,7 @@ class SpecialCheckUser extends SpecialPage {
 		}
 		$dbr = wfGetDB( DB_REPLICA );
 		$cutoff_unixtime = time() - ( $period * 24 * 3600 );
-		$cutoff_unixtime = $cutoff_unixtime - ( $cutoff_unixtime % 86400 );
+		$cutoff_unixtime -= $cutoff_unixtime % 86400;
 		$cutoff = $dbr->addQuotes( $dbr->timestamp( $cutoff_unixtime ) );
 		return "cuc_timestamp > $cutoff";
 	}
