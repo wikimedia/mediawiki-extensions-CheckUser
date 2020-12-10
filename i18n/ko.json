@@ -120,6 +120,7 @@
 	"checkuser-investigate-subtitle-block-button-label": "차단하기",
 	"checkuser-investigate-subtitle-cancel-button-label": "취소",
 	"checkuser-investigate-subtitle-continue-button-label": "계속",
+	"checkuser-investigate-subtitle-show-checkuser": "검사관으로 전환하기",
 	"checkuser-investigate-indicator-logs": "기록",
 	"checkuser-investigate-legend": "계정 이름, IP 주소 또는 IP 대역 검색",
 	"checkuser-investigate-notice-no-results": "결과가 없습니다.",

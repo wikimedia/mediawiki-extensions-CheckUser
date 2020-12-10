@@ -42,7 +42,7 @@
 	"checkuser-log-fail": "लग इन्ट्री जोड्न असफल",
 	"checkuser-nolog": "कुनै लग फाइल भेटिएन।",
 	"checkuser-blocked": "निषेधित",
-	"checkuser-gblocked": "वैश्विक निषेधित",
+	"checkuser-gblocked": "विश्वव्यापी निषेधित",
 	"checkuser-locked": "प्रतिबन्धित",
 	"checkuser-wasblocked": "पछिल्लो निषेधित",
 	"checkuser-localonly": "एकीकृत छैन",
