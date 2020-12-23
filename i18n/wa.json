@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Reptilien.19831209BE1",
 			"Srtxg"
 		]
 	},
@@ -10,7 +11,7 @@
 	"checkuser": "Verifiaedje des uzeus",
 	"checkuserlog": "Djournå des verifiaedjes d' uzeus",
 	"checkuser-contribs": "cweri les adresses IP des uzeus",
-	"group-checkuser": "Verifieus d' uzeus",
+	"group-checkuser": "Verifieus d’&nbsp;uzeus",
 	"group-checkuser-member": "{{GENDER:$1|verifieu|verifieuse}} d' uzeus",
 	"right-checkuser": "Cweri après les adresses IP et d' ôtès infôrmåcions d' èn uzeu",
 	"right-checkuser-log": "Vey li djournå des verifiaedjes d' uzeus",
