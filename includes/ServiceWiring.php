@@ -14,6 +14,7 @@ use MediaWiki\CheckUser\TimelineService;
 use MediaWiki\CheckUser\TokenManager;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\CheckUser\UserManager;
+use MediaWiki\Config\ServiceOptions;
 use MediaWiki\MediaWikiServices;
 
 return [
@@ -29,6 +30,10 @@ return [
 	},
 	'CheckUserCompareService' => function ( MediaWikiServices $services ) : CompareService {
 		return new CompareService(
+			new ServiceOptions(
+				CompareService::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig()
+			),
 			$services->getDBLoadBalancer(),
 			$services->get( 'CheckUserUserManager' )
 		);

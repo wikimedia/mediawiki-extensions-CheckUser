@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests;
 
 use MediaWiki\CheckUser\CompareService;
 use MediaWiki\CheckUser\UserManager;
+use MediaWiki\Config\ServiceOptions;
 use MediaWiki\MediaWikiServices;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\IPUtils;
@@ -43,6 +44,10 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideGetQueryInfo
 	 */
 	public function testGetQueryInfo( $options, $expected ) {
+		$serviceOptions = $this->createMock( ServiceOptions::class );
+		$serviceOptions->method( 'get' )
+			->willReturn( $options['limit'] );
+
 		$db = $this->getMockBuilder( Database::class )
 			->setMethods( [
 				'dbSchema',
@@ -69,6 +74,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 			] ) );
 
 		$compareService = new CompareService(
+			$serviceOptions,
 			$loadBalancer,
 			$userManager
 		);
@@ -103,6 +109,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 				[
 					'targets' => [ 'User1' ],
 					'excludeTargets' => [ '0:0:0:0:0:0:0:1' ],
+					'limit' => 100000,
 					'start' => ''
 				],
 				[
@@ -116,12 +123,13 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 				[
 					'targets' => [ 'User1' ],
 					'excludeTargets' => [ '0:0:0:0:0:0:0:1' ],
+					'limit' => 10000,
 					'start' => '111'
 				],
 				[
 					'targets' => [ '11111' ],
 					'excludeTargets' => [ 'v6-00000000000000000000000000000001' ],
-					'limit' => '100000',
+					'limit' => '10000',
 					'start' => '111'
 				],
 			],
@@ -129,6 +137,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 				[
 					'targets' => [ '0:0:0:0:0:0:0:1' ],
 					'excludeTargets' => [ 'User1' ],
+					'limit' => 100000,
 					'start' => ''
 				],
 				[
@@ -142,12 +151,13 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 				[
 					'targets' => [ 'User1', '1.2.3.4' ],
 					'excludeTargets' => [ 'User2', '1.2.3.5' ],
+					'limit' => 100,
 					'start' => ''
 				],
 				[
 					'targets' => [ '11111', '01020304' ],
 					'excludeTargets' => [ '22222', '01020305' ],
-					'limit' => '50000',
+					'limit' => '50',
 					'start' => ''
 				],
 			],
@@ -155,6 +165,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 				[
 					'targets' => [ '0:0:0:0:0:0:0:1', '1.2.3.4' ],
 					'excludeTargets' => [],
+					'limit' => 100000,
 					'start' => ''
 				],
 				[
@@ -175,6 +186,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 						'1.2.3.4/16',
 					],
 					'excludeTargets' => [],
+					'limit' => 100000,
 					'start' => ''
 				],
 				[
@@ -196,6 +208,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		$this->expectException( \LogicException::class );
 
 		$compareService = new CompareService(
+			$this->createMock( ServiceOptions::class ),
 			$this->createMock( ILoadBalancer::class ),
 			$this->createMock( UserManager::class )
 		);
@@ -218,6 +231,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 			->willReturn( $db );
 
 		$compareServcice = new CompareService(
+			$this->createMock( ServiceOptions::class ),
 			$loadBalancer,
 			$this->createMock( UserManager::class )
 		);
