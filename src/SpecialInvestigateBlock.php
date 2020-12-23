@@ -286,6 +286,10 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 	 * @return string
 	 */
 	private function getTargetPage( int $namespace, string $target ) : string {
+		if ( IPUtils::isValidRange( $target ) ) {
+			$target = IPUtils::sanitizeRange( $target );
+		}
+
 		return $this->titleFormatter->getPrefixedText(
 			new TitleValue( $namespace, $target )
 		);
