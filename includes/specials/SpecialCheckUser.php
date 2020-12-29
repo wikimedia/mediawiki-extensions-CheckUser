@@ -2022,7 +2022,14 @@ class SpecialCheckUser extends SpecialPage {
 
 	protected static function userWasBlocked( $name ) {
 		$userpage = Title::makeTitle( NS_USER, $name );
-		return (bool)wfGetDB( DB_REPLICA )->selectField( 'logging', '1',
+		$dbr = wfGetDB( DB_REPLICA );
+
+		// Remove after T270620 is resolved
+		$index = $dbr->indexExists( 'logging', 'page_time', __METHOD__ )
+			? 'page_time'
+			: 'log_page_time';
+
+		return (bool)$dbr->selectField( 'logging', '1',
 			[
 				'log_type' => [ 'block', 'suppress' ],
 				'log_action' => 'block',
@@ -2030,7 +2037,7 @@ class SpecialCheckUser extends SpecialPage {
 				'log_title' => $userpage->getDBkey()
 			],
 			__METHOD__,
-			[ 'USE INDEX' => 'page_time' ]
+			[ 'USE INDEX' => $index ]
 		);
 	}
 
