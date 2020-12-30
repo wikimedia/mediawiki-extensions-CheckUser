@@ -922,7 +922,7 @@ class SpecialCheckUser extends SpecialPage {
 				$ip = substr( $row->cuc_ip_hex, 3 );
 				$ip = IPUtils::hexToOctet( $ip );
 			} else {
-				$ip = long2ip( Wikimedia\base_convert( $row->cuc_ip_hex, 16, 10, 8 ) );
+				$ip = long2ip( (int)Wikimedia\base_convert( $row->cuc_ip_hex, 16, 10, 8 ) );
 			}
 			$s .= '<li>';
 			$s .= $this->getSelfLink( $ip,
