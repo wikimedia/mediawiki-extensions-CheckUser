@@ -73,6 +73,10 @@
 		"CheckUserMaximumRowCount": {
 			"value": 5000,
 			"description": "Maximum number of rows in cu_changes to be used in any query"
+		},
+		"CheckUserInvestigateMaximumRowCount": {
+			"value": 25000,
+			"description": "Maximum number of rows in cu_changes to be grouped in the Compare table query"
 		}
 	},
 	"APIListModules": {
