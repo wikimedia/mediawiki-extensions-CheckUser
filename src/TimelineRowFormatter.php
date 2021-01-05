@@ -16,6 +16,7 @@ use Message;
 use TitleFormatter;
 use TitleValue;
 use User;
+use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\ILoadBalancer;
 
 class TimelineRowFormatter {
@@ -163,7 +164,7 @@ class TimelineRowFormatter {
 	private function getIpInfo( string $ip ) : string {
 		// Note: in the old check user this links to self with ip as target. Can't do now
 		// because of token. We could prefill a new investigation tab
-		return $ip;
+		return IPUtils::prettifyIP( $ip );
 	}
 
 	/**
