@@ -274,7 +274,9 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 		] );
 
 		if ( $blockedUsersCount === 0 ) {
-			return $this->getMessagePrefix() . '-failure';
+			// Message used here:
+			// checkuser-investigateblock-failure
+			return [ $this->getMessagePrefix() . '-failure' ];
 		}
 
 		return true;
