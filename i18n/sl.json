@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Dbc334",
+			"Eleassar",
 			"Janezdrilc"
 		]
 	},
@@ -48,7 +49,7 @@
 	"checkuser-wasblocked": "Predhodno blokiran",
 	"checkuser-localonly": "Ni enoten",
 	"checkuser-massblock": "Blokiraj izbrane uporabnike",
-	"checkuser-massblock-text": "Izbrani računi bodo blokirani za nedoločen čas, z omogočenim samodejnim blokiranjem IP-naslovov in onemogočenim ustvarjanjem računov.\nIP-naslovi brezimnih uporabnikov bodo blokirani samo za en teden in ustvarjanje računov bo nemogočeno.",
+	"checkuser-massblock-text": "Izbrani računi bodo blokirani za nedoločen čas, z omogočenim samodejnim blokiranjem IP-naslovov in onemogočenim ustvarjanjem računov.\nIP-naslovi bodo za en teden blokirani samo za anonimne uporabnike, pri čemer bo onemogočeno tudi ustvarjanje računov.",
 	"checkuser-blockemail": "Prepreči pošiljanje e-pošte",
 	"checkuser-blocktalk": "Prepreči urejanje lastne pogovorne strani v času blokiranosti",
 	"checkuser-blocktag": "Zamenjaj uporabniške strani z:",
