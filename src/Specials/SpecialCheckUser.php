@@ -1,14 +1,42 @@
 <?php
 
+namespace MediaWiki\CheckUser\Specials;
+
+use ActorMigration;
+use CentralAuthUser;
+use CentralIdLookup;
+use DeferredUpdates;
+use Exception;
+use ExtensionRegistry;
+use Hooks;
+use Html;
+use HtmlArmor;
+use Linker;
 use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\Cache\LinkBatchFactory;
+use MediaWiki\CheckUser\Hooks as CUHooks;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionRecord;
+use OOUI\IconWidget;
+use RequestContext;
+use SpecialBlock;
+use SpecialPage;
+use stdClass;
+use Title;
+use User;
+use UserBlockedError;
+use UserGroupMembership;
+use UserNamePrefixSearch;
+use WikiMap;
+use Wikimedia\AtEase\AtEase;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\IResultWrapper;
+use WikiPage;
+use WikitextContent;
+use Xml;
 
 class SpecialCheckUser extends SpecialPage {
 	/**
@@ -93,7 +121,7 @@ class SpecialCheckUser extends SpecialPage {
 		if ( $this->getConfig()->get( 'CheckUserEnableSpecialInvestigate' ) ) {
 			$out->enableOOUI();
 			$out->addModuleStyles( 'oojs-ui.styles.icons-interactions' );
-			$icon = new OOUI\IconWidget( [ 'icon' => 'lightbulb' ] );
+			$icon = new IconWidget( [ 'icon' => 'lightbulb' ] );
 			$investigateLink = $this->getLinkRenderer()->makeKnownLink(
 				SpecialPage::getTitleFor( 'Investigate' ),
 				$this->msg( 'checkuser-link-investigate-label' )->text()
@@ -354,8 +382,6 @@ class SpecialCheckUser extends SpecialPage {
 		$tag = '',
 		$talkTag = ''
 	) {
-		$currentUser = $this->getUser();
-		$blockAllowsUTEdit = $this->getConfig()->get( 'BlockAllowsUTEdit' );
 		$safeUsers = [];
 		foreach ( $users as $name ) {
 			$u = User::newFromName( $name, false );
@@ -632,9 +658,9 @@ class SpecialCheckUser extends SpecialPage {
 			++$counter;
 		}
 		// Count pinging might take some time...make sure it is there
-		Wikimedia\suppressWarnings();
+		AtEase::suppressWarnings();
 		set_time_limit( 60 );
-		Wikimedia\restoreWarnings();
+		AtEase::restoreWarnings();
 
 		return $ipSets;
 	}
@@ -836,9 +862,9 @@ class SpecialCheckUser extends SpecialPage {
 			);
 		}
 		// Sorting might take some time...make sure it is there
-		Wikimedia\suppressWarnings();
+		AtEase::suppressWarnings();
 		set_time_limit( $timeLimit );
-		Wikimedia\restoreWarnings();
+		AtEase::restoreWarnings();
 
 		return $rangecount;
 	}
@@ -922,7 +948,7 @@ class SpecialCheckUser extends SpecialPage {
 				$ip = substr( $row->cuc_ip_hex, 3 );
 				$ip = IPUtils::hexToOctet( $ip );
 			} else {
-				$ip = long2ip( (int)Wikimedia\base_convert( $row->cuc_ip_hex, 16, 10, 8 ) );
+				$ip = long2ip( (int)\Wikimedia\base_convert( $row->cuc_ip_hex, 16, 10, 8 ) );
 			}
 			$s .= '<li>';
 			$s .= $this->getSelfLink( $ip,
@@ -1086,9 +1112,9 @@ class SpecialCheckUser extends SpecialPage {
 		$limit = $this->getConfig()->get( 'CheckUserMaximumRowCount' );
 
 		// Sorting might take some time...make sure it is there
-		Wikimedia\suppressWarnings();
+		AtEase::suppressWarnings();
 		set_time_limit( 60 );
-		Wikimedia\restoreWarnings();
+		AtEase::restoreWarnings();
 
 		// OK, do the real query...
 		$result = $this->doUserEditsDBRequest( $user_id, $period, $limit );
@@ -1528,7 +1554,7 @@ class SpecialCheckUser extends SpecialPage {
 					// Load local user group instead
 					$gbUserGroups = [ '' ];
 					$user = $this->getUser();
-					$gbtitle = $this->getTitleFor( 'GlobalBlock' );
+					$gbtitle = self::getTitleFor( 'GlobalBlock' );
 					$linkGB = $linkrenderer->makeKnownLink(
 						$gbtitle,
 						$gblinkAlias,
@@ -1564,7 +1590,7 @@ class SpecialCheckUser extends SpecialPage {
 				// XFF string, link to /xff search
 				if ( $xffString ) {
 					// Flag our trusted proxies
-					list( $client ) = CheckUserHooks::getClientIPfromXFF( $xffString );
+					list( $client ) = CUHooks::getClientIPfromXFF( $xffString );
 					// XFF was trusted if client came from it
 					$trusted = ( $client === $clientIP );
 					$c = $trusted ? '#F0FFF0' : '#FFFFCC';
@@ -1893,7 +1919,7 @@ class SpecialCheckUser extends SpecialPage {
 		// XFF
 		if ( $row->cuc_xff != null ) {
 			// Flag our trusted proxies
-			list( $client ) = CheckUserHooks::getClientIPfromXFF( $row->cuc_xff );
+			list( $client ) = CUHooks::getClientIPfromXFF( $row->cuc_xff );
 			// XFF was trusted if client came from it
 			$trusted = ( $client === $row->cuc_ip );
 			$c = $trusted ? '#F0FFF0' : '#FFFFCC';

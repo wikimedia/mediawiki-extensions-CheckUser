@@ -1,9 +1,15 @@
 <?php
 
+namespace MediaWiki\CheckUser;
+
+use Html;
+use IContextSource;
+use Linker;
 use MediaWiki\Cache\LinkBatchFactory;
+use ReverseChronologicalPager;
 use Wikimedia\Rdbms\IResultWrapper;
 
-class CheckUserLogPager extends ReverseChronologicalPager {
+class LogPager extends ReverseChronologicalPager {
 	/**
 	 * @var array
 	 */

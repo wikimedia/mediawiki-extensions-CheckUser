@@ -1,14 +1,30 @@
 <?php
 
+namespace MediaWiki\CheckUser;
+
+use AutoCommitUpdate;
+use DatabaseUpdater;
+use DeferredUpdates;
+use LogFormatter;
+use MailAddress;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Block\DatabaseBlock;
-use MediaWiki\CheckUser\SpecialInvestigate;
-use MediaWiki\CheckUser\SpecialInvestigateBlock;
+use MediaWiki\CheckUser\Specials\SpecialInvestigate;
+use MediaWiki\CheckUser\Specials\SpecialInvestigateBlock;
 use MediaWiki\MediaWikiServices;
+use PopulateCheckUserTable;
+use RecentChange;
+use RenameuserSQL;
+use RequestContext;
+use SpecialPage;
+use Title;
+use User;
+use WebRequest;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IDatabase;
+use Wikimedia\ScopedCallback;
 
-class CheckUserHooks {
+class Hooks {
 
 	/**
 	 * The maximum number of bytes that fit in CheckUser's text fields
@@ -108,7 +124,7 @@ class CheckUserHooks {
 			$formatter->setContext( $context );
 			$actionText = $formatter->getPlainActionText();
 
-			\Wikimedia\ScopedCallback::consume( $scope );
+			ScopedCallback::consume( $scope );
 		} else {
 			$actionText = '';
 		}
@@ -148,7 +164,7 @@ class CheckUserHooks {
 			$rcRow['cuc_page_id'] = $attribs['rc_cur_id'];
 		}
 
-		Hooks::run( 'CheckUserInsertForRecentChange', [ $rc, &$rcRow ] );
+		\Hooks::run( 'CheckUserInsertForRecentChange', [ $rc, &$rcRow ] );
 
 		$dbw = $services->getDBLoadBalancer()->getConnectionRef( DB_MASTER );
 		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
@@ -277,7 +293,7 @@ class CheckUserHooks {
 		];
 		if ( trim( $wgCUPublicKey ) != '' ) {
 			$privateData = $userTo->getEmail() . ":" . $userTo->getId();
-			$encryptedData = new CheckUserEncryptedData( $privateData, $wgCUPublicKey );
+			$encryptedData = new EncryptedData( $privateData, $wgCUPublicKey );
 			$rcRow = array_merge( $rcRow, [ 'cuc_private' => serialize( $encryptedData ) ] );
 		}
 
@@ -724,3 +740,5 @@ class CheckUserHooks {
 		return true;
 	}
 }
+
+class_alias( Hooks::class, 'CheckUserHooks' );

@@ -1,13 +1,18 @@
 <?php
 
-namespace MediaWiki\CheckUser;
+namespace MediaWiki\CheckUser\Specials;
 
 use Html;
 use HTMLForm;
 use Language;
+use MediaWiki\CheckUser\DurationManager;
+use MediaWiki\CheckUser\EventLogger;
 use MediaWiki\CheckUser\GuidedTour\TourLauncher;
 use MediaWiki\CheckUser\Hook\CheckUserSubtitleLinksHook;
 use MediaWiki\CheckUser\HookHandler\Preferences;
+use MediaWiki\CheckUser\PagerFactory;
+use MediaWiki\CheckUser\TimelinePagerFactory;
+use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\User\UserOptionsManager;
 use Message;
@@ -23,7 +28,6 @@ use OOUI\MessageWidget;
 use OOUI\TabOptionWidget;
 use OOUI\Tag;
 use OOUI\Widget;
-use SpecialCheckUser;
 use User;
 use Wikimedia\IPUtils;
 

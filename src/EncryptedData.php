@@ -1,6 +1,8 @@
 <?php
 
-class CheckUserEncryptedData {
+namespace MediaWiki\CheckUser;
+
+class EncryptedData {
 
 	/** @var string|null The data symmetrically encrypted with a random key */
 	public $encString;
@@ -41,7 +43,7 @@ class CheckUserEncryptedData {
 	 * @return string|false plaintext
 	 */
 	public function getPlaintext( $privateKey ) {
-		$result = openssl_open(
+		$result = \openssl_open(
 			$this->encString,
 			$plaintextData,
 			$this->envKeys,
@@ -65,7 +67,7 @@ class CheckUserEncryptedData {
 	 */
 	private function encryptData( $data, $publicKey ) {
 		// @phan-suppress-next-line PhanTypeMismatchArgumentInternal
-		openssl_seal( $data, $encryptedString, $envelopeKeys, [ $publicKey ], $this->algName );
+		\openssl_seal( $data, $encryptedString, $envelopeKeys, [ $publicKey ], $this->algName );
 		$this->encString = $encryptedString;
 		// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
 		$this->envKeys = $envelopeKeys[0];

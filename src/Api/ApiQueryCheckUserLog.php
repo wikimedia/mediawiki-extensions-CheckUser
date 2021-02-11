@@ -1,5 +1,10 @@
 <?php
 
+namespace MediaWiki\CheckUser\Api;
+
+use ApiBase;
+use ApiQueryBase;
+
 /**
  * CheckUser API Query Module
  */

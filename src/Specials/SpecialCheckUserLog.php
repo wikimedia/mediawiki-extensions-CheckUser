@@ -1,8 +1,17 @@
 <?php
 
+namespace MediaWiki\CheckUser\Specials;
+
+use HTMLForm;
 use MediaWiki\Cache\LinkBatchFactory;
+use MediaWiki\CheckUser\LogPager;
 use MediaWiki\Permissions\PermissionManager;
+use SpecialPage;
+use Title;
+use User;
+use UserBlockedError;
 use Wikimedia\IPUtils;
+use Xml;
 
 class SpecialCheckUserLog extends SpecialPage {
 	/**
@@ -69,7 +78,7 @@ class SpecialCheckUserLog extends SpecialPage {
 			return;
 		}
 
-		$pager = new CheckUserLogPager(
+		$pager = new LogPager(
 			$this->getContext(),
 			[
 				'queryConds' => $searchConds,

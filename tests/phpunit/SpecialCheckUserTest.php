@@ -2,9 +2,9 @@
 
 namespace MediaWiki\CheckUser\Tests;
 
+use MediaWiki\CheckUser\Specials\SpecialCheckUser;
 use MediaWikiIntegrationTestCase;
 use ReflectionClass;
-use SpecialCheckUser;
 
 /**
  * Test class for SpecialCheckUser class
@@ -12,7 +12,7 @@ use SpecialCheckUser;
  * @group CheckUser
  * @group Database
  *
- * @covers SpecialCheckUser
+ * @covers \MediaWiki\CheckUser\Specials\SpecialCheckUser
  */
 class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 
@@ -61,7 +61,7 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @covers SpecialCheckUser::getIpConds
+	 * @covers \MediaWiki\CheckUser\Specials\SpecialCheckUser::getIpConds
 	 * @dataProvider provideGetIpConds
 	 */
 	public function testGetIpConds( $target, $expected ) {
@@ -102,7 +102,7 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @covers SpecialCheckUser::isValidRange
+	 * @covers \MediaWiki\CheckUser\Specials\SpecialCheckUser::isValidRange
 	 * @dataProvider provideIsValidRange
 	 */
 	public function testIsValidRange( $target, $expected ) {
@@ -128,7 +128,7 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @covers SpecialCheckUser::checkReason
+	 * @covers \MediaWiki\CheckUser\Specials\SpecialCheckUser::checkReason
 	 * @dataProvider provideCheckReason
 	 */
 	public function testCheckReason( $config, $reason, $expected ) {

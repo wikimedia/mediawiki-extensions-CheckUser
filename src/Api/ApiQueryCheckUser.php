@@ -1,7 +1,15 @@
 <?php
 
+namespace MediaWiki\CheckUser\Api;
+
+use ApiBase;
+use ApiQueryBase;
+use Exception;
+use LogicException;
+use MediaWiki\CheckUser\Specials\SpecialCheckUser;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionRecord;
+use User;
 use Wikimedia\IPUtils;
 
 /**

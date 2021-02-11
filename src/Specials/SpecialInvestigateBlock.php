@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser;
+namespace MediaWiki\CheckUser\Specials;
 
 use ApiMain;
 use DerivativeRequest;
@@ -9,6 +9,7 @@ use FormSpecialPage;
 use Linker;
 use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\Block\BlockUserFactory;
+use MediaWiki\CheckUser\EventLogger;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserNameUtils;

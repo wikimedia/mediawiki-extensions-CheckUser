@@ -80,8 +80,8 @@
 		}
 	},
 	"APIListModules": {
-		"checkuser": "ApiQueryCheckUser",
-		"checkuserlog": "ApiQueryCheckUserLog"
+		"checkuser": "MediaWiki\\CheckUser\\Api\\ApiQueryCheckUser",
+		"checkuserlog": "MediaWiki\\CheckUser\\Api\\ApiQueryCheckUserLog"
 	},
 	"HookHandlers": {
 		"preferences": {
@@ -90,20 +90,20 @@
 	},
 	"Hooks": {
 		"RecentChange_save": [
-			"CheckUserHooks::updateCheckUserData",
-			"CheckUserHooks::maybePruneIPData"
+			"MediaWiki\\CheckUser\\Hooks::updateCheckUserData",
+			"MediaWiki\\CheckUser\\Hooks::maybePruneIPData"
 		],
-		"EmailUser": "CheckUserHooks::updateCUEmailData",
-		"User::mailPasswordInternal": "CheckUserHooks::updateCUPasswordResetData",
-		"LocalUserCreated": "CheckUserHooks::onLocalUserCreated",
-		"UserMergeAccountFields": "CheckUserHooks::onUserMergeAccountFields",
-		"RenameUserSQL": "CheckUserHooks::onRenameUserSQL",
-		"ParserTestTables": "CheckUserHooks::checkUserParserTestTables",
-		"LoadExtensionSchemaUpdates": "CheckUserHooks::onLoadExtensionSchemaUpdates",
-		"ContributionsToolLinks": "CheckUserHooks::checkUserContributionsLinks",
-		"PerformRetroactiveAutoblock": "CheckUserHooks::doRetroactiveAutoblock",
-		"AuthManagerLoginAuthenticateAudit": "CheckUserHooks::onAuthManagerLoginAuthenticateAudit",
-		"SpecialPage_initList": "CheckUserHooks::onSpecialPage_initList",
+		"EmailUser": "MediaWiki\\CheckUser\\Hooks::updateCUEmailData",
+		"User::mailPasswordInternal": "MediaWiki\\CheckUser\\Hooks::updateCUPasswordResetData",
+		"LocalUserCreated": "MediaWiki\\CheckUser\\Hooks::onLocalUserCreated",
+		"UserMergeAccountFields": "MediaWiki\\CheckUser\\Hooks::onUserMergeAccountFields",
+		"RenameUserSQL": "MediaWiki\\CheckUser\\Hooks::onRenameUserSQL",
+		"ParserTestTables": "MediaWiki\\CheckUser\\Hooks::checkUserParserTestTables",
+		"LoadExtensionSchemaUpdates": "MediaWiki\\CheckUser\\Hooks::onLoadExtensionSchemaUpdates",
+		"ContributionsToolLinks": "MediaWiki\\CheckUser\\Hooks::checkUserContributionsLinks",
+		"PerformRetroactiveAutoblock": "MediaWiki\\CheckUser\\Hooks::doRetroactiveAutoblock",
+		"AuthManagerLoginAuthenticateAudit": "MediaWiki\\CheckUser\\Hooks::onAuthManagerLoginAuthenticateAudit",
+		"SpecialPage_initList": "MediaWiki\\CheckUser\\Hooks::onSpecialPage_initList",
 		"GetPreferences": "preferences"
 	},
 	"MessagesDirs": {
@@ -223,14 +223,14 @@
 	],
 	"SpecialPages": {
 		"CheckUser": {
-			"class": "SpecialCheckUser",
+			"class": "MediaWiki\\CheckUser\\Specials\\SpecialCheckUser",
 			"services": [
 				"LinkBatchFactory",
 				"BlockPermissionCheckerFactory"
 			]
 		},
 		"CheckUserLog": {
-			"class": "SpecialCheckUserLog",
+			"class": "MediaWiki\\CheckUser\\Specials\\SpecialCheckUserLog",
 			"services": [
 				"LinkBatchFactory",
 				"PermissionManager"
@@ -238,13 +238,8 @@
 		}
 	},
 	"AutoloadClasses": {
-		"CheckUserHooks": "includes/CheckUserHooks.php",
-		"CheckUserLogPager": "includes/CheckUserLogPager.php",
-		"SpecialCheckUser": "includes/specials/SpecialCheckUser.php",
-		"SpecialCheckUserLog": "includes/specials/SpecialCheckUserLog.php",
-		"CheckUserEncryptedData": "includes/CheckUserEncryptedData.php",
-		"ApiQueryCheckUser": "includes/api/ApiQueryCheckUser.php",
-		"ApiQueryCheckUserLog": "includes/api/ApiQueryCheckUserLog.php",
+		"CheckUserHooks": "src/Hooks.php",
+		"MediaWiki\\CheckUser\\Hooks": "src/Hooks.php",
 		"PopulateCheckUserTable": "maintenance/populateCheckUserTable.php"
 	},
 	"ServiceWiringFiles": [
