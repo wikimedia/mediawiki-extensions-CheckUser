@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Tests;
 use FauxRequest;
 use MediaWiki\CheckUser\DurationManager;
 use MediaWikiIntegrationTestCase;
+use MWTimestamp;
 
 /**
  * @group CheckUser
@@ -14,7 +15,7 @@ class DurationManagerTest extends MediaWikiIntegrationTestCase {
 
 	public function setUp() : void {
 		parent::setUp();
-		\MWTimestamp::setFakeTime( 0 );
+		MWTimestamp::setFakeTime( 0 );
 	}
 
 	/**

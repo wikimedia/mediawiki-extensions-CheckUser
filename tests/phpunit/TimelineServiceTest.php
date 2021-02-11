@@ -31,9 +31,11 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 
 		$userManager = $this->createMock( UserManager::class );
 		$userManager->method( 'idFromName' )
-			->will( $this->returnValueMap( [
-				[ 'User1', 11111, ],
-			] ) );
+			->willReturnMap(
+				[
+					[ 'User1', 11111, ],
+				]
+			);
 
 		$timelineService = new TimelineService( $loadBalancer, $userManager );
 

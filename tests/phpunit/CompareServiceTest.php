@@ -68,10 +68,12 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 
 		$userManager = $this->createMock( UserManager::class );
 		$userManager->method( 'idFromName' )
-			->will( $this->returnValueMap( [
-				[ 'User1', 11111, ],
-				[ 'User2', 22222, ],
-			] ) );
+			->willReturnMap(
+				[
+					[ 'User1', 11111, ],
+					[ 'User2', 22222, ],
+				]
+			);
 
 		$compareService = new CompareService(
 			$serviceOptions,

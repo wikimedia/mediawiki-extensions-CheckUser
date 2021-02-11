@@ -6,6 +6,7 @@ use FauxRequest;
 use MediaWiki\CheckUser\TokenManager;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWikiIntegrationTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test class for TokenQueryManager class

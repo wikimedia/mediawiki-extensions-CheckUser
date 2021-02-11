@@ -9,6 +9,7 @@ use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\User\UserGroupManagerFactory;
 use MediaWikiIntegrationTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use RequestContext;
 use Wikimedia\Rdbms\ILBFactory;
 

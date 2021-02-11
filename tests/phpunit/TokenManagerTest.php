@@ -6,6 +6,7 @@ use Firebase\JWT\JWT;
 use MediaWiki\CheckUser\TokenManager;
 use MediaWiki\Session\SessionManager;
 use MediaWikiIntegrationTestCase;
+use MWTimestamp;
 
 /**
  * Test class for TokenManager class
@@ -18,13 +19,13 @@ class TokenManagerTest extends MediaWikiIntegrationTestCase {
 
 	public function setUp() : void {
 		parent::setUp();
-		\MWTimestamp::setFakeTime( 0 );
+		MWTimestamp::setFakeTime( 0 );
 		JWT::$timestamp = 60;
 	}
 
 	public function tearDown() : void {
 		parent::tearDown();
-		\MWTimestamp::setFakeTime( null );
+		MWTimestamp::setFakeTime( null );
 		JWT::$timestamp = null;
 	}
 
@@ -54,7 +55,7 @@ class TokenManagerTest extends MediaWikiIntegrationTestCase {
 		$encoded = $tokenManager->encode( $session, [] );
 
 		$tokenManager = new TokenManager( 'abcdef2' );
-		$decoded = $tokenManager->decode( $session, $encoded );
+		$tokenManager->decode( $session, $encoded );
 	}
 
 	public function testDecodeSessionFailure() {
@@ -62,6 +63,6 @@ class TokenManagerTest extends MediaWikiIntegrationTestCase {
 
 		$tokenManager = new TokenManager( 'abcdef' );
 		$encoded = $tokenManager->encode( SessionManager::singleton()->getEmptySession(), [] );
-		$decoded = $tokenManager->decode( SessionManager::singleton()->getEmptySession(), $encoded );
+		$tokenManager->decode( SessionManager::singleton()->getEmptySession(), $encoded );
 	}
 }

@@ -40,14 +40,14 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 
 		$userManager = $this->createMock( UserManager::class );
 		$userManager->method( 'idFromName' )
-			->will(
-				$this->returnValueMap( [
+			->willReturnMap(
+				[
 					[ 'User1', 11111, ],
 					[ 'User2', 22222, ],
 					[ 'InvalidUser', 0 ],
 					[ '', 0 ],
 					[ '1.2.3.9/120', 0 ]
-				] )
+				]
 			);
 
 		$compareService = new CompareService(
