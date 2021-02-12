@@ -238,8 +238,6 @@
 		}
 	},
 	"AutoloadClasses": {
-		"CheckUserHooks": "src/Hooks.php",
-		"MediaWiki\\CheckUser\\Hooks": "src/Hooks.php",
 		"PopulateCheckUserTable": "maintenance/populateCheckUserTable.php"
 	},
 	"ServiceWiringFiles": [
