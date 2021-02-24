@@ -2158,7 +2158,7 @@ class SpecialCheckUser extends SpecialPage {
 			'cul_reason' => $reason,
 			'cul_type' => $logType,
 			'cul_target_id' => $targetID,
-			'cul_target_text' => $target,
+			'cul_target_text' => trim( $target ),
 			'cul_target_hex' => $targetHex,
 			'cul_range_start' => $rangeStart,
 			'cul_range_end' => $rangeEnd
