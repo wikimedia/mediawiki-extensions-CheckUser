@@ -24,7 +24,7 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 
 		if ( $row->cul_type == 'userips' || $row->cul_type == 'useredits' ) {
 			$target = Linker::userLink( $row->cul_target_id, $row->cul_target_text ) .
-					Linker::userToolLinks( $row->cul_target_id, $row->cul_target_text );
+					Linker::userToolLinks( $row->cul_target_id, trim( $row->cul_target_text ) );
 		} else {
 			$target = $row->cul_target_text;
 		}
