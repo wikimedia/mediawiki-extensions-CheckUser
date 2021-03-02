@@ -1,8 +1,5 @@
 {
-	"name": "checkuser",
-	"version": "0.0.0",
 	"private": true,
-	"description": "Build tools for the CheckUser extension.",
 	"scripts": {
 		"test": "grunt test"
 	},

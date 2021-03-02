@@ -1,9 +1,3 @@
-/*!
- * Grunt file
- *
- * @package CheckUser
- */
-
 /* eslint-env node */
 module.exports = function ( grunt ) {
 	var conf = grunt.file.readJSON( 'extension.json' );
@@ -16,11 +10,7 @@ module.exports = function ( grunt ) {
 			options: {
 				cache: true
 			},
-			all: [
-				'**/*.{js,json}',
-				'!vendor/**',
-				'!node_modules/**'
-			]
+			all: '.'
 		},
 		stylelint: {
 			all: [
@@ -33,5 +23,4 @@ module.exports = function ( grunt ) {
 	} );
 
 	grunt.registerTask( 'test', [ 'eslint', 'banana', 'stylelint' ] );
-	grunt.registerTask( 'default', 'test' );
 };
