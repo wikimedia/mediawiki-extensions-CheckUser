@@ -15,6 +15,7 @@ use MediaWiki\CheckUser\TokenManager;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\CheckUser\UserManager;
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
 
 return [
@@ -104,7 +105,8 @@ return [
 			$services->get( 'CheckUserTokenQueryManager' ),
 			$services->get( 'CheckUserDurationManager' ),
 			$services->get( 'CheckUserTimelineService' ),
-			$services->get( 'CheckUserTimelineRowFormatterFactory' )
+			$services->get( 'CheckUserTimelineRowFormatterFactory' ),
+			LoggerFactory::getInstance( 'CheckUser' )
 		);
 	},
 	'CheckUserUserManager' => static function (
