@@ -12,6 +12,7 @@
 			"SPQRobin",
 			"Siebrand",
 			"Sjoerddebruin",
+			"Trijnstel",
 			"Troefkaart",
 			"Xbaked potatox"
 		]
@@ -90,6 +91,7 @@
 	"checkuser-log-entry-ipedits-xff": "$3, $1 heeft bewerkingen opgevraagd voor XFF <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers-xff": "$3, $1 heeft gebruikers opgevraagd voor XFF <bdi>$2</bdi>",
 	"checkuser-log-entry-useredits": "$3, $1 heeft bewerkingen opgevraagd voor $2",
+	"checkuser-log-entry-investigate": "$3, $1 zocht informatie op over $2",
 	"checkuser-autocreate-action": "is automatisch aangemaakt",
 	"checkuser-create-action": "is aangemaakt",
 	"checkuser-email-action": "heeft een e-mail gestuurd aan \"$1\"",
