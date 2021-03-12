@@ -1500,7 +1500,7 @@ class SpecialCheckUser extends SpecialPage {
 				);
 				if ( $centralCAUrl === false ) {
 					throw new Exception(
-						'Could not retrieve URL for {$centralAuthToollink}'
+						"Could not retrieve URL for CentralAuth: {$centralAuthToollink}"
 					);
 				}
 				$linkCA = Html::element( 'a',
@@ -1528,7 +1528,7 @@ class SpecialCheckUser extends SpecialPage {
 					// Link to GB via WikiMap since CA require it
 					if ( $centralGBUrl === false ) {
 						throw new Exception(
-							'Could not retrieve URL for {$globalBlockingToollink}'
+							'Could not retrieve URL for global blocking toollink'
 						);
 					}
 					$linkGB = Html::element( 'a',
