@@ -147,6 +147,7 @@
 				"oojs-ui.styles.icons-location",
 				"oojs-ui.styles.icons-moderation",
 				"oojs-ui.styles.icons-user",
+				"mediawiki.pager.tablePager",
 				"mediawiki.storage",
 				"mediawiki.Title",
 				"mediawiki.Uri",
