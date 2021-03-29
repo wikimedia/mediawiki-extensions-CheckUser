@@ -3,7 +3,8 @@
 		"authors": [
 			"Dbc334",
 			"Eleassar",
-			"Janezdrilc"
+			"Janezdrilc",
+			"MrJaroslavik"
 		]
 	},
 	"checkuser-summary": "To orodje naredi pregled zadnjih sprememb, da pridobi IP-naslove, ki jih uporablja uporabnik, ali prikaže podatke urejanja/uporabniške podatke IP-naslova.\nUporabniki in urejanja odjemalčevega IP-naslova se lahko pridobijo preko glav XFF tako, da se IP-naslovu pripne »/xff«. Podprta sta IPv4 (CIDR $1-32) in IPv6 (CIDR $2-128).\nZaradi zmogljivostnih razlogov je prikazanih največ 5.000 urejanj.\nOrodje uporabljajte v skladu s pravili.",
@@ -19,7 +20,7 @@
 	"right-checkuser-log": "Prikaži dnevnik preverjanj uporabnikov",
 	"action-checkuser": "preverjanje uporabnikovih IP-naslovov in drugih informacij",
 	"action-checkuser-log": "prikaži dnevnik preverjanj uporabnikov",
-	"grouppage-checkuser": "{{ns:project}}:Preveri uporabnika",
+	"grouppage-checkuser": "{{ns:project}}:Preverjevalci uporabnikov",
 	"checkuser-reason": "Razlog:",
 	"checkuser-reason-api": "API: $1",
 	"checkuser-showlog": "Preklopi na dnevnik preverjanj uporabnikov",
