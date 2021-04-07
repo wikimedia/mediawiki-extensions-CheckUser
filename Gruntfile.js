@@ -17,13 +17,16 @@ module.exports = function ( grunt ) {
 				cache: true
 			},
 			all: [
-				'*.{js,json}',
-				'modules/**/*.{js,json}'
+				'**/*.{js,json}',
+				'!vendor/**',
+				'!node_modules/**'
 			]
 		},
 		stylelint: {
 			all: [
-				'modules/**/*.{css,less}'
+				'**/*.{css,less}',
+				'!vendor/**',
+				'!node_modules/**'
 			]
 		},
 		banana: conf.MessagesDirs
