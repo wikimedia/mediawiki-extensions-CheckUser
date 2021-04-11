@@ -600,6 +600,9 @@ class Hooks {
 			$updater->addExtensionUpdate(
 				[ 'addPgField', 'cu_changes', 'cuc_private', 'BYTEA' ]
 			);
+			$updater->addExtensionUpdate( [ 'dropFkey', 'cu_log', 'cul_user' ] );
+			$updater->addExtensionUpdate( [ 'dropFkey', 'cu_log', 'cul_target_id' ] );
+			$updater->addExtensionUpdate( [ 'dropFkey', 'cu_changes', 'cuc_user' ] );
 		}
 
 		if ( !$isCUInstalled ) {

@@ -10,7 +10,7 @@ CREATE TABLE cu_changes (
   cuc_id         INTEGER  NOT NULL DEFAULT nextval('cu_changes_cu_id_seq'),
   cuc_namespace  SMALLINT NOT NULL DEFAULT 0,
   cuc_title      TEXT     NOT NULL DEFAULT '',
-  cuc_user       INTEGER      NULL REFERENCES mwuser(user_id) ON DELETE SET NULL,
+  cuc_user       INTEGER      NULL,
   cuc_user_text  TEXT     NOT NULL,
   cuc_actiontext TEXT     NOT NULL DEFAULT '',
   cuc_comment    TEXT     NOT NULL DEFAULT '',
