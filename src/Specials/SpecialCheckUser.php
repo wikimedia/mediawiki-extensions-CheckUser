@@ -487,17 +487,14 @@ class SpecialCheckUser extends SpecialPage {
 					$revWhere['joins']
 				) );
 			}
-			$logWhere = $actorMigration->getWhere( $dbr, 'log_user', $user );
-			foreach ( $logWhere['orconds'] as $cond ) {
-				$lastEdit = max( $lastEdit, $dbr->selectField(
-					[ 'logging' ] + $logWhere['tables'],
-					'log_timestamp',
-					$cond,
-					__METHOD__,
-					[ 'ORDER BY' => 'log_timestamp DESC' ],
-					$logWhere['joins']
-				) );
-			}
+			$lastEdit = max( $lastEdit, $dbr->selectField(
+				[ 'logging', 'actor' ],
+				'log_timestamp',
+				[ 'actor_name' => $userName ],
+				__METHOD__,
+				[ 'ORDER BY' => 'log_timestamp DESC' ],
+				[ 'actor' => [ 'JOIN', 'actor_id=log_actor' ] ]
+			) );
 
 			if ( $lastEdit ) {
 				$lastEditTime = wfTimestamp( TS_MW, $lastEdit );
