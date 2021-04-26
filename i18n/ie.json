@@ -1,8 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"OIS"
+			"OIS",
+			"Renan"
 		]
 	},
+	"group-checkuser": "Verificatores de usatores",
+	"group-checkuser-member": "{{GENDER:$1|verificator de usator}}",
+	"grouppage-checkuser": "{{ns:project}}:Verificator de usator",
 	"checkuser-investigate-tab-compare": "Comparar"
 }
