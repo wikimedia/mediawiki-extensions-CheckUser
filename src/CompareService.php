@@ -110,7 +110,9 @@ class CompareService extends ChangeService {
 			],
 			'options' => [
 				'GROUP BY' => [
+					'cuc_user',
 					'cuc_user_text',
+					'cuc_ip',
 					'cuc_ip_hex',
 					'cuc_agent',
 				],
