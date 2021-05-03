@@ -247,7 +247,7 @@ class PreliminaryCheckPager extends TablePager {
 	 */
 	public function getQueryInfo() {
 		$targets = $this->tokenData['targets'] ?? [];
-		$users = array_filter( array_map( 'User::newFromName', $targets ), function ( $user ) {
+		$users = array_filter( array_map( 'User::newFromName', $targets ), static function ( $user ) {
 			return (bool)$user;
 		} );
 

@@ -87,19 +87,15 @@ class PreliminaryCheckServiceTest extends MediaWikiIntegrationTestCase {
 				$ugmf,
 				$options['localWikiId']
 			] )
-			->setMethods( [ 'getCentralAuthDB', 'isUserBlocked', 'getUserGroups' ] )
+			->onlyMethods( [ 'isUserBlocked' ] )
 			->getMock();
 
 		$service->method( 'isUserBlocked' )
 			->willReturn( $user['blocked'] );
-		$service->method( 'getUserGroups' )
-			->willReturn( $user['groups'] );
-		$service->method( 'getCentralAuthDB' )
-			->willReturn( $dbRef );
 
 		if ( $options['isCentralAuthAvailable'] ) {
 			$rows = new FakeResultWrapper( array_map(
-				function ( $wiki ) use ( $user ) {
+				static function ( $wiki ) use ( $user ) {
 					return (object)[
 						'lu_name' => $user['name'],
 						'lu_wiki' => $wiki,

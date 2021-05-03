@@ -61,7 +61,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		$result = $this->getResult();
 
 		$count = 0;
-		$makeContinue = function ( $row ) {
+		$makeContinue = static function ( $row ) {
 			return wfTimestamp( TS_ISO_8601, $row->cul_timestamp ) . '|' . $row->cul_id;
 		};
 		foreach ( $res as $row ) {

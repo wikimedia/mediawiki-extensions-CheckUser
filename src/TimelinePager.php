@@ -124,7 +124,7 @@ class TimelinePager extends ReverseChronologicalPager {
 
 		$formattedLinks = implode( ' ', array_filter(
 			$rowItems['links'],
-			function ( $item ) {
+			static function ( $item ) {
 				return $item !== '';
 			} )
 		);
@@ -133,7 +133,7 @@ class TimelinePager extends ReverseChronologicalPager {
 			array_merge(
 				[ $formattedLinks ],
 				$rowItems['info']
-			), function ( $item ) {
+			), static function ( $item ) {
 				return $item !== '';
 			} )
 		);

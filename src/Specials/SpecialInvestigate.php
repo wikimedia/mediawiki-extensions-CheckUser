@@ -313,7 +313,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 				$pager = $this->preliminaryCheckPagerFactory->createPager( $this->getContext() );
 				$hasIpTargets = (bool)array_filter(
 					$this->getTokenData()['targets'] ?? [],
-					function ( $target ) {
+					static function ( $target ) {
 						return IPUtils::isIPAddress( $target );
 					}
 				);
@@ -492,7 +492,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 				'wgCheckUserInvestigateExcludeTargets' => $excludeTargets,
 			] );
 
-			$targetsText = $this->getLanguage()->listToText( array_map( function ( $target ) {
+			$targetsText = $this->getLanguage()->listToText( array_map( static function ( $target ) {
 				return Html::rawElement( 'strong', [], htmlspecialchars( $target ) );
 			}, $targets ) );
 			$subtitle = $this->msg( 'checkuser-investigate-page-subtitle', $targetsText );
@@ -851,7 +851,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	private function getRedirectUrl( array $update ) : string {
 		$parts = wfParseURL( $this->getRequest()->getFullRequestURL() );
 		$query = isset( $parts['query'] ) ? wfCgiToArray( $parts['query'] ) : [];
-		$data = array_filter( array_merge( $query, $update ), function ( $value ) {
+		$data = array_filter( array_merge( $query, $update ), static function ( $value ) {
 			return $value !== null;
 		} );
 		$parts['query'] = wfArrayToCgi( $data );
@@ -1015,7 +1015,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 
 		$this->subtitleLinksHookRunner->onCheckUserSubtitleLinks( $this->getContext(), $links );
 
-		$subtitle = implode( ' | ', array_filter( $links, function ( $link ) {
+		$subtitle = implode( ' | ', array_filter( $links, static function ( $link ) {
 			return (bool)$link;
 		} ) );
 

@@ -53,7 +53,7 @@ class TokenQueryManager {
 	 */
 	public function updateToken( WebRequest $request, array $update ) : string {
 		$tokenData = $this->getDataFromRequest( $request );
-		$data = array_filter( array_merge( $tokenData, $update ), function ( $value ) {
+		$data = array_filter( array_merge( $tokenData, $update ), static function ( $value ) {
 			return $value !== null;
 		} );
 

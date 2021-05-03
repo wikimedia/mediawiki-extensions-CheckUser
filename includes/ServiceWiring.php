@@ -18,7 +18,7 @@ use MediaWiki\Config\ServiceOptions;
 use MediaWiki\MediaWikiServices;
 
 return [
-	'CheckUserPreliminaryCheckService' => function (
+	'CheckUserPreliminaryCheckService' => static function (
 		MediaWikiServices $services
 	) : PreliminaryCheckService {
 		return new PreliminaryCheckService(
@@ -28,7 +28,7 @@ return [
 			WikiMap::getCurrentWikiDbDomain()->getId()
 		);
 	},
-	'CheckUserCompareService' => function ( MediaWikiServices $services ) : CompareService {
+	'CheckUserCompareService' => static function ( MediaWikiServices $services ) : CompareService {
 		return new CompareService(
 			new ServiceOptions(
 				CompareService::CONSTRUCTOR_OPTIONS,
@@ -38,32 +38,32 @@ return [
 			$services->get( 'CheckUserUserManager' )
 		);
 	},
-	'CheckUserTimelineService' => function ( MediaWikiServices $services ) : TimelineService {
+	'CheckUserTimelineService' => static function ( MediaWikiServices $services ) : TimelineService {
 		return new TimelineService(
 			$services->getDBLoadBalancer(),
 			$services->get( 'CheckUserUserManager' )
 		);
 	},
-	'CheckUserTokenManager' => function ( MediaWikiServices $services ) : TokenManager {
+	'CheckUserTokenManager' => static function ( MediaWikiServices $services ) : TokenManager {
 		return new TokenManager(
 			$services->getMainConfig()->get( 'SecretKey' )
 		);
 	},
-	'CheckUserTokenQueryManager' => function ( MediaWikiServices $services ) : TokenQueryManager {
+	'CheckUserTokenQueryManager' => static function ( MediaWikiServices $services ) : TokenQueryManager {
 		return new TokenQueryManager(
 			$services->get( 'CheckUserTokenManager' )
 		);
 	},
-	'CheckUserDurationManager' => function ( MediaWikiServices $services ) : DurationManager {
+	'CheckUserDurationManager' => static function ( MediaWikiServices $services ) : DurationManager {
 		return new DurationManager();
 	},
-	'CheckUserGuidedTourLauncher' => function ( MediaWikiServices $services ) : TourLauncher {
+	'CheckUserGuidedTourLauncher' => static function ( MediaWikiServices $services ) : TourLauncher {
 		return new TourLauncher(
 			ExtensionRegistry::getInstance(),
 			$services->getLinkRenderer()
 		);
 	},
-	'CheckUserPreliminaryCheckPagerFactory' => function (
+	'CheckUserPreliminaryCheckPagerFactory' => static function (
 		MediaWikiServices $services
 	) : PreliminaryCheckPagerFactory {
 		return new PreliminaryCheckPagerFactory(
@@ -74,7 +74,7 @@ return [
 			$services->get( 'CheckUserPreliminaryCheckService' )
 		);
 	},
-	'CheckUserComparePagerFactory' => function ( MediaWikiServices $services ) : ComparePagerFactory {
+	'CheckUserComparePagerFactory' => static function ( MediaWikiServices $services ) : ComparePagerFactory {
 		return new ComparePagerFactory(
 			$services->getLinkRenderer(),
 			$services->get( 'CheckUserTokenQueryManager' ),
@@ -82,7 +82,7 @@ return [
 			$services->get( 'CheckUserCompareService' )
 		);
 	},
-	'CheckUserTimelineRowFormatterFactory' => function (
+	'CheckUserTimelineRowFormatterFactory' => static function (
 		MediaWikiServices $services
 	) : TimelineRowFormatterFactory {
 		return new TimelineRowFormatterFactory(
@@ -95,7 +95,7 @@ return [
 			$services->getSpecialPageFactory()
 		);
 	},
-	'CheckUserTimelinePagerFactory' => function (
+	'CheckUserTimelinePagerFactory' => static function (
 		MediaWikiServices $services
 	) : TimelinePagerFactory {
 		return new TimelinePagerFactory(
@@ -107,19 +107,19 @@ return [
 			$services->get( 'CheckUserTimelineRowFormatterFactory' )
 		);
 	},
-	'CheckUserUserManager' => function (
+	'CheckUserUserManager' => static function (
 		MediaWikiServices $services
 	) : UserManager {
 		return new UserManager();
 	},
-	'CheckUserEventLogger' => function (
+	'CheckUserEventLogger' => static function (
 		 MediaWikiServices $services
 	) : EventLogger {
 		return new EventLogger(
 			\ExtensionRegistry::getInstance()
 		);
 	},
-	'CheckUserHookRunner' => function (
+	'CheckUserHookRunner' => static function (
 		MediaWikiServices $services
 	) : HookRunner {
 		return new HookRunner(

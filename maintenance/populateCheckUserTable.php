@@ -30,7 +30,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 	}
 
 	protected function doDBUpdates() {
-		$db = $this->getDB( DB_MASTER );
+		$db = $this->getDB( DB_PRIMARY );
 
 		// Check if the table is empty
 		$rcRows = $db->selectField( 'recentchanges', 'COUNT(*)', [], __METHOD__ );

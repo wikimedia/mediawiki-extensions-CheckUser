@@ -49,7 +49,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 			->willReturn( $options['limit'] );
 
 		$db = $this->getMockBuilder( Database::class )
-			->setMethods( [
+			->onlyMethods( [
 				'dbSchema',
 				'tablePrefix',
 			] )
