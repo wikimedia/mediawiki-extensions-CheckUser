@@ -29,7 +29,7 @@ class TokenQueryManagerTest extends MediaWikiIntegrationTestCase {
 		$tokenManager = $this->getMockTokenManager();
 		$tokenQueryManager = $this->getMockBuilder( TokenQueryManager::class )
 			->setConstructorArgs( [ $tokenManager ] )
-			->setMethods( [ 'getDataFromRequest' ] )
+			->onlyMethods( [ 'getDataFromRequest' ] )
 			->getMock();
 
 		$tokenData = [ 'foo' => true, 'bar' => false,  'baz' => 'test' ];

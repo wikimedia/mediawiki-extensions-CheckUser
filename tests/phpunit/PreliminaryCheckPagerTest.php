@@ -109,7 +109,7 @@ class PreliminaryCheckPagerTest extends MediaWikiIntegrationTestCase {
 				$registry,
 				$preliminaryCheckService
 			 ] )
-			->setMethods( [ 'isGlobalCheck' ] )
+			->onlyMethods( [ 'isGlobalCheck' ] )
 			->getMock();
 
 		$pager->method( 'isGlobalCheck' )->willReturn( true );

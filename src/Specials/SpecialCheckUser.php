@@ -2166,8 +2166,8 @@ class SpecialCheckUser extends SpecialPage {
 		$fname = __METHOD__;
 
 		DeferredUpdates::addCallableUpdate(
-			function () use ( $data, $timestamp, $fname ) {
-				$dbw = wfGetDB( DB_MASTER );
+			static function () use ( $data, $timestamp, $fname ) {
+				$dbw = wfGetDB( DB_PRIMARY );
 				$dbw->insert(
 					'cu_log',
 					[

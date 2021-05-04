@@ -30,7 +30,7 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 
 		$tokenQueryManager = $this->getMockBuilder( TokenQueryManager::class )
 			->disableOriginalConstructor()
-			->setMethods( [ 'getDataFromRequest' ] )
+			->onlyMethods( [ 'getDataFromRequest' ] )
 			->getMock();
 		$tokenQueryManager->method( 'getDataFromRequest' )
 			->willReturn( [
