@@ -18,6 +18,7 @@ use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\Hooks as CUHooks;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionRecord;
+use MediaWiki\User\UserGroupManager;
 use OOUI\IconWidget;
 use RequestContext;
 use SpecialBlock;
@@ -61,18 +62,24 @@ class SpecialCheckUser extends SpecialPage {
 	/** @var BlockPermissionCheckerFactory */
 	private $blockPermissionCheckerFactory;
 
+	/** @var UserGroupManager */
+	private $userGroupManager;
+
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory
 	 * @param BlockPermissionCheckerFactory $blockPermissionCheckerFactory
+	 * @param UserGroupManager $userGroupManager
 	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
-		BlockPermissionCheckerFactory $blockPermissionCheckerFactory
+		BlockPermissionCheckerFactory $blockPermissionCheckerFactory,
+		UserGroupManager $userGroupManager
 	) {
 		parent::__construct( 'CheckUser', 'checkuser' );
 
 		$this->linkBatchFactory = $linkBatchFactory;
 		$this->blockPermissionCheckerFactory = $blockPermissionCheckerFactory;
+		$this->userGroupManager = $userGroupManager;
 	}
 
 	public function doesWrites() {
@@ -1539,7 +1546,7 @@ class SpecialCheckUser extends SpecialPage {
 					// Case wikimap configured without CentralAuth extension
 					$user = $this->getUser();
 					// Get effective Local user groups since there is a wikimap but there is no CA
-					$gbUserGroups = $user->getEffectiveGroups();
+					$gbUserGroups = $this->userGroupManager->getUserEffectiveGroups( $user );
 					$linkGB = Html::element( 'a',
 						[
 							'href' => $centralGBUrl . "/" . $name,
@@ -1767,7 +1774,7 @@ class SpecialCheckUser extends SpecialPage {
 				$flags[] = '<b>(' . $this->msg( 'checkuser-locked' )->escaped() . ')</b>';
 			}
 			$list = [];
-			foreach ( $user->getGroups() as $group ) {
+			foreach ( $this->userGroupManager->getUserGroups( $user ) as $group ) {
 				$list[] = self::buildGroupLink( $group, $user->getName() );
 			}
 			$groups = $this->getLanguage()->commaList( $list );
