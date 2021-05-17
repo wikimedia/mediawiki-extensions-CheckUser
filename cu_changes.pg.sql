@@ -15,7 +15,7 @@ CREATE TABLE cu_changes (
   cuc_actiontext TEXT     NOT NULL DEFAULT '',
   cuc_comment    TEXT     NOT NULL DEFAULT '',
   cuc_minor      CHAR     NOT NULL DEFAULT 0,
-  cuc_page_id    INTEGER      NULL REFERENCES page(page_id) ON DELETE SET NULL,
+  cuc_page_id    INTEGER      NULL,
   cuc_this_oldid INTEGER  NOT NULL DEFAULT 0,
   cuc_last_oldid INTEGER  NOT NULL DEFAULT 0,
   cuc_type       SMALLINT NOT NULL DEFAULT 0,

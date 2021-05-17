@@ -603,6 +603,7 @@ class Hooks {
 			$updater->addExtensionUpdate( [ 'dropFkey', 'cu_log', 'cul_user' ] );
 			$updater->addExtensionUpdate( [ 'dropFkey', 'cu_log', 'cul_target_id' ] );
 			$updater->addExtensionUpdate( [ 'dropFkey', 'cu_changes', 'cuc_user' ] );
+			$updater->addExtensionUpdate( [ 'dropFkey', 'cu_changes', 'cuc_page_id' ] );
 		}
 
 		if ( !$isCUInstalled ) {
