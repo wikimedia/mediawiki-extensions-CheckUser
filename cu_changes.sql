@@ -3,7 +3,7 @@
 
 CREATE TABLE /*_*/cu_changes (
   -- Primary key
-  cuc_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  cuc_id INTEGER UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 
   -- When pages are renamed, their RC entries do _not_ change.
   cuc_namespace int NOT NULL default '0',
