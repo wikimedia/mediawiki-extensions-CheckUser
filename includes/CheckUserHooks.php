@@ -558,6 +558,11 @@ class CheckUserHooks {
 				'cuc_private',
 				"$base/archives/patch-cu_changes_privatedata.sql"
 			);
+			$updater->modifyExtensionField(
+				'cu_changes',
+				'cuc_id',
+				"$base/archives/patch-cu_changes-cuc_id-unsigned.sql"
+			);
 		} elseif ( $dbType === 'postgres' ) {
 			$updater->addExtensionUpdate(
 				[ 'addPgField', 'cu_changes', 'cuc_private', 'BYTEA' ]
