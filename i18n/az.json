@@ -20,7 +20,7 @@
 	"checkuser-contribs": "İstifadəçinin IP ünvanını yoxla",
 	"checkuser-contribs-log": "Hal-hazırki istifadəçi yoxlanılmaları",
 	"group-checkuser": "Təftişçilər",
-	"group-checkuser-member": "{{GENDER:$1|təftiş et}}",
+	"group-checkuser-member": "{{GENDER:$1|təftişçi}}",
 	"right-checkuser": "İstifadəçinin IP ünvanını və daha çox məlumatı yoxla",
 	"right-checkuser-log": "Təftişçi jurnalına bax",
 	"action-checkuser": "istifadəçinin IP ünvanını və daha çox məlumatı yoxla",
