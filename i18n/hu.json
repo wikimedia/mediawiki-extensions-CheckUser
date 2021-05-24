@@ -92,7 +92,7 @@
 	"checkuser-autocreate-action": "automatikusan létrehozva",
 	"checkuser-create-action": "készült",
 	"checkuser-email-action": "e-mailt küldött „$1” szerkesztőnek",
-	"checkuser-reset-action": "lecserélte „$1” jelszavát",
+	"checkuser-reset-action": "jelszóemlékeztetőt kért „$1” nevében",
 	"checkuser-token-fail": "Munkamenethiba. Kérlek próbáld újra.",
 	"checkuser-login-failure": "Nem sikerült belépned a(z) {{SITENAME}} oldalra mint $1",
 	"checkuser-login-success": "Sikeresen beléptél a(z) {{SITENAME}} oldalra mint $1",
