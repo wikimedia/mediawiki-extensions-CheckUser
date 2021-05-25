@@ -7,6 +7,7 @@ use IContextSource;
 use MediaWiki\CheckUser\Hook\CheckUserFormatRowHook;
 use MediaWiki\Linker\LinkRenderer;
 use ParserOutput;
+use Psr\Log\LoggerInterface;
 use ReverseChronologicalPager;
 
 class TimelinePager extends ReverseChronologicalPager {
@@ -47,6 +48,9 @@ class TimelinePager extends ReverseChronologicalPager {
 	 */
 	private $filteredTargets;
 
+	/** @var LoggerInterface */
+	private $logger;
+
 	public function __construct(
 		IContextSource $context,
 		LinkRenderer $linkRenderer,
@@ -54,13 +58,15 @@ class TimelinePager extends ReverseChronologicalPager {
 		TokenQueryManager $tokenQueryManager,
 		DurationManager $durationManager,
 		TimelineService $timelineService,
-		TimelineRowFormatter $timelineRowFormatter
+		TimelineRowFormatter $timelineRowFormatter,
+		LoggerInterface $logger
 	) {
 		parent::__construct( $context, $linkRenderer );
 		$this->formatRowHookRunner = $formatRowHookRunner;
 		$this->timelineService = $timelineService;
 		$this->timelineRowFormatter = $timelineRowFormatter;
 		$this->tokenQueryManager = $tokenQueryManager;
+		$this->logger = $logger;
 
 		$tokenData = $tokenQueryManager->getDataFromRequest( $context->getRequest() );
 		$this->mOffset = $tokenData['offset'] ?? '';
@@ -114,8 +120,7 @@ class TimelinePager extends ReverseChronologicalPager {
 		$this->formatRowHookRunner->onCheckUserFormatRow( $this->getContext(), $row, $rowItems );
 
 		if ( !is_array( $rowItems ) || !isset( $rowItems['links'] ) || !isset( $rowItems['info'] ) ) {
-			wfDebugLog(
-				__CLASS__,
+			$this->logger->warning(
 				__METHOD__ . ': Expected array with keys \'links\' and \'info\''
 					. ' from CheckUserFormatRow $rowItems param'
 			);

@@ -16,10 +16,12 @@ use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\Hooks as CUHooks;
+use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\User\UserGroupManager;
 use OOUI\IconWidget;
+use Psr\Log\LoggerInterface;
 use RequestContext;
 use SpecialBlock;
 use SpecialPage;
@@ -65,6 +67,9 @@ class SpecialCheckUser extends SpecialPage {
 	/** @var UserGroupManager */
 	private $userGroupManager;
 
+	/** @var LoggerInterface */
+	private $logger;
+
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory
 	 * @param BlockPermissionCheckerFactory $blockPermissionCheckerFactory
@@ -80,6 +85,7 @@ class SpecialCheckUser extends SpecialPage {
 		$this->linkBatchFactory = $linkBatchFactory;
 		$this->blockPermissionCheckerFactory = $blockPermissionCheckerFactory;
 		$this->userGroupManager = $userGroupManager;
+		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
 	}
 
 	public function doesWrites() {
@@ -2042,7 +2048,7 @@ class SpecialCheckUser extends SpecialPage {
 		if ( is_array( $links ) ) {
 			return implode( ' ', $links );
 		} else {
-			wfDebugLog( __CLASS__,
+			$this->logger->warning(
 				__METHOD__ . ': Expected array from SpecialCheckUserGetLinksFromRow $links param,'
 				. ' but received ' . gettype( $links )
 			);
