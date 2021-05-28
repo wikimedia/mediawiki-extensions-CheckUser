@@ -101,6 +101,7 @@
 	"checkuser-login-success": "Succesvol als $1 op {{SITENAME}} ingelogd",
 	"checkuser-investigateblock": "Gebruikers blokkeren",
 	"checkuser-investigateblock-target": "Gebruikersnaam en IP-adressen",
+	"checkuser-investigateblock-actions": "Te blokkeren handelingen",
 	"checkuser-investigateblock-reason": "Reden",
 	"checkuser-investigateblock-options": "Verdere opties",
 	"checkuser-investigateblock-email-label": "Weerhouden van het versturen van e-mail",
