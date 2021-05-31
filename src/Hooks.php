@@ -12,6 +12,7 @@ use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\Specials\SpecialInvestigate;
 use MediaWiki\CheckUser\Specials\SpecialInvestigateBlock;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\User\UserFactory;
 use PopulateCheckUserTable;
 use RecentChange;
 use RenameuserSQL;
@@ -690,7 +691,8 @@ class Hooks {
 	public static function doRetroactiveAutoblock( DatabaseBlock $block, array &$blockIds ) {
 		$dbr = wfGetDB( DB_REPLICA );
 
-		$user = User::newFromName( (string)$block->getTarget(), false );
+		$userFactory = MediaWikiServices::getInstance()->getUserFactory();
+		$user = $userFactory->newFromName( $block->getTargetName(), UserFactory::RIGOR_NONE );
 		if ( !$user->getId() ) {
 			// user in an IP?
 			return true;

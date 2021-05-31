@@ -764,7 +764,7 @@ class SpecialCheckUser extends SpecialPage {
 				[ 'wpTarget' => "#{$block->getId()}" ]
 			);
 		} else {
-			$userPage = Title::makeTitle( NS_USER, $block->getTarget() );
+			$userPage = Title::makeTitle( NS_USER, $block->getTargetName() );
 			$ret = $this->getLinkRenderer()->makeKnownLink(
 				SpecialPage::getTitleFor( 'Log' ),
 				$this->msg( 'checkuser-blocked' )->text(),
@@ -778,7 +778,7 @@ class SpecialCheckUser extends SpecialPage {
 
 		// Add the blocked range if the block is on a range
 		if ( $block->getType() == DatabaseBlock::TYPE_RANGE ) {
-			$ret .= ' - ' . htmlspecialchars( $block->getTarget() );
+			$ret .= ' - ' . htmlspecialchars( $block->getTargetName() );
 		}
 
 		return '<strong>' .
