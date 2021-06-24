@@ -468,8 +468,12 @@ class SpecialCheckUser extends SpecialPage {
 			if ( $page->exists() ) {
 				$flags |= EDIT_MINOR;
 			}
-			$page->doEditContent( new WikitextContent( $tag ), $summary,
-				$flags, false, $this->getUser() );
+			$page->doUserEditContent(
+				new WikitextContent( $tag ),
+				$this->getUser(),
+				$summary,
+				$flags
+			);
 		}
 	}
 
