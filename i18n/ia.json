@@ -124,5 +124,7 @@
 	"checkuser-investigate-duration-label": "Durata",
 	"checkuser-investigate-duration-option-all": "Totes",
 	"checkuser-investigate-duration-option-1w": "Ultime septimana",
-	"checkuser-investigate-duration-option-2w": "Ultime 2 septimanas"
+	"checkuser-investigate-duration-option-2w": "Ultime 2 septimanas",
+	"checkuser-investigate-duration-option-30d": "Ultime 30 dies",
+	"checkuser-investigate-reason-label": "Motivo"
 }
