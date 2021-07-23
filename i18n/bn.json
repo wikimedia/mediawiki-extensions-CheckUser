@@ -94,7 +94,7 @@
 	"checkuser-reset-action": "ব্যবহারকারী \"$1\"-এর পাসওয়ার্ড পুনঃস্থাপন হয়েছে",
 	"checkuser-token-fail": "সেশন ব্যর্থতা। অনুগ্রহপূর্বক আবার চেষ্টা করুন।",
 	"checkuser-login-failure": "$1 হিসেবে {{SITENAME}}-এ প্রবেশ করতে ব্যর্থ",
-	"checkuser-login-success": "$1 হিসেবে {{SITENAME}}-এ প্রবেশ সফল হয়েছে",
+	"checkuser-login-success": "$1 হিসেবে {{SITENAME}}-এ সফলভাবে প্রবেশ করেছেন",
 	"checkuser-link-investigate-label": "নতুন ব্যবহারকারী পরীক্ষণ সরঞ্জাম ব্যবহার করে দেখুন",
 	"checkuser-investigateblock": "ব্যবহারকারীদের বাধা দিন",
 	"checkuser-investigateblock-target": "ব্যবহারকারী নাম বা আইপি ঠিকানা",
