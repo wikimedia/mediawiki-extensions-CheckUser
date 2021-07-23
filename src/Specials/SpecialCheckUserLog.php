@@ -98,7 +98,7 @@ class SpecialCheckUserLog extends SpecialPage {
 	/**
 	 * Add subtitle links to the page
 	 */
-	private function addSubtitle() : void {
+	private function addSubtitle(): void {
 		if ( $this->permissionManager->userHasRight( $this->getUser(), 'checkuser' ) ) {
 			$links = [
 				$this->getLinkRenderer()->makeKnownLink(

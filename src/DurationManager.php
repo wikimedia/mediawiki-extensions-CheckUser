@@ -10,7 +10,7 @@ class DurationManager {
 	 * @param \WebRequest $request
 	 * @return string
 	 */
-	public function getFromRequest( \WebRequest $request ) : string {
+	public function getFromRequest( \WebRequest $request ): string {
 		$value = $request->getVal( 'duration', '' );
 
 		if ( !$this->isValid( $value ) ) {
@@ -26,7 +26,7 @@ class DurationManager {
 	 * @param \WebRequest $request
 	 * @return string
 	 */
-	public function getTimestampFromRequest( \WebRequest $request ) : string {
+	public function getTimestampFromRequest( \WebRequest $request ): string {
 		$duration = $this->getFromRequest( $request );
 		if ( $duration === '' ) {
 			return $duration;
@@ -47,7 +47,7 @@ class DurationManager {
 	 * @param string $value
 	 * @return bool
 	 */
-	public function isValid( string $value ) : bool {
+	public function isValid( string $value ): bool {
 		// No value implies "all"
 		if ( $value === '' ) {
 			return true;

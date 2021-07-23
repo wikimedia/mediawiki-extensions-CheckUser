@@ -36,7 +36,7 @@ class TokenManager {
 	 * @param array $data
 	 * @return string
 	 */
-	public function encode( Session $session, array $data ) : string {
+	public function encode( Session $session, array $data ): string {
 		$key = $this->getSessionKey( $session );
 		return JWT::encode(
 			[
@@ -58,7 +58,7 @@ class TokenManager {
 	 * @param string $iv
 	 * @return string
 	 */
-	private function encrypt( $input, string $iv ) : string {
+	private function encrypt( $input, string $iv ): string {
 		return openssl_encrypt(
 			\FormatJson::encode( $input ),
 			$this->getCipherMethod(),
@@ -75,7 +75,7 @@ class TokenManager {
 	 * @param string $token
 	 * @return array
 	 */
-	public function decode( Session $session, string $token ) : array {
+	public function decode( Session $session, string $token ): array {
 		$key = $this->getSessionKey( $session );
 		$payload = JWT::decode(
 			$token,
@@ -96,7 +96,7 @@ class TokenManager {
 	 * @param string $iv
 	 * @return array
 	 */
-	private function decrypt( string $input, string $iv ) : array {
+	private function decrypt( string $input, string $iv ): array {
 		$decrypted = openssl_decrypt(
 			$input,
 			$this->getCipherMethod(),
@@ -121,7 +121,7 @@ class TokenManager {
 	 * @param string $sessionKey
 	 * @return string
 	 */
-	private function getInitializationVector( string $sessionKey ) : string {
+	private function getInitializationVector( string $sessionKey ): string {
 		return hash_hmac( 'md5', $sessionKey, $this->secret, true );
 	}
 
@@ -132,7 +132,7 @@ class TokenManager {
 	 *
 	 * @return string
 	 */
-	private function getCipherMethod() : string {
+	private function getCipherMethod(): string {
 		if ( !$this->cipherMethod ) {
 			$methods = openssl_get_cipher_methods();
 			if ( in_array( 'aes-256-ctr', $methods, true ) ) {
@@ -160,7 +160,7 @@ class TokenManager {
 	 *
 	 * @return string
 	 */
-	private function getSessionKey( Session $session ) : string {
+	private function getSessionKey( Session $session ): string {
 		$key = $session->get( 'CheckUserTokenKey' );
 		if ( $key === null ) {
 			$key = base64_encode( random_bytes( 16 ) );
@@ -176,7 +176,7 @@ class TokenManager {
 	 * @param string $sessionKey
 	 * @return string
 	 */
-	private function getSigningKey( string $sessionKey ) : string {
+	private function getSigningKey( string $sessionKey ): string {
 		return hash_hmac( 'sha256', $sessionKey, $this->secret );
 	}
 }

@@ -38,7 +38,7 @@ class ComparePagerFactory implements PagerFactory {
 	/**
 	 * @inheritDoc
 	 */
-	public function createPager( \IContextSource $context ) : ComparePager {
+	public function createPager( \IContextSource $context ): ComparePager {
 		return new ComparePager(
 			$context,
 			$this->linkRenderer,

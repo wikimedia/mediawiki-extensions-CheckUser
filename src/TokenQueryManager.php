@@ -23,7 +23,7 @@ class TokenQueryManager {
 	 * @param array $queries
 	 * @return array
 	 */
-	public function getPagingQueries( WebRequest $request, array $queries ) : array {
+	public function getPagingQueries( WebRequest $request, array $queries ): array {
 		$tokenData = $this->getDataFromRequest( $request );
 		foreach ( $queries as &$query ) {
 			if ( $query === false ) {
@@ -51,7 +51,7 @@ class TokenQueryManager {
 	 * @param array $update
 	 * @return string
 	 */
-	public function updateToken( WebRequest $request, array $update ) : string {
+	public function updateToken( WebRequest $request, array $update ): string {
 		$tokenData = $this->getDataFromRequest( $request );
 		$data = array_filter( array_merge( $tokenData, $update ), static function ( $value ) {
 			return $value !== null;
@@ -66,7 +66,7 @@ class TokenQueryManager {
 	 * @param WebRequest $request
 	 * @return array
 	 */
-	public function getDataFromRequest( WebRequest $request ) : array {
+	public function getDataFromRequest( WebRequest $request ): array {
 		$token = $request->getVal( 'token' );
 
 		if ( empty( $token ) ) {

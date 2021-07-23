@@ -21,7 +21,7 @@ class UserManager {
 	 * @param string $username
 	 * @return int|null Id, or null if the username is invalid or non-existent
 	 */
-	public function idFromName( string $username ) : ?int {
+	public function idFromName( string $username ): ?int {
 		return User::idFromName( $username );
 	}
 }

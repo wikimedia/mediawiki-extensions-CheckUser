@@ -571,7 +571,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param int|null $limit
 	 * @return IResultWrapper
 	 */
-	protected function doUserIPsDBRequest( $user_id, $period = 0, $limit = null ) : IResultWrapper {
+	protected function doUserIPsDBRequest( $user_id, $period = 0, $limit = null ): IResultWrapper {
 		if ( $limit === null ) {
 			// We add 1 to the row count here because the number of rows returned is used to determine
 			// whether the data has been truncated.
@@ -646,7 +646,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param int|null $limit
 	 * @return array
 	 */
-	protected function getIPSets( IResultWrapper $result, $limit = null ) : array {
+	protected function getIPSets( IResultWrapper $result, $limit = null ): array {
 		if ( $limit === null ) {
 			$limit = $this->getConfig()->get( 'CheckUserMaximumRowCount' );
 		}
@@ -895,7 +895,7 @@ class SpecialCheckUser extends SpecialPage {
 	 */
 	protected function IPEditsTooManyDB(
 		$ip, $xfor, $index, $period = 0, $limit = null
-	) : IResultWrapper {
+	): IResultWrapper {
 		if ( $limit === null ) {
 			// We add 1 to the row count here because the number of rows returned is used to determine
 			// whether the data has been truncated.
@@ -994,7 +994,7 @@ class SpecialCheckUser extends SpecialPage {
 	 */
 	protected function doIPEditsDBRequest(
 		$ip, $xfor, $index, $period = 0, $limit = null
-	) : IResultWrapper {
+	): IResultWrapper {
 		if ( $limit === null ) {
 			// We add 1 to the row count here because the number of rows returned is used to determine
 			// whether the data has been truncated.
@@ -1177,7 +1177,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param int|null $limit
 	 * @return IResultWrapper
 	 */
-	protected function doUserEditsDBRequest( $user_id, $period = 0, $limit = null ) : IResultWrapper {
+	protected function doUserEditsDBRequest( $user_id, $period = 0, $limit = null ): IResultWrapper {
 		if ( $limit === null ) {
 			$limit = $this->getConfig()->get( 'CheckUserMaximumRowCount' );
 		}
@@ -1310,7 +1310,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param int $period
 	 * @return IResultWrapper
 	 */
-	protected function IPUsersTooManyDB( $ip, $xfor, $index, $period = 0 ) : IResultWrapper {
+	protected function IPUsersTooManyDB( $ip, $xfor, $index, $period = 0 ): IResultWrapper {
 		return $this->IPEditsTooManyDB( $ip, $xfor, $index, $period );
 	}
 
@@ -1338,7 +1338,7 @@ class SpecialCheckUser extends SpecialPage {
 	 */
 	protected function doIPUsersDBRequest(
 		$ip, $xfor, $index, $period = 0, $limit = 10000
-	) : IResultWrapper {
+	): IResultWrapper {
 		$dbr = wfGetDB( DB_REPLICA );
 		$conds = self::getIpConds( $dbr, $ip, $xfor );
 		if ( $conds === false ) {
@@ -1368,7 +1368,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param IResultWrapper $result
 	 * @return array[]
 	 */
-	protected function getUserSets( IResultWrapper $result ) : array {
+	protected function getUserSets( IResultWrapper $result ): array {
 		$userSets = [
 			'first' => [],
 			'last' => [],

@@ -32,7 +32,7 @@ abstract class ChangeService {
 	 * @param string[] $targets
 	 * @return string[]
 	 */
-	protected function buildTargetCondsMultiple( array $targets ) : array {
+	protected function buildTargetCondsMultiple( array $targets ): array {
 		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
 
 		$condSet = array_map( function ( $target ) {
@@ -65,7 +65,7 @@ abstract class ChangeService {
 	 * @param string $target
 	 * @return string[]
 	 */
-	protected function buildTargetConds( $target ) : array {
+	protected function buildTargetConds( $target ): array {
 		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
 		$conds = [];
 
@@ -95,7 +95,7 @@ abstract class ChangeService {
 	 * @param string[] $targets
 	 * @return array
 	 */
-	protected function buildExcludeTargetsConds( array $targets ) : array {
+	protected function buildExcludeTargetsConds( array $targets ): array {
 		$conds = [];
 		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
 
@@ -129,7 +129,7 @@ abstract class ChangeService {
 	 * @param string $start timestamp
 	 * @return array conditions
 	 */
-	protected function buildStartConds( string $start ) : array {
+	protected function buildStartConds( string $start ): array {
 		if ( $start === '' ) {
 			return [];
 		}

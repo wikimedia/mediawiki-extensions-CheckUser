@@ -302,7 +302,7 @@ class ComparePager extends TablePager {
 	 *
 	 * @return string[] Targets whose limits were exceeded (if any)
 	 */
-	public function getTargetsOverLimit() : array {
+	public function getTargetsOverLimit(): array {
 		return $this->compareService->getTargetsOverLimit(
 			$this->filteredTargets,
 			$this->excludeTargets,

@@ -17,13 +17,13 @@ use MWTimestamp;
  */
 class TokenManagerTest extends MediaWikiIntegrationTestCase {
 
-	public function setUp() : void {
+	public function setUp(): void {
 		parent::setUp();
 		MWTimestamp::setFakeTime( 0 );
 		JWT::$timestamp = 60;
 	}
 
-	public function tearDown() : void {
+	public function tearDown(): void {
 		parent::tearDown();
 		MWTimestamp::setFakeTime( null );
 		JWT::$timestamp = null;

@@ -23,7 +23,7 @@ class EventLogger {
 	 *
 	 * @param array $event
 	 */
-	public function logEvent( $event ) : void {
+	public function logEvent( $event ): void {
 		if ( $this->extensionRegistry->isLoaded( 'EventLogging' ) ) {
 			EventLogging::logEvent(
 				'SpecialInvestigate',
@@ -39,7 +39,7 @@ class EventLogger {
 	 *
 	 * @return int
 	 */
-	public function getTime() : int {
+	public function getTime(): int {
 		return (int)round( microtime( true ) * 1000 );
 	}
 }

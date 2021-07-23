@@ -288,7 +288,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 	 * @param string $target Must be a valid IP address or a valid user name
 	 * @return string
 	 */
-	private function getTargetPage( int $namespace, string $target ) : string {
+	private function getTargetPage( int $namespace, string $target ): string {
 		if ( IPUtils::isValidRange( $target ) ) {
 			$target = IPUtils::sanitizeRange( $target );
 		}
@@ -312,7 +312,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 		string $notice,
 		string $position,
 		string $summary
-	) : void {
+	): void {
 		$apiParams = [
 			'action' => 'edit',
 			'title' => $title,

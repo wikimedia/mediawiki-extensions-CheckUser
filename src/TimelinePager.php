@@ -175,7 +175,7 @@ class TimelinePager extends ReverseChronologicalPager {
 	 *
 	 * @return ParserOutput
 	 */
-	public function getFullOutput() : ParserOutput {
+	public function getFullOutput(): ParserOutput {
 		return new ParserOutput(
 			$this->getNavigationBar() . $this->getBody() . $this->getNavigationBar()
 		);

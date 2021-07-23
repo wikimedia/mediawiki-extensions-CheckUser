@@ -50,7 +50,7 @@ class TimelinePagerFactory implements PagerFactory {
 	/**
 	 * @inheritDoc
 	 */
-	public function createPager( IContextSource $context ) : TimelinePager {
+	public function createPager( IContextSource $context ): TimelinePager {
 		$rowFormatter = $this->rowFormatterFactory->createRowFormatter(
 			$context->getUser(), $context->getLanguage()
 		);

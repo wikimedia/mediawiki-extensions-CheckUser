@@ -82,7 +82,7 @@ class TimelineRowFormatter {
 	 * @param \stdClass $row
 	 * @return array
 	 */
-	public function getFormattedRowItems( \stdClass $row ) : array {
+	public function getFormattedRowItems( \stdClass $row ): array {
 		return [
 			'links' => [
 				'logLink' => $this->getLogLink( $row ),
@@ -110,7 +110,7 @@ class TimelineRowFormatter {
 	 * @param \stdClass $row
 	 * @return string
 	 */
-	private function getComment( \stdClass $row ) : string {
+	private function getComment( \stdClass $row ): string {
 		$comment = '';
 
 		if (
@@ -161,7 +161,7 @@ class TimelineRowFormatter {
 	 * @param string $ip
 	 * @return string
 	 */
-	private function getIpInfo( string $ip ) : string {
+	private function getIpInfo( string $ip ): string {
 		// Note: in the old check user this links to self with ip as target. Can't do now
 		// because of token. We could prefill a new investigation tab
 		return IPUtils::prettifyIP( $ip );
@@ -171,7 +171,7 @@ class TimelineRowFormatter {
 	 * @param string $userAgent
 	 * @return string
 	 */
-	private function getUserAgent( string $userAgent ) : string {
+	private function getUserAgent( string $userAgent ): string {
 		return htmlspecialchars( $userAgent );
 	}
 
@@ -179,7 +179,7 @@ class TimelineRowFormatter {
 	 * @param string $actionText
 	 * @return string
 	 */
-	private function getActionText( string $actionText ) : string {
+	private function getActionText( string $actionText ): string {
 		return Linker::formatComment( $actionText );
 	}
 
@@ -187,7 +187,7 @@ class TimelineRowFormatter {
 	 * @param \stdClass $row
 	 * @return string
 	 */
-	private function getTitleLink( \stdClass $row ) : string {
+	private function getTitleLink( \stdClass $row ): string {
 		if ( $row->cuc_type == RC_LOG ) {
 			return '';
 		}
@@ -205,7 +205,7 @@ class TimelineRowFormatter {
 	 * @param \stdClass $row
 	 * @return string
 	 */
-	private function getLogLink( \stdClass $row ) : string {
+	private function getLogLink( \stdClass $row ): string {
 		if ( $row->cuc_type != RC_LOG ) {
 			return '';
 		}
@@ -230,7 +230,7 @@ class TimelineRowFormatter {
 	 * @param \stdClass $row
 	 * @return string
 	 */
-	private function getDiffLink( \stdClass $row ) : string {
+	private function getDiffLink( \stdClass $row ): string {
 		if ( $row->cuc_type == RC_NEW || $row->cuc_type == RC_LOG ) {
 			return '';
 		}
@@ -260,7 +260,7 @@ class TimelineRowFormatter {
 	 * @param \stdClass $row
 	 * @return string
 	 */
-	private function getHistoryLink( \stdClass $row ) : string {
+	private function getHistoryLink( \stdClass $row ): string {
 		if ( $row->cuc_type == RC_NEW || $row->cuc_type == RC_LOG ) {
 			return '';
 		}
@@ -289,7 +289,7 @@ class TimelineRowFormatter {
 	 * @param int $type
 	 * @return string
 	 */
-	private function getNewPageFlag( int $type ) : string {
+	private function getNewPageFlag( int $type ): string {
 		if ( $type == RC_NEW ) {
 			return Html::rawElement( 'span',
 				[ 'class' => 'newpage' ],
@@ -303,7 +303,7 @@ class TimelineRowFormatter {
 	 * @param bool $minor
 	 * @return string
 	 */
-	private function getMinorFlag( bool $minor ) : string {
+	private function getMinorFlag( bool $minor ): string {
 		if ( $minor ) {
 			return Html::rawElement(
 				'span',
@@ -318,7 +318,7 @@ class TimelineRowFormatter {
 	 * @param string $timestamp
 	 * @return string
 	 */
-	private function getTime( string $timestamp ) : string {
+	private function getTime( string $timestamp ): string {
 		return htmlspecialchars(
 			$this->language->userTime( wfTimestamp( TS_MW, $timestamp ), $this->user )
 		);
@@ -328,7 +328,7 @@ class TimelineRowFormatter {
 	 * @param \stdClass $row
 	 * @return string
 	 */
-	private function getUserLinks( \stdClass $row ) : string {
+	private function getUserLinks( \stdClass $row ): string {
 		// Note: this is incomplete. It should match the checks
 		// in SpecialCheckUser when displaying the same info
 		$userId = $row->cuc_user;
@@ -368,7 +368,7 @@ class TimelineRowFormatter {
 	 * @param array $params
 	 * @return Message
 	 */
-	private function msg( string $key, array $params = [] ) : Message {
+	private function msg( string $key, array $params = [] ): Message {
 		return new Message( $key, $params, $this->language );
 	}
 }

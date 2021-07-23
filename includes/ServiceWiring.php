@@ -21,7 +21,7 @@ use MediaWiki\MediaWikiServices;
 return [
 	'CheckUserPreliminaryCheckService' => static function (
 		MediaWikiServices $services
-	) : PreliminaryCheckService {
+	): PreliminaryCheckService {
 		return new PreliminaryCheckService(
 			$services->getDBLoadBalancerFactory(),
 			ExtensionRegistry::getInstance(),
@@ -29,7 +29,7 @@ return [
 			WikiMap::getCurrentWikiDbDomain()->getId()
 		);
 	},
-	'CheckUserCompareService' => static function ( MediaWikiServices $services ) : CompareService {
+	'CheckUserCompareService' => static function ( MediaWikiServices $services ): CompareService {
 		return new CompareService(
 			new ServiceOptions(
 				CompareService::CONSTRUCTOR_OPTIONS,
@@ -39,26 +39,26 @@ return [
 			$services->get( 'CheckUserUserManager' )
 		);
 	},
-	'CheckUserTimelineService' => static function ( MediaWikiServices $services ) : TimelineService {
+	'CheckUserTimelineService' => static function ( MediaWikiServices $services ): TimelineService {
 		return new TimelineService(
 			$services->getDBLoadBalancer(),
 			$services->get( 'CheckUserUserManager' )
 		);
 	},
-	'CheckUserTokenManager' => static function ( MediaWikiServices $services ) : TokenManager {
+	'CheckUserTokenManager' => static function ( MediaWikiServices $services ): TokenManager {
 		return new TokenManager(
 			$services->getMainConfig()->get( 'SecretKey' )
 		);
 	},
-	'CheckUserTokenQueryManager' => static function ( MediaWikiServices $services ) : TokenQueryManager {
+	'CheckUserTokenQueryManager' => static function ( MediaWikiServices $services ): TokenQueryManager {
 		return new TokenQueryManager(
 			$services->get( 'CheckUserTokenManager' )
 		);
 	},
-	'CheckUserDurationManager' => static function ( MediaWikiServices $services ) : DurationManager {
+	'CheckUserDurationManager' => static function ( MediaWikiServices $services ): DurationManager {
 		return new DurationManager();
 	},
-	'CheckUserGuidedTourLauncher' => static function ( MediaWikiServices $services ) : TourLauncher {
+	'CheckUserGuidedTourLauncher' => static function ( MediaWikiServices $services ): TourLauncher {
 		return new TourLauncher(
 			ExtensionRegistry::getInstance(),
 			$services->getLinkRenderer()
@@ -66,7 +66,7 @@ return [
 	},
 	'CheckUserPreliminaryCheckPagerFactory' => static function (
 		MediaWikiServices $services
-	) : PreliminaryCheckPagerFactory {
+	): PreliminaryCheckPagerFactory {
 		return new PreliminaryCheckPagerFactory(
 			$services->getLinkRenderer(),
 			$services->getNamespaceInfo(),
@@ -75,7 +75,7 @@ return [
 			$services->get( 'CheckUserPreliminaryCheckService' )
 		);
 	},
-	'CheckUserComparePagerFactory' => static function ( MediaWikiServices $services ) : ComparePagerFactory {
+	'CheckUserComparePagerFactory' => static function ( MediaWikiServices $services ): ComparePagerFactory {
 		return new ComparePagerFactory(
 			$services->getLinkRenderer(),
 			$services->get( 'CheckUserTokenQueryManager' ),
@@ -85,7 +85,7 @@ return [
 	},
 	'CheckUserTimelineRowFormatterFactory' => static function (
 		MediaWikiServices $services
-	) : TimelineRowFormatterFactory {
+	): TimelineRowFormatterFactory {
 		return new TimelineRowFormatterFactory(
 			$services->getLinkRenderer(),
 			$services->getDBLoadBalancer(),
@@ -98,7 +98,7 @@ return [
 	},
 	'CheckUserTimelinePagerFactory' => static function (
 		MediaWikiServices $services
-	) : TimelinePagerFactory {
+	): TimelinePagerFactory {
 		return new TimelinePagerFactory(
 			$services->getLinkRenderer(),
 			$services->get( 'CheckUserHookRunner' ),
@@ -111,19 +111,19 @@ return [
 	},
 	'CheckUserUserManager' => static function (
 		MediaWikiServices $services
-	) : UserManager {
+	): UserManager {
 		return new UserManager();
 	},
 	'CheckUserEventLogger' => static function (
 		 MediaWikiServices $services
-	) : EventLogger {
+	): EventLogger {
 		return new EventLogger(
 			\ExtensionRegistry::getInstance()
 		);
 	},
 	'CheckUserHookRunner' => static function (
 		MediaWikiServices $services
-	) : HookRunner {
+	): HookRunner {
 		return new HookRunner(
 			$services->getHookContainer()
 		);

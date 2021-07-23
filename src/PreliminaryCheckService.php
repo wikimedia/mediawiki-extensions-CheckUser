@@ -48,7 +48,7 @@ class PreliminaryCheckService {
 	 * @param User[] $users
 	 * @return array
 	 */
-	public function getQueryInfo( array $users ) : array {
+	public function getQueryInfo( array $users ): array {
 		if ( $this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
 			$info = $this->getGlobalQueryInfo( $users );
 		} else {
@@ -63,7 +63,7 @@ class PreliminaryCheckService {
 	 * @param User[] $users
 	 * @return array
 	 */
-	protected function getGlobalQueryInfo( array $users ) : array {
+	protected function getGlobalQueryInfo( array $users ): array {
 		return [
 			'tables' => 'localuser',
 			'fields' => [
@@ -80,7 +80,7 @@ class PreliminaryCheckService {
 	 * @param User[]|string[] $users
 	 * @return array
 	 */
-	protected function getLocalQueryInfo( array $users ) : array {
+	protected function getLocalQueryInfo( array $users ): array {
 		return [
 			'tables' => 'user',
 			'fields' => [
@@ -98,7 +98,7 @@ class PreliminaryCheckService {
 	 * @param string $field
 	 * @return array
 	 */
-	protected function buildUserConds( array $users, string $field ) : array {
+	protected function buildUserConds( array $users, string $field ): array {
 		if ( !$users ) {
 			return [ 0 ];
 		}
@@ -111,7 +111,7 @@ class PreliminaryCheckService {
 	 * @param string $wikiId
 	 * @return IDatabase
 	 */
-	protected function getLocalDb( $wikiId ) : IDatabase {
+	protected function getLocalDb( $wikiId ): IDatabase {
 		return $this->lbFactory->getMainLB( $wikiId )->getConnectionRef( DB_REPLICA, [], $wikiId );
 	}
 
@@ -123,7 +123,7 @@ class PreliminaryCheckService {
 	 * @param IResultWrapper $rows
 	 * @return array
 	 */
-	public function preprocessResults( IResultWrapper $rows ) : array {
+	public function preprocessResults( IResultWrapper $rows ): array {
 		$data = [];
 		foreach ( $rows as $row ) {
 			if ( $this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
@@ -162,7 +162,7 @@ class PreliminaryCheckService {
 	 * @param string $wikiId
 	 * @return array
 	 */
-	protected function getAdditionalLocalData( $row, string $wikiId ) : array {
+	protected function getAdditionalLocalData( $row, string $wikiId ): array {
 		$db = $this->getLocalDb( $wikiId );
 
 		return [

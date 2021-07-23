@@ -13,7 +13,7 @@ use MWTimestamp;
  */
 class DurationManagerTest extends MediaWikiIntegrationTestCase {
 
-	public function setUp() : void {
+	public function setUp(): void {
 		parent::setUp();
 		MWTimestamp::setFakeTime( 0 );
 	}
@@ -21,7 +21,7 @@ class DurationManagerTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * @dataProvider provideDuration
 	 */
-	public function testGetFromRequest( string $duration, string $timestamp ) : void {
+	public function testGetFromRequest( string $duration, string $timestamp ): void {
 		$valid = ( $timestamp !== '' );
 		$durationManager = new DurationManager();
 
@@ -35,7 +35,7 @@ class DurationManagerTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * @dataProvider provideDuration
 	 */
-	public function testIsValid( string $duration, string $timestamp ) : void {
+	public function testIsValid( string $duration, string $timestamp ): void {
 		$valid = ( $timestamp !== '' );
 		$durationManager = new DurationManager();
 
@@ -45,7 +45,7 @@ class DurationManagerTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * @dataProvider provideDuration
 	 */
-	public function testGetTimestampFromRequest( string $duration, string $timestamp ) : void {
+	public function testGetTimestampFromRequest( string $duration, string $timestamp ): void {
 		$durationManager = new DurationManager();
 
 		$request = new FauxRequest( [
@@ -58,7 +58,7 @@ class DurationManagerTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * Provides durations.
 	 */
-	public function provideDuration() : array {
+	public function provideDuration(): array {
 		return [
 			'Valid duration' => [
 				'P1W',

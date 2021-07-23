@@ -60,7 +60,7 @@ class TimelineRowFormatterFactory {
 	 * @param Language $language
 	 * @return TimelineRowFormatter
 	 */
-	public function createRowFormatter( User $user, Language $language ) : TimelineRowFormatter {
+	public function createRowFormatter( User $user, Language $language ): TimelineRowFormatter {
 		return new TimelineRowFormatter(
 			$this->linkRenderer,
 			$this->loadBalancer,

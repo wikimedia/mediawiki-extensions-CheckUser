@@ -35,7 +35,7 @@ class TourLauncher {
 	 * @param string $tourName
 	 * @param string $step
 	 */
-	public function launchTour( string $tourName, string $step ) : void {
+	public function launchTour( string $tourName, string $step ): void {
 		if ( !$this->extensionRegistry->isLoaded( 'GuidedTour' ) ) {
 			return;
 		}
@@ -57,7 +57,7 @@ class TourLauncher {
 		$text = null,
 		array $extraAttribs = [],
 		array $query = []
-	) : string {
+	): string {
 		if ( !$this->extensionRegistry->isLoaded( 'GuidedTour' ) ) {
 			return '';
 		}
