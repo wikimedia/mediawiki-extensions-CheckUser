@@ -633,17 +633,6 @@ class Hooks {
 	}
 
 	/**
-	 * Tell the parser test engine to create a stub cu_changes table,
-	 * or temporary pages won't save correctly during the test run.
-	 * @param array &$tables
-	 * @return bool
-	 */
-	public static function checkUserParserTestTables( &$tables ) {
-		$tables[] = 'cu_changes';
-		return true;
-	}
-
-	/**
 	 * Add a link to Special:CheckUser and Special:CheckUserLog
 	 * on Special:Contributions/<username> for
 	 * privileged users.

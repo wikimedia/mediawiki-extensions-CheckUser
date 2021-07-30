@@ -98,7 +98,6 @@
 		"LocalUserCreated": "MediaWiki\\CheckUser\\Hooks::onLocalUserCreated",
 		"UserMergeAccountFields": "MediaWiki\\CheckUser\\Hooks::onUserMergeAccountFields",
 		"RenameUserSQL": "MediaWiki\\CheckUser\\Hooks::onRenameUserSQL",
-		"ParserTestTables": "MediaWiki\\CheckUser\\Hooks::checkUserParserTestTables",
 		"LoadExtensionSchemaUpdates": "MediaWiki\\CheckUser\\Hooks::onLoadExtensionSchemaUpdates",
 		"ContributionsToolLinks": "MediaWiki\\CheckUser\\Hooks::checkUserContributionsLinks",
 		"PerformRetroactiveAutoblock": "MediaWiki\\CheckUser\\Hooks::doRetroactiveAutoblock",
