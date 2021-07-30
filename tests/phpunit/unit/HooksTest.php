@@ -66,19 +66,6 @@ class HooksTest extends MediaWikiUnitTestCase {
 	}
 
 	/**
-	 * @covers ::checkUserParserTestTables
-	 */
-	public function testCheckUserParserTestTables() {
-		$tables = [];
-		Hooks::checkUserParserTestTables( $tables );
-		$this->assertEquals(
-			[ 'cu_changes' ],
-			$tables,
-			'cu_changes table was added to the list of tables'
-		);
-	}
-
-	/**
 	 * @covers ::onUserMergeAccountFields
 	 */
 	public function testOnUserMergeAccountFields() {
