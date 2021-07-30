@@ -1,4 +1,4 @@
-/* eslint-disable one-var, vars-on-top */
+/* eslint-disable vars-on-top */
 /* -- (c) Aaron Schulz 2009 */
 ( function () {
 	var showResults = function ( size, cidr ) {
