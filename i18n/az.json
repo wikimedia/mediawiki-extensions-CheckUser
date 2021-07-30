@@ -67,7 +67,7 @@
 	"checkuser-block-noreason": "Siz blok üçün səbəb yazmalısınız.",
 	"checkuser-centralauth-multilock": "Multi kilidi seçilmiş hesablar",
 	"checkuser-noreason": "Siz bu sorğu üçün səbəb yazmalısınız.",
-	"checkuser-too-many": "Çox nəticə var. (sorğunun qiymətləndirilməsinə görə), CIDR-ni daraltın. Burada istifadə olunan IP ünvanları (5000 max, ünvanı ilə sıralanır):",
+	"checkuser-too-many": "Çox nəticə var. (sorğunun qiymətləndirilməsinə görə), CIDR-ni daraltın. Burada istifadə olunan IP ünvanları ($1 maks., ünvan ilə sıralanır):",
 	"checkuser-user-nonexistent": "Göstərilən istifadəçi yoxdur.",
 	"checkuser-search": "İstifadəçi yoxlama girişlərini axtarın",
 	"checkuser-search-submit": "Axtar",
