@@ -227,7 +227,8 @@
 			"services": [
 				"LinkBatchFactory",
 				"BlockPermissionCheckerFactory",
-				"UserGroupManager"
+				"UserGroupManager",
+				"CentralIdLookupFactory"
 			]
 		},
 		"CheckUserLog": {

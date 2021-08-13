@@ -19,6 +19,7 @@ use MediaWiki\CheckUser\Hooks as CUHooks;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionRecord;
+use MediaWiki\User\CentralId\CentralIdLookupFactory;
 use MediaWiki\User\UserGroupManager;
 use OOUI\IconWidget;
 use Psr\Log\LoggerInterface;
@@ -70,15 +71,20 @@ class SpecialCheckUser extends SpecialPage {
 	/** @var LoggerInterface */
 	private $logger;
 
+	/** @var CentralIdLookup */
+	private $centralIdLookup;
+
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory
 	 * @param BlockPermissionCheckerFactory $blockPermissionCheckerFactory
 	 * @param UserGroupManager $userGroupManager
+	 * @param CentralIdLookupFactory $centralIdLookupFactory
 	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
 		BlockPermissionCheckerFactory $blockPermissionCheckerFactory,
-		UserGroupManager $userGroupManager
+		UserGroupManager $userGroupManager,
+		CentralIdLookupFactory $centralIdLookupFactory
 	) {
 		parent::__construct( 'CheckUser', 'checkuser' );
 
@@ -86,6 +92,7 @@ class SpecialCheckUser extends SpecialPage {
 		$this->blockPermissionCheckerFactory = $blockPermissionCheckerFactory;
 		$this->userGroupManager = $userGroupManager;
 		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
+		$this->centralIdLookup = $centralIdLookupFactory->getLookup();
 	}
 
 	public function doesWrites() {
@@ -1771,7 +1778,7 @@ class SpecialCheckUser extends SpecialPage {
 
 		// Show if account is local only
 		if ( $user->getId() &&
-			CentralIdLookup::factory()
+			$this->centralIdLookup
 				->centralIdFromLocalUser( $user, CentralIdLookup::AUDIENCE_RAW ) === 0
 		) {
 			// @todo FIXME: i18n issue: Hard coded parentheses.
