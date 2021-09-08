@@ -5,7 +5,6 @@ namespace MediaWiki\CheckUser\Api;
 use ApiBase;
 use ApiQueryBase;
 use Exception;
-use LogicException;
 use MediaWiki\CheckUser\Specials\SpecialCheckUser;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionRecord;
@@ -60,7 +59,6 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				}
 
 				$this->addFields( [ 'cuc_timestamp', 'cuc_ip', 'cuc_xff' ] );
-				// @phan-suppress-next-line PhanTypeMismatchArgumentNullable T240141
 				$this->addWhereFld( 'cuc_user', $user_id );
 				$res = $this->select( __METHOD__ );
 				$result = $this->getResult();
@@ -115,7 +113,6 @@ class ApiQueryCheckUser extends ApiQueryBase {
 							[ 'nosuchusershort', wfEscapeWikiText( $target ) ], 'nosuchuser'
 						);
 					}
-					// @phan-suppress-next-line PhanTypeMismatchArgumentNullable T240141
 					$this->addWhereFld( 'cuc_user', $user_id );
 					$log_type = [ 'useredits', 'user' ];
 				}
@@ -212,7 +209,6 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					}
 				} else {
 					$this->dieWithError( 'apierror-badip', 'invalidip' );
-					throw new LogicException();
 				}
 
 				$this->addFields( [

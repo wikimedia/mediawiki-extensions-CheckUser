@@ -1475,7 +1475,7 @@ class SpecialCheckUser extends SpecialPage {
 			} else {
 				$idforlink = $users_ids[$name];
 			}
-			if ( $classnouser === true ) {
+			if ( $classnouser ) {
 				$s .= '<span class=\'mw-checkuser-nonexistent-user\'>';
 			} else {
 				$s .= '<span>';
@@ -1846,7 +1846,7 @@ class SpecialCheckUser extends SpecialPage {
 		} else {
 			$idforlink = $row->cuc_user;
 		}
-		if ( $classnouser === true ) {
+		if ( $classnouser ) {
 			$line .= '<span class=\'mw-checkuser-nonexistent-user\'>';
 		} else {
 			$line .= '<span>';
