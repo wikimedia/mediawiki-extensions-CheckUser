@@ -23,7 +23,7 @@
 	"group-checkuser-member": "{{GENDER:$1|təftişçi}}",
 	"right-checkuser": "İstifadəçinin IP ünvanını və daha çox məlumatı yoxla",
 	"right-checkuser-log": "Təftişçi jurnalına bax",
-	"action-checkuser": "istifadəçilərin IP ünvanını və daha çox məlumatı yoxlamaq",
+	"action-checkuser": "istifadəçilərin IP-ünvanını və daha çox məlumatı yoxlamaq",
 	"action-checkuser-log": "təftişçi jurnalına bax",
 	"grouppage-checkuser": "{{ns:project}}:Təftişçi",
 	"checkuser-reason": "Səbəb:",
