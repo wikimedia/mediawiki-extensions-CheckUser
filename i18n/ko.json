@@ -154,6 +154,8 @@
 	"checkuser-investigate-compare-copy-message-label": "이 정보를 위키텍스트 표로 복사하시겠습니까?",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "이 사용자의 모든 IP 표시",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "이 IP의 모든 사용자 표시",
+	"checkuser-investigate-compare-table-button-add-user-targets-log-label": "이 IP를 조사에 추가",
+	"checkuser-investigate-compare-table-button-checks-label": "검사",
 	"checkuser-investigate-compare-table-button-contribs-label": "기여",
 	"checkuser-investigate-compare-table-button-filter-label": "결과 필터",
 	"checkuser-investigate-compare-table-cell-unregistered": "등록 안 됨",
@@ -163,5 +165,10 @@
 	"checkuser-investigate-compare-table-header-activity": "날짜 범위",
 	"checkuser-investigate-compare-table-header-ip": "IP",
 	"checkuser-investigate-compare-table-header-useragent": "사용자 에이전트",
+	"checkuser-investigate-subtitle-link-restart-tour": "투어 다시 시작",
+	"checkuser-investigate-tour-targets-title": "여러 사용자와 IP를 검사합니까?",
+	"checkuser-investigate-tour-useragents-title": "사용자 에이전트가 일치합니까?",
+	"checkuser-investigate-tour-filterip-title": "조사 범위를 더 좁힐까요?",
+	"checkuser-investigate-tour-block-title": "차단을 원하십니까?",
 	"checkuser-investigate-tour-copywikitext-title": "데이터를 복사하시겠습니까?"
 }
