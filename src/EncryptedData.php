@@ -51,7 +51,7 @@ class EncryptedData {
 			$this->algName
 		);
 
-		if ( $result == false ) {
+		if ( !$result ) {
 			return false;
 		}
 
