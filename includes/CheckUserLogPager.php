@@ -36,9 +36,15 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 				'checkuser-log-entry-' . $row->cul_type,
 				$user,
 				$target,
-				$lang->userTimeAndDate( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser ),
-				$lang->userDate( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser ),
-				$lang->userTime( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser )
+				htmlspecialchars(
+					$lang->userTimeAndDate( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser )
+				),
+				htmlspecialchars(
+					$lang->userDate( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser )
+				),
+				htmlspecialchars(
+					$lang->userTime( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser )
+				)
 			)->text() .
 			Linker::commentBlock( $row->cul_reason ) .
 			'</li>';
