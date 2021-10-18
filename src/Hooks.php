@@ -34,6 +34,22 @@ class Hooks {
 	private const TEXT_FIELD_LENGTH = 255;
 
 	/**
+	 * Get user agent for the current request
+	 *
+	 * @return string
+	 */
+	private static function getAgent(): string {
+		$agent = RequestContext::getMain()->getRequest()->getHeader( 'User-Agent' );
+		if ( $agent === false ) {
+			// no agent was present, store as an empty string (otherwise, it would
+			// end up stored as a zero due to boolean casting done by the DB layer).
+			$agent = '';
+		}
+		return MediaWikiServices::getInstance()->getContentLanguage()
+			->truncateForDatabase( $agent, self::TEXT_FIELD_LENGTH );
+	}
+
+	/**
 	 * @param array &$list
 	 * @return bool
 	 */
@@ -108,8 +124,6 @@ class Hooks {
 		// Get XFF header
 		$xff = $wgRequest->getHeader( 'X-Forwarded-For' );
 		list( $xff_ip, $isSquidOnly ) = self::getClientIPfromXFF( $xff );
-		// Get agent
-		$agent = $wgRequest->getHeader( 'User-Agent' );
 		// Store the log action text for log events
 		// $rc_comment should just be the log_comment
 		// BC: check if log_type and log_action exists
@@ -138,7 +152,6 @@ class Hooks {
 		// (T199323) Truncate text fields prior to database insertion
 		// Attempting to insert too long text will cause an error in MariaDB/MySQL strict mode
 		$actionText = $contLang->truncateForDatabase( $actionText, self::TEXT_FIELD_LENGTH );
-		$agent = $contLang->truncateForDatabase( $agent, self::TEXT_FIELD_LENGTH );
 		$xff = $contLang->truncateForDatabase( $xff, self::TEXT_FIELD_LENGTH );
 		$comment = $contLang->truncateForDatabase( $comment, self::TEXT_FIELD_LENGTH );
 
@@ -158,7 +171,7 @@ class Hooks {
 			'cuc_ip_hex'     => $ip ? IPUtils::toHex( $ip ) : null,
 			'cuc_xff'        => !$isSquidOnly ? $xff : '',
 			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
-			'cuc_agent'      => $agent
+			'cuc_agent'      => self::getAgent()
 		];
 		# On PG, MW unsets cur_id due to schema incompatibilites. So it may not be set!
 		if ( isset( $attribs['rc_cur_id'] ) ) {
@@ -188,8 +201,6 @@ class Hooks {
 		// Get XFF header
 		$xff = $wgRequest->getHeader( 'X-Forwarded-For' );
 		list( $xff_ip, $isSquidOnly ) = self::getClientIPfromXFF( $xff );
-		// Get agent
-		$agent = $wgRequest->getHeader( 'User-Agent' );
 
 		$actionText = wfMessage( 'checkuser-reset-action', $account->getName() )
 			->inContentLanguage()->text();
@@ -200,7 +211,6 @@ class Hooks {
 		// (T199323) Truncate comment fields prior to database insertion
 		// Attempting to insert too long text will cause an error in MariaDB/MySQL strict mode
 		$actionText = $contLang->truncateForDatabase( $actionText, self::TEXT_FIELD_LENGTH );
-		$agent = $contLang->truncateForDatabase( $agent, self::TEXT_FIELD_LENGTH );
 		$xff = $contLang->truncateForDatabase( $xff, self::TEXT_FIELD_LENGTH );
 
 		$dbw = $services->getDBLoadBalancer()->getConnectionRef( DB_PRIMARY );
@@ -220,7 +230,7 @@ class Hooks {
 			'cuc_ip_hex'     => $ip ? IPUtils::toHex( $ip ) : null,
 			'cuc_xff'        => !$isSquidOnly ? $xff : '',
 			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
-			'cuc_agent'      => $agent
+			'cuc_agent'      => self::getAgent()
 		];
 		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
 
@@ -257,8 +267,6 @@ class Hooks {
 		// Get XFF header
 		$xff = $wgRequest->getHeader( 'X-Forwarded-For' );
 		list( $xff_ip, $isSquidOnly ) = self::getClientIPfromXFF( $xff );
-		// Get agent
-		$agent = $wgRequest->getHeader( 'User-Agent' );
 
 		$actionText = wfMessage( 'checkuser-email-action', $hash )->inContentLanguage()->text();
 
@@ -268,7 +276,6 @@ class Hooks {
 		// (T199323) Truncate text fields prior to database insertion
 		// Attempting to insert too long text will cause an error in MariaDB/MySQL strict mode
 		$actionText = $contLang->truncateForDatabase( $actionText, self::TEXT_FIELD_LENGTH );
-		$agent = $contLang->truncateForDatabase( $agent, self::TEXT_FIELD_LENGTH );
 		$xff = $contLang->truncateForDatabase( $xff, self::TEXT_FIELD_LENGTH );
 
 		$lb = $services->getDBLoadBalancer();
@@ -290,7 +297,7 @@ class Hooks {
 			'cuc_ip_hex'     => $ip ? IPUtils::toHex( $ip ) : null,
 			'cuc_xff'        => !$isSquidOnly ? $xff : '',
 			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
-			'cuc_agent'      => $agent
+			'cuc_agent'      => self::getAgent()
 		];
 		if ( trim( $wgCUPublicKey ) != '' ) {
 			$privateData = $userTo->getEmail() . ":" . $userTo->getId();
@@ -335,8 +342,6 @@ class Hooks {
 		// Get XFF header
 		$xff = $wgRequest->getHeader( 'X-Forwarded-For' );
 		list( $xff_ip, $isSquidOnly ) = self::getClientIPfromXFF( $xff );
-		// Get agent
-		$agent = $wgRequest->getHeader( 'User-Agent' );
 		$services = MediaWikiServices::getInstance();
 		$contLang = $services->getContentLanguage();
 
@@ -345,7 +350,6 @@ class Hooks {
 		// (T199323) Truncate text fields prior to database insertion
 		// Attempting to insert too long text will cause an error in MariaDB/MySQL strict mode
 		$actionText = $contLang->truncateForDatabase( $actiontext, self::TEXT_FIELD_LENGTH );
-		$agent = $contLang->truncateForDatabase( $agent, self::TEXT_FIELD_LENGTH );
 		$xff = $contLang->truncateForDatabase( $xff, self::TEXT_FIELD_LENGTH );
 
 		$dbw = $services->getDBLoadBalancer()->getConnectionRef( DB_PRIMARY );
@@ -367,7 +371,7 @@ class Hooks {
 			'cuc_ip_hex'     => $ip ? IPUtils::toHex( $ip ) : null,
 			'cuc_xff'        => !$isSquidOnly ? $xff : '',
 			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
-			'cuc_agent'      => $agent
+			'cuc_agent'      => self::getAgent()
 		];
 		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
 
@@ -412,7 +416,6 @@ class Hooks {
 		$ip = $wgRequest->getIP();
 		$xff = $wgRequest->getHeader( 'X-Forwarded-For' );
 		list( $xff_ip, $isSquidOnly ) = self::getClientIPfromXFF( $xff );
-		$agent = $wgRequest->getHeader( 'User-Agent' );
 		$userName = $user->getName();
 
 		if ( $ret->status === AuthenticationResponse::FAIL ) {
@@ -437,7 +440,6 @@ class Hooks {
 		// (T199323) Truncate text fields prior to database insertion
 		// Attempting to insert too long text will cause an error in MariaDB/MySQL strict mode
 		$actionText = $contLang->truncateForDatabase( $actionText, self::TEXT_FIELD_LENGTH );
-		$agent = $contLang->truncateForDatabase( $agent, self::TEXT_FIELD_LENGTH );
 		$xff = $contLang->truncateForDatabase( $xff, self::TEXT_FIELD_LENGTH );
 
 		$dbw = $services->getDBLoadBalancer()->getConnectionRef( DB_PRIMARY );
@@ -458,7 +460,7 @@ class Hooks {
 			'cuc_ip_hex'     => $ip ? IPUtils::toHex( $ip ) : null,
 			'cuc_xff'        => !$isSquidOnly ? $xff : '',
 			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
-			'cuc_agent'      => $agent
+			'cuc_agent'      => self::getAgent()
 		];
 		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
 	}
