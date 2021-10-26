@@ -6,7 +6,6 @@
 		]
 	},
 	"checkuser-desc": "کاربرانء اجازت دن  گون مناسبین اجازت آدرسان آی پی یک کاربری و دگه اطلاعاتء کنترل بکنت",
-	"checkuser-logcase": "گردگ ته آمار به الفبای هورد و مزنین حساسنت.",
 	"checkuser": "کنترل کاربر",
 	"checkuserlog": "آمار کنترل کاربر",
 	"group-checkuser": "کنترل کابران",
@@ -24,7 +23,6 @@
 	"checkuser-nomatch": "هچ همدابی در نکپت",
 	"checkuser-check": "کنترل",
 	"checkuser-log-fail": "نه تونی ورودی آمار اضافه کنت",
-	"checkuser-nolog": "فایل آماری در نه کپت",
 	"checkuser-blocked": "محدود",
 	"checkuser-too-many": "بازگین نتیجه, لطفا CIDR هورد تر کن.\nادان آی پی آنی هستند که استفاده کننت(5000 ماکسیمم، گون آدرس ردیف بوتگن):",
 	"checkuser-user-nonexistent": "مشخص بوتگین کاربر موجود نهنت",

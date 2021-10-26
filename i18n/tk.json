@@ -5,7 +5,6 @@
 		]
 	},
 	"checkuser-desc": "Ulanyjylaryň IP adreslerini we beýleki maglumatlaryny barlamak hukugy üçin degişli rugsatlary ulanyjylara berýär",
-	"checkuser-logcase": "Gündelik gözlegi baş-setir harpa duýgurdyr.",
 	"checkuser": "Ulanyjy barla",
 	"checkuserlog": "Ulanyjy barlaýjysy gündeligi",
 	"checkuser-contribs": "ulanyjy IP adreslerini barla",
@@ -32,7 +31,6 @@
 	"checkuser-nomatch-edits": "Gabat gelýän zat tapylmady.\nSoňky özgerdiş $2, $1 senesinde.",
 	"checkuser-check": "Barla",
 	"checkuser-log-fail": "Gündelik girişini goşup bolmaýar",
-	"checkuser-nolog": "Hiç hili gündelik faýly tapylmady.",
 	"checkuser-blocked": "Blokirlendi",
 	"checkuser-gblocked": "Global blokirlendi",
 	"checkuser-locked": "Gulply",

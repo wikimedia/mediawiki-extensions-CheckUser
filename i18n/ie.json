@@ -5,7 +5,6 @@
 			"Renan"
 		]
 	},
-	"checkuser-logcase": "Li sercha in diarium es casu sensitiv.",
 	"checkuser": "Verification de usatores",
 	"checkuserlog": "Diarium de verification de usatores",
 	"checkuser-contribs": "verificar adresses de IP de usator",
@@ -37,7 +36,6 @@
 	"checkuser-check-this-user": "Verificar ti usator",
 	"checkuser-investigate-this-user": "Investigar ti usator",
 	"checkuser-recent-checks": "Recent verificationes por ti usator",
-	"checkuser-nolog": "Nequant file constatat.",
 	"checkuser-blocked": "Blocat",
 	"checkuser-gblocked": "Blocat globalmen",
 	"checkuser-wasblocked": "Blocat anteriorimen",

@@ -9,7 +9,6 @@
 		]
 	},
 	"checkuser-desc": "Subsidies gebruikers met die toepaslike toestemming om die vermoë om gebruikers se IP-adresse om seker te maak en ander inligting",
-	"checkuser-logcase": "Die logboek soek-funksie is kassensitief.",
 	"checkuser": "Kontroleer gebruiker",
 	"checkuserlog": "Gaan gebruiker log",
 	"checkuser-contribs": "kontroleer gebruiker se IP-adresse",
@@ -40,7 +39,6 @@
 	"checkuser-nomatch-edits": "Niks gevind nie.\nDie Laaste wysig was op $1 op $2.",
 	"checkuser-check": "Kontroleer",
 	"checkuser-log-fail": "Kan nie logboek inskrywing byvoeg nie",
-	"checkuser-nolog": "Logboek lêer nie gevind.",
 	"checkuser-blocked": "Versper",
 	"checkuser-gblocked": "Globaal geblokkeer",
 	"checkuser-locked": "Gesluit",

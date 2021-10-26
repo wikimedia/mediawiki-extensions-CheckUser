@@ -7,7 +7,6 @@
 		]
 	},
 	"checkuser-desc": "Võimaldab vajalike õigustega kasutajal teise kasutaja IP-aadresse ja muud teavet kontrollida.",
-	"checkuser-logcase": "Logi otsing on tõusutundlik.",
 	"checkuser": "Kasutajakontroll",
 	"checkuserlog": "Kasutajakontrolli logi",
 	"checkuser-contribs": "kasutaja IP-aadresside kontroll",
@@ -36,7 +35,6 @@
 	"checkuser-nomatch-edits": "Vasteid ei leitud.\nViimane redigeerimisaeg: $1, $2.",
 	"checkuser-check": "Kontrolli",
 	"checkuser-log-fail": "Logisissekande lisamine ei õnnestu.",
-	"checkuser-nolog": "Logifaili ei leitud.",
 	"checkuser-blocked": "Blokeeritud",
 	"checkuser-gblocked": "Globaalselt blokeeritud",
 	"checkuser-locked": "Lukustatud",

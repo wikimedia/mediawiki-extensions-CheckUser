@@ -39,7 +39,6 @@
 	"checkuser-nomatch-edits": "କିଛି ବି ମେଳ ଖାଇଲା ନାହିଁ ।\nଶେଷ ବଦଳଟି $1 ଦିନ $2 ବେଳେ ହୋଇଥିଲା ।",
 	"checkuser-check": "ଯାଞ୍ଚ କରିବା",
 	"checkuser-log-fail": "ଇତିହାସ ନିବେଶ କରିବାକୁ ଅକ୍ଷମ",
-	"checkuser-nolog": "ଇତିହାସ ଫାଇଲ ମିଳିଲା ନାହିଁ ।",
 	"checkuser-blocked": "ଅଟକାଯାଇଥିବା",
 	"checkuser-gblocked": "ଜଗତସାରା ଅଟକାଯାଇଛି",
 	"checkuser-locked": "କିଳାଯାଇଅଛି",

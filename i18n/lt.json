@@ -34,7 +34,6 @@
 	"checkuser-nomatch-edits": "Nerasta jokiu atitikmenų\nPaskutini karta redaguota $1 $2.",
 	"checkuser-check": "Tikrinti",
 	"checkuser-log-fail": "Neįmanoma pridėti žurnalo įrašo",
-	"checkuser-nolog": "Nerastas žurnalo failas",
 	"checkuser-blocked": "Užblokuotas",
 	"checkuser-gblocked": "Užblokuotas globaliai",
 	"checkuser-locked": "Užrakintas",

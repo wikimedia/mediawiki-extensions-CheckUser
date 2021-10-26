@@ -5,7 +5,6 @@
 		]
 	},
 	"checkuser-summary": "Kay llamk'anaqa ñaqha hukchasqakunapim maskaykun huk ruraqpa llamk'achisqan IP huchhakunata chaskinapaq icha huk IP huchhap llamk'apusqamanta/ruraqmanta willankunata rikuchinapaq.\nRuraqkunata icha mink'akuq IP huchhap rurasqankunatapas XFF uma siq'iwanmi chaskiyta atinki IP huchhata \"/xff\" nisqawan yapaspa. IPv4 (CIDR $1-32), IPv6 (CIDR $2-128) nisqakunam llamk'akun.\nPichqa waranqamanta aswan llamk'apusqakunaqa manam kutimunqachu, allin rikuchinarayku. Kay llamk'anataqa kawpayllakama rurachiy.",
-	"checkuser-logcase": "Hallch'a maskaqqa hatun sananchata uchuy sananchamantam sapaqchan.",
 	"checkuser": "Ruraqta llanchiy",
 	"checkuserlog": "Ruraq llanchiy hallch'a",
 	"group-checkuser": "Ruraqkunata llanchiy",
@@ -27,7 +26,6 @@
 	"checkuser-nomatch": "Manam imapas taripasqachu.",
 	"checkuser-check": "Llanchiy",
 	"checkuser-log-fail": "Manam atinichu hallch'aman yapayta",
-	"checkuser-nolog": "Manam hallch'ayta tarinichu",
 	"checkuser-blocked": "Hark'asqa",
 	"checkuser-gblocked": "Sapsintinpi hark'asqa",
 	"checkuser-locked": "Wichq'asqa",

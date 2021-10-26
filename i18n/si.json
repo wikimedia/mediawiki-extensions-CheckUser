@@ -6,7 +6,6 @@
 			"බිඟුවා"
 		]
 	},
-	"checkuser-logcase": "ලඝු සෙවීම අවස්ථා සංවේදියි.",
 	"checkuser": "පරීක්ෂක නිළධරයා",
 	"checkuserlog": "පරිශීලක ලඝු සටහන පිරික්සන්න",
 	"checkuser-contribs": "පරිශීලකයාගේ අයිපී ලිපිනය පරික්ෂා කරන්න",
@@ -37,7 +36,6 @@
 	"checkuser-nomatch-edits": "කිසිදු ගැලපුමක් සමුනොවිනි.\nඅවසන් සංස්කරණය $1 ට $2 හීදී සිදුකොට තිබිණි.",
 	"checkuser-check": "පරික්ෂා කරන්න",
 	"checkuser-log-fail": "ලඝු-සටහනක් එකතු කිරීමට නොහැක",
-	"checkuser-nolog": "ලඝු-සටහන් ගොනුවක් හමු නොවිණි.",
 	"checkuser-blocked": "ඇහිරීම",
 	"checkuser-gblocked": "ගෝලීය වශයෙන් වාරණය කරන ලද",
 	"checkuser-locked": "අගුළුලා ඇත",

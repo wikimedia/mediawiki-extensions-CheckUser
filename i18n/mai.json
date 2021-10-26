@@ -35,7 +35,6 @@
 	"checkuser-nomatch": "कोनो मेल खाएत परिणाम नै भेटल।",
 	"checkuser-check": "जाँचु",
 	"checkuser-log-fail": "लॉग प्रविष्टि जोड़ नै सकलिए",
-	"checkuser-nolog": "कुनो लॉग फ़ाइल नैं मिल्ल।",
 	"checkuser-blocked": "अवरुद्ध",
 	"checkuser-gblocked": "विश्वव्यापी रूपसँ अवरुद्ध",
 	"checkuser-locked": "बंद भेल",

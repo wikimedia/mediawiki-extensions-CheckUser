@@ -40,7 +40,6 @@
 	"checkuser-nomatch-edits": "დამთხვევა ვერ მოიძებნა.\nბოლო ცვლილება მოხდა $1-ზე $2-ზე.",
 	"checkuser-check": "შემოწმება",
 	"checkuser-log-fail": "ჟურნალის ჩანაწერის დამატება შეუძლებელია",
-	"checkuser-nolog": "ჟურნალის ფაილი ვერ მოიძებნა.",
 	"checkuser-blocked": "დაბლოკილია",
 	"checkuser-gblocked": "გლობალურად ბლოკირებული",
 	"checkuser-locked": "დახურვა",
