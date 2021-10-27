@@ -5,5 +5,7 @@
 		]
 	},
 	"checkuser-all": "puk",
-	"checkuser-search-submit": "Ooʒʒ"
+	"checkuser-search-submit": "Ooʒʒ",
+	"checkuser-investigate-preliminary-table-header-name": "Õõʹnninõmm",
+	"checkuser-investigate-compare-table-header-username": "Õõʹnninõmm"
 }
