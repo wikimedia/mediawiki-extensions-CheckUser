@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Ajeje Brazorf",
 			"Melos",
 			"Pippinu",
 			"Santu",
@@ -68,5 +69,28 @@
 	"checkuser-create-action": "fu criatu",
 	"checkuser-email-action": "mannau nu missaggiu di posta elittrònica a «$1»",
 	"checkuser-reset-action": "azzera la password di l'utenti «$1»",
-	"checkuser-token-fail": "Erruri di sissioni. Pi favuri prova n'àutra vota."
+	"checkuser-token-fail": "Erruri di sissioni. Pi favuri prova n'àutra vota.",
+	"checkuser-investigateblock-reason": "Mutivu",
+	"checkuser-investigateblock-notice-text-label": "Wikitestu",
+	"checkuser-investigate-subtitle-cancel-button-label": "Annulla",
+	"checkuser-investigate-indicator-logs": "Riggistri",
+	"checkuser-investigate-targets-placeholder": "Nomu utentu o 1.1.1.1",
+	"checkuser-investigate-duration-option-all": "Tuttu",
+	"checkuser-investigate-duration-option-1w": "Ùrtima simana",
+	"checkuser-investigate-duration-option-2w": "Ùrtimi 2 simani",
+	"checkuser-investigate-duration-option-30d": "Ùrtimi 30 jorna",
+	"checkuser-investigate-reason-label": "Mutivu",
+	"checkuser-investigate-preliminary-table-cell-blocked": "Bluccatu",
+	"checkuser-investigate-preliminary-table-cell-edits": "{{PLURAL:$1|canciamentu|canciamenti}}",
+	"checkuser-investigate-preliminary-table-cell-unblocked": "Nun bluccatu",
+	"checkuser-investigate-preliminary-table-header-blocked": "Statu",
+	"checkuser-investigate-preliminary-table-header-editcount": "Canciamenti",
+	"checkuser-investigate-preliminary-table-header-groups": "Gruppi",
+	"checkuser-investigate-preliminary-table-header-name": "Nomu utenti",
+	"checkuser-investigate-preliminary-table-header-wiki": "Wiki",
+	"checkuser-investigate-filters-legend": "Filtri",
+	"checkuser-investigate-compare-copy-button-label": "Ammustra wikitestu",
+	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|canciamentu|canciamenti}}]</b>",
+	"checkuser-investigate-compare-table-header-username": "Nomu utenti",
+	"checkuser-investigate-compare-table-header-ip": "IP"
 }
