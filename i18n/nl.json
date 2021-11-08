@@ -165,6 +165,7 @@
 	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|bewerking|bewerkingen}}]</b>",
 	"checkuser-investigate-compare-table-cell-other-edits": "<i>(~$1 van alle gebruikers)</i>",
 	"checkuser-investigate-compare-table-header-username": "Gebruikersnaam",
+	"checkuser-investigate-compare-table-header-activity": "Periode",
 	"checkuser-investigate-compare-table-header-ip": "IP-adres",
 	"checkuser-investigate-compare-table-header-useragent": "User agent",
 	"checkuser-investigate-subtitle-link-restart-tour": "Herstart toer"
