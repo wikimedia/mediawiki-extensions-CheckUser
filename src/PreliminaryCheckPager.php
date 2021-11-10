@@ -21,10 +21,11 @@
 
 namespace MediaWiki\CheckUser;
 
-use CentralAuthUtils;
+use CentralAuthServices;
 use ExtensionRegistry;
 use Html;
 use IContextSource;
+use MediaWiki\Extension\CentralAuth\CentralAuthDatabaseManager;
 use MediaWiki\Linker\LinkRenderer;
 use NamespaceInfo;
 use TablePager;
@@ -268,15 +269,15 @@ class PreliminaryCheckPager extends TablePager {
 	 */
 	public function isGlobalCheck(): bool {
 		return $this->extensionRegistry->isLoaded( 'CentralAuth' )
-			&& is_callable( [ CentralAuthUtils::class, 'getCentralReplicaDB' ] );
+			&& class_exists( CentralAuthDatabaseManager::class );
 	}
 
 	/**
 	 * @return IDatabase|null
 	 */
 	protected function getCentralReplicaDB(): ?IDatabase {
-		if ( is_callable( [ CentralAuthUtils::class, 'getCentralReplicaDB' ] ) ) {
-			return CentralAuthUtils::getCentralReplicaDB();
+		if ( class_exists( CentralAuthDatabaseManager::class ) ) {
+			return CentralAuthServices::getDatabaseManager()->getCentralDB( DB_REPLICA );
 		}
 		return null;
 	}
