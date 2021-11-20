@@ -31,6 +31,7 @@
 	"checkuser-week-1": "last week",
 	"checkuser-week-2": "last two weeks",
 	"checkuser-month": "last 30 days",
+	"checkuser-month-2": "last 60 days",
 	"checkuser-all": "all",
 	"checkuser-cidr-label": "Find common range and affected IP addresses for a list of IP addresses",
 	"checkuser-cidr-res": "Common CIDR:",

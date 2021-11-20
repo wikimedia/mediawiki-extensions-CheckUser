@@ -304,7 +304,8 @@ class SpecialCheckUser extends SpecialPage {
 		);
 		$s .= Xml::option( $this->msg( 'checkuser-week-1' )->text(), '7', $selected === 7 );
 		$s .= Xml::option( $this->msg( 'checkuser-week-2' )->text(), '14', $selected === 14 );
-		$s .= Xml::option( $this->msg( 'checkuser-month' )->text(), '31', $selected === 31 );
+		$s .= Xml::option( $this->msg( 'checkuser-month' )->text(), '30', $selected === 30 );
+		$s .= Xml::option( $this->msg( 'checkuser-month-2' )->text(), '60', $selected === 60 );
 		$s .= Xml::option( $this->msg( 'checkuser-all' )->text(), '0', $selected === 0 );
 		$s .= Xml::closeElement( 'select' ) . "\n";
 		return $s;
