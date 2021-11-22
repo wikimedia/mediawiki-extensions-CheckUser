@@ -36,6 +36,7 @@
 	"checkuser-week-1": "השבוע האחרון",
 	"checkuser-week-2": "השבועיים האחרונים",
 	"checkuser-month": "30 הימים האחרונים",
+	"checkuser-month-2": "60 הימים האחרונים",
 	"checkuser-all": "הכול",
 	"checkuser-cidr-label": "מציאת טווח משותף וכתובות מושפעות עבור רשימה של כתובות IP",
 	"checkuser-cidr-res": "CIDR משותף:",

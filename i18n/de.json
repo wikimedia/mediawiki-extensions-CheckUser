@@ -43,6 +43,7 @@
 	"checkuser-week-1": "letzte 7 Tage",
 	"checkuser-week-2": "letzte 14 Tage",
 	"checkuser-month": "letzte 30 Tage",
+	"checkuser-month-2": "letzte 60 Tage",
 	"checkuser-all": "alle",
 	"checkuser-cidr-label": "Gemeinsamen Adressbereich und betroffene Adressen für eine Liste von IP-Adressen ermitteln",
 	"checkuser-cidr-res": "Gemeinschaftlicher IP-Adressbereich:",

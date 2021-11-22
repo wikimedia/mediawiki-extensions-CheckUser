@@ -57,6 +57,7 @@
 	"checkuser-week-1": "上周",
 	"checkuser-week-2": "前两周",
 	"checkuser-month": "前30天",
+	"checkuser-month-2": "60 天内",
 	"checkuser-all": "所有",
 	"checkuser-cidr-label": "检查指定IP列表的共同区段",
 	"checkuser-cidr-res": "通用CIDR：",

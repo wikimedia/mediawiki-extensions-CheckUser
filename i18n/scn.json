@@ -33,6 +33,7 @@
 	"checkuser-week-1": "ùrtima simana",
 	"checkuser-week-2": "ùrtimi dui simani",
 	"checkuser-month": "ùrtimi 30 jorna",
+	"checkuser-month-2": "ùrtimi 60 jorna",
 	"checkuser-all": "sempri",
 	"checkuser-cidr-label": "Attrova lu ntirvallu cumuni e li nnirizzi ntirissati partennu di na lista di nnirizzi IP",
 	"checkuser-cidr-res": "CIDR cumuni:",
