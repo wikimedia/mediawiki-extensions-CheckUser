@@ -4,5 +4,6 @@
 			"Chinamoonroll"
 		]
 	},
-	"checkuser-create-action": "sampun kakardi"
+	"checkuser-create-action": "sampun kakardi",
+	"checkuser-reset-action": "jumu kruna sandi sang anganggé \"$1\""
 }
