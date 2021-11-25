@@ -55,7 +55,7 @@
 	"checkuser-block-success": "'''{{PLURAL:$2|L'utenti}} $1 ora {{PLURAL:$2|è bluccatu|sunnu bluccati}}.'''",
 	"checkuser-block-failure": "'''Nuddu utenti bluccatu.'''",
 	"checkuser-block-limit": "Troppu assai utenti scigghiuti.",
-	"checkuser-block-noreason": "S'havi a dari nu mutivu pi li blocchi.",
+	"checkuser-block-noreason": "S'havi a dari nu mutivu pî blocchi.",
 	"checkuser-noreason": "S'havi a dari nu mutivu pi sta ntirrugazzioni.",
 	"checkuser-too-many": "Ci sunnu troppu assai risurtati (secunnu la stima dâ ntirrugazzioni), pi favuri strinci lu CIDR.\nDi sècutu sunnu nnicati li nnirizzi IP adupirati (màssimu 5000, misi n òrdini pi nnirizzu):",
 	"checkuser-user-nonexistent": "L’utenti spicificatu nun esisti.",

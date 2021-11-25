@@ -45,6 +45,7 @@
 	"checkuser-week-1": "지난 1주일",
 	"checkuser-week-2": "지난 2주일",
 	"checkuser-month": "지난 30일",
+	"checkuser-month-2": "지난 60일",
 	"checkuser-all": "모두",
 	"checkuser-cidr-label": "IP 주소의 공통 범위와 영향을 받는 주소 목록 찾기",
 	"checkuser-cidr-res": "공통 CIDR:",
