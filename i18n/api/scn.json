@@ -1,11 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
+			"Ajeje Brazorf",
 			"Pippinu",
 			"Sarvaturi"
 		]
 	},
-	"apihelp-query+checkuser-description": "Cuntrolla quali nnirizzi IP sunnu adupirati dûn nomu utenti datu, o quali nomi utenti sunnu adupirati di nu nnirizzu IP datu.",
+	"apihelp-query+checkuser-description": "Cuntrolla quali nnirizzi IP sunnu adupirati dûn nomu utenti datu, o quali nomi utenti sunnu adupirati d'un nnirizzu IP datu.",
 	"apihelp-query+checkuser-param-request": "Sorta d'addumannata dû CheckUser:\n;userips:Pigghia lu nnirizzu IP di l'utenti.\n;edits:Pigghia li canciamenti dû nnirizzu IP o dû ntirvallu di nnirizzi IP.\n;ipusers:Pigghia l'utenti dû nnirizzu IP o dû ntirvallu di nnirizzi IP.",
 	"apihelp-query+checkuser-param-target": "Nomu utenti, nnirizzu IP, o ntirvallu CIDR di cuntrullari.",
 	"apihelp-query+checkuser-param-reason": "Mutivu dû cuntrollu.",
