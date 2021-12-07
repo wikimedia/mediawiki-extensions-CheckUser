@@ -14,7 +14,8 @@
 			"KossuthRad",
 			"Terik",
 			"Tgr",
-			"Wolf Rex"
+			"Wolf Rex",
+			"Tacsipacsi"
 		]
 	},
 	"checkuser-summary": "Ez az eszköz végigvizsgálja a friss változásokat, hogy lekérje egy adott felhasználó IP-címeit vagy megjelenítse egy adott IP-címet használó szerkesztőket és az IP szerkesztéseit.\nEgy proxy mögötti kliens eredeti adatai XFF-fejlécek segítségével kérhetőek le, az IP-cím utáni „/xff” parancssal. Az IPv4 (CIDR $1-32) és az IPv6 (CIDR $2-128) is támogatott.\nMaximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt a szabályoknak megfelelően használd.",
@@ -72,7 +73,7 @@
 	"checkuser-block-limit": "Túl sok szerkesztőt választottál ki.",
 	"checkuser-block-noreason": "Meg kell adnod a blokkolások okát.",
 	"checkuser-noreason": "Meg kell adnod a lekérdezés okát.",
-	"checkuser-too-many": "Túl sok találat (a lekérdezési becslés szerint), kérlek, szűkítsd le a CIDR-t.\nItt vannak a használt IP-címek (maximum 5000, cím alapján rendezve):",
+	"checkuser-too-many": "Túl sok találat (a lekérdezési becslés szerint), kérlek, szűkítsd le a CIDR-t.\nItt vannak a használt IP-címek (maximum $1, cím alapján rendezve):",
 	"checkuser-user-nonexistent": "A megadott szerkesztő nem létezik.",
 	"checkuser-search": "Keresés a naplófájlokban",
 	"checkuser-search-submit": "Keresés",
@@ -81,7 +82,7 @@
 	"checkuser-log-search-target": "Cél:",
 	"checkuser-log-search-type": "Keresés a következő alapján:",
 	"checkuser-ipeditcount": "~$1 az összes szerkesztő által",
-	"checkuser-showmain": "Vissza az IP-ellenőri oldalra",
+	"checkuser-showmain": "Váltás a fő IP-ellenőri űrlapra",
 	"checkuser-limited": "'''Teljesítményi okok miatt nem az összes találat lett megjelenítve.'''",
 	"checkuser-log-entry-userips": "$3; $1 lekérte $2 IP-címeit",
 	"checkuser-log-entry-ipedits": "$3; $1 lekérte <bdi>$2</bdi> szerkesztéseit",
@@ -92,7 +93,7 @@
 	"checkuser-autocreate-action": "automatikusan létrehozva",
 	"checkuser-create-action": "készült",
 	"checkuser-email-action": "e-mailt küldött „$1” szerkesztőnek",
-	"checkuser-reset-action": "lecserélte „$1” jelszavát",
+	"checkuser-reset-action": "jelszóemlékeztetőt kért „$1” nevében",
 	"checkuser-token-fail": "Munkamenethiba. Kérlek próbáld újra.",
 	"checkuser-login-failure": "Nem sikerült belépned a(z) {{SITENAME}} oldalra mint $1",
 	"checkuser-login-success": "Sikeresen beléptél a(z) {{SITENAME}} oldalra mint $1",

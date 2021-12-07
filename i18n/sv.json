@@ -17,7 +17,8 @@
 			"Per",
 			"Sabelöga",
 			"Smetanakaviar",
-			"WikiPhoenix"
+			"WikiPhoenix",
+			"JRyan"
 		]
 	},
 	"checkuser-summary": "Det här verktyget söker igenom de senaste ändringarna för att hämta IP-adresser för en användare, eller redigeringar och användare för en IP-adress.\nAnvändare och redigeringar kan visas med IP-adress från XFF genom att lägga till \"/xff\" efter IP-adressen. Verktyget stödjer IPv4 (CIDR $1-32) och IPv6 (CIDR $2-128).\nPå grund av prestandaskäl så visas inte mer än 5000 redigeringar. Använd verktyget i enlighet med policy.",
@@ -54,6 +55,7 @@
 	"checkuser-nomatch-edits": "Fick ingen träff.\nSenaste redigering var $1 kl $2.",
 	"checkuser-check": "Kontrollera",
 	"checkuser-check-this-user": "Granska den här användaren",
+	"checkuser-investigate-this-user": "Undersök denna användare",
 	"checkuser-recent-checks": "Senaste kontroller för denna användare",
 	"checkuser-log-fail": "Loggposten kunde inte läggas i loggfilen.",
 	"checkuser-nolog": "Hittade ingen loggfil.",
@@ -94,6 +96,7 @@
 	"checkuser-log-entry-ipedits-xff": "$3, $1 hämtade redigeringar för XFF <bdi>$2</bdi>",
 	"checkuser-log-entry-ipusers-xff": "$3, $1 hämtade användare för XFF <bdi>$2</bdi>",
 	"checkuser-log-entry-useredits": "$3, $1 hämtade redigeringar för $2",
+	"checkuser-log-entry-investigate": "$3,$1 kollade upp information för $2",
 	"checkuser-autocreate-action": "skapades automatiskt",
 	"checkuser-create-action": "skapades",
 	"checkuser-email-action": "skickade ett mejl till användare \"$1\"",

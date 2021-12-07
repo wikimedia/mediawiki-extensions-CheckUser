@@ -8,7 +8,8 @@
 			"KlaudiuMihaila",
 			"Memo18",
 			"Mihai",
-			"Minisarm"
+			"Minisarm",
+			"NGC 54"
 		]
 	},
 	"checkuser-summary": "Acestă unealtă scanează schimbările recente pentru a regăsi adresele IP folosite de un utilizator sau arată modificările/utilizatorul pentru o anumită adresă IP.\nUtilizatorii și modificările efectuate de un client IP pot fi regăsite prin antetele XFF atașând adresa IP prin intermediul „/xff”. IPv4 (CIDR $1-32) și IPv6 (CIDR $2-128) sunt acceptate.\nNu mai mult de 5000 de modificări vor fi returnate din motive de performanță.\nUtilizați unealta în concordanță cu politica proiectului.",
@@ -61,7 +62,7 @@
 	"checkuser-block-limit": "Prea mulți utilizatori selectați.",
 	"checkuser-block-noreason": "Trebuie să specificați un motiv pentru blocări.",
 	"checkuser-noreason": "Trebuie să specifici un motiv pentru această interogare.",
-	"checkuser-too-many": "Prea multe rezultate (conform estimării interogării), vă rugăm să limitați CIDR.\nIată IP-urile folosite (maxim 5000, sortate după adresă):",
+	"checkuser-too-many": "Prea multe rezultate (conform estimării interogării), vă rugăm să limitați CIDR.\nIată IP-urile folosite (maxim $1, sortate după adresă):",
 	"checkuser-user-nonexistent": "Utilizatorul specificat nu există.",
 	"checkuser-search": "Caută înregistrări din jurnalul check user",
 	"checkuser-search-submit": "Caută",

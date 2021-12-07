@@ -17,7 +17,9 @@
 			"Stryn",
 			"Valtlait",
 			"Varusmies",
-			"ZeiP"
+			"ZeiP",
+			"MITO",
+			"Nwme"
 		]
 	},
 	"checkuser-summary": "Tämän työkalun avulla voidaan tutkia tuoreet muutokset ja paljastaa käyttäjien IP-osoitteet tai noutaa IP-osoitteiden muokkaukset ja käyttäjätiedot.\nKäyttäjät ja muokkaukset voidaan hakea myös uudelleenohjausosoitteen (X-Forwarded-For) takaa käyttämällä IP-osoitteen perässä <tt>/xff</tt> -merkintää. Työkalu tukee sekä IPv4 (CIDR $1–32) ja IPv6 (CIDR $2–128) -standardeja.",
@@ -77,7 +79,7 @@
 	"checkuser-block-noreason": "Estoille on annettava syy.",
 	"checkuser-centralauth-multilock": "Lukitse valitut tunnukset",
 	"checkuser-noreason": "Sinun tulee antaa syy tälle kyselylle.",
-	"checkuser-too-many": "Liian monta tulosta (kyselyarvion mukaan), pienennä CIDR-aluetta.\nKäytetyt IP-osoitteet (enintään 5000, järjestetty osoitteen mukaan):",
+	"checkuser-too-many": "Liian monta tulosta (kyselyarvion mukaan), pienennä CIDR-aluetta.\nKäytetyt IP-osoitteet (enintään $1, järjestetty osoitteen mukaan):",
 	"checkuser-user-nonexistent": "Määritettyä käyttäjää ei ole olemassa.",
 	"checkuser-search": "Etsi osoitinpaljastinlokin merkinnöistä",
 	"checkuser-search-submit": "Hae",

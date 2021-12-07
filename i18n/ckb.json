@@ -4,7 +4,8 @@
 			"Asoxor",
 			"Calak",
 			"Cwtiyar",
-			"ئارام بکر"
+			"ئارام بکر",
+			"Halbast"
 		]
 	},
 	"group-checkuser": "پشکنەرانی بەکارھێنەر",
@@ -19,8 +20,8 @@
 	"checkuser-showlog": "لۆگ نیشان بدە",
 	"checkuser-query": "دوایین گۆڕانکارییەکان بگەڕێ",
 	"checkuser-target": "ناونیشانی ئایپی یان ناوی‌ بەکارھێنەر:",
-	"checkuser-users": "بەکارھێنەرەکان پێرست بکە",
-	"checkuser-edits": "دەستکارییەکان پێرست بکە",
+	"checkuser-users": "بەکارھێنەرەکان پێڕست بکە",
+	"checkuser-edits": "دەستکارییەکان پێڕست بکە",
 	"checkuser-ips": "ناونیشانەکان ئایپی پێرست بکە",
 	"checkuser-period": "ماوە:",
 	"checkuser-week-1": "حەوتەیەک لەمە پێش",

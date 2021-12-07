@@ -24,7 +24,8 @@
 			"Pedroca cerebral",
 			"RadiX",
 			"Rodrigo codignoli",
-			555
+			555,
+			"Albertoleoncio"
 		]
 	},
 	"checkuser-summary": "Esta ferramenta varre as mudanças recentes para obter os endereços de IP de um usuário ou para exibir os dados de edições/usuários para um IP.\nUsuários e edições podem ser obtidos por um IP XFF colocando-se \"/xff\" no final do endereço. São suportados endereços IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).\nNão serão retornadas mais de 5000 edições por motivos de desempenho. O uso desta ferramenta deverá estar de acordo com as políticas.",
@@ -67,7 +68,7 @@
 	"checkuser-nolog": "Não foi encontrado um arquivo de registros.",
 	"checkuser-blocked": "Bloqueado",
 	"checkuser-gblocked": "Bloqueado globalmente",
-	"checkuser-locked": "bloqueada",
+	"checkuser-locked": "Travado",
 	"checkuser-wasblocked": "Previamente bloqueado",
 	"checkuser-localonly": "Não unificada",
 	"checkuser-massblock": "Bloquear usuários selecionados",

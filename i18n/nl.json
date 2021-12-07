@@ -14,7 +14,8 @@
 			"Sjoerddebruin",
 			"Trijnstel",
 			"Troefkaart",
-			"Xbaked potatox"
+			"Xbaked potatox",
+			"McDutchie"
 		]
 	},
 	"checkuser-summary": "Dit hulpmiddel bekijkt recente wijzigingen om IP-adressen die een gebruiker heeft gebruikt te achterhalen of geeft de bewerkings- en gebruikersgegegevens weer voor een IP-adres.\nGebruikers en bewerkingen van een IP-adres van een client kunnen achterhaald worden via XFF-headers door \"/xff\" achter het IP-adres toe te voegen. IPv4 (CIDR $1-32) en IPv6 (CIDR $2-128) worden ondersteund.\nOm prestatieredenen worden niet meer dan 5.000 bewerkingen weergegeven.\nGebruik dit hulpmiddel volgens het vastgestelde beleid.",
@@ -83,7 +84,7 @@
 	"checkuser-log-search-type": "Zoeken op:",
 	"checkuser-ipeditcount": "~$1 van alle gebruikers",
 	"checkuser-showmain": "Naar het hoofdformulier van GebruikerControleren gaan",
-	"checkuser-show-investigate": "Wissel naar onderzoeksformulier",
+	"checkuser-show-investigate": "Overschakelen naar hoofdformulier Onderzoeken",
 	"checkuser-limited": "'''Deze resultaten zijn niet volledig om prestatieredenen.'''",
 	"checkuser-log-entry-userips": "$3, $1 heeft IP-adressen opgevraagd voor $2",
 	"checkuser-log-entry-ipedits": "$3, $1 heeft bewerkingen opgevraagd voor <bdi>$2</bdi>",
@@ -101,6 +102,7 @@
 	"checkuser-login-success": "Succesvol als $1 op {{SITENAME}} ingelogd",
 	"checkuser-investigateblock": "Gebruikers blokkeren",
 	"checkuser-investigateblock-target": "Gebruikersnaam en IP-adressen",
+	"checkuser-investigateblock-actions": "Te blokkeren handelingen",
 	"checkuser-investigateblock-reason": "Reden",
 	"checkuser-investigateblock-options": "Verdere opties",
 	"checkuser-investigateblock-email-label": "Weerhouden van het versturen van e-mail",
@@ -136,7 +138,7 @@
 	"checkuser-investigate-duration-option-2w": "Afgelopen twee weken",
 	"checkuser-investigate-duration-option-30d": "Laatste 30 dagen",
 	"checkuser-investigate-reason-label": "Reden",
-	"checkuser-investigate-preliminary-notice-ip-targets": "De accountgegevenstab bevat geen informatie over IP adressen.\nZie de <span class=\"plainlinks\">[$1 IP's & User agents-tab]</span> voor deze gegevens.",
+	"checkuser-investigate-preliminary-notice-ip-targets": "De accountgegevenstab bevat geen informatie over IP-adressen.\nZie de <span class=\"plainlinks\">[$1 tab IP's & User agents]</span> voor deze gegevens.",
 	"checkuser-investigate-preliminary-table-cell-blocked": "Geblokkeerd",
 	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|bewerking|bewerkingen}}",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "Niet geblokkeerd",
@@ -151,7 +153,7 @@
 	"checkuser-investigate-filters-exclude-targets-label": "De volgende gebruikers of IP's verbergen",
 	"checkuser-investigate-timeline-notice-no-results": "Er zijn geen resultaten: deze gebruikers of IP-adressen hebben de afgelopen 90 dagen geen veranderingen doorgevoerd",
 	"checkuser-investigate-compare-copy-button-label": "Toon wikitekst",
-	"checkuser-investigate-compare-toollinks-ipcheck": "Proxy controle",
+	"checkuser-investigate-compare-toollinks-ipcheck": "Proxycontrole",
 	"checkuser-investigate-compare-copy-message-label": "Wil je deze informatie kopiëren als een Wikitekst-tabel?",
 	"checkuser-investigate-compare-notice-no-results": "Er zijn geen resultaten: deze users of IP-adressen hebben de voorbije 90 dagen geen veranderingen doorgevoerd",
 	"checkuser-investigate-compare-notice-no-results-filters": "Er zijn geen resultaten die aan deze filtervoorwaarden voldoen. Probeer een aantal filters te verwijderen om breder te zoeken.",
@@ -165,6 +167,7 @@
 	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|bewerking|bewerkingen}}]</b>",
 	"checkuser-investigate-compare-table-cell-other-edits": "<i>(~$1 van alle gebruikers)</i>",
 	"checkuser-investigate-compare-table-header-username": "Gebruikersnaam",
+	"checkuser-investigate-compare-table-header-activity": "Periode",
 	"checkuser-investigate-compare-table-header-ip": "IP-adres",
 	"checkuser-investigate-compare-table-header-useragent": "User agent",
 	"checkuser-investigate-subtitle-link-restart-tour": "Herstart toer"
