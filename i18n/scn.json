@@ -8,7 +8,7 @@
 			"Ajeje Brazorf"
 		]
 	},
-	"checkuser-summary": "Stu strummentu analizza li canciamenti fatti di picca p'arripigghiari li nnirizzi IP adupirati di n'utenti, o p'ammustrari li canciamenti e l'utenti assuciati a nu nnirizzu IP.\nAgghiuncennu ô nnirizzu IP lu suffissu \"/xff\" s'arrintràccianu l'utenti e li canciamenti ca vèninu di nu nnirizzu IP clienti tinennu cuntu dâ ntistazzioni XFF. Sunnu suppurtati l'IPv4 (CIDR $1-32) e l'IPv6 (CIDR $2-128).\nNun vèninu turnati chiossai di 5.000 canciamenti, pi mutivi di pristazzioni.\nAdupirari stu strummentu rispittannu lu rigulamentu.",
+	"checkuser-summary": "Stu strummentu analizza li canciamenti fatti di picca p'arripigghiari li nnirizzi IP adupirati di n'utenti, o p'ammustrari li canciamenti e l'utenti assuciati a nu nnirizzu IP.\nAgghiuncennu ô nnirizzu IP lu suffissu \"/xff\" s'arrintràccianu l'utenti e li canciamenti ca vèninu d'un nnirizzu IP clienti tinennu cuntu dâ ntistazzioni XFF. Sunnu suppurtati l'IPv4 (CIDR $1-32) e l'IPv6 (CIDR $2-128).\nNun vèninu turnati chiossai di 5&nbsp;000 canciamenti, pi mutivi di pristazzioni.\nAdupirari stu strummentu rispittannu lu rigulamentu.",
 	"checkuser-desc": "Pirmetti a l'utenti ca hannu la spicìfica auturizzazzioni di cuntrullari li nnirizzi IP e àutri nfurmazzioni di l'àutri utenti",
 	"checkuser-logcase": "L'arricerca ntô riggistru fa diffirenza tra maiùsculu e minùsculu.",
 	"checkuser": "Cuntrollu di l'utenti",
@@ -56,7 +56,7 @@
 	"checkuser-block-success": "'''{{PLURAL:$2|L'utenti}} $1 ora {{PLURAL:$2|è bluccatu|sunnu bluccati}}.'''",
 	"checkuser-block-failure": "'''Nuddu utenti bluccatu.'''",
 	"checkuser-block-limit": "Troppu assai utenti scigghiuti.",
-	"checkuser-block-noreason": "S'havi a dari nu mutivu pi li blocchi.",
+	"checkuser-block-noreason": "S'havi a dari nu mutivu pî blocchi.",
 	"checkuser-noreason": "S'havi a dari nu mutivu pi sta ntirrugazzioni.",
 	"checkuser-too-many": "Ci sunnu troppu assai risurtati (secunnu la stima dâ ntirrugazzioni), pi favuri strinci lu CIDR.\nDi sècutu sunnu nnicati li nnirizzi IP adupirati (màssimu 5000, misi n òrdini pi nnirizzu):",
 	"checkuser-user-nonexistent": "L’utenti spicificatu nun esisti.",
