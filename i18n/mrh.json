@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Teitei Para"
+		]
+	},
+	"checkuser-too-many": "Too many results (according to query estimate), please narrow down the CIDR.\nHere are the IP addresses used ($1 max, sorted by address):"
+}

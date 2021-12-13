@@ -1,0 +1,13 @@
+{
+	"@metadata": {
+		"authors": [
+			"Abbas dhothar"
+		]
+	},
+	"group-checkuser": "توثیق شدہ ورتنوالے",
+	"checkuser-reason": "وجہ:",
+	"checkuser-month": "پچھلے 30 دن",
+	"checkuser-investigateblock-notice-replace": "بدلے صفحے",
+	"checkuser-investigate-duration-option-30d": "پچھلے 30 دن",
+	"checkuser-investigate-compare-table-cell-unregistered": "غیر رجسٹرڈ"
+}

@@ -16,7 +16,10 @@
 			"Stryn",
 			"Valtlait",
 			"Varusmies",
-			"ZeiP"
+			"ZeiP",
+			"MITO",
+			"Nwme",
+			"Pyscowicz"
 		]
 	},
 	"checkuser-summary": "Tämän työkalun avulla voidaan tutkia tuoreet muutokset ja paljastaa käyttäjien IP-osoitteet tai noutaa IP-osoitteiden muokkaukset ja käyttäjätiedot.\nKäyttäjät ja muokkaukset voidaan hakea myös uudelleenohjausosoitteen (X-Forwarded-For) takaa käyttämällä IP-osoitteen perässä <tt>/xff</tt> -merkintää. Työkalu tukee sekä IPv4 (CIDR $1–32) ja IPv6 (CIDR $2–128) -standardeja.",
@@ -37,7 +40,7 @@
 	"checkuser-reason-api": "API: $1",
 	"checkuser-showlog": "Näytä osoitepaljastinloki",
 	"checkuser-query": "Hae tuoreet muutokset",
-	"checkuser-target": "IP-osoite tai käyttäjätunnus:",
+	"checkuser-target": "IP-osoite tai käyttäjänimi:",
 	"checkuser-users": "Hae käyttäjät",
 	"checkuser-edits": "Hae muokkaukset",
 	"checkuser-ips": "Hae IP-osoitteet",
@@ -67,6 +70,7 @@
 	"checkuser-blocktalk": "Estä käyttäjää muokkaamasta omaa keskustelusivuaan eston aikana",
 	"checkuser-blocktag": "Korvaa käyttäjäsivut sisällöllä:",
 	"checkuser-blocktag-talk": "Korvaa keskustelusivut sisällöllä:",
+	"checkuser-reblock": "Ohita olemassaolevat estot",
 	"checkuser-massblock-commit": "Estä valitut käyttäjät",
 	"checkuser-block-success": "'''{{PLURAL:$2|Käyttäjä|Käyttäjät}} $1 on nyt estetty.'''",
 	"checkuser-block-failure": "'''Yhtään käyttäjää ei estetty.'''",
@@ -74,7 +78,7 @@
 	"checkuser-block-noreason": "Estoille on annettava syy.",
 	"checkuser-centralauth-multilock": "Lukitse valitut tunnukset",
 	"checkuser-noreason": "Sinun tulee antaa syy tälle kyselylle.",
-	"checkuser-too-many": "Liian monta tulosta (kyselyarvion mukaan), pienennä CIDR-aluetta.\nKäytetyt IP-osoitteet (enintään 5000, järjestetty osoitteen mukaan):",
+	"checkuser-too-many": "Liian monta tulosta (kyselyarvion mukaan), pienennä CIDR-aluetta.\nKäytetyt IP-osoitteet (enintään $1, järjestetty osoitteen mukaan):",
 	"checkuser-user-nonexistent": "Määritettyä käyttäjää ei ole olemassa.",
 	"checkuser-search": "Etsi osoitinpaljastinlokin merkinnöistä",
 	"checkuser-search-submit": "Hae",
@@ -93,5 +97,12 @@
 	"checkuser-create-action": "luotiin",
 	"checkuser-email-action": "käyttäjälle ”$1” lähetetty sähköpostiviesti",
 	"checkuser-reset-action": "käyttäjän ”$1” salasana nollattu",
-	"checkuser-token-fail": "Istuntovirhe. Ole hyvä ja yritä uudelleen."
+	"checkuser-token-fail": "Istuntovirhe. Ole hyvä ja yritä uudelleen.",
+	"checkuser-investigateblock": "Estä käyttäjät",
+	"checkuser-investigateblock-target": "Käyttäjätunnukset ja IP-osoitteet",
+	"checkuser-investigateblock-reason": "Syy",
+	"checkuser-investigateblock-options": "Lisävalinnat",
+	"checkuser-investigateblock-email-label": "Estä sähköpostin lähettäminen",
+	"checkuser-investigateblock-usertalk-label": "Estä käyttäjää muokkaamasta omaa keskustelusivuaan eston aikana",
+	"checkuser-investigateblock-reblock-label": "Ohita olemassaolevat estot"
 }

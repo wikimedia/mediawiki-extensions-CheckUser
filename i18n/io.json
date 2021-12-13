@@ -20,7 +20,7 @@
 	"checkuser-all": "omna",
 	"checkuser-cidr-res": "Komuna CIDR:",
 	"checkuser-blocked": "Blokusita",
-	"checkuser-gblocked": "Blokusita globale",
+	"checkuser-gblocked": "Blokusita en omna Wiki",
 	"checkuser-wasblocked": "Antee blokusita",
 	"checkuser-block-success": "'''L'{{PLURAL:$2|uzero|uzeri}} $1 {{PLURAL:$2|nun esas}} blokusata.'''",
 	"checkuser-block-failure": "'''Nula uzeri blokusata.'''",

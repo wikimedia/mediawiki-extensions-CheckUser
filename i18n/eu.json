@@ -44,5 +44,5 @@
 	"checkuser-email-action": "\"$1\" lankideari posta elektroniko bat bidali",
 	"checkuser-reset-action": "\"$1\" lankideari pasahitza berrezarri",
 	"checkuser-investigate-compare-notice-no-results-filters": "Filtratzeko irizpide hauek erabilita ez dago emaitzarik. Saiatu filtro batzuk ezabatzen bilaketa orokor baterako",
-	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Ip honetako erabiltzaile guztiak erakutsi"
+	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Erabiltzaile honen IPak erakutsi"
 }

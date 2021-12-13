@@ -66,7 +66,7 @@
 	"checkuser-block-noreason": "Мора да наведете причина за блокирањата.",
 	"checkuser-centralauth-multilock": "Повеќекратно заклучување на сметки",
 	"checkuser-noreason": "Мора да наведете причина за ова барање.",
-	"checkuser-too-many": "Премногу ставки (според процената на барањето). Уточнете го CIDR.\nЕве ги користените IP-адреси (највеќе 5000, подредени по адреса):",
+	"checkuser-too-many": "Премногу ставки (според процената на барањето). Уточнете го CIDR.\nЕве ги користените IP-адреси (највеќе $1, подредени по адреса):",
 	"checkuser-user-nonexistent": "Наведениот корисник не постои.",
 	"checkuser-search": "Пребарај по ставките од дневникот на проверки",
 	"checkuser-search-submit": "Пребарај",
@@ -162,5 +162,5 @@
 	"checkuser-investigate-compare-table-header-username": "Корисничко име",
 	"checkuser-investigate-compare-table-header-activity": "Датумски опсег",
 	"checkuser-investigate-compare-table-header-ip": "IP",
-	"checkuser-investigate-compare-table-header-useragent": "Кориснички вршител"
+	"checkuser-investigate-compare-table-header-useragent": "Кориснички застапник"
 }
