@@ -93,7 +93,7 @@ class ImportCheckUserLogs extends Maintenance {
 		while ( ( $line = fgets( $file ) ) !== false ) {
 			$data = $this->parseLogLine( $line );
 			if ( $data ) {
-				if ( $data['wiki'] != wfWikiID() && $data['wiki'] != $wgDBname ) {
+				if ( $data['wiki'] != WikiMap::getCurrentWikiId() && $data['wiki'] != $wgDBname ) {
 					$unmatched++;
 					continue;
 				}
