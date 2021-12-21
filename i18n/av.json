@@ -1,9 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
-			"Аль-Гимравий"
+			"Аль-Гимравий",
+			"Omarov M."
 		]
 	},
-	"checkuser-reason": "ГІилла:",
-	"checkuser-target": "IP-адрес яги гІахьалчиясул цІар:"
+	"checkuser-reason": "ГӀилла:",
+	"checkuser-target": "IP-адрес яги хӀалтӀизабунцӀар:"
 }
