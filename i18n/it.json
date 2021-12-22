@@ -20,7 +20,8 @@
 			"Sakretsu",
 			"Scompo",
 			"Selven",
-			"Stefano-c"
+			"Stefano-c",
+			"Ajeje Brazorf"
 		]
 	},
 	"checkuser-summary": "Questo strumento analizza le modifiche recenti per recuperare gli indirizzi IP utilizzati da un utente o mostrare contributi e dati di un IP. Utenti e contributi di un client IP possono essere rintracciati attraverso gli header XFF aggiungendo all'IP il suffisso \"/xff\". Sono supportati IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128). Non saranno restituite più di 5.000 modifiche, per ragioni di prestazioni. Usa questo strumento in stretta conformità alle policy.",
@@ -162,7 +163,7 @@
 	"checkuser-investigate-timeline-notice-no-results": "Non ci sono risultati: non sono state registrate attività da questi utenti o IP negli ultimi 90 giorni",
 	"checkuser-investigate-timeline-notice-no-results-filters": "Non ci sono risultati corrispondenti a questi criteri di filtro. Prova a rimuovere alcuni filtri per ampliare la ricerca.",
 	"checkuser-investigate-compare-copy-button-label": "Mostra wikitesto",
-	"checkuser-investigate-compare-toollinks-whois": "WHOIS/RDNS",
+	"checkuser-investigate-compare-toollinks-whois": "WHOIS",
 	"checkuser-investigate-compare-toollinks-ipcheck": "Proxy check",
 	"checkuser-investigate-compare-copy-message-label": "Desideri copiare quest'informazione in una tabella di wikitesto?",
 	"checkuser-investigate-compare-notice-exceeded-limit": "A causa di limitazioni tecniche, abbiamo raggiunto il numero massimo di entrate visualizzabili. I dati sui seguenti bersagli sono incompleti: $1. Riprova indicando meno bersagli, una finestra temporale più piccola o un IP range meno ampio.",
