@@ -1,0 +1,17 @@
+{
+	"@metadata": {
+		"authors": [
+			"Teashae"
+		]
+	},
+	"checkuser": "صٲرِف چَک",
+	"checkuser-reason": "وَضاحَت:",
+	"checkuser-search-submit": "ژھانٛڈُن",
+	"checkuser-investigateblock-reason": "وَضاحَت",
+	"checkuser-investigate-subtitle-block-button-label": "بُلاک",
+	"checkuser-investigate-subtitle-cancel-button-label": "مَنسوٗخ",
+	"checkuser-investigate-duration-option-all": "سٲری",
+	"checkuser-investigate-reason-label": "وَضاحَت",
+	"checkuser-investigate-preliminary-table-header-name": "صٲرِف ناو:",
+	"checkuser-investigate-preliminary-table-header-wiki": "وِکی"
+}
