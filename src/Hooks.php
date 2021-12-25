@@ -253,9 +253,11 @@ class Hooks {
 	public static function updateCUEmailData( $to, $from, $subject, $text ) {
 		global $wgSecretKey, $wgRequest, $wgCUPublicKey;
 
+		$services = MediaWikiServices::getInstance();
+
 		if ( !$wgSecretKey || $from->name == $to->name ) {
 			return true;
-		} elseif ( wfReadOnly() ) {
+		} elseif ( $services->getReadOnlyMode()->isReadOnly() ) {
 			return true;
 		}
 
@@ -270,7 +272,6 @@ class Hooks {
 
 		$actionText = wfMessage( 'checkuser-email-action', $hash )->inContentLanguage()->text();
 
-		$services = MediaWikiServices::getInstance();
 		$contLang = $services->getContentLanguage();
 
 		// (T199323) Truncate text fields prior to database insertion
