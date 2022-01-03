@@ -64,6 +64,7 @@
 	"checkuser-week-1": "última semana",
 	"checkuser-week-2": "últimas dos semanas",
 	"checkuser-month": "últimos 30 días",
+	"checkuser-month-2": "últimos 60 días",
 	"checkuser-all": "todos",
 	"checkuser-cidr-label": "Encontrar rango común y afectados de una lista de direcciones de IP",
 	"checkuser-cidr-res": "CIDR común:",
