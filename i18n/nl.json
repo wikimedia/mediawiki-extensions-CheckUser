@@ -52,6 +52,7 @@
 	"checkuser-nomatch-edits": "Niets gevonden.\nDe laatste bewerking was op $1 om $2.",
 	"checkuser-check": "Controleren",
 	"checkuser-check-this-user": "Deze gebruiker controleren",
+	"checkuser-investigate-this-user": "Deze gebruiker onderzoeken",
 	"checkuser-recent-checks": "Recente controles voor deze gebruiker",
 	"checkuser-log-fail": "Logboekregel toevoegen niet mogelijk",
 	"checkuser-nolog": "Geen logboek gevonden.",
