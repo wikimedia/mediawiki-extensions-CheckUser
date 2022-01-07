@@ -10,7 +10,7 @@
 	"license-name": "GPL-2.0-or-later",
 	"type": "specialpage",
 	"requires": {
-		"MediaWiki": ">= 1.37.0",
+		"MediaWiki": ">= 1.38.0",
 		"platform": {
 			"ext-openssl": "*"
 		}
@@ -146,7 +146,7 @@
 				"oojs-ui.styles.icons-location",
 				"oojs-ui.styles.icons-moderation",
 				"oojs-ui.styles.icons-user",
-				"mediawiki.pager.tablePager",
+				"mediawiki.pager.styles",
 				"mediawiki.storage",
 				"mediawiki.Title",
 				"mediawiki.Uri",
