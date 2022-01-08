@@ -3,7 +3,6 @@
 namespace MediaWiki\CheckUser\Specials;
 
 use ActorMigration;
-use CentralAuthUser;
 use CentralIdLookup;
 use DeferredUpdates;
 use Exception;
@@ -16,6 +15,7 @@ use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\Hooks as CUHooks;
+use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionRecord;
