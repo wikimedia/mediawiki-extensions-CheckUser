@@ -30,7 +30,8 @@
 			"Slomox",
 			"Tgr",
 			"The Evil IP address",
-			"Umherirrender"
+			"Umherirrender",
+			"Xiplus"
 		]
 	},
 	"checkuser-summary": "Explanation of CheckUser tool. See [[mw:Extension:CheckUser#Basic_interface|screenshot titled 'Basic CheckUser interface']].\n\nParameters:\n* $1 - an integer. default value: 16\n* $2 - an integer. default value: 32",
@@ -168,7 +169,7 @@
 	"checkuser-investigate-preliminary-table-header-editcount": "Label for a table header in [[Special:Investigate]].\n\n{{identical|Edit}}",
 	"checkuser-investigate-preliminary-table-header-groups": "Label for a table header in [[Special:Investigate]].",
 	"checkuser-investigate-preliminary-table-header-name": "Label for a table header in [[Special:Investigate]].",
-	"checkuser-investigate-preliminary-table-header-registration": "Label for a table header in [[Special:Investigate]]. Means \"the day on which (the account) was attached\".",
+	"checkuser-investigate-preliminary-table-header-registration": "Label for a table header in [[Special:Investigate]]. Means \"the day on which (the account) was attached\".\n\nSee also:\n* {{msg-mw|Centralauth-admin-list-attached-on}}",
 	"checkuser-investigate-preliminary-table-header-wiki": "Label for a table header in [[Special:Investigate]].",
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Entry for a table cell in [[Special:Investigate]].",
 	"checkuser-investigate-filters-legend": "Heading for the filters form on [[Special:Investigate]].",
