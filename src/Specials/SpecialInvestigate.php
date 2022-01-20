@@ -493,7 +493,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 			] );
 
 			$targetsText = $this->getLanguage()->listToText( array_map( static function ( $target ) {
-				return Html::rawElement( 'strong', [], htmlspecialchars( $target ) );
+				return Html::rawElement( 'strong', [], Html::rawElement( 'bdi', [], htmlspecialchars( $target ) ) );
 			}, $targets ) );
 			$subtitle = $this->msg( 'checkuser-investigate-page-subtitle', $targetsText );
 
