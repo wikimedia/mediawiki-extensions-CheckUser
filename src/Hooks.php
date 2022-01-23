@@ -14,7 +14,6 @@ use MediaWiki\CheckUser\Specials\SpecialInvestigate;
 use MediaWiki\CheckUser\Specials\SpecialInvestigateBlock;
 use MediaWiki\Extension\Renameuser\RenameuserSQL;
 use MediaWiki\MediaWikiServices;
-use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserRigorOptions;
 use PopulateCheckUserTable;
@@ -811,13 +810,18 @@ class Hooks {
 	 * @return bool
 	 */
 	public static function doRetroactiveAutoblock( DatabaseBlock $block, array &$blockIds ) {
-		$dbr = MediaWikiServices::getInstance()
-			->getDBLoadBalancer()
-			->getConnection( DB_REPLICA );
+		$services = MediaWikiServices::getInstance();
 
-		$userFactory = MediaWikiServices::getInstance()->getUserFactory();
-		$user = $userFactory->newFromName( $block->getTargetName(), UserFactory::RIGOR_NONE );
-		if ( !$user->getId() ) {
+		$dbr = $services
+			->getDBLoadBalancerFactory()
+			->getMainLB( $block->getWikiId() )
+			->getConnectionRef( DB_REPLICA, [], $block->getWikiId() );
+
+		$userIdentityLookup = $services
+			->getActorStoreFactory()
+			->getUserIdentityLookup( $block->getWikiId() );
+		$user = $userIdentityLookup->getUserIdentityByName( $block->getTargetName() );
+		if ( !$user->isRegistered() ) {
 			// user in an IP?
 			return true;
 		}
@@ -829,7 +833,7 @@ class Hooks {
 
 		$res = $dbr->select( 'cu_changes',
 			[ 'cuc_ip' ],
-			[ 'cuc_user' => $user->getId() ],
+			[ 'cuc_user' => $user->getId( $block->getWikiId() ) ],
 			__METHOD__,
 			$options
 		);
