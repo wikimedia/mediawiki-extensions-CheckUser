@@ -3,9 +3,10 @@
 namespace MediaWiki\CheckUser\Tests;
 
 use MediaWiki\CheckUser\CompareService;
-use MediaWiki\CheckUser\UserManager;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\User\UserIdentity;
+use MediaWiki\User\UserIdentityLookup;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\Database;
@@ -66,19 +67,27 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		$loadBalancer->method( 'getConnectionRef' )
 			->willReturn( $db );
 
-		$userManager = $this->createMock( UserManager::class );
-		$userManager->method( 'idFromName' )
+		$user = $this->createMock( UserIdentity::class );
+		$user->method( 'getId' )
+			->willReturn( 11111 );
+
+		$user2 = $this->createMock( UserIdentity::class );
+		$user2->method( 'getId' )
+			->willReturn( 22222 );
+
+		$userIdentityLookup = $this->createMock( UserIdentityLookup::class );
+		$userIdentityLookup->method( 'getUserIdentityByName' )
 			->willReturnMap(
 				[
-					[ 'User1', 11111, ],
-					[ 'User2', 22222, ],
+					[ 'User1', 0, $user, ],
+					[ 'User2', 0, $user2, ],
 				]
 			);
 
 		$compareService = new CompareService(
 			$serviceOptions,
 			$loadBalancer,
-			$userManager
+			$userIdentityLookup
 		);
 
 		$queryInfo = $compareService->getQueryInfo(
@@ -212,7 +221,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		$compareService = new CompareService(
 			$this->createMock( ServiceOptions::class ),
 			$this->createMock( ILoadBalancer::class ),
-			$this->createMock( UserManager::class )
+			$this->createMock( UserIdentityLookup::class )
 		);
 
 		$compareService->getQueryInfo( [], [], '' );
@@ -235,7 +244,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		$compareServcice = new CompareService(
 			$this->createMock( ServiceOptions::class ),
 			$loadBalancer,
-			$this->createMock( UserManager::class )
+			$this->createMock( UserIdentityLookup::class )
 		);
 
 		$info = $compareServcice->getQueryInfoForSingleTarget(

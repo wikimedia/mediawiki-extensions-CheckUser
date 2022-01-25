@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser;
 
+use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\ILoadBalancer;
@@ -10,19 +11,19 @@ abstract class ChangeService {
 	/** @var ILoadBalancer */
 	protected $loadBalancer;
 
-	/** @var UserManager */
-	protected $userManager;
+	/** @var UserIdentityLookup */
+	private $userIdentityLookup;
 
 	/**
 	 * @param ILoadBalancer $loadBalancer
-	 * @param UserManager $userManager
+	 * @param UserIdentityLookup $userIdentityLookup
 	 */
 	public function __construct(
 		ILoadBalancer $loadBalancer,
-		UserManager $userManager
+		UserIdentityLookup $userIdentityLookup
 	) {
 		$this->loadBalancer = $loadBalancer;
-		$this->userManager = $userManager;
+		$this->userIdentityLookup = $userIdentityLookup;
 	}
 
 	/**
@@ -82,9 +83,12 @@ abstract class ChangeService {
 		} else {
 			// TODO: This may filter out invalid values, changing the number of
 			// targets. The per-target limit should change too (T246393).
-			$userId = $this->userManager->idFromName( $target );
-			if ( $userId ) {
-				$conds['cuc_user'] = $userId;
+			$user = $this->userIdentityLookup->getUserIdentityByName( $target );
+			if ( $user ) {
+				$userId = $user->getId();
+				if ( $userId !== 0 ) {
+					$conds['cuc_user'] = $userId;
+				}
 			}
 		}
 
@@ -106,9 +110,12 @@ abstract class ChangeService {
 			if ( IPUtils::isIpAddress( $target ) ) {
 				$ipTargets[] = IPUtils::toHex( $target );
 			} else {
-				$userId = $this->userManager->idFromName( $target );
-				if ( $userId ) {
-					$userTargets[] = $userId;
+				$user = $this->userIdentityLookup->getUserIdentityByName( $target );
+				if ( $user ) {
+					$userId = $user->getId();
+					if ( $userId !== 0 ) {
+						$userTargets[] = $userId;
+					}
 				}
 			}
 		}

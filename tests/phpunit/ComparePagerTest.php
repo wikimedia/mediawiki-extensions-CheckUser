@@ -7,8 +7,9 @@ use MediaWiki\CheckUser\ComparePager;
 use MediaWiki\CheckUser\CompareService;
 use MediaWiki\CheckUser\DurationManager;
 use MediaWiki\CheckUser\TokenQueryManager;
-use MediaWiki\CheckUser\UserManager;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\User\UserIdentity;
+use MediaWiki\User\UserIdentityLookup;
 use MediaWikiIntegrationTestCase;
 use RequestContext;
 use TestAllServiceOptionsUsed;
@@ -38,15 +39,27 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 				'exclude-targets' => $excludeTargets,
 			] );
 
-		$userManager = $this->createMock( UserManager::class );
-		$userManager->method( 'idFromName' )
+		$user = $this->createMock( UserIdentity::class );
+		$user->method( 'getId' )
+			->willReturn( 11111 );
+
+		$user2 = $this->createMock( UserIdentity::class );
+		$user2->method( 'getId' )
+			->willReturn( 22222 );
+
+		$user3 = $this->createMock( UserIdentity::class );
+		$user3->method( 'getId' )
+			->willReturn( 0 );
+
+		$userIdentityLookup = $this->createMock( UserIdentityLookup::class );
+		$userIdentityLookup->method( 'getUserIdentityByName' )
 			->willReturnMap(
 				[
-					[ 'User1', 11111, ],
-					[ 'User2', 22222, ],
-					[ 'InvalidUser', 0 ],
-					[ '', 0 ],
-					[ '1.2.3.9/120', 0 ]
+					[ 'User1', 0, $user, ],
+					[ 'User2', 0, $user2, ],
+					[ 'InvalidUser', 0, $user3, ],
+					[ '', 0, $user3, ],
+					[ '1.2.3.9/120', 0, $user3, ]
 				]
 			);
 
@@ -57,7 +70,7 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 				$services->getMainConfig()
 			),
 			$services->getDBLoadBalancer(),
-			$userManager
+			$userIdentityLookup
 		);
 
 		$durationManager = $this->createMock( DurationManager::class );

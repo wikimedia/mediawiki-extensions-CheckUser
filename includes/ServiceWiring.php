@@ -13,7 +13,6 @@ use MediaWiki\CheckUser\TimelineRowFormatterFactory;
 use MediaWiki\CheckUser\TimelineService;
 use MediaWiki\CheckUser\TokenManager;
 use MediaWiki\CheckUser\TokenQueryManager;
-use MediaWiki\CheckUser\UserManager;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
@@ -36,13 +35,13 @@ return [
 				$services->getMainConfig()
 			),
 			$services->getDBLoadBalancer(),
-			$services->get( 'CheckUserUserManager' )
+			$services->getUserIdentityLookup()
 		);
 	},
 	'CheckUserTimelineService' => static function ( MediaWikiServices $services ): TimelineService {
 		return new TimelineService(
 			$services->getDBLoadBalancer(),
-			$services->get( 'CheckUserUserManager' )
+			$services->getUserIdentityLookup()
 		);
 	},
 	'CheckUserTokenManager' => static function ( MediaWikiServices $services ): TokenManager {
@@ -108,11 +107,6 @@ return [
 			$services->get( 'CheckUserTimelineRowFormatterFactory' ),
 			LoggerFactory::getInstance( 'CheckUser' )
 		);
-	},
-	'CheckUserUserManager' => static function (
-		MediaWikiServices $services
-	): UserManager {
-		return new UserManager();
 	},
 	'CheckUserEventLogger' => static function (
 		 MediaWikiServices $services

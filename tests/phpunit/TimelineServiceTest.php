@@ -3,7 +3,8 @@
 namespace MediaWiki\CheckUser\Tests;
 
 use MediaWiki\CheckUser\TimelineService;
-use MediaWiki\CheckUser\UserManager;
+use MediaWiki\User\UserIdentity;
+use MediaWiki\User\UserIdentityLookup;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\Database;
@@ -29,15 +30,19 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 		$loadBalancer->method( 'getConnectionRef' )
 			->willReturn( $db );
 
-		$userManager = $this->createMock( UserManager::class );
-		$userManager->method( 'idFromName' )
+		$user = $this->createMock( UserIdentity::class );
+		$user->method( 'getId' )
+			->willReturn( 11111 );
+
+		$userIdentityLookup = $this->createMock( UserIdentityLookup::class );
+		$userIdentityLookup->method( 'getUserIdentityByName' )
 			->willReturnMap(
 				[
-					[ 'User1', 11111, ],
+					[ 'User1', 0, $user, ],
 				]
 			);
 
-		$timelineService = new TimelineService( $loadBalancer, $userManager );
+		$timelineService = new TimelineService( $loadBalancer, $userIdentityLookup );
 
 		$q = $timelineService->getQueryInfo( $targets, [], $start );
 

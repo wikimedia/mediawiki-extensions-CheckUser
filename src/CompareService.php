@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser;
 
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\Rdbms\ILoadBalancer;
 use Wikimedia\Rdbms\Subquery;
 
@@ -23,14 +24,14 @@ class CompareService extends ChangeService {
 	/**
 	 * @param ServiceOptions $options
 	 * @param ILoadBalancer $loadBalancer
-	 * @param UserManager $userManager
+	 * @param UserIdentityLookup $userIdentityLookup
 	 */
 	public function __construct(
 		ServiceOptions $options,
 		ILoadBalancer $loadBalancer,
-		UserManager $userManager
+		UserIdentityLookup $userIdentityLookup
 	) {
-		parent::__construct( $loadBalancer, $userManager );
+		parent::__construct( $loadBalancer, $userIdentityLookup );
 
 		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 		$this->limit = $options->get( 'CheckUserInvestigateMaximumRowCount' );
