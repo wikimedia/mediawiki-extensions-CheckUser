@@ -28,6 +28,7 @@
 			"Yfdyh000",
 			"乌拉跨氪",
 			"列维劳德",
+			"星海",
 			"沈澄心",
 			"白布飘扬",
 			"铁桶"
@@ -45,7 +46,7 @@
 	"right-checkuser-log": "查看用户查核日志",
 	"action-checkuser": "查核用户的IP地址和其他信息",
 	"action-checkuser-log": "查看用户查核日志",
-	"grouppage-checkuser": "{{ns:project}}:用户查核",
+	"grouppage-checkuser": "{{ns:project}}:用户查核员",
 	"checkuser-reason": "原因：",
 	"checkuser-reason-api": "API: $1",
 	"checkuser-showlog": "切换到用户查核日志",

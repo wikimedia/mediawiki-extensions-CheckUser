@@ -3,14 +3,15 @@
 		"authors": [
 			"A2093064",
 			"Liuxinyu970226",
-			"Xiplus"
+			"Xiplus",
+			"星海"
 		]
 	},
 	"checkuser": "查核用戶",
 	"checkuserlog": "用戶查核日誌",
 	"group-checkuser": "用戶查核員",
 	"group-checkuser-member": "{{GENDER:$1|用戶查核員}}",
-	"grouppage-checkuser": "{{ns:project}}:用戶查核",
+	"grouppage-checkuser": "{{ns:project}}:用戶查核員",
 	"checkuser-target": "IP 位址或用戶名稱：",
 	"checkuser-users": "查詢用戶",
 	"checkuser-block-success": "'''{{PLURAL:$2|用戶}} $1 {{PLURAL:$2|已被}}查封。'''",
