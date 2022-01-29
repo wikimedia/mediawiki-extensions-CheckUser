@@ -1,0 +1,254 @@
+[
+	{
+		"name": "cu_changes",
+		"columns": [
+			{
+				"name": "cuc_id",
+				"comment": "Primary key",
+				"type": "integer",
+				"options": { "autoincrement": true, "notnull": true, "unsigned": true }
+			},
+			{
+				"name": "cuc_namespace",
+				"comment": "When pages are renamed, their RC entries do _not_ change.",
+				"type": "integer",
+				"options": { "notnull": true, "default": 0 }
+			},
+			{
+				"name": "cuc_title",
+				"type": "binary",
+				"options": { "notnull": true, "length": 255, "default": "" }
+			},
+			{
+				"name": "cuc_user",
+				"comment": "user.user_id",
+				"type": "integer",
+				"options": { "notnull": true, "default": 0 }
+			},
+			{
+				"name": "cuc_user_text",
+				"type": "string",
+				"options": { "notnull": true, "length": 255, "default": "" }
+			},
+			{
+				"name": "cuc_actor",
+				"type": "bigint",
+				"options": { "notnull": true, "unsigned": true, "default": 0 }
+			},
+			{
+				"name": "cuc_actiontext",
+				"comment": "Edit summary",
+				"type": "binary",
+				"options": { "notnull": true, "length": 255, "default": "" }
+			},
+			{
+				"name": "cuc_comment",
+				"type": "binary",
+				"options": { "notnull": true, "length": 255, "default": "" }
+			},
+			{
+				"name": "cuc_comment_id",
+				"type": "bigint",
+				"options": { "notnull": true, "unsigned": true, "default": 0 }
+			},
+			{
+				"name": "cuc_minor",
+				"type": "mwtinyint",
+				"options": { "notnull": true, "length": 1, "default": 0 }
+			},
+			{
+				"name": "cuc_page_id",
+				"comment": "Key to page_id (was cur_id prior to 1.5). This will keep links working after moves while retaining the at-the-time name in the changes list.",
+				"type": "integer",
+				"options": { "notnull": true, "unsigned": true, "default": 0 }
+			},
+			{
+				"name": "cuc_this_oldid",
+				"comment": "rev_id of the given revision",
+				"type": "integer",
+				"options": { "notnull": true, "unsigned": true, "default": 0 }
+			},
+			{
+				"name": "cuc_last_oldid",
+				"comment": "rev_id of the prior revision, for generating diff links.",
+				"type": "integer",
+				"options": { "notnull": true, "unsigned": true, "default": 0 }
+			},
+			{
+				"name": "cuc_type",
+				"comment": "RecentChange type identifiers: RC_EDIT, RC_NEW or RC_LOG",
+				"type": "mwtinyint",
+				"options": { "notnull": true, "unsigned": true, "length": 3, "default": 0 }
+			},
+			{
+				"name": "cuc_timestamp",
+				"comment": "Event timestamp",
+				"type": "mwtimestamp",
+				"options": { "notnull": true }
+			},
+			{
+				"name": "cuc_ip",
+				"comment": "IP address, visible",
+				"type": "string",
+				"options": { "notnull": false, "length": 255, "default": "" }
+			},
+			{
+				"name": "cuc_ip_hex",
+				"comment": "IP address as hexidecimal",
+				"type": "string",
+				"options": { "notnull": false, "length": 255 }
+			},
+			{
+				"name": "cuc_xff",
+				"comment": "XFF header, visible, all data",
+				"type": "binary",
+				"options": { "notnull": false, "length": 255, "default": "" }
+			},
+			{
+				"name": "cuc_xff_hex",
+				"comment": "XFF header, last IP, as hexidecimal",
+				"type": "string",
+				"options": { "notnull": false, "length": 255 }
+			},
+			{
+				"name": "cuc_agent",
+				"comment": "User agent",
+				"type": "binary",
+				"options": { "notnull": false, "length": 255 }
+			},
+			{
+				"name": "cuc_private",
+				"comment": "Private Data",
+				"type": "blob",
+				"options": { "notnull": false, "length": 16777215 }
+			}
+		],
+		"indexes": [
+			{
+				"name": "cuc_ip_hex_time",
+				"columns": [ "cuc_ip_hex", "cuc_timestamp" ],
+				"unique": false
+			},
+			{
+				"name": "cuc_user_ip_time",
+				"columns": [ "cuc_user", "cuc_ip", "cuc_timestamp" ],
+				"unique": false
+			},
+			{
+				"name": "cuc_xff_hex_time",
+				"columns": [ "cuc_xff_hex", "cuc_timestamp" ],
+				"unique": false
+			},
+			{
+				"name": "cuc_timestamp",
+				"columns": [ "cuc_timestamp" ],
+				"unique": false
+			},
+			{
+				"name": "cuc_actor_ip_time",
+				"columns": [ "cuc_actor", "cuc_ip", "cuc_timestamp" ],
+				"unique": false
+			}
+		],
+		"pk": [ "cuc_id" ]
+	},
+	{
+		"name": "cu_log",
+		"columns": [
+			{
+				"name": "cul_id",
+				"comment": "Unique identifier",
+				"type": "integer",
+				"options": { "autoincrement": true, "notnull": true, "unsigned": true }
+			},
+			{
+				"name": "cul_timestamp",
+				"comment": "Timestamp of CheckUser action",
+				"type": "mwtimestamp",
+				"options": { "notnull": true }
+			},
+			{
+				"name": "cul_user",
+				"comment": "User who performed the action",
+				"type": "integer",
+				"options": { "notnull": true, "unsigned": true }
+			},
+			{
+				"name": "cul_user_text",
+				"comment": "User who performed the action",
+				"type": "binary",
+				"options": { "notnull": true, "length": 255 }
+			},
+			{
+				"name": "cul_reason",
+				"comment": "Reason given",
+				"type": "binary",
+				"options": { "notnull": true, "length": 255 }
+			},
+			{
+				"name": "cul_type",
+				"comment": "String indicating the type of query, may be: 'useredits', 'userips', 'ipedits', 'ipusers', 'ipedits-xff', 'ipusers-xff' or 'investigate' if the check was performed from Special:Investigate",
+				"type": "binary",
+				"options": { "notnull": true, "length": 30 }
+			},
+			{
+				"name": "cul_target_id",
+				"comment": " Integer target, interpretation depends on cul_type For username targets, this is the user_id",
+				"type": "integer",
+				"options": { "notnull": true, "unsigned": true, "default": 0 }
+			},
+			{
+				"name": "cul_target_text",
+				"comment": "Text target, interpretation depends on cul_type",
+				"type": "blob",
+				"options": { "notnull": true, "length": 65530 }
+			},
+			{
+				"name": "cul_target_hex",
+				"comment": "If the target was an IP address, this contains the hexadecimal form of the IP",
+				"type": "binary",
+				"options": { "notnull": true, "length": 255, "default": "" }
+			},
+			{
+				"name": "cul_range_start",
+				"comment": "If the target was an IP range, this field contain the start, in hex form",
+				"type": "binary",
+				"options": { "notnull": true, "length": 255, "default": "" }
+			},
+			{
+				"name": "cul_range_end",
+				"comment": "If the target was an IP range, this field contain the end, in hex form",
+				"type": "binary",
+				"options": { "notnull": true, "length": 255, "default": "" }
+			}
+		],
+		"indexes": [
+			{
+				"name": "cul_user",
+				"columns": [ "cul_user", "cul_timestamp" ],
+				"unique": false
+			},
+			{
+				"name": "cul_type_target",
+				"columns": [ "cul_type", "cul_target_id", "cul_timestamp" ],
+				"unique": false
+			},
+			{
+				"name": "cul_target_hex",
+				"columns": [ "cul_target_hex", "cul_timestamp" ],
+				"unique": false
+			},
+			{
+				"name": "cul_range_start",
+				"columns": [ "cul_range_start", "cul_timestamp" ],
+				"unique": false
+			},
+			{
+				"name": "cul_timestamp",
+				"columns": [ "cul_timestamp" ],
+				"unique": false
+			}
+		],
+		"pk": [ "cul_id" ]
+	}
+]
