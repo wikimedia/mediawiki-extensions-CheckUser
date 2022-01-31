@@ -42,6 +42,7 @@
 	"checkuser-week-1": "останній тиждень",
 	"checkuser-week-2": "останні два тижні",
 	"checkuser-month": "останні 30 днів",
+	"checkuser-month-2": "останні 60 днів",
 	"checkuser-all": "усі",
 	"checkuser-cidr-label": "Знайти загальний діапазон і задіяні адреси для списку IP-адрес",
 	"checkuser-cidr-res": "Спільний CIDR:",
