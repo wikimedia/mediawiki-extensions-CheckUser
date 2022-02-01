@@ -9,6 +9,7 @@
 			"Mido",
 			"NEHAOUA",
 			"OsamaK",
+			"SaldırganSincap",
 			"ديفيد",
 			"علاء",
 			"محمد أحمد عبد الفتاح"
@@ -39,6 +40,7 @@
 	"checkuser-week-1": "آخر أسبوع",
 	"checkuser-week-2": "آخر أسبوعين",
 	"checkuser-month": "آخر 30 يوم",
+	"checkuser-month-2": "آخر 60 يوم",
 	"checkuser-all": "الكل",
 	"checkuser-cidr-label": "جد النطاق المشترك والعناوين المتأثرة لقائمة من الأيبيهات",
 	"checkuser-cidr-res": "CIDR مشترك:",
