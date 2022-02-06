@@ -78,7 +78,7 @@
 				prefix = ''; // Rebuild formatted binPrefix for each IP
 				// Apply any valid CIDRs
 				if ( cidr ) {
-					bin = bin.substring( 0, cidr ); // truncate bin
+					bin = bin.slice( 0, Math.max( 0, cidr ) ); // truncate bin
 				}
 				// Init binPrefix
 				if ( binPrefix === 0 ) {
@@ -88,7 +88,7 @@
 					for ( x = 0; x < binPrefix.length; x++ ) {
 					// binPrefix always smaller than bin unless a CIDR was used on bin
 						if ( bin[ x ] === undefined || binPrefix[ x ] !== bin[ x ] ) {
-							binPrefix = binPrefix.substring( 0, x ); // shorten binPrefix
+							binPrefix = binPrefix.slice( 0, Math.max( 0, x ) ); // shorten binPrefix
 							break;
 						}
 					}
@@ -159,7 +159,7 @@
 				prefix = ''; // Rebuild formatted binPrefix for each IP
 				// Apply any valid CIDRs
 				if ( cidr ) {
-					bin = bin.substring( 0, cidr ); // truncate bin
+					bin = bin.slice( 0, Math.max( 0, cidr ) ); // truncate bin
 				}
 				// Init binPrefix
 				if ( binPrefix === 0 ) {
@@ -169,7 +169,7 @@
 					for ( x = 0; x < binPrefix.length; x++ ) {
 					// binPrefix always smaller than bin unless a CIDR was used on bin
 						if ( bin[ x ] === undefined || binPrefix[ x ] !== bin[ x ] ) {
-							binPrefix = binPrefix.substring( 0, x ); // shorten binPrefix
+							binPrefix = binPrefix.slice( 0, Math.max( 0, x ) ); // shorten binPrefix
 							break;
 						}
 					}
