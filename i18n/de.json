@@ -15,7 +15,8 @@
 			"Tiin",
 			"Tobi 406",
 			"Umherirrender",
-			"FF-11"
+			"FF-11",
+			"Brettchenweber"
 		]
 	},
 	"checkuser-summary": "Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers bzw. die Bearbeitungen/Benutzernamen für eine IP-Adresse zu ermitteln. Benutzer und Bearbeitungen einer IP-Adresse können auch nach Informationen aus den XFF-Headern abgefragt werden, indem der IP-Adresse ein „/xff“ angehängt wird. IPv4 (CIDR $1-32) und IPv6 (CIDR $2-128) werden unterstützt.\nZur Aufrechterhaltung der Leistungsfähigkeit werden maximal 5000 Bearbeitungen ausgegeben. Benutze CheckUser ausschließlich in Übereinstimmung mit den Datenschutzrichtlinien.",
@@ -152,7 +153,7 @@
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Wiki nicht gefunden",
 	"checkuser-investigate-filters-legend": "Filter",
 	"checkuser-investigate-filters-exclude-targets-label": "Die folgenden Benutzer oder IP-Adressen verbergen",
-	"checkuser-investigate-timeline-notice-no-results": "Es gibt keine Ergebnisse: es gab in den letzten 90 Tagen keine aufgezeichneten Aktivitäten von diesen Benutzern oder IP-Adressen",
+	"checkuser-investigate-timeline-notice-no-results": "Es gibt keine Ergebnisse: Es gab in den letzten 90 Tagen keine aufgezeichneten Aktivitäten von diesen Benutzern oder IP-Adressen.",
 	"checkuser-investigate-timeline-notice-no-results-filters": "Es gibt keine Ergebnisse, die diesen Filterkriterien entsprechen. Versuche, einige Filter zu entfernen, um die Suche zu erweitern.",
 	"checkuser-investigate-compare-copy-button-label": "Zeige Wikitext",
 	"checkuser-investigate-compare-toollinks-geolocate": "Geolokalisierung",
