@@ -8,7 +8,8 @@
 			"Steeve815",
 			"YaronSh",
 			"דגש",
-			"דגש חזק"
+			"דגש חזק",
+			"לואיקה"
 		]
 	},
 	"checkuser-summary": "כלי זה סורק את השינויים האחרונים במטרה למצוא את כתובות ה־IP שמשתמש מסוים עשה בהן שימוש או כדי להציג את כל המידע על המשתמשים שהשתמשו בכתובת IP מסוימת ועל העריכות שבוצעו ממנה.\nניתן לקבל עריכות ומשתמשים מכתובות IP של הכותרת X-Forwarded-For באמצעות הוספת הטקסט \"<span dir=\"ltr\">/xff</span>\" לסוף הכתובת. הן כתובות IPv4 (כלומר, CIDR $1-32) והן כתובות IPv6 (כלומר, CIDR $2-128) נתמכות.\nלא יוחזרו יותר מ־5,000 עריכות מסיבות של עומס על השרתים.\nיש להשתמש בכלי זה בהתאם למדיניות.",
@@ -174,12 +175,12 @@
 	"checkuser-investigate-tour-targets-desc": "{{GENDER:|הוסף|הוסיפי}} {{PLURAL:$1|שם משתמש או כתובת IP|עד $1 שמות משתמש או כתובות IP}} כדי לקבל את כל המידע במקום אחד. אין מה לדאוג, אנחנו ניצור יומן בדיקה נפרד עבור כל אחד מהם.",
 	"checkuser-investigate-tour-useragents-title": "התאמת סוכני לקוח?",
 	"checkuser-investigate-tour-useragents-desc": "{{GENDER:|רחף|רחפי}} מעל תא כדי להדגיש את כל השורות האחרות עם אותם התונים. {{GENDER:|לחץ|לחצי}} על סמל הסיכה כדי לשמור על ההדגשה בזמן המעבר על הנתונים.",
-	"checkuser-investigate-tour-addusertargets-title": "{{GENDER:|זקוק|זקוקה}} לעוד הקשר?",
+	"checkuser-investigate-tour-addusertargets-title": "{{GENDER:|אתה צריך|את צריכה|צריך}} יותר הקשר?",
 	"checkuser-investigate-tour-addusertargets-desc": "{{GENDER:|לחץ|לחצי}} כדי לראות את כל המשתמשים בכתובת ה־IP הזאת. {{GENDER:|אתה יכול|את יכולה}} לעשות את זה גם עבור משתמשים, ולראות את כל כתובות ה־IP שהם השתמשו בהן. אנחנו ניצור פריט יומן בדיקה באופן אוטומטי בשבילך.",
 	"checkuser-investigate-tour-filterip-title": "{{GENDER:|מצמצם|מצמצמת}} את החקירה שלך?",
 	"checkuser-investigate-tour-filterip-desc": "{{GENDER:|סלק|סלקי}} את הבלגן באמצעות סינון שמות משתמש, כתובות IP, או סוכני לקוח. רוצה את הנתונים חזרה? {{GENDER:|השתמש|השתמשי}} בחלונית \"מסננים\" למעלה כדי לכבות את המסננים.",
 	"checkuser-investigate-tour-block-title": "רוצה לחסום?",
-	"checkuser-investigate-tour-block-desc": "זה מאפשר לך לבחור את המשתמשים {{GENDER:|שתרצה|שתרצי}} לחסום ואז לוקח אותך לטופס החסימה כדי לבחור את החסימה המתאימה.",
+	"checkuser-investigate-tour-block-desc": "זה מאפשר לך לבחור את המשתמשים {{GENDER:|שאתה רוצה|שאת רוצה|שברצונך}} לחסום, ואז מעביר אותך לטופס החסימה כדי לבחור את החסימה המתאימה.",
 	"checkuser-investigate-tour-copywikitext-title": "רוצה להעתיק את הנתונים?",
-	"checkuser-investigate-tour-copywikitext-desc": "{{GENDER:|העתק|העתיקי}} את טבלת ההשוואה בלחיצה אחת {{GENDER:|וקח|וקחי}} אותה ל־CUWiki. {{GENDER:|שים|שימי}} לב לכך {{GENDER:|שאתה מעתיק|שאת מעתיקה}} רק את מה שמוצג ולא את כל הדפים של החקירה."
+	"checkuser-investigate-tour-copywikitext-desc": "{{GENDER:|העתק|העתיקי|נא להעתיק}} את טבלת ההשוואה בלחיצה אחת {{GENDER:|וקח|וקחי|ולקחת}} אותה ל־CUWiki. {{GENDER:|שים לב שאתה מעתיק|שימי לב שאת מעתיקה|נא לשים לב לכך שהעתקת}} רק את מה שמוצג ולא את כל דפי החקירה."
 }
