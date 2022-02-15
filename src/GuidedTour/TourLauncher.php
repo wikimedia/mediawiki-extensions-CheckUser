@@ -3,8 +3,8 @@
 namespace MediaWiki\CheckUser\GuidedTour;
 
 use ExtensionRegistry;
-use GuidedTourLauncher;
 use HtmlArmor;
+use MediaWiki\Extension\GuidedTour\GuidedTourLauncher;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Linker\LinkTarget;
 
