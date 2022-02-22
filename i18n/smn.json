@@ -1,9 +1,13 @@
 {
 	"@metadata": {
 		"authors": [
-			"Yupik"
+			"Yupik",
+			"Seipinne"
 		]
 	},
+	"checkuser-reason": "Suijâ:",
 	"checkuser-all": "puoh",
-	"checkuser-search-submit": "Uusâ"
+	"checkuser-search-submit": "Uusâ",
+	"checkuser-investigate-reason-label": "Suijâ",
+	"checkuser-investigate-compare-table-button-contribs-label": "Hammiimeh"
 }
