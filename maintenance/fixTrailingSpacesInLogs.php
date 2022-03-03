@@ -37,8 +37,8 @@ class FixTrailingSpacesInLogs extends LoggedUpdateMaintenance {
 	protected function doDBUpdates() {
 		$lbFactory = MediaWikiServices::getInstance()->getDBLoadBalancerFactory();
 		$mainLb = $lbFactory->getMainLB();
-		$dbr = $mainLb->getLazyConnectionRef( DB_REPLICA, 'vslow' );
-		$dbw = $mainLb->getLazyConnectionRef( DB_PRIMARY );
+		$dbr = $mainLb->getConnectionRef( DB_REPLICA, 'vslow' );
+		$dbw = $mainLb->getConnectionRef( DB_PRIMARY );
 		$batchSize = $this->getBatchSize();
 
 		$maxId = $dbr->selectField(
