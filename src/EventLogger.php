@@ -2,8 +2,8 @@
 
 namespace MediaWiki\CheckUser;
 
-use EventLogging;
 use ExtensionRegistry;
+use MediaWiki\Extension\EventLogging\EventLogging;
 
 class EventLogger {
 	/** @var ExtensionRegistry */
