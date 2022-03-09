@@ -21,11 +21,11 @@
 
 namespace MediaWiki\CheckUser;
 
-use CentralAuthServices;
 use ExtensionRegistry;
 use Html;
 use IContextSource;
 use MediaWiki\Extension\CentralAuth\CentralAuthDatabaseManager;
+use MediaWiki\Extension\CentralAuth\CentralAuthServices;
 use MediaWiki\Linker\LinkRenderer;
 use NamespaceInfo;
 use TablePager;
