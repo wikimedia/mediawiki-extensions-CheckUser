@@ -605,6 +605,11 @@ class Hooks {
 				'cuc_id',
 				"$base/archives/patch-cu_changes-cuc_id-unsigned.sql"
 			);
+			$updater->addExtensionIndex(
+				"cu_changes",
+				"cuc_actor_ip_time",
+				"$base/archives/patch-cu_changes-actor-comment.sql"
+			);
 		} elseif ( $dbType === 'postgres' ) {
 			$updater->addExtensionUpdate(
 				[ 'addPgField', 'cu_changes', 'cuc_private', 'BYTEA' ]
@@ -613,6 +618,18 @@ class Hooks {
 			$updater->addExtensionUpdate( [ 'dropFkey', 'cu_log', 'cul_target_id' ] );
 			$updater->addExtensionUpdate( [ 'dropFkey', 'cu_changes', 'cuc_user' ] );
 			$updater->addExtensionUpdate( [ 'dropFkey', 'cu_changes', 'cuc_page_id' ] );
+			$updater->addExtensionUpdate(
+				[ 'addPgField', 'cu_changes', 'cuc_actor', 'INTEGER NOT NULL DEFAULT 0' ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'addPgField', 'cu_changes', 'cuc_comment_id', 'INTEGER NOT NULL DEFAULT 0' ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'setDefault', 'cu_changes', 'cuc_user_text', '' ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'addPgIndex', 'cu_changes', 'cuc_actor_ip_time', '( cuc_actor, cuc_ip, cuc_timestamp )' ]
+			);
 		}
 
 		if ( !$isCUInstalled ) {

@@ -12,10 +12,12 @@ CREATE TABLE /*_*/cu_changes (
   -- user.user_id
   cuc_user INTEGER NOT NULL DEFAULT 0,
   cuc_user_text VARCHAR(255) NOT NULL DEFAULT '',
+  cuc_actor bigint unsigned NOT NULL DEFAULT 0,
 
   -- Edit summary
   cuc_actiontext varchar(255) binary NOT NULL default '',
   cuc_comment varchar(255) binary NOT NULL default '',
+  cuc_comment_id bigint unsigned NOT NULL DEFAULT 0,
   cuc_minor bool NOT NULL default '0',
 
   -- Key to page_id (was cur_id prior to 1.5).
@@ -58,3 +60,4 @@ CREATE INDEX /*i*/cuc_ip_hex_time ON /*_*/cu_changes (cuc_ip_hex,cuc_timestamp);
 CREATE INDEX /*i*/cuc_user_ip_time ON /*_*/cu_changes (cuc_user,cuc_ip,cuc_timestamp);
 CREATE INDEX /*i*/cuc_xff_hex_time ON /*_*/cu_changes (cuc_xff_hex,cuc_timestamp);
 CREATE INDEX /*i*/cuc_timestamp ON /*_*/cu_changes (cuc_timestamp);
+CREATE INDEX /*i*/cuc_actor_ip_time ON /*_*/cu_changes (cuc_actor, cuc_ip, cuc_timestamp);
