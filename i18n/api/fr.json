@@ -4,6 +4,7 @@
 			"Element303",
 			"Gomoko",
 			"McDutchie",
+			"Thibaut120094",
 			"Verdy p",
 			"Wladek92"
 		]
@@ -15,7 +16,7 @@
 	"apihelp-query+checkuser-param-reason": "Motif de vérification.",
 	"apihelp-query+checkuser-param-limit": "Limite de lignes.",
 	"apihelp-query+checkuser-param-timecond": "Limite de temps des données de l’utilisateur (comme « -2 weeks » ou « 2 weeks ago »).",
-	"apihelp-query+checkuser-param-xff": "Utiliser des données XFF au lieu d’adresse IP.",
+	"apihelp-query+checkuser-param-xff": "Utiliser les données XFF au lieu de l’adresse IP.",
 	"apihelp-query+checkuser-example-1": "Vérifier les adresses IP pour [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Vérifier les modifications pour 192.0.2.0/24",
 	"apihelp-query+checkuserlog-description": "Obtenir les entrées du journal CheckUser.",
