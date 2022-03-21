@@ -29,6 +29,7 @@
 	"checkuser-week-1": "ultime septimana",
 	"checkuser-week-2": "ultime duo septimanas",
 	"checkuser-month": "ultime 30 dies",
+	"checkuser-month-2": "ultime 60 dies",
 	"checkuser-all": "totes",
 	"checkuser-cidr-label": "Cercar le gamma commun e le adresses IP afficite pro un lista de adresses IP",
 	"checkuser-cidr-res": "CIDR commun:",
