@@ -1144,40 +1144,6 @@ class SpecialCheckUser extends SpecialPage {
 	}
 
 	/**
-	 * get count for the user edits
-	 *
-	 * @param int $user_id
-	 * @param int $period
-	 * @return int
-	 */
-	protected function getCountsForUserEdits( $user_id, $period = 0 ) {
-		$dbr = wfGetDB( DB_REPLICA );
-		$conds = [ 'cuc_user' => $user_id ];
-		$time_conds = $this->getTimeConds( $period );
-		if ( $time_conds !== false ) {
-			$conds[] = $time_conds;
-		}
-
-		if ( $period ) {
-			return $dbr->selectField(
-				'cu_changes',
-				'COUNT(*)',
-				$conds,
-				__METHOD__,
-				[ 'USE INDEX' => 'cuc_user_ip_time' ]
-			);
-		} else {
-			return $dbr->estimateRowCount(
-				'cu_changes',
-				'*',
-				$conds,
-				__METHOD__,
-				[ 'USE INDEX' => 'cuc_user_ip_time' ]
-			);
-		}
-	}
-
-	/**
 	 * Issue a DB query for doUserEditsRequestOutput
 	 *
 	 * @param int $user_id
