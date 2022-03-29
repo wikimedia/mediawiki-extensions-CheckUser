@@ -2,9 +2,43 @@
 	"@metadata": {
 		"authors": [
 			"Artsiom91",
-			"Тест"
+			"Тест",
+			"Tomato Cream"
 		]
 	},
 	"checkuser-reason": "Прычына:",
-	"checkuser-localonly": "Не аб’яднаны"
+	"checkuser-check": "Праверыць",
+	"checkuser-check-this-user": "Праверыць гэтага ўдзельніка",
+	"checkuser-investigate-this-user": "Даследаваць гэтага ўдзельніка",
+	"checkuser-recent-checks": "Нядаўнія праверкі гэтага ўдзельніка",
+	"checkuser-log-fail": "Немагчыма дадаць запіс у журнал",
+	"checkuser-blocked": "Заблакаваны",
+	"checkuser-gblocked": "Глабальна заблакаваны",
+	"checkuser-locked": "Замкнуты",
+	"checkuser-wasblocked": "Заблакаваны раней",
+	"checkuser-localonly": "Не аб’яднаны",
+	"checkuser-massblock": "Заблакаваць выбраных удзельнікаў",
+	"checkuser-massblock-text": "Выбраныя рахункі будуць заблакаваныя на нявызначаны тэрмін, з уключанай аўтаматычнай блакіроўкай IP-адрасоў і адключаным стварэннем рахункаў.\nIP-адрасы будуць заблакаваныя на адзін тыдзень толькі для ананімных удзельнікаў, а стварэнне рахункаў будзе адключана.",
+	"checkuser-blockemail": "Забараніць адпраўку эл. пошты",
+	"checkuser-blocktalk": "Забараніць правіць уласную старонку абмеркавання падчас блакавання",
+	"checkuser-blocktag": "Замяніць старонкі ўдзельніка на:",
+	"checkuser-blocktag-talk": "Замяніць старонкі размоў на:",
+	"checkuser-reblock": "Перавызначыць існуючыя блакавання",
+	"checkuser-massblock-commit": "Заблакаваць выбраных удзельнікаў",
+	"checkuser-block-success": "{{PLURAL:$2|Удзельнік|Удзельнікі}} $1 цяпер {{PLURAL:$2|заблакіраваны|заблакіраваныя}}.",
+	"checkuser-block-failure": "'''Ніводны ўдзельнік не быў заблакаваны.'''",
+	"checkuser-block-limit": "Выбрана зашмат удзельнікаў.",
+	"checkuser-block-noreason": "Вы павінны ўказаць прычыну блакаванняў.",
+	"checkuser-centralauth-multilock": "Замкнуць некалькі глабальных рахункаў",
+	"checkuser-noreason": "Вы павінны ўказаць прычыну для гэтага запыту.",
+	"checkuser-too-many": "Зашмат вынікаў (у адпаведнасці з ацэнкай запыту), калі ласка, звузіце CIDR.\nВось якія IP-адрасы выкарыстоўваюцца (макс. $1, адсартаваныя па адрасе):",
+	"checkuser-user-nonexistent": "Пазначаны ўдзельнік не існуе.",
+	"checkuser-search": "Пошук у запісах журналу праверкі ўдзельнікаў",
+	"checkuser-search-submit": "Пошук",
+	"checkuser-search-initiator": "ініцыятар",
+	"checkuser-search-target": "мэта",
+	"checkuser-log-search-target": "Мэта:",
+	"checkuser-log-search-type": "Пошук па:",
+	"checkuser-ipeditcount": "~$1 ад усіх удзельнікаў",
+	"checkuser-showmain": "Вярнуцца да галоўнай формы праверкі ўдзельнікаў"
 }
