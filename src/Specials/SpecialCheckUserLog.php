@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Specials;
 
+use Html;
 use HTMLForm;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\LogPager;
@@ -74,7 +75,11 @@ class SpecialCheckUserLog extends SpecialPage {
 
 		if ( $searchConds === null ) {
 			// Invalid target was input so show an error message and stop from here
-			$out->wrapWikiMsg( "<div class='errorbox'>\n$1\n</div>", 'checkuser-user-nonexistent' );
+			$out->addHTML(
+				Html::errorBox(
+					$out->msg( 'checkuser-user-nonexistent' )->parse()
+				)
+			);
 			return;
 		}
 
