@@ -64,18 +64,4 @@ class HooksTest extends MediaWikiUnitTestCase {
 		// Restore old value
 		$wgCheckUserEnableSpecialInvestigate = $oldEnableInvestigate;
 	}
-
-	/**
-	 * @covers ::onUserMergeAccountFields
-	 */
-	public function testOnUserMergeAccountFields() {
-		$updateFields = [];
-		Hooks::onUserMergeAccountFields( $updateFields );
-		$this->assertCount(
-			3,
-			$updateFields,
-			'3 updates were added'
-		);
-	}
-
 }

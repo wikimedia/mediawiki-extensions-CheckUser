@@ -173,6 +173,14 @@ class Hooks {
 			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
 			'cuc_agent'      => self::getAgent()
 		];
+
+		$actorMigrationStage = MediaWikiServices::getInstance()
+			->getMainConfig()
+			->get( 'CheckUserActorMigrationStage' );
+		if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+			$rcRow['cuc_actor'] = $attribs['rc_actor'];
+		}
+
 		# On PG, MW unsets cur_id due to schema incompatibilites. So it may not be set!
 		if ( isset( $attribs['rc_cur_id'] ) ) {
 			$rcRow['cuc_page_id'] = $attribs['rc_cur_id'];
@@ -232,6 +240,12 @@ class Hooks {
 			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
 			'cuc_agent'      => self::getAgent()
 		];
+
+		$actorMigrationStage = $services->getMainConfig()->get( 'CheckUserActorMigrationStage' );
+		if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+			$rcRow['cuc_actor'] = $user->getActorId();
+		}
+
 		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
 
 		return true;
@@ -300,6 +314,12 @@ class Hooks {
 			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
 			'cuc_agent'      => self::getAgent()
 		];
+
+		$actorMigrationStage = $services->getMainConfig()->get( 'CheckUserActorMigrationStage' );
+		if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+			$rcRow['cuc_actor'] = $userFrom->getActorId();
+		}
+
 		if ( trim( $wgCUPublicKey ) != '' ) {
 			$privateData = $userTo->getEmail() . ":" . $userTo->getId();
 			$encryptedData = new EncryptedData( $privateData, $wgCUPublicKey );
@@ -374,6 +394,12 @@ class Hooks {
 			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
 			'cuc_agent'      => self::getAgent()
 		];
+
+		$actorMigrationStage = $services->getMainConfig()->get( 'CheckUserActorMigrationStage' );
+		if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+			$rcRow['cuc_actor'] = $user->getActorId();
+		}
+
 		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
 
 		return true;
@@ -401,11 +427,13 @@ class Hooks {
 			return;
 		}
 
+		$services = MediaWikiServices::getInstance();
+
 		if (
 			$wgCheckUserLogSuccessfulBotLogins !== true &&
 			$ret->status === AuthenticationResponse::PASS
 		) {
-			$userGroups = MediaWikiServices::getInstance()
+			$userGroups = $services
 				->getUserGroupManager()
 				->getUserGroups( $user );
 
@@ -419,14 +447,18 @@ class Hooks {
 		list( $xff_ip, $isSquidOnly ) = self::getClientIPfromXFF( $xff );
 		$userName = $user->getName();
 
+		$dbw = $services->getDBLoadBalancer()->getConnectionRef( DB_PRIMARY );
+
 		if ( $ret->status === AuthenticationResponse::FAIL ) {
 			$msg = 'checkuser-login-failure';
 			$cuc_user = 0;
 			$cuc_user_text = $ip;
+			$cuc_actor = $services->getActorStore()->findActorIdByName( $ip, $dbw );
 		} elseif ( $ret->status === AuthenticationResponse::PASS ) {
 			$msg = 'checkuser-login-success';
 			$cuc_user = $user->getId();
 			$cuc_user_text = $userName;
+			$cuc_actor = $user->getActorId();
 		} else {
 			// Abstain, Redirect, etc.
 			return;
@@ -435,7 +467,6 @@ class Hooks {
 		$target = "[[User:$userName|$userName]]";
 		$actionText = wfMessage( $msg )->params( $target )->inContentLanguage()->text();
 
-		$services = MediaWikiServices::getInstance();
 		$contLang = $services->getContentLanguage();
 
 		// (T199323) Truncate text fields prior to database insertion
@@ -443,7 +474,6 @@ class Hooks {
 		$actionText = $contLang->truncateForDatabase( $actionText, self::TEXT_FIELD_LENGTH );
 		$xff = $contLang->truncateForDatabase( $xff, self::TEXT_FIELD_LENGTH );
 
-		$dbw = $services->getDBLoadBalancer()->getConnectionRef( DB_PRIMARY );
 		$rcRow = [
 			'cuc_page_id'    => 0,
 			'cuc_namespace'  => NS_USER,
@@ -463,6 +493,12 @@ class Hooks {
 			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
 			'cuc_agent'      => self::getAgent()
 		];
+
+		$actorMigrationStage = $services->getMainConfig()->get( 'CheckUserActorMigrationStage' );
+		if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+			$rcRow['cuc_actor'] = $cuc_actor;
+		}
+
 		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
 	}
 
@@ -734,6 +770,17 @@ class Hooks {
 	}
 
 	public static function onUserMergeAccountFields( array &$updateFields ) {
+		$actorMigrationStage = MediaWikiServices::getInstance()
+			->getMainConfig()
+			->get( 'CheckUserActorMigrationStage' );
+		if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+			$updateFields[] = [
+				'cu_changes',
+				'batch_key' => 'cuc_id',
+				'actorId' => 'cuc_actor',
+				'actorStage' => $actorMigrationStage
+			];
+		}
 		$updateFields[] = [ 'cu_changes', 'cuc_user', 'cuc_user_text' ];
 		$updateFields[] = [ 'cu_log', 'cul_user', 'cul_user_text' ];
 		$updateFields[] = [ 'cu_log', 'cul_target_id' ];

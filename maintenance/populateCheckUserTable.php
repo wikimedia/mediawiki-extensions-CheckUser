@@ -65,7 +65,10 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 			"Starting poulation of cu_changes with recentchanges rc_id from $start to $end\n"
 		);
 
-		$lbFactory = MediaWikiServices::getInstance()->getDBLoadBalancerFactory();
+		$services = MediaWikiServices::getInstance();
+		$lbFactory = $services->getDBLoadBalancerFactory();
+
+		$actorMigrationStage = $services->getMainConfig()->get( 'CheckUserActorMigrationStage' );
 
 		$commentStore = CommentStore::getStore();
 		$rcQuery = RecentChange::getQueryInfo();
@@ -83,7 +86,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 			);
 			$batch = [];
 			foreach ( $res as $row ) {
-				$batch[] = [
+				$entry = [
 					'cuc_timestamp' => $row->rc_timestamp,
 					'cuc_user' => $row->rc_user ?? 0,
 					'cuc_user_text' => $row->rc_user_text,
@@ -98,6 +101,12 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 					'cuc_ip' => $row->rc_ip,
 					'cuc_ip_hex' => IPUtils::toHex( $row->rc_ip ),
 				];
+
+				if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+					$entry['cuc_actor'] = $row->rc_actor;
+				}
+
+				$batch[] = $entry;
 			}
 			if ( count( $batch ) ) {
 				$db->insert( 'cu_changes', $batch, __METHOD__ );
