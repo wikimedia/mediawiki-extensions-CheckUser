@@ -174,11 +174,16 @@ class Hooks {
 			'cuc_agent'      => self::getAgent()
 		];
 
-		$actorMigrationStage = MediaWikiServices::getInstance()
+		$dbw = $services->getDBLoadBalancer()->getConnectionRef( DB_PRIMARY );
+
+		$actorMigrationStage = $services
 			->getMainConfig()
 			->get( 'CheckUserActorMigrationStage' );
 		if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$rcRow['cuc_actor'] = $attribs['rc_actor'];
+			$rcRow['cuc_actor'] = $services->getActorStore()->findActorIdByName(
+				$attribs['rc_user_text'],
+				$dbw
+			);
 		}
 
 		# On PG, MW unsets cur_id due to schema incompatibilites. So it may not be set!
@@ -188,7 +193,6 @@ class Hooks {
 
 		\Hooks::run( 'CheckUserInsertForRecentChange', [ $rc, &$rcRow ] );
 
-		$dbw = $services->getDBLoadBalancer()->getConnectionRef( DB_PRIMARY );
 		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
 
 		return true;
