@@ -9,6 +9,7 @@ use LogFormatter;
 use MailAddress;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Block\DatabaseBlock;
+use MediaWiki\CheckUser\Maintenance\PopulateCucActor;
 use MediaWiki\CheckUser\Specials\SpecialInvestigate;
 use MediaWiki\CheckUser\Specials\SpecialInvestigateBlock;
 use MediaWiki\Extension\Renameuser\RenameuserSQL;
@@ -671,6 +672,8 @@ class Hooks {
 				[ 'addPgIndex', 'cu_changes', 'cuc_actor_ip_time', '( cuc_actor, cuc_ip, cuc_timestamp )' ]
 			);
 		}
+
+		$updater->addPostDatabaseUpdateMaintenance( PopulateCucActor::class );
 
 		if ( !$isCUInstalled ) {
 			// First time so populate cu_changes with recentchanges data.

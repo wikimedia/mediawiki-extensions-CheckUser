@@ -243,7 +243,8 @@
 		}
 	},
 	"AutoloadClasses": {
-		"PopulateCheckUserTable": "maintenance/populateCheckUserTable.php"
+		"PopulateCheckUserTable": "maintenance/populateCheckUserTable.php",
+		"MediaWiki\\CheckUser\\Maintenance\\PopulateCucActor": "maintenance/populateCucActor.php"
 	},
 	"ServiceWiringFiles": [
 		"includes/ServiceWiring.php"
