@@ -79,7 +79,7 @@
 			"description": "Maximum number of rows in cu_changes to be grouped in the Compare table query"
 		},
 		"CheckUserActorMigrationStage": {
-			"value": 3
+			"value": 259
 		}
 	},
 	"APIListModules": {
