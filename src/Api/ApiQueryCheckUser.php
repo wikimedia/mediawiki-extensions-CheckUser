@@ -10,6 +10,7 @@ use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionRecord;
 use User;
 use Wikimedia\IPUtils;
+use Wikimedia\ParamValidator\ParamValidator;
 
 /**
  * CheckUser API Query Module
@@ -274,26 +275,26 @@ class ApiQueryCheckUser extends ApiQueryBase {
 	public function getAllowedParams() {
 		return [
 			'request'  => [
-				ApiBase::PARAM_REQUIRED => true,
-				ApiBase::PARAM_TYPE => [
+				ParamValidator::PARAM_REQUIRED => true,
+				ParamValidator::PARAM_TYPE => [
 					'userips',
 					'edits',
 					'ipusers',
 				]
 			],
 			'target'   => [
-				ApiBase::PARAM_REQUIRED => true,
+				ParamValidator::PARAM_REQUIRED => true,
 			],
 			'reason'   => null,
 			'limit'    => [
-				ApiBase::PARAM_DFLT => 500,
-				ApiBase::PARAM_TYPE => 'limit',
+				ParamValidator::PARAM_DEFAULT => 500,
+				ParamValidator::PARAM_TYPE => 'limit',
 				ApiBase::PARAM_MIN  => 1,
 				ApiBase::PARAM_MAX  => 500,
 				ApiBase::PARAM_MAX2 => $this->getConfig()->get( 'CheckUserMaximumRowCount' ),
 			],
 			'timecond' => [
-				ApiBase::PARAM_DFLT => '-2 weeks'
+				ParamValidator::PARAM_DEFAULT => '-2 weeks'
 			],
 			'xff'      => null,
 		];
