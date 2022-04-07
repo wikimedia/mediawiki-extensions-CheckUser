@@ -96,7 +96,7 @@
 	"checkuser-autocreate-action": "به طور خودکار ساخته شد",
 	"checkuser-create-action": "ایجاد شد",
 	"checkuser-email-action": "به کاربر «$1» ایمیل ارسال شد",
-	"checkuser-reset-action": "گذرواژه کاربر «$1» را از نو تنظیم کرد",
+	"checkuser-reset-action": "بازنشانی رمز عبور برای کاربر \"$1\"",
 	"checkuser-token-fail": "نشست با شکست مواجه شد. لطفاً دوباره سعی کنید.",
 	"checkuser-login-failure": "در ورود به {{SITENAME}} با حساب $1 ناموفق بود",
 	"checkuser-login-success": "در ورود به {{SITENAME}} با حساب $1 موفق بود",
