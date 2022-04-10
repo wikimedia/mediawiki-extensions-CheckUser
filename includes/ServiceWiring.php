@@ -1,5 +1,6 @@
 <?php
 
+use MediaWiki\CheckUser\CheckUserActorMigration;
 use MediaWiki\CheckUser\ComparePagerFactory;
 use MediaWiki\CheckUser\CompareService;
 use MediaWiki\CheckUser\DurationManager;
@@ -18,6 +19,14 @@ use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
 
 return [
+	'CheckUserActorMigration' => static function (
+		MediaWikiServices $services
+	): CheckUserActorMigration {
+		return new CheckUserActorMigration(
+			$services->getMainConfig()->get( 'CheckUserActorMigrationStage' ),
+			$services->getActorStoreFactory()
+		);
+	},
 	'CheckUserPreliminaryCheckService' => static function (
 		MediaWikiServices $services
 	): PreliminaryCheckService {
