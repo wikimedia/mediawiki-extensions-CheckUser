@@ -15,6 +15,7 @@ use MediaWiki\CheckUser\Specials\SpecialInvestigateBlock;
 use MediaWiki\Extension\Renameuser\RenameuserSQL;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\User\UserFactory;
+use MediaWiki\User\UserIdentityValue;
 use PopulateCheckUserTable;
 use RecentChange;
 use RequestContext;
@@ -458,7 +459,10 @@ class Hooks {
 			$msg = 'checkuser-login-failure';
 			$cuc_user = 0;
 			$cuc_user_text = $ip;
-			$cuc_actor = $services->getActorStore()->findActorIdByName( $ip, $dbw );
+			$cuc_actor = $services->getActorStore()->acquireActorId(
+				UserIdentityValue::newAnonymous( $ip ),
+				$dbw
+			);
 		} elseif ( $ret->status === AuthenticationResponse::PASS ) {
 			$msg = 'checkuser-login-success';
 			$cuc_user = $user->getId();
