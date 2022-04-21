@@ -42,7 +42,7 @@
 	"action-checkuser": "vérifier les adresses IP des utilisateurs et d’autres informations",
 	"action-checkuser-log": "visualiser le journal des vérifications d’utilisateurs",
 	"grouppage-checkuser": "{{ns:project}}:Vérificateurs d’utilisateurs",
-	"checkuser-reason": "Motif :",
+	"checkuser-reason": "Motif :",
 	"checkuser-reason-api": "API : $1",
 	"checkuser-showlog": "Basculer sur le journal CheckUser",
 	"checkuser-query": "Recherche des modifications récentes",
