@@ -45,7 +45,7 @@
 	"right-investigate": "Utiliser [[Special:Investigate]] et afficher le journal des investigations précédentes",
 	"action-investigate": "utiliser [[Special:Investigate]] et afficher le journal des investigations précédentes",
 	"grouppage-checkuser": "{{ns:project}}:Vérificateurs d’utilisateurs",
-	"checkuser-reason": "Motif :",
+	"checkuser-reason": "Motif :",
 	"checkuser-reason-api": "API : $1",
 	"checkuser-showlog": "Basculer sur le journal CheckUser",
 	"checkuser-query": "Recherche des modifications récentes",
