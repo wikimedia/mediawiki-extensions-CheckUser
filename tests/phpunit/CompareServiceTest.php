@@ -5,12 +5,15 @@ namespace MediaWiki\CheckUser\Tests;
 use MediaWiki\CheckUser\CompareService;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Tests\Unit\Libs\Rdbms\AddQuoterMock;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\Database;
 use Wikimedia\Rdbms\ILoadBalancer;
+use Wikimedia\Rdbms\Platform\MySQLPlatform;
+use Wikimedia\TestingAccessWrapper;
 
 /**
  * @group CheckUser
@@ -45,7 +48,6 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideGetQueryInfo
 	 */
 	public function testGetQueryInfo( $options, $expected ) {
-		$this->markTestSkipped( 'I784e78361f5ee629d31c68629d669ee0ddddf929' );
 		$serviceOptions = $this->createMock( ServiceOptions::class );
 		$serviceOptions->method( 'get' )
 			->willReturn( $options['limit'] );
@@ -63,6 +65,8 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 			->willReturn( '' );
 		$db->method( 'tablePrefix' )
 			->willReturn( '' );
+		$wdb = TestingAccessWrapper::newFromObject( $db );
+		$wdb->platform = new MySQLPlatform( new AddQuoterMock() );
 
 		$loadBalancer = $this->createMock( ILoadBalancer::class );
 		$loadBalancer->method( 'getConnectionRef' )
