@@ -124,7 +124,7 @@
 	"checkuser-investigate-tab-preliminary-check": "Account information",
 	"checkuser-investigate-tab-compare": "IPs & User agents",
 	"checkuser-investigate-tab-timeline": "Timeline",
-	"checkuser-investigate-targets-label": "Usernames and IP addresses",
+	"checkuser-investigate-targets-label": "Usernames and IP addresses:",
 	"checkuser-investigate-targets-placeholder": "UserName or 1.1.1.1",
 	"checkuser-investigate-duration-label": "Duration",
 	"checkuser-investigate-duration-option-all": "All",
