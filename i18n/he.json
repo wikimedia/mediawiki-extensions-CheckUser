@@ -128,7 +128,7 @@
 	"checkuser-investigate-tab-preliminary-check": "מידע על החשבון",
 	"checkuser-investigate-tab-compare": "כתובות IP וסוכני לקוח",
 	"checkuser-investigate-tab-timeline": "ציר זמן",
-	"checkuser-investigate-targets-label": "שמות משתמש וכתובות IP",
+	"checkuser-investigate-targets-label": "שמות משתמש וכתובות IP:",
 	"checkuser-investigate-targets-placeholder": "שם־משתמש או 1.1.1.1",
 	"checkuser-investigate-duration-label": "משך זמן",
 	"checkuser-investigate-duration-option-all": "הכול",

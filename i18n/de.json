@@ -133,7 +133,7 @@
 	"checkuser-investigate-tab-preliminary-check": "Benutzerkonteninformation",
 	"checkuser-investigate-tab-compare": "IP-Adresse und User Agents",
 	"checkuser-investigate-tab-timeline": "Zeitleiste",
-	"checkuser-investigate-targets-label": "Benutzernamen und IP-Adressen",
+	"checkuser-investigate-targets-label": "Benutzernamen und IP-Adressen:",
 	"checkuser-investigate-targets-placeholder": "Benutzername oder 1.1.1.1",
 	"checkuser-investigate-duration-label": "Dauer",
 	"checkuser-investigate-duration-option-all": "Alle",

@@ -130,7 +130,7 @@
 	"checkuser-investigate-tab-preliminary-check": "Accountgegevens",
 	"checkuser-investigate-tab-compare": "IP's & User agents",
 	"checkuser-investigate-tab-timeline": "Tijdlijn",
-	"checkuser-investigate-targets-label": "Gebruikersnaam of IP-adres",
+	"checkuser-investigate-targets-label": "Gebruikersnamen en IP-adressen:",
 	"checkuser-investigate-targets-placeholder": "Gebruikersnaam of 1.1.1.1",
 	"checkuser-investigate-duration-label": "Duur",
 	"checkuser-investigate-duration-option-all": "Alle",

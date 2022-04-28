@@ -148,7 +148,7 @@
 	"checkuser-investigate-tab-preliminary-check": "Информация об аккаунте",
 	"checkuser-investigate-tab-compare": "IP-адреса и агенты пользователя",
 	"checkuser-investigate-tab-timeline": "Хронология",
-	"checkuser-investigate-targets-label": "Имена участников или IP-адреса",
+	"checkuser-investigate-targets-label": "Имена участников или IP-адреса:",
 	"checkuser-investigate-targets-placeholder": "ИмяУчастника или 1.1.1.1",
 	"checkuser-investigate-duration-label": "Длительность",
 	"checkuser-investigate-duration-option-all": "Все",
