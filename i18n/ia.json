@@ -118,7 +118,7 @@
 	"checkuser-investigate-tab-preliminary-check": "Informationes del conto",
 	"checkuser-investigate-tab-compare": "Adresses IP e agentes usator",
 	"checkuser-investigate-tab-timeline": "Chronologia",
-	"checkuser-investigate-targets-label": "Nomines de usator e adresses IP",
+	"checkuser-investigate-targets-label": "Nomines de usator e adresses IP:",
 	"checkuser-investigate-targets-placeholder": "NomineDeUsator o 1.1.1.1",
 	"checkuser-investigate-duration-label": "Durata",
 	"checkuser-investigate-duration-option-all": "Totes",

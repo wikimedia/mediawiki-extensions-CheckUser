@@ -145,7 +145,7 @@
 	"checkuser-investigate-tab-preliminary-check": "Informations du compte",
 	"checkuser-investigate-tab-compare": "Adresses IP et agents utilisateur",
 	"checkuser-investigate-tab-timeline": "Chronologie",
-	"checkuser-investigate-targets-label": "Noms d’utilisateurs et adresses IP :",
+	"checkuser-investigate-targets-label": "Noms d’utilisateurs et adresses IP :",
 	"checkuser-investigate-targets-placeholder": "Nom d’utilisateur ou 1.1.1.1",
 	"checkuser-investigate-duration-label": "Durée",
 	"checkuser-investigate-duration-option-all": "Toutes",

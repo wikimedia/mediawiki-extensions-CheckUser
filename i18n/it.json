@@ -138,7 +138,7 @@
 	"checkuser-investigate-tab-preliminary-check": "Informazioni sull'utenza",
 	"checkuser-investigate-tab-compare": "IP e user agent",
 	"checkuser-investigate-tab-timeline": "Finestra temporale",
-	"checkuser-investigate-targets-label": "Nomi utente o indirizzi IP",
+	"checkuser-investigate-targets-label": "Nomi utente e indirizzi IP:",
 	"checkuser-investigate-targets-placeholder": "Nome utente o 1.1.1.1",
 	"checkuser-investigate-duration-label": "Durata",
 	"checkuser-investigate-duration-option-all": "Tutto",
