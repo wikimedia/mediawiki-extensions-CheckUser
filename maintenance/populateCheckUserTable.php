@@ -1,5 +1,6 @@
 <?php
 
+use MediaWiki\CheckUser\Hooks;
 use MediaWiki\MediaWikiServices;
 use Wikimedia\IPUtils;
 
@@ -72,6 +73,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 
 		$commentStore = CommentStore::getStore();
 		$rcQuery = RecentChange::getQueryInfo();
+		$contLang = $services->getContentLanguage();
 
 		while ( $blockStart <= $end ) {
 			$this->output( "...migrating rc_id from $blockStart to $blockEnd\n" );
@@ -92,7 +94,9 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 					'cuc_user_text' => $row->rc_user_text,
 					'cuc_namespace' => $row->rc_namespace,
 					'cuc_title' => $row->rc_title,
-					'cuc_comment' => $commentStore->getComment( 'rc_comment', $row )->text,
+					'cuc_comment' => $contLang->truncateForDatabase(
+						$commentStore->getComment( 'rc_comment', $row )->text, Hooks::TEXT_FIELD_LENGTH
+					),
 					'cuc_minor' => $row->rc_minor,
 					'cuc_page_id' => $row->rc_cur_id,
 					'cuc_this_oldid' => $row->rc_this_oldid,

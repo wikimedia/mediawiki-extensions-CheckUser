@@ -33,7 +33,7 @@ class Hooks {
 	 * The maximum number of bytes that fit in CheckUser's text fields
 	 * (cuc_agent,cuc_actiontext,cuc_comment,cuc_xff)
 	 */
-	private const TEXT_FIELD_LENGTH = 255;
+	public const TEXT_FIELD_LENGTH = 255;
 
 	/**
 	 * Get user agent for the current request
