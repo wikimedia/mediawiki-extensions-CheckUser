@@ -1,7 +1,7 @@
 -- Tables for the CheckUser extension
 -- vim: autoindent syn=pgsql sts=2 sw=2
 -- This is the Postgres version
--- See cu_changes.sql for details on each column
+-- See mysql/cu_changes.sql for details on each column
 
 BEGIN;
 
