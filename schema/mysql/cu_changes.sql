@@ -35,7 +35,7 @@ CREATE TABLE /*_*/cu_changes (
   cuc_type tinyint(3) unsigned NOT NULL default '0',
 
   -- Event timestamp
-  cuc_timestamp CHAR(14) NOT NULL default '',
+  cuc_timestamp BINARY(14) NOT NULL,
 
   -- IP address, visible
   cuc_ip VARCHAR(255) NULL default '',
