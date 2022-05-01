@@ -630,39 +630,27 @@ class Hooks {
 		);
 
 		if ( $dbType === 'mysql' ) {
-			$updater->addExtensionIndex(
-				'cu_changes',
-				'cuc_ip_hex_time',
-				"$base/archives/patch-cu_changes_indexes.sql"
-			);
-			$updater->addExtensionIndex(
-				'cu_changes',
-				'cuc_user_ip_time',
-				"$base/archives/patch-cu_changes_indexes2.sql"
-			);
-			$updater->addExtensionField(
-				'cu_changes',
-				'cuc_private',
-				"$base/archives/patch-cu_changes_privatedata.sql"
-			);
+			// 1.35
 			$updater->modifyExtensionField(
 				'cu_changes',
 				'cuc_id',
 				"$base/archives/patch-cu_changes-cuc_id-unsigned.sql"
 			);
+
+			// 1.38
 			$updater->addExtensionIndex(
-				"cu_changes",
-				"cuc_actor_ip_time",
+				'cu_changes',
+				'cuc_actor_ip_time',
 				"$base/archives/patch-cu_changes-actor-comment.sql"
 			);
 		} elseif ( $dbType === 'postgres' ) {
-			$updater->addExtensionUpdate(
-				[ 'addPgField', 'cu_changes', 'cuc_private', 'BYTEA' ]
-			);
+			// 1.37
 			$updater->addExtensionUpdate( [ 'dropFkey', 'cu_log', 'cul_user' ] );
 			$updater->addExtensionUpdate( [ 'dropFkey', 'cu_log', 'cul_target_id' ] );
 			$updater->addExtensionUpdate( [ 'dropFkey', 'cu_changes', 'cuc_user' ] );
 			$updater->addExtensionUpdate( [ 'dropFkey', 'cu_changes', 'cuc_page_id' ] );
+
+			// 1.38
 			$updater->addExtensionUpdate(
 				[ 'addPgField', 'cu_changes', 'cuc_actor', 'INTEGER NOT NULL DEFAULT 0' ]
 			);
