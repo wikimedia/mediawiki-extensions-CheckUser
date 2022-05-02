@@ -109,7 +109,7 @@
 	"checkuser-investigate-tab-preliminary-check": "Benotzerkontinformatioun",
 	"checkuser-investigate-tab-compare": "IP-Adressen a User Agents",
 	"checkuser-investigate-tab-timeline": "Chronologie",
-	"checkuser-investigate-targets-label": "Benotzernimm oder IP-Adressen",
+	"checkuser-investigate-targets-label": "Benotzernimm an IP-Adressen:",
 	"checkuser-investigate-targets-placeholder": "Benotzernumm oder 1.1.1.1",
 	"checkuser-investigate-duration-label": "Dauer",
 	"checkuser-investigate-duration-option-all": "All",

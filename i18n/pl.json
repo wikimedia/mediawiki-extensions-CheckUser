@@ -137,7 +137,7 @@
 	"checkuser-investigate-tab-preliminary-check": "Informacje o koncie",
 	"checkuser-investigate-tab-compare": "IP i aplikacje klientów",
 	"checkuser-investigate-tab-timeline": "Oś czasu",
-	"checkuser-investigate-targets-label": "Nazwy użytkownika i adresy IP",
+	"checkuser-investigate-targets-label": "Nazwy użytkownika i adresy IP:",
 	"checkuser-investigate-targets-placeholder": "NazwaUżytkownika lub 1.1.1.1",
 	"checkuser-investigate-duration-label": "Okres",
 	"checkuser-investigate-duration-option-all": "Wszystko",

@@ -131,7 +131,7 @@
 	"checkuser-investigate-tab-preliminary-check": "계정 정보",
 	"checkuser-investigate-tab-compare": "IP 및 사용자 에이전트",
 	"checkuser-investigate-tab-timeline": "타임라인",
-	"checkuser-investigate-targets-label": "계정 이름과 IP 주소",
+	"checkuser-investigate-targets-label": "사용자 이름과 IP 주소:",
 	"checkuser-investigate-targets-placeholder": "사용자 이름 또는 1.1.1.1",
 	"checkuser-investigate-duration-label": "기간",
 	"checkuser-investigate-duration-option-all": "모두",
