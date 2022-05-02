@@ -859,7 +859,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	}
 
 	/**
-	 * Get an array of values from a new line seperated field.
+	 * Get an array of values from a new line separated field.
 	 *
 	 * @param array $data
 	 * @param string $field
