@@ -388,7 +388,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 			'cuc_title'      => 'Foo_Page',
 			'cuc_minor'      => 0,
 			'cuc_page_id'    => 1,
-			'cuc_timestamp'  => '',
+			'cuc_timestamp'  => $this->db->timestamp(),
 			'cuc_xff'        => 0,
 			'cuc_xff_hex'    => null,
 			'cuc_actiontext' => '',
