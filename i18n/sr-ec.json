@@ -108,7 +108,7 @@
 	"checkuser-investigate": "Испитивање",
 	"checkuser-investigate-legend": "Тражење корисничких имена, IP адреса или опсега",
 	"checkuser-investigate-notice-no-results": "Нема резултата.",
-	"checkuser-investigate-targets-label": "Корисничко име или IP адреса",
+	"checkuser-investigate-targets-label": "Корисничко име и IP адреса:",
 	"checkuser-investigate-targets-placeholder": "Корисничко име или 1.1.1.1",
 	"checkuser-investigate-reason-label": "Разлог",
 	"checkuser-investigate-preliminary-table-cell-blocked": "Блокиран",
