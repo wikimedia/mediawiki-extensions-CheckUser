@@ -45,6 +45,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideGetQueryInfo
 	 */
 	public function testGetQueryInfo( $options, $expected ) {
+		$this->markTestSkipped( 'I784e78361f5ee629d31c68629d669ee0ddddf929' );
 		$serviceOptions = $this->createMock( ServiceOptions::class );
 		$serviceOptions->method( 'get' )
 			->willReturn( $options['limit'] );
