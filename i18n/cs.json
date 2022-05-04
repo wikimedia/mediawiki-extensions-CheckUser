@@ -117,7 +117,7 @@
 	"checkuser-investigate-notice-no-results": "Nebyly nalezeny žádné výsledky.",
 	"checkuser-investigate-tab-preliminary-check": "Informace o účtu",
 	"checkuser-investigate-tab-timeline": "Časová osa",
-	"checkuser-investigate-targets-label": "Uživatelská jména a IP adresy",
+	"checkuser-investigate-targets-label": "Uživatelská jména a IP adresy:",
 	"checkuser-investigate-targets-placeholder": "Uživatelské jméno nebo 1.1.1.1",
 	"checkuser-investigate-duration-label": "Délka",
 	"checkuser-investigate-duration-option-all": "Vše",
