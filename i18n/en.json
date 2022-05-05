@@ -162,7 +162,7 @@
 	"checkuser-investigate-compare-table-button-contribs-label": "Contributions",
 	"checkuser-investigate-compare-table-button-filter-label": "Filter from results",
 	"checkuser-investigate-compare-table-cell-unregistered": "Unregistered",
-	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|edit|edits}}]</b>",
+	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|edit/action|edits/actions}}]</b>",
 	"checkuser-investigate-compare-table-cell-other-edits": "<i>(~$1 from all users)</i>",
 	"checkuser-investigate-compare-table-header-username": "Username",
 	"checkuser-investigate-compare-table-header-activity": "Date range",
