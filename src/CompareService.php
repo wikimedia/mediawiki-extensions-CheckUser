@@ -165,7 +165,7 @@ class CompareService extends ChangeService {
 			$this->buildStartConds( $start )
 		);
 
-		$conds['cuc_type'] = [ RC_EDIT, RC_NEW ];
+		$conds['cuc_type'] = [ RC_EDIT, RC_NEW, RC_LOG ];
 
 		return [
 			'tables' => 'cu_changes',
