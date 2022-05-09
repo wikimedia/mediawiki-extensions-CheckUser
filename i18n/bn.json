@@ -153,7 +153,7 @@
 	"checkuser-investigate-compare-table-button-contribs-label": "অবদান",
 	"checkuser-investigate-compare-table-button-filter-label": "ফলাফল থেকে ছাঁকুন",
 	"checkuser-investigate-compare-table-cell-unregistered": "অনিবন্ধিত",
-	"checkuser-investigate-compare-table-cell-edits": "<b>[$1টি {{PLURAL:$1|সম্পাদনা}}]</b>",
+	"checkuser-investigate-compare-table-cell-edits": "<b>[$1টি {{PLURAL:$1|সম্পাদনা/কার্য}}]</b>",
 	"checkuser-investigate-compare-table-cell-other-edits": "<i>(সকল ব্যবহারকারী মিলিয়ে ~$1টি)</i>",
 	"checkuser-investigate-compare-table-header-username": "ব্যবহারকারী নাম",
 	"checkuser-investigate-compare-table-header-activity": "তারিখের পরিসীমা",

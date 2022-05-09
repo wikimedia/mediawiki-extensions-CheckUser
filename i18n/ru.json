@@ -184,7 +184,7 @@
 	"checkuser-investigate-compare-table-button-contribs-label": "Вклады",
 	"checkuser-investigate-compare-table-button-filter-label": "Фильтровать по результатам",
 	"checkuser-investigate-compare-table-cell-unregistered": "Незарегистрированные",
-	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|правка|правки}}]</b>",
+	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|правка/действие|правки/действия|правок/действий}}]</b>",
 	"checkuser-investigate-compare-table-cell-other-edits": "<i>(~$1 от всех пользователей)</i>",
 	"checkuser-investigate-compare-table-header-username": "Имя участника",
 	"checkuser-investigate-compare-table-header-activity": "Диапазон дат",
