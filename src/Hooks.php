@@ -618,30 +618,26 @@ class Hooks {
 	}
 
 	public static function onLoadExtensionSchemaUpdates( DatabaseUpdater $updater ) {
-		$base = __DIR__ . '/..';
+		$base = __DIR__ . '/../schema';
 		$dbType = $updater->getDB()->getType();
 		$isCUInstalled = $updater->tableExists( 'cu_changes' );
 
-		$updater->addExtensionTable(
-			'cu_changes', self::getTableFileName( $dbType, 'cu_changes' )
-		);
-		$updater->addExtensionTable(
-			'cu_log', self::getTableFileName( $dbType, 'cu_log' )
-		);
+		$updater->addExtensionTable( 'cu_changes', "$base/$dbType/cu_changes.sql" );
+		$updater->addExtensionTable( 'cu_log', "$base/$dbType/cu_log.sql" );
 
 		if ( $dbType === 'mysql' ) {
 			// 1.35
 			$updater->modifyExtensionField(
 				'cu_changes',
 				'cuc_id',
-				"$base/archives/patch-cu_changes-cuc_id-unsigned.sql"
+				"$base/$dbType/patch-cu_changes-cuc_id-unsigned.sql"
 			);
 
 			// 1.38
 			$updater->addExtensionIndex(
 				'cu_changes',
 				'cuc_actor_ip_time',
-				"$base/archives/patch-cu_changes-actor-comment.sql"
+				"$base/$dbType/patch-cu_changes-actor-comment.sql"
 			);
 		} elseif ( $dbType === 'postgres' ) {
 			// 1.37
@@ -673,18 +669,6 @@ class Hooks {
 			// as populateCheckUserTable.php doesn't check for duplicates
 			$updater->addPostDatabaseUpdateMaintenance( PopulateCheckUserTable::class );
 		}
-	}
-
-	/**
-	 * @param string $type DB type
-	 * @param string $name Table name
-	 * @return string
-	 */
-	private static function getTableFileName( $type, $name ) {
-		$file = __DIR__ . '/../' . $name;
-		return $type === 'postgres'
-			? $file . '.pg.sql'
-			: $file . '.sql';
 	}
 
 	/**
