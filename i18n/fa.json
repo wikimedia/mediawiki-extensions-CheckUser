@@ -115,7 +115,7 @@
 	"checkuser-investigateblock-notice-replace": "جایگزین کردن متن صفحه",
 	"checkuser-investigateblock-failure": "دسترسی هیچ کاربری قطع نشد. برای رونویسی قطع دسترسی‌های موجود، گزینهٔ «{{int:checkuser-investigateblock-reblock-label}}» را انتخاب کنید. اگر قطع دسترسی جدید و قبلی یکسان باشند، مورد قدیمی رونویسی نخواهد شد.",
 	"checkuser-investigateblock-success": "دسترسی {{PLURAL:$2|حساب|حساب‌های}} $1 همینک {{PLURAL:$2|بسته‌است}}",
-	"checkuser-investigateblock-notices-failed": "برخی اعلان‌ها را نشد به صفحهٔ کاربر یا صفحهٔ بحث کاربر افزود.",
+	"checkuser-investigateblock-notices-failed": "برخی آگاه‌سازی‌ها را نشد به صفحهٔ کاربر یا صفحهٔ بحث کاربر افزود.",
 	"checkuser-investigate": "وارسی",
 	"checkuser-investigate-page-subtitle": "وارسی‌های فعلی برای $1",
 	"checkuser-investigate-indicator-new-investigation": "وارسی جدید",

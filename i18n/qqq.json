@@ -190,7 +190,7 @@
 	"checkuser-investigate-compare-table-button-filter-label": "Label for a button inside a table cell in [[Special:Investigate]]",
 	"checkuser-investigate-compare-table-cell-unregistered": "Entry for a table cell in [[Special:Investigate]]. Refers to an unregistered user. Shown in a table like this:\n\n{| class=\"wikitable\"\n|-\n! Username !! IP\n|-\n| UserA || 1.2.3.4\n|-\n| UserB || 1.2.3.5\n|-\n| Unregistered || 1.2.3.6\n|-\n| UserC || 1.2.3.7\n|}",
 	"checkuser-investigate-compare-table-cell-edits": "Entry for a table cell in [[Special:Investigate]].\n\nParameters:\n* $1 - total number of edits by a registered user from the respective IP and User Agent",
-	"checkuser-investigate-compare-table-cell-other-edits": "Entry for a table cell in [[Special:Investigate]].\n\nParameters:\n* $1 - total number of edits from the respective IP",
+	"checkuser-investigate-compare-table-cell-other-edits": "Entry for a table cell in [[Special:Investigate]].\n\nParameters:\n* $1 - total number of edits and actions from the respective IP",
 	"checkuser-investigate-compare-table-header-username": "Label for a table header in [[Special:Investigate]].",
 	"checkuser-investigate-compare-table-header-activity": "Label for a table header in [[Special:Investigate]].",
 	"checkuser-investigate-compare-table-header-ip": "Label for a table header in [[Special:Investigate]].",
