@@ -622,8 +622,14 @@ class Hooks {
 		$dbType = $updater->getDB()->getType();
 		$isCUInstalled = $updater->tableExists( 'cu_changes' );
 
-		$updater->addExtensionTable( 'cu_changes', "$base/$dbType/cu_changes.sql" );
-		$updater->addExtensionTable( 'cu_log', "$base/$dbType/cu_log.sql" );
+		if ( $dbType === 'sqlite' ) {
+			// TODO: This can be removed when CheckUser uses abstract schema and SQLite specific files exist
+			$updater->addExtensionTable( 'cu_changes', "$base/mysql/cu_changes.sql" );
+			$updater->addExtensionTable( 'cu_log', "$base/mysql/cu_log.sql" );
+		} else {
+			$updater->addExtensionTable( 'cu_changes', "$base/$dbType/cu_changes.sql" );
+			$updater->addExtensionTable( 'cu_log', "$base/$dbType/cu_log.sql" );
+		}
 
 		if ( $dbType === 'mysql' ) {
 			// 1.35
