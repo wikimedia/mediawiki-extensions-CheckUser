@@ -164,7 +164,7 @@
 	"checkuser-investigate-compare-table-button-contribs-label": "Bijdragen",
 	"checkuser-investigate-compare-table-button-filter-label": "Filter de resultaten",
 	"checkuser-investigate-compare-table-cell-unregistered": "Niet-geregistreerd",
-	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|bewerking|bewerkingen}}]</b>",
+	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|bewerking/handeling|bewerkingen/handelingen}}]</b>",
 	"checkuser-investigate-compare-table-cell-other-edits": "<i>(~$1 van alle gebruikers)</i>",
 	"checkuser-investigate-compare-table-header-username": "Gebruikersnaam",
 	"checkuser-investigate-compare-table-header-activity": "Periode",
