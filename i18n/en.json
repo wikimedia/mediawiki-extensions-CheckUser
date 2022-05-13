@@ -176,7 +176,7 @@
 	"checkuser-investigate-tour-addusertargets-title": "Need more context?",
 	"checkuser-investigate-tour-addusertargets-desc": "Click to see all other users on the IP. You can do this for Users too, and see all the IPs they’ve been using. We’ll automatically create a CheckUser log item for you.",
 	"checkuser-investigate-tour-filterip-title": "Narrowing your investigation?",
-	"checkuser-investigate-tour-filterip-desc": "Remove the clutter by filtering out user names, IPs or user agents. Want the data back? Use the Filters panel on top to remove the filters.",
+	"checkuser-investigate-tour-filterip-desc": "Remove the clutter by filtering out usernames, IPs or user agents. Want the data back? Use the Filters panel on top to remove the filters.",
 	"checkuser-investigate-tour-block-title": "Want to block?",
 	"checkuser-investigate-tour-block-desc": "Allows you to select the users you’d like to block and then takes you to the block form to pick the appropriate block.",
 	"checkuser-investigate-tour-copywikitext-title": "Want to copy the data?",
