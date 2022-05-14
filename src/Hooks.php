@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser;
 use AutoCommitUpdate;
 use DatabaseUpdater;
 use DeferredUpdates;
+use ExtensionRegistry;
 use LogFormatter;
 use MailAddress;
 use MediaWiki\Auth\AuthenticationResponse;
@@ -17,6 +18,7 @@ use MediaWiki\CheckUser\Investigate\SpecialInvestigate;
 use MediaWiki\CheckUser\Investigate\SpecialInvestigateBlock;
 use MediaWiki\CheckUser\Maintenance\PopulateCucActor;
 use MediaWiki\CheckUser\Maintenance\PopulateCulActor;
+use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Extension\Renameuser\RenameuserSQL;
 use MediaWiki\Hook\ContributionsToolLinksHook;
 use MediaWiki\Hook\EmailUserHook;
@@ -413,13 +415,39 @@ class Hooks implements
 		$userName = $user->getName();
 
 		if ( $ret->status === AuthenticationResponse::FAIL ) {
+			// The login attempt failed so use the IP as the performer
+			//  and checkuser-login-failure as the message.
 			$msg = 'checkuser-login-failure';
-			// Ensure that the user account that had a failed
-			// login attempt is not marked as the user performing
-			// the action.
 			$performer = UserIdentityValue::newAnonymous(
 				RequestContext::getMain()->getRequest()->getIP()
 			);
+
+			if (
+				$ret->failReasons &&
+				ExtensionRegistry::getInstance()->isLoaded( 'CentralAuth' ) &&
+				in_array( CentralAuthUser::AUTHENTICATE_GOOD_PASSWORD, $ret->failReasons )
+			) {
+				// If the password was correct, then say so in the shown message.
+				$msg = 'checkuser-login-failure-with-good-password';
+
+				if (
+					in_array( CentralAuthUser::AUTHENTICATE_LOCKED, $ret->failReasons ) &&
+					array_diff(
+						$ret->failReasons,
+						[ CentralAuthUser::AUTHENTICATE_LOCKED, CentralAuthUser::AUTHENTICATE_GOOD_PASSWORD ]
+					) === []
+				) {
+					// If
+					//  * The user is locked
+					//  * The password is correct
+					//  * Nothing else caused the request to fail
+					// then we can assume that if the account was not locked this login attempt
+					// would have been successful. Therefore, mark the user as the performer
+					// to indicate this information to the CheckUser and so it shows up when
+					// checking the locked account.
+					$performer = $user;
+				}
+			}
 		} elseif ( $ret->status === AuthenticationResponse::PASS ) {
 			$msg = 'checkuser-login-success';
 			$performer = $user;

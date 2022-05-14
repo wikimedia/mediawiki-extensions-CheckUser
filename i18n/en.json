@@ -3,7 +3,8 @@
 		"authors": [
 			"Tim Starling",
 			"Aaron Schulz",
-			"John Du Hart"
+			"John Du Hart",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "This tool scans recent changes to retrieve the IP addresses used by a user or show the edit/user data for an IP address.\nUsers and edits by a client IP address can be retrieved via XFF headers by appending the IP address with \"/xff\". IPv4 (CIDR $1-32) and IPv6 (CIDR $2-128) are supported.\nNo more than $3 edits will be returned for performance reasons.\nUse this in accordance with policy.",
@@ -98,6 +99,7 @@
 	"checkuser-toollinks": "<span class=\"plainlinks\">[[https://www.robtex.com/ip-lookup/$1 WHOIS/RDNS] ·\n[https://www.ip2location.com/$1 Geolocate]]</span>",
 	"checkuser-token-fail": "Session failure. Please try again.",
 	"checkuser-login-failure": "Failed to log in to {{SITENAME}} as $1",
+	"checkuser-login-failure-with-good-password": "Failed to log in to {{SITENAME}} as $1 but had the correct password",
 	"checkuser-login-success": "Successfully logged in to {{SITENAME}} as $1",
 	"group-checkuser.css": "/* CSS placed here will affect checkuser only */",
 	"group-checkuser.js": "/* JS placed here will affect checkuser only */",
