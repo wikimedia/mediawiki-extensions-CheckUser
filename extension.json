@@ -171,11 +171,18 @@
 			]
 		},
 		"ext.checkUser.styles": {
+			"class": "ResourceLoaderLessVarFileModule",
 			"localBasePath": "modules/ext.checkUser.styles",
 			"remoteExtPath": "CheckUser/modules/ext.checkUser.styles",
 			"styles": [
+				"checkuser.less",
 				"investigate.less",
 				"investigateblock.less"
+			],
+			"lessMessages": [
+				"brackets-start",
+				"brackets-end",
+				"pipe-separator"
 			]
 		},
 		"ext.guidedTour.tour.checkuserinvestigateform": {

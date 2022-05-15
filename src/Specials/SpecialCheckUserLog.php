@@ -47,6 +47,10 @@ class SpecialCheckUserLog extends SpecialPage {
 		}
 
 		$out = $this->getOutput();
+		$out->addModules( [ 'ext.checkUser' ] );
+		$out->addModuleStyles( [
+			'ext.checkUser.styles',
+		] );
 		$request = $this->getRequest();
 
 		// Normalise target parameter and ignore if not valid (T217713)
@@ -130,7 +134,17 @@ class SpecialCheckUserLog extends SpecialPage {
 				);
 			}
 
-			$this->getOutput()->addSubtitle( implode( ' | ', $links ) );
+			$this->getOutput()->addSubtitle( Html::rawElement(
+					'span',
+					[ "class" => "mw-checkuser-links-no-parentheses" ],
+					Html::openElement( 'span' ) .
+					implode(
+						Html::closeElement( 'span' ) . Html::openElement( 'span' ),
+						$links
+					) .
+					Html::closeElement( 'span' )
+				)
+			);
 		}
 	}
 

@@ -114,6 +114,10 @@ class SpecialCheckUser extends SpecialPage {
 		}
 
 		$out = $this->getOutput();
+		$out->addModules( [ 'ext.checkUser' ] );
+		$out->addModuleStyles( [
+			'ext.checkUser.styles',
+		] );
 		$request = $this->getRequest();
 		$user = $request->getText( 'user', $request->getText( 'ip', $subpage ) );
 		$user = trim( $user );
@@ -125,17 +129,30 @@ class SpecialCheckUser extends SpecialPage {
 		$user = $userTitle ? $userTitle->getText() : '';
 
 		if ( $permissionManager->userHasRight( $this->getUser(), 'checkuser-log' ) ) {
-			$subtitleLink = $this->getLinkRenderer()->makeKnownLink(
-				SpecialPage::getTitleFor( 'CheckUserLog' ),
-				$this->msg( 'checkuser-showlog' )->text()
+			$subtitleLink = Html::rawElement(
+				'span',
+				[],
+				$this->getLinkRenderer()->makeKnownLink(
+					SpecialPage::getTitleFor( 'CheckUserLog' ),
+					$this->msg( 'checkuser-showlog' )->text()
+				)
 			);
 			if ( $user !== '' ) {
-				$subtitleLink .= ' | ' . $this->getLinkRenderer()->makeKnownLink(
-					SpecialPage::getTitleFor( 'CheckUserLog', $user ),
-					$this->msg( 'checkuser-recent-checks' )->text()
+				$subtitleLink .= Html::rawElement(
+					'span',
+					[],
+					$this->getLinkRenderer()->makeKnownLink(
+						SpecialPage::getTitleFor( 'CheckUserLog', $user ),
+						$this->msg( 'checkuser-recent-checks' )->text()
+					)
 				);
 			}
-			$out->addSubtitle( $subtitleLink );
+			$out->addSubtitle( Html::rawElement(
+					'span',
+					[ 'class' => 'mw-checkuser-links-no-parentheses' ],
+					$subtitleLink
+				)
+			);
 		}
 
 		if ( $this->getConfig()->get( 'CheckUserEnableSpecialInvestigate' ) ) {
@@ -723,22 +740,30 @@ class SpecialCheckUser extends SpecialPage {
 					'reason' => $this->reason,
 				]
 			);
-			$s .= ' ' . $this->msg( 'parentheses' )->rawParams(
+			$s .= ' ' . Html::rawElement(
+					'span',
+					[ 'class' => 'mw-changeslist-links' ],
 					$this->getLinkRenderer()->makeKnownLink(
 						SpecialPage::getTitleFor( 'Block', $ip ),
 						$this->msg( 'blocklink' )->text()
 					)
-				)->escaped();
+				);
 			$s .= ' ' . $this->getTimeRangeString( $ips_first[$ip], $ips_last[$ip] ) . ' ';
-			$s .= ' <strong>[' . htmlspecialchars( $lang->formatNum( $edits ) ) . ']</strong>';
+			$s .= ' ' . Html::rawElement(
+				'strong',
+				[ 'class' => 'mw-checkuser-edits-count' ],
+				htmlspecialchars( $lang->formatNum( $edits ) )
+			);
 
 			// If we get some results, it helps to know if the IP in general
 			// has a lot more edits, e.g. "tip of the iceberg"...
 			$ipedits = $this->getCountForIPedits( $ips_hex, $ip, $period );
 			if ( $ipedits > $ips_edits[$ip] ) {
-				$s .= ' <i>(' .
-					$this->msg( 'checkuser-ipeditcount' )->numParams( $ipedits )->escaped() .
-					')</i>';
+				$s .= ' ' . Html::rawElement(
+					'i',
+					[ 'class' => 'mw-changeslist-links' ],
+					$this->msg( 'checkuser-ipeditcount' )->numParams( $ipedits )->escaped()
+				);
 			}
 
 			// If this IP is blocked, give a link to the block log
@@ -793,9 +818,11 @@ class SpecialCheckUser extends SpecialPage {
 			$ret .= ' - ' . htmlspecialchars( $block->getTargetName() );
 		}
 
-		return '<strong>' .
-			$this->msg( 'parentheses' )->rawParams( $ret )->escaped()
-			. '</strong>';
+		return Html::rawElement(
+			'strong',
+			[ 'class' => 'mw-changeslist-links' ],
+			$ret
+		);
 	}
 
 	/**
@@ -956,8 +983,11 @@ class SpecialCheckUser extends SpecialPage {
 		$lang = $this->getLanguage();
 
 		// List out each IP that has edits
-		$s = $this->msg( 'checkuser-too-many', $lang->formatNum( $limit ) )->parseAsBlock();
-		$s .= '<ol>';
+		$out->addHtml(
+			$this->msg( 'checkuser-too-many', htmlspecialchars( $lang->formatNum( $limit ) ) )->parseAsBlock()
+		);
+
+		$s = '';
 
 		$counter = 0;
 		foreach ( $result as $row ) {
@@ -972,22 +1002,32 @@ class SpecialCheckUser extends SpecialPage {
 			} else {
 				$ip = long2ip( (int)\Wikimedia\base_convert( $row->cuc_ip_hex, 16, 10, 8 ) );
 			}
-			$s .= '<li>';
-			$s .= $this->getSelfLink( $ip,
-				[
-					'user' => $ip,
-					'reason' => $this->reason,
-					'checktype' => 'subipusers'
-				]
+			$s .= Html::rawElement(
+				'li',
+				[],
+				$this->getSelfLink( $ip,
+					[
+						'user' => $ip,
+						'reason' => $this->reason,
+						'checktype' => 'subipusers'
+					]
+				) . ' ' . $this->getTimeRangeString( $row->first, $row->last ) . ' '
+				. Html::rawElement(
+					'strong',
+					[ 'class' => 'mw-checkuser-edits-count' ],
+					htmlspecialchars( $lang->formatNum( $row->count ) )
+				) . '\n'
 			);
-			$s .= ' ' . $this->getTimeRangeString( $row->first, $row->last ) . ' ';
-			$s .= ' [<strong>' . htmlspecialchars( $lang->formatNum( $row->count ) ) .
-				"</strong>]</li>\n";
 			++$counter;
 		}
-		$s .= '</ol>';
 
-		$out->addHTML( $s );
+		$out->addHTML(
+			Html::rawElement(
+				'ol',
+				[],
+				$s
+			)
+		);
 	}
 
 	/**
@@ -1416,14 +1456,15 @@ class SpecialCheckUser extends SpecialPage {
 		$splang = $this->getLanguage();
 		$aliases = $splang->getSpecialPageAliases();
 		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
+		$canPerformBlocks = $permissionManager->userHasRight( $this->getUser(), 'block' )
+			&& !$this->getUser()->getBlock();
 
-		// @todo FIXME: This form (and checkboxes) shouldn't be initiated for users without 'block' right
-		$action = htmlspecialchars( $this->getPageTitle()->getLocalURL( 'action=block' ) );
-		$s = "<form name='checkuserblock' id='checkuserblock' action=\"$action\" method='post'>";
-		$s .= '<div id="checkuserresults"><ul>';
+		$s = '<div id="checkuserresults"><ul>';
 		foreach ( $users_edits as $name => $count ) {
 			$s .= '<li>';
-			$s .= Xml::check( 'users[]', false, [ 'value' => $name ] ) . '&#160;';
+			if ( $canPerformBlocks ) {
+				$s .= Xml::check( 'users[]', false, [ 'value' => $name ] ) . '&#160;';
+			}
 			// Load user object
 			$usernfn = User::newFromName( $name, false );
 			// Add user page and tool links
@@ -1460,11 +1501,13 @@ class SpecialCheckUser extends SpecialPage {
 				$s .= $this->msg( 'checkuser-userlinks-ip', $name )->parse();
 			} elseif ( !$classnouser ) {
 				if ( $this->msg( 'checkuser-userlinks' )->exists() ) {
-					$s .= ' ' . $this->msg( 'checkuser-userlinks', $name )->parse();
+					$s .= ' ' . $this->msg( 'checkuser-userlinks', htmlspecialchars( $name ) )->parse();
 				}
 			}
 			// Add CheckUser link
-			$s .= ' ' . $this->msg( 'parentheses' )->rawParams(
+			$s .= ' ' . Html::rawElement(
+				'span',
+				[ 'class' => 'mw-changeslist-links' ],
 				$this->getSelfLink(
 					$this->msg( 'checkuser-check' )->text(),
 					[
@@ -1472,7 +1515,7 @@ class SpecialCheckUser extends SpecialPage {
 						'reason' => $this->reason
 					]
 				)
-			)->escaped();
+			);
 			// Add global user tools links
 			// Add CentralAuth link for real registered users
 			if ( $centralAuthToollink !== false
@@ -1562,8 +1605,11 @@ class SpecialCheckUser extends SpecialPage {
 			// Show edit time range
 			$s .= ' ' . $this->getTimeRangeString( $users_first[$name], $users_last[$name] ) . ' ';
 			// Total edit count
-			// @todo FIXME: i18n issue: Hard coded brackets.
-			$s .= ' [<strong>' . htmlspecialchars( $count ) . '</strong>]<br />';
+			$s .= Html::rawElement(
+				'strong',
+				[ 'class' => 'mw-changeslist-links' ],
+				htmlspecialchars( $count )
+			) . '<br />';
 			// Check if this user or IP is blocked. If so, give a link to the block log...
 			$flags = $this->userBlockFlags( $ip, $users_ids[$name], $user );
 			$s .= implode( ' ', $flags );
@@ -1599,16 +1645,20 @@ class SpecialCheckUser extends SpecialPage {
 			$s .= '</li>';
 		}
 		$s .= "</ul></div>\n";
-		if ( $permissionManager->userHasRight( $this->getUser(), 'block' )
-			&& !$this->getUser()->getBlock()
-		) {
-			// FIXME: The block <form> is currently added for users without 'block' right
-			// - only the user-visible form is shown appropriately
+		if ( $canPerformBlocks ) {
 			$s .= $this->getBlockForm( $tag, $talkTag );
 			$s .= Html::hidden( 'wpEditToken', $this->getUser()->getEditToken() );
+			$s = Html::rawElement(
+				'form',
+				[
+					"id" => "checkuserblock",
+					"name" => "checkuserblock",
+					"action" => $this->getPageTitle()->getLocalURL( 'action=block' ),
+					"method" => "post"
+				],
+				$s
+			);
 		}
-		$s .= "</form>\n";
-
 		$out->addHTML( $s );
 	}
 
@@ -1739,8 +1789,7 @@ class SpecialCheckUser extends SpecialPage {
 					'page' => $userpage->getPrefixedText()
 				]
 			);
-			// @todo FIXME: Hard coded parentheses.
-			$flags[] = '<strong>(' . $blocklog . ')</strong>';
+			$flags[] = Html::rawElement( 'strong', [ 'class' => 'mw-changeslist-links' ], $blocklog );
 		}
 
 		// Show if account is local only
@@ -1748,14 +1797,20 @@ class SpecialCheckUser extends SpecialPage {
 			$this->centralIdLookup
 				->centralIdFromLocalUser( $user, CentralIdLookup::AUDIENCE_RAW ) === 0
 		) {
-			// @todo FIXME: i18n issue: Hard coded parentheses.
-			$flags[] = '<strong>(' . $this->msg( 'checkuser-localonly' )->escaped() . ')</strong>';
+			$flags[] = Html::rawElement(
+				'strong',
+				[ 'class' => 'mw-changeslist-links' ],
+				$this->msg( 'checkuser-localonly' )->escaped()
+			);
 		}
 		// Check for extra user rights...
 		if ( $userId ) {
 			if ( $user->isLocked() ) {
-				// @todo FIXME: i18n issue: Hard coded parentheses.
-				$flags[] = '<b>(' . $this->msg( 'checkuser-locked' )->escaped() . ')</b>';
+				$flags[] = Html::rawElement(
+					'strong',
+					[ 'class' => 'mw-changeslist-links' ],
+					$this->msg( 'checkuser-locked' )->escaped()
+				);
 			}
 			$list = [];
 			foreach ( $this->userGroupManager->getUserGroups( $user ) as $group ) {
@@ -1763,8 +1818,7 @@ class SpecialCheckUser extends SpecialPage {
 			}
 			$groups = $this->getLanguage()->commaList( $list );
 			if ( $groups ) {
-				// @todo FIXME: i18n issue: Hard coded parentheses.
-				$flags[] = '<i>(' . $groups . ')</i>';
+				$flags[] = Html::rawElement( 'i', [ 'class' => 'mw-changeslist-links' ], $groups );
 			}
 		}
 
@@ -1795,9 +1849,10 @@ class SpecialCheckUser extends SpecialPage {
 		// Create diff/hist/page links
 		$line .= $this->getLinksFromRow( $row );
 		// Show date
-		$line .= ' . . ' . htmlspecialchars(
+		$changesListSeparator = ' ' . Html::element( 'span', [ 'class' => 'mw-changeslist-separator' ] ) . ' ';
+		$line .= $changesListSeparator . htmlspecialchars(
 			$this->getLanguage()->userTime( wfTimestamp( TS_MW, $row->cuc_timestamp ), $this->getUser() )
-			) . ' . . ';
+		) . $changesListSeparator;
 		// Userlinks
 		$user = User::newFromId( $row->cuc_user );
 		if ( !IPUtils::isIPAddress( $row->cuc_user_text ) ) {
@@ -1946,7 +2001,11 @@ class SpecialCheckUser extends SpecialPage {
 			$s .= ' -- ';
 			$s .= $this->getFormattedTimestamp( $last );
 		}
-		return $this->msg( 'parentheses' )->params( $s )->escaped();
+		return Html::rawElement(
+			'span',
+			[ 'class' => 'mw-changeslist-links' ],
+			htmlspecialchars( $s )
+		);
 	}
 
 	/**
@@ -1971,51 +2030,71 @@ class SpecialCheckUser extends SpecialPage {
 		// Log items
 		if ( $row->cuc_type == RC_LOG ) {
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
-			// @todo FIXME: Hard coded parentheses.
-			$links['log'] = '(' . $this->getLinkRenderer()->makeKnownLink(
-				SpecialPage::getTitleFor( 'Log' ),
-				new HtmlArmor( $this->message['log'] ),
-				[],
-				[ 'page' => $title->getPrefixedText() ]
-			) . ')';
+			$links['log'] = Html::rawElement(
+				'span',
+				[ 'class' => 'mw-changeslist-links' ],
+				$this->getLinkRenderer()->makeKnownLink(
+					SpecialPage::getTitleFor( 'Log' ),
+					new HtmlArmor( $this->message['log'] ),
+					[],
+					[ 'page' => $title->getPrefixedText() ]
+				)
+			);
 		} else {
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
 			// New pages
 			if ( $row->cuc_type == RC_NEW ) {
-				$links['diff'] = '(' . $this->message['diff'] . ') ';
+				$links['diffHistLinks'] = Html::rawElement( 'span', [], $this->message['diff'] );
 			} else {
 				// Diff link
-				// @todo FIXME: Hard coded parentheses.
-				$links['diff'] = ' (' . $this->getLinkRenderer()->makeKnownLink(
-					$title,
-					new HtmlArmor( $this->message['diff'] ),
-					[],
-					[
-						'curid' => $row->cuc_page_id,
-						'diff' => $row->cuc_this_oldid,
-						'oldid' => $row->cuc_last_oldid
-					]
-				) . ') ';
+				$links['diffHistLinks'] = Html::rawElement( 'span', [],
+					$this->getLinkRenderer()->makeKnownLink(
+						$title,
+						new HtmlArmor( $this->message['diff'] ),
+						[],
+						[
+							'curid' => $row->cuc_page_id,
+							'diff' => $row->cuc_this_oldid,
+							'oldid' => $row->cuc_last_oldid
+						]
+					)
+				);
 			}
 			// History link
-			// @todo FIXME: Hard coded parentheses.
-			$links['history'] = ' (' . $this->getLinkRenderer()->makeKnownLink(
-				$title,
-				new HtmlArmor( $this->message['hist'] ),
-				[],
-				[
-					'curid' => $title->exists() ? $row->cuc_page_id : null,
-					'action' => 'history'
-				]
-			) . ') . . ';
+			$links['diffHistLinks'] .= ' ' . Html::rawElement( 'span', [],
+					$this->getLinkRenderer()->makeKnownLink(
+						$title,
+						new HtmlArmor( $this->message['hist'] ),
+						[],
+						[
+							'curid' => $title->exists() ? $row->cuc_page_id : null,
+							'action' => 'history'
+						]
+					)
+				);
+			$links['diffHistLinks'] = Html::rawElement(
+				'span',
+				[ 'class' => 'mw-changeslist-links' ],
+				$links['diffHistLinks']
+			);
+			$links['diffHistLinksSeparator'] = Html::element(
+				'span',
+				[ 'class' => 'mw-changeslist-separator' ]
+			);
 			// Some basic flags
 			if ( $row->cuc_type == RC_NEW ) {
-				$links['newpage'] = '<span class="newpage">' . $this->message['newpageletter'] .
-					'</span>';
+				$links['newpage'] = Html::rawElement(
+					'abbr',
+					[ 'class' => 'newpage' ],
+					$this->message['newpageletter']
+				);
 			}
 			if ( $row->cuc_minor ) {
-				$links['minor'] = '<span class="minor">' . $this->message['minoreditletter'] .
-					'</span>';
+				$links['minor'] = Html::rawElement(
+					"abbr",
+					[ 'class' => 'minoredit' ],
+					$this->message['minoreditletter']
+				);
 			}
 			// Page link
 			$links['title'] = $this->getLinkRenderer()->makeLink( $title );
@@ -2109,7 +2188,7 @@ class SpecialCheckUser extends SpecialPage {
 			return [ 'cuc_' . $type . '_hex BETWEEN ' . $db->addQuotes( $start ) .
 				' AND ' . $db->addQuotes( $end ) ];
 		} elseif ( IPUtils::isValid( $target ) ) {
-				return [ "cuc_{$type}_hex" => IPUtils::toHex( $target ) ];
+			return [ "cuc_{$type}_hex" => IPUtils::toHex( $target ) ];
 		}
 		// invalid IP
 		return false;
