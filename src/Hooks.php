@@ -157,6 +157,8 @@ class Hooks {
 		$xff = $contLang->truncateForDatabase( $xff, self::TEXT_FIELD_LENGTH );
 		$comment = $contLang->truncateForDatabase( $comment, self::TEXT_FIELD_LENGTH );
 
+		$dbw = $services->getDBLoadBalancer()->getConnectionRef( DB_PRIMARY );
+
 		$rcRow = [
 			'cuc_namespace'  => $attribs['rc_namespace'],
 			'cuc_title'      => $attribs['rc_title'],
@@ -168,15 +170,13 @@ class Hooks {
 			'cuc_this_oldid' => $attribs['rc_this_oldid'],
 			'cuc_last_oldid' => $attribs['rc_last_oldid'],
 			'cuc_type'       => $attribs['rc_type'],
-			'cuc_timestamp'  => $attribs['rc_timestamp'],
+			'cuc_timestamp'  => $dbw->timestamp( $attribs['rc_timestamp'] ),
 			'cuc_ip'         => IPUtils::sanitizeIP( $ip ),
 			'cuc_ip_hex'     => $ip ? IPUtils::toHex( $ip ) : null,
 			'cuc_xff'        => !$isSquidOnly ? $xff : '',
 			'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
 			'cuc_agent'      => self::getAgent()
 		];
-
-		$dbw = $services->getDBLoadBalancer()->getConnectionRef( DB_PRIMARY );
 
 		$actorMigrationStage = $services
 			->getMainConfig()
