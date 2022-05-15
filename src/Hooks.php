@@ -126,7 +126,7 @@ class Hooks {
 		$ip = $wgRequest->getIP();
 		// Get XFF header
 		$xff = $wgRequest->getHeader( 'X-Forwarded-For' );
-		list( $xff_ip, $isSquidOnly ) = self::getClientIPfromXFF( $xff );
+		list( $xff_ip, $isSquidOnly, $xff ) = self::getClientIPfromXFF( $xff );
 		// Store the log action text for log events
 		// $rc_comment should just be the log_comment
 		// BC: check if log_type and log_action exists
@@ -215,7 +215,7 @@ class Hooks {
 
 		// Get XFF header
 		$xff = $wgRequest->getHeader( 'X-Forwarded-For' );
-		list( $xff_ip, $isSquidOnly ) = self::getClientIPfromXFF( $xff );
+		list( $xff_ip, $isSquidOnly, $xff ) = self::getClientIPfromXFF( $xff );
 
 		$actionText = wfMessage( 'checkuser-reset-action', $account->getName() )
 			->inContentLanguage()->text();
@@ -289,7 +289,7 @@ class Hooks {
 		$ip = $wgRequest->getIP();
 		// Get XFF header
 		$xff = $wgRequest->getHeader( 'X-Forwarded-For' );
-		list( $xff_ip, $isSquidOnly ) = self::getClientIPfromXFF( $xff );
+		list( $xff_ip, $isSquidOnly, $xff ) = self::getClientIPfromXFF( $xff );
 
 		$actionText = wfMessage( 'checkuser-email-action', $hash )->inContentLanguage()->text();
 
@@ -369,7 +369,7 @@ class Hooks {
 		$ip = $wgRequest->getIP();
 		// Get XFF header
 		$xff = $wgRequest->getHeader( 'X-Forwarded-For' );
-		list( $xff_ip, $isSquidOnly ) = self::getClientIPfromXFF( $xff );
+		list( $xff_ip, $isSquidOnly, $xff ) = self::getClientIPfromXFF( $xff );
 		$services = MediaWikiServices::getInstance();
 		$contLang = $services->getContentLanguage();
 
@@ -451,7 +451,7 @@ class Hooks {
 
 		$ip = $wgRequest->getIP();
 		$xff = $wgRequest->getHeader( 'X-Forwarded-For' );
-		list( $xff_ip, $isSquidOnly ) = self::getClientIPfromXFF( $xff );
+		list( $xff_ip, $isSquidOnly, $xff ) = self::getClientIPfromXFF( $xff );
 		$userName = $user->getName();
 
 		$dbw = $services->getDBLoadBalancer()->getConnectionRef( DB_PRIMARY );
@@ -556,16 +556,19 @@ class Hooks {
 	 * This returns an array containing:
 	 *   - The best guess of the client IP
 	 *   - Whether all the proxies are just squid/varnish
+	 *   - The XFF value, converted to a empty string if false
 	 *
-	 * @param string $xff XFF header value
-	 * @return array (string|null, bool)
+	 * @param string|bool $xff XFF header value
+	 * @return array (string|null, bool, string)
 	 * @todo move this to a utility class
 	 */
 	public static function getClientIPfromXFF( $xff ) {
 		global $wgUsePrivateIPs;
 
-		if ( !strlen( $xff ) ) {
-			return [ null, false ];
+		if ( $xff === false || !strlen( $xff ) ) {
+			// If the XFF is empty or not a string return with a
+			// XFF of the empty string and no results
+			return [ null, false, '' ];
 		}
 
 		# Get the list in the form of <PROXY N, ... PROXY 1, CLIENT>
@@ -615,7 +618,7 @@ class Hooks {
 			break;
 		}
 
-		return [ $client, $isSquidOnly ];
+		return [ $client, $isSquidOnly, $xff ];
 	}
 
 	public static function onLoadExtensionSchemaUpdates( DatabaseUpdater $updater ) {
