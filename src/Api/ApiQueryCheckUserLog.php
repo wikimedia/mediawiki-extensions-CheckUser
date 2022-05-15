@@ -4,6 +4,8 @@ namespace MediaWiki\CheckUser\Api;
 
 use ApiBase;
 use ApiQueryBase;
+use MediaWiki\CheckUser\LogPager;
+use Wikimedia\IPUtils;
 use Wikimedia\ParamValidator\ParamValidator;
 
 /**
@@ -15,8 +17,8 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 	}
 
 	public function execute() {
+		$db = $this->getDB();
 		$params = $this->extractRequestParams();
-
 		$this->checkUserRightsAny( 'checkuser-log' );
 
 		$limit = $params['limit'];
@@ -37,7 +39,15 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 			$this->addWhereFld( 'cul_user_text', $params['user'] );
 		}
 		if ( isset( $params['target'] ) ) {
-			$this->addWhereFld( 'cul_target_text', $params['target'] );
+			if ( IPUtils::isIPAddress( $params['target'] ) ) {
+				$cond = LogPager::getTargetSearchConds( $params['target'] );
+				if ( !$cond ) {
+					$this->dieWithError( 'apierror-badip', 'invalidip' );
+				}
+				$this->addWhere( $cond );
+			} else {
+				$this->addWhereFld( 'cul_target_text', $params['target'] );
+			}
 		}
 
 		if ( $continue !== null ) {
@@ -46,7 +56,6 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 			$this->dieContinueUsageIf( count( $cont ) !== 2 );
 			$this->dieContinueUsageIf( wfTimestamp( TS_UNIX, $cont[0] ) === false );
 
-			$db = $this->getDB();
 			$timestamp = $db->addQuotes( $db->timestamp( $cont[0] ) );
 			$id = intval( $cont[1] );
 			$this->dieContinueUsageIf( $cont[1] !== (string)$id );
@@ -125,9 +134,9 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 	protected function getExamplesMessages() {
 		return [
 			'action=query&list=checkuserlog&culuser=Example&cullimit=25'
-				=> 'apihelp-query+checkuserlog-example-1',
+			=> 'apihelp-query+checkuserlog-example-1',
 			'action=query&list=checkuserlog&cultarget=192.0.2.0/24&culfrom=2011-10-15T23:00:00Z'
-				=> 'apihelp-query+checkuserlog-example-2',
+			=> 'apihelp-query+checkuserlog-example-2',
 		];
 	}
 
