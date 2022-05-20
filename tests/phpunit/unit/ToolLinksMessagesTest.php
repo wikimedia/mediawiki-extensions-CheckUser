@@ -4,9 +4,9 @@ namespace MediaWiki\CheckUser\Tests\Unit;
 
 use HashConfig;
 use MediaWiki\CheckUser\ToolLinksMessages;
+use MediaWiki\ResourceLoader\Context;
 use MediaWikiUnitTestCase;
 use Message;
-use ResourceLoaderContext;
 
 /**
  * @author DannyS712
@@ -22,7 +22,7 @@ class ToolLinksMessagesTest extends MediaWikiUnitTestCase {
 		$msg = $this->createMock( Message::class );
 		$msg->method( 'parse' )->willReturn( 'Parsed result' );
 
-		$context = $this->createMock( ResourceLoaderContext::class );
+		$context = $this->createMock( Context::class );
 		$context->method( 'msg' )
 			->with( 'message key' )
 			->willReturn( $msg );
