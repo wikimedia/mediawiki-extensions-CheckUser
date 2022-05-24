@@ -1549,7 +1549,7 @@ class SpecialCheckUser extends SpecialPage {
 						[ 'title' => $this->msg( 'globalblocking-block-submit' ) ]
 					);
 					$gbUserCanDo = $permissionManager->userHasRight( $user, 'globalblock' );
-					if ( $gbUserCanDo === true ) {
+					if ( $gbUserCanDo ) {
 						$globalBlockingToollink['groups'] = $gbUserGroups;
 					}
 				}
