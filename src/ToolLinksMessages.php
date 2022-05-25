@@ -3,12 +3,12 @@
 namespace MediaWiki\CheckUser;
 
 use Config;
-use ResourceLoaderContext;
+use MediaWiki\ResourceLoader\Context;
 
 class ToolLinksMessages {
 
 	public static function getParsedMessage(
-		ResourceLoaderContext $context,
+		Context $context,
 		Config $config,
 		string $messageKey
 	) {
