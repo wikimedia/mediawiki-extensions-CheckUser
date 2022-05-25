@@ -182,8 +182,8 @@ class Hooks {
 			->getMainConfig()
 			->get( 'CheckUserActorMigrationStage' );
 		if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$rcRow['cuc_actor'] = $services->getActorStore()->findActorIdByName(
-				$attribs['rc_user_text'],
+			$rcRow['cuc_actor'] = $services->getActorStore()->acquireActorId(
+				new UserIdentityValue( $attribs['rc_user'], $attribs['rc_user_text'] ),
 				$dbw
 			);
 		}
