@@ -14,6 +14,7 @@ use MediaWiki\CheckUser\PagerFactory;
 use MediaWiki\CheckUser\TimelinePagerFactory;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\User\UserOptionsManager;
 use Message;
 use OOUI\ButtonGroupWidget;
@@ -62,6 +63,9 @@ class SpecialInvestigate extends \FormSpecialPage {
 	/** @var CheckUserSubtitleLinksHook */
 	private $subtitleLinksHookRunner;
 
+	/** @var PermissionManager */
+	private $permissionManager;
+
 	/** @var IndexLayout|null */
 	private $layout;
 
@@ -101,6 +105,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @param EventLogger $eventLogger
 	 * @param TourLauncher $tourLauncher
 	 * @param CheckUserSubtitleLinksHook $subtitleLinksHookRunner
+	 * @param PermissionManager $permissionManager
 	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
@@ -113,7 +118,8 @@ class SpecialInvestigate extends \FormSpecialPage {
 		DurationManager $durationManager,
 		EventLogger $eventLogger,
 		TourLauncher $tourLauncher,
-		CheckUserSubtitleLinksHook $subtitleLinksHookRunner
+		CheckUserSubtitleLinksHook $subtitleLinksHookRunner,
+		PermissionManager $permissionManager
 	) {
 		parent::__construct( 'Investigate', 'checkuser' );
 		$this->setLinkRenderer( $linkRenderer );
@@ -127,6 +133,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 		$this->eventLogger = $eventLogger;
 		$this->tourLauncher = $tourLauncher;
 		$this->subtitleLinksHookRunner = $subtitleLinksHookRunner;
+		$this->permissionManager = $permissionManager;
 	}
 
 	/**
@@ -483,6 +490,11 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * to avoid a flicker on page load.
 	 */
 	private function addBlockForm() {
+		if ( !$this->permissionManager->userHasRight( $this->getUser(), 'block' ) ) {
+			// Return early if the user does not have the block right
+			// as the form should only be shown to those with the block right.
+			return;
+		}
 		$targets = $this->getTokenData()['targets'] ?? [];
 		if ( $targets ) {
 			$excludeTargets = $this->getTokenData()['exclude-targets'] ?? [];
@@ -559,14 +571,16 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @param bool $newTab Whether to open the link in a new tab
 	 * @param bool $logOnly Whether to show only the log button
 	 */
-	private function addIndicators( $newTab = true, $logOnly = false ) {
-		$buttons = [
-			new ButtonWidget( [
-				'label' => $this->msg( 'checkuser-investigate-indicator-logs' )->text(),
-				'href' => self::getTitleFor( 'CheckUserLog' )->getLinkURL(),
-				'target' => $newTab ? '_blank' : '',
-			] ),
-		];
+	private function addIndicators( bool $newTab = true, bool $logOnly = false ) {
+		$canViewLogs = $this->permissionManager->userHasRight( $this->getUser(), 'checkuser-log' );
+		$buttons = [];
+		if ( $canViewLogs ) {
+			 $buttons[] = new ButtonWidget( [
+					'label' => $this->msg( 'checkuser-investigate-indicator-logs' )->text(),
+					'href' => self::getTitleFor( 'CheckUserLog' )->getLinkURL(),
+					'target' => $newTab ? '_blank' : '',
+				] );
+		}
 
 		if ( !$logOnly ) {
 			$buttons[] = new ButtonWidget( [
@@ -576,12 +590,14 @@ class SpecialInvestigate extends \FormSpecialPage {
 			] );
 		}
 
-		$this->getOutput()->setIndicators( [
-			'ext-checkuser-investigation-btns' => new ButtonGroupWidget( [
-				'classes' => [ 'ext-checkuser-investigate-indicators' ],
-				'items' => $buttons,
-			] ),
-		] );
+		if ( count( $buttons ) > 0 ) {
+			$this->getOutput()->setIndicators( [
+				'ext-checkuser-investigation-btns' => new ButtonGroupWidget( [
+					'classes' => [ 'ext-checkuser-investigate-indicators' ],
+					'items' => $buttons,
+				] ),
+			] );
+		}
 	}
 
 	/**
