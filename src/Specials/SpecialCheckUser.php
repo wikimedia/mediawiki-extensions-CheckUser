@@ -38,6 +38,7 @@ use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\IResultWrapper;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 use WikiPage;
 use WikitextContent;
 use Xml;
@@ -2120,7 +2121,7 @@ class SpecialCheckUser extends SpecialPage {
 			return false;
 		}
 		$dbr = wfGetDB( DB_REPLICA );
-		$cutoff_unixtime = time() - ( $period * 24 * 3600 );
+		$cutoff_unixtime = ConvertibleTimestamp::time() - ( $period * 24 * 3600 );
 		$cutoff_unixtime -= $cutoff_unixtime % 86400;
 		$cutoff = $dbr->addQuotes( $dbr->timestamp( $cutoff_unixtime ) );
 		return "cuc_timestamp > $cutoff";
