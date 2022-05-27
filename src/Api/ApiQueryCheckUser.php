@@ -41,7 +41,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 		$reason = $this->msg( 'checkuser-reason-api', $reason )->inContentLanguage()->text();
 		// absolute time
 		$timeCutoff = strtotime( $timecond );
-		if ( !$timeCutoff ) {
+		if ( !$timeCutoff || $timeCutoff < 0 || $timeCutoff > strtotime( 'now' ) ) {
 			$this->dieWithError( 'apierror-checkuser-timelimit', 'invalidtime' );
 		}
 
