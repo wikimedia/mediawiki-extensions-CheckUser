@@ -8,6 +8,8 @@ CREATE TABLE cu_log (
   cul_user         INTEGER      NULL,
   cul_user_text    TEXT     NOT NULL,
   cul_reason       TEXT     NOT NULL DEFAULT '',
+  cul_reason_id    INTEGER      NULL DEFAULT NULL,
+  cul_reason_plaintext_id INTEGER NULL DEFAULT NULL,
   cul_type         TEXT     NOT NULL DEFAULT '',
   cul_target_id    INTEGER      NULL,
   cul_target_text  TEXT     NOT NULL DEFAULT '',
