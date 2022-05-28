@@ -92,7 +92,9 @@ return [
 			$services->getRevisionStore(),
 			$services->getRevisionFactory(),
 			$services->getTitleFormatter(),
-			$services->getSpecialPageFactory()
+			$services->getSpecialPageFactory(),
+			$services->getCommentFormatter(),
+			$services->getUserFactory()
 		);
 	},
 	'CheckUserTimelinePagerFactory' => static function (

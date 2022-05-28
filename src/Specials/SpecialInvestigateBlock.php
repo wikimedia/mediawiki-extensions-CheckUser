@@ -318,7 +318,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 			'title' => $title,
 			$position => $notice,
 			'summary' => $summary,
-			'token' => $this->getUser()->getEditToken(),
+			'token' => $this->getContext()->getCsrfTokenSet()->getToken(),
 		];
 
 		$api = new ApiMain(

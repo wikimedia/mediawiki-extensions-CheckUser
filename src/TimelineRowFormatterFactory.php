@@ -3,11 +3,13 @@
 namespace MediaWiki\CheckUser;
 
 use Language;
+use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Revision\RevisionFactory;
 use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\SpecialPageFactory;
+use MediaWiki\User\UserFactory;
 use TitleFormatter;
 use User;
 use Wikimedia\Rdbms\ILoadBalancer;
@@ -35,6 +37,12 @@ class TimelineRowFormatterFactory {
 	/** @var SpecialPageFactory */
 	private $specialPageFactory;
 
+	/** @var CommentFormatter */
+	private $commentFormatter;
+
+	/** @var UserFactory */
+	private $userFactory;
+
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		ILoadBalancer $loadBalancer,
@@ -42,7 +50,9 @@ class TimelineRowFormatterFactory {
 		RevisionStore $revisionStore,
 		RevisionFactory $revisionFactory,
 		TitleFormatter $titleFormatter,
-		SpecialPageFactory $specialPageFactory
+		SpecialPageFactory $specialPageFactory,
+		CommentFormatter $commentFormatter,
+		UserFactory $userFactory
 	) {
 		$this->linkRenderer = $linkRenderer;
 		$this->loadBalancer = $loadBalancer;
@@ -51,6 +61,8 @@ class TimelineRowFormatterFactory {
 		$this->revisionFactory = $revisionFactory;
 		$this->titleFormatter = $titleFormatter;
 		$this->specialPageFactory = $specialPageFactory;
+		$this->commentFormatter = $commentFormatter;
+		$this->userFactory = $userFactory;
 	}
 
 	/**
@@ -69,6 +81,8 @@ class TimelineRowFormatterFactory {
 			$this->revisionFactory,
 			$this->titleFormatter,
 			$this->specialPageFactory,
+			$this->commentFormatter,
+			$this->userFactory,
 			$user,
 			$language
 		);

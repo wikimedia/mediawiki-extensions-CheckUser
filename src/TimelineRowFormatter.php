@@ -6,12 +6,15 @@ use Html;
 use HtmlArmor;
 use Language;
 use Linker;
+use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Revision\RevisionFactory;
 use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\SpecialPageFactory;
+use MediaWiki\User\UserFactory;
+use MediaWiki\User\UserRigorOptions;
 use Message;
 use TitleFormatter;
 use TitleValue;
@@ -51,6 +54,12 @@ class TimelineRowFormatter {
 	/** @var User */
 	private $user;
 
+	/** @var UserFactory */
+	private $userFactory;
+
+	/** @var CommentFormatter */
+	private $commentFormatter;
+
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		ILoadBalancer $loadBalancer,
@@ -59,6 +68,8 @@ class TimelineRowFormatter {
 		RevisionFactory $revisionFactory,
 		TitleFormatter $titleFormatter,
 		SpecialPageFactory $specialPageFactory,
+		CommentFormatter $commentFormatter,
+		UserFactory $userFactory,
 		User $user,
 		Language $language
 	) {
@@ -69,6 +80,8 @@ class TimelineRowFormatter {
 		$this->revisionFactory = $revisionFactory;
 		$this->titleFormatter = $titleFormatter;
 		$this->specialPageFactory = $specialPageFactory;
+		$this->commentFormatter = $commentFormatter;
+		$this->userFactory = $userFactory;
 		$this->user = $user;
 		$this->language = $language;
 
@@ -142,9 +155,9 @@ class TimelineRowFormatter {
 					$this->user
 				)
 			) {
-				$comment = Linker::revComment( $revRecord );
+				$comment = $this->commentFormatter->formatRevision( $revRecord, $this->user );
 			} else {
-				$comment = Linker::commentBlock(
+				$comment = $this->commentFormatter->formatBlock(
 					$this->msg( 'rev-deleted-comment' )->text(),
 					null,
 					false,
@@ -180,7 +193,7 @@ class TimelineRowFormatter {
 	 * @return string
 	 */
 	private function getActionText( string $actionText ): string {
-		return Linker::formatComment( $actionText );
+		return $this->commentFormatter->format( $actionText );
 	}
 
 	/**
@@ -333,10 +346,10 @@ class TimelineRowFormatter {
 		// in SpecialCheckUser when displaying the same info
 		$userId = $row->cuc_user;
 		if ( $userId > 0 ) {
-			$user = User::newFromId( $userId );
+			$user = $this->userFactory->newFromId( $userId );
 		} else {
 			// This is an IP
-			$user = User::newFromName( $row->cuc_user_text, false );
+			$user = $this->userFactory->newFromName( $row->cuc_user_text, UserRigorOptions::RIGOR_NONE );
 		}
 
 		$links = Html::rawElement(

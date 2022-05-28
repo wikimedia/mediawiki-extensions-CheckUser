@@ -229,12 +229,10 @@ class PreliminaryCheckPager extends TablePager {
 				'groups' => 'checkuser-investigate-preliminary-table-header-groups',
 			];
 
-			if ( $this->isGlobalCheck() ) {
-				$this->fieldNames = $fullFieldNames;
-			} else {
+			if ( !$this->isGlobalCheck() ) {
 				unset( $fullFieldNames['wiki'] );
-				$this->fieldNames = $fullFieldNames;
 			}
+			$this->fieldNames = $fullFieldNames;
 
 			foreach ( $this->fieldNames as $key => $val ) {
 				$this->fieldNames[$key] = $this->msg( $val )->text();
