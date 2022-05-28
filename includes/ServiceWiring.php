@@ -88,9 +88,7 @@ return [
 		return new TimelineRowFormatterFactory(
 			$services->getLinkRenderer(),
 			$services->getDBLoadBalancer(),
-			$services->getRevisionLookup(),
 			$services->getRevisionStore(),
-			$services->getRevisionFactory(),
 			$services->getTitleFormatter(),
 			$services->getSpecialPageFactory(),
 			$services->getCommentFormatter(),

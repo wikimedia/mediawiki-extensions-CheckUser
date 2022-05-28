@@ -8,8 +8,6 @@ use Language;
 use Linker;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Linker\LinkRenderer;
-use MediaWiki\Revision\RevisionFactory;
-use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\SpecialPageFactory;
@@ -30,14 +28,8 @@ class TimelineRowFormatter {
 	/** @var ILoadBalancer */
 	private $loadBalancer;
 
-	/** @var RevisionLookup */
-	private $revisionLookup;
-
 	/** @var RevisionStore */
 	private $revisionStore;
-
-	/** @var RevisionFactory */
-	private $revisionFactory;
 
 	/** @var TitleFormatter */
 	private $titleFormatter;
@@ -63,9 +55,7 @@ class TimelineRowFormatter {
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		ILoadBalancer $loadBalancer,
-		RevisionLookup $revisionLookup,
 		RevisionStore $revisionStore,
-		RevisionFactory $revisionFactory,
 		TitleFormatter $titleFormatter,
 		SpecialPageFactory $specialPageFactory,
 		CommentFormatter $commentFormatter,
@@ -75,9 +65,7 @@ class TimelineRowFormatter {
 	) {
 		$this->linkRenderer = $linkRenderer;
 		$this->loadBalancer = $loadBalancer;
-		$this->revisionLookup = $revisionLookup;
 		$this->revisionStore = $revisionStore;
-		$this->revisionFactory = $revisionFactory;
 		$this->titleFormatter = $titleFormatter;
 		$this->specialPageFactory = $specialPageFactory;
 		$this->commentFormatter = $commentFormatter;
@@ -130,7 +118,7 @@ class TimelineRowFormatter {
 			$row->cuc_this_oldid != 0 &&
 			( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW )
 		) {
-			$revRecord = $this->revisionLookup->getRevisionById( $row->cuc_this_oldid );
+			$revRecord = $this->revisionStore->getRevisionById( $row->cuc_this_oldid );
 			if ( !$revRecord ) {
 				// Revision may have been deleted
 				$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
@@ -144,7 +132,7 @@ class TimelineRowFormatter {
 					$queryInfo['joins']
 				);
 				if ( $archiveRow ) {
-					$revRecord = $this->revisionFactory->newRevisionFromArchiveRow( $archiveRow );
+					$revRecord = $this->revisionStore->newRevisionFromArchiveRow( $archiveRow );
 				}
 			}
 			if (
