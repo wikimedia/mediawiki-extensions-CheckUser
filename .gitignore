@@ -22,3 +22,5 @@ project.index
 sublime-*
 sftp-config.json
 /.eslintcache
+## vscode
+.vscode/
