@@ -2,6 +2,8 @@
 
 namespace MediaWiki\CheckUser\Specials;
 
+use CommentStore;
+use ContribsPager;
 use Html;
 use HTMLForm;
 use MediaWiki\Cache\LinkBatchFactory;
@@ -12,13 +14,12 @@ use Title;
 use User;
 use UserBlockedError;
 use Wikimedia\IPUtils;
-use Xml;
 
 class SpecialCheckUserLog extends SpecialPage {
 	/**
-	 * @var string
+	 * @var string[]|null[] an array of nullable string options.
 	 */
-	protected $target;
+	protected $opts;
 
 	/** @var LinkBatchFactory */
 	private $linkBatchFactory;
@@ -26,13 +27,18 @@ class SpecialCheckUserLog extends SpecialPage {
 	/** @var PermissionManager */
 	private $permissionManager;
 
+	/** @var CommentStore */
+	private $commentStore;
+
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
-		PermissionManager $permissionManager
+		PermissionManager $permissionManager,
+		CommentStore $commentStore
 	) {
 		parent::__construct( 'CheckUserLog', 'checkuser-log' );
 		$this->linkBatchFactory = $linkBatchFactory;
 		$this->permissionManager = $permissionManager;
+		$this->commentStore = $commentStore;
 	}
 
 	public function execute( $par ) {
@@ -49,35 +55,50 @@ class SpecialCheckUserLog extends SpecialPage {
 		$out = $this->getOutput();
 		$request = $this->getRequest();
 
+		$this->opts = [];
+
 		// Normalise target parameter and ignore if not valid (T217713)
 		// It must be valid when making a link to Special:CheckUserLog/<user>.
 		// Do not normalize an empty target, as that means "everything" (T265606)
-		$this->target = trim( $request->getVal( 'cuSearch', $par ) );
-		if ( $this->target !== '' ) {
-			$userTitle = Title::makeTitleSafe( NS_USER, $this->target );
-			$this->target = $userTitle ? $userTitle->getText() : '';
+		$this->opts['target'] = trim( $request->getVal( 'cuSearch', $par ) );
+		if ( $this->opts['target'] !== '' ) {
+			$userTitle = Title::makeTitleSafe( NS_USER, $this->opts['target'] );
+			$this->opts['target'] = $userTitle ? $userTitle->getText() : '';
 		}
+
+		$this->opts['initiator'] = trim( $request->getVal( 'cuInitiator' ) );
+
+		// From SpecialContributions.php
+		$skip = $request->getText( 'offset' ) || $request->getText( 'dir' ) == 'prev';
+		# Offset overrides year/month selection
+		if ( !$skip ) {
+			$this->opts['year'] = $request->getIntOrNull( 'year' );
+			$this->opts['month'] = $request->getIntOrNull( 'month' );
+
+			$this->opts['start'] = $request->getVal( 'start' );
+			$this->opts['end'] = $request->getVal( 'end' );
+		}
+
+		$this->opts = ContribsPager::processDateFilter( $this->opts );
 
 		$this->addSubtitle();
 
-		$type = $request->getVal( 'cuSearchType', 'target' );
-
 		$this->displaySearchForm();
 
-		// Default to all log entries - we'll add conditions below if a target was provided
-		$searchConds = [];
+		$errorMessageKey = null;
 
-		if ( $this->target !== '' ) {
-			$searchConds = ( $type === 'initiator' )
-				? $this->getPerformerSearchConds()
-				: $this->getTargetSearchConds();
+		if ( $this->opts['target'] !== '' && $this->verifyTarget( $this->opts['target'] ) === false ) {
+			$errorMessageKey = 'checkuser-target-nonexistent';
+		}
+		if ( $this->opts['initiator'] !== '' && $this->verifyInitiator( $this->opts['initiator'] ) === false ) {
+			$errorMessageKey = 'checkuser-initiator-nonexistent';
 		}
 
-		if ( $searchConds === null ) {
+		if ( $errorMessageKey !== null ) {
 			// Invalid target was input so show an error message and stop from here
 			$out->addHTML(
 				Html::errorBox(
-					$out->msg( 'checkuser-user-nonexistent' )->parse()
+					$out->msg( $errorMessageKey )->parse()
 				)
 			);
 			return;
@@ -85,12 +106,9 @@ class SpecialCheckUserLog extends SpecialPage {
 
 		$pager = new LogPager(
 			$this->getContext(),
-			[
-				'queryConds' => $searchConds,
-				'year' => $request->getInt( 'year' ),
-				'month' => $request->getInt( 'month' ),
-			],
-			$this->linkBatchFactory
+			$this->opts,
+			$this->linkBatchFactory,
+			$this->commentStore
 		);
 
 		$out->addHTML(
@@ -116,9 +134,12 @@ class SpecialCheckUserLog extends SpecialPage {
 				),
 			];
 
-			if ( $this->target !== '' ) {
+			if ( $this->opts['target'] ) {
 				$links[] = $this->getLinkRenderer()->makeKnownLink(
-					SpecialPage::getTitleFor( 'CheckUser', $this->target ),
+					// The above if statement will evaluate NULL to false and thus this
+					// only runs if target is a string.
+					// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
+					SpecialPage::getTitleFor( 'CheckUser', $this->opts['target'] ),
 					$this->msg( 'checkuser-check-this-user' )->text()
 				);
 
@@ -126,7 +147,7 @@ class SpecialCheckUserLog extends SpecialPage {
 					SpecialPage::getTitleFor( 'Investigate' ),
 					$this->msg( 'checkuser-investigate-this-user' )->text(),
 					[],
-					[ 'targets' => $this->target ]
+					[ 'targets' => $this->opts['target'] ]
 				);
 			}
 
@@ -138,7 +159,6 @@ class SpecialCheckUserLog extends SpecialPage {
 	 * Use an HTMLForm to create and output the search form used on this page.
 	 */
 	protected function displaySearchForm() {
-		$request = $this->getRequest();
 		$fields = [
 			'target' => [
 				'type' => 'user',
@@ -148,28 +168,36 @@ class SpecialCheckUserLog extends SpecialPage {
 				'name' => 'cuSearch',
 				'size' => 40,
 				'label-message' => 'checkuser-log-search-target',
-				'default' => $this->target,
+				'default' => $this->opts['target'],
+				'id' => 'mw-target-user-or-ip'
 			],
-			'type' => [
-				'type' => 'radio',
-				'name' => 'cuSearchType',
-				'label-message' => 'checkuser-log-search-type',
-				'options-messages' => [
-					'checkuser-search-target' => 'target',
-					'checkuser-search-initiator' => 'initiator',
-				],
-				'flatlist' => true,
-				'default' => 'target',
+			'initiator' => [
+				'type' => 'user',
+				// validation in execute() currently
+				'exists' => false,
+				'ipallowed' => false,
+				'name' => 'cuInitiator',
+				'size' => 40,
+				'label-message' => 'checkuser-log-search-initiator',
+				'default' => $this->opts['initiator']
 			],
-			// @todo hack until HTMLFormField has a proper date selector
-			'monthyear' => [
-				'type' => 'info',
-				'default' => Xml::dateMenu( $request->getInt( 'year' ), $request->getInt( 'month' ) ),
-				'raw' => true,
+			'start' => [
+				'type' => 'date',
+				'default' => '',
+				'id' => 'mw-date-start',
+				'label' => $this->msg( 'date-range-from' )->text(),
+				'name' => 'start'
 			],
+			'end' => [
+				'type' => 'date',
+				'default' => '',
+				'id' => 'mw-date-end',
+				'label' => $this->msg( 'date-range-to' )->text(),
+				'name' => 'end'
+			]
 		];
 
-		$form = HTMLForm::factory( 'table', $fields, $this->getContext() );
+		$form = HTMLForm::factory( 'ooui', $fields, $this->getContext() );
 		$form->setMethod( 'get' )
 			->setWrapperLegendMsg( 'checkuser-search' )
 			->setSubmitTextMsg( 'checkuser-search-submit' )
@@ -178,57 +206,52 @@ class SpecialCheckUserLog extends SpecialPage {
 	}
 
 	/**
-	 * Get DB search conditions depending on the CU performer/initiator
-	 * Use this only for searches by 'initiator' type
+	 * Verify if the target is a valid IP, IP range or user.
 	 *
-	 * @return array|null array if valid target, null if invalid
+	 * If the target is a user then return the user's ID,
+	 * if the target is a valid IP address then return
+	 * the IP address in hexadecimal and if the target
+	 * is a valid IP range return the start and end
+	 * hexadecimal for that range. These are used
+	 * by LogPager.
+	 *
+	 * Otherwise return false for an invalid target.
+	 *
+	 * @param string $target
+	 * @return bool|int|array
 	 */
-	protected function getPerformerSearchConds() {
-		$initiator = User::newFromName( $this->target );
-		if ( $initiator && $initiator->getId() ) {
-			return [ 'cul_user' => $initiator->getId() ];
+	public static function verifyTarget( string $target ) {
+		list( $start, $end ) = IPUtils::parseRange( $target );
+
+		if ( $start !== false ) {
+			if ( $start === $end ) {
+				return [ $start ];
+			} else {
+				return [ $start, $end ];
+			}
+		} else {
+			$user = User::newFromName( $target );
+			if ( $user && $user->getId() ) {
+				return $user->getId();
+			}
 		}
-		return null;
+		return false;
 	}
 
 	/**
-	 * Get DB search conditions according to the CU target given.
+	 * Verify if the initiator is a valid user.
 	 *
-	 * @return array|null array if valid target, null if invalid target given
+	 * If it is return their ID otherwise return false.
+	 *
+	 * @param string $initiator
+	 * @return bool|int
 	 */
-	protected function getTargetSearchConds() {
-		list( $start, $end ) = IPUtils::parseRange( $this->target );
-		$conds = null;
-
-		if ( $start !== false ) {
-			$dbr = wfGetDB( DB_REPLICA );
-			if ( $start === $end ) {
-				// Single IP address
-				$conds = [
-					'cul_target_hex = ' . $dbr->addQuotes( $start ) . ' OR ' .
-					'(cul_range_end >= ' . $dbr->addQuotes( $start ) . ' AND ' .
-					'cul_range_start <= ' . $dbr->addQuotes( $start ) . ')'
-				];
-			} else {
-				// IP range
-				$conds = [
-					'(cul_target_hex >= ' . $dbr->addQuotes( $start ) . ' AND ' .
-					'cul_target_hex <= ' . $dbr->addQuotes( $end ) . ') OR ' .
-					'(cul_range_end >= ' . $dbr->addQuotes( $start ) . ' AND ' .
-					'cul_range_start <= ' . $dbr->addQuotes( $end ) . ')'
-				];
-			}
-		} else {
-			$user = User::newFromName( $this->target );
-			if ( $user && $user->getId() ) {
-				// Registered user
-				$conds = [
-					'cul_type' => [ 'userips', 'useredits', 'investigate' ],
-					'cul_target_id' => $user->getId(),
-				];
-			}
+	public static function verifyInitiator( string $initiator ) {
+		$initiatorObject = User::newFromName( $initiator );
+		if ( $initiatorObject && $initiatorObject->getId() ) {
+			return $initiatorObject->getId();
 		}
-		return $conds;
+		return false;
 	}
 
 	protected function getGroupName() {
