@@ -1,0 +1,15 @@
+.mw-checkuser-edits-count {
+	display: inline-block;
+
+	&:before {
+		content: '@{msg-brackets-start}';
+	}
+
+	&:after {
+		content: '@{msg-brackets-end}';
+	}
+}
+
+.mw-checkuser-links-no-parentheses > span:not( :first-child ):before {
+	content: ' @{msg-pipe-separator} ';
+}
