@@ -94,7 +94,7 @@
 	"checkuser-search-initiator": "l’initiateur",
 	"checkuser-search-target": "la cible",
 	"checkuser-log-search-target": "Cible :",
-	"checkuser-log-search-initiator": "Initiateur :",
+	"checkuser-log-search-initiator": "Initiateur :",
 	"checkuser-log-search-type": "Rechercher par :",
 	"checkuser-ipeditcount": "~$1 par tous les utilisateurs",
 	"checkuser-showmain": "Basculer vers le formulaire principal du vérificateur d’utilisateur",
