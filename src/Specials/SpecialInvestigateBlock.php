@@ -13,6 +13,7 @@ use MediaWiki\CheckUser\EventLogger;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserNameUtils;
+use PermissionsError;
 use TitleFormatter;
 use TitleValue;
 use User;
@@ -67,6 +68,21 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 	public function userCanExecute( User $user ) {
 		return parent::userCanExecute( $user ) &&
 			$this->permissionManager->userHasRight( $user, 'block' );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function checkPermissions() {
+		$user = $this->getUser();
+		if ( !parent::userCanExecute( $user ) ) {
+			$this->displayRestrictionError();
+		}
+
+		// User is a checkuser, but now to check for if they can block.
+		if ( !$this->permissionManager->userHasRight( $user, 'block' ) ) {
+			throw new PermissionsError( 'block' );
+		}
 	}
 
 	/**

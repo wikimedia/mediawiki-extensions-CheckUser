@@ -73,6 +73,7 @@ class Hooks {
 					'CheckUserEventLogger',
 					'CheckUserGuidedTourLauncher',
 					'CheckUserHookRunner',
+					'PermissionManager'
 				],
 			];
 
