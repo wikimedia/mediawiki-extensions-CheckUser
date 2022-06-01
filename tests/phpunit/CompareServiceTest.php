@@ -69,7 +69,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		$wdb->platform = new MySQLPlatform( new AddQuoterMock() );
 
 		$loadBalancer = $this->createMock( ILoadBalancer::class );
-		$loadBalancer->method( 'getConnectionRef' )
+		$loadBalancer->method( 'getConnection' )
 			->willReturn( $db );
 
 		$user = $this->createMock( UserIdentity::class );
@@ -222,10 +222,17 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 
 	public function testGetQueryInfoNoTargets() {
 		$this->expectException( \LogicException::class );
+		$db = $this->getMockBuilder( Database::class )
+			->disableOriginalConstructor()
+			->getMockForAbstractClass();
+
+		$loadBalancer = $this->createMock( ILoadBalancer::class );
+		$loadBalancer->method( 'getConnection' )
+			->willReturn( $db );
 
 		$compareService = new CompareService(
 			$this->createMock( ServiceOptions::class ),
-			$this->createMock( ILoadBalancer::class ),
+			$loadBalancer,
 			$this->createMock( UserIdentityLookup::class )
 		);
 
@@ -243,7 +250,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 			->will( $this->returnArgument( 0 ) );
 
 		$loadBalancer = $this->createMock( ILoadBalancer::class );
-		$loadBalancer->method( 'getConnectionRef' )
+		$loadBalancer->method( 'getConnection' )
 			->willReturn( $db );
 
 		$compareServcice = new CompareService(

@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser;
 
+use IDatabase;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\Rdbms\ILoadBalancer;
@@ -10,6 +11,9 @@ use Wikimedia\Rdbms\Subquery;
 class CompareService extends ChangeService {
 	/** @var ServiceOptions */
 	private $options;
+
+	/** @var ILoadBalancer */
+	private $loadBalancer;
 
 	/**
 	 * @internal For use by ServiceWiring
@@ -31,8 +35,13 @@ class CompareService extends ChangeService {
 		ILoadBalancer $loadBalancer,
 		UserIdentityLookup $userIdentityLookup
 	) {
-		parent::__construct( $loadBalancer, $userIdentityLookup );
+		parent::__construct(
+			$loadBalancer->getConnection( DB_REPLICA ),
+			$loadBalancer->getConnection( DB_REPLICA ),
+			$userIdentityLookup
+		);
 
+		$this->loadBalancer = $loadBalancer;
 		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 		$this->limit = $options->get( 'CheckUserInvestigateMaximumRowCount' );
 	}
@@ -48,14 +57,14 @@ class CompareService extends ChangeService {
 		string $ipHex,
 		string $excludeUser = null
 	): int {
-		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
+		$db = $this->loadBalancer->getConnection( DB_REPLICA );
 		$conds = [
 			'cuc_ip_hex' => $ipHex,
 			'cuc_type' => [ RC_EDIT, RC_NEW ],
 		];
 
 		if ( $excludeUser ) {
-			$conds[] = 'cuc_user_text != ' . $db->addQuotes( $excludeUser );
+			$conds[] = 'cuc_user_text != ' . $this->dbQuoter->addQuotes( $excludeUser );
 		}
 
 		return $db->selectRowCount( 'cu_changes', '*', $conds, __METHOD__ );
@@ -70,7 +79,7 @@ class CompareService extends ChangeService {
 	 * @return array
 	 */
 	public function getQueryInfo( array $targets, array $excludeTargets, string $start ): array {
-		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
+		$db = $this->loadBalancer->getConnection( DB_REPLICA );
 
 		if ( $targets === [] ) {
 			throw new \LogicException( 'Cannot get query info when $targets is empty.' );
@@ -95,7 +104,7 @@ class CompareService extends ChangeService {
 			}
 		}
 
-		$derivedTable = $db->unionQueries( $sqlText, $db::UNION_DISTINCT );
+		$derivedTable = $db->unionQueries( $sqlText, IDatabase::UNION_DISTINCT );
 
 		return [
 			'tables' => [ 'a' => new Subquery( $derivedTable ) ],
@@ -204,7 +213,7 @@ class CompareService extends ChangeService {
 			return $targets;
 		}
 
-		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
+		$db = $this->loadBalancer->getConnection( DB_REPLICA );
 
 		// If the database does not support order and limit on a UNION
 		// then none of the targets can be over the limit.

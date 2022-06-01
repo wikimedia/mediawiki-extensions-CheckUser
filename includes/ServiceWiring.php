@@ -49,7 +49,8 @@ return [
 	},
 	'CheckUserTimelineService' => static function ( MediaWikiServices $services ): TimelineService {
 		return new TimelineService(
-			$services->getDBLoadBalancer(),
+			$services->getDBLoadBalancer()->getConnection( DB_REPLICA ),
+			$services->getDBLoadBalancer()->getConnection( DB_REPLICA ),
 			$services->getUserIdentityLookup()
 		);
 	},

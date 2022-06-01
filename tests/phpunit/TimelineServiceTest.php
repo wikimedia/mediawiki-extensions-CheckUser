@@ -8,10 +8,7 @@ use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\IPUtils;
-use Wikimedia\Rdbms\Database;
-use Wikimedia\Rdbms\ILoadBalancer;
 use Wikimedia\Rdbms\Platform\SQLPlatform;
-use Wikimedia\TestingAccessWrapper;
 
 /**
  * @group CheckUser
@@ -23,18 +20,6 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideGetQueryInfo
 	 */
 	public function testGetQueryInfo( $targets, $start, $expected ) {
-		$db = $this->getMockBuilder( Database::class )
-			->disableOriginalConstructor()
-			->getMockForAbstractClass();
-		$db->method( 'strencode' )
-			->will( $this->returnArgument( 0 ) );
-		$wdb = TestingAccessWrapper::newFromObject( $db );
-		$wdb->platform = new SQLPlatform( new AddQuoterMock() );
-
-		$loadBalancer = $this->createMock( ILoadBalancer::class );
-		$loadBalancer->method( 'getConnectionRef' )
-			->willReturn( $db );
-
 		$user = $this->createMock( UserIdentity::class );
 		$user->method( 'getId' )
 			->willReturn( 11111 );
@@ -47,7 +32,11 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 				]
 			);
 
-		$timelineService = new TimelineService( $loadBalancer, $userIdentityLookup );
+		$timelineService = new TimelineService(
+			new AddQuoterMock(),
+			new SQLPlatform( new AddQuoterMock() ),
+			$userIdentityLookup
+		);
 
 		$q = $timelineService->getQueryInfo( $targets, [], $start );
 
