@@ -3,8 +3,10 @@
 namespace MediaWiki\CheckUser\Tests;
 
 use MediaWiki\CheckUser\Specials\SpecialCheckUser;
+use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWikiIntegrationTestCase;
-use ReflectionClass;
+use Wikimedia\TestingAccessWrapper;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * Test class for SpecialCheckUser class
@@ -16,6 +18,8 @@ use ReflectionClass;
  */
 class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 
+	use MockAuthorityTrait;
+
 	/**
 	 * @var int
 	 */
@@ -26,8 +30,8 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 	 */
 	private $lowerThanLimitIPv6;
 
-	public function __construct( $name = null, array $data = [], $dataName = '' ) {
-		parent::__construct( $name, $data, $dataName );
+	protected function setUp(): void {
+		parent::setUp();
 
 		$this->tablesUsed = array_merge(
 			$this->tablesUsed,
@@ -43,10 +47,6 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 				'cu_changes',
 			]
 		);
-	}
-
-	protected function setUp(): void {
-		parent::setUp();
 
 		$this->setMwGlobals( [
 			'wgCheckUserCIDRLimit' => [
@@ -58,6 +58,14 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 		$CIDRLimit = \RequestContext::getMain()->getConfig()->get( 'CheckUserCIDRLimit' );
 		$this->lowerThanLimitIPv4 = $CIDRLimit['IPv4'] - 1;
 		$this->lowerThanLimitIPv6 = $CIDRLimit['IPv6'] - 1;
+	}
+
+	/**
+	 * @return TestingAccessWrapper
+	 */
+	protected function setUpObject() {
+		$object = $this->getServiceContainer()->getSpecialPageFactory()->getPage( 'CheckUser' );
+		return TestingAccessWrapper::newFromObject( $object );
 	}
 
 	/**
@@ -106,7 +114,7 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideIsValidRange
 	 */
 	public function testIsValidRange( $target, $expected ) {
-		$this->assertEquals(
+		$this->assertSame(
 			$expected,
 			SpecialCheckUser::isValidRange( $target )
 		);
@@ -133,16 +141,11 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 	 */
 	public function testCheckReason( $config, $reason, $expected ) {
 		$this->setMwGlobals( 'wgCheckUserForceSummary', $config );
-		$class = new ReflectionClass( SpecialCheckUser::class );
-		$method = $class->getMethod( 'checkReason' );
-		$method->setAccessible( true );
-		$instance = $class->newInstanceWithoutConstructor();
-		$property = $class->getProperty( 'reason' );
-		$property->setAccessible( true );
-		$property->setValue( $instance, $reason );
-		$this->assertEquals(
+		$object = $this->setUpObject();
+		$object->reason = $expected;
+		$this->assertSame(
 			$expected,
-			$method->invoke( $instance )
+			$object->checkReason()
 		);
 	}
 
@@ -156,6 +159,56 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 			[ false, 'Test Reason', true ],
 			[ true, '', false ],
 			[ true, 'Test Reason', true ]
+		];
+	}
+
+	/**
+	 * @covers \MediaWiki\CheckUser\Specials\SpecialCheckUser::getTimeConds
+	 * @dataProvider provideGetTimeConds
+	 */
+	public function testGetTimeConds( $period, $fakeTime, $expected ) {
+		ConvertibleTimestamp::setFakeTime( $fakeTime );
+		$object = $this->setUpObject();
+		$this->assertSame(
+			$expected,
+			$object->getTimeConds( $period )
+		);
+	}
+
+	public function provideGetTimeConds() {
+		return [
+			'Empty period' => [ '', '1653047635', false ],
+			'Period value for all' => [ 0, '1653047635', false ],
+			'Period value for 7 days' => [ 7, '1653077137', "cuc_timestamp > '20220513000000'" ],
+			'Period value for 30 days' => [ 30, '1653047635', "cuc_timestamp > '20220420000000'" ],
+		];
+	}
+
+	/**
+	 * @covers \MediaWiki\CheckUser\Specials\SpecialCheckUser::userWasBlocked
+	 * @dataProvider provideUserWasBlocked
+	 */
+	public function testUserWasBlocked( $block ) {
+		$testUser = $this->getTestUser()->getUser();
+		if ( $block ) {
+			$userAuthority = $this->mockRegisteredUltimateAuthority();
+			$this->getServiceContainer()->getBlockUserFactory()->newBlockUser(
+				$testUser,
+				$userAuthority,
+				'1 second'
+			)->placeBlock();
+		}
+		$object = $this->setUpObject();
+		$this->assertSame(
+			$block,
+			$object->userWasBlocked( $testUser->getName() )
+		);
+	}
+
+	public function provideUserWasBlocked() {
+		return [
+			'User was previously blocked' => [ true ],
+			'User never previously blocked' => [ false ]
 		];
 	}
 }
