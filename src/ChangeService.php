@@ -4,25 +4,32 @@ namespace MediaWiki\CheckUser;
 
 use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\IPUtils;
+use Wikimedia\Rdbms\Database\DbQuoter;
 use Wikimedia\Rdbms\IDatabase;
-use Wikimedia\Rdbms\ILoadBalancer;
+use Wikimedia\Rdbms\Platform\ISQLPlatform;
 
 abstract class ChangeService {
-	/** @var ILoadBalancer */
-	protected $loadBalancer;
+	/** @var DbQuoter */
+	protected $dbQuoter;
+
+	/** @var ISQLPlatform */
+	protected $sqlPlatform;
 
 	/** @var UserIdentityLookup */
 	private $userIdentityLookup;
 
 	/**
-	 * @param ILoadBalancer $loadBalancer
+	 * @param DbQuoter $dbQuoter
+	 * @param ISQLPlatform $sqlPlatform
 	 * @param UserIdentityLookup $userIdentityLookup
 	 */
 	public function __construct(
-		ILoadBalancer $loadBalancer,
+		DbQuoter $dbQuoter,
+		ISQLPlatform $sqlPlatform,
 		UserIdentityLookup $userIdentityLookup
 	) {
-		$this->loadBalancer = $loadBalancer;
+		$this->dbQuoter = $dbQuoter;
+		$this->sqlPlatform = $sqlPlatform;
 		$this->userIdentityLookup = $userIdentityLookup;
 	}
 
@@ -34,15 +41,13 @@ abstract class ChangeService {
 	 * @return string[]
 	 */
 	protected function buildTargetCondsMultiple( array $targets ): array {
-		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
-
 		$condSet = array_map( function ( $target ) {
 			return $this->buildTargetConds( $target );
 		}, $targets );
 
 		if ( !$condSet ) {
 			return [
-				$db->addQuotes( false )
+				$this->dbQuoter->addQuotes( false )
 			];
 		}
 
@@ -50,12 +55,12 @@ abstract class ChangeService {
 
 		if ( !$conds ) {
 			return [
-				$db->addQuotes( false )
+				$this->dbQuoter->addQuotes( false )
 			];
 		}
 
 		return [
-			$db->makeList( $conds, IDatabase::LIST_OR ),
+			$this->sqlPlatform->makeList( $conds, IDatabase::LIST_OR ),
 		];
 	}
 
@@ -67,7 +72,6 @@ abstract class ChangeService {
 	 * @return string[]
 	 */
 	protected function buildTargetConds( $target ): array {
-		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
 		$conds = [];
 
 		if ( IPUtils::isIpAddress( $target ) ) {
@@ -75,9 +79,9 @@ abstract class ChangeService {
 				$conds['cuc_ip_hex'] = IPUtils::toHex( $target );
 			} elseif ( IPUtils::isValidRange( $target ) ) {
 				$range = IPUtils::parseRange( $target );
-				$conds[] = $db->makeList( [
-					'cuc_ip_hex >= ' . $db->addQuotes( $range[0] ),
-					'cuc_ip_hex <= ' . $db->addQuotes( $range[1] )
+				$conds[] = $this->sqlPlatform->makeList( [
+					'cuc_ip_hex >= ' . $this->dbQuoter->addQuotes( $range[0] ),
+					'cuc_ip_hex <= ' . $this->dbQuoter->addQuotes( $range[1] )
 				], IDatabase::LIST_AND );
 			}
 		} else {
@@ -101,8 +105,6 @@ abstract class ChangeService {
 	 */
 	protected function buildExcludeTargetsConds( array $targets ): array {
 		$conds = [];
-		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
-
 		$ipTargets = [];
 		$userTargets = [];
 
@@ -121,10 +123,10 @@ abstract class ChangeService {
 		}
 
 		if ( count( $ipTargets ) > 0 ) {
-			$conds[] = 'cuc_ip_hex NOT IN (' . $db->makeList( $ipTargets ) . ')';
+			$conds[] = 'cuc_ip_hex NOT IN (' . $this->sqlPlatform->makeList( $ipTargets ) . ')';
 		}
 		if ( count( $userTargets ) > 0 ) {
-			$conds[] = 'cuc_user NOT IN (' . $db->makeList( $userTargets ) . ')';
+			$conds[] = 'cuc_user NOT IN (' . $this->sqlPlatform->makeList( $userTargets ) . ')';
 		}
 
 		return $conds;
@@ -141,9 +143,8 @@ abstract class ChangeService {
 			return [];
 		}
 
-		$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
 		return [
-			'cuc_timestamp >= ' . $db->addQuotes( $start ),
+			'cuc_timestamp >= ' . $this->dbQuoter->addQuotes( $start ),
 		];
 	}
 }
