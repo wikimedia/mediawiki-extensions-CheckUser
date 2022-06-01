@@ -147,7 +147,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 		] );
 		// Add button link to the log page on the main form.
 		// Open in the current tab.
-		$this->addIndicators( /** $newTab */ false, /** $logOnly */ true );
+		$this->addIndicators( false );
 
 		return '';
 	}
@@ -184,7 +184,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 				$this->getOutput()->clearHTML();
 			}
 
-			$this->addIndicators();
+			$this->addIndicators( true );
 			$this->addBlockForm();
 			$this->addTabs( $par )->addTabContent( $par );
 			$this->getOutput()->addHTML( $this->getLayout() );
@@ -568,25 +568,25 @@ class SpecialInvestigate extends \FormSpecialPage {
 	/**
 	 * Add buttons to start a new investigation and linking to log page
 	 *
-	 * @param bool $newTab Whether to open the link in a new tab
-	 * @param bool $logOnly Whether to show only the log button
+	 * @param bool $onSubpage whether the current page is a subpage of Special:Investigate
+	 * 		(i.e. whether an investigation is currently happening).
 	 */
-	private function addIndicators( bool $newTab = true, bool $logOnly = false ) {
+	private function addIndicators( bool $onSubpage ) {
 		$canViewLogs = $this->permissionManager->userHasRight( $this->getUser(), 'checkuser-log' );
 		$buttons = [];
 		if ( $canViewLogs ) {
 			 $buttons[] = new ButtonWidget( [
 					'label' => $this->msg( 'checkuser-investigate-indicator-logs' )->text(),
 					'href' => self::getTitleFor( 'CheckUserLog' )->getLinkURL(),
-					'target' => $newTab ? '_blank' : '',
+					'target' => $onSubpage ? '_blank' : '',
 				] );
 		}
 
-		if ( !$logOnly ) {
+		if ( $onSubpage ) {
 			$buttons[] = new ButtonWidget( [
 				'label' => $this->msg( 'checkuser-investigate-indicator-new-investigation' )->text(),
 				'href' => $this->getPageTitle()->getLinkURL(),
-				'target' => $newTab ? '_blank' : '',
+				'target' => '_blank',
 			] );
 		}
 
