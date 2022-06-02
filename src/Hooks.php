@@ -698,7 +698,7 @@ class Hooks {
 			$links['checkuser'] = $linkRenderer->makeKnownLink(
 				SpecialPage::getTitleFor( 'CheckUser' ),
 				$sp->msg( 'checkuser-contribs' )->text(),
-				[],
+				[ 'class' => 'mw-contributions-link-check-user' ],
 				[ 'user' => $nt->getText() ]
 			);
 		}
@@ -706,7 +706,7 @@ class Hooks {
 			$links['checkuser-log'] = $linkRenderer->makeKnownLink(
 				SpecialPage::getTitleFor( 'CheckUserLog' ),
 				$sp->msg( 'checkuser-contribs-log' )->text(),
-				[],
+				[ 'class' => 'mw-contributions-link-check-user-log' ],
 				[
 					'cuSearchType' => 'target',
 					'cuSearch' => $nt->getText()
