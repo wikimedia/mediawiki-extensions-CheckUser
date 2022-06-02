@@ -1,5 +1,6 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
 use Wikimedia\IPUtils;
 
 $IP = getenv( 'MW_INSTALL_PATH' );
@@ -90,6 +91,8 @@ class ImportCheckUserLogs extends Maintenance {
 		$matched = 0;
 		$unmatched = 0;
 
+		$userFactory = MediaWikiServices::getInstance()->getUserFactory();
+
 		while ( ( $line = fgets( $file ) ) !== false ) {
 			$data = $this->parseLogLine( $line );
 			if ( $data ) {
@@ -99,11 +102,11 @@ class ImportCheckUserLogs extends Maintenance {
 				}
 
 				// Local wiki lookups...
-				$user = User::newFromName( $data['user'] );
+				$user = $userFactory->newFromName( $data['user'] );
 
 				list( $start, $end ) = IPUtils::parseRange( $data['target'] );
 				if ( $start === false ) {
-					$targetUser = User::newFromName( $data['target'] );
+					$targetUser = $userFactory->newFromName( $data['target'] );
 					$targetID = $targetUser ? $targetUser->getId() : 0;
 					$start = $end = $hex = '';
 				} else {

@@ -16,6 +16,7 @@ use MediaWiki\Extension\Renameuser\RenameuserSQL;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityValue;
+use MediaWiki\User\UserRigorOptions;
 use PopulateCheckUserTable;
 use RecentChange;
 use RequestContext;
@@ -189,12 +190,12 @@ class Hooks {
 			);
 		}
 
-		# On PG, MW unsets cur_id due to schema incompatibilites. So it may not be set!
+		# On PG, MW unsets cur_id due to schema incompatibilities. So it may not be set!
 		if ( isset( $attribs['rc_cur_id'] ) ) {
 			$rcRow['cuc_page_id'] = $attribs['rc_cur_id'];
 		}
 
-		\Hooks::run( 'CheckUserInsertForRecentChange', [ $rc, &$rcRow ] );
+		$services->getHookContainer()->run( 'CheckUserInsertForRecentChange', [ $rc, &$rcRow ] );
 
 		$dbw->insert( 'cu_changes', $rcRow, __METHOD__ );
 
@@ -282,8 +283,8 @@ class Hooks {
 			return true;
 		}
 
-		$userFrom = User::newFromName( $from->name );
-		$userTo = User::newFromName( $to->name );
+		$userFrom = $services->getUserFactory()->newFromName( $from->name );
+		$userTo = $services->getUserFactory()->newFromName( $to->name );
 		$hash = md5( $userTo->getEmail() . $userTo->getId() . $wgSecretKey );
 		// Get IP
 		$ip = $wgRequest->getIP();
@@ -426,15 +427,15 @@ class Hooks {
 			return;
 		}
 
+		$services = MediaWikiServices::getInstance();
+
 		if ( !$user ) {
-			$user = User::newFromName( $username, 'usable' );
+			$user = $services->getUserFactory()->newFromName( $username, UserRigorOptions::RIGOR_USABLE );
 		}
 
 		if ( !$user ) {
 			return;
 		}
-
-		$services = MediaWikiServices::getInstance();
 
 		if (
 			$wgCheckUserLogSuccessfulBotLogins !== true &&
@@ -521,7 +522,9 @@ class Hooks {
 		}
 
 		DeferredUpdates::addUpdate( new AutoCommitUpdate(
-			wfGetDB( DB_PRIMARY ),
+			MediaWikiServices::getInstance()
+				->getDBLoadBalancer()
+				->getMaintenanceConnectionRef( DB_PRIMARY ),
 			__METHOD__,
 			static function ( IDatabase $dbw, $fname ) {
 				global $wgCUDMaxAge;
@@ -753,7 +756,9 @@ class Hooks {
 	 * @return bool
 	 */
 	public static function doRetroactiveAutoblock( DatabaseBlock $block, array &$blockIds ) {
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = MediaWikiServices::getInstance()
+			->getDBLoadBalancer()
+			->getConnection( DB_REPLICA );
 
 		$userFactory = MediaWikiServices::getInstance()->getUserFactory();
 		$user = $userFactory->newFromName( $block->getTargetName(), UserFactory::RIGOR_NONE );

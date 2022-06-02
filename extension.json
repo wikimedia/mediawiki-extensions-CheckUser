@@ -87,7 +87,13 @@
 		}
 	},
 	"APIListModules": {
-		"checkuser": "MediaWiki\\CheckUser\\Api\\ApiQueryCheckUser",
+		"checkuser": {
+			"class": "MediaWiki\\CheckUser\\Api\\ApiQueryCheckUser",
+			"services": [
+				"UserIdentityLookup",
+				"RevisionLookup"
+			]
+		},
 		"checkuserlog": "MediaWiki\\CheckUser\\Api\\ApiQueryCheckUserLog"
 	},
 	"HookHandlers": {
