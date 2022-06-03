@@ -10,6 +10,7 @@ use ExtensionRegistry;
 use Hooks;
 use Html;
 use HtmlArmor;
+use HTMLForm;
 use Linker;
 use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\Block\DatabaseBlock;
@@ -114,11 +115,6 @@ class SpecialCheckUser extends SpecialPage {
 			throw new UserBlockedError( $block );
 		}
 
-		$out = $this->getOutput();
-		$out->addModules( [ 'ext.checkUser' ] );
-		$out->addModuleStyles( [
-			'ext.checkUser.styles',
-		] );
 		$request = $this->getRequest();
 		$user = $request->getText( 'user', $request->getText( 'ip', $subpage ) );
 		$user = trim( $user );
@@ -129,6 +125,7 @@ class SpecialCheckUser extends SpecialPage {
 		$userTitle = Title::makeTitleSafe( NS_USER, $user );
 		$user = $userTitle ? $userTitle->getText() : '';
 
+		$out = $this->getOutput();
 		if ( $permissionManager->userHasRight( $this->getUser(), 'checkuser-log' ) ) {
 			$subtitleLink = Html::rawElement(
 				'span',
@@ -227,7 +224,10 @@ class SpecialCheckUser extends SpecialPage {
 		// Add CIDR calculation convenience JS form
 		$this->addJsCIDRForm();
 		$out->addModules( 'ext.checkUser' );
-		$out->addModuleStyles( 'mediawiki.interface.helpers.styles' );
+		$out->addModuleStyles( [
+			'mediawiki.interface.helpers.styles',
+			'ext.checkUser.styles',
+		] );
 	}
 
 	protected function showIntroductoryText() {
@@ -250,83 +250,81 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param int $period
 	 */
 	protected function showForm( $user, $checktype, $ip, $xff, $name, $period ) {
-		$action = $this->getPageTitle()->getLocalURL();
 		// Fill in requested type if it makes sense
-		$encipusers = $encedits = $encuserips = false;
+		$ipAllowed = true;
 		if ( $checktype == 'subipusers' && ( $ip || $xff ) ) {
-			$encipusers = true;
+			$checkTypeValidated = $checktype;
+			$ipAllowed = false;
 		} elseif ( $checktype == 'subuserips' && $name ) {
-			$encuserips = true;
+			$checkTypeValidated = $checktype;
 		} elseif ( $checktype == 'subedits' ) {
-			$encedits = true;
+			$checkTypeValidated = $checktype;
 		// Defaults otherwise
 		} elseif ( $ip || $xff ) {
-			$encedits = true;
+			$checkTypeValidated = 'subedits';
 		} else {
-			$encuserips = true;
+			$checkTypeValidated = 'subipusers';
+			$ipAllowed = false;
 		}
 
-		$form = Xml::openElement( 'form', [ 'action' => $action,
-			'name' => 'checkuserform', 'id' => 'checkuserform', 'method' => 'post' ] );
-		$form .= '<fieldset><legend>' . $this->msg( 'checkuser-query' )->escaped() . '</legend>';
-		$form .= Xml::openElement( 'table', [ 'style' => 'border:0' ] );
-		$form .= '<tr>';
-		$form .= '<td>' . $this->msg( 'checkuser-target' )->escaped() . '</td>';
-		// User field should fit things like "2001:0db8:85a3:08d3:1319:8a2e:0370:7344/100/xff"
-		$form .= '<td>' . Xml::input( 'user', 46, $user, [ 'id' => 'checktarget' ] );
-		$form .= '&#160;' . $this->getPeriodMenu( $period ) . '</td>';
-		$form .= '</tr><tr>';
-		$form .= '<td></td>';
-		$form .= Xml::openElement( 'td', [ 'class' => 'checkuserradios' ] );
-		$form .= Xml::openElement( 'table', [ 'style' => 'border:0' ] );
-		$form .= '<tr>';
-		$form .= '<td>' .
-			Xml::radio( 'checktype', 'subuserips', $encuserips, [ 'id' => 'subuserips' ] );
-		$form .= ' ' . Xml::label( $this->msg( 'checkuser-ips' )->text(), 'subuserips' ) . '</td>';
-		$form .= '<td>' .
-			Xml::radio( 'checktype', 'subedits', $encedits, [ 'id' => 'subedits' ] );
-		$form .= ' ' . Xml::label( $this->msg( 'checkuser-edits' )->text(), 'subedits' ) . '</td>';
-		$form .= '<td>' .
-			Xml::radio( 'checktype', 'subipusers', $encipusers, [ 'id' => 'subipusers' ] );
-		$form .= ' ' .
-			Xml::label( $this->msg( 'checkuser-users' )->text(), 'subipusers' ) . '</td>';
-		$form .= '</tr>';
-		$form .= Xml::closeElement( 'table' );
-		$form .= Xml::closeElement( 'td' );
-		$form .= '</tr><tr>';
-		$form .= '<td>' . $this->msg( 'checkuser-reason' )->escaped() . '</td>';
-		$form .= '<td>' . Xml::input( 'reason', 46, $this->reason,
-			[ 'maxlength' => '150', 'id' => 'checkreason' ] );
-		$form .= '&#160; &#160;' . Xml::submitButton( $this->msg( 'checkuser-check' )->text(),
-			[ 'id' => 'checkusersubmit', 'name' => 'checkusersubmit' ] ) . '</td>';
-		$form .= '</tr>';
-		$form .= Xml::closeElement( 'table' );
-		$form .= '</fieldset>';
-		$form .= Html::hidden( 'wpEditToken', $this->getUser()->getEditToken() );
-		$form .= Xml::closeElement( 'form' );
+		$fields = [
+			'target' => [
+				'type' => 'user',
+				// validation in execute() currently
+				'exists' => false,
+				'ipallowed' => $ipAllowed,
+				'iprange' => $ipAllowed,
+				'name' => 'user',
+				'label-message' => 'checkuser-target',
+				'default' => $user,
+				'id' => 'checktarget',
+			],
+			'radiooptions' => [
+				'type' => 'radio',
+				'options-messages' => [
+					'checkuser-ips' => 'subuserips',
+					'checkuser-edits' => 'subedits',
+					'checkuser-users' => 'subipusers',
+				],
+				'id' => 'checkuserradios',
+				'default' => $checkTypeValidated,
+				'name' => 'checktype',
+				'flatlist' => true,
+			],
+			'period' => [
+				'type' => 'select',
+				'id' => 'period',
+				'label-message' => 'checkuser-period',
+				'options-messages' => [
+					'checkuser-week-1' => 7,
+					'checkuser-week-2' => 14,
+					'checkuser-month' => 30,
+					'checkuser-month-2' => 60,
+					'checkuser-all' => 0,
+				],
+				'default' => $period,
+				'name' => 'period',
+			],
+			'reason' => [
+				'type' => 'text',
+				'default' => $this->reason,
+				'label-message' => 'checkuser-reason',
+				'size' => 46,
+				'maxlength' => 150,
+				'id' => 'checkreason',
+				'name' => 'reason',
+			],
+		];
 
-		$this->getOutput()->addHTML( $form );
-	}
-
-	/**
-	 * Get a selector of time period options
-	 * @param int $selected Currently selected option
-	 * @return string
-	 */
-	protected function getPeriodMenu( $selected ) {
-		$s = '<label for="period">' .
-			$this->msg( 'checkuser-period' )->escaped() . '</label>&#160;';
-		$s .= Xml::openElement(
-			'select',
-			[ 'name' => 'period', 'id' => 'period', 'style' => 'margin-top:.2em;' ]
-		);
-		$s .= Xml::option( $this->msg( 'checkuser-week-1' )->text(), '7', $selected === 7 );
-		$s .= Xml::option( $this->msg( 'checkuser-week-2' )->text(), '14', $selected === 14 );
-		$s .= Xml::option( $this->msg( 'checkuser-month' )->text(), '30', $selected === 30 );
-		$s .= Xml::option( $this->msg( 'checkuser-month-2' )->text(), '60', $selected === 60 );
-		$s .= Xml::option( $this->msg( 'checkuser-all' )->text(), '0', $selected === 0 );
-		$s .= Xml::closeElement( 'select' ) . "\n";
-		return $s;
+		$form = HTMLForm::factory( 'ooui', $fields, $this->getContext() );
+		$form->setMethod( 'post' )
+			->setWrapperLegendMsg( 'checkuser-query' )
+			->setSubmitTextMsg( 'checkuser-check' )
+			->setId( 'checkuserform' )
+			->setSubmitId( 'checkusersubmit' )
+			->setSubmitName( 'checkusersubmit' )
+			->prepareForm()
+			->displayForm( false );
 	}
 
 	/**
