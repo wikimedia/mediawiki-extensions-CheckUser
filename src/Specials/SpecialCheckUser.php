@@ -18,6 +18,7 @@ use MediaWiki\CheckUser\Hooks as CUHooks;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Page\WikiPageFactory;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\User\CentralId\CentralIdLookupFactory;
 use MediaWiki\User\UserGroupManager;
@@ -39,7 +40,6 @@ use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\IResultWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
-use WikiPage;
 use WikitextContent;
 use Xml;
 
@@ -75,17 +75,22 @@ class SpecialCheckUser extends SpecialPage {
 	/** @var CentralIdLookup */
 	private $centralIdLookup;
 
+	/** @var WikiPageFactory */
+	private $wikiPageFactory;
+
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory
 	 * @param BlockPermissionCheckerFactory $blockPermissionCheckerFactory
 	 * @param UserGroupManager $userGroupManager
 	 * @param CentralIdLookupFactory $centralIdLookupFactory
+	 * @param WikiPageFactory $wikiPageFactory
 	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
 		BlockPermissionCheckerFactory $blockPermissionCheckerFactory,
 		UserGroupManager $userGroupManager,
-		CentralIdLookupFactory $centralIdLookupFactory
+		CentralIdLookupFactory $centralIdLookupFactory,
+		WikiPageFactory $wikiPageFactory
 	) {
 		parent::__construct( 'CheckUser', 'checkuser' );
 
@@ -94,6 +99,7 @@ class SpecialCheckUser extends SpecialPage {
 		$this->userGroupManager = $userGroupManager;
 		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
 		$this->centralIdLookup = $centralIdLookupFactory->getLookup();
+		$this->wikiPageFactory = $wikiPageFactory;
 	}
 
 	public function doesWrites() {
@@ -489,7 +495,7 @@ class SpecialCheckUser extends SpecialPage {
 	protected function tagPage( Title $title, $tag, $summary ) {
 		// Check length to avoid mistakes
 		if ( strlen( $tag ) > 2 ) {
-			$page = WikiPage::factory( $title );
+			$page = $this->wikiPageFactory->newFromTitle( $title );
 			$flags = 0;
 			if ( $page->exists() ) {
 				$flags |= EDIT_MINOR;

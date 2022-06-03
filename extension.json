@@ -238,7 +238,8 @@
 				"LinkBatchFactory",
 				"BlockPermissionCheckerFactory",
 				"UserGroupManager",
-				"CentralIdLookupFactory"
+				"CentralIdLookupFactory",
+				"WikiPageFactory"
 			]
 		},
 		"CheckUserLog": {
