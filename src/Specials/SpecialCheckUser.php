@@ -269,7 +269,7 @@ class SpecialCheckUser extends SpecialPage {
 		} elseif ( $ip || $xff ) {
 			$checkTypeValidated = 'subedits';
 		} else {
-			$checkTypeValidated = 'subipusers';
+			$checkTypeValidated = 'subuserips';
 			$ipAllowed = false;
 		}
 
