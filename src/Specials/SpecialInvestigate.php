@@ -490,11 +490,6 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * to avoid a flicker on page load.
 	 */
 	private function addBlockForm() {
-		if ( !$this->permissionManager->userHasRight( $this->getUser(), 'block' ) ) {
-			// Return early if the user does not have the block right
-			// as the form should only be shown to those with the block right.
-			return;
-		}
 		$targets = $this->getTokenData()['targets'] ?? [];
 		if ( $targets ) {
 			$excludeTargets = $this->getTokenData()['exclude-targets'] ?? [];
@@ -515,7 +510,8 @@ class SpecialInvestigate extends \FormSpecialPage {
 			$placeholderWidget = new Widget( [
 				'classes' => [ 'ext-checkuser-investigate-subtitle-placeholder-widget' ],
 			] );
-			$targetsLayout = new FieldLayout(
+			$items = [];
+			$items[] = new FieldLayout(
 				$placeholderWidget,
 				[
 					'label' => new HtmlSnippet( $subtitle->parse() ),
@@ -526,37 +522,35 @@ class SpecialInvestigate extends \FormSpecialPage {
 					]
 				]
 			);
-
-			$blockButton = new ButtonWidget( [
-				'infusable' => true,
-				'label' => $this->msg( 'checkuser-investigate-subtitle-block-button-label' )->text(),
-				'flags' => [ 'primary', 'progressive' ],
-				'classes' => [
-					'ext-checkuser-investigate-subtitle-block-button',
-				],
-			] );
-			$buttonsLayout = new FieldLayout(
-				new Widget( [
-					'content' => new HorizontalLayout( [
-						'items' => [
-							$blockButton,
-						]
-					] )
-				] ),
-				[
-					'align' => 'top',
+			if ( $this->permissionManager->userHasRight( $this->getUser(), 'block' ) ) {
+				$blockButton = new ButtonWidget( [
 					'infusable' => true,
-				]
-			);
+					'label' => $this->msg( 'checkuser-investigate-subtitle-block-button-label' )->text(),
+					'flags' => [ 'primary', 'progressive' ],
+					'classes' => [
+						'ext-checkuser-investigate-subtitle-block-button',
+					],
+				] );
+				$items[] = new FieldLayout(
+					new Widget( [
+						'content' => new HorizontalLayout( [
+							'items' => [
+								$blockButton,
+							]
+						] )
+					] ),
+					[
+						'align' => 'top',
+						'infusable' => true,
+					]
+				);
+			}
 
 			$blockFieldset = new FieldsetLayout( [
 				'classes' => [
 					'ext-checkuser-investigate-subtitle-fieldset'
 				],
-				'items' => [
-					$targetsLayout,
-					$buttonsLayout,
-				]
+				'items' => $items
 			] );
 
 			$this->getOutput()->prependHTML(
