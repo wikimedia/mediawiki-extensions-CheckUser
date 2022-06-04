@@ -6,5 +6,7 @@
 	} else if ( mw.config.get( 'wgCanonicalSpecialPageName' ) === 'CheckUser' ) {
 		require( './checkuser/cidr.js' );
 		require( './checkuser/caMultiLock.js' );
+	} else if ( mw.config.get( 'wgCanonicalSpecialPageName' ) === 'CheckUserLog' ) {
+		require( './checkuserlog/highlightScroll.js' );
 	}
 }() );
