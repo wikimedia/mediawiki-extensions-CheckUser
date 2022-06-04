@@ -17,7 +17,7 @@ use Wikimedia\IPUtils;
 
 class SpecialCheckUserLog extends SpecialPage {
 	/**
-	 * @var string[]|null[] an array of nullable string options.
+	 * @var array an array of nullable string or boolean options.
 	 */
 	protected $opts;
 
@@ -71,6 +71,10 @@ class SpecialCheckUserLog extends SpecialPage {
 		}
 
 		$this->opts['initiator'] = trim( $request->getVal( 'cuInitiator' ) );
+
+		$this->opts['reason'] = trim( $request->getVal( 'cuReasonSearch' ) );
+
+		$this->opts['wildcardSearch'] = $request->getBool( 'cuReasonWildcardSearch', false );
 
 		// From SpecialContributions.php
 		$skip = $request->getText( 'offset' ) || $request->getText( 'dir' ) == 'prev';
@@ -140,9 +144,6 @@ class SpecialCheckUserLog extends SpecialPage {
 
 			if ( $this->opts['target'] ) {
 				$links[] = $this->getLinkRenderer()->makeKnownLink(
-					// The above if statement will evaluate NULL to false and thus this
-					// only runs if target is a string.
-					// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
 					SpecialPage::getTitleFor( 'CheckUser', $this->opts['target'] ),
 					$this->msg( 'checkuser-check-this-user' )->text()
 				);
@@ -195,6 +196,23 @@ class SpecialCheckUserLog extends SpecialPage {
 				'label-message' => 'checkuser-log-search-initiator',
 				'default' => $this->opts['initiator']
 			],
+			'reason' => [
+				'type' => 'text',
+				'name' => 'cuReasonSearch',
+				'size' => 40,
+				'label-message' => 'checkuser-log-search-reason',
+				'default' => $this->opts['reason']
+			],
+		];
+		if ( $this->getConfig()->get( 'CheckUserLogEnableWildcardSearch' ) ) {
+			$fields['wildcardSearch'] = [
+				'type' => 'check',
+				'name' => 'cuReasonWildcardSearch',
+				'label-message' => 'checkuser-log-search-wildcard',
+				'default' => $this->opts['wildcardSearch']
+			];
+		}
+		$fields += [
 			'start' => [
 				'type' => 'date',
 				'default' => '',
@@ -208,7 +226,7 @@ class SpecialCheckUserLog extends SpecialPage {
 				'id' => 'mw-date-end',
 				'label' => $this->msg( 'date-range-to' )->text(),
 				'name' => 'end'
-			]
+			],
 		];
 
 		$form = HTMLForm::factory( 'ooui', $fields, $this->getContext() );

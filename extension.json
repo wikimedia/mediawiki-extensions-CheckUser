@@ -70,6 +70,10 @@
 			"value": [],
 			"description": "Additional rights to be used when adding CheckUser log entries"
 		},
+		"CheckUserLogEnableWildcardSearch": {
+			"value": false,
+			"description": "Whether wildcard search should be an option on the CheckUserLog page"
+		},
 		"CheckUserMaximumRowCount": {
 			"value": 5000,
 			"description": "Maximum number of rows in cu_changes to be used in any query"

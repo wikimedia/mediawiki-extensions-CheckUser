@@ -2240,8 +2240,23 @@ class SpecialCheckUser extends SpecialPage {
 		$fname = __METHOD__;
 
 		DeferredUpdates::addCallableUpdate(
-			static function () use ( $data, $timestamp, $fname ) {
+			static function () use ( $data, $timestamp, $fname, $reason ) {
 				$dbw = wfGetDB( DB_PRIMARY );
+				$dbr = wfGetDB( DB_REPLICA );
+				$title = Title::newFromText( 'Special:CheckUser' );
+				$plaintextReason = \ApiErrorFormatter::stripMarkup(
+					MediaWikiServices::getInstance()->getCommentFormatter()->formatBlock(
+						$reason, $title, false, false, false
+					)
+				);
+				if ( $dbr->fieldExists( 'cu_log', 'cul_reason_id' ) ) {
+					$data += MediaWikiServices::getInstance()->getCommentStore()
+						->insert( $dbw, 'cul_reason',  $reason );
+				}
+				if ( $dbr->fieldExists( 'cu_log', 'cul_reason_plaintext_id' ) ) {
+					$data += MediaWikiServices::getInstance()->getCommentStore()
+						->insert( $dbw, 'cul_reason_plaintext',  $plaintextReason );
+				}
 				$dbw->insert(
 					'cu_log',
 					[

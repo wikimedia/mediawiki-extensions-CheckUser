@@ -646,6 +646,19 @@ class Hooks {
 				'cuc_actor_ip_time',
 				"$base/$dbType/patch-cu_changes-actor-comment.sql"
 			);
+
+			// 1.39
+			$updater->addExtensionField(
+				'cu_log',
+				'cul_reason_id',
+				"$base/$dbType/patch-cu_log-cul_reason_id-addition.sql"
+			);
+
+			$updater->addExtensionField(
+				'cu_log',
+				'cul_reason_plaintext_id',
+				"$base/$dbType/patch-cu_log-cul_reason_plaintext_id-addition.sql"
+			);
 		} elseif ( $dbType === 'postgres' ) {
 			// 1.37
 			$updater->addExtensionUpdate( [ 'dropFkey', 'cu_log', 'cul_user' ] );
@@ -665,6 +678,14 @@ class Hooks {
 			);
 			$updater->addExtensionUpdate(
 				[ 'addPgIndex', 'cu_changes', 'cuc_actor_ip_time', '( cuc_actor, cuc_ip, cuc_timestamp )' ]
+			);
+
+			// 1.39
+			$updater->addExtensionUpdate(
+				[ 'addPgField', 'cu_log', 'cul_reason_id', 'INTEGER NULL DEFAULT NULL' ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'addPgField', 'cu_log', 'cul_reason_plaintext_id', 'INTEGER NULL DEFAULT NULL' ]
 			);
 		}
 
