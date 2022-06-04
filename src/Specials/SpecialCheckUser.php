@@ -22,6 +22,7 @@ use MediaWiki\Page\WikiPageFactory;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\User\CentralId\CentralIdLookupFactory;
 use MediaWiki\User\UserGroupManager;
+use Message;
 use OOUI\IconWidget;
 use Psr\Log\LoggerInterface;
 use RequestContext;
@@ -237,11 +238,14 @@ class SpecialCheckUser extends SpecialPage {
 	}
 
 	protected function showIntroductoryText() {
-		$cidrLimit = $this->getConfig()->get( 'CheckUserCIDRLimit' );
+		$config = $this->getConfig();
+		$cidrLimit = $config->get( 'CheckUserCIDRLimit' );
+		$maximumRowCount = $config->get( 'CheckUserMaximumRowCount' );
 		$this->getOutput()->addWikiMsg(
 			'checkuser-summary',
 			$cidrLimit['IPv4'],
-			$cidrLimit['IPv6']
+			$cidrLimit['IPv6'],
+			Message::numParam( $maximumRowCount )
 		);
 	}
 
