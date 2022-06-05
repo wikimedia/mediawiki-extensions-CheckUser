@@ -34,7 +34,7 @@
 			"Xiplus"
 		]
 	},
-	"checkuser-summary": "Explanation of CheckUser tool. See [[mw:Extension:CheckUser#Basic_interface|screenshot titled 'Basic CheckUser interface']].\n\nParameters:\n* $1 - an integer. default value: 16\n* $2 - an integer. default value: 32",
+	"checkuser-summary": "Explanation of CheckUser tool. See [[mw:Extension:CheckUser#Basic_interface|screenshot titled 'Basic CheckUser interface']].\n\nParameters:\n* $1 - an integer. default value: 16\n* $2 - an integer. default value: 32\n* $3 - the maximum number of results returned as set in the wiki global CheckUserMaximumRowCount. default value: 5000",
 	"checkuser-desc": "{{desc|name=Check User|url=https://www.mediawiki.org/wiki/Extension:CheckUser}}",
 	"checkuser": "Check user extension.\n{{doc-special|CheckUser}}\nIn the special page, checkusers can check the IP addresses of users.\n{{Identical|Check user}}",
 	"checkuserlog": "{{doc-special|CheckUserLog}}\nIn the special page, checkusers can look at a log of past checkuser actions.",
