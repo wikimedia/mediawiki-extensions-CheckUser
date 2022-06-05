@@ -134,9 +134,9 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 	protected function getExamplesMessages() {
 		return [
 			'action=query&list=checkuserlog&culuser=Example&cullimit=25'
-			=> 'apihelp-query+checkuserlog-example-1',
+				=> 'apihelp-query+checkuserlog-example-1',
 			'action=query&list=checkuserlog&cultarget=192.0.2.0/24&culfrom=2011-10-15T23:00:00Z'
-			=> 'apihelp-query+checkuserlog-example-2',
+				=> 'apihelp-query+checkuserlog-example-2',
 		];
 	}
 
