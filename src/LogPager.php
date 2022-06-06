@@ -55,13 +55,7 @@ class LogPager extends RangeChronologicalPager {
 			throw new \Exception( 'An invalid initiator or target was provided.' );
 		}
 
-		$reasonSearchConds = [];
-
-		if ( $opts['reason'] ) {
-			$reasonSearchConds = $this->getReasonSearchConds( $opts['reason'], $opts['wildcardSearch'] );
-		}
-
-		$this->searchConds = array_merge( $targetSearchConds, $initiatorSearchConds, $reasonSearchConds );
+		$this->searchConds = array_merge( $targetSearchConds, $initiatorSearchConds );
 
 		// Date filtering: use timestamp if available - From SpecialContributions.php
 		$startTimestamp = '';
@@ -103,20 +97,7 @@ class LogPager extends RangeChronologicalPager {
 				$lang->userTime( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser )
 			)
 		)->text();
-		if ( isset( $row->cul_reason_text ) ) {
-			// If the JOIN could be applied then use cul_reason_text.
-			$rowContent .= Linker::commentBlock(
-				$this->commentStore->getComment( 'cul_reason', $row )->text
-			);
-		} elseif ( isset( $row->cul_reason_id ) ) {
-			// If cul_reason_id is both set and not null, then use that over cul_reason.
-			$dbr = wfGetDB( DB_REPLICA );
-			$rowContent .= Linker::commentBlock(
-				$this->commentStore->getCommentLegacy( $dbr, 'cul_reason', $row )->text
-			);
-		} else {
-			$rowContent .= Linker::commentBlock( $row->cul_reason );
-		}
+		$rowContent .= Linker::commentBlock( $row->cul_reason );
 
 		$attribs = [
 			'data-mw-culogid' => $row->cul_id,
@@ -154,48 +135,11 @@ class LogPager extends RangeChronologicalPager {
 	}
 
 	public function getQueryInfo() {
-		$queryInfo = [
+		return [
 			'tables' => [ 'cu_log', 'user' ],
 			'fields' => $this->selectFields(),
-			'conds' => array_merge( $this->searchConds, [ 'user_id = cul_user' ] ),
-			'join_conds' => [],
+			'conds' => array_merge( $this->searchConds, [ 'user_id = cul_user' ] )
 		];
-		$dbr = wfGetDB( DB_REPLICA );
-		$fieldInfo = $dbr->fieldInfo( 'cu_log', 'cul_reason_id' );
-		if ( $fieldInfo !== false ) {
-			if ( !$fieldInfo->isNullable() ) {
-				// Only attempt to join if the field is not nullable
-				// While the field is still nullable there could be null entries
-				// which would cause the join to fail.
-				$reasonCommentStore = $this->commentStore->getJoin( 'cul_reason' );
-				$queryInfo['tables'] += $reasonCommentStore['tables'];
-				$queryInfo['fields'] += $reasonCommentStore['fields'];
-				$queryInfo['join_conds'] += $reasonCommentStore['joins'];
-			} else {
-				// cul_reason_id exists but could be null.
-				// Therefore select for both cul_reason_id and cul_reason while
-				// letting the code determine which to use. If cul_reason_id is used
-				// the code will fall back to getCommentLegacy().
-				$queryInfo['fields'][] = 'cul_reason_id';
-				$queryInfo['fields'][] = 'cul_reason';
-			}
-		} else {
-			// cul_reason_id does not exist therefore, the patch has not
-			// been applied and so just read from cul_reason.
-			$queryInfo['fields'][] = 'cul_reason';
-		}
-		$fieldInfo = $dbr->fieldInfo( 'cu_log', 'cul_reason_plaintext_id' );
-		if ( $fieldInfo !== false ) {
-			if ( !$fieldInfo->isNullable() ) {
-				$plaintextReasonCommentStore = $this->commentStore->getJoin( 'cul_reason_plaintext' );
-				$queryInfo['tables'] += $plaintextReasonCommentStore['tables'];
-				$queryInfo['fields'] += $plaintextReasonCommentStore['fields'];
-				$queryInfo['join_conds'] += $plaintextReasonCommentStore['joins'];
-			} else {
-				$queryInfo['fields'][] = 'cul_reason_plaintext_id';
-			}
-		}
-		return $queryInfo;
 	}
 
 	public function getIndexField() {
@@ -204,7 +148,7 @@ class LogPager extends RangeChronologicalPager {
 
 	public function selectFields() {
 		return [
-			'cul_id', 'cul_timestamp', 'cul_user', 'cul_type',
+			'cul_id', 'cul_timestamp', 'cul_user', 'cul_reason', 'cul_type',
 			'cul_target_id', 'cul_target_text', 'user_name'
 		];
 	}
@@ -280,39 +224,6 @@ class LogPager extends RangeChronologicalPager {
 			];
 		} else {
 			return null;
-		}
-	}
-
-	/**
-	 * @param string $reason The reason search string
-	 * @param bool $wildcardEnabled whether to use a wildcard.
-	 * @return array|string[]
-	 */
-	private function getReasonSearchConds( $reason, $wildcardEnabled ) {
-		if ( $reason ) {
-			$dbr = wfGetDB( DB_REPLICA );
-			$fieldReasonInfo = $dbr->fieldInfo( 'cu_log', 'cul_reason_id' );
-			$fieldReasonPlaintextInfo = $dbr->fieldInfo( 'cu_log', 'cul_reason_plaintext_id' );
-			$reasonFieldNames = [];
-			if ( $fieldReasonPlaintextInfo !== false && !$fieldReasonPlaintextInfo->isNullable() ) {
-				$reasonFieldNames[] = 'cul_reason_plaintext_text';
-			}
-			if ( $fieldReasonInfo !== false && !$fieldReasonInfo->isNullable() ) {
-				$reasonFieldNames[] = 'cul_reason_text';
-			} else {
-				$reasonFieldNames[] = 'cul_reason';
-			}
-			$returnConds = [];
-			foreach ( $reasonFieldNames as $fieldName ) {
-				if ( $wildcardEnabled && $this->getConfig()->get( 'CheckUserLogEnableWildcardSearch' ) ) {
-					$returnConds[] = $fieldName . $dbr->buildLike( $dbr->anyString(), $reason, $dbr->anyString() );
-				} else {
-					$returnConds[] = $fieldName . ' = ' . $dbr->addQuotes( $reason );
-				}
-			}
-			return [ implode( ' OR ', $returnConds ) ];
-		} else {
-			return [];
 		}
 	}
 }
