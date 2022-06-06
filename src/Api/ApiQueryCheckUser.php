@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser\Api;
 
-use ApiBase;
 use ApiQueryBase;
 use Exception;
 use MediaWiki\CheckUser\Specials\SpecialCheckUser;
@@ -11,6 +10,7 @@ use MediaWiki\Revision\RevisionRecord;
 use User;
 use Wikimedia\IPUtils;
 use Wikimedia\ParamValidator\ParamValidator;
+use Wikimedia\ParamValidator\TypeDef\IntegerDef;
 
 /**
  * CheckUser API Query Module
@@ -289,9 +289,9 @@ class ApiQueryCheckUser extends ApiQueryBase {
 			'limit'    => [
 				ParamValidator::PARAM_DEFAULT => 500,
 				ParamValidator::PARAM_TYPE => 'limit',
-				ApiBase::PARAM_MIN  => 1,
-				ApiBase::PARAM_MAX  => 500,
-				ApiBase::PARAM_MAX2 => $this->getConfig()->get( 'CheckUserMaximumRowCount' ),
+				IntegerDef::PARAM_MIN  => 1,
+				IntegerDef::PARAM_MAX  => 500,
+				IntegerDef::PARAM_MAX2 => $this->getConfig()->get( 'CheckUserMaximumRowCount' ),
 			],
 			'timecond' => [
 				ParamValidator::PARAM_DEFAULT => '-2 weeks'
