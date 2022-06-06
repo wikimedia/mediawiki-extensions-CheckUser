@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Ameisenigel",
 			"Brettchenweber",
 			"FF-11",
 			"FF11",
@@ -19,12 +20,13 @@
 			"Umherirrender"
 		]
 	},
-	"checkuser-summary": "Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers bzw. die Bearbeitungen/Benutzernamen für eine IP-Adresse zu ermitteln. Benutzer und Bearbeitungen einer IP-Adresse können auch nach Informationen aus den XFF-Headern abgefragt werden, indem der IP-Adresse ein „/xff“ angehängt wird. IPv4 (CIDR $1-32) und IPv6 (CIDR $2-128) werden unterstützt.\nZur Aufrechterhaltung der Leistungsfähigkeit werden maximal 5000 Bearbeitungen ausgegeben. Benutze CheckUser ausschließlich in Übereinstimmung mit den Datenschutzrichtlinien.",
+	"checkuser-summary": "Dieses Werkzeug durchsucht die letzten Änderungen, um die IP-Adressen eines Benutzers bzw. die Bearbeitungen/Benutzernamen für eine IP-Adresse zu ermitteln. Benutzer und Bearbeitungen einer IP-Adresse können auch nach Informationen aus den XFF-Headern abgefragt werden, indem der IP-Adresse ein „/xff“ angehängt wird. IPv4 (CIDR $1-32) und IPv6 (CIDR $2-128) werden unterstützt.\nZur Aufrechterhaltung der Leistungsfähigkeit werden maximal $3 Bearbeitungen ausgegeben. Benutze CheckUser ausschließlich in Übereinstimmung mit den Datenschutzrichtlinien.",
 	"checkuser-desc": "Ermöglicht die Überprüfung von IP-Adressen sowie weiterer Informationen von Benutzern",
 	"checkuser": "Checkuser",
 	"checkuserlog": "Checkuser-Logbuch",
 	"checkuser-contribs": "IP-Adressen des Benutzers prüfen",
 	"checkuser-contribs-log": "letzte Benutzerprüfungen",
+	"checkuser-contribs-log-initiator": "von diesem Benutzer durchgeführte Prüfungen",
 	"group-checkuser": "Checkuser-Berechtigte",
 	"group-checkuser-member": "{{GENDER:$1|Checkuser-Berechtigter|Checkuser-Berechtigte}}",
 	"right-checkuser": "IP-Adressen sowie Zusammenhänge zwischen IP-Adressen und angemeldeten Benutzern prüfen",
@@ -78,14 +80,16 @@
 	"checkuser-too-many": "Die Ergebnisliste ist zu lang (nach Schätzung der Abfrage). Bitte grenze den IP-Adressbereich weiter ein.\nEs folgen die benutzten IP-Adressen (maximal $1, sortiert nach Adresse):",
 	"checkuser-user-nonexistent": "Das angegebene Benutzerkonto ist nicht vorhanden.",
 	"checkuser-target-nonexistent": "Die angegebene Ziel existiert nicht.",
-	"checkuser-initiator-nonexistent": "Der angegebene Verursacher existiert nicht.",
+	"checkuser-initiator-nonexistent": "Der angegebene CheckUser-Berechtigte existiert nicht.",
 	"checkuser-search": "Einträge im Checkuser-Logbuch durchsuchen",
 	"checkuser-search-submit": "Suche",
 	"checkuser-search-initiator": "CheckUser-Berechtigter",
 	"checkuser-search-target": "Abfrageziel (Benutzerkonto/IP-Adresse)",
 	"checkuser-log-search-target": "Ziel:",
-	"checkuser-log-search-initiator": "Verursacher:",
+	"checkuser-log-search-initiator": "CheckUser-Berechtigter:",
+	"checkuser-log-search-reason": "Grund:",
 	"checkuser-log-search-type": "Suchen nach:",
+	"checkuser-log-search-wildcard": "Suche mit Wildcards",
 	"checkuser-ipeditcount": "~ $1 von allen Benutzern",
 	"checkuser-showmain": "Zum CheckUser-Hauptformular wechseln",
 	"checkuser-show-investigate": "Zum Hauptformular Untersuchung wechseln",
