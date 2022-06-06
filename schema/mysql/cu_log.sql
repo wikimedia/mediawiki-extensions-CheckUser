@@ -14,11 +14,6 @@ CREATE TABLE /*_*/cu_log (
 
   -- Reason given
   cul_reason varchar(255) binary not null,
-  -- The reason stored in the comment table
-  cul_reason_id bigint(20) unsigned null default null,
-  -- The plaintext version (wikitext stripped) of the reason
-  -- stored in the comment table which is used for searching.
-  cul_reason_plaintext_id bigint(20) unsigned null default null,
 
   -- String indicating the type of query, may be:
   -- "useredits", "userips", "ipedits", "ipusers", "ipedits-xff", "ipusers-xff"
