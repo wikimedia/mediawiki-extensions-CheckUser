@@ -492,11 +492,13 @@ class SpecialInvestigate extends \FormSpecialPage {
 	private function addBlockForm() {
 		$targets = $this->getTokenData()['targets'] ?? [];
 		if ( $targets ) {
+			$userCanBlock = $this->permissionManager->userHasRight( $this->getUser(), 'block' );
 			$excludeTargets = $this->getTokenData()['exclude-targets'] ?? [];
 
 			$this->getOutput()->addJsConfigVars( [
 				'wgCheckUserInvestigateTargets' => $targets,
 				'wgCheckUserInvestigateExcludeTargets' => $excludeTargets,
+				'wgCheckUserInvestigateCanBlock' => $userCanBlock,
 			] );
 
 			$targetsText = $this->getLanguage()->listToText( array_map( static function ( $target ) {
@@ -522,7 +524,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 					]
 				]
 			);
-			if ( $this->permissionManager->userHasRight( $this->getUser(), 'block' ) ) {
+			if ( $userCanBlock ) {
 				$blockButton = new ButtonWidget( [
 					'infusable' => true,
 					'label' => $this->msg( 'checkuser-investigate-subtitle-block-button-label' )->text(),
