@@ -15,6 +15,7 @@
 			"Sjoerddebruin",
 			"Trijnstel",
 			"Troefkaart",
+			"Vistaus",
 			"Xbaked potatox"
 		]
 	},
@@ -24,6 +25,7 @@
 	"checkuserlog": "Logboek controleren gebruikers",
 	"checkuser-contribs": "IP-adressen van gebruiker controleren",
 	"checkuser-contribs-log": "recente gebruikerscontroles",
+	"checkuser-contribs-log-initiator": "uitgevoerde gebruikerscontroles door deze gebruiker",
 	"group-checkuser": "controlegebruikers",
 	"group-checkuser-member": "{{GENDER:$1|controlegebruiker}}",
 	"right-checkuser": "IP-adressen en andere gegevens van gebruikers bekijken",
@@ -81,7 +83,9 @@
 	"checkuser-search-initiator": "aanvrager",
 	"checkuser-search-target": "onderwerp",
 	"checkuser-log-search-target": "Doel:",
+	"checkuser-log-search-reason": "Reden:",
 	"checkuser-log-search-type": "Zoeken op:",
+	"checkuser-log-search-wildcard": "Zoeken met behulp van jokertekens",
 	"checkuser-ipeditcount": "~$1 van alle gebruikers",
 	"checkuser-showmain": "Naar het hoofdformulier van GebruikerControleren gaan",
 	"checkuser-show-investigate": "Overschakelen naar hoofdformulier Onderzoeken",

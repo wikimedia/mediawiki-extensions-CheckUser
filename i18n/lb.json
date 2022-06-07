@@ -69,6 +69,7 @@
 	"checkuser-search-initiator": "Initiator",
 	"checkuser-search-target": "Zil",
 	"checkuser-log-search-target": "Zil:",
+	"checkuser-log-search-reason": "Grond:",
 	"checkuser-log-search-type": "Sichen no:",
 	"checkuser-ipeditcount": "~$1 vun alle Benotzer",
 	"checkuser-showmain": "Op den Haaptformulaire vun CheckUser wiesselen",

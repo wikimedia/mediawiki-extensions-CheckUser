@@ -96,6 +96,7 @@
 	"checkuser-search-initiator": "調査実行者",
 	"checkuser-search-target": "調査対象者",
 	"checkuser-log-search-target": "利用者名:",
+	"checkuser-log-search-reason": "理由:",
 	"checkuser-log-search-type": "検索:",
 	"checkuser-ipeditcount": "全利用者による編集 ～$1回",
 	"checkuser-showmain": "利用者調査のメインフォームに切り替え",
