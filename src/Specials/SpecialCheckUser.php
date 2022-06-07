@@ -341,13 +341,39 @@ class SpecialCheckUser extends SpecialPage {
 	 * Make a quick JS form for admins to calculate block ranges
 	 */
 	protected function addJsCIDRForm() {
-		$s = '<fieldset id="mw-checkuser-cidrform" style="display:none; clear:both;">' .
-			'<legend>' . $this->msg( 'checkuser-cidr-label' )->escaped() . '</legend>';
-		$s .= '<textarea id="mw-checkuser-iplist" dir="ltr" rows="5" cols="50"></textarea><br />';
-		$s .= $this->msg( 'checkuser-cidr-res' )->escaped() . '&#160;' .
-			Xml::input( 'mw-checkuser-cidr-res', 35, '', [ 'id' => 'mw-checkuser-cidr-res' ] ) .
-			'&#160;<strong id="mw-checkuser-ipnote"></strong>';
-		$s .= '</fieldset>';
+		$fields = [
+			'iplist' => [
+				'type' => 'textarea',
+				'dir' => 'ltr',
+				'rows' => 5,
+				'id' => 'mw-checkuser-iplist',
+			],
+			'ipresult' => [
+				'type' => 'text',
+				'size' => 35,
+				'label-message' => 'checkuser-cidr-res',
+				'id' => 'mw-checkuser-cidr-res',
+				'name' => 'mw-checkuser-cidr-res',
+			],
+			'ipnote' => [
+				'type' => 'info',
+				'id' => 'mw-checkuser-ipnote',
+			]
+		];
+		$fieldset = new HTMLFieldsetCheckUser( $fields, $this->getContext(), '' );
+		$s = $fieldset->setWrapperLegendMsg( 'checkuser-cidr-label' )
+			->prepareForm()
+			->suppressDefaultSubmit( true )
+			->getHTML( false );
+		$s = Html::rawElement(
+			'span',
+			[
+				'class' => [ 'mw-htmlform', 'mw-htmlform-ooui' ],
+				'id' => 'mw-checkuser-cidrform',
+				'style' => 'display:none;'
+			],
+			$s
+		);
 		$this->getOutput()->addHTML( $s );
 	}
 
@@ -1468,7 +1494,21 @@ class SpecialCheckUser extends SpecialPage {
 		$canPerformBlocks = $permissionManager->userHasRight( $this->getUser(), 'block' )
 			&& !$this->getUser()->getBlock();
 
-		$s = '<div id="checkuserresults"><ul>';
+		$fieldset = new HTMLFieldsetCheckUser( [], $this->getContext(), '' );
+		$s = '';
+		if ( $canPerformBlocks ) {
+			$s .= Xml::openElement(
+				'form',
+				[
+					'action' => $this->getPageTitle()->getLocalURL( 'action=block' ),
+					'id' => 'checkuserblock',
+					'name' => 'checkuserblock',
+					'class' => 'mw-htmlform-ooui mw-htmlform',
+					'method' => 'post',
+				]
+			);
+		}
+		$s .= '<div id="checkuserresults"><ul>';
 		foreach ( $users_edits as $name => $count ) {
 			$s .= '<li>';
 			if ( $canPerformBlocks ) {
@@ -1655,99 +1695,124 @@ class SpecialCheckUser extends SpecialPage {
 		}
 		$s .= "</ul></div>\n";
 		if ( $canPerformBlocks ) {
-			$s .= $this->getBlockForm( $tag, $talkTag );
-			$s .= Html::hidden( 'wpEditToken', $this->getUser()->getEditToken() );
-			$s = Html::rawElement(
-				'form',
-				[
-					"id" => "checkuserblock",
-					"name" => "checkuserblock",
-					"action" => $this->getPageTitle()->getLocalURL( 'action=block' ),
-					"method" => "post"
+			$config = $this->getConfig();
+			$checkUserCAMultiLock = $config->get( 'CheckUserCAMultiLock' );
+			if ( $checkUserCAMultiLock !== false ) {
+				if ( !ExtensionRegistry::getInstance()->isLoaded( 'CentralAuth' ) ) {
+					// $wgCheckUserCAMultiLock shouldn't be enabled if CA is not loaded
+					throw new Exception( '$wgCheckUserCAMultiLock requires CentralAuth extension.' );
+				}
+
+				$caUserGroups = CentralAuthUser::getInstance( $this->getUser() )->getGlobalGroups();
+				// Only load the script for users in the configured global group(s)
+				if ( count( array_intersect( $checkUserCAMultiLock['groups'], $caUserGroups ) ) ) {
+					$out = $this->getOutput();
+					$centralMLUrl = WikiMap::getForeignURL(
+						$checkUserCAMultiLock['centralDB'],
+						// Use canonical name instead of local name so that it works
+						// even if the local language is different from central wiki
+						'Special:MultiLock'
+					);
+					if ( $centralMLUrl === false ) {
+						throw new Exception(
+							"Could not retrieve URL for {$checkUserCAMultiLock['centralDB']}"
+						);
+					}
+					$out->addJsConfigVars( 'wgCUCAMultiLockCentral', $centralMLUrl );
+					$out->addModules( 'ext.checkUser' );
+				}
+			}
+
+			$fields = [
+				'usetag' => [
+					'type' => 'check',
+					'default' => false,
+					'label-message' => 'checkuser-blocktag',
+					'id' => 'usetag',
+					'name' => 'usetag',
+					'size' => 46,
 				],
-				$s
-			);
+				'tag' => [
+					'type' => 'text',
+					'id' => 'tag',
+					'name' => 'tag',
+				],
+				'talkusetag' => [
+					'type' => 'check',
+					'default' => false,
+					'label-message' => 'checkuser-blocktag-talk',
+					'id' => 'usettag',
+					'name' => 'usettag',
+				],
+				'talktag' => [
+					'type' => 'text',
+					'id' => 'talktag',
+					'name' => 'talktag',
+					'size' => 46,
+				],
+			];
+
+			$fieldset->addFields( $fields )
+				->setWrapperLegendMsg( 'checkuser-massblock' )
+				->setSubmitTextMsg( 'checkuser-massblock-commit' )
+				->setSubmitId( 'checkuserblocksubmit' )
+				->setSubmitName( 'checkuserblock' )
+				->setHeaderHtml( $this->msg( 'checkuser-massblock-text' )->text() );
+
+			if ( $config->get( 'BlockAllowsUTEdit' ) ) {
+				$fieldset->addFields( [
+					'blocktalk' => [
+						'type' => 'check',
+						'default' => false,
+						'label-message' => 'checkuser-blocktalk',
+						'id' => 'blocktalk',
+						'name' => 'blocktalk',
+					]
+				] );
+			}
+
+			if (
+				$this->blockPermissionCheckerFactory
+					->newBlockPermissionChecker(
+						null,
+						$this->getUser()
+					)
+					->checkEmailPermissions()
+			) {
+				$fieldset->addFields( [
+					'blockemail' => [
+						'type' => 'check',
+						'default' => false,
+						'label-message' => 'checkuser-blockemail',
+						'id' => 'blockemail',
+						'name' => 'blockemail',
+					]
+				] );
+			}
+
+			$s .= $fieldset
+				->addFields( [
+					'reblock' => [
+						'type' => 'check',
+						'default' => false,
+						'label-message' => 'checkuser-reblock',
+						'id' => 'reblock',
+						'name' => 'reblock',
+					],
+					'reason' => [
+						'type' => 'text',
+						'label-message' => 'checkuser-reason',
+						'size' => 46,
+						'maxlength' => 150,
+						'id' => 'blockreason',
+						'name' => 'blockreason',
+					],
+				] )
+				->prepareForm()
+				->getHtml( false );
+			$s .= '</form>';
 		}
 		$out->addHTML( $s );
-	}
-
-	/**
-	 * @param string $tag
-	 * @param string $talkTag
-	 * @return string
-	 */
-	protected function getBlockForm( $tag, $talkTag ) {
-		$config = $this->getConfig();
-		$checkUserCAMultiLock = $config->get( 'CheckUserCAMultiLock' );
-		if ( $checkUserCAMultiLock !== false ) {
-			if ( !ExtensionRegistry::getInstance()->isLoaded( 'CentralAuth' ) ) {
-				// $wgCheckUserCAMultiLock shouldn't be enabled if CA is not loaded
-				throw new Exception( '$wgCheckUserCAMultiLock requires CentralAuth extension.' );
-			}
-
-			$caUserGroups = CentralAuthUser::getInstance( $this->getUser() )->getGlobalGroups();
-			// Only load the script for users in the configured global group(s)
-			if ( count( array_intersect( $checkUserCAMultiLock['groups'], $caUserGroups ) ) ) {
-				$out = $this->getOutput();
-				$centralMLUrl = WikiMap::getForeignURL(
-					$checkUserCAMultiLock['centralDB'],
-					// Use canonical name instead of local name so that it works
-					// even if the local language is different from central wiki
-					'Special:MultiLock'
-				);
-				if ( $centralMLUrl === false ) {
-					throw new Exception(
-						"Could not retrieve URL for {$checkUserCAMultiLock['centralDB']}"
-					);
-				}
-				$out->addJsConfigVars( 'wgCUCAMultiLockCentral', $centralMLUrl );
-				$out->addModules( 'ext.checkUser' );
-			}
-		}
-
-		$s = "<fieldset>\n";
-		$s .= '<legend>' . $this->msg( 'checkuser-massblock' )->escaped() . "</legend>\n";
-		$s .= $this->msg( 'checkuser-massblock-text' )->parseAsBlock() . "\n";
-		$s .= '<table><tr>' .
-			'<td>' . Xml::check( 'usetag', false, [ 'id' => 'usetag' ] ) . '</td>' .
-			'<td>' . Xml::label( $this->msg( 'checkuser-blocktag' )->text(), 'usetag' ) .
-			'</td>' .
-			'<td>' . Xml::input( 'tag', 46, $tag, [ 'id' => 'blocktag' ] ) . '</td>' .
-			'</tr><tr>' .
-			'<td>' . Xml::check( 'usettag', false, [ 'id' => 'usettag' ] ) . '</td>' .
-			'<td>' . Xml::label( $this->msg( 'checkuser-blocktag-talk' )->text(), 'usettag' ) .
-			'</td>' .
-			'<td>' . Xml::input( 'talktag', 46, $talkTag, [ 'id' => 'talktag' ] ) . '</td>';
-		if ( $config->get( 'BlockAllowsUTEdit' ) ) {
-			$s .= '</tr><tr>' .
-				'<td>' . Xml::check( 'blocktalk', false, [ 'id' => 'blocktalk' ] ) . '</td>' .
-				'<td>' . Xml::label( $this->msg( 'checkuser-blocktalk' )->text(), 'blocktalk' ) .
-				'</td>';
-		}
-		if (
-			$this->blockPermissionCheckerFactory
-				->newBlockPermissionChecker(
-					null,
-					$this->getUser()
-				)
-				->checkEmailPermissions()
-		) {
-			$s .= '</tr><tr>' .
-				'<td>' . Xml::check( 'blockemail', false, [ 'id' => 'blockemail' ] ) . '</td>' .
-				'<td>' . Xml::label( $this->msg( 'checkuser-blockemail' )->text(), 'blockemail' )
-				. '</td>';
-		}
-		$s .= '<tr><td>' . Xml::check( 'reblock', false, [ 'id' => 'reblock' ] ) . '</td>';
-		$s .= '<td>' . Xml::label( $this->msg( 'checkuser-reblock' )->text(), 'reblock' )
-			. '</td></tr>';
-		$s .= '</tr></table>';
-		$s .= '<p>' . $this->msg( 'checkuser-reason' )->escaped() . '&#160;';
-		$s .= Xml::input( 'blockreason', 46, '', [ 'maxlength' => '150', 'id' => 'blockreason' ] );
-		$s .= '&#160;' . Xml::submitButton( $this->msg( 'checkuser-massblock-commit' )->text(),
-			[ 'id' => 'checkuserblocksubmit', 'name' => 'checkuserblock' ] ) . "</p>\n";
-		$s .= "</fieldset>\n";
-
-		return $s;
 	}
 
 	/**
