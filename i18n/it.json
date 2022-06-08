@@ -87,7 +87,6 @@
 	"checkuser-search-initiator": "richiedente",
 	"checkuser-search-target": "obiettivo",
 	"checkuser-log-search-target": "Obiettivo:",
-	"checkuser-log-search-reason": "Motivo:",
 	"checkuser-log-search-type": "Ricerca per:",
 	"checkuser-ipeditcount": "~$1 da tutti gli utenti",
 	"checkuser-showmain": "Passa al modulo principale CheckUser",

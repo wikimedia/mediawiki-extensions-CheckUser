@@ -19,7 +19,7 @@
 			"Xbaked potatox"
 		]
 	},
-	"checkuser-summary": "Dit hulpmiddel bekijkt recente wijzigingen om IP-adressen die een gebruiker heeft gebruikt te achterhalen of geeft de bewerkings- en gebruikersgegegevens weer voor een IP-adres.\nGebruikers en bewerkingen van een IP-adres van een client kunnen achterhaald worden via XFF-headers door \"/xff\" achter het IP-adres toe te voegen. IPv4 (CIDR $1-32) en IPv6 (CIDR $2-128) worden ondersteund.\nOm prestatieredenen worden niet meer dan 5.000 bewerkingen weergegeven.\nGebruik dit hulpmiddel volgens het vastgestelde beleid.",
+	"checkuser-summary": "Dit hulpmiddel doorzoekt de recente wijzigingen om de IP-adressen van een gebruiker te achterhalen, of om voor een IP-adres de bewerkings- en gebruikersgegegevens weer te geven.\nDe met een bepaald IP-adres in verband staande gebruikers en bewerkingen kunnen via XFF-headers achterhaald worden door \"/xff\" achter het IP-adres toe te voegen. Daarbij worden zowel IPv4 (CIDR $1-32) als IPv6 (CIDR $2-128) ondersteund.\nOm prestatieredenen worden niet meer dan $3 bewerkingen weergegeven.\nGebruik dit hulpmiddel alleen in overeenstemming met het vastgestelde beleid.",
 	"checkuser-desc": "Laat bevoegde gebruikers IP-adressen en andere gegevens van gebruikers achterhalen",
 	"checkuser": "Gebruiker controleren",
 	"checkuserlog": "Logboek controleren gebruikers",
@@ -83,9 +83,7 @@
 	"checkuser-search-initiator": "aanvrager",
 	"checkuser-search-target": "onderwerp",
 	"checkuser-log-search-target": "Doel:",
-	"checkuser-log-search-reason": "Reden:",
 	"checkuser-log-search-type": "Zoeken op:",
-	"checkuser-log-search-wildcard": "Zoeken met behulp van jokertekens",
 	"checkuser-ipeditcount": "~$1 van alle gebruikers",
 	"checkuser-showmain": "Naar het hoofdformulier van GebruikerControleren gaan",
 	"checkuser-show-investigate": "Overschakelen naar hoofdformulier Onderzoeken",
