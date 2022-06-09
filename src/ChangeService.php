@@ -133,7 +133,7 @@ abstract class ChangeService {
 	}
 
 	/**
-	 * Build conditions for the start timeestamp.
+	 * Build conditions for the start timestamp.
 	 *
 	 * @param string $start timestamp
 	 * @return array conditions

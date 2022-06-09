@@ -26,10 +26,16 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 		$this->requireExtension( 'CheckUser' );
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	protected function getUpdateKey() {
 		return __CLASS__;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	protected function doDBUpdates() {
 		$db = $this->getDB( DB_PRIMARY );
 
@@ -63,7 +69,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 		$blockEnd = $start + $this->mBatchSize - 1;
 
 		$this->output(
-			"Starting poulation of cu_changes with recentchanges rc_id from $start to $end\n"
+			"Starting population of cu_changes with recentchanges rc_id from $start to $end\n"
 		);
 
 		$services = MediaWikiServices::getInstance();
@@ -71,7 +77,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 
 		$actorMigrationStage = $services->getMainConfig()->get( 'CheckUserActorMigrationStage' );
 
-		$commentStore = CommentStore::getStore();
+		$commentStore = $services->getCommentStore();
 		$rcQuery = RecentChange::getQueryInfo();
 		$contLang = $services->getContentLanguage();
 

@@ -97,6 +97,9 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		$result->addIndexedTagName( [ 'query', $this->getModuleName(), 'entries' ], 'entry' );
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function getAllowedParams() {
 		return [
 			'user'   => null,
@@ -141,6 +144,9 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		];
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function getHelpUrls() {
 		return 'https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:CheckUser#API';
 	}

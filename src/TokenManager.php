@@ -43,7 +43,7 @@ class TokenManager {
 				// Expiration Time https://tools.ietf.org/html/rfc7519#section-4.1.4
 				// 24 hours from now
 				'exp' => \MWTimestamp::time() + 86400,
-				// Encrypt the form data to pevent it from being leaked.
+				// Encrypt the form data to prevent it from being leaked.
 				'data' => $this->encrypt( $data, $this->getInitializationVector( $key ) ),
 			],
 			$this->getSigningKey( $key ),

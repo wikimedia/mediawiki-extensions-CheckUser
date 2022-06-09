@@ -171,7 +171,7 @@ class TimelinePager extends ReverseChronologicalPager {
 	}
 
 	/**
-	 * Get the formatted result list, with naviation bars.
+	 * Get the formatted result list, with navigation bars.
 	 *
 	 * @return ParserOutput
 	 */
