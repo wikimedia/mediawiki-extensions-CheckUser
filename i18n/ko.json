@@ -106,7 +106,7 @@
 	"group-checkuser.css": "/* 이 CSS 설정은 검사관에만 적용됩니다 */",
 	"group-checkuser.js": "/* 이 자바스크립트 설정은 검사관에만 적용됩니다 */",
 	"checkuser-link-investigate-label": "새로운 검사관 도구 써 보기",
-	"checkuser-investigateblock": "사용자 차단",
+	"checkuser-investigateblock": "사용자 차단하기",
 	"checkuser-investigateblock-target": "계정 이름과 IP 주소",
 	"checkuser-investigateblock-actions": "차단할 행위",
 	"checkuser-investigateblock-reason": "이유",
