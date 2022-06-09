@@ -623,14 +623,7 @@ class Hooks {
 		$dbType = $updater->getDB()->getType();
 		$isCUInstalled = $updater->tableExists( 'cu_changes' );
 
-		if ( $dbType === 'sqlite' ) {
-			// TODO: This can be removed when CheckUser uses abstract schema and SQLite specific files exist
-			$updater->addExtensionTable( 'cu_changes', "$base/mysql/cu_changes.sql" );
-			$updater->addExtensionTable( 'cu_log', "$base/mysql/cu_log.sql" );
-		} else {
-			$updater->addExtensionTable( 'cu_changes', "$base/$dbType/cu_changes.sql" );
-			$updater->addExtensionTable( 'cu_log', "$base/$dbType/cu_log.sql" );
-		}
+		$updater->addExtensionTable( 'cu_changes', "$base/$dbType/tables-generated.sql" );
 
 		if ( $dbType === 'mysql' ) {
 			// 1.35
@@ -672,6 +665,79 @@ class Hooks {
 			);
 			$updater->addExtensionUpdate(
 				[ 'addPgIndex', 'cu_changes', 'cuc_actor_ip_time', '( cuc_actor, cuc_ip, cuc_timestamp )' ]
+			);
+
+			// 1.39
+			$updater->addExtensionIndex( 'cu_changes', 'cu_changes_pkey', "$base/$dbType/patch-cu_changes-pk.sql" );
+			$updater->addExtensionUpdate(
+				[ 'changeField', 'cu_changes', 'cuc_namespace', 'INT', 'cuc_namespace::INT DEFAULT 0' ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'changeNullableField', 'cu_changes', 'cuc_user', 'NOT NULL', true ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'changeField', 'cu_changes', 'cuc_user_text', 'VARCHAR(255)', '' ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'setDefault', 'cu_changes', 'cuc_user_text', '' ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'changeField', 'cu_changes', 'cuc_actor', 'BIGINT', 'cuc_actor::BIGINT DEFAULT 0' ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'changeField', 'cu_changes', 'cuc_comment_id', 'BIGINT', 'cuc_comment_id::BIGINT DEFAULT 0' ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'changeField', 'cu_changes', 'cuc_minor', 'SMALLINT', 'cuc_minor::SMALLINT DEFAULT 0' ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'changeNullableField', 'cu_changes', 'cuc_page_id', 'NOT NULL', true ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'setDefault', 'cu_changes', 'cuc_page_id', 0 ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'changeNullableField', 'cu_changes', 'cuc_timestamp', 'NOT NULL', true ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'changeField', 'cu_changes', 'cuc_ip', 'VARCHAR(255)', '' ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'setDefault', 'cu_changes', 'cuc_ip', '' ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'changeField', 'cu_changes', 'cuc_ip_hex', 'VARCHAR(255)', '' ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'setDefault', 'cu_changes', 'cuc_xff', '' ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'changeField', 'cu_changes', 'cuc_xff_hex', 'VARCHAR(255)', '' ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'changeField', 'cu_changes', 'cuc_private', 'TEXT', '' ]
+			);
+			$updater->addExtensionIndex( 'cu_log', 'cu_log_pkey', "$base/$dbType/patch-cu_log-pk.sql" );
+			$updater->addExtensionUpdate(
+				[ 'changeNullableField', 'cu_log', 'cul_timestamp', 'NOT NULL', true ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'changeNullableField', 'cu_log', 'cul_user', 'NOT NULL', true ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'dropDefault', 'cu_log', 'cul_reason' ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'dropDefault', 'cu_log', 'cul_type' ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'changeNullableField', 'cu_log', 'cul_target_id', 'NOT NULL', true ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'setDefault', 'cu_log', 'cul_target_id', 0 ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'dropDefault', 'cu_log', 'cul_target_text' ]
 			);
 		}
 
