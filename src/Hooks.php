@@ -646,6 +646,13 @@ class Hooks {
 				'cuc_timestamp',
 				"$base/$dbType/patch-cu_changes-cuc_timestamp.sql"
 			);
+		} elseif ( $dbType === 'sqlite' ) {
+			// 1.39
+			$updater->addExtensionIndex(
+				'cu_changes',
+				'cuc_actor_ip_time',
+				"$base/$dbType/patch-cu_changes-actor-comment.sql"
+			);
 		} elseif ( $dbType === 'postgres' ) {
 			// 1.37
 			$updater->addExtensionUpdate( [ 'dropFkey', 'cu_log', 'cul_user' ] );
