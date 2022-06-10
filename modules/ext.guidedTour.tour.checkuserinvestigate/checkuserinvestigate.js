@@ -2,8 +2,6 @@
  * Special:Invesitgate guided tour
  */
 ( function ( gt ) {
-	var tour;
-
 	if ( mw.config.get( 'wgCanonicalSpecialPageName' ) !== 'Investigate' ) {
 		return;
 	}
@@ -12,7 +10,11 @@
 		return;
 	}
 
-	tour = new gt.TourBuilder( {
+	var canBlock = mw.config.get( 'wgCheckUserInvestigateCanBlock' );
+	var canCopy = mw.config.get( 'wgVisualEditorConfig' ) &&
+		mw.config.get( 'wgVisualEditorConfig' ).fullRestbaseUrl;
+
+	var tour = new gt.TourBuilder( {
 		name: 'checkuserinvestigate',
 		shouldLog: true,
 		isSinglePage: false
@@ -79,10 +81,18 @@
 		autoFocus: false,
 		overlay: true,
 		onShow: handleIpTargetOnShow,
-		onHide: handleIpTargetOnHide
+		onHide: handleIpTargetOnHide,
+		buttons: [
+			{
+				action: 'back'
+			},
+			{
+				action: ( canCopy || canBlock ) ? 'next' : 'end'
+			}
+		]
 	} )
 		.back( 'addusertargets' )
-		.next( 'block' );
+		.next( canBlock ? 'block' : 'copywikitext' );
 
 	tour.step( {
 		name: 'block',
@@ -97,8 +107,7 @@
 				action: 'back'
 			},
 			{
-				// If the copy button is not present, end the tour.
-				action: $( '.ext-checkuser-investigate-copy-button' ).length ? 'next' : 'end'
+				action: canCopy ? 'next' : 'end'
 			}
 		]
 	} )
@@ -122,6 +131,6 @@
 			}
 		]
 	} )
-		.back( 'block' );
+		.back( canBlock ? 'block' : 'filterip' );
 
 }( mw.guidedTour ) );
