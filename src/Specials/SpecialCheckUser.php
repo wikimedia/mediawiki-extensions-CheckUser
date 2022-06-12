@@ -1051,7 +1051,7 @@ class SpecialCheckUser extends SpecialPage {
 					'strong',
 					[ 'class' => 'mw-checkuser-edits-count' ],
 					htmlspecialchars( $lang->formatNum( $row->count ) )
-				) . '\n'
+				) . "\n"
 			);
 			++$counter;
 		}
