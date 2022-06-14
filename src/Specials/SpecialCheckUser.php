@@ -299,6 +299,7 @@ class SpecialCheckUser extends SpecialPage {
 				'id' => 'checkuserradios',
 				'default' => $checkTypeValidated,
 				'name' => 'checktype',
+				'nodata' => 'yes',
 				'flatlist' => true,
 			],
 			'period' => [
