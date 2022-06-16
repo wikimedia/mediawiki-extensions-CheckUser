@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests;
 
+use HashConfig;
 use MediaWiki\CheckUser\Specials\SpecialCheckUser;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWikiIntegrationTestCase;
@@ -209,6 +210,67 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 		return [
 			'User was previously blocked' => [ true ],
 			'User never previously blocked' => [ false ]
+		];
+	}
+
+	/**
+	 * @dataProvider provideRequiredGroupAccess
+	 */
+	public function testRequiredRightsByGroup( $groups, $allowed ) {
+		$checkUserLog = $this->getServiceContainer()->getSpecialPageFactory()
+			->getPage( 'CheckUser' );
+		if ( $checkUserLog === null ) {
+			$this->fail( 'CheckUser special page does not exist' );
+		}
+		$requiredRight = $checkUserLog->getRestriction();
+		if ( !is_array( $groups ) ) {
+			$groups = [ $groups ];
+		}
+		$rightsGivenInGroups = $this->getServiceContainer()->getGroupPermissionsLookup()
+			->getGroupPermissions( $groups );
+		if ( $allowed ) {
+			$this->assertContains(
+				$requiredRight,
+				$rightsGivenInGroups,
+				'Groups/rights given to the test user should allow it to access CheckUser.'
+			);
+		} else {
+			$this->assertNotContains(
+				$requiredRight,
+				$rightsGivenInGroups,
+				'Groups/rights given to the test user should not include access to CheckUser.'
+			);
+		}
+	}
+
+	public function provideRequiredGroupAccess() {
+		return [
+			'No user groups' => [ '', false ],
+			'Checkuser only' => [ 'checkuser', true ],
+			'Checkuser and sysop' => [ [ 'checkuser', 'sysop' ], true ],
+		];
+	}
+
+	/**
+	 * @dataProvider provideRequiredRights
+	 */
+	public function testRequiredRights( $groups, $allowed ) {
+		if ( ( is_array( $groups ) && isset( $groups['checkuser-log'] ) ) || $groups === "checkuser-log" ) {
+			$this->overrideMwServices(
+				new HashConfig(
+					[ 'GroupPermissions' =>
+						[ 'checkuser-log' => [ 'checkuser-log' => true, 'read' => true ] ]
+					]
+				)
+			);
+		}
+		$this->testRequiredRightsByGroup( $groups, $allowed );
+	}
+
+	public function provideRequiredRights() {
+		return [
+			'No user groups' => [ '', false ],
+			'checkuser right only' => [ 'checkuser', true ],
 		];
 	}
 }
