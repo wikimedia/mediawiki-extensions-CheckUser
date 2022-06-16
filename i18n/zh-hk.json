@@ -3,6 +3,7 @@
 		"authors": [
 			"A2093064",
 			"Liuxinyu970226",
+			"LuciferianThomas",
 			"Xiplus",
 			"星海"
 		]
@@ -12,7 +13,7 @@
 	"group-checkuser": "用戶查核員",
 	"group-checkuser-member": "{{GENDER:$1|用戶查核員}}",
 	"grouppage-checkuser": "{{ns:project}}:用戶查核員",
-	"checkuser-target": "IP 位址或用戶名稱：",
+	"checkuser-target": "IP位址或用戶名：",
 	"checkuser-users": "查詢用戶",
 	"checkuser-block-success": "'''{{PLURAL:$2|用戶}} $1 {{PLURAL:$2|已被}}查封。'''",
 	"checkuser-block-failure": "'''沒有用戶被禁封。'''",
