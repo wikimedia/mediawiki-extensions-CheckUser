@@ -414,8 +414,8 @@ class Hooks {
 
 	/**
 	 * @param AuthenticationResponse $ret
-	 * @param User $user
-	 * @param string $username
+	 * @param User|null $user
+	 * @param string|null $username
 	 */
 	public static function onAuthManagerLoginAuthenticateAudit(
 		AuthenticationResponse $ret, $user, $username
@@ -428,7 +428,7 @@ class Hooks {
 
 		$services = MediaWikiServices::getInstance();
 
-		if ( !$user ) {
+		if ( !$user && $username !== null ) {
 			$user = $services->getUserFactory()->newFromName( $username, UserRigorOptions::RIGOR_USABLE );
 		}
 
