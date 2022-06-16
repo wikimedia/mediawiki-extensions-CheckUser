@@ -350,7 +350,7 @@ class SpecialCheckUser extends SpecialPage {
 				'id' => 'mw-checkuser-iplist',
 			],
 			'ipresult' => [
-				'type' => 'text',
+				'class' => HTMLTextFieldNoDisabledStyling::class,
 				'size' => 35,
 				'label-message' => 'checkuser-cidr-res',
 				'id' => 'mw-checkuser-cidr-res',
