@@ -95,13 +95,12 @@ class LogPager extends RangeChronologicalPager {
 		) {
 			$dateAndTimeClasses[] = 'mw-checkuser-log-highlight-entry';
 		}
-		// If the CU log search has a specified target, initiator or reason
-		// then provide a link to this log entry without the current filtering
+		// If the CU log search has a specified target or initiator then
+		// provide a link to this log entry without the current filtering
 		// for these values.
 		if (
 			$this->opts['target'] ||
-			$this->opts['initiator'] ||
-			$this->opts['reason']
+			$this->opts['initiator']
 		) {
 			return $this->getLinkRenderer()->makeLink(
 				SpecialPage::getTitleFor( 'CheckUserLog' ),
