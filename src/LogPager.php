@@ -9,6 +9,7 @@ use Linker;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\Specials\SpecialCheckUserLog;
 use RangeChronologicalPager;
+use SpecialPage;
 use Wikimedia\Rdbms\IResultWrapper;
 
 class LogPager extends RangeChronologicalPager {
@@ -72,7 +73,18 @@ class LogPager extends RangeChronologicalPager {
 	}
 
 	public function formatRow( $row ) {
-		$user = Linker::userLink( $row->cul_user, $row->user_name );
+		$user = Linker::userLink( $row->cul_user, $row->user_name ) .
+			$this->msg( 'word-separator' )->escaped()
+			. Html::rawElement( 'span', [ 'classes' => 'mw-usertoollinks' ],
+				$this->msg( 'parentheses' )->params( $this->getLinkRenderer()->makeLink(
+					SpecialPage::getTitleFor( 'CheckUserLog' ),
+					$this->msg( 'checkuser-log-checks-by' )->text(),
+					[],
+					[
+						'cuInitiator' => $row->user_name,
+					]
+				) )->text()
+			);
 
 		$target = Linker::userLink( $row->cul_target_id, $row->cul_target_text ) .
 			Linker::userToolLinks( $row->cul_target_id, trim( $row->cul_target_text ) );

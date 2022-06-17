@@ -112,6 +112,7 @@
 		"PerformRetroactiveAutoblock": "MediaWiki\\CheckUser\\Hooks::doRetroactiveAutoblock",
 		"AuthManagerLoginAuthenticateAudit": "MediaWiki\\CheckUser\\Hooks::onAuthManagerLoginAuthenticateAudit",
 		"SpecialPage_initList": "MediaWiki\\CheckUser\\Hooks::onSpecialPage_initList",
+		"UserToolLinksEdit": "MediaWiki\\CheckUser\\Hooks::onUserToolLinksEdit",
 		"GetPreferences": "preferences"
 	},
 	"MessagesDirs": {

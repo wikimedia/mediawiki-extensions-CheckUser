@@ -896,4 +896,19 @@ class Hooks {
 
 		return true;
 	}
+
+	public static function onUserToolLinksEdit( $userId, $userText, array &$items ) {
+		$requestTitle = RequestContext::getMain()->getTitle();
+		if (
+			$requestTitle !== null &&
+			$requestTitle->inNamespace( NS_SPECIAL ) &&
+			MediaWikiServices::getInstance()->getSpecialPageFactory()->
+				resolveAlias( $requestTitle->getText() )[0] === 'CheckUserLog'
+		) {
+			$items[] = MediaWikiServices::getInstance()->getLinkRenderer()->makeLink(
+				SpecialPage::getTitleFor( 'CheckUserLog', $userText ),
+				wfMessage( 'checkuser-log-checks-on' )->text()
+			);
+		}
+	}
 }

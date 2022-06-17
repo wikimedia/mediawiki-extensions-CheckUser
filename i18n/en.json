@@ -44,6 +44,8 @@
 	"checkuser-investigate-this-user": "Investigate this user",
 	"checkuser-recent-checks": "Recent checks for this user",
 	"checkuser-log-fail": "Unable to add log entry",
+	"checkuser-log-checks-by": "checks by",
+	"checkuser-log-checks-on": "checks on",
 	"checkuser-blocked": "Blocked",
 	"checkuser-gblocked": "Blocked globally",
 	"checkuser-locked": "Locked",
