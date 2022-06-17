@@ -9,6 +9,7 @@ use Linker;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\Specials\SpecialCheckUserLog;
 use RangeChronologicalPager;
+use SpecialPage;
 use Wikimedia\Rdbms\IResultWrapper;
 
 class LogPager extends RangeChronologicalPager {
@@ -22,6 +23,11 @@ class LogPager extends RangeChronologicalPager {
 
 	/** @var CommentStore */
 	private $commentStore;
+
+	/**
+	 * @var array
+	 */
+	private $opts;
 
 	/**
 	 * @param IContextSource $context
@@ -69,6 +75,54 @@ class LogPager extends RangeChronologicalPager {
 		$this->getDateRangeCond( $startTimestamp, $endTimestamp );
 		$this->linkBatchFactory = $linkBatchFactory;
 		$this->commentStore = $commentStore;
+		$this->opts = $opts;
+	}
+
+	/**
+	 * If appropriate, generate a link that wraps around the provided date, time, or
+	 * date and time. The date and time is escaped by this function.
+	 *
+	 * @param string $dateAndTime The string representation of the date, time or date and time.
+	 * @param array|\stdClass $row The current row being formatted in formatRow().
+	 * @return string|null The date and time wrapped in a link if appropriate.
+	 */
+	protected function generateTimestampLink( string $dateAndTime, $row ) {
+		$highlight = $this->getRequest()->getVal( 'highlight' );
+		// Add appropriate classes to the date and time.
+		$dateAndTimeClasses = [];
+		if (
+			$highlight === strval( $row->cul_timestamp )
+		) {
+			$dateAndTimeClasses[] = 'mw-checkuser-log-highlight-entry';
+		}
+		// If the CU log search has a specified target, initiator or reason
+		// then provide a link to this log entry without the current filtering
+		// for these values.
+		if (
+			$this->opts['target'] ||
+			$this->opts['initiator'] ||
+			$this->opts['reason']
+		) {
+			return $this->getLinkRenderer()->makeLink(
+				SpecialPage::getTitleFor( 'CheckUserLog' ),
+				$dateAndTime,
+				[
+					'class' => $dateAndTimeClasses,
+				],
+				[
+					'offset' => $row->cul_timestamp + 3600,
+					'highlight' => $row->cul_timestamp,
+				]
+			);
+		} elseif ( $dateAndTimeClasses ) {
+			return Html::element(
+				'span',
+				[ 'class' => $dateAndTimeClasses ],
+				$dateAndTime
+			);
+		} else {
+			return htmlspecialchars( $dateAndTime );
+		}
 	}
 
 	public function formatRow( $row ) {
@@ -87,14 +141,19 @@ class LogPager extends RangeChronologicalPager {
 			'checkuser-log-entry-' . $row->cul_type,
 			$user,
 			$target,
-			htmlspecialchars(
-				$lang->userTimeAndDate( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser )
+			$this->generateTimestampLink(
+				$lang->userTimeAndDate(
+					wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser
+				),
+				$row
 			),
-			htmlspecialchars(
-				$lang->userDate( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser )
+			$this->generateTimestampLink(
+				$lang->userDate( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser ),
+				$row
 			),
-			htmlspecialchars(
-				$lang->userTime( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser )
+			$this->generateTimestampLink(
+				$lang->userTime( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser ),
+				$row
 			)
 		)->text();
 		$rowContent .= Linker::commentBlock( $row->cul_reason );

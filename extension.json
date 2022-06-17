@@ -135,6 +135,7 @@
 				"dispatcher.js",
 				"checkuser/cidr.js",
 				"checkuser/caMultiLock.js",
+				"checkuserlog/highlightScroll.js",
 				"investigateblock/investigateblock.js",
 				"investigate/init.js",
 				"investigate/tables.js",
