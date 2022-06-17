@@ -90,7 +90,7 @@
 	"checkuser-email-action": "sent an email to user \"$1\"",
 	"checkuser-reset-action": "reset password for user \"$1\"",
 	"checkuser-userlinks-ip": "(<span class=\"plainlinks\">[https://www.robtex.com/whois/$1.html WHOIS/RDNS]</span>)",
-	"checkuser-toollinks": "<span class=\"plainlinks\">[[https://www.robtex.com/whois/$1.html WHOIS/RDNS] ·\n[https://www.robtex.com/rbls/$1.html RBLs] ·\n[http://www.dnsstuff.com/tools/tracert.ch?ip=$1 Traceroute] ·\n[https://www.ip2location.com/$1 Geolocate] ·\n[https://www.dan.me.uk/torcheck?ip=$1 Tor check]]</span>",
+	"checkuser-toollinks": "<span class=\"plainlinks\">[[https://www.robtex.com/whois/$1.html WHOIS/RDNS] ·\n[https://www.robtex.com/rbls/$1.html RBLs] ·\n[http://www.dnsstuff.com/tools/tracert.ch?ip=$1 Traceroute] ·\n[https://www.ip2location.com/$1 Geolocate]]</span>",
 	"checkuser-token-fail": "Session failure. Please try again.",
 	"checkuser-login-failure": "Failed to log in to {{SITENAME}} as $1",
 	"checkuser-login-success": "Successfully logged in to {{SITENAME}} as $1",
