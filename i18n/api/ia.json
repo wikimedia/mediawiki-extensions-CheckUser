@@ -25,5 +25,6 @@
 	"apihelp-query+checkuserlog-example-2": "Monstrar verificationes de 192.0.2.0/24 post 2011-10-15T23:00:00Z",
 	"apierror-checkuser-missingsummary": "Tu debe scriber un motivo pro verificar.",
 	"apierror-checkuser-timelimit": "Tu debe usar un limite de tempore correcte (in anglese, como \"-2 weeks\" or \"2 weeks ago\").",
-	"apierror-checkuser-invalidmode": "Modo de requesta invalide"
+	"apierror-checkuser-invalidmode": "Modo de requesta invalide",
+	"checkuser-api-help-param-direction": "In qual direction enumerar:\n;newer:Listar le plus vetules primo. Nota: $1from debe esser ante $1to.\n;older:Listar le plus noves primo (option predefinite). Nota: $1from debe esser post $1to."
 }

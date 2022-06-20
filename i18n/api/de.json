@@ -29,5 +29,6 @@
 	"apihelp-query+checkuserlog-example-2": "Zeigt Überprüfungen von 192.0.2.0/24 nach 2011-10-15T23:00:00Z",
 	"apierror-checkuser-missingsummary": "Du musst zur Überprüfung einen Grund angeben.",
 	"apierror-checkuser-timelimit": "Du musst das korrekte Zeitlimit verwenden (wie „-2 weeks“ oder „2 weeks ago“).",
-	"apierror-checkuser-invalidmode": "Ungültiger Abfragemodus"
+	"apierror-checkuser-invalidmode": "Ungültiger Abfragemodus",
+	"checkuser-api-help-param-direction": "In welcher Richtung soll aufgezählt werden:\n;newer:Älteste zuerst auflisten. Hinweis: $1from muss vor $1to sein.\n;older:Neueste zuerst auflisten (Standard). Hinweis: $1from muss nach $1to sein."
 }
