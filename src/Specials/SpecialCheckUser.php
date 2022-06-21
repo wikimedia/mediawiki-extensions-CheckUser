@@ -179,7 +179,7 @@ class SpecialCheckUser extends SpecialPage {
 		$period = $request->getInt( 'period' );
 		$users = $request->getArray( 'users' );
 		$tag = $request->getBool( 'usetag' ) ?
-			trim( $request->getVal( 'tag' ) ) : '';
+			trim( $request->getVal( 'blocktag' ) ) : '';
 		$talkTag = $request->getBool( 'usettag' ) ?
 			trim( $request->getVal( 'talktag' ) ) : '';
 
@@ -1735,8 +1735,8 @@ class SpecialCheckUser extends SpecialPage {
 				],
 				'tag' => [
 					'type' => 'text',
-					'id' => 'tag',
-					'name' => 'tag',
+					'id' => 'blocktag',
+					'name' => 'blocktag',
 				],
 				'talkusetag' => [
 					'type' => 'check',
