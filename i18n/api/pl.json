@@ -29,5 +29,6 @@
 	"apihelp-query+checkuserlog-example-2": "Pokaż, kto sprawdzał zakres adresów 192.0.2.0/24 po 2011-10-15T23:00:00Z",
 	"apierror-checkuser-missingsummary": "Musisz podać powód sprawdzenia",
 	"apierror-checkuser-timelimit": "Musisz użyć poprawnego limitu czasu (np. „-2 tygodnie” lub „2 tygodnie temu”).",
-	"apierror-checkuser-invalidmode": "Nieprawidłowy tryb żądania"
+	"apierror-checkuser-invalidmode": "Nieprawidłowy tryb żądania",
+	"checkuser-api-help-param-direction": "Kolejność wyliczania:\n;newer:Wymieniaj najpierw starsze wpisy. Uwaga: $1from musi być przed $1to.\n;older:Wymieniaj najpierw nowsze wpisy (domyślnie). Uwaga: $1from musi być po $1to."
 }
