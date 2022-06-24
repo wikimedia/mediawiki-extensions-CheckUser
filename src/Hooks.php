@@ -797,14 +797,6 @@ class Hooks {
 					'cuSearch' => $nt->getText()
 				]
 			);
-			$links['checkuser-log-initiator'] = $linkRenderer->makeKnownLink(
-				SpecialPage::getTitleFor( 'CheckUserLog' ),
-				$sp->msg( 'checkuser-contribs-log-initiator' )->text(),
-				[ 'class' => 'mw-contributions-link-check-user-initiator' ],
-				[
-					'cuInitiator' => $nt->getText()
-				]
-			);
 		}
 	}
 
