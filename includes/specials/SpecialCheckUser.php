@@ -1750,33 +1750,7 @@ class SpecialCheckUser extends SpecialPage {
 		} else {
 			$line .= '<span>';
 		}
-		$line .= Linker::userLink(
-			$idforlinknfn, $row->cuc_user_text, $row->cuc_user_text ) . '</span>';
-		$line .= Linker::userToolLinksRedContribs(
-			$idforlink,
-			$row->cuc_user_text,
-			$user->getEditCount(),
-			// don't render parentheses in HTML markup (CSS will provide)
-			false
-		);
-		// Get block info
-		if ( isset( $flagCache[$row->cuc_user_text] ) ) {
-			$flags = $flagCache[$row->cuc_user_text];
-		} else {
-			$user = User::newFromName( $row->cuc_user_text, false );
-			$ip = IPUtils::isIPAddress( $row->cuc_user_text ) ? $row->cuc_user_text : '';
-			$flags = $this->userBlockFlags( $ip, $row->cuc_user, $user );
-			$flagCache[$row->cuc_user_text] = $flags;
-		}
-		// Add any block information
-		if ( count( $flags ) ) {
-			$line .= ' ' . implode( ' ', $flags );
-		}
-		// Action text, hackish ...
-		if ( $row->cuc_actiontext ) {
-			$line .= ' ' . Linker::formatComment( $row->cuc_actiontext ) . ' ';
-		}
-		// Comment
+
 		if ( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW ) {
 			$revRecord = MediaWikiServices::getInstance()
 				->getRevisionLookup()
@@ -1809,6 +1783,56 @@ class SpecialCheckUser extends SpecialPage {
 					);
 				}
 			}
+
+			$hidden = !RevisionRecord::userCanBitfield(
+				$revRecord->getVisibility(),
+				RevisionRecord::DELETED_USER,
+				$this->getUser()
+			);
+		} else {
+			// To make phan happy
+			$revRecord = null;
+
+			$hidden = $user->isHidden() && !$this->getAuthority()->isAllowed( 'hideuser' );
+		}
+
+		if ( $hidden ) {
+			$line .= Html::element(
+				'span',
+				[ 'class' => 'history-deleted' ],
+				$this->msg( 'rev-deleted-user' )->text()
+			);
+		} else {
+			$line .= Linker::userLink(
+				$idforlinknfn, $row->cuc_user_text, $row->cuc_user_text ) . '</span>';
+			$line .= Linker::userToolLinksRedContribs(
+				$idforlink,
+				$row->cuc_user_text,
+				$user->getEditCount(),
+				// don't render parentheses in HTML markup (CSS will provide)
+				false
+			);
+		}
+
+		// Get block info
+		if ( isset( $flagCache[$row->cuc_user_text] ) ) {
+			$flags = $flagCache[$row->cuc_user_text];
+		} else {
+			$user = User::newFromName( $row->cuc_user_text, false );
+			$ip = IPUtils::isIPAddress( $row->cuc_user_text ) ? $row->cuc_user_text : '';
+			$flags = $this->userBlockFlags( $ip, $row->cuc_user, $user );
+			$flagCache[$row->cuc_user_text] = $flags;
+		}
+		// Add any block information
+		if ( count( $flags ) ) {
+			$line .= ' ' . implode( ' ', $flags );
+		}
+		// Action text, hackish ...
+		if ( $row->cuc_actiontext ) {
+			$line .= ' ' . Linker::formatComment( $row->cuc_actiontext ) . ' ';
+		}
+		// Comment
+		if ( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW ) {
 			if ( RevisionRecord::userCanBitfield(
 				$revRecord->getVisibility(),
 				RevisionRecord::DELETED_COMMENT,
