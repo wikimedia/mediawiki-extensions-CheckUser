@@ -12,6 +12,7 @@ use Html;
 use HtmlArmor;
 use HTMLForm;
 use Linker;
+use ListToggle;
 use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\Cache\LinkBatchFactory;
@@ -1496,7 +1497,8 @@ class SpecialCheckUser extends SpecialPage {
 			&& !$this->getUser()->getBlock();
 
 		$fieldset = new HTMLFieldsetCheckUser( [], $this->getContext(), '' );
-		$s = '';
+		$listToggleHtml = ( new ListToggle( $this->getOutput() ) )->getHTML();
+		$s = $listToggleHtml;
 		if ( $canPerformBlocks ) {
 			$s .= Xml::openElement(
 				'form',
@@ -1695,6 +1697,7 @@ class SpecialCheckUser extends SpecialPage {
 			$s .= '</li>';
 		}
 		$s .= "</ul></div>\n";
+		$s .= $listToggleHtml;
 		if ( $canPerformBlocks ) {
 			$config = $this->getConfig();
 			$checkUserCAMultiLock = $config->get( 'CheckUserCAMultiLock' );
