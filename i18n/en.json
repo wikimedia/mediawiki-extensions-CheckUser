@@ -12,7 +12,6 @@
 	"checkuserlog": "Check user log",
 	"checkuser-contribs": "check user IP addresses",
 	"checkuser-contribs-log": "recent user checks",
-	"checkuser-contribs-log-initiator": "user checks done by this user",
 	"group-checkuser": "Check users",
 	"group-checkuser-member": "{{GENDER:$1|check user}}",
 	"right-checkuser": "Check users' IP addresses and other information",
