@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Martin Urbanec"
+		]
+	},
+	"apihelp-query+checkuser-param-reason": "Důvod kontroly.",
+	"apihelp-query+checkuser-param-limit": "Omezení počtu výsledků.",
+	"apihelp-query+checkuserlog-param-limit": "Omezení počtu výsledků."
+}
