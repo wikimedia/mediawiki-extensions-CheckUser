@@ -24,7 +24,6 @@
 	"checkuserlog": "Журнал перевірки користувачів",
 	"checkuser-contribs": "перевірити IP-адреси користувача",
 	"checkuser-contribs-log": "останні перевірки користувача",
-	"checkuser-contribs-log-initiator": "перевірки користувачів здійснені користувачем",
 	"group-checkuser": "Чек'юзери",
 	"group-checkuser-member": "{{GENDER:$1|чек'юзер|чек'юзерка}}",
 	"right-checkuser": "Перевірка IP-адрес та іншої інформації про користувачів",

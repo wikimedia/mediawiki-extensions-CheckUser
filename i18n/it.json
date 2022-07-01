@@ -30,7 +30,6 @@
 	"checkuserlog": "Registro dei controlli utente",
 	"checkuser-contribs": "controlla gli indirizzi IP dell'utente",
 	"checkuser-contribs-log": "controlli utente recenti",
-	"checkuser-contribs-log-initiator": "controlli effettuati dall'utente",
 	"group-checkuser": "Check user",
 	"group-checkuser-member": "{{GENDER:$1|Check user}}",
 	"right-checkuser": "Visualizza gli indirizzi IP usati dall'utente e altre informazioni",

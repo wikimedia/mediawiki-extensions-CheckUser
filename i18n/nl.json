@@ -25,7 +25,6 @@
 	"checkuserlog": "Logboek controleren gebruikers",
 	"checkuser-contribs": "IP-adressen van gebruiker controleren",
 	"checkuser-contribs-log": "recente gebruikerscontroles",
-	"checkuser-contribs-log-initiator": "uitgevoerde gebruikerscontroles door deze gebruiker",
 	"group-checkuser": "controlegebruikers",
 	"group-checkuser-member": "{{GENDER:$1|controlegebruiker}}",
 	"right-checkuser": "IP-adressen en andere gegevens van gebruikers bekijken",

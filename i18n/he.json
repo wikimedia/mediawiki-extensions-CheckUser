@@ -19,7 +19,6 @@
 	"checkuserlog": "יומן בדיקות",
 	"checkuser-contribs": "בדיקת כתובות ה־IP",
 	"checkuser-contribs-log": "בדיקות אחרונות של המשתמש",
-	"checkuser-contribs-log-initiator": "בדיקות משתמשים שנעשו על־ידי המשתמש הזה",
 	"group-checkuser": "בודקים",
 	"group-checkuser-member": "{{GENDER:$1|בודק|בודקת}}",
 	"right-checkuser": "מציאת כתובות IP ומידע נוסף של משתמשים",

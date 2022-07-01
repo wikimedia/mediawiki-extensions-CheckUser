@@ -24,7 +24,6 @@
 	"checkuserlog": "سیاهه بازرسی کاربر",
 	"checkuser-contribs": "بازرسی نشانی‌های آی‌پی کاربر",
 	"checkuser-contribs-log": "بازرسی‌های کاربر اخیر",
-	"checkuser-contribs-log-initiator": "بازرسی‌های انجام شده توسط این کاربر",
 	"group-checkuser": "بازرسان کاربر",
 	"group-checkuser-member": "{{GENDER:$1|بازرس کاربر}}",
 	"right-checkuser": "بازرسی نشانی‌های آی‌پی و دیگر اطلاعات کاربر",
