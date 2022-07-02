@@ -48,6 +48,17 @@ use Xml;
 
 class SpecialCheckUser extends SpecialPage {
 	/**
+	 * The possible subtypes represented as constants.
+	 * The constants represent the old string values
+	 * for backwards compatibility.
+	 */
+	public const SUBTYPE_GET_IPS = 'subuserips';
+
+	public const SUBTYPE_GET_EDITS = 'subedits';
+
+	public const SUBTYPE_GET_USERS = 'subipusers';
+
+	/**
 	 * @var string[] Used to cache frequently used messages
 	 */
 	protected $message = [];
@@ -215,18 +226,22 @@ class SpecialCheckUser extends SpecialPage {
 				$this->doMassUserBlock( $users, $blockParams, $tag, $talkTag );
 			} elseif ( !$this->checkReason() ) {
 				$out->addWikiMsg( 'checkuser-noreason' );
-			} elseif ( $checktype == 'subuserips' ) {
+			} elseif ( $checktype == self::SUBTYPE_GET_IPS ) {
 				$this->doUserIPsRequest( $name, $period );
-			} elseif ( $xff && $checktype == 'subedits' ) {
-				$this->doIPEditsRequest( $xff, true, $period );
-			} elseif ( $ip && $checktype == 'subedits' ) {
-				$this->doIPEditsRequest( $ip, false, $period );
-			} elseif ( $name && $checktype == 'subedits' ) {
-				$this->doUserEditsRequest( $user, $period );
-			} elseif ( $xff && $checktype == 'subipusers' ) {
-				$this->doIPUsersRequest( $xff, true, $period, $tag, $talkTag );
-			} elseif ( $checktype == 'subipusers' ) {
-				$this->doIPUsersRequest( $ip, false, $period, $tag, $talkTag );
+			} elseif ( $checktype == self::SUBTYPE_GET_EDITS ) {
+				if ( $xff ) {
+					$this->doIPEditsRequest( $xff, true, $period );
+				} elseif ( $ip ) {
+					$this->doIPEditsRequest( $ip, false, $period );
+				} else {
+					$this->doUserEditsRequest( $user, $period );
+				}
+			} elseif ( $checktype == self::SUBTYPE_GET_USERS ) {
+				if ( $xff ) {
+					$this->doIPUsersRequest( $xff, true, $period, $tag, $talkTag );
+				} else {
+					$this->doIPUsersRequest( $ip, false, $period, $tag, $talkTag );
+				}
 			}
 		}
 		// Add CIDR calculation convenience JS form
@@ -263,18 +278,18 @@ class SpecialCheckUser extends SpecialPage {
 	protected function showForm( $user, $checktype, $ip, $xff, $name, $period ) {
 		// Fill in requested type if it makes sense
 		$ipAllowed = true;
-		if ( $checktype == 'subipusers' && ( $ip || $xff ) ) {
+		if ( $checktype == self::SUBTYPE_GET_USERS && ( $ip || $xff ) ) {
 			$checkTypeValidated = $checktype;
 			$ipAllowed = false;
-		} elseif ( $checktype == 'subuserips' && $name ) {
+		} elseif ( $checktype == self::SUBTYPE_GET_IPS && $name ) {
 			$checkTypeValidated = $checktype;
-		} elseif ( $checktype == 'subedits' ) {
+		} elseif ( $checktype == self::SUBTYPE_GET_EDITS ) {
 			$checkTypeValidated = $checktype;
 		// Defaults otherwise
 		} elseif ( $ip || $xff ) {
-			$checkTypeValidated = 'subedits';
+			$checkTypeValidated = self::SUBTYPE_GET_EDITS;
 		} else {
-			$checkTypeValidated = 'subuserips';
+			$checkTypeValidated = self::SUBTYPE_GET_IPS;
 			$ipAllowed = false;
 		}
 
@@ -293,9 +308,9 @@ class SpecialCheckUser extends SpecialPage {
 			'radiooptions' => [
 				'type' => 'radio',
 				'options-messages' => [
-					'checkuser-ips' => 'subuserips',
-					'checkuser-edits' => 'subedits',
-					'checkuser-users' => 'subipusers',
+					'checkuser-ips' => self::SUBTYPE_GET_IPS,
+					'checkuser-edits' => self::SUBTYPE_GET_EDITS,
+					'checkuser-users' => self::SUBTYPE_GET_USERS,
 				],
 				'id' => 'checkuserradios',
 				'default' => $checkTypeValidated,
@@ -1046,7 +1061,7 @@ class SpecialCheckUser extends SpecialPage {
 					[
 						'user' => $ip,
 						'reason' => $this->reason,
-						'checktype' => 'subipusers'
+						'checktype' => self::SUBTYPE_GET_USERS
 					]
 				) . ' ' . $this->getTimeRangeString( $row->first, $row->last ) . ' '
 				. Html::rawElement(
