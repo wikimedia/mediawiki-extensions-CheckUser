@@ -173,9 +173,10 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 	public function testGetTimeConds( $period, $fakeTime, $expected ) {
 		ConvertibleTimestamp::setFakeTime( $fakeTime );
 		$object = $this->setUpObject();
+		$object->opts->add( 'period', $period );
 		$this->assertSame(
 			$expected,
-			$object->getTimeConds( $period )
+			$object->getTimeConds()
 		);
 	}
 
