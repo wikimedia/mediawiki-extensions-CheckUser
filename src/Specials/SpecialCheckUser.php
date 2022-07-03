@@ -7,6 +7,7 @@ use CentralIdLookup;
 use DeferredUpdates;
 use Exception;
 use ExtensionRegistry;
+use FormOptions;
 use Hooks;
 use Html;
 use HtmlArmor;
@@ -69,10 +70,9 @@ class SpecialCheckUser extends SpecialPage {
 	private $lastdate = null;
 
 	/**
-	 * Reason for executing a CheckUser
-	 * @var string
+	 * @var FormOptions the form parameters.
 	 */
-	protected $reason = '';
+	protected $opts;
 
 	/** @var LinkBatchFactory */
 	private $linkBatchFactory;
@@ -135,6 +135,24 @@ class SpecialCheckUser extends SpecialPage {
 		}
 
 		$request = $this->getRequest();
+
+		$opts = new FormOptions();
+		$opts->add( 'reason', '' );
+		$opts->add( 'checktype', '' );
+		$opts->add( 'period', 0 );
+		$opts->add( 'action', '' );
+		$opts->add( 'users', [] );
+		$opts->add( 'blockreason', '' );
+		$opts->add( 'blocktalk', false );
+		$opts->add( 'blockemail', false );
+		$opts->add( 'reblock', false );
+		$opts->add( 'usetag', false );
+		$opts->add( 'usettag', false );
+		$opts->add( 'blocktag', '' );
+		$opts->add( 'talktag', '' );
+		$opts->fetchValuesFromRequest( $request );
+		$this->opts = $opts;
+
 		$user = $request->getText( 'user', $request->getText( 'ip', $subpage ) );
 		$user = trim( $user );
 		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
@@ -183,23 +201,18 @@ class SpecialCheckUser extends SpecialPage {
 			$out->setIndicators( [ 'investigate-link' => $icon . $investigateLink ] );
 		}
 
-		$this->reason = $request->getText( 'reason' );
-		$blockreason = $request->getText( 'blockreason', '' );
-		$disableUserTalk = $request->getBool( 'blocktalk', false );
-		$disableEmail = $request->getBool( 'blockemail', false );
-		$checktype = $request->getVal( 'checktype' );
-		$period = $request->getInt( 'period' );
-		$users = $request->getArray( 'users' );
-		$tag = $request->getBool( 'usetag' ) ?
-			trim( $request->getVal( 'blocktag' ) ) : '';
-		$talkTag = $request->getBool( 'usettag' ) ?
-			trim( $request->getVal( 'talktag' ) ) : '';
+		$checktype = $this->opts->getValue( 'checktype' );
+		$period = $this->opts->getValue( 'period' );
+		$tag = $this->opts->getValue( 'usetag' ) ?
+			trim( $this->opts->getValue( 'blocktag' ) ) : '';
+		$talkTag = $this->opts->getValue( 'usettag' ) ?
+			trim( $this->opts->getValue( 'talktag' ) ) : '';
 
 		$blockParams = [
-			'reason' => $blockreason,
-			'talk' => $disableUserTalk,
-			'email' => $disableEmail,
-			'reblock' => $request->getBool( 'reblock' )
+			'reason' => $this->opts->getValue( 'blockreason' ),
+			'talk' => $this->opts->getValue( 'blocktalk' ),
+			'email' => $this->opts->getValue( 'blockemail' ),
+			'reblock' => $this->opts->getValue( 'reblock' ),
 		];
 
 		$ip = $name = $xff = '';
@@ -216,14 +229,14 @@ class SpecialCheckUser extends SpecialPage {
 		}
 
 		$this->showIntroductoryText();
-		$this->showForm( $user, $checktype, $ip, $xff, $name, $period );
+		$this->showForm( $user, $checktype, $ip, $xff, $name );
 
 		// Perform one of the various submit operations...
 		if ( $request->wasPosted() ) {
 			if ( !$this->getUser()->matchEditToken( $request->getVal( 'wpEditToken' ) ) ) {
 				$out->wrapWikiMsg( '<div class="error">$1</div>', 'checkuser-token-fail' );
-			} elseif ( $request->getVal( 'action' ) === 'block' ) {
-				$this->doMassUserBlock( $users, $blockParams, $tag, $talkTag );
+			} elseif ( $this->opts->getValue( 'action' ) === 'block' ) {
+				$this->doMassUserBlock( $this->opts->getValue( 'users' ), $blockParams, $tag, $talkTag );
 			} elseif ( !$this->checkReason() ) {
 				$out->addWikiMsg( 'checkuser-noreason' );
 			} elseif ( $checktype == self::SUBTYPE_GET_IPS ) {
@@ -273,9 +286,8 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param ?string $ip
 	 * @param ?string $xff
 	 * @param string $name
-	 * @param int $period
 	 */
-	protected function showForm( $user, $checktype, $ip, $xff, $name, $period ) {
+	protected function showForm( $user, $checktype, $ip, $xff, $name ) {
 		// Fill in requested type if it makes sense
 		$ipAllowed = true;
 		if ( $checktype == self::SUBTYPE_GET_USERS && ( $ip || $xff ) ) {
@@ -329,12 +341,12 @@ class SpecialCheckUser extends SpecialPage {
 					'checkuser-month-2' => 60,
 					'checkuser-all' => 0,
 				],
-				'default' => $period,
+				'default' => $this->opts->getValue( 'period' ),
 				'name' => 'period',
 			],
 			'reason' => [
 				'type' => 'text',
-				'default' => $this->reason,
+				'default' => $this->opts->getValue( 'reason' ),
 				'label-message' => 'checkuser-reason',
 				'size' => 46,
 				'maxlength' => 150,
@@ -398,7 +410,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @return bool
 	 */
 	protected function checkReason() {
-		return ( !$this->getConfig()->get( 'CheckUserForceSummary' ) || strlen( $this->reason ) );
+		return ( !$this->getConfig()->get( 'CheckUserForceSummary' ) || strlen( $this->opts->getValue( 'reason' ) ) );
 	}
 
 	/**
@@ -634,7 +646,7 @@ class SpecialCheckUser extends SpecialPage {
 		}
 
 		// Record check...
-		self::addLogEntry( 'userips', 'user', $user, $this->reason, $user_id );
+		self::addLogEntry( 'userips', 'user', $user, $this->opts->getValue( 'reason' ), $user_id );
 
 		$result = $this->doUserIPsDBRequest( $user_id, $period );
 		$this->doUserIPsRequestOutput( $result, $user, $period );
@@ -789,7 +801,7 @@ class SpecialCheckUser extends SpecialPage {
 			$s .= $this->getSelfLink( $ip,
 				[
 					'user' => $ip,
-					'reason' => $this->reason,
+					'reason' => $this->opts->getValue( 'reason' ),
 				]
 			);
 			$s .= ' ' . Html::rawElement(
@@ -898,7 +910,7 @@ class SpecialCheckUser extends SpecialPage {
 		$logType = $xfor ? 'ipedits-xff' : 'ipedits';
 
 		// Record check in the logs
-		self::addLogEntry( $logType, 'ip', $ip, $this->reason );
+		self::addLogEntry( $logType, 'ip', $ip, $this->opts->getValue( 'reason' ) );
 
 		// Ordered in descent by timestamp. Can cause large filesorts on range scans.
 		// Check how many rows will need sorting ahead of time to see if this is too big.
@@ -1060,7 +1072,7 @@ class SpecialCheckUser extends SpecialPage {
 				$this->getSelfLink( $ip,
 					[
 						'user' => $ip,
-						'reason' => $this->reason,
+						'reason' => $this->opts->getValue( 'reason' ),
 						'checktype' => self::SUBTYPE_GET_USERS
 					]
 				) . ' ' . $this->getTimeRangeString( $row->first, $row->last ) . ' '
@@ -1219,7 +1231,7 @@ class SpecialCheckUser extends SpecialPage {
 		}
 
 		// Record check...
-		self::addLogEntry( 'useredits', 'user', $user, $this->reason, $user_id );
+		self::addLogEntry( 'useredits', 'user', $user, $this->opts->getValue( 'reason' ), $user_id );
 
 		// Cache common messages
 		$this->preCacheMessages();
@@ -1335,7 +1347,7 @@ class SpecialCheckUser extends SpecialPage {
 		$logType = $xfor ? 'ipusers-xff' : 'ipusers';
 
 		// Log the check...
-		self::addLogEntry( $logType, 'ip', $ip, $this->reason );
+		self::addLogEntry( $logType, 'ip', $ip, $this->opts->getValue( 'reason' ) );
 
 		// Are there too many edits?
 		$rangecount = $this->getIPUsersCount( $ip, $xfor, $index, $period );
@@ -1579,7 +1591,7 @@ class SpecialCheckUser extends SpecialPage {
 					$this->msg( 'checkuser-check' )->text(),
 					[
 						'user' => $name,
-						'reason' => $this->reason
+						'reason' => $this->opts->getValue( 'reason' )
 					]
 				)
 			);
@@ -2049,7 +2061,7 @@ class SpecialCheckUser extends SpecialPage {
 		$line .= $this->getSelfLink( $row->cuc_ip,
 			[
 				'user' => $row->cuc_ip,
-				'reason' => $this->reason
+				'reason' => $this->opts->getValue( 'reason' )
 			]
 		);
 		// XFF
@@ -2065,7 +2077,7 @@ class SpecialCheckUser extends SpecialPage {
 			$line .= $this->getSelfLink( $row->cuc_xff,
 				[
 					'user' => $client . '/xff',
-					'reason' => $this->reason
+					'reason' => $this->opts->getValue( 'reason' )
 				]
 			);
 			$line .= '</span>';

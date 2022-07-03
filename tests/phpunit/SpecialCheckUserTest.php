@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests;
 
+use FormOptions;
 use HashConfig;
 use MediaWiki\CheckUser\Specials\SpecialCheckUser;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
@@ -66,7 +67,9 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 	 */
 	protected function setUpObject() {
 		$object = $this->getServiceContainer()->getSpecialPageFactory()->getPage( 'CheckUser' );
-		return TestingAccessWrapper::newFromObject( $object );
+		$testingWrapper = TestingAccessWrapper::newFromObject( $object );
+		$testingWrapper->opts = new FormOptions();
+		return $testingWrapper;
 	}
 
 	/**
@@ -143,7 +146,7 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 	public function testCheckReason( $config, $reason, $expected ) {
 		$this->setMwGlobals( 'wgCheckUserForceSummary', $config );
 		$object = $this->setUpObject();
-		$object->reason = $expected;
+		$object->opts->add( 'reason', $expected );
 		$this->assertSame(
 			$expected,
 			$object->checkReason()
