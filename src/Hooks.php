@@ -262,10 +262,11 @@ class Hooks {
 	 * @return bool
 	 */
 	public static function updateCUPasswordResetData( User $user, $ip, $account ) {
+		$accountName = $account->getName();
 		self::insertIntoCuChangesTable(
 			[
 				'cuc_namespace'  => NS_USER,
-				'cuc_actiontext' => wfMessage( 'checkuser-reset-action', $account->getName() )
+				'cuc_actiontext' => wfMessage( 'checkuser-reset-action', "[[User:$accountName|$accountName]]" )
 					->inContentLanguage()->text(),
 			],
 			__METHOD__,
