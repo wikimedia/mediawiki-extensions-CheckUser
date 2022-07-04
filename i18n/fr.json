@@ -91,7 +91,7 @@
 	"checkuser-user-nonexistent": "L’utilisateur indiqué n’existe pas.",
 	"checkuser-search": "Rechercher les entrées du journal de vérification d’utilisateur",
 	"checkuser-search-submit": "Rechercher",
-	"checkuser-search-initiator": "l’initiateur",
+	"checkuser-search-initiator": "initiateur",
 	"checkuser-search-target": "la cible",
 	"checkuser-log-search-target": "Cible :",
 	"checkuser-log-search-type": "Rechercher par :",

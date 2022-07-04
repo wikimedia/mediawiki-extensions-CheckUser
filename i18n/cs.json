@@ -133,5 +133,11 @@
 	"checkuser-investigate-preliminary-table-header-wiki": "Projekt",
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Projekt nenalezen",
 	"checkuser-investigate-filters-legend": "Filtry",
-	"checkuser-investigate-filters-exclude-targets-label": "Skrýt následující uživatele nebo IP adresy"
+	"checkuser-investigate-filters-exclude-targets-label": "Skrýt následující uživatele nebo IP adresy",
+	"checkuser-investigate-compare-copy-message-label": "Chcete zkopírovat výsledky jako wikitext tabulku?",
+	"checkuser-investigate-compare-table-cell-unregistered": "Neregistrovaný",
+	"checkuser-investigate-compare-table-header-username": "Uživatelské jméno",
+	"checkuser-investigate-compare-table-header-activity": "Časové období",
+	"checkuser-investigate-compare-table-header-ip": "IP adresa",
+	"checkuser-investigate-compare-table-header-useragent": "User-Agent"
 }
