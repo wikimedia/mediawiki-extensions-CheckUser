@@ -100,7 +100,7 @@
 	"checkuser-autocreate-action": "został automatycznie utworzony",
 	"checkuser-create-action": "utworzono",
 	"checkuser-email-action": "wysłał e‐mail do użytkownika „$1”",
-	"checkuser-reset-action": "reset hasła dla użytkownika „$1”",
+	"checkuser-reset-action": "reset hasła dla {{GENDER:$1|użytkownika|użytkowniczki}} „$1”",
 	"checkuser-token-fail": "Awaria sesji. Spróbuj jeszcze raz.",
 	"checkuser-login-failure": "Logowanie do {{GRAMMAR:D.lp|{{SITENAME}}}} jako $1 nie powiodło się",
 	"checkuser-login-success": "Pomyślnie zalogowano do {{GRAMMAR:D.lp|{{SITENAME}}}} jako $1",
