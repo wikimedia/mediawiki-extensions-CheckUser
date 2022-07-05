@@ -199,7 +199,10 @@ class TimelineRowFormatter {
 			return '';
 		}
 
-		return $this->linkRenderer->makeLink( $title );
+		return $this->linkRenderer->makeLink(
+			$title,
+			new HtmlArmor( '<bdi>' . $this->titleFormatter->getPrefixedText( $title ) . '</bdi>' )
+		);
 	}
 
 	/**
