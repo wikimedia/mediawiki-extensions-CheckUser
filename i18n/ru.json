@@ -117,7 +117,7 @@
 	"checkuser-autocreate-action": "был создан автоматически",
 	"checkuser-create-action": "создан",
 	"checkuser-email-action": "отправил письмо участнику «$1»",
-	"checkuser-reset-action": "сбросил пароль для участника $1",
+	"checkuser-reset-action": "сбросил пароль для {{GENDER:$1|участника|участницы|участника_цы}} $1",
 	"checkuser-token-fail": "Сеанс прерван. Пожалуйста, попробуйте ещё раз.",
 	"checkuser-login-failure": "Не удалось войти в {{SITENAME}} в качестве $1",
 	"checkuser-login-success": "Успешно вошёл в систему {{SITENAME}} как $1",
