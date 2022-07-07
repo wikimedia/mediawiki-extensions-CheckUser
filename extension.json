@@ -166,6 +166,7 @@
 			"messages": [
 				"checkuser-centralauth-multilock",
 				"checkuser-investigate-compare-copy-button-label",
+				"checkuser-investigate-compare-copy-button-label-hide",
 				"checkuser-investigate-compare-copy-message-label",
 				"checkuser-investigate-compare-table-button-add-ip-targets-label",
 				"checkuser-investigate-compare-table-button-add-user-targets-label",

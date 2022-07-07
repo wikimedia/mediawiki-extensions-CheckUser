@@ -179,6 +179,7 @@
 	"checkuser-investigate-timeline-notice-no-results": "Message shown in [[Special:Investigate]] when there are no results for a Timeline investigation.",
 	"checkuser-investigate-timeline-notice-no-results-filters": "Message shown in [[Special:Investigate]] when there are no results for a Timeline investigation that has filters.",
 	"checkuser-investigate-compare-copy-button-label": "Label for a button in [[Special:Investigate]]",
+	"checkuser-investigate-compare-copy-button-label-hide": "Label for a button in [[Special:Investigate]]",
 	"checkuser-investigate-compare-toollinks": "{{notranslate}}\nParameters:\n* $1 - IP address",
 	"checkuser-investigate-compare-toollinks-whois": "{{optional}}\nWHOIS/RDNS tool link. Label for an option in a dropdown list.\n\nSee also {{msg-mw|checkuser-investigate-compare-toollinks}}",
 	"checkuser-investigate-compare-toollinks-ipcheck": "IP Check tool link. Label for an option in a dropdown list.\n\nSee also {{msg-mw|checkuser-investigate-compare-toollinks}}",
