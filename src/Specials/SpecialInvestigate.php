@@ -139,7 +139,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	/**
 	 * @inheritDoc
 	 */
-	protected function preText() {
+	protected function preHtml() {
 		// Add necessary styles
 		$this->getOutput()->addModuleStyles( [
 			'mediawiki.widgets.TagMultiselectWidget.styles',
