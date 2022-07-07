@@ -26,6 +26,7 @@ use User;
 use WebRequest;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IDatabase;
+use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\ScopedCallback;
 
 class Hooks {
@@ -452,12 +453,13 @@ class Hooks {
 				}
 
 				$encCutoff = $dbw->addQuotes( $dbw->timestamp( time() - $wgCUDMaxAge ) );
-				$ids = $dbw->selectFieldValues( 'cu_changes',
-					'cuc_id',
-					[ "cuc_timestamp < $encCutoff" ],
-					$fname,
-					[ 'LIMIT' => 500 ]
-				);
+				$ids = $dbw->newSelectQueryBuilder()
+					->table( 'cu_changes' )
+					->field( 'cuc_id' )
+					->conds( [ "cuc_timestamp < $encCutoff" ] )
+					->limit( 500 )
+					->caller( $fname )
+					->fetchFieldValues();
 
 				if ( $ids ) {
 					$dbw->delete( 'cu_changes', [ 'cuc_id' => $ids ], $fname );
@@ -741,17 +743,15 @@ class Hooks {
 			return true;
 		}
 
-		$options = [ 'ORDER BY' => 'cuc_timestamp DESC' ];
-
-		// just the last IP used
-		$options['LIMIT'] = 1;
-
-		$res = $dbr->select( 'cu_changes',
-			[ 'cuc_ip' ],
-			[ 'cuc_user' => $user->getId( $block->getWikiId() ) ],
-			__METHOD__,
-			$options
-		);
+		$res = $dbr->newSelectQueryBuilder()
+			->table( 'cu_changes' )
+			->field( 'cuc_ip' )
+			->conds( [ 'cuc_user' => $user->getId( $block->getWikiId() ) ] )
+			// just the last IP used
+			->limit( 1 )
+			->orderBy( 'cuc_timestamp', SelectQueryBuilder::SORT_DESC )
+			->caller( __METHOD__ )
+			->fetchResultSet();
 
 		# Iterate through IPs used (this is just one or zero for now)
 		foreach ( $res as $row ) {
