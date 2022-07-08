@@ -43,6 +43,7 @@ use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\IResultWrapper;
+use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 use WikitextContent;
 use Xml;
@@ -583,23 +584,25 @@ class SpecialCheckUser extends SpecialPage {
 
 			$revWhere = $actorMigration->getWhere( $dbr, 'rev_user', $user );
 			foreach ( $revWhere['orconds'] as $cond ) {
-				$lastEdit = max( $lastEdit, $dbr->selectField(
-					[ 'revision' ] + $revWhere['tables'],
-					'rev_timestamp',
-					$cond,
-					__METHOD__,
-					[ 'ORDER BY' => 'rev_timestamp DESC' ],
-					$revWhere['joins']
-				) );
+				$lastEdit = max( $lastEdit, $dbr->newSelectQueryBuilder()
+					->tables( [ 'revision' ] + $revWhere['tables'] )
+					->field( 'rev_timestamp' )
+					->conds( $cond )
+					->orderBy( 'rev_timestamp', SelectQueryBuilder::SORT_DESC )
+					->joinConds( $revWhere['joins'] )
+					->caller( __METHOD__ )
+					->fetchField()
+				);
 			}
-			$lastEdit = max( $lastEdit, $dbr->selectField(
-				[ 'logging', 'actor' ],
-				'log_timestamp',
-				[ 'actor_name' => $userName ],
-				__METHOD__,
-				[ 'ORDER BY' => 'log_timestamp DESC' ],
-				[ 'actor' => [ 'JOIN', 'actor_id=log_actor' ] ]
-			) );
+			$lastEdit = max( $lastEdit, $dbr->newSelectQueryBuilder()
+				->table( 'logging' )
+				->field( 'log_timestamp' )
+				->orderBy( 'log_timestamp', SelectQueryBuilder::SORT_DESC )
+				->join( 'actor', null, 'actor_id=log_actor' )
+				->where( [ 'actor_name' => $userName ] )
+				->caller( __METHOD__ )
+				->fetchField()
+			);
 
 			if ( $lastEdit ) {
 				$lastEditTime = wfTimestamp( TS_MW, $lastEdit );
@@ -671,24 +674,22 @@ class SpecialCheckUser extends SpecialPage {
 		}
 
 		// Ordering by the latest timestamp makes a small filesort on the IP list
-		return $dbr->select(
-			'cu_changes',
-			[
+		return $dbr->newSelectQueryBuilder()
+			->table( 'cu_changes' )
+			->fields( [
 				'cuc_ip',
 				'cuc_ip_hex',
 				'count' => 'COUNT(*)',
 				'first' => 'MIN(cuc_timestamp)',
 				'last' => 'MAX(cuc_timestamp)',
-			],
-			$conds,
-			__METHOD__,
-			[
-				'ORDER BY' => 'last DESC',
-				'GROUP BY' => [ 'cuc_ip', 'cuc_ip_hex' ],
-				'LIMIT' => $limit,
-				'USE INDEX' => 'cuc_user_ip_time',
-			]
-		);
+			] )
+			->conds( $conds )
+			->orderBy( 'last', SelectQueryBuilder::SORT_DESC )
+			->groupBy( [ 'cuc_ip', 'cuc_ip_hex' ] )
+			->limit( $limit )
+			->useIndex( 'cuc_user_ip_time' )
+			->caller( __METHOD__ )
+			->fetchResultSet();
 	}
 
 	/**
@@ -706,20 +707,14 @@ class SpecialCheckUser extends SpecialPage {
 			$conds[] = $time_conds;
 		}
 
-		$ipedits = $dbr->estimateRowCount(
-			'cu_changes',
-			'*',
-			$conds,
-			__METHOD__
-		);
+		$query = $dbr->newSelectQueryBuilder()
+			->table( 'cu_changes' )
+			->conds( $conds )
+			->caller( __METHOD__ );
+		$ipedits = $query->estimateRowCount();
 		// If small enough, get a more accurate count
 		if ( $ipedits <= 1000 ) {
-			$ipedits = $dbr->selectField(
-				'cu_changes',
-				'COUNT(*)',
-				$conds,
-				__METHOD__
-			);
+			$ipedits = $query->fetchRowCount();
 		}
 
 		return $ipedits;
@@ -944,27 +939,21 @@ class SpecialCheckUser extends SpecialPage {
 		if ( $conds === false ) {
 			return -1;
 		}
+
+		$query = $dbr->newSelectQueryBuilder()
+			->table( 'cu_changes' )
+			->conds( $conds )
+			->useIndex( $index )
+			->caller( __METHOD__ );
 		// Quick index check only OK if no time constraint
 		if ( $this->opts->getValue( 'period' ) ) {
 			$time_conds = $this->getTimeConds();
 			if ( $time_conds !== false ) {
-				$conds[] = $time_conds;
+				$query->conds( $time_conds );
 			}
-			$rangecount = $dbr->selectField(
-				'cu_changes',
-				'COUNT(*)',
-				$conds,
-				__METHOD__,
-				[ 'USE INDEX' => $index ]
-			);
+			$rangecount = $query->fetchRowCount();
 		} else {
-			$rangecount = $dbr->estimateRowCount(
-				'cu_changes',
-				'*',
-				$conds,
-				__METHOD__,
-				[ 'USE INDEX' => $index ]
-			);
+			$rangecount = $query->estimateRowCount();
 		}
 		// Sorting might take some time...make sure it is there
 		AtEase::suppressWarnings();
@@ -1002,23 +991,21 @@ class SpecialCheckUser extends SpecialPage {
 			$conds[] = $time_conds;
 		}
 
-		return $dbr->select(
-			'cu_changes',
-			[
+		return $dbr->newSelectQueryBuilder()
+			->table( 'cu_changes' )
+			->fields( [
 				'cuc_ip_hex',
 				'count' => 'COUNT(*)',
 				'first' => 'MIN(cuc_timestamp)',
 				'last' => 'MAX(cuc_timestamp)',
-			],
-			$conds,
-			__METHOD__,
-			[
-				'GROUP BY' => 'cuc_ip_hex',
-				'ORDER BY' => 'cuc_ip_hex',
-				'LIMIT' => $limit,
-				'USE INDEX' => $index,
-			]
-		);
+			] )
+			->conds( $conds )
+			->groupBy( 'cuc_ip_hex' )
+			->orderBy( 'cuc_ip_hex' )
+			->limit( $limit )
+			->useIndex( $index )
+			->caller( __METHOD__ )
+			->fetchResultSet();
 	}
 
 	/**
@@ -1108,26 +1095,24 @@ class SpecialCheckUser extends SpecialPage {
 		if ( $conds === false ) {
 			return new FakeResultWrapper( [] );
 		}
-		$time_conds = $this->getTimeConds();
-		if ( $time_conds !== false ) {
-			$conds[] = $time_conds;
-		}
-
-		return $dbr->select(
-			'cu_changes',
-			[
+		$query = $dbr->newSelectQueryBuilder()
+			->table( 'cu_changes' )
+			->fields( [
 				'cuc_namespace', 'cuc_title', 'cuc_user', 'cuc_user_text', 'cuc_comment',
 				'cuc_actiontext', 'cuc_timestamp', 'cuc_minor', 'cuc_page_id', 'cuc_type',
 				'cuc_this_oldid', 'cuc_last_oldid', 'cuc_ip', 'cuc_xff', 'cuc_agent',
-			],
-			$conds,
-			__METHOD__,
-			[
-				'ORDER BY' => 'cuc_timestamp DESC',
-				'LIMIT' => $limit,
-				'USE INDEX' => $index,
-			]
-		);
+			] )
+			->orderBy( 'cuc_timestamp', SelectQueryBuilder::SORT_DESC )
+			->limit( $limit )
+			->conds( $conds )
+			->useIndex( $index )
+			->caller( __METHOD__ );
+		$time_conds = $this->getTimeConds();
+		if ( $time_conds !== false ) {
+			$query->conds( $time_conds );
+		}
+
+		return $query->fetchResultSet();
 	}
 
 	/**
@@ -1249,26 +1234,24 @@ class SpecialCheckUser extends SpecialPage {
 		}
 
 		$dbr = wfGetDB( DB_REPLICA );
-		$conds = [ 'cuc_user' => $user_id ];
-		$time_conds = $this->getTimeConds();
-		if ( $time_conds !== false ) {
-			$conds[] = $time_conds;
-		}
-
-		return $dbr->select(
-			'cu_changes', [
+		$query = $dbr->newSelectQueryBuilder()
+			->table( 'cu_changes' )
+			->fields( [
 				'cuc_namespace', 'cuc_title', 'cuc_user', 'cuc_user_text', 'cuc_comment',
 				'cuc_actiontext', 'cuc_timestamp', 'cuc_minor', 'cuc_page_id', 'cuc_type',
 				'cuc_this_oldid', 'cuc_last_oldid', 'cuc_ip', 'cuc_xff', 'cuc_agent',
-			],
-			$conds,
-			__METHOD__,
-			[
-				'ORDER BY' => 'cuc_timestamp DESC',
-				'LIMIT' => $limit,
-				'USE INDEX' => 'cuc_user_ip_time'
-			]
-		);
+			] )
+			->orderBy( 'cuc_timestamp', SelectQueryBuilder::SORT_DESC )
+			->conds( [ 'cuc_user' => $user_id ] )
+			->limit( $limit )
+			->useIndex( 'cuc_user_ip_time' )
+			->caller( __METHOD__ );
+		$time_conds = $this->getTimeConds();
+		if ( $time_conds !== false ) {
+			$query->conds( $time_conds );
+		}
+
+		return $query->fetchResultSet();
 	}
 
 	/**
@@ -1404,24 +1387,23 @@ class SpecialCheckUser extends SpecialPage {
 		if ( $conds === false ) {
 			return new FakeResultWrapper( [] );
 		}
+		$query = $dbr->newSelectQueryBuilder()
+			->table( 'cu_changes' )
+			->fields( [
+				'cuc_user_text', 'cuc_timestamp', 'cuc_user', 'cuc_ip', 'cuc_agent', 'cuc_xff',
+			] )
+			->conds( $conds )
+			->orderBy( 'cuc_timestamp', SelectQueryBuilder::SORT_DESC )
+			->limit( $limit )
+			->useIndex( $index )
+			->caller( __METHOD__ );
 		$time_conds = $this->getTimeConds();
 		if ( $time_conds !== false ) {
-			$conds[] = $time_conds;
+			$query->conds( $time_conds );
 		}
 
-		return $dbr->select(
-			'cu_changes',
-			[
-				'cuc_user_text', 'cuc_timestamp', 'cuc_user', 'cuc_ip', 'cuc_agent', 'cuc_xff',
-			],
-			$conds,
-			__METHOD__,
-			[
-				'ORDER BY' => 'cuc_timestamp DESC',
-				'LIMIT' => $limit,
-				'USE INDEX' => $index,
-			]
-		);
+		return $query
+			->fetchResultSet();
 	}
 
 	/**
@@ -1995,14 +1977,13 @@ class SpecialCheckUser extends SpecialPage {
 				$queryInfo = MediaWikiServices::getInstance()
 					->getRevisionStore()
 					->getArchiveQueryInfo();
-				$tmp = $dbr->selectRow(
-					$queryInfo['tables'],
-					$queryInfo['fields'],
-					[ 'ar_rev_id' => $row->cuc_this_oldid ],
-					__METHOD__,
-					[],
-					$queryInfo['joins']
-				);
+				$tmp = $dbr->newSelectQueryBuilder()
+					->tables( $queryInfo['tables'] )
+					->fields( $queryInfo['fields'] )
+					->conds( [ 'ar_rev_id' => $row->cuc_this_oldid ] )
+					->joinConds( $queryInfo['joins'] )
+					->caller( __METHOD__ )
+					->fetchRow();
 				if ( $tmp ) {
 					$revRecord = MediaWikiServices::getInstance()
 						->getRevisionFactory()
@@ -2207,16 +2188,18 @@ class SpecialCheckUser extends SpecialPage {
 			? 'page_time'
 			: 'log_page_time';
 
-		return (bool)$dbr->selectField( 'logging', '1',
-			[
+		return (bool)$dbr->newSelectQueryBuilder()
+			->table( 'logging' )
+			->field( '1' )
+			->conds( [
 				'log_type' => [ 'block', 'suppress' ],
 				'log_action' => 'block',
 				'log_namespace' => $userpage->getNamespace(),
 				'log_title' => $userpage->getDBkey()
-			],
-			__METHOD__,
-			[ 'USE INDEX' => $index ]
-		);
+			] )
+			->useIndex( $index )
+			->caller( __METHOD__ )
+			->fetchField();
 	}
 
 	/**
