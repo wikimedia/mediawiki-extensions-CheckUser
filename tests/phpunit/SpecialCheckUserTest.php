@@ -174,18 +174,22 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 		ConvertibleTimestamp::setFakeTime( $fakeTime );
 		$object = $this->setUpObject();
 		$object->opts->add( 'period', $period );
-		$this->assertSame(
-			$expected,
-			$object->getTimeConds()
-		);
+		if ( $expected === false ) {
+			$this->assertFalse( $object->getTimeConds() );
+		} else {
+			$this->assertSame(
+				'cuc_timestamp > ' . $this->db->addQuotes( $this->db->timestamp( $expected ) ),
+				$object->getTimeConds()
+			);
+		}
 	}
 
 	public function provideGetTimeConds() {
 		return [
 			'Empty period' => [ '', '1653047635', false ],
 			'Period value for all' => [ 0, '1653047635', false ],
-			'Period value for 7 days' => [ 7, '1653077137', "cuc_timestamp > '20220513000000'" ],
-			'Period value for 30 days' => [ 30, '1653047635', "cuc_timestamp > '20220420000000'" ],
+			'Period value for 7 days' => [ 7, '1653077137', '20220513000000' ],
+			'Period value for 30 days' => [ 30, '1653047635', '20220420000000' ],
 		];
 	}
 
