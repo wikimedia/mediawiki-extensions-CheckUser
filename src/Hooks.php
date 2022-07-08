@@ -574,6 +574,11 @@ class Hooks {
 				'cul_reason_id',
 				"$base/$dbType/patch-cu_log-comment_table_for_reason.sql"
 			);
+			$updater->addExtensionField(
+				'cu_log',
+				'cul_actor',
+				"$base/$dbType/patch-cu_log-actor.sql"
+			);
 		} elseif ( $dbType === 'sqlite' ) {
 			// 1.39
 			$updater->addExtensionIndex(
@@ -585,6 +590,11 @@ class Hooks {
 				'cu_log',
 				'cul_reason_id',
 				"$base/$dbType/patch-cu_log-comment_table_for_reason.sql"
+			);
+			$updater->addExtensionField(
+				'cu_log',
+				'cul_actor',
+				"$base/$dbType/patch-cu_log-actor.sql"
 			);
 		} elseif ( $dbType === 'postgres' ) {
 			// 1.37
@@ -684,6 +694,12 @@ class Hooks {
 			);
 			$updater->addExtensionUpdate(
 				[ 'addPgField', 'cu_log', 'cul_reason_plaintext_id', 'INTEGER NOT NULL DEFAULT 0' ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'addPgField', 'cu_log', 'cul_actor', 'INTEGER NOT NULL DEFAULT 0' ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'addPgIndex', 'cu_log', 'cul_actor_time', '( cul_actor, cul_timestamp )' ]
 			);
 		}
 

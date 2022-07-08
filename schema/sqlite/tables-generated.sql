@@ -40,8 +40,8 @@ CREATE INDEX cuc_actor_ip_time ON /*_*/cu_changes (cuc_actor, cuc_ip, cuc_timest
 CREATE TABLE /*_*/cu_log (
   cul_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   cul_timestamp BLOB NOT NULL, cul_user INTEGER UNSIGNED NOT NULL,
-  cul_user_text BLOB NOT NULL, cul_reason BLOB NOT NULL,
-  cul_reason_id BIGINT UNSIGNED DEFAULT 0 NOT NULL,
+  cul_user_text BLOB NOT NULL, cul_actor BIGINT UNSIGNED DEFAULT 0 NOT NULL,
+  cul_reason BLOB NOT NULL, cul_reason_id BIGINT UNSIGNED DEFAULT 0 NOT NULL,
   cul_reason_plaintext_id BIGINT UNSIGNED DEFAULT 0 NOT NULL,
   cul_type BLOB NOT NULL, cul_target_id INTEGER UNSIGNED DEFAULT 0 NOT NULL,
   cul_target_text BLOB NOT NULL, cul_target_hex BLOB DEFAULT '' NOT NULL,
@@ -50,6 +50,8 @@ CREATE TABLE /*_*/cu_log (
 );
 
 CREATE INDEX cul_user ON /*_*/cu_log (cul_user, cul_timestamp);
+
+CREATE INDEX cul_actor_time ON /*_*/cu_log (cul_actor, cul_timestamp);
 
 CREATE INDEX cul_type_target ON /*_*/cu_log (
   cul_type, cul_target_id, cul_timestamp
