@@ -186,6 +186,26 @@
 				"options": { "notnull": true, "length": 255 }
 			},
 			{
+				"name": "cul_reason_id",
+				"comment": "Reason for the check stored as a comment_id. Default of 0 is used to indicate using cul_reason.",
+				"type": "bigint",
+				"options": {
+					"unsigned": true,
+					"notnull": true,
+					"default": 0
+				}
+			},
+			{
+				"name": "cul_reason_plaintext_id",
+				"comment": "Reason for the check with wikitext removed stored as a comment_id. Default of 0 is used to indicate using cul_reason.",
+				"type": "bigint",
+				"options": {
+					"unsigned": true,
+					"notnull": true,
+					"default": 0
+				}
+			},
+			{
 				"name": "cul_type",
 				"comment": "String indicating the type of query, may be: 'useredits', 'userips', 'ipedits', 'ipusers', 'ipedits-xff', 'ipusers-xff' or 'investigate' if the check was performed from Special:Investigate",
 				"type": "binary",
