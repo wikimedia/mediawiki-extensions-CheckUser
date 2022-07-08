@@ -201,7 +201,8 @@ class TimelineRowFormatter {
 
 		return $this->linkRenderer->makeLink(
 			$title,
-			new HtmlArmor( '<bdi>' . $this->titleFormatter->getPrefixedText( $title ) . '</bdi>' )
+			null,
+			[ 'class' => 'ext-checkuser-investigate-timeline-row-title' ]
 		);
 	}
 
