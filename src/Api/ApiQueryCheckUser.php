@@ -169,14 +169,13 @@ class ApiQueryCheckUser extends ApiQueryBase {
 								$queryInfo = MediaWikiServices::getInstance()
 									->getRevisionStore()
 									->getArchiveQueryInfo();
-								$tmp = $dbr->selectRow(
-									$queryInfo['tables'],
-									$queryInfo['fields'],
-									[ 'ar_rev_id' => $row->cuc_this_oldid ],
-									__METHOD__,
-									[],
-									$queryInfo['joins']
-								);
+								$tmp = $dbr->newSelectQueryBuilder()
+									->fields( $queryInfo['fields'] )
+									->tables( $queryInfo['tables'] )
+									->joinConds( $queryInfo['joins'] )
+									->where( [ 'ar_rev_id' => $row->cuc_this_oldid ] )
+									->caller( __METHOD__ )
+									->fetchRow();
 								if ( $tmp ) {
 									$revRecord = MediaWikiServices::getInstance()
 										->getRevisionFactory()

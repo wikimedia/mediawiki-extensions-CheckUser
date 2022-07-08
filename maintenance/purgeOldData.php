@@ -1,5 +1,7 @@
 <?php
 
+use Wikimedia\Rdbms\SelectQueryBuilder;
+
 if ( getenv( 'MW_INSTALL_PATH' ) ) {
 	$IP = getenv( 'MW_INSTALL_PATH' );
 } else {
@@ -42,11 +44,14 @@ class PurgeOldData extends Maintenance {
 		$count = 0;
 		while ( true ) {
 			// Get the first $this->mBatchSize (or less) items
-			$res = $dbw->select( $table, $ts_column,
-				$expiredCond,
-				__METHOD__,
-				[ 'ORDER BY' => "$ts_column ASC", 'LIMIT' => $this->mBatchSize ]
-			);
+			$res = $dbw->newSelectQueryBuilder()
+				->field( $ts_column )
+				->table( $table )
+				->conds( $expiredCond )
+				->orderBy( $ts_column, SelectQueryBuilder::SORT_ASC )
+				->limit( $this->mBatchSize )
+				->caller( __METHOD__ )
+				->fetchResultSet();
 			if ( !$res->numRows() ) {
 				// all cleared
 				break;

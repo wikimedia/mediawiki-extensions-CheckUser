@@ -41,12 +41,11 @@ class FixTrailingSpacesInLogs extends LoggedUpdateMaintenance {
 		$dbw = $mainLb->getConnectionRef( DB_PRIMARY );
 		$batchSize = $this->getBatchSize();
 
-		$maxId = $dbr->selectField(
-			'cu_log',
-			'MAX(cul_id)',
-			[],
-			__METHOD__
-		);
+		$maxId = $dbr->newSelectQueryBuilder()
+			->field( 'MAX(cul_id)' )
+			->table( 'cu_log' )
+			->caller( __METHOD__ )
+			->fetchField();
 		$prevId = 0;
 		$curId = $batchSize;
 		do {

@@ -40,7 +40,10 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 		$db = $this->getDB( DB_PRIMARY );
 
 		// Check if the table is empty
-		$rcRows = $db->selectField( 'recentchanges', 'COUNT(*)', [], __METHOD__ );
+		$rcRows = $db->newSelectQueryBuilder()
+			->table( 'recentchanges' )
+			->caller( __METHOD__ )
+			->fetchRowCount();
 		if ( !$rcRows ) {
 			$this->output( "recentchanges is empty; nothing to add.\n" );
 			return true;
@@ -61,8 +64,16 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 			$cutoffCond = "";
 		}
 
-		$start = (int)$db->selectField( 'recentchanges', 'MIN(rc_id)', [], __METHOD__ );
-		$end = (int)$db->selectField( 'recentchanges', 'MAX(rc_id)', [], __METHOD__ );
+		$start = (int)$db->newSelectQueryBuilder()
+			->field( 'MIN(rc_id)' )
+			->table( 'recentchanges' )
+			->caller( __METHOD__ )
+			->fetchField();
+		$end = (int)$db->newSelectQueryBuilder()
+			->field( 'MAX(rc_id)' )
+			->table( 'recentchanges' )
+			->caller( __METHOD__ )
+			->fetchField();
 		// Do remaining chunk
 		$end += $this->mBatchSize - 1;
 		$blockStart = $start;
@@ -84,14 +95,13 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 		while ( $blockStart <= $end ) {
 			$this->output( "...migrating rc_id from $blockStart to $blockEnd\n" );
 			$cond = "rc_id BETWEEN $blockStart AND $blockEnd $cutoffCond";
-			$res = $db->select(
-				$rcQuery['tables'],
-				$rcQuery['fields'],
-				$cond,
-				__METHOD__,
-				[],
-				$rcQuery['joins']
-			);
+			$res = $db->newSelectQueryBuilder()
+				->fields( $rcQuery['fields'] )
+				->tables( $rcQuery['tables'] )
+				->joinConds( $rcQuery['joins'] )
+				->conds( $cond )
+				->caller( __METHOD__ )
+				->fetchResultSet();
 			$batch = [];
 			foreach ( $res as $row ) {
 				$entry = [

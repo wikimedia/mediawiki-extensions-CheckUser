@@ -67,19 +67,17 @@ class PopulateCucActor extends LoggedUpdateMaintenance {
 		$dbw = $mainLb->getConnectionRef( DB_PRIMARY );
 		$batchSize = $this->getBatchSize();
 
-		$prevId = (int)$dbr->selectField(
-			'cu_changes',
-			'MIN(cuc_id)',
-			[],
-			__METHOD__
-		);
+		$prevId = (int)$dbr->newSelectQueryBuilder()
+			->field( 'MIN(cuc_id)' )
+			->table( 'cu_changes' )
+			->caller( __METHOD__ )
+			->fetchField();
 		$curId = $prevId + $batchSize;
-		$maxId = $dbr->selectField(
-			'cu_changes',
-			'MAX(cuc_id)',
-			[],
-			__METHOD__
-		);
+		$maxId = (int)$dbr->newSelectQueryBuilder()
+			->field( 'MAX(cuc_id)' )
+			->table( 'cu_changes' )
+			->caller( __METHOD__ )
+			->fetchField();
 
 		if ( !$maxId ) {
 			$this->output( 'The cu_changes table seems to be empty.\n' );
@@ -91,15 +89,15 @@ class PopulateCucActor extends LoggedUpdateMaintenance {
 		$sleep = (int)$this->getOption( 'sleep', 0 );
 
 		do {
-			$res = $dbr->select(
-				'cu_changes',
-				[ 'cuc_id', 'cuc_user_text' ],
-				[
+			$res = $dbr->newSelectQueryBuilder()
+				->fields( [ 'cuc_id', 'cuc_user_text' ] )
+				->table( 'cu_changes' )
+				->conds( [
 					'cuc_actor' => 0,
 					"cuc_id BETWEEN $prevId AND $curId"
-				],
-				__METHOD__
-			);
+				] )
+				->caller( __METHOD__ )
+				->fetchResultSet();
 
 			foreach ( $res as $row ) {
 				$actor = $actorStore->findActorIdByName( $row->cuc_user_text, $dbr );
