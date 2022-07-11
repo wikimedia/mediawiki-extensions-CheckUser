@@ -37,6 +37,8 @@
 	"checkuser-all": "сите",
 	"checkuser-cidr-label": "Најди заедничка низа и погодени адреси за список на IP-адреси",
 	"checkuser-cidr-res": "Заеднички CIDR:",
+	"checkuser-cidr-affected-ips": "Засегната IP-адреса:",
+	"checkuser-cidr-too-small": "Опсегот е преголем",
 	"checkuser-empty": "Дневникот не содржи записи.",
 	"checkuser-nomatch": "Нема совпаѓања.",
 	"checkuser-nomatch-edits": "Нема совпаѓања.\nПоследното уредување се случило на $1 во $2.",

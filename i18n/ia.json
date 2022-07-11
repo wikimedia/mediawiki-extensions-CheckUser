@@ -33,6 +33,8 @@
 	"checkuser-all": "totes",
 	"checkuser-cidr-label": "Cercar le gamma commun e le adresses IP afficite pro un lista de adresses IP",
 	"checkuser-cidr-res": "CIDR commun:",
+	"checkuser-cidr-affected-ips": "Adresses IP concernite:",
+	"checkuser-cidr-too-small": "Le gamma es troppo large",
 	"checkuser-empty": "Le registro non contine entratas.",
 	"checkuser-nomatch": "Nihil trovate.",
 	"checkuser-nomatch-edits": "Nulle resultato trovate.\nLe ultime modification esseva le $1 a $2.",

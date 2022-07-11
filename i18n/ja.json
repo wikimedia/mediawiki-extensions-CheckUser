@@ -63,6 +63,8 @@
 	"checkuser-all": "すべて",
 	"checkuser-cidr-label": "IPアドレス一覧から共通範囲と影響を受けるアドレスを見つける",
 	"checkuser-cidr-res": "共通CIDR:",
+	"checkuser-cidr-affected-ips": "影響を受けるIPアドレス：",
+	"checkuser-cidr-too-small": "範囲が広すぎます",
 	"checkuser-empty": "記録内に項目がありません。",
 	"checkuser-nomatch": "該当するものはありません。",
 	"checkuser-nomatch-edits": "該当するものはありません。\n最終編集は $1 $2 です。",

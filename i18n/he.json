@@ -42,6 +42,8 @@
 	"checkuser-all": "הכול",
 	"checkuser-cidr-label": "מציאת טווח משותף וכתובות מושפעות עבור רשימה של כתובות IP",
 	"checkuser-cidr-res": "CIDR משותף:",
+	"checkuser-cidr-affected-ips": "כתובות IP מושפעות:",
+	"checkuser-cidr-too-small": "הטווח גדול מדי",
 	"checkuser-empty": "אין פריטים ביומן.",
 	"checkuser-nomatch": "לא נמצאו התאמות.",
 	"checkuser-nomatch-edits": "לא נמצאו התאמות.\nהעריכה האחרונה בוצעה ב־$1 ב־$2.",

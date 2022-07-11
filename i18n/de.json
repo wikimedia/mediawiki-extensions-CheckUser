@@ -49,6 +49,8 @@
 	"checkuser-all": "alle",
 	"checkuser-cidr-label": "Gemeinsamen Adressbereich und betroffene Adressen für eine Liste von IP-Adressen ermitteln",
 	"checkuser-cidr-res": "Gemeinschaftlicher IP-Adressbereich:",
+	"checkuser-cidr-affected-ips": "Betroffene IP-Adressen:",
+	"checkuser-cidr-too-small": "Die Range ist zu groß",
 	"checkuser-empty": "Das Logbuch enthält keine Einträge.",
 	"checkuser-nomatch": "Es wurden keine Übereinstimmungen gefunden.",
 	"checkuser-nomatch-edits": "Es wurde keine Übereinstimmungen gefunden.\nDie letzte Bearbeitung hat am $1 um $2 Uhr stattgefunden.",

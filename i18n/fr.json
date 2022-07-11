@@ -59,6 +59,8 @@
 	"checkuser-all": "tout",
 	"checkuser-cidr-label": "Chercher une plage commune et les adresses affectées pour une liste d’adresses IP",
 	"checkuser-cidr-res": "Plage CIDR commune :",
+	"checkuser-cidr-affected-ips": "Adresses IP concernées :",
+	"checkuser-cidr-too-small": "La plage est trop grande",
 	"checkuser-empty": "Le journal ne contient aucun élément.",
 	"checkuser-nomatch": "Recherches infructueuses.",
 	"checkuser-nomatch-edits": "Aucune occurrence trouvée.\nLa dernière modification a eu lieu le $1 à $2.",

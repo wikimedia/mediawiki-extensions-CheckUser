@@ -31,6 +31,7 @@
 			"Tgr",
 			"The Evil IP address",
 			"Umherirrender",
+			"Verdy p",
 			"Xiplus"
 		]
 	},
@@ -64,7 +65,7 @@
 	"checkuser-cidr-label": "[[File:Checkuser find common range form ooui (example).png|thumb|Form where string is used with sample data.]]Used as the fieldset label in [[Special:CheckUser]].",
 	"checkuser-cidr-res": "For an explanation of CIDR see [[WikiPedia:CIDR]].",
 	"checkuser-cidr-affected-ips": "The prefix text for the number of affected IP addresses in the CheckUser CIDR form.",
-	"checkuser-cidr-too-small": "The error message shown when the calculated CIDR is too small.",
+	"checkuser-cidr-too-small": "The error message shown when the calculated CIDR is too large.",
 	"checkuser-empty": "Used in [[Special:CheckUserLog]], if the CheckUser log is empty.",
 	"checkuser-nomatch": "Used in [[Special:CheckUser]].\n\nSee also:\n* {{msg-mw|Checkuser-nomatch-edits}}",
 	"checkuser-nomatch-edits": "Parameters:\n* $1 - date, localized\n* $2 - time, localized\nSee also:\n* {{msg-mw|Checkuser-nomatch}}",
