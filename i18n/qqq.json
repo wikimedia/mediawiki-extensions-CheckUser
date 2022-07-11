@@ -63,7 +63,7 @@
 	"checkuser-week-2": "Option in drop-down input box \"Duration\" on CheckUser Special page. See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]'.",
 	"checkuser-month": "Option in drop-down input box \"Duration\" on CheckUser Special page. See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]'.",
 	"checkuser-all": "Option in drop-down input box \"Duration\" on CheckUser Special page. See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]'.\n{{Identical|All}}",
-	"checkuser-cidr-label": "[[File:Checkuser find common range form (example).png|thumb|Form where string is used with sample data.]]Used as the fieldset label in [[Special:CheckUser]].",
+	"checkuser-cidr-label": "[[File:Checkuser find common range form ooui (example).png|thumb|Form where string is used with sample data.]]Used as the fieldset label in [[Special:CheckUser]].",
 	"checkuser-cidr-res": "For an explanation of CIDR see [[WikiPedia:CIDR]].",
 	"checkuser-empty": "Used in [[Special:CheckUserLog]], if the CheckUser log is empty.",
 	"checkuser-nomatch": "Used in [[Special:CheckUser]].\n\nSee also:\n* {{msg-mw|Checkuser-nomatch-edits}}",
