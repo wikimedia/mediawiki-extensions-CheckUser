@@ -50,6 +50,7 @@
 	"checkuser-all": "모두",
 	"checkuser-cidr-label": "IP 주소의 공통 범위와 영향을 받는 주소 목록 찾기",
 	"checkuser-cidr-res": "공통 CIDR:",
+	"checkuser-cidr-too-small": "범위가 너무 큽니다",
 	"checkuser-empty": "기록이 없습니다.",
 	"checkuser-nomatch": "일치하는 결과가 없습니다.",
 	"checkuser-nomatch-edits": "일치하는 결과가 없습니다.\n마지막 편집은 $1 $2에 있었습니다.",
