@@ -731,8 +731,8 @@ class Hooks {
 					'cuSearch' => $nt->getText()
 				]
 			);
-			$target = MediaWikiServices::getInstance()->getUserFactory()->newFromId( $id );
-			if ( !$target->isAnon() ) {
+			$target = MediaWikiServices::getInstance()->getUserIdentityLookup()->getUserIdentityByUserId( $id );
+			if ( $target->isRegistered() ) {
 				$links['checkuser-log-initiator'] = $linkRenderer->makeKnownLink(
 					SpecialPage::getTitleFor( 'CheckUserLog' ),
 					$sp->msg( 'checkuser-contribs-log-initiator' )->text(),
