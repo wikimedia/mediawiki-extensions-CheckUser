@@ -41,6 +41,7 @@
 	"checkuserlog": "{{doc-special|CheckUserLog}}\nIn the special page, checkusers can look at a log of past checkuser actions.",
 	"checkuser-contribs": "This is a link anchor used in [[Special:Contributions]]/''name'' to link to [[Special:CheckUser]].",
 	"checkuser-contribs-log": "This is a link anchor used in [[Special:Contributions]]/''name'' to link to recent entries in the CheckUser log regarding the user. Displayed only when user viewing the page has the right to view the CheckUser log ('''checkuser-log''' permission).",
+	"checkuser-contribs-log-initiator": "This is a link anchor used in [[Special:Contributions]]/''name'' to link to recent check users made by this user. Displayed only when user viewing the page has the right to view the CheckUser log ('''checkuser-log''' permission).",
 	"group-checkuser": "{{doc-group|checkuser}}\ncheck is a noun, not a verb here\n\n{{Identical|Check user}}",
 	"group-checkuser-member": "{{doc-group|checkuser|member}}\n{{Identical|Check user}}",
 	"right-checkuser": "{{doc-right|checkuser}}",
