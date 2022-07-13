@@ -16,6 +16,7 @@
 	"checkuserlog": "Kniha kontroly uživatelů",
 	"checkuser-contribs": "kontrola uživatelových IP",
 	"checkuser-contribs-log": "nedávné kontroly uživatele",
+	"checkuser-contribs-log-initiator": "kontroly uživatelů provedené tímto uživatelem",
 	"group-checkuser": "Revizoři",
 	"group-checkuser-member": "{{GENDER:$1|revizor|revizorka|revizor}}",
 	"right-checkuser": "Kontrolování uživatelské IP adresy a dalších informací",

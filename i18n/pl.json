@@ -27,6 +27,7 @@
 	"checkuserlog": "Rejestr sprawdzeń CheckUser",
 	"checkuser-contribs": "sprawdź adresy IP",
 	"checkuser-contribs-log": "rejestr sprawdzeń checkuser",
+	"checkuser-contribs-log-initiator": "sprawdzenia użytkowników wykonane przez tego użytkownika",
 	"group-checkuser": "Checkuserzy",
 	"group-checkuser-member": "{{GENDER:$1|checkuser|checkuserka}}",
 	"right-checkuser": "Sprawdzanie adresów IP oraz innych informacji o użytkownikach",

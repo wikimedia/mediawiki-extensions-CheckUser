@@ -22,6 +22,7 @@
 	"checkuserlog": "سجل تدقيق المستخدم",
 	"checkuser-contribs": "افحص عناوين أيبي المستخدم",
 	"checkuser-contribs-log": "تدقيقات المستخدم الأخيرة",
+	"checkuser-contribs-log-initiator": "تدقيقات المستخدم التي أجراها هذا المستخدم",
 	"group-checkuser": "مدققو مستخدم",
 	"group-checkuser-member": "{{GENDER:$1|مدقق مستخدم}}",
 	"right-checkuser": "افحص عناوين أيبي المستخدم والمعلومات الأخرى",

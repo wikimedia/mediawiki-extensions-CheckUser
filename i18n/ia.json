@@ -10,6 +10,7 @@
 	"checkuserlog": "Registro de verification de usatores",
 	"checkuser-contribs": "verification de adresses IP de usatores",
 	"checkuser-contribs-log": "verificationes recente de usatores",
+	"checkuser-contribs-log-initiator": "verificationes de usatores facite per iste usator",
 	"group-checkuser": "Verificatores de usatores",
 	"group-checkuser-member": "{{GENDER:$1|verificator|verificatrice}} de usatores",
 	"right-checkuser": "Verificar le adresses IP e altere informationes del usator",

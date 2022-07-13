@@ -14,6 +14,7 @@
 	"checkuserlog": "Дневник на проверки",
 	"checkuser-contribs": "провери IP-адреси на корисникот",
 	"checkuser-contribs-log": "скорешни проверки",
+	"checkuser-contribs-log-initiator": "кориснички проверки напраевни од овој корисник",
 	"group-checkuser": "Проверувачи",
 	"group-checkuser-member": "{{GENDER:$1|проверувач}}",
 	"right-checkuser": "Проверување на корисничка IP-адреса и други информации",

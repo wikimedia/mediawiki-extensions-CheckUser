@@ -25,6 +25,7 @@
 	"checkuserlog": "Denetçi günlüğü",
 	"checkuser-contribs": "kullanıcı IP adreslerini kontrol et",
 	"checkuser-contribs-log": "son kullanıcı kontrolleri",
+	"checkuser-contribs-log-initiator": "bu kullanıcı tarafından yapılan kullanıcı kontrolleri",
 	"group-checkuser": "Denetçiler",
 	"group-checkuser-member": "{{GENDER:$1|denetçi}}",
 	"right-checkuser": "Kullanıcıların IP adreslerini ve diğer bilgilerini denetle",
