@@ -31,7 +31,8 @@
 			"Tgr",
 			"The Evil IP address",
 			"Umherirrender",
-			"Xiplus"
+			"Xiplus",
+			"Verdy p"
 		]
 	},
 	"checkuser-summary": "Explanation of CheckUser tool. See [[mw:Extension:CheckUser#Basic_interface|screenshot titled 'Basic CheckUser interface']].\n\nParameters:\n* $1 - an integer. default value: 16\n* $2 - an integer. default value: 32",
@@ -61,7 +62,7 @@
 	"checkuser-month": "Option in drop-down input box \"Duration\" on CheckUser Special page. See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]'.",
 	"checkuser-month-2": "Option in drop-down input box \"Duration\" on CheckUser Special page. See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]'.",
 	"checkuser-all": "Option in drop-down input box \"Duration\" on CheckUser Special page. See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]'.\n{{Identical|All}}",
-	"checkuser-cidr-label": "[[File:Checkuser find common range form (example).png|thumb|Form where string is used with sample data.]]Used as the fieldset label in [[Special:CheckUser]].",
+	"checkuser-cidr-label": "[[File:Checkuser find common range form ooui (example).png|thumb|Form where string is used with sample data.]]Used as the fieldset label in [[Special:CheckUser]].",
 	"checkuser-cidr-res": "For an explanation of CIDR see [[WikiPedia:CIDR]].",
 	"checkuser-empty": "Used in [[Special:CheckUserLog]], if the CheckUser log is empty.",
 	"checkuser-nomatch": "Used in [[Special:CheckUser]].\n\nSee also:\n* {{msg-mw|Checkuser-nomatch-edits}}",
