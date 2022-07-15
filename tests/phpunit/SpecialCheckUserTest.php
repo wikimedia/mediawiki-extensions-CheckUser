@@ -8,7 +8,6 @@ use MediaWiki\CheckUser\Specials\SpecialCheckUser;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\TestingAccessWrapper;
-use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * Test class for SpecialCheckUser class
@@ -73,56 +72,6 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @covers \MediaWiki\CheckUser\Specials\SpecialCheckUser::getIpConds
-	 * @dataProvider provideGetIpConds
-	 */
-	public function testGetIpConds( $target, $expected ) {
-		$dbr = wfGetDB( DB_REPLICA );
-
-		$this->assertEquals(
-			$expected,
-			SpecialCheckUser::getIpConds( $dbr, $target )
-		);
-	}
-
-	/**
-	 * Test cases for SpecialCheckUser::getIpConds
-	 * @return array
-	 */
-	public function provideGetIpConds() {
-		return [
-			'Single IPv4 address' => [
-				'212.35.31.121',
-				[ 'cuc_ip_hex' => 'D4231F79' ],
-			],
-			'Single IPv4 address notated as a /32' => [
-				'212.35.31.121/32',
-				[ 0 => 'cuc_ip_hex BETWEEN \'D4231F79\' AND \'D4231F79\'' ],
-			],
-			'Single IPv6 address' => [
-				'::e:f:2001',
-				[ 'cuc_ip_hex' => 'v6-00000000000000000000000E000F2001' ],
-			],
-			'IPv6 /96 range' => [
-				'::e:f:2001/96',
-				[ 0 => 'cuc_ip_hex BETWEEN \'v6-00000000000000000000000E00000000\'' .
-					' AND \'v6-00000000000000000000000EFFFFFFFF\'' ],
-			],
-			'Invalid IP address' => [ 'abcedf', false ]
-		];
-	}
-
-	/**
-	 * @covers \MediaWiki\CheckUser\Specials\SpecialCheckUser::getIpConds
-	 */
-	public function testGetIpCondsLowerThanLimit() {
-		// Need to not have these in a dataProvider as $this->lowerThanLimit... isn't set when
-		// the data is returned.
-		$this->testGetIpConds( "0.17.184.5/$this->lowerThanLimitIPv4", false );
-		$this->testGetIpConds( "2000::/$this->lowerThanLimitIPv6", false );
-	}
-
-	/**
 	 * @covers \MediaWiki\CheckUser\Specials\SpecialCheckUser::isValidRange
 	 * @dataProvider provideIsValidRange
 	 */
@@ -179,61 +128,6 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 			'Non-empty reason with wgCheckUserForceSummary as false' => [ false, 'Test Reason', true ],
 			'Empty reason with wgCheckUserForceSummary as true' => [ true, '', false ],
 			'Non-empty reason with wgCheckUserForceSummary as true' => [ true, 'Test Reason', true ]
-		];
-	}
-
-	/**
-	 * @covers \MediaWiki\CheckUser\Specials\SpecialCheckUser::getTimeConds
-	 * @dataProvider provideGetTimeConds
-	 */
-	public function testGetTimeConds( $period, $fakeTime, $expected ) {
-		ConvertibleTimestamp::setFakeTime( $fakeTime );
-		$object = $this->setUpObject();
-		$object->opts->add( 'period', $period );
-		if ( $expected === false ) {
-			$this->assertFalse( $object->getTimeConds() );
-		} else {
-			$this->assertSame(
-				'cuc_timestamp > ' . $this->db->addQuotes( $this->db->timestamp( $expected ) ),
-				$object->getTimeConds()
-			);
-		}
-	}
-
-	public function provideGetTimeConds() {
-		return [
-			'Empty period' => [ '', '1653047635', false ],
-			'Period value for all' => [ 0, '1653047635', false ],
-			'Period value for 7 days' => [ 7, '1653077137', '20220513000000' ],
-			'Period value for 30 days' => [ 30, '1653047635', '20220420000000' ],
-		];
-	}
-
-	/**
-	 * @covers \MediaWiki\CheckUser\Specials\SpecialCheckUser::userWasBlocked
-	 * @dataProvider provideUserWasBlocked
-	 */
-	public function testUserWasBlocked( $block ) {
-		$testUser = $this->getTestUser()->getUser();
-		if ( $block ) {
-			$userAuthority = $this->mockRegisteredUltimateAuthority();
-			$this->getServiceContainer()->getBlockUserFactory()->newBlockUser(
-				$testUser,
-				$userAuthority,
-				'1 second'
-			)->placeBlock();
-		}
-		$object = $this->setUpObject();
-		$this->assertSame(
-			$block,
-			$object->userWasBlocked( $testUser->getName() )
-		);
-	}
-
-	public function provideUserWasBlocked() {
-		return [
-			'User was previously blocked' => [ true ],
-			'User never previously blocked' => [ false ]
 		];
 	}
 

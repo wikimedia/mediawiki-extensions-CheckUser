@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Api;
 
 use ApiQueryBase;
 use Exception;
+use MediaWiki\CheckUser\CheckUserPagers\AbstractCheckUserPager;
 use MediaWiki\CheckUser\Specials\SpecialCheckUser;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionLookup;
@@ -112,7 +113,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 
 			case 'edits':
 				if ( IPUtils::isIPAddress( $target ) ) {
-					$cond = SpecialCheckUser::getIpConds( $dbr, $target, isset( $xff ) );
+					$cond = AbstractCheckUserPager::getIpConds( $dbr, $target, isset( $xff ) );
 					if ( !$cond ) {
 						$this->dieWithError( 'apierror-badip', 'invalidip' );
 					}
@@ -218,7 +219,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 
 			case 'ipusers':
 				if ( IPUtils::isIPAddress( $target ) ) {
-					$cond = SpecialCheckUser::getIpConds( $dbr, $target, isset( $xff ) );
+					$cond = AbstractCheckUserPager::getIpConds( $dbr, $target, isset( $xff ) );
 					$this->addWhere( $cond );
 					$log_type = 'ipusers';
 					if ( isset( $xff ) ) {

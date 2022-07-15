@@ -1,3 +1,5 @@
+@import 'mediawiki.skin.variables.less';
+
 .mw-checkuser-edits-count {
 	display: inline-block;
 
@@ -16,4 +18,38 @@
 
 .mw-checkuser-log-highlight-entry {
 	background-color: #fcc;
+}
+
+.mw-special-CheckUser {
+	.mw-checkuser-paging-links-form {
+		display: inline-block;
+		font-size: inherit;
+	}
+
+	.mw-checkuser-paging-links {
+		text-decoration: none;
+		color: @color-link;
+		background: none;
+		border: 0;
+		padding: 0;
+		font-size: unset;
+		font-family: inherit;
+	}
+
+	.mw-checkuser-paging-links:not( [ href ] ) {
+		cursor: pointer;
+	}
+
+	.mw-checkuser-paging-links:visited {
+		color: @color-link--visited;
+	}
+
+	.mw-checkuser-paging-links:active {
+		color: @color-link--active;
+	}
+
+	.mw-checkuser-paging-links:hover,
+	.mw-checkuser-paging-links:focus {
+		text-decoration: underline;
+	}
 }

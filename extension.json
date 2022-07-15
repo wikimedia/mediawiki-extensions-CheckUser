@@ -253,7 +253,14 @@
 				"BlockPermissionCheckerFactory",
 				"UserGroupManager",
 				"CentralIdLookupFactory",
-				"WikiPageFactory"
+				"WikiPageFactory",
+				"PermissionManager",
+				"UserIdentityLookup",
+				"CheckUserTokenQueryManager",
+				"DBLoadBalancer",
+				"ActorMigration",
+				"UserFactory",
+				"RevisionStore"
 			]
 		},
 		"CheckUserLog": {
