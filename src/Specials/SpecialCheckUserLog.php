@@ -64,7 +64,7 @@ class SpecialCheckUserLog extends SpecialPage {
 		// Normalise target parameter and ignore if not valid (T217713)
 		// It must be valid when making a link to Special:CheckUserLog/<user>.
 		// Do not normalize an empty target, as that means "everything" (T265606)
-		$this->opts['target'] = trim( $request->getVal( 'cuSearch', $par ) );
+		$this->opts['target'] = trim( $request->getVal( 'cuSearch', $par ?? '' ) );
 		if ( $this->opts['target'] !== '' ) {
 			$userTitle = Title::makeTitleSafe( NS_USER, $this->opts['target'] );
 			$this->opts['target'] = $userTitle ? $userTitle->getText() : '';
