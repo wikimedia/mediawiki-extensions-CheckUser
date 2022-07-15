@@ -25,7 +25,7 @@ class SpecialCheckUserLog extends SpecialPage {
 
 		$out = $this->getOutput();
 		$request = $this->getRequest();
-		$this->target = trim( $request->getVal( 'cuSearch', $par ) );
+		$this->target = trim( $request->getVal( 'cuSearch', $par ?? '' ) );
 
 		if ( $this->getUser()->isAllowed( 'checkuser' ) ) {
 			$subtitleLink = $this->getLinkRenderer()->makeKnownLink(
