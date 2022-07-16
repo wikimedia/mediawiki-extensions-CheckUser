@@ -76,7 +76,8 @@ class Hooks {
 					'CheckUserEventLogger',
 					'CheckUserGuidedTourLauncher',
 					'CheckUserHookRunner',
-					'PermissionManager'
+					'PermissionManager',
+					'CheckUserLogService',
 				],
 			];
 

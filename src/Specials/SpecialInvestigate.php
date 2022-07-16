@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Specials;
 use Html;
 use HTMLForm;
 use Language;
+use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\DurationManager;
 use MediaWiki\CheckUser\EventLogger;
 use MediaWiki\CheckUser\GuidedTour\TourLauncher;
@@ -66,6 +67,9 @@ class SpecialInvestigate extends \FormSpecialPage {
 	/** @var PermissionManager */
 	private $permissionManager;
 
+	/** @var CheckUserLogService */
+	private $checkUserLogService;
+
 	/** @var IndexLayout|null */
 	private $layout;
 
@@ -106,6 +110,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 * @param TourLauncher $tourLauncher
 	 * @param CheckUserSubtitleLinksHook $subtitleLinksHookRunner
 	 * @param PermissionManager $permissionManager
+	 * @param CheckUserLogService $checkUserLogService
 	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
@@ -119,7 +124,8 @@ class SpecialInvestigate extends \FormSpecialPage {
 		EventLogger $eventLogger,
 		TourLauncher $tourLauncher,
 		CheckUserSubtitleLinksHook $subtitleLinksHookRunner,
-		PermissionManager $permissionManager
+		PermissionManager $permissionManager,
+		CheckUserLogService $checkUserLogService
 	) {
 		parent::__construct( 'Investigate', 'checkuser' );
 		$this->setLinkRenderer( $linkRenderer );
@@ -134,6 +140,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 		$this->tourLauncher = $tourLauncher;
 		$this->subtitleLinksHookRunner = $subtitleLinksHookRunner;
 		$this->permissionManager = $permissionManager;
+		$this->checkUserLogService = $checkUserLogService;
 	}
 
 	/**
@@ -810,6 +817,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 */
 	protected function addLogEntries( array $targets, string $reason ) {
 		$logType = 'investigate';
+		$user = $this->getUser();
 
 		foreach ( $targets as $target ) {
 			if ( IPUtils::isIPAddress( $target ) ) {
@@ -821,7 +829,8 @@ class SpecialInvestigate extends \FormSpecialPage {
 				$targetId = User::idFromName( $target );
 			}
 
-			SpecialCheckUser::addLogEntry(
+			$this->checkUserLogService->addLogEntry(
+				$user,
 				$logType,
 				$targetType,
 				$target,

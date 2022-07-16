@@ -4,8 +4,8 @@ namespace MediaWiki\CheckUser\Api;
 
 use ApiQueryBase;
 use Exception;
+use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\CheckUserPagers\AbstractCheckUserPager;
-use MediaWiki\CheckUser\Specials\SpecialCheckUser;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
@@ -25,15 +25,22 @@ class ApiQueryCheckUser extends ApiQueryBase {
 	/** @var RevisionLookup */
 	private $revisionLookup;
 
+	/**
+	 * @var CheckUserLogService
+	 */
+	private $checkUserLogService;
+
 	public function __construct(
 		$query,
 		$moduleName,
 		UserIdentityLookup $userIdentityLookup,
-		RevisionLookup $revisionLookup
+		RevisionLookup $revisionLookup,
+		CheckUserLogService $checkUserLogService
 	) {
 		parent::__construct( $query, $moduleName, 'cu' );
 		$this->userIdentityLookup = $userIdentityLookup;
 		$this->revisionLookup = $revisionLookup;
+		$this->checkUserLogService = $checkUserLogService;
 	}
 
 	public function execute() {
@@ -104,7 +111,8 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$resultIPs[] = $data;
 				}
 
-				SpecialCheckUser::addLogEntry( 'userips', 'user', $target, $reason, $user_id );
+				$this->checkUserLogService->addLogEntry( $this->getUser(), 'userips',
+					'user', $target, $reason, $user_id );
 				$result->addValue( [
 					'query', $this->getModuleName() ], 'userips', $resultIPs );
 				$result->addIndexedTagName( [
@@ -209,7 +217,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$edits[] = $edit;
 				}
 
-				SpecialCheckUser::addLogEntry( $log_type[0], $log_type[1],
+				$this->checkUserLogService->addLogEntry( $this->getUser(), $log_type[0], $log_type[1],
 					$target, $reason, $user_id ?? '0' );
 				$result->addValue( [
 					'query', $this->getModuleName() ], 'edits', $edits );
@@ -269,7 +277,8 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$resultUsers[] = $userData;
 				}
 
-				SpecialCheckUser::addLogEntry( $log_type, 'ip', $target, $reason );
+				$this->checkUserLogService->addLogEntry( $this->getUser(), $log_type,
+					'ip', $target, $reason );
 				$result->addValue( [
 					'query', $this->getModuleName() ], 'ipusers', $resultUsers );
 				$result->addIndexedTagName( [

@@ -12,6 +12,7 @@ use HtmlArmor;
 use IContextSource;
 use Linker;
 use MediaWiki\Cache\LinkBatchFactory;
+use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\Hooks as CUHooks;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\Linker\LinkRenderer;
@@ -78,6 +79,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	 * @param ActorMigration $actorMigration
 	 * @param UserFactory $userFactory
 	 * @param RevisionStore $revisionStore
+	 * @param CheckUserLogService $checkUserLogService
 	 * @param IContextSource|null $context
 	 * @param LinkRenderer|null $linkRenderer
 	 * @param ?int $limit
@@ -97,13 +99,14 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		ActorMigration $actorMigration,
 		UserFactory $userFactory,
 		RevisionStore $revisionStore,
+		CheckUserLogService $checkUserLogService,
 		IContextSource $context = null,
 		LinkRenderer $linkRenderer = null,
 		?int $limit = null
 	) {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager,
 			$userGroupManager, $centralIdLookup, $loadBalancer, $specialPageFactory,
-			$userIdentityLookup, $actorMigration, $context, $linkRenderer, $limit );
+			$userIdentityLookup, $actorMigration, $checkUserLogService, $context, $linkRenderer, $limit );
 		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
 		$this->xfor = $xfor;
 		$this->linkBatchFactory = $linkBatchFactory;

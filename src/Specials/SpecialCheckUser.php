@@ -4,18 +4,17 @@ namespace MediaWiki\CheckUser\Specials;
 
 use ActorMigration;
 use CentralIdLookup;
-use DeferredUpdates;
 use FormOptions;
 use Html;
 use HTMLForm;
 use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\Cache\LinkBatchFactory;
+use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\CheckUserPagers\AbstractCheckUserPager;
 use MediaWiki\CheckUser\CheckUserPagers\CheckUserGetEditsPager;
 use MediaWiki\CheckUser\CheckUserPagers\CheckUserGetIPsPager;
 use MediaWiki\CheckUser\CheckUserPagers\CheckUserGetUsersPager;
 use MediaWiki\CheckUser\TokenQueryManager;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Page\WikiPageFactory;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Revision\RevisionStore;
@@ -26,7 +25,6 @@ use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
 use Message;
 use OOUI\IconWidget;
-use RequestContext;
 use SpecialBlock;
 use SpecialPage;
 use Title;
@@ -92,6 +90,11 @@ class SpecialCheckUser extends SpecialPage {
 	private $revisionStore;
 
 	/**
+	 * @var CheckUserLogService
+	 */
+	private $checkUserLogService;
+
+	/**
 	 * @param LinkBatchFactory $linkBatchFactory
 	 * @param BlockPermissionCheckerFactory $blockPermissionCheckerFactory
 	 * @param UserGroupManager $userGroupManager
@@ -104,6 +107,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param ActorMigration $actorMigration
 	 * @param UserFactory $userFactory
 	 * @param RevisionStore $revisionStore
+	 * @param CheckUserLogService $checkUserLogService
 	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
@@ -117,7 +121,8 @@ class SpecialCheckUser extends SpecialPage {
 		ILoadBalancer $loadBalancer,
 		ActorMigration $actorMigration,
 		UserFactory $userFactory,
-		RevisionStore $revisionStore
+		RevisionStore $revisionStore,
+		CheckUserLogService $checkUserLogService
 	) {
 		parent::__construct( 'CheckUser', 'checkuser' );
 
@@ -133,6 +138,7 @@ class SpecialCheckUser extends SpecialPage {
 		$this->actorMigration = $actorMigration;
 		$this->userFactory = $userFactory;
 		$this->revisionStore = $revisionStore;
+		$this->checkUserLogService = $checkUserLogService;
 	}
 
 	public function doesWrites() {
@@ -638,7 +644,8 @@ class SpecialCheckUser extends SpecialPage {
 			$this->loadBalancer,
 			$this->getSpecialPageFactory(),
 			$this->userIdentityLookup,
-			$this->actorMigration
+			$this->actorMigration,
+			$this->checkUserLogService
 		);
 		$out->addHtml( $pager->getBody() );
 	}
@@ -676,7 +683,8 @@ class SpecialCheckUser extends SpecialPage {
 			$this->userIdentityLookup,
 			$this->actorMigration,
 			$this->userFactory,
-			$this->revisionStore
+			$this->revisionStore,
+			$this->checkUserLogService
 		);
 		$out->addHTML( $pager->getBody() );
 	}
@@ -729,7 +737,8 @@ class SpecialCheckUser extends SpecialPage {
 			$this->userIdentityLookup,
 			$this->actorMigration,
 			$this->userFactory,
-			$this->revisionStore
+			$this->revisionStore,
+			$this->checkUserLogService
 		);
 		$out->addHTML( $pager->getBody() );
 	}
@@ -768,7 +777,8 @@ class SpecialCheckUser extends SpecialPage {
 			$this->getSpecialPageFactory(),
 			$this->userIdentityLookup,
 			$this->actorMigration,
-			$this->userFactory
+			$this->userFactory,
+			$this->checkUserLogService
 		);
 		$out->addHTML( $pager->getBody() );
 	}
@@ -790,57 +800,6 @@ class SpecialCheckUser extends SpecialPage {
 		}
 
 		return IPUtils::isValid( $target );
-	}
-
-	public static function addLogEntry( $logType, $targetType, $target, $reason, $targetID = 0 ) {
-		$user = RequestContext::getMain()->getUser();
-
-		if ( $targetType == 'ip' ) {
-			list( $rangeStart, $rangeEnd ) = IPUtils::parseRange( $target );
-			$targetHex = $rangeStart;
-			if ( $rangeStart == $rangeEnd ) {
-				$rangeStart = $rangeEnd = '';
-			}
-		} else {
-			$targetHex = $rangeStart = $rangeEnd = '';
-		}
-
-		$timestamp = time();
-		$data = [
-			'cul_user' => $user->getId(),
-			'cul_user_text' => $user->getName(),
-			'cul_reason' => $reason,
-			'cul_type' => $logType,
-			'cul_target_id' => $targetID,
-			'cul_target_text' => trim( $target ),
-			'cul_target_hex' => $targetHex,
-			'cul_range_start' => $rangeStart,
-			'cul_range_end' => $rangeEnd
-		];
-
-		$culActorMigrationStage = MediaWikiServices::getInstance()
-			->getMainConfig()
-			->get( 'CheckUserLogActorMigrationStage' );
-		if ( $culActorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$data['cul_actor'] = $user->getActorId();
-		}
-
-		$fname = __METHOD__;
-
-		DeferredUpdates::addCallableUpdate(
-			static function () use ( $data, $timestamp, $fname ) {
-				$dbw = wfGetDB( DB_PRIMARY );
-				$dbw->insert(
-					'cu_log',
-					[
-						'cul_timestamp' => $dbw->timestamp( $timestamp )
-					] + $data,
-					$fname
-				);
-			},
-			// fail on error and show no output
-			DeferredUpdates::PRESEND
-		);
 	}
 
 	/**

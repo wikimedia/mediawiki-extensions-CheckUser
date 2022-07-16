@@ -12,6 +12,7 @@ use IContextSource;
 use Linker;
 use ListToggle;
 use MediaWiki\Block\BlockPermissionCheckerFactory;
+use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\Hooks as CUHooks;
 use MediaWiki\CheckUser\Specials\HTMLFieldsetCheckUser;
 use MediaWiki\CheckUser\TokenQueryManager;
@@ -80,6 +81,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	 * @param UserIdentityLookup $userIdentityLookup
 	 * @param ActorMigration $actorMigration
 	 * @param UserFactory $userFactory
+	 * @param CheckUserLogService $checkUserLogService
 	 * @param IContextSource|null $context
 	 * @param LinkRenderer|null $linkRenderer
 	 * @param ?int $limit
@@ -99,13 +101,14 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		UserIdentityLookup $userIdentityLookup,
 		ActorMigration $actorMigration,
 		UserFactory $userFactory,
+		CheckUserLogService $checkUserLogService,
 		IContextSource $context = null,
 		LinkRenderer $linkRenderer = null,
 		?int $limit = null
 	) {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager,
 			$userGroupManager, $centralIdLookup, $loadBalancer, $specialPageFactory,
-			$userIdentityLookup, $actorMigration, $context, $linkRenderer, $limit );
+			$userIdentityLookup, $actorMigration, $checkUserLogService, $context, $linkRenderer, $limit );
 		$this->xfor = $xfor;
 		$this->canPerformBlocks = $permissionManager->userHasRight( $this->getUser(), 'block' )
 			&& !$this->getUser()->getBlock();

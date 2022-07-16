@@ -9,6 +9,7 @@ use Html;
 use HtmlArmor;
 use IContextSource;
 use MediaWiki\Block\DatabaseBlock;
+use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\Specials\SpecialCheckUser;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\Linker\LinkRenderer;
@@ -75,6 +76,11 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	private $actorMigration;
 
 	/**
+	 * @var CheckUserLogService
+	 */
+	private $checkUserLogService;
+
+	/**
 	 * @param FormOptions $opts
 	 * @param UserIdentity $target
 	 * @param string $logType
@@ -85,6 +91,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	 * @param SpecialPageFactory $specialPageFactory
 	 * @param UserIdentityLookup $userIdentityLookup
 	 * @param ActorMigration $actorMigration
+	 * @param CheckUserLogService $checkUserLogService
 	 * @param IContextSource|null $context
 	 * @param LinkRenderer|null $linkRenderer
 	 * @param ?int $limit
@@ -100,6 +107,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 		SpecialPageFactory $specialPageFactory,
 		UserIdentityLookup $userIdentityLookup,
 		ActorMigration $actorMigration,
+		CheckUserLogService $checkUserLogService,
 		IContextSource $context = null,
 		LinkRenderer $linkRenderer = null,
 		?int $limit = null
@@ -140,6 +148,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 		$this->specialPageFactory = $specialPageFactory;
 		$this->userIdentityLookup = $userIdentityLookup;
 		$this->actorMigration = $actorMigration;
+		$this->checkUserLogService = $checkUserLogService;
 
 		// Get any set token data. Used for paging without adding extra logs
 		$tokenData = $this->tokenQueryManager->getDataFromRequest( $this->getRequest() );
@@ -148,7 +157,8 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 			//  the server for CheckUser for paging links after running a check.
 			//  It will also only be valid if not tampered with as it's encrypted.
 			//  Paging through the entries won't need an extra log entry.
-			SpecialCheckUser::addLogEntry(
+			$this->checkUserLogService->addLogEntry(
+				$this->getUser(),
 				$this->logType,
 				$target->getId() ? 'user' : 'ip',
 				$target->getName(),

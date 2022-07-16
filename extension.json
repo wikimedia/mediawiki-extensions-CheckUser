@@ -90,7 +90,8 @@
 			"class": "MediaWiki\\CheckUser\\Api\\ApiQueryCheckUser",
 			"services": [
 				"UserIdentityLookup",
-				"RevisionLookup"
+				"RevisionLookup",
+				"CheckUserLogService"
 			]
 		},
 		"checkuserlog": "MediaWiki\\CheckUser\\Api\\ApiQueryCheckUserLog"
@@ -260,7 +261,8 @@
 				"DBLoadBalancer",
 				"ActorMigration",
 				"UserFactory",
-				"RevisionStore"
+				"RevisionStore",
+				"CheckUserLogService"
 			]
 		},
 		"CheckUserLog": {
