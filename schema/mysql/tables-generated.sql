@@ -38,6 +38,7 @@ CREATE TABLE /*_*/cu_log (
   cul_timestamp BINARY(14) NOT NULL,
   cul_user INT UNSIGNED NOT NULL,
   cul_user_text VARBINARY(255) NOT NULL,
+  cul_actor BIGINT UNSIGNED DEFAULT 0 NOT NULL,
   cul_reason VARBINARY(255) NOT NULL,
   cul_reason_id BIGINT UNSIGNED DEFAULT 0 NOT NULL,
   cul_reason_plaintext_id BIGINT UNSIGNED DEFAULT 0 NOT NULL,
@@ -48,6 +49,7 @@ CREATE TABLE /*_*/cu_log (
   cul_range_start VARBINARY(255) DEFAULT '' NOT NULL,
   cul_range_end VARBINARY(255) DEFAULT '' NOT NULL,
   INDEX cul_user (cul_user, cul_timestamp),
+  INDEX cul_actor_time (cul_actor, cul_timestamp),
   INDEX cul_type_target (
     cul_type, cul_target_id, cul_timestamp
   ),
