@@ -822,6 +822,17 @@ class Hooks {
 				'actorStage' => $actorMigrationStage
 			];
 		}
+		$culActorMigrationStage = MediaWikiServices::getInstance()
+			->getMainConfig()
+			->get( 'CheckUserLogActorMigrationStage' );
+		if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+			$updateFields[] = [
+				'cu_log',
+				'batch_key' => 'cul_id',
+				'actorId' => 'cul_actor',
+				'actorStage' => $culActorMigrationStage
+			];
+		}
 		$updateFields[] = [ 'cu_changes', 'cuc_user', 'cuc_user_text' ];
 		$updateFields[] = [ 'cu_log', 'cul_user', 'cul_user_text' ];
 		$updateFields[] = [ 'cu_log', 'cul_target_id' ];

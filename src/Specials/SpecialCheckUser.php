@@ -2299,6 +2299,14 @@ class SpecialCheckUser extends SpecialPage {
 			'cul_range_start' => $rangeStart,
 			'cul_range_end' => $rangeEnd
 		];
+
+		$culActorMigrationStage = MediaWikiServices::getInstance()
+			->getMainConfig()
+			->get( 'CheckUserLogActorMigrationStage' );
+		if ( $culActorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+			$data['cul_actor'] = $user->getActorId();
+		}
+
 		$fname = __METHOD__;
 
 		DeferredUpdates::addCallableUpdate(

@@ -13,9 +13,10 @@ class HooksIntegrationTest extends MediaWikiIntegrationTestCase {
 
 	public function setUp(): void {
 		parent::setUp();
-		$this->setMwGlobals(
-			[ 'wgCheckUserActorMigrationStage' => 3 ]
-		);
+		$this->setMwGlobals( [
+			'wgCheckUserActorMigrationStage' => 3,
+			'wgCheckUserLogActorMigrationStage' => 3
+		] );
 	}
 
 	/**

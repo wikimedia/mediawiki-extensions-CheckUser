@@ -80,6 +80,9 @@
 		},
 		"CheckUserActorMigrationStage": {
 			"value": 259
+		},
+		"CheckUserLogActorMigrationStage": {
+			"value": 3
 		}
 	},
 	"APIListModules": {

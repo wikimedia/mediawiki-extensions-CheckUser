@@ -91,7 +91,9 @@ class ImportCheckUserLogs extends Maintenance {
 		$matched = 0;
 		$unmatched = 0;
 
-		$userFactory = MediaWikiServices::getInstance()->getUserFactory();
+		$services = MediaWikiServices::getInstance();
+		$userFactory = $services->getUserFactory();
+		$culActorMigrationStage = $services->getMainConfig()->get( 'CheckUserLogActorMigrationStage' );
 
 		while ( ( $line = fgets( $file ) ) !== false ) {
 			$data = $this->parseLogLine( $line );
@@ -129,7 +131,12 @@ class ImportCheckUserLogs extends Maintenance {
 						'cul_target_text' => $data['target'],
 						'cul_target_hex' => $hex,
 						'cul_range_start' => $start,
-						'cul_range_end' => $end ];
+						'cul_range_end' => $end
+					];
+
+					if ( $culActorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+						$fields['cul_actor'] = $user->getActorId();
+					}
 
 					$dbw->insert( 'cu_log', $fields, __METHOD__ );
 				}
