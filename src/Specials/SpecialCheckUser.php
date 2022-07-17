@@ -115,8 +115,10 @@ class SpecialCheckUser extends SpecialPage {
 
 		$out = $this->getOutput();
 		$request = $this->getRequest();
-		$user = $request->getText( 'user', $request->getText( 'ip', $subpage ) );
-		$user = trim( $user );
+		$user = trim(
+			$request->getText( 'user', $request->getText( 'ip', $subpage ?? '' ) )
+		);
+
 		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
 
 		// Normalise 'user' parameter and ignore if not valid (T217713)
