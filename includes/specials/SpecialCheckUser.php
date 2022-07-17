@@ -48,8 +48,9 @@ class SpecialCheckUser extends SpecialPage {
 
 		$out = $this->getOutput();
 		$request = $this->getRequest();
-		$user = $request->getText( 'user', $request->getText( 'ip', $subpage ) );
-		$user = trim( $user );
+		$user = trim(
+			$request->getText( 'user', $request->getText( 'ip', $subpage ?? '' ) )
+		);
 
 		if ( $this->getUser()->isAllowed( 'checkuser-log' ) ) {
 			$subtitleLink = $this->getLinkRenderer()->makeKnownLink(
