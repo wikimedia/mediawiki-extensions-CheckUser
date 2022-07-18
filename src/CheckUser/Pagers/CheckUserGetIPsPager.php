@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
-use Html;
 use MediaWiki\Block\DatabaseBlock;
 use SpecialPage;
 use Wikimedia\IPUtils;
@@ -13,59 +12,40 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 	public function formatRow( $row ): string {
 		$lang = $this->getLanguage();
 		$ip = $row->cuc_ip;
-		$s = '<li>';
-		$s .= $this->getSelfLink( $ip,
+		$templateParams = [];
+		$templateParams['ipLink'] = $this->getSelfLink( $ip,
 			[
 				'user' => $ip,
 				'reason' => $this->opts->getValue( 'reason' ),
 			]
 		);
 		if ( IPUtils::isValidIPv6( $ip ) ) {
-			$s .= ' ' . Html::rawElement(
-					'span',
-					[ 'class' => 'mw-changeslist-links' ],
-					$this->getSelfLink( '/64',
-						[
-							'user' => $ip . '/64',
-							'reason' => $this->opts->getValue( 'reason' ),
-						]
-					)
-				);
+			$templateParams['ip64Link'] = $this->getSelfLink( '/64',
+				[
+					'user' => $ip . '/64',
+					'reason' => $this->opts->getValue( 'reason' ),
+				]
+			);
 		}
-		$s .= ' ' . Html::rawElement(
-				'span',
-				[ 'class' => 'mw-changeslist-links' ],
-				$this->getLinkRenderer()->makeKnownLink(
-					SpecialPage::getTitleFor( 'Block', $ip ),
-					$this->msg( 'blocklink' )->text()
-				)
-			);
-		$s .= ' ' . $this->getTimeRangeString( $row->first, $row->last ) . ' ';
-		$s .= ' ' . Html::rawElement(
-				'strong',
-				[ 'class' => 'mw-checkuser-edits-count' ],
-				htmlspecialchars( $lang->formatNum( $row->count ) )
-			);
+		$templateParams['blockLink'] = $this->getLinkRenderer()->makeKnownLink(
+			SpecialPage::getTitleFor( 'Block', $ip ),
+			$this->msg( 'blocklink' )->text()
+		);
+		$templateParams['timeRange'] = $this->getTimeRangeString( $row->first, $row->last );
+		$templateParams['editCount'] = $lang->formatNum( $row->count );
 
 		// If we get some results, it helps to know if the IP in general
 		// has a lot more edits, e.g. "tip of the iceberg"...
 		$ipedits = $this->getCountForIPedits( $row->cuc_ip_hex );
 		if ( $ipedits > $row->count ) {
-			$s .= ' ' . Html::rawElement(
-				'i',
-				[ 'class' => 'mw-changeslist-links' ],
-				$this->msg( 'checkuser-ipeditcount' )->numParams( $ipedits )->escaped()
-			);
+			$templateParams['ipEditCount'] =
+				$this->msg( 'checkuser-ipeditcount' )->numParams( $ipedits )->escaped();
 		}
 
 		// If this IP is blocked, give a link to the block log
-		$s .= $this->getIPBlockInfo( $ip );
-		$s .= '<div style="margin-left:5%">';
-		$s .= '<small>' . $this->msg( 'checkuser-toollinks', urlencode( $ip ) )->parse() .
-			'</small>';
-		$s .= '</div>';
-		$s .= "</li>\n";
-		return $s;
+		$templateParams['blockInfo'] = $this->getIPBlockInfo( $ip );
+		$templateParams['toolLinks'] = $this->msg( 'checkuser-toollinks', urlencode( $ip ) )->parse();
+		return $this->templateParser->processTemplate( 'GetIPsLine', $templateParams );
 	}
 
 	/**

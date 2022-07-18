@@ -20,6 +20,7 @@ use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\SpecialPageFactory;
+use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentity;
@@ -63,8 +64,8 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	/** @var PermissionManager */
 	private $permissionManager;
 
-	/** @var UserFactory */
-	private $userFactory;
+	/** @var UserEditTracker */
+	private $userEditTracker;
 
 	/**
 	 * @param FormOptions $opts
@@ -82,6 +83,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	 * @param ActorMigration $actorMigration
 	 * @param UserFactory $userFactory
 	 * @param CheckUserLogService $checkUserLogService
+	 * @param UserEditTracker $userEditTracker
 	 * @param IContextSource|null $context
 	 * @param LinkRenderer|null $linkRenderer
 	 * @param ?int $limit
@@ -102,13 +104,15 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		ActorMigration $actorMigration,
 		UserFactory $userFactory,
 		CheckUserLogService $checkUserLogService,
+		UserEditTracker $userEditTracker,
 		IContextSource $context = null,
 		LinkRenderer $linkRenderer = null,
 		?int $limit = null
 	) {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager,
 			$userGroupManager, $centralIdLookup, $loadBalancer, $specialPageFactory,
-			$userIdentityLookup, $actorMigration, $checkUserLogService, $context, $linkRenderer, $limit );
+			$userIdentityLookup, $actorMigration, $checkUserLogService, $userFactory,
+			$context, $linkRenderer, $limit );
 		$this->xfor = $xfor;
 		$this->canPerformBlocks = $permissionManager->userHasRight( $this->getUser(), 'block' )
 			&& !$this->getUser()->getBlock();
@@ -119,7 +123,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		$this->aliases = $this->getLanguage()->getSpecialPageAliases();
 		$this->blockPermissionCheckerFactory = $blockPermissionCheckerFactory;
 		$this->permissionManager = $permissionManager;
-		$this->userFactory = $userFactory;
+		$this->userEditTracker = $userEditTracker;
 	}
 
 	/**
@@ -128,7 +132,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	 *
 	 * @inheritDoc
 	 */
-	public function formatRow( $row ) {
+	public function formatRow( $row ): string {
 		return '';
 	}
 
@@ -171,66 +175,45 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	 * @return string
 	 */
 	public function formatUserRow( string $user_text ): string {
-		$s = '<li>';
-		if ( $this->canPerformBlocks ) {
-			$s .= Xml::check( 'users[]', false, [ 'value' => $user_text ] ) . '&#160;';
-		}
+		$templateParams = [];
+		$templateParams['canPerformBlocks'] = $this->canPerformBlocks;
+		$templateParams['userText'] = $user_text;
 		// Load user object
-		$user = $this->userFactory->newFromUserIdentity(
-			new UserIdentityValue( $this->userSets['ids'][$user_text], $user_text )
+		$user = new UserIdentityValue( $this->userSets['ids'][$user_text], $user_text );
+		$userNonExistent = !IPUtils::isIPAddress( $user ) && !$user->isRegistered();
+		if ( $userNonExistent ) {
+			$templateParams['userLinkClass'] = 'mw-checkuser-nonexistent-user';
+		}
+		$templateParams['userLink'] = Linker::userLink( $user->getId(), $user, $user );
+		$templateParams['userToolLinks'] = Linker::userToolLinksRedContribs(
+			$user->getId(),
+			$user,
+			$this->userEditTracker->getUserEditCount( $user ),
+			// don't render parentheses in HTML markup (CSS will provide)
+			false
 		);
-		// Add user page and tool links
-		if ( !IPUtils::isIPAddress( $user ) ) {
-			$idforlinknfn = -1;
-		} else {
-			$idforlinknfn = $this->userSets['ids'][$user_text];
-		}
-		$classnouser = false;
-		if ( !IPUtils::isIPAddress( $user ) && !$user->isRegistered() ) {
-			// User does not exist
-			$idforlink = -1;
-			$classnouser = true;
-		} else {
-			$idforlink = $this->userSets['ids'][$user_text];
-		}
-		if ( $classnouser ) {
-			$s .= '<span class=\'mw-checkuser-nonexistent-user\'>';
-		} else {
-			$s .= '<span>';
-		}
-		$s .= Linker::userLink( $idforlinknfn, $user_text, $user_text ) . '</span> ';
-		$ip = IPUtils::isIPAddress( $user_text ) ? $user_text : '';
-		$s .= Linker::userToolLinksRedContribs(
-				$idforlink,
-				$user_text,
-				$user->getEditCount(),
-				// don't render parentheses in HTML markup (CSS will provide)
-				false
-			) . ' ';
+		$ip = IPUtils::isIPAddress( $user ) ? $user : '';
 		if ( $ip ) {
-			$s .= $this->msg( 'checkuser-userlinks-ip', $user_text )->parse();
-		} elseif ( !$classnouser ) {
+			$templateParams['userLinks'] = $this->msg( 'checkuser-userlinks-ip', $user )->parse();
+		} elseif ( !$userNonExistent ) {
 			if ( $this->msg( 'checkuser-userlinks' )->exists() ) {
-				$s .= ' ' . $this->msg( 'checkuser-userlinks', htmlspecialchars( $user_text ) )->parse();
+				$templateParams['userLinks'] =
+					$this->msg( 'checkuser-userlinks', htmlspecialchars( $user ) )->parse();
 			}
 		}
 		// Add CheckUser link
-		$s .= ' ' . Html::rawElement(
-				'span',
-				[ 'class' => 'mw-changeslist-links' ],
-				$this->getSelfLink(
-					$this->msg( 'checkuser-check' )->text(),
-					[
-						'user' => $user_text,
-						'reason' => $this->opts->getValue( 'reason' )
-					]
-				)
-			);
+		$templateParams['checkLink'] = $this->getSelfLink(
+			$this->msg( 'checkuser-check' )->text(),
+			[
+				'user' => $user,
+				'reason' => $this->opts->getValue( 'reason' )
+			]
+		);
 		// Add global user tools links
 		// Add CentralAuth link for real registered users
 		if ( $this->centralAuthToollink !== false
 			&& !IPUtils::isIPAddress( $user_text )
-			&& !$classnouser
+			&& !$userNonExistent
 		) {
 			// Get CentralAuth SpecialPage name in UserLang from the first Alias name
 			$spca = $this->aliases['CentralAuth'][0];
@@ -241,21 +224,21 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			);
 			if ( $centralCAUrl === false ) {
 				throw new Exception(
-					"Could not retrieve URL for CentralAuth: {$this->centralAuthToollink}"
+					"Could not retrieve URL for CentralAuth: $this->centralAuthToollink"
 				);
 			}
 			$linkCA = Html::element( 'a',
 				[
-					'href' => $centralCAUrl . "/" . $user_text,
+					'href' => $centralCAUrl . "/" . $user,
 					'title' => $this->msg( 'centralauth' )->text(),
 				],
 				$calinkAlias
 			);
-			$s .= ' ' . $this->msg( 'parentheses' )->rawParams( $linkCA )->escaped();
+			$templateParams['centralAuthLink'] = $this->msg( 'parentheses' )->rawParams( $linkCA )->escaped();
 		}
 		// Add Globalblocking link to CentralWiki
 		if ( $this->globalBlockingToollink !== false
-			&& IPUtils::isIPAddress( $user_text )
+			&& IPUtils::isIPAddress( $user )
 		) {
 			// Get GlobalBlock SpecialPage name in UserLang from the first Alias name
 			$centralGBUrl = WikiMap::getForeignURL(
@@ -274,19 +257,18 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 				}
 				$linkGB = Html::element( 'a',
 					[
-						'href' => $centralGBUrl . "/" . $user_text,
+						'href' => $centralGBUrl . "/" . $user,
 						'title' => $this->msg( 'globalblocking-block-submit' )->text(),
 					],
 					$gblinkAlias
 				);
 			} elseif ( $centralGBUrl !== false ) {
 				// Case wikimap configured without CentralAuth extension
-				$user = $this->getUser();
 				// Get effective Local user groups since there is a wikimap but there is no CA
-				$gbUserGroups = $this->userGroupManager->getUserEffectiveGroups( $user );
+				$gbUserGroups = $this->userGroupManager->getUserEffectiveGroups( $this->getUser() );
 				$linkGB = Html::element( 'a',
 					[
-						'href' => $centralGBUrl . "/" . $user_text,
+						'href' => $centralGBUrl . "/" . $user,
 						'title' => $this->msg( 'globalblocking-block-submit' )->text(),
 					],
 					$gblinkAlias
@@ -294,14 +276,13 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			} else {
 				// Load local user group instead
 				$gbUserGroups = [ '' ];
-				$user = $this->getUser();
 				$gbtitle = self::getPageTitle( 'GlobalBlock' );
 				$linkGB = $this->getLinkRenderer()->makeKnownLink(
 					$gbtitle,
 					$gblinkAlias,
 					[ 'title' => $this->msg( 'globalblocking-block-submit' ) ]
 				);
-				$gbUserCanDo = $this->permissionManager->userHasRight( $user, 'globalblock' );
+				$gbUserCanDo = $this->permissionManager->userHasRight( $this->getUser(), 'globalblock' );
 				if ( $gbUserCanDo ) {
 					$this->globalBlockingToollink['groups'] = $gbUserGroups;
 				}
@@ -309,54 +290,42 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			// Only load the script for users in the configured global(local) group(s) or
 			// for local user with globalblock permission if there is no WikiMap
 			if ( count( array_intersect( $this->globalBlockingToollink['groups'], $gbUserGroups ) ) ) {
-				$s .= ' ' . $this->msg( 'parentheses' )->rawParams( $linkGB )->escaped();
+				$templateParams['globalBlockLink'] .= $this->msg( 'parentheses' )->rawParams( $linkGB )->escaped();
 			}
 		}
 		// Show edit time range
-		$s .= ' ' . $this->getTimeRangeString(
-				$this->userSets['first'][$user_text],
-				$this->userSets['last'][$user_text]
-			) . ' ';
+		$templateParams['timeRange'] = $this->getTimeRangeString(
+			$this->userSets['first'][$user_text],
+			$this->userSets['last'][$user_text]
+		);
 		// Total edit count
-		$s .= Html::rawElement(
-				'strong',
-				[ 'class' => 'mw-changeslist-links' ],
-				htmlspecialchars( $this->userSets['edits'][$user_text] )
-			) . '<br />';
+		$templateParams['editCount'] = $this->userSets['edits'][$user_text];
 		// Check if this user or IP is blocked. If so, give a link to the block log...
-		$flags = $this->userBlockFlags( $ip, $this->userSets['ids'][$user_text], $user );
-		$s .= implode( ' ', $flags );
-		$s .= '<ol>';
+		$templateParams['flags'] = $this->userBlockFlags( $ip, $user );
 		// List out each IP/XFF combo for this username
+		$templateParams['infoSets'] = [];
 		for ( $i = ( count( $this->userSets['infosets'][$user_text] ) - 1 ); $i >= 0; $i-- ) {
 			// users_infosets[$name][$i] is array of [ $row->cuc_ip, XFF ];
+			$row = [];
 			list( $clientIP, $xffString ) = $this->userSets['infosets'][$user_text][$i];
 			// IP link
-			$s .= '<li>';
-			$s .= $this->getSelfLink( $clientIP, [ 'user' => $clientIP ] );
+			$row['ipLink'] = $this->getSelfLink( $clientIP, [ 'user' => $clientIP ] );
 			// XFF string, link to /xff search
 			if ( $xffString ) {
 				// Flag our trusted proxies
 				list( $client ) = CUHooks::getClientIPfromXFF( $xffString );
 				// XFF was trusted if client came from it
 				$trusted = ( $client === $clientIP );
-				$c = $trusted ? '#F0FFF0' : '#FFFFCC';
-				$s .= '&#160;&#160;&#160;<span style="background-color: ' . $c .
-					'"><strong>XFF</strong>: ';
-				$s .= $this->getSelfLink( $xffString, [ 'user' => $client . '/xff' ] ) .
-					'</span>';
+				$row['xffTrusted'] = $trusted;
+				$row['xff'] = $this->getSelfLink( $xffString, [ 'user' => $client . '/xff' ] );
 			}
-			$s .= "</li>\n";
+			$templateParams['infoSets'][] = $row;
 		}
-		$s .= '</ol><br /><ol>';
 		// List out each agent for this username
 		for ( $i = ( count( $this->userSets['agentsets'][$user_text] ) - 1 ); $i >= 0; $i-- ) {
-			$agent = $this->userSets['agentsets'][$user_text][$i];
-			$s .= '<li><i dir="ltr">' . htmlspecialchars( $agent ) . "</i></li>\n";
+			$templateParams['agentsList'][] = $this->userSets['agentsets'][$user_text][$i];
 		}
-		$s .= '</ol>';
-		$s .= '</li>';
-		return $s;
+		return $this->templateParser->processTemplate( 'GetUsersLine', $templateParams );
 	}
 
 	/**

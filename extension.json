@@ -262,7 +262,9 @@
 				"ActorMigration",
 				"UserFactory",
 				"RevisionStore",
-				"CheckUserLogService"
+				"CheckUserLogService",
+				"CommentFormatter",
+				"UserEditTracker"
 			]
 		},
 		"CheckUserLog": {

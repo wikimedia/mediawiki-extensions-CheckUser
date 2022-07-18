@@ -1,0 +1,31 @@
+<li>
+	{{#canPerformBlocks}}
+		<input type="checkbox" name="users[]" value="{{{userText}}}"/>
+	{{/canPerformBlocks}}
+	<span{{#userLinkClass}} class="{{userLinkClass}}"{{/userLinkClass}}>
+		{{{userLink}}}
+	</span>
+	{{{userToolLinks}}}
+	{{{userLinks}}}
+	<span class="mw-changeslist-links">{{{checkLink}}}</span>
+	{{{centralAuthLink}}}
+	{{{globalBlockLink}}}
+	<span class="mw-changeslist-links">{{timeRange}}</span>
+	<strong class="mw-checkuser-edits-count">{{editCount}}</strong><br/>
+	{{#flags}}
+		{{{ . }}}
+	{{/flags}}
+	<ol>
+		{{#infoSets}}
+			<li>
+				{{{ipLink}}}{{#xff}}&#160;&#160;<span class="mw-checkuser-xff{{#xffTrusted}} mw-checkuser-xff-trusted{{/xffTrusted}}"><strong>XFF</strong>: {{{ . }}}</span>{{/xff}}
+			</li>
+		{{/infoSets}}
+	</ol><br><ol>
+		{{#agentsList}}
+			<li>
+				<i dir="ltr" class="mw-checkuser-agent">{{ . }}</i>
+			</li>
+		{{/agentsList}}
+	</ol>
+</li>
