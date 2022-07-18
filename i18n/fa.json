@@ -48,6 +48,8 @@
 	"checkuser-all": "همه",
 	"checkuser-cidr-label": "پیدا کردن بازه‌های مشترک آی‌پی و آی‌پی‌های تاثیرپذیرفته برای یک فهرست از نشانی‌های آی‌پی",
 	"checkuser-cidr-res": "سی‌آی‌دی‌آر مشترک:",
+	"checkuser-cidr-affected-ips": "نشانی‌های آی‌پی تحت تأثیر:",
+	"checkuser-cidr-too-small": "بازه بسیار بزرگ است",
 	"checkuser-empty": "سیاهه حاوی هیچ موردی نیست.",
 	"checkuser-nomatch": "موردی که مطابقت داشته باشد پیدا نشد.",
 	"checkuser-nomatch-edits": "مورد مطابق پیدا نشد.\nآخرین ویرایش در $1 ساعت $2 بود.",
