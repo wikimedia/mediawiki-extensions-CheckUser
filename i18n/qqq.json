@@ -71,6 +71,8 @@
 	"checkuser-nomatch": "Used in [[Special:CheckUser]].\n\nSee also:\n* {{msg-mw|Checkuser-nomatch-edits}}",
 	"checkuser-nomatch-edits": "Parameters:\n* $1 - date, localized\n* $2 - time, localized\nSee also:\n* {{msg-mw|Checkuser-nomatch}}",
 	"checkuser-check": "Button label on CheckUser Special page. See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]'.\n\nAlso appears to be used as link to new CheckUser check from the results page of a CheckUser check - see screenshot \"Example IP check\".\n{{Identical|Check}}",
+	"checkuser-log-checks-by": "Tool link used in the CheckUserLog that links to the checks performed by a CheckUser.",
+	"checkuser-log-checks-on": "Tool link used in the CheckUserLog that links to checks performed on a user / IP.",
 	"checkuser-check-this-user": "Label for a link shown in Special:CheckUserLog's subtitle. Links to Special:CheckUser. See also {{msg-mw|checkuser-investigate-this-user}}.",
 	"checkuser-investigate-this-user": "Label for a link shown in Special:CheckUserLog's subtitle. Links to Special:Investigate. See also {{msg-mw|checkuser-check-this-user}}.",
 	"checkuser-recent-checks": "Label for the link shown in the subtitle",
