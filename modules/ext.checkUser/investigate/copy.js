@@ -3,7 +3,9 @@
  * This feature is available for wikis that have Parsoid/RESTBase.
  */
 module.exports = function addCopyFeature() {
-	var copyTextLayout, messageWidget, wikitextButton;
+	var copyTextLayout, messageWidget, wikitextButton,
+		hidden = true,
+		requested = false;
 
 	function onWikitextButtonClick() {
 		var url, html;
@@ -30,17 +32,27 @@ module.exports = function addCopyFeature() {
 			return $table[ 0 ].outerHTML;
 		}
 
-		wikitextButton.setDisabled( true );
-		copyTextLayout.textInput.pushPending();
-		copyTextLayout.toggle( true );
+		hidden = !hidden;
+		if ( hidden ) {
+			wikitextButton.setLabel( mw.msg( 'checkuser-investigate-compare-copy-button-label' ) );
+			copyTextLayout.toggle( false );
+		} else {
+			wikitextButton.setLabel( mw.msg( 'checkuser-investigate-compare-copy-button-label-hide' ) );
+			copyTextLayout.toggle( true );
+		}
 
 		url = mw.config.get( 'wgVisualEditorConfig' ).fullRestbaseUrl + 'v1/transform/html/to/wikitext/';
 		html = getSanitizedHtml( $( '.ext-checkuser-investigate-table-compare' ) );
 
-		$.ajax( url, { data: { html: html }, type: 'POST' } ).then( function ( data ) {
-			copyTextLayout.textInput.popPending();
-			copyTextLayout.textInput.setValue( data );
-		} );
+		if ( !requested ) {
+			copyTextLayout.textInput.pushPending();
+			$.ajax( url, { data: { html: html }, type: 'POST' } ).then( function ( data ) {
+				copyTextLayout.textInput.popPending();
+				copyTextLayout.textInput.setValue( data );
+			} );
+		}
+
+		requested = true;
 	}
 
 	messageWidget = new OO.ui.MessageWidget( {
