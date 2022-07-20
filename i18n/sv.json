@@ -158,6 +158,7 @@
 	"checkuser-investigate-timeline-notice-no-results": "Inga resultat: Ingen aktivitet har registrerats från dessa användare eller IP-adresser inom de senaste 90 dagarna",
 	"checkuser-investigate-timeline-notice-no-results-filters": "Inga resultat matchar dessa filteringskriterier. Försök att ta bort några filter för att utvidga sökningen.",
 	"checkuser-investigate-compare-copy-button-label": "Visa wikitext",
+	"checkuser-investigate-compare-copy-button-label-hide": "Dölj wikitext",
 	"checkuser-investigate-compare-toollinks-ipcheck": "Proxy-kontroll",
 	"checkuser-investigate-compare-copy-message-label": "Vill du kopiera denna information som en wikitexttabell?",
 	"checkuser-investigate-compare-notice-exceeded-limit": "På grund av tekniska begränsningar har antalet poster som kan visas uppnåtts. Data som returneras för följande mål är ofullständig: $1. Försök använda färre mål, mindre tidsintervall eller mindre IP-intervall.",
