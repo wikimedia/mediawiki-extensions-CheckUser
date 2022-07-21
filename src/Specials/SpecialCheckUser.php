@@ -794,6 +794,18 @@ class SpecialCheckUser extends SpecialPage {
 					'reason' => $this->opts->getValue( 'reason' ),
 				]
 			);
+			if ( IPUtils::isValidIPv6( $ip ) ) {
+				$s .= ' ' . Html::rawElement(
+					'span',
+					[ 'class' => 'mw-changeslist-links' ],
+					$this->getSelfLink( '/64',
+						[
+							'user' => $ip . '/64',
+							'reason' => $this->opts->getValue( 'reason' ),
+						]
+					)
+				);
+			}
 			$s .= ' ' . Html::rawElement(
 					'span',
 					[ 'class' => 'mw-changeslist-links' ],
