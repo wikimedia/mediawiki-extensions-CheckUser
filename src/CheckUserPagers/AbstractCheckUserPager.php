@@ -431,11 +431,6 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	protected function userWasBlocked( string $name ): bool {
 		$userpage = Title::makeTitle( NS_USER, $name );
 
-		// Remove after T270620 is resolved
-		$index = $this->mDb->indexExists( 'logging', 'page_time', __METHOD__ )
-			? 'page_time'
-			: 'log_page_time';
-
 		return (bool)$this->mDb->newSelectQueryBuilder()
 			->table( 'logging' )
 			->field( '1' )
@@ -445,7 +440,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 				'log_namespace' => $userpage->getNamespace(),
 				'log_title' => $userpage->getDBkey()
 			] )
-			->useIndex( $index )
+			->useIndex( 'log_page_time' )
 			->caller( __METHOD__ )
 			->fetchField();
 	}
