@@ -91,26 +91,35 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 	 */
 	public function provideGetIpConds() {
 		return [
-			[
+			'Single IPv4 address' => [
 				'212.35.31.121',
 				[ 'cuc_ip_hex' => 'D4231F79' ],
 			],
-			[
+			'Single IPv4 address notated as a /32' => [
 				'212.35.31.121/32',
 				[ 0 => 'cuc_ip_hex BETWEEN \'D4231F79\' AND \'D4231F79\'' ],
 			],
-			[
+			'Single IPv6 address' => [
 				'::e:f:2001',
 				[ 'cuc_ip_hex' => 'v6-00000000000000000000000E000F2001' ],
 			],
-			[
+			'IPv6 /96 range' => [
 				'::e:f:2001/96',
 				[ 0 => 'cuc_ip_hex BETWEEN \'v6-00000000000000000000000E00000000\'' .
 					' AND \'v6-00000000000000000000000EFFFFFFFF\'' ],
 			],
-			[ "0.17.184.5/{$this->lowerThanLimitIPv4}", false ],
-			[ "2000::/{$this->lowerThanLimitIPv6}", false ],
+			'Invalid IP address' => [ 'abcedf', false ]
 		];
+	}
+
+	/**
+	 * @covers \MediaWiki\CheckUser\Specials\SpecialCheckUser::getIpConds
+	 */
+	public function testGetIpCondsLowerThanLimit() {
+		// Need to not have these in a dataProvider as $this->lowerThanLimit... isn't set when
+		// the data is returned.
+		$this->testGetIpConds( "0.17.184.5/$this->lowerThanLimitIPv4", false );
+		$this->testGetIpConds( "2000::/$this->lowerThanLimitIPv6", false );
 	}
 
 	/**
@@ -130,13 +139,20 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 	 */
 	public function provideIsValidRange() {
 		return [
-			[ '212.35.31.121', true ],
-			[ '212.35.31.121/32', true ],
-			[ '::e:f:2001', true ],
-			[ '::e:f:2001/96', true ],
-			[ "0.17.184.5/{$this->lowerThanLimitIPv4}", false ],
-			[ "2000::/{$this->lowerThanLimitIPv6}", false ]
+			'Single IPv4 address' => [ '212.35.31.121', true ],
+			'Single IPv4 address notated as a /32' => [ '212.35.31.121/32', true ],
+			'Single IPv6 address' => [ '::e:f:2001', true ],
+			'IPv6 /96 range' => [ '::e:f:2001/96', true ],
+			'Invalid IP address' => [ 'abcedf', false ]
 		];
+	}
+
+	/**
+	 * @covers \MediaWiki\CheckUser\Specials\SpecialCheckUser::isValidRange
+	 */
+	public function testIsValidRangeLowerThanLimit() {
+		$this->testIsValidRange( "0.17.184.5/{$this->lowerThanLimitIPv4}", false );
+		$this->testIsValidRange( "2000::/{$this->lowerThanLimitIPv6}", false );
 	}
 
 	/**
@@ -159,10 +175,10 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 	 */
 	public function provideCheckReason() {
 		return [
-			[ false, '', true ],
-			[ false, 'Test Reason', true ],
-			[ true, '', false ],
-			[ true, 'Test Reason', true ]
+			'Empty reason with wgCheckUserForceSummary as false' => [ false, '', true ],
+			'Non-empty reason with wgCheckUserForceSummary as false' => [ false, 'Test Reason', true ],
+			'Empty reason with wgCheckUserForceSummary as true' => [ true, '', false ],
+			'Non-empty reason with wgCheckUserForceSummary as true' => [ true, 'Test Reason', true ]
 		];
 	}
 
