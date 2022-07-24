@@ -140,4 +140,13 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 	protected function getEndBody(): string {
 		return '</ul></div>' . parent::getEndBody();
 	}
+
+	/**
+	 * Temporary measure until Get IPs query is fixed for pagination.
+	 *
+	 * @return bool
+	 */
+	protected function isNavigationBarShown() {
+		return false;
+	}
 }
