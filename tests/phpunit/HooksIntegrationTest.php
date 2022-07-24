@@ -164,6 +164,12 @@ class HooksIntegrationTest extends MediaWikiIntegrationTestCase {
 			$this->setUpObject()->updateCheckUserData( $rc ),
 			'updateCheckUserData should return true.'
 		);
+
+		foreach ( $fields as $index => $field ) {
+			if ( $field === 'cuc_timestamp' ) {
+				$expectedRow[$index] = $this->db->timestamp( $expectedRow[$index] );
+			}
+		}
 		$this->assertSelect(
 			'cu_changes',
 			$fields,
