@@ -154,22 +154,38 @@ class HooksIntegrationTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @covers ::updateCheckUserData
-	 * @dataProvider provideUpdateCheckUserData
+	 * A function to remove duplication for common tests
+	 * across all the updateCheckUserData tests below.
+	 * Called by the individual tests themselves.
+	 *
+	 * @param array $rcAttribs The attribs for the RecentChange object
+	 * @param array $fields The fields to select from the DB when using assertSelect()
+	 * @param array &$expectedRow The expected values for the fields from the DB when using assertSelect()
+	 * @return RecentChange
 	 */
-	public function testUpdateCheckUserData( $rcAttribs, $fields, $expectedRow ) {
+	public function commonTestsUpdateCheckUserData(
+		array $rcAttribs, array $fields, array &$expectedRow
+	): RecentChange {
 		$rc = new RecentChange;
 		$rc->setAttribs( $rcAttribs );
 		$this->assertTrue(
 			$this->setUpObject()->updateCheckUserData( $rc ),
 			'updateCheckUserData should return true.'
 		);
-
 		foreach ( $fields as $index => $field ) {
 			if ( $field === 'cuc_timestamp' ) {
 				$expectedRow[$index] = $this->db->timestamp( $expectedRow[$index] );
 			}
 		}
+		return $rc;
+	}
+
+	/**
+	 * @covers ::updateCheckUserData
+	 * @dataProvider provideUpdateCheckUserData
+	 */
+	public function testUpdateCheckUserData( $rcAttribs, $fields, $expectedRow ) {
+		$this->commonTestsUpdateCheckUserData( $rcAttribs, $fields, $expectedRow );
 		$this->assertSelect(
 			'cu_changes',
 			$fields,
@@ -183,16 +199,11 @@ class HooksIntegrationTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideUpdateCheckUserDataNoSave
 	 */
 	public function testUpdateCheckUserDataNoSave( $rcAttribs ) {
-		$rc = new RecentChange;
-		$rc->setAttribs( $rcAttribs );
-		$this->assertTrue(
-			$this->setUpObject()->updateCheckUserData( $rc ),
-			'updateCheckUserData should return true.'
-		);
-		$db = $this->getServiceContainer()->getDBLoadBalancer()->getConnection( DB_REPLICA );
+		$expectedRow = [];
+		$this->commonTestsUpdateCheckUserData( $rcAttribs, [], $expectedRow );
 		$this->assertSame(
 			0,
-			$db->newSelectQueryBuilder()
+			$this->db->newSelectQueryBuilder()
 				->field( 'cuc_ip' )
 				->table( 'cu_changes' )
 				->fetchRowCount(),
@@ -201,12 +212,13 @@ class HooksIntegrationTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function getDefaultRecentChangeAttribs() {
-		// From RecentChangeTest.php's provideAttribs but modified
+		// From RecentChangeTest.php's provideAttribs
 		return [
 			'rc_timestamp' => wfTimestamp( TS_MW ),
 			'rc_namespace' => NS_USER,
 			'rc_title' => 'Tony',
 			'rc_type' => RC_EDIT,
+			'rc_source' => RecentChange::SRC_EDIT,
 			'rc_minor' => 0,
 			'rc_cur_id' => 77,
 			'rc_user' => 858173476,
@@ -216,6 +228,17 @@ class HooksIntegrationTest extends MediaWikiIntegrationTestCase {
 			'rc_comment_data' => null,
 			'rc_this_oldid' => 70,
 			'rc_last_oldid' => 71,
+			'rc_bot' => 0,
+			'rc_ip' => '',
+			'rc_patrolled' => 0,
+			'rc_new' => 0,
+			'rc_old_len' => 80,
+			'rc_new_len' => 88,
+			'rc_deleted' => 0,
+			'rc_logid' => 0,
+			'rc_log_type' => null,
+			'rc_log_action' => '',
+			'rc_params' => '',
 		];
 	}
 
@@ -275,5 +298,33 @@ class HooksIntegrationTest extends MediaWikiIntegrationTestCase {
 			[ 'cuc_ip' ],
 			[]
 		];
+	}
+
+	/**
+	 * @covers ::updateCUPasswordResetData
+	 */
+	public function testUpdateCUPasswordResetData() {
+		$performer = $this->getTestUser()->getUser();
+		$account = $this->getTestSysop()->getUser();
+		$this->assertTrue(
+			$this->setUpObject()->updateCUPasswordResetData( $performer, 'IGNORED', $account ),
+			'updateCUPasswordResetData() should always return true'
+		);
+		$this->assertSame(
+			1,
+			$this->db->newSelectQueryBuilder()
+				->table( 'cu_changes' )
+				->where( [
+					'cuc_user' => $performer->getId(),
+					'cuc_user_text' => $performer->getName(),
+					'cuc_actiontext' . $this->db->buildLike(
+						$this->db->anyString(),
+						'[[User:', $account->getName(), '|', $account->getName(), ']]',
+						$this->db->anyString()
+					)
+				] )
+				->fetchRowCount(),
+			'The row was not inserted or was inserted with the wrong data'
+		);
 	}
 }
