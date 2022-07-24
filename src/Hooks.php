@@ -743,7 +743,6 @@ class Hooks {
 				$sp->msg( 'checkuser-contribs-log' )->text(),
 				[ 'class' => 'mw-contributions-link-check-user-log' ],
 				[
-					'cuSearchType' => 'target',
 					'cuSearch' => $nt->getText()
 				]
 			);
