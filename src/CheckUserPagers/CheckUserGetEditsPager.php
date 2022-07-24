@@ -434,11 +434,15 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	/**
 	 * Always show the navigation bar on the 'Get edits' screen
 	 * so that the user can reduce the size of the page if they
-	 * are interested in one or two items from the top.
+	 * are interested in one or two items from the top. The only
+	 * exception to this is when there are no results.
 	 *
-	 * @return bool Always true.
+	 * @return bool
 	 */
 	protected function isNavigationBarShown() {
+		if ( $this->getNumRows() === 0 ) {
+			return false;
+		}
 		return true;
 	}
 }
