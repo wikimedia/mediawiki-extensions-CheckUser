@@ -20,7 +20,7 @@ class CheckUserServiceWiringTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function provideService() {
-		$wiring = require __DIR__ . '/../../includes/ServiceWiring.php';
+		$wiring = require __DIR__ . '/../../src/ServiceWiring.php';
 		foreach ( $wiring as $name => $_ ) {
 			yield $name => [ $name ];
 		}

@@ -277,7 +277,7 @@
 		"MediaWiki\\CheckUser\\Maintenance\\PopulateCucActor": "maintenance/populateCucActor.php"
 	},
 	"ServiceWiringFiles": [
-		"includes/ServiceWiring.php"
+		"src/ServiceWiring.php"
 	],
 	"AutoloadNamespaces": {
 		"MediaWiki\\CheckUser\\": "src/"
