@@ -12,6 +12,7 @@ use MediaWiki\Auth\Hook\AuthManagerLoginAuthenticateAuditHook;
 use MediaWiki\Auth\Hook\LocalUserCreatedHook;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\Block\Hook\PerformRetroactiveAutoblockHook;
+use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\Investigate\SpecialInvestigate;
 use MediaWiki\CheckUser\Investigate\SpecialInvestigateBlock;
 use MediaWiki\CheckUser\Maintenance\PopulateCucActor;
@@ -228,6 +229,10 @@ class Hooks implements
 
 		$ip = $request->getIP();
 		$xff = $request->getHeader( 'X-Forwarded-For' );
+		// Provide the ip, xff and row to code that hooks onto this so that they can modify the row before
+		//  it's inserted. The ip and xff are provided separately so that the caller doesn't have to set
+		//  the hex versions of the IP and XFF and can therefore leave that to this function.
+		( new HookRunner( $services->getHookContainer() ) )->onCheckUserInsertChangesRow( $ip, $xff, $row );
 		list( $xff_ip, $isSquidOnly, $xff ) = self::getClientIPfromXFF( $xff );
 
 		$row = array_merge(

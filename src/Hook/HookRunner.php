@@ -5,7 +5,7 @@ namespace MediaWiki\CheckUser\Hook;
 use IContextSource;
 use MediaWiki\HookContainer\HookContainer;
 
-class HookRunner implements CheckUserFormatRowHook, CheckUserSubtitleLinksHook {
+class HookRunner implements CheckUserFormatRowHook, CheckUserSubtitleLinksHook, CheckUserInsertChangesRow {
 	/** @var HookContainer */
 	private $container;
 
@@ -16,9 +16,7 @@ class HookRunner implements CheckUserFormatRowHook, CheckUserSubtitleLinksHook {
 		$this->container = $container;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public function onCheckUserFormatRow(
 		IContextSource $context,
 		\stdClass $row,
@@ -30,9 +28,7 @@ class HookRunner implements CheckUserFormatRowHook, CheckUserSubtitleLinksHook {
 		);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public function onCheckUserSubtitleLinks(
 		IContextSource $context,
 		array &$links
@@ -40,6 +36,14 @@ class HookRunner implements CheckUserFormatRowHook, CheckUserSubtitleLinksHook {
 		$this->container->run(
 			'CheckUserSubtitleLinks',
 			[ $context, &$links ]
+		);
+	}
+
+	/** @inheritDoc */
+	public function onCheckUserInsertChangesRow( string &$ip, &$xff, array &$row ) {
+		$this->container->run(
+			'CheckUserInsertChangesRow',
+			[ &$ip, &$xff, &$row ]
 		);
 	}
 }
