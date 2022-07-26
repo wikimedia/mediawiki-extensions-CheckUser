@@ -10,6 +10,7 @@ use MailAddress;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\Maintenance\PopulateCucActor;
+use MediaWiki\CheckUser\Maintenance\PopulateCulActor;
 use MediaWiki\CheckUser\Specials\SpecialInvestigate;
 use MediaWiki\CheckUser\Specials\SpecialInvestigateBlock;
 use MediaWiki\Extension\Renameuser\RenameuserSQL;
@@ -704,6 +705,7 @@ class Hooks {
 		}
 
 		$updater->addPostDatabaseUpdateMaintenance( PopulateCucActor::class );
+		$updater->addPostDatabaseUpdateMaintenance( PopulateCulActor::class );
 
 		if ( !$isCUInstalled ) {
 			// First time so populate cu_changes with recentchanges data.

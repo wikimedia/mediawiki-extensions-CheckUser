@@ -274,7 +274,8 @@
 	},
 	"AutoloadClasses": {
 		"PopulateCheckUserTable": "maintenance/populateCheckUserTable.php",
-		"MediaWiki\\CheckUser\\Maintenance\\PopulateCucActor": "maintenance/populateCucActor.php"
+		"MediaWiki\\CheckUser\\Maintenance\\PopulateCucActor": "maintenance/populateCucActor.php",
+		"MediaWiki\\CheckUser\\Maintenance\\PopulateCulActor": "maintenance/populateCulActor.php"
 	},
 	"ServiceWiringFiles": [
 		"src/ServiceWiring.php"
