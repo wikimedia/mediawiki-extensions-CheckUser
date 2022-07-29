@@ -25,6 +25,7 @@ use MediaWiki\User\CentralId\CentralIdLookupFactory;
 use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserGroupManager;
+use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
 use Message;
@@ -161,7 +162,8 @@ class SpecialCheckUser extends SpecialPage {
 		return true;
 	}
 
-	public function execute( $subpage ) {
+	/** @inheritDoc */
+	public function execute( $subPage ) {
 		$this->setHeaders();
 		$this->addHelpLink( 'Extension:CheckUser' );
 		$this->checkPermissions();
@@ -222,7 +224,7 @@ class SpecialCheckUser extends SpecialPage {
 			}
 		} else {
 			$user = trim(
-				$request->getText( 'user', $request->getText( 'ip', $subpage ?? '' ) )
+				$request->getText( 'user', $request->getText( 'ip', $subPage ?? '' ) )
 			);
 		}
 		$this->getContext()->setRequest( $validatedRequest );
@@ -272,21 +274,28 @@ class SpecialCheckUser extends SpecialPage {
 			$out->setIndicators( [ 'investigate-link' => $icon . $investigateLink ] );
 		}
 
-		$ip = $name = $xff = '';
+		$userIdentity = null;
+		$isIP = false;
+		$xfor = false;
 		$m = [];
 		if ( IPUtils::isIPAddress( $user ) ) {
 			// A single IP address or an IP range
-			$ip = IPUtils::sanitizeIP( $user );
+			$userIdentity = UserIdentityValue::newAnonymous( IPUtils::sanitizeIP( $user ) );
+			$isIP = true;
 		} elseif ( preg_match( '/^(.+)\/xff$/', $user, $m ) && IPUtils::isIPAddress( $m[1] ) ) {
 			// A single IP address or range with XFF string included
-			$xff = IPUtils::sanitizeIP( $m[1] );
+			$userIdentity = UserIdentityValue::newAnonymous( IPUtils::sanitizeIP( $m[1] ) );
+			$xfor = true;
+			$isIP = true;
 		} else {
 			// A user?
-			$name = $user;
+			if ( $user ) {
+				$userIdentity = $this->userIdentityLookup->getUserIdentityByName( $user );
+			}
 		}
 
 		$this->showIntroductoryText();
-		$this->showForm( $user, $ip, $xff, $name );
+		$this->showForm( $user, $isIP );
 
 		// Perform one of the various submit operations...
 		if ( $request->wasPosted() ) {
@@ -298,20 +307,42 @@ class SpecialCheckUser extends SpecialPage {
 			} elseif ( !$this->checkReason() ) {
 				$out->addWikiMsg( 'checkuser-noreason' );
 			} elseif ( $checktype == self::SUBTYPE_GET_IPS ) {
-				$this->doUserIPsRequest( $name );
-			} elseif ( $checktype == self::SUBTYPE_GET_EDITS ) {
-				if ( $xff ) {
-					$this->doIPEditsRequest( $xff, true );
-				} elseif ( $ip ) {
-					$this->doIPEditsRequest( $ip, false );
+				if ( $isIP || !$user ) {
+					$out->addWikiMsg( 'nouserspecified' );
+				} elseif ( !$userIdentity || !$userIdentity->getId() ) {
+					$out->addWikiMsg( 'nosuchusershort', $user );
 				} else {
-					$this->doUserEditsRequest( $user );
+					$pager = $this->getPager( self::SUBTYPE_GET_IPS, $userIdentity, 'userips' );
+					$out->addHtml( $pager->getBody() );
+				}
+			} elseif ( $checktype == self::SUBTYPE_GET_EDITS ) {
+				if ( $isIP && $userIdentity ) {
+					$logType = $xfor ? 'ipedits-xff' : 'ipedits';
+
+					// Ordered in descent by timestamp. Can cause large filesorts on range scans.
+					$pager = $this->getPager( self::SUBTYPE_GET_EDITS, $userIdentity, $logType, $xfor );
+					$out->addHTML( $pager->getBody() );
+				} elseif ( !$user ) {
+					$out->addWikiMsg( 'nouserspecified' );
+				} elseif ( !$userIdentity || !$userIdentity->getId() ) {
+					$out->addHTML( $this->msg( 'nosuchusershort', $user )->parseAsBlock() );
+				} else {
+					// Sorting might take some time
+					AtEase::suppressWarnings();
+					set_time_limit( 60 );
+					AtEase::restoreWarnings();
+
+					$pager = $this->getPager( self::SUBTYPE_GET_EDITS, $userIdentity, 'useredits' );
+					$out->addHTML( $pager->getBody() );
 				}
 			} elseif ( $checktype == self::SUBTYPE_GET_USERS ) {
-				if ( $xff ) {
-					$this->doIPUsersRequest( $xff, true );
+				if ( !$isIP || !$userIdentity ) {
+					$out->addWikiMsg( 'badipaddress' );
 				} else {
-					$this->doIPUsersRequest( $ip );
+					$logType = $xfor ? 'ipusers-xff' : 'ipusers';
+
+					$pager = $this->getPager( self::SUBTYPE_GET_USERS, $userIdentity, $logType, $xfor );
+					$out->addHTML( $pager->getBody() );
 				}
 			}
 		}
@@ -340,23 +371,21 @@ class SpecialCheckUser extends SpecialPage {
 	 * Show the CheckUser query form
 	 *
 	 * @param string $user
-	 * @param ?string $ip
-	 * @param ?string $xff
-	 * @param string $name
+	 * @param bool $isIP
 	 */
-	protected function showForm( $user, $ip, $xff, $name ) {
+	protected function showForm( string $user, bool $isIP ) {
 		// Fill in requested type if it makes sense
 		$ipAllowed = true;
 		$checktype = $this->opts->getValue( 'checktype' );
-		if ( $checktype == self::SUBTYPE_GET_USERS && ( $ip || $xff ) ) {
+		if ( $checktype == self::SUBTYPE_GET_USERS && $isIP ) {
 			$checkTypeValidated = $checktype;
 			$ipAllowed = false;
-		} elseif ( $checktype == self::SUBTYPE_GET_IPS && $name ) {
+		} elseif ( $checktype == self::SUBTYPE_GET_IPS && !$isIP ) {
 			$checkTypeValidated = $checktype;
 		} elseif ( $checktype == self::SUBTYPE_GET_EDITS ) {
 			$checkTypeValidated = $checktype;
 		// Defaults otherwise
-		} elseif ( $ip || $xff ) {
+		} elseif ( $isIP ) {
 			$checkTypeValidated = self::SUBTYPE_GET_EDITS;
 		} else {
 			$checkTypeValidated = self::SUBTYPE_GET_IPS;
@@ -628,185 +657,74 @@ class SpecialCheckUser extends SpecialPage {
 	}
 
 	/**
-	 * Show all the IPs used by a user
-	 * @param string $user
-	 * @return void
-	 */
-	protected function doUserIPsRequest( $user ) {
-		$out = $this->getOutput();
-
-		$userTitle = Title::newFromText( $user, NS_USER );
-		if ( $userTitle !== null ) {
-			// normalize the username
-			$user = $userTitle->getText();
-		}
-		// IPs are passed in as a blank string
-		if ( !$user ) {
-			$out->addWikiMsg( 'nouserspecified' );
-			return;
-		}
-		// Get ID, works better than text as user may have been renamed
-		$userIdentity = $this->userIdentityLookup->getUserIdentityByName( $user );
-
-		// If user is not IP or nonexistent
-		if ( !$userIdentity || !$userIdentity->getId() ) {
-			$out->addWikiMsg( 'nosuchusershort', $user );
-			return;
-		}
-
-		$pager = new CheckUserGetIPsPager(
-			$this->opts,
-			$userIdentity,
-			'userips',
-			$this->tokenQueryManager,
-			$this->userGroupManager,
-			$this->centralIdLookup,
-			$this->loadBalancer,
-			$this->getSpecialPageFactory(),
-			$this->userIdentityLookup,
-			$this->actorMigration,
-			$this->checkUserLogService,
-			$this->userFactory
-		);
-		$out->addHtml( $pager->getBody() );
-	}
-
-	/**
-	 * Shows all changes made by an IP address or range
+	 * Gets the pager for the specific check type.
+	 * Returns null if the checktype is not recognised.
 	 *
-	 * @param string $ip
-	 * @param bool $xfor if query is for XFF
-	 * @return void
+	 * @param string $checkType
+	 * @param UserIdentity $userIdentity
+	 * @param string $logType
+	 * @param bool|null $xfor
+	 * @return AbstractCheckUserPager|null
 	 */
-	protected function doIPEditsRequest( $ip, $xfor = false ) {
-		$out = $this->getOutput();
-
-		// Invalid IPs are passed in as a blank string
-		if ( !$ip || !self::isValidRange( $ip ) ) {
-			$out->addWikiMsg( 'badipaddress' );
-			return;
+	public function getPager( string $checkType, UserIdentity $userIdentity, string $logType, ?bool $xfor = null ) {
+		switch ( $checkType ) {
+			case self::SUBTYPE_GET_IPS:
+				return new CheckUserGetIPsPager(
+					$this->opts,
+					$userIdentity,
+					$logType,
+					$this->tokenQueryManager,
+					$this->userGroupManager,
+					$this->centralIdLookup,
+					$this->loadBalancer,
+					$this->getSpecialPageFactory(),
+					$this->userIdentityLookup,
+					$this->actorMigration,
+					$this->checkUserLogService,
+					$this->userFactory
+				);
+			case self::SUBTYPE_GET_USERS:
+				return new CheckUserGetUsersPager(
+					$this->opts,
+					$userIdentity,
+					$xfor ?? false,
+					$logType,
+					$this->tokenQueryManager,
+					$this->permissionManager,
+					$this->blockPermissionCheckerFactory,
+					$this->userGroupManager,
+					$this->centralIdLookup,
+					$this->loadBalancer,
+					$this->getSpecialPageFactory(),
+					$this->userIdentityLookup,
+					$this->actorMigration,
+					$this->userFactory,
+					$this->checkUserLogService,
+					$this->userEditTracker
+				);
+			case self::SUBTYPE_GET_EDITS:
+				return new CheckUserGetEditsPager(
+					$this->opts,
+					$userIdentity,
+					$xfor,
+					$logType,
+					$this->tokenQueryManager,
+					$this->userGroupManager,
+					$this->centralIdLookup,
+					$this->linkBatchFactory,
+					$this->loadBalancer,
+					$this->getSpecialPageFactory(),
+					$this->userIdentityLookup,
+					$this->actorMigration,
+					$this->userFactory,
+					$this->revisionStore,
+					$this->checkUserLogService,
+					$this->commentFormatter,
+					$this->userEditTracker
+				);
+			default:
+				return null;
 		}
-
-		$logType = $xfor ? 'ipedits-xff' : 'ipedits';
-
-		// Ordered in descent by timestamp. Can cause large filesorts on range scans.
-		$pager = new CheckUserGetEditsPager(
-			$this->opts,
-			UserIdentityValue::newAnonymous( $ip ),
-			$xfor,
-			$logType,
-			$this->tokenQueryManager,
-			$this->userGroupManager,
-			$this->centralIdLookup,
-			$this->linkBatchFactory,
-			$this->loadBalancer,
-			$this->getSpecialPageFactory(),
-			$this->userIdentityLookup,
-			$this->actorMigration,
-			$this->userFactory,
-			$this->revisionStore,
-			$this->checkUserLogService,
-			$this->commentFormatter,
-			$this->userEditTracker
-		);
-		$out->addHTML( $pager->getBody() );
-	}
-
-	/**
-	 * Shows all changes made by a particular user
-	 *
-	 * @param string $user
-	 * @return void
-	 */
-	protected function doUserEditsRequest( $user ) {
-		$out = $this->getOutput();
-
-		$userTitle = Title::newFromText( $user, NS_USER );
-		if ( $userTitle !== null ) {
-			// normalize the username
-			$user = $userTitle->getText();
-		}
-		// IPs are passed in as a blank string
-		if ( !$user ) {
-			$out->addWikiMsg( 'nouserspecified' );
-			return;
-		}
-		// Get ID, works better than text as user may have been renamed
-		$userIdentity = $this->userIdentityLookup->getUserIdentityByName( $user );
-
-		// If user is not IP or nonexistent
-		if ( !$userIdentity || !$userIdentity->getId() ) {
-			$out->addHTML( $this->msg( 'nosuchusershort', $user )->parseAsBlock() );
-			return;
-		}
-
-		// Sorting might take some time...make sure it is there
-		AtEase::suppressWarnings();
-		set_time_limit( 60 );
-		AtEase::restoreWarnings();
-
-		// OK, do the real query...
-		$pager = new CheckUserGetEditsPager(
-			$this->opts,
-			$userIdentity,
-			null,
-			'useredits',
-			$this->tokenQueryManager,
-			$this->userGroupManager,
-			$this->centralIdLookup,
-			$this->linkBatchFactory,
-			$this->loadBalancer,
-			$this->getSpecialPageFactory(),
-			$this->userIdentityLookup,
-			$this->actorMigration,
-			$this->userFactory,
-			$this->revisionStore,
-			$this->checkUserLogService,
-			$this->commentFormatter,
-			$this->userEditTracker
-		);
-		$out->addHTML( $pager->getBody() );
-	}
-
-	/**
-	 * Lists all users in recent changes who used an IP, newest to oldest down
-	 * Outputs usernames, latest and earliest found edit date, and count
-	 * List unique IPs used for each user in time order, list corresponding user agent
-	 *
-	 * @param ?string $ip
-	 * @param bool $xfor
-	 * @return void
-	 */
-	protected function doIPUsersRequest( $ip, bool $xfor = false ) {
-		$out = $this->getOutput();
-
-		// Invalid IPs are passed in as a blank string
-		if ( !$ip || !self::isValidRange( $ip ) ) {
-			$out->addWikiMsg( 'badipaddress' );
-			return;
-		}
-
-		$logType = $xfor ? 'ipusers-xff' : 'ipusers';
-
-		$pager = new CheckUserGetUsersPager(
-			$this->opts,
-			UserIdentityValue::newAnonymous( $ip ),
-			$xfor,
-			$logType,
-			$this->tokenQueryManager,
-			$this->permissionManager,
-			$this->blockPermissionCheckerFactory,
-			$this->userGroupManager,
-			$this->centralIdLookup,
-			$this->loadBalancer,
-			$this->getSpecialPageFactory(),
-			$this->userIdentityLookup,
-			$this->actorMigration,
-			$this->userFactory,
-			$this->checkUserLogService,
-			$this->userEditTracker
-		);
-		$out->addHTML( $pager->getBody() );
 	}
 
 	/**
