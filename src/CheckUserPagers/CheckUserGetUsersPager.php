@@ -453,7 +453,8 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		$fieldset = new HTMLFieldsetCheckUser( [], $this->getContext(), '' );
 		$s = '</ul></div>';
 		$s .= ( new ListToggle( $this->getOutput() ) )->getHTML();
-		$s .= $this->getNavigationBar();
+		// T314217 - cannot have forms inside of forms.
+		// $s .= $this->getNavigationBar();
 		if ( $this->canPerformBlocks ) {
 			$config = $this->getConfig();
 			$checkUserCAMultiLock = $config->get( 'CheckUserCAMultiLock' );
