@@ -140,7 +140,41 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager::getIpConds
+	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager::isValidRange
+	 * @dataProvider provideIsValidRange
+	 */
+	public function testIsValidRange( $target, $expected ) {
+		$object = $this->setUpObject();
+		$this->assertSame(
+			$expected,
+			$object->isValidRange( $target )
+		);
+	}
+
+	/**
+	 * Test cases for AbstractCheckUserPager::isValid
+	 * @return array
+	 */
+	public function provideIsValidRange() {
+		return [
+			'Single IPv4 address' => [ '212.35.31.121', true ],
+			'Single IPv4 address notated as a /32' => [ '212.35.31.121/32', true ],
+			'Single IPv6 address' => [ '::e:f:2001', true ],
+			'IPv6 /96 range' => [ '::e:f:2001/96', true ],
+			'Invalid IP address' => [ 'abcedf', false ]
+		];
+	}
+
+	/**
+	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager::isValidRange
+	 */
+	public function testIsValidRangeLowerThanLimit() {
+		$this->testIsValidRange( "0.17.184.5/{$this->lowerThanLimitIPv4}", false );
+		$this->testIsValidRange( "2000::/{$this->lowerThanLimitIPv6}", false );
+	}
+
+	/**
+	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager::getDateRangeCond
 	 * @dataProvider provideGetDateRangeCond
 	 */
 	public function testGetDateRangeCond( $period, $fakeTime, $expected ) {

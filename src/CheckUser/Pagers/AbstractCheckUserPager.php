@@ -9,7 +9,6 @@ use Html;
 use HtmlArmor;
 use IContextSource;
 use MediaWiki\Block\DatabaseBlock;
-use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\Linker\LinkRenderer;
@@ -465,6 +464,23 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	}
 
 	/**
+	 * @param string $target an IP address or CIDR range
+	 * @return bool
+	 */
+	private static function isValidRange( string $target ): bool {
+		$CIDRLimit = RequestContext::getMain()->getConfig()->get( 'CheckUserCIDRLimit' );
+		if ( IPUtils::isValidRange( $target ) ) {
+			[ $ip, $range ] = explode( '/', $target, 2 );
+			return !(
+				( IPUtils::isIPv4( $ip ) && $range < $CIDRLimit['IPv4'] ) ||
+				( IPUtils::isIPv6( $ip ) && $range < $CIDRLimit['IPv6'] )
+			);
+		}
+
+		return IPUtils::isValid( $target );
+	}
+
+	/**
 	 * Get the WHERE conditions for an IP address / range, optionally as a XFF.
 	 *
 	 * @param IDatabase $db
@@ -475,7 +491,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	public static function getIpConds( IDatabase $db, string $target, $xfor = false ) {
 		$type = $xfor ? 'xff' : 'ip';
 
-		if ( !SpecialCheckUser::isValidRange( $target ) ) {
+		if ( !self::isValidRange( $target ) ) {
 			return false;
 		}
 

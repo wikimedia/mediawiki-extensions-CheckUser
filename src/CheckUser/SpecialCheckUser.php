@@ -34,7 +34,6 @@ use MediaWiki\User\UserNameUtils;
 use MediaWiki\User\UserRigorOptions;
 use Message;
 use OOUI\IconWidget;
-use RequestContext;
 use SpecialPage;
 use Title;
 use UserBlockedError;
@@ -744,24 +743,6 @@ class SpecialCheckUser extends SpecialPage {
 			default:
 				return null;
 		}
-	}
-
-	/**
-	 * @param string $target an IP address or CIDR range
-	 * @return bool
-	 */
-	public static function isValidRange( string $target ): bool {
-		$CIDRLimit = RequestContext::getMain()->getConfig()->get( 'CheckUserCIDRLimit' );
-		if ( IPUtils::isValidRange( $target ) ) {
-			[ $ip, $range ] = explode( '/', $target, 2 );
-
-			return !(
-				( IPUtils::isIPv4( $ip ) && $range < $CIDRLimit['IPv4'] ) ||
-				( IPUtils::isIPv6( $ip ) && $range < $CIDRLimit['IPv6'] )
-			);
-		}
-
-		return IPUtils::isValid( $target );
 	}
 
 	/**
