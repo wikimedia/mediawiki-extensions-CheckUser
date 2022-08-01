@@ -171,6 +171,8 @@
 			],
 			"messages": [
 				"checkuser-centralauth-multilock",
+				"checkuser-centralauth-multilock-list",
+				"checkuser-centralauth-multilock-list-item",
 				"checkuser-cidr-too-small",
 				"checkuser-cidr-affected-ips",
 				"checkuser-investigate-compare-copy-button-label",

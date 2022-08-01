@@ -68,6 +68,8 @@
 	"checkuser-block-limit": "Too many users selected.",
 	"checkuser-block-noreason": "You must give a reason for the blocks.",
 	"checkuser-centralauth-multilock": "Multi lock selected accounts",
+	"checkuser-centralauth-multilock-list": "Multi lock the selected accounts using the links:",
+	"checkuser-centralauth-multilock-list-item": "Link $1",
 	"checkuser-noreason": "You must give a reason for this query.",
 	"checkuser-too-many": "Too many results (according to query estimate), please narrow down the CIDR.\nHere are the IP addresses used ($1 max, sorted by address):",
 	"checkuser-user-nonexistent": "The specified user does not exist.",
