@@ -6,11 +6,12 @@
 			"NehalDaveND",
 			"Nirajan pant",
 			"पर्वत सुबेदी",
-			"बिप्लब आनन्द"
+			"बिप्लब आनन्द",
+			"Bada Kaji"
 		]
 	},
 	"checkuser": "प्रयोगकर्ता जाँच",
-	"checkuserlog": "प्रयोगकर्ता जाँच लग",
+	"checkuserlog": "प्रयोगकर्ता जाँच अभिलेख",
 	"checkuser-contribs": "प्रयोगकर्ताको आइपी ठेगानाहरू जाँच्ने",
 	"checkuser-contribs-log": "हालैका प्रयोगकर्ता जाँचहरू",
 	"group-checkuser": "प्रयोगकर्ताहरू जाँच्ने",
@@ -46,7 +47,7 @@
 	"checkuser-locked": "प्रतिबन्धित",
 	"checkuser-wasblocked": "पछिल्लो निषेधित",
 	"checkuser-localonly": "एकीकृत छैन",
-	"checkuser-search": "खोज्ने",
+	"checkuser-search": "खोज्नुहोस्",
 	"checkuser-search-submit": "खोज",
 	"checkuser-investigate-notice-no-results": "कुनैपनि नतिजाहरू भेटिएनन्",
 	"checkuser-investigate-tab-compare": "आइपी तथा प्रयोगकर्ता एजेन्टहरू",
