@@ -5,7 +5,7 @@
 		]
 	},
 	"checkuser-reason": "Mäinn:",
-	"checkuser-query": "Ooʒʒ võõrâs muttsid",
+	"checkuser-query": "Ooʒʒ ođđsumus muttsid",
 	"checkuser-target": "IP-addrõs leʹbe õõʹnninõmm:",
 	"checkuser-period": "Pââʹjj:",
 	"checkuser-all": "puk",
@@ -14,9 +14,12 @@
 	"checkuser-search-submit": "Ooʒʒ",
 	"checkuser-investigateblock-reason": "Mäinn",
 	"checkuser-investigate-notice-no-results": "Ni mâiʹd ij käunnʼjam.",
+	"checkuser-investigate-targets-placeholder": "Õõʹnninõmm leʹbe 1.1.1.1",
 	"checkuser-investigate-duration-label": "Pââʹjj",
 	"checkuser-investigate-reason-label": "Mäinn",
+	"checkuser-investigate-preliminary-table-header-editcount": "Muttâz",
 	"checkuser-investigate-preliminary-table-header-name": "Õõʹnninõmm",
+	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Wiki ij käunnʼjam",
 	"checkuser-investigate-compare-copy-button-label": "Čuäʹjet wikiteeʹkst",
 	"checkuser-investigate-compare-table-button-contribs-label": "Muttâz",
 	"checkuser-investigate-compare-table-header-username": "Õõʹnninõmm"
