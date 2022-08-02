@@ -3,19 +3,17 @@
 namespace MediaWiki\CheckUser;
 
 use DeferredUpdates;
+use User;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\ILoadBalancer;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 class CheckUserLogService {
 
-	/**
-	 * @var ILoadBalancer
-	 */
+	/** @var ILoadBalancer */
 	private $loadBalancer;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	private $culActorMigrationStage;
 
 	public function __construct( ILoadBalancer $loadBalancer, int $culActorMigrationStage ) {
@@ -23,7 +21,20 @@ class CheckUserLogService {
 		$this->culActorMigrationStage = $culActorMigrationStage;
 	}
 
-	public function addLogEntry( $user, $logType, $targetType, $target, $reason, $targetID = 0 ) {
+	/**
+	 * Adds a log entry to the CheckUserLog.
+	 *
+	 * @param User $user
+	 * @param string $logType
+	 * @param string $targetType
+	 * @param string $target
+	 * @param string $reason
+	 * @param int $targetID
+	 * @return void
+	 */
+	public function addLogEntry(
+		User $user, string $logType, string $targetType, string $target, string $reason, int $targetID = 0
+	) {
 		if ( $targetType == 'ip' ) {
 			list( $rangeStart, $rangeEnd ) = IPUtils::parseRange( $target );
 			$targetHex = $rangeStart;
@@ -37,7 +48,7 @@ class CheckUserLogService {
 			$rangeEnd = '';
 		}
 
-		$timestamp = time();
+		$timestamp = ConvertibleTimestamp::now();
 		$data = [
 			'cul_user' => $user->getId(),
 			'cul_user_text' => $user->getName(),

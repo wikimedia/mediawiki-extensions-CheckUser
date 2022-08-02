@@ -39,6 +39,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 			$this->tablesUsed,
 			[
 				'page',
+				'actor',
 				'revision',
 				'ip_changes',
 				'text',
@@ -47,6 +48,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 				'logging',
 				'page_props',
 				'cu_changes',
+				'cu_log',
 			]
 		);
 
@@ -199,5 +201,17 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 			'User was previously blocked' => [ true ],
 			'User never previously blocked' => [ false ]
 		];
+	}
+
+	/**
+	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager::noMatchesMessage
+	 */
+	public function testNoMatchesMessageNoCheckLast() {
+		$object = $this->setUpObject();
+		$this->assertSame(
+			wfMessage( 'checkuser-nomatch' )->parseAsBlock(),
+			$object->noMatchesMessage( 'test', false ),
+			'The checkuser-nomatch message should have been returned.'
+		);
 	}
 }
