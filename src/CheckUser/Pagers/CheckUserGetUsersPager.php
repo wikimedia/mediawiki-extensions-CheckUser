@@ -536,6 +536,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 						'maxlength' => 150,
 						'id' => 'blockreason',
 						'name' => 'blockreason',
+						'required' => true
 					],
 				] )
 				->prepareForm()
