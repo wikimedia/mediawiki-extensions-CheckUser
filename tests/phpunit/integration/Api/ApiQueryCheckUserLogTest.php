@@ -2,9 +2,13 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Api;
 
+use ApiMain;
+use ApiQuery;
 use ApiTestCase;
 use HashConfig;
+use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
 use MediaWiki\Permissions\Authority;
+use Wikimedia\TestingAccessWrapper;
 
 /**
  * @group API
@@ -22,6 +26,26 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 
 	public function doCheckUserLogApiRequest( array $params = [], array $session = null, Authority $performer = null ) {
 		return $this->doApiRequest( self::INITIAL_API_PARAMS + $params, $session, false, $performer );
+	}
+
+	/**
+	 * @param string $action
+	 * @param string $moduleName
+	 * @return TestingAccessWrapper
+	 */
+	public function setUpObject( string $action = '', string $moduleName = '' ) {
+		$services = $this->getServiceContainer();
+		$query = new ApiQuery(
+			new ApiMain( $this->apiContext, true ),
+			$action,
+			$services->getObjectFactory(),
+			$services->getDBLoadBalancer(),
+			$services->getWikiExporterFactory()
+		);
+		return TestingAccessWrapper::newFromObject( new ApiQueryCheckUser(
+			$query, $moduleName, $services->getUserIdentityLookup(),
+			$services->getRevisionLookup(), $services->get( 'CheckUserLogService' )
+		) );
 	}
 
 	/**
@@ -71,5 +95,27 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 			'No user groups' => [ '', false ],
 			'checkuser-log right only' => [ 'checkuser-log', true ],
 		];
+	}
+
+	/**
+	 * Tests that the function returns valid URLs.
+	 * Does not test that the URL is correct as if
+	 * the URL is changed in a proposed commit the
+	 * reviewer should check the URL points to the
+	 * right place.
+	 *
+	 * @covers \MediaWiki\CheckUser\Api\ApiQueryCheckUserLog::getHelpUrls
+	 */
+	public function testGetHelpUrls() {
+		$helpUrls = $this->setUpObject()->getHelpUrls();
+		if ( !is_string( $helpUrls ) && !is_array( $helpUrls ) ) {
+			$this->fail( 'getHelpUrls should return an array of URLs or a URL' );
+		}
+		if ( is_string( $helpUrls ) ) {
+			$helpUrls = [ $helpUrls ];
+		}
+		foreach ( $helpUrls as $helpUrl ) {
+			$this->assertIsArray( parse_url( $helpUrl ) );
+		}
 	}
 }
