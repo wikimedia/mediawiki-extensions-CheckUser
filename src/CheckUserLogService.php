@@ -2,7 +2,11 @@
 
 namespace MediaWiki\CheckUser;
 
+use CommentStore;
 use DeferredUpdates;
+use MediaWiki\CommentFormatter\CommentFormatter;
+use Sanitizer;
+use Title;
 use User;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\ILoadBalancer;
@@ -13,16 +17,37 @@ class CheckUserLogService {
 	/** @var ILoadBalancer */
 	private $loadBalancer;
 
+	/** @var CommentStore */
+	private $commentStore;
+
+	/** @var CommentFormatter */
+	private $commentFormatter;
+
 	/** @var int */
 	private $culActorMigrationStage;
 
+	/** @var int */
+	private $culReasonMigrationStage;
+
 	/**
 	 * @param ILoadBalancer $loadBalancer
+	 * @param CommentStore $commentStore
+	 * @param CommentFormatter $commentFormatter
 	 * @param int $culActorMigrationStage
+	 * @param int $culReasonMigrationStage
 	 */
-	public function __construct( ILoadBalancer $loadBalancer, int $culActorMigrationStage ) {
+	public function __construct(
+		ILoadBalancer $loadBalancer,
+		CommentStore $commentStore,
+		CommentFormatter $commentFormatter,
+		int $culActorMigrationStage,
+		int $culReasonMigrationStage
+	) {
 		$this->loadBalancer = $loadBalancer;
+		$this->commentStore = $commentStore;
+		$this->commentFormatter = $commentFormatter;
 		$this->culActorMigrationStage = $culActorMigrationStage;
+		$this->culReasonMigrationStage = $culReasonMigrationStage;
 	}
 
 	/**
@@ -65,15 +90,34 @@ class CheckUserLogService {
 			'cul_range_end' => $rangeEnd
 		];
 
+		if ( $this->culReasonMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+			$plaintextReason = Sanitizer::stripAllTags(
+				$this->commentFormatter->formatBlock(
+					$reason, Title::newFromText( 'Special:CheckUser' ),
+					false, false, false
+				)
+			);
+		} else {
+			$plaintextReason = '';
+		}
+
 		if ( $this->culActorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
 			$data['cul_actor'] = $user->getActorId();
 		}
 
 		$fname = __METHOD__;
 		$dbw = $this->loadBalancer->getConnection( DB_PRIMARY );
+		$commentStore = $this->commentStore;
+		$writeNew = $this->culReasonMigrationStage & SCHEMA_COMPAT_WRITE_NEW;
 
 		DeferredUpdates::addCallableUpdate(
-			static function () use ( $data, $timestamp, $fname, $dbw ) {
+			static function () use (
+				$data, $timestamp, $reason, $plaintextReason, $fname, $dbw, $commentStore, $writeNew
+			) {
+				if ( $writeNew ) {
+					$data += $commentStore->insert( $dbw, 'cul_reason', $reason );
+					$data += $commentStore->insert( $dbw, 'cul_reason_plaintext', $plaintextReason );
+				}
 				$dbw->insert(
 					'cu_log',
 					[

@@ -24,6 +24,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 			$this->tablesUsed,
 			[
 				'cu_log',
+				'comment',
 			]
 		);
 
@@ -165,5 +166,92 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		} else {
 			$this->expectNotToPerformAssertions();
 		}
+	}
+
+	/**
+	 * Tests that nothing is written to
+	 * the cul_reason_id or cul_reason_plaintext_id
+	 * if the migration stage doesn't include write new.
+	 *
+	 * @covers \MediaWiki\CheckUser\CheckUserLogService::addLogEntry
+	 */
+	public function testAddLogEntryReasonIdNoWriteNew() {
+		$object = $this->setUpObject();
+		// 3 means READ_OLD and WRITE_OLD
+		$object->culReasonMigrationStage = 3;
+		$testUser = $this->getTestUser( 'checkuser' )->getUser();
+		$object->addLogEntry( $testUser, 'ipusers', 'ip', '127.0.0.1', 'Test', 0 );
+		\DeferredUpdates::doUpdates();
+		// Be sure that the fields exist before testing.
+		if (
+			$this->db->fieldExists( 'cu_log', 'cul_reason_id' ) &&
+			$this->db->fieldExists( 'cu_log', 'cul_reason_plaintext_id' )
+		) {
+			$this->assertSelect(
+				'cu_log',
+				[ 'cul_reason_plaintext_id', 'cul_reason_id' ],
+				[],
+				[ [ 0, 0 ] ]
+			);
+		} else {
+			$this->expectNotToPerformAssertions();
+		}
+	}
+
+	/**
+	 * @covers \MediaWiki\CheckUser\CheckUserLogService::addLogEntry
+	 * @dataProvider provideAddLogEntryReasonId
+	 */
+	public function testAddLogEntryReasonId( $rawReason, $savedReason, $savedPlaintextReason ) {
+		$object = $this->setUpObject();
+		// Only attempt the test if culReasonMigrationStage says we can write to the new.
+		if ( $object->culReasonMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+			$testUser = $this->getTestUser( 'checkuser' )->getUser();
+			$object->addLogEntry( $testUser, 'ipusers', 'ip', '127.0.0.1', $rawReason, 0 );
+			\DeferredUpdates::doUpdates();
+			$commentQuery = $this->getServiceContainer()->getCommentStore()->getJoin( 'cul_reason' );
+			$commentQuery['tables'][] = 'cu_log';
+			$row = $this->db->newSelectQueryBuilder()
+				->fields( $commentQuery['fields'] )
+				->tables( $commentQuery['tables'] )
+				->joinConds( $commentQuery['joins'] )
+				->fetchRow();
+			$this->assertSame(
+				$savedReason,
+				$row->cul_reason_text,
+				'The reason saved was not correctly saved.'
+			);
+
+			$commentQuery = $this->getServiceContainer()->getCommentStore()->getJoin( 'cul_reason_plaintext' );
+			$commentQuery['tables'][] = 'cu_log';
+			$row = $this->db->newSelectQueryBuilder()
+				->fields( $commentQuery['fields'] )
+				->tables( $commentQuery['tables'] )
+				->joinConds( $commentQuery['joins'] )
+				->fetchRow();
+			$this->assertSame(
+				$savedPlaintextReason,
+				$row->cul_reason_plaintext_text,
+				'The plaintext reason saved was not correctly saved.'
+			);
+		} else {
+			$this->expectNotToPerformAssertions();
+		}
+	}
+
+	public function provideAddLogEntryReasonId() {
+		return [
+			[ 'Testing 1234', 'Testing 1234', 'Testing 1234' ],
+			[ 'Testing 1234 [[test]]', 'Testing 1234 [[test]]', 'Testing 1234 test' ],
+			[ 'Testing 1234 [[:mw:Testing|test]]', 'Testing 1234 [[:mw:Testing|test]]', 'Testing 1234 test' ],
+			[ 'Testing 1234 [test]', 'Testing 1234 [test]', 'Testing 1234 [test]' ],
+			[ 'Testing 1234 [https://example.com]', 'Testing 1234 [https://example.com]',
+				'Testing 1234 [https://example.com]' ],
+			[ 'Testing 1234 [[test]', 'Testing 1234 [[test]', 'Testing 1234 [[test]' ],
+			[ 'Testing 1234 [test]]', 'Testing 1234 [test]]', 'Testing 1234 [test]]' ],
+			[ 'Testing 1234 <var>', 'Testing 1234 <var>', 'Testing 1234 <var>' ],
+			[ 'Testing 1234 {{test}}', 'Testing 1234 {{test}}', 'Testing 1234 {{test}}' ],
+			[ 'Testing 12345 [[{{test}}]]', 'Testing 12345 [[{{test}}]]', 'Testing 12345 [[{{test}}]]' ],
+		];
 	}
 }

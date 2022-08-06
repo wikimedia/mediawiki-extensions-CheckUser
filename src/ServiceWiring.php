@@ -31,7 +31,10 @@ return [
 	): CheckUserLogService {
 		return new CheckUserLogService(
 			$services->getDBLoadBalancer(),
-			$services->getMainConfig()->get( 'CheckUserLogActorMigrationStage' )
+			$services->getCommentStore(),
+			$services->getCommentFormatter(),
+			$services->getMainConfig()->get( 'CheckUserLogActorMigrationStage' ),
+			$services->getMainConfig()->get( 'CheckUserLogReasonMigrationStage' )
 		);
 	},
 	'CheckUserActorMigration' => static function (
