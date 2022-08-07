@@ -70,7 +70,7 @@ class SpecialCheckUserLog extends SpecialPage {
 			$this->opts['target'] = $userTitle ? $userTitle->getText() : '';
 		}
 
-		$this->opts['initiator'] = trim( $request->getVal( 'cuInitiator' ) );
+		$this->opts['initiator'] = trim( $request->getVal( 'cuInitiator', '' ) );
 
 		// From SpecialContributions.php
 		$skip = $request->getText( 'offset' ) || $request->getText( 'dir' ) == 'prev';
