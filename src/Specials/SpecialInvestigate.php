@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Specials;
 
+use FormSpecialPage;
 use Html;
 use HTMLForm;
 use Language;
@@ -30,10 +31,12 @@ use OOUI\MessageWidget;
 use OOUI\TabOptionWidget;
 use OOUI\Tag;
 use OOUI\Widget;
+use ParserOutput;
+use Status;
 use User;
 use Wikimedia\IPUtils;
 
-class SpecialInvestigate extends \FormSpecialPage {
+class SpecialInvestigate extends FormSpecialPage {
 	/** @var Language */
 	private $contentLanguage;
 
@@ -303,10 +306,10 @@ class SpecialInvestigate extends \FormSpecialPage {
 	/**
 	 * Add Pager Output to Layout.
 	 *
-	 * @param \ParserOutput $parserOutput
+	 * @param ParserOutput $parserOutput
 	 * @return self
 	 */
-	private function addParserOutput( \ParserOutput $parserOutput ): self {
+	private function addParserOutput( ParserOutput $parserOutput ): self {
 		$this->getOutput()->addParserOutputMetadata( $parserOutput );
 		$this->addHTML( $parserOutput->getText() );
 
@@ -711,9 +714,9 @@ class SpecialInvestigate extends \FormSpecialPage {
 			];
 		}
 
-		if ( $this->par === $timelineTab ) {
+		// if ( $this->par === $timelineTab ) {
 			// @TODO Add filters specific to the timeline tab.
-		}
+		// }
 
 		return $fields;
 	}
@@ -806,7 +809,7 @@ class SpecialInvestigate extends \FormSpecialPage {
 			'excludeTargetsCount' => count( $submittedExcludeTargets ?? [] ),
 		] );
 
-		return \Status::newGood();
+		return Status::newGood();
 	}
 
 	/**
@@ -979,9 +982,6 @@ class SpecialInvestigate extends \FormSpecialPage {
 	 */
 	private function launchTour( string $tour ): void {
 		$user = $this->getUser();
-
-		$preference = '';
-		$step = '';
 
 		switch ( $tour ) {
 			case self::TOUR_INVESTIGATE_FORM:

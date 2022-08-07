@@ -73,7 +73,7 @@ class SpecialCheckUserLog extends SpecialPage {
 		$this->opts['initiator'] = trim( $request->getVal( 'cuInitiator', '' ) );
 
 		// From SpecialContributions.php
-		$skip = $request->getText( 'offset' ) || $request->getText( 'dir' ) == 'prev';
+		$skip = $request->getText( 'offset' ) || $request->getText( 'dir' ) === 'prev';
 		# Offset overrides year/month selection
 		if ( !$skip ) {
 			$this->opts['year'] = $request->getIntOrNull( 'year' );
@@ -91,10 +91,10 @@ class SpecialCheckUserLog extends SpecialPage {
 
 		$errorMessageKey = null;
 
-		if ( $this->opts['target'] !== '' && $this->verifyTarget( $this->opts['target'] ) === false ) {
+		if ( $this->opts['target'] !== '' && self::verifyTarget( $this->opts['target'] ) === false ) {
 			$errorMessageKey = 'checkuser-target-nonexistent';
 		}
-		if ( $this->opts['initiator'] !== '' && $this->verifyInitiator( $this->opts['initiator'] ) === false ) {
+		if ( $this->opts['initiator'] !== '' && self::verifyInitiator( $this->opts['initiator'] ) === false ) {
 			$errorMessageKey = 'checkuser-initiator-nonexistent';
 		}
 
@@ -235,20 +235,21 @@ class SpecialCheckUserLog extends SpecialPage {
 	 * @return bool|int|array
 	 */
 	public static function verifyTarget( string $target ) {
-		list( $start, $end ) = IPUtils::parseRange( $target );
+		[ $start, $end ] = IPUtils::parseRange( $target );
 
 		if ( $start !== false ) {
 			if ( $start === $end ) {
 				return [ $start ];
-			} else {
-				return [ $start, $end ];
 			}
-		} else {
-			$user = User::newFromName( $target );
-			if ( $user && $user->getId() ) {
-				return $user->getId();
-			}
+
+			return [ $start, $end ];
 		}
+
+		$user = User::newFromName( $target );
+		if ( $user && $user->getId() ) {
+			return $user->getId();
+		}
+
 		return false;
 	}
 
