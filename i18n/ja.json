@@ -69,7 +69,7 @@
 	"checkuser-nomatch-edits": "該当するものはありません。\n最終編集は $1 $2 です。",
 	"checkuser-check": "調査",
 	"checkuser-check-this-user": "この利用者を調査",
-	"checkuser-recent-checks": "この利用者の最近の調査",
+	"checkuser-recent-checks": "この利用者に対する最近の調査記録",
 	"checkuser-log-fail": "ログに追加できません",
 	"checkuser-nolog": "ログファイルが見つかりません。",
 	"checkuser-blocked": "ブロック済",
