@@ -25,6 +25,7 @@ use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
 use Message;
 use OOUI\IconWidget;
+use RequestContext;
 use SpecialBlock;
 use SpecialPage;
 use Title;
@@ -474,16 +475,21 @@ class SpecialCheckUser extends SpecialPage {
 			trim( $this->opts->getValue( 'talktag' ) ) : '';
 		$usersCount = count( $users );
 
-		if ( !$this->permissionManager->userHasRight( $this->getUser(), 'block' )
+		if (
+			!$usersCount
+			|| !$this->permissionManager->userHasRight( $this->getUser(), 'block' )
 			|| $this->getUser()->getBlock()
-			|| !$usersCount
 		) {
 			$this->getOutput()->addWikiMsg( 'checkuser-block-failure' );
 			return;
-		} elseif ( $usersCount > $this->getConfig()->get( 'CheckUserMaxBlocks' ) ) {
+		}
+
+		if ( $usersCount > $this->getConfig()->get( 'CheckUserMaxBlocks' ) ) {
 			$this->getOutput()->addWikiMsg( 'checkuser-block-limit' );
 			return;
-		} elseif ( !$blockParams['reason'] ) {
+		}
+
+		if ( !$blockParams['reason'] ) {
 			$this->getOutput()->addWikiMsg( 'checkuser-block-noreason' );
 			return;
 		}
@@ -788,9 +794,10 @@ class SpecialCheckUser extends SpecialPage {
 	 * @return bool
 	 */
 	public static function isValidRange( string $target ): bool {
-		$CIDRLimit = \RequestContext::getMain()->getConfig()->get( 'CheckUserCIDRLimit' );
+		$CIDRLimit = RequestContext::getMain()->getConfig()->get( 'CheckUserCIDRLimit' );
 		if ( IPUtils::isValidRange( $target ) ) {
-			list( $ip, $range ) = explode( '/', $target, 2 );
+			[ $ip, $range ] = explode( '/', $target, 2 );
+
 			if ( ( IPUtils::isIPv4( $ip ) && $range < $CIDRLimit['IPv4'] ) ||
 				( IPUtils::isIPv6( $ip ) && $range < $CIDRLimit['IPv6'] ) ) {
 					// range is too wide
