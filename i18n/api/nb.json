@@ -26,5 +26,6 @@
 	"apihelp-query+checkuserlog-example-2": "Vis sjekker av 192.0.2.0/24 etter 2011-10-15T23:00:00Z",
 	"apierror-checkuser-missingsummary": "Du må angi en årsak for sjekken.",
 	"apierror-checkuser-timelimit": "Du må bruke en korrekt tidsgrense (som «-2 weeks» eller «2 weeks ago»).",
-	"apierror-checkuser-invalidmode": "Ugyldig forespørselsmodus"
+	"apierror-checkuser-invalidmode": "Ugyldig forespørselsmodus",
+	"checkuser-api-help-param-direction": "Hvilken retning det skal listes opp:\n;never:List opp de eldste først. Merk: $1from må være før $1to.\n;older:List opp de nyeste først (standard). Merk: $1from må være senere enn $1to."
 }
