@@ -143,6 +143,8 @@
 				"checkuserlog/highlightScroll.js",
 				"investigateblock/investigateblock.js",
 				"investigate/init.js",
+				"investigate/InvestigateMenuSelectWidget.js",
+				"investigate/InvestigateButtonMenuSelectWidget.js",
 				"investigate/tables.js",
 				"investigate/copy.js",
 				"investigate/blockform.js",
