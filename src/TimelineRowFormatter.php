@@ -98,7 +98,7 @@ class TimelineRowFormatter {
 				'userLinks' => $this->getUserLinks( $row ),
 				'actionText' => $this->getActionText( $row->cuc_actiontext ),
 				'ipInfo' => $this->getIpInfo( $row->cuc_ip ),
-				'userAgent' => $this->getUserAgent( $row->cuc_agent ),
+				'userAgent' => $this->getUserAgent( $row->cuc_agent ?? '' ),
 				'comment' => $this->getComment( $row ),
 			],
 		];
