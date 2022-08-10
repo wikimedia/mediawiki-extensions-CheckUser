@@ -9,6 +9,7 @@
 			"Sourav Halder",
 			"Wikitanvir",
 			"Zaheen",
+			"আজিজ",
 			"আফতাবুজ্জামান"
 		]
 	},
@@ -143,6 +144,7 @@
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "উইকি পাওয়া যায়নি",
 	"checkuser-investigate-filters-legend": "ছাঁকনি",
 	"checkuser-investigate-compare-copy-button-label": "উইকিপাঠ্য দেখান",
+	"checkuser-investigate-compare-copy-button-label-hide": "উইকিপাঠ্য আড়াল করুন",
 	"checkuser-investigate-compare-toollinks-whois": "হুইজ",
 	"checkuser-investigate-compare-toollinks-ipcheck": "প্রক্সি পরীক্ষা",
 	"checkuser-investigate-compare-copy-message-label": "আপনি কি এই তথ্যগুলি উইকিপাঠ্যের ছক হিসেবে অনুলিপি করতে চান?",
