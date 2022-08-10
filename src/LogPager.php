@@ -7,7 +7,7 @@ use Html;
 use IContextSource;
 use Linker;
 use MediaWiki\Cache\LinkBatchFactory;
-use MediaWiki\CheckUser\Specials\SpecialCheckUserLog;
+use MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog;
 use RangeChronologicalPager;
 use SpecialPage;
 use Wikimedia\Rdbms\IResultWrapper;

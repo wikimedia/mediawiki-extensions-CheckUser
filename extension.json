@@ -248,7 +248,7 @@
 	],
 	"SpecialPages": {
 		"CheckUser": {
-			"class": "MediaWiki\\CheckUser\\Specials\\SpecialCheckUser",
+			"class": "MediaWiki\\CheckUser\\CheckUser\\SpecialCheckUser",
 			"services": [
 				"LinkBatchFactory",
 				"BlockPermissionCheckerFactory",
@@ -266,7 +266,7 @@
 			]
 		},
 		"CheckUserLog": {
-			"class": "MediaWiki\\CheckUser\\Specials\\SpecialCheckUserLog",
+			"class": "MediaWiki\\CheckUser\\CheckUser\\SpecialCheckUserLog",
 			"services": [
 				"LinkBatchFactory",
 				"PermissionManager",

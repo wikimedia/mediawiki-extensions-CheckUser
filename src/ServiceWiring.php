@@ -2,17 +2,17 @@
 
 use MediaWiki\CheckUser\CheckUserActorMigration;
 use MediaWiki\CheckUser\CheckUserLogService;
-use MediaWiki\CheckUser\ComparePagerFactory;
-use MediaWiki\CheckUser\CompareService;
-use MediaWiki\CheckUser\DurationManager;
-use MediaWiki\CheckUser\EventLogger;
 use MediaWiki\CheckUser\GuidedTour\TourLauncher;
 use MediaWiki\CheckUser\Hook\HookRunner;
-use MediaWiki\CheckUser\PreliminaryCheckPagerFactory;
-use MediaWiki\CheckUser\PreliminaryCheckService;
-use MediaWiki\CheckUser\TimelinePagerFactory;
-use MediaWiki\CheckUser\TimelineRowFormatterFactory;
-use MediaWiki\CheckUser\TimelineService;
+use MediaWiki\CheckUser\Investigate\Pagers\ComparePagerFactory;
+use MediaWiki\CheckUser\Investigate\Pagers\PreliminaryCheckPagerFactory;
+use MediaWiki\CheckUser\Investigate\Pagers\TimelinePagerFactory;
+use MediaWiki\CheckUser\Investigate\Pagers\TimelineRowFormatterFactory;
+use MediaWiki\CheckUser\Investigate\Services\CompareService;
+use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
+use MediaWiki\CheckUser\Investigate\Services\TimelineService;
+use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
+use MediaWiki\CheckUser\Investigate\Utilities\EventLogger;
 use MediaWiki\CheckUser\TokenManager;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\Config\ServiceOptions;

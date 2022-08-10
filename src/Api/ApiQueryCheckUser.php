@@ -4,8 +4,8 @@ namespace MediaWiki\CheckUser\Api;
 
 use ApiQueryBase;
 use Exception;
+use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\CheckUser\CheckUserLogService;
-use MediaWiki\CheckUser\CheckUserPagers\AbstractCheckUserPager;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
