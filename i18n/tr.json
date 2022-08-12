@@ -59,6 +59,8 @@
 	"checkuser-investigate-this-user": "Bu kullanıcıyı araştır",
 	"checkuser-recent-checks": "Bu kullanıcının son kontrolleri",
 	"checkuser-log-fail": "Günlük girdisi eklenemiyor",
+	"checkuser-log-checks-by": "kontrol eden",
+	"checkuser-log-checks-on": "kontrol edilmesi",
 	"checkuser-blocked": "Engellendi",
 	"checkuser-gblocked": "Küresel olarak engellendi",
 	"checkuser-locked": "Kilitli",
