@@ -1,12 +1,19 @@
 /* -- (c) Aaron Schulz 2009 */
 ( function () {
-	$( '#mw-checkuser-ipnote' ).css( 'font-weight', '600' );
-	var showResults = function ( size, cidr ) {
+	var showResults = function ( size, cidr, $form ) {
 		if ( cidr.toString() === '!' ) {
 			cidr = mw.message( 'checkuser-cidr-too-small' ).text();
 		}
-		$( '#mw-checkuser-cidr-res input' ).val( cidr );
-		$( '#mw-checkuser-ipnote' ).text(
+		$( '.mw-checkuser-cidr-res input', $form ).val( cidr );
+		if ( mw.util.isIPAddress( cidr, true ) ) {
+			$( '.mw-checkuser-cidr-tool-links', $form ).removeClass( 'mw-checkuser-cidr-tool-links-hidden' );
+			$( '.mw-checkuser-cidr-tool-links', $form ).html(
+				mw.message( 'checkuser-cidr-tool-links', cidr ).parse()
+			);
+		} else {
+			$( '.mw-checkuser-cidr-tool-links', $form ).addClass( 'mw-checkuser-cidr-tool-links-hidden' );
+		}
+		$( '.mw-checkuser-cidr-ipnote', $form ).text(
 			mw.message( 'checkuser-cidr-affected-ips' ).text() + ' ' + size.toLocaleString()
 		);
 	};
@@ -14,14 +21,15 @@
 	/**
 	 * This function calculates the common range of a list of
 	 * IPs. It should be set to update on keyUp.
+	 *
+	 * @param $form JQuery element for the form that is being updated
 	 */
-	function updateCIDRresult() {
-		var $form = $( '.mw-checkuser-cidrform' ).first();
+	function updateCIDRresult( $form ) {
 		if ( !$form ) {
 			return; // no JS form
 		}
 		$form.removeClass( 'mw-checkuser-cidr-calculator-hidden' );
-		var $iplist = $( '#mw-checkuser-iplist textarea' ).first();
+		var $iplist = $( '.mw-checkuser-cidr-iplist textarea', $form );
 		if ( !$iplist ) {
 			return; // no JS form
 		}
@@ -103,7 +111,7 @@
 				prefixCidr = binPrefix.length;
 				// CIDR too small?
 				if ( prefixCidr < 16 ) {
-					showResults( '>' + Math.pow( 2, 32 - prefixCidr ).toLocaleString(), '!' );
+					showResults( '>' + Math.pow( 2, 32 - prefixCidr ).toLocaleString(), '!', $form );
 					return; // too big
 				}
 				// Build the IP in dotted-quad form
@@ -184,7 +192,7 @@
 				prefixCidr = binPrefix.length;
 				// CIDR too small?
 				if ( prefixCidr < 32 ) {
-					showResults( '>' + Math.pow( 2, 128 - prefixCidr ).toLocaleString(), '!' );
+					showResults( '>' + Math.pow( 2, 128 - prefixCidr ).toLocaleString(), '!', $form );
 					return; // too big
 				}
 				// Build the IP in dotted-quad form
@@ -215,17 +223,20 @@
 			if ( prefixCidr !== false ) {
 				full += '/' + prefixCidr;
 			}
-			showResults( '~' + ipCount.toLocaleString(), full );
+			showResults( '~' + ipCount.toLocaleString(), full, $form );
 		} else {
-			showResults( '?', '' );
+			showResults( '?', '', $form );
 		}
 
 	}
 
 	$( function () {
-		updateCIDRresult();
-		$( '#mw-checkuser-iplist textarea' ).on( 'keyup click', function () {
-			updateCIDRresult();
+		$( '.mw-checkuser-cidrform' ).each( function ( index, form ) {
+			updateCIDRresult( $( form ) );
+		} );
+		$( '.mw-checkuser-cidr-iplist textarea' ).on( 'keyup click', function () {
+			var $form = $( this ).closest( '.mw-checkuser-cidrform' );
+			updateCIDRresult( $form );
 		} );
 	} );
 }() );

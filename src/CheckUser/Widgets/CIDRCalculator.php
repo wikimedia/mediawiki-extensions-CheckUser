@@ -73,22 +73,26 @@ class CIDRCalculator {
 	public function getHtml(): string {
 		$items = [];
 		$items[] = new MultilineTextInputWidget( [
-			'id' => 'mw-checkuser-iplist',
+			'classes' => [ 'mw-checkuser-cidr-iplist' ],
 			'rows' => 5,
 			'dir' => 'ltr',
 		] );
 		$input = new CIDRCalculatorResultBox( [
 			'size' => 35,
-			'id' => 'mw-checkuser-cidr-res',
+			'classes' => [ 'mw-checkuser-cidr-res' ],
 			'name' => 'mw-checkuser-cidr-res',
 		] );
 		$items[] = new LabelWidget( [
 			'input' => $input,
+			'classes' => [ 'mw-checkuser-cidr-res-label' ],
 			'label' => $this->out->msg( 'checkuser-cidr-res' )->text(),
 		] );
 		$items[] = $input;
 		$items[] = new LabelWidget( [
-			'id' => 'mw-checkuser-ipnote',
+			'classes' => [ 'mw-checkuser-cidr-tool-links' ]
+		] );
+		$items[] = new LabelWidget( [
+			'classes' => [ 'mw-checkuser-cidr-ipnote' ]
 		] );
 		// From OOUIForm but modified.
 		if ( is_string( $this->mWrapperLegend ) ) {
