@@ -80,7 +80,7 @@ class PopulateCucActor extends LoggedUpdateMaintenance {
 			->fetchField();
 
 		if ( !$maxId ) {
-			$this->output( 'The cu_changes table seems to be empty.\n' );
+			$this->output( "The cu_changes table seems to be empty.\n" );
 			return true;
 		}
 

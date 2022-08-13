@@ -76,7 +76,7 @@ class PopulateCulActor extends LoggedUpdateMaintenance {
 			->fetchField();
 
 		if ( !$maxId ) {
-			$this->output( 'The cu_log table seems to be empty.\n' );
+			$this->output( "The cu_log table seems to be empty.\n" );
 			return true;
 		}
 
