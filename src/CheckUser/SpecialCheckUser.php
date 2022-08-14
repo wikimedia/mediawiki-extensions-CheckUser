@@ -17,10 +17,12 @@ use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLTextFieldNoDisabledStyling;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\TokenQueryManager;
+use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Page\WikiPageFactory;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\User\CentralId\CentralIdLookupFactory;
+use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentityLookup;
@@ -92,10 +94,14 @@ class SpecialCheckUser extends SpecialPage {
 	/** @var RevisionStore */
 	private $revisionStore;
 
-	/**
-	 * @var CheckUserLogService
-	 */
+	/** @var CheckUserLogService */
 	private $checkUserLogService;
+
+	/** @var CommentFormatter */
+	private $commentFormatter;
+
+	/** @var UserEditTracker */
+	private $userEditTracker;
 
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory
@@ -111,6 +117,8 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param UserFactory $userFactory
 	 * @param RevisionStore $revisionStore
 	 * @param CheckUserLogService $checkUserLogService
+	 * @param CommentFormatter $commentFormatter
+	 * @param UserEditTracker $userEditTracker
 	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
@@ -125,7 +133,9 @@ class SpecialCheckUser extends SpecialPage {
 		ActorMigration $actorMigration,
 		UserFactory $userFactory,
 		RevisionStore $revisionStore,
-		CheckUserLogService $checkUserLogService
+		CheckUserLogService $checkUserLogService,
+		CommentFormatter $commentFormatter,
+		UserEditTracker $userEditTracker
 	) {
 		parent::__construct( 'CheckUser', 'checkuser' );
 
@@ -142,6 +152,8 @@ class SpecialCheckUser extends SpecialPage {
 		$this->userFactory = $userFactory;
 		$this->revisionStore = $revisionStore;
 		$this->checkUserLogService = $checkUserLogService;
+		$this->commentFormatter = $commentFormatter;
+		$this->userEditTracker = $userEditTracker;
 	}
 
 	public function doesWrites() {
@@ -653,7 +665,8 @@ class SpecialCheckUser extends SpecialPage {
 			$this->getSpecialPageFactory(),
 			$this->userIdentityLookup,
 			$this->actorMigration,
-			$this->checkUserLogService
+			$this->checkUserLogService,
+			$this->userFactory
 		);
 		$out->addHtml( $pager->getBody() );
 	}
@@ -692,7 +705,9 @@ class SpecialCheckUser extends SpecialPage {
 			$this->actorMigration,
 			$this->userFactory,
 			$this->revisionStore,
-			$this->checkUserLogService
+			$this->checkUserLogService,
+			$this->commentFormatter,
+			$this->userEditTracker
 		);
 		$out->addHTML( $pager->getBody() );
 	}
@@ -746,7 +761,9 @@ class SpecialCheckUser extends SpecialPage {
 			$this->actorMigration,
 			$this->userFactory,
 			$this->revisionStore,
-			$this->checkUserLogService
+			$this->checkUserLogService,
+			$this->commentFormatter,
+			$this->userEditTracker
 		);
 		$out->addHTML( $pager->getBody() );
 	}
@@ -786,7 +803,8 @@ class SpecialCheckUser extends SpecialPage {
 			$this->userIdentityLookup,
 			$this->actorMigration,
 			$this->userFactory,
-			$this->checkUserLogService
+			$this->checkUserLogService,
+			$this->userEditTracker
 		);
 		$out->addHTML( $pager->getBody() );
 	}

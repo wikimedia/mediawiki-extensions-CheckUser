@@ -15,11 +15,13 @@ use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\Hooks as CUHooks;
 use MediaWiki\CheckUser\TokenQueryManager;
+use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\SpecialPageFactory;
+use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentity;
@@ -40,6 +42,12 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	protected $message = [];
 
 	/**
+	 * @var array The cached results of AbstractCheckUserPager::userBlockFlags with the key as
+	 *  the row's cuc_user_text.
+	 */
+	private $flagCache = [];
+
+	/**
 	 * Null if $target is a user.
 	 * Boolean is $target is a IP / range.
 	 *  - False if XFF is not appended
@@ -49,20 +57,20 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	 */
 	protected $xfor = null;
 
-	/** @var null|string */
-	private $lastdate = null;
-
 	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var LinkBatchFactory */
 	private $linkBatchFactory;
 
-	/** @var UserFactory */
-	private $userFactory;
-
 	/** @var RevisionStore */
 	private $revisionStore;
+
+	/** @var CommentFormatter */
+	private $commentFormatter;
+
+	/** @var UserEditTracker */
+	private $userEditTracker;
 
 	/**
 	 * @param FormOptions $opts
@@ -80,6 +88,8 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	 * @param UserFactory $userFactory
 	 * @param RevisionStore $revisionStore
 	 * @param CheckUserLogService $checkUserLogService
+	 * @param CommentFormatter $commentFormatter
+	 * @param UserEditTracker $userEditTracker
 	 * @param IContextSource|null $context
 	 * @param LinkRenderer|null $linkRenderer
 	 * @param ?int $limit
@@ -100,19 +110,24 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		UserFactory $userFactory,
 		RevisionStore $revisionStore,
 		CheckUserLogService $checkUserLogService,
+		CommentFormatter $commentFormatter,
+		UserEditTracker $userEditTracker,
 		IContextSource $context = null,
 		LinkRenderer $linkRenderer = null,
 		?int $limit = null
 	) {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager,
 			$userGroupManager, $centralIdLookup, $loadBalancer, $specialPageFactory,
-			$userIdentityLookup, $actorMigration, $checkUserLogService, $context, $linkRenderer, $limit );
+			$userIdentityLookup, $actorMigration, $checkUserLogService, $userFactory,
+			$context, $linkRenderer, $limit );
 		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
 		$this->xfor = $xfor;
 		$this->linkBatchFactory = $linkBatchFactory;
-		$this->userFactory = $userFactory;
 		$this->revisionStore = $revisionStore;
+		$this->commentFormatter = $commentFormatter;
+		$this->userEditTracker = $userEditTracker;
 		$this->preCacheMessages();
+		$this->mGroupByDate = true;
 	}
 
 	/**
@@ -120,75 +135,30 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	 *
 	 * @inheritDoc
 	 */
-	public function formatRow( $row ) {
-		static $flagCache = [];
-		$line = '';
-		// Add date headers as needed
-		$date = htmlspecialchars(
-			$this->getLanguage()->userDate( wfTimestamp( TS_MW, $row->cuc_timestamp ), $this->getUser() )
-		);
-		if ( $this->lastdate === null ) {
-			$this->lastdate = $date;
-			$line .= "\n<h4>$date</h4>\n<ul class=\"special\">";
-		} elseif ( $date !== $this->lastdate ) {
-			$line .= "</ul>\n<h4>$date</h4>\n<ul class=\"special\">";
-			$this->lastdate = $date;
-		}
-		$line .= '<li>';
+	public function formatRow( $row ): string {
+		$templateParams = [];
 		// Create diff/hist/page links
-		$line .= $this->getLinksFromRow( $row );
+		$templateParams['links'] = $this->getLinksFromRow( $row );
 		// Show date
-		$changesListSeparator = ' ' . Html::element( 'span', [ 'class' => 'mw-changeslist-separator' ] ) . ' ';
-		$line .= $changesListSeparator . htmlspecialchars(
-				$this->getLanguage()->userTime( wfTimestamp( TS_MW, $row->cuc_timestamp ), $this->getUser() )
-			) . $changesListSeparator;
+		$templateParams['timestamp'] =
+			$this->getLanguage()->userTime( wfTimestamp( TS_MW, $row->cuc_timestamp ), $this->getUser() );
 		// Userlinks
-		$user = $this->userFactory->newFromUserIdentity(
-			new UserIdentityValue( $row->cuc_user, $row->cuc_user_text )
-		);
-		if ( !IPUtils::isIPAddress( $row->cuc_user_text ) ) {
-			$idforlinknfn = -1;
-		} else {
-			$idforlinknfn = $row->cuc_user;
+		$user = new UserIdentityValue( $row->cuc_user, $row->cuc_user_text );
+		if ( !IPUtils::isIPAddress( $user ) && !$user->isRegistered() ) {
+			$templateParams['userLinkClass'] = 'mw-checkuser-nonexistent-user';
 		}
-		$classnouser = false;
-		if ( IPUtils::isIPAddress( $row->cuc_user_text ) !== IPUtils::isIPAddress( $user ) ) {
-			// User does not exist
-			$idforlink = -1;
-			$classnouser = true;
-		} else {
-			$idforlink = $row->cuc_user;
-		}
-		if ( $classnouser ) {
-			$line .= '<span class=\'mw-checkuser-nonexistent-user\'>';
-		} else {
-			$line .= '<span>';
-		}
-		$line .= Linker::userLink(
-				$idforlinknfn, $row->cuc_user_text, $row->cuc_user_text ) . '</span>';
-		$line .= Linker::userToolLinksRedContribs(
-			$idforlink,
+		$templateParams['userLink'] = Linker::userLink( $user->getId(), $row->cuc_user_text, $row->cuc_user_text );
+		$templateParams['userToolLinks'] = Linker::userToolLinksRedContribs(
+			$user->getId(),
 			$row->cuc_user_text,
-			$user->getEditCount(),
+			$this->userEditTracker->getUserEditCount( $user ),
 			// don't render parentheses in HTML markup (CSS will provide)
 			false
 		);
-		// Get block info
-		if ( isset( $flagCache[$row->cuc_user_text] ) ) {
-			$flags = $flagCache[$row->cuc_user_text];
-		} else {
-			$ip = IPUtils::isIPAddress( $row->cuc_user_text ) ? $row->cuc_user_text : '';
-			$flags = $this->userBlockFlags( $ip, $row->cuc_user, $user );
-			$flagCache[$row->cuc_user_text] = $flags;
-		}
 		// Add any block information
-		if ( count( $flags ) ) {
-			$line .= ' ' . implode( ' ', $flags );
-		}
+		$templateParams['flags'] = $this->flagCache[$row->cuc_user_text];
 		// Action text, hackish ...
-		if ( $row->cuc_actiontext ) {
-			$line .= ' ' . Linker::formatComment( $row->cuc_actiontext ) . ' ';
-		}
+		$templateParams['actionText'] = $this->commentFormatter->format( $row->cuc_actiontext );
 		// Comment
 		if ( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW ) {
 			$revRecord = $this->revisionStore->getRevisionById( $row->cuc_this_oldid );
@@ -219,9 +189,9 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 				RevisionRecord::DELETED_COMMENT,
 				$this->getUser()
 			) ) {
-				$line .= Linker::commentBlock( $row->cuc_comment );
+				$templateParams['comment'] = $this->commentFormatter->formatBlock( $row->cuc_comment );
 			} else {
-				$line .= Linker::commentBlock(
+				$templateParams['comment'] = $this->commentFormatter->formatBlock(
 					$this->msg( 'rev-deleted-comment' )->text(),
 					null,
 					false,
@@ -230,12 +200,10 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 				);
 			}
 		} else {
-			$line .= Linker::commentBlock( $row->cuc_comment );
+			$templateParams['comment'] = $this->commentFormatter->formatBlock( $row->cuc_comment );
 		}
-		$line .= '<br />&#160; &#160; &#160; &#160; <small>';
 		// IP
-		$line .= ' <strong>IP</strong>: ';
-		$line .= $this->getSelfLink( $row->cuc_ip,
+		$templateParams['ipLink'] = $this->getSelfLink( $row->cuc_ip,
 			[
 				'user' => $row->cuc_ip,
 				'reason' => $this->opts->getValue( 'reason' )
@@ -247,32 +215,25 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 			list( $client ) = CUHooks::getClientIPfromXFF( $row->cuc_xff );
 			// XFF was trusted if client came from it
 			$trusted = ( $client === $row->cuc_ip );
-			$c = $trusted ? '#F0FFF0' : '#FFFFCC';
-			$line .= '&#160;&#160;&#160;';
-			$line .= '<span class="mw-checkuser-xff" style="background-color: ' . $c . '">' .
-				'<strong>XFF</strong>: ';
-			$line .= $this->getSelfLink( $row->cuc_xff,
+			$templateParams['xffTrusted'] = $trusted;
+			$templateParams['xff'] = $this->getSelfLink( $row->cuc_xff,
 				[
 					'user' => $client . '/xff',
 					'reason' => $this->opts->getValue( 'reason' )
 				]
 			);
-			$line .= '</span>';
 		}
 		// User agent
-		$line .= '&#160;&#160;&#160;<span class="mw-checkuser-agent" style="color:#888;">' .
-			htmlspecialchars( $row->cuc_agent ) . '</span>';
+		$templateParams['userAgent'] = $row->cuc_agent;
 
-		$line .= "</small></li>\n";
-
-		return $line;
+		return $this->templateParser->processTemplate( 'GetEditsLine', $templateParams );
 	}
 
 	/**
 	 * @param stdClass $row
 	 * @return string diff, hist and page other links related to the change
 	 */
-	protected function getLinksFromRow( $row ): string {
+	protected function getLinksFromRow( stdClass $row ): string {
 		$links = [];
 		// Log items
 		if ( $row->cuc_type == RC_LOG ) {
@@ -417,6 +378,14 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	}
 
 	/** @inheritDoc */
+	protected function getStartBody(): string {
+		$s = $this->getNavigationBar();
+		$s .= '<div id="checkuserresults" class="mw-checkuser-get-edits-results">';
+
+		return $s;
+	}
+
+	/** @inheritDoc */
 	protected function preprocessResults( $result ) {
 		$lb = $this->linkBatchFactory->newLinkBatch();
 		$lb->setCaller( __METHOD__ );
@@ -428,6 +397,13 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 				$userText = str_replace( ' ', '_', $row->cuc_user_text );
 				$lb->add( NS_USER, $userText );
 				$lb->add( NS_USER_TALK, $userText );
+			}
+			// Add the row to the flag cache
+			if ( !isset( $this->flagCache[$row->cuc_user_text] ) ) {
+				$user = new UserIdentityValue( $row->cuc_user, $row->cuc_user_text );
+				$ip = IPUtils::isIPAddress( $row->cuc_user_text ) ? $row->cuc_user_text : '';
+				$flags = $this->userBlockFlags( $ip, $user );
+				$this->flagCache[$row->cuc_user_text] = $flags;
 			}
 		}
 		$lb->execute();
@@ -442,7 +418,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	 *
 	 * @return bool
 	 */
-	protected function isNavigationBarShown() {
+	protected function isNavigationBarShown(): bool {
 		if ( $this->getNumRows() === 0 ) {
 			return false;
 		}

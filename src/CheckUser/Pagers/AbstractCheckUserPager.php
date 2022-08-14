@@ -14,15 +14,16 @@ use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\SpecialPage\SpecialPageFactory;
+use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use RangeChronologicalPager;
 use RequestContext;
 use SpecialPage;
+use TemplateParser;
 use Title;
 use TitleValue;
-use User;
 use UserGroupMembership;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
@@ -80,6 +81,12 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	 */
 	private $checkUserLogService;
 
+	/** @var TemplateParser */
+	protected $templateParser;
+
+	/** @var UserFactory */
+	private $userFactory;
+
 	/**
 	 * @param FormOptions $opts
 	 * @param UserIdentity $target
@@ -92,6 +99,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	 * @param UserIdentityLookup $userIdentityLookup
 	 * @param ActorMigration $actorMigration
 	 * @param CheckUserLogService $checkUserLogService
+	 * @param UserFactory $userFactory
 	 * @param IContextSource|null $context
 	 * @param LinkRenderer|null $linkRenderer
 	 * @param ?int $limit
@@ -108,6 +116,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 		UserIdentityLookup $userIdentityLookup,
 		ActorMigration $actorMigration,
 		CheckUserLogService $checkUserLogService,
+		UserFactory $userFactory,
 		IContextSource $context = null,
 		LinkRenderer $linkRenderer = null,
 		?int $limit = null
@@ -149,6 +158,9 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 		$this->userIdentityLookup = $userIdentityLookup;
 		$this->actorMigration = $actorMigration;
 		$this->checkUserLogService = $checkUserLogService;
+		$this->userFactory = $userFactory;
+
+		$this->templateParser = new TemplateParser( __DIR__ . '/../../../templates' );
 
 		// Get any set token data. Used for paging without adding extra logs
 		$tokenData = $this->tokenQueryManager->getDataFromRequest( $this->getRequest() );
@@ -205,11 +217,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 			$s .= ' -- ';
 			$s .= $this->getFormattedTimestamp( $last );
 		}
-		return Html::rawElement(
-			'span',
-			[ 'class' => 'mw-changeslist-links' ],
-			htmlspecialchars( $s )
-		);
+		return $s;
 	}
 
 	/**
@@ -354,30 +362,31 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 
 	/**
 	 * @param string $ip
-	 * @param int $userId
-	 * @param User $user
+	 * @param UserIdentity $user
 	 * @return array
 	 */
-	protected function userBlockFlags( string $ip, int $userId, User $user ): array {
+	protected function userBlockFlags( string $ip, UserIdentity $user ): array {
 		$flags = [];
+		// Needed because User::isBlockedGlobally doesn't seem to have a non User:: method.
+		$userObj = $this->userFactory->newFromUserIdentity( $user );
 
 		$block = DatabaseBlock::newFromTarget( $user, $ip );
 		if ( $block instanceof DatabaseBlock ) {
 			// Locally blocked
 			$flags[] = $this->getBlockFlag( $block );
-		} elseif ( $ip == $user->getName() && $user->isBlockedGlobally( $ip ) ) {
+		} elseif ( $ip == $user->getName() && $userObj->isBlockedGlobally( $ip ) ) {
 			// Globally blocked IP
 			$flags[] = '<strong>(' . $this->msg( 'checkuser-gblocked' )->escaped() . ')</strong>';
 		} elseif ( self::userWasBlocked( $user->getName() ) ) {
 			// Previously blocked
-			$userpage = $user->getUserPage();
 			$blocklog = $this->getLinkRenderer()->makeKnownLink(
 				SpecialPage::getTitleFor( 'Log' ),
 				$this->msg( 'checkuser-wasblocked' )->text(),
 				[],
 				[
 					'type' => 'block',
-					'page' => $userpage->getPrefixedText()
+					// @todo Use TitleFormatter and PageReference to avoid the global state
+					'page' => Title::makeTitle( NS_USER, $user->getName() )->getPrefixedText()
 				]
 			);
 			$flags[] = Html::rawElement( 'strong', [ 'class' => 'mw-changeslist-links' ], $blocklog );
@@ -395,8 +404,8 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 			);
 		}
 		// Check for extra user rights...
-		if ( $userId ) {
-			if ( $user->isLocked() ) {
+		if ( $user->getId() ) {
+			if ( $userObj->isLocked() ) {
 				$flags[] = Html::rawElement(
 					'strong',
 					[ 'class' => 'mw-changeslist-links' ],
