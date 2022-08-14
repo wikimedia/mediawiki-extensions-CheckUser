@@ -4,8 +4,12 @@ namespace MediaWiki\CheckUser\Tests\Integration\CheckUser;
 
 use FormOptions;
 use HashConfig;
+use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetEditsPager;
+use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager;
+use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
+use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\TestingAccessWrapper;
 
@@ -128,6 +132,67 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 			'Non-empty reason with wgCheckUserForceSummary as false' => [ false, 'Test Reason', true ],
 			'Empty reason with wgCheckUserForceSummary as true' => [ true, '', false ],
 			'Non-empty reason with wgCheckUserForceSummary as true' => [ true, 'Test Reason', true ]
+		];
+	}
+
+	/** @covers \MediaWiki\CheckUser\CheckUser\SpecialCheckUser::doesWrites */
+	public function testDoesWrites() {
+		$this->assertTrue(
+			$this->setUpObject()->doesWrites(),
+			'Special:CheckUser writes to the cu_log table so it does writes.'
+		);
+	}
+
+	/**
+	 * @covers \MediaWiki\CheckUser\CheckUser\SpecialCheckUser::getPager
+	 * @dataProvider provideGetPager
+	 */
+	public function testGetPager( $checkType, $userIdentity, $xfor = null ) {
+		$object = $this->setUpObject();
+		$object->opts->add( 'limit', 0 );
+		$object->opts->add( 'reason', '' );
+		$object->opts->add( 'period', 0 );
+		if ( $checkType === SpecialCheckUser::SUBTYPE_GET_IPS ) {
+			$this->assertTrue(
+				$object->getPager( $checkType, $userIdentity, 'untested', $xfor )
+				instanceof CheckUserGetIPsPager,
+				'The Get IPs checktype should return the Get IPs pager.'
+			);
+		} elseif ( $checkType === SpecialCheckUser::SUBTYPE_GET_EDITS ) {
+			$this->assertTrue(
+				$object->getPager( $checkType, $userIdentity, 'untested', $xfor )
+				instanceof CheckUserGetEditsPager,
+				'The Get edits checktype should return the Get edits pager.'
+			);
+		} elseif ( $checkType === SpecialCheckUser::SUBTYPE_GET_USERS ) {
+			$this->assertTrue(
+				$object->getPager( $checkType, $userIdentity, 'untested', $xfor )
+				instanceof CheckUserGetUsersPager,
+				'The Get users checktype should return the Get users pager.'
+			);
+		} else {
+			$this->assertNull(
+				$object->getPager( $checkType, $userIdentity, 'untested' ),
+				'An unrecognised check type should return no pager.'
+			);
+		}
+	}
+
+	public function provideGetPager() {
+		return [
+			'Get IPs checktype' =>
+				[ SpecialCheckUser::SUBTYPE_GET_IPS, UserIdentityValue::newRegistered( 1, 'test' ) ],
+			'Get edits checktype with a registered user' =>
+				[ SpecialCheckUser::SUBTYPE_GET_EDITS, UserIdentityValue::newRegistered( 1, 'test' ) ],
+			'Get edits checktype with a IP' =>
+				[ SpecialCheckUser::SUBTYPE_GET_EDITS, UserIdentityValue::newAnonymous( '127.0.0.1' ), false ],
+			'Get edits checktype with a XFF IP' =>
+				[ SpecialCheckUser::SUBTYPE_GET_EDITS, UserIdentityValue::newAnonymous( '127.0.0.1' ), true ],
+			'Get users checktype with a IP' =>
+				[ SpecialCheckUser::SUBTYPE_GET_USERS, UserIdentityValue::newAnonymous( '127.0.0.1' ), false ],
+			'Get users checktype with a XFF IP' =>
+				[ SpecialCheckUser::SUBTYPE_GET_USERS, UserIdentityValue::newAnonymous( '127.0.0.1' ), true ],
+			'An invalid checktype' => [ '', UserIdentityValue::newRegistered( 1, 'test' ) ],
 		];
 	}
 
