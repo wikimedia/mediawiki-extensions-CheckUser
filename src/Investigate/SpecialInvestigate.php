@@ -240,9 +240,8 @@ class SpecialInvestigate extends FormSpecialPage {
 	 */
 	private function addTabs( string $par ): self {
 		$config = [];
-		[
-			'tabSelectWidget' => $tabSelectWidget,
-		] = $this->getLayout()->getConfig( $config );
+		$this->getLayout()->getConfig( $config );
+		$tabSelectWidget = $config['tabSelectWidget'];
 
 		$token = $this->getTokenWithoutPaginationData();
 
@@ -290,9 +289,8 @@ class SpecialInvestigate extends FormSpecialPage {
 	 */
 	private function addHtml( string $html ): self {
 		$config = [];
-		[
-			'contentPanel' => $contentPanel
-		] = $this->getLayout()->getConfig( $config );
+		$this->getLayout()->getConfig( $config );
+		$contentPanel = $config['contentPanel'];
 
 		$contentPanel->addItems( [
 			new Element( [
