@@ -254,6 +254,7 @@
 			"services": [
 				"LinkBatchFactory",
 				"BlockPermissionCheckerFactory",
+				"BlockUserFactory",
 				"UserGroupManager",
 				"CentralIdLookupFactory",
 				"WikiPageFactory",
@@ -266,7 +267,9 @@
 				"RevisionStore",
 				"CheckUserLogService",
 				"CommentFormatter",
-				"UserEditTracker"
+				"UserEditTracker",
+				"UserNamePrefixSearch",
+				"UserNameUtils"
 			]
 		},
 		"CheckUserLog": {

@@ -8,6 +8,7 @@ use FormOptions;
 use Html;
 use HTMLForm;
 use MediaWiki\Block\BlockPermissionCheckerFactory;
+use MediaWiki\Block\BlockUserFactory;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetEditsPager;
@@ -27,15 +28,15 @@ use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
+use MediaWiki\User\UserNamePrefixSearch;
+use MediaWiki\User\UserNameUtils;
+use MediaWiki\User\UserRigorOptions;
 use Message;
 use OOUI\IconWidget;
 use RequestContext;
-use SpecialBlock;
 use SpecialPage;
 use Title;
-use User;
 use UserBlockedError;
-use UserNamePrefixSearch;
 use Wikimedia\AtEase\AtEase;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\ILoadBalancer;
@@ -63,6 +64,9 @@ class SpecialCheckUser extends SpecialPage {
 
 	/** @var BlockPermissionCheckerFactory */
 	private $blockPermissionCheckerFactory;
+
+	/** @var BlockUserFactory */
+	private $blockUserFactory;
 
 	/** @var UserGroupManager */
 	private $userGroupManager;
@@ -103,9 +107,16 @@ class SpecialCheckUser extends SpecialPage {
 	/** @var UserEditTracker */
 	private $userEditTracker;
 
+	/** @var UserNamePrefixSearch */
+	private $userNamePrefixSearch;
+
+	/** @var UserNameUtils */
+	private $userNameUtils;
+
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory
 	 * @param BlockPermissionCheckerFactory $blockPermissionCheckerFactory
+	 * @param BlockUserFactory $blockUserFactory
 	 * @param UserGroupManager $userGroupManager
 	 * @param CentralIdLookupFactory $centralIdLookupFactory
 	 * @param WikiPageFactory $wikiPageFactory
@@ -119,10 +130,13 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param CheckUserLogService $checkUserLogService
 	 * @param CommentFormatter $commentFormatter
 	 * @param UserEditTracker $userEditTracker
+	 * @param UserNamePrefixSearch $userNamePrefixSearch
+	 * @param UserNameUtils $userNameUtils
 	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
 		BlockPermissionCheckerFactory $blockPermissionCheckerFactory,
+		BlockUserFactory $blockUserFactory,
 		UserGroupManager $userGroupManager,
 		CentralIdLookupFactory $centralIdLookupFactory,
 		WikiPageFactory $wikiPageFactory,
@@ -135,12 +149,15 @@ class SpecialCheckUser extends SpecialPage {
 		RevisionStore $revisionStore,
 		CheckUserLogService $checkUserLogService,
 		CommentFormatter $commentFormatter,
-		UserEditTracker $userEditTracker
+		UserEditTracker $userEditTracker,
+		UserNamePrefixSearch $userNamePrefixSearch,
+		UserNameUtils $userNameUtils
 	) {
 		parent::__construct( 'CheckUser', 'checkuser' );
 
 		$this->linkBatchFactory = $linkBatchFactory;
 		$this->blockPermissionCheckerFactory = $blockPermissionCheckerFactory;
+		$this->blockUserFactory = $blockUserFactory;
 		$this->userGroupManager = $userGroupManager;
 		$this->centralIdLookup = $centralIdLookupFactory->getLookup();
 		$this->wikiPageFactory = $wikiPageFactory;
@@ -154,6 +171,8 @@ class SpecialCheckUser extends SpecialPage {
 		$this->checkUserLogService = $checkUserLogService;
 		$this->commentFormatter = $commentFormatter;
 		$this->userEditTracker = $userEditTracker;
+		$this->userNamePrefixSearch = $userNamePrefixSearch;
+		$this->userNameUtils = $userNameUtils;
 	}
 
 	public function doesWrites() {
@@ -543,9 +562,9 @@ class SpecialCheckUser extends SpecialPage {
 	) {
 		$safeUsers = [];
 		foreach ( $users as $name ) {
-			$u = User::newFromName( $name, false );
+			$u = $this->userFactory->newFromName( $name, UserRigorOptions::RIGOR_NONE );
 			// Do some checks to make sure we can block this user first
-			if ( $u === null ) {
+			if ( !$u ) {
 				// Invalid user
 				continue;
 			}
@@ -560,7 +579,7 @@ class SpecialCheckUser extends SpecialPage {
 			}
 
 			if (
-				!isset( $blockParams['email' ] ) ||
+				!isset( $blockParams['email'] ) ||
 				$blockParams['email'] === false ||
 				$this->blockPermissionCheckerFactory
 					->newBlockPermissionChecker(
@@ -569,21 +588,21 @@ class SpecialCheckUser extends SpecialPage {
 					)
 					->checkEmailPermissions()
 			) {
-				$res = SpecialBlock::processForm( [
-					'Target' => $u->getName(),
-					'Reason' => [ $blockParams['reason'] ],
-					'Expiry' => $isIP ? '1 week' : 'indefinite',
-					'HardBlock' => !$isIP,
-					'CreateAccount' => true,
-					'AutoBlock' => true,
-					'DisableEmail' => $blockParams['email'] ?? false,
-					'DisableUTEdit' => $blockParams['talk'],
-					'Reblock' => $blockParams['reblock'],
-					'Confirm' => true,
-					'Watch' => false,
-				], $this->getContext() );
+				$res = $this->blockUserFactory->newBlockUser(
+					$u,
+					$this->getAuthority(),
+					$isIP ? '1 week' : 'indefinite',
+					$blockParams['reason'],
+					[
+						'isCreateAccountBlocked' => true,
+						'isEmailBlocked' => $blockParams['email'] ?? false,
+						'isHardBlock' => !$isIP,
+						'isAutoblocking' => true,
+						'isUserTalkEditBlocked' => $blockParams['talk'] ?? false,
+					]
+				)->placeBlock( $blockParams['reblock'] );
 
-				if ( $res === true ) {
+				if ( $res->isGood() ) {
 					$userPage = $u->getUserPage();
 
 					$safeUsers[] = "[[{$userPage->getPrefixedText()}|{$userPage->getText()}]]";
@@ -838,13 +857,12 @@ class SpecialCheckUser extends SpecialPage {
 	 * @return string[] Matching subpages
 	 */
 	public function prefixSearchSubpages( $search, $limit, $offset ) {
-		$user = User::newFromName( $search );
-		if ( !$user ) {
+		if ( !$this->userNameUtils->isValid( $search ) ) {
 			// No prefix suggestion for invalid user
 			return [];
 		}
 		// Autocomplete subpage as user list - public to allow caching
-		return UserNamePrefixSearch::search( 'public', $search, $limit, $offset );
+		return $this->userNamePrefixSearch->search( UserNamePrefixSearch::AUDIENCE_PUBLIC, $search, $limit, $offset );
 	}
 
 	protected function getGroupName() {
