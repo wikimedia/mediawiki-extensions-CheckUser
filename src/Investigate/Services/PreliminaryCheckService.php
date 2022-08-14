@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Investigate\Services;
 
 use ExtensionRegistry;
+use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\User\UserGroupManagerFactory;
 use MediaWiki\User\UserIdentityValue;
 use stdClass;
@@ -187,9 +188,20 @@ class PreliminaryCheckService {
 	 * @return bool
 	 */
 	protected function isUserBlocked( int $userId, IDatabase $db ): bool {
-		$blocks = $db->selectField(
-			'ipblocks', '1', [ 'ipb_user' => $userId ], __METHOD__, [ 'LIMIT' => 1 ]
+		// No need to use any other field than ipb_expiry
+		// so no need to use DatabaseBlock::newFromRow
+		$expiry = $db->selectField(
+			'ipblocks',
+			'ipb_expiry',
+			[ 'ipb_user' => $userId ],
+			__METHOD__
 		);
-		return $blocks > 0;
+		if ( $expiry ) {
+			$blockObject = new DatabaseBlock;
+			$blockObject->setExpiry( $db->decodeExpiry( $expiry ) );
+			return !$blockObject->isExpired();
+		} else {
+			return false;
+		}
 	}
 }
