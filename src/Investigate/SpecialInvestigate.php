@@ -828,6 +828,8 @@ class SpecialInvestigate extends FormSpecialPage {
 				// The form validated that the user exists on this wiki
 				$targetType = 'user';
 				$targetId = User::idFromName( $target );
+				// The user has been already validated to exist so there will be an ID.
+				'@phan-var int $targetId';
 			}
 
 			$this->checkUserLogService->addLogEntry(
