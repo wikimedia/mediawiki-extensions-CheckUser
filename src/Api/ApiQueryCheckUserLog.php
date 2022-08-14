@@ -30,7 +30,8 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		$this->addOption( 'LIMIT', $limit + 1 );
 		$this->addTimestampWhereRange( 'cul_timestamp', $dir, $params['from'], $params['to'] );
 		$this->addFields( [
-			'cul_id', 'cul_timestamp', 'cul_user_text', 'cul_reason', 'cul_type', 'cul_target_text' ] );
+			'cul_id', 'cul_timestamp', 'cul_user_text', 'cul_reason', 'cul_type', 'cul_target_text'
+		] );
 
 		// Order by both timestamp and id
 		$order = ( $dir === 'newer' ? '' : ' DESC' );

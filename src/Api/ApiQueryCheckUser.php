@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Api;
 
 use ApiQueryBase;
+use ApiResult;
 use Exception;
 use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\CheckUser\CheckUserLogService;
@@ -62,7 +63,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 		$reason = $this->msg( 'checkuser-reason-api', $reason )->inContentLanguage()->text();
 		// absolute time
 		$timeCutoff = strtotime( $timecond );
-		if ( !$timeCutoff || $timeCutoff < 0 || $timeCutoff > strtotime( 'now' ) ) {
+		if ( !$timeCutoff || $timeCutoff < 0 || $timeCutoff > time() ) {
 			$this->dieWithError( 'apierror-checkuser-timelimit', 'invalidtime' );
 		}
 
@@ -269,8 +270,8 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				$resultUsers = [];
 				foreach ( $users as $userName => $userData ) {
 					$userData['name'] = $userName;
-					$result->setIndexedTagName( $userData['ips'], 'ip' );
-					$result->setIndexedTagName( $userData['agents'], 'agent' );
+					ApiResult::setIndexedTagName( $userData['ips'], 'ip' );
+					ApiResult::setIndexedTagName( $userData['agents'], 'agent' );
 
 					$resultUsers[] = $userData;
 				}

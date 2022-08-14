@@ -2,18 +2,21 @@
 
 namespace MediaWiki\CheckUser\Investigate\Pagers;
 
+use ExtensionRegistry;
+use IContextSource;
 use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\Linker\LinkRenderer;
+use NamespaceInfo;
 
 class PreliminaryCheckPagerFactory implements PagerFactory {
 	/** @var LinkRenderer */
 	private $linkRenderer;
 
-	/** @var \NamespaceInfo */
+	/** @var NamespaceInfo */
 	private $namespaceInfo;
 
-	/** @var \ExtensionRegistry */
+	/** @var ExtensionRegistry */
 	private $extensionRegistry;
 
 	/** @var TokenQueryManager */
@@ -24,15 +27,15 @@ class PreliminaryCheckPagerFactory implements PagerFactory {
 
 	/**
 	 * @param LinkRenderer $linkRenderer
-	 * @param \NamespaceInfo $namespaceInfo
-	 * @param \ExtensionRegistry $extensionRegistry
+	 * @param NamespaceInfo $namespaceInfo
+	 * @param ExtensionRegistry $extensionRegistry
 	 * @param TokenQueryManager $tokenQueryManager
 	 * @param PreliminaryCheckService $preliminaryCheck
 	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
-		\NamespaceInfo $namespaceInfo,
-		\ExtensionRegistry $extensionRegistry,
+		NamespaceInfo $namespaceInfo,
+		ExtensionRegistry $extensionRegistry,
 		TokenQueryManager $tokenQueryManager,
 		PreliminaryCheckService $preliminaryCheck
 	) {
@@ -46,7 +49,7 @@ class PreliminaryCheckPagerFactory implements PagerFactory {
 	/**
 	 * @inheritDoc
 	 */
-	public function createPager( \IContextSource $context ): PreliminaryCheckPager {
+	public function createPager( IContextSource $context ): PreliminaryCheckPager {
 		return new PreliminaryCheckPager(
 			$context,
 			$this->linkRenderer,

@@ -193,9 +193,9 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 		$this->rangeConds = [];
 		$period = $this->opts->getValue( 'period' );
 		if ( $period ) {
-			$cutoff_unixtime = ConvertibleTimestamp::time() - ( $period * 24 * 3600 );
-			$cutoff_unixtime -= $cutoff_unixtime % 86400;
-			$cutoff = $this->mDb->addQuotes( $this->mDb->timestamp( $cutoff_unixtime ) );
+			$cutoffUnixtime = ConvertibleTimestamp::time() - ( $period * 24 * 3600 );
+			$cutoffUnixtime -= $cutoffUnixtime % 86400;
+			$cutoff = $this->mDb->addQuotes( $this->mDb->timestamp( $cutoffUnixtime ) );
 			$this->rangeConds = [ "cuc_timestamp > $cutoff" ];
 		}
 
@@ -227,7 +227,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	 * @return string
 	 */
 	protected function getBlockFlag( DatabaseBlock $block ): string {
-		if ( $block->getType() == DatabaseBlock::TYPE_AUTO ) {
+		if ( $block->getType() === DatabaseBlock::TYPE_AUTO ) {
 			$ret = $this->getLinkRenderer()->makeKnownLink(
 				SpecialPage::getTitleFor( 'BlockList' ),
 				$this->msg( 'checkuser-blocked' )->text(),
@@ -247,7 +247,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 			);
 
 			// Add the blocked range if the block is on a range
-			if ( $block->getType() == DatabaseBlock::TYPE_RANGE ) {
+			if ( $block->getType() === DatabaseBlock::TYPE_RANGE ) {
 				$ret .= ' - ' . htmlspecialchars( $block->getTargetName() );
 			}
 		}
@@ -377,7 +377,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 		} elseif ( $ip == $user->getName() && $userObj->isBlockedGlobally( $ip ) ) {
 			// Globally blocked IP
 			$flags[] = '<strong>(' . $this->msg( 'checkuser-gblocked' )->escaped() . ')</strong>';
-		} elseif ( self::userWasBlocked( $user->getName() ) ) {
+		} elseif ( $this->userWasBlocked( $user->getName() ) ) {
 			// Previously blocked
 			$blocklog = $this->getLinkRenderer()->makeKnownLink(
 				SpecialPage::getTitleFor( 'Log' ),
@@ -444,7 +444,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	/**
 	 * Get whether the user has ever been blocked.
 	 *
-	 * @param string $name the user name
+	 * @param string $name the username
 	 * @return bool whether the user with that username has ever been blocked
 	 */
 	protected function userWasBlocked( string $name ): bool {
@@ -522,7 +522,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 		}
 
 		if ( in_array( $type, [ 'asc', 'desc' ] ) ) {
-			$attrs['title'] = $this->msg( $type == 'asc' ? 'sort-ascending' : 'sort-descending' )->text();
+			$attrs['title'] = $this->msg( $type === 'asc' ? 'sort-ascending' : 'sort-descending' )->text();
 		}
 
 		if ( $type ) {

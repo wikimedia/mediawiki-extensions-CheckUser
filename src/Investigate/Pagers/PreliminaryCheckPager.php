@@ -30,6 +30,7 @@ use MediaWiki\Extension\CentralAuth\CentralAuthDatabaseManager;
 use MediaWiki\Extension\CentralAuth\CentralAuthServices;
 use MediaWiki\Linker\LinkRenderer;
 use NamespaceInfo;
+use SpecialPage;
 use TablePager;
 use WikiMap;
 use Wikimedia\Rdbms\FakeResultWrapper;
@@ -183,7 +184,7 @@ class PreliminaryCheckPager extends TablePager {
 					);
 				} else {
 					$formatted = $this->getLinkRenderer()->makeKnownLink(
-						\SpecialPage::getTitleFor( 'Contributions', $row->name ),
+						SpecialPage::getTitleFor( 'Contributions', $row->name ),
 						$this->msg(
 							'checkuser-investigate-preliminary-table-cell-edits',
 							$value

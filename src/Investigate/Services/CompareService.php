@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Investigate\Services;
 
 use IDatabase;
+use LogicException;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\Rdbms\ILoadBalancer;
@@ -82,7 +83,7 @@ class CompareService extends ChangeService {
 		$db = $this->loadBalancer->getConnection( DB_REPLICA );
 
 		if ( $targets === [] ) {
-			throw new \LogicException( 'Cannot get query info when $targets is empty.' );
+			throw new LogicException( 'Cannot get query info when $targets is empty.' );
 		}
 		$limit = (int)( $this->limit / count( $targets ) );
 

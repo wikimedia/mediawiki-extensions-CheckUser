@@ -128,7 +128,9 @@ class ComparePager extends TablePager {
 					if ( IPUtils::isValidRange( $target ) && IPUtils::isInRange( $value, $target ) ) {
 						$attributes['class'] .= ' ext-checkuser-compare-table-cell-target';
 						break;
-					} elseif ( IPUtils::toHex( $target ) === $row->cuc_ip_hex ) {
+					}
+
+					if ( IPUtils::toHex( $target ) === $row->cuc_ip_hex ) {
 						$attributes['class'] .= ' ext-checkuser-compare-table-cell-target';
 						break;
 					}

@@ -180,9 +180,9 @@ class LogPager extends RangeChronologicalPager {
 	public function getStartBody() {
 		if ( $this->getNumRows() ) {
 			return '<ul>';
-		} else {
-			return '';
 		}
+
+		return '';
 	}
 
 	/**
@@ -191,9 +191,9 @@ class LogPager extends RangeChronologicalPager {
 	public function getEndBody() {
 		if ( $this->getNumRows() ) {
 			return '</ul>';
-		} else {
-			return '';
 		}
+
+		return '';
 	}
 
 	/**

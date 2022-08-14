@@ -299,7 +299,9 @@ class Hooks {
 
 		if ( !$wgSecretKey || $from->name == $to->name ) {
 			return true;
-		} elseif ( $services->getReadOnlyMode()->isReadOnly() ) {
+		}
+
+		if ( $services->getReadOnlyMode()->isReadOnly() ) {
 			return true;
 		}
 

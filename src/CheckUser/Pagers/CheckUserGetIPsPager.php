@@ -75,13 +75,13 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 			->table( 'cu_changes' )
 			->conds( $conds )
 			->caller( __METHOD__ );
-		$ipedits = $query->estimateRowCount();
+		$ipEdits = $query->estimateRowCount();
 		// If small enough, get a more accurate count
-		if ( $ipedits <= 1000 ) {
-			$ipedits = $query->fetchRowCount();
+		if ( $ipEdits <= 1000 ) {
+			$ipEdits = $query->fetchRowCount();
 		}
 
-		return $ipedits;
+		return $ipEdits;
 	}
 
 	/** @inheritDoc */

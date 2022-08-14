@@ -2,8 +2,11 @@
 
 namespace MediaWiki\CheckUser;
 
+use Exception;
 use Firebase\JWT\JWT;
+use FormatJson;
 use MediaWiki\Session\Session;
+use MWTimestamp;
 
 class TokenManager {
 	/** @var string */
@@ -22,7 +25,7 @@ class TokenManager {
 		string $secret
 	) {
 		if ( $secret === '' ) {
-			throw new \Exception(
+			throw new Exception(
 				'CheckUser Token Manager requires $wgSecretKey to be set.'
 			);
 		}
@@ -42,7 +45,7 @@ class TokenManager {
 			[
 				// Expiration Time https://tools.ietf.org/html/rfc7519#section-4.1.4
 				// 24 hours from now
-				'exp' => \MWTimestamp::time() + 86400,
+				'exp' => MWTimestamp::time() + 86400,
 				// Encrypt the form data to prevent it from being leaked.
 				'data' => $this->encrypt( $data, $this->getInitializationVector( $key ) ),
 			],
@@ -60,7 +63,7 @@ class TokenManager {
 	 */
 	private function encrypt( $input, string $iv ): string {
 		return openssl_encrypt(
-			\FormatJson::encode( $input ),
+			FormatJson::encode( $input ),
 			$this->getCipherMethod(),
 			$this->secret,
 			0,
@@ -106,10 +109,10 @@ class TokenManager {
 		);
 
 		if ( $decrypted === false ) {
-			throw new \Exception( 'Decryption Failed' );
+			throw new Exception( 'Decryption Failed' );
 		}
 
-		return \FormatJson::parse( $decrypted, \FormatJson::FORCE_ASSOC )->getValue();
+		return FormatJson::parse( $decrypted, FormatJson::FORCE_ASSOC )->getValue();
 	}
 
 	/**
@@ -140,7 +143,7 @@ class TokenManager {
 			} elseif ( in_array( 'aes-256-cbc', $methods, true ) ) {
 				$this->cipherMethod = 'aes-256-cbc';
 			} else {
-				throw new \Exception( 'No valid cipher method found with openssl_get_cipher_methods()' );
+				throw new Exception( 'No valid cipher method found with openssl_get_cipher_methods()' );
 			}
 		}
 

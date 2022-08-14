@@ -318,14 +318,14 @@ class SpecialCheckUser extends SpecialPage {
 
 		// Perform one of the various submit operations...
 		if ( $request->wasPosted() ) {
-			$checktype = $this->opts->getValue( 'checktype' );
+			$checkType = $this->opts->getValue( 'checktype' );
 			if ( !$this->getUser()->matchEditToken( $request->getVal( 'wpEditToken' ) ) ) {
 				$out->wrapWikiMsg( '<div class="error">$1</div>', 'checkuser-token-fail' );
 			} elseif ( $this->opts->getValue( 'action' ) === 'block' ) {
 				$this->doMassUserBlock();
 			} elseif ( !$this->checkReason() ) {
 				$out->addWikiMsg( 'checkuser-noreason' );
-			} elseif ( $checktype == self::SUBTYPE_GET_IPS ) {
+			} elseif ( $checkType == self::SUBTYPE_GET_IPS ) {
 				if ( $isIP || !$user ) {
 					$out->addWikiMsg( 'nouserspecified' );
 				} elseif ( !$userIdentity || !$userIdentity->getId() ) {
@@ -334,7 +334,7 @@ class SpecialCheckUser extends SpecialPage {
 					$pager = $this->getPager( self::SUBTYPE_GET_IPS, $userIdentity, 'userips' );
 					$out->addHtml( $pager->getBody() );
 				}
-			} elseif ( $checktype == self::SUBTYPE_GET_EDITS ) {
+			} elseif ( $checkType == self::SUBTYPE_GET_EDITS ) {
 				if ( $isIP && $userIdentity ) {
 					$logType = $xfor ? 'ipedits-xff' : 'ipedits';
 
@@ -354,7 +354,7 @@ class SpecialCheckUser extends SpecialPage {
 					$pager = $this->getPager( self::SUBTYPE_GET_EDITS, $userIdentity, 'useredits' );
 					$out->addHTML( $pager->getBody() );
 				}
-			} elseif ( $checktype == self::SUBTYPE_GET_USERS ) {
+			} elseif ( $checkType == self::SUBTYPE_GET_USERS ) {
 				if ( !$isIP || !$userIdentity ) {
 					$out->addWikiMsg( 'badipaddress' );
 				} else {
@@ -755,12 +755,10 @@ class SpecialCheckUser extends SpecialPage {
 		if ( IPUtils::isValidRange( $target ) ) {
 			[ $ip, $range ] = explode( '/', $target, 2 );
 
-			if ( ( IPUtils::isIPv4( $ip ) && $range < $CIDRLimit['IPv4'] ) ||
-				( IPUtils::isIPv6( $ip ) && $range < $CIDRLimit['IPv6'] ) ) {
-					// range is too wide
-					return false;
-			}
-			return true;
+			return !(
+				( IPUtils::isIPv4( $ip ) && $range < $CIDRLimit['IPv4'] ) ||
+				( IPUtils::isIPv6( $ip ) && $range < $CIDRLimit['IPv6'] )
+			);
 		}
 
 		return IPUtils::isValid( $target );

@@ -236,7 +236,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			);
 			$templateParams['centralAuthLink'] = $this->msg( 'parentheses' )->rawParams( $linkCA )->escaped();
 		}
-		// Add Globalblocking link to CentralWiki
+		// Add GlobalBlocking link to CentralWiki
 		if ( $this->globalBlockingToollink !== false
 			&& IPUtils::isIPAddress( $user )
 		) {
@@ -276,7 +276,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			} else {
 				// Load local user group instead
 				$gbUserGroups = [ '' ];
-				$gbtitle = self::getPageTitle( 'GlobalBlock' );
+				$gbtitle = $this->getPageTitle( 'GlobalBlock' );
 				$linkGB = $this->getLinkRenderer()->makeKnownLink(
 					$gbtitle,
 					$gblinkAlias,
@@ -350,7 +350,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 				$this->userSets['infosets'][$row->cuc_user_text] = [];
 				$this->userSets['agentsets'][$row->cuc_user_text] = [];
 			}
-			$this->userSets['edits'][$row->cuc_user_text] += 1;
+			$this->userSets['edits'][$row->cuc_user_text]++;
 			$this->userSets['first'][$row->cuc_user_text] = $row->cuc_timestamp;
 			// Treat blank or NULL xffs as empty strings
 			$xff = empty( $row->cuc_xff ) ? null : $row->cuc_xff;
@@ -397,8 +397,8 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 
 	/** @inheritDoc */
 	protected function getStartBody(): string {
-		$s = $this->getNavigationBar();
-		$s .= ( new ListToggle( $this->getOutput() ) )->getHTML();
+		$s = $this->getNavigationBar()
+			. ( new ListToggle( $this->getOutput() ) )->getHTML();
 		if ( $this->canPerformBlocks ) {
 			$s .= Xml::openElement(
 				'form',
@@ -420,8 +420,8 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	/** @inheritDoc */
 	protected function getEndBody(): string {
 		$fieldset = new HTMLFieldsetCheckUser( [], $this->getContext(), '' );
-		$s = '</ul></div>';
-		$s .= ( new ListToggle( $this->getOutput() ) )->getHTML();
+		$s = '</ul></div>'
+			. ( new ListToggle( $this->getOutput() ) )->getHTML();
 		// T314217 - cannot have forms inside of forms.
 		// $s .= $this->getNavigationBar();
 		if ( $this->canPerformBlocks ) {

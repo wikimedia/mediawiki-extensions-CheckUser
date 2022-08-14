@@ -580,10 +580,10 @@ class SpecialInvestigate extends FormSpecialPage {
 		$buttons = [];
 		if ( $canViewLogs ) {
 			 $buttons[] = new ButtonWidget( [
-					'label' => $this->msg( 'checkuser-investigate-indicator-logs' )->text(),
-					'href' => self::getTitleFor( 'CheckUserLog' )->getLinkURL(),
-					'target' => $onSubpage ? '_blank' : '',
-				] );
+				'label' => $this->msg( 'checkuser-investigate-indicator-logs' )->text(),
+				'href' => self::getTitleFor( 'CheckUserLog' )->getLinkURL(),
+				'target' => $onSubpage ? '_blank' : '',
+			] );
 		}
 
 		if ( $onSubpage ) {
