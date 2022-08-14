@@ -25,9 +25,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 	/** @var RevisionLookup */
 	private $revisionLookup;
 
-	/**
-	 * @var CheckUserLogService
-	 */
+	/** @var CheckUserLogService */
 	private $checkUserLogService;
 
 	public function __construct(
@@ -290,23 +288,17 @@ class ApiQueryCheckUser extends ApiQueryBase {
 		}
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public function mustBePosted() {
 		return true;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public function isWriteMode() {
 		return true;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public function getAllowedParams() {
 		return [
 			'request'  => [
@@ -348,16 +340,12 @@ class ApiQueryCheckUser extends ApiQueryBase {
 		];
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public function getHelpUrls() {
 		return 'https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:CheckUser#API';
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public function needsToken() {
 		return 'csrf';
 	}

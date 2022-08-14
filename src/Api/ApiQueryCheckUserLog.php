@@ -97,9 +97,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		$result->addIndexedTagName( [ 'query', $this->getModuleName(), 'entries' ], 'entry' );
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public function getAllowedParams() {
 		return [
 			'user'   => null,

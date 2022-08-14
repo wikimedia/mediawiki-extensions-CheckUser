@@ -2,11 +2,15 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Api;
 
+use ApiMain;
+use ApiQuery;
 use ApiQueryTokens;
 use ApiTestCase;
 use HashConfig;
+use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Session\SessionManager;
+use Wikimedia\TestingAccessWrapper;
 
 /**
  * @group API
@@ -70,6 +74,26 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 
 	public function doCheckUserApiRequest( array $params = [], array $session = null, Authority $performer = null ) {
 		return $this->doApiRequestWithToken( self::INITIAL_API_PARAMS + $params, $session, $performer );
+	}
+
+	/**
+	 * @param string $action
+	 * @param string $moduleName
+	 * @return TestingAccessWrapper
+	 */
+	public function setUpObject( string $action = '', string $moduleName = '' ) {
+		$services = $this->getServiceContainer();
+		$query = new ApiQuery(
+			new ApiMain( $this->apiContext, true ),
+			$action,
+			$services->getObjectFactory(),
+			$services->getDBLoadBalancer(),
+			$services->getWikiExporterFactory()
+		);
+		return TestingAccessWrapper::newFromObject( new ApiQueryCheckUser(
+			$query, $moduleName, $services->getUserIdentityLookup(),
+			$services->getRevisionLookup(), $services->get( 'CheckUserLogService' )
+		) );
 	}
 
 	/**
@@ -155,5 +179,52 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 			'No user groups' => [ '', false ],
 			'checkuser right only' => [ 'checkuser-right', true ],
 		];
+	}
+
+	/** @covers \MediaWiki\CheckUser\Api\ApiQueryCheckUser::isWriteMode */
+	public function testIsWriteMode() {
+		$this->assertTrue(
+			$this->setUpObject()->isWriteMode(),
+			'The checkuser API writes to the cu_log table so write mode is needed.'
+		);
+	}
+
+	/** @covers \MediaWiki\CheckUser\Api\ApiQueryCheckUser::mustBePosted */
+	public function testMustBePosted() {
+		$this->assertTrue(
+			$this->setUpObject()->mustBePosted(),
+			'The checkuser API, like Special:CheckUser, must be posted.'
+		);
+	}
+
+	/** @covers \MediaWiki\CheckUser\Api\ApiQueryCheckUser::needsToken */
+	public function testNeedsToken() {
+		$this->assertSame(
+			'csrf',
+			$this->setUpObject()->needsToken(),
+			'The checkuser API requires the csrf token.'
+		);
+	}
+
+	/**
+	 * Tests that the function returns valid URLs.
+	 * Does not test that the URL is correct as if
+	 * the URL is changed in a proposed commit the
+	 * reviewer should check the URL points to the
+	 * right place.
+	 *
+	 * @covers \MediaWiki\CheckUser\Api\ApiQueryCheckUser::getHelpUrls
+	 */
+	public function testGetHelpUrls() {
+		$helpUrls = $this->setUpObject()->getHelpUrls();
+		if ( !is_string( $helpUrls ) && !is_array( $helpUrls ) ) {
+			$this->fail( 'getHelpUrls should return an array of URLs or a URL' );
+		}
+		if ( is_string( $helpUrls ) ) {
+			$helpUrls = [ $helpUrls ];
+		}
+		foreach ( $helpUrls as $helpUrl ) {
+			$this->assertIsArray( parse_url( $helpUrl ) );
+		}
 	}
 }
