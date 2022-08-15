@@ -105,10 +105,7 @@
 		}
 	},
 	"Hooks": {
-		"RecentChange_save": [
-			"MediaWiki\\CheckUser\\Hooks::updateCheckUserData",
-			"MediaWiki\\CheckUser\\Hooks::maybePruneIPData"
-		],
+		"RecentChange_save": "Hooks",
 		"EmailUser": "Hooks",
 		"User::mailPasswordInternal": "Hooks",
 		"LocalUserCreated": "Hooks",
