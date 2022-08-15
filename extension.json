@@ -99,6 +99,9 @@
 	"HookHandlers": {
 		"preferences": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\Preferences"
+		},
+		"Hooks": {
+			"class": "MediaWiki\\CheckUser\\Hooks"
 		}
 	},
 	"Hooks": {
@@ -106,17 +109,17 @@
 			"MediaWiki\\CheckUser\\Hooks::updateCheckUserData",
 			"MediaWiki\\CheckUser\\Hooks::maybePruneIPData"
 		],
-		"EmailUser": "MediaWiki\\CheckUser\\Hooks::updateCUEmailData",
-		"User::mailPasswordInternal": "MediaWiki\\CheckUser\\Hooks::updateCUPasswordResetData",
-		"LocalUserCreated": "MediaWiki\\CheckUser\\Hooks::onLocalUserCreated",
+		"EmailUser": "Hooks",
+		"User::mailPasswordInternal": "Hooks",
+		"LocalUserCreated": "Hooks",
 		"UserMergeAccountFields": "MediaWiki\\CheckUser\\Hooks::onUserMergeAccountFields",
 		"RenameUserSQL": "MediaWiki\\CheckUser\\Hooks::onRenameUserSQL",
-		"LoadExtensionSchemaUpdates": "MediaWiki\\CheckUser\\Hooks::onLoadExtensionSchemaUpdates",
-		"ContributionsToolLinks": "MediaWiki\\CheckUser\\Hooks::checkUserContributionsLinks",
-		"PerformRetroactiveAutoblock": "MediaWiki\\CheckUser\\Hooks::doRetroactiveAutoblock",
-		"AuthManagerLoginAuthenticateAudit": "MediaWiki\\CheckUser\\Hooks::onAuthManagerLoginAuthenticateAudit",
-		"SpecialPage_initList": "MediaWiki\\CheckUser\\Hooks::onSpecialPage_initList",
-		"UserToolLinksEdit": "MediaWiki\\CheckUser\\Hooks::onUserToolLinksEdit",
+		"LoadExtensionSchemaUpdates": "Hooks",
+		"ContributionsToolLinks": "Hooks",
+		"PerformRetroactiveAutoblock": "Hooks",
+		"AuthManagerLoginAuthenticateAudit": "Hooks",
+		"SpecialPage_initList": "Hooks",
+		"UserToolLinksEdit": "Hooks",
 		"GetPreferences": "preferences"
 	},
 	"MessagesDirs": {

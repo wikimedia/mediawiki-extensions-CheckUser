@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Tests\Integration;
 use MediaWiki\CheckUser\Hooks;
 use MediaWikiIntegrationTestCase;
 use RecentChange;
+use RequestContext;
 use Wikimedia\TestingAccessWrapper;
 
 /**
@@ -54,7 +55,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	public function testGetAgent( $userAgent, $expected ) {
 		$request = TestingAccessWrapper::newFromObject( new \WebRequest() );
 		$request->headers = [ 'USER-AGENT' => $userAgent ];
-		\RequestContext::getMain()->setRequest( $request->object );
+		RequestContext::getMain()->setRequest( $request->object );
 		$this->assertEquals(
 			$expected,
 			$this->setUpObject()->getAgent(),
@@ -301,15 +302,12 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @covers ::updateCUPasswordResetData
+	 * @covers ::onUser__mailPasswordInternal
 	 */
-	public function testUpdateCUPasswordResetData() {
+	public function testonUser__mailPasswordInternal() {
 		$performer = $this->getTestUser()->getUser();
 		$account = $this->getTestSysop()->getUser();
-		$this->assertTrue(
-			$this->setUpObject()->updateCUPasswordResetData( $performer, 'IGNORED', $account ),
-			'updateCUPasswordResetData() should always return true'
-		);
+		( new Hooks() )->onUser__mailPasswordInternal( $performer, 'IGNORED', $account );
 		$this->assertSame(
 			1,
 			$this->db->newSelectQueryBuilder()

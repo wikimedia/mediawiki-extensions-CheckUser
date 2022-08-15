@@ -16,7 +16,7 @@ class HooksTest extends MediaWikiUnitTestCase {
 	 * @covers ::onSpecialPage_initList
 	 */
 	public function testOnSpecialPageInitList_withInvestigate() {
-		// Need to have manipulate the globals, can't use setMwGlobals since its a unit test,
+		// Need to manipulate the globals, can't use setMwGlobals since its a unit test,
 		// but other than that no integration is needed so its not worth putting this in an
 		// integration test
 		global $wgCheckUserEnableSpecialInvestigate;
@@ -25,7 +25,7 @@ class HooksTest extends MediaWikiUnitTestCase {
 		// Case #1: $wgCheckUserEnableSpecialInvestigate is true
 		$list = [];
 		$wgCheckUserEnableSpecialInvestigate = true;
-		Hooks::onSpecialPage_initList( $list );
+		( new Hooks() )->onSpecialPage_initList( $list );
 
 		$this->assertArrayHasKey(
 			'Investigate',
@@ -53,7 +53,7 @@ class HooksTest extends MediaWikiUnitTestCase {
 		// Case #2: $wgCheckUserEnableSpecialInvestigate is false
 		$list = [];
 		$wgCheckUserEnableSpecialInvestigate = false;
-		Hooks::onSpecialPage_initList( $list );
+		( new Hooks() )->onSpecialPage_initList( $list );
 
 		$this->assertEquals(
 			[],

@@ -8,20 +8,31 @@ use DeferredUpdates;
 use LogFormatter;
 use MailAddress;
 use MediaWiki\Auth\AuthenticationResponse;
+use MediaWiki\Auth\Hook\AuthManagerLoginAuthenticateAuditHook;
+use MediaWiki\Auth\Hook\LocalUserCreatedHook;
 use MediaWiki\Block\DatabaseBlock;
+use MediaWiki\Block\Hook\PerformRetroactiveAutoblockHook;
 use MediaWiki\CheckUser\Investigate\SpecialInvestigate;
 use MediaWiki\CheckUser\Investigate\SpecialInvestigateBlock;
 use MediaWiki\CheckUser\Maintenance\PopulateCucActor;
 use MediaWiki\CheckUser\Maintenance\PopulateCulActor;
 use MediaWiki\Extension\Renameuser\RenameuserSQL;
+use MediaWiki\Hook\ContributionsToolLinksHook;
+use MediaWiki\Hook\EmailUserHook;
+use MediaWiki\Hook\UserToolLinksEditHook;
+use MediaWiki\Installer\Hook\LoadExtensionSchemaUpdatesHook;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\SpecialPage\Hook\SpecialPage_initListHook;
+use MediaWiki\User\Hook\User__mailPasswordInternalHook;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserRigorOptions;
+use MessageSpecifier;
 use PopulateCheckUserTable;
 use RecentChange;
 use RequestContext;
 use SpecialPage;
+use Status;
 use Title;
 use User;
 use WebRequest;
@@ -30,7 +41,17 @@ use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\ScopedCallback;
 
-class Hooks {
+class Hooks implements
+	AuthManagerLoginAuthenticateAuditHook,
+	ContributionsToolLinksHook,
+	EmailUserHook,
+	LoadExtensionSchemaUpdatesHook,
+	LocalUserCreatedHook,
+	PerformRetroactiveAutoblockHook,
+	SpecialPage_initListHook,
+	UserToolLinksEditHook,
+	User__mailPasswordInternalHook
+{
 
 	/**
 	 * The maximum number of bytes that fit in CheckUser's text fields
@@ -58,7 +79,7 @@ class Hooks {
 	 * @param array &$list
 	 * @return bool
 	 */
-	public static function onSpecialPage_initList( &$list ) {
+	public function onSpecialPage_initList( &$list ) {
 		global $wgCheckUserEnableSpecialInvestigate;
 
 		if ( $wgCheckUserEnableSpecialInvestigate ) {
@@ -262,9 +283,8 @@ class Hooks {
 	 * @param User $user Sender
 	 * @param string $ip
 	 * @param User $account Receiver
-	 * @return bool
 	 */
-	public static function updateCUPasswordResetData( User $user, $ip, $account ) {
+	public function onUser__mailPasswordInternal( $user, $ip, $account ) {
 		$accountName = $account->getName();
 		self::insertIntoCuChangesTable(
 			[
@@ -275,8 +295,6 @@ class Hooks {
 			__METHOD__,
 			$user
 		);
-
-		return true;
 	}
 
 	/**
@@ -286,23 +304,23 @@ class Hooks {
 	 * Uses a deferred update to save the data, because emails can be sent from code paths
 	 * that don't open master connections.
 	 *
-	 * @param MailAddress $to
-	 * @param MailAddress $from
-	 * @param string $subject
-	 * @param string $text
-	 * @return bool
+	 * @param MailAddress &$to
+	 * @param MailAddress &$from
+	 * @param string &$subject
+	 * @param string &$text
+	 * @param bool|Status|MessageSpecifier|array &$error
 	 */
-	public static function updateCUEmailData( $to, $from, $subject, $text ) {
+	public function onEmailUser( &$to, &$from, &$subject, &$text, &$error ) {
 		global $wgSecretKey, $wgCUPublicKey;
 
 		$services = MediaWikiServices::getInstance();
 
 		if ( !$wgSecretKey || $from->name == $to->name ) {
-			return true;
+			return;
 		}
 
 		if ( $services->getReadOnlyMode()->isReadOnly() ) {
-			return true;
+			return;
 		}
 
 		$userFrom = $services->getUserFactory()->newFromName( $from->name );
@@ -329,8 +347,6 @@ class Hooks {
 				$userFrom
 			);
 		} );
-
-		return true;
 	}
 
 	/**
@@ -339,41 +355,27 @@ class Hooks {
 	 *
 	 * @param User $user
 	 * @param bool $autocreated
-	 * @return true
 	 */
-	public static function onLocalUserCreated( User $user, $autocreated ) {
-		return self::logUserAccountCreation(
-			$user,
-			$autocreated ? 'checkuser-autocreate-action' : 'checkuser-create-action'
-		);
-	}
-
-	/**
-	 * @param User $user
-	 * @param string $actiontext
-	 * @return bool
-	 */
-	protected static function logUserAccountCreation( User $user, $actiontext ) {
+	public function onLocalUserCreated( $user, $autocreated ) {
 		self::insertIntoCuChangesTable(
 			[
 				'cuc_namespace'  => NS_USER,
-				'cuc_actiontext' => wfMessage( $actiontext )->inContentLanguage()->text(),
+				'cuc_actiontext' => wfMessage(
+					$autocreated ? 'checkuser-autocreate-action' : 'checkuser-create-action'
+				)->inContentLanguage()->text(),
 			],
 			__METHOD__,
 			$user
 		);
-
-		return true;
 	}
 
 	/**
 	 * @param AuthenticationResponse $ret
 	 * @param User|null $user
-	 * @param string|null $username
+	 * @param string $username
+	 * @param string[] $extraData
 	 */
-	public static function onAuthManagerLoginAuthenticateAudit(
-		AuthenticationResponse $ret, $user, $username
-	) {
+	public function onAuthManagerLoginAuthenticateAudit( $ret, $user, $username, $extraData ) {
 		global $wgCheckUserLogLogins, $wgCheckUserLogSuccessfulBotLogins;
 
 		if ( !$wgCheckUserLogLogins ) {
@@ -548,7 +550,7 @@ class Hooks {
 	/**
 	 * @param DatabaseUpdater $updater
 	 */
-	public static function onLoadExtensionSchemaUpdates( DatabaseUpdater $updater ) {
+	public function onLoadExtensionSchemaUpdates( $updater ) {
 		$base = __DIR__ . '/../schema';
 		$dbType = $updater->getDB()->getType();
 		$isCUInstalled = $updater->tableExists( 'cu_changes' );
@@ -730,7 +732,7 @@ class Hooks {
 	 * @param array &$links Tool links
 	 * @param SpecialPage $sp Special page
 	 */
-	public static function checkUserContributionsLinks(
+	public function onContributionsToolLinks(
 		$id, Title $nt, array &$links, SpecialPage $sp
 	) {
 		$user = $sp->getUser();
@@ -775,7 +777,7 @@ class Hooks {
 	 * @param array &$blockIds
 	 * @return bool
 	 */
-	public static function doRetroactiveAutoblock( DatabaseBlock $block, array &$blockIds ) {
+	public function onPerformRetroactiveAutoblock( $block, &$blockIds ) {
 		$services = MediaWikiServices::getInstance();
 
 		$dbr = $services
@@ -875,7 +877,7 @@ class Hooks {
 	 * @param string $userText
 	 * @param array &$items
 	 */
-	public static function onUserToolLinksEdit( $userId, $userText, array &$items ) {
+	public function onUserToolLinksEdit( $userId, $userText, &$items ) {
 		$requestTitle = RequestContext::getMain()->getTitle();
 		if (
 			$requestTitle !== null &&
