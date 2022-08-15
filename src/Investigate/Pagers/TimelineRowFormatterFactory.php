@@ -35,6 +35,15 @@ class TimelineRowFormatterFactory {
 	/** @var UserFactory */
 	private $userFactory;
 
+	/**
+	 * @param LinkRenderer $linkRenderer
+	 * @param ILoadBalancer $loadBalancer
+	 * @param RevisionStore $revisionStore
+	 * @param TitleFormatter $titleFormatter
+	 * @param SpecialPageFactory $specialPageFactory
+	 * @param CommentFormatter $commentFormatter
+	 * @param UserFactory $userFactory
+	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		ILoadBalancer $loadBalancer,

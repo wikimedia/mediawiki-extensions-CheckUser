@@ -37,6 +37,13 @@ class PurgeOldData extends Maintenance {
 		$this->output( "Done.\n" );
 	}
 
+	/**
+	 * @param string $table
+	 * @param string $ts_column
+	 * @param int $maxAge
+	 *
+	 * @return int
+	 */
 	protected function prune( $table, $ts_column, $maxAge ) {
 		$dbw = $this->getDB( DB_PRIMARY );
 		$expiredCond = "$ts_column < " . $dbw->addQuotes( $dbw->timestamp( time() - $maxAge ) );

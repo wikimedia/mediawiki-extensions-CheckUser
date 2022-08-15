@@ -9,6 +9,9 @@ class HookRunner implements CheckUserFormatRowHook, CheckUserSubtitleLinksHook {
 	/** @var HookContainer */
 	private $container;
 
+	/**
+	 * @param HookContainer $container
+	 */
 	public function __construct( HookContainer $container ) {
 		$this->container = $container;
 	}

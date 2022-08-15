@@ -545,6 +545,9 @@ class Hooks {
 		return [ $client, $isSquidOnly, $xff ];
 	}
 
+	/**
+	 * @param DatabaseUpdater $updater
+	 */
 	public static function onLoadExtensionSchemaUpdates( DatabaseUpdater $updater ) {
 		$base = __DIR__ . '/../schema';
 		$dbType = $updater->getDB()->getType();
@@ -813,6 +816,11 @@ class Hooks {
 		return false;
 	}
 
+	/**
+	 * @param array &$updateFields
+	 *
+	 * @return bool
+	 */
 	public static function onUserMergeAccountFields( array &$updateFields ) {
 		$actorMigrationStage = MediaWikiServices::getInstance()
 			->getMainConfig()
@@ -862,6 +870,11 @@ class Hooks {
 		return true;
 	}
 
+	/**
+	 * @param int $userId
+	 * @param string $userText
+	 * @param array &$items
+	 */
 	public static function onUserToolLinksEdit( $userId, $userText, array &$items ) {
 		$requestTitle = RequestContext::getMain()->getTitle();
 		if (

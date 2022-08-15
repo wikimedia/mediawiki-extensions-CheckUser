@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Api;
 
+use ApiQuery;
 use ApiQueryBase;
 use ApiResult;
 use Exception;
@@ -29,6 +30,13 @@ class ApiQueryCheckUser extends ApiQueryBase {
 	/** @var CheckUserLogService */
 	private $checkUserLogService;
 
+	/**
+	 * @param ApiQuery $query
+	 * @param string $moduleName
+	 * @param UserIdentityLookup $userIdentityLookup
+	 * @param RevisionLookup $revisionLookup
+	 * @param CheckUserLogService $checkUserLogService
+	 */
 	public function __construct(
 		$query,
 		$moduleName,

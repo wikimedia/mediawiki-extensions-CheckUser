@@ -30,6 +30,11 @@ class SpecialCheckUserLog extends SpecialPage {
 	/** @var CommentStore */
 	private $commentStore;
 
+	/**
+	 * @param LinkBatchFactory $linkBatchFactory
+	 * @param PermissionManager $permissionManager
+	 * @param CommentStore $commentStore
+	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
 		PermissionManager $permissionManager,
@@ -41,6 +46,9 @@ class SpecialCheckUserLog extends SpecialPage {
 		$this->commentStore = $commentStore;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function execute( $par ) {
 		$this->setHeaders();
 		$this->addHelpLink( 'Extension:CheckUser' );
@@ -269,6 +277,9 @@ class SpecialCheckUserLog extends SpecialPage {
 		return false;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	protected function getGroupName() {
 		return 'changes';
 	}

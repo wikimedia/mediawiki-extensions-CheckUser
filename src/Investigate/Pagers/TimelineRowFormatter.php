@@ -52,6 +52,17 @@ class TimelineRowFormatter {
 	/** @var CommentFormatter */
 	private $commentFormatter;
 
+	/**
+	 * @param LinkRenderer $linkRenderer
+	 * @param ILoadBalancer $loadBalancer
+	 * @param RevisionStore $revisionStore
+	 * @param TitleFormatter $titleFormatter
+	 * @param SpecialPageFactory $specialPageFactory
+	 * @param CommentFormatter $commentFormatter
+	 * @param UserFactory $userFactory
+	 * @param User $user
+	 * @param Language $language
+	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		ILoadBalancer $loadBalancer,

@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Api;
 
 use ApiBase;
+use ApiQuery;
 use ApiQueryBase;
 use MediaWiki\CheckUser\LogPager;
 use Wikimedia\IPUtils;
@@ -13,6 +14,10 @@ use Wikimedia\ParamValidator\TypeDef\IntegerDef;
  * CheckUser API Query Module
  */
 class ApiQueryCheckUserLog extends ApiQueryBase {
+	/**
+	 * @param ApiQuery $query
+	 * @param string $moduleName
+	 */
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'cul' );
 	}

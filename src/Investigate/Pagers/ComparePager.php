@@ -74,6 +74,13 @@ class ComparePager extends TablePager {
 	/** @var string */
 	private $start;
 
+	/**
+	 * @param IContextSource $context
+	 * @param LinkRenderer $linkRenderer
+	 * @param TokenQueryManager $tokenQueryManager
+	 * @param DurationManager $durationManager
+	 * @param CompareService $compareService
+	 */
 	public function __construct(
 		IContextSource $context,
 		LinkRenderer $linkRenderer,

@@ -16,6 +16,10 @@ class CheckUserLogService {
 	/** @var int */
 	private $culActorMigrationStage;
 
+	/**
+	 * @param ILoadBalancer $loadBalancer
+	 * @param int $culActorMigrationStage
+	 */
 	public function __construct( ILoadBalancer $loadBalancer, int $culActorMigrationStage ) {
 		$this->loadBalancer = $loadBalancer;
 		$this->culActorMigrationStage = $culActorMigrationStage;

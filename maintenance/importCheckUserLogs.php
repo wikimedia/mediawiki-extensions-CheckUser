@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:disable MediaWiki.ControlStructures.AssignmentInControlStructures.AssignmentInControlStructures
+
 use MediaWiki\MediaWikiServices;
 use Wikimedia\IPUtils;
 
@@ -44,6 +46,11 @@ class ImportCheckUserLogs extends Maintenance {
 		fclose( $file );
 	}
 
+	/**
+	 * @param string $line
+	 *
+	 * @return array|null
+	 */
 	protected function parseLogLine( $line ) {
 		$rxTimestamp = '(?P<timestamp>\d+:\d+, \d+ \w+ \d+)';
 		$rxUser = '(?P<user>.*?)';
@@ -85,6 +92,9 @@ class ImportCheckUserLogs extends Maintenance {
 		return null;
 	}
 
+	/**
+	 * @param resource $file
+	 */
 	protected function importLog( $file ) {
 		global $wgDBname;
 
@@ -151,6 +161,9 @@ class ImportCheckUserLogs extends Maintenance {
 		);
 	}
 
+	/**
+	 * @param resource $file
+	 */
 	protected function testLog( $file ) {
 		$matched = 0;
 		$unmatched = 0;

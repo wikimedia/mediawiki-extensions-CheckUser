@@ -124,6 +124,9 @@ class LogPager extends RangeChronologicalPager {
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function formatRow( $row ) {
 		$user = Linker::userLink( $row->cul_user, $row->user_name ) .
 			$this->msg( 'word-separator' )->escaped()
@@ -203,6 +206,9 @@ class LogPager extends RangeChronologicalPager {
 		return '<p>' . $this->msg( 'checkuser-empty' )->escaped() . '</p>';
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function getQueryInfo() {
 		return [
 			'tables' => [ 'cu_log', 'user' ],
@@ -211,10 +217,16 @@ class LogPager extends RangeChronologicalPager {
 		];
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function getIndexField() {
 		return 'cul_timestamp';
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function selectFields() {
 		return [
 			'cul_id', 'cul_timestamp', 'cul_user', 'cul_reason', 'cul_type',

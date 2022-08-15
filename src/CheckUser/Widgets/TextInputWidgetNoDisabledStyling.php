@@ -6,6 +6,9 @@ use OOUI\TextInputWidget;
 
 class TextInputWidgetNoDisabledStyling extends TextInputWidget {
 
+	/**
+	 * @param array $config
+	 */
 	public function __construct( array $config = [] ) {
 		parent::__construct( $config );
 		$this->input->setAttributes( [ 'disabled' => 'disabled' ] );

@@ -32,6 +32,15 @@ class TimelinePagerFactory implements PagerFactory {
 	/** @var LoggerInterface */
 	private $logger;
 
+	/**
+	 * @param LinkRenderer $linkRenderer
+	 * @param CheckUserFormatRowHook $formatRowHookRunner
+	 * @param TokenQueryManager $tokenQueryManager
+	 * @param DurationManager $durationManager
+	 * @param TimelineService $service
+	 * @param TimelineRowFormatterFactory $rowFormatterFactory
+	 * @param LoggerInterface $logger
+	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		CheckUserFormatRowHook $formatRowHookRunner,
