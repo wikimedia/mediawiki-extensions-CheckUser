@@ -160,7 +160,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		// Action text, hackish ...
 		$templateParams['actionText'] = $this->commentFormatter->format( $row->cuc_actiontext );
 		// Comment
-		if ( $row->cuc_type === RC_EDIT || $row->cuc_type === RC_NEW ) {
+		if ( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW ) {
 			$revRecord = $this->revisionStore->getRevisionById( $row->cuc_this_oldid );
 			if ( !$revRecord ) {
 				// Assume revision is deleted
@@ -236,7 +236,8 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	protected function getLinksFromRow( stdClass $row ): string {
 		$links = [];
 		// Log items
-		if ( $row->cuc_type === RC_LOG ) {
+		// Due to T315224 triple equals for cuc_type does not work for sqlite.
+		if ( $row->cuc_type == RC_LOG ) {
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
 			$links['log'] = Html::rawElement(
 				'span',
@@ -251,7 +252,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		} else {
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
 			// New pages
-			if ( $row->cuc_type === RC_NEW ) {
+			if ( $row->cuc_type == RC_NEW ) {
 				$links['diffHistLinks'] = Html::rawElement( 'span', [], $this->message['diff'] );
 			} else {
 				// Diff link
@@ -290,7 +291,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 				[ 'class' => 'mw-changeslist-separator' ]
 			);
 			// Some basic flags
-			if ( $row->cuc_type === RC_NEW ) {
+			if ( $row->cuc_type == RC_NEW ) {
 				$links['newpage'] = Html::rawElement(
 					'abbr',
 					[ 'class' => 'newpage' ],
