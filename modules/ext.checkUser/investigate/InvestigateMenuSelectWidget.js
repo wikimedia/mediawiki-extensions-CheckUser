@@ -19,6 +19,22 @@ OO.inheritClass( InvestigateMenuSelectWidget, OO.ui.MenuSelectWidget );
 /**
  * @inheritdoc
  */
+InvestigateMenuSelectWidget.prototype.onDocumentMouseUp = function ( e ) {
+	if ( !this.selecting ) {
+		var item = this.findTargetItem( e );
+		if ( item && item.isSelectable() ) {
+			this.selecting = item;
+		}
+	}
+	if ( !this.isDisabled() && e.which === OO.ui.MouseButtons.LEFT && this.selecting ) {
+		this.emit( 'investigate', this.selecting );
+	}
+	return InvestigateMenuSelectWidget.super.prototype.onDocumentMouseUp.call( this, e );
+};
+
+/**
+ * @inheritdoc
+ */
 InvestigateMenuSelectWidget.prototype.onDocumentKeyDown = function ( e ) {
 	var selected = this.findSelectedItems(),
 		currentItem = this.findHighlightedItem() || (
