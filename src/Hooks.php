@@ -19,6 +19,7 @@ use MediaWiki\CheckUser\Maintenance\PopulateCulActor;
 use MediaWiki\Extension\Renameuser\RenameuserSQL;
 use MediaWiki\Hook\ContributionsToolLinksHook;
 use MediaWiki\Hook\EmailUserHook;
+use MediaWiki\Hook\RecentChange_saveHook;
 use MediaWiki\Hook\UserToolLinksEditHook;
 use MediaWiki\Installer\Hook\LoadExtensionSchemaUpdatesHook;
 use MediaWiki\MediaWikiServices;
@@ -48,6 +49,7 @@ class Hooks implements
 	LoadExtensionSchemaUpdatesHook,
 	LocalUserCreatedHook,
 	PerformRetroactiveAutoblockHook,
+	RecentChange_saveHook,
 	SpecialPage_initListHook,
 	UserToolLinksEditHook,
 	User__mailPasswordInternalHook
@@ -124,7 +126,6 @@ class Hooks implements
 	 * Note that other extensions (like AbuseFilter) may call this function directly
 	 * if they want to send data to CU without creating a recentchanges entry
 	 * @param RecentChange $rc
-	 * @return bool
 	 */
 	public static function updateCheckUserData( RecentChange $rc ) {
 		global $wgCheckUserLogAdditionalRights;
@@ -135,7 +136,7 @@ class Hooks implements
 		 * @see https://phabricator.wikimedia.org/T125209
 		 */
 		if ( $rc->getAttribute( 'rc_type' ) == RC_CATEGORIZE ) {
-			return true;
+			return;
 		}
 		/**
 		 * RC_EXTERNAL recent changes are not triggered by actions on the local wiki.
@@ -143,7 +144,7 @@ class Hooks implements
 		 * @see https://phabricator.wikimedia.org/T125664
 		 */
 		if ( $rc->getAttribute( 'rc_type' ) == RC_EXTERNAL ) {
-			return true;
+			return;
 		}
 
 		$attribs = $rc->getAttributes();
@@ -199,8 +200,6 @@ class Hooks implements
 			__METHOD__,
 			new UserIdentityValue( $rcRow['cuc_user'], $rcRow['cuc_user_text'] )
 		);
-
-		return true;
 	}
 
 	/**
@@ -438,7 +437,7 @@ class Hooks implements
 	/**
 	 * Hook function to prune data from the cu_changes table
 	 */
-	public static function maybePruneIPData() {
+	private function maybePruneIPData() {
 		if ( mt_rand( 0, 9 ) != 0 ) {
 			return;
 		}
@@ -890,5 +889,13 @@ class Hooks implements
 				wfMessage( 'checkuser-log-checks-on' )->text()
 			);
 		}
+	}
+
+	/**
+	 * @param RecentChange $recentChange
+	 */
+	public function onRecentChange_save( $recentChange ) {
+		self::updateCheckUserData( $recentChange );
+		$this->maybePruneIPData();
 	}
 }
