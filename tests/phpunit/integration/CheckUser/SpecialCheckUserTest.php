@@ -25,16 +25,6 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 
 	use MockAuthorityTrait;
 
-	/**
-	 * @var int
-	 */
-	private $lowerThanLimitIPv4;
-
-	/**
-	 * @var int
-	 */
-	private $lowerThanLimitIPv6;
-
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -52,60 +42,14 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 				'cu_changes',
 			]
 		);
-
-		$this->setMwGlobals( [
-			'wgCheckUserCIDRLimit' => [
-				'IPv4' => 16,
-				'IPv6' => 19,
-			]
-		] );
-
-		$CIDRLimit = \RequestContext::getMain()->getConfig()->get( 'CheckUserCIDRLimit' );
-		$this->lowerThanLimitIPv4 = $CIDRLimit['IPv4'] - 1;
-		$this->lowerThanLimitIPv6 = $CIDRLimit['IPv6'] - 1;
 	}
 
-	/**
-	 * @return TestingAccessWrapper
-	 */
+	/** @return TestingAccessWrapper */
 	protected function setUpObject() {
 		$object = $this->getServiceContainer()->getSpecialPageFactory()->getPage( 'CheckUser' );
 		$testingWrapper = TestingAccessWrapper::newFromObject( $object );
 		$testingWrapper->opts = new FormOptions();
 		return $testingWrapper;
-	}
-
-	/**
-	 * @covers \MediaWiki\CheckUser\CheckUser\SpecialCheckUser::isValidRange
-	 * @dataProvider provideIsValidRange
-	 */
-	public function testIsValidRange( $target, $expected ) {
-		$this->assertSame(
-			$expected,
-			SpecialCheckUser::isValidRange( $target )
-		);
-	}
-
-	/**
-	 * Test cases for SpecialCheckUser::isValid
-	 * @return array
-	 */
-	public function provideIsValidRange() {
-		return [
-			'Single IPv4 address' => [ '212.35.31.121', true ],
-			'Single IPv4 address notated as a /32' => [ '212.35.31.121/32', true ],
-			'Single IPv6 address' => [ '::e:f:2001', true ],
-			'IPv6 /96 range' => [ '::e:f:2001/96', true ],
-			'Invalid IP address' => [ 'abcedf', false ]
-		];
-	}
-
-	/**
-	 * @covers \MediaWiki\CheckUser\CheckUser\SpecialCheckUser::isValidRange
-	 */
-	public function testIsValidRangeLowerThanLimit() {
-		$this->testIsValidRange( "0.17.184.5/{$this->lowerThanLimitIPv4}", false );
-		$this->testIsValidRange( "2000::/{$this->lowerThanLimitIPv6}", false );
 	}
 
 	/**
