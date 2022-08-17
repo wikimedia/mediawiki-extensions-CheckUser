@@ -1,4 +1,4 @@
-var InvestigateButtonMenuSelectWidget = require( './InvestigateButtonMenuSelectWidget.js' );
+var InvestigateMenuSelectWidget = require( './InvestigateMenuSelectWidget.js' );
 
 /**
  * Add highlight pinning capability and tool links to tables.
@@ -199,14 +199,15 @@ module.exports = function setupTables() {
 		}
 
 		if ( options.length > 0 ) {
-			selectWidget = new InvestigateButtonMenuSelectWidget( {
+			selectWidget = new OO.ui.ButtonMenuSelectWidget( {
 				icon: 'ellipsis',
 				framed: false,
 				classes: [ 'ext-checkuser-investigate-table-select' ],
 				menu: {
 					horizontalPosition: 'end',
 					items: options
-				}
+				},
+				menuClass: InvestigateMenuSelectWidget
 			} );
 
 			selectWidget.getMenu().on( 'investigate', function ( item ) {
