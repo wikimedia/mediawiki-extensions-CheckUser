@@ -1,7 +1,5 @@
 <?php
 
-// phpcs:disable MediaWiki.ControlStructures.AssignmentInControlStructures.AssignmentInControlStructures
-
 use MediaWiki\MediaWikiServices;
 use Wikimedia\IPUtils;
 
@@ -105,7 +103,8 @@ class ImportCheckUserLogs extends Maintenance {
 		$userFactory = $services->getUserFactory();
 		$culActorMigrationStage = $services->getMainConfig()->get( 'CheckUserLogActorMigrationStage' );
 
-		while ( ( $line = fgets( $file ) ) !== false ) {
+		while ( !feof( $file ) ) {
+			$line = fgets( $file );
 			$data = $this->parseLogLine( $line );
 			if ( $data ) {
 				if ( $data['wiki'] != WikiMap::getCurrentWikiId() && $data['wiki'] != $wgDBname ) {
@@ -169,7 +168,8 @@ class ImportCheckUserLogs extends Maintenance {
 		$unmatched = 0;
 		$badtime = 0;
 
-		while ( ( $line = fgets( $file ) ) !== false ) {
+		while ( !feof( $file ) ) {
+			$line = fgets( $file );
 			$data = $this->parseLogLine( $line );
 			if ( $data ) {
 				$matched++;
