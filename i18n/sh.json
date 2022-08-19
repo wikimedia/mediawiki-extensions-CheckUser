@@ -78,7 +78,7 @@
 	"checkuser-autocreate-action": "je automatski napravljen",
 	"checkuser-create-action": "je napravljen",
 	"checkuser-email-action": "e-mail je poslat korisniku „$1“",
-	"checkuser-reset-action": "poništi lozinku korisnika „$1“",
+	"checkuser-reset-action": "poništio/la je lozinku korisnika „$1“",
 	"checkuser-token-fail": "Sesija nije uspjela. Pokušajte ponovno.",
 	"checkuser-login-failure": "Nije uspio vas prijaviti na {{SITENAME}} kao $1",
 	"checkuser-login-success": "Uspješno sam prijavio na {{SITENAME}} kao $1"
