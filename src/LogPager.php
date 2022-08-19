@@ -303,8 +303,7 @@ class LogPager extends RangeChronologicalPager {
 				'cul_type' => [ 'userips', 'useredits', 'investigate' ],
 				'cul_target_id' => $result,
 			];
-		} else {
-			return null;
 		}
+		return null;
 	}
 }
