@@ -254,6 +254,7 @@ class Hooks implements
 				'cuc_xff'        => !$isSquidOnly ? $xff : '',
 				'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
 				'cuc_agent'      => self::getAgent(),
+				'cuc_private'    => '',
 			],
 			$row
 		);
