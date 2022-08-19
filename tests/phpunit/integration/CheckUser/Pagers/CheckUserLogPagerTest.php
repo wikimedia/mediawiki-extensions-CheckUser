@@ -1,19 +1,19 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration;
+namespace MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers;
 
-use MediaWiki\CheckUser\LogPager;
+use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager;
 use MediaWiki\CheckUser\Tests\CheckUserIntegrationTestCaseTest;
 
 /**
- * Test class for LogPager class
+ * Test class for CheckUserLogPager class
  *
  * @group CheckUser
  * @group Database
  *
- * @covers \MediaWiki\CheckUser\LogPager
+ * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager
  */
-class LogPagerTest extends CheckUserIntegrationTestCaseTest {
+class CheckUserLogPagerTest extends CheckUserIntegrationTestCaseTest {
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -27,7 +27,7 @@ class LogPagerTest extends CheckUserIntegrationTestCaseTest {
 	}
 
 	/**
-	 * @covers \MediaWiki\CheckUser\LogPager::getPerformerSearchConds
+	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager::getPerformerSearchConds
 	 */
 	public function testGetPerformerSearchConds() {
 		// PHPUnit doesn't allow mocking static methods so having to
@@ -38,7 +38,7 @@ class LogPagerTest extends CheckUserIntegrationTestCaseTest {
 		$this->assertTrue( $testUser->getUser()->isRegistered() );
 		$this->assertArrayEquals(
 			[ 'cul_user' => $testUser->getId() ],
-			LogPager::getPerformerSearchConds( $testUser->getName() ),
+			CheckUserLogPager::getPerformerSearchConds( $testUser->getName() ),
 			false,
 			true,
 			'For an existing user the valid search cond should be returned.'
@@ -47,20 +47,20 @@ class LogPagerTest extends CheckUserIntegrationTestCaseTest {
 		// Non-existent user with a valid username
 		$testUser = $this->getNonExistentTestUser();
 		$this->assertNull(
-			LogPager::getPerformerSearchConds( $testUser->getName() ),
+			CheckUserLogPager::getPerformerSearchConds( $testUser->getName() ),
 			'Non-existent users should not be a valid performer.'
 		);
 
 		// Only registered users can be performers, so test an
 		// IP address as the username.
 		$this->assertNull(
-			LogPager::getPerformerSearchConds( '1.2.3.4' ),
+			CheckUserLogPager::getPerformerSearchConds( '1.2.3.4' ),
 			'Only registered users can be valid performers.'
 		);
 	}
 
 	/**
-	 * @covers \MediaWiki\CheckUser\LogPager::getTargetSearchConds
+	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager::getTargetSearchConds
 	 */
 	public function testGetTargetSearchCondsUser() {
 		// Existing user
@@ -68,7 +68,7 @@ class LogPagerTest extends CheckUserIntegrationTestCaseTest {
 		$this->assertTrue( $testUser->getUser()->isRegistered() );
 		$this->assertArrayEquals(
 			$this->getExpectedGetTargetSearchConds( 'user', $testUser->getId() ),
-			LogPager::getTargetSearchConds( $testUser->getName() ),
+			CheckUserLogPager::getTargetSearchConds( $testUser->getName() ),
 			false,
 			true,
 			'For an existing user the valid search cond should be returned.'
@@ -77,32 +77,32 @@ class LogPagerTest extends CheckUserIntegrationTestCaseTest {
 		// Non-existent user with a valid username
 		$testUser = $this->getNonExistentTestUser();
 		$this->assertNull(
-			LogPager::getTargetSearchConds( $testUser->getName() ),
+			CheckUserLogPager::getTargetSearchConds( $testUser->getName() ),
 			'Non-existent users should not be a valid target.'
 		);
 
 		// Invalid username
 		$this->assertNull(
-			LogPager::getTargetSearchConds( '/' ),
+			CheckUserLogPager::getTargetSearchConds( '/' ),
 			'Invalid usernames should not be a valid target.'
 		);
 	}
 
 	/**
-	 * @covers \MediaWiki\CheckUser\LogPager::getTargetSearchConds
+	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager::getTargetSearchConds
 	 * @dataProvider provideGetTargetSearchCondsIP
 	 */
 	public function testGetTargetSearchCondsIP( $target, $type, $start, $end ) {
 		$this->assertArrayEquals(
 			$this->getExpectedGetTargetSearchConds( $type, null, $start, $end ),
-			LogPager::getTargetSearchConds( $target ),
+			CheckUserLogPager::getTargetSearchConds( $target ),
 			false,
 			true,
 			'Valid IP addresses should have associated search conditions.'
 		);
 	}
 
-	public function provideGetTargetSearchCondsIP() {
+	public function provideGetTargetSearchCondsIP(): array {
 		return [
 			'Single IP' => [ '124.0.0.0', 'ip', '7C000000', '7C000000' ],
 			'/24 IP range' => [ '124.0.0.0/24', 'range', '7C000000', '7C0000FF' ],
@@ -120,20 +120,19 @@ class LogPagerTest extends CheckUserIntegrationTestCaseTest {
 	}
 
 	private function getExpectedGetTargetSearchConds( $type, $id, $start = 0, $end = 0 ) {
-		$dbr = wfGetDB( DB_REPLICA );
 		switch ( $type ) {
 			case 'ip':
 				return [
-					'cul_target_hex = ' . $dbr->addQuotes( $start ) . ' OR ' .
-					'(cul_range_end >= ' . $dbr->addQuotes( $start ) . ' AND ' .
-					'cul_range_start <= ' . $dbr->addQuotes( $start ) . ')'
+					'cul_target_hex = ' . $this->db->addQuotes( $start ) . ' OR ' .
+					'(cul_range_end >= ' . $this->db->addQuotes( $start ) . ' AND ' .
+					'cul_range_start <= ' . $this->db->addQuotes( $start ) . ')'
 				];
 			case 'range':
 				return [
-					'(cul_target_hex >= ' . $dbr->addQuotes( $start ) . ' AND ' .
-					'cul_target_hex <= ' . $dbr->addQuotes( $end ) . ') OR ' .
-					'(cul_range_end >= ' . $dbr->addQuotes( $start ) . ' AND ' .
-					'cul_range_start <= ' . $dbr->addQuotes( $end ) . ')'
+					'(cul_target_hex >= ' . $this->db->addQuotes( $start ) . ' AND ' .
+					'cul_target_hex <= ' . $this->db->addQuotes( $end ) . ') OR ' .
+					'(cul_range_end >= ' . $this->db->addQuotes( $start ) . ' AND ' .
+					'cul_range_start <= ' . $this->db->addQuotes( $end ) . ')'
 				];
 			case 'user':
 				if ( $id === null ) {

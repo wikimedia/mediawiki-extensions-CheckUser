@@ -5,7 +5,7 @@ namespace MediaWiki\CheckUser\Api;
 use ApiBase;
 use ApiQuery;
 use ApiQueryBase;
-use MediaWiki\CheckUser\LogPager;
+use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager;
 use Wikimedia\IPUtils;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\ParamValidator\TypeDef\IntegerDef;
@@ -47,7 +47,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		}
 		if ( isset( $params['target'] ) ) {
 			if ( IPUtils::isIPAddress( $params['target'] ) ) {
-				$cond = LogPager::getTargetSearchConds( $params['target'] );
+				$cond = CheckUserLogPager::getTargetSearchConds( $params['target'] );
 				if ( !$cond ) {
 					$this->dieWithError( 'apierror-badip', 'invalidip' );
 				}
