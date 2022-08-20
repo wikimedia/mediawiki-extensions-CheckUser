@@ -12,6 +12,9 @@ use OOUIHTMLForm;
 
 class HTMLFieldsetCheckUser extends OOUIHTMLForm {
 
+	/** @var string a custom CSS class to apply to the fieldset layout */
+	public $outerClass = '';
+
 	/**
 	 * This returns the html but not wrapped in a form
 	 * element, so that it can be optionally added by SpecialCheckUser.
@@ -36,7 +39,7 @@ class HTMLFieldsetCheckUser extends OOUIHTMLForm {
 
 		// Include a wrapper for style, if requested.
 		return new PanelLayout( [
-			'classes' => [ 'mw-htmlform-ooui-wrapper' ],
+			'classes' => [ 'mw-htmlform-ooui-wrapper', $this->outerClass ],
 			'expanded' => false,
 			'padded' => $this->mWrapperLegend !== false,
 			'framed' => $this->mWrapperLegend !== false,

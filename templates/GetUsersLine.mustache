@@ -2,7 +2,7 @@
 	{{#canPerformBlocks}}
 		<input type="checkbox" name="users[]" value="{{{userText}}}"/>
 	{{/canPerformBlocks}}
-	<span{{#userLinkClass}} class="{{userLinkClass}}"{{/userLinkClass}}>
+	<span class="mw-checkuser-user-link{{#userLinkClass}} {{userLinkClass}}{{/userLinkClass}}">
 		{{{userLink}}}
 	</span>
 	{{{userToolLinks}}}
@@ -17,7 +17,7 @@
 	<ol>
 		{{#infoSets}}
 			<li>
-				{{{ipLink}}}{{#xff}}&#160;&#160;<span class="mw-checkuser-xff{{#xffTrusted}} mw-checkuser-xff-trusted{{/xffTrusted}}"><strong>XFF</strong>: {{{ . }}}</span>{{/xff}}
+				<span class="mw-checkuser-ip">{{{ipLink}}}</span>{{#xff}}&#160;&#160;<strong>XFF</strong>: <span class="mw-checkuser-xff{{#xffTrusted}} mw-checkuser-xff-trusted{{/xffTrusted}}">{{{ . }}}</span>{{/xff}}
 			</li>
 		{{/infoSets}}
 	</ol><br><ol>

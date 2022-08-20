@@ -2,12 +2,66 @@
 
 namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
+use ActorMigration;
+use CentralIdLookup;
+use FormOptions;
+use IContextSource;
 use MediaWiki\Block\DatabaseBlock;
+use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\CheckUserActorMigration;
+use MediaWiki\CheckUser\CheckUserLogService;
+use MediaWiki\CheckUser\TokenQueryManager;
+use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\SpecialPage\SpecialPageFactory;
+use MediaWiki\User\UserFactory;
+use MediaWiki\User\UserGroupManager;
+use MediaWiki\User\UserIdentity;
+use MediaWiki\User\UserIdentityLookup;
 use SpecialPage;
 use Wikimedia\IPUtils;
+use Wikimedia\Rdbms\ILoadBalancer;
 
 class CheckUserGetIPsPager extends AbstractCheckUserPager {
+
+	/**
+	 * @param FormOptions $opts
+	 * @param UserIdentity $target
+	 * @param string $logType
+	 * @param TokenQueryManager $tokenQueryManager
+	 * @param UserGroupManager $userGroupManager
+	 * @param CentralIdLookup $centralIdLookup
+	 * @param ILoadBalancer $loadBalancer
+	 * @param SpecialPageFactory $specialPageFactory
+	 * @param UserIdentityLookup $userIdentityLookup
+	 * @param ActorMigration $actorMigration
+	 * @param CheckUserLogService $checkUserLogService
+	 * @param UserFactory $userFactory
+	 * @param IContextSource|null $context
+	 * @param LinkRenderer|null $linkRenderer
+	 * @param ?int $limit
+	 */
+	public function __construct(
+		FormOptions $opts,
+		UserIdentity $target,
+		string $logType,
+		TokenQueryManager $tokenQueryManager,
+		UserGroupManager $userGroupManager,
+		CentralIdLookup $centralIdLookup,
+		ILoadBalancer $loadBalancer,
+		SpecialPageFactory $specialPageFactory,
+		UserIdentityLookup $userIdentityLookup,
+		ActorMigration $actorMigration,
+		CheckUserLogService $checkUserLogService,
+		UserFactory $userFactory,
+		IContextSource $context = null,
+		LinkRenderer $linkRenderer = null,
+		?int $limit = null
+	) {
+		parent::__construct( $opts, $target, $logType, $tokenQueryManager, $userGroupManager, $centralIdLookup,
+			$loadBalancer, $specialPageFactory, $userIdentityLookup, $actorMigration, $checkUserLogService,
+			$userFactory, $context, $linkRenderer, $limit );
+		$this->checkType = SpecialCheckUser::SUBTYPE_GET_IPS;
+	}
 
 	/** @inheritDoc */
 	public function formatRow( $row ): string {

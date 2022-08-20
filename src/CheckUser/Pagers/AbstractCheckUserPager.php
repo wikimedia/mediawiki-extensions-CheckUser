@@ -12,6 +12,8 @@ use IContextSource;
 use MediaWiki\Block\AbstractBlock;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\CheckUser\CheckUserPagerNavigationBuilder;
+use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
+use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlocking;
@@ -77,6 +79,12 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	/** @var UserIdentity */
 	protected $target;
 
+	/**
+	 * @var string one of the SpecialCheckUser::SUBTYPE_... constants used by this abstract pager
+	 *  to know what the current checktype is.
+	 */
+	protected $checkType;
+
 	/** @var TokenQueryManager */
 	private $tokenQueryManager;
 
@@ -89,9 +97,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	/** @var ActorMigration */
 	private $actorMigration;
 
-	/**
-	 * @var CheckUserLogService
-	 */
+	/** @var CheckUserLogService */
 	private $checkUserLogService;
 
 	/** @var TemplateParser */
@@ -572,5 +578,27 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 			->setLastLinkQuery( $pagingQueries['last'] ?: null );
 
 		return $navBuilder;
+	}
+
+	/**
+	 * Returns a empty HTML OOUI fieldset which is collapsible.
+	 * Used by checkUserHelper.js and it's where the wikitext
+	 *  table is added into the results page.
+	 *
+	 * @return string HTML of the fieldset
+	 */
+	protected function getCheckUserHelperFieldset() {
+		if ( !$this->mResult->numRows() ) {
+			return '';
+		}
+		$fieldset = new HTMLFieldsetCheckUser( [], $this->getContext() );
+		$fieldset->setCollapsibleOptions(
+			$this->checkType === SpecialCheckUser::SUBTYPE_GET_EDITS && $this->mLimit > 2500
+		);
+		$fieldset->outerClass = 'mw-checkuser-helper-fieldset';
+		return $fieldset->setWrapperLegendMsg( 'checkuser-helper-label' )
+			->prepareForm()
+			->suppressDefaultSubmit( true )
+			->getHTML( false );
 	}
 }

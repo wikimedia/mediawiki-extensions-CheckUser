@@ -1,17 +1,5 @@
 @import 'mediawiki.skin.variables.less';
 
-.mw-checkuser-edits-count {
-	display: inline-block;
-
-	&:before {
-		content: '@{msg-brackets-start}';
-	}
-
-	&:after {
-		content: '@{msg-brackets-end}';
-	}
-}
-
 .mw-checkuser-links-no-parentheses > span:not( :first-child ):before {
 	content: ' @{msg-pipe-separator} ';
 }
@@ -23,6 +11,19 @@
 }
 
 .mw-special-CheckUser {
+	.mw-checkuser-helper-count,
+	.mw-checkuser-edits-count {
+		display: inline-block;
+
+		&:before {
+			content: '@{msg-brackets-start}';
+		}
+
+		&:after {
+			content: '@{msg-brackets-end}';
+		}
+	}
+
 	.mw-checkuser-paging-links-form {
 		display: inline-block;
 		font-size: inherit;
@@ -77,5 +78,23 @@
 	.mw-checkuser-multilock-link-header {
 		margin-top: 12px;
 		display: table;
+	}
+
+	.mw-checkuser-helper-count {
+		user-select: none;
+
+		&:before {
+			white-space: pre;
+			content: ' @{msg-brackets-start}';
+		}
+	}
+
+	.mw-checkuser-helper-table {
+		width: 100%;
+		margin: 0;
+	}
+
+	.mw-widget-copyTextLayout {
+		margin: 0;
 	}
 }

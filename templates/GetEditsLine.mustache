@@ -3,7 +3,7 @@
 	<span class="mw-changeslist-separator"></span>
 	{{timestamp}}
 	<span class="mw-changeslist-separator"></span>
-	<span{{#userLinkClass}} class="{{userLinkClass}}"{{/userLinkClass}}>
+	<span class="mw-checkuser-user-link{{#userLinkClass}} {{userLinkClass}}{{/userLinkClass}}">
 		{{{userLink}}}
 	</span>
 	{{{userToolLinks}}}
@@ -13,8 +13,8 @@
 	{{{actionText}}}
 	{{{comment}}}
 	<div class="mw-checkuser-indented"><small>
-		<strong>IP</strong>: {{{ipLink}}}{{#xff}}&#160;&#160;
-		<span class="mw-checkuser-xff{{#xffTrusted}} mw-checkuser-xff-trusted{{/xffTrusted}}"><strong>XFF</strong>: {{{ . }}}</span>{{/xff}}
+		<strong>IP</strong>: <span class="mw-checkuser-ip">{{{ipLink}}}</span>{{#xff}}&#160;&#160;
+		<strong>XFF</strong>: <span class="mw-checkuser-xff{{#xffTrusted}} mw-checkuser-xff-trusted{{/xffTrusted}}">{{{ . }}}</span>{{/xff}}
 		&#160;&#160;<span class="mw-checkuser-agent">{{{userAgent}}}</span>
 	</small></div>
 </li>

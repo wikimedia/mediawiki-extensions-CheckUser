@@ -10,6 +10,7 @@ use HtmlArmor;
 use IContextSource;
 use Linker;
 use MediaWiki\Cache\LinkBatchFactory;
+use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\CheckUserActorMigration;
 use MediaWiki\CheckUser\CheckUserCommentStore;
 use MediaWiki\CheckUser\CheckUserLogService;
@@ -127,6 +128,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 			$userGroupManager, $centralIdLookup, $loadBalancer, $specialPageFactory,
 			$userIdentityLookup, $actorMigration, $checkUserLogService, $userFactory,
 			$context, $linkRenderer, $limit );
+		$this->checkType = SpecialCheckUser::SUBTYPE_GET_EDITS;
 		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
 		$this->xfor = $xfor;
 		$this->linkBatchFactory = $linkBatchFactory;
@@ -362,7 +364,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 
 	/** @inheritDoc */
 	protected function getStartBody(): string {
-		return $this->getNavigationBar()
+		return $this->getCheckUserHelperFieldset() . $this->getNavigationBar()
 			. '<div id="checkuserresults" class="mw-checkuser-get-edits-results">';
 	}
 

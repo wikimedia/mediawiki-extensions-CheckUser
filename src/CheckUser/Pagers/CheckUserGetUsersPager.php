@@ -12,6 +12,7 @@ use IContextSource;
 use Linker;
 use ListToggle;
 use MediaWiki\Block\BlockPermissionCheckerFactory;
+use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
 use MediaWiki\CheckUser\CheckUserActorMigration;
 use MediaWiki\CheckUser\CheckUserLogService;
@@ -109,6 +110,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			$userGroupManager, $centralIdLookup, $loadBalancer, $specialPageFactory,
 			$userIdentityLookup, $actorMigration, $checkUserLogService, $userFactory,
 			$context, $linkRenderer, $limit );
+		$this->checkType = SpecialCheckUser::SUBTYPE_GET_USERS;
 		$this->xfor = $xfor;
 		$this->canPerformBlocks = $permissionManager->userHasRight( $this->getUser(), 'block' )
 			&& !$this->getUser()->getBlock();
@@ -383,7 +385,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 
 	/** @inheritDoc */
 	protected function getStartBody(): string {
-		$s = $this->getNavigationBar();
+		$s = $this->getCheckUserHelperFieldset() . $this->getNavigationBar();
 		if ( $this->mResult->numRows() ) {
 			$s .= ( new ListToggle( $this->getOutput() ) )->getHTML();
 		}
