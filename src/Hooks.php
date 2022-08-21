@@ -240,7 +240,7 @@ class Hooks implements
 				'cuc_page_id'    => 0,
 				'cuc_namespace'  => 0,
 				'cuc_minor'      => 0,
-				'cuc_title'      => 0,
+				'cuc_title'      => '',
 				'cuc_user'       => $user->getId(),
 				'cuc_user_text'  => $user->getName(),
 				'cuc_actiontext' => '',
@@ -433,6 +433,7 @@ class Hooks implements
 		self::insertIntoCuChangesTable(
 			[
 				'cuc_namespace'  => NS_USER,
+				'cuc_title'      => $userName,
 				'cuc_actiontext' => wfMessage( $msg )->params( $target )->inContentLanguage()->text(),
 			],
 			__METHOD__,
