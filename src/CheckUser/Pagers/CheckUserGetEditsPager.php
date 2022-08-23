@@ -18,6 +18,7 @@ use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Logger\LoggerFactory;
+use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\User\UserEditTracker;
@@ -48,6 +49,9 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 
 	/** @var array */
 	protected $formattedRevisionComments = [];
+
+	/** @var array */
+	protected $usernameVisibility = [];
 
 	/** @var LoggerInterface */
 	private $logger;
@@ -148,19 +152,33 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 			$this->getLanguage()->userTime( wfTimestamp( TS_MW, $row->cuc_timestamp ), $this->getUser() );
 		// Userlinks
 		$user = new UserIdentityValue( $row->cuc_user ?? 0, $row->cuc_user_text );
-		if ( !IPUtils::isIPAddress( $user ) && !$user->isRegistered() ) {
-			$templateParams['userLinkClass'] = 'mw-checkuser-nonexistent-user';
+		if ( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW ) {
+			$hidden = !$this->usernameVisibility[$row->cuc_this_oldid];
+		} else {
+			$hidden = $this->userFactory->newFromUserIdentity( $user )->isHidden()
+				&& !$this->getAuthority()->isAllowed( 'hideuser' );
 		}
-		$templateParams['userLink'] = Linker::userLink( $user->getId(), $row->cuc_user_text, $row->cuc_user_text );
-		$templateParams['userToolLinks'] = Linker::userToolLinksRedContribs(
-			$user->getId(),
-			$row->cuc_user_text,
-			$this->userEditTracker->getUserEditCount( $user ),
-			// don't render parentheses in HTML markup (CSS will provide)
-			false
-		);
-		// Add any block information
-		$templateParams['flags'] = $this->flagCache[$row->cuc_user_text];
+		if ( $hidden ) {
+			$templateParams['userLink'] = Html::element(
+				'span',
+				[ 'class' => 'history-deleted' ],
+				$this->msg( 'rev-deleted-user' )->text()
+			);
+		} else {
+			if ( !IPUtils::isIPAddress( $user ) && !$user->isRegistered() ) {
+				$templateParams['userLinkClass'] = 'mw-checkuser-nonexistent-user';
+			}
+			$templateParams['userLink'] = Linker::userLink( $user->getId(), $row->cuc_user_text, $row->cuc_user_text );
+			$templateParams['userToolLinks'] = Linker::userToolLinksRedContribs(
+				$user->getId(),
+				$row->cuc_user_text,
+				$this->userEditTracker->getUserEditCount( $user ),
+				// don't render parentheses in HTML markup (CSS will provide)
+				false
+			);
+			// Add any block information
+			$templateParams['flags'] = $this->flagCache[$row->cuc_user_text];
+		}
 		// Action text, hackish ...
 		$templateParams['actionText'] = $this->commentFormatter->format( $row->cuc_actiontext );
 		// Comment
@@ -397,6 +415,12 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 					$missingRevisions[$row->cuc_this_oldid] = '';
 				} else {
 					$revisions[$row->cuc_this_oldid] = $revRecord;
+
+					$this->usernameVisibility[$row->cuc_this_oldid] = RevisionRecord::userCanBitfield(
+						$revRecord->getVisibility(),
+						RevisionRecord::DELETED_USER,
+						$this->getAuthority()
+					);
 				}
 			}
 		}
