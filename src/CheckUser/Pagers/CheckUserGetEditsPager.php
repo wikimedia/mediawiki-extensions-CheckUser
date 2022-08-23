@@ -4,7 +4,6 @@ namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
 use ActorMigration;
 use CentralIdLookup;
-use Exception;
 use FormOptions;
 use Hooks;
 use Html;
@@ -18,7 +17,6 @@ use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Logger\LoggerFactory;
-use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\User\UserEditTracker;
@@ -56,6 +54,9 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	 * @var null|bool
 	 */
 	protected $xfor = null;
+
+	/** @var array */
+	protected $formattedRevisionComments = [];
 
 	/** @var LoggerInterface */
 	private $logger;
@@ -161,44 +162,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		$templateParams['actionText'] = $this->commentFormatter->format( $row->cuc_actiontext );
 		// Comment
 		if ( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW ) {
-			$revRecord = $this->revisionStore->getRevisionById( $row->cuc_this_oldid );
-			if ( !$revRecord ) {
-				// Assume revision is deleted
-				$queryInfo = $this->revisionStore->getArchiveQueryInfo();
-				$tmp = $this->mDb->newSelectQueryBuilder()
-					->tables( $queryInfo['tables'] )
-					->fields( $queryInfo['fields'] )
-					->conds( [ 'ar_rev_id' => $row->cuc_this_oldid ] )
-					->joinConds( $queryInfo['joins'] )
-					->caller( __METHOD__ )
-					->fetchRow();
-				if ( $tmp ) {
-					$revRecord = $this->revisionStore->newRevisionFromArchiveRow( $tmp );
-				}
-
-				if ( !$revRecord ) {
-					// This shouldn't happen, CheckUser points to a revision
-					// that isn't in revision nor archive table?
-					throw new Exception(
-						"Couldn't fetch revision cu_changes table links to (cuc_this_oldid $row->cuc_this_oldid)"
-					);
-				}
-			}
-			if ( RevisionRecord::userCanBitfield(
-				$revRecord->getVisibility(),
-				RevisionRecord::DELETED_COMMENT,
-				$this->getUser()
-			) ) {
-				$templateParams['comment'] = $this->commentFormatter->formatBlock( $row->cuc_comment );
-			} else {
-				$templateParams['comment'] = $this->commentFormatter->formatBlock(
-					$this->msg( 'rev-deleted-comment' )->text(),
-					null,
-					false,
-					null,
-					false
-				);
-			}
+			$templateParams['comment'] = $this->formattedRevisionComments[$row->cuc_this_oldid];
 		} else {
 			$templateParams['comment'] = $this->commentFormatter->formatBlock( $row->cuc_comment );
 		}
@@ -388,6 +352,8 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	protected function preprocessResults( $result ) {
 		$lb = $this->linkBatchFactory->newLinkBatch();
 		$lb->setCaller( __METHOD__ );
+		$revisions = [];
+		$missingRevisions = [];
 		foreach ( $result as $row ) {
 			if ( $row->cuc_title !== '' ) {
 				$lb->add( $row->cuc_namespace, $row->cuc_title );
@@ -404,7 +370,50 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 				$flags = $this->userBlockFlags( $ip, $user );
 				$this->flagCache[$row->cuc_user_text] = $flags;
 			}
+			// Batch process comments
+			if (
+				( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW ) &&
+				!array_key_exists( $row->cuc_this_oldid, $revisions )
+			) {
+				$revRecord = $this->revisionStore->getRevisionById( $row->cuc_this_oldid );
+				if ( !$revRecord ) {
+					// Assume revision is deleted
+					$queryInfo = $this->revisionStore->getArchiveQueryInfo();
+					$tmp = $this->mDb->newSelectQueryBuilder()
+						->tables( $queryInfo['tables'] )
+						->fields( $queryInfo['fields'] )
+						->conds( [ 'ar_rev_id' => $row->cuc_this_oldid ] )
+						->joinConds( $queryInfo['joins'] )
+						->caller( __METHOD__ )
+						->fetchRow();
+					if ( $tmp ) {
+						$revRecord = $this->revisionStore->newRevisionFromArchiveRow( $tmp );
+					}
+				}
+				if ( !$revRecord ) {
+					// This shouldn't happen, CheckUser points to a revision
+					// that isn't in revision nor archive table?
+					$this->logger->warning(
+						"Couldn't fetch revision cu_changes table links to (cuc_this_oldid $row->cuc_this_oldid)"
+					);
+					// Show the comment in this case as the empty string to indicate that it's missing.
+					$missingRevisions[$row->cuc_this_oldid] = '';
+				} else {
+					$revisions[$row->cuc_this_oldid] = $revRecord;
+				}
+			}
 		}
+		// Batch format revision comments
+		$this->formattedRevisionComments = array_replace(
+			$missingRevisions,
+			$this->commentFormatter->createRevisionBatch()
+				->revisions( $revisions )
+				->authority( $this->getAuthority() )
+				->samePage( false )
+				->useParentheses( false )
+				->indexById()
+				->execute()
+		);
 		$lb->execute();
 		$result->seek( 0 );
 	}
