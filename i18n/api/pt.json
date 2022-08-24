@@ -25,5 +25,6 @@
 	"apihelp-query+checkuserlog-example-2": "Mostrar verificações de 192.0.2.0/24 após 2011-10-15T23:00:00Z",
 	"apierror-checkuser-missingsummary": "Tem de definir um motivo para a verificação.",
 	"apierror-checkuser-timelimit": "Tem de usar um limite temporal correto (como \"-2 weeks\" ou \"2 weeks ago\").",
-	"apierror-checkuser-invalidmode": "Modo de pedido inválido"
+	"apierror-checkuser-invalidmode": "Modo de pedido inválido",
+	"checkuser-api-help-param-direction": "A direção da enumeração:\n;newer:Listar o mais antigo primeiro. Nota: $1from tem de estar antes de $1to.\n;older:Listar o mais recente primeiro (padrão). Nota: $1from tem de estar depois de $1to."
 }
