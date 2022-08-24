@@ -55,7 +55,7 @@
 	"checkuser-block-limit": "Re a implijerien diuzet.",
 	"checkuser-block-noreason": "Ret eo deoc'h reizhabegiñ ar stankadennoù.",
 	"checkuser-noreason": "Ret eo deoc'h reizhabegiñ an enklask-mañ.",
-	"checkuser-too-many": "Re a zisoc'hoù (hervez istimadur ar reked), strishaat ar CIDR mar plij.\nSetu an IPoù implijet (5000 d'ar muiañ, urzhiet dre ar chomlec'h) :",
+	"checkuser-too-many": "Re a zisoc'hoù (hervez istimadur ar reked), strishait ar CIDR mar plij.\nSetu an IPoù implijet ($1 d'ar muiañ, urzhiet dre ar chomlec'h) :",
 	"checkuser-user-nonexistent": "N'eus ket eus an implijer merket",
 	"checkuser-search": "Klask",
 	"checkuser-search-submit": "Klask",
@@ -72,5 +72,5 @@
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "N'eo ket bet kavet ar wiki",
 	"checkuser-investigate-compare-notice-no-results": "N'eus disoc'h ebet : an implijerien pe IPoù-se n'o deus graet kemm ebet e-kerzh an 90 deiz diwezhañ.",
 	"checkuser-investigate-compare-notice-no-results-filters": "Disoc'h ebet ne glot gant an dezverkoù silañ-mañ. Dilamit siloù zo evit ledanaat ar c'hlask.",
-	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Diskouez holl implijerien an IP-mañ"
+	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Diskouez holl IPoù an implijer-mañ"
 }
