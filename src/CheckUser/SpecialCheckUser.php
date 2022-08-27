@@ -38,6 +38,7 @@ use MediaWiki\User\UserRigorOptions;
 use Message;
 use OOUI\IconWidget;
 use SpecialPage;
+use Status;
 use Title;
 use UserBlockedError;
 use Wikimedia\AtEase\AtEase;
@@ -588,20 +589,30 @@ class SpecialCheckUser extends SpecialPage {
 			return;
 		}
 
-		$blockedUsers = $this->doMassUserBlockInternal(
+		[ $blockedUsers, $taggedUsers ] = $this->doMassUserBlockInternal(
 			$users,
 			$blockParams,
+			$this->opts->getValue( 'usetag' ),
 			$tag,
+			$this->opts->getValue( 'usettag' ),
 			$talkTag
 		);
 		$blockedCount = count( $blockedUsers );
+		$taggedCount = count( $taggedUsers );
+		$lang = $this->getLanguage();
 		if ( $blockedCount > 0 ) {
-			$lang = $this->getLanguage();
 			$this->getOutput()->addWikiMsg( 'checkuser-block-success',
 				$lang->listToText( $blockedUsers ),
 				$lang->formatNum( $blockedCount )
 			);
-		} else {
+		}
+		if ( $taggedCount > 0 ) {
+			$this->getOutput()->addWikiMsg( 'checkuser-block-success-tagged',
+				$lang->listToText( $taggedUsers ),
+				$lang->formatNum( $taggedCount )
+			);
+		}
+		if ( $blockedCount === 0 && $taggedCount === 0 ) {
 			$this->getOutput()->addWikiMsg( 'checkuser-block-failure' );
 		}
 	}
@@ -611,17 +622,22 @@ class SpecialCheckUser extends SpecialPage {
 	 *
 	 * @param string[] $users
 	 * @param array $blockParams
-	 * @param string $tag replaces user pages
-	 * @param string $talkTag replaces user talk pages
-	 * @return string[] List of html-safe usernames which were actually were blocked
+	 * @param bool $useTag whether to perform the user page replacement
+	 * @param string $tag replace the user page with this content
+	 * @param bool $useTalkTag whether to perform the user talk page replacement
+	 * @param string $talkTag replace the user talk page this with content
+	 * @return string[][] List of html-safe usernames which were blocked at index 0 and tagged at index 1
 	 */
 	protected function doMassUserBlockInternal(
 		array $users,
 		array $blockParams,
+		bool $useTag = false,
 		string $tag = '',
+		bool $useTalkTag = false,
 		string $talkTag = ''
 	) {
-		$safeUsers = [];
+		$blockedUsers = [];
+		$taggedUsers = [];
 		foreach ( $users as $name ) {
 			$u = $this->userFactory->newFromName( $name, UserRigorOptions::RIGOR_NONE );
 			// Do some checks to make sure we can block this user first
@@ -659,24 +675,54 @@ class SpecialCheckUser extends SpecialPage {
 					]
 				)->placeBlock( $blockParams['reblock'] );
 
-				if ( $res->isGood() ) {
+				if (
+					$res->isGood() ||
+					( $res->getStatusValue()->hasMessage( 'ipb_already_blocked' ) && $blockParams['reblock'] )
+				) {
+					// Mark as blocked and then attempt to tag if the block went through or
+					//  if reblock was enabled and there existed a block with the same parameters.
 					$userPage = $u->getUserPage();
+					$userText = "[[{$userPage->getPrefixedText()}|{$userPage->getText()}]]";
 
-					$safeUsers[] = "[[{$userPage->getPrefixedText()}|{$userPage->getText()}]]";
+					$blockedUsers[] = $userText;
 
-					// Tag user page and user talk page
-					if ( $this->opts->getValue( 'usetag' ) ) {
-						$this->tagPage( $userPage, $tag, $blockParams['reason'] );
-					}
-					if ( $this->opts->getValue( 'usettag' ) ) {
-						$this->tagPage( $u->getTalkPage(), $talkTag, $blockParams['reason'] );
+					if ( $useTag || $useTalkTag ) {
+						$userPageTagSuccess = true;
+						$userTalkPageTagSuccess = true;
+
+						// Tag user page and user talk page
+						if ( $useTag ) {
+							$userPageTagStatus = $this->tagPage(
+								$userPage,
+								$tag,
+								$blockParams['reason']
+							);
+							// Mark as a success if the edit went through or if the
+							//  content that was used is the same as what is already on
+							//  the page.
+							$userPageTagSuccess = $userPageTagStatus->isGood() ||
+								$userPageTagStatus->hasMessage( 'edit-no-change' );
+						}
+						if ( $useTalkTag ) {
+							$userTalkPageTagStatus = $this->tagPage(
+								$u->getTalkPage(),
+								$talkTag,
+								$blockParams['reason']
+							);
+							$userTalkPageTagSuccess = $userTalkPageTagStatus->isGood() ||
+								$userTalkPageTagStatus->hasMessage( 'edit-no-change' );
+						}
+						if ( $userPageTagSuccess && $userTalkPageTagSuccess ) {
+							// Only mark as tagged if all tags requested
+							//  for this user was successfully added
+							$taggedUsers[] = $userText;
+						}
 					}
 				}
-
 			}
 		}
 
-		return $safeUsers;
+		return [ $blockedUsers, $taggedUsers ];
 	}
 
 	/**
@@ -685,6 +731,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param Title $title
 	 * @param string $tag
 	 * @param string $summary
+	 * @return Status the status of the edit to the $title
 	 */
 	protected function tagPage( Title $title, string $tag, string $summary ) {
 		// Check length to avoid mistakes
@@ -694,13 +741,14 @@ class SpecialCheckUser extends SpecialPage {
 			if ( $page->exists() ) {
 				$flags |= EDIT_MINOR;
 			}
-			$page->doUserEditContent(
+			return $page->doUserEditContent(
 				new WikitextContent( $tag ),
 				$this->getUser(),
 				$summary,
 				$flags
 			);
 		}
+		return Status::newFatal( 'checkuser-block-failure-tag-too-small' );
 	}
 
 	/**

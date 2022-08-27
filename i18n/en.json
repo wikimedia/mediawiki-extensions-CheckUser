@@ -75,6 +75,8 @@
 	"checkuser-reblock": "Override existing blocks",
 	"checkuser-massblock-commit": "Block selected users",
 	"checkuser-block-success": "'''The {{PLURAL:$2|user|users}} $1 {{PLURAL:$2|is|are}} now blocked.'''",
+	"checkuser-block-success-tagged": "'''The {{PLURAL:$2|user|users}} $1 {{PLURAL:$2|has|have}} been tagged.'''",
+	"checkuser-block-failure-tag-too-small": "The specified tag is too small to be used.",
 	"checkuser-block-failure": "'''No users blocked.'''",
 	"checkuser-block-limit": "Too many users selected.",
 	"checkuser-block-noreason": "You must give a reason for the blocks.",
