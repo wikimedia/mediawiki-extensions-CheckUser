@@ -240,67 +240,6 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @dataProvider provideGetQueryInfoForSingleTarget
-	 */
-	public function testGetQueryInfoForSingleTarget( $options, $expected ) {
-		$db = $this->getMockBuilder( Database::class )
-			->disableOriginalConstructor()
-			->getMockForAbstractClass();
-		$db->method( 'strencode' )
-			->will( $this->returnArgument( 0 ) );
-
-		$loadBalancer = $this->createMock( ILoadBalancer::class );
-		$loadBalancer->method( 'getConnection' )
-			->willReturn( $db );
-
-		$compareServcice = new CompareService(
-			$this->createMock( ServiceOptions::class ),
-			$loadBalancer,
-			$this->createMock( UserIdentityLookup::class )
-		);
-
-		$info = $compareServcice->getQueryInfoForSingleTarget(
-			'1.2.3.4',
-			[],
-			'',
-			$options['limitPerTarget'],
-			$options['limitCheck']
-		);
-
-		$this->assertSame( $expected['orderBy'], $info['options']['ORDER BY'] );
-		$this->assertSame( $expected['limit'], $info['options']['LIMIT'] );
-		$this->assertSame( $expected['offset'], $info['options']['OFFSET'] );
-	}
-
-	public function provideGetQueryInfoForSingleTarget() {
-		$limitPerTarget = 100;
-		return [
-			'Main investigation' => [
-				[
-					'limitPerTarget' => $limitPerTarget,
-					'limitCheck' => false,
-				],
-				[
-					'orderBy' => 'cuc_timestamp DESC',
-					'offset' => null,
-					'limit' => $limitPerTarget
-				]
-			],
-			'Limit check' => [
-				[
-					'limitPerTarget' => $limitPerTarget,
-					'limitCheck' => true,
-				],
-				[
-					'orderBy' => null,
-					'offset' => $limitPerTarget,
-					'limit' => 1
-				]
-			],
-		];
-	}
-
-	/**
 	 * @dataProvider provideTotalEditsFromIp
 	 */
 	public function testGetTotalEditsFromIp( $data, $expected ) {

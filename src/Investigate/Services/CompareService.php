@@ -7,6 +7,7 @@ use LogicException;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\Rdbms\ILoadBalancer;
+use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Rdbms\Subquery;
 
 class CompareService extends ChangeService {
@@ -58,17 +59,22 @@ class CompareService extends ChangeService {
 		string $ipHex,
 		string $excludeUser = null
 	): int {
-		$db = $this->loadBalancer->getConnection( DB_REPLICA );
-		$conds = [
-			'cuc_ip_hex' => $ipHex,
-			'cuc_type' => [ RC_EDIT, RC_NEW ],
-		];
+		$queryBuilder = $this->loadBalancer->getConnection( DB_REPLICA )->newSelectQueryBuilder()
+			->select( 'cuc_id' )
+			->from( 'cu_changes' )
+			->where( [
+				'cuc_ip_hex' => $ipHex,
+				'cuc_type' => [ RC_EDIT, RC_NEW ],
+			] )
+			->caller( __METHOD__ );
 
 		if ( $excludeUser ) {
-			$conds[] = 'cuc_user_text != ' . $this->dbQuoter->addQuotes( $excludeUser );
+			$queryBuilder->where(
+				'cuc_user_text != ' . $this->dbQuoter->addQuotes( $excludeUser )
+			);
 		}
 
-		return $db->selectRowCount( 'cu_changes', '*', $conds, __METHOD__ );
+		return $queryBuilder->fetchRowCount();
 	}
 
 	/**
@@ -89,19 +95,26 @@ class CompareService extends ChangeService {
 
 		$sqlText = [];
 		foreach ( $targets as $target ) {
-			$info = $this->getQueryInfoForSingleTarget( $target, $excludeTargets, $start, $limit );
-			if ( $info !== null ) {
-				if ( !$db->unionSupportsOrderAndLimit() ) {
-					unset( $info['options']['ORDER BY'], $info['options']['LIMIT'] );
+			$conds = $this->buildCondsForSingleTarget( $target, $excludeTargets, $start );
+			if ( $conds !== null ) {
+				$queryBuilder = $db->newSelectQueryBuilder()
+					->select( [
+						'cuc_id',
+						'cuc_user',
+						'cuc_user_text',
+						'cuc_ip',
+						'cuc_ip_hex',
+						'cuc_agent',
+						'cuc_timestamp',
+					] )
+					->from( 'cu_changes' )
+					->where( $conds )
+					->caller( __METHOD__ );
+				if ( $db->unionSupportsOrderAndLimit() ) {
+					$queryBuilder->orderBy( 'cuc_timestamp', SelectQueryBuilder::SORT_DESC )
+						->limit( $limit );
 				}
-
-				$sqlText[] = $db->selectSQLText(
-					$info['tables'],
-					$info['fields'],
-					$info['conds'],
-					__METHOD__,
-					$info['options']
-				);
+				$sqlText[] = $queryBuilder->getSQL();
 			}
 		}
 
@@ -134,36 +147,22 @@ class CompareService extends ChangeService {
 	/**
 	 * Get the query info for a single target.
 	 *
-	 * For the main investigation, this becomes a subquery that contributes to a derived
+	 * For the main investigation, this is used in a subquery that contributes to a derived
 	 * table, used by getQueryInfo.
 	 *
-	 * For a limit check, this query is used to check whether the number of results for
+	 * For a limit check, this is used to build a query that is used to check whether the number of results for
 	 * the target exceed the limit-per-target in getQueryInfo.
 	 *
 	 * @param string $target
 	 * @param string[] $excludeTargets
 	 * @param string $start
-	 * @param int $limitPerTarget
-	 * @param bool $limitCheck
 	 * @return array|null Return null for invalid target
 	 */
-	public function getQueryInfoForSingleTarget(
+	private function buildCondsForSingleTarget(
 		string $target,
 		array $excludeTargets,
-		string $start,
-		int $limitPerTarget,
-		$limitCheck = false
+		string $start
 	): ?array {
-		if ( $limitCheck ) {
-			$orderBy = null;
-			$offset = $limitPerTarget;
-			$limit = 1;
-		} else {
-			$orderBy = 'cuc_timestamp DESC';
-			$offset = null;
-			$limit = $limitPerTarget;
-		}
-
 		$conds = $this->buildTargetConds( $target );
 		if ( $conds === [] ) {
 			return null;
@@ -177,24 +176,19 @@ class CompareService extends ChangeService {
 
 		$conds['cuc_type'] = [ RC_EDIT, RC_NEW, RC_LOG ];
 
-		return [
-			'tables' => 'cu_changes',
-			'fields' => [
-				'cuc_id',
-				'cuc_user',
-				'cuc_user_text',
-				'cuc_ip',
-				'cuc_ip_hex',
-				'cuc_agent',
-				'cuc_timestamp',
-			],
-			'conds' => $conds,
-			'options' => [
-				'ORDER BY' => $orderBy,
-				'LIMIT' => $limit,
-				'OFFSET' => $offset,
-			],
-		];
+		return $conds;
+	}
+
+	/**
+	 * We set a maximum number of rows in cu_changes to be grouped in the Compare table query,
+	 * for performance reasons (see ::getQueryInfo). We share these uniformly between the targets,
+	 * so the maximum number of rows per target is the limit divided by the number of targets.
+	 *
+	 * @param array $targets
+	 * @return int
+	 */
+	private function getLimitPerTarget( array $targets ) {
+		return (int)( $this->limit / count( $targets ) );
 	}
 
 	/**
@@ -223,19 +217,19 @@ class CompareService extends ChangeService {
 		}
 
 		$targetsOverLimit = [];
-		$offset = (int)( $this->limit / count( $targets ) );
+		$offset = $this->getLimitPerTarget( $targets );
 
 		foreach ( $targets as $target ) {
-			$info = $this->getQueryInfoForSingleTarget( $target, $excludeTargets, $start, $offset, true );
-			if ( $info !== null ) {
-				$limitCheck = $db->select(
-					$info['tables'],
-					$info['fields'],
-					$info['conds'],
-					__METHOD__,
-					$info['options']
-				);
-				if ( $limitCheck->numRows() > 0 ) {
+			$conds = $this->buildCondsForSingleTarget( $target, $excludeTargets, $start );
+			if ( $conds !== null ) {
+				$limitCheck = $db->newSelectQueryBuilder()
+					->select( 'cuc_id' )
+					->from( 'cu_changes' )
+					->where( $conds )
+					->offset( $offset )
+					->limit( 1 )
+					->caller( __METHOD__ );
+				if ( $limitCheck->fetchRowCount() > 0 ) {
 					$targetsOverLimit[] = $target;
 				}
 			}
