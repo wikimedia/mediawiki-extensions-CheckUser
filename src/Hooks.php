@@ -307,8 +307,10 @@ class Hooks implements
 		self::insertIntoCuChangesTable(
 			[
 				'cuc_namespace'  => NS_USER,
-				'cuc_actiontext' => wfMessage( 'checkuser-reset-action', "[[User:$accountName|$accountName]]" )
-					->inContentLanguage()->text(),
+				'cuc_actiontext' => wfMessage(
+					'checkuser-reset-action',
+					$accountName
+				)->inContentLanguage()->text(),
 			],
 			__METHOD__,
 			$user
