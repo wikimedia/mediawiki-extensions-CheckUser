@@ -329,6 +329,54 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
+	/**
+	 * @dataProvider provideGetTargetsOverLimit
+	 */
+	public function testGetTargetsOverLimit( $data, $expected ) {
+		if ( isset( $data['limit'] ) ) {
+			$this->overrideConfigValue( 'CheckUserInvestigateMaximumRowCount', $data['limit'] );
+		}
+
+		$result = $this->getCompareService()->getTargetsOverLimit(
+			$data['targets'] ?? [],
+			$data['excludeTargets'] ?? [],
+			$this->db->timestamp()
+		);
+
+		$this->assertEquals( $expected, $result );
+	}
+
+	public function provideGetTargetsOverLimit() {
+		return [
+			'Empty targets array' => [
+				[],
+				[],
+			],
+			'Targets are all within limits' => [
+				[
+					'targets' => [ '1.2.3.4', 'User1', '1.2.3.5' ],
+					'limit' => 100,
+				],
+				[],
+			],
+			'One target is over limit' => [
+				[
+					'targets' => [ '1.2.3.4', 'User1', '1.2.3.5' ],
+					'excludeTargets' => [ '1.2.3.5' ],
+					'limit' => 4
+				],
+				[ '1.2.3.4' ],
+			],
+			'Two targets are over limit' => [
+				[
+					'targets' => [ '1.2.3.4', '1.2.3.5' ],
+					'limit' => 1,
+				],
+				[ '1.2.3.4', '1.2.3.5' ],
+			],
+		];
+	}
+
 	public function addDBData() {
 		$testData = [
 			[
