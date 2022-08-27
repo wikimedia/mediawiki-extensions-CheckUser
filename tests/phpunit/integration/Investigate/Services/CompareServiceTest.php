@@ -301,7 +301,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @dataProvider provideTotalEditsFromIp()
+	 * @dataProvider provideTotalEditsFromIp
 	 */
 	public function testGetTotalEditsFromIp( $data, $expected ) {
 		$result = $this->getCompareService()->getTotalEditsFromIp(
