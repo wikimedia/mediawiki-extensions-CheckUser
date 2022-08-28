@@ -626,10 +626,6 @@ class SpecialCheckUser extends SpecialPage {
 				continue;
 			}
 
-			if ( $u->getBlock() && !$blockParams['reblock'] ) {
-				continue;
-			}
-
 			if (
 				!isset( $blockParams['email'] ) ||
 				$blockParams['email'] === false ||
