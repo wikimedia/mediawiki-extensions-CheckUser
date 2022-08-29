@@ -44,6 +44,7 @@
 	"checkuser-nomatch": "No matches found.",
 	"checkuser-nomatch-edits": "No matches found.\nLast edit was on $1 at $2.",
 	"checkuser-check": "Check",
+	"checkuser-toollink-check": "check",
 	"checkuser-check-this-user": "Check this user",
 	"checkuser-investigate-this-user": "Investigate this user",
 	"checkuser-recent-checks": "Recent checks for this user",

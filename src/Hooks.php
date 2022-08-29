@@ -931,14 +931,23 @@ class Hooks implements
 		$requestTitle = RequestContext::getMain()->getTitle();
 		if (
 			$requestTitle !== null &&
-			$requestTitle->inNamespace( NS_SPECIAL ) &&
-			MediaWikiServices::getInstance()->getSpecialPageFactory()->
-				resolveAlias( $requestTitle->getText() )[0] === 'CheckUserLog'
+			$requestTitle->inNamespace( NS_SPECIAL )
 		) {
-			$items[] = MediaWikiServices::getInstance()->getLinkRenderer()->makeLink(
-				SpecialPage::getTitleFor( 'CheckUserLog', $userText ),
-				wfMessage( 'checkuser-log-checks-on' )->text()
-			);
+			$specialPageName = MediaWikiServices::getInstance()->getSpecialPageFactory()
+				->resolveAlias( $requestTitle->getText() )[0];
+			if ( $specialPageName === 'CheckUserLog' ) {
+				$items[] = MediaWikiServices::getInstance()->getLinkRenderer()->makeLink(
+					SpecialPage::getTitleFor( 'CheckUserLog', $userText ),
+					wfMessage( 'checkuser-log-checks-on' )->text()
+				);
+			} elseif ( $specialPageName === 'CheckUser' ) {
+				$items[] = MediaWikiServices::getInstance()->getLinkRenderer()->makeLink(
+					SpecialPage::getTitleFor( 'CheckUser', $userText ),
+					wfMessage( 'checkuser-toollink-check' )->text(),
+					[],
+					[ 'reason' => RequestContext::getMain()->getRequest()->getVal( 'reason', '' ) ]
+				);
+			}
 		}
 	}
 

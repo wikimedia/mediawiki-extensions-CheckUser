@@ -201,14 +201,6 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 					$this->msg( 'checkuser-userlinks', htmlspecialchars( $user ) )->parse();
 			}
 		}
-		// Add CheckUser link
-		$templateParams['checkLink'] = $this->getSelfLink(
-			$this->msg( 'checkuser-check' )->text(),
-			[
-				'user' => $user,
-				'reason' => $this->opts->getValue( 'reason' )
-			]
-		);
 		// Add global user tools links
 		// Add CentralAuth link for real registered users
 		if ( $this->centralAuthToollink !== false
