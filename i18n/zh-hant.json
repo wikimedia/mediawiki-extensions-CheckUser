@@ -20,7 +20,9 @@
 			"Xiplus",
 			"一個正常人",
 			"Tranve",
-			"星海"
+			"星海",
+			"Diskdance",
+			"Winston Sung"
 		]
 	},
 	"checkuser-summary": "本工具會從最近更改中取得使用者使用過的 IP 位址，可使用 XFF 標頭資訊來取得同一客戶端 IP 位址下的使用者和編輯，即在 IP 位址後方加上 \"/xff\"。 本工具支援 IPv4 (CIDR $1-32) 與 IPv6 (CIDR $2-128)。 考量到效率問題，本工具只允許查詢最近 5000 筆編輯。 請確認你的操作符合政策規範。",
@@ -118,7 +120,7 @@
 	"checkuser-investigateblock-notice-user-page-label": "在使用者頁面留下通知",
 	"checkuser-investigateblock-notice-talk-page-label": "在使用者的討論頁面留下通知",
 	"checkuser-investigateblock-notice-position-label": "位置",
-	"checkuser-investigateblock-notice-text-label": "Wikitext",
+	"checkuser-investigateblock-notice-text-label": "wikitext",
 	"checkuser-investigateblock-notice-append": "在頁面末端",
 	"checkuser-investigateblock-notice-prepend": "在頁面頂端",
 	"checkuser-investigateblock-notice-replace": "取代頁面",
