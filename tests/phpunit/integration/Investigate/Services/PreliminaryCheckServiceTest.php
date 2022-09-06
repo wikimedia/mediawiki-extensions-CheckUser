@@ -12,6 +12,7 @@ use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\ILBFactory;
 use Wikimedia\Rdbms\ILoadBalancer;
+use Wikimedia\Rdbms\SelectQueryBuilder;
 
 /**
  * Test class for PreliminaryCheckService class
@@ -57,6 +58,9 @@ class PreliminaryCheckServiceTest extends MediaWikiIntegrationTestCase {
 	 */
 	public function testPreprocessResults( $user, $options, $expected ) {
 		$dbRef = $this->getMockDb();
+		$queryBuilder = new SelectQueryBuilder( $dbRef );
+		$dbRef->method( 'newSelectQueryBuilder' )
+			->willReturn( $queryBuilder );
 		$dbRef->method( 'selectRow' )
 			->willReturn(
 				(object)[
