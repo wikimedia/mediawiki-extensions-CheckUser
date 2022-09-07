@@ -146,9 +146,9 @@ class PreliminaryCheckService {
 	 * @return stdClass|bool
 	 */
 	public function getLocalUserData( string $username, string $wikiId ) {
-		$db = $this->getLocalDb( $wikiId );
+		$dbr = $this->getLocalDb( $wikiId );
 		$queryInfo = $this->getLocalQueryInfo( [ $username ] );
-		return $db->selectRow(
+		return $dbr->selectRow(
 			$queryInfo['tables'],
 			$queryInfo['fields'],
 			$queryInfo['conds'],
@@ -165,14 +165,14 @@ class PreliminaryCheckService {
 	 * @return array
 	 */
 	protected function getAdditionalLocalData( $row, string $wikiId ): array {
-		$db = $this->getLocalDb( $wikiId );
+		$dbr = $this->getLocalDb( $wikiId );
 
 		return [
 			'id' => $row->user_id,
 			'name' => $row->user_name,
 			'registration' => $row->user_registration,
 			'editcount' => $row->user_editcount,
-			'blocked' => $this->isUserBlocked( $row->user_id, $db ),
+			'blocked' => $this->isUserBlocked( $row->user_id, $dbr ),
 			'groups' => $this->userGroupManagerFactory
 				->getUserGroupManager( $wikiId )
 				->getUserGroups(
@@ -184,13 +184,13 @@ class PreliminaryCheckService {
 
 	/**
 	 * @param int $userId
-	 * @param IDatabase $db Database connection
+	 * @param IDatabase $dbr Database connection
 	 * @return bool
 	 */
-	protected function isUserBlocked( int $userId, IDatabase $db ): bool {
+	protected function isUserBlocked( int $userId, IDatabase $dbr ): bool {
 		// No need to use any other field than ipb_expiry
 		// so no need to use DatabaseBlock::newFromRow
-		$expiry = $db->selectField(
+		$expiry = $dbr->selectField(
 			'ipblocks',
 			'ipb_expiry',
 			[ 'ipb_user' => $userId ],
@@ -198,7 +198,7 @@ class PreliminaryCheckService {
 		);
 		if ( $expiry ) {
 			$blockObject = new DatabaseBlock;
-			$blockObject->setExpiry( $db->decodeExpiry( $expiry ) );
+			$blockObject->setExpiry( $dbr->decodeExpiry( $expiry ) );
 			return !$blockObject->isExpired();
 		} else {
 			return false;

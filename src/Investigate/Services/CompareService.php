@@ -86,7 +86,7 @@ class CompareService extends ChangeService {
 	 * @return array
 	 */
 	public function getQueryInfo( array $targets, array $excludeTargets, string $start ): array {
-		$db = $this->loadBalancer->getConnection( DB_REPLICA );
+		$dbr = $this->loadBalancer->getConnection( DB_REPLICA );
 
 		if ( $targets === [] ) {
 			throw new LogicException( 'Cannot get query info when $targets is empty.' );
@@ -97,7 +97,7 @@ class CompareService extends ChangeService {
 		foreach ( $targets as $target ) {
 			$conds = $this->buildCondsForSingleTarget( $target, $excludeTargets, $start );
 			if ( $conds !== null ) {
-				$queryBuilder = $db->newSelectQueryBuilder()
+				$queryBuilder = $dbr->newSelectQueryBuilder()
 					->select( [
 						'cuc_id',
 						'cuc_user',
@@ -110,7 +110,7 @@ class CompareService extends ChangeService {
 					->from( 'cu_changes' )
 					->where( $conds )
 					->caller( __METHOD__ );
-				if ( $db->unionSupportsOrderAndLimit() ) {
+				if ( $dbr->unionSupportsOrderAndLimit() ) {
 					$queryBuilder->orderBy( 'cuc_timestamp', SelectQueryBuilder::SORT_DESC )
 						->limit( $limit );
 				}
@@ -118,7 +118,7 @@ class CompareService extends ChangeService {
 			}
 		}
 
-		$derivedTable = $db->unionQueries( $sqlText, IDatabase::UNION_DISTINCT );
+		$derivedTable = $dbr->unionQueries( $sqlText, IDatabase::UNION_DISTINCT );
 
 		return [
 			'tables' => [ 'a' => new Subquery( $derivedTable ) ],
@@ -208,11 +208,11 @@ class CompareService extends ChangeService {
 			return $targets;
 		}
 
-		$db = $this->loadBalancer->getConnection( DB_REPLICA );
+		$dbr = $this->loadBalancer->getConnection( DB_REPLICA );
 
 		// If the database does not support order and limit on a UNION
 		// then none of the targets can be over the limit.
-		if ( !$db->unionSupportsOrderAndLimit() ) {
+		if ( !$dbr->unionSupportsOrderAndLimit() ) {
 			return [];
 		}
 
@@ -222,7 +222,7 @@ class CompareService extends ChangeService {
 		foreach ( $targets as $target ) {
 			$conds = $this->buildCondsForSingleTarget( $target, $excludeTargets, $start );
 			if ( $conds !== null ) {
-				$limitCheck = $db->newSelectQueryBuilder()
+				$limitCheck = $dbr->newSelectQueryBuilder()
 					->select( 'cuc_id' )
 					->from( 'cu_changes' )
 					->where( $conds )

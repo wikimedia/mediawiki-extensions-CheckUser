@@ -132,9 +132,9 @@ class TimelineRowFormatter {
 			$revRecord = $this->revisionStore->getRevisionById( $row->cuc_this_oldid );
 			if ( !$revRecord ) {
 				// Revision may have been deleted
-				$db = $this->loadBalancer->getConnectionRef( DB_REPLICA );
+				$dbr = $this->loadBalancer->getConnectionRef( DB_REPLICA );
 				$queryInfo = $this->revisionStore->getArchiveQueryInfo();
-				$archiveRow = $db->selectRow(
+				$archiveRow = $dbr->selectRow(
 					$queryInfo['tables'],
 					$queryInfo['fields'],
 					[ 'ar_rev_id' => $row->cuc_this_oldid ],
