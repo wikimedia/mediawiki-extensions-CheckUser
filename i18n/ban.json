@@ -5,5 +5,5 @@
 		]
 	},
 	"checkuser-create-action": "sampun kakardi",
-	"checkuser-reset-action": "jumu kruna sandi sang anganggé \"$1\""
+	"checkuser-reset-action": "jumu kruna sandi sang anganggé $1"
 }
