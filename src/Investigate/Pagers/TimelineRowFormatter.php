@@ -134,14 +134,13 @@ class TimelineRowFormatter {
 				// Revision may have been deleted
 				$dbr = $this->loadBalancer->getConnectionRef( DB_REPLICA );
 				$queryInfo = $this->revisionStore->getArchiveQueryInfo();
-				$archiveRow = $dbr->selectRow(
-					$queryInfo['tables'],
-					$queryInfo['fields'],
-					[ 'ar_rev_id' => $row->cuc_this_oldid ],
-					__METHOD__,
-					[],
-					$queryInfo['joins']
-				);
+				$archiveRow = $dbr->newSelectQueryBuilder()
+					->fields( $queryInfo['fields'] )
+					->tables( $queryInfo['tables'] )
+					->where( [ 'ar_rev_id' => $row->cuc_this_oldid ] )
+					->joinConds( $queryInfo['joins'] )
+					->caller( __METHOD__ )
+					->fetchRow();
 				if ( $archiveRow ) {
 					$revRecord = $this->revisionStore->newRevisionFromArchiveRow( $archiveRow );
 				}
