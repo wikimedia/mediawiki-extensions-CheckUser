@@ -14,6 +14,7 @@ use Wikimedia\Rdbms\Database;
 use Wikimedia\Rdbms\ILoadBalancer;
 use Wikimedia\Rdbms\Platform\MySQLPlatform;
 use Wikimedia\TestingAccessWrapper;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * @group CheckUser
@@ -437,6 +438,9 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 				'cuc_agent'      => 'foo user agent',
 			],
 		];
+
+		// Pin time to avoid failure when next second starts - T317411
+		ConvertibleTimestamp::setFakeTime( '20220904094043' );
 
 		$commonData = [
 			'cuc_namespace'  => NS_MAIN,
