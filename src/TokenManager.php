@@ -38,12 +38,14 @@ class TokenManager {
 	 */
 	public function encode( Session $session, array $data ) : string {
 		$key = $this->getSessionKey( $session );
+		$iv = $this->getInitializationVector();
 		return JWT::encode(
 			[
 				// Expiration Time https://tools.ietf.org/html/rfc7519#section-4.1.4
 				'exp' => \MWTimestamp::time() + 86400, // 24 hours from now
+				'iv' => base64_encode( $iv ),
+				'data' => $this->encrypt( $data, $iv ),
 				// Encrypt the form data to pevent it from being leaked.
-				'data' => $this->encrypt( $data, $this->getInitializationVector( $key ) ),
 			],
 			$this->getSigningKey( $key ),
 			self::SIGNING_ALGO
@@ -84,7 +86,7 @@ class TokenManager {
 
 		return $this->decrypt(
 			$payload->data,
-			$this->getInitializationVector( $key )
+			base64_decode( $payload->iv )
 		);
 	}
 
@@ -114,14 +116,13 @@ class TokenManager {
 	/**
 	 * Get the initialization vector.
 	 *
-	 * This must be consistent between encryption and decryption
-	 * and must be no more than 16 bytes in length.
+	 * This must be consistent between encryption and decryption,
+	 * must be no more than 16 bytes in length and never repeat.
 	 *
-	 * @param string $sessionKey
 	 * @return string
 	 */
-	private function getInitializationVector( string $sessionKey ) : string {
-		return hash_hmac( 'md5', $sessionKey, $this->secret, true );
+	private function getInitializationVector(): string {
+		return random_bytes( 16 );
 	}
 
 	/**
