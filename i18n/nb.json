@@ -3,6 +3,7 @@
 		"authors": [
 			"Audun",
 			"Danmichaelo",
+			"EdoAug",
 			"Finnrind",
 			"Jon Harald Søby",
 			"Laaknor",
@@ -124,7 +125,7 @@
 	"checkuser-investigate-tab-preliminary-check": "Kontoinformasjon",
 	"checkuser-investigate-tab-compare": "IP-er og brukeragenter",
 	"checkuser-investigate-tab-timeline": "Tidslinje",
-	"checkuser-investigate-targets-label": "Brukernavn og IP-adresser",
+	"checkuser-investigate-targets-label": "Brukernavn og IP-adresser:",
 	"checkuser-investigate-targets-placeholder": "Brukernavn eller 1.1.1.1",
 	"checkuser-investigate-duration-label": "Varighet",
 	"checkuser-investigate-duration-option-all": "Alle",
