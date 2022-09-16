@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser;
+namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
 use CommentStore;
 use Html;
@@ -12,10 +12,8 @@ use RangeChronologicalPager;
 use SpecialPage;
 use Wikimedia\Rdbms\IResultWrapper;
 
-class LogPager extends RangeChronologicalPager {
-	/**
-	 * @var array
-	 */
+class CheckUserLogPager extends RangeChronologicalPager {
+	/** @var array */
 	protected $searchConds;
 
 	/** @var LinkBatchFactory */
@@ -24,9 +22,7 @@ class LogPager extends RangeChronologicalPager {
 	/** @var CommentStore */
 	private $commentStore;
 
-	/**
-	 * @var array
-	 */
+	/** @var array */
 	private $opts;
 
 	/**

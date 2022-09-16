@@ -7,7 +7,7 @@ use ContribsPager;
 use Html;
 use HTMLForm;
 use MediaWiki\Cache\LinkBatchFactory;
-use MediaWiki\CheckUser\LogPager;
+use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager;
 use MediaWiki\Permissions\PermissionManager;
 use SpecialPage;
 use Title;
@@ -116,7 +116,7 @@ class SpecialCheckUserLog extends SpecialPage {
 			return;
 		}
 
-		$pager = new LogPager(
+		$pager = new CheckUserLogPager(
 			$this->getContext(),
 			$this->opts,
 			$this->linkBatchFactory,
@@ -235,7 +235,7 @@ class SpecialCheckUserLog extends SpecialPage {
 	 * the IP address in hexadecimal and if the target
 	 * is a valid IP range return the start and end
 	 * hexadecimal for that range. These are used
-	 * by LogPager.
+	 * by CheckUserLogPager.
 	 *
 	 * Otherwise return false for an invalid target.
 	 *
