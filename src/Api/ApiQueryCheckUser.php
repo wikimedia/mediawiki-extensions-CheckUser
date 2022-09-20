@@ -213,6 +213,13 @@ class ApiQueryCheckUser extends ApiQueryBase {
 							) ) {
 								$edit['summary'] = $this->msg( 'rev-deleted-comment' )->text();
 							}
+							if ( !RevisionRecord::userCanBitfield(
+								$revRecord->getVisibility(),
+								RevisionRecord::DELETED_USER,
+								$this->getUser()
+							) ) {
+								$edit['user'] = $this->msg( 'rev-deleted-user' )->text();
+							}
 						}
 					}
 					if ( $row->cuc_minor ) {
