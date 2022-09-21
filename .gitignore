@@ -1,6 +1,7 @@
 /composer.lock
 /node_modules/
 /vendor/
+tests/selenium/log
 
 # Editors
 *.kate-swp
@@ -12,6 +13,7 @@
 .buildpath
 .classpath
 .settings
+.env
 cscope.files
 cscope.out
 *.orig
