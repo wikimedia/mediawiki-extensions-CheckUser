@@ -524,13 +524,14 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 						'name' => 'reblock',
 					],
 					'reason' => [
-						'type' => 'text',
+						'type' => 'selectandother',
+						'options-message' => 'checkuser-block-reason-dropdown',
 						'label-message' => 'checkuser-reason',
 						'size' => 46,
 						'maxlength' => 150,
 						'id' => 'blockreason',
 						'name' => 'blockreason',
-						'required' => true
+						'cssclass' => 'ext-checkuser-checkuserblock-block-reason'
 					],
 				] )
 				->prepareForm()

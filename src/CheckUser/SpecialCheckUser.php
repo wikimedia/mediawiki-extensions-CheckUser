@@ -220,7 +220,8 @@ class SpecialCheckUser extends SpecialPage {
 		$opts->add( 'token', '' );
 		$opts->add( 'action', '' );
 		$opts->add( 'users', [] );
-		$opts->add( 'blockreason', '' );
+		$opts->add( 'blockreason', 'other' );
+		$opts->add( 'blockreason-other', '' );
 		$opts->add( 'blocktalk', false );
 		$opts->add( 'blockemail', false );
 		$opts->add( 'reblock', false );
@@ -548,8 +549,14 @@ class SpecialCheckUser extends SpecialPage {
 	 */
 	protected function doMassUserBlock() {
 		$users = $this->opts->getValue( 'users' );
+		$reason = $this->opts->getValue( 'blockreason-other' );
+		$reasonPrefix = $this->opts->getValue( 'blockreason' );
+
+		if ( $reasonPrefix !== '' && $reasonPrefix !== 'other' ) {
+			$reason = $reasonPrefix . $this->msg( 'colon-separator' )->inContentLanguage()->text() . $reason;
+		}
 		$blockParams = [
-			'reason' => $this->opts->getValue( 'blockreason' ),
+			'reason' => $reason,
 			'email' => $this->opts->getValue( 'blockemail' ),
 			'talk' => $this->opts->getValue( 'blocktalk' ),
 			'reblock' => $this->opts->getValue( 'reblock' ),

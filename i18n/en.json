@@ -69,6 +69,7 @@
 	"checkuser-block-failure": "'''No users blocked.'''",
 	"checkuser-block-limit": "Too many users selected.",
 	"checkuser-block-noreason": "You must give a reason for the blocks.",
+	"checkuser-block-reason-dropdown": "*Common block reasons\n**Abusing multiple accounts\n** Spamming links to external sites\n** Vandalism",
 	"checkuser-centralauth-multilock": "Multi lock selected accounts",
 	"checkuser-centralauth-multilock-list": "Multi lock the selected accounts using the links:",
 	"checkuser-centralauth-multilock-list-item": "Link $1",
