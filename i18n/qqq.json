@@ -68,6 +68,7 @@
 	"checkuser-cidr-affected-ips": "The prefix text for the number of affected IP addresses in the CheckUser CIDR form.",
 	"checkuser-cidr-too-small": "The error message shown when the calculated CIDR is too large.",
 	"checkuser-empty": "Used in [[Special:CheckUserLog]], if the CheckUser log is empty.",
+	"checkuser-range-outside-limit": "Used on Special:CheckUser if the range is outside the allowed limit.",
 	"checkuser-nomatch": "Used in [[Special:CheckUser]].\n\nSee also:\n* {{msg-mw|Checkuser-nomatch-edits}}",
 	"checkuser-nomatch-edits": "Parameters:\n* $1 - date, localized\n* $2 - time, localized\nSee also:\n* {{msg-mw|Checkuser-nomatch}}",
 	"checkuser-check": "Button label on CheckUser Special page. See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]'.\n\nAlso appears to be used as link to new CheckUser check from the results page of a CheckUser check - see screenshot \"Example IP check\".\n{{Identical|Check}}",

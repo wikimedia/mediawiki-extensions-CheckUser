@@ -335,27 +335,37 @@ class SpecialCheckUser extends SpecialPage {
 				}
 			} elseif ( $checkType == self::SUBTYPE_GET_EDITS ) {
 				if ( $isIP && $userIdentity ) {
-					$logType = $xfor ? 'ipedits-xff' : 'ipedits';
+					// Target is a IP or range
+					if ( !AbstractCheckUserPager::isValidRange( $userIdentity->getName() ) ) {
+						$out->addWikiMsg( 'checkuser-range-outside-limit', $userIdentity->getName() );
+					} else {
+						$logType = $xfor ? 'ipedits-xff' : 'ipedits';
 
-					// Ordered in descent by timestamp. Can cause large filesorts on range scans.
-					$pager = $this->getPager( self::SUBTYPE_GET_EDITS, $userIdentity, $logType, $xfor );
-					$out->addHTML( $pager->getBody() );
-				} elseif ( !$user ) {
-					$out->addWikiMsg( 'nouserspecified' );
-				} elseif ( !$userIdentity || !$userIdentity->getId() ) {
-					$out->addHTML( $this->msg( 'nosuchusershort', $user )->parseAsBlock() );
+						// Ordered in descent by timestamp. Can cause large filesorts on range scans.
+						$pager = $this->getPager( self::SUBTYPE_GET_EDITS, $userIdentity, $logType, $xfor );
+						$out->addHTML( $pager->getBody() );
+					}
 				} else {
-					// Sorting might take some time
-					AtEase::suppressWarnings();
-					set_time_limit( 60 );
-					AtEase::restoreWarnings();
+					// Target is a username
+					if ( !$user ) {
+						$out->addWikiMsg( 'nouserspecified' );
+					} elseif ( !$userIdentity || !$userIdentity->getId() ) {
+						$out->addHTML( $this->msg( 'nosuchusershort', $user )->parseAsBlock() );
+					} else {
+						// Sorting might take some time
+						AtEase::suppressWarnings();
+						set_time_limit( 60 );
+						AtEase::restoreWarnings();
 
-					$pager = $this->getPager( self::SUBTYPE_GET_EDITS, $userIdentity, 'useredits' );
-					$out->addHTML( $pager->getBody() );
+						$pager = $this->getPager( self::SUBTYPE_GET_EDITS, $userIdentity, 'useredits' );
+						$out->addHTML( $pager->getBody() );
+					}
 				}
 			} elseif ( $checkType == self::SUBTYPE_GET_USERS ) {
 				if ( !$isIP || !$userIdentity ) {
 					$out->addWikiMsg( 'badipaddress' );
+				} elseif ( !AbstractCheckUserPager::isValidRange( $userIdentity->getName() ) ) {
+					$out->addWikiMsg( 'checkuser-range-outside-limit', $userIdentity->getName() );
 				} else {
 					$logType = $xfor ? 'ipusers-xff' : 'ipusers';
 
