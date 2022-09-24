@@ -25,7 +25,6 @@ use Title;
 use TitleValue;
 use UserGroupMembership;
 use Wikimedia\IPUtils;
-use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\ILoadBalancer;
 use Wikimedia\Rdbms\SelectQueryBuilder;
@@ -56,12 +55,6 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 
 	/** @var UserIdentity */
 	protected $target;
-
-	/**
-	 * @var bool skip the query if some parsing problem happens in getQueryInfo()
-	 *   that should return with a FakeResultWrapper of no results.
-	 */
-	protected $skipQuery = false;
 
 	/** @var TokenQueryManager */
 	private $tokenQueryManager;
@@ -467,7 +460,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	 * @param string $target an IP address or CIDR range
 	 * @return bool
 	 */
-	private static function isValidRange( string $target ): bool {
+	public static function isValidRange( string $target ): bool {
 		$CIDRLimit = RequestContext::getMain()->getConfig()->get( 'CheckUserCIDRLimit' );
 		if ( IPUtils::isValidRange( $target ) ) {
 			[ $ip, $range ] = explode( '/', $target, 2 );
@@ -508,9 +501,6 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 
 	/** @inheritDoc */
 	public function reallyDoQuery( $offset, $limit, $order ) {
-		if ( $this->skipQuery ) {
-			return new FakeResultWrapper( [] );
-		}
 		list( $tables, $fields, $conds, $fname, $options, $join_conds ) =
 			$this->buildQueryInfo( $offset, $limit, $order );
 

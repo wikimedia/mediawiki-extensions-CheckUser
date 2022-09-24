@@ -38,6 +38,7 @@
 	"checkuser-cidr-res": "Common CIDR:",
 	"checkuser-cidr-affected-ips": "Affected IP addresses:",
 	"checkuser-cidr-too-small": "Range is too large",
+	"checkuser-range-outside-limit": "The range $1 is outside the allowed limits.",
 	"checkuser-empty": "The log contains no items.",
 	"checkuser-nomatch": "No matches found.",
 	"checkuser-nomatch-edits": "No matches found.\nLast edit was on $1 at $2.",

@@ -324,9 +324,6 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 			$ipConds = self::getIpConds( $this->mDb, $this->target->getName(), $this->xfor );
 			if ( $ipConds ) {
 				$queryInfo['conds'] = array_merge( $queryInfo['conds'], $ipConds );
-			} else {
-				$this->skipQuery = true;
-				return $queryInfo;
 			}
 		}
 		return $queryInfo;
