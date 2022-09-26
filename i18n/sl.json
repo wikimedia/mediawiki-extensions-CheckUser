@@ -35,6 +35,7 @@
 	"checkuser-all": "vse",
 	"checkuser-cidr-label": "Poišči skupni razpon in dotaknjene IP-naslove za seznam IP-naslovov",
 	"checkuser-cidr-res": "Pogost CIDR:",
+	"checkuser-range-outside-limit": "Razpon $1 je zunaj dovoljenih meja.",
 	"checkuser-empty": "Dnevnik ne vsebuje vnosov.",
 	"checkuser-nomatch": "Ni zadetkov.",
 	"checkuser-nomatch-edits": "Ni zadetkov.\nZadnje urejanje je bilo dne $1 ob $2.",

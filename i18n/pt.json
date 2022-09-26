@@ -51,6 +51,7 @@
 	"checkuser-cidr-res": "CIDR comum:",
 	"checkuser-cidr-affected-ips": "Endereços IP afetados:",
 	"checkuser-cidr-too-small": "A gama é demasiado grande",
+	"checkuser-range-outside-limit": "A gama $1 está fora dos limites permitidos.",
 	"checkuser-empty": "O registo não contém entradas.",
 	"checkuser-nomatch": "Não foram encontrados resultados.",
 	"checkuser-nomatch-edits": "Não foi encontrado nenhum resultado.\nA última edição foi a $1 às $2.",
