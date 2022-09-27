@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Ukabia"
+			"Ukabia",
+			"Timzy D'Great"
 		]
 	},
 	"checkuser": "Lé ọ'bànifé anya",
@@ -10,7 +11,7 @@
 	"checkuser-reason": "Mgbághapụtà:",
 	"checkuser-showlog": "Zí ndétu nchétá",
 	"checkuser-users": "Nàta òjìème",
-	"checkuser-edits": "Gá nwèté orü shí IP",
+	"checkuser-edits": "Nweta ndezi",
 	"checkuser-ips": "Gá nwèté ónúọgụgụ IP",
 	"checkuser-period": "Ógè ȯ wèrè:",
 	"checkuser-week-1": "izù nke gáráni",
