@@ -50,6 +50,7 @@
 	"checkuser-week-1": "最近 1 週",
 	"checkuser-week-2": "最近 2 週",
 	"checkuser-month": "最近 30 天",
+	"checkuser-month-2": "最近 60 天",
 	"checkuser-all": "全部",
 	"checkuser-cidr-label": "尋找 IP 位址清單中共同的範圍與影響的 IP 位址",
 	"checkuser-cidr-res": "通用 CIDR：",
