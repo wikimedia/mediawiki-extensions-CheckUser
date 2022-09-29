@@ -193,15 +193,10 @@ class PreliminaryCheckPager extends TablePager {
 				}
 				break;
 			case 'blocked':
-				if ( $value ) {
-					$formatted = $this->msg(
-						'checkuser-investigate-preliminary-table-cell-blocked'
-					)->parse();
-				} else {
-					$formatted = $this->msg(
-						'checkuser-investigate-preliminary-table-cell-unblocked'
-					)->parse();
-				}
+				$formatted = $this->msg( $value ?
+					'checkuser-investigate-preliminary-table-cell-blocked' :
+					'checkuser-investigate-preliminary-table-cell-unblocked'
+				)->parse();
 				break;
 			case 'groups':
 				$formatted = htmlspecialchars( implode( ', ', $value ) );
@@ -223,7 +218,7 @@ class PreliminaryCheckPager extends TablePager {
 	 */
 	public function getFieldNames() {
 		if ( $this->fieldNames === null ) {
-			$fullFieldNames = [
+			$this->fieldNames = [
 				'name' => 'checkuser-investigate-preliminary-table-header-name',
 				'registration' => 'checkuser-investigate-preliminary-table-header-registration',
 				'wiki' => 'checkuser-investigate-preliminary-table-header-wiki',
@@ -233,12 +228,11 @@ class PreliminaryCheckPager extends TablePager {
 			];
 
 			if ( !$this->isGlobalCheck() ) {
-				unset( $fullFieldNames['wiki'] );
+				unset( $this->fieldNames['wiki'] );
 			}
-			$this->fieldNames = $fullFieldNames;
 
-			foreach ( $this->fieldNames as $key => $val ) {
-				$this->fieldNames[$key] = $this->msg( $val )->text();
+			foreach ( $this->fieldNames as &$val ) {
+				$val = $this->msg( $val )->text();
 			}
 		}
 		return $this->fieldNames;
