@@ -40,6 +40,7 @@
 	"checkuser-cidr-res": "Заеднички CIDR:",
 	"checkuser-cidr-affected-ips": "Засегната IP-адреса:",
 	"checkuser-cidr-too-small": "Опсегот е преголем",
+	"checkuser-range-outside-limit": "Опсегот $1 е вон дозволените граници.",
 	"checkuser-empty": "Дневникот не содржи записи.",
 	"checkuser-nomatch": "Нема совпаѓања.",
 	"checkuser-nomatch-edits": "Нема совпаѓања.\nПоследното уредување се случило на $1 во $2.",

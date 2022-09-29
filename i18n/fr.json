@@ -62,6 +62,7 @@
 	"checkuser-cidr-res": "Plage CIDR commune :",
 	"checkuser-cidr-affected-ips": "Adresses IP concernées :",
 	"checkuser-cidr-too-small": "La plage est trop grande",
+	"checkuser-range-outside-limit": "La plage $1 est en dehors des limites autorisées.",
 	"checkuser-empty": "Le journal ne contient aucun élément.",
 	"checkuser-nomatch": "Recherches infructueuses.",
 	"checkuser-nomatch-edits": "Aucune occurrence trouvée.\nLa dernière modification a eu lieu le $1 à $2.",
