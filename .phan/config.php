@@ -9,6 +9,7 @@ $cfg['directory_list'] = array_merge(
 		'../../extensions/CentralAuth',
 		'../../extensions/EventLogging',
 		'../../extensions/GuidedTour',
+		'../../extensions/GlobalBlocking'
 	]
 );
 
@@ -19,6 +20,7 @@ $cfg['exclude_analysis_directory_list'] = array_merge(
 		'../../extensions/CentralAuth',
 		'../../extensions/EventLogging',
 		'../../extensions/GuidedTour',
+		'../../extensions/GlobalBlocking'
 	]
 );
 

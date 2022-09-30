@@ -4,14 +4,17 @@ namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
 use ActorMigration;
 use CentralIdLookup;
+use ExtensionRegistry;
 use FormOptions;
 use Html;
 use HtmlArmor;
 use IContextSource;
+use MediaWiki\Block\AbstractBlock;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\CheckUser\CheckUserPagerNavigationBuilder;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\TokenQueryManager;
+use MediaWiki\Extension\GlobalBlocking\GlobalBlocking;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Navigation\PagerNavigationBuilder;
 use MediaWiki\SpecialPage\SpecialPageFactory;
@@ -368,7 +371,14 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 		if ( $block instanceof DatabaseBlock ) {
 			// Locally blocked
 			$flags[] = $this->getBlockFlag( $block );
-		} elseif ( $ip == $user->getName() && $userObj->isBlockedGlobally( $ip ) ) {
+		} elseif (
+			$ip == $user->getName() &&
+			ExtensionRegistry::getInstance()->isLoaded( 'GlobalBlocking' ) &&
+			GlobalBlocking::getUserBlock(
+				$this->userFactory->newFromUserIdentity( $user ),
+				$ip
+			) instanceof AbstractBlock
+		) {
 			// Globally blocked IP
 			$flags[] = '<strong>(' . $this->msg( 'checkuser-gblocked' )->escaped() . ')</strong>';
 		} elseif ( $this->userWasBlocked( $user->getName() ) ) {
