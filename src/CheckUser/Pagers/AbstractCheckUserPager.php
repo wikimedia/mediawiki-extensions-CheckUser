@@ -9,9 +9,11 @@ use Html;
 use HtmlArmor;
 use IContextSource;
 use MediaWiki\Block\DatabaseBlock;
+use MediaWiki\CheckUser\CheckUser\CheckUserPagerNavigationBuilder;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\Navigation\PagerNavigationBuilder;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserGroupManager;
@@ -521,63 +523,35 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	}
 
 	/** @inheritDoc */
-	protected function makeLink( $text = null, $query = null, $type = null ): string {
-		$attrs = [];
-		if ( $query !== null && in_array( $type, [ 'prev', 'next' ] ) ) {
-			$attrs['rel'] = $type;
-		}
+	public function getNavigationBuilder(): PagerNavigationBuilder {
+		$pagingQueries = $this->getPagingQueries();
+		$baseQuery = array_merge( $this->getDefaultQuery(), [
+			// These query parameters are all defined here, even though some are null,
+			// to ensure consistent order of parameters when they're used.
+			'dir' => null,
+			'offset' => $this->getOffsetQuery(),
+			'limit' => null,
+		] );
 
-		if ( in_array( $type, [ 'asc', 'desc' ] ) ) {
-			$attrs['title'] = $this->msg( $type === 'asc' ? 'sort-ascending' : 'sort-descending' )->text();
-		}
-
-		if ( $type ) {
-			$attrs['class'] = "mw-{$type}link ";
-		} else {
-			$attrs['class'] = '';
-		}
-
-		if ( $query === null ) {
-			return Html::rawElement( 'span', $attrs, $text );
-		}
-		$query += $this->getDefaultQuery();
-		$attrs['class'] .= 'mw-checkuser-paging-links';
-		$opts = $this->opts;
-		$fields = array_filter( self::TOKEN_MANAGED_FIELDS, static function ( $field ) use ( $opts ) {
-			return $opts->validateName( $field );
-		} );
-		$fieldData = [];
-		foreach ( $fields as $field ) {
-			if ( !in_array( $field, [ 'dir', 'offset', 'limit' ] ) ) {
-				$fieldData[$field] = $this->opts->getValue( $field );
-			} else {
-				// Never persist the dir, offset and limit
-				// as the pagination links are responsible
-				// for setting or not setting them.
-				$fieldData[$field] = null;
-			}
-		}
-
-		$fieldData['user'] = $this->target->getName();
-		if ( $query ) {
-			foreach ( $query as $queryItem => $queryValue ) {
-				$fieldData[$queryItem] = $queryValue;
-			}
-		}
-		$formFields = [ Html::hidden(
-			'wpEditToken',
-			$this->getCsrfTokenSet()->getToken(),
-			[ 'id' => 'wpEditToken' ]
-		) ];
-		$formFields[] = Html::hidden(
-			'token',
-			$this->tokenQueryManager->updateToken( $this->getRequest(), $fieldData )
+		$navBuilder = new CheckUserPagerNavigationBuilder(
+			$this->getContext(),
+			$this->tokenQueryManager,
+			$this->getCsrfTokenSet(),
+			$this->getRequest(),
+			$this->opts,
+			$this->target
 		);
-		$formFields[] = Html::submitButton(
-			$text, $attrs
-		);
-		return Html::rawElement( 'form', [ 'method' => 'post', 'class' => 'mw-checkuser-paging-links-form' ],
-			implode( '', $formFields )
-		);
+		$navBuilder
+			->setPage( $this->getTitle() )
+			->setLinkQuery( $baseQuery )
+			->setLimits( $this->mLimitsShown )
+			->setLimitLinkQueryParam( 'limit' )
+			->setCurrentLimit( $this->mLimit )
+			->setPrevLinkQuery( $pagingQueries['prev'] ?: null )
+			->setNextLinkQuery( $pagingQueries['next'] ?: null )
+			->setFirstLinkQuery( $pagingQueries['first'] ?: null )
+			->setLastLinkQuery( $pagingQueries['last'] ?: null );
+
+		return $navBuilder;
 	}
 }
