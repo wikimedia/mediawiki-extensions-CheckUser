@@ -27,8 +27,10 @@ class EventLogger {
 		if ( $this->extensionRegistry->isLoaded( 'EventLogging' ) ) {
 			EventLogging::logEvent(
 				'SpecialInvestigate',
-				// Revision ID of the schema - keep this in sync with extension.json
-				20261100,
+				// NOTE: The 'SpecialInvestigate' event was migrated to the Event Platform, and is
+				//  no longer using the legacy EventLogging schema from metawiki. $revId is actually
+				//  overridden by the EventLoggingSchemas extension attribute in extension.json.
+				-1,
 				$event
 			);
 		}
