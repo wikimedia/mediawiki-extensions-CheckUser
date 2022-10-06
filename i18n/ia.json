@@ -36,6 +36,7 @@
 	"checkuser-cidr-res": "CIDR commun:",
 	"checkuser-cidr-affected-ips": "Adresses IP concernite:",
 	"checkuser-cidr-too-small": "Le gamma es troppo large",
+	"checkuser-range-outside-limit": "Le gamma $1 es foras del limites permittite.",
 	"checkuser-empty": "Le registro non contine entratas.",
 	"checkuser-nomatch": "Nihil trovate.",
 	"checkuser-nomatch-edits": "Nulle resultato trovate.\nLe ultime modification esseva le $1 a $2.",
