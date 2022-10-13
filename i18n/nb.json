@@ -88,7 +88,7 @@
 	"checkuser-autocreate-action": "ble automatisk opprettet",
 	"checkuser-create-action": "ble opprettet",
 	"checkuser-email-action": "sendte e-post til «$1»",
-	"checkuser-reset-action": "nullstilte passord for «$1»",
+	"checkuser-reset-action": "nullstilte passord for brukeren $1",
 	"checkuser-token-fail": "Øktfeil. Prøv igjen.",
 	"checkuser-login-failure": "Kunne ikke logge inn på {{SITENAME}} som $1",
 	"checkuser-login-success": "Logget inn på {{SITENAME}} som $1",
