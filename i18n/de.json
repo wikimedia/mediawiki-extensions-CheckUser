@@ -110,6 +110,7 @@
 	"checkuser-reset-action": "forderte ein Passwort für {{GENDER:$1|Benutzer|Benutzerin}} $1 an",
 	"checkuser-token-fail": "Sitzungsfehler. Bitte erneut versuchen.",
 	"checkuser-login-failure": "Anmeldung bei {{SITENAME}} als $1 fehlgeschlagen",
+	"checkuser-login-failure-with-good-password": "Anmeldung bei {{SITENAME}} als $1 fehlgeschlagen, es wurde aber das richtige Passwort verwendet",
 	"checkuser-login-success": "Erfolgreich bei {{SITENAME}} angemeldet als $1",
 	"checkuser-link-investigate-label": "Das neue CheckUser-Tool testen",
 	"checkuser-investigateblock": "Benutzer sperren",
