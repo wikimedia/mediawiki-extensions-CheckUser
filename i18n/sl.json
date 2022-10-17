@@ -83,7 +83,7 @@
 	"checkuser-create-action": "je bil ustvarjen",
 	"checkuser-email-action": "pošlji e-pošto uporabniku »$1«",
 	"checkuser-reset-action": "ponastavi geslo uporabnika »$1«",
-	"checkuser-token-fail": "Seja je spodletela. Poskusi ponovno.",
+	"checkuser-token-fail": "Seja je spodletela. Poskusite znova.",
 	"checkuser-login-failure": "Prijava na {{SITENAME}} kot $1 je spodletela",
 	"checkuser-login-success": "Uspešna prijava na {{SITENAME}} kot $1"
 }
