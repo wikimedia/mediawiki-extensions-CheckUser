@@ -120,6 +120,7 @@
 	"checkuser-reset-action": "réinitialisation du mot de passe de l’utilisateur $1",
 	"checkuser-token-fail": "Échec de session. Veuillez réessayer.",
 	"checkuser-login-failure": "Échec de connexion à {{SITENAME}} en tant que $1",
+	"checkuser-login-failure-with-good-password": "Échec de la connexion à {{SITENAME}} en tant que $1, mais le mot de passe était correct.",
 	"checkuser-login-success": "Connexion réussie à {{SITENAME}} en tant que $1",
 	"group-checkuser.css": "/* Le CSS placé ici n’affectera que les membres du groupe « checkuser » */",
 	"group-checkuser.js": "/* Le Javascript placé ici n’affectera que les membres du groupe « checkuser » */",

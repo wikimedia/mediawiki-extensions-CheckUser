@@ -98,6 +98,7 @@
 	"checkuser-reset-action": "смени лозинка за корисникот „$1“",
 	"checkuser-token-fail": "Седницата не успеа. Обидете се повторно.",
 	"checkuser-login-failure": "Не успеав да ве најавам на {{SITENAME}} како $1",
+	"checkuser-login-failure-with-good-password": "Не успеав да ве најавам на {{SITENAME}} како $1, но лозинката беше исправна",
 	"checkuser-login-success": "Успешно ве најавив на {{SITENAME}} како $1",
 	"group-checkuser.css": "/* Тука поставениот CSS ќе се применува само врз проверувачи */",
 	"group-checkuser.js": "/* Тука поставениот JS ќе се применува само врз проверувачи */",

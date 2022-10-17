@@ -103,6 +103,7 @@
 	"checkuser-reset-action": "איפס את הסיסמה של המשתמש $1",
 	"checkuser-token-fail": "כשל התחברות. נא לנסות שוב.",
 	"checkuser-login-failure": "לא הצליח להיכנס לאתר {{SITENAME}} בתור $1",
+	"checkuser-login-failure-with-good-password": "הכניסה לאתר {{SITENAME}} בתור $1 נכשלה, אבל הסיסמה הייתה נכונה",
 	"checkuser-login-success": "נכנס בהצלחה לאתר {{SITENAME}} בתור $1",
 	"group-checkuser.css": "/* הסגנונות הנכתבים כאן ישפיעו על בודקים בלבד */",
 	"group-checkuser.js": "/* כל הסקריפטים הנכתבים כאן ייטענו עבור בודקים בלבד */",

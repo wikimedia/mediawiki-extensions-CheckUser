@@ -84,6 +84,7 @@
 	"checkuser-reset-action": "ponastavitev gesla {{GENDER:$1|uporabnika|uporabnice}} »$1«",
 	"checkuser-token-fail": "Seja je spodletela. Poskusite znova.",
 	"checkuser-login-failure": "Prijava na {{SITENAME}} kot $1 je spodletela",
+	"checkuser-login-failure-with-good-password": "Prijava v projekt {{SITENAME}} kot $1 ni uspela, vendar je bilo geslo pravilno",
 	"checkuser-login-success": "Uspešna prijava na {{SITENAME}} kot $1",
 	"checkuser-investigate-tour-targets-desc": "Dodajte do $1 {{PLURAL:$1|uporabniško ime ali IP|uporabniški imeni ali IP-ja|uporabniška imena ali IP-je|uporabniških imen ali IP-jev}} in pridobite vse podatke na enem mestu. Ne skrbite, za vsakega od njih bomo ustvarili ločen CheckUser dnevniški zapis."
 }
