@@ -83,7 +83,7 @@
 	"checkuser-create-action": "je bil ustvarjen",
 	"checkuser-email-action": "pošlji e-pošto uporabniku »$1«",
 	"checkuser-reset-action": "ponastavi geslo uporabnika »$1«",
-	"checkuser-token-fail": "Seja je spodletela. Poskusi ponovno.",
+	"checkuser-token-fail": "Seja je spodletela. Poskusite znova.",
 	"checkuser-login-failure": "Prijava na {{SITENAME}} kot $1 je spodletela",
 	"checkuser-login-success": "Uspešna prijava na {{SITENAME}} kot $1",
 	"checkuser-investigate-tour-targets-desc": "Dodajte do $1 {{PLURAL:$1|uporabniško ime ali IP|uporabniški imeni ali IP-ja|uporabniška imena ali IP-je|uporabniških imen ali IP-jev}} in pridobite vse podatke na enem mestu. Ne skrbite, za vsakega od njih bomo ustvarili ločen CheckUser dnevniški zapis."

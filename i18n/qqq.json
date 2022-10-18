@@ -32,7 +32,8 @@
 			"The Evil IP address",
 			"Umherirrender",
 			"Xiplus",
-			"Verdy p"
+			"Verdy p",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Explanation of CheckUser tool. See [[mw:Extension:CheckUser#Basic_interface|screenshot titled 'Basic CheckUser interface']].\n\nParameters:\n* $1 - an integer. default value: 16\n* $2 - an integer. default value: 32",
@@ -118,7 +119,7 @@
 	"checkuser-userlinks-ip": "{{notranslate}}\nLinks shown next to an IP address in a CheckUser result entry. $1 - IP address\n\nSee also:\n*{{msg-mw|Signature}}\n*{{msg-mw|Checkuser-userlinks}}",
 	"checkuser-toollinks": "{{notranslate}}\nParameters:\n* $1 - IP address",
 	"checkuser-token-fail": "Error message shown when the CSRF token does not match the current session.",
-	"checkuser-login-failure": "Log entry shown in CheckUser logs for failed login attemps",
+	"checkuser-login-failure": "Log entry shown in CheckUser logs for failed login attempts",
 	"checkuser-login-success": "Log entry shown in CheckUser logs for successful login attempts",
 	"group-checkuser.css": "{{doc-group|checkuser|css}}",
 	"group-checkuser.js": "{{doc-group|checkuser|js}}",
