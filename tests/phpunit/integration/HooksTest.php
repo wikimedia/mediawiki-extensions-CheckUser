@@ -2,7 +2,11 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration;
 
+use MailAddress;
+use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\Hooks;
+use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
+use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use RecentChange;
 use RequestContext;
@@ -15,11 +19,18 @@ use Wikimedia\TestingAccessWrapper;
  */
 class HooksTest extends MediaWikiIntegrationTestCase {
 
+	use MockAuthorityTrait;
+
 	public function setUp(): void {
 		parent::setUp();
 
 		$this->tablesUsed = [
-			'cu_changes'
+			'cu_changes',
+			'user',
+			'logging',
+			'ipblocks',
+			'ipblocks_restrictions',
+			'recentchanges'
 		];
 
 		$this->setMwGlobals( [
@@ -37,12 +48,22 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 
 	/**
 	 * @covers ::onUserMergeAccountFields
+	 * @todo test that the values returned by the hook are correct or not invalid?
 	 */
 	public function testOnUserMergeAccountFields() {
 		$updateFields = [];
+		$expectedCount = 3;
+		$actorMigrationStage = $this->getServiceContainer()->getMainConfig()->get( 'CheckUserActorMigrationStage' );
+		if ( ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) ) {
+			$expectedCount++;
+		}
+		$actorMigrationStage = $this->getServiceContainer()->getMainConfig()->get( 'CheckUserLogActorMigrationStage' );
+		if ( ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) ) {
+			$expectedCount++;
+		}
 		Hooks::onUserMergeAccountFields( $updateFields );
 		$this->assertCount(
-			3,
+			$expectedCount,
 			$updateFields,
 			'3 updates were added'
 		);
@@ -244,31 +265,31 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		// From RecentChangeTest.php's provideAttribs but modified
 		$attribs = $this->getDefaultRecentChangeAttribs();
 		yield 'anon user' => [
-			[
+			array_merge( $attribs, [
 				'rc_type' => RC_EDIT,
 				'rc_user' => 0,
 				'rc_user_text' => '192.168.0.1',
-			] + $attribs,
+			] ),
 			[ 'cuc_user_text', 'cuc_user', 'cuc_type' ],
 			[ '192.168.0.1', 0, RC_EDIT ]
 		];
 
 		yield 'registered user' => [
-			[
+			array_merge( $attribs, [
 				'rc_type' => RC_EDIT,
 				'rc_user' => 5,
 				'rc_user_text' => 'Test',
-			] + $attribs,
+			] ),
 			[ 'cuc_user_text', 'cuc_user' ],
 			[ 'Test', 5 ]
 		];
 
 		yield 'special title' => [
-			[
+			array_merge( $attribs, [
 				'rc_namespace' => NS_SPECIAL,
 				'rc_title' => 'Log',
 				'rc_type' => RC_LOG,
-			] + $attribs,
+			] ),
 			[ 'cuc_title', 'cuc_timestamp', 'cuc_namespace', 'cuc_type' ],
 			[ 'Log', $attribs['rc_timestamp'], NS_SPECIAL, RC_LOG ]
 		];
@@ -278,21 +299,21 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		// From RecentChangeTest.php's provideAttribs but modified
 		$attribs = $this->getDefaultRecentChangeAttribs();
 		yield 'external user' => [
-			[
+			array_merge( $attribs, [
 				'rc_type' => RC_EXTERNAL,
 				'rc_user' => 0,
 				'rc_user_text' => 'm>External User',
-			] + $attribs,
+			] ),
 			[ 'cuc_ip' ],
 			[]
 		];
 
 		yield 'categorize' => [
-			[
+			array_merge( $attribs, [
 				'rc_namespace' => NS_MAIN,
 				'rc_title' => '',
 				'rc_type' => RC_CATEGORIZE,
-			] + $attribs,
+			] ),
 			[ 'cuc_ip' ],
 			[]
 		];
@@ -321,5 +342,251 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 				->fetchRowCount(),
 			'The row was not inserted or was inserted with the wrong data'
 		);
+	}
+
+	/**
+	 * @covers ::onLocalUserCreated
+	 * @dataProvider provideOnLocalUserCreated
+	 */
+	public function testOnLocalUserCreated( $autocreated ) {
+		$user = $this->getTestUser()->getUser();
+		( new Hooks() )->onLocalUserCreated( $user, $autocreated );
+		$this->assertSelect(
+			'cu_changes',
+			[ 'cuc_namespace', 'cuc_actiontext', 'cuc_user', 'cuc_user_text' ],
+			[],
+			[ [
+				NS_USER,
+				wfMessage(
+					$autocreated ? 'checkuser-autocreate-action' : 'checkuser-create-action'
+				)->inContentLanguage()->text(),
+				$user->getId(),
+				$user->getName()
+			] ]
+		);
+	}
+
+	public function provideOnLocalUserCreated() {
+		return [
+			[ true ],
+			[ false ]
+		];
+	}
+
+	/**
+	 * @covers ::onEmailUser
+	 * @dataProvider provideTestOnEmailUserNoSave
+	 */
+	public function testOnEmailUserNoSave( $to, $from ) {
+		$subject = '';
+		$text = '';
+		$error = false;
+		( new Hooks() )->onEmailUser( $to, $from, $subject, $text, $error );
+		$this->assertSame(
+			0,
+			$this->db->newSelectQueryBuilder()
+				->field( 'cuc_ip' )
+				->table( 'cu_changes' )
+				->fetchRowCount(),
+			'A row was inserted to cu_changes when it should not have been.'
+		);
+	}
+
+	public function provideTestOnEmailUserNoSave() {
+		return [
+			[
+				new MailAddress( 'test@test.com', 'Test' ),
+				new MailAddress( 'test@test.com', 'Test' ),
+			]
+		];
+	}
+
+	/**
+	 * @covers ::onEmailUser
+	 */
+	public function testOnEmailUserNoSecretKey() {
+		$this->setMwGlobals( [
+			'wgSecretKey' => null
+		] );
+		$to = new MailAddress( 'test@test.com', 'Test' );
+		$from = new MailAddress( 'testing@test.com', 'Testing' );
+		$this->testOnEmailUserNoSave( $to, $from );
+	}
+
+	/**
+	 * @covers ::onEmailUser
+	 */
+	public function testOnEmailUserReadOnlyMode() {
+		$this->setMwGlobals( [
+			'wgReadOnly' => true
+		] );
+		$to = new MailAddress( 'test@test.com', 'Test' );
+		$from = new MailAddress( 'testing@test.com', 'Testing' );
+		$this->testOnEmailUserNoSave( $to, $from );
+	}
+
+	public function commonOnEmailUser( $to, $from, $fields, $expectedValues ) {
+		$subject = 'Test subject';
+		$text = 'Test text';
+		$error = false;
+		( new Hooks() )->onEmailUser( $to, $from, $subject, $text, $error );
+		\DeferredUpdates::doUpdates();
+		$fields[] = 'cuc_namespace';
+		$expectedValues[] = NS_USER;
+		$this->assertSelect(
+			'cu_changes',
+			$fields,
+			[],
+			[ $expectedValues ]
+		);
+	}
+
+	/**
+	 * @covers ::onEmailUser
+	 */
+	public function testOnEmailUserFrom() {
+		$userTo = $this->getTestUser()->getUserIdentity();
+		$userFrom = $this->getTestSysop()->getUserIdentity();
+		$this->commonOnEmailUser(
+			new MailAddress( 'test@test.com', $userTo->getName() ),
+			new MailAddress( 'testing@test.com', $userFrom->getName() ),
+			[ 'cuc_user', 'cuc_user_text' ],
+			[ $userFrom->getId(), $userFrom->getName() ]
+		);
+	}
+
+	/**
+	 * @covers ::onEmailUser
+	 */
+	public function testOnEmailUserActionText() {
+		global $wgSecretKey;
+		$userTo = $this->getTestUser()->getUser();
+		$userFrom = $this->getTestSysop()->getUserIdentity();
+		$expectedActionText = wfMessage(
+			'checkuser-email-action',
+			md5( $userTo->getEmail() . $userTo->getId() . $wgSecretKey )
+		)->inContentLanguage()->text();
+		$this->commonOnEmailUser(
+			new MailAddress( 'test@test.com', $userTo->getName() ),
+			new MailAddress( 'testing@test.com', $userFrom->getName() ),
+			[ 'cuc_actiontext' ],
+			[ $expectedActionText ]
+		);
+	}
+
+	/**
+	 * @covers ::onRecentChange_save
+	 * @dataProvider provideUpdateCheckUserData
+	 * @todo test that maybePruneIPData() is called?
+	 */
+	public function testonRecentChange_save( $rcAttribs, $fields, $expectedRow ) {
+		$rc = new RecentChange;
+		$rc->setAttribs( $rcAttribs );
+		( new Hooks() )->onRecentChange_save( $rc );
+		foreach ( $fields as $index => $field ) {
+			if ( $field === 'cuc_timestamp' ) {
+				$expectedRow[$index] = $this->db->timestamp( $expectedRow[$index] );
+			}
+		}
+		$this->assertSelect(
+			'cu_changes',
+			$fields,
+			'',
+			[ $expectedRow ]
+		);
+	}
+
+	/**
+	 * @covers ::onPerformRetroactiveAutoblock
+	 * @dataProvider provideOnPerformRetroactiveAutoblock
+	 * @todo test that the $blockIds variable is correct after calling the hook
+	 */
+	public function testOnPerformRetroactiveAutoblock( $isIP, $hasCUChangesRow, $shouldAutoblock ) {
+		if ( $isIP ) {
+			$target = UserIdentityValue::newAnonymous( '127.0.0.1' );
+			// Need to create an actor ID for the IP in case it makes no edits as part of the test.
+			$this->getServiceContainer()->getActorStore()->createNewActor( $target, $this->db );
+		} else {
+			$target = $this->getTestUser()->getUserIdentity();
+		}
+		$this->setTemporaryHook(
+			'CheckUserInsertChangesRow',
+			static function ( string &$ip, string &$xff, array &$row ) {
+				$ip = '127.0.0.2';
+			}
+		);
+		if ( $hasCUChangesRow ) {
+			$rc = new RecentChange();
+			$rc->setAttribs(
+				array_merge( $this->getDefaultRecentChangeAttribs(), [
+					'rc_user' => $target->getId(),
+					'rc_user_text' => $target->getName()
+				] )
+			);
+			$rc->setExtra( [
+				'pageStatus' => 'changed'
+			] );
+			$rc->save();
+		}
+		$userAuthority = $this->mockRegisteredUltimateAuthority();
+		$this->getServiceContainer()->getBlockUserFactory()->newBlockUser(
+			$target,
+			$userAuthority,
+			'1 week'
+		)->placeBlock();
+		$block = DatabaseBlock::newFromTarget( $target->getName() );
+		$result = ( new Hooks() )->onPerformRetroactiveAutoblock( $block, $blockIds );
+		$blockManager = $this->getServiceContainer()->getBlockManager();
+		$ipBlock = $blockManager->getIpBlock( '127.0.0.2', false );
+		if ( $shouldAutoblock ) {
+			$this->assertNotNull(
+				$ipBlock,
+				'One autoblock should have been placed on the IP.'
+			);
+			$this->assertFalse(
+				$result,
+				'The hook applied autoblocks so it should have returned false to stop further execution.'
+			);
+		} else {
+			$this->assertNull(
+				$ipBlock,
+				'No autoblock should have been placed on the IP.'
+			);
+			if ( $isIP ) {
+				$this->assertTrue(
+					$result,
+					'The hook shouldn\'t have applied autoblocks so it should not stop execution of further hooks.'
+				);
+			} else {
+				$this->assertFalse(
+					$result,
+					'The hook should have attempted to autoblock, found no IPs to block and returned false.'
+				);
+			}
+		}
+	}
+
+	/**
+	 * Returns an array of arrays with each second
+	 * level array containing boolean values to
+	 * represent test conditions as follows:
+	 * * The first is whether the target of the block
+	 *    that was previously applied is an IP.
+	 * * The second is whether the the target of the
+	 *    block will have made any actions to store
+	 *    an entry in cu_changes before the retroactive
+	 *    autoblock.
+	 * * The third is whether the hook should apply a
+	 *    retroactive autoblock to the IP used.
+	 *
+	 * @return array[]
+	 */
+	public function provideOnPerformRetroactiveAutoblock() {
+		return [
+			[ true, false, false ],
+			[ true, true, false ],
+			[ false, false, false ],
+			[ false, true, true ],
+		];
 	}
 }
