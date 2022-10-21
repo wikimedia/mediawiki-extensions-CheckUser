@@ -17,6 +17,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  * @group Database
  *
  * @covers \MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager
+ * @coversDefaultClass \MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager
  */
 class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 
@@ -64,13 +65,14 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
+	 * @param int $limit
 	 * @return TestingAccessWrapper
 	 */
-	protected function setUpObject() {
+	protected function setUpObject( $limit = 0 ) {
 		$opts = new FormOptions();
 		$opts->add( 'reason', '' );
 		$opts->add( 'period', 0 );
-		$opts->add( 'limit', '' );
+		$opts->add( 'limit', $limit );
 		$opts->add( 'dir', '' );
 		$opts->add( 'offset', '' );
 		$services = $this->getServiceContainer();
@@ -92,7 +94,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager::getIpConds
+	 * @covers ::getIpConds
 	 * @dataProvider provideGetIpConds
 	 */
 	public function testGetIpConds( $target, $expected ) {
@@ -130,7 +132,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager::getIpConds
+	 * @covers ::getIpConds
 	 */
 	public function testGetIpCondsLowerThanLimit() {
 		// Need to not have these in a dataProvider as $this->lowerThanLimit... isn't set when
@@ -140,7 +142,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager::isValidRange
+	 * @covers ::isValidRange
 	 * @dataProvider provideIsValidRange
 	 */
 	public function testIsValidRange( $target, $expected ) {
@@ -166,7 +168,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager::isValidRange
+	 * @covers ::isValidRange
 	 */
 	public function testIsValidRangeLowerThanLimit() {
 		$this->testIsValidRange( "0.17.184.5/{$this->lowerThanLimitIPv4}", false );
@@ -174,7 +176,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager::getDateRangeCond
+	 * @covers ::getDateRangeCond
 	 * @dataProvider provideGetDateRangeCond
 	 */
 	public function testGetDateRangeCond( $period, $fakeTime, $expected ) {
@@ -210,7 +212,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager::userWasBlocked
+	 * @covers ::userWasBlocked
 	 * @dataProvider provideUserWasBlocked
 	 */
 	public function testUserWasBlocked( $block ) {
@@ -238,14 +240,38 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager::noMatchesMessage
+	 * @covers ::getEmptyBody
 	 */
-	public function testNoMatchesMessageNoCheckLast() {
+	public function testGetEmptyBodyNoCheckLast() {
 		$object = $this->setUpObject();
+		$object->target = UserIdentityValue::newRegistered( 1, 'test' );
+		$object->xfor = false;
 		$this->assertSame(
-			wfMessage( 'checkuser-nomatch' )->parseAsBlock(),
-			$object->noMatchesMessage( 'test', false ),
+			wfMessage( 'checkuser-nomatch' )->parseAsBlock() . "\n",
+			$object->getEmptyBody(),
 			'The checkuser-nomatch message should have been returned.'
 		);
+	}
+
+	/**
+	 * @covers ::__construct()
+	 * @dataProvider provideTestFormOptionsLimitValue
+	 */
+	public function testFormOptionsLimitValue( $formSubmittedLimit, $maximumLimit, $expectedLimit ) {
+		$this->setMwGlobals( 'wgCheckUserMaximumRowCount', $maximumLimit );
+		$object = $this->setUpObject( $formSubmittedLimit );
+		$this->assertSame(
+			$expectedLimit,
+			$object->mLimit,
+			'The limit used for running the check was not the expected value given the user defined and maximum limit.'
+		);
+	}
+
+	public function provideTestFormOptionsLimitValue() {
+		return [
+			'Empty limit' => [ 0, 5000, 5000 ],
+			'Limit under maximum limit' => [ 200, 5000, 200 ],
+			'Limit over maximum limit' => [ 500, 200, 200 ],
+		];
 	}
 }

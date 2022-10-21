@@ -37,6 +37,12 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 
+	/**
+	 * Form fields that when paging should be set and managed
+	 *  by the token. Used so the client cannot generate results
+	 *  that do not match the original request which generated
+	 *  the associated CheckUserLog entry.
+	 */
 	public const TOKEN_MANAGED_FIELDS = [
 		'reason',
 		'checktype',
@@ -45,6 +51,16 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 		'limit',
 		'offset',
 	];
+
+	/**
+	 * Null if $target is a user.
+	 * Boolean is $target is a IP / range.
+	 *  - False if XFF is not appended
+	 *  - True if XFF is appended
+	 *
+	 * @var null|bool
+	 */
+	protected $xfor = null;
 
 	/** @var string */
 	private $logType;
@@ -308,16 +324,15 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	}
 
 	/**
-	 * Give a "no matches found for X" message.
-	 * If $checkLast, then mention the last edit by this user or IP.
+	 * Generates the "no matches for X" message.
+	 * Unless the target was an xff also try
+	 *  to display the time of the last edit.
 	 *
-	 * @param string $userName
-	 * @param bool $checkLast
-	 * @return string
+	 * @inheritDoc
 	 */
-	protected function noMatchesMessage( string $userName, bool $checkLast = true ): string {
-		if ( $checkLast ) {
-			$user = $this->userIdentityLookup->getUserIdentityByName( $userName );
+	protected function getEmptyBody(): string {
+		if ( $this->xfor ?? true ) {
+			$user = $this->userIdentityLookup->getUserIdentityByName( $this->target->getName() );
 
 			$lastEdit = false;
 
@@ -338,7 +353,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 				->field( 'log_timestamp' )
 				->orderBy( 'log_timestamp', SelectQueryBuilder::SORT_DESC )
 				->join( 'actor', null, 'actor_id=log_actor' )
-				->where( [ 'actor_name' => $userName ] )
+				->where( [ 'actor_name' => $this->target->getName() ] )
 				->caller( __METHOD__ )
 				->fetchField()
 			);
@@ -351,10 +366,10 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 				return $this->msg( 'checkuser-nomatch-edits',
 					$lang->userDate( $lastEditTime, $contextUser ),
 					$lang->userTime( $lastEditTime, $contextUser )
-				)->parseAsBlock();
+				)->parseAsBlock() . "\n";
 			}
 		}
-		return $this->msg( 'checkuser-nomatch' )->parseAsBlock();
+		return $this->msg( 'checkuser-nomatch' )->parseAsBlock() . "\n";
 	}
 
 	/**
@@ -512,24 +527,18 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	}
 
 	/** @inheritDoc */
-	public function reallyDoQuery( $offset, $limit, $order ) {
-		list( $tables, $fields, $conds, $fname, $options, $join_conds ) =
-			$this->buildQueryInfo( $offset, $limit, $order );
-
-		return $this->mDb->select( $tables, $fields, $conds, $fname, $options, $join_conds );
+	public function getIndexField() {
+		return 'cuc_timestamp';
 	}
 
 	/** @inheritDoc */
 	protected function getStartBody(): string {
-		$s = $this->getNavigationBar();
-		$s .= '<div id="checkuserresults">';
-
-		return $s;
+		return $this->getNavigationBar() . '<div id="checkuserresults">';
 	}
 
 	/** @inheritDoc */
 	protected function getEndBody(): string {
-		return $this->getNavigationBar();
+		return '</div>' . $this->getNavigationBar();
 	}
 
 	/** @inheritDoc */

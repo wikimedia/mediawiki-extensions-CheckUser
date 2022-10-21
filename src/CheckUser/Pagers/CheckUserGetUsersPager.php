@@ -34,16 +34,6 @@ use Wikimedia\Rdbms\IResultWrapper;
 use Xml;
 
 class CheckUserGetUsersPager extends AbstractCheckUserPager {
-
-	/**
-	 * Boolean is $target is a IP / range.
-	 *  - False if XFF is not appended
-	 *  - True if XFF is appended
-	 *
-	 * @var bool
-	 */
-	protected $xfor = null;
-
 	/** @var bool */
 	protected $canPerformBlocks;
 
@@ -390,14 +380,11 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	}
 
 	/** @inheritDoc */
-	public function getIndexField() {
-		return 'cuc_timestamp';
-	}
-
-	/** @inheritDoc */
 	protected function getStartBody(): string {
-		$s = $this->getNavigationBar()
-			. ( new ListToggle( $this->getOutput() ) )->getHTML();
+		$s = $this->getNavigationBar();
+		if ( $this->mResult->numRows() ) {
+			$s .= ( new ListToggle( $this->getOutput() ) )->getHTML();
+		}
 		if ( $this->canPerformBlocks ) {
 			$s .= Xml::openElement(
 				'form',
@@ -411,7 +398,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			);
 		}
 
-		$s .= '<div id="checkuserresults"><ul>';
+		$s .= '<div id="checkuserresults" class="mw-checkuser-get-users-results"><ul>';
 
 		return $s;
 	}
@@ -419,8 +406,10 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	/** @inheritDoc */
 	protected function getEndBody(): string {
 		$fieldset = new HTMLFieldsetCheckUser( [], $this->getContext(), '' );
-		$s = '</ul></div>'
-			. ( new ListToggle( $this->getOutput() ) )->getHTML();
+		$s = '</ul></div>';
+		if ( $this->mResult->numRows() ) {
+			$s .= ( new ListToggle( $this->getOutput() ) )->getHTML();
+		}
 		// T314217 - cannot have forms inside of forms.
 		// $s .= $this->getNavigationBar();
 		if ( $this->canPerformBlocks ) {
@@ -546,10 +535,5 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		}
 
 		return $s;
-	}
-
-	/** @inheritDoc */
-	protected function getEmptyBody(): string {
-		return $this->noMatchesMessage( $this->target->getName(), !$this->xfor ) . "\n";
 	}
 }

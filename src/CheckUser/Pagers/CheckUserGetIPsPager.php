@@ -119,18 +119,9 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 	}
 
 	/** @inheritDoc */
-	protected function getEmptyBody(): string {
-		return $this->noMatchesMessage( $this->target->getName() ) . "\n";
-	}
-
-	/** @inheritDoc */
 	protected function getStartBody(): string {
-		return parent::getStartBody() . '<ul>';
-	}
-
-	/** @inheritDoc */
-	protected function getEndBody(): string {
-		return '</ul></div>' . parent::getEndBody();
+		return $this->getNavigationBar()
+			. '<div id="checkuserresults" class="mw-checkuser-get-ips-results"><ul>';
 	}
 
 	/**

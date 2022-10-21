@@ -46,16 +46,6 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	 */
 	private $flagCache = [];
 
-	/**
-	 * Null if $target is a user.
-	 * Boolean is $target is a IP / range.
-	 *  - False if XFF is not appended
-	 *  - True if XFF is appended
-	 *
-	 * @var null|bool
-	 */
-	protected $xfor = null;
-
 	/** @var array */
 	protected $formattedRevisionComments = [];
 
@@ -312,11 +302,6 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	}
 
 	/** @inheritDoc */
-	protected function getEmptyBody(): string {
-		return $this->noMatchesMessage( $this->target->getName(), !$this->xfor ) . "\n";
-	}
-
-	/** @inheritDoc */
 	public function getQueryInfo(): array {
 		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
 
@@ -350,16 +335,6 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 			}
 		}
 		return $queryInfo;
-	}
-
-	/** @inheritDoc */
-	public function getIndexField() {
-		return 'cuc_timestamp';
-	}
-
-	/** @inheritDoc */
-	protected function getEndBody(): string {
-		return '</ul></div>' . parent::getEndBody();
 	}
 
 	/** @inheritDoc */
