@@ -80,6 +80,8 @@
 	"checkuser-block-limit": "Há demasiados utilizadores selecionados.",
 	"checkuser-block-noreason": "Tem de especificar um motivo para os bloqueios.",
 	"checkuser-centralauth-multilock": "Bloquear contas globais selecionadas",
+	"checkuser-centralauth-multilock-list": "Bloquear as contas globais selecionadas usando as hiperligações:",
+	"checkuser-centralauth-multilock-list-item": "Hiperligação $1",
 	"checkuser-noreason": "Tem de fornecer um motivo para esta pesquisa.",
 	"checkuser-too-many": "Há demasiados resultados (segundo estimativa da pesquisa); por favor, restrinja o CIDR.\nAqui estão os endereços IP utilizados ($1 no máximo, ordenados por endereço):",
 	"checkuser-user-nonexistent": "O utilizador especificado não existe.",

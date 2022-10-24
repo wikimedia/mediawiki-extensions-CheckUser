@@ -74,6 +74,8 @@
 	"checkuser-block-limit": "נבחרו יותר מדי משתמשים.",
 	"checkuser-block-noreason": "יש לתת סיבה לחסימות.",
 	"checkuser-centralauth-multilock": "נעילה מרובה של חשבונות שנבחרו",
+	"checkuser-centralauth-multilock-list": "נעילה מרובה של חשבונות שנבחרו באמצעות הקישורים:",
+	"checkuser-centralauth-multilock-list-item": "קישור $1",
 	"checkuser-noreason": "יש לכתוב סיבה לשאילתה הזאת.",
 	"checkuser-too-many": "יותר מדי תוצאות (לפי ההערכה של השאילתה), נא לצמצם את ה־CIDR.\nהנה כתובת ה־IP שהיו בשימוש ($1 לכל היות, ממוינות לפי הכתובת):",
 	"checkuser-user-nonexistent": "המשתמש שצוין לא נמצא.",

@@ -15,6 +15,7 @@
 			"Sodmy",
 			"Vlad5250",
 			"Ата",
+			"Пан Хаунд",
 			"Тест"
 		]
 	},
@@ -78,6 +79,7 @@
 	"checkuser-block-limit": "Вибрано забагато користувачів.",
 	"checkuser-block-noreason": "Ви повинні вказати причину блокувань.",
 	"checkuser-centralauth-multilock": "Заблокувати вибрані облікові записи",
+	"checkuser-centralauth-multilock-list-item": "Посилання $1",
 	"checkuser-noreason": "Вам необхідно зазначити причину цього запиту.",
 	"checkuser-too-many": "Забагато результатів (згідно з оцінкою запиту), будь ласка, звузьте CIDR.\nВикористані IP (максимум $1, відсортовані за адресою):",
 	"checkuser-user-nonexistent": "Зазначений користувач не існує.",

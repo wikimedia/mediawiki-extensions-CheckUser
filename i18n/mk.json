@@ -69,6 +69,8 @@
 	"checkuser-block-limit": "Избравте премногу корисници.",
 	"checkuser-block-noreason": "Мора да наведете причина за блокирањата.",
 	"checkuser-centralauth-multilock": "Повеќекратно заклучување на сметки",
+	"checkuser-centralauth-multilock-list": "Заклучете ги следниве сметки наеднаш користејќи ги врските:",
+	"checkuser-centralauth-multilock-list-item": "Врска $1",
 	"checkuser-noreason": "Мора да наведете причина за ова барање.",
 	"checkuser-too-many": "Премногу ставки (според процената на барањето). Уточнете го CIDR.\nЕве ги користените IP-адреси (највеќе $1, подредени по адреса):",
 	"checkuser-user-nonexistent": "Наведениот корисник не постои.",

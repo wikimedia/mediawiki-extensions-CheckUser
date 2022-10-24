@@ -82,6 +82,7 @@
 	"checkuser-block-limit": "Troppi utenti selezionati.",
 	"checkuser-block-noreason": "È obbligatorio fornire una motivazione per i blocchi.",
 	"checkuser-centralauth-multilock": "Blocco multiplo degli utenti selezionati",
+	"checkuser-centralauth-multilock-list-item": "Collegamento $1",
 	"checkuser-noreason": "È necessario fornire una motivazione per questa query.",
 	"checkuser-too-many": "Troppi risultati (per stima della query), per favore usa un CIDR più ristretto.\nQui di seguito ci sono gli indirizzi IP utilizzati (fino a un massimo di $1, ordinati per indirizzo):",
 	"checkuser-user-nonexistent": "L'utente indicato non esiste.",

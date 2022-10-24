@@ -81,6 +81,7 @@
 	"checkuser-block-limit": "Es wurden zu viele Benutzer ausgewählt.",
 	"checkuser-block-noreason": "Du musst einen Grund für die Sperre angeben.",
 	"checkuser-centralauth-multilock": "Ausgewählte Benutzerkonten sperren",
+	"checkuser-centralauth-multilock-list-item": "Link $1",
 	"checkuser-noreason": "Für diese Abfrage muss eine Begründung angegeben werden.",
 	"checkuser-too-many": "Die Ergebnisliste ist zu lang (nach Schätzung der Abfrage). Bitte grenze den IP-Adressbereich weiter ein.\nEs folgen die benutzten IP-Adressen (maximal $1, sortiert nach Adresse):",
 	"checkuser-user-nonexistent": "Das angegebene Benutzerkonto ist nicht vorhanden.",

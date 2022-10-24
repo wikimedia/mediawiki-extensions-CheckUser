@@ -40,6 +40,7 @@
 	"checkuser-week-1": "forrige uge",
 	"checkuser-week-2": "sidste to uger",
 	"checkuser-month": "sidste 30 dage",
+	"checkuser-month-2": "sidste 60 dage",
 	"checkuser-all": "alle",
 	"checkuser-cidr-label": "Find fælles interval og påvirkede IP-adresser for en liste af IP-adresser",
 	"checkuser-cidr-res": "Fælles CIDR:",

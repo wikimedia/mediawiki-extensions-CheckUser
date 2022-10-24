@@ -6,5 +6,6 @@
 		]
 	},
 	"group-checkuser": "Paydalanıwshılardı tekseriwshiler",
+	"checkuser-centralauth-multilock-list-item": "Silteme $1",
 	"checkuser-login-failure-with-good-password": "{{SITENAME}} saytına $1 retinde kirip bolmadı, lekin parol tuwrı edi"
 }
