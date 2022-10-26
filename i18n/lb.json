@@ -61,6 +61,7 @@
 	"checkuser-block-limit": "Zevill Benotzer ugewielt.",
 	"checkuser-block-noreason": "Dir musst e Grond fir d'Spären uginn.",
 	"checkuser-centralauth-multilock": "Méi erausgesicht Benotzerkonte spären",
+	"checkuser-centralauth-multilock-list-item": "Link $1",
 	"checkuser-noreason": "Dir musst e Grond fir dës Ufro uginn.",
 	"checkuser-too-many": "Ze vill Resultater (am Vergläich zu der Schätzung vun der Ufro), reduzéiert wgl. de Beräich vum CIDR.\nHei sinn déi benotzten IP-Adressen (max $1, zortéiert no der Adress):",
 	"checkuser-user-nonexistent": "De gesichte Benotzer gëtt et net.",
