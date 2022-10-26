@@ -7,7 +7,8 @@
 			"Jon Harald Søby",
 			"Laaknor",
 			"McDutchie",
-			"Nghtwlkr"
+			"Nghtwlkr",
+			"EdoAug"
 		]
 	},
 	"checkuser-summary": "Dette verktøyet går gjennom siste endringer for å hente IP-ene som er brukt av en bruker, eller viser redigerings- eller brukerinformasjonen for en IP.\n\nBrukere og redigeringer kan hentes med en XFF-IP ved å legge til «/xff» bak IP-en. IPv4 (CIDR $1-32) og IPv6 (CIDR $2-128) støttes.\n\nAv ytelsesgrunner vises maksimalt 5000 redigeringer. Bruk dette verktøyet i samsvar med retningslinjer.",
@@ -35,6 +36,7 @@
 	"checkuser-week-1": "forrige uke",
 	"checkuser-week-2": "siste to uker",
 	"checkuser-month": "siste måned",
+	"checkuser-month-2": "de siste 60 dagene",
 	"checkuser-all": "alle",
 	"checkuser-cidr-label": "Finn felles adresseområde og påvirkede adresser for en liste over IP-adresser",
 	"checkuser-cidr-res": "Felles CIDR:",

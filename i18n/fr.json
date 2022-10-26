@@ -131,7 +131,7 @@
 	"checkuser-investigateblock-notice-prepend": "Ajouter au début de la page",
 	"checkuser-investigateblock-notice-replace": "Remplacer la page",
 	"checkuser-investigateblock-failure": "Aucun utilisateur n’a été bloqué. Pour confirmer les blocages existants, cocher « {{int:checkuser-investigateblock-reblock-label}} ». Un blocage ne sera pas écrasé si le nouveau est identique à l’existant.",
-	"checkuser-investigateblock-success": "{{PLURAL:$2|L’utilisateur|Les utilisateurs}} $1 {{PLURAL:$2|est|sont}} désormais bloqué{{PLURAL:$2||s}}.",
+	"checkuser-investigateblock-success": "{{PLURAL:$2|L’utilisateur|Les utilisateurs}} $1 {{PLURAL:$2|es|son}}t désormais bloqué{{PLURAL:$2||s}}.",
 	"checkuser-investigateblock-notices-failed": "Certains avis n’ont pas pu être ajoutés aux pages utilisateur ou aux pages de discussion utilisateur.",
 	"checkuser-investigate": "Enquêter",
 	"checkuser-investigate-page-subtitle": "Investigation actuelle pour $1",
