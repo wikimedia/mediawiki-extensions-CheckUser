@@ -51,6 +51,7 @@
 	"checkuser-cidr-res": "Genel CIDR:",
 	"checkuser-cidr-affected-ips": "Etkilenen IP adresleri:",
 	"checkuser-cidr-too-small": "Aralık çok büyük",
+	"checkuser-range-outside-limit": "$1 aralığı izin verilen sınırların dışındadır.",
 	"checkuser-empty": "Günlükte başka öğe yok.",
 	"checkuser-nomatch": "Eşleşme bulunamadı.",
 	"checkuser-nomatch-edits": "Eşleşme bulunamadı.\nSon değişiklik $1 tarihinde $2 saatinde.",

@@ -53,6 +53,7 @@
 	"checkuser-cidr-res": "Wspólny CIDR:",
 	"checkuser-cidr-affected-ips": "Liczba adresów:",
 	"checkuser-cidr-too-small": "Zakres jest za duży",
+	"checkuser-range-outside-limit": "Zakres $1 jest poza dozwolonymi limitami.",
 	"checkuser-empty": "Rejestr nie zawiera żadnych wpisów.",
 	"checkuser-nomatch": "Brak wyników.",
 	"checkuser-nomatch-edits": "Brak wyników.\nOstatnia edycja została wykonana $1 o $2.",
