@@ -88,43 +88,14 @@ class TimelineRowFormatter {
 	}
 
 	/**
-	 * Format cu_changes record and display appropiate information
+	 * Format cu_changes record and display appropriate information
 	 * depending on user privileges
 	 *
 	 * @param \stdClass $row
 	 * @return array
 	 */
 	public function getFormattedRowItems( \stdClass $row ): array {
-		return [
-			'links' => [
-				'logLink' => $this->getLogLink( $row ),
-				'diffLink' => $this->getDiffLink( $row ),
-				'historyLink' => $this->getHistoryLink( $row ),
-				'newPageFlag' => $this->getNewPageFlag( (int)$row->cuc_type ),
-				'minorFlag' => $this->getMinorFlag( (bool)$row->cuc_minor ),
-			],
-			'info' => [
-				'title' => $this->getTitleLink( $row ),
-				'time' => $this->getTime( $row->cuc_timestamp ),
-				'userLinks' => $this->getUserLinks( $row ),
-				'actionText' => $this->getActionText( $row->cuc_actiontext ),
-				'ipInfo' => $this->getIpInfo( $row->cuc_ip ),
-				'userAgent' => $this->getUserAgent( $row->cuc_agent ?? '' ),
-				'comment' => $this->getComment( $row ),
-			],
-		];
-	}
-
-	/**
-	 * Show the comment, or redact if appropriate. If the revision is not found,
-	 * show nothing.
-	 *
-	 * @param \stdClass $row
-	 * @return string
-	 */
-	private function getComment( \stdClass $row ): string {
-		$comment = '';
-
+		$revRecord = null;
 		if (
 			$row->cuc_this_oldid != 0 &&
 			( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW )
@@ -145,6 +116,42 @@ class TimelineRowFormatter {
 					$revRecord = $this->revisionStore->newRevisionFromArchiveRow( $archiveRow );
 				}
 			}
+		}
+		return [
+			'links' => [
+				'logLink' => $this->getLogLink( $row ),
+				'diffLink' => $this->getDiffLink( $row ),
+				'historyLink' => $this->getHistoryLink( $row ),
+				'newPageFlag' => $this->getNewPageFlag( (int)$row->cuc_type ),
+				'minorFlag' => $this->getMinorFlag( (bool)$row->cuc_minor ),
+			],
+			'info' => [
+				'title' => $this->getTitleLink( $row ),
+				'time' => $this->getTime( $row->cuc_timestamp ),
+				'userLinks' => $this->getUserLinks( $row, $revRecord ),
+				'actionText' => $this->getActionText( $row->cuc_actiontext ),
+				'ipInfo' => $this->getIpInfo( $row->cuc_ip ),
+				'userAgent' => $this->getUserAgent( $row->cuc_agent ?? '' ),
+				'comment' => $this->getComment( $row, $revRecord ),
+			],
+		];
+	}
+
+	/**
+	 * Show the comment, or redact if appropriate. If the revision is not found,
+	 * show nothing.
+	 *
+	 * @param \stdClass $row
+	 * @param RevisionRecord|null $revRecord
+	 * @return string
+	 */
+	private function getComment( \stdClass $row, ?RevisionRecord $revRecord ): string {
+		$comment = '';
+
+		if (
+			$row->cuc_this_oldid != 0 &&
+			( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW )
+		) {
 			if (
 				$revRecord instanceof RevisionRecord &&
 				RevisionRecord::userCanBitfield(
@@ -341,30 +348,47 @@ class TimelineRowFormatter {
 
 	/**
 	 * @param \stdClass $row
+	 * @param RevisionRecord|null $revRecord
 	 * @return string
 	 */
-	private function getUserLinks( \stdClass $row ): string {
+	private function getUserLinks( \stdClass $row, ?RevisionRecord $revRecord ): string {
 		// Note: this is incomplete. It should match the checks
 		// in SpecialCheckUser when displaying the same info
-		$userId = $row->cuc_user ?? 0;
-		if ( $userId > 0 ) {
-			$user = $this->userFactory->newFromId( $userId );
+		if ( $row->cuc_this_oldid != 0 &&
+			( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW ) &&
+			$revRecord instanceof RevisionRecord &&
+			!RevisionRecord::userCanBitfield(
+				$revRecord->getVisibility(),
+				RevisionRecord::DELETED_USER,
+				$this->user
+			)
+		) {
+			return Html::element(
+				'span',
+				[ 'class' => Linker::getRevisionDeletedClass( $revRecord ) ],
+				$this->msg( 'rev-deleted-user' )->text()
+			);
 		} else {
-			// This is an IP
-			$user = $this->userFactory->newFromName( $row->cuc_user_text, UserRigorOptions::RIGOR_NONE );
+			$userId = $row->cuc_user ?? 0;
+			if ( $userId > 0 ) {
+				$user = $this->userFactory->newFromId( $userId );
+			} else {
+				// This is an IP
+				$user = $this->userFactory->newFromName( $row->cuc_user_text, UserRigorOptions::RIGOR_NONE );
+			}
+
+			$links = Html::rawElement(
+				'span', [], Linker::userLink( $userId, $user->getName() )
+			);
+
+			$links .= Linker::userToolLinksRedContribs(
+				$userId,
+				$user->getName(),
+				$user->getEditCount()
+			);
+
+			return $links;
 		}
-
-		$links = Html::rawElement(
-			'span', [], Linker::userLink( $userId, $user->getName() )
-		);
-
-		$links .= Linker::userToolLinksRedContribs(
-			$userId,
-			$user->getName(),
-			$user->getEditCount()
-		);
-
-		return $links;
 	}
 
 	/**
