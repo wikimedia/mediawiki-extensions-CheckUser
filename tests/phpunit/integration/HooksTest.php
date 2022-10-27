@@ -2,9 +2,13 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration;
 
+use ExtensionRegistry;
 use MailAddress;
+use MediaWiki\Auth\AuthenticationRequest;
+use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\Hooks;
+use MediaWiki\MediaWikiServices;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
@@ -494,6 +498,212 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 			'',
 			[ $expectedRow ]
 		);
+	}
+
+	/**
+	 * @covers ::onAuthManagerLoginAuthenticateAudit
+	 * @dataProvider provideOnAuthManagerLoginAuthenticateAudit
+	 */
+	public function testOnAuthManagerLoginAuthenticateAudit(
+		AuthenticationResponse $ret, string $user, string $messageKey, bool $isAnonPerformer
+	) {
+		$this->setMwGlobals( [ 'wgCheckUserLogLogins' => true, 'wgCheckUserLogSuccessfulBotLogins' => true ] );
+		$userObj = MediaWikiServices::getInstance()->getUserFactory()->newFromName( $user );
+		( new Hooks() )->onAuthManagerLoginAuthenticateAudit(
+			$ret,
+			$userObj,
+			$user,
+			[]
+		);
+		$fields = [ 'cuc_namespace', 'cuc_title', 'cuc_user', 'cuc_user_text', 'cuc_actiontext' ];
+		$expectedValues = [ NS_USER, $user ];
+		if ( $isAnonPerformer ) {
+			$expectedValues[] = 0;
+			$expectedValues[] = RequestContext::getMain()->getRequest()->getIP();
+		} else {
+			$expectedValues[] = $userObj->getId();
+			$expectedValues[] = $user;
+		}
+		$target = "[[User:$user|$user]]";
+		$expectedValues[] = wfMessage( $messageKey, $target )->text();
+		$this->assertSelect(
+			'cu_changes',
+			$fields,
+			[],
+			[ $expectedValues ]
+		);
+	}
+
+	public function provideOnAuthManagerLoginAuthenticateAudit() {
+		return [
+			'successful login' => [
+				AuthenticationResponse::newPass( 'UTSysop' ),
+				'UTSysop',
+				'checkuser-login-success',
+				false
+			],
+			'failed login' => [
+				AuthenticationResponse::newFail( wfMessage( 'test' ) ),
+				'UTSysop',
+				'checkuser-login-failure',
+				true,
+			]
+		];
+	}
+
+	/**
+	 * @covers ::onAuthManagerLoginAuthenticateAudit
+	 * @dataProvider provideOnAuthManagerLoginAuthenticateAuditWithCentralAuthInstalled
+	 */
+	public function testOnAuthManagerLoginAuthenticateAuditWithCentralAuthInstalled(
+		AuthenticationResponse $ret, string $user, string $messageKey, bool $isAnonPerformer
+	) {
+		if ( ExtensionRegistry::getInstance()->isLoaded( 'CentralAuth' ) ) {
+			$this->testOnAuthManagerLoginAuthenticateAudit(
+				$ret, $user, $messageKey, $isAnonPerformer
+			);
+		} else {
+			// Skip tests that will only pass if CentralAuth is installed.
+			$this->expectNotToPerformAssertions();
+		}
+	}
+
+	public function provideOnAuthManagerLoginAuthenticateAuditWithCentralAuthInstalled() {
+		return [
+			'failed login with correct password' => [
+				AuthenticationResponse::newFail(
+					wfMessage( 'test' ),
+					// This is CentralAuthUser::AUTHENTICATE_GOOD_PASSWORD, but cannot be referenced
+					//  directly due to T321864
+					[ "good password" ]
+				),
+				'UTSysop',
+				'checkuser-login-failure-with-good-password',
+				true,
+			],
+			'failed login with correct password but locked' => [
+				AuthenticationResponse::newFail(
+					wfMessage( 'test' ),
+					// This is CentralAuthUser::AUTHENTICATE_GOOD_PASSWORD and CentralAuthUser::AUTHENTICATE_LOCKED,
+					//  respectively but cannot be referenced directly due to T321864
+					[ "good password", "locked" ]
+				),
+				'UTSysop',
+				'checkuser-login-failure-with-good-password',
+				false,
+			],
+		];
+	}
+
+	/**
+	 * @covers ::onAuthManagerLoginAuthenticateAudit
+	 */
+	public function testCheckUserLogBotSuccessfulLoginsSetToTrue() {
+		$this->setMwGlobals( 'wgCheckUserLogLogins', true );
+		$user = $this->getTestUser( [ 'bot' ] )->getUserIdentity()->getName();
+		$this->testOnAuthManagerLoginAuthenticateAudit(
+			AuthenticationResponse::newPass( $user ),
+			$user,
+			'checkuser-login-success',
+			false
+		);
+	}
+
+	/**
+	 * @covers ::onAuthManagerLoginAuthenticateAudit
+	 * @dataProvider provideOnAuthManagerLoginAuthenticateAuditNoSave
+	 */
+	public function testOnAuthManagerLoginAuthenticateAuditNoSave( $ret, $user, $logLogins, $logBots ) {
+		$this->setMwGlobals( [
+			'wgCheckUserLogLogins' => $logLogins,
+			'wgCheckUserLogSuccessfulBotLogins' => $logBots
+		] );
+		$userObj = MediaWikiServices::getInstance()->getUserFactory()->newFromName( $user );
+		( new Hooks() )->onAuthManagerLoginAuthenticateAudit(
+			$ret,
+			$userObj,
+			$user,
+			[]
+		);
+		$this->assertSame(
+			0,
+			$this->db->newSelectQueryBuilder()
+				->field( 'cuc_ip' )
+				->table( 'cu_changes' )
+				->fetchRowCount(),
+			'A row was inserted to cu_changes when it should not have been.'
+		);
+	}
+
+	public function provideOnAuthManagerLoginAuthenticateAuditNoSave() {
+		$req = $this->getMockForAbstractClass( AuthenticationRequest::class );
+		return [
+			'invalid user' => [
+				AuthenticationResponse::newPass( '' ),
+				'',
+				true,
+				true
+			],
+			'Abstain authentication response' => [
+				AuthenticationResponse::newAbstain(),
+				'UTSysop',
+				true,
+				true
+			],
+			'Redirect authentication response' => [
+				AuthenticationResponse::newRedirect( [ $req ], '' ),
+				'UTSysop',
+				true,
+				true
+			],
+			'UI authentication response' => [
+				AuthenticationResponse::newUI( [ $req ], wfMessage( 'test' ) ),
+				'UTSysop',
+				true,
+				true
+			],
+			'Restart authentication response' => [
+				AuthenticationResponse::newRestart( wfMessage( 'test' ) ),
+				'UTSysop',
+				true,
+				true
+			],
+		];
+	}
+
+	/**
+	 * @covers ::onAuthManagerLoginAuthenticateAudit
+	 */
+	public function testCheckUserLogLoginsSetToFalse() {
+		$this->testOnAuthManagerLoginAuthenticateAuditNoSave(
+			AuthenticationResponse::newPass( 'UTSysop' ),
+			'UTSysop',
+			false,
+			true
+		);
+	}
+
+	/**
+	 * @covers ::onAuthManagerLoginAuthenticateAudit
+	 * @dataProvider provideCheckUserLogBotSuccessfulLoginsNoSave
+	 */
+	public function testCheckUserLogBotSuccessfulLoginsSetToFalse( $ret, $logBots ) {
+		$user = $this->getTestUser( [ 'bot' ] )->getUserIdentity()->getName();
+		$this->testOnAuthManagerLoginAuthenticateAuditNoSave(
+			$ret,
+			$user,
+			true,
+			$logBots
+		);
+	}
+
+	public function provideCheckUserLogBotSuccessfulLoginsNoSave() {
+		return [
+			'Successful authentication with wgCheckUserLogSuccessfulBotLogins set to false' => [
+				AuthenticationResponse::newPass( 'test' ),
+				false
+			]
+		];
 	}
 
 	/**
