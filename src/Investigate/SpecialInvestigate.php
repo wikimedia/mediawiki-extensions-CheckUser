@@ -185,7 +185,7 @@ class SpecialInvestigate extends FormSpecialPage {
 		// Show the tabs if there is any request data.
 		// The tabs should also be shown even if the form was a POST request because
 		// the filters could have failed validation.
-		if ( $this->getTokenData() !== [] ) {
+		if ( $par && $this->getTokenData() !== [] ) {
 			// Remove the filters, unless a valid tab that supports filters is selected.
 			if ( !in_array( $par, [
 				$this->getTabParam( 'compare' ),
@@ -239,8 +239,7 @@ class SpecialInvestigate extends FormSpecialPage {
 	 * @return self
 	 */
 	private function addTabs( string $par ): self {
-		$config = [];
-		$this->getLayout()->getConfig( $config );
+		$config = $this->getLayout()->getConfig( $config );
 		$tabSelectWidget = $config['tabSelectWidget'];
 
 		$token = $this->getTokenWithoutPaginationData();
@@ -288,8 +287,7 @@ class SpecialInvestigate extends FormSpecialPage {
 	 * @return self
 	 */
 	private function addHtml( string $html ): self {
-		$config = [];
-		$this->getLayout()->getConfig( $config );
+		$config = $this->getLayout()->getConfig( $config );
 		$contentPanel = $config['contentPanel'];
 
 		$contentPanel->addItems( [
