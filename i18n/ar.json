@@ -48,6 +48,7 @@
 	"checkuser-cidr-res": "CIDR مشترك:",
 	"checkuser-cidr-affected-ips": "عدد عناوين البروتوكولات المتأثرة:",
 	"checkuser-cidr-too-small": "النطاق واسع جدًا",
+	"checkuser-range-outside-limit": "النطاق $1 خارج الحدود المسموح بها.",
 	"checkuser-empty": "لا توجد مدخلات في السجل.",
 	"checkuser-nomatch": "لم يتم العثور على مدخلات مطابقة.",
 	"checkuser-nomatch-edits": "لم يعثر على أي تطابقٍ.\nآخر تعديل كان في $1 الساعة $2.",
