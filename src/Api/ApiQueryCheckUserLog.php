@@ -58,32 +58,21 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		}
 
 		if ( $continue !== null ) {
-			$cont = explode( '|', $continue );
-			$op = $dir === 'older' ? '<' : '>';
-			$this->dieContinueUsageIf( count( $cont ) !== 2 );
-			$this->dieContinueUsageIf( wfTimestamp( TS_UNIX, $cont[0] ) === false );
-
-			$timestamp = $db->addQuotes( $db->timestamp( $cont[0] ) );
-			$id = intval( $cont[1] );
-			$this->dieContinueUsageIf( $cont[1] !== (string)$id );
-
-			$this->addWhere(
-				"cul_timestamp $op $timestamp OR " .
-				"(cul_timestamp = $timestamp AND " .
-				"cul_id $op= $id)"
-			);
+			$cont = $this->parseContinueParamOrDie( $continue, [ 'timestamp', 'int' ] );
+			$op = $dir === 'older' ? '<=' : '>=';
+			$this->addWhere( $db->buildComparison( $op, [
+				'cul_timestamp' => $db->timestamp( $cont[0] ),
+				'cul_id' => $cont[1],
+			] ) );
 		}
 
 		$res = $this->select( __METHOD__ );
 		$result = $this->getResult();
 
 		$count = 0;
-		$makeContinue = static function ( $row ) {
-			return wfTimestamp( TS_ISO_8601, $row->cul_timestamp ) . '|' . $row->cul_id;
-		};
 		foreach ( $res as $row ) {
 			if ( ++$count > $limit ) {
-				$this->setContinueEnumParameter( 'continue', $makeContinue( $row ) );
+				$this->setContinueEnumParameter( 'continue', "$row->cul_timestamp|$row->cul_id" );
 				break;
 			}
 			$log = [
@@ -95,7 +84,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 			];
 			$fit = $result->addValue( [ 'query', $this->getModuleName(), 'entries' ], null, $log );
 			if ( !$fit ) {
-				$this->setContinueEnumParameter( 'continue', $makeContinue( $row ) );
+				$this->setContinueEnumParameter( 'continue', "$row->cul_timestamp|$row->cul_id" );
 				break;
 			}
 		}
