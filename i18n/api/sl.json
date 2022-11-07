@@ -1,13 +1,14 @@
 {
 	"@metadata": {
 		"authors": [
+			"Eleassar",
 			"Janezdrilc"
 		]
 	},
 	"apihelp-query+checkuser-description": "Preveri, katere IP naslove uporablja navedeni uporabnik ali katera uporabniška imena uporablja navedeni IP naslov.",
 	"apihelp-query+checkuser-summary": "Preveri, katere IP naslove uporablja navedeni uporabnik ali katera uporabniška imena uporablja navedeni IP naslov.",
 	"apihelp-query+checkuser-param-request": "Vrsta prošnje za preverjanje uporabnika:\n;userips:Prikaži IP naslov ciljnega uporabnika.\n;edits:Prikaži spremembe ciljnega IP naslova ali razpona IP-jev.\n;ipusers:Prikaži uporabnike ciljnega IP naslova ali razpona IP-jev.",
-	"apihelp-query+checkuser-param-target": "Uporabniško ime, IP naslov ali razpon CIDR za preverbo.",
+	"apihelp-query+checkuser-param-target": "Uporabniško ime, IP-naslov ali razpon CIDR za preverbo.",
 	"apihelp-query+checkuser-param-reason": "Razlog preverbe.",
 	"apihelp-query+checkuser-param-limit": "Omejitev vrstic.",
 	"apihelp-query+checkuser-param-timecond": "Časovna omejitev uporabniških podatkov (na primer \"-2 tedna\" ali \"2 tedna nazaj\").",
@@ -17,7 +18,7 @@
 	"apihelp-query+checkuserlog-description": "Prikaži vpise iz dnevnika preverjanj uporabnikov.",
 	"apihelp-query+checkuserlog-summary": "Prikaži vpise iz dnevnika preverjanj uporabnikov.",
 	"apihelp-query+checkuserlog-param-user": "Uporabniško ime preverjevalca uporabnikov.",
-	"apihelp-query+checkuserlog-param-target": "Uporabniško ime, IP naslov ali razpon CIDR.",
+	"apihelp-query+checkuserlog-param-target": "Uporabniško ime, IP-naslov ali razpon CIDR.",
 	"apihelp-query+checkuserlog-param-limit": "Omejitev vrstic.",
 	"apihelp-query+checkuserlog-param-from": "Datum začetka izpisa.",
 	"apihelp-query+checkuserlog-param-to": "Datum konca izpisa.",
