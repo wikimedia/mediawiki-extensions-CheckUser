@@ -234,7 +234,7 @@ class Hooks implements
 		// Provide the ip, xff and row to code that hooks onto this so that they can modify the row before
 		//  it's inserted. The ip and xff are provided separately so that the caller doesn't have to set
 		//  the hex versions of the IP and XFF and can therefore leave that to this function.
-		( new HookRunner( $services->getHookContainer() ) )->onCheckUserInsertChangesRow( $ip, $xff, $row );
+		( new HookRunner( $services->getHookContainer() ) )->onCheckUserInsertChangesRow( $ip, $xff, $row, $user );
 		list( $xff_ip, $isSquidOnly, $xff ) = self::getClientIPfromXFF( $xff );
 
 		$row = array_merge(

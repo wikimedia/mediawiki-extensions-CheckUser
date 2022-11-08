@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Hook;
 
 use IContextSource;
 use MediaWiki\HookContainer\HookContainer;
+use MediaWiki\User\UserIdentity;
 
 class HookRunner implements CheckUserFormatRowHook, CheckUserSubtitleLinksHook, CheckUserInsertChangesRow {
 	/** @var HookContainer */
@@ -40,10 +41,10 @@ class HookRunner implements CheckUserFormatRowHook, CheckUserSubtitleLinksHook, 
 	}
 
 	/** @inheritDoc */
-	public function onCheckUserInsertChangesRow( string &$ip, &$xff, array &$row ) {
+	public function onCheckUserInsertChangesRow( string &$ip, &$xff, array &$row, UserIdentity $user ) {
 		$this->container->run(
 			'CheckUserInsertChangesRow',
-			[ &$ip, &$xff, &$row ]
+			[ &$ip, &$xff, &$row, $user ]
 		);
 	}
 }

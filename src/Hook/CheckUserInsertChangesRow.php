@@ -2,6 +2,8 @@
 
 namespace MediaWiki\CheckUser\Hook;
 
+use MediaWiki\User\UserIdentity;
+
 interface CheckUserInsertChangesRow {
 	/**
 	 * Use this hook to modify the IP, XFF or other values
@@ -15,15 +17,21 @@ interface CheckUserInsertChangesRow {
 	 *
 	 * Set the $xff to false to represent no defined XFF.
 	 *
+	 * Added in 1.41 the $user parameter is the user identity
+	 * for the performer of the action associated with this
+	 * cu_changes row insert.
+	 *
 	 * @since 1.40
 	 *
 	 * @param string &$ip The users IP
 	 * @param string|false &$xff The XFF for the request
 	 * @param array &$row The row to be inserted (before defaults are applied)
+	 * @param UserIdentity $user The user who performed the action associated with this row
 	 */
 	public function onCheckUserInsertChangesRow(
 		string &$ip,
 		&$xff,
-		array &$row
+		array &$row,
+		UserIdentity $user
 	);
 }
