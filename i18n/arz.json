@@ -48,7 +48,7 @@
 	"checkuser-block-failure": "'''مافيش يوزرز ممنوعين'''",
 	"checkuser-block-limit": "انت اخترت يوزرز كتار جدا.",
 	"checkuser-block-noreason": "لازم تدى سبب لعمليات المنع.",
-	"checkuser-too-many": "فى نتايج كتيرة جدا, لو سمحت تقلل الـ CIDR.\nدول الايبيهات المستعملة (5000 كحد اقصى, مترتبين بالعنوان):",
+	"checkuser-too-many": "نتائج كثيرة جدًا (اعتمادً على استعلامٍ تقريبي)، من فضلك قلل CIDR.\nهذه هي عناوين البروتوكولات المستخدمة ($1 كحدٍ أقصى، مرتبة حسب العنوان):",
 	"checkuser-user-nonexistent": "اليوزر المتحدد مش موجود",
 	"checkuser-search": "تدوير",
 	"checkuser-search-submit": "تدوير",
