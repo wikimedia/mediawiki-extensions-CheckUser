@@ -96,7 +96,7 @@
 	"checkuser-autocreate-action": "was automatically created",
 	"checkuser-create-action": "was created",
 	"checkuser-email-action": "sent an email to user \"$1\"",
-	"checkuser-reset-action": "reset password for user $1",
+	"checkuser-reset-action": "sent a password reset email for user $1",
 	"checkuser-userlinks-ip": "(<span class=\"plainlinks\">[https://www.robtex.com/ip-lookup/$1 WHOIS/RDNS]</span>)",
 	"checkuser-toollinks": "<span class=\"plainlinks\">[[https://www.robtex.com/ip-lookup/$1 WHOIS/RDNS] ·\n[https://www.ip2location.com/$1 Geolocate]]</span>",
 	"checkuser-token-fail": "Session failure. Please try again.",
