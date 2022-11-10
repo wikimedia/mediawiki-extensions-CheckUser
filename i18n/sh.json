@@ -35,6 +35,7 @@
 	"checkuser-all": "sve",
 	"checkuser-cidr-label": "Nađi zajedničku nizu i zahvaćene adrese za spisak IP adresa",
 	"checkuser-cidr-res": "Zajednički CIDR:",
+	"checkuser-cidr-affected-ips": "Pogođene IP adrese:",
 	"checkuser-empty": "Evidencija je prazna.",
 	"checkuser-nomatch": "Nema pogodaka.",
 	"checkuser-nomatch-edits": "Nema pogodaka.\nPoslednja izmena je urađena $1 u $2.",
