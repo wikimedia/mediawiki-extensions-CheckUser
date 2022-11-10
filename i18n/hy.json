@@ -2,10 +2,11 @@
 	"@metadata": {
 		"authors": [
 			"Kareyac",
-			"Togaed"
+			"Togaed",
+			"Սերգեյ Սաֆարյան"
 		]
 	},
-	"checkuser-search": "Որոնել",
+	"checkuser-search": "Որոնել օգտվողի ստուգման մատյանի գրառումներում",
 	"checkuser-search-submit": "Որոնել",
 	"checkuser-investigate-subtitle-block-button-label": "Արգելափակում",
 	"checkuser-investigate-subtitle-cancel-button-label": "Չեղարկել",
