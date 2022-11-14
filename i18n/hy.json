@@ -2,10 +2,11 @@
 	"@metadata": {
 		"authors": [
 			"Kareyac",
-			"Togaed"
+			"Togaed",
+			"Սերգեյ Սաֆարյան"
 		]
 	},
-	"checkuser-search": "Որոնել",
+	"checkuser-search": "Որոնել օգտվողի ստուգման մատյանի գրառումներում",
 	"checkuser-search-submit": "Որոնել",
 	"checkuser-investigate-preliminary-table-header-groups": "Խմբեր",
 	"checkuser-investigate-preliminary-table-header-name": "Մասնակցային անուն",
