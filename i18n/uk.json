@@ -51,6 +51,7 @@
 	"checkuser-cidr-res": "Спільний CIDR:",
 	"checkuser-cidr-affected-ips": "Охоплені IP-адреси:",
 	"checkuser-cidr-too-small": "Завеликий діапазон",
+	"checkuser-range-outside-limit": "Діапазон $1 виходить за допустимі межі.",
 	"checkuser-empty": "Журнал порожній.",
 	"checkuser-nomatch": "Не знайдено збігів.",
 	"checkuser-nomatch-edits": "Збіги не знайдені.\nОстаннє редагування зроблене $1 о $2.",
