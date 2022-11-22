@@ -4,7 +4,7 @@ For more information see https://www.mediawiki.org/wiki/Selenium
 
 ## Setup
 
-See https://www.mediawiki.org/wiki/MediaWiki-Docker/Extension/Examples
+See https://www.mediawiki.org/wiki/MediaWiki-Docker/Extension/CheckUser
 
 ## Run all specs
 
