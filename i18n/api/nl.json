@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"HanV",
 			"Mainframe98",
 			"Siebrand",
 			"Sjoerddebruin"
@@ -27,5 +28,5 @@
 	"apihelp-query+checkuserlog-example-2": "Controles van 192.0.2.0/24 na 2011-10-15T23:00:00Z weergeven.",
 	"apierror-checkuser-missingsummary": "U moet een reden opgeven voor deze controle.",
 	"apierror-checkuser-timelimit": "U moet een juiste tijdsbeperking invoeren (zoals \"-2 weeks\" of \"2 weeks ago\").",
-	"apierror-checkuser-invalidmode": "Ongeldige aanvraagsmodus"
+	"apierror-checkuser-invalidmode": "Ongeldige aanvraagmodus"
 }
