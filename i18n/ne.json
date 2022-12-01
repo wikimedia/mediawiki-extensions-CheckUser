@@ -62,6 +62,7 @@
 	"checkuser-investigate-preliminary-table-header-name": "प्रयोगकर्ता नाम",
 	"checkuser-investigate-preliminary-table-header-wiki": "विकि",
 	"checkuser-investigate-filters-legend": "छनाेटहरू",
+	"checkuser-investigate-compare-table-button-contribs-label": "योगदानहरू",
 	"checkuser-investigate-compare-table-cell-unregistered": "दर्ता नभएकाे",
 	"checkuser-investigate-compare-table-cell-edits": "$1 {{PLURAL:$1|सम्पादन|सम्पादनहरू}}",
 	"checkuser-investigate-compare-table-cell-other-edits": "<i>(~$1 सबै प्रयाेगकर्ताहरूबाट)</i>",

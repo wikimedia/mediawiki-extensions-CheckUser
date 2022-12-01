@@ -188,7 +188,7 @@
 	"checkuser-investigate-compare-copy-message-label": "Souhaitez-vous copier ces informations sous forme de tableau en wikicode ?",
 	"checkuser-investigate-compare-notice-exceeded-limit": "Suite à des limitations techniques nous avons atteint la limite du nombre d’enregistrements présentables. Les données renvoyées pour les cibles suivantes sont incomplètes : $1. Veuillez essayer en utilisant moins de cibles, une fenêtre de temps plus fine ou des plages IP plus étroites.",
 	"checkuser-investigate-compare-notice-no-results": "Il n’y a aucun résultat : aucune modification n’a été effectuée par ces utilisateurs ou adresses IP au cours des 90 derniers jours.",
-	"checkuser-investigate-compare-notice-no-results-filters": "Il n’y a aucun résultat correspondant à ces critères de filtrage. Essayez d’enlever certains filtres pour élargir la recherche.",
+	"checkuser-investigate-compare-notice-no-results-filters": "Il n’y a aucun résultat correspondant à ces critères de filtrage. Essayez de retirer certains filtres pour élargir la recherche.",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Afficher toues les adresses IP de cet utilisateur",
 	"checkuser-investigate-compare-table-button-add-user-targets-label": "Afficher tous les utilisateurs ayant cette adresse IP",
 	"checkuser-investigate-compare-table-button-add-user-targets-log-label": "Ajouter cette adresse IP pour investigation",
