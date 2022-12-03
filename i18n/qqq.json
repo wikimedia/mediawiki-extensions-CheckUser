@@ -125,7 +125,7 @@
 	"checkuser-autocreate-action": "Text of the event displayed in the CheckUser results, corresponding to the automatic creation of a new user account (by CentralAuth).",
 	"checkuser-create-action": "Text of the event displayed in the CheckUser results. Indicates creation of the user.",
 	"checkuser-email-action": "Logged text when a user sends an e-mail. Probably preceded by the name of the checkuser.\n\nParameters:\n* $1 - a salted MD5 hash for the user an email was sent to",
-	"checkuser-reset-action": "Logged text when a user resets a password. Parameters:\n* $1 - the username for which the password was reset. Can be used for GENDER.",
+	"checkuser-reset-action": "Logged text when a user sends a password reset email for a user. Parameters:\n* $1 - the username for which the password reset email was sent. Can be used for GENDER.",
 	"checkuser-userlinks-ip": "{{notranslate}}\nLinks shown next to an IP address in a CheckUser result entry. $1 - IP address\n\nSee also:\n*{{msg-mw|Signature}}\n*{{msg-mw|Checkuser-userlinks}}",
 	"checkuser-toollinks": "{{notranslate}}\nParameters:\n* $1 - IP address",
 	"checkuser-token-fail": "Error message shown when the CSRF token does not match the current session.",
