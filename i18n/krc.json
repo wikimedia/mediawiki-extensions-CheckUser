@@ -2,8 +2,10 @@
 	"@metadata": {
 		"authors": [
 			"Ernác",
-			"Iltever"
+			"Iltever",
+			"Къарачайлы"
 		]
 	},
-	"group-checkuser": "Къошулуучуланы тинтиучюле"
+	"group-checkuser": "Къошулуучуланы тинтиучюле",
+	"checkuser-reset-action": "$1 хайырланыучугъа паролун къоратыр ючюн электрон мектуб джибер"
 }

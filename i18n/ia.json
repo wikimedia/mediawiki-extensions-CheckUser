@@ -93,7 +93,7 @@
 	"checkuser-autocreate-action": "ha essite create automaticamente",
 	"checkuser-create-action": "ha essite create",
 	"checkuser-email-action": "inviava un e-mail al usator \"$1\"",
-	"checkuser-reset-action": "ha reinitialisate le contrasigno del usator $1",
+	"checkuser-reset-action": "ha inviate un e-mail pro reinitialisar le contrasigno del usator $1",
 	"checkuser-token-fail": "Session fallite. Per favor, essaya de novo.",
 	"checkuser-login-failure": "Fallimento de aperir session in {{SITENAME}} como $1",
 	"checkuser-login-failure-with-good-password": "Fallimento de aperir session a {{SITENAME}} como $1, benque le contrasigno es correcte",

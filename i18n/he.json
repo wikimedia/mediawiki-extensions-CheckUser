@@ -102,7 +102,7 @@
 	"checkuser-autocreate-action": "נוצר אוטומטית",
 	"checkuser-create-action": "נוצר",
 	"checkuser-email-action": "נשלח דואר אלקטרוני למשתמש \"$1\"",
-	"checkuser-reset-action": "איפס את הסיסמה של המשתמש $1",
+	"checkuser-reset-action": "{{GENDER:$1|שלח|שלחה}} דוא\"ל איפוס סיסמה למשתמש $1",
 	"checkuser-token-fail": "כשל התחברות. נא לנסות שוב.",
 	"checkuser-login-failure": "לא הצליח להיכנס לאתר {{SITENAME}} בתור $1",
 	"checkuser-login-failure-with-good-password": "הכניסה לאתר {{SITENAME}} בתור $1 נכשלה, אבל הסיסמה הייתה נכונה",

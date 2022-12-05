@@ -91,7 +91,7 @@
 	"checkuser-autocreate-action": "byl automaticky vytvořen",
 	"checkuser-create-action": "byl vytvořen",
 	"checkuser-email-action": "odeslal e-mail uživateli „$1“",
-	"checkuser-reset-action": "požádal o nové heslo pro uživatele „$1“",
+	"checkuser-reset-action": "poslal e-mail s novým heslem pro uživatele „$1“",
 	"checkuser-token-fail": "Chyba relace. Zkuste to prosím znovu.",
 	"checkuser-login-failure": "Neúspěšný pokus o přihlášení do {{grammar:2sg|{{SITENAME}}}} jako $1",
 	"checkuser-login-success": "Úspěšné přihlášení do {{grammar:2sg|{{SITENAME}}}} jako $1",

@@ -119,7 +119,7 @@
 	"checkuser-autocreate-action": "a été créé automatiquement",
 	"checkuser-create-action": "a été créé",
 	"checkuser-email-action": "a envoyé un courriel à l’utilisateur « $1 »",
-	"checkuser-reset-action": "réinitialisation du mot de passe de l’utilisateur $1",
+	"checkuser-reset-action": "envoyer un courriel de réinitialisation du mot de passe pour l’utilisateur $1",
 	"checkuser-token-fail": "Échec de session. Veuillez réessayer.",
 	"checkuser-login-failure": "Échec de connexion à {{SITENAME}} en tant que $1",
 	"checkuser-login-failure-with-good-password": "Échec de la connexion à {{SITENAME}} en tant que $1, mais le mot de passe était correct.",
