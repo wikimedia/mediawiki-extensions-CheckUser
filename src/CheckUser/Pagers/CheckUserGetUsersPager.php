@@ -463,6 +463,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 					'type' => 'text',
 					'id' => 'blocktag',
 					'name' => 'blocktag',
+					'minlength' => 3,
 				],
 				'talkusetag' => [
 					'type' => 'check',
@@ -476,6 +477,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 					'id' => 'talktag',
 					'name' => 'talktag',
 					'size' => 46,
+					'minlength' => 3,
 				],
 			];
 
