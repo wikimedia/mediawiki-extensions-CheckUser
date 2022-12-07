@@ -82,7 +82,7 @@
 	"checkuser-autocreate-action": "gouf automatesch ugeluecht",
 	"checkuser-create-action": "gouf ugeluecht",
 	"checkuser-email-action": "dem Benotzer \"$1\" eng E-Mail geschéckt",
-	"checkuser-reset-action": "setzt d'Passwuert fir de Benotzer \"$1\" zréck",
+	"checkuser-reset-action": "en E-mail fir d'Passwuert vum Benotzer $1 zréckzesetze schécken",
 	"checkuser-token-fail": "Sessiouns-Feeler.Probéiert wgl. nach eng Kéier.",
 	"checkuser-login-failure": "Konnt sech net alogge op {{SITENAME}} als $1",
 	"checkuser-login-success": "Op {{SITENAME}} ageloggt als $1",
