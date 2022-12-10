@@ -720,6 +720,14 @@ class Hooks implements
 			'cul_user',
 			"$base/$dbType/patch-cu_log-defaults.sql"
 		);
+		$updater->addExtensionTable(
+			'cu_log_event',
+			"$base/$dbType/patch-cu_log_event-def.sql"
+		);
+		$updater->addExtensionTable(
+			'cu_private_event',
+			"$base/$dbType/patch-cu_private_event-def.sql"
+		);
 
 		$updater->addPostDatabaseUpdateMaintenance( PopulateCucActor::class );
 		$updater->addPostDatabaseUpdateMaintenance( PopulateCulActor::class );
