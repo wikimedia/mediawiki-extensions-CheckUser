@@ -8,6 +8,7 @@ use Html;
 use HTMLForm;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager;
+use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Permissions\PermissionManager;
 use SpecialPage;
 use Title;
@@ -30,20 +31,26 @@ class SpecialCheckUserLog extends SpecialPage {
 	/** @var CommentStore */
 	private $commentStore;
 
+	/** @var CommentFormatter */
+	private $commentFormatter;
+
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory
 	 * @param PermissionManager $permissionManager
 	 * @param CommentStore $commentStore
+	 * @param CommentFormatter $commentFormatter
 	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
 		PermissionManager $permissionManager,
-		CommentStore $commentStore
+		CommentStore $commentStore,
+		CommentFormatter $commentFormatter
 	) {
 		parent::__construct( 'CheckUserLog', 'checkuser-log' );
 		$this->linkBatchFactory = $linkBatchFactory;
 		$this->permissionManager = $permissionManager;
 		$this->commentStore = $commentStore;
+		$this->commentFormatter = $commentFormatter;
 	}
 
 	/**
@@ -120,7 +127,8 @@ class SpecialCheckUserLog extends SpecialPage {
 			$this->getContext(),
 			$this->opts,
 			$this->linkBatchFactory,
-			$this->commentStore
+			$this->commentStore,
+			$this->commentFormatter
 		);
 
 		$out->addHTML(

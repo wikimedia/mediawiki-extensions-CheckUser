@@ -8,6 +8,7 @@ use IContextSource;
 use Linker;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog;
+use MediaWiki\CommentFormatter\CommentFormatter;
 use RangeChronologicalPager;
 use SpecialPage;
 use Wikimedia\Rdbms\IResultWrapper;
@@ -22,6 +23,9 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	/** @var CommentStore */
 	private $commentStore;
 
+	/** @var CommentFormatter */
+	private $commentFormatter;
+
 	/** @var array */
 	private $opts;
 
@@ -33,12 +37,14 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	 * 		provided.
 	 * @param LinkBatchFactory $linkBatchFactory
 	 * @param CommentStore $commentStore
+	 * @param CommentFormatter $commentFormatter
 	 */
 	public function __construct(
 		IContextSource $context,
 		array $opts,
 		LinkBatchFactory $linkBatchFactory,
-		CommentStore $commentStore
+		CommentStore $commentStore,
+		CommentFormatter $commentFormatter
 	) {
 		parent::__construct( $context );
 		// Default to all log entries - we'll add conditions below if a target was provided
@@ -71,6 +77,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 		$this->getDateRangeCond( $startTimestamp, $endTimestamp );
 		$this->linkBatchFactory = $linkBatchFactory;
 		$this->commentStore = $commentStore;
+		$this->commentFormatter = $commentFormatter;
 		$this->opts = $opts;
 	}
 
@@ -165,7 +172,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 				$row
 			)
 		)->text();
-		$rowContent .= Linker::commentBlock( $row->cul_reason );
+		$rowContent .= $this->commentFormatter->formatBlock( $row->cul_reason );
 
 		$attribs = [
 			'data-mw-culogid' => $row->cul_id,

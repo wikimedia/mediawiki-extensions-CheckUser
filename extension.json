@@ -278,7 +278,8 @@
 			"services": [
 				"LinkBatchFactory",
 				"PermissionManager",
-				"CommentStore"
+				"CommentStore",
+				"CommentFormatter"
 			]
 		}
 	},
