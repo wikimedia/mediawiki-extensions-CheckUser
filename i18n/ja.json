@@ -32,6 +32,7 @@
 			"W.CC",
 			"Whym",
 			"Yusuke1109",
+			"バレロン",
 			"青子守歌"
 		]
 	},
@@ -121,7 +122,7 @@
 	"checkuser-autocreate-action": "自動的に作成",
 	"checkuser-create-action": "作成済",
 	"checkuser-email-action": "利用者「$1」にメールを送信",
-	"checkuser-reset-action": "利用者「$1」のパスワードをリセット",
+	"checkuser-reset-action": "利用者「$1」のパスワードリセットメールを送信しました",
 	"checkuser-token-fail": "セッション失敗。もう一度やり直してください。",
 	"checkuser-login-failure": "$1として{{SITENAME}}にログインするのに失敗",
 	"checkuser-login-success": "$1として{{SITENAME}}にログインするのに成功",
