@@ -7,7 +7,7 @@
 	},
 	"apihelp-query+checkuser-description": "Preveri, katere IP naslove uporablja navedeni uporabnik ali katera uporabniška imena uporablja navedeni IP naslov.",
 	"apihelp-query+checkuser-summary": "Preveri, katere IP naslove uporablja navedeni uporabnik ali katera uporabniška imena uporablja navedeni IP naslov.",
-	"apihelp-query+checkuser-param-request": "Vrsta prošnje za preverjanje uporabnika:\n;userips:Prikaži IP naslov ciljnega uporabnika.\n;edits:Prikaži spremembe ciljnega IP naslova ali razpona IP-jev.\n;ipusers:Prikaži uporabnike ciljnega IP naslova ali razpona IP-jev.",
+	"apihelp-query+checkuser-param-request": "Vrsta zahtevka za preverjanje uporabnika:\n;userips:Prikaži IP-naslov ciljnega uporabnika.\n;edits:Prikaži spremembe ciljnega IP-naslova ali IP-razpona.\n;ipusers:Prikaži uporabnike ciljnega IP-naslova ali IP-razpona.",
 	"apihelp-query+checkuser-param-target": "Uporabniško ime, IP-naslov ali razpon CIDR za preverbo.",
 	"apihelp-query+checkuser-param-reason": "Razlog preverbe.",
 	"apihelp-query+checkuser-param-limit": "Omejitev vrstic.",
