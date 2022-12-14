@@ -78,6 +78,6 @@
 	"checkuser-autocreate-action": "беше автоматично създадена",
 	"checkuser-create-action": "е създаден",
 	"checkuser-email-action": "изпрати е-писмо на потребител „$1“",
-	"checkuser-reset-action": "нулиране парола на потребител $1",
+	"checkuser-reset-action": "изпратен на имейл за нулиране парола на потребител $1",
 	"checkuser-token-fail": "Сесията не е успешна. Опитайте отново."
 }

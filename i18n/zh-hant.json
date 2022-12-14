@@ -112,7 +112,7 @@
 	"checkuser-autocreate-action": "已自動建立",
 	"checkuser-create-action": "已建立",
 	"checkuser-email-action": "傳送電子郵件聯絡使用者 \"$1\"",
-	"checkuser-reset-action": "為使用者$1重設密碼",
+	"checkuser-reset-action": "傳送重設密碼電郵給使用者$1",
 	"checkuser-token-fail": "連線階段錯誤，請再試一次。",
 	"checkuser-login-failure": "以$1身分登入{{SITENAME}}失敗",
 	"checkuser-login-success": "成功以$1身分登入{{SITENAME}}",
