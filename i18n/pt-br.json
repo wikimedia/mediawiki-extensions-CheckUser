@@ -25,7 +25,10 @@
 			"Pedroca cerebral",
 			"RadiX",
 			"Rodrigo codignoli",
-			555
+			555,
+			"Duke of Wikipädia",
+			"Fúlvio",
+			"YuriNikolai"
 		]
 	},
 	"checkuser-summary": "Esta ferramenta varre as mudanças recentes para obter os endereços de IP de um usuário ou para exibir os dados de edições/usuários para um IP.\nUsuários e edições podem ser obtidos por um IP XFF colocando-se \"/xff\" no final do endereço. São suportados endereços IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).\nNão serão retornadas mais de 5000 edições por motivos de desempenho. O uso desta ferramenta deverá estar de acordo com as políticas.",
@@ -53,6 +56,7 @@
 	"checkuser-week-1": "última semana",
 	"checkuser-week-2": "últimas duas semanas",
 	"checkuser-month": "últimos 30 dias",
+	"checkuser-month-2": "últimos 60 dias",
 	"checkuser-all": "todos",
 	"checkuser-cidr-label": "Encontrar intervalo comum e endereços afetados para uma lista de IPs",
 	"checkuser-cidr-res": "CIDR comum:",
