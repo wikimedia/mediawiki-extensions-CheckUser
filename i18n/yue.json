@@ -23,14 +23,9 @@
 	"checkuser-empty": "呢個日誌無任何嘅項目。",
 	"checkuser-nomatch": "搵唔到符合嘅資訊。",
 	"checkuser-check": "检查",
-	"checkuser-log-fail": "唔能夠加入日誌項目",
 	"checkuser-blocked": "已經封鎖",
-	"checkuser-too-many": "太多結果，請收窄個CIDR。\n呢度係個用過嘅IP (最多5000個，按地址排):",
-	"checkuser-user-nonexistent": "指定嘅用戶唔存在。",
 	"checkuser-search": "搵",
 	"checkuser-search-submit": "搵",
-	"checkuser-search-initiator": "創始者",
-	"checkuser-search-target": "目標",
 	"checkuser-ipeditcount": "~響全部用戶度搵到$1",
 	"checkuser-showmain": "轉去稽查用戶主要表格"
 }

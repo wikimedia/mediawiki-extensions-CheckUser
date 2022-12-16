@@ -27,7 +27,6 @@
 	"checkuser-empty": "Log me koi chij nai hae.",
 	"checkuser-nomatch": "Koi match nai mila",
 	"checkuser-check": "Check karo",
-	"checkuser-log-fail": "Log antry me jorre nai sakaa",
 	"checkuser-blocked": "Block karaa gais",
 	"checkuser-gblocked": "Globally block karaa gais",
 	"checkuser-locked": "lock karaa gais",

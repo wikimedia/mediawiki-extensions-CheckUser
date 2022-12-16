@@ -33,7 +33,6 @@
 	"checkuser-nomatch": "ماس كەلگەن تۈر تېپىلمىدى.",
 	"checkuser-nomatch-edits": "ماس كەلگەن تۈر تېپىلمىدى.\nئاخىرقى تەھرىرلەش $1 $2.",
 	"checkuser-check": "تەكشۈر",
-	"checkuser-log-fail": "خاتىرە تۈرىنى قوشالمايدۇ",
 	"checkuser-blocked": "توسۇلغان",
 	"checkuser-gblocked": "ئومۇمىيەت توسۇلغان",
 	"checkuser-locked": "قۇلۇپلانغان",
@@ -46,10 +45,7 @@
 	"checkuser-block-limit": "بەك كۆپ ئىشلەتكۈچى تاللاندى.",
 	"checkuser-block-noreason": "توسۇش سەۋەبىنى چۈشەندۈرۈڭ.",
 	"checkuser-noreason": "بۇ سۈرۈشتۈرۈشنىڭ سەۋەبىنى چۈشەندۈرۈڭ.",
-	"checkuser-user-nonexistent": "بەلگىلەنگەن ئىشلەتكۈچى مەۋجۇت ئەمەس.",
 	"checkuser-search": "ئىزدە",
 	"checkuser-search-submit": "ئىزدە",
-	"checkuser-search-initiator": "مەشغۇلاتچى",
-	"checkuser-search-target": "نىشان",
 	"checkuser-create-action": "قۇرۇلدى"
 }

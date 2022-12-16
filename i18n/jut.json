@@ -22,13 +22,8 @@
 	"checkuser-empty": "Loggi inholje ien poste.",
 	"checkuser-nomatch": "Ien öwe-iensstæmmenje resultate bløw funjen.",
 	"checkuser-check": "Tjekk",
-	"checkuser-log-fail": "Ku ett tilfye loggpost",
 	"checkuser-blocked": "Blokiirtj",
-	"checkuser-too-many": "For mange resultater, gør CIDR'en smallere. Her er de brugte IP'er (max 5000, sorteret efter adresse):",
-	"checkuser-user-nonexistent": "Ånförtje brugari eksistiire ett.",
 	"checkuser-search": "Syeg",
 	"checkuser-search-submit": "Syeg",
-	"checkuser-search-initiator": "initiatiwtar",
-	"checkuser-search-target": "mol",
 	"checkuser-showmain": "Gå tilbage til hovedformularen for checkbruger"
 }

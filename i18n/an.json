@@ -24,14 +24,9 @@
 	"checkuser-empty": "No bi ha garra elemento en o rechistro.",
 	"checkuser-nomatch": "No s'ha trobato garra concordancia",
 	"checkuser-check": "Comprebar",
-	"checkuser-log-fail": "No s'ha puesto adhibir ista dentrada ta o rechistro",
 	"checkuser-blocked": "Bloqueyato",
-	"checkuser-too-many": "Bi ha masiaus resultaus (seguntes a estimación d'a busca), cal que emplegue un CIDR más chicot. Aquí bi son as adrezas IP emplegatas (maximo 5000, ordenatas por  adreza):",
-	"checkuser-user-nonexistent": "O usuario especificato no existe.",
 	"checkuser-search": "Mirar",
 	"checkuser-search-submit": "Mirar",
-	"checkuser-search-initiator": "o encetador d'a consulta",
-	"checkuser-search-target": "obchectivo",
 	"checkuser-ipeditcount": "~$1 de totz os usuarios",
 	"checkuser-showmain": "Tornar ta o formulario prencipal de CheckUser (Comprebación d'usuarios)"
 }

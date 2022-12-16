@@ -25,17 +25,12 @@
 	"checkuser-empty": "Manam kanchu ima hallch'asqapas.",
 	"checkuser-nomatch": "Manam imapas taripasqachu.",
 	"checkuser-check": "Llanchiy",
-	"checkuser-log-fail": "Manam atinichu hallch'aman yapayta",
 	"checkuser-blocked": "Hark'asqa",
 	"checkuser-gblocked": "Sapsintinpi hark'asqa",
 	"checkuser-locked": "Wichq'asqa",
 	"checkuser-wasblocked": "Ñawpaqta hark'asqa",
 	"checkuser-localonly": "Manam hukllasqachu",
 	"checkuser-massblock": "Akllasqa ruraqkunata hark'ay",
-	"checkuser-too-many": "Nisyum tarisqakuna (chhikaynasqakama), ama hina kaspa CIDR nisqata k'ichkichay. Kaymi llamk'achisqa IP huchhakuna (5000-kama, tiyay sutikama siq'inchasqa):",
-	"checkuser-user-nonexistent": "Nisqayki ruraqqa manam kanchu.",
 	"checkuser-search": "Maskay",
-	"checkuser-search-submit": "Maskay",
-	"checkuser-search-initiator": "qallarichiq",
-	"checkuser-search-target": "taripana"
+	"checkuser-search-submit": "Maskay"
 }

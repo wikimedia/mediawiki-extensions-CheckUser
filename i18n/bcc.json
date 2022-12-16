@@ -22,14 +22,9 @@
 	"checkuser-empty": "آمار شمال هچ آیتمی نهنت.",
 	"checkuser-nomatch": "هچ همدابی در نکپت",
 	"checkuser-check": "کنترل",
-	"checkuser-log-fail": "نه تونی ورودی آمار اضافه کنت",
 	"checkuser-blocked": "محدود",
-	"checkuser-too-many": "بازگین نتیجه, لطفا CIDR هورد تر کن.\nادان آی پی آنی هستند که استفاده کننت(5000 ماکسیمم، گون آدرس ردیف بوتگن):",
-	"checkuser-user-nonexistent": "مشخص بوتگین کاربر موجود نهنت",
 	"checkuser-search": "گردگ",
 	"checkuser-search-submit": "گردگ",
-	"checkuser-search-initiator": "بنٚگݔجۏک",
-	"checkuser-search-target": "هدف",
 	"checkuser-ipeditcount": "~$1 چه کلی کابران",
 	"checkuser-showmain": "په فرم اصلی کنترل کاربر تر"
 }

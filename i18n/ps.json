@@ -34,8 +34,6 @@
 	"checkuser-block-noreason": "تاسې بايد د بنديز لگولو يو سبب څرگند کړئ.",
 	"checkuser-search": "پلټل",
 	"checkuser-search-submit": "پلټل",
-	"checkuser-search-initiator": "پېلوونکی",
-	"checkuser-search-target": "موخه",
 	"checkuser-log-search-target": "موخه:",
 	"checkuser-ipeditcount": "~$1 د ټولو کارنانو نه",
 	"checkuser-autocreate-action": "په خپلکاره توگه جوړ شو",

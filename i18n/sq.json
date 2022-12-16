@@ -10,6 +10,5 @@
 	"checkuser": "Kontrollo përdoruesin",
 	"checkuser-reason": "Arsyeja:",
 	"checkuser-blocked": "Bllokuar",
-	"checkuser-wasblocked": "Bllokuar më parë",
-	"checkuser-log-search-type": "Kërko nga:"
+	"checkuser-wasblocked": "Bllokuar më parë"
 }

@@ -41,7 +41,6 @@
 	"checkuser-nomatch": "खोजिएको परिणाम भेटिएन।",
 	"checkuser-nomatch-edits": "खोजिएको परिणाम भेटिएन।\nअन्तिम सम्पादन $1 मा $2।",
 	"checkuser-check": "जाँच्ने",
-	"checkuser-log-fail": "लग इन्ट्री जोड्न असफल",
 	"checkuser-blocked": "निषेधित",
 	"checkuser-gblocked": "विश्वव्यापी निषेधित",
 	"checkuser-locked": "प्रतिबन्धित",

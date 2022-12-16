@@ -21,14 +21,9 @@
 	"checkuser-empty": "Logna kosong.",
 	"checkuser-nomatch": "Euweuh nu cocog.",
 	"checkuser-check": "Pariksa",
-	"checkuser-log-fail": "Teu bisa nambahkeun kana log",
 	"checkuser-blocked": "Dipeungpeuk",
-	"checkuser-too-many": "Hasilna loba teuing, heureutan CIDR-na.\nDi handap ieu béréndélan IP nu dipaké (paling loba 5000, disusun dumasar alamat):",
-	"checkuser-user-nonexistent": "Euweuh pamaké nu cocog jeung pamundut.",
 	"checkuser-search": "Paluruh éntri log pamaké",
 	"checkuser-search-submit": "Paluruh",
-	"checkuser-search-initiator": "inisiator",
-	"checkuser-search-target": "tujul",
 	"checkuser-ipeditcount": "~$1 ti sakumna pamaké",
 	"checkuser-showmain": "Balik ka formulir utama PamakéPamariksa"
 }

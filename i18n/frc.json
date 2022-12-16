@@ -21,6 +21,5 @@
 	"checkuser-empty": "Les notes sont vides.",
 	"checkuser-nomatch": "Rien pareil trouvé.",
 	"checkuser-check": "Charche",
-	"checkuser-log-fail": "Pas capable d'additionner la note",
 	"checkuser-search": "Charche"
 }

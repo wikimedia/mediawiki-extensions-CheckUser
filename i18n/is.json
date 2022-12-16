@@ -31,7 +31,6 @@
 	"checkuser-locked": "Læstur",
 	"checkuser-search": "Leita",
 	"checkuser-search-submit": "Leita",
-	"checkuser-search-target": "markmið",
 	"checkuser-log-search-target": "Markmið:",
 	"checkuser-reset-action": "endurstilla lykilorð fyrir notandann $1"
 }

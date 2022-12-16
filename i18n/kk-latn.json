@@ -18,13 +18,8 @@
 	"checkuser-empty": "Jwrnalda eş jazba joq.",
 	"checkuser-nomatch": "Säýkes tabılmadı.",
 	"checkuser-check": "Sınaw",
-	"checkuser-log-fail": "Jwrnalğa jazba üstelinbedi",
 	"checkuser-blocked": "Buğattalğan",
-	"checkuser-too-many": "Tım köp nätïje keltirildi, CIDR degendi tarıltıp köriñiz. Mında paýdalanılğan IP jaýlar körsetilgen (barınşa 5000, jaýımen surıptalğan):",
-	"checkuser-user-nonexistent": "Engizilgen qatıswşı joq.",
 	"checkuser-search": "İzdew",
 	"checkuser-search-submit": "İzdew",
-	"checkuser-search-initiator": "bastamaşı",
-	"checkuser-search-target": "nısana",
 	"checkuser-showmain": "CheckUser basqı pişinine  oralw"
 }
