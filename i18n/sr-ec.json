@@ -89,6 +89,7 @@
 	"checkuser-token-fail": "Сесија је отказана. Покушајте поново.",
 	"checkuser-login-failure": "Пријављивање на пројекат као $1 није успело",
 	"checkuser-login-success": "Успешто пријављивање на пројекат као $1",
+	"group-checkuser.css": "/* CSS постављен овде ће утицати само на чекјузере */",
 	"checkuser-investigateblock-target": "Корисничка имена или IP адресе",
 	"checkuser-investigateblock-actions": "Радње за блокирање",
 	"checkuser-investigateblock-options": "Додатне могућности",
