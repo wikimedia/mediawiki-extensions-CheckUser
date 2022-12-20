@@ -22,7 +22,9 @@
 			"Wrightbus",
 			"Xiplus",
 			"一個正常人",
-			"星海"
+			"星海",
+			"列维劳德",
+			"捍粵者"
 		]
 	},
 	"checkuser-summary": "本工具會從最近更改中取得使用者使用過的 IP 位址，可使用 XFF 標頭資訊來取得同一客戶端 IP 位址下的使用者和編輯，即在 IP 位址後方加上 \"/xff\"。 本工具支援 IPv4 (CIDR $1-32) 與 IPv6 (CIDR $2-128)。 考量到效率問題，本工具只允許查詢最近 $3 筆編輯。 請確認你的操作符合政策規範。",
@@ -83,9 +85,9 @@
 	"checkuser-block-success": "'''{{PLURAL:$2|使用者}} $1 {{PLURAL:$2|已被}}封鎖。'''",
 	"checkuser-block-failure": "'''沒有使用者被封鎖。'''",
 	"checkuser-block-limit": "選擇的使用者過多。",
-	"checkuser-block-noreason": "您必須提供進行禁鎖的原因。",
+	"checkuser-block-noreason": "您必須提供封鎖原因",
 	"checkuser-centralauth-multilock": "多重鎖定選定帳戶",
-	"checkuser-noreason": "您必須提供進行查詢的原因。",
+	"checkuser-noreason": "您必須提供搜尋原因",
 	"checkuser-too-many": "查詢結果過多 (根據查詢估計)，請縮小 CIDR 的範圍。\n以下為使用到的 IP 位址 (最多 $1 個，依位址排列)：",
 	"checkuser-user-nonexistent": "指定的使用者不存在。",
 	"checkuser-target-nonexistent": "指定的目標不存在。",
