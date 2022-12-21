@@ -78,7 +78,7 @@
 	"checkuser-blocktalk": "Empêcher l’utilisateur de modifier sa page de discussion pendant le blocage",
 	"checkuser-blocktag": "Remplacer les pages d’utilisateur par :",
 	"checkuser-blocktag-talk": "Remplacer les pages de discussion par :",
-	"checkuser-reblock": "Remplacer les blocs existants",
+	"checkuser-reblock": "Outrepasser les blocages existants",
 	"checkuser-massblock-commit": "Bloquer les utilisateurs sélectionnés",
 	"checkuser-block-success": "'''{{PLURAL:$2|L’utilisateur $1 est maintenant bloqué|Les $2 utilisateurs suivants sont maintenant bloqués : $1}}.'''",
 	"checkuser-block-failure": "'''Aucun utilisateur bloqué.'''",

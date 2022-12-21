@@ -5,13 +5,14 @@
 			"Elisardojm",
 			"Fisterraeomar",
 			"Macofe",
-			"McDutchie"
+			"McDutchie",
+			"Toliño"
 		]
 	},
 	"apihelp-query+checkuser-description": "Comprobar que enderezos IP son empregados por un usuario concreto ou que nomes de usuario son empregados por un IP específico.",
 	"apihelp-query+checkuser-summary": "Comprobar que enderezos IP son empregados por un usuario concreto ou que nomes de usuario son empregados por un IP específico.",
 	"apihelp-query+checkuser-param-request": "Tipo da petición CheckUser:\n;userips: Retornar o enderezo IP do usuario obxetivo.\n;edits: Retornar os cambios do enderezo IP ou rango obxetivo.\n;ipusers: Retornar os usuarios do enderezo IP ou rango obxetivo.",
-	"apihelp-query+checkuser-param-target": "Nome de usuario, dirección IP, ou rango CIDR a comprobar.",
+	"apihelp-query+checkuser-param-target": "Nome de usuario, enderezo IP ou rango CIDR a comprobar.",
 	"apihelp-query+checkuser-param-reason": "Motivo para a comprobación.",
 	"apihelp-query+checkuser-param-limit": "Límite de filas.",
 	"apihelp-query+checkuser-param-timecond": "Límite de tempo dos datos de usuario (coma \"-2 weeks\" ou \"2 weeks ago\").",
