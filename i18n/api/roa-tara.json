@@ -25,5 +25,6 @@
 	"apihelp-query+checkuserlog-example-2": "Fà vedè le verifiche de 192.0.2.0/24 apprisse 2011-10-15T23:00:00Z",
 	"apierror-checkuser-missingsummary": "Tu ha dicere 'nu mutive de verifiche.",
 	"apierror-checkuser-timelimit": "Tu è abbesogne de ausà 'u limite de tiembe corrette (cumme \"-2 sumàne\" o \"2 sumàne rrete\").",
-	"apierror-checkuser-invalidmode": "Mode de richieste invalide"
+	"apierror-checkuser-invalidmode": "Mode de richieste invalide",
+	"checkuser-api-help-param-direction": "Jndr'à ce direzione amma numerà:\n;newer:Elenghe apprime le cchiù vicchie. Note: $1from adda avenè apprime de $1to.\n;older:Elenghe apprime le cchiù nuève (predefinite). Note: $1from adda avenè apprisse a $1to."
 }

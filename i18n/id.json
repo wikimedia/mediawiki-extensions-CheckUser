@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Agam Riyandana",
 			"Akmaie Ajam",
 			"Arief",
 			"Bennylin",
@@ -49,7 +50,6 @@
 	"checkuser-all": "semua",
 	"checkuser-cidr-label": "Mencari jangkauan umum dan alamat yang dipengaruhi dari sebuah daftar IP",
 	"checkuser-cidr-res": "CIDR umum:",
-	"checkuser-range-outside-limit": "The range $1 is outside the allowed limits.",
 	"checkuser-empty": "Log kosong.",
 	"checkuser-nomatch": "Tidak ditemukan data yang cocok.",
 	"checkuser-nomatch-edits": "Tidak ditemukan hasil sesuai kriteria yang diberikan.\nSuntingan terakhir dilakukan pada $1 $2.",
@@ -64,7 +64,7 @@
 	"checkuser-localonly": "Tidak digabungkan",
 	"checkuser-massblock": "Blokir pengguna yang dipilih",
 	"checkuser-massblock-text": "Akun-akun yang dipilih akan diblokir selamanya, alamat-alamat IP terakhir yang digunakan otomatis diblokir dan tidak diperbolehkan membuat akun.\nAlamat-alamat IP akan diblokir selama 1 minggu untuk pengguna anonim dan tidak diperbolehkan membuat akun.",
-	"checkuser-blockemail": "Cegah pengguna mengirimkan surel",
+	"checkuser-blockemail": "Blokir pengguna yang dipilih dari mengirim email",
 	"checkuser-blocktalk": "Cegah pengguna ini untuk menyunting halaman pembicaraannya saat diblokir",
 	"checkuser-blocktag": "Ganti halaman pengguna dengan:",
 	"checkuser-blocktag-talk": "Ganti halaman pembicaraan dengan:",
