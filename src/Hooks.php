@@ -104,6 +104,7 @@ class Hooks implements
 					'CheckUserHookRunner',
 					'PermissionManager',
 					'CheckUserLogService',
+					'UserIdentityLookup',
 				],
 			];
 

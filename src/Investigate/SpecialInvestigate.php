@@ -17,6 +17,7 @@ use MediaWiki\CheckUser\Investigate\Utilities\EventLogger;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserOptionsManager;
 use Message;
 use OOUI\ButtonGroupWidget;
@@ -33,7 +34,6 @@ use OOUI\Tag;
 use OOUI\Widget;
 use ParserOutput;
 use Status;
-use User;
 use Wikimedia\IPUtils;
 
 class SpecialInvestigate extends FormSpecialPage {
@@ -72,6 +72,9 @@ class SpecialInvestigate extends FormSpecialPage {
 
 	/** @var CheckUserLogService */
 	private $checkUserLogService;
+
+	/** @var UserIdentityLookup */
+	private $userIdentityLookup;
 
 	/** @var IndexLayout|null */
 	private $layout;
@@ -114,6 +117,7 @@ class SpecialInvestigate extends FormSpecialPage {
 	 * @param CheckUserSubtitleLinksHook $subtitleLinksHookRunner
 	 * @param PermissionManager $permissionManager
 	 * @param CheckUserLogService $checkUserLogService
+	 * @param UserIdentityLookup $userIdentityLookup
 	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
@@ -128,7 +132,8 @@ class SpecialInvestigate extends FormSpecialPage {
 		TourLauncher $tourLauncher,
 		CheckUserSubtitleLinksHook $subtitleLinksHookRunner,
 		PermissionManager $permissionManager,
-		CheckUserLogService $checkUserLogService
+		CheckUserLogService $checkUserLogService,
+		UserIdentityLookup $userIdentityLookup
 	) {
 		parent::__construct( 'Investigate', 'checkuser' );
 		$this->setLinkRenderer( $linkRenderer );
@@ -144,6 +149,7 @@ class SpecialInvestigate extends FormSpecialPage {
 		$this->subtitleLinksHookRunner = $subtitleLinksHookRunner;
 		$this->permissionManager = $permissionManager;
 		$this->checkUserLogService = $checkUserLogService;
+		$this->userIdentityLookup = $userIdentityLookup;
 	}
 
 	/**
@@ -829,7 +835,8 @@ class SpecialInvestigate extends FormSpecialPage {
 			} else {
 				// The form validated that the user exists on this wiki
 				$targetType = 'user';
-				$targetId = User::idFromName( $target ) ?? 0;
+				$userIdentity = $this->userIdentityLookup->getUserIdentityByName( $target );
+				$targetId = $userIdentity ? $userIdentity->getId() : 0;
 			}
 
 			$this->checkUserLogService->addLogEntry(
