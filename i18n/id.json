@@ -65,7 +65,7 @@
 	"checkuser-massblock": "Blokir pengguna yang dipilih",
 	"checkuser-massblock-text": "Akun-akun yang dipilih akan diblokir selamanya, alamat-alamat IP terakhir yang digunakan otomatis diblokir dan tidak diperbolehkan membuat akun.\nAlamat-alamat IP akan diblokir selama 1 minggu untuk pengguna anonim dan tidak diperbolehkan membuat akun.",
 	"checkuser-blockemail": "Blokir pengguna yang dipilih dari mengirim email",
-	"checkuser-blocktalk": "Cegah pengguna ini untuk menyunting halaman pembicaraannya saat diblokir",
+	"checkuser-blocktalk": "Cegah pengguna yang dipilih dari mengedit halaman pembicaraan mereka sendiri saat diblokir",
 	"checkuser-blocktag": "Ganti halaman pengguna dengan:",
 	"checkuser-blocktag-talk": "Ganti halaman pembicaraan dengan:",
 	"checkuser-reblock": "Timpa pemblokiran yang ada",
