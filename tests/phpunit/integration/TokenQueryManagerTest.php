@@ -6,7 +6,6 @@ use FauxRequest;
 use MediaWiki\CheckUser\TokenManager;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWikiIntegrationTestCase;
-use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test class for TokenQueryManager class
@@ -17,16 +16,8 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class TokenQueryManagerTest extends MediaWikiIntegrationTestCase {
 
-	/**
-	 * @return MockObject|TokenManager
-	 */
-	private function getMockTokenManager() {
-		return $this->getMockBuilder( TokenManager::class )
-			->disableOriginalConstructor()->getMock();
-	}
-
 	public function testUpdateToken() {
-		$tokenManager = $this->getMockTokenManager();
+		$tokenManager = $this->createMock( TokenManager::class );
 		$tokenQueryManager = $this->getMockBuilder( TokenQueryManager::class )
 			->setConstructorArgs( [ $tokenManager ] )
 			->onlyMethods( [ 'getDataFromRequest' ] )
@@ -45,7 +36,7 @@ class TokenQueryManagerTest extends MediaWikiIntegrationTestCase {
 	public function testGetDataFromRequest() {
 		$request = new FauxRequest( [ 'token' => 'token' ] );
 
-		$tokenManager = $this->getMockTokenManager();
+		$tokenManager = $this->createMock( TokenManager::class );
 		$tokenManager->expects( $this->once() )->method( 'decode' )->with( $this->anything(), 'token' );
 
 		$tokenQueryManager = new TokenQueryManager( $tokenManager );
@@ -55,7 +46,7 @@ class TokenQueryManagerTest extends MediaWikiIntegrationTestCase {
 	public function testGetDataFromRequestWithNoToken() {
 		$request = new FauxRequest();
 
-		$tokenManager = $this->getMockTokenManager();
+		$tokenManager = $this->createMock( TokenManager::class );
 		$tokenQueryManager = new TokenQueryManager( $tokenManager );
 		$data = $tokenQueryManager->getDataFromRequest( $request );
 
@@ -63,7 +54,7 @@ class TokenQueryManagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testGetDataFromRequestHandlesDecodeException() {
-		$tokenManager = $this->getMockTokenManager();
+		$tokenManager = $this->createMock( TokenManager::class );
 		$tokenManager->method( 'decode' )->willThrowException( new \Exception() );
 
 		$tokenQueryManager = new TokenQueryManager( $tokenManager );

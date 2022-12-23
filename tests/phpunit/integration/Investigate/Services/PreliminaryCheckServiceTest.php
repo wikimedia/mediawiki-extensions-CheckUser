@@ -7,7 +7,6 @@ use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserGroupManagerFactory;
 use MediaWikiIntegrationTestCase;
-use PHPUnit\Framework\MockObject\MockObject;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\ILBFactory;
@@ -21,43 +20,12 @@ use Wikimedia\Rdbms\SelectQueryBuilder;
  * @covers \MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService
  */
 class PreliminaryCheckServiceTest extends MediaWikiIntegrationTestCase {
-	/**
-	 * @return MockObject|ILoadBalancer
-	 */
-	private function getMockLoadBalancer() {
-		return $this->getMockBuilder( ILoadBalancer::class )
-			->disableOriginalConstructor()->getMock();
-	}
-
-	/**
-	 * @return MockObject|IDatabase
-	 */
-	private function getMockDb() {
-		return $this->getMockBuilder( IDatabase::class )
-			->disableOriginalConstructor()->getMock();
-	}
-
-	/**
-	 * @return MockObject|ILBFactory
-	 */
-	private function getMockLoadBalancerFactory() {
-		return $this->getMockBuilder( ILBFactory::class )
-			->disableOriginalConstructor()->getMock();
-	}
-
-	/**
-	 * @return MockObject|ExtensionRegistry
-	 */
-	private function getMockExtensionRegistry() {
-		return $this->getMockBuilder( ExtensionRegistry::class )
-			->disableOriginalConstructor()->getMock();
-	}
 
 	/**
 	 * @dataProvider preprocessResultsProvider()
 	 */
 	public function testPreprocessResults( $user, $options, $expected ) {
-		$dbRef = $this->getMockDb();
+		$dbRef = $this->createMock( IDatabase::class );
 		$queryBuilder = new SelectQueryBuilder( $dbRef );
 		$dbRef->method( 'newSelectQueryBuilder' )
 			->willReturn( $queryBuilder );
@@ -71,12 +39,12 @@ class PreliminaryCheckServiceTest extends MediaWikiIntegrationTestCase {
 				]
 			);
 
-		$lb = $this->getMockLoadBalancer();
+		$lb = $this->createMock( ILoadBalancer::class );
 		$lb->method( 'getConnectionRef' )->willReturn( $dbRef );
-		$lbFactory = $this->getMockLoadBalancerFactory();
+		$lbFactory = $this->createMock( ILBFactory::class );
 		$lbFactory->method( 'getMainLB' )->willReturn( $lb );
 
-		$registry = $this->getMockExtensionRegistry();
+		$registry = $this->createMock( ExtensionRegistry::class );
 		$registry->method( 'isLoaded' )->willReturn( $options['isCentralAuthAvailable'] );
 
 		$ugm = $this->createNoOpMock( UserGroupManager::class, [ 'getUserGroups' ] );
@@ -175,8 +143,8 @@ class PreliminaryCheckServiceTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider getQueryInfoProvider()
 	 */
 	public function testGetQueryInfo( $users, $options, $expected ) {
-		$lbFactory = $this->getMockLoadBalancerFactory();
-		$registry = $this->getMockExtensionRegistry();
+		$lbFactory = $this->createMock( ILBFactory::class );
+		$registry = $this->createMock( ExtensionRegistry::class );
 
 		$registry->method( 'isLoaded' )->willReturn( $options['isCentralAuthAvailable'] );
 
