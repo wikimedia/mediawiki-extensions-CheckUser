@@ -131,7 +131,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	 * @inheritDoc
 	 */
 	public function formatRow( $row ) {
-		$user = Linker::userLink( $row->cul_user, $row->user_name ) .
+		$user = Linker::userLink( $row->cul_user, $row->actor_name ) .
 			$this->msg( 'word-separator' )->escaped()
 			. Html::rawElement( 'span', [ 'classes' => 'mw-usertoollinks' ],
 				$this->msg( 'parentheses' )->params( $this->getLinkRenderer()->makeLink(
@@ -139,7 +139,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 					$this->msg( 'checkuser-log-checks-by' )->text(),
 					[],
 					[
-						'cuInitiator' => $row->user_name,
+						'cuInitiator' => $row->actor_name,
 					]
 				) )->text()
 			);
@@ -214,9 +214,9 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	 */
 	public function getQueryInfo() {
 		return [
-			'tables' => [ 'cu_log', 'user' ],
+			'tables' => [ 'cu_log', 'actor' ],
 			'fields' => $this->selectFields(),
-			'conds' => array_merge( $this->searchConds, [ 'user_id = cul_user' ] )
+			'conds' => array_merge( $this->searchConds, [ 'actor_user = cul_user' ] )
 		];
 	}
 
@@ -233,7 +233,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	public function selectFields() {
 		return [
 			'cul_id', 'cul_timestamp', 'cul_user', 'cul_reason', 'cul_type',
-			'cul_target_id', 'cul_target_text', 'user_name'
+			'cul_target_id', 'cul_target_text', 'actor_name'
 		];
 	}
 
@@ -251,7 +251,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 		$lb->setCaller( __METHOD__ );
 		foreach ( $result as $row ) {
 			// Performer
-			$lb->add( NS_USER, $row->user_name );
+			$lb->add( NS_USER, $row->actor_name );
 
 			if ( $row->cul_type == 'userips' || $row->cul_type == 'useredits' ) {
 				$lb->add( NS_USER, $row->cul_target_text );
