@@ -22,6 +22,7 @@ class CheckUserLogPagerTest extends CheckUserIntegrationTestCaseTest {
 			$this->tablesUsed,
 			[
 				'cu_log',
+				'actor',
 			]
 		);
 	}
@@ -37,7 +38,7 @@ class CheckUserLogPagerTest extends CheckUserIntegrationTestCaseTest {
 		$testUser = $this->getTestUser()->getUser();
 		$this->assertTrue( $testUser->getUser()->isRegistered() );
 		$this->assertArrayEquals(
-			[ 'cul_user' => $testUser->getId() ],
+			[ 'cul_actor' => $testUser->getActorId() ],
 			CheckUserLogPager::getPerformerSearchConds( $testUser->getName() ),
 			false,
 			true,

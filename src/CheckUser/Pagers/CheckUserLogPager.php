@@ -9,6 +9,7 @@ use Linker;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog;
 use MediaWiki\CommentFormatter\CommentFormatter;
+use MediaWiki\MediaWikiServices;
 use RangeChronologicalPager;
 use SpecialPage;
 use Wikimedia\Rdbms\IResultWrapper;
@@ -131,7 +132,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	 * @inheritDoc
 	 */
 	public function formatRow( $row ) {
-		$user = Linker::userLink( $row->cul_user, $row->actor_name ) .
+		$user = Linker::userLink( $row->actor_user, $row->actor_name ) .
 			$this->msg( 'word-separator' )->escaped()
 			. Html::rawElement( 'span', [ 'classes' => 'mw-usertoollinks' ],
 				$this->msg( 'parentheses' )->params( $this->getLinkRenderer()->makeLink(
@@ -213,10 +214,16 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	 * @inheritDoc
 	 */
 	public function getQueryInfo() {
+		if ( $this->getConfig()->get( 'CheckUserLogActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
+			$cond = [ 'actor_id = cul_actor' ];
+		} else {
+			$cond = [ 'actor_user = cul_user' ];
+		}
+
 		return [
 			'tables' => [ 'cu_log', 'actor' ],
 			'fields' => $this->selectFields(),
-			'conds' => array_merge( $this->searchConds, [ 'actor_user = cul_user' ] )
+			'conds' => array_merge( $this->searchConds, $cond )
 		];
 	}
 
@@ -233,7 +240,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	public function selectFields() {
 		return [
 			'cul_id', 'cul_timestamp', 'cul_user', 'cul_reason', 'cul_type',
-			'cul_target_id', 'cul_target_text', 'actor_name'
+			'cul_target_id', 'cul_target_text', 'actor_name', 'actor_user'
 		];
 	}
 
@@ -269,9 +276,15 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	 * @return array|null array if valid target, null if invalid
 	 */
 	public static function getPerformerSearchConds( string $initiator ) {
-		$initiatorObject = SpecialCheckUserLog::verifyInitiator( $initiator );
-		if ( $initiatorObject !== false ) {
-			return [ 'cul_user' => $initiatorObject ];
+		$initiatorId = SpecialCheckUserLog::verifyInitiator( $initiator );
+		if ( $initiatorId !== false ) {
+			if ( MediaWikiServices::getInstance()->getMainConfig()
+				->get( 'CheckUserLogActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW
+			) {
+				return [ 'cul_actor' => $initiatorId ];
+			} else {
+				return [ 'cul_user' => $initiatorId ];
+			}
 		}
 		return null;
 	}

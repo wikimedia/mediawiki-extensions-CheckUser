@@ -31,19 +31,32 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		$continue = $params['continue'];
 		$dir = $params['dir'];
 
-		$this->addTables( 'cu_log' );
+		$this->addTables( [ 'cu_log', 'actor' ] );
 		$this->addOption( 'LIMIT', $limit + 1 );
 		$this->addTimestampWhereRange( 'cul_timestamp', $dir, $params['from'], $params['to'] );
-		$this->addFields( [
-			'cul_id', 'cul_timestamp', 'cul_user_text', 'cul_reason', 'cul_type', 'cul_target_text'
-		] );
+		$fields = [
+			'cul_id', 'cul_timestamp', 'cul_reason', 'cul_type', 'cul_target_text'
+		];
+
+		if ( $this->getConfig()->get( 'CheckUserLogActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
+			$this->addJoinConds( [ 'actor' => [ 'JOIN', 'actor_id=cul_actor' ] ] );
+			$fields[] = 'actor_name';
+		} else {
+			$fields[] = 'cul_user_text';
+		}
+
+		$this->addFields( $fields );
 
 		// Order by both timestamp and id
 		$order = ( $dir === 'newer' ? '' : ' DESC' );
 		$this->addOption( 'ORDER BY', [ 'cul_timestamp' . $order, 'cul_id' . $order ] );
 
 		if ( isset( $params['user'] ) ) {
-			$this->addWhereFld( 'cul_user_text', $params['user'] );
+			if ( $this->getConfig()->get( 'CheckUserLogActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
+				$this->addWhereFld( 'actor_name', $params['user'] );
+			} else {
+				$this->addWhereFld( 'cul_user_text', $params['user'] );
+			}
 		}
 		if ( isset( $params['target'] ) ) {
 			if ( IPUtils::isIPAddress( $params['target'] ) ) {
@@ -75,9 +88,14 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 				$this->setContinueEnumParameter( 'continue', "$row->cul_timestamp|$row->cul_id" );
 				break;
 			}
+			if ( $this->getConfig()->get( 'CheckUserLogActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
+				$name = $row->actor_name;
+			} else {
+				$name = $row->cul_user_text;
+			}
 			$log = [
 				'timestamp' => wfTimestamp( TS_ISO_8601, $row->cul_timestamp ),
-				'checkuser' => $row->cul_user_text,
+				'checkuser' => $name,
 				'type'      => $row->cul_type,
 				'reason'    => $row->cul_reason,
 				'target'    => $row->cul_target_text,

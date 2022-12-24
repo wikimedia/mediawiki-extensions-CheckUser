@@ -23,6 +23,7 @@ class SpecialTestCheckUserLogTest extends CheckUserIntegrationTestCaseTest {
 			$this->tablesUsed,
 			[
 				'cu_log',
+				'actor',
 			]
 		);
 	}
@@ -35,9 +36,9 @@ class SpecialTestCheckUserLogTest extends CheckUserIntegrationTestCaseTest {
 		$testUser = $this->getTestUser()->getUser();
 		$this->assertTrue( $testUser->getUser()->isRegistered() );
 		$this->assertSame(
-			$testUser->getId(),
+			$testUser->getActorId(),
 			SpecialCheckUserLog::verifyInitiator( $testUser->getName() ),
-			'For an existing user it\'s ID should be returned.'
+			'For an existing user it\'s actor ID should be returned.'
 		);
 
 		// Non-existent user with a valid username
