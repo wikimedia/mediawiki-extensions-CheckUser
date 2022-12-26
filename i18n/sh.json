@@ -8,7 +8,7 @@
 	"checkuser-summary": "Ova alatka pregleda skorašnje izmene i vraća IP adrese koje je korisnik koristio ili pokazuje podatke o korisniku/izmenama za dati IP. Korisnici i izmene klijentskog IP se mogu dobaviti preko XFF zaglavlja dodavanjem <code>/xff</code> iza IP adrese. Podržani su formati IPv4 (CIDR $1-32) i IPv6 (CIDR $2-128).\nZbog performansi neće biti vraćeno više od 5000 izmena.\nAlatku koristite u skladu sa politikom.",
 	"checkuser-desc": "Daje korisnicima sa odgovarajućim pravima mogućnost da provere IP adrese korisnika i druge informacije",
 	"checkuser-logcase": "Pretraga evidencije razlikuje mala i velika slova.",
-	"checkuser": "Provjera korisnika / Провера корисника",
+	"checkuser": "Provjera korisnika",
 	"checkuserlog": "Evidencija čekjuzera",
 	"checkuser-contribs": "Proveri korisnikove IP adrese",
 	"checkuser-contribs-log": "skorašnje provere",
@@ -83,9 +83,10 @@
 	"checkuser-reset-action": "poništi lozinku korisnika „$1“",
 	"checkuser-token-fail": "Sesija nije uspjela. Pokušajte ponovno.",
 	"checkuser-login-failure": "Nije uspio vas prijaviti na {{SITENAME}} kao $1",
-	"checkuser-login-success": "Uspješno sam prijavio na {{SITENAME}} kao $1",
+	"checkuser-login-success": "Uspješno prijavljen(-a) na {{SITENAME}} kao $1",
 	"checkuser-investigateblock": "Blokiraj korisnike",
 	"checkuser-investigateblock-target": "Korisnička imena i IP adrese",
+	"checkuser-investigateblock-actions": "Radnje za blokiranje",
 	"checkuser-investigateblock-reason": "Razlog",
 	"checkuser-investigateblock-options": "Dodatne mogućnosti",
 	"checkuser-investigateblock-email-label": "Onemogući slanje e-pošte",
@@ -121,7 +122,7 @@
 	"checkuser-investigate-filters-exclude-targets-label": "Skrij navedene suradnike ili IP adrese",
 	"checkuser-investigate-timeline-notice-no-results": "Nema rezultata: nije zabilježena aktivnost ovih korisnika ili IP adresa u zadnjih 90 dana",
 	"checkuser-investigate-timeline-notice-no-results-filters": "Nema rezultata koji odgovaraju filtriranju. Uklonite neke filtre kako biste proširili pretragu.",
-	"checkuser-investigate-compare-copy-button-label": "Pokaži wikitekst",
+	"checkuser-investigate-compare-copy-button-label": "Pok. wikitekst",
 	"checkuser-investigate-compare-copy-message-label": "Želite li prekopirati ove informacije kao wikitekst tablicu?",
 	"checkuser-investigate-compare-notice-exceeded-limit": "Zbog tehničkih ograničenja, prikazan je najveći broj zapisa koji se mogu prikazati. Vraćeni podaci za sljedeće ciljeve su nepotpuni: $1. Pokušajte koristiti manje ciljeva, kraći vremenski okvir ili uže IP opsege.",
 	"checkuser-investigate-compare-notice-no-results": "Nema rezultata: nema izmjena ovih korisnika ili IP adresa u zadnjih 90 dana",
@@ -132,5 +133,5 @@
 	"checkuser-investigate-compare-table-header-username": "Korisničko ime",
 	"checkuser-investigate-compare-table-header-activity": "Datumski raspon",
 	"checkuser-investigate-compare-table-header-ip": "IP",
-	"checkuser-investigate-compare-table-header-useragent": "Korisnički agent"
+	"checkuser-investigate-compare-table-header-useragent": "Korisnički vršilac"
 }
