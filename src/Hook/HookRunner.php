@@ -3,10 +3,19 @@
 namespace MediaWiki\CheckUser\Hook;
 
 use IContextSource;
+use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\User\UserIdentity;
+use RecentChange;
 
-class HookRunner implements CheckUserFormatRowHook, CheckUserSubtitleLinksHook, CheckUserInsertChangesRow {
+class HookRunner implements
+	CheckUserFormatRowHook,
+	CheckUserSubtitleLinksHook,
+	CheckUserInsertChangesRow,
+	CheckUserInsertForRecentChangeHook,
+	SpecialCheckUserGetLinksFromRowHook
+{
+
 	/** @var HookContainer */
 	private $container;
 
@@ -45,6 +54,24 @@ class HookRunner implements CheckUserFormatRowHook, CheckUserSubtitleLinksHook, 
 		$this->container->run(
 			'CheckUserInsertChangesRow',
 			[ &$ip, &$xff, &$row, $user ]
+		);
+	}
+
+	/** @inheritDoc */
+	public function onCheckUserInsertForRecentChange( RecentChange $rc, array &$rcRow ) {
+		$this->container->run(
+			'CheckUserInsertForRecentChange',
+			[ $rc, &$rcRow ]
+		);
+	}
+
+	/** @inheritDoc */
+	public function onSpecialCheckUserGetLinksFromRow(
+		AbstractCheckUserPager $specialCheckUser, \stdClass $row, array &$links
+	) {
+		$this->container->run(
+			'SpecialCheckUserGetLinksFromRow',
+			[ $specialCheckUser, $row, &$links ]
 		);
 	}
 }

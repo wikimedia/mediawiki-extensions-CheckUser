@@ -5,13 +5,13 @@ namespace MediaWiki\CheckUser\CheckUser\Pagers;
 use ActorMigration;
 use CentralIdLookup;
 use FormOptions;
-use Hooks;
 use Html;
 use HtmlArmor;
 use IContextSource;
 use Linker;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUserLogService;
+use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\Hooks as CUHooks;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\CommentFormatter\CommentFormatter;
@@ -73,6 +73,9 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	/** @var UserEditTracker */
 	private $userEditTracker;
 
+	/** @var HookRunner */
+	private $hookRunner;
+
 	/**
 	 * @param FormOptions $opts
 	 * @param UserIdentity $target
@@ -91,6 +94,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	 * @param CheckUserLogService $checkUserLogService
 	 * @param CommentFormatter $commentFormatter
 	 * @param UserEditTracker $userEditTracker
+	 * @param HookRunner $hookRunner
 	 * @param IContextSource|null $context
 	 * @param LinkRenderer|null $linkRenderer
 	 * @param ?int $limit
@@ -113,6 +117,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		CheckUserLogService $checkUserLogService,
 		CommentFormatter $commentFormatter,
 		UserEditTracker $userEditTracker,
+		HookRunner $hookRunner,
 		IContextSource $context = null,
 		LinkRenderer $linkRenderer = null,
 		?int $limit = null
@@ -127,6 +132,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		$this->revisionStore = $revisionStore;
 		$this->commentFormatter = $commentFormatter;
 		$this->userEditTracker = $userEditTracker;
+		$this->hookRunner = $hookRunner;
 		$this->preCacheMessages();
 		$this->mGroupByDate = true;
 	}
@@ -273,8 +279,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 			$links['title'] = $this->getLinkRenderer()->makeLink( $title );
 		}
 
-		Hooks::run( 'SpecialCheckUserGetLinksFromRow', [ $this, $row, &$links ] );
-		// @phan-suppress-next-line PhanRedundantCondition May set by hook
+		$this->hookRunner->onSpecialCheckUserGetLinksFromRow( $this, $row, $links );
 		if ( is_array( $links ) ) {
 			return implode( ' ', $links );
 		} else {

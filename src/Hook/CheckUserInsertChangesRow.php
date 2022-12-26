@@ -17,8 +17,8 @@ interface CheckUserInsertChangesRow {
 	 *
 	 * Set the $xff to false to represent no defined XFF.
 	 *
-	 * Added in 1.41 the $user parameter is the user identity
-	 * for the performer of the action associated with this
+	 * The $user parameter is the user identity for the
+	 * performer of the action associated with this
 	 * cu_changes row insert.
 	 *
 	 * @since 1.40

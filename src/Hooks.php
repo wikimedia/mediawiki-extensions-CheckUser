@@ -197,7 +197,7 @@ class Hooks implements
 			$rcRow['cuc_page_id'] = $attribs['rc_cur_id'];
 		}
 
-		$services->getHookContainer()->run( 'CheckUserInsertForRecentChange', [ $rc, &$rcRow ] );
+		( new HookRunner( $services->getHookContainer() ) )->onCheckUserInsertForRecentChange( $rc, $rcRow );
 
 		self::insertIntoCuChangesTable(
 			$rcRow,

@@ -17,6 +17,7 @@ use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLTextFieldNoDisabledStyling;
 use MediaWiki\CheckUser\CheckUserLogService;
+use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Page\WikiPageFactory;
@@ -113,6 +114,9 @@ class SpecialCheckUser extends SpecialPage {
 	/** @var UserNameUtils */
 	private $userNameUtils;
 
+	/** @var HookRunner */
+	private $hookRunner;
+
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory
 	 * @param BlockPermissionCheckerFactory $blockPermissionCheckerFactory
@@ -132,6 +136,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param UserEditTracker $userEditTracker
 	 * @param UserNamePrefixSearch $userNamePrefixSearch
 	 * @param UserNameUtils $userNameUtils
+	 * @param HookRunner $hookRunner
 	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
@@ -151,7 +156,8 @@ class SpecialCheckUser extends SpecialPage {
 		CommentFormatter $commentFormatter,
 		UserEditTracker $userEditTracker,
 		UserNamePrefixSearch $userNamePrefixSearch,
-		UserNameUtils $userNameUtils
+		UserNameUtils $userNameUtils,
+		HookRunner $hookRunner
 	) {
 		parent::__construct( 'CheckUser', 'checkuser' );
 
@@ -173,6 +179,7 @@ class SpecialCheckUser extends SpecialPage {
 		$this->userEditTracker = $userEditTracker;
 		$this->userNamePrefixSearch = $userNamePrefixSearch;
 		$this->userNameUtils = $userNameUtils;
+		$this->hookRunner = $hookRunner;
 	}
 
 	public function doesWrites() {
@@ -748,7 +755,8 @@ class SpecialCheckUser extends SpecialPage {
 					$this->revisionStore,
 					$this->checkUserLogService,
 					$this->commentFormatter,
-					$this->userEditTracker
+					$this->userEditTracker,
+					$this->hookRunner
 				);
 			default:
 				return null;

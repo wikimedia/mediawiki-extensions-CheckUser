@@ -270,7 +270,8 @@
 				"CommentFormatter",
 				"UserEditTracker",
 				"UserNamePrefixSearch",
-				"UserNameUtils"
+				"UserNameUtils",
+				"CheckUserHookRunner"
 			]
 		},
 		"CheckUserLog": {
