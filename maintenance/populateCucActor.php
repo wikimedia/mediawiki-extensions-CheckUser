@@ -61,8 +61,7 @@ class PopulateCucActor extends LoggedUpdateMaintenance {
 	protected function doDBUpdates() {
 		$services = MediaWikiServices::getInstance();
 		$actorStore = $services->getActorStore();
-		$lbFactory = $services->getDBLoadBalancerFactory();
-		$mainLb = $lbFactory->getMainLB();
+		$mainLb = $services->getDBLoadBalancerFactory()->getMainLB();
 		$dbr = $mainLb->getConnectionRef( DB_REPLICA, 'vslow' );
 		$dbw = $mainLb->getConnectionRef( DB_PRIMARY );
 		$batchSize = $this->getBatchSize();
@@ -119,7 +118,7 @@ class PopulateCucActor extends LoggedUpdateMaintenance {
 				);
 			}
 
-			$lbFactory->waitForReplication();
+			$this->waitForReplication();
 
 			if ( $sleep > 0 ) {
 				sleep( $sleep );
