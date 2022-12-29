@@ -471,20 +471,27 @@ class Hooks implements
 
 	/**
 	 * Hook function to prune data from the cu_changes table
+	 *
+	 * The chance of actually pruning data is 1/10.
 	 */
 	private function maybePruneIPData() {
-		if ( mt_rand( 0, 9 ) != 0 ) {
-			return;
+		if ( mt_rand( 0, 9 ) == 0 ) {
+			$this->pruneIPData();
 		}
+	}
 
+	/**
+	 * Prunes at most 500 entries from the cu_changes table
+	 * that have exceeded the maximum time that they can
+	 * be stored.
+	 */
+	private function pruneIPData() {
 		DeferredUpdates::addUpdate( new AutoCommitUpdate(
 			MediaWikiServices::getInstance()
 				->getDBLoadBalancer()
 				->getMaintenanceConnectionRef( DB_PRIMARY ),
 			__METHOD__,
 			static function ( IDatabase $dbw, $fname ) {
-				global $wgCUDMaxAge;
-
 				// per-wiki
 				$key = "{$dbw->getDomainID()}:PruneCheckUserData";
 				$scopedLock = $dbw->getScopedLockAndFlush( $key, $fname, 1 );
@@ -492,7 +499,9 @@ class Hooks implements
 					return;
 				}
 
-				$encCutoff = $dbw->addQuotes( $dbw->timestamp( time() - $wgCUDMaxAge ) );
+				$encCutoff = $dbw->addQuotes( $dbw->timestamp(
+					time() - MediaWikiServices::getInstance()->getMainConfig()->get( 'CUDMaxAge' )
+				) );
 				$ids = $dbw->newSelectQueryBuilder()
 					->table( 'cu_changes' )
 					->field( 'cuc_id' )

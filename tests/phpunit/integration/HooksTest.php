@@ -15,6 +15,7 @@ use MediaWikiIntegrationTestCase;
 use RecentChange;
 use RequestContext;
 use Wikimedia\TestingAccessWrapper;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * @group CheckUser
@@ -797,6 +798,85 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 			[ true, true, false ],
 			[ false, false, false ],
 			[ false, true, true ],
+		];
+	}
+
+	/**
+	 * @covers ::pruneIPData
+	 * @dataProvider providePruneIPDataData
+	 * @todo test when getScopedLockAndFlush() returns null.
+	 */
+	public function testPruneIPDataData( $currentTime, $maxCUDataAge, $timestamps, $afterCount ) {
+		$this->setMwGlobals( 'wgCUDMaxAge', $maxCUDataAge );
+		$logEntryCutoff = $currentTime - $maxCUDataAge;
+		foreach ( $timestamps as $timestamp ) {
+			ConvertibleTimestamp::setFakeTime( $timestamp );
+			$expectedRow = [];
+			$this->commonTestsUpdateCheckUserData( $this->getDefaultRecentChangeAttribs(), [], $expectedRow );
+		}
+		$this->assertSame(
+			count( $timestamps ),
+			$this->db->newSelectQueryBuilder()
+				->field( 'cuc_id' )
+				->table( 'cu_changes' )
+				->fetchRowCount(),
+			'The database was not set up correctly for the test.'
+		);
+		ConvertibleTimestamp::setFakeTime( $currentTime );
+		$object = TestingAccessWrapper::newFromObject( ( new Hooks() ) );
+		$object->pruneIPData();
+		\DeferredUpdates::doUpdates();
+		// Check that all the old entries are gone
+		$this->assertSelect(
+			'cu_changes', 'cuc_timestamp', "cuc_timestamp < $logEntryCutoff", []
+		);
+		$this->assertSame(
+			$afterCount,
+			$this->db->newSelectQueryBuilder()
+				->field( 'cuc_id' )
+				->table( 'cu_changes' )
+				->fetchRowCount(),
+			'Entries were deleted from cu_log too early.'
+		);
+	}
+
+	public function providePruneIPDataData() {
+		$currentTime = time();
+		$defaultMaxAge = 7776000;
+		return [
+			'No entries to prune' => [
+				$currentTime,
+				$defaultMaxAge,
+				[
+					$currentTime - 2,
+					$currentTime - $defaultMaxAge + 100,
+					$currentTime,
+					$currentTime + 10
+				],
+				4
+			],
+			'Two entries to prune with two to be left' => [
+				$currentTime,
+				$defaultMaxAge,
+				[
+					$currentTime - $defaultMaxAge - 20000,
+					$currentTime - $defaultMaxAge - 100,
+					$currentTime,
+					$currentTime + 10
+				],
+				2
+			],
+			'Four entries to prune with no left' => [
+				$currentTime,
+				$defaultMaxAge,
+				[
+					$currentTime - $defaultMaxAge - 20000,
+					$currentTime - $defaultMaxAge - 100,
+					$currentTime - $defaultMaxAge - 1,
+					$currentTime - $defaultMaxAge - 100000
+				],
+				0
+			]
 		];
 	}
 }
