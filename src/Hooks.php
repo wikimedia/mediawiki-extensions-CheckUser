@@ -746,6 +746,13 @@ class Hooks implements
 			);
 		}
 
+		// 1.40
+		$updater->modifyExtensionField(
+			'cu_log',
+			'cul_user',
+			"$base/$dbType/patch-cu_log-defaults.sql"
+		);
+
 		$updater->addPostDatabaseUpdateMaintenance( PopulateCucActor::class );
 		$updater->addPostDatabaseUpdateMaintenance( PopulateCulActor::class );
 
