@@ -11,8 +11,8 @@ use IContextSource;
 use Linker;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUserLogService;
+use MediaWiki\CheckUser\CheckUserUtilityService;
 use MediaWiki\CheckUser\Hook\HookRunner;
-use MediaWiki\CheckUser\Hooks as CUHooks;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Linker\LinkRenderer;
@@ -76,6 +76,9 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	/** @var HookRunner */
 	private $hookRunner;
 
+	/** @var CheckUserUtilityService */
+	private $checkUserUtilityService;
+
 	/**
 	 * @param FormOptions $opts
 	 * @param UserIdentity $target
@@ -95,6 +98,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	 * @param CommentFormatter $commentFormatter
 	 * @param UserEditTracker $userEditTracker
 	 * @param HookRunner $hookRunner
+	 * @param CheckUserUtilityService $checkUserUtilityService
 	 * @param IContextSource|null $context
 	 * @param LinkRenderer|null $linkRenderer
 	 * @param ?int $limit
@@ -118,6 +122,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		CommentFormatter $commentFormatter,
 		UserEditTracker $userEditTracker,
 		HookRunner $hookRunner,
+		CheckUserUtilityService $checkUserUtilityService,
 		IContextSource $context = null,
 		LinkRenderer $linkRenderer = null,
 		?int $limit = null
@@ -133,6 +138,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		$this->commentFormatter = $commentFormatter;
 		$this->userEditTracker = $userEditTracker;
 		$this->hookRunner = $hookRunner;
+		$this->checkUserUtilityService = $checkUserUtilityService;
 		$this->preCacheMessages();
 		$this->mGroupByDate = true;
 	}
@@ -182,7 +188,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		// XFF
 		if ( $row->cuc_xff != null ) {
 			// Flag our trusted proxies
-			list( $client ) = CUHooks::getClientIPfromXFF( $row->cuc_xff );
+			list( $client ) = $this->checkUserUtilityService->getClientIPfromXFF( $row->cuc_xff );
 			// XFF was trusted if client came from it
 			$trusted = ( $client === $row->cuc_ip );
 			$templateParams['xffTrusted'] = $trusted;

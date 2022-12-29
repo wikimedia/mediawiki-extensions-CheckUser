@@ -14,7 +14,7 @@ use ListToggle;
 use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
 use MediaWiki\CheckUser\CheckUserLogService;
-use MediaWiki\CheckUser\Hooks as CUHooks;
+use MediaWiki\CheckUser\CheckUserUtilityService;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Linker\LinkRenderer;
@@ -67,6 +67,9 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	/** @var UserEditTracker */
 	private $userEditTracker;
 
+	/** @var CheckUserUtilityService */
+	private $checkUserUtilityService;
+
 	/**
 	 * @param FormOptions $opts
 	 * @param UserIdentity $target
@@ -84,6 +87,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	 * @param UserFactory $userFactory
 	 * @param CheckUserLogService $checkUserLogService
 	 * @param UserEditTracker $userEditTracker
+	 * @param CheckUserUtilityService $checkUserUtilityService
 	 * @param IContextSource|null $context
 	 * @param LinkRenderer|null $linkRenderer
 	 * @param ?int $limit
@@ -105,6 +109,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		UserFactory $userFactory,
 		CheckUserLogService $checkUserLogService,
 		UserEditTracker $userEditTracker,
+		CheckUserUtilityService $checkUserUtilityService,
 		IContextSource $context = null,
 		LinkRenderer $linkRenderer = null,
 		?int $limit = null
@@ -124,6 +129,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		$this->blockPermissionCheckerFactory = $blockPermissionCheckerFactory;
 		$this->permissionManager = $permissionManager;
 		$this->userEditTracker = $userEditTracker;
+		$this->checkUserUtilityService = $checkUserUtilityService;
 	}
 
 	/**
@@ -305,7 +311,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			// XFF string, link to /xff search
 			if ( $xffString ) {
 				// Flag our trusted proxies
-				list( $client ) = CUHooks::getClientIPfromXFF( $xffString );
+				list( $client ) = $this->checkUserUtilityService->getClientIPfromXFF( $xffString );
 				// XFF was trusted if client came from it
 				$trusted = ( $client === $clientIP );
 				$row['xffTrusted'] = $trusted;

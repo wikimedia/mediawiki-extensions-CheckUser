@@ -39,7 +39,6 @@ use SpecialPage;
 use Status;
 use Title;
 use User;
-use WebRequest;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\SelectQueryBuilder;
@@ -236,7 +235,9 @@ class Hooks implements
 		//  it's inserted. The ip and xff are provided separately so that the caller doesn't have to set
 		//  the hex versions of the IP and XFF and can therefore leave that to this function.
 		( new HookRunner( $services->getHookContainer() ) )->onCheckUserInsertChangesRow( $ip, $xff, $row, $user );
-		list( $xff_ip, $isSquidOnly, $xff ) = self::getClientIPfromXFF( $xff );
+		/** @var CheckUserUtilityService $checkUserUtilityService */
+		$checkUserUtilityService = MediaWikiServices::getInstance()->get( 'CheckUserUtilityService' );
+		list( $xff_ip, $isSquidOnly, $xff ) = $checkUserUtilityService->getClientIPfromXFF( $xff );
 
 		$row = array_merge(
 			[
@@ -531,65 +532,12 @@ class Hooks implements
 	 *
 	 * @param string|bool $xff XFF header value
 	 * @return array (string|null, bool, string)
-	 * @todo move this to a utility class
+	 * @deprecated since 1.40 - Use CheckUserUtilityService::getClientIPfromXFF
 	 */
 	public static function getClientIPfromXFF( $xff ) {
-		global $wgUsePrivateIPs;
-
-		if ( $xff === false || !strlen( $xff ) ) {
-			// If the XFF is empty or not a string return with a
-			// XFF of the empty string and no results
-			return [ null, false, '' ];
-		}
-
-		# Get the list in the form of <PROXY N, ... PROXY 1, CLIENT>
-		$ipchain = array_map( 'trim', explode( ',', $xff ) );
-		$ipchain = array_reverse( $ipchain );
-
-		$proxyLookup = MediaWikiServices::getInstance()->getProxyLookup();
-
-		// best guess of the client IP
-		$client = null;
-
-		// all proxy servers where site Squid/Varnish servers?
-		$isSquidOnly = false;
-		# Step through XFF list and find the last address in the list which is a
-		# sensible proxy server. Set $ip to the IP address given by that proxy server,
-		# unless the address is not sensible (e.g. private). However, prefer private
-		# IP addresses over proxy servers controlled by this site (more sensible).
-		foreach ( $ipchain as $i => $curIP ) {
-			$curIP = IPUtils::canonicalize(
-				WebRequest::canonicalizeIPv6LoopbackAddress( $curIP )
-			);
-			if ( $curIP === null ) {
-				// not a valid IP address
-				break;
-			}
-			$curIsSquid = $proxyLookup->isConfiguredProxy( $curIP );
-			if ( $client === null ) {
-				$client = $curIP;
-				$isSquidOnly = $curIsSquid;
-			}
-			if (
-				isset( $ipchain[$i + 1] ) &&
-				IPUtils::isIPAddress( $ipchain[$i + 1] ) &&
-				(
-					IPUtils::isPublic( $ipchain[$i + 1] ) ||
-					$wgUsePrivateIPs ||
-					// T50919
-					$curIsSquid
-				)
-			) {
-				$client = IPUtils::canonicalize(
-					WebRequest::canonicalizeIPv6LoopbackAddress( $ipchain[$i + 1] )
-				);
-				$isSquidOnly = ( $isSquidOnly && $curIsSquid );
-				continue;
-			}
-			break;
-		}
-
-		return [ $client, $isSquidOnly, $xff ];
+		/** @var CheckUserUtilityService $checkUserUtilityService */
+		$checkUserUtilityService = MediaWikiServices::getInstance()->get( 'CheckUserUtilityService' );
+		return $checkUserUtilityService->getClientIPfromXFF( $xff );
 	}
 
 	/**

@@ -17,6 +17,7 @@ use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLTextFieldNoDisabledStyling;
 use MediaWiki\CheckUser\CheckUserLogService;
+use MediaWiki\CheckUser\CheckUserUtilityService;
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\CommentFormatter\CommentFormatter;
@@ -117,6 +118,9 @@ class SpecialCheckUser extends SpecialPage {
 	/** @var HookRunner */
 	private $hookRunner;
 
+	/** @var CheckUserUtilityService */
+	private $checkUserUtilityService;
+
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory
 	 * @param BlockPermissionCheckerFactory $blockPermissionCheckerFactory
@@ -137,6 +141,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param UserNamePrefixSearch $userNamePrefixSearch
 	 * @param UserNameUtils $userNameUtils
 	 * @param HookRunner $hookRunner
+	 * @param CheckUserUtilityService $checkUserUtilityService
 	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
@@ -157,7 +162,8 @@ class SpecialCheckUser extends SpecialPage {
 		UserEditTracker $userEditTracker,
 		UserNamePrefixSearch $userNamePrefixSearch,
 		UserNameUtils $userNameUtils,
-		HookRunner $hookRunner
+		HookRunner $hookRunner,
+		CheckUserUtilityService $checkUserUtilityService
 	) {
 		parent::__construct( 'CheckUser', 'checkuser' );
 
@@ -180,6 +186,7 @@ class SpecialCheckUser extends SpecialPage {
 		$this->userNamePrefixSearch = $userNamePrefixSearch;
 		$this->userNameUtils = $userNameUtils;
 		$this->hookRunner = $hookRunner;
+		$this->checkUserUtilityService = $checkUserUtilityService;
 	}
 
 	public function doesWrites() {
@@ -735,7 +742,8 @@ class SpecialCheckUser extends SpecialPage {
 					$this->actorMigration,
 					$this->userFactory,
 					$this->checkUserLogService,
-					$this->userEditTracker
+					$this->userEditTracker,
+					$this->checkUserUtilityService
 				);
 			case self::SUBTYPE_GET_EDITS:
 				return new CheckUserGetEditsPager(
@@ -756,7 +764,8 @@ class SpecialCheckUser extends SpecialPage {
 					$this->checkUserLogService,
 					$this->commentFormatter,
 					$this->userEditTracker,
-					$this->hookRunner
+					$this->hookRunner,
+					$this->checkUserUtilityService
 				);
 			default:
 				return null;

@@ -2,6 +2,7 @@
 
 use MediaWiki\CheckUser\CheckUserActorMigration;
 use MediaWiki\CheckUser\CheckUserLogService;
+use MediaWiki\CheckUser\CheckUserUtilityService;
 use MediaWiki\CheckUser\GuidedTour\TourLauncher;
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\Investigate\Pagers\ComparePagerFactory;
@@ -144,6 +145,14 @@ return [
 	): HookRunner {
 		return new HookRunner(
 			$services->getHookContainer()
+		);
+	},
+	'CheckUserUtilityService' => static function (
+		MediaWikiServices $services
+	): CheckUserUtilityService {
+		return new CheckUserUtilityService(
+			$services->getProxyLookup(),
+			$services->getMainConfig()->get( 'UsePrivateIPs' )
 		);
 	}
 ];

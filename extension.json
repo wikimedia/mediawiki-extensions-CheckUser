@@ -271,7 +271,8 @@
 				"UserEditTracker",
 				"UserNamePrefixSearch",
 				"UserNameUtils",
-				"CheckUserHookRunner"
+				"CheckUserHookRunner",
+				"CheckUserUtilityService"
 			]
 		},
 		"CheckUserLog": {
