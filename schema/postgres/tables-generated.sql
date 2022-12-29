@@ -41,8 +41,8 @@ CREATE INDEX cuc_actor_ip_time ON cu_changes (cuc_actor, cuc_ip, cuc_timestamp);
 CREATE TABLE cu_log (
   cul_id SERIAL NOT NULL,
   cul_timestamp TIMESTAMPTZ NOT NULL,
-  cul_user INT NOT NULL,
-  cul_user_text TEXT NOT NULL,
+  cul_user INT DEFAULT 0 NOT NULL,
+  cul_user_text TEXT DEFAULT '' NOT NULL,
   cul_actor BIGINT DEFAULT 0 NOT NULL,
   cul_reason TEXT NOT NULL,
   cul_reason_id BIGINT DEFAULT 0 NOT NULL,
