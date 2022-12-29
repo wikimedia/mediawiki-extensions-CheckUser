@@ -1,6 +1,7 @@
 <?php
 
 use MediaWiki\CheckUser\CheckUserActorMigration;
+use MediaWiki\CheckUser\CheckUserCommentStore;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\CheckUserUtilityService;
 use MediaWiki\CheckUser\GuidedTour\TourLauncher;
@@ -43,6 +44,14 @@ return [
 		return new CheckUserActorMigration(
 			$services->getMainConfig()->get( 'CheckUserActorMigrationStage' ),
 			$services->getActorStoreFactory()
+		);
+	},
+	'CheckUserCommentStore' => static function (
+		MediaWikiServices $services
+	): CheckUserCommentStore {
+		return new CheckUserCommentStore(
+			$services->getContentLanguage(),
+			$services->getMainConfig()->get( 'CheckUserCommentMigrationStage' )
 		);
 	},
 	'CheckUserPreliminaryCheckService' => static function (

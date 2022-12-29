@@ -81,6 +81,9 @@
 		"CheckUserActorMigrationStage": {
 			"value": 259
 		},
+		"CheckUserCommentMigrationStage": {
+			"value": 3
+		},
 		"CheckUserLogActorMigrationStage": {
 			"value": 769
 		},
