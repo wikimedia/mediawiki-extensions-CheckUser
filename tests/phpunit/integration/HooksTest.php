@@ -8,12 +8,14 @@ use MediaWiki\Auth\AuthenticationRequest;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\Hooks;
+use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use RecentChange;
 use RequestContext;
+use SpecialPage;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -499,6 +501,67 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 			'',
 			[ $expectedRow ]
 		);
+	}
+
+	/**
+	 * @covers ::onUserToolLinksEdit
+	 * @dataProvider provideOnUserToolLinksEdit
+	 */
+	public function testOnUserToolLinksEdit( $requestTitle, $expectedItems ) {
+		$testUser = $this->getTestUser()->getUserIdentity();
+		$mainRequest = RequestContext::getMain();
+		$mainRequest->setTitle( \Title::newFromText( $requestTitle ) );
+		$mainRequest->getRequest()->setVal( 'reason', 'testing' );
+		$mockLinkRenderer = $this->createMock( LinkRenderer::class );
+		if ( $requestTitle == 'Special:CheckUserLog' ) {
+			$mockLinkRenderer->method( 'makeLink' )
+				->with(
+					SpecialPage::getTitleFor( 'CheckUserLog', $testUser->getName() ),
+					wfMessage( 'checkuser-log-checks-on' )->text()
+				)->willReturn( 'CheckUserLog mocked link' );
+		} else {
+			$mockLinkRenderer->method( 'makeLink' )
+				->with(
+					SpecialPage::getTitleFor( 'CheckUser', $testUser->getName() ),
+					wfMessage( 'checkuser-toollink-check' )->text(),
+					[],
+					[ 'reason' => 'testing' ]
+				)->willReturn( 'CheckUser mocked link' );
+		}
+		$this->setService( 'LinkRenderer', $mockLinkRenderer );
+		$items = [];
+		( new Hooks() )->onUserToolLinksEdit( $testUser->getId(), $testUser->getName(), $items );
+		if ( count( $expectedItems ) != 0 ) {
+			$this->assertCount(
+				1, $items, 'A tool link should have been added'
+			);
+			$this->assertArrayEquals(
+				$expectedItems,
+				$items,
+				'The link was not correctly generated'
+			);
+		} else {
+			$this->assertCount(
+				0, $items, 'A tool link should not have been added'
+			);
+		}
+	}
+
+	public function provideOnUserToolLinksEdit() {
+		return [
+			'Current title is not in special namespace' => [
+				'Testing1234', []
+			],
+			'Current title is in the special namespace, but not the CheckUserLog or CheckUser' => [
+				'Special:History', []
+			],
+			'Current title is Special:CheckUser' => [
+				'Special:CheckUser', [ 'CheckUser mocked link' ]
+			],
+			'Current title is Special:CheckUserLog' => [
+				'Special:CheckUserLog', [ 'CheckUserLog mocked link' ]
+			]
+		];
 	}
 
 	/**
