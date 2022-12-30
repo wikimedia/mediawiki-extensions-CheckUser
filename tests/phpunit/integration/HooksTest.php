@@ -582,6 +582,17 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 				'checkuser-login-failure-with-good-password',
 				true,
 			],
+			'failed login with the correct password but locked and no local account' => [
+				AuthenticationResponse::newFail(
+					wfMessage( 'test' ),
+					// This is CentralAuthUser::AUTHENTICATE_GOOD_PASSWORD and CentralAuthUser::AUTHENTICATE_LOCKED,
+					//  respectively but cannot be referenced directly due to T321864
+					[ "good password", "locked" ]
+				),
+				'Nonexisting test account 1234567',
+				'checkuser-login-failure-with-good-password',
+				true,
+			],
 			'failed login with correct password but locked' => [
 				AuthenticationResponse::newFail(
 					wfMessage( 'test' ),
