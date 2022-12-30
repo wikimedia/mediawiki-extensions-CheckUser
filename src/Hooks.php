@@ -435,11 +435,13 @@ class Hooks implements
 					array_diff(
 						$ret->failReasons,
 						[ CentralAuthUser::AUTHENTICATE_LOCKED, CentralAuthUser::AUTHENTICATE_GOOD_PASSWORD ]
-					) === []
+					) === [] &&
+					$user->isRegistered()
 				) {
 					// If
 					//  * The user is locked
 					//  * The password is correct
+					//  * The user exists locally on this wiki
 					//  * Nothing else caused the request to fail
 					// then we can assume that if the account was not locked this login attempt
 					// would have been successful. Therefore, mark the user as the performer
