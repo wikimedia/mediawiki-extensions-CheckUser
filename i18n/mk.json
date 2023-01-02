@@ -45,6 +45,7 @@
 	"checkuser-nomatch": "Нема совпаѓања.",
 	"checkuser-nomatch-edits": "Нема совпаѓања.\nПоследното уредување се случило на $1 во $2.",
 	"checkuser-check": "Провери",
+	"checkuser-toollink-check": "провери",
 	"checkuser-check-this-user": "Провери го корисников",
 	"checkuser-investigate-this-user": "Иследи го корисников",
 	"checkuser-recent-checks": "Скорешни проверки на корисникот",

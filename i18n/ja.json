@@ -72,6 +72,7 @@
 	"checkuser-nomatch": "該当するものはありません。",
 	"checkuser-nomatch-edits": "該当するものはありません。\n最終編集は $1 $2 です。",
 	"checkuser-check": "調査",
+	"checkuser-toollink-check": "チェック",
 	"checkuser-check-this-user": "この利用者を調査",
 	"checkuser-investigate-this-user": "この利用者を調査する",
 	"checkuser-recent-checks": "この利用者に対する最近の調査記録",

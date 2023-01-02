@@ -68,6 +68,7 @@
 	"checkuser-nomatch": "Não foram encontrados resultados.",
 	"checkuser-nomatch-edits": "Nenhum resultado encontrado.\nA última edição foi em $1 às $2.",
 	"checkuser-check": "Verificar",
+	"checkuser-toollink-check": "verificar",
 	"checkuser-check-this-user": "Verificar este usuário",
 	"checkuser-investigate-this-user": "Investigar esse usuário",
 	"checkuser-recent-checks": "Verificações recentes para este usuário",

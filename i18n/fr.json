@@ -67,6 +67,7 @@
 	"checkuser-nomatch": "Recherches infructueuses.",
 	"checkuser-nomatch-edits": "Aucune occurrence trouvée.\nLa dernière modification a eu lieu le $1 à $2.",
 	"checkuser-check": "Vérifier",
+	"checkuser-toollink-check": "vérifier",
 	"checkuser-check-this-user": "Vérifier cet utilisateur",
 	"checkuser-investigate-this-user": "Investiguer sur cet utilisateur",
 	"checkuser-recent-checks": "Dernières vérifications concernant cet utilisateur",

@@ -57,6 +57,7 @@
 	"checkuser-nomatch": "Es wurden keine Übereinstimmungen gefunden.",
 	"checkuser-nomatch-edits": "Es wurde keine Übereinstimmungen gefunden.\nDie letzte Bearbeitung hat am $1 um $2 Uhr stattgefunden.",
 	"checkuser-check": "Abfragen",
+	"checkuser-toollink-check": "Abfragen",
 	"checkuser-check-this-user": "Diesen Benutzer überprüfen",
 	"checkuser-investigate-this-user": "Diesen Benutzer untersuchen",
 	"checkuser-recent-checks": "Letzte Überprüfungen für diesen Benutzer",

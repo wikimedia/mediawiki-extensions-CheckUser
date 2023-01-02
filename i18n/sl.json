@@ -44,6 +44,7 @@
 	"checkuser-nomatch": "Ni zadetkov.",
 	"checkuser-nomatch-edits": "Ni zadetkov.\nZadnje urejanje je bilo dne $1 ob $2.",
 	"checkuser-check": "Preveri",
+	"checkuser-toollink-check": "preveri",
 	"checkuser-check-this-user": "Preveri tega uporabnika",
 	"checkuser-investigate-this-user": "Preišči tega uporabnika",
 	"checkuser-recent-checks": "Zadnja preverjanja za tega uporabnika",

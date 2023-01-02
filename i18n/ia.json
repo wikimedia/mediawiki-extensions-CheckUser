@@ -41,6 +41,7 @@
 	"checkuser-nomatch": "Nihil trovate.",
 	"checkuser-nomatch-edits": "Nulle resultato trovate.\nLe ultime modification esseva le $1 a $2.",
 	"checkuser-check": "Verificar",
+	"checkuser-toollink-check": "verificar",
 	"checkuser-check-this-user": "Verificar iste usator",
 	"checkuser-investigate-this-user": "Investigar iste usator",
 	"checkuser-recent-checks": "Verificationes recente pro iste usator",
