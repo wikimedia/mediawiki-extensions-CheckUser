@@ -52,7 +52,7 @@ class PopulateCulActor extends LoggedUpdateMaintenance {
 	 * @inheritDoc
 	 */
 	protected function getUpdateKey() {
-		return 'PopulateCulActor';
+		return 'PopulateCulActor-2';
 	}
 
 	/**
