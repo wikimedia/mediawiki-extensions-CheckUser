@@ -87,6 +87,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 		$lbFactory = $services->getDBLoadBalancerFactory();
 
 		$actorMigrationStage = $services->getMainConfig()->get( 'CheckUserActorMigrationStage' );
+		$commentMigrationStage = $services->getMainConfig()->get( 'CheckUserCommentMigrationStage' );
 
 		$commentStore = $services->getCommentStore();
 		$rcQuery = RecentChange::getQueryInfo();
@@ -104,6 +105,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 				->fetchResultSet();
 			$batch = [];
 			foreach ( $res as $row ) {
+				$comment = $commentStore->getComment( 'rc_comment', $row );
 				$entry = [
 					'cuc_timestamp' => $row->rc_timestamp,
 					'cuc_user' => $row->rc_user ?? 0,
@@ -111,7 +113,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 					'cuc_namespace' => $row->rc_namespace,
 					'cuc_title' => $row->rc_title,
 					'cuc_comment' => $contLang->truncateForDatabase(
-						$commentStore->getComment( 'rc_comment', $row )->text, Hooks::TEXT_FIELD_LENGTH
+						$comment->text, Hooks::TEXT_FIELD_LENGTH
 					),
 					'cuc_minor' => $row->rc_minor,
 					'cuc_page_id' => $row->rc_cur_id,
@@ -124,6 +126,10 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 
 				if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
 					$entry['cuc_actor'] = $row->rc_actor;
+				}
+
+				if ( $commentMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+					$entry['cuc_comment_id'] = $comment->id;
 				}
 
 				$batch[] = $entry;

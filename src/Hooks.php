@@ -271,7 +271,6 @@ class Hooks implements
 			self::TEXT_FIELD_LENGTH
 		);
 		$row['cuc_xff'] = $contLang->truncateForDatabase( $row['cuc_xff'], self::TEXT_FIELD_LENGTH );
-		$row['cuc_comment'] = $contLang->truncateForDatabase( $row['cuc_comment'], self::TEXT_FIELD_LENGTH );
 
 		$actorMigrationStage = $services->getMainConfig()->get( 'CheckUserActorMigrationStage' );
 		if ( ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) && !isset( $row['cuc_actor'] ) ) {
@@ -280,6 +279,16 @@ class Hooks implements
 				$dbw
 			);
 		}
+
+		if ( !isset( $row['cuc_comment_id'] ) ) {
+			$row += CheckUserCommentStore::getStore()->insert(
+				$dbw,
+				'cuc_comment',
+				$row['cuc_comment']
+			);
+		}
+
+		$row['cuc_comment'] = $contLang->truncateForDatabase( $row['cuc_comment'], self::TEXT_FIELD_LENGTH );
 
 		$dbw->insert( 'cu_changes', $row, $method );
 	}
