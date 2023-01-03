@@ -78,6 +78,10 @@
 			"value": 25000,
 			"description": "Maximum number of rows in cu_changes to be grouped in the Compare table query"
 		},
+		"CheckUserTemporaryAccountMaxAge": {
+			"value": 86400,
+			"description": "Number of seconds for which the temporary account API response is fresh"
+		},
 		"CheckUserActorMigrationStage": {
 			"value": 769
 		},
@@ -107,6 +111,21 @@
 		},
 		"checkuserlog": "MediaWiki\\CheckUser\\Api\\ApiQueryCheckUserLog"
 	},
+	"RestRoutes": [
+		{
+			"path": "/checkuser/v0/temporaryaccount/{name}",
+			"method": "GET",
+			"class": "MediaWiki\\CheckUser\\Api\\Rest\\Handler\\TemporaryAccountHandler",
+			"services": [
+				"MainConfig",
+				"PermissionManager",
+				"UserOptionsLookup",
+				"UserNameUtils",
+				"DBLoadBalancer",
+				"ActorStore"
+			]
+		}
+	],
 	"HookHandlers": {
 		"preferences": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\Preferences",
@@ -259,7 +278,8 @@
 	},
 	"AvailableRights": [
 		"checkuser",
-		"checkuser-log"
+		"checkuser-log",
+		"checkuser-temporary-account"
 	],
 	"SpecialPages": {
 		"CheckUser": {
