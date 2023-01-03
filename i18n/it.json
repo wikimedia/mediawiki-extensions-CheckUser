@@ -58,6 +58,7 @@
 	"checkuser-nomatch": "Nessun risultato trovato.",
 	"checkuser-nomatch-edits": "Nessun risultato trovato.\nUltimo edit risalente alle $2 del $1.",
 	"checkuser-check": "Controlla",
+	"checkuser-toollink-check": "controlla",
 	"checkuser-check-this-user": "Controlla questo utente",
 	"checkuser-investigate-this-user": "Investiga su questo utente",
 	"checkuser-recent-checks": "Controlli recenti per questo utente",
