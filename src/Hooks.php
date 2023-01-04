@@ -17,6 +17,7 @@ use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\Investigate\SpecialInvestigate;
 use MediaWiki\CheckUser\Investigate\SpecialInvestigateBlock;
 use MediaWiki\CheckUser\Maintenance\PopulateCucActor;
+use MediaWiki\CheckUser\Maintenance\PopulateCucComment;
 use MediaWiki\CheckUser\Maintenance\PopulateCulActor;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Extension\Renameuser\RenameuserSQL;
@@ -730,6 +731,7 @@ class Hooks implements
 		);
 
 		$updater->addPostDatabaseUpdateMaintenance( PopulateCucActor::class );
+		$updater->addPostDatabaseUpdateMaintenance( PopulateCucComment::class );
 		$updater->addPostDatabaseUpdateMaintenance( PopulateCulActor::class );
 
 		if ( !$isCUInstalled ) {
