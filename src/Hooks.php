@@ -857,7 +857,7 @@ class Hooks implements
 		$culActorMigrationStage = MediaWikiServices::getInstance()
 			->getMainConfig()
 			->get( 'CheckUserLogActorMigrationStage' );
-		if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+		if ( $culActorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
 			$updateFields[] = [
 				'cu_log',
 				'batch_key' => 'cul_id',
