@@ -79,8 +79,6 @@ class CheckUserLogService {
 
 		$timestamp = ConvertibleTimestamp::now();
 		$data = [
-			'cul_user' => $user->getId(),
-			'cul_user_text' => $user->getName(),
 			'cul_reason' => $reason,
 			'cul_type' => $logType,
 			'cul_target_id' => $targetID,
@@ -101,6 +99,10 @@ class CheckUserLogService {
 			$plaintextReason = '';
 		}
 
+		if ( $this->culActorMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
+			$data['cul_user'] = $user->getId();
+			$data['cul_user_text'] = $user->getName();
+		}
 		if ( $this->culActorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
 			$data['cul_actor'] = $user->getActorId();
 		}

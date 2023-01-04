@@ -132,8 +132,6 @@ class ImportCheckUserLogs extends Maintenance {
 					$dbw = $this->getDB( DB_PRIMARY );
 					$fields = [
 						'cul_timestamp' => $dbw->timestamp( $data['timestamp'] ),
-						'cul_user' => $user->getId(),
-						'cul_user_text' => $user->getName(),
 						'cul_reason' => $data['reason'],
 						'cul_type' => $data['type'],
 						'cul_target_id' => $targetID,
@@ -143,6 +141,10 @@ class ImportCheckUserLogs extends Maintenance {
 						'cul_range_end' => $end
 					];
 
+					if ( $culActorMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
+						$fields['cul_user'] = $user->getId();
+						$fields['cul_user_text'] = $user->getName();
+					}
 					if ( $culActorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
 						$fields['cul_actor'] = $user->getActorId();
 					}

@@ -857,6 +857,9 @@ class Hooks implements
 		$culActorMigrationStage = MediaWikiServices::getInstance()
 			->getMainConfig()
 			->get( 'CheckUserLogActorMigrationStage' );
+		if ( $culActorMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
+			$updateFields[] = [ 'cu_log', 'cul_user', 'cul_user_text' ];
+		}
 		if ( $culActorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
 			$updateFields[] = [
 				'cu_log',
@@ -866,7 +869,6 @@ class Hooks implements
 			];
 		}
 		$updateFields[] = [ 'cu_changes', 'cuc_user', 'cuc_user_text' ];
-		$updateFields[] = [ 'cu_log', 'cul_user', 'cul_user_text' ];
 		$updateFields[] = [ 'cu_log', 'cul_target_id' ];
 
 		return true;
@@ -886,7 +888,12 @@ class Hooks implements
 			'uniqueKey'    => 'cuc_id'
 		];
 
-		$renameUserSQL->tables['cu_log'] = [ 'cul_user_text', 'cul_user' ];
+		if ( MediaWikiServices::getInstance()
+			->getMainConfig()
+			->get( 'CheckUserLogActorMigrationStage' ) & SCHEMA_COMPAT_WRITE_OLD
+		) {
+			$renameUserSQL->tables['cu_log'] = [ 'cul_user_text', 'cul_user' ];
+		}
 
 		return true;
 	}
