@@ -90,7 +90,7 @@
 	"checkuser-autocreate-action": "je bil samodejno ustvarjen",
 	"checkuser-create-action": "je bil ustvarjen",
 	"checkuser-email-action": "pošlji e-pošto uporabniku »$1«",
-	"checkuser-reset-action": "poslano je bilo geslo za ponastavitev e-pošte {{GENDER:$1|uporabnika|uporabnice|uporabnika_ce}} »$1«",
+	"checkuser-reset-action": "poslano je bilo geslo za ponastavitev e-pošte {{GENDER:$1|uporabnika|uporabnice|uporabnika_ce}} [[User:$1|$1]]",
 	"checkuser-token-fail": "Seja je spodletela. Poskusite znova.",
 	"checkuser-login-failure": "Prijava na {{SITENAME}} kot $1 je spodletela",
 	"checkuser-login-failure-with-good-password": "Prijava v projekt {{SITENAME}} kot $1 ni uspela, vendar je bilo geslo pravilno",
