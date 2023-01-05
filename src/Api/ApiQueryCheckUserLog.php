@@ -31,7 +31,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		$continue = $params['continue'];
 		$dir = $params['dir'];
 
-		$this->addTables( [ 'cu_log', 'actor' ] );
+		$this->addTables( [ 'cu_log' ] );
 		$this->addOption( 'LIMIT', $limit + 1 );
 		$this->addTimestampWhereRange( 'cul_timestamp', $dir, $params['from'], $params['to'] );
 		$fields = [
@@ -39,6 +39,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		];
 
 		if ( $this->getConfig()->get( 'CheckUserLogActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
+			$this->addTables( [ 'actor' ] );
 			$this->addJoinConds( [ 'actor' => [ 'JOIN', 'actor_id=cul_actor' ] ] );
 			$fields[] = 'actor_name';
 		} else {
