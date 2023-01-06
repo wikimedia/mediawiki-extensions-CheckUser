@@ -55,7 +55,7 @@
 	"checkuser-range-outside-limit": "Der Bereich $1 liegt außerhalb der zulässigen Grenzen.",
 	"checkuser-empty": "Das Logbuch enthält keine Einträge.",
 	"checkuser-nomatch": "Es wurden keine Übereinstimmungen gefunden.",
-	"checkuser-nomatch-edits": "Es wurde keine Übereinstimmungen gefunden.\nDie letzte Bearbeitung hat am $1 um $2 Uhr stattgefunden.",
+	"checkuser-nomatch-edits": "Es wurden keine Übereinstimmungen gefunden.\nDie letzte Bearbeitung hat am $1 um $2 Uhr stattgefunden.",
 	"checkuser-check": "Abfragen",
 	"checkuser-toollink-check": "Abfragen",
 	"checkuser-check-this-user": "Diesen Benutzer überprüfen",
@@ -83,7 +83,7 @@
 	"checkuser-centralauth-multilock": "Ausgewählte Benutzerkonten sperren",
 	"checkuser-centralauth-multilock-list-item": "Link $1",
 	"checkuser-noreason": "Für diese Abfrage muss eine Begründung angegeben werden.",
-	"checkuser-target-nonexistent": "Die angegebene Ziel existiert nicht.",
+	"checkuser-target-nonexistent": "Das angegebene Ziel existiert nicht.",
 	"checkuser-initiator-nonexistent": "Der angegebene CheckUser-Berechtigte existiert nicht.",
 	"checkuser-search": "Einträge im Checkuser-Logbuch durchsuchen",
 	"checkuser-search-submit": "Suche",
@@ -194,5 +194,5 @@
 	"checkuser-investigate-tour-block-title": "Sperren?",
 	"checkuser-investigate-tour-block-desc": "Ermöglicht es dir, die Benutzer auszuwählen, die du sperren möchtest, und führt dich dann zum Sperrformular, um die entsprechende Sperre auszuwählen.",
 	"checkuser-investigate-tour-copywikitext-title": "Daten kopieren?",
-	"checkuser-investigate-tour-copywikitext-desc": "Kopiere die Vergleichstabelle mit einem Klick und bringe sie in das CU-Wiki. Beachte, dass du nur das kopierst, was sichtbar ist und nicht alle Seiten der Untersuchung."
+	"checkuser-investigate-tour-copywikitext-desc": "Kopiere die Vergleichstabelle mit einem Klick und bringe sie in das CU-Wiki. Beachte, dass du nur das kopierst, was sichtbar ist, und nicht alle Seiten der Untersuchung."
 }

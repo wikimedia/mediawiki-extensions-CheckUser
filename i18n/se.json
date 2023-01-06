@@ -1,10 +1,13 @@
 {
 	"@metadata": {
 		"authors": [
+			"Kimberli Mäkäräinen (WMNO)",
 			"Yupik"
 		]
 	},
 	"checkuser-all": "buot",
+	"checkuser-nomatch": "Eai bohtosat.",
+	"checkuser-nomatch-edits": "Eai bohtosat.\nMaŋemus rievdadus lei $1 diibmu $2.",
 	"checkuser-search-submit": "Oza",
 	"checkuser-investigate-compare-copy-button-label-hide": "Čiega wikiteavstta"
 }
