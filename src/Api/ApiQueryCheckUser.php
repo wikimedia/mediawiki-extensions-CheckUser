@@ -7,6 +7,7 @@ use ApiQueryBase;
 use ApiResult;
 use Exception;
 use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
+use MediaWiki\CheckUser\CheckUserActorMigration;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionLookup;
@@ -75,10 +76,19 @@ class ApiQueryCheckUser extends ApiQueryBase {
 			$this->dieWithError( 'apierror-checkuser-timelimit', 'invalidtime' );
 		}
 
-		$this->addTables( 'cu_changes' );
+		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
+
+		$this->addTables( [ 'cu_changes' ] + $actorQuery['tables'] );
 		$this->addOption( 'LIMIT', $limit + 1 );
 		$this->addOption( 'ORDER BY', 'cuc_timestamp DESC' );
 		$this->addWhere( "cuc_timestamp > " . $dbr->addQuotes( $dbr->timestamp( $timeCutoff ) ) );
+		$this->addJoinConds( $actorQuery['joins'] );
+
+		if ( $this->getConfig()->get( 'CheckUserActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
+			$cond_field = 'actor_user';
+		} else {
+			$cond_field = 'cuc_user';
+		}
 
 		switch ( $request ) {
 			case 'userips':
@@ -92,7 +102,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				}
 
 				$this->addFields( [ 'cuc_timestamp', 'cuc_ip', 'cuc_xff' ] );
-				$this->addWhereFld( 'cuc_user', $user_id );
+				$this->addWhereFld( $cond_field, $user_id );
 				$res = $this->select( __METHOD__ );
 				$result = $this->getResult();
 
@@ -149,14 +159,14 @@ class ApiQueryCheckUser extends ApiQueryBase {
 							[ 'nosuchusershort', wfEscapeWikiText( $target ) ], 'nosuchuser'
 						);
 					}
-					$this->addWhereFld( 'cuc_user', $user_id );
+					$this->addWhereFld( $cond_field, $user_id );
 					$log_type = [ 'useredits', 'user' ];
 				}
 
 				$this->addFields( [
-					'cuc_namespace', 'cuc_title', 'cuc_user_text', 'cuc_actiontext', 'cuc_this_oldid',
-					'cuc_comment', 'cuc_minor', 'cuc_timestamp', 'cuc_ip', 'cuc_xff', 'cuc_agent', 'cuc_type'
-				] );
+					'cuc_namespace', 'cuc_title', 'cuc_actiontext', 'cuc_this_oldid', 'cuc_comment',
+					'cuc_minor', 'cuc_timestamp', 'cuc_ip', 'cuc_xff', 'cuc_agent', 'cuc_type'
+				] + $actorQuery['fields'] );
 
 				$res = $this->select( __METHOD__ );
 				$result = $this->getResult();
@@ -244,8 +254,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$this->dieWithError( 'apierror-badip', 'invalidip' );
 				}
 
-				$this->addFields( [
-					'cuc_user_text', 'cuc_timestamp', 'cuc_ip', 'cuc_agent' ] );
+				$this->addFields( [ 'cuc_timestamp', 'cuc_ip', 'cuc_agent' ] + $actorQuery['fields'] );
 
 				$res = $this->select( __METHOD__ );
 				$result = $this->getResult();
