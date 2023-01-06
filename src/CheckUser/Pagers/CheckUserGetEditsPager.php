@@ -10,6 +10,7 @@ use HtmlArmor;
 use IContextSource;
 use Linker;
 use MediaWiki\Cache\LinkBatchFactory;
+use MediaWiki\CheckUser\CheckUserActorMigration;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\CheckUserUtilityService;
 use MediaWiki\CheckUser\Hook\HookRunner;
@@ -156,7 +157,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		$templateParams['timestamp'] =
 			$this->getLanguage()->userTime( wfTimestamp( TS_MW, $row->cuc_timestamp ), $this->getUser() );
 		// Userlinks
-		$user = new UserIdentityValue( $row->cuc_user, $row->cuc_user_text );
+		$user = new UserIdentityValue( $row->cuc_user ?? 0, $row->cuc_user_text );
 		if ( !IPUtils::isIPAddress( $user ) && !$user->isRegistered() ) {
 			$templateParams['userLinkClass'] = 'mw-checkuser-nonexistent-user';
 		}
@@ -317,19 +318,30 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 
 	/** @inheritDoc */
 	public function getQueryInfo(): array {
+		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
+
+		if ( $this->getConfig()->get( 'CheckUserActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
+			$index = 'cuc_actor_ip_time';
+			$cond_field = 'actor_user';
+		} else {
+			$index = 'cuc_user_ip_time';
+			$cond_field = 'cuc_user';
+		}
+
 		$queryInfo = [
 			'fields' => [
-				'cuc_namespace', 'cuc_title', 'cuc_user', 'cuc_user_text', 'cuc_comment',
-				'cuc_actiontext', 'cuc_timestamp', 'cuc_minor', 'cuc_page_id', 'cuc_type',
-				'cuc_this_oldid', 'cuc_last_oldid', 'cuc_ip', 'cuc_xff', 'cuc_agent',
-			],
-			'tables' => [ 'cu_changes' ],
+				'cuc_namespace', 'cuc_title', 'cuc_comment', 'cuc_actiontext',
+				'cuc_timestamp', 'cuc_minor', 'cuc_page_id', 'cuc_type', 'cuc_this_oldid',
+				'cuc_last_oldid', 'cuc_ip', 'cuc_xff', 'cuc_agent',
+			] + $actorQuery['fields'],
+			'tables' => [ 'cu_changes' ] + $actorQuery['tables'],
 			'conds' => [],
+			'join_conds' => $actorQuery['joins'],
 			'options' => [],
 		];
 		if ( $this->xfor === null ) {
-			$queryInfo['conds']['cuc_user'] = $this->target->getId();
-			$queryInfo['options']['USE INDEX'] = 'cuc_user_ip_time';
+			$queryInfo['conds'][$cond_field] = $this->target->getId();
+			$queryInfo['options']['USE INDEX'] = $index;
 		} else {
 			$queryInfo['options']['USE INDEX'] = $this->xfor ? 'cuc_xff_hex_time' : 'cuc_ip_hex_time';
 			$ipConds = self::getIpConds( $this->mDb, $this->target->getName(), $this->xfor );
@@ -373,7 +385,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 			}
 			// Add the row to the flag cache
 			if ( !isset( $this->flagCache[$row->cuc_user_text] ) ) {
-				$user = new UserIdentityValue( $row->cuc_user, $row->cuc_user_text );
+				$user = new UserIdentityValue( $row->cuc_user ?? 0, $row->cuc_user_text );
 				$ip = IPUtils::isIPAddress( $row->cuc_user_text ) ? $row->cuc_user_text : '';
 				$flags = $this->userBlockFlags( $ip, $user );
 				$this->flagCache[$row->cuc_user_text] = $flags;

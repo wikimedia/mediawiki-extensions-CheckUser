@@ -13,6 +13,7 @@ use Linker;
 use ListToggle;
 use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
+use MediaWiki\CheckUser\CheckUserActorMigration;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\CheckUserUtilityService;
 use MediaWiki\CheckUser\TokenQueryManager;
@@ -344,7 +345,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			if ( !array_key_exists( $row->cuc_user_text, $this->userSets['edits'] ) ) {
 				$this->userSets['last'][$row->cuc_user_text] = $row->cuc_timestamp;
 				$this->userSets['edits'][$row->cuc_user_text] = 0;
-				$this->userSets['ids'][$row->cuc_user_text] = $row->cuc_user;
+				$this->userSets['ids'][$row->cuc_user_text] = $row->cuc_user ?? 0;
 				$this->userSets['infosets'][$row->cuc_user_text] = [];
 				$this->userSets['agentsets'][$row->cuc_user_text] = [];
 			}
@@ -370,12 +371,15 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 
 	/** @inheritDoc */
 	public function getQueryInfo(): array {
+		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
+
 		$queryInfo = [
 			'fields' => [
-				'cuc_user_text', 'cuc_timestamp', 'cuc_user', 'cuc_ip', 'cuc_agent', 'cuc_xff',
-			],
-			'tables' => [ 'cu_changes' ],
+				'cuc_timestamp', 'cuc_ip', 'cuc_agent', 'cuc_xff',
+			] + $actorQuery['fields'],
+			'tables' => [ 'cu_changes' ] + $actorQuery['tables'],
 			'conds' => [],
+			'join_conds' => $actorQuery['joins'],
 			'options' => [ 'USE INDEX' => $this->xfor ? 'cuc_xff_hex_time' : 'cuc_ip_hex_time' ],
 		];
 		$ipConds = self::getIpConds( $this->mDb, $this->target->getName(), $this->xfor );

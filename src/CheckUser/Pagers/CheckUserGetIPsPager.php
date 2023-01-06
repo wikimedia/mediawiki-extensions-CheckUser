@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
 use MediaWiki\Block\DatabaseBlock;
+use MediaWiki\CheckUser\CheckUserActorMigration;
 use SpecialPage;
 use Wikimedia\IPUtils;
 
@@ -87,6 +88,16 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 	/** @inheritDoc */
 	public function getQueryInfo(): array {
 		$this->mExtraSortFields = [ 'last' ];
+		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
+
+		if ( $this->getConfig()->get( 'CheckUserActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
+			$index = 'cuc_actor_ip_time';
+			$cond_field = 'actor_user';
+		} else {
+			$index = 'cuc_user_ip_time';
+			$cond_field = 'cuc_user';
+		}
+
 		return [
 			'fields' => [
 				'cuc_ip',
@@ -95,9 +106,10 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 				'first' => 'MIN(cuc_timestamp)',
 				'last' => 'MAX(cuc_timestamp)',
 			],
-			'tables' => [ 'cu_changes' ],
-			'conds' => [ 'cuc_user' => $this->target->getId() ],
-			'options' => [ 'GROUP BY' => [ 'cuc_ip', 'cuc_ip_hex' ], 'USE INDEX' => 'cuc_user_ip_time' ],
+			'tables' => [ 'cu_changes' ] + $actorQuery['tables'],
+			'conds' => [ $cond_field => $this->target->getId() ],
+			'join_conds' => $actorQuery['joins'],
+			'options' => [ 'GROUP BY' => [ 'cuc_ip', 'cuc_ip_hex' ], 'USE INDEX' => $index ],
 		];
 	}
 
