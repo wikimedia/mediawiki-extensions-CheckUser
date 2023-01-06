@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Investigate\Services;
 
+use MediaWiki\MediaWikiServices;
 use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\Database\DbQuoter;
@@ -85,13 +86,22 @@ abstract class ChangeService {
 				], IDatabase::LIST_AND );
 			}
 		} else {
+			if ( MediaWikiServices::getInstance()
+				->getMainConfig()
+				->get( 'CheckUserActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW
+			) {
+				$cond_field = 'actor_user';
+			} else {
+				$cond_field = 'cuc_user';
+			}
+
 			// TODO: This may filter out invalid values, changing the number of
 			// targets. The per-target limit should change too (T246393).
 			$user = $this->userIdentityLookup->getUserIdentityByName( $target );
 			if ( $user ) {
 				$userId = $user->getId();
 				if ( $userId !== 0 ) {
-					$conds['cuc_user'] = $userId;
+					$conds[$cond_field] = $userId;
 				}
 			}
 		}
@@ -122,11 +132,23 @@ abstract class ChangeService {
 			}
 		}
 
+		if ( MediaWikiServices::getInstance()
+			->getMainConfig()
+			->get( 'CheckUserActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW
+		) {
+			$cond_field = 'actor_user';
+		} else {
+			$cond_field = 'cuc_user';
+		}
+
 		if ( count( $ipTargets ) > 0 ) {
 			$conds[] = 'cuc_ip_hex NOT IN (' . $this->sqlPlatform->makeList( $ipTargets ) . ')';
 		}
 		if ( count( $userTargets ) > 0 ) {
-			$conds[] = 'cuc_user NOT IN (' . $this->sqlPlatform->makeList( $userTargets ) . ')';
+			$conds[] = $this->sqlPlatform->makeList( [
+				$cond_field . ' NOT IN (' . $this->sqlPlatform->makeList( $userTargets ) . ')',
+				$cond_field . ' is null'
+			], IDatabase::LIST_OR );
 		}
 
 		return $conds;

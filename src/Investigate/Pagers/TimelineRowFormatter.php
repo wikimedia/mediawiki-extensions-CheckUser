@@ -346,7 +346,7 @@ class TimelineRowFormatter {
 	private function getUserLinks( \stdClass $row ): string {
 		// Note: this is incomplete. It should match the checks
 		// in SpecialCheckUser when displaying the same info
-		$userId = $row->cuc_user;
+		$userId = $row->cuc_user ?? 0;
 		if ( $userId > 0 ) {
 			$user = $this->userFactory->newFromId( $userId );
 		} else {
