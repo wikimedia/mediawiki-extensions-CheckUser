@@ -811,10 +811,19 @@ class Hooks implements
 			return true;
 		}
 
+		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
+
+		if ( $services->getMainConfig()->get( 'CheckUserActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
+			$cond_field = 'actor_user';
+		} else {
+			$cond_field = 'cuc_user';
+		}
+
 		$res = $dbr->newSelectQueryBuilder()
-			->table( 'cu_changes' )
+			->tables( [ 'cu_changes' ] + $actorQuery['tables'] )
 			->field( 'cuc_ip' )
-			->conds( [ 'cuc_user' => $user->getId( $block->getWikiId() ) ] )
+			->conds( [ $cond_field => $user->getId( $block->getWikiId() ) ] )
+			->joinConds( $actorQuery['joins'] )
 			// just the last IP used
 			->limit( 1 )
 			->orderBy( 'cuc_timestamp', SelectQueryBuilder::SORT_DESC )
