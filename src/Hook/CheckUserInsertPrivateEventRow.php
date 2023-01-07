@@ -5,10 +5,10 @@ namespace MediaWiki\CheckUser\Hook;
 use MediaWiki\User\UserIdentity;
 use RecentChange;
 
-interface CheckUserInsertChangesRow {
+interface CheckUserInsertPrivateEventRow {
 	/**
 	 * Use this hook to modify the IP, XFF or other values
-	 * in the row to be inserted into cu_changes.
+	 * in the row to be inserted into cu_private_event.
 	 *
 	 * If changing the request IP or XFF stored you are
 	 * required to modify $ip and $xff (instead of
@@ -28,7 +28,7 @@ interface CheckUserInsertChangesRow {
 	 *  RecentChange object. Null if not triggered by a RecentChange.
 	 * @codeCoverageIgnore Cannot be annotated as covered.
 	 */
-	public function onCheckUserInsertChangesRow(
+	public function onCheckUserInsertPrivateEventRow(
 		string &$ip,
 		&$xff,
 		array &$row,

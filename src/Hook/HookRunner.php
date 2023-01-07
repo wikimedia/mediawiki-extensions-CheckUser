@@ -12,6 +12,8 @@ class HookRunner implements
 	CheckUserFormatRowHook,
 	CheckUserSubtitleLinksHook,
 	CheckUserInsertChangesRow,
+	CheckUserInsertLogEventRow,
+	CheckUserInsertPrivateEventRow,
 	CheckUserInsertForRecentChangeHook,
 	SpecialCheckUserGetLinksFromRowHook
 {
@@ -50,10 +52,32 @@ class HookRunner implements
 	}
 
 	/** @inheritDoc */
-	public function onCheckUserInsertChangesRow( string &$ip, &$xff, array &$row, UserIdentity $user ) {
+	public function onCheckUserInsertChangesRow(
+		string &$ip, &$xff, array &$row, UserIdentity $user, ?RecentChange $rc
+	) {
 		$this->container->run(
 			'CheckUserInsertChangesRow',
-			[ &$ip, &$xff, &$row, $user ]
+			[ &$ip, &$xff, &$row, $user, $rc ]
+		);
+	}
+
+	/** @inheritDoc */
+	public function onCheckUserInsertLogEventRow(
+		string &$ip, &$xff, array &$row, UserIdentity $user, int $id, ?RecentChange $rc
+	) {
+		$this->container->run(
+			'CheckUserInsertLogEventRow',
+			[ &$ip, &$xff, &$row, $user, $id, $rc ]
+		);
+	}
+
+	/** @inheritDoc */
+	public function onCheckUserInsertPrivateEventRow(
+		string &$ip, &$xff, array &$row, UserIdentity $user, ?RecentChange $rc
+	) {
+		$this->container->run(
+			'CheckUserInsertPrivateEventRow',
+			[ &$ip, &$xff, &$row, $user, $rc ]
 		);
 	}
 

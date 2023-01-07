@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Integration;
 
 use ExtensionRegistry;
 use MailAddress;
+use ManualLogEntry;
 use MediaWiki\Auth\AuthenticationRequest;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Block\DatabaseBlock;
@@ -33,6 +34,8 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 
 		$this->tablesUsed = [
 			'cu_changes',
+			'cu_private_event',
+			'cu_log_event',
 			'user',
 			'logging',
 			'ipblocks',
@@ -108,7 +111,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @todo Need to test xff and timestamp(?)
+	 * @todo Test timestamp(?)
 	 *
 	 * @covers ::insertIntoCuChangesTable
 	 * @dataProvider provideInsertIntoCuChangesTable
@@ -121,6 +124,27 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 			'',
 			[ $expectedRow ]
 		);
+	}
+
+	public function provideInsertIntoCuChangesTable() {
+		return [
+			'IP defaults' => [
+				[],
+				[ 'cuc_ip', 'cuc_ip_hex' ],
+				[ '127.0.0.1', '7F000001' ]
+			],
+			'XFF defaults' => [
+				[],
+				[ 'cuc_xff', 'cuc_xff_hex' ],
+				[ '', '' ]
+			],
+			'Other defaults' => [
+				[],
+				[ 'cuc_page_id', 'cuc_namespace', 'cuc_minor', 'cuc_title', 'cuc_actiontext',
+					'cuc_comment', 'cuc_this_oldid', 'cuc_last_oldid', 'cuc_type', 'cuc_agent' ],
+				[ 0, NS_MAIN, 0, '', '', '', 0, 0, RC_LOG, '' ]
+			]
+		];
 	}
 
 	/**
@@ -145,6 +169,69 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 
 	/**
 	 * @covers ::insertIntoCuChangesTable
+	 * @dataProvider provideXFFValues
+	 */
+	public function testInsertIntoCuChangesTableXFF( $xff, $xff_hex ) {
+		RequestContext::getMain()->getRequest()->setHeader( 'X-Forwarded-For', $xff );
+		$this->testInsertIntoCuChangesTable(
+			[],
+			[ 'cuc_xff', 'cuc_xff_hex' ],
+			[ $xff, $xff_hex ]
+		);
+	}
+
+	/**
+	 * @covers ::insertIntoCuChangesTable
+	 * @covers \MediaWiki\CheckUser\Hook\HookRunner::onCheckUserInsertChangesRow
+	 * @dataProvider provideXFFValues
+	 */
+	public function testInsertChangesRowHookXFF( $test_xff, $xff_hex ) {
+		$this->setTemporaryHook(
+			'CheckUserInsertChangesRow',
+			static function ( &$ip, &$xff ) use ( $test_xff ) {
+				$xff = $test_xff;
+			}
+		);
+		$this->testInsertIntoCuChangesTable(
+			[], [ 'cuc_xff', 'cuc_xff_hex' ], [ $test_xff, $xff_hex ]
+		);
+	}
+
+	public function provideXFFValues() {
+		return [
+			'Empty XFF' => [
+				'',
+				''
+			],
+			'XFF not empty' => [
+				'1.2.3.4, 5.6.7.8',
+				'01020304'
+			],
+			'Invalid XFF' => [
+				'Invalid XFF',
+				''
+			],
+		];
+	}
+
+	/**
+	 * @covers ::insertIntoCuChangesTable
+	 * @covers \MediaWiki\CheckUser\Hook\HookRunner::onCheckUserInsertChangesRow
+	 */
+	public function testInsertChangesRowHookIP() {
+		$this->setTemporaryHook(
+			'CheckUserInsertChangesRow',
+			static function ( &$ip ) {
+				$ip = '1.2.3.4';
+			}
+		);
+		$this->testInsertIntoCuChangesTable(
+			[], [ 'cuc_ip', 'cuc_ip_hex' ], [ '1.2.3.4', '01020304' ]
+		);
+	}
+
+	/**
+	 * @covers ::insertIntoCuChangesTable
 	 */
 	public function testUserInsertIntoCuChangesTable() {
 		$user = $this->getTestUser()->getUserIdentity();
@@ -155,12 +242,6 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 			'',
 			[ [ $user->getId(), $user->getName() ] ]
 		);
-	}
-
-	public function provideInsertIntoCuChangesTable() {
-		return [
-			[ [], [ 'cuc_ip' ], [ '127.0.0.1' ] ],
-		];
 	}
 
 	/**
@@ -180,6 +261,261 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		} else {
 			$this->expectNotToPerformAssertions();
 		}
+	}
+
+	/**
+	 * @todo Test for timestamp(?)
+	 *
+	 * @covers ::insertIntoCuPrivateEventTable
+	 * @dataProvider provideInsertIntoCuPrivateEventTable
+	 */
+	public function testInsertIntoCuPrivateEventTable( $row, $fields, $expectedRow ) {
+		$this->setUpObject()->insertIntoCuPrivateEventTable(
+			$row, __METHOD__, $this->getTestUser()->getUserIdentity()
+		);
+		$this->assertSelect(
+			'cu_private_event',
+			$fields,
+			'',
+			[ $expectedRow ]
+		);
+	}
+
+	public function provideInsertIntoCuPrivateEventTable() {
+		return [
+			'IP defaults' => [
+				[],
+				[ 'cupe_ip', 'cupe_ip_hex' ],
+				[ '127.0.0.1', '7F000001' ]
+			],
+			'XFF defaults' => [
+				[],
+				[ 'cupe_xff', 'cupe_xff_hex' ],
+				[ '', '' ]
+			],
+			'Other defaults' => [
+				[],
+				[ 'cupe_page', 'cupe_namespace', 'cupe_log_type', 'cupe_log_action',
+					'cupe_title', 'cupe_params', 'cupe_agent', ],
+				[ 0, NS_MAIN, 'checkuser-private-event', '', '', '', '' ]
+			]
+		];
+	}
+
+	/**
+	 * @covers ::insertIntoCuPrivateEventTable
+	 * @dataProvider provideTruncationInsertIntoCuPrivateEventTable
+	 */
+	public function testTruncationInsertIntoCuPrivateEventTable( $field ) {
+		$this->testInsertIntoCuPrivateEventTable(
+			[ $field => str_repeat( 'q', Hooks::TEXT_FIELD_LENGTH + 9 ) ],
+			[ $field ],
+			[ str_repeat( 'q', Hooks::TEXT_FIELD_LENGTH - 3 ) . '...' ]
+		);
+	}
+
+	public function provideTruncationInsertIntoCuPrivateEventTable() {
+		return [
+			[ 'cupe_xff' ]
+		];
+	}
+
+	/**
+	 * @covers ::insertIntoCuPrivateEventTable
+	 * @dataProvider provideXFFValues
+	 */
+	public function testInsertIntoCuPrivateEventTableXFF( $xff, $xff_hex ) {
+		RequestContext::getMain()->getRequest()->setHeader( 'X-Forwarded-For', $xff );
+		$this->testInsertIntoCuPrivateEventTable(
+			[],
+			[ 'cupe_xff', 'cupe_xff_hex' ],
+			[ $xff, $xff_hex ]
+		);
+	}
+
+	/**
+	 * @covers ::insertIntoCuPrivateEventTable
+	 * @covers \MediaWiki\CheckUser\Hook\HookRunner::onCheckUserInsertPrivateEventRow
+	 * @dataProvider provideXFFValues
+	 */
+	public function testInsertPrivateEventRowHookXFF( $test_xff, $xff_hex ) {
+		$this->setTemporaryHook(
+			'CheckUserInsertPrivateEventRow',
+			static function ( &$ip, &$xff ) use ( $test_xff ) {
+				$xff = $test_xff;
+			}
+		);
+		$this->testInsertIntoCuPrivateEventTable(
+			[], [ 'cupe_xff', 'cupe_xff_hex' ], [ $test_xff, $xff_hex ]
+		);
+	}
+
+	/**
+	 * @covers ::insertIntoCuPrivateEventTable
+	 * @covers \MediaWiki\CheckUser\Hook\HookRunner::onCheckUserInsertPrivateEventRow
+	 */
+	public function testInsertPrivateEventRowHookIP() {
+		$this->setTemporaryHook(
+			'CheckUserInsertPrivateEventRow',
+			static function ( &$ip ) {
+				$ip = '1.2.3.4';
+			}
+		);
+		$this->testInsertIntoCuPrivateEventTable(
+			[], [ 'cupe_ip', 'cupe_ip_hex' ], [ '1.2.3.4', '01020304' ]
+		);
+	}
+
+	/**
+	 * @covers ::insertIntoCuPrivateEventTable
+	 */
+	public function testUserInsertIntoCuPrivateEventTable() {
+		$user = $this->getTestUser();
+		$this->setUpObject()->insertIntoCuPrivateEventTable( [], __METHOD__, $user->getUserIdentity() );
+		$this->assertSelect(
+			'cu_private_event',
+			[ 'cupe_actor' ],
+			'',
+			[ [ $user->getUser()->getActorId() ] ]
+		);
+	}
+
+	public function newLogEntry(): int {
+		$logEntry = new ManualLogEntry( 'phpunit', 'test' );
+		$logEntry->setPerformer( $this->getTestUser()->getUserIdentity() );
+		$logEntry->setTarget( $this->getExistingTestPage()->getTitle() );
+		$logEntry->setComment( 'A very good reason' );
+		$logId = $logEntry->insert();
+		$logEntry->publish( $logId );
+		return $logId;
+	}
+
+	/**
+	 * @todo Test for timestamp(?)
+	 *
+	 * @covers ::insertIntoCuLogEventTable
+	 * @dataProvider provideInsertIntoCuLogEventTable
+	 */
+	public function testInsertIntoCuLogEventTable( array $fields, array $expectedRow ) {
+		$this->setUpObject()->insertIntoCuLogEventTable(
+			$this->newLogEntry(), __METHOD__, $this->getTestUser()->getUserIdentity()
+		);
+		$this->assertSelect(
+			'cu_log_event',
+			$fields,
+			'',
+			[ $expectedRow ]
+		);
+	}
+
+	public function provideInsertIntoCuLogEventTable() {
+		return [
+			'IP defaults' => [
+				[ 'cule_ip', 'cule_ip_hex' ], [ '127.0.0.1', '7F000001' ]
+			],
+			'XFF defaults' => [
+				[ 'cule_xff', 'cule_xff_hex' ], [ '', '' ]
+			],
+			'Other defaults' => [
+				[ 'cule_agent' ], [ '' ]
+			]
+		];
+	}
+
+	/**
+	 * @covers ::insertIntoCuLogEventTable
+	 * @covers \MediaWiki\CheckUser\Hook\HookRunner::onCheckUserInsertLogEventRow
+	 * @dataProvider provideTruncationInsertIntoCuLogEventTable
+	 */
+	public function testTruncationInsertIntoCuLogEventTable( $field ) {
+		$this->setTemporaryHook(
+			'CheckUserInsertLogEventRow',
+			static function ( &$ip, &$xff, &$row, $user, $id ) use ( $field ) {
+				$row[$field] = str_repeat( 'q', Hooks::TEXT_FIELD_LENGTH + 9 );
+			}
+		);
+		$this->testInsertIntoCuLogEventTable(
+			[ $field ],
+			[ str_repeat( 'q', Hooks::TEXT_FIELD_LENGTH - 3 ) . '...' ]
+		);
+	}
+
+	public function provideTruncationInsertIntoCuLogEventTable() {
+		return [
+			[ 'cule_xff' ]
+		];
+	}
+
+	/**
+	 * @covers ::insertIntoCuLogEventTable
+	 * @dataProvider provideXFFValues
+	 */
+	public function testInsertIntoCuLogEventTableXFF( $xff, $xff_hex ) {
+		RequestContext::getMain()->getRequest()->setHeader( 'X-Forwarded-For', $xff );
+		$this->testInsertIntoCuLogEventTable( [ 'cule_xff', 'cule_xff_hex' ], [ $xff, $xff_hex ] );
+	}
+
+	/**
+	 * @covers ::insertIntoCuLogEventTable
+	 * @covers \MediaWiki\CheckUser\Hook\HookRunner::onCheckUserInsertLogEventRow
+	 * @dataProvider provideXFFValues
+	 */
+	public function testInsertLogEventRowHookXFF( $test_xff, $xff_hex ) {
+		$this->setTemporaryHook(
+			'CheckUserInsertLogEventRow',
+			static function ( &$ip, &$xff ) use ( $test_xff ) {
+				$xff = $test_xff;
+			}
+		);
+		$this->testInsertIntoCuLogEventTable(
+			[ 'cule_xff', 'cule_xff_hex' ], [ $test_xff, $xff_hex ]
+		);
+	}
+
+	/**
+	 * @covers ::insertIntoCuLogEventTable
+	 * @covers \MediaWiki\CheckUser\Hook\HookRunner::onCheckUserInsertLogEventRow
+	 */
+	public function testInsertLogEventRowHookIP() {
+		$this->setTemporaryHook(
+			'CheckUserInsertLogEventRow',
+			static function ( &$ip ) {
+				$ip = '1.2.3.4';
+			}
+		);
+		$this->testInsertIntoCuLogEventTable(
+			[ 'cule_ip', 'cule_ip_hex' ], [ '1.2.3.4', '01020304' ]
+		);
+	}
+
+	/**
+	 * @covers ::insertIntoCuLogEventTable
+	 */
+	public function testInsertIntoCuLogEventTableLogId() {
+		$logId = $this->newLogEntry();
+		$this->setUpObject()->insertIntoCuLogEventTable(
+			$logId, __METHOD__, $this->getTestUser()->getUserIdentity()
+		);
+		$this->assertSelect(
+			'cu_log_event',
+			[ 'cule_log_id' ],
+			'',
+			[ [ $logId ] ]
+		);
+	}
+
+	/**
+	 * @covers ::insertIntoCuLogEventTable
+	 */
+	public function testUserInsertIntoCuLogEventTable() {
+		$user = $this->getTestUser();
+		$this->setUpObject()->insertIntoCuLogEventTable( $this->newLogEntry(), __METHOD__, $user->getUserIdentity() );
+		$this->assertSelect(
+			'cu_log_event',
+			[ 'cule_actor' ],
+			'',
+			[ [ $user->getUser()->getActorId() ] ]
+		);
 	}
 
 	/**

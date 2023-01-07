@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser;
 
 use AutoCommitUpdate;
+use DatabaseLogEntry;
 use DatabaseUpdater;
 use DeferredUpdates;
 use ExtensionRegistry;
@@ -202,27 +203,173 @@ class Hooks implements
 		self::insertIntoCuChangesTable(
 			$rcRow,
 			__METHOD__,
-			new UserIdentityValue( $rcRow['cuc_user'], $rcRow['cuc_user_text'] )
+			new UserIdentityValue( $rcRow['cuc_user'], $rcRow['cuc_user_text'] ),
+			$rc
 		);
 	}
 
 	/**
-	 * Inserts a row into the cu_changes table based on a provided array of cu_change column names to their values.
+	 * Inserts a row into cu_log_event based on provided log ID and performer.
 	 *
-	 * The $user parameter and $target parameter is used to fill out the column values for the row, but does
-	 * not override any values specified in $row (thus the caller can specify custom row values without them being
-	 * overridden).
+	 * The $user parameter is used to fill the column values about the performer of the log action.
+	 * The log ID is stored in the table and used to get information to show the CheckUser when
+	 * running a check.
 	 *
-	 * @param array $row an array of cu_change table column names to their values. Not overrided except for
-	 *  truncating any action text, xff or comment before insertion if too long.
+	 * @param int $id the log ID associated with the entry to add to cu_log_event
 	 * @param string $method the method name that called this, used for the insertion into the DB.
 	 * @param UserIdentity $user the user who made the request.
+	 * @param ?RecentChange $rc If triggered by a RecentChange, then this is the associated
+	 *  RecentChange object. Null if not triggered by a RecentChange.
+	 * @return void
+	 */
+	private static function insertIntoCuLogEventTable(
+		int $id,
+		string $method,
+		UserIdentity $user,
+		?RecentChange $rc = null
+	) {
+		$services = MediaWikiServices::getInstance();
+
+		$dbw = $services->getDBLoadBalancer()->getConnectionRef( DB_PRIMARY );
+
+		/** @var DatabaseLogEntry $logEntry Should not be null as a valid ID must be provided */
+		$logEntry = DatabaseLogEntry::newFromId( $id, $dbw );
+
+		$request = RequestContext::getMain()->getRequest();
+
+		$ip = $request->getIP();
+		$xff = $request->getHeader( 'X-Forwarded-For' );
+
+		$row = [
+			'cule_log_id' => $id
+		];
+
+		// Provide the ip, xff and row to code that hooks onto this so that they can modify the row before
+		//  it's inserted. The ip and xff are provided separately so that the caller doesn't have to set
+		//  the hex versions of the IP and XFF and can therefore leave that to this function.
+		( new HookRunner( $services->getHookContainer() ) )
+			->onCheckUserInsertLogEventRow( $ip, $xff, $row, $user, $id, $rc );
+		/** @var CheckUserUtilityService $checkUserUtilityService */
+		$checkUserUtilityService = MediaWikiServices::getInstance()->get( 'CheckUserUtilityService' );
+		list( $xff_ip, $isSquidOnly, $xff ) = $checkUserUtilityService->getClientIPfromXFF( $xff );
+
+		$row = array_merge( [
+			'cule_actor'     => $services->getActorStore()->acquireActorId( $user, $dbw ),
+			'cule_timestamp' => $dbw->timestamp( $logEntry->getTimestamp() ),
+			'cule_ip'        => IPUtils::sanitizeIP( $ip ),
+			'cule_ip_hex'    => $ip ? IPUtils::toHex( $ip ) : null,
+			'cule_xff'       => !$isSquidOnly ? $xff : '',
+			'cule_xff_hex'   => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
+			'cule_agent'     => self::getAgent(),
+		], $row );
+
+		$contLang = $services->getContentLanguage();
+
+		// (T199323) Truncate text fields prior to database insertion
+		// Attempting to insert too long text will cause an error in MariaDB/MySQL strict mode
+		$row['cule_xff'] = $contLang->truncateForDatabase( $row['cule_xff'], self::TEXT_FIELD_LENGTH );
+
+		$dbw->insert( 'cu_log_event', $row, $method );
+	}
+
+	/**
+	 * Inserts a row to cu_private_event based on a provided row and performer of the action.
+	 *
+	 * The $row has defaults applied, truncation performed and comment table insertion performed.
+	 * The $user parameter is used to fill the default for the actor ID column.
+	 *
+	 * Provide cupe_comment_id if you have generated a comment table ID for this action, or provide
+	 * cupe_comment if you want this method to deal with the comment table.
+	 *
+	 * @param array $row an array of cu_private_event table column names to their values. Changeable by a hook
+	 *  and for any needed truncation.
+	 * @param string $method the method name that called this, used for the insertion into the DB.
+	 * @param UserIdentity $user the user associated with the event
+	 * @param ?RecentChange $rc If triggered by a RecentChange, then this is the associated
+	 *  RecentChange object. Null if not triggered by a RecentChange.
+	 * @return void
+	 */
+	private static function insertIntoCuPrivateEventTable(
+		array $row,
+		string $method,
+		UserIdentity $user,
+		?RecentChange $rc = null
+	) {
+		$services = MediaWikiServices::getInstance();
+
+		$dbw = $services->getDBLoadBalancer()->getConnectionRef( DB_PRIMARY );
+
+		$request = RequestContext::getMain()->getRequest();
+
+		$ip = $request->getIP();
+		$xff = $request->getHeader( 'X-Forwarded-For' );
+
+		// Provide the ip, xff and row to code that hooks onto this so that they can modify the row before
+		//  it's inserted. The ip and xff are provided separately so that the caller doesn't have to set
+		//  the hex versions of the IP and XFF and can therefore leave that to this function.
+		( new HookRunner( $services->getHookContainer() ) )
+			->onCheckUserInsertPrivateEventRow( $ip, $xff, $row, $user, $rc );
+		/** @var CheckUserUtilityService $checkUserUtilityService */
+		$checkUserUtilityService = MediaWikiServices::getInstance()->get( 'CheckUserUtilityService' );
+		list( $xff_ip, $isSquidOnly, $xff ) = $checkUserUtilityService->getClientIPfromXFF( $xff );
+
+		$row = array_merge(
+			[
+				'cupe_namespace'  => 0,
+				'cupe_title'      => '',
+				'cupe_log_type'   => 'checkuser-private-event',
+				'cupe_log_action' => '',
+				'cupe_params'     => '',
+				'cupe_page'       => 0,
+				'cupe_actor'      => $services->getActorStore()->acquireActorId( $user, $dbw ),
+				'cupe_timestamp'  => $dbw->timestamp( wfTimestampNow() ),
+				'cupe_ip'         => IPUtils::sanitizeIP( $ip ),
+				'cupe_ip_hex'     => $ip ? IPUtils::toHex( $ip ) : null,
+				'cupe_xff'        => !$isSquidOnly ? $xff : '',
+				'cupe_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
+				'cupe_agent'      => self::getAgent(),
+			],
+			$row
+		);
+
+		$contLang = $services->getContentLanguage();
+
+		// (T199323) Truncate text fields prior to database insertion
+		// Attempting to insert too long text will cause an error in MariaDB/MySQL strict mode
+		$row['cupe_xff'] = $contLang->truncateForDatabase( $row['cupe_xff'], self::TEXT_FIELD_LENGTH );
+
+		if ( !isset( $row['cupe_comment_id'] ) ) {
+			$row += $services->getCommentStore()->insert(
+				$dbw,
+				'cupe_comment',
+				$row['cupe_comment'] ?? ''
+			);
+		}
+
+		// Remove any defined cupe_comment as this is not a valid column name.
+		unset( $row['cupe_comment'] );
+
+		$dbw->insert( 'cu_private_event', $row, $method );
+	}
+
+	/**
+	 * Inserts a row in cu_changes based on the provided $row.
+	 *
+	 * The $user parameter is used to generate the default value for cuc_actor, cuc_user and cuc_user_text.
+	 *
+	 * @param array $row an array of cu_change table column names to their values. Overridable by a hook
+	 *  and for any necessary truncation.
+	 * @param string $method the method name that called this, used for the insertion into the DB.
+	 * @param UserIdentity $user the user who made the change
+	 * @param ?RecentChange $rc If triggered by a RecentChange, then this is the associated
+	 *  RecentChange object. Null if not triggered by a RecentChange.
 	 * @return void
 	 */
 	private static function insertIntoCuChangesTable(
 		array $row,
 		string $method,
-		UserIdentity $user
+		UserIdentity $user,
+		?RecentChange $rc = null
 	) {
 		$services = MediaWikiServices::getInstance();
 
@@ -235,7 +382,8 @@ class Hooks implements
 		// Provide the ip, xff and row to code that hooks onto this so that they can modify the row before
 		//  it's inserted. The ip and xff are provided separately so that the caller doesn't have to set
 		//  the hex versions of the IP and XFF and can therefore leave that to this function.
-		( new HookRunner( $services->getHookContainer() ) )->onCheckUserInsertChangesRow( $ip, $xff, $row, $user );
+		( new HookRunner( $services->getHookContainer() ) )
+			->onCheckUserInsertChangesRow( $ip, $xff, $row, $user, $rc );
 		/** @var CheckUserUtilityService $checkUserUtilityService */
 		$checkUserUtilityService = MediaWikiServices::getInstance()->get( 'CheckUserUtilityService' );
 		list( $xff_ip, $isSquidOnly, $xff ) = $checkUserUtilityService->getClientIPfromXFF( $xff );
