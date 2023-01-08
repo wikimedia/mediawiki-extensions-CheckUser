@@ -109,7 +109,10 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 			'tables' => [ 'cu_changes' ] + $actorQuery['tables'],
 			'conds' => [ $cond_field => $this->target->getId() ],
 			'join_conds' => $actorQuery['joins'],
-			'options' => [ 'GROUP BY' => [ 'cuc_ip', 'cuc_ip_hex' ], 'USE INDEX' => $index ],
+			'options' => [
+				'GROUP BY' => [ 'cuc_ip', 'cuc_ip_hex' ],
+				'USE INDEX' => [ 'cu_changes' => $index ]
+			],
 		];
 	}
 

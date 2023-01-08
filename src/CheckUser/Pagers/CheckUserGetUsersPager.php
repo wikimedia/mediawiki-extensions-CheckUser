@@ -370,7 +370,9 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			'tables' => [ 'cu_changes' ] + $actorQuery['tables'],
 			'conds' => [],
 			'join_conds' => $actorQuery['joins'],
-			'options' => [ 'USE INDEX' => $this->xfor ? 'cuc_xff_hex_time' : 'cuc_ip_hex_time' ],
+			'options' => [ 'USE INDEX' => [
+				'cu_changes' => $this->xfor ? 'cuc_xff_hex_time' : 'cuc_ip_hex_time'
+			] ],
 		];
 		$ipConds = self::getIpConds( $this->mDb, $this->target->getName(), $this->xfor );
 		if ( $ipConds ) {

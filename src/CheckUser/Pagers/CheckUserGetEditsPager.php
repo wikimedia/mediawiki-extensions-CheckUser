@@ -326,9 +326,11 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		];
 		if ( $this->xfor === null ) {
 			$queryInfo['conds'][$cond_field] = $this->target->getId();
-			$queryInfo['options']['USE INDEX'] = $index;
+			$queryInfo['options']['USE INDEX'] = [ 'cu_changes' => $index ];
 		} else {
-			$queryInfo['options']['USE INDEX'] = $this->xfor ? 'cuc_xff_hex_time' : 'cuc_ip_hex_time';
+			$queryInfo['options']['USE INDEX'] = [
+				'cu_changes' => $this->xfor ? 'cuc_xff_hex_time' : 'cuc_ip_hex_time'
+			];
 			$ipConds = self::getIpConds( $this->mDb, $this->target->getName(), $this->xfor );
 			if ( $ipConds ) {
 				$queryInfo['conds'] = array_merge( $queryInfo['conds'], $ipConds );
