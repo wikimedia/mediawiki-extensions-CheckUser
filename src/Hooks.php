@@ -7,6 +7,7 @@ use DatabaseLogEntry;
 use DatabaseUpdater;
 use DeferredUpdates;
 use ExtensionRegistry;
+use LogEntryBase;
 use LogFormatter;
 use MailAddress;
 use MediaWiki\Auth\AuthenticationResponse;
@@ -152,7 +153,58 @@ class Hooks implements
 			return;
 		}
 
+		$services = MediaWikiServices::getInstance();
 		$attribs = $rc->getAttributes();
+		$dbw = $services->getDBLoadBalancer()->getConnectionRef( DB_PRIMARY );
+		$eventTablesMigrationStage = $services->getMainConfig()
+			->get( 'CheckUserEventTablesMigrationStage' );
+
+		if (
+			$rc->getAttribute( 'rc_type' ) == RC_LOG &&
+			( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW )
+		) {
+			if ( $rc->getAttribute( 'rc_logid' ) == 0 ) {
+				$rcRow = [
+					'cupe_namespace'  => $attribs['rc_namespace'],
+					'cupe_title'      => $attribs['rc_title'],
+					'cupe_log_type'   => $attribs['rc_log_type'],
+					'cupe_log_action' => $attribs['rc_log_action'],
+					'cupe_params'     => $attribs['rc_params'],
+					'cupe_timestamp'  => $dbw->timestamp( $attribs['rc_timestamp'] ),
+				];
+
+				# If rc_comment_id is set, then use it. Instead get the comment id by a lookup
+				if ( isset( $attribs['rc_comment_id'] ) ) {
+					$rcRow['cupe_comment_id'] = $attribs['rc_comment_id'];
+				} else {
+					$rcRow['cupe_comment_id'] = $services->getCommentStore()
+						->createComment( $dbw, $attribs['rc_comment'], $attribs['rc_comment_data'] )->id;
+				}
+
+				# On PG, MW unsets cur_id due to schema incompatibilities. So it may not be set!
+				if ( isset( $attribs['rc_cur_id'] ) ) {
+					$rcRow['cupe_page'] = $attribs['rc_cur_id'];
+				}
+
+				self::insertIntoCuPrivateEventTable(
+					$rcRow,
+					__METHOD__,
+					$rc->getPerformerIdentity(),
+					$rc
+				);
+			} else {
+				self::insertIntoCuLogEventTable(
+					$rc->getAttribute( 'rc_logid' ),
+					__METHOD__,
+					$rc->getPerformerIdentity(),
+					$rc
+				);
+			}
+			// We have stored the row in either cu_log_event or cu_private_event so no need
+			//  to store it in cu_changes.
+			return;
+		}
+
 		// Store the log action text for log events
 		// $rc_comment should just be the log_comment
 		// BC: check if log_type and log_action exists
@@ -173,8 +225,6 @@ class Hooks implements
 			$actionText = '';
 		}
 
-		$comment = $rc->getAttribute( 'rc_comment' );
-
 		$services = MediaWikiServices::getInstance();
 
 		$dbw = $services->getDBLoadBalancer()->getConnectionRef( DB_PRIMARY );
@@ -186,7 +236,7 @@ class Hooks implements
 			'cuc_user'       => $attribs['rc_user'],
 			'cuc_user_text'  => $attribs['rc_user_text'],
 			'cuc_actiontext' => $actionText,
-			'cuc_comment'    => $comment,
+			'cuc_comment'    => $rc->getAttribute( 'rc_comment' ),
 			'cuc_this_oldid' => $attribs['rc_this_oldid'],
 			'cuc_last_oldid' => $attribs['rc_last_oldid'],
 			'cuc_type'       => $attribs['rc_type'],
@@ -452,17 +502,31 @@ class Hooks implements
 	 */
 	public function onUser__mailPasswordInternal( $user, $ip, $account ) {
 		$accountName = $account->getName();
-		self::insertIntoCuChangesTable(
-			[
-				'cuc_namespace'  => NS_USER,
-				'cuc_actiontext' => wfMessage(
-					'checkuser-reset-action',
-					$accountName
-				)->inContentLanguage()->text(),
-			],
-			__METHOD__,
-			$user
-		);
+		$eventTablesMigrationStage = MediaWikiServices::getInstance()->getMainConfig()
+			->get( 'CheckUserEventTablesMigrationStage' );
+		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+			self::insertIntoCuPrivateEventTable(
+				[
+					'cupe_namespace' => NS_USER,
+					'cupe_log_action'    => 'reset-action',
+					'cupe_params'    => LogEntryBase::makeParamBlob( [ '4::receiver' => $accountName ] )
+				],
+				__METHOD__,
+				$user
+			);
+		} else {
+			self::insertIntoCuChangesTable(
+				[
+					'cuc_namespace'  => NS_USER,
+					'cuc_actiontext' => wfMessage(
+						'checkuser-reset-action',
+						$accountName
+					)->inContentLanguage()->text(),
+				],
+				__METHOD__,
+				$user
+			);
+		}
 	}
 
 	/**
@@ -496,25 +560,48 @@ class Hooks implements
 		$userTo = $services->getUserFactory()->newFromName( $to->name );
 		$hash = md5( $userTo->getEmail() . $userTo->getId() . $wgSecretKey );
 
-		$row = [
-			'cuc_namespace'  => NS_USER,
-			'cuc_actiontext' => wfMessage( 'checkuser-email-action', $hash )->inContentLanguage()->text(),
-		];
-
+		$row = [];
+		$prefix = '';
+		$eventTablesMigrationStage = MediaWikiServices::getInstance()->getMainConfig()
+			->get( 'CheckUserEventTablesMigrationStage' );
+		$row['namespace'] = NS_USER;
+		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+			$prefix = 'cupe_';
+			$row['log_action'] = 'email-sent';
+			$row['params'] = LogEntryBase::makeParamBlob( [ '4::hash' => $hash ] );
+		} else {
+			$prefix = 'cuc_';
+			$row['actiontext'] = wfMessage( 'checkuser-email-action', $hash )->inContentLanguage()->text();
+		}
 		if ( trim( $wgCUPublicKey ) != '' ) {
 			$privateData = $userTo->getEmail() . ":" . $userTo->getId();
 			$encryptedData = new EncryptedData( $privateData, $wgCUPublicKey );
-			$row['cuc_private'] = serialize( $encryptedData );
+			$row['private'] = serialize( $encryptedData );
 		}
-
+		// Prefix with the correct string depending on which table
+		//  is being written to.
+		foreach ( $row as $key => $value ) {
+			$row[$prefix . $key] = $value;
+			unset( $row[$key] );
+		}
 		$fname = __METHOD__;
-		DeferredUpdates::addCallableUpdate( static function () use ( $row, $userFrom, $fname ) {
-			self::insertIntoCuChangesTable(
-				$row,
-				$fname,
-				$userFrom
-			);
-		} );
+		DeferredUpdates::addCallableUpdate(
+			static function () use ( $row, $userFrom, $fname, $eventTablesMigrationStage ) {
+				if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+					self::insertIntoCuPrivateEventTable(
+						$row,
+						$fname,
+						$userFrom
+					);
+				} else {
+					self::insertIntoCuChangesTable(
+						$row,
+						$fname,
+						$userFrom
+					);
+				}
+			}
+		);
 	}
 
 	/**
@@ -525,16 +612,29 @@ class Hooks implements
 	 * @param bool $autocreated
 	 */
 	public function onLocalUserCreated( $user, $autocreated ) {
-		self::insertIntoCuChangesTable(
-			[
-				'cuc_namespace'  => NS_USER,
-				'cuc_actiontext' => wfMessage(
-					$autocreated ? 'checkuser-autocreate-action' : 'checkuser-create-action'
-				)->inContentLanguage()->text(),
-			],
-			__METHOD__,
-			$user
-		);
+		$eventTablesMigrationStage = MediaWikiServices::getInstance()->getMainConfig()
+			->get( 'CheckUserEventTablesMigrationStage' );
+		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+			self::insertIntoCuPrivateEventTable(
+				[
+					'cupe_namespace' => NS_USER,
+					'cupe_log_action'    => $autocreated ? 'autocreate-account' : 'create-account'
+				],
+				__METHOD__,
+				$user
+			);
+		} else {
+			self::insertIntoCuChangesTable(
+				[
+					'cuc_namespace'  => NS_USER,
+					'cuc_actiontext' => wfMessage(
+						$autocreated ? 'checkuser-autocreate-action' : 'checkuser-create-action'
+					)->inContentLanguage()->text(),
+				],
+				__METHOD__,
+				$user
+			);
+		}
 	}
 
 	/**
@@ -621,15 +721,30 @@ class Hooks implements
 
 		$target = "[[User:$userName|$userName]]";
 
-		self::insertIntoCuChangesTable(
-			[
-				'cuc_namespace'  => NS_USER,
-				'cuc_title'      => $userName,
-				'cuc_actiontext' => wfMessage( $msg )->params( $target )->inContentLanguage()->text(),
-			],
-			__METHOD__,
-			$performer
-		);
+		$eventTablesMigrationStage = MediaWikiServices::getInstance()->getMainConfig()
+			->get( 'CheckUserEventTablesMigrationStage' );
+		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+			self::insertIntoCuPrivateEventTable(
+				[
+					'cupe_namespace'  => NS_USER,
+					'cupe_title'      => $userName,
+					'cupe_log_action'     => substr( $msg, strlen( 'checkuser-' ) ),
+					'cupe_params'     => LogEntryBase::makeParamBlob( [ '4::target' => $userName ] ),
+				],
+				__METHOD__,
+				$performer
+			);
+		} else {
+			self::insertIntoCuChangesTable(
+				[
+					'cuc_namespace'  => NS_USER,
+					'cuc_title'      => $userName,
+					'cuc_actiontext' => wfMessage( $msg )->params( $target )->inContentLanguage()->text(),
+				],
+				__METHOD__,
+				$performer
+			);
+		}
 	}
 
 	/**
@@ -644,7 +759,8 @@ class Hooks implements
 	}
 
 	/**
-	 * Prunes at most 500 entries from the cu_changes table
+	 * Prunes at most 500 entries from the cu_changes,
+	 * cu_private_event, and cu_log_event tables separately
 	 * that have exceeded the maximum time that they can
 	 * be stored.
 	 */
@@ -665,17 +781,27 @@ class Hooks implements
 				$encCutoff = $dbw->addQuotes( $dbw->timestamp(
 					time() - MediaWikiServices::getInstance()->getMainConfig()->get( 'CUDMaxAge' )
 				) );
-				$ids = $dbw->newSelectQueryBuilder()
-					->table( 'cu_changes' )
-					->field( 'cuc_id' )
-					->conds( [ "cuc_timestamp < $encCutoff" ] )
-					->limit( 500 )
-					->caller( $fname )
-					->fetchFieldValues();
 
-				if ( $ids ) {
-					$dbw->delete( 'cu_changes', [ 'cuc_id' => $ids ], $fname );
-				}
+				$deleteOperation = static function (
+					$table, $idField, $timestampField
+				) use ( $dbw, $encCutoff, $fname ) {
+					$ids = $dbw->newSelectQueryBuilder()
+						->table( $table )
+						->field( $idField )
+						->conds( [ "$timestampField < $encCutoff" ] )
+						->limit( 500 )
+						->caller( $fname )
+						->fetchFieldValues();
+					if ( $ids ) {
+						$dbw->delete( $table, [ $idField => $ids ], $fname );
+					}
+				};
+
+				$deleteOperation( 'cu_changes', 'cuc_id', 'cuc_timestamp' );
+
+				$deleteOperation( 'cu_private_event', 'cupe_id', 'cupe_timestamp' );
+
+				$deleteOperation( 'cu_log_event', 'cule_id', 'cule_timestamp' );
 			}
 		) );
 	}

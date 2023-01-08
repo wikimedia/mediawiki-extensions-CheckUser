@@ -93,7 +93,7 @@
 		},
 		"CheckUserEventTablesMigrationStage": {
 			"value": 3,
-			"description": "A flag used as the migration stage to the new cu_private_event and cu_log_event tables. Default is to read and write only from cu_changes."
+			"description": "A flag used as the migration stage to the new cu_private_event and cu_log_event tables. Default is to read and write only from cu_changes. Must only be set as SCHEMA_COMPAT_NEW or SCHEMA_COMPAT_OLD."
 		}
 	},
 	"APIListModules": {
