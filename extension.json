@@ -147,6 +147,12 @@
 			"class": "MediaWiki\\CheckUser\\HookHandler\\Preferences",
 			"services": [ "PermissionManager" ]
 		},
+		"pageDisplay": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\PageDisplay",
+			"services": [
+				"PermissionManager"
+			]
+		},
 		"Hooks": {
 			"class": "MediaWiki\\CheckUser\\Hooks"
 		}
@@ -165,6 +171,7 @@
 		"UserLogoutComplete": "Hooks",
 		"SpecialPage_initList": "Hooks",
 		"UserToolLinksEdit": "Hooks",
+		"BeforePageDisplay": "pageDisplay",
 		"GetPreferences": "preferences"
 	},
 	"MessagesDirs": {
@@ -196,6 +203,7 @@
 				"investigate/tables.js",
 				"investigate/copy.js",
 				"investigate/blockform.js",
+				"temporaryaccount/init.js",
 				{
 					"name": "investigate/message.json",
 					"callback": "MediaWiki\\CheckUser\\ToolLinksMessages::getParsedMessage",
@@ -216,7 +224,8 @@
 				"mediawiki.Title",
 				"mediawiki.Uri",
 				"mediawiki.util",
-				"mediawiki.widgets"
+				"mediawiki.widgets",
+				"web2017-polyfills"
 			],
 			"messages": [
 				"checkuser-centralauth-multilock",
@@ -239,7 +248,9 @@
 				"checkuser-investigate-compare-table-button-contribs-label",
 				"checkuser-investigate-compare-table-button-filter-label",
 				"checkuser-investigate-subtitle-cancel-button-label",
-				"checkuser-investigate-subtitle-continue-button-label"
+				"checkuser-investigate-subtitle-continue-button-label",
+				"checkuser-tempaccount-reveal-ip-button-label",
+				"checkuser-tempaccount-reveal-ip-missing"
 			]
 		},
 		"ext.checkUser.styles": {
@@ -249,11 +260,14 @@
 			"styles": [
 				"checkuser.less",
 				"investigate.less",
-				"investigateblock.less"
+				"investigateblock.less",
+				"temporaryaccount.less"
 			],
 			"lessMessages": [
 				"brackets-start",
 				"brackets-end",
+				"parentheses-start",
+				"parentheses-end",
 				"pipe-separator"
 			]
 		},

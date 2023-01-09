@@ -8,5 +8,10 @@
 	"rules": {
 		"no-jquery/no-global-selector": "off",
 		"no-implicit-globals": "off"
+	},
+	"settings": {
+		"polyfills": [
+			"URLSearchParams"
+		]
 	}
 }
