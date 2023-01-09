@@ -64,7 +64,7 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 				'',
 				[
 					'targets' => [ '11111' ],
-					'conds' => [ 'cuc_user' ],
+					'conds' => [ 'actor_user' ],
 				],
 			],
 			'Valid username, with start' => [
@@ -72,7 +72,7 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 				'111',
 				[
 					'targets' => [ '11111' ],
-					'conds' => [ 'cuc_user' ],
+					'conds' => [ 'actor_user' ],
 				],
 			],
 			'Valid IP' => [
@@ -88,7 +88,7 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 				'',
 				[
 					'targets' => [ '11111', IPUtils::toHex( '1.2.3.4' ) ],
-					'conds' => [ 'cuc_ip_hex', 'cuc_user' ],
+					'conds' => [ 'cuc_ip_hex', 'actor_user' ],
 				],
 			],
 			'Valid IP range' => [
@@ -96,7 +96,7 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 				'',
 				[
 					'targets' => [ '11111' ] + $range,
-					'conds' => [ 'cuc_ip_hex >=', 'cuc_ip_hex <=', 'cuc_user' ],
+					'conds' => [ 'cuc_ip_hex >=', 'cuc_ip_hex <=', 'actor_user' ],
 				],
 			],
 			'Some valid targets' => [
@@ -104,7 +104,7 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 				'',
 				[
 					'targets' => [ '11111', IPUtils::toHex( '::1' ) ],
-					'conds' => [ 'cuc_user', 'cuc_ip_hex' ],
+					'conds' => [ 'actor_user', 'cuc_ip_hex' ],
 				],
 			],
 			'Invalid targets' => [

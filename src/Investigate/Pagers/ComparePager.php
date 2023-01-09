@@ -204,7 +204,7 @@ class ComparePager extends TablePager {
 				if ( IPUtils::isValid( $value ) ) {
 					$formatted = $this->msg( 'checkuser-investigate-compare-table-cell-unregistered' );
 				} else {
-					$formatted = Linker::userLink( $row->cuc_user, $value );
+					$formatted = Linker::userLink( $row->cuc_user ?? 0, $value );
 				}
 				break;
 			case 'cuc_ip':

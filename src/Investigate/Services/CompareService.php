@@ -4,7 +4,9 @@ namespace MediaWiki\CheckUser\Investigate\Services;
 
 use IDatabase;
 use LogicException;
+use MediaWiki\CheckUser\CheckUserActorMigration;
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\MediaWikiServices;
 use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\Rdbms\ILoadBalancer;
 use Wikimedia\Rdbms\SelectQueryBuilder;
@@ -59,18 +61,30 @@ class CompareService extends ChangeService {
 		string $ipHex,
 		string $excludeUser = null
 	): int {
+		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
+
 		$queryBuilder = $this->loadBalancer->getConnection( DB_REPLICA )->newSelectQueryBuilder()
 			->select( 'cuc_id' )
-			->from( 'cu_changes' )
+			->tables( [ 'cu_changes' ] + $actorQuery['tables'] )
 			->where( [
 				'cuc_ip_hex' => $ipHex,
 				'cuc_type' => [ RC_EDIT, RC_NEW ],
 			] )
+			->joinConds( $actorQuery['joins'] )
 			->caller( __METHOD__ );
 
 		if ( $excludeUser ) {
+			if ( MediaWikiServices::getInstance()
+				->getMainConfig()
+				->get( 'CheckUserActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW
+			) {
+				$cond_field = 'actor_name';
+			} else {
+				$cond_field = 'cuc_user_text';
+			}
+
 			$queryBuilder->where(
-				'cuc_user_text != ' . $this->dbQuoter->addQuotes( $excludeUser )
+				$cond_field . ' != ' . $this->dbQuoter->addQuotes( $excludeUser )
 			);
 		}
 
@@ -88,6 +102,8 @@ class CompareService extends ChangeService {
 	public function getQueryInfo( array $targets, array $excludeTargets, string $start ): array {
 		$dbr = $this->loadBalancer->getConnection( DB_REPLICA );
 
+		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
+
 		if ( $targets === [] ) {
 			throw new LogicException( 'Cannot get query info when $targets is empty.' );
 		}
@@ -100,15 +116,14 @@ class CompareService extends ChangeService {
 				$queryBuilder = $dbr->newSelectQueryBuilder()
 					->select( [
 						'cuc_id',
-						'cuc_user',
-						'cuc_user_text',
 						'cuc_ip',
 						'cuc_ip_hex',
 						'cuc_agent',
 						'cuc_timestamp',
-					] )
-					->from( 'cu_changes' )
+					] + $actorQuery['fields'] )
+					->tables( [ 'cu_changes' ] + $actorQuery['tables'] )
 					->where( $conds )
+					->joinConds( $actorQuery['joins'] )
 					->caller( __METHOD__ );
 				if ( $dbr->unionSupportsOrderAndLimit() ) {
 					$queryBuilder->orderBy( 'cuc_timestamp', SelectQueryBuilder::SORT_DESC )
@@ -219,13 +234,16 @@ class CompareService extends ChangeService {
 		$targetsOverLimit = [];
 		$offset = $this->getLimitPerTarget( $targets );
 
+		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
+
 		foreach ( $targets as $target ) {
 			$conds = $this->buildCondsForSingleTarget( $target, $excludeTargets, $start );
 			if ( $conds !== null ) {
 				$limitCheck = $dbr->newSelectQueryBuilder()
 					->select( 'cuc_id' )
-					->from( 'cu_changes' )
+					->tables( [ 'cu_changes' ] + $actorQuery['tables'] )
 					->where( $conds )
+					->joinConds( $actorQuery['joins'] )
 					->offset( $offset )
 					->limit( 1 )
 					->caller( __METHOD__ );

@@ -8,6 +8,7 @@ use MediaWiki\MediaWikiServices;
 use MediaWiki\Tests\Unit\Libs\Rdbms\AddQuoterMock;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
+use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\Database;
@@ -322,10 +323,39 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function addDBData() {
+		$actorStore = $this->getServiceContainer()->getActorStore();
+
+		$testActorData = [
+			'User1' => [
+				'actor_id'   => 0,
+				'actor_user' => 11111,
+			],
+			'User2' => [
+				'actor_id'   => 0,
+				'actor_user' => 22222,
+			],
+			'1.2.3.4' => [
+				'actor_id'   => 0,
+				'actor_user' => 0,
+			],
+			'1.2.3.5' => [
+				'actor_id'   => 0,
+				'actor_user' => 0,
+			],
+		];
+
+		foreach ( $testActorData as $name => $actor ) {
+			$testActorData[$name]['actor_id'] = $actorStore->acquireActorId(
+				new UserIdentityValue( $actor['actor_user'], $name ),
+				$this->getDb()
+			);
+		}
+
 		$testData = [
 			[
 				'cuc_user'       => 0,
 				'cuc_user_text'  => '1.2.3.4',
+				'cuc_actor'      => $testActorData['1.2.3.4']['actor_id'],
 				'cuc_type'       => RC_NEW,
 				'cuc_ip'         => '1.2.3.4',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
@@ -333,6 +363,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 			], [
 				'cuc_user'       => 0,
 				'cuc_user_text'  => '1.2.3.4',
+				'cuc_actor'      => $testActorData['1.2.3.4']['actor_id'],
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip'         => '1.2.3.4',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
@@ -340,6 +371,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 			], [
 				'cuc_user'       => 0,
 				'cuc_user_text'  => '1.2.3.4',
+				'cuc_actor'      => $testActorData['1.2.3.4']['actor_id'],
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip'         => '1.2.3.4',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
@@ -347,6 +379,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 			], [
 				'cuc_user'       => 0,
 				'cuc_user_text'  => '1.2.3.5',
+				'cuc_actor'      => $testActorData['1.2.3.5']['actor_id'],
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip'         => '1.2.3.5',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
@@ -354,6 +387,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 			], [
 				'cuc_user'       => 0,
 				'cuc_user_text'  => '1.2.3.5',
+				'cuc_actor'      => $testActorData['1.2.3.5']['actor_id'],
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip'         => '1.2.3.5',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
@@ -361,6 +395,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 			], [
 				'cuc_user'       => 11111,
 				'cuc_user_text'  => 'User1',
+				'cuc_actor'      => $testActorData['User1']['actor_id'],
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip'         => '1.2.3.4',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
@@ -368,6 +403,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 			], [
 				'cuc_user'       => 22222,
 				'cuc_user_text'  => 'User2',
+				'cuc_actor'      => $testActorData['User2']['actor_id'],
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip'         => '1.2.3.4',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
@@ -375,6 +411,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 			], [
 				'cuc_user'       => 11111,
 				'cuc_user_text'  => 'User1',
+				'cuc_actor'      => $testActorData['User1']['actor_id'],
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip'         => '1.2.3.5',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
@@ -404,5 +441,6 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		}
 
 		$this->tablesUsed[] = 'cu_changes';
+		$this->tablesUsed[] = 'actor';
 	}
 }
