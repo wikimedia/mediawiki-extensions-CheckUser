@@ -1,5 +1,8 @@
 <?php
 
+namespace MediaWiki\CheckUser\Maintenance;
+
+use Maintenance;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 
 if ( getenv( 'MW_INSTALL_PATH' ) ) {
@@ -26,6 +29,14 @@ class PurgeOldData extends Maintenance {
 
 		$this->output( "Purging data from cu_changes..." );
 		$count = $this->prune( 'cu_changes', 'cuc_timestamp', $CUDMaxAge );
+		$this->output( $count . " rows.\n" );
+
+		$this->output( "Purging data from cu_private_event..." );
+		$count = $this->prune( 'cu_private_event', 'cupe_timestamp', $CUDMaxAge );
+		$this->output( $count . " rows.\n" );
+
+		$this->output( "Purging data from cu_log_event..." );
+		$count = $this->prune( 'cu_log_event', 'cule_timestamp', $CUDMaxAge );
 		$this->output( $count . " rows.\n" );
 
 		if ( $PutIPinRC ) {

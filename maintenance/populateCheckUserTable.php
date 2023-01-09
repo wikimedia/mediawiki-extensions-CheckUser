@@ -103,43 +103,83 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 				->conds( $cond )
 				->caller( __METHOD__ )
 				->fetchResultSet();
-			$batch = [];
+			$cuChangesBatch = [];
+			$cuPrivateEventBatch = [];
+			$cuLogEventBatch = [];
 			foreach ( $res as $row ) {
+				$eventTablesMigrationStage = $services->getMainConfig()
+					->get( 'CheckUserEventTablesMigrationStage' );
 				$comment = $commentStore->getComment( 'rc_comment', $row );
-				$entry = [
-					'cuc_timestamp' => $row->rc_timestamp,
-					'cuc_user' => $row->rc_user ?? 0,
-					'cuc_user_text' => $row->rc_user_text,
-					'cuc_namespace' => $row->rc_namespace,
-					'cuc_title' => $row->rc_title,
-					'cuc_comment' => $contLang->truncateForDatabase(
-						$comment->text, Hooks::TEXT_FIELD_LENGTH
-					),
-					'cuc_minor' => $row->rc_minor,
-					'cuc_page_id' => $row->rc_cur_id,
-					'cuc_this_oldid' => $row->rc_this_oldid,
-					'cuc_last_oldid' => $row->rc_last_oldid,
-					'cuc_type' => $row->rc_type,
-					'cuc_ip' => $row->rc_ip,
-					'cuc_ip_hex' => IPUtils::toHex( $row->rc_ip ),
-				];
+				if (
+					$row->rc_type == RC_LOG &&
+					( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW )
+				) {
+					if ( $row->rc_logid == 0 ) {
+						$cuPrivateEventBatch[] = [
+							'cupe_timestamp' => $row->rc_timestamp,
+							'cupe_actor' => $row->rc_actor,
+							'cupe_namespace' => $row->rc_namespace,
+							'cupe_title' => $row->rc_title,
+							'cupe_comment_id' => $comment->id,
+							'cupe_page' => $row->rc_cur_id,
+							'cupe_log_action' => $row->rc_log_action,
+							'cupe_log_type' => $row->rc_log_type,
+							'cupe_params' => $row->rc_params,
+							'cupe_ip' => $row->rc_ip,
+							'cupe_ip_hex' => IPUtils::toHex( $row->rc_ip ),
+						];
+					} else {
+						$cuLogEventBatch[] = [
+							'cule_timestamp' => $row->rc_timestamp,
+							'cule_actor' => $row->rc_actor,
+							'cule_log_id' => $row->rc_logid,
+							'cule_ip' => $row->rc_ip,
+							'cule_ip_hex' => IPUtils::toHex( $row->rc_ip ),
+						];
+					}
+				} else {
+					$entry = [
+						'cuc_timestamp' => $row->rc_timestamp,
+						'cuc_user' => $row->rc_user ?? 0,
+						'cuc_user_text' => $row->rc_user_text,
+						'cuc_namespace' => $row->rc_namespace,
+						'cuc_title' => $row->rc_title,
+						'cuc_comment' => $contLang->truncateForDatabase(
+							$comment->text, Hooks::TEXT_FIELD_LENGTH
+						),
+						'cuc_minor' => $row->rc_minor,
+						'cuc_page_id' => $row->rc_cur_id,
+						'cuc_this_oldid' => $row->rc_this_oldid,
+						'cuc_last_oldid' => $row->rc_last_oldid,
+						'cuc_type' => $row->rc_type,
+						'cuc_ip' => $row->rc_ip,
+						'cuc_ip_hex' => IPUtils::toHex( $row->rc_ip ),
+					];
 
-				if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-					$entry['cuc_actor'] = $row->rc_actor;
+					if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+						$entry['cuc_actor'] = $row->rc_actor;
+					}
+
+					if ( $commentMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+						$entry['cuc_comment_id'] = $comment->id;
+					}
+
+					$cuChangesBatch[] = $entry;
 				}
-
-				if ( $commentMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-					$entry['cuc_comment_id'] = $comment->id;
-				}
-
-				$batch[] = $entry;
 			}
-			if ( count( $batch ) ) {
-				$db->insert( 'cu_changes', $batch, __METHOD__ );
+			if ( count( $cuChangesBatch ) ) {
+				$db->insert( 'cu_changes', $cuChangesBatch, __METHOD__ );
+			}
+			if ( count( $cuPrivateEventBatch ) ) {
+				$db->insert( 'cu_private_event', $cuPrivateEventBatch, __METHOD__ );
+			}
+			if ( count( $cuLogEventBatch ) ) {
+				$db->insert( 'cu_log_event', $cuLogEventBatch, __METHOD__ );
 			}
 			$blockStart += $this->mBatchSize - 1;
 			$blockEnd += $this->mBatchSize - 1;
 			$lbFactory->waitForReplication( [ 'ifWritesSince' => 5 ] );
+			$lbFactory->autoReconfigure();
 		}
 
 		$this->output( "...cu_changes table has been populated.\n" );
