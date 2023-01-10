@@ -93,7 +93,7 @@
 	"checkuser-autocreate-action": "is automatisch aangemaakt",
 	"checkuser-create-action": "is aangemaakt",
 	"checkuser-email-action": "heeft een e-mail gestuurd aan \"$1\"",
-	"checkuser-reset-action": "heeft een e-mail voor het opnieuw instellen van het wachtwoord verzonden voor gebruiker $1",
+	"checkuser-reset-action": "heeft een e-mail voor het opnieuw instellen van het wachtwoord verzonden voor {{GENDER:$1|gebruiker}} [[User:$1|$1]]",
 	"checkuser-token-fail": "Sessie is mislukt. Probeer het opnieuw.",
 	"checkuser-login-failure": "Kon niet als $1 inloggen op {{SITENAME}}",
 	"checkuser-login-success": "Succesvol als $1 op {{SITENAME}} ingelogd",
