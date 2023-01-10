@@ -33,7 +33,8 @@
 			"Umherirrender",
 			"Verdy p",
 			"Xiplus",
-			"Dreamy Jazz"
+			"Dreamy Jazz",
+			"Nguyenphutrong2"
 		]
 	},
 	"checkuser-summary": "Explanation of CheckUser tool. See [[mw:Extension:CheckUser#Basic_interface|screenshot titled 'Basic CheckUser interface']].\n\nParameters:\n* $1 - an integer that can change based on wiki configuration. default value: 16\n* $2 - an integer that can change based on wiki configuration. default value: 32\n* $3 - the maximum number of results returned as set in the wiki global CheckUserMaximumRowCount. default value: 5000",
@@ -122,7 +123,7 @@
 	"checkuser-log-entry-investigate": "This is an entry in the checkuser log when a checkuser investigates a target using [[Special:Investigate]].\n\nParameters:\n* $1 - name of checkuser\n* $2 - name of target\n* $3 - a formatted timestamp of the event\n* $4 - a formatted date of the event\n* $5 - a formatted time of the event\n\n{{Related|Checkuser-log}}",
 	"checkuser-autocreate-action": "Text of the event displayed in the CheckUser results, corresponding to the automatic creation of a new user account (by CentralAuth).",
 	"checkuser-create-action": "Text of the event displayed in the CheckUser results. Indicates creation of the user.",
-	"checkuser-email-action": "Logged text when a user sends an e-mail. Probably preceded by the name of the checkuser.\n\nParameters:\n* $1 - a salted MD5 hash for the user an email was sent to",
+	"checkuser-email-action": "Logged text when a user sends an e-mail. Proceeded by the user who sent the email.\n\nParameters:\n* $1 - a salted MD5 hash for the user an email was sent to",
 	"checkuser-reset-action": "Logged text when a user resets a password. Parameters:\n* $1 - the username for which the password was reset. Can be used for GENDER.",
 	"checkuser-userlinks-ip": "{{notranslate}}\nLinks shown next to an IP address in a CheckUser result entry. $1 - IP address\n\nSee also:\n*{{msg-mw|Signature}}\n*{{msg-mw|Checkuser-userlinks}}",
 	"checkuser-toollinks": "{{notranslate}}\nParameters:\n* $1 - IP address",
