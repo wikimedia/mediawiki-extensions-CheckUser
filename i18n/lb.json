@@ -39,6 +39,7 @@
 	"checkuser-nomatch": "Et goufe keng Iwwereneestëmmunge fonnt.",
 	"checkuser-nomatch-edits": "Et gouf näischt sou fonnt.\nDéi lescht Ännerung war de() $1 ëm $2.",
 	"checkuser-check": "Kontrolléieren",
+	"checkuser-toollink-check": "kontrolléieren",
 	"checkuser-check-this-user": "Dëse Benotzer iwwerpréiwen",
 	"checkuser-investigate-this-user": "Dëse Benotzer ënnersichen",
 	"checkuser-recent-checks": "Rezent Iwwerpréiwunge fir dëse Benotzer",
