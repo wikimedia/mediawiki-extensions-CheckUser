@@ -77,7 +77,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	protected $templateParser;
 
 	/** @var UserFactory */
-	private $userFactory;
+	protected $userFactory;
 
 	/**
 	 * @param FormOptions $opts
