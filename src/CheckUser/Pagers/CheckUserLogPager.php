@@ -173,7 +173,13 @@ class CheckUserLogPager extends RangeChronologicalPager {
 				$row
 			)
 		)->text();
-		$rowContent .= $this->commentFormatter->formatBlock( $row->cul_reason );
+		if ( $this->getConfig()->get( 'CheckUserLogReasonMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
+			$rowContent .= $this->commentFormatter->formatBlock(
+				$this->commentStore->getComment( 'cul_reason', $row )->text
+			);
+		} else {
+			$rowContent .= $this->commentFormatter->formatBlock( $row->cul_reason );
+		}
 
 		$attribs = [
 			'data-mw-culogid' => $row->cul_id,
@@ -210,20 +216,26 @@ class CheckUserLogPager extends RangeChronologicalPager {
 		return '<p>' . $this->msg( 'checkuser-empty' )->escaped() . '</p>';
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public function getQueryInfo() {
 		if ( $this->getConfig()->get( 'CheckUserLogActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
-			$cond = [ 'actor_id = cul_actor' ];
+			$actorJoinCond = [ 'actor_id = cul_actor' ];
 		} else {
-			$cond = [ 'actor_user = cul_user' ];
+			$actorJoinCond = [ 'actor_user = cul_user' ];
 		}
 
+		$commentQuery = $this->commentStore->getJoin( 'cul_reason' );
+
 		return [
-			'tables' => [ 'cu_log', 'actor' ],
-			'fields' => $this->selectFields(),
-			'conds' => array_merge( $this->searchConds, $cond )
+			'tables' => array_merge( [ 'cu_log', 'cu_log_actor' => 'actor' ], $commentQuery['tables'] ),
+			'fields' => array_merge( $this->selectFields(), $commentQuery['fields'] ),
+			'conds' => $this->searchConds,
+			'join_conds' => array_merge(
+				[
+					'cu_log_actor' => [ 'JOIN', $actorJoinCond ]
+				],
+				$commentQuery['joins']
+			)
 		];
 	}
 
@@ -235,9 +247,11 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Gets the fields for a select on the cu_log table.
+	 *
+	 * @return string[]
 	 */
-	public function selectFields() {
+	public function selectFields(): array {
 		return [
 			'cul_id', 'cul_timestamp', 'cul_user', 'cul_reason', 'cul_type',
 			'cul_target_id', 'cul_target_text', 'actor_name', 'actor_user'

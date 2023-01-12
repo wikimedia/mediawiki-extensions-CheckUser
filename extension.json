@@ -88,8 +88,8 @@
 			"value": 769
 		},
 		"CheckUserLogReasonMigrationStage": {
-			"value": 259,
-			"description": "A flag used to represent the stage of the migration to the comment table. The current value of 259 represents reading from and writing to the cul_reason column, and writing to the new cul_reason_id and cul_reason_plaintext_id columns. See Defines.php for these constants."
+			"value": 769,
+			"description": "A flag used to represent the stage of the migration to the comment table. Default is to write to new and old, and read from new."
 		},
 		"CheckUserEventTablesMigrationStage": {
 			"value": 3,
@@ -105,7 +105,12 @@
 				"CheckUserLogService"
 			]
 		},
-		"checkuserlog": "MediaWiki\\CheckUser\\Api\\ApiQueryCheckUserLog"
+		"checkuserlog": {
+			"class": "MediaWiki\\CheckUser\\Api\\ApiQueryCheckUserLog",
+			"services": [
+				"CommentStore"
+			]
+		}
 	},
 	"HookHandlers": {
 		"preferences": {
