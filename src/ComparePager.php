@@ -224,7 +224,7 @@ class ComparePager extends TablePager {
 
 				break;
 			case 'cuc_agent':
-				$formatted = htmlspecialchars( $value );
+				$formatted = htmlspecialchars( $value ?? '' );
 				break;
 			case 'activity':
 				$firstEdit = $language->userDate( $row->first_edit, $this->getUser() );
