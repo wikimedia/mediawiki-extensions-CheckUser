@@ -127,6 +127,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 				'autocomplete' => false,
 			],
 			'section' => 'target',
+			'default' => '',
 		];
 
 		if (
