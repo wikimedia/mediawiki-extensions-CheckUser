@@ -49,6 +49,7 @@
 	"checkuser-nomatch": "कोई मेल खाता परिणाम नहीं मिला।",
 	"checkuser-nomatch-edits": "कोई मेल खाता परिणाम नहीं मिला।\nआखिरी संपादन $1 को $2 बजे हुआ था।",
 	"checkuser-check": "जाँचें",
+	"checkuser-toollink-check": "जाँचें",
 	"checkuser-check-this-user": "इस सदस्य को जाँचें",
 	"checkuser-investigate-this-user": "इस सदस्य की जाँच करें",
 	"checkuser-recent-checks": "इस सदस्य के लिए हाल में हुए जाँच",
