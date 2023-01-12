@@ -21,6 +21,7 @@ use MediaWiki\CheckUser\Investigate\SpecialInvestigateBlock;
 use MediaWiki\CheckUser\Maintenance\PopulateCucActor;
 use MediaWiki\CheckUser\Maintenance\PopulateCucComment;
 use MediaWiki\CheckUser\Maintenance\PopulateCulActor;
+use MediaWiki\CheckUser\Maintenance\PopulateCulComment;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Extension\Renameuser\RenameuserSQL;
 use MediaWiki\Hook\ContributionsToolLinksHook;
@@ -1009,6 +1010,7 @@ class Hooks implements
 		$updater->addPostDatabaseUpdateMaintenance( PopulateCucActor::class );
 		$updater->addPostDatabaseUpdateMaintenance( PopulateCucComment::class );
 		$updater->addPostDatabaseUpdateMaintenance( PopulateCulActor::class );
+		$updater->addPostDatabaseUpdateMaintenance( PopulateCulComment::class );
 
 		if ( !$isCUInstalled ) {
 			// First time so populate cu_changes with recentchanges data.
