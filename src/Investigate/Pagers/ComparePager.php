@@ -192,7 +192,7 @@ class ComparePager extends TablePager {
 
 	/**
 	 * @param string $name
-	 * @param mixed $value
+	 * @param string|null $value
 	 * @return string
 	 */
 	public function formatValue( $name, $value ) {

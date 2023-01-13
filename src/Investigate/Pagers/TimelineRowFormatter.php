@@ -92,7 +92,7 @@ class TimelineRowFormatter {
 	 * depending on user privileges
 	 *
 	 * @param \stdClass $row
-	 * @return array
+	 * @return string[][]
 	 */
 	public function getFormattedRowItems( \stdClass $row ): array {
 		$revRecord = null;

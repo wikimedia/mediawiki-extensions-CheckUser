@@ -12,7 +12,7 @@ class ToolLinksMessages {
 	 * @param Config $config
 	 * @param string $messageKey
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public static function getParsedMessage(
 		Context $context,

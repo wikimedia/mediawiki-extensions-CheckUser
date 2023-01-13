@@ -352,10 +352,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 		];
 	}
 
-	/**
-	 * @see ApiBase::getExamplesMessages()
-	 * @return array
-	 */
+	/** @inheritDoc */
 	protected function getExamplesMessages() {
 		return [
 			'action=query&list=checkuser&curequest=userips&cutarget=Jimbo_Wales'

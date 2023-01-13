@@ -68,7 +68,6 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 
 	/**
 	 * Test cases for SpecialCheckUser::checkReason
-	 * @return array
 	 */
 	public function provideCheckReason() {
 		return [

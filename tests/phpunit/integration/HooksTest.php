@@ -1280,8 +1280,6 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 *    autoblock.
 	 * * The third is whether the hook should apply a
 	 *    retroactive autoblock to the IP used.
-	 *
-	 * @return array[]
 	 */
 	public function provideOnPerformRetroactiveAutoblock() {
 		return [

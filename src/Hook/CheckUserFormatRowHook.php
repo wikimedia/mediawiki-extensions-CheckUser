@@ -12,7 +12,7 @@ interface CheckUserFormatRowHook {
 	 *
 	 * @param IContextSource $context
 	 * @param \stdClass $row
-	 * @param array &$rowItems
+	 * @param string[][] &$rowItems
 	 */
 	public function onCheckUserFormatRow(
 		IContextSource $context,

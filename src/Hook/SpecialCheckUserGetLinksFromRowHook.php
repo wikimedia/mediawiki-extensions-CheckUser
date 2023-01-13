@@ -14,7 +14,7 @@ interface SpecialCheckUserGetLinksFromRowHook {
 	 *
 	 * @param AbstractCheckUserPager $specialCheckUser The instance of the pager being used to generate the results
 	 * @param \stdClass $row The row from the database that is being processed by the pager
-	 * @param array &$links The links that the pager has defined for this row that can be modified
+	 * @param string[] &$links The links that the pager has defined for this row that can be modified
 	 * @since 1.40
 	 */
 	public function onSpecialCheckUserGetLinksFromRow(

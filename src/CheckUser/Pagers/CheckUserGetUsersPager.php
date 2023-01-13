@@ -40,13 +40,13 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	/** @var array[] */
 	protected $userSets;
 
-	/** @var false|mixed */
+	/** @var string|false */
 	private $centralAuthToollink;
 
-	/** @var false|mixed */
+	/** @var array|false */
 	private $globalBlockingToollink;
 
-	/** @var array|array[] */
+	/** @var string[][] */
 	private $aliases;
 
 	/** @var BlockPermissionCheckerFactory */

@@ -375,7 +375,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	/**
 	 * @param string $ip
 	 * @param UserIdentity $user
-	 * @return array
+	 * @return string[]
 	 */
 	protected function userBlockFlags( string $ip, UserIdentity $user ): array {
 		$flags = [];

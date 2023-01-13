@@ -11,7 +11,7 @@ interface CheckUserSubtitleLinksHook {
 	 * @since 1.36
 	 *
 	 * @param IContextSource $context
-	 * @param array &$links
+	 * @param string[] &$links
 	 */
 	public function onCheckUserSubtitleLinks(
 		IContextSource $context,
