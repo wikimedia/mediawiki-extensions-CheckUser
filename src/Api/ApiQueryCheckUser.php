@@ -8,6 +8,7 @@ use ApiResult;
 use Exception;
 use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\CheckUser\CheckUserActorMigration;
+use MediaWiki\CheckUser\CheckUserCommentStore;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionLookup;
@@ -77,6 +78,8 @@ class ApiQueryCheckUser extends ApiQueryBase {
 		}
 
 		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
+		$commentStore = CheckUserCommentStore::getStore();
+		$commentQuery = $commentStore->getJoin( 'cuc_comment' );
 
 		$this->addTables( [ 'cu_changes' ] + $actorQuery['tables'] );
 		$this->addOption( 'LIMIT', $limit + 1 );
@@ -163,10 +166,12 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$log_type = [ 'useredits', 'user' ];
 				}
 
+				$this->addTables( $commentQuery['tables'] );
 				$this->addFields( [
-					'cuc_namespace', 'cuc_title', 'cuc_actiontext', 'cuc_this_oldid', 'cuc_comment',
+					'cuc_namespace', 'cuc_title', 'cuc_actiontext', 'cuc_this_oldid',
 					'cuc_minor', 'cuc_timestamp', 'cuc_ip', 'cuc_xff', 'cuc_agent', 'cuc_type'
-				] + $actorQuery['fields'] );
+				] + $actorQuery['fields'] + $commentQuery['fields'] );
+				$this->addJoinConds( $commentQuery['joins'] );
 
 				$res = $this->select( __METHOD__ );
 				$result = $this->getResult();
@@ -182,10 +187,12 @@ class ApiQueryCheckUser extends ApiQueryBase {
 						'agent'     => $row->cuc_agent,
 					];
 
+					$comment = $commentStore->getComment( 'cuc_comment', $row )->text;
+
 					if ( $row->cuc_actiontext ) {
 						$edit['summary'] = $row->cuc_actiontext;
-					} elseif ( $row->cuc_comment ) {
-						$edit['summary'] = $row->cuc_comment;
+					} elseif ( $comment ) {
+						$edit['summary'] = $comment;
 						if ( $row->cuc_this_oldid != 0 &&
 							( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW )
 						) {

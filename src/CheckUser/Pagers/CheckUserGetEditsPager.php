@@ -11,6 +11,7 @@ use IContextSource;
 use Linker;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUserActorMigration;
+use MediaWiki\CheckUser\CheckUserCommentStore;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\CheckUserUtilityService;
 use MediaWiki\CheckUser\Hook\HookRunner;
@@ -185,7 +186,8 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		if ( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW ) {
 			$templateParams['comment'] = $this->formattedRevisionComments[$row->cuc_this_oldid];
 		} else {
-			$templateParams['comment'] = $this->commentFormatter->formatBlock( $row->cuc_comment );
+			$comment = CheckUserCommentStore::getStore()->getComment( 'cuc_comment', $row );
+			$templateParams['comment'] = $this->commentFormatter->formatBlock( $comment->text );
 		}
 		// IP
 		$templateParams['ipLink'] = $this->getSelfLink( $row->cuc_ip,
@@ -322,6 +324,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	/** @inheritDoc */
 	public function getQueryInfo(): array {
 		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
+		$commentQuery = CheckUserCommentStore::getStore()->getJoin( 'cuc_comment' );
 
 		if ( $this->getConfig()->get( 'CheckUserActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
 			$index = 'cuc_actor_ip_time';
@@ -333,13 +336,13 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 
 		$queryInfo = [
 			'fields' => [
-				'cuc_namespace', 'cuc_title', 'cuc_comment', 'cuc_actiontext',
-				'cuc_timestamp', 'cuc_minor', 'cuc_page_id', 'cuc_type', 'cuc_this_oldid',
-				'cuc_last_oldid', 'cuc_ip', 'cuc_xff', 'cuc_agent',
-			] + $actorQuery['fields'],
-			'tables' => [ 'cu_changes' ] + $actorQuery['tables'],
+				'cuc_namespace', 'cuc_title', 'cuc_actiontext', 'cuc_timestamp', 'cuc_minor',
+				'cuc_page_id', 'cuc_type', 'cuc_this_oldid', 'cuc_last_oldid', 'cuc_ip',
+				'cuc_xff', 'cuc_agent',
+			] + $actorQuery['fields'] + $commentQuery['fields'],
+			'tables' => [ 'cu_changes' ] + $actorQuery['tables'] + $commentQuery['tables'],
 			'conds' => [],
-			'join_conds' => $actorQuery['joins'],
+			'join_conds' => $actorQuery['joins'] + $commentQuery['joins'],
 			'options' => [],
 		];
 		if ( $this->xfor === null ) {
