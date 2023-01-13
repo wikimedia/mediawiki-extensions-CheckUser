@@ -1026,7 +1026,7 @@ class Hooks implements
 	 * privileged users.
 	 * @param int $id User ID
 	 * @param Title $nt User page title
-	 * @param array &$links Tool links
+	 * @param string[] &$links Tool links
 	 * @param SpecialPage $sp Special page
 	 */
 	public function onContributionsToolLinks(
@@ -1071,7 +1071,7 @@ class Hooks implements
 	 * blocked by this block.
 	 *
 	 * @param DatabaseBlock $block
-	 * @param array &$blockIds
+	 * @param int[] &$blockIds
 	 * @return bool
 	 */
 	public function onPerformRetroactiveAutoblock( $block, &$blockIds ) {
@@ -1188,7 +1188,7 @@ class Hooks implements
 	/**
 	 * @param int $userId
 	 * @param string $userText
-	 * @param array &$items
+	 * @param string[] &$items
 	 */
 	public function onUserToolLinksEdit( $userId, $userText, &$items ) {
 		$requestTitle = RequestContext::getMain()->getTitle();

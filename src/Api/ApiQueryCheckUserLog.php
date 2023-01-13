@@ -143,10 +143,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		];
 	}
 
-	/**
-	 * @see ApiBase::getExamplesMessages()
-	 * @return array
-	 */
+	/** @inheritDoc */
 	protected function getExamplesMessages() {
 		return [
 			'action=query&list=checkuserlog&culuser=Example&cullimit=25'

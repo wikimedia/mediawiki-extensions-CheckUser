@@ -106,7 +106,6 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 
 	/**
 	 * Test cases for SpecialCheckUser::getIpConds
-	 * @return array
 	 */
 	public function provideGetIpConds() {
 		return [
@@ -155,7 +154,6 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 
 	/**
 	 * Test cases for AbstractCheckUserPager::isValid
-	 * @return array
 	 */
 	public function provideIsValidRange() {
 		return [
@@ -201,7 +199,6 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
-	/** @return array[] */
 	public function provideGetDateRangeCond(): array {
 		return [
 			'Empty period' => [ '', '1653047635', false ],

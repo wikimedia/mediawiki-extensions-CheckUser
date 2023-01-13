@@ -134,7 +134,7 @@ class PreliminaryCheckPager extends TablePager {
 
 	/**
 	 * @param string $name
-	 * @param mixed $value
+	 * @param mixed $value preprocessed by {@link PreliminaryCheckService::getAdditionalLocalData}
 	 * @return string
 	 */
 	public function formatValue( $name, $value ) {

@@ -123,7 +123,7 @@ class PreliminaryCheckService {
 	 * pagination.)
 	 *
 	 * @param IResultWrapper $rows
-	 * @return array
+	 * @return array[]
 	 */
 	public function preprocessResults( IResultWrapper $rows ): array {
 		$data = [];
