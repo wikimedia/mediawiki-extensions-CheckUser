@@ -71,15 +71,13 @@ class PreliminaryCheckPagerTest extends MediaWikiIntegrationTestCase {
 
 	public function testGetIndexFieldGlobal() {
 		$services = MediaWikiServices::getInstance();
-		$registry = $this->createMock( ExtensionRegistry::class );
-		$preliminaryCheckService = $this->createMock( PreliminaryCheckService::class );
 		$pager = $this->getMockBuilder( PreliminaryCheckPager::class )
 			->setConstructorArgs( [ RequestContext::getMain(),
 				$services->getLinkRenderer(),
 				$services->getNamespaceInfo(),
 				$services->get( 'CheckUserTokenQueryManager' ),
-				$registry,
-				$preliminaryCheckService
+				$this->createMock( ExtensionRegistry::class ),
+				$this->createMock( PreliminaryCheckService::class )
 			 ] )
 			->onlyMethods( [ 'isGlobalCheck' ] )
 			->getMock();

@@ -26,9 +26,8 @@ class PreliminaryCheckServiceTest extends MediaWikiIntegrationTestCase {
 	 */
 	public function testPreprocessResults( $user, $options, $expected ) {
 		$dbRef = $this->createMock( IDatabase::class );
-		$queryBuilder = new SelectQueryBuilder( $dbRef );
 		$dbRef->method( 'newSelectQueryBuilder' )
-			->willReturn( $queryBuilder );
+			->willReturn( new SelectQueryBuilder( $dbRef ) );
 		$dbRef->method( 'selectRow' )
 			->willReturn(
 				(object)[
@@ -49,6 +48,7 @@ class PreliminaryCheckServiceTest extends MediaWikiIntegrationTestCase {
 
 		$ugm = $this->createNoOpMock( UserGroupManager::class, [ 'getUserGroups' ] );
 		$ugm->method( 'getUserGroups' )->willReturn( $user['groups'] );
+
 		$ugmf = $this->createNoOpMock( UserGroupManagerFactory::class, [ 'getUserGroupManager' ] );
 		$ugmf->method( 'getUserGroupManager' )->willReturn( $ugm );
 
@@ -143,13 +143,11 @@ class PreliminaryCheckServiceTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider getQueryInfoProvider()
 	 */
 	public function testGetQueryInfo( $users, $options, $expected ) {
-		$lbFactory = $this->createMock( ILBFactory::class );
 		$registry = $this->createMock( ExtensionRegistry::class );
-
 		$registry->method( 'isLoaded' )->willReturn( $options['isCentralAuthAvailable'] );
 
 		$service = new PreliminaryCheckService(
-			$lbFactory,
+			$this->createMock( ILBFactory::class ),
 			$registry,
 			$this->createNoOpMock( UserGroupManagerFactory::class ),
 			'devwiki'
