@@ -126,6 +126,7 @@
 		"ContributionsToolLinks": "Hooks",
 		"PerformRetroactiveAutoblock": "Hooks",
 		"AuthManagerLoginAuthenticateAudit": "Hooks",
+		"UserLogoutComplete": "Hooks",
 		"SpecialPage_initList": "Hooks",
 		"UserToolLinksEdit": "Hooks",
 		"GetPreferences": "preferences"

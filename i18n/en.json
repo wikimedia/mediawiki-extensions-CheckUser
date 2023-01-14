@@ -97,6 +97,7 @@
 	"checkuser-login-failure": "Failed to log in to {{SITENAME}} as $1",
 	"checkuser-login-failure-with-good-password": "Failed to log in to {{SITENAME}} as $1 but had the correct password",
 	"checkuser-login-success": "Successfully logged in to {{SITENAME}} as $1",
+	"checkuser-logout": "Successfully logged out using the API or Special:Logout",
 	"group-checkuser.css": "/* CSS placed here will affect checkuser only */",
 	"group-checkuser.js": "/* JS placed here will affect checkuser only */",
 	"checkuser-link-investigate-label": "Try the new CheckUser tool",

@@ -27,6 +27,7 @@ use MediaWiki\Extension\Renameuser\RenameuserSQL;
 use MediaWiki\Hook\ContributionsToolLinksHook;
 use MediaWiki\Hook\EmailUserHook;
 use MediaWiki\Hook\RecentChange_saveHook;
+use MediaWiki\Hook\UserLogoutCompleteHook;
 use MediaWiki\Hook\UserToolLinksEditHook;
 use MediaWiki\Installer\Hook\LoadExtensionSchemaUpdatesHook;
 use MediaWiki\MediaWikiServices;
@@ -57,6 +58,7 @@ class Hooks implements
 	PerformRetroactiveAutoblockHook,
 	RecentChange_saveHook,
 	SpecialPage_initListHook,
+	UserLogoutCompleteHook,
 	UserToolLinksEditHook,
 	User__mailPasswordInternalHook
 {
@@ -741,6 +743,43 @@ class Hooks implements
 					'cuc_namespace'  => NS_USER,
 					'cuc_title'      => $userName,
 					'cuc_actiontext' => wfMessage( $msg )->params( $target )->inContentLanguage()->text(),
+				],
+				__METHOD__,
+				$performer
+			);
+		}
+	}
+
+	/** @inheritDoc */
+	public function onUserLogoutComplete( $user, &$inject_html, $oldName ) {
+		$services = MediaWikiServices::getInstance();
+		if ( !$services->getMainConfig()->get( 'CheckUserLogLogins' ) ) {
+			# Treat the log logins config as also applying to logging logouts.
+			return;
+		}
+
+		$performer = $services->getUserIdentityLookup()->getUserIdentityByName( $oldName );
+		if ( $performer === null ) {
+			return;
+		}
+
+		$eventTablesMigrationStage = $services->getMainConfig()->get( 'CheckUserEventTablesMigrationStage' );
+		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+			self::insertIntoCuPrivateEventTable(
+				[
+					'cupe_namespace'  => NS_USER,
+					'cupe_title'      => $oldName,
+					'cupe_log_action' => 'user-logout',
+				],
+				__METHOD__,
+				$performer
+			);
+		} else {
+			self::insertIntoCuChangesTable(
+				[
+					'cuc_namespace'  => NS_USER,
+					'cuc_title'      => $oldName,
+					'cuc_actiontext' => wfMessage( 'checkuser-logout' )->inContentLanguage()->text(),
 				],
 				__METHOD__,
 				$performer
