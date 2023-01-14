@@ -21,6 +21,7 @@
 	"apihelp-query+checkuserlog-summary": "{{doc-apihelp-summary|query+checkuserlog}}",
 	"apihelp-query+checkuserlog-param-user": "{{doc-apihelp-param|query+checkuserlog|user}}",
 	"apihelp-query+checkuserlog-param-target": "{{doc-apihelp-param|query+checkuserlog|target}}",
+	"apihelp-query+checkuserlog-param-reason": "{{doc-apihelp-param|query+checkuserlog|reason}}",
 	"apihelp-query+checkuserlog-param-limit": "{{doc-apihelp-param|query+checkuserlog|limit}}",
 	"apihelp-query+checkuserlog-param-from": "{{doc-apihelp-param|query+checkuserlog|from}}",
 	"apihelp-query+checkuserlog-param-to": "{{doc-apihelp-param|query+checkuserlog|to}}",

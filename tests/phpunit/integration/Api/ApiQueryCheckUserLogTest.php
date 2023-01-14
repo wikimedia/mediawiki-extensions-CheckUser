@@ -30,10 +30,9 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 			[
 				'cu_log',
 				'comment',
+				'actor'
 			]
 		);
-
-		$this->truncateTable( 'cu_log' );
 	}
 
 	private const INITIAL_API_PARAMS = [
@@ -147,6 +146,63 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 		foreach ( $helpUrls as $helpUrl ) {
 			$this->assertIsArray( parse_url( $helpUrl ) );
 		}
+	}
+
+	/**
+	 * @covers \MediaWiki\CheckUser\Api\ApiQueryCheckUserLog::execute
+	 * @dataProvider provideExampleLogEntryDataForReasonFilterTest
+	 */
+	public function testReasonFilter(
+		$logType, $targetType, $target, $reason, $targetID, $timestamp,
+		$reasonToSearchFor, $shouldSeeEntry, $logReasonMigrationStage
+	) {
+		$this->setMwGlobals( 'wgCheckUserLogReasonMigrationStage', $logReasonMigrationStage );
+		/** @var CheckUserLogService $checkUserLogService */
+		$checkUserLogService = $this->getServiceContainer()->get( 'CheckUserLogService' );
+		$checkUserLogService->addLogEntry(
+			$this->getTestSysop()->getUser(), $logType, $targetType, $target, $reason, $targetID, $timestamp
+		);
+		\DeferredUpdates::doUpdates();
+		$result = $this->doCheckUserLogApiRequest( [
+			'culreason' => $reasonToSearchFor
+		] )[0]['query']['checkuserlog']['entries'];
+		if ( $shouldSeeEntry ) {
+			$this->assertCount( 1, $result, 'A search for the reason should show one entry.' );
+		} else {
+			$this->assertCount( 0, $result, 'A search for the reason should show no entries.' );
+		}
+		$result = $this->doCheckUserLogApiRequest( [
+			'culreason' => $checkUserLogService->getPlaintextReason( $reasonToSearchFor )
+		] )[0]['query']['checkuserlog']['entries'];
+		if (
+			$shouldSeeEntry &&
+			# When SCHEMA_OLD is set, there is no way to search by a plaintext reason.
+			( $checkUserLogService->getPlaintextReason( $reasonToSearchFor ) === $reasonToSearchFor ||
+			$logReasonMigrationStage !== SCHEMA_COMPAT_OLD )
+		) {
+			$this->assertCount(
+				1, $result, 'A search for the plaintext version of the reason should show one entry.'
+			);
+		} else {
+			$this->assertCount(
+				0, $result, 'A search for the plaintext version of the reason should show no entries.'
+			);
+		}
+	}
+
+	public function provideExampleLogEntryDataForReasonFilterTest() {
+		$tests = [];
+		foreach ( $this->provideExampleLogEntryData() as $name => $values ) {
+			$tests[$name . ' with matching reason and log reason migration set to read old'] =
+				array_merge( $values, [ $values[3], true, SCHEMA_COMPAT_OLD ] );
+			$tests[$name . ' with matching reason and log reason migration set to read new'] =
+				array_merge( $values, [ $values[3], true, SCHEMA_COMPAT_NEW ] );
+			$tests[$name . ' with non-matching reason and log reason migration set to read old'] =
+				array_merge( $values, [ 'Nonexisting reason12345', false, SCHEMA_COMPAT_OLD ] );
+			$tests[$name . ' with non-matching reason and log reason migration set to read new'] =
+				array_merge( $values, [ 'Nonexisting reason12345', false, SCHEMA_COMPAT_NEW ] );
+		}
+		return $tests;
 	}
 
 	/**

@@ -102,7 +102,13 @@
 				"CheckUserLogService"
 			]
 		},
-		"checkuserlog": "MediaWiki\\CheckUser\\Api\\ApiQueryCheckUserLog"
+		"checkuserlog": {
+			"class": "MediaWiki\\CheckUser\\Api\\ApiQueryCheckUserLog",
+			"services": [
+				"CheckUserLogCommentStore",
+				"CheckUserLogService"
+			]
+		}
 	},
 	"HookHandlers": {
 		"preferences": {
@@ -290,8 +296,9 @@
 			"services": [
 				"LinkBatchFactory",
 				"PermissionManager",
-				"CommentStore",
-				"CommentFormatter"
+				"CheckUserLogCommentStore",
+				"CommentFormatter",
+				"CheckUserLogService"
 			]
 		}
 	},

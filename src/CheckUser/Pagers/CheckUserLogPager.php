@@ -2,30 +2,32 @@
 
 namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
-use CommentStore;
 use Html;
 use IContextSource;
 use Linker;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog;
 use MediaWiki\CheckUser\CheckUserLogCommentStore;
+use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use RangeChronologicalPager;
 use SpecialPage;
 use Wikimedia\Rdbms\IResultWrapper;
+use Wikimedia\Rdbms\Platform\ISQLPlatform;
 
 class CheckUserLogPager extends RangeChronologicalPager {
-	/** @var array */
-	protected $searchConds;
 
 	/** @var LinkBatchFactory */
 	private $linkBatchFactory;
 
-	/** @var CommentStore */
-	private $commentStore;
-
 	/** @var CommentFormatter */
 	private $commentFormatter;
+
+	/** @var CheckUserLogService */
+	private $checkUserLogService;
+
+	/** @var CheckUserLogCommentStore */
+	private $checkUserLogCommentStore;
 
 	/** @var array */
 	private $opts;
@@ -37,34 +39,24 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	 * 		Start and end should be timestamps. Year and month are converted to end but ignored if end is
 	 * 		provided.
 	 * @param LinkBatchFactory $linkBatchFactory
-	 * @param CommentStore $commentStore
+	 * @param CheckUserLogCommentStore $checkUserLogCommentStore
 	 * @param CommentFormatter $commentFormatter
+	 * @param CheckUserLogService $checkUserLogService
 	 */
 	public function __construct(
 		IContextSource $context,
 		array $opts,
 		LinkBatchFactory $linkBatchFactory,
-		CommentStore $commentStore,
-		CommentFormatter $commentFormatter
+		CheckUserLogCommentStore $checkUserLogCommentStore,
+		CommentFormatter $commentFormatter,
+		CheckUserLogService $checkUserLogService
 	) {
 		parent::__construct( $context );
-		// Default to all log entries - we'll add conditions below if a target was provided
-		$targetSearchConds = [];
-		$initiatorSearchConds = [];
-
-		if ( $opts['target'] !== '' ) {
-			$targetSearchConds = $this->getTargetSearchConds( $opts['target'] );
-		}
-
-		if ( $opts['initiator'] !== '' ) {
-			$initiatorSearchConds = $this->getPerformerSearchConds( $opts['initiator'] );
-		}
-
-		if ( $targetSearchConds === null || $initiatorSearchConds === null ) {
-			throw new \Exception( 'An invalid initiator or target was provided.' );
-		}
-
-		$this->searchConds = array_merge( $targetSearchConds, $initiatorSearchConds );
+		$this->linkBatchFactory = $linkBatchFactory;
+		$this->checkUserLogCommentStore = $checkUserLogCommentStore;
+		$this->commentFormatter = $commentFormatter;
+		$this->checkUserLogService = $checkUserLogService;
+		$this->opts = $opts;
 
 		// Date filtering: use timestamp if available - From SpecialContributions.php
 		$startTimestamp = '';
@@ -76,10 +68,6 @@ class CheckUserLogPager extends RangeChronologicalPager {
 			$endTimestamp = $opts['end'] . ' 23:59:59';
 		}
 		$this->getDateRangeCond( $startTimestamp, $endTimestamp );
-		$this->linkBatchFactory = $linkBatchFactory;
-		$this->commentStore = $commentStore;
-		$this->commentFormatter = $commentFormatter;
-		$this->opts = $opts;
 	}
 
 	/**
@@ -214,19 +202,41 @@ class CheckUserLogPager extends RangeChronologicalPager {
 
 	/** @inheritDoc */
 	public function getQueryInfo() {
-		$commentQuery = CheckUserLogCommentStore::getStore()->getJoin( 'cul_reason' );
-
-		return [
-			'tables' => array_merge( [ 'cu_log', 'cu_log_actor' => 'actor' ], $commentQuery['tables'] ),
-			'fields' => array_merge( $this->selectFields(), $commentQuery['fields'] ),
-			'conds' => $this->searchConds,
-			'join_conds' => array_merge(
-				[
-					'cu_log_actor' => [ 'JOIN', [ 'actor_id = cul_actor' ] ]
-				],
-				$commentQuery['joins']
-			)
+		$queryInfo = [
+			'tables' => [ 'cu_log', 'cu_log_actor' => 'actor' ],
+			'fields' => $this->selectFields(),
+			'conds' => [],
+			'join_conds' => [ 'cu_log_actor' => [ 'JOIN', [ 'actor_id = cul_actor' ] ] ]
 		];
+
+		$reasonCommentQuery = $this->checkUserLogCommentStore->getJoin( 'cul_reason' );
+		$queryInfo['tables'] += $reasonCommentQuery['tables'];
+		$queryInfo['fields'] += $reasonCommentQuery['fields'];
+		$queryInfo['join_conds'] += $reasonCommentQuery['joins'];
+
+		if ( $this->opts['target'] !== '' ) {
+			$queryInfo['conds'] = array_merge(
+				$queryInfo['conds'],
+				$this->getTargetSearchConds( $this->opts['target'] ) ?? []
+			);
+		}
+
+		if ( $this->opts['initiator'] !== '' ) {
+			$queryInfo['conds'] = array_merge(
+				$queryInfo['conds'],
+				$this->getPerformerSearchConds( $this->opts['initiator'] ) ?? []
+			);
+		}
+
+		if ( $this->opts['reason'] !== '' ) {
+			$reasonSearchQuery = $this->getQueryInfoForReasonSearch( $this->opts['reason'] );
+			$queryInfo['tables'] += $reasonSearchQuery['tables'];
+			$queryInfo['fields'] += $reasonSearchQuery['fields'];
+			$queryInfo['conds'] = array_merge( $queryInfo['conds'], $reasonSearchQuery['conds'] );
+			$queryInfo['join_conds'] += $reasonSearchQuery['join_conds'];
+		}
+
+		return $queryInfo;
 	}
 
 	/**
@@ -279,7 +289,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	 * @param string $initiator the username of the initiator.
 	 * @return array|null array if valid target, null if invalid
 	 */
-	public static function getPerformerSearchConds( string $initiator ) {
+	public static function getPerformerSearchConds( string $initiator ): ?array {
 		$initiatorId = SpecialCheckUserLog::verifyInitiator( $initiator );
 		if ( $initiatorId !== false ) {
 			return [ 'cul_actor' => $initiatorId ];
@@ -293,7 +303,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	 * @param string $target the username, IP address or range of the target.
 	 * @return array|null array if valid target, null if invalid target given
 	 */
-	public static function getTargetSearchConds( string $target ) {
+	public static function getTargetSearchConds( string $target ): ?array {
 		$dbr = wfGetDB( DB_REPLICA );
 		$result = SpecialCheckUserLog::verifyTarget( $target );
 		if ( is_array( $result ) ) {
@@ -319,5 +329,39 @@ class CheckUserLogPager extends RangeChronologicalPager {
 			];
 		}
 		return null;
+	}
+
+	/**
+	 * Get the query info for a reason search
+	 *
+	 * @param string $reason The reason to search for
+	 * @return string[][] With three keys to arrays for tables, fields and joins.
+	 */
+	public function getQueryInfoForReasonSearch( string $reason ): array {
+		$queryInfo = [ 'tables' => [], 'fields' => [], 'join_conds' => [] ];
+		$plaintextReason = $this->checkUserLogService->getPlaintextReason( $reason );
+
+		if ( $this->getConfig()->get( 'CheckUserLogReasonMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
+			if ( $plaintextReason == '' ) {
+				return $queryInfo;
+			}
+
+			$plaintextReasonCommentQuery = $this->checkUserLogCommentStore->getJoin( 'cul_reason_plaintext' );
+			$queryInfo['tables'] += $plaintextReasonCommentQuery['tables'];
+			$queryInfo['fields'] += $plaintextReasonCommentQuery['fields'];
+			$queryInfo['join_conds'] += $plaintextReasonCommentQuery['joins'];
+
+			$queryInfo['conds'] = [ 'comment_cul_reason_plaintext.comment_text' => $plaintextReason ];
+		} else {
+			$queryInfo['conds'] = [ $this->mDb->makeList(
+				[
+					'cul_reason = ' . $this->mDb->addQuotes( $reason ),
+					'cul_reason = ' . $this->mDb->addQuotes( $plaintextReason )
+				],
+				ISQLPlatform::LIST_OR
+			) ];
+		}
+
+		return $queryInfo;
 	}
 }

@@ -15,6 +15,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  * @group Database
  *
  * @covers \MediaWiki\CheckUser\CheckUserLogService
+ * @coversDefaultClass \MediaWiki\CheckUser\CheckUserLogService
  */
 class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 	protected function setUp(): void {
@@ -53,7 +54,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @covers \MediaWiki\CheckUser\CheckUserLogService::addLogEntry
+	 * @covers ::addLogEntry
 	 * @dataProvider provideAddLogEntryIPs
 	 */
 	public function testAddLogEntryIPs(
@@ -83,7 +84,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @covers \MediaWiki\CheckUser\CheckUserLogService::addLogEntry
+	 * @covers ::addLogEntry
 	 * @dataProvider provideAddLogEntryUsers
 	 */
 	public function testAddLogEntryUser(
@@ -113,7 +114,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @covers \MediaWiki\CheckUser\CheckUserLogService::addLogEntry
+	 * @covers ::addLogEntry
 	 * @dataProvider provideAddLogEntryTimestamp
 	 */
 	public function testAddLogEntryTimestamp( $timestamp ) {
@@ -133,7 +134,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @covers \MediaWiki\CheckUser\CheckUserLogService::addLogEntry
+	 * @covers ::addLogEntry
 	 */
 	public function testAddLogEntryPerformer() {
 		$object = $this->setUpObject();
@@ -153,7 +154,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 	 * the cul_reason_id or cul_reason_plaintext_id
 	 * if the migration stage doesn't include write new.
 	 *
-	 * @covers \MediaWiki\CheckUser\CheckUserLogService::addLogEntry
+	 * @covers ::addLogEntry
 	 */
 	public function testAddLogEntryReasonIdNoWriteNew() {
 		$object = $this->setUpObject();
@@ -179,15 +180,15 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @covers \MediaWiki\CheckUser\CheckUserLogService::addLogEntry
+	 * @covers ::addLogEntry
 	 * @dataProvider provideAddLogEntryReasonId
 	 */
-	public function testAddLogEntryReasonId( $rawReason, $savedReason, $savedPlaintextReason ) {
+	public function testAddLogEntryReasonId( $reason, $expectedPlaintextReason ) {
 		$object = $this->setUpObject();
 		// Only attempt the test if culReasonMigrationStage says we can write to the new.
 		if ( $object->culReasonMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
 			$testUser = $this->getTestUser( 'checkuser' )->getUser();
-			$object->addLogEntry( $testUser, 'ipusers', 'ip', '127.0.0.1', $rawReason, 0 );
+			$object->addLogEntry( $testUser, 'ipusers', 'ip', '127.0.0.1', $reason, 0 );
 			\DeferredUpdates::doUpdates();
 			$commentQuery = $this->getServiceContainer()->getCommentStore()->getJoin( 'cul_reason' );
 			$commentQuery['tables'][] = 'cu_log';
@@ -197,7 +198,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 				->joinConds( $commentQuery['joins'] )
 				->fetchRow();
 			$this->assertSame(
-				$savedReason,
+				$reason,
 				$row->cul_reason_text,
 				'The reason saved was not correctly saved.'
 			);
@@ -210,7 +211,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 				->joinConds( $commentQuery['joins'] )
 				->fetchRow();
 			$this->assertSame(
-				$savedPlaintextReason,
+				$expectedPlaintextReason,
 				$row->cul_reason_plaintext_text,
 				'The plaintext reason saved was not correctly saved.'
 			);
@@ -219,19 +220,30 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
+	/**
+	 * @covers ::getPlaintextReason
+	 * @dataProvider provideAddLogEntryReasonId
+	 */
+	public function testGetPlaintextReason( $reason, $expectedPlaintextReason ) {
+		$this->assertSame(
+			$expectedPlaintextReason,
+			$this->setUpObject()->getPlaintextReason( $reason ),
+			'Returned plaintext reason did not match expected plaintext reason.'
+		);
+	}
+
 	public function provideAddLogEntryReasonId() {
 		return [
-			[ 'Testing 1234', 'Testing 1234', 'Testing 1234' ],
-			[ 'Testing 1234 [[test]]', 'Testing 1234 [[test]]', 'Testing 1234 test' ],
-			[ 'Testing 1234 [[:mw:Testing|test]]', 'Testing 1234 [[:mw:Testing|test]]', 'Testing 1234 test' ],
-			[ 'Testing 1234 [test]', 'Testing 1234 [test]', 'Testing 1234 [test]' ],
-			[ 'Testing 1234 [https://example.com]', 'Testing 1234 [https://example.com]',
-				'Testing 1234 [https://example.com]' ],
-			[ 'Testing 1234 [[test]', 'Testing 1234 [[test]', 'Testing 1234 [[test]' ],
-			[ 'Testing 1234 [test]]', 'Testing 1234 [test]]', 'Testing 1234 [test]]' ],
-			[ 'Testing 1234 <var>', 'Testing 1234 <var>', 'Testing 1234 <var>' ],
-			[ 'Testing 1234 {{test}}', 'Testing 1234 {{test}}', 'Testing 1234 {{test}}' ],
-			[ 'Testing 12345 [[{{test}}]]', 'Testing 12345 [[{{test}}]]', 'Testing 12345 [[{{test}}]]' ],
+			[ 'Testing 1234', 'Testing 1234' ],
+			[ 'Testing 1234 [[test]]', 'Testing 1234 test' ],
+			[ 'Testing 1234 [[:mw:Testing|test]]', 'Testing 1234 test' ],
+			[ 'Testing 1234 [test]', 'Testing 1234 [test]' ],
+			[ 'Testing 1234 [https://example.com]', 'Testing 1234 [https://example.com]' ],
+			[ 'Testing 1234 [[test]', 'Testing 1234 [[test]' ],
+			[ 'Testing 1234 [test]]', 'Testing 1234 [test]]' ],
+			[ 'Testing 1234 <var>', 'Testing 1234 <var>' ],
+			[ 'Testing 1234 {{test}}', 'Testing 1234 {{test}}' ],
+			[ 'Testing 12345 [[{{test}}]]', 'Testing 12345 [[{{test}}]]' ],
 		];
 	}
 }

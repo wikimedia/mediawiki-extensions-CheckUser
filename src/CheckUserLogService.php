@@ -84,12 +84,7 @@ class CheckUserLogService {
 		];
 
 		if ( $this->culReasonMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$plaintextReason = Sanitizer::stripAllTags(
-				$this->commentFormatter->formatBlock(
-					$reason, Title::newFromText( 'Special:CheckUser' ),
-					false, false, false
-				)
-			);
+			$plaintextReason = $this->getPlaintextReason( $reason );
 		} else {
 			$plaintextReason = '';
 		}
@@ -117,6 +112,21 @@ class CheckUserLogService {
 			},
 			// fail on error and show no output
 			DeferredUpdates::PRESEND
+		);
+	}
+
+	/**
+	 * Get the plaintext reason
+	 *
+	 * @param string $reason
+	 * @return string
+	 */
+	public function getPlaintextReason( $reason ) {
+		return Sanitizer::stripAllTags(
+			$this->commentFormatter->formatBlock(
+				$reason, Title::newFromText( 'Special:CheckUserLog' ),
+				false, false, false
+			)
 		);
 	}
 }

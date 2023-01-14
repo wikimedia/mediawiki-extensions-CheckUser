@@ -21,6 +21,7 @@
 	"apihelp-query+checkuserlog-summary": "Get entries from the CheckUser log.",
 	"apihelp-query+checkuserlog-param-user": "Username of the CheckUser.",
 	"apihelp-query+checkuserlog-param-target": "Checked user, IP address, or CIDR range.",
+	"apihelp-query+checkuserlog-param-reason": "Reason given for the check.",
 	"apihelp-query+checkuserlog-param-limit": "Limit of rows.",
 	"apihelp-query+checkuserlog-param-from": "The timestamp to start enumerating from.",
 	"apihelp-query+checkuserlog-param-to": "The timestamp to end enumerating.",

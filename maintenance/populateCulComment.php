@@ -21,9 +21,8 @@
 namespace MediaWiki\CheckUser\Maintenance;
 
 use LoggedUpdateMaintenance;
+use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\MediaWikiServices;
-use Sanitizer;
-use Title;
 
 $IP = getenv( 'MW_INSTALL_PATH' );
 if ( $IP === false ) {
@@ -64,7 +63,8 @@ class PopulateCulComment extends LoggedUpdateMaintenance {
 	protected function doDBUpdates() {
 		$services = MediaWikiServices::getInstance();
 		$commentStore = $services->getCommentStore();
-		$commentFormatter = $services->getCommentFormatter();
+		/** @var CheckUserLogService $checkUserLogService */
+		$checkUserLogService = $services->get( 'CheckUserLogService' );
 		$mainLb = $services->getDBLoadBalancerFactory()->getMainLB();
 		$dbr = $mainLb->getConnectionRef( DB_REPLICA, 'vslow' );
 		$dbw = $mainLb->getConnectionRef( DB_PRIMARY );
@@ -104,15 +104,10 @@ class PopulateCulComment extends LoggedUpdateMaintenance {
 				->fetchResultSet();
 
 			foreach ( $res as $row ) {
-				$plaintextReason = Sanitizer::stripAllTags(
-					$commentFormatter->formatBlock(
-						$row->cul_reason, Title::newFromText( 'Special:CheckUser' ),
-						false, false, false
-					)
-				);
-
 				$culReasonId = $commentStore->createComment( $dbw, $row->cul_reason )->id;
-				$culReasonPlaintextId = $commentStore->createComment( $dbw, $plaintextReason )->id;
+				$culReasonPlaintextId = $commentStore->createComment(
+					$dbw, $checkUserLogService->getPlaintextReason( $row->cul_reason )
+				)->id;
 
 				if ( !$culReasonId || !$culReasonPlaintextId ) {
 					$failed++;

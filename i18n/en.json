@@ -77,6 +77,8 @@
 	"checkuser-search-submit": "Search",
 	"checkuser-log-search-target": "Target:",
 	"checkuser-log-search-initiator": "Initiator:",
+	"checkuser-log-search-reason": "Reason:",
+	"checkuser-log-search-reason-help": "Filter for log entries that have this reason.",
 	"checkuser-ipeditcount": "~$1 from all users",
 	"checkuser-showmain": "Switch to CheckUser main form",
 	"checkuser-show-investigate": "Switch to Investigate main form",

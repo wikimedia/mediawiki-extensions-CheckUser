@@ -7,20 +7,35 @@ use ApiQuery;
 use ApiQueryBase;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager;
 use MediaWiki\CheckUser\CheckUserLogCommentStore;
+use MediaWiki\CheckUser\CheckUserLogService;
 use Wikimedia\IPUtils;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\ParamValidator\TypeDef\IntegerDef;
+use Wikimedia\Rdbms\Platform\ISQLPlatform;
 
 /**
  * CheckUser API Query Module
  */
 class ApiQueryCheckUserLog extends ApiQueryBase {
+	/** @var CheckUserLogCommentStore */
+	private $checkUserLogCommentStore;
+
+	/** @var CheckUserLogService */
+	private $checkUserLogService;
+
 	/**
 	 * @param ApiQuery $query
 	 * @param string $moduleName
+	 * @param CheckUserLogCommentStore $checkUserLogCommentStore
+	 * @param CheckUserLogService $checkUserLogService
 	 */
-	public function __construct( $query, $moduleName ) {
+	public function __construct(
+		$query, $moduleName, CheckUserLogCommentStore $checkUserLogCommentStore,
+		CheckUserLogService $checkUserLogService
+	) {
 		parent::__construct( $query, $moduleName, 'cul' );
+		$this->checkUserLogCommentStore = $checkUserLogCommentStore;
+		$this->checkUserLogService = $checkUserLogService;
 	}
 
 	public function execute() {
@@ -40,11 +55,21 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		];
 		$this->addJoinConds( [ 'actor' => [ 'JOIN', 'actor_id=cul_actor' ] ] );
 
-		$checkUserLogCommentStore = CheckUserLogCommentStore::getStore();
-		$reasonCommentQuery = $checkUserLogCommentStore->getJoin( 'cul_reason' );
+		$reasonCommentQuery = $this->checkUserLogCommentStore->getJoin( 'cul_reason' );
 		$this->addTables( $reasonCommentQuery['tables'] );
 		$this->addJoinConds( $reasonCommentQuery['joins'] );
 		$fields += $reasonCommentQuery['fields'];
+
+		if ( isset( $params['reason'] ) ) {
+			if ( $this->getConfig()->get( 'CheckUserLogReasonMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
+				$plaintextReasonCommentQuery = $this->checkUserLogCommentStore->getJoin( 'cul_reason_plaintext' );
+				$this->addTables( $plaintextReasonCommentQuery['tables'] );
+				$this->addJoinConds( $plaintextReasonCommentQuery['joins'] );
+				$fields += $plaintextReasonCommentQuery['fields'];
+			} else {
+				$this->addFields( 'cul_reason' );
+			}
+		}
 
 		$this->addFields( $fields );
 
@@ -64,6 +89,24 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 				$this->addWhere( $cond );
 			} else {
 				$this->addWhereFld( 'cul_target_text', $params['target'] );
+			}
+		}
+
+		if ( isset( $params['reason'] ) ) {
+			$plaintextReason = $this->checkUserLogService->getPlaintextReason( $params['reason'] );
+			if ( $this->getConfig()->get( 'CheckUserLogReasonMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
+				$this->addWhereFld(
+					'comment_cul_reason_plaintext.comment_text',
+					$plaintextReason
+				);
+			} else {
+				$this->addWhere( $this->getDB()->makeList(
+					[
+						'cul_reason = ' . $this->getDB()->addQuotes( $params['reason'] ),
+						'cul_reason = ' . $this->getDB()->addQuotes( $plaintextReason )
+					],
+					ISQLPlatform::LIST_OR
+				) );
 			}
 		}
 
@@ -89,7 +132,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 				'timestamp' => wfTimestamp( TS_ISO_8601, $row->cul_timestamp ),
 				'checkuser' => $row->actor_name,
 				'type'      => $row->cul_type,
-				'reason'    => $checkUserLogCommentStore->getComment( 'cul_reason', $row )->text,
+				'reason'    => $this->checkUserLogCommentStore->getComment( 'cul_reason', $row )->text,
 				'target'    => $row->cul_target_text,
 			];
 			$fit = $result->addValue( [ 'query', $this->getModuleName(), 'entries' ], null, $log );
@@ -107,6 +150,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		return [
 			'user'   => null,
 			'target' => null,
+			'reason' => null,
 			'limit'  => [
 				ParamValidator::PARAM_DEFAULT => 10,
 				ParamValidator::PARAM_TYPE => 'limit',

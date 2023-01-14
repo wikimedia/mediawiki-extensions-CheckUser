@@ -2,12 +2,13 @@
 
 namespace MediaWiki\CheckUser\CheckUser;
 
-use CommentStore;
 use ContribsPager;
 use Html;
 use HTMLForm;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager;
+use MediaWiki\CheckUser\CheckUserLogCommentStore;
+use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Permissions\PermissionManager;
 use SpecialPage;
@@ -28,29 +29,35 @@ class SpecialCheckUserLog extends SpecialPage {
 	/** @var PermissionManager */
 	private $permissionManager;
 
-	/** @var CommentStore */
-	private $commentStore;
+	/** @var CheckUserLogCommentStore */
+	private $checkUserLogCommentStore;
 
 	/** @var CommentFormatter */
 	private $commentFormatter;
 
+	/** @var CheckUserLogService */
+	private $checkUserLogService;
+
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory
 	 * @param PermissionManager $permissionManager
-	 * @param CommentStore $commentStore
+	 * @param CheckUserLogCommentStore $checkUserLogCommentStore
 	 * @param CommentFormatter $commentFormatter
+	 * @param CheckUserLogService $checkUserLogService
 	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
 		PermissionManager $permissionManager,
-		CommentStore $commentStore,
-		CommentFormatter $commentFormatter
+		CheckUserLogCommentStore $checkUserLogCommentStore,
+		CommentFormatter $commentFormatter,
+		CheckUserLogService $checkUserLogService
 	) {
 		parent::__construct( 'CheckUserLog', 'checkuser-log' );
 		$this->linkBatchFactory = $linkBatchFactory;
 		$this->permissionManager = $permissionManager;
-		$this->commentStore = $commentStore;
+		$this->checkUserLogCommentStore = $checkUserLogCommentStore;
 		$this->commentFormatter = $commentFormatter;
+		$this->checkUserLogService = $checkUserLogService;
 	}
 
 	/**
@@ -86,6 +93,8 @@ class SpecialCheckUserLog extends SpecialPage {
 		}
 
 		$this->opts['initiator'] = trim( $request->getVal( 'cuInitiator', '' ) );
+
+		$this->opts['reason'] = trim( $request->getVal( 'cuReasonSearch', '' ) );
 
 		// From SpecialContributions.php
 		$skip = $request->getText( 'offset' ) || $request->getText( 'dir' ) === 'prev';
@@ -127,8 +136,9 @@ class SpecialCheckUserLog extends SpecialPage {
 			$this->getContext(),
 			$this->opts,
 			$this->linkBatchFactory,
-			$this->commentStore,
-			$this->commentFormatter
+			$this->checkUserLogCommentStore,
+			$this->commentFormatter,
+			$this->checkUserLogService
 		);
 
 		$out->addHTML(
@@ -210,6 +220,14 @@ class SpecialCheckUserLog extends SpecialPage {
 				'size' => 40,
 				'label-message' => 'checkuser-log-search-initiator',
 				'default' => $this->opts['initiator']
+			],
+			'reason' => [
+				'type' => 'text',
+				'name' => 'cuReasonSearch',
+				'size' => 40,
+				'label-message' => 'checkuser-log-search-reason',
+				'default' => $this->opts['reason'],
+				'help-message' => 'checkuser-log-search-reason-help'
 			],
 			'start' => [
 				'type' => 'date',
