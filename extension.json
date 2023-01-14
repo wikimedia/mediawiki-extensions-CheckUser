@@ -301,7 +301,8 @@
 		"MediaWiki\\CheckUser\\Maintenance\\PopulateCucActor": "maintenance/populateCucActor.php",
 		"MediaWiki\\CheckUser\\Maintenance\\PopulateCucComment": "maintenance/populateCucComment.php",
 		"MediaWiki\\CheckUser\\Maintenance\\PopulateCulActor": "maintenance/populateCulActor.php",
-		"MediaWiki\\CheckUser\\Maintenance\\PopulateCulComment": "maintenance/populateCulComment.php"
+		"MediaWiki\\CheckUser\\Maintenance\\PopulateCulComment": "maintenance/populateCulComment.php",
+		"MediaWiki\\CheckUser\\Maintenance\\MoveLogEntriesFromCuChanges": "maintenance/moveLogEntriesFromCuChanges.php"
 	},
 	"ServiceWiringFiles": [
 		"src/ServiceWiring.php"
