@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Tests\Integration;
 
 use ExtensionRegistry;
+use LogEntryBase;
 use MailAddress;
 use MediaWiki\Auth\AuthenticationRequest;
 use MediaWiki\Auth\AuthenticationResponse;
@@ -298,7 +299,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 				[],
 				[ 'cupe_page', 'cupe_namespace', 'cupe_log_type', 'cupe_log_action',
 					'cupe_title', 'cupe_params', 'cupe_agent', ],
-				[ 0, NS_MAIN, 'checkuser-private-event', '', '', '', '' ]
+				[ 0, NS_MAIN, 'checkuser-private-event', '', '', LogEntryBase::makeParamBlob( [] ), '' ]
 			]
 		];
 	}
