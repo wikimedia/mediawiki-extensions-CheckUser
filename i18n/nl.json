@@ -55,6 +55,7 @@
 	"checkuser-nomatch": "Geen overeenkomsten gevonden.",
 	"checkuser-nomatch-edits": "Niets gevonden.\nDe laatste bewerking was op $1 om $2.",
 	"checkuser-check": "Controleren",
+	"checkuser-toollink-check": "controleren",
 	"checkuser-check-this-user": "Deze gebruiker controleren",
 	"checkuser-investigate-this-user": "Deze gebruiker onderzoeken",
 	"checkuser-recent-checks": "Recente controles voor deze gebruiker",
