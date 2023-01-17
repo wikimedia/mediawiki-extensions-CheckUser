@@ -370,7 +370,7 @@ class Hooks implements
 				'cupe_title'      => '',
 				'cupe_log_type'   => 'checkuser-private-event',
 				'cupe_log_action' => '',
-				'cupe_params'     => '',
+				'cupe_params'     => LogEntryBase::makeParamBlob( [] ),
 				'cupe_page'       => 0,
 				'cupe_actor'      => $services->getActorStore()->acquireActorId( $user, $dbw ),
 				'cupe_timestamp'  => $dbw->timestamp( wfTimestampNow() ),
