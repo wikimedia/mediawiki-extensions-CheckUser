@@ -1200,6 +1200,66 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
+	 * @covers ::onUserLogoutComplete
+	 * @dataProvider provideUserLogoutComplete
+	 */
+	public function testUserLogoutComplete( $logLogins, $eventTableSchemaValue ) {
+		$this->setMwGlobals( [
+			'wgCheckUserLogLogins' => $logLogins,
+			'wgCheckUserEventTablesMigrationStage' => $eventTableSchemaValue
+		] );
+		$services = MediaWikiServices::getInstance();
+		$testUser = $this->getTestUser()->getUserIdentity();
+		$html = '';
+		( new Hooks() )->onUserLogoutComplete(
+			$services->getUserFactory()->newAnonymous( '127.0.0.1' ),
+			$html,
+			$testUser->getName()
+		);
+		if ( $services->getMainConfig()->get( 'CheckUserEventTablesMigrationStage' ) & SCHEMA_COMPAT_WRITE_OLD ) {
+			$table = 'cu_changes';
+			$field = 'cuc_id';
+			$message = 'have logged the event to cu_changes';
+		} else {
+			$table = 'cu_private_event';
+			$field = 'cupe_id';
+			$message = 'have logged the event to cu_private_event';
+		}
+		$this->assertRowCount(
+			$logLogins ? 1 : 0, $table, $field, ( $logLogins ? 'Should' : 'Should not' ) . $message
+		);
+	}
+
+	public function provideUserLogoutComplete() {
+		return [
+			'Log logout events with migration old' => [ true, SCHEMA_COMPAT_OLD ],
+			'Don\'t log logout events with migration old' => [ false, SCHEMA_COMPAT_OLD ],
+			'Log logout events with migration new' => [ true, SCHEMA_COMPAT_NEW ],
+			'Don\'t log logout events with migration new' => [ false, SCHEMA_COMPAT_NEW ]
+		];
+	}
+
+	/**
+	 * @covers ::onUserLogoutComplete
+	 */
+	public function testUserLogoutCompleteInvalidUser() {
+		$this->setMwGlobals( [
+			'wgCheckUserLogLogins' => true,
+			'wgCheckUserEventTablesMigrationStage' => SCHEMA_COMPAT_OLD
+		] );
+		$services = MediaWikiServices::getInstance();
+		$html = '';
+		( new Hooks() )->onUserLogoutComplete(
+			$services->getUserFactory()->newAnonymous( '127.0.0.1' ),
+			$html,
+			'Nonexisting test user1234567'
+		);
+		$this->assertRowCount(
+			0, 'cu_changes', 'cuc_id', 'Should not have logged the event to cu_changes.'
+		);
+	}
+
+	/**
 	 * @covers ::onPerformRetroactiveAutoblock
 	 * @dataProvider provideOnPerformRetroactiveAutoblock
 	 * @todo test that the $blockIds variable is correct after calling the hook
