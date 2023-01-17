@@ -6,7 +6,6 @@ use ApiBase;
 use ApiQuery;
 use ApiQueryBase;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager;
-use MediaWiki\CommentStore\CommentStore;
 use Wikimedia\IPUtils;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\ParamValidator\TypeDef\IntegerDef;
@@ -15,18 +14,12 @@ use Wikimedia\ParamValidator\TypeDef\IntegerDef;
  * CheckUser API Query Module
  */
 class ApiQueryCheckUserLog extends ApiQueryBase {
-
-	/** @var CommentStore */
-	private $commentStore;
-
 	/**
 	 * @param ApiQuery $query
 	 * @param string $moduleName
-	 * @param CommentStore $commentStore
 	 */
-	public function __construct( $query, $moduleName, CommentStore $commentStore ) {
+	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'cul' );
-		$this->commentStore = $commentStore;
 	}
 
 	public function execute() {
@@ -42,7 +35,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		$this->addOption( 'LIMIT', $limit + 1 );
 		$this->addTimestampWhereRange( 'cul_timestamp', $dir, $params['from'], $params['to'] );
 		$fields = [
-			'cul_id', 'cul_timestamp', 'cul_type', 'cul_target_text'
+			'cul_id', 'cul_timestamp', 'cul_reason', 'cul_type', 'cul_target_text'
 		];
 
 		if ( $this->getConfig()->get( 'CheckUserLogActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
@@ -51,15 +44,6 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 			$fields[] = 'actor_name';
 		} else {
 			$fields[] = 'cul_user_text';
-		}
-
-		if ( $this->getConfig()->get( 'CheckUserLogReasonMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
-			$reasonCommentQuery = $this->commentStore->getJoin( 'cul_reason' );
-			$this->addTables( $reasonCommentQuery['tables'] );
-			$this->addJoinConds( $reasonCommentQuery['joins'] );
-			$fields += $reasonCommentQuery['fields'];
-		} else {
-			$fields[] = 'cul_reason';
 		}
 
 		$this->addFields( $fields );
@@ -114,13 +98,9 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 				'timestamp' => wfTimestamp( TS_ISO_8601, $row->cul_timestamp ),
 				'checkuser' => $name,
 				'type'      => $row->cul_type,
+				'reason'    => $row->cul_reason,
 				'target'    => $row->cul_target_text,
 			];
-			if ( $this->getConfig()->get( 'CheckUserLogReasonMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
-				$log['reason'] = $this->commentStore->getComment( 'cul_reason', $row )->text;
-			} else {
-				$log['reason'] = $row->cul_reason;
-			}
 			$fit = $result->addValue( [ 'query', $this->getModuleName(), 'entries' ], null, $log );
 			if ( !$fit ) {
 				$this->setContinueEnumParameter( 'continue', "$row->cul_timestamp|$row->cul_id" );
