@@ -6,6 +6,7 @@ use ApiBase;
 use ApiQuery;
 use ApiQueryBase;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager;
+use MediaWiki\CheckUser\CheckUserLogCommentStore;
 use Wikimedia\IPUtils;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\ParamValidator\TypeDef\IntegerDef;
@@ -35,7 +36,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		$this->addOption( 'LIMIT', $limit + 1 );
 		$this->addTimestampWhereRange( 'cul_timestamp', $dir, $params['from'], $params['to'] );
 		$fields = [
-			'cul_id', 'cul_timestamp', 'cul_reason', 'cul_type', 'cul_target_text'
+			'cul_id', 'cul_timestamp', 'cul_type', 'cul_target_text'
 		];
 
 		if ( $this->getConfig()->get( 'CheckUserLogActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
@@ -45,6 +46,12 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		} else {
 			$fields[] = 'cul_user_text';
 		}
+
+		$checkUserLogCommentStore = CheckUserLogCommentStore::getStore();
+		$reasonCommentQuery = $checkUserLogCommentStore->getJoin( 'cul_reason' );
+		$this->addTables( $reasonCommentQuery['tables'] );
+		$this->addJoinConds( $reasonCommentQuery['joins'] );
+		$fields += $reasonCommentQuery['fields'];
 
 		$this->addFields( $fields );
 
@@ -98,7 +105,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 				'timestamp' => wfTimestamp( TS_ISO_8601, $row->cul_timestamp ),
 				'checkuser' => $name,
 				'type'      => $row->cul_type,
-				'reason'    => $row->cul_reason,
+				'reason'    => $checkUserLogCommentStore->getComment( 'cul_reason', $row )->text,
 				'target'    => $row->cul_target_text,
 			];
 			$fit = $result->addValue( [ 'query', $this->getModuleName(), 'entries' ], null, $log );

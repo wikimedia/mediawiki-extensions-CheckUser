@@ -8,6 +8,7 @@ use IContextSource;
 use Linker;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog;
+use MediaWiki\CheckUser\CheckUserLogCommentStore;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\MediaWikiServices;
 use RangeChronologicalPager;
@@ -173,7 +174,9 @@ class CheckUserLogPager extends RangeChronologicalPager {
 				$row
 			)
 		)->text();
-		$rowContent .= $this->commentFormatter->formatBlock( $row->cul_reason );
+		$rowContent .= $this->commentFormatter->formatBlock(
+			CheckUserLogCommentStore::getStore()->getComment( 'cul_reason', $row )->text
+		);
 
 		$attribs = [
 			'data-mw-culogid' => $row->cul_id,
@@ -210,20 +213,26 @@ class CheckUserLogPager extends RangeChronologicalPager {
 		return '<p>' . $this->msg( 'checkuser-empty' )->escaped() . '</p>';
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public function getQueryInfo() {
 		if ( $this->getConfig()->get( 'CheckUserLogActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
-			$cond = [ 'actor_id = cul_actor' ];
+			$actorJoinCond = [ 'actor_id = cul_actor' ];
 		} else {
-			$cond = [ 'actor_user = cul_user' ];
+			$actorJoinCond = [ 'actor_user = cul_user' ];
 		}
 
+		$commentQuery = CheckUserLogCommentStore::getStore()->getJoin( 'cul_reason' );
+
 		return [
-			'tables' => [ 'cu_log', 'actor' ],
-			'fields' => $this->selectFields(),
-			'conds' => array_merge( $this->searchConds, $cond )
+			'tables' => array_merge( [ 'cu_log', 'cu_log_actor' => 'actor' ], $commentQuery['tables'] ),
+			'fields' => array_merge( $this->selectFields(), $commentQuery['fields'] ),
+			'conds' => $this->searchConds,
+			'join_conds' => array_merge(
+				[
+					'cu_log_actor' => [ 'JOIN', $actorJoinCond ]
+				],
+				$commentQuery['joins']
+			)
 		];
 	}
 
@@ -235,9 +244,11 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Gets the fields for a select on the cu_log table.
+	 *
+	 * @return string[]
 	 */
-	public function selectFields() {
+	public function selectFields(): array {
 		return [
 			'cul_id', 'cul_timestamp', 'cul_user', 'cul_reason', 'cul_type',
 			'cul_target_id', 'cul_target_text', 'actor_name', 'actor_user'
