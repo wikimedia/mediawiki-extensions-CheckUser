@@ -35,7 +35,6 @@ return [
 			$services->getDBLoadBalancer(),
 			$services->getCommentStore(),
 			$services->getCommentFormatter(),
-			$services->getMainConfig()->get( 'CheckUserLogActorMigrationStage' ),
 			$services->getMainConfig()->get( 'CheckUserLogReasonMigrationStage' )
 		);
 	},

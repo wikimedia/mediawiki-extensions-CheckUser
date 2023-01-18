@@ -9,7 +9,6 @@ use HTMLForm;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager;
 use MediaWiki\CommentFormatter\CommentFormatter;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Permissions\PermissionManager;
 use SpecialPage;
 use Title;
@@ -280,14 +279,8 @@ class SpecialCheckUserLog extends SpecialPage {
 	 */
 	public static function verifyInitiator( string $initiator ) {
 		$initiatorObject = User::newFromName( $initiator );
-		if ( $initiatorObject && $initiatorObject->getId() ) {
-			if ( MediaWikiServices::getInstance()->getMainConfig()
-				->get( 'CheckUserLogActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW
-			) {
-				return $initiatorObject->getActorId();
-			} else {
-				return $initiatorObject->getId();
-			}
+		if ( $initiatorObject && $initiatorObject->isRegistered() ) {
+			return $initiatorObject->getActorId();
 		}
 		return false;
 	}

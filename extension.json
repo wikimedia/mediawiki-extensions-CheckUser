@@ -84,9 +84,6 @@
 		"CheckUserCommentMigrationStage": {
 			"value": 769
 		},
-		"CheckUserLogActorMigrationStage": {
-			"value": 769
-		},
 		"CheckUserLogReasonMigrationStage": {
 			"value": 769,
 			"description": "A flag used to represent the stage of the migration to the comment table. Default is to write to new and old, and read from new."

@@ -101,7 +101,6 @@ class ImportCheckUserLogs extends Maintenance {
 
 		$services = MediaWikiServices::getInstance();
 		$userFactory = $services->getUserFactory();
-		$culActorMigrationStage = $services->getMainConfig()->get( 'CheckUserLogActorMigrationStage' );
 
 		while ( !feof( $file ) ) {
 			$line = fgets( $file );
@@ -131,6 +130,7 @@ class ImportCheckUserLogs extends Maintenance {
 				if ( !$this->hasOption( 'dry-run' ) ) {
 					$dbw = $this->getDB( DB_PRIMARY );
 					$fields = [
+						'cul_actor' => $user->getActorId(),
 						'cul_timestamp' => $dbw->timestamp( $data['timestamp'] ),
 						'cul_reason' => $data['reason'],
 						'cul_type' => $data['type'],
@@ -140,15 +140,6 @@ class ImportCheckUserLogs extends Maintenance {
 						'cul_range_start' => $start,
 						'cul_range_end' => $end
 					];
-
-					if ( $culActorMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
-						$fields['cul_user'] = $user->getId();
-						$fields['cul_user_text'] = $user->getName();
-					}
-					if ( $culActorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-						$fields['cul_actor'] = $user->getActorId();
-					}
-
 					$dbw->insert( 'cu_log', $fields, __METHOD__ );
 				}
 

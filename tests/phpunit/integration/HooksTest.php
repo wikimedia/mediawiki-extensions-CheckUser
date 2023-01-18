@@ -47,7 +47,6 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 
 		$this->setMwGlobals( [
 			'wgCheckUserActorMigrationStage' => 3,
-			'wgCheckUserLogActorMigrationStage' => 3
 		] );
 	}
 
@@ -66,10 +65,6 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		$updateFields = [];
 		$expectedCount = 3;
 		$actorMigrationStage = $this->getServiceContainer()->getMainConfig()->get( 'CheckUserActorMigrationStage' );
-		if ( ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) ) {
-			$expectedCount++;
-		}
-		$actorMigrationStage = $this->getServiceContainer()->getMainConfig()->get( 'CheckUserLogActorMigrationStage' );
 		if ( ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) ) {
 			$expectedCount++;
 		}

@@ -142,30 +142,10 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		\DeferredUpdates::doUpdates();
 		$this->assertSelect(
 			'cu_log',
-			[ 'cul_user', 'cul_user_text' ],
+			[ 'cul_actor' ],
 			[],
-			[ [ $testUser->getId(), $testUser->getName() ] ]
+			[ [ $testUser->getActorId() ] ]
 		);
-	}
-
-	/**
-	 * @covers \MediaWiki\CheckUser\CheckUserLogService::addLogEntry
-	 */
-	public function testAddLogEntryActor() {
-		$object = $this->setUpObject();
-		if ( $object->culActorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$testUser = $this->getTestUser( 'checkuser' )->getUser();
-			$object->addLogEntry( $testUser, 'ipusers', 'ip', '127.0.0.1', '', 0 );
-			\DeferredUpdates::doUpdates();
-			$this->assertSelect(
-				'cu_log',
-				[ 'cul_actor' ],
-				[],
-				[ [ $testUser->getActorId() ] ]
-			);
-		} else {
-			$this->expectNotToPerformAssertions();
-		}
 	}
 
 	/**

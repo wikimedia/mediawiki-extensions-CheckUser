@@ -32,20 +32,13 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		$continue = $params['continue'];
 		$dir = $params['dir'];
 
-		$this->addTables( [ 'cu_log' ] );
+		$this->addTables( [ 'cu_log', 'actor' ] );
 		$this->addOption( 'LIMIT', $limit + 1 );
 		$this->addTimestampWhereRange( 'cul_timestamp', $dir, $params['from'], $params['to'] );
 		$fields = [
-			'cul_id', 'cul_timestamp', 'cul_type', 'cul_target_text'
+			'cul_id', 'cul_timestamp', 'cul_type', 'cul_target_text', 'actor_name'
 		];
-
-		if ( $this->getConfig()->get( 'CheckUserLogActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
-			$this->addTables( [ 'actor' ] );
-			$this->addJoinConds( [ 'actor' => [ 'JOIN', 'actor_id=cul_actor' ] ] );
-			$fields[] = 'actor_name';
-		} else {
-			$fields[] = 'cul_user_text';
-		}
+		$this->addJoinConds( [ 'actor' => [ 'JOIN', 'actor_id=cul_actor' ] ] );
 
 		$checkUserLogCommentStore = CheckUserLogCommentStore::getStore();
 		$reasonCommentQuery = $checkUserLogCommentStore->getJoin( 'cul_reason' );
@@ -60,11 +53,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		$this->addOption( 'ORDER BY', [ 'cul_timestamp' . $order, 'cul_id' . $order ] );
 
 		if ( isset( $params['user'] ) ) {
-			if ( $this->getConfig()->get( 'CheckUserLogActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
-				$this->addWhereFld( 'actor_name', $params['user'] );
-			} else {
-				$this->addWhereFld( 'cul_user_text', $params['user'] );
-			}
+			$this->addWhereFld( 'actor_name', $params['user'] );
 		}
 		if ( isset( $params['target'] ) ) {
 			if ( IPUtils::isIPAddress( $params['target'] ) ) {
@@ -96,14 +85,9 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 				$this->setContinueEnumParameter( 'continue', "$row->cul_timestamp|$row->cul_id" );
 				break;
 			}
-			if ( $this->getConfig()->get( 'CheckUserLogActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
-				$name = $row->actor_name;
-			} else {
-				$name = $row->cul_user_text;
-			}
 			$log = [
 				'timestamp' => wfTimestamp( TS_ISO_8601, $row->cul_timestamp ),
-				'checkuser' => $name,
+				'checkuser' => $row->actor_name,
 				'type'      => $row->cul_type,
 				'reason'    => $checkUserLogCommentStore->getComment( 'cul_reason', $row )->text,
 				'target'    => $row->cul_target_text,

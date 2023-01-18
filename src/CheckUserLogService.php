@@ -24,29 +24,23 @@ class CheckUserLogService {
 	private $commentFormatter;
 
 	/** @var int */
-	private $culActorMigrationStage;
-
-	/** @var int */
 	private $culReasonMigrationStage;
 
 	/**
 	 * @param ILoadBalancer $loadBalancer
 	 * @param CommentStore $commentStore
 	 * @param CommentFormatter $commentFormatter
-	 * @param int $culActorMigrationStage
 	 * @param int $culReasonMigrationStage
 	 */
 	public function __construct(
 		ILoadBalancer $loadBalancer,
 		CommentStore $commentStore,
 		CommentFormatter $commentFormatter,
-		int $culActorMigrationStage,
 		int $culReasonMigrationStage
 	) {
 		$this->loadBalancer = $loadBalancer;
 		$this->commentStore = $commentStore;
 		$this->commentFormatter = $commentFormatter;
-		$this->culActorMigrationStage = $culActorMigrationStage;
 		$this->culReasonMigrationStage = $culReasonMigrationStage;
 	}
 
@@ -79,6 +73,7 @@ class CheckUserLogService {
 
 		$timestamp = ConvertibleTimestamp::now();
 		$data = [
+			'cul_actor' => $user->getActorId(),
 			'cul_reason' => $reason,
 			'cul_type' => $logType,
 			'cul_target_id' => $targetID,
@@ -97,14 +92,6 @@ class CheckUserLogService {
 			);
 		} else {
 			$plaintextReason = '';
-		}
-
-		if ( $this->culActorMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
-			$data['cul_user'] = $user->getId();
-			$data['cul_user_text'] = $user->getName();
-		}
-		if ( $this->culActorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$data['cul_actor'] = $user->getActorId();
 		}
 
 		$fname = __METHOD__;

@@ -1180,20 +1180,13 @@ class Hooks implements
 				'actorStage' => $actorMigrationStage
 			];
 		}
-		$culActorMigrationStage = MediaWikiServices::getInstance()
-			->getMainConfig()
-			->get( 'CheckUserLogActorMigrationStage' );
-		if ( $culActorMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
-			$updateFields[] = [ 'cu_log', 'cul_user', 'cul_user_text' ];
-		}
-		if ( $culActorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$updateFields[] = [
-				'cu_log',
-				'batch_key' => 'cul_id',
-				'actorId' => 'cul_actor',
-				'actorStage' => $culActorMigrationStage
-			];
-		}
+		$updateFields[] = [
+			'cu_log',
+			'batch_key' => 'cul_id',
+			'actorId' => 'cul_actor',
+			'actorStage' => SCHEMA_COMPAT_NEW
+		];
+
 		$updateFields[] = [ 'cu_changes', 'cuc_user', 'cuc_user_text' ];
 		$updateFields[] = [ 'cu_log', 'cul_target_id' ];
 
@@ -1213,14 +1206,6 @@ class Hooks implements
 			RenameuserSQL::TIME_COL => 'cuc_timestamp',
 			'uniqueKey'    => 'cuc_id'
 		];
-
-		if ( MediaWikiServices::getInstance()
-			->getMainConfig()
-			->get( 'CheckUserLogActorMigrationStage' ) & SCHEMA_COMPAT_WRITE_OLD
-		) {
-			$renameUserSQL->tables['cu_log'] = [ 'cul_user_text', 'cul_user' ];
-		}
-
 		return true;
 	}
 

@@ -10,7 +10,6 @@ use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog;
 use MediaWiki\CheckUser\CheckUserLogCommentStore;
 use MediaWiki\CommentFormatter\CommentFormatter;
-use MediaWiki\MediaWikiServices;
 use RangeChronologicalPager;
 use SpecialPage;
 use Wikimedia\Rdbms\IResultWrapper;
@@ -215,12 +214,6 @@ class CheckUserLogPager extends RangeChronologicalPager {
 
 	/** @inheritDoc */
 	public function getQueryInfo() {
-		if ( $this->getConfig()->get( 'CheckUserLogActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
-			$actorJoinCond = [ 'actor_id = cul_actor' ];
-		} else {
-			$actorJoinCond = [ 'actor_user = cul_user' ];
-		}
-
 		$commentQuery = CheckUserLogCommentStore::getStore()->getJoin( 'cul_reason' );
 
 		return [
@@ -229,7 +222,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 			'conds' => $this->searchConds,
 			'join_conds' => array_merge(
 				[
-					'cu_log_actor' => [ 'JOIN', $actorJoinCond ]
+					'cu_log_actor' => [ 'JOIN', [ 'actor_id = cul_actor' ] ]
 				],
 				$commentQuery['joins']
 			)
@@ -289,13 +282,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	public static function getPerformerSearchConds( string $initiator ) {
 		$initiatorId = SpecialCheckUserLog::verifyInitiator( $initiator );
 		if ( $initiatorId !== false ) {
-			if ( MediaWikiServices::getInstance()->getMainConfig()
-				->get( 'CheckUserLogActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW
-			) {
-				return [ 'cul_actor' => $initiatorId ];
-			} else {
-				return [ 'cul_user' => $initiatorId ];
-			}
+			return [ 'cul_actor' => $initiatorId ];
 		}
 		return null;
 	}
