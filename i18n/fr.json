@@ -118,6 +118,7 @@
 	"checkuser-login-failure": "Échec de connexion à {{SITENAME}} en tant que $1",
 	"checkuser-login-failure-with-good-password": "Échec de la connexion à {{SITENAME}} en tant que $1, mais le mot de passe était correct.",
 	"checkuser-login-success": "Connexion réussie à {{SITENAME}} en tant que $1",
+	"checkuser-logout": "Déconnexion réussie à l’aide de l’API ou de Special:Logout",
 	"group-checkuser.css": "/* Le CSS placé ici n’affectera que les membres du groupe « checkuser » */",
 	"group-checkuser.js": "/* Le Javascript placé ici n’affectera que les membres du groupe « checkuser » */",
 	"checkuser-link-investigate-label": "Essayer le nouvel outil CheckUser",

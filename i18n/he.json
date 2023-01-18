@@ -101,6 +101,7 @@
 	"checkuser-login-failure": "לא הצליח להיכנס לאתר {{SITENAME}} בתור $1",
 	"checkuser-login-failure-with-good-password": "הכניסה לאתר {{SITENAME}} בתור $1 נכשלה, אבל הסיסמה הייתה נכונה",
 	"checkuser-login-success": "נכנס בהצלחה לאתר {{SITENAME}} בתור $1",
+	"checkuser-logout": "יצא בהצלחה מהחשבון באמצעות ה־API או Special:Logout",
 	"group-checkuser.css": "/* הסגנונות הנכתבים כאן ישפיעו על בודקים בלבד */",
 	"group-checkuser.js": "/* כל הסקריפטים הנכתבים כאן ייטענו עבור בודקים בלבד */",
 	"checkuser-link-investigate-label": "לנסות את כלי בדיקת המשתמשים החדש",

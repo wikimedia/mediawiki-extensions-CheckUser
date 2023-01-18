@@ -92,6 +92,7 @@
 	"checkuser-login-failure": "Fallimento de aperir session in {{SITENAME}} como $1",
 	"checkuser-login-failure-with-good-password": "Fallimento de aperir session a {{SITENAME}} como $1, benque le contrasigno es correcte",
 	"checkuser-login-success": "Session aperite in {{SITENAME}} como $1",
+	"checkuser-logout": "Session correctemente claudite usante le API o Special:Clauder_session",
 	"checkuser-link-investigate-label": "Proba le nove instrumento de verification de usatores",
 	"checkuser-investigateblock": "Blocar usatores",
 	"checkuser-investigateblock-target": "Nomines de usator e adresses IP",
