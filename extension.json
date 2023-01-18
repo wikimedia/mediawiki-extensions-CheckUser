@@ -109,7 +109,8 @@
 	},
 	"HookHandlers": {
 		"preferences": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\Preferences"
+			"class": "MediaWiki\\CheckUser\\HookHandler\\Preferences",
+			"services": [ "PermissionManager" ]
 		},
 		"Hooks": {
 			"class": "MediaWiki\\CheckUser\\Hooks"

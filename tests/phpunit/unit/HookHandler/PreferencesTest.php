@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Tests\Unit\HookHandler;
 
 use MediaWiki\CheckUser\HookHandler\Preferences;
+use MediaWiki\Permissions\PermissionManager;
 use MediaWikiUnitTestCase;
 use User;
 
@@ -20,7 +21,9 @@ class PreferencesTest extends MediaWikiUnitTestCase {
 		$user = $this->createMock( User::class );
 		$prefs = [];
 
-		( new Preferences() )->onGetPreferences( $user, $prefs );
+		( new Preferences(
+			$this->createMock( PermissionManager::class )
+		) )->onGetPreferences( $user, $prefs );
 
 		$this->assertNotEmpty(
 			$prefs,

@@ -220,5 +220,7 @@
 	"checkuser-investigate-tour-block-title": "Title of block step in investigate guided tour.",
 	"checkuser-investigate-tour-block-desc": "Description of block step in investigate guided tour.",
 	"checkuser-investigate-tour-copywikitext-title": "Title of copywikitext step in investigate guided tour.",
-	"checkuser-investigate-tour-copywikitext-desc": "Description of copywikitext step in investigate guided tour."
+	"checkuser-investigate-tour-copywikitext-desc": "Description of copywikitext step in investigate guided tour.",
+	"prefs-checkuser-tempaccount": "Header of the checkuser temp account options on Special:Preferences",
+	"checkuser-tempaccount-enable-preference": "Description of the feature that can be enabled on Special:Preferences"
 }
