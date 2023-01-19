@@ -127,6 +127,19 @@
 				"DBLoadBalancer",
 				"ActorStore"
 			]
+		},
+		{
+			"path": "/checkuser/v0/temporaryaccount/{name}/revisions/{ids}",
+			"method": "GET",
+			"class": "MediaWiki\\CheckUser\\Api\\Rest\\Handler\\TemporaryAccountRevisionHandler",
+			"services": [
+				"MainConfig",
+				"PermissionManager",
+				"UserOptionsLookup",
+				"UserNameUtils",
+				"DBLoadBalancer",
+				"ActorStore"
+			]
 		}
 	],
 	"HookHandlers": {
