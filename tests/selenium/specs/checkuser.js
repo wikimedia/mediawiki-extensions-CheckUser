@@ -21,29 +21,58 @@ describe( 'CheckUser', function () {
 			);
 			await CheckUserPage.open();
 		} );
-		describe( 'Verify checkuser can make check', () => {
+		describe( 'Verify checkuser can make checks:', () => {
 			it( 'Should show target input', async function () {
 				assert( await CheckUserPage.checkTarget.isExisting() );
 			} );
-			it( 'Should show checkuser radios input', async function () {
-				// @todo test that the radios show the right options.
-				assert( await CheckUserPage.checkUserRadios.isExisting() );
+			it( 'Should show checkuser radios', async function () {
+				assert( await CheckUserPage.checkTypeRadios.isExisting() );
+				assert( await CheckUserPage.getIPsCheckTypeRadio.isExisting() );
+				assert( await CheckUserPage.getEditsCheckTypeRadio.isExisting() );
+				assert( await CheckUserPage.getUsersCheckTypeRadio.isExisting() );
 			} );
 			it( 'Should show duration selector', async function () {
-				// @todo test that the durations are correct
+				// Check the duration selector exists
 				assert( await CheckUserPage.durationSelector.isExisting() );
 			} );
 			it( 'Should show check reason input', async function () {
 				assert( await CheckUserPage.checkReasonInput.isExisting() );
 			} );
 			it( 'Should show submit button', async function () {
-				assert( await CheckUserPage.checkUserSubmit.isExisting() );
+				assert( await CheckUserPage.submit.isExisting() );
 			} );
-			it( 'Should be able to run check', async function () {
+			it( 'Should be able to run \'Get IPs\' check', async function () {
+				await CheckUserPage.open();
+				await CheckUserPage.getIPsCheckTypeRadio.click();
 				await CheckUserPage.checkTarget.setValue( process.env.MEDIAWIKI_USER );
 				await CheckUserPage.checkReasonInput.setValue( 'Selenium browser testing' );
-				await CheckUserPage.checkUserSubmit.click();
-				assert( await CheckUserPage.checkUserResults.isExisting() );
+				await CheckUserPage.submit.click();
+				browser.waitUntil( () => {
+					browser.execute( () => browser.document.readyState === 'complete' );
+				}, { timeout: 10 * 1000, timeoutMsg: 'Page failed to load in a reasonable time.' } );
+				assert( await CheckUserPage.getIPsResults.isExisting() );
+			} );
+			it( 'Should be able to run \'Get edits\' check', async function () {
+				await CheckUserPage.open();
+				await CheckUserPage.getEditsCheckTypeRadio.click();
+				await CheckUserPage.checkTarget.setValue( process.env.MEDIAWIKI_USER );
+				await CheckUserPage.checkReasonInput.setValue( 'Selenium browser testing' );
+				await CheckUserPage.submit.click();
+				browser.waitUntil( () => {
+					browser.execute( () => browser.document.readyState === 'complete' );
+				}, { timeout: 10 * 1000, timeoutMsg: 'Page failed to load in a reasonable time.' } );
+				assert( await CheckUserPage.getEditsResults.isExisting() );
+			} );
+			it( 'Should be able to run \'Get users\' check', async function () {
+				await CheckUserPage.open();
+				await CheckUserPage.getUsersCheckTypeRadio.click();
+				await CheckUserPage.checkTarget.setValue( '127.0.0.1' );
+				await CheckUserPage.checkReasonInput.setValue( 'Selenium browser testing' );
+				await CheckUserPage.submit.click();
+				browser.waitUntil( () => {
+					browser.execute( () => browser.document.readyState === 'complete' );
+				}, { timeout: 10 * 1000, timeoutMsg: 'Page failed to load in a reasonable time.' } );
+				assert( await CheckUserPage.getUsersResults.isExisting() );
 			} );
 		} );
 		after( async () => {
