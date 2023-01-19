@@ -46,6 +46,7 @@ class PopulateCucComment extends LoggedUpdateMaintenance {
 			false,
 			true
 		);
+		$this->addOption( 'start', 'Start after this rev_id', false, true );
 	}
 
 	/**
@@ -66,11 +67,17 @@ class PopulateCucComment extends LoggedUpdateMaintenance {
 		$dbw = $mainLb->getConnectionRef( DB_PRIMARY );
 		$batchSize = $this->getBatchSize();
 
-		$prevId = (int)$dbr->newSelectQueryBuilder()
-			->field( 'MIN(cuc_id)' )
-			->table( 'cu_changes' )
-			->caller( __METHOD__ )
-			->fetchField();
+		$start = (int)$this->getOption( 'start', 0 );
+
+		if ( $start > 0 ) {
+			$prevId = $start;
+		} else {
+			$prevId = (int)$dbr->newSelectQueryBuilder()
+				->field( 'MIN(cuc_id)' )
+				->table( 'cu_changes' )
+				->caller( __METHOD__ )
+				->fetchField();
+		}
 		$curId = $prevId + $batchSize;
 		$maxId = (int)$dbr->newSelectQueryBuilder()
 			->field( 'MAX(cuc_id)' )
