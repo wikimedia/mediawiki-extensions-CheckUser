@@ -46,7 +46,7 @@ class PopulateCucComment extends LoggedUpdateMaintenance {
 			false,
 			true
 		);
-		$this->addOption( 'start', 'Start after this rev_id', false, true );
+		$this->addOption( 'start', 'Start after this cuc_id', false, true );
 	}
 
 	/**
