@@ -209,5 +209,7 @@
 	"checkuser-investigate-tour-block-title": "Voulez-vous bloquer ?",
 	"checkuser-investigate-tour-block-desc": "Vous permet de sélectionner les utilisateurs que vous souhaitez bloquer, puis vous amène au formulaire de blocage pour choisir le blocage approprié.",
 	"checkuser-investigate-tour-copywikitext-title": "Voulez-vous copier les données ?",
-	"checkuser-investigate-tour-copywikitext-desc": "Copiez la table de comparaison en un seul clic et amenez-la dans CUWiki. Notez que vous ne copiez que ce qui est visible et non toutes les pages de l’enquête."
+	"checkuser-investigate-tour-copywikitext-desc": "Copiez la table de comparaison en un seul clic et amenez-la dans CUWiki. Notez que vous ne copiez que ce qui est visible et non toutes les pages de l’enquête.",
+	"prefs-checkuser-tempaccount": "Révélation de l’adresse IP des comptes temporaires",
+	"checkuser-tempaccount-enable-preference": "Activer la révélation des adresses IP pour les comptes temporaires"
 }

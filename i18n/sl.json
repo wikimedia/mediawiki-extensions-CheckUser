@@ -186,5 +186,7 @@
 	"checkuser-investigate-tour-block-title": "Želite blokirati?",
 	"checkuser-investigate-tour-block-desc": "Omogoča vam, da izberete uporabnike, ki jih želite blokirati, nato pa vas popelje do obrazca za blokiranje, da izberete ustrezno blokiranje.",
 	"checkuser-investigate-tour-copywikitext-title": "Želite kopirati podatke?",
-	"checkuser-investigate-tour-copywikitext-desc": "Kopirajte primerjalno tabelo z enim klikom in jo prenesite v CUWiki. Upoštevajte, da kopirate samo tisto, kar je vidno, in ne vseh strani preiskave."
+	"checkuser-investigate-tour-copywikitext-desc": "Kopirajte primerjalno tabelo z enim klikom in jo prenesite v CUWiki. Upoštevajte, da kopirate samo tisto, kar je vidno, in ne vseh strani preiskave.",
+	"prefs-checkuser-tempaccount": "Razkritje IP-naslova začasnega računa",
+	"checkuser-tempaccount-enable-preference": "Omogoči razkritje aiP-naslovov začasnih računov"
 }

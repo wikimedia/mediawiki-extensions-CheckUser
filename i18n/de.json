@@ -195,5 +195,7 @@
 	"checkuser-investigate-tour-block-title": "Sperren?",
 	"checkuser-investigate-tour-block-desc": "Ermöglicht es dir, die Benutzer auszuwählen, die du sperren möchtest, und führt dich dann zum Sperrformular, um die entsprechende Sperre auszuwählen.",
 	"checkuser-investigate-tour-copywikitext-title": "Daten kopieren?",
-	"checkuser-investigate-tour-copywikitext-desc": "Kopiere die Vergleichstabelle mit einem Klick und bringe sie in das CU-Wiki. Beachte, dass du nur das kopierst, was sichtbar ist, und nicht alle Seiten der Untersuchung."
+	"checkuser-investigate-tour-copywikitext-desc": "Kopiere die Vergleichstabelle mit einem Klick und bringe sie in das CU-Wiki. Beachte, dass du nur das kopierst, was sichtbar ist, und nicht alle Seiten der Untersuchung.",
+	"prefs-checkuser-tempaccount": "Anzeige der IP-Adressen für temporäre Konten",
+	"checkuser-tempaccount-enable-preference": "IP-Adressen für temporäre Konten anzeigen"
 }

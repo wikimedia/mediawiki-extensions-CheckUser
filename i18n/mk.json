@@ -186,5 +186,7 @@
 	"checkuser-investigate-tour-block-title": "Сакате да блокирате?",
 	"checkuser-investigate-tour-block-desc": "Ви овозможува да ги одберете корисниците што сакате да ги блокирате, и потоа ве одведува на образецот кој ви дава да го изберете соодветниот блок.",
 	"checkuser-investigate-tour-copywikitext-title": "Сакате да ги прекопирате податоците?",
-	"checkuser-investigate-tour-copywikitext-desc": "Прекопирајте ја споредбената табела со еден стисок и пренесете ја на CUWiki. Имајте на ум дека го копирате само она што е видливо, а не сите страници на иследувањето."
+	"checkuser-investigate-tour-copywikitext-desc": "Прекопирајте ја споредбената табела со еден стисок и пренесете ја на CUWiki. Имајте на ум дека го копирате само она што е видливо, а не сите страници на иследувањето.",
+	"prefs-checkuser-tempaccount": "Откривање на IP-адреси за привремени сметки",
+	"checkuser-tempaccount-enable-preference": "Овозможи откривање на IP-адреси за привремени сметки"
 }

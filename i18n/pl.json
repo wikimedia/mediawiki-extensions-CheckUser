@@ -109,6 +109,7 @@
 	"checkuser-login-failure": "Logowanie do {{GRAMMAR:D.lp|{{SITENAME}}}} jako $1 nie powiodło się",
 	"checkuser-login-failure-with-good-password": "Nie udało się zalogować do {{GRAMMAR:D.lp|{{SITENAME}}}} jako $1 mimo posiadania poprawnego hasła",
 	"checkuser-login-success": "Pomyślnie zalogowano do {{GRAMMAR:D.lp|{{SITENAME}}}} jako $1",
+	"checkuser-logout": "Pomyślnie wylogowano się za pomocą API lub {{#special:Logout}}",
 	"group-checkuser.css": "/* Umieszczony tutaj kod CSS dotyczyć będzie tylko checkuserów */",
 	"group-checkuser.js": "/* Umieszczony tutaj kod JS dotyczyć będzie tylko checkuserów */",
 	"checkuser-link-investigate-label": "Wypróbuj nowe narzędzie CheckUser",
@@ -198,5 +199,7 @@
 	"checkuser-investigate-tour-block-title": "Nałożyć blokadę?",
 	"checkuser-investigate-tour-block-desc": "Umożliwia ci wybranie użytkowników, których chcesz zablokować, a następnie zabiera cię do formularza blokowania, aby wybrać odpowiednią blokadę.",
 	"checkuser-investigate-tour-copywikitext-title": "Chcesz skopiować dane?",
-	"checkuser-investigate-tour-copywikitext-desc": "Skopiuj tabelę porównywania jednym kliknięciem i zamierz ją na CUWiki. Zauważ tylko, że kopiowane są tylko widoczne dane, nie wszystkie strony sprawdzania."
+	"checkuser-investigate-tour-copywikitext-desc": "Skopiuj tabelę porównywania jednym kliknięciem i zamierz ją na CUWiki. Zauważ tylko, że kopiowane są tylko widoczne dane, nie wszystkie strony sprawdzania.",
+	"prefs-checkuser-tempaccount": "Tymczasowe ujawnienie adresu IP konta",
+	"checkuser-tempaccount-enable-preference": "Włącz ujawnianie adresów IP dla kont tymczasowych"
 }
