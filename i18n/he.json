@@ -191,5 +191,7 @@
 	"checkuser-investigate-tour-block-title": "רוצה לחסום?",
 	"checkuser-investigate-tour-block-desc": "זה מאפשר לך לבחור את המשתמשים {{GENDER:|שאתה רוצה|שאת רוצה|שברצונך}} לחסום, ואז מעביר אותך לטופס החסימה כדי לבחור את החסימה המתאימה.",
 	"checkuser-investigate-tour-copywikitext-title": "רוצה להעתיק את הנתונים?",
-	"checkuser-investigate-tour-copywikitext-desc": "{{GENDER:|העתק|העתיקי|נא להעתיק}} את טבלת ההשוואה בלחיצה אחת {{GENDER:|וקח|וקחי|ולקחת}} אותה ל־CUWiki. {{GENDER:|שים לב שאתה מעתיק|שימי לב שאת מעתיקה|נא לשים לב לכך שהעתקת}} רק את מה שמוצג ולא את כל דפי החקירה."
+	"checkuser-investigate-tour-copywikitext-desc": "{{GENDER:|העתק|העתיקי|נא להעתיק}} את טבלת ההשוואה בלחיצה אחת {{GENDER:|וקח|וקחי|ולקחת}} אותה ל־CUWiki. {{GENDER:|שים לב שאתה מעתיק|שימי לב שאת מעתיקה|נא לשים לב לכך שהעתקת}} רק את מה שמוצג ולא את כל דפי החקירה.",
+	"prefs-checkuser-tempaccount": "חשיפת IP זמני של חשבון",
+	"checkuser-tempaccount-enable-preference": "להפעיל חשיפת כתובות IP עבור חשבונות זמניים"
 }
