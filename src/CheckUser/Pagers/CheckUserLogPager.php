@@ -243,8 +243,8 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	 */
 	public function selectFields(): array {
 		return [
-			'cul_id', 'cul_timestamp', 'cul_user', 'cul_reason', 'cul_type',
-			'cul_target_id', 'cul_target_text', 'actor_name', 'actor_user'
+			'cul_id', 'cul_timestamp', 'cul_reason', 'cul_type', 'cul_target_id',
+			'cul_target_text', 'actor_name', 'actor_user'
 		];
 	}
 
