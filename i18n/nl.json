@@ -98,6 +98,7 @@
 	"checkuser-token-fail": "Sessie is mislukt. Probeer het opnieuw.",
 	"checkuser-login-failure": "Kon niet als $1 inloggen op {{SITENAME}}",
 	"checkuser-login-success": "Succesvol als $1 op {{SITENAME}} ingelogd",
+	"checkuser-logout": "Er is uitgelogd met behulp van de API of via Speciaal:Afmelden",
 	"checkuser-investigateblock": "Gebruikers blokkeren",
 	"checkuser-investigateblock-target": "Gebruikersnaam en IP-adressen",
 	"checkuser-investigateblock-actions": "Te blokkeren handelingen",
@@ -168,5 +169,7 @@
 	"checkuser-investigate-compare-table-header-activity": "Periode",
 	"checkuser-investigate-compare-table-header-ip": "IP-adres",
 	"checkuser-investigate-compare-table-header-useragent": "User agent",
-	"checkuser-investigate-subtitle-link-restart-tour": "Herstart toer"
+	"checkuser-investigate-subtitle-link-restart-tour": "Herstart toer",
+	"prefs-checkuser-tempaccount": "IP-adressen tijdelijke accounts onthullen",
+	"checkuser-tempaccount-enable-preference": "Activeer het onthullen van IP-adressen voor tijdelijke accounts"
 }

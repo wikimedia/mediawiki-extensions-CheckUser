@@ -17,6 +17,7 @@
 			"Hasley",
 			"Hereñu",
 			"Imre",
+			"JDíaz32",
 			"JasterTDC",
 			"Jatrobat",
 			"Joanmp17",
@@ -124,6 +125,7 @@
 	"checkuser-token-fail": "Fallo en la sesión. Intenta de nuevo.",
 	"checkuser-login-failure": "Error al tratar de iniciar sesión como \"$1\" en {{SITENAME}}",
 	"checkuser-login-success": "Inició sesión con éxito como \"$1\" en {{SITENAME}}",
+	"checkuser-logout": "Cierre de sesión exitoso usando la API o Special:Logout",
 	"group-checkuser.css": "/* El código CSS colocado aquí sólo afectará a los usuarios con permisos de checkuser (ComprobarUsuario) */",
 	"group-checkuser.js": "/* El código JavaScript colocado en esta página sólo afectará a los usuarios con permisos de checkuser (ComprobarUsuario) */",
 	"checkuser-link-investigate-label": "Prueba la nueva herramienta ComprobarUsuario",
@@ -213,5 +215,7 @@
 	"checkuser-investigate-tour-block-title": "¿Deseas bloquear?",
 	"checkuser-investigate-tour-block-desc": "Te permite seleccionar los usuarios que desees bloquear para posteriormente llevarte al formulario de bloqueo para que selecciones el que te parezca más apropiado.",
 	"checkuser-investigate-tour-copywikitext-title": "¿Quieres copiar los datos?",
-	"checkuser-investigate-tour-copywikitext-desc": "Copia la tabla comparativa con un solo clic y llévala a la wiki privada. Ten en cuenta que solo podrás copiar lo que ahora mismo es visible y no todas las páginas de la investigación."
+	"checkuser-investigate-tour-copywikitext-desc": "Copia la tabla comparativa con un solo clic y llévala a la wiki privada. Ten en cuenta que solo podrás copiar lo que ahora mismo es visible y no todas las páginas de la investigación.",
+	"prefs-checkuser-tempaccount": "Revelación de IP de cuenta temporal",
+	"checkuser-tempaccount-enable-preference": "Habilitar la revelación de direcciones IP para cuentas temporales"
 }

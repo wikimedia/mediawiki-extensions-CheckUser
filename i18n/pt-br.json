@@ -26,6 +26,7 @@
 			"Opraco",
 			"Pedroca cerebral",
 			"RadiX",
+			"Re demz",
 			"Rodrigo codignoli",
 			"YuriNikolai",
 			555
@@ -207,5 +208,7 @@
 	"checkuser-investigate-tour-block-title": "Deseja bloquear?",
 	"checkuser-investigate-tour-block-desc": "Permite selecionar os usuários que você deseja bloquear e, em seguida, leva você ao formulário do bloco para escolher o bloco apropriado.",
 	"checkuser-investigate-tour-copywikitext-title": "Deseja copiar os dados?",
-	"checkuser-investigate-tour-copywikitext-desc": "Copie a tabela de comparação com um clique e leve-a para o CUWiki. Observe que você está apenas copiando o que é visível e não todas as páginas da investigação."
+	"checkuser-investigate-tour-copywikitext-desc": "Copie a tabela de comparação com um clique e leve-a para o CUWiki. Observe que você está apenas copiando o que é visível e não todas as páginas da investigação.",
+	"prefs-checkuser-tempaccount": "Revelação de IP de contas temporárias",
+	"checkuser-tempaccount-enable-preference": "Ativar a revelação dos endereços de IP de contas temporárias"
 }
