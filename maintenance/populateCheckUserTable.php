@@ -140,8 +140,6 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 				} else {
 					$entry = [
 						'cuc_timestamp' => $row->rc_timestamp,
-						'cuc_user' => $row->rc_user ?? 0,
-						'cuc_user_text' => $row->rc_user_text,
 						'cuc_namespace' => $row->rc_namespace,
 						'cuc_title' => $row->rc_title,
 						'cuc_comment' => $contLang->truncateForDatabase(
@@ -156,6 +154,10 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 						'cuc_ip_hex' => IPUtils::toHex( $row->rc_ip ),
 					];
 
+					if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
+						$entry['cuc_user'] = $row->rc_user ?? 0;
+						$entry['cuc_user_text'] = $row->rc_user_text;
+					}
 					if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
 						$entry['cuc_actor'] = $row->rc_actor;
 					}

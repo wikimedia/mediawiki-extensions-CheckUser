@@ -475,6 +475,10 @@ class Hooks implements
 		$row['cuc_xff'] = $contLang->truncateForDatabase( $row['cuc_xff'], self::TEXT_FIELD_LENGTH );
 
 		$actorMigrationStage = $services->getMainConfig()->get( 'CheckUserActorMigrationStage' );
+		if ( !( $actorMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) ) {
+			unset( $row['cuc_user'] );
+			unset( $row['cuc_user_text'] );
+		}
 		if ( ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) && !isset( $row['cuc_actor'] ) ) {
 			$row['cuc_actor'] = $services->getActorStore()->acquireActorId(
 				$user,
@@ -1187,7 +1191,9 @@ class Hooks implements
 			'actorStage' => SCHEMA_COMPAT_NEW
 		];
 
-		$updateFields[] = [ 'cu_changes', 'cuc_user', 'cuc_user_text' ];
+		if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
+			$updateFields[] = [ 'cu_changes', 'cuc_user', 'cuc_user_text' ];
+		}
 		$updateFields[] = [ 'cu_log', 'cul_target_id' ];
 
 		return true;
@@ -1200,12 +1206,18 @@ class Hooks implements
 	 * @return bool
 	 */
 	public static function onRenameUserSQL( RenameuserSQL $renameUserSQL ) {
-		$renameUserSQL->tablesJob['cu_changes'] = [
-			RenameuserSQL::NAME_COL => 'cuc_user_text',
-			RenameuserSQL::UID_COL  => 'cuc_user',
-			RenameuserSQL::TIME_COL => 'cuc_timestamp',
-			'uniqueKey'    => 'cuc_id'
-		];
+		$actorMigrationStage = MediaWikiServices::getInstance()
+			->getMainConfig()
+			->get( 'CheckUserActorMigrationStage' );
+
+		if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
+			$renameUserSQL->tablesJob['cu_changes'] = [
+				RenameuserSQL::NAME_COL => 'cuc_user_text',
+				RenameuserSQL::UID_COL  => 'cuc_user',
+				RenameuserSQL::TIME_COL => 'cuc_timestamp',
+				'uniqueKey'    => 'cuc_id'
+			];
+		}
 		return true;
 	}
 
