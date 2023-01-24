@@ -87,6 +87,7 @@
 	"checkuser-search-submit": "بحث",
 	"checkuser-log-search-target": "الهدف:",
 	"checkuser-log-search-initiator": "البادىء:",
+	"checkuser-log-search-reason": "السبب:",
 	"checkuser-ipeditcount": "~$1 من كل المستخدمين",
 	"checkuser-showmain": "تغيير إلى استمارة تدقيق المستخدم الرئيسية",
 	"checkuser-show-investigate": "تغيير إلى استمارة التحقق الرئيسية",

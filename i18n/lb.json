@@ -66,6 +66,7 @@
 	"checkuser-search": "Am CheckUser-Logbuch sichen",
 	"checkuser-search-submit": "Sichen",
 	"checkuser-log-search-target": "Zil:",
+	"checkuser-log-search-reason": "Grond:",
 	"checkuser-ipeditcount": "~$1 vun alle Benotzer",
 	"checkuser-showmain": "Op den Haaptformulaire vun CheckUser wiesselen",
 	"checkuser-show-investigate": "Op den Haaptformulaire fir z'ënnersiche wiesselen",

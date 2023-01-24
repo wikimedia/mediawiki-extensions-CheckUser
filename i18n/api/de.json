@@ -22,6 +22,7 @@
 	"apihelp-query+checkuserlog-summary": "Ruft Einträge aus dem Checkuser-Logbuch ab.",
 	"apihelp-query+checkuserlog-param-user": "Benutzername des zu überprüfenden Benutzers.",
 	"apihelp-query+checkuserlog-param-target": "Überprüfter Benutzer, CIDR-Bereich oder überprüfte IP-Adresse.",
+	"apihelp-query+checkuserlog-param-reason": "Grund für die Überprüfung.",
 	"apihelp-query+checkuserlog-param-limit": "Zeilenlimit.",
 	"apihelp-query+checkuserlog-param-from": "Der Zeitstempel, bei dem die Aufzählung beginnen soll.",
 	"apihelp-query+checkuserlog-param-to": "Der Zeitstempel, bei dem die Aufzählung enden soll.",

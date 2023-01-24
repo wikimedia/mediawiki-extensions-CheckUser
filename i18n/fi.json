@@ -83,6 +83,7 @@
 	"checkuser-search-submit": "Hae",
 	"checkuser-log-search-target": "Kohde:",
 	"checkuser-log-search-initiator": "Alullepanija:",
+	"checkuser-log-search-reason": "Syy:",
 	"checkuser-ipeditcount": "noin $1 muokkausta kaikilta käyttäjiltä",
 	"checkuser-showmain": "Siirry osoitepaljastimen päälomakkeeseen",
 	"checkuser-show-investigate": "Siirry käyttäjän tutkimisen päälomakkeeseen",

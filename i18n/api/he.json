@@ -19,6 +19,7 @@
 	"apihelp-query+checkuserlog-summary": "קבלת רשומות מיומן בדיקת משתמשים.",
 	"apihelp-query+checkuserlog-param-user": "שם משתמש של הבודק.",
 	"apihelp-query+checkuserlog-param-target": "המשתמש הנבדק, כתובת IP או טווח CIDR.",
+	"apihelp-query+checkuserlog-param-reason": "הסיבה שניתנה לבדיקה.",
 	"apihelp-query+checkuserlog-param-limit": "מגבלת שורות.",
 	"apihelp-query+checkuserlog-param-from": "חותם־הזמן שהמנייה תתחיל ממנו.",
 	"apihelp-query+checkuserlog-param-to": "חותם־הזמן  שהמנייה תסתיים בו.",

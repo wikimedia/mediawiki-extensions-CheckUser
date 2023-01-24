@@ -91,6 +91,8 @@
 	"checkuser-search-submit": "Suche",
 	"checkuser-log-search-target": "Ziel:",
 	"checkuser-log-search-initiator": "CheckUser-Berechtigter:",
+	"checkuser-log-search-reason": "Grund:",
+	"checkuser-log-search-reason-help": "Filtert nach Logbucheinträgen, die diesen Grund haben.",
 	"checkuser-ipeditcount": "~ $1 von allen Benutzern",
 	"checkuser-showmain": "Zum CheckUser-Hauptformular wechseln",
 	"checkuser-show-investigate": "Zum Hauptformular Untersuchung wechseln",

@@ -100,6 +100,7 @@
 	"checkuser-search-submit": "Rechercher",
 	"checkuser-log-search-target": "Cible :",
 	"checkuser-log-search-initiator": "Initiateur :",
+	"checkuser-log-search-reason": "Motif :",
 	"checkuser-ipeditcount": "~$1 par tous les utilisateurs",
 	"checkuser-showmain": "Basculer vers le formulaire principal du vérificateur d’utilisateur",
 	"checkuser-show-investigate": "Basculer vers le formulaire principal d’investigation",

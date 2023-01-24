@@ -103,6 +103,7 @@
 	"checkuser-search-submit": "検索",
 	"checkuser-log-search-target": "利用者名:",
 	"checkuser-log-search-initiator": "調査実行者",
+	"checkuser-log-search-reason": "理由:",
 	"checkuser-ipeditcount": "全利用者による編集 ～$1回",
 	"checkuser-showmain": "利用者調査のメインフォームに切り替え",
 	"checkuser-show-investigate": "詳細調査のメインフォームに切り替え",

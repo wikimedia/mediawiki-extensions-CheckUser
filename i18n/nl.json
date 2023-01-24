@@ -81,6 +81,7 @@
 	"checkuser-search": "Checkuserlogboekregels doorzoeken",
 	"checkuser-search-submit": "Zoeken",
 	"checkuser-log-search-target": "Doel:",
+	"checkuser-log-search-reason": "Reden:",
 	"checkuser-ipeditcount": "~$1 van alle gebruikers",
 	"checkuser-showmain": "Naar het hoofdformulier van GebruikerControleren gaan",
 	"checkuser-show-investigate": "Overschakelen naar hoofdformulier Onderzoeken",

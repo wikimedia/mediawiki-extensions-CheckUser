@@ -88,6 +88,7 @@
 	"checkuser-search-submit": "Ara",
 	"checkuser-log-search-target": "Hedef:",
 	"checkuser-log-search-initiator": "Başlatıcı:",
+	"checkuser-log-search-reason": "Sebep:",
 	"checkuser-ipeditcount": "tüm kullanıcılardan ~$1",
 	"checkuser-showmain": "Denetçi ana formuna değiştir",
 	"checkuser-show-investigate": "Ana formu araştırmaya geç",

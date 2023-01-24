@@ -83,6 +83,8 @@
 	"checkuser-search-submit": "חיפוש",
 	"checkuser-log-search-target": "יעד:",
 	"checkuser-log-search-initiator": "יוזם הבדיקה:",
+	"checkuser-log-search-reason": "סיבה:",
+	"checkuser-log-search-reason-help": "לסנן לחיפוש רשומות יומן עם הסיבה הזאת.",
 	"checkuser-ipeditcount": "בערך $1 מכל המשתמשים",
 	"checkuser-showmain": "מעבר לטופס הבדיקה הראשי",
 	"checkuser-show-investigate": "מעבר לטופס חקירה הראשי",
