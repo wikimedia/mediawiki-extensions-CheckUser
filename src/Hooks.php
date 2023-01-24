@@ -303,7 +303,7 @@ class Hooks implements
 		( new HookRunner( $services->getHookContainer() ) )
 			->onCheckUserInsertLogEventRow( $ip, $xff, $row, $user, $id, $rc );
 		/** @var CheckUserUtilityService $checkUserUtilityService */
-		$checkUserUtilityService = MediaWikiServices::getInstance()->get( 'CheckUserUtilityService' );
+		$checkUserUtilityService = $services->get( 'CheckUserUtilityService' );
 		list( $xff_ip, $isSquidOnly, $xff ) = $checkUserUtilityService->getClientIPfromXFF( $xff );
 
 		$row = array_merge( [
@@ -363,7 +363,7 @@ class Hooks implements
 		( new HookRunner( $services->getHookContainer() ) )
 			->onCheckUserInsertPrivateEventRow( $ip, $xff, $row, $user, $rc );
 		/** @var CheckUserUtilityService $checkUserUtilityService */
-		$checkUserUtilityService = MediaWikiServices::getInstance()->get( 'CheckUserUtilityService' );
+		$checkUserUtilityService = $services->get( 'CheckUserUtilityService' );
 		list( $xff_ip, $isSquidOnly, $xff ) = $checkUserUtilityService->getClientIPfromXFF( $xff );
 
 		$row = array_merge(
@@ -438,7 +438,7 @@ class Hooks implements
 		( new HookRunner( $services->getHookContainer() ) )
 			->onCheckUserInsertChangesRow( $ip, $xff, $row, $user, $rc );
 		/** @var CheckUserUtilityService $checkUserUtilityService */
-		$checkUserUtilityService = MediaWikiServices::getInstance()->get( 'CheckUserUtilityService' );
+		$checkUserUtilityService = $services->get( 'CheckUserUtilityService' );
 		list( $xff_ip, $isSquidOnly, $xff ) = $checkUserUtilityService->getClientIPfromXFF( $xff );
 
 		$row = array_merge(
