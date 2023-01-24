@@ -136,7 +136,7 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 					'cupe_private' => $row->cuc_private
 				];
 
-				if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+				if ( $actorMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
 					$entry['cupe_actor'] = $row->cuc_actor;
 				} else {
 					$entry['cupe_actor'] = $services->getActorStore()->acquireActorId(
@@ -144,7 +144,7 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 					);
 				}
 
-				if ( $commentMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+				if ( $commentMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
 					$entry['cupe_comment_id'] = $row->cuc_comment_id;
 				} else {
 					$entry['cupe_comment_id'] = $commentStore->createComment( $dbw, $row->cuc_comment )->id;
