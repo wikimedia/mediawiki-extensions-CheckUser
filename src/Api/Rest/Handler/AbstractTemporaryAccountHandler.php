@@ -62,6 +62,13 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 	 * @inheritDoc
 	 */
 	public function run( string $name ): Response {
+		if ( !$this->getAuthority()->isNamed() ) {
+			throw new LocalizedHttpException(
+				new MessageValue( 'checkuser-rest-access-denied' ),
+				401
+			);
+		}
+
 		if (
 			!$this->permissionManager->userHasRight(
 				$this->getAuthority()->getUser(),
@@ -74,7 +81,7 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 		) {
 			throw new LocalizedHttpException(
 				new MessageValue( 'checkuser-rest-access-denied' ),
-				$this->getAuthority()->isRegistered() ? 403 : 401
+				403
 			);
 		}
 

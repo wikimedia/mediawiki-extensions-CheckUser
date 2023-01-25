@@ -70,6 +70,8 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 		$authority = $this->createMock( Authority::class );
 		$authority->method( 'getUser' )
 			->willReturn( $options['user'] ?? $user );
+		$authority->method( 'isNamed' )
+			->willReturn( true );
 		$authority->method( 'getBlock' )
 			->willReturn( null );
 

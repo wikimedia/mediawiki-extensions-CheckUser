@@ -31,7 +31,6 @@ class TemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 				'cuc_actor' => $actorId
 			] )
 			->limit( $limit )
-			// cuc_actor_ip_time index
 			->orderby(
 				[ 'cuc_actor', 'cuc_ip', 'cuc_timestamp' ],
 				SelectQueryBuilder::SORT_DESC
