@@ -1035,12 +1035,13 @@ class Hooks implements
 			);
 		}
 
+		$updater->addExtensionUpdate( [
+			'runMaintenance',
+			PopulateCulActor::class,
+			'extensions/CheckUser/maintenance/populateCulActor.php'
+		] );
+
 		// 1.40
-		$updater->modifyExtensionField(
-			'cu_log',
-			'cul_user',
-			"$base/$dbType/patch-cu_log-defaults.sql"
-		);
 		$updater->addExtensionTable(
 			'cu_log_event',
 			"$base/$dbType/patch-cu_log_event-def.sql"
@@ -1049,10 +1050,14 @@ class Hooks implements
 			'cu_private_event',
 			"$base/$dbType/patch-cu_private_event-def.sql"
 		);
+		$updater->modifyExtensionField(
+			'cu_log',
+			'cul_user',
+			"$base/$dbType/patch-cu_log-drop-cul_user.sql"
+		);
 
 		$updater->addPostDatabaseUpdateMaintenance( PopulateCucActor::class );
 		$updater->addPostDatabaseUpdateMaintenance( PopulateCucComment::class );
-		$updater->addPostDatabaseUpdateMaintenance( PopulateCulActor::class );
 		$updater->addPostDatabaseUpdateMaintenance( PopulateCulComment::class );
 
 		if ( !$isCUInstalled ) {

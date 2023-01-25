@@ -96,8 +96,6 @@ CREATE INDEX cupe_actor_ip_time ON cu_private_event (
 CREATE TABLE cu_log (
   cul_id SERIAL NOT NULL,
   cul_timestamp TIMESTAMPTZ NOT NULL,
-  cul_user INT DEFAULT 0 NOT NULL,
-  cul_user_text TEXT DEFAULT '' NOT NULL,
   cul_actor BIGINT DEFAULT 0 NOT NULL,
   cul_reason TEXT NOT NULL,
   cul_reason_id BIGINT DEFAULT 0 NOT NULL,
@@ -110,8 +108,6 @@ CREATE TABLE cu_log (
   cul_range_end TEXT DEFAULT '' NOT NULL,
   PRIMARY KEY(cul_id)
 );
-
-CREATE INDEX cul_user ON cu_log (cul_user, cul_timestamp);
 
 CREATE INDEX cul_actor_time ON cu_log (cul_actor, cul_timestamp);
 

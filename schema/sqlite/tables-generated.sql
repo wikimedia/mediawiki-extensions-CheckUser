@@ -92,9 +92,7 @@ CREATE INDEX cupe_actor_ip_time ON /*_*/cu_private_event (
 
 CREATE TABLE /*_*/cu_log (
   cul_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-  cul_timestamp BLOB NOT NULL, cul_user INTEGER UNSIGNED DEFAULT 0 NOT NULL,
-  cul_user_text BLOB DEFAULT '' NOT NULL,
-  cul_actor BIGINT UNSIGNED DEFAULT 0 NOT NULL,
+  cul_timestamp BLOB NOT NULL, cul_actor BIGINT UNSIGNED DEFAULT 0 NOT NULL,
   cul_reason BLOB NOT NULL, cul_reason_id BIGINT UNSIGNED DEFAULT 0 NOT NULL,
   cul_reason_plaintext_id BIGINT UNSIGNED DEFAULT 0 NOT NULL,
   cul_type BLOB NOT NULL, cul_target_id INTEGER UNSIGNED DEFAULT 0 NOT NULL,
@@ -102,8 +100,6 @@ CREATE TABLE /*_*/cu_log (
   cul_range_start BLOB DEFAULT '' NOT NULL,
   cul_range_end BLOB DEFAULT '' NOT NULL
 );
-
-CREATE INDEX cul_user ON /*_*/cu_log (cul_user, cul_timestamp);
 
 CREATE INDEX cul_actor_time ON /*_*/cu_log (cul_actor, cul_timestamp);
 
