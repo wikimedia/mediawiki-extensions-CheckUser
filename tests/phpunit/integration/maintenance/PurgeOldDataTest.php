@@ -76,12 +76,16 @@ class PurgeOldDataTest extends MaintenanceBaseTestCase {
 		ConvertibleTimestamp::setFakeTime( $currentTime );
 		( new PurgeOldData() )->execute();
 		// Check that all the old entries are gone
+		$logEntryCutoffForDBComparison = $this->getDb()->addQuotes( $this->getDb()->timestamp( $logEntryCutoff ) );
 		$this->assertRowCount( 0, 'cu_changes', 'cuc_id',
-			'cu_changes has stale entries after calling pruneIPData.', [ "cuc_timestamp < $logEntryCutoff" ] );
+			'cu_changes has stale entries after calling pruneIPData.',
+			[ "cuc_timestamp < $logEntryCutoffForDBComparison" ] );
 		$this->assertRowCount( 0, 'cu_private_event', 'cupe_id',
-			'cu_private_event has stale entries after calling pruneIPData.', [ "cupe_timestamp < $logEntryCutoff" ] );
+			'cu_private_event has stale entries after calling pruneIPData.',
+			[ "cupe_timestamp < $logEntryCutoffForDBComparison" ] );
 		$this->assertRowCount( 0, 'cu_log_event', 'cule_id',
-			'cu_log_event has stale entries after calling pruneIPData.', [ "cule_timestamp < $logEntryCutoff" ] );
+			'cu_log_event has stale entries after calling pruneIPData.',
+			[ "cule_timestamp < $logEntryCutoffForDBComparison" ] );
 		// Assert that no still in date entries were removed
 		$this->assertRowCount( $afterCount, 'cu_changes', 'cuc_id',
 			'cu_changes is missing rows that were not stale after calling pruneIPData.' );

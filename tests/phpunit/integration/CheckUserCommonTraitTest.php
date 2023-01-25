@@ -37,8 +37,8 @@ trait CheckUserCommonTraitTest {
 		$rc->setAttribs( $rcAttribs );
 		( new Hooks() )->updateCheckUserData( $rc );
 		foreach ( $fields as $index => $field ) {
-			if ( array_search( $field, [ 'cuc_timestamp', 'cule_timstamp', 'cupe_timestamp' ] ) ) {
-				$expectedRow[$index] = $this->db->timestamp( $expectedRow[$index] );
+			if ( in_array( $field, [ 'cuc_timestamp', 'cule_timestamp', 'cupe_timestamp' ] ) ) {
+				$expectedRow[$index] = $this->getDb()->timestamp( $expectedRow[$index] );
 			}
 		}
 		return $rc;

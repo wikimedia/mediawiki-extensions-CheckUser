@@ -510,7 +510,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideUpdateCheckUserData
 	 */
 	public function testUpdateCheckUserData(
-		$rcAttribs, $eventTableMigrationStage, $table, $fields, $expectedRow
+		$rcAttribs, $eventTableMigrationStage, $table, $fields, &$expectedRow
 	) {
 		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $eventTableMigrationStage );
 		$this->commonTestsUpdateCheckUserData( $rcAttribs, $fields, $expectedRow );
@@ -904,7 +904,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		$rc->setAttribs( $rcAttribs );
 		( new Hooks() )->onRecentChange_save( $rc );
 		foreach ( $fields as $index => $field ) {
-			if ( array_search( $field, [ 'cuc_timestamp', 'cule_timstamp', 'cupe_timestamp' ] ) ) {
+			if ( in_array( $field, [ 'cuc_timestamp', 'cule_timestamp', 'cupe_timestamp' ] ) ) {
 				$expectedRow[$index] = $this->db->timestamp( $expectedRow[$index] );
 			}
 		}
@@ -1387,12 +1387,16 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		$object->pruneIPData();
 		\DeferredUpdates::doUpdates();
 		// Check that all the old entries are gone
+		$logEntryCutoffForDBComparison = $this->getDb()->addQuotes( $this->getDb()->timestamp( $logEntryCutoff ) );
 		$this->assertRowCount( 0, 'cu_changes', 'cuc_id',
-			'cu_changes has stale entries after calling pruneIPData.', [ "cuc_timestamp < $logEntryCutoff" ] );
+			'cu_changes has stale entries after calling pruneIPData.',
+			[ "cuc_timestamp < $logEntryCutoffForDBComparison" ] );
 		$this->assertRowCount( 0, 'cu_private_event', 'cupe_id',
-			'cu_private_event has stale entries after calling pruneIPData.', [ "cupe_timestamp < $logEntryCutoff" ] );
+			'cu_private_event has stale entries after calling pruneIPData.',
+			[ "cupe_timestamp < $logEntryCutoffForDBComparison" ] );
 		$this->assertRowCount( 0, 'cu_log_event', 'cule_id',
-			'cu_log_event has stale entries after calling pruneIPData.', [ "cule_timestamp < $logEntryCutoff" ] );
+			'cu_log_event has stale entries after calling pruneIPData.',
+			[ "cule_timestamp < $logEntryCutoffForDBComparison" ] );
 		// Assert that no still in date entries were removed
 		$this->assertRowCount( $afterCount, 'cu_changes', 'cuc_id',
 			'cu_changes is missing rows that were not stale after calling pruneIPData.' );
