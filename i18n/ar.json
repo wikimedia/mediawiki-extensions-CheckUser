@@ -106,6 +106,7 @@
 	"checkuser-login-failure": "فشل تسجيل الدخول إلى {{SITENAME}} كـ$1",
 	"checkuser-login-failure-with-good-password": "فشل تسجيل الدخول إلى {{SITENAME}} باعتبارك $1 ولكن كان لديه كلمة المرور الصحيحة",
 	"checkuser-login-success": "نجح تسجيل الدخول إلى {{SITENAME}} كـ$1",
+	"checkuser-helper-copy-failed": "تعذر النسخ",
 	"group-checkuser.css": "/* الأنماط المتراصة CSS المعروضة هنا ستؤثر على مدققي المستخدم فقط */",
 	"group-checkuser.js": "/* جافا سكريبت المعروضة هنا ستؤثر على مدققي المستخدم فقط */",
 	"checkuser-link-investigate-label": "جرب أداة تدقيق المستخدم الجديدة",

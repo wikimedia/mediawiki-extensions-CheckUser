@@ -23,6 +23,7 @@
 	"apihelp-query+checkuserlog-summary": "Obtenir les entrées du journal de vérification des utilisateurs.",
 	"apihelp-query+checkuserlog-param-user": "Nom d’utilisateur du Vérificateur d’utilisateurs.",
 	"apihelp-query+checkuserlog-param-target": "Utilisateur, adresse IP ou plage CIDR vérifié.",
+	"apihelp-query+checkuserlog-param-reason": "Motif donné pour la vérification.",
 	"apihelp-query+checkuserlog-param-limit": "Limite de lignes.",
 	"apihelp-query+checkuserlog-param-from": "L’horodatage auquel démarrer l’énumération.",
 	"apihelp-query+checkuserlog-param-to": "L’horodatage auquel arrêter l’énumération.",

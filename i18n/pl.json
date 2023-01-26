@@ -91,6 +91,7 @@
 	"checkuser-search-submit": "Szukaj",
 	"checkuser-log-search-target": "Cel:",
 	"checkuser-log-search-initiator": "Sprawdzający:",
+	"checkuser-log-search-reason-help": "Filtruj wpisy rejestru, które zawierają ten powód.",
 	"checkuser-ipeditcount": "~$1 od wszystkich użytkowników",
 	"checkuser-showmain": "Przejdź do głównego formularza CheckUser",
 	"checkuser-show-investigate": "Przejdź do głównego formularza sprawdzania",

@@ -4,20 +4,21 @@
 			"Vlad5250"
 		]
 	},
-	"apihelp-query+checkuser-description": "Provjeri koje IP adrese ih koriste dano korisničko ime ili pak koja korisnička imena ih koriste danu IP adresu.",
-	"apihelp-query+checkuser-summary": "Provjeri koje IP adrese ih koriste dano korisničko ime ili pak koja korisnička imena ih koriste danu IP adresu.",
-	"apihelp-query+checkuser-param-request": "Tip zahtjeva s CheckUser-om:\n;userips: Daj IP adresu ciljanom korisniku.\n;edits: Daj promjene iz ciljne IP adrese ili opsega.\n;ipusers: Daj korisnike iz ciljne IP adrese ili opsega.",
-	"apihelp-query+checkuser-param-target": "Korisničko ime, IP adresa ili CIDR opseg za provjeru.",
+	"apihelp-query+checkuser-description": "Provjeri koje IP-adrese koristi određeno korisničko ime ili pak koja korisnička imena koristi određena IP-adresa.",
+	"apihelp-query+checkuser-summary": "Provjeri koje IP-adrese koristi određeno korisničko ime ili pak koja korisnička imena koristi određena IP-adresa.",
+	"apihelp-query+checkuser-param-request": "Tip zahtjeva s CheckUser-om:\n;userips: Daj IP-adresu ciljnog korisnika.\n;edits: Daj promjene iz ciljne IP adrese ili raspona.\n;ipusers: Daj korisnike iz ciljne IP adrese ili raspona.",
+	"apihelp-query+checkuser-param-target": "Korisničko ime, IP-adresa ili CIDR-raspon za provjeru.",
 	"apihelp-query+checkuser-param-reason": "Razlog provjere.",
 	"apihelp-query+checkuser-param-limit": "Ograničenje redova.",
 	"apihelp-query+checkuser-param-timecond": "Vremensko ograničenje za korisničke podatke (npr, \"-2 weeks\" ili \"2 weeks ago\").",
-	"apihelp-query+checkuser-param-xff": "Koristi XFF podatke umjesto IP adrese.",
-	"apihelp-query+checkuser-example-1": "Provjeri [[User:Example]] za IP adrese",
+	"apihelp-query+checkuser-param-xff": "Koristi XFF-podatke umjesto IP-adrese.",
+	"apihelp-query+checkuser-example-1": "Provjeri [[User:Example]] za IP-adrese",
 	"apihelp-query+checkuser-example-2": "Provjeri izmjene iz 192.0.2.0/24",
 	"apihelp-query+checkuserlog-description": "Daj stavke iz zapisnika CheckUser.",
 	"apihelp-query+checkuserlog-summary": "Daj stavke iz zapisnika CheckUser.",
 	"apihelp-query+checkuserlog-param-user": "Korisničko ime provjeritelja (CheckUser).",
-	"apihelp-query+checkuserlog-param-target": "Provjereni korisnik, IP adresa ili CIDR opseg.",
+	"apihelp-query+checkuserlog-param-target": "Provjereni korisnik, IP-adresa ili CIDR-raspon.",
+	"apihelp-query+checkuserlog-param-reason": "Naveden razlog za provjeru.",
 	"apihelp-query+checkuserlog-param-limit": "Ograničenje redova.",
 	"apihelp-query+checkuserlog-param-from": "Od kojeg datuma i vremena počinje brojanje.",
 	"apihelp-query+checkuserlog-param-to": "Na koji datum i vrijeme zaustaviti brojanje.",
@@ -26,5 +27,5 @@
 	"apierror-checkuser-missingsummary": "Morate navesti razlog za provjeru.",
 	"apierror-checkuser-timelimit": "Morat ćete upotrijebiti ispravno vremensko ograničenje (npr, \"-2 weeks\" ili \"2 weeks ago\").",
 	"apierror-checkuser-invalidmode": "Nevažeći način upita",
-	"checkuser-api-help-param-direction": "U kojem smjeru nabrajati:\n;never:Prvo najstarije. Napomena: $1from mora biti prije $1to.\n;older:Prvo najnovije (zadano). Napomena: $1from mora biti kasnije od $1to."
+	"checkuser-api-help-param-direction": "U kojem smjeru nabrajati:\n;never:Prvo najstarije. Napomena: $1from mora biti prije $1to.\n;older:Prvo najnovije (podrazumijevano). Napomena: $1from mora biti kasnije od $1to."
 }

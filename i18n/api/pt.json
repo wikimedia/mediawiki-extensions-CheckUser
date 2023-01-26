@@ -18,6 +18,7 @@
 	"apihelp-query+checkuserlog-summary": "Obter entradas do registo de verificação de utilizadores.",
 	"apihelp-query+checkuserlog-param-user": "Nome de utilizador do pedido de verificação de utilizadores.",
 	"apihelp-query+checkuserlog-param-target": "Utilizador verificado, endereço IP ou gama CIDR.",
+	"apihelp-query+checkuserlog-param-reason": "Motivo dado para a verificação.",
 	"apihelp-query+checkuserlog-param-limit": "Limite de linhas.",
 	"apihelp-query+checkuserlog-param-from": "A data e hora a partir da qual será começada a enumeração.",
 	"apihelp-query+checkuserlog-param-to": "A data e hora na qual será parada a enumeração.",

@@ -19,6 +19,7 @@
 	"apihelp-query+checkuserlog-summary": "Pridobi zapise iz dnevnika preverjanj uporabnikov.",
 	"apihelp-query+checkuserlog-param-user": "Uporabniško ime preverjevalca uporabnikov.",
 	"apihelp-query+checkuserlog-param-target": "Uporabniško ime, IP-naslov ali razpon CIDR.",
+	"apihelp-query+checkuserlog-param-reason": "Navedeni razlog za preverjanje.",
 	"apihelp-query+checkuserlog-param-limit": "Omejitev vrstic.",
 	"apihelp-query+checkuserlog-param-from": "Datum začetka izpisa.",
 	"apihelp-query+checkuserlog-param-to": "Datum konca izpisa.",

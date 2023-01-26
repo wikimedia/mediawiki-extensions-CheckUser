@@ -19,6 +19,7 @@
 	"apihelp-query+checkuserlog-summary": "Дај ставки од записникот на CheckUser.",
 	"apihelp-query+checkuserlog-param-user": "Корисничко име на проверувачот (CheckUser).",
 	"apihelp-query+checkuserlog-param-target": "Проверен корисник, IP-адреса или CIDR-опсег.",
+	"apihelp-query+checkuserlog-param-reason": "Наведена причина за проверката.",
 	"apihelp-query+checkuserlog-param-limit": "Ограничување на редовите.",
 	"apihelp-query+checkuserlog-param-from": "Од кој датум и време да почне набројувањето.",
 	"apihelp-query+checkuserlog-param-to": "На кој датум и време да запре набројувањето.",

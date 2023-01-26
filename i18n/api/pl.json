@@ -22,6 +22,7 @@
 	"apihelp-query+checkuserlog-summary": "Pobierz wypisy w rejestrze zapytań checkuser.",
 	"apihelp-query+checkuserlog-param-user": "Nazwa użytkownika sprawdzającego (checkusera)",
 	"apihelp-query+checkuserlog-param-target": "Nazwa użytkownika sprawdzanego, adres IP lub ich zakres.",
+	"apihelp-query+checkuserlog-param-reason": "Podany powód sprawdzenia.",
 	"apihelp-query+checkuserlog-param-limit": "Limit liczby zwracanych wierszy.",
 	"apihelp-query+checkuserlog-param-from": "Znacznik czasu dla najstarszych zwracanych wpisów",
 	"apihelp-query+checkuserlog-param-to": "Znacznik czasu, na którym zakończyć wpisywanie danych z rejestru",
