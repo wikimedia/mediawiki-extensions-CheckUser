@@ -15,6 +15,7 @@ use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
 use MediaWiki\CheckUser\CheckUserLogService;
+use MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilderFactory;
 use MediaWiki\CheckUser\CheckUserUtilityService;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
@@ -79,6 +80,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	 * @param CheckUserLogService $checkUserLogService
 	 * @param UserEditTracker $userEditTracker
 	 * @param CheckUserUtilityService $checkUserUtilityService
+	 * @param CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory
 	 * @param IContextSource|null $context
 	 * @param LinkRenderer|null $linkRenderer
 	 * @param ?int $limit
@@ -101,6 +103,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		CheckUserLogService $checkUserLogService,
 		UserEditTracker $userEditTracker,
 		CheckUserUtilityService $checkUserUtilityService,
+		CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory,
 		IContextSource $context = null,
 		LinkRenderer $linkRenderer = null,
 		?int $limit = null
@@ -108,7 +111,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager,
 			$userGroupManager, $centralIdLookup, $loadBalancer, $specialPageFactory,
 			$userIdentityLookup, $actorMigration, $checkUserLogService, $userFactory,
-			$context, $linkRenderer, $limit );
+			$checkUserUnionSelectQueryBuilderFactory, $context, $linkRenderer, $limit );
 		$this->checkType = SpecialCheckUser::SUBTYPE_GET_USERS;
 		$this->xfor = $xfor;
 		$this->canPerformBlocks = $permissionManager->userHasRight( $this->getUser(), 'block' )

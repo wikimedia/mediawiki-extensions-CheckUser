@@ -12,6 +12,7 @@ use Linker;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\CheckUserLogService;
+use MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilderFactory;
 use MediaWiki\CheckUser\CheckUserUtilityService;
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\TokenQueryManager;
@@ -99,6 +100,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	 * @param HookRunner $hookRunner
 	 * @param CheckUserUtilityService $checkUserUtilityService
 	 * @param CommentStore $commentStore
+	 * @param CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory
 	 * @param IContextSource|null $context
 	 * @param LinkRenderer|null $linkRenderer
 	 * @param ?int $limit
@@ -124,6 +126,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		HookRunner $hookRunner,
 		CheckUserUtilityService $checkUserUtilityService,
 		CommentStore $commentStore,
+		CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory,
 		IContextSource $context = null,
 		LinkRenderer $linkRenderer = null,
 		?int $limit = null
@@ -131,7 +134,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager,
 			$userGroupManager, $centralIdLookup, $loadBalancer, $specialPageFactory,
 			$userIdentityLookup, $actorMigration, $checkUserLogService, $userFactory,
-			$context, $linkRenderer, $limit );
+			$checkUserUnionSelectQueryBuilderFactory, $context, $linkRenderer, $limit );
 		$this->checkType = SpecialCheckUser::SUBTYPE_GET_EDITS;
 		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
 		$this->xfor = $xfor;
