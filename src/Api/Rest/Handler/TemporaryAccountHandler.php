@@ -20,22 +20,32 @@ class TemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 			$limit = $configLimit;
 		}
 
-		$ips = $this->loadBalancer->getConnection( DB_REPLICA )
+		$result = $this->loadBalancer->getConnection( DB_REPLICA )
 			->newSelectQueryBuilder()
-			->select( 'cuc_ip' )
+			// T327906: 'cuc_actor' and 'cuc_timestamp' are selected
+			// only to satisfy Postgres requirement where all ORDER BY
+			// fields must be present in SELECT list.
+			->select( [ 'cuc_ip', 'cuc_actor', 'cuc_timestamp' ] )
 			->from( 'cu_changes' )
 			->where( [
 				'cuc_actor' => $actorId
 			] )
 			->limit( $limit )
-			->distinct()
 			// cuc_actor_ip_time index
 			->orderby(
 				[ 'cuc_actor', 'cuc_ip', 'cuc_timestamp' ],
 				SelectQueryBuilder::SORT_DESC
 			)
 			->caller( __METHOD__ )
-			->fetchFieldValues();
+			->fetchResultSet();
+
+		$ips = [];
+
+		foreach ( $result as $row ) {
+			$ips[] = $row->cuc_ip;
+		}
+
+		$ips = array_unique( $ips );
 
 		return [ 'ips' => $ips ];
 	}
