@@ -18,6 +18,7 @@
 	"apihelp-query+checkuserlog-summary": "Obtener entratas ab le registro CheckUser.",
 	"apihelp-query+checkuserlog-param-user": "Nomine del usator con le derecto CheckUser.",
 	"apihelp-query+checkuserlog-param-target": "Le usator, adresse IP o intervallo CIDR verificate.",
+	"apihelp-query+checkuserlog-param-reason": "Motivo date pro le verification.",
 	"apihelp-query+checkuserlog-param-limit": "Limite de lineas.",
 	"apihelp-query+checkuserlog-param-from": "Le data e hora al qual comenciar a enumerar.",
 	"apihelp-query+checkuserlog-param-to": "Le data e hora al qual cessar de enumerar.",
