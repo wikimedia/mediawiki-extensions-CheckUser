@@ -475,6 +475,8 @@ class Hooks implements
 		$row['cuc_xff'] = $contLang->truncateForDatabase( $row['cuc_xff'], self::TEXT_FIELD_LENGTH );
 
 		$actorMigrationStage = $services->getMainConfig()->get( 'CheckUserActorMigrationStage' );
+		$commentMigrationStage = $services->getMainConfig()->get( 'CheckUserCommentMigrationStage' );
+
 		if ( !( $actorMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) ) {
 			unset( $row['cuc_user'] );
 			unset( $row['cuc_user_text'] );
@@ -494,7 +496,11 @@ class Hooks implements
 			);
 		}
 
-		$row['cuc_comment'] = $contLang->truncateForDatabase( $row['cuc_comment'], self::TEXT_FIELD_LENGTH );
+		if ( $commentMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
+			$row['cuc_comment'] = $contLang->truncateForDatabase( $row['cuc_comment'], self::TEXT_FIELD_LENGTH );
+		} else {
+			unset( $row['cuc_comment'] );
+		}
 
 		$dbw->insert( 'cu_changes', $row, $method );
 	}

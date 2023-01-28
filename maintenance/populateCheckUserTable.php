@@ -142,9 +142,6 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 						'cuc_timestamp' => $row->rc_timestamp,
 						'cuc_namespace' => $row->rc_namespace,
 						'cuc_title' => $row->rc_title,
-						'cuc_comment' => $contLang->truncateForDatabase(
-							$comment->text, Hooks::TEXT_FIELD_LENGTH
-						),
 						'cuc_minor' => $row->rc_minor,
 						'cuc_page_id' => $row->rc_cur_id,
 						'cuc_this_oldid' => $row->rc_this_oldid,
@@ -162,6 +159,11 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 						$entry['cuc_actor'] = $row->rc_actor;
 					}
 
+					if ( $commentMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
+						$entry['cuc_comment'] = $contLang->truncateForDatabase(
+							$comment->text, Hooks::TEXT_FIELD_LENGTH
+						);
+					}
 					if ( $commentMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
 						$entry['cuc_comment_id'] = $comment->id;
 					}
