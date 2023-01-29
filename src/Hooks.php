@@ -1061,6 +1061,11 @@ class Hooks implements
 			'cul_user',
 			"$base/$dbType/patch-cu_log-drop-cul_user.sql"
 		);
+		$updater->modifyExtensionField(
+			'cu_log',
+			'cul_reason',
+			"$base/$dbType/patch-cu_log-change-reason_default.sql"
+		);
 
 		$updater->addPostDatabaseUpdateMaintenance( PopulateCucActor::class );
 		$updater->addPostDatabaseUpdateMaintenance( PopulateCucComment::class );
