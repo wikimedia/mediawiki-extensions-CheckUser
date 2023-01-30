@@ -1239,6 +1239,9 @@ class Hooks implements
 				'uniqueKey'    => 'cuc_id'
 			];
 		}
+
+		$renameUserSQL->tables['cu_log'] = [ 'cul_target_text', 'cul_target_id' ];
+
 		return true;
 	}
 
