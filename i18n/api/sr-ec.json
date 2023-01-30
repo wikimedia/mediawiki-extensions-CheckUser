@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Milicevic01"
+		]
+	},
+	"apihelp-query+checkuserlog-param-reason": "Разлог за ову проверу."
+}

@@ -4,7 +4,8 @@
 			"Eitvys200",
 			"Homo",
 			"Mantak111",
-			"Matasg"
+			"Matasg",
+			"Zygimantus"
 		]
 	},
 	"checkuser-desc": "Suteikia naudotojams, turintiems atitinkamas teises, galimybę patikrinti naudotojo IP adresus ir kitą informaciją",
@@ -60,5 +61,8 @@
 	"checkuser-create-action": "buvo sukurta",
 	"checkuser-email-action": "siųsti el. laišką naudotojui \"$1\"",
 	"checkuser-reset-action": "iš naujo nustatyti slaptažodį naudotojui \"$1\"",
-	"checkuser-token-fail": "Sesijos klaida. Prašome bandyti dar kartą."
+	"checkuser-token-fail": "Sesijos klaida. Prašome bandyti dar kartą.",
+	"checkuser-helper-copy-success": "Nukopijuota",
+	"checkuser-helper-copy-failed": "Nepavyko nukopijuoti",
+	"checkuser-helper-user": "Naudotojas"
 }

@@ -117,6 +117,8 @@
 	"checkuser-token-fail": "Сеанс прерван. Пожалуйста, попробуйте ещё раз.",
 	"checkuser-login-failure": "Не удалось войти в {{SITENAME}} в качестве $1",
 	"checkuser-login-success": "Успешно вошёл в систему {{SITENAME}} как $1",
+	"checkuser-helper-copy-success": "Скопировано",
+	"checkuser-helper-user": "Участник",
 	"checkuser-link-investigate-label": "Попробовать новый инструмент CheckUser",
 	"checkuser-investigateblock": "Заблокированные участники",
 	"checkuser-investigateblock-target": "Имена участников или IP-адреса",

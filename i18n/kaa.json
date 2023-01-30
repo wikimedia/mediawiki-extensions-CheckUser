@@ -8,5 +8,6 @@
 	"group-checkuser": "Paydalanıwshılardı tekseriwshiler",
 	"checkuser-month": "sońǵı 30 kúnde",
 	"checkuser-centralauth-multilock-list-item": "Silteme $1",
-	"checkuser-login-failure-with-good-password": "{{SITENAME}} saytına $1 retinde kirip bolmadı, lekin parol tuwrı edi"
+	"checkuser-login-failure-with-good-password": "{{SITENAME}} saytına $1 retinde kirip bolmadı, lekin parol tuwrı edi",
+	"checkuser-helper-user": "Paydalanıwshı"
 }
