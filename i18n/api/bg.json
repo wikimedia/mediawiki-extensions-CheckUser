@@ -26,5 +26,6 @@
 	"apihelp-query+checkuserlog-example-2": "Показва проверки на 192.0.2.0/24 след 2011-10-15T23:00:00Z",
 	"apierror-checkuser-missingsummary": "Трябва да укажете причина за проверка.",
 	"apierror-checkuser-timelimit": "Трябва да използвате правилно ограничение по врене (напр. „-2 weeks“ или „2 weeks ago“).",
-	"apierror-checkuser-invalidmode": "Невалиден режим на заявката"
+	"apierror-checkuser-invalidmode": "Невалиден режим на заявката",
+	"checkuser-api-help-param-direction": "В каква посока да се изброяват:\n;newer:Първо на най-старите. Забележка: $1from трябва да е преди $1to.\n;older:Първо на най-новите (по подразбиране). Забележка: $1from трябва да е по-късна от $1to."
 }
