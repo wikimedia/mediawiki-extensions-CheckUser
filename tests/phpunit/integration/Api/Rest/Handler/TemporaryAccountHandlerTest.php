@@ -74,6 +74,8 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		$authority = $this->createMock( Authority::class );
 		$authority->method( 'getUser' )
 			->willReturn( $options['user'] ?? $user );
+		$authority->method( 'isNamed' )
+			->willReturn( true );
 		$authority->method( 'getBlock' )
 			->willReturn( null );
 
@@ -153,7 +155,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * @dataProvider provideExecutePermissionErrorsNoRight
 	 */
-	public function testExecutePermissionErrorsNoRight( bool $registered, array $expected ) {
+	public function testExecutePermissionErrorsNoRight( bool $named, array $expected ) {
 		$handler = $this->getTemporaryAccountHandler( [
 			'permissionManager' => MediaWikiServices::getInstance()->getPermissionManager()
 		] );
@@ -161,8 +163,8 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		$user = $this->getTestUser()->getUser();
 
 		$authority = $this->createMock( Authority::class );
-		$authority->method( 'isRegistered' )
-			->willReturn( $registered );
+		$authority->method( 'isNamed' )
+			->willReturn( $named );
 		$authority->method( 'getUser' )
 			->willReturn( $user );
 
@@ -189,13 +191,13 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 
 	public function provideExecutePermissionErrorsNoRight() {
 		return [
-			'Unregistered user' => [
+			'Anon or temporary user' => [
 				false,
 				[
 					'code' => 401
 				]
 			],
-			'Registered user' => [
+			'Registered (named) user' => [
 				true,
 				[
 					'code' => 403
@@ -212,7 +214,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		$user = $this->getTestUser()->getUser();
 
 		$authority = $this->createMock( Authority::class );
-		$authority->method( 'isRegistered' )
+		$authority->method( 'isNamed' )
 			->willReturn( true );
 		$authority->method( 'getUser' )
 			->willReturn( $user );
@@ -240,6 +242,8 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 
 	public function testExecutePermissionErrorsBlocked() {
 		$authority = $this->createMock( Authority::class );
+		$authority->method( 'isNamed' )
+			->willReturn( true );
 		$authority->method( 'getBlock' )
 			->willReturn( $this->createMock( Block::class ) );
 
@@ -272,18 +276,28 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			'userNameUtils' => MediaWikiServices::getInstance()->getUserNameUtils()
 		] );
 
-		$exception = $this->executeHandlerAndGetHttpException(
-			$handler,
-			$this->getRequestData( [ 'name' => $name ] )
+		$authority = $this->createMock( Authority::class );
+		$authority->method( 'isNamed' )
+			->willReturn( true );
+
+		$this->expectExceptionObject(
+			new LocalizedHttpException(
+				new MessageValue(
+					'rest-invalid-user'
+				),
+				404
+			)
 		);
 
-		$this->assertSame(
-			'rest-invalid-user',
-			$exception->getMessageValue()->getKey()
-		);
-		$this->assertSame(
-			404,
-			$exception->getCode()
+		// Can't use executeHandlerAndGetHttpException, since it doesn't take an Authority
+		$response = $this->executeHandler(
+			$handler,
+			$this->getRequestData( [ 'name' => $name ] ),
+			[],
+			[],
+			[],
+			[],
+			$authority
 		);
 	}
 
@@ -300,18 +314,28 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			'actorStore' => $actorStore,
 		] );
 
-		$exception = $this->executeHandlerAndGetHttpException(
-			$handler,
-			$this->getRequestData( [ 'name' => '*Unregistered 9999' ] )
+		$authority = $this->createMock( Authority::class );
+		$authority->method( 'isNamed' )
+			->willReturn( true );
+
+		$this->expectExceptionObject(
+			new LocalizedHttpException(
+				new MessageValue(
+					'rest-nonexistent-user'
+				),
+				404
+			)
 		);
 
-		$this->assertSame(
-			'rest-nonexistent-user',
-			$exception->getMessageValue()->getKey()
-		);
-		$this->assertSame(
-			404,
-			$exception->getCode()
+		// Can't use executeHandlerAndGetHttpException, since it doesn't take an Authority
+		$response = $this->executeHandler(
+			$handler,
+			$this->getRequestData( [ 'name' => '*Unregistered 9999' ] ),
+			[],
+			[],
+			[],
+			[],
+			$authority
 		);
 	}
 
