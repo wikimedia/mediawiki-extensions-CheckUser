@@ -9,5 +9,7 @@
 		require( './checkuser/checkUserHelper.js' );
 	} else if ( mw.config.get( 'wgCanonicalSpecialPageName' ) === 'CheckUserLog' ) {
 		require( './checkuserlog/highlightScroll.js' );
+	} else {
+		require( './temporaryaccount/init.js' );
 	}
 }() );
