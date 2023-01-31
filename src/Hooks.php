@@ -1004,9 +1004,6 @@ class Hooks implements
 				[ 'changeNullableField', 'cu_log', 'cul_user', 'NOT NULL', true ]
 			);
 			$updater->addExtensionUpdate(
-				[ 'dropDefault', 'cu_log', 'cul_reason' ]
-			);
-			$updater->addExtensionUpdate(
 				[ 'dropDefault', 'cu_log', 'cul_type' ]
 			);
 			$updater->addExtensionUpdate(
