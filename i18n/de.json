@@ -211,5 +211,7 @@
 	"checkuser-investigate-tour-copywikitext-title": "Daten kopieren?",
 	"checkuser-investigate-tour-copywikitext-desc": "Kopiere die Vergleichstabelle mit einem Klick und bringe sie in das CU-Wiki. Beachte, dass du nur das kopierst, was sichtbar ist, und nicht alle Seiten der Untersuchung.",
 	"prefs-checkuser-tempaccount": "Anzeige der IP-Adressen für temporäre Konten",
-	"checkuser-tempaccount-enable-preference": "IP-Adressen für temporäre Konten anzeigen"
+	"checkuser-tempaccount-enable-preference": "IP-Adressen für temporäre Konten anzeigen",
+	"checkuser-tempaccount-reveal-ip-button-label": "IP-Adresse anzeigen",
+	"checkuser-tempaccount-reveal-ip-missing": "nicht verfügbar"
 }

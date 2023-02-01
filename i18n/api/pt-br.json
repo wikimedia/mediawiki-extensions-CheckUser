@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Araceletorres",
+			"Eduardoaddad",
 			"Felipe L. Ewald",
 			"Macofe"
 		]
@@ -20,6 +21,7 @@
 	"apihelp-query+checkuserlog-summary": "Obter entradas do registro do CheckUser.",
 	"apihelp-query+checkuserlog-param-user": "Nome de usuário do CheckUser.",
 	"apihelp-query+checkuserlog-param-target": "Usuário verificado, endereço IP ou intervalo CIDR.",
+	"apihelp-query+checkuserlog-param-reason": "Motivo dado para a verificação.",
 	"apihelp-query+checkuserlog-param-limit": "Limite de linhas.",
 	"apihelp-query+checkuserlog-param-from": "O timestamp para começar a enumeração.",
 	"apihelp-query+checkuserlog-param-to": "O selo do tempo para finalizar a enumeração.",

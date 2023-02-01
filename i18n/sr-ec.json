@@ -156,5 +156,7 @@
 	"checkuser-investigate-compare-table-button-contribs-label": "Доприноси",
 	"checkuser-investigate-compare-table-header-username": "Корисничко име",
 	"checkuser-investigate-compare-table-header-activity": "Временски опсег",
-	"checkuser-investigate-tour-block-title": "Блокирање?"
+	"checkuser-investigate-tour-block-title": "Блокирање?",
+	"checkuser-tempaccount-reveal-ip-button-label": "Прикажи IP",
+	"checkuser-tempaccount-reveal-ip-missing": "недоступно"
 }

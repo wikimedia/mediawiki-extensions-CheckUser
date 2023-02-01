@@ -104,6 +104,8 @@
 	"checkuser-search-submit": "Pesquisar",
 	"checkuser-log-search-target": "Destinatário:",
 	"checkuser-log-search-initiator": "Iniciador:",
+	"checkuser-log-search-reason": "Motivo:",
+	"checkuser-log-search-reason-help": "Filtrar as entradas de registo que têm este motivo.",
 	"checkuser-ipeditcount": "~$1 de todos os usuários",
 	"checkuser-showmain": "Retornar ao formulário principal de CheckUser",
 	"checkuser-show-investigate": "Mudar para o formulário principal de investigação",
@@ -221,5 +223,7 @@
 	"checkuser-investigate-tour-copywikitext-title": "Deseja copiar os dados?",
 	"checkuser-investigate-tour-copywikitext-desc": "Copie a tabela de comparação com um clique e leve-a para o CUWiki. Observe que você está apenas copiando o que é visível e não todas as páginas da investigação.",
 	"prefs-checkuser-tempaccount": "Revelação de IP de contas temporárias",
-	"checkuser-tempaccount-enable-preference": "Ativar a revelação dos endereços de IP de contas temporárias"
+	"checkuser-tempaccount-enable-preference": "Ativar a revelação dos endereços de IP de contas temporárias",
+	"checkuser-tempaccount-reveal-ip-button-label": "Mostrar IP",
+	"checkuser-tempaccount-reveal-ip-missing": "indisponível"
 }

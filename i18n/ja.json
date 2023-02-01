@@ -33,6 +33,7 @@
 			"Whym",
 			"Yusuke1109",
 			"バレロン",
+			"背番号4のエース",
 			"青子守歌"
 		]
 	},
@@ -213,5 +214,7 @@
 	"checkuser-investigate-tour-block-title": "ブロックしたいですか?",
 	"checkuser-investigate-tour-block-desc": "ブロックしたい利用者を選択し、ブロック画面に移動して適切な設定を行うことができます。",
 	"checkuser-investigate-tour-copywikitext-title": "データをコピーするには?",
-	"checkuser-investigate-tour-copywikitext-desc": "この表をウィキ文法の表としてコピーし、CUWikiに取り込みます。コピーするのは現在表示されているもののみであり、調査の全ページをコピーするわけではないことに注意してください。"
+	"checkuser-investigate-tour-copywikitext-desc": "この表をウィキ文法の表としてコピーし、CUWikiに取り込みます。コピーするのは現在表示されているもののみであり、調査の全ページをコピーするわけではないことに注意してください。",
+	"checkuser-tempaccount-reveal-ip-button-label": "IPを表示",
+	"checkuser-tempaccount-reveal-ip-missing": "利用可能"
 }

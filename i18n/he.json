@@ -86,7 +86,7 @@
 	"checkuser-log-search-target": "יעד:",
 	"checkuser-log-search-initiator": "יוזם הבדיקה:",
 	"checkuser-log-search-reason": "סיבה:",
-	"checkuser-log-search-reason-help": "לסנן לחיפוש רשומות יומן עם הסיבה הזאת.",
+	"checkuser-log-search-reason-help": "סינון פריטי יומן עם הסיבה הזאת.",
 	"checkuser-ipeditcount": "בערך $1 מכל המשתמשים",
 	"checkuser-showmain": "מעבר לטופס הבדיקה הראשי",
 	"checkuser-show-investigate": "מעבר לטופס חקירה הראשי",
@@ -205,5 +205,7 @@
 	"checkuser-investigate-tour-copywikitext-title": "רוצה להעתיק את הנתונים?",
 	"checkuser-investigate-tour-copywikitext-desc": "{{GENDER:|העתק|העתיקי|נא להעתיק}} את טבלת ההשוואה בלחיצה אחת {{GENDER:|וקח|וקחי|ולקחת}} אותה ל־CUWiki. {{GENDER:|שים לב שאתה מעתיק|שימי לב שאת מעתיקה|נא לשים לב לכך שהעתקת}} רק את מה שמוצג ולא את כל דפי החקירה.",
 	"prefs-checkuser-tempaccount": "חשיפת IP זמני של חשבון",
-	"checkuser-tempaccount-enable-preference": "להפעיל חשיפת כתובות IP עבור חשבונות זמניים"
+	"checkuser-tempaccount-enable-preference": "להפעיל חשיפת כתובות IP עבור חשבונות זמניים",
+	"checkuser-tempaccount-reveal-ip-button-label": "הצגת IP",
+	"checkuser-tempaccount-reveal-ip-missing": "לא זמינה"
 }

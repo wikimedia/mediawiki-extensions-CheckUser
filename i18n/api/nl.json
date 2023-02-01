@@ -3,6 +3,7 @@
 		"authors": [
 			"HanV",
 			"Mainframe98",
+			"McDutchie",
 			"Siebrand",
 			"Sjoerddebruin"
 		]
@@ -21,6 +22,7 @@
 	"apihelp-query+checkuserlog-summary": "Regels uit het CheckUserlogboek ophalen.",
 	"apihelp-query+checkuserlog-param-user": "Naam van de gebruiker met CheckUserrechten.",
 	"apihelp-query+checkuserlog-param-target": "Gebruiker, IP-adres of CIDR-range gecontroleerd.",
+	"apihelp-query+checkuserlog-param-reason": "De voor de controle opgegeven reden.",
 	"apihelp-query+checkuserlog-param-limit": "Limiet voor rijen.",
 	"apihelp-query+checkuserlog-param-from": "Het tijdstip waar de opsomming begint.",
 	"apihelp-query+checkuserlog-param-to": "Het tijdstip waar de opsomming eindigt.",
