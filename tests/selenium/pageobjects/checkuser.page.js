@@ -11,8 +11,8 @@ class CheckUserPage extends Page {
 	get checkUserSubmit() { return $( '#checkusersubmit button' ); }
 	get checkUserResults() { return $( '#checkuserresults' ); }
 
-	open() {
-		super.openTitle( 'Special:CheckUser' );
+	async open() {
+		await super.openTitle( 'Special:CheckUser' );
 	}
 }
 
