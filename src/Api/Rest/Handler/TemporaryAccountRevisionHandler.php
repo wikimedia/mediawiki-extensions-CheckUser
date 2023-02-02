@@ -18,7 +18,10 @@ class TemporaryAccountRevisionHandler extends AbstractTemporaryAccountHandler {
 
 		$rows = $this->loadBalancer->getConnection( DB_REPLICA )
 			->newSelectQueryBuilder()
-			->select( [ 'cuc_this_oldid', 'cuc_ip' ] )
+			// T327906: 'cuc_actor' and 'cuc_timestamp' are selected
+			// only to satisfy Postgres requirement where all ORDER BY
+			// fields must be present in SELECT list.
+			->select( [ 'cuc_this_oldid', 'cuc_ip','cuc_actor', 'cuc_timestamp' ] )
 			->from( 'cu_changes' )
 			->where( $conds )
 			->orderBy( [ 'cuc_actor', 'cuc_ip', 'cuc_timestamp' ] )
