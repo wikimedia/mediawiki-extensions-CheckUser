@@ -28,7 +28,11 @@
 				"name": "cul_reason",
 				"comment": "Reason given",
 				"type": "binary",
-				"options": { "notnull": true, "length": 255 }
+				"options": {
+					"notnull": true,
+					"length": 255,
+					"default": ""
+				}
 			},
 			{
 				"name": "cul_reason_id",
@@ -139,16 +143,6 @@
 					"unsigned": true,
 					"notnull": true,
 					"default": 0
-				}
-			},
-			{
-				"name": "cul_reason",
-				"comment": "Reason given",
-				"type": "binary",
-				"options": {
-					"notnull": true,
-					"length": 255,
-					"default": ""
 				}
 			},
 			{

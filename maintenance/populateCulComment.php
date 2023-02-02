@@ -23,6 +23,7 @@ namespace MediaWiki\CheckUser\Maintenance;
 use LoggedUpdateMaintenance;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\MediaWikiServices;
+use Wikimedia\Services\NoSuchServiceException;
 
 $IP = getenv( 'MW_INSTALL_PATH' );
 if ( $IP === false ) {
@@ -63,8 +64,19 @@ class PopulateCulComment extends LoggedUpdateMaintenance {
 	protected function doDBUpdates() {
 		$services = MediaWikiServices::getInstance();
 		$commentStore = $services->getCommentStore();
-		/** @var CheckUserLogService $checkUserLogService */
-		$checkUserLogService = $services->get( 'CheckUserLogService' );
+		try {
+			/** @var CheckUserLogService $checkUserLogService */
+			$checkUserLogService = $services->get( 'CheckUserLogService' );
+		} catch ( NoSuchServiceException $ex ) {
+			# CheckUser ServiceWiring files may not loaded until
+			#  postDatabaseUpdateMaintenance is run.
+			# If this is the case, manually get the service.
+			$checkUserLogService = new CheckUserLogService(
+				$services->getDBLoadBalancer(),
+				$services->getCommentStore(),
+				$services->getCommentFormatter()
+			);
+		}
 		$mainLb = $services->getDBLoadBalancerFactory()->getMainLB();
 		$dbr = $mainLb->getConnectionRef( DB_REPLICA, 'vslow' );
 		$dbw = $mainLb->getConnectionRef( DB_PRIMARY );

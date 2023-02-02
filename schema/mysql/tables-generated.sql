@@ -84,7 +84,6 @@ CREATE TABLE /*_*/cu_log (
   cul_id INT UNSIGNED AUTO_INCREMENT NOT NULL,
   cul_timestamp BINARY(14) NOT NULL,
   cul_actor BIGINT UNSIGNED NOT NULL,
-  cul_reason VARBINARY(255) DEFAULT '' NOT NULL,
   cul_reason_id BIGINT UNSIGNED DEFAULT 0 NOT NULL,
   cul_reason_plaintext_id BIGINT UNSIGNED DEFAULT 0 NOT NULL,
   cul_type VARBINARY(30) NOT NULL,

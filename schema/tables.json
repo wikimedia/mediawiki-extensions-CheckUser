@@ -383,18 +383,8 @@
 				}
 			},
 			{
-				"name": "cul_reason",
-				"comment": "Reason given",
-				"type": "binary",
-				"options": {
-					"notnull": true,
-					"length": 255,
-					"default": ""
-				}
-			},
-			{
 				"name": "cul_reason_id",
-				"comment": "Reason for the check stored as a comment_id. Default of 0 is used to indicate using cul_reason.",
+				"comment": "Reason for the check stored as a comment_id.",
 				"type": "bigint",
 				"options": {
 					"unsigned": true,
@@ -404,7 +394,7 @@
 			},
 			{
 				"name": "cul_reason_plaintext_id",
-				"comment": "Reason for the check with wikitext removed stored as a comment_id. Default of 0 is used to indicate using cul_reason.",
+				"comment": "Reason for the check with wikitext removed stored as a comment_id.",
 				"type": "bigint",
 				"options": {
 					"unsigned": true,

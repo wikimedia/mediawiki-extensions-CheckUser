@@ -1034,6 +1034,11 @@ class Hooks implements
 			PopulateCulActor::class,
 			'extensions/CheckUser/maintenance/populateCulActor.php'
 		] );
+		$updater->addExtensionUpdate( [
+			'runMaintenance',
+			PopulateCulComment::class,
+			'extensions/CheckUser/maintenance/populateCulComment.php'
+		] );
 
 		// 1.40
 		$updater->addExtensionTable(
@@ -1052,7 +1057,7 @@ class Hooks implements
 		$updater->modifyExtensionField(
 			'cu_log',
 			'cul_reason',
-			"$base/$dbType/patch-cu_log-change-reason_default.sql"
+			"$base/$dbType/patch-cu_log-drop-cul_reason.sql"
 		);
 		$updater->modifyExtensionField(
 			'cu_log',
@@ -1062,7 +1067,6 @@ class Hooks implements
 
 		$updater->addPostDatabaseUpdateMaintenance( PopulateCucActor::class );
 		$updater->addPostDatabaseUpdateMaintenance( PopulateCucComment::class );
-		$updater->addPostDatabaseUpdateMaintenance( PopulateCulComment::class );
 
 		if ( !$isCUInstalled ) {
 			// First time so populate cu_changes with recentchanges data.
