@@ -328,14 +328,6 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
 		$commentQuery = CheckUserCommentStore::getStore()->getJoin( 'cuc_comment' );
 
-		if ( $this->getConfig()->get( 'CheckUserActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
-			$index = 'cuc_actor_ip_time';
-			$cond_field = 'actor_user';
-		} else {
-			$index = 'cuc_user_ip_time';
-			$cond_field = 'cuc_user';
-		}
-
 		$queryInfo = [
 			'fields' => [
 				'cuc_namespace', 'cuc_title', 'cuc_actiontext', 'cuc_timestamp', 'cuc_minor',
@@ -348,8 +340,8 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 			'options' => [],
 		];
 		if ( $this->xfor === null ) {
-			$queryInfo['conds'][$cond_field] = $this->target->getId();
-			$queryInfo['options']['USE INDEX'] = [ 'cu_changes' => $index ];
+			$queryInfo['conds']['actor_user'] = $this->target->getId();
+			$queryInfo['options']['USE INDEX'] = [ 'cu_changes' => 'cuc_actor_ip_time' ];
 		} else {
 			$queryInfo['options']['USE INDEX'] = [
 				'cu_changes' => $this->xfor ? 'cuc_xff_hex_time' : 'cuc_ip_hex_time'

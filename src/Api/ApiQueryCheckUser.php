@@ -87,12 +87,6 @@ class ApiQueryCheckUser extends ApiQueryBase {
 		$this->addWhere( "cuc_timestamp > " . $dbr->addQuotes( $dbr->timestamp( $timeCutoff ) ) );
 		$this->addJoinConds( $actorQuery['joins'] );
 
-		if ( $this->getConfig()->get( 'CheckUserActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
-			$cond_field = 'actor_user';
-		} else {
-			$cond_field = 'cuc_user';
-		}
-
 		switch ( $request ) {
 			case 'userips':
 				$userIdentity = $this->userIdentityLookup->getUserIdentityByName( $target );
@@ -105,7 +99,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				}
 
 				$this->addFields( [ 'cuc_timestamp', 'cuc_ip', 'cuc_xff' ] );
-				$this->addWhereFld( $cond_field, $user_id );
+				$this->addWhereFld( 'actor_user', $user_id );
 				$res = $this->select( __METHOD__ );
 				$result = $this->getResult();
 
@@ -162,7 +156,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 							[ 'nosuchusershort', wfEscapeWikiText( $target ) ], 'nosuchuser'
 						);
 					}
-					$this->addWhereFld( $cond_field, $user_id );
+					$this->addWhereFld( 'actor_user', $user_id );
 					$log_type = [ 'useredits', 'user' ];
 				}
 

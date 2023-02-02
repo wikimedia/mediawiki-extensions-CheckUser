@@ -42,7 +42,7 @@ return [
 		MediaWikiServices $services
 	): CheckUserActorMigration {
 		return new CheckUserActorMigration(
-			$services->getMainConfig()->get( 'CheckUserActorMigrationStage' ),
+			SCHEMA_COMPAT_NEW,
 			$services->getActorStoreFactory()
 		);
 	},

@@ -6,7 +6,6 @@ use IDatabase;
 use LogicException;
 use MediaWiki\CheckUser\CheckUserActorMigration;
 use MediaWiki\Config\ServiceOptions;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\Rdbms\ILoadBalancer;
 use Wikimedia\Rdbms\SelectQueryBuilder;
@@ -74,17 +73,8 @@ class CompareService extends ChangeService {
 			->caller( __METHOD__ );
 
 		if ( $excludeUser ) {
-			if ( MediaWikiServices::getInstance()
-				->getMainConfig()
-				->get( 'CheckUserActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW
-			) {
-				$cond_field = 'actor_name';
-			} else {
-				$cond_field = 'cuc_user_text';
-			}
-
 			$queryBuilder->where(
-				$cond_field . ' != ' . $this->dbQuoter->addQuotes( $excludeUser )
+				'actor_name != ' . $this->dbQuoter->addQuotes( $excludeUser )
 			);
 		}
 

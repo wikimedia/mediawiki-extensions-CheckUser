@@ -236,8 +236,6 @@ class Hooks implements
 			'cuc_namespace'  => $attribs['rc_namespace'],
 			'cuc_title'      => $attribs['rc_title'],
 			'cuc_minor'      => $attribs['rc_minor'],
-			'cuc_user'       => $attribs['rc_user'],
-			'cuc_user_text'  => $attribs['rc_user_text'],
 			'cuc_actiontext' => $actionText,
 			'cuc_comment'    => $rc->getAttribute( 'rc_comment' ),
 			'cuc_this_oldid' => $attribs['rc_this_oldid'],
@@ -256,7 +254,7 @@ class Hooks implements
 		self::insertIntoCuChangesTable(
 			$rcRow,
 			__METHOD__,
-			new UserIdentityValue( $rcRow['cuc_user'], $rcRow['cuc_user_text'] ),
+			new UserIdentityValue( $attribs['rc_user'], $attribs['rc_user_text'] ),
 			$rc
 		);
 	}
@@ -408,7 +406,7 @@ class Hooks implements
 	/**
 	 * Inserts a row in cu_changes based on the provided $row.
 	 *
-	 * The $user parameter is used to generate the default value for cuc_actor, cuc_user and cuc_user_text.
+	 * The $user parameter is used to generate the default value for cuc_actor.
 	 *
 	 * @param array $row an array of cu_change table column names to their values. Overridable by a hook
 	 *  and for any necessary truncation.
@@ -447,8 +445,6 @@ class Hooks implements
 				'cuc_namespace'  => 0,
 				'cuc_minor'      => 0,
 				'cuc_title'      => '',
-				'cuc_user'       => $user->getId(),
-				'cuc_user_text'  => $user->getName(),
 				'cuc_actiontext' => '',
 				'cuc_comment'    => '',
 				'cuc_this_oldid' => 0,
@@ -474,14 +470,9 @@ class Hooks implements
 		);
 		$row['cuc_xff'] = $contLang->truncateForDatabase( $row['cuc_xff'], self::TEXT_FIELD_LENGTH );
 
-		$actorMigrationStage = $services->getMainConfig()->get( 'CheckUserActorMigrationStage' );
 		$commentMigrationStage = $services->getMainConfig()->get( 'CheckUserCommentMigrationStage' );
 
-		if ( !( $actorMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) ) {
-			unset( $row['cuc_user'] );
-			unset( $row['cuc_user_text'] );
-		}
-		if ( ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) && !isset( $row['cuc_actor'] ) ) {
+		if ( !isset( $row['cuc_actor'] ) ) {
 			$row['cuc_actor'] = $services->getActorStore()->acquireActorId(
 				$user,
 				$dbw
@@ -1157,16 +1148,10 @@ class Hooks implements
 
 		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
 
-		if ( $services->getMainConfig()->get( 'CheckUserActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
-			$cond_field = 'actor_user';
-		} else {
-			$cond_field = 'cuc_user';
-		}
-
 		$res = $dbr->newSelectQueryBuilder()
 			->tables( [ 'cu_changes' ] + $actorQuery['tables'] )
 			->field( 'cuc_ip' )
-			->conds( [ $cond_field => $user->getId( $block->getWikiId() ) ] )
+			->conds( [ 'actor_user' => $user->getId( $block->getWikiId() ) ] )
 			->joinConds( $actorQuery['joins'] )
 			// just the last IP used
 			->limit( 1 )
@@ -1194,27 +1179,18 @@ class Hooks implements
 	 * @return bool
 	 */
 	public static function onUserMergeAccountFields( array &$updateFields ) {
-		$actorMigrationStage = MediaWikiServices::getInstance()
-			->getMainConfig()
-			->get( 'CheckUserActorMigrationStage' );
-		if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$updateFields[] = [
-				'cu_changes',
-				'batch_key' => 'cuc_id',
-				'actorId' => 'cuc_actor',
-				'actorStage' => $actorMigrationStage
-			];
-		}
+		$updateFields[] = [
+			'cu_changes',
+			'batch_key' => 'cuc_id',
+			'actorId' => 'cuc_actor',
+			'actorStage' => SCHEMA_COMPAT_NEW
+		];
 		$updateFields[] = [
 			'cu_log',
 			'batch_key' => 'cul_id',
 			'actorId' => 'cul_actor',
 			'actorStage' => SCHEMA_COMPAT_NEW
 		];
-
-		if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
-			$updateFields[] = [ 'cu_changes', 'cuc_user', 'cuc_user_text' ];
-		}
 		$updateFields[] = [ 'cu_log', 'cul_target_id' ];
 
 		return true;
@@ -1227,21 +1203,7 @@ class Hooks implements
 	 * @return bool
 	 */
 	public static function onRenameUserSQL( RenameuserSQL $renameUserSQL ) {
-		$actorMigrationStage = MediaWikiServices::getInstance()
-			->getMainConfig()
-			->get( 'CheckUserActorMigrationStage' );
-
-		if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
-			$renameUserSQL->tablesJob['cu_changes'] = [
-				RenameuserSQL::NAME_COL => 'cuc_user_text',
-				RenameuserSQL::UID_COL  => 'cuc_user',
-				RenameuserSQL::TIME_COL => 'cuc_timestamp',
-				'uniqueKey'    => 'cuc_id'
-			];
-		}
-
 		$renameUserSQL->tables['cu_log'] = [ 'cul_target_text', 'cul_target_id' ];
-
 		return true;
 	}
 

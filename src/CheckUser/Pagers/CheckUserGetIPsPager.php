@@ -144,14 +144,6 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 		$this->mExtraSortFields = [ 'last' ];
 		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
 
-		if ( $this->getConfig()->get( 'CheckUserActorMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
-			$index = 'cuc_actor_ip_time';
-			$cond_field = 'actor_user';
-		} else {
-			$index = 'cuc_user_ip_time';
-			$cond_field = 'cuc_user';
-		}
-
 		return [
 			'fields' => [
 				'cuc_ip',
@@ -161,11 +153,11 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 				'last' => 'MAX(cuc_timestamp)',
 			],
 			'tables' => [ 'cu_changes' ] + $actorQuery['tables'],
-			'conds' => [ $cond_field => $this->target->getId() ],
+			'conds' => [ 'actor_user' => $this->target->getId() ],
 			'join_conds' => $actorQuery['joins'],
 			'options' => [
 				'GROUP BY' => [ 'cuc_ip', 'cuc_ip_hex' ],
-				'USE INDEX' => [ 'cu_changes' => $index ]
+				'USE INDEX' => [ 'cu_changes' => 'cuc_actor_ip_time' ]
 			],
 		];
 	}

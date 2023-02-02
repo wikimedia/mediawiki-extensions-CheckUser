@@ -86,7 +86,6 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 		$services = MediaWikiServices::getInstance();
 		$lbFactory = $services->getDBLoadBalancerFactory();
 
-		$actorMigrationStage = $services->getMainConfig()->get( 'CheckUserActorMigrationStage' );
 		$commentMigrationStage = $services->getMainConfig()->get( 'CheckUserCommentMigrationStage' );
 
 		$commentStore = $services->getCommentStore();
@@ -142,6 +141,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 						'cuc_timestamp' => $row->rc_timestamp,
 						'cuc_namespace' => $row->rc_namespace,
 						'cuc_title' => $row->rc_title,
+						'cuc_actor' => $row->rc_actor,
 						'cuc_minor' => $row->rc_minor,
 						'cuc_page_id' => $row->rc_cur_id,
 						'cuc_this_oldid' => $row->rc_this_oldid,
@@ -150,14 +150,6 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 						'cuc_ip' => $row->rc_ip,
 						'cuc_ip_hex' => IPUtils::toHex( $row->rc_ip ),
 					];
-
-					if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
-						$entry['cuc_user'] = $row->rc_user ?? 0;
-						$entry['cuc_user_text'] = $row->rc_user_text;
-					}
-					if ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-						$entry['cuc_actor'] = $row->rc_actor;
-					}
 
 					if ( $commentMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
 						$entry['cuc_comment'] = $contLang->truncateForDatabase(

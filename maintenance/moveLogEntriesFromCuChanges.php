@@ -5,7 +5,6 @@ namespace MediaWiki\CheckUser\Maintenance;
 use LogEntryBase;
 use LoggedUpdateMaintenance;
 use MediaWiki\MediaWikiServices;
-use MediaWiki\User\UserIdentityValue;
 
 $IP = getenv( 'MW_INSTALL_PATH' );
 if ( $IP === false ) {
@@ -83,10 +82,7 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 		);
 
 		$lbFactory = $services->getDBLoadBalancerFactory();
-
-		$actorMigrationStage = $services->getMainConfig()->get( 'CheckUserActorMigrationStage' );
 		$commentMigrationStage = $services->getMainConfig()->get( 'CheckUserCommentMigrationStage' );
-
 		$commentStore = $services->getCommentStore();
 
 		while ( $blockStart <= $end ) {
@@ -97,8 +93,6 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 					'cuc_id',
 					'cuc_namespace',
 					'cuc_title',
-					'cuc_user',
-					'cuc_user_text',
 					'cuc_actor',
 					'cuc_actiontext',
 					'cuc_comment',
@@ -124,6 +118,7 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 					'cupe_timestamp' => $row->cuc_timestamp,
 					'cupe_namespace' => $row->cuc_namespace,
 					'cupe_title' => $row->cuc_title,
+					'cupe_actor' => $row->cuc_actor,
 					'cupe_page' => $row->cuc_page_id,
 					'cupe_log_action' => 'migrated-cu_changes-log-event',
 					'cupe_log_type' => 'checkuser-private-event',
@@ -135,14 +130,6 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 					'cupe_agent' => $row->cuc_agent,
 					'cupe_private' => $row->cuc_private
 				];
-
-				if ( $actorMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
-					$entry['cupe_actor'] = $row->cuc_actor;
-				} else {
-					$entry['cupe_actor'] = $services->getActorStore()->acquireActorId(
-						new UserIdentityValue( $row->cuc_user ?? 0, $row->cuc_user_text ), $dbw
-					);
-				}
 
 				if ( $commentMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
 					$entry['cupe_comment_id'] = $row->cuc_comment_id;

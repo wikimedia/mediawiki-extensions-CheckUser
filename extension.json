@@ -82,9 +82,6 @@
 			"value": 86400,
 			"description": "Number of seconds for which the temporary account API response is fresh"
 		},
-		"CheckUserActorMigrationStage": {
-			"value": 769
-		},
 		"CheckUserCommentMigrationStage": {
 			"value": 769
 		},

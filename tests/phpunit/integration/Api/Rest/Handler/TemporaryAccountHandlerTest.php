@@ -365,8 +365,6 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		];
 
 		$commonData = [
-			'cuc_user'       => 11111,
-			'cuc_user_text'  => '*Unregistered 1',
 			'cuc_type'       => RC_EDIT,
 			'cuc_agent'      => 'foo user agent',
 			'cuc_namespace'  => NS_MAIN,

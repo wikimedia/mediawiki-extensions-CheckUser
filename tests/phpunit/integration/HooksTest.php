@@ -35,6 +35,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		parent::setUp();
 
 		$this->tablesUsed = [
+			'actor',
 			'cu_changes',
 			'cu_private_event',
 			'cu_log_event',
@@ -44,10 +45,6 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 			'ipblocks_restrictions',
 			'recentchanges'
 		];
-
-		$this->setMwGlobals( [
-			'wgCheckUserActorMigrationStage' => 3,
-		] );
 	}
 
 	/**
@@ -64,10 +61,6 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	public function testOnUserMergeAccountFields() {
 		$updateFields = [];
 		$expectedCount = 3;
-		$actorMigrationStage = $this->getServiceContainer()->getMainConfig()->get( 'CheckUserActorMigrationStage' );
-		if ( ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) ) {
-			$expectedCount++;
-		}
 		Hooks::onUserMergeAccountFields( $updateFields );
 		$this->assertCount(
 			$expectedCount,
@@ -230,34 +223,15 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * @covers ::insertIntoCuChangesTable
 	 */
-	public function testUserInsertIntoCuChangesTable() {
-		$user = $this->getTestUser()->getUserIdentity();
-		$this->setUpObject()->insertIntoCuChangesTable( [], __METHOD__, $user );
+	public function testActorInsertIntoCuChangesTable() {
+		$user = $this->getTestUser();
+		$this->setUpObject()->insertIntoCuChangesTable( [], __METHOD__, $user->getUserIdentity() );
 		$this->assertSelect(
 			'cu_changes',
-			[ 'cuc_user', 'cuc_user_text' ],
+			[ 'cuc_actor' ],
 			'',
-			[ [ $user->getId(), $user->getName() ] ]
+			[ [ $user->getUser()->getActorId() ] ]
 		);
-	}
-
-	/**
-	 * @covers ::insertIntoCuChangesTable
-	 */
-	public function testActorInsertIntoCuChangesTable() {
-		$actorMigrationStage = $this->getServiceContainer()->getMainConfig()->get( 'CheckUserActorMigrationStage' );
-		if ( ( $actorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) ) {
-			$user = $this->getTestUser();
-			$this->setUpObject()->insertIntoCuChangesTable( [], __METHOD__, $user->getUserIdentity() );
-			$this->assertSelect(
-				'cu_changes',
-				[ 'cuc_actor' ],
-				'',
-				[ [ $user->getUser()->getActorId() ] ]
-			);
-		} else {
-			$this->expectNotToPerformAssertions();
-		}
 	}
 
 	/**
@@ -505,11 +479,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	/**
-	 * @covers ::updateCheckUserData
-	 * @dataProvider provideUpdateCheckUserData
-	 */
-	public function testUpdateCheckUserData(
+	private function updateCheckUserData(
 		$rcAttribs, $eventTableMigrationStage, $table, $fields, &$expectedRow
 	) {
 		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $eventTableMigrationStage );
@@ -537,58 +507,83 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 			'A row was inserted to cu_changes when it should not have been.' );
 	}
 
-	public function provideUpdateCheckUserData() {
+	/**
+	 * @covers ::updateCheckUserData
+	 * @covers ::onRecentChange_save
+	 */
+	public function testProvideUpdateCheckUserData() {
 		// From RecentChangeTest.php's provideAttribs but modified
 		$attribs = $this->getDefaultRecentChangeAttribs();
-		yield 'anon user' => [
-			array_merge( $attribs, [
-				'rc_type' => RC_EDIT,
-				'rc_user' => 0,
-				'rc_user_text' => '192.168.0.1',
-			] ),
-			SCHEMA_COMPAT_NEW,
-			'cu_changes',
-			[ 'cuc_user_text', 'cuc_user', 'cuc_type' ],
-			[ '192.168.0.1', 0, RC_EDIT ]
+		$testUser = new UserIdentityValue( 1337, 'YeaaaahTests' );
+		$actorId = $this->getServiceContainer()->getActorStore()->acquireActorId(
+			$testUser,
+			$this->getDb()
+		);
+		$testCases = [
+			'registered user' => [
+				array_merge( $attribs, [
+					'rc_type' => RC_EDIT,
+					'rc_user' => $testUser->getId(),
+					'rc_user_text' => $testUser->getName(),
+				] ),
+				SCHEMA_COMPAT_NEW,
+				'cu_changes',
+				[ 'cuc_actor', 'cuc_type' ],
+				[ $actorId, RC_EDIT ]
+			],
+			'Log for special title with no log ID for write old' => [
+				array_merge( $attribs, [
+					'rc_namespace' => NS_SPECIAL,
+					'rc_title' => 'Log',
+					'rc_type' => RC_LOG,
+					'rc_log_type' => ''
+				] ),
+				SCHEMA_COMPAT_OLD,
+				'cu_changes',
+				[ 'cuc_title', 'cuc_timestamp', 'cuc_namespace' ],
+				[ 'Log', $attribs['rc_timestamp'], NS_SPECIAL ]
+			],
+			'Log for special title with no log ID for write new' => [
+				array_merge( $attribs, [
+					'rc_namespace' => NS_SPECIAL,
+					'rc_title' => 'Log',
+					'rc_type' => RC_LOG,
+					'rc_log_type' => ''
+				] ),
+				SCHEMA_COMPAT_NEW,
+				'cu_private_event',
+				[ 'cupe_title', 'cupe_timestamp', 'cupe_namespace' ],
+				[ 'Log', $attribs['rc_timestamp'], NS_SPECIAL ]
+			]
 		];
-
-		yield 'registered user' => [
-			array_merge( $attribs, [
-				'rc_type' => RC_EDIT,
-				'rc_user' => 5,
-				'rc_user_text' => 'Test',
-			] ),
-			SCHEMA_COMPAT_NEW,
-			'cu_changes',
-			[ 'cuc_user_text', 'cuc_user' ],
-			[ 'Test', 5 ]
-		];
-
-		yield 'Log for special title with no log ID for write old' => [
-			array_merge( $attribs, [
-				'rc_namespace' => NS_SPECIAL,
-				'rc_title' => 'Log',
-				'rc_type' => RC_LOG,
-				'rc_log_type' => ''
-			] ),
-			SCHEMA_COMPAT_OLD,
-			'cu_changes',
-			[ 'cuc_title', 'cuc_timestamp', 'cuc_namespace' ],
-			[ 'Log', $attribs['rc_timestamp'], NS_SPECIAL ]
-		];
-
-		yield 'Log for special title with no log ID for write new' => [
-			array_merge( $attribs, [
-				'rc_namespace' => NS_SPECIAL,
-				'rc_title' => 'Log',
-				'rc_type' => RC_LOG,
-				'rc_log_type' => ''
-			] ),
-			SCHEMA_COMPAT_NEW,
-			'cu_private_event',
-			[ 'cupe_title', 'cupe_timestamp', 'cupe_namespace' ],
-			[ 'Log', $attribs['rc_timestamp'], NS_SPECIAL ]
-		];
+		foreach ( $testCases as $testCase => $values ) {
+			$this->onRecentChangeSave(
+				$values[0],
+				$values[1],
+				$values[2],
+				$values[3],
+				$values[4]
+			);
+			$this->truncateTables( [
+				'cu_changes',
+				'cu_private_event',
+				'cu_log_event',
+				'recentchanges'
+			] );
+			$this->updateCheckUserData(
+				$values[0],
+				$values[1],
+				$values[2],
+				$values[3],
+				$values[4]
+			);
+			$this->truncateTables( [
+				'cu_changes',
+				'cu_private_event',
+				'cu_log_event',
+				'recentchanges'
+			] );
+		}
 	}
 
 	/**
@@ -605,7 +600,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 			$fields[] = 'cule_log_id';
 			$expectedRow[] = $logId;
 		}
-		$this->testUpdateCheckUserData( $rcAttribs, $eventTableMigrationStage, $table, $fields, $expectedRow );
+		$this->updateCheckUserData( $rcAttribs, $eventTableMigrationStage, $table, $fields, $expectedRow );
 	}
 
 	public function provideUpdateCheckUserDataLogEvent() {
@@ -696,8 +691,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 			$table = 'cu_changes';
 			$idField = 'cuc_id';
 			$where = [
-				'cuc_user' => $performer->getId(),
-				'cuc_user_text' => $performer->getName(),
+				'cuc_actor' => $performer->getActorId(),
 				'cuc_actiontext' . $this->db->buildLike(
 					$this->db->anyString(),
 					'[[User:', $account->getName(), '|', $account->getName(), ']]',
@@ -848,7 +842,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
 			$where = [ 'cupe_actor' => $userFrom->getActorId() ];
 		} else {
-			$where = [ 'cuc_user' => $userFrom->getId(), 'cuc_user_text' => $userFrom->getName() ];
+			$where = [ 'cuc_actor' => $userFrom->getActorId() ];
 		}
 		$this->commonOnEmailUser(
 			new MailAddress( 'test@test.com', $userTo->getName() ),
@@ -891,14 +885,10 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	/**
-	 * @covers ::onRecentChange_save
-	 * @dataProvider provideUpdateCheckUserData
-	 * @todo test that maybePruneIPData() is called?
-	 */
-	public function testonRecentChange_save(
+	private function onRecentChangeSave(
 		$rcAttribs, $eventTableMigrationStage, $table, $fields, $expectedRow
 	) {
+		// @todo test that maybePruneIPData() is called?
 		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $eventTableMigrationStage );
 		$rc = new RecentChange;
 		$rc->setAttribs( $rcAttribs );
@@ -992,7 +982,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 			$user,
 			[]
 		);
-		$fields = [ 'cuc_namespace', 'cuc_title', 'cuc_user', 'cuc_user_text', 'cuc_actiontext' ];
+		$fields = [ 'cuc_namespace', 'cuc_title', 'actor_user', 'actor_name', 'cuc_actiontext' ];
 		$expectedValues = [ NS_USER, $user ];
 		if ( $isAnonPerformer ) {
 			$expectedValues[] = 0;
@@ -1004,10 +994,12 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		$target = "[[User:$user|$user]]";
 		$expectedValues[] = wfMessage( $messageKey, $target )->text();
 		$this->assertSelect(
-			'cu_changes',
+			[ 'cu_changes', 'actor' ],
 			$fields,
 			[],
-			[ $expectedValues ]
+			[ $expectedValues ],
+			[],
+			[ 'actor' => [ 'JOIN', 'actor_id=cuc_actor' ] ]
 		);
 	}
 
@@ -1017,7 +1009,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 				AuthenticationResponse::newPass( 'UTSysop' ),
 				'UTSysop',
 				'checkuser-login-success',
-				false
+				false,
 			],
 			'failed login' => [
 				AuthenticationResponse::newFail( wfMessage( 'test' ) ),

@@ -25,10 +25,6 @@ class PurgeOldDataTest extends MaintenanceBaseTestCase {
 			'cu_log_event',
 			'recentchanges'
 		];
-
-		$this->setMwGlobals( [
-			'wgCheckUserActorMigrationStage' => 3
-		] );
 	}
 
 	/** @inheritDoc */
