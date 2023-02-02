@@ -113,7 +113,7 @@
 	"checkuser-login-failure": "Anmeldung bei {{SITENAME}} als $1 fehlgeschlagen",
 	"checkuser-login-failure-with-good-password": "Anmeldung bei {{SITENAME}} als $1 fehlgeschlagen, es wurde aber das richtige Passwort verwendet",
 	"checkuser-login-success": "Erfolgreich bei {{SITENAME}} angemeldet als $1",
-	"checkuser-logout": "Erfolgreich über die API oder Special:Logout abgemeldet",
+	"checkuser-logout": "Erfolgreich über die API oder {{#special:logout}} abgemeldet",
 	"checkuser-helper-label": "Ergebnisse in einer Tabelle anzeigen",
 	"checkuser-helper-copy-success": "Kopiert",
 	"checkuser-helper-copy-failed": "Konnte nicht kopiert werden",

@@ -183,5 +183,7 @@
 	"checkuser-investigate-compare-table-header-useragent": "User agent",
 	"checkuser-investigate-subtitle-link-restart-tour": "Herstart toer",
 	"prefs-checkuser-tempaccount": "IP-adressen tijdelijke accounts onthullen",
-	"checkuser-tempaccount-enable-preference": "Activeer het onthullen van IP-adressen voor tijdelijke accounts"
+	"checkuser-tempaccount-enable-preference": "Activeer het onthullen van IP-adressen voor tijdelijke accounts",
+	"checkuser-tempaccount-reveal-ip-button-label": "IP tonen",
+	"checkuser-tempaccount-reveal-ip-missing": "niet beschikbaar"
 }

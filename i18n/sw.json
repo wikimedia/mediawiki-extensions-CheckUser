@@ -3,7 +3,8 @@
 		"authors": [
 			"Kwisha",
 			"Lloffiwr",
-			"Stephenwanjau"
+			"Stephenwanjau",
+			"Wangombe"
 		]
 	},
 	"checkuser-desc": "Inawezesha watumiaji wenye ruksa wakague anwani za IP za watumiaji na data zingine",
@@ -36,5 +37,6 @@
 	"checkuser-ipeditcount": "~$1 kutoka kwa watumiaji wote",
 	"checkuser-create-action": "iliumbwa",
 	"checkuser-email-action": "alituma barua pepe kwa mtumiaji \"$1\"",
-	"checkuser-reset-action": "seti upya nywila ya \"$1\""
+	"checkuser-reset-action": "seti upya nywila ya \"$1\"",
+	"checkuser-tempaccount-reveal-ip-missing": "haipatikani"
 }

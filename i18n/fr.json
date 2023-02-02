@@ -122,7 +122,7 @@
 	"checkuser-login-failure": "Échec de connexion à {{SITENAME}} en tant que $1",
 	"checkuser-login-failure-with-good-password": "Échec de la connexion à {{SITENAME}} en tant que $1, mais le mot de passe était correct.",
 	"checkuser-login-success": "Connexion réussie à {{SITENAME}} en tant que $1",
-	"checkuser-logout": "Déconnexion réussie à l’aide de l’API ou de Special:Logout",
+	"checkuser-logout": "Déconnexion réussie à l’aide de l’API ou de {{#special:logout}}",
 	"checkuser-helper-label": "Voir les résultats dans un tableau",
 	"checkuser-helper-copy-success": "Copié",
 	"checkuser-helper-copy-failed": "Impossible de copier",

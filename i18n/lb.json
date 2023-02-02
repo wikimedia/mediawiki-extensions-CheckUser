@@ -81,6 +81,9 @@
 	"checkuser-token-fail": "Sessiouns-Feeler.Probéiert wgl. nach eng Kéier.",
 	"checkuser-login-failure": "Konnt sech net alogge op {{SITENAME}} als $1",
 	"checkuser-login-success": "Op {{SITENAME}} ageloggt als $1",
+	"checkuser-helper-copy-success": "Kopéiert",
+	"checkuser-helper-copy-failed": "Konnt net kopéiert ginn",
+	"checkuser-helper-user": "Benotzer",
 	"checkuser-link-investigate-label": "Probéiert dat neit CheckUser-Geschier",
 	"checkuser-investigateblock": "Benotzer spären",
 	"checkuser-investigateblock-target": "Benotzernimm an IP-Adressen",
@@ -140,5 +143,7 @@
 	"checkuser-investigate-subtitle-link-restart-tour": "Tour nei starten",
 	"checkuser-investigate-tour-addusertargets-title": "Braucht Dir méi Kontext?",
 	"checkuser-investigate-tour-block-title": "Spären?",
-	"checkuser-investigate-tour-copywikitext-title": "Wëllt Dir d'Date kopéieren?"
+	"checkuser-investigate-tour-copywikitext-title": "Wëllt Dir d'Date kopéieren?",
+	"checkuser-tempaccount-reveal-ip-button-label": "IP weisen",
+	"checkuser-tempaccount-reveal-ip-missing": "net disponibel"
 }

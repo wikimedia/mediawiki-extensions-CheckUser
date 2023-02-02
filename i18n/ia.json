@@ -194,5 +194,7 @@
 	"checkuser-investigate-tour-copywikitext-title": "Vole copiar le datos?",
 	"checkuser-investigate-tour-copywikitext-desc": "Copia le tabella de comparation con un sol clic e porta lo a CUWiki. Nota ben que tu copia solmente lo que es visibile e non tote le paginas del investigation.",
 	"prefs-checkuser-tempaccount": "Revelar adresses IP de contos temporari",
-	"checkuser-tempaccount-enable-preference": "Activar le revelation del adresses IP de contos temporari"
+	"checkuser-tempaccount-enable-preference": "Activar le revelation del adresses IP de contos temporari",
+	"checkuser-tempaccount-reveal-ip-button-label": "Monstrar IP",
+	"checkuser-tempaccount-reveal-ip-missing": "indisponibile"
 }

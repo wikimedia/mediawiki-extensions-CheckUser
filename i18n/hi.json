@@ -97,6 +97,7 @@
 	"checkuser-token-fail": "सत्र विफ़ल हुआ। कृपया पुनः प्रयास करें।",
 	"checkuser-login-failure": "{{SITENAME}} पर $1 के रूप में लॉग-इन न किया जा सका",
 	"checkuser-login-success": "{{SITENAME}} पर $1 के रूप में सफलतापूर्वक लॉग-इन किया गया",
+	"checkuser-helper-user": "सदस्य",
 	"group-checkuser.css": "/* यहाँ पर दी गई CSS सिर्फ checkuser पर प्रभाव डालेगी */",
 	"group-checkuser.js": "/* यहाँ पर दी गई जावास्क्रिप्ट सिर्फ checkuser पर प्रभाव डालेगी */",
 	"checkuser-link-investigate-label": "नए CheckUser उपकरण का इस्तेमाल करें",

@@ -24,6 +24,7 @@
 	"apihelp-query+checkuserlog-summary": "Obtener entradas del registro de comprobación de usuarios.",
 	"apihelp-query+checkuserlog-param-user": "Nombre del usuario con permiso de comprobador de usuarios.",
 	"apihelp-query+checkuserlog-param-target": "Se ha comprobado el usuario, dirección IP o CIDR.",
+	"apihelp-query+checkuserlog-param-reason": "Motivo para la comprobación.",
 	"apihelp-query+checkuserlog-param-limit": "Límite de filas.",
 	"apihelp-query+checkuserlog-param-from": "El cronomarcador para comenzar la enumeración.",
 	"apihelp-query+checkuserlog-param-to": "El cronomarcador para finalizar la enumeración.",
