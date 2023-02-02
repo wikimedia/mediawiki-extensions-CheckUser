@@ -13,7 +13,6 @@ use MediaWiki\CommentFormatter\CommentFormatter;
 use RangeChronologicalPager;
 use SpecialPage;
 use Wikimedia\Rdbms\IResultWrapper;
-use Wikimedia\Rdbms\Platform\ISQLPlatform;
 
 class CheckUserLogPager extends RangeChronologicalPager {
 
@@ -253,7 +252,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	 */
 	public function selectFields(): array {
 		return [
-			'cul_id', 'cul_timestamp', 'cul_reason', 'cul_type', 'cul_target_id',
+			'cul_id', 'cul_timestamp', 'cul_type', 'cul_target_id',
 			'cul_target_text', 'actor_name', 'actor_user'
 		];
 	}
@@ -341,26 +340,16 @@ class CheckUserLogPager extends RangeChronologicalPager {
 		$queryInfo = [ 'tables' => [], 'fields' => [], 'join_conds' => [] ];
 		$plaintextReason = $this->checkUserLogService->getPlaintextReason( $reason );
 
-		if ( $this->getConfig()->get( 'CheckUserLogReasonMigrationStage' ) & SCHEMA_COMPAT_READ_NEW ) {
-			if ( $plaintextReason == '' ) {
-				return $queryInfo;
-			}
-
-			$plaintextReasonCommentQuery = $this->checkUserLogCommentStore->getJoin( 'cul_reason_plaintext' );
-			$queryInfo['tables'] += $plaintextReasonCommentQuery['tables'];
-			$queryInfo['fields'] += $plaintextReasonCommentQuery['fields'];
-			$queryInfo['join_conds'] += $plaintextReasonCommentQuery['joins'];
-
-			$queryInfo['conds'] = [ 'comment_cul_reason_plaintext.comment_text' => $plaintextReason ];
-		} else {
-			$queryInfo['conds'] = [ $this->mDb->makeList(
-				[
-					'cul_reason = ' . $this->mDb->addQuotes( $reason ),
-					'cul_reason = ' . $this->mDb->addQuotes( $plaintextReason )
-				],
-				ISQLPlatform::LIST_OR
-			) ];
+		if ( $plaintextReason == '' ) {
+			return $queryInfo;
 		}
+
+		$plaintextReasonCommentQuery = $this->checkUserLogCommentStore->getJoin( 'cul_reason_plaintext' );
+		$queryInfo['tables'] += $plaintextReasonCommentQuery['tables'];
+		$queryInfo['fields'] += $plaintextReasonCommentQuery['fields'];
+		$queryInfo['join_conds'] += $plaintextReasonCommentQuery['joins'];
+
+		$queryInfo['conds'] = [ 'comment_cul_reason_plaintext.comment_text' => $plaintextReason ];
 
 		return $queryInfo;
 	}
