@@ -85,10 +85,6 @@
 		"CheckUserCommentMigrationStage": {
 			"value": 769
 		},
-		"CheckUserLogReasonMigrationStage": {
-			"value": 769,
-			"description": "A flag used to represent the stage of the migration to the comment table. Default is to write to new and old, and read from new."
-		},
 		"CheckUserEventTablesMigrationStage": {
 			"value": 3,
 			"description": "A flag used as the migration stage to the new cu_private_event and cu_log_event tables. Default is to read and write only from cu_changes. Must only be set as SCHEMA_COMPAT_NEW or SCHEMA_COMPAT_OLD."

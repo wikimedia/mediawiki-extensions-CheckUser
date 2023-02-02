@@ -107,7 +107,6 @@ class ImportCheckUserLogs extends Maintenance {
 		$checkUserLogCommentStore = $services->get( 'CheckUserLogCommentStore' );
 		/** @var CheckUserLogService $checkUserLogService */
 		$checkUserLogService = $services->get( 'CheckUserLogService' );
-		$culReasonMigrationStage = $services->getMainConfig()->get( 'CheckUserLogReasonMigrationStage' );
 
 		while ( !feof( $file ) ) {
 			$line = fgets( $file );
@@ -147,12 +146,10 @@ class ImportCheckUserLogs extends Maintenance {
 						'cul_range_end' => $end
 					];
 					$fields += $checkUserLogCommentStore->insert( $dbw, 'cul_reason', $data['reason'] );
-					if ( $culReasonMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-						$fields += $checkUserLogCommentStore->insert(
-							$dbw, 'cul_reason_plaintext',
-							$checkUserLogService->getPlaintextReason( $data['reason'] )
-						);
-					}
+					$fields += $checkUserLogCommentStore->insert(
+						$dbw, 'cul_reason_plaintext',
+						$checkUserLogService->getPlaintextReason( $data['reason'] )
+					);
 					$dbw->insert( 'cu_log', $fields, __METHOD__ );
 				}
 

@@ -34,8 +34,7 @@ return [
 		return new CheckUserLogService(
 			$services->getDBLoadBalancer(),
 			$services->getCommentStore(),
-			$services->getCommentFormatter(),
-			$services->getMainConfig()->get( 'CheckUserLogReasonMigrationStage' )
+			$services->getCommentFormatter()
 		);
 	},
 	'CheckUserActorMigration' => static function (
@@ -59,7 +58,7 @@ return [
 	): CheckUserLogCommentStore {
 		return new CheckUserLogCommentStore(
 			$services->getContentLanguage(),
-			$services->getMainConfig()->get( 'CheckUserLogReasonMigrationStage' )
+			SCHEMA_COMPAT_NEW
 		);
 	},
 	'CheckUserPreliminaryCheckService' => static function (

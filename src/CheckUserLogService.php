@@ -23,25 +23,19 @@ class CheckUserLogService {
 	/** @var CommentFormatter */
 	private $commentFormatter;
 
-	/** @var int */
-	private $culReasonMigrationStage;
-
 	/**
 	 * @param ILoadBalancer $loadBalancer
 	 * @param CommentStore $commentStore
 	 * @param CommentFormatter $commentFormatter
-	 * @param int $culReasonMigrationStage
 	 */
 	public function __construct(
 		ILoadBalancer $loadBalancer,
 		CommentStore $commentStore,
-		CommentFormatter $commentFormatter,
-		int $culReasonMigrationStage
+		CommentFormatter $commentFormatter
 	) {
 		$this->loadBalancer = $loadBalancer;
 		$this->commentStore = $commentStore;
 		$this->commentFormatter = $commentFormatter;
-		$this->culReasonMigrationStage = $culReasonMigrationStage;
 	}
 
 	/**
@@ -82,29 +76,18 @@ class CheckUserLogService {
 			'cul_range_end' => $rangeEnd
 		];
 
-		if ( $this->culReasonMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$plaintextReason = $this->getPlaintextReason( $reason );
-		} else {
-			$plaintextReason = '';
-		}
-
-		if ( $this->culReasonMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
-			$data['cul_reason'] = $reason;
-		}
+		$plaintextReason = $this->getPlaintextReason( $reason );
 
 		$fname = __METHOD__;
 		$dbw = $this->loadBalancer->getConnection( DB_PRIMARY );
 		$commentStore = $this->commentStore;
-		$writeNew = $this->culReasonMigrationStage & SCHEMA_COMPAT_WRITE_NEW;
 
 		DeferredUpdates::addCallableUpdate(
 			static function () use (
-				$data, $timestamp, $reason, $plaintextReason, $fname, $dbw, $commentStore, $writeNew
+				$data, $timestamp, $reason, $plaintextReason, $fname, $dbw, $commentStore
 			) {
-				if ( $writeNew ) {
-					$data += $commentStore->insert( $dbw, 'cul_reason', $reason );
-					$data += $commentStore->insert( $dbw, 'cul_reason_plaintext', $plaintextReason );
-				}
+				$data += $commentStore->insert( $dbw, 'cul_reason', $reason );
+				$data += $commentStore->insert( $dbw, 'cul_reason_plaintext', $plaintextReason );
 				$dbw->insert(
 					'cu_log',
 					[
