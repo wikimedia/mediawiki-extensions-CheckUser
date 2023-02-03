@@ -1066,6 +1066,11 @@ class Hooks implements
 		);
 		$updater->modifyExtensionField(
 			'cu_log',
+			'cul_reason_id',
+			"$base/$dbType/patch-cu_log-drop-cul_reason_id_default.sql"
+		);
+		$updater->modifyExtensionField(
+			'cu_log',
 			'cul_actor',
 			"$base/$dbType/patch-cu_log-drop-actor_default.sql"
 		);
