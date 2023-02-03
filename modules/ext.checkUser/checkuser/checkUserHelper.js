@@ -84,6 +84,7 @@
 			td = tr.insertCell();
 			td.appendChild( uas );
 		}
+		mw.hook( 'wikipage.content' ).fire( $( '.mw-checkuser-helper-table' ) );
 	}
 
 	function createTableText( data ) {
