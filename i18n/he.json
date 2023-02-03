@@ -105,7 +105,7 @@
 	"checkuser-login-failure": "לא הצליח להיכנס לאתר {{SITENAME}} בתור $1",
 	"checkuser-login-failure-with-good-password": "הכניסה לאתר {{SITENAME}} בתור $1 נכשלה, אבל הסיסמה הייתה נכונה",
 	"checkuser-login-success": "נכנס בהצלחה לאתר {{SITENAME}} בתור $1",
-	"checkuser-logout": "יצא בהצלחה מהחשבון באמצעות ה־API או Special:Logout",
+	"checkuser-logout": "יצא בהצלחה מהחשבון באמצעות ה־API או {{#special:logout}}",
 	"checkuser-helper-label": "לראות את התוצאות בטבלה",
 	"checkuser-helper-copy-success": "הועתקה",
 	"checkuser-helper-copy-failed": "לא היה אפשר להעתיק",

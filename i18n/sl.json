@@ -99,7 +99,7 @@
 	"checkuser-login-failure": "Prijava na {{SITENAME}} kot $1 je spodletela",
 	"checkuser-login-failure-with-good-password": "Prijava v projekt {{SITENAME}} kot $1 ni uspela, vendar je bilo geslo pravilno",
 	"checkuser-login-success": "Uspešna prijava na {{SITENAME}} kot $1",
-	"checkuser-logout": "uspešna odjava z uporabo API-ja ali Special:Logout",
+	"checkuser-logout": "uspešna odjava z uporabo API-ja ali {{#special:logout}}",
 	"checkuser-helper-label": "Prikaz zadetkov v tabeli",
 	"checkuser-helper-copy-success": "Kopirano",
 	"checkuser-helper-copy-failed": "Ni bilo mogoče kopirati",
