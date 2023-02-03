@@ -7,6 +7,7 @@ use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\Rdbms\IResultWrapper;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -271,5 +272,72 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 			'Limit under maximum limit' => [ 200, 5000, 200 ],
 			'Limit over maximum limit' => [ 500, 200, 200 ],
 		];
+	}
+
+	/**
+	 * @covers ::getCheckUserHelperFieldset
+	 * @dataProvider provideGetCheckUserHelperFieldset
+	 */
+	public function testGetCheckUserHelperFieldset(
+		$collapseByDefaultConfigValue, $shouldBeByDefaultCollapsed, $resultRowCount
+	) {
+		$this->setMwGlobals( 'wgCheckUserCollapseCheckUserHelperByDefault', $collapseByDefaultConfigValue );
+		$object = $this->setUpObject();
+		$object->mResult = $this->createMock( IResultWrapper::class );
+		$object->mResult->method( 'numRows' )->willReturn( $resultRowCount );
+		$fieldset = TestingAccessWrapper::newFromObject( $object->getCheckUserHelperFieldset() );
+		$this->assertSame(
+			'mw-checkuser-helper-fieldset',
+			$fieldset->outerClass,
+			'CheckUser fieldset should have surrounding class.'
+		);
+		$this->assertSame(
+			wfMessage( 'checkuser-helper-label' )->text(),
+			$fieldset->mWrapperLegend,
+			'Wrapper legend text is incorrect.'
+		);
+		$this->assertFalse(
+			$fieldset->mShowSubmit,
+			'The fieldset should not show a submit button.'
+		);
+		$this->assertTrue(
+			$fieldset->mCollapsible,
+			'The fieldset should be collapsable.'
+		);
+		$this->assertSame(
+			$shouldBeByDefaultCollapsed,
+			$fieldset->mCollapsed,
+			'The default collapsed state for the fieldset is not correct.'
+		);
+	}
+
+	public function provideGetCheckUserHelperFieldset() {
+		return [
+			'wgCheckUserCollapseCheckUserHelperByDefault set to true' => [
+				true, true, 1
+			],
+			'wgCheckUserCollapseCheckUserHelperByDefault set to false' => [
+				false, false, 2
+			],
+			'wgCheckUserCollapseCheckUserHelperByDefault set to an integer less than the row count' => [
+				3, true, 5
+			],
+			'wgCheckUserCollapseCheckUserHelperByDefault set to an integer greater than the row count' => [
+				10, false, 3
+			]
+		];
+	}
+
+	/**
+	 * @covers ::getCheckUserHelperFieldset
+	 */
+	public function testGetCheckUserHelperFieldsetWhenNoResults() {
+		$object = $this->setUpObject();
+		$object->mResult = $this->createMock( IResultWrapper::class );
+		$object->mResult->method( 'numRows' )->willReturn( 0 );
+		$this->assertNull(
+			$object->getCheckUserHelperFieldset(),
+			'The fieldset should not be shown if there are no results.'
+		);
 	}
 }
