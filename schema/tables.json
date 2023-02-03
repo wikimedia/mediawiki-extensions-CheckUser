@@ -20,17 +20,6 @@
 				"options": { "notnull": true, "length": 255, "default": "" }
 			},
 			{
-				"name": "cuc_user",
-				"comment": "user.user_id",
-				"type": "integer",
-				"options": { "notnull": true, "default": 0 }
-			},
-			{
-				"name": "cuc_user_text",
-				"type": "string",
-				"options": { "notnull": true, "length": 255, "default": "" }
-			},
-			{
 				"name": "cuc_actor",
 				"type": "bigint",
 				"options": { "notnull": true, "unsigned": true, "default": 0 }
@@ -127,11 +116,6 @@
 			{
 				"name": "cuc_ip_hex_time",
 				"columns": [ "cuc_ip_hex", "cuc_timestamp" ],
-				"unique": false
-			},
-			{
-				"name": "cuc_user_ip_time",
-				"columns": [ "cuc_user", "cuc_ip", "cuc_timestamp" ],
 				"unique": false
 			},
 			{

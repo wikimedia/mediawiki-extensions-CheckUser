@@ -6,8 +6,6 @@ CREATE TABLE cu_changes (
   cuc_id SERIAL NOT NULL,
   cuc_namespace INT DEFAULT 0 NOT NULL,
   cuc_title TEXT DEFAULT '' NOT NULL,
-  cuc_user INT DEFAULT 0 NOT NULL,
-  cuc_user_text VARCHAR(255) DEFAULT '' NOT NULL,
   cuc_actor BIGINT DEFAULT 0 NOT NULL,
   cuc_actiontext TEXT DEFAULT '' NOT NULL,
   cuc_comment TEXT DEFAULT '' NOT NULL,
@@ -28,8 +26,6 @@ CREATE TABLE cu_changes (
 );
 
 CREATE INDEX cuc_ip_hex_time ON cu_changes (cuc_ip_hex, cuc_timestamp);
-
-CREATE INDEX cuc_user_ip_time ON cu_changes (cuc_user, cuc_ip, cuc_timestamp);
 
 CREATE INDEX cuc_xff_hex_time ON cu_changes (cuc_xff_hex, cuc_timestamp);
 

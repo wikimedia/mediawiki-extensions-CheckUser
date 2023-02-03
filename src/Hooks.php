@@ -1039,6 +1039,11 @@ class Hooks implements
 			PopulateCulComment::class,
 			'extensions/CheckUser/maintenance/populateCulComment.php'
 		] );
+		$updater->addExtensionUpdate( [
+			'runMaintenance',
+			PopulateCucActor::class,
+			'extensions/CheckUser/maintenance/populateCucActor.php'
+		] );
 
 		// 1.40
 		$updater->addExtensionTable(
@@ -1064,8 +1069,12 @@ class Hooks implements
 			'cul_actor',
 			"$base/$dbType/patch-cu_log-drop-actor_default.sql"
 		);
+		$updater->modifyExtensionField(
+			'cu_changes',
+			'cuc_user',
+			"$base/$dbType/patch-cu_changes-drop-cuc_user.sql"
+		);
 
-		$updater->addPostDatabaseUpdateMaintenance( PopulateCucActor::class );
 		$updater->addPostDatabaseUpdateMaintenance( PopulateCucComment::class );
 
 		if ( !$isCUInstalled ) {

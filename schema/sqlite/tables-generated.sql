@@ -6,8 +6,6 @@ CREATE TABLE /*_*/cu_changes (
   cuc_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   cuc_namespace INTEGER DEFAULT 0 NOT NULL,
   cuc_title BLOB DEFAULT '' NOT NULL,
-  cuc_user INTEGER DEFAULT 0 NOT NULL,
-  cuc_user_text VARCHAR(255) DEFAULT '' NOT NULL,
   cuc_actor BIGINT UNSIGNED DEFAULT 0 NOT NULL,
   cuc_actiontext BLOB DEFAULT '' NOT NULL,
   cuc_comment BLOB DEFAULT '' NOT NULL,
@@ -27,8 +25,6 @@ CREATE TABLE /*_*/cu_changes (
 );
 
 CREATE INDEX cuc_ip_hex_time ON /*_*/cu_changes (cuc_ip_hex, cuc_timestamp);
-
-CREATE INDEX cuc_user_ip_time ON /*_*/cu_changes (cuc_user, cuc_ip, cuc_timestamp);
 
 CREATE INDEX cuc_xff_hex_time ON /*_*/cu_changes (cuc_xff_hex, cuc_timestamp);
 

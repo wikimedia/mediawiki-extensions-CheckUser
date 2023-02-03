@@ -83,6 +83,11 @@ class PopulateCucActor extends LoggedUpdateMaintenance {
 			return true;
 		}
 
+		if ( !$dbr->fieldExists( 'cu_changes', 'cuc_user' ) ) {
+			$this->output( "cuc_user and cuc_user_text have already been dropped.\n" );
+			return true;
+		}
+
 		$diff = $maxId - $prevId;
 		$failed = 0;
 		$sleep = (int)$this->getOption( 'sleep', 0 );
