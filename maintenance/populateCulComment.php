@@ -55,7 +55,7 @@ class PopulateCulComment extends LoggedUpdateMaintenance {
 	 * @inheritDoc
 	 */
 	protected function getUpdateKey() {
-		return 'PopulateCulComment';
+		return 'PopulateCulComment-2';
 	}
 
 	/**
@@ -95,6 +95,11 @@ class PopulateCulComment extends LoggedUpdateMaintenance {
 			return true;
 		}
 
+		if ( !$dbr->fieldExists( 'cu_log', 'cul_reason' ) ) {
+			$this->output( "The cul_reason field does not exist which is needed for migration.\n" );
+			return true;
+		}
+
 		$this->output( "Populating the cul_reason_id and cul_reason_plaintext_id columns...\n" );
 
 		$diff = $maxId - $prevId;
@@ -109,7 +114,7 @@ class PopulateCulComment extends LoggedUpdateMaintenance {
 				->fields( [ 'cul_id', 'cul_reason' ] )
 				->table( 'cu_log' )
 				->conds( [
-					'cul_reason_id' => 0,
+					'cul_reason_id' => [ 0, null ],
 					"cul_id BETWEEN $prevId AND $curId"
 				] )
 				->caller( __METHOD__ )

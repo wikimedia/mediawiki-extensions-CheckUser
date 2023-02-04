@@ -1039,6 +1039,20 @@ class Hooks implements
 			PopulateCulComment::class,
 			'extensions/CheckUser/maintenance/populateCulComment.php'
 		] );
+		if ( $dbType === 'postgres' ) {
+			# For wikis which ran update.php after pulling the master branch of CheckUser between
+			#  4 June 2022 and 6 June 2022, the cul_reason_id and cul_reason_plaintext_id columns
+			#  were added but were by default NULL.
+			# This is needed for postgres installations that did the above. All other DB types
+			#  make the columns "NOT NULL" when removing the default.
+			$updater->addExtensionUpdate(
+				[ 'changeNullableField', 'cu_log', 'cul_reason_id', 'NOT NULL', true ]
+			);
+			$updater->addExtensionUpdate(
+				[ 'changeNullableField', 'cu_log', 'cul_reason_plaintext_id', 'NOT NULL', true ]
+			);
+		}
+
 		$updater->addExtensionUpdate( [
 			'runMaintenance',
 			PopulateCucActor::class,
@@ -1059,6 +1073,11 @@ class Hooks implements
 			'cul_user',
 			"$base/$dbType/patch-cu_log-drop-cul_user.sql"
 		);
+		$updater->modifyExtensionField(
+			'cu_log',
+			'cul_actor',
+			"$base/$dbType/patch-cu_log-drop-actor_default.sql"
+		);
 		$updater->dropExtensionField(
 			'cu_log',
 			'cul_reason',
@@ -1068,11 +1087,6 @@ class Hooks implements
 			'cu_log',
 			'cul_reason_id',
 			"$base/$dbType/patch-cu_log-drop-cul_reason_id_default.sql"
-		);
-		$updater->modifyExtensionField(
-			'cu_log',
-			'cul_actor',
-			"$base/$dbType/patch-cu_log-drop-actor_default.sql"
 		);
 		$updater->dropExtensionField(
 			'cu_changes',
