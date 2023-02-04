@@ -176,7 +176,7 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 			'cuc_xff'        => 0,
 			'cuc_xff_hex'    => null,
 			'cuc_actiontext' => '',
-			'cuc_comment'    => '',
+			'cuc_comment_id' => 0,
 			'cuc_last_oldid' => 0,
 		];
 

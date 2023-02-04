@@ -1,6 +1,5 @@
 <?php
 
-use MediaWiki\CheckUser\Hooks;
 use MediaWiki\MediaWikiServices;
 use Wikimedia\IPUtils;
 
@@ -85,9 +84,6 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 
 		$services = MediaWikiServices::getInstance();
 		$lbFactory = $services->getDBLoadBalancerFactory();
-
-		$commentMigrationStage = $services->getMainConfig()->get( 'CheckUserCommentMigrationStage' );
-
 		$commentStore = $services->getCommentStore();
 		$rcQuery = RecentChange::getQueryInfo();
 		$contLang = $services->getContentLanguage();
@@ -137,11 +133,12 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 						];
 					}
 				} else {
-					$entry = [
+					$cuChangesBatch[] = [
 						'cuc_timestamp' => $row->rc_timestamp,
 						'cuc_namespace' => $row->rc_namespace,
 						'cuc_title' => $row->rc_title,
 						'cuc_actor' => $row->rc_actor,
+						'cuc_comment_id' => $comment->id,
 						'cuc_minor' => $row->rc_minor,
 						'cuc_page_id' => $row->rc_cur_id,
 						'cuc_this_oldid' => $row->rc_this_oldid,
@@ -150,17 +147,6 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 						'cuc_ip' => $row->rc_ip,
 						'cuc_ip_hex' => IPUtils::toHex( $row->rc_ip ),
 					];
-
-					if ( $commentMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
-						$entry['cuc_comment'] = $contLang->truncateForDatabase(
-							$comment->text, Hooks::TEXT_FIELD_LENGTH
-						);
-					}
-					if ( $commentMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-						$entry['cuc_comment_id'] = $comment->id;
-					}
-
-					$cuChangesBatch[] = $entry;
 				}
 			}
 			if ( count( $cuChangesBatch ) ) {

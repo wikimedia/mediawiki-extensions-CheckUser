@@ -150,7 +150,6 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 			'cuc_user_text' => '127.0.0.1',
 			'cuc_actor' => 0,
 			'cuc_actiontext' => '',
-			'cuc_comment' => '',
 			'cuc_comment_id' => 0,
 			'cuc_comment_text' => '',
 			'cuc_comment_data' => null,
