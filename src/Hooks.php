@@ -952,15 +952,19 @@ class Hooks implements
 			$updater->addExtensionUpdate(
 				[ 'changeField', 'cu_changes', 'cuc_namespace', 'INT', 'cuc_namespace::INT DEFAULT 0' ]
 			);
-			$updater->addExtensionUpdate(
-				[ 'changeNullableField', 'cu_changes', 'cuc_user', 'NOT NULL', true ]
-			);
-			$updater->addExtensionUpdate(
-				[ 'changeField', 'cu_changes', 'cuc_user_text', 'VARCHAR(255)', '' ]
-			);
-			$updater->addExtensionUpdate(
-				[ 'setDefault', 'cu_changes', 'cuc_user_text', '' ]
-			);
+			if ( $maintenanceDb->fieldExists( 'cu_log', 'cuc_user' ) ) {
+				$updater->addExtensionUpdate(
+					[ 'changeNullableField', 'cu_changes', 'cuc_user', 'NOT NULL', true ]
+				);
+			}
+			if ( $maintenanceDb->fieldExists( 'cu_log', 'cuc_user_text' ) ) {
+				$updater->addExtensionUpdate(
+					[ 'changeField', 'cu_changes', 'cuc_user_text', 'VARCHAR(255)', '' ]
+				);
+				$updater->addExtensionUpdate(
+					[ 'setDefault', 'cu_changes', 'cuc_user_text', '' ]
+				);
+			}
 			$updater->addExtensionUpdate(
 				[ 'changeField', 'cu_changes', 'cuc_actor', 'BIGINT', 'cuc_actor::BIGINT DEFAULT 0' ]
 			);
@@ -1001,9 +1005,11 @@ class Hooks implements
 			$updater->addExtensionUpdate(
 				[ 'changeNullableField', 'cu_log', 'cul_timestamp', 'NOT NULL', true ]
 			);
-			$updater->addExtensionUpdate(
-				[ 'changeNullableField', 'cu_log', 'cul_user', 'NOT NULL', true ]
-			);
+			if ( $maintenanceDb->fieldExists( 'cu_log', 'cul_user' ) ) {
+				$updater->addExtensionUpdate(
+					[ 'changeNullableField', 'cu_log', 'cul_user', 'NOT NULL', true ]
+				);
+			}
 			$updater->addExtensionUpdate(
 				[ 'dropDefault', 'cu_log', 'cul_type' ]
 			);

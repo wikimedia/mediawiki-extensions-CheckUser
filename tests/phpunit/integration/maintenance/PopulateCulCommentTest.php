@@ -35,6 +35,12 @@ class PopulateCulCommentTest extends MaintenanceBaseTestCase {
 	 * @dataProvider provideAddLogEntryReasonId
 	 */
 	public function testDoDBUpdatesSingleRow( $reason, $plaintextReason ) {
+		if ( $this->db->getType() === 'postgres' ) {
+			// The test is unable to add the column to the database
+			//  as the maintenance script even after adding the column
+			//  is unable to see it exists.
+			$this->markTestSkipped( 'This test does not work on postgres' );
+		}
 		$testTarget = $this->getTestUser()->getUserIdentity();
 		// Create a test cu_log entry with a cul_reason value.
 		$this->db->insert( 'cu_log', [
@@ -100,11 +106,22 @@ class PopulateCulCommentTest extends MaintenanceBaseTestCase {
 
 	public function addDBDataOnce() {
 		// Create cul_reason on the test DB.
-		$this->db->query(
-			"ALTER TABLE   " .
-			$this->db->tableName( 'cu_log' ) .
-			" ADD  cul_reason VARBINARY(255) DEFAULT '' NOT NULL;",
-			__METHOD__
-		);
+		//  This is broken for postgres so no cul_reason
+		//  is added for that DB type.
+		if ( $this->db->getType() === 'sqlite' ) {
+			$this->db->query(
+				"ALTER TABLE   " .
+				$this->db->tableName( 'cu_log' ) .
+				" ADD  cul_reason BLOB DEFAULT '' NOT NULL;",
+				__METHOD__
+			);
+		} elseif ( $this->db->getType() !== 'postgres' ) {
+			$this->db->query(
+				"ALTER TABLE   " .
+				$this->db->tableName( 'cu_log' ) .
+				" ADD  cul_reason VARBINARY(255) DEFAULT '' NOT NULL;",
+				__METHOD__
+			);
+		}
 	}
 }
