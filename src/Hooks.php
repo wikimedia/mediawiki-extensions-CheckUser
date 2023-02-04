@@ -1054,12 +1054,12 @@ class Hooks implements
 			'cu_private_event',
 			"$base/$dbType/patch-cu_private_event-def.sql"
 		);
-		$updater->modifyExtensionField(
+		$updater->dropExtensionField(
 			'cu_log',
 			'cul_user',
 			"$base/$dbType/patch-cu_log-drop-cul_user.sql"
 		);
-		$updater->modifyExtensionField(
+		$updater->dropExtensionField(
 			'cu_log',
 			'cul_reason',
 			"$base/$dbType/patch-cu_log-drop-cul_reason.sql"
@@ -1074,7 +1074,7 @@ class Hooks implements
 			'cul_actor',
 			"$base/$dbType/patch-cu_log-drop-actor_default.sql"
 		);
-		$updater->modifyExtensionField(
+		$updater->dropExtensionField(
 			'cu_changes',
 			'cuc_user',
 			"$base/$dbType/patch-cu_changes-drop-cuc_user.sql"
