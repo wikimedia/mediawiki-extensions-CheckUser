@@ -872,7 +872,8 @@ class Hooks implements
 	 */
 	public function onLoadExtensionSchemaUpdates( $updater ) {
 		$base = __DIR__ . '/../schema';
-		$dbType = $updater->getDB()->getType();
+		$maintenanceDb = $updater->getDB();
+		$dbType = $maintenanceDb->getType();
 		$isCUInstalled = $updater->tableExists( 'cu_changes' );
 
 		$updater->addExtensionTable( 'cu_changes', "$base/$dbType/tables-generated.sql" );
@@ -1073,11 +1074,21 @@ class Hooks implements
 			'cul_user',
 			"$base/$dbType/patch-cu_log-drop-cul_user.sql"
 		);
-		$updater->modifyExtensionField(
-			'cu_log',
-			'cul_actor',
-			"$base/$dbType/patch-cu_log-drop-actor_default.sql"
-		);
+		if (
+			$dbType !== 'sqlite' ||
+			$maintenanceDb->fieldExists( 'cu_log', 'cul_reason' )
+		) {
+			// Only run this for SQLite if cul_reason exists,
+			//  as modifyExtensionField does not take into account
+			//  SQLite patches that use temporary tables. If the cul_reason
+			//  field does not exist this SQL would fail, however, cul_reason
+			//  not existing also means this change has been previously applied.
+			$updater->modifyExtensionField(
+				'cu_log',
+				'cul_actor',
+				"$base/$dbType/patch-cu_log-drop-actor_default.sql"
+			);
+		}
 		$updater->dropExtensionField(
 			'cu_log',
 			'cul_reason',
