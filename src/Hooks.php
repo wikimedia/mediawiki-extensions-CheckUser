@@ -855,6 +855,7 @@ class Hooks implements
 	 * @deprecated since 1.40 - Use CheckUserUtilityService::getClientIPfromXFF
 	 */
 	public static function getClientIPfromXFF( $xff ) {
+		wfDeprecated( 'getClientIPfromXFF', '1.40', 'CheckUser' );
 		/** @var CheckUserUtilityService $checkUserUtilityService */
 		$checkUserUtilityService = MediaWikiServices::getInstance()->get( 'CheckUserUtilityService' );
 		return $checkUserUtilityService->getClientIPfromXFF( $xff );
