@@ -478,7 +478,7 @@ class Hooks implements
 		}
 
 		if ( !isset( $row['cuc_comment_id'] ) ) {
-			$row += CheckUserCommentStore::getStore()->insert(
+			$row += $services->getCommentStore()->insert(
 				$dbw,
 				'cuc_comment',
 				$row['cuc_comment']

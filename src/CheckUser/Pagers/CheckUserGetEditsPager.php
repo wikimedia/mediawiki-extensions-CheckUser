@@ -12,12 +12,12 @@ use Linker;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\CheckUserActorMigration;
-use MediaWiki\CheckUser\CheckUserCommentStore;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\CheckUserUtilityService;
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\CommentFormatter\CommentFormatter;
+use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Revision\RevisionRecord;
@@ -76,6 +76,9 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	/** @var CheckUserUtilityService */
 	private $checkUserUtilityService;
 
+	/** @var CommentStore */
+	private $commentStore;
+
 	/**
 	 * @param FormOptions $opts
 	 * @param UserIdentity $target
@@ -96,6 +99,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	 * @param UserEditTracker $userEditTracker
 	 * @param HookRunner $hookRunner
 	 * @param CheckUserUtilityService $checkUserUtilityService
+	 * @param CommentStore $commentStore
 	 * @param IContextSource|null $context
 	 * @param LinkRenderer|null $linkRenderer
 	 * @param ?int $limit
@@ -120,6 +124,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		UserEditTracker $userEditTracker,
 		HookRunner $hookRunner,
 		CheckUserUtilityService $checkUserUtilityService,
+		CommentStore $commentStore,
 		IContextSource $context = null,
 		LinkRenderer $linkRenderer = null,
 		?int $limit = null
@@ -137,6 +142,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		$this->userEditTracker = $userEditTracker;
 		$this->hookRunner = $hookRunner;
 		$this->checkUserUtilityService = $checkUserUtilityService;
+		$this->commentStore = $commentStore;
 		$this->preCacheMessages();
 		$this->mGroupByDate = true;
 	}
@@ -188,7 +194,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		if ( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW ) {
 			$templateParams['comment'] = $this->formattedRevisionComments[$row->cuc_this_oldid];
 		} else {
-			$comment = CheckUserCommentStore::getStore()->getComment( 'cuc_comment', $row );
+			$comment = $this->commentStore->getComment( 'cuc_comment', $row );
 			$templateParams['comment'] = $this->commentFormatter->formatBlock( $comment->text );
 		}
 		// IP
@@ -326,7 +332,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	/** @inheritDoc */
 	public function getQueryInfo(): array {
 		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
-		$commentQuery = CheckUserCommentStore::getStore()->getJoin( 'cuc_comment' );
+		$commentQuery = $this->commentStore->getJoin( 'cuc_comment' );
 
 		$queryInfo = [
 			'fields' => [

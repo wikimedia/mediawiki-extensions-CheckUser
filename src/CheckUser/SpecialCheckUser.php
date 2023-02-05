@@ -21,6 +21,7 @@ use MediaWiki\CheckUser\CheckUserUtilityService;
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\CommentFormatter\CommentFormatter;
+use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Page\WikiPageFactory;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Revision\RevisionStore;
@@ -121,6 +122,9 @@ class SpecialCheckUser extends SpecialPage {
 	/** @var CheckUserUtilityService */
 	private $checkUserUtilityService;
 
+	/** @var CommentStore */
+	private $commentStore;
+
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory
 	 * @param BlockPermissionCheckerFactory $blockPermissionCheckerFactory
@@ -142,6 +146,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param UserNameUtils $userNameUtils
 	 * @param HookRunner $hookRunner
 	 * @param CheckUserUtilityService $checkUserUtilityService
+	 * @param CommentStore $commentStore
 	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
@@ -163,7 +168,8 @@ class SpecialCheckUser extends SpecialPage {
 		UserNamePrefixSearch $userNamePrefixSearch,
 		UserNameUtils $userNameUtils,
 		HookRunner $hookRunner,
-		CheckUserUtilityService $checkUserUtilityService
+		CheckUserUtilityService $checkUserUtilityService,
+		CommentStore $commentStore
 	) {
 		parent::__construct( 'CheckUser', 'checkuser' );
 
@@ -187,6 +193,7 @@ class SpecialCheckUser extends SpecialPage {
 		$this->userNameUtils = $userNameUtils;
 		$this->hookRunner = $hookRunner;
 		$this->checkUserUtilityService = $checkUserUtilityService;
+		$this->commentStore = $commentStore;
 	}
 
 	public function doesWrites() {
@@ -761,7 +768,8 @@ class SpecialCheckUser extends SpecialPage {
 					$this->commentFormatter,
 					$this->userEditTracker,
 					$this->hookRunner,
-					$this->checkUserUtilityService
+					$this->checkUserUtilityService,
+					$this->commentStore
 				);
 			default:
 				return null;

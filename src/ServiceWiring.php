@@ -1,7 +1,6 @@
 <?php
 
 use MediaWiki\CheckUser\CheckUserActorMigration;
-use MediaWiki\CheckUser\CheckUserCommentStore;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\CheckUserUtilityService;
 use MediaWiki\CheckUser\GuidedTour\TourLauncher;
@@ -44,14 +43,6 @@ return [
 			$services->getActorStoreFactory()
 		);
 	},
-	'CheckUserCommentStore' => static function (
-		MediaWikiServices $services
-	): CheckUserCommentStore {
-		return new CheckUserCommentStore(
-			$services->getContentLanguage(),
-			SCHEMA_COMPAT_NEW
-		);
-	},
 	'CheckUserPreliminaryCheckService' => static function (
 		MediaWikiServices $services
 	): PreliminaryCheckService {
@@ -76,7 +67,8 @@ return [
 		return new TimelineService(
 			$services->getDBLoadBalancer()->getConnection( DB_REPLICA ),
 			$services->getDBLoadBalancer()->getConnection( DB_REPLICA ),
-			$services->getUserIdentityLookup()
+			$services->getUserIdentityLookup(),
+			$services->getCommentStore()
 		);
 	},
 	'CheckUserTokenManager' => static function ( MediaWikiServices $services ): TokenManager {

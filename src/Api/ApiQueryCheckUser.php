@@ -8,8 +8,8 @@ use ApiResult;
 use Exception;
 use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\CheckUser\CheckUserActorMigration;
-use MediaWiki\CheckUser\CheckUserCommentStore;
 use MediaWiki\CheckUser\CheckUserLogService;
+use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
@@ -32,24 +32,30 @@ class ApiQueryCheckUser extends ApiQueryBase {
 	/** @var CheckUserLogService */
 	private $checkUserLogService;
 
+	/** @var CommentStore */
+	private $commentStore;
+
 	/**
 	 * @param ApiQuery $query
 	 * @param string $moduleName
 	 * @param UserIdentityLookup $userIdentityLookup
 	 * @param RevisionLookup $revisionLookup
 	 * @param CheckUserLogService $checkUserLogService
+	 * @param CommentStore $commentStore
 	 */
 	public function __construct(
 		$query,
 		$moduleName,
 		UserIdentityLookup $userIdentityLookup,
 		RevisionLookup $revisionLookup,
-		CheckUserLogService $checkUserLogService
+		CheckUserLogService $checkUserLogService,
+		CommentStore $commentStore
 	) {
 		parent::__construct( $query, $moduleName, 'cu' );
 		$this->userIdentityLookup = $userIdentityLookup;
 		$this->revisionLookup = $revisionLookup;
 		$this->checkUserLogService = $checkUserLogService;
+		$this->commentStore = $commentStore;
 	}
 
 	public function execute() {
@@ -78,8 +84,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 		}
 
 		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
-		$commentStore = CheckUserCommentStore::getStore();
-		$commentQuery = $commentStore->getJoin( 'cuc_comment' );
+		$commentQuery = $this->commentStore->getJoin( 'cuc_comment' );
 
 		$this->addTables( [ 'cu_changes' ] + $actorQuery['tables'] );
 		$this->addOption( 'LIMIT', $limit + 1 );
@@ -181,7 +186,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 						'agent'     => $row->cuc_agent,
 					];
 
-					$comment = $commentStore->getComment( 'cuc_comment', $row )->text;
+					$comment = $this->commentStore->getComment( 'cuc_comment', $row )->text;
 
 					if ( $row->cuc_actiontext ) {
 						$edit['summary'] = $row->cuc_actiontext;

@@ -3,9 +3,32 @@
 namespace MediaWiki\CheckUser\Investigate\Services;
 
 use MediaWiki\CheckUser\CheckUserActorMigration;
-use MediaWiki\CheckUser\CheckUserCommentStore;
+use MediaWiki\CommentStore\CommentStore;
+use MediaWiki\User\UserIdentityLookup;
+use Wikimedia\Rdbms\Database\DbQuoter;
+use Wikimedia\Rdbms\Platform\ISQLPlatform;
 
 class TimelineService extends ChangeService {
+	/** @var CommentStore */
+	private $commentStore;
+
+	/**
+	 * @param DbQuoter $dbQuoter
+	 * @param ISQLPlatform $sqlPlatform
+	 * @param UserIdentityLookup $userIdentityLookup
+	 * @param CommentStore $commentStore
+	 */
+	public function __construct(
+		DbQuoter $dbQuoter,
+		ISQLPlatform $sqlPlatform,
+		UserIdentityLookup $userIdentityLookup,
+		CommentStore $commentStore
+	) {
+		parent::__construct( $dbQuoter, $sqlPlatform, $userIdentityLookup );
+
+		$this->commentStore = $commentStore;
+	}
+
 	/**
 	 * Get timeline query info
 	 *
@@ -16,7 +39,7 @@ class TimelineService extends ChangeService {
 	 */
 	public function getQueryInfo( array $targets, array $excludeTargets, string $start ): array {
 		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
-		$commentQuery = CheckUserCommentStore::getStore()->getJoin( 'cuc_comment' );
+		$commentQuery = $this->commentStore->getJoin( 'cuc_comment' );
 
 		return [
 			'tables' => [ 'cu_changes' ] + $actorQuery['tables'] + $commentQuery['tables'],
