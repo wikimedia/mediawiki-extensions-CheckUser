@@ -6,8 +6,8 @@ use ApiBase;
 use ApiQuery;
 use ApiQueryBase;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager;
-use MediaWiki\CheckUser\CheckUserLogCommentStore;
 use MediaWiki\CheckUser\CheckUserLogService;
+use MediaWiki\CommentStore\CommentStore;
 use Wikimedia\IPUtils;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\ParamValidator\TypeDef\IntegerDef;
@@ -16,8 +16,8 @@ use Wikimedia\ParamValidator\TypeDef\IntegerDef;
  * CheckUser API Query Module
  */
 class ApiQueryCheckUserLog extends ApiQueryBase {
-	/** @var CheckUserLogCommentStore */
-	private $checkUserLogCommentStore;
+	/** @var CommentStore */
+	private $commentStore;
 
 	/** @var CheckUserLogService */
 	private $checkUserLogService;
@@ -25,15 +25,15 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 	/**
 	 * @param ApiQuery $query
 	 * @param string $moduleName
-	 * @param CheckUserLogCommentStore $checkUserLogCommentStore
+	 * @param CommentStore $commentStore
 	 * @param CheckUserLogService $checkUserLogService
 	 */
 	public function __construct(
-		$query, $moduleName, CheckUserLogCommentStore $checkUserLogCommentStore,
+		$query, $moduleName, CommentStore $commentStore,
 		CheckUserLogService $checkUserLogService
 	) {
 		parent::__construct( $query, $moduleName, 'cul' );
-		$this->checkUserLogCommentStore = $checkUserLogCommentStore;
+		$this->commentStore = $commentStore;
 		$this->checkUserLogService = $checkUserLogService;
 	}
 
@@ -54,13 +54,13 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		];
 		$this->addJoinConds( [ 'actor' => [ 'JOIN', 'actor_id=cul_actor' ] ] );
 
-		$reasonCommentQuery = $this->checkUserLogCommentStore->getJoin( 'cul_reason' );
+		$reasonCommentQuery = $this->commentStore->getJoin( 'cul_reason' );
 		$this->addTables( $reasonCommentQuery['tables'] );
 		$this->addJoinConds( $reasonCommentQuery['joins'] );
 		$fields += $reasonCommentQuery['fields'];
 
 		if ( isset( $params['reason'] ) ) {
-			$plaintextReasonCommentQuery = $this->checkUserLogCommentStore->getJoin( 'cul_reason_plaintext' );
+			$plaintextReasonCommentQuery = $this->commentStore->getJoin( 'cul_reason_plaintext' );
 			$this->addTables( $plaintextReasonCommentQuery['tables'] );
 			$this->addJoinConds( $plaintextReasonCommentQuery['joins'] );
 			$fields += $plaintextReasonCommentQuery['fields'];
@@ -117,7 +117,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 				'timestamp' => wfTimestamp( TS_ISO_8601, $row->cul_timestamp ),
 				'checkuser' => $row->actor_name,
 				'type'      => $row->cul_type,
-				'reason'    => $this->checkUserLogCommentStore->getComment( 'cul_reason', $row )->text,
+				'reason'    => $this->commentStore->getComment( 'cul_reason', $row )->text,
 				'target'    => $row->cul_target_text,
 			];
 			$fit = $result->addValue( [ 'query', $this->getModuleName(), 'entries' ], null, $log );

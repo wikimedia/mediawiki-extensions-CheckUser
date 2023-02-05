@@ -7,9 +7,9 @@ use IContextSource;
 use Linker;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog;
-use MediaWiki\CheckUser\CheckUserLogCommentStore;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CommentFormatter\CommentFormatter;
+use MediaWiki\CommentStore\CommentStore;
 use RangeChronologicalPager;
 use SpecialPage;
 use Wikimedia\Rdbms\IResultWrapper;
@@ -25,8 +25,8 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	/** @var CheckUserLogService */
 	private $checkUserLogService;
 
-	/** @var CheckUserLogCommentStore */
-	private $checkUserLogCommentStore;
+	/** @var CommentStore */
+	private $commentStore;
 
 	/** @var array */
 	private $opts;
@@ -38,7 +38,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	 * 		Start and end should be timestamps. Year and month are converted to end but ignored if end is
 	 * 		provided.
 	 * @param LinkBatchFactory $linkBatchFactory
-	 * @param CheckUserLogCommentStore $checkUserLogCommentStore
+	 * @param CommentStore $commentStore
 	 * @param CommentFormatter $commentFormatter
 	 * @param CheckUserLogService $checkUserLogService
 	 */
@@ -46,13 +46,13 @@ class CheckUserLogPager extends RangeChronologicalPager {
 		IContextSource $context,
 		array $opts,
 		LinkBatchFactory $linkBatchFactory,
-		CheckUserLogCommentStore $checkUserLogCommentStore,
+		CommentStore $commentStore,
 		CommentFormatter $commentFormatter,
 		CheckUserLogService $checkUserLogService
 	) {
 		parent::__construct( $context );
 		$this->linkBatchFactory = $linkBatchFactory;
-		$this->checkUserLogCommentStore = $checkUserLogCommentStore;
+		$this->commentStore = $commentStore;
 		$this->commentFormatter = $commentFormatter;
 		$this->checkUserLogService = $checkUserLogService;
 		$this->opts = $opts;
@@ -161,7 +161,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 			)
 		)->text();
 		$rowContent .= $this->commentFormatter->formatBlock(
-			CheckUserLogCommentStore::getStore()->getComment( 'cul_reason', $row )->text
+			$this->commentStore->getComment( 'cul_reason', $row )->text
 		);
 
 		$attribs = [
@@ -208,7 +208,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 			'join_conds' => [ 'cu_log_actor' => [ 'JOIN', [ 'actor_id = cul_actor' ] ] ]
 		];
 
-		$reasonCommentQuery = $this->checkUserLogCommentStore->getJoin( 'cul_reason' );
+		$reasonCommentQuery = $this->commentStore->getJoin( 'cul_reason' );
 		$queryInfo['tables'] += $reasonCommentQuery['tables'];
 		$queryInfo['fields'] += $reasonCommentQuery['fields'];
 		$queryInfo['join_conds'] += $reasonCommentQuery['joins'];
@@ -344,7 +344,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 			return $queryInfo;
 		}
 
-		$plaintextReasonCommentQuery = $this->checkUserLogCommentStore->getJoin( 'cul_reason_plaintext' );
+		$plaintextReasonCommentQuery = $this->commentStore->getJoin( 'cul_reason_plaintext' );
 		$queryInfo['tables'] += $plaintextReasonCommentQuery['tables'];
 		$queryInfo['fields'] += $plaintextReasonCommentQuery['fields'];
 		$queryInfo['join_conds'] += $plaintextReasonCommentQuery['joins'];

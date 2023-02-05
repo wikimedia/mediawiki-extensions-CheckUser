@@ -7,9 +7,9 @@ use Html;
 use HTMLForm;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager;
-use MediaWiki\CheckUser\CheckUserLogCommentStore;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CommentFormatter\CommentFormatter;
+use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Permissions\PermissionManager;
 use SpecialPage;
 use Title;
@@ -29,8 +29,8 @@ class SpecialCheckUserLog extends SpecialPage {
 	/** @var PermissionManager */
 	private $permissionManager;
 
-	/** @var CheckUserLogCommentStore */
-	private $checkUserLogCommentStore;
+	/** @var CommentStore */
+	private $commentStore;
 
 	/** @var CommentFormatter */
 	private $commentFormatter;
@@ -41,21 +41,21 @@ class SpecialCheckUserLog extends SpecialPage {
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory
 	 * @param PermissionManager $permissionManager
-	 * @param CheckUserLogCommentStore $checkUserLogCommentStore
+	 * @param CommentStore $commentStore
 	 * @param CommentFormatter $commentFormatter
 	 * @param CheckUserLogService $checkUserLogService
 	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
 		PermissionManager $permissionManager,
-		CheckUserLogCommentStore $checkUserLogCommentStore,
+		CommentStore $commentStore,
 		CommentFormatter $commentFormatter,
 		CheckUserLogService $checkUserLogService
 	) {
 		parent::__construct( 'CheckUserLog', 'checkuser-log' );
 		$this->linkBatchFactory = $linkBatchFactory;
 		$this->permissionManager = $permissionManager;
-		$this->checkUserLogCommentStore = $checkUserLogCommentStore;
+		$this->commentStore = $commentStore;
 		$this->commentFormatter = $commentFormatter;
 		$this->checkUserLogService = $checkUserLogService;
 	}
@@ -136,7 +136,7 @@ class SpecialCheckUserLog extends SpecialPage {
 			$this->getContext(),
 			$this->opts,
 			$this->linkBatchFactory,
-			$this->checkUserLogCommentStore,
+			$this->commentStore,
 			$this->commentFormatter,
 			$this->checkUserLogService
 		);

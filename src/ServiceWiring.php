@@ -2,7 +2,6 @@
 
 use MediaWiki\CheckUser\CheckUserActorMigration;
 use MediaWiki\CheckUser\CheckUserCommentStore;
-use MediaWiki\CheckUser\CheckUserLogCommentStore;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\CheckUserUtilityService;
 use MediaWiki\CheckUser\GuidedTour\TourLauncher;
@@ -49,14 +48,6 @@ return [
 		MediaWikiServices $services
 	): CheckUserCommentStore {
 		return new CheckUserCommentStore(
-			$services->getContentLanguage(),
-			SCHEMA_COMPAT_NEW
-		);
-	},
-	'CheckUserLogCommentStore' => static function (
-		MediaWikiServices $services
-	): CheckUserLogCommentStore {
-		return new CheckUserLogCommentStore(
 			$services->getContentLanguage(),
 			SCHEMA_COMPAT_NEW
 		);

@@ -1,6 +1,5 @@
 <?php
 
-use MediaWiki\CheckUser\CheckUserLogCommentStore;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\MediaWikiServices;
 use Wikimedia\IPUtils;
@@ -103,8 +102,7 @@ class ImportCheckUserLogs extends Maintenance {
 
 		$services = MediaWikiServices::getInstance();
 		$userFactory = $services->getUserFactory();
-		/** @var CheckUserLogCommentStore $checkUserLogCommentStore */
-		$checkUserLogCommentStore = $services->get( 'CheckUserLogCommentStore' );
+		$commentStore = $services->getCommentStore();
 		/** @var CheckUserLogService $checkUserLogService */
 		$checkUserLogService = $services->get( 'CheckUserLogService' );
 
@@ -145,8 +143,8 @@ class ImportCheckUserLogs extends Maintenance {
 						'cul_range_start' => $start,
 						'cul_range_end' => $end
 					];
-					$fields += $checkUserLogCommentStore->insert( $dbw, 'cul_reason', $data['reason'] );
-					$fields += $checkUserLogCommentStore->insert(
+					$fields += $commentStore->insert( $dbw, 'cul_reason', $data['reason'] );
+					$fields += $commentStore->insert(
 						$dbw, 'cul_reason_plaintext',
 						$checkUserLogService->getPlaintextReason( $data['reason'] )
 					);
