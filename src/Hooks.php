@@ -504,9 +504,9 @@ class Hooks implements
 		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
 			self::insertIntoCuPrivateEventTable(
 				[
-					'cupe_namespace' => NS_USER,
-					'cupe_log_action'    => 'reset-action',
-					'cupe_params'    => LogEntryBase::makeParamBlob( [ '4::receiver' => $accountName ] )
+					'cupe_namespace'  => NS_USER,
+					'cupe_log_action' => 'password-reset-email-sent',
+					'cupe_params'     => LogEntryBase::makeParamBlob( [ '4::receiver' => $accountName ] )
 				],
 				__METHOD__,
 				$user
