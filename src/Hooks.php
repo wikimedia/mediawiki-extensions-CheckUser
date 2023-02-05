@@ -1104,6 +1104,11 @@ class Hooks implements
 			'cuc_user',
 			"$base/$dbType/patch-cu_changes-drop-cuc_user.sql"
 		);
+		$updater->addExtensionField(
+			'cu_changes',
+			'cuc_only_for_read_old',
+			"$base/$dbType/patch-cu_changes-add-cuc_only_for_read_old.sql"
+		);
 
 		$updater->addPostDatabaseUpdateMaintenance( PopulateCucComment::class );
 

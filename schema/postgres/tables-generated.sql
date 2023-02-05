@@ -22,6 +22,7 @@ CREATE TABLE cu_changes (
   cuc_xff_hex VARCHAR(255) DEFAULT NULL,
   cuc_agent TEXT DEFAULT NULL,
   cuc_private TEXT DEFAULT NULL,
+  cuc_only_for_read_old SMALLINT DEFAULT 0 NOT NULL,
   PRIMARY KEY(cuc_id)
 );
 
