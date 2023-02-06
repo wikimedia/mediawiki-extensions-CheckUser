@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Hanberke"
+			"Hanberke",
+			"TayfunEt."
 		]
 	},
 	"checkuser-desc": "Ulanyjylaryň IP adreslerini we beýleki maglumatlaryny barlamak hukugy üçin degişli rugsatlary ulanyjylara berýär",
@@ -12,6 +13,7 @@
 	"group-checkuser-member": "Ulanyjy barlaýjysy",
 	"right-checkuser": "Ulanyjylaryň IP adreslerini we baş maglumatlaryny barla",
 	"right-checkuser-log": "Ulanyjy barlaýjysy gündeligini görkez",
+	"right-checkuser-temporary-account": "Wagtlaýyn hasaplar tarapyndan ulanylýan IP adresleri görüň",
 	"grouppage-checkuser": "{{ns:project}}:Ulanyjy barlaýjysy",
 	"checkuser-reason": "Sebäp:",
 	"checkuser-showlog": "Gündeligi görkez",
@@ -49,5 +51,10 @@
 	"checkuser-ipeditcount": "ähli ulanyjylardan ~$1",
 	"checkuser-autocreate-action": "awtomatik döredildi",
 	"checkuser-email-action": "\"$1\" ulanyjysyna e-poçta iberdi",
-	"checkuser-reset-action": "\"$1\" ulanyjysy üçin paroly başky ýagdaýa getirdi"
+	"checkuser-reset-action": "\"$1\" ulanyjysy üçin paroly başky ýagdaýa getirdi",
+	"checkuser-helper-label": "Netijeleri tablisada görüň",
+	"checkuser-helper-copy-success": "Göçürildi",
+	"checkuser-helper-copy-failed": "Göçürip bolmady",
+	"checkuser-helper-user": "Ulanyjy",
+	"checkuser-tempaccount-reveal-ip-missing": "elýeterli däl"
 }

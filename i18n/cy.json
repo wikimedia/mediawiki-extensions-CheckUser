@@ -84,6 +84,8 @@
 	"checkuser-login-failure": "Wedi methu mewngofnodi i {{SITENAME}} fel $1",
 	"checkuser-login-failure-with-good-password": "Wedi methu mewngofnodi i {{SITENAME}} fel $1 ond gyda'r cyfrinair cywir",
 	"checkuser-login-success": "Wedi mewngofnodi'n llwyddiannus i {{SITENAME}} fel $1",
+	"checkuser-helper-user": "Defnyddiwr",
+	"checkuser-helper-ips": "Cyfeiriad(au) IP",
 	"checkuser-link-investigate-label": "Rhowch gynnig ar yr offeryn ArchwilioDefnyddiwr newydd",
 	"checkuser-investigateblock": "Blocio defnyddwyr",
 	"checkuser-investigateblock-target": "Enwau defnyddiwr a chyfeiriadau IP",
@@ -133,5 +135,7 @@
 	"checkuser-investigate-subtitle-link-restart-tour": "Ailddechrau'r Tiwtorial",
 	"checkuser-investigate-tour-addusertargets-title": "Angen mwy o gyd-destun?",
 	"checkuser-investigate-tour-block-title": "Eisiau blocio?",
-	"checkuser-investigate-tour-copywikitext-title": "Eisiau copïo'r data?"
+	"checkuser-investigate-tour-copywikitext-title": "Eisiau copïo'r data?",
+	"checkuser-tempaccount-reveal-ip-button-label": "Dangos IP",
+	"checkuser-tempaccount-reveal-ip-missing": "ddim ar gael"
 }

@@ -131,7 +131,7 @@
 	"checkuser-login-failure": "无法以$1身份登录到{{SITENAME}}",
 	"checkuser-login-failure-with-good-password": "无法以$1身份登录到{{SITENAME}}，但密码正确",
 	"checkuser-login-success": "成功以$1身份登录到{{SITENAME}}",
-	"checkuser-logout": "成功使用API或“特殊:用户退出”退出登录",
+	"checkuser-logout": "成功使用API或“{{#special:logout}}”退出登录",
 	"checkuser-helper-label": "在表格中查看结果",
 	"checkuser-helper-copy-success": "已复制",
 	"checkuser-helper-copy-failed": "无法复制",

@@ -134,7 +134,7 @@
 	"checkuser-login-failure": "Error al tratar de iniciar sesión como «$1» en {{SITENAME}}",
 	"checkuser-login-failure-with-good-password": "Error al tratar de iniciar sesión en {{SITENAME}} como «$1» aunque la contraseña era correcta",
 	"checkuser-login-success": "«$1» inició sesión correctamente en {{SITENAME}}",
-	"checkuser-logout": "Finalizó la sesión correctamente usando la API o Special:Logout",
+	"checkuser-logout": "Finalizó la sesión correctamente usando la API o {{#special:logout}}",
 	"checkuser-helper-label": "Ver resultados en una tabla",
 	"checkuser-helper-copy-success": "Copiado",
 	"checkuser-helper-copy-failed": "No se pudo copiar",
