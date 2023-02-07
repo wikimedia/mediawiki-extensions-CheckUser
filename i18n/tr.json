@@ -16,7 +16,8 @@
 			"Sayginer",
 			"Suelnur",
 			"Vito Genovese",
-			"Ömer Berkay"
+			"Ömer Berkay",
+			"Rapsar"
 		]
 	},
 	"checkuser-summary": "Bu araç bir kullanıcı tarafından kullanılan IP'leri almak için son değişiklikleri tarar ya da bir IP için değişiklik/kullanıcı verisini gösterir.\nAlıcı IP'deki kullanıcı ve değişiklikler, IP'ye \"/xff\" eklenmesiyle XFF başlıklarıyla alınabilir. IPv4 (CIDR $1-32) ve IPv6 (CIDR $2-128) desteklenmektedir.\nPerformans nedenleriyle $3 düzenlemeden fazla geri almayacaktır.",
@@ -152,7 +153,7 @@
 	"checkuser-investigate-reason-label": "Sebep",
 	"checkuser-investigate-preliminary-notice-ip-targets": "Hesap bilgileri sekmesi IP'ler hakkında herhangi bir bilgi içermez. Bu ayrıntılar için <span class=\"plainlinks\">[$1 IP'ler ve Kullanıcı aracıları sekmesine]</span> bakın.",
 	"checkuser-investigate-preliminary-table-cell-blocked": "Engellendi",
-	"checkuser-investigate-preliminary-table-cell-edits": "$1 düzenleme",
+	"checkuser-investigate-preliminary-table-cell-edits": "$1 değişiklik",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "Engellenmemiş",
 	"checkuser-investigate-preliminary-table-header-blocked": "Durum",
 	"checkuser-investigate-preliminary-table-header-editcount": "Düzenlemeler",
@@ -179,7 +180,7 @@
 	"checkuser-investigate-compare-table-button-contribs-label": "Katkılar",
 	"checkuser-investigate-compare-table-button-filter-label": "Sonuçlara göre filtrele",
 	"checkuser-investigate-compare-table-cell-unregistered": "Kayıtsız",
-	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|düzenleme/eylem}}]</b>",
+	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|değişiklik/eylem}}]</b>",
 	"checkuser-investigate-compare-table-cell-other-edits": "<i>(Tüm kullanıcılardan ~$1)</i>",
 	"checkuser-investigate-compare-table-header-username": "Kullanıcı adı",
 	"checkuser-investigate-compare-table-header-activity": "Tarih aralığı",
