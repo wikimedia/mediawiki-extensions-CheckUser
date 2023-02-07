@@ -108,6 +108,8 @@
 	"checkuser-helper-user": "User",
 	"checkuser-helper-ips": "IP(s)",
 	"checkuser-helper-uas": "User Agent(s)",
+	"checkuser-helper-xff-trusted": "XFF (trusted):",
+	"checkuser-helper-xff-untrusted": "XFF (untrusted):",
 	"group-checkuser.css": "/* CSS placed here will affect checkuser only */",
 	"group-checkuser.js": "/* JS placed here will affect checkuser only */",
 	"checkuser-rest-access-denied": "You do not have permission to perform the action",

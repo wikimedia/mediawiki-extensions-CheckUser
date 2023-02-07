@@ -229,6 +229,8 @@
 				"checkuser-helper-user",
 				"checkuser-helper-ips",
 				"checkuser-helper-uas",
+				"checkuser-helper-xff-trusted",
+				"checkuser-helper-xff-untrusted",
 				"checkuser-investigate-compare-copy-button-label",
 				"checkuser-investigate-compare-copy-button-label-hide",
 				"checkuser-investigate-compare-copy-message-label",

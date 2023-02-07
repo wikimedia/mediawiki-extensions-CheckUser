@@ -43,9 +43,11 @@
 						if ( xffText !== '' ) {
 							var xffPrefix = document.createElement( 'span' );
 							if ( xffTrusted === true ) {
-								xffPrefix.textContent = ' XFF (trusted): ';
+								xffPrefix.textContent = ' ' +
+									mw.message( 'checkuser-helper-xff-trusted' ) + ' ';
 							} else {
-								xffPrefix.textContent = ' XFF (untrusted): ';
+								xffPrefix.textContent = ' ' +
+									mw.message( 'checkuser-helper-xff-untrusted' ) + ' ';
 							}
 							var xff = document.createElement( 'span' );
 							xff.textContent = xffText;
@@ -105,13 +107,13 @@
 						var xffTrusted = xffTypes[ k ];
 						text += '\n* ' + ipText;
 						if ( xffText !== '' ) {
-							var xffPrefix = ' XFF ';
+							var xffPrefix;
 							if ( xffTrusted === true ) {
-								xffPrefix += '(trusted)';
+								xffPrefix = ' ' + mw.message( 'checkuser-helper-xff-trusted' );
 							} else {
-								xffPrefix += '(untrusted)';
+								xffPrefix = ' ' + mw.message( 'checkuser-helper-xff-untrusted' );
 							}
-							text += xffPrefix + ': ' + xffText;
+							text += xffPrefix + ' ' + xffText;
 						}
 						if ( showCounts ) {
 							text += ' [' + data[ user ].ip[ ipText ][ xffText ][ xffTrusted ] + ']';
