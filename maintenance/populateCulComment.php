@@ -23,6 +23,7 @@ namespace MediaWiki\CheckUser\Maintenance;
 use LoggedUpdateMaintenance;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\MediaWikiServices;
+use Psr\Log\NullLogger;
 use Wikimedia\Services\NoSuchServiceException;
 
 $IP = getenv( 'MW_INSTALL_PATH' );
@@ -74,7 +75,10 @@ class PopulateCulComment extends LoggedUpdateMaintenance {
 			$checkUserLogService = new CheckUserLogService(
 				$services->getDBLoadBalancer(),
 				$services->getCommentStore(),
-				$services->getCommentFormatter()
+				$services->getCommentFormatter(),
+				// No need to log as this maintenance script does not use any methods
+				//  that use the logger.
+				new NullLogger()
 			);
 		}
 		$mainLb = $services->getDBLoadBalancerFactory()->getMainLB();

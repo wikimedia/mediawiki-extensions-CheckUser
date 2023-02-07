@@ -32,7 +32,8 @@ return [
 		return new CheckUserLogService(
 			$services->getDBLoadBalancer(),
 			$services->getCommentStore(),
-			$services->getCommentFormatter()
+			$services->getCommentFormatter(),
+			LoggerFactory::getInstance( 'CheckUser' )
 		);
 	},
 	'CheckUserActorMigration' => static function (

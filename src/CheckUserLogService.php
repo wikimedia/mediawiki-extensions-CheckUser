@@ -5,10 +5,12 @@ namespace MediaWiki\CheckUser;
 use CommentStore;
 use DeferredUpdates;
 use MediaWiki\CommentFormatter\CommentFormatter;
+use Psr\Log\LoggerInterface;
 use Sanitizer;
 use Title;
 use User;
 use Wikimedia\IPUtils;
+use Wikimedia\Rdbms\DBError;
 use Wikimedia\Rdbms\ILoadBalancer;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -23,19 +25,25 @@ class CheckUserLogService {
 	/** @var CommentFormatter */
 	private $commentFormatter;
 
+	/** @var LoggerInterface */
+	private $logger;
+
 	/**
 	 * @param ILoadBalancer $loadBalancer
 	 * @param CommentStore $commentStore
 	 * @param CommentFormatter $commentFormatter
+	 * @param LoggerInterface $logger
 	 */
 	public function __construct(
 		ILoadBalancer $loadBalancer,
 		CommentStore $commentStore,
-		CommentFormatter $commentFormatter
+		CommentFormatter $commentFormatter,
+		LoggerInterface $logger
 	) {
 		$this->loadBalancer = $loadBalancer;
 		$this->commentStore = $commentStore;
 		$this->commentFormatter = $commentFormatter;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -81,23 +89,30 @@ class CheckUserLogService {
 		$fname = __METHOD__;
 		$dbw = $this->loadBalancer->getConnection( DB_PRIMARY );
 		$commentStore = $this->commentStore;
+		$logger = $this->logger;
 
 		DeferredUpdates::addCallableUpdate(
 			static function () use (
-				$data, $timestamp, $reason, $plaintextReason, $fname, $dbw, $commentStore
+				$data, $timestamp, $reason, $plaintextReason, $fname, $dbw, $commentStore, $logger
 			) {
-				$data += $commentStore->insert( $dbw, 'cul_reason', $reason );
-				$data += $commentStore->insert( $dbw, 'cul_reason_plaintext', $plaintextReason );
-				$dbw->insert(
-					'cu_log',
-					[
-						'cul_timestamp' => $dbw->timestamp( $timestamp )
-					] + $data,
-					$fname
-				);
-			},
-			// fail on error and show no output
-			DeferredUpdates::PRESEND
+				try {
+					$data += $commentStore->insert( $dbw, 'cul_reason', $reason );
+					$data += $commentStore->insert( $dbw, 'cul_reason_plaintext', $plaintextReason );
+					$dbw->insert(
+						'cu_log',
+						[
+							'cul_timestamp' => $dbw->timestamp( $timestamp )
+						] + $data,
+						$fname
+					);
+				} catch ( DBError $e ) {
+					$logger->critical(
+						'CheckUserLog entry was not recorded. This means checks can occur without being auditable. ' .
+						'Immediate fix required.'
+					);
+					throw $e;
+				}
+			}
 		);
 	}
 
