@@ -42,7 +42,7 @@
 						ip.appendChild( ipElement );
 						if ( xffText !== '' ) {
 							var xffPrefix = document.createElement( 'span' );
-							if ( xffTrusted === true ) {
+							if ( xffTrusted === 'true' ) {
 								xffPrefix.textContent = ' ' +
 									mw.message( 'checkuser-helper-xff-trusted' ) + ' ';
 							} else {
@@ -108,7 +108,7 @@
 						text += '\n* ' + ipText;
 						if ( xffText !== '' ) {
 							var xffPrefix;
-							if ( xffTrusted === true ) {
+							if ( xffTrusted === 'true' ) {
 								xffPrefix = ' ' + mw.message( 'checkuser-helper-xff-trusted' );
 							} else {
 								xffPrefix = ' ' + mw.message( 'checkuser-helper-xff-untrusted' );
@@ -182,13 +182,18 @@
 				$( '.mw-checkuser-ip', this ).each( function () {
 					ipText = $( this ).text().trim();
 					var $xff;
+					var xffTrusted;
 					if ( $( this ).is( 'li' ) ) {
 						$xff = $( '.mw-checkuser-xff', this );
 					} else {
 						$xff = $( this ).closest( 'li' ).find( '.mw-checkuser-xff' );
 					}
 					// eslint-disable-next-line no-jquery/no-class-state
-					var xffTrusted = $xff.hasClass( 'mw-checkuser-xff-trusted' );
+					if ( $xff.hasClass( 'mw-checkuser-xff-trusted' ) ) {
+						xffTrusted = 'true';
+					} else {
+						xffTrusted = 'false';
+					}
 					var xffText = $xff.text().trim();
 					if ( ipText !== '' ) {
 						if ( !data[ user ].ip[ ipText ] ) {
