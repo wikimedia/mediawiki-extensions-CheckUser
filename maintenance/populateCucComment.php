@@ -90,6 +90,11 @@ class PopulateCucComment extends LoggedUpdateMaintenance {
 			return true;
 		}
 
+		if ( !$dbr->fieldExists( 'cu_changes', 'cuc_comment' ) ) {
+			$this->output( "cuc_comment has already been dropped.\n" );
+			return true;
+		}
+
 		$this->output( "Populating the cuc_comment_id column...\n" );
 
 		$diff = $maxId - $prevId;

@@ -1059,6 +1059,11 @@ class Hooks implements
 			PopulateCucActor::class,
 			'extensions/CheckUser/maintenance/populateCucActor.php'
 		] );
+		$updater->addExtensionUpdate( [
+			'runMaintenance',
+			PopulateCucComment::class,
+			'extensions/CheckUser/maintenance/populateCucComment.php'
+		] );
 
 		// 1.40
 		$updater->addExtensionTable(
@@ -1109,8 +1114,11 @@ class Hooks implements
 			'cuc_only_for_read_old',
 			"$base/$dbType/patch-cu_changes-add-cuc_only_for_read_old.sql"
 		);
-
-		$updater->addPostDatabaseUpdateMaintenance( PopulateCucComment::class );
+		$updater->dropExtensionField(
+			'cu_changes',
+			'cuc_comment',
+			"$base/$dbType/patch-cu_changes-drop-cuc_comment.sql"
+		);
 
 		if ( !$isCUInstalled ) {
 			// First time so populate cu_changes with recentchanges data.
