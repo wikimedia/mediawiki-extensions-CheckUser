@@ -1199,13 +1199,11 @@ class Hooks implements
 			return true;
 		}
 
-		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
-
 		$res = $dbr->newSelectQueryBuilder()
-			->tables( [ 'cu_changes' ] + $actorQuery['tables'] )
+			->tables( [ 'cu_changes', 'actor' ] )
 			->field( 'cuc_ip' )
 			->conds( [ 'actor_user' => $user->getId( $block->getWikiId() ) ] )
-			->joinConds( $actorQuery['joins'] )
+			->joinConds( [ 'actor' => [ 'JOIN', 'actor_id=cuc_actor' ] ] )
 			// just the last IP used
 			->limit( 1 )
 			->orderBy( 'cuc_timestamp', SelectQueryBuilder::SORT_DESC )

@@ -7,7 +7,6 @@ use ApiQueryBase;
 use ApiResult;
 use Exception;
 use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
-use MediaWiki\CheckUser\CheckUserActorMigration;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\MediaWikiServices;
@@ -83,14 +82,13 @@ class ApiQueryCheckUser extends ApiQueryBase {
 			$this->dieWithError( 'apierror-checkuser-timelimit', 'invalidtime' );
 		}
 
-		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
 		$commentQuery = $this->commentStore->getJoin( 'cuc_comment' );
 
-		$this->addTables( [ 'cu_changes' ] + $actorQuery['tables'] );
+		$this->addTables( [ 'cu_changes', 'actor_cuc_user' => 'actor' ] );
 		$this->addOption( 'LIMIT', $limit + 1 );
 		$this->addOption( 'ORDER BY', 'cuc_timestamp DESC' );
 		$this->addWhere( "cuc_timestamp > " . $dbr->addQuotes( $dbr->timestamp( $timeCutoff ) ) );
-		$this->addJoinConds( $actorQuery['joins'] );
+		$this->addJoinConds( [ 'actor_cuc_user' => [ 'JOIN', 'actor_cuc_user.actor_id=cuc_actor' ] ] );
 
 		switch ( $request ) {
 			case 'userips':
@@ -168,8 +166,10 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				$this->addTables( $commentQuery['tables'] );
 				$this->addFields( [
 					'cuc_namespace', 'cuc_title', 'cuc_actiontext', 'cuc_this_oldid',
-					'cuc_minor', 'cuc_timestamp', 'cuc_ip', 'cuc_xff', 'cuc_agent', 'cuc_type'
-				] + $actorQuery['fields'] + $commentQuery['fields'] );
+					'cuc_minor', 'cuc_timestamp', 'cuc_ip', 'cuc_xff', 'cuc_agent', 'cuc_type',
+					'cuc_user' => 'actor_cuc_user.actor_user',
+					'cuc_user_text' => 'actor_cuc_user.actor_name',
+				] + $commentQuery['fields'] );
 				$this->addJoinConds( $commentQuery['joins'] );
 
 				$res = $this->select( __METHOD__ );
@@ -267,7 +267,8 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$this->dieWithError( 'apierror-badip', 'invalidip' );
 				}
 
-				$this->addFields( [ 'cuc_timestamp', 'cuc_ip', 'cuc_agent' ] + $actorQuery['fields'] );
+				$this->addFields( [ 'cuc_timestamp', 'cuc_ip', 'cuc_agent',
+					'cuc_user_text' => 'actor_cuc_user.actor_name' ] );
 
 				$res = $this->select( __METHOD__ );
 				$result = $this->getResult();

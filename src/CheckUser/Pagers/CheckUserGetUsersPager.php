@@ -14,7 +14,6 @@ use ListToggle;
 use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
-use MediaWiki\CheckUser\CheckUserActorMigration;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\CheckUserUtilityService;
 use MediaWiki\CheckUser\TokenQueryManager;
@@ -363,15 +362,14 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 
 	/** @inheritDoc */
 	public function getQueryInfo(): array {
-		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
-
 		$queryInfo = [
 			'fields' => [
-				'cuc_timestamp', 'cuc_ip', 'cuc_agent', 'cuc_xff',
-			] + $actorQuery['fields'],
-			'tables' => [ 'cu_changes' ] + $actorQuery['tables'],
+				'cuc_timestamp', 'cuc_ip', 'cuc_agent', 'cuc_xff', 'cuc_user' => 'actor_cuc_user.actor_user',
+				'cuc_user_text' => 'actor_cuc_user.actor_name'
+			],
+			'tables' => [ 'cu_changes', 'actor_cuc_user' => 'actor' ],
 			'conds' => [],
-			'join_conds' => $actorQuery['joins'],
+			'join_conds' => [ 'actor_cuc_user' => [ 'JOIN', 'actor_cuc_user.actor_id=cuc_actor' ] ],
 			'options' => [ 'USE INDEX' => [
 				'cu_changes' => $this->xfor ? 'cuc_xff_hex_time' : 'cuc_ip_hex_time'
 			] ],
