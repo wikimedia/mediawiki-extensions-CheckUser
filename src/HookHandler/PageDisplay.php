@@ -41,6 +41,11 @@ class PageDisplay implements BeforePageDisplayHook {
 			return;
 		}
 
+		// If the user is blocked
+		if ( $user->getBlock() ) {
+			return;
+		}
+
 		$out->addModules( 'ext.checkUser' );
 		$out->addModuleStyles( 'ext.checkUser.styles' );
 	}
