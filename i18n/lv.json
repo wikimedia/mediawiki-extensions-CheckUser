@@ -44,10 +44,13 @@
 	"checkuser-search-submit": "Meklēt",
 	"checkuser-log-search-target": "Mērķis:",
 	"checkuser-email-action": "aizsūtīt ziņu uz lietotāja \"$1\" e-pastu",
+	"checkuser-helper-copy-failed": "Nevarēja nokopēt",
+	"checkuser-helper-user": "Lietotājs",
 	"checkuser-investigate-tab-compare": "Salīdzināt",
 	"checkuser-investigate-reason-label": "Iemesls",
 	"checkuser-investigate-preliminary-table-header-blocked": "Statuss",
 	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|labojumi|labojums|labojumi}}]</b>",
 	"checkuser-investigate-compare-table-header-ip": "IP",
-	"checkuser-investigate-compare-table-header-useragent": "Lietotāja aģents"
+	"checkuser-investigate-compare-table-header-useragent": "Lietotāja aģents",
+	"checkuser-tempaccount-reveal-ip-button-label": "Rādīt IP"
 }
