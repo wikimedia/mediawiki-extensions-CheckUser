@@ -44,9 +44,9 @@ class TemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 			$ips[] = $row->cuc_ip;
 		}
 
-		$ips = array_unique( $ips );
+		$unique_ips = array_values( array_unique( $ips ) );
 
-		return [ 'ips' => $ips ];
+		return [ 'ips' => $unique_ips ];
 	}
 
 	/**
