@@ -65,16 +65,16 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @param int $limit
+	 * @param array $params
 	 * @return TestingAccessWrapper
 	 */
-	protected function setUpObject( $limit = 0 ) {
+	protected function setUpObject( $params = [] ) {
 		$opts = new FormOptions();
-		$opts->add( 'reason', '' );
-		$opts->add( 'period', 0 );
-		$opts->add( 'limit', $limit );
-		$opts->add( 'dir', '' );
-		$opts->add( 'offset', '' );
+		$opts->add( 'reason', $params['reason'] ?? '' );
+		$opts->add( 'period', $params['period'] ?? 0 );
+		$opts->add( 'limit', $params['limit'] ?? 0 );
+		$opts->add( 'dir', $params['dir'] ?? '' );
+		$opts->add( 'offset', $params['offset'] ?? '' );
 		$services = $this->getServiceContainer();
 		$object = new DeAbstractedCheckUserPagerTest(
 			$opts,
@@ -174,18 +174,19 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @covers ::getDateRangeCond
-	 * @dataProvider provideGetDateRangeCond
+	 * @covers ::getPeriodCondition
+	 * @dataProvider provideGetPeriodCondition
 	 */
-	public function testGetDateRangeCond( $period, $fakeTime, $expected ) {
+	public function testGetPeriodCondition( $period, $fakeTime, $expected ) {
 		ConvertibleTimestamp::setFakeTime( $fakeTime );
-		$object = $this->setUpObject();
-		$object->opts->add( 'period', $period );
+		$object = $this->setUpObject( [ 'period' => $period ] );
 		if ( $expected ) {
-			$condition = 'cuc_timestamp > ' . $this->db->addQuotes( $this->db->timestamp( $expected ) );
+			$expected = $this->db->buildComparison( '>=',
+				[ 'cuc_timestamp' => $this->db->timestamp( $expected ) ]
+			);
 			$this->assertArrayEquals(
-				[ $condition ],
-				$object->getDateRangeCond( '', '' ),
+				[ $expected ],
+				$object->getPeriodCondition(),
 				false,
 				false,
 				'A different time condition was generated than expected.'
@@ -193,13 +194,13 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		} else {
 			$this->assertCount(
 				0,
-				$object->getDateRangeCond( '', '' ),
+				$object->getPeriodCondition(),
 				'Conditions were generated when they were not supposed to be.'
 			);
 		}
 	}
 
-	public function provideGetDateRangeCond(): array {
+	public function provideGetPeriodCondition(): array {
 		return [
 			'Empty period' => [ '', '1653047635', false ],
 			'Period value for all' => [ 0, '1653047635', false ],
@@ -256,7 +257,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 	 */
 	public function testFormOptionsLimitValue( $formSubmittedLimit, $maximumLimit, $expectedLimit ) {
 		$this->setMwGlobals( 'wgCheckUserMaximumRowCount', $maximumLimit );
-		$object = $this->setUpObject( $formSubmittedLimit );
+		$object = $this->setUpObject( [ 'limit' => $formSubmittedLimit ] );
 		$this->assertSame(
 			$expectedLimit,
 			$object->mLimit,

@@ -24,6 +24,7 @@ use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
+use MWTimestamp;
 use RangeChronologicalPager;
 use RequestContext;
 use SpecialPage;
@@ -35,7 +36,6 @@ use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\ILoadBalancer;
 use Wikimedia\Rdbms\SelectQueryBuilder;
-use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 
@@ -198,27 +198,22 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 			);
 		}
 
-		$this->getDateRangeCond( '', '' );
+		$this->getPeriodCondition();
 	}
 
 	/**
-	 * Get the cutoff timestamp and add it to the range conditions for the query
+	 * Get the cutoff timestamp condition for the query
 	 *
-	 * @param string $startStamp Ignored.
-	 * @param string $endStamp Ignored.
-	 * @return array the range conditions which are also set in $this->rangeConds
+	 * @return array the cutoff timestamp query condition
 	 */
-	public function getDateRangeCond( $startStamp, $endStamp ): array {
-		$this->rangeConds = [];
+	protected function getPeriodCondition() {
 		$period = $this->opts->getValue( 'period' );
 		if ( $period ) {
-			$cutoffUnixtime = ConvertibleTimestamp::time() - ( $period * 24 * 3600 );
-			$cutoffUnixtime -= $cutoffUnixtime % 86400;
-			$cutoff = $this->mDb->addQuotes( $this->mDb->timestamp( $cutoffUnixtime ) );
-			$this->rangeConds = [ "cuc_timestamp > $cutoff" ];
+			$cutoffTime = MWTimestamp::getInstance();
+			$cutoffTime->timestamp->setTime( 0, 0 )->modify( "-$period day" );
+			return $this->getDateRangeCond( $cutoffTime->getTimestamp(), '' );
 		}
-
-		return $this->rangeConds;
+		return [];
 	}
 
 	/**

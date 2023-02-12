@@ -24,8 +24,4 @@ class DeAbstractedCheckUserPagerTest extends AbstractCheckUserPager {
 	public function getQueryInfo() {
 		return [];
 	}
-
-	public function getIndexField() {
-		return [];
-	}
 }

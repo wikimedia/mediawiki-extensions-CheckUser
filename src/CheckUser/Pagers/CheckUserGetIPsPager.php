@@ -123,7 +123,11 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 	 * @return int
 	 */
 	protected function getCountForIPedits( string $ip_hex ): int {
-		$conds = array_merge( [ 'cuc_ip_hex' => $ip_hex ], $this->rangeConds );
+		$conds = [ 'cuc_ip_hex' => $ip_hex ];
+		// We are only using startOffset for the period feature.
+		if ( $this->startOffset ) {
+			$conds[] = $this->mDb->buildComparison( '>=', [ $this->getTimestampField() => $this->startOffset ] );
+		}
 
 		$query = $this->mDb->newSelectQueryBuilder()
 			->table( 'cu_changes' )
@@ -140,8 +144,6 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 
 	/** @inheritDoc */
 	public function getQueryInfo(): array {
-		$this->mExtraSortFields = [ 'last' ];
-
 		return [
 			'fields' => [
 				'cuc_ip',
@@ -163,6 +165,11 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 	/** @inheritDoc */
 	public function getIndexField() {
 		return 'last';
+	}
+
+	/** @inheritDoc */
+	public function getTimestampField() {
+		return 'cuc_timestamp';
 	}
 
 	/** @inheritDoc */
