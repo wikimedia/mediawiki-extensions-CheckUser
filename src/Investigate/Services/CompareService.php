@@ -4,7 +4,6 @@ namespace MediaWiki\CheckUser\Investigate\Services;
 
 use IDatabase;
 use LogicException;
-use MediaWiki\CheckUser\CheckUserActorMigration;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\Rdbms\ILoadBalancer;
@@ -60,16 +59,14 @@ class CompareService extends ChangeService {
 		string $ipHex,
 		string $excludeUser = null
 	): int {
-		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
-
 		$queryBuilder = $this->loadBalancer->getConnection( DB_REPLICA )->newSelectQueryBuilder()
 			->select( 'cuc_id' )
-			->tables( [ 'cu_changes' ] + $actorQuery['tables'] )
+			->from( 'cu_changes' )
+			->join( 'actor', null, 'actor_id=cuc_actor' )
 			->where( [
 				'cuc_ip_hex' => $ipHex,
 				'cuc_type' => [ RC_EDIT, RC_NEW ],
 			] )
-			->joinConds( $actorQuery['joins'] )
 			->caller( __METHOD__ );
 
 		if ( $excludeUser ) {
@@ -92,8 +89,6 @@ class CompareService extends ChangeService {
 	public function getQueryInfo( array $targets, array $excludeTargets, string $start ): array {
 		$dbr = $this->loadBalancer->getConnection( DB_REPLICA );
 
-		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
-
 		if ( $targets === [] ) {
 			throw new LogicException( 'Cannot get query info when $targets is empty.' );
 		}
@@ -106,14 +101,16 @@ class CompareService extends ChangeService {
 				$queryBuilder = $dbr->newSelectQueryBuilder()
 					->select( [
 						'cuc_id',
+						'cuc_user' => 'cuc_user_actor.actor_user',
+						'cuc_user_text' => 'cuc_user_actor.actor_name',
 						'cuc_ip',
 						'cuc_ip_hex',
 						'cuc_agent',
 						'cuc_timestamp',
-					] + $actorQuery['fields'] )
-					->tables( [ 'cu_changes' ] + $actorQuery['tables'] )
+					] )
+					->from( 'cu_changes' )
+					->join( 'actor', 'cuc_user_actor', 'cuc_user_actor.actor_id=cuc_actor' )
 					->where( $conds )
-					->joinConds( $actorQuery['joins'] )
 					->caller( __METHOD__ );
 				if ( $dbr->unionSupportsOrderAndLimit() ) {
 					$queryBuilder->orderBy( 'cuc_timestamp', SelectQueryBuilder::SORT_DESC )
@@ -224,16 +221,14 @@ class CompareService extends ChangeService {
 		$targetsOverLimit = [];
 		$offset = $this->getLimitPerTarget( $targets );
 
-		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
-
 		foreach ( $targets as $target ) {
 			$conds = $this->buildCondsForSingleTarget( $target, $excludeTargets, $start );
 			if ( $conds !== null ) {
 				$limitCheck = $dbr->newSelectQueryBuilder()
 					->select( 'cuc_id' )
-					->tables( [ 'cu_changes' ] + $actorQuery['tables'] )
+					->from( 'cu_changes' )
+					->join( 'actor', 'cuc_user_actor', 'cuc_user_actor.actor_id=cuc_actor' )
 					->where( $conds )
-					->joinConds( $actorQuery['joins'] )
 					->offset( $offset )
 					->limit( 1 )
 					->caller( __METHOD__ );

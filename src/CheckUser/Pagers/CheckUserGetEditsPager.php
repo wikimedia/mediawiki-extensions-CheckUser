@@ -11,7 +11,6 @@ use IContextSource;
 use Linker;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
-use MediaWiki\CheckUser\CheckUserActorMigration;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\CheckUserUtilityService;
 use MediaWiki\CheckUser\Hook\HookRunner;
@@ -331,18 +330,20 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 
 	/** @inheritDoc */
 	public function getQueryInfo(): array {
-		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
 		$commentQuery = $this->commentStore->getJoin( 'cuc_comment' );
 
 		$queryInfo = [
 			'fields' => [
 				'cuc_namespace', 'cuc_title', 'cuc_actiontext', 'cuc_timestamp', 'cuc_minor',
 				'cuc_page_id', 'cuc_type', 'cuc_this_oldid', 'cuc_last_oldid', 'cuc_ip',
-				'cuc_xff', 'cuc_agent',
-			] + $actorQuery['fields'] + $commentQuery['fields'],
-			'tables' => [ 'cu_changes' ] + $actorQuery['tables'] + $commentQuery['tables'],
+				'cuc_xff', 'cuc_agent', 'cuc_user' => 'actor_cuc_user.actor_user',
+				'cuc_user_text' => 'actor_cuc_user.actor_name'
+			] + $commentQuery['fields'],
+			'tables' => [ 'cu_changes', 'actor_cuc_user' => 'actor' ] + $commentQuery['tables'],
 			'conds' => [],
-			'join_conds' => $actorQuery['joins'] + $commentQuery['joins'],
+			'join_conds' => [
+				'actor_cuc_user' => [ 'JOIN', 'actor_cuc_user.actor_id=cuc_actor' ]
+			] + $commentQuery['joins'],
 			'options' => [],
 		];
 		if ( $this->xfor === null ) {

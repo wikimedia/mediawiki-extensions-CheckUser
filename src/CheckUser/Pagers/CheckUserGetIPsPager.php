@@ -8,7 +8,6 @@ use FormOptions;
 use IContextSource;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
-use MediaWiki\CheckUser\CheckUserActorMigration;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\Linker\LinkRenderer;
@@ -142,7 +141,6 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 	/** @inheritDoc */
 	public function getQueryInfo(): array {
 		$this->mExtraSortFields = [ 'last' ];
-		$actorQuery = CheckUserActorMigration::newMigration()->getJoin( 'cuc_user' );
 
 		return [
 			'fields' => [
@@ -152,9 +150,9 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 				'first' => 'MIN(cuc_timestamp)',
 				'last' => 'MAX(cuc_timestamp)',
 			],
-			'tables' => [ 'cu_changes' ] + $actorQuery['tables'],
+			'tables' => [ 'cu_changes', 'actor' ],
 			'conds' => [ 'actor_user' => $this->target->getId() ],
-			'join_conds' => $actorQuery['joins'],
+			'join_conds' => [ 'actor' => [ 'JOIN', 'actor_id=cuc_actor' ] ],
 			'options' => [
 				'GROUP BY' => [ 'cuc_ip', 'cuc_ip_hex' ],
 				'USE INDEX' => [ 'cu_changes' => 'cuc_actor_ip_time' ]
