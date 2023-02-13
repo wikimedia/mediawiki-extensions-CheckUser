@@ -185,5 +185,6 @@
 	"checkuser-investigate-tour-useragents-title": "사용자 에이전트가 일치합니까?",
 	"checkuser-investigate-tour-filterip-title": "조사 범위를 더 좁힐까요?",
 	"checkuser-investigate-tour-block-title": "차단을 원하십니까?",
-	"checkuser-investigate-tour-copywikitext-title": "데이터를 복사하시겠습니까?"
+	"checkuser-investigate-tour-copywikitext-title": "데이터를 복사하시겠습니까?",
+	"checkuser-tempaccount-reveal-ip-button-label": "IP 표시"
 }

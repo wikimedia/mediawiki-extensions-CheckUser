@@ -120,6 +120,8 @@
 	"checkuser-helper-user": "Benutzer",
 	"checkuser-helper-ips": "IP-Adresse(n)",
 	"checkuser-helper-uas": "User-Agent(en)",
+	"checkuser-helper-xff-trusted": "XFF (vertrauenswürdig):",
+	"checkuser-helper-xff-untrusted": "XFF (nicht vertrauenswürdig):",
 	"checkuser-rest-access-denied": "Du hast keine Berechtigung, diese Aktion durchzuführen",
 	"checkuser-rest-access-denied-blocked-user": "Du hast keine Berechtigung, die Aktion auszuführen, da dein Konto gesperrt ist",
 	"checkuser-link-investigate-label": "Das neue CheckUser-Tool testen",
