@@ -22,17 +22,17 @@ class TemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 
 		$result = $this->loadBalancer->getConnection( DB_REPLICA )
 			->newSelectQueryBuilder()
-			// T327906: 'cuc_actor' and 'cuc_timestamp' are selected
+			// T327906: 'cuc_timestamp' is selected
 			// only to satisfy Postgres requirement where all ORDER BY
 			// fields must be present in SELECT list.
-			->select( [ 'cuc_ip', 'cuc_actor', 'cuc_timestamp' ] )
+			->select( [ 'cuc_ip', 'cuc_timestamp' ] )
 			->from( 'cu_changes' )
 			->where( [
 				'cuc_actor' => $actorId
 			] )
 			->limit( $limit )
 			->orderby(
-				[ 'cuc_actor', 'cuc_ip', 'cuc_timestamp' ],
+				[ 'cuc_timestamp' ],
 				SelectQueryBuilder::SORT_DESC
 			)
 			->caller( __METHOD__ )

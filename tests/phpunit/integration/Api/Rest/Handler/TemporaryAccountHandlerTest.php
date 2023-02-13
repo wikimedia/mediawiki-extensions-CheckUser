@@ -120,18 +120,28 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 
 	public function testExecuteLimit() {
 		$this->overrideConfigValue( 'CheckUserMaximumRowCount', 5000 );
+		$requestData = $this->getRequestData( [ 'limit' => 10 ] );
 		$data = $this->executeHandlerAndGetBodyData(
 			$this->getTemporaryAccountHandler(),
-			$this->getRequestData( [ 'limit' => 1 ] ),
+			$requestData,
 			[],
 			[],
 			[],
 			[],
 			$this->getAuthorityForSuccess()
 		);
+		$this->assertCount(
+			2,
+			$data['ips'],
+			'Resulting number of IP addresses is not as expected'
+		);
 		$this->assertArrayEquals(
-			[ '1.2.3.5' ],
-			$data['ips']
+			[
+				'1.2.3.5',
+				'1.2.3.4',
+			],
+			$data['ips'],
+			'Resulting IP addresses are not as expected'
 		);
 	}
 
