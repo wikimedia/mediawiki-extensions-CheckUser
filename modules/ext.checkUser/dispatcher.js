@@ -9,7 +9,18 @@
 		require( './checkuser/checkUserHelper.js' );
 	} else if ( mw.config.get( 'wgCanonicalSpecialPageName' ) === 'CheckUserLog' ) {
 		require( './checkuserlog/highlightScroll.js' );
-	} else {
-		require( './temporaryaccount/init.js' );
+	}
+
+	var excludePages = [ 'Investigate', 'InvestigateBlock', 'CheckUser', 'CheckUserLog' ];
+	switch ( mw.config.get( 'wgCanonicalSpecialPageName' ) ) {
+		case 'Contributions':
+			if ( mw.util.isTemporaryUser( mw.config.get( 'wgRelevantUserName' ) ) ) {
+				require( './temporaryaccount/SpecialContributions.js' );
+			}
+			break;
+		default:
+			if ( excludePages.indexOf( mw.config.get( 'wgCanonicalSpecialPageName' ) ) === -1 ) {
+				require( './temporaryaccount/init.js' );
+			}
 	}
 }() );
