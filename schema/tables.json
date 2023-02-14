@@ -22,7 +22,7 @@
 			{
 				"name": "cuc_actor",
 				"type": "bigint",
-				"options": { "notnull": true, "unsigned": true, "default": 0 }
+				"options": { "notnull": true, "unsigned": true }
 			},
 			{
 				"name": "cuc_actiontext",
@@ -33,7 +33,7 @@
 			{
 				"name": "cuc_comment_id",
 				"type": "bigint",
-				"options": { "notnull": true, "unsigned": true, "default": 0 }
+				"options": { "notnull": true, "unsigned": true }
 			},
 			{
 				"name": "cuc_minor",

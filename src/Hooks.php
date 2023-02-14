@@ -1119,6 +1119,11 @@ class Hooks implements
 			'cuc_comment',
 			"$base/$dbType/patch-cu_changes-drop-cuc_comment.sql"
 		);
+		$updater->modifyExtensionField(
+			'cu_changes',
+			'cuc_actor',
+			"$base/$dbType/patch-cu_changes-drop-defaults.sql"
+		);
 
 		if ( !$isCUInstalled ) {
 			// First time so populate cu_changes with recentchanges data.
