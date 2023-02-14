@@ -120,6 +120,8 @@
 	"checkuser-helper-user": "Użytkownik",
 	"checkuser-helper-ips": "Adres(y) IP",
 	"checkuser-helper-uas": "Agent(y) użytkownika",
+	"checkuser-helper-xff-trusted": "XFF (zaufany):",
+	"checkuser-helper-xff-untrusted": "XFF (niezaufany):",
 	"group-checkuser.css": "/* Umieszczony tutaj kod CSS dotyczyć będzie tylko checkuserów */",
 	"group-checkuser.js": "/* Umieszczony tutaj kod JS dotyczyć będzie tylko checkuserów */",
 	"checkuser-rest-access-denied": "Nie masz uprawnień do wykonywania tej operacji",

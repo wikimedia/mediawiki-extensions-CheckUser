@@ -103,6 +103,8 @@
 	"checkuser-helper-user": "Usator",
 	"checkuser-helper-ips": "Adresse(s) IP",
 	"checkuser-helper-uas": "Agente(s) usator",
+	"checkuser-helper-xff-trusted": "XFF (fidite):",
+	"checkuser-helper-xff-untrusted": "XFF (non fidite):",
 	"checkuser-rest-access-denied": "Tu non ha le permission de exequer le action",
 	"checkuser-rest-access-denied-blocked-user": "Tu non ha le permission de exequer le action perque tu conto es blocate",
 	"checkuser-link-investigate-label": "Proba le nove instrumento de verification de usatores",

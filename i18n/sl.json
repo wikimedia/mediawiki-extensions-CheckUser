@@ -106,6 +106,8 @@
 	"checkuser-helper-user": "Uporabnik",
 	"checkuser-helper-ips": "IP(-ji)",
 	"checkuser-helper-uas": "Uporabniški agent(i)",
+	"checkuser-helper-xff-trusted": "XFF (zanesljivo):",
+	"checkuser-helper-xff-untrusted": "XFF (nezanesljivo):",
 	"group-checkuser.css": "/* Tukaj postavljeni CSS bo vplival samo na preverjevalce uporabnikov */",
 	"group-checkuser.js": "/* Tukaj postavljeni JS bo vplival samo na preverjevalce uporabnikov */",
 	"checkuser-rest-access-denied": "Za izvedbo tega dejanja nimate dovoljenja",

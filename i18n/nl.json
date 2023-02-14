@@ -109,6 +109,8 @@
 	"checkuser-helper-user": "Gebruiker",
 	"checkuser-helper-ips": "IP('s)",
 	"checkuser-helper-uas": "User-agent(s)",
+	"checkuser-helper-xff-trusted": "XFF (vertrouwd):",
+	"checkuser-helper-xff-untrusted": "XFF (niet vertrouwd):",
 	"checkuser-rest-access-denied": "U hebt geen rechten om de handeling uit te voeren",
 	"checkuser-rest-access-denied-blocked-user": "U hebt geen rechten om de handeling uit te voeren omdat uw account is geblokkeerd",
 	"checkuser-investigateblock": "Gebruikers blokkeren",

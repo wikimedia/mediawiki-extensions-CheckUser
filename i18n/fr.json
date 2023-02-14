@@ -129,6 +129,8 @@
 	"checkuser-helper-user": "Utilisateur",
 	"checkuser-helper-ips": "Adresse(s) IP",
 	"checkuser-helper-uas": "Agent(s) utilisateur(s)",
+	"checkuser-helper-xff-trusted": "XFF (fiable) :",
+	"checkuser-helper-xff-untrusted": "XFF (non fiable) :",
 	"group-checkuser.css": "/* Le CSS placé ici n’affectera que les membres du groupe « checkuser » */",
 	"group-checkuser.js": "/* Le Javascript placé ici n’affectera que les membres du groupe « checkuser » */",
 	"checkuser-rest-access-denied": "Vous n’avez pas le droit d’effectuer cette action.",

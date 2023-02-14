@@ -112,6 +112,8 @@
 	"checkuser-helper-user": "משתמש",
 	"checkuser-helper-ips": "כתובות IP",
 	"checkuser-helper-uas": "סוכני משתמש",
+	"checkuser-helper-xff-trusted": "XFF (אמין):",
+	"checkuser-helper-xff-untrusted": "XFF (לא אמין):",
 	"group-checkuser.css": "/* הסגנונות הנכתבים כאן ישפיעו על בודקים בלבד */",
 	"group-checkuser.js": "/* כל הסקריפטים הנכתבים כאן ייטענו עבור בודקים בלבד */",
 	"checkuser-rest-access-denied": "אין לך הרשאה לבצע את הפעולה הזאת",
