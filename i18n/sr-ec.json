@@ -109,6 +109,8 @@
 	"checkuser-helper-user": "Корисник",
 	"checkuser-helper-ips": "IP адресе",
 	"checkuser-helper-uas": "Софтвер за приступ",
+	"checkuser-helper-xff-trusted": "XFF (проверен):",
+	"checkuser-helper-xff-untrusted": "XFF (непроверен):",
 	"group-checkuser.css": "/* CSS постављен овде ће утицати само на чекјузере */",
 	"group-checkuser.js": "/* JS постављен овде ће утицати само на чекјузере */",
 	"checkuser-rest-access-denied": "Немате дозволу да извршите ову радњу",
