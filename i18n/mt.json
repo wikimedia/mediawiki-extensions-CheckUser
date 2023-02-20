@@ -55,6 +55,7 @@
 	"checkuser-noreason": "Trid tagħti raġuni għal din it-tfittxija.",
 	"checkuser-search": "Fittex",
 	"checkuser-search-submit": "Fittex",
+	"checkuser-log-search-reason": "Raġuni:",
 	"checkuser-ipeditcount": "~$1 mill-utenti kollha",
 	"checkuser-showmain": "Dur għall-formola prinċipali tal-Kontroll tal-utenti",
 	"checkuser-autocreate-action": "ġie maħluq awtomatikament",

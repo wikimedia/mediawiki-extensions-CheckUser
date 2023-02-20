@@ -3,7 +3,8 @@
 		"authors": [
 			"Les Meloures",
 			"Robby",
-			"Soued031"
+			"Soued031",
+			"Volvox"
 		]
 	},
 	"checkuser-summary": "Dës Funktioun scannt déi rezent Ännerunge fir d'IP-Adressen, déi vun engem Benotzer benotzt goufen, ze fannen, respektiv d'Ännerunge pro Benotzer fir eng IP.\nBenotzer an Ännerunge vun enger IP-Adress kënnen och iwwer den XFF header gesicht ginn andeems hanner d'IP-Adress \"/xff\" hannendrugehaange gëtt. IPv4 (CIDR $1-32) an IPv6 (CIDR $2-128) ginn ënnerstëtzt.\nNet méi wéi $3 Ännerunge ginn aus Performancegrënn zréckgeschéckt.\nBenotzt dës Funktioun am Aklang mat den Direktiven.",
@@ -84,6 +85,9 @@
 	"checkuser-helper-copy-success": "Kopéiert",
 	"checkuser-helper-copy-failed": "Konnt net kopéiert ginn",
 	"checkuser-helper-user": "Benotzer",
+	"checkuser-helper-ips": "IP-Adress(en)",
+	"checkuser-helper-xff-trusted": "XFF (vertrauenswierdeg)",
+	"checkuser-helper-xff-untrusted": "XFF (net vertrauenswierdeg)",
 	"checkuser-link-investigate-label": "Probéiert dat neit CheckUser-Geschier",
 	"checkuser-investigateblock": "Benotzer spären",
 	"checkuser-investigateblock-target": "Benotzernimm an IP-Adressen",
