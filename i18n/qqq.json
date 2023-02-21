@@ -132,7 +132,7 @@
 	"checkuser-login-failure": "Log entry shown in CheckUser logs for failed login attempts",
 	"checkuser-login-failure-with-good-password": "Log entry shown in CheckUser logs for failed login attempts which had the correct password for the account but failed for any other reason",
 	"checkuser-login-success": "Log entry shown in CheckUser logs for successful login attempts",
-	"checkuser-logout": "Log entry shown in CheckUser logs when a user logs out using the API or Special:Logout. It is not shown when a user logs out because their session expires.",
+	"checkuser-logout": "{{doc-important|1=Do not translate the <code><nowiki>{{#special:logout}}</nowiki></code> parser function in this message.}}\nLog entry shown in CheckUser logs when a user logs out using the API or Special:Logout. It is not shown when a user logs out because their session expires.",
 	"checkuser-helper-label": "[[File:Special-CheckUser checkUserHelper table.png|thumb|The checkuser helper table]]The label for the CheckUser helper fieldset that surrounds the wikitext table that's generated.",
 	"checkuser-helper-copy-success": "[[File:Special-CheckUser checkUserHelper table.png|thumb|The checkuser helper table]]Text shown when the copy of the wikitext table succeeds.",
 	"checkuser-helper-copy-failed": "[[File:Special-CheckUser checkUserHelper table.png|thumb|The checkuser helper table]]Text shown when the copy operation fails.",
