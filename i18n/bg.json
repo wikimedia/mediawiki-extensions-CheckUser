@@ -40,7 +40,7 @@
 	"checkuser-month": "последните 30 дни",
 	"checkuser-month-2": "последните 60 дни",
 	"checkuser-all": "всички",
-	"checkuser-cidr-label": "Намерете общ диапазон и засегнатите IP адреси за списък с IP адреси",
+	"checkuser-cidr-label": "Намерете общ диапазон и засегнатите IP адреси за списък от IP адреси",
 	"checkuser-cidr-res": "Общ CIDR:",
 	"checkuser-cidr-affected-ips": "Засегнати IP адреси:",
 	"checkuser-cidr-too-small": "Диапазонът е твърде голям",
