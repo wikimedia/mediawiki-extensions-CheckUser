@@ -54,7 +54,7 @@
 		// track the largest binary prefix among them...
 		for ( var i = 0; i < ips.length; i++ ) {
 			// ...in the spirit of mediawiki.special.block.js, call this "addy"
-			var addy = ips[ i ].replace( /^\s*|\s*$/, '' ); // trim
+			var addy = ips[ i ].trim();
 			// Match the first IP in each list (ignore other garbage)
 			var ipV4 = mw.util.isIPv4Address( addy, true );
 			var ipV6 = mw.util.isIPv6Address( addy, true );
