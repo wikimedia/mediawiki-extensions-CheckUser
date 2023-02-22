@@ -39,7 +39,7 @@
 	"checkuser-month": "последните 30 дни",
 	"checkuser-month-2": "последните 60 дни",
 	"checkuser-all": "всички",
-	"checkuser-cidr-label": "Намерете общ диапазон и засегнатите IP адреси за списък с IP адреси",
+	"checkuser-cidr-label": "Намерете общ диапазон и засегнатите IP адреси за списък от IP адреси",
 	"checkuser-cidr-res": "Общ CIDR:",
 	"checkuser-empty": "Дневникът не съдържа записи.",
 	"checkuser-nomatch": "Няма открити съвпадения.",
