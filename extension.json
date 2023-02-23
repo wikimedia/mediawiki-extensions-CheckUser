@@ -195,6 +195,8 @@
 				"investigate/copy.js",
 				"investigate/blockform.js",
 				"temporaryaccount/init.js",
+				"temporaryaccount/makeShowIpButton.js",
+				"temporaryaccount/SpecialContributions.js",
 				{
 					"name": "investigate/message.json",
 					"callback": "MediaWiki\\CheckUser\\ToolLinksMessages::getParsedMessage",
