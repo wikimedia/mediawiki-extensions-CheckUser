@@ -336,9 +336,7 @@ class SpecialInvestigate extends FormSpecialPage {
 				$pager = $this->preliminaryCheckPagerFactory->createPager( $this->getContext() );
 				$hasIpTargets = (bool)array_filter(
 					$this->getTokenData()['targets'] ?? [],
-					static function ( $target ) {
-						return IPUtils::isIPAddress( $target );
-					}
+					[ IPUtils::class, 'isIPAddress' ]
 				);
 
 				if ( $pager->getNumRows() ) {
@@ -881,7 +879,7 @@ class SpecialInvestigate extends FormSpecialPage {
 	 */
 	private function getRedirectUrl( array $update ): string {
 		$parts = wfParseURL( $this->getRequest()->getFullRequestURL() );
-		$query = isset( $parts['query'] ) ? wfCgiToArray( $parts['query'] ) : [];
+		$query = wfCgiToArray( $parts['query'] ?? '' );
 		$data = array_filter( array_merge( $query, $update ), static function ( $value ) {
 			return $value !== null;
 		} );

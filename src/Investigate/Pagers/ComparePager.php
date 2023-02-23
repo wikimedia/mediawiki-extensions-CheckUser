@@ -275,8 +275,8 @@ class ComparePager extends TablePager {
 				'cuc_agent' => 'checkuser-investigate-compare-table-header-useragent',
 				'activity' => 'checkuser-investigate-compare-table-header-activity',
 			];
-			foreach ( $this->fieldNames as $key => $val ) {
-				$this->fieldNames[$key] = $this->msg( $val )->text();
+			foreach ( $this->fieldNames as &$val ) {
+				$val = $this->msg( $val )->text();
 			}
 		}
 		return $this->fieldNames;
@@ -292,10 +292,10 @@ class ComparePager extends TablePager {
 		if ( $this->filteredTargets === [] ) {
 			$this->mResult = new FakeResultWrapper( [] );
 			$this->mQueryDone = true;
-			return $this->mResult;
+			return;
 		}
 
-		return parent::doQuery();
+		parent::doQuery();
 	}
 
 	/**
