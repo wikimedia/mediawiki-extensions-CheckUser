@@ -71,6 +71,8 @@
 	"checkuser-create-action": "δημιουργήθηκε",
 	"checkuser-email-action": "έστειλε ένα ηλεκτρονικό μήνυμα στον χρήστη \"$1\"",
 	"checkuser-reset-action": "αποστολή νέου κωδικού για τον χρήστη \"$1\"",
+	"checkuser-helper-xff-trusted": "XFF (έμπιστο):",
+	"checkuser-helper-xff-untrusted": "XFF (μη αξιόπιστο):",
 	"checkuser-investigateblock": "Αποκλεισμένοι χρήστες",
 	"checkuser-investigateblock-target": "Ονόματα χρήστη και διευθύνσεις IP",
 	"checkuser-investigateblock-actions": "Ενέργειες για φραγή",
@@ -78,5 +80,6 @@
 	"checkuser-investigateblock-email-label": "Αποτροπή αποστολής μηνύματος ηλεκτρονικού ταχυδρομείου",
 	"checkuser-investigateblock-notice-position-label": "Θέση",
 	"checkuser-investigateblock-notice-text-label": "Κείμενο wiki",
-	"checkuser-investigateblock-notice-replace": "Αντικατάσταση σελίδας"
+	"checkuser-investigateblock-notice-replace": "Αντικατάσταση σελίδας",
+	"checkuser-tempaccount-reveal-ip-button-label": "Εμφάνιση IP"
 }
