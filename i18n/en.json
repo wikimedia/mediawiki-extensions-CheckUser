@@ -114,7 +114,7 @@
 	"group-checkuser.js": "/* JS placed here will affect checkuser only */",
 	"checkuser-rest-access-denied": "You do not have permission to perform the action",
 	"checkuser-rest-access-denied-blocked-user": "You do not have permission to perform the action because your account is blocked",
-	"checkuser-link-investigate-label": "Try out Special:Investigate",
+	"checkuser-link-investigate-label": "Try out {{#special:investigate}}",
 	"checkuser-investigateblock": "Block users",
 	"checkuser-investigateblock-target": "Usernames and IP addresses",
 	"checkuser-investigateblock-actions": "Actions to block",
