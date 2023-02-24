@@ -275,33 +275,7 @@ class SpecialCheckUser extends SpecialPage {
 		$user = $userTitle ? $userTitle->getText() : '';
 
 		$out = $this->getOutput();
-		if ( $this->permissionManager->userHasRight( $this->getUser(), 'checkuser-log' ) ) {
-			$subtitleLink = Html::rawElement(
-				'span',
-				[],
-				$this->getLinkRenderer()->makeKnownLink(
-					SpecialPage::getTitleFor( 'CheckUserLog' ),
-					$this->msg( 'checkuser-showlog' )->text()
-				)
-			);
-			if ( $user !== '' ) {
-				$subtitleLink .= Html::rawElement(
-					'span',
-					[],
-					$this->getLinkRenderer()->makeKnownLink(
-						SpecialPage::getTitleFor( 'CheckUserLog', $user ),
-						$this->msg( 'checkuser-recent-checks' )->text()
-					)
-				);
-			}
-			$out->addSubtitle( Html::rawElement(
-					'span',
-					[ 'class' => 'mw-checkuser-links-no-parentheses' ],
-					$subtitleLink
-				)
-			);
-		}
-
+		$links = [];
 		if ( $this->getConfig()->get( 'CheckUserEnableSpecialInvestigate' ) ) {
 			$out->enableOOUI();
 			$out->addModuleStyles( 'oojs-ui.styles.icons-interactions' );
@@ -311,6 +285,53 @@ class SpecialCheckUser extends SpecialPage {
 				$this->msg( 'checkuser-link-investigate-label' )->text()
 			);
 			$out->setIndicators( [ 'investigate-link' => $icon . $investigateLink ] );
+			$query = [];
+			if ( $user !== '' ) {
+				$query['targets'] = $user;
+			}
+			$links[] = Html::rawElement(
+				'span',
+				[],
+				$this->getLinkRenderer()->makeKnownLink(
+					SpecialPage::getTitleFor( 'Investigate' ),
+					$this->msg( $user ? 'checkuser-investigate-this-user' : 'checkuser-show-investigate' )->text(),
+					[],
+					$query
+				)
+			);
+		}
+		if ( $this->permissionManager->userHasRight( $this->getUser(), 'checkuser-log' ) ) {
+			$links[] = Html::rawElement(
+				'span',
+				[],
+				$this->getLinkRenderer()->makeKnownLink(
+					SpecialPage::getTitleFor( 'CheckUserLog' ),
+					$this->msg( 'checkuser-showlog' )->text()
+				)
+			);
+			if ( $user !== '' ) {
+				$links[] = Html::rawElement(
+					'span',
+					[],
+					$this->getLinkRenderer()->makeKnownLink(
+						SpecialPage::getTitleFor( 'CheckUserLog', $user ),
+						$this->msg( 'checkuser-recent-checks' )->text()
+					)
+				);
+			}
+		}
+
+		if ( count( $links ) ) {
+			$out->addSubtitle( Html::rawElement(
+				'span',
+				[ 'class' => 'mw-checkuser-links-no-parentheses' ],
+				Html::openElement( 'span' ) .
+				implode(
+					Html::closeElement( 'span' ) . Html::openElement( 'span' ),
+					$links
+				) .
+				Html::closeElement( 'span' )
+			) );
 		}
 
 		$userIdentity = null;

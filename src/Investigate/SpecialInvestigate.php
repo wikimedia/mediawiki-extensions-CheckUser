@@ -1025,7 +1025,7 @@ class SpecialInvestigate extends FormSpecialPage {
 		$links = [
 			$this->getLinkRenderer()->makeLink(
 				self::getTitleValueFor( 'CheckUser' ),
-				$this->msg( 'checkuser-investigate-subtitle-show-checkuser' )->text()
+				$this->msg( 'checkuser-showmain' )->text()
 			),
 			$this->tourLauncher->makeTourLink(
 				$tour,
