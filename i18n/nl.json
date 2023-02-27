@@ -15,7 +15,8 @@
 			"Dutchy45",
 			"McDutchie",
 			"Trijnstel",
-			"Xbaked potatox"
+			"Xbaked potatox",
+			"Vistaus"
 		]
 	},
 	"checkuser-summary": "Dit hulpmiddel bekijkt recente wijzigingen om IP-adressen die een gebruiker heeft gebruikt te achterhalen of geeft de bewerkings- en gebruikersgegegevens weer voor een IP-adres.\nGebruikers en bewerkingen van een IP-adres van een client kunnen achterhaald worden via XFF-headers door \"/xff\" achter het IP-adres toe te voegen. IPv4 (CIDR $1-32) en IPv6 (CIDR $2-128) worden ondersteund.\nOm prestatieredenen worden niet meer dan 5.000 bewerkingen weergegeven.\nGebruik dit hulpmiddel volgens het vastgestelde beleid.",
@@ -148,8 +149,10 @@
 	"checkuser-investigate-filters-legend": "Filters",
 	"checkuser-investigate-filters-exclude-targets-label": "De volgende gebruikers of IP's verbergen",
 	"checkuser-investigate-timeline-notice-no-results": "Er zijn geen resultaten: deze gebruikers of IP-adressen hebben de afgelopen 90 dagen geen veranderingen doorgevoerd",
+	"checkuser-investigate-timeline-notice-no-results-filters": "Er zijn geen resultaten die aan deze filtervoorwaarden voldoen. Probeer een aantal filters te verwijderen om breder te zoeken.",
 	"checkuser-investigate-compare-copy-button-label": "Toon wikitekst",
 	"checkuser-investigate-compare-copy-message-label": "Wil je deze informatie kopiëren als een Wikitekst-tabel?",
+	"checkuser-investigate-compare-notice-exceeded-limit": "Vanwege technische beperkingen is het aantal records dat kan worden weergegeven overschreden. De voor de volgende doelen geretourneerde gegevens zijn onvolledig: $1. Probeer minder doelen, een kleiner tijdvenster of smallere IP-bereiken te gebruiken.",
 	"checkuser-investigate-compare-notice-no-results": "Er zijn geen resultaten: deze users of IP-adressen hebben de voorbije 90 dagen geen veranderingen doorgevoerd",
 	"checkuser-investigate-compare-notice-no-results-filters": "Er zijn geen resultaten die aan deze filtervoorwaarden voldoen. Probeer een aantal filters te verwijderen om breder te zoeken.",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Alle IP's van deze gebruiker tonen",
