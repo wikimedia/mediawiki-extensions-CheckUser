@@ -144,7 +144,6 @@
 	"checkuser-investigate-subtitle-block-button-label": "Bloquear",
 	"checkuser-investigate-subtitle-cancel-button-label": "Cancelar",
 	"checkuser-investigate-subtitle-continue-button-label": "Continuar",
-	"checkuser-investigate-subtitle-show-checkuser": "Mudar para verificação de utilizadores",
 	"checkuser-investigate-indicator-new-investigation": "Investigação nova",
 	"checkuser-investigate-indicator-logs": "Registos",
 	"checkuser-investigate-legend": "Pesquisar nomes de utilizador, endereços IP ou gamas IP",

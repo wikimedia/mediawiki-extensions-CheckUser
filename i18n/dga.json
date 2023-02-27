@@ -1,0 +1,12 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kuukye",
+			"Robert"
+		]
+	},
+	"checkuser-showlog": "Daadaare boŋkaare",
+	"checkuser-showmain": "Leɛre eŋ {{#special:CheckUser}}",
+	"checkuser-show-investigate": "Leɛre eŋ",
+	"checkuser-link-investigate-label": "E nyɛ"
+}

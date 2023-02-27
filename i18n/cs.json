@@ -111,7 +111,6 @@
 	"checkuser-investigate-subtitle-block-button-label": "Zablokovat",
 	"checkuser-investigate-subtitle-cancel-button-label": "Storno",
 	"checkuser-investigate-subtitle-continue-button-label": "Pokračovat",
-	"checkuser-investigate-subtitle-show-checkuser": "Přepnout na klasické rozhraní CheckUser",
 	"checkuser-investigate-indicator-logs": "Protokolovací záznamy",
 	"checkuser-investigate-legend": "Hledat uživatelská jména, IP adresy nebo rozsahy IP adres",
 	"checkuser-investigate-notice-no-results": "Nebyly nalezeny žádné výsledky.",

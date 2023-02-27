@@ -130,7 +130,6 @@
 	"checkuser-investigate-subtitle-block-button-label": "Blocca",
 	"checkuser-investigate-subtitle-cancel-button-label": "Annulla",
 	"checkuser-investigate-subtitle-continue-button-label": "Continua",
-	"checkuser-investigate-subtitle-show-checkuser": "Passa al modulo CheckUser",
 	"checkuser-investigate-indicator-new-investigation": "Nuova ricerca",
 	"checkuser-investigate-indicator-logs": "Registri",
 	"checkuser-investigate-legend": "Cerca per nome utente, indirizzi IP o intervalli di IP",

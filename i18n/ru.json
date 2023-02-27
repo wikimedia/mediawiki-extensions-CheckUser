@@ -143,7 +143,6 @@
 	"checkuser-investigate-subtitle-block-button-label": "Заблокировать",
 	"checkuser-investigate-subtitle-cancel-button-label": "Отменить",
 	"checkuser-investigate-subtitle-continue-button-label": "Продолжить",
-	"checkuser-investigate-subtitle-show-checkuser": "Перейти на проверку участников",
 	"checkuser-investigate-indicator-new-investigation": "Новое расследование",
 	"checkuser-investigate-indicator-logs": "Журналы",
 	"checkuser-investigate-legend": "Поиск по именам участников, IP-адресам или диапазонам IP-адресов",

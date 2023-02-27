@@ -166,7 +166,6 @@
 	"checkuser-investigate-subtitle-block-button-label": "封禁",
 	"checkuser-investigate-subtitle-cancel-button-label": "取消",
 	"checkuser-investigate-subtitle-continue-button-label": "继续",
-	"checkuser-investigate-subtitle-show-checkuser": "切换到CheckUser",
 	"checkuser-investigate-indicator-new-investigation": "新调查",
 	"checkuser-investigate-indicator-logs": "日志",
 	"checkuser-investigate-legend": "搜索用户名、IP地址或IP范围",
