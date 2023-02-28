@@ -147,7 +147,7 @@
 	"group-checkuser.js": "/* El código JavaScript colocado en esta página sólo afectará a los usuarios con permisos de checkuser (ComprobarUsuario) */",
 	"checkuser-rest-access-denied": "No tienes permiso para realizar esta acción.",
 	"checkuser-rest-access-denied-blocked-user": "No tienes permiso para efectuar la acción porque tu cuenta está bloqueada",
-	"checkuser-link-investigate-label": "Prueba Especial:Investigar",
+	"checkuser-link-investigate-label": "Prueba {{#special:investigate}}",
 	"checkuser-investigateblock": "Bloquear usuarios",
 	"checkuser-investigateblock-target": "Nombres de usuario y direcciones IP",
 	"checkuser-investigateblock-actions": "Acciones que bloquear",
