@@ -4,7 +4,8 @@
 			"Mainframe98",
 			"Siebrand",
 			"Sjoerddebruin",
-			"HanV"
+			"HanV",
+			"McDutchie"
 		]
 	},
 	"apihelp-query+checkuser-description": "Controleer welke IP-adressen gebruikt worden door een opgegeven gebruikersnaam of welke gebruikersnamen worden gebruikt door een opgegeven IP-adres.",
@@ -28,5 +29,6 @@
 	"apihelp-query+checkuserlog-example-2": "Controles van 192.0.2.0/24 na 2011-10-15T23:00:00Z weergeven.",
 	"apierror-checkuser-missingsummary": "U moet een reden opgeven voor deze controle.",
 	"apierror-checkuser-timelimit": "U moet een juiste tijdsbeperking invoeren (zoals \"-2 weeks\" of \"2 weeks ago\").",
-	"apierror-checkuser-invalidmode": "Ongeldige aanvraagmodus"
+	"apierror-checkuser-invalidmode": "Ongeldige aanvraagmodus",
+	"checkuser-api-help-param-direction": "In welke richting opsommen:\n;newer:De oudste eerst. Opmerking: $1from moet vroeger zijn dan $1to.\n;older:De nieuwste eerst (standaard). Opmerking: $1from moet later zijn dan $1to."
 }
