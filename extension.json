@@ -216,6 +216,7 @@
 				"mediawiki.storage",
 				"mediawiki.Title",
 				"mediawiki.Uri",
+				"mediawiki.user",
 				"mediawiki.util",
 				"mediawiki.widgets",
 				"web2017-polyfills"
