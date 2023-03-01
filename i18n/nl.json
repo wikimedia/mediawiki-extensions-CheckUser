@@ -15,7 +15,8 @@
 			"Sjoerddebruin",
 			"Trijnstel",
 			"Troefkaart",
-			"Xbaked potatox"
+			"Xbaked potatox",
+			"Vistaus"
 		]
 	},
 	"checkuser-summary": "Dit hulpmiddel bekijkt recente wijzigingen om IP-adressen die een gebruiker heeft gebruikt te achterhalen of geeft de bewerkings- en gebruikersgegegevens weer voor een IP-adres.\nGebruikers en bewerkingen van een IP-adres van een client kunnen achterhaald worden via XFF-headers door \"/xff\" achter het IP-adres toe te voegen. IPv4 (CIDR $1-32) en IPv6 (CIDR $2-128) worden ondersteund.\nOm prestatieredenen worden niet meer dan 5.000 bewerkingen weergegeven.\nGebruik dit hulpmiddel volgens het vastgestelde beleid.",
@@ -152,9 +153,11 @@
 	"checkuser-investigate-filters-legend": "Filters",
 	"checkuser-investigate-filters-exclude-targets-label": "De volgende gebruikers of IP's verbergen",
 	"checkuser-investigate-timeline-notice-no-results": "Er zijn geen resultaten: deze gebruikers of IP-adressen hebben de afgelopen 90 dagen geen veranderingen doorgevoerd",
+	"checkuser-investigate-timeline-notice-no-results-filters": "Er zijn geen resultaten die aan deze filtervoorwaarden voldoen. Probeer een aantal filters te verwijderen om breder te zoeken.",
 	"checkuser-investigate-compare-copy-button-label": "Toon wikitekst",
 	"checkuser-investigate-compare-toollinks-ipcheck": "Proxycontrole",
 	"checkuser-investigate-compare-copy-message-label": "Wil je deze informatie kopiëren als een Wikitekst-tabel?",
+	"checkuser-investigate-compare-notice-exceeded-limit": "Vanwege technische beperkingen is het aantal records dat kan worden weergegeven overschreden. De voor de volgende doelen geretourneerde gegevens zijn onvolledig: $1. Probeer minder doelen, een kleiner tijdvenster of smallere IP-bereiken te gebruiken.",
 	"checkuser-investigate-compare-notice-no-results": "Er zijn geen resultaten: deze users of IP-adressen hebben de voorbije 90 dagen geen veranderingen doorgevoerd",
 	"checkuser-investigate-compare-notice-no-results-filters": "Er zijn geen resultaten die aan deze filtervoorwaarden voldoen. Probeer een aantal filters te verwijderen om breder te zoeken.",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Alle IP's van deze gebruiker tonen",
@@ -170,5 +173,16 @@
 	"checkuser-investigate-compare-table-header-activity": "Periode",
 	"checkuser-investigate-compare-table-header-ip": "IP-adres",
 	"checkuser-investigate-compare-table-header-useragent": "User agent",
-	"checkuser-investigate-subtitle-link-restart-tour": "Herstart toer"
+	"checkuser-investigate-subtitle-link-restart-tour": "Herstart toer",
+	"checkuser-investigate-tour-targets-title": "Meerdere gebruikers en IP's controleren?",
+	"checkuser-investigate-tour-targets-desc": "Voeg tot $1 {{PLURAL:$1|gebruikersnaam of IP|gebruikersnamen of IP's}} toe en krijg alle informatie op één plek. Geen zorgen, we maken voor elk van hen een apart CheckUser-logboek aan.",
+	"checkuser-investigate-tour-useragents-title": "Overeenkomende user-agents?",
+	"checkuser-investigate-tour-useragents-desc": "Plaats de muisaanwijzer op een cel om alle andere rijen met dezelfde gegevens te markeren. Klik op het punaise-pictogram om de markering aan te houden terwijl u door de gegevens bladert.",
+	"checkuser-investigate-tour-addusertargets-title": "Meer context nodig?",
+	"checkuser-investigate-tour-addusertargets-desc": "Klik om alle andere gebruikers op het IP te zien. U kunt dit ook voor gebruikers doen en alle IP's zien die ze hebben gebruikt. We maken automatisch een CheckUser-logitem voor u aan.",
+	"checkuser-investigate-tour-filterip-title": "Uw onderzoek inperken?",
+	"checkuser-investigate-tour-block-title": "Wilt u blokkeren?",
+	"checkuser-investigate-tour-block-desc": "Hiermee kunt u de gebruikers selecteren die u wilt blokkeren en gaat u vervolgens naar het blokkeerformulier om de juiste blokkade te kiezen.",
+	"checkuser-investigate-tour-copywikitext-title": "Wilt u de gegevens kopiëren?",
+	"checkuser-investigate-tour-copywikitext-desc": "Kopieer de vergelijkingstabel met één klik en breng deze mee naar de CUWiki. Houd er rekening mee dat u alleen kopieert wat zichtbaar is en niet alle pagina's van het onderzoek."
 }
