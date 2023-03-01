@@ -73,7 +73,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers ::getAgent
 	 * @dataProvider provideGetAgent
 	 */
-	public function testGetAgent( $userAgent, $expected ) {
+	public function testGetAgent( $userAgent, string $expected ) {
 		$request = TestingAccessWrapper::newFromObject( new \WebRequest() );
 		$request->headers = [ 'USER-AGENT' => $userAgent ];
 		RequestContext::getMain()->setRequest( $request->object );
@@ -106,7 +106,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers ::insertIntoCuChangesTable
 	 * @dataProvider provideInsertIntoCuChangesTable
 	 */
-	public function testInsertIntoCuChangesTable( $row, $fields, $expectedRow ) {
+	public function testInsertIntoCuChangesTable( array $row, array $fields, array $expectedRow ) {
 		$this->setUpObject()->insertIntoCuChangesTable( $row, __METHOD__, $this->getTestUser()->getUserIdentity() );
 		$this->assertSelect(
 			'cu_changes',
@@ -141,7 +141,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers ::insertIntoCuChangesTable
 	 * @dataProvider provideTestTruncationInsertIntoCuChangesTable
 	 */
-	public function testTruncationInsertIntoCuChangesTable( $field ) {
+	public function testTruncationInsertIntoCuChangesTable( string $field ) {
 		$this->testInsertIntoCuChangesTable(
 			[ $field => str_repeat( 'q', Hooks::TEXT_FIELD_LENGTH + 9 ) ],
 			[ $field ],
@@ -151,8 +151,8 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 
 	public function provideTestTruncationInsertIntoCuChangesTable() {
 		return [
-			[ 'cuc_actiontext' ],
-			[ 'cuc_xff' ]
+			'Action text column' => [ 'cuc_actiontext' ],
+			'XFF column' => [ 'cuc_xff' ]
 		];
 	}
 
@@ -160,7 +160,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers ::insertIntoCuChangesTable
 	 * @dataProvider provideXFFValues
 	 */
-	public function testInsertIntoCuChangesTableXFF( $xff, $xff_hex ) {
+	public function testInsertIntoCuChangesTableXFF( string $xff, string $xff_hex ) {
 		RequestContext::getMain()->getRequest()->setHeader( 'X-Forwarded-For', $xff );
 		$this->testInsertIntoCuChangesTable(
 			[],
@@ -174,7 +174,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers \MediaWiki\CheckUser\Hook\HookRunner::onCheckUserInsertChangesRow
 	 * @dataProvider provideXFFValues
 	 */
-	public function testInsertChangesRowHookXFF( $test_xff, $xff_hex ) {
+	public function testInsertChangesRowHookXFF( string $test_xff, string $xff_hex ) {
 		$this->setTemporaryHook(
 			'CheckUserInsertChangesRow',
 			static function ( &$ip, &$xff ) use ( $test_xff ) {
@@ -239,7 +239,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers ::insertIntoCuPrivateEventTable
 	 * @dataProvider provideInsertIntoCuPrivateEventTable
 	 */
-	public function testInsertIntoCuPrivateEventTable( $row, $fields, $expectedRow ) {
+	public function testInsertIntoCuPrivateEventTable( array $row, array $fields, array $expectedRow ) {
 		$this->setUpObject()->insertIntoCuPrivateEventTable(
 			$row, __METHOD__, $this->getTestUser()->getUserIdentity()
 		);
@@ -276,7 +276,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers ::insertIntoCuPrivateEventTable
 	 * @dataProvider provideTruncationInsertIntoCuPrivateEventTable
 	 */
-	public function testTruncationInsertIntoCuPrivateEventTable( $field ) {
+	public function testTruncationInsertIntoCuPrivateEventTable( string $field ) {
 		$this->testInsertIntoCuPrivateEventTable(
 			[ $field => str_repeat( 'q', Hooks::TEXT_FIELD_LENGTH + 9 ) ],
 			[ $field ],
@@ -286,7 +286,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 
 	public function provideTruncationInsertIntoCuPrivateEventTable() {
 		return [
-			[ 'cupe_xff' ]
+			'XFF column' => [ 'cupe_xff' ]
 		];
 	}
 
@@ -294,7 +294,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers ::insertIntoCuPrivateEventTable
 	 * @dataProvider provideXFFValues
 	 */
-	public function testInsertIntoCuPrivateEventTableXFF( $xff, $xff_hex ) {
+	public function testInsertIntoCuPrivateEventTableXFF( string $xff, string $xff_hex ) {
 		RequestContext::getMain()->getRequest()->setHeader( 'X-Forwarded-For', $xff );
 		$this->testInsertIntoCuPrivateEventTable(
 			[],
@@ -308,7 +308,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers \MediaWiki\CheckUser\Hook\HookRunner::onCheckUserInsertPrivateEventRow
 	 * @dataProvider provideXFFValues
 	 */
-	public function testInsertPrivateEventRowHookXFF( $test_xff, $xff_hex ) {
+	public function testInsertPrivateEventRowHookXFF( string $test_xff, string $xff_hex ) {
 		$this->setTemporaryHook(
 			'CheckUserInsertPrivateEventRow',
 			static function ( &$ip, &$xff ) use ( $test_xff ) {
@@ -387,7 +387,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers \MediaWiki\CheckUser\Hook\HookRunner::onCheckUserInsertLogEventRow
 	 * @dataProvider provideTruncationInsertIntoCuLogEventTable
 	 */
-	public function testTruncationInsertIntoCuLogEventTable( $field ) {
+	public function testTruncationInsertIntoCuLogEventTable( string $field ) {
 		$this->setTemporaryHook(
 			'CheckUserInsertLogEventRow',
 			static function ( &$ip, &$xff, &$row, $user, $id ) use ( $field ) {
@@ -402,7 +402,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 
 	public function provideTruncationInsertIntoCuLogEventTable() {
 		return [
-			[ 'cule_xff' ]
+			'XFF column' => [ 'cule_xff' ]
 		];
 	}
 
@@ -410,7 +410,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers ::insertIntoCuLogEventTable
 	 * @dataProvider provideXFFValues
 	 */
-	public function testInsertIntoCuLogEventTableXFF( $xff, $xff_hex ) {
+	public function testInsertIntoCuLogEventTableXFF( string $xff, string $xff_hex ) {
 		RequestContext::getMain()->getRequest()->setHeader( 'X-Forwarded-For', $xff );
 		$this->testInsertIntoCuLogEventTable( [ 'cule_xff', 'cule_xff_hex' ], [ $xff, $xff_hex ] );
 	}
@@ -420,7 +420,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers \MediaWiki\CheckUser\Hook\HookRunner::onCheckUserInsertLogEventRow
 	 * @dataProvider provideXFFValues
 	 */
-	public function testInsertLogEventRowHookXFF( $test_xff, $xff_hex ) {
+	public function testInsertLogEventRowHookXFF( string $test_xff, string $xff_hex ) {
 		$this->setTemporaryHook(
 			'CheckUserInsertLogEventRow',
 			static function ( &$ip, &$xff ) use ( $test_xff ) {
@@ -479,8 +479,12 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	}
 
 	private function updateCheckUserData(
-		$rcAttribs, $eventTableMigrationStage, $table, $fields, &$expectedRow
-	) {
+		array $rcAttribs,
+		int $eventTableMigrationStage,
+		string $table,
+		array $fields,
+		array &$expectedRow
+	): void {
 		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $eventTableMigrationStage );
 		$this->commonTestsUpdateCheckUserData( $rcAttribs, $fields, $expectedRow );
 		$this->assertSelect(
@@ -495,7 +499,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers ::updateCheckUserData
 	 * @dataProvider provideUpdateCheckUserDataNoSave
 	 */
-	public function testUpdateCheckUserDataNoSave( $rcAttribs ) {
+	public function testUpdateCheckUserDataNoSave( array $rcAttribs ) {
 		$expectedRow = [];
 		$this->commonTestsUpdateCheckUserData( $rcAttribs, [], $expectedRow );
 		$this->assertRowCount( 0, 'cu_changes', 'cuc_id',
@@ -590,7 +594,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideUpdateCheckUserDataLogEvent
 	 */
 	public function testUpdateCheckUserDataLogEvent(
-		$rcAttribs, $eventTableMigrationStage, $table, $fields, $expectedRow
+		array $rcAttribs, int $eventTableMigrationStage, string $table, array $fields, array $expectedRow
 	) {
 		ConvertibleTimestamp::setFakeTime( $rcAttribs['rc_timestamp'] );
 		$logId = $this->newLogEntry();
@@ -668,7 +672,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers ::onUser__mailPasswordInternal
 	 * @dataProvider provideEventMigrationStageValues
 	 */
-	public function testonUser__mailPasswordInternal( $eventTableMigrationStage ) {
+	public function testonUser__mailPasswordInternal( int $eventTableMigrationStage ) {
 		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $eventTableMigrationStage );
 		$performer = $this->getTestUser()->getUser();
 		$account = $this->getTestSysop()->getUser();
@@ -708,7 +712,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers ::onLocalUserCreated
 	 * @dataProvider provideOnLocalUserCreated
 	 */
-	public function testOnLocalUserCreatedReadOld( $autocreated ) {
+	public function testOnLocalUserCreatedReadOld( bool $autocreated ) {
 		$this->testOnLocalUserCreated( $autocreated, SCHEMA_COMPAT_OLD );
 	}
 
@@ -716,14 +720,14 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers ::onLocalUserCreated
 	 * @dataProvider provideOnLocalUserCreated
 	 */
-	public function testOnLocalUserCreatedReadNew( $autocreated ) {
+	public function testOnLocalUserCreatedReadNew( bool $autocreated ) {
 		$this->testOnLocalUserCreated( $autocreated, SCHEMA_COMPAT_NEW );
 	}
 
 	/**
 	 * @covers ::onLocalUserCreated
 	 */
-	private function testOnLocalUserCreated( $autocreated, $eventTableMigrationStage ) {
+	private function testOnLocalUserCreated( bool $autocreated, int $eventTableMigrationStage ) {
 		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $eventTableMigrationStage );
 		$user = $this->getTestUser()->getUser();
 		( new Hooks() )->onLocalUserCreated( $user, $autocreated );
@@ -761,7 +765,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers ::onEmailUser
 	 * @dataProvider provideTestOnEmailUserNoSave
 	 */
-	public function testOnEmailUserNoSave( $to, $from ) {
+	public function testOnEmailUserNoSave( MailAddress $to, MailAddress $from ) {
 		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', SCHEMA_COMPAT_OLD );
 		$subject = '';
 		$text = '';
@@ -812,7 +816,9 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		$this->testOnEmailUserNoSave( $to, $from );
 	}
 
-	public function commonOnEmailUser( $to, $from, $eventTableMigrationStage, $where ) {
+	public function commonOnEmailUser(
+		MailAddress $to, MailAddress $from, int $eventTableMigrationStage, array $where
+	) {
 		$subject = 'Test subject';
 		$text = 'Test text';
 		$error = false;
@@ -834,7 +840,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers ::onEmailUser
 	 * @dataProvider provideEventMigrationStageValues
 	 */
-	public function testOnEmailUserFrom( $eventTableMigrationStage ) {
+	public function testOnEmailUserFrom( int $eventTableMigrationStage ) {
 		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $eventTableMigrationStage );
 		$userTo = $this->getTestUser()->getUserIdentity();
 		$userFrom = $this->getTestSysop()->getUser();
@@ -855,7 +861,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers ::onEmailUser
 	 * @dataProvider provideEventMigrationStageValues
 	 */
-	public function testOnEmailUserActionText( $eventTableMigrationStage ) {
+	public function testOnEmailUserActionText( int $eventTableMigrationStage ) {
 		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $eventTableMigrationStage );
 		global $wgSecretKey;
 		$userTo = $this->getTestUser()->getUser();
@@ -885,8 +891,12 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	}
 
 	private function onRecentChangeSave(
-		$rcAttribs, $eventTableMigrationStage, $table, $fields, $expectedRow
-	) {
+		array $rcAttribs,
+		int $eventTableMigrationStage,
+		string $table,
+		array $fields,
+		array $expectedRow
+	): void {
 		// @todo test that maybePruneIPData() is called?
 		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $eventTableMigrationStage );
 		$rc = new RecentChange;
@@ -909,7 +919,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers ::onUserToolLinksEdit
 	 * @dataProvider provideOnUserToolLinksEdit
 	 */
-	public function testOnUserToolLinksEdit( $requestTitle, $expectedItems ) {
+	public function testOnUserToolLinksEdit( string $requestTitle, array $expectedItems ) {
 		$testUser = $this->getTestUser()->getUserIdentity();
 		$mainRequest = RequestContext::getMain();
 		$mainRequest->setTitle( \Title::newFromText( $requestTitle ) );
@@ -1092,7 +1102,9 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers ::onAuthManagerLoginAuthenticateAudit
 	 * @dataProvider provideOnAuthManagerLoginAuthenticateAuditNoSave
 	 */
-	public function testOnAuthManagerLoginAuthenticateAuditNoSave( $ret, $user, $logLogins, $logBots ) {
+	public function testOnAuthManagerLoginAuthenticateAuditNoSave(
+		AuthenticationResponse $ret, string $user, bool $logLogins, bool $logBots
+	) {
 		$this->setMwGlobals( [
 			'wgCheckUserLogLogins' => $logLogins,
 			'wgCheckUserLogSuccessfulBotLogins' => $logBots
@@ -1166,7 +1178,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers ::onAuthManagerLoginAuthenticateAudit
 	 * @dataProvider provideCheckUserLogBotSuccessfulLoginsNoSave
 	 */
-	public function testCheckUserLogBotSuccessfulLoginsSetToFalse( $ret, $logBots ) {
+	public function testCheckUserLogBotSuccessfulLoginsSetToFalse( AuthenticationResponse $ret, bool $logBots ) {
 		$user = $this->getTestUser( [ 'bot' ] )->getUserIdentity()->getName();
 		$this->testOnAuthManagerLoginAuthenticateAuditNoSave(
 			$ret,
@@ -1189,7 +1201,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers ::onUserLogoutComplete
 	 * @dataProvider provideUserLogoutComplete
 	 */
-	public function testUserLogoutComplete( $logLogins, $eventTableSchemaValue ) {
+	public function testUserLogoutComplete( bool $logLogins, int $eventTableSchemaValue ) {
 		$this->setMwGlobals( [
 			'wgCheckUserLogLogins' => $logLogins,
 			'wgCheckUserEventTablesMigrationStage' => $eventTableSchemaValue
@@ -1250,7 +1262,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideOnPerformRetroactiveAutoblock
 	 * @todo test that the $blockIds variable is correct after calling the hook
 	 */
-	public function testOnPerformRetroactiveAutoblock( $isIP, $hasCUChangesRow, $shouldAutoblock ) {
+	public function testOnPerformRetroactiveAutoblock( bool $isIP, bool $hasCUChangesRow, bool $shouldAutoblock ) {
 		if ( $isIP ) {
 			$target = UserIdentityValue::newAnonymous( '127.0.0.1' );
 			// Need to create an actor ID for the IP in case it makes no edits as part of the test.
@@ -1342,7 +1354,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider providePruneIPDataData
 	 * @todo test when getScopedLockAndFlush() returns null.
 	 */
-	public function testPruneIPDataData( $currentTime, $maxCUDataAge, $timestamps, $afterCount ) {
+	public function testPruneIPDataData( int $currentTime, int $maxCUDataAge, array $timestamps, int $afterCount ) {
 		$this->setMwGlobals( [
 			'wgCUDMaxAge' => $maxCUDataAge,
 			'wgCheckUserEventTablesMigrationStage' => SCHEMA_COMPAT_NEW
