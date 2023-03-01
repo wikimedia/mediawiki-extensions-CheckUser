@@ -4,18 +4,25 @@ namespace MediaWiki\CheckUser\HookHandler;
 
 use MediaWiki\Hook\BeforePageDisplayHook;
 use Mediawiki\Permissions\PermissionManager;
+use MediaWiki\User\UserOptionsLookup;
 
 class PageDisplay implements BeforePageDisplayHook {
 	/** @var PermissionManager */
 	private $permissionManager;
 
+	/** @var UserOptionsLookup */
+	protected $userOptionsLookup;
+
 	/**
 	 * @param PermissionManager $permissionManager
+	 * @param UserOptionsLookup $userOptionsLookup
 	 */
 	public function __construct(
-		PermissionManager $permissionManager
+		PermissionManager $permissionManager,
+		UserOptionsLookup $userOptionsLookup
 	) {
 		$this->permissionManager = $permissionManager;
+		$this->userOptionsLookup = $userOptionsLookup;
 	}
 
 	/**
@@ -36,7 +43,10 @@ class PageDisplay implements BeforePageDisplayHook {
 
 		if (
 			!$this->permissionManager->userHasRight( $user, 'checkuser-temporary-account' )
-			// TODO: Check preference is enabled, after T325451
+			|| !$this->userOptionsLookup->getOption(
+				$user,
+				'checkuser-temporary-account-enable'
+			)
 		) {
 			return;
 		}
