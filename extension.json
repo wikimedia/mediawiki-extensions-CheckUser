@@ -141,7 +141,8 @@
 		"pageDisplay": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\PageDisplay",
 			"services": [
-				"PermissionManager"
+				"PermissionManager",
+				"UserOptionsLookup"
 			]
 		},
 		"Hooks": {
