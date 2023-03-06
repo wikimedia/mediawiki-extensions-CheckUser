@@ -23,7 +23,6 @@ use MediaWiki\CheckUser\Maintenance\PopulateCucComment;
 use MediaWiki\CheckUser\Maintenance\PopulateCulActor;
 use MediaWiki\CheckUser\Maintenance\PopulateCulComment;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
-use MediaWiki\Extension\Renameuser\RenameuserSQL;
 use MediaWiki\Hook\ContributionsToolLinksHook;
 use MediaWiki\Hook\EmailUserHook;
 use MediaWiki\Hook\RecentChange_saveHook;
@@ -31,6 +30,7 @@ use MediaWiki\Hook\UserLogoutCompleteHook;
 use MediaWiki\Hook\UserToolLinksEditHook;
 use MediaWiki\Installer\Hook\LoadExtensionSchemaUpdatesHook;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Renameuser\RenameuserSQL;
 use MediaWiki\SpecialPage\Hook\SpecialPage_initListHook;
 use MediaWiki\User\Hook\User__mailPasswordInternalHook;
 use MediaWiki\User\UserIdentity;
@@ -1253,7 +1253,7 @@ class Hooks implements
 	}
 
 	/**
-	 * For integration with the Renameuser extension.
+	 * For integration with user renames.
 	 *
 	 * @param RenameuserSQL $renameUserSQL
 	 * @return bool
