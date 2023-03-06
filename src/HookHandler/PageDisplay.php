@@ -31,7 +31,7 @@ class PageDisplay implements BeforePageDisplayHook {
 	public function onBeforePageDisplay( $out, $skin ): void {
 		if (
 			$out->getRequest()->getVal( 'action' ) !== 'history' &&
-			$out->getRequest()->getIntOrNull( 'diff' ) === null &&
+			$out->getRequest()->getRawVal( 'diff' ) === null &&
 			!( $out->getTitle() &&
 				( $out->getTitle()->isSpecialPage() )
 			)
