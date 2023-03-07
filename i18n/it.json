@@ -106,6 +106,7 @@
 	"checkuser-token-fail": "Errore di sessione. Riprova ancora.",
 	"checkuser-login-failure": "Errore nell'effettuare l'accesso su {{SITENAME}} come $1",
 	"checkuser-login-success": "Accesso effettuato su {{SITENAME}} come $1",
+	"checkuser-helper-label": "Visualizza risultati in una tabella",
 	"checkuser-link-investigate-label": "Prova {{#special:investigate}}",
 	"checkuser-investigateblock": "Blocca utenti",
 	"checkuser-investigateblock-target": "Nomi utente o indirizzi IP",

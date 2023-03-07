@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Artsiom91",
+			"Kareyac",
 			"Maksim L.",
 			"No Sleep till Krupki",
 			"Plaga med",
@@ -21,7 +22,7 @@
 	"action-checkuser-log": "праглядаць журнал праверкі ўдзельнікаў",
 	"checkuser-reason": "Прычына:",
 	"checkuser-reason-api": "API: $1",
-	"checkuser-showlog": "Перайсці на журнал праверкі ўдзельнікаў",
+	"checkuser-showlog": "Апошнія праверкі",
 	"checkuser-target": "Адрас IP або імя ўдзельніка:",
 	"checkuser-users": "Атрымаць удзельнікаў",
 	"checkuser-edits": "Атрымаць праўкі",
@@ -63,7 +64,7 @@
 	"checkuser-showmain": "Вярнуцца да галоўнай формы праверкі ўдзельнікаў",
 	"checkuser-autocreate-action": "быў створаны аўтаматычна",
 	"checkuser-create-action": "быў створаны",
-	"checkuser-link-investigate-label": "Паспрабуйце новы інструмент CheckUser",
+	"checkuser-link-investigate-label": "Паспрабуйце {{#special:investigate}}",
 	"checkuser-investigateblock": "Заблакаваць удзельнікаў",
 	"checkuser-investigateblock-reason": "Прычына",
 	"checkuser-investigateblock-options": "Дадатковыя опцыі",
