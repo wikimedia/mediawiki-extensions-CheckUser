@@ -34,7 +34,8 @@
 			"Verdy p",
 			"Xiplus",
 			"Dreamy Jazz",
-			"Nguyenphutrong2"
+			"Nguyenphutrong2",
+			"Minh Nguyen"
 		]
 	},
 	"checkuser-summary": "Explanation of CheckUser tool. See [[mw:Extension:CheckUser#Basic_interface|screenshot titled 'Basic CheckUser interface']].\n\nParameters:\n* $1 - an integer that can change based on wiki configuration. default value: 16\n* $2 - an integer that can change based on wiki configuration. default value: 32\n* $3 - the maximum number of results returned as set in the wiki global CheckUserMaximumRowCount. default value: 5000",
@@ -51,7 +52,7 @@
 	"action-checkuser": "{{doc-action|checkuser}}",
 	"action-checkuser-log": "{{doc-action|checkuser-log}}",
 	"grouppage-checkuser": "{{doc-group|checkuser|page}}\n{{Identical|Check user}}",
-	"checkuser-reason": "Field name on CheckUser Special page used for the reason for the check. See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]'.\n{{Identical|Reason}}",
+	"checkuser-reason": "{{CheckUserForm}}\nField name on CheckUser Special page used for the reason for the check. See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]'.\n{{Identical|Reason}}",
 	"checkuser-reason-api": "A prefix added to the user supplied reason for the check when the check is made using the API.\n\nParameters:\n* $1 - User specified reason\n{{Identical|API}}",
 	"checkuser-showlog": "Text used as the label for a link to [[Special:CheckUserLog]] from [[Special:CheckUser]] which is shown in the subtitle. See also {{msg-mw|checkuser-showmain}}.",
 	"checkuser-query": "Text shown at the top of the form in the CheckUser Special page. See [[mw:Extension:CheckUser#Basic_interface|screenshot titled 'Basic CheckUser interface']].",
@@ -64,7 +65,7 @@
 	"checkuser-week-2": "Option in drop-down input box \"Duration\" on CheckUser Special page. See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]'.",
 	"checkuser-month": "Option in drop-down input box \"Duration\" on CheckUser Special page. See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]'.",
 	"checkuser-month-2": "Option in drop-down input box \"Duration\" on CheckUser Special page. See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]'.",
-	"checkuser-all": "Option in drop-down input box \"Duration\" on CheckUser Special page. See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]'.\n{{Identical|All}}",
+	"checkuser-all": "{{CheckUserForm}}\nOption in drop-down input box \"Duration\" on CheckUser Special page. See screenshot '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]'.\n{{Identical|All}}",
 	"checkuser-cidr-label": "[[File:Checkuser find common range form ooui (example).png|thumb|Form where string is used with sample data.]]Used as the fieldset label for the CIDR calculator shown in [[Special:CheckUser]]. For an explanation of CIDR see [[WikiPedia:CIDR]].",
 	"checkuser-cidr-res": "[[File:Checkuser find common range form ooui (example).png|thumb|Form where string is used with sample data.]]Label used for the disabled input that shows the result of the CIDR calculator. For an explanation of CIDR see [[WikiPedia:CIDR]].",
 	"checkuser-cidr-affected-ips": "[[File:Checkuser find common range form ooui (example).png|thumb|Form where string is used with sample data.]]The prefix text for the number of affected IP addresses in the CheckUser CIDR form. For an explanation of CIDR see [[WikiPedia:CIDR]].",
