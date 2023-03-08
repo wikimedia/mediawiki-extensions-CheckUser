@@ -3,7 +3,8 @@
 		"authors": [
 			"Les Meloures",
 			"Robby",
-			"Soued031"
+			"Soued031",
+			"Volvox"
 		]
 	},
 	"checkuser-summary": "Dës Funktioun scannt déi rezent Ännerunge fir d'Ip-Adressen, déi vun engem Benotzer benotzt goufen, ze fannen, repektiv d'Ännerunge pro Benotzer fir eng IP.\nBenotzer an Ännerunge vun enger IP-Adress kënnen och iwwer den XFF header gesicht ginn andeems hanner d'IP-Adress \"/xff\" hannendrugehaange gëtt. IPv4 (CIDR $1-32) an IPv6 (CIDR $2-128) ginn ënnerstëtzt.\nNet méi wéi 5000 Ännerunge ginn aus Performancegrënn zréckgeschéckt.\nBenotzt dës Funktioun am Aklang mat den Direktiven.",
@@ -54,7 +55,7 @@
 	"checkuser-blocktalk": "Verhënnere fir seng eegen Diskussiounssäit z'ännere sou laang wéi e gespaart ass",
 	"checkuser-blocktag": "Benotzersäiten duerch dëst ersetzen:",
 	"checkuser-blocktag-talk": "Diskussiounssäiten ersetzen duerch:",
-	"checkuser-reblock": "Spären déi et gëtt iwwerschreiwen",
+	"checkuser-reblock": "Spären, déi et gëtt, iwwerschreiwen",
 	"checkuser-massblock-commit": "Ausgewielt Benotzer spären",
 	"checkuser-block-success": "'''{{PLURAL:$2|De Benotzer|D'Benotzer}} $1 {{PLURAL:$2|ass|sinn}} elo gespaart.'''",
 	"checkuser-block-failure": "'''Et si keng Benotzer gespaart.'''",
