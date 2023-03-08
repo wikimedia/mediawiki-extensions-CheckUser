@@ -25,7 +25,7 @@
 	"grouppage-checkuser": "{{ns:project}}:Preverjevalci uporabnikov",
 	"checkuser-reason": "Razlog:",
 	"checkuser-reason-api": "API: $1",
-	"checkuser-showlog": "Nedavna preverjanja",
+	"checkuser-showlog": "Dnevnik preverjanj",
 	"checkuser-query": "Preišči zadnje spremembe",
 	"checkuser-target": "IP-naslov ali uporabniško ime:",
 	"checkuser-users": "Izpiši uporabnike",
