@@ -81,6 +81,7 @@
 	"checkuser-block-failure": "'''Geen gebruikers geblokkeerd.'''",
 	"checkuser-block-limit": "Te veel gebruikers geselecteerd.",
 	"checkuser-block-noreason": "U moet een reden opgeven voor de blokkades.",
+	"checkuser-block-reason-dropdown": "*Veelvoorkomende redenen voor blokkades\n**Van meerdere accounts misbruik maken\n** Veelvuldig koppelingen naar externe websites plaatsen\n** Vandalisme",
 	"checkuser-centralauth-multilock": "Lock alle geselecteerde gebruikers",
 	"checkuser-centralauth-multilock-list": "Stel een meervoudige vergrendeling van de geselecteerde accounts in met behulp van de onderstaande koppelingen:",
 	"checkuser-centralauth-multilock-list-item": "Koppeling $1",

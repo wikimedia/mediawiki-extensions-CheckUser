@@ -79,6 +79,7 @@
 	"checkuser-block-failure": "'''لم يمنع أي مستخدم.'''",
 	"checkuser-block-limit": "اختير عددٌ كبيرٌ من المستخدمين.",
 	"checkuser-block-noreason": "يجب أن تحدد سببًا للمنع.",
+	"checkuser-block-reason-dropdown": "*أسباب شائعة للمنع\n**إساءة استخدام حسابات متعدد\n**وصلات سبام لمواقع خارجية\n**التخريب",
 	"checkuser-centralauth-multilock": "إغلاق الحسابات المحددة",
 	"checkuser-centralauth-multilock-list": "قفل متعدد للحسابات المحددة باستخدام الروابط:",
 	"checkuser-centralauth-multilock-list-item": "ربط $1",

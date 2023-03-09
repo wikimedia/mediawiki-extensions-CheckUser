@@ -92,6 +92,7 @@
 	"checkuser-block-failure": "'''Aucun utilisateur bloqué.'''",
 	"checkuser-block-limit": "Trop d’utilisateurs sélectionnés.",
 	"checkuser-block-noreason": "Vous devez donner un motif justifiant les blocages.",
+	"checkuser-block-reason-dropdown": "* Raisons de blocage courantes\n** Comptes multiples abusifs\n** Pollupostage de liens multiples vers des sites externes \n** Vandalisme",
 	"checkuser-centralauth-multilock": "Verrouiller de multiples comptes sélectionnés",
 	"checkuser-centralauth-multilock-list": "Verrouiller de multiples comptes sélectionnés à l’aide des liens :",
 	"checkuser-centralauth-multilock-list-item": "Lien $1",

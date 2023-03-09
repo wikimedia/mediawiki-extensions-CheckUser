@@ -66,6 +66,7 @@
 	"checkuser-block-failure": "'''Nulle usator blocate.'''",
 	"checkuser-block-limit": "Troppo de usatores seligite.",
 	"checkuser-block-noreason": "Tu debe indicar un motivo pro le blocadas.",
+	"checkuser-block-reason-dropdown": "*Motivos frequente pro blocar\n**Abuso de contos  multiple\n** Ligamines ''spam'' verso sitos externe\n** Vandalismo",
 	"checkuser-centralauth-multilock": "Multi-blocar le contos seligite",
 	"checkuser-centralauth-multilock-list": "Multi-serra le contos seligite usante le ligamines:",
 	"checkuser-centralauth-multilock-list-item": "Ligamine $1",

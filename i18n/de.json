@@ -83,6 +83,7 @@
 	"checkuser-block-failure": "'''Es wurden keine Benutzer gesperrt.'''",
 	"checkuser-block-limit": "Es wurden zu viele Benutzer ausgewählt.",
 	"checkuser-block-noreason": "Du musst einen Grund für die Sperre angeben.",
+	"checkuser-block-reason-dropdown": "*Häufige Sperrgründe\n** Missbrauch mehrerer Konten\n** Linkspam zu externen Seiten\n** Vandalismus",
 	"checkuser-centralauth-multilock": "Ausgewählte Benutzerkonten sperren",
 	"checkuser-centralauth-multilock-list": "Sperre die ausgewählten Konten unter Verwendung der Links mehrfach:",
 	"checkuser-centralauth-multilock-list-item": "Link $1",

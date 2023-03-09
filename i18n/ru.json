@@ -54,7 +54,7 @@
 	"grouppage-checkuser": "{{ns:project}}:Проверка участников",
 	"checkuser-reason": "Причина:",
 	"checkuser-reason-api": "API: $1",
-	"checkuser-showlog": "Перейти на журнал проверки участников",
+	"checkuser-showlog": "Журнал проверок",
 	"checkuser-query": "Запросить свежие правки",
 	"checkuser-target": "IP-адрес или имя участника:",
 	"checkuser-users": "Получить участников",
