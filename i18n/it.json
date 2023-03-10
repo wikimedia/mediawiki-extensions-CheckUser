@@ -81,6 +81,7 @@
 	"checkuser-block-failure": "'''Nessun utente bloccato.'''",
 	"checkuser-block-limit": "Troppi utenti selezionati.",
 	"checkuser-block-noreason": "È obbligatorio fornire una motivazione per i blocchi.",
+	"checkuser-block-reason-dropdown": "* Motivi di blocco comuni\n** Abuso di utenze multiple\n** Spam di collegamenti a siti esterni\n** Vandalismo",
 	"checkuser-centralauth-multilock": "Blocco multiplo degli utenti selezionati",
 	"checkuser-centralauth-multilock-list-item": "Collegamento $1",
 	"checkuser-noreason": "È necessario fornire una motivazione per questa query.",

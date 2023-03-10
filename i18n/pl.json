@@ -84,6 +84,7 @@
 	"checkuser-block-failure": "'''Nie udało się zablokować użytkowników.'''",
 	"checkuser-block-limit": "Wybrano zbyt wielu użytkowników.",
 	"checkuser-block-noreason": "Należy podać powód blokad.",
+	"checkuser-block-reason-dropdown": "*Częste przyczyny blokowania\n**Nadużywanie wielu kont\n** Spamowanie linków do witryn zewnętrznych\n** Wandalizm",
 	"checkuser-centralauth-multilock": "Zablokuj wybrane konta",
 	"checkuser-centralauth-multilock-list": "Multizablokuj wybrane konta za pomocą linków:",
 	"checkuser-noreason": "Musisz podać powód wykonania zapytania.",
