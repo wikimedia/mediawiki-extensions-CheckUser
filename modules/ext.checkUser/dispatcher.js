@@ -15,6 +15,9 @@
 		case 'CheckUserLog':
 			require( './checkuserlog/highlightScroll.js' );
 			break;
+		case 'Block':
+			require( './temporaryaccount/SpecialBlock.js' );
+			break;
 		case 'Contributions':
 			if ( mw.util.isTemporaryUser( mw.config.get( 'wgRelevantUserName' ) ) ) {
 				require( './temporaryaccount/SpecialContributions.js' );
