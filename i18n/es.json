@@ -104,6 +104,7 @@
 	"checkuser-block-failure": "'''No hay usuarios bloqueados.'''",
 	"checkuser-block-limit": "Demasiados usuarios seleccionados.",
 	"checkuser-block-noreason": "Debes dar una razón para los bloqueos.",
+	"checkuser-block-reason-dropdown": "*Motivos comunes de bloqueo\n**Abuso de múltiples cuentas\n**Publicitar enlaces a otras páginas web\n**Vandalismo",
 	"checkuser-centralauth-multilock": "Bloquear globalmente las cuentas seleccionadas",
 	"checkuser-centralauth-multilock-list": "Bloquear globalmente las cuentas seleccionadas usando los siguientes enlaces:",
 	"checkuser-centralauth-multilock-list-item": "Enlace $1",

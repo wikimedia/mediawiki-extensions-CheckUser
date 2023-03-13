@@ -75,6 +75,7 @@
 	"checkuser-block-failure": "'''לא נחסמו משתמשים.'''",
 	"checkuser-block-limit": "נבחרו יותר מדי משתמשים.",
 	"checkuser-block-noreason": "יש לתת סיבה לחסימות.",
+	"checkuser-block-reason-dropdown": "* סיבות נפוצות לחסימה\n** ניצול לרעה של חשבונות מרובים\n** פרסום קישורי זבל לאתרים חיצוניים\n** השחתה",
 	"checkuser-centralauth-multilock": "נעילה מרובה של חשבונות שנבחרו",
 	"checkuser-centralauth-multilock-list": "נעילה מרובה של חשבונות שנבחרו באמצעות הקישורים:",
 	"checkuser-centralauth-multilock-list-item": "קישור $1",

@@ -44,7 +44,7 @@
 	"checkuser": "Проверить участника",
 	"checkuserlog": "Журнал проверки участников",
 	"checkuser-contribs": "проверить IP-адреса участника",
-	"checkuser-contribs-log": "недавние проверки пользователя",
+	"checkuser-contribs-log": "проверки пользователя",
 	"group-checkuser": "Проверяющие участников",
 	"group-checkuser-member": "{{GENDER:$1|проверяющий участников|проверяющая участников}}",
 	"right-checkuser": "Проверка IP-адресов и другой информации участников",

@@ -81,6 +81,7 @@
 	"checkuser-block-failure": "'''Ниједан корисник није блокиран.'''",
 	"checkuser-block-limit": "Изабрано је превише корисника.",
 	"checkuser-block-noreason": "Морате да наведете разлог блокирања.",
+	"checkuser-block-reason-dropdown": "* Разлози за блокаду\n** Злоупотреба више налога\n** Спамовање\n** Вандализам",
 	"checkuser-centralauth-multilock": "Закључавање више изабраних налога",
 	"checkuser-centralauth-multilock-list-item": "Веза $1",
 	"checkuser-noreason": "Морате да наведете разлог за овај упит.",
