@@ -197,6 +197,7 @@
 				"investigate/blockform.js",
 				"temporaryaccount/init.js",
 				"temporaryaccount/makeShowIpButton.js",
+				"temporaryaccount/SpecialBlock.js",
 				"temporaryaccount/SpecialContributions.js",
 				{
 					"name": "investigate/message.json",
@@ -206,6 +207,7 @@
 			],
 			"dependencies": [
 				"jquery.tablesorter",
+				"oojs-ui-core",
 				"oojs-ui-widgets",
 				"oojs-ui.styles.icons-editing-core",
 				"oojs-ui.styles.icons-editing-advanced",
@@ -219,6 +221,7 @@
 				"mediawiki.Uri",
 				"mediawiki.util",
 				"mediawiki.widgets",
+				"mediawiki.widgets.UsersMultiselectWidget",
 				"web2017-polyfills"
 			],
 			"messages": [
@@ -246,7 +249,8 @@
 				"checkuser-investigate-subtitle-cancel-button-label",
 				"checkuser-investigate-subtitle-continue-button-label",
 				"checkuser-tempaccount-reveal-ip-button-label",
-				"checkuser-tempaccount-reveal-ip-missing"
+				"checkuser-tempaccount-reveal-ip-missing",
+				"checkuser-tempaccount-specialblock-ips"
 			]
 		},
 		"ext.checkUser.styles": {
