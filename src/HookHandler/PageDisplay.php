@@ -29,8 +29,10 @@ class PageDisplay implements BeforePageDisplayHook {
 	 * @inheritDoc
 	 */
 	public function onBeforePageDisplay( $out, $skin ): void {
+		$action = $out->getRequest()->getVal( 'action' );
 		if (
-			$out->getRequest()->getVal( 'action' ) !== 'history' &&
+			$action !== 'history' &&
+			$action !== 'info' &&
 			$out->getRequest()->getRawVal( 'diff' ) === null &&
 			!( $out->getTitle() &&
 				( $out->getTitle()->isSpecialPage() )
