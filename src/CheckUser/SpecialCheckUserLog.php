@@ -11,6 +11,7 @@ use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\User\UserFactory;
 use SpecialPage;
 use Title;
 use User;
@@ -38,6 +39,9 @@ class SpecialCheckUserLog extends SpecialPage {
 	/** @var CheckUserLogService */
 	private $checkUserLogService;
 
+	/** @var UserFactory */
+	private $userFactory;
+
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory
 	 * @param PermissionManager $permissionManager
@@ -50,7 +54,8 @@ class SpecialCheckUserLog extends SpecialPage {
 		PermissionManager $permissionManager,
 		CommentStore $commentStore,
 		CommentFormatter $commentFormatter,
-		CheckUserLogService $checkUserLogService
+		CheckUserLogService $checkUserLogService,
+		UserFactory $userFactory
 	) {
 		parent::__construct( 'CheckUserLog', 'checkuser-log' );
 		$this->linkBatchFactory = $linkBatchFactory;
@@ -58,6 +63,7 @@ class SpecialCheckUserLog extends SpecialPage {
 		$this->commentStore = $commentStore;
 		$this->commentFormatter = $commentFormatter;
 		$this->checkUserLogService = $checkUserLogService;
+		$this->userFactory = $userFactory;
 	}
 
 	/**
@@ -78,6 +84,7 @@ class SpecialCheckUserLog extends SpecialPage {
 		$out->addModules( [ 'ext.checkUser' ] );
 		$out->addModuleStyles( [
 			'ext.checkUser.styles',
+			'mediawiki.interface.helpers.styles'
 		] );
 		$request = $this->getRequest();
 
@@ -138,7 +145,8 @@ class SpecialCheckUserLog extends SpecialPage {
 			$this->linkBatchFactory,
 			$this->commentStore,
 			$this->commentFormatter,
-			$this->checkUserLogService
+			$this->checkUserLogService,
+			$this->userFactory
 		);
 
 		$out->addHTML(

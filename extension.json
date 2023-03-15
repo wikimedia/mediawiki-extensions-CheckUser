@@ -467,7 +467,8 @@
 				"PermissionManager",
 				"CommentStore",
 				"CommentFormatter",
-				"CheckUserLogService"
+				"CheckUserLogService",
+				"UserFactory"
 			]
 		}
 	},
