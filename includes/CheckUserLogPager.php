@@ -1,5 +1,6 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
 use Wikimedia\Rdbms\IResultWrapper;
 
 class CheckUserLogPager extends ReverseChronologicalPager {
@@ -20,10 +21,62 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 	}
 
 	public function formatRow( $row ) {
-		$user = Linker::userLink( $row->cul_user, $row->user_name );
+		$userFactory = MediaWikiServices::getInstance()->getUserFactory();
+		$performerHidden = $userFactory->newFromId( $row->cul_user )->isHidden();
+		if ( $performerHidden && !$this->getContext()->getUser()->isAllowed( 'hideuser' ) ) {
+			// Performer of the check is hidden and the logged in user does not have
+			//  right to see hidden users.
+			$user = Html::element(
+				'span',
+				[ 'class' => 'history-deleted' ],
+				$this->msg( 'rev-deleted-user' )->text()
+			);
+		} else {
+			$user = Linker::userLink( $row->cul_user, $row->user_name );
+			if ( $performerHidden ) {
+				// Performer is hidden, but current user has rights to see it.
+				// Mark the username has hidden by wrapping it in a history-deleted span.
+				$user = Html::rawElement(
+					'span',
+					[ 'class' => 'history-deleted' ],
+					$user
+				);
+			}
+			$user .= $this->msg( 'word-separator' )->escaped()
+				. Html::rawElement( 'span', [ 'classes' => 'mw-usertoollinks' ],
+					$this->msg( 'parentheses' )->params( $this->getLinkRenderer()->makeLink(
+						SpecialPage::getTitleFor( 'CheckUserLog' ),
+						$this->msg( 'checkuser-log-checks-by' )->text(),
+						[],
+						[
+							'cuInitiator' => $row->user_name,
+						]
+					) )->text()
+				);
+		}
 
-		$target = Linker::userLink( $row->cul_target_id, $row->cul_target_text ) .
-			Linker::userToolLinks( $row->cul_target_id, trim( $row->cul_target_text ) );
+		$targetHidden = $userFactory->newFromId( $row->cul_target_id )->isHidden();
+		if ( $targetHidden && !$this->getContext()->getUser()->isAllowed( 'hideuser' ) ) {
+			// Target of the check is hidden and the logged in user does not have
+			//  right to see hidden users.
+			$target = Html::element(
+				'span',
+				[ 'class' => 'history-deleted' ],
+				$this->msg( 'rev-deleted-user' )->text()
+			);
+		} else {
+			$target = Linker::userLink( $row->cul_target_id, $row->cul_target_text );
+			if ( $targetHidden ) {
+				// Target is hidden, but current user has rights to see it.
+				// Mark the username has hidden by wrapping it in a history-deleted span.
+				$target = Html::rawElement(
+					'span',
+					[ 'class' => 'history-deleted' ],
+					$target
+				);
+			}
+			$target .= Linker::userToolLinks( $row->cul_target_id, trim( $row->cul_target_text ) );
+		}
 
 		$lang = $this->getLanguage();
 		$contextUser = $this->getUser();
