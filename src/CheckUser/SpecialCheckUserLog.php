@@ -9,6 +9,7 @@ use HTMLForm;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\LogPager;
 use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\User\UserFactory;
 use SpecialPage;
 use Title;
 use User;
@@ -30,20 +31,26 @@ class SpecialCheckUserLog extends SpecialPage {
 	/** @var CommentStore */
 	private $commentStore;
 
+	/** @var UserFactory */
+	private $userFactory;
+
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory
 	 * @param PermissionManager $permissionManager
 	 * @param CommentStore $commentStore
+	 * @param UserFactory $userFactory
 	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
 		PermissionManager $permissionManager,
-		CommentStore $commentStore
+		CommentStore $commentStore,
+		UserFactory $userFactory
 	) {
 		parent::__construct( 'CheckUserLog', 'checkuser-log' );
 		$this->linkBatchFactory = $linkBatchFactory;
 		$this->permissionManager = $permissionManager;
 		$this->commentStore = $commentStore;
+		$this->userFactory = $userFactory;
 	}
 
 	/**
@@ -64,6 +71,7 @@ class SpecialCheckUserLog extends SpecialPage {
 		$out->addModules( [ 'ext.checkUser' ] );
 		$out->addModuleStyles( [
 			'ext.checkUser.styles',
+			'mediawiki.interface.helpers.styles'
 		] );
 		$request = $this->getRequest();
 
@@ -120,7 +128,8 @@ class SpecialCheckUserLog extends SpecialPage {
 			$this->getContext(),
 			$this->opts,
 			$this->linkBatchFactory,
-			$this->commentStore
+			$this->commentStore,
+			$this->userFactory
 		);
 
 		$out->addHTML(
