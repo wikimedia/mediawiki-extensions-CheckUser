@@ -219,6 +219,7 @@
 				"mediawiki.storage",
 				"mediawiki.Title",
 				"mediawiki.Uri",
+				"mediawiki.user",
 				"mediawiki.util",
 				"mediawiki.widgets",
 				"mediawiki.widgets.UsersMultiselectWidget",
