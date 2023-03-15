@@ -235,7 +235,8 @@
 			"class": "MediaWiki\\CheckUser\\Specials\\SpecialCheckUserLog",
 			"services": [
 				"LinkBatchFactory",
-				"PermissionManager"
+				"PermissionManager",
+				"UserFactory"
 			]
 		}
 	},

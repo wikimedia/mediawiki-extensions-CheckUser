@@ -6,6 +6,7 @@ use HTMLForm;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\LogPager;
 use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\User\UserFactory;
 use SpecialPage;
 use Title;
 use User;
@@ -25,9 +26,13 @@ class SpecialCheckUserLog extends SpecialPage {
 	/** @var PermissionManager */
 	private $permissionManager;
 
+	/** @var UserFactory */
+	private $userFactory;
+
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
-		PermissionManager $permissionManager
+		PermissionManager $permissionManager,
+		UserFactory $userFactory
 	) {
 		parent::__construct( 'CheckUserLog', 'checkuser-log' );
 		$this->linkBatchFactory = $linkBatchFactory;
@@ -85,7 +90,8 @@ class SpecialCheckUserLog extends SpecialPage {
 				'year' => $request->getInt( 'year' ),
 				'month' => $request->getInt( 'month' ),
 			],
-			$this->linkBatchFactory
+			$this->linkBatchFactory,
+			$this->userFactory
 		);
 
 		$out->addHTML(
