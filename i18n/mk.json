@@ -204,5 +204,6 @@
 	"prefs-checkuser-tempaccount": "Откривање на IP-адреси за привремени сметки",
 	"checkuser-tempaccount-enable-preference": "Овозможи откривање на IP-адреси за привремени сметки",
 	"checkuser-tempaccount-reveal-ip-button-label": "Прикажи IP",
-	"checkuser-tempaccount-reveal-ip-missing": "недостапно"
+	"checkuser-tempaccount-reveal-ip-missing": "недостапно",
+	"checkuser-tempaccount-specialblock-ips": "Ова е привремен корисник кој {{PLURAL:$1|ја користи следнава IP-адреса|ги користи следниве IP-адреси}}: $2"
 }
