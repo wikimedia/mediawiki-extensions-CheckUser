@@ -10,6 +10,8 @@ use MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
+use MediaWiki\User\UserFactory;
+use MediaWiki\User\UserIdentityValue;
 use RangeChronologicalPager;
 use SpecialPage;
 use Wikimedia\Rdbms\IResultWrapper;
@@ -27,6 +29,9 @@ class CheckUserLogPager extends RangeChronologicalPager {
 
 	/** @var CommentStore */
 	private $commentStore;
+
+	/** @var UserFactory */
+	private $userFactory;
 
 	/** @var array */
 	private $opts;
@@ -48,13 +53,15 @@ class CheckUserLogPager extends RangeChronologicalPager {
 		LinkBatchFactory $linkBatchFactory,
 		CommentStore $commentStore,
 		CommentFormatter $commentFormatter,
-		CheckUserLogService $checkUserLogService
+		CheckUserLogService $checkUserLogService,
+		UserFactory $userFactory
 	) {
 		parent::__construct( $context );
 		$this->linkBatchFactory = $linkBatchFactory;
 		$this->commentStore = $commentStore;
 		$this->commentFormatter = $commentFormatter;
 		$this->checkUserLogService = $checkUserLogService;
+		$this->userFactory = $userFactory;
 		$this->opts = $opts;
 
 		// Date filtering: use timestamp if available - From SpecialContributions.php
@@ -119,21 +126,65 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	 * @inheritDoc
 	 */
 	public function formatRow( $row ) {
-		$user = Linker::userLink( $row->actor_user, $row->actor_name ) .
-			$this->msg( 'word-separator' )->escaped()
-			. Html::rawElement( 'span', [ 'classes' => 'mw-usertoollinks' ],
-				$this->msg( 'parentheses' )->params( $this->getLinkRenderer()->makeLink(
-					SpecialPage::getTitleFor( 'CheckUserLog' ),
-					$this->msg( 'checkuser-log-checks-by' )->text(),
-					[],
-					[
-						'cuInitiator' => $row->actor_name,
-					]
-				) )->text()
+		$performerHidden = $this->userFactory->newFromUserIdentity(
+			UserIdentityValue::newRegistered( $row->actor_user, $row->actor_name )
+		)->isHidden();
+		if ( $performerHidden && !$this->getAuthority()->isAllowed( 'hideuser' ) ) {
+			// Performer of the check is hidden and the logged in user does not have
+			//  right to see hidden users.
+			$user = Html::element(
+				'span',
+				[ 'class' => 'history-deleted' ],
+				$this->msg( 'rev-deleted-user' )->text()
 			);
+		} else {
+			$user = Linker::userLink( $row->actor_user, $row->actor_name );
+			if ( $performerHidden ) {
+				// Performer is hidden, but current user has rights to see it.
+				// Mark the username has hidden by wrapping it in a history-deleted span.
+				$user = Html::rawElement(
+					'span',
+					[ 'class' => 'history-deleted' ],
+					$user
+				);
+			}
+			$user .= $this->msg( 'word-separator' )->escaped()
+				. Html::rawElement( 'span', [ 'classes' => 'mw-usertoollinks' ],
+					$this->msg( 'parentheses' )->params( $this->getLinkRenderer()->makeLink(
+						SpecialPage::getTitleFor( 'CheckUserLog' ),
+						$this->msg( 'checkuser-log-checks-by' )->text(),
+						[],
+						[
+							'cuInitiator' => $row->actor_name,
+						]
+					) )->text()
+				);
+		}
 
-		$target = Linker::userLink( $row->cul_target_id, $row->cul_target_text ) .
-			Linker::userToolLinks( $row->cul_target_id, trim( $row->cul_target_text ) );
+		$targetHidden = $this->userFactory->newFromUserIdentity(
+			new UserIdentityValue( $row->cul_target_id, $row->cul_target_text )
+		)->isHidden();
+		if ( $targetHidden && !$this->getAuthority()->isAllowed( 'hideuser' ) ) {
+			// Target of the check is hidden and the logged in user does not have
+			//  right to see hidden users.
+			$target = Html::element(
+				'span',
+				[ 'class' => 'history-deleted' ],
+				$this->msg( 'rev-deleted-user' )->text()
+			);
+		} else {
+			$target = Linker::userLink( $row->cul_target_id, $row->cul_target_text );
+			if ( $targetHidden ) {
+				// Target is hidden, but current user has rights to see it.
+				// Mark the username has hidden by wrapping it in a history-deleted span.
+				$target = Html::rawElement(
+					'span',
+					[ 'class' => 'history-deleted' ],
+					$target
+				);
+			}
+			$target .= Linker::userToolLinks( $row->cul_target_id, trim( $row->cul_target_text ) );
+		}
 
 		$lang = $this->getLanguage();
 		$contextUser = $this->getUser();
