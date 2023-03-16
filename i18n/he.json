@@ -209,5 +209,6 @@
 	"prefs-checkuser-tempaccount": "חשיפת IP זמני של חשבון",
 	"checkuser-tempaccount-enable-preference": "להפעיל חשיפת כתובות IP עבור חשבונות זמניים",
 	"checkuser-tempaccount-reveal-ip-button-label": "הצגת IP",
-	"checkuser-tempaccount-reveal-ip-missing": "לא זמינה"
+	"checkuser-tempaccount-reveal-ip-missing": "לא זמינה",
+	"checkuser-tempaccount-specialblock-ips": "זהו משתמש זמני המשתמש ב{{PLURAL:$1|כתובת ה־IP הבאה|כתובות ה־IP הבאות}}: $2"
 }
