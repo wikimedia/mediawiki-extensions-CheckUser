@@ -97,7 +97,7 @@
 	"checkuser-email-action": "käyttäjälle ”$1” lähetetty sähköpostiviesti",
 	"checkuser-reset-action": "käyttäjän ”$1” salasana nollattu",
 	"checkuser-token-fail": "Istuntovirhe. Ole hyvä ja yritä uudelleen.",
-	"checkuser-link-investigate-label": "Kokeile uutta osoitepaljastin-työkalua",
+	"checkuser-link-investigate-label": "Kokeile {{#special:investigate}}",
 	"checkuser-investigateblock": "Estä käyttäjät",
 	"checkuser-investigateblock-target": "Käyttäjätunnukset ja IP-osoitteet",
 	"checkuser-investigateblock-reason": "Syy",
