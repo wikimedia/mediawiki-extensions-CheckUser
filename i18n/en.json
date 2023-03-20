@@ -208,5 +208,6 @@
 	"checkuser-tempaccount-enable-preference": "Enable revealing IP addresses for temporary accounts",
 	"checkuser-tempaccount-reveal-ip-button-label": "Show IP",
 	"checkuser-tempaccount-reveal-ip-missing": "unavailable",
-	"checkuser-tempaccount-specialblock-ips": "This is a temporary user using the following {{PLURAL:$1|IP|IPs}}: $2"
+	"checkuser-tempaccount-specialblock-ips": "This is a temporary user using the following {{PLURAL:$1|IP|IPs}}: $2",
+	"checkuser-tempaccount-specialblock-see-more-ips": "see $1 more"
 }
