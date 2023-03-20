@@ -213,5 +213,6 @@
 	"prefs-checkuser-tempaccount": "IP-adressen tijdelijke accounts onthullen",
 	"checkuser-tempaccount-enable-preference": "Activeer het onthullen van IP-adressen voor tijdelijke accounts",
 	"checkuser-tempaccount-reveal-ip-button-label": "IP tonen",
-	"checkuser-tempaccount-reveal-ip-missing": "niet beschikbaar"
+	"checkuser-tempaccount-reveal-ip-missing": "niet beschikbaar",
+	"checkuser-tempaccount-specialblock-ips": "Dit is een tijdelijke gebruiker die {{PLURAL:$1|het|de}} volgende IP-adres{{PLURAL:$1||sen}} gebruikt: $2"
 }
