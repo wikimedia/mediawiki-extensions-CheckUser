@@ -18,7 +18,7 @@
 	"checkuser": "ব্যবহারকারী পরীক্ষণ",
 	"checkuserlog": "ব্যবহারকারী পরীক্ষণ লগ",
 	"checkuser-contribs": "ব্যবহারকারীর আইপি ঠিকানা পরীক্ষা করুন",
-	"checkuser-contribs-log": "সাম্প্রতিক ব্যবহারকারী পরীক্ষা",
+	"checkuser-contribs-log": "ব্যবহারকারী পরীক্ষণ",
 	"group-checkuser": "ব্যবহারকারী পরীক্ষক",
 	"group-checkuser-member": "{{GENDER:$1|ব্যবহারকারী পরীক্ষক}}",
 	"right-checkuser": "ব্যবহারকারীর আইপি ঠিকানা এবং অন্যান্য তথ্য যাচাই করুন",
@@ -30,7 +30,7 @@
 	"grouppage-checkuser": "{{ns:project}}:ব্যবহারকারী পরীক্ষক",
 	"checkuser-reason": "কারণ:",
 	"checkuser-reason-api": "এপিআই: $1",
-	"checkuser-showlog": "সাম্প্রতিক পরীক্ষণ",
+	"checkuser-showlog": "পরীক্ষণ লোগো",
 	"checkuser-query": "সাম্প্রতিক পরিবর্তনসমূহ জানুন",
 	"checkuser-target": "আইপি ঠিকানা বা ব্যবহারকারীর নাম:",
 	"checkuser-users": "ব্যবহারকারী খুঁজুন",
@@ -49,7 +49,7 @@
 	"checkuser-check": "পরীক্ষা করুন",
 	"checkuser-check-this-user": "এই ব্যবহারাকারীকে পরীক্ষণ করুন",
 	"checkuser-investigate-this-user": "এই ব্যবহারাকারীকে তদন্ত করুন",
-	"checkuser-recent-checks": "এই ব্যবহারকারীর জন্য সাম্প্রতিক পরীক্ষাগুলি",
+	"checkuser-recent-checks": "এই লক্ষ্যের জন্য পরীক্ষণগুলি",
 	"checkuser-blocked": "বাধাপ্রাপ্ত",
 	"checkuser-gblocked": "বৈশ্বিকভাবে বাধাপ্রাপ্ত",
 	"checkuser-locked": "অবরুদ্ধ",
@@ -67,6 +67,7 @@
 	"checkuser-block-failure": "'''বাধাপ্রাপ্ত কোনো ব্যবহারকারী নেই।'''",
 	"checkuser-block-limit": "অনেক বেশি ব্যবহারকারী নির্বাচিত করা হয়েছে।",
 	"checkuser-block-noreason": "আপনাকে অবশ্যই এই বাধাদানের জন্য একটি কারণ উল্লেখ করতে হবে।",
+	"checkuser-block-reason-dropdown": "* বাধাদানের সাধারণ কারণ\n** একাধিক অ্যাকাউন্টের অপব্যবহার\n** বহিঃস্থ স্প্যামিং সাইটের লিঙ্ক বারংবার যোগ করা\n** ধ্বংসাত্মক কাজ",
 	"checkuser-centralauth-multilock": "নির্বাচিত অ্যাকাউন্টগুলি বহু তালাবদ্ধ করুন",
 	"checkuser-noreason": "আপনাকে অবশ্যই এই কোয়েরির জন্য একটি কারণ উল্লেখ করতে হবে।",
 	"checkuser-search": "ব্যবহারকারী পরীক্ষণের ভুক্তিতে খুঁজুন",
@@ -165,5 +166,6 @@
 	"checkuser-investigate-compare-table-header-ip": "আইপি",
 	"checkuser-investigate-compare-table-header-useragent": "ব্যবহারকারী এজেন্ট",
 	"checkuser-investigate-subtitle-link-restart-tour": "ট্যুর পুনরাম্ভ করুন",
-	"checkuser-investigate-tour-targets-title": "একাধিক ব্যবহারকারী ও আইপি পরীক্ষা করছেন?"
+	"checkuser-investigate-tour-targets-title": "একাধিক ব্যবহারকারী ও আইপি পরীক্ষা করছেন?",
+	"checkuser-tempaccount-specialblock-ips": "ইনি একজন অস্থায়ী ব্যবহারকারী যিনি নিম্নলিখিত {{PLURAL:$1|আইপি|আইপিগুলি}} ব্যবহার করছেন: $2"
 }

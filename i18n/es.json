@@ -238,5 +238,6 @@
 	"prefs-checkuser-tempaccount": "Revelación de IP de cuenta temporal",
 	"checkuser-tempaccount-enable-preference": "Habilitar la revelación de direcciones IP para cuentas temporales",
 	"checkuser-tempaccount-reveal-ip-button-label": "Mostrar dirección IP",
-	"checkuser-tempaccount-reveal-ip-missing": "no disponible"
+	"checkuser-tempaccount-reveal-ip-missing": "no disponible",
+	"checkuser-tempaccount-specialblock-ips": "Esta es una cuenta de usuario temporal que usa {{PLURAL:$1|la siguiente dirección IP|las siguientes direcciones IP}}: $2"
 }
