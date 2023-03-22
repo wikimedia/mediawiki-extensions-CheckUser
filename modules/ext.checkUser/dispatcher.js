@@ -26,13 +26,17 @@
 	}
 
 	// Include resources for all but a few specific special pages
+	// and for non-special pages that load this module
 	var excludePages = [
 		'Investigate',
 		'InvestigateBlock',
 		'CheckUser',
 		'Contributions'
 	];
-	if ( excludePages.indexOf( mw.config.get( 'wgCanonicalSpecialPageName' ) ) === -1 ) {
+	if (
+		!mw.config.get( 'wgCanonicalSpecialPageName' ) ||
+		excludePages.indexOf( mw.config.get( 'wgCanonicalSpecialPageName' ) ) === -1
+	) {
 		require( './temporaryaccount/init.js' );
 	}
 }() );
