@@ -479,11 +479,6 @@ $specialPageAliases['vi'] = [
 	'CheckUserLog' => [ 'Nhật_trình_kiểm_tra_người_dùng' ],
 ];
 
-/** Chinese (中文) */
-$specialPageAliases['zh'] = [
-	'CheckUser' => [ '用户查核', '用戶查核', '使用者查核' ],
-];
-
 /** Simplified Chinese (中文（简体）‎) */
 $specialPageAliases['zh-hans'] = [
 	'CheckUser' => [ '用户查核' ],
