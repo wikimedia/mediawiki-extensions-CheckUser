@@ -10,9 +10,12 @@ module.exports = function makeShowIpButton( target, revId, revIds ) {
 	} );
 	button.once( 'click', function () {
 		button.$element.trigger( 'revealIp' );
+		button.$element.off( 'revealIp' );
+		$( document ).trigger( 'userRevealed', [ target ] );
 	} );
 
 	button.$element.on( 'revealIp', function () {
+		button.$element.off( 'revealIp' );
 		var params = new URLSearchParams();
 		params.set( 'limit', revIds ? revIds.length : 1 );
 		$.get(
@@ -28,8 +31,6 @@ module.exports = function makeShowIpButton( target, revId, revIds ) {
 					.addClass( 'ext-checkuser-tempaccount-reveal-ip' )
 					.text( ip || mw.msg( 'checkuser-tempaccount-reveal-ip-missing' ) )
 			);
-			$( document ).trigger( 'ipRevealed', [ target ] );
-			button.$element.off( 'revealIp' );
 		} );
 	} );
 
