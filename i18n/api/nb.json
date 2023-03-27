@@ -19,6 +19,7 @@
 	"apihelp-query+checkuserlog-summary": "Hent oppføringer fra IP-kontroll-loggen.",
 	"apihelp-query+checkuserlog-param-user": "Brukernavnet til IP-kontrolløren.",
 	"apihelp-query+checkuserlog-param-target": "Sjekket bruker, IP-adresse eller CIDR-område.",
+	"apihelp-query+checkuserlog-param-reason": "Årsak for sjekkingen.",
 	"apihelp-query+checkuserlog-param-limit": "Begrensning av rader.",
 	"apihelp-query+checkuserlog-param-from": "Tidsstempelet det skal startes fra.",
 	"apihelp-query+checkuserlog-param-to": "Tidsstempelet det skal sluttes på.",
