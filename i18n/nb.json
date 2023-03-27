@@ -7,7 +7,8 @@
 			"Jon Harald Søby",
 			"Laaknor",
 			"McDutchie",
-			"Nghtwlkr"
+			"Nghtwlkr",
+			"EdoAug"
 		]
 	},
 	"checkuser-summary": "Dette verktøyet går gjennom siste endringer for å hente IP-ene som er brukt av en bruker, eller viser redigerings- eller brukerinformasjonen for en IP.\n\nBrukere og redigeringer kan hentes med en XFF-IP ved å legge til «/xff» bak IP-en. IPv4 (CIDR $1-32) og IPv6 (CIDR $2-128) støttes.\n\nAv ytelsesgrunner vises maksimalt 5000 redigeringer. Bruk dette verktøyet i samsvar med retningslinjer.",
@@ -99,8 +100,8 @@
 	"checkuser-investigateblock-actions": "Handlinger som skal blokkeres",
 	"checkuser-investigateblock-reason": "Årsak",
 	"checkuser-investigateblock-options": "Ekstra alternativer",
-	"checkuser-investigateblock-email-label": "Forhindre fra å sende epost",
-	"checkuser-investigateblock-usertalk-label": "Forhindre fra å redigere deres egen diskusjonsside mens han/hun er blokkert",
+	"checkuser-investigateblock-email-label": "Forhindre fra å sende e-post",
+	"checkuser-investigateblock-usertalk-label": "Forhindre fra å redigere egen diskusjonsside mens vedkommende er blokkert",
 	"checkuser-investigateblock-reblock-label": "Overstyr eksisterende blokkeringer",
 	"checkuser-investigateblock-notice-user-page-label": "Legg igjen en beskjed på brukersiden",
 	"checkuser-investigateblock-notice-talk-page-label": "Legg igjen en beskjed på brukerdiskusjonssiden",
