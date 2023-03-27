@@ -31,7 +31,7 @@ mw.hook( 'wikipage.content' ).add( function ( $content ) {
 // Checkusers reveal every IP used by the looked up username
 mw.user.getRights( function ( rights ) {
 	if ( rights.indexOf( 'checkuser' ) > -1 ) {
-		$( document ).on( 'ipRevealed', function ( _e, userLookup ) {
+		$( document ).on( 'userRevealed', function ( _e, userLookup ) {
 			// Find all temp user links that share the username
 			var $userLinks = $( '.mw-tempuserlink' ).filter( function () {
 				return $( this ).text() === userLookup;
