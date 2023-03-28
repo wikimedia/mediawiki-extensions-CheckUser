@@ -105,7 +105,7 @@
 	"checkuser-investigateblock-actions": "Handlinger som skal blokkeres",
 	"checkuser-investigateblock-reason": "Årsak",
 	"checkuser-investigateblock-options": "Ekstra alternativer",
-	"checkuser-investigateblock-email-label": "Forhindre fra å sende epost",
+	"checkuser-investigateblock-email-label": "Forhindre fra å sende e-post",
 	"checkuser-investigateblock-usertalk-label": "Forhindre fra å redigere egen diskusjonsside mens vedkommende er blokkert",
 	"checkuser-investigateblock-reblock-label": "Overstyr eksisterende blokkeringer",
 	"checkuser-investigateblock-notice-user-page-label": "Legg igjen en beskjed på brukersiden",
