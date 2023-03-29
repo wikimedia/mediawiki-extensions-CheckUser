@@ -92,6 +92,17 @@
 	.mw-checkuser-helper-table {
 		width: 100%;
 		margin: 0;
+
+		td:nth-child( 1 ),
+		td:nth-child( 2 ) {
+			@media ( max-width: @max-width-breakpoint-desktop ) {
+				min-width: 25%;
+			}
+
+			a {
+				word-wrap: anywhere;
+			}
+		}
 	}
 
 	.mw-widget-copyTextLayout {
