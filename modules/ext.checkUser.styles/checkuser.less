@@ -1,6 +1,6 @@
 @import 'mediawiki.skin.variables.less';
 
-.mw-checkuser-links-no-parentheses > span:not( :first-child ):before {
+.mw-checkuser-links-no-parentheses > span:not( :first-child )::before {
 	content: ' @{msg-pipe-separator} ';
 }
 
@@ -15,11 +15,11 @@
 	.mw-checkuser-edits-count {
 		display: inline-block;
 
-		&:before {
+		&::before {
 			content: '@{msg-brackets-start}';
 		}
 
-		&:after {
+		&::after {
 			content: '@{msg-brackets-end}';
 		}
 	}
@@ -83,7 +83,7 @@
 	.mw-checkuser-helper-count {
 		user-select: none;
 
-		&:before {
+		&::before {
 			white-space: pre;
 			content: ' @{msg-brackets-start}';
 		}

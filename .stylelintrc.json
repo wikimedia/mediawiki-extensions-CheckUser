@@ -1,7 +1,6 @@
 {
 	"extends": "stylelint-config-wikimedia",
 	"rules": {
-		"selector-class-pattern": "^(mw|oo-ui|ext-checkuser)-",
-		"selector-pseudo-element-colon-notation": null
+		"selector-class-pattern": "^(mw|oo-ui|ext-checkuser)-"
 	}
 }
