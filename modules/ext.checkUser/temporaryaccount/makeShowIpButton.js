@@ -1,3 +1,5 @@
+var ipRevealUtils = require( './ipRevealUtils.js' );
+
 module.exports = function makeShowIpButton( target, revId, revIds ) {
 	var button = new OO.ui.ButtonWidget( {
 		label: mw.msg( 'checkuser-tempaccount-reveal-ip-button-label' ),
@@ -26,6 +28,9 @@ module.exports = function makeShowIpButton( target, revId, revIds ) {
 			'?' + params.toString()
 		).then( function ( response ) {
 			var ip = response.ips[ revId || 0 ];
+			if ( !ipRevealUtils.getRevealedStatus( target ) ) {
+				ipRevealUtils.setRevealedStatus( target );
+			}
 			button.$element.replaceWith(
 				$( '<span>' )
 					.addClass( 'ext-checkuser-tempaccount-reveal-ip' )
