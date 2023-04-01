@@ -5,19 +5,35 @@ var blockTargetWidget;
 // so check for block target widget; if it exists, the form is present
 if ( $blockTargetWidget.length ) {
 	blockTargetWidget = OO.ui.infuse( $blockTargetWidget );
-	blockTargetWidget.lookupMenu.on( 'choose', updateIPs );
-	blockTargetWidget.on( 'change', function () {
-		$( '.ext-checkuser-tempaccount-specialblock-ips' ).empty();
-	} );
-	updateIPs();
+	blockTargetWidget.on( 'change', onTargetChange );
 }
 
-function updateIPs() {
-	$( '.ext-checkuser-tempaccount-specialblock-ips' ).empty();
+function createButton( text ) {
+	return new OO.ui.ButtonWidget( {
+		label: text,
+		framed: false,
+		flags: [ 'progressive' ],
+		classes: [ 'ext-checkuser-tempaccount-specialblock-ips-link' ]
+	} );
+}
 
-	var blockTarget = blockTargetWidget.getValue().trim();
+function onTargetChange( blockTarget ) {
+	$( '.ext-checkuser-tempaccount-specialblock-ips' ).remove();
+	if ( !mw.util.isTemporaryUser( blockTarget ) ) {
+		return;
+	}
 
-	if ( mw.util.isTemporaryUser( blockTarget ) ) {
+	var revealButton = createButton(
+		mw.msg( 'checkuser-tempaccount-reveal-ip-button-label' )
+	);
+	var $container = $( '<div>' )
+		.addClass( 'ext-checkuser-tempaccount-specialblock-ips' )
+		.append( revealButton.$element );
+	$( '#mw-htmlform-target' ).after( $container );
+
+	revealButton.once( 'click', function () {
+		$container.empty();
+
 		$.get(
 			mw.config.get( 'wgScriptPath' ) +
 			'/rest.php/checkuser/v0/temporaryaccount/' + blockTarget
@@ -26,57 +42,38 @@ function updateIPs() {
 			var maxDisplayWithButton = maxDisplayWithoutButton - 1;
 
 			function displayWithoutButton() {
-				$( '#mw-htmlform-target' ).after(
-					$( '<div>' )
-						.addClass( 'ext-checkuser-tempaccount-specialblock-ips' )
-						.append( new OO.ui.LabelWidget( {
-							label: response.ips.length ?
-								mw.message(
-									'checkuser-tempaccount-specialblock-ips',
-									response.ips.length,
-									mw.language.listToText( response.ips )
-								).text() :
-								mw.message(
-									'checkuser-tempaccount-no-ip-results',
-									Math.round( mw.config.get( 'wgCUDMaxAge' ) / 86400 )
-								).text()
-						} ).$element )
-				);
+				$container.empty()
+					.append( new OO.ui.LabelWidget( {
+						label: response.ips.length ?
+							mw.message(
+								'checkuser-tempaccount-specialblock-ips',
+								response.ips.length,
+								mw.language.listToText( response.ips )
+							).text() :
+							mw.message(
+								'checkuser-tempaccount-no-ip-results',
+								Math.round( mw.config.get( 'wgCUDMaxAge' ) / 86400 )
+							).text()
+					} ).$element );
 			}
 
 			function displayWithButton() {
-				var button = new OO.ui.ButtonWidget( {
-					label: mw.message(
-						'checkuser-tempaccount-specialblock-see-more-ips',
-						response.ips.length - ( maxDisplayWithButton )
-					).text(),
-					framed: false,
-					flags: [
-						'progressive'
-					],
-					classes: [ 'ext-checkuser-tempaccount-specialblock-ips-link' ]
-				} );
-				button.once( 'click', function () {
-					$( '.ext-checkuser-tempaccount-specialblock-ips' ).empty();
-					displayWithoutButton();
-				} );
+				var button = createButton( mw.message(
+					'checkuser-tempaccount-specialblock-see-more-ips',
+					response.ips.length - ( maxDisplayWithButton )
+				).text() );
+				button.once( 'click', displayWithoutButton );
 
 				var messageData = response.ips.slice( 0, maxDisplayWithButton );
-				var messageText = new OO.ui.HtmlSnippet(
-					mw.message(
-						'checkuser-tempaccount-specialblock-ips',
-						response.ips.length,
-						messageData.join( mw.msg( 'comma-separator' ) )
-					).text()
-				);
-				$( '#mw-htmlform-target' ).after(
-					$( '<div>' )
-						.addClass( 'ext-checkuser-tempaccount-specialblock-ips' )
-						.append( new OO.ui.LabelWidget( {
-							label: messageText
-						} ).$element )
-						.append( button.$element )
-				);
+				$container.empty()
+					.append( new OO.ui.LabelWidget( {
+						label: mw.message(
+							'checkuser-tempaccount-specialblock-ips',
+							response.ips.length,
+							messageData.join( mw.msg( 'comma-separator' ) )
+						).text()
+					} ).$element )
+					.append( button.$element );
 			}
 
 			if ( response.ips.length > maxDisplayWithoutButton ) {
@@ -85,5 +82,5 @@ function updateIPs() {
 				displayWithoutButton();
 			}
 		} );
-	}
+	} );
 }
