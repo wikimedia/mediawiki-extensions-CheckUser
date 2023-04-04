@@ -36,6 +36,9 @@ class ApiQueryCheckUser extends ApiQueryBase {
 			$this->dieWithError( 'apierror-checkuser-timelimit', 'invalidtime' );
 		}
 
+		$targetTitle = Title::makeTitleSafe( NS_USER, $target );
+		$target = $targetTitle ? $targetTitle->getText() : '';
+
 		$this->addTables( 'cu_changes' );
 		$this->addOption( 'LIMIT', $limit + 1 );
 		$this->addOption( 'ORDER BY', 'cuc_timestamp DESC' );
