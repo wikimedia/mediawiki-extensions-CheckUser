@@ -36,7 +36,8 @@
 			"沈澄心",
 			"白布飘扬",
 			"铁桶",
-			"Hehua"
+			"Hehua",
+			"Jbyccc"
 		]
 	},
 	"checkuser-summary": "本工具会从最近更改中获取某个用户使用过的IP地址，或者显示某个IP地址下的编辑/用户。\n可在IP地址后方附加“/xff”以使用XFF头信息来获取同一客户端IP地址下的用户和编辑。支持IPv4（CIDR $1-32）和IPv6（CIDR $2-128）。\n由于性能问题，本工具最多返回$3笔最近编辑信息。\n请确保您的操作符合方针。",
@@ -174,7 +175,7 @@
 	"checkuser-investigate-reason-label": "原因",
 	"checkuser-investigate-preliminary-notice-ip-targets": "“账户信息”选项卡不包含有关IP的任何信息。有关这些详细信息，请参阅<span class=\"plainlinks\">[$1 IP和用户代理选项卡]</span>。",
 	"checkuser-investigate-preliminary-table-cell-blocked": "已封禁",
-	"checkuser-investigate-preliminary-table-cell-edits": "$1次编辑",
+	"checkuser-investigate-preliminary-table-cell-edits": "$1次{{PLURAL:$1|编辑}}",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "未封禁",
 	"checkuser-investigate-preliminary-table-header-blocked": "状态",
 	"checkuser-investigate-preliminary-table-header-editcount": "编辑",
