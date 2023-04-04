@@ -8,6 +8,7 @@ use Exception;
 use MediaWiki\CheckUser\Specials\SpecialCheckUser;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionRecord;
+use Title;
 use User;
 use Wikimedia\IPUtils;
 
@@ -43,6 +44,9 @@ class ApiQueryCheckUser extends ApiQueryBase {
 		if ( !$timeCutoff ) {
 			$this->dieWithError( 'apierror-checkuser-timelimit', 'invalidtime' );
 		}
+
+		$targetTitle = Title::makeTitleSafe( NS_USER, $target );
+		$target = $targetTitle ? $targetTitle->getText() : '';
 
 		$this->addTables( 'cu_changes' );
 		$this->addOption( 'LIMIT', $limit + 1 );
