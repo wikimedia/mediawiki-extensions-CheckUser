@@ -13,6 +13,7 @@ use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\User\UserIdentityLookup;
+use Title;
 use Wikimedia\IPUtils;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\ParamValidator\TypeDef\IntegerDef;
@@ -81,6 +82,9 @@ class ApiQueryCheckUser extends ApiQueryBase {
 		if ( !$timeCutoff || $timeCutoff < 0 || $timeCutoff > time() ) {
 			$this->dieWithError( 'apierror-checkuser-timelimit', 'invalidtime' );
 		}
+
+		$targetTitle = Title::makeTitleSafe( NS_USER, $target );
+		$target = $targetTitle ? $targetTitle->getText() : '';
 
 		$commentQuery = $this->commentStore->getJoin( 'cuc_comment' );
 
