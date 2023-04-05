@@ -15,19 +15,14 @@ mw.hook( 'wikipage.content' ).add( function ( $content ) {
 	} );
 } );
 
-// Checkusers reveal every IP used by the looked up username
-mw.user.getRights( function ( rights ) {
-	if ( rights.indexOf( 'checkuser' ) > -1 ) {
-		$( document ).on( 'userRevealed', function () {
-			var $userLinks = $( '.mw-contributions-list [data-mw-revid]' );
-			$userLinks = $userLinks.map( function ( _i, el ) {
-				return $( el ).find( '.ext-checkuser-tempaccount-reveal-ip-button' );
-			} );
+$( document ).on( 'userRevealed', function () {
+	var $userLinks = $( '.mw-contributions-list [data-mw-revid]' );
+	$userLinks = $userLinks.map( function ( _i, el ) {
+		return $( el ).find( '.ext-checkuser-tempaccount-reveal-ip-button' );
+	} );
 
-			// Synthetically trigger a reveal event
-			$userLinks.each( function () {
-				$( this ).trigger( 'revealIp' );
-			} );
-		} );
-	}
+	// Synthetically trigger a reveal event
+	$userLinks.each( function () {
+		$( this ).trigger( 'revealIp' );
+	} );
 } );
