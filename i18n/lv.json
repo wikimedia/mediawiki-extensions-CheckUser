@@ -19,7 +19,7 @@
 	"grouppage-checkuser": "{{ns:project}}:Dalībnieku pārbaudītāji",
 	"checkuser-reason": "Iemesls:",
 	"checkuser-reason-api": "API: $1",
-	"checkuser-showlog": "Rādīt reģistru",
+	"checkuser-showlog": "Pārbaužu žurnāls",
 	"checkuser-target": "IP adrese vai lietotājvārds:",
 	"checkuser-users": "Iegūt lietotājus",
 	"checkuser-edits": "Iegūt labojumus",

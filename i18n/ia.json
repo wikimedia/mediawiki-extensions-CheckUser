@@ -106,6 +106,8 @@
 	"checkuser-helper-uas": "Agente(s) usator",
 	"checkuser-helper-xff-trusted": "XFF (fidite):",
 	"checkuser-helper-xff-untrusted": "XFF (non fidite):",
+	"group-checkuser.css": "/* Le codice CSS placiate hic affectara solmente verificatores de usatores */",
+	"group-checkuser.js": "/* Le codice JavaScript placiate hic essera cargate solmente pro verificatores de usatores */",
 	"checkuser-rest-access-denied": "Tu non ha le permission de exequer le action",
 	"checkuser-rest-access-denied-blocked-user": "Tu non ha le permission de exequer le action perque tu conto es blocate",
 	"checkuser-link-investigate-label": "Essayar {{#special:investigate}}",

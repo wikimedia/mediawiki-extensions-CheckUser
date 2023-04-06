@@ -184,7 +184,7 @@
 	"checkuser-investigate-reason-label": "原因",
 	"checkuser-investigate-preliminary-notice-ip-targets": "“账户信息”选项卡不包含有关IP的任何信息。有关这些详细信息，请参阅<span class=\"plainlinks\">[$1 IP和用户代理选项卡]</span>。",
 	"checkuser-investigate-preliminary-table-cell-blocked": "已封禁",
-	"checkuser-investigate-preliminary-table-cell-edits": "$1次编辑",
+	"checkuser-investigate-preliminary-table-cell-edits": "$1次{{PLURAL:$1|编辑}}",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "未封禁",
 	"checkuser-investigate-preliminary-table-header-blocked": "状态",
 	"checkuser-investigate-preliminary-table-header-editcount": "编辑",
