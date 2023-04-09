@@ -1,6 +1,7 @@
 <?php
 
 use MediaWiki\CheckUser\CheckUserLogService;
+use MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilderFactory;
 use MediaWiki\CheckUser\CheckUserUtilityService;
 use MediaWiki\CheckUser\GuidedTour\TourLauncher;
 use MediaWiki\CheckUser\Hook\HookRunner;
@@ -132,6 +133,13 @@ return [
 	): EventLogger {
 		return new EventLogger(
 			\ExtensionRegistry::getInstance()
+		);
+	},
+	'CheckUserUnionSelectQueryBuilderFactory' => static function (
+		MediaWikiServices $services
+	): CheckUserUnionSelectQueryBuilderFactory {
+		return new CheckUserUnionSelectQueryBuilderFactory(
+			$services->getCommentStore()
 		);
 	},
 	'CheckUserHookRunner' => static function (
