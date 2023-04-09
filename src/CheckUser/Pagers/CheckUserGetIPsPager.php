@@ -9,6 +9,7 @@ use IContextSource;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\CheckUserLogService;
+use MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilderFactory;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\SpecialPage\SpecialPageFactory;
@@ -35,6 +36,7 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 	 * @param ActorMigration $actorMigration
 	 * @param CheckUserLogService $checkUserLogService
 	 * @param UserFactory $userFactory
+	 * @param CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory
 	 * @param IContextSource|null $context
 	 * @param LinkRenderer|null $linkRenderer
 	 * @param ?int $limit
@@ -52,13 +54,14 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 		ActorMigration $actorMigration,
 		CheckUserLogService $checkUserLogService,
 		UserFactory $userFactory,
+		CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory,
 		IContextSource $context = null,
 		LinkRenderer $linkRenderer = null,
 		?int $limit = null
 	) {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager, $userGroupManager, $centralIdLookup,
 			$loadBalancer, $specialPageFactory, $userIdentityLookup, $actorMigration, $checkUserLogService,
-			$userFactory, $context, $linkRenderer, $limit );
+			$userFactory, $checkUserUnionSelectQueryBuilderFactory, $context, $linkRenderer, $limit );
 		$this->checkType = SpecialCheckUser::SUBTYPE_GET_IPS;
 	}
 

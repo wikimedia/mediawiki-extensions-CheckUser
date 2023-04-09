@@ -88,7 +88,8 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 			$services->getUserIdentityLookup(),
 			$services->getActorMigration(),
 			$services->getService( 'CheckUserLogService' ),
-			$services->getUserFactory()
+			$services->getUserFactory(),
+			$services->getService( 'CheckUserUnionSelectQueryBuilderFactory' )
 		);
 		return TestingAccessWrapper::newFromObject( $object );
 	}

@@ -17,6 +17,7 @@ use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLTextFieldNoDisabledStyling;
 use MediaWiki\CheckUser\CheckUserLogService;
+use MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilderFactory;
 use MediaWiki\CheckUser\CheckUserUtilityService;
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\TokenQueryManager;
@@ -125,6 +126,9 @@ class SpecialCheckUser extends SpecialPage {
 	/** @var CommentStore */
 	private $commentStore;
 
+	/** @var CheckUserUnionSelectQueryBuilderFactory */
+	private $checkUserUnionSelectQueryBuilderFactory;
+
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory
 	 * @param BlockPermissionCheckerFactory $blockPermissionCheckerFactory
@@ -147,6 +151,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param HookRunner $hookRunner
 	 * @param CheckUserUtilityService $checkUserUtilityService
 	 * @param CommentStore $commentStore
+	 * @param CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory
 	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
@@ -169,7 +174,8 @@ class SpecialCheckUser extends SpecialPage {
 		UserNameUtils $userNameUtils,
 		HookRunner $hookRunner,
 		CheckUserUtilityService $checkUserUtilityService,
-		CommentStore $commentStore
+		CommentStore $commentStore,
+		CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory
 	) {
 		parent::__construct( 'CheckUser', 'checkuser' );
 
@@ -194,6 +200,7 @@ class SpecialCheckUser extends SpecialPage {
 		$this->hookRunner = $hookRunner;
 		$this->checkUserUtilityService = $checkUserUtilityService;
 		$this->commentStore = $commentStore;
+		$this->checkUserUnionSelectQueryBuilderFactory = $checkUserUnionSelectQueryBuilderFactory;
 	}
 
 	public function doesWrites() {
@@ -754,7 +761,8 @@ class SpecialCheckUser extends SpecialPage {
 					$this->userIdentityLookup,
 					$this->actorMigration,
 					$this->checkUserLogService,
-					$this->userFactory
+					$this->userFactory,
+					$this->checkUserUnionSelectQueryBuilderFactory
 				);
 			case self::SUBTYPE_GET_USERS:
 				return new CheckUserGetUsersPager(
@@ -774,7 +782,8 @@ class SpecialCheckUser extends SpecialPage {
 					$this->userFactory,
 					$this->checkUserLogService,
 					$this->userEditTracker,
-					$this->checkUserUtilityService
+					$this->checkUserUtilityService,
+					$this->checkUserUnionSelectQueryBuilderFactory
 				);
 			case self::SUBTYPE_GET_EDITS:
 				return new CheckUserGetEditsPager(
@@ -797,7 +806,8 @@ class SpecialCheckUser extends SpecialPage {
 					$this->userEditTracker,
 					$this->hookRunner,
 					$this->checkUserUtilityService,
-					$this->commentStore
+					$this->commentStore,
+					$this->checkUserUnionSelectQueryBuilderFactory
 				);
 			default:
 				return null;

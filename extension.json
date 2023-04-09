@@ -343,7 +343,8 @@
 				"UserNameUtils",
 				"CheckUserHookRunner",
 				"CheckUserUtilityService",
-				"CommentStore"
+				"CommentStore",
+				"CheckUserUnionSelectQueryBuilderFactory"
 			]
 		},
 		"CheckUserLog": {
