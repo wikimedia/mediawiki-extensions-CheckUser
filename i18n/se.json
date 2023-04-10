@@ -10,5 +10,6 @@
 	"checkuser-nomatch-edits": "Eai bohtosat.\nMaŋemus rievdadus lei $1 diibmu $2.",
 	"checkuser-search-submit": "Oza",
 	"checkuser-investigate-subtitle-cancel-button-label": "Šluhtte",
+	"checkuser-investigate-subtitle-continue-button-label": "Joatkke",
 	"checkuser-investigate-compare-copy-button-label-hide": "Čiega wikiteavstta"
 }
