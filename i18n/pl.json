@@ -124,10 +124,10 @@
 	"checkuser-helper-xff-trusted": "XFF (zaufany):",
 	"checkuser-helper-xff-untrusted": "XFF (niezaufany):",
 	"group-checkuser.css": "/* Umieszczony tutaj kod CSS dotyczyć będzie tylko checkuserów */",
-	"group-checkuser.js": "/* Umieszczony tutaj kod JS dotyczyć będzie tylko checkuserów */",
+	"group-checkuser.js": "/* Umieszczony tutaj kod JavaScript będzie ładowany tylko checkuserom */",
 	"checkuser-rest-access-denied": "Nie masz uprawnień do wykonywania tej operacji",
 	"checkuser-rest-access-denied-blocked-user": "Nie masz uprawnień do wykonania tej operacji, ponieważ Twoje konto zostało zablokowane",
-	"checkuser-link-investigate-label": "Wypróbuj narzędzie {{#special:Investigate}}",
+	"checkuser-link-investigate-label": "Wypróbuj narzędzie {{#special:investigate}}",
 	"checkuser-investigateblock": "Zablokuj użytkowników",
 	"checkuser-investigateblock-target": "Nazwy użytkownika i adresy IP",
 	"checkuser-investigateblock-actions": "Czynności, które zablokować",
@@ -217,5 +217,6 @@
 	"prefs-checkuser-tempaccount": "Tymczasowe ujawnienie adresu IP konta",
 	"checkuser-tempaccount-enable-preference": "Włącz ujawnianie adresów IP dla kont tymczasowych",
 	"checkuser-tempaccount-reveal-ip-button-label": "Pokaż adres IP",
-	"checkuser-tempaccount-reveal-ip-missing": "niedostępny"
+	"checkuser-tempaccount-reveal-ip-missing": "niedostępny",
+	"checkuser-tempaccount-specialblock-ips": "To jest użytkownik tymczasowy korzystający z {{PLURAL:$1|adresu|adresów}} IP: $2"
 }
