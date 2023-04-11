@@ -7,7 +7,8 @@
 			"Тест",
 			"Vlad5250",
 			"Maksim L.",
-			"Plaga med"
+			"Plaga med",
+			"Kareyac"
 		]
 	},
 	"checkuser-desc": "Дае магчымасць удзельнікам з адпаведнымі правамі правяраць ІР-адрасы і іншую інфармацыю ўдзельнікаў",
@@ -76,7 +77,7 @@
 	"checkuser-investigateblock-usertalk-label": "Забараніць правіць уласную старонку размоў падчас блакавання",
 	"checkuser-investigateblock-reblock-label": "Перавызначыць існыя блакаванні",
 	"checkuser-investigateblock-notice-position-label": "Пазіцыя",
-	"checkuser-investigateblock-notice-text-label": "Вікі-тэкст",
+	"checkuser-investigateblock-notice-text-label": "Вікіразметка",
 	"checkuser-investigateblock-notice-append": "Дадаць у канец старонкі",
 	"checkuser-investigateblock-notice-prepend": "Дадаць у пачатак старонкі",
 	"checkuser-investigateblock-notice-replace": "Замяніць старонку",
