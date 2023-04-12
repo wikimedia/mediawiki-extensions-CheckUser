@@ -29,11 +29,16 @@ function updateIPs() {
 					$( '<div>' )
 						.addClass( 'ext-checkuser-tempaccount-specialblock-ips' )
 						.append( new OO.ui.LabelWidget( {
-							label: mw.message(
-								'checkuser-tempaccount-specialblock-ips',
-								response.ips.length,
-								mw.language.listToText( response.ips )
-							).text()
+							label: response.ips.length ?
+								mw.message(
+									'checkuser-tempaccount-specialblock-ips',
+									response.ips.length,
+									mw.language.listToText( response.ips )
+								).text() :
+								mw.message(
+									'checkuser-tempaccount-no-ip-results',
+									mw.config.get( 'wgCUDMaxAge' ) / 86400
+								).text()
 						} ).$element )
 				);
 			}

@@ -141,6 +141,7 @@
 		"pageDisplay": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\PageDisplay",
 			"services": [
+				"MainConfig",
 				"PermissionManager",
 				"UserOptionsLookup"
 			]
@@ -249,6 +250,7 @@
 				"checkuser-investigate-compare-table-button-filter-label",
 				"checkuser-investigate-subtitle-cancel-button-label",
 				"checkuser-investigate-subtitle-continue-button-label",
+				"checkuser-tempaccount-no-ip-results",
 				"checkuser-tempaccount-reveal-ip-button-label",
 				"checkuser-tempaccount-reveal-ip-missing",
 				"checkuser-tempaccount-specialblock-ips",
