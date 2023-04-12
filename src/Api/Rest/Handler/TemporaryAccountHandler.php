@@ -24,7 +24,7 @@ class TemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 				[ 'Max(cuc_timestamp)' ],
 				SelectQueryBuilder::SORT_DESC
 			)
-			->limit( $this->getValidatedParams()['limit'] )
+			->limit( min( $this->getValidatedParams()['limit'], $this->config->get( 'CheckUserMaximumRowCount' ) ) )
 			->caller( __METHOD__ )
 			->fetchFieldValues();
 
