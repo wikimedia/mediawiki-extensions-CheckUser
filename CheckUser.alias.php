@@ -28,6 +28,8 @@ $specialPageAliases['ar'] = [
 $specialPageAliases['arz'] = [
 	'CheckUser' => [ 'تدقيق_يوزر' ],
 	'CheckUserLog' => [ 'سجل_التشيك-يوزر' ],
+	'Investigate' => [ 'التحقيق' ],
+	'InvestigateBlock' => [ 'البلوك_بتاع_التحقيق' ],
 ];
 
 /** Assamese (অসমীয়া) */
