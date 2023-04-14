@@ -201,5 +201,6 @@
 	"checkuser-tempaccount-enable-preference": "Activar le revelation del adresses IP de contos temporari",
 	"checkuser-tempaccount-reveal-ip-button-label": "Monstrar IP",
 	"checkuser-tempaccount-reveal-ip-missing": "indisponibile",
-	"checkuser-tempaccount-specialblock-ips": "Isto es un usator temporari qui usa le sequente adresse{{PLURAL:$1||s}} IP: $2"
+	"checkuser-tempaccount-specialblock-ips": "Isto es un usator temporari qui usa le sequente adresse{{PLURAL:$1||s}} IP: $2",
+	"checkuser-tempaccount-specialblock-see-more-ips": "vider $1 alteres"
 }

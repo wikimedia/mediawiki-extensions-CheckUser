@@ -228,5 +228,6 @@
 	"checkuser-tempaccount-enable-preference": "Activer la révélation des adresses IP pour les comptes temporaires",
 	"checkuser-tempaccount-reveal-ip-button-label": "Afficher l’adresse IP",
 	"checkuser-tempaccount-reveal-ip-missing": "indisponible",
-	"checkuser-tempaccount-specialblock-ips": "Il s’agit d’un utilisateur temporaire utilisant l{{PLURAL:$1|’a|es a}}dresse{{PLURAL:$1||s}} IP suivante{{PLURAL:$1||s}} : $2"
+	"checkuser-tempaccount-specialblock-ips": "Il s’agit d’un utilisateur temporaire utilisant l{{PLURAL:$1|’a|es a}}dresse{{PLURAL:$1||s}} IP suivante{{PLURAL:$1||s}} : $2",
+	"checkuser-tempaccount-specialblock-see-more-ips": "voir $1 en plus"
 }

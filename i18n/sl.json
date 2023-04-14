@@ -205,5 +205,6 @@
 	"checkuser-tempaccount-enable-preference": "Omogoči razkritje IP-naslovov začasnih računov",
 	"checkuser-tempaccount-reveal-ip-button-label": "Pokaži IP",
 	"checkuser-tempaccount-reveal-ip-missing": "ni na voljo",
-	"checkuser-tempaccount-specialblock-ips": "To je začasen uporabnik, ki uporablja naslednje {{PLURAL:$1|IP|IP-je}}: $2"
+	"checkuser-tempaccount-specialblock-ips": "To je začasen uporabnik, ki uporablja naslednje {{PLURAL:$1|IP|IP-je}}: $2",
+	"checkuser-tempaccount-specialblock-see-more-ips": "glejte še $1"
 }

@@ -166,5 +166,6 @@
 	"checkuser-investigate-compare-table-header-activity": "Временски опсег",
 	"checkuser-investigate-tour-block-title": "Блокирање?",
 	"checkuser-tempaccount-reveal-ip-button-label": "Прикажи IP",
-	"checkuser-tempaccount-reveal-ip-missing": "недоступно"
+	"checkuser-tempaccount-reveal-ip-missing": "недоступно",
+	"checkuser-tempaccount-specialblock-see-more-ips": "види још $1"
 }
