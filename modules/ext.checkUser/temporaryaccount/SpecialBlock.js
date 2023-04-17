@@ -37,7 +37,7 @@ function updateIPs() {
 								).text() :
 								mw.message(
 									'checkuser-tempaccount-no-ip-results',
-									mw.config.get( 'wgCUDMaxAge' ) / 86400
+									Math.round( mw.config.get( 'wgCUDMaxAge' ) / 86400 )
 								).text()
 						} ).$element )
 				);
