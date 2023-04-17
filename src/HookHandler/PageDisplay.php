@@ -2,11 +2,15 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
+use Config;
 use MediaWiki\Hook\BeforePageDisplayHook;
 use Mediawiki\Permissions\PermissionManager;
 use MediaWiki\User\UserOptionsLookup;
 
 class PageDisplay implements BeforePageDisplayHook {
+	/** @var Config */
+	private $config;
+
 	/** @var PermissionManager */
 	private $permissionManager;
 
@@ -14,13 +18,16 @@ class PageDisplay implements BeforePageDisplayHook {
 	protected $userOptionsLookup;
 
 	/**
+	 * @param Config $config
 	 * @param PermissionManager $permissionManager
 	 * @param UserOptionsLookup $userOptionsLookup
 	 */
 	public function __construct(
+		Config $config,
 		PermissionManager $permissionManager,
 		UserOptionsLookup $userOptionsLookup
 	) {
+		$this->config = $config;
 		$this->permissionManager = $permissionManager;
 		$this->userOptionsLookup = $userOptionsLookup;
 	}
@@ -56,6 +63,13 @@ class PageDisplay implements BeforePageDisplayHook {
 		// If the user is blocked
 		if ( $user->getBlock() ) {
 			return;
+		}
+
+		// Config needed for a js-added message on Special:Block
+		if ( $out->getTitle()->isSpecial( 'Block' ) ) {
+			$out->addJSConfigVars( [
+				'wgCUDMaxAge' => $this->config->get( 'CUDMaxAge' )
+			] );
 		}
 
 		$out->addModules( 'ext.checkUser' );
