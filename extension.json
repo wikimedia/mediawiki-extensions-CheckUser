@@ -223,7 +223,7 @@
 				"mediawiki.user",
 				"mediawiki.util",
 				"mediawiki.widgets",
-				"mediawiki.widgets.UsersMultiselectWidget",
+				"mediawiki.widgets.UserInputWidget",
 				"web2017-polyfills"
 			],
 			"messages": [
