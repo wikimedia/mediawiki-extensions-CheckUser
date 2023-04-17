@@ -5,16 +5,17 @@ var blockTargetWidget;
 // so check for block target widget; if it exists, the form is present
 if ( $blockTargetWidget.length ) {
 	blockTargetWidget = OO.ui.infuse( $blockTargetWidget );
-	blockTargetWidget.on( 'change', updateIPs );
+	blockTargetWidget.lookupMenu.on( 'choose', updateIPs );
+	blockTargetWidget.on( 'change', function () {
+		$( '.ext-checkuser-tempaccount-specialblock-ips' ).empty();
+	} );
 	updateIPs();
 }
 
 function updateIPs() {
-	var blockTarget = blockTargetWidget.getValue().toString().trim();
+	$( '.ext-checkuser-tempaccount-specialblock-ips' ).empty();
 
-	if ( blockTarget.length === 0 ) {
-		$( '.ext-checkuser-tempaccount-specialblock-ips' ).empty();
-	}
+	var blockTarget = blockTargetWidget.getValue().trim();
 
 	if ( mw.util.isTemporaryUser( blockTarget ) ) {
 		$.get(
