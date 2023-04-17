@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Tests\Unit\HookHandler;
 
 use MediaWiki\CheckUser\HookHandler\Preferences;
+use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWikiUnitTestCase;
 use User;
@@ -19,7 +20,8 @@ class PreferencesTest extends MediaWikiUnitTestCase {
 		$prefs = [];
 
 		( new Preferences(
-			$this->createMock( PermissionManager::class )
+			$this->createMock( PermissionManager::class ),
+			$this->createMock( TemporaryAccountLoggerFactory::class )
 		) )->onGetPreferences( $user, $prefs );
 
 		$this->assertNotEmpty(
@@ -39,7 +41,12 @@ class PreferencesTest extends MediaWikiUnitTestCase {
 		$permissionManager->method( 'UserHasRight' )
 			->willReturn( $options['hasRight'] );
 
-		( new Preferences( $permissionManager ) )->onGetPreferences( $user, $prefs );
+		$loggerFactory = $this->createMock( TemporaryAccountLoggerFactory::class );
+
+		( new Preferences(
+			$permissionManager,
+			$loggerFactory
+		) )->onGetPreferences( $user, $prefs );
 
 		$this->assertSame(
 			$options['expected'],

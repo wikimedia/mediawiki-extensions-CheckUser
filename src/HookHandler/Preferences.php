@@ -2,8 +2,10 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
+use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Preferences\Hook\GetPreferencesHook;
+use MediaWiki\User\UserIdentity;
 
 class Preferences implements GetPreferencesHook {
 
@@ -16,13 +18,19 @@ class Preferences implements GetPreferencesHook {
 	/** @var PermissionManager */
 	private $permissionManager;
 
+	/** @var TemporaryAccountLoggerFactory */
+	private $loggerFactory;
+
 	/**
 	 * @param PermissionManager $permissionManager
+	 * @param TemporaryAccountLoggerFactory $loggerFactory
 	 */
 	public function __construct(
-		PermissionManager $permissionManager
+		PermissionManager $permissionManager,
+		TemporaryAccountLoggerFactory $loggerFactory
 	) {
 		$this->permissionManager = $permissionManager;
+		$this->loggerFactory = $loggerFactory;
 	}
 
 	/**
@@ -45,6 +53,32 @@ class Preferences implements GetPreferencesHook {
 				'label-message' => 'checkuser-tempaccount-enable-preference',
 				'section' => 'personal/checkuser-tempaccount',
 			];
+		}
+	}
+
+	/**
+	 * @param UserIdentity $user
+	 * @param array &$modifiedOptions
+	 * @param array $originalOptions
+	 */
+	public function onSaveUserOptions( UserIdentity $user, array &$modifiedOptions, array $originalOptions ) {
+		$wasEnabled = !empty( $originalOptions['checkuser-temporary-account-enable'] );
+		$wasDisabled = !$wasEnabled;
+
+		$willEnable = !empty( $modifiedOptions['checkuser-temporary-account-enable'] );
+		$willDisable = isset( $modifiedOptions['checkuser-temporary-account-enable'] ) &&
+			!$modifiedOptions['checkuser-temporary-account-enable'];
+
+		if (
+			( $wasDisabled && $willEnable ) ||
+			( $wasEnabled && $willDisable )
+		) {
+			$logger = $this->loggerFactory->getLogger();
+			if ( $willEnable ) {
+				$logger->logAccessEnabled( $user );
+			} else {
+				$logger->logAccessDisabled( $user );
+			}
 		}
 	}
 
