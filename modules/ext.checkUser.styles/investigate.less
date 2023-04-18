@@ -1,10 +1,4 @@
-@import 'mediawiki.ui/variables.less';
-
-// OOUIHTMLForm specifics
-@ooui-font-size-browser: 16; // Assumed browser default of `16px`.
-@ooui-font-size-base: 0.875em; // Equals `14px` at browser default of `16px`.
-@font-size-small: 13 / @ooui-font-size-browser / @ooui-font-size-base;
-@transition-base: 100ms;
+@import 'mediawiki.skin.variables.less';
 
 .mw-datatable {
 	&.ext-checkuser-investigate-table td {
@@ -16,8 +10,9 @@
 	}
 
 	&.ext-checkuser-investigate-table th {
-		background-color: @colorGray14;
-		border-bottom-width: 2px;
+		// TODO: Replace by Codex design token.
+		background-color: #eaecf0;
+		border-bottom-width: @border-width-thick;
 	}
 
 	.ext-checkuser-compare-table-cell-target {
@@ -29,7 +24,8 @@
 		}
 
 		td.ext-checkuser-compare-table-cell-target {
-			background: @colorGray14;
+			// TODO: Replace by Codex design token.
+			background-color: #eaecf0;
 		}
 	}
 
@@ -52,7 +48,7 @@
 
 	.ext-checkuser-compare-table-cell-user-agent {
 		border-right-width: 0;
-		font-size: @font-size-small;
+		font-size: @font-size-x-small;
 	}
 
 	.ext-checkuser-compare-table-cell-activity {
@@ -99,13 +95,14 @@
 .ext-checkuser-investigate-table.mw-datatable.ext-checkuser-investigate-table-pinned {
 	.ext-checkuser-investigate-table-row-pinned td,
 	.ext-checkuser-investigate-table-row-pinned-data-match td {
-		transition: background-color @transition-base;
-		background-color: #fef6e7;
+		background-color: @background-color-warning-subtle;
+		transition: background-color @transition-duration-base;
 
 		&.ext-checkuser-investigate-table-cell-pinned,
 		&.ext-checkuser-investigate-table-cell-pinned-data-match {
-			transition: background-color @transition-base;
-			background-color: #fc3;
+			// Use darker `color` instead of `background-color` to emphasize the cell.
+			background-color: @color-warning;
+			transition: background-color @transition-duration-base;
 		}
 
 		&:hover,
@@ -139,14 +136,15 @@
 
 		td.ext-checkuser-investigate-table-cell-hover-data-match,
 		td:hover.ext-checkuser-investigate-table-cell-pinnable {
-			background-color: #fc3;
+			// Use darker `color` instead of `background-color` to emphasize the cell.
+			background-color: @color-warning;
 		}
 	}
 
 	.ext-checkuser-investigate-table-row-hover-data-match,
 	tr:hover {
 		td {
-			background-color: #fef6e7;
+			background-color: @background-color-warning-subtle;
 		}
 	}
 }
@@ -156,8 +154,9 @@
 	max-width: none;
 
 	&.oo-ui-messageWidget.oo-ui-messageWidget-block.oo-ui-flaggedElement-notice {
-		background-color: #eaf3ff;
-		border-color: #36c;
+		// TODO: Progressive colors should only be used for interactive elements.
+		background-color: @background-color-progressive-subtle;
+		border-color: @border-color-progressive;
 	}
 
 	.mw-widget-copyTextLayout.oo-ui-actionFieldLayout.oo-ui-fieldLayout-align-top,
@@ -184,7 +183,8 @@
 	}
 
 	.ext-checkuser-investigate-subtitle-fieldset {
-		background-color: #eaf3ff;
+		// TODO: Progressive colors should only be used for interactive elements.
+		background-color: @background-color-progressive-subtle;
 		padding: 10px;
 
 		.oo-ui-fieldLayout.oo-ui-labelElement.oo-ui-fieldLayout-align-top > .oo-ui-fieldLayout-body > .oo-ui-fieldLayout-header,
