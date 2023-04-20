@@ -112,6 +112,9 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			[
 				'1.2.3.5',
 				'1.2.3.4',
+				'1.2.3.3',
+				'1.2.3.2',
+				'1.2.3.1',
 			],
 			$data['ips'],
 			true
@@ -120,7 +123,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 
 	public function testExecuteLimit() {
 		$this->overrideConfigValue( 'CheckUserMaximumRowCount', 5000 );
-		$requestData = $this->getRequestData( [ 'limit' => 10 ] );
+		$requestData = $this->getRequestData( [ 'limit' => 2 ] );
 		$data = $this->executeHandlerAndGetBodyData(
 			$this->getTemporaryAccountHandler(),
 			$requestData,
@@ -353,23 +356,44 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		$testData = [
 			[
 				'cuc_actor'      => 1234,
-				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_this_oldid' => 10,
+				'cuc_ip'         => '1.2.3.1',
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.1' ),
+				'cuc_this_oldid' => 1,
 				'cuc_timestamp'  => $this->db->timestamp( '20200101000000' ),
 			],
 			[
 				'cuc_actor'      => 1234,
-				'cuc_ip'         => '1.2.3.5',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
+				'cuc_ip'         => '1.2.3.2',
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.2' ),
+				'cuc_this_oldid' => 10,
+				'cuc_timestamp'  => $this->db->timestamp( '20200102000000' ),
+			],
+			[
+				'cuc_actor'      => 1234,
+				'cuc_ip'         => '1.2.3.3',
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.3' ),
 				'cuc_this_oldid' => 100,
-				'cuc_timestamp'  => $this->db->timestamp( '20210101000000' ),
+				'cuc_timestamp'  => $this->db->timestamp( '20200103000000' ),
+			],
+			[
+				'cuc_actor'      => 1234,
+				'cuc_ip'         => '1.2.3.4',
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
+				'cuc_this_oldid' => 1000,
+				'cuc_timestamp'  => $this->db->timestamp( '20200104000000' ),
 			],
 			[
 				'cuc_actor'      => 1234,
 				'cuc_ip'         => '1.2.3.5',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
-				'cuc_this_oldid' => 1000,
+				'cuc_this_oldid' => 10000,
+				'cuc_timestamp'  => $this->db->timestamp( '20210105000000' ),
+			],
+			[
+				'cuc_actor'      => 1234,
+				'cuc_ip'         => '1.2.3.5',
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
+				'cuc_this_oldid' => 100000,
 				'cuc_timestamp'  => $this->db->timestamp( '20220101000000' ),
 			],
 		];
