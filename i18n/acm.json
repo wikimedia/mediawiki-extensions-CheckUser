@@ -1,8 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
+			"Ahmedadeljaff",
 			"MRidhaAJ"
 		]
 	},
-	"checkuser-contribs-log": "مراجعات المستخدم"
+	"checkuser-contribs-log": "مراجعات المستخدم",
+	"group-checkuser-temporary-account-viewer-member": "{{جنس:$1|عارض IP للحساب المؤقت}}."
 }
