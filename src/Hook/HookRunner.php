@@ -11,9 +11,9 @@ use RecentChange;
 class HookRunner implements
 	CheckUserFormatRowHook,
 	CheckUserSubtitleLinksHook,
-	CheckUserInsertChangesRow,
-	CheckUserInsertLogEventRow,
-	CheckUserInsertPrivateEventRow,
+	CheckUserInsertChangesRowHook,
+	CheckUserInsertLogEventRowHook,
+	CheckUserInsertPrivateEventRowHook,
 	CheckUserInsertForRecentChangeHook,
 	SpecialCheckUserGetLinksFromRowHook
 {
