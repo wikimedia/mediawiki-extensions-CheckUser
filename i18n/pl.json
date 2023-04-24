@@ -31,6 +31,8 @@
 	"checkuser-contribs-log-initiator": "sprawdzenia wykonane przez tego użytkownika",
 	"group-checkuser": "Checkuserzy",
 	"group-checkuser-member": "{{GENDER:$1|checkuser|checkuserka}}",
+	"group-checkuser-temporary-account-viewer": "Weryfikatorzy IP tymczasowych kont",
+	"group-checkuser-temporary-account-viewer-member": "{{GENDER:$1|weryfikator|weryfikatorka}} IP tymczasowych kont",
 	"right-checkuser": "Sprawdzanie adresów IP oraz innych informacji o użytkownikach",
 	"right-checkuser-log": "Przeglądanie rejestru checkuser",
 	"right-checkuser-temporary-account": "Przeglądanie adresów IP używanych przez konta tymczasowe",
@@ -38,6 +40,7 @@
 	"action-checkuser-log": "przeglądania rejestru checkuser",
 	"action-checkuser-temporary-account": "przeglądania adresów IP używanych przez konta tymczasowe",
 	"grouppage-checkuser": "{{ns:project}}:Checkuser",
+	"grouppage-checkuser-temporary-account-viewer": "{{ns:project}}:Weryfikatorzy IP tymczasowych kont",
 	"checkuser-reason": "Powód",
 	"checkuser-reason-api": "API: $1",
 	"checkuser-showlog": "Rejestr sprawdzeń",
@@ -216,7 +219,9 @@
 	"checkuser-investigate-tour-copywikitext-desc": "Skopiuj tabelę porównywania jednym kliknięciem i zamierz ją na CUWiki. Zauważ tylko, że kopiowane są tylko widoczne dane, nie wszystkie strony sprawdzania.",
 	"prefs-checkuser-tempaccount": "Tymczasowe ujawnienie adresu IP konta",
 	"checkuser-tempaccount-enable-preference": "Włącz ujawnianie adresów IP dla kont tymczasowych",
+	"checkuser-tempaccount-no-ip-results": "Brak danych o IP dla tego tymczasowego użytkownika za {{PLURAL:$1|ostatni dzień|ostatnie $1 dni|ostatnich $1 dni}}.",
 	"checkuser-tempaccount-reveal-ip-button-label": "Pokaż adres IP",
 	"checkuser-tempaccount-reveal-ip-missing": "niedostępny",
-	"checkuser-tempaccount-specialblock-ips": "To jest użytkownik tymczasowy korzystający z {{PLURAL:$1|adresu|adresów}} IP: $2"
+	"checkuser-tempaccount-specialblock-ips": "To jest użytkownik tymczasowy korzystający z {{PLURAL:$1|adresu|adresów}} IP: $2",
+	"checkuser-tempaccount-specialblock-see-more-ips": "zobacz $1 więcej"
 }
