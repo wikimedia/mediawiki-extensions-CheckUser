@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser;
 
 use Exception;
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use FormatJson;
 use MediaWiki\Session\Session;
 use MWTimestamp;
@@ -84,8 +85,7 @@ class TokenManager {
 		$key = $this->getSessionKey( $session );
 		$payload = JWT::decode(
 			$token,
-			$this->getSigningKey( $key ),
-			[ self::SIGNING_ALGO ]
+			new Key( $this->getSigningKey( $key ), self::SIGNING_ALGO )
 		);
 
 		return $this->decrypt(
