@@ -315,9 +315,6 @@
 		"checkuser": {
 			"checkuser": true,
 			"checkuser-log": true
-		},
-		"checkuser-temporary-account-viewer": {
-			"checkuser-temporary-account": true
 		}
 	},
 	"AvailableRights": [
