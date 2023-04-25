@@ -2,8 +2,9 @@
 	"@metadata": {
 		"authors": [
 			"Chase me ladies, I'm the Cavalry",
-			"Macofe"
+			"Macofe",
+			"Dreamy Jazz"
 		]
 	},
-	"apihelp-query+checkuser-description": "Check which IP addresses are used by a given username, or which usernames are used by a given IP."
+	"apihelp-query+checkuser-description": "Check which IP addresses are used by a given username or which usernames are used by a given IP address."
 }
