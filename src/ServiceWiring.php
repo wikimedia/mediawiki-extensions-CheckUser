@@ -19,6 +19,7 @@ use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\WikiMap\WikiMap;
 
 // PHP unit does not understand code coverage for this file
 // as the @covers annotation cannot cover a specific file

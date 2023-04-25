@@ -29,10 +29,10 @@ use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\Extension\CentralAuth\CentralAuthDatabaseManager;
 use MediaWiki\Extension\CentralAuth\CentralAuthServices;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\WikiMap\WikiMap;
 use NamespaceInfo;
 use SpecialPage;
 use TablePager;
-use WikiMap;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IDatabase;
 
