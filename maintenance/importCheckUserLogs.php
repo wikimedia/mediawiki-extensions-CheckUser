@@ -2,6 +2,7 @@
 
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\WikiMap\WikiMap;
 use Wikimedia\IPUtils;
 
 $IP = getenv( 'MW_INSTALL_PATH' );

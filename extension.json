@@ -136,7 +136,9 @@
 	"HookHandlers": {
 		"preferences": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\Preferences",
-			"services": [ "PermissionManager" ]
+			"services": [
+				"PermissionManager"
+			]
 		},
 		"pageDisplay": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\PageDisplay",
