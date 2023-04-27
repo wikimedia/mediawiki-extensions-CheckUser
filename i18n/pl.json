@@ -87,6 +87,7 @@
 	"checkuser-block-reason-dropdown": "*Częste przyczyny blokowania\n**Nadużywanie wielu kont\n** Spamowanie linków do witryn zewnętrznych\n** Wandalizm",
 	"checkuser-centralauth-multilock": "Zablokuj wybrane konta",
 	"checkuser-centralauth-multilock-list": "Multizablokuj wybrane konta za pomocą linków:",
+	"checkuser-centralauth-multilock-list-item": "Link $1",
 	"checkuser-noreason": "Musisz podać powód wykonania zapytania.",
 	"checkuser-target-nonexistent": "Podany obiekt sprawdzenia nie istnieje.",
 	"checkuser-initiator-nonexistent": "Podany sprawdzający nie istnieje.",

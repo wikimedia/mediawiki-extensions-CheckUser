@@ -235,7 +235,7 @@
 	"checkuser-investigate-tour-block-desc": "Te permite seleccionar a los usuarios que desees bloquear para posteriormente llevarte al formulario de bloqueo y efectuar el que te parezca más apropiado.",
 	"checkuser-investigate-tour-copywikitext-title": "¿Quieres copiar los datos?",
 	"checkuser-investigate-tour-copywikitext-desc": "Copia la tabla comparativa con un solo clic y llévala a la wiki privada. Ten en cuenta que solo podrás copiar lo que ahora mismo es visible y no todas las páginas de la investigación.",
-	"prefs-checkuser-tempaccount": "Revelación de IP de cuenta temporal",
+	"prefs-checkuser-tempaccount": "Ver direcciones IP de cuentas temporales",
 	"checkuser-tempaccount-enable-preference": "Habilitar la revelación de direcciones IP para cuentas temporales",
 	"checkuser-tempaccount-reveal-ip-button-label": "Mostrar dirección IP",
 	"checkuser-tempaccount-reveal-ip-missing": "no disponible"
