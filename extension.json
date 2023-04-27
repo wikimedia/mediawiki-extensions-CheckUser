@@ -269,6 +269,9 @@
 				"investigateblock.less",
 				"temporaryaccount.less"
 			],
+			"skinStyles": {
+				"minerva": "temporaryaccount.minerva.less"
+			},
 			"lessMessages": [
 				"brackets-start",
 				"brackets-end",
