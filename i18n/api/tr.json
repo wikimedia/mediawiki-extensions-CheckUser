@@ -24,6 +24,7 @@
 	"apihelp-query+checkuserlog-summary": "Denetçi günlüğünden girdileri alın.",
 	"apihelp-query+checkuserlog-param-user": "Denetçi olan kullanıcı adları.",
 	"apihelp-query+checkuserlog-param-target": "Kontrol edilen IP adresleri veya CIDR aralığı.",
+	"apihelp-query+checkuserlog-param-reason": "Kontrol için verilen neden.",
 	"apihelp-query+checkuserlog-param-limit": "Satır sınırı.",
 	"apihelp-query+checkuserlog-param-from": "Numaralandırmaya başlamak için zaman damgası.",
 	"apihelp-query+checkuserlog-param-to": "Numaralandırmayı sonlandırmak için zaman bilgisi.",
