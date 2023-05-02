@@ -1,11 +1,16 @@
 var $blockTargetWidget = $( '#mw-bi-target' );
-var blockTargetWidget;
+var blockTargetWidget, lastRequest;
 
 // This code is also loaded on the "block succeeded" page where there is no form,
 // so check for block target widget; if it exists, the form is present
 if ( $blockTargetWidget.length ) {
 	blockTargetWidget = OO.ui.infuse( $blockTargetWidget );
-	blockTargetWidget.on( 'change', onTargetChange );
+	blockTargetWidget.on( 'change', function ( blockTarget ) {
+		if ( lastRequest ) {
+			lastRequest.abort();
+		}
+		onTargetChange( blockTarget );
+	} );
 }
 
 function createButton( text ) {
@@ -34,10 +39,11 @@ function onTargetChange( blockTarget ) {
 	revealButton.once( 'click', function () {
 		$container.empty();
 
-		$.get(
+		lastRequest = $.get(
 			mw.config.get( 'wgScriptPath' ) +
 			'/rest.php/checkuser/v0/temporaryaccount/' + blockTarget
-		).then( function ( response ) {
+		);
+		lastRequest.then( function ( response ) {
 			$container.empty()
 				.append( new OO.ui.LabelWidget( {
 					label: response.ips.length ?
