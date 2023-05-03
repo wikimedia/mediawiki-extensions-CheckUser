@@ -22,9 +22,11 @@
 	"right-checkuser": "Проверување на корисничка IP-адреса и други информации",
 	"right-checkuser-log": "Гледање дневник на проверување на корисник",
 	"right-checkuser-temporary-account": "Гледање на IP-адреси користени од привремени сметки",
+	"right-checkuser-temporary-account-log": "Преглед на дневникот на пристапи на IP-адреси на привремени сметки",
 	"action-checkuser": "проверување на корисничка IP-адреса и други информации",
 	"action-checkuser-log": "гледање дневник на проверување на корисник",
 	"action-checkuser-temporary-account": "гледање на IP-адреси користени од привремени сметки",
+	"action-checkuser-temporary-account-log": "преглед на дневникот на посети на IP-адреси на привремени сметки",
 	"grouppage-checkuser": "{{ns:project}}:Проверувачи",
 	"grouppage-checkuser-temporary-account-viewer": "{{ns:project}}:Прегледувач на IP на привремени сметки",
 	"checkuser-reason": "Причина:",
@@ -210,5 +212,13 @@
 	"checkuser-tempaccount-reveal-ip-button-label": "Прикажи IP",
 	"checkuser-tempaccount-reveal-ip-missing": "недостапно",
 	"checkuser-tempaccount-specialblock-ips": "Ова е привремен корисник кој {{PLURAL:$1|ја користи следнава IP-адреса|ги користи следниве IP-адреси}}: $2",
-	"checkuser-tempaccount-specialblock-see-more-ips": "погл. уште $1"
+	"checkuser-tempaccount-specialblock-see-more-ips": "погл. уште $1",
+	"checkuser-temporary-account-log-name": "Дневник на привремени сметки",
+	"checkuser-temporary-account-log-header": "Ова е дневник на:\n# Посети на IP-адресите користени од привремени сметки; и\n# Промени во нивата на кориснички пристап за преглед на IP-адреси користени од привремени сметки.",
+	"logentry-checkuser-temporary-account-change-access": "$1 го $4 {{GENDER:$2|неговиот|нејзиниот|неговата}} пристап до преглед на IP-адреси на привремени сметки",
+	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|оневозможи}}",
+	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|овозможи}}",
+	"log-action-filter-checkuser-temporary-account": "Вид дејство:",
+	"log-action-filter-checkuser-temporary-account-change-access": "Смени пристап",
+	"log-action-filter-checkuser-temporary-account-view-ips": "Погл. IP-адреси"
 }

@@ -21,9 +21,11 @@
 	"right-checkuser": "Preverjanje uporabnikovih IP-naslovov in drugih podatkov",
 	"right-checkuser-log": "Dostop do dnevnika preverjanj uporabnikov",
 	"right-checkuser-temporary-account": "Ogledovanje IP-naslovov, ki jih uporabljajo začasni računi",
+	"right-checkuser-temporary-account-log": "Ogled dnevnika dostopa do IP-naslovov začasnih računov",
 	"action-checkuser": "preverjati uporabnikovih IP-naslovov in drugih podatkov",
 	"action-checkuser-log": "dostopati do dnevnika preverjanj uporabnikov",
 	"action-checkuser-temporary-account": "ogled IP-naslovov, ki jih uporabljajo začasni računi",
+	"action-checkuser-temporary-account-log": "ogled dnevnika dostopa do IP-naslovov začasnih računov",
 	"grouppage-checkuser": "{{ns:project}}:Preverjevalci uporabnikov",
 	"grouppage-checkuser-temporary-account-viewer": "{{ns:project}}:Pregledovalec začasnih računov IP-jev",
 	"checkuser-reason": "Razlog:",
@@ -210,5 +212,13 @@
 	"checkuser-tempaccount-reveal-ip-button-label": "Pokaži IP",
 	"checkuser-tempaccount-reveal-ip-missing": "ni na voljo",
 	"checkuser-tempaccount-specialblock-ips": "To je začasen uporabnik, ki uporablja naslednje {{PLURAL:$1|IP|IP-je}}: $2",
-	"checkuser-tempaccount-specialblock-see-more-ips": "glejte še $1"
+	"checkuser-tempaccount-specialblock-see-more-ips": "glejte še $1",
+	"checkuser-temporary-account-log-name": "Dnevnik začasnih računov CheckUser",
+	"checkuser-temporary-account-log-header": "To je dnevnik:\n# ogledov IP-naslovov, ki jih uporabljajo začasni računi; in\n# sprememb ravni uporabniškega dostopa za ogled IP-naslovov, ki jih uporabljajo začasni računi.",
+	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|svoj}} lastni dostop za ogled IP-naslovov začasnih računov",
+	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|je onemogočil|je onemogočila|je onemogočil_a}}",
+	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|je omogočil|je omogočila|je omogočil_a}}",
+	"log-action-filter-checkuser-temporary-account": "Vrsta dejanja:",
+	"log-action-filter-checkuser-temporary-account-change-access": "Sprememba dostopa",
+	"log-action-filter-checkuser-temporary-account-view-ips": "Ogled IP-jev"
 }

@@ -7,6 +7,7 @@
 			"Darth Kule",
 			"Dferg",
 			"Dreamy Jazz",
+			"Eleassar",
 			"FF11",
 			"Fryed-peach",
 			"Jon Harald Søby",
@@ -250,8 +251,8 @@
 	"checkuser-temporary-account-log-name": "{{doc-logpage}}\n\nThe page name of [[Special:Log/checkuser-temporary-account]]. Appears in the drop down menu of the [[Special:Log]] page and subpages.",
 	"checkuser-temporary-account-log-header": "Appears on top of [[Special:Log/checkuser-temporary-account]].",
 	"logentry-checkuser-temporary-account-change-access": "{{Logentry|[[Special:Log/checkuser-temporary-account]]}}\n* $4 - whether the access was enabled or disabled. See also: {{msg-mw|checkuser-temporary-account-change-access-level-enable}}, {{msg-mw|checkuser-temporary-account-change-access-level-disable}}\n\nUsed if a user's state of access was changed.",
-	"checkuser-temporary-account-change-access-level-disable": "Used in {{msg-mw|logentry-checkuser-temporary-account-change-access}} to log that a user enabled access to view IP addresses of temporary accounts.\n\nParameters:\n* $1 - Name of the user, for use in GENDER",
-	"checkuser-temporary-account-change-access-level-enable": "Used in {{msg-mw|logentry-checkuser-temporary-account-change-access}} to log that a user disabled access to view IP addresses of temporary accounts.\n\nParameters:\n* $1 - Name of the user, for use in GENDER",
+	"checkuser-temporary-account-change-access-level-disable": "Used in {{msg-mw|logentry-checkuser-temporary-account-change-access}} to log that a user disabled access to view IP addresses of temporary accounts.\n\nParameters:\n* $1 - Name of the user, for use in GENDER",
+	"checkuser-temporary-account-change-access-level-enable": "Used in {{msg-mw|logentry-checkuser-temporary-account-change-access}} to log that a user enabled access to view IP addresses of temporary accounts.\n\nParameters:\n* $1 - Name of the user, for use in GENDER",
 	"log-action-filter-checkuser-temporary-account": "{{doc-log-action-filter-type|checkuser-temporary-account}}\n{{related|Log-action-filter}}",
 	"log-action-filter-checkuser-temporary-account-change-access": "{{doc-log-action-filter-action|checkuser-temporary-account|change-access}}",
 	"log-action-filter-checkuser-temporary-account-view-ips": "{{doc-log-action-filter-action|checkuser-temporary-account|view-ips}}"

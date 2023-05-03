@@ -3,6 +3,7 @@
 		"authors": [
 			"AHmed Khaled",
 			"Alnokta",
+			"Alshamiri1",
 			"Asma",
 			"AwamerT",
 			"Ciphers",
@@ -29,9 +30,11 @@
 	"right-checkuser": "افحص عناوين بروتوكول المستخدم والمعلومات الأخرى",
 	"right-checkuser-log": "رؤية سجل تدقيق المستخدم",
 	"right-checkuser-temporary-account": "عرض عناوين بروتوكول الإنترنت التي تستخدمها الحسابات المؤقتة",
+	"right-checkuser-temporary-account-log": "عرض سجل الوصول إلى عناوين IP المؤقتة للحساب",
 	"action-checkuser": "افحص عناوين بروتوكول المستخدم والمعلومات الأخرى",
 	"action-checkuser-log": "عرض سجل تدقيق المستخدم",
 	"action-checkuser-temporary-account": "عرض عناوين بروتوكول الإنترنت التي تستخدمها الحسابات المؤقتة",
+	"action-checkuser-temporary-account-log": "عرض سجل الوصول إلى عناوين IP المؤقتة للحساب",
 	"grouppage-checkuser": "{{ns:project}}:تدقيق مستخدم",
 	"checkuser-reason": "السبب:",
 	"checkuser-reason-api": "واجهة برمجة التطبيقات",
@@ -212,5 +215,12 @@
 	"prefs-checkuser-tempaccount": "كشف عنوان بروتوكول الإنترنت للحساب المؤقت",
 	"checkuser-tempaccount-enable-preference": "تفعيل كشف عنوان بروتوكول الإنترنت للحسابات المؤقتة",
 	"checkuser-tempaccount-reveal-ip-button-label": "اعرض عنوان بروتوكول الإنترنت",
-	"checkuser-tempaccount-reveal-ip-missing": "غير متاح"
+	"checkuser-tempaccount-reveal-ip-missing": "غير متاح",
+	"checkuser-temporary-account-log-header": "هذا سجل بـ:! N! # مشاهدات لعناوين IP التي تستخدمها الحسابات المؤقتة ؛ و! N! # تغييرات على مستويات وصول المستخدم لعرض عناوين IP التي تستخدمها الحسابات المؤقتة.",
+	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|}} وصوله الخاص لعرض عناوين IP للحسابات المؤقتة",
+	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1| عاجز}}",
+	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1| ممكّن}}",
+	"log-action-filter-checkuser-temporary-account": "نوع الفعل:",
+	"log-action-filter-checkuser-temporary-account-change-access": "تغيير الوصول",
+	"log-action-filter-checkuser-temporary-account-view-ips": "مشاهدة عناوين IP"
 }
