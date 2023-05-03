@@ -18,6 +18,10 @@
 		case 'Block':
 			require( './temporaryaccount/SpecialBlock.js' );
 			break;
+		case 'Recentchanges':
+		case 'Watchlist':
+			require( './temporaryaccount/initOnHook.js' );
+			break;
 		case 'Contributions':
 			if ( mw.util.isTemporaryUser( mw.config.get( 'wgRelevantUserName' ) ) ) {
 				require( './temporaryaccount/SpecialContributions.js' );
@@ -31,12 +35,14 @@
 		'Investigate',
 		'InvestigateBlock',
 		'CheckUser',
-		'Contributions'
+		'Contributions',
+		'Recentchanges',
+		'Watchlist'
 	];
 	if (
 		!mw.config.get( 'wgCanonicalSpecialPageName' ) ||
 		excludePages.indexOf( mw.config.get( 'wgCanonicalSpecialPageName' ) ) === -1
 	) {
-		require( './temporaryaccount/init.js' );
+		require( './temporaryaccount/initOnLoad.js' );
 	}
 }() );

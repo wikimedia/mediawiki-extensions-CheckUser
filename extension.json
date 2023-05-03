@@ -200,9 +200,10 @@
 				"investigate/tables.js",
 				"investigate/copy.js",
 				"investigate/blockform.js",
-				"temporaryaccount/init.js",
 				"temporaryaccount/ipRevealUtils.js",
-				"temporaryaccount/makeShowIpButton.js",
+				"temporaryaccount/ipReveal.js",
+				"temporaryaccount/initOnLoad.js",
+				"temporaryaccount/initOnHook.js",
 				"temporaryaccount/SpecialBlock.js",
 				"temporaryaccount/SpecialContributions.js",
 				{
