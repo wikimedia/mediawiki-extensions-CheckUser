@@ -1,5 +1,7 @@
+var ipRevealUtils = require( './ipRevealUtils.js' );
 var makeShowIpButton = require( './makeShowIpButton.js' );
 var allRevIds = {};
+
 mw.hook( 'wikipage.content' ).add( function ( $content ) {
 	var $userLinks = $content.find( '.mw-tempuserlink' );
 
@@ -43,4 +45,16 @@ $( document ).on( 'userRevealed', function ( _e, userLookup ) {
 	$userLinks.each( function () {
 		$( this ).trigger( 'revealIp' );
 	} );
+} );
+
+// Check which users have been revealed recently
+var recentUsers = [];
+$( '.mw-tempuserlink' ).each( function () {
+	var target = $( this ).text();
+	if ( ipRevealUtils.getRevealedStatus( target ) && recentUsers.indexOf( target ) < 0 ) {
+		recentUsers.push( target );
+	}
+} );
+recentUsers.forEach( function ( user ) {
+	$( document ).trigger( 'userRevealed', user );
 } );

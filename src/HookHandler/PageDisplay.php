@@ -74,6 +74,9 @@ class PageDisplay implements BeforePageDisplayHook {
 
 		$out->addModules( 'ext.checkUser' );
 		$out->addModuleStyles( 'ext.checkUser.styles' );
+		$out->addJSConfigVars( [
+			'wgCheckUserTemporaryAccountMaxAge' => $this->config->get( 'CheckUserTemporaryAccountMaxAge' )
+		] );
 	}
 
 }

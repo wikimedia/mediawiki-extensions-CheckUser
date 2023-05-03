@@ -201,6 +201,7 @@
 				"investigate/copy.js",
 				"investigate/blockform.js",
 				"temporaryaccount/init.js",
+				"temporaryaccount/ipRevealUtils.js",
 				"temporaryaccount/makeShowIpButton.js",
 				"temporaryaccount/SpecialBlock.js",
 				"temporaryaccount/SpecialContributions.js",

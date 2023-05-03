@@ -1,6 +1,8 @@
+var ipRevealUtils = require( './ipRevealUtils.js' );
 var makeShowIpButton = require( './makeShowIpButton.js' );
 var target = mw.config.get( 'wgRelevantUserName' );
 var revIds = [];
+
 mw.hook( 'wikipage.content' ).add( function ( $content ) {
 	var $userLinks = $content.find( '.mw-contributions-list [data-mw-revid]' );
 	$userLinks.each( function () {
@@ -26,3 +28,8 @@ $( document ).on( 'userRevealed', function () {
 		$( this ).trigger( 'revealIp' );
 	} );
 } );
+
+// If the user has been revealed lately, reveal it on load
+if ( ipRevealUtils.getRevealedStatus( mw.config.get( 'wgRelevantUserName' ) ) ) {
+	$( document ).trigger( 'userRevealed', mw.config.get( 'wgRelevantUserName' ) );
+}
