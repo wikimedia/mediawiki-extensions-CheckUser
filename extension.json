@@ -258,8 +258,7 @@
 				"checkuser-tempaccount-no-ip-results",
 				"checkuser-tempaccount-reveal-ip-button-label",
 				"checkuser-tempaccount-reveal-ip-missing",
-				"checkuser-tempaccount-specialblock-ips",
-				"checkuser-tempaccount-specialblock-see-more-ips"
+				"checkuser-tempaccount-specialblock-ips"
 			]
 		},
 		"ext.checkUser.styles": {

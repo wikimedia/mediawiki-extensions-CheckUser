@@ -38,49 +38,19 @@ function onTargetChange( blockTarget ) {
 			mw.config.get( 'wgScriptPath' ) +
 			'/rest.php/checkuser/v0/temporaryaccount/' + blockTarget
 		).then( function ( response ) {
-			var maxDisplayWithoutButton = 3;
-			var maxDisplayWithButton = maxDisplayWithoutButton - 1;
-
-			function displayWithoutButton() {
-				$container.empty()
-					.append( new OO.ui.LabelWidget( {
-						label: response.ips.length ?
-							mw.message(
-								'checkuser-tempaccount-specialblock-ips',
-								response.ips.length,
-								mw.language.listToText( response.ips )
-							).text() :
-							mw.message(
-								'checkuser-tempaccount-no-ip-results',
-								Math.round( mw.config.get( 'wgCUDMaxAge' ) / 86400 )
-							).text()
-					} ).$element );
-			}
-
-			function displayWithButton() {
-				var button = createButton( mw.message(
-					'checkuser-tempaccount-specialblock-see-more-ips',
-					response.ips.length - ( maxDisplayWithButton )
-				).text() );
-				button.once( 'click', displayWithoutButton );
-
-				var messageData = response.ips.slice( 0, maxDisplayWithButton );
-				$container.empty()
-					.append( new OO.ui.LabelWidget( {
-						label: mw.message(
+			$container.empty()
+				.append( new OO.ui.LabelWidget( {
+					label: response.ips.length ?
+						mw.message(
 							'checkuser-tempaccount-specialblock-ips',
 							response.ips.length,
-							messageData.join( mw.msg( 'comma-separator' ) )
+							mw.language.listToText( response.ips )
+						).text() :
+						mw.message(
+							'checkuser-tempaccount-no-ip-results',
+							Math.round( mw.config.get( 'wgCUDMaxAge' ) / 86400 )
 						).text()
-					} ).$element )
-					.append( button.$element );
-			}
-
-			if ( response.ips.length > maxDisplayWithoutButton ) {
-				displayWithButton();
-			} else {
-				displayWithoutButton();
-			}
+				} ).$element );
 		} );
 	} );
 }

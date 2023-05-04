@@ -215,7 +215,6 @@
 	"checkuser-tempaccount-reveal-ip-button-label": "Show IP",
 	"checkuser-tempaccount-reveal-ip-missing": "unavailable",
 	"checkuser-tempaccount-specialblock-ips": "This is a temporary user using the following {{PLURAL:$1|IP|IPs}}: $2",
-	"checkuser-tempaccount-specialblock-see-more-ips": "see $1 more",
 	"checkuser-temporary-account-log-name": "Checkuser temporary account log",
 	"checkuser-temporary-account-log-header": "This is a log of:\n# Views of the IP addresses used by temporary accounts; and\n# Changes to user access levels for viewing IP addresses used by temporary accounts.",
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|his|her|their}} own access to view IP addresses of temporary accounts",
