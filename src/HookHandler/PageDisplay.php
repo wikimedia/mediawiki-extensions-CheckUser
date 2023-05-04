@@ -41,6 +41,7 @@ class PageDisplay implements BeforePageDisplayHook {
 			$action !== 'history' &&
 			$action !== 'info' &&
 			$out->getRequest()->getRawVal( 'diff' ) === null &&
+			$out->getRequest()->getRawVal( 'oldid' ) === null &&
 			!( $out->getTitle() &&
 				( $out->getTitle()->isSpecialPage() )
 			)
