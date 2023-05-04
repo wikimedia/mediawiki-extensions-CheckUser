@@ -7,13 +7,19 @@
 		]
 	},
 	"group-checkuser": "واپرائيندڙ چڪاسڪار",
+	"right-checkuser-temporary-account": "عارضي کاتن پاران استعمال ٿيندڙ آئپي پتا ڏسو",
+	"action-checkuser-temporary-account": "عارضي کاتن پاران استعمال ٿيندڙ آئپي پتا ڏسو",
 	"checkuser-target": "آئپي پتو يا واپرائيندڙنانءُ:",
 	"checkuser-edits": "سنوارون وٺو",
 	"checkuser-month": "گذريل 30 ڏينھن",
 	"checkuser-all": "سڀ",
 	"checkuser-check-this-user": "هن واپرائيندڙ کي چڪاسيو",
 	"checkuser-blocktag-talk": "بحث صفحن کي سان مٽايو:",
+	"checkuser-investigate-indicator-logs": "لاگس",
 	"checkuser-investigate-duration-option-all": "سڀ",
+	"checkuser-investigate-duration-option-2w": "گذريل 2 ھفتا",
 	"checkuser-investigate-preliminary-table-header-editcount": "سنوارون",
-	"checkuser-investigate-filters-legend": "ڇاڻيون"
+	"checkuser-investigate-filters-legend": "ڇاڻيون",
+	"prefs-checkuser-tempaccount": "عارضي کاتن جون آئپي ظاھر ڪريو",
+	"checkuser-tempaccount-enable-preference": "عارضي کاتن جي آئپي پتن کي ظاھر ڪرڻ کي فعال ڪريو"
 }
