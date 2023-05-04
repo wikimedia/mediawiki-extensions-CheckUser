@@ -11,6 +11,7 @@ if ( $blockTargetWidget.length ) {
 		}
 		onTargetChange( blockTarget );
 	} );
+	onTargetChange( blockTargetWidget.getValue() );
 }
 
 function createButton( text ) {
