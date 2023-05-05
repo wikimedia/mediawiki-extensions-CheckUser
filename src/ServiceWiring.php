@@ -165,6 +165,7 @@ return [
 		$lb = $services->getDBLoadBalancer();
 		return new TemporaryAccountLoggerFactory(
 			$services->getActorStore(),
+			LoggerFactory::getInstance( 'CheckUser' ),
 			$lb
 		);
 	}

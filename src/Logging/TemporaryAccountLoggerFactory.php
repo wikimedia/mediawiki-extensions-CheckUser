@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Logging;
 
 use MediaWiki\User\ActorStore;
+use Psr\Log\LoggerInterface;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\ILoadBalancer;
 
@@ -18,18 +19,24 @@ class TemporaryAccountLoggerFactory {
 	/** @var ActorStore */
 	private $actorStore;
 
+	/** @var LoggerInterface */
+	private $logger;
+
 	/** @var IDatabase */
 	private $dbw;
 
 	/**
 	 * @param ActorStore $actorStore
+	 * @param LoggerInterface $logger
 	 * @param ILoadBalancer $lb
 	 */
 	public function __construct(
 		ActorStore $actorStore,
+		LoggerInterface $logger,
 		ILoadBalancer $lb
 	) {
 		$this->actorStore = $actorStore;
+		$this->logger = $logger;
 		$this->dbw = $lb->getConnectionRef( ILoadBalancer::DB_PRIMARY );
 	}
 
@@ -42,6 +49,7 @@ class TemporaryAccountLoggerFactory {
 	) {
 		return new TemporaryAccountLogger(
 			$this->actorStore,
+			$this->logger,
 			$this->dbw,
 			$delay
 		);

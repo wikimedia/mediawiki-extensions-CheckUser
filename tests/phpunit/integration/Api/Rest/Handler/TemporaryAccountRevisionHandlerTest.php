@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Api\Rest\Handler;
 
+use JobQueueGroup;
 use MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountRevisionHandler;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Permissions\Authority;
@@ -51,6 +52,7 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 		return new TemporaryAccountRevisionHandler( ...array_values( array_merge(
 			[
 				'config' => MediaWikiServices::getInstance()->getMainConfig(),
+				'jobQueueGroup' => $this->createMock( JobQueueGroup::class ),
 				'permissionManager' => $permissionManager,
 				'userOptionsLookup' => $userOptionsLookup,
 				'userNameUtils' => $userNameUtils,

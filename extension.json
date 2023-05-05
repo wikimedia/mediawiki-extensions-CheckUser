@@ -112,6 +112,7 @@
 			"class": "MediaWiki\\CheckUser\\Api\\Rest\\Handler\\TemporaryAccountHandler",
 			"services": [
 				"MainConfig",
+				"JobQueueGroup",
 				"PermissionManager",
 				"UserOptionsLookup",
 				"UserNameUtils",
@@ -125,6 +126,7 @@
 			"class": "MediaWiki\\CheckUser\\Api\\Rest\\Handler\\TemporaryAccountRevisionHandler",
 			"services": [
 				"MainConfig",
+				"JobQueueGroup",
 				"PermissionManager",
 				"UserOptionsLookup",
 				"UserNameUtils",
@@ -387,6 +389,9 @@
 			"change-access": [ "change-access" ],
 			"view-ips": [ "view-ips" ]
 		}
+	},
+	"JobClasses": {
+		"checkuserLogTemporaryAccountAccess": "\\MediaWiki\\CheckUser\\Jobs\\LogTemporaryAccountAccessJob"
 	},
 	"AutoloadClasses": {
 		"PopulateCheckUserTable": "maintenance/populateCheckUserTable.php",

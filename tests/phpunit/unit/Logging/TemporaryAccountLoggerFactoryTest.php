@@ -6,6 +6,7 @@ use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
 use MediaWiki\User\ActorStore;
 use MediaWikiUnitTestCase;
+use Psr\Log\LoggerInterface;
 use Wikimedia\Rdbms\ILoadBalancer;
 use Wikimedia\TestingAccessWrapper;
 
@@ -16,6 +17,7 @@ class TemporaryAccountLoggerFactoryTest extends MediaWikiUnitTestCase {
 	private function getFactory(): TemporaryAccountLoggerFactory {
 		return new TemporaryAccountLoggerFactory(
 			$this->createMock( ActorStore::class ),
+			$this->createMock( LoggerInterface::class ),
 			$this->createMock( ILoadBalancer::class )
 		);
 	}
