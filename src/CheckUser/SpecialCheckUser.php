@@ -4,7 +4,6 @@ namespace MediaWiki\CheckUser\CheckUser;
 
 use ActorMigration;
 use CentralIdLookup;
-use FormOptions;
 use Html;
 use HTMLForm;
 use MediaWiki\Block\BlockPermissionCheckerFactory;
@@ -23,6 +22,7 @@ use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
+use MediaWiki\Html\FormOptions;
 use MediaWiki\Page\WikiPageFactory;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Revision\RevisionStore;

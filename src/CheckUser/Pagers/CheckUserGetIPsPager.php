@@ -4,13 +4,13 @@ namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
 use ActorMigration;
 use CentralIdLookup;
-use FormOptions;
 use IContextSource;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilderFactory;
 use MediaWiki\CheckUser\TokenQueryManager;
+use MediaWiki\Html\FormOptions;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\User\UserFactory;

@@ -2,10 +2,10 @@
 
 namespace MediaWiki\CheckUser\CheckUser;
 
-use FormOptions;
 use Html;
 use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\CheckUser\TokenQueryManager;
+use MediaWiki\Html\FormOptions;
 use MediaWiki\Navigation\PagerNavigationBuilder;
 use MediaWiki\Session\CsrfTokenSet;
 use MediaWiki\User\UserIdentity;

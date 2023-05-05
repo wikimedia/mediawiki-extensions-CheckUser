@@ -4,7 +4,6 @@ namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
 use ActorMigration;
 use CentralIdLookup;
-use FormOptions;
 use Html;
 use HtmlArmor;
 use IContextSource;
@@ -18,6 +17,7 @@ use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
+use MediaWiki\Html\FormOptions;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Revision\RevisionRecord;

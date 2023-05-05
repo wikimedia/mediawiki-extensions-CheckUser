@@ -369,7 +369,9 @@
 			]
 		}
 	},
-	"LogTypes": [ "checkuser-temporary-account" ],
+	"LogTypes": [
+		"checkuser-temporary-account"
+	],
 	"LogNames": {
 		"checkuser-temporary-account": "checkuser-temporary-account-log-name"
 	},
@@ -384,8 +386,12 @@
 	},
 	"ActionFilteredLogs": {
 		"checkuser-temporary-account": {
-			"change-access": [ "change-access" ],
-			"view-ips": [ "view-ips" ]
+			"change-access": [
+				"change-access"
+			],
+			"view-ips": [
+				"view-ips"
+			]
 		}
 	},
 	"AutoloadClasses": {

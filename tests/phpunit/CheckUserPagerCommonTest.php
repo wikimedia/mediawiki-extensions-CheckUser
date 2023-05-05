@@ -2,7 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests;
 
-use FormOptions;
+use MediaWiki\Html\FormOptions;
 use MediaWiki\User\UserIdentity;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\TestingAccessWrapper;
