@@ -177,6 +177,5 @@
 	"checkuser-tempaccount-no-ip-results": "Nėra šio laikinojo naudotojo IP duomenų per $1 {{PLURAL:$1|pastarąją dieną|pastarąsias dienas}}",
 	"checkuser-tempaccount-reveal-ip-button-label": "Rodyti IP",
 	"checkuser-tempaccount-reveal-ip-missing": "nepasiekiamas",
-	"checkuser-tempaccount-specialblock-ips": "Tai laikinas naudotojas, naudojantis {{PLURAL:$1|IP}}: $2",
-	"checkuser-tempaccount-specialblock-see-more-ips": "žiūrėti dar $1"
+	"checkuser-tempaccount-specialblock-ips": "Tai laikinas naudotojas, naudojantis {{PLURAL:$1|IP}}: $2"
 }

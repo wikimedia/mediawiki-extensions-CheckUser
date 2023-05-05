@@ -219,6 +219,5 @@
 	"checkuser-tempaccount-no-ip-results": "Son $1 {{PLURAL:$1|gün}} için bu geçici kullanıcı için IP verisi yok",
 	"checkuser-tempaccount-reveal-ip-button-label": "IP'yi göster",
 	"checkuser-tempaccount-reveal-ip-missing": "mevcut değil",
-	"checkuser-tempaccount-specialblock-ips": "Bu, aşağıdaki {{PLURAL:$1|IP|IP'leri}} kullanan geçici bir kullanıcıdır: $2",
-	"checkuser-tempaccount-specialblock-see-more-ips": "$1 tane daha gör"
+	"checkuser-tempaccount-specialblock-ips": "Bu, aşağıdaki {{PLURAL:$1|IP|IP'leri}} kullanan geçici bir kullanıcıdır: $2"
 }

@@ -212,7 +212,6 @@
 	"checkuser-tempaccount-reveal-ip-button-label": "Прикажи IP",
 	"checkuser-tempaccount-reveal-ip-missing": "недостапно",
 	"checkuser-tempaccount-specialblock-ips": "Ова е привремен корисник кој {{PLURAL:$1|ја користи следнава IP-адреса|ги користи следниве IP-адреси}}: $2",
-	"checkuser-tempaccount-specialblock-see-more-ips": "погл. уште $1",
 	"checkuser-temporary-account-log-name": "Дневник на привремени сметки",
 	"checkuser-temporary-account-log-header": "Ова е дневник на:\n# Посети на IP-адресите користени од привремени сметки; и\n# Промени во нивата на кориснички пристап за преглед на IP-адреси користени од привремени сметки.",
 	"logentry-checkuser-temporary-account-change-access": "$1 го $4 {{GENDER:$2|неговиот|нејзиниот|неговата}} пристап до преглед на IP-адреси на привремени сметки",

@@ -27,9 +27,11 @@
 	"right-checkuser": "מציאת כתובות IP ומידע נוסף של משתמשים",
 	"right-checkuser-log": "צפייה ביומן הבדיקות",
 	"right-checkuser-temporary-account": "הצגת כתובות IP שמשמשות חשבונות זמניים",
+	"right-checkuser-temporary-account-log": "הצגת יומן הגישה לכתובות IP זמניות של חשבון",
 	"action-checkuser": "למצוא כתובות IP ומידע נוסף של משתמשים",
 	"action-checkuser-log": "לצפות ביומן הבדיקות",
 	"action-checkuser-temporary-account": "להציג כתובות IP שמשמשות חשבונות זמניים",
+	"action-checkuser-temporary-account-log": "להציג את יומן הגישה לכתובות IP זמניות של חשבון",
 	"grouppage-checkuser": "{{ns:project}}:בודק",
 	"grouppage-checkuser-temporary-account-viewer": "{{ns:project}}:צופה ב־IP של חשבונות זמניים",
 	"checkuser-reason": "סיבה:",
@@ -215,5 +217,12 @@
 	"checkuser-tempaccount-reveal-ip-button-label": "הצגת IP",
 	"checkuser-tempaccount-reveal-ip-missing": "לא זמינה",
 	"checkuser-tempaccount-specialblock-ips": "זהו משתמש זמני המשתמש ב{{PLURAL:$1|כתובת ה־IP הבאה|כתובות ה־IP הבאות}}: $2",
-	"checkuser-tempaccount-specialblock-see-more-ips": "להציג עוד $1"
+	"checkuser-temporary-account-log-name": "יומן חשבונות זמניים של בדיקת חשבונות",
+	"checkuser-temporary-account-log-header": "זהו יומן של:\n# תצוגות של כתובות ה־IP שמשמשות חשבונות זמניים.\n# שינויים ברמות הגישה של משתמשים לצפייה בכתובות IP שמשמשות חשבונות זמניים.",
+	"logentry-checkuser-temporary-account-change-access": "$1 $4 את הגישה {{GENDER:$2|שלו|שלה}} לצפייה בכתובות IP של חשבונות זמניים",
+	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|כיבה|כיבתה}}",
+	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|הפעיל|הפעילה}}",
+	"log-action-filter-checkuser-temporary-account": "סוג הפעולה:",
+	"log-action-filter-checkuser-temporary-account-change-access": "שינוי גישה",
+	"log-action-filter-checkuser-temporary-account-view-ips": "הצגת כתובות IP"
 }

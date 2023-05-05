@@ -223,6 +223,5 @@
 	"checkuser-tempaccount-no-ip-results": "Brak danych o IP dla tego tymczasowego użytkownika za {{PLURAL:$1|ostatni dzień|ostatnie $1 dni|ostatnich $1 dni}}.",
 	"checkuser-tempaccount-reveal-ip-button-label": "Pokaż adres IP",
 	"checkuser-tempaccount-reveal-ip-missing": "niedostępny",
-	"checkuser-tempaccount-specialblock-ips": "To jest użytkownik tymczasowy korzystający z {{PLURAL:$1|adresu|adresów}} IP: $2",
-	"checkuser-tempaccount-specialblock-see-more-ips": "zobacz $1 więcej"
+	"checkuser-tempaccount-specialblock-ips": "To jest użytkownik tymczasowy korzystający z {{PLURAL:$1|adresu|adresów}} IP: $2"
 }

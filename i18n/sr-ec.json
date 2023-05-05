@@ -167,10 +167,10 @@
 	"checkuser-investigate-tour-block-title": "Блокирање?",
 	"checkuser-tempaccount-reveal-ip-button-label": "Прикажи IP",
 	"checkuser-tempaccount-reveal-ip-missing": "недоступно",
-	"checkuser-tempaccount-specialblock-see-more-ips": "види још $1",
 	"logentry-checkuser-temporary-account-change-access": "$1 је $4 {{GENDER:$2|његов|њен}} приступ IP адресама привремених налога",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|онемогућио|онемогућила}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|омогућио|омогућила}}",
 	"log-action-filter-checkuser-temporary-account": "Врста радње:",
-	"log-action-filter-checkuser-temporary-account-change-access": "Промени приступ"
+	"log-action-filter-checkuser-temporary-account-change-access": "Промени приступ",
+	"log-action-filter-checkuser-temporary-account-view-ips": "Види IP адресе"
 }

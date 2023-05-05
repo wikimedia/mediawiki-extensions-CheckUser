@@ -224,6 +224,5 @@
 	"prefs-checkuser-tempaccount": "Revelação de IP de contas temporárias",
 	"checkuser-tempaccount-enable-preference": "Ativar a revelação dos endereços de IP de contas temporárias",
 	"checkuser-tempaccount-reveal-ip-button-label": "Mostrar IP",
-	"checkuser-tempaccount-reveal-ip-missing": "indisponível",
-	"checkuser-tempaccount-specialblock-see-more-ips": "veja mais $"
+	"checkuser-tempaccount-reveal-ip-missing": "indisponível"
 }

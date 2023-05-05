@@ -243,6 +243,5 @@
 	"checkuser-tempaccount-no-ip-results": "No existen datos acerca de la dirección IP de este usuario temporal para {{PLURAL:$1|el último día|los últimos $1 días}}",
 	"checkuser-tempaccount-reveal-ip-button-label": "Mostrar dirección IP",
 	"checkuser-tempaccount-reveal-ip-missing": "no disponible",
-	"checkuser-tempaccount-specialblock-ips": "Esta es una cuenta de usuario temporal que usa {{PLURAL:$1|la siguiente dirección IP|las siguientes direcciones IP}}: $2",
-	"checkuser-tempaccount-specialblock-see-more-ips": "ver $1 más"
+	"checkuser-tempaccount-specialblock-ips": "Esta es una cuenta de usuario temporal que usa {{PLURAL:$1|la siguiente dirección IP|las siguientes direcciones IP}}: $2"
 }
