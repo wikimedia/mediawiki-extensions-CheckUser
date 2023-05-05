@@ -4,7 +4,7 @@ namespace MediaWiki\CheckUser\HookHandler;
 
 use Config;
 use MediaWiki\Hook\BeforePageDisplayHook;
-use Mediawiki\Permissions\PermissionManager;
+use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\User\UserOptionsLookup;
 
 class PageDisplay implements BeforePageDisplayHook {
