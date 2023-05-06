@@ -2,8 +2,8 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers;
 
-use FormOptions;
 use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
+use MediaWiki\Html\FormOptions;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
