@@ -236,7 +236,7 @@
 	"checkuser-tempaccount-reveal-ip-missing": "indisponible",
 	"checkuser-tempaccount-specialblock-ips": "Il s’agit d’un utilisateur temporaire utilisant l{{PLURAL:$1|’a|es a}}dresse{{PLURAL:$1||s}} IP suivante{{PLURAL:$1||s}} : $2",
 	"checkuser-temporary-account-log-name": "Journal des comptes temporaires Checkuser",
-	"checkuser-temporary-account-log-header": "Il s’agit d’un journal contenant : \n# les vues des adresses IP utilisées par les comptes temporaires ; et\n# les modifications des niveaux d’accès des utilisateurs pour l’affichage des adresses IP utilisées par les comptes temporaires.",
+	"checkuser-temporary-account-log-header": "Il s’agit d’un journal contenant :\n# les vues des adresses IP utilisées par les comptes temporaires ; et\n# les modifications des niveaux d’accès des utilisateurs pour l’affichage des adresses IP utilisées par les comptes temporaires.",
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|}}son propre accès pour voir les adresses IP de comptes temporaires",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|}}a désactivé",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|}}a activé",
