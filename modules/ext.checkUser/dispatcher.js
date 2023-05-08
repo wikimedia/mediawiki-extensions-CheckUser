@@ -23,7 +23,8 @@
 			require( './temporaryaccount/initOnHook.js' );
 			break;
 		case 'Contributions':
-			if ( mw.util.isTemporaryUser( mw.config.get( 'wgRelevantUserName' ) ) ) {
+			if ( mw.config.get( 'wgRelevantUserName' ) &&
+				mw.util.isTemporaryUser( mw.config.get( 'wgRelevantUserName' ) ) ) {
 				require( './temporaryaccount/SpecialContributions.js' );
 			}
 			break;
