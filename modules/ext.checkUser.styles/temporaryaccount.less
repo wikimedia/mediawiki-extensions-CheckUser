@@ -1,3 +1,4 @@
+/* stylelint-disable selector-max-id */
 @import 'mediawiki.skin.variables.less';
 
 .ext-checkuser-tempaccount-reveal-ip-button.oo-ui-buttonElement {
@@ -7,6 +8,16 @@
 	margin-top: -8px;
 	margin-bottom: -6px;
 	margin-right: -5px;
+}
+
+// Subtitle styles set a smaller line height
+.mw-content-subtitle,
+#contentSub,
+#contentSub2 {
+	.ext-checkuser-tempaccount-reveal-ip-button.oo-ui-buttonElement {
+		margin-bottom: -10px;
+		margin-right: -3px;
+	}
 }
 
 .ext-checkuser-tempaccount-reveal-ip {
