@@ -216,6 +216,7 @@
 	"checkuser-tempaccount-enable-preference": "تفعيل كشف عنوان بروتوكول الإنترنت للحسابات المؤقتة",
 	"checkuser-tempaccount-reveal-ip-button-label": "اعرض عنوان بروتوكول الإنترنت",
 	"checkuser-tempaccount-reveal-ip-missing": "غير متاح",
+	"checkuser-temporary-account-log-name": "Checkuser سجل حساب مؤقت",
 	"checkuser-temporary-account-log-header": "هذا سجل بـ:! N! # مشاهدات لعناوين IP التي تستخدمها الحسابات المؤقتة ؛ و! N! # تغييرات على مستويات وصول المستخدم لعرض عناوين IP التي تستخدمها الحسابات المؤقتة.",
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|}} وصوله الخاص لعرض عناوين IP للحسابات المؤقتة",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1| عاجز}}",
