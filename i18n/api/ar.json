@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Alshamiri1",
 			"Meno25",
 			"ديفيد",
 			"علاء"
@@ -20,6 +21,7 @@
 	"apihelp-query+checkuserlog-summary": "الحصول على إدخالات من سجل تدقيق المستخدم.",
 	"apihelp-query+checkuserlog-param-user": "اسم المستخدم لمدقق المستخدم.",
 	"apihelp-query+checkuserlog-param-target": "تم تدقيق مستخدم أو عنوان أيبي أو نطاق CIDR للتحقق.",
+	"apihelp-query+checkuserlog-param-reason": "سبب الشيك.",
 	"apihelp-query+checkuserlog-param-limit": "حد الصفوف",
 	"apihelp-query+checkuserlog-param-from": "الطابع الزمني لبدء العد منه.",
 	"apihelp-query+checkuserlog-param-to": "الطابع الزمني لإنهاء التعداد.",
