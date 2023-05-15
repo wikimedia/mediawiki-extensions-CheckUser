@@ -9,6 +9,7 @@
 			"Dj",
 			"Dorgan",
 			"Eukarióta",
+			"FoBe",
 			"Glanthor Reviol",
 			"Grin",
 			"Hunyadym",
@@ -19,12 +20,13 @@
 			"Wolf Rex"
 		]
 	},
-	"checkuser-summary": "Ez az eszköz végigvizsgálja a friss változásokat, hogy lekérje egy adott felhasználó IP-címeit vagy megjelenítse egy adott IP-címet használó szerkesztőket és az IP szerkesztéseit.\nEgy proxy mögötti kliens eredeti adatai XFF-fejlécek segítségével kérhetőek le, az IP-cím utáni „/xff” parancssal. Az IPv4 (CIDR $1-32) és az IPv6 (CIDR $2-128) is támogatott.\nMaximum 5000 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt a szabályoknak megfelelően használd.",
+	"checkuser-summary": "Ez az eszköz végigvizsgálja a friss változásokat, hogy lekérje egy adott felhasználó IP-címeit vagy megjelenítse egy adott IP-címet használó szerkesztőket és az IP szerkesztéseit.\nEgy proxy mögötti kliens eredeti adatai XFF-fejlécek segítségével kérhetőek le, az IP-cím utáni „/xff” parancssal. Az IPv4 (CIDR $1-32) és az IPv6 (CIDR $2-128) is támogatott.\nMaximum $3 szerkesztés fog megjelenni teljesítményi okok miatt. Az eszközt a szabályoknak megfelelően használd.",
 	"checkuser-desc": "Lehetővé teszi olyan felhasználói jogok kiosztását, mely segítségével megtekinthetőek a felhasználók IP-címei és más adatok",
 	"checkuser": "IP-ellenőr",
 	"checkuserlog": "IP-ellenőr-napló",
 	"checkuser-contribs": "a szerkesztő IP-ellenőrzése",
-	"checkuser-contribs-log": "legutóbbi IP-ellenőrzések",
+	"checkuser-contribs-log": "szerkesztőre irányuló IP-ellenőrzések",
+	"checkuser-contribs-log-initiator": "ezen szerkesztő által végzett IP-ellenőrzések",
 	"group-checkuser": "IP-ellenőrök",
 	"group-checkuser-member": "IP-ellenőr",
 	"right-checkuser": "a felhasználók IP-címének és más adatainak ellenőrzése",

@@ -56,9 +56,11 @@
 	"right-checkuser": "Comprobar las direcciones IP y otra información de los usuarios",
 	"right-checkuser-log": "Ver el registro de comprobaciones de usuarios",
 	"right-checkuser-temporary-account": "Ver las direcciones IP utilizadas por cuentas temporales",
+	"right-checkuser-temporary-account-log": "Ver el registro de acceso a direcciones IP de cuentas temporales",
 	"action-checkuser": "comprobar las direcciones IP y otra información de los usuarios",
 	"action-checkuser-log": "ver el registro de comprobaciones de usuarios",
 	"action-checkuser-temporary-account": "ver las direcciones IP utilizadas por cuentas temporales",
+	"action-checkuser-temporary-account-log": "ver el registro de acceso a direcciones IP de cuentas temporales",
 	"grouppage-checkuser": "{{ns:project}}:Comprobadores de usuarios",
 	"grouppage-checkuser-temporary-account-viewer": "{{ns:project}}:Visores de IP de cuentas temporales",
 	"checkuser-reason": "Motivo:",
@@ -243,5 +245,13 @@
 	"checkuser-tempaccount-no-ip-results": "No existen datos acerca de la dirección IP de este usuario temporal para {{PLURAL:$1|el último día|los últimos $1 días}}",
 	"checkuser-tempaccount-reveal-ip-button-label": "Mostrar dirección IP",
 	"checkuser-tempaccount-reveal-ip-missing": "no disponible",
-	"checkuser-tempaccount-specialblock-ips": "Esta es una cuenta de usuario temporal que usa {{PLURAL:$1|la siguiente dirección IP|las siguientes direcciones IP}}: $2"
+	"checkuser-tempaccount-specialblock-ips": "Esta es una cuenta de usuario temporal que usa {{PLURAL:$1|la siguiente dirección IP|las siguientes direcciones IP}}: $2",
+	"checkuser-temporary-account-log-name": "Registro de comprobación de cuentas temporales",
+	"checkuser-temporary-account-log-header": "Este es un registro de las siguientes operaciones:\n# Acceso a las direcciones IP utilizadas por las cuentas temporales.\n# Cambios en los niveles de acceso de los usuarios para ver las direcciones IP utilizadas por las cuentas temporales.",
+	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|su}} propio acceso para ver direcciones IP de cuentas temporales",
+	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|desactivó}}",
+	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|activó}}",
+	"log-action-filter-checkuser-temporary-account": "Tipo de acción:",
+	"log-action-filter-checkuser-temporary-account-change-access": "Cambios en el acceso",
+	"log-action-filter-checkuser-temporary-account-view-ips": "Ver direcciones IP"
 }
