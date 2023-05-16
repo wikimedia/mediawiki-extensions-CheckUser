@@ -6,6 +6,8 @@
 		]
 	},
 	"group-checkuser": "Paydalanıwshılardı tekseriwshiler",
+	"group-checkuser-member": "paydalanıwshılardı tekseriwshi",
+	"grouppage-checkuser": "{{ns:project}}:Paydalanıwshılardı tekseriwshi",
 	"checkuser-month": "sońǵı 30 kúnde",
 	"checkuser-centralauth-multilock-list-item": "Silteme $1",
 	"checkuser-login-failure-with-good-password": "{{SITENAME}} saytına $1 retinde kirip bolmadı, lekin parol tuwrı edi",
