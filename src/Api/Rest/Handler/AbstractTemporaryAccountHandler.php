@@ -3,6 +3,8 @@
 namespace MediaWiki\CheckUser\Api\Rest\Handler;
 
 use Config;
+use JobQueueGroup;
+use JobSpecification;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\Response;
@@ -18,6 +20,9 @@ use Wikimedia\Rdbms\ILoadBalancer;
 abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 	/** @var Config */
 	protected $config;
+
+	/** @var JobQueueGroup */
+	protected $jobQueueGroup;
 
 	/** @var PermissionManager */
 	protected $permissionManager;
@@ -36,6 +41,7 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 
 	/**
 	 * @param Config $config
+	 * @param JobQueueGroup $jobQueueGroup
 	 * @param PermissionManager $permissionManager
 	 * @param UserOptionsLookup $userOptionsLookup
 	 * @param UserNameUtils $userNameUtils
@@ -44,6 +50,7 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 	 */
 	public function __construct(
 		Config $config,
+		JobQueueGroup $jobQueueGroup,
 		PermissionManager $permissionManager,
 		UserOptionsLookup $userOptionsLookup,
 		UserNameUtils $userNameUtils,
@@ -51,6 +58,7 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 		ActorStore $actorStore
 	) {
 		$this->config = $config;
+		$this->jobQueueGroup = $jobQueueGroup;
 		$this->permissionManager = $permissionManager;
 		$this->userOptionsLookup = $userOptionsLookup;
 		$this->userNameUtils = $userNameUtils;
@@ -110,7 +118,18 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 
 		$data = $this->getData( $actorId, $dbr );
 
-		// TODO: Log access (T325658)
+		$this->jobQueueGroup->push(
+			new JobSpecification(
+				'checkuserLogTemporaryAccountAccess',
+				[
+					'performer' => $this->getAuthority()->getUser()->getName(),
+					'tempUser' => $this->urlEncodeTitle( $name ),
+					'timestamp' => (int)wfTimestamp(),
+				],
+				[],
+				null
+			)
+		);
 
 		$maxAge = $this->config->get( 'CheckUserTemporaryAccountMaxAge' );
 		$response = $this->getResponseFactory()->createJson( $data );

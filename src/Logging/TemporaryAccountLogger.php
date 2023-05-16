@@ -5,9 +5,11 @@ namespace MediaWiki\CheckUser\Logging;
 use ManualLogEntry;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserIdentity;
+use Psr\Log\LoggerInterface;
 use Title;
 use Wikimedia\Assert\Assert;
 use Wikimedia\Assert\ParameterAssertionException;
+use Wikimedia\Rdbms\DBError;
 use Wikimedia\Rdbms\IDatabase;
 
 /**
@@ -55,6 +57,9 @@ class TemporaryAccountLogger {
 	 */
 	private $actorStore;
 
+	/** @var LoggerInterface */
+	private $logger;
+
 	/**
 	 * @var IDatabase
 	 */
@@ -67,6 +72,7 @@ class TemporaryAccountLogger {
 
 	/**
 	 * @param ActorStore $actorStore
+	 * @param LoggerInterface $logger
 	 * @param IDatabase $dbw
 	 * @param int $delay The number of seconds after which a duplicate log entry can be
 	 *  created for a debounced log
@@ -74,12 +80,14 @@ class TemporaryAccountLogger {
 	 */
 	public function __construct(
 		ActorStore $actorStore,
+		LoggerInterface $logger,
 		IDatabase $dbw,
 		int $delay
 	) {
 		Assert::parameter( $delay > 0, 'delay', 'delay must be positive' );
 
 		$this->actorStore = $actorStore;
+		$this->logger = $logger;
 		$this->dbw = $dbw;
 		$this->delay = $delay;
 	}
@@ -131,7 +139,7 @@ class TemporaryAccountLogger {
 		string $tempUser,
 		string $action,
 		int $timestamp,
-		?array $params = null
+		?array $params = []
 	): void {
 		$timestampMinusDelay = $timestamp - $this->delay;
 		$actorId = $this->actorStore->findActorId( $performer, $this->dbw );
@@ -181,7 +189,15 @@ class TemporaryAccountLogger {
 			$logEntry->setTimestamp( wfTimestamp( TS_MW, $timestamp ) );
 		}
 
-		$logEntry->insert( $this->dbw );
+		try {
+			$logEntry->insert( $this->dbw );
+		} catch ( DBError $e ) {
+			$this->logger->critical(
+				'CheckUser temporary account log entry was not recorded. ' .
+				'This means checks can occur without being auditable. ' .
+				'Immediate fix required.'
+			);
+		}
 	}
 
 	/**

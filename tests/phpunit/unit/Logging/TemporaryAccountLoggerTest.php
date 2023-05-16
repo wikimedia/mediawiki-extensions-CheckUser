@@ -8,8 +8,10 @@ use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiUnitTestCase;
+use Psr\Log\LoggerInterface;
 use Title;
 use Wikimedia\Rdbms\IDatabase;
+use Wikimedia\Rdbms\SelectQueryBuilder;
 
 /**
  * @covers \MediaWiki\CheckUser\Logging\TemporaryAccountLogger
@@ -41,6 +43,7 @@ class TemporaryAccountLoggerTest extends MediaWikiUnitTestCase {
 		$logger = $this->getMockBuilder( TemporaryAccountLogger::class )
 			->setConstructorArgs( [
 				$this->createMock( ActorStore::class ),
+				$this->createMock( LoggerInterface::class ),
 				$database,
 				24 * 60 * 60,
 			] )
@@ -70,5 +73,123 @@ class TemporaryAccountLoggerTest extends MediaWikiUnitTestCase {
 			->willReturn( $logEntry );
 
 		$logger->$logMethod( $performer );
+	}
+
+	public function provideLogViewDebounced(): Generator {
+		yield [
+			'isDebounced' => true,
+		];
+		yield [
+			'isDebounced' => false,
+		];
+	}
+
+	/**
+	 * @dataProvider provideLogViewDebounced
+	 */
+	public function testLogViewDebounced(
+		bool $isDebounced
+	): void {
+		$performer = new UserIdentityValue( 1, 'Foo' );
+		$actorId = 2;
+		$target = '*Unregistered 1';
+		$timestamp = 42;
+
+		$expectedTarget = Title::makeTitle( NS_USER, $target );
+
+		$database = $this->createMock( IDatabase::class );
+
+		$queryBuilder = new SelectQueryBuilder( $database );
+
+		$database->method( 'newSelectQueryBuilder' )
+			->willReturn( $queryBuilder );
+
+		// We don't need to stub IDatabase::timestamp() since it is wrapped in
+		// a call to IDatabase::addQuotes().
+		$database->method( 'addQuotes' )
+			->willReturn( $timestamp );
+
+		$map = [
+				[
+					[ 'logging' ],
+					[ '*' ],
+					[
+						"log_type" => "checkuser-temporary-account",
+						"log_action" => TemporaryAccountLogger::ACTION_VIEW_IPS,
+						"log_actor" => 2,
+						"log_namespace" => 2,
+						"log_title" => $target,
+						0 => "log_timestamp > $timestamp",
+					],
+					SelectQueryBuilder::class,
+					[],
+					[],
+					(int)$isDebounced,
+				],
+				[
+					[ 'logging' ],
+					[ '*' ],
+					[
+						"log_type" => "checkuser-temporary-account",
+						"log_action" => TemporaryAccountLogger::ACTION_VIEW_IPS,
+						"log_actor" => 2,
+						"log_namespace" => 2,
+						"log_title" => $target,
+						0 => "log_timestamp > $timestamp",
+					],
+					SelectQueryBuilder::class,
+					[],
+					[],
+					(int)$isDebounced,
+				]
+		];
+
+		$database->method( 'selectRow' )
+			->willReturnMap( $map );
+
+		$actorStore = $this->createMock( ActorStore::class );
+		$actorStore->method( 'findActorId' )
+			->willReturnMap(
+				[ [ $performer, $database, $actorId ], ]
+			);
+
+		$logger = $this->getMockBuilder( TemporaryAccountLogger::class )
+			->setConstructorArgs( [
+				$actorStore,
+				$this->createMock( LoggerInterface::class ),
+				$database,
+				24 * 60 * 60,
+			] )
+			->onlyMethods( [ 'createManualLogEntry' ] )
+			->getMock();
+
+		if ( $isDebounced ) {
+			$logger->expects( $this->never() )
+				->method( 'createManualLogEntry' );
+		} else {
+			$logEntry = $this->createMock( ManualLogEntry::class );
+			$logEntry->expects( $this->once() )
+				->method( 'setPerformer' )
+				->with( $performer );
+
+			$logEntry->expects( $this->once() )
+				->method( 'setTarget' )
+				->with( $expectedTarget );
+
+			$logEntry->expects( $this->once() )
+				->method( 'insert' )
+				->with( $database );
+
+			$logger->expects( $this->once() )
+				->method( 'createManualLogEntry' )
+				->with( TemporaryAccountLogger::ACTION_VIEW_IPS )
+				->willReturn( $logEntry );
+		}
+
+		$logger->logViewIPs(
+			$performer,
+			$target,
+			(int)wfTimestamp()
+		);
 	}
 }
