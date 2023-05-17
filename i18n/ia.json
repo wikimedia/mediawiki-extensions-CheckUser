@@ -213,6 +213,7 @@
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|su}} proprie accesso pro vider le adresses IP de contos temporari",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|ha disactivate}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|ha activate}}",
+	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2|ha consultate}} le adresses IP pro $3",
 	"log-action-filter-checkuser-temporary-account": "Typo de action:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Cambiar accesso",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Vider IPs"

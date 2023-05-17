@@ -240,6 +240,7 @@
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|}}son propre accès pour voir les adresses IP de comptes temporaires",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|}}a désactivé",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|}}a activé",
+	"logentry-checkuser-temporary-account-view-ips": "$1{{GENDER:$2|}} a visualisé les adresses IP pour $3",
 	"log-action-filter-checkuser-temporary-account": "Type d’action :",
 	"log-action-filter-checkuser-temporary-account-change-access": "Modifier l’accès",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Voir les adresses IP"

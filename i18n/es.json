@@ -29,6 +29,7 @@
 			"MarcoAurelio",
 			"Mr.Ajedrez",
 			"Muro de Aguas",
+			"No se",
 			"Piolinfax",
 			"Platonides",
 			"PoLuX124",
@@ -251,6 +252,7 @@
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|su}} propio acceso para ver direcciones IP de cuentas temporales",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|desactivó}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|activó}}",
+	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2|vió}} direcciones IP por $3",
 	"log-action-filter-checkuser-temporary-account": "Tipo de acción:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Cambios en el acceso",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Ver direcciones IP"

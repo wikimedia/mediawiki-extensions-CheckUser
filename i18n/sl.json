@@ -217,6 +217,7 @@
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|svoj}} lastni dostop za ogled IP-naslovov začasnih računov",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|je onemogočil|je onemogočila|je onemogočil_a}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|je omogočil|je omogočila|je omogočil_a}}",
+	"logentry-checkuser-temporary-account-view-ips": "$1 si je {{GENDER:$2|ogledal|ogledala|ogledal_a}} IP-naslove za $3",
 	"log-action-filter-checkuser-temporary-account": "Vrsta dejanja:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Sprememba dostopa",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Ogled IP-jev"
