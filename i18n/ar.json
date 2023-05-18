@@ -228,6 +228,7 @@
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|}} وصوله الخاص لعرض عناوين IP للحسابات المؤقتة",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1| عاجز}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1| ممكّن}}",
+	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2| تمت المشاهدة}} عناوين IP لـ $3",
 	"log-action-filter-checkuser-temporary-account": "نوع الفعل:",
 	"log-action-filter-checkuser-temporary-account-change-access": "تغيير الوصول",
 	"log-action-filter-checkuser-temporary-account-view-ips": "مشاهدة عناوين IP"

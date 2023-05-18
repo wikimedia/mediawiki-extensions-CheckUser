@@ -217,6 +217,7 @@
 	"logentry-checkuser-temporary-account-change-access": "$1 го $4 {{GENDER:$2|неговиот|нејзиниот|неговата}} пристап до преглед на IP-адреси на привремени сметки",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|оневозможи}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|овозможи}}",
+	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2|погледа}} IP-адреси за $3",
 	"log-action-filter-checkuser-temporary-account": "Вид дејство:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Смени пристап",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Погл. IP-адреси"
