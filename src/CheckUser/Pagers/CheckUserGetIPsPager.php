@@ -76,6 +76,16 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 				'reason' => $this->opts->getValue( 'reason' ),
 			]
 		);
+
+		// If we get some results, it helps to know if the IP in general
+		// has a lot more edits, e.g. "tip of the iceberg"...
+		$ipEdits = $this->getCountForIPedits( $row->cuc_ip );
+		if ( $ipEdits ) {
+			$templateParams['ipEditCount'] =
+				$this->msg( 'checkuser-ipeditcount' )->numParams( $ipEdits )->escaped();
+			$templateParams['showIpCounts'] = true;
+		}
+
 		if ( IPUtils::isValidIPv6( $ip ) ) {
 			$templateParams['ip64Link'] = $this->getSelfLink( '/64',
 				[
@@ -83,6 +93,12 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 					'reason' => $this->opts->getValue( 'reason' ),
 				]
 			);
+			$ipEdits64 = $this->getCountForIPedits( $row->cuc_ip . '/64' );
+			if ( $ipEdits64 && ( !$ipEdits || $ipEdits64 > $ipEdits ) ) {
+				$templateParams['ip64EditCount'] =
+					$this->msg( 'checkuser-ipeditcount-64' )->numParams( $ipEdits64 )->escaped();
+				$templateParams['showIpCounts'] = true;
+			}
 		}
 		$templateParams['blockLink'] = $this->getLinkRenderer()->makeKnownLink(
 			SpecialPage::getTitleFor( 'Block', $ip ),
@@ -90,14 +106,6 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 		);
 		$templateParams['timeRange'] = $this->getTimeRangeString( $row->first, $row->last );
 		$templateParams['editCount'] = $lang->formatNum( $row->count );
-
-		// If we get some results, it helps to know if the IP in general
-		// has a lot more edits, e.g. "tip of the iceberg"...
-		$ipedits = $this->getCountForIPedits( $row->cuc_ip_hex );
-		if ( $ipedits > $row->count ) {
-			$templateParams['ipEditCount'] =
-				$this->msg( 'checkuser-ipeditcount' )->numParams( $ipedits )->escaped();
-		}
 
 		// If this IP is blocked, give a link to the block log
 		$templateParams['blockInfo'] = $this->getIPBlockInfo( $ip );
@@ -120,18 +128,24 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 	}
 
 	/**
-	 * Return "checkuser-ipeditcount" number
+	 * Return "checkuser-ipeditcount" number or false
+	 *  if the number is the same as the number of edits
+	 *  made by the user on the IP
 	 *
-	 * @param string $ip_hex
-	 * @return int
+	 * @param string $ip_or_range
+	 * @return int|false
 	 */
-	protected function getCountForIPedits( string $ip_hex ): int {
-		$conds = [ 'cuc_ip_hex' => $ip_hex ];
+	protected function getCountForIPedits( string $ip_or_range ) {
+		$conds = $this->getIpConds( $this->mDb, $ip_or_range );
+		if ( !$conds ) {
+			return false;
+		}
 		// We are only using startOffset for the period feature.
 		if ( $this->startOffset ) {
 			$conds[] = $this->mDb->buildComparison( '>=', [ $this->getTimestampField() => $this->startOffset ] );
 		}
 
+		// Get counts for this IP / IP range
 		$query = $this->mDb->newSelectQueryBuilder()
 			->table( 'cu_changes' )
 			->conds( $conds )
@@ -142,7 +156,23 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 			$ipEdits = $query->fetchRowCount();
 		}
 
-		return $ipEdits;
+		// Get counts for the target on this IP / IP range
+		$conds['actor_user'] = $this->target->getId();
+		$query = $this->mDb->newSelectQueryBuilder()
+			->table( 'cu_changes' )
+			->join( 'actor', 'cu_changes_actor', 'cu_changes_actor.actor_id = cuc_actor' )
+			->conds( $conds )
+			->caller( __METHOD__ );
+		$userOnIpEdits = $query->estimateRowCount();
+		// If small enough, get a more accurate count
+		if ( $userOnIpEdits <= 1000 ) {
+			$userOnIpEdits = $query->fetchRowCount();
+		}
+
+		if ( $ipEdits > $userOnIpEdits ) {
+			return $ipEdits;
+		}
+		return false;
 	}
 
 	/** @inheritDoc */

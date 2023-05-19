@@ -38,32 +38,56 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonTest {
 	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager::getCountForIPedits
 	 * @dataProvider provideGetCountForIPEdits
 	 */
-	public function testGetCountForIPEdits( $ips, $expectedCount ) {
+	public function testGetCountForIPEdits( $ips, $performers, $expectedCount ) {
 		$object = $this->setUpObject();
+		$testUser = $this->getTestUser();
+		$object->target = $testUser->getUserIdentity();
 		$hooks = TestingAccessWrapper::newFromClass( Hooks::class );
-		foreach ( $ips as $ip ) {
+		foreach ( $ips as $i => $ip ) {
 			$row = [ 'cuc_ip' => $ip, 'cuc_ip_hex' => IPUtils::toHex( $ip ) ];
-			$hooks->insertIntoCuChangesTable( $row, __METHOD__, UserIdentityValue::newAnonymous( $ip ) );
+			$performer = $performers[$i];
+			if ( IPUtils::isIPAddress( $performer ) ) {
+				$performer = UserIdentityValue::newAnonymous( $performer );
+			} else {
+				$performer = $testUser->getUserIdentity();
+			}
+			$hooks->insertIntoCuChangesTable( $row, __METHOD__, $performer );
 		}
 		$this->assertSame(
 			$expectedCount,
-			$object->getCountForIPedits( IPUtils::toHex( '127.0.0.1' ) ),
+			$object->getCountForIPedits( '127.0.0.1' ),
 			'The expected count for edits made by the IP was not returned.'
 		);
 	}
 
 	public function provideGetCountForIPEdits() {
-		// @todo test estimated row count?
 		return [
-			[
-				array_fill( 0, 3, '127.0.0.1' ),
+			'One IP with only 1 user edit' => [
+				[
+					'127.0.0.1',
+					'127.0.0.1',
+					'127.0.0.1'
+				],
+				[
+					'127.0.0.1',
+					'Test user',
+					'127.0.0.1'
+				],
 				3
 			],
-			[
-				array_merge(
-					array_fill( 0, 2, '127.0.0.1' ),
-					array_fill( 0, 3, '127.0.0.2' )
-				),
+			'Two IPs with only 1 user edit' => [
+				[
+					'127.0.0.1',
+					'127.0.0.1',
+					'127.0.0.2',
+					'127.0.0.2'
+				],
+				[
+					'127.0.0.1',
+					'Test user',
+					'127.0.0.2',
+					'Test user'
+				],
 				2
 			]
 		];

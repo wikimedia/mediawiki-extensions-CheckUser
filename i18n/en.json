@@ -88,6 +88,7 @@
 	"checkuser-log-search-reason": "Reason:",
 	"checkuser-log-search-reason-help": "Filter for log entries that have this reason.",
 	"checkuser-ipeditcount": "~$1 from all users",
+	"checkuser-ipeditcount-64": "~$1 from all users on this /64",
 	"checkuser-showmain": "Switch to {{#special:CheckUser}}",
 	"checkuser-show-investigate": "Switch to {{#special:Investigate}}",
 	"checkuser-log-entry-userips": "$3, $1 got IP addresses for $2",
