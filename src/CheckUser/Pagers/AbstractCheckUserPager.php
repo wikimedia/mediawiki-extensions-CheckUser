@@ -536,6 +536,11 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 
 	/** @inheritDoc */
 	public function getIndexField() {
+		return 'timestamp';
+	}
+
+	/** @inheritDoc */
+	public function getTimestampField() {
 		return 'cuc_timestamp';
 	}
 

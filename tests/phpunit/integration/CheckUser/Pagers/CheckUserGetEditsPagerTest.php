@@ -129,12 +129,12 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 		// @todo test the rest of the template parameters.
 		return [
 			'Test agent' => [
-				[ 'cuc_agent' => 'Testing' ],
+				[ 'agent' => 'Testing' ],
 				[ '127.0.0.1' => '' ],
 				[ 'userAgent' => 'Testing' ]
 			],
 			'Test user link class' => [
-				[ 'cuc_user' => 0, 'cuc_user_text' => 'Non existent user 1234' ],
+				[ 'user' => 0, 'user_text' => 'Non existent user 1234' ],
 				[ 'Non existent user 1234' => '' ],
 				[ 'userLinkClass' => 'mw-checkuser-nonexistent-user' ]
 			],
@@ -144,25 +144,25 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 	/** @inheritDoc */
 	public function getDefaultRowFieldValues(): array {
 		return [
-			'cuc_namespace' => 0,
-			'cuc_title' => '',
-			'cuc_user' => 0,
-			'cuc_user_text' => '127.0.0.1',
-			'cuc_actor' => 0,
-			'cuc_actiontext' => '',
+			'namespace' => 0,
+			'title' => '',
+			'user' => 0,
+			'user_text' => '127.0.0.1',
+			'actor' => 0,
+			'actiontext' => '',
 			'cuc_comment_id' => 0,
 			'cuc_comment_text' => '',
 			'cuc_comment_data' => null,
 			'cuc_comment_cid' => 0,
-			'cuc_minor' => 0,
-			'cuc_page_id' => 0,
-			'cuc_this_oldid' => 0,
-			'cuc_last_oldid' => 0,
-			'cuc_type' => RC_LOG,
-			'cuc_timestamp' => $this->db->timestamp(),
-			'cuc_ip' => '127.0.0.1',
-			'cuc_xff' => '',
-			'cuc_agent' => '',
+			'minor' => 0,
+			'page_id' => 0,
+			'this_oldid' => 0,
+			'last_oldid' => 0,
+			'type' => RC_LOG,
+			'timestamp' => $this->db->timestamp(),
+			'ip' => '127.0.0.1',
+			'xff' => '',
+			'agent' => '',
 		];
 	}
 }

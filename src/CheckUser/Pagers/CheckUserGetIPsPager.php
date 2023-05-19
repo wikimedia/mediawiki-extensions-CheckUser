@@ -68,7 +68,7 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 	/** @inheritDoc */
 	public function formatRow( $row ): string {
 		$lang = $this->getLanguage();
-		$ip = $row->cuc_ip;
+		$ip = $row->ip;
 		$templateParams = [];
 		$templateParams['ipLink'] = $this->getSelfLink( $ip,
 			[
@@ -79,7 +79,7 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 
 		// If we get some results, it helps to know if the IP in general
 		// has a lot more edits, e.g. "tip of the iceberg"...
-		$ipEdits = $this->getCountForIPedits( $row->cuc_ip );
+		$ipEdits = $this->getCountForIPedits( $ip );
 		if ( $ipEdits ) {
 			$templateParams['ipEditCount'] =
 				$this->msg( 'checkuser-ipeditcount' )->numParams( $ipEdits )->escaped();
@@ -93,7 +93,7 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 					'reason' => $this->opts->getValue( 'reason' ),
 				]
 			);
-			$ipEdits64 = $this->getCountForIPedits( $row->cuc_ip . '/64' );
+			$ipEdits64 = $this->getCountForIPedits( $ip . '/64' );
 			if ( $ipEdits64 && ( !$ipEdits || $ipEdits64 > $ipEdits ) ) {
 				$templateParams['ip64EditCount'] =
 					$this->msg( 'checkuser-ipeditcount-64' )->numParams( $ipEdits64 )->escaped();
@@ -179,8 +179,8 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 	public function getQueryInfo(): array {
 		return [
 			'fields' => [
-				'cuc_ip',
-				'cuc_ip_hex',
+				'ip' => 'cuc_ip',
+				'ip_hex' => 'cuc_ip_hex',
 				'count' => 'COUNT(*)',
 				'first' => 'MIN(cuc_timestamp)',
 				'last' => 'MAX(cuc_timestamp)',
@@ -189,7 +189,7 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 			'conds' => [ 'actor_user' => $this->target->getId() ],
 			'join_conds' => [ 'actor' => [ 'JOIN', 'actor_id=cuc_actor' ] ],
 			'options' => [
-				'GROUP BY' => [ 'cuc_ip', 'cuc_ip_hex' ],
+				'GROUP BY' => [ 'ip', 'ip_hex' ],
 				'USE INDEX' => [ 'cu_changes' => 'cuc_actor_ip_time' ]
 			],
 		];
@@ -198,11 +198,6 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 	/** @inheritDoc */
 	public function getIndexField() {
 		return 'last';
-	}
-
-	/** @inheritDoc */
-	public function getTimestampField() {
-		return 'cuc_timestamp';
 	}
 
 	/** @inheritDoc */

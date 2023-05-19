@@ -298,7 +298,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		// List out each IP/XFF combo for this username
 		$templateParams['infoSets'] = [];
 		for ( $i = ( count( $this->userSets['infosets'][$user_text] ) - 1 ); $i >= 0; $i-- ) {
-			// users_infosets[$name][$i] is array of [ $row->cuc_ip, XFF ];
+			// users_infosets[$name][$i] is array of [ $row->ip, XFF ];
 			$row = [];
 			list( $clientIP, $xffString ) = $this->userSets['infosets'][$user_text][$i];
 			// IP link
@@ -336,26 +336,26 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		];
 
 		foreach ( $result as $row ) {
-			if ( !array_key_exists( $row->cuc_user_text, $this->userSets['edits'] ) ) {
-				$this->userSets['last'][$row->cuc_user_text] = $row->cuc_timestamp;
-				$this->userSets['edits'][$row->cuc_user_text] = 0;
-				$this->userSets['ids'][$row->cuc_user_text] = $row->cuc_user ?? 0;
-				$this->userSets['infosets'][$row->cuc_user_text] = [];
-				$this->userSets['agentsets'][$row->cuc_user_text] = [];
+			if ( !array_key_exists( $row->user_text, $this->userSets['edits'] ) ) {
+				$this->userSets['last'][$row->user_text] = $row->timestamp;
+				$this->userSets['edits'][$row->user_text] = 0;
+				$this->userSets['ids'][$row->user_text] = $row->user ?? 0;
+				$this->userSets['infosets'][$row->user_text] = [];
+				$this->userSets['agentsets'][$row->user_text] = [];
 			}
-			$this->userSets['edits'][$row->cuc_user_text]++;
-			$this->userSets['first'][$row->cuc_user_text] = $row->cuc_timestamp;
+			$this->userSets['edits'][$row->user_text]++;
+			$this->userSets['first'][$row->user_text] = $row->timestamp;
 			// Treat blank or NULL xffs as empty strings
-			$xff = empty( $row->cuc_xff ) ? null : $row->cuc_xff;
-			$xff_ip_combo = [ $row->cuc_ip, $xff ];
+			$xff = empty( $row->xff ) ? null : $row->xff;
+			$xff_ip_combo = [ $row->ip, $xff ];
 			// Add this IP/XFF combo for this username if it's not already there
-			if ( !in_array( $xff_ip_combo, $this->userSets['infosets'][$row->cuc_user_text] ) ) {
-				$this->userSets['infosets'][$row->cuc_user_text][] = $xff_ip_combo;
+			if ( !in_array( $xff_ip_combo, $this->userSets['infosets'][$row->user_text] ) ) {
+				$this->userSets['infosets'][$row->user_text][] = $xff_ip_combo;
 			}
 			// Add this agent string if it's not already there; 10 max.
-			if ( count( $this->userSets['agentsets'][$row->cuc_user_text] ) < 10 ) {
-				if ( !in_array( $row->cuc_agent, $this->userSets['agentsets'][$row->cuc_user_text] ) ) {
-					$this->userSets['agentsets'][$row->cuc_user_text][] = $row->cuc_agent;
+			if ( count( $this->userSets['agentsets'][$row->user_text] ) < 10 ) {
+				if ( !in_array( $row->agent, $this->userSets['agentsets'][$row->user_text] ) ) {
+					$this->userSets['agentsets'][$row->user_text][] = $row->agent;
 				}
 			}
 		}
@@ -367,8 +367,12 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	public function getQueryInfo(): array {
 		$queryInfo = [
 			'fields' => [
-				'cuc_timestamp', 'cuc_ip', 'cuc_agent', 'cuc_xff', 'cuc_user' => 'actor_cuc_user.actor_user',
-				'cuc_user_text' => 'actor_cuc_user.actor_name'
+				'timestamp' => 'cuc_timestamp',
+				'ip' => 'cuc_ip',
+				'agent' => 'cuc_agent',
+				'xff' => 'cuc_xff',
+				'user' => 'actor_cuc_user.actor_user',
+				'user_text' => 'actor_cuc_user.actor_name',
 			],
 			'tables' => [ 'cu_changes', 'actor_cuc_user' => 'actor' ],
 			'conds' => [],
