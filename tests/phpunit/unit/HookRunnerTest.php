@@ -10,7 +10,7 @@ use MediaWiki\Tests\HookContainer\HookRunnerTestBase;
  */
 class HookRunnerTest extends HookRunnerTestBase {
 
-	public function provideHookRunners() {
+	public static function provideHookRunners() {
 		yield HookRunner::class => [ HookRunner::class ];
 	}
 }
