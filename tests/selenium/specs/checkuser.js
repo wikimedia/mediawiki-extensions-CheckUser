@@ -41,6 +41,9 @@ describe( 'CheckUser', function () {
 			it( 'Should show submit button', async function () {
 				assert( await CheckUserPage.submit.isExisting() );
 			} );
+			it( 'Should show CIDR form before check is run', async function () {
+				assert( await CheckUserPage.cidrForm.isExisting() );
+			} );
 			it( 'Should be able to run \'Get IPs\' check', async function () {
 				await CheckUserPage.open();
 				await CheckUserPage.getIPsCheckTypeRadio.click();
@@ -51,6 +54,9 @@ describe( 'CheckUser', function () {
 					browser.execute( () => browser.document.readyState === 'complete' );
 				}, { timeout: 10 * 1000, timeoutMsg: 'Page failed to load in a reasonable time.' } );
 				assert( await CheckUserPage.getIPsResults.isExisting() );
+				// CheckUser helper should never be present on Get IPs
+				assert( !( await CheckUserPage.checkUserHelper.isExisting() ) );
+				assert( await CheckUserPage.cidrForm.isExisting() );
 			} );
 			it( 'Should be able to run \'Get edits\' check', async function () {
 				await CheckUserPage.open();
@@ -62,6 +68,8 @@ describe( 'CheckUser', function () {
 					browser.execute( () => browser.document.readyState === 'complete' );
 				}, { timeout: 10 * 1000, timeoutMsg: 'Page failed to load in a reasonable time.' } );
 				assert( await CheckUserPage.getEditsResults.isExisting() );
+				assert( await CheckUserPage.checkUserHelper.isExisting() );
+				assert( await CheckUserPage.cidrForm.isExisting() );
 			} );
 			it( 'Should be able to run \'Get users\' check', async function () {
 				await CheckUserPage.open();
@@ -73,6 +81,8 @@ describe( 'CheckUser', function () {
 					browser.execute( () => browser.document.readyState === 'complete' );
 				}, { timeout: 10 * 1000, timeoutMsg: 'Page failed to load in a reasonable time.' } );
 				assert( await CheckUserPage.getUsersResults.isExisting() );
+				assert( await CheckUserPage.checkUserHelper.isExisting() );
+				assert( await CheckUserPage.cidrForm.isExisting() );
 			} );
 		} );
 		after( async () => {

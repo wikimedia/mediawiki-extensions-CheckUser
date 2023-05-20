@@ -15,6 +15,8 @@ class CheckUserPage extends Page {
 	get getIPsResults() { return $( '.mw-checkuser-get-ips-results' ); }
 	get getEditsResults() { return $( '.mw-checkuser-get-edits-results' ); }
 	get getUsersResults() { return $( '.mw-checkuser-get-users-results' ); }
+	get checkUserHelper() { return $( '.mw-checkuser-helper-fieldset' ); }
+	get cidrForm() { return $( '#mw-checkuser-cidrform' ); }
 
 	async open() {
 		await super.openTitle( 'Special:CheckUser' );

@@ -638,6 +638,7 @@ class SpecialInvestigate extends FormSpecialPage {
 		$duration = [
 			'type' => 'select',
 			'name' => 'duration',
+			'id' => 'investigate-duration',
 			'label-message' => $prefix . '-duration-label',
 			'options-messages' => [
 				$prefix . '-duration-option-all' => '',
@@ -679,6 +680,7 @@ class SpecialInvestigate extends FormSpecialPage {
 				'Duration' => $duration,
 				'Reason' => [
 					'type' => 'text',
+					'id' => 'investigate-reason',
 					'name' => 'reason',
 					'label-message' => $prefix . '-reason-label',
 					'required' => true,
