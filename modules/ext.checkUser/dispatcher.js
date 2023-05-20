@@ -8,7 +8,7 @@
 			require( './investigateblock/investigateblock.js' );
 			break;
 		case 'CheckUser':
-			require( './checkuser/cidr.js' );
+			require( './cidr/cidr.js' );
 			require( './checkuser/caMultiLock.js' );
 			require( './checkuser/checkUserHelper.js' );
 			break;

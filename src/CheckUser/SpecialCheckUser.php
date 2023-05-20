@@ -13,8 +13,7 @@ use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetEditsPager;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
-use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
-use MediaWiki\CheckUser\CheckUser\Widgets\HTMLTextFieldNoDisabledStyling;
+use MediaWiki\CheckUser\CheckUser\Widgets\CIDRCalculator;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilderFactory;
 use MediaWiki\CheckUser\CheckUserUtilityService;
@@ -535,40 +534,8 @@ class SpecialCheckUser extends SpecialPage {
 	 * Make a quick JS form for admins to calculate block ranges
 	 */
 	protected function addJsCIDRForm() {
-		$fields = [
-			'iplist' => [
-				'type' => 'textarea',
-				'dir' => 'ltr',
-				'rows' => 5,
-				'id' => 'mw-checkuser-iplist',
-			],
-			'ipresult' => [
-				'class' => HTMLTextFieldNoDisabledStyling::class,
-				'size' => 35,
-				'label-message' => 'checkuser-cidr-res',
-				'id' => 'mw-checkuser-cidr-res',
-				'name' => 'mw-checkuser-cidr-res',
-			],
-			'ipnote' => [
-				'type' => 'info',
-				'id' => 'mw-checkuser-ipnote',
-			]
-		];
-		$fieldset = new HTMLFieldsetCheckUser( $fields, $this->getContext(), '' );
-		$s = $fieldset->setWrapperLegendMsg( 'checkuser-cidr-label' )
-			->prepareForm()
-			->suppressDefaultSubmit( true )
-			->getHTML( false );
-		$s = Html::rawElement(
-			'span',
-			[
-				'class' => [ 'mw-htmlform', 'mw-htmlform-ooui' ],
-				'id' => 'mw-checkuser-cidrform',
-				'style' => 'display:none;'
-			],
-			$s
-		);
-		$this->getOutput()->addHTML( $s );
+		$out = $this->getOutput();
+		$out->addHTML( ( new CIDRCalculator( $out ) )->getHtml() );
 	}
 
 	/**
