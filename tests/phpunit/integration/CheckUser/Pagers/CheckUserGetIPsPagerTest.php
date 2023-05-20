@@ -142,8 +142,8 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonTest {
 	/** @inheritDoc */
 	public function getDefaultRowFieldValues(): array {
 		return [
-			'cuc_ip' => '127.0.0.1',
-			'cuc_ip_hex' => IPUtils::toHex( '127.0.0.1' ),
+			'ip' => '127.0.0.1',
+			'ip_hex' => IPUtils::toHex( '127.0.0.1' ),
 			'count' => 1,
 			'first' => $this->db->timestamp(),
 			'last' => $this->db->timestamp(),

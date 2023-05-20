@@ -45,7 +45,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 
 	/**
 	 * @var array The cached results of AbstractCheckUserPager::userBlockFlags with the key as
-	 *  the row's cuc_user_text.
+	 *  the row's user_text.
 	 */
 	private $flagCache = [];
 
@@ -160,11 +160,11 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		$templateParams['links'] = $this->getLinksFromRow( $row );
 		// Show date
 		$templateParams['timestamp'] =
-			$this->getLanguage()->userTime( wfTimestamp( TS_MW, $row->cuc_timestamp ), $this->getUser() );
+			$this->getLanguage()->userTime( wfTimestamp( TS_MW, $row->timestamp ), $this->getUser() );
 		// Userlinks
-		$user = new UserIdentityValue( $row->cuc_user ?? 0, $row->cuc_user_text );
-		if ( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW ) {
-			$hidden = !$this->usernameVisibility[$row->cuc_this_oldid];
+		$user = new UserIdentityValue( $row->user ?? 0, $row->user_text );
+		if ( $row->type == RC_EDIT || $row->type == RC_NEW ) {
+			$hidden = !$this->usernameVisibility[$row->this_oldid];
 		} else {
 			$hidden = $this->userFactory->newFromUserIdentity( $user )->isHidden()
 				&& !$this->getAuthority()->isAllowed( 'hideuser' );
@@ -179,41 +179,41 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 			if ( !IPUtils::isIPAddress( $user ) && !$user->isRegistered() ) {
 				$templateParams['userLinkClass'] = 'mw-checkuser-nonexistent-user';
 			}
-			$templateParams['userLink'] = Linker::userLink( $user->getId(), $row->cuc_user_text, $row->cuc_user_text );
+			$templateParams['userLink'] = Linker::userLink( $user->getId(), $row->user_text, $row->user_text );
 			$templateParams['userToolLinks'] = Linker::userToolLinksRedContribs(
 				$user->getId(),
-				$row->cuc_user_text,
+				$row->user_text,
 				$this->userEditTracker->getUserEditCount( $user ),
 				// don't render parentheses in HTML markup (CSS will provide)
 				false
 			);
 			// Add any block information
-			$templateParams['flags'] = $this->flagCache[$row->cuc_user_text];
+			$templateParams['flags'] = $this->flagCache[$row->user_text];
 		}
 		// Action text, hackish ...
-		$templateParams['actionText'] = $this->commentFormatter->format( $row->cuc_actiontext );
+		$templateParams['actionText'] = $this->commentFormatter->format( $row->actiontext );
 		// Comment
-		if ( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW ) {
-			$templateParams['comment'] = $this->formattedRevisionComments[$row->cuc_this_oldid];
+		if ( $row->type == RC_EDIT || $row->type == RC_NEW ) {
+			$templateParams['comment'] = $this->formattedRevisionComments[$row->this_oldid];
 		} else {
 			$comment = $this->commentStore->getComment( 'cuc_comment', $row );
 			$templateParams['comment'] = $this->commentFormatter->formatBlock( $comment->text );
 		}
 		// IP
-		$templateParams['ipLink'] = $this->getSelfLink( $row->cuc_ip,
+		$templateParams['ipLink'] = $this->getSelfLink( $row->ip,
 			[
-				'user' => $row->cuc_ip,
+				'user' => $row->ip,
 				'reason' => $this->opts->getValue( 'reason' )
 			]
 		);
 		// XFF
-		if ( $row->cuc_xff != null ) {
+		if ( $row->xff != null ) {
 			// Flag our trusted proxies
-			list( $client ) = $this->checkUserUtilityService->getClientIPfromXFF( $row->cuc_xff );
+			list( $client ) = $this->checkUserUtilityService->getClientIPfromXFF( $row->xff );
 			// XFF was trusted if client came from it
-			$trusted = ( $client === $row->cuc_ip );
+			$trusted = ( $client === $row->ip );
 			$templateParams['xffTrusted'] = $trusted;
-			$templateParams['xff'] = $this->getSelfLink( $row->cuc_xff,
+			$templateParams['xff'] = $this->getSelfLink( $row->xff,
 				[
 					'user' => $client . '/xff',
 					'reason' => $this->opts->getValue( 'reason' )
@@ -221,7 +221,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 			);
 		}
 		// User agent
-		$templateParams['userAgent'] = $row->cuc_agent;
+		$templateParams['userAgent'] = $row->agent;
 
 		return $this->templateParser->processTemplate( 'GetEditsLine', $templateParams );
 	}
@@ -233,9 +233,9 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	protected function getLinksFromRow( stdClass $row ): string {
 		$links = [];
 		// Log items
-		// Due to T315224 triple equals for cuc_type does not work for sqlite.
-		if ( $row->cuc_type == RC_LOG ) {
-			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
+		// Due to T315224 triple equals for type does not work for sqlite.
+		if ( $row->type == RC_LOG ) {
+			$title = Title::makeTitle( $row->namespace, $row->title );
 			$links['log'] = Html::rawElement(
 				'span',
 				[ 'class' => 'mw-changeslist-links' ],
@@ -247,9 +247,9 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 				)
 			);
 		} else {
-			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
+			$title = Title::makeTitle( $row->namespace, $row->title );
 			// New pages
-			if ( $row->cuc_type == RC_NEW ) {
+			if ( $row->type == RC_NEW ) {
 				$links['diffHistLinks'] = Html::rawElement( 'span', [], $this->message['diff'] );
 			} else {
 				// Diff link
@@ -259,9 +259,9 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 						new HtmlArmor( $this->message['diff'] ),
 						[],
 						[
-							'curid' => $row->cuc_page_id,
-							'diff' => $row->cuc_this_oldid,
-							'oldid' => $row->cuc_last_oldid
+							'curid' => $row->page_id,
+							'diff' => $row->this_oldid,
+							'oldid' => $row->last_oldid
 						]
 					)
 				);
@@ -273,7 +273,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 					new HtmlArmor( $this->message['hist'] ),
 					[],
 					[
-						'curid' => $title->exists() ? $row->cuc_page_id : null,
+						'curid' => $title->exists() ? $row->page_id : null,
 						'action' => 'history'
 					]
 				)
@@ -288,14 +288,14 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 				[ 'class' => 'mw-changeslist-separator' ]
 			);
 			// Some basic flags
-			if ( $row->cuc_type == RC_NEW ) {
+			if ( $row->type == RC_NEW ) {
 				$links['newpage'] = Html::rawElement(
 					'abbr',
 					[ 'class' => 'newpage' ],
 					$this->message['newpageletter']
 				);
 			}
-			if ( $row->cuc_minor ) {
+			if ( $row->minor ) {
 				$links['minor'] = Html::rawElement(
 					"abbr",
 					[ 'class' => 'minoredit' ],
@@ -337,10 +337,20 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 
 		$queryInfo = [
 			'fields' => [
-				'cuc_namespace', 'cuc_title', 'cuc_actiontext', 'cuc_timestamp', 'cuc_minor',
-				'cuc_page_id', 'cuc_type', 'cuc_this_oldid', 'cuc_last_oldid', 'cuc_ip',
-				'cuc_xff', 'cuc_agent', 'cuc_user' => 'actor_cuc_user.actor_user',
-				'cuc_user_text' => 'actor_cuc_user.actor_name'
+				'namespace' => 'cuc_namespace',
+				'title' => 'cuc_title',
+				'actiontext' => 'cuc_actiontext',
+				'timestamp' => 'cuc_timestamp',
+				'minor' => 'cuc_minor',
+				'page_id' => 'cuc_page_id',
+				'type' => 'cuc_type',
+				'this_oldid' => 'cuc_this_oldid',
+				'last_oldid' => 'cuc_last_oldid',
+				'ip' => 'cuc_ip',
+				'xff' => 'cuc_xff',
+				'agent' => 'cuc_agent',
+				'user' => 'actor_cuc_user.actor_user',
+				'user_text' => 'actor_cuc_user.actor_name'
 			] + $commentQuery['fields'],
 			'tables' => [ 'cu_changes', 'actor_cuc_user' => 'actor' ] + $commentQuery['tables'],
 			'conds' => [],
@@ -377,34 +387,34 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		$revisions = [];
 		$missingRevisions = [];
 		foreach ( $result as $row ) {
-			if ( $row->cuc_title !== '' ) {
-				$lb->add( $row->cuc_namespace, $row->cuc_title );
+			if ( $row->title !== '' ) {
+				$lb->add( $row->namespace, $row->title );
 			}
 			if ( $this->xfor === null ) {
-				$userText = str_replace( ' ', '_', $row->cuc_user_text );
+				$userText = str_replace( ' ', '_', $row->user_text );
 				$lb->add( NS_USER, $userText );
 				$lb->add( NS_USER_TALK, $userText );
 			}
 			// Add the row to the flag cache
-			if ( !isset( $this->flagCache[$row->cuc_user_text] ) ) {
-				$user = new UserIdentityValue( $row->cuc_user ?? 0, $row->cuc_user_text );
-				$ip = IPUtils::isIPAddress( $row->cuc_user_text ) ? $row->cuc_user_text : '';
+			if ( !isset( $this->flagCache[$row->user_text] ) ) {
+				$user = new UserIdentityValue( $row->user ?? 0, $row->user_text );
+				$ip = IPUtils::isIPAddress( $row->user_text ) ? $row->user_text : '';
 				$flags = $this->userBlockFlags( $ip, $user );
-				$this->flagCache[$row->cuc_user_text] = $flags;
+				$this->flagCache[$row->user_text] = $flags;
 			}
 			// Batch process comments
 			if (
-				( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW ) &&
-				!array_key_exists( $row->cuc_this_oldid, $revisions )
+				( $row->type == RC_EDIT || $row->type == RC_NEW ) &&
+				!array_key_exists( $row->this_oldid, $revisions )
 			) {
-				$revRecord = $this->revisionStore->getRevisionById( $row->cuc_this_oldid );
+				$revRecord = $this->revisionStore->getRevisionById( $row->this_oldid );
 				if ( !$revRecord ) {
 					// Assume revision is deleted
 					$queryInfo = $this->revisionStore->getArchiveQueryInfo();
 					$tmp = $this->mDb->newSelectQueryBuilder()
 						->tables( $queryInfo['tables'] )
 						->fields( $queryInfo['fields'] )
-						->conds( [ 'ar_rev_id' => $row->cuc_this_oldid ] )
+						->conds( [ 'ar_rev_id' => $row->this_oldid ] )
 						->joinConds( $queryInfo['joins'] )
 						->caller( __METHOD__ )
 						->fetchRow();
@@ -416,14 +426,14 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 					// This shouldn't happen, CheckUser points to a revision
 					// that isn't in revision nor archive table?
 					$this->logger->warning(
-						"Couldn't fetch revision cu_changes table links to (cuc_this_oldid $row->cuc_this_oldid)"
+						"Couldn't fetch revision cu_changes table links to (this_oldid $row->this_oldid)"
 					);
 					// Show the comment in this case as the empty string to indicate that it's missing.
-					$missingRevisions[$row->cuc_this_oldid] = '';
+					$missingRevisions[$row->this_oldid] = '';
 				} else {
-					$revisions[$row->cuc_this_oldid] = $revRecord;
+					$revisions[$row->this_oldid] = $revRecord;
 
-					$this->usernameVisibility[$row->cuc_this_oldid] = RevisionRecord::userCanBitfield(
+					$this->usernameVisibility[$row->this_oldid] = RevisionRecord::userCanBitfield(
 						$revRecord->getVisibility(),
 						RevisionRecord::DELETED_USER,
 						$this->getAuthority()
