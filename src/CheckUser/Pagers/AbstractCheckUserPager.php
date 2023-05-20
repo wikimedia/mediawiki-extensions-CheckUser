@@ -339,7 +339,9 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	 * @inheritDoc
 	 */
 	protected function getEmptyBody(): string {
-		if ( $this->xfor ?? true ) {
+		if ( !$this->xfor ) {
+			// Only attempt to find the last edit or logged action timestamp if the
+			// target is a user or an IP. If the target is a XFF then skip this.
 			$user = $this->userIdentityLookup->getUserIdentityByName( $this->target->getName() );
 
 			$lastEdit = false;
