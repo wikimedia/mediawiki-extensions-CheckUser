@@ -88,7 +88,7 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( $expected, $pager->mResult->numRows() );
 	}
 
-	public function provideDoQuery() {
+	public static function provideDoQuery() {
 		// $targets, $excludeTargets, $expected
 		return [
 			'Valid and invalid targets' => [ [ 'User1', 'InvalidUser', '1.2.3.9/120' ], [], 2 ],

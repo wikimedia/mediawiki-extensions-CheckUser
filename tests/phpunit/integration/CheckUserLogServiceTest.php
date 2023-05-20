@@ -66,7 +66,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideAddLogEntryIPs() {
+	public static function provideAddLogEntryIPs() {
 		return [
 			[
 				'ipusers', '127.0.0.1', 'test',
@@ -96,7 +96,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideAddLogEntryUsers() {
+	public static function provideAddLogEntryUsers() {
 		return [
 			[
 				'userips', UserIdentityValue::newRegistered( 3, 'Test' ), 'test',
@@ -126,7 +126,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideAddLogEntryTimestamp() {
+	public static function provideAddLogEntryTimestamp() {
 		return [
 			[ '1653047635' ],
 			[ '1653042345' ]
@@ -197,7 +197,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideAddLogEntryReasonId() {
+	public static function provideAddLogEntryReasonId() {
 		return [
 			[ 'Testing 1234', 'Testing 1234' ],
 			[ 'Testing 1234 [[test]]', 'Testing 1234 test' ],

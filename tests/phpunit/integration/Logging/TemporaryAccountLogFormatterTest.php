@@ -9,7 +9,7 @@ use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
  * @covers \MediaWiki\CheckUser\Logging\TemporaryAccountLogFormatter
  */
 class TemporaryAccountLogFormatterTest extends LogFormatterTestCase {
-	public function provideLogDatabaseRows(): array {
+	public static function provideLogDatabaseRows(): array {
 		return [
 			'Enable access' => [
 				'row' => [

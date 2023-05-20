@@ -84,7 +84,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideGetAgent() {
+	public static function provideGetAgent() {
 		return [
 			[ false, '' ],
 			[ '', '' ],
@@ -116,7 +116,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideInsertIntoCuChangesTable() {
+	public static function provideInsertIntoCuChangesTable() {
 		return [
 			'IP defaults' => [
 				[],
@@ -149,7 +149,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideTestTruncationInsertIntoCuChangesTable() {
+	public static function provideTestTruncationInsertIntoCuChangesTable() {
 		return [
 			'Action text column' => [ 'cuc_actiontext' ],
 			'XFF column' => [ 'cuc_xff' ]
@@ -186,7 +186,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideXFFValues() {
+	public static function provideXFFValues() {
 		return [
 			'Empty XFF' => [
 				'',
@@ -251,7 +251,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideInsertIntoCuPrivateEventTable() {
+	public static function provideInsertIntoCuPrivateEventTable() {
 		return [
 			'IP defaults' => [
 				[],
@@ -284,7 +284,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideTruncationInsertIntoCuPrivateEventTable() {
+	public static function provideTruncationInsertIntoCuPrivateEventTable() {
 		return [
 			'XFF column' => [ 'cupe_xff' ]
 		];
@@ -368,7 +368,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideInsertIntoCuLogEventTable() {
+	public static function provideInsertIntoCuLogEventTable() {
 		return [
 			'IP defaults' => [
 				[ 'cule_ip', 'cule_ip_hex' ], [ '127.0.0.1', '7F000001' ]
@@ -400,7 +400,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideTruncationInsertIntoCuLogEventTable() {
+	public static function provideTruncationInsertIntoCuLogEventTable() {
 		return [
 			'XFF column' => [ 'cule_xff' ]
 		];
@@ -516,7 +516,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 */
 	public function testProvideUpdateCheckUserData() {
 		// From RecentChangeTest.php's provideAttribs but modified
-		$attribs = $this->getDefaultRecentChangeAttribs();
+		$attribs = self::getDefaultRecentChangeAttribs();
 		$testUser = new UserIdentityValue( 1337, 'YeaaaahTests' );
 		$actorId = $this->getServiceContainer()->getActorStore()->acquireActorId(
 			$testUser,
@@ -606,9 +606,9 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		$this->updateCheckUserData( $rcAttribs, $eventTableMigrationStage, $table, $fields, $expectedRow );
 	}
 
-	public function provideUpdateCheckUserDataLogEvent() {
+	public static function provideUpdateCheckUserDataLogEvent() {
 		// From RecentChangeTest.php's provideAttribs but modified
-		$attribs = $this->getDefaultRecentChangeAttribs();
+		$attribs = self::getDefaultRecentChangeAttribs();
 
 		yield 'Log with log ID with write old' => [
 			array_merge( $attribs, [
@@ -637,9 +637,9 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	public function provideUpdateCheckUserDataNoSave() {
+	public static function provideUpdateCheckUserDataNoSave() {
 		// From RecentChangeTest.php's provideAttribs but modified
-		$attribs = $this->getDefaultRecentChangeAttribs();
+		$attribs = self::getDefaultRecentChangeAttribs();
 		yield 'external user' => [
 			array_merge( $attribs, [
 				'rc_type' => RC_EXTERNAL,
@@ -661,7 +661,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	public function provideEventMigrationStageValues() {
+	public static function provideEventMigrationStageValues() {
 		return [
 			'With event table migration set to read old' => [ SCHEMA_COMPAT_OLD ],
 			'With event table migration set to read new' => [ SCHEMA_COMPAT_NEW ]
@@ -754,7 +754,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideOnLocalUserCreated() {
+	public static function provideOnLocalUserCreated() {
 		return [
 			[ true ],
 			[ false ]
@@ -783,7 +783,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideTestOnEmailUserNoSave() {
+	public static function provideTestOnEmailUserNoSave() {
 		return [
 			'Email with the sender and recipient as the same user' => [
 				new MailAddress( 'test@test.com', 'Test' ),
@@ -959,7 +959,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
-	public function provideOnUserToolLinksEdit() {
+	public static function provideOnUserToolLinksEdit() {
 		return [
 			'Current title is not in special namespace' => [
 				'Testing1234', []
@@ -1012,7 +1012,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideOnAuthManagerLoginAuthenticateAudit() {
+	public static function provideOnAuthManagerLoginAuthenticateAudit() {
 		return [
 			'successful login' => [
 				AuthenticationResponse::newPass( 'UTSysop' ),
@@ -1046,7 +1046,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
-	public function provideOnAuthManagerLoginAuthenticateAuditWithCentralAuthInstalled() {
+	public static function provideOnAuthManagerLoginAuthenticateAuditWithCentralAuthInstalled() {
 		return [
 			'failed login with correct password' => [
 				AuthenticationResponse::newFail(
@@ -1188,7 +1188,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideCheckUserLogBotSuccessfulLoginsNoSave() {
+	public static function provideCheckUserLogBotSuccessfulLoginsNoSave() {
 		return [
 			'Successful authentication with wgCheckUserLogSuccessfulBotLogins set to false' => [
 				AuthenticationResponse::newPass( 'test' ),
@@ -1228,7 +1228,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideUserLogoutComplete() {
+	public static function provideUserLogoutComplete() {
 		return [
 			'Log logout events with migration old' => [ true, SCHEMA_COMPAT_OLD ],
 			'Don\'t log logout events with migration old' => [ false, SCHEMA_COMPAT_OLD ],
@@ -1279,7 +1279,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		if ( $hasCUChangesRow ) {
 			$rc = new RecentChange();
 			$rc->setAttribs(
-				array_merge( $this->getDefaultRecentChangeAttribs(), [
+				array_merge( self::getDefaultRecentChangeAttribs(), [
 					'rc_user' => $target->getId(),
 					'rc_user_text' => $target->getName()
 				] )
@@ -1340,7 +1340,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * * The third is whether the hook should apply a
 	 *    retroactive autoblock to the IP used.
 	 */
-	public function provideOnPerformRetroactiveAutoblock() {
+	public static function provideOnPerformRetroactiveAutoblock() {
 		return [
 			[ true, false, false ],
 			[ true, true, false ],
@@ -1364,17 +1364,17 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 			ConvertibleTimestamp::setFakeTime( $timestamp );
 			$expectedRow = [];
 			// Insertion into cu_changes
-			$this->commonTestsUpdateCheckUserData( $this->getDefaultRecentChangeAttribs(), [], $expectedRow );
+			$this->commonTestsUpdateCheckUserData( self::getDefaultRecentChangeAttribs(), [], $expectedRow );
 			// Insertion into cu_private_event
 			$this->commonTestsUpdateCheckUserData(
-				array_merge( $this->getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_LOG, 'rc_log_type' => '' ] ),
+				array_merge( self::getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_LOG, 'rc_log_type' => '' ] ),
 				[],
 				$expectedRow
 			);
 			// Insertion into cu_log_event
 			$logId = $this->newLogEntry();
 			$this->commonTestsUpdateCheckUserData(
-				array_merge( $this->getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_LOG, 'rc_logid' => $logId ] ),
+				array_merge( self::getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_LOG, 'rc_logid' => $logId ] ),
 				[],
 				$expectedRow
 			);
@@ -1409,7 +1409,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 			'cu_log_event is missing rows that were not stale after calling pruneIPData.' );
 	}
 
-	public function providePruneIPDataData() {
+	public static function providePruneIPDataData() {
 		$currentTime = time();
 		$defaultMaxAge = 7776000;
 		return [

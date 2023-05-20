@@ -109,7 +109,7 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideExecute() {
+	public static function provideExecute() {
 		return [
 			'One revision' => [
 				[

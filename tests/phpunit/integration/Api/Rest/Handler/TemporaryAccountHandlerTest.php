@@ -204,7 +204,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideExecutePermissionErrorsNoRight() {
+	public static function provideExecutePermissionErrorsNoRight() {
 		return [
 			'Anon or temporary user' => [
 				false,
@@ -316,7 +316,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideExecutePermissionErrorsBadName() {
+	public static function provideExecutePermissionErrorsBadName() {
 		return [
 			'Registered username' => [ 'SomeName' ],
 			'IP address' => [ '127.0.0.1' ]

@@ -96,7 +96,7 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 		$this->assertNotNull( $result );
 	}
 
-	public function provideRequiredGroupAccess() {
+	public static function provideRequiredGroupAccess() {
 		return [
 			'No user groups' => [ '', false ],
 			'Checkuser only' => [ 'checkuser', true ],
@@ -120,7 +120,7 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 		$this->testRequiredRightsByGroup( $groups, $allowed );
 	}
 
-	public function provideRequiredRights() {
+	public static function provideRequiredRights() {
 		return [
 			'No user groups' => [ '', false ],
 			'checkuser-log right only' => [ 'checkuser-log', true ],
@@ -184,9 +184,9 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 		}
 	}
 
-	public function provideExampleLogEntryDataForReasonFilterTest() {
+	public static function provideExampleLogEntryDataForReasonFilterTest() {
 		$tests = [];
-		foreach ( $this->provideExampleLogEntryData() as $name => $values ) {
+		foreach ( self::provideExampleLogEntryData() as $name => $values ) {
 			$tests[$name . ' with matching reason and log reason migration set to read old'] =
 				array_merge( $values, [ $values[3], true, SCHEMA_COMPAT_OLD ] );
 			$tests[$name . ' with matching reason and log reason migration set to read new'] =
@@ -227,7 +227,7 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 		);
 	}
 
-	public function provideExampleLogEntryData() {
+	public static function provideExampleLogEntryData() {
 		return [
 			'IP target' => [ 'ipusers', 'ip', '127.0.0.1', 'testing', 0, '1653047635' ],
 			'User target' => [ 'userips', 'user', 'Testing', '1234 - [[test]]', 0, '1653042345' ],

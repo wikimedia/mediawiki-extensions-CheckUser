@@ -84,7 +84,7 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 		// Set up cu_changes
 		$expectedRow = [];
 		$this->commonTestsUpdateCheckUserData(
-			array_merge( $this->getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_LOG, 'rc_log_type' => '' ] ),
+			array_merge( self::getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_LOG, 'rc_log_type' => '' ] ),
 			[],
 			$expectedRow
 		);
@@ -97,7 +97,7 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 		$this->commonTestNoMove( $cuChangesRowCount, $cuPrivateEventCount );
 	}
 
-	public function provideSchemaNoMoveValues() {
+	public static function provideSchemaNoMoveValues() {
 		return [
 			'Read and write old' => [ SCHEMA_COMPAT_OLD, 1, 0 ],
 			'Read and write old, read new' => [ SCHEMA_COMPAT_OLD | SCHEMA_COMPAT_READ_NEW, 1, 0 ],
@@ -130,12 +130,12 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 		$expectedRow = [];
 		for ( $i = 0; $i < $numberOfRows / 2; $i++ ) {
 			$this->commonTestsUpdateCheckUserData(
-				array_merge( $this->getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_EDIT ] ),
+				array_merge( self::getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_EDIT ] ),
 				[],
 				$expectedRow
 			);
 			$this->commonTestsUpdateCheckUserData(
-				array_merge( $this->getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_LOG, 'rc_log_type' => '' ] ),
+				array_merge( self::getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_LOG, 'rc_log_type' => '' ] ),
 				[],
 				$expectedRow
 			);
@@ -158,7 +158,7 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 		$this->commonTestMoved( $numberOfRows, $numberOfRows / 2, $numberOfRows / 2 );
 	}
 
-	public function provideBatchSize() {
+	public static function provideBatchSize() {
 		return [
 			'cu_changes row count 3 and batch size 1' => [
 				6, 4

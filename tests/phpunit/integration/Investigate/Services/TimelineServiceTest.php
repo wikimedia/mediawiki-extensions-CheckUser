@@ -57,7 +57,7 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
-	public function provideGetQueryInfo() {
+	public static function provideGetQueryInfo() {
 		$range = IPUtils::parseRange( '127.0.0.1/24' );
 		return [
 			'Valid username' => [

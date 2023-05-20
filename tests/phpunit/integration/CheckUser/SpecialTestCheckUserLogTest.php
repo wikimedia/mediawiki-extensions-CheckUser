@@ -97,7 +97,7 @@ class SpecialTestCheckUserLogTest extends CheckUserIntegrationTestCaseTest {
 		);
 	}
 
-	public function provideVerifyTargetIP() {
+	public static function provideVerifyTargetIP() {
 		return [
 			'Single IP' => [ '124.0.0.0', [ '7C000000' ] ],
 			'/24 IP range' => [ '124.0.0.0/24', [ '7C000000', '7C0000FF' ] ],
@@ -142,7 +142,7 @@ class SpecialTestCheckUserLogTest extends CheckUserIntegrationTestCaseTest {
 		}
 	}
 
-	public function provideRequiredGroupAccess() {
+	public static function provideRequiredGroupAccess() {
 		return [
 			'No user groups' => [ '', false ],
 			'Checkuser only' => [ 'checkuser', true ],
@@ -166,7 +166,7 @@ class SpecialTestCheckUserLogTest extends CheckUserIntegrationTestCaseTest {
 		$this->testRequiredRightsByGroup( $groups, $allowed );
 	}
 
-	public function provideRequiredRights() {
+	public static function provideRequiredRights() {
 		return [
 			'No user groups' => [ '', false ],
 			'checkuser-log right only' => [ 'checkuser-log', true ],

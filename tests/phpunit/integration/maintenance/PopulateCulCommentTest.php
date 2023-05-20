@@ -89,7 +89,7 @@ class PopulateCulCommentTest extends MaintenanceBaseTestCase {
 		);
 	}
 
-	public function provideAddLogEntryReasonId() {
+	public static function provideAddLogEntryReasonId() {
 		return [
 			[ 'Testing 1234', 'Testing 1234' ],
 			[ 'Testing 1234 [[test]]', 'Testing 1234 test' ],

@@ -103,7 +103,7 @@ class CheckUserLogPagerTest extends CheckUserIntegrationTestCaseTest {
 		);
 	}
 
-	public function provideGetTargetSearchCondsIP(): array {
+	public static function provideGetTargetSearchCondsIP(): array {
 		return [
 			'Single IP' => [ '124.0.0.0', 'ip', '7C000000', '7C000000' ],
 			'/24 IP range' => [ '124.0.0.0/24', 'range', '7C000000', '7C0000FF' ],

@@ -111,7 +111,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		);
 	}
 
-	public function provideTestInvalidTimeCond() {
+	public static function provideTestInvalidTimeCond() {
 		return [
 			[ '-2000000000 years' ],
 			[ '1 week' ],
@@ -151,7 +151,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		$this->assertNotNull( $result );
 	}
 
-	public function provideRequiredGroupAccess() {
+	public static function provideRequiredGroupAccess() {
 		return [
 			'No user groups' => [ '', false ],
 			'Checkuser only' => [ 'checkuser', true ],
@@ -175,7 +175,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		$this->testRequiredRightsByGroup( $groups, $allowed );
 	}
 
-	public function provideRequiredRights() {
+	public static function provideRequiredRights() {
 		return [
 			'No user groups' => [ '', false ],
 			'checkuser right only' => [ 'checkuser-right', true ],

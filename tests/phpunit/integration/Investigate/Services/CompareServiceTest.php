@@ -121,7 +121,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
-	public function provideGetQueryInfo() {
+	public static function provideGetQueryInfo() {
 		return [
 			'Valid username, excluded IP' => [
 				[
@@ -252,7 +252,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertEquals( $expected, $result );
 	}
 
-	public function provideTotalEditsFromIp() {
+	public static function provideTotalEditsFromIp() {
 		return [
 			'IP address with multiple users' => [
 				[
@@ -291,7 +291,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
-	public function provideGetTargetsOverLimit() {
+	public static function provideGetTargetsOverLimit() {
 		return [
 			'Empty targets array' => [
 				[],

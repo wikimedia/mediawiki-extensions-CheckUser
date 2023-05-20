@@ -53,14 +53,14 @@ class CheckUserUnionSelectQueryBuilderDatabaseTest extends MediaWikiIntegrationT
 		foreach ( $cuChangesTimestamps as $timestamp ) {
 			ConvertibleTimestamp::setFakeTime( $timestamp );
 			// Insertion into cu_changes
-			$this->commonTestsUpdateCheckUserData( $this->getDefaultRecentChangeAttribs(), [], $expectedRow );
+			$this->commonTestsUpdateCheckUserData( self::getDefaultRecentChangeAttribs(), [], $expectedRow );
 		}
 		foreach ( $cuLogEventTimestamps as $timestamp ) {
 			ConvertibleTimestamp::setFakeTime( $timestamp );
 			// Insertion into cu_log_event
 			$logId = $this->newLogEntry();
 			$this->commonTestsUpdateCheckUserData(
-				array_merge( $this->getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_LOG, 'rc_logid' => $logId ] ),
+				array_merge( self::getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_LOG, 'rc_logid' => $logId ] ),
 				[],
 				$expectedRow
 			);
@@ -69,7 +69,7 @@ class CheckUserUnionSelectQueryBuilderDatabaseTest extends MediaWikiIntegrationT
 			ConvertibleTimestamp::setFakeTime( $timestamp );
 			// Insertion into cu_private_event
 			$this->commonTestsUpdateCheckUserData(
-				array_merge( $this->getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_LOG, 'rc_log_type' => '' ] ),
+				array_merge( self::getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_LOG, 'rc_log_type' => '' ] ),
 				[],
 				$expectedRow
 			);
@@ -107,7 +107,7 @@ class CheckUserUnionSelectQueryBuilderDatabaseTest extends MediaWikiIntegrationT
 		return array_slice( $expectedTimestamps, 0, $limit );
 	}
 
-	public function provideTestQuery() {
+	public static function provideTestQuery() {
 		$currentTime = time();
 		return [
 			'4 entries in each table with default LIMIT' => [
