@@ -196,7 +196,7 @@
 			"remoteExtPath": "CheckUser/modules/ext.checkUser",
 			"packageFiles": [
 				"dispatcher.js",
-				"checkuser/cidr.js",
+				"cidr/cidr.js",
 				"checkuser/caMultiLock.js",
 				"checkuser/checkUserHelper.js",
 				"checkuserlog/highlightScroll.js",
@@ -276,7 +276,8 @@
 				"checkuser.less",
 				"investigate.less",
 				"investigateblock.less",
-				"temporaryaccount.less"
+				"temporaryaccount.less",
+				"cidr.less"
 			],
 			"skinStyles": {
 				"minerva": "temporaryaccount.minerva.less"

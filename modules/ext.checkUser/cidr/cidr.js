@@ -16,11 +16,11 @@
 	 * IPs. It should be set to update on keyUp.
 	 */
 	function updateCIDRresult() {
-		var form = document.getElementById( 'mw-checkuser-cidrform' );
-		if ( !form ) {
+		var $form = $( '.mw-checkuser-cidrform' ).first();
+		if ( !$form ) {
 			return; // no JS form
 		}
-		form.style.display = 'inline'; // unhide form (JS active)
+		$form.removeClass( 'mw-checkuser-cidr-calculator-hidden' );
 		var $iplist = $( '#mw-checkuser-iplist textarea' ).first();
 		if ( !$iplist ) {
 			return; // no JS form

@@ -4,7 +4,7 @@ namespace MediaWiki\CheckUser\CheckUser\Widgets;
 
 use OOUI\TextInputWidget;
 
-class TextInputWidgetNoDisabledStyling extends TextInputWidget {
+class CIDRCalculatorResultBox extends TextInputWidget {
 
 	/**
 	 * @param array $config
