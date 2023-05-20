@@ -11,7 +11,6 @@ use IContextSource;
 use MediaWiki\Block\AbstractBlock;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\CheckUser\CheckUserPagerNavigationBuilder;
-use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilderFactory;
@@ -590,24 +589,38 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	}
 
 	/**
+	 * Used by getCheckUserHelperFieldsetHTML to get the fieldset.
+	 *  Seperated to allow testing of this method.
+	 *
+	 * @return ?HTMLFieldsetCheckUser
+	 */
+	private function getCheckUserHelperFieldset() {
+		if ( !$this->mResult->numRows() ) {
+			return null;
+		}
+		$collapseByDefault = $this->getConfig()->get( 'CheckUserCollapseCheckUserHelperByDefault' );
+		if ( is_int( $collapseByDefault ) ) {
+			$collapseByDefault = $this->mResult->numRows() > $collapseByDefault;
+		}
+		$fieldset = new HTMLFieldsetCheckUser( [], $this->getContext() );
+		$fieldset->outerClass = 'mw-checkuser-helper-fieldset';
+		$fieldset
+			->setCollapsibleOptions( $collapseByDefault )
+			->setWrapperLegendMsg( 'checkuser-helper-label' )
+			->prepareForm()
+			->suppressDefaultSubmit( true );
+		return $fieldset;
+	}
+
+	/**
+	 *
 	 * Returns a empty HTML OOUI fieldset which is collapsible.
 	 * Used by checkUserHelper.js and it's where the wikitext
 	 *  table is added into the results page.
 	 *
-	 * @return string HTML of the fieldset
+	 * @return string The HTML of the fieldset.
 	 */
-	protected function getCheckUserHelperFieldset() {
-		if ( !$this->mResult->numRows() ) {
-			return '';
-		}
-		$fieldset = new HTMLFieldsetCheckUser( [], $this->getContext() );
-		$fieldset->setCollapsibleOptions(
-			$this->checkType === SpecialCheckUser::SUBTYPE_GET_EDITS && $this->mLimit > 2500
-		);
-		$fieldset->outerClass = 'mw-checkuser-helper-fieldset';
-		return $fieldset->setWrapperLegendMsg( 'checkuser-helper-label' )
-			->prepareForm()
-			->suppressDefaultSubmit( true )
-			->getHTML( false );
+	protected function getCheckUserHelperFieldsetHTML() {
+		return $this->getCheckUserHelperFieldset()->getHTML( false );
 	}
 }

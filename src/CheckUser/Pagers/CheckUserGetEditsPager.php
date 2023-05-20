@@ -376,7 +376,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 
 	/** @inheritDoc */
 	protected function getStartBody(): string {
-		return $this->getCheckUserHelperFieldset() . $this->getNavigationBar()
+		return $this->getCheckUserHelperFieldsetHTML() . $this->getNavigationBar()
 			. '<div id="checkuserresults" class="mw-checkuser-get-edits-results">';
 	}
 

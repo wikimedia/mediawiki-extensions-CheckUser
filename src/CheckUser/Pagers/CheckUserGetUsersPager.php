@@ -390,7 +390,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 
 	/** @inheritDoc */
 	protected function getStartBody(): string {
-		$s = $this->getCheckUserHelperFieldset() . $this->getNavigationBar();
+		$s = $this->getCheckUserHelperFieldsetHTML() . $this->getNavigationBar();
 		if ( $this->mResult->numRows() ) {
 			$s .= ( new ListToggle( $this->getOutput() ) )->getHTML();
 		}
