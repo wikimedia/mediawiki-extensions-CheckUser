@@ -58,7 +58,7 @@ class DurationManagerTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * Provides durations.
 	 */
-	public function provideDuration(): array {
+	public static function provideDuration(): array {
 		return [
 			'Valid duration' => [
 				'P1W',

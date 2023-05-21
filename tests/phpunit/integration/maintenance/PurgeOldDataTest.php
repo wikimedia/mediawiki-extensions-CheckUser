@@ -48,17 +48,17 @@ class PurgeOldDataTest extends MaintenanceBaseTestCase {
 			ConvertibleTimestamp::setFakeTime( $timestamp );
 			$expectedRow = [];
 			// Insertion into cu_changes
-			$this->commonTestsUpdateCheckUserData( $this->getDefaultRecentChangeAttribs(), [], $expectedRow );
+			$this->commonTestsUpdateCheckUserData( self::getDefaultRecentChangeAttribs(), [], $expectedRow );
 			// Insertion into cu_private_event
 			$this->commonTestsUpdateCheckUserData(
-				array_merge( $this->getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_LOG, 'rc_log_type' => '' ] ),
+				array_merge( self::getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_LOG, 'rc_log_type' => '' ] ),
 				[],
 				$expectedRow
 			);
 			// Insertion into cu_log_event
 			$logId = $this->newLogEntry();
 			$this->commonTestsUpdateCheckUserData(
-				array_merge( $this->getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_LOG, 'rc_logid' => $logId ] ),
+				array_merge( self::getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_LOG, 'rc_logid' => $logId ] ),
 				[],
 				$expectedRow
 			);
@@ -91,7 +91,7 @@ class PurgeOldDataTest extends MaintenanceBaseTestCase {
 			'cu_log_event is missing rows that were not stale after calling pruneIPData.' );
 	}
 
-	public function providePruneIPDataData() {
+	public static function providePruneIPDataData() {
 		$currentTime = time();
 		$defaultMaxAge = 7776000;
 		return [

@@ -109,7 +109,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * Test cases for SpecialCheckUser::getIpConds
 	 */
-	public function provideGetIpConds() {
+	public static function provideGetIpConds() {
 		return [
 			'Single IPv4 address' => [
 				'212.35.31.121',
@@ -157,7 +157,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * Test cases for AbstractCheckUserPager::isValid
 	 */
-	public function provideIsValidRange() {
+	public static function provideIsValidRange() {
 		return [
 			'Single IPv4 address' => [ '212.35.31.121', true ],
 			'Single IPv4 address notated as a /32' => [ '212.35.31.121/32', true ],
@@ -202,7 +202,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
-	public function provideGetPeriodCondition(): array {
+	public static function provideGetPeriodCondition(): array {
 		return [
 			'Empty period' => [ '', '1653047635', false ],
 			'Period value for all' => [ 0, '1653047635', false ],
@@ -232,7 +232,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideUserWasBlocked() {
+	public static function provideUserWasBlocked() {
 		return [
 			'User was previously blocked' => [ true ],
 			'User never previously blocked' => [ false ]
@@ -267,7 +267,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideTestFormOptionsLimitValue() {
+	public static function provideTestFormOptionsLimitValue() {
 		return [
 			'Empty limit' => [ 0, 5000, 5000 ],
 			'Limit under maximum limit' => [ 200, 5000, 200 ],
@@ -312,7 +312,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideGetCheckUserHelperFieldset() {
+	public static function provideGetCheckUserHelperFieldset() {
 		return [
 			'wgCheckUserCollapseCheckUserHelperByDefault set to true' => [
 				true, true, 1

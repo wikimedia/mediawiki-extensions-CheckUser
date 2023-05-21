@@ -102,7 +102,7 @@ trait CheckUserCommonTraitTest {
 	 * Provides default attributes for a recent change.
 	 * @return array
 	 */
-	public function getDefaultRecentChangeAttribs() {
+	public static function getDefaultRecentChangeAttribs() {
 		// From RecentChangeTest.php's provideAttribs
 		return [
 			'rc_timestamp' => wfTimestamp( TS_MW ),

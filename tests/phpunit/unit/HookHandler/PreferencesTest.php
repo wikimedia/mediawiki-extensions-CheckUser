@@ -54,7 +54,7 @@ class PreferencesTest extends MediaWikiUnitTestCase {
 		);
 	}
 
-	public function provideOnGetPreferencesTemporaryAccount() {
+	public static function provideOnGetPreferencesTemporaryAccount() {
 		return [
 			'User has right' => [
 				[

@@ -91,7 +91,7 @@ class PreliminaryCheckServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertEquals( $expected, $data );
 	}
 
-	public function preprocessResultsProvider() {
+	public static function preprocessResultsProvider() {
 		$userData = [
 			'id' => 1,
 			'name' => 'Test User',
@@ -160,7 +160,7 @@ class PreliminaryCheckServiceTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function getQueryInfoProvider() {
+	public static function getQueryInfoProvider() {
 		return [
 			'local users as string' => [
 				[ 'UserA', 'UserB' ],

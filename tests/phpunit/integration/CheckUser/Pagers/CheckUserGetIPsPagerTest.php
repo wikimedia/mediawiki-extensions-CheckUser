@@ -60,7 +60,7 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonTest {
 		);
 	}
 
-	public function provideGetCountForIPEdits() {
+	public static function provideGetCountForIPEdits() {
 		return [
 			'One IP with only 1 user edit' => [
 				[
@@ -129,7 +129,7 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonTest {
 		);
 	}
 
-	public function provideFormatRow() {
+	public static function provideFormatRow() {
 		// @todo test the rest of the template parameters.
 		return [
 			'Test edit count' => [

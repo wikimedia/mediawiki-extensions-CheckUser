@@ -69,7 +69,7 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * Test cases for SpecialCheckUser::checkReason
 	 */
-	public function provideCheckReason() {
+	public static function provideCheckReason() {
 		return [
 			'Empty reason with wgCheckUserForceSummary as false' => [ false, '', true ],
 			'Non-empty reason with wgCheckUserForceSummary as false' => [ false, 'Test Reason', true ],
@@ -121,7 +121,7 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
-	public function provideGetPager() {
+	public static function provideGetPager() {
 		return [
 			'Get IPs checktype' =>
 				[ SpecialCheckUser::SUBTYPE_GET_IPS, UserIdentityValue::newRegistered( 1, 'test' ) ],
@@ -169,7 +169,7 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
-	public function provideRequiredGroupAccess() {
+	public static function provideRequiredGroupAccess() {
 		return [
 			'No user groups' => [ '', false ],
 			'Checkuser only' => [ 'checkuser', true ],
@@ -193,7 +193,7 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 		$this->testRequiredRightsByGroup( $groups, $allowed );
 	}
 
-	public function provideRequiredRights() {
+	public static function provideRequiredRights() {
 		return [
 			'No user groups' => [ '', false ],
 			'checkuser right only' => [ 'checkuser', true ],

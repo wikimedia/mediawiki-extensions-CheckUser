@@ -46,7 +46,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiIntegrationTestCase 
 		);
 	}
 
-	public function provideFillTableSpecificArgument() {
+	public static function provideFillTableSpecificArgument() {
 		return [
 			'Argument value as null' => [ null, [
 				self::CHANGES_TABLE => null, self::LOG_EVENT_TABLE => null, self::PRIVATE_LOG_EVENT_TABLE => null
@@ -103,7 +103,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiIntegrationTestCase 
 		);
 	}
 
-	public function provideGenerateTableSpecificArgumentList() {
+	public static function provideGenerateTableSpecificArgumentList() {
 		return [
 			'String values' => [ 'test', 'testing', 'test2' ],
 			'Array values' => [ [ 'testing' ], [ 1, 2 ], [ 'testing', 'test' ] ]
@@ -139,7 +139,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiIntegrationTestCase 
 		);
 	}
 
-	public function provideMarkUnusedFieldsAsNull() {
+	public static function provideMarkUnusedFieldsAsNull() {
 		return [
 			'One item with string key' => [ [ 'test' => 'testing' ], [ 'test' => 'Null' ] ],
 			'One item with numeric key' => [ [ 'test' ], [ 'test' => 'Null' ] ],
@@ -167,7 +167,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiIntegrationTestCase 
 		);
 	}
 
-	public function provideMarkUnusedFieldsAsNullForPostgres() {
+	public static function provideMarkUnusedFieldsAsNullForPostgres() {
 		return [
 			'One item with string key and no type' => [ [ 'test' => 'testing' ], null, [ 'test' => 'Null' ] ],
 			'One item with numeric key and no type' => [ [ 'test' ], null, [ 'test' => 'Null' ] ],
@@ -205,7 +205,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiIntegrationTestCase 
 		}
 	}
 
-	public function provideTableSpecificSubQueryFields() {
+	public static function provideTableSpecificSubQueryFields() {
 		return [
 			'Mixture of alias and non-alias fields' => [
 				[
@@ -346,7 +346,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiIntegrationTestCase 
 		);
 	}
 
-	public function provideFields() {
+	public static function provideFields() {
 		return [
 			'Fields value as one field' => [ 'test', [ 'test' ] ],
 			'Fields value as array' => [ [ 'timestamp', 'actor_name' ], [ 'timestamp', 'actor_name' ] ]
@@ -409,7 +409,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiIntegrationTestCase 
 		}
 	}
 
-	public function provideSubQueryWhere() {
+	public static function provideSubQueryWhere() {
 		return [
 			'String condition for all tables' => [
 				'test = 1',
@@ -443,7 +443,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiIntegrationTestCase 
 		$this->testSubQueryWhere( $argumentAndExpectedValue, $argumentAndExpectedValue );
 	}
 
-	public function provideSubQueryWhereWithTableSpecificArgument() {
+	public static function provideSubQueryWhereWithTableSpecificArgument() {
 		return [
 			'One condition' => [ [
 				self::CHANGES_TABLE => [ 'test' => 1 ], self::LOG_EVENT_TABLE => [ 'test' => 2 ],
@@ -472,7 +472,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiIntegrationTestCase 
 		}
 	}
 
-	public function provideSubQueryOptions() {
+	public static function provideSubQueryOptions() {
 		return [
 			'Only specifying one table' => [
 				[ self::CHANGES_TABLE => [ 'USE INDEX' => 'cuc_ip_hex_time' ] ],
@@ -512,7 +512,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiIntegrationTestCase 
 		}
 	}
 
-	public function provideSubQueryLimit() {
+	public static function provideSubQueryLimit() {
 		return [
 			'Non-table specific' => [
 				123,
@@ -549,7 +549,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiIntegrationTestCase 
 		}
 	}
 
-	public function provideSubQueryUseIndex() {
+	public static function provideSubQueryUseIndex() {
 		return [
 			'Only specifying one table' => [
 				[ self::CHANGES_TABLE => 'cuc_ip_hex_time' ],
@@ -601,7 +601,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiIntegrationTestCase 
 		}
 	}
 
-	public function provideSubQueryOrderBy() {
+	public static function provideSubQueryOrderBy() {
 		return [
 			'Non-table specific with null direction' => [
 				'timestamp', null,
@@ -719,7 +719,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiIntegrationTestCase 
 		);
 	}
 
-	public function provideNeedsCommentJoin() {
+	public static function provideNeedsCommentJoin() {
 		return [
 			'Comment join for cu_changes' => [
 				'cu_changes', 'comment_cuc_comment'

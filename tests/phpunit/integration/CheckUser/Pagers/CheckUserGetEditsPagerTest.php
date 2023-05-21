@@ -52,7 +52,7 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 		}
 	}
 
-	public function provideIsNavigationBarShown() {
+	public static function provideIsNavigationBarShown() {
 		return [
 			[ [], false ],
 			[ [ [ 'test' ] ], true ]
@@ -81,7 +81,7 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 		}
 	}
 
-	public function providePreCacheMessages() {
+	public static function providePreCacheMessages() {
 		return [
 			[ [ 'diff', 'hist', 'minoreditletter', 'newpageletter', 'blocklink', 'log' ] ]
 		];
@@ -125,7 +125,7 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 		);
 	}
 
-	public function provideFormatRow() {
+	public static function provideFormatRow() {
 		// @todo test the rest of the template parameters.
 		return [
 			'Test agent' => [

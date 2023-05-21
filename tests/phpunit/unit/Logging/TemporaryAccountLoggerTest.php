@@ -17,7 +17,7 @@ use Wikimedia\Rdbms\SelectQueryBuilder;
  * @covers \MediaWiki\CheckUser\Logging\TemporaryAccountLogger
  */
 class TemporaryAccountLoggerTest extends MediaWikiUnitTestCase {
-	public function provideLogAccess(): Generator {
+	public static function provideLogAccess(): Generator {
 		yield [
 			'logMethod' => 'logAccessEnabled',
 			'changeType' => TemporaryAccountLogger::ACTION_ACCESS_ENABLED
@@ -75,7 +75,7 @@ class TemporaryAccountLoggerTest extends MediaWikiUnitTestCase {
 		$logger->$logMethod( $performer );
 	}
 
-	public function provideLogViewDebounced(): Generator {
+	public static function provideLogViewDebounced(): Generator {
 		yield [
 			'isDebounced' => true,
 		];
