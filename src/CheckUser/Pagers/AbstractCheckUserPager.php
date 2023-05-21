@@ -462,9 +462,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	protected static function buildGroupLink( string $group ): string {
 		static $cache = [];
 		if ( !isset( $cache[$group] ) ) {
-			$cache[$group] = UserGroupMembership::getLink(
-				$group, RequestContext::getMain(), 'html'
-			);
+			$cache[$group] = UserGroupMembership::getLinkHTML( $group, RequestContext::getMain() );
 		}
 		return $cache[$group];
 	}
