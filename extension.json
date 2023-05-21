@@ -402,7 +402,8 @@
 		}
 	},
 	"JobClasses": {
-		"checkuserLogTemporaryAccountAccess": "\\MediaWiki\\CheckUser\\Jobs\\LogTemporaryAccountAccessJob"
+		"checkuserLogTemporaryAccountAccess": "\\MediaWiki\\CheckUser\\Jobs\\LogTemporaryAccountAccessJob",
+		"checkuserPruneCheckUserDataJob": "\\MediaWiki\\CheckUser\\Jobs\\PruneCheckUserDataJob"
 	},
 	"AutoloadClasses": {
 		"PopulateCheckUserTable": "maintenance/populateCheckUserTable.php",
