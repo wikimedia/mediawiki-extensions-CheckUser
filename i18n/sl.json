@@ -88,6 +88,7 @@
 	"checkuser-log-search-reason": "Razlog:",
 	"checkuser-log-search-reason-help": "Filter za dnevniške zapise, ki imajo ta razlog.",
 	"checkuser-ipeditcount": "~$1 od vseh uporabnikov",
+	"checkuser-ipeditcount-64": "~ $1 od vseh uporabnikov na tem /64",
 	"checkuser-showmain": "Preklopi na {{#special:CheckUser}}",
 	"checkuser-show-investigate": "Preklopi na {{#special:Investigate}}",
 	"checkuser-log-entry-userips": "$3, $1 je {{GENDER:|prejel|prejela|prejel_a}} IP-naslove za $2",

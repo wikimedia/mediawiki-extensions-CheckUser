@@ -94,6 +94,7 @@
 	"checkuser-log-search-reason": "סיבה:",
 	"checkuser-log-search-reason-help": "סינון פריטי יומן עם הסיבה הזאת.",
 	"checkuser-ipeditcount": "בערך $1 מכל המשתמשים",
+	"checkuser-ipeditcount-64": "בערך $1 מכל המשתמשים ב־‎/64 הזה",
 	"checkuser-showmain": "מעבר לדף {{#special:CheckUser}}",
 	"checkuser-show-investigate": "מעבר לדף {{#special:Investigate}}",
 	"checkuser-log-entry-userips": "$3, משתמש $1 קיבל כתובות IP עבור $2",

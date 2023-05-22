@@ -111,6 +111,7 @@
 	"checkuser-log-search-reason": "Motif :",
 	"checkuser-log-search-reason-help": "Filtrer les entrées de journal qui ont ce motif.",
 	"checkuser-ipeditcount": "~$1 par tous les utilisateurs",
+	"checkuser-ipeditcount-64": "environ $1 de tous les utilisateurs sur ce bloc /64",
 	"checkuser-showmain": "Basculer vers {{#special:CheckUser}}",
 	"checkuser-show-investigate": "Basculer vers {{#special:Investigate}}",
 	"checkuser-log-entry-userips": "$3, $1 a récupéré les adresses IP pour $2",

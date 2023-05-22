@@ -85,6 +85,7 @@
 	"checkuser-log-search-reason": "Motivo:",
 	"checkuser-log-search-reason-help": "Cercar le entratas de registro que ha iste motivo.",
 	"checkuser-ipeditcount": "~$1 de tote le usatores",
+	"checkuser-ipeditcount-64": "circa $1 de tote le usatores sur iste /64",
 	"checkuser-showmain": "Cambiar a {{#special:CheckUser}}",
 	"checkuser-show-investigate": "Cambiar a {{#special:Investigate}}",
 	"checkuser-log-entry-userips": "$3, $1 ha obtenite le adresses IP pro $2",

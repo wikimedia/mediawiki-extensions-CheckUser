@@ -89,6 +89,7 @@
 	"checkuser-log-search-reason": "Причина:",
 	"checkuser-log-search-reason-help": "Филтрирај дневнички ставки кои ја имаат оваа причина.",
 	"checkuser-ipeditcount": "~$1 од сите корисници",
+	"checkuser-ipeditcount-64": "~$1 од сите корисници на овој /64",
 	"checkuser-showmain": "Префрли ме на {{#special:CheckUser}}",
 	"checkuser-show-investigate": "Префрли ме на {{#special:Investigate}}",
 	"checkuser-log-entry-userips": "$3, $1 доби IP-адреси за $2",
