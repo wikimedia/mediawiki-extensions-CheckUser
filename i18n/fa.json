@@ -172,5 +172,6 @@
 	"checkuser-investigate-tour-addusertargets-title": "نیاز به زمینهٔ بیشتر؟",
 	"checkuser-investigate-tour-filterip-title": "محدود کردن وارسی؟",
 	"checkuser-investigate-tour-block-title": "می‌خواهید بسته شود؟",
-	"checkuser-investigate-tour-copywikitext-title": "کپی کردن داده‌ها؟"
+	"checkuser-investigate-tour-copywikitext-title": "کپی کردن داده‌ها؟",
+	"logentry-checkuser-temporary-account-view-ips": "$1 نشانی‌های آی‌پی $3 را {{GENDER:$2|مشاهده کرد}}"
 }

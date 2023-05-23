@@ -36,5 +36,6 @@
 	"checkuser-investigateblock-reason": "အကြောင်းပြချက်",
 	"checkuser-investigateblock-email-label": "အီးမေးလ်ပို့ခြင်းကို တားဆီးရန်",
 	"checkuser-investigate-notice-no-results": "ရလဒ်များ မရှိပါ။",
-	"checkuser-investigate-preliminary-table-header-blocked": "အခြေအနေ"
+	"checkuser-investigate-preliminary-table-header-blocked": "အခြေအနေ",
+	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1| ပိတ်ထားသည်}}"
 }
