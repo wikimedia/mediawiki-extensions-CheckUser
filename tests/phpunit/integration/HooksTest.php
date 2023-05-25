@@ -1388,7 +1388,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		ConvertibleTimestamp::setFakeTime( $currentTime );
 		$object = TestingAccessWrapper::newFromObject( ( new Hooks() ) );
 		$object->pruneIPData();
-		\DeferredUpdates::doUpdates();
+		MediaWikiServices::getInstance()->getJobRunner()->run( [ 'type' => 'checkuserPruneCheckUserDataJob' ] );
 		// Check that all the old entries are gone
 		$logEntryCutoffForDBComparison = $this->getDb()->addQuotes( $this->getDb()->timestamp( $logEntryCutoff ) );
 		$this->assertRowCount( 0, 'cu_changes', 'cuc_id',

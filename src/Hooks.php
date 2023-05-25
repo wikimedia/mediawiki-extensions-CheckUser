@@ -2,11 +2,11 @@
 
 namespace MediaWiki\CheckUser;
 
-use AutoCommitUpdate;
 use DatabaseLogEntry;
 use DatabaseUpdater;
 use DeferredUpdates;
 use ExtensionRegistry;
+use JobSpecification;
 use LogEntryBase;
 use LogFormatter;
 use MailAddress;
@@ -45,7 +45,6 @@ use Status;
 use Title;
 use User;
 use Wikimedia\IPUtils;
-use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\ScopedCallback;
 
@@ -799,45 +798,20 @@ class Hooks implements
 	 * be stored.
 	 */
 	private function pruneIPData() {
-		DeferredUpdates::addUpdate( new AutoCommitUpdate(
-			MediaWikiServices::getInstance()
-				->getDBLoadBalancer()
-				->getMaintenanceConnectionRef( DB_PRIMARY ),
-			__METHOD__,
-			static function ( IDatabase $dbw, $fname ) {
-				// per-wiki
-				$key = "{$dbw->getDomainID()}:PruneCheckUserData";
-				$scopedLock = $dbw->getScopedLockAndFlush( $key, $fname, 1 );
-				if ( !$scopedLock ) {
-					return;
-				}
-
-				$encCutoff = $dbw->addQuotes( $dbw->timestamp(
-					time() - MediaWikiServices::getInstance()->getMainConfig()->get( 'CUDMaxAge' )
-				) );
-
-				$deleteOperation = static function (
-					$table, $idField, $timestampField
-				) use ( $dbw, $encCutoff, $fname ) {
-					$ids = $dbw->newSelectQueryBuilder()
-						->table( $table )
-						->field( $idField )
-						->conds( [ "$timestampField < $encCutoff" ] )
-						->limit( 500 )
-						->caller( $fname )
-						->fetchFieldValues();
-					if ( $ids ) {
-						$dbw->delete( $table, [ $idField => $ids ], $fname );
-					}
-				};
-
-				$deleteOperation( 'cu_changes', 'cuc_id', 'cuc_timestamp' );
-
-				$deleteOperation( 'cu_private_event', 'cupe_id', 'cupe_timestamp' );
-
-				$deleteOperation( 'cu_log_event', 'cule_id', 'cule_timestamp' );
-			}
-		) );
+		$services = MediaWikiServices::getInstance();
+		$services->getJobQueueGroup()->push(
+			new JobSpecification(
+				'checkuserPruneCheckUserDataJob',
+				[
+					'domainID' => $services
+						->getDBLoadBalancer()
+						->getConnection( DB_PRIMARY )
+						->getDomainID()
+				],
+				[],
+				null
+			)
+		);
 	}
 
 	/**
