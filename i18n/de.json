@@ -88,6 +88,8 @@
 	"checkuser-reblock": "Bestehende Sperren überschreiben",
 	"checkuser-massblock-commit": "Ausgewählte Benutzer sperren",
 	"checkuser-block-success": "'''{{PLURAL:$2|Der Benutzer|Die Benutzer}} $1 {{PLURAL:$2|wurde|wurden}} gesperrt.'''",
+	"checkuser-block-success-tagged": "'''{{PLURAL:$2|Der Benutzer|Die Benutzer}} $1 {{PLURAL:$2|wurde|wurden}} getaggt.'''",
+	"checkuser-block-failure-tag-too-small": "Das angegebene Tag ist zu klein, um verwendet zu werden.",
 	"checkuser-block-failure": "'''Es wurden keine Benutzer gesperrt.'''",
 	"checkuser-block-limit": "Es wurden zu viele Benutzer ausgewählt.",
 	"checkuser-block-noreason": "Du musst einen Grund für die Sperre angeben.",
