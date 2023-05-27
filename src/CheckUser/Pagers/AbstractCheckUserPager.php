@@ -619,6 +619,11 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	 * @return string The HTML of the fieldset.
 	 */
 	protected function getCheckUserHelperFieldsetHTML() {
-		return $this->getCheckUserHelperFieldset()->getHTML( false );
+		$fieldsetHTML = $this->getCheckUserHelperFieldset();
+		if ( $fieldsetHTML ) {
+			return $this->getCheckUserHelperFieldset()->getHTML( false );
+		} else {
+			return '';
+		}
 	}
 }
