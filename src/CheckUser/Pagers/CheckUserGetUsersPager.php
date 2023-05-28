@@ -373,6 +373,8 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 				'xff' => 'cuc_xff',
 				'user' => 'actor_cuc_user.actor_user',
 				'user_text' => 'actor_cuc_user.actor_name',
+				# Needed for IndexPager
+				'cuc_timestamp'
 			],
 			'tables' => [ 'cu_changes', 'actor_cuc_user' => 'actor' ],
 			'conds' => [],

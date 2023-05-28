@@ -350,7 +350,9 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 				'xff' => 'cuc_xff',
 				'agent' => 'cuc_agent',
 				'user' => 'actor_cuc_user.actor_user',
-				'user_text' => 'actor_cuc_user.actor_name'
+				'user_text' => 'actor_cuc_user.actor_name',
+				# Needed for IndexPager
+				'cuc_timestamp'
 			] + $commentQuery['fields'],
 			'tables' => [ 'cu_changes', 'actor_cuc_user' => 'actor' ] + $commentQuery['tables'],
 			'conds' => [],
