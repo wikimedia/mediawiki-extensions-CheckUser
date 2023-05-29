@@ -65,6 +65,7 @@
 	"checkuser-reblock": "Overstyr eksisterende blokkeringer",
 	"checkuser-massblock-commit": "Blokker valgte brukere",
 	"checkuser-block-success": "'''{{PLURAL:$2|Brukeren|Brukerne}} $1 er nå blokkert.'''",
+	"checkuser-block-success-tagged": "'''{{PLURAL:$2|Brukeren|Brukerne}} $1 har blitt tagget.'''",
 	"checkuser-block-failure": "'''Ingen brukere blokkert.'''",
 	"checkuser-block-limit": "For mange brukere valgt.",
 	"checkuser-block-noreason": "Du må oppgi en blokkeringsgrunn.",
