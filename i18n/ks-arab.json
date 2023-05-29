@@ -1,12 +1,13 @@
 {
 	"@metadata": {
 		"authors": [
-			"Teashae"
+			"Teashae",
+			"Iflaq"
 		]
 	},
 	"checkuser": "صٲرِف چَک",
 	"checkuser-reason": "وَضاحَت:",
-	"checkuser-search-submit": "ژھانٛڈُن",
+	"checkuser-search-submit": "تَلاش",
 	"checkuser-investigateblock-reason": "وَضاحَت",
 	"checkuser-investigate-duration-option-all": "سٲری",
 	"checkuser-investigate-reason-label": "وَضاحَت",
