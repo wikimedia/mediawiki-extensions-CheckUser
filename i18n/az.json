@@ -37,6 +37,7 @@
 	"checkuser-week-1": "son həftə",
 	"checkuser-week-2": "son iki həftə",
 	"checkuser-month": "son 30 gün",
+	"checkuser-month-2": "son 60 gün",
 	"checkuser-all": "hamısı",
 	"checkuser-cidr-label": "IP ünvanlarının siyahısı üçün ümumi aralığı və təsirlənmiş IP ünvanlarını tap",
 	"checkuser-cidr-res": "Common CIDR:",
@@ -151,6 +152,7 @@
 	"checkuser-investigate-timeline-notice-no-results": "Heç bir nəticə yoxdur. bu istifadəçilərdən və ya IPlərdən son 90 gün ərzində heç bir fəaliyyət qeydə alınmayıb.",
 	"checkuser-investigate-timeline-notice-no-results-filters": "Bu filtr meyarlarına uyğun heç bir nəticə yoxdur. Axtarışı genişləndirmək üçün bəzi filtrləri silməyə çalışın.",
 	"checkuser-investigate-compare-copy-button-label": "Vikimətni göstər",
+	"checkuser-investigate-compare-toollinks-whois": "WHOIS",
 	"checkuser-investigate-compare-toollinks-ipcheck": "Proksi yoxlanışı",
 	"checkuser-investigate-compare-copy-message-label": "Bu məlumatı Vikimətn cədvəli olaraq kopyalamaq istəyirsiniz?",
 	"checkuser-investigate-compare-notice-exceeded-limit": "Texniki məhdudiyyətlər səbəbindən təqdim edilə bilən qeydlərin sayına çatdıq. Aşağıdakı hədəflər üçün göstərilmiş məlumatlar yarımçıqdır: $1. Zəhmət olmasa daha az hədəf, daha kiçik vaxt və ya daha dar IP aralığından istifadə etməyə çalışın.",
@@ -169,5 +171,10 @@
 	"checkuser-investigate-compare-table-header-activity": "Tarix aralığı",
 	"checkuser-investigate-compare-table-header-ip": "IP",
 	"checkuser-investigate-compare-table-header-useragent": "İstifadəçi agenti",
-	"checkuser-investigate-subtitle-link-restart-tour": "Turu yenidən başlat"
+	"checkuser-investigate-subtitle-link-restart-tour": "Turu yenidən başlat",
+	"checkuser-investigate-tour-targets-title": "Çoxsaylı istifadəçi və IP yoxlanılır?",
+	"checkuser-investigate-tour-targets-desc": "$1 {{PLURAL:$1|istifadəçi adı və ya IP}} əlavə edin və bütün məlumatları bir yerdə əldə edin. Narahat olmayın, onların hər biri üçün ayrıca təftişçi jurnalı qeydi yaradacağıq.",
+	"checkuser-investigate-tour-useragents-title": "İstifadəçi agenti eynidir?",
+	"checkuser-investigate-tour-useragents-desc": "Eyni məlumatı olan bütün digər sətirləri vurğulamaq üçün kursoru xananın üzərinə gətirin. Vurğunu aktiv saxlamaq üçün sabitləmək işarəsinə klikləyin.",
+	"checkuser-investigate-tour-addusertargets-title": "Daha çox məzmun lazımdır?"
 }
