@@ -269,6 +269,7 @@
 				"checkuser-tempaccount-no-ip-results",
 				"checkuser-tempaccount-reveal-ip-button-label",
 				"checkuser-tempaccount-reveal-ip-missing",
+				"checkuser-tempaccount-reveal-ip-error",
 				"checkuser-tempaccount-specialblock-ips"
 			]
 		},

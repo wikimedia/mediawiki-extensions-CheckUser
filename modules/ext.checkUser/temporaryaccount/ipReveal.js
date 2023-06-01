@@ -36,6 +36,12 @@ function makeButton( target, revId, revIds ) {
 					.addClass( 'ext-checkuser-tempaccount-reveal-ip' )
 					.text( ip || mw.msg( 'checkuser-tempaccount-reveal-ip-missing' ) )
 			);
+		} ).fail( function () {
+			button.$element.replaceWith(
+				$( '<span>' )
+					.addClass( 'ext-checkuser-tempaccount-reveal-ip' )
+					.text( mw.msg( 'checkuser-tempaccount-reveal-ip-error' ) )
+			);
 		} );
 	} );
 

@@ -221,6 +221,7 @@
 	"checkuser-tempaccount-no-ip-results": "No IP data for this temporary user for the last $1 {{PLURAL:$1|day|days}}",
 	"checkuser-tempaccount-reveal-ip-button-label": "Show IP",
 	"checkuser-tempaccount-reveal-ip-missing": "unavailable",
+	"checkuser-tempaccount-reveal-ip-error": "error",
 	"checkuser-tempaccount-specialblock-ips": "This is a temporary user using the following {{PLURAL:$1|IP|IPs}}: $2",
 	"checkuser-temporary-account-log-name": "Checkuser temporary account log",
 	"checkuser-temporary-account-log-header": "This is a log of:\n# Views of the IP addresses used by temporary accounts; and\n# Changes to user access levels for viewing IP addresses used by temporary accounts.",
