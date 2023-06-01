@@ -83,13 +83,9 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 	 */
 	public function setUpObject( string $action = '', string $moduleName = '' ) {
 		$services = $this->getServiceContainer();
-		$query = new ApiQuery(
-			new ApiMain( $this->apiContext, true ),
-			$action,
-			$services->getObjectFactory(),
-			$services->getDBLoadBalancer(),
-			$services->getWikiExporterFactory()
-		);
+		$main = new ApiMain( $this->apiContext, true );
+		/** @var ApiQuery $query */
+		$query = $main->getModuleManager()->getModule( 'query' );
 		return TestingAccessWrapper::newFromObject( new ApiQueryCheckUser(
 			$query, $moduleName, $services->getUserIdentityLookup(),
 			$services->getRevisionLookup(), $services->get( 'CheckUserLogService' ),
