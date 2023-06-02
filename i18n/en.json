@@ -46,7 +46,7 @@
 	"checkuser-cidr-res": "Common CIDR:",
 	"checkuser-cidr-affected-ips": "Affected IP addresses:",
 	"checkuser-cidr-too-small": "Range is too large",
-	"checkuser-cidr-tool-links": "{{int:checkuser-cidr-tool-links-prefix}}<span class=\"plainlinks\">[https://www.robtex.com/ip-lookup/$1 WHOIS/RDNS]&nbsp;<b>•</b>&#32;[[Special:CheckUser/$1|{{int:checkuser-cidr-tool-links-checkuser}}]]&nbsp;<b>•</b>&#32;[[Special:CheckUserLog/$1|{{int:checkuser-cidr-tool-links-checkuserlog}}]]</span>",
+	"checkuser-cidr-tool-links": "{{int:checkuser-cidr-tool-links-prefix}}<span class=\"plainlinks\">[https://www.robtex.com/ip-lookup/$1 WHOIS/RDNS]<span class=\"mw-checkuser-cidr-checkuser-only\">&nbsp;<b>•</b>&#32;[[Special:CheckUser/$1|{{int:checkuser-cidr-tool-links-checkuser}}]]</span><span class=\"mw-checkuser-cidr-checkuserlog-only\">&nbsp;<b>•</b>&#32;[[Special:CheckUserLog/$1|{{int:checkuser-cidr-tool-links-checkuserlog}}]]</span></span>",
 	"checkuser-cidr-tool-links-checkuser": "Check this range",
 	"checkuser-cidr-tool-links-checkuserlog": "Previous checks on this range",
 	"checkuser-cidr-tool-links-prefix": "Tools for this range: ",

@@ -1,6 +1,6 @@
 /* -- (c) Aaron Schulz 2009 */
 ( function () {
-	var showResults = function ( size, cidr, $form ) {
+	var showResults = function ( size, cidr, $form, hasCheckUserRight, hasCheckUserLogRight ) {
 		if ( cidr.toString() === '!' ) {
 			cidr = mw.message( 'checkuser-cidr-too-small' ).text();
 		}
@@ -10,6 +10,12 @@
 			$( '.mw-checkuser-cidr-tool-links', $form ).html(
 				mw.message( 'checkuser-cidr-tool-links', cidr ).parse()
 			);
+			if ( !hasCheckUserRight ) {
+				$( '.mw-checkuser-cidr-checkuser-only' ).addClass( 'mw-checkuser-cidr-tool-links-hidden' );
+			}
+			if ( !hasCheckUserLogRight ) {
+				$( '.mw-checkuser-cidr-checkuserlog-only' ).addClass( 'mw-checkuser-cidr-tool-links-hidden' );
+			}
 		} else {
 			$( '.mw-checkuser-cidr-tool-links', $form ).addClass( 'mw-checkuser-cidr-tool-links-hidden' );
 		}
@@ -23,8 +29,10 @@
 	 * IPs. It should be set to update on keyUp.
 	 *
 	 * @param $form JQuery element for the form that is being updated
+	 * @param {boolean} hasCheckUserRight Whether the user has the right to see Special:CheckUser
+	 * @param {boolean} hasCheckUserLogRight Whether the user has the right to see Special:CheckUser
 	 */
-	function updateCIDRresult( $form ) {
+	function updateCIDRresult( $form, hasCheckUserRight, hasCheckUserLogRight ) {
 		if ( !$form ) {
 			return; // no JS form
 		}
@@ -111,7 +119,7 @@
 				prefixCidr = binPrefix.length;
 				// CIDR too small?
 				if ( prefixCidr < 16 ) {
-					showResults( '>' + Math.pow( 2, 32 - prefixCidr ).toLocaleString(), '!', $form );
+					showResults( '>' + Math.pow( 2, 32 - prefixCidr ).toLocaleString(), '!', $form, hasCheckUserRight, hasCheckUserLogRight );
 					return; // too big
 				}
 				// Build the IP in dotted-quad form
@@ -192,7 +200,7 @@
 				prefixCidr = binPrefix.length;
 				// CIDR too small?
 				if ( prefixCidr < 32 ) {
-					showResults( '>' + Math.pow( 2, 128 - prefixCidr ).toLocaleString(), '!', $form );
+					showResults( '>' + Math.pow( 2, 128 - prefixCidr ).toLocaleString(), '!', $form, hasCheckUserRight, hasCheckUserLogRight );
 					return; // too big
 				}
 				// Build the IP in dotted-quad form
@@ -223,20 +231,24 @@
 			if ( prefixCidr !== false ) {
 				full += '/' + prefixCidr;
 			}
-			showResults( '~' + ipCount.toLocaleString(), full, $form );
+			showResults( '~' + ipCount.toLocaleString(), full, $form, hasCheckUserRight, hasCheckUserLogRight );
 		} else {
-			showResults( '?', '', $form );
+			showResults( '?', '', $form, hasCheckUserRight, hasCheckUserLogRight );
 		}
 
 	}
 
 	$( function () {
-		$( '.mw-checkuser-cidrform' ).each( function ( index, form ) {
-			updateCIDRresult( $( form ) );
-		} );
-		$( '.mw-checkuser-cidr-iplist textarea' ).on( 'keyup click', function () {
-			var $form = $( this ).closest( '.mw-checkuser-cidrform' );
-			updateCIDRresult( $form );
+		mw.user.getRights( function ( rights ) {
+			var hasCheckUserRight = rights.indexOf( 'checkuser' ) !== -1;
+			var hasCheckUserLogRight = rights.indexOf( 'checkuser-log' ) !== -1;
+			$( '.mw-checkuser-cidrform' ).each( function ( index, form ) {
+				updateCIDRresult( $( form ), hasCheckUserRight, hasCheckUserLogRight );
+			} );
+			$( '.mw-checkuser-cidr-iplist textarea' ).on( 'keyup click', function () {
+				var $form = $( this ).closest( '.mw-checkuser-cidrform' );
+				updateCIDRresult( $form, hasCheckUserRight, hasCheckUserLogRight );
+			} );
 		} );
 	} );
 }() );
