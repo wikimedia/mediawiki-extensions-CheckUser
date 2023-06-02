@@ -488,7 +488,7 @@ class SpecialInvestigate extends FormSpecialPage {
 	 * @inheritDoc
 	 */
 	public function getDescription() {
-		return $this->msg( $this->getMessagePrefix() )->text();
+		return $this->msg( 'checkuser-investigate' )->text();
 	}
 
 	/**
@@ -633,28 +633,20 @@ class SpecialInvestigate extends FormSpecialPage {
 	 */
 	protected function getFormFields() {
 		$data = $this->getTokenData();
-		$prefix = $this->getMessagePrefix();
 
 		$duration = [
 			'type' => 'select',
 			'name' => 'duration',
 			'id' => 'investigate-duration',
-			'label-message' => $prefix . '-duration-label',
+			'label-message' => 'checkuser-investigate-duration-label',
 			'options-messages' => [
-				$prefix . '-duration-option-all' => '',
-				$prefix . '-duration-option-1w' => 'P1W',
-				$prefix . '-duration-option-2w' => 'P2W',
-				$prefix . '-duration-option-30d' => 'P30D',
+				'checkuser-investigate-duration-option-all' => '',
+				'checkuser-investigate-duration-option-1w' => 'P1W',
+				'checkuser-investigate-duration-option-2w' => 'P2W',
+				'checkuser-investigate-duration-option-30d' => 'P30D',
 			],
 			// If this duration in the URL is not in the list, "all" is displayed.
 			'default' => $this->getDuration(),
-			'validation-callback' => function ( $value ) {
-				if ( !$this->durationManager->isValid( $value ) ) {
-					return $this->getMessagePrefix() . '-duration-invalid';
-				}
-
-				return true;
-			}
 		];
 
 		if ( $data === [] ) {
@@ -664,8 +656,8 @@ class SpecialInvestigate extends FormSpecialPage {
 				'Targets' => [
 					'type' => 'usersmultiselect',
 					'name' => 'targets',
-					'label-message' => $prefix . '-targets-label',
-					'placeholder' => $this->msg( $prefix . '-targets-placeholder' )->text(),
+					'label-message' => 'checkuser-investigate-targets-label',
+					'placeholder' => $this->msg( 'checkuser-investigate-targets-placeholder' )->text(),
 					'id' => 'targets',
 					'required' => true,
 					'max' => self::MAX_TARGETS,
@@ -682,7 +674,7 @@ class SpecialInvestigate extends FormSpecialPage {
 					'type' => 'text',
 					'id' => 'investigate-reason',
 					'name' => 'reason',
-					'label-message' => $prefix . '-reason-label',
+					'label-message' => 'checkuser-investigate-reason-label',
 					'required' => true,
 					'autocomplete' => false,
 				],
@@ -700,7 +692,7 @@ class SpecialInvestigate extends FormSpecialPage {
 			$fields['ExcludeTargets'] = [
 				'type' => 'usersmultiselect',
 				'name' => 'exclude-targets',
-				'label-message' => $prefix . '-filters-exclude-targets-label',
+				'label-message' => 'checkuser-investigate-filters-exclude-targets-label',
 				'exists' => true,
 				'required' => false,
 				'ipallowed' => true,
@@ -734,12 +726,12 @@ class SpecialInvestigate extends FormSpecialPage {
 		// Not done by default in OOUI forms, but done here to match
 		// intended design in T237034. See FormSpecialPage::getForm
 		if ( $this->getTokenData() === [] ) {
-			$form->setWrapperLegendMsg( $this->getMessagePrefix() . '-legend' );
+			$form->setWrapperLegendMsg( 'checkuser-investigate-legend' );
 		} else {
 			$tabs = [ $this->getTabParam( 'compare' ), $this->getTabParam( 'timeline' ) ];
 			if ( in_array( $this->par, $tabs ) ) {
 				$form->setAction( $this->getRequest()->getRequestURL() );
-				$form->setWrapperLegendMsg( $this->getMessagePrefix() . '-filters-legend' );
+				$form->setWrapperLegendMsg( 'checkuser-investigate-filters-legend' );
 				// If the page is a result of a POST then validation failed, and the form should be open.
 				// If the page is a result of a GET then validation succeeded and the form should be closed.
 				$form->setCollapsibleOptions( !$this->getRequest()->wasPosted() );

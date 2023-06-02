@@ -113,7 +113,6 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 		] );
 		$this->getOutput()->enableOOUI();
 
-		$prefix = $this->getMessagePrefix();
 		$fields = [];
 
 		$fields['Targets'] = [
@@ -137,7 +136,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 		) {
 			$fields['DisableEmail'] = [
 				'type' => 'check',
-				'label-message' => $prefix . '-email-label',
+				'label-message' => 'checkuser-investigateblock-email-label',
 				'default' => false,
 				'section' => 'actions',
 			];
@@ -146,7 +145,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 		if ( $this->getConfig()->get( 'BlockAllowsUTEdit' ) ) {
 			$fields['DisableUTEdit'] = [
 				'type' => 'check',
-				'label-message' => $prefix . '-usertalk-label',
+				'label-message' => 'checkuser-investigateblock-usertalk-label',
 				'default' => false,
 				'section' => 'actions',
 			];
@@ -154,7 +153,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 
 		$fields['Reblock'] = [
 			'type' => 'check',
-			'label-message' => $prefix . '-reblock-label',
+			'label-message' => 'checkuser-investigateblock-reblock-label',
 			'default' => false,
 			'section' => 'actions',
 		];
@@ -171,25 +170,25 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 		$pageNoticePosition = [
 			'type' => 'select',
 			'cssclass' => $pageNoticeClass,
-			'label-message' => $prefix . '-notice-position-label',
+			'label-message' => 'checkuser-investigateblock-notice-position-label',
 			'options-messages' => [
-				$prefix . '-notice-prepend' => 'prependtext',
-				$prefix . '-notice-replace' => 'text',
-				$prefix . '-notice-append' => 'appendtext',
+				'checkuser-investigateblock-notice-prepend' => 'prependtext',
+				'checkuser-investigateblock-notice-replace' => 'text',
+				'checkuser-investigateblock-notice-append' => 'appendtext',
 			],
 			'section' => 'options',
 		];
 		$pageNoticeText = [
 			'type' => 'text',
 			'cssclass' => $pageNoticeClass,
-			'label-message' => $prefix . '-notice-text-label',
+			'label-message' => 'checkuser-investigateblock-notice-text-label',
 			'default' => '',
 			'section' => 'options',
 		];
 
 		$fields['UserPageNotice'] = [
 			'type' => 'check',
-			'label-message' => $prefix . '-notice-user-page-label',
+			'label-message' => 'checkuser-investigateblock-notice-user-page-label',
 			'default' => false,
 			'section' => 'options',
 		];
@@ -201,7 +200,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 
 		$fields['TalkPageNotice'] = [
 			'type' => 'check',
-			'label-message' => $prefix . '-notice-talk-page-label',
+			'label-message' => 'checkuser-investigateblock-notice-talk-page-label',
 			'default' => false,
 			'section' => 'options',
 		];
@@ -218,7 +217,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 	 * @inheritDoc
 	 */
 	public function getDescription() {
-		return $this->msg( $this->getMessagePrefix() )->text();
+		return $this->msg( 'checkuser-investigateblock' )->text();
 	}
 
 	/**
@@ -300,9 +299,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 		] );
 
 		if ( $blockedUsersCount === 0 ) {
-			// Message used here:
-			// checkuser-investigateblock-failure
-			return [ $this->getMessagePrefix() . '-failure' ];
+			return [ 'checkuser-investigateblock-failure' ];
 		}
 
 		return true;
@@ -377,9 +374,8 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 		}, $this->blockedUsers );
 
 		$language = $this->getLanguage();
-		$prefix = $this->getMessagePrefix();
 
-		$blockedMessage = $this->msg( $prefix . '-success' )
+		$blockedMessage = $this->msg( 'checkuser-investigateblock-success' )
 			->rawParams( $language->listToText( $blockedUsers ) )
 			->params( $language->formatNum( count( $blockedUsers ) ) )
 			->parseAsBlock();
@@ -389,7 +385,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 		$out->addHtml( $blockedMessage );
 
 		if ( $this->noticesFailed ) {
-			$failedNoticesMessage = $this->msg( $prefix . '-notices-failed' );
+			$failedNoticesMessage = $this->msg( 'checkuser-investigateblock-notices-failed' );
 			$out->addHtml( $failedNoticesMessage );
 		}
 	}
