@@ -3,9 +3,9 @@
 namespace MediaWiki\CheckUser;
 
 use BadMethodCallException;
-use IDatabase;
 use InvalidArgumentException;
 use MediaWiki\CommentStore\CommentStore;
+use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Rdbms\Subquery;
 
@@ -37,11 +37,11 @@ class CheckUserUnionSelectQueryBuilder extends SelectQueryBuilder {
 	private bool $hasCommentJoin = false;
 
 	/**
-	 * @param IDatabase $db
+	 * @param IReadableDatabase $db
 	 * @param CommentStore $commentStore
 	 */
 	public function __construct(
-		IDatabase $db,
+		IReadableDatabase $db,
 		CommentStore $commentStore
 	) {
 		parent::__construct( $db );
