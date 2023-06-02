@@ -89,6 +89,20 @@
 		"CheckUserEventTablesMigrationStage": {
 			"value": 3,
 			"description": "A flag used as the migration stage to the new cu_private_event and cu_log_event tables. Default is to read and write only from cu_changes. Must only be set as SCHEMA_COMPAT_NEW or SCHEMA_COMPAT_OLD."
+		},
+		"CheckUserClientHintsEnabled": {
+			"value": true,
+			"description": "General on/off switch for User-Agent Client Hints functionality. When set to true, CheckUser will request Client Hints headers specified in the CheckUserClientHintsHeaders config variable."
+		},
+		"CheckUserClientHintsSpecialPages": {
+			"value": [
+				"CreateAccount",
+				"Emailuser",
+				"PasswordReset",
+				"Userlogin",
+				"Userlogout"
+			],
+			"description": "List of SpecialPages where CheckUser will set client hints headers in the response header. Note that the special pages are case sensitive, and do not always match their appearance in the URL, e.g. 'UserLogin' is known in the Special page system as 'Userlogin'."
 		}
 	},
 	"APIListModules": {
@@ -140,6 +154,12 @@
 		}
 	],
 	"HookHandlers": {
+		"clienthints": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\ClientHints",
+			"services": [
+				"MainConfig"
+			]
+		},
 		"preferences": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\Preferences",
 			"services": [
@@ -175,7 +195,8 @@
 		"UserToolLinksEdit": "Hooks",
 		"BeforePageDisplay": "pageDisplay",
 		"GetPreferences": "preferences",
-		"SaveUserOptions": "preferences"
+		"SaveUserOptions": "preferences",
+		"SpecialPageBeforeExecute": "clienthints"
 	},
 	"MessagesDirs": {
 		"CheckUser": [
