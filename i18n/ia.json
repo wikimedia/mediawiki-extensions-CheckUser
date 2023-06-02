@@ -213,6 +213,7 @@
 	"checkuser-tempaccount-no-ip-results": "Nulle datos IP pro iste usator temporari in le ultime $1 die{{PLURAL:$1||s}}",
 	"checkuser-tempaccount-reveal-ip-button-label": "Monstrar IP",
 	"checkuser-tempaccount-reveal-ip-missing": "indisponibile",
+	"checkuser-tempaccount-reveal-ip-error": "error",
 	"checkuser-tempaccount-specialblock-ips": "Isto es un usator temporari qui usa le sequente adresse{{PLURAL:$1||s}} IP: $2",
 	"checkuser-temporary-account-log-name": "Registro de contos temporari Checkuser",
 	"checkuser-temporary-account-log-header": "Isto es un registro de:\n# Consultas del adresses IP usate per contos temporari; e\n# Cambiamentos de nivellos de accesso de usatores pro consultar adresses IP usate per contos temporari.",

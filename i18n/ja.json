@@ -217,5 +217,6 @@
 	"checkuser-investigate-tour-copywikitext-title": "データをコピーするには?",
 	"checkuser-investigate-tour-copywikitext-desc": "この表をウィキ文法の表としてコピーし、CUWikiに取り込みます。コピーするのは現在表示されているもののみであり、調査の全ページをコピーするわけではないことに注意してください。",
 	"checkuser-tempaccount-reveal-ip-button-label": "IPを表示",
-	"checkuser-tempaccount-reveal-ip-missing": "利用可能"
+	"checkuser-tempaccount-reveal-ip-missing": "利用可能",
+	"checkuser-tempaccount-reveal-ip-error": "エラー"
 }

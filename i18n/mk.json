@@ -217,6 +217,7 @@
 	"checkuser-tempaccount-no-ip-results": "Нема податоци за IP-адресата на овој привремен корисник од  {{PLURAL:$1|последниов ден|последниве $1 дена}}",
 	"checkuser-tempaccount-reveal-ip-button-label": "Прикажи IP",
 	"checkuser-tempaccount-reveal-ip-missing": "недостапно",
+	"checkuser-tempaccount-reveal-ip-error": "грешка",
 	"checkuser-tempaccount-specialblock-ips": "Ова е привремен корисник кој {{PLURAL:$1|ја користи следнава IP-адреса|ги користи следниве IP-адреси}}: $2",
 	"checkuser-temporary-account-log-name": "Дневник на привремени сметки",
 	"checkuser-temporary-account-log-header": "Ова е дневник на:\n# Посети на IP-адресите користени од привремени сметки; и\n# Промени во нивата на кориснички пристап за преглед на IP-адреси користени од привремени сметки.",

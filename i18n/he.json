@@ -222,6 +222,7 @@
 	"checkuser-tempaccount-no-ip-results": "אין נתוני IP עבור המשתמש הזמני הזה {{PLURAL:$1|ליום האחרון|ליומיים האחרונים|למשך $1 הימים האחרונים}}",
 	"checkuser-tempaccount-reveal-ip-button-label": "הצגת IP",
 	"checkuser-tempaccount-reveal-ip-missing": "לא זמינה",
+	"checkuser-tempaccount-reveal-ip-error": "שגיאה",
 	"checkuser-tempaccount-specialblock-ips": "זהו משתמש זמני המשתמש ב{{PLURAL:$1|כתובת ה־IP הבאה|כתובות ה־IP הבאות}}: $2",
 	"checkuser-temporary-account-log-name": "יומן חשבונות זמניים של בדיקת חשבונות",
 	"checkuser-temporary-account-log-header": "זהו יומן של:\n# תצוגות של כתובות ה־IP שמשמשות חשבונות זמניים.\n# שינויים ברמות הגישה של משתמשים לצפייה בכתובות IP שמשמשות חשבונות זמניים.",

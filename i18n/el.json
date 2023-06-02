@@ -5,6 +5,7 @@
 			"Assassingr",
 			"Consta",
 			"Crazymadlover",
+			"Dogogos123",
 			"Giorgos456",
 			"Glavkos",
 			"Jimkats",
@@ -82,5 +83,6 @@
 	"checkuser-investigateblock-notice-position-label": "Θέση",
 	"checkuser-investigateblock-notice-text-label": "Κείμενο wiki",
 	"checkuser-investigateblock-notice-replace": "Αντικατάσταση σελίδας",
-	"checkuser-tempaccount-reveal-ip-button-label": "Εμφάνιση IP"
+	"checkuser-tempaccount-reveal-ip-button-label": "Εμφάνιση IP",
+	"checkuser-tempaccount-reveal-ip-error": "σφάλμα"
 }

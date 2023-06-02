@@ -240,6 +240,7 @@
 	"checkuser-tempaccount-no-ip-results": "Aucune donnée d’adresse IP pour cet utilisateur temporaire au cours d{{PLURAL:$1|u|es $1}} dernier{{PLURAL:$1||s}} jour{{PLURAL:$1||s}}",
 	"checkuser-tempaccount-reveal-ip-button-label": "Afficher l’adresse IP",
 	"checkuser-tempaccount-reveal-ip-missing": "indisponible",
+	"checkuser-tempaccount-reveal-ip-error": "erreur",
 	"checkuser-tempaccount-specialblock-ips": "Il s’agit d’un utilisateur temporaire utilisant l{{PLURAL:$1|’a|es a}}dresse{{PLURAL:$1||s}} IP suivante{{PLURAL:$1||s}} : $2",
 	"checkuser-temporary-account-log-name": "Journal des comptes temporaires de vérification d′utilisateur",
 	"checkuser-temporary-account-log-header": "Il s’agit d’un journal contenant :\n# les vues des adresses IP utilisées par les comptes temporaires ; et\n# les modifications des niveaux d’accès des utilisateurs pour l’affichage des adresses IP utilisées par les comptes temporaires.",
