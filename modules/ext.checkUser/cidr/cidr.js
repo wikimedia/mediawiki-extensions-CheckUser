@@ -25,6 +25,36 @@
 	};
 
 	/**
+	 * Get and return the IPs from the input as an array of IPs
+	 *
+	 * @param $form The form to collect the IPs from
+	 * @return {string[]}
+	 */
+	function getIPList( $form ) {
+		var $iplist = $( '.mw-checkuser-cidr-iplist textarea', $form );
+		if ( !$iplist ) {
+			// No IP list, so return empty array
+			return [];
+		}
+		var text = $iplist.val();
+		var delimiters = [ '\n', '\t', ',', ' - ', '-', ' ', ';' ];
+		for ( var i in delimiters ) {
+			// If the delimiter is present in the IPs list, use it
+			// to split into a list of IPs.
+			if ( text.indexOf( delimiters[ i ] ) !== -1 ) {
+				var ips = text.split( delimiters[ i ] );
+				for ( var j in ips ) {
+					// Trim to remove excess whitespace.
+					ips[ j ] = ips[ j ].trim();
+				}
+				return ips;
+			}
+		}
+		// If no delimiter was present, then assume only one IP.
+		return [ text.trim() ];
+	}
+
+	/**
 	 * This function calculates the common range of a list of
 	 * IPs. It should be set to update on keyUp.
 	 *
@@ -37,27 +67,9 @@
 			return; // no JS form
 		}
 		$form.removeClass( 'mw-checkuser-cidr-calculator-hidden' );
-		var $iplist = $( '.mw-checkuser-cidr-iplist textarea', $form );
-		if ( !$iplist ) {
-			return; // no JS form
-		}
-		var text = $iplist.val(), ips;
-		// Each line should have one IP or range
-		if ( text.indexOf( '\n' ) !== -1 ) {
-			ips = text.split( '\n' );
-			// Try some other delimiters too...
-		} else if ( text.indexOf( '\t' ) !== -1 ) {
-			ips = text.split( '\t' );
-		} else if ( text.indexOf( ',' ) !== -1 ) {
-			ips = text.split( ',' );
-		} else if ( text.indexOf( ' - ' ) !== -1 ) {
-			ips = text.split( ' - ' );
-		} else if ( text.indexOf( '-' ) !== -1 ) {
-			ips = text.split( '-' );
-		} else if ( text.indexOf( ' ' ) !== -1 ) {
-			ips = text.split( ' ' );
-		} else {
-			ips = text.split( ';' );
+		var ips = getIPList( $form );
+		if ( ips.length === 0 ) {
+			return;
 		}
 		var binPrefix = 0;
 		var prefixCidr = 0;
@@ -70,7 +82,7 @@
 		// track the largest binary prefix among them...
 		for ( var i = 0; i < ips.length; i++ ) {
 			// ...in the spirit of mediawiki.special.block.js, call this "addy"
-			var addy = ips[ i ].trim();
+			var addy = ips[ i ];
 			// Match the first IP in each list (ignore other garbage)
 			var ipV4 = mw.util.isIPv4Address( addy, true );
 			var ipV6 = mw.util.isIPv6Address( addy, true );
