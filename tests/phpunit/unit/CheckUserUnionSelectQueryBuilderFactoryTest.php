@@ -1,9 +1,12 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests;
+namespace MediaWiki\CheckUser\Tests\Unit;
 
+use IDatabase;
 use MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilder;
-use MediaWikiIntegrationTestCase;
+use MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilderFactory;
+use MediaWiki\CommentStore\CommentStore;
+use MediaWikiUnitTestCase;
 use Wikimedia\TestingAccessWrapper;
 
 /**
@@ -14,11 +17,11 @@ use Wikimedia\TestingAccessWrapper;
  * @covers \MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilderFactory
  * @coversDefaultClass \MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilderFactory
  */
-class CheckUserUnionSelectQueryBuilderFactoryTest extends MediaWikiIntegrationTestCase {
+class CheckUserUnionSelectQueryBuilderFactoryTest extends MediaWikiUnitTestCase {
 	/** @return TestingAccessWrapper */
 	protected function setUpObject() {
 		return TestingAccessWrapper::newFromObject(
-			$this->getServiceContainer()->get( 'CheckUserUnionSelectQueryBuilderFactory' )
+			new CheckUserUnionSelectQueryBuilderFactory( $this->createMock( CommentStore::class ) )
 		);
 	}
 
@@ -28,7 +31,7 @@ class CheckUserUnionSelectQueryBuilderFactoryTest extends MediaWikiIntegrationTe
 	public function testNewObjectMethod() {
 		$this->assertInstanceOf(
 			CheckUserUnionSelectQueryBuilder::class,
-			$this->setUpObject()->newCheckUserSelectQueryBuilder( $this->getDb() ),
+			$this->setUpObject()->newCheckUserSelectQueryBuilder( $this->createMock( IDatabase::class ) ),
 			'Factory did not create the correct object'
 		);
 	}

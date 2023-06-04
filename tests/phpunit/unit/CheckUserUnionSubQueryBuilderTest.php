@@ -1,9 +1,10 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests;
+namespace MediaWiki\CheckUser\Tests\Unit;
 
+use IDatabase;
 use MediaWiki\CheckUser\CheckUserUnionSubQueryBuilder;
-use MediaWikiIntegrationTestCase;
+use MediaWikiUnitTestCase;
 use Wikimedia\TestingAccessWrapper;
 
 /**
@@ -14,9 +15,11 @@ use Wikimedia\TestingAccessWrapper;
  * @covers \MediaWiki\CheckUser\CheckUserUnionSubQueryBuilder
  * @coversDefaultClass \MediaWiki\CheckUser\CheckUserUnionSubQueryBuilder
  */
-class CheckUserUnionSubQueryBuilderTest extends MediaWikiIntegrationTestCase {
+class CheckUserUnionSubQueryBuilderTest extends MediaWikiUnitTestCase {
 	public function setUpObject(): TestingAccessWrapper {
-		return TestingAccessWrapper::newFromObject( new CheckUserUnionSubQueryBuilder( $this->getDb() ) );
+		return TestingAccessWrapper::newFromObject(
+			new CheckUserUnionSubQueryBuilder( $this->createMock( IDatabase::class ) )
+		);
 	}
 
 	/**
@@ -41,7 +44,7 @@ class CheckUserUnionSubQueryBuilderTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame(
 			'testing',
 			$object->getLastAlias( 'testing' ),
-			'updateLastAlias() did not correctly update the last alias'
+			'getLastAlias() did not correctly return the last alias'
 		);
 	}
 }
