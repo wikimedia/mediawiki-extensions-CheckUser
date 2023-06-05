@@ -11,21 +11,6 @@ use MediaWiki\SpecialPage\Hook\SpecialPageBeforeExecuteHook;
  */
 class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook {
 
-	// User-Agent Client Hints headers to request.
-	// See the list of valid values at https://wicg.github.io/ua-client-hints
-	public const CLIENT_HINT_HEADERS = [
-		'Sec-CH-UA',
-		'Sec-CH-UA-Arch',
-		'Sec-CH-UA-Bitness',
-		'Sec-CH-UA-Form-Factor',
-		'Sec-CH-UA-Full-Version-List',
-		'Sec-CH-UA-Mobile',
-		'Sec-CH-UA-Model',
-		'Sec-CH-UA-Platform',
-		'Sec-CH-UA-Platform-Version',
-		'Sec-CH-UA-WoW64'
-	];
-
 	private Config $config;
 
 	/**
@@ -37,34 +22,54 @@ class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook
 
 	/** @inheritDoc */
 	public function onSpecialPageBeforeExecute( $special, $subPage ) {
-		if ( $this->config->get( 'CheckUserClientHintsEnabled' ) &&
-			in_array( $special->getName(), $this->config->get( 'CheckUserClientHintsSpecialPages' ) ) ) {
+		if ( !$this->config->get( 'CheckUserClientHintsEnabled' ) ) {
+			return;
+		}
+
+		if ( in_array( $special->getName(), $this->config->get( 'CheckUserClientHintsSpecialPages' ) ) ) {
 			$special->getRequest()->response()->header( $this->getClientHintsHeaderString() );
+		} elseif ( $this->config->get( 'CheckUserClientHintsUnsetHeaderWhenPossible' ) ) {
+			$special->getRequest()->response()->header( $this->getEmptyClientHintsHeaderString() );
 		}
 	}
 
 	/** @inheritDoc */
 	public function onBeforePageDisplay( $out, $skin ): void {
-		if ( $out->getTitle()->isSpecialPage() ) {
+		if ( $out->getTitle()->isSpecialPage() || !$this->config->get( 'CheckUserClientHintsEnabled' ) ) {
 			// We handle special pages in BeforeSpecialPageBeforeExecute.
 			return;
 		}
 
-		if ( $this->config->get( 'CheckUserClientHintsEnabled' ) &&
-			in_array(
-				$out->getRequest()->getRawVal( 'action' ),
-				$this->config->get( 'CheckUserClientHintsActionQueryParameter' )
-			) ) {
+		if ( in_array(
+			$out->getRequest()->getRawVal( 'action' ),
+			$this->config->get( 'CheckUserClientHintsActionQueryParameter' )
+		) ) {
 			$out->getRequest()->response()->header( $this->getClientHintsHeaderString() );
+		} elseif ( $this->config->get( 'CheckUserClientHintsUnsetHeaderWhenPossible' ) ) {
+			$out->getRequest()->response()->header( $this->getEmptyClientHintsHeaderString() );
 		}
 	}
 
+	/**
+	 * Get the list of headers to use with Accept-CH.
+	 *
+	 * @return string
+	 */
 	private function getClientHintsHeaderString(): string {
 		$headers = implode(
 			', ',
-			self::CLIENT_HINT_HEADERS
+			$this->config->get( 'CheckUserClientHintsHeaders' )
 		);
 		return "Accept-CH: $headers";
+	}
+
+	/**
+	 * Get an Accept-CH header string to tell the client to stop sending client-hint data.
+	 *
+	 * @return string
+	 */
+	private function getEmptyClientHintsHeaderString(): string {
+		return "Accept-CH: ";
 	}
 
 }
