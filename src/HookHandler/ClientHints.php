@@ -3,12 +3,13 @@
 namespace MediaWiki\CheckUser\HookHandler;
 
 use Config;
+use MediaWiki\Hook\BeforePageDisplayHook;
 use MediaWiki\SpecialPage\Hook\SpecialPageBeforeExecuteHook;
 
 /**
  * HookHandler for entry points related to requesting User-Agent Client Hints data.
  */
-class ClientHints implements SpecialPageBeforeExecuteHook {
+class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook {
 
 	// User-Agent Client Hints headers to request.
 	// See the list of valid values at https://wicg.github.io/ua-client-hints
@@ -36,14 +37,34 @@ class ClientHints implements SpecialPageBeforeExecuteHook {
 
 	/** @inheritDoc */
 	public function onSpecialPageBeforeExecute( $special, $subPage ) {
-		if ( !$this->config->get( 'CheckUserClientHintsEnabled' ) ||
-			!in_array( $special->getName(), $this->config->get( 'CheckUserClientHintsSpecialPages' ) ) ) {
+		if ( $this->config->get( 'CheckUserClientHintsEnabled' ) &&
+			in_array( $special->getName(), $this->config->get( 'CheckUserClientHintsSpecialPages' ) ) ) {
+			$special->getRequest()->response()->header( $this->getClientHintsHeaderString() );
+		}
+	}
+
+	/** @inheritDoc */
+	public function onBeforePageDisplay( $out, $skin ): void {
+		if ( $out->getTitle()->isSpecialPage() ) {
+			// We handle special pages in BeforeSpecialPageBeforeExecute.
 			return;
 		}
+
+		if ( $this->config->get( 'CheckUserClientHintsEnabled' ) &&
+			in_array(
+				$out->getRequest()->getRawVal( 'action' ),
+				$this->config->get( 'CheckUserClientHintsActionQueryParameter' )
+			) ) {
+			$out->getRequest()->response()->header( $this->getClientHintsHeaderString() );
+		}
+	}
+
+	private function getClientHintsHeaderString(): string {
 		$headers = implode(
 			', ',
 			self::CLIENT_HINT_HEADERS
 		);
-		$special->getRequest()->response()->header( "Accept-CH: $headers" );
+		return "Accept-CH: $headers";
 	}
+
 }
