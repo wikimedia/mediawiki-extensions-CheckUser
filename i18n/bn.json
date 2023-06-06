@@ -11,7 +11,8 @@
 			"Zaheen",
 			"আজিজ",
 			"আফতাবুজ্জামান",
-			"MdsShakil"
+			"MdsShakil",
+			"Aishik Rehman"
 		]
 	},
 	"checkuser-summary": "এই সরঞ্জামটি সাম্প্রতিক পরিবর্তনসমূহ বিশ্লেষণ করে একজন ব্যবহারকারীর ব্যবহৃত আইপিগুলি নিয়ে আসে কিংবা কোন একটি আইপির জন্য সম্পাদনা/ব্যবহারকারী উপাত্ত প্রদর্শন করে।\nকোন ক্লায়েন্ট আইপি-র জন্য ব্যবহারকারী ও সম্পাদনা XFF হেডারসমূহের সাহায্যে নিয়ে আসা যায়; এজন্য আইপির সাথে \"/xff\" যোগ করতে হয়। IPv4 (CIDR $1-32) এবং IPv6 (CIDR $2-128) এই সরঞ্জামে সমর্থিত।\nদক্ষতাজনিত কারণে $3টির বেশি সম্পাদনা নিয়ে আসা হবে না।\nনীতিমালা মেনে এটি ব্যবহার করুন।",
@@ -39,9 +40,13 @@
 	"checkuser-week-1": "পূর্ববর্তী সপ্তাহ",
 	"checkuser-week-2": "পূর্ববর্তী দুই সপ্তাহ",
 	"checkuser-month": "পূর্ববর্তী ৩০ দিন",
+	"checkuser-month-2": "গত ৬০ দিন",
 	"checkuser-all": "সমস্ত",
 	"checkuser-cidr-label": "আইপি ঠিকানার একটি তালিকার জন্য সাধারণ পরিসীমা এবং প্রভাবিত আইপি ঠিকানাগুলি খুঁজুন",
 	"checkuser-cidr-res": "সাধারণ সিআইডিআর:",
+	"checkuser-cidr-affected-ips": "প্রভাবিত আইপি ঠিকানা:",
+	"checkuser-cidr-too-small": "পরিসীমা অনেক বড়",
+	"checkuser-range-outside-limit": "$1 পরিসীমাটি অনুমোদিত সীমার বাইরে।",
 	"checkuser-empty": "এই লগে কিছুই নেই।",
 	"checkuser-nomatch": "কোন মিল খুঁজে পাওয়া যায়নি।",
 	"checkuser-nomatch-edits": "কোন মিল খুঁজে পাওয়া যায়নি।\nশেষ সম্পাদনাটি ছিল $1 তারিখে $2 টায়।",
@@ -50,6 +55,7 @@
 	"checkuser-investigate-this-user": "এই ব্যবহারাকারীকে তদন্ত করুন",
 	"checkuser-recent-checks": "এই ব্যবহারকারীর জন্য সাম্প্রতিক পরীক্ষাগুলি",
 	"checkuser-log-fail": "লগ ভুক্তিতে যোগ করা সম্ভব হচ্ছে না",
+	"checkuser-log-checks-by": "চালানো পরীক্ষাগুলি",
 	"checkuser-blocked": "বাধাপ্রাপ্ত",
 	"checkuser-gblocked": "বৈশ্বিকভাবে বাধাপ্রাপ্ত",
 	"checkuser-locked": "অবরুদ্ধ",
@@ -76,6 +82,7 @@
 	"checkuser-search-initiator": "আরম্ভকারী",
 	"checkuser-search-target": "লক্ষ্য",
 	"checkuser-log-search-target": "লক্ষ্য:",
+	"checkuser-log-search-initiator": "আরম্ভকারী:",
 	"checkuser-log-search-type": "অনুসন্ধান করুন এই অনুসারে:",
 	"checkuser-ipeditcount": "সকল ব্যবহারকারী মিলিয়ে ~$1টি",
 	"checkuser-showmain": "ব্যবহারকারী পরীক্ষকের মূল ফর্মে ফেরত যান",
@@ -144,6 +151,7 @@
 	"checkuser-investigate-preliminary-table-header-wiki": "উইকি",
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "উইকি পাওয়া যায়নি",
 	"checkuser-investigate-filters-legend": "ছাঁকনি",
+	"checkuser-investigate-filters-exclude-targets-label": "নিম্নলিখিত ব্যবহারকারী বা আইপি লুকান",
 	"checkuser-investigate-compare-copy-button-label": "উইকিপাঠ্য দেখান",
 	"checkuser-investigate-compare-copy-button-label-hide": "উইকিপাঠ্য আড়াল করুন",
 	"checkuser-investigate-compare-toollinks-whois": "হুইজ",
@@ -163,5 +171,6 @@
 	"checkuser-investigate-compare-table-header-ip": "আইপি",
 	"checkuser-investigate-compare-table-header-useragent": "ব্যবহারকারী এজেন্ট",
 	"checkuser-investigate-subtitle-link-restart-tour": "ট্যুর পুনরাম্ভ করুন",
-	"checkuser-investigate-tour-targets-title": "একাধিক ব্যবহারকারী ও আইপি পরীক্ষা করছেন?"
+	"checkuser-investigate-tour-targets-title": "একাধিক ব্যবহারকারী ও আইপি পরীক্ষা করছেন?",
+	"checkuser-investigate-tour-block-title": "বাধা দিতে চান?"
 }
