@@ -651,7 +651,7 @@ class CheckUserHooks {
 			return true; // user in an IP?
 		}
 
-		$options = [ 'ORDER BY' => 'cuc_timestamp DESC' ];
+		$options = [ 'ORDER BY' => 'cuc_timestamp DESC', 'USE INDEX' => 'cuc_user_ip_time' ];
 		$options['LIMIT'] = 1; // just the last IP used
 
 		$res = $dbr->select( 'cu_changes',
