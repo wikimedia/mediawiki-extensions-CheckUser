@@ -795,6 +795,7 @@ class Hooks implements
 
 		$res = $dbr->newSelectQueryBuilder()
 			->table( 'cu_changes' )
+			->useIndex( 'cuc_user_ip_time' )
 			->field( 'cuc_ip' )
 			->conds( [ 'cuc_user' => $user->getId( $block->getWikiId() ) ] )
 			// just the last IP used
