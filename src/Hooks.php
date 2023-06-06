@@ -707,7 +707,7 @@ class Hooks {
 			return true;
 		}
 
-		$options = [ 'ORDER BY' => 'cuc_timestamp DESC' ];
+		$options = [ 'ORDER BY' => 'cuc_timestamp DESC', 'USE INDEX' => 'cuc_user_ip_time' ];
 
 		// just the last IP used
 		$options['LIMIT'] = 1;
