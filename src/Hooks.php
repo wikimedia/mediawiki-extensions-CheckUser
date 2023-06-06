@@ -1205,7 +1205,9 @@ class Hooks implements
 		}
 
 		$res = $dbr->newSelectQueryBuilder()
-			->tables( [ 'cu_changes', 'actor' ] )
+			->table( 'cu_changes' )
+			->useIndex( 'cuc_actor_ip_time' )
+			->table( 'actor' )
 			->field( 'cuc_ip' )
 			->conds( [ 'actor_user' => $user->getId( $block->getWikiId() ) ] )
 			->joinConds( [ 'actor' => [ 'JOIN', 'actor_id=cuc_actor' ] ] )
