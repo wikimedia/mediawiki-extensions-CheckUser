@@ -148,5 +148,6 @@
 	"checkuser-investigate-tour-block-title": "Spären?",
 	"checkuser-investigate-tour-copywikitext-title": "Wëllt Dir d'Date kopéieren?",
 	"checkuser-tempaccount-reveal-ip-button-label": "IP weisen",
-	"checkuser-tempaccount-reveal-ip-missing": "net disponibel"
+	"checkuser-tempaccount-reveal-ip-missing": "net disponibel",
+	"checkuser-tempaccount-reveal-ip-error": "Feeler"
 }
