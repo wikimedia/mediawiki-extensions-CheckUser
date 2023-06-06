@@ -103,6 +103,13 @@
 				"Userlogout"
 			],
 			"description": "List of SpecialPages where CheckUser will set client hints headers in the response header. Note that the special pages are case sensitive, and do not always match their appearance in the URL, e.g. 'UserLogin' is known in the Special page system as 'Userlogin'."
+		},
+		"CheckUserClientHintsActionQueryParameter": {
+			"value": [
+				"edit",
+				"rollback"
+			],
+			"description": "List of values to '?action=' query parameter. If the request contains a query parameter for e.g. ?action=edit, then CheckUser will send a header to request Client Hint user agent data."
 		}
 	},
 	"APIListModules": {
@@ -193,7 +200,7 @@
 		"UserLogoutComplete": "Hooks",
 		"SpecialPage_initList": "Hooks",
 		"UserToolLinksEdit": "Hooks",
-		"BeforePageDisplay": "pageDisplay",
+		"BeforePageDisplay": [ "clienthints", "pageDisplay" ],
 		"GetPreferences": "preferences",
 		"SaveUserOptions": "preferences",
 		"SpecialPageBeforeExecute": "clienthints"

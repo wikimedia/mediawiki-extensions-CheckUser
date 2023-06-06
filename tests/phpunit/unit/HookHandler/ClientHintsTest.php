@@ -6,7 +6,11 @@ use HashConfig;
 use MediaWiki\CheckUser\HookHandler\ClientHints;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Request\FauxResponse;
+use MediaWiki\Request\WebResponse;
+use MediaWiki\Title\Title;
 use MediaWikiUnitTestCase;
+use OutputPage;
+use Skin;
 use SpecialPage;
 
 /**
@@ -44,7 +48,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler->onSpecialPageBeforeExecute( $special, null );
 	}
 
-	public function testClientHintsRequested() {
+	public function testClientHintsSpecialPageRequested() {
 		$special = $this->createMock( SpecialPage::class );
 		$special->method( 'getName' )->willReturn( 'Foo' );
 		$requestMock = $this->getMockBuilder( FauxRequest::class )
@@ -63,6 +67,68 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 			implode( ', ', ClientHints::CLIENT_HINT_HEADERS ),
 			$fauxResponse->getHeader( 'ACCEPT-CH' )
 		);
+	}
+
+	public function testClientHintsBeforePageDisplayDisabled() {
+		$hookHandler = new ClientHints(
+			new HashConfig( [
+				'CheckUserClientHintsEnabled' => false,
+				'CheckUserClientHintsActionQueryParameter' => [ 'edit', 'rollback', 'undo' ],
+			] )
+		);
+		$title = $this->createMock( Title::class );
+		$title->method( 'isSpecialPage' )->willReturn( true );
+		$outputPage = $this->createMock( OutputPage::class );
+		$outputPage->method( 'getTitle' )->willReturn( $title );
+		$skin = $this->createMock( Skin::class );
+		// OutputPage::getRequest() should never be called, because the global config
+		// flag is off.
+		$outputPage->expects( $this->never() )->method( 'getRequest' );
+		$hookHandler->onBeforePageDisplay( $outputPage, $skin );
+	}
+
+	public function testClientHintsBeforePageDisplayInvalidAction() {
+		$hookHandler = new ClientHints(
+			new HashConfig( [
+				'CheckUserClientHintsEnabled' => true,
+				'CheckUserClientHintsActionQueryParameter' => [ 'edit', 'rollback', 'undo' ],
+				'CheckUserClientHintsSpecialPages' => [ 'Bar' ]
+			] )
+		);
+		$title = $this->createMock( Title::class );
+		$webResponseMock = $this->createMock( WebResponse::class );
+		// ::header() is never called, because the action isn't in the allow list.
+		$webResponseMock->expects( $this->never() )->method( 'header' );
+		$outputPage = $this->createMock( OutputPage::class );
+		$outputPage->method( 'getTitle' )->willReturn( $title );
+		$requestMock = $this->createMock( 'WebRequest' );
+		$requestMock->method( 'getRawVal' )->with( 'action' )->willReturn( 'foo' );
+		$requestMock->method( 'response' )->willReturn( $webResponseMock );
+		$outputPage->method( 'getRequest' )->willReturn( $requestMock );
+		$skin = $this->createMock( Skin::class );
+		$hookHandler->onBeforePageDisplay( $outputPage, $skin );
+	}
+
+	public function testClientHintsBeforePageDisplayValidAction() {
+		$hookHandler = new ClientHints(
+			new HashConfig( [
+				'CheckUserClientHintsEnabled' => true,
+				'CheckUserClientHintsActionQueryParameter' => [ 'edit', 'rollback', 'undo' ],
+				'CheckUserClientHintsSpecialPages' => [ 'Bar' ]
+			] )
+		);
+		$title = $this->createMock( Title::class );
+		$webResponseMock = $this->createMock( WebResponse::class );
+		// ::header() is called once, because the action is in the allow list.
+		$webResponseMock->expects( $this->once() )->method( 'header' );
+		$outputPage = $this->createMock( OutputPage::class );
+		$outputPage->method( 'getTitle' )->willReturn( $title );
+		$requestMock = $this->createMock( 'WebRequest' );
+		$requestMock->method( 'getRawVal' )->with( 'action' )->willReturn( 'edit' );
+		$requestMock->method( 'response' )->willReturn( $webResponseMock );
+		$outputPage->method( 'getRequest' )->willReturn( $requestMock );
+		$skin = $this->createMock( Skin::class );
+		$hookHandler->onBeforePageDisplay( $outputPage, $skin );
 	}
 
 }
