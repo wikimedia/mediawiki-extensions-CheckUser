@@ -535,12 +535,20 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 
 	/** @inheritDoc */
 	public function getIndexField() {
-		return 'timestamp';
+		if ( $this->getConfig()->get( 'CheckUserEventTablesMigrationStage' ) & SCHEMA_COMPAT_READ_OLD ) {
+			return 'cuc_timestamp';
+		} else {
+			return 'timestamp';
+		}
 	}
 
 	/** @inheritDoc */
 	public function getTimestampField() {
-		return 'cuc_timestamp';
+		if ( $this->getConfig()->get( 'CheckUserEventTablesMigrationStage' ) & SCHEMA_COMPAT_READ_OLD ) {
+			return 'cuc_timestamp';
+		} else {
+			return 'timestamp';
+		}
 	}
 
 	/** @inheritDoc */
