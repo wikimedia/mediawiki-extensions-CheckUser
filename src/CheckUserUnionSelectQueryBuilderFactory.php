@@ -2,8 +2,8 @@
 
 namespace MediaWiki\CheckUser;
 
-use IDatabase;
 use MediaWiki\CommentStore\CommentStore;
+use Wikimedia\Rdbms\IReadableDatabase;
 
 class CheckUserUnionSelectQueryBuilderFactory {
 	/** @var CommentStore */
@@ -21,11 +21,11 @@ class CheckUserUnionSelectQueryBuilderFactory {
 	/**
 	 * Gets a CheckUserUnionSelectQueryBuilder.
 	 *
-	 * @param IDatabase $db The database to perform the SELECTs on.
+	 * @param IReadableDatabase $db The database to perform the SELECTs on.
 	 * @return CheckUserUnionSelectQueryBuilder
 	 */
 	public function newCheckUserSelectQueryBuilder(
-		IDatabase $db
+		IReadableDatabase $db
 	) {
 		return new CheckUserUnionSelectQueryBuilder(
 			$db,
