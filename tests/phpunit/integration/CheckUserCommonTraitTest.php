@@ -2,9 +2,9 @@
 
 namespace MediaWiki\CheckUser\Test\Integration;
 
+use LogicException;
 use ManualLogEntry;
 use MediaWiki\CheckUser\Hooks;
-use MWException;
 use RecentChange;
 
 /**
@@ -13,24 +13,21 @@ use RecentChange;
  */
 trait CheckUserCommonTraitTest {
 	/**
-	 * A function used to insert a RecentChange into
-	 *  the correct table when testing.
-	 * Called by the individual tests themselves.
+	 * A function used to insert a RecentChange into the correct table when testing.
+	 * Called by the individual tests themselves. This method requires database support, which can be enabled
+	 * with "@group Database", or by listing the tables under testing in $this->tablesUsed, or by returning
+	 * true from needsDB().
 	 *
 	 * @param array $rcAttribs The attribs for the RecentChange object
 	 * @param array $fields The fields to select from the DB when using assertSelect()
 	 * @param array &$expectedRow The expected values for the fields from the DB when using assertSelect()
 	 * @return RecentChange
-	 * @throws MWException If this test cases's needsDB() method doesn't return true.
-	 *         Test cases can use "@group Database" to enable database test support,
-	 *         or list the tables under testing in $this->tablesUsed, or override the
-	 *         needsDB() method.
 	 */
 	public function commonTestsUpdateCheckUserData(
 		array $rcAttribs, array $fields, array &$expectedRow
 	): RecentChange {
 		if ( !$this->needsDB() ) {
-			throw new MWException( 'When testing with logs, the test cases\'s needsDB()' .
+			throw new LogicException( 'When testing with logs, the test cases\'s needsDB()' .
 				' method should return true. Use @group Database or $this->tablesUsed.' );
 		}
 		$rc = new RecentChange;
@@ -45,17 +42,15 @@ trait CheckUserCommonTraitTest {
 	}
 
 	/**
-	 * Creates a log entry for testing.
+	 * Creates a log entry for testing. This method requires database support, which can be enabled
+	 * with "@group Database", or by listing the tables under testing in $this->tablesUsed, or by returning
+	 * true from needsDB().
 	 *
 	 * @return int The ID for the created log entry
-	 * @throws MWException If this test cases's needsDB() method doesn't return true.
-	 *         Test cases can use "@group Database" to enable database test support,
-	 *         or list the tables under testing in $this->tablesUsed, or override the
-	 *         needsDB() method.
 	 */
 	public function newLogEntry(): int {
 		if ( !$this->needsDB() ) {
-			throw new MWException( 'When testing with logs, the test cases\'s needsDB()' .
+			throw new LogicException( 'When testing with logs, the test cases\'s needsDB()' .
 				' method should return true. Use @group Database or $this->tablesUsed.' );
 		}
 		$logEntry = new ManualLogEntry( 'phpunit', 'test' );
@@ -67,7 +62,9 @@ trait CheckUserCommonTraitTest {
 
 	/**
 	 * Asserts that a table has the expected number of rows matching
-	 * the given conditions.
+	 * the given conditions. This method requires database support, which can be enabled
+	 * with "@group Database", or by listing the tables under testing in $this->tablesUsed, or by returning
+	 * true from needsDB().
 	 *
 	 * @param int $expectedRowCount The expected row count
 	 * @param string $table The table to select from
@@ -75,16 +72,12 @@ trait CheckUserCommonTraitTest {
 	 * @param string $message The message to be used for an assertion failure.
 	 * @param array $where Any conditions to apply (default no conditions; optional)
 	 * @return void
-	 * @throws MWException If this test cases's needsDB() method doesn't return true.
-	 *         Test cases can use "@group Database" to enable database test support,
-	 *         or list the tables under testing in $this->tablesUsed, or override the
-	 *         needsDB() method.
 	 */
 	public function assertRowCount(
 		int $expectedRowCount, string $table, string $idField, string $message, array $where = []
 	) {
 		if ( !$this->needsDB() ) {
-			throw new MWException( 'When testing with logs, the test cases\'s needsDB()' .
+			throw new LogicException( 'When testing with logs, the test cases\'s needsDB()' .
 				' method should return true. Use @group Database or $this->tablesUsed.' );
 		}
 		$this->assertSame(
