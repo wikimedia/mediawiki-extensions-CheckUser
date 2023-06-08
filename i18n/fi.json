@@ -111,5 +111,6 @@
 	"checkuser-investigate-subtitle-cancel-button-label": "Peruuta",
 	"checkuser-investigate-subtitle-continue-button-label": "Jatka",
 	"checkuser-investigate-duration-label": "Kesto",
-	"checkuser-investigate-compare-table-button-contribs-label": "Muokkaukset"
+	"checkuser-investigate-compare-table-button-contribs-label": "Muokkaukset",
+	"checkuser-tempaccount-reveal-ip-error": "virhe"
 }
