@@ -815,27 +815,6 @@ class Hooks implements
 	}
 
 	/**
-	 * Locates the client IP within a given XFF string.
-	 * Unlike the XFF checking to determine a user IP in WebRequest,
-	 * this simply follows the chain and does not account for server trust.
-	 *
-	 * This returns an array containing:
-	 *   - The best guess of the client IP
-	 *   - Whether all the proxies are just squid/varnish
-	 *   - The XFF value, converted to a empty string if false
-	 *
-	 * @param string|bool $xff XFF header value
-	 * @return array (string|null, bool, string)
-	 * @deprecated since 1.40 - Use CheckUserUtilityService::getClientIPfromXFF
-	 */
-	public static function getClientIPfromXFF( $xff ) {
-		wfDeprecated( 'getClientIPfromXFF', '1.40', 'CheckUser' );
-		/** @var CheckUserUtilityService $checkUserUtilityService */
-		$checkUserUtilityService = MediaWikiServices::getInstance()->get( 'CheckUserUtilityService' );
-		return $checkUserUtilityService->getClientIPfromXFF( $xff );
-	}
-
-	/**
 	 * @param DatabaseUpdater $updater
 	 */
 	public function onLoadExtensionSchemaUpdates( $updater ) {
