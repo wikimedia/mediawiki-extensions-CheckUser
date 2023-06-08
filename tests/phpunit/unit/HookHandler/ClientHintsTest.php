@@ -12,6 +12,7 @@ use MediaWikiUnitTestCase;
 use OutputPage;
 use Skin;
 use SpecialPage;
+use WebRequest;
 
 /**
  * @covers \MediaWiki\CheckUser\HookHandler\ClientHints
@@ -21,13 +22,17 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 	public function testClientHintsEnabledConfigSwitch() {
 		$special = $this->createMock( SpecialPage::class );
 		$special->method( 'getName' )->willReturn( 'Foo' );
-		// SpecialPage::getRequest() should never be called, because the global config
-		// flag is off.
-		$special->expects( $this->never() )->method( 'getRequest' );
+		$webRequest = $this->createMock( WebRequest::class );
+		$webResponse = $this->createMock( WebResponse::class );
+		$webRequest->method( 'response' )->willReturn( $webResponse );
+		$webResponse->expects( $this->never() )->method( 'header' )
+			->with( 'Accept-CH: ' );
+		$special->method( 'getRequest' )->willReturn( $webRequest );
 		$hookHandler = new ClientHints(
 			new HashConfig( [
 				'CheckUserClientHintsEnabled' => false,
 				'CheckUserClientHintsSpecialPages' => [ 'Foo' ],
+				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders()
 			] )
 		);
 		$hookHandler->onSpecialPageBeforeExecute( $special, null );
@@ -36,13 +41,18 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 	public function testClientHintsSpecialPageNotInAllowList() {
 		$special = $this->createMock( SpecialPage::class );
 		$special->method( 'getName' )->willReturn( 'Foo' );
-		// SpecialPage::getRequest() should never be called, because the
-		// SpecialPage name is not in the allow list.
-		$special->expects( $this->never() )->method( 'getRequest' );
+		$webRequest = $this->createMock( WebRequest::class );
+		$webResponse = $this->createMock( WebResponse::class );
+		$webRequest->method( 'response' )->willReturn( $webResponse );
+		$webResponse->expects( $this->once() )->method( 'header' )
+			->with( 'Accept-CH: ' );
+		$special->method( 'getRequest' )->willReturn( $webRequest );
 		$hookHandler = new ClientHints(
 			new HashConfig( [
 				'CheckUserClientHintsEnabled' => true,
 				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
+				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
+				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
 			] )
 		);
 		$hookHandler->onSpecialPageBeforeExecute( $special, null );
@@ -60,11 +70,13 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 			new HashConfig( [
 				'CheckUserClientHintsEnabled' => true,
 				'CheckUserClientHintsSpecialPages' => [ 'Foo' ],
+				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
+				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
 			] )
 		);
 		$hookHandler->onSpecialPageBeforeExecute( $special, null );
 		$this->assertSame(
-			implode( ', ', ClientHints::CLIENT_HINT_HEADERS ),
+			implode( ', ', $this->getDefaultClientHintHeaders() ),
 			$fauxResponse->getHeader( 'ACCEPT-CH' )
 		);
 	}
@@ -73,7 +85,9 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler = new ClientHints(
 			new HashConfig( [
 				'CheckUserClientHintsEnabled' => false,
-				'CheckUserClientHintsActionQueryParameter' => [ 'edit', 'rollback', 'undo' ],
+				'CheckUserClientHintsActionQueryParameter' => [ 'edit', 'rollback' ],
+				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
+				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
 			] )
 		);
 		$title = $this->createMock( Title::class );
@@ -91,14 +105,16 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler = new ClientHints(
 			new HashConfig( [
 				'CheckUserClientHintsEnabled' => true,
-				'CheckUserClientHintsActionQueryParameter' => [ 'edit', 'rollback', 'undo' ],
-				'CheckUserClientHintsSpecialPages' => [ 'Bar' ]
+				'CheckUserClientHintsActionQueryParameter' => [ 'edit', 'rollback' ],
+				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
+				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
+				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
 			] )
 		);
 		$title = $this->createMock( Title::class );
 		$webResponseMock = $this->createMock( WebResponse::class );
-		// ::header() is never called, because the action isn't in the allow list.
-		$webResponseMock->expects( $this->never() )->method( 'header' );
+		$webResponseMock->expects( $this->once() )->method( 'header' )
+			->with( 'Accept-CH: ' );
 		$outputPage = $this->createMock( OutputPage::class );
 		$outputPage->method( 'getTitle' )->willReturn( $title );
 		$requestMock = $this->createMock( 'WebRequest' );
@@ -114,13 +130,15 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 			new HashConfig( [
 				'CheckUserClientHintsEnabled' => true,
 				'CheckUserClientHintsActionQueryParameter' => [ 'edit', 'rollback', 'undo' ],
-				'CheckUserClientHintsSpecialPages' => [ 'Bar' ]
+				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
+				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
+				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
 			] )
 		);
 		$title = $this->createMock( Title::class );
 		$webResponseMock = $this->createMock( WebResponse::class );
-		// ::header() is called once, because the action is in the allow list.
-		$webResponseMock->expects( $this->once() )->method( 'header' );
+		$webResponseMock->expects( $this->once() )->method( 'header' )
+			->with( 'Accept-CH: ' . implode( ', ', $this->getDefaultClientHintHeaders() ) );
 		$outputPage = $this->createMock( OutputPage::class );
 		$outputPage->method( 'getTitle' )->willReturn( $title );
 		$requestMock = $this->createMock( 'WebRequest' );
@@ -129,6 +147,21 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$outputPage->method( 'getRequest' )->willReturn( $requestMock );
 		$skin = $this->createMock( Skin::class );
 		$hookHandler->onBeforePageDisplay( $outputPage, $skin );
+	}
+
+	private function getDefaultClientHintHeaders(): array {
+		return [
+			'Sec-CH-UA',
+			'Sec-CH-UA-Arch',
+			'Sec-CH-UA-Bitness',
+			'Sec-CH-UA-Form-Factor',
+			'Sec-CH-UA-Full-Version-List',
+			'Sec-CH-UA-Mobile',
+			'Sec-CH-UA-Model',
+			'Sec-CH-UA-Platform',
+			'Sec-CH-UA-Platform-Version',
+			'Sec-CH-UA-WoW64'
+		];
 	}
 
 }

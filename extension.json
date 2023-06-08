@@ -110,6 +110,25 @@
 				"rollback"
 			],
 			"description": "List of values to '?action=' query parameter. If the request contains a query parameter for e.g. ?action=edit, then CheckUser will send a header to request Client Hint user agent data."
+		},
+		"CheckUserClientHintsHeaders": {
+			"value": [
+				"Sec-CH-UA",
+				"Sec-CH-UA-Arch",
+				"Sec-CH-UA-Bitness",
+				"Sec-CH-UA-Form-Factor",
+				"Sec-CH-UA-Full-Version-List",
+				"Sec-CH-UA-Mobile",
+				"Sec-CH-UA-Model",
+				"Sec-CH-UA-Platform",
+				"Sec-CH-UA-Platform-Version",
+				"Sec-CH-UA-WoW64"
+			],
+			"description": "List of User-Agent Client Hints headers that CheckUser may ask for. See the list of valid values https://wicg.github.io/ua-client-hints."
+		},
+		"CheckUserClientHintsUnsetHeaderWhenPossible": {
+			"value": true,
+			"description": "If set to 'true', then CheckUser will transmit an empty `Accept-CH: ` header in BeforePageDisplay and SpecialPageBeforeExecute if SpecialPage isn't in the CheckUserClientHintsSpecialPages config list or the page's action parameter isn't in CheckUserClientHintsActionQueryParameter conifg list. If set to false, CheckUser will not send an empty `Accept-CH: ` header, which in practice means that all logged-in user requests will transmit User-Agent client hint data."
 		}
 	},
 	"APIListModules": {
