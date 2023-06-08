@@ -204,6 +204,14 @@
 		"SchemaChanges": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\SchemaChangesHandler"
 		},
+		"ToolLinks": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\ToolLinksHandler",
+			"services": [
+				"PermissionManager",
+				"SpecialPageFactory",
+				"LinkRenderer"
+			]
+		},
 		"Hooks": {
 			"class": "MediaWiki\\CheckUser\\Hooks"
 		}
@@ -216,12 +224,12 @@
 		"UserMergeAccountFields": "MediaWiki\\CheckUser\\Hooks::onUserMergeAccountFields",
 		"RenameUserSQL": "MediaWiki\\CheckUser\\Hooks::onRenameUserSQL",
 		"LoadExtensionSchemaUpdates": "SchemaChanges",
-		"ContributionsToolLinks": "Hooks",
+		"ContributionsToolLinks": "ToolLinks",
+		"UserToolLinksEdit": "ToolLinks",
 		"PerformRetroactiveAutoblock": "Hooks",
 		"AuthManagerLoginAuthenticateAudit": "Hooks",
 		"UserLogoutComplete": "Hooks",
 		"SpecialPage_initList": "Hooks",
-		"UserToolLinksEdit": "Hooks",
 		"BeforePageDisplay": [ "clienthints", "pageDisplay" ],
 		"GetPreferences": "preferences",
 		"SaveUserOptions": "preferences",

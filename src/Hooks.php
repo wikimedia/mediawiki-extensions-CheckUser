@@ -18,11 +18,9 @@ use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\Investigate\SpecialInvestigate;
 use MediaWiki\CheckUser\Investigate\SpecialInvestigateBlock;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
-use MediaWiki\Hook\ContributionsToolLinksHook;
 use MediaWiki\Hook\EmailUserHook;
 use MediaWiki\Hook\RecentChange_saveHook;
 use MediaWiki\Hook\UserLogoutCompleteHook;
-use MediaWiki\Hook\UserToolLinksEditHook;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Renameuser\RenameuserSQL;
 use MediaWiki\SpecialPage\Hook\SpecialPage_initListHook;
@@ -33,7 +31,6 @@ use MediaWiki\User\UserRigorOptions;
 use MessageSpecifier;
 use RecentChange;
 use RequestContext;
-use SpecialPage;
 use Status;
 use Title;
 use User;
@@ -43,14 +40,12 @@ use Wikimedia\ScopedCallback;
 
 class Hooks implements
 	AuthManagerLoginAuthenticateAuditHook,
-	ContributionsToolLinksHook,
 	EmailUserHook,
 	LocalUserCreatedHook,
 	PerformRetroactiveAutoblockHook,
 	RecentChange_saveHook,
 	SpecialPage_initListHook,
 	UserLogoutCompleteHook,
-	UserToolLinksEditHook,
 	User__mailPasswordInternalHook
 {
 
@@ -807,52 +802,6 @@ class Hooks implements
 	}
 
 	/**
-	 * Add a link to Special:CheckUser and Special:CheckUserLog
-	 * on Special:Contributions/<username> for
-	 * privileged users.
-	 * @param int $id User ID
-	 * @param Title $nt User page title
-	 * @param string[] &$links Tool links
-	 * @param SpecialPage $sp Special page
-	 */
-	public function onContributionsToolLinks(
-		$id, Title $nt, array &$links, SpecialPage $sp
-	) {
-		$user = $sp->getUser();
-		$linkRenderer = $sp->getLinkRenderer();
-		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
-
-		if ( $permissionManager->userHasRight( $user, 'checkuser' ) ) {
-			$links['checkuser'] = $linkRenderer->makeKnownLink(
-				SpecialPage::getTitleFor( 'CheckUser' ),
-				$sp->msg( 'checkuser-contribs' )->text(),
-				[ 'class' => 'mw-contributions-link-check-user' ],
-				[ 'user' => $nt->getText() ]
-			);
-		}
-		if ( $permissionManager->userHasRight( $user, 'checkuser-log' ) ) {
-			$links['checkuser-log'] = $linkRenderer->makeKnownLink(
-				SpecialPage::getTitleFor( 'CheckUserLog' ),
-				$sp->msg( 'checkuser-contribs-log' )->text(),
-				[ 'class' => 'mw-contributions-link-check-user-log' ],
-				[
-					'cuSearch' => $nt->getText()
-				]
-			);
-			if ( $id ) {
-				$links['checkuser-log-initiator'] = $linkRenderer->makeKnownLink(
-					SpecialPage::getTitleFor( 'CheckUserLog' ),
-					$sp->msg( 'checkuser-contribs-log-initiator' )->text(),
-					[ 'class' => 'mw-contributions-link-check-user-initiator' ],
-					[
-						'cuInitiator' => $nt->getText()
-					]
-				);
-			}
-		}
-	}
-
-	/**
 	 * Retroactively autoblocks the last IP used by the user (if it is a user)
 	 * blocked by this block.
 	 *
@@ -934,35 +883,6 @@ class Hooks implements
 	public static function onRenameUserSQL( RenameuserSQL $renameUserSQL ) {
 		$renameUserSQL->tables['cu_log'] = [ 'cul_target_text', 'cul_target_id' ];
 		return true;
-	}
-
-	/**
-	 * @param int $userId
-	 * @param string $userText
-	 * @param string[] &$items
-	 */
-	public function onUserToolLinksEdit( $userId, $userText, &$items ) {
-		$requestTitle = RequestContext::getMain()->getTitle();
-		if (
-			$requestTitle !== null &&
-			$requestTitle->inNamespace( NS_SPECIAL )
-		) {
-			$specialPageName = MediaWikiServices::getInstance()->getSpecialPageFactory()
-				->resolveAlias( $requestTitle->getText() )[0];
-			if ( $specialPageName === 'CheckUserLog' ) {
-				$items[] = MediaWikiServices::getInstance()->getLinkRenderer()->makeLink(
-					SpecialPage::getTitleFor( 'CheckUserLog', $userText ),
-					wfMessage( 'checkuser-log-checks-on' )->text()
-				);
-			} elseif ( $specialPageName === 'CheckUser' ) {
-				$items[] = MediaWikiServices::getInstance()->getLinkRenderer()->makeLink(
-					SpecialPage::getTitleFor( 'CheckUser', $userText ),
-					wfMessage( 'checkuser-toollink-check' )->text(),
-					[],
-					[ 'reason' => RequestContext::getMain()->getRequest()->getVal( 'reason', '' ) ]
-				);
-			}
-		}
 	}
 
 	/**
