@@ -15,14 +15,11 @@ use MediaWiki\Auth\Hook\LocalUserCreatedHook;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\Block\Hook\PerformRetroactiveAutoblockHook;
 use MediaWiki\CheckUser\Hook\HookRunner;
-use MediaWiki\CheckUser\Investigate\SpecialInvestigate;
-use MediaWiki\CheckUser\Investigate\SpecialInvestigateBlock;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Hook\EmailUserHook;
 use MediaWiki\Hook\RecentChange_saveHook;
 use MediaWiki\Hook\UserLogoutCompleteHook;
 use MediaWiki\MediaWikiServices;
-use MediaWiki\SpecialPage\Hook\SpecialPage_initListHook;
 use MediaWiki\User\Hook\User__mailPasswordInternalHook;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
@@ -43,7 +40,6 @@ class Hooks implements
 	LocalUserCreatedHook,
 	PerformRetroactiveAutoblockHook,
 	RecentChange_saveHook,
-	SpecialPage_initListHook,
 	UserLogoutCompleteHook,
 	User__mailPasswordInternalHook
 {
@@ -68,50 +64,6 @@ class Hooks implements
 		}
 		return MediaWikiServices::getInstance()->getContentLanguage()
 			->truncateForDatabase( $agent, self::TEXT_FIELD_LENGTH );
-	}
-
-	/**
-	 * @param array &$list
-	 * @return bool
-	 */
-	public function onSpecialPage_initList( &$list ) {
-		global $wgCheckUserEnableSpecialInvestigate;
-
-		if ( $wgCheckUserEnableSpecialInvestigate ) {
-			$list['Investigate'] = [
-				'class' => SpecialInvestigate::class,
-				'services' => [
-					'LinkRenderer',
-					'ContentLanguage',
-					'UserOptionsManager',
-					'CheckUserPreliminaryCheckPagerFactory',
-					'CheckUserComparePagerFactory',
-					'CheckUserTimelinePagerFactory',
-					'CheckUserTokenQueryManager',
-					'CheckUserDurationManager',
-					'CheckUserEventLogger',
-					'CheckUserGuidedTourLauncher',
-					'CheckUserHookRunner',
-					'PermissionManager',
-					'CheckUserLogService',
-					'UserIdentityLookup',
-				],
-			];
-
-			$list['InvestigateBlock'] = [
-				'class' => SpecialInvestigateBlock::class,
-				'services' => [
-					'BlockUserFactory',
-					'BlockPermissionCheckerFactory',
-					'PermissionManager',
-					'TitleFormatter',
-					'UserFactory',
-					'CheckUserEventLogger',
-				]
-			];
-		}
-
-		return true;
 	}
 
 	/**
