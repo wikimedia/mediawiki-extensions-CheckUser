@@ -22,31 +22,33 @@ class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook
 
 	/** @inheritDoc */
 	public function onSpecialPageBeforeExecute( $special, $subPage ) {
+		$request = $special->getRequest();
 		if ( !$this->config->get( 'CheckUserClientHintsEnabled' ) ) {
 			return;
 		}
 
 		if ( in_array( $special->getName(), $this->config->get( 'CheckUserClientHintsSpecialPages' ) ) ) {
-			$special->getRequest()->response()->header( $this->getClientHintsHeaderString() );
+			$request->response()->header( $this->getClientHintsHeaderString() );
 		} elseif ( $this->config->get( 'CheckUserClientHintsUnsetHeaderWhenPossible' ) ) {
-			$special->getRequest()->response()->header( $this->getEmptyClientHintsHeaderString() );
+			$request->response()->header( $this->getEmptyClientHintsHeaderString() );
 		}
 	}
 
 	/** @inheritDoc */
 	public function onBeforePageDisplay( $out, $skin ): void {
+		$request = $out->getRequest();
 		if ( $out->getTitle()->isSpecialPage() || !$this->config->get( 'CheckUserClientHintsEnabled' ) ) {
 			// We handle special pages in BeforeSpecialPageBeforeExecute.
 			return;
 		}
 
 		if ( in_array(
-			$out->getRequest()->getRawVal( 'action' ),
+			$request->getRawVal( 'action' ),
 			$this->config->get( 'CheckUserClientHintsActionQueryParameter' )
 		) ) {
-			$out->getRequest()->response()->header( $this->getClientHintsHeaderString() );
+			$request->response()->header( $this->getClientHintsHeaderString() );
 		} elseif ( $this->config->get( 'CheckUserClientHintsUnsetHeaderWhenPossible' ) ) {
-			$out->getRequest()->response()->header( $this->getEmptyClientHintsHeaderString() );
+			$request->response()->header( $this->getEmptyClientHintsHeaderString() );
 		}
 	}
 

@@ -25,8 +25,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$webRequest = $this->createMock( WebRequest::class );
 		$webResponse = $this->createMock( WebResponse::class );
 		$webRequest->method( 'response' )->willReturn( $webResponse );
-		$webResponse->expects( $this->never() )->method( 'header' )
-			->with( 'Accept-CH: ' );
+		$webResponse->expects( $this->never() )->method( 'header' );
 		$special->method( 'getRequest' )->willReturn( $webRequest );
 		$hookHandler = new ClientHints(
 			new HashConfig( [
@@ -94,10 +93,13 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$title->method( 'isSpecialPage' )->willReturn( true );
 		$outputPage = $this->createMock( OutputPage::class );
 		$outputPage->method( 'getTitle' )->willReturn( $title );
+		$webRequest = $this->createMock( WebRequest::class );
+		$webResponse = $this->createMock( WebResponse::class );
+		$webRequest->method( 'response' )->willReturn( $webResponse );
+		// ::header() should never be called, because global config flag is off.
+		$webResponse->expects( $this->never() )->method( 'header' );
+		$outputPage->method( 'getRequest' )->willReturn( $webRequest );
 		$skin = $this->createMock( Skin::class );
-		// OutputPage::getRequest() should never be called, because the global config
-		// flag is off.
-		$outputPage->expects( $this->never() )->method( 'getRequest' );
 		$hookHandler->onBeforePageDisplay( $outputPage, $skin );
 	}
 
