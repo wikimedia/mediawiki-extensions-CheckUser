@@ -201,6 +201,9 @@
 				"UserOptionsLookup"
 			]
 		},
+		"SchemaChanges": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\SchemaChangesHandler"
+		},
 		"Hooks": {
 			"class": "MediaWiki\\CheckUser\\Hooks"
 		}
@@ -212,7 +215,7 @@
 		"LocalUserCreated": "Hooks",
 		"UserMergeAccountFields": "MediaWiki\\CheckUser\\Hooks::onUserMergeAccountFields",
 		"RenameUserSQL": "MediaWiki\\CheckUser\\Hooks::onRenameUserSQL",
-		"LoadExtensionSchemaUpdates": "Hooks",
+		"LoadExtensionSchemaUpdates": "SchemaChanges",
 		"ContributionsToolLinks": "Hooks",
 		"PerformRetroactiveAutoblock": "Hooks",
 		"AuthManagerLoginAuthenticateAudit": "Hooks",
