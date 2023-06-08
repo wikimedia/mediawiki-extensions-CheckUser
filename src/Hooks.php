@@ -22,7 +22,6 @@ use MediaWiki\Hook\EmailUserHook;
 use MediaWiki\Hook\RecentChange_saveHook;
 use MediaWiki\Hook\UserLogoutCompleteHook;
 use MediaWiki\MediaWikiServices;
-use MediaWiki\Renameuser\RenameuserSQL;
 use MediaWiki\SpecialPage\Hook\SpecialPage_initListHook;
 use MediaWiki\User\Hook\User__mailPasswordInternalHook;
 use MediaWiki\User\UserIdentity;
@@ -871,17 +870,6 @@ class Hooks implements
 		];
 		$updateFields[] = [ 'cu_log', 'cul_target_id' ];
 
-		return true;
-	}
-
-	/**
-	 * For integration with user renames.
-	 *
-	 * @param RenameuserSQL $renameUserSQL
-	 * @return bool
-	 */
-	public static function onRenameUserSQL( RenameuserSQL $renameUserSQL ) {
-		$renameUserSQL->tables['cu_log'] = [ 'cul_target_text', 'cul_target_id' ];
 		return true;
 	}
 

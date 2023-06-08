@@ -212,6 +212,9 @@
 				"LinkRenderer"
 			]
 		},
+		"RenameUserSQLHandler": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\RenameUserSQLHandler"
+		},
 		"Hooks": {
 			"class": "MediaWiki\\CheckUser\\Hooks"
 		}
@@ -222,7 +225,7 @@
 		"User::mailPasswordInternal": "Hooks",
 		"LocalUserCreated": "Hooks",
 		"UserMergeAccountFields": "MediaWiki\\CheckUser\\Hooks::onUserMergeAccountFields",
-		"RenameUserSQL": "MediaWiki\\CheckUser\\Hooks::onRenameUserSQL",
+		"RenameUserSQL": "RenameUserSQLHandler",
 		"LoadExtensionSchemaUpdates": "SchemaChanges",
 		"ContributionsToolLinks": "ToolLinks",
 		"UserToolLinksEdit": "ToolLinks",
