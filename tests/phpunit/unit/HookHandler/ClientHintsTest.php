@@ -151,6 +151,98 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler->onBeforePageDisplay( $outputPage, $skin );
 	}
 
+	public function testClientHintsBeforePageDisplayExcludePOSTRequest() {
+		$hookHandler = new ClientHints(
+			new HashConfig( [
+				'CheckUserClientHintsEnabled' => true,
+				'CheckUserClientHintsActionQueryParameter' => [ 'edit', 'rollback' ],
+				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
+				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
+				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
+			] )
+		);
+		$title = $this->createMock( Title::class );
+		$webResponseMock = $this->createMock( WebResponse::class );
+		$webResponseMock->expects( $this->once() )->method( 'header' )
+			->with( 'Accept-CH: ' );
+		$outputPage = $this->createMock( OutputPage::class );
+		$outputPage->method( 'getTitle' )->willReturn( $title );
+		$requestMock = $this->createMock( 'WebRequest' );
+		$requestMock->method( 'getRawVal' )->with( 'action' )->willReturn( 'edit' );
+		$requestMock->method( 'response' )->willReturn( $webResponseMock );
+		$requestMock->method( 'wasPosted' )->willReturn( true );
+		$outputPage->method( 'getRequest' )->willReturn( $requestMock );
+		$skin = $this->createMock( Skin::class );
+		$hookHandler->onBeforePageDisplay( $outputPage, $skin );
+
+		// Repeat the scenario, but with CheckUserClientHintsUnsetHeaderWhenPossible set to false.
+		$hookHandler = new ClientHints(
+			new HashConfig( [
+				'CheckUserClientHintsEnabled' => true,
+				'CheckUserClientHintsActionQueryParameter' => [ 'edit', 'rollback' ],
+				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
+				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
+				'CheckUserClientHintsUnsetHeaderWhenPossible' => false,
+			] )
+		);
+		$title = $this->createMock( Title::class );
+		$webResponseMock = $this->createMock( WebResponse::class );
+		$webResponseMock->expects( $this->never() )->method( 'header' );
+		$outputPage = $this->createMock( OutputPage::class );
+		$outputPage->method( 'getTitle' )->willReturn( $title );
+		$requestMock = $this->createMock( 'WebRequest' );
+		$requestMock->method( 'getRawVal' )->with( 'action' )->willReturn( 'edit' );
+		$requestMock->method( 'response' )->willReturn( $webResponseMock );
+		$requestMock->method( 'wasPosted' )->willReturn( true );
+		$outputPage->method( 'getRequest' )->willReturn( $requestMock );
+		$skin = $this->createMock( Skin::class );
+		$hookHandler->onBeforePageDisplay( $outputPage, $skin );
+	}
+
+	public function testClientHintsSpecialPageBeforeExecuteExcludePOSTRequest() {
+		$special = $this->createMock( SpecialPage::class );
+		$special->method( 'getName' )->willReturn( 'Foo' );
+		$webResponseMock = $this->createMock( WebResponse::class );
+		$webResponseMock->expects( $this->once() )->method( 'header' )
+			->with( 'Accept-CH: ' );
+		$requestMock = $this->createMock( 'WebRequest' );
+		$requestMock->method( 'getRawVal' )->with( 'action' )->willReturn( 'edit' );
+		$requestMock->method( 'response' )->willReturn( $webResponseMock );
+		$fauxResponse = new FauxResponse();
+		$requestMock->method( 'response' )->willReturn( $fauxResponse );
+		$requestMock->method( 'wasPosted' )->willReturn( true );
+		$special->method( 'getRequest' )->willReturn( $requestMock );
+		$hookHandler = new ClientHints(
+			new HashConfig( [
+				'CheckUserClientHintsEnabled' => true,
+				'CheckUserClientHintsSpecialPages' => [ 'Foo' ],
+				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
+				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
+			] )
+		);
+		$hookHandler->onSpecialPageBeforeExecute( $special, null );
+
+		// Repeat the scenario, but with CheckUserClientHintsUnsetHeaderWhenPossible set to false.
+		$webResponseMock = $this->createMock( WebResponse::class );
+		$webResponseMock->expects( $this->never() )->method( 'header' );
+		$requestMock = $this->createMock( 'WebRequest' );
+		$requestMock->method( 'getRawVal' )->with( 'action' )->willReturn( 'edit' );
+		$requestMock->method( 'response' )->willReturn( $webResponseMock );
+		$fauxResponse = new FauxResponse();
+		$requestMock->method( 'response' )->willReturn( $fauxResponse );
+		$requestMock->method( 'wasPosted' )->willReturn( true );
+		$special->method( 'getRequest' )->willReturn( $requestMock );
+		$hookHandler = new ClientHints(
+			new HashConfig( [
+				'CheckUserClientHintsEnabled' => true,
+				'CheckUserClientHintsSpecialPages' => [ 'Foo' ],
+				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
+				'CheckUserClientHintsUnsetHeaderWhenPossible' => false,
+			] )
+		);
+		$hookHandler->onSpecialPageBeforeExecute( $special, null );
+	}
+
 	private function getDefaultClientHintHeaders(): array {
 		return [
 			'Sec-CH-UA',

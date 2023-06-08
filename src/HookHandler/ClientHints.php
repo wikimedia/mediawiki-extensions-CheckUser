@@ -27,6 +27,16 @@ class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook
 			return;
 		}
 
+		if ( $request->wasPosted() ) {
+			// It's too late to ask for client hints when a user is POST'ing a form.
+			if ( $this->config->get( 'CheckUserClientHintsUnsetHeaderWhenPossible' ) ) {
+				$request->response()->header( $this->getEmptyClientHintsHeaderString() );
+				return;
+			} else {
+				return;
+			}
+		}
+
 		if ( in_array( $special->getName(), $this->config->get( 'CheckUserClientHintsSpecialPages' ) ) ) {
 			$request->response()->header( $this->getClientHintsHeaderString() );
 		} elseif ( $this->config->get( 'CheckUserClientHintsUnsetHeaderWhenPossible' ) ) {
@@ -37,9 +47,22 @@ class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook
 	/** @inheritDoc */
 	public function onBeforePageDisplay( $out, $skin ): void {
 		$request = $out->getRequest();
-		if ( $out->getTitle()->isSpecialPage() || !$this->config->get( 'CheckUserClientHintsEnabled' ) ) {
-			// We handle special pages in BeforeSpecialPageBeforeExecute.
+		// We handle special pages in BeforeSpecialPageBeforeExecute.
+		if ( $out->getTitle()->isSpecialPage() ||
+			// ClientHints is globally disabled
+			!$this->config->get( 'CheckUserClientHintsEnabled' )
+		) {
 			return;
+		}
+
+		if ( $request->wasPosted() ) {
+			// It's too late to ask for client hints when a user is POST'ing a form.
+			if ( $this->config->get( 'CheckUserClientHintsUnsetHeaderWhenPossible' ) ) {
+				$request->response()->header( $this->getEmptyClientHintsHeaderString() );
+				return;
+			} else {
+				return;
+			}
 		}
 
 		if ( in_array(
