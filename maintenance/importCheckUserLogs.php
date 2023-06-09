@@ -1,6 +1,6 @@
 <?php
 
-use MediaWiki\CheckUser\CheckUserLogService;
+use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\WikiMap\WikiMap;
 use Wikimedia\IPUtils;

@@ -7,7 +7,7 @@ use ApiQueryBase;
 use ApiResult;
 use Exception;
 use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
-use MediaWiki\CheckUser\CheckUserLogService;
+use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionLookup;

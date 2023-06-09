@@ -28,7 +28,7 @@ use IContextSource;
 use Linker;
 use MediaWiki\CheckUser\Investigate\Services\CompareService;
 use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
-use MediaWiki\CheckUser\TokenQueryManager;
+use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Linker\LinkRenderer;
 use TablePager;
 use Wikimedia\IPUtils;

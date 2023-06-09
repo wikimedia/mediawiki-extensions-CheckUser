@@ -7,7 +7,7 @@ use IContextSource;
 use MediaWiki\CheckUser\Hook\CheckUserFormatRowHook;
 use MediaWiki\CheckUser\Investigate\Services\TimelineService;
 use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
-use MediaWiki\CheckUser\TokenQueryManager;
+use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Linker\LinkRenderer;
 use ParserOutput;
 use Psr\Log\LoggerInterface;

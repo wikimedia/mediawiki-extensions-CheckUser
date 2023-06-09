@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests;
+namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
@@ -14,8 +14,8 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  * @group CheckUser
  * @group Database
  *
- * @covers \MediaWiki\CheckUser\CheckUserLogService
- * @coversDefaultClass \MediaWiki\CheckUser\CheckUserLogService
+ * @covers \MediaWiki\CheckUser\Services\CheckUserLogService
+ * @coversDefaultClass \MediaWiki\CheckUser\Services\CheckUserLogService
  */
 class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 	protected function setUp(): void {

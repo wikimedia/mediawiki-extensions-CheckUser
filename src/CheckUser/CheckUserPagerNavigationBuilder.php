@@ -4,7 +4,7 @@ namespace MediaWiki\CheckUser\CheckUser;
 
 use Html;
 use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
-use MediaWiki\CheckUser\TokenQueryManager;
+use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Navigation\PagerNavigationBuilder;
 use MediaWiki\Session\CsrfTokenSet;

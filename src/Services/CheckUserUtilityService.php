@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser;
+namespace MediaWiki\CheckUser\Services;
 
 use ProxyLookup;
 use WebRequest;
@@ -91,3 +91,9 @@ class CheckUserUtilityService {
 		return [ $client, $isSquidOnly, $xff ];
 	}
 }
+
+/**
+ * Retain the old namespace for backwards compatibility.
+ * @deprecated since 1.41
+ */
+class_alias( CheckUserUtilityService::class, 'MediaWiki\CheckUser\CheckUserUtilityService' );

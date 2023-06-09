@@ -6,7 +6,7 @@ use ApiBase;
 use ApiQuery;
 use ApiQueryBase;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager;
-use MediaWiki\CheckUser\CheckUserLogService;
+use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CommentStore\CommentStore;
 use Wikimedia\IPUtils;
 use Wikimedia\ParamValidator\ParamValidator;

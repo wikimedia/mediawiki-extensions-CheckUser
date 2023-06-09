@@ -4,7 +4,7 @@ namespace MediaWiki\CheckUser\Investigate\Pagers;
 
 use MediaWiki\CheckUser\Investigate\Services\CompareService;
 use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
-use MediaWiki\CheckUser\TokenQueryManager;
+use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Linker\LinkRenderer;
 
 class ComparePagerFactory implements PagerFactory {

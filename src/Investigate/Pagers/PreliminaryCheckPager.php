@@ -25,7 +25,7 @@ use ExtensionRegistry;
 use Html;
 use IContextSource;
 use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
-use MediaWiki\CheckUser\TokenQueryManager;
+use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Extension\CentralAuth\CentralAuthDatabaseManager;
 use MediaWiki\Extension\CentralAuth\CentralAuthServices;
 use MediaWiki\Linker\LinkRenderer;

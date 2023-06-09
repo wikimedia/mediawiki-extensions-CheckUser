@@ -7,7 +7,7 @@ use Html;
 use HTMLForm;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager;
-use MediaWiki\CheckUser\CheckUserLogService;
+use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Permissions\PermissionManager;
