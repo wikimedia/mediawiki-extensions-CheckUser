@@ -215,6 +215,12 @@
 		"RenameUserSQLHandler": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\RenameUserSQLHandler"
 		},
+		"SpecialPageInitList": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\SpecialPageInitListHandler",
+			"services": [
+				"MainConfig"
+			]
+		},
 		"Hooks": {
 			"class": "MediaWiki\\CheckUser\\Hooks"
 		}
@@ -232,7 +238,7 @@
 		"PerformRetroactiveAutoblock": "Hooks",
 		"AuthManagerLoginAuthenticateAudit": "Hooks",
 		"UserLogoutComplete": "Hooks",
-		"SpecialPage_initList": "Hooks",
+		"SpecialPage_initList": "SpecialPageInitList",
 		"BeforePageDisplay": [ "clienthints", "pageDisplay" ],
 		"GetPreferences": "preferences",
 		"SaveUserOptions": "preferences",
