@@ -75,7 +75,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		);
 		$hookHandler->onSpecialPageBeforeExecute( $special, null );
 		$this->assertSame(
-			implode( ', ', $this->getDefaultClientHintHeaders() ),
+			implode( ', ', array_keys( $this->getDefaultClientHintHeaders() ) ),
 			$fauxResponse->getHeader( 'ACCEPT-CH' )
 		);
 	}
@@ -93,6 +93,8 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$title->method( 'isSpecialPage' )->willReturn( true );
 		$outputPage = $this->createMock( OutputPage::class );
 		$outputPage->method( 'getTitle' )->willReturn( $title );
+		// We should not add ext.checkUser.clientHints to page if feature flag is off.
+		$outputPage->expects( $this->never() )->method( 'addModules' );
 		$webRequest = $this->createMock( WebRequest::class );
 		$webResponse = $this->createMock( WebResponse::class );
 		$webRequest->method( 'response' )->willReturn( $webResponse );
@@ -140,9 +142,11 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$title = $this->createMock( Title::class );
 		$webResponseMock = $this->createMock( WebResponse::class );
 		$webResponseMock->expects( $this->once() )->method( 'header' )
-			->with( 'Accept-CH: ' . implode( ', ', $this->getDefaultClientHintHeaders() ) );
+			->with( 'Accept-CH: ' . implode( ', ', array_keys( $this->getDefaultClientHintHeaders() ) ) );
 		$outputPage = $this->createMock( OutputPage::class );
 		$outputPage->method( 'getTitle' )->willReturn( $title );
+		// We should add ext.checkUser.clientHints to page on GET with ?action=edit.
+		$outputPage->expects( $this->once() )->method( 'addModules' );
 		$requestMock = $this->createMock( 'WebRequest' );
 		$requestMock->method( 'getRawVal' )->with( 'action' )->willReturn( 'edit' );
 		$requestMock->method( 'response' )->willReturn( $webResponseMock );
@@ -167,6 +171,8 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 			->with( 'Accept-CH: ' );
 		$outputPage = $this->createMock( OutputPage::class );
 		$outputPage->method( 'getTitle' )->willReturn( $title );
+		// We should not add ext.checkUser.clientHints to page on POST.
+		$outputPage->expects( $this->never() )->method( 'addModules' );
 		$requestMock = $this->createMock( 'WebRequest' );
 		$requestMock->method( 'getRawVal' )->with( 'action' )->willReturn( 'edit' );
 		$requestMock->method( 'response' )->willReturn( $webResponseMock );
@@ -190,6 +196,8 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$webResponseMock->expects( $this->never() )->method( 'header' );
 		$outputPage = $this->createMock( OutputPage::class );
 		$outputPage->method( 'getTitle' )->willReturn( $title );
+		// We should not add ext.checkUser.clientHints to page on POST.
+		$outputPage->expects( $this->never() )->method( 'addModules' );
 		$requestMock = $this->createMock( 'WebRequest' );
 		$requestMock->method( 'getRawVal' )->with( 'action' )->willReturn( 'edit' );
 		$requestMock->method( 'response' )->willReturn( $webResponseMock );
@@ -245,16 +253,16 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 
 	private function getDefaultClientHintHeaders(): array {
 		return [
-			'Sec-CH-UA',
-			'Sec-CH-UA-Arch',
-			'Sec-CH-UA-Bitness',
-			'Sec-CH-UA-Form-Factor',
-			'Sec-CH-UA-Full-Version-List',
-			'Sec-CH-UA-Mobile',
-			'Sec-CH-UA-Model',
-			'Sec-CH-UA-Platform',
-			'Sec-CH-UA-Platform-Version',
-			'Sec-CH-UA-WoW64'
+			'Sec-CH-UA' => '',
+			'Sec-CH-UA-Arch' => 'architecture',
+			'Sec-CH-UA-Bitness' => 'bitness',
+			'Sec-CH-UA-Form-Factor' => '',
+			'Sec-CH-UA-Full-Version-List' => 'fullVersionList',
+			'Sec-CH-UA-Mobile' => 'mobile',
+			'Sec-CH-UA-Model' => 'model',
+			'Sec-CH-UA-Platform' => 'platform',
+			'Sec-CH-UA-Platform-Version' => 'platformVersion',
+			'Sec-CH-UA-WoW64' => ''
 		];
 	}
 
