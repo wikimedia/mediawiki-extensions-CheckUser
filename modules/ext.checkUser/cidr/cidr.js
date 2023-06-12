@@ -28,7 +28,7 @@
 	 * This function calculates the common range of a list of
 	 * IPs. It should be set to update on keyUp.
 	 *
-	 * @param $form JQuery element for the form that is being updated
+	 * @param {jQuery} $form JQuery element for the form that is being updated
 	 * @param {boolean} hasCheckUserRight Whether the user has the right to see Special:CheckUser
 	 * @param {boolean} hasCheckUserLogRight Whether the user has the right to see Special:CheckUser
 	 */
@@ -74,6 +74,7 @@
 			// Match the first IP in each list (ignore other garbage)
 			var ipV4 = mw.util.isIPv4Address( addy, true );
 			var ipV6 = mw.util.isIPv6Address( addy, true );
+			// eslint-disable-next-line security/detect-unsafe-regex
 			var ipCidr = addy.match( /^(.*)(?:\/(\d+))?$/ );
 			// Binary form
 			var bin = '';

@@ -51,6 +51,8 @@ function makeButton( target, revId, revIds ) {
 /**
  * Add a button to a "typical" page. This functionality is here because
  * it is shared between initOnLoad and initOnHook.
+ *
+ * @param {jQuery} $content
  */
 function addButton( $content ) {
 	var allRevIds = {};
@@ -84,6 +86,8 @@ function addButton( $content ) {
 /**
  * Add enable multireveal for a "typical" page. This functionality is here
  * because it is shared between initOnLoad and initOnHook.
+ *
+ * @param {jQuery} $element
  */
 function enableMultiReveal( $element ) {
 	$element.on( 'userRevealed', function ( _e, userLookup ) {
