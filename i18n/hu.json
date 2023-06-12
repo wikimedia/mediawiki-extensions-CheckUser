@@ -26,7 +26,7 @@
 	"checkuserlog": "IP-ellenőr-napló",
 	"checkuser-contribs": "a szerkesztő IP-ellenőrzése",
 	"checkuser-contribs-log": "szerkesztőre irányuló IP-ellenőrzések",
-	"checkuser-contribs-log-initiator": "ezen szerkesztő által végzett IP-ellenőrzések",
+	"checkuser-contribs-log-initiator": "szerkesztő által végzett IP-ellenőrzések",
 	"group-checkuser": "IP-ellenőrök",
 	"group-checkuser-member": "IP-ellenőr",
 	"right-checkuser": "a felhasználók IP-címének és más adatainak ellenőrzése",
