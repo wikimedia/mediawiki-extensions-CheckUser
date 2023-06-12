@@ -84,7 +84,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler = new ClientHints(
 			new HashConfig( [
 				'CheckUserClientHintsEnabled' => false,
-				'CheckUserClientHintsActionQueryParameter' => [ 'edit', 'rollback' ],
+				'CheckUserClientHintsActionQueryParameter' => [ 'edit', 'history' ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
 			] )
@@ -107,7 +107,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler = new ClientHints(
 			new HashConfig( [
 				'CheckUserClientHintsEnabled' => true,
-				'CheckUserClientHintsActionQueryParameter' => [ 'edit', 'rollback' ],
+				'CheckUserClientHintsActionQueryParameter' => [ 'edit', 'history' ],
 				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
@@ -131,7 +131,7 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler = new ClientHints(
 			new HashConfig( [
 				'CheckUserClientHintsEnabled' => true,
-				'CheckUserClientHintsActionQueryParameter' => [ 'edit', 'rollback', 'undo' ],
+				'CheckUserClientHintsActionQueryParameter' => [ 'edit', 'history' ],
 				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
