@@ -58,6 +58,12 @@ function onTargetChange( blockTarget ) {
 							Math.round( mw.config.get( 'wgCUDMaxAge' ) / 86400 )
 						).text()
 				} ).$element );
+		} ).fail( function () {
+			$container.empty()
+				.addClass( 'ext-checkuser-tempaccount-reveal-ip' )
+				.append( new OO.ui.LabelWidget( {
+					label: mw.message( 'checkuser-tempaccount-reveal-ip-error' ).text()
+				} ).$element );
 		} );
 	} );
 }
