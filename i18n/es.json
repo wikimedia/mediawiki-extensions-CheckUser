@@ -39,7 +39,8 @@
 			"Titoxd",
 			"VegaDark",
 			"Francodiaz7",
-			"JDíaz32"
+			"JDíaz32",
+			"No se"
 		]
 	},
 	"checkuser-summary": "Esta herramienta explora los cambios recientes para obtener las direcciones IP utilizadas por un usuario, o para mostrar la información de ediciones y usuarios de una cierta dirección IP.\nSe pueden obtener los usuarios y las ediciones de una dirección IP cliente vía XFF añadiendo «/xff» al final de la dirección IP. Funciona con IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).\nNo se muestran más de 5000 ediciones por motivos de rendimiento.\nUtilízala de acuerdo con las políticas correspondientes.",
@@ -49,7 +50,7 @@
 	"checkuser-contribs": "comprobar las direcciones IP del usuario",
 	"checkuser-contribs-log": "comprobaciones recientes efectuadas sobre este usuario",
 	"group-checkuser": "Comprobadores de usuarios",
-	"group-checkuser-member": "{{GENDER:$1|comprobador de usuarios|comprobadora de usuarios}}",
+	"group-checkuser-member": "{{GENDER:$1|comprobador|comprobadora}} de usuarios",
 	"right-checkuser": "Comprobar las direcciones IP y otra información de los usuarios",
 	"right-checkuser-log": "Ver el registro de comprobaciones de usuarios",
 	"action-checkuser": "comprobar las direcciones IP y otra información de los usuarios",
