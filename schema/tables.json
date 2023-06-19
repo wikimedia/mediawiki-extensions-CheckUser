@@ -443,6 +443,26 @@
 				}
 			},
 			{
+				"name": "cul_result_id",
+				"comment": "Comment summarising the result of the check associated with this log entry.",
+				"type": "bigint",
+				"options": {
+					"unsigned": true,
+					"notnull": true,
+					"default": 0
+				}
+			},
+			{
+				"name": "cul_result_plaintext_id",
+				"comment": "Plaintext version of the comment summarising the result of the check associated with this log entry.",
+				"type": "bigint",
+				"options": {
+					"unsigned": true,
+					"notnull": true,
+					"default": 0
+				}
+			},
+			{
 				"name": "cul_type",
 				"comment": "String indicating the type of query, may be: 'useredits', 'userips', 'ipedits', 'ipusers', 'ipedits-xff', 'ipusers-xff' or 'investigate' if the check was performed from Special:Investigate",
 				"type": "binary",

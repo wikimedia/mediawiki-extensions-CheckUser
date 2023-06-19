@@ -104,6 +104,8 @@ CREATE TABLE /*_*/cu_log (
   cul_actor BIGINT UNSIGNED NOT NULL,
   cul_reason_id BIGINT UNSIGNED NOT NULL,
   cul_reason_plaintext_id BIGINT UNSIGNED NOT NULL,
+  cul_result_id BIGINT UNSIGNED DEFAULT 0 NOT NULL,
+  cul_result_plaintext_id BIGINT UNSIGNED DEFAULT 0 NOT NULL,
   cul_type VARBINARY(30) NOT NULL,
   cul_target_id INT UNSIGNED DEFAULT 0 NOT NULL,
   cul_target_text BLOB NOT NULL,
