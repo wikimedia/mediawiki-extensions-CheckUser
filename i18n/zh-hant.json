@@ -196,5 +196,6 @@
 	"checkuser-investigate-tour-block-title": "想要封鎖？",
 	"checkuser-investigate-tour-block-desc": "允許您選擇要封鎖的使用者，並帶您到封鎖表單來選擇適當的封鎖方式。",
 	"checkuser-investigate-tour-copywikitext-title": "想要複製資料？",
-	"checkuser-investigate-tour-copywikitext-desc": "透過單次點擊來複製比較表，並將其內容帶到 CUWiki。請注意您只能複製可見的內容，而非調查的所有頁面。"
+	"checkuser-investigate-tour-copywikitext-desc": "透過單次點擊來複製比較表，並將其內容帶到 CUWiki。請注意您只能複製可見的內容，而非調查的所有頁面。",
+	"checkuser-tempaccount-reveal-ip-error": "錯誤"
 }
