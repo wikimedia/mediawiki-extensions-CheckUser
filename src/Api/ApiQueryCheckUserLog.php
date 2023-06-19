@@ -8,6 +8,7 @@ use ApiQueryBase;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager;
 use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\CommentStore\CommentStore;
+use MediaWiki\User\UserFactory;
 use Wikimedia\IPUtils;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\ParamValidator\TypeDef\IntegerDef;
@@ -22,19 +23,25 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 	/** @var CheckUserLogService */
 	private $checkUserLogService;
 
+	private UserFactory $userFactory;
+
 	/**
 	 * @param ApiQuery $query
 	 * @param string $moduleName
 	 * @param CommentStore $commentStore
 	 * @param CheckUserLogService $checkUserLogService
+	 * @param UserFactory $userFactory
 	 */
 	public function __construct(
-		$query, $moduleName, CommentStore $commentStore,
-		CheckUserLogService $checkUserLogService
+		$query, $moduleName,
+		CommentStore $commentStore,
+		CheckUserLogService $checkUserLogService,
+		UserFactory $userFactory
 	) {
 		parent::__construct( $query, $moduleName, 'cul' );
 		$this->commentStore = $commentStore;
 		$this->checkUserLogService = $checkUserLogService;
+		$this->userFactory = $userFactory;
 	}
 
 	public function execute() {
@@ -120,6 +127,24 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 				'reason'    => $this->commentStore->getComment( 'cul_reason', $row )->text,
 				'target'    => $row->cul_target_text,
 			];
+
+			$checkUser = $this->userFactory->newFromName( $row->actor_name );
+			if (
+				$checkUser &&
+				$checkUser->isHidden() &&
+				!$this->getAuthority()->isAllowed( 'hideuser' )
+			) {
+				$log['checkuser'] = $this->msg( 'rev-deleted-user' )->plain();
+			}
+
+			$targetUser = $this->userFactory->newFromName( $row->cul_target_text );
+			if (
+				$targetUser &&
+				$targetUser->isHidden() &&
+				!$this->getAuthority()->isAllowed( 'hideuser' )
+			) {
+				$log['target'] = $this->msg( 'rev-deleted-user' )->plain();
+			}
 			$fit = $result->addValue( [ 'query', $this->getModuleName(), 'entries' ], null, $log );
 			if ( !$fit ) {
 				$this->setContinueEnumParameter( 'continue', "$row->cul_timestamp|$row->cul_id" );
