@@ -65,6 +65,16 @@ class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook
 			}
 		}
 
+		$out->addJsConfigVars( [
+			// Roundabout way to ensure we have a list of values like "architecture", "bitness"
+			// etc for use with the client-side JS API. Make sure we get 1) just the values
+			// from the configuration, 2) filter out any empty entries, 3) convert to a list
+			'wgCheckUserClientHintsHeadersJsApi' => array_values( array_filter( array_values(
+				$this->config->get( 'CheckUserClientHintsHeaders' )
+			) ) ),
+		] );
+		$out->addModules( 'ext.checkUser.clientHints' );
+
 		if ( in_array(
 			$request->getRawVal( 'action' ),
 			$this->config->get( 'CheckUserClientHintsActionQueryParameter' )
@@ -83,7 +93,7 @@ class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook
 	private function getClientHintsHeaderString(): string {
 		$headers = implode(
 			', ',
-			$this->config->get( 'CheckUserClientHintsHeaders' )
+			array_filter( array_keys( $this->config->get( 'CheckUserClientHintsHeaders' ) ) )
 		);
 		return "Accept-CH: $headers";
 	}
