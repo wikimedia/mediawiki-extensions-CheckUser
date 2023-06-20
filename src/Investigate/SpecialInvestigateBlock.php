@@ -393,4 +393,13 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 			$out->addHtml( $failedNoticesMessage );
 		}
 	}
+
+	/**
+	 * InvestigateBlock writes to the DB when the form is submitted.
+	 *
+	 * @return true
+	 */
+	public function doesWrites() {
+		return true;
+	}
 }
