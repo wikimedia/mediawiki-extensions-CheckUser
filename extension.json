@@ -106,10 +106,9 @@
 		},
 		"CheckUserClientHintsActionQueryParameter": {
 			"value": [
-				"edit",
 				"history"
 			],
-			"description": "List of values to '?action=' query parameter. If the request contains a query parameter for e.g. ?action=edit, then CheckUser will send a header to request Client Hint user agent data."
+			"description": "List of values to '?action=' query parameter. If the request contains a query parameter for e.g. ?action=history, then CheckUser will send a header to request Client Hint user agent data on the subsequent request."
 		},
 		"CheckUserClientHintsHeaders": {
 			"value": {
