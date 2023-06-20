@@ -23,6 +23,11 @@ class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook
 	/** @inheritDoc */
 	public function onSpecialPageBeforeExecute( $special, $subPage ) {
 		$request = $special->getRequest();
+		if ( $request->getHeader( 'Sec-Ch-Ua' ) === false ) {
+			// The browser doesn't support the client hint header, no point doing anything else here.
+			return;
+		}
+
 		if ( !$this->config->get( 'CheckUserClientHintsEnabled' ) ) {
 			return;
 		}
@@ -47,6 +52,11 @@ class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook
 	/** @inheritDoc */
 	public function onBeforePageDisplay( $out, $skin ): void {
 		$request = $out->getRequest();
+		if ( $request->getHeader( 'Sec-Ch-Ua' ) === false ) {
+			// The browser doesn't support the client hint header, no point doing anything else here.
+			return;
+		}
+
 		// We handle special pages in BeforeSpecialPageBeforeExecute.
 		if ( $out->getTitle()->isSpecialPage() ||
 			// ClientHints is globally disabled

@@ -61,7 +61,9 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$special = $this->createMock( SpecialPage::class );
 		$special->method( 'getName' )->willReturn( 'Foo' );
 		$requestMock = $this->getMockBuilder( FauxRequest::class )
-			->onlyMethods( [ 'response' ] )->getMock();
+			->onlyMethods( [ 'response', 'getHeader' ] )->getMock();
+		$requestMock->method( 'getHeader' )->with( 'Sec-Ch-Ua' )
+			->willReturn( '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"' );
 		$fauxResponse = new FauxResponse();
 		$requestMock->method( 'response' )->willReturn( $fauxResponse );
 		$special->method( 'getRequest' )->willReturn( $requestMock );
