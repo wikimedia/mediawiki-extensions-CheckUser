@@ -1,9 +1,9 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration;
+namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use Firebase\JWT\JWT;
-use MediaWiki\CheckUser\TokenManager;
+use MediaWiki\CheckUser\Services\TokenManager;
 use MediaWiki\Session\SessionManager;
 use MediaWikiIntegrationTestCase;
 use MWTimestamp;
@@ -13,7 +13,7 @@ use MWTimestamp;
  *
  * @group CheckUser
  *
- * @covers \MediaWiki\CheckUser\TokenManager
+ * @covers \MediaWiki\CheckUser\Services\TokenManager
  */
 class TokenManagerTest extends MediaWikiIntegrationTestCase {
 

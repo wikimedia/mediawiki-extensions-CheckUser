@@ -5,7 +5,7 @@ namespace MediaWiki\CheckUser\Investigate\Pagers;
 use ExtensionRegistry;
 use IContextSource;
 use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
-use MediaWiki\CheckUser\TokenQueryManager;
+use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Linker\LinkRenderer;
 use NamespaceInfo;
 

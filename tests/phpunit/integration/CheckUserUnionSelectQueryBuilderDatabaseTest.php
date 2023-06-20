@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests;
+namespace MediaWiki\CheckUser\Tests\Integration;
 
 use MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilder;
 use MediaWiki\CheckUser\Test\Integration\CheckUserCommonTraitTest;

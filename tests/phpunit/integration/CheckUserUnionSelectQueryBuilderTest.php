@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests;
+namespace MediaWiki\CheckUser\Tests\Integration;
 
 use InvalidArgumentException;
 use MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilder;

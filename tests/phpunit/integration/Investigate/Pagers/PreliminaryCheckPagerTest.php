@@ -5,7 +5,7 @@ namespace MediaWiki\CheckUser\Tests;
 use ExtensionRegistry;
 use MediaWiki\CheckUser\Investigate\Pagers\PreliminaryCheckPager;
 use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
-use MediaWiki\CheckUser\TokenQueryManager;
+use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\User\UserGroupManagerFactory;
 use MediaWikiIntegrationTestCase;

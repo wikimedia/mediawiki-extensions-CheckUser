@@ -4,7 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Unit;
 
 use IDatabase;
 use MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilder;
-use MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilderFactory;
+use MediaWiki\CheckUser\Services\CheckUserUnionSelectQueryBuilderFactory;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWikiUnitTestCase;
 use Wikimedia\Rdbms\DatabasePostgres;

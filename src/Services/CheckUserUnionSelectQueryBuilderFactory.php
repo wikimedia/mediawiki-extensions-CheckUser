@@ -1,7 +1,8 @@
 <?php
 
-namespace MediaWiki\CheckUser;
+namespace MediaWiki\CheckUser\Services;
 
+use MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilder;
 use MediaWiki\CommentStore\CommentStore;
 use Wikimedia\Rdbms\IReadableDatabase;
 

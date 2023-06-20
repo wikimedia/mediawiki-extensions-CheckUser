@@ -1,10 +1,10 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Unit;
+namespace MediaWiki\CheckUser\Tests\Unit\Services;
 
 use IDatabase;
 use MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilder;
-use MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilderFactory;
+use MediaWiki\CheckUser\Services\CheckUserUnionSelectQueryBuilderFactory;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWikiUnitTestCase;
 use Wikimedia\TestingAccessWrapper;
@@ -14,8 +14,8 @@ use Wikimedia\TestingAccessWrapper;
  *
  * @group CheckUser
  *
- * @covers \MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilderFactory
- * @coversDefaultClass \MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilderFactory
+ * @covers \MediaWiki\CheckUser\Services\CheckUserUnionSelectQueryBuilderFactory
+ * @coversDefaultClass \MediaWiki\CheckUser\Services\CheckUserUnionSelectQueryBuilderFactory
  */
 class CheckUserUnionSelectQueryBuilderFactoryTest extends MediaWikiUnitTestCase {
 	/** @return TestingAccessWrapper */
@@ -26,7 +26,7 @@ class CheckUserUnionSelectQueryBuilderFactoryTest extends MediaWikiUnitTestCase 
 	}
 
 	/**
-	 * @covers \MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilderFactory
+	 * @covers \MediaWiki\CheckUser\Services\CheckUserUnionSelectQueryBuilderFactory
 	 */
 	public function testNewObjectMethod() {
 		$this->assertInstanceOf(

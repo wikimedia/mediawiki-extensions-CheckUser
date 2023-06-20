@@ -21,7 +21,7 @@
 namespace MediaWiki\CheckUser\Maintenance;
 
 use LoggedUpdateMaintenance;
-use MediaWiki\CheckUser\CheckUserLogService;
+use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\MediaWikiServices;
 use Psr\Log\NullLogger;
 use Wikimedia\Services\NoSuchServiceException;

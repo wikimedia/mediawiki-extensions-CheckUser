@@ -1,8 +1,5 @@
 <?php
 
-use MediaWiki\CheckUser\CheckUserLogService;
-use MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilderFactory;
-use MediaWiki\CheckUser\CheckUserUtilityService;
 use MediaWiki\CheckUser\GuidedTour\TourLauncher;
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\Investigate\Pagers\ComparePagerFactory;
@@ -15,8 +12,11 @@ use MediaWiki\CheckUser\Investigate\Services\TimelineService;
 use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
 use MediaWiki\CheckUser\Investigate\Utilities\EventLogger;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
-use MediaWiki\CheckUser\TokenManager;
-use MediaWiki\CheckUser\TokenQueryManager;
+use MediaWiki\CheckUser\Services\CheckUserLogService;
+use MediaWiki\CheckUser\Services\CheckUserUnionSelectQueryBuilderFactory;
+use MediaWiki\CheckUser\Services\CheckUserUtilityService;
+use MediaWiki\CheckUser\Services\TokenManager;
+use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
