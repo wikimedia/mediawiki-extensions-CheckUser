@@ -18,16 +18,15 @@
 		return new mw.Rest().post(
 			'/checkuser/v0/useragent-clienthints/' + mw.config.get( 'wgCurRevisionId' ),
 			clientHintData
-		).fail( function ( err, errObject ) {
+		).fail( function ( _err, errObject ) {
 			mw.log.error( errObject );
+			var errMessage = errObject.exception;
 			if ( errObject.xhr &&
 				errObject.xhr.responseJSON &&
 				errObject.xhr.responseJSON.messageTranslations ) {
-				mw.errorLogger.logError( new Error(
-					errObject.xhr.responseJSON.messageTranslations[
-						mw.config.get( 'wgContentLanguage' ) ]
-				), 'error.checkuser' );
+				errMessage = errObject.xhr.responseJSON.messageTranslations.en;
 			}
+			mw.errorLogger.logError( new Error( errMessage ), 'error.checkuser' );
 		} );
 	}
 
