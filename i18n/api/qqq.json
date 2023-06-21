@@ -30,5 +30,6 @@
 	"apierror-checkuser-timelimit": "{{doc-apierror}}\n{{doc-important|Do not translate \"-2 weeks\" or \"2 weeks ago\". It must be in [http://www.php.net/strtotime original format].}}",
 	"apierror-checkuser-invalidmode": "{{doc-apierror}}",
 	"checkuser-api-help-param-direction": "{{doc-apihelp-param|description=any standard \"dir\" parameter|noseealso=1}}\n\nSee also:\n* {{msg-mw|api-help-param-direction}}",
-	"checkuser-api-useragent-clienthints-revision-user-mismatch": "Error message shown if POST request to /checkuser/v0/useragent-clienthints/{revision} contains a revision ID that was not authored by the user making the API request. Parameters:\n* $1 - The ID of the user making the request.\n* $2 - The revision ID sent in the request."
+	"checkuser-api-useragent-clienthints-revision-user-mismatch": "Error message shown if POST request to /checkuser/v0/useragent-clienthints/{type}/{id} contains a revision ID that was not authored by the user making the API request. Parameters:\n* $1 - The ID of the user making the request.\n* $2 - The revision ID sent in the request.",
+	"checkuser-api-useragent-clienthints-mappings-exist": "Error message shown if POST request to /checkuser/v0/useragent-clienthints/{type}/{id} results in handler code attempting to insert client hint mappings that already exist. Parameters:\n* $1 - The identifier type, e.g. 'revision'.\n* $2 - The ID of the data, e.g. 1234."
 }

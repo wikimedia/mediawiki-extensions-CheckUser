@@ -3,6 +3,8 @@
 namespace MediaWiki\CheckUser\Api\Rest\Handler;
 
 use Config;
+use MediaWiki\CheckUser\ClientHints\ClientHintsData;
+use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\SimpleHandler;
 use MediaWiki\Rest\Validator\JsonBodyValidator;
@@ -12,19 +14,31 @@ use Wikimedia\Message\MessageValue;
 use Wikimedia\ParamValidator\ParamValidator;
 
 /**
- * Handler for POST requests to /checkuser/v0/useragent-clienthints/{revision}
+ * Handler for POST requests to /checkuser/v0/useragent-clienthints/{type}/{id}
  *
  * Intended to be called by the ext.checkUser.clientHints ResourceLoader module,
  * in response to 'postEdit' mw.hook events.
+ *
+ * Eventually we can also use this endpoint for mapping data to CheckUser log events
+ * in cu_log_event and cu_private_event.
  */
 class UserAgentClientHintsHandler extends SimpleHandler {
 
 	private Config $config;
 	private RevisionStore $revisionStore;
+	private UserAgentClientHintsManager $userAgentClientHintsManager;
 
-	public function __construct( Config $config, RevisionStore $revisionStore ) {
+	/**
+	 * @param Config $config
+	 * @param RevisionStore $revisionStore
+	 * @param UserAgentClientHintsManager $userAgentClientHintsManager
+	 */
+	public function __construct(
+		Config $config, RevisionStore $revisionStore, UserAgentClientHintsManager $userAgentClientHintsManager
+	) {
 		$this->config = $config;
 		$this->revisionStore = $revisionStore;
+		$this->userAgentClientHintsManager = $userAgentClientHintsManager;
 	}
 
 	public function run() {
@@ -36,23 +50,36 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 		}
 		$user = $this->getAuthority()->getUser();
 		$data = $this->getValidatedBody();
-		$revisionId = $this->getValidatedParams()['revision'];
-		$revision = $this->revisionStore->getRevisionById( $revisionId );
-		if ( !$revision ) {
-			throw new LocalizedHttpException(
-				new MessageValue( 'rest-nonexistent-revision', [ $revisionId ] ), 404 );
+		$clientHints = ClientHintsData::newFromJsApi( $data );
+		$type = $this->getValidatedParams()['type'];
+		$identifier = $this->getValidatedParams()['id'];
+		if ( $type === 'revision' ) {
+			$revision = $this->revisionStore->getRevisionById( $identifier );
+			if ( !$revision ) {
+				throw new LocalizedHttpException(
+					new MessageValue( 'rest-nonexistent-revision', [ $identifier ] ), 404 );
+			}
+			if ( !$revision->getUser() || !$revision->getUser()->equals( $user ) ) {
+				throw new LocalizedHttpException(
+					new MessageValue(
+						'checkuser-api-useragent-clienthints-revision-user-mismatch',
+						[ $user->getId(), $identifier ]
+					),
+					401
+				);
+			}
 		}
-		if ( !$revision->getUser() || !$revision->getUser()->equals( $user ) ) {
+
+		$status = $this->userAgentClientHintsManager->insertClientHintValues( $clientHints, $identifier, $type );
+		if ( !$status->isGood() ) {
+			$error = $status->getErrors()[0];
+			// A client hints mapping entry already exists.
 			throw new LocalizedHttpException(
-				new MessageValue(
-					'checkuser-api-useragent-clienthints-revision-user-mismatch',
-					[ $user->getId(), $revisionId ]
-				),
-				401
+				new MessageValue( $error['message'], $error['params'][0] ),
+				400
 			);
 		}
-		// We probably don't need to return anything about the success/failure of storing the data (T258105).
-		// Just return "true" for all cases for now.
+
 		return true;
 	}
 
@@ -112,10 +139,15 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 	/** @inheritDoc */
 	public function getParamSettings() {
 		return [
-			'revision' => [
+			'type' => [
+				self::PARAM_SOURCE => 'path',
+				ParamValidator::PARAM_TYPE => UserAgentClientHintsManager::SUPPORTED_TYPES,
+				ParamValidator::PARAM_REQUIRED => true,
+			],
+			'id' => [
 				self::PARAM_SOURCE => 'path',
 				ParamValidator::PARAM_TYPE => 'integer',
-				ParamValidator::PARAM_REQUIRED => true
+				ParamValidator::PARAM_REQUIRED => true,
 			]
 		];
 	}

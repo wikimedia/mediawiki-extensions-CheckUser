@@ -16,7 +16,7 @@
 	 */
 	function postClientHintData( clientHintData ) {
 		return new mw.Rest().post(
-			'/checkuser/v0/useragent-clienthints/' + mw.config.get( 'wgCurRevisionId' ),
+			'/checkuser/v0/useragent-clienthints/revision/' + mw.config.get( 'wgCurRevisionId' ),
 			clientHintData
 		).fail( function ( err, errObject ) {
 			mw.log.error( errObject );

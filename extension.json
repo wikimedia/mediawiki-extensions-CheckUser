@@ -180,12 +180,13 @@
 			]
 		},
 		{
-			"path": "/checkuser/v0/useragent-clienthints/{revision}",
+			"path": "/checkuser/v0/useragent-clienthints/{type}/{id}",
 			"method": "POST",
 			"class": "MediaWiki\\CheckUser\\Api\\Rest\\Handler\\UserAgentClientHintsHandler",
 			"services": [
 				"MainConfig",
-				"RevisionStore"
+				"RevisionStore",
+				"UserAgentClientHintsManager"
 			]
 
 		}
