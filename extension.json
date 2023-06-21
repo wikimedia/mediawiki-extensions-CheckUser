@@ -316,6 +316,7 @@
 				"oojs-ui.styles.icons-location",
 				"oojs-ui.styles.icons-moderation",
 				"oojs-ui.styles.icons-user",
+				"mediawiki.api",
 				"mediawiki.pager.styles",
 				"mediawiki.storage",
 				"mediawiki.Title",
