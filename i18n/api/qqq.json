@@ -7,7 +7,6 @@
 			"Zoranzoki21"
 		]
 	},
-	"apihelp-query+checkuser-description": "{{doc-apihelp-description|query+checkuser}}",
 	"apihelp-query+checkuser-summary": "{{doc-apihelp-summary|query+checkuser}}",
 	"apihelp-query+checkuser-param-request": "{{doc-apihelp-param|query+checkuser|request}}",
 	"apihelp-query+checkuser-param-target": "{{doc-apihelp-param|query+checkuser|target}}",
@@ -17,7 +16,6 @@
 	"apihelp-query+checkuser-param-xff": "{{doc-apihelp-param|query+checkuser|xff}}",
 	"apihelp-query+checkuser-example-1": "{{doc-apihelp-example|query+checkuser}}",
 	"apihelp-query+checkuser-example-2": "{{doc-apihelp-example|query+checkuser}}",
-	"apihelp-query+checkuserlog-description": "{{doc-apihelp-description|query+checkuserlog}}",
 	"apihelp-query+checkuserlog-summary": "{{doc-apihelp-summary|query+checkuserlog}}",
 	"apihelp-query+checkuserlog-param-user": "{{doc-apihelp-param|query+checkuserlog|user}}",
 	"apihelp-query+checkuserlog-param-target": "{{doc-apihelp-param|query+checkuserlog|target}}",
