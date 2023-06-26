@@ -8,7 +8,6 @@
 			"Woytecr"
 		]
 	},
-	"apihelp-query+checkuser-description": "Umożliwia sprawdzenie, z których adresów IP edytował zadany użytkownik lub odnalezienie nazw użytkowników korzystających z zadanego adresu IP.",
 	"apihelp-query+checkuser-summary": "Umożliwia sprawdzenie, z których adresów IP edytował zadany użytkownik lub odnalezienie nazw użytkowników korzystających z zadanego adresu IP.",
 	"apihelp-query+checkuser-param-request": "Rodzaj zapytania checkuser:\n;userips: Pobierz adresy IP zadanego użytkownika\n;edits: Pobierz edycje z zadanego adresu IP lub ich zakresu\n;ipusers: Pobierz nazwy użytkowników dla zadanego adresu IP lub ich zakresu",
 	"apihelp-query+checkuser-param-target": "Nazwa użytkownika, adres IP lub zakres CIDR do sprawdzenia.",
@@ -18,7 +17,6 @@
 	"apihelp-query+checkuser-param-xff": "Sprawdź nagłówki XFF zamiast rzeczywistego adresu IP",
 	"apihelp-query+checkuser-example-1": "Sprawdź adresy IP dla [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Pobierz edycje dla zakresu 192.0.2.0/24",
-	"apihelp-query+checkuserlog-description": "Pobierz wypisy w rejestrze zapytań checkuser.",
 	"apihelp-query+checkuserlog-summary": "Pobierz wypisy w rejestrze zapytań checkuser.",
 	"apihelp-query+checkuserlog-param-user": "Nazwa użytkownika sprawdzającego (checkusera)",
 	"apihelp-query+checkuserlog-param-target": "Nazwa użytkownika sprawdzanego, adres IP lub ich zakres.",
@@ -31,5 +29,6 @@
 	"apierror-checkuser-missingsummary": "Musisz podać powód sprawdzenia",
 	"apierror-checkuser-timelimit": "Musisz użyć poprawnego limitu czasu (np. „-2 tygodnie” lub „2 tygodnie temu”).",
 	"apierror-checkuser-invalidmode": "Nieprawidłowy tryb żądania",
-	"checkuser-api-help-param-direction": "Kolejność wyliczania:\n;newer:Wymieniaj najpierw starsze wpisy. Uwaga: $1from musi być przed $1to.\n;older:Wymieniaj najpierw nowsze wpisy (domyślnie). Uwaga: $1from musi być po $1to."
+	"checkuser-api-help-param-direction": "Kolejność wyliczania:\n;newer:Wymieniaj najpierw starsze wpisy. Uwaga: $1from musi być przed $1to.\n;older:Wymieniaj najpierw nowsze wpisy (domyślnie). Uwaga: $1from musi być po $1to.",
+	"checkuser-api-useragent-clienthints-revision-user-mismatch": "Użytkownik $1 nie jest autorem wersji $2"
 }

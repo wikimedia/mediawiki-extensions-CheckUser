@@ -4,7 +4,6 @@
 			"Joetaras"
 		]
 	},
-	"apihelp-query+checkuser-description": "Verifiche quale IP so ausate da 'nu certe nome utende o quale nome de utinde so ausate da 'nu certe IP.",
 	"apihelp-query+checkuser-summary": "Verifiche quale IP so ausate da 'nu certe nome utende o quale nome de utinde so ausate da 'nu certe IP.",
 	"apihelp-query+checkuser-param-request": "Tipe de richieste de CheckUser:\n;userips:Pigghie l'indirizze IP de l'utende de destinazione.\n;edits:Pigghie le cangiaminde da l'indirizze IP de destinazione o de l'indervalle.\n;ipusers:Pigghie le utinde da l'indirizze IP de destinazione o de l'indervalle..",
 	"apihelp-query+checkuser-param-target": "Nome de l'utende, indirizze IP o indervalle CIDR da verificà.",
@@ -14,7 +13,6 @@
 	"apihelp-query+checkuser-param-xff": "Ause date XFF invece de l'indirizze IP.",
 	"apihelp-query+checkuser-example-1": "Verifiche l'indirizze IP pe [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Verifiche le cangiaminde da 192.0.2.0/24",
-	"apihelp-query+checkuserlog-description": "Pigghie le vôsce da l'archivije CheckUser.",
 	"apihelp-query+checkuserlog-summary": "Pigghie le v147sce de l'archivije d'u CheckUser.",
 	"apihelp-query+checkuserlog-param-user": "Nome de l'utende de CheckUser.",
 	"apihelp-query+checkuserlog-param-target": "Utende condrollate, indirizze IP o indervalle CIDR.",

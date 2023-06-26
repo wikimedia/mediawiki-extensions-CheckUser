@@ -8,7 +8,6 @@
 			"Tiin"
 		]
 	},
-	"apihelp-query+checkuser-description": "Überprüfen, welche IP-Adressen durch einen bestimmten Benutzernamen oder welche Benutzernamen von einer bestimmten IP-Adresse verwendet werden.",
 	"apihelp-query+checkuser-summary": "Überprüfen, welche IP-Adressen durch einen bestimmten Benutzernamen oder welche Benutzernamen von einer bestimmten IP-Adresse verwendet werden.",
 	"apihelp-query+checkuser-param-request": "Art der CheckUser-Anfrage:\n;userips:Ermittelt die IP-Adresse des Ziel-Benutzers.\n;edits:Ermittelt Änderungen der Ziel-IP-Adresse oder des Adressbereichs.\n;ipusers:Ermittelt den Benutzer der Ziel-IP-Adresse oder des Adressbereichs.",
 	"apihelp-query+checkuser-param-target": "Zu überprüfender Benutzername, CIDR-Bereich oder zu überprüfende IP-Adresse.",
@@ -18,7 +17,6 @@
 	"apihelp-query+checkuser-param-xff": "XFF-Daten anstelle der IP-Adresse verwenden.",
 	"apihelp-query+checkuser-example-1": "IP-Adressen für [[User:Example]] überprüfen",
 	"apihelp-query+checkuser-example-2": "Bearbeitungen von 192.0.2.0/24 überprüfen",
-	"apihelp-query+checkuserlog-description": "Einträge aus dem CheckUser-Logbuch abrufen.",
 	"apihelp-query+checkuserlog-summary": "Ruft Einträge aus dem Checkuser-Logbuch ab.",
 	"apihelp-query+checkuserlog-param-user": "Benutzername des zu überprüfenden Benutzers.",
 	"apihelp-query+checkuserlog-param-target": "Überprüfter Benutzer, CIDR-Bereich oder überprüfte IP-Adresse.",
@@ -31,5 +29,6 @@
 	"apierror-checkuser-missingsummary": "Du musst zur Überprüfung einen Grund angeben.",
 	"apierror-checkuser-timelimit": "Du musst das korrekte Zeitlimit verwenden (wie „-2 weeks“ oder „2 weeks ago“).",
 	"apierror-checkuser-invalidmode": "Ungültiger Abfragemodus",
-	"checkuser-api-help-param-direction": "In welcher Richtung soll aufgezählt werden:\n;newer:Älteste zuerst auflisten. Hinweis: $1from muss vor $1to sein.\n;older:Neueste zuerst auflisten (Standard). Hinweis: $1from muss nach $1to sein."
+	"checkuser-api-help-param-direction": "In welcher Richtung soll aufgezählt werden:\n;newer:Älteste zuerst auflisten. Hinweis: $1from muss vor $1to sein.\n;older:Neueste zuerst auflisten (Standard). Hinweis: $1from muss nach $1to sein.",
+	"checkuser-api-useragent-clienthints-revision-user-mismatch": "Benutzer $1 ist nicht der Autor der Version $2"
 }

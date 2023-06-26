@@ -10,7 +10,6 @@
 			"Ryo567"
 		]
 	},
-	"apihelp-query+checkuser-description": "Comprueba qué direcciones IP utiliza el nombre de usuario dado o qué nombres de usuario han utilizado una dirección IP específica.",
 	"apihelp-query+checkuser-summary": "Comprobar qué direcciones IP han sido usadas por un determinado usuario o qué usuarios han usado una determinada dirección IP.",
 	"apihelp-query+checkuser-param-request": "Tipos de solicitudes:\n;userips:Obtener las direcciones IP del usuario a verificar.\n;edits:Obtener las ediciones hechas desde una determinada dirección IP o rango de IPs.\n;ipusers:Obtener los usuarios que han usado una determinada dirección IP o rango de IPs.",
 	"apihelp-query+checkuser-param-target": "Nombre de usuario, dirección IP o intervalo CIDR que comprobar.",
@@ -20,7 +19,6 @@
 	"apihelp-query+checkuser-param-xff": "Utiliza datos XFF en lugar de direcciones IP.",
 	"apihelp-query+checkuser-example-1": "Comprobar direcciones IP para [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Comprobar ediciones desde 192.0.2.0/24",
-	"apihelp-query+checkuserlog-description": "Obtener entradas del registro de comprobación de usuarios.",
 	"apihelp-query+checkuserlog-summary": "Obtener entradas del registro de comprobación de usuarios.",
 	"apihelp-query+checkuserlog-param-user": "Nombre del usuario con permiso de comprobador de usuarios.",
 	"apihelp-query+checkuserlog-param-target": "Se ha comprobado el usuario, dirección IP o CIDR.",

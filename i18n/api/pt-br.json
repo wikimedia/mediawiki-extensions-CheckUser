@@ -7,7 +7,6 @@
 			"Macofe"
 		]
 	},
-	"apihelp-query+checkuser-description": "Verifique quais endereços IP são utilizados por um determinado nome de usuário ou quais nomes de usuários são utilizados por um determinado endereço IP.",
 	"apihelp-query+checkuser-summary": "Verifique quais endereços IP são utilizados por um determinado nome de usuário ou quais nomes de usuários são utilizados por um determinado endereço IP.",
 	"apihelp-query+checkuser-param-request": "Tipo de pedido CheckUser:\n;userips:Obter endereço IP do usuário-alvo.\n;edits:Obter alterações de endereço IP de destino ou intervalo.\n;ipusers:Obter usuários de endereço IP de destino ou intervalo.",
 	"apihelp-query+checkuser-param-target": "Nome de usuário, endereço IP ou intervalo CIDR para verificar.",
@@ -17,7 +16,6 @@
 	"apihelp-query+checkuser-param-xff": "Usar dados XFF no lugar do endereço IP.",
 	"apihelp-query+checkuser-example-1": "Verificar endereço IP para [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Verificar edições de 192.0.2.0/24",
-	"apihelp-query+checkuserlog-description": "Obter entradas do registro do CheckUser.",
 	"apihelp-query+checkuserlog-summary": "Obter entradas do registro do CheckUser.",
 	"apihelp-query+checkuserlog-param-user": "Nome de usuário do CheckUser.",
 	"apihelp-query+checkuserlog-param-target": "Usuário verificado, endereço IP ou intervalo CIDR.",

@@ -5,7 +5,6 @@
 			"Janezdrilc"
 		]
 	},
-	"apihelp-query+checkuser-description": "Preveri, katere IP naslove uporablja navedeni uporabnik ali katera uporabniška imena uporablja navedeni IP naslov.",
 	"apihelp-query+checkuser-summary": "Preveri, katere IPnaslove uporablja navedeni uporabnik ali katera uporabniška imena uporablja navedeni IP-naslov.",
 	"apihelp-query+checkuser-param-request": "Vrsta zahtevka za preverjanje uporabnika:\n;userips:Prikaži IP-naslov ciljnega uporabnika.\n;edits:Prikaži spremembe ciljnega IP-naslova ali IP-razpona.\n;ipusers:Prikaži uporabnike ciljnega IP-naslova ali IP-razpona.",
 	"apihelp-query+checkuser-param-target": "Uporabniško ime, IP-naslov ali razpon CIDR za preverbo.",
@@ -15,7 +14,6 @@
 	"apihelp-query+checkuser-param-xff": "Uporabi podatke XFF namesto IP-naslova.",
 	"apihelp-query+checkuser-example-1": "Preveri IP-naslove za [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Preveri urejanja od 192.0.2.0/24",
-	"apihelp-query+checkuserlog-description": "Pridobi zapise iz dnevnika preverjanj uporabnikov.",
 	"apihelp-query+checkuserlog-summary": "Pridobi zapise iz dnevnika preverjanj uporabnikov.",
 	"apihelp-query+checkuserlog-param-user": "Uporabniško ime preverjevalca uporabnikov.",
 	"apihelp-query+checkuserlog-param-target": "Uporabniško ime, IP-naslov ali razpon CIDR.",
@@ -28,5 +26,6 @@
 	"apierror-checkuser-missingsummary": "Treba je navesti razlog za preverjanje.",
 	"apierror-checkuser-timelimit": "Treba je uporabiti pravilno časovno omejitev (na primer »-2 weeks« ali »2 weeks ago«).",
 	"apierror-checkuser-invalidmode": "Neveljaven način zaprositve",
-	"checkuser-api-help-param-direction": "V kateri smeri naj poteka oštevilčenje:\n;newer:Najprej najstarejši. Opomba: $1from mora biti pred $1to.\n;older:Najprej najnovejši (privzeto). Opomba: $1from mora biti pozneje kot $1to."
+	"checkuser-api-help-param-direction": "V kateri smeri naj poteka oštevilčenje:\n;newer:Najprej najstarejši. Opomba: $1from mora biti pred $1to.\n;older:Najprej najnovejši (privzeto). Opomba: $1from mora biti pozneje kot $1to.",
+	"checkuser-api-useragent-clienthints-revision-user-mismatch": "Uporabnik $1 ni avtor redakcije $2"
 }

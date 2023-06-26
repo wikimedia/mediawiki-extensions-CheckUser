@@ -5,7 +5,6 @@
 			"Ләйсән"
 		]
 	},
-	"apihelp-query+checkuser-description": "Ҡатнашыусы ниндәй IP-адрес ҡуллыныуын йәки ниндәй исемдәр ошоIP-адресты ҡулланыуын тикшерегеҙ.",
 	"apihelp-query+checkuser-param-request": "Чекюзерға һорау ебәреү тибы:\n;userips:Ҡулланыусының IP-адресын алырға .\n; edits:IP-адресынан йәки диапазонынан алынған үҙгәртеүҙәр турыһында мәғлүмәт аларға.\n;ipusers: IP-адресындаға йәки диапозонындағы ҡулланыусыларҙы белергә.",
 	"apihelp-query+checkuser-param-target": "Ҡатнашыу IP-адрес йәки CIDR-диапазоны тикшереү өсөн.",
 	"apihelp-query+checkuser-param-reason": "Тикшереү сәбәбе.",
@@ -14,7 +13,6 @@
 	"apihelp-query+checkuser-param-xff": "IP-адрес урынына XFF мәғлүмәттәрен ҡулланырға.",
 	"apihelp-query+checkuser-example-1": "IP-адресты тикшерергә [[User:Example]]",
 	"apihelp-query+checkuser-example-2": " 192.0.2.0/24 төҙәтеүҙәрен тикшерергә",
-	"apihelp-query+checkuserlog-description": "Ҡатнашыусыларҙы тикшереү журналынан яҙма алырға (CheckUser).",
 	"apihelp-query+checkuserlog-param-user": "Чекюзер ҡулланыусы исемлеге.",
 	"apihelp-query+checkuserlog-param-target": "IP-адрес йәки CIDR-диапазоны тикшерелелгән ҡатнашыусы.",
 	"apihelp-query+checkuserlog-param-limit": "Юл һанын сикләү.",

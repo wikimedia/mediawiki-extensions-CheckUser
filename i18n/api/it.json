@@ -8,7 +8,6 @@
 			"Nivit"
 		]
 	},
-	"apihelp-query+checkuser-description": "Controlla quali indirizzi IP vengono usati da un determinato nome utente o quali nomi utente vengono usati da un dato IP.",
 	"apihelp-query+checkuser-summary": "Controlla quali indirizzi IP vengono usati da un determinato nome utente o quali nomi utente vengono usati da un dato indirizzo IP.",
 	"apihelp-query+checkuser-param-request": "Tipo di richiesta CheckUser:\n;userips:Ottieni l'indirizzo IP dell'utente osservato.\n;edit:Ottieni i cambiamenti dell'indirizzo IP o range.\n;ipusers:Ottieni gli utenti da un indirizzo IP o range.",
 	"apihelp-query+checkuser-param-target": "Nome utente, indirizzo IP, o range CIDR da controllare.",
@@ -18,7 +17,6 @@
 	"apihelp-query+checkuser-param-xff": "Utilizzare dati XFF invece dell'indirizzo IP.",
 	"apihelp-query+checkuser-example-1": "Verificare gli indirizzi IP per [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Controllare le modifiche di 192.0.2.0/24",
-	"apihelp-query+checkuserlog-description": "Vedi nel registro CheckUser.",
 	"apihelp-query+checkuserlog-summary": "Ottieni i risultati dal registro CheckUser.",
 	"apihelp-query+checkuserlog-param-user": "Nome del CheckUser.",
 	"apihelp-query+checkuserlog-param-target": "Utente, indirizzo IP, o range CIDR controllato.",

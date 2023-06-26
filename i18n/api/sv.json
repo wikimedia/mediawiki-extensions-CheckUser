@@ -7,7 +7,6 @@
 			"WikiPhoenix"
 		]
 	},
-	"apihelp-query+checkuser-description": "Kontrollera vilka IP-adresser som används av ett visst användarnamn eller vilka användarnamn som används av en viss IP-adress.",
 	"apihelp-query+checkuser-summary": "Kontrollera vilka IP-adresser som används av ett angivet användarnamn eller vilka användarnamn som används av en angiven IP-adress.",
 	"apihelp-query+checkuser-param-request": "Typ av CheckUser begäran:\n;userips:Få IP-adresser för målanvändaren.\n;edits:Få ändringar från mål-IP-adresser eller -intervall.\n;ipusers:Få användare från mål-IP-adresser eller -intervall.",
 	"apihelp-query+checkuser-param-target": "Användarnamn, IP-adress eller CIDR-intervall att kontrollera.",
@@ -17,7 +16,6 @@
 	"apihelp-query+checkuser-param-xff": "Använd XFF data istället för IP-adress.",
 	"apihelp-query+checkuser-example-1": "Kontrollera IP-adresser för [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Kontrollera redigeringar från 192.0.2.0/24",
-	"apihelp-query+checkuserlog-description": "Få poster från CheckUser-loggen.",
 	"apihelp-query+checkuserlog-summary": "Hämta poster från loggen över användarkontroller.",
 	"apihelp-query+checkuserlog-param-user": "Användarnamn för CheckUsern.",
 	"apihelp-query+checkuserlog-param-target": "Kontrollerad användare, IP-adress, eller CIDR-intervall.",

@@ -6,7 +6,6 @@
 			"Rachmat04"
 		]
 	},
-	"apihelp-query+checkuser-description": "Periksa alamat IP mana yang digunakan oleh pengguna yang ditentukan atau nama pengguna manakah yang digunakan oleh alamat IP yang ditentukan.",
 	"apihelp-query+checkuser-summary": "Memeriksa alamat IP mana yang digunakan oleh pengguna yang ditentukan atau nama pengguna manakah yang digunakan oleh alamat IP yang ditentukan.",
 	"apihelp-query+checkuser-param-request": "Jenis permintaan CheckUser:\n;userips: Mendapatkan alamat IP dari pengguna yang dituju.\n;edits: Mendapatkan perubahan dari alamat IP atau rentang alamat IP tujuan.\n;ipusers: Mendapatkan pengguna dari alamat IP atau rentang alamat IP tujuan.",
 	"apihelp-query+checkuser-param-target": "Nama pengguna, alamat IP atau rentang CIDR untuk diperiksa.",
@@ -16,7 +15,6 @@
 	"apihelp-query+checkuser-param-xff": "Gunakan data XFF alih-alih alamat IP.",
 	"apihelp-query+checkuser-example-1": "Periksa alamat IP untuk [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Periksa suntingan dari 192.0.2.0/24",
-	"apihelp-query+checkuserlog-description": "Dapatkan entri dari catatan CheckUser.",
 	"apihelp-query+checkuserlog-summary": "Dapatkan entri dari catatan CheckUser.",
 	"apihelp-query+checkuserlog-param-user": "Nama pengguna CheckUser.",
 	"apihelp-query+checkuserlog-param-target": "Pengguna yang telah diperiksa, alamat IP, atau rentang CIDR.",

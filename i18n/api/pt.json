@@ -4,7 +4,6 @@
 			"Hamilton Abreu"
 		]
 	},
-	"apihelp-query+checkuser-description": "Verificar que endereços IP são usados por determinado nome de utilizador ou que nomes de utilizador são usados por um determinado endereço IP.",
 	"apihelp-query+checkuser-summary": "Verificar que endereços IP são usados por determinado nome de utilizador ou que nomes de utilizador são usados por um determinado endereço IP.",
 	"apihelp-query+checkuser-param-request": "Tipo do pedido de verificação de utilizadores:\n;userips:Obter endereço IP do utilizador alvo.\n;edits:Obter alterações do endereço IP ou gama IP alvo.\n;ipusers:Obter utilizadores do endereço IP ou gama IP alvo.",
 	"apihelp-query+checkuser-param-target": "Nome de utilizador, endereço IP, ou gama CIDR a verificar",
@@ -14,7 +13,6 @@
 	"apihelp-query+checkuser-param-xff": "Usar dados XFF em vez do endereço IP.",
 	"apihelp-query+checkuser-example-1": "Verificar o endereço IP de [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Verificar edições de 192.0.2.0/24",
-	"apihelp-query+checkuserlog-description": "Obter entradas do registo de verificação de utilizadores.",
 	"apihelp-query+checkuserlog-summary": "Obter entradas do registo de verificação de utilizadores.",
 	"apihelp-query+checkuserlog-param-user": "Nome de utilizador do pedido de verificação de utilizadores.",
 	"apihelp-query+checkuserlog-param-target": "Utilizador verificado, endereço IP ou gama CIDR.",

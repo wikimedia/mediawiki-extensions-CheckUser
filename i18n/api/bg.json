@@ -5,7 +5,6 @@
 			"Vlad5250"
 		]
 	},
-	"apihelp-query+checkuser-description": "Проверява кои IP-адреси използват дадено потребителско име или кои потребителски имена използват даден IP-адрес.",
 	"apihelp-query+checkuser-summary": "Проверява кои IP-адреси използват дадено потребителско име или кои потребителски имена използват даден IP-адрес.",
 	"apihelp-query+checkuser-param-request": "Тип на заявка с CheckUser:\n;userips: Връща IP-адреса на целеви потребител.\n;edits: Връща промените от целевия IP-адрес или диапазон.\n;ipusers: Връща потребителите от целевия IP-адрес или диапазон.",
 	"apihelp-query+checkuser-param-target": "Потребителско име, IP-адрес или CIDR-диапазон за проверка.",
@@ -15,7 +14,6 @@
 	"apihelp-query+checkuser-param-xff": "Използване на XFF-данни вместо IP-адрес.",
 	"apihelp-query+checkuser-example-1": "Проверява IP-адресите на [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Проверява редакции от 192.0.2.0/24",
-	"apihelp-query+checkuserlog-description": "Връща записи от дневника на CheckUser.",
 	"apihelp-query+checkuserlog-summary": "Връща записи от дневника на CheckUser.",
 	"apihelp-query+checkuserlog-param-user": "Потребителско име на проверяващия (CheckUser).",
 	"apihelp-query+checkuserlog-param-target": "Проверен потребител, IP-адрес или CIDR-диапазон.",

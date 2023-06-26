@@ -4,7 +4,6 @@
 			"Vlad5250"
 		]
 	},
-	"apihelp-query+checkuser-description": "Provjeri koje IP-adrese koristi određeno korisničko ime ili pak koja korisnička imena koristi određena IP-adresa.",
 	"apihelp-query+checkuser-summary": "Provjeri koje IP-adrese koristi određeno korisničko ime ili pak koja korisnička imena koristi određena IP-adresa.",
 	"apihelp-query+checkuser-param-request": "Tip zahtjeva s CheckUser-om:\n;userips: Daj IP-adresu ciljnog korisnika.\n;edits: Daj promjene iz ciljne IP adrese ili raspona.\n;ipusers: Daj korisnike iz ciljne IP adrese ili raspona.",
 	"apihelp-query+checkuser-param-target": "Korisničko ime, IP-adresa ili CIDR-raspon za provjeru.",
@@ -14,7 +13,6 @@
 	"apihelp-query+checkuser-param-xff": "Koristi XFF-podatke umjesto IP-adrese.",
 	"apihelp-query+checkuser-example-1": "Provjeri [[User:Example]] za IP-adrese",
 	"apihelp-query+checkuser-example-2": "Provjeri izmjene iz 192.0.2.0/24",
-	"apihelp-query+checkuserlog-description": "Daj stavke iz zapisnika CheckUser.",
 	"apihelp-query+checkuserlog-summary": "Daj stavke iz zapisnika CheckUser.",
 	"apihelp-query+checkuserlog-param-user": "Korisničko ime provjeritelja (CheckUser).",
 	"apihelp-query+checkuserlog-param-target": "Provjereni korisnik, IP-adresa ili CIDR-raspon.",

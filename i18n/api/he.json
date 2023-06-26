@@ -5,7 +5,6 @@
 			"Guycn2"
 		]
 	},
-	"apihelp-query+checkuser-description": "בדיקה אילו כתובות IP משמשות שם משתמש מסוים או אילו שמות משתמש נמצאים בשימוש על־ידי כתובת IP מסוימת.",
 	"apihelp-query+checkuser-summary": "בדיקה אילו כתובות IP משמשות שם משתמש מסוים או אילו שמות משתמש משמשות כתובת IP מסוימת.",
 	"apihelp-query+checkuser-param-request": "סוגי בדיקת משתמש:\n;userips:קבלת כתובות IP של המשתמש המיועד.\n;edits:קבלת שינויים מכתובת ה־IP או מהטווח המיועדים.\n;ipusers:קבלת משתמשים מכתובת ה־IP או מהטווח המיועדים.",
 	"apihelp-query+checkuser-param-target": "שם משתמש, כתובת IP, או טווח CIDR לבדיקה.",
@@ -15,7 +14,6 @@
 	"apihelp-query+checkuser-param-xff": "להשתמש בנתוני XFF במקום בכתובת IP.",
 	"apihelp-query+checkuser-example-1": "בדיקת כתובות IP עבור [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "בדיקת עריכות מ־192.0.2.0/24",
-	"apihelp-query+checkuserlog-description": "קבלת רשומות מיומן בדיקת משתמשים.",
 	"apihelp-query+checkuserlog-summary": "קבלת רשומות מיומן בדיקת משתמשים.",
 	"apihelp-query+checkuserlog-param-user": "שם משתמש של הבודק.",
 	"apihelp-query+checkuserlog-param-target": "המשתמש הנבדק, כתובת IP או טווח CIDR.",
@@ -28,5 +26,6 @@
 	"apierror-checkuser-missingsummary": "עליך להגדיר סיבה לבדיקה.",
 	"apierror-checkuser-timelimit": "עליך להגדיר מגבלת זמן נכונה (למשל \"-2 weeks\" או \"2 weeks ago\").",
 	"apierror-checkuser-invalidmode": "מצב בקשה בלתי־תקין",
-	"checkuser-api-help-param-direction": "באיזה כיוון למנות:\n;newer:לרשום את הישנים ביותר בהתחלה. לתשומת לבך: $1from חייב להיות לפני $1to.\n;older:לרשום את החדשים ביותר בהתחלה (ברירת מחדל). לתשומת לבך: $1from חייב להיות אחרי $1to."
+	"checkuser-api-help-param-direction": "באיזה כיוון למנות:\n;newer:לרשום את הישנים ביותר בהתחלה. לתשומת לבך: $1from חייב להיות לפני $1to.\n;older:לרשום את החדשים ביותר בהתחלה (ברירת מחדל). לתשומת לבך: $1from חייב להיות אחרי $1to.",
+	"checkuser-api-useragent-clienthints-revision-user-mismatch": "המשתמש $1 הוא לא העורך של הגרסה $2"
 }

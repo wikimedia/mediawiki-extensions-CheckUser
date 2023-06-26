@@ -6,7 +6,6 @@
 			"Sarvaturi"
 		]
 	},
-	"apihelp-query+checkuser-description": "Cuntrolla quali nnirizzi IP sunnu adupirati dûn nomu utenti datu, o quali nomi utenti sunnu adupirati d'un nnirizzu IP datu.",
 	"apihelp-query+checkuser-param-request": "Sorta d'addumannata dû CheckUser:\n;userips:Pigghia lu nnirizzu IP di l'utenti.\n;edits:Pigghia li canciamenti dû nnirizzu IP o dû ntirvallu di nnirizzi IP.\n;ipusers:Pigghia l'utenti dû nnirizzu IP o dû ntirvallu di nnirizzi IP.",
 	"apihelp-query+checkuser-param-target": "Nomu utenti, nnirizzu IP, o ntirvallu CIDR di cuntrullari.",
 	"apihelp-query+checkuser-param-reason": "Mutivu dû cuntrollu.",
@@ -15,7 +14,6 @@
 	"apihelp-query+checkuser-param-xff": "Adòpira lu datu XFF mmeci dû nnirizzu IP.",
 	"apihelp-query+checkuser-example-1": "Cuntrolla li nnirizzi IP di [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Cuntrolla li canciamenti ca vèninu di 192.0.2.0/24",
-	"apihelp-query+checkuserlog-description": "Pigghia li vuci dû riggistru dû CheckUser.",
 	"apihelp-query+checkuserlog-param-user": "Nomu utenti dû cuntrulluri.",
 	"apihelp-query+checkuserlog-param-target": "Utenti, nnirizzu IP, o ntirvallu CIDR cuntrullatu.",
 	"apihelp-query+checkuserlog-param-limit": "Lìmiti di ringhi.",

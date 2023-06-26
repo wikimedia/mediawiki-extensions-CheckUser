@@ -4,7 +4,6 @@
 			"Huji"
 		]
 	},
-	"apihelp-query+checkuser-description": "بررسی کنید کدام نشانی‌های آی‌پی توسط یک حساب استفاده شده‌اند، یا کدام حساب‌ها توسط یک نشانی آی‌پی به کار رفته‌اند.",
 	"apihelp-query+checkuser-summary": "بررسی کنید کدام نشانی‌های آی‌پی توسط یک حساب استفاده شده‌اند، یا کدام حساب‌ها توسط یک نشانی آی‌پی به کار رفته‌اند.",
 	"apihelp-query+checkuser-param-request": "انواع درخواست‌های بازرسی کاربر:\n;userips: گرفتن نشانی آی‌پی کاربر هدف.\n;edits: گرفتن فهرست تغییرات مرتبط با یک نشانی یا بازهٔ آی‌پی\n;ipusers: گرفتن کاربرهای مرتبط با یک نشانی یا بازهٔ آی‌پی",
 	"apihelp-query+checkuser-param-target": "نام کاربر، بازهٔ آی‌پی، یا بازهٔ سی‌آی‌دی‌آر که بازرسی می‌شود.",
@@ -14,7 +13,6 @@
 	"apihelp-query+checkuser-param-xff": "به جای نشانی آی‌پی از اطلاعات اکس‌اف‌اف استفاده شود.",
 	"apihelp-query+checkuser-example-1": "بازرسی نشانی‌های آی‌پی برای [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "بازرسی ویرایش‌های انجام شده از 192.0.2.0/24",
-	"apihelp-query+checkuserlog-description": "دریافت موارد از سیاههٔ بازرسی.",
 	"apihelp-query+checkuserlog-summary": "دریافت موارد از سیاههٔ بازرسی.",
 	"apihelp-query+checkuserlog-param-user": "نام کاربری بازرس.",
 	"apihelp-query+checkuserlog-param-target": "بازرسی کاربر، نشانی آی‌پی، یا بازهٔ سی‌آی‌دی‌آر.",

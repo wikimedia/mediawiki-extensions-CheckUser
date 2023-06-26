@@ -4,7 +4,6 @@
 			"Afalau"
 		]
 	},
-	"apihelp-query+checkuser-description": "Gwirio pa gyfeiriadau IP sy'n cael eu defnyddio gan enw defnyddiwr penodol, neu pa enwau defnyddiwr sy'n cael eu defnyddio gan gyfeiriad IP penodol.",
 	"apihelp-query+checkuser-summary": "Gwirio pa gyfeiriadau IP sy'n cael eu defnyddio gan enw defnyddiwr penodol, neu pa enwau defnyddiwr sy'n cael eu defnyddio gan gyfeiriad IP penodol.",
 	"apihelp-query+checkuser-param-request": "Math o gais GwirioDefnyddiwr:\n;userips:Gweld cyfeiriad IP y defnyddiwr targed.\n;edits:Gweld newidiadau o gyfeiriad neu ystod IP targed.\n;ipusers: Gweld defnyddwyr o gyfeiriad neu ystod IP targed.",
 	"apihelp-query+checkuser-param-target": "Enw defnyddiwr, cyfeiriad IP, neu ystod CIDR i'w wirio.",

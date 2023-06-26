@@ -107,6 +107,7 @@
 	"checkuser-log-search-target": "利用者名:",
 	"checkuser-log-search-initiator": "調査実行者",
 	"checkuser-log-search-reason": "理由:",
+	"checkuser-log-search-reason-help": "ここに記載した理由と合致する記録のみ表示",
 	"checkuser-ipeditcount": "全利用者による編集 ～$1回",
 	"checkuser-showmain": "{{#special:CheckUser}}に切り替え",
 	"checkuser-show-investigate": "{{#special:Investigate}}に切り替え",

@@ -5,7 +5,6 @@
 			"McDutchie"
 		]
 	},
-	"apihelp-query+checkuser-description": "Провери кои IP-адреси ги користи дадено корисничко име или пак кои кориснички имиња ги користи дадена IP-адреса.",
 	"apihelp-query+checkuser-summary": "Провери кои IP-адреси ги користи дадено корисничко име или пак кои кориснички имиња ги користи дадена IP-адреса.",
 	"apihelp-query+checkuser-param-request": "Тип на барање со CheckUser:\n;userips: Дај IP-адреса на целен корисник.\n;edits: Дај промени од целна IP-адреса или опсег.\n;ipusers: Дај корисници од целна IP-адреса или опсег.",
 	"apihelp-query+checkuser-param-target": "Корисничко име, IP-адреса или CIDR-опсег за проверка.",
@@ -15,7 +14,6 @@
 	"apihelp-query+checkuser-param-xff": "Користи XFF-податоци наместо IP-адреса.",
 	"apihelp-query+checkuser-example-1": "Провери го [[User:Example]] по IP-адресите",
 	"apihelp-query+checkuser-example-2": "Провери ги уредувањата од 192.0.2.0/24",
-	"apihelp-query+checkuserlog-description": "Дај ставки од записникот на CheckUser.",
 	"apihelp-query+checkuserlog-summary": "Дај ставки од записникот на CheckUser.",
 	"apihelp-query+checkuserlog-param-user": "Корисничко име на проверувачот (CheckUser).",
 	"apihelp-query+checkuserlog-param-target": "Проверен корисник, IP-адреса или CIDR-опсег.",
@@ -28,5 +26,6 @@
 	"apierror-checkuser-missingsummary": "Мора да зададете причина за проверка.",
 	"apierror-checkuser-timelimit": "Ќе треба да употребите исправно временско ограничување (на пр. „-2 weeks“ „2 weeks ago“).",
 	"apierror-checkuser-invalidmode": "Неважечки режим на побарување",
-	"checkuser-api-help-param-direction": "Во која насока да се набројува:\n;newer:Прво најстарите. Напомена: $1from мора да биде пред $1to.\n;older:Прво најновите (по основно). Напомена: $1from мора да биде подоцна од $1to."
+	"checkuser-api-help-param-direction": "Во која насока да се набројува:\n;newer:Прво најстарите. Напомена: $1from мора да биде пред $1to.\n;older:Прво најновите (по основно). Напомена: $1from мора да биде подоцна од $1to.",
+	"checkuser-api-useragent-clienthints-revision-user-mismatch": "Корисникот $1 не е автор на преработката $2"
 }

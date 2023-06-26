@@ -2,12 +2,12 @@
 	"@metadata": {
 		"authors": [
 			"Liuxinyu970226",
+			"U.T.",
 			"WhitePhosphorus",
 			"Xzonn",
 			"Yfdyh000"
 		]
 	},
-	"apihelp-query+checkuser-description": "检查指定用户名使用的IP地址或指定IP地址使用过的用户名。",
 	"apihelp-query+checkuser-summary": "检查指定用户名使用过的IP地址或指定IP地址使用过的用户名。",
 	"apihelp-query+checkuser-param-request": "用户查核请求类型：\n;userips:获取目标用户的IP地址。\n;edits:获取目标IP地址或地址段的更改。\n;ipusers:获取目标IP地址或地址段的用户。",
 	"apihelp-query+checkuser-param-target": "要查核的用户名、IP地址或CIDR地址段。",
@@ -17,7 +17,6 @@
 	"apihelp-query+checkuser-param-xff": "使用XFF数据代替IP地址。",
 	"apihelp-query+checkuser-example-1": "查核[[User:Example]]的IP地址",
 	"apihelp-query+checkuser-example-2": "查核来自192.0.2.0/24的编辑",
-	"apihelp-query+checkuserlog-description": "从用户查核日志获得记录。",
 	"apihelp-query+checkuserlog-summary": "获取用户查核日志中的记录。",
 	"apihelp-query+checkuserlog-param-user": "用户查核员的用户名。",
 	"apihelp-query+checkuserlog-param-target": "已查核的用户、IP地址或CIDR地址段。",
@@ -30,5 +29,6 @@
 	"apierror-checkuser-missingsummary": "您必须定义查核原因。",
 	"apierror-checkuser-timelimit": "您需要使用正确的时间限制（例如“-2 weeks”或“2 weeks ago”）。",
 	"apierror-checkuser-invalidmode": "无效的请求模式",
-	"checkuser-api-help-param-direction": "列举的方向：\n; newer：最早的优先。注意：$1from应早于$1to。\n; older：最新的优先（默认）。注意：$1from应晚于$1to。"
+	"checkuser-api-help-param-direction": "列举的方向：\n; newer：最早的优先。注意：$1from应早于$1to。\n; older：最新的优先（默认）。注意：$1from应晚于$1to。",
+	"checkuser-api-useragent-clienthints-revision-user-mismatch": "用户$1不是修订版本$2的作者"
 }

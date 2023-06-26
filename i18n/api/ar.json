@@ -4,11 +4,11 @@
 			"Alshamiri1",
 			"Dr-Taher",
 			"Meno25",
+			"أيوب",
 			"ديفيد",
 			"علاء"
 		]
 	},
-	"apihelp-query+checkuser-description": "تحقق من عناوين الأيبي التي يستخدمها اسم مستخدم معين، أو من أسماء المستخدمين التي يستخدمها عنوان أيبي محدد.",
 	"apihelp-query+checkuser-summary": "تحقق من عناوين الأيبي التي يستخدمها اسم مستخدم معين، أو من أسماء المستخدمين التي يستخدمها عنوان أيبي محدد.",
 	"apihelp-query+checkuser-param-request": "نوع طلب تدقيق المستخدم:\n;userips: الحصول على عنوان الأيبي للمستخدم المستهدف.\n;edits: الحصول على التغييرات من عنوان الأيبي أو نطاق الأيبي المستهدف.\n;ipusers: الحصول على المستخدمين من عنوان الأيبي أو نطاق الأيبي المستهدف.",
 	"apihelp-query+checkuser-param-target": "اسم المستخدم أو عنوان أيبي أو نطاق CIDR للتحقق.",
@@ -18,7 +18,6 @@
 	"apihelp-query+checkuser-param-xff": "استخدم بيانات XFF بدلاً من عنوان الآيبي.",
 	"apihelp-query+checkuser-example-1": "لتحقق من عناوين الآيبي لـ[[User:Example]]",
 	"apihelp-query+checkuser-example-2": "تدقيق تعديلات من 192.0.2.0/24",
-	"apihelp-query+checkuserlog-description": "الحصول على إدخالات من سجل تدقيق المستخدم.",
 	"apihelp-query+checkuserlog-summary": "الحصول على إدخالات من سجل تدقيق المستخدم.",
 	"apihelp-query+checkuserlog-param-user": "اسم المستخدم لمدقق المستخدم.",
 	"apihelp-query+checkuserlog-param-target": "تم تدقيق مستخدم أو عنوان أيبي أو نطاق CIDR للتحقق.",
@@ -31,5 +30,6 @@
 	"apierror-checkuser-missingsummary": "يجب عليك تحديد سبب لهذا التدقيق.",
 	"apierror-checkuser-timelimit": "تحتاج إلى استخدام الحد الزمني الصحيح (مثل \"-2 weeks\" أو \"2 weeks ago\").",
 	"apierror-checkuser-invalidmode": "وضع الطلب غير صالح",
-	"checkuser-api-help-param-direction": "في أي اتجاه يتم تعداده:! N! ؛ أحدث: قم بإدراج الأقدم أولاً. ملاحظة: يجب أن يكون $ $1 من قبل $1 إلى.! N! ؛ الأقدم: قائمة الأحدث أولاً (افتراضي). ملاحظة: يجب أن يكون $ $1 من بعد $1 إلى."
+	"checkuser-api-help-param-direction": "في أي اتجاه يتم تعداده:! N! ؛ أحدث: قم بإدراج الأقدم أولاً. ملاحظة: يجب أن يكون $ $1 من قبل $1 إلى.! N! ؛ الأقدم: قائمة الأحدث أولاً (افتراضي). ملاحظة: يجب أن يكون $ $1 من بعد $1 إلى.",
+	"checkuser-api-useragent-clienthints-revision-user-mismatch": "المستخدم $1 ليس هو كاتب المراجعة $2"
 }

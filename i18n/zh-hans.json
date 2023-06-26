@@ -25,6 +25,7 @@
 			"Stang",
 			"Tr jason",
 			"Tranve",
+			"U.T.",
 			"WhitePhosphorus",
 			"Wmr",
 			"Wmr89502270",
@@ -231,5 +232,8 @@
 	"checkuser-investigate-tour-copywikitext-title": "想要复制数据？",
 	"checkuser-investigate-tour-copywikitext-desc": "一键复制比较表并将其带到CUWiki。请注意，您只复制了可见的内容，而不是调查的所有页面。",
 	"prefs-checkuser-tempaccount": "临时账号IP显示",
-	"checkuser-tempaccount-enable-preference": "为临时帐号启用显示IP地址"
+	"checkuser-tempaccount-enable-preference": "为临时帐号启用显示IP地址",
+	"checkuser-tempaccount-reveal-ip-button-label": "显示 IP",
+	"checkuser-tempaccount-reveal-ip-missing": "不可用",
+	"checkuser-tempaccount-reveal-ip-error": "错误"
 }
