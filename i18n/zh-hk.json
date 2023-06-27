@@ -13,6 +13,8 @@
 	"checkuserlog": "用戶查核日誌",
 	"group-checkuser": "用戶查核員",
 	"group-checkuser-member": "{{GENDER:$1|用戶查核員}}",
+	"right-checkuser": "檢查用戶IP位址與其它資訊",
+	"right-checkuser-log": "檢視用戶查核日誌",
 	"grouppage-checkuser": "{{ns:project}}:用戶查核員",
 	"checkuser-target": "IP位址或用戶名：",
 	"checkuser-users": "查詢用戶",
