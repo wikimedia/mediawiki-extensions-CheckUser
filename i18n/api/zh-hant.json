@@ -29,5 +29,6 @@
 	"apierror-checkuser-missingsummary": "您必須定義檢查的原因。",
 	"apierror-checkuser-timelimit": "您必須使用正確的時間限制（例如：「-2 weeks」或「2 weeks ago」）。",
 	"apierror-checkuser-invalidmode": "無效請求模式",
-	"checkuser-api-help-param-direction": "列舉的方向：\n;newer：最早的優先。注意：$1from 應在 $1to 之前。\n;older：最新的優先（預設）。注意：$1from 應在 $1to 之後。"
+	"checkuser-api-help-param-direction": "列舉的方向：\n;newer：最早的優先。注意：$1from 應在 $1to 之前。\n;older：最新的優先（預設）。注意：$1from 應在 $1to 之後。",
+	"checkuser-api-useragent-clienthints-revision-user-mismatch": "使用者$1不是修訂：$2的作者"
 }
