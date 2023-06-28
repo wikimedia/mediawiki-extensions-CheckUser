@@ -145,7 +145,8 @@
 			"class": "MediaWiki\\CheckUser\\Api\\ApiQueryCheckUserLog",
 			"services": [
 				"CommentStore",
-				"CheckUserLogService"
+				"CheckUserLogService",
+				"UserFactory"
 			]
 		}
 	},
