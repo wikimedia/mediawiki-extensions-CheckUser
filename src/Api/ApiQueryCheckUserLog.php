@@ -6,6 +6,7 @@ use ApiBase;
 use ApiQuery;
 use ApiQueryBase;
 use MediaWiki\CheckUser\LogPager;
+use MediaWiki\User\UserFactory;
 use Wikimedia\IPUtils;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\ParamValidator\TypeDef\IntegerDef;
@@ -14,12 +15,18 @@ use Wikimedia\ParamValidator\TypeDef\IntegerDef;
  * CheckUser API Query Module
  */
 class ApiQueryCheckUserLog extends ApiQueryBase {
+
+	/** @var UserFactory */
+	private $userFactory;
+
 	/**
 	 * @param ApiQuery $query
 	 * @param string $moduleName
+	 * @param UserFactory $userFactory
 	 */
-	public function __construct( $query, $moduleName ) {
+	public function __construct( $query, $moduleName, UserFactory $userFactory ) {
 		parent::__construct( $query, $moduleName, 'cul' );
+		$this->userFactory = $userFactory;
 	}
 
 	public function execute() {
@@ -93,6 +100,24 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 				'reason'    => $row->cul_reason,
 				'target'    => $row->cul_target_text,
 			];
+
+			$checkUser = $this->userFactory->newFromName( $row->cul_user_text );
+			if (
+				$checkUser &&
+				$checkUser->isHidden() &&
+				!$this->getAuthority()->isAllowed( 'hideuser' )
+			) {
+				$log['checkuser'] = $this->msg( 'rev-deleted-user' )->plain();
+			}
+
+			$targetUser = $this->userFactory->newFromName( $row->cul_target_text );
+			if (
+				$targetUser &&
+				$targetUser->isHidden() &&
+				!$this->getAuthority()->isAllowed( 'hideuser' )
+			) {
+				$log['target'] = $this->msg( 'rev-deleted-user' )->plain();
+			}
 			$fit = $result->addValue( [ 'query', $this->getModuleName(), 'entries' ], null, $log );
 			if ( !$fit ) {
 				$this->setContinueEnumParameter( 'continue', $makeContinue( $row ) );
