@@ -4,13 +4,18 @@ namespace MediaWiki\CheckUser\Api;
 
 use ApiBase;
 use ApiQueryBase;
+use MediaWiki\User\UserFactory;
 
 /**
  * CheckUser API Query Module
  */
 class ApiQueryCheckUserLog extends ApiQueryBase {
-	public function __construct( $query, $moduleName ) {
+	/** @var UserFactory */
+	private $userFactory;
+
+	public function __construct( $query, $moduleName, UserFactory $userFactory ) {
 		parent::__construct( $query, $moduleName, 'cul' );
+		$this->userFactory = $userFactory;
 	}
 
 	public function execute() {
@@ -76,6 +81,24 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 				'reason'    => $row->cul_reason,
 				'target'    => $row->cul_target_text,
 			];
+
+			$checkUser = $this->userFactory->newFromName( $row->cul_user_text );
+			if (
+				$checkUser &&
+				$checkUser->isHidden() &&
+				!$this->getAuthority()->isAllowed( 'hideuser' )
+			) {
+				$log['checkuser'] = $this->msg( 'rev-deleted-user' )->plain();
+			}
+
+			$targetUser = $this->userFactory->newFromName( $row->cul_target_text );
+			if (
+				$targetUser &&
+				$targetUser->isHidden() &&
+				!$this->getAuthority()->isAllowed( 'hideuser' )
+			) {
+				$log['target'] = $this->msg( 'rev-deleted-user' )->plain();
+			}
 			$fit = $result->addValue( [ 'query', $this->getModuleName(), 'entries' ], null, $log );
 			if ( !$fit ) {
 				$this->setContinueEnumParameter( 'continue', $makeContinue( $row ) );
