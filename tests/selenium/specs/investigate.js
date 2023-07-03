@@ -1,8 +1,7 @@
 'use strict';
 
 const assert = require( 'assert' ),
-	LoginPage = require( 'wdio-mediawiki/LoginPage' ),
-	UserRightsPageForCheckUserTests = require( '../pageobjects/userrightscheckuser.page' ),
+	LoginAsCheckUser = require( '../checkuserlogin' ),
 	InvestigatePage = require( '../pageobjects/investigate.page' );
 
 describe( 'Investigate', function () {
@@ -15,10 +14,7 @@ describe( 'Investigate', function () {
 	} );
 	describe( 'With CheckUser user group', () => {
 		before( async () => {
-			await LoginPage.loginAdmin();
-			await UserRightsPageForCheckUserTests.grantCheckUserToUser(
-				process.env.MEDIAWIKI_USER
-			);
+			await LoginAsCheckUser.loginAsCheckUser();
 			await InvestigatePage.open();
 		} );
 		it( 'Should show targets input', async function () {
@@ -29,11 +25,6 @@ describe( 'Investigate', function () {
 		} );
 		it( 'Should show reason field', async function () {
 			assert( await InvestigatePage.reasonInput.isExisting() );
-		} );
-		after( async () => {
-			await UserRightsPageForCheckUserTests.removeCheckUserFromUser(
-				process.env.MEDIAWIKI_USER
-			);
 		} );
 	} );
 } );

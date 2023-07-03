@@ -1,9 +1,8 @@
 'use strict';
 
 const assert = require( 'assert' ),
-	CheckUserLogPage = require( '../pageobjects/checkuserlog.page' ),
-	LoginPage = require( 'wdio-mediawiki/LoginPage' ),
-	UserRightsPageForCheckUserTests = require( '../pageobjects/userrightscheckuser.page' );
+	LoginAsCheckUser = require( '../checkuserlogin' ),
+	CheckUserLogPage = require( '../pageobjects/checkuserlog.page' );
 
 describe( 'CheckUserLog', function () {
 	describe( 'Without CheckUser user group', () => {
@@ -15,10 +14,7 @@ describe( 'CheckUserLog', function () {
 	} );
 	describe( 'With CheckUser user group', () => {
 		before( async () => {
-			await LoginPage.loginAdmin();
-			await UserRightsPageForCheckUserTests.grantCheckUserToUser(
-				process.env.MEDIAWIKI_USER
-			);
+			await LoginAsCheckUser.loginAsCheckUser();
 			await CheckUserLogPage.open();
 		} );
 		describe( 'Verify checkuser can interact with the CheckUser log', () => {
@@ -44,11 +40,6 @@ describe( 'CheckUserLog', function () {
 				// Initiator input will be missing if the request failed.
 				assert( await CheckUserLogPage.initiatorInput.isExisting() );
 			} );
-		} );
-		after( async () => {
-			await UserRightsPageForCheckUserTests.removeCheckUserFromUser(
-				process.env.MEDIAWIKI_USER
-			);
 		} );
 	} );
 } );
