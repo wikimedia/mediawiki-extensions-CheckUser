@@ -174,9 +174,6 @@ class SpecialCheckUserLog extends SpecialPage {
 
 			if ( $this->opts['target'] ) {
 				$links[] = $this->getLinkRenderer()->makeKnownLink(
-					// The above if statement will evaluate NULL to false and thus this
-					// only runs if target is a string.
-					// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
 					SpecialPage::getTitleFor( 'CheckUser', $this->opts['target'] ),
 					$this->msg( 'checkuser-check-this-user' )->text()
 				);
