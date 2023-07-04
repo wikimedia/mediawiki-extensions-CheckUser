@@ -59,6 +59,7 @@
 	"checkuser-cidr-res": "通用 CIDR：",
 	"checkuser-cidr-affected-ips": "受影響的 IP 位址：",
 	"checkuser-cidr-too-small": "範圍太大",
+	"checkuser-range-outside-limit": "範圍 $1 超出允許限制。",
 	"checkuser-empty": "沒有任何日誌項目。",
 	"checkuser-nomatch": "沒有符合的資訊",
 	"checkuser-nomatch-edits": "沒有符合的資訊。\n最近一次編輯於 $1 $2。",
