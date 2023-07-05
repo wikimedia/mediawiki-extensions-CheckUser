@@ -5,12 +5,15 @@ namespace MediaWiki\CheckUser\Services;
 use IDatabase;
 use LogicException;
 use MediaWiki\CheckUser\ClientHints\ClientHintsData;
+use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
+use Psr\Log\LoggerInterface;
 use StatusValue;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IReadableDatabase;
 
 /**
- * Insert user-agent client hint values and their associations with CheckUser events into database tables.
+ * Service to insert and delete user-agent client hint values and their associations with rows in cu_changes,
+ * cu_log_event and cu_private_event.
  */
 class UserAgentClientHintsManager {
 
@@ -33,15 +36,25 @@ class UserAgentClientHintsManager {
 		self::IDENTIFIER_CU_LOG_EVENT => 'cu_log_event',
 		self::IDENTIFIER_CU_PRIVATE_EVENT => 'cu_private_event',
 	];
+	public const IDENTIFIER_TO_COLUMN_NAME_MAP = [
+		self::IDENTIFIER_CU_CHANGES => 'cuc_this_oldid',
+		self::IDENTIFIER_CU_LOG_EVENT => 'cule_log_id',
+		self::IDENTIFIER_CU_PRIVATE_EVENT => 'cupe_id',
+	];
 	private IDatabase $dbw;
 	private IReadableDatabase $dbr;
+	private LoggerInterface $logger;
 
 	/**
 	 * @param IConnectionProvider $connectionProvider
+	 * @param LoggerInterface $logger
 	 */
-	public function __construct( IConnectionProvider $connectionProvider ) {
+	public function __construct(
+		IConnectionProvider $connectionProvider, LoggerInterface $logger
+	) {
 		$this->dbw = $connectionProvider->getPrimaryDatabase();
 		$this->dbr = $connectionProvider->getReplicaDatabase();
+		$this->logger = $logger;
 	}
 
 	/**
@@ -156,6 +169,96 @@ class UserAgentClientHintsManager {
 			__METHOD__
 		);
 		return StatusValue::newGood();
+	}
+
+	/**
+	 * Given reference IDs this method finds and deletes
+	 * the mapping entries for these reference IDs.
+	 *
+	 * If the cu_useragent_clienthint rows associated with the
+	 * deleted mapping rows are now "orphaned" (not referenced
+	 * by any mapping row), this method will delete them.
+	 *
+	 * @param ClientHintsReferenceIds $clientHintsReferenceIds
+	 * @return StatusValue
+	 */
+	public function deleteMappingRows( ClientHintsReferenceIds $clientHintsReferenceIds ): StatusValue {
+		// An array to store rows in cu_useragent_clienthints that were associated with
+		//  now deleted cu_useragent_clienthints_map rows.
+		$clientHintIds = [];
+		$mappingRowsDeleted = 0;
+		$orphanedClientHintRowsDeleted = 0;
+		foreach ( $clientHintsReferenceIds->getReferenceIds() as $mapId => $referenceIds ) {
+			if ( !count( $referenceIds ) ) {
+				continue;
+			}
+			// Get the IDs for the associated rows in the cu_useragent_clienthints table
+			$clientHintIds = array_merge(
+				$clientHintIds,
+				$this->dbr->newSelectQueryBuilder()
+					->table( 'cu_useragent_clienthints_map' )
+					->field( 'uachm_uach_id' )
+					->where( [
+						'uachm_reference_id' => $referenceIds,
+						'uachm_reference_type' => $mapId
+					] )
+					->caller( __METHOD__ )
+					->distinct()
+					->fetchFieldValues()
+			);
+			// Delete the rows in cu_useragent_clienthints_map associated with these reference IDs
+			$this->dbw->newDeleteQueryBuilder()
+				->table( 'cu_useragent_clienthints_map' )
+				->where( [
+					'uachm_reference_id' => $referenceIds,
+					'uachm_reference_type' => $mapId
+				] )
+				->caller( __METHOD__ )
+				->execute();
+			$mappingRowsDeleted += $this->dbw->affectedRows();
+		}
+		if ( count( $clientHintIds ) ) {
+			// Check if the cu_useragent_clienthints rows with IDs in $clientHintIds are now orphaned.
+			// If they are orphaned, delete them.
+			//
+			// Read from primary as the deletes just occurred which would affect the query.
+			$orphanedClientHintRowIds = array_values( array_diff(
+				$clientHintIds,
+				$this->dbw->newSelectQueryBuilder()
+					->table( 'cu_useragent_clienthints_map' )
+					->field( 'uachm_uach_id' )
+					->where( [
+						'uachm_uach_id' => $clientHintIds
+					] )
+					->distinct()
+					->caller( __METHOD__ )
+					->fetchFieldValues()
+			) );
+			if ( count( $orphanedClientHintRowIds ) ) {
+				// Now delete the orphaned cu_useragent_clienthints rows.
+				$this->dbw->newDeleteQueryBuilder()
+					->table( 'cu_useragent_clienthints' )
+					->where( [
+						'uach_id' => $orphanedClientHintRowIds
+					] )
+					->caller( __METHOD__ )
+					->execute();
+				$orphanedClientHintRowsDeleted = $this->dbw->affectedRows();
+			}
+		}
+		if ( !$mappingRowsDeleted ) {
+			$this->logger->info( "No mapping rows deleted." );
+		} else {
+			$this->logger->debug(
+				"Deleted {mapping_rows_deleted} mapping rows and " .
+				"{orphaned_client_hint_rows_deleted} orphaned client hint data rows.",
+				[
+					'mapping_rows_deleted' => $mappingRowsDeleted,
+					'orphaned_client_hint_rows_deleted' => $orphanedClientHintRowsDeleted
+				]
+			);
+		}
+		return StatusValue::newGood( [ $mappingRowsDeleted, $orphanedClientHintRowsDeleted ] );
 	}
 
 	/**

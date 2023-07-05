@@ -3,6 +3,8 @@
 namespace MediaWiki\CheckUser\Jobs;
 
 use Job;
+use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
+use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\MediaWikiServices;
 use Wikimedia\Rdbms\ILoadBalancer;
 
@@ -35,16 +37,32 @@ class PruneCheckUserDataJob extends Job {
 			time() - $services->getMainConfig()->get( 'CUDMaxAge' )
 		) );
 
+		$shouldDeleteAssociatedClientData = $services->getMainConfig()->get( 'CheckUserPurgeOldClientHintsData' );
+
 		$deleteOperation = static function (
-			$table, $idField, $timestampField
-		) use ( $dbw, $encCutoff, $fname ) {
-			$ids = $dbw->newSelectQueryBuilder()
+			$table, $idField, $timestampField, $clientHintMapTypeIdentifier
+		) use ( $dbw, $encCutoff, $fname, $shouldDeleteAssociatedClientData ) {
+			$ids = [];
+			$referenceIds = [];
+			$clientHintReferenceField =
+				UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[$clientHintMapTypeIdentifier];
+			$idQueryBuilder = $dbw->newSelectQueryBuilder()
 				->table( $table )
-				->field( $idField )
 				->conds( [ "$timestampField < $encCutoff" ] )
 				->limit( 500 )
-				->caller( $fname )
-				->fetchFieldValues();
+				->caller( $fname );
+			if ( $shouldDeleteAssociatedClientData ) {
+				$result = $idQueryBuilder->fields( [ $idField, $clientHintReferenceField ] )
+					->fetchResultSet();
+				foreach ( $result as $row ) {
+					$ids[] = $row->$idField;
+					$referenceIds[] = $row->$clientHintReferenceField;
+				}
+			} else {
+				$ids = $idQueryBuilder
+					->field( $idField )
+					->fetchFieldValues();
+			}
 			if ( $ids ) {
 				$dbw->newDeleteQueryBuilder()
 					->table( $table )
@@ -52,13 +70,40 @@ class PruneCheckUserDataJob extends Job {
 					->caller( $fname )
 					->execute();
 			}
+			return $referenceIds;
 		};
 
-		$deleteOperation( 'cu_changes', 'cuc_id', 'cuc_timestamp' );
+		$deletedReferenceIds = new ClientHintsReferenceIds();
 
-		$deleteOperation( 'cu_private_event', 'cupe_id', 'cupe_timestamp' );
+		$deletedReferenceIds->addReferenceIds(
+			$deleteOperation(
+				'cu_changes', 'cuc_id', 'cuc_timestamp',
+				UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES
+			),
+			UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES
+		);
 
-		$deleteOperation( 'cu_log_event', 'cule_id', 'cule_timestamp' );
+		$deletedReferenceIds->addReferenceIds(
+			$deleteOperation(
+				'cu_private_event', 'cupe_id', 'cupe_timestamp',
+				UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT
+			),
+			UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT
+		);
+
+		$deletedReferenceIds->addReferenceIds(
+			$deleteOperation(
+				'cu_log_event', 'cule_id', 'cule_timestamp',
+				UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT
+			),
+			UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT
+		);
+
+		if ( $shouldDeleteAssociatedClientData ) {
+			/** @var UserAgentClientHintsManager $userAgentClientHintsManager */
+			$userAgentClientHintsManager = $services->get( 'UserAgentClientHintsManager' );
+			$userAgentClientHintsManager->deleteMappingRows( $deletedReferenceIds );
+		}
 
 		return true;
 	}
