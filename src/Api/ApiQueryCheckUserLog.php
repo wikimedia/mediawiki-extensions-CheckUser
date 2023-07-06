@@ -83,15 +83,15 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 			$this->addWhereFld( 'actor_name', $params['user'] );
 		}
 		if ( isset( $params['target'] ) ) {
-			if ( IPUtils::isIPAddress( $params['target'] ) ) {
-				$cond = CheckUserLogPager::getTargetSearchConds( $params['target'] );
-				if ( !$cond ) {
+			$cond = CheckUserLogPager::getTargetSearchConds( $params['target'] );
+			if ( !$cond ) {
+				if ( IPUtils::isIPAddress( $params['target'] ) ) {
 					$this->dieWithError( 'apierror-badip', 'invalidip' );
+				} else {
+					$this->dieWithError( 'apierror-checkuser-nosuchuser', 'nosuchuser' );
 				}
-				$this->addWhere( $cond );
-			} else {
-				$this->addWhereFld( 'cul_target_text', $params['target'] );
 			}
+			$this->addWhere( $cond );
 		}
 
 		if ( isset( $params['reason'] ) ) {
