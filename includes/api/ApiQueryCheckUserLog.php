@@ -1,5 +1,7 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
+
 /**
  * CheckUser API Query Module
  */
@@ -62,6 +64,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 		$makeContinue = function ( $row ) {
 			return wfTimestamp( TS_ISO_8601, $row->cul_timestamp ) . '|' . $row->cul_id;
 		};
+		$userFactory = MediaWikiServices::getInstance()->getUserFactory();
 		foreach ( $res as $row ) {
 			if ( ++$count > $limit ) {
 				$this->setContinueEnumParameter( 'continue', $makeContinue( $row ) );
@@ -74,6 +77,24 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 				'reason'    => $row->cul_reason,
 				'target'    => $row->cul_target_text,
 			];
+
+			$checkUser = $userFactory->newFromName( $row->cul_user_text );
+			if (
+				$checkUser &&
+				$checkUser->isHidden() &&
+				!$this->getContext()->getUser()->isAllowed( 'hideuser' )
+			) {
+				$log['checkuser'] = $this->msg( 'rev-deleted-user' )->plain();
+			}
+
+			$targetUser = $userFactory->newFromName( $row->cul_target_text );
+			if (
+				$targetUser &&
+				$targetUser->isHidden() &&
+				!$this->getContext()->getUser()->isAllowed( 'hideuser' )
+			) {
+				$log['target'] = $this->msg( 'rev-deleted-user' )->plain();
+			}
 			$fit = $result->addValue( [ 'query', $this->getModuleName(), 'entries' ], null, $log );
 			if ( !$fit ) {
 				$this->setContinueEnumParameter( 'continue', $makeContinue( $row ) );
