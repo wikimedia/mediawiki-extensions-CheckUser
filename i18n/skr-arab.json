@@ -4,6 +4,10 @@
 			"Saraiki"
 		]
 	},
+	"checkuser-period": "دورانیہ:",
+	"checkuser-week-1": "پچھلا ہفتہ",
+	"checkuser-week-2": "پچھلے ݙو ہفتے",
+	"checkuser-all": "یکے",
 	"checkuser-search-submit": "ڳولو",
 	"checkuser-log-search-target": "نشانہ:",
 	"checkuser-investigateblock-reason": "سبب",
@@ -23,6 +27,8 @@
 	"checkuser-investigate-preliminary-table-header-wiki": "وکی",
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "وکی کائنی لبھا",
 	"checkuser-investigate-filters-legend": "چھاݨے",
+	"checkuser-investigate-compare-copy-button-label": "وکی عبارت ݙکھاؤ",
+	"checkuser-investigate-compare-table-cell-unregistered": "اݨ رجسٹرڈ",
 	"checkuser-investigate-compare-table-header-username": "ورتݨ ناں",
 	"checkuser-investigate-compare-table-header-activity": "تریخ حد",
 	"checkuser-investigate-compare-table-header-ip": "آئی پی",
