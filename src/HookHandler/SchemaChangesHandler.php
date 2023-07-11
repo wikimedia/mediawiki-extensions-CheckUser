@@ -2,12 +2,12 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
+use MediaWiki\CheckUser\Maintenance\PopulateCheckUserTable;
 use MediaWiki\CheckUser\Maintenance\PopulateCucActor;
 use MediaWiki\CheckUser\Maintenance\PopulateCucComment;
 use MediaWiki\CheckUser\Maintenance\PopulateCulActor;
 use MediaWiki\CheckUser\Maintenance\PopulateCulComment;
 use MediaWiki\Installer\Hook\LoadExtensionSchemaUpdatesHook;
-use PopulateCheckUserTable;
 
 class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook {
 	/**
