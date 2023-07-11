@@ -46,32 +46,20 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 	}
 
 	protected function commonTestMoved(
-		$originalCuChangesRowCount, $expectedCuChangesRowCount, $expectedCuPrivateRowCount
+		$expectedCuChangesRowCount, $expectedCuChangesRowCountWithOnlyReadOld, $expectedCuPrivateRowCount
 	) {
 		$this->assertRowCount(
 			$expectedCuPrivateRowCount, 'cu_private_event', 'cupe_id',
 			'Rows were moved to cu_private_event when they should not have been moved.'
 		);
 		$this->assertRowCount(
-			$expectedCuChangesRowCount, 'cu_changes', 'cuc_id',
-			'Rows were removed from cu_changes when they should not have been.'
-		);
-		$this->assertSame(
-			$originalCuChangesRowCount,
-			(
-				$this->db->newSelectQueryBuilder()
-					->table( 'cu_changes' )
-					->fetchRowCount() +
-				$this->db->newSelectQueryBuilder()
-					->table( 'cu_private_event' )
-					->fetchRowCount()
-			),
-			'Rows went missing or were added when moving entries.'
+			$expectedCuChangesRowCountWithOnlyReadOld, 'cu_changes', 'cuc_id',
+			'Rows were not successfully marked as being only for READ_OLD in cu_changes.',
+			[ 'cuc_only_for_read_old' => 1 ]
 		);
 		$this->assertRowCount(
-			0, 'cu_changes', 'cuc_id',
-			'Log entries are still left in cu_changes',
-			[ 'cuc_type' => RC_LOG ]
+			$expectedCuChangesRowCount, 'cu_changes', 'cuc_id',
+			'Rows were removed from cu_changes when they should not have been.'
 		);
 	}
 
@@ -100,6 +88,7 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 	public static function provideSchemaNoMoveValues() {
 		return [
 			'Read and write old' => [ SCHEMA_COMPAT_OLD, 1, 0 ],
+			'Read and write old, read new' => [ SCHEMA_COMPAT_OLD | SCHEMA_COMPAT_READ_NEW, 1, 0 ],
 		];
 	}
 
@@ -121,8 +110,8 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 	 * @covers ::doDBUpdates
 	 * @dataProvider provideBatchSize
 	 */
-	public function testBatchSize( $numberOfRows, $batchSize ) {
-		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', SCHEMA_COMPAT_OLD );
+	public function testBatchSize( $numberOfRows, $batchSize, $firstSchemaStage = SCHEMA_COMPAT_OLD ) {
+		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $firstSchemaStage );
 		// Set up cu_changes
 		$expectedRow = [];
 		for ( $i = 0; $i < $numberOfRows / 2; $i++ ) {
@@ -167,5 +156,15 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 				10, 100
 			],
 		];
+	}
+
+	/**
+	 * @covers ::doDBUpdates
+	 * @dataProvider provideBatchSize
+	 */
+	public function testMoveAfterInsertionOnWriteBoth( $numberOfRows, $batchSize ) {
+		$this->testBatchSize(
+			$numberOfRows, $batchSize, SCHEMA_COMPAT_WRITE_BOTH
+		);
 	}
 }
