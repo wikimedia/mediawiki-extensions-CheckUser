@@ -79,7 +79,11 @@ module.exports = function setupTables() {
 	}
 
 	function addTargets( $tableCell ) {
-		$( 'input[name=targets]' ).val( $tableCell.data( 'value' ) );
+		var target = $tableCell.data( 'value' );
+		if ( mw.util.isIPv6Address( target ) ) {
+			target += '/64';
+		}
+		$( 'input[name=targets]' ).val( target );
 		$( '.mw-htmlform' ).trigger( 'submit' );
 	}
 
