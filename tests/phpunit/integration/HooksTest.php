@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration;
 
-use ExtensionRegistry;
 use LogEntryBase;
 use MailAddress;
 use MediaWiki\Auth\AuthenticationRequest;
@@ -503,9 +502,9 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		$this->assertRowCount( 0, 'cu_changes', 'cuc_id',
 			'A row was inserted to cu_changes when it should not have been.' );
 		$this->assertRowCount( 0, 'cu_private_event', 'cupe_id',
-			'A row was inserted to cu_changes when it should not have been.' );
+			'A row was inserted to cu_private_event when it should not have been.' );
 		$this->assertRowCount( 0, 'cu_log_event', 'cule_id',
-			'A row was inserted to cu_changes when it should not have been.' );
+			'A row was inserted to cu_log_event when it should not have been.' );
 	}
 
 	/**
@@ -661,8 +660,12 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 
 	public static function provideEventMigrationStageValues() {
 		return [
-			'With event table migration set to read old' => [ SCHEMA_COMPAT_OLD ],
-			'With event table migration set to read new' => [ SCHEMA_COMPAT_NEW ]
+			'With event table migration set to old' => [ SCHEMA_COMPAT_OLD ],
+			'With event table migration set to write old and new, read new' =>
+				[ SCHEMA_COMPAT_NEW | SCHEMA_COMPAT_WRITE_OLD ],
+			'With event table migration set to write old and new, read old' =>
+				[ SCHEMA_COMPAT_OLD | SCHEMA_COMPAT_WRITE_NEW ],
+			'With event table migration set to new' => [ SCHEMA_COMPAT_NEW ]
 		];
 	}
 
@@ -676,34 +679,36 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		$account = $this->getTestSysop()->getUser();
 		( new Hooks() )->onUser__mailPasswordInternal( $performer, 'IGNORED', $account );
 		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$table = 'cu_private_event';
-			$idField = 'cupe_id';
-			$where = [
-				'cupe_actor' => $performer->getActorId(),
-				'cupe_params' . $this->db->buildLike(
-					$this->db->anyString(),
-					'"4::receiver"',
-					$this->db->anyString(),
-					"UTSysop",
-					$this->db->anyString()
-				)
-			];
-		} else {
-			$table = 'cu_changes';
-			$idField = 'cuc_id';
-			$where = [
-				'cuc_actor' => $performer->getActorId(),
-				'cuc_actiontext' . $this->db->buildLike(
-					$this->db->anyString(),
-					'[[User:', $account->getName(), '|', $account->getName(), ']]',
-					$this->db->anyString()
-				)
-			];
+			$this->assertRowCount(
+				1, 'cu_private_event', 'cupe_id',
+				'The row was not inserted or was inserted with the wrong data',
+				[
+					'cupe_actor' => $performer->getActorId(),
+					'cupe_params' . $this->db->buildLike(
+						$this->db->anyString(),
+						'"4::receiver"',
+						$this->db->anyString(),
+						"UTSysop",
+						$this->db->anyString()
+					)
+				]
+			);
 		}
-		$this->assertRowCount(
-			1, $table, $idField,
-			'The row was not inserted or was inserted with the wrong data', $where
-		);
+		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
+			$this->assertRowCount(
+				1, 'cu_changes', 'cuc_id',
+				'The row was not inserted or was inserted with the wrong data',
+				[
+					'cuc_actor' => $performer->getActorId(),
+					'cuc_actiontext' . $this->db->buildLike(
+						$this->db->anyString(),
+						'[[User:', $account->getName(), '|', $account->getName(), ']]',
+						$this->db->anyString()
+					),
+					'cuc_only_for_read_old' => ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) ? 1 : 0
+				]
+			);
+		}
 	}
 
 	/**
@@ -730,26 +735,28 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		$user = $this->getTestUser()->getUser();
 		( new Hooks() )->onLocalUserCreated( $user, $autocreated );
 		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$table = 'cu_private_event';
-			$idField = 'cupe_id';
-			$where = [
-				'cupe_actor'  => $user->getActorId(),
-				'cupe_log_action' => $autocreated ? 'autocreate-account' : 'create-account'
-			];
-		} else {
-			$table = 'cu_changes';
-			$idField = 'cuc_id';
-			$where = [
-				'cuc_namespace'  => NS_USER,
-				'cuc_actiontext' => wfMessage(
-					$autocreated ? 'checkuser-autocreate-action' : 'checkuser-create-action'
-				)->inContentLanguage()->text()
-			];
+			$this->assertRowCount(
+				1, 'cu_private_event', 'cupe_id',
+				'The row was not inserted or was inserted with the wrong data',
+				[
+					'cupe_actor'  => $user->getActorId(),
+					'cupe_log_action' => $autocreated ? 'autocreate-account' : 'create-account'
+				]
+			);
 		}
-		$this->assertRowCount(
-			1, $table, $idField,
-			'The row was not inserted or was inserted with the wrong data', $where
-		);
+		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
+			$this->assertRowCount(
+				1, 'cu_changes', 'cuc_id',
+				'The row was not inserted or was inserted with the wrong data',
+				[
+					'cuc_namespace'  => NS_USER,
+					'cuc_actiontext' => wfMessage(
+						$autocreated ? 'checkuser-autocreate-action' : 'checkuser-create-action'
+					)->inContentLanguage()->text(),
+					'cuc_only_for_read_old' => ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) ? 1 : 0
+				]
+			);
+		}
 	}
 
 	public static function provideOnLocalUserCreated() {
@@ -815,7 +822,8 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function commonOnEmailUser(
-		MailAddress $to, MailAddress $from, int $eventTableMigrationStage, array $where
+		MailAddress $to, MailAddress $from, int $eventTableMigrationStage,
+		array $cuChangesWhere, array $cuPrivateWhere
 	) {
 		$subject = 'Test subject';
 		$text = 'Test text';
@@ -823,15 +831,22 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		( new Hooks() )->onEmailUser( $to, $from, $subject, $text, $error );
 		\DeferredUpdates::doUpdates();
 		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$table = 'cu_private_event';
-			$where = array_merge( $where, [ 'cupe_namespace' => NS_USER ] );
-		} else {
-			$table = 'cu_changes';
-			$where = array_merge( $where, [ 'cuc_namespace' => NS_USER ] );
+			$this->assertRowCount(
+				1, 'cu_private_event', '*',
+				'A row was not inserted with the correct data',
+				array_merge( $cuPrivateWhere, [ 'cupe_namespace' => NS_USER ] )
+			);
 		}
-		$this->assertRowCount(
-			1, $table, '*', 'A row was not inserted with the correct data', $where
-		);
+		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
+			$this->assertRowCount(
+				1, 'cu_changes', '*',
+				'A row was not inserted with the correct data',
+				array_merge( $cuChangesWhere, [
+					'cuc_namespace' => NS_USER,
+					'cuc_only_for_read_old' => ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) ? 1 : 0
+				] )
+			);
+		}
 	}
 
 	/**
@@ -842,16 +857,12 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $eventTableMigrationStage );
 		$userTo = $this->getTestUser()->getUserIdentity();
 		$userFrom = $this->getTestSysop()->getUser();
-		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$where = [ 'cupe_actor' => $userFrom->getActorId() ];
-		} else {
-			$where = [ 'cuc_actor' => $userFrom->getActorId() ];
-		}
 		$this->commonOnEmailUser(
 			new MailAddress( 'test@test.com', $userTo->getName() ),
 			new MailAddress( 'testing@test.com', $userFrom->getName() ),
 			$eventTableMigrationStage,
-			$where
+			[ 'cuc_actor' => $userFrom->getActorId() ],
+			[ 'cupe_actor' => $userFrom->getActorId() ]
 		);
 	}
 
@@ -864,27 +875,23 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		global $wgSecretKey;
 		$userTo = $this->getTestUser()->getUser();
 		$userFrom = $this->getTestSysop()->getUserIdentity();
-		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$where = [
+		$this->commonOnEmailUser(
+			new MailAddress( 'test@test.com', $userTo->getName() ),
+			new MailAddress( 'testing@test.com', $userFrom->getName() ),
+			$eventTableMigrationStage,
+			[
+				'cuc_actiontext' => wfMessage(
+					'checkuser-email-action',
+					md5( $userTo->getEmail() . $userTo->getId() . $wgSecretKey )
+				)->inContentLanguage()->text()
+			],
+			[
 				'cupe_params' . $this->db->buildLike(
 					$this->db->anyString(),
 					'4::hash',
 					$this->db->anyString()
 				)
-			];
-		} else {
-			$where = [
-				'cuc_actiontext' => wfMessage(
-					'checkuser-email-action',
-					md5( $userTo->getEmail() . $userTo->getId() . $wgSecretKey )
-				)->inContentLanguage()->text()
-			];
-		}
-		$this->commonOnEmailUser(
-			new MailAddress( 'test@test.com', $userTo->getName() ),
-			new MailAddress( 'testing@test.com', $userFrom->getName() ),
-			$eventTableMigrationStage,
-			$where
+			]
 		);
 	}
 
@@ -918,9 +925,14 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideOnAuthManagerLoginAuthenticateAudit
 	 */
 	public function testOnAuthManagerLoginAuthenticateAudit(
-		AuthenticationResponse $ret, string $user, string $messageKey, bool $isAnonPerformer
+		AuthenticationResponse $ret, string $user, string $messageKey,
+		bool $isAnonPerformer, int $eventTableMigrationStage
 	) {
-		$this->setMwGlobals( [ 'wgCheckUserLogLogins' => true, 'wgCheckUserLogSuccessfulBotLogins' => true ] );
+		$this->setMwGlobals( [
+			'wgCheckUserLogLogins' => true,
+			'wgCheckUserLogSuccessfulBotLogins' => true,
+			'wgCheckUserEventTablesMigrationStage' => $eventTableMigrationStage
+		] );
 		$userObj = MediaWikiServices::getInstance()->getUserFactory()->newFromName( $user );
 		( new Hooks() )->onAuthManagerLoginAuthenticateAudit(
 			$ret,
@@ -928,7 +940,10 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 			$user,
 			[]
 		);
-		$fields = [ 'cuc_namespace', 'cuc_title', 'actor_user', 'actor_name', 'cuc_actiontext' ];
+		$cuChangesFields = [ 'cuc_namespace', 'cuc_title', 'actor_user', 'actor_name', 'cuc_actiontext' ];
+		$cuPrivateFields = [
+			'cupe_namespace', 'cupe_title', 'actor_user', 'actor_name', 'cupe_params', 'cupe_log_action'
+		];
 		$expectedValues = [ NS_USER, $user ];
 		if ( $isAnonPerformer ) {
 			$expectedValues[] = 0;
@@ -938,19 +953,36 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 			$expectedValues[] = $user;
 		}
 		$target = "[[User:$user|$user]]";
-		$expectedValues[] = wfMessage( $messageKey, $target )->text();
-		$this->assertSelect(
-			[ 'cu_changes', 'actor' ],
-			$fields,
-			[],
-			[ $expectedValues ],
-			[],
-			[ 'actor' => [ 'JOIN', 'actor_id=cuc_actor' ] ]
-		);
+		$cuChangesExpectedValues = $expectedValues;
+		$cuPrivateExpectedValues = $expectedValues;
+		$cuChangesExpectedValues[] = wfMessage( $messageKey, $target )->text();
+		$cuPrivateExpectedValues[] = LogEntryBase::makeParamBlob( [ '4::target' => $user ] );
+		$cuPrivateExpectedValues[] = substr( $messageKey, strlen( 'checkuser-' ) );
+		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+			$this->assertSelect(
+				[ 'cu_private_event', 'actor' ],
+				$cuPrivateFields,
+				[],
+				[ $cuPrivateExpectedValues ],
+				[],
+				[ 'actor' => [ 'JOIN', 'actor_id=cupe_actor' ] ]
+			);
+		}
+		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
+			$this->assertSelect(
+				[ 'cu_changes', 'actor' ],
+				$cuChangesFields,
+				[],
+				[ $cuChangesExpectedValues ],
+				[],
+				[ 'actor' => [ 'JOIN', 'actor_id=cuc_actor' ] ]
+			);
+		}
 	}
 
 	public static function provideOnAuthManagerLoginAuthenticateAudit() {
-		return [
+		$eventTableMigrationStageValues = self::provideEventMigrationStageValues();
+		$testCases = [
 			'successful login' => [
 				AuthenticationResponse::newPass( 'UTSysop' ),
 				'UTSysop',
@@ -964,6 +996,12 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 				true,
 			]
 		];
+		foreach ( $testCases as $name => $testCase ) {
+			foreach ( $eventTableMigrationStageValues as $additionalName => $eventTableMigrationStageValue ) {
+				$testCase[] = $eventTableMigrationStageValue[0];
+				yield $name . ' ' . $additionalName => $testCase;
+			}
+		}
 	}
 
 	/**
@@ -971,20 +1009,18 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideOnAuthManagerLoginAuthenticateAuditWithCentralAuthInstalled
 	 */
 	public function testOnAuthManagerLoginAuthenticateAuditWithCentralAuthInstalled(
-		AuthenticationResponse $ret, string $user, string $messageKey, bool $isAnonPerformer
+		AuthenticationResponse $ret, string $user, string $messageKey,
+		bool $isAnonPerformer, int $eventTableMigrationStage
 	) {
-		if ( ExtensionRegistry::getInstance()->isLoaded( 'CentralAuth' ) ) {
-			$this->testOnAuthManagerLoginAuthenticateAudit(
-				$ret, $user, $messageKey, $isAnonPerformer
-			);
-		} else {
-			// Skip tests that will only pass if CentralAuth is installed.
-			$this->expectNotToPerformAssertions();
-		}
+		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
+		$this->testOnAuthManagerLoginAuthenticateAudit(
+			$ret, $user, $messageKey, $isAnonPerformer, $eventTableMigrationStage
+		);
 	}
 
 	public static function provideOnAuthManagerLoginAuthenticateAuditWithCentralAuthInstalled() {
-		return [
+		$eventTableMigrationStageValues = self::provideEventMigrationStageValues();
+		$testCases = [
 			'failed login with correct password' => [
 				AuthenticationResponse::newFail(
 					wfMessage( 'test' ),
@@ -1019,19 +1055,27 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 				false,
 			],
 		];
+		foreach ( $testCases as $name => $testCase ) {
+			foreach ( $eventTableMigrationStageValues as $additionalName => $eventTableMigrationStageValue ) {
+				$testCase[] = $eventTableMigrationStageValue[0];
+				yield $name . ' ' . $additionalName => $testCase;
+			}
+		}
 	}
 
 	/**
 	 * @covers ::onAuthManagerLoginAuthenticateAudit
+	 * @dataProvider provideEventMigrationStageValues
 	 */
-	public function testCheckUserLogBotSuccessfulLoginsSetToTrue() {
+	public function testCheckUserLogBotSuccessfulLoginsSetToTrue( int $eventTableMigrationStage ) {
 		$this->setMwGlobals( 'wgCheckUserLogLogins', true );
 		$user = $this->getTestUser( [ 'bot' ] )->getUserIdentity()->getName();
 		$this->testOnAuthManagerLoginAuthenticateAudit(
 			AuthenticationResponse::newPass( $user ),
 			$user,
 			'checkuser-login-success',
-			false
+			false,
+			$eventTableMigrationStage
 		);
 	}
 
@@ -1040,11 +1084,12 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideOnAuthManagerLoginAuthenticateAuditNoSave
 	 */
 	public function testOnAuthManagerLoginAuthenticateAuditNoSave(
-		AuthenticationResponse $ret, string $user, bool $logLogins, bool $logBots
+		AuthenticationResponse $ret, string $user, bool $logLogins, bool $logBots, int $eventTableMigrationStage
 	) {
 		$this->setMwGlobals( [
 			'wgCheckUserLogLogins' => $logLogins,
-			'wgCheckUserLogSuccessfulBotLogins' => $logBots
+			'wgCheckUserLogSuccessfulBotLogins' => $logBots,
+			'wgCheckUserEventTablesMigrationStage' => $eventTableMigrationStage
 		] );
 		$userObj = MediaWikiServices::getInstance()->getUserFactory()->newFromName( $user );
 		( new Hooks() )->onAuthManagerLoginAuthenticateAudit(
@@ -1053,19 +1098,21 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 			$user,
 			[]
 		);
-		$this->assertSame(
-			0,
-			$this->db->newSelectQueryBuilder()
-				->field( 'cuc_ip' )
-				->table( 'cu_changes' )
-				->fetchRowCount(),
+
+		$this->assertRowCount(
+			0, 'cu_changes', 'cuc_id',
 			'A row was inserted to cu_changes when it should not have been.'
+		);
+		$this->assertRowCount(
+			0, 'cu_private_event', 'cupe_id',
+			'A row was inserted to cu_private_event when it should not have been.'
 		);
 	}
 
 	public function provideOnAuthManagerLoginAuthenticateAuditNoSave() {
+		$eventTableMigrationStageValues = self::provideEventMigrationStageValues();
 		$req = $this->getMockForAbstractClass( AuthenticationRequest::class );
-		return [
+		$testCases = [
 			'invalid user' => [
 				AuthenticationResponse::newPass( '' ),
 				'',
@@ -1097,17 +1144,25 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 				true
 			],
 		];
+		foreach ( $testCases as $name => $testCase ) {
+			foreach ( $eventTableMigrationStageValues as $additionalName => $eventTableMigrationStageValue ) {
+				$testCase[] = $eventTableMigrationStageValue[0];
+				yield $name . ' ' . $additionalName => $testCase;
+			}
+		}
 	}
 
 	/**
 	 * @covers ::onAuthManagerLoginAuthenticateAudit
+	 * @dataProvider provideEventMigrationStageValues
 	 */
-	public function testCheckUserLogLoginsSetToFalse() {
+	public function testCheckUserLogLoginsSetToFalse( int $eventTableMigrationStage ) {
 		$this->testOnAuthManagerLoginAuthenticateAuditNoSave(
 			AuthenticationResponse::newPass( 'UTSysop' ),
 			'UTSysop',
 			false,
-			true
+			true,
+			$eventTableMigrationStage
 		);
 	}
 
@@ -1115,32 +1170,42 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @covers ::onAuthManagerLoginAuthenticateAudit
 	 * @dataProvider provideCheckUserLogBotSuccessfulLoginsNoSave
 	 */
-	public function testCheckUserLogBotSuccessfulLoginsSetToFalse( AuthenticationResponse $ret, bool $logBots ) {
+	public function testCheckUserLogBotSuccessfulLoginsSetToFalse(
+		AuthenticationResponse $ret, bool $logBots, int $eventTableMigrationStage
+	) {
 		$user = $this->getTestUser( [ 'bot' ] )->getUserIdentity()->getName();
 		$this->testOnAuthManagerLoginAuthenticateAuditNoSave(
 			$ret,
 			$user,
 			true,
-			$logBots
+			$logBots,
+			$eventTableMigrationStage
 		);
 	}
 
 	public static function provideCheckUserLogBotSuccessfulLoginsNoSave() {
-		return [
+		$eventTableMigrationStageValues = self::provideEventMigrationStageValues();
+		$testCases = [
 			'Successful authentication with wgCheckUserLogSuccessfulBotLogins set to false' => [
 				AuthenticationResponse::newPass( 'test' ),
 				false
 			]
 		];
+		foreach ( $testCases as $name => $testCase ) {
+			foreach ( $eventTableMigrationStageValues as $additionalName => $eventTableMigrationStageValue ) {
+				$testCase[] = $eventTableMigrationStageValue[0];
+				yield $name . ' ' . $additionalName => $testCase;
+			}
+		}
 	}
 
 	/**
 	 * @covers ::onUserLogoutComplete
-	 * @dataProvider provideUserLogoutComplete
+	 * @dataProvider provideEventMigrationStageValues
 	 */
-	public function testUserLogoutComplete( bool $logLogins, int $eventTableSchemaValue ) {
+	public function testUserLogoutComplete( int $eventTableSchemaValue ) {
 		$this->setMwGlobals( [
-			'wgCheckUserLogLogins' => $logLogins,
+			'wgCheckUserLogLogins' => true,
 			'wgCheckUserEventTablesMigrationStage' => $eventTableSchemaValue
 		] );
 		$services = MediaWikiServices::getInstance();
@@ -1151,27 +1216,48 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 			$html,
 			$testUser->getName()
 		);
-		if ( $services->getMainConfig()->get( 'CheckUserEventTablesMigrationStage' ) & SCHEMA_COMPAT_WRITE_OLD ) {
-			$table = 'cu_changes';
-			$field = 'cuc_id';
-			$message = 'have logged the event to cu_changes';
-		} else {
-			$table = 'cu_private_event';
-			$field = 'cupe_id';
-			$message = 'have logged the event to cu_private_event';
+		if ( $eventTableSchemaValue & SCHEMA_COMPAT_WRITE_OLD ) {
+			$this->assertRowCount(
+				1, 'cu_changes', 'cuc_id',
+				'Should have logged the event to cu_changes',
+				[
+					'cuc_only_for_read_old' => ( $eventTableSchemaValue & SCHEMA_COMPAT_WRITE_NEW ) ? 1 : 0
+				]
+			);
 		}
-		$this->assertRowCount(
-			$logLogins ? 1 : 0, $table, $field, ( $logLogins ? 'Should' : 'Should not' ) . $message
-		);
+		if ( $eventTableSchemaValue & SCHEMA_COMPAT_WRITE_NEW ) {
+			$this->assertRowCount(
+				1, 'cu_private_event', 'cupe_id',
+				'Should have logged the event to cu_private_event'
+			);
+		}
 	}
 
-	public static function provideUserLogoutComplete() {
-		return [
-			'Log logout events with migration old' => [ true, SCHEMA_COMPAT_OLD ],
-			'Don\'t log logout events with migration old' => [ false, SCHEMA_COMPAT_OLD ],
-			'Log logout events with migration new' => [ true, SCHEMA_COMPAT_NEW ],
-			'Don\'t log logout events with migration new' => [ false, SCHEMA_COMPAT_NEW ]
-		];
+	/**
+	 * @covers ::onUserLogoutComplete
+	 * @dataProvider provideEventMigrationStageValues
+	 */
+	public function testUserLogoutCompleteNoSave( $eventTableSchemaValue ) {
+		$this->setMwGlobals( [
+			'wgCheckUserLogLogins' => false,
+			'wgCheckUserEventTablesMigrationStage' => $eventTableSchemaValue
+		] );
+		$services = MediaWikiServices::getInstance();
+		$testUser = $this->getTestUser()->getUserIdentity();
+		$html = '';
+		( new Hooks() )->onUserLogoutComplete(
+			$services->getUserFactory()->newAnonymous( '127.0.0.1' ),
+			$html,
+			$testUser->getName()
+		);
+		$this->assertRowCount(
+			0, 'cu_changes', 'cuc_id',
+			'Should have logged the event to cu_changes',
+		);
+		$this->assertRowCount(
+			0, 'cu_private_event', 'cupe_id',
+			'Should have logged the event to cu_private_event'
+		);
 	}
 
 	/**
