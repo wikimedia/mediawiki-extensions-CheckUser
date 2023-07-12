@@ -7,6 +7,7 @@
 			"JasterTDC",
 			"Macofe",
 			"MarcoAurelio",
+			"No se",
 			"Ryo567"
 		]
 	},
@@ -31,5 +32,6 @@
 	"apierror-checkuser-missingsummary": "Debes introducir una razón para la comprobación.",
 	"apierror-checkuser-timelimit": "Necesitas introducir un plazo máximo de tiempo correcto (como \"-2 weeks\" o \"2 weeks ago\").",
 	"apierror-checkuser-invalidmode": "Modo de solicitud no válido",
-	"checkuser-api-help-param-direction": "En qué sentido hacer la enumeración:\n;newer:De más antiguos a más recientes. Nota: $1from debe ser anterior a $1to.\n;older:De más recientes a más antiguos (orden predefinido). Nota: $1from debe ser posterior a $1to."
+	"checkuser-api-help-param-direction": "En qué sentido hacer la enumeración:\n;newer:De más antiguos a más recientes. Nota: $1from debe ser anterior a $1to.\n;older:De más recientes a más antiguos (orden predefinido). Nota: $1from debe ser posterior a $1to.",
+	"checkuser-api-useragent-clienthints-revision-user-mismatch": "El usuario $1 no es el autor de la revisión $2"
 }
