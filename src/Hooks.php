@@ -572,8 +572,8 @@ class Hooks implements
 		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
 			self::insertIntoCuPrivateEventTable(
 				[
-					'cupe_namespace' => NS_USER,
-					'cupe_log_action'    => $autocreated ? 'autocreate-account' : 'create-account'
+					'cupe_namespace'  => NS_USER,
+					'cupe_log_action' => $autocreated ? 'autocreate-account' : 'create-account'
 				],
 				__METHOD__,
 				$user
