@@ -219,12 +219,18 @@ class CheckUserUnionSelectQueryBuilder extends SelectQueryBuilder {
 	 * The $index parameter is specific for each table.
 	 *
 	 * @param string[] $index See ::useIndex for more details
+	 * @param bool $specifyTable If true, the index hint is applied to the specific
+	 *  table used for results in the subquery instead of the last appended.
 	 * @return $this
 	 */
-	public function subQueryUseIndex( $index ) {
+	public function subQueryUseIndex( $index, $specifyTable = true ) {
 		foreach ( self::UNION_TABLES as $table ) {
 			if ( array_key_exists( $table, $index ) ) {
-				$this->subQueriesForUnion[$table]->useIndex( $index[$table] );
+				if ( $specifyTable ) {
+					$this->subQueriesForUnion[$table]->useIndex( [ $table => $index[$table] ] );
+				} else {
+					$this->subQueriesForUnion[$table]->useIndex( $index[$table] );
+				}
 			}
 		}
 		return $this;
@@ -584,10 +590,10 @@ class CheckUserUnionSelectQueryBuilder extends SelectQueryBuilder {
 				'this_oldid' => 'cuc_this_oldid',
 				'last_oldid' => 'cuc_last_oldid',
 				'type' => 'cuc_type',
-				'actor_id',
-				'actor_name',
-				'comment_text',
-				'comment_data',
+				'actor_user' => 'actor_user',
+				'actor_name' => 'actor_name',
+				'comment_text' => 'comment_text',
+				'comment_data' => 'comment_data',
 			];
 			# These fields are in cu_private_event and cu_log_event,
 			#  and must be Null here as they are not defined.
@@ -649,16 +655,16 @@ class CheckUserUnionSelectQueryBuilder extends SelectQueryBuilder {
 				];
 			}
 			$fields = array_merge( $fields, [
-				'actor_id',
-				'actor_name',
-				'comment_text',
-				'comment_data',
+				'actor_user' => 'actor_user',
+				'actor_name' => 'actor_name',
+				'comment_text' => 'comment_text',
+				'comment_data' => 'comment_data',
 			] );
 			if ( $table === self::LOG_EVENT_TABLE ) {
 				$fields = array_merge( $fields, [
-					'log_type',
-					'log_action',
-					'log_params',
+					'log_type' => 'log_type',
+					'log_action' => 'log_action',
+					'log_params' => 'log_params',
 					'log_id' => 'cule_log_id'
 				] );
 			} else {
@@ -671,5 +677,22 @@ class CheckUserUnionSelectQueryBuilder extends SelectQueryBuilder {
 			}
 		}
 		return $fields;
+	}
+
+	/**
+	 * @param string $table One of the strings in ::UNION_TABLES
+	 * @return string
+	 */
+	public static function getPrefixForTable( string $table ): string {
+		switch ( $table ) {
+			case self::CHANGES_TABLE:
+				return 'cuc_';
+			case self::LOG_EVENT_TABLE:
+				return 'cule_';
+			case self::PRIVATE_LOG_EVENT_TABLE:
+				return 'cupe_';
+			default:
+				throw new InvalidArgumentException( "Unrecognised table {$table}" );
+		}
 	}
 }

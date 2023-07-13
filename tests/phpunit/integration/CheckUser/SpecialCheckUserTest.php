@@ -47,6 +47,7 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 				'logging',
 				'page_props',
 				'cu_changes',
+				'cu_log_event',
 			]
 		);
 	}

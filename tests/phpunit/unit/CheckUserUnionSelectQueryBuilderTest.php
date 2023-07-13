@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Tests\Unit;
 
 use IDatabase;
+use InvalidArgumentException;
 use MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilder;
 use MediaWiki\CheckUser\Services\CheckUserUnionSelectQueryBuilderFactory;
 use MediaWiki\CommentStore\CommentStore;
@@ -421,9 +422,9 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiUnitTestCase {
 	 * @covers ::subQueryUseIndex
 	 * @dataProvider provideSubQueryUseIndex
 	 */
-	public function testSubQueryUseIndex( $useIndexArgument, $expectedUseIndexValue ) {
+	public function testSubQueryUseIndex( $useIndexArgument, $specifyTableArgument, $expectedUseIndexValue ) {
 		$object = $this->setUpObject();
-		$object->subQueryUseIndex( $useIndexArgument );
+		$object->subQueryUseIndex( $useIndexArgument, $specifyTableArgument );
 		foreach ( CheckUserUnionSelectQueryBuilder::UNION_TABLES as $table ) {
 			$actualLimitValue = TestingAccessWrapper::newFromObject( $object->subQueriesForUnion[$table] )->options;
 			if ( $expectedUseIndexValue[$table] !== null ) {
@@ -447,19 +448,42 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiUnitTestCase {
 
 	public static function provideSubQueryUseIndex() {
 		return [
-			'Only specifying one table' => [
+			'Only specifying one table with specifyTable as false' => [
 				[ self::CHANGES_TABLE => 'cuc_ip_hex_time' ],
+				false,
 				[
 					self::CHANGES_TABLE => [ self::CHANGES_TABLE => 'cuc_ip_hex_time' ],
 					self::LOG_EVENT_TABLE => null,
 					self::PRIVATE_LOG_EVENT_TABLE => null
 				]
 			],
-			'Specifying for all tables' => [
+			'Specifying for all tables with specifyTable as false' => [
 				[
 					self::CHANGES_TABLE => 'cuc_ip_hex_time', self::LOG_EVENT_TABLE => 'cule_ip_hex_time',
 					self::PRIVATE_LOG_EVENT_TABLE => 'cupe_ip_hex_time'
 				],
+				false,
+				[
+					self::CHANGES_TABLE => [ self::CHANGES_TABLE => 'cuc_ip_hex_time' ],
+					self::LOG_EVENT_TABLE => [ self::LOG_EVENT_TABLE => 'cule_ip_hex_time' ],
+					self::PRIVATE_LOG_EVENT_TABLE => [ self::PRIVATE_LOG_EVENT_TABLE => 'cupe_ip_hex_time' ]
+				]
+			],
+			'Only specifying one table with specifyTable as true' => [
+				[ self::CHANGES_TABLE => 'cuc_ip_hex_time' ],
+				true,
+				[
+					self::CHANGES_TABLE => [ self::CHANGES_TABLE => 'cuc_ip_hex_time' ],
+					self::LOG_EVENT_TABLE => null,
+					self::PRIVATE_LOG_EVENT_TABLE => null
+				]
+			],
+			'Specifying for all tables with specifyTable as true' => [
+				[
+					self::CHANGES_TABLE => 'cuc_ip_hex_time', self::LOG_EVENT_TABLE => 'cule_ip_hex_time',
+					self::PRIVATE_LOG_EVENT_TABLE => 'cupe_ip_hex_time'
+				],
+				true,
 				[
 					self::CHANGES_TABLE => [ self::CHANGES_TABLE => 'cuc_ip_hex_time' ],
 					self::LOG_EVENT_TABLE => [ self::LOG_EVENT_TABLE => 'cule_ip_hex_time' ],
@@ -586,5 +610,35 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiUnitTestCase {
 				'needsActorJoin has been called so the actor JOIN should have been applied to the subqueries.'
 			);
 		}
+	}
+
+	/**
+	 * @dataProvider provideGetPrefixForTable
+	 */
+	public function testGetPrefixForTable( $table, $expectedPrefix ) {
+		$this->assertSame(
+			$expectedPrefix,
+			CheckUserUnionSelectQueryBuilder::getPrefixForTable( $table ),
+			"Prefix for the table $table was not as expected."
+		);
+	}
+
+	public static function provideGetPrefixForTable() {
+		return [
+			'cu_changes table' => [
+				'cu_changes', 'cuc_'
+			],
+			'cu_log_event table' => [
+				'cu_log_event', 'cule_'
+			],
+			'cu_private_event table' => [
+				'cu_private_event', 'cupe_'
+			],
+		];
+	}
+
+	public function testInvalidPrefixForGetPrefixForTable() {
+		$this->expectException( InvalidArgumentException::class );
+		$this->testGetPrefixForTable( 'invalid_table', 'unused' );
 	}
 }

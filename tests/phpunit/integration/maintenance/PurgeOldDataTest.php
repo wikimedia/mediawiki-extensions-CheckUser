@@ -23,7 +23,8 @@ class PurgeOldDataTest extends MaintenanceBaseTestCase {
 			'cu_changes',
 			'cu_private_event',
 			'cu_log_event',
-			'recentchanges'
+			'recentchanges',
+			'logging',
 		];
 	}
 

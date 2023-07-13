@@ -46,6 +46,8 @@ trait CheckUserCommonTraitTest {
 	 * with "@group Database", or by listing the tables under testing in $this->tablesUsed, or by returning
 	 * true from needsDB().
 	 *
+	 * When calling this method, you should ensure that the "logging" table is in $this->tablesUsed.
+	 *
 	 * @return int The ID for the created log entry
 	 */
 	public function newLogEntry(): int {
