@@ -94,6 +94,10 @@
 			"value": true,
 			"description": "General on/off switch for User-Agent Client Hints functionality. When set to true, CheckUser will request Client Hints headers specified in the CheckUserClientHintsHeaders config variable."
 		},
+		"CheckUserPurgeOldClientHintsData": {
+			"value": true,
+			"description": "Used to control whether CheckUser will attempt to purge old client hint data. This is done so that wgCheckUserClientHintsEnabled can be set to false without preventing cleaning up of old client hint data."
+		},
 		"CheckUserClientHintsSpecialPages": {
 			"value": [
 				"CreateAccount",
@@ -525,7 +529,8 @@
 		"MediaWiki\\CheckUser\\": "src/"
 	},
 	"TestAutoloadNamespaces": {
-		"MediaWiki\\CheckUser\\Test\\": "tests/phpunit/"
+		"MediaWiki\\CheckUser\\Test\\": "tests/phpunit/",
+		"MediaWiki\\CheckUser\\Tests\\": "tests/phpunit/"
 	},
 	"load_composer_autoloader": true,
 	"manifest_version": 2

@@ -174,7 +174,8 @@ return [
 		MediaWikiServices $services
 	): UserAgentClientHintsManager {
 		return new UserAgentClientHintsManager(
-			$services->getDBLoadBalancerFactory()
+			$services->getDBLoadBalancerFactory(),
+			LoggerFactory::getInstance( 'CheckUser' )
 		);
 	},
 ];
