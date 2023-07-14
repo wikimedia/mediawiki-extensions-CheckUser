@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Piano1forte2"
+		]
+	},
+	"apihelp-query+checkuser-param-timecond": "Time limit of user data (like '-2 weeks' or '2 weeks ago').",
+	"apierror-checkuser-timelimit": "You need use correct time limit (like '-2 weeks' or '2 weeks ago')."
+}
