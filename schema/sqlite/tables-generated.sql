@@ -86,6 +86,28 @@ CREATE INDEX cupe_actor_ip_time ON /*_*/cu_private_event (
 );
 
 
+CREATE TABLE /*_*/cu_useragent_clienthints (
+  uach_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  uach_name VARCHAR(32) NOT NULL,
+  uach_value VARCHAR(255) NOT NULL
+);
+
+CREATE UNIQUE INDEX uach_name_value ON /*_*/cu_useragent_clienthints (uach_name, uach_value);
+
+
+CREATE TABLE /*_*/cu_useragent_clienthints_map (
+  uachm_uach_id INTEGER UNSIGNED NOT NULL,
+  uachm_reference_id INTEGER UNSIGNED NOT NULL,
+  uachm_reference_type SMALLINT DEFAULT 0 NOT NULL,
+  PRIMARY KEY(
+    uachm_uach_id, uachm_reference_type,
+    uachm_reference_id
+  )
+);
+
+CREATE INDEX uachm_reference_id ON /*_*/cu_useragent_clienthints_map (uachm_reference_id);
+
+
 CREATE TABLE /*_*/cu_log (
   cul_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   cul_timestamp BLOB NOT NULL, cul_actor BIGINT UNSIGNED NOT NULL,

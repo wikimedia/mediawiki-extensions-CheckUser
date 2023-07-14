@@ -17,6 +17,7 @@ use MediaWiki\CheckUser\Services\CheckUserUnionSelectQueryBuilderFactory;
 use MediaWiki\CheckUser\Services\CheckUserUtilityService;
 use MediaWiki\CheckUser\Services\TokenManager;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
+use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
@@ -168,6 +169,13 @@ return [
 			LoggerFactory::getInstance( 'CheckUser' ),
 			$lb
 		);
-	}
+	},
+	'UserAgentClientHintsManager' => static function (
+		MediaWikiServices $services
+	): UserAgentClientHintsManager {
+		return new UserAgentClientHintsManager(
+			$services->getDBLoadBalancerFactory()
+		);
+	},
 ];
 // @codeCoverageIgnoreEnd

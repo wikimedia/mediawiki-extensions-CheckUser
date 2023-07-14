@@ -275,6 +275,9 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook {
 			"$base/$dbType/patch-cu_changes-drop-defaults.sql"
 		);
 
+		$updater->addExtensionTable( 'cu_useragent_clienthints', "$base/$dbType/cu_useragent_clienthints.sql" );
+		$updater->addExtensionTable( 'cu_useragent_clienthints_map', "$base/$dbType/cu_useragent_clienthints_map.sql" );
+
 		if ( !$isCUInstalled ) {
 			// First time so populate cu_changes with recentchanges data.
 			// Note: We cannot completely rely on updatelog here for old entries

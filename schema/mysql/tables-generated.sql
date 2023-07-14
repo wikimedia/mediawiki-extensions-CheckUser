@@ -77,6 +77,27 @@ CREATE TABLE /*_*/cu_private_event (
 ) /*$wgDBTableOptions*/;
 
 
+CREATE TABLE /*_*/cu_useragent_clienthints (
+  uach_id INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  uach_name VARCHAR(32) NOT NULL,
+  uach_value VARCHAR(255) NOT NULL,
+  UNIQUE INDEX uach_name_value (uach_name, uach_value),
+  PRIMARY KEY(uach_id)
+) /*$wgDBTableOptions*/;
+
+
+CREATE TABLE /*_*/cu_useragent_clienthints_map (
+  uachm_uach_id INT UNSIGNED NOT NULL,
+  uachm_reference_id INT UNSIGNED NOT NULL,
+  uachm_reference_type TINYINT(1) DEFAULT 0 NOT NULL,
+  INDEX uachm_reference_id (uachm_reference_id),
+  PRIMARY KEY(
+    uachm_uach_id, uachm_reference_type,
+    uachm_reference_id
+  )
+) /*$wgDBTableOptions*/;
+
+
 CREATE TABLE /*_*/cu_log (
   cul_id INT UNSIGNED AUTO_INCREMENT NOT NULL,
   cul_timestamp BINARY(14) NOT NULL,
