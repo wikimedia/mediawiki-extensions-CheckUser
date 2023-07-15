@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Tests\Unit\ClientHints;
 
 use MediaWiki\CheckUser\ClientHints\ClientHintsData;
+use MediaWiki\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
 use MediaWikiUnitTestCase;
 
 /**
@@ -11,6 +12,7 @@ use MediaWikiUnitTestCase;
  * @covers \MediaWiki\CheckUser\ClientHints\ClientHintsData
  */
 class ClientHintsDataTest extends MediaWikiUnitTestCase {
+	use CheckUserClientHintsCommonTraitTest;
 
 	/** @dataProvider provideNewFromJsApi */
 	public function testNewFromJsApiAndJsonSerialize( array $dataFromJsApi, array $expectedValues ) {
@@ -366,6 +368,32 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					[ 'uach_name' => 'fullVersionList', 'uach_value' => '1.1' ],
 					[ 'uach_name' => 'fullVersionList', 'uach_value' => 'testvalue' ],
 				]
+			],
+		];
+	}
+
+	/** @dataProvider provideNewFromDatabaseRowsLoop */
+	public function testNewFromDatabaseRowsLoop( $dataFromJsApi ) {
+		// Tests that a ClientHintsData object from the JS API is not
+		// corrupted by converting to database rows and then converting
+		// to a new ClientHintsData object from those database rows.
+		$initialClientHintsData = ClientHintsData::newFromJsApi( $dataFromJsApi );
+		$databaseRows = $initialClientHintsData->toDatabaseRows();
+		$objectToTest = ClientHintsData::newFromDatabaseRows( $databaseRows );
+		$this->assertClientHintsDataObjectsEqual( $initialClientHintsData, $objectToTest, true );
+	}
+
+	public static function provideNewFromDatabaseRowsLoop() {
+		$exampleJsApiData = self::getExampleJsApiData();
+		return [
+			'No client hint data' => [
+				$exampleJsApiData['No client hint data'],
+			],
+			'Example Windows device using Chrome' => [
+				$exampleJsApiData['Example Windows device using Chrome'],
+			],
+			'Example Windows device using Chrome with duplicated data' => [
+				$exampleJsApiData['Example Windows device using Chrome with duplicated data'],
 			],
 		];
 	}

@@ -5,8 +5,9 @@ namespace MediaWiki\CheckUser\Tests;
 use MediaWiki\CheckUser\ClientHints\ClientHintsData;
 
 /**
- * A helper trait used by classes that need to get an example ClientHintsData object or
- * an example JS API response.
+ * A helper trait used by classes that need to get an example ClientHintsData object,
+ * an example JS API response, and/or assert that two ClientHintsData objects are
+ * equal.
  */
 trait CheckUserClientHintsCommonTraitTest {
 	/**
@@ -114,5 +115,78 @@ trait CheckUserClientHintsCommonTraitTest {
 				$platformVersion
 			)
 		);
+	}
+
+	/**
+	 * Asserts if two ClientHintsData objects are equal.
+	 *
+	 * @param ClientHintsData $clientHintsData The first ClientHintsData object in the comparison
+	 * @param ClientHintsData $other The second ClientHintsData object in the comparison
+	 * @param bool $otherFromDb Whether the $other ClientHintsData object was created via ::newFromDatabaseRows.
+	 */
+	public function assertClientHintsDataObjectsEqual(
+		ClientHintsData $clientHintsData,
+		ClientHintsData $other,
+		bool $otherFromDb = false
+	): void {
+		$jsonSerializedData = $other->jsonSerialize();
+		foreach ( $clientHintsData->jsonSerialize() as $name => $value ) {
+			if ( $otherFromDb ) {
+				if ( $value === "" ) {
+					// Storage into the DB converts $value to null
+					$value = null;
+				} elseif ( is_string( $value ) ) {
+					// Storage into the DB trims trailing and leading spaces from strings.
+					$value = trim( $value );
+				}
+			}
+			if ( in_array( $name, [ 'brands', 'fullVersionList' ] ) ) {
+				if ( $jsonSerializedData[$name] === null && $value === null ) {
+					// If both are null, then they are equal.
+					continue;
+				}
+				// Key sort the second level dimensional arrays of $value
+				// to make comparison easier.
+				foreach ( $value as &$item ) {
+					if ( is_array( $item ) ) {
+						foreach ( $item as &$subItem ) {
+							if ( $otherFromDb && is_string( $subItem ) ) {
+								// Storage into the DB trims trailing and leading spaces from strings.
+								$subItem = trim( $subItem );
+							}
+						}
+						ksort( $item );
+					} elseif ( $otherFromDb && is_string( $item ) ) {
+						// Storage into the DB trims trailing and leading spaces from strings.
+						$item = trim( $item );
+					}
+				}
+				// Key sort the second level dimensional arrays of $jsonSerializedData[$name]
+				// to make comparison easier.
+				foreach ( $jsonSerializedData[$name] as &$datum ) {
+					if ( is_array( $datum ) ) {
+						ksort( $datum );
+					}
+				}
+				// Apply de-duplication to the $clientHintsData ClientHintsData object
+				// if the $other came from the DB.
+				if ( $otherFromDb && is_array( $value ) ) {
+					$value = array_unique( $value, SORT_REGULAR );
+				}
+				$this->assertArrayEquals(
+					$value,
+					$jsonSerializedData[$name],
+					false,
+					false,
+					"The value of '$name' was not as expected."
+				);
+			} else {
+				$this->assertSame(
+					$value,
+					$jsonSerializedData[$name],
+					"The value of '$name' was not as expected."
+				);
+			}
+		}
 	}
 }
