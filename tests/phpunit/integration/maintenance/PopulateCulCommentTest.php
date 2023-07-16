@@ -3,7 +3,7 @@
 namespace MediaWiki\CheckUser\Tests\Integration\Maintenance;
 
 use MediaWiki\CheckUser\Maintenance\PopulateCulComment;
-use MediaWiki\CheckUser\Test\Integration\CheckUserCommonTraitTest;
+use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 

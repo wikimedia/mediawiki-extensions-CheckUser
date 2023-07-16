@@ -3,7 +3,6 @@
 namespace MediaWiki\CheckUser\Tests\Integration;
 
 use MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilder;
-use MediaWiki\CheckUser\Test\Integration\CheckUserCommonTraitTest;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\TestingAccessWrapper;

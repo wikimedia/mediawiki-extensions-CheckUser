@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\Test\Integration\Logging;
+namespace MediaWiki\CheckUser\Tests\Integration\Logging;
 
 use LogFormatterTestCase;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;

@@ -9,7 +9,6 @@ use MediaWiki\Auth\AuthenticationRequest;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\Hooks;
-use MediaWiki\CheckUser\Test\Integration\CheckUserCommonTraitTest;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\User\UserIdentityValue;

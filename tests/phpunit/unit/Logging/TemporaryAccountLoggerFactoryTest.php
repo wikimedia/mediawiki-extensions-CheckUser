@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\Test\Unit\Logging;
+namespace MediaWiki\CheckUser\Tests\Unit\Logging;
 
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;

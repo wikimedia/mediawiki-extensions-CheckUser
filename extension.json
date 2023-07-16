@@ -529,8 +529,9 @@
 		"MediaWiki\\CheckUser\\": "src/"
 	},
 	"TestAutoloadNamespaces": {
-		"MediaWiki\\CheckUser\\Test\\": "tests/phpunit/",
-		"MediaWiki\\CheckUser\\Tests\\": "tests/phpunit/"
+		"MediaWiki\\CheckUser\\Tests\\": "tests/phpunit/",
+		"MediaWiki\\CheckUser\\Tests\\Unit\\": "tests/phpunit/unit",
+		"MediaWiki\\CheckUser\\Tests\\Integration\\": "tests/phpunit/integration"
 	},
 	"load_composer_autoloader": true,
 	"manifest_version": 2

@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\Test\Integration;
+namespace MediaWiki\CheckUser\Tests\Integration;
 
 use LogicException;
 use ManualLogEntry;

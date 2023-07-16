@@ -4,8 +4,8 @@ namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
-use MediaWiki\CheckUser\Test\Integration\CheckUserCommonTraitTest;
 use MediaWiki\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
+use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWikiIntegrationTestCase;
 
 /**
