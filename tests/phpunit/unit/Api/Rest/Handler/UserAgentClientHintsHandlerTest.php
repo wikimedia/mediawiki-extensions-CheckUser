@@ -18,6 +18,8 @@ use StatusValue;
 use Wikimedia\Message\MessageValue;
 
 /**
+ * @group CheckUser
+ *
  * @covers \MediaWiki\CheckUser\Api\Rest\Handler\UserAgentClientHintsHandler
  */
 class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
@@ -108,7 +110,14 @@ class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
 		$response = $this->executeHandler(
 			$handler, new RequestData(), [], [], [ 'type' => 'revision', 'id' => 1 ], [ 'test' => 1 ], $authority
 		);
-		$this->assertSame( json_encode( [ "value" => true ] ), $response->getBody()->getContents() );
+		$this->assertSame(
+			json_encode( [
+				"value" => $handler->getResponseFactory()->formatMessage(
+					new MessageValue( 'checkuser-api-useragent-clienthints-explanation' )
+				)
+			], JSON_UNESCAPED_SLASHES ),
+			$response->getBody()->getContents()
+		);
 	}
 
 	public function testDataAlreadyExists() {

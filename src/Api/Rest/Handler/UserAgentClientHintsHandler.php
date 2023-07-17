@@ -80,7 +80,12 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 			);
 		}
 
-		return true;
+		$response = $this->getResponseFactory()->createJson( [
+			"value" => $this->getResponseFactory()->formatMessage(
+				new MessageValue( 'checkuser-api-useragent-clienthints-explanation' )
+			)
+		] );
+		return $response;
 	}
 
 	/** @inheritDoc */
