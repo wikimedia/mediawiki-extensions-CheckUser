@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
 use MediaWiki\CheckUser\HookHandler\ToolLinksHandler;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use RequestContext;
 use SpecialPage;
@@ -21,7 +22,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideOnUserToolLinksEdit
 	 */
 	public function testOnUserToolLinksEdit( string $requestTitle, array $expectedItems ) {
-		$testUser = $this->getTestUser()->getUserIdentity();
+		$testUser = new UserIdentityValue( 42, 'Foobar' );
 		$mainRequest = RequestContext::getMain();
 		$mainRequest->setTitle( Title::newFromText( $requestTitle ) );
 		$mainRequest->getRequest()->setVal( 'reason', 'testing' );
