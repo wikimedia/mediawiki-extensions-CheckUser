@@ -237,6 +237,9 @@
 				"MainConfig"
 			]
 		},
+		"RLRegisterModules": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\RLRegisterModulesHandler"
+		},
 		"Hooks": {
 			"class": "MediaWiki\\CheckUser\\Hooks"
 		}
@@ -258,7 +261,8 @@
 		"BeforePageDisplay": [ "clienthints", "pageDisplay" ],
 		"GetPreferences": "preferences",
 		"SaveUserOptions": "preferences",
-		"SpecialPageBeforeExecute": "clienthints"
+		"SpecialPageBeforeExecute": "clienthints",
+		"ResourceLoaderRegisterModules": "RLRegisterModules"
 	},
 	"MessagesDirs": {
 		"CheckUser": [
@@ -388,41 +392,6 @@
 				"parentheses-start",
 				"parentheses-end",
 				"pipe-separator"
-			]
-		},
-		"ext.guidedTour.tour.checkuserinvestigateform": {
-			"localBasePath": "modules/ext.guidedTour.tour.checkuserinvestigateform",
-			"remoteExtPath": "CheckUser/modules/ext.guidedTour.tour.checkuserinvestigateform",
-			"scripts": [
-				"checkuserinvestigateform.js"
-			],
-			"dependencies": "ext.guidedTour",
-			"messages": [
-				"checkuser-investigate-tour-targets-title",
-				"checkuser-investigate-tour-targets-desc"
-			]
-		},
-		"ext.guidedTour.tour.checkuserinvestigate": {
-			"localBasePath": "modules/ext.guidedTour.tour.checkuserinvestigate",
-			"remoteExtPath": "CheckUser/modules/ext.guidedTour.tour.checkuserinvestigate",
-			"scripts": [
-				"checkuserinvestigate.js"
-			],
-			"dependencies": [
-				"ext.guidedTour",
-				"ext.checkUser"
-			],
-			"messages": [
-				"checkuser-investigate-tour-useragents-title",
-				"checkuser-investigate-tour-useragents-desc",
-				"checkuser-investigate-tour-addusertargets-title",
-				"checkuser-investigate-tour-addusertargets-desc",
-				"checkuser-investigate-tour-filterip-title",
-				"checkuser-investigate-tour-filterip-desc",
-				"checkuser-investigate-tour-block-title",
-				"checkuser-investigate-tour-block-desc",
-				"checkuser-investigate-tour-copywikitext-title",
-				"checkuser-investigate-tour-copywikitext-desc"
 			]
 		}
 	},
