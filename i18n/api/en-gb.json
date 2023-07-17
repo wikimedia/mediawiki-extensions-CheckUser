@@ -3,7 +3,8 @@
 		"authors": [
 			"Chase me ladies, I'm the Cavalry",
 			"Macofe",
-			"Dreamy Jazz"
+			"Dreamy Jazz",
+			"Piano1forte2"
 		]
 	},
 	"apihelp-query+checkuser-description": "Check which IP addresses are used by a given username or which usernames are used by a given IP address.",
@@ -11,7 +12,7 @@
 	"apihelp-query+checkuser-param-target": "Username, IP address, or CIDR range to check.",
 	"apihelp-query+checkuser-param-reason": "Reason to check.",
 	"apihelp-query+checkuser-param-limit": "Limit of rows.",
-	"apihelp-query+checkuser-param-timecond": "Time limit of user data (like \"-2 weeks\" or \"2 weeks ago\").",
+	"apihelp-query+checkuser-param-timecond": "Time limit of user data (like '-2 weeks' or '2 weeks ago').",
 	"apihelp-query+checkuser-param-xff": "Use XFF data instead of IP address.",
 	"apihelp-query+checkuser-example-1": "Check IP addresses for [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Check edits from 192.0.2.0/24",
@@ -22,5 +23,6 @@
 	"apihelp-query+checkuserlog-param-from": "The timestamp to start enumerating from.",
 	"apihelp-query+checkuserlog-param-to": "The timestamp to end enumerating.",
 	"apihelp-query+checkuserlog-example-1": "Show checks of [[User:Example]]",
-	"apihelp-query+checkuserlog-example-2": "Show checks of 192.0.2.0/24 after 2011-10-15T23:00:00Z"
+	"apihelp-query+checkuserlog-example-2": "Show checks of 192.0.2.0/24 after 2011-10-15T23:00:00Z",
+	"apierror-checkuser-timelimit": "You need use correct time limit (like '-2 weeks' or '2 weeks ago')."
 }
