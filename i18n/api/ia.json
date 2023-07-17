@@ -26,5 +26,6 @@
 	"apierror-checkuser-timelimit": "Tu debe usar un limite de tempore correcte (in anglese, como \"-2 weeks\" or \"2 weeks ago\").",
 	"apierror-checkuser-invalidmode": "Modo de requesta invalide",
 	"checkuser-api-help-param-direction": "In qual direction enumerar:\n;newer:Listar le plus vetules primo. Nota: $1from debe esser ante $1to.\n;older:Listar le plus noves primo (option predefinite). Nota: $1from debe esser post $1to.",
-	"checkuser-api-useragent-clienthints-revision-user-mismatch": "Le usator $1 non es le autor del version $2"
+	"checkuser-api-useragent-clienthints-revision-user-mismatch": "Le usator $1 non es le autor del version $2",
+	"checkuser-api-useragent-clienthints-mappings-exist": "Existe ja mappamentos de aviso de cliente pro $1 $2"
 }

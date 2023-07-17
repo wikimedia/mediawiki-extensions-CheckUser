@@ -31,5 +31,6 @@
 	"apierror-checkuser-timelimit": "Vous devez utiliser une limite de temps correcte (comme « -2 weeks » ou « 2 weeks ago »).",
 	"apierror-checkuser-invalidmode": "Mode de requête non valide",
 	"checkuser-api-help-param-direction": "Dans quelle direction énumérer :\n; « newer »\n: lister les plus anciens en premier (note : $1start doit être antérieur à $1end) ;\n; « older »\n: lister les nouveaux en premier (option par défaut ; note : $1start doit être postérieur à $1end).",
-	"checkuser-api-useragent-clienthints-revision-user-mismatch": "L’utilisateur $1 n’est pas l’auteur de la révision $2"
+	"checkuser-api-useragent-clienthints-revision-user-mismatch": "L’utilisateur $1 n’est pas l’auteur de la révision $2",
+	"checkuser-api-useragent-clienthints-mappings-exist": "Les conseils de correspondance du client existent déjà pour $1 $2"
 }
