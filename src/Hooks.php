@@ -534,7 +534,7 @@ class Hooks implements
 		if ( trim( $wgCUPublicKey ) != '' ) {
 			$privateData = $userTo->getEmail() . ":" . $userTo->getId();
 			$encryptedData = new EncryptedData( $privateData, $wgCUPublicKey );
-			$cuPrivateRow['cupe_private'] = $cuChangesRow['cupe_private'] = serialize( $encryptedData );
+			$cuPrivateRow['cupe_private'] = $cuChangesRow['cuc_private'] = serialize( $encryptedData );
 		}
 		$fname = __METHOD__;
 		DeferredUpdates::addCallableUpdate(
