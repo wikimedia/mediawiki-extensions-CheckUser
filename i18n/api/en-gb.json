@@ -3,8 +3,11 @@
 		"authors": [
 			"Chase me ladies, I'm the Cavalry",
 			"Macofe",
-			"Dreamy Jazz"
+			"Dreamy Jazz",
+			"Piano1forte2"
 		]
 	},
-	"apihelp-query+checkuser-description": "Check which IP addresses are used by a given username or which usernames are used by a given IP address."
+	"apihelp-query+checkuser-description": "Check which IP addresses are used by a given username or which usernames are used by a given IP address.",
+	"apihelp-query+checkuser-param-timecond": "Time limit of user data (like '-2 weeks' or '2 weeks ago').",
+	"apierror-checkuser-timelimit": "You need use correct time limit (like '-2 weeks' or '2 weeks ago')."
 }
