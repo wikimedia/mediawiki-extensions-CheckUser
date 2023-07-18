@@ -103,6 +103,9 @@ class Hooks implements
 			$rc->getAttribute( 'rc_type' ) == RC_LOG &&
 			( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW )
 		) {
+			// Write to either cu_log_event or cu_private_event if both:
+			// * This is a log event
+			// * Event table migration stage is set to write new
 			if ( $rc->getAttribute( 'rc_logid' ) == 0 ) {
 				$rcRow = [
 					'cupe_namespace'  => $attribs['rc_namespace'],
@@ -140,60 +143,73 @@ class Hooks implements
 					$rc
 				);
 			}
-			// We have stored the row in either cu_log_event or cu_private_event so no need
-			//  to store it in cu_changes.
-			return;
 		}
 
-		// Store the log action text for log events
-		// $rc_comment should just be the log_comment
-		// BC: check if log_type and log_action exists
-		// If not, then $rc_comment is the actiontext and comment
-		if ( isset( $attribs['rc_log_type'] ) && $attribs['rc_type'] == RC_LOG ) {
-			$pm = MediaWikiServices::getInstance()->getPermissionManager();
-			$target = Title::makeTitle( $attribs['rc_namespace'], $attribs['rc_title'] );
-			$context = RequestContext::newExtraneousContext( $target );
+		if (
+			$rc->getAttribute( 'rc_type' ) != RC_LOG ||
+			( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_OLD )
+		) {
+			// Log to cu_changes if this isn't a log entry or if event table
+			//  migration stage is set to write old.
+			//
+			// Store the log action text for log events
+			// $rc_comment should just be the log_comment
+			// BC: check if log_type and log_action exists
+			// If not, then $rc_comment is the actiontext and comment
+			if ( isset( $attribs['rc_log_type'] ) && $attribs['rc_type'] == RC_LOG ) {
+				$pm = MediaWikiServices::getInstance()->getPermissionManager();
+				$target = Title::makeTitle( $attribs['rc_namespace'], $attribs['rc_title'] );
+				$context = RequestContext::newExtraneousContext( $target );
 
-			$scope = $pm->addTemporaryUserRights( $context->getUser(), $wgCheckUserLogAdditionalRights );
+				$scope = $pm->addTemporaryUserRights( $context->getUser(), $wgCheckUserLogAdditionalRights );
 
-			$formatter = LogFormatter::newFromRow( $rc->getAttributes() );
-			$formatter->setContext( $context );
-			$actionText = $formatter->getPlainActionText();
+				$formatter = LogFormatter::newFromRow( $rc->getAttributes() );
+				$formatter->setContext( $context );
+				$actionText = $formatter->getPlainActionText();
 
-			ScopedCallback::consume( $scope );
-		} else {
-			$actionText = '';
+				ScopedCallback::consume( $scope );
+			} else {
+				$actionText = '';
+			}
+
+			$services = MediaWikiServices::getInstance();
+
+			$dbw = $services->getDBLoadBalancer()->getConnectionRef( DB_PRIMARY );
+
+			$rcRow = [
+				'cuc_namespace'  => $attribs['rc_namespace'],
+				'cuc_title'      => $attribs['rc_title'],
+				'cuc_minor'      => $attribs['rc_minor'],
+				'cuc_actiontext' => $actionText,
+				'cuc_comment'    => $rc->getAttribute( 'rc_comment' ),
+				'cuc_this_oldid' => $attribs['rc_this_oldid'],
+				'cuc_last_oldid' => $attribs['rc_last_oldid'],
+				'cuc_type'       => $attribs['rc_type'],
+				'cuc_timestamp'  => $dbw->timestamp( $attribs['rc_timestamp'] ),
+			];
+
+			if (
+				$rc->getAttribute( 'rc_type' ) == RC_LOG &&
+				$eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW
+			) {
+				// 1 means true in this case.
+				$rcRow['cuc_only_for_read_old'] = 1;
+			}
+
+			# On PG, MW unsets cur_id due to schema incompatibilities. So it may not be set!
+			if ( isset( $attribs['rc_cur_id'] ) ) {
+				$rcRow['cuc_page_id'] = $attribs['rc_cur_id'];
+			}
+
+			( new HookRunner( $services->getHookContainer() ) )->onCheckUserInsertForRecentChange( $rc, $rcRow );
+
+			self::insertIntoCuChangesTable(
+				$rcRow,
+				__METHOD__,
+				new UserIdentityValue( $attribs['rc_user'], $attribs['rc_user_text'] ),
+				$rc
+			);
 		}
-
-		$services = MediaWikiServices::getInstance();
-
-		$dbw = $services->getDBLoadBalancer()->getConnectionRef( DB_PRIMARY );
-
-		$rcRow = [
-			'cuc_namespace'  => $attribs['rc_namespace'],
-			'cuc_title'      => $attribs['rc_title'],
-			'cuc_minor'      => $attribs['rc_minor'],
-			'cuc_actiontext' => $actionText,
-			'cuc_comment'    => $rc->getAttribute( 'rc_comment' ),
-			'cuc_this_oldid' => $attribs['rc_this_oldid'],
-			'cuc_last_oldid' => $attribs['rc_last_oldid'],
-			'cuc_type'       => $attribs['rc_type'],
-			'cuc_timestamp'  => $dbw->timestamp( $attribs['rc_timestamp'] ),
-		];
-
-		# On PG, MW unsets cur_id due to schema incompatibilities. So it may not be set!
-		if ( isset( $attribs['rc_cur_id'] ) ) {
-			$rcRow['cuc_page_id'] = $attribs['rc_cur_id'];
-		}
-
-		( new HookRunner( $services->getHookContainer() ) )->onCheckUserInsertForRecentChange( $rc, $rcRow );
-
-		self::insertIntoCuChangesTable(
-			$rcRow,
-			__METHOD__,
-			new UserIdentityValue( $attribs['rc_user'], $attribs['rc_user_text'] ),
-			$rc
-		);
 	}
 
 	/**
@@ -448,15 +464,20 @@ class Hooks implements
 				__METHOD__,
 				$user
 			);
-		} else {
+		}
+		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
+			$row = [
+				'cuc_namespace'  => NS_USER,
+				'cuc_actiontext' => wfMessage(
+					'checkuser-reset-action',
+					$accountName
+				)->inContentLanguage()->text(),
+			];
+			if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+				$row['cuc_only_for_read_old'] = 1;
+			}
 			self::insertIntoCuChangesTable(
-				[
-					'cuc_namespace'  => NS_USER,
-					'cuc_actiontext' => wfMessage(
-						'checkuser-reset-action',
-						$accountName
-					)->inContentLanguage()->text(),
-				],
+				$row,
 				__METHOD__,
 				$user
 			);
@@ -494,42 +515,42 @@ class Hooks implements
 		$userTo = $services->getUserFactory()->newFromName( $to->name );
 		$hash = md5( $userTo->getEmail() . $userTo->getId() . $wgSecretKey );
 
-		$row = [];
-		$prefix = '';
+		$cuChangesRow = [];
+		$cuPrivateRow = [];
 		$eventTablesMigrationStage = MediaWikiServices::getInstance()->getMainConfig()
 			->get( 'CheckUserEventTablesMigrationStage' );
-		$row['namespace'] = NS_USER;
+		$cuPrivateRow['cupe_namespace'] = $cuChangesRow['cuc_namespace'] = NS_USER;
 		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$prefix = 'cupe_';
-			$row['log_action'] = 'email-sent';
-			$row['params'] = LogEntryBase::makeParamBlob( [ '4::hash' => $hash ] );
-		} else {
-			$prefix = 'cuc_';
-			$row['actiontext'] = wfMessage( 'checkuser-email-action', $hash )->inContentLanguage()->text();
+			$cuPrivateRow['cupe_log_action'] = 'email-sent';
+			$cuPrivateRow['cupe_params'] = LogEntryBase::makeParamBlob( [ '4::hash' => $hash ] );
+		}
+		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
+			if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+				$cuChangesRow['cuc_only_for_read_old'] = 1;
+			}
+			$cuChangesRow['cuc_actiontext'] = wfMessage( 'checkuser-email-action', $hash )
+				->inContentLanguage()->text();
 		}
 		if ( trim( $wgCUPublicKey ) != '' ) {
 			$privateData = $userTo->getEmail() . ":" . $userTo->getId();
 			$encryptedData = new EncryptedData( $privateData, $wgCUPublicKey );
-			$row['private'] = serialize( $encryptedData );
-		}
-		// Prefix with the correct string depending on which table
-		//  is being written to.
-		foreach ( $row as $key => $value ) {
-			$row[$prefix . $key] = $value;
-			unset( $row[$key] );
+			$cuPrivateRow['cupe_private'] = $cuChangesRow['cupe_private'] = serialize( $encryptedData );
 		}
 		$fname = __METHOD__;
 		DeferredUpdates::addCallableUpdate(
-			static function () use ( $row, $userFrom, $fname, $eventTablesMigrationStage ) {
+			static function () use (
+				$cuPrivateRow, $cuChangesRow, $userFrom, $fname, $eventTablesMigrationStage
+			) {
 				if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
 					self::insertIntoCuPrivateEventTable(
-						$row,
+						$cuPrivateRow,
 						$fname,
 						$userFrom
 					);
-				} else {
+				}
+				if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
 					self::insertIntoCuChangesTable(
-						$row,
+						$cuChangesRow,
 						$fname,
 						$userFrom
 					);
@@ -557,14 +578,19 @@ class Hooks implements
 				__METHOD__,
 				$user
 			);
-		} else {
+		}
+		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
+			$row = [
+				'cuc_namespace'  => NS_USER,
+				'cuc_actiontext' => wfMessage(
+					$autocreated ? 'checkuser-autocreate-action' : 'checkuser-create-action'
+				)->inContentLanguage()->text(),
+			];
+			if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+				$row['cuc_only_for_read_old'] = 1;
+			}
 			self::insertIntoCuChangesTable(
-				[
-					'cuc_namespace'  => NS_USER,
-					'cuc_actiontext' => wfMessage(
-						$autocreated ? 'checkuser-autocreate-action' : 'checkuser-create-action'
-					)->inContentLanguage()->text(),
-				],
+				$row,
 				__METHOD__,
 				$user
 			);
@@ -662,19 +688,24 @@ class Hooks implements
 				[
 					'cupe_namespace'  => NS_USER,
 					'cupe_title'      => $userName,
-					'cupe_log_action'     => substr( $msg, strlen( 'checkuser-' ) ),
+					'cupe_log_action' => substr( $msg, strlen( 'checkuser-' ) ),
 					'cupe_params'     => LogEntryBase::makeParamBlob( [ '4::target' => $userName ] ),
 				],
 				__METHOD__,
 				$performer
 			);
-		} else {
+		}
+		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
+			$row = [
+				'cuc_namespace'  => NS_USER,
+				'cuc_title'      => $userName,
+				'cuc_actiontext' => wfMessage( $msg )->params( $target )->inContentLanguage()->text(),
+			];
+			if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+				$row['cuc_only_for_read_old'] = 1;
+			}
 			self::insertIntoCuChangesTable(
-				[
-					'cuc_namespace'  => NS_USER,
-					'cuc_title'      => $userName,
-					'cuc_actiontext' => wfMessage( $msg )->params( $target )->inContentLanguage()->text(),
-				],
+				$row,
 				__METHOD__,
 				$performer
 			);
@@ -705,13 +736,18 @@ class Hooks implements
 				__METHOD__,
 				$performer
 			);
-		} else {
+		}
+		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
+			$row = [
+				'cuc_namespace'  => NS_USER,
+				'cuc_title'      => $oldName,
+				'cuc_actiontext' => wfMessage( 'checkuser-logout' )->inContentLanguage()->text(),
+			];
+			if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
+				$row['cuc_only_for_read_old'] = 1;
+			}
 			self::insertIntoCuChangesTable(
-				[
-					'cuc_namespace'  => NS_USER,
-					'cuc_title'      => $oldName,
-					'cuc_actiontext' => wfMessage( 'checkuser-logout' )->inContentLanguage()->text(),
-				],
+				$row,
 				__METHOD__,
 				$performer
 			);

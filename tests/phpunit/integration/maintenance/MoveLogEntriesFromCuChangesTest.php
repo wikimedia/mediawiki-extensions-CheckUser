@@ -100,9 +100,6 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 	public static function provideSchemaNoMoveValues() {
 		return [
 			'Read and write old' => [ SCHEMA_COMPAT_OLD, 1, 0 ],
-			'Read and write old, read new' => [ SCHEMA_COMPAT_OLD | SCHEMA_COMPAT_READ_NEW, 1, 0 ],
-			'Read and write old, write new' => [ SCHEMA_COMPAT_OLD | SCHEMA_COMPAT_WRITE_NEW, 0, 1 ],
-			'Read and write both old and new' => [ SCHEMA_COMPAT_READ_BOTH | SCHEMA_COMPAT_WRITE_BOTH, 0, 1 ]
 		];
 	}
 
