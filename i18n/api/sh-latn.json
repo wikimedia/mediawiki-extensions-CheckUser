@@ -1,7 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
-			"Vlad5250"
+			"Winston Sung"
 		]
 	},
 	"apihelp-query+checkuser-summary": "Provjeri koje IP-adrese koristi određeno korisničko ime ili pak koja korisnička imena koristi određena IP-adresa.",

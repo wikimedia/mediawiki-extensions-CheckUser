@@ -28,5 +28,6 @@
 	"apierror-checkuser-invalidmode": "מצב בקשה בלתי־תקין",
 	"checkuser-api-help-param-direction": "באיזה כיוון למנות:\n;newer:לרשום את הישנים ביותר בהתחלה. לתשומת לבך: $1from חייב להיות לפני $1to.\n;older:לרשום את החדשים ביותר בהתחלה (ברירת מחדל). לתשומת לבך: $1from חייב להיות אחרי $1to.",
 	"checkuser-api-useragent-clienthints-revision-user-mismatch": "המשתמש $1 הוא לא העורך של הגרסה $2",
-	"checkuser-api-useragent-clienthints-mappings-exist": "מיפויי רמז ללקוח כבר קיימים עבור $1 $2"
+	"checkuser-api-useragent-clienthints-mappings-exist": "מיפויי רמז ללקוח כבר קיימים עבור $1 $2",
+	"checkuser-api-useragent-clienthints-explanation": "אנו אוספים נתוני רמז לקוח סוכן משתמש (user-agent client hint data) כדי לתמוך בקהילה בהפחתת השחתה ושימוש לרעה במיזמי ויקימדיה. ר' https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints לפרטים נוספים."
 }
