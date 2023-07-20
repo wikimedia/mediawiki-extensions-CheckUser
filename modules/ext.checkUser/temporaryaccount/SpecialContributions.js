@@ -5,11 +5,11 @@ var revIds = [];
 
 var $userLinks = $( '#bodyContent' ).find( '.mw-contributions-list [data-mw-revid]' );
 $userLinks.each( function () {
-	var revId = $( this ).data( 'mw-revid' );
+	var revId = ipReveal.getRevisionId( $( this ) );
 	revIds.push( revId );
 } );
 $userLinks.each( function () {
-	var revId = $( this ).data( 'mw-revid' );
+	var revId = ipReveal.getRevisionId( $( this ) );
 	$( this ).find( '.mw-diff-bytes' ).after( function () {
 		return [ ' ', $( '<span>' ).addClass( 'mw-changeslist-separator' ), ipReveal.makeButton( target, revId, revIds ) ];
 	} );

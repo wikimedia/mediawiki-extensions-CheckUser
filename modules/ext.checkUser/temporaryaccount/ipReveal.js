@@ -59,8 +59,7 @@ function addButton( $content ) {
 	var $userLinks = $content.find( '.mw-tempuserlink' );
 
 	$userLinks.each( function () {
-		var revId = $( this ).data( 'mw-revid' );
-
+		var revId = getRevisionId( $( this ) );
 		if ( revId ) {
 			var target = $( this ).text();
 			if ( !allRevIds[ target ] ) {
@@ -71,7 +70,7 @@ function addButton( $content ) {
 	} );
 
 	$userLinks.after( function () {
-		var revId = $( this ).data( 'mw-revid' );
+		var revId = getRevisionId( $( this ) );
 		var target = $( this ).text();
 		var revIds;
 
@@ -108,8 +107,19 @@ function enableMultiReveal( $element ) {
 	} );
 }
 
+/**
+ * Get revision ID from the surrounding mw-changeslist-line list item.
+ *
+ * @param {jQuery} $element
+ * @return {number|undefined}
+ */
+function getRevisionId( $element ) {
+	return $element.closest( '[data-mw-revid]' ).data( 'mw-revid' );
+}
+
 module.exports = {
 	makeButton: makeButton,
 	addButton: addButton,
-	enableMultiReveal: enableMultiReveal
+	enableMultiReveal: enableMultiReveal,
+	getRevisionId: getRevisionId
 };
