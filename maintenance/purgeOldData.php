@@ -7,6 +7,7 @@ use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\MediaWikiServices;
 use Wikimedia\Rdbms\SelectQueryBuilder;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 if ( getenv( 'MW_INSTALL_PATH' ) ) {
 	$IP = getenv( 'MW_INSTALL_PATH' );
@@ -85,7 +86,7 @@ class PurgeOldData extends Maintenance {
 		$shouldDeleteAssociatedClientData = $this->getConfig()->get( 'CheckUserPurgeOldClientHintsData' );
 
 		$dbw = $this->getDB( DB_PRIMARY );
-		$expiredCond = "$ts_column < " . $dbw->addQuotes( $dbw->timestamp( time() - $maxAge ) );
+		$expiredCond = "$ts_column < " . $dbw->addQuotes( $dbw->timestamp( ConvertibleTimestamp::time() - $maxAge ) );
 
 		$deletedCount = 0;
 		while ( true ) {

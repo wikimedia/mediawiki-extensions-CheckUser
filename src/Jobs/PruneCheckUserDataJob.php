@@ -7,6 +7,7 @@ use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\MediaWikiServices;
 use Wikimedia\Rdbms\ILoadBalancer;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * Prune data from the three CheckUser tables (cu_changes, cu_log_event and cu_private_event)
@@ -34,7 +35,7 @@ class PruneCheckUserDataJob extends Job {
 		}
 
 		$encCutoff = $dbw->addQuotes( $dbw->timestamp(
-			time() - $services->getMainConfig()->get( 'CUDMaxAge' )
+			ConvertibleTimestamp::time() - $services->getMainConfig()->get( 'CUDMaxAge' )
 		) );
 
 		$shouldDeleteAssociatedClientData = $services->getMainConfig()->get( 'CheckUserPurgeOldClientHintsData' );
