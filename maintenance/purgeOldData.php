@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Maintenance;
 
 use Maintenance;
 use Wikimedia\Rdbms\SelectQueryBuilder;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 if ( getenv( 'MW_INSTALL_PATH' ) ) {
 	$IP = getenv( 'MW_INSTALL_PATH' );
@@ -57,7 +58,7 @@ class PurgeOldData extends Maintenance {
 	 */
 	protected function prune( $table, $ts_column, $maxAge ) {
 		$dbw = $this->getDB( DB_PRIMARY );
-		$expiredCond = "$ts_column < " . $dbw->addQuotes( $dbw->timestamp( time() - $maxAge ) );
+		$expiredCond = "$ts_column < " . $dbw->addQuotes( $dbw->timestamp( ConvertibleTimestamp::time() - $maxAge ) );
 
 		$count = 0;
 		while ( true ) {

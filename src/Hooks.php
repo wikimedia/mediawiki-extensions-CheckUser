@@ -48,6 +48,7 @@ use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\ScopedCallback;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 class Hooks implements
 	AuthManagerLoginAuthenticateAuditHook,
@@ -813,7 +814,7 @@ class Hooks implements
 				}
 
 				$encCutoff = $dbw->addQuotes( $dbw->timestamp(
-					time() - MediaWikiServices::getInstance()->getMainConfig()->get( 'CUDMaxAge' )
+					ConvertibleTimestamp::time() - MediaWikiServices::getInstance()->getMainConfig()->get( 'CUDMaxAge' )
 				) );
 
 				$deleteOperation = static function (
