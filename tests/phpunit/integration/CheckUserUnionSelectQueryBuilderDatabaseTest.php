@@ -41,10 +41,17 @@ class CheckUserUnionSelectQueryBuilderDatabaseTest extends MediaWikiIntegrationT
 	 * @return TestingAccessWrapper
 	 */
 	protected function setUpObject( bool $needsCommentJoin = true, bool $needsActorJoin = true ) {
-		return TestingAccessWrapper::newFromObject(
+		$object = TestingAccessWrapper::newFromObject(
 			$this->getServiceContainer()->get( 'CheckUserUnionSelectQueryBuilderFactory' )
-				->newCheckUserSelectQueryBuilder( $this->getDb(), $needsCommentJoin, $needsActorJoin )
+				->newCheckUserSelectQueryBuilder( $this->getDb() )
 		);
+		if ( $needsCommentJoin ) {
+			$object->needsCommentJoin();
+		}
+		if ( $needsActorJoin ) {
+			$object->needsActorJoin();
+		}
+		return $object;
 	}
 
 	protected function insertTestData( $cuChangesTimestamps, $cuLogEventTimestamps, $cuPrivateEventTimestamps ) {

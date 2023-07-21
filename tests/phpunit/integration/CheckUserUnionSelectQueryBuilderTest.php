@@ -105,8 +105,8 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiIntegrationTestCase 
 						'log_params' => 'Null', 'minor' => 'cuc_minor'
 					],
 					self::LOG_EVENT_TABLE => [
-						'timestamp' => 'cule_timestamp', 'log_id' => 'cule_log_id', 'log_params', 'minor' =>
-							$this->provideNullValue( 'smallint' )
+						'timestamp' => 'cule_timestamp', 'log_id' => 'cule_log_id', 'log_params' => 'log_params',
+						'minor' => $this->provideNullValue( 'smallint' )
 					],
 					self::PRIVATE_LOG_EVENT_TABLE => [
 						'timestamp' => 'cupe_timestamp', 'log_id' => $this->provideNullValue( 'int' ),
