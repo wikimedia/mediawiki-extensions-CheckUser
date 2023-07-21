@@ -13,9 +13,11 @@ if ( $IP === false ) {
 require_once "$IP/maintenance/Maintenance.php";
 
 /**
- * Move log entries from cu_changes to cu_private_event. This removes
- * the log entries from cu_changes which means that this maintenance script
- * should only be run when reading and writing to the new tables.
+ * Move log entries from cu_changes to cu_private_event.
+ *
+ * This script copies entries with cuc_type equal to 3 to cu_private_event,
+ * and updates the cu_changes entries that were copied to have the column
+ * cuc_only_for_read_old set to 1.
  *
  * Based on parts of multiple other maintenance scripts in this extension.
  */
@@ -44,11 +46,8 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 		$services = MediaWikiServices::getInstance();
 
 		$eventTableMigrationStage = $services->getMainConfig()->get( 'CheckUserEventTablesMigrationStage' );
-		if ( $eventTableMigrationStage !== SCHEMA_COMPAT_NEW ) {
-			$this->output(
-				"Event table migration config must be set to write and read new otherwise moved entries would " .
-				"not be displayed in check results. Change the migration config and try again."
-			);
+		if ( !( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) ) {
+			$this->output( "Event table migration config must be set to write new." );
 			return false;
 		}
 
@@ -78,11 +77,10 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 		$blockEnd = $start + $this->mBatchSize - 1;
 
 		$this->output(
-			"Moving log entries from cu_changes to cu_private_event with cuc_id from $start to $end\n"
+			"Moving log entries from cu_changes to cu_private_event with cuc_id from $start to $end.\n"
 		);
 
 		$lbFactory = $services->getDBLoadBalancerFactory();
-		$commentStore = $services->getCommentStore();
 
 		while ( $blockStart <= $end ) {
 			$this->output( "...checking and moving log entries with cuc_id from $blockStart to $blockEnd\n" );
@@ -106,11 +104,14 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 				] )
 				->table( 'cu_changes' )
 				->conds( $cond )
-				->where( [ 'cuc_type' => RC_LOG ] )
+				->where( [
+					'cuc_type' => RC_LOG,
+					'cuc_only_for_read_old' => 0
+				] )
 				->caller( __METHOD__ )
 				->fetchResultSet();
 			$batch = [];
-			$removeBatch = [];
+			$setOnlyForReadOldBatch = [];
 			foreach ( $res as $row ) {
 				$batch[] = [
 					'cupe_timestamp' => $row->cuc_timestamp,
@@ -129,13 +130,20 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 					'cupe_agent' => $row->cuc_agent,
 					'cupe_private' => $row->cuc_private
 				];
-				$removeBatch[] = $row->cuc_id;
+				$setOnlyForReadOldBatch[] = $row->cuc_id;
 			}
 			if ( count( $batch ) ) {
 				$dbw->insert( 'cu_private_event', $batch, __METHOD__ );
 			}
-			if ( count( $removeBatch ) ) {
-				$dbw->delete( 'cu_changes', [ 'cuc_id' => $removeBatch ], __METHOD__ );
+			if ( count( $setOnlyForReadOldBatch ) ) {
+				// A separate maintenance script will delete these entries just
+				// before cuc_only_for_read_old is removed.
+				$dbw->newUpdateQueryBuilder()
+					->table( 'cu_changes' )
+					->set( [ 'cuc_only_for_read_old' => 1 ] )
+					->where( [ 'cuc_id' => $setOnlyForReadOldBatch ] )
+					->caller( __METHOD__ )
+					->execute();
 			}
 			$blockStart += $this->mBatchSize - 1;
 			$blockEnd += $this->mBatchSize - 1;
