@@ -132,6 +132,22 @@ class CheckUserPrivateEventLogFormatterTest extends LogFormatterTestCase {
 					'api' => [],
 				],
 			],
+			'Migrated log event from cu_changes with plaintext actiontext' => [
+				'row' => [
+					'type' => 'checkuser-private-event',
+					'action' => 'migrated-cu_changes-log-event',
+					'user_text' => 'Sysop',
+					'params' => [
+						'4::actiontext' => 'Test plaintext action text [[test]]'
+					],
+				],
+				'extra' => [
+					'text' => 'Test plaintext action text [[test]]',
+					'api' => [
+						'actiontext' => 'Test plaintext action text [[test]]'
+					]
+				]
+			]
 		];
 	}
 

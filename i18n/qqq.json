@@ -163,6 +163,7 @@
 	"logentry-checkuser-private-event-email-sent": "{{Logentry}}\nLogged text when a user sends an e-mail. Proceeded by the user who sent the email. Shown in the [[Special:CheckUser]] {{msg-mw|checkuser-edits}} results and [[Special:Investigate]] timeline tab.\n* $4 - a salted MD5 hash for the user an email was sent to\nSee also:\n* {{msg-mw|checkuser-email-action}}",
 	"logentry-checkuser-private-event-autocreate-account": "{{Logentry}}\nDetails that a user was automatically created by CentralAuth. Shown in the [[Special:CheckUser]] {{msg-mw|checkuser-edits}} results and [[Special:Investigate]] timeline.\nSee also:\n* {{msg-mw|checkuser-autocreate-action}}",
 	"logentry-checkuser-private-event-create-account": "{{Logentry}}\nIndicates creation of the user. Shown in the [[Special:CheckUser]] {{msg-mw|checkuser-edits}} results and [[Special:Investigate]] timeline.\nSee also:\n* {{msg-mw|checkuser-create-action}}",
+	"logentry-checkuser-private-event-migrated-cu_changes-log-event": "{{Logentry}}\n{{notranslate}}\nLog event for log events moveed from cu_changes which have the plaintext action text in the wikis content language.\nParameters:\n* $4 - The plaintext actiontext.",
 	"group-checkuser.css": "{{doc-group|checkuser|css}}",
 	"group-checkuser.js": "{{doc-group|checkuser|js}}",
 	"checkuser-rest-access-denied": "Error message that is shown by the REST API if a user attempts to perform an action they do not have permission to perform",

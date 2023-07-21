@@ -131,6 +131,7 @@
 	"logentry-checkuser-private-event-email-sent": "{{GENDER:$2|sent}} an email to user \"$4\"",
 	"logentry-checkuser-private-event-autocreate-account": "was automatically created",
 	"logentry-checkuser-private-event-create-account": "was created",
+	"logentry-checkuser-private-event-migrated-cu_changes-log-event": "$4",
 	"group-checkuser.css": "/* CSS code placed here will affect checkusers only */",
 	"group-checkuser.js": "/* JavaScript code placed here will be loaded for checkusers only */",
 	"checkuser-rest-access-denied": "You do not have permission to perform the action",

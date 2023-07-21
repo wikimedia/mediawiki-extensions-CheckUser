@@ -67,6 +67,8 @@ class CheckUserPrivateEventLogFormatter extends LogFormatter {
 		} elseif ( $this->entry->getSubtype() == 'email-sent' ) {
 			// For message logentry-checkuser-private-event-email-sent
 			$params[3] = $this->entry->getParameters()['4::hash'];
+		} elseif ( $this->entry->getSubtype() == 'migrated-cu_changes-log-event' ) {
+			$params[3] = $this->entry->getParameters()['4::actiontext'];
 		}
 
 		return $params;
