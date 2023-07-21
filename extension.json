@@ -457,10 +457,12 @@
 		"checkuser-temporary-account": "checkuser-temporary-account-log-header"
 	},
 	"LogActionsHandlers": {
-		"checkuser-temporary-account/*": "MediaWiki\\CheckUser\\Logging\\TemporaryAccountLogFormatter"
+		"checkuser-temporary-account/*": "MediaWiki\\CheckUser\\Logging\\TemporaryAccountLogFormatter",
+		"checkuser-private-event/*": "MediaWiki\\CheckUser\\Logging\\CheckUserPrivateEventLogFormatter"
 	},
 	"LogRestrictions": {
-		"checkuser-temporary-account": "checkuser-temporary-account-log"
+		"checkuser-temporary-account": "checkuser-temporary-account-log",
+		"checkuser-private-event": "checkuser"
 	},
 	"ActionFilteredLogs": {
 		"checkuser-temporary-account": {

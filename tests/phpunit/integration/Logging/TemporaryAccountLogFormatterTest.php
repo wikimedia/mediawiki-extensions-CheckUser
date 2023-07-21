@@ -6,6 +6,8 @@ use LogFormatterTestCase;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 
 /**
+ * @group CheckUser
+ *
  * @covers \MediaWiki\CheckUser\Logging\TemporaryAccountLogFormatter
  */
 class TemporaryAccountLogFormatterTest extends LogFormatterTestCase {
