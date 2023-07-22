@@ -17,8 +17,7 @@
 			"phpcbf"
 		],
 		"phan": "phan -d . --long-progress-bar",
-		"phpcs": "phpcs -sp --cache",
-		"schema-tables": "./schema/tables.sh"
+		"phpcs": "phpcs -sp --cache"
 	},
 	"require": {
 		"firebase/php-jwt": "6.4.0"
