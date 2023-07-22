@@ -2,6 +2,8 @@
 
 namespace MediaWiki\CheckUser\Api\Rest\Handler;
 
+use MediaWiki\Rest\LocalizedHttpException;
+use Wikimedia\Message\DataMessageValue;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\Rdbms\IDatabase;
 
@@ -11,6 +13,20 @@ class TemporaryAccountRevisionHandler extends AbstractTemporaryAccountHandler {
 	 */
 	protected function getData( int $actorId, IDatabase $dbr ): array {
 		$ids = $this->getValidatedParams()['ids'];
+		if ( !count( $ids ) ) {
+			throw new LocalizedHttpException(
+				DataMessageValue::new( 'paramvalidator-missingparam', [], 'missingparam' )
+					->plaintextParams( "ids" ),
+				400,
+				[
+					'error' => 'parameter-validation-failed',
+					'name' => 'ids',
+					'value' => '',
+					'failureCode' => "missingparam",
+					'failureData' => null,
+				]
+			);
+		}
 		$conds = [
 			'cuc_actor' => $actorId,
 			'cuc_this_oldid' => $ids,

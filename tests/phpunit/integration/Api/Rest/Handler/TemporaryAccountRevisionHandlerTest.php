@@ -143,6 +143,22 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
+	public function testErrorOnMissingRevisionIds() {
+		$this->expectExceptionCode( 400 );
+		$this->expectExceptionMessage( 'paramvalidator-missingparam' );
+		$this->executeHandlerAndGetBodyData(
+			$this->getTemporaryAccountRevisionHandler(),
+			$this->getRequestData( [
+				'ids' => []
+			] ),
+			[],
+			[],
+			[],
+			[],
+			$this->getAuthorityForSuccess()
+		);
+	}
+
 	public function addDBData() {
 		$testData = [
 			[
