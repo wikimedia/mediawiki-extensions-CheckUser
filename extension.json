@@ -479,13 +479,13 @@
 		"checkuserPruneCheckUserDataJob": "\\MediaWiki\\CheckUser\\Jobs\\PruneCheckUserDataJob"
 	},
 	"AutoloadClasses": {
-		"PopulateCheckUserTable": "maintenance/populateCheckUserTable.php",
 		"MediaWiki\\CheckUser\\Hook\\CheckUserInsertChangesRow": "src/Hook/CheckUserInsertChangesRowHook.php",
 		"MediaWiki\\CheckUser\\Hook\\CheckUserInsertChangesRowHook": "src/Hook/CheckUserInsertChangesRowHook.php",
 		"MediaWiki\\CheckUser\\Hook\\CheckUserInsertLogEventRow": "src/Hook/CheckUserInsertLogEventRowHook.php",
 		"MediaWiki\\CheckUser\\Hook\\CheckUserInsertLogEventRowHook": "src/Hook/CheckUserInsertLogEventRowHook.php",
 		"MediaWiki\\CheckUser\\Hook\\CheckUserInsertPrivateEventRow": "src/Hook/CheckUserInsertPrivateEventRowHook.php",
 		"MediaWiki\\CheckUser\\Hook\\CheckUserInsertPrivateEventRowHook": "src/Hook/CheckUserInsertPrivateEventRowHook.php",
+		"MediaWiki\\CheckUser\\Maintenance\\PopulateCheckUserTable": "maintenance/populateCheckUserTable.php",
 		"MediaWiki\\CheckUser\\Maintenance\\PurgeOldData": "maintenance/purgeOldData.php",
 		"MediaWiki\\CheckUser\\Maintenance\\PopulateCucActor": "maintenance/populateCucActor.php",
 		"MediaWiki\\CheckUser\\Maintenance\\PopulateCucComment": "maintenance/populateCucComment.php",
