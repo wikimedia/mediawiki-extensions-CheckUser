@@ -87,8 +87,8 @@
 			"description": "Number of seconds for which the temporary account API response is fresh"
 		},
 		"CheckUserEventTablesMigrationStage": {
-			"value": 3,
-			"description": "A flag used as the migration stage to the new cu_private_event and cu_log_event tables. Default is to read and write only from cu_changes. Must only be set as SCHEMA_COMPAT_NEW or SCHEMA_COMPAT_OLD."
+			"value": 259,
+			"description": "A flag used as the migration stage to the new cu_private_event and cu_log_event tables. Currently set to SCHEMA_COMPAT_OLD | SCHEMA_COMPAT_WRITE_NEW which evaluates to the integer 259."
 		},
 		"CheckUserClientHintsEnabled": {
 			"value": true,
