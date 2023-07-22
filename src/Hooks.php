@@ -741,7 +741,7 @@ class Hooks implements
 			$row = [
 				'cuc_namespace'  => NS_USER,
 				'cuc_title'      => $oldName,
-				'cuc_actiontext' => wfMessage( 'checkuser-logout' )->inContentLanguage()->text(),
+				'cuc_actiontext' => wfMessage( 'checkuser-logout', $oldName )->inContentLanguage()->text(),
 			];
 			if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
 				$row['cuc_only_for_read_old'] = 1;
