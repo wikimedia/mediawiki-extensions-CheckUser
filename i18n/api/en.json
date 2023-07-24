@@ -28,6 +28,7 @@
 	"apierror-checkuser-missingsummary": "You must define reason for check.",
 	"apierror-checkuser-timelimit": "You need use correct time limit (like \"-2 weeks\" or \"2 weeks ago\").",
 	"apierror-checkuser-invalidmode": "Invalid request mode",
+	"apierror-checkuser-nosuchuser": "No such user for this username",
 	"checkuser-api-help-param-direction": "In which direction to enumerate:\n;newer:List oldest first. Note: $1from has to be before $1to.\n;older:List newest first (default). Note: $1from has to be later than $1to.",
 	"checkuser-api-useragent-clienthints-revision-user-mismatch": "User $1 is not the author of revision $2",
 	"checkuser-api-useragent-clienthints-mappings-exist": "Client hint mappings already exist for $1 $2",
