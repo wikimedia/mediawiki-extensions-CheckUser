@@ -8,6 +8,7 @@ use Linker;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityValue;
+use SpecialPage;
 use ReverseChronologicalPager;
 use Wikimedia\Rdbms\IResultWrapper;
 

@@ -37,6 +37,7 @@ class SpecialCheckUserLog extends SpecialPage {
 		parent::__construct( 'CheckUserLog', 'checkuser-log' );
 		$this->linkBatchFactory = $linkBatchFactory;
 		$this->permissionManager = $permissionManager;
+		$this->userFactory = $userFactory;
 	}
 
 	public function execute( $par ) {
