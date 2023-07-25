@@ -29,6 +29,7 @@
 	"apierror-checkuser-missingsummary": "Du musst zur Überprüfung einen Grund angeben.",
 	"apierror-checkuser-timelimit": "Du musst das korrekte Zeitlimit verwenden (wie „-2 weeks“ oder „2 weeks ago“).",
 	"apierror-checkuser-invalidmode": "Ungültiger Abfragemodus",
+	"apierror-checkuser-nosuchuser": "Für diesen Benutzernamen gibt es keinen solchen Benutzer",
 	"checkuser-api-help-param-direction": "In welcher Richtung soll aufgezählt werden:\n;newer:Älteste zuerst auflisten. Hinweis: $1from muss vor $1to sein.\n;older:Neueste zuerst auflisten (Standard). Hinweis: $1from muss nach $1to sein.",
 	"checkuser-api-useragent-clienthints-revision-user-mismatch": "Benutzer $1 ist nicht der Autor der Version $2",
 	"checkuser-api-useragent-clienthints-mappings-exist": "Client-Hinweiszuordnungen sind bereits für $1 $2 vorhanden",
