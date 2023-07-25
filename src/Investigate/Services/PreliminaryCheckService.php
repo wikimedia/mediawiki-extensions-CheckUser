@@ -176,7 +176,7 @@ class PreliminaryCheckService {
 			'groups' => $this->userGroupManagerFactory
 				->getUserGroupManager( $wikiId )
 				->getUserGroups(
-					new UserIdentityValue( (int)$row->user_id, $row->user_name )
+					new UserIdentityValue( (int)$row->user_id, $row->user_name, $wikiId )
 				),
 			'wiki' => $wikiId,
 		];
