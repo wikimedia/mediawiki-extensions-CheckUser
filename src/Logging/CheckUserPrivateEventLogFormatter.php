@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use LogFormatter;
 use MediaWiki\Html\Html;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\User\UserRigorOptions;
 use Message;
 
 /**
@@ -38,8 +39,8 @@ class CheckUserPrivateEventLogFormatter extends LogFormatter {
 				$accountName = $this->entry->getParameters()['4::target'];
 			}
 			$userFactory = MediaWikiServices::getInstance()->getUserFactory();
-			// User can be non-existent in the case of failed login attempts.
-			$user = $userFactory->newFromName( $accountName );
+			// User can be non-existent or invalid in the case of failed login attempts.
+			$user = $userFactory->newFromName( $accountName, UserRigorOptions::RIGOR_NONE );
 			if ( !$user ) {
 				throw new InvalidArgumentException( "The account name $accountName is not valid." );
 			}
@@ -68,6 +69,7 @@ class CheckUserPrivateEventLogFormatter extends LogFormatter {
 			// For message logentry-checkuser-private-event-email-sent
 			$params[3] = $this->entry->getParameters()['4::hash'];
 		} elseif ( $this->entry->getSubtype() == 'migrated-cu_changes-log-event' ) {
+			// For message logentry-checkuser-private-event-migrated-cu_changes-log-event
 			$params[3] = $this->entry->getParameters()['4::actiontext'];
 		}
 
