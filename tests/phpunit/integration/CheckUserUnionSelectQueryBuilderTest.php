@@ -11,6 +11,7 @@ use Wikimedia\TestingAccessWrapper;
  * Test class for CheckUserUnionSelectQueryBuilder
  *
  * @group CheckUser
+ * @group Database
  *
  * @covers \MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilder
  * @coversDefaultClass \MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilder
