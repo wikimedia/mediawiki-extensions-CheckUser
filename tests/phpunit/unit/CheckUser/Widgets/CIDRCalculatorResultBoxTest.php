@@ -22,7 +22,7 @@ class CIDRCalculatorResultBoxTest extends MediaWikiUnitTestCase {
 		);
 	}
 
-	public function provideIsAlwaysDisabled() {
+	public static function provideIsAlwaysDisabled() {
 		return [
 			'Disabled is not set in the caller\'s config' => [
 				[]

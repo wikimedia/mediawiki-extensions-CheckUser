@@ -998,10 +998,29 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
+	private function getMockAuthenticationResponseForStatus( $status, $user = 'test' ) {
+		$req = $this->getMockForAbstractClass( AuthenticationRequest::class );
+		switch ( $status ) {
+			case AuthenticationResponse::PASS:
+				return AuthenticationResponse::newPass( $user );
+			case AuthenticationResponse::ABSTAIN:
+				return AuthenticationResponse::newAbstain();
+			case AuthenticationResponse::REDIRECT:
+				return AuthenticationResponse::newRedirect( [ $req ], '' );
+			case AuthenticationResponse::RESTART:
+				return AuthenticationResponse::newRestart( wfMessage( 'test' ) );
+			case AuthenticationResponse::UI:
+				return AuthenticationResponse::newUI( [ $req ], wfMessage( 'test' ) );
+			default:
+				$this->fail( 'No AuthenticationResponse mock was defined for the status ' . $status );
+		}
+	}
+
 	/** @dataProvider provideOnAuthManagerLoginAuthenticateAuditNoSave */
 	public function testOnAuthManagerLoginAuthenticateAuditNoSave(
-		AuthenticationResponse $ret, string $user, bool $logLogins, bool $logBots, int $eventTableMigrationStage
+		string $status, string $user, bool $logLogins, bool $logBots, int $eventTableMigrationStage
 	) {
+		$ret = $this->getMockAuthenticationResponseForStatus( $status, $user );
 		$this->setMwGlobals( [
 			'wgCheckUserLogLogins' => $logLogins,
 			'wgCheckUserLogSuccessfulBotLogins' => $logBots,
@@ -1025,36 +1044,35 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function provideOnAuthManagerLoginAuthenticateAuditNoSave() {
+	public static function provideOnAuthManagerLoginAuthenticateAuditNoSave() {
 		$eventTableMigrationStageValues = self::provideEventMigrationStageValues();
-		$req = $this->getMockForAbstractClass( AuthenticationRequest::class );
 		$testCases = [
 			'invalid user' => [
-				AuthenticationResponse::newPass( '' ),
+				AuthenticationResponse::PASS,
 				'',
 				true,
 				true
 			],
 			'Abstain authentication response' => [
-				AuthenticationResponse::newAbstain(),
+				AuthenticationResponse::ABSTAIN,
 				'UTSysop',
 				true,
 				true
 			],
 			'Redirect authentication response' => [
-				AuthenticationResponse::newRedirect( [ $req ], '' ),
+				AuthenticationResponse::REDIRECT,
 				'UTSysop',
 				true,
 				true
 			],
 			'UI authentication response' => [
-				AuthenticationResponse::newUI( [ $req ], wfMessage( 'test' ) ),
+				AuthenticationResponse::UI,
 				'UTSysop',
 				true,
 				true
 			],
 			'Restart authentication response' => [
-				AuthenticationResponse::newRestart( wfMessage( 'test' ) ),
+				AuthenticationResponse::RESTART,
 				'UTSysop',
 				true,
 				true
@@ -1071,7 +1089,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	/** @dataProvider provideEventMigrationStageValues */
 	public function testCheckUserLogLoginsSetToFalse( int $eventTableMigrationStage ) {
 		$this->testOnAuthManagerLoginAuthenticateAuditNoSave(
-			AuthenticationResponse::newPass( 'UTSysop' ),
+			AuthenticationResponse::PASS,
 			'UTSysop',
 			false,
 			true,
@@ -1081,11 +1099,11 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideCheckUserLogBotSuccessfulLoginsNoSave */
 	public function testCheckUserLogBotSuccessfulLoginsSetToFalse(
-		AuthenticationResponse $ret, bool $logBots, int $eventTableMigrationStage
+		string $status, bool $logBots, int $eventTableMigrationStage
 	) {
 		$user = $this->getTestUser( [ 'bot' ] )->getUserIdentity()->getName();
 		$this->testOnAuthManagerLoginAuthenticateAuditNoSave(
-			$ret,
+			$status,
 			$user,
 			true,
 			$logBots,
@@ -1097,7 +1115,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		$eventTableMigrationStageValues = self::provideEventMigrationStageValues();
 		$testCases = [
 			'Successful authentication with wgCheckUserLogSuccessfulBotLogins set to false' => [
-				AuthenticationResponse::newPass( 'test' ),
+				AuthenticationResponse::PASS,
 				false
 			]
 		];
