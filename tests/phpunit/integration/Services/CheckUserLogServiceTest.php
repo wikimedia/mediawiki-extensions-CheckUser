@@ -15,7 +15,6 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  * @group Database
  *
  * @covers \MediaWiki\CheckUser\Services\CheckUserLogService
- * @coversDefaultClass \MediaWiki\CheckUser\Services\CheckUserLogService
  */
 class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 	protected function setUp(): void {
@@ -53,10 +52,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	/**
-	 * @covers ::addLogEntry
-	 * @dataProvider provideAddLogEntryIPs
-	 */
+	/** @dataProvider provideAddLogEntryIPs */
 	public function testAddLogEntryIPs(
 		$logType, $target, $reason, $assertSelectFieldValues
 	) {
@@ -83,10 +79,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::addLogEntry
-	 * @dataProvider provideAddLogEntryUsers
-	 */
+	/** @dataProvider provideAddLogEntryUsers */
 	public function testAddLogEntryUser(
 		$logType, UserIdentity $target, $reason, $assertSelectFieldValues
 	) {
@@ -113,10 +106,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::addLogEntry
-	 * @dataProvider provideAddLogEntryTimestamp
-	 */
+	/** @dataProvider provideAddLogEntryTimestamp */
 	public function testAddLogEntryTimestamp( $timestamp ) {
 		ConvertibleTimestamp::setFakeTime( $timestamp );
 		$testUser = $this->getTestUser()->getUserIdentity();
@@ -133,9 +123,6 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::addLogEntry
-	 */
 	public function testAddLogEntryPerformer() {
 		$object = $this->setUpObject();
 		$testUser = $this->getTestUser( 'checkuser' )->getUser();
@@ -149,10 +136,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	/**
-	 * @covers ::addLogEntry
-	 * @dataProvider provideAddLogEntryReasonId
-	 */
+	/** @dataProvider provideAddLogEntryReasonId */
 	public function testAddLogEntryReasonId( $reason, $expectedPlaintextReason ) {
 		$object = $this->setUpObject();
 		$testUser = $this->getTestUser( 'checkuser' )->getUser();
@@ -185,10 +169,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	/**
-	 * @covers ::getPlaintextReason
-	 * @dataProvider provideAddLogEntryReasonId
-	 */
+	/** @dataProvider provideAddLogEntryReasonId */
 	public function testGetPlaintextReason( $reason, $expectedPlaintextReason ) {
 		$this->assertSame(
 			$expectedPlaintextReason,

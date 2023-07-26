@@ -9,13 +9,9 @@ use MediaWikiUnitTestCase;
 /**
  * @group CheckUser
  * @covers \MediaWiki\CheckUser\HookHandler\SpecialPageInitListHandler
- * @coversDefaultClass \MediaWiki\CheckUser\HookHandler\SpecialPageInitListHandler
  */
 class SpecialPageInitListHandlerTest extends MediaWikiUnitTestCase {
 
-	/**
-	 * @covers ::onSpecialPage_initList
-	 */
 	public function testOnSpecialPageInitList_withInvestigate() {
 		// Case #1: $wgCheckUserEnableSpecialInvestigate is true
 		$list = [];
@@ -37,9 +33,6 @@ class SpecialPageInitListHandlerTest extends MediaWikiUnitTestCase {
 		);
 	}
 
-	/**
-	 * @covers ::onSpecialPage_initList
-	 */
 	public function testOnSpecialPageInitList_noInvestigate() {
 		// Case #2: $wgCheckUserEnableSpecialInvestigate is false
 		$list = [];

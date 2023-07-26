@@ -14,8 +14,8 @@ use Title;
 use Wikimedia\TestingAccessWrapper;
 
 /**
- * @group CheckUser|
- * @coversDefaultClass \MediaWiki\CheckUser\CheckUser\SpecialCheckUser
+ * @group CheckUser
+ * @covers \MediaWiki\CheckUser\CheckUser\SpecialCheckUser
  */
 class SpecialCheckUserTest extends MediaWikiUnitTestCase {
 
@@ -54,10 +54,7 @@ class SpecialCheckUserTest extends MediaWikiUnitTestCase {
 		return $params;
 	}
 
-	/**
-	 * @covers ::tagPage
-	 * @dataProvider provideTagPageFailsForTooSmallTag
-	 */
+	/** @dataProvider provideTagPageFailsForTooSmallTag */
 	public function testTagPageFailsForTooSmallTag( $tag ) {
 		$mockObject = $this->setUpObjectInTestingAccessWrapper();
 		$tagPageResult = $mockObject->tagPage( $this->createMock( Title::class ), $tag, 'test summary' );
@@ -97,7 +94,6 @@ class SpecialCheckUserTest extends MediaWikiUnitTestCase {
 		];
 	}
 
-	/** @covers ::doesWrites */
 	public function testDoesWrites() {
 		$this->assertTrue(
 			$this->setUpObjectInTestingAccessWrapper()->doesWrites(),
@@ -105,10 +101,7 @@ class SpecialCheckUserTest extends MediaWikiUnitTestCase {
 		);
 	}
 
-	/**
-	 * @covers ::checkReason
-	 * @dataProvider provideCheckReason
-	 */
+	/** @dataProvider provideCheckReason */
 	public function testCheckReason( $config, $reason, $expected ) {
 		// Create a mock Config that returns $config for the key CheckUserForceSummary
 		$mockConfig = $this->createMock( Config::class );

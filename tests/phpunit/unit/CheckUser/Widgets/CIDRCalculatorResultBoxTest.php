@@ -8,14 +8,11 @@ use Wikimedia\TestingAccessWrapper;
 
 /**
  * @group CheckUser
- * @coversDefaultClass \MediaWiki\CheckUser\CheckUser\Widgets\CIDRCalculatorResultBox
+ * @covers \MediaWiki\CheckUser\CheckUser\Widgets\CIDRCalculatorResultBox
  */
 class CIDRCalculatorResultBoxTest extends MediaWikiUnitTestCase {
 
-	/**
-	 * @covers ::__construct
-	 * @dataProvider provideIsAlwaysDisabled
-	 */
+	/** @dataProvider provideIsAlwaysDisabled */
 	public function testIsAlwaysDisabled( $config ) {
 		$resultBox = TestingAccessWrapper::newFromObject( new CIDRCalculatorResultBox( $config ) );
 		$this->assertSame(
@@ -36,9 +33,6 @@ class CIDRCalculatorResultBoxTest extends MediaWikiUnitTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::setDisabled
-	 */
 	public function testSetDisabled() {
 		$resultBox = TestingAccessWrapper::newFromObject( new CIDRCalculatorResultBox( [] ) );
 		$this->assertSame(

@@ -15,7 +15,6 @@ use Wikimedia\TestingAccessWrapper;
  * @group CheckUser
  *
  * @covers \MediaWiki\CheckUser\Services\CheckUserUnionSelectQueryBuilderFactory
- * @coversDefaultClass \MediaWiki\CheckUser\Services\CheckUserUnionSelectQueryBuilderFactory
  */
 class CheckUserUnionSelectQueryBuilderFactoryTest extends MediaWikiUnitTestCase {
 	/** @return TestingAccessWrapper */
@@ -25,9 +24,6 @@ class CheckUserUnionSelectQueryBuilderFactoryTest extends MediaWikiUnitTestCase 
 		);
 	}
 
-	/**
-	 * @covers \MediaWiki\CheckUser\Services\CheckUserUnionSelectQueryBuilderFactory
-	 */
 	public function testNewObjectMethod() {
 		$this->assertInstanceOf(
 			CheckUserUnionSelectQueryBuilder::class,

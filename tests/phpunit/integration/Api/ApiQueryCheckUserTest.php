@@ -178,7 +178,6 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		];
 	}
 
-	/** @covers \MediaWiki\CheckUser\Api\ApiQueryCheckUser::isWriteMode */
 	public function testIsWriteMode() {
 		$this->assertTrue(
 			$this->setUpObject()->isWriteMode(),
@@ -186,7 +185,6 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		);
 	}
 
-	/** @covers \MediaWiki\CheckUser\Api\ApiQueryCheckUser::mustBePosted */
 	public function testMustBePosted() {
 		$this->assertTrue(
 			$this->setUpObject()->mustBePosted(),
@@ -194,7 +192,6 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		);
 	}
 
-	/** @covers \MediaWiki\CheckUser\Api\ApiQueryCheckUser::needsToken */
 	public function testNeedsToken() {
 		$this->assertSame(
 			'csrf',
@@ -209,8 +206,6 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 	 * the URL is changed in a proposed commit the
 	 * reviewer should check the URL points to the
 	 * right place.
-	 *
-	 * @covers \MediaWiki\CheckUser\Api\ApiQueryCheckUser::getHelpUrls
 	 */
 	public function testGetHelpUrls() {
 		$helpUrls = $this->setUpObject()->getHelpUrls();

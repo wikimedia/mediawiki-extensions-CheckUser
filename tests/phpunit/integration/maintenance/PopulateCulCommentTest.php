@@ -10,7 +10,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 /**
  * @group CheckUser
  * @group Database
- * @coversDefaultClass \MediaWiki\CheckUser\Maintenance\PopulateCulComment
+ * @covers \MediaWiki\CheckUser\Maintenance\PopulateCulComment
  */
 class PopulateCulCommentTest extends MaintenanceBaseTestCase {
 
@@ -30,10 +30,7 @@ class PopulateCulCommentTest extends MaintenanceBaseTestCase {
 		return PopulateCulComment::class;
 	}
 
-	/**
-	 * @covers ::doDBUpdates
-	 * @dataProvider provideAddLogEntryReasonId
-	 */
+	/** @dataProvider provideAddLogEntryReasonId */
 	public function testDoDBUpdatesSingleRow( $reason, $plaintextReason ) {
 		if ( $this->db->getType() === 'postgres' ) {
 			// The test is unable to add the column to the database

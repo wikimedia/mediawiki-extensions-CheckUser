@@ -13,7 +13,7 @@ use Wikimedia\TestingAccessWrapper;
  * @group CheckUser
  * @group Database
  *
- * @coversDefaultClass \MediaWiki\CheckUser\Maintenance\PopulateCheckUserTable
+ * @covers \MediaWiki\CheckUser\Maintenance\PopulateCheckUserTable
  */
 class PopulateCheckUserTableTest extends MaintenanceBaseTestCase {
 
@@ -37,9 +37,6 @@ class PopulateCheckUserTableTest extends MaintenanceBaseTestCase {
 		return PopulateCheckUserTable::class;
 	}
 
-	/**
-	 * @covers ::doDBUpdates
-	 */
 	protected function testNoPopulationOnEmptyRecentChangesTable() {
 		$this->assertTrue(
 			$this->maintenance->execute(),
@@ -61,7 +58,6 @@ class PopulateCheckUserTableTest extends MaintenanceBaseTestCase {
 	}
 
 	/**
-	 * @covers ::doDBUpdates
 	 * @dataProvider provideTestPopulation
 	 */
 	public function testPopulation(

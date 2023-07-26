@@ -31,10 +31,7 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 		$this->defaultCheckType = 'ipedits';
 	}
 
-	/**
-	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetEditsPager::isNavigationBarShown
-	 * @dataProvider provideIsNavigationBarShown
-	 */
+	/** @dataProvider provideIsNavigationBarShown */
 	public function testIsNavigationBarShown( $results, $shown ) {
 		$object = $this->setUpObject();
 		$object->mResult = new \FakeResultWrapper( $results );
@@ -59,10 +56,7 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 		];
 	}
 
-	/**
-	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetEditsPager::preCacheMessages
-	 * @dataProvider providePreCacheMessages
-	 */
+	/** @dataProvider providePreCacheMessages */
 	public function testPreCacheMessages( $messageKeys ) {
 		$object = $this->setUpObject();
 		$this->assertArrayEquals(
@@ -92,7 +86,6 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 	 * the expected values. Does not test the mustache file which includes some
 	 * conditional logic, HTML and whitespace.
 	 *
-	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetEditsPager::formatRow
 	 * @dataProvider provideFormatRow
 	 */
 	public function testFormatRow( $row, $flagCache, $expectedTemplateParams ) {

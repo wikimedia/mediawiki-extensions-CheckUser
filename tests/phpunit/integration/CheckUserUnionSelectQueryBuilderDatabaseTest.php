@@ -15,7 +15,6 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  * @group CheckUser
  *
  * @covers \MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilder
- * @coversDefaultClass \MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilder
  */
 class CheckUserUnionSelectQueryBuilderDatabaseTest extends MediaWikiIntegrationTestCase {
 
@@ -138,9 +137,6 @@ class CheckUserUnionSelectQueryBuilderDatabaseTest extends MediaWikiIntegrationT
 	}
 
 	/**
-	 * @covers ::fetchResultSet
-	 * @covers ::setSubQueryBeforePerformingQuery
-	 * @covers ::resetSubQueryForFutureChanges
 	 * @dataProvider provideTestQuery
 	 */
 	public function testFetchResultSet(
@@ -171,9 +167,6 @@ class CheckUserUnionSelectQueryBuilderDatabaseTest extends MediaWikiIntegrationT
 	}
 
 	/**
-	 * @covers ::fetchField
-	 * @covers ::setSubQueryBeforePerformingQuery
-	 * @covers ::resetSubQueryForFutureChanges
 	 * @dataProvider provideTestQuery
 	 */
 	public function testFetchField(
@@ -198,9 +191,6 @@ class CheckUserUnionSelectQueryBuilderDatabaseTest extends MediaWikiIntegrationT
 	}
 
 	/**
-	 * @covers ::fetchFieldValues
-	 * @covers ::setSubQueryBeforePerformingQuery
-	 * @covers ::resetSubQueryForFutureChanges
 	 * @dataProvider provideTestQuery
 	 */
 	public function testFetchFieldValues(
@@ -230,9 +220,6 @@ class CheckUserUnionSelectQueryBuilderDatabaseTest extends MediaWikiIntegrationT
 	}
 
 	/**
-	 * @covers ::fetchRow
-	 * @covers ::setSubQueryBeforePerformingQuery
-	 * @covers ::resetSubQueryForFutureChanges
 	 * @dataProvider provideTestQuery
 	 */
 	public function testFetchRow(
@@ -257,9 +244,6 @@ class CheckUserUnionSelectQueryBuilderDatabaseTest extends MediaWikiIntegrationT
 	}
 
 	/**
-	 * @covers ::fetchFieldValues
-	 * @covers ::setSubQueryBeforePerformingQuery
-	 * @covers ::resetSubQueryForFutureChanges
 	 * @dataProvider provideTestQuery
 	 */
 	public function testFetchRowCount(
@@ -284,7 +268,6 @@ class CheckUserUnionSelectQueryBuilderDatabaseTest extends MediaWikiIntegrationT
 	}
 
 	/**
-	 * @covers ::fetchResultSet
 	 * @dataProvider provideTestQuery
 	 */
 	public function testSelectingAllFields(

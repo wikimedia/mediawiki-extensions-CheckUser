@@ -7,7 +7,7 @@ use ApiQuery;
 use ApiTestCase;
 use HashConfig;
 use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
-use MediaWiki\CheckUser\CheckUserLogService;
+use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Permissions\Authority;
 use Wikimedia\TestingAccessWrapper;
@@ -18,7 +18,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  * @group medium
  * @group Database
  *
- * @covers \MediaWiki\CheckUser\Api\ApiQueryCheckUser
+ * @covers \MediaWiki\CheckUser\Api\ApiQueryCheckUserLog
  */
 class ApiQueryCheckUserLogTest extends ApiTestCase {
 
@@ -129,8 +129,6 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 	 * the URL is changed in a proposed commit the
 	 * reviewer should check the URL points to the
 	 * right place.
-	 *
-	 * @covers \MediaWiki\CheckUser\Api\ApiQueryCheckUserLog::getHelpUrls
 	 */
 	public function testGetHelpUrls() {
 		$helpUrls = $this->setUpObject()->getHelpUrls();
@@ -145,10 +143,7 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 		}
 	}
 
-	/**
-	 * @covers \MediaWiki\CheckUser\Api\ApiQueryCheckUserLog::execute
-	 * @dataProvider provideExampleLogEntryDataForReasonFilterTest
-	 */
+	/** @dataProvider provideExampleLogEntryDataForReasonFilterTest */
 	public function testReasonFilter(
 		$logType, $targetType, $target, $reason, $targetID, $timestamp, $reasonToSearchFor, $shouldSeeEntry
 	) {
@@ -195,10 +190,7 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 		return $tests;
 	}
 
-	/**
-	 * @covers \MediaWiki\CheckUser\Api\ApiQueryCheckUserLog::execute
-	 * @dataProvider provideExampleLogEntryData
-	 */
+	/** @dataProvider provideExampleLogEntryData */
 	public function testReturnsCorrectData( $logType, $targetType, $target, $reason, $targetID, $timestamp ) {
 		ConvertibleTimestamp::setFakeTime( $timestamp );
 		// Set up by the DB by inserting data.

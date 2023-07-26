@@ -10,7 +10,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 /**
  * @group CheckUser
  * @group Database
- * @coversDefaultClass \MediaWiki\CheckUser\Maintenance\PurgeOldData
+ * @covers \MediaWiki\CheckUser\Maintenance\PurgeOldData
  */
 class PurgeOldDataTest extends MaintenanceBaseTestCase {
 
@@ -34,8 +34,6 @@ class PurgeOldDataTest extends MaintenanceBaseTestCase {
 	}
 
 	/**
-	 * @covers ::execute
-	 * @covers ::prune
 	 * @dataProvider providePruneIPDataData
 	 * @todo test for pruning of recent changes
 	 */

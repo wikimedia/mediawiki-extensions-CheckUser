@@ -10,7 +10,7 @@ use Wikimedia\TestingAccessWrapper;
 /**
  * @group CheckUser
  * @group Database
- * @coversDefaultClass \MediaWiki\CheckUser\Maintenance\MoveLogEntriesFromCuChanges
+ * @covers \MediaWiki\CheckUser\Maintenance\MoveLogEntriesFromCuChanges
  */
 class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 
@@ -63,10 +63,7 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 		);
 	}
 
-	/**
-	 * @covers ::doDBUpdates
-	 * @dataProvider provideSchemaNoMoveValues
-	 */
+	/** @dataProvider provideSchemaNoMoveValues */
 	public function testNoMoveWhenWrongSchemaStage( $schemaStage, $cuChangesRowCount, $cuPrivateEventCount ) {
 		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $schemaStage );
 		// Set up cu_changes
@@ -92,9 +89,6 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::doDBUpdates
-	 */
 	public function testNoMoveIfCuChangesEmpty() {
 		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', SCHEMA_COMPAT_NEW );
 		// Run the script
@@ -106,10 +100,7 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 		$this->commonTestNoMove( 0 );
 	}
 
-	/**
-	 * @covers ::doDBUpdates
-	 * @dataProvider provideBatchSize
-	 */
+	/** @dataProvider provideBatchSize */
 	public function testBatchSize( $numberOfRows, $batchSize, $firstSchemaStage = SCHEMA_COMPAT_OLD ) {
 		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $firstSchemaStage );
 		// Set up cu_changes
@@ -158,10 +149,7 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::doDBUpdates
-	 * @dataProvider provideBatchSize
-	 */
+	/** @dataProvider provideBatchSize */
 	public function testMoveAfterInsertionOnWriteBoth( $numberOfRows, $batchSize ) {
 		$this->testBatchSize(
 			$numberOfRows, $batchSize, SCHEMA_COMPAT_WRITE_BOTH

@@ -34,10 +34,7 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonTest {
 		$this->defaultCheckType = 'userips';
 	}
 
-	/**
-	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager::getCountForIPedits
-	 * @dataProvider provideGetCountForIPEdits
-	 */
+	/** @dataProvider provideGetCountForIPEdits */
 	public function testGetCountForIPEdits( $ips, $performers, $expectedCount ) {
 		$object = $this->setUpObject();
 		$testUser = $this->getTestUser();
@@ -98,7 +95,6 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonTest {
 	 * the expected values. Does not test the mustache file which includes some
 	 * conditional logic, HTML and whitespace.
 	 *
-	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager::formatRow
 	 * @dataProvider provideFormatRow
 	 */
 	public function testFormatRow( $row, $expectedTemplateParams ) {

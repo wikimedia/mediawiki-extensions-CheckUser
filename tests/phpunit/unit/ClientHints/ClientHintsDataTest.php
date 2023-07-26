@@ -8,16 +8,11 @@ use MediaWikiUnitTestCase;
 /**
  * @group CheckUser
  *
- * @coversDefaultClass \MediaWiki\CheckUser\ClientHints\ClientHintsData
+ * @covers \MediaWiki\CheckUser\ClientHints\ClientHintsData
  */
 class ClientHintsDataTest extends MediaWikiUnitTestCase {
 
-	/**
-	 * @covers ::newFromJsApi
-	 * @covers ::__construct
-	 * @covers ::jsonSerialize
-	 * @dataProvider provideNewFromJsApi
-	 */
+	/** @dataProvider provideNewFromJsApi */
 	public function testNewFromJsApiAndJsonSerialize( array $dataFromJsApi, array $expectedValues ) {
 		$objectToTest = ClientHintsData::newFromJsApi( $dataFromJsApi );
 		$this->assertArrayEquals(
@@ -135,11 +130,7 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::toDatabaseRows
-	 * @covers ::newFromJsApi
-	 * @dataProvider provideToDatabaseRows
-	 */
+	/** @dataProvider provideToDatabaseRows */
 	public function testToDatabaseRows( $dataFromJsApi, $expectedDatabaseRows ) {
 		$objectToTest = ClientHintsData::newFromJsApi( $dataFromJsApi );
 		$this->assertArrayEquals(
