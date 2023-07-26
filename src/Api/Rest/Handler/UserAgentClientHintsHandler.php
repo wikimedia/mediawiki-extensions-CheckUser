@@ -9,6 +9,7 @@ use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\SimpleHandler;
 use MediaWiki\Rest\Validator\JsonBodyValidator;
 use MediaWiki\Rest\Validator\UnsupportedContentTypeBodyValidator;
+use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use Wikimedia\Message\MessageValue;
 use Wikimedia\ParamValidator\ParamValidator;
@@ -59,7 +60,10 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 				throw new LocalizedHttpException(
 					new MessageValue( 'rest-nonexistent-revision', [ $identifier ] ), 404 );
 			}
-			if ( !$revision->getUser() || !$revision->getUser()->equals( $user ) ) {
+			if (
+				!$revision->getUser( RevisionRecord::RAW ) ||
+				!$revision->getUser( RevisionRecord::RAW )->equals( $user )
+			) {
 				throw new LocalizedHttpException(
 					new MessageValue(
 						'checkuser-api-useragent-clienthints-revision-user-mismatch',
