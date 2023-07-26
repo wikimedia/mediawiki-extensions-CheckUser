@@ -95,7 +95,8 @@ class UserAgentClientHintsManager {
 			$this->dbw->insert(
 				'cu_useragent_clienthints',
 				$rows,
-				__METHOD__
+				__METHOD__,
+				[ 'IGNORE' ]
 			);
 			// We just inserted rows to cu_useragent_clienthints, so
 			// use the primary DB for subsequent SELECT queries.
