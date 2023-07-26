@@ -26,6 +26,7 @@
 	"apierror-checkuser-missingsummary": "Мора да зададете причина за проверка.",
 	"apierror-checkuser-timelimit": "Ќе треба да употребите исправно временско ограничување (на пр. „-2 weeks“ „2 weeks ago“).",
 	"apierror-checkuser-invalidmode": "Неважечки режим на побарување",
+	"apierror-checkuser-nosuchuser": "Нема таков корисник за ова корисничко име",
 	"checkuser-api-help-param-direction": "Во која насока да се набројува:\n;newer:Прво најстарите. Напомена: $1from мора да биде пред $1to.\n;older:Прво најновите (по основно). Напомена: $1from мора да биде подоцна од $1to.",
 	"checkuser-api-useragent-clienthints-revision-user-mismatch": "Корисникот $1 не е автор на преработката $2",
 	"checkuser-api-useragent-clienthints-mappings-exist": "Веќе постојат зададени клиентски совети за $1 $2",

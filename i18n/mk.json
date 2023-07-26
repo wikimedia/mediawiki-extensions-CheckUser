@@ -112,7 +112,7 @@
 	"checkuser-login-failure": "Не успеав да ве најавам на {{SITENAME}} како $1",
 	"checkuser-login-failure-with-good-password": "Не успеав да ве најавам на {{SITENAME}} како $1, но лозинката беше исправна",
 	"checkuser-login-success": "Успешно ве најавив на {{SITENAME}} како $1",
-	"checkuser-logout": "Успешна одјава со приложникот или {{#special:logout}}",
+	"checkuser-logout": "Успешна {{GENDER:$1|одјава}} со приложникот или {{#special:logout}}",
 	"checkuser-helper-label": "Погледајте го исходот во табела",
 	"checkuser-helper-copy-success": "Ископирано",
 	"checkuser-helper-copy-failed": "Не може да се ископира",
