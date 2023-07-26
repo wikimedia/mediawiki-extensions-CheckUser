@@ -16,6 +16,7 @@ use MediaWiki\User\UserIdentityValue;
 use MediaWikiUnitTestCase;
 use StatusValue;
 use Wikimedia\Message\MessageValue;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * @group CheckUser
@@ -26,7 +27,10 @@ class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
 	use HandlerTestTrait;
 
 	public function testRunWithClientHintsDisabled() {
-		$config = new HashConfig( [ 'CheckUserClientHintsEnabled' => false ] );
+		$config = new HashConfig( [
+			'CheckUserClientHintsEnabled' => false,
+			'CheckUserClientHintsRestApiMaxTimeLag' => 1800,
+		] );
 		$revisionStore = $this->createMock( RevisionStore::class );
 		$userAgentClientHintsManager = $this->createMock( UserAgentClientHintsManager::class );
 		$handler = new UserAgentClientHintsHandler( $config, $revisionStore, $userAgentClientHintsManager );
@@ -37,7 +41,10 @@ class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
 	}
 
 	public function testMissingRevision() {
-		$config = new HashConfig( [ 'CheckUserClientHintsEnabled' => true ] );
+		$config = new HashConfig( [
+			'CheckUserClientHintsEnabled' => true,
+			'CheckUserClientHintsRestApiMaxTimeLag' => 1800,
+		] );
 		$revisionStore = $this->createMock( RevisionStore::class );
 		$revisionStore->method( 'getRevisionById' )->willReturn( null );
 		$userAgentClientHintsManager = $this->createMock( UserAgentClientHintsManager::class );
@@ -52,7 +59,10 @@ class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
 	}
 
 	public function testMissingUser() {
-		$config = new HashConfig( [ 'CheckUserClientHintsEnabled' => true ] );
+		$config = new HashConfig( [
+			'CheckUserClientHintsEnabled' => true,
+			'CheckUserClientHintsRestApiMaxTimeLag' => 1800,
+		] );
 		$revisionStore = $this->createMock( RevisionStore::class );
 		$revision = $this->createMock( RevisionRecord::class );
 		$revision->method( 'getUser' )->willReturn( null );
@@ -71,7 +81,10 @@ class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
 	}
 
 	public function testUserDoesntMatchRevisionOwner() {
-		$config = new HashConfig( [ 'CheckUserClientHintsEnabled' => true ] );
+		$config = new HashConfig( [
+			'CheckUserClientHintsEnabled' => true,
+			'CheckUserClientHintsRestApiMaxTimeLag' => 1800,
+		] );
 		$revisionStore = $this->createMock( RevisionStore::class );
 		$revision = $this->createMock( RevisionRecord::class );
 		$user = $this->createMock( UserIdentity::class );
@@ -93,12 +106,47 @@ class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
 		);
 	}
 
-	public function testUserMatchesRevisionOwner() {
-		$config = new HashConfig( [ 'CheckUserClientHintsEnabled' => true ] );
+	public function testRevisionTooOldToStoreClientHintsData() {
+		$config = new HashConfig( [
+			'CheckUserClientHintsEnabled' => true,
+			'CheckUserClientHintsRestApiMaxTimeLag' => 5,
+		] );
 		$revisionStore = $this->createMock( RevisionStore::class );
 		$revision = $this->createMock( RevisionRecord::class );
 		$user = new UserIdentityValue( 123, 'Foo' );
 		$revision->method( 'getUser' )->willReturn( $user );
+		$revision->method( 'getTimestamp' )->willReturn(
+			ConvertibleTimestamp::convert( TS_MW, ConvertibleTimestamp::time() - 10 )
+		);
+		$revisionStore->method( 'getRevisionById' )->willReturn( $revision );
+		$authority = $this->createMock( Authority::class );
+		$authority->method( 'getUser' )
+			->willReturn( $user );
+		$this->expectExceptionObject(
+			new LocalizedHttpException(
+				new MessageValue( 'checkuser-api-useragent-clienthints-called-too-late' ), 403
+			)
+		);
+		$userAgentClientHintsManager = $this->createMock( UserAgentClientHintsManager::class );
+		$handler = new UserAgentClientHintsHandler( $config, $revisionStore, $userAgentClientHintsManager );
+		$validatedBody = [ 'brands' => [ 'foo', 'bar' ], 'mobile' => true ];
+		$this->executeHandler(
+			$handler, new RequestData(), [], [], [ 'type' => 'revision', 'id' => 1 ], $validatedBody, $authority
+		);
+	}
+
+	public function testUserMatchesRevisionOwner() {
+		$config = new HashConfig( [
+			'CheckUserClientHintsEnabled' => true,
+			'CheckUserClientHintsRestApiMaxTimeLag' => 1800,
+		] );
+		$revisionStore = $this->createMock( RevisionStore::class );
+		$revision = $this->createMock( RevisionRecord::class );
+		$user = new UserIdentityValue( 123, 'Foo' );
+		$revision->method( 'getUser' )->willReturn( $user );
+		$revision->method( 'getTimestamp' )->willReturn(
+			ConvertibleTimestamp::convert( TS_MW, ConvertibleTimestamp::time() - 2 )
+		);
 		$revisionStore->method( 'getRevisionById' )->willReturn( $revision );
 		$authority = $this->createMock( Authority::class );
 		$authority->method( 'getUser' )
@@ -121,11 +169,17 @@ class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
 	}
 
 	public function testDataAlreadyExists() {
-		$config = new HashConfig( [ 'CheckUserClientHintsEnabled' => true ] );
+		$config = new HashConfig( [
+			'CheckUserClientHintsEnabled' => true,
+			'CheckUserClientHintsRestApiMaxTimeLag' => 1800,
+		] );
 		$revisionStore = $this->createMock( RevisionStore::class );
 		$revision = $this->createMock( RevisionRecord::class );
 		$user = new UserIdentityValue( 123, 'Foo' );
 		$revision->method( 'getUser' )->willReturn( $user );
+		$revision->method( 'getTimestamp' )->willReturn(
+			ConvertibleTimestamp::convert( TS_MW, ConvertibleTimestamp::time() - 2 )
+		);
 		$revisionStore->method( 'getRevisionById' )->willReturn( $revision );
 		$authority = $this->createMock( Authority::class );
 		$authority->method( 'getUser' )
