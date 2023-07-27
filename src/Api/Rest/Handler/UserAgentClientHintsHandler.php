@@ -114,44 +114,31 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 		if ( $contentType !== 'application/json' ) {
 			return new UnsupportedContentTypeBodyValidator( $contentType );
 		}
-		$clientHintsHeadersJsApi = array_filter( array_values(
-			$this->config->get( 'CheckUserClientHintsHeaders' )
-		) );
 
 		// These are always sent by the browser, so mark as required.
 		$lowEntropyClientHints = [
-			'brands' => [
-				ParamValidator::PARAM_REQUIRED => true,
-			],
+			'brands' => [],
 			'mobile' => [
-				ParamValidator::PARAM_REQUIRED => true,
 				ParamValidator::PARAM_TYPE => 'bool',
 			],
 			'platform' => [
 				ParamValidator::PARAM_TYPE => 'string',
-				ParamValidator::PARAM_REQUIRED => true,
 			],
 		];
 
 		$highEntropyClientHints = [
 			'architecture' => [
-				ParamValidator::PARAM_TYPE => 'string',
-				ParamValidator::PARAM_REQUIRED => in_array( 'architecture', $clientHintsHeadersJsApi )
+				ParamValidator::PARAM_TYPE => 'string'
 			],
 			'bitness' => [
-				ParamValidator::PARAM_TYPE => 'string',
-				ParamValidator::PARAM_REQUIRED => in_array( 'bitness', $clientHintsHeadersJsApi )
+				ParamValidator::PARAM_TYPE => 'string'
 			],
-			'fullVersionList' => [
-				ParamValidator::PARAM_REQUIRED => in_array( 'fullVersionList', $clientHintsHeadersJsApi )
-			],
+			'fullVersionList' => [],
 			'model' => [
 				ParamValidator::PARAM_TYPE => 'string',
-				ParamValidator::PARAM_REQUIRED => in_array( 'model', $clientHintsHeadersJsApi )
 			],
 			'platformVersion' => [
 				ParamValidator::PARAM_TYPE => 'string',
-				ParamValidator::PARAM_REQUIRED => in_array( 'platformVersion', $clientHintsHeadersJsApi )
 			]
 		];
 		$expectedJsonStructure = array_merge( $lowEntropyClientHints, $highEntropyClientHints );
