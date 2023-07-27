@@ -32,5 +32,6 @@
 	"checkuser-api-help-param-direction": "In which direction to enumerate:\n;newer:List oldest first. Note: $1from has to be before $1to.\n;older:List newest first (default). Note: $1from has to be later than $1to.",
 	"checkuser-api-useragent-clienthints-revision-user-mismatch": "User $1 is not the author of revision $2",
 	"checkuser-api-useragent-clienthints-mappings-exist": "Client hint mappings already exist for $1 $2",
+	"checkuser-api-useragent-clienthints-called-too-late": "The $1 $2 is too old to allow recording client hints data",
 	"checkuser-api-useragent-clienthints-explanation": "We collect user-agent client hint data to support the community in reducing vandalism and abuse on Wikimedia projects. See https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints for more details."
 }

@@ -13,6 +13,7 @@ use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use Wikimedia\Message\MessageValue;
 use Wikimedia\ParamValidator\ParamValidator;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * Handler for POST requests to /checkuser/v0/useragent-clienthints/{type}/{id}
@@ -54,6 +55,7 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 		$clientHints = ClientHintsData::newFromJsApi( $data );
 		$type = $this->getValidatedParams()['type'];
 		$identifier = $this->getValidatedParams()['id'];
+		$associatedEntryTimestamp = "";
 		if ( $type === 'revision' ) {
 			$revision = $this->revisionStore->getRevisionById( $identifier );
 			if ( !$revision ) {
@@ -72,6 +74,21 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 					401
 				);
 			}
+			$associatedEntryTimestamp = $revision->getTimestamp();
+		}
+		// Check that the API was not called too long after the edit
+		$cutoff = ConvertibleTimestamp::convert(
+			TS_MW,
+			ConvertibleTimestamp::time() - $this->config->get( 'CheckUserClientHintsRestApiMaxTimeLag' )
+		);
+		if ( $associatedEntryTimestamp < $cutoff ) {
+			throw new LocalizedHttpException(
+				new MessageValue(
+					'checkuser-api-useragent-clienthints-called-too-late',
+					[ $type, $identifier ]
+				),
+				403
+			);
 		}
 
 		$status = $this->userAgentClientHintsManager->insertClientHintValues( $clientHints, $identifier, $type );

@@ -98,6 +98,10 @@
 			"value": true,
 			"description": "Used to control whether CheckUser will attempt to purge old client hint data. This is done so that wgCheckUserClientHintsEnabled can be set to false without preventing cleaning up of old client hint data."
 		},
+		"CheckUserClientHintsRestApiMaxTimeLag": {
+			"value": 1800,
+			"description": "The amount of time in seconds that a user has to submit a request to /checkuser/v0/useragent-clienthints/{type}/{id} to store client hints data."
+		},
 		"CheckUserClientHintsSpecialPages": {
 			"value": [
 				"CreateAccount",
