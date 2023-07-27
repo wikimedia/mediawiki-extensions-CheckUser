@@ -274,13 +274,6 @@
 			"i18n/api"
 		]
 	},
-	"attributes": {
-		"EventLogging": {
-			"Schemas": {
-				"SpecialInvestigate": "/analytics/legacy/specialinvestigate/1.0.0"
-			}
-		}
-	},
 	"ResourceModules": {
 		"ext.checkUser.clientHints": {
 			"localBasePath": "modules/ext.checkUser.clientHints",

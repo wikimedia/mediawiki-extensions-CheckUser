@@ -19,19 +19,21 @@ class EventLogger {
 	}
 
 	/**
-	 * Log an event using the SpecialInvestigate schema.
+	 * If the EventLogging extension is loaded, then submit an analytics event to the event
+	 * ingestion service.
+	 *
+	 * The event will be validated using the /analytics/legacy/specialinvestigate schema.
 	 *
 	 * @param array $event
 	 */
 	public function logEvent( $event ): void {
 		if ( $this->extensionRegistry->isLoaded( 'EventLogging' ) ) {
-			EventLogging::logEvent(
-				'SpecialInvestigate',
-				// NOTE: The 'SpecialInvestigate' event was migrated to the Event Platform, and is
-				//  no longer using the legacy EventLogging schema from metawiki. $revId is actually
-				//  overridden by the EventLoggingSchemas extension attribute in extension.json.
-				-1,
-				$event
+			EventLogging::submit(
+				'eventlogging_SpecialInvestigate',
+				[
+					'$schema' => '/analytics/legacy/specialinvestigate/1.0.0',
+					'event' => $event,
+				]
 			);
 		}
 	}
