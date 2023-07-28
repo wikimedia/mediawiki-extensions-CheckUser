@@ -30,5 +30,6 @@
 	"checkuser-api-help-param-direction": "Во која насока да се набројува:\n;newer:Прво најстарите. Напомена: $1from мора да биде пред $1to.\n;older:Прво најновите (по основно). Напомена: $1from мора да биде подоцна од $1to.",
 	"checkuser-api-useragent-clienthints-revision-user-mismatch": "Корисникот $1 не е автор на преработката $2",
 	"checkuser-api-useragent-clienthints-mappings-exist": "Веќе постојат зададени клиентски совети за $1 $2",
+	"checkuser-api-useragent-clienthints-called-too-late": "$1 $2 е престара за да дозволи советодавни податоци од запишувачкиот клиент",
 	"checkuser-api-useragent-clienthints-explanation": "Ги собираме податоците за корисничко-клиентски совети во поддршка на заедницата и за намалување на вандализмот и злоупотребата на Викимедиините проекти. Повеќе поединости ќе најдете на https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints."
 }

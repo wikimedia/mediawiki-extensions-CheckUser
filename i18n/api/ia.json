@@ -29,5 +29,6 @@
 	"checkuser-api-help-param-direction": "In qual direction enumerar:\n;newer:Listar le plus vetules primo. Nota: $1from debe esser ante $1to.\n;older:Listar le plus noves primo (option predefinite). Nota: $1from debe esser post $1to.",
 	"checkuser-api-useragent-clienthints-revision-user-mismatch": "Le usator $1 non es le autor del version $2",
 	"checkuser-api-useragent-clienthints-mappings-exist": "Existe ja mappamentos de aviso de cliente pro $1 $2",
+	"checkuser-api-useragent-clienthints-called-too-late": "Le $1 $2 es troppo ancian pro permitter le registration de datos de \"client hints\"",
 	"checkuser-api-useragent-clienthints-explanation": "Nos collige datos sur \"user-agent client hints\" pro supportar le communitate a reducer vandalismo e abuso sur projectos Wikimedia. Vide https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints pro plus detalios."
 }

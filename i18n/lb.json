@@ -12,7 +12,7 @@
 	"checkuser": "Benotzer-Check",
 	"checkuserlog": "Lëscht vun de Benotzerkontrollen",
 	"checkuser-contribs": "De Benotzer hir Ip-Adrssen iwwerpréifen",
-	"checkuser-contribs-log": "rezent Check-User Aktiounen",
+	"checkuser-contribs-log": "Check-User Aktiounen",
 	"group-checkuser": "Benotzer Kontrolleren",
 	"group-checkuser-member": "{{GENDER:$1|Benotzer Kontroller|Benotzer Kontrollerin}}",
 	"right-checkuser": "Iwwerpréif de Benotzer hir IP-Adressen an aner Informatiounen",
