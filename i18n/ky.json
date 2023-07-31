@@ -1,8 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
-			"Growingup"
+			"Growingup",
+			"Bosogo"
 		]
 	},
+	"checkuser-reason": "Себеп:",
 	"checkuser-search-submit": "Издөө"
 }
