@@ -29,5 +29,7 @@
 	"apierror-checkuser-nosuchuser": "Za to uporabniško ime ni takega uporabnika",
 	"checkuser-api-help-param-direction": "V kateri smeri naj poteka oštevilčenje:\n;newer:Najprej najstarejši. Opomba: $1from mora biti pred $1to.\n;older:Najprej najnovejši (privzeto). Opomba: $1from mora biti pozneje kot $1to.",
 	"checkuser-api-useragent-clienthints-revision-user-mismatch": "Uporabnik $1 ni avtor redakcije $2",
+	"checkuser-api-useragent-clienthints-mappings-exist": "Preslikave namigov strank za $1 $2 že obstajajo",
+	"checkuser-api-useragent-clienthints-called-too-late": "$1 $2 je prestar, da bi omogočal beleženje podatkov o nasvetih strank",
 	"checkuser-api-useragent-clienthints-explanation": "Zbiramo podatke o namigih odjemalcev uporabniških agentov za podporo skupnosti pri zmanjševanju vandalizma in zlorab v projektih Wikimedie. Za več podrobnosti glejte https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints."
 }
