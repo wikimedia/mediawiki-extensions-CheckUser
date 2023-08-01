@@ -63,8 +63,8 @@ class PopulateCucComment extends LoggedUpdateMaintenance {
 		$services = MediaWikiServices::getInstance();
 		$commentStore = $services->getCommentStore();
 		$mainLb = $services->getDBLoadBalancerFactory()->getMainLB();
-		$dbr = $mainLb->getConnectionRef( DB_REPLICA, 'vslow' );
-		$dbw = $mainLb->getConnectionRef( DB_PRIMARY );
+		$dbr = $mainLb->getConnection( DB_REPLICA, 'vslow' );
+		$dbw = $mainLb->getMaintenanceConnectionRef( DB_PRIMARY );
 		$batchSize = $this->getBatchSize();
 
 		$start = (int)$this->getOption( 'start', 0 );
@@ -90,7 +90,7 @@ class PopulateCucComment extends LoggedUpdateMaintenance {
 			return true;
 		}
 
-		if ( !$dbr->fieldExists( 'cu_changes', 'cuc_comment' ) ) {
+		if ( !$dbw->fieldExists( 'cu_changes', 'cuc_comment' ) ) {
 			$this->output( "cuc_comment has already been dropped.\n" );
 			return true;
 		}

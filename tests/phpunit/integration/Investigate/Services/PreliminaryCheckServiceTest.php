@@ -39,7 +39,7 @@ class PreliminaryCheckServiceTest extends MediaWikiIntegrationTestCase {
 			);
 
 		$lb = $this->createMock( ILoadBalancer::class );
-		$lb->method( 'getConnectionRef' )->willReturn( $dbRef );
+		$lb->method( 'getConnection' )->willReturn( $dbRef );
 		$lbFactory = $this->createMock( ILBFactory::class );
 		$lbFactory->method( 'getMainLB' )->willReturn( $lb );
 

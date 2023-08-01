@@ -114,7 +114,7 @@ class PreliminaryCheckService {
 	 * @return IDatabase
 	 */
 	protected function getLocalDb( $wikiId ): IDatabase {
-		return $this->lbFactory->getMainLB( $wikiId )->getConnectionRef( DB_REPLICA, [], $wikiId );
+		return $this->lbFactory->getMainLB( $wikiId )->getConnection( DB_REPLICA, [], $wikiId );
 	}
 
 	/**

@@ -37,7 +37,7 @@ class TemporaryAccountLoggerFactory {
 	) {
 		$this->actorStore = $actorStore;
 		$this->logger = $logger;
-		$this->dbw = $lb->getConnectionRef( ILoadBalancer::DB_PRIMARY );
+		$this->dbw = $lb->getConnection( ILoadBalancer::DB_PRIMARY );
 	}
 
 	/**
