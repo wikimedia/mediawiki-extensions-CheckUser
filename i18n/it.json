@@ -93,6 +93,7 @@
 	"checkuser-log-search-target": "Obiettivo:",
 	"checkuser-log-search-initiator": "Richiedente:",
 	"checkuser-log-search-reason": "Motivo:",
+	"checkuser-log-search-reason-help": "Filtra per le voci di registro che riportano questo motivo.",
 	"checkuser-ipeditcount": "~$1 da tutti gli utenti",
 	"checkuser-showmain": "Passa a {{#special:CheckUser}}",
 	"checkuser-show-investigate": "Passa a {{#special:Investigate}}",
