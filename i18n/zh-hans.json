@@ -105,7 +105,7 @@
 	"checkuser-block-limit": "选中用户数量过多。",
 	"checkuser-block-noreason": "您必须解释此次封禁的原因。",
 	"checkuser-centralauth-multilock": "多重锁定选定账户",
-	"checkuser-centralauth-multilock-list": "使用链接多重锁定所选帐户：",
+	"checkuser-centralauth-multilock-list": "使用链接多重锁定所选账号：",
 	"checkuser-centralauth-multilock-list-item": "链接$1",
 	"checkuser-noreason": "您必须解释此次查询的原因。",
 	"checkuser-target-nonexistent": "指定的目标不存在。",
