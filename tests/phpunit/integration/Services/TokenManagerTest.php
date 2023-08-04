@@ -12,6 +12,7 @@ use MWTimestamp;
  * Test class for TokenManager class
  *
  * @group CheckUser
+ * @group Database
  *
  * @covers \MediaWiki\CheckUser\Services\TokenManager
  */
@@ -43,7 +44,7 @@ class TokenManagerTest extends MediaWikiIntegrationTestCase {
 		$decoded = $tokenManager->decode( $request->getSession(), $encoded );
 		$this->assertIsArray( $decoded );
 		$this->assertCount( 1, $decoded );
-		$this->arrayHasKey( 'targets', $decoded );
+		$this->assertArrayHasKey( 'targets', $decoded );
 		$this->assertSame( $targets, $decoded['targets'] );
 	}
 

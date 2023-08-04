@@ -14,6 +14,7 @@ use Wikimedia\Rdbms\ILBFactory;
 
 /**
  * @group CheckUser
+ * @group Database
  * @covers \MediaWiki\CheckUser\Investigate\Pagers\PreliminaryCheckPager
  */
 class PreliminaryCheckPagerTest extends MediaWikiIntegrationTestCase {

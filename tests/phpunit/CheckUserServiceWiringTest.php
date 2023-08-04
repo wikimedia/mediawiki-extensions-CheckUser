@@ -9,6 +9,7 @@ use MediaWiki\MediaWikiServices;
 
 /**
  * @coversNothing
+ * @group Database
  */
 class CheckUserServiceWiringTest extends MediaWikiIntegrationTestCase {
 	/**
