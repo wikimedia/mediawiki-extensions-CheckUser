@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Api;
 
+use ApiBase;
 use ApiQuery;
 use ApiQueryBase;
 use ApiResult;
@@ -343,7 +344,8 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					'userips',
 					'edits',
 					'ipusers',
-				]
+				],
+				ApiBase::PARAM_HELP_MSG_PER_VALUE => [],
 			],
 			'target'   => [
 				ParamValidator::PARAM_REQUIRED => true,

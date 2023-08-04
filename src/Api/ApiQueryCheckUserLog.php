@@ -175,6 +175,10 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 					'older'
 				],
 				ApiBase::PARAM_HELP_MSG => 'checkuser-api-help-param-direction',
+				ApiBase::PARAM_HELP_MSG_PER_VALUE => [
+					'newer' => 'checkuser-api-help-paramvalue-direction-newer',
+					'older' => 'checkuser-api-help-paramvalue-direction-older',
+				],
 			],
 			'from'  => [
 				ParamValidator::PARAM_TYPE => 'timestamp',
