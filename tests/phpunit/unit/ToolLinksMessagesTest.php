@@ -11,13 +11,10 @@ use Message;
 /**
  * @author DannyS712
  * @group CheckUser
- * @coversDefaultClass \MediaWiki\CheckUser\ToolLinksMessages
+ * @covers \MediaWiki\CheckUser\ToolLinksMessages
  */
 class ToolLinksMessagesTest extends MediaWikiUnitTestCase {
 
-	/**
-	 * @covers ::getParsedMessage
-	 */
 	public function testGetParsedMessage() {
 		$msg = $this->createMock( Message::class );
 		$msg->method( 'parse' )->willReturn( 'Parsed result' );

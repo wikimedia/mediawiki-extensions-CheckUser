@@ -14,7 +14,6 @@ use Wikimedia\TestingAccessWrapper;
  * @group Database
  *
  * @covers \MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilder
- * @coversDefaultClass \MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilder
  */
 class CheckUserUnionSelectQueryBuilderTest extends MediaWikiIntegrationTestCase {
 
@@ -56,10 +55,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiIntegrationTestCase 
 		];
 	}
 
-	/**
-	 * @covers ::getSelectFieldsForTable
-	 * @dataProvider provideSubQueryFields
-	 */
+	/** @dataProvider provideSubQueryFields */
 	public function testGetSelectFieldsForTableWhenFieldsSameForAllTables( $fields, $expectedReturnValues ) {
 		foreach ( CheckUserUnionSelectQueryBuilder::UNION_TABLES as $table ) {
 			$this->assertArrayEquals(
@@ -149,7 +145,6 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiIntegrationTestCase 
 	}
 
 	/**
-	 * @covers ::subQueryFields
 	 * @dataProvider provideSubQueryFields
 	 * @dataProvider provideTableSpecificSubQueryFields
 	 */
@@ -176,10 +171,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiIntegrationTestCase 
 		], [] );
 	}
 
-	/**
-	 * @covers ::needsCommentJoin
-	 * @dataProvider provideNeedsCommentJoin
-	 */
+	/** @dataProvider provideNeedsCommentJoin */
 	public function testNeedsCommentJoin( $table, $joinTableAlias ) {
 		$object = $this->setUpObject();
 		$subQueryObject = TestingAccessWrapper::newFromObject( $object->subQueriesForUnion[$table] );

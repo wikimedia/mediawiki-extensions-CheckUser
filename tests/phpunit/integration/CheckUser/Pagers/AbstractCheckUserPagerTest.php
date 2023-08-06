@@ -18,7 +18,6 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  * @group Database
  *
  * @covers \MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager
- * @coversDefaultClass \MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager
  */
 class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 
@@ -95,10 +94,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		return TestingAccessWrapper::newFromObject( $object );
 	}
 
-	/**
-	 * @covers ::getIpConds
-	 * @dataProvider provideGetIpConds
-	 */
+	/** @dataProvider provideGetIpConds */
 	public function testGetIpConds( $target, $expected ) {
 		$this->assertEquals(
 			$expected,
@@ -132,9 +128,6 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::getIpConds
-	 */
 	public function testGetIpCondsLowerThanLimit() {
 		// Need to not have these in a dataProvider as $this->lowerThanLimit... isn't set when
 		// the data is returned.
@@ -142,10 +135,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		$this->testGetIpConds( "2000::/$this->lowerThanLimitIPv6", false );
 	}
 
-	/**
-	 * @covers ::isValidRange
-	 * @dataProvider provideIsValidRange
-	 */
+	/** @dataProvider provideIsValidRange */
 	public function testIsValidRange( $target, $expected ) {
 		$object = $this->setUpObject();
 		$this->assertSame(
@@ -167,18 +157,12 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::isValidRange
-	 */
 	public function testIsValidRangeLowerThanLimit() {
 		$this->testIsValidRange( "0.17.184.5/{$this->lowerThanLimitIPv4}", false );
 		$this->testIsValidRange( "2000::/{$this->lowerThanLimitIPv6}", false );
 	}
 
-	/**
-	 * @covers ::getPeriodCondition
-	 * @dataProvider provideGetPeriodCondition
-	 */
+	/** @dataProvider provideGetPeriodCondition */
 	public function testGetPeriodCondition( $period, $fakeTime, $expected ) {
 		ConvertibleTimestamp::setFakeTime( $fakeTime );
 		$object = $this->setUpObject( [ 'period' => $period ] );
@@ -211,10 +195,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::userWasBlocked
-	 * @dataProvider provideUserWasBlocked
-	 */
+	/** @dataProvider provideUserWasBlocked */
 	public function testUserWasBlocked( $block ) {
 		$testUser = $this->getTestUser()->getUser();
 		if ( $block ) {
@@ -239,9 +220,6 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::getEmptyBody
-	 */
 	public function testGetEmptyBodyNoCheckLast() {
 		$object = $this->setUpObject();
 		$object->target = UserIdentityValue::newRegistered( 1, 'test' );
@@ -253,10 +231,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	/**
-	 * @covers ::__construct()
-	 * @dataProvider provideTestFormOptionsLimitValue
-	 */
+	/** @dataProvider provideTestFormOptionsLimitValue */
 	public function testFormOptionsLimitValue( $formSubmittedLimit, $maximumLimit, $expectedLimit ) {
 		$this->setMwGlobals( 'wgCheckUserMaximumRowCount', $maximumLimit );
 		$object = $this->setUpObject( [ 'limit' => $formSubmittedLimit ] );
@@ -275,10 +250,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::getCheckUserHelperFieldset
-	 * @dataProvider provideGetCheckUserHelperFieldset
-	 */
+	/** @dataProvider provideGetCheckUserHelperFieldset */
 	public function testGetCheckUserHelperFieldset(
 		$collapseByDefaultConfigValue, $shouldBeByDefaultCollapsed, $resultRowCount
 	) {
@@ -329,9 +301,6 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::getCheckUserHelperFieldset
-	 */
 	public function testGetCheckUserHelperFieldsetWhenNoResults() {
 		$object = $this->setUpObject();
 		$object->mResult = $this->createMock( IResultWrapper::class );

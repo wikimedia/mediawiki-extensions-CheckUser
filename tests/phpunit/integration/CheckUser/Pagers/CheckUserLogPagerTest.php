@@ -27,9 +27,6 @@ class CheckUserLogPagerTest extends CheckUserIntegrationTestCaseTest {
 		);
 	}
 
-	/**
-	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager::getPerformerSearchConds
-	 */
 	public function testGetPerformerSearchConds() {
 		// PHPUnit doesn't allow mocking static methods so having to
 		// use SpecialCheckUserLog::verifyInitiator without mocking.
@@ -60,9 +57,6 @@ class CheckUserLogPagerTest extends CheckUserIntegrationTestCaseTest {
 		);
 	}
 
-	/**
-	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager::getTargetSearchConds
-	 */
 	public function testGetTargetSearchCondsUser() {
 		// Existing user
 		$testUser = $this->getTestUser()->getUser();
@@ -89,10 +83,7 @@ class CheckUserLogPagerTest extends CheckUserIntegrationTestCaseTest {
 		);
 	}
 
-	/**
-	 * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager::getTargetSearchConds
-	 * @dataProvider provideGetTargetSearchCondsIP
-	 */
+	/** @dataProvider provideGetTargetSearchCondsIP */
 	public function testGetTargetSearchCondsIP( $target, $type, $start, $end ) {
 		$this->assertArrayEquals(
 			$this->getExpectedGetTargetSearchConds( $type, null, $start, $end ),

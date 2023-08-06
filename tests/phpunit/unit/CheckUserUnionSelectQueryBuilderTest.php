@@ -18,7 +18,6 @@ use Wikimedia\TestingAccessWrapper;
  * @group CheckUser
  *
  * @covers \MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilder
- * @coversDefaultClass \MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilder
  */
 class CheckUserUnionSelectQueryBuilderTest extends MediaWikiUnitTestCase {
 
@@ -38,10 +37,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiUnitTestCase {
 		);
 	}
 
-	/**
-	 * @covers ::fillTableSpecificArgument
-	 * @dataProvider provideFillTableSpecificArgument
-	 */
+	/** @dataProvider provideFillTableSpecificArgument */
 	public function testFillTableSpecificArgument( $argument, $expectedReturnValue ) {
 		$this->assertArrayEquals(
 			$expectedReturnValue, $this->setUpObject()->fillTableSpecificArgument( $argument ),
@@ -77,9 +73,6 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiUnitTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::getEmptyTableSpecificArgumentList
-	 */
 	public function testGetEmptyTableSpecificArgumentList() {
 		$this->assertArrayEquals(
 			[ self::CHANGES_TABLE => [], self::LOG_EVENT_TABLE => [], self::PRIVATE_LOG_EVENT_TABLE => [] ],
@@ -88,10 +81,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiUnitTestCase {
 		);
 	}
 
-	/**
-	 * @covers ::generateTableSpecificArgumentList
-	 * @dataProvider provideGenerateTableSpecificArgumentList
-	 */
+	/** @dataProvider provideGenerateTableSpecificArgumentList */
 	public function testGenerateTableSpecificArgumentList( $cuChangesValue, $cuLogEventValue, $cuPrivateEventValue ) {
 		$this->assertArrayEquals(
 			[
@@ -113,9 +103,6 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiUnitTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::resetSubQueryForFutureChanges
-	 */
 	public function testResetSubQueryForFutureChanges() {
 		$object = $this->setUpObject();
 		$object->tables = [ 'test' => 'cu_changes', CheckUserUnionSelectQueryBuilder::UNION_SELECT_ALIAS => 'removed' ];
@@ -131,10 +118,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiUnitTestCase {
 		);
 	}
 
-	/**
-	 * @covers ::markUnusedFieldsAsNull
-	 * @dataProvider provideMarkUnusedFieldsAsNull
-	 */
+	/** @dataProvider provideMarkUnusedFieldsAsNull */
 	public function testMarkUnusedFieldsAsNull( $inputFields, $expectedFields ) {
 		$this->assertArrayEquals(
 			$expectedFields, $this->setUpObject()->markUnusedFieldsAsNull( $inputFields ), true, true,
@@ -153,10 +137,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiUnitTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::markUnusedFieldsAsNull
-	 * @dataProvider provideMarkUnusedFieldsAsNullForPostgres
-	 */
+	/** @dataProvider provideMarkUnusedFieldsAsNullForPostgres */
 	public function testMarkUnusedFieldsAsNullForPostgres( $inputFields, $postgresType, $expectedFields ) {
 		$object = $this->setUpObject();
 		$mockDb = $this->createMock( DatabasePostgres::class );
@@ -194,10 +175,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiUnitTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::getSelectFieldsForTable
-	 * @dataProvider provideTableSpecificSubQueryFields
-	 */
+	/** @dataProvider provideTableSpecificSubQueryFields */
 	public function testGetSelectFieldsForTable( $fields, $expectedReturnValues ) {
 		foreach ( CheckUserUnionSelectQueryBuilder::UNION_TABLES as $table ) {
 			$this->assertArrayEquals(
@@ -231,9 +209,6 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiUnitTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::getSelectFieldsForTable
-	 */
 	public function testGetSelectFieldsForTableWhenFieldsAreNull() {
 		$expectedReturnValues = [
 			self::CHANGES_TABLE => $this->setUpObject()->getAllSelectFields( self::CHANGES_TABLE ),
@@ -255,10 +230,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiUnitTestCase {
 		}
 	}
 
-	/**
-	 * @covers ::fields
-	 * @dataProvider provideFields
-	 */
+	/** @dataProvider provideFields */
 	public function testFields( $fieldsValue, $expectedFieldsValue ) {
 		$object = $this->setUpObject();
 		$object->fields( $fieldsValue );
@@ -278,9 +250,6 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiUnitTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::fields
-	 */
 	public function testFieldsWhereArgumentIsNull() {
 		$this->testFields(
 			null,
@@ -288,10 +257,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiUnitTestCase {
 		);
 	}
 
-	/**
-	 * @covers ::subQueryWhere
-	 * @dataProvider provideSubQueryWhere
-	 */
+	/** @dataProvider provideSubQueryWhere */
 	public function testSubQueryWhere( $argument, $expectedConditions ) {
 		$object = $this->setUpObject();
 		$object->subQueryWhere( $argument );
@@ -332,10 +298,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiUnitTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::subQueryWhere
-	 * @dataProvider provideSubQueryWhereWithTableSpecificArgument
-	 */
+	/** @dataProvider provideSubQueryWhereWithTableSpecificArgument */
 	public function testSubQueryWhereWithTableSpecificArgument( $argumentAndExpectedValue ) {
 		$this->testSubQueryWhere( $argumentAndExpectedValue, $argumentAndExpectedValue );
 	}
@@ -353,10 +316,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiUnitTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::subQueryOptions
-	 * @dataProvider provideSubQueryOptions
-	 */
+	/** @dataProvider provideSubQueryOptions */
 	public function testSubQueryOptions( $optionsArgument, $expectedOptions ) {
 		$object = $this->setUpObject();
 		$object->subQueryOptions( $optionsArgument );
@@ -393,10 +353,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiUnitTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::subQueryLimit
-	 * @dataProvider provideSubQueryLimit
-	 */
+	/** @dataProvider provideSubQueryLimit */
 	public function testSubQueryLimit( $limitArgument, $expectedLimit ) {
 		$object = $this->setUpObject();
 		$object->subQueryLimit( $limitArgument );
@@ -418,10 +375,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiUnitTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::subQueryUseIndex
-	 * @dataProvider provideSubQueryUseIndex
-	 */
+	/** @dataProvider provideSubQueryUseIndex */
 	public function testSubQueryUseIndex( $useIndexArgument, $specifyTableArgument, $expectedUseIndexValue ) {
 		$object = $this->setUpObject();
 		$object->subQueryUseIndex( $useIndexArgument, $specifyTableArgument );
@@ -493,10 +447,7 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiUnitTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::subQueryOrderBy
-	 * @dataProvider provideSubQueryOrderBy
-	 */
+	/** @dataProvider provideSubQueryOrderBy */
 	public function testSubQueryOrderBy( $orderByArgument, $directionArgument, $expectedOrderByValue ) {
 		$object = $this->setUpObject();
 		$object->subQueryOrderBy( $orderByArgument, $directionArgument );
@@ -582,9 +533,6 @@ class CheckUserUnionSelectQueryBuilderTest extends MediaWikiUnitTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::needsActorJoin
-	 */
 	public function testNeedsActorJoin() {
 		$object = $this->setUpObject();
 		foreach ( self::UNION_TABLES as $table ) {

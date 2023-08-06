@@ -13,7 +13,6 @@ use Wikimedia\TestingAccessWrapper;
  * @group CheckUser
  *
  * @covers \MediaWiki\CheckUser\CheckUserUnionSubQueryBuilder
- * @coversDefaultClass \MediaWiki\CheckUser\CheckUserUnionSubQueryBuilder
  */
 class CheckUserUnionSubQueryBuilderTest extends MediaWikiUnitTestCase {
 	public function setUpObject(): TestingAccessWrapper {
@@ -22,9 +21,6 @@ class CheckUserUnionSubQueryBuilderTest extends MediaWikiUnitTestCase {
 		);
 	}
 
-	/**
-	 * @covers ::updateLastAlias
-	 */
 	public function testUpdateLastAlias() {
 		$object = $this->setUpObject();
 		$object->updateLastAlias( 'testing' );
@@ -35,9 +31,6 @@ class CheckUserUnionSubQueryBuilderTest extends MediaWikiUnitTestCase {
 		);
 	}
 
-	/**
-	 * @covers ::getLastAlias
-	 */
 	public function testGetLastAlias() {
 		$object = $this->setUpObject();
 		$object->lastAlias = 'testing';

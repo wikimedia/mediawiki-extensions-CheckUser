@@ -13,14 +13,10 @@ use Title;
 /**
  * @group CheckUser
  * @covers \MediaWiki\CheckUser\HookHandler\ToolLinksHandler
- * @coversDefaultClass \MediaWiki\CheckUser\HookHandler\ToolLinksHandler
  */
 class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 
-	/**
-	 * @covers ::onUserToolLinksEdit
-	 * @dataProvider provideOnUserToolLinksEdit
-	 */
+	/** @dataProvider provideOnUserToolLinksEdit */
 	public function testOnUserToolLinksEdit( string $requestTitle, array $expectedItems ) {
 		$testUser = new UserIdentityValue( 42, 'Foobar' );
 		$mainRequest = RequestContext::getMain();

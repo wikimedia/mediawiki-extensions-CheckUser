@@ -26,7 +26,6 @@ use Wikimedia\TestingAccessWrapper;
  * @group Database
  *
  * @covers \MediaWiki\CheckUser\CheckUser\SpecialCheckUser
- * @coversDefaultClass \MediaWiki\CheckUser\CheckUser\SpecialCheckUser
  */
 class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 
@@ -61,10 +60,7 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 		return $testingWrapper;
 	}
 
-	/**
-	 * @covers ::getPager
-	 * @dataProvider provideGetPager
-	 */
+	/** @dataProvider provideGetPager */
 	public function testGetPager( $checkType, $userIdentity, $xfor = null ) {
 		$object = $this->setUpObject();
 		$object->opts->add( 'limit', 0 );
@@ -175,10 +171,7 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider provideTagPage
-	 * @covers ::tagPage
-	 */
+	/** @dataProvider provideTagPage */
 	public function testTagPage( $tag, $summary, $pageExists ) {
 		$object = $this->setUpObject();
 		if ( $pageExists ) {
@@ -224,9 +217,6 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::doMassUserBlockInternal
-	 */
 	public function testDoMassUserBlockInternal() {
 		$blockParams = [
 			'reason' => 'Test reason',

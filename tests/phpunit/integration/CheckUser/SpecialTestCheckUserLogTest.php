@@ -28,9 +28,6 @@ class SpecialTestCheckUserLogTest extends CheckUserIntegrationTestCaseTest {
 		);
 	}
 
-	/**
-	 * @covers \MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog::verifyInitiator
-	 */
 	public function testVerifyInitiator() {
 		// Existing user
 		$testUser = $this->getTestUser()->getUser();
@@ -56,9 +53,6 @@ class SpecialTestCheckUserLogTest extends CheckUserIntegrationTestCaseTest {
 		);
 	}
 
-	/**
-	 * @covers \MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog::verifyTarget
-	 */
 	public function testVerifyTargetUser() {
 		// Existing user
 		$testUser = $this->getTestUser()->getUser();
@@ -83,10 +77,7 @@ class SpecialTestCheckUserLogTest extends CheckUserIntegrationTestCaseTest {
 		);
 	}
 
-	/**
-	 * @covers \MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog::verifyTarget
-	 * @dataProvider provideVerifyTargetIP
-	 */
+	/** @dataProvider provideVerifyTargetIP */
 	public function testVerifyTargetIP( $target, $expected ) {
 		$this->assertArrayEquals(
 			$expected,

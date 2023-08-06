@@ -13,13 +13,9 @@ use Wikimedia\TestingAccessWrapper;
  * @group CheckUser
  *
  * @covers \MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds
- * @coversDefaultClass \MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds
  */
 class ClientHintsReferenceIdsTest extends MediaWikiUnitTestCase {
-	/**
-	 * @covers ::addReferenceIds
-	 * @dataProvider provideAddReferenceIds
-	 */
+	/** @dataProvider provideAddReferenceIds */
 	public function testAddReferenceIds(
 		$initialInternalArrayValue, $referenceIds, $mapId, $expectedInternalArrayValue
 	) {
@@ -78,19 +74,13 @@ class ClientHintsReferenceIdsTest extends MediaWikiUnitTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::addReferenceIds
-	 * @dataProvider provideInvalidMappingIds
-	 */
+	/** @dataProvider provideInvalidMappingIds */
 	public function testAddReferenceIdsOnInvalidMapId( $invalidMapId, $expectedExceptionName ) {
 		$this->expectException( $expectedExceptionName );
 		$this->testAddReferenceIds( [], [ 1, 2 ], $invalidMapId, [] );
 	}
 
-	/**
-	 * @covers ::getReferenceIds
-	 * @dataProvider provideGetReferenceIds
-	 */
+	/** @dataProvider provideGetReferenceIds */
 	public function testGetReferenceIds( $internalArrayValue, $mappingIdArgument, $expectedReturnArray ) {
 		$objectUnderTest = TestingAccessWrapper::newFromObject( new ClientHintsReferenceIds() );
 		$objectUnderTest->referenceIds = $internalArrayValue;
@@ -134,10 +124,7 @@ class ClientHintsReferenceIdsTest extends MediaWikiUnitTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::getReferenceIds
-	 * @dataProvider provideInvalidMappingIds
-	 */
+	/** @dataProvider provideInvalidMappingIds */
 	public function testGetReferenceIdsInvalidMappingId( $invalidMapId, $expectedExceptionName ) {
 		$this->expectException( $expectedExceptionName );
 		$this->testGetReferenceIds(
@@ -147,10 +134,7 @@ class ClientHintsReferenceIdsTest extends MediaWikiUnitTestCase {
 		);
 	}
 
-	/**
-	 * @covers ::mappingIdExists
-	 * @dataProvider provideInvalidMappingIds
-	 */
+	/** @dataProvider provideInvalidMappingIds */
 	public function testTypeExistsInvalidMappingId( $invalidMapId, $expectedExceptionName ) {
 		$this->expectException( $expectedExceptionName );
 		$objectUnderTest = TestingAccessWrapper::newFromObject( new ClientHintsReferenceIds() );
@@ -168,10 +152,7 @@ class ClientHintsReferenceIdsTest extends MediaWikiUnitTestCase {
 		];
 	}
 
-	/**
-	 * @covers ::mappingIdExists
-	 * @dataProvider provideValidMappingIds
-	 */
+	/** @dataProvider provideValidMappingIds */
 	public function testTypeExistsMissingMappingId( $validMapId ) {
 		$objectUnderTest = TestingAccessWrapper::newFromObject( new ClientHintsReferenceIds() );
 		$this->assertArrayNotHasKey(
@@ -185,10 +166,7 @@ class ClientHintsReferenceIdsTest extends MediaWikiUnitTestCase {
 		);
 	}
 
-	/**
-	 * @covers ::mappingIdExists
-	 * @dataProvider provideValidMappingIds
-	 */
+	/** @dataProvider provideValidMappingIds */
 	public function testTypeExistsPreExistingMappingId( $validMapId ) {
 		$objectUnderTest = TestingAccessWrapper::newFromObject( new ClientHintsReferenceIds() );
 		$objectUnderTest->referenceIds = [ $validMapId => [] ];

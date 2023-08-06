@@ -9,13 +9,9 @@ use MediaWikiUnitTestCase;
 /**
  * @group CheckUser
  * @covers \MediaWiki\CheckUser\HookHandler\RenameUserSQLHandler
- * @coversDefaultClass \MediaWiki\CheckUser\HookHandler\RenameUserSQLHandler
  */
 class RenameUserSQLHandlerTest extends MediaWikiUnitTestCase {
 
-	/**
-	 * @covers ::onRenameUserSQL
-	 */
 	public function testOnRenameUserSQL() {
 		$mockRenameUserSqlObject = $this->getMockBuilder( RenameuserSQL::class )
 			->disableOriginalConstructor()
