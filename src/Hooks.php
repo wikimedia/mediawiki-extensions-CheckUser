@@ -95,7 +95,7 @@ class Hooks implements
 
 		$services = MediaWikiServices::getInstance();
 		$attribs = $rc->getAttributes();
-		$dbw = $services->getDBLoadBalancer()->getConnectionRef( DB_PRIMARY );
+		$dbw = $services->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$eventTablesMigrationStage = $services->getMainConfig()
 			->get( 'CheckUserEventTablesMigrationStage' );
 
@@ -174,7 +174,7 @@ class Hooks implements
 
 			$services = MediaWikiServices::getInstance();
 
-			$dbw = $services->getDBLoadBalancer()->getConnectionRef( DB_PRIMARY );
+			$dbw = $services->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
 			$rcRow = [
 				'cuc_namespace'  => $attribs['rc_namespace'],
@@ -234,7 +234,7 @@ class Hooks implements
 	) {
 		$services = MediaWikiServices::getInstance();
 
-		$dbw = $services->getDBLoadBalancer()->getConnectionRef( DB_PRIMARY );
+		$dbw = $services->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
 		/** @var DatabaseLogEntry $logEntry Should not be null as a valid ID must be provided */
 		$logEntry = DatabaseLogEntry::newFromId( $id, $dbw );
@@ -301,7 +301,7 @@ class Hooks implements
 	) {
 		$services = MediaWikiServices::getInstance();
 
-		$dbw = $services->getDBLoadBalancer()->getConnectionRef( DB_PRIMARY );
+		$dbw = $services->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
 		$request = RequestContext::getMain()->getRequest();
 
@@ -377,7 +377,7 @@ class Hooks implements
 	) {
 		$services = MediaWikiServices::getInstance();
 
-		$dbw = $services->getDBLoadBalancer()->getConnectionRef( DB_PRIMARY );
+		$dbw = $services->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
 		$request = RequestContext::getMain()->getRequest();
 
@@ -802,7 +802,7 @@ class Hooks implements
 		$dbr = $services
 			->getDBLoadBalancerFactory()
 			->getMainLB( $block->getWikiId() )
-			->getConnectionRef( DB_REPLICA, [], $block->getWikiId() );
+			->getConnection( DB_REPLICA, [], $block->getWikiId() );
 
 		$userIdentityLookup = $services
 			->getActorStoreFactory()

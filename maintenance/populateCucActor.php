@@ -62,8 +62,8 @@ class PopulateCucActor extends LoggedUpdateMaintenance {
 		$services = MediaWikiServices::getInstance();
 		$actorStore = $services->getActorStore();
 		$mainLb = $services->getDBLoadBalancerFactory()->getMainLB();
-		$dbr = $mainLb->getConnectionRef( DB_REPLICA, 'vslow' );
-		$dbw = $mainLb->getConnectionRef( DB_PRIMARY );
+		$dbr = $mainLb->getConnection( DB_REPLICA, 'vslow' );
+		$dbw = $mainLb->getMaintenanceConnectionRef( DB_PRIMARY );
 		$batchSize = $this->getBatchSize();
 
 		$prevId = (int)$dbr->newSelectQueryBuilder()
@@ -83,7 +83,7 @@ class PopulateCucActor extends LoggedUpdateMaintenance {
 			return true;
 		}
 
-		if ( !$dbr->fieldExists( 'cu_changes', 'cuc_user' ) ) {
+		if ( !$dbw->fieldExists( 'cu_changes', 'cuc_user' ) ) {
 			$this->output( "cuc_user and cuc_user_text have already been dropped.\n" );
 			return true;
 		}

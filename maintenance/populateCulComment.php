@@ -82,8 +82,8 @@ class PopulateCulComment extends LoggedUpdateMaintenance {
 			);
 		}
 		$mainLb = $services->getDBLoadBalancerFactory()->getMainLB();
-		$dbr = $mainLb->getConnectionRef( DB_REPLICA, 'vslow' );
-		$dbw = $mainLb->getConnectionRef( DB_PRIMARY );
+		$dbr = $mainLb->getConnection( DB_REPLICA, 'vslow' );
+		$dbw = $mainLb->getMaintenanceConnectionRef( DB_PRIMARY );
 		$batchSize = $this->getBatchSize();
 
 		$prevId = 1;
@@ -99,7 +99,7 @@ class PopulateCulComment extends LoggedUpdateMaintenance {
 			return true;
 		}
 
-		if ( !$dbr->fieldExists( 'cu_log', 'cul_reason' ) ) {
+		if ( !$dbw->fieldExists( 'cu_log', 'cul_reason' ) ) {
 			$this->output( "The cul_reason field does not exist which is needed for migration.\n" );
 			return true;
 		}
