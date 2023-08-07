@@ -118,6 +118,7 @@
 	"checkuser-investigate-legend": "Тражење корисничких имена, IP адреса или опсега",
 	"checkuser-investigate-notice-no-results": "Нема резултата.",
 	"checkuser-investigate-tab-preliminary-check": "Информације о налогу",
+	"checkuser-investigate-tab-timeline": "Временски оквир",
 	"checkuser-investigate-targets-label": "Корисничко име или IP адреса",
 	"checkuser-investigate-targets-placeholder": "Корисничко име или 1.1.1.1",
 	"checkuser-investigate-duration-label": "Трајање",
