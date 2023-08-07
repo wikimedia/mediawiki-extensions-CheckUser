@@ -12,8 +12,10 @@ use MediaWiki\MediaWikiServices;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
+use Message;
 use RecentChange;
 use RequestContext;
+use User;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -640,7 +642,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 						$this->db->anyString(),
 						'"4::receiver"',
 						$this->db->anyString(),
-						"UTSysop",
+						$account->getName(),
 						$this->db->anyString()
 					)
 				]
@@ -848,40 +850,37 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	/** @dataProvider provideOnAuthManagerLoginAuthenticateAudit */
-	public function testOnAuthManagerLoginAuthenticateAudit(
-		AuthenticationResponse $ret, string $user, string $messageKey,
-		bool $isAnonPerformer, int $eventTableMigrationStage
-	) {
-		$this->setMwGlobals( [
-			'wgCheckUserLogLogins' => true,
-			'wgCheckUserLogSuccessfulBotLogins' => true,
-			'wgCheckUserEventTablesMigrationStage' => $eventTableMigrationStage
-		] );
-		$userObj = MediaWikiServices::getInstance()->getUserFactory()->newFromName( $user );
+	private function doTestOnAuthManagerLoginAuthenticateAudit(
+		AuthenticationResponse $authResp,
+		User $userObj,
+		string $userName,
+		bool $isAnonPerformer,
+		string $messageKey,
+		int $eventTableMigrationStage
+	): void {
 		( new Hooks() )->onAuthManagerLoginAuthenticateAudit(
-			$ret,
+			$authResp,
 			$userObj,
-			$user,
+			$userName,
 			[]
 		);
 		$cuChangesFields = [ 'cuc_namespace', 'cuc_title', 'actor_user', 'actor_name', 'cuc_actiontext' ];
 		$cuPrivateFields = [
 			'cupe_namespace', 'cupe_title', 'actor_user', 'actor_name', 'cupe_params', 'cupe_log_action'
 		];
-		$expectedValues = [ NS_USER, $user ];
+		$expectedValues = [ NS_USER, $userName ];
 		if ( $isAnonPerformer ) {
 			$expectedValues[] = 0;
 			$expectedValues[] = RequestContext::getMain()->getRequest()->getIP();
 		} else {
 			$expectedValues[] = $userObj->getId();
-			$expectedValues[] = $user;
+			$expectedValues[] = $userName;
 		}
-		$target = "[[User:$user|$user]]";
+		$target = "[[User:$userName|$userName]]";
 		$cuChangesExpectedValues = $expectedValues;
 		$cuPrivateExpectedValues = $expectedValues;
 		$cuChangesExpectedValues[] = wfMessage( $messageKey, $target )->text();
-		$cuPrivateExpectedValues[] = LogEntryBase::makeParamBlob( [ '4::target' => $user ] );
+		$cuPrivateExpectedValues[] = LogEntryBase::makeParamBlob( [ '4::target' => $userName ] );
 		$cuPrivateExpectedValues[] = substr( $messageKey, strlen( 'checkuser-' ) );
 		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
 			$this->assertSelect(
@@ -905,20 +904,45 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
+	/** @dataProvider provideOnAuthManagerLoginAuthenticateAudit */
+	public function testOnAuthManagerLoginAuthenticateAudit(
+		string $authStatus, string $messageKey,
+		bool $isAnonPerformer, array $userGroups, int $eventTableMigrationStage
+	) {
+		$this->setMwGlobals( [
+			'wgCheckUserLogLogins' => true,
+			'wgCheckUserLogSuccessfulBotLogins' => true,
+			'wgCheckUserEventTablesMigrationStage' => $eventTableMigrationStage
+		] );
+		$userObj = $this->getTestUser( $userGroups )->getUser();
+		$userName = $userObj->getName();
+		$authResp = $this->getMockAuthenticationResponseForStatus( $authStatus, $userName );
+
+		$this->doTestOnAuthManagerLoginAuthenticateAudit(
+			$authResp, $userObj, $userName, $isAnonPerformer, $messageKey, $eventTableMigrationStage
+		);
+	}
+
 	public static function provideOnAuthManagerLoginAuthenticateAudit() {
 		$eventTableMigrationStageValues = self::provideEventMigrationStageValues();
 		$testCases = [
 			'successful login' => [
-				AuthenticationResponse::newPass( 'UTSysop' ),
-				'UTSysop',
+				AuthenticationResponse::PASS,
 				'checkuser-login-success',
 				false,
+				[],
 			],
 			'failed login' => [
-				AuthenticationResponse::newFail( wfMessage( 'test' ) ),
-				'UTSysop',
+				AuthenticationResponse::FAIL,
 				'checkuser-login-failure',
 				true,
+				[],
+			],
+			'successful bot login' => [
+				AuthenticationResponse::PASS,
+				'checkuser-login-success',
+				false,
+				[ 'bot' ]
 			]
 		];
 		foreach ( $testCases as $name => $testCase ) {
@@ -931,12 +955,27 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideOnAuthManagerLoginAuthenticateAuditWithCentralAuthInstalled */
 	public function testOnAuthManagerLoginAuthenticateAuditWithCentralAuthInstalled(
-		AuthenticationResponse $ret, string $user, string $messageKey,
+		array $authFailReasons, bool $existingUser, string $messageKey,
 		bool $isAnonPerformer, int $eventTableMigrationStage
 	) {
 		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
-		$this->testOnAuthManagerLoginAuthenticateAudit(
-			$ret, $user, $messageKey, $isAnonPerformer, $eventTableMigrationStage
+		$authResp = AuthenticationResponse::newFail(
+			$this->createMock( Message::class ),
+			$authFailReasons
+		);
+
+		$this->setMwGlobals( [
+			'wgCheckUserLogLogins' => true,
+			'wgCheckUserLogSuccessfulBotLogins' => true,
+			'wgCheckUserEventTablesMigrationStage' => $eventTableMigrationStage
+		] );
+		$userObj = $existingUser
+			? $this->getTestUser()->getUser()
+			: MediaWikiServices::getInstance()->getUserFactory()->newFromName( wfRandomString() );
+		$userName = $userObj->getName();
+
+		$this->doTestOnAuthManagerLoginAuthenticateAudit(
+			$authResp, $userObj, $userName, $isAnonPerformer, $messageKey, $eventTableMigrationStage
 		);
 	}
 
@@ -944,35 +983,26 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		$eventTableMigrationStageValues = self::provideEventMigrationStageValues();
 		$testCases = [
 			'failed login with correct password' => [
-				AuthenticationResponse::newFail(
-					wfMessage( 'test' ),
-					// This is CentralAuthUser::AUTHENTICATE_GOOD_PASSWORD, but cannot be referenced
-					//  directly due to T321864
-					[ "good password" ]
-				),
-				'UTSysop',
+				// This is CentralAuthUser::AUTHENTICATE_GOOD_PASSWORD, but cannot be referenced
+				//  directly due to T321864
+				[ "good password" ],
+				true,
 				'checkuser-login-failure-with-good-password',
 				true,
 			],
 			'failed login with the correct password but locked and no local account' => [
-				AuthenticationResponse::newFail(
-					wfMessage( 'test' ),
-					// This is CentralAuthUser::AUTHENTICATE_GOOD_PASSWORD and CentralAuthUser::AUTHENTICATE_LOCKED,
-					//  respectively but cannot be referenced directly due to T321864
-					[ "good password", "locked" ]
-				),
-				'Nonexisting test account 1234567',
+				// This is CentralAuthUser::AUTHENTICATE_GOOD_PASSWORD and CentralAuthUser::AUTHENTICATE_LOCKED,
+				//  respectively but cannot be referenced directly due to T321864
+				[ "good password", "locked" ],
+				false,
 				'checkuser-login-failure-with-good-password',
 				true,
 			],
 			'failed login with correct password but locked' => [
-				AuthenticationResponse::newFail(
-					wfMessage( 'test' ),
-					// This is CentralAuthUser::AUTHENTICATE_GOOD_PASSWORD and CentralAuthUser::AUTHENTICATE_LOCKED,
-					//  respectively but cannot be referenced directly due to T321864
-					[ "good password", "locked" ]
-				),
-				'UTSysop',
+				// This is CentralAuthUser::AUTHENTICATE_GOOD_PASSWORD and CentralAuthUser::AUTHENTICATE_LOCKED,
+				//  respectively but cannot be referenced directly due to T321864
+				[ "good password", "locked" ],
+				true,
 				'checkuser-login-failure-with-good-password',
 				false,
 			],
@@ -985,32 +1015,21 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
-	/** @dataProvider provideEventMigrationStageValues */
-	public function testCheckUserLogBotSuccessfulLoginsSetToTrue( int $eventTableMigrationStage ) {
-		$this->setMwGlobals( 'wgCheckUserLogLogins', true );
-		$user = $this->getTestUser( [ 'bot' ] )->getUserIdentity()->getName();
-		$this->testOnAuthManagerLoginAuthenticateAudit(
-			AuthenticationResponse::newPass( $user ),
-			$user,
-			'checkuser-login-success',
-			false,
-			$eventTableMigrationStage
-		);
-	}
-
 	private function getMockAuthenticationResponseForStatus( $status, $user = 'test' ) {
 		$req = $this->getMockForAbstractClass( AuthenticationRequest::class );
 		switch ( $status ) {
 			case AuthenticationResponse::PASS:
 				return AuthenticationResponse::newPass( $user );
+			case AuthenticationResponse::FAIL:
+				return AuthenticationResponse::newFail( $this->createMock( Message::class ) );
 			case AuthenticationResponse::ABSTAIN:
 				return AuthenticationResponse::newAbstain();
 			case AuthenticationResponse::REDIRECT:
 				return AuthenticationResponse::newRedirect( [ $req ], '' );
 			case AuthenticationResponse::RESTART:
-				return AuthenticationResponse::newRestart( wfMessage( 'test' ) );
+				return AuthenticationResponse::newRestart( $this->createMock( Message::class ) );
 			case AuthenticationResponse::UI:
-				return AuthenticationResponse::newUI( [ $req ], wfMessage( 'test' ) );
+				return AuthenticationResponse::newUI( [ $req ], $this->createMock( Message::class ) );
 			default:
 				$this->fail( 'No AuthenticationResponse mock was defined for the status ' . $status );
 		}
@@ -1018,19 +1037,30 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideOnAuthManagerLoginAuthenticateAuditNoSave */
 	public function testOnAuthManagerLoginAuthenticateAuditNoSave(
-		string $status, string $user, bool $logLogins, bool $logBots, int $eventTableMigrationStage
+		string $status,
+		bool $validUser,
+		array $userGroups,
+		bool $logLogins,
+		bool $logBots,
+		int $eventTableMigrationStage
 	) {
-		$ret = $this->getMockAuthenticationResponseForStatus( $status, $user );
 		$this->setMwGlobals( [
 			'wgCheckUserLogLogins' => $logLogins,
 			'wgCheckUserLogSuccessfulBotLogins' => $logBots,
 			'wgCheckUserEventTablesMigrationStage' => $eventTableMigrationStage
 		] );
-		$userObj = MediaWikiServices::getInstance()->getUserFactory()->newFromName( $user );
+		if ( $validUser ) {
+			$userObj = $this->getTestUser( $userGroups )->getUser();
+			$userName = $userObj->getName();
+		} else {
+			$userObj = null;
+			$userName = '';
+		}
+		$ret = $this->getMockAuthenticationResponseForStatus( $status, $userName );
 		( new Hooks() )->onAuthManagerLoginAuthenticateAudit(
 			$ret,
 			$userObj,
-			$user,
+			$userName,
 			[]
 		);
 
@@ -1049,73 +1079,51 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		$testCases = [
 			'invalid user' => [
 				AuthenticationResponse::PASS,
-				'',
+				false,
+				[],
 				true,
 				true
 			],
 			'Abstain authentication response' => [
 				AuthenticationResponse::ABSTAIN,
-				'UTSysop',
+				true,
+				[],
 				true,
 				true
 			],
 			'Redirect authentication response' => [
 				AuthenticationResponse::REDIRECT,
-				'UTSysop',
+				true,
+				[],
 				true,
 				true
 			],
 			'UI authentication response' => [
 				AuthenticationResponse::UI,
-				'UTSysop',
+				true,
+				[],
 				true,
 				true
 			],
 			'Restart authentication response' => [
 				AuthenticationResponse::RESTART,
-				'UTSysop',
+				true,
+				[],
 				true,
 				true
 			],
-		];
-		foreach ( $testCases as $name => $testCase ) {
-			foreach ( $eventTableMigrationStageValues as $additionalName => $eventTableMigrationStageValue ) {
-				$testCase[] = $eventTableMigrationStageValue[0];
-				yield $name . ' ' . $additionalName => $testCase;
-			}
-		}
-	}
-
-	/** @dataProvider provideEventMigrationStageValues */
-	public function testCheckUserLogLoginsSetToFalse( int $eventTableMigrationStage ) {
-		$this->testOnAuthManagerLoginAuthenticateAuditNoSave(
-			AuthenticationResponse::PASS,
-			'UTSysop',
-			false,
-			true,
-			$eventTableMigrationStage
-		);
-	}
-
-	/** @dataProvider provideCheckUserLogBotSuccessfulLoginsNoSave */
-	public function testCheckUserLogBotSuccessfulLoginsSetToFalse(
-		string $status, bool $logBots, int $eventTableMigrationStage
-	) {
-		$user = $this->getTestUser( [ 'bot' ] )->getUserIdentity()->getName();
-		$this->testOnAuthManagerLoginAuthenticateAuditNoSave(
-			$status,
-			$user,
-			true,
-			$logBots,
-			$eventTableMigrationStage
-		);
-	}
-
-	public static function provideCheckUserLogBotSuccessfulLoginsNoSave() {
-		$eventTableMigrationStageValues = self::provideEventMigrationStageValues();
-		$testCases = [
+			'LogLogins set to false' => [
+				AuthenticationResponse::PASS,
+				true,
+				[],
+				false,
+				true
+			],
 			'Successful authentication with wgCheckUserLogSuccessfulBotLogins set to false' => [
 				AuthenticationResponse::PASS,
+				false,
+				[ 'bot' ],
+				true,
 				false
 			]
 		];
