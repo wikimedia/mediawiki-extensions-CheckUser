@@ -5,14 +5,15 @@ namespace MediaWiki\CheckUser\Tests;
 use MediaWiki\CheckUser\ClientHints\ClientHintsData;
 
 /**
- * For use by classes that need an example ClientHints object.
+ * A helper trait used by classes that need to get an example ClientHintsData object or
+ * an example JS API response.
  */
 trait CheckUserClientHintsCommonTraitTest {
 	/**
 	 * To not specify anything for $brands or $fullVersionList, use an empty
 	 * array. The value of null will use the default value.
 	 */
-	public static function getExampleClientHintsDataObjectFromJsApi(
+	public static function getExampleClientHintsJsApiResponse(
 		?string $architecture = "x86",
 		?string $bitness = "64",
 		?array $brands = null,
@@ -21,7 +22,7 @@ trait CheckUserClientHintsCommonTraitTest {
 		?string $model = "",
 		?string $platform = "Windows",
 		?string $platformVersion = "15.0.0"
-	): ClientHintsData {
+	): array {
 		if ( $brands === null ) {
 			$brands = [
 				[
@@ -54,17 +55,43 @@ trait CheckUserClientHintsCommonTraitTest {
 				]
 			];
 		}
+		return [
+			"architecture" => $architecture,
+			"bitness" => $bitness,
+			"brands" => $brands,
+			"fullVersionList" => $fullVersionList,
+			"mobile" => $mobile,
+			"model" => $model,
+			"platform" => $platform,
+			"platformVersion" => $platformVersion
+		];
+	}
+
+	/**
+	 * To not specify anything for $brands or $fullVersionList, use an empty
+	 * array. The value of null will use the default value.
+	 */
+	public static function getExampleClientHintsDataObjectFromJsApi(
+		?string $architecture = "x86",
+		?string $bitness = "64",
+		?array $brands = null,
+		?array $fullVersionList = null,
+		?bool $mobile = false,
+		?string $model = "",
+		?string $platform = "Windows",
+		?string $platformVersion = "15.0.0"
+	): ClientHintsData {
 		return ClientHintsData::newFromJsApi(
-			[
-				"architecture" => $architecture,
-				"bitness" => $bitness,
-				"brands" => $brands,
-				"fullVersionList" => $fullVersionList,
-				"mobile" => $mobile,
-				"model" => $model,
-				"platform" => $platform,
-				"platformVersion" => $platformVersion
-			]
+			self::getExampleClientHintsJsApiResponse(
+				$architecture,
+				$bitness,
+				$brands,
+				$fullVersionList,
+				$mobile,
+				$model,
+				$platform,
+				$platformVersion
+			)
 		);
 	}
 }
