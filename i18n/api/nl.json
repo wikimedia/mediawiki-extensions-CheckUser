@@ -10,7 +10,7 @@
 		]
 	},
 	"apihelp-query+checkuser-summary": "Controleer welke IP-adressen gebruikt worden door een opgegeven gebruikersnaam of welke gebruikersnamen worden gebruikt door een opgegeven IP-adres.",
-	"apihelp-query+checkuser-param-request": "Type van het CheckUserverzoek:\n;userips:IP-adres van de doelgebruiker ophalen.\n;edits:Wijzigingen van IP-adres of IP-adresreeks ophalen.\n;ipusers:Gebruikers van IP-adres of IP-adresreeks ophalen.",
+	"apihelp-query+checkuser-param-request": "Type CheckUser-verzoek:",
 	"apihelp-query+checkuser-param-target": "Gebruikersnaam, IP-adres, of te controleren CIDR-range.",
 	"apihelp-query+checkuser-param-reason": "Reden voor controleren.",
 	"apihelp-query+checkuser-param-limit": "Limiet voor rijen.",
@@ -30,6 +30,6 @@
 	"apierror-checkuser-missingsummary": "U moet een reden opgeven voor deze controle.",
 	"apierror-checkuser-timelimit": "U moet een juiste tijdsbeperking invoeren (zoals \"-2 weeks\" of \"2 weeks ago\").",
 	"apierror-checkuser-invalidmode": "Ongeldige aanvraagmodus",
-	"checkuser-api-help-param-direction": "In welke richting opsommen:\n;newer:De oudste eerst. Opmerking: $1from moet vroeger zijn dan $1to.\n;older:De nieuwste eerst (standaard). Opmerking: $1from moet later zijn dan $1to.",
+	"checkuser-api-help-param-direction": "In welke richting opsommen:",
 	"checkuser-api-useragent-clienthints-revision-user-mismatch": "Gebruiker $1 is niet de auteur van revisie $2"
 }
