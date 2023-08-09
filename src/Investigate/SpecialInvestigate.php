@@ -488,7 +488,7 @@ class SpecialInvestigate extends FormSpecialPage {
 	 * @inheritDoc
 	 */
 	public function getDescription() {
-		return $this->msg( 'checkuser-investigate' )->text();
+		return $this->msg( 'checkuser-investigate' );
 	}
 
 	/**
