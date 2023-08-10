@@ -137,6 +137,10 @@
 		"CheckUserClientHintsUnsetHeaderWhenPossible": {
 			"value": true,
 			"description": "If set to 'true', then CheckUser will transmit an empty `Accept-CH: ` header in BeforePageDisplay and SpecialPageBeforeExecute if SpecialPage isn't in the CheckUserClientHintsSpecialPages config list or the page's action parameter isn't in CheckUserClientHintsActionQueryParameter conifg list. If set to false, CheckUser will not send an empty `Accept-CH: ` header, which in practice means that all logged-in user requests will transmit User-Agent client hint data."
+		},
+		"CheckUserDeveloperMode": {
+			"value": false,
+			"description": "If set to 'true', then CheckUser will be know it is in development mode. Do not enable this on any wikis other than local development wikis. This will allow use of code that is only intended for local development wikis, such as the populateCheckUserTablesWithSimulatedData.php maintenance script which inserts automated testing edits and actions to the wiki."
 		}
 	},
 	"APIListModules": {
@@ -495,7 +499,8 @@
 		"MediaWiki\\CheckUser\\Maintenance\\PopulateCucComment": "maintenance/populateCucComment.php",
 		"MediaWiki\\CheckUser\\Maintenance\\PopulateCulActor": "maintenance/populateCulActor.php",
 		"MediaWiki\\CheckUser\\Maintenance\\PopulateCulComment": "maintenance/populateCulComment.php",
-		"MediaWiki\\CheckUser\\Maintenance\\MoveLogEntriesFromCuChanges": "maintenance/moveLogEntriesFromCuChanges.php"
+		"MediaWiki\\CheckUser\\Maintenance\\MoveLogEntriesFromCuChanges": "maintenance/moveLogEntriesFromCuChanges.php",
+		"MediaWiki\\CheckUser\\Maintenance\\PopulateCheckUserTablesWithSimulatedData": "maintenance/populateCheckUserTablesWithSimulatedData.php"
 	},
 	"ServiceWiringFiles": [
 		"src/ServiceWiring.php"

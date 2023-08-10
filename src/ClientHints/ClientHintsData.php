@@ -9,6 +9,19 @@ use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
  * Value object for modeling user agent client hints data.
  */
 class ClientHintsData implements JsonSerializable {
+	public const HEADER_TO_CLIENT_HINTS_DATA_PROPERTY_NAME = [
+		"Sec-CH-UA" => "userAgent",
+		"Sec-CH-UA-Arch" => "architecture",
+		"Sec-CH-UA-Bitness" => "bitness",
+		"Sec-CH-UA-Form-Factor" => "formFactor",
+		"Sec-CH-UA-Full-Version-List" => "fullVersionList",
+		"Sec-CH-UA-Mobile" => "mobile",
+		"Sec-CH-UA-Model" => "model",
+		"Sec-CH-UA-Platform" => "platform",
+		"Sec-CH-UA-Platform-Version" => "platformVersion",
+		"Sec-CH-UA-WoW64" => "woW64"
+	];
+
 	private ?string $architecture;
 	private ?string $bitness;
 	private ?array $brands;
