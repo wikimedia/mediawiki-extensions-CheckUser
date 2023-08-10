@@ -3,6 +3,7 @@
 		"authors": [
 			"Borislav",
 			"DCLXVI",
+			"Dreamy Jazz",
 			"Spiritia",
 			"StanProg",
 			"Ted Masters",
@@ -96,6 +97,8 @@
 	"checkuser-email-action": "изпрати е-писмо на потребител „$1“",
 	"checkuser-reset-action": "изпратен на имейл за нулиране парола на {{GENDER:$1|потребител}} [[User:$1|$1]]",
 	"checkuser-token-fail": "Сесията не е успешна. Опитайте отново.",
+	"logentry-checkuser-private-event-autocreate-account": "беше автоматично създадена",
+	"logentry-checkuser-private-event-create-account": "е създаден",
 	"checkuser-investigateblock-reason": "Причина",
 	"checkuser-investigate-duration-option-all": "Всички",
 	"checkuser-investigate-duration-option-1w": "Последната седмица",

@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Dreamy Jazz",
 			"Eitvys200",
 			"Homo",
 			"Mantak111",
@@ -96,6 +97,8 @@
 	"checkuser-helper-ips": "IP",
 	"checkuser-helper-xff-trusted": "XFF (pasitikima):",
 	"checkuser-helper-xff-untrusted": "XFF (nepasitikima):",
+	"logentry-checkuser-private-event-autocreate-account": "buvo automatiškai sukurtas",
+	"logentry-checkuser-private-event-create-account": "buvo sukurta",
 	"checkuser-rest-access-denied": "Neturite leidimo atlikti veiksmo",
 	"checkuser-rest-access-denied-blocked-user": "Neturite leidimo atlikti veiksmo, nes jūsų paskyra užblokuota",
 	"checkuser-link-investigate-label": "Išbandykite {{#special:investigate}}",

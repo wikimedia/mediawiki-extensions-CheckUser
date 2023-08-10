@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Dreamy Jazz",
 			"Michaello",
 			"Milicevic01",
 			"Жељко Тодоровић",
@@ -100,6 +101,8 @@
 	"checkuser-helper-uas": "Softver za pristup",
 	"checkuser-helper-xff-trusted": "XFF (proveren):",
 	"checkuser-helper-xff-untrusted": "XFF (neproveren):",
+	"logentry-checkuser-private-event-autocreate-account": "je automatski otvoren",
+	"logentry-checkuser-private-event-create-account": "je otvoren",
 	"group-checkuser.css": "/* CSS postavljen ovde će uticati samo na čekjuzere */",
 	"group-checkuser.js": "/* JS postavljen ovde će uticati samo na čekjuzere */",
 	"checkuser-rest-access-denied": "Nemate dozvolu da izvršite ovu radnju",

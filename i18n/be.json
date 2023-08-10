@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Artsiom91",
+			"Dreamy Jazz",
 			"Kareyac",
 			"Maksim L.",
 			"No Sleep till Krupki",
@@ -64,6 +65,8 @@
 	"checkuser-showmain": "Вярнуцца да галоўнай формы праверкі ўдзельнікаў",
 	"checkuser-autocreate-action": "быў створаны аўтаматычна",
 	"checkuser-create-action": "быў створаны",
+	"logentry-checkuser-private-event-autocreate-account": "быў створаны аўтаматычна",
+	"logentry-checkuser-private-event-create-account": "быў створаны",
 	"checkuser-link-investigate-label": "Паспрабуйце {{#special:investigate}}",
 	"checkuser-investigateblock": "Заблакаваць удзельнікаў",
 	"checkuser-investigateblock-reason": "Прычына",

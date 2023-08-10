@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Assele",
+			"Dreamy Jazz",
 			"Haqmar",
 			"Sagan",
 			"Азат Хәлилов",
@@ -76,5 +77,7 @@
 	"checkuser-create-action": "төҙөлдө",
 	"checkuser-email-action": "\"$1\" ҡатнашыусыһына электрон хат ебәргән",
 	"checkuser-reset-action": "\"$1\" ҡатнашыусыһының серһүҙен үҙгәртергә",
-	"checkuser-token-fail": "Сеанс өҙөлдө. Зинһар, тағы бер тапҡыр ҡабатлап ҡарағыҙ."
+	"checkuser-token-fail": "Сеанс өҙөлдө. Зинһар, тағы бер тапҡыр ҡабатлап ҡарағыҙ.",
+	"logentry-checkuser-private-event-autocreate-account": "үҙенән-үҙе булдырылған",
+	"logentry-checkuser-private-event-create-account": "төҙөлдө"
 }

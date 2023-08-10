@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Afalau",
+			"Dreamy Jazz",
 			"Lloffiwr",
 			"Robin Owain"
 		]
@@ -86,6 +87,8 @@
 	"checkuser-login-success": "Wedi mewngofnodi'n llwyddiannus i {{SITENAME}} fel $1",
 	"checkuser-helper-user": "Defnyddiwr",
 	"checkuser-helper-ips": "Cyfeiriad(au) IP",
+	"logentry-checkuser-private-event-autocreate-account": "wedi ei greu'n awtomatig",
+	"logentry-checkuser-private-event-create-account": "wedi ei greu",
 	"checkuser-link-investigate-label": "Rhowch gynnig ar yr offeryn ArchwilioDefnyddiwr newydd",
 	"checkuser-investigateblock": "Blocio defnyddwyr",
 	"checkuser-investigateblock-target": "Enwau defnyddiwr a chyfeiriadau IP",

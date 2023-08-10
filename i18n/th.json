@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Aefgh39622",
+			"Dreamy Jazz",
 			"Ekminarin",
 			"Geonuch",
 			"Horus",
@@ -92,6 +93,8 @@
 	"checkuser-helper-copy-success": "คัดลอกเสร็จสมบูรณ์",
 	"checkuser-helper-copy-failed": "ไม่สามารถคัดลอกได้",
 	"checkuser-helper-user": "ผู้ใช้",
+	"logentry-checkuser-private-event-autocreate-account": "ถูกสร้างขึ้นโดยอัตโนมัติ",
+	"logentry-checkuser-private-event-create-account": "ถูกสร้างขึ้น",
 	"group-checkuser.css": "/* CSS ในที่นี้จะมีผลต่อผู้ตรวจสอบผู้ใช้เท่านั้น */",
 	"group-checkuser.js": "/* JS ในที่นี้จะมีผลต่อผู้ตรวจสอบผู้ใช้เท่านั้น */",
 	"checkuser-link-investigate-label": "ลองใช้เครื่องมือตรวจสอบผู้ใช้ตัวใหม่",

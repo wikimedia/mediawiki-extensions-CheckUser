@@ -3,6 +3,7 @@
 		"authors": [
 			"Bugoslav",
 			"Dalibor Bosits",
+			"Dreamy Jazz",
 			"Ex13",
 			"Excaliboor",
 			"MaGa",
@@ -66,6 +67,8 @@
 	"checkuser-create-action": "je napravljen",
 	"checkuser-email-action": "poslan email za \"$1\"",
 	"checkuser-reset-action": "ponovno postavi zaporku za suradnika \"$1\"",
+	"logentry-checkuser-private-event-autocreate-account": "je automatski stvoren",
+	"logentry-checkuser-private-event-create-account": "je napravljen",
 	"checkuser-investigateblock": "Blokiranje suradnica / suradnika",
 	"checkuser-investigateblock-target": "Suradnička imena i IP-adrese",
 	"checkuser-investigateblock-options": "Dodatne mogućnosti",

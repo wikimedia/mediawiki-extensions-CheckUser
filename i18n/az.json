@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Cekli829",
+			"Dreamy Jazz",
 			"Emperyan",
 			"NMW03",
 			"Neriman2003",
@@ -125,6 +126,8 @@
 	"checkuser-helper-uas": "İstifadəçi agent(lər)i",
 	"checkuser-helper-xff-trusted": "XFF (etibarlı):",
 	"checkuser-helper-xff-untrusted": "XFF (etibarsız):",
+	"logentry-checkuser-private-event-autocreate-account": "avtomatik yaradıldı",
+	"logentry-checkuser-private-event-create-account": "yaradılıb",
 	"group-checkuser.css": "/* Burada yazılan CSS yalnız təftişçilərə təsir edir */",
 	"group-checkuser.js": "/* Burada yazılan JavaScript yalnız təftişçilər üçün yüklənəcək */",
 	"checkuser-rest-access-denied": "Bu əməliyyatı yerinə yetirmək üçün icazəniz yoxdur",

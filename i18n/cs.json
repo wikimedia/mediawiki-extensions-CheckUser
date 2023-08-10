@@ -3,6 +3,7 @@
 		"authors": [
 			"Beren",
 			"Danny B.",
+			"Dreamy Jazz",
 			"Dvorapa",
 			"Li-sung",
 			"Martin Urbanec",
@@ -89,6 +90,8 @@
 	"checkuser-token-fail": "Chyba relace. Zkuste to prosím znovu.",
 	"checkuser-login-failure": "Neúspěšný pokus o přihlášení do {{grammar:2sg|{{SITENAME}}}} jako $1",
 	"checkuser-login-success": "Úspěšné přihlášení do {{grammar:2sg|{{SITENAME}}}} jako $1",
+	"logentry-checkuser-private-event-autocreate-account": "byl automaticky vytvořen",
+	"logentry-checkuser-private-event-create-account": "byl vytvořen",
 	"group-checkuser.css": "/* Zde uvedené CSS bude ovlivňovat pouze revizory */",
 	"group-checkuser.js": "/* Zde uvedený JavaScript bude načten pouze pro revizory */",
 	"checkuser-link-investigate-label": "Vyzkoušet {{#special:investigate}}",

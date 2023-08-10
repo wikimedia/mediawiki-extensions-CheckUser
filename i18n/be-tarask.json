@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Artsiom91",
+			"Dreamy Jazz",
 			"EugeneZelenko",
 			"Jim-by",
 			"Red Winged Duck",
@@ -74,6 +75,8 @@
 	"checkuser-create-action": "створаны",
 	"checkuser-email-action": "даслаць ліст удзельніку «$1»",
 	"checkuser-reset-action": "скасаваў пароль для ўдзельніка $1",
+	"logentry-checkuser-private-event-autocreate-account": "быў створаны аўтаматычна",
+	"logentry-checkuser-private-event-create-account": "створаны",
 	"checkuser-investigateblock": "Заблякаваць удзельнікаў",
 	"checkuser-investigateblock-reason": "Прычына",
 	"checkuser-investigateblock-options": "Дадатковыя опцыі",

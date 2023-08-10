@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Dreamy Jazz",
 			"Leducthn",
 			"Minh Nguyen",
 			"Nguyenphutrong2",
@@ -80,6 +81,8 @@
 	"checkuser-token-fail": "Phiên làm việc bị thất bại. Xin hãy thử lại.",
 	"checkuser-login-failure": "Thất bại khi đăng nhập vào {{SITENAME}} như $1",
 	"checkuser-login-success": "Đăng nhập thành công vào {{SITENAME}} như $1",
+	"logentry-checkuser-private-event-autocreate-account": "được tạo ra tự động",
+	"logentry-checkuser-private-event-create-account": "được tạo ra",
 	"group-checkuser.css": "/* Mã CSS tại đây sẽ chỉ ảnh hưởng đến các kiểm tra viên */",
 	"group-checkuser.js": "/* Mã JS tại đây sẽ chỉ ảnh hưởng đến các kiểm tra viên */",
 	"checkuser-link-investigate-label": "Hãy thử công cụ Kiểm tra người dùng mới",

@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Ajeje Brazorf",
+			"Dreamy Jazz",
 			"Melos",
 			"Pippinu",
 			"Santu",
@@ -65,6 +66,8 @@
 	"checkuser-email-action": "mannau nu missaggiu di posta elittrònica a «$1»",
 	"checkuser-reset-action": "azzera la password di l'utenti «$1»",
 	"checkuser-token-fail": "Erruri di sissioni. Pi favuri prova n'àutra vota.",
+	"logentry-checkuser-private-event-autocreate-account": "fu criatu autumaticamenti",
+	"logentry-checkuser-private-event-create-account": "fu criatu",
 	"checkuser-investigateblock-reason": "Mutivu",
 	"checkuser-investigateblock-notice-text-label": "Wikitestu",
 	"checkuser-investigate-subtitle-cancel-button-label": "Annulla",

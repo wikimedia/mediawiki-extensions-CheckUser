@@ -3,6 +3,7 @@
 		"authors": [
 			"Athena in Wonderland",
 			"Dicionarista",
+			"Dreamy Jazz",
 			"Eduardo Addad de Oliveira",
 			"Fúlvio",
 			"Hamilton Abreu",
@@ -118,6 +119,8 @@
 	"checkuser-helper-user": "Utilizador",
 	"checkuser-helper-ips": "IP",
 	"checkuser-helper-uas": "Agente(s) do utilizador",
+	"logentry-checkuser-private-event-autocreate-account": "foi criada automaticamente",
+	"logentry-checkuser-private-event-create-account": "foi criada",
 	"checkuser-rest-access-denied": "Não tem privilégios para realizar esta operação",
 	"checkuser-rest-access-denied-blocked-user": "Não tem privilégios para realizar esta operação porque a sua conta está bloqueada",
 	"checkuser-link-investigate-label": "Tente a nova ferramenta de verificação de utilizadores",

@@ -3,6 +3,7 @@
 		"authors": [
 			"Albamhandae",
 			"Bluehill",
+			"Dreamy Jazz",
 			"Ellif",
 			"Ficell",
 			"IRTC1015",
@@ -110,6 +111,8 @@
 	"checkuser-helper-user": "사용자",
 	"checkuser-helper-ips": "IP",
 	"checkuser-helper-uas": "사용자 에이전트",
+	"logentry-checkuser-private-event-autocreate-account": "자동으로 만들어졌습니다",
+	"logentry-checkuser-private-event-create-account": "만들어졌습니다",
 	"group-checkuser.css": "/* 이 CSS 설정은 검사관에만 적용됩니다 */",
 	"group-checkuser.js": "/* 이 자바스크립트 설정은 검사관에만 적용됩니다 */",
 	"checkuser-rest-access-denied": "이 작업을 수행할 권한이 없습니다",

@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Dferg",
+			"Dreamy Jazz",
 			"Esbardu",
 			"Fitoschido",
 			"Macofe",
@@ -81,6 +82,8 @@
 	"checkuser-token-fail": "Fallu de la sesión. Vuelvi a intentalo.",
 	"checkuser-login-failure": "Falló l'aniciu de sesión en {{SITENAME}} como $1",
 	"checkuser-login-success": "Aniciu de sesión correutu en {{SITENAME}} como $1",
+	"logentry-checkuser-private-event-autocreate-account": "creóse automáticamente",
+	"logentry-checkuser-private-event-create-account": "creóse",
 	"checkuser-investigate": "Investigar",
 	"checkuser-investigate-legend": "Buscar nomes d'usuariu, direiciones IP o intervalos d'IP",
 	"checkuser-investigate-targets-label": "Nomes d'usuariu y direcciones IP",

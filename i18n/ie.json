@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Dreamy Jazz",
 			"OIS",
 			"Renan"
 		]
@@ -69,6 +70,8 @@
 	"checkuser-email-action": "inviat un missage electronic a usator \"$1\"",
 	"checkuser-reset-action": "redefinir parol-passe por usator \"$1\"",
 	"checkuser-token-fail": "Defecte in session. Pleser provar denov.",
+	"logentry-checkuser-private-event-autocreate-account": "esset automaticmen creat",
+	"logentry-checkuser-private-event-create-account": "esset creat",
 	"checkuser-link-investigate-label": "Prova li nov utensile Verification de usatores",
 	"checkuser-investigateblock": "Blocar usatores",
 	"checkuser-investigateblock-target": "Nómines de usatores e adresses de IP",
