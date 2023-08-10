@@ -141,6 +141,8 @@
 	"checkuser-helper-user": "用户",
 	"checkuser-helper-ips": "IP",
 	"checkuser-helper-uas": "User Agent",
+	"checkuser-helper-xff-trusted": "XFF（可信）：",
+	"checkuser-helper-xff-untrusted": "XFF（不可信）：",
 	"group-checkuser.css": "/* 这里放置的CSS将只影响用户查核员 */",
 	"group-checkuser.js": "/* 这里放置的JS将只影响用户查核员 */",
 	"checkuser-rest-access-denied": "您没有权限来执行此操作",
