@@ -27,7 +27,7 @@
 	/**
 	 * Get and return the IPs from the input as an array of IPs
 	 *
-	 * @param $form The form to collect the IPs from
+	 * @param {jQuery} $form The form to collect the IPs from
 	 * @return {string[]}
 	 */
 	function getIPList( $form ) {
