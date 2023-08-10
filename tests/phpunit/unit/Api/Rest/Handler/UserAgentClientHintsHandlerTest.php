@@ -2,12 +2,17 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit\Api\Rest\Handler;
 
+use FormatJson;
 use HashConfig;
 use MediaWiki\CheckUser\Api\Rest\Handler\UserAgentClientHintsHandler;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
 use MediaWiki\Permissions\Authority;
+use MediaWiki\Rest\HttpException;
 use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\RequestData;
+use MediaWiki\Rest\Validator\JsonBodyValidator;
+use MediaWiki\Rest\Validator\UnsupportedContentTypeBodyValidator;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\Tests\Rest\Handler\HandlerTestTrait;
@@ -25,6 +30,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
 	use HandlerTestTrait;
+	use CheckUserClientHintsCommonTraitTest;
 
 	public function testRunWithClientHintsDisabled() {
 		$config = new HashConfig( [
@@ -192,6 +198,82 @@ class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
 		$this->expectExceptionMessage( 'error' );
 		$this->executeHandler(
 			$handler, new RequestData(), [], [], [ 'type' => 'revision', 'id' => 1 ], [ 'test' => 1 ], $authority
+		);
+	}
+
+	public function testNeedsWrite() {
+		$config = new HashConfig( [
+			'CheckUserClientHintsEnabled' => true,
+			'CheckUserClientHintsRestApiMaxTimeLag' => 1800,
+		] );
+		$revisionStore = $this->createMock( RevisionStore::class );
+		$userAgentClientHintsManager = $this->createMock( UserAgentClientHintsManager::class );
+		$handler = new UserAgentClientHintsHandler( $config, $revisionStore, $userAgentClientHintsManager );
+		$this->assertTrue(
+			$handler->needsWriteAccess(),
+			'Handler writes to the DB, so needsWriteAccess must return true.'
+		);
+	}
+
+	/** @dataProvider provideValidJsonBody */
+	public function testBodyValidator( string $jsonBody ) {
+		$config = new HashConfig( [
+			'CheckUserClientHintsEnabled' => true,
+			'CheckUserClientHintsRestApiMaxTimeLag' => 1800,
+		] );
+		$revisionStore = $this->createMock( RevisionStore::class );
+		$userAgentClientHintsManager = $this->createMock( UserAgentClientHintsManager::class );
+		$handler = new UserAgentClientHintsHandler( $config, $revisionStore, $userAgentClientHintsManager );
+		$bodyValidator = $handler->getBodyValidator( 'application/json' );
+		$this->assertInstanceOf(
+			JsonBodyValidator::class,
+			$bodyValidator,
+			'::getBodyValidator should return a instance of the JSONBodyValidator class.'
+		);
+		$this->assertIsArray(
+			$bodyValidator->validateBody( new RequestData( [ 'bodyContents' => $jsonBody ] ) )
+		);
+	}
+
+	public static function provideValidJsonBody() {
+		return [
+			'One client hint data item' => [
+				FormatJson::encode( [
+					'platform' => 'test'
+				] )
+			],
+			'All client hints data items' => [
+				FormatJson::encode( self::getExampleClientHintsJsApiResponse() )
+			],
+		];
+	}
+
+	/** @dataProvider provideInvalidJsonBody */
+	public function testBodyValidatorOnInvalidBody( string $invalidJsonBody ) {
+		$this->expectException( HttpException::class );
+		$this->testBodyValidator( $invalidJsonBody );
+	}
+
+	public static function provideInvalidJsonBody() {
+		return [
+			'Invalid JSON' => [ 'abc123\"{' ],
+			'Non-array JSON' => [ 'testing' ],
+		];
+	}
+
+	public function testBodyValidatorNonJsonContentType() {
+		$config = new HashConfig( [
+			'CheckUserClientHintsEnabled' => true,
+			'CheckUserClientHintsRestApiMaxTimeLag' => 1800,
+		] );
+		$revisionStore = $this->createMock( RevisionStore::class );
+		$userAgentClientHintsManager = $this->createMock( UserAgentClientHintsManager::class );
+		$handler = new UserAgentClientHintsHandler( $config, $revisionStore, $userAgentClientHintsManager );
+		$bodyValidator = $handler->getBodyValidator( 'text/plain' );
+		$this->assertInstanceOf(
+			UnsupportedContentTypeBodyValidator::class,
+			$bodyValidator,
+			'::getBodyValidator should return a instance of the UnsupportedContentTypeBodyValidator class.'
 		);
 	}
 }

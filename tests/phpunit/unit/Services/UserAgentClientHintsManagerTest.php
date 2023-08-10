@@ -3,12 +3,14 @@
 namespace MediaWiki\CheckUser\Tests\Unit\Services;
 
 use IDatabase;
+use LogicException;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
 use MediaWikiUnitTestCase;
+use Status;
 use Wikimedia\Rdbms\DeleteQueryBuilder;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IReadableDatabase;
@@ -24,9 +26,7 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 	use MockServiceDependenciesTrait;
 	use CheckUserClientHintsCommonTraitTest;
 
-	/**
-	 * @dataProvider provideValidTypes
-	 */
+	/** @dataProvider provideValidTypes */
 	public function testGetMapIdByType( string $type, int $expectedMapId ) {
 		$objectToTest = TestingAccessWrapper::newFromObject(
 			$this->newServiceInstance( UserAgentClientHintsManager::class, [] )
@@ -41,6 +41,21 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 	public static function provideValidTypes() {
 		return [
 			'Revision type' => [ 'revision', 0 ],
+		];
+	}
+
+	/** @dataProvider provideInvalidTypes */
+	public function testGetMapIdUsingInvalidType( string $invalidType ) {
+		$this->expectException( LogicException::class );
+		$objectToTest = TestingAccessWrapper::newFromObject(
+			$this->newServiceInstance( UserAgentClientHintsManager::class, [] )
+		);
+		$objectToTest->getMapIdByType( $invalidType );
+	}
+
+	public static function provideInvalidTypes() {
+		return [
+			'Invalid string type' => [ 'invalidtype1234' ]
 		];
 	}
 
@@ -112,9 +127,7 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider provideDeleteMappingRows
-	 */
+	/** @dataProvider provideDeleteMappingRows */
 	public function testDeleteMappingRows(
 		$referenceIds, $referenceMappingIds, $clientHintRowIds, $clientHintOrphanedRowIds
 	) {
@@ -206,5 +219,25 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 				[ 2 ]
 			]
 		];
+	}
+
+	public function testDeleteMappingRowsWithEmptyReferenceIdsList() {
+		$clientHintReferenceIds = new ClientHintsReferenceIds();
+		$clientHintReferenceIds->addReferenceIds( [], UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES );
+		$clientHintReferenceIds->addReferenceIds( [], UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT );
+		$clientHintReferenceIds->addReferenceIds( [], UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT );
+		$objectToTest = TestingAccessWrapper::newFromObject(
+			$this->newServiceInstance( UserAgentClientHintsManager::class, [] )
+		);
+		/** @var Status $result */
+		$result = $objectToTest->deleteMappingRows( $clientHintReferenceIds );
+		$this->assertStatusGood( $result );
+		$this->assertArrayEquals(
+			[ 0, 0 ],
+			$result->getValue(),
+			false,
+			false,
+			'No mapping rows or cu_useragent_clienthints rows should have been touched.'
+		);
 	}
 }
