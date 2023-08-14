@@ -1,6 +1,6 @@
 var ipRevealUtils = require( './ipRevealUtils.js' );
 
-function makeButton( target, revId, revIds ) {
+function makeButton( target, revIds, logIds ) {
 	var button = new OO.ui.ButtonWidget( {
 		label: mw.msg( 'checkuser-tempaccount-reveal-ip-button-label' ),
 		framed: false,
@@ -18,16 +18,13 @@ function makeButton( target, revId, revIds ) {
 
 	button.$element.on( 'revealIp', function () {
 		button.$element.off( 'revealIp' );
-		var params = new URLSearchParams();
-		params.set( 'limit', revIds ? revIds.length : 1 );
 		$.get(
 			mw.config.get( 'wgScriptPath' ) +
 			'/rest.php/checkuser/v0/temporaryaccount/' +
 			target +
-			( revIds && revIds.length ? ( '/revisions/' + revIds.join( '|' ) ) : '' ) +
-			'?' + params.toString()
+			buildQuery( revIds, logIds )
 		).then( function ( response ) {
-			var ip = response.ips[ revId || 0 ];
+			var ip = response.ips[ ( revIds.targetId || logIds.targetId ) || 0 ];
 			if ( !ipRevealUtils.getRevealedStatus( target ) ) {
 				ipRevealUtils.setRevealedStatus( target );
 			}
@@ -48,6 +45,23 @@ function makeButton( target, revId, revIds ) {
 	return button.$element;
 }
 
+function buildQuery( revIds, logIds ) {
+	var urlParams = '';
+	var queryStringParams = new URLSearchParams();
+
+	if ( revIds && revIds.allIds && revIds.allIds.length ) {
+		urlParams += '/revisions/' + revIds.allIds.join( '|' );
+		queryStringParams.set( 'limit', revIds.allIds.length );
+	} else if ( logIds && logIds.allIds && logIds.allIds.length ) {
+		urlParams += '/logs/' + logIds.allIds.join( '|' );
+		queryStringParams.set( 'limit', logIds.allIds.length );
+	} else {
+		queryStringParams.set( 'limit', 1 );
+	}
+
+	return urlParams + '?' + queryStringParams.toString();
+}
+
 /**
  * Add a button to a "typical" page. This functionality is here because
  * it is shared between initOnLoad and initOnHook.
@@ -56,30 +70,43 @@ function makeButton( target, revId, revIds ) {
  */
 function addButton( $content ) {
 	var allRevIds = {};
+	var allLogIds = {};
 	var $userLinks = $content.find( '.mw-tempuserlink' );
 
 	$userLinks.each( function () {
-		var revId = getRevisionId( $( this ) );
-		if ( revId ) {
-			var target = $( this ).text();
-			if ( !allRevIds[ target ] ) {
-				allRevIds[ target ] = [];
-			}
-			allRevIds[ target ].push( revId );
-		}
+		getAllIds( $( this ), allRevIds, getRevisionId );
+		getAllIds( $( this ), allLogIds, getLogId );
 	} );
 
 	$userLinks.after( function () {
-		var revId = getRevisionId( $( this ) );
 		var target = $( this ).text();
-		var revIds;
-
-		if ( revId ) {
-			revIds = allRevIds[ target ];
-		}
-
-		return makeButton( target, revId, revIds );
+		var revIds = getIdsForTarget( $( this ), target, allRevIds, getRevisionId );
+		var logIds = getIdsForTarget( $( this ), target, allLogIds, getLogId );
+		return makeButton( target, revIds, logIds );
 	} );
+}
+
+function getAllIds( $element, allIds, getId ) {
+	var id = getId( $element );
+	if ( id ) {
+		var target = $element.text();
+		if ( !allIds[ target ] ) {
+			allIds[ target ] = [];
+		}
+		allIds[ target ].push( id );
+	}
+}
+
+function getIdsForTarget( $element, target, allIds, getId ) {
+	var id = getId( $element );
+	var ids;
+	if ( id ) {
+		ids = allIds[ target ];
+	}
+	return {
+		targetId: id,
+		allIds: ids
+	};
 }
 
 /**
@@ -115,6 +142,14 @@ function enableMultiReveal( $element ) {
  */
 function getRevisionId( $element ) {
 	return $element.closest( '[data-mw-revid]' ).data( 'mw-revid' );
+}
+
+function getLogId( $element ) {
+	// Check if CheckUserEventTablesMigrationStage contains SCHEMA_COMPAT_READ_NEW
+	// eslint-disable-next-line no-bitwise
+	if ( mw.config.get( 'wgCheckUserEventTablesMigrationStage' ) & 0x200 ) {
+		return $element.closest( '[data-mw-logid]' ).data( 'mw-logid' );
+	}
 }
 
 module.exports = {

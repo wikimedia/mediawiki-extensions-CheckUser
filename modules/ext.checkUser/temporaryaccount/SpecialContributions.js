@@ -11,7 +11,11 @@ $userLinks.each( function () {
 $userLinks.each( function () {
 	var revId = ipReveal.getRevisionId( $( this ) );
 	$( this ).find( '.mw-diff-bytes' ).after( function () {
-		return [ ' ', $( '<span>' ).addClass( 'mw-changeslist-separator' ), ipReveal.makeButton( target, revId, revIds ) ];
+		var ids = {
+			targetId: revId,
+			allIds: revIds
+		};
+		return [ ' ', $( '<span>' ).addClass( 'mw-changeslist-separator' ), ipReveal.makeButton( target, ids ) ];
 	} );
 } );
 

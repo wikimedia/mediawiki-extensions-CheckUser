@@ -193,6 +193,20 @@
 			]
 		},
 		{
+			"path": "/checkuser/v0/temporaryaccount/{name}/logs/{ids}",
+			"method": "GET",
+			"class": "MediaWiki\\CheckUser\\Api\\Rest\\Handler\\TemporaryAccountLogHandler",
+			"services": [
+				"MainConfig",
+				"JobQueueGroup",
+				"PermissionManager",
+				"UserOptionsLookup",
+				"UserNameUtils",
+				"DBLoadBalancer",
+				"ActorStore"
+			]
+		},
+		{
 			"path": "/checkuser/v0/useragent-clienthints/{type}/{id}",
 			"method": "POST",
 			"class": "MediaWiki\\CheckUser\\Api\\Rest\\Handler\\UserAgentClientHintsHandler",
