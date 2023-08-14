@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"AnakngAraw",
+			"Dreamy Jazz",
 			"Jojit fb",
 			"Sky Harbor"
 		]
@@ -61,6 +62,8 @@
 	"checkuser-create-action": "ay nalikha na",
 	"checkuser-email-action": "nagpadala ng isang e-liham patungo kay tagagamit na \"$1\"",
 	"checkuser-reset-action": "muling itakda ang password para kay tagagamit na \"$1\"",
+	"logentry-checkuser-private-event-autocreate-account": "ay kusang nalikha",
+	"logentry-checkuser-private-event-create-account": "ay nalikha na",
 	"group-checkuser.css": "/* Ang inilagay na Mga Pilas ng Estilong Lumalagaslas (Cascading Style Sheets) dito ay makakaapekto lamang sa pagsisiyasat ng tagagamit */",
 	"group-checkuser.js": "/* Ang JavaScript na inilagay dito ay makakaapekto lamang sa pagsisiyasat ng tagagamit */"
 }

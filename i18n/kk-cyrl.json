@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Arystanbek",
+			"Dreamy Jazz",
 			"U.ayaao.p"
 		]
 	},
@@ -47,5 +48,7 @@
 	"checkuser-autocreate-action": "аутоматты түрде басталды",
 	"checkuser-create-action": "басталды",
 	"checkuser-email-action": "«$1» деген қатысушыға электронды хат жіберу",
+	"logentry-checkuser-private-event-autocreate-account": "аутоматты түрде басталды",
+	"logentry-checkuser-private-event-create-account": "басталды",
 	"checkuser-investigate-compare-copy-button-label-hide": "Уикимәтінді жасыру"
 }

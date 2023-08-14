@@ -3,6 +3,7 @@
 		"authors": [
 			"Candalua",
 			"Conky77",
+			"Dreamy Jazz",
 			"Fierodelveneto"
 		]
 	},
@@ -55,5 +56,6 @@
 	"checkuser-showmain": "Torna al modulo prinçipal de Controlo utenze",
 	"checkuser-autocreate-action": "xe stà creà automaticamente",
 	"checkuser-email-action": "gà mandà na e-mail a \"$1\"",
-	"checkuser-reset-action": "reinposta ła ciave par l'utente \"$1\""
+	"checkuser-reset-action": "reinposta ła ciave par l'utente \"$1\"",
+	"logentry-checkuser-private-event-autocreate-account": "xe stà creà automaticamente"
 }

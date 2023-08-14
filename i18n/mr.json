@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Dreamy Jazz",
 			"Htt",
 			"Kaustubh",
 			"Mahitgar",
@@ -68,5 +69,7 @@
 	"checkuser-create-action": "निर्माण केल्या गेले",
 	"checkuser-email-action": "\"$1\"ला विपत्र पाठविले",
 	"checkuser-reset-action": "सदस्य $1चा परवलीचा शब्द पुनर्स्थापित करा",
-	"checkuser-token-fail": "सत्र अयशस्वी.कृपया पुन्हा प्रयत्न करा."
+	"checkuser-token-fail": "सत्र अयशस्वी.कृपया पुन्हा प्रयत्न करा.",
+	"logentry-checkuser-private-event-autocreate-account": "आपोआप निर्माण केल्या गेले",
+	"logentry-checkuser-private-event-create-account": "निर्माण केल्या गेले"
 }

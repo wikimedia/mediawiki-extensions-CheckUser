@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Dreamy Jazz",
 			"Purodha"
 		]
 	},
@@ -68,6 +69,8 @@
 	"checkuser-email-action": "en e-mail aan „$1“ jescheck",
 	"checkuser-reset-action": "Däm Metmaacher „$1“ sing Paßwoot automattesch neu setze",
 	"checkuser-token-fail": "Fähler met de Sezongsdahte. Vershögk et norr_ens.",
+	"logentry-checkuser-private-event-autocreate-account": "wohd automattesch aanjelaat",
+	"logentry-checkuser-private-event-create-account": "wood aanjelaat",
 	"group-checkuser.css": "/* Dat CSS heh aan dä Stell wirrek nur op de Metmaacher-Övverpröhfer */",
 	"group-checkuser.js": "/* Dat JavaSkrep heh aan dä Stell wirrek nur op de Metmaacher-Övverpröhfer */"
 }

@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Avjoska",
+			"Dreamy Jazz",
 			"Pikne",
 			"WikedKentaur"
 		]
@@ -55,5 +56,7 @@
 	"checkuser-showmain": "Mine leheküljele {{#special:CheckUser}}",
 	"checkuser-autocreate-action": "loodud automaatselt",
 	"checkuser-create-action": "loodud",
-	"checkuser-email-action": "e-kiri kasutajale \"$1\" saadetud"
+	"checkuser-email-action": "e-kiri kasutajale \"$1\" saadetud",
+	"logentry-checkuser-private-event-autocreate-account": "loodud automaatselt",
+	"logentry-checkuser-private-event-create-account": "loodud"
 }

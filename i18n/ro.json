@@ -3,6 +3,7 @@
 		"authors": [
 			"AdiJapan",
 			"Andrei Stroe",
+			"Dreamy Jazz",
 			"Emily",
 			"Firilacroco",
 			"KlaudiuMihaila",
@@ -66,5 +67,7 @@
 	"checkuser-autocreate-action": "a fost creat automat",
 	"checkuser-create-action": "a fost creat",
 	"checkuser-email-action": "trimite email utilizatorului „$1”",
-	"checkuser-reset-action": "schimbă parola pentru utilizatorul „$1”"
+	"checkuser-reset-action": "schimbă parola pentru utilizatorul „$1”",
+	"logentry-checkuser-private-event-autocreate-account": "a fost creat automat",
+	"logentry-checkuser-private-event-create-account": "a fost creat"
 }

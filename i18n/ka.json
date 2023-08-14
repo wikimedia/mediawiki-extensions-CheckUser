@@ -4,6 +4,7 @@
 			"BRUTE",
 			"David1010",
 			"Dawid Deutschland",
+			"Dreamy Jazz",
 			"Malafaya",
 			"Otogi",
 			"გიორგიმელა"
@@ -62,5 +63,7 @@
 	"checkuser-create-action": "შეიქმნა",
 	"checkuser-email-action": "გაუგზავნა წერილი მომხმარებელ «$1»-ს",
 	"checkuser-reset-action": "პაროლის შეცვლა მომხმარებლისთვის \"$1\"",
-	"checkuser-token-fail": "სესია შეწყდა. გთხოვთ, თავიდან სცადოთ."
+	"checkuser-token-fail": "სესია შეწყდა. გთხოვთ, თავიდან სცადოთ.",
+	"logentry-checkuser-private-event-autocreate-account": "ავტომატურად შეიქმნა",
+	"logentry-checkuser-private-event-create-account": "შეიქმნა"
 }

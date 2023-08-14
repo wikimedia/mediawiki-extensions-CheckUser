@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Arnobarnard",
+			"Dreamy Jazz",
 			"Joris Darlington Quarshie",
 			"Naudefj",
 			"SPQRobin",
@@ -61,6 +62,8 @@
 	"checkuser-create-action": "is geskep",
 	"checkuser-email-action": "het 'n e-pos aan gebruiker \"$1\" gestuur",
 	"checkuser-reset-action": "herstel gebruiker \"$1\" se wagwoord",
+	"logentry-checkuser-private-event-autocreate-account": "is outomaties geskep",
+	"logentry-checkuser-private-event-create-account": "is geskep",
 	"checkuser-investigate-notice-no-results": "Daar is geen resultate nie.",
 	"checkuser-investigate-targets-placeholder": "Gebruikersnaam of 1.1.1.1"
 }

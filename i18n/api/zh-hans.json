@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"CrownedWharf566",
 			"GuoPC",
 			"Liuxinyu970226",
 			"U.T.",
@@ -12,8 +13,8 @@
 	"apihelp-query+checkuser-summary": "检查指定用户名使用过的IP地址或指定IP地址使用过的用户名。",
 	"apihelp-query+checkuser-param-request": "用户查核请求类型：",
 	"apihelp-query+checkuser-paramvalue-request-userips": "获取目标用户的IP地址。",
-	"apihelp-query+checkuser-paramvalue-request-edits": "获取目标IP地址或地址段的更改。",
-	"apihelp-query+checkuser-paramvalue-request-ipusers": "获取目标IP地址或地址段的用户。",
+	"apihelp-query+checkuser-paramvalue-request-edits": "获取目标IP地址或网段的更改。",
+	"apihelp-query+checkuser-paramvalue-request-ipusers": "获取目标IP地址或网段的用户。",
 	"apihelp-query+checkuser-param-target": "要查核的用户名、IP地址或CIDR地址段。",
 	"apihelp-query+checkuser-param-reason": "查核原因。",
 	"apihelp-query+checkuser-param-limit": "限定行数。",

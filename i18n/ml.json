@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Adithyak1997",
+			"Dreamy Jazz",
 			"Kiran Gopi",
 			"Praveenp",
 			"Shijualex"
@@ -62,6 +63,8 @@
 	"checkuser-create-action": "സൃഷ്ടിച്ചിരിക്കുന്നു",
 	"checkuser-email-action": "\"$1\" എന്ന ഉപയോക്താവിന് ഇമെയിൽ അയച്ചുകഴിഞ്ഞു",
 	"checkuser-reset-action": "\"$1\" എന്ന ഉപയോക്താവിന്റെ രഹസ്യവാക്ക് പുനഃക്രമീകരിക്കുക",
+	"logentry-checkuser-private-event-autocreate-account": "സ്വയം സൃഷ്ടിച്ചതാണ്",
+	"logentry-checkuser-private-event-create-account": "സൃഷ്ടിച്ചിരിക്കുന്നു",
 	"checkuser-investigate-targets-label": "ഉപയോക്തൃനാമങ്ങളും ഐ.പി വിലാസങ്ങളും",
 	"checkuser-investigate-reason-label": "കാരണം"
 }

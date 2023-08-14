@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Dreamy Jazz",
 			"Gazeb"
 		]
 	},
@@ -55,5 +56,7 @@
 	"checkuser-autocreate-action": "створеный автоматічно",
 	"checkuser-create-action": "створено",
 	"checkuser-email-action": "послав ел. пошту хоснователёві „$1“",
-	"checkuser-reset-action": "пожадав о нове гесло про хоснователя $1"
+	"checkuser-reset-action": "пожадав о нове гесло про хоснователя $1",
+	"logentry-checkuser-private-event-autocreate-account": "створеный автоматічно",
+	"logentry-checkuser-private-event-create-account": "створено"
 }

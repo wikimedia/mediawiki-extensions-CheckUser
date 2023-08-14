@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Dreamy Jazz",
 			"Joachim Mos",
 			"Slomox"
 		]
@@ -53,5 +54,6 @@
 	"checkuser-showmain": "Trüch na dat CheckUser-Hööftformular",
 	"checkuser-autocreate-action": "automaatsch opstellt",
 	"checkuser-email-action": "hett Bruker „$1“ en E-Mail tostüürt",
-	"checkuser-reset-action": "hett en nee Passwoord för Bruker „$1“ feddert"
+	"checkuser-reset-action": "hett en nee Passwoord för Bruker „$1“ feddert",
+	"logentry-checkuser-private-event-autocreate-account": "automaatsch opstellt"
 }

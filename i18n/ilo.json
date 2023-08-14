@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Dreamy Jazz",
 			"Lam-ang"
 		]
 	},
@@ -58,5 +59,7 @@
 	"checkuser-autocreate-action": "ket automatiko a naaramid",
 	"checkuser-create-action": "ket naaramid",
 	"checkuser-email-action": "nagipatulod ti e-surat ti agar-aramat \"$1\"",
-	"checkuser-reset-action": "isubli ti kontrasenias para ti agar-aramat \"$1\""
+	"checkuser-reset-action": "isubli ti kontrasenias para ti agar-aramat \"$1\"",
+	"logentry-checkuser-private-event-autocreate-account": "ket automatiko a naaramid",
+	"logentry-checkuser-private-event-create-account": "ket naaramid"
 }

@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Dreamy Jazz",
 			"Hanberke",
 			"TayfunEt.",
 			"Zolgoyo"
@@ -57,5 +58,6 @@
 	"checkuser-helper-copy-success": "Göçürildi",
 	"checkuser-helper-copy-failed": "Göçürip bolmady",
 	"checkuser-helper-user": "Ulanyjy",
+	"logentry-checkuser-private-event-autocreate-account": "awtomatik döredildi",
 	"checkuser-tempaccount-reveal-ip-missing": "elýeterli däl"
 }

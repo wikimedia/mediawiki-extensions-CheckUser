@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Dreamy Jazz",
 			"Gunnernett",
 			"Harald Khan",
 			"Jon Harald Søby",
@@ -61,5 +62,7 @@
 	"checkuser-autocreate-action": "vart automatisk oppretta",
 	"checkuser-create-action": "vart oppretta",
 	"checkuser-email-action": "sende e-post til brukaren «$1»",
-	"checkuser-reset-action": "nullstilte passord for «$1»"
+	"checkuser-reset-action": "nullstilte passord for «$1»",
+	"logentry-checkuser-private-event-autocreate-account": "vart automatisk oppretta",
+	"logentry-checkuser-private-event-create-account": "vart oppretta"
 }

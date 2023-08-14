@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Dreamy Jazz",
 			"Sasan700",
 			"Умар"
 		]
@@ -38,6 +39,7 @@
 	"checkuser-search-submit": "Лахар",
 	"checkuser-log-search-target": "Ӏалашо:",
 	"checkuser-create-action": "кхоьллина",
+	"logentry-checkuser-private-event-create-account": "кхоьллина",
 	"checkuser-investigateblock": "Блоктоьхна декъашхой",
 	"checkuser-investigateblock-notice-text-label": "Викийоза"
 }

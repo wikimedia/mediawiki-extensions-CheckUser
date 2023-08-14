@@ -4,6 +4,7 @@
 			"Boulaur",
 			"BrennodAloisi",
 			"Cedric31",
+			"Dreamy Jazz",
 			"Quentí"
 		]
 	},
@@ -59,6 +60,8 @@
 	"checkuser-create-action": "es estat creat",
 	"checkuser-email-action": "a mandat un corrièr electronic a « $1 »",
 	"checkuser-reset-action": "torna inicializar lo senhal per « $1 »",
+	"logentry-checkuser-private-event-autocreate-account": "es estat creat automaticament",
+	"logentry-checkuser-private-event-create-account": "es estat creat",
 	"checkuser-investigate-subtitle-block-button-label": "Blocar",
 	"checkuser-investigate-subtitle-cancel-button-label": "Anullar",
 	"checkuser-investigate-subtitle-continue-button-label": "Contunhar"

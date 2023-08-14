@@ -3,6 +3,7 @@
 		"authors": [
 			"Ankry",
 			"Chaduvari",
+			"Dreamy Jazz",
 			"Murma174",
 			"Pyt"
 		]
@@ -56,5 +57,6 @@
 	"checkuser-showmain": "Tourääch ätter dät CheckUser-Haudformular",
 	"checkuser-autocreate-action": "automatisk moaked",
 	"checkuser-email-action": "E-Mail an „$1“ soand",
-	"checkuser-reset-action": "Anfoarderenge fon n näi Paaswoud foar „Benutser:$1“"
+	"checkuser-reset-action": "Anfoarderenge fon n näi Paaswoud foar „Benutser:$1“",
+	"logentry-checkuser-private-event-autocreate-account": "automatisk moaked"
 }

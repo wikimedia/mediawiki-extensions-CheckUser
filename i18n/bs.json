@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"CERminator",
+			"Dreamy Jazz",
 			"KWiki",
 			"Semso98",
 			"Srdjan m",
@@ -61,5 +62,7 @@
 	"checkuser-autocreate-action": "je automatski napravljen",
 	"checkuser-create-action": "je napravljen",
 	"checkuser-email-action": "slanje e-mail korisniku \"$1\"",
-	"checkuser-reset-action": "poništi šifru za korisnika \"$1\""
+	"checkuser-reset-action": "poništi šifru za korisnika \"$1\"",
+	"logentry-checkuser-private-event-autocreate-account": "je automatski napravljen",
+	"logentry-checkuser-private-event-create-account": "je napravljen"
 }

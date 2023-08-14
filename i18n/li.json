@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Dreamy Jazz",
 			"Matthias",
 			"Ooswesthoesbes",
 			"Pahles"
@@ -75,5 +76,7 @@
 	"checkuser-reset-action": "vóng wachwaord veur \"$1\"",
 	"checkuser-token-fail": "Sessie mislök. Perbeer 't oppernuuj.",
 	"checkuser-login-failure": "Kós zich neet aanmelde bie {{SITENAME}} es $1",
-	"checkuser-login-success": "Succesvol aangemeld bie {{SITENAME}} es $1"
+	"checkuser-login-success": "Succesvol aangemeld bie {{SITENAME}} es $1",
+	"logentry-checkuser-private-event-autocreate-account": "is autematisch aangemaak",
+	"logentry-checkuser-private-event-create-account": "is aangemaak"
 }

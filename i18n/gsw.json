@@ -4,7 +4,8 @@
 			"Als-Chlämens",
 			"Als-Holder",
 			"Ankry",
-			"Chaduvari"
+			"Chaduvari",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Des Wärchzyyg dursuecht di letschten Änderige go d IP-Adrässe vun eme Benutzers bzw. d Bearbeitige/Benutzernäme fir e IP-Adräss usefinde. Benutzer un Bearbeitige vun ere IP-Adräss chenne au noch Informatione us dr XFF-Header abgfrogt wäre. Doderzue muess dr IP-Adräss e „/xff“ aaghänkt wäre. IPv4 (CIDR $1-32) un IPv6 (CIDR $2-128) wäre unterstitzt.\nUs Performance-Grind wäre hegschtens 5000 Bearbeitige usgee. Nimm CheckUser usschließli in Ibereinstimmig mit dr Dateschutzrichtlinie.",
@@ -60,5 +61,7 @@
 	"checkuser-autocreate-action": "isch automatisch aagleit wore",
 	"checkuser-create-action": "isch erstellt worde",
 	"checkuser-email-action": "het e E-Mail an „$1“ gschickt",
-	"checkuser-reset-action": "Aaforderig vun eme neije Passwort fir „Benutzer:$1“"
+	"checkuser-reset-action": "Aaforderig vun eme neije Passwort fir „Benutzer:$1“",
+	"logentry-checkuser-private-event-autocreate-account": "isch automatisch aagleit wore",
+	"logentry-checkuser-private-event-create-account": "isch erstellt worde"
 }

@@ -4,6 +4,7 @@
 			"Milicevic01"
 		]
 	},
+	"apihelp-query+checkuser-param-request": "Врста Чекјузер захтева:",
 	"apihelp-query+checkuserlog-param-reason": "Разлог за ову проверу.",
 	"checkuser-api-useragent-clienthints-revision-user-mismatch": "Корисник $1 није аутор измене $2"
 }

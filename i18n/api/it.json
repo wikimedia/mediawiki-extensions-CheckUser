@@ -9,7 +9,7 @@
 		]
 	},
 	"apihelp-query+checkuser-summary": "Controlla quali indirizzi IP vengono usati da un determinato nome utente o quali nomi utente vengono usati da un dato indirizzo IP.",
-	"apihelp-query+checkuser-param-request": "Tipo di richiesta CheckUser:\n;userips:Ottieni l'indirizzo IP dell'utente osservato.\n;edit:Ottieni i cambiamenti dell'indirizzo IP o range.\n;ipusers:Ottieni gli utenti da un indirizzo IP o range.",
+	"apihelp-query+checkuser-param-request": "Tipo di richiesta CheckUser:",
 	"apihelp-query+checkuser-param-target": "Nome utente, indirizzo IP, o range CIDR da controllare.",
 	"apihelp-query+checkuser-param-reason": "Ragione per controllare.",
 	"apihelp-query+checkuser-param-limit": "Limite di righe.",

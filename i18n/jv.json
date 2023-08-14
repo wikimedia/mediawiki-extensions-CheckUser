@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Diki Ananta",
+			"Dreamy Jazz",
 			"Meursault2004",
 			"NoiX180",
 			"Pras",
@@ -62,5 +63,7 @@
 	"checkuser-autocreate-action": "digawé sacara otomatis",
 	"checkuser-create-action": "digawé",
 	"checkuser-email-action": "ngirim layang-èl menyang \"$1\"",
-	"checkuser-reset-action": "setèl ulang tembung sandiné naraguna \"$1\""
+	"checkuser-reset-action": "setèl ulang tembung sandiné naraguna \"$1\"",
+	"logentry-checkuser-private-event-autocreate-account": "digawé sacara otomatis",
+	"logentry-checkuser-private-event-create-account": "digawé"
 }

@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"An13sa",
+			"Dreamy Jazz",
 			"Joseba",
 			"Kobazulo",
 			"Subi",
@@ -48,6 +49,8 @@
 	"checkuser-helper-label": "Ikusi emaitzak taula batean",
 	"checkuser-helper-copy-success": "Kopiatua",
 	"checkuser-helper-user": "Lankide",
+	"logentry-checkuser-private-event-autocreate-account": "automatikoki sortua izan da",
+	"logentry-checkuser-private-event-create-account": "sortu zen",
 	"checkuser-investigate-compare-notice-no-results-filters": "Filtratzeko irizpide hauek erabilita ez dago emaitzarik. Saiatu filtro batzuk ezabatzen bilaketa orokor baterako",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Erabiltzaile honen IPak erakutsi"
 }

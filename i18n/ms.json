@@ -3,6 +3,7 @@
 		"authors": [
 			"Anakmalaysia",
 			"Aviator",
+			"Dreamy Jazz",
 			"Izzudin",
 			"Kurniasan",
 			"Tofeiku"
@@ -69,6 +70,8 @@
 	"checkuser-helper-copy-failed": "Tidak dapat menyalin",
 	"checkuser-helper-user": "Pengguna",
 	"checkuser-helper-ips": "IP",
+	"logentry-checkuser-private-event-autocreate-account": "dicipta secara automatik",
+	"logentry-checkuser-private-event-create-account": "telah dicipta",
 	"checkuser-investigate-tab-preliminary-check": "Maklumat akaun",
 	"checkuser-investigate-duration-label": "Tempoh",
 	"checkuser-investigate-duration-option-all": "Semua",
