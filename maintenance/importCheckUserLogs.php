@@ -149,7 +149,11 @@ class ImportCheckUserLogs extends Maintenance {
 						$dbw, 'cul_reason_plaintext',
 						$checkUserLogService->getPlaintextReason( $data['reason'] )
 					);
-					$dbw->insert( 'cu_log', $fields, __METHOD__ );
+					$dbw->newInsertQueryBuilder()
+						->table( 'cu_log' )
+						->row( $fields )
+						->caller( __METHOD__ )
+						->execute();
 				}
 
 				$matched++;

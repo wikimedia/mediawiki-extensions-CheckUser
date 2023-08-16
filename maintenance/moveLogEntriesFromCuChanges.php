@@ -133,7 +133,11 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 				$setOnlyForReadOldBatch[] = $row->cuc_id;
 			}
 			if ( count( $batch ) ) {
-				$dbw->insert( 'cu_private_event', $batch, __METHOD__ );
+				$dbw->newInsertQueryBuilder()
+					->table( 'cu_private_event' )
+					->rows( $batch )
+					->caller( __METHOD__ )
+					->execute();
 			}
 			if ( count( $setOnlyForReadOldBatch ) ) {
 				// A separate maintenance script will delete these entries just

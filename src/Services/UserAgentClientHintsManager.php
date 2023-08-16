@@ -92,12 +92,12 @@ class UserAgentClientHintsManager {
 		$rows = $this->excludeExistingClientHintData( $rows, $usePrimary );
 
 		if ( count( $rows ) ) {
-			$this->dbw->insert(
-				'cu_useragent_clienthints',
-				$rows,
-				__METHOD__,
-				[ 'IGNORE' ]
-			);
+			$this->dbw->newInsertQueryBuilder()
+				->insert( 'cu_useragent_clienthints' )
+				->ignore()
+				->rows( $rows )
+				->caller( __METHOD__ )
+				->execute();
 			// We just inserted rows to cu_useragent_clienthints, so
 			// use the primary DB for subsequent SELECT queries.
 			$usePrimary = true;
@@ -164,11 +164,11 @@ class UserAgentClientHintsManager {
 			];
 
 		}
-		$this->dbw->insert(
-			'cu_useragent_clienthints_map',
-			$mapRows,
-			__METHOD__
-		);
+		$this->dbw->newInsertQueryBuilder()
+			->insert( 'cu_useragent_clienthints_map' )
+			->rows( $mapRows )
+			->caller( __METHOD__ )
+			->execute();
 		return StatusValue::newGood();
 	}
 
