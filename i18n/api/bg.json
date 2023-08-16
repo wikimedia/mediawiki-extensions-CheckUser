@@ -6,7 +6,7 @@
 		]
 	},
 	"apihelp-query+checkuser-summary": "Проверява кои IP-адреси използват дадено потребителско име или кои потребителски имена използват даден IP-адрес.",
-	"apihelp-query+checkuser-param-request": "Тип на заявка с CheckUser:\n;userips: Връща IP-адреса на целеви потребител.\n;edits: Връща промените от целевия IP-адрес или диапазон.\n;ipusers: Връща потребителите от целевия IP-адрес или диапазон.",
+	"apihelp-query+checkuser-param-request": "Тип на заявка с CheckUser:",
 	"apihelp-query+checkuser-param-target": "Потребителско име, IP-адрес или CIDR-диапазон за проверка.",
 	"apihelp-query+checkuser-param-reason": "Причина за проверката.",
 	"apihelp-query+checkuser-param-limit": "Ограничение на редовете.",
@@ -26,5 +26,5 @@
 	"apierror-checkuser-missingsummary": "Трябва да укажете причина за проверка.",
 	"apierror-checkuser-timelimit": "Трябва да използвате правилно ограничение по врене (напр. „-2 weeks“ или „2 weeks ago“).",
 	"apierror-checkuser-invalidmode": "Невалиден режим на заявката",
-	"checkuser-api-help-param-direction": "В каква посока да се изброяват:\n;newer:Първо на най-старите. Забележка: $1from трябва да е преди $1to.\n;older:Първо на най-новите (по подразбиране). Забележка: $1from трябва да е по-късна от $1to."
+	"checkuser-api-help-param-direction": "В каква посока да се изброяват:"
 }
