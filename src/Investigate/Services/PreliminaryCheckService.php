@@ -167,6 +167,12 @@ class PreliminaryCheckService {
 	protected function getAdditionalLocalData( $row, string $wikiId ): array {
 		$dbr = $this->getLocalDb( $wikiId );
 
+		if ( $wikiId === $this->localWikiId ) {
+			$userIdentity = new UserIdentityValue( (int)$row->user_id, $row->user_name );
+		} else {
+			$userIdentity = new UserIdentityValue( (int)$row->user_id, $row->user_name, $wikiId );
+		}
+
 		return [
 			'id' => $row->user_id,
 			'name' => $row->user_name,
@@ -175,9 +181,7 @@ class PreliminaryCheckService {
 			'blocked' => $this->isUserBlocked( $row->user_id, $dbr ),
 			'groups' => $this->userGroupManagerFactory
 				->getUserGroupManager( $wikiId )
-				->getUserGroups(
-					new UserIdentityValue( (int)$row->user_id, $row->user_name, $wikiId )
-				),
+				->getUserGroups( $userIdentity ),
 			'wiki' => $wikiId,
 		];
 	}
