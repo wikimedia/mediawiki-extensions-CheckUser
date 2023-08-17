@@ -159,7 +159,7 @@
 	"logentry-checkuser-private-event-login-success": "{{GENDER:$2|Inició}} sesión correctamente en {{SITENAME}} como $4",
 	"logentry-checkuser-private-event-login-failure": "{{GENDER:$2|Error}} al tratar de iniciar sesión en {{SITENAME}} como $4",
 	"logentry-checkuser-private-event-login-failure-with-good-password": "{{GENDER:$2|Error}} al tratar de iniciar sesión en {{SITENAME}} como «$4» aunque la contraseña era correcta",
-	"logentry-checkuser-private-event-user-logout": "{{GENDER:$1|Finalizó}} la sesión correctamente usando la API o {{#special:logout}}",
+	"logentry-checkuser-private-event-user-logout": "{{GENDER:$2|Finalizó}} la sesión correctamente usando la API o {{#special:logout}}",
 	"logentry-checkuser-private-event-password-reset-email-sent": "{{GENDER:$2|envió}} un correo electrónico de restablecimiento de contraseña {{GENDER:$5|al usuario|a la usuaria}} «$4»",
 	"logentry-checkuser-private-event-email-sent": "{{GENDER:$2|envió}} un correo electrónico {{GENDER:$4|al usuario|a la usuaria}} «$4»",
 	"logentry-checkuser-private-event-autocreate-account": "fue creada automáticamente",
