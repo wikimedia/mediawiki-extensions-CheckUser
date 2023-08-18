@@ -2,10 +2,11 @@
 	"@metadata": {
 		"authors": [
 			"Sagan",
+			"З. ӘЙЛЕ",
 			"Ләйсән"
 		]
 	},
-	"apihelp-query+checkuser-param-request": "Чекюзерға һорау ебәреү тибы:\n;userips:Ҡулланыусының IP-адресын алырға .\n; edits:IP-адресынан йәки диапазонынан алынған үҙгәртеүҙәр турыһында мәғлүмәт аларға.\n;ipusers: IP-адресындаға йәки диапозонындағы ҡулланыусыларҙы белергә.",
+	"apihelp-query+checkuser-param-request": "Чекюзерға һорау төрө:",
 	"apihelp-query+checkuser-param-target": "Ҡатнашыу IP-адрес йәки CIDR-диапазоны тикшереү өсөн.",
 	"apihelp-query+checkuser-param-reason": "Тикшереү сәбәбе.",
 	"apihelp-query+checkuser-param-limit": "Юл һанын сикләү.",
