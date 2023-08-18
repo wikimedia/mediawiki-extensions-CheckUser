@@ -3,7 +3,8 @@
 	"version": "2.5",
 	"author": [
 		"Tim Starling",
-		"Aaron Schulz"
+		"Aaron Schulz",
+		"Dreamy Jazz"
 	],
 	"url": "https://www.mediawiki.org/wiki/Extension:CheckUser",
 	"descriptionmsg": "checkuser-desc",
