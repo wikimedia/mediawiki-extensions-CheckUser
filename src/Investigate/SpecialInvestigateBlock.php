@@ -3,7 +3,6 @@
 namespace MediaWiki\CheckUser\Investigate;
 
 use ApiMain;
-use DerivativeRequest;
 use Exception;
 use FormSpecialPage;
 use Linker;
@@ -11,6 +10,7 @@ use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\Block\BlockUserFactory;
 use MediaWiki\CheckUser\Investigate\Utilities\EventLogger;
 use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\Request\DerivativeRequest;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserNameUtils;
 use PermissionsError;
