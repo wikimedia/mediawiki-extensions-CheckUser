@@ -273,7 +273,11 @@ class Hooks implements
 		// Attempting to insert too long text will cause an error in MariaDB/MySQL strict mode
 		$row['cule_xff'] = $contLang->truncateForDatabase( $row['cule_xff'], self::TEXT_FIELD_LENGTH );
 
-		$dbw->insert( 'cu_log_event', $row, $method );
+		$dbw->newInsertQueryBuilder()
+			->insert( 'cu_log_event' )
+			->row( $row )
+			->caller( $method )
+			->execute();
 	}
 
 	/**
@@ -353,7 +357,11 @@ class Hooks implements
 		// Remove any defined cupe_comment as this is not a valid column name.
 		unset( $row['cupe_comment'] );
 
-		$dbw->insert( 'cu_private_event', $row, $method );
+		$dbw->newInsertQueryBuilder()
+			->insert( 'cu_private_event' )
+			->row( $row )
+			->caller( $method )
+			->execute();
 	}
 
 	/**
@@ -439,7 +447,11 @@ class Hooks implements
 		}
 		unset( $row['cuc_comment'] );
 
-		$dbw->insert( 'cu_changes', $row, $method );
+		$dbw->newInsertQueryBuilder()
+			->insert( 'cu_changes' )
+			->row( $row )
+			->caller( $method )
+			->execute();
 	}
 
 	/**

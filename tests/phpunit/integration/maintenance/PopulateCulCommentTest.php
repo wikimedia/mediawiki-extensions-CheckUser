@@ -40,16 +40,19 @@ class PopulateCulCommentTest extends MaintenanceBaseTestCase {
 		}
 		$testTarget = $this->getTestUser()->getUserIdentity();
 		// Create a test cu_log entry with a cul_reason value.
-		$this->db->insert( 'cu_log', [
-			'cul_timestamp' => $this->db->timestamp( ConvertibleTimestamp::time() ),
-			'cul_actor' => $this->getTestSysop()->getUser()->getActorId(),
-			'cul_type' => 'user',
-			'cul_target_id' => $testTarget->getId(),
-			'cul_target_text' => $testTarget->getName(),
-			'cul_reason' => $reason,
-			'cul_reason_id' => 0,
-			'cul_reason_plaintext_id' => 0
-		] );
+		$this->db->newInsertQueryBuilder()
+			->insert( 'cu_log' )
+			->row( [
+				'cul_timestamp' => $this->db->timestamp( ConvertibleTimestamp::time() ),
+				'cul_actor' => $this->getTestSysop()->getUser()->getActorId(),
+				'cul_type' => 'user',
+				'cul_target_id' => $testTarget->getId(),
+				'cul_target_text' => $testTarget->getName(),
+				'cul_reason' => $reason,
+				'cul_reason_id' => 0,
+				'cul_reason_plaintext_id' => 0
+			] )
+			->execute();
 		// Run the maintenance script
 		$this->createMaintenance()->doDBUpdates();
 		// Check that cul_reason is correct

@@ -198,7 +198,10 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 		];
 
 		foreach ( $testData as $row ) {
-			$this->db->insert( 'cu_changes', $row + $commonData );
+			$this->db->newInsertQueryBuilder()
+				->insert( 'cu_changes' )
+				->row( $row + $commonData )
+				->execute();
 		}
 
 		$this->tablesUsed[] = 'cu_changes';

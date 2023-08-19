@@ -165,13 +165,25 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 				}
 			}
 			if ( count( $cuChangesBatch ) ) {
-				$db->insert( 'cu_changes', $cuChangesBatch, __METHOD__ );
+				$db->newInsertQueryBuilder()
+					->insert( 'cu_changes' )
+					->rows( $cuChangesBatch )
+					->caller( __METHOD__ )
+					->execute();
 			}
 			if ( count( $cuPrivateEventBatch ) ) {
-				$db->insert( 'cu_private_event', $cuPrivateEventBatch, __METHOD__ );
+				$db->newInsertQueryBuilder()
+					->insert( 'cu_private_event' )
+					->rows( $cuPrivateEventBatch )
+					->caller( __METHOD__ )
+					->execute();
 			}
 			if ( count( $cuLogEventBatch ) ) {
-				$db->insert( 'cu_log_event', $cuLogEventBatch, __METHOD__ );
+				$db->newInsertQueryBuilder()
+					->insert( 'cu_log_event' )
+					->rows( $cuLogEventBatch )
+					->caller( __METHOD__ )
+					->execute();
 			}
 			$blockStart += $this->mBatchSize - 1;
 			$blockEnd += $this->mBatchSize - 1;

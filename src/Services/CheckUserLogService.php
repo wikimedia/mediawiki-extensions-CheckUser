@@ -98,13 +98,15 @@ class CheckUserLogService {
 				try {
 					$data += $commentStore->insert( $dbw, 'cul_reason', $reason );
 					$data += $commentStore->insert( $dbw, 'cul_reason_plaintext', $plaintextReason );
-					$dbw->insert(
-						'cu_log',
-						[
-							'cul_timestamp' => $dbw->timestamp( $timestamp )
-						] + $data,
-						$fname
-					);
+					$dbw->newInsertQueryBuilder()
+						->insert( 'cu_log' )
+						->row(
+							[
+								'cul_timestamp' => $dbw->timestamp( $timestamp )
+							] + $data
+						)
+						->caller( $fname )
+						->execute();
 				} catch ( DBError $e ) {
 					$logger->critical(
 						'CheckUserLog entry was not recorded. This means checks can occur without being auditable. ' .
