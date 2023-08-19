@@ -197,7 +197,6 @@
 				"RevisionStore",
 				"UserAgentClientHintsManager"
 			]
-
 		}
 	],
 	"HookHandlers": {
@@ -263,7 +262,10 @@
 		"AuthManagerLoginAuthenticateAudit": "Hooks",
 		"UserLogoutComplete": "Hooks",
 		"SpecialPage_initList": "SpecialPageInitList",
-		"BeforePageDisplay": [ "clienthints", "pageDisplay" ],
+		"BeforePageDisplay": [
+			"clienthints",
+			"pageDisplay"
+		],
 		"GetPreferences": "preferences",
 		"SaveUserOptions": "preferences",
 		"SpecialPageBeforeExecute": "clienthints",
