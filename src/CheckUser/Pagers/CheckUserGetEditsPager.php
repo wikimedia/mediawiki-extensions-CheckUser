@@ -23,6 +23,7 @@ use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\SpecialPageFactory;
+use MediaWiki\Title\Title;
 use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserGroupManager;
@@ -32,7 +33,6 @@ use MediaWiki\User\UserIdentityValue;
 use Psr\Log\LoggerInterface;
 use SpecialPage;
 use stdClass;
-use Title;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\ILoadBalancer;
 
