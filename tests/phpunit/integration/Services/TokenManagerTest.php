@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use Firebase\JWT\JWT;
 use MediaWiki\CheckUser\Services\TokenManager;
+use MediaWiki\Request\FauxRequest;
 use MediaWiki\Session\SessionManager;
 use MediaWikiIntegrationTestCase;
 use MWTimestamp;
@@ -33,7 +34,7 @@ class TokenManagerTest extends MediaWikiIntegrationTestCase {
 	public function testEncodeDecode() {
 		$tokenManager = new TokenManager( 'abcdef' );
 		$targets = [ 'Example', '10.0.0.0/8' ];
-		$request = new \FauxRequest( [], false, [
+		$request = new FauxRequest( [], false, [
 			'CheckUserTokenKey' => base64_encode( 'test' ),
 		] );
 

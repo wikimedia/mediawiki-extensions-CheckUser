@@ -2,9 +2,9 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
-use FauxRequest;
 use MediaWiki\CheckUser\Services\TokenManager;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
+use MediaWiki\Request\FauxRequest;
 use MediaWikiIntegrationTestCase;
 
 /**
