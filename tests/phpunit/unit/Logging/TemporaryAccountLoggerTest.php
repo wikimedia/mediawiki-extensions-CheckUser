@@ -5,11 +5,11 @@ namespace MediaWiki\CheckUser\Tests\Unit\Logging;
 use Generator;
 use ManualLogEntry;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
+use MediaWiki\Title\Title;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiUnitTestCase;
 use Psr\Log\LoggerInterface;
-use Title;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 

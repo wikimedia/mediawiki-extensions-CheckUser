@@ -6,11 +6,11 @@ use Config;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
+use MediaWiki\Title\Title;
 use MediaWikiUnitTestCase;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use ReflectionClass;
 use Status;
-use Title;
 use Wikimedia\TestingAccessWrapper;
 
 /**

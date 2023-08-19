@@ -4,11 +4,11 @@ namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
 use MediaWiki\CheckUser\HookHandler\ToolLinksHandler;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\Title\Title;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use RequestContext;
 use SpecialPage;
-use Title;
 
 /**
  * @group CheckUser

@@ -3,10 +3,10 @@
 namespace MediaWiki\CheckUser\Logging;
 
 use ManualLogEntry;
+use MediaWiki\Title\Title;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserIdentity;
 use Psr\Log\LoggerInterface;
-use Title;
 use Wikimedia\Assert\Assert;
 use Wikimedia\Assert\ParameterAssertionException;
 use Wikimedia\Rdbms\DBError;
