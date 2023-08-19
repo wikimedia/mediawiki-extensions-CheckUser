@@ -2,13 +2,13 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit;
 
-use IDatabase;
 use InvalidArgumentException;
 use MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilder;
 use MediaWiki\CheckUser\Services\CheckUserUnionSelectQueryBuilderFactory;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWikiUnitTestCase;
 use Wikimedia\Rdbms\DatabasePostgres;
+use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\TestingAccessWrapper;
 

@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests;
 
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\User\UserIdentityValue;
+use Wikimedia\Rdbms\FakeResultWrapper;
 
 /**
  * Test class for CheckUserGetEditsPager class
@@ -34,7 +35,7 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 	/** @dataProvider provideIsNavigationBarShown */
 	public function testIsNavigationBarShown( $results, $shown ) {
 		$object = $this->setUpObject();
-		$object->mResult = new \FakeResultWrapper( $results );
+		$object->mResult = new FakeResultWrapper( $results );
 		$object->mQueryDone = true;
 		if ( $shown ) {
 			$this->assertTrue(

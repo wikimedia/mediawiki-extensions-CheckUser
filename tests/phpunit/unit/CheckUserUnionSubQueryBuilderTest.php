@@ -2,9 +2,9 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit;
 
-use IDatabase;
 use MediaWiki\CheckUser\CheckUserUnionSubQueryBuilder;
 use MediaWikiUnitTestCase;
+use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\TestingAccessWrapper;
 
 /**
