@@ -2,10 +2,10 @@
 
 namespace MediaWiki\CheckUser\Investigate\Services;
 
-use IDatabase;
 use LogicException;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\UserIdentityLookup;
+use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\ILoadBalancer;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Rdbms\Subquery;

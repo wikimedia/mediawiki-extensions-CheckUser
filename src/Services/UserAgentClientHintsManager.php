@@ -2,13 +2,13 @@
 
 namespace MediaWiki\CheckUser\Services;
 
-use IDatabase;
 use LogicException;
 use MediaWiki\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use Psr\Log\LoggerInterface;
 use StatusValue;
 use Wikimedia\Rdbms\IConnectionProvider;
+use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\IReadableDatabase;
 
 /**

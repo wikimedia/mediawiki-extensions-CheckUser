@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit\Services;
 
-use IDatabase;
 use LogicException;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
@@ -13,6 +12,7 @@ use MediaWikiUnitTestCase;
 use Status;
 use Wikimedia\Rdbms\DeleteQueryBuilder;
 use Wikimedia\Rdbms\IConnectionProvider;
+use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\TestingAccessWrapper;

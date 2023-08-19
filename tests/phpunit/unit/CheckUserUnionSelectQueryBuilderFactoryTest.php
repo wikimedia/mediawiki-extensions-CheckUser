@@ -2,11 +2,11 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit\Services;
 
-use IDatabase;
 use MediaWiki\CheckUser\CheckUserUnionSelectQueryBuilder;
 use MediaWiki\CheckUser\Services\CheckUserUnionSelectQueryBuilderFactory;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWikiUnitTestCase;
+use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\TestingAccessWrapper;
 
 /**
