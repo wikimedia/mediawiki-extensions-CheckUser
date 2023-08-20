@@ -2,7 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests;
 
-use TemplateParser;
+use MediaWiki\Html\TemplateParser;
 
 class TemplateParserMockTest extends TemplateParser {
 
