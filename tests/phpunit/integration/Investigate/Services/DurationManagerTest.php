@@ -2,8 +2,8 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration;
 
-use FauxRequest;
 use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
+use MediaWiki\Request\FauxRequest;
 use MediaWikiIntegrationTestCase;
 use MWTimestamp;
 
