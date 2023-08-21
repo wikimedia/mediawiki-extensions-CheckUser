@@ -17,7 +17,7 @@
 	"checkuser": "Ҡулланыусыны тикшер",
 	"checkuserlog": "Ҡулланыусыларҙы тикшереү журналы",
 	"checkuser-contribs": "Ҡулланыусынын IP адресын тикшерергә",
-	"checkuser-contribs-log": "Ҡатнашыусыны тикшереүҙәр",
+	"checkuser-contribs-log": "Ҡатнашыусының тикшереүҙәре",
 	"group-checkuser": "Ҡулланыусыларҙы тикшереүселәр",
 	"group-checkuser-member": "Ҡулланыусыларҙы тикшереүсе",
 	"right-checkuser": "Ҡулланыусыларҙың IP адрестарын һәм башҡа мәғлүмәттәрен тикшереү",
@@ -54,7 +54,7 @@
 	"checkuser-massblock": "Һайланған ҡулланыусыларҙы бикләргә",
 	"checkuser-massblock-text": "Һайланған иҫәп яҙмалары сикләнмәгән ваҡытҡа IP адрестарҙы автоматик рәүештә бикләү һәм яңы иҫәп яҙмаһын булдырыуҙы тыйыу менән бикләнәсәк.\nIP адрестар танылмаған ҡатнашыусылар өсөн 1 айға бикләнәсәк, яңы иҫәп яҙмаһын булдырыу тыйыласаҡ.",
 	"checkuser-blockemail": "Һайланған ҡатнашыусыға электрон почта менән хат ебәреүҙе тыйырға",
-	"checkuser-blocktalk": "Һайланған ҡатнашыусыларға бикләү ваҡытында,  фекер алышыу биттәрен мөхәррирләүҙе тыйырға",
+	"checkuser-blocktalk": "Бикләнгән һайланған ҡатнашыусыларға үҙҙәренең фекер алышыу биттәрен мөхәррирләүҙе тыйырға",
 	"checkuser-blocktag": "Ҡатнашыусыларҙың битен ошоға алыштырырға:",
 	"checkuser-blocktag-talk": "Фекер алышыу биттәрен ошоға алыштырырға:",
 	"checkuser-massblock-commit": "Һайланған ҡулланыусыларҙы бикләргә",
@@ -79,6 +79,6 @@
 	"checkuser-email-action": "\"$1\" ҡатнашыусыһына электрон хат ебәргән",
 	"checkuser-reset-action": "[[User:$1|$1]]{{GENDER:$1|ҡатнашыусыһының}} серһүҙен алып ташланы",
 	"checkuser-token-fail": "Сеанс өҙөлдө. Зинһар, тағы бер тапҡыр ҡабатлап ҡарағыҙ.",
-	"logentry-checkuser-private-event-autocreate-account": "үҙенән-үҙе булдырылған",
-	"logentry-checkuser-private-event-create-account": "төҙөлдө"
+	"logentry-checkuser-private-event-autocreate-account": "автоматик рәүештә булдырылған",
+	"logentry-checkuser-private-event-create-account": "булдырылған"
 }
