@@ -239,6 +239,14 @@ class Hooks implements
 		/** @var DatabaseLogEntry $logEntry Should not be null as a valid ID must be provided */
 		$logEntry = DatabaseLogEntry::newFromId( $id, $dbw );
 
+		/** T343983 Debugging - remove before closing T343983 */
+		if ( $logEntry === null ) {
+			wfLogWarning( sprintf(
+				'Debug for T343983: Cannot find DatabaseLogEntry for %d', $id
+			) );
+		}
+		/** end of T343983 Debug $request */
+
 		$request = RequestContext::getMain()->getRequest();
 
 		$ip = $request->getIP();
