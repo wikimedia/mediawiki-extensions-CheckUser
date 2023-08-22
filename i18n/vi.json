@@ -4,7 +4,10 @@
 			"Leducthn",
 			"Minh Nguyen",
 			"Nguyễn Mạnh An",
-			"Vinhtantran"
+			"Vinhtantran",
+			"Dreamy Jazz",
+			"NguyenHung",
+			"Nguyenphutrong2"
 		]
 	},
 	"checkuser-summary": "Công cụ này sẽ quét các thay đổi gần đây để lấy ra các IP được một thành viên sử dụng hoặc hiển thị dữ liệu sửa đổi/tài khoản của một IP. Các tài khoản và sửa đổi của một IP có thể được trích ra từ tiêu đề XFF bằng cách thêm vào IP “/xff”. IPv4 (CIDR $1-32) và IPv6 (CIDR $2-128) đều được hỗ trợ. Không quá 5000 sửa đổi sẽ được trả về vì lý do hiệu suất. Hãy dùng công cụ này theo đúng quy định.",
@@ -119,7 +122,7 @@
 	"checkuser-investigate-tab-preliminary-check": "Thông tin tài khoản",
 	"checkuser-investigate-tab-compare": "Địa chỉ IP và tác nhân người dùng",
 	"checkuser-investigate-tab-timeline": "Thời biểu",
-	"checkuser-investigate-targets-label": "Tên thành viên và địa chỉ IP",
+	"checkuser-investigate-targets-label": "Tên thành viên và địa chỉ IP:",
 	"checkuser-investigate-targets-placeholder": "TênThànhViên hoặc 1.1.1.1",
 	"checkuser-investigate-duration-label": "Thời lượng",
 	"checkuser-investigate-duration-option-all": "Tất cả",
@@ -154,7 +157,7 @@
 	"checkuser-investigate-compare-table-button-contribs-label": "Đóng góp",
 	"checkuser-investigate-compare-table-button-filter-label": "Lọc ra khỏi các kết quả",
 	"checkuser-investigate-compare-table-cell-unregistered": "Vô danh",
-	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 lần sửa đổi]</b>",
+	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|lần sửa đổi/tác vụ}}]</b>",
 	"checkuser-investigate-compare-table-cell-other-edits": "<i>(~$1 bởi các người dùng)</i>",
 	"checkuser-investigate-compare-table-header-username": "Tên thành viên",
 	"checkuser-investigate-compare-table-header-activity": "Phạm vi ngày",
