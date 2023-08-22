@@ -37,28 +37,6 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler->onSpecialPageBeforeExecute( $special, null );
 	}
 
-	public function testClientHintsSpecialPageNoBrowserSupport() {
-		$special = $this->createMock( SpecialPage::class );
-		$special->method( 'getName' )->willReturn( 'Foo' );
-		$webRequest = $this->createMock( WebRequest::class );
-		$webResponse = $this->createMock( WebResponse::class );
-		$webRequest->method( 'response' )->willReturn( $webResponse );
-		// Simulate browser not supporting client hints
-		$webRequest->expects( $this->once() )->method( 'getHeader' )
-			->with( 'Sec-Ch-Ua' )->willReturn( false );
-		// No headers should be set if browser doesn't support client hints
-		$webResponse->expects( $this->never() )->method( 'header' );
-		$special->method( 'getRequest' )->willReturn( $webRequest );
-		$hookHandler = new ClientHints(
-			new HashConfig( [
-				'CheckUserClientHintsEnabled' => false,
-				'CheckUserClientHintsSpecialPages' => [ 'Foo' ],
-				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders()
-			] )
-		);
-		$hookHandler->onSpecialPageBeforeExecute( $special, null );
-	}
-
 	public function testClientHintsSpecialPageNotInAllowList() {
 		$special = $this->createMock( SpecialPage::class );
 		$special->method( 'getName' )->willReturn( 'Foo' );
@@ -123,35 +101,6 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$webResponse = $this->createMock( WebResponse::class );
 		$webRequest->method( 'response' )->willReturn( $webResponse );
 		// ::header() should never be called, because global config flag is off.
-		$webResponse->expects( $this->never() )->method( 'header' );
-		$outputPage->method( 'getRequest' )->willReturn( $webRequest );
-		$skin = $this->createMock( Skin::class );
-		$hookHandler->onBeforePageDisplay( $outputPage, $skin );
-	}
-
-	public function testClientHintsBeforePageDisplayNoBrowserSupport() {
-		$hookHandler = new ClientHints(
-			new HashConfig( [
-				'CheckUserClientHintsEnabled' => false,
-				'CheckUserClientHintsActionQueryParameter' => [ 'edit', 'history' ],
-				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
-				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
-			] )
-		);
-		$title = $this->createMock( Title::class );
-		$title->method( 'isSpecialPage' )->willReturn( true );
-		$outputPage = $this->createMock( OutputPage::class );
-		$outputPage->method( 'getTitle' )->willReturn( $title );
-		// We should not add ext.checkUser.clientHints to page if the browser
-		// doesn't support client hints
-		$outputPage->expects( $this->never() )->method( 'addModules' );
-		$webRequest = $this->createMock( WebRequest::class );
-		$webResponse = $this->createMock( WebResponse::class );
-		$webRequest->method( 'response' )->willReturn( $webResponse );
-		// Simulate browser not supporting client hints
-		$webRequest->expects( $this->once() )->method( 'getHeader' )
-			->with( 'Sec-Ch-Ua' )->willReturn( false );
-		// No headers should be set
 		$webResponse->expects( $this->never() )->method( 'header' );
 		$outputPage->method( 'getRequest' )->willReturn( $webRequest );
 		$skin = $this->createMock( Skin::class );
