@@ -63,6 +63,53 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 				'platform' => "Windows",
 				'platformVersion' => "15.0.0",
 			],
+			'Example Windows device using Chrome with duplicated data' => [
+				'architecture' => 'x86',
+				'bitness' => '64',
+				'brands' => [
+					[
+						"brand" => "Not.A/Brand",
+						"version" => "8"
+					],
+					[
+						"brand" => "Chromium",
+						"version" => "114"
+					],
+					[
+						"brand" => "Chromium",
+						"version" => "114"
+					],
+					[
+						"brand" => "Google Chrome",
+						"version" => "114"
+					]
+				],
+				'formFactor' => null,
+				'fullVersionList' => [
+					[
+						"brand" => "Not.A/Brand",
+						"version" => "8.0.0.0"
+					],
+					[
+						"brand" => "Chromium",
+						"version" => "114.0.5735.199"
+					],
+					[
+						"brand" => "Google Chrome",
+						"version" => "114.0.5735.199"
+					],
+					[
+						"brand" => "Google Chrome",
+						"version" => "114.0.5735.199"
+					]
+				],
+				'mobile' => false,
+				'model' => "",
+				'platform' => "Windows",
+				'platformVersion' => "15.0.0",
+				'userAgent' => null,
+				'woW64' => null,
+			],
 		];
 	}
 
@@ -127,6 +174,56 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'woW64' => null,
 				]
 			],
+			'Example Windows device using Chrome with duplicated data' => [
+				$exampleJsApiData['Example Windows device using Chrome with duplicated data'],
+				[
+					'architecture' => 'x86',
+					'bitness' => '64',
+					'brands' => [
+						[
+							"brand" => "Not.A/Brand",
+							"version" => "8"
+						],
+						[
+							"brand" => "Chromium",
+							"version" => "114"
+						],
+						[
+							"brand" => "Chromium",
+							"version" => "114"
+						],
+						[
+							"brand" => "Google Chrome",
+							"version" => "114"
+						]
+					],
+					'formFactor' => null,
+					'fullVersionList' => [
+						[
+							"brand" => "Not.A/Brand",
+							"version" => "8.0.0.0"
+						],
+						[
+							"brand" => "Chromium",
+							"version" => "114.0.5735.199"
+						],
+						[
+							"brand" => "Google Chrome",
+							"version" => "114.0.5735.199"
+						],
+						[
+							"brand" => "Google Chrome",
+							"version" => "114.0.5735.199"
+						]
+					],
+					'mobile' => false,
+					'model' => "",
+					'platform' => "Windows",
+					'platformVersion' => "15.0.0",
+					'userAgent' => null,
+					'woW64' => null,
+				]
+			],
 		];
 	}
 
@@ -151,6 +248,22 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 			],
 			'Example Windows device using Chrome' => [
 				$exampleJsApiData['Example Windows device using Chrome'],
+				[
+					[ 'uach_name' => 'architecture', 'uach_value' => 'x86' ],
+					[ 'uach_name' => 'bitness', 'uach_value' => '64' ],
+					[ 'uach_name' => 'brands', 'uach_value' => 'Not.A/Brand 8' ],
+					[ 'uach_name' => 'brands', 'uach_value' => 'Chromium 114' ],
+					[ 'uach_name' => 'brands', 'uach_value' => 'Google Chrome 114' ],
+					[ 'uach_name' => 'fullVersionList', 'uach_value' => 'Not.A/Brand 8.0.0.0' ],
+					[ 'uach_name' => 'fullVersionList', 'uach_value' => 'Chromium 114.0.5735.199' ],
+					[ 'uach_name' => 'fullVersionList', 'uach_value' => 'Google Chrome 114.0.5735.199' ],
+					[ 'uach_name' => 'mobile', 'uach_value' => '0' ],
+					[ 'uach_name' => 'platform', 'uach_value' => "Windows" ],
+					[ 'uach_name' => 'platformVersion', 'uach_value' => "15.0.0" ],
+				]
+			],
+			'Example Windows device using Chrome with duplicated data' => [
+				$exampleJsApiData['Example Windows device using Chrome with duplicated data'],
 				[
 					[ 'uach_name' => 'architecture', 'uach_value' => 'x86' ],
 					[ 'uach_name' => 'bitness', 'uach_value' => '64' ],

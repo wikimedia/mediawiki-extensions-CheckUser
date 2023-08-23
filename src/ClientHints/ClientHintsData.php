@@ -121,10 +121,18 @@ class ClientHintsData implements JsonSerializable {
 				//    "version": "8"
 				//  ],
 				// We transform these by joining brand/version with a space, e.g. "Not.A/Brand 8"
+				//
+				// First remove any duplicates
+				$itemsAsString = [];
 				foreach ( $value as $item ) {
+					$itemsAsString[] = implode( ' ', $item );
+				}
+				$itemsAsString = array_unique( $itemsAsString );
+				// Now convert to DB rows
+				foreach ( $itemsAsString as $item ) {
 					$rows[] = [
 						'uach_name' => $key,
-						'uach_value' => implode( ' ', $item )
+						'uach_value' => $item
 					];
 				}
 			}
