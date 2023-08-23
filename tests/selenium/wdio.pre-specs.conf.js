@@ -8,5 +8,7 @@ exports.config = { ...config,
 	//
 	// Example:
 	// logLevel: 'info',
-	maxInstances: 4
+	specs: [
+		'./tests/selenium/pre-specs/**/*.js'
+	]
 };
