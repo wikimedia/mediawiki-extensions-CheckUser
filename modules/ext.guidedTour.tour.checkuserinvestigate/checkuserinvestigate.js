@@ -11,8 +11,6 @@
 	}
 
 	var canBlock = mw.config.get( 'wgCheckUserInvestigateCanBlock' );
-	var canCopy = mw.config.get( 'wgVisualEditorConfig' ) &&
-		mw.config.get( 'wgVisualEditorConfig' ).fullRestbaseUrl;
 
 	var tour = new gt.TourBuilder( {
 		name: 'checkuserinvestigate',
@@ -87,7 +85,7 @@
 				action: 'back'
 			},
 			{
-				action: ( canCopy || canBlock ) ? 'next' : 'end'
+				action: 'next'
 			}
 		]
 	} )
@@ -107,7 +105,7 @@
 				action: 'back'
 			},
 			{
-				action: canCopy ? 'next' : 'end'
+				action: 'next'
 			}
 		]
 	} )
