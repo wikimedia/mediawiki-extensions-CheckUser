@@ -72,6 +72,16 @@ class UserAgentClientHintsManager {
 	public function insertClientHintValues(
 		ClientHintsData $clientHintsData, int $referenceId, string $type, bool $usePrimary = false
 	): StatusValue {
+		// Check if there are rows to insert to the map table.
+		$rows = $clientHintsData->toDatabaseRows();
+		if ( !count( $rows ) ) {
+			// Nothing to insert, so return early.
+			// Having nothing to insert isn't considered "bad", so return a new good
+			// For example, a browser could choose to provide no Client Hints data but
+			// still send an empty API request.
+			return StatusValue::newGood();
+		}
+
 		// Check for existing entry.
 		$existingRecord = $this->dbr->newSelectQueryBuilder()
 			->table( 'cu_useragent_clienthints_map' )
@@ -88,7 +98,6 @@ class UserAgentClientHintsManager {
 			);
 		}
 
-		$rows = $clientHintsData->toDatabaseRows();
 		$rows = $this->excludeExistingClientHintData( $rows, $usePrimary );
 
 		if ( count( $rows ) ) {

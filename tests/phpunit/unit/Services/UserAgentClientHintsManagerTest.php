@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Tests\Unit\Services;
 
 use LogicException;
+use MediaWiki\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
@@ -124,6 +125,21 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 			],
 			$errors[0]['params'][0],
 			'Fatal error message parameters not as expected.'
+		);
+	}
+
+	public function testReturnsEarlyOnNoDataToInsert() {
+		// Mock replica DB
+		$dbrMock = $this->createMock( IReadableDatabase::class );
+		// Mock primary DB
+		$dbwMock = $this->createMock( IDatabase::class );
+		$objectToTest = $this->getObjectUnderTest( $dbwMock, $dbrMock );
+		$status = $objectToTest->insertClientHintValues(
+			ClientHintsData::newFromJsApi( [] ), 1, 'revision'
+		);
+		$this->assertStatusGood(
+			$status,
+			'Status should be good if no Client Hints data is present in the ClientHintsData object.'
 		);
 	}
 
