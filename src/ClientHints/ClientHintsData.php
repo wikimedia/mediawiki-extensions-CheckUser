@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\ClientHints;
 
 use JsonSerializable;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\Logger\LoggerFactory;
 
 /**
  * Value object for modeling user agent client hints data.
@@ -128,6 +129,18 @@ class ClientHintsData implements JsonSerializable {
 					$itemsAsString[] = implode( ' ', $item );
 				}
 				$itemsAsString = array_unique( $itemsAsString );
+				if ( count( $itemsAsString ) > 10 ) {
+					LoggerFactory::getInstance( 'CheckUser' )->info(
+						"ClientHintsData object has too many items in array for {key}. " .
+						"Truncated to 10 items.",
+						[ $key ]
+					);
+					// array_splice modifies the array in place, by taking the array
+					// as the first argument via reference. The return value is
+					// the elements that were "extracted", which in this case are
+					// the items to be ignored.
+					array_splice( $itemsAsString, 10 );
+				}
 				// Now convert to DB rows
 				foreach ( $itemsAsString as $item ) {
 					$rows[] = [

@@ -277,6 +277,69 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					[ 'uach_name' => 'platform', 'uach_value' => "Windows" ],
 					[ 'uach_name' => 'platformVersion', 'uach_value' => "15.0.0" ],
 				]
+			],
+			'Fake data with too many brands' => [
+				[
+					'brands' => [
+						[
+							"brand" => "Not.A/Brand",
+							"version" => "8"
+						],
+						[
+							"brand" => "Chromium",
+							"version" => "114"
+						],
+						[
+							"brand" => "Chromium1234",
+							"version" => "114"
+						],
+						[
+							"brand" => "Google Chrome",
+							"version" => "113"
+						],
+						[
+							"brand" => "Not.A/Brand",
+							"version" => "9"
+						],
+						[
+							"brand" => "Chromium",
+							"version" => "113"
+						],
+						[
+							"brand" => "A.Different.Browser",
+							"version" => "113"
+						],
+						[
+							"brand" => "Google Chrome",
+							"version" => "114"
+						],
+						[
+							"brand" => "Not.A/Brand",
+							"version" => "10"
+						],
+						[
+							"brand" => "Chromiumabc",
+							"version" => "12345"
+						],
+						[
+							"brand" => "Test.Should.not.be.added",
+							"version" => "132323"
+						],
+					],
+					'fullVersionList' => [],
+				],
+				[
+					[ 'uach_name' => 'brands', 'uach_value' => 'Not.A/Brand 8' ],
+					[ 'uach_name' => 'brands', 'uach_value' => 'Chromium 114' ],
+					[ 'uach_name' => 'brands', 'uach_value' => 'Chromium1234 114' ],
+					[ 'uach_name' => 'brands', 'uach_value' => 'Google Chrome 113' ],
+					[ 'uach_name' => 'brands', 'uach_value' => 'Not.A/Brand 9' ],
+					[ 'uach_name' => 'brands', 'uach_value' => 'Chromium 113' ],
+					[ 'uach_name' => 'brands', 'uach_value' => 'A.Different.Browser 113' ],
+					[ 'uach_name' => 'brands', 'uach_value' => 'Google Chrome 114' ],
+					[ 'uach_name' => 'brands', 'uach_value' => 'Not.A/Brand 10' ],
+					[ 'uach_name' => 'brands', 'uach_value' => 'Chromiumabc 12345' ],
+				]
 			]
 		];
 	}
