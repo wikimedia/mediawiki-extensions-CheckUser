@@ -52,6 +52,25 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 		}
 		$user = $this->getAuthority()->getUser();
 		$data = $this->getValidatedBody();
+		// $data should be an array, but can be null when validation
+		// failed and/or when the content type was form data.
+		if ( !is_array( $data ) ) {
+			// Taken from Validator::validateBody
+			[ $contentType ] = explode( ';', $this->getRequest()->getHeaderLine( 'Content-Type' ), 2 );
+			$contentType = strtolower( trim( $contentType ) );
+			if ( $contentType !== 'application/json' ) {
+				// Same exception as used in UnsupportedContentTypeBodyValidator
+				throw new LocalizedHttpException(
+					new MessageValue( 'rest-unsupported-content-type', [ $contentType ] ),
+					415
+				);
+			} else {
+				// Should be caught by JsonBodyValidator::validateBody, but if this
+				// point is reached a non-array still indicates a problem with the
+				// data submitted by the client and thus a 400 error is appropriate.
+				throw new LocalizedHttpException( new MessageValue( 'rest-bad-json-body' ), 400 );
+			}
+		}
 		$clientHints = ClientHintsData::newFromJsApi( $data );
 		$type = $this->getValidatedParams()['type'];
 		$identifier = $this->getValidatedParams()['id'];
