@@ -122,13 +122,20 @@ class ClientHintsData implements JsonSerializable {
 				//    "version": "8"
 				//  ],
 				// We transform these by joining brand/version with a space, e.g. "Not.A/Brand 8"
-				//
-				// First remove any duplicates
 				$itemsAsString = [];
 				foreach ( $value as $item ) {
-					$itemsAsString[] = implode( ' ', $item );
+					if ( is_array( $item ) ) {
+						// Convert arrays to a string by imploding
+						$itemsAsString[] = implode( ' ', $item );
+					} elseif ( is_string( $item ) || is_numeric( $item ) ) {
+						// Allow integers, floats and strings to be stored
+						// as their string representation.
+						$itemsAsString[] = strval( $item );
+					}
 				}
+				// Remove any duplicates
 				$itemsAsString = array_unique( $itemsAsString );
+				// Limit to 10 maximum items
 				if ( count( $itemsAsString ) > 10 ) {
 					LoggerFactory::getInstance( 'CheckUser' )->info(
 						"ClientHintsData object has too many items in array for {key}. " .
