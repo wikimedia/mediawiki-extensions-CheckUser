@@ -125,6 +125,8 @@ class ClientHintsData implements JsonSerializable {
 				$itemsAsString = [];
 				foreach ( $value as $item ) {
 					if ( is_array( $item ) ) {
+						// Sort to "brand" is always first and then "version".
+						ksort( $item );
 						// Convert arrays to a string by imploding
 						$itemsAsString[] = implode( ' ', $item );
 					} elseif ( is_string( $item ) || is_numeric( $item ) ) {
