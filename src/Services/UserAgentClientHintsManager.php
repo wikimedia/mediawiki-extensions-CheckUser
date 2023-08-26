@@ -154,6 +154,7 @@ class UserAgentClientHintsManager {
 
 		// TINYINT reference to cu_changes, cu_log_event or cu_private_event.
 		$idType = $this->getMapIdByType( $type );
+		$mapRows = [];
 		foreach ( $rows as $row ) {
 			$result = $db->newSelectQueryBuilder()
 				->table( 'cu_useragent_clienthints' )
@@ -161,23 +162,27 @@ class UserAgentClientHintsManager {
 				->where( $row )
 				->caller( __METHOD__ )
 				->fetchField();
-			$clientHintIds[] = (int)$result;
+			if ( $result !== false ) {
+				$mapRows[] = [
+					'uachm_uach_id' => (int)$result,
+					'uachm_reference_type' => $idType,
+					'uachm_reference_id' => $foreignId,
+				];
+			} else {
+				$this->logger->warning(
+					"Lookup failed for cu_useragent_clienthints row with name {name} and value {value}.",
+					[ $row['uach_name'], $row['uach_value'] ]
+				);
+			}
 		}
 
-		$mapRows = [];
-		foreach ( $clientHintIds as $clientHintId ) {
-			$mapRows[] = [
-				'uachm_uach_id' => $clientHintId,
-				'uachm_reference_type' => $idType,
-				'uachm_reference_id' => $foreignId,
-			];
-
+		if ( count( $mapRows ) ) {
+			$this->dbw->newInsertQueryBuilder()
+				->insert( 'cu_useragent_clienthints_map' )
+				->rows( $mapRows )
+				->caller( __METHOD__ )
+				->execute();
 		}
-		$this->dbw->newInsertQueryBuilder()
-			->insert( 'cu_useragent_clienthints_map' )
-			->rows( $mapRows )
-			->caller( __METHOD__ )
-			->execute();
 		return StatusValue::newGood();
 	}
 
