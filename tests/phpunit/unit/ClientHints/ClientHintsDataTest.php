@@ -281,6 +281,8 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 			'Fake data with too many brands' => [
 				[
 					'brands' => [
+						// 11 Brands in this list. The last brand should not be
+						// returned by ::toDatabaseRows.
 						[
 							"brand" => "Not.A/Brand",
 							"version" => "8"
@@ -340,7 +342,31 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					[ 'uach_name' => 'brands', 'uach_value' => 'Not.A/Brand 10' ],
 					[ 'uach_name' => 'brands', 'uach_value' => 'Chromiumabc 12345' ],
 				]
-			]
+			],
+			'Non-array fullVersionList data that includes both valid and invalid types' => [
+				[
+					'fullVersionList' => [
+						// Strings should be stored.
+						'test',
+						// Integers and floats should be stored
+						1,
+						1.1,
+						// Checks de-duplication occurs after string conversion.
+						'1.1',
+						// False and null should be ignored.
+						false,
+						null,
+						// Key should be ignored and string value should be saved
+						'testkey' => 'testvalue',
+					],
+				],
+				[
+					[ 'uach_name' => 'fullVersionList', 'uach_value' => 'test' ],
+					[ 'uach_name' => 'fullVersionList', 'uach_value' => '1' ],
+					[ 'uach_name' => 'fullVersionList', 'uach_value' => '1.1' ],
+					[ 'uach_name' => 'fullVersionList', 'uach_value' => 'testvalue' ],
+				]
+			],
 		];
 	}
 }
