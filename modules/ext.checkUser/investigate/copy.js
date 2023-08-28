@@ -41,7 +41,9 @@ module.exports = function addCopyFeature() {
 			copyTextLayout.toggle( true );
 		}
 
-		url = mw.config.get( 'wgVisualEditorConfig' ).fullRestbaseUrl + 'v1/transform/html/to/wikitext/';
+		// TODO: This API is deprecated with no replacement yet (T334238).
+		// Planned replacement: T310398.
+		url = mw.util.wikiScript( 'rest' ) + '/' + location.hostname + '/v3/transform/html/to/wikitext/';
 		html = getSanitizedHtml( $( '.ext-checkuser-investigate-table-compare' ) );
 
 		if ( !requested ) {

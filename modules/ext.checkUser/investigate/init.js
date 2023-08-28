@@ -9,11 +9,7 @@
 
 	setupTables();
 
-	if (
-		$( '.ext-checkuser-investigate-table-compare' ).length > 0 &&
-		mw.config.get( 'wgVisualEditorConfig' ) &&
-		mw.config.get( 'wgVisualEditorConfig' ).fullRestbaseUrl
-	) {
+	if ( $( '.ext-checkuser-investigate-table-compare' ).length > 0 ) {
 		addCopyFeature();
 	}
 
