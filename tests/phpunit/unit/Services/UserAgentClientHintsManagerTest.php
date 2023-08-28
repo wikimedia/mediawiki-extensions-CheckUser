@@ -10,10 +10,12 @@ use MediaWiki\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
 use MediaWikiUnitTestCase;
+use Psr\Log\LoggerInterface;
 use Status;
 use Wikimedia\Rdbms\DeleteQueryBuilder;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
+use Wikimedia\Rdbms\InsertQueryBuilder;
 use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\TestingAccessWrapper;
@@ -71,10 +73,10 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 		return $connectionProviderMock;
 	}
 
-	private function getObjectUnderTest( $dbwMock, $dbrMock ): UserAgentClientHintsManager {
+	private function getObjectUnderTest( $dbwMock, $dbrMock, $logger = null ): UserAgentClientHintsManager {
 		return $this->newServiceInstance( UserAgentClientHintsManager::class, [
 			'connectionProvider' => $this->getMockedConnectionProvider( $dbwMock, $dbrMock ),
-			'logger' => LoggerFactory::getInstance( 'CheckUser' ),
+			'logger' => $logger ?? LoggerFactory::getInstance( 'CheckUser' ),
 		] );
 	}
 
@@ -141,6 +143,79 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 			$status,
 			'Status should be good if no Client Hints data is present in the ClientHintsData object.'
 		);
+	}
+
+	public function testNoInsertOfMapRowsOnMissingClientHintsDataRow() {
+		// Mock replica DB
+		$dbrMock = $this->createMock( IReadableDatabase::class );
+		$dbrMock->method( 'newSelectQueryBuilder' )->willReturnCallback( fn() => new SelectQueryBuilder( $dbrMock ) );
+		$dbrMock->expects( $this->once() )
+			->method( 'selectField' )
+			->with(
+				[ 'cu_useragent_clienthints' ],
+				'uach_id',
+				[
+					'uach_name' => 'mobile',
+					'uach_value' => false
+				],
+				'MediaWiki\CheckUser\Services\UserAgentClientHintsManager::insertMappingRows',
+				[],
+				[]
+			)->willReturn( false );
+		// Mock primary DB - No writes should occur.
+		$dbwMock = $this->createMock( IDatabase::class );
+		// Mock logger
+		$logger = $this->createMock( LoggerInterface::class );
+		$logger->expects( $this->once() )
+			->method( 'warning' )
+			->with(
+				"Lookup failed for cu_useragent_clienthints row with name {name} and value {value}.",
+				[ 'mobile', false ]
+			);
+		$objectToTest = $this->getObjectUnderTest( $dbwMock, $dbrMock, $logger );
+		$objectToTest = TestingAccessWrapper::newFromObject( $objectToTest );
+		$status = $objectToTest->insertMappingRows(
+			ClientHintsData::newFromJsApi( [ 'mobile' => false ] ), 1, 'revision'
+		);
+		$this->assertStatusGood( $status );
+	}
+
+	public function testSuccessfulInsertMappingRows() {
+		// Mock replica DB
+		$dbrMock = $this->createMock( IReadableDatabase::class );
+		$dbrMock->method( 'newSelectQueryBuilder' )->willReturnCallback( fn() => new SelectQueryBuilder( $dbrMock ) );
+		$dbrMock->expects( $this->once() )
+			->method( 'selectField' )
+			->with(
+				[ 'cu_useragent_clienthints' ],
+				'uach_id',
+				[
+					'uach_name' => 'mobile',
+					'uach_value' => false
+				],
+				'MediaWiki\CheckUser\Services\UserAgentClientHintsManager::insertMappingRows',
+				[],
+				[]
+			)->willReturn( 2 );
+		// Mock primary DB
+		$dbwMock = $this->createMock( IDatabase::class );
+		$dbwMock->method( 'newInsertQueryBuilder' )->willReturnCallback( fn() => new InsertQueryBuilder( $dbwMock ) );
+		$dbwMock->expects( $this->once() )
+			->method( 'insert' )
+			->with(
+				'cu_useragent_clienthints_map',
+				[
+					[ 'uachm_uach_id' => 2, 'uachm_reference_type' => 0, 'uachm_reference_id' => 1 ]
+				],
+				'MediaWiki\CheckUser\Services\UserAgentClientHintsManager::insertMappingRows',
+				[]
+			);
+		$objectToTest = $this->getObjectUnderTest( $dbwMock, $dbrMock );
+		$objectToTest = TestingAccessWrapper::newFromObject( $objectToTest );
+		$status = $objectToTest->insertMappingRows(
+			ClientHintsData::newFromJsApi( [ 'mobile' => false ] ), 1, 'revision'
+		);
+		$this->assertStatusGood( $status );
 	}
 
 	/** @dataProvider provideDeleteMappingRows */
