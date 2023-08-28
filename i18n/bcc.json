@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Moshtank",
 			"Mostafadaneshvar",
 			"Sultanselim baloch"
 		]
@@ -24,7 +25,7 @@
 	"checkuser-check": "کنترل",
 	"checkuser-blocked": "محدود",
 	"checkuser-search": "گردگ",
-	"checkuser-search-submit": "گردگ",
+	"checkuser-search-submit": "شۏھاز",
 	"checkuser-ipeditcount": "~$1 چه کلی کابران",
 	"checkuser-showmain": "په فرم اصلی کنترل کاربر تر"
 }
