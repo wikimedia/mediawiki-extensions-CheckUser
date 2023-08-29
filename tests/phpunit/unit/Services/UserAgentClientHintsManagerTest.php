@@ -208,7 +208,7 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 					[ 'uachm_uach_id' => 2, 'uachm_reference_type' => 0, 'uachm_reference_id' => 1 ]
 				],
 				'MediaWiki\CheckUser\Services\UserAgentClientHintsManager::insertMappingRows',
-				[]
+				[ 'IGNORE' ]
 			);
 		$objectToTest = $this->getObjectUnderTest( $dbwMock, $dbrMock );
 		$objectToTest = TestingAccessWrapper::newFromObject( $objectToTest );
