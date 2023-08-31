@@ -5,8 +5,7 @@ namespace MediaWiki\CheckUser\Services;
 use WebRequest;
 
 class TokenQueryManager {
-	/** @var TokenManager */
-	public $tokenManager;
+	public TokenManager $tokenManager;
 
 	/**
 	 * @param TokenManager $tokenManager

@@ -11,26 +11,13 @@ use MediaWiki\Linker\LinkRenderer;
 use Psr\Log\LoggerInterface;
 
 class TimelinePagerFactory implements PagerFactory {
-	/** @var LinkRenderer */
-	private $linkRenderer;
-
-	/** @var CheckUserFormatRowHook */
-	private $formatRowHookRunner;
-
-	/** @var TokenQueryManager */
-	private $tokenQueryManager;
-
-	/** @var DurationManager */
-	private $durationManager;
-
-	/** @var TimelineService */
-	private $service;
-
-	/** @var TimelineRowFormatterFactory */
-	private $rowFormatterFactory;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private LinkRenderer $linkRenderer;
+	private CheckUserFormatRowHook $formatRowHookRunner;
+	private TokenQueryManager $tokenQueryManager;
+	private DurationManager $durationManager;
+	private TimelineService $service;
+	private TimelineRowFormatterFactory $rowFormatterFactory;
+	private LoggerInterface $logger;
 
 	/**
 	 * @param LinkRenderer $linkRenderer

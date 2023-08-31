@@ -13,20 +13,13 @@ use MessageLocalizer;
 use WebRequest;
 
 class CheckUserPagerNavigationBuilder extends PagerNavigationBuilder {
-	/** @var FormOptions */
-	private $opts;
+	private TokenQueryManager $tokenQueryManager;
+	private UserIdentity $target;
+	private WebRequest $request;
+	private CsrfTokenSet $csrfTokenSet;
 
-	/** @var TokenQueryManager */
-	private $tokenQueryManager;
-
-	/** @var UserIdentity */
-	private $target;
-
-	/** @var WebRequest */
-	private $request;
-
-	/** @var CsrfTokenSet */
-	private $csrfTokenSet;
+	/** @var FormOptions The submitted form data in a helper class. */
+	private FormOptions $opts;
 
 	/**
 	 * @param MessageLocalizer $messageLocalizer

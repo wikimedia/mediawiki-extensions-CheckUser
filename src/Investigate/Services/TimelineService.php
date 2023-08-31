@@ -8,8 +8,7 @@ use Wikimedia\Rdbms\Database\DbQuoter;
 use Wikimedia\Rdbms\Platform\ISQLPlatform;
 
 class TimelineService extends ChangeService {
-	/** @var CommentStore */
-	private $commentStore;
+	private CommentStore $commentStore;
 
 	/**
 	 * @param DbQuoter $dbQuoter

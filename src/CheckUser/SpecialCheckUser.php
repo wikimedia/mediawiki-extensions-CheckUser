@@ -63,71 +63,28 @@ class SpecialCheckUser extends SpecialPage {
 	 */
 	protected $opts;
 
-	/** @var LinkBatchFactory */
-	private $linkBatchFactory;
-
-	/** @var BlockPermissionCheckerFactory */
-	private $blockPermissionCheckerFactory;
-
-	/** @var BlockUserFactory */
-	private $blockUserFactory;
-
-	/** @var UserGroupManager */
-	private $userGroupManager;
-
-	/** @var CentralIdLookup */
-	private $centralIdLookup;
-
-	/** @var WikiPageFactory */
-	private $wikiPageFactory;
-
-	/** @var PermissionManager */
-	private $permissionManager;
-
-	/** @var UserIdentityLookup */
-	private $userIdentityLookup;
-
-	/** @var TokenQueryManager */
-	private $tokenQueryManager;
-
-	/** @var ILoadBalancer */
-	private $loadBalancer;
-
-	/** @var ActorMigration */
-	private $actorMigration;
-
-	/** @var UserFactory */
-	private $userFactory;
-
-	/** @var RevisionStore */
-	private $revisionStore;
-
-	/** @var CheckUserLogService */
-	private $checkUserLogService;
-
-	/** @var CommentFormatter */
-	private $commentFormatter;
-
-	/** @var UserEditTracker */
-	private $userEditTracker;
-
-	/** @var UserNamePrefixSearch */
-	private $userNamePrefixSearch;
-
-	/** @var UserNameUtils */
-	private $userNameUtils;
-
-	/** @var HookRunner */
-	private $hookRunner;
-
-	/** @var CheckUserUtilityService */
-	private $checkUserUtilityService;
-
-	/** @var CommentStore */
-	private $commentStore;
-
-	/** @var CheckUserUnionSelectQueryBuilderFactory */
-	private $checkUserUnionSelectQueryBuilderFactory;
+	private LinkBatchFactory $linkBatchFactory;
+	private BlockPermissionCheckerFactory $blockPermissionCheckerFactory;
+	private BlockUserFactory $blockUserFactory;
+	private UserGroupManager $userGroupManager;
+	private CentralIdLookup $centralIdLookup;
+	private WikiPageFactory $wikiPageFactory;
+	private PermissionManager $permissionManager;
+	private UserIdentityLookup $userIdentityLookup;
+	private TokenQueryManager $tokenQueryManager;
+	private ILoadBalancer $loadBalancer;
+	private ActorMigration $actorMigration;
+	private UserFactory $userFactory;
+	private RevisionStore $revisionStore;
+	private CheckUserLogService $checkUserLogService;
+	private CommentFormatter $commentFormatter;
+	private UserEditTracker $userEditTracker;
+	private UserNamePrefixSearch $userNamePrefixSearch;
+	private UserNameUtils $userNameUtils;
+	private HookRunner $hookRunner;
+	private CheckUserUtilityService $checkUserUtilityService;
+	private CommentStore $commentStore;
+	private CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory;
 
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory

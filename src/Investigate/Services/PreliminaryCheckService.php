@@ -13,17 +13,12 @@ use Wikimedia\Rdbms\ILBFactory;
 use Wikimedia\Rdbms\IResultWrapper;
 
 class PreliminaryCheckService {
-	/** @var ILBFactory */
-	private $lbFactory;
-
-	/** @var UserGroupManagerFactory */
-	private $userGroupManagerFactory;
+	private ILBFactory $lbFactory;
+	private UserGroupManagerFactory $userGroupManagerFactory;
+	private ExtensionRegistry $extensionRegistry;
 
 	/** @var string */
 	private $localWikiId;
-
-	/** @var ExtensionRegistry */
-	private $extensionRegistry;
 
 	/**
 	 * @param ILBFactory $lbFactory

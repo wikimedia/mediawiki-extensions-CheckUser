@@ -9,14 +9,9 @@ use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\Platform\ISQLPlatform;
 
 abstract class ChangeService {
-	/** @var DbQuoter */
-	protected $dbQuoter;
-
-	/** @var ISQLPlatform */
-	protected $sqlPlatform;
-
-	/** @var UserIdentityLookup */
-	private $userIdentityLookup;
+	protected DbQuoter $dbQuoter;
+	protected ISQLPlatform $sqlPlatform;
+	private UserIdentityLookup $userIdentityLookup;
 
 	/**
 	 * @param DbQuoter $dbQuoter

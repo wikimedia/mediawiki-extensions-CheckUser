@@ -24,23 +24,12 @@ class SpecialCheckUserLog extends SpecialPage {
 	 */
 	protected $opts;
 
-	/** @var LinkBatchFactory */
-	private $linkBatchFactory;
-
-	/** @var PermissionManager */
-	private $permissionManager;
-
-	/** @var CommentStore */
-	private $commentStore;
-
-	/** @var CommentFormatter */
-	private $commentFormatter;
-
-	/** @var CheckUserLogService */
-	private $checkUserLogService;
-
-	/** @var UserFactory */
-	private $userFactory;
+	private LinkBatchFactory $linkBatchFactory;
+	private PermissionManager $permissionManager;
+	private CommentStore $commentStore;
+	private CommentFormatter $commentFormatter;
+	private CheckUserLogService $checkUserLogService;
+	private UserFactory $userFactory;
 
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory

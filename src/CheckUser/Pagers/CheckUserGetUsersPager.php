@@ -35,8 +35,8 @@ use Wikimedia\Rdbms\IResultWrapper;
 use Xml;
 
 class CheckUserGetUsersPager extends AbstractCheckUserPager {
-	/** @var bool */
-	protected $canPerformBlocks;
+	/** @var bool Whether the user performing this check has the block right. */
+	protected bool $canPerformBlocks;
 
 	/** @var array[] */
 	protected $userSets;
@@ -50,17 +50,10 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	/** @var string[][] */
 	private $aliases;
 
-	/** @var BlockPermissionCheckerFactory */
-	private $blockPermissionCheckerFactory;
-
-	/** @var PermissionManager */
-	private $permissionManager;
-
-	/** @var UserEditTracker */
-	private $userEditTracker;
-
-	/** @var CheckUserUtilityService */
-	private $checkUserUtilityService;
+	private BlockPermissionCheckerFactory $blockPermissionCheckerFactory;
+	private PermissionManager $permissionManager;
+	private UserEditTracker $userEditTracker;
+	private CheckUserUtilityService $checkUserUtilityService;
 
 	/**
 	 * @param FormOptions $opts

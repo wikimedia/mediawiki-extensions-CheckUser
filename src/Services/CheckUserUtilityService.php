@@ -8,11 +8,9 @@ use Wikimedia\IPUtils;
 
 class CheckUserUtilityService {
 
-	/** @var ProxyLookup */
-	private $proxyLookup;
+	private ProxyLookup $proxyLookup;
 
-	/** @var bool */
-	private $usePrivateIPs;
+	private bool $usePrivateIPs;
 
 	/**
 	 * @param ProxyLookup $proxyLookup

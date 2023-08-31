@@ -6,8 +6,7 @@ use ExtensionRegistry;
 use MediaWiki\Extension\EventLogging\EventLogging;
 
 class EventLogger {
-	/** @var ExtensionRegistry */
-	private $extensionRegistry;
+	private ExtensionRegistry $extensionRegistry;
 
 	/**
 	 * @param ExtensionRegistry $extensionRegistry

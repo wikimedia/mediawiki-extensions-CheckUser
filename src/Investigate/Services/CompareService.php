@@ -11,8 +11,7 @@ use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Rdbms\Subquery;
 
 class CompareService extends ChangeService {
-	/** @var ILoadBalancer */
-	private $loadBalancer;
+	private ILoadBalancer $loadBalancer;
 
 	/**
 	 * @internal For use by ServiceWiring

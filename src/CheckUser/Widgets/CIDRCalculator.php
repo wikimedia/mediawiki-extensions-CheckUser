@@ -13,8 +13,7 @@ use OutputPage;
 
 class CIDRCalculator {
 
-	/** @var bool */
-	private $mCollapsible;
+	private bool $mCollapsible;
 
 	/**
 	 * Text to be shown as the legend for
@@ -25,14 +24,11 @@ class CIDRCalculator {
 	 */
 	private $mWrapperLegend;
 
-	/** @var array */
-	private $mWrapperAttributes;
+	private array $mWrapperAttributes;
 
-	/** @var bool */
-	private $mCollapsed;
+	private bool $mCollapsed;
 
-	/** @var OutputPage */
-	private $out;
+	private OutputPage $out;
 
 	/**
 	 * @param OutputPage $out

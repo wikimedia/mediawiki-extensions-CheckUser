@@ -17,12 +17,8 @@ use Wikimedia\ParamValidator\TypeDef\IntegerDef;
  * CheckUser API Query Module
  */
 class ApiQueryCheckUserLog extends ApiQueryBase {
-	/** @var CommentStore */
-	private $commentStore;
-
-	/** @var CheckUserLogService */
-	private $checkUserLogService;
-
+	private CommentStore $commentStore;
+	private CheckUserLogService $checkUserLogService;
 	private UserFactory $userFactory;
 
 	/**

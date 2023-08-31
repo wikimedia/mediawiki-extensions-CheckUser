@@ -40,20 +40,13 @@ use Wikimedia\Rdbms\IDatabase;
  * @ingroup Pager
  */
 class PreliminaryCheckPager extends TablePager {
-	/** @var NamespaceInfo */
-	private $namespaceInfo;
+	private NamespaceInfo $namespaceInfo;
+	private ExtensionRegistry $extensionRegistry;
+	private TokenQueryManager $tokenQueryManager;
+	private PreliminaryCheckService $preliminaryCheckService;
 
-	/** @var ExtensionRegistry */
-	private $extensionRegistry;
-
-	/** @var array */
+	/** @var array Data loaded from the token provided in the request. */
 	protected $tokenData;
-
-	/** @var TokenQueryManager */
-	private $tokenQueryManager;
-
-	/** @var PreliminaryCheckService */
-	private $preliminaryCheckService;
 
 	/** @var string[] Array of column name to translated table header message */
 	private $fieldNames;
