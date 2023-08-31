@@ -61,6 +61,8 @@
 	"checkuser-recent-checks": "Checks for this target",
 	"checkuser-log-checks-by": "checks by",
 	"checkuser-log-checks-on": "checks on",
+	"checkuser-log-link-text": "log",
+	"checkuser-logs-link-text": "logs",
 	"checkuser-blocked": "Blocked",
 	"checkuser-gblocked": "Blocked globally",
 	"checkuser-locked": "Locked",

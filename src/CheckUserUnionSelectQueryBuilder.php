@@ -12,6 +12,9 @@ use Wikimedia\Rdbms\Subquery;
 /**
  * Allows the construction of SQL queries that allow CheckUser to read from the three
  *  tables that store events (cu_changes, cu_log_event and cu_private_event).
+ *
+ * @deprecated Alternative method followed, but keeping this in until the alternative method
+ * is final. Once this happens this will be removed without notice.
  */
 class CheckUserUnionSelectQueryBuilder extends SelectQueryBuilder {
 	public const PRIVATE_LOG_EVENT_TABLE = 'cu_private_event';

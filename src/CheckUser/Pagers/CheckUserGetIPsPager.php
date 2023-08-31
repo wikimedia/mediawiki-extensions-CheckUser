@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\CheckUser\Pagers;
 use ActorMigration;
 use CentralIdLookup;
 use IContextSource;
+use InvalidArgumentException;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
@@ -142,7 +143,9 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 		}
 		// We are only using startOffset for the period feature.
 		if ( $this->startOffset ) {
-			$conds[] = $this->mDb->buildComparison( '>=', [ $this->getTimestampField() => $this->startOffset ] );
+			$conds[] = $this->mDb->buildComparison(
+				'>=', [ $this->getTimestampField( self::CHANGES_TABLE ) => $this->startOffset ]
+			);
 		}
 
 		// Get counts for this IP / IP range
@@ -176,7 +179,12 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 	}
 
 	/** @inheritDoc */
-	public function getQueryInfo(): array {
+	public function getQueryInfo( ?string $table = null ): array {
+		if ( $table !== self::CHANGES_TABLE ) {
+			throw new InvalidArgumentException(
+				"This ::getQueryInfo method has not implemented read new support."
+			);
+		}
 		return [
 			'fields' => [
 				'ip' => 'cuc_ip',
@@ -196,7 +204,28 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 	}
 
 	/** @inheritDoc */
-	public function getIndexField() {
+	protected function getQueryInfoForCuChanges(): array {
+		// No read new support yet, so return empty array to be compatible with definition
+		// in AbstractCheckUserPager
+		return [];
+	}
+
+	/** @inheritDoc */
+	protected function getQueryInfoForCuLogEvent(): array {
+		// No read new support yet, so return empty array to be compatible with definition
+		// in AbstractCheckUserPager
+		return [];
+	}
+
+	/** @inheritDoc */
+	protected function getQueryInfoForCuPrivateEvent(): array {
+		// No read new support yet, so return empty array to be compatible with definition
+		// in AbstractCheckUserPager
+		return [];
+	}
+
+	/** @inheritDoc */
+	public function getIndexField(): string {
 		return 'last';
 	}
 

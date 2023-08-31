@@ -8,6 +8,7 @@ use Exception;
 use ExtensionRegistry;
 use Html;
 use IContextSource;
+use InvalidArgumentException;
 use Linker;
 use ListToggle;
 use MediaWiki\Block\BlockPermissionCheckerFactory;
@@ -357,7 +358,12 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	}
 
 	/** @inheritDoc */
-	public function getQueryInfo(): array {
+	public function getQueryInfo( ?string $table = null ): array {
+		if ( $table !== self::CHANGES_TABLE ) {
+			throw new InvalidArgumentException(
+				"This ::getQueryInfo method has not implemented read new support."
+			);
+		}
 		$queryInfo = [
 			'fields' => [
 				'timestamp' => 'cuc_timestamp',
@@ -381,6 +387,27 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			$queryInfo['conds'] = array_merge( $queryInfo['conds'], $ipConds );
 		}
 		return $queryInfo;
+	}
+
+	/** @inheritDoc */
+	protected function getQueryInfoForCuChanges(): array {
+		// No read new support yet, so return empty array to be compatible with definition
+		// in AbstractCheckUserPager
+		return [];
+	}
+
+	/** @inheritDoc */
+	protected function getQueryInfoForCuLogEvent(): array {
+		// No read new support yet, so return empty array to be compatible with definition
+		// in AbstractCheckUserPager
+		return [];
+	}
+
+	/** @inheritDoc */
+	protected function getQueryInfoForCuPrivateEvent(): array {
+		// No read new support yet, so return empty array to be compatible with definition
+		// in AbstractCheckUserPager
+		return [];
 	}
 
 	/** @inheritDoc */

@@ -1,10 +1,14 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests;
+namespace MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers;
 
+use LogFormatter;
+use ManualLogEntry;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
+use MediaWiki\CheckUser\Tests\TemplateParserMockTest;
+use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
 use MediaWiki\User\UserIdentityValue;
-use Wikimedia\Rdbms\FakeResultWrapper;
 
 /**
  * Test class for CheckUserGetEditsPager class
@@ -32,31 +36,6 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 		$this->defaultCheckType = 'ipedits';
 	}
 
-	/** @dataProvider provideIsNavigationBarShown */
-	public function testIsNavigationBarShown( $results, $shown ) {
-		$object = $this->setUpObject();
-		$object->mResult = new FakeResultWrapper( $results );
-		$object->mQueryDone = true;
-		if ( $shown ) {
-			$this->assertTrue(
-				$object->isNavigationBarShown(),
-				'Navigation bar is not showing when it\'s supposed to'
-			);
-		} else {
-			$this->assertFalse(
-				$object->isNavigationBarShown(),
-				'Navigation bar is showing when it is not supposed to'
-			);
-		}
-	}
-
-	public static function provideIsNavigationBarShown() {
-		return [
-			[ [], false ],
-			[ [ [ 'test' ] ], true ]
-		];
-	}
-
 	/** @dataProvider providePreCacheMessages */
 	public function testPreCacheMessages( $messageKeys ) {
 		$object = $this->setUpObject();
@@ -78,7 +57,10 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 
 	public static function providePreCacheMessages() {
 		return [
-			[ [ 'diff', 'hist', 'minoreditletter', 'newpageletter', 'blocklink', 'log' ] ]
+			'All message keys to be cached' => [ [
+				'diff', 'hist', 'minoreditletter', 'newpageletter',
+				'blocklink', 'checkuser-log-link-text', 'checkuser-logs-link-text'
+			] ]
 		];
 	}
 
@@ -89,11 +71,17 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 	 *
 	 * @dataProvider provideFormatRow
 	 */
-	public function testFormatRow( $row, $flagCache, $expectedTemplateParams ) {
+	public function testFormatRow(
+		$row, $flagCache, $usernameVisibility, $formattedRevisionComments,
+		$expectedTemplateParams, $eventTablesMigrationStage
+	) {
+		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $eventTablesMigrationStage );
 		$object = $this->setUpObject();
 		$object->templateParser = new TemplateParserMockTest();
 		$row = array_merge( $this->getDefaultRowFieldValues(), $row );
 		$object->flagCache = $flagCache;
+		$object->usernameVisibility = $usernameVisibility;
+		$object->formattedRevisionComments = $formattedRevisionComments;
 		$object->formatRow( (object)$row );
 		$this->assertNotNull(
 			$object->templateParser->lastCalledWith,
@@ -121,33 +109,69 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 
 	public static function provideFormatRow() {
 		// @todo test the rest of the template parameters.
+		$deleteLogEntry = new ManualLogEntry( 'delete', 'delete' );
+		$deleteLogEntry->setPerformer( UserIdentityValue::newAnonymous( '127.0.0.1' ) );
+		$deleteLogEntry->setTarget( Title::newFromText( 'Testing page' ) );
+
 		return [
-			'Test agent' => [
-				[ 'agent' => 'Testing' ],
+			'Test user agent on log when reading old' => [
+				[ 'agent' => 'Testing', 'actiontext' => 'Test' ],
 				[ '127.0.0.1' => '' ],
-				[ 'userAgent' => 'Testing' ]
+				[ 0 => true ],
+				[],
+				[ 'userAgent' => 'Testing', 'actionText' => 'Test' ],
+				SCHEMA_COMPAT_OLD
 			],
-			'Test user link class' => [
+			'Test user agent on log from cu_changes when reading new' => [
+				[ 'agent' => 'Testing', 'actiontext' => 'Test' ],
+				[ '127.0.0.1' => '' ],
+				[ 0 => true ],
+				[],
+				[ 'userAgent' => 'Testing', 'actionText' => 'Test' ],
+				SCHEMA_COMPAT_NEW
+			],
+			'Test non-existent user has appropriate CSS class when reading old' => [
 				[ 'user' => 0, 'user_text' => 'Non existent user 1234' ],
 				[ 'Non existent user 1234' => '' ],
-				[ 'userLinkClass' => 'mw-checkuser-nonexistent-user' ]
+				[ 0 => true ],
+				[],
+				[ 'userLinkClass' => 'mw-checkuser-nonexistent-user' ],
+				SCHEMA_COMPAT_OLD
+			],
+			'Testing using a user that is hidden who made an edit and reading new' => [
+				[ 'user' => 10, 'user_text' => 'User1234', 'type' => RC_EDIT ],
+				[],
+				[ 0 => false ],
+				[ 0 => 'Test' ],
+				[ 'comment' => 'Test' ],
+				SCHEMA_COMPAT_NEW
+			],
+			'Log not from cu_changes when reading new' => [
+				[
+					'log_type' => $deleteLogEntry->getType(),
+					'log_action' => $deleteLogEntry->getSubtype(),
+					'title' => $deleteLogEntry->getTarget()->getText(),
+					'user_text' => $deleteLogEntry->getPerformerIdentity()->getName(),
+					'user' => $deleteLogEntry->getPerformerIdentity()->getId(),
+				],
+				[ $deleteLogEntry->getPerformerIdentity()->getName() => '' ],
+				[ $deleteLogEntry->getPerformerIdentity()->getId() => true ],
+				[],
+				[ 'actionText' => LogFormatter::newFromEntry( $deleteLogEntry )->getActionText() ],
+				SCHEMA_COMPAT_NEW
 			],
 		];
 	}
 
 	/** @inheritDoc */
 	public function getDefaultRowFieldValues(): array {
-		return [
+		$fieldValues = [
 			'namespace' => 0,
 			'title' => '',
 			'user' => 0,
 			'user_text' => '127.0.0.1',
 			'actor' => 0,
 			'actiontext' => '',
-			'cuc_comment_id' => 0,
-			'cuc_comment_text' => '',
-			'cuc_comment_data' => null,
-			'cuc_comment_cid' => 0,
 			'minor' => 0,
 			'page_id' => 0,
 			'this_oldid' => 0,
@@ -157,6 +181,25 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 			'ip' => '127.0.0.1',
 			'xff' => '',
 			'agent' => '',
+			'comment_id' => 0,
+			'comment_text' => '',
+			'comment_data' => null,
+			'comment_cid' => 0,
 		];
+		$eventTableMigrationStage = MediaWikiServices::getInstance()->getMainConfig()
+			->get( 'CheckUserEventTablesMigrationStage' );
+		if ( $eventTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
+			$fieldValues = array_merge( $fieldValues, [
+				'comment_id' => 0,
+				'comment_text' => '',
+				'comment_data' => null,
+				'comment_cid' => 0,
+				'log_id' => 0,
+				'log_type' => '',
+				'log_action' => '',
+				'log_params' => null,
+			] );
+		}
+		return $fieldValues;
 	}
 }

@@ -8,10 +8,12 @@ use ExtensionRegistry;
 use Html;
 use HtmlArmor;
 use IContextSource;
+use LogicException;
 use MediaWiki\Block\AbstractBlock;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\CheckUser\CheckUserPagerNavigationBuilder;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
+use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\Services\CheckUserUnionSelectQueryBuilderFactory;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
@@ -33,11 +35,13 @@ use SpecialPage;
 use TitleValue;
 use UserGroupMembership;
 use Wikimedia\IPUtils;
+use Wikimedia\Rdbms\Database\DbQuoter;
+use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\ILoadBalancer;
-use Wikimedia\Rdbms\IReadableDatabase;
+use Wikimedia\Rdbms\IResultWrapper;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 
-abstract class AbstractCheckUserPager extends RangeChronologicalPager {
+abstract class AbstractCheckUserPager extends RangeChronologicalPager implements CheckUserQueryInterface {
 
 	/**
 	 * Form fields that when paging should be set and managed
@@ -71,6 +75,9 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	protected FormOptions $opts;
 
 	protected UserIdentity $target;
+
+	/** @var bool Should Special:CheckUser read from the new event tables. */
+	protected bool $eventTableReadNew;
 
 	/**
 	 * @var string one of the SpecialCheckUser::SUBTYPE_... constants used by this abstract pager
@@ -154,6 +161,9 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 
 		$this->mLimitsShown = array_map( 'ceil', $this->mLimitsShown );
 		$this->mLimitsShown = array_unique( $this->mLimitsShown );
+		$this->eventTableReadNew = boolval(
+			$this->getConfig()->get( 'CheckUserEventTablesMigrationStage' ) & SCHEMA_COMPAT_READ_NEW
+		);
 
 		$this->userGroupManager = $userGroupManager;
 		$this->centralIdLookup = $centralIdLookup;
@@ -184,22 +194,22 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 			);
 		}
 
-		$this->getPeriodCondition();
+		$this->setPeriodCondition();
 	}
 
 	/**
-	 * Get the cutoff timestamp condition for the query
-	 *
-	 * @return array the cutoff timestamp query condition
+	 * Generate the cutoff timestamp condition for the query
 	 */
-	protected function getPeriodCondition() {
+	protected function setPeriodCondition(): void {
 		$period = $this->opts->getValue( 'period' );
 		if ( $period ) {
 			$cutoffTime = MWTimestamp::getInstance();
 			$cutoffTime->timestamp->setTime( 0, 0 )->modify( "-$period day" );
-			return $this->getDateRangeCond( $cutoffTime->getTimestamp(), '' );
+			// Call to RangeChronologicalPager::getDateRangeCond sets
+			// $this->startOffset to the $cutoffTime. The call does
+			// not set $this->endOffset as the empty string is provided.
+			$this->getDateRangeCond( $cutoffTime->getTimestamp(), '' );
 		}
-		return [];
 	}
 
 	/**
@@ -490,13 +500,17 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	/**
 	 * Get the WHERE conditions for an IP address / range, optionally as a XFF.
 	 *
-	 * @param IReadableDatabase $dbr
+	 * @param DbQuoter $quoter A DB quoter, which can be a IReadableDatabase instance if convenient.
 	 * @param string $target an IP address or CIDR range
-	 * @param string|bool $xfor
+	 * @param bool $xfor True if searching on XFF IPs by IP address / range
+	 * @param string $table The table which will be used in the query these WHERE conditions
+	 * are used (array of valid options in self::RESULT_TABLES).
 	 * @return array|false array for valid conditions, false if invalid
 	 */
-	public static function getIpConds( IReadableDatabase $dbr, string $target, $xfor = false ) {
-		$type = $xfor ? 'xff' : 'ip';
+	public static function getIpConds(
+		DbQuoter $quoter, string $target, bool $xfor = false, string $table = self::CHANGES_TABLE
+	) {
+		$columnName = self::getIpHexColumn( $xfor, $table );
 
 		if ( !self::isValidRange( $target ) ) {
 			return false;
@@ -504,31 +518,75 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 
 		if ( IPUtils::isValidRange( $target ) ) {
 			list( $start, $end ) = IPUtils::parseRange( $target );
-			return [ 'cuc_' . $type . '_hex BETWEEN ' . $dbr->addQuotes( $start ) .
-				' AND ' . $dbr->addQuotes( $end ) ];
+			return [ $columnName . ' BETWEEN ' . $quoter->addQuotes( $start ) .
+				' AND ' . $quoter->addQuotes( $end ) ];
 		} elseif ( IPUtils::isValid( $target ) ) {
-			return [ "cuc_{$type}_hex" => IPUtils::toHex( $target ) ];
+			return [ $columnName => IPUtils::toHex( $target ) ];
 		}
 		// invalid IP
 		return false;
 	}
 
-	/** @inheritDoc */
-	public function getIndexField() {
-		if ( $this->getConfig()->get( 'CheckUserEventTablesMigrationStage' ) & SCHEMA_COMPAT_READ_OLD ) {
-			return 'cuc_timestamp';
+	/**
+	 * Gets the column name for the IP hex column based
+	 * on the value for $xfor and a given $table.
+	 *
+	 * @param bool $xfor Whether the IPs being searched through are XFF IPs.
+	 * @param string $table The table selecting results from (array of valid
+	 * options in self::RESULT_TABLES).
+	 * @return string
+	 */
+	private static function getIpHexColumn( bool $xfor, string $table ): string {
+		$type = $xfor ? 'xff' : 'ip';
+		return self::RESULT_TABLE_TO_PREFIX[$table] . $type . '_hex';
+	}
+
+	/**
+	 * Gets the name for the index for a given table.
+	 *
+	 * note: When SCHEMA_COMPAT_READ_NEW is set, the query will not use an index
+	 * on the values of `cuc_only_for_read_old`.
+	 * That shouldn't result in a significant performance drop, and this is a
+	 * temporary situation until the temporary column is removed after the
+	 * migration is complete.
+	 *
+	 * @param string $table The table this index should apply to (list of valid options
+	 *   in self::RESULT_TABLES).
+	 * @return string
+	 */
+	protected function getIndexName( string $table ): string {
+		if ( $this->xfor === null ) {
+			return self::RESULT_TABLE_TO_PREFIX[$table] . 'actor_ip_time';
 		} else {
-			return 'timestamp';
+			$type = $this->xfor ? 'xff' : 'ip';
+			return self::RESULT_TABLE_TO_PREFIX[$table] . $type . '_hex_time';
 		}
 	}
 
 	/** @inheritDoc */
-	public function getTimestampField() {
-		if ( $this->getConfig()->get( 'CheckUserEventTablesMigrationStage' ) & SCHEMA_COMPAT_READ_OLD ) {
-			return 'cuc_timestamp';
-		} else {
+	public function getIndexField(): string {
+		return 'timestamp';
+	}
+
+	/**
+	 * @inheritDoc
+	 *
+	 * If the timestamp field is null, then the caller is either from outside
+	 * CheckUser code or is not aware of what table a row comes from when
+	 * reading results. In both cases returning "timestamp" is best as the
+	 * queries alias the timestamp field to this name.
+	 *
+	 * If a caller uses the result of this method when $table is null as
+	 * a column name in the WHERE conditions, the query will fail.
+	 *
+	 * @param string|null $table The table name. If null, returns the string "timestamp".
+	 * @return string The timestamp field.
+	 */
+	public function getTimestampField( ?string $table = null ): string {
+		if ( $table === null ) {
 			return 'timestamp';
 		}
+		return self::RESULT_TABLE_TO_PREFIX[$table] . 'timestamp';
 	}
 
 	/** @inheritDoc */
@@ -613,5 +671,166 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 		} else {
 			return '';
 		}
+	}
+
+	/**
+	 * @inheritDoc
+	 *
+	 * @param string|null $table One of the tables in CheckUserQueryInterface::RESULT_TABLES.
+	 *   If null when reading new, this will throw an Exception.
+	 * @throws LogicException if $table is null a LogicException is thrown as ::getQueryInfo
+	 * must have this information to return the correct query info.
+	 */
+	abstract public function getQueryInfo( ?string $table = null );
+
+	/**
+	 * Get the query info specific to cu_changes that will
+	 * be extended with table independent query information
+	 * (such as a actor_name WHERE condition). This
+	 * method should only be called by the ::getQueryInfo
+	 * implementation.
+	 *
+	 * @return array The query info specific to cu_changes
+	 */
+	abstract protected function getQueryInfoForCuChanges(): array;
+
+	/**
+	 * Get the query info specific to cu_log_event that will
+	 * be extended with table independent query information
+	 * (such as a actor_name WHERE condition). This
+	 * method should only be called by the ::getQueryInfo
+	 * implementation.
+	 *
+	 * @return array The query info specific to cu_log_event
+	 */
+	abstract protected function getQueryInfoForCuLogEvent(): array;
+
+	/**
+	 * Get the query info specific to cu_private_event that will
+	 * be extended with table independent query information
+	 * (such as a actor_name WHERE condition). This
+	 * method should only be called by the ::getQueryInfo
+	 * implementation.
+	 *
+	 * @return array The query info specific to cu_private_event
+	 */
+	abstract protected function getQueryInfoForCuPrivateEvent(): array;
+
+	/** @inheritDoc */
+	public function reallyDoQuery( $offset, $limit, $order ): IResultWrapper {
+		$results = [];
+		// Run the three SQL queries for each results table.
+		foreach ( $this->buildQueryInfo( $offset, $limit, $order ) as $queryInfo ) {
+			[ $tables, $fields, $conds, $fname, $options, $join_conds ] = $queryInfo;
+			$indexField = $this->getIndexField();
+
+			$queryResult = $this->mDb->select( $tables, $fields, $conds, $fname, $options, $join_conds );
+			// Expand the result set into an array, with the key as the timestamp and
+			// value as an array of rows that have this timestamp.
+			foreach ( $queryResult as $row ) {
+				// Use an array of rows as two given rows could have the same
+				// timestamp value.
+				if ( isset( $results[$row->$indexField] ) ) {
+					$results[$row->$indexField][] = $row;
+				} else {
+					$results[$row->$indexField] = [ $row ];
+				}
+			}
+		}
+		// Make a new result wrapper that combines the results by ordering all
+		// by their timestamp and then returning the first $limit of the items.
+		if ( $order === self::QUERY_DESCENDING ) {
+			krsort( $results );
+		} else {
+			ksort( $results );
+		}
+		// Can remove the keys now that the results have been sorted.
+		$results = array_values( $results );
+		// Flatten the array. If for a given timestamp more than row is present,
+		// from the same table then this method will keep the order in which
+		// they were returned by IDatabase::select. If the rows come from
+		// different tables, the rows will be ordered by table in the order
+		// the tables are defined in self::RESULT_TABLES.
+		$flattened_results = [];
+		array_walk_recursive( $results, static function ( $value ) use ( &$flattened_results ) {
+			$flattened_results[] = $value;
+		} );
+		// Apply the limit to the results.
+		$flattened_results = array_slice( $flattened_results, 0, $limit );
+
+		// Return the generated data as a FakeResultWrapper.
+		return new FakeResultWrapper( $flattened_results );
+	}
+
+	/**
+	 * Builds the query information. This is the same code as written in
+	 * IndexPager::buildQueryInfo, ReverseChronologicalPager::buildQueryInfo
+	 * and RangeChronologicalPager::buildQueryInfo, but modifies it to
+	 * provide ::getQueryInfo with the arguments passed to this method.
+	 *
+	 * @inheritDoc
+	 */
+	public function buildQueryInfo( $offset, $limit, $order ): array {
+		// Copied, with modification, from IndexPager::buildQueryInfo
+		$fname = __METHOD__ . ' (' . $this->getSqlComment() . ')';
+		$queryInfo = [];
+		# Select data from all three tables when reading new, and only cu_changes when reading old.
+		$resultTables = self::RESULT_TABLES;
+		if ( $this->getConfig()->get( 'CheckUserEventTablesMigrationStage' ) & SCHEMA_COMPAT_READ_OLD ) {
+			$resultTables = [ self::CHANGES_TABLE ];
+		}
+		foreach ( $resultTables as $table ) {
+			$info = $this->getQueryInfo( $table );
+			$tables = $info['tables'];
+			$fields = $info['fields'];
+			$conds = $info['conds'] ?? [];
+			$options = $info['options'] ?? [];
+			$join_conds = $info['join_conds'] ?? [];
+			$indexColumns = (array)$this->mIndexField;
+			$sortColumns = array_merge( $indexColumns, $this->mExtraSortFields );
+
+			if ( $order === self::QUERY_ASCENDING ) {
+				$options['ORDER BY'] = $sortColumns;
+				$operator = $this->mIncludeOffset ? '>=' : '>';
+			} else {
+				$orderBy = [];
+				foreach ( $sortColumns as $col ) {
+					$orderBy[] = $col . ' DESC';
+				}
+				$options['ORDER BY'] = $orderBy;
+				$operator = $this->mIncludeOffset ? '<=' : '<';
+			}
+			if ( $offset ) {
+				# From IndexPager
+				$offsets = explode( '|', $offset, count( $indexColumns ) );
+				$indexColumns = array_slice( $indexColumns, 0, count( $offsets ) );
+				# Replace 'timestamp' with the timestamp column name for the given table.
+				$timestampField = $this->getTimestampField( $table );
+				$indexColumns = array_map( static function ( $value ) use ( $timestampField ) {
+					return $value === 'timestamp' ? $timestampField : $value;
+				}, $indexColumns );
+				# From IndexPager
+				$conds[] = $this->mDb->buildComparison( $operator, array_combine( $indexColumns, $offsets ) );
+			}
+			$options['LIMIT'] = intval( $limit );
+
+			// Copied from ReverseChronologicalPager::buildQueryInfo
+			if ( $this->endOffset ) {
+				$conds[] = $this->mDb->buildComparison(
+					'<', [ $this->getTimestampField( $table ) => $this->endOffset ]
+				);
+			}
+
+			// Copied from RangeChronologicalPager::buildQueryInfo
+			if ( $this->startOffset ) {
+				$conds[] = $this->mDb->buildComparison(
+					'>=', [ $this->getTimestampField( $table ) => $this->startOffset ]
+				);
+			}
+			// Add the data that would normally be returned by this method to an array
+			// so that it can be returned for all three tables at once.
+			$queryInfo[$table] = [ $tables, $fields, $conds, $fname, $options, $join_conds ];
+		}
+		return $queryInfo;
 	}
 }

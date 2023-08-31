@@ -1,9 +1,10 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests;
+namespace MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers;
 
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\Hooks;
+use MediaWiki\CheckUser\Tests\TemplateParserMockTest;
 use MediaWiki\User\UserIdentityValue;
 use Wikimedia\IPUtils;
 use Wikimedia\TestingAccessWrapper;

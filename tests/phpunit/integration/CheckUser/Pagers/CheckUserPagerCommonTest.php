@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests;
+namespace MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers;
 
 use MediaWiki\Html\FormOptions;
 use MediaWiki\User\UserIdentity;

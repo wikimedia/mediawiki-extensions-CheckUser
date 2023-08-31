@@ -8,6 +8,9 @@ use Html;
 use HtmlArmor;
 use IContextSource;
 use Linker;
+use LogFormatter;
+use LogicException;
+use ManualLogEntry;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\Hook\HookRunner;
@@ -180,13 +183,30 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 			// Add any block information
 			$templateParams['flags'] = $this->flagCache[$row->user_text];
 		}
-		// Action text, hackish ...
-		$templateParams['actionText'] = $this->commentFormatter->format( $row->actiontext );
+		if ( $this->eventTableReadNew && $row->type == RC_LOG && isset( $row->log_type ) && $row->log_type ) {
+			// Log action text taken from the LogFormatter for the entry being displayed.
+			$logEntry = new ManualLogEntry( $row->log_type, $row->log_action );
+			if ( $row->log_params !== null ) {
+				$logEntry->setParameters( ManualLogEntry::extractParams( $row->log_params ) );
+			}
+			$logEntry->setPerformer( $user );
+			if ( $row->title ) {
+				$logEntry->setTarget( Title::makeTitle( $row->namespace, $row->title ) );
+			} elseif ( $row->page_id ) {
+				$logEntry->setTarget( Title::newFromID( $row->page_id ) );
+			}
+			$logEntry->setTimestamp( $row->timestamp );
+			$logFormatter = LogFormatter::newFromEntry( $logEntry );
+			$templateParams['actionText'] = $logFormatter->getActionText();
+		} else {
+			// Action text, hackish ...
+			$templateParams['actionText'] = $this->commentFormatter->format( $row->actiontext ?? '' );
+		}
 		// Comment
 		if ( $row->type == RC_EDIT || $row->type == RC_NEW ) {
 			$templateParams['comment'] = $this->formattedRevisionComments[$row->this_oldid];
 		} else {
-			$comment = $this->commentStore->getComment( 'cuc_comment', $row );
+			$comment = $this->commentStore->getComment( 'comment', $row );
 			$templateParams['comment'] = $this->commentFormatter->formatBlock( $comment->text );
 		}
 		// IP
@@ -226,15 +246,29 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		// Due to T315224 triple equals for type does not work for sqlite.
 		if ( $row->type == RC_LOG ) {
 			$title = Title::makeTitle( $row->namespace, $row->title );
-			$links['log'] = Html::rawElement(
-				'span',
-				[ 'class' => 'mw-changeslist-links' ],
-				$this->getLinkRenderer()->makeKnownLink(
+			$links['log'] = '';
+			if ( $this->eventTableReadNew && isset( $row->log_id ) ) {
+				$links['log'] = Html::rawElement( 'span', [],
+					$this->getLinkRenderer()->makeKnownLink(
+						SpecialPage::getTitleFor( 'Log' ),
+						new HtmlArmor( $this->message['checkuser-log-link-text'] ),
+						[],
+						[ 'logid' => $row->log_id ]
+					)
+				) . ' ';
+			}
+			$links['log'] .= Html::rawElement( 'span', [],
+					$this->getLinkRenderer()->makeKnownLink(
 					SpecialPage::getTitleFor( 'Log' ),
-					new HtmlArmor( $this->message['log'] ),
+					new HtmlArmor( $this->message['checkuser-logs-link-text'] ),
 					[],
 					[ 'page' => $title->getPrefixedText() ]
 				)
+			);
+			$links['log'] = Html::rawElement(
+				'span',
+				[ 'class' => 'mw-changeslist-links' ],
+				$links['log']
 			);
 		} else {
 			$title = Title::makeTitle( $row->namespace, $row->title );
@@ -314,7 +348,10 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	 */
 	protected function preCacheMessages() {
 		if ( $this->message === [] ) {
-			$msgKeys = [ 'diff', 'hist', 'minoreditletter', 'newpageletter', 'blocklink', 'log' ];
+			$msgKeys = [
+				'diff', 'hist', 'minoreditletter', 'newpageletter',
+				'blocklink', 'checkuser-log-link-text', 'checkuser-logs-link-text'
+			];
 			foreach ( $msgKeys as $msg ) {
 				$this->message[$msg] = $this->msg( $msg )->escaped();
 			}
@@ -322,9 +359,38 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	}
 
 	/** @inheritDoc */
-	public function getQueryInfo(): array {
-		$commentQuery = $this->commentStore->getJoin( 'cuc_comment' );
+	public function getQueryInfo( ?string $table = null ): array {
+		if ( $table === null ) {
+			throw new LogicException(
+				"This ::getQueryInfo method must be provided with the table to generate " .
+				"the correct query info"
+			);
+		}
 
+		if ( $table === self::CHANGES_TABLE ) {
+			$queryInfo = $this->getQueryInfoForCuChanges();
+		} elseif ( $table === self::LOG_EVENT_TABLE ) {
+			$queryInfo = $this->getQueryInfoForCuLogEvent();
+		} elseif ( $table === self::PRIVATE_LOG_EVENT_TABLE ) {
+			$queryInfo = $this->getQueryInfoForCuPrivateEvent();
+		}
+
+		$queryInfo['options']['USE INDEX'] = [ $table => $this->getIndexName( $table ) ];
+
+		if ( $this->xfor === null ) {
+			$queryInfo['conds']['actor_user'] = $this->target->getId();
+		} else {
+			$ipConds = self::getIpConds( $this->mDb, $this->target->getName(), $this->xfor, $table );
+			if ( $ipConds ) {
+				$queryInfo['conds'] = array_merge( $queryInfo['conds'], $ipConds );
+			}
+		}
+		return $queryInfo;
+	}
+
+	/** @inheritDoc */
+	protected function getQueryInfoForCuChanges(): array {
+		$commentQuery = $this->commentStore->getJoin( 'cuc_comment' );
 		$queryInfo = [
 			'fields' => [
 				'namespace' => 'cuc_namespace',
@@ -339,11 +405,12 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 				'ip' => 'cuc_ip',
 				'xff' => 'cuc_xff',
 				'agent' => 'cuc_agent',
-				'user' => 'actor_cuc_user.actor_user',
-				'user_text' => 'actor_cuc_user.actor_name',
-				# Needed for IndexPager
-				'cuc_timestamp'
-			] + $commentQuery['fields'],
+				'user' => 'actor_user',
+				'user_text' => 'actor_name',
+				# Needed for rows with cuc_type as RC_LOG.
+				'comment_text',
+				'comment_data',
+			],
 			'tables' => [ 'cu_changes', 'actor_cuc_user' => 'actor' ] + $commentQuery['tables'],
 			'conds' => [],
 			'join_conds' => [
@@ -351,17 +418,102 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 			] + $commentQuery['joins'],
 			'options' => [],
 		];
-		if ( $this->xfor === null ) {
-			$queryInfo['conds']['actor_user'] = $this->target->getId();
-			$queryInfo['options']['USE INDEX'] = [ 'cu_changes' => 'cuc_actor_ip_time' ];
-		} else {
-			$queryInfo['options']['USE INDEX'] = [
-				'cu_changes' => $this->xfor ? 'cuc_xff_hex_time' : 'cuc_ip_hex_time'
+		# When reading new, only select results from cu_changes that are
+		# for read new (defined as those with cuc_only_for_read_old set to 0).
+		if ( $this->eventTableReadNew ) {
+			$queryInfo['conds']['cuc_only_for_read_old'] = 0;
+		}
+		return $queryInfo;
+	}
+
+	/** @inheritDoc */
+	protected function getQueryInfoForCuLogEvent(): array {
+		$commentQuery = $this->commentStore->getJoin( 'log_comment' );
+		$queryInfo = [
+			'fields' => [
+				'timestamp' => 'cule_timestamp',
+				'title' => 'log_title',
+				'page_id' => 'log_page',
+				'namespace' => 'log_namespace',
+				'ip' => 'cule_ip',
+				'ip_hex' => 'cule_ip_hex',
+				'xff' => 'cule_xff',
+				'xff_hex' => 'cule_xff_hex',
+				'agent' => 'cule_agent',
+				'user' => 'actor_user',
+				'user_text' => 'actor_name',
+				'comment_text',
+				'comment_data',
+				'log_type' => 'log_type',
+				'log_action' => 'log_action',
+				'log_params' => 'log_params',
+				'log_id' => 'cule_log_id',
+			],
+			'tables' => [
+				'cu_log_event', 'logging_cule_log_id' => 'logging', 'actor_log_actor' => 'actor'
+			] + $commentQuery['tables'],
+			'conds' => [],
+			'join_conds' => [
+				'logging_cule_log_id' => [ 'JOIN', 'logging_cule_log_id.log_id=cule_log_id' ],
+				'actor_log_actor' => [ 'JOIN', 'actor_log_actor.actor_id=log_actor' ],
+			] + $commentQuery['joins'],
+			'options' => [],
+		];
+		if ( $this->mDb->getType() == 'postgres' ) {
+			# On postgres the cuc_type type is a smallint.
+			$queryInfo['fields'] += [
+				'type' => 'CAST(' . RC_LOG . ' AS smallint)'
 			];
-			$ipConds = self::getIpConds( $this->mDb, $this->target->getName(), $this->xfor );
-			if ( $ipConds ) {
-				$queryInfo['conds'] = array_merge( $queryInfo['conds'], $ipConds );
-			}
+		} else {
+			# Other DBs can handle converting RC_LOG to the
+			# correct type.
+			$queryInfo['fields'] += [
+				'type' => RC_LOG
+			];
+		}
+		return $queryInfo;
+	}
+
+	/** @inheritDoc */
+	protected function getQueryInfoForCuPrivateEvent(): array {
+		$commentQuery = $this->commentStore->getJoin( 'cupe_comment' );
+		$queryInfo = [
+			'fields' => [
+				'timestamp' => 'cupe_timestamp',
+				'title' => 'cupe_title',
+				'page_id' => 'cupe_page',
+				'namespace' => 'cupe_namespace',
+				'ip' => 'cupe_ip',
+				'ip_hex' => 'cupe_ip_hex',
+				'xff' => 'cupe_xff',
+				'xff_hex' => 'cupe_xff_hex',
+				'agent' => 'cupe_agent',
+				'user' => 'actor_user',
+				'user_text' => 'actor_name',
+				'comment_text',
+				'comment_data',
+				'log_type' => 'cupe_log_type',
+				'log_action' => 'cupe_log_action',
+				'log_params' => 'cupe_params'
+			],
+			'tables' => [ 'cu_private_event', 'actor_cupe_actor' => 'actor' ] + $commentQuery['tables'],
+			'conds' => [],
+			'join_conds' => [
+				'actor_cupe_actor' => [ 'JOIN', 'actor_cupe_actor.actor_id=cupe_actor' ]
+			] + $commentQuery['joins'],
+			'options' => [],
+		];
+		if ( $this->mDb->getType() == 'postgres' ) {
+			# On postgres the cuc_type type is a smallint.
+			$queryInfo['fields'] += [
+				'type' => 'CAST(' . RC_LOG . ' AS smallint)'
+			];
+		} else {
+			# Other DBs can handle converting RC_LOG to the
+			# correct type.
+			$queryInfo['fields'] += [
+				'type' => RC_LOG
+			];
 		}
 		return $queryInfo;
 	}
