@@ -57,16 +57,6 @@ class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook
 			return;
 		}
 
-		if ( $request->wasPosted() ) {
-			// It's too late to ask for client hints when a user is POST'ing a form.
-			if ( $this->config->get( 'CheckUserClientHintsUnsetHeaderWhenPossible' ) ) {
-				$request->response()->header( $this->getEmptyClientHintsHeaderString() );
-				return;
-			} else {
-				return;
-			}
-		}
-
 		$out->addJsConfigVars( [
 			// Roundabout way to ensure we have a list of values like "architecture", "bitness"
 			// etc for use with the client-side JS API. Make sure we get 1) just the values
@@ -77,12 +67,7 @@ class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook
 		] );
 		$out->addModules( 'ext.checkUser.clientHints' );
 
-		if ( in_array(
-			$request->getRawVal( 'action' ),
-			$this->config->get( 'CheckUserClientHintsActionQueryParameter' )
-		) ) {
-			$request->response()->header( $this->getClientHintsHeaderString() );
-		} elseif ( $this->config->get( 'CheckUserClientHintsUnsetHeaderWhenPossible' ) ) {
+		if ( $this->config->get( 'CheckUserClientHintsUnsetHeaderWhenPossible' ) ) {
 			$request->response()->header( $this->getEmptyClientHintsHeaderString() );
 		}
 	}

@@ -113,12 +113,6 @@
 			],
 			"description": "List of SpecialPages where CheckUser will set client hints headers in the response header. Note that the special pages are case sensitive, and do not always match their appearance in the URL, e.g. 'UserLogin' is known in the Special page system as 'Userlogin'."
 		},
-		"CheckUserClientHintsActionQueryParameter": {
-			"value": [
-				"history"
-			],
-			"description": "List of values to '?action=' query parameter. If the request contains a query parameter for e.g. ?action=history, then CheckUser will send a header to request Client Hint user agent data on the subsequent request."
-		},
 		"CheckUserClientHintsHeaders": {
 			"value": {
 				"Sec-CH-UA": "",
@@ -137,7 +131,7 @@
 		},
 		"CheckUserClientHintsUnsetHeaderWhenPossible": {
 			"value": true,
-			"description": "If set to 'true', then CheckUser will transmit an empty `Accept-CH: ` header in BeforePageDisplay and SpecialPageBeforeExecute if SpecialPage isn't in the CheckUserClientHintsSpecialPages config list or the page's action parameter isn't in CheckUserClientHintsActionQueryParameter conifg list. If set to false, CheckUser will not send an empty `Accept-CH: ` header, which in practice means that all logged-in user requests will transmit User-Agent client hint data."
+			"description": "If set to 'true', then CheckUser will transmit an empty `Accept-CH: ` header in BeforePageDisplay and SpecialPageBeforeExecute if SpecialPage isn't in the CheckUserClientHintsSpecialPages config list. If set to false, CheckUser will not send an empty `Accept-CH: ` header, which in practice means that all logged-in user requests will transmit User-Agent client hint data."
 		},
 		"CheckUserDeveloperMode": {
 			"value": false,

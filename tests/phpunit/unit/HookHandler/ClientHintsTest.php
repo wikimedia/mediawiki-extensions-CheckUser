@@ -86,7 +86,6 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler = new ClientHints(
 			new HashConfig( [
 				'CheckUserClientHintsEnabled' => false,
-				'CheckUserClientHintsActionQueryParameter' => [ 'edit', 'history' ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
 			] )
@@ -107,11 +106,10 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler->onBeforePageDisplay( $outputPage, $skin );
 	}
 
-	public function testClientHintsBeforePageDisplayInvalidAction() {
+	public function testClientHintsBeforePageDisplayUnsetsHeader() {
 		$hookHandler = new ClientHints(
 			new HashConfig( [
 				'CheckUserClientHintsEnabled' => true,
-				'CheckUserClientHintsActionQueryParameter' => [ 'edit', 'history' ],
 				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
@@ -123,32 +121,9 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 			->with( 'Accept-CH: ' );
 		$outputPage = $this->createMock( OutputPage::class );
 		$outputPage->method( 'getTitle' )->willReturn( $title );
-		$requestMock = $this->createMock( 'WebRequest' );
-		$requestMock->method( 'getRawVal' )->with( 'action' )->willReturn( 'foo' );
-		$requestMock->method( 'response' )->willReturn( $webResponseMock );
-		$outputPage->method( 'getRequest' )->willReturn( $requestMock );
-		$skin = $this->createMock( Skin::class );
-		$hookHandler->onBeforePageDisplay( $outputPage, $skin );
-	}
-
-	public function testClientHintsBeforePageDisplayValidAction() {
-		$hookHandler = new ClientHints(
-			new HashConfig( [
-				'CheckUserClientHintsEnabled' => true,
-				'CheckUserClientHintsActionQueryParameter' => [ 'edit', 'history' ],
-				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
-				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
-				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
-			] )
-		);
-		$title = $this->createMock( Title::class );
-		$webResponseMock = $this->createMock( WebResponse::class );
-		$webResponseMock->expects( $this->once() )->method( 'header' )
-			->with( 'Accept-CH: ' . implode( ', ', array_keys( $this->getDefaultClientHintHeaders() ) ) );
-		$outputPage = $this->createMock( OutputPage::class );
-		$outputPage->method( 'getTitle' )->willReturn( $title );
-		// We should add ext.checkUser.clientHints to page on GET with ?action=edit.
-		$outputPage->expects( $this->once() )->method( 'addModules' );
+		// We should add ext.checkUser.clientHints to page
+		$outputPage->expects( $this->once() )->method( 'addModules' )
+			->with( 'ext.checkUser.clientHints' );
 		$requestMock = $this->createMock( 'WebRequest' );
 		$requestMock->method( 'getRawVal' )->with( 'action' )->willReturn( 'edit' );
 		$requestMock->method( 'response' )->willReturn( $webResponseMock );
@@ -157,11 +132,10 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler->onBeforePageDisplay( $outputPage, $skin );
 	}
 
-	public function testClientHintsBeforePageDisplayExcludePOSTRequest() {
+	public function testClientHintsBeforePageDisplayPOSTRequest() {
 		$hookHandler = new ClientHints(
 			new HashConfig( [
 				'CheckUserClientHintsEnabled' => true,
-				'CheckUserClientHintsActionQueryParameter' => [ 'edit', 'rollback' ],
 				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
@@ -173,8 +147,10 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 			->with( 'Accept-CH: ' );
 		$outputPage = $this->createMock( OutputPage::class );
 		$outputPage->method( 'getTitle' )->willReturn( $title );
-		// We should not add ext.checkUser.clientHints to page on POST.
-		$outputPage->expects( $this->never() )->method( 'addModules' );
+		// We add ext.checkUser.clientHints to page on POST, because rollback action
+		// using the JS confirmable (T215020) does a POST.
+		$outputPage->expects( $this->once() )->method( 'addModules' )
+			->with( 'ext.checkUser.clientHints' );
 		$requestMock = $this->createMock( 'WebRequest' );
 		$requestMock->method( 'getRawVal' )->with( 'action' )->willReturn( 'edit' );
 		$requestMock->method( 'response' )->willReturn( $webResponseMock );
@@ -187,7 +163,6 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler = new ClientHints(
 			new HashConfig( [
 				'CheckUserClientHintsEnabled' => true,
-				'CheckUserClientHintsActionQueryParameter' => [ 'edit', 'rollback' ],
 				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => false,
@@ -198,8 +173,8 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$webResponseMock->expects( $this->never() )->method( 'header' );
 		$outputPage = $this->createMock( OutputPage::class );
 		$outputPage->method( 'getTitle' )->willReturn( $title );
-		// We should not add ext.checkUser.clientHints to page on POST.
-		$outputPage->expects( $this->never() )->method( 'addModules' );
+		$outputPage->expects( $this->once() )->method( 'addModules' )
+			->with( 'ext.checkUser.clientHints' );
 		$requestMock = $this->createMock( 'WebRequest' );
 		$requestMock->method( 'getRawVal' )->with( 'action' )->willReturn( 'edit' );
 		$requestMock->method( 'response' )->willReturn( $webResponseMock );
