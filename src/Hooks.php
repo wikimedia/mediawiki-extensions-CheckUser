@@ -620,7 +620,7 @@ class Hooks implements
 	/**
 	 * @param AuthenticationResponse $ret
 	 * @param User|null $user
-	 * @param string $username
+	 * @param string|null $username
 	 * @param string[] $extraData
 	 */
 	public function onAuthManagerLoginAuthenticateAudit( $ret, $user, $username, $extraData ) {
