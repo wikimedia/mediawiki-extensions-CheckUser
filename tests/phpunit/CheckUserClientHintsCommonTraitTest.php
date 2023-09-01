@@ -10,8 +10,19 @@ use MediaWiki\CheckUser\ClientHints\ClientHintsData;
  */
 trait CheckUserClientHintsCommonTraitTest {
 	/**
-	 * To not specify anything for $brands or $fullVersionList, use an empty
-	 * array. The value of null will use the default value.
+	 * Generates example Client Hints data in a format
+	 * that would be sent as the request body to the
+	 * Client Hints REST API.
+	 *
+	 * @param string|null $architecture
+	 * @param string|null $bitness
+	 * @param array|null $brands Provide null to use the default. Provide an empty array for no data.
+	 * @param array|null $fullVersionList Provide null to use the default. Provide an empty array for no data.
+	 * @param bool|null $mobile
+	 * @param string|null $model
+	 * @param string|null $platform
+	 * @param string|null $platformVersion
+	 * @return array Data that can be passed to ClientHintsData::newFromJsApi
 	 */
 	public static function getExampleClientHintsJsApiResponse(
 		?string $architecture = "x86",
@@ -68,8 +79,18 @@ trait CheckUserClientHintsCommonTraitTest {
 	}
 
 	/**
-	 * To not specify anything for $brands or $fullVersionList, use an empty
-	 * array. The value of null will use the default value.
+	 * Gets an example ClientHintsData object with example data that is
+	 * passed through the ClientHintsData::newFromJsApi method.
+	 *
+	 * @param string|null $architecture
+	 * @param string|null $bitness
+	 * @param array|null $brands Provide null to use the default. Provide an empty array for no data.
+	 * @param array|null $fullVersionList Provide null to use the default. Provide an empty array for no data.
+	 * @param bool|null $mobile
+	 * @param string|null $model
+	 * @param string|null $platform
+	 * @param string|null $platformVersion
+	 * @return ClientHintsData
 	 */
 	public static function getExampleClientHintsDataObjectFromJsApi(
 		?string $architecture = "x86",
