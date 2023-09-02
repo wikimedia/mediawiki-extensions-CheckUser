@@ -18,23 +18,14 @@ use Wikimedia\Rdbms\IResultWrapper;
 
 class CheckUserLogPager extends RangeChronologicalPager {
 
-	/** @var LinkBatchFactory */
-	private $linkBatchFactory;
+	/** @var array The options provided to the CheckUserLog form. May be empty. */
+	private array $opts;
 
-	/** @var CommentFormatter */
-	private $commentFormatter;
-
-	/** @var CheckUserLogService */
-	private $checkUserLogService;
-
-	/** @var CommentStore */
-	private $commentStore;
-
-	/** @var UserFactory */
-	private $userFactory;
-
-	/** @var array */
-	private $opts;
+	private LinkBatchFactory $linkBatchFactory;
+	private CommentFormatter $commentFormatter;
+	private CheckUserLogService $checkUserLogService;
+	private CommentStore $commentStore;
+	private UserFactory $userFactory;
 
 	/**
 	 * @param IContextSource $context

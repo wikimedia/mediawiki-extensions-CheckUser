@@ -14,23 +14,16 @@ use Psr\Log\LoggerInterface;
 use ReverseChronologicalPager;
 
 class TimelinePager extends ReverseChronologicalPager {
-	/** @var CheckUserFormatRowHook */
-	private $formatRowHookRunner;
-
-	/** @var TimelineService */
-	private $timelineService;
-
-	/** @var TimelineRowFormatter */
-	private $timelineRowFormatter;
+	private CheckUserFormatRowHook $formatRowHookRunner;
+	private TimelineService $timelineService;
+	private TimelineRowFormatter $timelineRowFormatter;
+	private TokenQueryManager $tokenQueryManager;
 
 	/** @var string */
 	private $start;
 
 	/** @var string|null */
 	private $lastDateHeader;
-
-	/** @var TokenQueryManager */
-	private $tokenQueryManager;
 
 	/**
 	 * Targets whose results should not be included in the investigation.
@@ -51,8 +44,7 @@ class TimelinePager extends ReverseChronologicalPager {
 	 */
 	private $filteredTargets;
 
-	/** @var LoggerInterface */
-	private $logger;
+	private LoggerInterface $logger;
 
 	/**
 	 * @param IContextSource $context

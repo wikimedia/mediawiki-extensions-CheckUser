@@ -37,44 +37,19 @@ use Status;
 use Wikimedia\IPUtils;
 
 class SpecialInvestigate extends FormSpecialPage {
-	/** @var Language */
-	private $contentLanguage;
-
-	/** @var UserOptionsManager */
-	private $userOptionsManager;
-
-	/** @var PagerFactory */
-	private $preliminaryCheckPagerFactory;
-
-	/** @var PagerFactory */
-	private $comparePagerFactory;
-
-	/** @var TimelinePagerFactory */
-	private $timelinePagerFactory;
-
-	/** @var TokenQueryManager */
-	private $tokenQueryManager;
-
-	/** @var DurationManager */
-	private $durationManager;
-
-	/** @var EventLogger */
-	private $eventLogger;
-
-	/** @var TourLauncher */
-	private $tourLauncher;
-
-	/** @var CheckUserSubtitleLinksHook */
-	private $subtitleLinksHookRunner;
-
-	/** @var PermissionManager */
-	private $permissionManager;
-
-	/** @var CheckUserLogService */
-	private $checkUserLogService;
-
-	/** @var UserIdentityLookup */
-	private $userIdentityLookup;
+	private Language $contentLanguage;
+	private UserOptionsManager $userOptionsManager;
+	private PagerFactory $preliminaryCheckPagerFactory;
+	private PagerFactory $comparePagerFactory;
+	private TimelinePagerFactory $timelinePagerFactory;
+	private TokenQueryManager $tokenQueryManager;
+	private DurationManager $durationManager;
+	private EventLogger $eventLogger;
+	private TourLauncher $tourLauncher;
+	private CheckUserSubtitleLinksHook $subtitleLinksHookRunner;
+	private PermissionManager $permissionManager;
+	private CheckUserLogService $checkUserLogService;
+	private UserIdentityLookup $userIdentityLookup;
 
 	/** @var IndexLayout|null */
 	private $layout;

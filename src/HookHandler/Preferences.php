@@ -15,11 +15,8 @@ class Preferences implements GetPreferencesHook {
 	/** @var string */
 	public const INVESTIGATE_FORM_TOUR_SEEN = 'checkuser-investigate-form-tour-seen';
 
-	/** @var PermissionManager */
-	private $permissionManager;
-
-	/** @var TemporaryAccountLoggerFactory */
-	private $loggerFactory;
+	private PermissionManager $permissionManager;
+	private TemporaryAccountLoggerFactory $loggerFactory;
 
 	/**
 	 * @param PermissionManager $permissionManager

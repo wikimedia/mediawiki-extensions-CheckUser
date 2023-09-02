@@ -16,8 +16,7 @@ class TokenManager {
 	/** @var string|null */
 	private $cipherMethod;
 
-	/** @var string */
-	private $secret;
+	private string $secret;
 
 	/**
 	 * @param string $secret

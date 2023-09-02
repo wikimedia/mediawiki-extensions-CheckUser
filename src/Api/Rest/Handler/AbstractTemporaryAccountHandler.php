@@ -18,26 +18,13 @@ use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\ILoadBalancer;
 
 abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
-	/** @var Config */
-	protected $config;
-
-	/** @var JobQueueGroup */
-	protected $jobQueueGroup;
-
-	/** @var PermissionManager */
-	protected $permissionManager;
-
-	/** @var UserOptionsLookup */
-	protected $userOptionsLookup;
-
-	/** @var UserNameUtils */
-	protected $userNameUtils;
-
-	/** @var ILoadBalancer */
-	protected $loadBalancer;
-
-	/** @var ActorStore */
-	protected $actorStore;
+	protected Config $config;
+	protected JobQueueGroup $jobQueueGroup;
+	protected PermissionManager $permissionManager;
+	protected UserOptionsLookup $userOptionsLookup;
+	protected UserNameUtils $userNameUtils;
+	protected ILoadBalancer $loadBalancer;
+	protected ActorStore $actorStore;
 
 	/**
 	 * @param Config $config

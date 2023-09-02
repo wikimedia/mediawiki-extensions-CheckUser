@@ -10,20 +10,11 @@ use MediaWiki\Linker\LinkRenderer;
 use NamespaceInfo;
 
 class PreliminaryCheckPagerFactory implements PagerFactory {
-	/** @var LinkRenderer */
-	private $linkRenderer;
-
-	/** @var NamespaceInfo */
-	private $namespaceInfo;
-
-	/** @var ExtensionRegistry */
-	private $extensionRegistry;
-
-	/** @var TokenQueryManager */
-	private $tokenQueryManager;
-
-	/** @var PreliminaryCheckService */
-	private $preliminaryCheck;
+	private LinkRenderer $linkRenderer;
+	private NamespaceInfo $namespaceInfo;
+	private ExtensionRegistry $extensionRegistry;
+	private TokenQueryManager $tokenQueryManager;
+	private PreliminaryCheckService $preliminaryCheck;
 
 	/**
 	 * @param LinkRenderer $linkRenderer

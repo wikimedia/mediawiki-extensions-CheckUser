@@ -35,11 +35,8 @@ use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
 
 class ComparePager extends TablePager {
-	/** @var CompareService */
-	private $compareService;
-
-	/** @var TokenQueryManager */
-	private $tokenQueryManager;
+	private CompareService $compareService;
+	private TokenQueryManager $tokenQueryManager;
 
 	/** @var array */
 	private $fieldNames;

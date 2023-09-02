@@ -16,17 +16,10 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 class CheckUserLogService {
 
-	/** @var ILoadBalancer */
-	private $loadBalancer;
-
-	/** @var CommentStore */
-	private $commentStore;
-
-	/** @var CommentFormatter */
-	private $commentFormatter;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private ILoadBalancer $loadBalancer;
+	private CommentStore $commentStore;
+	private CommentFormatter $commentFormatter;
+	private LoggerInterface $logger;
 
 	/**
 	 * @param ILoadBalancer $loadBalancer

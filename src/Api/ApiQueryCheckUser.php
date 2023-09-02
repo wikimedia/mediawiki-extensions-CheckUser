@@ -24,17 +24,10 @@ use Wikimedia\ParamValidator\TypeDef\IntegerDef;
  */
 class ApiQueryCheckUser extends ApiQueryBase {
 
-	/** @var UserIdentityLookup */
-	private $userIdentityLookup;
-
-	/** @var RevisionLookup */
-	private $revisionLookup;
-
-	/** @var CheckUserLogService */
-	private $checkUserLogService;
-
-	/** @var CommentStore */
-	private $commentStore;
+	private UserIdentityLookup $userIdentityLookup;
+	private RevisionLookup $revisionLookup;
+	private CheckUserLogService $checkUserLogService;
+	private CommentStore $commentStore;
 
 	/**
 	 * @param ApiQuery $query

@@ -21,36 +21,19 @@ use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\ILoadBalancer;
 
 class TimelineRowFormatter {
+	private LinkRenderer $linkRenderer;
+	private ILoadBalancer $loadBalancer;
+	private RevisionStore $revisionStore;
+	private TitleFormatter $titleFormatter;
+	private SpecialPageFactory $specialPageFactory;
+	private UserFactory $userFactory;
+	private CommentFormatter $commentFormatter;
 
-	/** @var LinkRenderer */
-	private $linkRenderer;
+	private array $message = [];
 
-	/** @var ILoadBalancer */
-	private $loadBalancer;
+	private Language $language;
 
-	/** @var RevisionStore */
-	private $revisionStore;
-
-	/** @var TitleFormatter */
-	private $titleFormatter;
-
-	/** @var SpecialPageFactory */
-	private $specialPageFactory;
-
-	/** @var array */
-	private $message = [];
-
-	/** @var Language */
-	private $language;
-
-	/** @var User */
-	private $user;
-
-	/** @var UserFactory */
-	private $userFactory;
-
-	/** @var CommentFormatter */
-	private $commentFormatter;
+	private User $user;
 
 	/**
 	 * @param LinkRenderer $linkRenderer

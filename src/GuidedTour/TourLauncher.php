@@ -9,11 +9,8 @@ use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Linker\LinkTarget;
 
 class TourLauncher {
-	/** @var ExtensionRegistry */
-	private $extensionRegistry;
-
-	/** @var LinkRenderer */
-	private $linkRenderer;
+	private ExtensionRegistry $extensionRegistry;
+	private LinkRenderer $linkRenderer;
 
 	/**
 	 * @param ExtensionRegistry $extensionRegistry

@@ -13,27 +13,13 @@ use User;
 use Wikimedia\Rdbms\ILoadBalancer;
 
 class TimelineRowFormatterFactory {
-
-	/** @var LinkRenderer */
-	private $linkRenderer;
-
-	/** @var ILoadBalancer */
-	private $loadBalancer;
-
-	/** @var RevisionStore */
-	private $revisionStore;
-
-	/** @var TitleFormatter */
-	private $titleFormatter;
-
-	/** @var SpecialPageFactory */
-	private $specialPageFactory;
-
-	/** @var CommentFormatter */
-	private $commentFormatter;
-
-	/** @var UserFactory */
-	private $userFactory;
+	private LinkRenderer $linkRenderer;
+	private ILoadBalancer $loadBalancer;
+	private RevisionStore $revisionStore;
+	private TitleFormatter $titleFormatter;
+	private SpecialPageFactory $specialPageFactory;
+	private CommentFormatter $commentFormatter;
+	private UserFactory $userFactory;
 
 	/**
 	 * @param LinkRenderer $linkRenderer

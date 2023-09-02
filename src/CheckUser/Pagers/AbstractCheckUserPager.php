@@ -41,9 +41,9 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 
 	/**
 	 * Form fields that when paging should be set and managed
-	 *  by the token. Used so the client cannot generate results
-	 *  that do not match the original request which generated
-	 *  the associated CheckUserLog entry.
+	 * by the token. Used so the client cannot generate results
+	 * that do not match the original request which generated
+	 * the associated CheckUserLog entry.
 	 */
 	public const TOKEN_MANAGED_FIELDS = [
 		'reason',
@@ -62,52 +62,32 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	 *
 	 * @var null|bool
 	 */
-	protected $xfor = null;
+	protected ?bool $xfor = null;
 
-	/** @var string */
-	private $logType;
+	/** @var string The type of CheckUserLog entry this check should generate. */
+	private string $logType;
 
-	/** @var FormOptions */
-	protected $opts;
+	/** @var FormOptions The submitted form data in a helper class */
+	protected FormOptions $opts;
 
-	/** @var UserGroupManager */
-	protected $userGroupManager;
-
-	/** @var CentralIdLookup */
-	protected $centralIdLookup;
-
-	/** @var UserIdentity */
-	protected $target;
+	protected UserIdentity $target;
 
 	/**
 	 * @var string one of the SpecialCheckUser::SUBTYPE_... constants used by this abstract pager
 	 *  to know what the current checktype is.
 	 */
-	protected $checkType;
+	protected string $checkType;
 
-	/** @var TokenQueryManager */
-	private $tokenQueryManager;
-
-	/** @var SpecialPageFactory */
-	private $specialPageFactory;
-
-	/** @var UserIdentityLookup */
-	private $userIdentityLookup;
-
-	/** @var ActorMigration */
-	private $actorMigration;
-
-	/** @var CheckUserLogService */
-	private $checkUserLogService;
-
-	/** @var TemplateParser */
-	protected $templateParser;
-
-	/** @var UserFactory */
-	protected $userFactory;
-
-	/** @var CheckUserUnionSelectQueryBuilderFactory */
-	protected $checkUserUnionSelectQueryBuilderFactory;
+	protected UserGroupManager $userGroupManager;
+	protected CentralIdLookup $centralIdLookup;
+	private TokenQueryManager $tokenQueryManager;
+	private SpecialPageFactory $specialPageFactory;
+	private UserIdentityLookup $userIdentityLookup;
+	private ActorMigration $actorMigration;
+	private CheckUserLogService $checkUserLogService;
+	protected TemplateParser $templateParser;
+	protected UserFactory $userFactory;
+	protected CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory;
 
 	/**
 	 * @param FormOptions $opts

@@ -16,14 +16,9 @@ class TemporaryAccountLoggerFactory {
 	 */
 	private const DEFAULT_DEBOUNCE_DELAY = 24 * 60 * 60;
 
-	/** @var ActorStore */
-	private $actorStore;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var IDatabase */
-	private $dbw;
+	private ActorStore $actorStore;
+	private LoggerInterface $logger;
+	private IDatabase $dbw;
 
 	/**
 	 * @param ActorStore $actorStore

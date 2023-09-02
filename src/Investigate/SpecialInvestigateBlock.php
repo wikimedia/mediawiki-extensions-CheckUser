@@ -20,29 +20,16 @@ use User;
 use Wikimedia\IPUtils;
 
 class SpecialInvestigateBlock extends FormSpecialPage {
-	/** @var BlockUserFactory */
-	private $blockUserFactory;
+	private BlockUserFactory $blockUserFactory;
+	private BlockPermissionCheckerFactory $blockPermissionCheckerFactory;
+	private PermissionManager $permissionManager;
+	private TitleFormatter $titleFormatter;
+	private UserFactory $userFactory;
+	private EventLogger $eventLogger;
 
-	/** @var BlockPermissionCheckerFactory */
-	private $blockPermissionCheckerFactory;
+	private array $blockedUsers = [];
 
-	/** @var PermissionManager */
-	private $permissionManager;
-
-	/** @var TitleFormatter */
-	private $titleFormatter;
-
-	/** @var UserFactory */
-	private $userFactory;
-
-	/** @var EventLogger */
-	private $eventLogger;
-
-	/** @var array */
-	private $blockedUsers = [];
-
-	/** @var bool */
-	private $noticesFailed = false;
+	private bool $noticesFailed = false;
 
 	/**
 	 * @param BlockUserFactory $blockUserFactory

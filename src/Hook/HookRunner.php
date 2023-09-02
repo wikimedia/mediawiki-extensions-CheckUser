@@ -18,8 +18,7 @@ class HookRunner implements
 	SpecialCheckUserGetLinksFromRowHook
 {
 
-	/** @var HookContainer */
-	private $container;
+	private HookContainer $container;
 
 	/**
 	 * @param HookContainer $container

@@ -52,23 +52,11 @@ class TemporaryAccountLogger {
 	 */
 	public const LOG_TYPE = 'checkuser-temporary-account';
 
-	/**
-	 * @var ActorStore
-	 */
-	private $actorStore;
+	private ActorStore $actorStore;
+	private LoggerInterface $logger;
+	private IDatabase $dbw;
 
-	/** @var LoggerInterface */
-	private $logger;
-
-	/**
-	 * @var IDatabase
-	 */
-	private $dbw;
-
-	/**
-	 * @var int
-	 */
-	private $delay;
+	private int $delay;
 
 	/**
 	 * @param ActorStore $actorStore

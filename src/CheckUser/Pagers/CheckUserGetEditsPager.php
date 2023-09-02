@@ -41,43 +41,28 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	/**
 	 * @var string[] Used to cache frequently used messages
 	 */
-	protected $message = [];
+	protected array $message = [];
 
 	/**
 	 * @var array The cached results of AbstractCheckUserPager::userBlockFlags with the key as
 	 *  the row's user_text.
 	 */
-	private $flagCache = [];
+	private array $flagCache = [];
 
-	/** @var array */
-	protected $formattedRevisionComments = [];
+	/** @var array A map of revision IDs to the formatted comment associated with that revision. */
+	protected array $formattedRevisionComments = [];
 
-	/** @var array */
-	protected $usernameVisibility = [];
+	/** @var array A map where usernames are keys and whether they are hidden are values. */
+	protected array $usernameVisibility = [];
 
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var LinkBatchFactory */
-	private $linkBatchFactory;
-
-	/** @var RevisionStore */
-	private $revisionStore;
-
-	/** @var CommentFormatter */
-	private $commentFormatter;
-
-	/** @var UserEditTracker */
-	private $userEditTracker;
-
-	/** @var HookRunner */
-	private $hookRunner;
-
-	/** @var CheckUserUtilityService */
-	private $checkUserUtilityService;
-
-	/** @var CommentStore */
-	private $commentStore;
+	private LoggerInterface $logger;
+	private LinkBatchFactory $linkBatchFactory;
+	private RevisionStore $revisionStore;
+	private CommentFormatter $commentFormatter;
+	private UserEditTracker $userEditTracker;
+	private HookRunner $hookRunner;
+	private CheckUserUtilityService $checkUserUtilityService;
+	private CommentStore $commentStore;
 
 	/**
 	 * @param FormOptions $opts

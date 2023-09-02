@@ -8,17 +8,10 @@ use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Linker\LinkRenderer;
 
 class ComparePagerFactory implements PagerFactory {
-	/** @var LinkRenderer */
-	private $linkRenderer;
-
-	/** @var TokenQueryManager */
-	private $tokenQueryManager;
-
-	/** @var DurationManager */
-	private $durationManager;
-
-	/** @var CompareService */
-	private $compare;
+	private LinkRenderer $linkRenderer;
+	private TokenQueryManager $tokenQueryManager;
+	private DurationManager $durationManager;
+	private CompareService $compare;
 
 	/**
 	 * @param LinkRenderer $linkRenderer
