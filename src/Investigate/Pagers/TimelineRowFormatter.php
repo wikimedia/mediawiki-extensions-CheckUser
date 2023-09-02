@@ -8,6 +8,7 @@ use Language;
 use Linker;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\Revision\ArchivedRevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\SpecialPageFactory;
@@ -18,12 +19,11 @@ use TitleFormatter;
 use TitleValue;
 use User;
 use Wikimedia\IPUtils;
-use Wikimedia\Rdbms\ILoadBalancer;
 
 class TimelineRowFormatter {
 	private LinkRenderer $linkRenderer;
-	private ILoadBalancer $loadBalancer;
 	private RevisionStore $revisionStore;
+	private ArchivedRevisionLookup $archivedRevisionLookup;
 	private TitleFormatter $titleFormatter;
 	private SpecialPageFactory $specialPageFactory;
 	private UserFactory $userFactory;
@@ -37,8 +37,8 @@ class TimelineRowFormatter {
 
 	/**
 	 * @param LinkRenderer $linkRenderer
-	 * @param ILoadBalancer $loadBalancer
 	 * @param RevisionStore $revisionStore
+	 * @param ArchivedRevisionLookup $archivedRevisionLookup
 	 * @param TitleFormatter $titleFormatter
 	 * @param SpecialPageFactory $specialPageFactory
 	 * @param CommentFormatter $commentFormatter
@@ -48,8 +48,8 @@ class TimelineRowFormatter {
 	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
-		ILoadBalancer $loadBalancer,
 		RevisionStore $revisionStore,
+		ArchivedRevisionLookup $archivedRevisionLookup,
 		TitleFormatter $titleFormatter,
 		SpecialPageFactory $specialPageFactory,
 		CommentFormatter $commentFormatter,
@@ -58,8 +58,8 @@ class TimelineRowFormatter {
 		Language $language
 	) {
 		$this->linkRenderer = $linkRenderer;
-		$this->loadBalancer = $loadBalancer;
 		$this->revisionStore = $revisionStore;
+		$this->archivedRevisionLookup = $archivedRevisionLookup;
 		$this->titleFormatter = $titleFormatter;
 		$this->specialPageFactory = $specialPageFactory;
 		$this->commentFormatter = $commentFormatter;
@@ -86,18 +86,7 @@ class TimelineRowFormatter {
 			$revRecord = $this->revisionStore->getRevisionById( $row->cuc_this_oldid );
 			if ( !$revRecord ) {
 				// Revision may have been deleted
-				$dbr = $this->loadBalancer->getConnection( DB_REPLICA );
-				$queryInfo = $this->revisionStore->getArchiveQueryInfo();
-				$archiveRow = $dbr->newSelectQueryBuilder()
-					->fields( $queryInfo['fields'] )
-					->tables( $queryInfo['tables'] )
-					->where( [ 'ar_rev_id' => $row->cuc_this_oldid ] )
-					->joinConds( $queryInfo['joins'] )
-					->caller( __METHOD__ )
-					->fetchRow();
-				if ( $archiveRow ) {
-					$revRecord = $this->revisionStore->newRevisionFromArchiveRow( $archiveRow );
-				}
+				$revRecord = $this->archivedRevisionLookup->getArchivedRevisionRecord( null, $row->cuc_this_oldid );
 			}
 		}
 		return [

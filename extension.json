@@ -144,6 +144,7 @@
 			"services": [
 				"UserIdentityLookup",
 				"RevisionLookup",
+				"ArchivedRevisionLookup",
 				"CheckUserLogService",
 				"CommentStore"
 			]
@@ -439,6 +440,7 @@
 				"ActorMigration",
 				"UserFactory",
 				"RevisionStore",
+				"ArchivedRevisionLookup",
 				"CheckUserLogService",
 				"CommentFormatter",
 				"UserEditTracker",

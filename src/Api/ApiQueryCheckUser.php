@@ -10,7 +10,7 @@ use Exception;
 use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CommentStore\CommentStore;
-use MediaWiki\MediaWikiServices;
+use MediaWiki\Revision\ArchivedRevisionLookup;
 use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Title\Title;
@@ -26,6 +26,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 
 	private UserIdentityLookup $userIdentityLookup;
 	private RevisionLookup $revisionLookup;
+	private ArchivedRevisionLookup $archivedRevisionLookup;
 	private CheckUserLogService $checkUserLogService;
 	private CommentStore $commentStore;
 
@@ -34,6 +35,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 	 * @param string $moduleName
 	 * @param UserIdentityLookup $userIdentityLookup
 	 * @param RevisionLookup $revisionLookup
+	 * @param ArchivedRevisionLookup $archivedRevisionLookup
 	 * @param CheckUserLogService $checkUserLogService
 	 * @param CommentStore $commentStore
 	 */
@@ -42,12 +44,14 @@ class ApiQueryCheckUser extends ApiQueryBase {
 		$moduleName,
 		UserIdentityLookup $userIdentityLookup,
 		RevisionLookup $revisionLookup,
+		ArchivedRevisionLookup $archivedRevisionLookup,
 		CheckUserLogService $checkUserLogService,
 		CommentStore $commentStore
 	) {
 		parent::__construct( $query, $moduleName, 'cu' );
 		$this->userIdentityLookup = $userIdentityLookup;
 		$this->revisionLookup = $revisionLookup;
+		$this->archivedRevisionLookup = $archivedRevisionLookup;
 		$this->checkUserLogService = $checkUserLogService;
 		$this->commentStore = $commentStore;
 	}
@@ -196,21 +200,8 @@ class ApiQueryCheckUser extends ApiQueryBase {
 							$revRecord = $this->revisionLookup
 								->getRevisionById( $row->cuc_this_oldid );
 							if ( !$revRecord ) {
-								$queryInfo = MediaWikiServices::getInstance()
-									->getRevisionStore()
-									->getArchiveQueryInfo();
-								$tmp = $dbr->newSelectQueryBuilder()
-									->fields( $queryInfo['fields'] )
-									->tables( $queryInfo['tables'] )
-									->joinConds( $queryInfo['joins'] )
-									->where( [ 'ar_rev_id' => $row->cuc_this_oldid ] )
-									->caller( __METHOD__ )
-									->fetchRow();
-								if ( $tmp ) {
-									$revRecord = MediaWikiServices::getInstance()
-										->getRevisionFactory()
-										->newRevisionFromArchiveRow( $tmp );
-								}
+								$revRecord = $this->archivedRevisionLookup
+									->getArchivedRevisionRecord( null, $row->cuc_this_oldid );
 							}
 							if ( !$revRecord ) {
 								// This shouldn't happen, CheckUser points to a revision

@@ -69,8 +69,8 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 		$query = $main->getModuleManager()->getModule( 'query' );
 		return TestingAccessWrapper::newFromObject( new ApiQueryCheckUser(
 			$query, $moduleName, $services->getUserIdentityLookup(),
-			$services->getRevisionLookup(), $services->get( 'CheckUserLogService' ),
-			$services->getCommentStore()
+			$services->getRevisionLookup(), $services->getArchivedRevisionLookup(),
+			$services->get( 'CheckUserLogService' ), $services->getCommentStore()
 		) );
 	}
 

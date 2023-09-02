@@ -24,6 +24,7 @@ use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Page\WikiPageFactory;
 use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\Revision\ArchivedRevisionLookup;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\Title\Title;
 use MediaWiki\User\CentralId\CentralIdLookupFactory;
@@ -76,6 +77,7 @@ class SpecialCheckUser extends SpecialPage {
 	private ActorMigration $actorMigration;
 	private UserFactory $userFactory;
 	private RevisionStore $revisionStore;
+	private ArchivedRevisionLookup $archivedRevisionLookup;
 	private CheckUserLogService $checkUserLogService;
 	private CommentFormatter $commentFormatter;
 	private UserEditTracker $userEditTracker;
@@ -100,6 +102,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param ActorMigration $actorMigration
 	 * @param UserFactory $userFactory
 	 * @param RevisionStore $revisionStore
+	 * @param ArchivedRevisionLookup $archivedRevisionLookup
 	 * @param CheckUserLogService $checkUserLogService
 	 * @param CommentFormatter $commentFormatter
 	 * @param UserEditTracker $userEditTracker
@@ -124,6 +127,7 @@ class SpecialCheckUser extends SpecialPage {
 		ActorMigration $actorMigration,
 		UserFactory $userFactory,
 		RevisionStore $revisionStore,
+		ArchivedRevisionLookup $archivedRevisionLookup,
 		CheckUserLogService $checkUserLogService,
 		CommentFormatter $commentFormatter,
 		UserEditTracker $userEditTracker,
@@ -149,6 +153,7 @@ class SpecialCheckUser extends SpecialPage {
 		$this->actorMigration = $actorMigration;
 		$this->userFactory = $userFactory;
 		$this->revisionStore = $revisionStore;
+		$this->archivedRevisionLookup = $archivedRevisionLookup;
 		$this->checkUserLogService = $checkUserLogService;
 		$this->commentFormatter = $commentFormatter;
 		$this->userEditTracker = $userEditTracker;
@@ -773,6 +778,7 @@ class SpecialCheckUser extends SpecialPage {
 					$this->actorMigration,
 					$this->userFactory,
 					$this->revisionStore,
+					$this->archivedRevisionLookup,
 					$this->checkUserLogService,
 					$this->commentFormatter,
 					$this->userEditTracker,

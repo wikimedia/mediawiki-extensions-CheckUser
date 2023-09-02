@@ -20,6 +20,7 @@ use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Logger\LoggerFactory;
+use MediaWiki\Revision\ArchivedRevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\SpecialPageFactory;
@@ -58,6 +59,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	private LoggerInterface $logger;
 	private LinkBatchFactory $linkBatchFactory;
 	private RevisionStore $revisionStore;
+	private ArchivedRevisionLookup $archivedRevisionLookup;
 	private CommentFormatter $commentFormatter;
 	private UserEditTracker $userEditTracker;
 	private HookRunner $hookRunner;
@@ -79,6 +81,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	 * @param ActorMigration $actorMigration
 	 * @param UserFactory $userFactory
 	 * @param RevisionStore $revisionStore
+	 * @param ArchivedRevisionLookup $archivedRevisionLookup
 	 * @param CheckUserLogService $checkUserLogService
 	 * @param CommentFormatter $commentFormatter
 	 * @param UserEditTracker $userEditTracker
@@ -105,6 +108,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		ActorMigration $actorMigration,
 		UserFactory $userFactory,
 		RevisionStore $revisionStore,
+		ArchivedRevisionLookup $archivedRevisionLookup,
 		CheckUserLogService $checkUserLogService,
 		CommentFormatter $commentFormatter,
 		UserEditTracker $userEditTracker,
@@ -124,6 +128,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
 		$this->xfor = $xfor;
 		$this->linkBatchFactory = $linkBatchFactory;
+		$this->archivedRevisionLookup = $archivedRevisionLookup;
 		$this->revisionStore = $revisionStore;
 		$this->commentFormatter = $commentFormatter;
 		$this->userEditTracker = $userEditTracker;
@@ -397,17 +402,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 				$revRecord = $this->revisionStore->getRevisionById( $row->this_oldid );
 				if ( !$revRecord ) {
 					// Assume revision is deleted
-					$queryInfo = $this->revisionStore->getArchiveQueryInfo();
-					$tmp = $this->mDb->newSelectQueryBuilder()
-						->tables( $queryInfo['tables'] )
-						->fields( $queryInfo['fields'] )
-						->conds( [ 'ar_rev_id' => $row->this_oldid ] )
-						->joinConds( $queryInfo['joins'] )
-						->caller( __METHOD__ )
-						->fetchRow();
-					if ( $tmp ) {
-						$revRecord = $this->revisionStore->newRevisionFromArchiveRow( $tmp );
-					}
+					$revRecord = $this->archivedRevisionLookup->getArchivedRevisionRecord( null, $row->this_oldid );
 				}
 				if ( !$revRecord ) {
 					// This shouldn't happen, CheckUser points to a revision
