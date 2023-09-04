@@ -261,27 +261,27 @@
 		}
 	},
 	"Hooks": {
-		"RecentChange_save": "Hooks",
-		"EmailUser": "Hooks",
-		"User::mailPasswordInternal": "Hooks",
-		"LocalUserCreated": "Hooks",
-		"UserMergeAccountFields": "MediaWiki\\CheckUser\\Hooks::onUserMergeAccountFields",
-		"RenameUserSQL": "RenameUserSQLHandler",
-		"LoadExtensionSchemaUpdates": "SchemaChanges",
-		"ContributionsToolLinks": "ToolLinks",
-		"UserToolLinksEdit": "ToolLinks",
-		"PerformRetroactiveAutoblock": "Hooks",
 		"AuthManagerLoginAuthenticateAudit": "Hooks",
-		"UserLogoutComplete": "Hooks",
-		"SpecialPage_initList": "SpecialPageInitList",
 		"BeforePageDisplay": [
 			"clienthints",
 			"pageDisplay"
 		],
+		"ContributionsToolLinks": "ToolLinks",
+		"EmailUser": "Hooks",
 		"GetPreferences": "preferences",
+		"LoadExtensionSchemaUpdates": "SchemaChanges",
+		"LocalUserCreated": "Hooks",
+		"PerformRetroactiveAutoblock": "Hooks",
+		"RecentChange_save": "Hooks",
+		"RenameUserSQL": "RenameUserSQLHandler",
+		"ResourceLoaderRegisterModules": "RLRegisterModules",
 		"SaveUserOptions": "preferences",
 		"SpecialPageBeforeExecute": "clienthints",
-		"ResourceLoaderRegisterModules": "RLRegisterModules"
+		"SpecialPage_initList": "SpecialPageInitList",
+		"User::mailPasswordInternal": "Hooks",
+		"UserLogoutComplete": "Hooks",
+		"UserMergeAccountFields": "MediaWiki\\CheckUser\\Hooks::onUserMergeAccountFields",
+		"UserToolLinksEdit": "ToolLinks"
 	},
 	"MessagesDirs": {
 		"CheckUser": [
