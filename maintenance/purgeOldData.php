@@ -32,32 +32,29 @@ class PurgeOldData extends Maintenance {
 		$PutIPinRC = $config->get( 'PutIPinRC' );
 
 		$this->output( "Purging data from cu_changes..." );
-		[ $count, $mappingRowsCount, $clientHintRowsCount ] = $this->prune(
+		[ $count, $mappingRowsCount ] = $this->prune(
 			'cu_changes', 'cuc_timestamp', $CUDMaxAge, UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES
 		);
 		$this->output(
-			"Purged $count rows, with $mappingRowsCount client hint mapping rows purged " .
-			"and $clientHintRowsCount client hint rows purged.\n"
+			"Purged $count rows and $mappingRowsCount client hint mapping rows purged.\n"
 		);
 
 		$this->output( "Purging data from cu_private_event..." );
-		[ $count, $mappingRowsCount, $clientHintRowsCount ] = $this->prune(
+		[ $count, $mappingRowsCount ] = $this->prune(
 			'cu_private_event', 'cupe_timestamp', $CUDMaxAge,
 			UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT
 		);
 		$this->output(
-			"Purged $count rows, with $mappingRowsCount client hint mapping rows purged " .
-			"and $clientHintRowsCount client hint rows purged.\n"
+			"Purged $count rows and $mappingRowsCount client hint mapping rows purged.\n"
 		);
 
 		$this->output( "Purging data from cu_log_event..." );
-		[ $count, $mappingRowsCount, $clientHintRowsCount ] = $this->prune(
+		[ $count, $mappingRowsCount ] = $this->prune(
 			'cu_log_event', 'cule_timestamp', $CUDMaxAge,
 			UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT
 		);
 		$this->output(
-			"Purged $count rows, with $mappingRowsCount client hint mapping rows purged " .
-			"and $clientHintRowsCount client hint rows purged.\n"
+			"Purged $count rows and $mappingRowsCount client hint mapping rows purged.\n"
 		);
 
 		if ( $PutIPinRC ) {
@@ -75,8 +72,8 @@ class PurgeOldData extends Maintenance {
 	 * @param int $maxAge
 	 * @param int|null $clientHintMappingId The mapping ID associated with this table for cu_useragent_clienthints_map
 	 *
-	 * @return int[] An array of three integers: The first being the rows deleted in $table,
-	 *  the second in cu_useragent_clienthints_map, and the third in cu_useragent_clienthints.
+	 * @return int[] An array of two integers: The first being the rows deleted in $table and
+	 *  the second in cu_useragent_clienthints_map.
 	 */
 	protected function prune( string $table, string $ts_column, int $maxAge, ?int $clientHintMappingId ) {
 		/** @var UserAgentClientHintsManager $userAgentClientHintsManager */
@@ -131,20 +128,14 @@ class PurgeOldData extends Maintenance {
 		}
 
 		$mappingRowsDeleted = 0;
-		$orphanedClientHintRowsDeleted = 0;
 		if ( $shouldDeleteAssociatedClientData ) {
-			$status = $userAgentClientHintsManager->deleteMappingRows( $clientHintReferenceIds );
-			if ( $status->isGood() ) {
-				[ $mappingRowsDeleted, $orphanedClientHintRowsDeleted ] = $status->getValue();
-				if ( $mappingRowsDeleted || $orphanedClientHintRowsDeleted ) {
-					$this->commitTransaction( $dbw, __METHOD__ );
-				}
-			} else {
-				$this->output( 'Deletion of client hint data did not succeed.' );
+			$mappingRowsDeleted = $userAgentClientHintsManager->deleteMappingRows( $clientHintReferenceIds );
+			if ( $mappingRowsDeleted ) {
+				$this->commitTransaction( $dbw, __METHOD__ );
 			}
 		}
 
-		return [ $deletedCount, $mappingRowsDeleted, $orphanedClientHintRowsDeleted ];
+		return [ $deletedCount, $mappingRowsDeleted ];
 	}
 }
 

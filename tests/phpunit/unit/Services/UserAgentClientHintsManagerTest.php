@@ -220,32 +220,17 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 
 	/** @dataProvider provideDeleteMappingRows */
 	public function testDeleteMappingRows(
-		$referenceIds, $referenceMappingIds, $clientHintRowIds, $clientHintOrphanedRowIds
+		$referenceIds, $referenceMappingIds
 	) {
-		// Mock replica DB
-		$dbrMock = $this->createMock( IReadableDatabase::class );
-		$dbrMock->method( 'newSelectQueryBuilder' )->willReturnCallback( fn() => new SelectQueryBuilder( $dbrMock ) );
-		$dbrWithConsecutive = [];
-		$dbrWillReturnConsecutive = [];
 		// Mock primary DB
 		$dbwMock = $this->createMock( IDatabase::class );
 		$dbwMock->method( 'newSelectQueryBuilder' )->willReturnCallback( fn() => new SelectQueryBuilder( $dbwMock ) );
 		$dbwMock->method( 'newDeleteQueryBuilder' )->willReturnCallback( fn() => new DeleteQueryBuilder( $dbwMock ) );
 		$dbwDeleteWithConsecutive = [];
 		// Test cases that the DB methods are called as appropriate.
+		$idsCount = 0;
 		foreach ( $referenceIds as $type => $ids ) {
-			$dbrWithConsecutive[] = [
-				[ 'cu_useragent_clienthints_map' ],
-				'uachm_uach_id',
-				[
-					'uachm_reference_id' => $ids,
-					'uachm_reference_type' => $referenceMappingIds[$type]
-				],
-				'MediaWiki\CheckUser\Services\UserAgentClientHintsManager::deleteMappingRows',
-				[ 'DISTINCT' ],
-				[]
-			];
-			$dbrWillReturnConsecutive[] = $clientHintRowIds[$type];
+			$idsCount += count( $ids );
 			$dbwDeleteWithConsecutive[] = [
 				'cu_useragent_clienthints_map',
 				[
@@ -254,38 +239,33 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 				],
 				'MediaWiki\CheckUser\Services\UserAgentClientHintsManager::deleteMappingRows'
 			];
+			$dbwAffectedRowsConsecutiveReturn[] = count( $ids );
 		}
-		$dbwDeleteWithConsecutive[] = [
-			'cu_useragent_clienthints',
-			[
-				'uach_id' => $clientHintOrphanedRowIds
-			],
-			'MediaWiki\CheckUser\Services\UserAgentClientHintsManager::deleteMappingRows'
-		];
-		$dbrMock->method( 'selectFieldValues' )
-			->withConsecutive( ...$dbrWithConsecutive )
-			->willReturnOnConsecutiveCalls( ...$dbrWillReturnConsecutive );
-		$allClientHintIds = array_merge( ...array_values( $clientHintRowIds ) );
-		$dbwMock
-			->expects( $this->once() )
-			->method( 'selectFieldValues' )
-			->with(
-				[ 'cu_useragent_clienthints_map' ],
-				'uachm_uach_id',
-				[
-					'uachm_uach_id' => $allClientHintIds
-				],
-				'MediaWiki\CheckUser\Services\UserAgentClientHintsManager::deleteMappingRows',
-				[ 'DISTINCT' ],
-				[]
-			)->willReturn( array_values( array_diff( $allClientHintIds, $clientHintOrphanedRowIds ) ) );
 		$dbwMock
 			->method( 'delete' )
 			->withConsecutive( ...$dbwDeleteWithConsecutive );
+		$dbwMock
+			->method( 'affectedRows' )
+			->willReturnOnConsecutiveCalls( ...$dbwAffectedRowsConsecutiveReturn );
 		$mockReferenceIds = $this->createMock( ClientHintsReferenceIds::class );
 		$mockReferenceIds->method( 'getReferenceIds' )
 			->willReturn( $referenceIds );
-		$this->getObjectUnderTest( $dbwMock, $dbrMock )->deleteMappingRows( $mockReferenceIds );
+		$loggerMock = $this->createMock( LoggerInterface::class );
+		$loggerMock->expects( $this->once() )
+			->method( 'debug' )
+			->with(
+				"Deleted {mapping_rows_deleted} mapping rows.",
+				[ 'mapping_rows_deleted' => $idsCount ]
+			)
+			->willReturn( null );
+		$mappingRowsDeleted = $this->getObjectUnderTest(
+			$dbwMock, $this->createMock( IReadableDatabase::class ), $loggerMock
+		)->deleteMappingRows( $mockReferenceIds );
+		$this->assertSame(
+			$idsCount,
+			$mappingRowsDeleted,
+			'The number of mapping rows deleted did not match the number returned by ::deleteMappingRows.'
+		);
 	}
 
 	public static function provideDeleteMappingRows() {
@@ -301,13 +281,6 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 				[
 					UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => 0
 				],
-				// The cu_useragent_clienthints IDs associated with the reference IDs per type
-				[
-					UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => [ 1, 2, 3 ]
-				],
-				// The cu_useragent_clienthints IDs associated with the reference IDs which are orphaned
-				//  after deletion of the mapping rows
-				[ 2 ]
 			]
 		];
 	}
@@ -317,18 +290,21 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 		$clientHintReferenceIds->addReferenceIds( [], UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES );
 		$clientHintReferenceIds->addReferenceIds( [], UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT );
 		$clientHintReferenceIds->addReferenceIds( [], UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT );
+		$loggerMock = $this->createMock( LoggerInterface::class );
+		$loggerMock->expects( $this->once() )
+			->method( 'info' )
+			->with( "No mapping rows deleted." )
+			->willReturn( null );
 		$objectToTest = TestingAccessWrapper::newFromObject(
-			$this->newServiceInstance( UserAgentClientHintsManager::class, [] )
+			$this->newServiceInstance( UserAgentClientHintsManager::class, [ 'logger' => $loggerMock ] )
 		);
 		/** @var Status $result */
 		$result = $objectToTest->deleteMappingRows( $clientHintReferenceIds );
-		$this->assertStatusGood( $result );
-		$this->assertArrayEquals(
-			[ 0, 0 ],
-			$result->getValue(),
-			false,
-			false,
-			'No mapping rows or cu_useragent_clienthints rows should have been touched.'
+		$this->assertSame(
+			0,
+			$result,
+			'No mapping rows should have been deleted, but ::deleteMappingRows reported ' .
+			'deleting some mapping rows.'
 		);
 	}
 }

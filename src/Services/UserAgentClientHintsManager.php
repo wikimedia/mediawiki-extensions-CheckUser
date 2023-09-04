@@ -146,8 +146,6 @@ class UserAgentClientHintsManager {
 	private function insertMappingRows(
 		ClientHintsData $clientHintsData, int $foreignId, string $type, bool $usePrimary = false
 	): StatusValue {
-		// Get the cu_useragent_clienthints ID for each pair of client hint name/value
-		$clientHintIds = [];
 		$rows = $clientHintsData->toDatabaseRows();
 		// We might need primary DB if the call is happening in the context of a server-side hook,
 		$db = $usePrimary ? $this->dbw : $this->dbr;
@@ -191,37 +189,16 @@ class UserAgentClientHintsManager {
 	 * Given reference IDs this method finds and deletes
 	 * the mapping entries for these reference IDs.
 	 *
-	 * If the cu_useragent_clienthint rows associated with the
-	 * deleted mapping rows are now "orphaned" (not referenced
-	 * by any mapping row), this method will delete them.
-	 *
 	 * @param ClientHintsReferenceIds $clientHintsReferenceIds
-	 * @return StatusValue
+	 * @return int The number of mapping rows deleted.
 	 */
-	public function deleteMappingRows( ClientHintsReferenceIds $clientHintsReferenceIds ): StatusValue {
-		// An array to store rows in cu_useragent_clienthints that were associated with
-		//  now deleted cu_useragent_clienthints_map rows.
-		$clientHintIds = [];
+	public function deleteMappingRows( ClientHintsReferenceIds $clientHintsReferenceIds ): int {
+		// Keep a track of the number of mapping rows that are deleted.
 		$mappingRowsDeleted = 0;
-		$orphanedClientHintRowsDeleted = 0;
 		foreach ( $clientHintsReferenceIds->getReferenceIds() as $mapId => $referenceIds ) {
 			if ( !count( $referenceIds ) ) {
 				continue;
 			}
-			// Get the IDs for the associated rows in the cu_useragent_clienthints table
-			$clientHintIds = array_merge(
-				$clientHintIds,
-				$this->dbr->newSelectQueryBuilder()
-					->table( 'cu_useragent_clienthints_map' )
-					->field( 'uachm_uach_id' )
-					->where( [
-						'uachm_reference_id' => $referenceIds,
-						'uachm_reference_type' => $mapId
-					] )
-					->caller( __METHOD__ )
-					->distinct()
-					->fetchFieldValues()
-			);
 			// Delete the rows in cu_useragent_clienthints_map associated with these reference IDs
 			$this->dbw->newDeleteQueryBuilder()
 				->table( 'cu_useragent_clienthints_map' )
@@ -233,48 +210,15 @@ class UserAgentClientHintsManager {
 				->execute();
 			$mappingRowsDeleted += $this->dbw->affectedRows();
 		}
-		if ( count( $clientHintIds ) ) {
-			// Check if the cu_useragent_clienthints rows with IDs in $clientHintIds are now orphaned.
-			// If they are orphaned, delete them.
-			//
-			// Read from primary as the deletes just occurred which would affect the query.
-			$orphanedClientHintRowIds = array_values( array_diff(
-				$clientHintIds,
-				$this->dbw->newSelectQueryBuilder()
-					->table( 'cu_useragent_clienthints_map' )
-					->field( 'uachm_uach_id' )
-					->where( [
-						'uachm_uach_id' => $clientHintIds
-					] )
-					->distinct()
-					->caller( __METHOD__ )
-					->fetchFieldValues()
-			) );
-			if ( count( $orphanedClientHintRowIds ) ) {
-				// Now delete the orphaned cu_useragent_clienthints rows.
-				$this->dbw->newDeleteQueryBuilder()
-					->table( 'cu_useragent_clienthints' )
-					->where( [
-						'uach_id' => $orphanedClientHintRowIds
-					] )
-					->caller( __METHOD__ )
-					->execute();
-				$orphanedClientHintRowsDeleted = $this->dbw->affectedRows();
-			}
-		}
 		if ( !$mappingRowsDeleted ) {
 			$this->logger->info( "No mapping rows deleted." );
 		} else {
 			$this->logger->debug(
-				"Deleted {mapping_rows_deleted} mapping rows and " .
-				"{orphaned_client_hint_rows_deleted} orphaned client hint data rows.",
-				[
-					'mapping_rows_deleted' => $mappingRowsDeleted,
-					'orphaned_client_hint_rows_deleted' => $orphanedClientHintRowsDeleted
-				]
+				"Deleted {mapping_rows_deleted} mapping rows.",
+				[ 'mapping_rows_deleted' => $mappingRowsDeleted ]
 			);
 		}
-		return StatusValue::newGood( [ $mappingRowsDeleted, $orphanedClientHintRowsDeleted ] );
+		return $mappingRowsDeleted;
 	}
 
 	/**
