@@ -179,6 +179,7 @@ class UserAgentClientHintsManager {
 		if ( count( $mapRows ) ) {
 			$this->dbw->newInsertQueryBuilder()
 				->insert( 'cu_useragent_clienthints_map' )
+				->ignore()
 				->rows( $mapRows )
 				->caller( __METHOD__ )
 				->execute();
