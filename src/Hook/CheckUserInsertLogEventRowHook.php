@@ -10,18 +10,16 @@ interface CheckUserInsertLogEventRowHook {
 	 * Use this hook to modify the IP, XFF or other values
 	 * in the row to be inserted into cu_log_event.
 	 *
-	 * If changing the request IP or XFF stored you are
+	 * If changing the request IP or XFF stored in the database, you are
 	 * required to modify $ip and $xff (instead of
 	 * modifying $row) as CheckUser will calculate other
 	 * values based on those parameters and not the values
 	 * in $row.
 	 *
-	 * Set the $xff to false to represent no defined XFF.
-	 *
 	 * @since 1.40
 	 *
-	 * @param string &$ip The users IP
-	 * @param string|false &$xff The XFF for the request
+	 * @param string &$ip The user's IP
+	 * @param string|false &$xff The XFF for the request; false if no defined XFF
 	 * @param array &$row The row to be inserted (before defaults are applied)
 	 * @param UserIdentity $user The user who performed the action associated with this row
 	 * @param int $id The ID of the associated log event

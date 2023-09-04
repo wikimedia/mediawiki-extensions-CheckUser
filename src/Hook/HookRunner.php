@@ -7,6 +7,7 @@ use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\User\UserIdentity;
 use RecentChange;
+use stdClass;
 
 class HookRunner implements
 	CheckUserFormatRowHook,
@@ -30,7 +31,7 @@ class HookRunner implements
 	/** @inheritDoc */
 	public function onCheckUserFormatRow(
 		IContextSource $context,
-		\stdClass $row,
+		stdClass $row,
 		array &$rowItems
 	) {
 		$this->container->run(
@@ -90,7 +91,7 @@ class HookRunner implements
 
 	/** @inheritDoc */
 	public function onSpecialCheckUserGetLinksFromRow(
-		AbstractCheckUserPager $specialCheckUser, \stdClass $row, array &$links
+		AbstractCheckUserPager $specialCheckUser, stdClass $row, array &$links
 	) {
 		$this->container->run(
 			'SpecialCheckUserGetLinksFromRow',

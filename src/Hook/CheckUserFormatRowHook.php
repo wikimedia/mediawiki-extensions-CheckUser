@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Hook;
 
 use IContextSource;
+use stdClass;
 
 interface CheckUserFormatRowHook {
 	/**
@@ -11,12 +12,12 @@ interface CheckUserFormatRowHook {
 	 * @since 1.35
 	 *
 	 * @param IContextSource $context
-	 * @param \stdClass $row
+	 * @param stdClass $row
 	 * @param string[][] &$rowItems
 	 */
 	public function onCheckUserFormatRow(
 		IContextSource $context,
-		\stdClass $row,
+		stdClass $row,
 		array &$rowItems
 	);
 }
