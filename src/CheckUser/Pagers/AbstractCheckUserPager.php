@@ -211,13 +211,13 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	 * @return string
 	 */
 	protected function getTimeRangeString( string $first, string $last ): string {
-		$s = $this->getFormattedTimestamp( $first );
-		if ( $first !== $last ) {
-			// @todo i18n issue - hardcoded string
-			$s .= ' -- ';
-			$s .= $this->getFormattedTimestamp( $last );
+		if ( $first === $last ) {
+			return $this->getFormattedTimestamp( $first );
+		} else {
+			return $this->msg( 'checkuser-time-range' )
+				->dateTimeParams( $first, $last )
+				->escaped();
 		}
-		return $s;
 	}
 
 	/**
