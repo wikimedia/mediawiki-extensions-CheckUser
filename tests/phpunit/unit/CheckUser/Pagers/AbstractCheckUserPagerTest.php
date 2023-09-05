@@ -642,4 +642,61 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 			],
 		];
 	}
+
+	/** @dataProvider provideGroupResultsByIndexField */
+	public function testGroupResultsByIndexField( $indexField, $results, $expectedGroupedResults ) {
+		$objectUnderTest = $this->getMockBuilder( DeAbstractedCheckUserPagerTest::class )
+			->disableOriginalConstructor()
+			->onlyMethods( [ 'getIndexField' ] )
+			->getMock();
+		$objectUnderTest->method( 'getIndexField' )
+			->willReturn( $indexField );
+		$objectUnderTest = TestingAccessWrapper::newFromObject( $objectUnderTest );
+		$this->assertArrayEquals(
+			$expectedGroupedResults,
+			$objectUnderTest->groupResultsByIndexField( $results ),
+			true,
+			true,
+			'::groupResultsByIndexField did not group the results in the expected way.'
+		);
+	}
+
+	public static function provideGroupResultsByIndexField() {
+		$currentTimestamp = ConvertibleTimestamp::now();
+		$otherTimestamp = '20220904094043';
+		return [
+			'Timestamp index field for 3 rows with no duplicate timestamps' => [
+				'timestamp',
+				[
+					(object)[ 'timestamp' => $currentTimestamp, 'id' => 111 ],
+					(object)[ 'timestamp' => $otherTimestamp, 'id' => 23 ],
+				],
+				[
+					$currentTimestamp => [
+						(object)[ 'timestamp' => $currentTimestamp, 'id' => 111 ]
+					],
+					$otherTimestamp => [
+						(object)[ 'timestamp' => $otherTimestamp, 'id' => 23 ]
+					],
+				]
+			],
+			'Timestamp index field for 3 rows with duplicate timestamps' => [
+				'timestamp',
+				[
+					(object)[ 'timestamp' => $currentTimestamp, 'id' => 1 ],
+					(object)[ 'timestamp' => $otherTimestamp, 'id' => 2 ],
+					(object)[ 'timestamp' => $currentTimestamp, 'id' => 3 ],
+				],
+				[
+					$currentTimestamp => [
+						(object)[ 'timestamp' => $currentTimestamp, 'id' => 1 ],
+						(object)[ 'timestamp' => $currentTimestamp, 'id' => 3 ],
+					],
+					$otherTimestamp => [
+						(object)[ 'timestamp' => $otherTimestamp, 'id' => 2 ],
+					],
+				]
+			]
+		];
+	}
 }

@@ -5,7 +5,7 @@ namespace MediaWiki\CheckUser\CheckUser\Pagers;
 use ActorMigration;
 use CentralIdLookup;
 use IContextSource;
-use InvalidArgumentException;
+use LogicException;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
@@ -80,7 +80,7 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 
 		// If we get some results, it helps to know if the IP in general
 		// has a lot more edits, e.g. "tip of the iceberg"...
-		$ipEdits = $this->getCountForIPedits( $ip );
+		$ipEdits = $this->getCountForIPActions( $ip );
 		if ( $ipEdits ) {
 			$templateParams['ipEditCount'] =
 				$this->msg( 'checkuser-ipeditcount' )->numParams( $ipEdits )->escaped();
@@ -94,7 +94,7 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 					'reason' => $this->opts->getValue( 'reason' ),
 				]
 			);
-			$ipEdits64 = $this->getCountForIPedits( $ip . '/64' );
+			$ipEdits64 = $this->getCountForIPActions( $ip . '/64' );
 			if ( $ipEdits64 && ( !$ipEdits || $ipEdits64 > $ipEdits ) ) {
 				$templateParams['ip64EditCount'] =
 					$this->msg( 'checkuser-ipeditcount-64' )->numParams( $ipEdits64 )->escaped();
@@ -130,27 +130,71 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 
 	/**
 	 * Return "checkuser-ipeditcount" number or false
-	 *  if the number is the same as the number of edits
-	 *  made by the user on the IP
+	 * if the number is the same as the number of edits
+	 * made by the user on the IP.
 	 *
 	 * @param string $ip_or_range
 	 * @return int|false
 	 */
-	protected function getCountForIPedits( string $ip_or_range ) {
-		$conds = $this->getIpConds( $this->mDb, $ip_or_range );
+	protected function getCountForIPActions( string $ip_or_range ) {
+		$count = false;
+		$tables = self::RESULT_TABLES;
+		if ( !$this->eventTableReadNew ) {
+			$tables = [ self::CHANGES_TABLE ];
+		}
+		$countsPerTable = [];
+		// Get the total count and counts by this user.
+		foreach ( $tables as $table ) {
+			$countsPerTable[$table] = $this->getCountForIPActionsPerTable( $ip_or_range, $table );
+		}
+		// Display the count if at least one of the counts for a table has more actions
+		// performed by all users than the current target user.
+		$shouldDisplayCount = count( array_filter( $countsPerTable, static function ( $countsForTable ) {
+			return $countsForTable !== null && $countsForTable['total'] > $countsForTable['by_this_target'];
+		} ) );
+		if ( $shouldDisplayCount ) {
+			// If displaying the count, then sum the
+			// 'total' count for all three tables.
+			foreach ( $countsPerTable as $countsForTable ) {
+				if ( $countsForTable !== null ) {
+					$count += $countsForTable['total'];
+				}
+			}
+		}
+		return $count;
+	}
+
+	/**
+	 * Return the number of actions performed by all users
+	 * and the current target on a given IP or IP range.
+	 *
+	 * @param string $ip_or_range The IP or IP range to get the counts from.
+	 * @param string $table The table to get these results from (valid tables in self::RESULT_TABLES).
+	 * @return array<string, integer>|null
+	 */
+	protected function getCountForIPActionsPerTable( string $ip_or_range, string $table ): ?array {
+		$conds = self::getIpConds( $this->mDb, $ip_or_range, false, $table );
 		if ( !$conds ) {
-			return false;
+			return null;
 		}
 		// We are only using startOffset for the period feature.
 		if ( $this->startOffset ) {
 			$conds[] = $this->mDb->buildComparison(
-				'>=', [ $this->getTimestampField( self::CHANGES_TABLE ) => $this->startOffset ]
+				'>=', [ $this->getTimestampField( $table ) => $this->startOffset ]
 			);
+		}
+
+		// If the $table is cu_changes and event table migration
+		// is set to read new, then only include rows that have
+		// cuc_only_for_read_old equal to 0 to prevent duplicate
+		// rows appearing.
+		if ( $this->eventTableReadNew && $table === self::CHANGES_TABLE ) {
+			$conds['cuc_only_for_read_old'] = 0;
 		}
 
 		// Get counts for this IP / IP range
 		$query = $this->mDb->newSelectQueryBuilder()
-			->table( 'cu_changes' )
+			->table( $table )
 			->conds( $conds )
 			->caller( __METHOD__ );
 		$ipEdits = $query->estimateRowCount();
@@ -162,8 +206,12 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 		// Get counts for the target on this IP / IP range
 		$conds['actor_user'] = $this->target->getId();
 		$query = $this->mDb->newSelectQueryBuilder()
-			->table( 'cu_changes' )
-			->join( 'actor', 'cu_changes_actor', 'cu_changes_actor.actor_id = cuc_actor' )
+			->table( $table )
+			->join(
+				'actor',
+				"{$table}_actor",
+				"{$table}_actor.actor_id = {$this::RESULT_TABLE_TO_PREFIX[$table]}actor"
+			)
 			->conds( $conds )
 			->caller( __METHOD__ );
 		$userOnIpEdits = $query->estimateRowCount();
@@ -172,20 +220,82 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 			$userOnIpEdits = $query->fetchRowCount();
 		}
 
-		if ( $ipEdits > $userOnIpEdits ) {
-			return $ipEdits;
+		return [ 'total' => $ipEdits, 'by_this_target' => $userOnIpEdits ];
+	}
+
+	/** @inheritDoc */
+	protected function groupResultsByIndexField( array $results ): array {
+		// Group rows that have the same 'ip' and 'ip_hex' value.
+		$resultsGroupedByIPAndIPHex = [];
+		foreach ( $results as $row ) {
+			if ( !array_key_exists( $row->ip, $resultsGroupedByIPAndIPHex ) ) {
+				$resultsGroupedByIPAndIPHex[$row->ip] = [];
+			}
+			if ( !array_key_exists( $row->ip_hex, $resultsGroupedByIPAndIPHex[$row->ip] ) ) {
+				$resultsGroupedByIPAndIPHex[$row->ip][$row->ip_hex] = [];
+			}
+			$resultsGroupedByIPAndIPHex[$row->ip][$row->ip_hex][] = $row;
 		}
-		return false;
+		// Combine the rows that have the same 'ip' and 'ip_hex' value.
+		$groupedResults = [];
+		$indexField = $this->getIndexField();
+		foreach ( $resultsGroupedByIPAndIPHex as $ip => $ipHexArray ) {
+			foreach ( $ipHexArray as $ipHex => $rows ) {
+				$combinedRow = [
+					'ip' => $ip,
+					'ip_hex' => $ipHex,
+					'count' => 0,
+					'first' => '',
+					'last' => '',
+				];
+				foreach ( $rows as $row ) {
+					$combinedRow['count'] += $row->count;
+					if ( $row->first && ( $combinedRow['first'] > $row->first || !$combinedRow['first'] ) ) {
+						$combinedRow['first'] = $row->first;
+					}
+					if ( $row->last && ( $combinedRow['last'] < $row->last || !$combinedRow['last'] ) ) {
+						$combinedRow['last'] = $row->last;
+					}
+				}
+				$combinedRow = (object)$combinedRow;
+				if ( array_key_exists( $combinedRow->$indexField, $groupedResults ) ) {
+					$groupedResults[$combinedRow->$indexField][] = $combinedRow;
+				} else {
+					$groupedResults[$combinedRow->$indexField] = [ $combinedRow ];
+				}
+			}
+		}
+		return $groupedResults;
 	}
 
 	/** @inheritDoc */
 	public function getQueryInfo( ?string $table = null ): array {
-		if ( $table !== self::CHANGES_TABLE ) {
-			throw new InvalidArgumentException(
-				"This ::getQueryInfo method has not implemented read new support."
+		if ( $table === null ) {
+			throw new LogicException(
+				"This ::getQueryInfo method must be provided with the table to generate " .
+				"the correct query info"
 			);
 		}
-		return [
+
+		if ( $table === self::CHANGES_TABLE ) {
+			$queryInfo = $this->getQueryInfoForCuChanges();
+		} elseif ( $table === self::LOG_EVENT_TABLE ) {
+			$queryInfo = $this->getQueryInfoForCuLogEvent();
+		} elseif ( $table === self::PRIVATE_LOG_EVENT_TABLE ) {
+			$queryInfo = $this->getQueryInfoForCuPrivateEvent();
+		}
+
+		// Apply index, group by IP / IP hex, and filter results to just the target user.
+		$queryInfo['options']['USE INDEX'] = [ $table => $this->getIndexName( $table ) ];
+		$queryInfo['options']['GROUP BY'] = [ 'ip', 'ip_hex' ];
+		$queryInfo['conds']['actor_user'] = $this->target->getId();
+
+		return $queryInfo;
+	}
+
+	/** @inheritDoc */
+	protected function getQueryInfoForCuChanges(): array {
+		$queryInfo = [
 			'fields' => [
 				'ip' => 'cuc_ip',
 				'ip_hex' => 'cuc_ip_hex',
@@ -193,35 +303,51 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 				'first' => 'MIN(cuc_timestamp)',
 				'last' => 'MAX(cuc_timestamp)',
 			],
-			'tables' => [ 'cu_changes', 'actor' ],
-			'conds' => [ 'actor_user' => $this->target->getId() ],
-			'join_conds' => [ 'actor' => [ 'JOIN', 'actor_id=cuc_actor' ] ],
-			'options' => [
-				'GROUP BY' => [ 'ip', 'ip_hex' ],
-				'USE INDEX' => [ 'cu_changes' => 'cuc_actor_ip_time' ]
-			],
+			'tables' => [ 'cu_changes', 'actor_cuc_actor' => 'actor' ],
+			'conds' => [],
+			'join_conds' => [ 'actor_cuc_actor' => [ 'JOIN', 'actor_cuc_actor.actor_id=cuc_actor' ] ],
+			'options' => [],
 		];
-	}
-
-	/** @inheritDoc */
-	protected function getQueryInfoForCuChanges(): array {
-		// No read new support yet, so return empty array to be compatible with definition
-		// in AbstractCheckUserPager
-		return [];
+		// When reading new, only select results from cu_changes that are
+		// for read new (defined as those with cuc_only_for_read_old set to 0).
+		if ( $this->eventTableReadNew ) {
+			$queryInfo['conds']['cuc_only_for_read_old'] = 0;
+		}
+		return $queryInfo;
 	}
 
 	/** @inheritDoc */
 	protected function getQueryInfoForCuLogEvent(): array {
-		// No read new support yet, so return empty array to be compatible with definition
-		// in AbstractCheckUserPager
-		return [];
+		return [
+			'fields' => [
+				'ip' => 'cule_ip',
+				'ip_hex' => 'cule_ip_hex',
+				'count' => 'COUNT(*)',
+				'first' => 'MIN(cule_timestamp)',
+				'last' => 'MAX(cule_timestamp)',
+			],
+			'tables' => [ 'cu_log_event', 'actor_cule_actor' => 'actor' ],
+			'conds' => [],
+			'join_conds' => [ 'actor_cule_actor' => [ 'JOIN', 'actor_cule_actor.actor_id=cule_actor' ] ],
+			'options' => [],
+		];
 	}
 
 	/** @inheritDoc */
 	protected function getQueryInfoForCuPrivateEvent(): array {
-		// No read new support yet, so return empty array to be compatible with definition
-		// in AbstractCheckUserPager
-		return [];
+		return [
+			'fields' => [
+				'ip' => 'cupe_ip',
+				'ip_hex' => 'cupe_ip_hex',
+				'count' => 'COUNT(*)',
+				'first' => 'MIN(cupe_timestamp)',
+				'last' => 'MAX(cupe_timestamp)',
+			],
+			'tables' => [ 'cu_private_event', 'actor_cupe_actor' => 'actor' ],
+			'conds' => [],
+			'join_conds' => [ 'actor_cupe_actor' => [ 'JOIN', 'actor_cupe_actor.actor_id=cupe_actor' ] ],
+			'options' => [],
+		];
 	}
 
 	/** @inheritDoc */
@@ -236,7 +362,7 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 	}
 
 	/**
-	 * Temporary measure until Get IPs query is fixed for pagination.
+	 * Temporary measure until Get IPs query is fixed for pagination (T315612).
 	 *
 	 * @return bool
 	 */
