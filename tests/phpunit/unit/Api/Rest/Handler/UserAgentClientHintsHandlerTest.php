@@ -108,6 +108,56 @@ class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
 		);
 	}
 
+	public function testRevisionTooOldToStoreClientHintsData() {
+		$config = new HashConfig( [
+			'CheckUserClientHintsEnabled' => true,
+			'CheckUserClientHintsRestApiMaxTimeLag' => 5,
+		] );
+		$revisionStore = $this->createMock( RevisionStore::class );
+		$revision = $this->createMock( RevisionRecord::class );
+		$user = new UserIdentityValue( 123, 'Foo' );
+		$revision->method( 'getUser' )->willReturn( $user );
+		$revision->method( 'getTimestamp' )->willReturn(
+			ConvertibleTimestamp::convert( TS_MW, ConvertibleTimestamp::time() - 10 )
+		);
+		$revisionStore->method( 'getRevisionById' )->willReturn( $revision );
+		$this->expectExceptionObject(
+			new LocalizedHttpException(
+				new MessageValue( 'checkuser-api-useragent-clienthints-called-too-late' ), 403
+			)
+		);
+		$userAgentClientHintsManager = $this->createMock( UserAgentClientHintsManager::class );
+		$handler = new UserAgentClientHintsHandler( $config, $revisionStore, $userAgentClientHintsManager );
+		$validatedBody = [ 'brands' => [ 'foo', 'bar' ], 'mobile' => true ];
+		$this->executeHandler(
+			$handler, new RequestData(), [], [], [ 'type' => 'revision', 'id' => 1 ], $validatedBody
+		);
+	}
+
+	public function testRevisionWithNullTimestamp() {
+		$config = new HashConfig( [
+			'CheckUserClientHintsEnabled' => true,
+			'CheckUserClientHintsRestApiMaxTimeLag' => 5,
+		] );
+		$revisionStore = $this->createMock( RevisionStore::class );
+		$revision = $this->createMock( RevisionRecord::class );
+		$user = new UserIdentityValue( 123, 'Foo' );
+		$revision->method( 'getUser' )->willReturn( $user );
+		$revision->method( 'getTimestamp' )->willReturn( null );
+		$revisionStore->method( 'getRevisionById' )->willReturn( $revision );
+		$this->expectExceptionObject(
+			new LocalizedHttpException(
+				new MessageValue( 'checkuser-api-useragent-clienthints-called-too-late' ), 403
+			)
+		);
+		$userAgentClientHintsManager = $this->createMock( UserAgentClientHintsManager::class );
+		$handler = new UserAgentClientHintsHandler( $config, $revisionStore, $userAgentClientHintsManager );
+		$validatedBody = [ 'brands' => [ 'foo', 'bar' ], 'mobile' => true ];
+		$this->executeHandler(
+			$handler, new RequestData(), [], [], [ 'type' => 'revision', 'id' => 1 ], $validatedBody
+		);
+	}
+
 	public function testMissingUser() {
 		$config = new HashConfig( [
 			'CheckUserClientHintsEnabled' => true,
@@ -116,6 +166,7 @@ class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
 		$revisionStore = $this->createMock( RevisionStore::class );
 		$revision = $this->createMock( RevisionRecord::class );
 		$revision->method( 'getUser' )->willReturn( null );
+		$revision->method( 'getTimestamp' )->willReturn( ConvertibleTimestamp::now() );
 		$revisionStore->method( 'getRevisionById' )->willReturn( $revision );
 		$this->expectExceptionObject(
 			new LocalizedHttpException(
@@ -140,6 +191,7 @@ class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
 		$user = $this->createMock( UserIdentity::class );
 		$user->method( 'getId' )->willReturn( 123 );
 		$revision->method( 'getUser' )->willReturn( $user );
+		$revision->method( 'getTimestamp' )->willReturn( ConvertibleTimestamp::now() );
 		$revisionStore->method( 'getRevisionById' )->willReturn( $revision );
 		$authority = $this->createMock( Authority::class );
 		$authority->method( 'getUser' )
@@ -148,35 +200,6 @@ class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
 			new LocalizedHttpException(
 				new MessageValue( 'checkuser-api-useragent-clienthints-revision-user-mismatch' ), 401
 			) );
-		$userAgentClientHintsManager = $this->createMock( UserAgentClientHintsManager::class );
-		$handler = new UserAgentClientHintsHandler( $config, $revisionStore, $userAgentClientHintsManager );
-		$validatedBody = [ 'brands' => [ 'foo', 'bar' ], 'mobile' => true ];
-		$this->executeHandler(
-			$handler, new RequestData(), [], [], [ 'type' => 'revision', 'id' => 1 ], $validatedBody, $authority
-		);
-	}
-
-	public function testRevisionTooOldToStoreClientHintsData() {
-		$config = new HashConfig( [
-			'CheckUserClientHintsEnabled' => true,
-			'CheckUserClientHintsRestApiMaxTimeLag' => 5,
-		] );
-		$revisionStore = $this->createMock( RevisionStore::class );
-		$revision = $this->createMock( RevisionRecord::class );
-		$user = new UserIdentityValue( 123, 'Foo' );
-		$revision->method( 'getUser' )->willReturn( $user );
-		$revision->method( 'getTimestamp' )->willReturn(
-			ConvertibleTimestamp::convert( TS_MW, ConvertibleTimestamp::time() - 10 )
-		);
-		$revisionStore->method( 'getRevisionById' )->willReturn( $revision );
-		$authority = $this->createMock( Authority::class );
-		$authority->method( 'getUser' )
-			->willReturn( $user );
-		$this->expectExceptionObject(
-			new LocalizedHttpException(
-				new MessageValue( 'checkuser-api-useragent-clienthints-called-too-late' ), 403
-			)
-		);
 		$userAgentClientHintsManager = $this->createMock( UserAgentClientHintsManager::class );
 		$handler = new UserAgentClientHintsHandler( $config, $revisionStore, $userAgentClientHintsManager );
 		$validatedBody = [ 'brands' => [ 'foo', 'bar' ], 'mobile' => true ];
