@@ -114,6 +114,7 @@ class ClientHintsData implements JsonSerializable {
 				if ( is_bool( $value ) ) {
 					$value = $value ? "1" : "0";
 				}
+				$value = trim( $value );
 				$rows[] = [ 'uach_name' => $key, 'uach_value' => $value ];
 			} else {
 				// Some values are arrays, for example:
@@ -125,14 +126,21 @@ class ClientHintsData implements JsonSerializable {
 				$itemsAsString = [];
 				foreach ( $value as $item ) {
 					if ( is_array( $item ) ) {
-						// Sort to "brand" is always first and then "version".
+						// Sort so "brand" is always first and then "version".
 						ksort( $item );
+						// Trim the data to remove leading and trailing spaces.
+						$item = array_map( static function ( $value ) {
+							return trim( $value );
+						}, $item );
 						// Convert arrays to a string by imploding
 						$itemsAsString[] = implode( ' ', $item );
 					} elseif ( is_string( $item ) || is_numeric( $item ) ) {
 						// Allow integers, floats and strings to be stored
 						// as their string representation.
-						$itemsAsString[] = strval( $item );
+						//
+						// Trim the data to remove leading and trailing spaces.
+						$item = strval( $item );
+						$itemsAsString[] = trim( $item );
 					}
 				}
 				// Remove any duplicates
