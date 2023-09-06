@@ -1,0 +1,19 @@
+{
+	"root": true,
+	"extends": [
+		"wikimedia/server",
+		"wikimedia/jquery",
+		"wikimedia/mediawiki",
+		"wikimedia/qunit"
+	],
+	"globals": {
+		"sinon": "readonly"
+	},
+	"env": {
+		"browser": true
+	},
+	"rules": {
+		"compat/compat": "off",
+		"qunit/no-loose-assertions": "warn"
+	}
+}
