@@ -68,7 +68,7 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 				'bitness' => '64',
 				'brands' => [
 					[
-						"brand" => "Not.A/Brand",
+						"brand" => " Not.A/Brand",
 						"version" => "8"
 					],
 					[
@@ -87,7 +87,7 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 				'formFactor' => null,
 				'fullVersionList' => [
 					[
-						"brand" => "Not.A/Brand",
+						"brand" => " Not.A/Brand",
 						"version" => "8.0.0.0"
 					],
 					[
@@ -181,7 +181,7 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'bitness' => '64',
 					'brands' => [
 						[
-							"brand" => "Not.A/Brand",
+							"brand" => " Not.A/Brand",
 							"version" => "8"
 						],
 						[
@@ -200,7 +200,7 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'formFactor' => null,
 					'fullVersionList' => [
 						[
-							"brand" => "Not.A/Brand",
+							"brand" => " Not.A/Brand",
 							"version" => "8.0.0.0"
 						],
 						[
