@@ -8,9 +8,9 @@ use Exception;
 use ExtensionRegistry;
 use Html;
 use IContextSource;
-use InvalidArgumentException;
 use Linker;
 use ListToggle;
+use LogicException;
 use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
@@ -359,55 +359,89 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 
 	/** @inheritDoc */
 	public function getQueryInfo( ?string $table = null ): array {
-		if ( $table !== self::CHANGES_TABLE ) {
-			throw new InvalidArgumentException(
-				"This ::getQueryInfo method has not implemented read new support."
+		if ( $table === null ) {
+			throw new LogicException(
+				"This ::getQueryInfo method must be provided with the table to generate " .
+				"the correct query info"
 			);
 		}
+
+		if ( $table === self::CHANGES_TABLE ) {
+			$queryInfo = $this->getQueryInfoForCuChanges();
+		} elseif ( $table === self::LOG_EVENT_TABLE ) {
+			$queryInfo = $this->getQueryInfoForCuLogEvent();
+		} elseif ( $table === self::PRIVATE_LOG_EVENT_TABLE ) {
+			$queryInfo = $this->getQueryInfoForCuPrivateEvent();
+		}
+
+		// Apply index and IP WHERE conditions.
+		$queryInfo['options']['USE INDEX'] = [ $table => $this->getIndexName( $table ) ];
+		$ipConds = self::getIpConds( $this->mDb, $this->target->getName(), $this->xfor, $table );
+		if ( $ipConds ) {
+			$queryInfo['conds'] = array_merge( $queryInfo['conds'], $ipConds );
+		}
+
+		return $queryInfo;
+	}
+
+	/** @inheritDoc */
+	protected function getQueryInfoForCuChanges(): array {
 		$queryInfo = [
 			'fields' => [
 				'timestamp' => 'cuc_timestamp',
 				'ip' => 'cuc_ip',
 				'agent' => 'cuc_agent',
 				'xff' => 'cuc_xff',
-				'user' => 'actor_cuc_user.actor_user',
-				'user_text' => 'actor_cuc_user.actor_name',
-				# Needed for IndexPager
-				'cuc_timestamp'
+				'user' => 'actor_cuc_actor.actor_user',
+				'user_text' => 'actor_cuc_actor.actor_name',
 			],
-			'tables' => [ 'cu_changes', 'actor_cuc_user' => 'actor' ],
+			'tables' => [ 'cu_changes', 'actor_cuc_actor' => 'actor' ],
 			'conds' => [],
-			'join_conds' => [ 'actor_cuc_user' => [ 'JOIN', 'actor_cuc_user.actor_id=cuc_actor' ] ],
-			'options' => [ 'USE INDEX' => [
-				'cu_changes' => $this->xfor ? 'cuc_xff_hex_time' : 'cuc_ip_hex_time'
-			] ],
+			'join_conds' => [ 'actor_cuc_actor' => [ 'JOIN', 'actor_cuc_actor.actor_id=cuc_actor' ] ],
+			'options' => [],
 		];
-		$ipConds = self::getIpConds( $this->mDb, $this->target->getName(), $this->xfor );
-		if ( $ipConds ) {
-			$queryInfo['conds'] = array_merge( $queryInfo['conds'], $ipConds );
+		// When reading new, only select results from cu_changes that are
+		// for read new (defined as those with cuc_only_for_read_old set to 0).
+		if ( $this->eventTableReadNew ) {
+			$queryInfo['conds']['cuc_only_for_read_old'] = 0;
 		}
 		return $queryInfo;
 	}
 
 	/** @inheritDoc */
-	protected function getQueryInfoForCuChanges(): array {
-		// No read new support yet, so return empty array to be compatible with definition
-		// in AbstractCheckUserPager
-		return [];
-	}
-
-	/** @inheritDoc */
 	protected function getQueryInfoForCuLogEvent(): array {
-		// No read new support yet, so return empty array to be compatible with definition
-		// in AbstractCheckUserPager
-		return [];
+		return [
+			'fields' => [
+				'timestamp' => 'cule_timestamp',
+				'ip' => 'cule_ip',
+				'agent' => 'cule_agent',
+				'xff' => 'cule_xff',
+				'user' => 'actor_cule_actor.actor_user',
+				'user_text' => 'actor_cule_actor.actor_name',
+			],
+			'tables' => [ 'cu_log_event', 'actor_cule_actor' => 'actor' ],
+			'conds' => [],
+			'join_conds' => [ 'actor_cule_actor' => [ 'JOIN', 'actor_cule_actor.actor_id=cule_actor' ] ],
+			'options' => [],
+		];
 	}
 
 	/** @inheritDoc */
 	protected function getQueryInfoForCuPrivateEvent(): array {
-		// No read new support yet, so return empty array to be compatible with definition
-		// in AbstractCheckUserPager
-		return [];
+		return [
+			'fields' => [
+				'timestamp' => 'cupe_timestamp',
+				'ip' => 'cupe_ip',
+				'agent' => 'cupe_agent',
+				'xff' => 'cupe_xff',
+				'user' => 'actor_cupe_actor.actor_user',
+				'user_text' => 'actor_cupe_actor.actor_name',
+			],
+			'tables' => [ 'cu_private_event', 'actor_cupe_actor' => 'actor' ],
+			'conds' => [],
+			'join_conds' => [ 'actor_cupe_actor' => [ 'JOIN', 'actor_cupe_actor.actor_id=cupe_actor' ] ],
+			'options' => [],
+		];
 	}
 
 	/** @inheritDoc */
