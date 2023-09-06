@@ -12,7 +12,10 @@
 		]
 	},
 	"apihelp-query+checkuser-summary": "Comprobar qué direcciones IP han sido usadas por un determinado usuario o qué usuarios han usado una determinada dirección IP.",
-	"apihelp-query+checkuser-param-request": "Tipos de solicitudes:\n;userips:Obtener las direcciones IP del usuario a verificar.\n;edits:Obtener las ediciones hechas desde una determinada dirección IP o rango de IPs.\n;ipusers:Obtener los usuarios que han usado una determinada dirección IP o rango de IPs.",
+	"apihelp-query+checkuser-param-request": "Tipo de verificación:",
+	"apihelp-query+checkuser-paramvalue-request-userips": "Obtener las direcciones IP del usuario.",
+	"apihelp-query+checkuser-paramvalue-request-edits": "Obtener las ediciones de la dirección o del intervalo de direcciones IP.",
+	"apihelp-query+checkuser-paramvalue-request-ipusers": "Obtener los usuarios de una dirección o intervalo de direcciones IP.",
 	"apihelp-query+checkuser-param-target": "Nombre de usuario, dirección IP o intervalo CIDR que comprobar.",
 	"apihelp-query+checkuser-param-reason": "Motivo para comprobar.",
 	"apihelp-query+checkuser-param-limit": "Límite de filas.",
@@ -32,6 +35,8 @@
 	"apierror-checkuser-missingsummary": "Debes introducir una razón para la comprobación.",
 	"apierror-checkuser-timelimit": "Necesitas introducir un plazo máximo de tiempo correcto (como \"-2 weeks\" o \"2 weeks ago\").",
 	"apierror-checkuser-invalidmode": "Modo de solicitud no válido",
-	"checkuser-api-help-param-direction": "En qué sentido hacer la enumeración:\n;newer:De más antiguos a más recientes. Nota: $1from debe ser anterior a $1to.\n;older:De más recientes a más antiguos (orden predefinido). Nota: $1from debe ser posterior a $1to.",
-	"checkuser-api-useragent-clienthints-revision-user-mismatch": "El usuario $1 no es el autor de la revisión $2"
+	"apierror-checkuser-nosuchuser": "No existe ninguna cuenta con ese nombre de usuario",
+	"checkuser-api-help-param-direction": "En qué sentido hacer la enumeración:",
+	"checkuser-api-useragent-clienthints-revision-user-mismatch": "El usuario $1 no es el autor de la revisión $2",
+	"checkuser-api-useragent-clienthints-explanation": "Recopilamos los datos relativos a los agentes de usuario (''user-agent client hint data'') para prevenir y reducir abusos y vandalismo en los proyectos Wikimedia. Lee https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints para obtener más información."
 }

@@ -36,5 +36,5 @@
 	"checkuser-api-useragent-clienthints-revision-user-mismatch": "המשתמש $1 הוא לא העורך של הגרסה $2",
 	"checkuser-api-useragent-clienthints-mappings-exist": "מיפויי רמז לקוח כבר קיימים עבור $1 $2",
 	"checkuser-api-useragent-clienthints-called-too-late": "האירוע $1 $2 ישן מכדי לאפשר לרשם נתוני רמז לקוח",
-	"checkuser-api-useragent-clienthints-explanation": "אנו אוספים נתוני רמז לקוח סוכן משתמש (user-agent client hint data) כדי לתמוך בקהילה בהפחתת השחתה ושימוש לרעה במיזמי ויקימדיה. ר' https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints לפרטים נוספים."
+	"checkuser-api-useragent-clienthints-explanation": "אתר {{SITENAME}} אוסף נתוני רמז לקוח סוכן משתמש (user-agent client hint data) כדי לסייע בהפחתת השחתה ושימוש לרעה. ר' https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints לפרטים נוספים."
 }

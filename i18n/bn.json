@@ -20,7 +20,7 @@
 	"checkuser": "ব্যবহারকারী পরীক্ষণ",
 	"checkuserlog": "ব্যবহারকারী পরীক্ষণ লগ",
 	"checkuser-contribs": "ব্যবহারকারীর আইপি ঠিকানা পরীক্ষা করুন",
-	"checkuser-contribs-log": "ব্যবহারকারী পরীক্ষণ",
+	"checkuser-contribs-log": "ব্যবহারকারীর পরীক্ষণ",
 	"checkuser-contribs-log-initiator": "ব্যবহারকারী কর্তৃক পরীক্ষণ",
 	"group-checkuser": "ব্যবহারকারী পরীক্ষক",
 	"group-checkuser-member": "{{GENDER:$1|ব্যবহারকারী পরীক্ষক}}",
