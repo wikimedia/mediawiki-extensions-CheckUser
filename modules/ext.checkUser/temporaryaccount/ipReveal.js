@@ -51,10 +51,8 @@ function buildQuery( revIds, logIds ) {
 
 	if ( revIds && revIds.allIds && revIds.allIds.length ) {
 		urlParams += '/revisions/' + revIds.allIds.join( '|' );
-		queryStringParams.set( 'limit', revIds.allIds.length );
 	} else if ( logIds && logIds.allIds && logIds.allIds.length ) {
 		urlParams += '/logs/' + logIds.allIds.join( '|' );
-		queryStringParams.set( 'limit', logIds.allIds.length );
 	} else {
 		queryStringParams.set( 'limit', 1 );
 	}
