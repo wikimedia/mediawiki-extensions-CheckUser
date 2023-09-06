@@ -50,7 +50,6 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 				new MessageValue( 'rest-no-match' ), 404
 			);
 		}
-		$user = $this->getAuthority()->getUser();
 		$data = $this->getValidatedBody();
 		// $data should be an array, but can be null when validation
 		// failed and/or when the content type was form data.
@@ -74,42 +73,14 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 		$clientHints = ClientHintsData::newFromJsApi( $data );
 		$type = $this->getValidatedParams()['type'];
 		$identifier = $this->getValidatedParams()['id'];
-		$associatedEntryTimestamp = "";
 		if ( $type === 'revision' ) {
-			$revision = $this->revisionStore->getRevisionById( $identifier );
-			if ( !$revision ) {
-				throw new LocalizedHttpException(
-					new MessageValue( 'rest-nonexistent-revision', [ $identifier ] ), 404 );
-			}
-			if (
-				!$revision->getUser( RevisionRecord::RAW ) ||
-				!$revision->getUser( RevisionRecord::RAW )->equals( $user )
-			) {
-				throw new LocalizedHttpException(
-					new MessageValue(
-						'checkuser-api-useragent-clienthints-revision-user-mismatch',
-						[ $user->getId(), $identifier ]
-					),
-					401
-				);
-			}
-			$associatedEntryTimestamp = $revision->getTimestamp();
-		}
-		// Check that the API was not called too long after the edit
-		$cutoff = ConvertibleTimestamp::convert(
-			TS_MW,
-			ConvertibleTimestamp::time() - $this->config->get( 'CheckUserClientHintsRestApiMaxTimeLag' )
-		);
-		if ( $associatedEntryTimestamp < $cutoff ) {
+			$this->performValidationForRevision( $identifier );
+		} else {
+			// If the type is not supported, pretend the route doesn't exist.
 			throw new LocalizedHttpException(
-				new MessageValue(
-					'checkuser-api-useragent-clienthints-called-too-late',
-					[ $type, $identifier ]
-				),
-				403
+				new MessageValue( 'rest-no-match' ), 404
 			);
 		}
-
 		$status = $this->userAgentClientHintsManager->insertClientHintValues( $clientHints, $identifier, $type );
 		if ( !$status->isGood() ) {
 			$error = $status->getErrors()[0];
@@ -126,6 +97,74 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 			)
 		] );
 		return $response;
+	}
+
+	/**
+	 * Check whether Client Hints data can be stored for the given revision ID.
+	 * This method checks that the revision with this ID exists, was not made
+	 * over wgCheckUserClientHintsRestApiMaxTimeLag seconds ago, and that the
+	 * user making the request made the edit with this ID.
+	 *
+	 * @param int $revisionId The revision ID
+	 * @return void
+	 * @throws LocalizedHttpException If the checks fail, this exception will be raised.
+	 */
+	private function performValidationForRevision( int $revisionId ) {
+		// Check the revision exists.
+		$revision = $this->revisionStore->getRevisionById( $revisionId );
+		if ( !$revision ) {
+			throw new LocalizedHttpException(
+				new MessageValue( 'rest-nonexistent-revision', [ $revisionId ] ), 404 );
+		}
+		$this->performTimestampValidation( $revision->getTimestamp(), 'revision', $revisionId );
+		// Check the performer of the action is the same as the user submitting this REST API request
+		$user = $this->getAuthority()->getUser();
+		if (
+			!$revision->getUser( RevisionRecord::RAW ) ||
+			!$revision->getUser( RevisionRecord::RAW )->equals( $user )
+		) {
+			throw new LocalizedHttpException(
+				new MessageValue(
+					'checkuser-api-useragent-clienthints-revision-user-mismatch',
+					[ $user->getId(), $revisionId ]
+				),
+				401
+			);
+		}
+	}
+
+	/**
+	 * Validate that the API was not called over wgCheckUserClientHintsRestApiMaxTimeLag
+	 * seconds ago.
+	 *
+	 * @param ?string $associatedEntryTimestamp The timestamp associated with the $identifier in TS_MW form.
+	 *   If null, the validation will always fail.
+	 * @param string $type The type of the $identifier (e.g. revision)
+	 * @param int $identifier The ID of the entry of type $type
+	 * @return void
+	 * @throws LocalizedHttpException If the validation fails, this exception will be raised.
+	 */
+	private function performTimestampValidation(
+		?string $associatedEntryTimestamp, string $type, int $identifier
+	): void {
+		// Check that the API was not called too long after the edit
+		$cutoff = ConvertibleTimestamp::convert(
+			TS_MW,
+			ConvertibleTimestamp::time() - $this->config->get( 'CheckUserClientHintsRestApiMaxTimeLag' )
+		);
+		// If there is no timestamp associated with this action, then
+		// this method cannot perform the timestamp check. This should
+		// rarely happen and is likely to occur for actions that are
+		// already too old, so just don't store data in this case.
+		if ( $associatedEntryTimestamp < $cutoff ) {
+			throw new LocalizedHttpException(
+				new MessageValue(
+					'checkuser-api-useragent-clienthints-called-too-late',
+					[ $type, $identifier ]
+				),
+				403
+			);
+		}
 	}
 
 	/** @inheritDoc */
