@@ -310,6 +310,9 @@
 			"checkuser-log": true
 		}
 	},
+	"PrivilegedGroups": [
+		"checkuser"
+	],
 	"AvailableRights": [
 		"checkuser",
 		"checkuser-log",
