@@ -58,6 +58,7 @@
 	"checkuser-search": "Søk",
 	"checkuser-search-submit": "Søk",
 	"checkuser-ipeditcount": "~$1 frå alle brukarar",
+	"checkuser-time-range": "$1–$2",
 	"checkuser-showmain": "Byt til hovudskjemaet for CheckUser",
 	"checkuser-autocreate-action": "vart automatisk oppretta",
 	"checkuser-create-action": "vart oppretta",

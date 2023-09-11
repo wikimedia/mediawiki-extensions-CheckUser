@@ -78,6 +78,7 @@
 	"checkuser-log-search-target": "Mål:",
 	"checkuser-log-search-reason": "Årsak:",
 	"checkuser-ipeditcount": "~$1 fra alle brukere",
+	"checkuser-time-range": "$1–$2",
 	"checkuser-showmain": "Gå til hovedskjemaet for CheckUser",
 	"checkuser-show-investigate": "Bytt til hovedskjema for undersøkelse",
 	"checkuser-log-entry-userips": "$3, $1 hentet IP-adresser for $2",
