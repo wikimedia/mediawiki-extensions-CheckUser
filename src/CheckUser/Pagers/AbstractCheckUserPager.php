@@ -79,6 +79,9 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	/** @var bool Should Special:CheckUser read from the new event tables. */
 	protected bool $eventTableReadNew;
 
+	/** @var bool Should Special:CheckUser display Client Hints data. */
+	protected bool $displayClientHints;
+
 	/**
 	 * @var string one of the SpecialCheckUser::SUBTYPE_... constants used by this abstract pager
 	 *  to know what the current checktype is.
@@ -164,6 +167,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		$this->eventTableReadNew = boolval(
 			$this->getConfig()->get( 'CheckUserEventTablesMigrationStage' ) & SCHEMA_COMPAT_READ_NEW
 		);
+		$this->displayClientHints = $this->getConfig()->get( 'CheckUserDisplayClientHints' );
 
 		$this->userGroupManager = $userGroupManager;
 		$this->centralIdLookup = $centralIdLookup;
@@ -774,7 +778,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		// Copied, with modification, from IndexPager::buildQueryInfo
 		$fname = __METHOD__ . ' (' . $this->getSqlComment() . ')';
 		$queryInfo = [];
-		# Select data from all three tables when reading new, and only cu_changes when reading old.
+		// Select data from all three tables when reading new, and only cu_changes when reading old.
 		$resultTables = self::RESULT_TABLES;
 		if ( $this->getConfig()->get( 'CheckUserEventTablesMigrationStage' ) & SCHEMA_COMPAT_READ_OLD ) {
 			$resultTables = [ self::CHANGES_TABLE ];
@@ -801,15 +805,15 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 				$operator = $this->mIncludeOffset ? '<=' : '<';
 			}
 			if ( $offset ) {
-				# From IndexPager
+				// From IndexPager
 				$offsets = explode( '|', $offset, count( $indexColumns ) );
 				$indexColumns = array_slice( $indexColumns, 0, count( $offsets ) );
-				# Replace 'timestamp' with the timestamp column name for the given table.
+				// Replace 'timestamp' with the timestamp column name for the given table.
 				$timestampField = $this->getTimestampField( $table );
 				$indexColumns = array_map( static function ( $value ) use ( $timestampField ) {
 					return $value === 'timestamp' ? $timestampField : $value;
 				}, $indexColumns );
-				# From IndexPager
+				// From IndexPager
 				$conds[] = $this->mDb->buildComparison( $operator, array_combine( $indexColumns, $offsets ) );
 			}
 			$options['LIMIT'] = intval( $limit );

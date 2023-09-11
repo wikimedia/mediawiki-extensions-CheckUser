@@ -5,6 +5,8 @@ namespace MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers;
 use LogFormatter;
 use ManualLogEntry;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
+use MediaWiki\CheckUser\ClientHints\ClientHintsBatchFormatterResults;
+use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CheckUser\Tests\TemplateParserMockTest;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Title\Title;
@@ -73,15 +75,22 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 	 */
 	public function testFormatRow(
 		$row, $flagCache, $usernameVisibility, $formattedRevisionComments,
-		$expectedTemplateParams, $eventTablesMigrationStage
+		$formattedClientHintsData, $expectedTemplateParams,
+		$eventTablesMigrationStage, $displayClientHints
 	) {
-		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $eventTablesMigrationStage );
+		$this->setMwGlobals( [
+			'wgCheckUserEventTablesMigrationStage' => $eventTablesMigrationStage,
+			'wgCheckUserDisplayClientHints' => $displayClientHints,
+		] );
 		$object = $this->setUpObject();
 		$object->templateParser = new TemplateParserMockTest();
 		$row = array_merge( $this->getDefaultRowFieldValues(), $row );
 		$object->flagCache = $flagCache;
 		$object->usernameVisibility = $usernameVisibility;
 		$object->formattedRevisionComments = $formattedRevisionComments;
+		if ( $formattedClientHintsData !== null ) {
+			$object->formattedClientHintsData = $formattedClientHintsData;
+		}
 		$object->formatRow( (object)$row );
 		$this->assertNotNull(
 			$object->templateParser->lastCalledWith,
@@ -118,12 +127,19 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 				'title' => $deleteLogEntry->getTarget()->getText(),
 				'user_text' => $deleteLogEntry->getPerformerIdentity()->getName(),
 				'user' => $deleteLogEntry->getPerformerIdentity()->getId(),
+				'client_hints_reference_id' => 1,
+				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
 			],
 			[ $deleteLogEntry->getPerformerIdentity()->getName() => '' ],
 			[ $deleteLogEntry->getPerformerIdentity()->getId() => true ],
 			[],
-			[ 'actionText' => LogFormatter::newFromEntry( $deleteLogEntry )->getActionText() ],
-			SCHEMA_COMPAT_NEW
+			new ClientHintsBatchFormatterResults( [ 0 => [ 1 => 0 ] ], [ 0 => 'Test Client Hints data' ] ),
+			[
+				'actionText' => LogFormatter::newFromEntry( $deleteLogEntry )->getActionText(),
+				'clientHints' => 'Test Client Hints data',
+			],
+			SCHEMA_COMPAT_NEW,
+			true,
 		);
 	}
 
@@ -131,36 +147,52 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 		// @todo test the rest of the template parameters.
 		return [
 			'Test user agent on log when reading old' => [
+				// $row as an array
 				[ 'agent' => 'Testing', 'actiontext' => 'Test' ],
+				// The $object->flagCache
 				[ '127.0.0.1' => '' ],
+				// The $object->usernameVisibility
 				[ 0 => true ],
+				// The $object->formattedRevisionComments
 				[],
+				// The $object->formattedClientHintsData
+				null,
+				// The expected template parameters
 				[ 'userAgent' => 'Testing', 'actionText' => 'Test' ],
-				SCHEMA_COMPAT_OLD
+				// Event table migration stage
+				SCHEMA_COMPAT_OLD,
+				// Whether Client Hints are enabled
+				false
 			],
 			'Test user agent on log from cu_changes when reading new' => [
 				[ 'agent' => 'Testing', 'actiontext' => 'Test' ],
 				[ '127.0.0.1' => '' ],
 				[ 0 => true ],
 				[],
+				null,
 				[ 'userAgent' => 'Testing', 'actionText' => 'Test' ],
-				SCHEMA_COMPAT_NEW
+				SCHEMA_COMPAT_NEW,
+				false
 			],
 			'Test non-existent user has appropriate CSS class when reading old' => [
 				[ 'user' => 0, 'user_text' => 'Non existent user 1234' ],
 				[ 'Non existent user 1234' => '' ],
 				[ 0 => true ],
 				[],
+				null,
 				[ 'userLinkClass' => 'mw-checkuser-nonexistent-user' ],
-				SCHEMA_COMPAT_OLD
+				SCHEMA_COMPAT_OLD,
+				false
 			],
 			'Testing using a user that is hidden who made an edit and reading new' => [
 				[ 'user' => 10, 'user_text' => 'User1234', 'type' => RC_EDIT ],
 				[],
 				[ 0 => false ],
 				[ 0 => 'Test' ],
+				null,
 				[ 'comment' => 'Test' ],
-				SCHEMA_COMPAT_NEW
+				SCHEMA_COMPAT_NEW,
+				false
 			],
 		];
 	}

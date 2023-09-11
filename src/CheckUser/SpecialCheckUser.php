@@ -19,6 +19,8 @@ use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\Services\CheckUserUnionSelectQueryBuilderFactory;
 use MediaWiki\CheckUser\Services\CheckUserUtilityService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
+use MediaWiki\CheckUser\Services\UserAgentClientHintsFormatter;
+use MediaWiki\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Html\FormOptions;
@@ -87,6 +89,8 @@ class SpecialCheckUser extends SpecialPage {
 	private CheckUserUtilityService $checkUserUtilityService;
 	private CommentStore $commentStore;
 	private CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory;
+	private UserAgentClientHintsLookup $clientHintsLookup;
+	private UserAgentClientHintsFormatter $clientHintsFormatter;
 
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory
@@ -112,6 +116,8 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param CheckUserUtilityService $checkUserUtilityService
 	 * @param CommentStore $commentStore
 	 * @param CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory
+	 * @param UserAgentClientHintsLookup $clientHintsLookup
+	 * @param UserAgentClientHintsFormatter $clientHintsFormatter
 	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
@@ -136,7 +142,9 @@ class SpecialCheckUser extends SpecialPage {
 		HookRunner $hookRunner,
 		CheckUserUtilityService $checkUserUtilityService,
 		CommentStore $commentStore,
-		CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory
+		CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory,
+		UserAgentClientHintsLookup $clientHintsLookup,
+		UserAgentClientHintsFormatter $clientHintsFormatter
 	) {
 		parent::__construct( 'CheckUser', 'checkuser' );
 
@@ -163,6 +171,8 @@ class SpecialCheckUser extends SpecialPage {
 		$this->checkUserUtilityService = $checkUserUtilityService;
 		$this->commentStore = $commentStore;
 		$this->checkUserUnionSelectQueryBuilderFactory = $checkUserUnionSelectQueryBuilderFactory;
+		$this->clientHintsLookup = $clientHintsLookup;
+		$this->clientHintsFormatter = $clientHintsFormatter;
 	}
 
 	public function doesWrites() {
@@ -785,7 +795,9 @@ class SpecialCheckUser extends SpecialPage {
 					$this->hookRunner,
 					$this->checkUserUtilityService,
 					$this->commentStore,
-					$this->checkUserUnionSelectQueryBuilderFactory
+					$this->checkUserUnionSelectQueryBuilderFactory,
+					$this->clientHintsLookup,
+					$this->clientHintsFormatter
 				);
 			default:
 				return null;
