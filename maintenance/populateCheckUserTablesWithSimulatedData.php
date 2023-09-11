@@ -40,7 +40,8 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 
 	private const VALID_LOG_EVENTS = [
 		'move' => [ 'move', 'move_redir' ],
-		'delete' => [ 'delete', 'suppress', 'restore' ],
+		'delete' => [ 'delete', 'restore' ],
+		'suppress' => [ 'delete' ],
 		'merge' => [ 'merge' ]
 	];
 
