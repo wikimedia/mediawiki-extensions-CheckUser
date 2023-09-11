@@ -269,7 +269,9 @@
 			"services": [
 				"PermissionManager",
 				"SpecialPageFactory",
-				"LinkRenderer"
+				"LinkRenderer",
+				"UserIdentityLookup",
+				"UserIdentityUtils"
 			]
 		},
 		"RenameUserSQLHandler": {

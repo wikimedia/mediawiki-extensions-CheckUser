@@ -8,30 +8,38 @@ use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Title\Title;
+use MediaWiki\User\UserIdentityLookup;
+use MediaWiki\User\UserIdentityUtils;
 use RequestContext;
 use SpecialPage;
 
 class ToolLinksHandler implements ContributionsToolLinksHook, UserToolLinksEditHook {
 
 	private PermissionManager $permissionManager;
-
 	private SpecialPageFactory $specialPageFactory;
-
 	private LinkRenderer $linkRenderer;
+	private UserIdentityLookup $userIdentityLookup;
+	private UserIdentityUtils $userIdentityUtils;
 
 	/**
 	 * @param PermissionManager $permissionManager
 	 * @param SpecialPageFactory $specialPageFactory
 	 * @param LinkRenderer $linkRenderer
+	 * @param UserIdentityLookup $userIdentityLookup
+	 * @param UserIdentityUtils $userIdentityUtils
 	 */
 	public function __construct(
 		PermissionManager $permissionManager,
 		SpecialPageFactory $specialPageFactory,
-		LinkRenderer $linkRenderer
+		LinkRenderer $linkRenderer,
+		UserIdentityLookup $userIdentityLookup,
+		UserIdentityUtils $userIdentityUtils
 	) {
 		$this->permissionManager = $permissionManager;
 		$this->specialPageFactory = $specialPageFactory;
 		$this->linkRenderer = $linkRenderer;
+		$this->userIdentityLookup = $userIdentityLookup;
+		$this->userIdentityUtils = $userIdentityUtils;
 	}
 
 	/**
@@ -63,18 +71,15 @@ class ToolLinksHandler implements ContributionsToolLinksHook, UserToolLinksEditH
 				SpecialPage::getTitleFor( 'CheckUserLog' ),
 				$sp->msg( 'checkuser-contribs-log' )->text(),
 				[ 'class' => 'mw-contributions-link-check-user-log' ],
-				[
-					'cuSearch' => $nt->getText()
-				]
+				[ 'cuSearch' => $nt->getText() ]
 			);
-			if ( $id ) {
+			$userIdentity = $this->userIdentityLookup->getUserIdentityByUserId( $id );
+			if ( $id && $userIdentity && $this->userIdentityUtils->isNamed( $userIdentity ) ) {
 				$links['checkuser-log-initiator'] = $linkRenderer->makeKnownLink(
 					SpecialPage::getTitleFor( 'CheckUserLog' ),
 					$sp->msg( 'checkuser-contribs-log-initiator' )->text(),
 					[ 'class' => 'mw-contributions-link-check-user-initiator' ],
-					[
-						'cuInitiator' => $nt->getText()
-					]
+					[ 'cuInitiator' => $nt->getText() ]
 				);
 			}
 		}
@@ -85,7 +90,7 @@ class ToolLinksHandler implements ContributionsToolLinksHook, UserToolLinksEditH
 		$requestTitle = RequestContext::getMain()->getTitle();
 		if (
 			$requestTitle !== null &&
-			$requestTitle->inNamespace( NS_SPECIAL )
+			$requestTitle->isSpecialPage()
 		) {
 			$specialPageName = $this->specialPageFactory->resolveAlias( $requestTitle->getText() )[0];
 			if ( $specialPageName === 'CheckUserLog' ) {
