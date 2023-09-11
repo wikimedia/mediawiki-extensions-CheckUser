@@ -74,18 +74,23 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 		$referenceIdsForDeletion->addReferenceIds(
 			$referenceIdsToDelete, $userAgentClientHintsManager::IDENTIFIER_CU_CHANGES
 		);
-		$userAgentClientHintsManager->deleteMappingRows( $referenceIdsForDeletion );
+		$this->assertSame(
+			$expectedMappingRowCount - $expectedMappingRowCountAfterDeletion,
+			$userAgentClientHintsManager->deleteMappingRows( $referenceIdsForDeletion ),
+			'UserAgentClientHintsManager::deleteMappingRows did not return the ' .
+			'expected number of mapping rows deleted.'
+		);
 		$this->assertRowCount(
 			$expectedClientHintDataRowCountAfterDeletion,
 			'cu_useragent_clienthints',
 			'uach_id',
-			'Number of rows in cu_useragent_clienthints table after deletion of data is not as expected'
+			'Number of rows in cu_useragent_clienthints table after deletion of data is not as expected.'
 		);
 		$this->assertRowCount(
 			$expectedMappingRowCountAfterDeletion,
 			'cu_useragent_clienthints_map',
 			'*',
-			'Number of rows in cu_useragent_clienthints_map table after deletion of data is not as expected'
+			'Number of rows in cu_useragent_clienthints_map table after deletion of data is not as expected.'
 		);
 	}
 
@@ -103,7 +108,7 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 			// Mapping table count after deletion
 			0,
 			// Client hint data count after deletion
-			0,
+			11,
 		];
 
 		yield 'Two client hint mapping data items' => [
@@ -157,7 +162,7 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 			// Mapping table count after deletion
 			11,
 			// Client hint data count after deletion
-			11,
+			15,
 		];
 	}
 }
