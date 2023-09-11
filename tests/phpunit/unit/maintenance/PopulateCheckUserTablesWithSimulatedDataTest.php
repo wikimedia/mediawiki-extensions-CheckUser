@@ -226,7 +226,7 @@ class PopulateCheckUserTablesWithSimulatedDataTest extends MediaWikiUnitTestCase
 		);
 	}
 
-	public function provideIncrementAndCheck() {
+	public static function provideIncrementAndCheck() {
 		return [
 			'No actions performed with 5 left' => [ 0, 5, true ],
 			'1 action performed with 3 left' => [ 1, 3, true ],
