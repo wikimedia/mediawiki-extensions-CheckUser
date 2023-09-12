@@ -33,8 +33,8 @@ use SpecialPage;
 use TitleValue;
 use UserGroupMembership;
 use Wikimedia\IPUtils;
-use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\ILoadBalancer;
+use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 
 abstract class AbstractCheckUserPager extends RangeChronologicalPager {
@@ -490,12 +490,12 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 	/**
 	 * Get the WHERE conditions for an IP address / range, optionally as a XFF.
 	 *
-	 * @param IDatabase $db
+	 * @param IReadableDatabase $dbr
 	 * @param string $target an IP address or CIDR range
 	 * @param string|bool $xfor
 	 * @return array|false array for valid conditions, false if invalid
 	 */
-	public static function getIpConds( IDatabase $db, string $target, $xfor = false ) {
+	public static function getIpConds( IReadableDatabase $dbr, string $target, $xfor = false ) {
 		$type = $xfor ? 'xff' : 'ip';
 
 		if ( !self::isValidRange( $target ) ) {
@@ -504,8 +504,8 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager {
 
 		if ( IPUtils::isValidRange( $target ) ) {
 			list( $start, $end ) = IPUtils::parseRange( $target );
-			return [ 'cuc_' . $type . '_hex BETWEEN ' . $db->addQuotes( $start ) .
-				' AND ' . $db->addQuotes( $end ) ];
+			return [ 'cuc_' . $type . '_hex BETWEEN ' . $dbr->addQuotes( $start ) .
+				' AND ' . $dbr->addQuotes( $end ) ];
 		} elseif ( IPUtils::isValid( $target ) ) {
 			return [ "cuc_{$type}_hex" => IPUtils::toHex( $target ) ];
 		}
