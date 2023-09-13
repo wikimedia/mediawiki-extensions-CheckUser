@@ -8,7 +8,9 @@
 			"MaGa",
 			"Neptune, the Mystic",
 			"SpeedyGonsales",
-			"Tivek"
+			"Tivek",
+			"Dreamy Jazz",
+			"Ponor"
 		]
 	},
 	"checkuser-summary": "Ovaj alat pretražuje nedavne promjene i pronalazi IP adrese suradnika ili prikazuje uređivanja/ime suradnika ako je zadana IP adresa. Suradnici i uređivanja mogu biti dobiveni po XFF zaglavljima dodavanjem \"/xff\" na kraj IP adrese. Podržane su IPv4 (CIDR $1-32) i IPv6 (CIDR $2-128) adrese. Rezultat ima maksimalno 5.000 zapisa iz tehničkih razloga. Rabite ovaj alat u skladu s pravilima.",
@@ -73,7 +75,7 @@
 	"checkuser-email-action": "poslan email za \"$1\"",
 	"checkuser-reset-action": "ponovno postavi zaporku za suradnika \"$1\"",
 	"checkuser-investigateblock": "Blokiranje suradnica / suradnika",
-	"checkuser-investigateblock-target": "Suradnička imena i IP-adrese",
+	"checkuser-investigateblock-target": "Suradnička imena i IP adrese",
 	"checkuser-investigateblock-options": "Dodatne mogućnosti",
 	"checkuser-investigateblock-notice-user-page-label": "Pošalji obavijest na suradničku stranicu",
 	"checkuser-investigateblock-notice-talk-page-label": "Pošalji poruku na suradničku razgovornu stranicu",
@@ -90,7 +92,7 @@
 	"checkuser-investigate-preliminary-table-header-groups": "Skupine",
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Wiki nije pronađen",
 	"checkuser-investigate-filters-legend": "Filtri",
-	"checkuser-investigate-filters-exclude-targets-label": "Skrij navedene suradnike ili IP-adrese",
+	"checkuser-investigate-filters-exclude-targets-label": "Sakrij navedene suradnike ili IP adrese",
 	"checkuser-investigate-compare-copy-button-label": "Pokaži wikitekst",
 	"checkuser-investigate-compare-toollinks-ipcheck": "Provjera proxyja",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Pokaži sve suradnike s ovoga IP-a",
