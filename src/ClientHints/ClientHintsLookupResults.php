@@ -119,4 +119,15 @@ class ClientHintsLookupResults {
 		// The reference ID matches a ClientHintsData object, so return it.
 		return $this->clientHintsDataObjects[$this->referenceIdsToClientHintsDataIndex[$referenceType][$referenceId]];
 	}
+
+	/**
+	 * Allows UserAgentClientHintsFormatter to get the raw data
+	 * for UserAgentClientHintsFormatter::batchFormatClientHintsData.
+	 *
+	 * @internal For use by UserAgentClientHintsFormatter only.
+	 * @return array[]
+	 */
+	public function getRawData(): array {
+		return [ $this->referenceIdsToClientHintsDataIndex, $this->clientHintsDataObjects ];
+	}
 }

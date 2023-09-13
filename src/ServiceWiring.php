@@ -17,6 +17,7 @@ use MediaWiki\CheckUser\Services\CheckUserUnionSelectQueryBuilderFactory;
 use MediaWiki\CheckUser\Services\CheckUserUtilityService;
 use MediaWiki\CheckUser\Services\TokenManager;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
+use MediaWiki\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Config\ServiceOptions;
@@ -184,6 +185,17 @@ return [
 	): UserAgentClientHintsLookup {
 		return new UserAgentClientHintsLookup(
 			$services->getDBLoadBalancerFactory()->getReplicaDatabase()
+		);
+	},
+	'UserAgentClientHintsFormatter' => static function (
+		MediaWikiServices $services
+	): UserAgentClientHintsFormatter {
+		return new UserAgentClientHintsFormatter(
+			new DerivativeContext( RequestContext::getMain() ),
+			new ServiceOptions(
+				UserAgentClientHintsFormatter::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig()
+			)
 		);
 	},
 ];

@@ -133,6 +133,29 @@
 			"value": true,
 			"description": "If set to 'true', then CheckUser will transmit an empty `Accept-CH: ` header in BeforePageDisplay and SpecialPageBeforeExecute if SpecialPage isn't in the CheckUserClientHintsSpecialPages config list. If set to false, CheckUser will not send an empty `Accept-CH: ` header, which in practice means that all logged-in user requests will transmit User-Agent client hint data."
 		},
+		"CheckUserClientHintsForDisplay": {
+			"value": [
+				"model",
+				"fullVersionList",
+				"platformVersion",
+				"platform",
+				"brands",
+				"formFactor",
+				"architecture",
+				"mobile",
+				"bitness",
+				"woW64"
+			],
+			"description": "An array of the Client Hints data that should be displayed in CheckUser interfaces in the order that they should be displayed. If 'platform' and 'platformVersion' are both included, then these will be combined as one when displaying as a string. If 'brands' and 'fullVersionList' are both selected, then only the fullVersionList value will be displayed if for a given brand name an entry exists in 'brand' and 'fullVersionList'. The 'userAgent' client hint name is currently not included in this list as it may be combined with the 'brands' item, but would be removed if HTTP headers are not going to be used to collect data."
+		},
+		"CheckUserClientHintsValuesToHide": {
+			"value": {
+				"architecture": [ "x86" ],
+				"bitness": [ "64" ],
+				"woW64": [ false ]
+			},
+			"description": "An array of the Client Hints data names as keys and an array of values that should be hidden from the interface as the value. This is used to hide commonly seen Client Hint data values in the cases where it isn't helpful."
+		},
 		"CheckUserDeveloperMode": {
 			"value": false,
 			"description": "If set to 'true', then CheckUser will be know it is in development mode. Do not enable this on any wikis other than local development wikis. This will allow use of code that is only intended for local development wikis, such as the populateCheckUserTablesWithSimulatedData.php maintenance script which inserts automated testing edits and actions to the wiki."
