@@ -13,6 +13,7 @@ use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Message;
+use Psr\Log\LoggerInterface;
 use RecentChange;
 use RequestContext;
 use User;
@@ -330,8 +331,11 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideInsertIntoCuLogEventTable
 	 */
 	public function testInsertIntoCuLogEventTable( array $fields, array $expectedRow ) {
+		$logId = $this->newLogEntry();
+		$logEntry = \DatabaseLogEntry::newFromId( $logId, $this->getDb() );
+
 		$this->setUpObject()->insertIntoCuLogEventTable(
-			$this->newLogEntry(), __METHOD__, $this->getTestUser()->getUserIdentity()
+			$logEntry, __METHOD__, $this->getTestUser()->getUserIdentity()
 		);
 		$this->assertSelect(
 			'cu_log_event',
@@ -420,8 +424,10 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 
 	public function testInsertIntoCuLogEventTableLogId() {
 		$logId = $this->newLogEntry();
+		$logEntry = \DatabaseLogEntry::newFromId( $logId, $this->getDb() );
+
 		$this->setUpObject()->insertIntoCuLogEventTable(
-			$logId, __METHOD__, $this->getTestUser()->getUserIdentity()
+			$logEntry, __METHOD__, $this->getTestUser()->getUserIdentity()
 		);
 		$this->assertSelect(
 			'cu_log_event',
@@ -432,8 +438,11 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testUserInsertIntoCuLogEventTable() {
+		$logId = $this->newLogEntry();
+		$logEntry = \DatabaseLogEntry::newFromId( $logId, $this->getDb() );
+
 		$user = $this->getTestUser();
-		$this->setUpObject()->insertIntoCuLogEventTable( $this->newLogEntry(), __METHOD__, $user->getUserIdentity() );
+		$this->setUpObject()->insertIntoCuLogEventTable( $logEntry, __METHOD__, $user->getUserIdentity() );
 		$this->assertSelect(
 			'cu_log_event',
 			[ 'cule_actor' ],
@@ -558,6 +567,32 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 			$expectedRow[] = $logId;
 		}
 		$this->updateCheckUserData( $rcAttribs, $eventTableMigrationStage, $table, $fields, $expectedRow );
+	}
+
+	public function testUpdateCheckUserDataWhenLogEntryIsMissingT343983() {
+		$expectsWarningLogger = $this->getMockBuilder( LoggerInterface::class )->getMock();
+		$expectsWarningLogger->expects( $this->once() )
+			->method( 'warning' )
+			->willReturnCallback( function ( $message, $context ) {
+				$this->assertSame( -1, $context['rc_logid'] );
+				$this->assertArrayHasKey( 'exception', $context );
+			} );
+		$this->setLogger( 'CheckUser', $expectsWarningLogger );
+
+		$attribs = array_merge(
+			self::getDefaultRecentChangeAttribs(),
+			[
+				'rc_namespace' => NS_SPECIAL,
+				'rc_title' => 'Log',
+				'rc_type' => RC_LOG,
+				'rc_log_type' => ''
+			] );
+		$table = 'cu_private_event';
+		$fields = [ 'cupe_timestamp' ];
+		$expectedRow = [ $attribs['rc_timestamp'] ];
+		ConvertibleTimestamp::setFakeTime( $attribs['rc_timestamp'] );
+		$attribs['rc_logid'] = -1;
+		$this->updateCheckUserData( $attribs, SCHEMA_COMPAT_WRITE_NEW, $table, $fields, $expectedRow );
 	}
 
 	public static function provideUpdateCheckUserDataLogEvent() {
