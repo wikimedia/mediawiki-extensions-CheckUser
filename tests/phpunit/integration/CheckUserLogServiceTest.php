@@ -2,10 +2,11 @@
 
 namespace MediaWiki\CheckUser\Tests;
 
+use DeferredUpdates;
+use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
-use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
@@ -32,9 +33,8 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		$this->truncateTable( 'cu_log' );
 	}
 
-	/** @return TestingAccessWrapper */
-	protected function setUpObject() {
-		return TestingAccessWrapper::newFromObject( $this->getServiceContainer()->get( 'CheckUserLogService' ) );
+	protected function setUpObject(): CheckUserLogService {
+		return $this->getServiceContainer()->get( 'CheckUserLogService' );
 	}
 
 	public function commonTestAddLogEntry(
@@ -44,12 +44,33 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		$object->addLogEntry(
 			$this->getTestUser( 'checkuser' )->getUser(), $logType, $targetType, $target, $reason, $targetID
 		);
-		\DeferredUpdates::doUpdates();
+		DeferredUpdates::doUpdates();
 		$this->assertSelect(
 			'cu_log',
 			$assertSelectFieldNames,
 			[],
 			[ $assertSelectFieldValues ]
+		);
+	}
+
+	/**
+	 * @covers ::addLogEntry
+	 */
+	public function testPerformerIsIP() {
+		// Test that an IP performing a check actually saves a cu_log entry
+		// as if the checkuser right is granted to all users (i.e the * group)
+		// then any checks should definitely still be logged.
+		$user = $this->getServiceContainer()->getUserFactory()->newFromUserIdentity(
+			UserIdentityValue::newAnonymous( '127.0.0.1' )
+		);
+		$object = $this->setUpObject();
+		$object->addLogEntry( $user, 'ipusers', 'ip', '127.0.0.1', 'test', 0 );
+		DeferredUpdates::doUpdates();
+		$this->assertSelect(
+			'cu_log',
+			[ 'cul_actor' ],
+			[],
+			[ [ $this->getServiceContainer()->getActorStore()->acquireActorId( $user, $this->getDb() ) ] ]
 		);
 	}
 
@@ -140,7 +161,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		$object = $this->setUpObject();
 		$testUser = $this->getTestUser( 'checkuser' )->getUser();
 		$object->addLogEntry( $testUser, 'ipusers', 'ip', '127.0.0.1', '', 0 );
-		\DeferredUpdates::doUpdates();
+		DeferredUpdates::doUpdates();
 		$this->assertSelect(
 			'cu_log',
 			[ 'cul_actor' ],
@@ -157,7 +178,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		$object = $this->setUpObject();
 		$testUser = $this->getTestUser( 'checkuser' )->getUser();
 		$object->addLogEntry( $testUser, 'ipusers', 'ip', '127.0.0.1', $reason, 0 );
-		\DeferredUpdates::doUpdates();
+		DeferredUpdates::doUpdates();
 		$commentQuery = $this->getServiceContainer()->getCommentStore()->getJoin( 'cul_reason' );
 		$commentQuery['tables'][] = 'cu_log';
 		$row = $this->db->newSelectQueryBuilder()
