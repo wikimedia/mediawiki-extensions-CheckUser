@@ -10,6 +10,7 @@ use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityValue;
+use MediaWiki\User\UserNameUtils;
 use RangeChronologicalPager;
 use SpecialPage;
 use Wikimedia\Rdbms\IResultWrapper;
@@ -29,6 +30,9 @@ class LogPager extends RangeChronologicalPager {
 	/** @var UserFactory */
 	private $userFactory;
 
+	/** @var UserNameUtils */
+	private $userNameUtils;
+
 	/**
 	 * @var array
 	 */
@@ -43,15 +47,21 @@ class LogPager extends RangeChronologicalPager {
 	 * @param LinkBatchFactory $linkBatchFactory
 	 * @param CommentStore $commentStore
 	 * @param UserFactory $userFactory
+	 * @param UserNameUtils $userNameUtils
 	 */
 	public function __construct(
 		IContextSource $context,
 		array $opts,
 		LinkBatchFactory $linkBatchFactory,
 		CommentStore $commentStore,
-		UserFactory $userFactory
+		UserFactory $userFactory,
+		UserNameUtils $userNameUtils
 	) {
 		parent::__construct( $context );
+		$this->userFactory = $userFactory;
+		$this->linkBatchFactory = $linkBatchFactory;
+		$this->commentStore = $commentStore;
+		$this->userNameUtils = $userNameUtils;
 		// Default to all log entries - we'll add conditions below if a target was provided
 		$targetSearchConds = [];
 		$initiatorSearchConds = [];
@@ -80,9 +90,6 @@ class LogPager extends RangeChronologicalPager {
 			$endTimestamp = $opts['end'] . ' 23:59:59';
 		}
 		$this->getDateRangeCond( $startTimestamp, $endTimestamp );
-		$this->linkBatchFactory = $linkBatchFactory;
-		$this->commentStore = $commentStore;
-		$this->userFactory = $userFactory;
 		$this->opts = $opts;
 	}
 
@@ -137,7 +144,7 @@ class LogPager extends RangeChronologicalPager {
 	 */
 	public function formatRow( $row ) {
 		$performerHidden = $this->userFactory->newFromUserIdentity(
-			UserIdentityValue::newRegistered( $row->cul_user, $row->user_name )
+			new UserIdentityValue( $row->cul_user, $row->cul_user_text )
 		)->isHidden();
 		if ( $performerHidden && !$this->getAuthority()->isAllowed( 'hideuser' ) ) {
 			// Performer of the check is hidden and the logged in user does not have
@@ -148,7 +155,7 @@ class LogPager extends RangeChronologicalPager {
 				$this->msg( 'rev-deleted-user' )->text()
 			);
 		} else {
-			$user = Linker::userLink( $row->cul_user, $row->user_name );
+			$user = Linker::userLink( $row->cul_user, $row->cul_user_text );
 			if ( $performerHidden ) {
 				// Performer is hidden, but current user has rights to see it.
 				// Mark the username has hidden by wrapping it in a history-deleted span.
@@ -165,7 +172,7 @@ class LogPager extends RangeChronologicalPager {
 						$this->msg( 'checkuser-log-checks-by' )->text(),
 						[],
 						[
-							'cuInitiator' => $row->user_name,
+							'cuInitiator' => $row->cul_user_text,
 						]
 					) )->text()
 				);
@@ -263,9 +270,9 @@ class LogPager extends RangeChronologicalPager {
 	 */
 	public function getQueryInfo() {
 		return [
-			'tables' => [ 'cu_log', 'user' ],
+			'tables' => [ 'cu_log' ],
 			'fields' => $this->selectFields(),
-			'conds' => array_merge( $this->searchConds, [ 'user_id = cul_user' ] )
+			'conds' => $this->searchConds
 		];
 	}
 
@@ -282,7 +289,7 @@ class LogPager extends RangeChronologicalPager {
 	public function selectFields() {
 		return [
 			'cul_id', 'cul_timestamp', 'cul_user', 'cul_reason', 'cul_type',
-			'cul_target_id', 'cul_target_text', 'user_name'
+			'cul_target_id', 'cul_target_text', 'cul_user_text'
 		];
 	}
 
@@ -300,7 +307,7 @@ class LogPager extends RangeChronologicalPager {
 		$lb->setCaller( __METHOD__ );
 		foreach ( $result as $row ) {
 			// Performer
-			$lb->add( NS_USER, $row->user_name );
+			$lb->add( NS_USER, $row->cul_user_text );
 
 			if ( $row->cul_type == 'userips' || $row->cul_type == 'useredits' ) {
 				$lb->add( NS_USER, $row->cul_target_text );
@@ -317,10 +324,15 @@ class LogPager extends RangeChronologicalPager {
 	 * @param string $initiator the username of the initiator.
 	 * @return array|null array if valid target, null if invalid
 	 */
-	public static function getPerformerSearchConds( string $initiator ) {
-		$initiatorObject = SpecialCheckUserLog::verifyInitiator( $initiator );
-		if ( $initiatorObject !== false ) {
-			return [ 'cul_user' => $initiatorObject ];
+	private function getPerformerSearchConds( string $initiator ) {
+		$initiatorObject = $this->userFactory->newFromName( $initiator );
+		if ( $initiatorObject && $initiatorObject->getId() ) {
+			return [ 'cul_user' => $initiatorObject->getId() ];
+		} else {
+			$canonicalUsername = $this->userNameUtils->getCanonical( $initiator, UserNameUtils::RIGOR_NONE );
+			if ( $canonicalUsername ) {
+				return [ 'cul_user_text' => $canonicalUsername ];
+			}
 		}
 		return null;
 	}

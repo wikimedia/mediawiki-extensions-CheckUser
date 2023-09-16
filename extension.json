@@ -286,7 +286,8 @@
 				"LinkBatchFactory",
 				"PermissionManager",
 				"CommentStore",
-				"UserFactory"
+				"UserFactory",
+				"UserNameUtils"
 			]
 		}
 	},

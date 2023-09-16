@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests;
 
+use DeferredUpdates;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
@@ -30,8 +31,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		$this->truncateTable( 'cu_log' );
 	}
 
-	/** @return TestingAccessWrapper */
-	protected function setUpObject() {
+	protected function setUpObject(): TestingAccessWrapper {
 		return TestingAccessWrapper::newFromObject( $this->getServiceContainer()->get( 'CheckUserLogService' ) );
 	}
 
@@ -42,12 +42,33 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		$object->addLogEntry(
 			$this->getTestUser( 'checkuser' )->getUser(), $logType, $targetType, $target, $reason, $targetID
 		);
-		\DeferredUpdates::doUpdates();
+		DeferredUpdates::doUpdates();
 		$this->assertSelect(
 			'cu_log',
 			$assertSelectFieldNames,
 			[],
 			[ $assertSelectFieldValues ]
+		);
+	}
+
+	/**
+	 * @covers \MediaWiki\CheckUser\CheckUserLogService::addLogEntry
+	 */
+	public function testPerformerIsIP() {
+		// Test that an IP performing a check actually saves a cu_log entry
+		// as if the checkuser right is granted to all users (i.e the * group)
+		// then any checks should definitely still be logged.
+		$user = $this->getServiceContainer()->getUserFactory()->newFromUserIdentity(
+			UserIdentityValue::newAnonymous( '127.0.0.1' )
+		);
+		$object = $this->setUpObject();
+		$object->addLogEntry( $user, 'ipusers', 'ip', '127.0.0.1', 'test', 0 );
+		DeferredUpdates::doUpdates();
+		$this->assertSelect(
+			'cu_log',
+			[ 'cul_actor' ],
+			[],
+			[ [ $this->getServiceContainer()->getActorStore()->acquireActorId( $user, $this->db ) ] ]
 		);
 	}
 
@@ -138,7 +159,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		$object = $this->setUpObject();
 		$testUser = $this->getTestUser( 'checkuser' )->getUser();
 		$object->addLogEntry( $testUser, 'ipusers', 'ip', '127.0.0.1', '', 0 );
-		\DeferredUpdates::doUpdates();
+		DeferredUpdates::doUpdates();
 		$this->assertSelect(
 			'cu_log',
 			[ 'cul_user', 'cul_user_text' ],

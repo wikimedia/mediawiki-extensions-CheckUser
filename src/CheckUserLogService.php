@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser;
 
 use DeferredUpdates;
+use MediaWiki\User\ActorStore;
 use User;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\ILoadBalancer;
@@ -13,15 +14,24 @@ class CheckUserLogService {
 	/** @var ILoadBalancer */
 	private $loadBalancer;
 
+	/** @var ActorStore */
+	private $actorStore;
+
 	/** @var int */
 	private $culActorMigrationStage;
 
 	/**
 	 * @param ILoadBalancer $loadBalancer
+	 * @param ActorStore $actorStore
 	 * @param int $culActorMigrationStage
 	 */
-	public function __construct( ILoadBalancer $loadBalancer, int $culActorMigrationStage ) {
+	public function __construct(
+		ILoadBalancer $loadBalancer,
+		ActorStore $actorStore,
+		int $culActorMigrationStage
+	) {
 		$this->loadBalancer = $loadBalancer;
+		$this->actorStore = $actorStore;
 		$this->culActorMigrationStage = $culActorMigrationStage;
 	}
 
@@ -53,6 +63,8 @@ class CheckUserLogService {
 		}
 
 		$timestamp = ConvertibleTimestamp::now();
+		$dbw = $this->loadBalancer->getConnection( DB_PRIMARY );
+
 		$data = [
 			'cul_user' => $user->getId(),
 			'cul_user_text' => $user->getName(),
@@ -66,11 +78,10 @@ class CheckUserLogService {
 		];
 
 		if ( $this->culActorMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$data['cul_actor'] = $user->getActorId();
+			$data['cul_actor'] = $this->actorStore->acquireActorId( $user, $dbw );
 		}
 
 		$fname = __METHOD__;
-		$dbw = $this->loadBalancer->getConnection( DB_PRIMARY );
 
 		DeferredUpdates::addCallableUpdate(
 			static function () use ( $data, $timestamp, $fname, $dbw ) {

@@ -30,6 +30,7 @@ return [
 	): CheckUserLogService {
 		return new CheckUserLogService(
 			$services->getDBLoadBalancer(),
+			$services->getActorStore(),
 			$services->getMainConfig()->get( 'CheckUserLogActorMigrationStage' )
 		);
 	},
