@@ -6,6 +6,7 @@ use CommentStore;
 use DeferredUpdates;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Title\Title;
+use MediaWiki\User\ActorStore;
 use Psr\Log\LoggerInterface;
 use Sanitizer;
 use User;
@@ -20,23 +21,27 @@ class CheckUserLogService {
 	private CommentStore $commentStore;
 	private CommentFormatter $commentFormatter;
 	private LoggerInterface $logger;
+	private ActorStore $actorStore;
 
 	/**
 	 * @param ILoadBalancer $loadBalancer
 	 * @param CommentStore $commentStore
 	 * @param CommentFormatter $commentFormatter
 	 * @param LoggerInterface $logger
+	 * @param ActorStore $actorStore
 	 */
 	public function __construct(
 		ILoadBalancer $loadBalancer,
 		CommentStore $commentStore,
 		CommentFormatter $commentFormatter,
-		LoggerInterface $logger
+		LoggerInterface $logger,
+		ActorStore $actorStore
 	) {
 		$this->loadBalancer = $loadBalancer;
 		$this->commentStore = $commentStore;
 		$this->commentFormatter = $commentFormatter;
 		$this->logger = $logger;
+		$this->actorStore = $actorStore;
 	}
 
 	/**
@@ -67,8 +72,10 @@ class CheckUserLogService {
 		}
 
 		$timestamp = ConvertibleTimestamp::now();
+		$dbw = $this->loadBalancer->getConnection( DB_PRIMARY );
+
 		$data = [
-			'cul_actor' => $user->getActorId(),
+			'cul_actor' => $this->actorStore->acquireActorId( $user, $dbw ),
 			'cul_type' => $logType,
 			'cul_target_id' => $targetID,
 			'cul_target_text' => trim( $target ),
@@ -80,7 +87,6 @@ class CheckUserLogService {
 		$plaintextReason = $this->getPlaintextReason( $reason );
 
 		$fname = __METHOD__;
-		$dbw = $this->loadBalancer->getConnection( DB_PRIMARY );
 		$commentStore = $this->commentStore;
 		$logger = $this->logger;
 

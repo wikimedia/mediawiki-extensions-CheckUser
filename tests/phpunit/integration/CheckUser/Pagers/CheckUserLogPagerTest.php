@@ -27,36 +27,6 @@ class CheckUserLogPagerTest extends CheckUserIntegrationTestCaseTest {
 		);
 	}
 
-	public function testGetPerformerSearchConds() {
-		// PHPUnit doesn't allow mocking static methods so having to
-		// use SpecialCheckUserLog::verifyInitiator without mocking.
-
-		// Existing user
-		$testUser = $this->getTestUser()->getUser();
-		$this->assertTrue( $testUser->getUser()->isRegistered() );
-		$this->assertArrayEquals(
-			[ 'cul_actor' => $testUser->getActorId() ],
-			CheckUserLogPager::getPerformerSearchConds( $testUser->getName() ),
-			false,
-			true,
-			'For an existing user the valid search cond should be returned.'
-		);
-
-		// Non-existent user with a valid username
-		$testUser = $this->getNonExistentTestUser();
-		$this->assertNull(
-			CheckUserLogPager::getPerformerSearchConds( $testUser->getName() ),
-			'Non-existent users should not be a valid performer.'
-		);
-
-		// Only registered users can be performers, so test an
-		// IP address as the username.
-		$this->assertNull(
-			CheckUserLogPager::getPerformerSearchConds( '1.2.3.4' ),
-			'Only registered users can be valid performers.'
-		);
-	}
-
 	public function testGetTargetSearchCondsUser() {
 		// Existing user
 		$testUser = $this->getTestUser()->getUser();

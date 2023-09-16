@@ -12,11 +12,14 @@ use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Title\Title;
+use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserFactory;
 use SpecialPage;
 use User;
 use UserBlockedError;
 use Wikimedia\IPUtils;
+use Wikimedia\Rdbms\IReadableDatabase;
+use Wikimedia\Rdbms\LBFactory;
 
 class SpecialCheckUserLog extends SpecialPage {
 	/**
@@ -24,12 +27,15 @@ class SpecialCheckUserLog extends SpecialPage {
 	 */
 	protected array $opts;
 
+	private IReadableDatabase $dbr;
+
 	private LinkBatchFactory $linkBatchFactory;
 	private PermissionManager $permissionManager;
 	private CommentStore $commentStore;
 	private CommentFormatter $commentFormatter;
 	private CheckUserLogService $checkUserLogService;
 	private UserFactory $userFactory;
+	private ActorStore $actorStore;
 
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory
@@ -37,6 +43,9 @@ class SpecialCheckUserLog extends SpecialPage {
 	 * @param CommentStore $commentStore
 	 * @param CommentFormatter $commentFormatter
 	 * @param CheckUserLogService $checkUserLogService
+	 * @param UserFactory $userFactory
+	 * @param ActorStore $actorStore
+	 * @param LBFactory $lbFactory
 	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
@@ -44,7 +53,9 @@ class SpecialCheckUserLog extends SpecialPage {
 		CommentStore $commentStore,
 		CommentFormatter $commentFormatter,
 		CheckUserLogService $checkUserLogService,
-		UserFactory $userFactory
+		UserFactory $userFactory,
+		ActorStore $actorStore,
+		LBFactory $lbFactory
 	) {
 		parent::__construct( 'CheckUserLog', 'checkuser-log' );
 		$this->linkBatchFactory = $linkBatchFactory;
@@ -53,6 +64,8 @@ class SpecialCheckUserLog extends SpecialPage {
 		$this->commentFormatter = $commentFormatter;
 		$this->checkUserLogService = $checkUserLogService;
 		$this->userFactory = $userFactory;
+		$this->actorStore = $actorStore;
+		$this->dbr = $lbFactory->getReplicaDatabase();
 	}
 
 	/**
@@ -114,7 +127,7 @@ class SpecialCheckUserLog extends SpecialPage {
 		if ( $this->opts['target'] !== '' && self::verifyTarget( $this->opts['target'] ) === false ) {
 			$errorMessageKey = 'checkuser-target-nonexistent';
 		}
-		if ( $this->opts['initiator'] !== '' && self::verifyInitiator( $this->opts['initiator'] ) === false ) {
+		if ( $this->opts['initiator'] !== '' && $this->verifyInitiator( $this->opts['initiator'] ) === false ) {
 			$errorMessageKey = 'checkuser-initiator-nonexistent';
 		}
 
@@ -135,7 +148,8 @@ class SpecialCheckUserLog extends SpecialPage {
 			$this->commentStore,
 			$this->commentFormatter,
 			$this->checkUserLogService,
-			$this->userFactory
+			$this->userFactory,
+			$this->actorStore
 		);
 
 		$out->addHTML(
@@ -209,7 +223,7 @@ class SpecialCheckUserLog extends SpecialPage {
 				'type' => 'user',
 				// validation in execute() currently
 				'exists' => false,
-				'ipallowed' => false,
+				'ipallowed' => true,
 				'name' => 'cuInitiator',
 				'size' => 40,
 				'label-message' => 'checkuser-log-search-initiator',
@@ -282,19 +296,17 @@ class SpecialCheckUserLog extends SpecialPage {
 	}
 
 	/**
-	 * Verify if the initiator is a valid user.
+	 * Verify if the initiator is valid.
 	 *
-	 * If it is return their ID otherwise return false.
+	 * This is defined by a user having a valid actor ID.
+	 * Any user without an actor ID cannot be a valid initiator
+	 * as making a check causes an actor ID to be created.
 	 *
-	 * @param string $initiator
+	 * @param string $initiator The name of the initiator that is to be verified
 	 * @return bool|int
 	 */
-	public static function verifyInitiator( string $initiator ) {
-		$initiatorObject = User::newFromName( $initiator );
-		if ( $initiatorObject && $initiatorObject->isRegistered() ) {
-			return $initiatorObject->getActorId();
-		}
-		return false;
+	private function verifyInitiator( string $initiator ) {
+		return $this->actorStore->findActorIdByName( $initiator, $this->dbr ) ?? false;
 	}
 
 	/**
