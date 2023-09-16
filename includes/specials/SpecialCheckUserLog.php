@@ -129,6 +129,11 @@ class SpecialCheckUserLog extends SpecialPage {
 		$initiator = User::newFromName( $this->target );
 		if ( $initiator && $initiator->getId() ) {
 			return [ 'cul_user' => $initiator->getId() ];
+		} else {
+			$canonicalUsername = User::getCanonicalName( $this->target, false );
+			if ( $canonicalUsername ) {
+				return [ 'cul_user_text' => $canonicalUsername ];
+			}
 		}
 		return null;
 	}
