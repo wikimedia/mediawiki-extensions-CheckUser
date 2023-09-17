@@ -107,12 +107,28 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 		);
 	}
 
-	public static function provideFormatRow() {
-		// @todo test the rest of the template parameters.
+	public function testFormatRowLogNotFromCuChangesWhenReadingNew() {
 		$deleteLogEntry = new ManualLogEntry( 'delete', 'delete' );
 		$deleteLogEntry->setPerformer( UserIdentityValue::newAnonymous( '127.0.0.1' ) );
 		$deleteLogEntry->setTarget( Title::newFromText( 'Testing page' ) );
+		$this->testFormatRow(
+			[
+				'log_type' => $deleteLogEntry->getType(),
+				'log_action' => $deleteLogEntry->getSubtype(),
+				'title' => $deleteLogEntry->getTarget()->getText(),
+				'user_text' => $deleteLogEntry->getPerformerIdentity()->getName(),
+				'user' => $deleteLogEntry->getPerformerIdentity()->getId(),
+			],
+			[ $deleteLogEntry->getPerformerIdentity()->getName() => '' ],
+			[ $deleteLogEntry->getPerformerIdentity()->getId() => true ],
+			[],
+			[ 'actionText' => LogFormatter::newFromEntry( $deleteLogEntry )->getActionText() ],
+			SCHEMA_COMPAT_NEW
+		);
+	}
 
+	public static function provideFormatRow() {
+		// @todo test the rest of the template parameters.
 		return [
 			'Test user agent on log when reading old' => [
 				[ 'agent' => 'Testing', 'actiontext' => 'Test' ],
@@ -144,20 +160,6 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 				[ 0 => false ],
 				[ 0 => 'Test' ],
 				[ 'comment' => 'Test' ],
-				SCHEMA_COMPAT_NEW
-			],
-			'Log not from cu_changes when reading new' => [
-				[
-					'log_type' => $deleteLogEntry->getType(),
-					'log_action' => $deleteLogEntry->getSubtype(),
-					'title' => $deleteLogEntry->getTarget()->getText(),
-					'user_text' => $deleteLogEntry->getPerformerIdentity()->getName(),
-					'user' => $deleteLogEntry->getPerformerIdentity()->getId(),
-				],
-				[ $deleteLogEntry->getPerformerIdentity()->getName() => '' ],
-				[ $deleteLogEntry->getPerformerIdentity()->getId() => true ],
-				[],
-				[ 'actionText' => LogFormatter::newFromEntry( $deleteLogEntry )->getActionText() ],
 				SCHEMA_COMPAT_NEW
 			],
 		];
