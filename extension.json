@@ -259,6 +259,9 @@
 		},
 		"Hooks": {
 			"class": "MediaWiki\\CheckUser\\Hooks"
+		},
+		"UserMerge": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\UserMergeHandler"
 		}
 	},
 	"Hooks": {
@@ -281,7 +284,7 @@
 		"SpecialPage_initList": "SpecialPageInitList",
 		"User::mailPasswordInternal": "Hooks",
 		"UserLogoutComplete": "Hooks",
-		"UserMergeAccountFields": "MediaWiki\\CheckUser\\Hooks::onUserMergeAccountFields",
+		"UserMergeAccountFields": "UserMerge",
 		"UserToolLinksEdit": "ToolLinks"
 	},
 	"MessagesDirs": {

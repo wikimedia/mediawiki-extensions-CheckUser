@@ -861,29 +861,6 @@ class Hooks implements
 	}
 
 	/**
-	 * @param array &$updateFields
-	 *
-	 * @return bool
-	 */
-	public static function onUserMergeAccountFields( array &$updateFields ) {
-		$updateFields[] = [
-			'cu_changes',
-			'batch_key' => 'cuc_id',
-			'actorId' => 'cuc_actor',
-			'actorStage' => SCHEMA_COMPAT_NEW
-		];
-		$updateFields[] = [
-			'cu_log',
-			'batch_key' => 'cul_id',
-			'actorId' => 'cul_actor',
-			'actorStage' => SCHEMA_COMPAT_NEW
-		];
-		$updateFields[] = [ 'cu_log', 'cul_target_id' ];
-
-		return true;
-	}
-
-	/**
 	 * @param RecentChange $recentChange
 	 */
 	public function onRecentChange_save( $recentChange ) {

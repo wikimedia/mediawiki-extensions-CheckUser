@@ -52,20 +52,6 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		return TestingAccessWrapper::newFromClass( Hooks::class );
 	}
 
-	/**
-	 * @todo test that the values returned by the hook are correct or not invalid?
-	 */
-	public function testOnUserMergeAccountFields() {
-		$updateFields = [];
-		$expectedCount = 3;
-		Hooks::onUserMergeAccountFields( $updateFields );
-		$this->assertCount(
-			$expectedCount,
-			$updateFields,
-			'3 updates were added'
-		);
-	}
-
 	/** @dataProvider provideGetAgent */
 	public function testGetAgent( $userAgent, string $expected ) {
 		$request = TestingAccessWrapper::newFromObject( new \WebRequest() );
