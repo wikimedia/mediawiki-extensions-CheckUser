@@ -68,6 +68,8 @@
 	"checkuser-recent-checks": "Controlli per questo obiettivo",
 	"checkuser-log-checks-by": "controlli eseguiti",
 	"checkuser-log-checks-on": "controlli subiti",
+	"checkuser-log-link-text": "registro",
+	"checkuser-logs-link-text": "registri",
 	"checkuser-blocked": "Bloccato",
 	"checkuser-gblocked": "Bloccato globalmente",
 	"checkuser-locked": "Disabilitato",

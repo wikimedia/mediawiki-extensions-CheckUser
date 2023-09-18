@@ -66,6 +66,8 @@
 	"checkuser-recent-checks": "בדיקות היעד הזה",
 	"checkuser-log-checks-by": "בדיקות על־ידי",
 	"checkuser-log-checks-on": "בדיקות על",
+	"checkuser-log-link-text": "יומן",
+	"checkuser-logs-link-text": "יומנים",
 	"checkuser-blocked": "חסום",
 	"checkuser-gblocked": "חסום באופן גלובלי",
 	"checkuser-locked": "נעול",

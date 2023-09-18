@@ -77,6 +77,8 @@
 	"checkuser-recent-checks": "Sprawdzenia dla tego celu",
 	"checkuser-log-checks-by": "sprawdzone adresy IP",
 	"checkuser-log-checks-on": "sprawdzenia adresów IP",
+	"checkuser-log-link-text": "rejestr",
+	"checkuser-logs-link-text": "rejestry",
 	"checkuser-blocked": "Zablokowany",
 	"checkuser-gblocked": "Zablokowany globalnie",
 	"checkuser-locked": "Zablokowany",

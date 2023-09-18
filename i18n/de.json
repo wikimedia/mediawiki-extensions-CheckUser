@@ -74,6 +74,8 @@
 	"checkuser-recent-checks": "Überprüfungen für diesen Benutzer",
 	"checkuser-log-checks-by": "Prüfungen durch",
 	"checkuser-log-checks-on": "Prüfungen von",
+	"checkuser-log-link-text": "Logbuch",
+	"checkuser-logs-link-text": "Logbücher",
 	"checkuser-blocked": "gesperrt",
 	"checkuser-gblocked": "global gesperrt",
 	"checkuser-locked": "global gesperrt",

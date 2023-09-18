@@ -60,6 +60,8 @@
 	"checkuser-recent-checks": "Preverjanja za ta cilj",
 	"checkuser-log-checks-by": "preverjevalec",
 	"checkuser-log-checks-on": "preverjeni",
+	"checkuser-log-link-text": "dnevnik",
+	"checkuser-logs-link-text": "dnevniki",
 	"checkuser-blocked": "Blokiran",
 	"checkuser-gblocked": "Globalno blokiran",
 	"checkuser-locked": "Zaklenjen",

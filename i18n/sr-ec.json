@@ -67,6 +67,8 @@
 	"checkuser-recent-checks": "Провере за овај циљ",
 	"checkuser-log-checks-by": "проверавао",
 	"checkuser-log-checks-on": "датум",
+	"checkuser-log-link-text": "дневник",
+	"checkuser-logs-link-text": "дневници",
 	"checkuser-blocked": "Блокиран",
 	"checkuser-gblocked": "Глобално блокиран",
 	"checkuser-locked": "Закључан",

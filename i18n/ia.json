@@ -57,6 +57,8 @@
 	"checkuser-recent-checks": "Verificationes pro iste objectivo",
 	"checkuser-log-checks-by": "verificationes facite per",
 	"checkuser-log-checks-on": "verificationes de",
+	"checkuser-log-link-text": "registro",
+	"checkuser-logs-link-text": "registros",
 	"checkuser-blocked": "Blocate",
 	"checkuser-gblocked": "Globalmente blocate",
 	"checkuser-locked": "Serrate",

@@ -82,6 +82,8 @@
 	"checkuser-recent-checks": "この対象に対するチェック",
 	"checkuser-log-checks-by": "調査記録",
 	"checkuser-log-checks-on": "被調査記録",
+	"checkuser-log-link-text": "記録",
+	"checkuser-logs-link-text": "記録",
 	"checkuser-blocked": "ブロック済",
 	"checkuser-gblocked": "グローバルブロック済",
 	"checkuser-locked": "ロック済",
