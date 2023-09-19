@@ -96,6 +96,8 @@
 	"checkuser-recent-checks": "Comprobaciones realizadas sobre este sujeto",
 	"checkuser-log-checks-by": "comprobaciones por",
 	"checkuser-log-checks-on": "comprobaciones sobre",
+	"checkuser-log-link-text": "registro",
+	"checkuser-logs-link-text": "registros",
 	"checkuser-blocked": "Bloqueado",
 	"checkuser-gblocked": "Bloqueado globalmente",
 	"checkuser-locked": "Cuenta globalmente inhabilitada",

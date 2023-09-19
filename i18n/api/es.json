@@ -37,6 +37,7 @@
 	"apierror-checkuser-invalidmode": "Modo de solicitud no válido",
 	"apierror-checkuser-nosuchuser": "No existe ninguna cuenta con ese nombre de usuario",
 	"checkuser-api-help-param-direction": "En qué sentido hacer la enumeración:",
+	"checkuser-api-help-paramvalue-direction-newer": "Enumerar el más antiguo primero. Nota: $1from tiene que ser anterior a $1to.",
 	"checkuser-api-useragent-clienthints-revision-user-mismatch": "El usuario $1 no es el autor de la revisión $2",
-	"checkuser-api-useragent-clienthints-explanation": "Recopilamos los datos relativos a los agentes de usuario (''user-agent client hint data'') para prevenir y reducir abusos y vandalismo en los proyectos Wikimedia. Lee https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints para obtener más información."
+	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} recopila datos relativos a los agentes de usuario (en inglés: ''user-agent client hint data'') para prevenir y reducir abusos y vandalismo. Lee https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints para obtener más información."
 }
