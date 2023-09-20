@@ -19,6 +19,7 @@ use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Hook\EmailUserHook;
 use MediaWiki\Hook\RecentChange_saveHook;
 use MediaWiki\Hook\UserLogoutCompleteHook;
+use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Title\Title;
 use MediaWiki\User\Hook\User__mailPasswordInternalHook;
@@ -106,7 +107,25 @@ class Hooks implements
 			// Write to either cu_log_event or cu_private_event if both:
 			// * This is a log event
 			// * Event table migration stage is set to write new
-			if ( $rc->getAttribute( 'rc_logid' ) == 0 ) {
+			$logId = $rc->getAttribute( 'rc_logid' );
+			$logEntry = null;
+			if ( $logId != 0 ) {
+				$logEntry = DatabaseLogEntry::newFromId( $logId, $dbw );
+				if ( $logEntry === null ) {
+					LoggerFactory::getInstance( 'CheckUser' )->warning(
+						'RecentChange with id {rc_id} has non-existing rc_logid {rc_logid}',
+						[
+							'rc_id' => $rc->getAttribute( 'rc_id' ),
+							'rc_logid' => $rc->getAttribute( 'rc_logid' ),
+							'exception' => new \RuntimeException()
+						]
+					);
+				}
+			}
+			// In some rare cases the LogEntry for this rc_logid may not exist even if
+			// rc_logid is not zero (T343983). If this occurs, consider rc_logid to be zero
+			// and therefore save the entry in cu_private_event
+			if ( $logEntry === null ) {
 				$rcRow = [
 					'cupe_namespace'  => $attribs['rc_namespace'],
 					'cupe_title'      => $attribs['rc_title'],
@@ -116,7 +135,7 @@ class Hooks implements
 					'cupe_timestamp'  => $dbw->timestamp( $attribs['rc_timestamp'] ),
 				];
 
-				# If rc_comment_id is set, then use it. Instead get the comment id by a lookup
+				# If rc_comment_id is set, then use it. Instead, get the comment id by a lookup
 				if ( isset( $attribs['rc_comment_id'] ) ) {
 					$rcRow['cupe_comment_id'] = $attribs['rc_comment_id'];
 				} else {
@@ -137,7 +156,7 @@ class Hooks implements
 				);
 			} else {
 				self::insertIntoCuLogEventTable(
-					$rc->getAttribute( 'rc_logid' ),
+					$logEntry,
 					__METHOD__,
 					$rc->getPerformerIdentity(),
 					$rc
@@ -219,7 +238,7 @@ class Hooks implements
 	 * The log ID is stored in the table and used to get information to show the CheckUser when
 	 * running a check.
 	 *
-	 * @param int $id the log ID associated with the entry to add to cu_log_event
+	 * @param DatabaseLogEntry $logEntry the log entry to add to cu_log_event
 	 * @param string $method the method name that called this, used for the insertion into the DB.
 	 * @param UserIdentity $user the user who made the request.
 	 * @param ?RecentChange $rc If triggered by a RecentChange, then this is the associated
@@ -227,40 +246,27 @@ class Hooks implements
 	 * @return void
 	 */
 	private static function insertIntoCuLogEventTable(
-		int $id,
+		DatabaseLogEntry $logEntry,
 		string $method,
 		UserIdentity $user,
 		?RecentChange $rc = null
 	) {
 		$services = MediaWikiServices::getInstance();
-
-		$dbw = $services->getDBLoadBalancer()->getConnection( DB_PRIMARY );
-
-		/** @var DatabaseLogEntry $logEntry Should not be null as a valid ID must be provided */
-		$logEntry = DatabaseLogEntry::newFromId( $id, $dbw );
-
-		/** T343983 Debugging - remove before closing T343983 */
-		if ( $logEntry === null ) {
-			wfLogWarning( sprintf(
-				'Debug for T343983: Cannot find DatabaseLogEntry for %d', $id
-			) );
-		}
-		/** end of T343983 Debug $request */
-
 		$request = RequestContext::getMain()->getRequest();
+		$dbw = $services->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
 		$ip = $request->getIP();
 		$xff = $request->getHeader( 'X-Forwarded-For' );
 
 		$row = [
-			'cule_log_id' => $id
+			'cule_log_id' => $logEntry->getId()
 		];
 
 		// Provide the ip, xff and row to code that hooks onto this so that they can modify the row before
 		//  it's inserted. The ip and xff are provided separately so that the caller doesn't have to set
 		//  the hex versions of the IP and XFF and can therefore leave that to this function.
 		( new HookRunner( $services->getHookContainer() ) )
-			->onCheckUserInsertLogEventRow( $ip, $xff, $row, $user, $id, $rc );
+			->onCheckUserInsertLogEventRow( $ip, $xff, $row, $user, $logEntry->getId(), $rc );
 		/** @var CheckUserUtilityService $checkUserUtilityService */
 		$checkUserUtilityService = $services->get( 'CheckUserUtilityService' );
 		list( $xff_ip, $isSquidOnly, $xff ) = $checkUserUtilityService->getClientIPfromXFF( $xff );
