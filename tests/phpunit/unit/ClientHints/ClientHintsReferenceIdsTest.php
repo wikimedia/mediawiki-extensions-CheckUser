@@ -15,13 +15,50 @@ use Wikimedia\TestingAccessWrapper;
  * @covers \MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds
  */
 class ClientHintsReferenceIdsTest extends MediaWikiUnitTestCase {
+	public function testConstructorWithNoArgument() {
+		$objectUnderTest = new ClientHintsReferenceIds();
+		$objectUnderTest = TestingAccessWrapper::newFromObject( $objectUnderTest );
+		$this->assertArrayEquals(
+			[],
+			$objectUnderTest->referenceIds,
+			true,
+			true,
+			'ClientHintsReferenceIds::__construct should set the internal array to the empty array if ' .
+			'provided no argument in the constructor.'
+		);
+	}
+
+	/** @dataProvider provideConstructorArguments */
+	public function testConstructorWithArgument( $argument ) {
+		$objectUnderTest = new ClientHintsReferenceIds( $argument );
+		$objectUnderTest = TestingAccessWrapper::newFromObject( $objectUnderTest );
+		$this->assertArrayEquals(
+			$argument,
+			$objectUnderTest->referenceIds,
+			true,
+			true,
+			'ClientHintsReferenceIds::__construct did not set the internal array value correctly.'
+		);
+	}
+
+	public static function provideConstructorArguments() {
+		return [
+			'Default of empty array but provided' => [ [] ],
+			'Array with items' => [ [
+				UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT => [ 3 ],
+				UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT => [ 4 ],
+				UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => [ 4, 5 ],
+			] ],
+		];
+	}
+
 	/** @dataProvider provideAddReferenceIds */
 	public function testAddReferenceIds(
 		$initialInternalArrayValue, $referenceIds, $mapId, $expectedInternalArrayValue
 	) {
-		$objectUnderTest = TestingAccessWrapper::newFromObject( new ClientHintsReferenceIds() );
-		$objectUnderTest->referenceIds = $initialInternalArrayValue;
+		$objectUnderTest = new ClientHintsReferenceIds( $initialInternalArrayValue );
 		$objectUnderTest->addReferenceIds( $referenceIds, $mapId );
+		$objectUnderTest = TestingAccessWrapper::newFromObject( $objectUnderTest );
 		$this->assertArrayEquals(
 			$expectedInternalArrayValue,
 			$objectUnderTest->referenceIds,
@@ -82,8 +119,7 @@ class ClientHintsReferenceIdsTest extends MediaWikiUnitTestCase {
 
 	/** @dataProvider provideGetReferenceIds */
 	public function testGetReferenceIds( $internalArrayValue, $mappingIdArgument, $expectedReturnArray ) {
-		$objectUnderTest = TestingAccessWrapper::newFromObject( new ClientHintsReferenceIds() );
-		$objectUnderTest->referenceIds = $internalArrayValue;
+		$objectUnderTest = new ClientHintsReferenceIds( $internalArrayValue );
 		$this->assertArrayEquals(
 			$expectedReturnArray,
 			$objectUnderTest->getReferenceIds( $mappingIdArgument ),

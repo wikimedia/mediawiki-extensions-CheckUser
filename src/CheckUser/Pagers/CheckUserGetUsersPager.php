@@ -14,10 +14,15 @@ use LogicException;
 use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
+use MediaWiki\CheckUser\ClientHints\ClientHintsLookupResults;
+use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\Services\CheckUserUnionSelectQueryBuilderFactory;
 use MediaWiki\CheckUser\Services\CheckUserUtilityService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
+use MediaWiki\CheckUser\Services\UserAgentClientHintsFormatter;
+use MediaWiki\CheckUser\Services\UserAgentClientHintsLookup;
+use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Linker\LinkRenderer;
@@ -32,7 +37,6 @@ use MediaWiki\User\UserIdentityValue;
 use MediaWiki\WikiMap\WikiMap;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\ILoadBalancer;
-use Wikimedia\Rdbms\IResultWrapper;
 use Xml;
 
 class CheckUserGetUsersPager extends AbstractCheckUserPager {
@@ -51,10 +55,14 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	/** @var string[][] */
 	private $aliases;
 
+	private ClientHintsLookupResults $clientHintsLookupResults;
+
 	private BlockPermissionCheckerFactory $blockPermissionCheckerFactory;
 	private PermissionManager $permissionManager;
 	private UserEditTracker $userEditTracker;
 	private CheckUserUtilityService $checkUserUtilityService;
+	private UserAgentClientHintsLookup $clientHintsLookup;
+	private UserAgentClientHintsFormatter $clientHintsFormatter;
 
 	/**
 	 * @param FormOptions $opts
@@ -75,6 +83,8 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	 * @param UserEditTracker $userEditTracker
 	 * @param CheckUserUtilityService $checkUserUtilityService
 	 * @param CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory
+	 * @param UserAgentClientHintsLookup $clientHintsLookup
+	 * @param UserAgentClientHintsFormatter $clientHintsFormatter
 	 * @param IContextSource|null $context
 	 * @param LinkRenderer|null $linkRenderer
 	 * @param ?int $limit
@@ -98,6 +108,8 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		UserEditTracker $userEditTracker,
 		CheckUserUtilityService $checkUserUtilityService,
 		CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory,
+		UserAgentClientHintsLookup $clientHintsLookup,
+		UserAgentClientHintsFormatter $clientHintsFormatter,
 		IContextSource $context = null,
 		LinkRenderer $linkRenderer = null,
 		?int $limit = null
@@ -119,6 +131,8 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		$this->permissionManager = $permissionManager;
 		$this->userEditTracker = $userEditTracker;
 		$this->checkUserUtilityService = $checkUserUtilityService;
+		$this->clientHintsLookup = $clientHintsLookup;
+		$this->clientHintsFormatter = $clientHintsFormatter;
 	}
 
 	/**
@@ -312,22 +326,57 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		for ( $i = ( count( $this->userSets['agentsets'][$user_text] ) - 1 ); $i >= 0; $i-- ) {
 			$templateParams['agentsList'][] = $this->userSets['agentsets'][$user_text][$i];
 		}
+		// Show Client Hints data if display is enabled.
+		$templateParams['displayClientHints'] = $this->displayClientHints;
+		if ( $this->displayClientHints ) {
+			$templateParams['clientHintsList'] = [];
+			[ $usagesOfClientHints, $clientHintsDataObjects ] = $this->clientHintsLookupResults
+				->getGroupedClientHintsDataForReferenceIds( $this->userSets['clienthints'][$user_text] );
+			// Sort the $usagesOfClientHints array such that the ClientHintsData object that is most used
+			// by the user referenced in $user_text is shown first and the ClientHintsData object least used is
+			// shown last. This is done to be consistent with the way that User-Agent strings are shown as well
+			// as ensuring that if there are more than 10 items the ClientHintsData objects used on the most reference
+			// IDs are shown.
+			arsort( $usagesOfClientHints, SORT_NUMERIC );
+			// Limit the number displayed to at most 10 starting at the
+			// ClientHintsData object associated with the most rows
+			// in the results. This is to be consistent with User-Agent
+			// strings which are also limited to 10 strings.
+			$i = 0;
+			foreach ( array_keys( $usagesOfClientHints ) as $clientHintsDataIndex ) {
+				// If 10 Client Hints data objects have been displayed,
+				// then don't show any more (similar to User-Agent strings).
+				if ( $i === 10 ) {
+					break;
+				}
+				$clientHintsDataObject = $clientHintsDataObjects[$clientHintsDataIndex];
+				if ( $clientHintsDataObject ) {
+					$formattedClientHintsData = $this->clientHintsFormatter
+						->formatClientHintsDataObject( $clientHintsDataObject );
+					if ( $formattedClientHintsData ) {
+						// If the Client Hints data object is valid and evaluates to a non-empty
+						// human readable string, then add it to the list to display.
+						$i++;
+						$templateParams['clientHintsList'][] = $formattedClientHintsData;
+					}
+				}
+			}
+		}
 		return $this->templateParser->processTemplate( 'GetUsersLine', $templateParams );
 	}
 
-	/**
-	 * @param IResultWrapper $result
-	 * @return array[]
-	 */
-	protected function preprocessResults( $result ): array {
+	/** @inheritDoc */
+	protected function preprocessResults( $result ) {
 		$this->userSets = [
 			'first' => [],
 			'last' => [],
 			'edits' => [],
 			'ids' => [],
 			'infosets' => [],
-			'agentsets' => []
+			'agentsets' => [],
+			'clienthints' => [],
 		];
+		$referenceIdsForLookup = new ClientHintsReferenceIds();
 
 		foreach ( $result as $row ) {
 			if ( !array_key_exists( $row->user_text, $this->userSets['edits'] ) ) {
@@ -336,6 +385,17 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 				$this->userSets['ids'][$row->user_text] = $row->user ?? 0;
 				$this->userSets['infosets'][$row->user_text] = [];
 				$this->userSets['agentsets'][$row->user_text] = [];
+				$this->userSets['clienthints'][$row->user_text] = new ClientHintsReferenceIds();
+			}
+			if ( $this->displayClientHints ) {
+				$referenceIdsForLookup->addReferenceIds(
+					$row->client_hints_reference_id,
+					$row->client_hints_reference_type
+				);
+				$this->userSets['clienthints'][$row->user_text]->addReferenceIds(
+					$row->client_hints_reference_id,
+					$row->client_hints_reference_type
+				);
 			}
 			$this->userSets['edits'][$row->user_text]++;
 			$this->userSets['first'][$row->user_text] = $row->timestamp;
@@ -354,7 +414,13 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			}
 		}
 
-		return $this->userSets;
+		// Lookup the Client Hints data objects from the DB
+		// and then batch format the ClientHintsData objects
+		// for display.
+		if ( $this->displayClientHints ) {
+			$this->clientHintsLookupResults = $this->clientHintsLookup
+				->getClientHintsByReferenceIds( $referenceIdsForLookup );
+		}
 	}
 
 	/** @inheritDoc */
@@ -405,12 +471,21 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		if ( $this->eventTableReadNew ) {
 			$queryInfo['conds']['cuc_only_for_read_old'] = 0;
 		}
+		// When displaying Client Hints data, add the reference type and reference ID to each row.
+		if ( $this->displayClientHints ) {
+			$queryInfo['fields']['client_hints_reference_id'] =
+				UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
+					UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES
+				];
+			$queryInfo['fields']['client_hints_reference_type'] =
+				UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES;
+		}
 		return $queryInfo;
 	}
 
 	/** @inheritDoc */
 	protected function getQueryInfoForCuLogEvent(): array {
-		return [
+		$queryInfo = [
 			'fields' => [
 				'timestamp' => 'cule_timestamp',
 				'ip' => 'cule_ip',
@@ -424,11 +499,21 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			'join_conds' => [ 'actor_cule_actor' => [ 'JOIN', 'actor_cule_actor.actor_id=cule_actor' ] ],
 			'options' => [],
 		];
+		// When displaying Client Hints data, add the reference type and reference ID to each row.
+		if ( $this->displayClientHints ) {
+			$queryInfo['fields']['client_hints_reference_id'] =
+				UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
+					UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT
+				];
+			$queryInfo['fields']['client_hints_reference_type'] =
+				UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT;
+		}
+		return $queryInfo;
 	}
 
 	/** @inheritDoc */
 	protected function getQueryInfoForCuPrivateEvent(): array {
-		return [
+		$queryInfo = [
 			'fields' => [
 				'timestamp' => 'cupe_timestamp',
 				'ip' => 'cupe_ip',
@@ -442,6 +527,16 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			'join_conds' => [ 'actor_cupe_actor' => [ 'JOIN', 'actor_cupe_actor.actor_id=cupe_actor' ] ],
 			'options' => [],
 		];
+		// When displaying Client Hints data, add the reference type and reference ID to each row.
+		if ( $this->displayClientHints ) {
+			$queryInfo['fields']['client_hints_reference_id'] =
+				UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
+					UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT
+				];
+			$queryInfo['fields']['client_hints_reference_type'] =
+				UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT;
+		}
+		return $queryInfo;
 	}
 
 	/** @inheritDoc */
@@ -463,7 +558,24 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			);
 		}
 
-		$s .= '<div id="checkuserresults" class="mw-checkuser-get-users-results"><ul>';
+		$divClasses = [ 'mw-checkuser-get-users-results' ];
+
+		if ( $this->displayClientHints ) {
+			// Class used to indicate whether Client Hints are enabled
+			// TODO: Remove this class and old CSS code once display
+			// is on all wikis (T341110).
+			$divClasses[] = 'mw-checkuser-clienthints-enabled-temporary-class';
+		}
+
+		$s .= Xml::openElement(
+			'div',
+			[
+				'id' => 'checkuserresults',
+				'class' => implode( ' ', $divClasses )
+			]
+		);
+
+		$s .= '<ul>';
 
 		return $s;
 	}

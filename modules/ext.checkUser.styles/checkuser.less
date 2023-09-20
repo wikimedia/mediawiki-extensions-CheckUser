@@ -60,7 +60,8 @@
 		margin-left: 2.5%;
 	}
 
-	.mw-checkuser-get-edits-results {
+	.mw-checkuser-get-edits-results,
+	.mw-checkuser-clienthints-enabled-temporary-class.mw-checkuser-get-users-results {
 		.mw-checkuser-agent,
 		.mw-checkuser-client-hints {
 			color: @color-subtle;
@@ -102,6 +103,21 @@
 
 			a {
 				word-wrap: anywhere;
+			}
+		}
+	}
+
+	.mw-checkuser-clienthints-enabled-temporary-class {
+		&.mw-checkuser-get-users-results {
+			>ul {
+				list-style-type: none;
+				list-style-image: none;
+				margin-left: 1em;
+			}
+
+			li ul {
+				font-size: small;
+				margin-left: 3em;
 			}
 		}
 	}

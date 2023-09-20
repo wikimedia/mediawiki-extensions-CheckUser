@@ -286,10 +286,11 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 	}
 
 	public function testDeleteMappingRowsWithEmptyReferenceIdsList() {
-		$clientHintReferenceIds = new ClientHintsReferenceIds();
-		$clientHintReferenceIds->addReferenceIds( [], UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES );
-		$clientHintReferenceIds->addReferenceIds( [], UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT );
-		$clientHintReferenceIds->addReferenceIds( [], UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT );
+		$clientHintReferenceIds = new ClientHintsReferenceIds( [
+			UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => [],
+			UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT => [],
+			UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT => [],
+		] );
 		$loggerMock = $this->createMock( LoggerInterface::class );
 		$loggerMock->expects( $this->once() )
 			->method( 'info' )

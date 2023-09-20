@@ -110,9 +110,10 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 				},
 				ARRAY_FILTER_USE_KEY
 			),
-			$expectedTemplateParams,
-			'The template parameters do not match the expected template parameters. If changes have been
-			made to the template parameters make sure you update the tests.'
+			false,
+			true,
+			'The template parameters do not match the expected template parameters. If changes have been ' .
+			'made to the template parameters make sure you update the tests.'
 		);
 	}
 

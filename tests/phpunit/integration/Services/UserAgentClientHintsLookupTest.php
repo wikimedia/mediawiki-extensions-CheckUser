@@ -47,10 +47,9 @@ class UserAgentClientHintsLookupTest extends MediaWikiIntegrationTestCase {
 				$clientHintData, $referenceIdsToInsert[$key], 'revision'
 			);
 		}
-		$referenceIds = new ClientHintsReferenceIds();
-		$referenceIds->addReferenceIds(
-			$referenceIdsToLookup, $userAgentClientHintsManager::IDENTIFIER_CU_CHANGES
-		);
+		$referenceIds = new ClientHintsReferenceIds( [
+			UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => $referenceIdsToLookup
+		] );
 		/** @var UserAgentClientHintsLookup $userAgentClientHintsLookup */
 		$userAgentClientHintsLookup = $this->getServiceContainer()->get( 'UserAgentClientHintsLookup' );
 		$lookupResult = $userAgentClientHintsLookup->getClientHintsByReferenceIds( $referenceIds );

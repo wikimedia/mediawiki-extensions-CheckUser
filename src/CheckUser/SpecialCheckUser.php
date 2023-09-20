@@ -770,7 +770,9 @@ class SpecialCheckUser extends SpecialPage {
 					$this->checkUserLogService,
 					$this->userEditTracker,
 					$this->checkUserUtilityService,
-					$this->checkUserUnionSelectQueryBuilderFactory
+					$this->checkUserUnionSelectQueryBuilderFactory,
+					$this->clientHintsLookup,
+					$this->clientHintsFormatter
 				);
 			case self::SUBTYPE_GET_EDITS:
 				return new CheckUserGetEditsPager(

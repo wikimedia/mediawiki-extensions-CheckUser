@@ -14,7 +14,7 @@
 	{{#flags}}
 		{{{ . }}}
 	{{/flags}}
-	<ol>
+	{{^displayClientHints}}<ol>
 		{{#infoSets}}
 			<li>
 				<span class="mw-checkuser-ip">{{{ipLink}}}</span>{{#xff}}&#160;&#160;<strong>XFF</strong>: <span class="mw-checkuser-xff{{#xffTrusted}} mw-checkuser-xff-trusted{{/xffTrusted}}">{{{ . }}}</span>{{/xff}}
@@ -26,5 +26,21 @@
 				<i dir="ltr" class="mw-checkuser-agent">{{ . }}</i>
 			</li>
 		{{/agentsList}}
-	</ol>
+	</ol>{{/displayClientHints}}{{#displayClientHints}}<ul>
+		{{#infoSets}}
+			<li>
+				<span class="mw-checkuser-ip">{{{ipLink}}}</span>{{#xff}}&#160;&#160;<strong>XFF</strong>: <span class="mw-checkuser-xff{{#xffTrusted}} mw-checkuser-xff-trusted{{/xffTrusted}}">{{{ . }}}</span>{{/xff}}
+			</li>
+		{{/infoSets}}
+	</ul><ul>
+		{{#agentsList}}
+			<li>
+				<span class="mw-checkuser-agent">{{ . }}</span>
+			</li>
+		{{/agentsList}}
+	</ul><ul>{{#clientHintsList}}
+		<li>
+			<span class="mw-checkuser-client-hints">{{ . }}</span>
+		</li>
+	{{/clientHintsList}}</ul><br/>{{/displayClientHints}}
 </li>

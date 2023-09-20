@@ -70,10 +70,9 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 			'*',
 			'Number of rows in cu_useragent_clienthints_map table after insertion of data is not as expected'
 		);
-		$referenceIdsForDeletion = new ClientHintsReferenceIds();
-		$referenceIdsForDeletion->addReferenceIds(
-			$referenceIdsToDelete, $userAgentClientHintsManager::IDENTIFIER_CU_CHANGES
-		);
+		$referenceIdsForDeletion = new ClientHintsReferenceIds( [
+			UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => $referenceIdsToDelete
+		] );
 		$this->assertSame(
 			$expectedMappingRowCount - $expectedMappingRowCountAfterDeletion,
 			$userAgentClientHintsManager->deleteMappingRows( $referenceIdsForDeletion ),

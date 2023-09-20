@@ -37,32 +37,32 @@ class UserAgentClientHintsLookupTest extends MediaWikiUnitTestCase {
 	}
 
 	public static function providePrepareFirstResultsArray() {
-		yield 'Empty reference IDs list' => [
-			new ClientHintsReferenceIds(),
-			[]
-		];
-
-		$referenceIdsForCuChanges = new ClientHintsReferenceIds();
-		$referenceIdsForCuChanges->addReferenceIds( [ 123, 456 ], UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES );
-		$referenceIdsForCuChanges->addReferenceIds( [], UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT );
-		yield 'Reference IDs for just cu_changes' => [
-			$referenceIdsForCuChanges,
-			// Expected array returned by ::prepareFirstResultsArray
-			[ UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => [ 123 => [], 456 => [] ] ]
-		];
-
-		$referenceIds = new ClientHintsReferenceIds();
-		$referenceIds->addReferenceIds( [ 123, 4567 ], UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES );
-		$referenceIds->addReferenceIds( [ 678, 101 ], UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT );
-		$referenceIds->addReferenceIds( [ 1234, 56 ], UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT );
-		yield 'Reference IDs for all three reference types' => [
-			$referenceIds,
-			// Expected array returned by ::prepareFirstResultsArray. Should be the reference IDs
-			// in $referenceIds with empty arrays as the value.
-			[
-				UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => [ 123 => [], 4567 => [] ],
-				UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT => [ 678 => [], 101 => [] ],
-				UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT => [ 1234 => [], 56 => [] ],
+		return [
+			'Empty reference IDs list' => [
+				new ClientHintsReferenceIds(),
+				[]
+			],
+			'Reference IDs for just cu_changes' => [
+				new ClientHintsReferenceIds( [
+					UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => [ 123, 456 ],
+					UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT => []
+				] ),
+				// Expected array returned by ::prepareFirstResultsArray
+				[ UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => [ 123 => [], 456 => [] ] ]
+			],
+			'Reference IDs for all three reference types' => [
+				new ClientHintsReferenceIds( [
+					UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => [ 123, 4567 ],
+					UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT => [ 678, 101 ],
+					UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT => [ 1234, 56 ],
+				] ),
+				// Expected array returned by ::prepareFirstResultsArray. Should be the reference IDs
+				// in $referenceIds with empty arrays as the value.
+				[
+					UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => [ 123 => [], 4567 => [] ],
+					UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT => [ 678 => [], 101 => [] ],
+					UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT => [ 1234 => [], 56 => [] ],
+				]
 			]
 		];
 	}
