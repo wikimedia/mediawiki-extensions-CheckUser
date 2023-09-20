@@ -15,7 +15,6 @@ use MediaWiki\CheckUser\CheckUser\CheckUserPagerNavigationBuilder;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
-use MediaWiki\CheckUser\Services\CheckUserUnionSelectQueryBuilderFactory;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlocking;
 use MediaWiki\Html\FormOptions;
@@ -98,7 +97,6 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	private CheckUserLogService $checkUserLogService;
 	protected TemplateParser $templateParser;
 	protected UserFactory $userFactory;
-	protected CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory;
 
 	/**
 	 * @param FormOptions $opts
@@ -113,7 +111,6 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	 * @param ActorMigration $actorMigration
 	 * @param CheckUserLogService $checkUserLogService
 	 * @param UserFactory $userFactory
-	 * @param CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory
 	 * @param IContextSource|null $context
 	 * @param LinkRenderer|null $linkRenderer
 	 * @param ?int $limit
@@ -131,7 +128,6 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		ActorMigration $actorMigration,
 		CheckUserLogService $checkUserLogService,
 		UserFactory $userFactory,
-		CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory,
 		IContextSource $context = null,
 		LinkRenderer $linkRenderer = null,
 		?int $limit = null
@@ -178,7 +174,6 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		$this->actorMigration = $actorMigration;
 		$this->checkUserLogService = $checkUserLogService;
 		$this->userFactory = $userFactory;
-		$this->checkUserUnionSelectQueryBuilderFactory = $checkUserUnionSelectQueryBuilderFactory;
 
 		$this->templateParser = new TemplateParser( __DIR__ . '/../../../templates' );
 

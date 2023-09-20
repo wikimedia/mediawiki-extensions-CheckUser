@@ -17,7 +17,6 @@ use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
 use MediaWiki\CheckUser\ClientHints\ClientHintsLookupResults;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
-use MediaWiki\CheckUser\Services\CheckUserUnionSelectQueryBuilderFactory;
 use MediaWiki\CheckUser\Services\CheckUserUtilityService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsFormatter;
@@ -82,7 +81,6 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	 * @param CheckUserLogService $checkUserLogService
 	 * @param UserEditTracker $userEditTracker
 	 * @param CheckUserUtilityService $checkUserUtilityService
-	 * @param CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory
 	 * @param UserAgentClientHintsLookup $clientHintsLookup
 	 * @param UserAgentClientHintsFormatter $clientHintsFormatter
 	 * @param IContextSource|null $context
@@ -107,7 +105,6 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		CheckUserLogService $checkUserLogService,
 		UserEditTracker $userEditTracker,
 		CheckUserUtilityService $checkUserUtilityService,
-		CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory,
 		UserAgentClientHintsLookup $clientHintsLookup,
 		UserAgentClientHintsFormatter $clientHintsFormatter,
 		IContextSource $context = null,
@@ -117,7 +114,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager,
 			$userGroupManager, $centralIdLookup, $dbProvider, $specialPageFactory,
 			$userIdentityLookup, $actorMigration, $checkUserLogService, $userFactory,
-			$checkUserUnionSelectQueryBuilderFactory, $context, $linkRenderer, $limit );
+			$context, $linkRenderer, $limit );
 		$this->checkType = SpecialCheckUser::SUBTYPE_GET_USERS;
 		$this->xfor = $xfor;
 		$this->canPerformBlocks = $permissionManager->userHasRight( $this->getUser(), 'block' )

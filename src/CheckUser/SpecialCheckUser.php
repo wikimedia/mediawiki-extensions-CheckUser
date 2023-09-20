@@ -16,7 +16,6 @@ use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\CheckUser\CheckUser\Widgets\CIDRCalculator;
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
-use MediaWiki\CheckUser\Services\CheckUserUnionSelectQueryBuilderFactory;
 use MediaWiki\CheckUser\Services\CheckUserUtilityService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsFormatter;
@@ -88,7 +87,6 @@ class SpecialCheckUser extends SpecialPage {
 	private HookRunner $hookRunner;
 	private CheckUserUtilityService $checkUserUtilityService;
 	private CommentStore $commentStore;
-	private CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory;
 	private UserAgentClientHintsLookup $clientHintsLookup;
 	private UserAgentClientHintsFormatter $clientHintsFormatter;
 
@@ -115,7 +113,6 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param HookRunner $hookRunner
 	 * @param CheckUserUtilityService $checkUserUtilityService
 	 * @param CommentStore $commentStore
-	 * @param CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory
 	 * @param UserAgentClientHintsLookup $clientHintsLookup
 	 * @param UserAgentClientHintsFormatter $clientHintsFormatter
 	 */
@@ -142,7 +139,6 @@ class SpecialCheckUser extends SpecialPage {
 		HookRunner $hookRunner,
 		CheckUserUtilityService $checkUserUtilityService,
 		CommentStore $commentStore,
-		CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory,
 		UserAgentClientHintsLookup $clientHintsLookup,
 		UserAgentClientHintsFormatter $clientHintsFormatter
 	) {
@@ -170,7 +166,6 @@ class SpecialCheckUser extends SpecialPage {
 		$this->hookRunner = $hookRunner;
 		$this->checkUserUtilityService = $checkUserUtilityService;
 		$this->commentStore = $commentStore;
-		$this->checkUserUnionSelectQueryBuilderFactory = $checkUserUnionSelectQueryBuilderFactory;
 		$this->clientHintsLookup = $clientHintsLookup;
 		$this->clientHintsFormatter = $clientHintsFormatter;
 	}
@@ -752,8 +747,7 @@ class SpecialCheckUser extends SpecialPage {
 					$this->userIdentityLookup,
 					$this->actorMigration,
 					$this->checkUserLogService,
-					$this->userFactory,
-					$this->checkUserUnionSelectQueryBuilderFactory
+					$this->userFactory
 				);
 			case self::SUBTYPE_GET_USERS:
 				return new CheckUserGetUsersPager(
@@ -774,7 +768,6 @@ class SpecialCheckUser extends SpecialPage {
 					$this->checkUserLogService,
 					$this->userEditTracker,
 					$this->checkUserUtilityService,
-					$this->checkUserUnionSelectQueryBuilderFactory,
 					$this->clientHintsLookup,
 					$this->clientHintsFormatter
 				);
@@ -801,7 +794,6 @@ class SpecialCheckUser extends SpecialPage {
 					$this->hookRunner,
 					$this->checkUserUtilityService,
 					$this->commentStore,
-					$this->checkUserUnionSelectQueryBuilderFactory,
 					$this->clientHintsLookup,
 					$this->clientHintsFormatter
 				);
