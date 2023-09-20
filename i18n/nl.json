@@ -73,6 +73,8 @@
 	"checkuser-recent-checks": "Controles voor dit doel",
 	"checkuser-log-checks-by": "controles uitgevoerd door",
 	"checkuser-log-checks-on": "controles van",
+	"checkuser-log-link-text": "logboek",
+	"checkuser-logs-link-text": "logboeken",
 	"checkuser-blocked": "Geblokkeerd",
 	"checkuser-gblocked": "Globaal geblokkeerd",
 	"checkuser-locked": "Afgesloten",
