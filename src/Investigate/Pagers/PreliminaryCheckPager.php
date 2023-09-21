@@ -29,6 +29,7 @@ use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Extension\CentralAuth\CentralAuthDatabaseManager;
 use MediaWiki\Extension\CentralAuth\CentralAuthServices;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\User\User;
 use MediaWiki\WikiMap\WikiMap;
 use NamespaceInfo;
 use SpecialPage;
@@ -236,7 +237,7 @@ class PreliminaryCheckPager extends TablePager {
 	 */
 	public function getQueryInfo() {
 		$targets = $this->tokenData['targets'] ?? [];
-		$users = array_filter( array_map( 'User::newFromName', $targets ), static function ( $user ) {
+		$users = array_filter( array_map( [ User::class, 'newFromName' ], $targets ), static function ( $user ) {
 			return (bool)$user;
 		} );
 
