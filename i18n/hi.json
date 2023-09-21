@@ -57,6 +57,7 @@
 	"checkuser-recent-checks": "इस सदस्य के लिए हाल में हुए जाँच",
 	"checkuser-log-checks-by": "जाँचकर्ता",
 	"checkuser-log-checks-on": "जाँच का लक्ष्य",
+	"checkuser-logs-link-text": "लॉग",
 	"checkuser-blocked": "अवरोधित",
 	"checkuser-gblocked": "ग्लोबल रूप से अवरोधित",
 	"checkuser-locked": "लॉक किया हुआ",
