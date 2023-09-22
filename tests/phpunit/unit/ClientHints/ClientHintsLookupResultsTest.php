@@ -212,4 +212,19 @@ class ClientHintsLookupResultsTest extends MediaWikiUnitTestCase {
 			],
 		];
 	}
+
+	public function testGetRawData() {
+		$rawData = [
+			[ UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT => [ 1 => 0 ] ],
+			[ ClientHintsData::newFromJsApi( [] ) ]
+		];
+		$objectUnderTest = new ClientHintsLookupResults( ...$rawData );
+		$this->assertArrayEquals(
+			$rawData,
+			$objectUnderTest->getRawData(),
+			true,
+			true,
+			'Return array from ::getGroupedClientHintsDataForReferenceIds was not as expected.'
+		);
+	}
 }
