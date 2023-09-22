@@ -100,6 +100,62 @@ class ClientHintsData implements JsonSerializable {
 	}
 
 	/**
+	 * Given an array of rows from the useragent_clienthints table,
+	 * construct a new ClientHintsData object.
+	 *
+	 * @param array $rows
+	 * @return ClientHintsData
+	 */
+	public static function newFromDatabaseRows( array $rows ): ClientHintsData {
+		$data = [];
+		foreach ( $rows as $row ) {
+			if ( in_array( $row['uach_name'], [ 'brands', 'fullVersionList' ] ) ) {
+				// There can be multiple client hint values with this name
+				// for brands and fullVersionList
+				if ( !array_key_exists( $row['uach_name'], $data ) ) {
+					$data[$row['uach_name']] = [];
+				}
+				// Assume that last space separates version number from brand name (e.g. "NotABrand 123")
+				// When saving to the DB, we combine the version number and brand name
+				// with a separator of a space.
+				$explodedValue = explode( ' ', $row['uach_value'] );
+				if ( count( $explodedValue ) > 1 ) {
+					$versionNumber = array_pop( $explodedValue );
+					$brandName = implode( ' ', $explodedValue );
+					$data[$row['uach_name']][] = [
+						"brand" => $brandName,
+						"version" => $versionNumber
+					];
+				} else {
+					// No space was found, therefore keep the value as is.
+					$data[$row['uach_name']][] = $row['uach_value'];
+				}
+			} else {
+				$value = $row['uach_value'];
+				// Convert "0" and "1" to their boolean values
+				// for "mobile" and "woW64"
+				if ( in_array( $row['uach_name'], [ 'mobile', 'woW64' ] ) ) {
+					$value = boolval( $value );
+				}
+				$data[$row['uach_name']] = $value;
+			}
+		}
+		return new ClientHintsData(
+			$data['architecture'] ?? null,
+			$data['bitness'] ?? null,
+			$data['brands'] ?? null,
+			$data['formFactor'] ?? null,
+			$data['fullVersionList'] ?? null,
+			$data['mobile'] ?? null,
+			$data['model'] ?? null,
+			$data['platform'] ?? null,
+			$data['platformVersion'] ?? null,
+			$data['userAgent'] ?? null,
+			$data['woW64'] ?? null
+		);
+	}
+
+	/**
 	 * @return array[]
 	 *  An array of arrays containing maps of uach_name => uach_value items
 	 *  to insert into the cu_useragent_clienthints table.
