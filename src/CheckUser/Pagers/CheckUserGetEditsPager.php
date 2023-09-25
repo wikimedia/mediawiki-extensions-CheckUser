@@ -13,11 +13,16 @@ use LogicException;
 use ManualLogEntry;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
+use MediaWiki\CheckUser\ClientHints\ClientHintsBatchFormatterResults;
+use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\Services\CheckUserUnionSelectQueryBuilderFactory;
 use MediaWiki\CheckUser\Services\CheckUserUtilityService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
+use MediaWiki\CheckUser\Services\UserAgentClientHintsFormatter;
+use MediaWiki\CheckUser\Services\UserAgentClientHintsLookup;
+use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Html\FormOptions;
@@ -59,6 +64,11 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	/** @var array A map where usernames are keys and whether they are hidden are values. */
 	protected array $usernameVisibility = [];
 
+	/**
+	 * @var ClientHintsBatchFormatterResults Formatted ClientHintsData objects that can be looked up by a reference ID.
+	 */
+	protected ClientHintsBatchFormatterResults $formattedClientHintsData;
+
 	private LoggerInterface $logger;
 	private LinkBatchFactory $linkBatchFactory;
 	private RevisionStore $revisionStore;
@@ -68,6 +78,8 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	private HookRunner $hookRunner;
 	private CheckUserUtilityService $checkUserUtilityService;
 	private CommentStore $commentStore;
+	private UserAgentClientHintsLookup $clientHintsLookup;
+	private UserAgentClientHintsFormatter $clientHintsFormatter;
 
 	/**
 	 * @param FormOptions $opts
@@ -92,6 +104,8 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	 * @param CheckUserUtilityService $checkUserUtilityService
 	 * @param CommentStore $commentStore
 	 * @param CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory
+	 * @param UserAgentClientHintsLookup $clientHintsLookup
+	 * @param UserAgentClientHintsFormatter $clientHintsFormatter
 	 * @param IContextSource|null $context
 	 * @param LinkRenderer|null $linkRenderer
 	 * @param ?int $limit
@@ -119,6 +133,8 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		CheckUserUtilityService $checkUserUtilityService,
 		CommentStore $commentStore,
 		CheckUserUnionSelectQueryBuilderFactory $checkUserUnionSelectQueryBuilderFactory,
+		UserAgentClientHintsLookup $clientHintsLookup,
+		UserAgentClientHintsFormatter $clientHintsFormatter,
 		IContextSource $context = null,
 		LinkRenderer $linkRenderer = null,
 		?int $limit = null
@@ -138,6 +154,8 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		$this->hookRunner = $hookRunner;
 		$this->checkUserUtilityService = $checkUserUtilityService;
 		$this->commentStore = $commentStore;
+		$this->clientHintsLookup = $clientHintsLookup;
+		$this->clientHintsFormatter = $clientHintsFormatter;
 		$this->preCacheMessages();
 		$this->mGroupByDate = true;
 	}
@@ -232,6 +250,16 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		}
 		// User agent
 		$templateParams['userAgent'] = $row->agent;
+		// Display Client Hints data if display is enabled
+		if ( $this->displayClientHints ) {
+			// If ::getStringForReferenceId returns null, the mustache template will
+			// interpret this as false and then not display the Client Hints data
+			// in the same way that if $this->displayClientHints data was false.
+			$templateParams['clientHints'] = $this->formattedClientHintsData->getStringForReferenceId(
+				$row->client_hints_reference_id,
+				$row->client_hints_reference_type
+			);
+		}
 
 		return $this->templateParser->processTemplate( 'GetEditsLine', $templateParams );
 	}
@@ -407,7 +435,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 				'agent' => 'cuc_agent',
 				'user' => 'actor_user',
 				'user_text' => 'actor_name',
-				# Needed for rows with cuc_type as RC_LOG.
+				// Needed for rows with cuc_type as RC_LOG.
 				'comment_text',
 				'comment_data',
 			],
@@ -418,10 +446,18 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 			] + $commentQuery['joins'],
 			'options' => [],
 		];
-		# When reading new, only select results from cu_changes that are
-		# for read new (defined as those with cuc_only_for_read_old set to 0).
+		// When reading new, only select results from cu_changes that are
+		// for read new (defined as those with cuc_only_for_read_old set to 0).
 		if ( $this->eventTableReadNew ) {
 			$queryInfo['conds']['cuc_only_for_read_old'] = 0;
+		}
+		// When displaying Client Hints data, add the reference type and reference ID to each row.
+		if ( $this->displayClientHints ) {
+			$queryInfo['fields']['client_hints_reference_id'] =
+				UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
+					UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES
+				];
+			$queryInfo['fields']['client_hints_reference_type'] = UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES;
 		}
 		return $queryInfo;
 	}
@@ -460,16 +496,24 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 			'options' => [],
 		];
 		if ( $this->mDb->getType() == 'postgres' ) {
-			# On postgres the cuc_type type is a smallint.
+			// On postgres the cuc_type type is a smallint.
 			$queryInfo['fields'] += [
 				'type' => 'CAST(' . RC_LOG . ' AS smallint)'
 			];
 		} else {
-			# Other DBs can handle converting RC_LOG to the
-			# correct type.
+			// Other DBs can handle converting RC_LOG to the
+			// correct type.
 			$queryInfo['fields'] += [
 				'type' => RC_LOG
 			];
+		}
+		// When displaying Client Hints data, add the reference type and reference ID to each row.
+		if ( $this->displayClientHints ) {
+			$queryInfo['fields']['client_hints_reference_id'] =
+				UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
+					UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT
+				];
+			$queryInfo['fields']['client_hints_reference_type'] = UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT;
 		}
 		return $queryInfo;
 	}
@@ -504,16 +548,25 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 			'options' => [],
 		];
 		if ( $this->mDb->getType() == 'postgres' ) {
-			# On postgres the cuc_type type is a smallint.
+			// On postgres the cuc_type type is a smallint.
 			$queryInfo['fields'] += [
 				'type' => 'CAST(' . RC_LOG . ' AS smallint)'
 			];
 		} else {
-			# Other DBs can handle converting RC_LOG to the
-			# correct type.
+			// Other DBs can handle converting RC_LOG to the
+			// correct type.
 			$queryInfo['fields'] += [
 				'type' => RC_LOG
 			];
+		}
+		// When displaying Client Hints data, add the reference type and reference ID to each row.
+		if ( $this->displayClientHints ) {
+			$queryInfo['fields']['client_hints_reference_id'] =
+				UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[
+					UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT
+				];
+			$queryInfo['fields']['client_hints_reference_type'] =
+				UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT;
 		}
 		return $queryInfo;
 	}
@@ -530,7 +583,11 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		$lb->setCaller( __METHOD__ );
 		$revisions = [];
 		$missingRevisions = [];
+		$referenceIds = new ClientHintsReferenceIds();
 		foreach ( $result as $row ) {
+			if ( $this->displayClientHints ) {
+				$referenceIds->addReferenceIds( $row->client_hints_reference_id, $row->client_hints_reference_type );
+			}
 			if ( $row->title !== '' ) {
 				$lb->add( $row->namespace, $row->title );
 			}
@@ -587,6 +644,18 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 				->execute()
 		);
 		$lb->execute();
+		// Lookup the Client Hints data objects from the DB
+		// and then batch format the ClientHintsData objects
+		// for display.
+		if ( $this->displayClientHints ) {
+			// When no Client Hints data was found for a edit or for all edits in the results,
+			// no associated formatted Client Hints data string will be stored in
+			// $this->formattedClientHintsData for the edits without Client Hints data.
+			// Calling the getter method will handle this by returning null.
+			$clientHintsData = $this->clientHintsLookup->getClientHintsByReferenceIds( $referenceIds );
+			$this->formattedClientHintsData = $this->clientHintsFormatter
+				->batchFormatClientHintsData( $clientHintsData );
+		}
 		$result->seek( 0 );
 	}
 

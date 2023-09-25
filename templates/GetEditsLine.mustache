@@ -16,5 +16,8 @@
 		<strong>IP</strong>: <span class="mw-checkuser-ip">{{{ipLink}}}</span>{{#xff}}&#160;&#160;
 		<strong>XFF</strong>: <span class="mw-checkuser-xff{{#xffTrusted}} mw-checkuser-xff-trusted{{/xffTrusted}}">{{{ . }}}</span>{{/xff}}
 		&#160;&#160;<span class="mw-checkuser-agent">{{userAgent}}</span>
+		{{#clientHints}}
+			<br><span class="mw-checkuser-client-hints">{{ . }}</span>
+		{{/clientHints}}
 	</small></div>
 </li>
