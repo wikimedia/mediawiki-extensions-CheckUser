@@ -20,9 +20,9 @@ use Wikimedia\IPUtils;
 
 class SpecialCheckUserLog extends SpecialPage {
 	/**
-	 * @var string[]|null[] an array of nullable string options.
+	 * @var array an array of nullable string/integer options.
 	 */
-	protected $opts;
+	protected array $opts;
 
 	private LinkBatchFactory $linkBatchFactory;
 	private PermissionManager $permissionManager;
