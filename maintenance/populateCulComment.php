@@ -78,7 +78,8 @@ class PopulateCulComment extends LoggedUpdateMaintenance {
 				$services->getCommentFormatter(),
 				// No need to log as this maintenance script does not use any methods
 				//  that use the logger.
-				new NullLogger()
+				new NullLogger(),
+				$services->getActorStore()
 			);
 		}
 		$mainLb = $services->getDBLoadBalancerFactory()->getMainLB();

@@ -10,6 +10,7 @@ use MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
+use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityValue;
 use RangeChronologicalPager;
@@ -26,6 +27,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	private CheckUserLogService $checkUserLogService;
 	private CommentStore $commentStore;
 	private UserFactory $userFactory;
+	private ActorStore $actorStore;
 
 	/**
 	 * @param IContextSource $context
@@ -37,6 +39,8 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	 * @param CommentStore $commentStore
 	 * @param CommentFormatter $commentFormatter
 	 * @param CheckUserLogService $checkUserLogService
+	 * @param UserFactory $userFactory
+	 * @param ActorStore $actorStore
 	 */
 	public function __construct(
 		IContextSource $context,
@@ -45,7 +49,8 @@ class CheckUserLogPager extends RangeChronologicalPager {
 		CommentStore $commentStore,
 		CommentFormatter $commentFormatter,
 		CheckUserLogService $checkUserLogService,
-		UserFactory $userFactory
+		UserFactory $userFactory,
+		ActorStore $actorStore
 	) {
 		parent::__construct( $context );
 		$this->linkBatchFactory = $linkBatchFactory;
@@ -53,6 +58,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 		$this->commentFormatter = $commentFormatter;
 		$this->checkUserLogService = $checkUserLogService;
 		$this->userFactory = $userFactory;
+		$this->actorStore = $actorStore;
 		$this->opts = $opts;
 
 		// Date filtering: use timestamp if available - From SpecialContributions.php
@@ -117,9 +123,13 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	 * @inheritDoc
 	 */
 	public function formatRow( $row ) {
-		$performerHidden = $this->userFactory->newFromUserIdentity(
-			UserIdentityValue::newRegistered( $row->actor_user, $row->actor_name )
-		)->isHidden();
+		if ( $row->actor_user ) {
+			$performerHidden = $this->userFactory->newFromUserIdentity(
+				UserIdentityValue::newRegistered( $row->actor_user, $row->actor_name )
+			)->isHidden();
+		} else {
+			$performerHidden = $this->userFactory->newFromActorId( $row->actor_id )->isHidden();
+		}
 		if ( $performerHidden && !$this->getAuthority()->isAllowed( 'hideuser' ) ) {
 			// Performer of the check is hidden and the logged in user does not have
 			//  right to see hidden users.
@@ -295,7 +305,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	public function selectFields(): array {
 		return [
 			'cul_id', 'cul_timestamp', 'cul_type', 'cul_target_id',
-			'cul_target_text', 'actor_name', 'actor_user'
+			'cul_target_text', 'actor_name', 'actor_user', 'actor_id'
 		];
 	}
 
@@ -330,8 +340,8 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	 * @param string $initiator the username of the initiator.
 	 * @return array|null array if valid target, null if invalid
 	 */
-	public static function getPerformerSearchConds( string $initiator ): ?array {
-		$initiatorId = SpecialCheckUserLog::verifyInitiator( $initiator );
+	private function getPerformerSearchConds( string $initiator ): ?array {
+		$initiatorId = $this->actorStore->findActorIdByName( $initiator, $this->mDb ) ?? false;
 		if ( $initiatorId !== false ) {
 			return [ 'cul_actor' => $initiatorId ];
 		}
