@@ -6,6 +6,7 @@ use HashConfig;
 use Language;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetEditsPager;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\User\UserIdentityValue;
 use RequestContext;
@@ -312,6 +313,52 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonUnitTest {
 					'options' => [],
 					'join_conds' => [],
 				]
+			],
+		];
+	}
+
+	/** @dataProvider provideGetActionTextForReadOld */
+	public function testGetActionTextForReadOld( $row, $expectedActionText ) {
+		$commentFormatterMock = $this->createMock( CommentFormatter::class );
+		$commentFormatterMock->method( 'format' )
+			->willReturnArgument( 0 );
+		$objectUnderTest = $this->getMockBuilder( CheckUserGetEditsPager::class )
+			->onlyMethods( [] )
+			->disableOriginalConstructor()
+			->getMock();
+		$objectUnderTest = TestingAccessWrapper::newFromObject( $objectUnderTest );
+		$objectUnderTest->commentFormatter = $commentFormatterMock;
+		$objectUnderTest->eventTableReadNew = true;
+		$this->assertSame(
+			$expectedActionText,
+			$objectUnderTest->getActionText( (object)$row, UserIdentityValue::newAnonymous( '127.0.0.1' ) ),
+			'::getActionText did not return the correct actiontext.'
+		);
+	}
+
+	public static function provideGetActionTextForReadOld() {
+		return [
+			'Action text as null' => [
+				[
+					'actiontext' => null,
+					'type' => RC_LOG,
+				],
+				''
+			],
+			'Action text as empty string' => [
+				[
+					'actiontext' => '',
+					'type' => RC_LOG,
+					'log_type' => null,
+				],
+				''
+			],
+			'Action text as a non-empty string' => [
+				[
+					'actiontext' => 'testing',
+					'type' => RC_LOG,
+				],
+				'testing'
 			],
 		];
 	}

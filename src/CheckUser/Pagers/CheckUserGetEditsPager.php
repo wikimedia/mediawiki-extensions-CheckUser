@@ -10,6 +10,7 @@ use IContextSource;
 use Linker;
 use LogFormatter;
 use LogicException;
+use LogPage;
 use ManualLogEntry;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
@@ -42,6 +43,7 @@ use MediaWiki\User\UserIdentityValue;
 use Psr\Log\LoggerInterface;
 use SpecialPage;
 use stdClass;
+use Wikimedia\AtEase\AtEase;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\ILoadBalancer;
 
@@ -201,25 +203,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 			// Add any block information
 			$templateParams['flags'] = $this->flagCache[$row->user_text];
 		}
-		if ( $this->eventTableReadNew && $row->type == RC_LOG && isset( $row->log_type ) && $row->log_type ) {
-			// Log action text taken from the LogFormatter for the entry being displayed.
-			$logEntry = new ManualLogEntry( $row->log_type, $row->log_action );
-			if ( $row->log_params !== null ) {
-				$logEntry->setParameters( ManualLogEntry::extractParams( $row->log_params ) );
-			}
-			$logEntry->setPerformer( $user );
-			if ( $row->title ) {
-				$logEntry->setTarget( Title::makeTitle( $row->namespace, $row->title ) );
-			} elseif ( $row->page_id ) {
-				$logEntry->setTarget( Title::newFromID( $row->page_id ) );
-			}
-			$logEntry->setTimestamp( $row->timestamp );
-			$logFormatter = LogFormatter::newFromEntry( $logEntry );
-			$templateParams['actionText'] = $logFormatter->getActionText();
-		} else {
-			// Action text, hackish ...
-			$templateParams['actionText'] = $this->commentFormatter->format( $row->actiontext ?? '' );
-		}
+		$templateParams['actionText'] = $this->getActionText( $row, $user );
 		// Comment
 		if ( $row->type == RC_EDIT || $row->type == RC_NEW ) {
 			$templateParams['comment'] = $this->formattedRevisionComments[$row->this_oldid];
@@ -262,6 +246,46 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		}
 
 		return $this->templateParser->processTemplate( 'GetEditsLine', $templateParams );
+	}
+
+	/**
+	 * Gets the actiontext associated with the given $row.
+	 *
+	 * @param stdClass $row The database row
+	 * @param UserIdentity $user The user who is the performer for this row.
+	 * @return string The actiontext
+	 */
+	private function getActionText( stdClass $row, UserIdentity $user ): string {
+		if ( $this->eventTableReadNew && $row->type == RC_LOG && isset( $row->log_type ) && $row->log_type ) {
+			// Log action text taken from the LogFormatter for the entry being displayed.
+			$logEntry = new ManualLogEntry( $row->log_type, $row->log_action );
+			if ( $row->log_params !== null ) {
+				// Suppress E_NOTICE from PHP's unserialize if the log parameters are legacy parameters.
+				// This is similar to DatabaseLogEntry::getParameters.
+				AtEase::suppressWarnings();
+				$parsedLogParams = ManualLogEntry::extractParams( $row->log_params );
+				AtEase::restoreWarnings();
+				if ( $parsedLogParams === false ) {
+					// Use the LogPage::extractParams method to extract the log parameters as they are probably
+					// legacy parameters.
+					$parsedLogParams = LogPage::extractParams( $row->log_params );
+					$logEntry->setLegacy( true );
+				}
+				$logEntry->setParameters( $parsedLogParams );
+			}
+			$logEntry->setPerformer( $user );
+			if ( $row->title ) {
+				$logEntry->setTarget( Title::makeTitle( $row->namespace, $row->title ) );
+			} elseif ( $row->page_id ) {
+				$logEntry->setTarget( Title::newFromID( $row->page_id ) );
+			}
+			$logEntry->setTimestamp( $row->timestamp );
+			$logFormatter = LogFormatter::newFromEntry( $logEntry );
+			return $logFormatter->getActionText();
+		} else {
+			// Action text, hackish ...
+			return $this->commentFormatter->format( $row->actiontext ?? '' );
+		}
 	}
 
 	/**
