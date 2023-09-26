@@ -90,6 +90,28 @@ class UserAgentClientHintsHandlerTest extends MediaWikiUnitTestCase {
 		);
 	}
 
+	public function testBodyFailedValidationBecauseOfIncorrectType() {
+		$config = new HashConfig( [
+			'CheckUserClientHintsEnabled' => true,
+			'CheckUserClientHintsRestApiMaxTimeLag' => 1800,
+		] );
+		$revisionStore = $this->createMock( RevisionStore::class );
+		$userAgentClientHintsManager = $this->createMock( UserAgentClientHintsManager::class );
+		$handler = $this->getMockBuilder( UserAgentClientHintsHandler::class )
+			->setConstructorArgs( [ $config, $revisionStore, $userAgentClientHintsManager ] )
+			->onlyMethods( [ 'getValidatedBody' ] )
+			->getMock();
+		$handler->method( 'getValidatedBody' )
+			->willReturn( [ 'platformVersion' => [ [ 'test' => 'test' ], [ 'testing' => 1234 ] ] ] );
+		$this->expectExceptionObject(
+			new LocalizedHttpException( new MessageValue( 'rest-bad-json-body' ), 400 )
+		);
+		$this->executeHandler(
+			$handler, new RequestData( [ 'headers' => [ 'Content-Type' => 'application/json' ] ] ), [], [],
+			[ 'type' => 'revision', 'id' => 1 ]
+		);
+	}
+
 	public function testMissingRevision() {
 		$config = new HashConfig( [
 			'CheckUserClientHintsEnabled' => true,

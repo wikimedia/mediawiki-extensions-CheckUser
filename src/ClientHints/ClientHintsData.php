@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\ClientHints;
 use JsonSerializable;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Logger\LoggerFactory;
+use TypeError;
 
 /**
  * Value object for modeling user agent client hints data.
@@ -82,6 +83,7 @@ class ClientHintsData implements JsonSerializable {
 	 *
 	 * @param array $data
 	 * @return ClientHintsData
+	 * @throws TypeError on invalid data (such as platformVersion being an array).
 	 */
 	public static function newFromJsApi( array $data ): ClientHintsData {
 		return new self(

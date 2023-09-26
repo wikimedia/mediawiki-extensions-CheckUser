@@ -11,6 +11,7 @@ use MediaWiki\Rest\Validator\JsonBodyValidator;
 use MediaWiki\Rest\Validator\UnsupportedContentTypeBodyValidator;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
+use TypeError;
 use Wikimedia\Message\MessageValue;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
@@ -70,7 +71,13 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 				throw new LocalizedHttpException( new MessageValue( 'rest-bad-json-body' ), 400 );
 			}
 		}
-		$clientHints = ClientHintsData::newFromJsApi( $data );
+		try {
+			// ::newFromJsApi with the $data may raise a TypeError as the $data
+			// does not have its type validated (T305973).
+			$clientHints = ClientHintsData::newFromJsApi( $data );
+		} catch ( TypeError $e ) {
+			throw new LocalizedHttpException( new MessageValue( 'rest-bad-json-body' ), 400 );
+		}
 		$type = $this->getValidatedParams()['type'];
 		$identifier = $this->getValidatedParams()['id'];
 		if ( $type === 'revision' ) {
