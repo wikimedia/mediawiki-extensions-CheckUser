@@ -78,6 +78,7 @@
 	"checkuser-search-initiator": "IP-kontrolløren",
 	"checkuser-search-target": "målet",
 	"checkuser-log-search-target": "Mål:",
+	"checkuser-log-search-initiator": "Initiativtager:",
 	"checkuser-log-search-type": "Søk etter:",
 	"checkuser-ipeditcount": "~$1 fra alle brukere",
 	"checkuser-showmain": "Gå til hovedskjemaet for CheckUser",
