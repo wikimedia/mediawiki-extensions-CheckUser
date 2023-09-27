@@ -2,7 +2,9 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers;
 
+use LogEntryBase;
 use LogFormatter;
+use LogPage;
 use ManualLogEntry;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\ClientHints\ClientHintsBatchFormatterResults;
@@ -142,6 +144,63 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 			SCHEMA_COMPAT_NEW,
 			true,
 		);
+	}
+
+	/** @dataProvider provideFormatRowLogNotFromCuChangesWhenReadingNewWithLogParameters */
+	public function testFormatRowLogNotFromCuChangesWhenReadingNewWithLogParameters(
+		$logParametersAsArray, $logParametersAsBlob
+	) {
+		$moveLogEntry = new ManualLogEntry( 'move', 'move' );
+		$moveLogEntry->setPerformer( UserIdentityValue::newAnonymous( '127.0.0.1' ) );
+		$moveLogEntry->setTarget( Title::newFromText( 'Testing page' ) );
+		$moveLogEntry->setParameters( $logParametersAsArray );
+		$this->testFormatRow(
+			[
+				'log_type' => $moveLogEntry->getType(),
+				'log_action' => $moveLogEntry->getSubtype(),
+				'title' => $moveLogEntry->getTarget()->getText(),
+				'user_text' => $moveLogEntry->getPerformerIdentity()->getName(),
+				'user' => $moveLogEntry->getPerformerIdentity()->getId(),
+				'log_params' => $logParametersAsBlob,
+				'client_hints_reference_id' => 1,
+				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
+			],
+			[ $moveLogEntry->getPerformerIdentity()->getName() => '' ],
+			[ $moveLogEntry->getPerformerIdentity()->getId() => true ],
+			[],
+			new ClientHintsBatchFormatterResults( [ 0 => [ 1 => 0 ] ], [ 0 => 'Test Client Hints data' ] ),
+			[
+				'actionText' => LogFormatter::newFromEntry( $moveLogEntry )->getActionText(),
+				'clientHints' => 'Test Client Hints data',
+			],
+			SCHEMA_COMPAT_NEW,
+			true,
+		);
+	}
+
+	public static function provideFormatRowLogNotFromCuChangesWhenReadingNewWithLogParameters() {
+		return [
+			'Legacy log parameters' => [
+				[
+					'4::target' => 'Testing',
+					'5::noredir' => '0'
+				],
+				LogPage::makeParamBlob( [
+					'4::target' => 'Testing',
+					'5::noredir' => '0'
+				] ),
+			],
+			'Normal log parameters' => [
+				[
+					'4::target' => 'Testing',
+					'5::noredir' => '0'
+				],
+				LogEntryBase::makeParamBlob( [
+					'4::target' => 'Testing',
+					'5::noredir' => '0'
+				] ),
+			]
+		];
 	}
 
 	public static function provideFormatRow() {
