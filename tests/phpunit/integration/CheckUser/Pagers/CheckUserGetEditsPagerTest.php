@@ -128,6 +128,7 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 				'log_type' => $deleteLogEntry->getType(),
 				'log_action' => $deleteLogEntry->getSubtype(),
 				'title' => $deleteLogEntry->getTarget()->getText(),
+				'log_deleted' => 0,
 				'user_text' => $deleteLogEntry->getPerformerIdentity()->getName(),
 				'user' => $deleteLogEntry->getPerformerIdentity()->getId(),
 				'client_hints_reference_id' => 1,
@@ -146,6 +147,36 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 		);
 	}
 
+	public function testFormatRowLogNotFromCuChangesWhenReadingNewWithDeletedActionText() {
+		$deleteLogEntry = new ManualLogEntry( 'delete', 'delete' );
+		$deleteLogEntry->setPerformer( UserIdentityValue::newAnonymous( '127.0.0.1' ) );
+		$deleteLogEntry->setTarget( Title::newFromText( 'Testing page' ) );
+		$deleteLogEntry->setDeleted( LogPage::DELETED_ACTION );
+		$logFormatter = LogFormatter::newFromEntry( $deleteLogEntry );
+		$logFormatter->setAudience( LogFormatter::FOR_THIS_USER );
+		$this->testFormatRow(
+			[
+				'log_type' => $deleteLogEntry->getType(),
+				'log_action' => $deleteLogEntry->getSubtype(),
+				'title' => $deleteLogEntry->getTarget()->getText(),
+				'log_deleted' => LogPage::DELETED_ACTION,
+				'user_text' => $deleteLogEntry->getPerformerIdentity()->getName(),
+				'user' => $deleteLogEntry->getPerformerIdentity()->getId(),
+				'client_hints_reference_id' => 1,
+				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
+			],
+			[ $deleteLogEntry->getPerformerIdentity()->getName() => '' ],
+			[ $deleteLogEntry->getPerformerIdentity()->getId() => true ],
+			[],
+			new ClientHintsBatchFormatterResults( [], [] ),
+			[
+				'actionText' => $logFormatter->getActionText()
+			],
+			SCHEMA_COMPAT_NEW,
+			false,
+		);
+	}
+
 	/** @dataProvider provideFormatRowLogNotFromCuChangesWhenReadingNewWithLogParameters */
 	public function testFormatRowLogNotFromCuChangesWhenReadingNewWithLogParameters(
 		$logParametersAsArray, $logParametersAsBlob
@@ -158,6 +189,7 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 			[
 				'log_type' => $moveLogEntry->getType(),
 				'log_action' => $moveLogEntry->getSubtype(),
+				'log_deleted' => 0,
 				'title' => $moveLogEntry->getTarget()->getText(),
 				'user_text' => $moveLogEntry->getPerformerIdentity()->getName(),
 				'user' => $moveLogEntry->getPerformerIdentity()->getId(),

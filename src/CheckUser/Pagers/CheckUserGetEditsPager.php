@@ -280,7 +280,9 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 				$logEntry->setTarget( Title::newFromID( $row->page_id ) );
 			}
 			$logEntry->setTimestamp( $row->timestamp );
+			$logEntry->setDeleted( $row->log_deleted );
 			$logFormatter = LogFormatter::newFromEntry( $logEntry );
+			$logFormatter->setAudience( LogFormatter::FOR_THIS_USER );
 			return $logFormatter->getActionText();
 		} else {
 			// Action text, hackish ...
@@ -507,6 +509,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 				'log_type' => 'log_type',
 				'log_action' => 'log_action',
 				'log_params' => 'log_params',
+				'log_deleted' => 'log_deleted',
 				'log_id' => 'cule_log_id',
 			],
 			'tables' => [
@@ -562,7 +565,9 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 				'comment_data',
 				'log_type' => 'cupe_log_type',
 				'log_action' => 'cupe_log_action',
-				'log_params' => 'cupe_params'
+				'log_params' => 'cupe_params',
+				// cu_private_event log events cannot be deleted or suppressed.
+				'log_deleted' => 0,
 			],
 			'tables' => [ 'cu_private_event', 'actor_cupe_actor' => 'actor' ] + $commentQuery['tables'],
 			'conds' => [],
