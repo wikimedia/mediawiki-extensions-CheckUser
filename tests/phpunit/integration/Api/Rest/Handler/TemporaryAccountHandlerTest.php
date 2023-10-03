@@ -416,7 +416,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 
 		foreach ( $testData as $row ) {
 			$this->db->newInsertQueryBuilder()
-				->insert( 'cu_changes' )
+				->insertInto( 'cu_changes' )
 				->row( $row + $commonData )
 				->execute();
 		}

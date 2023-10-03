@@ -41,7 +41,7 @@ class PopulateCulCommentTest extends MaintenanceBaseTestCase {
 		$testTarget = $this->getTestUser()->getUserIdentity();
 		// Create a test cu_log entry with a cul_reason value.
 		$this->db->newInsertQueryBuilder()
-			->insert( 'cu_log' )
+			->insertInto( 'cu_log' )
 			->row( [
 				'cul_timestamp' => $this->db->timestamp( ConvertibleTimestamp::time() ),
 				'cul_actor' => $this->getTestSysop()->getUser()->getActorId(),

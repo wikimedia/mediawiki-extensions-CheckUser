@@ -98,7 +98,7 @@ class CheckUserLogService {
 					$data += $commentStore->insert( $dbw, 'cul_reason', $reason );
 					$data += $commentStore->insert( $dbw, 'cul_reason_plaintext', $plaintextReason );
 					$dbw->newInsertQueryBuilder()
-						->insert( 'cu_log' )
+						->insertInto( 'cu_log' )
 						->row(
 							[
 								'cul_timestamp' => $dbw->timestamp( $timestamp )

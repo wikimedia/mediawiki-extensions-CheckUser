@@ -288,7 +288,7 @@ class Hooks implements
 		$row['cule_xff'] = $contLang->truncateForDatabase( $row['cule_xff'], self::TEXT_FIELD_LENGTH );
 
 		$dbw->newInsertQueryBuilder()
-			->insert( 'cu_log_event' )
+			->insertInto( 'cu_log_event' )
 			->row( $row )
 			->caller( $method )
 			->execute();
@@ -372,7 +372,7 @@ class Hooks implements
 		unset( $row['cupe_comment'] );
 
 		$dbw->newInsertQueryBuilder()
-			->insert( 'cu_private_event' )
+			->insertInto( 'cu_private_event' )
 			->row( $row )
 			->caller( $method )
 			->execute();
@@ -462,7 +462,7 @@ class Hooks implements
 		unset( $row['cuc_comment'] );
 
 		$dbw->newInsertQueryBuilder()
-			->insert( 'cu_changes' )
+			->insertInto( 'cu_changes' )
 			->row( $row )
 			->caller( $method )
 			->execute();
