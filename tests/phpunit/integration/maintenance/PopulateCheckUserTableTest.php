@@ -76,12 +76,12 @@ class PopulateCheckUserTableTest extends MaintenanceBaseTestCase {
 			$logid = $logEntry->insert();
 			$logEntry->publish( $logid );
 		}
-		// Add one entry with log_id as -1
+		// Add one entry with invalid log ID
 		$logEntry = new ManualLogEntry( 'foo', 'bar' );
 		$logEntry->setPerformer( $this->getTestUser()->getUserIdentity() );
 		$logEntry->setTarget( $this->getExistingTestPage() );
 		$logEntry->setComment( 'Testing' );
-		// -1 cannot be used as the entry may be saved to the test DB which would cause an exception.
+		// Add rc_logid to the recent change, but don't insert the log
 		$logEntry->publish( 1233455334 );
 		// Check that the recentchanges table has entries.
 		$this->assertRowCount(
@@ -135,12 +135,12 @@ class PopulateCheckUserTableTest extends MaintenanceBaseTestCase {
 	public static function provideTestPopulation() {
 		return [
 			'recentchanges row count 4 with SCHEMA_COMPAT_WRITE_OLD' => [
-				// 5 for cu_changes count is because the test adds an log event with a invalid log ID on top of the
+				// 5 for cu_changes count is because the test adds a log event with a invalid log ID on top of the
 				// 4 requested recentchanges rows.
 				4, 5, null, 0, SCHEMA_COMPAT_WRITE_OLD
 			],
 			'recentchanges row count 4 with SCHEMA_COMPAT_WRITE_BOTH' => [
-				// 5 for cu_changes count is because the test adds an log event with a invalid log ID on top of the
+				// 5 for cu_changes count is because the test adds a log event with a invalid log ID on top of the
 				// 4 requested recentchanges rows.
 				4, 5, 3, 2, SCHEMA_COMPAT_WRITE_BOTH
 			],
