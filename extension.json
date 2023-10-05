@@ -341,7 +341,12 @@
 				"dispatcher.js",
 				"cidr/cidr.js",
 				"checkuser/caMultiLock.js",
-				"checkuser/checkUserHelper.js",
+				"checkuser/checkUserHelper/init.js",
+				"checkuser/checkUserHelper/addCopyElement.js",
+				"checkuser/checkUserHelper/createTable.js",
+				"checkuser/checkUserHelper/createTableText.js",
+				"checkuser/checkUserHelper/generateData.js",
+				"checkuser/checkUserHelper/utils.js",
 				"checkuserlog/highlightScroll.js",
 				"investigateblock/investigateblock.js",
 				"investigate/init.js",
@@ -444,12 +449,28 @@
 		"localBasePath": "",
 		"remoteExtPath": "CheckUser",
 		"packageFiles": [
-			"tests/qunit/index.js"
+			"tests/qunit/index.js",
+			"tests/qunit/ext.checkUser/checkUserHelper/utils.test.js",
+			"tests/qunit/ext.checkUser/checkUserHelper/createTable.test.js",
+			"tests/qunit/ext.checkUser/checkUserHelper/createTableText.test.js",
+			"tests/qunit/ext.checkUser/checkUserHelper/generateData.test.js",
+			"modules/ext.checkUser/checkuser/checkUserHelper/init.js",
+			"modules/ext.checkUser/checkuser/checkUserHelper/addCopyElement.js",
+			"modules/ext.checkUser/checkuser/checkUserHelper/createTable.js",
+			"modules/ext.checkUser/checkuser/checkUserHelper/createTableText.js",
+			"modules/ext.checkUser/checkuser/checkUserHelper/generateData.js",
+			"modules/ext.checkUser/checkuser/checkUserHelper/utils.js",
+			"tests/qunit/ext.checkUser/checkUserHelper/cases/calculateIPNumber.json",
+			"tests/qunit/ext.checkUser/checkUserHelper/cases/compareIPs.json",
+			"tests/qunit/ext.checkUser/checkUserHelper/cases/createTable.json",
+			"tests/qunit/ext.checkUser/checkUserHelper/cases/createTableText.json",
+			"tests/qunit/ext.checkUser/checkUserHelper/cases/generateData.json"
 		],
 		"dependencies": [
 			"mediawiki.qunit-testrunner",
 			"mediawiki.base",
 			"mediawiki.router",
+			"mediawiki.widgets",
 			"ext.checkUser",
 			"sinonjs"
 		]

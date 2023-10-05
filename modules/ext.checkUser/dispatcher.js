@@ -10,7 +10,8 @@
 		case 'CheckUser':
 			require( './cidr/cidr.js' );
 			require( './checkuser/caMultiLock.js' );
-			require( './checkuser/checkUserHelper.js' );
+			var CheckUserHelper = require( './checkuser/checkUserHelper/init.js' );
+			CheckUserHelper.init();
 			break;
 		case 'CheckUserLog':
 			require( './checkuserlog/highlightScroll.js' );
