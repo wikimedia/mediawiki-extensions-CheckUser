@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Maintenance;
 
+use DatabaseLogEntry;
 use LoggedUpdateMaintenance;
 use MediaWiki\MediaWikiServices;
 use RecentChange;
@@ -112,7 +113,11 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 					$row->rc_type == RC_LOG &&
 					( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW )
 				) {
-					if ( $row->rc_logid == 0 ) {
+					$logEntry = null;
+					if ( $row->rc_logid != 0 ) {
+						$logEntry = DatabaseLogEntry::newFromId( $row->rc_logid, $db );
+					}
+					if ( $logEntry === null ) {
 						$cuPrivateEventBatch[] = [
 							'cupe_timestamp' => $row->rc_timestamp,
 							'cupe_actor' => $row->rc_actor,
