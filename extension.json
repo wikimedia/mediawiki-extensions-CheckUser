@@ -440,6 +440,20 @@
 			]
 		}
 	},
+	"QUnitTestModule": {
+		"localBasePath": "",
+		"remoteExtPath": "CheckUser",
+		"packageFiles": [
+			"tests/qunit/index.js"
+		],
+		"dependencies": [
+			"mediawiki.qunit-testrunner",
+			"mediawiki.base",
+			"mediawiki.router",
+			"ext.checkUser",
+			"sinonjs"
+		]
+	},
 	"GroupPermissions": {
 		"checkuser": {
 			"checkuser": true,
