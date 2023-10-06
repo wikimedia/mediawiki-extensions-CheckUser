@@ -398,6 +398,7 @@
 				"checkuser-helper-user",
 				"checkuser-helper-ips",
 				"checkuser-helper-uas",
+				"checkuser-helper-client-hints",
 				"checkuser-helper-xff-trusted",
 				"checkuser-helper-xff-untrusted",
 				"checkuser-cidr-tool-links",

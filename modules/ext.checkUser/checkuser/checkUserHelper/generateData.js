@@ -8,35 +8,43 @@ const Utils = require( './utils.js' );
  * Generates a dictionary of data that summarises the
  * results from Special:CheckUser.
  *
- * @return {Promise<Object.<string, {ip: {}, ua: {}, sorted: {ip: string[], ua: string[]}}>>}
+ * @return {Promise<Object.<string,{ip: {}, ua: {}, uach: {}, sorted:
+ *   {ip: string[], ua: string[], uach: string[]}}>>}
  */
 function generateData() {
-	var $checkUserResults = $( '#checkuserresults li' );
+	const $checkUserResults = $( '#checkuserresults li' );
 	function processRows( data, currentPosition ) {
-		var ipText;
-		var endPosition = currentPosition + 50;
+		let endPosition = currentPosition + 50;
 		if ( endPosition > $checkUserResults.length ) {
 			endPosition = $checkUserResults.length;
 		}
 		$checkUserResults.slice( currentPosition, endPosition ).each( function () {
-			var user = $( '.mw-checkuser-user-link', this ).text().trim();
+			const user = $( '.mw-checkuser-user-link', this ).text().trim();
 			if ( !user ) {
 				return;
 			}
 			if ( !data[ user ] ) {
-				data[ user ] = { ip: {}, ua: {} };
+				data[ user ] = { ip: {}, ua: {}, uach: {} };
 			}
 			$( '.mw-checkuser-agent', this ).each( function () {
-				var uaText = $( this ).text().trim();
+				const uaText = $( this ).text().trim();
 				if ( uaText !== '' ) {
 					data[ user ].ua[ uaText ] = data[ user ].ua[ uaText ] || 0;
 					data[ user ].ua[ uaText ] += 1;
 				}
 			} );
+			$( '.mw-checkuser-client-hints', this ).each( function () {
+				const clientHintsText = $( this ).text().trim();
+				if ( clientHintsText !== '' ) {
+					data[ user ].uach[ clientHintsText ] =
+						data[ user ].uach[ clientHintsText ] || 0;
+					data[ user ].uach[ clientHintsText ] += 1;
+				}
+			} );
 			$( '.mw-checkuser-ip', this ).each( function () {
-				ipText = $( this ).text().trim();
-				var $xff;
-				var xffTrusted;
+				const ipText = $( this ).text().trim();
+				let $xff;
+				let xffTrusted;
 				if ( $( this ).is( 'li' ) ) {
 					$xff = $( '.mw-checkuser-xff', this );
 				} else {
@@ -48,7 +56,7 @@ function generateData() {
 				} else {
 					xffTrusted = 'false';
 				}
-				var xffText = $xff.text().trim();
+				const xffText = $xff.text().trim();
 				if ( ipText !== '' ) {
 					if ( !data[ user ].ip[ ipText ] ) {
 						data[ user ].ip[ ipText ] = {};
@@ -81,14 +89,17 @@ function generateData() {
 			}
 			// sort IPs and UAs
 			// eslint-disable-next-line
-			$.each( data, function ( idx ) {
-				var ip = Object.keys( data[ idx ].ip );
+			$.each( data, function ( user ) {
+				const ip = Object.keys( data[ user ].ip );
 				ip.sort( Utils.compareIPs );
-				var ua = Object.keys( data[ idx ].ua );
+				const ua = Object.keys( data[ user ].ua );
 				ua.sort(); // NOSONAR
-				data[ idx ].sorted = {
+				const uach = Object.keys( data[ user ].uach );
+				uach.sort(); // NOSONAR
+				data[ user ].sorted = {
 					ip: ip,
-					ua: ua
+					ua: ua,
+					uach: uach
 				};
 			} );
 			return Promise.resolve( data );

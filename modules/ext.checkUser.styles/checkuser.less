@@ -98,12 +98,36 @@
 		td:nth-child( 1 ),
 		td:nth-child( 2 ) {
 			@media ( max-width: @max-width-breakpoint-desktop ) {
-				min-width: 25%;
+				min-width: 20%;
 			}
 
 			a {
 				word-wrap: anywhere;
 			}
+		}
+
+		.mw-checkuser-helper-count {
+			font-weight: bold;
+		}
+
+		&.mw-checkuser-clienthints-enabled-temporary-class {
+			.mw-checkuser-helper-user-agents,
+			.mw-checkuser-helper-client-hints {
+				font-size: 0.8em;
+			}
+		}
+	}
+
+	.mw-checkuser-helper-copy-text-layout {
+		margin-top: 0.5em;
+
+		.oo-ui-buttonElement,
+		.oo-ui-inputWidget {
+			position: absolute;
+		}
+
+		.oo-ui-copyTextLayout-multiline-button {
+			margin-bottom: 2em;
 		}
 	}
 
@@ -135,5 +159,25 @@
 
 	.ext-checkuser-checkuserblock-block-reason .oo-ui-textInputWidget {
 		margin-top: 0.5em;
+	}
+}
+
+html[ dir='rtl' ] .mw-special-CheckUser .mw-checkuser-helper-copy-text-layout {
+	.oo-ui-inputWidget {
+		right: -9999px;
+	}
+
+	.oo-ui-buttonElement {
+		right: 0;
+	}
+}
+
+html[ dir='ltr' ] .mw-special-CheckUser .mw-checkuser-helper-copy-text-layout {
+	.oo-ui-inputWidget {
+		left: -9999px;
+	}
+
+	.oo-ui-buttonElement {
+		left: 0;
 	}
 }
