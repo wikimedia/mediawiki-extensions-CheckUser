@@ -225,8 +225,8 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 			'reblock' => true,
 		];
 		$users = [
-			$this->getTestUser()->getUserIdentity()->getName(),
-			$this->getTestSysop()->getUserIdentity()->getName(),
+			$this->getMutableTestUser()->getUserIdentity()->getName(),
+			$this->getMutableTestUser()->getUserIdentity()->getName(),
 			'1.2.3.4'
 		];
 		$this->commonTestDoMassUserBlockInternal(
