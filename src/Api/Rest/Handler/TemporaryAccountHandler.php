@@ -12,7 +12,7 @@ class TemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 	 * @inheritDoc
 	 */
 	protected function getData( int $actorId, IDatabase $dbr ): array {
-		$result = $this->loadBalancer->getConnection( DB_REPLICA )
+		$result = $this->dbProvider->getReplicaDatabase()
 			->newSelectQueryBuilder()
 			->select( [ 'cuc_ip' ] )
 			->from( 'cu_changes' )

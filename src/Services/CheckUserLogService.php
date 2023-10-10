@@ -12,32 +12,32 @@ use Sanitizer;
 use User;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\DBError;
-use Wikimedia\Rdbms\ILoadBalancer;
+use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 class CheckUserLogService {
 
-	private ILoadBalancer $loadBalancer;
+	private IConnectionProvider $dbProvider;
 	private CommentStore $commentStore;
 	private CommentFormatter $commentFormatter;
 	private LoggerInterface $logger;
 	private ActorStore $actorStore;
 
 	/**
-	 * @param ILoadBalancer $loadBalancer
+	 * @param IConnectionProvider $dbProvider
 	 * @param CommentStore $commentStore
 	 * @param CommentFormatter $commentFormatter
 	 * @param LoggerInterface $logger
 	 * @param ActorStore $actorStore
 	 */
 	public function __construct(
-		ILoadBalancer $loadBalancer,
+		IConnectionProvider $dbProvider,
 		CommentStore $commentStore,
 		CommentFormatter $commentFormatter,
 		LoggerInterface $logger,
 		ActorStore $actorStore
 	) {
-		$this->loadBalancer = $loadBalancer;
+		$this->dbProvider = $dbProvider;
 		$this->commentStore = $commentStore;
 		$this->commentFormatter = $commentFormatter;
 		$this->logger = $logger;
@@ -59,7 +59,7 @@ class CheckUserLogService {
 		User $user, string $logType, string $targetType, string $target, string $reason, int $targetID = 0
 	) {
 		if ( $targetType == 'ip' ) {
-			list( $rangeStart, $rangeEnd ) = IPUtils::parseRange( $target );
+			[ $rangeStart, $rangeEnd ] = IPUtils::parseRange( $target );
 			$targetHex = $rangeStart;
 			if ( $rangeStart == $rangeEnd ) {
 				$rangeStart = '';
@@ -72,7 +72,7 @@ class CheckUserLogService {
 		}
 
 		$timestamp = ConvertibleTimestamp::now();
-		$dbw = $this->loadBalancer->getConnection( DB_PRIMARY );
+		$dbw = $this->dbProvider->getPrimaryDatabase();
 
 		$data = [
 			'cul_actor' => $this->actorStore->acquireActorId( $user, $dbw ),

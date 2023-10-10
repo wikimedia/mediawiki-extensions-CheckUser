@@ -20,7 +20,7 @@ use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use SpecialPage;
 use Wikimedia\IPUtils;
-use Wikimedia\Rdbms\ILoadBalancer;
+use Wikimedia\Rdbms\IConnectionProvider;
 
 class CheckUserGetIPsPager extends AbstractCheckUserPager {
 
@@ -31,7 +31,7 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 	 * @param TokenQueryManager $tokenQueryManager
 	 * @param UserGroupManager $userGroupManager
 	 * @param CentralIdLookup $centralIdLookup
-	 * @param ILoadBalancer $loadBalancer
+	 * @param IConnectionProvider $dbProvider
 	 * @param SpecialPageFactory $specialPageFactory
 	 * @param UserIdentityLookup $userIdentityLookup
 	 * @param ActorMigration $actorMigration
@@ -49,7 +49,7 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 		TokenQueryManager $tokenQueryManager,
 		UserGroupManager $userGroupManager,
 		CentralIdLookup $centralIdLookup,
-		ILoadBalancer $loadBalancer,
+		IConnectionProvider $dbProvider,
 		SpecialPageFactory $specialPageFactory,
 		UserIdentityLookup $userIdentityLookup,
 		ActorMigration $actorMigration,
@@ -61,7 +61,7 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 		?int $limit = null
 	) {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager, $userGroupManager, $centralIdLookup,
-			$loadBalancer, $specialPageFactory, $userIdentityLookup, $actorMigration, $checkUserLogService,
+			$dbProvider, $specialPageFactory, $userIdentityLookup, $actorMigration, $checkUserLogService,
 			$userFactory, $checkUserUnionSelectQueryBuilderFactory, $context, $linkRenderer, $limit );
 		$this->checkType = SpecialCheckUser::SUBTYPE_GET_IPS;
 	}

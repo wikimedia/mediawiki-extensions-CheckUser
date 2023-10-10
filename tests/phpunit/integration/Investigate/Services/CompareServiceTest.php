@@ -12,7 +12,7 @@ use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\Database;
-use Wikimedia\Rdbms\ILoadBalancer;
+use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\Platform\MySQLPlatform;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
@@ -70,8 +70,10 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		$wdb = TestingAccessWrapper::newFromObject( $db );
 		$wdb->platform = new MySQLPlatform( new AddQuoterMock() );
 
-		$loadBalancer = $this->createMock( ILoadBalancer::class );
-		$loadBalancer->method( 'getConnection' )
+		$dbProvider = $this->createMock( IConnectionProvider::class );
+		$dbProvider->method( 'getReplicaDatabase' )
+			->willReturn( $db );
+		$dbProvider->method( 'getPrimaryDatabase' )
 			->willReturn( $db );
 
 		$user = $this->createMock( UserIdentity::class );
@@ -93,7 +95,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 
 		$compareService = new CompareService(
 			$serviceOptions,
-			$loadBalancer,
+			$dbProvider,
 			$userIdentityLookup
 		);
 
@@ -228,13 +230,15 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 			->disableOriginalConstructor()
 			->getMockForAbstractClass();
 
-		$loadBalancer = $this->createMock( ILoadBalancer::class );
-		$loadBalancer->method( 'getConnection' )
+		$dbProvider = $this->createMock( IConnectionProvider::class );
+		$dbProvider->method( 'getReplicaDatabase' )
+			->willReturn( $db );
+		$dbProvider->method( 'getPrimaryDatabase' )
 			->willReturn( $db );
 
 		$compareService = new CompareService(
 			$this->createMock( ServiceOptions::class ),
-			$loadBalancer,
+			$dbProvider,
 			$this->createMock( UserIdentityLookup::class )
 		);
 

@@ -10,6 +10,7 @@ use MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
+use MediaWiki\MediaWikiServices;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityValue;
@@ -355,7 +356,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 	 * @return array|null array if valid target, null if invalid target given
 	 */
 	public static function getTargetSearchConds( string $target ): ?array {
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancerFactory()->getReplicaDatabase();
 		$result = SpecialCheckUserLog::verifyTarget( $target );
 		if ( is_array( $result ) ) {
 			switch ( count( $result ) ) {

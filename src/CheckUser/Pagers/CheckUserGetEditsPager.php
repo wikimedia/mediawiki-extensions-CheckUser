@@ -45,7 +45,7 @@ use SpecialPage;
 use stdClass;
 use Wikimedia\AtEase\AtEase;
 use Wikimedia\IPUtils;
-use Wikimedia\Rdbms\ILoadBalancer;
+use Wikimedia\Rdbms\IConnectionProvider;
 
 class CheckUserGetEditsPager extends AbstractCheckUserPager {
 
@@ -92,7 +92,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	 * @param UserGroupManager $userGroupManager
 	 * @param CentralIdLookup $centralIdLookup
 	 * @param LinkBatchFactory $linkBatchFactory
-	 * @param ILoadBalancer $loadBalancer
+	 * @param IConnectionProvider $dbProvider
 	 * @param SpecialPageFactory $specialPageFactory
 	 * @param UserIdentityLookup $userIdentityLookup
 	 * @param ActorMigration $actorMigration
@@ -121,7 +121,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		UserGroupManager $userGroupManager,
 		CentralIdLookup $centralIdLookup,
 		LinkBatchFactory $linkBatchFactory,
-		ILoadBalancer $loadBalancer,
+		IConnectionProvider $dbProvider,
 		SpecialPageFactory $specialPageFactory,
 		UserIdentityLookup $userIdentityLookup,
 		ActorMigration $actorMigration,
@@ -142,7 +142,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		?int $limit = null
 	) {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager,
-			$userGroupManager, $centralIdLookup, $loadBalancer, $specialPageFactory,
+			$userGroupManager, $centralIdLookup, $dbProvider, $specialPageFactory,
 			$userIdentityLookup, $actorMigration, $checkUserLogService, $userFactory,
 			$checkUserUnionSelectQueryBuilderFactory, $context, $linkRenderer, $limit );
 		$this->checkType = SpecialCheckUser::SUBTYPE_GET_EDITS;
@@ -221,7 +221,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		// XFF
 		if ( $row->xff != null ) {
 			// Flag our trusted proxies
-			list( $client ) = $this->checkUserUtilityService->getClientIPfromXFF( $row->xff );
+			[ $client ] = $this->checkUserUtilityService->getClientIPfromXFF( $row->xff );
 			// XFF was trusted if client came from it
 			$trusted = ( $client === $row->ip );
 			$templateParams['xffTrusted'] = $trusted;

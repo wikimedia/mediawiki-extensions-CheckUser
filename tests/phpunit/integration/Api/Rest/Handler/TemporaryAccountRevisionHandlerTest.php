@@ -56,7 +56,7 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 				'permissionManager' => $permissionManager,
 				'userOptionsLookup' => $userOptionsLookup,
 				'userNameUtils' => $userNameUtils,
-				'loadBalancer' => MediaWikiServices::getInstance()->getDBLoadBalancer(),
+				'dbProvider' => MediaWikiServices::getInstance()->getDBLoadBalancerFactory(),
 				'actorStore' => $actorStore,
 			],
 			$options

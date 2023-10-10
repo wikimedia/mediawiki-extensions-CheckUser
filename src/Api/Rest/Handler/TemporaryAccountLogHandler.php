@@ -43,7 +43,7 @@ class TemporaryAccountLogHandler extends AbstractTemporaryAccountHandler {
 			'cule_log_id' => $ids,
 		];
 
-		$rows = $this->loadBalancer->getConnection( DB_REPLICA )
+		$rows = $this->dbProvider->getReplicaDatabase()
 			->newSelectQueryBuilder()
 			// T327906: 'cule_actor' and 'cule_timestamp' are selected
 			// only to satisfy Postgres requirement where all ORDER BY

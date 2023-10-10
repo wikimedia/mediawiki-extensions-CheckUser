@@ -196,7 +196,7 @@
 				"PermissionManager",
 				"UserOptionsLookup",
 				"UserNameUtils",
-				"DBLoadBalancer",
+				"DBLoadBalancerFactory",
 				"ActorStore"
 			]
 		},
@@ -210,7 +210,7 @@
 				"PermissionManager",
 				"UserOptionsLookup",
 				"UserNameUtils",
-				"DBLoadBalancer",
+				"DBLoadBalancerFactory",
 				"ActorStore"
 			]
 		},
@@ -224,7 +224,7 @@
 				"PermissionManager",
 				"UserOptionsLookup",
 				"UserNameUtils",
-				"DBLoadBalancer",
+				"DBLoadBalancerFactory",
 				"ActorStore"
 			]
 		},
@@ -503,7 +503,7 @@
 				"PermissionManager",
 				"UserIdentityLookup",
 				"CheckUserTokenQueryManager",
-				"DBLoadBalancer",
+				"DBLoadBalancerFactory",
 				"ActorMigration",
 				"UserFactory",
 				"RevisionStore",

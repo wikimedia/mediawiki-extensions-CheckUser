@@ -65,7 +65,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 			$services->getService( 'CheckUserTokenQueryManager' ),
 			$services->getUserGroupManager(),
 			$services->getCentralIdLookup(),
-			$services->getDBLoadBalancer(),
+			$services->getDBLoadBalancerFactory(),
 			$services->getSpecialPageFactory(),
 			$services->getUserIdentityLookup(),
 			$services->getActorMigration(),

@@ -46,7 +46,7 @@ use Status;
 use UserBlockedError;
 use Wikimedia\AtEase\AtEase;
 use Wikimedia\IPUtils;
-use Wikimedia\Rdbms\ILoadBalancer;
+use Wikimedia\Rdbms\IConnectionProvider;
 use WikitextContent;
 
 class SpecialCheckUser extends SpecialPage {
@@ -75,7 +75,7 @@ class SpecialCheckUser extends SpecialPage {
 	private PermissionManager $permissionManager;
 	private UserIdentityLookup $userIdentityLookup;
 	private TokenQueryManager $tokenQueryManager;
-	private ILoadBalancer $loadBalancer;
+	private IConnectionProvider $dbProvider;
 	private ActorMigration $actorMigration;
 	private UserFactory $userFactory;
 	private RevisionStore $revisionStore;
@@ -102,7 +102,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param PermissionManager $permissionManager
 	 * @param UserIdentityLookup $userIdentityLookup
 	 * @param TokenQueryManager $tokenQueryManager
-	 * @param ILoadBalancer $loadBalancer
+	 * @param IConnectionProvider $dbProvider
 	 * @param ActorMigration $actorMigration
 	 * @param UserFactory $userFactory
 	 * @param RevisionStore $revisionStore
@@ -129,7 +129,7 @@ class SpecialCheckUser extends SpecialPage {
 		PermissionManager $permissionManager,
 		UserIdentityLookup $userIdentityLookup,
 		TokenQueryManager $tokenQueryManager,
-		ILoadBalancer $loadBalancer,
+		IConnectionProvider $dbProvider,
 		ActorMigration $actorMigration,
 		UserFactory $userFactory,
 		RevisionStore $revisionStore,
@@ -157,7 +157,7 @@ class SpecialCheckUser extends SpecialPage {
 		$this->permissionManager = $permissionManager;
 		$this->userIdentityLookup = $userIdentityLookup;
 		$this->tokenQueryManager = $tokenQueryManager;
-		$this->loadBalancer = $loadBalancer;
+		$this->dbProvider = $dbProvider;
 		$this->actorMigration = $actorMigration;
 		$this->userFactory = $userFactory;
 		$this->revisionStore = $revisionStore;
@@ -743,7 +743,7 @@ class SpecialCheckUser extends SpecialPage {
 					$this->tokenQueryManager,
 					$this->userGroupManager,
 					$this->centralIdLookup,
-					$this->loadBalancer,
+					$this->dbProvider,
 					$this->getSpecialPageFactory(),
 					$this->userIdentityLookup,
 					$this->actorMigration,
@@ -762,7 +762,7 @@ class SpecialCheckUser extends SpecialPage {
 					$this->blockPermissionCheckerFactory,
 					$this->userGroupManager,
 					$this->centralIdLookup,
-					$this->loadBalancer,
+					$this->dbProvider,
 					$this->getSpecialPageFactory(),
 					$this->userIdentityLookup,
 					$this->actorMigration,
@@ -784,7 +784,7 @@ class SpecialCheckUser extends SpecialPage {
 					$this->userGroupManager,
 					$this->centralIdLookup,
 					$this->linkBatchFactory,
-					$this->loadBalancer,
+					$this->dbProvider,
 					$this->getSpecialPageFactory(),
 					$this->userIdentityLookup,
 					$this->actorMigration,

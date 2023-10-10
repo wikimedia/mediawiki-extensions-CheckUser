@@ -8,9 +8,8 @@ use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserGroupManagerFactory;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\Rdbms\FakeResultWrapper;
+use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
-use Wikimedia\Rdbms\ILBFactory;
-use Wikimedia\Rdbms\ILoadBalancer;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 
 /**
@@ -38,10 +37,9 @@ class PreliminaryCheckServiceTest extends MediaWikiIntegrationTestCase {
 				]
 			);
 
-		$lb = $this->createMock( ILoadBalancer::class );
-		$lb->method( 'getConnection' )->willReturn( $dbRef );
-		$lbFactory = $this->createMock( ILBFactory::class );
-		$lbFactory->method( 'getMainLB' )->willReturn( $lb );
+		$dbProvider = $this->createMock( IConnectionProvider::class );
+		$dbProvider->method( 'getPrimaryDatabase' )->willReturn( $dbRef );
+		$dbProvider->method( 'getReplicaDatabase' )->willReturn( $dbRef );
 
 		$registry = $this->createMock( ExtensionRegistry::class );
 		$registry->method( 'isLoaded' )->willReturn( $options['isCentralAuthAvailable'] );
@@ -54,7 +52,7 @@ class PreliminaryCheckServiceTest extends MediaWikiIntegrationTestCase {
 
 		$service = $this->getMockBuilder( PreliminaryCheckService::class )
 			->setConstructorArgs( [
-				$lbFactory,
+				$dbProvider,
 				$registry,
 				$ugmf,
 				$options['localWikiId']
@@ -147,7 +145,7 @@ class PreliminaryCheckServiceTest extends MediaWikiIntegrationTestCase {
 		$registry->method( 'isLoaded' )->willReturn( $options['isCentralAuthAvailable'] );
 
 		$service = new PreliminaryCheckService(
-			$this->createMock( ILBFactory::class ),
+			$this->createMock( IConnectionProvider::class ),
 			$registry,
 			$this->createNoOpMock( UserGroupManagerFactory::class ),
 			'devwiki'

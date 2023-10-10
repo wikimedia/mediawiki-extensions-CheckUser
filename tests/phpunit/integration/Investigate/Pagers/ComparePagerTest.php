@@ -70,7 +70,7 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 				CompareService::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
 			),
-			$services->getDBLoadBalancer(),
+			$services->getDBLoadBalancerFactory(),
 			$userIdentityLookup
 		);
 

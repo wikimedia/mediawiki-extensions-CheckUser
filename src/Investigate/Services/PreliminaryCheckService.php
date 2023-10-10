@@ -8,12 +8,12 @@ use MediaWiki\User\UserGroupManagerFactory;
 use MediaWiki\User\UserIdentityValue;
 use stdClass;
 use User;
+use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
-use Wikimedia\Rdbms\ILBFactory;
 use Wikimedia\Rdbms\IResultWrapper;
 
 class PreliminaryCheckService {
-	private ILBFactory $lbFactory;
+	private IConnectionProvider $dbProvider;
 	private UserGroupManagerFactory $userGroupManagerFactory;
 	private ExtensionRegistry $extensionRegistry;
 
@@ -21,17 +21,18 @@ class PreliminaryCheckService {
 	private $localWikiId;
 
 	/**
-	 * @param ILBFactory $lbFactory
+	 * @param IConnectionProvider $dbProvider
 	 * @param ExtensionRegistry $extensionRegistry
 	 * @param UserGroupManagerFactory $userGroupManagerFactory
 	 * @param string $localWikiId
 	 */
-	public function __construct( ILBFactory $lbFactory,
+	public function __construct(
+		IConnectionProvider $dbProvider,
 		ExtensionRegistry $extensionRegistry,
 		UserGroupManagerFactory $userGroupManagerFactory,
 		string $localWikiId
 	) {
-		$this->lbFactory = $lbFactory;
+		$this->dbProvider = $dbProvider;
 		$this->extensionRegistry = $extensionRegistry;
 		$this->userGroupManagerFactory = $userGroupManagerFactory;
 		$this->localWikiId = $localWikiId;
@@ -103,16 +104,6 @@ class PreliminaryCheckService {
 	}
 
 	/**
-	 * Get the replica database of a local wiki, given a wiki ID.
-	 *
-	 * @param string $wikiId
-	 * @return IDatabase
-	 */
-	protected function getLocalDb( $wikiId ): IDatabase {
-		return $this->lbFactory->getMainLB( $wikiId )->getConnection( DB_REPLICA, [], $wikiId );
-	}
-
-	/**
 	 * Perform additional queries to get the required data that is not returned
 	 * by the pager's query. (The pager performs the query that is used for
 	 * pagination.)
@@ -141,7 +132,7 @@ class PreliminaryCheckService {
 	 * @return stdClass|bool
 	 */
 	public function getLocalUserData( string $username, string $wikiId ) {
-		$dbr = $this->getLocalDb( $wikiId );
+		$dbr = $this->dbProvider->getReplicaDatabase( $wikiId );
 		$queryInfo = $this->getLocalQueryInfo( [ $username ] );
 		return $dbr->newSelectQueryBuilder()
 			->select( $queryInfo['fields'] )
@@ -160,7 +151,7 @@ class PreliminaryCheckService {
 	 * @return array
 	 */
 	protected function getAdditionalLocalData( $row, string $wikiId ): array {
-		$dbr = $this->getLocalDb( $wikiId );
+		$dbr = $this->dbProvider->getReplicaDatabase( $wikiId );
 
 		if ( $wikiId === $this->localWikiId ) {
 			$userIdentity = new UserIdentityValue( (int)$row->user_id, $row->user_name );

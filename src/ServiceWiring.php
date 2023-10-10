@@ -35,7 +35,7 @@ return [
 		MediaWikiServices $services
 	): CheckUserLogService {
 		return new CheckUserLogService(
-			$services->getDBLoadBalancer(),
+			$services->getDBLoadBalancerFactory(),
 			$services->getCommentStore(),
 			$services->getCommentFormatter(),
 			LoggerFactory::getInstance( 'CheckUser' ),
@@ -58,14 +58,14 @@ return [
 				CompareService::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
 			),
-			$services->getDBLoadBalancer(),
+			$services->getDBLoadBalancerFactory(),
 			$services->getUserIdentityLookup()
 		);
 	},
 	'CheckUserTimelineService' => static function ( MediaWikiServices $services ): TimelineService {
 		return new TimelineService(
-			$services->getDBLoadBalancer()->getConnection( DB_REPLICA ),
-			$services->getDBLoadBalancer()->getConnection( DB_REPLICA ),
+			$services->getDBLoadBalancerFactory()->getReplicaDatabase(),
+			$services->getDBLoadBalancerFactory()->getReplicaDatabase(),
 			$services->getUserIdentityLookup(),
 			$services->getCommentStore()
 		);
@@ -166,11 +166,10 @@ return [
 	'CheckUserTemporaryAccountLoggerFactory' => static function (
 		MediaWikiServices $services
 	): TemporaryAccountLoggerFactory {
-		$lb = $services->getDBLoadBalancer();
 		return new TemporaryAccountLoggerFactory(
 			$services->getActorStore(),
 			LoggerFactory::getInstance( 'CheckUser' ),
-			$lb
+			$services->getDBLoadBalancerFactory()
 		);
 	},
 	'UserAgentClientHintsManager' => static function (

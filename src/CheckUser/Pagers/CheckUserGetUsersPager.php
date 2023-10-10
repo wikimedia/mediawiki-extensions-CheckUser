@@ -36,7 +36,7 @@ use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\WikiMap\WikiMap;
 use Wikimedia\IPUtils;
-use Wikimedia\Rdbms\ILoadBalancer;
+use Wikimedia\Rdbms\IConnectionProvider;
 use Xml;
 
 class CheckUserGetUsersPager extends AbstractCheckUserPager {
@@ -74,7 +74,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	 * @param BlockPermissionCheckerFactory $blockPermissionCheckerFactory
 	 * @param UserGroupManager $userGroupManager
 	 * @param CentralIdLookup $centralIdLookup
-	 * @param ILoadBalancer $loadBalancer
+	 * @param IConnectionProvider $dbProvider
 	 * @param SpecialPageFactory $specialPageFactory
 	 * @param UserIdentityLookup $userIdentityLookup
 	 * @param ActorMigration $actorMigration
@@ -99,7 +99,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		BlockPermissionCheckerFactory $blockPermissionCheckerFactory,
 		UserGroupManager $userGroupManager,
 		CentralIdLookup $centralIdLookup,
-		ILoadBalancer $loadBalancer,
+		IConnectionProvider $dbProvider,
 		SpecialPageFactory $specialPageFactory,
 		UserIdentityLookup $userIdentityLookup,
 		ActorMigration $actorMigration,
@@ -115,7 +115,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		?int $limit = null
 	) {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager,
-			$userGroupManager, $centralIdLookup, $loadBalancer, $specialPageFactory,
+			$userGroupManager, $centralIdLookup, $dbProvider, $specialPageFactory,
 			$userIdentityLookup, $actorMigration, $checkUserLogService, $userFactory,
 			$checkUserUnionSelectQueryBuilderFactory, $context, $linkRenderer, $limit );
 		$this->checkType = SpecialCheckUser::SUBTYPE_GET_USERS;
@@ -308,13 +308,13 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		for ( $i = ( count( $this->userSets['infosets'][$user_text] ) - 1 ); $i >= 0; $i-- ) {
 			// users_infosets[$name][$i] is array of [ $row->ip, XFF ];
 			$row = [];
-			list( $clientIP, $xffString ) = $this->userSets['infosets'][$user_text][$i];
+			[ $clientIP, $xffString ] = $this->userSets['infosets'][$user_text][$i];
 			// IP link
 			$row['ipLink'] = $this->getSelfLink( $clientIP, [ 'user' => $clientIP ] );
 			// XFF string, link to /xff search
 			if ( $xffString ) {
 				// Flag our trusted proxies
-				list( $client ) = $this->checkUserUtilityService->getClientIPfromXFF( $xffString );
+				[ $client ] = $this->checkUserUtilityService->getClientIPfromXFF( $xffString );
 				// XFF was trusted if client came from it
 				$trusted = ( $client === $clientIP );
 				$row['xffTrusted'] = $trusted;

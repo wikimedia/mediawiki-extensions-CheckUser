@@ -37,7 +37,7 @@ use UserGroupMembership;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\Database\DbQuoter;
 use Wikimedia\Rdbms\FakeResultWrapper;
-use Wikimedia\Rdbms\ILoadBalancer;
+use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IResultWrapper;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 
@@ -106,7 +106,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	 * @param TokenQueryManager $tokenQueryManager
 	 * @param UserGroupManager $userGroupManager
 	 * @param CentralIdLookup $centralIdLookup
-	 * @param ILoadBalancer $loadBalancer
+	 * @param IConnectionProvider $dbProvider
 	 * @param SpecialPageFactory $specialPageFactory
 	 * @param UserIdentityLookup $userIdentityLookup
 	 * @param ActorMigration $actorMigration
@@ -124,7 +124,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		TokenQueryManager $tokenQueryManager,
 		UserGroupManager $userGroupManager,
 		CentralIdLookup $centralIdLookup,
-		ILoadBalancer $loadBalancer,
+		IConnectionProvider $dbProvider,
 		SpecialPageFactory $specialPageFactory,
 		UserIdentityLookup $userIdentityLookup,
 		ActorMigration $actorMigration,
@@ -139,7 +139,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		$this->target = $target;
 		$this->logType = $logType;
 
-		$this->mDb = $loadBalancer->getConnection( DB_REPLICA );
+		$this->mDb = $dbProvider->getReplicaDatabase();
 
 		parent::__construct( $context, $linkRenderer );
 
@@ -521,7 +521,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		}
 
 		if ( IPUtils::isValidRange( $target ) ) {
-			list( $start, $end ) = IPUtils::parseRange( $target );
+			[ $start, $end ] = IPUtils::parseRange( $target );
 			return [ $columnName . ' BETWEEN ' . $quoter->addQuotes( $start ) .
 				' AND ' . $quoter->addQuotes( $end ) ];
 		} elseif ( IPUtils::isValid( $target ) ) {

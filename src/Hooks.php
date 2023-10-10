@@ -96,7 +96,7 @@ class Hooks implements
 
 		$services = MediaWikiServices::getInstance();
 		$attribs = $rc->getAttributes();
-		$dbw = $services->getDBLoadBalancer()->getConnection( DB_PRIMARY );
+		$dbw = $services->getDBLoadBalancerFactory()->getPrimaryDatabase();
 		$eventTablesMigrationStage = $services->getMainConfig()
 			->get( 'CheckUserEventTablesMigrationStage' );
 
@@ -193,7 +193,7 @@ class Hooks implements
 
 			$services = MediaWikiServices::getInstance();
 
-			$dbw = $services->getDBLoadBalancer()->getConnection( DB_PRIMARY );
+			$dbw = $services->getDBLoadBalancerFactory()->getPrimaryDatabase();
 
 			$rcRow = [
 				'cuc_namespace'  => $attribs['rc_namespace'],
@@ -253,7 +253,7 @@ class Hooks implements
 	) {
 		$services = MediaWikiServices::getInstance();
 		$request = RequestContext::getMain()->getRequest();
-		$dbw = $services->getDBLoadBalancer()->getConnection( DB_PRIMARY );
+		$dbw = $services->getDBLoadBalancerFactory()->getPrimaryDatabase();
 
 		$ip = $request->getIP();
 		$xff = $request->getHeader( 'X-Forwarded-For' );
@@ -319,7 +319,7 @@ class Hooks implements
 	) {
 		$services = MediaWikiServices::getInstance();
 
-		$dbw = $services->getDBLoadBalancer()->getConnection( DB_PRIMARY );
+		$dbw = $services->getDBLoadBalancerFactory()->getPrimaryDatabase();
 
 		$request = RequestContext::getMain()->getRequest();
 
@@ -399,7 +399,7 @@ class Hooks implements
 	) {
 		$services = MediaWikiServices::getInstance();
 
-		$dbw = $services->getDBLoadBalancer()->getConnection( DB_PRIMARY );
+		$dbw = $services->getDBLoadBalancerFactory()->getPrimaryDatabase();
 
 		$request = RequestContext::getMain()->getRequest();
 
@@ -825,10 +825,7 @@ class Hooks implements
 	public function onPerformRetroactiveAutoblock( $block, &$blockIds ) {
 		$services = MediaWikiServices::getInstance();
 
-		$dbr = $services
-			->getDBLoadBalancerFactory()
-			->getMainLB( $block->getWikiId() )
-			->getConnection( DB_REPLICA, [], $block->getWikiId() );
+		$dbr = $services->getDBLoadBalancerFactory()->getReplicaDatabase( $block->getWikiId() );
 
 		$userIdentityLookup = $services
 			->getActorStoreFactory()

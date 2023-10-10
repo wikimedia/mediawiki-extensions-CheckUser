@@ -32,7 +32,7 @@ class TemporaryAccountRevisionHandler extends AbstractTemporaryAccountHandler {
 			'cuc_this_oldid' => $ids,
 		];
 
-		$rows = $this->loadBalancer->getConnection( DB_REPLICA )
+		$rows = $this->dbProvider->getReplicaDatabase()
 			->newSelectQueryBuilder()
 			// T327906: 'cuc_actor' and 'cuc_timestamp' are selected
 			// only to satisfy Postgres requirement where all ORDER BY

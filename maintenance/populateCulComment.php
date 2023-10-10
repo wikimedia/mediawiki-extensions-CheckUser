@@ -73,7 +73,7 @@ class PopulateCulComment extends LoggedUpdateMaintenance {
 			#  postDatabaseUpdateMaintenance is run.
 			# If this is the case, manually get the service.
 			$checkUserLogService = new CheckUserLogService(
-				$services->getDBLoadBalancer(),
+				$services->getDBLoadBalancerFactory(),
 				$services->getCommentStore(),
 				$services->getCommentFormatter(),
 				// No need to log as this maintenance script does not use any methods

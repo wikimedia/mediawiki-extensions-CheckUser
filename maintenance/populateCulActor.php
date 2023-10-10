@@ -61,9 +61,8 @@ class PopulateCulActor extends LoggedUpdateMaintenance {
 	protected function doDBUpdates() {
 		$services = MediaWikiServices::getInstance();
 		$actorStore = $services->getActorStore();
-		$mainLb = $services->getDBLoadBalancerFactory()->getMainLB();
-		$dbr = $mainLb->getConnection( DB_REPLICA, 'vslow' );
-		$dbw = $mainLb->getConnection( DB_PRIMARY );
+		$dbr = $services->getDBLoadBalancerFactory()->getReplicaDatabase( false, 'vslow' );
+		$dbw = $services->getDBLoadBalancerFactory()->getPrimaryDatabase();
 		$batchSize = $this->getBatchSize();
 
 		$prevId = 0;

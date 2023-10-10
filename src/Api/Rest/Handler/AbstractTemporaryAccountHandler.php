@@ -14,8 +14,8 @@ use MediaWiki\User\UserNameUtils;
 use MediaWiki\User\UserOptionsLookup;
 use Wikimedia\Message\MessageValue;
 use Wikimedia\ParamValidator\ParamValidator;
+use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
-use Wikimedia\Rdbms\ILoadBalancer;
 
 abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 	protected Config $config;
@@ -23,7 +23,7 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 	protected PermissionManager $permissionManager;
 	protected UserOptionsLookup $userOptionsLookup;
 	protected UserNameUtils $userNameUtils;
-	protected ILoadBalancer $loadBalancer;
+	protected IConnectionProvider $dbProvider;
 	protected ActorStore $actorStore;
 
 	/**
@@ -32,7 +32,7 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 	 * @param PermissionManager $permissionManager
 	 * @param UserOptionsLookup $userOptionsLookup
 	 * @param UserNameUtils $userNameUtils
-	 * @param ILoadBalancer $loadBalancer
+	 * @param IConnectionProvider $dbProvider
 	 * @param ActorStore $actorStore
 	 */
 	public function __construct(
@@ -41,7 +41,7 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 		PermissionManager $permissionManager,
 		UserOptionsLookup $userOptionsLookup,
 		UserNameUtils $userNameUtils,
-		ILoadBalancer $loadBalancer,
+		IConnectionProvider $dbProvider,
 		ActorStore $actorStore
 	) {
 		$this->config = $config;
@@ -49,7 +49,7 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 		$this->permissionManager = $permissionManager;
 		$this->userOptionsLookup = $userOptionsLookup;
 		$this->userNameUtils = $userNameUtils;
-		$this->loadBalancer = $loadBalancer;
+		$this->dbProvider = $dbProvider;
 		$this->actorStore = $actorStore;
 	}
 
@@ -94,7 +94,7 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 			);
 		}
 
-		$dbr = $this->loadBalancer->getConnection( DB_REPLICA );
+		$dbr = $this->dbProvider->getReplicaDatabase();
 		$actorId = $this->actorStore->findActorIdByName( $name, $dbr );
 		if ( $actorId === null ) {
 			throw new LocalizedHttpException(

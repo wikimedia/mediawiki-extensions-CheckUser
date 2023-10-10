@@ -5,13 +5,13 @@ namespace MediaWiki\CheckUser\Investigate\Services;
 use LogicException;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\UserIdentityLookup;
+use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
-use Wikimedia\Rdbms\ILoadBalancer;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Rdbms\Subquery;
 
 class CompareService extends ChangeService {
-	private ILoadBalancer $loadBalancer;
+	private IConnectionProvider $dbProvider;
 
 	/**
 	 * @internal For use by ServiceWiring
@@ -25,21 +25,21 @@ class CompareService extends ChangeService {
 
 	/**
 	 * @param ServiceOptions $options
-	 * @param ILoadBalancer $loadBalancer
+	 * @param IConnectionProvider $dbProvider
 	 * @param UserIdentityLookup $userIdentityLookup
 	 */
 	public function __construct(
 		ServiceOptions $options,
-		ILoadBalancer $loadBalancer,
+		IConnectionProvider $dbProvider,
 		UserIdentityLookup $userIdentityLookup
 	) {
 		parent::__construct(
-			$loadBalancer->getConnection( DB_REPLICA ),
-			$loadBalancer->getConnection( DB_REPLICA ),
+			$dbProvider->getReplicaDatabase(),
+			$dbProvider->getReplicaDatabase(),
 			$userIdentityLookup
 		);
 
-		$this->loadBalancer = $loadBalancer;
+		$this->dbProvider = $dbProvider;
 		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 		$this->limit = $options->get( 'CheckUserInvestigateMaximumRowCount' );
 	}
@@ -55,7 +55,7 @@ class CompareService extends ChangeService {
 		string $ipHex,
 		string $excludeUser = null
 	): int {
-		$queryBuilder = $this->loadBalancer->getConnection( DB_REPLICA )->newSelectQueryBuilder()
+		$queryBuilder = $this->dbProvider->getReplicaDatabase()->newSelectQueryBuilder()
 			->select( 'cuc_id' )
 			->from( 'cu_changes' )
 			->join( 'actor', null, 'actor_id=cuc_actor' )
@@ -83,7 +83,7 @@ class CompareService extends ChangeService {
 	 * @return array
 	 */
 	public function getQueryInfo( array $targets, array $excludeTargets, string $start ): array {
-		$dbr = $this->loadBalancer->getConnection( DB_REPLICA );
+		$dbr = $this->dbProvider->getReplicaDatabase();
 
 		if ( $targets === [] ) {
 			throw new LogicException( 'Cannot get query info when $targets is empty.' );
@@ -206,7 +206,7 @@ class CompareService extends ChangeService {
 			return $targets;
 		}
 
-		$dbr = $this->loadBalancer->getConnection( DB_REPLICA );
+		$dbr = $this->dbProvider->getReplicaDatabase();
 
 		// If the database does not support order and limit on a UNION
 		// then none of the targets can be over the limit.
