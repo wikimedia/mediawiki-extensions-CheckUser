@@ -2,10 +2,12 @@
 	"@metadata": {
 		"authors": [
 			"Patriot Kur",
-			"Patriot Kor"
+			"Patriot Kor",
+			"Jamil",
+			"Гусейн"
 		]
 	},
 	"checkuser-all": "həmə",
 	"checkuser-investigate-subtitle-block-button-label": "Məhdud kardə",
-	"checkuser-investigate-duration-option-all": "Həmə"
+	"checkuser-investigate-duration-option-all": "Həmmə"
 }
