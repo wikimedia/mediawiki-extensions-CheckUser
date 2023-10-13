@@ -98,7 +98,7 @@ class PreliminaryCheckPager extends TablePager {
 	 */
 	public function getCellAttrs( $field, $value ) {
 		$attributes = parent::getCellAttrs( $field, $value );
-		$attributes['class'] = $attributes['class'] ?? '';
+		$attributes['class'] ??= '';
 
 		switch ( $field ) {
 			case 'wiki':

@@ -752,7 +752,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			// Add minor edit flag 50% of the time.
 			$tags = EDIT_MINOR;
 		}
-		$title = $title ?? Title::newFromText( $this->getPrefix() . wfRandomString() );
+		$title ??= Title::newFromText( $this->getPrefix() . wfRandomString() );
 		if ( !$title ) {
 			return null;
 		}

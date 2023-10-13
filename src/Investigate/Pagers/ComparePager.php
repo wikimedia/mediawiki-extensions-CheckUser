@@ -119,7 +119,7 @@ class ComparePager extends TablePager {
 	 */
 	public function getCellAttrs( $field, $value ) {
 		$attributes = parent::getCellAttrs( $field, $value );
-		$attributes['class'] = $attributes['class'] ?? '';
+		$attributes['class'] ??= '';
 
 		$row = $this->mCurrentRow;
 		switch ( $field ) {
