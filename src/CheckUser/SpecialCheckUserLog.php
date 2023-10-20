@@ -10,6 +10,7 @@ use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\LogPager;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\User\UserFactory;
+use MediaWiki\User\UserNameUtils;
 use SpecialPage;
 use Title;
 use User;
@@ -34,23 +35,29 @@ class SpecialCheckUserLog extends SpecialPage {
 	/** @var UserFactory */
 	private $userFactory;
 
+	/** @var UserNameUtils */
+	private $userNameUtils;
+
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory
 	 * @param PermissionManager $permissionManager
 	 * @param CommentStore $commentStore
 	 * @param UserFactory $userFactory
+	 * @param UserNameUtils $userNameUtils
 	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
 		PermissionManager $permissionManager,
 		CommentStore $commentStore,
-		UserFactory $userFactory
+		UserFactory $userFactory,
+		UserNameUtils $userNameUtils
 	) {
 		parent::__construct( 'CheckUserLog', 'checkuser-log' );
 		$this->linkBatchFactory = $linkBatchFactory;
 		$this->permissionManager = $permissionManager;
 		$this->commentStore = $commentStore;
 		$this->userFactory = $userFactory;
+		$this->userNameUtils = $userNameUtils;
 	}
 
 	/**
@@ -110,9 +117,6 @@ class SpecialCheckUserLog extends SpecialPage {
 		if ( $this->opts['target'] !== '' && self::verifyTarget( $this->opts['target'] ) === false ) {
 			$errorMessageKey = 'checkuser-target-nonexistent';
 		}
-		if ( $this->opts['initiator'] !== '' && self::verifyInitiator( $this->opts['initiator'] ) === false ) {
-			$errorMessageKey = 'checkuser-initiator-nonexistent';
-		}
 
 		if ( $errorMessageKey !== null ) {
 			// Invalid target was input so show an error message and stop from here
@@ -129,7 +133,8 @@ class SpecialCheckUserLog extends SpecialPage {
 			$this->opts,
 			$this->linkBatchFactory,
 			$this->commentStore,
-			$this->userFactory
+			$this->userFactory,
+			$this->userNameUtils
 		);
 
 		$out->addHTML(
@@ -206,7 +211,7 @@ class SpecialCheckUserLog extends SpecialPage {
 				'type' => 'user',
 				// validation in execute() currently
 				'exists' => false,
-				'ipallowed' => false,
+				'ipallowed' => true,
 				'name' => 'cuInitiator',
 				'size' => 40,
 				'label-message' => 'checkuser-log-search-initiator',
@@ -267,22 +272,6 @@ class SpecialCheckUserLog extends SpecialPage {
 			return $user->getId();
 		}
 
-		return false;
-	}
-
-	/**
-	 * Verify if the initiator is a valid user.
-	 *
-	 * If it is return their ID otherwise return false.
-	 *
-	 * @param string $initiator
-	 * @return bool|int
-	 */
-	public static function verifyInitiator( string $initiator ) {
-		$initiatorObject = User::newFromName( $initiator );
-		if ( $initiatorObject && $initiatorObject->getId() ) {
-			return $initiatorObject->getId();
-		}
 		return false;
 	}
 
