@@ -353,7 +353,9 @@
 				"CommentStore",
 				"CommentFormatter",
 				"CheckUserLogService",
-				"UserFactory"
+				"UserFactory",
+				"ActorStore",
+				"DBLoadBalancerFactory"
 			]
 		}
 	},

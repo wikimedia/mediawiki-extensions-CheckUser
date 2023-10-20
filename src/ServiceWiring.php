@@ -32,7 +32,8 @@ return [
 			$services->getDBLoadBalancer(),
 			$services->getCommentStore(),
 			$services->getCommentFormatter(),
-			LoggerFactory::getInstance( 'CheckUser' )
+			LoggerFactory::getInstance( 'CheckUser' ),
+			$services->getActorStore()
 		);
 	},
 	'CheckUserPreliminaryCheckService' => static function (
