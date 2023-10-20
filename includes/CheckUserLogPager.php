@@ -32,7 +32,7 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 				$this->msg( 'rev-deleted-user' )->text()
 			);
 		} else {
-			$user = Linker::userLink( $row->cul_user, $row->user_name );
+			$user = Linker::userLink( $row->cul_user, $row->cul_user_text );
 			if ( $performerHidden ) {
 				// Performer is hidden, but current user has rights to see it.
 				// Mark the username has hidden by wrapping it in a history-deleted span.
@@ -42,17 +42,6 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 					$user
 				);
 			}
-			$user .= $this->msg( 'word-separator' )->escaped()
-				. Html::rawElement( 'span', [ 'classes' => 'mw-usertoollinks' ],
-					$this->msg( 'parentheses' )->params( $this->getLinkRenderer()->makeLink(
-						SpecialPage::getTitleFor( 'CheckUserLog' ),
-						$this->msg( 'checkuser-log-checks-by' )->text(),
-						[],
-						[
-							'cuInitiator' => $row->user_name,
-						]
-					) )->text()
-				);
 		}
 
 		$targetHidden = $userFactory->newFromId( $row->cul_target_id )->isHidden();
@@ -136,11 +125,10 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 		// Filter out log entries from Special:Investigate
 		$excludeType = $this->mDb->addQuotes( 'investigate' );
 		return [
-			'tables' => [ 'cu_log', 'user' ],
+			'tables' => [ 'cu_log' ],
 			'fields' => $this->selectFields(),
 			'conds' => array_merge(
 				$this->searchConds,
-				[ 'user_id = cul_user' ],
 				[ 'cul_type != ' . $excludeType ]
 			)
 		];
@@ -153,7 +141,7 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 	public function selectFields() {
 		return [
 			'cul_id', 'cul_timestamp', 'cul_user', 'cul_reason', 'cul_type',
-			'cul_target_id', 'cul_target_text', 'user_name'
+			'cul_target_id', 'cul_target_text', 'cul_user_text'
 		];
 	}
 
@@ -170,7 +158,7 @@ class CheckUserLogPager extends ReverseChronologicalPager {
 		$lb = new LinkBatch;
 		$lb->setCaller( __METHOD__ );
 		foreach ( $result as $row ) {
-			$lb->add( NS_USER, $row->user_name ); // Performer
+			$lb->add( NS_USER, $row->cul_user_text ); // Performer
 			if ( $row->cul_type == 'userips' || $row->cul_type == 'useredits' ) {
 				$lb->add( NS_USER, $row->cul_target_text );
 				$lb->add( NS_USER_TALK, $row->cul_target_text );
