@@ -66,9 +66,9 @@ class TokenQueryManager {
 	 * @return array
 	 */
 	public function getDataFromRequest( WebRequest $request ): array {
-		$token = $request->getVal( 'token' );
+		$token = $request->getVal( 'token', '' );
 
-		if ( empty( $token ) ) {
+		if ( $token === '' ) {
 			return [];
 		}
 
