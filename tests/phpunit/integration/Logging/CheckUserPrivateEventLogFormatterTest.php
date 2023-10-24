@@ -156,11 +156,11 @@ class CheckUserPrivateEventLogFormatterTest extends LogFormatterTestCase {
 					],
 				],
 				'extra' => [
-					# The testcase removes the HTML from the actual actiontext
-					# as the message is parsed.
+					// The testcase removes the HTML from the actual actiontext
+					// as the message is parsed.
 					'text' => 'Test plaintext action text test',
 					'api' => [
-						# Link is still present for the API, as API responses don't parse wikitext.
+						// Link is still present for the API, as API responses don't parse wikitext.
 						'actiontext' => 'Test plaintext action text [[test]]'
 					]
 				]

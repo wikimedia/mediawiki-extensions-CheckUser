@@ -97,7 +97,7 @@ class MoveLogEntriesFromCuChangesTest extends MediaWikiUnitTestCase {
 			->method( 'getDB' )
 			->with( DB_PRIMARY )
 			->willReturn( $dbwMock );
-		// Expect that doDBUpdates returns false.
+		// Expect that doDBUpdates returns true.
 		$objectUnderTest = TestingAccessWrapper::newFromObject( $objectUnderTest );
 		$this->assertTrue(
 			$objectUnderTest->doDBUpdates(),
@@ -237,14 +237,14 @@ class MoveLogEntriesFromCuChangesTest extends MediaWikiUnitTestCase {
 					[ self::getCuChangesRow(
 						[ 'cuc_xff' => '1.2.3.4', 'cuc_xff_hex' => IPUtils::toHex( '1.2.3.4' ) ]
 					) ],
-					# The way that batches work means that the last query will contain no rows.
+					// The way that batches work means that the last query will contain no rows.
 					[],
 				],
 				[
 					[ self::getExpectedCuPrivateRow(
 						[ 'cupe_xff' => '1.2.3.4', 'cupe_xff_hex' => IPUtils::toHex( '1.2.3.4' ) ]
 					) ],
-					# The way that batches work means that the last query will contain no rows.
+					// The way that batches work means that the last query will contain no rows.
 					[],
 				],
 				[
@@ -309,7 +309,7 @@ class MoveLogEntriesFromCuChangesTest extends MediaWikiUnitTestCase {
 	 * @return array
 	 */
 	private static function getCuChangesRow( array $row = [] ): array {
-		# If modifying this, keep it consistent with ::getExpectedCuPrivateRow
+		// If modifying this, keep it consistent with ::getExpectedCuPrivateRow
 		return array_merge( [
 			'cuc_id' => 1,
 			'cuc_namespace' => NS_MAIN,
@@ -336,7 +336,7 @@ class MoveLogEntriesFromCuChangesTest extends MediaWikiUnitTestCase {
 	 * @return array
 	 */
 	private static function getExpectedCuPrivateRow( array $row = [] ): array {
-		# If modifying this, keep it consistent with ::getCuChangesRow
+		// If modifying this, keep it consistent with ::getCuChangesRow
 		return array_merge( [
 			'cupe_namespace' => NS_MAIN,
 			'cupe_title' => 'Test',
