@@ -4,7 +4,6 @@ namespace MediaWiki\CheckUser\Maintenance;
 
 use LogEntryBase;
 use LoggedUpdateMaintenance;
-use MediaWiki\MediaWikiServices;
 
 $IP = getenv( 'MW_INSTALL_PATH' );
 if ( $IP === false ) {
@@ -43,9 +42,8 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 	protected function doDBUpdates() {
 		$dbw = $this->getDB( DB_PRIMARY );
 
-		$services = MediaWikiServices::getInstance();
-
-		$eventTableMigrationStage = $services->getMainConfig()->get( 'CheckUserEventTablesMigrationStage' );
+		$eventTableMigrationStage = $this->getServiceContainer()->getMainConfig()
+			->get( 'CheckUserEventTablesMigrationStage' );
 		if ( !( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) ) {
 			$this->output( "Event table migration config must be set to write new." );
 			return false;
@@ -60,6 +58,23 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 			$this->output( "cu_changes is empty; nothing to move.\n" );
 			return true;
 		}
+
+		// Now move the entries.
+		$this->moveLogEntriesFromCuChanges();
+
+		return true;
+	}
+
+	/**
+	 * Actually performs the move of entries from cu_changes to
+	 * cu_private_event. The entries are not deleted in cu_changes,
+	 * but instead marked only for read old. These will be deleted
+	 * using a different maintenance script.
+	 *
+	 * @return void
+	 */
+	private function moveLogEntriesFromCuChanges() {
+		$dbw = $this->getDB( DB_PRIMARY );
 
 		$start = (int)$dbw->newSelectQueryBuilder()
 			->field( 'MIN(cuc_id)' )
@@ -80,11 +95,8 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 			"Moving log entries from cu_changes to cu_private_event with cuc_id from $start to $end.\n"
 		);
 
-		$lbFactory = $services->getDBLoadBalancerFactory();
-
 		while ( $blockStart <= $end ) {
 			$this->output( "...checking and moving log entries with cuc_id from $blockStart to $blockEnd\n" );
-			$cond = "cuc_id BETWEEN $blockStart AND $blockEnd";
 			$res = $dbw->newSelectQueryBuilder()
 				->fields( [
 					'cuc_id',
@@ -103,7 +115,7 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 					'cuc_private'
 				] )
 				->table( 'cu_changes' )
-				->conds( $cond )
+				->conds( "cuc_id BETWEEN $blockStart AND $blockEnd" )
 				->where( [
 					'cuc_type' => RC_LOG,
 					'cuc_only_for_read_old' => 0
@@ -125,8 +137,8 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 					'cupe_comment_id' => $row->cuc_comment_id,
 					'cupe_ip' => $row->cuc_ip,
 					'cupe_ip_hex' => $row->cuc_ip_hex,
-					'cupe_xff' => $row->cuc_ip,
-					'cupe_xff_hex' => $row->cuc_ip_hex,
+					'cupe_xff' => $row->cuc_xff,
+					'cupe_xff_hex' => $row->cuc_xff_hex,
 					'cupe_agent' => $row->cuc_agent,
 					'cupe_private' => $row->cuc_private
 				];
@@ -151,12 +163,10 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 			}
 			$blockStart += $this->mBatchSize - 1;
 			$blockEnd += $this->mBatchSize - 1;
-			$lbFactory->waitForReplication( [ 'ifWritesSince' => 5 ] );
-			$lbFactory->autoReconfigure();
+			$this->waitForReplication();
 		}
 
 		$this->output( "...all log entries in cu_changes have been moved to cu_private_event table.\n" );
-		return true;
 	}
 }
 
