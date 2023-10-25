@@ -63,6 +63,8 @@
 	"action-checkuser-temporary-account": "查看临时账号使用的IP地址",
 	"action-checkuser-temporary-account-log": "查看临时账户使用IP地址的日志",
 	"grouppage-checkuser": "{{ns:project}}:用户查核员",
+	"checkuser-clienthints-value-yes": "是",
+	"checkuser-clienthints-value-no": "否",
 	"checkuser-reason": "原因：",
 	"checkuser-reason-api": "API: $1",
 	"checkuser-showlog": "查核日志",
