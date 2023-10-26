@@ -94,6 +94,7 @@
 	"checkuser-log-search-target": "Ціль:",
 	"checkuser-log-search-initiator": "Ініціатор:",
 	"checkuser-log-search-reason": "Причина:",
+	"checkuser-log-search-reason-help": "Фільтрує журнальні дії в яких вказана ця причина.",
 	"checkuser-ipeditcount": "~$1 від усіх користувачів",
 	"checkuser-showmain": "Перейти до головної сторінки перевірки",
 	"checkuser-show-investigate": "Перемкнути на основну форму розслідування",
