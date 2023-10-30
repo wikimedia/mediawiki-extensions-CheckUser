@@ -1,7 +1,7 @@
 // Licence: GPLv3 & GPLv2 (dual licensed)
 // Original source: https://github.com/Ladsgroup/CheckUserHelper
 
-var addCopyElement = require( './addCopyElement.js' ),
+const addCopyElement = require( './addCopyElement.js' ),
 	createTable = require( './createTable.js' ),
 	createTableText = require( './createTableText.js' ),
 	generateData = require( './generateData.js' );
@@ -13,20 +13,26 @@ var addCopyElement = require( './addCopyElement.js' ),
  * * Registers that when the user opens the collapsed box the table rows are generated.
  */
 function init() {
-	var $checkUserHelperFieldset = $( '.mw-checkuser-helper-fieldset' );
-	var $panelLayout = $( '.mw-collapsible-content', $checkUserHelperFieldset );
+	const $checkUserHelperFieldset = $( '.mw-checkuser-helper-fieldset' );
+	const $panelLayout = $( '.mw-collapsible-content', $checkUserHelperFieldset );
 	if ( !$panelLayout ) {
 		return;
 	}
-	var tbl = document.createElement( 'table' );
+	const tbl = document.createElement( 'table' );
 	tbl.className = 'wikitable mw-checkuser-helper-table';
-	var tr = tbl.insertRow();
+	if ( mw.config.get( 'wgCheckUserDisplayClientHints' ) ) {
+		tbl.className += ' mw-checkuser-clienthints-enabled-temporary-class';
+	}
+	const tr = tbl.insertRow();
 	tr.appendChild( $( '<th>' ).text( mw.message( 'checkuser-helper-user' ) )[ 0 ] );
 	tr.appendChild( $( '<th>' ).text( mw.message( 'checkuser-helper-ips' ) )[ 0 ] );
 	tr.appendChild( $( '<th>' ).text( mw.message( 'checkuser-helper-uas' ) )[ 0 ] );
+	if ( mw.config.get( 'wgCheckUserDisplayClientHints' ) ) {
+		tr.appendChild( $( '<th>' ).text( mw.message( 'checkuser-helper-client-hints' ) )[ 0 ] );
+	}
 	$panelLayout.html( tbl );
 	// eslint-disable-next-line no-jquery/no-class-state
-	var tooManyResults = $( '.oo-ui-fieldsetLayout', $checkUserHelperFieldset ).hasClass( 'mw-collapsed' );
+	const tooManyResults = $( '.oo-ui-fieldsetLayout', $checkUserHelperFieldset ).hasClass( 'mw-collapsed' );
 	mw.loader.using( 'mediawiki.widgets', function () {
 		if ( !tooManyResults ) {
 			generateAndDisplayData();

@@ -16,24 +16,30 @@
  * @return {string} The wikitext for the table
  */
 function createTableText( data, showCounts ) {
-	var text = '{| class=wikitable sortable\n! ' + mw.message( 'checkuser-helper-user' ) +
+	let text = '{| class=wikitable sortable\n! ' + mw.message( 'checkuser-helper-user' ) +
 		' !! ' + mw.message( 'checkuser-helper-ips' ) +
-		' !! ' + mw.message( 'checkuser-helper-uas' ) + '\n|-\n';
+		' !! ' + mw.message( 'checkuser-helper-uas' );
 
-	var user, ipText, i, len;
+	if ( mw.config.get( 'wgCheckUserDisplayClientHints' ) ) {
+		text += ' !! ' + mw.message( 'checkuser-helper-client-hints' );
+	}
+
+	text += '\n|-\n';
+
+	let user;
 	for ( user in data ) {
 		text += '|' + user + '||';
-		for ( i = 0, len = data[ user ].sorted.ip.length; i < len; i++ ) {
-			ipText = data[ user ].sorted.ip[ i ];
-			var xffs = Object.keys( data[ user ].ip[ ipText ] );
-			for ( var j = 0, xffLen = xffs.length; j < xffLen; j++ ) {
-				var xffText = xffs[ j ];
-				var xffTypes = Object.keys( data[ user ].ip[ ipText ][ xffText ] );
-				for ( var k = 0, xffTypesLen = xffTypes.length; k < xffTypesLen; k++ ) {
-					var xffTrusted = xffTypes[ k ];
+		for ( let i = 0, len = data[ user ].sorted.ip.length; i < len; i++ ) {
+			const ipText = data[ user ].sorted.ip[ i ];
+			const xffs = Object.keys( data[ user ].ip[ ipText ] );
+			for ( let j = 0, xffLen = xffs.length; j < xffLen; j++ ) {
+				const xffText = xffs[ j ];
+				const xffTypes = Object.keys( data[ user ].ip[ ipText ][ xffText ] );
+				for ( let k = 0, xffTypesLen = xffTypes.length; k < xffTypesLen; k++ ) {
+					const xffTrusted = xffTypes[ k ];
 					text += '\n* ' + ipText;
 					if ( xffText !== '' ) {
-						var xffPrefix;
+						let xffPrefix;
 						if ( xffTrusted === 'true' ) {
 							xffPrefix = ' ' + mw.message( 'checkuser-helper-xff-trusted' );
 						} else {
@@ -49,9 +55,23 @@ function createTableText( data, showCounts ) {
 		}
 		text += '\n|';
 
-		for ( i = 0, len = data[ user ].sorted.ua.length; i < len; i++ ) {
-			var uaText = data[ user ].sorted.ua[ i ];
-			text += '\n* <code>' + uaText + '</code> [' + data[ user ].ua[ uaText ] + ']';
+		for ( let i = 0, len = data[ user ].sorted.ua.length; i < len; i++ ) {
+			const uaText = data[ user ].sorted.ua[ i ];
+			text += '\n*' + uaText;
+			if ( showCounts ) {
+				text += " '''[" + data[ user ].ua[ uaText ] + "]'''";
+			}
+		}
+
+		if ( mw.config.get( 'wgCheckUserDisplayClientHints' ) ) {
+			text += '\n|';
+			for ( let i = 0, len = data[ user ].sorted.uach.length; i < len; i++ ) {
+				const clientHintsText = data[ user ].sorted.uach[ i ];
+				text += '\n*' + clientHintsText;
+				if ( showCounts ) {
+					text += " '''[" + data[ user ].uach[ clientHintsText ] + "]'''";
+				}
+			}
 		}
 
 		text += '\n|-\n';
