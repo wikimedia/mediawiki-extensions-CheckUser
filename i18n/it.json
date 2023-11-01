@@ -115,6 +115,7 @@
 	"checkuser-login-failure": "Errore nell'effettuare l'accesso su {{SITENAME}} come $1",
 	"checkuser-login-success": "Accesso effettuato su {{SITENAME}} come $1",
 	"checkuser-helper-label": "Visualizza risultati in una tabella",
+	"checkuser-helper-ips": "IP",
 	"logentry-checkuser-private-event-autocreate-account": "è stato creato automaticamente",
 	"logentry-checkuser-private-event-create-account": "è stato creato",
 	"checkuser-link-investigate-label": "Prova {{#special:investigate}}",
