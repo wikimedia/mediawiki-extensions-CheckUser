@@ -9,7 +9,8 @@
 			"Termininja",
 			"Turin",
 			"Vlad5250",
-			"Vodnokon4e"
+			"Vodnokon4e",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Този инструмент сканира последните промени, за да извлече IP адресите, използвани от потребител, или за да покаже информация за редакциите и потребителите от даден IP адрес.\nИнформация за потребители и редакции от даден IP адрес може да се извлече и от XFF headers, като в края на IP адреса се добави „/xff“. Поддържат се IPv4 (CIDR $1-32) и IPv6 (CIDR $2-128).\nОт съображения, свързани с производителността на уикито, ще бъдат показани не повече от 5000 редакции.\nИзползвайте инструмента съобразно установената политика.",
@@ -91,6 +92,7 @@
 	"checkuser-reset-action": "промяна на парола за потребител „$1“",
 	"checkuser-token-fail": "Сесията не е успешна. Опитайте отново.",
 	"checkuser-investigateblock-reason": "Причина",
+	"checkuser-investigateblock-notice-text-label": "Уикитекст",
 	"checkuser-investigate-duration-option-all": "Всички",
 	"checkuser-investigate-duration-option-1w": "Последната седмица",
 	"checkuser-investigate-duration-option-2w": "Последните 2 седмици",
