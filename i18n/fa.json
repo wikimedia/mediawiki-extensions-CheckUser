@@ -99,6 +99,7 @@
 	"checkuser-token-fail": "نشست با شکست مواجه شد. لطفاً دوباره سعی کنید.",
 	"checkuser-login-failure": "در ورود به {{SITENAME}} با حساب $1 ناموفق بود",
 	"checkuser-login-success": "در ورود به {{SITENAME}} با حساب $1 موفق بود",
+	"checkuser-helper-ips": "آی‌پی‌ها",
 	"logentry-checkuser-private-event-autocreate-account": "به طور خودکار ساخته شد",
 	"logentry-checkuser-private-event-create-account": "ایجاد شد",
 	"checkuser-link-investigate-label": "ابزار جدید بازرسی کاربر را بیازمایید",
