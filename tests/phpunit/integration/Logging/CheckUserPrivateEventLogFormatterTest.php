@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Test\Integration\Logging;
 
+use LogFormatter;
 use LogFormatterTestCase;
 use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
@@ -175,64 +176,73 @@ class CheckUserPrivateEventLogFormatterTest extends LogFormatterTestCase {
 		$this->doTestLogFormatter( $row, $extra, [ 'checkuser' ] );
 	}
 
-	public function testLogDatabaseRowsForHiddenUserAndAuthorityHasSuppressGroup() {
-		$testUser = $this->getMutableTestUser()->getUser();
-		$this->getServiceContainer()->getBlockUserFactory()->newBlockUser(
-			$testUser,
-			$this->mockRegisteredUltimateAuthority(),
-			'infinity',
-			'block to hide the test user',
-			[ 'isHideUser' => true ]
-		)->placeBlock();
-		$testUser->invalidateCache();
+	public static function provideLogDatabaseRowsForHiddenUser() {
+		return [
+			'User does not have suppress group' => [ false ],
+			'User has suppress group' => [ true ]
+		];
+	}
+
+	/**
+	 * @dataProvider provideLogDatabaseRowsForHiddenUser
+	 * @param bool $logViewerHasSuppress
+	 */
+	public function testLogDatabaseRowsForHiddenUser( $logViewerHasSuppress ) {
+		$targetUser = $this->getMutableTestUser()->getUser();
+		$blockingUser = $this->getMutableTestUser( [ 'sysop', 'suppress' ] )->getUser();
+		$logViewGroups = [ 'checkuser' ];
+		if ( $logViewerHasSuppress ) {
+			$logViewGroups[] = 'suppress';
+		}
+		$logViewUser = $this->getMutableTestUser( $logViewGroups )->getUser();
+		$blockStatus = $this->getServiceContainer()->getBlockUserFactory()
+			->newBlockUser(
+				$targetUser,
+				$blockingUser,
+				'infinity',
+				'block to hide the test user',
+				[ 'isHideUser' => true ]
+			)->placeBlock();
+		$this->assertStatusGood( $blockStatus );
 		$wikiName = $this->getServiceContainer()->getMainConfig()->get( MainConfigNames::Sitename );
-		$this->doTestLogFormatter(
-			[
+
+		if ( $logViewerHasSuppress ) {
+			$expectedName = $targetUser->getName();
+		} else {
+			$expectedName = RequestContext::getMain()->msg( 'rev-deleted-user' )->text();
+		}
+
+		// Don't use doTestLogFormatter() since it overrides every service that
+		// accesses the database and prevents correct loading of the block.
+		$row = $this->expandDatabaseRow(
+				[
 				'type' => 'checkuser-private-event',
 				'action' => 'login-success',
-				'user_text' => $testUser->getName(),
+				'user_text' => $targetUser->getName(),
 				'params' => [
-					'4::target' => $testUser->getName(),
+					'4::target' => $targetUser->getName(),
 				],
 			],
+			false
+		);
+		$formatter = LogFormatter::newFromRow( $row );
+		$formatter->context->setAuthority( $logViewUser );
+		$this->assertEquals(
+			"Successfully logged in to $wikiName as $expectedName",
+			strip_tags( $formatter->getActionText() ),
+			'Action text is equal to expected text'
+		);
+
+		$api = $formatter->formatParametersForApi();
+		unset( $api['_element'] );
+		unset( $api['_type'] );
+		$this->assertSame(
 			[
-				'text' => "Successfully logged in to $wikiName as {$testUser->getName()}",
-				'api' => [
-					'target' => $testUser->getName(),
-				],
+				'target' => $expectedName,
 			],
-			[ 'checkuser', 'suppress' ]
+			$api,
+			'Api log params is equal to expected array'
 		);
 	}
 
-	public function testLogDatabaseRowsForHiddenUser() {
-		$testUser = $this->getMutableTestUser()->getUser();
-		$this->getServiceContainer()->getBlockUserFactory()->newBlockUser(
-			$testUser,
-			$this->mockRegisteredUltimateAuthority(),
-			'infinity',
-			'block to hide the test user',
-			[ 'isHideUser' => true ]
-		)->placeBlock();
-		$testUser->invalidateCache();
-		$wikiName = $this->getServiceContainer()->getMainConfig()->get( MainConfigNames::Sitename );
-		$usernameRemovedMessageText = RequestContext::getMain()->msg( 'rev-deleted-user' )->text();
-		$this->doTestLogFormatter(
-			[
-				'type' => 'checkuser-private-event',
-				'action' => 'login-success',
-				'user_text' => $testUser->getName(),
-				'params' => [
-					'4::target' => $testUser->getName(),
-				],
-			],
-			[
-				'text' => "Successfully logged in to $wikiName as $usernameRemovedMessageText",
-				'api' => [
-					'target' => $usernameRemovedMessageText,
-				],
-			],
-			[ 'checkuser' ]
-		);
-	}
 }
