@@ -218,6 +218,7 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testDoMassUserBlockInternal() {
+		$this->tablesUsed[] = 'ipblocks';
 		$blockParams = [
 			'reason' => 'Test reason',
 			'email' => true,

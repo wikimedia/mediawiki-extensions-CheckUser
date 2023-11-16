@@ -104,6 +104,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideUserWasBlocked */
 	public function testUserWasBlocked( $block ) {
+		$this->tablesUsed[] = 'ipblocks';
 		$testUser = $this->getTestUser()->getUser();
 		if ( $block ) {
 			$userAuthority = $this->mockRegisteredUltimateAuthority();
