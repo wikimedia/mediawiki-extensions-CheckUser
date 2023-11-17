@@ -529,7 +529,7 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
 					] ]
 				]
 			],
-			'One IPs that is repeated' => [
+			'One IP that is repeated' => [
 				[
 					(object)[
 						'ip' => '127.0.0.1',
