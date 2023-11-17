@@ -682,7 +682,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	 * @inheritDoc
 	 *
 	 * @param string|null $table One of the tables in CheckUserQueryInterface::RESULT_TABLES.
-	 *   If set to null, this will throw an LogicException.
+	 *   If set to null, this will throw a LogicException.
 	 * @throws LogicException if $table is null a LogicException is thrown as ::getQueryInfo
 	 * must have this information to return the correct query info.
 	 */
