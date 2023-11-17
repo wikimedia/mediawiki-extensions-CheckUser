@@ -275,6 +275,14 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
 				[ 'total' => 4, 'by_this_target' => 2 ], [ 'total' => 5, 'by_this_target' => 1 ], false,
 				4, SCHEMA_COMPAT_READ_OLD
 			],
+			'All ::getCountForIPActionsPerTable counts as array when reading new, total not higher' => [
+				[ 'total' => 1, 'by_this_target' => 1 ], [ 'total' => 2, 'by_this_target' => 2 ],
+				[ 'total' => 3, 'by_this_target' => 3 ], false, SCHEMA_COMPAT_READ_NEW
+			],
+			'cu_changes ::getCountForIPActionsPerTable count as array when reading old, total not higher' => [
+				[ 'total' => 4, 'by_this_target' => 4 ], [ 'total' => 5, 'by_this_target' => 5 ], false,
+				false, SCHEMA_COMPAT_READ_OLD
+			],
 		];
 	}
 
