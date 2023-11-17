@@ -63,6 +63,7 @@ class CompareService extends ChangeService {
 				'cuc_ip_hex' => $ipHex,
 				'cuc_type' => [ RC_EDIT, RC_NEW ],
 			] )
+			->limit( $this->limit )
 			->caller( __METHOD__ );
 
 		if ( $excludeUser ) {
