@@ -105,7 +105,7 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
 			'Returns expected keys to arrays and includes cu_changes in tables while reading new' => [
 				SCHEMA_COMPAT_READ_NEW,
 				[
-					# Fields should be an array
+					// Fields should be an array
 					'fields' => [
 						'ip' => 'cuc_ip',
 						'ip_hex' => 'cuc_ip_hex',
@@ -113,12 +113,12 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
 						'first' => 'MIN(cuc_timestamp)',
 						'last' => 'MAX(cuc_timestamp)',
 					],
-					# Assert at least cu_changes in the table list
+					// Assert at least cu_changes in the table list
 					'tables' => [ 'cu_changes' ],
-					# When reading new, do not include rows from cu_changes
-					# that were marked as only being for read old.
+					// When reading new, do not include rows from cu_changes
+					// that were marked as only being for read old.
 					'conds' => [ 'cuc_only_for_read_old' => 0 ],
-					# Should be all of these as arrays
+					// Should be all of these as arrays
 					'options' => [],
 					'join_conds' => [],
 				]
@@ -126,7 +126,7 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
 			'Returns expected keys to arrays and includes cu_changes in tables while reading old' => [
 				SCHEMA_COMPAT_READ_OLD,
 				[
-					# Fields should be an array
+					// Fields should be an array
 					'fields' => [
 						'ip' => 'cuc_ip',
 						'ip_hex' => 'cuc_ip_hex',
@@ -134,9 +134,9 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
 						'first' => 'MIN(cuc_timestamp)',
 						'last' => 'MAX(cuc_timestamp)',
 					],
-					# Assert at least cu_changes in the table list
+					// Assert at least cu_changes in the table list
 					'tables' => [ 'cu_changes' ],
-					# Should be all of these as arrays
+					// Should be all of these as arrays
 					'conds' => [],
 					'options' => [],
 					'join_conds' => [],
@@ -158,7 +158,7 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
 		return [
 			'Returns expected keys to arrays and includes cu_log_event in tables' => [
 				[
-					# Fields should be an array
+					// Fields should be an array
 					'fields' => [
 						'ip' => 'cule_ip',
 						'ip_hex' => 'cule_ip_hex',
@@ -166,9 +166,9 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
 						'first' => 'MIN(cule_timestamp)',
 						'last' => 'MAX(cule_timestamp)',
 					],
-					# Tables array should have at least cu_log_event
+					// Tables array should have at least cu_log_event
 					'tables' => [ 'cu_log_event' ],
-					# All other values should be arrays
+					// All other values should be arrays
 					'conds' => [],
 					'options' => [],
 					'join_conds' => [],
@@ -190,7 +190,7 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
 		return [
 			'Returns expected keys to arrays and includes cu_log_event in tables' => [
 				[
-					# Fields should be an array
+					// Fields should be an array
 					'fields' => [
 						'ip' => 'cupe_ip',
 						'ip_hex' => 'cupe_ip_hex',
@@ -198,9 +198,9 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
 						'first' => 'MIN(cupe_timestamp)',
 						'last' => 'MAX(cupe_timestamp)',
 					],
-					# Tables array should have at least cu_private_event
+					// Tables array should have at least cu_private_event
 					'tables' => [ 'cu_private_event' ],
-					# All other values should be arrays
+					// All other values should be arrays
 					'conds' => [],
 					'options' => [],
 					'join_conds' => [],
@@ -284,8 +284,8 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
 			->disableOriginalConstructor()
 			->onlyMethods( [] )
 			->getMock();
-		# Mock config on main request context for un-mocked call to ::isValidRange via ::getIpConds
-		# These cannot be mocked as they are static.
+		// Mock config on main request context for un-mocked call to ::isValidRange via ::getIpConds
+		// These cannot be mocked as they are static.
 		RequestContext::getMain()->setConfig(
 			new HashConfig( [ 'CheckUserCIDRLimit' => [
 				'IPv4' => 16,
@@ -320,8 +320,8 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
 			->disableOriginalConstructor()
 			->onlyMethods( [] )
 			->getMock();
-		# Mock config on main request context for un-mocked call to ::isValidRange via ::getIpConds
-		# These cannot be mocked as they are static.
+		// Mock config on main request context for un-mocked call to ::isValidRange via ::getIpConds
+		// These cannot be mocked as they are static.
 		RequestContext::getMain()->setConfig(
 			new HashConfig( [ 'CheckUserCIDRLimit' => [
 				'IPv4' => 16,
@@ -361,7 +361,7 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
 		// Mock estimateRowCount
 		$dbrMock->method( 'estimateRowCount' )
 			->withConsecutive(
-				# Mock call for actions on IP
+				// Mock call for actions on IP
 				[
 					[ $table ],
 					'*',
@@ -370,7 +370,7 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
 					[],
 					[],
 				],
-				# Mock call for actions on IP performed by the target user (ID 1)
+				// Mock call for actions on IP performed by the target user (ID 1)
 				[
 					[ $table, "{$table}_actor" => 'actor' ],
 					'*',
@@ -380,7 +380,7 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
 					),
 					'MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager::getCountForIPActionsPerTable',
 					[],
-					# Expected join conditions
+					// Expected join conditions
 					[ "{$table}_actor" => [
 						'JOIN', "{$table}_actor.actor_id = {$tablePrefix}actor"
 					] ],
@@ -391,7 +391,7 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
 			$dbrWithConsecutiveSelectRowCount = [];
 			$dbrReturnConsecutiveSelectRowCount = [];
 			if ( $actualCounts[0] ) {
-				# Mock call for actions on IP
+				// Mock call for actions on IP
 				$dbrWithConsecutiveSelectRowCount[] = [
 					[ $table ],
 					'*',
@@ -403,7 +403,7 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
 				$dbrReturnConsecutiveSelectRowCount[] = $actualCounts[0];
 			}
 			if ( $actualCounts[1] ) {
-				# Mock call for actions on IP performed by the target user (ID 1)
+				// Mock call for actions on IP performed by the target user (ID 1)
 				$dbrWithConsecutiveSelectRowCount[] = [
 					[ $table, "{$table}_actor" => 'actor' ],
 					'*',
@@ -413,7 +413,7 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
 					),
 					'MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager::getCountForIPActionsPerTable',
 					[],
-					# Expected join conditions
+					// Expected join conditions
 					[ "{$table}_actor" => [
 						'JOIN', "{$table}_actor.actor_id = {$tablePrefix}actor"
 					] ],
