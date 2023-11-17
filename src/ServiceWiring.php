@@ -48,6 +48,7 @@ return [
 			$services->getDBLoadBalancerFactory(),
 			ExtensionRegistry::getInstance(),
 			$services->getUserGroupManagerFactory(),
+			$services->getDatabaseBlockStoreFactory(),
 			WikiMap::getCurrentWikiDbDomain()->getId()
 		);
 	},
