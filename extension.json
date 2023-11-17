@@ -465,7 +465,9 @@
 			"tests/qunit/ext.checkUser/checkUserHelper/cases/compareIPs.json",
 			"tests/qunit/ext.checkUser/checkUserHelper/cases/createTable.json",
 			"tests/qunit/ext.checkUser/checkUserHelper/cases/createTableText.json",
-			"tests/qunit/ext.checkUser/checkUserHelper/cases/generateData.json"
+			"tests/qunit/ext.checkUser/checkUserHelper/cases/generateData.json",
+			"tests/qunit/ext.checkUser.clientHints/index.test.js",
+			"modules/ext.checkUser.clientHints/index.js"
 		],
 		"dependencies": [
 			"mediawiki.qunit-testrunner",
@@ -473,6 +475,7 @@
 			"mediawiki.router",
 			"mediawiki.widgets",
 			"ext.checkUser",
+			"ext.checkUser.clientHints",
 			"sinonjs"
 		]
 	},
