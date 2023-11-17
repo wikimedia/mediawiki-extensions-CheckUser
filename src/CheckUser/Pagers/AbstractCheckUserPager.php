@@ -32,6 +32,7 @@ use MWTimestamp;
 use RangeChronologicalPager;
 use RequestContext;
 use SpecialPage;
+use stdClass;
 use TitleValue;
 use UserGroupMembership;
 use Wikimedia\IPUtils;
@@ -681,7 +682,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	 * @inheritDoc
 	 *
 	 * @param string|null $table One of the tables in CheckUserQueryInterface::RESULT_TABLES.
-	 *   If null when reading new, this will throw an Exception.
+	 *   If set to null, this will throw an LogicException.
 	 * @throws LogicException if $table is null a LogicException is thrown as ::getQueryInfo
 	 * must have this information to return the correct query info.
 	 */
@@ -720,27 +721,53 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	 */
 	abstract protected function getQueryInfoForCuPrivateEvent(): array;
 
+	/**
+	 * Take the raw results list and turn it into an array where the
+	 * keys are the index field value and the values are the rows with
+	 * this index field.
+	 *
+	 * Can be used by implementations to combine rows as necessary.
+	 *
+	 * @stable to override
+	 *
+	 * @param stdClass[] $results The results from all three tables as an array
+	 *   where the rows are values, keys are numeric, and the order is
+	 *   defined as the order returned by the queries and then the query
+	 *   results ordered in the same order as self::RESULT_TABLES.
+	 * @return stdClass[] The results grouped by the index field where the
+	 *   key is the index field and the value is an array of the rows
+	 *   with this index field.
+	 */
+	protected function groupResultsByIndexField( array $results ): array {
+		// Expand the result set into an array, with the key as the timestamp and
+		// value as an array of rows that have this timestamp.
+		$groupedResults = [];
+		$indexField = $this->getIndexField();
+		foreach ( $results as $row ) {
+			if ( array_key_exists( $row->$indexField, $groupedResults ) ) {
+				// Use an array of rows as two given rows could have the same
+				// timestamp value.
+				$groupedResults[$row->$indexField][] = $row;
+			} else {
+				$groupedResults[$row->$indexField] = [ $row ];
+			}
+		}
+		return $groupedResults;
+	}
+
 	/** @inheritDoc */
 	public function reallyDoQuery( $offset, $limit, $order ): IResultWrapper {
 		$results = [];
 		// Run the three SQL queries for each results table.
 		foreach ( $this->buildQueryInfo( $offset, $limit, $order ) as $queryInfo ) {
 			[ $tables, $fields, $conds, $fname, $options, $join_conds ] = $queryInfo;
-			$indexField = $this->getIndexField();
 
-			$queryResult = $this->mDb->select( $tables, $fields, $conds, $fname, $options, $join_conds );
-			// Expand the result set into an array, with the key as the timestamp and
-			// value as an array of rows that have this timestamp.
-			foreach ( $queryResult as $row ) {
-				// Use an array of rows as two given rows could have the same
-				// timestamp value.
-				if ( isset( $results[$row->$indexField] ) ) {
-					$results[$row->$indexField][] = $row;
-				} else {
-					$results[$row->$indexField] = [ $row ];
-				}
-			}
+			$results = array_merge(
+				$results,
+				iterator_to_array( $this->mDb->select( $tables, $fields, $conds, $fname, $options, $join_conds ) )
+			);
 		}
+		$results = $this->groupResultsByIndexField( $results );
 		// Make a new result wrapper that combines the results by ordering all
 		// by their timestamp and then returning the first $limit of the items.
 		if ( $order === self::QUERY_DESCENDING ) {

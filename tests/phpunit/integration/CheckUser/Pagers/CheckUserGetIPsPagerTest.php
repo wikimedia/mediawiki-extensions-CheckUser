@@ -3,11 +3,8 @@
 namespace MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers;
 
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
-use MediaWiki\CheckUser\Hooks;
 use MediaWiki\CheckUser\Tests\TemplateParserMockTest;
-use MediaWiki\User\UserIdentityValue;
 use Wikimedia\IPUtils;
-use Wikimedia\TestingAccessWrapper;
 
 /**
  * Test class for CheckUserGetIPsPager class
@@ -26,6 +23,8 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonTest {
 			$this->tablesUsed,
 			[
 				'cu_changes',
+				'cu_log_event',
+				'cu_private_event',
 				'cu_log',
 			]
 		);
@@ -33,62 +32,6 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonTest {
 		$this->checkSubtype = SpecialCheckUser::SUBTYPE_GET_IPS;
 		$this->defaultUserIdentity = $this->getTestUser()->getUserIdentity();
 		$this->defaultCheckType = 'userips';
-	}
-
-	/** @dataProvider provideGetCountForIPEdits */
-	public function testGetCountForIPEdits( $ips, $performers, $expectedCount ) {
-		$object = $this->setUpObject();
-		$testUser = $this->getTestUser();
-		$object->target = $testUser->getUserIdentity();
-		$hooks = TestingAccessWrapper::newFromClass( Hooks::class );
-		foreach ( $ips as $i => $ip ) {
-			$row = [ 'cuc_ip' => $ip, 'cuc_ip_hex' => IPUtils::toHex( $ip ) ];
-			$performer = $performers[$i];
-			if ( IPUtils::isIPAddress( $performer ) ) {
-				$performer = UserIdentityValue::newAnonymous( $performer );
-			} else {
-				$performer = $testUser->getUserIdentity();
-			}
-			$hooks->insertIntoCuChangesTable( $row, __METHOD__, $performer );
-		}
-		$this->assertSame(
-			$expectedCount,
-			$object->getCountForIPedits( '127.0.0.1' ),
-			'The expected count for edits made by the IP was not returned.'
-		);
-	}
-
-	public static function provideGetCountForIPEdits() {
-		return [
-			'One IP with only 1 user edit' => [
-				[
-					'127.0.0.1',
-					'127.0.0.1',
-					'127.0.0.1'
-				],
-				[
-					'127.0.0.1',
-					'Test user',
-					'127.0.0.1'
-				],
-				3
-			],
-			'Two IPs with only 1 user edit' => [
-				[
-					'127.0.0.1',
-					'127.0.0.1',
-					'127.0.0.2',
-					'127.0.0.2'
-				],
-				[
-					'127.0.0.1',
-					'Test user',
-					'127.0.0.2',
-					'Test user'
-				],
-				2
-			]
-		];
 	}
 
 	/**

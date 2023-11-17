@@ -2,6 +2,8 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit\CheckUser\Pagers;
 
+use LogicException;
+use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Tests\Unit\Libs\Rdbms\AddQuoterMock;
 use MediaWikiUnitTestCase;
@@ -61,5 +63,15 @@ abstract class CheckUserPagerCommonUnitTest extends MediaWikiUnitTestCase {
 			$object->$methodName(),
 			"The ::$methodName response was not as expected."
 		);
+	}
+
+	public function testGetQueryInfoWithNoProvidedTableThrowsException() {
+		/** @var $objectUnderTest AbstractCheckUserPager */
+		$objectUnderTest = $this->getMockBuilder( $this->getPagerClass() )
+			->disableOriginalConstructor()
+			->onlyMethods( [] )
+			->getMock();
+		$this->expectException( LogicException::class );
+		$objectUnderTest->getQueryInfo();
 	}
 }
