@@ -10,9 +10,11 @@ use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\ClientHints\ClientHintsBatchFormatterResults;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CheckUser\Tests\TemplateParserMockTest;
+use MediaWiki\Linker\Linker;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Title\Title;
 use MediaWiki\User\UserIdentityValue;
+use Wikimedia\IPUtils;
 
 /**
  * Test class for CheckUserGetEditsPager class
@@ -174,6 +176,36 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 			],
 			SCHEMA_COMPAT_NEW,
 			false,
+		);
+	}
+
+	public function testFormatRowLogFromUnnormalisedIPv6() {
+		$user_text = '2A02:EC80:101:0:0:0:2:8';
+		$ip = '2a02:ec80:101::2:8';
+
+		$normalisedIP = IPUtils::prettifyIP( $user_text ) ?? $user_text;
+		$wrapper = $this->setUpObject();
+
+		$this->testFormatRow(
+			[
+				'user_text' => $user_text,
+				'ip' => $ip
+			],
+				[ $user_text => '' ],
+				[],
+				[],
+				null,
+				[
+					'userLink' => Linker::userLink( 0, $normalisedIP, $normalisedIP ),
+					'ipLink' => $wrapper->getSelfLink( $normalisedIP,
+						[
+							'user' => $normalisedIP,
+							'reason' => ''
+						]
+					)
+				],
+				SCHEMA_COMPAT_NEW,
+				false
 		);
 	}
 

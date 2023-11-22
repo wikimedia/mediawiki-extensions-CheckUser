@@ -171,8 +171,14 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 		// Show date
 		$templateParams['timestamp'] =
 			$this->getLanguage()->userTime( wfTimestamp( TS_MW, $row->timestamp ), $this->getUser() );
+		// Normalise user text if IP for clarity and compatibility with ipLink below
+		$user_text = $row->user_text;
+		'@phan-var string $user_text';
+		if ( IPUtils::isIPAddress( $user_text ) ) {
+			$user_text = IPUtils::prettifyIP( $user_text ) ?? $user_text;
+		}
 		// Userlinks
-		$user = new UserIdentityValue( $row->user ?? 0, $row->user_text );
+		$user = new UserIdentityValue( $row->user ?? 0, $user_text );
 		if ( $row->type == RC_EDIT || $row->type == RC_NEW ) {
 			$hidden = !$this->usernameVisibility[$row->this_oldid];
 		} else {
@@ -189,10 +195,10 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 			if ( !IPUtils::isIPAddress( $user ) && !$user->isRegistered() ) {
 				$templateParams['userLinkClass'] = 'mw-checkuser-nonexistent-user';
 			}
-			$templateParams['userLink'] = Linker::userLink( $user->getId(), $row->user_text, $row->user_text );
+			$templateParams['userLink'] = Linker::userLink( $user->getId(), $user_text, $user_text );
 			$templateParams['userToolLinks'] = Linker::userToolLinksRedContribs(
 				$user->getId(),
-				$row->user_text,
+				$user_text,
 				$this->userEditTracker->getUserEditCount( $user ),
 				// don't render parentheses in HTML markup (CSS will provide)
 				false
@@ -209,9 +215,10 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 			$templateParams['comment'] = $this->commentFormatter->formatBlock( $comment->text );
 		}
 		// IP
-		$templateParams['ipLink'] = $this->getSelfLink( $row->ip,
+		$ip = IPUtils::prettifyIP( $row->ip ) ?? $row->ip ?? '';
+		$templateParams['ipLink'] = $this->getSelfLink( $ip,
 			[
-				'user' => $row->ip,
+				'user' => $ip,
 				'reason' => $this->opts->getValue( 'reason' )
 			]
 		);
