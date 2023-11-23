@@ -189,23 +189,23 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 		$this->testFormatRow(
 			[
 				'user_text' => $user_text,
-				'ip' => $ip
+				'ip' => $ip,
 			],
-				[ $user_text => '' ],
-				[],
-				[],
-				null,
-				[
-					'userLink' => Linker::userLink( 0, $normalisedIP, $normalisedIP ),
-					'ipLink' => $wrapper->getSelfLink( $normalisedIP,
-						[
-							'user' => $normalisedIP,
-							'reason' => ''
-						]
-					)
-				],
-				SCHEMA_COMPAT_NEW,
-				false
+			[ $user_text => '' ],
+			[],
+			[],
+			null,
+			[
+				'userLink' => Linker::userLink( 0, $normalisedIP, $normalisedIP ),
+				'ipLink' => $wrapper->getSelfLink( $normalisedIP,
+					[
+						'user' => $normalisedIP,
+						'reason' => ''
+					]
+				)
+			],
+			SCHEMA_COMPAT_NEW,
+			false,
 		);
 	}
 

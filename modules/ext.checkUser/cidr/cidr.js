@@ -86,8 +86,7 @@
 			// Match the first IP in each list (ignore other garbage)
 			var ipV4 = mw.util.isIPv4Address( addy, true );
 			var ipV6 = mw.util.isIPv6Address( addy, true );
-			// eslint-disable-next-line security/detect-unsafe-regex
-			var ipCidr = addy.match( /^(.*)(?:\/(\d+))?$/ );
+			var ipCidr = addy.split( '/' );
 			// Binary form
 			var bin = '';
 			var x = 0, z = 0, start = 0, end = 0, ip, cidr, bloc, binBlock;
@@ -98,8 +97,8 @@
 					prefix = '';
 					break;
 				}
-				ip = ipCidr[ 1 ];
-				cidr = ipCidr[ 2 ] ? ipCidr[ 2 ] : null; // CIDR, if it exists
+				ip = ipCidr[ 0 ];
+				cidr = ipCidr[ 1 ]; // CIDR if it exists, or undefined
 				// Get each quad integer
 				blocs = ip.split( '.' );
 				for ( x = 0; x < blocs.length; x++ ) {
@@ -161,8 +160,8 @@
 					prefix = '';
 					break;
 				}
-				ip = ipCidr[ 1 ];
-				cidr = ipCidr[ 2 ] ? ipCidr[ 2 ] : null; // CIDR, if it exists
+				ip = ipCidr[ 0 ];
+				cidr = ipCidr[ 1 ]; // CIDR if it exists, or undefined
 				// Expand out "::"s
 				var abbrevs = ip.match( /::/g );
 				if ( abbrevs && abbrevs.length > 0 ) {
