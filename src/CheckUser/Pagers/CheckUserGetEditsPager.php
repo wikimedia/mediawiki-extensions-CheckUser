@@ -195,14 +195,13 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 			if ( !IPUtils::isIPAddress( $user ) && !$user->isRegistered() ) {
 				$templateParams['userLinkClass'] = 'mw-checkuser-nonexistent-user';
 			}
-			$templateParams['userLink'] = Linker::userLink( $user->getId(), $user_text, $user_text );
-			$templateParams['userToolLinks'] = Linker::userToolLinksRedContribs(
+			$userLinks = self::buildUserLinks(
 				$user->getId(),
 				$user_text,
-				$this->userEditTracker->getUserEditCount( $user ),
-				// don't render parentheses in HTML markup (CSS will provide)
-				false
+				$this->userEditTracker->getUserEditCount( $user )
 			);
+			$templateParams['userLink'] = $userLinks['userLink'];
+			$templateParams['userToolLinks'] = $userLinks['userToolLinks'];
 			// Add any block information
 			$templateParams['flags'] = $this->flagCache[$row->user_text];
 		}
@@ -414,6 +413,36 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 				$this->message[$msg] = $this->msg( $msg )->escaped();
 			}
 		}
+	}
+
+	/**
+	 * Build (or fetch, if previously built) links for a user
+	 *
+	 * @param int $userId User identifier
+	 * @param string $userText User name or IP address
+	 * @param ?int $edits User edit count
+	 *
+	 * @return array{userLink:string,userToolLinks:string} A map with two keys, forwarding the supplied arguments:
+	 *   - userLink: (string) the result of Linker::userLink
+	 *   - userToolLinks: (string) the result of Linker::userToolLinksRedContribs
+	 */
+	protected static function buildUserLinks( int $userId, string $userText, ?int $edits ): array {
+		static $cache = [];
+		if ( !isset( $cache[$userText] ) ) {
+			// Simple enough to keep as an associative array instead of a data class
+			$cache[$userText] = [
+				"userLink" => Linker::userLink( $userId, $userText, $userText ),
+				"userToolLinks" => Linker::userToolLinksRedContribs(
+					$userId,
+					$userText,
+					$edits,
+					// don't render parentheses in HTML markup (CSS will provide)
+					false
+				)
+			];
+		}
+
+		return $cache[$userText];
 	}
 
 	/** @inheritDoc */
