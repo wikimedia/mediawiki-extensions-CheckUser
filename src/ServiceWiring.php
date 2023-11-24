@@ -169,6 +169,11 @@ return [
 	): UserAgentClientHintsManager {
 		return new UserAgentClientHintsManager(
 			$services->getDBLoadBalancerFactory(),
+			$services->getRevisionStore(),
+			new ServiceOptions(
+				UserAgentClientHintsManager::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig()
+			),
 			LoggerFactory::getInstance( 'CheckUser' )
 		);
 	},

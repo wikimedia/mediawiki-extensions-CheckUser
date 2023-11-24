@@ -2,11 +2,16 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
+use ManualLogEntry;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
+use MediaWiki\CheckUser\Hooks;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Revision\RevisionRecord;
+use MediaWiki\Revision\RevisionStore;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * @group Database
@@ -27,6 +32,9 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 			[
 				'cu_useragent_clienthints',
 				'cu_useragent_clienthints_map',
+				'logging',
+				'cu_private_event',
+				'cu_changes',
 			]
 		);
 	}
@@ -163,5 +171,180 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 			// Client hint data count after deletion
 			15,
 		];
+	}
+
+	public function testDeleteOrphanedMapRowsForRevisions() {
+		// Set a fake expiry age.
+		$this->setMwGlobals( [
+			'wgCUDMaxAge' => 100,
+		] );
+		// Set a fake time to prevent problems if the test runs slow
+		ConvertibleTimestamp::setFakeTime( ConvertibleTimestamp::now() );
+		// Create mock RevisionRecord objects for the two entries with revision IDs 70 and 75.
+		$firstMockRevisionRecord = $this->createMock( RevisionRecord::class );
+		$firstMockRevisionRecord->method( 'getTimestamp' )
+			->willReturn( ConvertibleTimestamp::convert(
+				TS_MW,
+				ConvertibleTimestamp::time() - 201
+			) );
+		$secondMockRevisionRecord = $this->createMock( RevisionRecord::class );
+		$secondMockRevisionRecord->method( 'getTimestamp' )
+			->willReturn( ConvertibleTimestamp::now() );
+		// Mock the RevisionLookup service to return the mock revision objects
+		$mockRevisionStore = $this->createMock( RevisionStore::class );
+		$mockRevisionStore->method( 'getRevisionById' )
+			->willReturnMap( [
+				[ 70, 0, null, $firstMockRevisionRecord ],
+				[ 75, 0, null, $secondMockRevisionRecord ],
+			] );
+		$this->setService( 'RevisionStore', static function () use ( $mockRevisionStore ) {
+			return $mockRevisionStore;
+		} );
+		// Add two map row entries, with the first having reference ID of 1 and the second having a reference ID of 2.
+		/** @var UserAgentClientHintsManager $userAgentClientHintsManager */
+		$userAgentClientHintsManager = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );
+		$userAgentClientHintsManager->insertClientHintValues(
+			self::getExampleClientHintsDataObjectFromJsApi(), 70, 'revision'
+		);
+		$userAgentClientHintsManager->insertClientHintValues(
+			self::getExampleClientHintsDataObjectFromJsApi(), 75, 'revision'
+		);
+		$this->assertRowCount(
+			22,
+			'cu_useragent_clienthints_map',
+			'*',
+			'Number of rows in cu_useragent_clienthints_map table before calling the method under test ' .
+			'is not as expected.'
+		);
+		$this->assertSame(
+			11,
+			$userAgentClientHintsManager->deleteOrphanedMapRows(),
+			'UserAgentClientHintsManager::deleteOrphanedMapRows did not return the ' .
+			'expected number of orphaned mapping rows deleted.'
+		);
+		$this->assertRowCount(
+			11,
+			'cu_useragent_clienthints_map',
+			'*',
+			'Number of rows in cu_useragent_clienthints_map table after call to ::deleteOrphanedMapRows is ' .
+			'not as expected.'
+		);
+		// Clear the fake time.
+		ConvertibleTimestamp::setFakeTime( false );
+	}
+
+	public function testDeleteOrphanedMapRowsForCuLogEventRows() {
+		// Set a fake expiry age.
+		$this->setMwGlobals( [
+			'wgCUDMaxAge' => 100,
+		] );
+		// Set a fake time to prevent problems if the test runs slow
+		ConvertibleTimestamp::setFakeTime( ConvertibleTimestamp::now() );
+		// Create the first log entry to be old enough for the map rows associated
+		// with it to be considered orphaned.
+		$firstLogEntry = new ManualLogEntry( 'move', 'move' );
+		$firstLogEntry->setPerformer( $this->getTestUser()->getUserIdentity() );
+		$firstLogEntry->setTarget( $this->getExistingTestPage() );
+		$firstLogEntry->setTimestamp(
+			ConvertibleTimestamp::convert(
+				TS_MW,
+				ConvertibleTimestamp::time() - 201
+			)
+		);
+		$firstLogId = $firstLogEntry->insert( $this->getDb() );
+		// Create the second log entry to be new enough for the map rows to
+		// still be expected to exist.
+		$secondLogEntry = new ManualLogEntry( 'move', 'move' );
+		$secondLogEntry->setPerformer( $this->getTestUser()->getUserIdentity() );
+		$secondLogEntry->setTarget( $this->getExistingTestPage() );
+		$secondLogEntry->setTimestamp( ConvertibleTimestamp::now() );
+		$secondLogId = $secondLogEntry->insert( $this->getDb() );
+		// Add two map row entries, with the first having reference ID of 1 and the second having a reference ID of 2.
+		/** @var UserAgentClientHintsManager $userAgentClientHintsManager */
+		$userAgentClientHintsManager = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );
+		$userAgentClientHintsManager->insertClientHintValues(
+			self::getExampleClientHintsDataObjectFromJsApi(), $firstLogId, 'log'
+		);
+		$userAgentClientHintsManager->insertClientHintValues(
+			self::getExampleClientHintsDataObjectFromJsApi(), $secondLogId, 'log'
+		);
+		$this->assertRowCount(
+			22,
+			'cu_useragent_clienthints_map',
+			'*',
+			'Number of rows in cu_useragent_clienthints_map table before calling the method under test ' .
+			'is not as expected.'
+		);
+		$this->assertSame(
+			11,
+			$userAgentClientHintsManager->deleteOrphanedMapRows(),
+			'UserAgentClientHintsManager::deleteOrphanedMapRows did not return the ' .
+			'expected number of orphaned mapping rows deleted.'
+		);
+		$this->assertRowCount(
+			11,
+			'cu_useragent_clienthints_map',
+			'*',
+			'Number of rows in cu_useragent_clienthints_map table after call to ::deleteOrphanedMapRows is ' .
+			'not as expected.'
+		);
+		// Clear the fake time.
+		ConvertibleTimestamp::setFakeTime( false );
+	}
+
+	public function testDeleteOrphanedMapRowsForCuPrivateEventRows() {
+		// Record login events and set a fake expiry age.
+		$this->setMwGlobals( [
+			'wgCUDMaxAge' => 100,
+		] );
+		// Add a password reset event twice
+		$hooks = new Hooks();
+		$hooks->onUser__mailPasswordInternal(
+			$this->getTestUser()->getUser(), '1.2.3.4', $this->getTestSysop()->getUser()
+		);
+		$hooks->onUser__mailPasswordInternal(
+			$this->getTestUser()->getUser(), '1.2.3.4', $this->getTestSysop()->getUser()
+		);
+		// Delete the entry with ID 1 to simulate it being purged
+		$this->getDb()->newDeleteQueryBuilder()
+			->table( 'cu_private_event' )
+			->where( [ 'cupe_id' => 1 ] )
+			->execute();
+		// Add two map row entries, with the first having reference ID of 1 and the second having a reference ID of 2.
+		/** @var UserAgentClientHintsManager $userAgentClientHintsManager */
+		$userAgentClientHintsManager = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );
+		$userAgentClientHintsManager->insertClientHintValues(
+			self::getExampleClientHintsDataObjectFromJsApi(), 1, 'privatelog'
+		);
+		$userAgentClientHintsManager->insertClientHintValues(
+			self::getExampleClientHintsDataObjectFromJsApi(), 2, 'privatelog'
+		);
+		$this->assertRowCount(
+			22,
+			'cu_useragent_clienthints_map',
+			'*',
+			'Number of rows in cu_useragent_clienthints_map table before calling the method under test ' .
+			'is not as expected.'
+		);
+		$this->assertSame(
+			11,
+			$userAgentClientHintsManager->deleteOrphanedMapRows(),
+			'UserAgentClientHintsManager::deleteOrphanedMapRows did not return the ' .
+			'expected number of orphaned mapping rows deleted.'
+		);
+		$this->assertRowCount(
+			11,
+			'cu_useragent_clienthints_map',
+			'*',
+			'Number of rows in cu_useragent_clienthints_map table after call to ::deleteOrphanedMapRows is ' .
+			'not as expected.'
+		);
+		$this->assertRowCount(
+			11,
+			'cu_useragent_clienthints_map',
+			'*',
+			'The wrong map rows were marked as orphans and deleted.',
+			[ 'uachm_reference_id' => 2 ],
+		);
 	}
 }

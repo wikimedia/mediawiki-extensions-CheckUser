@@ -44,6 +44,8 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 	public static function provideValidTypes() {
 		return [
 			'Revision type' => [ 'revision', 0 ],
+			'Log type' => [ 'log', 1 ],
+			'Private log type' => [ 'privatelog', 2 ]
 		];
 	}
 
@@ -307,5 +309,13 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 			'No mapping rows should have been deleted, but ::deleteMappingRows reported ' .
 			'deleting some mapping rows.'
 		);
+	}
+
+	public function testIsMapRowOrphanedForInvalidMappingId() {
+		$this->expectException( LogicException::class );
+		$objectToTest = TestingAccessWrapper::newFromObject(
+			$this->newServiceInstance( UserAgentClientHintsManager::class, [] )
+		);
+		$objectToTest->isMapRowOrphaned( 123, 123 );
 	}
 }
