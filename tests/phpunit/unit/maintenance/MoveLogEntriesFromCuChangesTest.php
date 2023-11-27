@@ -22,6 +22,15 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  * @covers \MediaWiki\CheckUser\Maintenance\MoveLogEntriesFromCuChanges
  */
 class MoveLogEntriesFromCuChangesTest extends MediaWikiUnitTestCase {
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function setUp(): void {
+		parent::setUp();
+		ConvertibleTimestamp::setFakeTime( '20231127123058' );
+	}
+
 	public function testGetUpdateKey() {
 		$objectUnderTest = TestingAccessWrapper::newFromObject( new MoveLogEntriesFromCuChanges() );
 		$this->assertSame(
