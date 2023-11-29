@@ -11,7 +11,7 @@
 	"license-name": "GPL-2.0-or-later",
 	"type": "specialpage",
 	"requires": {
-		"MediaWiki": ">= 1.41",
+		"MediaWiki": ">= 1.42.0",
 		"platform": {
 			"ext-openssl": "*"
 		}
@@ -150,9 +150,15 @@
 		},
 		"CheckUserClientHintsValuesToHide": {
 			"value": {
-				"architecture": [ "x86" ],
-				"bitness": [ "64" ],
-				"woW64": [ false ]
+				"architecture": [
+					"x86"
+				],
+				"bitness": [
+					"64"
+				],
+				"woW64": [
+					false
+				]
 			},
 			"description": "An array of the Client Hints data names as keys and an array of values that should be hidden from the interface as the value. This is used to hide commonly seen Client Hint data values in the cases where it isn't helpful."
 		},

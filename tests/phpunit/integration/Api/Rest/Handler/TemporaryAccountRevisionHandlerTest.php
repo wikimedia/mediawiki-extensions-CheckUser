@@ -10,9 +10,9 @@ use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Rest\RequestData;
 use MediaWiki\Tests\Rest\Handler\HandlerTestTrait;
 use MediaWiki\User\ActorStore;
+use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserNameUtils;
-use MediaWiki\User\UserOptionsLookup;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\IPUtils;
 
