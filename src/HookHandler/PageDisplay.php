@@ -5,7 +5,7 @@ namespace MediaWiki\CheckUser\HookHandler;
 use Config;
 use MediaWiki\Hook\BeforePageDisplayHook;
 use MediaWiki\Permissions\PermissionManager;
-use MediaWiki\User\UserOptionsLookup;
+use MediaWiki\User\Options\UserOptionsLookup;
 
 class PageDisplay implements BeforePageDisplayHook {
 	private Config $config;
