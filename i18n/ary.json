@@ -1,8 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
+			"Ideophagous",
 			"Reda Benkhadra"
 		]
 	},
-	"checkuser-all": "كلشي"
+	"checkuser-all": "كلشي",
+	"checkuser-investigate-preliminary-table-header-groups": "لݣروپات"
 }
