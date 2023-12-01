@@ -341,19 +341,20 @@ class UserAgentClientHintsFormatterTest extends MediaWikiUnitTestCase {
 			->onlyMethods( [ 'formatClientHintsDataObject' ] )
 			->getMock();
 		[ $referenceIdsToClientHintsDataIndex, $clientHintsDataObjects ] = $clientHintsLookupResults->getRawData();
-		$withConsecutive = [];
-		$returnConsecutive = [];
+
+		$expectedFormattedClientHints = [];
+		$returnMap = [];
 		foreach ( $clientHintsDataObjects as $key => $clientHintsDataObject ) {
-			$withConsecutive[] = [ $clientHintsDataObject ];
-			$returnConsecutive[$key] = 'formatted result for key ' . $key;
+			$retVal = 'formatted result for key ' . $key;
+			$expectedFormattedClientHints[] = $retVal;
+			$returnMap[] = [ $clientHintsDataObject, $retVal ];
 		}
 		$objectUnderTest->method( 'formatClientHintsDataObject' )
-			->withConsecutive( ...$withConsecutive )
-			->willReturnOnConsecutiveCalls( ...$returnConsecutive );
+			->willReturnMap( $returnMap );
 		$returnedBatchFormatterResults = $objectUnderTest->batchFormatClientHintsData( $clientHintsLookupResults );
 		$returnedBatchFormatterResults = TestingAccessWrapper::newFromObject( $returnedBatchFormatterResults );
 		$this->assertArrayEquals(
-			$returnConsecutive,
+			$expectedFormattedClientHints,
 			$returnedBatchFormatterResults->formattedClientHints,
 			false,
 			true,

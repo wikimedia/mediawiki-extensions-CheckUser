@@ -22,7 +22,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  *
  * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager
  */
-class CheckUserGetUsersPagerTest extends CheckUserPagerCommonUnitTest {
+class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 
 	protected function getPagerClass(): string {
 		return CheckUserGetUsersPager::class;

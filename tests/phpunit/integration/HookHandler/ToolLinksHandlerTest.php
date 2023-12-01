@@ -92,8 +92,10 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		// Mock the PermissionManager to avoid the database
 		$mockPermissionManager = $this->createMock( PermissionManager::class );
 		$mockPermissionManager->method( 'userHasRight' )
-			->withConsecutive( [ $mockPerformingUser, 'checkuser' ], [ $mockPerformingUser, 'checkuser-log' ] )
-			->willReturnOnConsecutiveCalls( $hasCheckUserRight, $hasCheckUserLogRight );
+			->willReturnMap( [
+				[ $mockPerformingUser, 'checkuser', $hasCheckUserRight ],
+				[ $mockPerformingUser, 'checkuser-log', $hasCheckUserLogRight ]
+			] );
 		$userIdentityLookup = $this->createMock( UserIdentityLookup::class );
 		$userIdentityLookup->method( 'getUserIdentityByUserId' )
 			->with( 1 )
@@ -143,21 +145,31 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		// Mock that the LinkRenderer provided via the SpecialPage instance
 		// is called.
 		$mockLinkRenderer = $this->createMock( LinkRenderer::class );
+		$expectedReturnMap = [
+			[
+				SpecialPage::getTitleFor( 'CheckUserLog' ),
+				wfMessage( 'checkuser-contribs-log' )->text(),
+				[ 'class' => 'mw-contributions-link-check-user-log' ],
+				[ 'cuSearch' => $userPageTitle ],
+				'CheckUserLog mocked link'
+			],
+			[
+				SpecialPage::getTitleFor( 'CheckUserLog' ),
+				wfMessage( 'checkuser-contribs-log-initiator' )->text(),
+				[ 'class' => 'mw-contributions-link-check-user-initiator' ],
+				[ 'cuInitiator' => $userPageTitle ],
+				'CheckUserLog initiator mocked link'
+			]
+		];
 		$mockLinkRenderer->method( 'makeKnownLink' )
-			->withConsecutive(
-				[
-					SpecialPage::getTitleFor( 'CheckUserLog' ),
-					wfMessage( 'checkuser-contribs-log' )->text(),
-					[ 'class' => 'mw-contributions-link-check-user-log' ],
-					[ 'cuSearch' => $userPageTitle ]
-				],
-				[
-					SpecialPage::getTitleFor( 'CheckUserLog' ),
-					wfMessage( 'checkuser-contribs-log-initiator' )->text(),
-					[ 'class' => 'mw-contributions-link-check-user-initiator' ],
-					[ 'cuInitiator' => $userPageTitle ]
-				]
-			)->willReturnOnConsecutiveCalls( 'CheckUserLog mocked link', 'CheckUserLog initiator mocked link' );
+			->willReturnCallback( function ( $target, $text, $extraAttribs, $query ) use ( &$expectedReturnMap ) {
+				$curExpected = array_shift( $expectedReturnMap );
+				$this->assertEquals( $curExpected[0], $target );
+				$this->assertSame( $curExpected[1], $text );
+				$this->assertSame( $curExpected[2], $extraAttribs );
+				$this->assertSame( $curExpected[3], $query );
+				return $curExpected[4];
+			} );
 		$mockUserIdentityUtils = $this->createMock( UserIdentityUtils::class );
 		$mockUserIdentityUtils->method( 'isNamed' )
 			->with( $userPageTitle )

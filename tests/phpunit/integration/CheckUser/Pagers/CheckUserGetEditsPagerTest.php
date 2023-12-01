@@ -22,7 +22,7 @@ use MediaWiki\User\UserIdentityValue;
  *
  * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetEditsPager
  */
-class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
+class CheckUserGetEditsPagerTest extends CheckUserPagerTestBase {
 
 	protected function setUp(): void {
 		parent::setUp();

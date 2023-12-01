@@ -226,12 +226,13 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 		$dbwMock = $this->createMock( IDatabase::class );
 		$dbwMock->method( 'newSelectQueryBuilder' )->willReturnCallback( fn() => new SelectQueryBuilder( $dbwMock ) );
 		$dbwMock->method( 'newDeleteQueryBuilder' )->willReturnCallback( fn() => new DeleteQueryBuilder( $dbwMock ) );
-		$dbwDeleteWithConsecutive = [];
+		$dbwDeleteExpectedArgs = [];
+		$dbwAffectedRowsConsecutiveReturn = [];
 		// Test cases that the DB methods are called as appropriate.
 		$idsCount = 0;
 		foreach ( $referenceIds as $type => $ids ) {
 			$idsCount += count( $ids );
-			$dbwDeleteWithConsecutive[] = [
+			$dbwDeleteExpectedArgs[] = [
 				'cu_useragent_clienthints_map',
 				[
 					'uachm_reference_id' => $ids,
@@ -243,7 +244,9 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 		}
 		$dbwMock
 			->method( 'delete' )
-			->withConsecutive( ...$dbwDeleteWithConsecutive );
+			->willReturnCallback( function ( ...$args ) use ( &$dbwDeleteExpectedArgs ) {
+				$this->assertSame( array_shift( $dbwDeleteExpectedArgs ), $args );
+			} );
 		$dbwMock
 			->method( 'affectedRows' )
 			->willReturnOnConsecutiveCalls( ...$dbwAffectedRowsConsecutiveReturn );
