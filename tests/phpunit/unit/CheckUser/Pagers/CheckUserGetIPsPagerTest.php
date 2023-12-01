@@ -22,7 +22,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  *
  * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager
  */
-class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
+class CheckUserGetIPsPagerTest extends CheckUserPagerUnitTestBase {
 
 	/** @inheritDoc */
 	protected function getPagerClass(): string {
@@ -232,19 +232,20 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
 			->getMock();
 		if ( $eventTableMigrationStage & SCHEMA_COMPAT_READ_OLD ) {
 			$tables = [ 'cu_changes' ];
-			$withConsecutive = [ [ '127.0.0.1', 'cu_changes' ] ];
+			$returnMap = [
+				[ '127.0.0.1', 'cu_changes', $cuChangesCount ]
+			];
 		} else {
 			$tables = [ 'cu_changes', 'cu_log_event', 'cu_private_event' ];
-			$withConsecutive = [
-				[ '127.0.0.1', 'cu_changes' ],
-				[ '127.0.0.1', 'cu_log_event' ],
-				[ '127.0.0.1', 'cu_private_event' ],
+			$returnMap = [
+				[ '127.0.0.1', 'cu_changes', $cuChangesCount ],
+				[ '127.0.0.1', 'cu_log_event', $cuLogEventCount ],
+				[ '127.0.0.1', 'cu_private_event', $cuPrivateEventCount ],
 			];
 		}
 		$object->expects( $this->exactly( count( $tables ) ) )
 			->method( 'getCountForIPActionsPerTable' )
-			->withConsecutive( ...$withConsecutive )
-			->willReturnOnConsecutiveCalls( $cuChangesCount, $cuLogEventCount, $cuPrivateEventCount );
+			->willReturnMap( $returnMap );
 		$object = TestingAccessWrapper::newFromObject( $object );
 		$object->eventTableReadNew = boolval( $eventTableMigrationStage & SCHEMA_COMPAT_READ_NEW );
 		$this->assertSame(
@@ -368,7 +369,7 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
 		}
 		// Mock estimateRowCount
 		$dbrMock->method( 'estimateRowCount' )
-			->withConsecutive(
+			->willReturnMap( [
 				// Mock call for actions on IP
 				[
 					[ $table ],
@@ -377,6 +378,7 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
 					'MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager::getCountForIPActionsPerTable',
 					[],
 					[],
+					$estimatedCounts[0],
 				],
 				// Mock call for actions on IP performed by the target user (ID 1)
 				[
@@ -392,27 +394,26 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
 					[ "{$table}_actor" => [
 						'JOIN', "{$table}_actor.actor_id = {$tablePrefix}actor"
 					] ],
+					$estimatedCounts[1],
 				]
-			)
-			->willReturnOnConsecutiveCalls( ...$estimatedCounts );
+			] );
 		if ( $actualCounts ) {
-			$dbrWithConsecutiveSelectRowCount = [];
-			$dbrReturnConsecutiveSelectRowCount = [];
+			$rowCountReturnMap = [];
 			if ( $actualCounts[0] ) {
 				// Mock call for actions on IP
-				$dbrWithConsecutiveSelectRowCount[] = [
+				$rowCountReturnMap[] = [
 					[ $table ],
 					'*',
 					$conds,
 					'MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager::getCountForIPActionsPerTable',
 					[],
 					[],
+					$actualCounts[0],
 				];
-				$dbrReturnConsecutiveSelectRowCount[] = $actualCounts[0];
 			}
 			if ( $actualCounts[1] ) {
 				// Mock call for actions on IP performed by the target user (ID 1)
-				$dbrWithConsecutiveSelectRowCount[] = [
+				$rowCountReturnMap[] = [
 					[ $table, "{$table}_actor" => 'actor' ],
 					'*',
 					array_merge(
@@ -425,13 +426,12 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerCommonUnitTest {
 					[ "{$table}_actor" => [
 						'JOIN', "{$table}_actor.actor_id = {$tablePrefix}actor"
 					] ],
+					$actualCounts[1],
 				];
-				$dbrReturnConsecutiveSelectRowCount[] = $actualCounts[1];
 			}
 			// Mock fetchRowCount
 			$dbrMock->method( 'selectRowCount' )
-				->withConsecutive( ...$dbrWithConsecutiveSelectRowCount )
-				->willReturnOnConsecutiveCalls( ...$dbrReturnConsecutiveSelectRowCount );
+				->willReturnMap( $rowCountReturnMap );
 		}
 		$object->mDb = $dbrMock;
 		$object = TestingAccessWrapper::newFromObject( $object );

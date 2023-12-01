@@ -9,7 +9,7 @@ use MediaWiki\Tests\Unit\Libs\Rdbms\AddQuoterMock;
 use MediaWikiUnitTestCase;
 use Wikimedia\TestingAccessWrapper;
 
-abstract class CheckUserPagerCommonUnitTest extends MediaWikiUnitTestCase {
+abstract class CheckUserPagerUnitTestBase extends MediaWikiUnitTestCase {
 
 	/**
 	 * Gets the name of the Pager class currently under test.

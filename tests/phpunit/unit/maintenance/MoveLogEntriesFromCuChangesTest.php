@@ -127,36 +127,28 @@ class MoveLogEntriesFromCuChangesTest extends MediaWikiUnitTestCase {
 		// Expect that select queries are made that get the minimum and maximum cuc_id
 		// in the cu_changes table, and mock the return value to that provided via the
 		// data provider.
+		$fieldReturnMap = [
+			'MIN(cuc_id)' => $minCucId,
+			'MAX(cuc_id)' => $maxCucId,
+		];
 		$dbwMock->method( 'selectField' )
-			->withConsecutive(
-				[
-					[ 'cu_changes' ],
-					'MIN(cuc_id)',
-					[],
-					'MediaWiki\CheckUser\Maintenance\MoveLogEntriesFromCuChanges::moveLogEntriesFromCuChanges',
-					[],
-					[]
-				],
-				[
-					[ 'cu_changes' ],
-					'MAX(cuc_id)',
-					[],
-					'MediaWiki\CheckUser\Maintenance\MoveLogEntriesFromCuChanges::moveLogEntriesFromCuChanges',
-					[],
-					[]
-				]
-			)->willReturnOnConsecutiveCalls( $minCucId, $maxCucId );
+			->willReturnCallback( function ( $table, $field ) use ( &$fieldReturnMap ) {
+				$this->assertSame( [ 'cu_changes' ], $table );
+				$this->assertArrayHasKey( $field, $fieldReturnMap );
+				$ret = $fieldReturnMap[$field];
+				unset( $fieldReturnMap[$field] );
+				return $ret;
+			} );
 		// Expect that:
 		// * Select queries are made to get the data to move from cu_changes
 		// * Insert queries are made to add this data to cu_private_event
 		// * Update queries are made to update the successfully moved data
 		//   in cu_changes to only be used for read old.
-		$dbwSelectWithConsecutive = [];
-		$dbwSelectReturnConsecutive = [];
-		$dbwInsertWithConsecutive = [];
-		$dbwUpdateWithConsecutive = [];
+		$dbwSelectReturnMap = [];
+		$dbwInsertExpectedArgs = [];
+		$dbwUpdateExpectedArgs = [];
 		foreach ( $expectedBatches as $index => $batch ) {
-			$dbwSelectWithConsecutive[] = [
+			$dbwSelectReturnMap[] = [
 				[ 'cu_changes' ],
 				[
 					'cuc_id',
@@ -181,11 +173,11 @@ class MoveLogEntriesFromCuChangesTest extends MediaWikiUnitTestCase {
 				],
 				'MediaWiki\CheckUser\Maintenance\MoveLogEntriesFromCuChanges::moveLogEntriesFromCuChanges',
 				[],
-				[]
+				[],
+				new FakeResultWrapper( $cuChangesLogRows[$index] )
 			];
-			$dbwSelectReturnConsecutive[] = new FakeResultWrapper( $cuChangesLogRows[$index] );
 			if ( count( $cuChangesLogRows[$index] ) ) {
-				$dbwUpdateWithConsecutive[] = [
+				$dbwUpdateExpectedArgs[] = [
 					'cu_changes',
 					[ 'cuc_only_for_read_old' => 1 ],
 					[
@@ -201,7 +193,7 @@ class MoveLogEntriesFromCuChangesTest extends MediaWikiUnitTestCase {
 				];
 			}
 			if ( count( $expectedCuPrivateRows[$index] ) ) {
-				$dbwInsertWithConsecutive[] = [
+				$dbwInsertExpectedArgs[] = [
 					'cu_private_event',
 					$expectedCuPrivateRows[$index],
 					'MediaWiki\CheckUser\Maintenance\MoveLogEntriesFromCuChanges::moveLogEntriesFromCuChanges',
@@ -210,18 +202,21 @@ class MoveLogEntriesFromCuChangesTest extends MediaWikiUnitTestCase {
 			}
 		}
 		// Expect that the SelectQueryBuilder::fetchResultSet is called.
-		$dbwMock->expects( $this->exactly( count( $dbwSelectWithConsecutive ) ) )
+		$dbwMock->expects( $this->exactly( count( $dbwSelectReturnMap ) ) )
 			->method( 'select' )
-			->withConsecutive( ...$dbwSelectWithConsecutive )
-			->willReturnOnConsecutiveCalls( ...$dbwSelectReturnConsecutive );
+			->willReturnMap( $dbwSelectReturnMap );
 		// Expect that the InsertQueryBuilder::execute method is called.
-		$dbwMock->expects( $this->exactly( count( $dbwInsertWithConsecutive ) ) )
+		$dbwMock->expects( $this->exactly( count( $dbwInsertExpectedArgs ) ) )
 			->method( 'insert' )
-			->withConsecutive( ...$dbwInsertWithConsecutive );
+			->willReturnCallback( function ( ...$args ) use ( &$dbwInsertExpectedArgs ) {
+				$this->assertSame( array_shift( $dbwInsertExpectedArgs ), $args );
+			} );
 		// Expect that the UpdateQueryBuilder::execute method is called.
-		$dbwMock->expects( $this->exactly( count( $dbwUpdateWithConsecutive ) ) )
+		$dbwMock->expects( $this->exactly( count( $dbwUpdateExpectedArgs ) ) )
 			->method( 'update' )
-			->withConsecutive( ...$dbwUpdateWithConsecutive );
+			->willReturnCallback( function ( ...$args ) use ( &$dbwUpdateExpectedArgs ) {
+				$this->assertSame( array_shift( $dbwUpdateExpectedArgs ), $args );
+			} );
 		$objectUnderTest = $this->getMockBuilder( MoveLogEntriesFromCuChanges::class )
 			->onlyMethods( [ 'getDB', 'waitForReplication', 'output' ] )
 			->getMock();
@@ -347,15 +342,15 @@ class MoveLogEntriesFromCuChangesTest extends MediaWikiUnitTestCase {
 	private static function getExpectedCuPrivateRow( array $row = [] ): array {
 		// If modifying this, keep it consistent with ::getCuChangesRow
 		return array_merge( [
+			'cupe_timestamp' => ConvertibleTimestamp::now(),
 			'cupe_namespace' => NS_MAIN,
 			'cupe_title' => 'Test',
 			'cupe_actor' => 2,
-			'cupe_comment_id' => 2,
 			'cupe_page' => 3,
 			'cupe_log_action' => 'migrated-cu_changes-log-event',
 			'cupe_log_type' => 'checkuser-private-event',
 			'cupe_params' => LogEntryBase::makeParamBlob( [ '4::actiontext' => 'Testing' ] ),
-			'cupe_timestamp' => ConvertibleTimestamp::now(),
+			'cupe_comment_id' => 2,
 			'cupe_ip' => '127.0.0.1',
 			'cupe_ip_hex' => IPUtils::toHex( '127.0.0.1' ),
 			'cupe_xff' => '',

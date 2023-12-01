@@ -14,7 +14,7 @@ use Wikimedia\IPUtils;
  *
  * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager
  */
-class CheckUserGetIPsPagerTest extends CheckUserPagerCommonTest {
+class CheckUserGetIPsPagerTest extends CheckUserPagerTestBase {
 
 	protected function setUp(): void {
 		parent::setUp();

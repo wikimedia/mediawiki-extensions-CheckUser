@@ -21,7 +21,7 @@ use Wikimedia\TestingAccessWrapper;
  *
  * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetEditsPager
  */
-class CheckUserGetEditsPagerTest extends CheckUserPagerCommonUnitTest {
+class CheckUserGetEditsPagerTest extends CheckUserPagerUnitTestBase {
 
 	/** @inheritDoc */
 	protected function getPagerClass(): string {

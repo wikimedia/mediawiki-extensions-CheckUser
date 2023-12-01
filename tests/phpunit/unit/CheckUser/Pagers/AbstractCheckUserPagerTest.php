@@ -352,16 +352,7 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
 			# Mock ::getQueryInfo to return the query info for each three queries in turn.
 			$object->method( 'getQueryInfo' )
-				->withConsecutive(
-					[ CheckUserQueryInterface::CHANGES_TABLE ],
-					[ CheckUserQueryInterface::LOG_EVENT_TABLE ],
-					[ CheckUserQueryInterface::PRIVATE_LOG_EVENT_TABLE ]
-				)
-				->willReturnOnConsecutiveCalls(
-					$mockedQueryInfo[CheckUserQueryInterface::CHANGES_TABLE],
-					$mockedQueryInfo[CheckUserQueryInterface::LOG_EVENT_TABLE],
-					$mockedQueryInfo[CheckUserQueryInterface::PRIVATE_LOG_EVENT_TABLE]
-				);
+				->willReturnCallback( static fn ( $table ) => $mockedQueryInfo[$table] );
 		} else {
 			# Mock ::getQueryInfo to return the query info only for cu_changes.
 			$object->method( 'getQueryInfo' )
@@ -541,23 +532,26 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 				->willReturn( [
 					$mockedQueryInfoForCuChanges, $mockedQueryInfoForCuLogEvent, $mockedQueryInfoForCuPrivateEvent
 				] );
+			$expectedSelects = [ 'cu_changes' => true, 'cu_log_event' => true, 'cu_private_event' => true ];
 			$mockDb->expects( $this->exactly( 3 ) )
 				->method( 'select' )
-				->withConsecutive(
-					$mockedQueryInfoForCuChanges, $mockedQueryInfoForCuLogEvent, $mockedQueryInfoForCuPrivateEvent
-				)
-				->willReturnOnConsecutiveCalls(
-					$fakeResults[CheckUserQueryInterface::CHANGES_TABLE],
-					$fakeResults[CheckUserQueryInterface::LOG_EVENT_TABLE],
-					$fakeResults[CheckUserQueryInterface::PRIVATE_LOG_EVENT_TABLE]
-				);
+				->willReturnCallback( function ( $tables, $vars, $_, $fname ) use ( &$expectedSelects, $fakeResults ) {
+					$this->assertIsArray( $tables );
+					$this->assertCount( 1, $tables );
+					$table = $tables[0];
+					$this->assertArrayHasKey( $table, $expectedSelects );
+					unset( $expectedSelects[$table] );
+					$this->assertSame( [ 'timestamp' ], $vars );
+					$this->assertSame( 'fname', $fname );
+					return $fakeResults[$table];
+				} );
 		} else {
 			$object->expects( $this->once() )
 				->method( 'buildQueryInfo' )
 				->willReturn( [ $mockedQueryInfoForCuChanges ] );
 			$mockDb->expects( $this->once() )
 				->method( 'select' )
-				->withConsecutive( $mockedQueryInfoForCuChanges )
+				->with( ...$mockedQueryInfoForCuChanges )
 				->willReturn( $fakeResults[CheckUserQueryInterface::CHANGES_TABLE] );
 		}
 		$object->mDb = $mockDb;

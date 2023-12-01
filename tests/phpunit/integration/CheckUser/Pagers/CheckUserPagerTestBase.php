@@ -7,7 +7,7 @@ use MediaWiki\User\UserIdentity;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\TestingAccessWrapper;
 
-abstract class CheckUserPagerCommonTest extends MediaWikiIntegrationTestCase {
+abstract class CheckUserPagerTestBase extends MediaWikiIntegrationTestCase {
 
 	/** @var string One of the SpecialCheckUser::SUBTYPE_... constants */
 	protected $checkSubtype;
