@@ -2,20 +2,28 @@
 
 namespace MediaWiki\CheckUser\Services;
 
+use DatabaseLogEntry;
 use LogicException;
 use MediaWiki\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
+use MediaWiki\Config\ServiceOptions;
+use MediaWiki\Revision\RevisionLookup;
 use Psr\Log\LoggerInterface;
 use StatusValue;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\IReadableDatabase;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * Service to insert and delete user-agent client hint values and their associations with rows in cu_changes,
  * cu_log_event and cu_private_event.
  */
 class UserAgentClientHintsManager {
+
+	public const CONSTRUCTOR_OPTIONS = [
+		'CUDMaxAge',
+	];
 
 	public const SUPPORTED_TYPES = [
 		'revision',
@@ -43,17 +51,27 @@ class UserAgentClientHintsManager {
 	];
 	private IDatabase $dbw;
 	private IReadableDatabase $dbr;
+	private RevisionLookup $revisionLookup;
+	private ServiceOptions $options;
 	private LoggerInterface $logger;
 
 	/**
 	 * @param IConnectionProvider $connectionProvider
+	 * @param RevisionLookup $revisionLookup
+	 * @param ServiceOptions $options
 	 * @param LoggerInterface $logger
 	 */
 	public function __construct(
-		IConnectionProvider $connectionProvider, LoggerInterface $logger
+		IConnectionProvider $connectionProvider,
+		RevisionLookup $revisionLookup,
+		ServiceOptions $options,
+		LoggerInterface $logger
 	) {
+		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
+		$this->options = $options;
 		$this->dbw = $connectionProvider->getPrimaryDatabase();
 		$this->dbr = $connectionProvider->getReplicaDatabase();
+		$this->revisionLookup = $revisionLookup;
 		$this->logger = $logger;
 	}
 
@@ -125,6 +143,10 @@ class UserAgentClientHintsManager {
 		switch ( $type ) {
 			case 'revision':
 				return self::IDENTIFIER_CU_CHANGES;
+			case 'log':
+				return self::IDENTIFIER_CU_LOG_EVENT;
+			case 'privatelog':
+				return self::IDENTIFIER_CU_PRIVATE_EVENT;
 			default:
 				throw new LogicException( "Invalid type $type" );
 		}
@@ -219,6 +241,126 @@ class UserAgentClientHintsManager {
 			);
 		}
 		return $mappingRowsDeleted;
+	}
+
+	/**
+	 * Checks 100 rows with the smallest uachm_reference_id
+	 * for each uachm_reference_type value to see whether their
+	 * associated entry referenced by the uachm_reference_id
+	 * value has been already purged.
+	 *
+	 * If it reaches an entry that is not orphaned, the checks are
+	 * stopped as items with a larger reference ID are unlikely to
+	 * be orphaned.
+	 *
+	 * This catches rows that have been left without deletion
+	 * due to unforeseen circumstances, as described in T350681.
+	 *
+	 * @return int The number of orphaned map rows deleted.
+	 */
+	public function deleteOrphanedMapRows(): int {
+		// Keep a track of the number of mapping rows that are deleted.
+		$mappingRowsDeleted = 0;
+		foreach ( self::IDENTIFIER_TO_TABLE_NAME_MAP as $mappingId => $table ) {
+			// Get 100 rows with the given mapping ID
+			$resultSet = $this->dbr->newSelectQueryBuilder()
+				->select( 'uachm_reference_id' )
+				->table( 'cu_useragent_clienthints_map' )
+				->where( [ 'uachm_reference_type' => $mappingId ] )
+				->orderBy( 'uachm_reference_id' )
+				->groupBy( 'uachm_reference_id' )
+				->limit( 100 )
+				->caller( __METHOD__ )
+				->fetchResultSet();
+			foreach ( $resultSet as $row ) {
+				// For each row, check if the ::isMapRowOrphaned method
+				// indicates that the row is orphaned.
+				$referenceId = $row->uachm_reference_id;
+				$mapRowIsOrphaned = $this->isMapRowOrphaned( $referenceId, $mappingId );
+				if ( $mapRowIsOrphaned ) {
+					// If the map row is orphaned, then perform the deletion
+					// and add the affected rows count to the return count.
+					$this->dbw->newDeleteQueryBuilder()
+						->deleteFrom( 'cu_useragent_clienthints_map' )
+						->where( [
+							'uachm_reference_id' => $referenceId,
+							'uachm_reference_type' => $mappingId,
+						] )
+						->caller( __METHOD__ )
+						->execute();
+					$mappingRowsDeleted += $this->dbw->affectedRows();
+				} else {
+					// If the map row is probably not orphaned, then just stop processing
+					// the rows in this table.
+					break;
+				}
+			}
+		}
+		if ( $mappingRowsDeleted ) {
+			$this->logger->info(
+				"Deleted {mapping_rows_deleted} orphaned mapping rows.",
+				[ 'mapping_rows_deleted' => $mappingRowsDeleted ]
+			);
+		}
+		return $mappingRowsDeleted;
+	}
+
+	/**
+	 * Returns whether rows with the given $referenceId and $mappingId
+	 * in cu_useragent_clienthints_map are likely orphaned.
+	 *
+	 * @param int $referenceId
+	 * @param int $mappingId
+	 * @return bool
+	 */
+	private function isMapRowOrphaned( int $referenceId, int $mappingId ): bool {
+		if ( !array_key_exists( $mappingId, self::IDENTIFIER_TO_TABLE_NAME_MAP ) ) {
+			throw new LogicException( "Unrecognised map ID '$mappingId'" );
+		}
+		if ( !in_array( $mappingId, [ self::IDENTIFIER_CU_LOG_EVENT, self::IDENTIFIER_CU_CHANGES ] ) ) {
+			// If the mapping ID is not for cu_changes or cu_log_event,
+			// query the table directly to check if the associated reference ID
+			// exists in the table.
+			return !$this->dbr->newSelectQueryBuilder()
+				->field( '1' )
+				->table( self::IDENTIFIER_TO_TABLE_NAME_MAP[$mappingId] )
+				->where( [ self::IDENTIFIER_TO_COLUMN_NAME_MAP[$mappingId] => $referenceId ] )
+				->caller( __METHOD__ )
+				->fetchField();
+		}
+		// If the mapping ID is for cu_changes or cu_log_event,
+		// then query the revision table or logging table respectively
+		// for the associated timestamp to determine if the map
+		// row should have already been deleted.
+		$associatedTimestamp = false;
+		if ( $mappingId === self::IDENTIFIER_CU_CHANGES ) {
+			// Get the timestamp from the revision lookup service
+			$revisionRecord = $this->revisionLookup->getRevisionById( $referenceId );
+			if ( $revisionRecord ) {
+				$associatedTimestamp = $revisionRecord->getTimestamp();
+			}
+		} elseif ( $mappingId === self::IDENTIFIER_CU_LOG_EVENT ) {
+			// Get the timestamp from using DatabaseLogEntry::newFromId
+			$logObject = DatabaseLogEntry::newFromId( $referenceId, $this->dbr );
+			if ( $logObject ) {
+				$associatedTimestamp = $logObject->getTimestamp();
+			}
+		}
+		// The map rows are considered orphaned if of the following any apply:
+		// * There is no timestamp for the revision or log event (should be generally impossible for this
+		//   to be the case).
+		// * No such reference ID exists (i.e. no such revision ID or log ID)
+		// * The timestamp associated with the revision or log event is before the
+		//   wgCUDMaxAge + 100 seconds ago to the current time.
+		//
+		// The 100 seconds are added to wgCUDMaxAge to prevent attempting to delete map rows
+		// that would have been normally deleted. This code is intended to catch map rows that
+		// were not deleted normally.
+		return !$associatedTimestamp ||
+			$associatedTimestamp < ConvertibleTimestamp::convert(
+				TS_MW,
+				ConvertibleTimestamp::time() - ( $this->options->get( 'CUDMaxAge' ) + 100 )
+			);
 	}
 
 	/**
