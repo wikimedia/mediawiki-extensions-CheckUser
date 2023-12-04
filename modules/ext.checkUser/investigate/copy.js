@@ -8,8 +8,6 @@ module.exports = function addCopyFeature() {
 		requested = false;
 
 	function onWikitextButtonClick() {
-		var url, html;
-
 		function getSanitizedHtml( $table ) {
 			$table = $table.clone();
 
@@ -41,12 +39,11 @@ module.exports = function addCopyFeature() {
 			copyTextLayout.toggle( true );
 		}
 
-		url = mw.util.wikiScript( 'rest' ) + '/v1/transform/html/to/wikitext/';
-		html = getSanitizedHtml( $( '.ext-checkuser-investigate-table-compare' ) );
-
 		if ( !requested ) {
 			copyTextLayout.textInput.pushPending();
-			$.ajax( url, { data: { html: html }, type: 'POST' } ).then( function ( data ) {
+			var restApi = new mw.Rest();
+			var html = getSanitizedHtml( $( '.ext-checkuser-investigate-table-compare' ) );
+			restApi.post( '/v1/transform/html/to/wikitext/', { html: html } ).then( function ( data ) {
 				copyTextLayout.textInput.popPending();
 				copyTextLayout.textInput.setValue( data );
 			} );
