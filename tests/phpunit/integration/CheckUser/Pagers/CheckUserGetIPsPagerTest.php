@@ -91,4 +91,16 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerTestBase {
 			'last' => $this->db->timestamp(),
 		];
 	}
+
+	public function testUserBlockFlagsTorExitNode() {
+		$this->markTestSkippedIfExtensionNotLoaded( 'TorBlock' );
+		$object = $this->setUpObject();
+		// TEST-NET-1
+		$ip = '192.0.2.111';
+		$this->assertSame(
+			'<strong>(' . wfMessage( 'checkuser-torexitnode' )->escaped() . ')</strong>',
+			$object->getIPBlockInfo( $ip ),
+			'The checkuser-torexitnode message should have been returned; the IP was not detected as an exit node'
+		);
+	}
 }

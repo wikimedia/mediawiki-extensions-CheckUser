@@ -78,6 +78,7 @@
 	"checkuser-blocked": "Blocked",
 	"checkuser-gblocked": "Blocked globally",
 	"checkuser-locked": "Locked",
+	"checkuser-torexitnode": "Tor exit node",
 	"checkuser-wasblocked": "Previously blocked",
 	"checkuser-localonly": "Not unified",
 	"checkuser-massblock": "Block selected users",

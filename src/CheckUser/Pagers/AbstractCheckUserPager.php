@@ -14,6 +14,7 @@ use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlocking;
+use MediaWiki\Extension\TorBlock\TorExitNodes;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Html\Html;
 use MediaWiki\Html\TemplateParser;
@@ -395,6 +396,13 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		) {
 			// Globally blocked IP
 			$flags[] = '<strong>(' . $this->msg( 'checkuser-gblocked' )->escaped() . ')</strong>';
+		} elseif (
+			$ip == $user->getName() &&
+			ExtensionRegistry::getInstance()->isLoaded( 'TorBlock' ) &&
+			TorExitNodes::isExitNode( $ip )
+		) {
+			// Tor exit node
+			$flags[] = Html::rawElement( 'strong', [], '(' . $this->msg( 'checkuser-torexitnode' )->escaped() . ')' );
 		} elseif ( $this->userWasBlocked( $user->getName() ) ) {
 			// Previously blocked
 			$blocklog = $this->getLinkRenderer()->makeKnownLink(
