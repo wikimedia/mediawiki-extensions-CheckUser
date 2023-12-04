@@ -130,9 +130,6 @@ class PurgeOldData extends Maintenance {
 		$mappingRowsDeleted = 0;
 		if ( $shouldDeleteAssociatedClientData ) {
 			$mappingRowsDeleted = $userAgentClientHintsManager->deleteMappingRows( $clientHintReferenceIds );
-			if ( $mappingRowsDeleted ) {
-				$this->commitTransaction( $dbw, __METHOD__ );
-			}
 			$mappingRowsDeleted += $userAgentClientHintsManager->deleteOrphanedMapRows();
 		}
 
