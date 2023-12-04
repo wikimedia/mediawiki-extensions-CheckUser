@@ -8,7 +8,7 @@ use stdClass;
 interface SpecialCheckUserGetLinksFromRowHook {
 	/**
 	 * A hook that is used to modify the generated links
-	 * shown for an entry in the 'Get edits' check type. Any
+	 * shown for an entry in the 'Get actions' check type. Any
 	 * added strings to &$links must be properly escaped.
 	 * Keys can be used in the array for convenience, but these
 	 * are not used in the resulting output.

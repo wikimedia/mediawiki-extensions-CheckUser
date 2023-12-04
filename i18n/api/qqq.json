@@ -11,7 +11,7 @@
 	"apihelp-query+checkuser-summary": "{{doc-apihelp-summary|query+checkuser}}",
 	"apihelp-query+checkuser-param-request": "{{doc-apihelp-param|query+checkuser|request}}",
 	"apihelp-query+checkuser-paramvalue-request-userips": "{{doc-apihelp-paramvalue|query+checkuser|request|userips}}",
-	"apihelp-query+checkuser-paramvalue-request-edits": "{{doc-apihelp-paramvalue|query+checkuser|request|edits}}",
+	"apihelp-query+checkuser-paramvalue-request-actions": "{{doc-apihelp-paramvalue|query+checkuser|request|actions}}",
 	"apihelp-query+checkuser-paramvalue-request-ipusers": "{{doc-apihelp-paramvalue|query+checkuser|request|ipusers}}",
 	"apihelp-query+checkuser-param-target": "{{doc-apihelp-param|query+checkuser|target}}",
 	"apihelp-query+checkuser-param-reason": "{{doc-apihelp-param|query+checkuser|reason}}",

@@ -46,7 +46,7 @@ use Wikimedia\AtEase\AtEase;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 
-class CheckUserGetEditsPager extends AbstractCheckUserPager {
+class CheckUserGetActionsPager extends AbstractCheckUserPager {
 
 	/**
 	 * @var string[] Used to cache frequently used messages
@@ -142,7 +142,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 			$userGroupManager, $centralIdLookup, $dbProvider, $specialPageFactory,
 			$userIdentityLookup, $actorMigration, $checkUserLogService, $userFactory,
 			$context, $linkRenderer, $limit );
-		$this->checkType = SpecialCheckUser::SUBTYPE_GET_EDITS;
+		$this->checkType = SpecialCheckUser::SUBTYPE_GET_ACTIONS;
 		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
 		$this->xfor = $xfor;
 		$this->linkBatchFactory = $linkBatchFactory;
@@ -248,7 +248,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 			);
 		}
 
-		return $this->templateParser->processTemplate( 'GetEditsLine', $templateParams );
+		return $this->templateParser->processTemplate( 'GetActionsLine', $templateParams );
 	}
 
 	/**
@@ -636,7 +636,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	/** @inheritDoc */
 	protected function getStartBody(): string {
 		return $this->getCheckUserHelperFieldsetHTML() . $this->getNavigationBar()
-			. '<div id="checkuserresults" class="mw-checkuser-get-edits-results">';
+			. '<div id="checkuserresults" class="mw-checkuser-get-actions-results mw-checkuser-get-edits-results">';
 	}
 
 	/** @inheritDoc */
@@ -722,7 +722,7 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	}
 
 	/**
-	 * Always show the navigation bar on the 'Get edits' screen
+	 * Always show the navigation bar on the 'Get actions' screen
 	 * so that the user can reduce the size of the page if they
 	 * are interested in one or two items from the top. The only
 	 * exception to this is when there are no results.

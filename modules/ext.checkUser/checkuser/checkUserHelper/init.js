@@ -50,7 +50,7 @@ function init() {
  * it in the summary table. Called by the init function.
  */
 function generateAndDisplayData() {
-	const showCounts = $( '.mw-checkuser-get-edits-results' ).length !== 0;
+	const showCounts = $( '.mw-checkuser-get-actions-results' ).length !== 0;
 	generateData().then( ( data ) => {
 		createTable( data, showCounts );
 		addCopyElement( createTableText( data, showCounts ) );

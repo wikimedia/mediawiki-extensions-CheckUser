@@ -17,6 +17,7 @@ use MediaWiki\Title\Title;
 use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\IPUtils;
 use Wikimedia\ParamValidator\ParamValidator;
+use Wikimedia\ParamValidator\TypeDef\EnumDef;
 use Wikimedia\ParamValidator\TypeDef\IntegerDef;
 
 /**
@@ -139,6 +140,14 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				break;
 
 			case 'edits':
+				$this->addDeprecation(
+					[
+						'apiwarn-deprecation-withreplacement', 'curequest=edits', 'curequest=actions'
+					],
+					'curequest=edits'
+				);
+				// fall-through for now, eventually delete the entire case statement
+			case 'actions':
 				if ( IPUtils::isIPAddress( $target ) ) {
 					$cond = AbstractCheckUserPager::getIpConds( $dbr, $target, isset( $xff ) );
 					if ( !$cond ) {
@@ -327,9 +336,15 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				ParamValidator::PARAM_TYPE => [
 					'userips',
 					'edits',
+					'actions',
 					'ipusers',
 				],
-				ApiBase::PARAM_HELP_MSG_PER_VALUE => [],
+				ApiBase::PARAM_HELP_MSG_PER_VALUE => [
+					'edits' => 'apihelp-query+checkuser-paramvalue-request-actions'
+				],
+				EnumDef::PARAM_DEPRECATED_VALUES => [
+					'edits' => true,
+				]
 			],
 			'target'   => [
 				ParamValidator::PARAM_REQUIRED => true,
@@ -354,7 +369,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 		return [
 			'action=query&list=checkuser&curequest=userips&cutarget=Jimbo_Wales'
 				=> 'apihelp-query+checkuser-example-1',
-			'action=query&list=checkuser&curequest=edits&cutarget=127.0.0.1/16&xff=1&cureason=Some_check'
+			'action=query&list=checkuser&curequest=actions&cutarget=127.0.0.1/16&xff=1&cureason=Some_check'
 				=> 'apihelp-query+checkuser-example-2',
 		];
 	}

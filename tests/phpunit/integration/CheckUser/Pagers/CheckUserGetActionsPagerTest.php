@@ -17,14 +17,14 @@ use MediaWiki\User\UserIdentityValue;
 use Wikimedia\IPUtils;
 
 /**
- * Test class for CheckUserGetEditsPager class
+ * Test class for CheckUserGetActionsPager class
  *
  * @group CheckUser
  * @group Database
  *
- * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetEditsPager
+ * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetActionsPager
  */
-class CheckUserGetEditsPagerTest extends CheckUserPagerTestBase {
+class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -37,7 +37,7 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerTestBase {
 			]
 		);
 
-		$this->checkSubtype = SpecialCheckUser::SUBTYPE_GET_EDITS;
+		$this->checkSubtype = SpecialCheckUser::SUBTYPE_GET_ACTIONS;
 		$this->defaultUserIdentity = UserIdentityValue::newAnonymous( '127.0.0.1' );
 		$this->defaultCheckType = 'ipedits';
 	}
@@ -71,7 +71,7 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerTestBase {
 	}
 
 	/**
-	 * Tests that the template parameters provided to the GetEditsLine.mustache match
+	 * Tests that the template parameters provided to the GetActionsLine.mustache match
 	 * the expected values. Does not test the mustache file which includes some
 	 * conditional logic, HTML and whitespace.
 	 *
@@ -101,7 +101,7 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerTestBase {
 			'The template parser was not called by formatRow.'
 		);
 		$this->assertSame(
-			'GetEditsLine',
+			'GetActionsLine',
 			$object->templateParser->lastCalledWith[0],
 			'formatRow did not call the correct mustache file.'
 		);
