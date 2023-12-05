@@ -7,7 +7,9 @@
 			"TRYPPN",
 			"Trengarasu",
 			"செல்வா",
-			"மதனாஹரன்"
+			"மதனாஹரன்",
+			"Dreamy Jazz",
+			"Fahimrazick"
 		]
 	},
 	"checkuser": "பயனரை கவனி",
@@ -54,7 +56,7 @@
 	"checkuser-noreason": "நீங்கள் இவ்வினவலுக்கு ஒரு காரணத்தைக் கட்டாயம் வழங்க வேண்டும்.",
 	"checkuser-user-nonexistent": "குறிப்பிடப்பட்ட பயனர் காணப்படவில்லை.",
 	"checkuser-search": "தேடுக",
-	"checkuser-search-submit": "தேடுக",
+	"checkuser-search-submit": "தேடு",
 	"checkuser-search-initiator": "தொடக்கக்காரர்",
 	"checkuser-search-target": "இலக்கு",
 	"checkuser-autocreate-action": "தானகவே உருவாக்கப்பட்டது",
