@@ -45,7 +45,7 @@
 	"checkuser-locked": "மூடப்பட்டது",
 	"checkuser-wasblocked": "முன்னரே தடைசெய்யப்பட்டது",
 	"checkuser-localonly": "ஒன்றாக்கப்டவில்லை",
-	"checkuser-massblock": "தெரிவு செய்யப்பட்ட பயனர்களைத் தடை செய்யவும்",
+	"checkuser-massblock": "தெரிவு செய்யப்பட்ட பயனர்களைத் தடு",
 	"checkuser-blocktag": "பயனீட்டாளர் பக்கங்கள் உடன் மாற்றிடு:",
 	"checkuser-blocktag-talk": "பேச்சுப் பக்கங்களை இதைக் கொண்டு மாற்று:",
 	"checkuser-massblock-commit": "தெரிவு செய்யப்பட்ட பயனர்களைத் தடை செய்",

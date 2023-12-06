@@ -130,7 +130,7 @@
 	"checkuser-helper-copy-success": "Kopyalandı",
 	"checkuser-helper-copy-failed": "Kopyalanmadı",
 	"checkuser-helper-user": "Kullanıcı",
-	"checkuser-helper-ips": "IP(ler)",
+	"checkuser-helper-ips": "IP'ler",
 	"checkuser-helper-uas": "Kullanıcı Temsilci(leri)",
 	"checkuser-helper-xff-trusted": "XFF (güvenilir):",
 	"checkuser-helper-xff-untrusted": "XFF (güvenilmeyen):",
