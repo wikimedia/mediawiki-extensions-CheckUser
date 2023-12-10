@@ -7,7 +7,7 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use FormatJson;
 use MediaWiki\Session\Session;
-use MWTimestamp;
+use MediaWiki\Utils\MWTimestamp;
 
 class TokenManager {
 	/** @var string */

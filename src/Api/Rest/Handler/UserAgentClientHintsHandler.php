@@ -2,9 +2,9 @@
 
 namespace MediaWiki\CheckUser\Api\Rest\Handler;
 
-use Config;
 use MediaWiki\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\Config\Config;
 use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\SimpleHandler;
 use MediaWiki\Rest\Validator\JsonBodyValidator;

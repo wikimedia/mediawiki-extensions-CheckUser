@@ -3,10 +3,10 @@
 namespace MediaWiki\CheckUser\Tests\Unit\Api\Rest\Handler;
 
 use FormatJson;
-use HashConfig;
 use MediaWiki\CheckUser\Api\Rest\Handler\UserAgentClientHintsHandler;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
+use MediaWiki\Config\HashConfig;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Rest\HttpException;
 use MediaWiki\Rest\LocalizedHttpException;

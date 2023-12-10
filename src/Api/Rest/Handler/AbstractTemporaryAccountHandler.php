@@ -2,9 +2,9 @@
 
 namespace MediaWiki\CheckUser\Api\Rest\Handler;
 
-use Config;
 use JobQueueGroup;
 use JobSpecification;
+use MediaWiki\Config\Config;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\Response;

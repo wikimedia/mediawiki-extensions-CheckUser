@@ -2,11 +2,11 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit\Services;
 
-use HashConfig;
 use MediaWiki\CheckUser\ClientHints\ClientHintsLookupResults;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
+use MediaWiki\Config\HashConfig;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
 use MediaWikiUnitTestCase;

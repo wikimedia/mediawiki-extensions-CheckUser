@@ -2,7 +2,7 @@
 
 namespace MediaWiki\CheckUser;
 
-use Config;
+use MediaWiki\Config\Config;
 use MediaWiki\ResourceLoader\Context;
 
 class ToolLinksMessages {

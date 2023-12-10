@@ -2,8 +2,8 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit\Maintenance;
 
-use HashConfig;
 use MediaWiki\CheckUser\Maintenance\PopulateCheckUserTablesWithSimulatedData;
+use MediaWiki\Config\HashConfig;
 use MediaWikiUnitTestCase;
 use ReflectionClass;
 use Wikimedia\IPUtils;

@@ -430,7 +430,7 @@
 			]
 		},
 		"ext.checkUser.styles": {
-			"class": "ResourceLoaderLessVarFileModule",
+			"class": "MediaWiki\\ResourceLoader\\LessVarFileModule",
 			"localBasePath": "modules/ext.checkUser.styles",
 			"remoteExtPath": "CheckUser/modules/ext.checkUser.styles",
 			"styles": [

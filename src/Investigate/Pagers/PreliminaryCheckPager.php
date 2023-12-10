@@ -22,18 +22,18 @@
 namespace MediaWiki\CheckUser\Investigate\Pagers;
 
 use ExtensionRegistry;
-use Html;
 use IContextSource;
 use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Extension\CentralAuth\CentralAuthDatabaseManager;
 use MediaWiki\Extension\CentralAuth\CentralAuthServices;
+use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\Pager\TablePager;
+use MediaWiki\SpecialPage\SpecialPage;
+use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\User\User;
 use MediaWiki\WikiMap\WikiMap;
-use NamespaceInfo;
-use SpecialPage;
-use TablePager;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IDatabase;
 

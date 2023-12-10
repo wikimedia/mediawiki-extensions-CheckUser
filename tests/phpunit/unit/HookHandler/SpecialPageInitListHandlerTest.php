@@ -2,8 +2,8 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit;
 
-use Config;
 use MediaWiki\CheckUser\HookHandler\SpecialPageInitListHandler;
+use MediaWiki\Config\Config;
 use MediaWikiUnitTestCase;
 
 /**

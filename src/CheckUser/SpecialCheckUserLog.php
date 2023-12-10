@@ -2,20 +2,20 @@
 
 namespace MediaWiki\CheckUser\CheckUser;
 
-use ContribsPager;
-use Html;
 use HTMLForm;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
+use MediaWiki\Html\Html;
+use MediaWiki\Pager\ContribsPager;
 use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Title\Title;
 use MediaWiki\User\ActorStore;
+use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
-use SpecialPage;
-use User;
 use UserBlockedError;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IReadableDatabase;

@@ -2,12 +2,12 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit\CheckUser\Pagers;
 
-use HashConfig;
 use Language;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetEditsPager;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
+use MediaWiki\Config\HashConfig;
 use MediaWiki\User\UserIdentityValue;
 use RequestContext;
 use Wikimedia\IPUtils;

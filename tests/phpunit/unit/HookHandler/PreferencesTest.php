@@ -5,8 +5,8 @@ namespace MediaWiki\CheckUser\Tests\Unit\HookHandler;
 use MediaWiki\CheckUser\HookHandler\Preferences;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
 use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\User\User;
 use MediaWikiUnitTestCase;
-use User;
 
 /**
  * @author DannyS712

@@ -2,8 +2,6 @@
 
 namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
-use ActorMigration;
-use CentralIdLookup;
 use IContextSource;
 use LogicException;
 use MediaWiki\Block\DatabaseBlock;
@@ -12,12 +10,14 @@ use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\SpecialPage\SpecialPageFactory;
+use MediaWiki\User\ActorMigration;
+use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
-use SpecialPage;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 

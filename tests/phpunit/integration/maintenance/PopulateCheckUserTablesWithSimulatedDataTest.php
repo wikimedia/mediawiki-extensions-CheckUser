@@ -9,8 +9,8 @@ use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
+use MediaWiki\User\User;
 use RequestContext;
-use User;
 use Wikimedia\TestingAccessWrapper;
 
 /**

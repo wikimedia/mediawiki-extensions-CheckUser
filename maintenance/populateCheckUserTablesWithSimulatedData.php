@@ -15,11 +15,11 @@ use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Title\Title;
+use MediaWiki\User\User;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserRigorOptions;
 use RequestContext;
-use User;
 use Wikimedia\IPUtils;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 

@@ -2,16 +2,16 @@
 
 namespace MediaWiki\CheckUser\Investigate\Pagers;
 
-use Html;
 use IContextSource;
 use MediaWiki\CheckUser\Hook\CheckUserFormatRowHook;
 use MediaWiki\CheckUser\Investigate\Services\TimelineService;
 use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
+use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\Pager\ReverseChronologicalPager;
 use ParserOutput;
 use Psr\Log\LoggerInterface;
-use ReverseChronologicalPager;
 
 class TimelinePager extends ReverseChronologicalPager {
 	private CheckUserFormatRowHook $formatRowHookRunner;

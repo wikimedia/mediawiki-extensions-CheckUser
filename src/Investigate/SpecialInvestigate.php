@@ -2,8 +2,6 @@
 
 namespace MediaWiki\CheckUser\Investigate;
 
-use FormSpecialPage;
-use Html;
 use HTMLForm;
 use Language;
 use MediaWiki\CheckUser\GuidedTour\TourLauncher;
@@ -15,8 +13,11 @@ use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
 use MediaWiki\CheckUser\Investigate\Utilities\EventLogger;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
+use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\SpecialPage\FormSpecialPage;
+use MediaWiki\Status\Status;
 use MediaWiki\User\Options\UserOptionsManager;
 use MediaWiki\User\UserIdentityLookup;
 use Message;
@@ -33,7 +34,6 @@ use OOUI\TabOptionWidget;
 use OOUI\Tag;
 use OOUI\Widget;
 use ParserOutput;
-use Status;
 use Wikimedia\IPUtils;
 
 class SpecialInvestigate extends FormSpecialPage {

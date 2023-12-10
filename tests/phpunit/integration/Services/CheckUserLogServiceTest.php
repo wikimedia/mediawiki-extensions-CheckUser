@@ -2,8 +2,8 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
-use DeferredUpdates;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
+use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;

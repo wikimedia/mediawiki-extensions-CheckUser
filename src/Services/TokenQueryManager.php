@@ -2,7 +2,7 @@
 
 namespace MediaWiki\CheckUser\Services;
 
-use WebRequest;
+use MediaWiki\Request\WebRequest;
 
 class TokenQueryManager {
 	public TokenManager $tokenManager;

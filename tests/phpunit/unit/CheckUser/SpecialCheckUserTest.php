@@ -2,15 +2,15 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit\CheckUser;
 
-use Config;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
+use MediaWiki\Config\Config;
 use MediaWiki\Html\FormOptions;
+use MediaWiki\Status\Status;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
 use MediaWiki\Title\Title;
 use MediaWikiUnitTestCase;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use ReflectionClass;
-use Status;
 use Wikimedia\TestingAccessWrapper;
 
 /**

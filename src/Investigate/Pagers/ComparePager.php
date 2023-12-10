@@ -23,14 +23,14 @@
 namespace MediaWiki\CheckUser\Investigate\Pagers;
 
 use DateTime;
-use Html;
 use IContextSource;
-use Linker;
 use MediaWiki\CheckUser\Investigate\Services\CompareService;
 use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
+use MediaWiki\Html\Html;
+use MediaWiki\Linker\Linker;
 use MediaWiki\Linker\LinkRenderer;
-use TablePager;
+use MediaWiki\Pager\TablePager;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
 

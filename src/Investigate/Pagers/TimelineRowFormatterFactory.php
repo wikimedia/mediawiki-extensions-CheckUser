@@ -8,9 +8,9 @@ use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Revision\ArchivedRevisionLookup;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\SpecialPageFactory;
+use MediaWiki\Title\TitleFormatter;
+use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
-use TitleFormatter;
-use User;
 
 class TimelineRowFormatterFactory {
 	private LinkRenderer $linkRenderer;

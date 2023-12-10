@@ -2,14 +2,9 @@
 
 namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
-use ActorMigration;
-use CentralIdLookup;
 use Exception;
 use ExtensionRegistry;
-use Html;
 use IContextSource;
-use Linker;
-use ListToggle;
 use LogicException;
 use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
@@ -24,9 +19,14 @@ use MediaWiki\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Html\FormOptions;
+use MediaWiki\Html\Html;
+use MediaWiki\Html\ListToggle;
+use MediaWiki\Linker\Linker;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\SpecialPageFactory;
+use MediaWiki\User\ActorMigration;
+use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserGroupManager;

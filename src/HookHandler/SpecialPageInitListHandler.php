@@ -2,9 +2,9 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
-use Config;
 use MediaWiki\CheckUser\Investigate\SpecialInvestigate;
 use MediaWiki\CheckUser\Investigate\SpecialInvestigateBlock;
+use MediaWiki\Config\Config;
 use MediaWiki\SpecialPage\Hook\SpecialPage_initListHook;
 
 // The name of onSpecialPage_initList raises the following phpcs error. As the

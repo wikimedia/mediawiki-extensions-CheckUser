@@ -7,7 +7,7 @@ use IContextSource;
 use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Linker\LinkRenderer;
-use NamespaceInfo;
+use MediaWiki\Title\NamespaceInfo;
 
 class PreliminaryCheckPagerFactory implements PagerFactory {
 	private LinkRenderer $linkRenderer;

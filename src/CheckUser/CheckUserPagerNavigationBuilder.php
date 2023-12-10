@@ -2,15 +2,15 @@
 
 namespace MediaWiki\CheckUser\CheckUser;
 
-use Html;
 use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Html\FormOptions;
+use MediaWiki\Html\Html;
 use MediaWiki\Navigation\PagerNavigationBuilder;
+use MediaWiki\Request\WebRequest;
 use MediaWiki\Session\CsrfTokenSet;
 use MediaWiki\User\UserIdentity;
 use MessageLocalizer;
-use WebRequest;
 
 class CheckUserPagerNavigationBuilder extends PagerNavigationBuilder {
 	private TokenQueryManager $tokenQueryManager;

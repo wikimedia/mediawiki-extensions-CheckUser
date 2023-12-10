@@ -2,20 +2,20 @@
 
 namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
-use Html;
 use IContextSource;
-use Linker;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
+use MediaWiki\Html\Html;
+use MediaWiki\Linker\Linker;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Pager\RangeChronologicalPager;
+use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityValue;
-use RangeChronologicalPager;
-use SpecialPage;
 use Wikimedia\Rdbms\IResultWrapper;
 
 class CheckUserLogPager extends RangeChronologicalPager {

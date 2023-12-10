@@ -4,10 +4,10 @@ namespace MediaWiki\CheckUser\Investigate\Services;
 
 use ExtensionRegistry;
 use MediaWiki\Block\DatabaseBlockStoreFactory;
+use MediaWiki\User\User;
 use MediaWiki\User\UserGroupManagerFactory;
 use MediaWiki\User\UserIdentityValue;
 use stdClass;
-use User;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IResultWrapper;
 

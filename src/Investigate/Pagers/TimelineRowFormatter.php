@@ -2,22 +2,22 @@
 
 namespace MediaWiki\CheckUser\Investigate\Pagers;
 
-use Html;
 use HtmlArmor;
 use Language;
-use Linker;
 use MediaWiki\CommentFormatter\CommentFormatter;
+use MediaWiki\Html\Html;
+use MediaWiki\Linker\Linker;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Revision\ArchivedRevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\SpecialPageFactory;
+use MediaWiki\Title\TitleFormatter;
+use MediaWiki\Title\TitleValue;
+use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserRigorOptions;
 use Message;
-use TitleFormatter;
-use TitleValue;
-use User;
 use Wikimedia\IPUtils;
 
 class TimelineRowFormatter {

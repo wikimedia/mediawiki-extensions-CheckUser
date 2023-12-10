@@ -4,14 +4,14 @@ namespace MediaWiki\CheckUser\Tests\Unit\HookHandler;
 
 use MediaWiki\CheckUser\HookHandler\ToolLinksHandler;
 use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
 use MediaWiki\Title\Title;
+use MediaWiki\User\User;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiUnitTestCase;
 use RequestContext;
-use SpecialPage;
-use User;
 
 /**
  * @group CheckUser

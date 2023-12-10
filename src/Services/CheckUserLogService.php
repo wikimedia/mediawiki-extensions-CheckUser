@@ -2,14 +2,14 @@
 
 namespace MediaWiki\CheckUser\Services;
 
-use CommentStore;
-use DeferredUpdates;
 use MediaWiki\CommentFormatter\CommentFormatter;
+use MediaWiki\CommentStore\CommentStore;
+use MediaWiki\Deferred\DeferredUpdates;
+use MediaWiki\Parser\Sanitizer;
 use MediaWiki\Title\Title;
 use MediaWiki\User\ActorStore;
+use MediaWiki\User\User;
 use Psr\Log\LoggerInterface;
-use Sanitizer;
-use User;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\DBError;
 use Wikimedia\Rdbms\IConnectionProvider;

@@ -2,7 +2,7 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
-use Config;
+use MediaWiki\Config\Config;
 use MediaWiki\Hook\BeforePageDisplayHook;
 use MediaWiki\SpecialPage\Hook\SpecialPageBeforeExecuteHook;
 

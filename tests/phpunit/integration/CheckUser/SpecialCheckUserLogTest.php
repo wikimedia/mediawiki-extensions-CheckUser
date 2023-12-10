@@ -2,9 +2,9 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\CheckUser;
 
-use HashConfig;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog;
 use MediaWiki\CheckUser\Tests\CheckUserIntegrationTestCaseTest;
+use MediaWiki\Config\HashConfig;
 
 /**
  * Test class for SpecialCheckUserLog class

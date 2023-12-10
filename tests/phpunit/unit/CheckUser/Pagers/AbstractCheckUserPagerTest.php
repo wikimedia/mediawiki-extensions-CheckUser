@@ -2,12 +2,12 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit\CheckUser\Pagers;
 
-use HashConfig;
-use IndexPager;
 use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers\DeAbstractedCheckUserPagerTest;
+use MediaWiki\Config\HashConfig;
 use MediaWiki\Html\FormOptions;
+use MediaWiki\Pager\IndexPager;
 use MediaWiki\Tests\Unit\Libs\Rdbms\AddQuoterMock;
 use MediaWikiUnitTestCase;
 use Message;

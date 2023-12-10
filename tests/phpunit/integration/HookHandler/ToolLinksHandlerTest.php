@@ -5,14 +5,14 @@ namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 use MediaWiki\CheckUser\HookHandler\ToolLinksHandler;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Title\Title;
+use MediaWiki\User\User;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityUtils;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use RequestContext;
-use SpecialPage;
-use User;
 
 /**
  * @group CheckUser

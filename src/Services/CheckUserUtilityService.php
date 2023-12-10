@@ -2,8 +2,8 @@
 
 namespace MediaWiki\CheckUser\Services;
 
-use ProxyLookup;
-use WebRequest;
+use MediaWiki\Request\ProxyLookup;
+use MediaWiki\Request\WebRequest;
 use Wikimedia\IPUtils;
 
 class CheckUserUtilityService {

@@ -6,12 +6,12 @@ use MediaWiki\Hook\ContributionsToolLinksHook;
 use MediaWiki\Hook\UserToolLinksEditHook;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Title\Title;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityUtils;
 use RequestContext;
-use SpecialPage;
 
 class ToolLinksHandler implements ContributionsToolLinksHook, UserToolLinksEditHook {
 

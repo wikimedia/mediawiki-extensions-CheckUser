@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests;
 
+use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
 
 class CheckUserIntegrationTestCaseTest extends MediaWikiIntegrationTestCase {
@@ -10,7 +11,7 @@ class CheckUserIntegrationTestCaseTest extends MediaWikiIntegrationTestCase {
 	 * Needed because there is no way using TestUser.php
 	 * to get a user guaranteed to not exist.
 	 *
-	 * @return \User a non-existent user or a fail.
+	 * @return User a non-existent user or a fail.
 	 */
 	public function getNonExistentTestUser() {
 		$testUser = $this->getServiceContainer()->getUserFactory()->newFromName( 'NonexistentUser 1234' );

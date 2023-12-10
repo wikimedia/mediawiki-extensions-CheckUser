@@ -6,8 +6,8 @@ use Firebase\JWT\JWT;
 use MediaWiki\CheckUser\Services\TokenManager;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Session\SessionManager;
+use MediaWiki\Utils\MWTimestamp;
 use MediaWikiIntegrationTestCase;
-use MWTimestamp;
 
 /**
  * Test class for TokenManager class

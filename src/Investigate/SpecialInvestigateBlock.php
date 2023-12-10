@@ -4,19 +4,19 @@ namespace MediaWiki\CheckUser\Investigate;
 
 use ApiMain;
 use Exception;
-use FormSpecialPage;
-use Linker;
 use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\Block\BlockUserFactory;
 use MediaWiki\CheckUser\Investigate\Utilities\EventLogger;
+use MediaWiki\Linker\Linker;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Request\DerivativeRequest;
+use MediaWiki\SpecialPage\FormSpecialPage;
+use MediaWiki\Title\TitleFormatter;
+use MediaWiki\Title\TitleValue;
+use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserNameUtils;
 use PermissionsError;
-use TitleFormatter;
-use TitleValue;
-use User;
 use Wikimedia\IPUtils;
 
 class SpecialInvestigateBlock extends FormSpecialPage {

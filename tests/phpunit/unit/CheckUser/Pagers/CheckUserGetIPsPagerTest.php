@@ -2,9 +2,9 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit\CheckUser\Pagers;
 
-use HashConfig;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
+use MediaWiki\Config\HashConfig;
 use MediaWiki\Tests\Unit\Libs\Rdbms\AddQuoterMock;
 use MediaWiki\User\UserIdentityValue;
 use RequestContext;

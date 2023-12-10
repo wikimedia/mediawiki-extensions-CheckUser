@@ -2,21 +2,21 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\CheckUser;
 
-use HashConfig;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetEditsPager;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
+use MediaWiki\Config\HashConfig;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\SlotRecord;
+use MediaWiki\Status\Status;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Title\Title;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserRigorOptions;
 use MediaWikiIntegrationTestCase;
 use RequestContext;
-use Status;
 use Wikimedia\TestingAccessWrapper;
 
 /**

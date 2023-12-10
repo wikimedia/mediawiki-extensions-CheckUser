@@ -5,8 +5,8 @@ namespace MediaWiki\CheckUser\Investigate\Utilities;
 use DateInterval;
 use DateTime;
 use Exception;
-use MWTimestamp;
-use WebRequest;
+use MediaWiki\Request\WebRequest;
+use MediaWiki\Utils\MWTimestamp;
 
 class DurationManager {
 

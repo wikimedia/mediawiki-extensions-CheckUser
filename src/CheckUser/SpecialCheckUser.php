@@ -2,9 +2,6 @@
 
 namespace MediaWiki\CheckUser\CheckUser;
 
-use ActorMigration;
-use CentralIdLookup;
-use Html;
 use HTMLForm;
 use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\Block\BlockUserFactory;
@@ -23,11 +20,16 @@ use MediaWiki\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Html\FormOptions;
+use MediaWiki\Html\Html;
 use MediaWiki\Page\WikiPageFactory;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Revision\ArchivedRevisionLookup;
 use MediaWiki\Revision\RevisionStore;
+use MediaWiki\SpecialPage\SpecialPage;
+use MediaWiki\Status\Status;
 use MediaWiki\Title\Title;
+use MediaWiki\User\ActorMigration;
+use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\CentralId\CentralIdLookupFactory;
 use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserFactory;
@@ -40,8 +42,6 @@ use MediaWiki\User\UserNameUtils;
 use MediaWiki\User\UserRigorOptions;
 use Message;
 use OOUI\IconWidget;
-use SpecialPage;
-use Status;
 use UserBlockedError;
 use Wikimedia\AtEase\AtEase;
 use Wikimedia\IPUtils;

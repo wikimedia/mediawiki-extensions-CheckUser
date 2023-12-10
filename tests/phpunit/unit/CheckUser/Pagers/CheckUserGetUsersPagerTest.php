@@ -2,12 +2,12 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit\CheckUser\Pagers;
 
-use HashConfig;
 use LogicException;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\Config\HashConfig;
 use MediaWiki\User\UserIdentityValue;
 use RequestContext;
 use Wikimedia\IPUtils;

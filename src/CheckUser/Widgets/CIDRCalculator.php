@@ -3,13 +3,13 @@
 namespace MediaWiki\CheckUser\CheckUser\Widgets;
 
 use CollapsibleFieldsetLayout;
+use MediaWiki\Output\OutputPage;
 use OOUI\Element;
 use OOUI\FieldsetLayout;
 use OOUI\LabelWidget;
 use OOUI\MultilineTextInputWidget;
 use OOUI\PanelLayout;
 use OOUI\Widget;
-use OutputPage;
 
 class CIDRCalculator {
 

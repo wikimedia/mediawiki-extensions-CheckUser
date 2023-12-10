@@ -2,17 +2,17 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit\HookHandler;
 
-use HashConfig;
 use MediaWiki\CheckUser\HookHandler\ClientHints;
+use MediaWiki\Config\HashConfig;
+use MediaWiki\Output\OutputPage;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Request\FauxResponse;
+use MediaWiki\Request\WebRequest;
 use MediaWiki\Request\WebResponse;
+use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Title\Title;
 use MediaWikiUnitTestCase;
-use OutputPage;
 use Skin;
-use SpecialPage;
-use WebRequest;
 
 /**
  * @covers \MediaWiki\CheckUser\HookHandler\ClientHints
