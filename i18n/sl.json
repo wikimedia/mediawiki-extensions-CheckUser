@@ -4,7 +4,8 @@
 			"Dbc334",
 			"Janezdrilc",
 			"Eleassar",
-			"MrJaroslavik"
+			"MrJaroslavik",
+			"Upwinxp"
 		]
 	},
 	"checkuser-summary": "To orodje prečeše zadnje spremembe, da pridobi IP-naslove, ki jih uporablja uporabnik, ali prikaže podatke urejanja/uporabniške podatke IP-naslova.\nUporabniki in urejanja odjemalčevega IP-naslova se lahko pridobijo prek glav XFF tako, da se IP-naslovu pripne »/xff«. Podprta sta IPv4 (CIDR $1-32) in IPv6 (CIDR $2-128).\nIz razlogov zmogljivosti je prikazanih največ 5000 urejanj.\nOrodje uporabljajte v skladu s pravili.",
@@ -74,12 +75,12 @@
 	"checkuser-ipeditcount": "~$1 od vseh uporabnikov",
 	"checkuser-showmain": "Preklopi na glavni obrazec za preverjanje uporabnikov",
 	"checkuser-limited": "'''Zadetki so iz zmogljivostnih razlogov okrnjeni.'''",
-	"checkuser-log-entry-userips": "$3, $1 je {{GENDER:|prejel|prejela|prejel_a}} IP-naslove za $2",
-	"checkuser-log-entry-ipedits": "$3, $1 je {{GENDER:|prejel|prejela|prejel_a}} izpis urejanj za <bdi>$2</bdi>",
-	"checkuser-log-entry-ipusers": "$3, $1 je {{GENDER:$1|prejel|prejela|prejel_a}} izpis uporabnikov za <bdi>$2</bdi>",
-	"checkuser-log-entry-ipedits-xff": "$3, $1 je {{GENDER:|prejel|prejela|prejel_a}} izpis urejanj za XFF <bdi>$2</bdi>",
-	"checkuser-log-entry-ipusers-xff": "$3, $1 je {{GENDER:|prejel|prejela|prejel_a}} izpis uporabnikov XFF <bdi>$2</bdi>",
-	"checkuser-log-entry-useredits": "$3, $1 je {{GENDER:|prejel|prejela|prejel_a}} izpis uporabnikov za $2",
+	"checkuser-log-entry-userips": "$3, $1 je {{GENDER:|prejel|prejela|prejel/a}} IP-naslove za $2",
+	"checkuser-log-entry-ipedits": "$3, $1 je {{GENDER:|prejel|prejela|prejel/a}} izpis urejanj za <bdi>$2</bdi>",
+	"checkuser-log-entry-ipusers": "$3, $1 je {{GENDER:$1|prejel|prejela|prejel/a}} izpis uporabnikov za <bdi>$2</bdi>",
+	"checkuser-log-entry-ipedits-xff": "$3, $1 je {{GENDER:|prejel|prejela|prejel/a}} izpis urejanj za XFF <bdi>$2</bdi>",
+	"checkuser-log-entry-ipusers-xff": "$3, $1 je {{GENDER:|prejel|prejela|prejel/a}} izpis uporabnikov XFF <bdi>$2</bdi>",
+	"checkuser-log-entry-useredits": "$3, $1 je {{GENDER:|prejel|prejela|prejel/a}} izpis uporabnikov za $2",
 	"checkuser-autocreate-action": "je bil samodejno ustvarjen",
 	"checkuser-create-action": "je bil ustvarjen",
 	"checkuser-email-action": "pošlji e-pošto uporabniku »$1«",

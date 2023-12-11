@@ -7,7 +7,9 @@
 			"TRYPPN",
 			"Trengarasu",
 			"செல்வா",
-			"மதனாஹரன்"
+			"மதனாஹரன்",
+			"Dreamy Jazz",
+			"Fahimrazick"
 		]
 	},
 	"checkuser": "பயனரை கவனி",
@@ -32,7 +34,7 @@
 	"checkuser-week-1": "கடந்த கிழமை (வாரம்)",
 	"checkuser-week-2": "கடந்த இரண்டு கிழமைகள் (வாரங்கள்)",
 	"checkuser-month": "கடந்த 30 நாட்கள்",
-	"checkuser-all": "அனைத்தும்",
+	"checkuser-all": "யாவும்",
 	"checkuser-cidr-res": "பொதுவான CIDR:",
 	"checkuser-empty": "இந்த குறிப்பேட்டில் உருப்படிகள் எதுவும் இல்லை.",
 	"checkuser-nomatch": "பொருத்தமானவைகள் ஒன்றும் காணப்படவில்லை.",
@@ -45,7 +47,7 @@
 	"checkuser-locked": "மூடப்பட்டது",
 	"checkuser-wasblocked": "முன்னரே தடைசெய்யப்பட்டது",
 	"checkuser-localonly": "ஒன்றாக்கப்டவில்லை",
-	"checkuser-massblock": "தெரிவு செய்யப்பட்ட பயனர்களைத் தடை செய்யவும்",
+	"checkuser-massblock": "தெரிவு செய்யப்பட்ட பயனர்களைத் தடு",
 	"checkuser-blocktag": "பயனீட்டாளர் பக்கங்கள் உடன் மாற்றிடு:",
 	"checkuser-blocktag-talk": "பேச்சுப் பக்கங்களை இதைக் கொண்டு மாற்று:",
 	"checkuser-massblock-commit": "தெரிவு செய்யப்பட்ட பயனர்களைத் தடை செய்",
@@ -55,7 +57,7 @@
 	"checkuser-noreason": "நீங்கள் இவ்வினவலுக்கு ஒரு காரணத்தைக் கட்டாயம் வழங்க வேண்டும்.",
 	"checkuser-user-nonexistent": "குறிப்பிடப்பட்ட பயனர் காணப்படவில்லை.",
 	"checkuser-search": "தேடுக",
-	"checkuser-search-submit": "தேடுக",
+	"checkuser-search-submit": "தேடு",
 	"checkuser-search-initiator": "தொடக்கக்காரர்",
 	"checkuser-search-target": "இலக்கு",
 	"checkuser-autocreate-action": "தானகவே உருவாக்கப்பட்டது",
