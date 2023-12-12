@@ -6,7 +6,6 @@ use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetEditsPager;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
-use MediaWiki\Config\HashConfig;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\SlotRecord;
@@ -153,12 +152,8 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 	 */
 	public function testRequiredRights( $groups, $allowed ) {
 		if ( ( is_array( $groups ) && isset( $groups['checkuser-log'] ) ) || $groups === "checkuser-log" ) {
-			$this->overrideMwServices(
-				new HashConfig(
-					[ 'GroupPermissions' =>
-						[ 'checkuser-log' => [ 'checkuser-log' => true, 'read' => true ] ]
-					]
-				)
+			$this->setGroupPermissions(
+				[ 'checkuser-log' => [ 'checkuser-log' => true, 'read' => true ] ]
 			);
 		}
 		$this->testRequiredRightsByGroup( $groups, $allowed );

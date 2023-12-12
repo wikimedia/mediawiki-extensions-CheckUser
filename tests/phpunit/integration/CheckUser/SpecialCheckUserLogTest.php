@@ -4,7 +4,6 @@ namespace MediaWiki\CheckUser\Tests\Integration\CheckUser;
 
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog;
 use MediaWiki\CheckUser\Tests\CheckUserIntegrationTestCaseTest;
-use MediaWiki\Config\HashConfig;
 
 /**
  * Test class for SpecialCheckUserLog class
@@ -95,12 +94,8 @@ class SpecialCheckUserLogTest extends CheckUserIntegrationTestCaseTest {
 	 */
 	public function testRequiredRights( $groups, $allowed ) {
 		if ( ( is_array( $groups ) && isset( $groups['checkuser-log'] ) ) || $groups === "checkuser-log" ) {
-			$this->overrideMwServices(
-				new HashConfig(
-					[ 'GroupPermissions' =>
-						[ 'checkuser-log' => [ 'checkuser-log' => true, 'read' => true ] ]
-					]
-				)
+			$this->setGroupPermissions(
+				[ 'checkuser-log' => [ 'checkuser-log' => true, 'read' => true ] ]
 			);
 		}
 		$this->testRequiredRightsByGroup( $groups, $allowed );
