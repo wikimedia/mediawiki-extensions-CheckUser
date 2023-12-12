@@ -7,7 +7,6 @@ use ApiQuery;
 use ApiQueryTokens;
 use ApiTestCase;
 use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
-use MediaWiki\Config\HashConfig;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Session\SessionManager;
 use Wikimedia\TestingAccessWrapper;
@@ -160,12 +159,8 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 	 */
 	public function testRequiredRights( $groups, $allowed ) {
 		if ( $groups === "checkuser-right" ) {
-			$this->overrideMwServices(
-				new HashConfig(
-					[ 'GroupPermissions' =>
-						[ 'checkuser-right' => [ 'checkuser' => true, 'read' => true ] ]
-					]
-				)
+			$this->setGroupPermissions(
+				[ 'checkuser-right' => [ 'checkuser' => true, 'read' => true ] ]
 			);
 		}
 		$this->testRequiredRightsByGroup( $groups, $allowed );

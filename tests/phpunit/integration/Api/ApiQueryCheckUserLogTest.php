@@ -7,7 +7,6 @@ use ApiQuery;
 use ApiTestCase;
 use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
-use MediaWiki\Config\HashConfig;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Permissions\Authority;
 use Wikimedia\TestingAccessWrapper;
@@ -105,12 +104,8 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 	 */
 	public function testRequiredRights( $groups, $allowed ) {
 		if ( $groups === "checkuser-log" ) {
-			$this->overrideMwServices(
-				new HashConfig(
-					[ 'GroupPermissions' =>
-						[ 'checkuser-log' => [ 'checkuser-log' => true, 'read' => true ] ]
-					]
-				)
+			$this->setGroupPermissions(
+				[ 'checkuser-log' => [ 'checkuser-log' => true, 'read' => true ] ]
 			);
 		}
 		$this->testRequiredRightsByGroup( $groups, $allowed );
