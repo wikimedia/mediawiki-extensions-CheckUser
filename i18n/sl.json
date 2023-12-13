@@ -139,7 +139,7 @@
 	"logentry-checkuser-private-event-login-failure-with-good-password": "{{GENDER:$2|Prijava}} v projekt {{SITENAME}} kot $4 ni uspela, vendar je bilo geslo pravilno",
 	"logentry-checkuser-private-event-user-logout": "Uspešna {{GENDER:$2|odjava}} z uporabo API-ja ali {{#special:logout}}",
 	"logentry-checkuser-private-event-password-reset-email-sent": "je {{GENDER:$2|poslal|poslala|poslal/a}} geslo za ponastavitev e-pošte {{GENDER:$5|uporabnika|uporabnice|uporabnika/ce}} $4",
-	"logentry-checkuser-private-event-email-sent": "je {{GENDER:$2|poslal|poslala|poslal/a}} e-pošto uporabniku »$4«",
+	"logentry-checkuser-private-event-email-sent": "je {{GENDER:$2|poslal|poslala|poslal_a}} e-pošto uporabniku »$4«",
 	"logentry-checkuser-private-event-autocreate-account": "je bil samodejno ustvarjen",
 	"logentry-checkuser-private-event-create-account": "je ustvarjen",
 	"group-checkuser.css": "/* Tukaj postavljena koda CSS bo vplivala samo na preverjevalce uporabnikov */",
