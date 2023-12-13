@@ -14,7 +14,7 @@
 	"checkuser": "Gwiriañ an implijer",
 	"checkuserlog": "Marilh kontrolliñ an implijerien",
 	"checkuser-contribs": "gwiriañ chomlec'hioù IP an implijer",
-	"checkuser-contribs-log": "Gwiriadennoù diwezhañ diwar-benn an implijer-mañ",
+	"checkuser-contribs-log": "gwiriadennoù implijer",
 	"group-checkuser": "Gwirierien an implijerien",
 	"group-checkuser-member": "{{GENDER:$1|gwirier implijerien|gwirierez implijerien}}",
 	"right-checkuser": "Gwiriañ chomlec'hioù IP ha titouroù all an implijer",
