@@ -7,7 +7,8 @@
 			"Li-sung",
 			"Martin Urbanec",
 			"Matěj Suchánek",
-			"Mormegil"
+			"Mormegil",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Tento nástroj zkoumá poslední změny a umožňuje získat IP adresy uživatelů nebo zobrazit editace a uživatele z dané IP adresy.\nUživatele a editace z klientské IP adresy lze získat z hlaviček XFF přidáním „/xff“ k IP. Je podporováno IPv4 (CIDR $1–32) a IPv6 (CIDR $2-128).\nZ výkonnostních důvodů lze zobrazit maximálně $3 editací. Používejte tento nástroj v souladu s pravidly.",
@@ -40,6 +41,9 @@
 	"checkuser-all": "všechno",
 	"checkuser-cidr-label": "Zjištění společného rozsahu ze seznamu IP adres",
 	"checkuser-cidr-res": "Společný CIDR:",
+	"checkuser-cidr-affected-ips": "Dotčené IP adresy:",
+	"checkuser-cidr-too-small": "Rozsah je příliš velký",
+	"checkuser-range-outside-limit": "Rozsah $1 je mimo povolené limity.",
 	"checkuser-empty": "Kniha neobsahuje žádné položky",
 	"checkuser-nomatch": "Nic odpovídajícího nebylo nalezeno.",
 	"checkuser-nomatch-edits": "Nic odpovídajícího nebylo nalezeno. Poslední editace proběhla $2, $1.",
@@ -48,6 +52,8 @@
 	"checkuser-investigate-this-user": "Prověřit tohoto uživatele",
 	"checkuser-recent-checks": "Nedávné kontroly tohoto uživatele",
 	"checkuser-log-fail": "Nepodařilo se zapsat do záznamů",
+	"checkuser-log-checks-by": "kontroly uživatelem",
+	"checkuser-log-checks-on": "kontroly uživatele",
 	"checkuser-blocked": "zablokováno",
 	"checkuser-gblocked": "globálně zablokováno",
 	"checkuser-locked": "zamčeno",
@@ -115,6 +121,7 @@
 	"checkuser-investigateblock-notice-replace": "Nahradit stránku",
 	"checkuser-investigateblock-failure": "Žádní uživatelé nebyli zablokováni. Abyste přepsali existující zablokování, zaškrtněte „{{int:checkuser-investigateblock-reblock-label}}“. Zablokování nebude přepsáno, pokud je nový blok stejný jako ten existující.",
 	"checkuser-investigateblock-success": "{{PLURAL:$2|Uživatel|Uživatelé}} $1 {{PLURAL:$2|je nyní zablokován|jsou nyní zablokováni}}.",
+	"checkuser-investigate": "Vyšetřit",
 	"checkuser-investigate-subtitle-block-button-label": "Zablokovat",
 	"checkuser-investigate-subtitle-cancel-button-label": "Storno",
 	"checkuser-investigate-subtitle-continue-button-label": "Pokračovat",
@@ -144,6 +151,8 @@
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Projekt nenalezen",
 	"checkuser-investigate-filters-legend": "Filtry",
 	"checkuser-investigate-filters-exclude-targets-label": "Skrýt následující uživatele nebo IP adresy",
+	"checkuser-investigate-compare-copy-button-label": "Ukázat wikitext",
+	"checkuser-investigate-compare-copy-button-label-hide": "Skrýt wikitext",
 	"checkuser-investigate-compare-toollinks-ipcheck": "Kontrola proxy",
 	"checkuser-investigate-compare-copy-message-label": "Chcete zkopírovat výsledky jako wikitext tabulku?",
 	"checkuser-investigate-compare-table-button-checks-label": "Kontroly",
@@ -155,6 +164,7 @@
 	"checkuser-investigate-compare-table-header-useragent": "User-Agent",
 	"checkuser-investigate-subtitle-link-restart-tour": "Restartovat průvodce",
 	"checkuser-investigate-tour-targets-title": "Zkontrolovat více uživatelů/IP adres?",
+	"checkuser-investigate-tour-addusertargets-title": "Potřebujete více kontextu?",
 	"checkuser-investigate-tour-block-title": "Chcete je zablokovat?",
 	"checkuser-investigate-tour-copywikitext-title": "Chcete si data zkopírovat?"
 }
