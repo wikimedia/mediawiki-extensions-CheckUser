@@ -5,7 +5,6 @@ namespace MediaWiki\CheckUser\Test\Integration\Logging;
 use LogFormatter;
 use LogFormatterTestCase;
 use MediaWiki\MainConfigNames;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use RequestContext;
 
@@ -29,7 +28,6 @@ class CheckUserPrivateEventLogFormatterTest extends LogFormatterTestCase {
 	use MockAuthorityTrait;
 
 	public static function provideLogDatabaseRows(): array {
-		$wikiName = MediaWikiServices::getInstance()->getMainConfig()->get( MainConfigNames::Sitename );
 		return [
 			'Successful login' => [
 				'row' => [
@@ -41,7 +39,7 @@ class CheckUserPrivateEventLogFormatterTest extends LogFormatterTestCase {
 					],
 				],
 				'extra' => [
-					'text' => "Successfully logged in to $wikiName as UTSysop",
+					'text' => "Successfully logged in to mediawiki as UTSysop",
 					'api' => [
 						'target' => 'UTSysop',
 					],
@@ -57,7 +55,7 @@ class CheckUserPrivateEventLogFormatterTest extends LogFormatterTestCase {
 					],
 				],
 				'extra' => [
-					'text' => "Failed to log in to $wikiName as UTSysop",
+					'text' => "Failed to log in to mediawiki as UTSysop",
 					'api' => [
 						'target' => 'UTSysop',
 					],
@@ -73,7 +71,7 @@ class CheckUserPrivateEventLogFormatterTest extends LogFormatterTestCase {
 					],
 				],
 				'extra' => [
-					'text' => "Failed to log in to $wikiName as UTSysop but had the correct password",
+					'text' => "Failed to log in to mediawiki as UTSysop but had the correct password",
 					'api' => [
 						'target' => 'UTSysop',
 					],
@@ -173,6 +171,9 @@ class CheckUserPrivateEventLogFormatterTest extends LogFormatterTestCase {
 	 * @dataProvider provideLogDatabaseRows
 	 */
 	public function testLogDatabaseRows( $row, $extra ) {
+		// Override wgSitename for the test to 'mediawiki' as the data provider
+		// uses this value for the value of {{SITENAME}}.
+		$this->overrideConfigValue( MainConfigNames::Sitename, 'mediawiki' );
 		$this->doTestLogFormatter( $row, $extra, [ 'checkuser' ] );
 	}
 
