@@ -16,6 +16,7 @@ use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityValue;
+use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IResultWrapper;
 
 class CheckUserLogPager extends RangeChronologicalPager {
@@ -258,7 +259,8 @@ class CheckUserLogPager extends RangeChronologicalPager {
 			'tables' => [ 'cu_log', 'cu_log_actor' => 'actor' ],
 			'fields' => $this->selectFields(),
 			'conds' => [],
-			'join_conds' => [ 'cu_log_actor' => [ 'JOIN', [ 'actor_id = cul_actor' ] ] ]
+			'join_conds' => [ 'cu_log_actor' => [ 'JOIN', [ 'actor_id = cul_actor' ] ] ],
+			'options' => [],
 		];
 
 		$reasonCommentQuery = $this->commentStore->getJoin( 'cul_reason' );
@@ -271,6 +273,11 @@ class CheckUserLogPager extends RangeChronologicalPager {
 				$queryInfo['conds'],
 				$this->getTargetSearchConds( $this->opts['target'] ) ?? []
 			);
+			if ( IPUtils::isIPAddress( $this->opts['target'] ) ) {
+				// Use the cul_target_hex index on the query if the target is an IP
+				// otherwise the query could take a long time (T342639)
+				$queryInfo['options']['USE INDEX'] = [ 'cu_log' => 'cul_target_hex' ];
+			}
 		}
 
 		if ( $this->opts['initiator'] !== '' ) {
