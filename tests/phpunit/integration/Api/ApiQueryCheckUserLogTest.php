@@ -216,4 +216,51 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 			'User target' => [ 'userips', 'user', 'Testing', '1234 - [[test]]', 0, '1653042345' ],
 		];
 	}
+
+	public function testTargetFilterForUser() {
+		$testUser = $this->getTestUser()->getUserIdentity();
+		$target = $testUser->getName();
+		$targetID = $testUser->getId();
+		/** @var CheckUserLogService $checkUserLogService */
+		$checkUserLogService = $this->getServiceContainer()->get( 'CheckUserLogService' );
+		$checkUserLogService->addLogEntry(
+			$this->getTestSysop()->getUser(), 'userips', 'user', $target, 'test', $targetID
+		);
+		\DeferredUpdates::doUpdates();
+		$result = $this->doCheckUserLogApiRequest( [
+			'cultarget' => $target
+		] )[0]['query']['checkuserlog']['entries'];
+		$this->assertCount(
+			1,
+			$result,
+			'A search for the target of the entry added to the cu_log table should have returned 1 check ' .
+			'in the API response.'
+		);
+	}
+
+	/** @dataProvider provideTargetFilter */
+	public function testTargetFilterForIP( $target ) {
+		/** @var CheckUserLogService $checkUserLogService */
+		$checkUserLogService = $this->getServiceContainer()->get( 'CheckUserLogService' );
+		$checkUserLogService->addLogEntry(
+			$this->getTestSysop()->getUser(), 'ipusers', 'ip', $target, 'test'
+		);
+		\DeferredUpdates::doUpdates();
+		$result = $this->doCheckUserLogApiRequest( [
+			'cultarget' => $target
+		] )[0]['query']['checkuserlog']['entries'];
+		$this->assertCount(
+			1,
+			$result,
+			'A search for the target of the entry added to the cu_log table should have returned 1 check ' .
+			'in the API response.'
+		);
+	}
+
+	public static function provideTargetFilter() {
+		return [
+			'IP address' => [ '1.2.3.4' ],
+			'IP range' => [ '1.2.3.4/22' ],
+		];
+	}
 }

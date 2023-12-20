@@ -88,6 +88,11 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 				}
 			}
 			$this->addWhere( $cond );
+			if ( IPUtils::isIPAddress( $params['target'] ) ) {
+				// Use the cul_target_hex index on the query if the target is an IP
+				// otherwise the query could take a long time (T342639)
+				$this->addOption( 'USE INDEX', [ 'cu_log' => 'cul_target_hex' ] );
+			}
 		}
 
 		if ( isset( $params['reason'] ) ) {
