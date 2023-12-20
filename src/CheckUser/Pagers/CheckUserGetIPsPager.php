@@ -2,13 +2,16 @@
 
 namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
+use ExtensionRegistry;
 use IContextSource;
 use LogicException;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
+use MediaWiki\Extension\TorBlock\TorExitNodes;
 use MediaWiki\Html\FormOptions;
+use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\SpecialPage\SpecialPageFactory;
@@ -121,6 +124,11 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 		$block = DatabaseBlock::newFromTarget( null, $ip );
 		if ( $block instanceof DatabaseBlock ) {
 			return $this->getBlockFlag( $block );
+		} elseif (
+			ExtensionRegistry::getInstance()->isLoaded( 'TorBlock' ) &&
+			TorExitNodes::isExitNode( $ip )
+		) {
+			return Html::rawElement( 'strong', [], '(' . $this->msg( 'checkuser-torexitnode' )->escaped() . ')' );
 		}
 		return '';
 	}

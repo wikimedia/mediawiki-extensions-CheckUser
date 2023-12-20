@@ -138,6 +138,19 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
+	public function testUserBlockFlagsTorExitNode() {
+		$this->markTestSkippedIfExtensionNotLoaded( 'TorBlock' );
+		$object = $this->setUpObject();
+		// TEST-NET-1
+		$ip = '192.0.2.111';
+		$user = UserIdentityValue::newAnonymous( $ip );
+		$this->assertSame(
+			[ '<strong>(' . wfMessage( 'checkuser-torexitnode' )->escaped() . ')</strong>' ],
+			$object->userBlockFlags( $ip, $user ),
+			'The checkuser-torexitnode message should have been returned; the IP was not detected as an exit node'
+		);
+	}
+
 	/** @dataProvider provideTestFormOptionsLimitValue */
 	public function testFormOptionsLimitValue( $formSubmittedLimit, $maximumLimit, $expectedLimit ) {
 		$this->setMwGlobals( 'wgCheckUserMaximumRowCount', $maximumLimit );
