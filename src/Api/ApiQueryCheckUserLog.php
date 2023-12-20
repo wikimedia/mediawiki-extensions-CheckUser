@@ -5,7 +5,6 @@ namespace MediaWiki\CheckUser\Api;
 use ApiBase;
 use ApiQuery;
 use ApiQueryBase;
-use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserLogPager;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\User\UserFactory;
@@ -79,7 +78,7 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 			$this->addWhereFld( 'actor_name', $params['user'] );
 		}
 		if ( isset( $params['target'] ) ) {
-			$cond = CheckUserLogPager::getTargetSearchConds( $params['target'] );
+			$cond = $this->checkUserLogService->getTargetSearchConds( $params['target'] );
 			if ( !$cond ) {
 				if ( IPUtils::isIPAddress( $params['target'] ) ) {
 					$this->dieWithError( 'apierror-badip', 'invalidip' );

@@ -2,8 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\CheckUser;
 
-use MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog;
-use MediaWiki\CheckUser\Tests\CheckUserIntegrationTestCaseTest;
+use MediaWikiIntegrationTestCase;
 
 /**
  * Test class for SpecialCheckUserLog class
@@ -13,7 +12,7 @@ use MediaWiki\CheckUser\Tests\CheckUserIntegrationTestCaseTest;
  *
  * @covers \MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog
  */
-class SpecialCheckUserLogTest extends CheckUserIntegrationTestCaseTest {
+class SpecialCheckUserLogTest extends MediaWikiIntegrationTestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -24,30 +23,6 @@ class SpecialCheckUserLogTest extends CheckUserIntegrationTestCaseTest {
 				'cu_log',
 				'actor',
 			]
-		);
-	}
-
-	public function testVerifyTargetUser() {
-		// Existing user
-		$testUser = $this->getTestUser()->getUser();
-		$this->assertTrue( $testUser->getUser()->isRegistered() );
-		$this->assertSame(
-			$testUser->getId(),
-			SpecialCheckUserLog::verifyTarget( $testUser->getName() ),
-			'For an existing user it\'s ID should be returned.'
-		);
-
-		// Non-existent user with a valid username
-		$testUser = $this->getNonExistentTestUser();
-		$this->assertFalse(
-			SpecialCheckUserLog::verifyTarget( $testUser->getName() ),
-			'Non-existent users should not be a valid target.'
-		);
-
-		// Invalid username
-		$this->assertFalse(
-			SpecialCheckUserLog::verifyTarget( '/' ),
-			'Invalid usernames should not be a valid target.'
 		);
 	}
 

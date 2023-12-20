@@ -18,6 +18,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  * @covers \MediaWiki\CheckUser\Services\CheckUserLogService
  */
 class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -208,6 +209,105 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 			[ 'Testing 1234 <var>', 'Testing 1234 <var>' ],
 			[ 'Testing 1234 {{test}}', 'Testing 1234 {{test}}' ],
 			[ 'Testing 12345 [[{{test}}]]', 'Testing 12345 [[{{test}}]]' ],
+		];
+	}
+
+	public function testGetTargetSearchCondsUser() {
+		// Tests the conditions are as expected when the target is an existing user.
+		$object = $this->setUpObject();
+		$testUser = $this->getTestUser()->getUser();
+		$this->assertTrue( $testUser->getUser()->isRegistered() );
+		$this->assertArrayEquals(
+			$this->getExpectedGetTargetSearchConds( 'user', $testUser->getId() ),
+			$object->getTargetSearchConds( $testUser->getName() ),
+			false,
+			true,
+			'For an existing user the valid search cond should be returned.'
+		);
+	}
+
+	/** @dataProvider provideGetTargetSearchCondsIP */
+	public function testGetTargetSearchCondsIP( $target, $type, $start, $end ) {
+		$object = $this->setUpObject();
+		$this->assertArrayEquals(
+			$this->getExpectedGetTargetSearchConds( $type, null, $start, $end ),
+			$object->getTargetSearchConds( $target ),
+			false,
+			true,
+			'Valid IP addresses should have associated search conditions.'
+		);
+	}
+
+	public static function provideGetTargetSearchCondsIP(): array {
+		return [
+			'Single IP' => [ '124.0.0.0', 'ip', '7C000000', '7C000000' ],
+			'/24 IP range' => [ '124.0.0.0/24', 'range', '7C000000', '7C0000FF' ],
+			'/16 IP range' => [ '124.0.0.0/16', 'range', '7C000000', '7C00FFFF' ],
+			'Single IP notated as a /32 range' => [ '1.2.3.4/32', 'ip', '01020304', '01020304' ],
+			'Single IPv6' => [ '::e:f:2001', 'ip',
+				'v6-00000000000000000000000E000F2001',
+				'v6-00000000000000000000000E000F2001'
+			],
+			'/96 IPv6 range' => [ '::e:f:2001/96', 'range',
+				'v6-00000000000000000000000E00000000',
+				'v6-00000000000000000000000EFFFFFFFF'
+			],
+		];
+	}
+
+	private function getExpectedGetTargetSearchConds( $type, $id, $start = 0, $end = 0 ) {
+		switch ( $type ) {
+			case 'ip':
+				return [
+					'cul_target_hex = ' . $this->db->addQuotes( $start ) . ' OR ' .
+					'(cul_range_end >= ' . $this->db->addQuotes( $start ) . ' AND ' .
+					'cul_range_start <= ' . $this->db->addQuotes( $start ) . ')'
+				];
+			case 'range':
+				return [
+					'(cul_target_hex >= ' . $this->db->addQuotes( $start ) . ' AND ' .
+					'cul_target_hex <= ' . $this->db->addQuotes( $end ) . ') OR ' .
+					'(cul_range_end >= ' . $this->db->addQuotes( $start ) . ' AND ' .
+					'cul_range_start <= ' . $this->db->addQuotes( $end ) . ')'
+				];
+			case 'user':
+				if ( $id === null ) {
+					return null;
+				}
+				return [
+					'cul_type' => [ 'userips', 'useredits', 'investigate' ],
+					'cul_target_id' => $id,
+				];
+			default:
+				$this->fail( 'getExpectedGetTargetSearchConds() got an unexpected type.' );
+		}
+	}
+
+	public function testVerifyTargetUser() {
+		$object = $this->setUpObject();
+		// Existing user
+		$testUser = $this->getTestUser()->getUser();
+		$this->assertTrue( $testUser->getUser()->isRegistered() );
+		$this->assertSame(
+			$testUser->getId(),
+			$object->verifyTarget( $testUser->getName() ),
+			'For an existing user it\'s ID should be returned.'
+		);
+	}
+
+	/** @dataProvider provideVerifyTargetUserForNonExistingUser */
+	public function testVerifyTargetUserForNonExistingUser( $username ) {
+		$object = $this->setUpObject();
+		$this->assertFalse(
+			$object->verifyTarget( $username ),
+			'If the target was not valid or did not exist, then false should be returned by ::verifyTarget.'
+		);
+	}
+
+	public static function provideVerifyTargetUserForNonExistingUser() {
+		return [
+			'Non-existing user' => [ 'Non-existent user testing 123456789' ],
+			'Invalid username' => [ '/' ],
 		];
 	}
 }

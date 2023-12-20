@@ -4,13 +4,11 @@ namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
 use IContextSource;
 use MediaWiki\Cache\LinkBatchFactory;
-use MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\Linker;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Pager\RangeChronologicalPager;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\User\ActorStore;
@@ -271,7 +269,7 @@ class CheckUserLogPager extends RangeChronologicalPager {
 		if ( $this->opts['target'] !== '' ) {
 			$queryInfo['conds'] = array_merge(
 				$queryInfo['conds'],
-				$this->getTargetSearchConds( $this->opts['target'] ) ?? []
+				$this->checkUserLogService->getTargetSearchConds( $this->opts['target'] ) ?? []
 			);
 			if ( IPUtils::isIPAddress( $this->opts['target'] ) ) {
 				// Use the cul_target_hex index on the query if the target is an IP
@@ -352,40 +350,6 @@ class CheckUserLogPager extends RangeChronologicalPager {
 		$initiatorId = $this->actorStore->findActorIdByName( $initiator, $this->mDb ) ?? false;
 		if ( $initiatorId !== false ) {
 			return [ 'cul_actor' => $initiatorId ];
-		}
-		return null;
-	}
-
-	/**
-	 * Get DB search conditions according to the CU target given.
-	 *
-	 * @param string $target the username, IP address or range of the target.
-	 * @return array|null array if valid target, null if invalid target given
-	 */
-	public static function getTargetSearchConds( string $target ): ?array {
-		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancerFactory()->getReplicaDatabase();
-		$result = SpecialCheckUserLog::verifyTarget( $target );
-		if ( is_array( $result ) ) {
-			switch ( count( $result ) ) {
-				case 1:
-					return [
-						'cul_target_hex = ' . $dbr->addQuotes( $result[0] ) . ' OR ' .
-						'(cul_range_end >= ' . $dbr->addQuotes( $result[0] ) . ' AND ' .
-						'cul_range_start <= ' . $dbr->addQuotes( $result[0] ) . ')'
-					];
-				case 2:
-					return [
-						'(cul_target_hex >= ' . $dbr->addQuotes( $result[0] ) . ' AND ' .
-						'cul_target_hex <= ' . $dbr->addQuotes( $result[1] ) . ') OR ' .
-						'(cul_range_end >= ' . $dbr->addQuotes( $result[0] ) . ' AND ' .
-						'cul_range_start <= ' . $dbr->addQuotes( $result[1] ) . ')'
-					];
-			}
-		} elseif ( is_int( $result ) ) {
-			return [
-				'cul_type' => [ 'userips', 'useredits', 'investigate' ],
-				'cul_target_id' => $result,
-			];
 		}
 		return null;
 	}

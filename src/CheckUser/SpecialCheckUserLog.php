@@ -14,10 +14,8 @@ use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Title\Title;
 use MediaWiki\User\ActorStore;
-use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
 use UserBlockedError;
-use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\Rdbms\LBFactory;
 
@@ -124,7 +122,10 @@ class SpecialCheckUserLog extends SpecialPage {
 
 		$errorMessageKey = null;
 
-		if ( $this->opts['target'] !== '' && self::verifyTarget( $this->opts['target'] ) === false ) {
+		if (
+			$this->opts['target'] !== '' &&
+			$this->checkUserLogService->verifyTarget( $this->opts['target'] ) === false
+		) {
 			$errorMessageKey = 'checkuser-target-nonexistent';
 		}
 		if ( $this->opts['initiator'] !== '' && $this->verifyInitiator( $this->opts['initiator'] ) === false ) {
@@ -259,40 +260,6 @@ class SpecialCheckUserLog extends SpecialPage {
 			->setSubmitTextMsg( 'checkuser-search-submit' )
 			->prepareForm()
 			->displayForm( false );
-	}
-
-	/**
-	 * Verify if the target is a valid IP, IP range or user.
-	 *
-	 * If the target is a user then return the user's ID,
-	 * if the target is a valid IP address then return
-	 * the IP address in hexadecimal and if the target
-	 * is a valid IP range return the start and end
-	 * hexadecimal for that range. These are used
-	 * by CheckUserLogPager.
-	 *
-	 * Otherwise return false for an invalid target.
-	 *
-	 * @param string $target
-	 * @return bool|int|array
-	 */
-	public static function verifyTarget( string $target ) {
-		[ $start, $end ] = IPUtils::parseRange( $target );
-
-		if ( $start !== false ) {
-			if ( $start === $end ) {
-				return [ $start ];
-			}
-
-			return [ $start, $end ];
-		}
-
-		$user = User::newFromName( $target );
-		if ( $user && $user->getId() ) {
-			return $user->getId();
-		}
-
-		return false;
 	}
 
 	/**

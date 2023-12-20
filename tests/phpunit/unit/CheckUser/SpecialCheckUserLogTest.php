@@ -57,30 +57,4 @@ class SpecialCheckUserLogTest extends MediaWikiUnitTestCase {
 			'User' => [ 'TestAccount' ]
 		];
 	}
-
-	/** @dataProvider provideVerifyTargetIP */
-	public function testVerifyTargetIP( $target, $expected ) {
-		$this->assertArrayEquals(
-			$expected,
-			SpecialCheckUserLog::verifyTarget( $target ),
-			true,
-			false,
-			'Valid IP addresses should be seen as valid targets and parsed as an IP or IP range.'
-		);
-	}
-
-	public static function provideVerifyTargetIP() {
-		return [
-			'Single IP' => [ '124.0.0.0', [ '7C000000' ] ],
-			'/24 IP range' => [ '124.0.0.0/24', [ '7C000000', '7C0000FF' ] ],
-			'/16 IP range' => [ '124.0.0.0/16', [ '7C000000', '7C00FFFF' ] ],
-			'Single IP notated as a /32 range' => [ '1.2.3.4/32', [ '01020304' ] ],
-			'Single IPv6' => [ '::e:f:2001', [ 'v6-00000000000000000000000E000F2001' ] ],
-			'/96 IPv6 range' => [ '::e:f:2001/96', [
-				'v6-00000000000000000000000E00000000',
-				'v6-00000000000000000000000EFFFFFFFF'
-			]
-			],
-		];
-	}
 }
