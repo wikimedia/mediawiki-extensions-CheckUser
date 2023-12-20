@@ -3,11 +3,15 @@
 		"authors": [
 			"Alex Khimich",
 			"Base",
-			"Piramidion"
+			"Piramidion",
+			"Ата"
 		]
 	},
 	"apihelp-query+checkuser-summary": "Перевірка того, які IP-адреси використовуються даним іменем користувача, або які імена користувачів використовуються даною IP-адресою.",
-	"apihelp-query+checkuser-param-request": "Тип запиту перевірки користувача:\n;userips:Отримати IP-адреси цільового користувача.\n;edits:Отримати зміни з цільової IP-адреси або діапазону.\n;ipusers:Отримати користувачів з цільової IP-адреси або діапазону.",
+	"apihelp-query+checkuser-param-request": "Тип запиту перевірки користувача:",
+	"apihelp-query+checkuser-paramvalue-request-userips": "Отримати IP-адреси цільового користувача.",
+	"apihelp-query+checkuser-paramvalue-request-edits": "Отримати зміни з цільової IP-адреси або діапазону.",
+	"apihelp-query+checkuser-paramvalue-request-ipusers": "Отримати користувачів з цільової IP-адреси або діапазону.",
 	"apihelp-query+checkuser-param-target": "Ім'я користувача, IP-адреса, або CIDR-діапазон для перевірки.",
 	"apihelp-query+checkuser-param-reason": "Причина перевірки.",
 	"apihelp-query+checkuser-param-limit": "Обмеження рядків.",
@@ -26,5 +30,7 @@
 	"apierror-checkuser-missingsummary": "Вам необхідно зазначити причину для перевірки.",
 	"apierror-checkuser-timelimit": "Вам необхідно використовувати правильне обмеження за часом (наприклад, \"-2 weeks\" або \"2 weeks ago\").",
 	"apierror-checkuser-invalidmode": "Неправильний параметр запиту",
-	"checkuser-api-help-param-direction": "У якому напрямку перелічувати:\n;newer:Спочатку найстаріші. Примітка: значення $1from повинне бути до $1to.\n;older:Спочатку найновіші (за замовчуванням). Примітка: значення $1from повинно бути після $1to."
+	"checkuser-api-help-param-direction": "У якому напрямку перелічувати:",
+	"checkuser-api-help-paramvalue-direction-newer": "Спочатку найстаріші. Примітка: значення $1from повинне бути до $1to.",
+	"checkuser-api-help-paramvalue-direction-older": "Спочатку найновіші (за замовчуванням). Примітка: значення $1from повинно бути після $1to."
 }
