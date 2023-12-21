@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\Deferred\DeferredUpdates;
+use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
@@ -18,6 +19,8 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  * @covers \MediaWiki\CheckUser\Services\CheckUserLogService
  */
 class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
+
+	use TempUserTestTrait;
 
 	protected function setUpObject(): CheckUserLogService {
 		return $this->getServiceContainer()->get( 'CheckUserLogService' );
@@ -40,6 +43,9 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testPerformerIsIP() {
+		// Cannot have an IP actor if autocreation of temporary accounts is enabled,
+		// so disable it.
+		$this->disableAutoCreateTempUser();
 		// Test that an IP performing a check actually saves a cu_log entry
 		// as if the checkuser right is granted to all users (i.e the * group)
 		// then any checks should definitely still be logged.

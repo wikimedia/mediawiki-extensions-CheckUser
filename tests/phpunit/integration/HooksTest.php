@@ -10,6 +10,7 @@ use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\Hooks;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
+use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\User;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
@@ -29,6 +30,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 
 	use CheckUserCommonTraitTest;
 	use MockAuthorityTrait;
+	use TempUserTestTrait;
 
 	/**
 	 * @return TestingAccessWrapper
@@ -863,6 +865,9 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		string $messageKey,
 		int $eventTableMigrationStage
 	): void {
+		if ( $isAnonPerformer ) {
+			$this->disableAutoCreateTempUser();
+		}
 		( new Hooks() )->onAuthManagerLoginAuthenticateAudit(
 			$authResp,
 			$userObj,
@@ -1218,6 +1223,9 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	 */
 	public function testOnPerformRetroactiveAutoblock( bool $isIP, bool $hasCUChangesRow, bool $shouldAutoblock ) {
 		if ( $isIP ) {
+			// Need to create actor IDs for IPs, so disable auto creation
+			// of temporary users if enabled by default.
+			$this->disableAutoCreateTempUser();
 			$target = UserIdentityValue::newAnonymous( '127.0.0.1' );
 			// Need to create an actor ID for the IP in case it makes no edits as part of the test.
 			$this->getServiceContainer()->getActorStore()->createNewActor( $target, $this->db );

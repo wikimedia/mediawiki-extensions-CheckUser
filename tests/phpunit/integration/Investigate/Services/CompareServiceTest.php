@@ -6,6 +6,7 @@ use MediaWiki\CheckUser\Investigate\Services\CompareService;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Tests\Unit\Libs\Rdbms\AddQuoterMock;
+use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
@@ -23,6 +24,8 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  * @covers \MediaWiki\CheckUser\Investigate\Services\CompareService
  */
 class CompareServiceTest extends MediaWikiIntegrationTestCase {
+
+	use TempUserTestTrait;
 
 	/** @var CompareService */
 	private $service;
@@ -327,6 +330,9 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function addDBData() {
+		// Need to create actor IDs for IPs, so disable auto creation
+		// of temporary users if enabled by default.
+		$this->disableAutoCreateTempUser();
 		$actorStore = $this->getServiceContainer()->getActorStore();
 
 		$testActorData = [

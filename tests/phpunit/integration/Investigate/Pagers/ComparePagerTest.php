@@ -8,6 +8,7 @@ use MediaWiki\CheckUser\Investigate\Services\CompareService;
 use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
@@ -23,6 +24,7 @@ use Wikimedia\IPUtils;
  */
 class ComparePagerTest extends MediaWikiIntegrationTestCase {
 	use TestAllServiceOptionsUsed;
+	use TempUserTestTrait;
 
 	/**
 	 * @dataProvider provideDoQuery
@@ -103,6 +105,9 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function addDBData() {
+		// Automatic temp user creation cannot be enabled
+		// if actor IDs are being created for IPs.
+		$this->disableAutoCreateTempUser();
 		$actorStore = $this->getServiceContainer()->getActorStore();
 
 		$testActorData = [
