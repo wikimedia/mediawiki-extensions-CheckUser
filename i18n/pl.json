@@ -92,6 +92,7 @@
 	"checkuser-blocked": "Zablokowany",
 	"checkuser-gblocked": "Zablokowany globalnie",
 	"checkuser-locked": "Zablokowany",
+	"checkuser-torexitnode": "Węzeł wyjściowy TOR",
 	"checkuser-wasblocked": "Poprzednie blokady",
 	"checkuser-localonly": "Nie posiada konta uniwersalnego",
 	"checkuser-massblock": "Blokowanie wybranych użytkowników",

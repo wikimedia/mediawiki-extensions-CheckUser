@@ -81,6 +81,7 @@
 	"checkuser-blocked": "חסום",
 	"checkuser-gblocked": "חסום באופן גלובלי",
 	"checkuser-locked": "נעול",
+	"checkuser-torexitnode": "צומת יציאה של Tor",
 	"checkuser-wasblocked": "נחסם בעבר",
 	"checkuser-localonly": "חשבון לא מאוחד",
 	"checkuser-massblock": "חסימת המשתמשים שנבחרו",

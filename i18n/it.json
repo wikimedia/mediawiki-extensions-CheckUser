@@ -73,6 +73,7 @@
 	"checkuser-blocked": "Bloccato",
 	"checkuser-gblocked": "Bloccato globalmente",
 	"checkuser-locked": "Disabilitato",
+	"checkuser-torexitnode": "Nodo di uscita Tor",
 	"checkuser-wasblocked": "Bloccato precedentemente",
 	"checkuser-localonly": "Non unificato",
 	"checkuser-massblock": "Blocca utenti selezionati",

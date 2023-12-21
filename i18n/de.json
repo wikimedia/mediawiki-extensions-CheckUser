@@ -89,6 +89,7 @@
 	"checkuser-blocked": "gesperrt",
 	"checkuser-gblocked": "global gesperrt",
 	"checkuser-locked": "global gesperrt",
+	"checkuser-torexitnode": "Tor-Ausgangsknoten",
 	"checkuser-wasblocked": "ehemals gesperrt",
 	"checkuser-localonly": "nicht zusammengeführt",
 	"checkuser-massblock": "Ausgewählte Benutzer sperren",
