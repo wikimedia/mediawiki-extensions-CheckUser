@@ -76,6 +76,7 @@
 	"checkuser-blocked": "Блокиран",
 	"checkuser-gblocked": "Блокиран глобално",
 	"checkuser-locked": "Заклучено",
+	"checkuser-torexitnode": "Излезен јазол на Tor",
 	"checkuser-wasblocked": "Претходно блокиран",
 	"checkuser-localonly": "Необединета",
 	"checkuser-massblock": "Блокирај ги избраните корисници",
