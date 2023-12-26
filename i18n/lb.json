@@ -56,6 +56,7 @@
 	"checkuser-blocked": "Gespaart",
 	"checkuser-gblocked": "global gespaart",
 	"checkuser-locked": "Gespaart",
+	"checkuser-torexitnode": "Tor-Ausgangsknuet",
 	"checkuser-wasblocked": "Virdru gespaart",
 	"checkuser-localonly": "Net zesummegeluecht",
 	"checkuser-massblock": "Ausgewielt Benotzer spären",
