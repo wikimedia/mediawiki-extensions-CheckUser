@@ -16,7 +16,8 @@
 			"Trijnstel",
 			"Troefkaart",
 			"Vistaus",
-			"Xbaked potatox"
+			"Xbaked potatox",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Dit hulpmiddel doorzoekt de recente wijzigingen om de IP-adressen van een gebruiker te achterhalen, of om voor een IP-adres de bewerkings- en gebruikersgegegevens weer te geven.\nDe met een bepaald IP-adres in verband staande gebruikers en bewerkingen kunnen via XFF-headers achterhaald worden door \"/xff\" achter het IP-adres toe te voegen. Daarbij worden zowel IPv4 (CIDR $1-32) als IPv6 (CIDR $2-128) ondersteund.\nOm prestatieredenen worden niet meer dan $3 bewerkingen weergegeven.\nGebruik dit hulpmiddel alleen in overeenstemming met het vastgestelde beleid.",
@@ -108,8 +109,8 @@
 	"checkuser-email-action": "heeft een e-mail gestuurd aan \"$1\"",
 	"checkuser-reset-action": "heeft het wachtwoord voor gebruiker $1 opnieuw ingesteld",
 	"checkuser-token-fail": "Sessie is mislukt. Probeer het opnieuw.",
-	"checkuser-login-failure": "Kon niet als $1 inloggen op {{SITENAME}}",
-	"checkuser-login-success": "Succesvol als $1 op {{SITENAME}} ingelogd",
+	"checkuser-login-failure": "Aanmelding als $1 op {{SITENAME}} mislukt",
+	"checkuser-login-success": "Succesvol aangemeld bij {{SITENAME}} als $1",
 	"checkuser-investigateblock": "Gebruikers blokkeren",
 	"checkuser-investigateblock-target": "Gebruikersnaam en IP-adressen",
 	"checkuser-investigateblock-actions": "Te blokkeren handelingen",
