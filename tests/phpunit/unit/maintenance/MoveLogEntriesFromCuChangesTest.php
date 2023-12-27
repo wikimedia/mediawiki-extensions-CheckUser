@@ -14,7 +14,6 @@ use Wikimedia\Rdbms\InsertQueryBuilder;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Rdbms\UpdateQueryBuilder;
 use Wikimedia\TestingAccessWrapper;
-use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * @group CheckUser
@@ -22,14 +21,6 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  * @covers \MediaWiki\CheckUser\Maintenance\MoveLogEntriesFromCuChanges
  */
 class MoveLogEntriesFromCuChangesTest extends MediaWikiUnitTestCase {
-
-	/**
-	 * @inheritDoc
-	 */
-	protected function setUp(): void {
-		parent::setUp();
-		ConvertibleTimestamp::setFakeTime( '20231127123058' );
-	}
 
 	public function testGetUpdateKey() {
 		$objectUnderTest = TestingAccessWrapper::newFromObject( new MoveLogEntriesFromCuChanges() );
@@ -322,7 +313,7 @@ class MoveLogEntriesFromCuChangesTest extends MediaWikiUnitTestCase {
 			'cuc_actiontext' => 'Testing',
 			'cuc_comment_id' => 2,
 			'cuc_page_id' => 3,
-			'cuc_timestamp' => ConvertibleTimestamp::now(),
+			'cuc_timestamp' => '20231127123058',
 			'cuc_ip' => '127.0.0.1',
 			'cuc_ip_hex' => IPUtils::toHex( '127.0.0.1' ),
 			'cuc_xff' => '',
@@ -342,7 +333,7 @@ class MoveLogEntriesFromCuChangesTest extends MediaWikiUnitTestCase {
 	private static function getExpectedCuPrivateRow( array $row = [] ): array {
 		// If modifying this, keep it consistent with ::getCuChangesRow
 		return array_merge( [
-			'cupe_timestamp' => ConvertibleTimestamp::now(),
+			'cupe_timestamp' => '20231127123058',
 			'cupe_namespace' => NS_MAIN,
 			'cupe_title' => 'Test',
 			'cupe_actor' => 2,
