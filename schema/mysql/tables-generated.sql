@@ -3,7 +3,7 @@
 -- Do not modify this file directly.
 -- See https://www.mediawiki.org/wiki/Manual:Schema_changes
 CREATE TABLE /*_*/cu_changes (
-  cuc_id INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  cuc_id BIGINT UNSIGNED AUTO_INCREMENT NOT NULL,
   cuc_namespace INT DEFAULT 0 NOT NULL,
   cuc_title VARBINARY(255) DEFAULT '' NOT NULL,
   cuc_actor BIGINT UNSIGNED NOT NULL,

@@ -5,7 +5,7 @@
 			{
 				"name": "cuc_id",
 				"comment": "Primary key",
-				"type": "integer",
+				"type": "bigint",
 				"options": { "autoincrement": true, "notnull": true, "unsigned": true }
 			},
 			{

@@ -3,7 +3,7 @@
 -- Do not modify this file directly.
 -- See https://www.mediawiki.org/wiki/Manual:Schema_changes
 CREATE TABLE cu_changes (
-  cuc_id SERIAL NOT NULL,
+  cuc_id BIGSERIAL NOT NULL,
   cuc_namespace INT DEFAULT 0 NOT NULL,
   cuc_title TEXT DEFAULT '' NOT NULL,
   cuc_actor BIGINT NOT NULL,

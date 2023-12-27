@@ -280,11 +280,20 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook {
 		$updater->addExtensionTable( 'cu_useragent_clienthints', "$base/$dbType/cu_useragent_clienthints.sql" );
 		$updater->addExtensionTable( 'cu_useragent_clienthints_map', "$base/$dbType/cu_useragent_clienthints_map.sql" );
 		$updater->addPostDatabaseUpdateMaintenance( MoveLogEntriesFromCuChanges::class );
+
+		// 1.42
 		$updater->addExtensionField(
 			'cu_log',
 			'cul_result_id',
 			"$base/$dbType/patch-cu_log-add-cul_result_id.sql"
 		);
+		if ( $dbType !== 'sqlite' ) {
+			$updater->modifyExtensionField(
+				'cu_changes',
+				'cuc_id',
+				"$base/$dbType/patch-cu_changes-modify-cuc_id-bigint.sql"
+			);
+		}
 
 		if ( !$isCUInstalled ) {
 			// First time so populate cu_changes with recentchanges data.
