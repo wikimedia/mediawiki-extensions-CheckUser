@@ -72,6 +72,7 @@
 	"checkuser-blocked": "Blocate",
 	"checkuser-gblocked": "Globalmente blocate",
 	"checkuser-locked": "Serrate",
+	"checkuser-torexitnode": "Nodo de exito de Tor",
 	"checkuser-wasblocked": "Anteriormente blocate",
 	"checkuser-localonly": "Non unificate",
 	"checkuser-massblock": "Blocar usatores seligite",
