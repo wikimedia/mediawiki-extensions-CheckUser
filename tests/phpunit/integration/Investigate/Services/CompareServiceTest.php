@@ -62,7 +62,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 			->disableOriginalConstructor()
 			->getMockForAbstractClass();
 		$db->method( 'strencode' )
-			->will( $this->returnArgument( 0 ) );
+			->willReturnArgument( 0 );
 		$db->method( 'dbSchema' )
 			->willReturn( '' );
 		$db->method( 'tablePrefix' )

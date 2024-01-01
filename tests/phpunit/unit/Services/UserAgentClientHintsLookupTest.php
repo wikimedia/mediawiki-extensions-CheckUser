@@ -191,7 +191,7 @@ class UserAgentClientHintsLookupTest extends MediaWikiUnitTestCase {
 		$referenceIds->addReferenceIds( [ 1, 23 ], UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES );
 		$referenceIds->addReferenceIds( 123, UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT );
 		$dbrMock = $this->createMock( IReadableDatabase::class );
-		$dbrMock->method( 'newSelectQueryBuilder' )->willReturnCallback( fn() => new SelectQueryBuilder( $dbrMock ) );
+		$dbrMock->method( 'newSelectQueryBuilder' )->willReturnCallback( fn () => new SelectQueryBuilder( $dbrMock ) );
 		$dbrMock->method( 'select' )
 			->with(
 				[ 'cu_useragent_clienthints_map' ],

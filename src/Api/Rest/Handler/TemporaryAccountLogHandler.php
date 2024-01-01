@@ -48,7 +48,7 @@ class TemporaryAccountLogHandler extends AbstractTemporaryAccountHandler {
 			// T327906: 'cule_actor' and 'cule_timestamp' are selected
 			// only to satisfy Postgres requirement where all ORDER BY
 			// fields must be present in SELECT list.
-			->select( [ 'cule_log_id', 'cule_ip','cule_actor', 'cule_timestamp' ] )
+			->select( [ 'cule_log_id', 'cule_ip', 'cule_actor', 'cule_timestamp' ] )
 			->from( 'cu_log_event' )
 			->where( $conds )
 			->orderBy( [ 'cule_actor', 'cule_ip', 'cule_timestamp' ] )

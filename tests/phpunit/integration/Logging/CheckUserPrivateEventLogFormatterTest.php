@@ -216,7 +216,7 @@ class CheckUserPrivateEventLogFormatterTest extends LogFormatterTestCase {
 		// Don't use doTestLogFormatter() since it overrides every service that
 		// accesses the database and prevents correct loading of the block.
 		$row = $this->expandDatabaseRow(
-				[
+			[
 				'type' => 'checkuser-private-event',
 				'action' => 'login-success',
 				'user_text' => $targetUser->getName(),

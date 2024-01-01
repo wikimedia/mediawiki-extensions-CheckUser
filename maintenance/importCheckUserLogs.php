@@ -119,7 +119,7 @@ class ImportCheckUserLogs extends Maintenance {
 				// Local wiki lookups...
 				$user = $userFactory->newFromName( $data['user'] );
 
-				list( $start, $end ) = IPUtils::parseRange( $data['target'] );
+				[ $start, $end ] = IPUtils::parseRange( $data['target'] );
 				if ( $start === false ) {
 					$targetUser = $userFactory->newFromName( $data['target'] );
 					$targetID = $targetUser ? $targetUser->getId() : 0;
