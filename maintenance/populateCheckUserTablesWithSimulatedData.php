@@ -453,7 +453,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 	 * @return string The IP that was chosen
 	 */
 	private function generateNewIPv4(): string {
-		list( $start, $end ) = IPUtils::parseRange( array_rand( array_flip( $this->ipv4Ranges ) ) );
+		[ $start, $end ] = IPUtils::parseRange( array_rand( array_flip( $this->ipv4Ranges ) ) );
 		$start = ip2long( IPUtils::formatHex( $start ) );
 		$end = ip2long( IPUtils::formatHex( $end ) );
 		$ipAsLong = $this->mtRand( $start, $end );
@@ -468,7 +468,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 	 * @return string The IP that was chosen
 	 */
 	private function generateNewIPv6(): string {
-		list( $start, $end ) = IPUtils::parseRange( array_rand( array_flip( $this->ipv6Ranges ) ) );
+		[ $start, $end ] = IPUtils::parseRange( array_rand( array_flip( $this->ipv6Ranges ) ) );
 		$ip = '';
 		$seenDifference = false;
 		$lastOnEdgeOfRange = false;

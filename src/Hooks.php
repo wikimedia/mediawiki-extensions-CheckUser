@@ -269,7 +269,7 @@ class Hooks implements
 			->onCheckUserInsertLogEventRow( $ip, $xff, $row, $user, $logEntry->getId(), $rc );
 		/** @var CheckUserUtilityService $checkUserUtilityService */
 		$checkUserUtilityService = $services->get( 'CheckUserUtilityService' );
-		list( $xff_ip, $isSquidOnly, $xff ) = $checkUserUtilityService->getClientIPfromXFF( $xff );
+		[ $xff_ip, $isSquidOnly, $xff ] = $checkUserUtilityService->getClientIPfromXFF( $xff );
 
 		$row = array_merge( [
 			'cule_actor'     => $services->getActorStore()->acquireActorId( $user, $dbw ),
@@ -333,7 +333,7 @@ class Hooks implements
 			->onCheckUserInsertPrivateEventRow( $ip, $xff, $row, $user, $rc );
 		/** @var CheckUserUtilityService $checkUserUtilityService */
 		$checkUserUtilityService = $services->get( 'CheckUserUtilityService' );
-		list( $xff_ip, $isSquidOnly, $xff ) = $checkUserUtilityService->getClientIPfromXFF( $xff );
+		[ $xff_ip, $isSquidOnly, $xff ] = $checkUserUtilityService->getClientIPfromXFF( $xff );
 
 		$row = array_merge(
 			[
@@ -412,7 +412,7 @@ class Hooks implements
 			->onCheckUserInsertChangesRow( $ip, $xff, $row, $user, $rc );
 		/** @var CheckUserUtilityService $checkUserUtilityService */
 		$checkUserUtilityService = $services->get( 'CheckUserUtilityService' );
-		list( $xff_ip, $isSquidOnly, $xff ) = $checkUserUtilityService->getClientIPfromXFF( $xff );
+		[ $xff_ip, $isSquidOnly, $xff ] = $checkUserUtilityService->getClientIPfromXFF( $xff );
 
 		$row = array_merge(
 			[

@@ -560,7 +560,7 @@ class SpecialInvestigate extends FormSpecialPage {
 		$canViewLogs = $this->permissionManager->userHasRight( $this->getUser(), 'checkuser-log' );
 		$buttons = [];
 		if ( $canViewLogs ) {
-			 $buttons[] = new ButtonWidget( [
+			$buttons[] = new ButtonWidget( [
 				'label' => $this->msg( 'checkuser-investigate-indicator-logs' )->text(),
 				'href' => self::getTitleFor( 'CheckUserLog' )->getLinkURL(),
 				'target' => $onSubpage ? '_blank' : '',

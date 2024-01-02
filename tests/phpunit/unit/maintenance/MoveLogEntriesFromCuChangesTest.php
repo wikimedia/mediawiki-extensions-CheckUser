@@ -66,7 +66,7 @@ class MoveLogEntriesFromCuChangesTest extends MediaWikiUnitTestCase {
 	public function testDoDBUpdatesWithNoRowsInCuChanges() {
 		// Mock the primary DB
 		$dbwMock = $this->createMock( IDatabase::class );
-		$dbwMock->method( 'newSelectQueryBuilder' )->willReturnCallback( fn() => new SelectQueryBuilder( $dbwMock ) );
+		$dbwMock->method( 'newSelectQueryBuilder' )->willReturnCallback( fn () => new SelectQueryBuilder( $dbwMock ) );
 		// Expect that a query for the number of rows in cu_changes is made.
 		$dbwMock->method( 'selectRowCount' )
 			->with(
@@ -112,9 +112,9 @@ class MoveLogEntriesFromCuChangesTest extends MediaWikiUnitTestCase {
 		// Mock the DB.
 		$dbwMock = $this->createMock( IDatabase::class );
 		// Tell the query builders to use the mock DB when executing the query.
-		$dbwMock->method( 'newSelectQueryBuilder' )->willReturnCallback( fn() => new SelectQueryBuilder( $dbwMock ) );
-		$dbwMock->method( 'newUpdateQueryBuilder' )->willReturnCallback( fn() => new UpdateQueryBuilder( $dbwMock ) );
-		$dbwMock->method( 'newInsertQueryBuilder' )->willReturnCallback( fn() => new InsertQueryBuilder( $dbwMock ) );
+		$dbwMock->method( 'newSelectQueryBuilder' )->willReturnCallback( fn () => new SelectQueryBuilder( $dbwMock ) );
+		$dbwMock->method( 'newUpdateQueryBuilder' )->willReturnCallback( fn () => new UpdateQueryBuilder( $dbwMock ) );
+		$dbwMock->method( 'newInsertQueryBuilder' )->willReturnCallback( fn () => new InsertQueryBuilder( $dbwMock ) );
 		// Expect that select queries are made that get the minimum and maximum cuc_id
 		// in the cu_changes table, and mock the return value to that provided via the
 		// data provider.
