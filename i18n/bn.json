@@ -74,6 +74,7 @@
 	"checkuser-blocked": "বাধাপ্রাপ্ত",
 	"checkuser-gblocked": "বৈশ্বিকভাবে বাধাপ্রাপ্ত",
 	"checkuser-locked": "অবরুদ্ধ",
+	"checkuser-torexitnode": "টর প্রস্থান নোড",
 	"checkuser-wasblocked": "পূর্বে বাধাদানকৃত ছিলো",
 	"checkuser-localonly": "কোনো একত্রকীকরণ নেই",
 	"checkuser-massblock": "নির্বাচিত ব্যবহারকারীদের বাধা দিন",
