@@ -104,7 +104,10 @@ class CheckUserLogPager extends RangeChronologicalPager {
 					'class' => $dateAndTimeClasses,
 				],
 				[
-					'offset' => $row->cul_timestamp + 3600,
+					// offset is used by IndexPager, it does not know this is a timestamp,
+					// so provide in database format to make it working as string there.
+					'offset' => $this->getDatabase()->timestamp(
+						(int)wfTimestamp( TS_UNIX, $row->cul_timestamp ) + 3600 ),
 					'highlight' => $row->cul_timestamp,
 				]
 			);
