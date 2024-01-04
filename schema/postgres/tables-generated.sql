@@ -118,6 +118,8 @@ CREATE TABLE cu_log (
   cul_actor BIGINT NOT NULL,
   cul_reason_id BIGINT NOT NULL,
   cul_reason_plaintext_id BIGINT NOT NULL,
+  cul_result_id BIGINT DEFAULT 0 NOT NULL,
+  cul_result_plaintext_id BIGINT DEFAULT 0 NOT NULL,
   cul_type TEXT NOT NULL,
   cul_target_id INT DEFAULT 0 NOT NULL,
   cul_target_text TEXT NOT NULL,
