@@ -3,7 +3,6 @@
 namespace MediaWiki\CheckUser\Tests;
 
 use ExtensionRegistry;
-use MediaWiki\Block\DatabaseBlockStoreFactory;
 use MediaWiki\CheckUser\Investigate\Pagers\PreliminaryCheckPager;
 use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
@@ -33,7 +32,6 @@ class PreliminaryCheckPagerTest extends MediaWikiIntegrationTestCase {
 			$this->createMock( ILBFactory::class ),
 			$registry,
 			$this->createNoOpMock( UserGroupManagerFactory::class ),
-			$this->createNoOpMock( DatabaseBlockStoreFactory::class ),
 			'testwiki'
 		);
 
