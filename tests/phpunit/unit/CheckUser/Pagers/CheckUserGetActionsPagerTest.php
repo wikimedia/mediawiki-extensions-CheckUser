@@ -3,7 +3,7 @@
 namespace MediaWiki\CheckUser\Tests\Unit\CheckUser\Pagers;
 
 use Language;
-use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetEditsPager;
+use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetActionsPager;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
@@ -15,22 +15,22 @@ use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\TestingAccessWrapper;
 
 /**
- * Test class for CheckUserGetEditsPager class
+ * Test class for CheckUserGetActionsPager class
  *
  * @group CheckUser
  *
- * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetEditsPager
+ * @covers \MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetActionsPager
  */
-class CheckUserGetEditsPagerTest extends CheckUserPagerUnitTestBase {
+class CheckUserGetActionsPagerTest extends CheckUserPagerUnitTestBase {
 
 	/** @inheritDoc */
 	protected function getPagerClass(): string {
-		return CheckUserGetEditsPager::class;
+		return CheckUserGetActionsPager::class;
 	}
 
 	/** @dataProvider provideIsNavigationBarShown */
 	public function testIsNavigationBarShown( $numRows, $shown ) {
-		$object = $this->getMockBuilder( CheckUserGetEditsPager::class )
+		$object = $this->getMockBuilder( CheckUserGetActionsPager::class )
 			->onlyMethods( [ 'getNumRows' ] )
 			->disableOriginalConstructor()
 			->getMock();
@@ -322,7 +322,7 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerUnitTestBase {
 		$commentFormatterMock = $this->createMock( CommentFormatter::class );
 		$commentFormatterMock->method( 'format' )
 			->willReturnArgument( 0 );
-		$objectUnderTest = $this->getMockBuilder( CheckUserGetEditsPager::class )
+		$objectUnderTest = $this->getMockBuilder( CheckUserGetActionsPager::class )
 			->onlyMethods( [] )
 			->disableOriginalConstructor()
 			->getMock();

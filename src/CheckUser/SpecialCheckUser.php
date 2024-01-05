@@ -7,7 +7,7 @@ use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\Block\BlockUserFactory;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
-use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetEditsPager;
+use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetActionsPager;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\CheckUser\CheckUser\Widgets\CIDRCalculator;
@@ -56,7 +56,7 @@ class SpecialCheckUser extends SpecialPage {
 	 */
 	public const SUBTYPE_GET_IPS = 'subuserips';
 
-	public const SUBTYPE_GET_EDITS = 'subedits';
+	public const SUBTYPE_GET_ACTIONS = 'subactions';
 
 	public const SUBTYPE_GET_USERS = 'subipusers';
 
@@ -350,7 +350,7 @@ class SpecialCheckUser extends SpecialPage {
 					$pager = $this->getPager( self::SUBTYPE_GET_IPS, $userIdentity, 'userips' );
 					$out->addHtml( $pager->getBody() );
 				}
-			} elseif ( $checkType == self::SUBTYPE_GET_EDITS ) {
+			} elseif ( $checkType == self::SUBTYPE_GET_ACTIONS ) {
 				if ( $isIP && $userIdentity ) {
 					// Target is a IP or range
 					if ( !AbstractCheckUserPager::isValidRange( $userIdentity->getName() ) ) {
@@ -359,7 +359,7 @@ class SpecialCheckUser extends SpecialPage {
 						$logType = $xfor ? 'ipedits-xff' : 'ipedits';
 
 						// Ordered in descent by timestamp. Can cause large filesorts on range scans.
-						$pager = $this->getPager( self::SUBTYPE_GET_EDITS, $userIdentity, $logType, $xfor );
+						$pager = $this->getPager( self::SUBTYPE_GET_ACTIONS, $userIdentity, $logType, $xfor );
 						$out->addHTML( $pager->getBody() );
 					}
 				} else {
@@ -374,7 +374,7 @@ class SpecialCheckUser extends SpecialPage {
 						set_time_limit( 60 );
 						AtEase::restoreWarnings();
 
-						$pager = $this->getPager( self::SUBTYPE_GET_EDITS, $userIdentity, 'useredits' );
+						$pager = $this->getPager( self::SUBTYPE_GET_ACTIONS, $userIdentity, 'useredits' );
 						$out->addHTML( $pager->getBody() );
 					}
 				}
@@ -431,11 +431,11 @@ class SpecialCheckUser extends SpecialPage {
 			$ipAllowed = false;
 		} elseif ( $checktype == self::SUBTYPE_GET_IPS && !$isIP ) {
 			$checkTypeValidated = $checktype;
-		} elseif ( $checktype == self::SUBTYPE_GET_EDITS ) {
+		} elseif ( $checktype == self::SUBTYPE_GET_ACTIONS ) {
 			$checkTypeValidated = $checktype;
 		// Defaults otherwise
 		} elseif ( $isIP ) {
-			$checkTypeValidated = self::SUBTYPE_GET_EDITS;
+			$checkTypeValidated = self::SUBTYPE_GET_ACTIONS;
 		} else {
 			$checkTypeValidated = self::SUBTYPE_GET_IPS;
 			$ipAllowed = false;
@@ -457,7 +457,7 @@ class SpecialCheckUser extends SpecialPage {
 				'type' => 'radio',
 				'options-messages' => [
 					'checkuser-ips' => self::SUBTYPE_GET_IPS,
-					'checkuser-edits' => self::SUBTYPE_GET_EDITS,
+					'checkuser-actions' => self::SUBTYPE_GET_ACTIONS,
 					'checkuser-users' => self::SUBTYPE_GET_USERS,
 				],
 				'id' => 'checkuserradios',
@@ -771,8 +771,8 @@ class SpecialCheckUser extends SpecialPage {
 					$this->clientHintsLookup,
 					$this->clientHintsFormatter
 				);
-			case self::SUBTYPE_GET_EDITS:
-				return new CheckUserGetEditsPager(
+			case self::SUBTYPE_GET_ACTIONS:
+				return new CheckUserGetActionsPager(
 					$this->opts,
 					$userIdentity,
 					$xfor,

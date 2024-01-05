@@ -223,7 +223,7 @@ class ComparePager extends TablePager {
 						'span',
 						[],
 						$this->msg(
-							'checkuser-investigate-compare-table-cell-other-edits',
+							'checkuser-investigate-compare-table-cell-other-actions',
 							$this->ipTotalEdits[$ipHex]
 						)->parse()
 					);
@@ -233,9 +233,9 @@ class ComparePager extends TablePager {
 					'div',
 					[],
 					$this->msg(
-						'checkuser-investigate-compare-table-cell-edits',
+						'checkuser-investigate-compare-table-cell-actions',
 						$row->total_edits
-					)->parse() . $otherEdits
+					)->parse() . ' ' . $otherEdits
 				);
 
 				break;

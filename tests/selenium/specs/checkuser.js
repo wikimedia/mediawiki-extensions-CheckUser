@@ -24,7 +24,7 @@ describe( 'CheckUser', function () {
 			it( 'Should show checkuser radios', async function () {
 				assert( await CheckUserPage.checkTypeRadios.isExisting() );
 				assert( await CheckUserPage.getIPsCheckTypeRadio.isExisting() );
-				assert( await CheckUserPage.getEditsCheckTypeRadio.isExisting() );
+				assert( await CheckUserPage.getActionsCheckTypeRadio.isExisting() );
 				assert( await CheckUserPage.getUsersCheckTypeRadio.isExisting() );
 			} );
 			it( 'Should show duration selector', async function () {
@@ -54,16 +54,16 @@ describe( 'CheckUser', function () {
 				assert( !( await CheckUserPage.checkUserHelper.isExisting() ) );
 				assert( await CheckUserPage.cidrForm.isExisting() );
 			} );
-			it( 'Should be able to run \'Get edits\' check', async function () {
+			it( 'Should be able to run \'Get actions\' check', async function () {
 				await CheckUserPage.open();
-				await CheckUserPage.getEditsCheckTypeRadio.click();
+				await CheckUserPage.getActionsCheckTypeRadio.click();
 				await CheckUserPage.checkTarget.setValue( process.env.MEDIAWIKI_USER );
 				await CheckUserPage.checkReasonInput.setValue( 'Selenium browser testing' );
 				await CheckUserPage.submit.click();
 				browser.waitUntil( () => {
 					browser.execute( () => browser.document.readyState === 'complete' );
 				}, { timeout: 10 * 1000, timeoutMsg: 'Page failed to load in a reasonable time.' } );
-				assert( await CheckUserPage.getEditsResults.isExisting() );
+				assert( await CheckUserPage.getActionsResults.isExisting() );
 				assert( await CheckUserPage.checkUserHelper.isExisting() );
 				assert( await CheckUserPage.cidrForm.isExisting() );
 			} );

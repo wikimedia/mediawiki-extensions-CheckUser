@@ -99,7 +99,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		$this->setExpectedApiException( 'apierror-checkuser-timelimit', 'invalidtime' );
 		$this->doCheckUserApiRequest(
 			[
-				'curequest' => 'edits',
+				'curequest' => 'actions',
 				'cutarget' => $this->getTestUser()->getUserIdentity()->getName(),
 				'cutimecond' => $timeCond,
 			]
@@ -121,7 +121,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		$this->setExpectedApiException( 'apierror-checkuser-missingsummary', 'missingdata' );
 		$this->doCheckUserApiRequest(
 			[
-				'curequest' => 'edits',
+				'curequest' => 'actions',
 				'cutarget' => $this->getTestUser()->getUserIdentity()->getName()
 			]
 		);
@@ -137,7 +137,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		}
 		$result = $this->doCheckUserApiRequest(
 			[
-				'curequest' => 'edits',
+				'curequest' => 'actions',
 				'cutarget' => $this->getTestUser()->getUserIdentity()->getName(),
 			],
 			null,

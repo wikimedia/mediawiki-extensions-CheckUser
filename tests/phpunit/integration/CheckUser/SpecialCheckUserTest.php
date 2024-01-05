@@ -2,7 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\CheckUser;
 
-use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetEditsPager;
+use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetActionsPager;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
@@ -71,11 +71,11 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 				instanceof CheckUserGetIPsPager,
 				'The Get IPs checktype should return the Get IPs pager.'
 			);
-		} elseif ( $checkType === SpecialCheckUser::SUBTYPE_GET_EDITS ) {
+		} elseif ( $checkType === SpecialCheckUser::SUBTYPE_GET_ACTIONS ) {
 			$this->assertTrue(
 				$object->getPager( $checkType, $userIdentity, 'untested', $xfor )
-				instanceof CheckUserGetEditsPager,
-				'The Get edits checktype should return the Get edits pager.'
+				instanceof CheckUserGetActionsPager,
+				'The Get actions checktype should return the Get actions pager.'
 			);
 		} elseif ( $checkType === SpecialCheckUser::SUBTYPE_GET_USERS ) {
 			$this->assertTrue(
@@ -95,12 +95,12 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 		return [
 			'Get IPs checktype' =>
 				[ SpecialCheckUser::SUBTYPE_GET_IPS, UserIdentityValue::newRegistered( 1, 'test' ) ],
-			'Get edits checktype with a registered user' =>
-				[ SpecialCheckUser::SUBTYPE_GET_EDITS, UserIdentityValue::newRegistered( 1, 'test' ) ],
-			'Get edits checktype with a IP' =>
-				[ SpecialCheckUser::SUBTYPE_GET_EDITS, UserIdentityValue::newAnonymous( '127.0.0.1' ), false ],
-			'Get edits checktype with a XFF IP' =>
-				[ SpecialCheckUser::SUBTYPE_GET_EDITS, UserIdentityValue::newAnonymous( '127.0.0.1' ), true ],
+			'Get actions checktype with a registered user' =>
+				[ SpecialCheckUser::SUBTYPE_GET_ACTIONS, UserIdentityValue::newRegistered( 1, 'test' ) ],
+			'Get actions checktype with a IP' =>
+				[ SpecialCheckUser::SUBTYPE_GET_ACTIONS, UserIdentityValue::newAnonymous( '127.0.0.1' ), false ],
+			'Get actions checktype with a XFF IP' =>
+				[ SpecialCheckUser::SUBTYPE_GET_ACTIONS, UserIdentityValue::newAnonymous( '127.0.0.1' ), true ],
 			'Get users checktype with a IP' =>
 				[ SpecialCheckUser::SUBTYPE_GET_USERS, UserIdentityValue::newAnonymous( '127.0.0.1' ), false ],
 			'Get users checktype with a XFF IP' =>
