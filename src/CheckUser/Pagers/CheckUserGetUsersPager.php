@@ -484,7 +484,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 				->setSubmitTextMsg( 'checkuser-massblock-commit' )
 				->setSubmitId( 'checkuserblocksubmit' )
 				->setSubmitName( 'checkuserblock' )
-				->setHeaderHtml( $this->msg( 'checkuser-massblock-text' )->text() );
+				->setHeaderHtml( $this->msg( 'checkuser-massblock-text' )->escaped() );
 
 			if ( $config->get( 'BlockAllowsUTEdit' ) ) {
 				$fieldset->addFields( [

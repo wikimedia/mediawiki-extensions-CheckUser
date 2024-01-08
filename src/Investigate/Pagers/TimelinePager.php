@@ -117,14 +117,14 @@ class TimelinePager extends ReverseChronologicalPager {
 		$dateHeader = $this->getLanguage()->userDate( wfTimestamp( TS_MW, $row->cuc_timestamp ), $this->getUser() );
 		if ( $this->lastDateHeader === null ) {
 			$this->lastDateHeader = $dateHeader;
-			$line .= Html::rawElement( 'h4', [], $dateHeader );
+			$line .= Html::element( 'h4', [], $dateHeader );
 			$line .= Html::openElement( 'ul' );
 		} elseif ( $this->lastDateHeader !== $dateHeader ) {
 			$this->lastDateHeader = $dateHeader;
 
 			// Start a new list with a new date header
 			$line .= Html::closeElement( 'ul' );
-			$line .= Html::rawElement( 'h4', [], $dateHeader );
+			$line .= Html::element( 'h4', [], $dateHeader );
 			$line .= Html::openElement( 'ul' );
 		}
 
