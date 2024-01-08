@@ -14,7 +14,6 @@
 	"apihelp-query+checkuser-summary": "Comprobar qué direcciones IP han sido usadas por un determinado usuario o qué usuarios han usado una determinada dirección IP.",
 	"apihelp-query+checkuser-param-request": "Tipo de verificación:",
 	"apihelp-query+checkuser-paramvalue-request-userips": "Obtener las direcciones IP del usuario.",
-	"apihelp-query+checkuser-paramvalue-request-edits": "Obtener las ediciones de la dirección o del intervalo de direcciones IP.",
 	"apihelp-query+checkuser-paramvalue-request-ipusers": "Obtener los usuarios de una dirección o intervalo de direcciones IP.",
 	"apihelp-query+checkuser-param-target": "Nombre de usuario, dirección IP o intervalo CIDR que comprobar.",
 	"apihelp-query+checkuser-param-reason": "Motivo para comprobar.",

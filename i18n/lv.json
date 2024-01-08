@@ -22,7 +22,6 @@
 	"checkuser-showlog": "Pārbaužu žurnāls",
 	"checkuser-target": "IP adrese vai lietotājvārds:",
 	"checkuser-users": "Iegūt lietotājus",
-	"checkuser-edits": "Iegūt labojumus",
 	"checkuser-ips": "Iegūt IP adreses",
 	"checkuser-period": "Ilgums:",
 	"checkuser-week-1": "pēdējā nedēļa",
@@ -49,7 +48,6 @@
 	"checkuser-investigate-tab-compare": "Salīdzināt",
 	"checkuser-investigate-reason-label": "Iemesls",
 	"checkuser-investigate-preliminary-table-header-blocked": "Statuss",
-	"checkuser-investigate-compare-table-cell-edits": "<b>[$1 {{PLURAL:$1|labojumi|labojums|labojumi}}]</b>",
 	"checkuser-investigate-compare-table-header-ip": "IP",
 	"checkuser-investigate-compare-table-header-useragent": "Lietotāja aģents",
 	"checkuser-tempaccount-reveal-ip-button-label": "Rādīt IP"

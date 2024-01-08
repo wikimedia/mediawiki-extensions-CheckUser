@@ -16,7 +16,6 @@
 	"checkuser-query": "Charchez les nouveaux changements",
 	"checkuser-target": "Nom de l'useur ou IP",
 	"checkuser-users": "Obtenir les useurs",
-	"checkuser-edits": "Obtenir les modifications du IP",
 	"checkuser-ips": "Obtenir les adresses IP",
 	"checkuser-empty": "Les notes sont vides.",
 	"checkuser-nomatch": "Rien pareil trouvé.",

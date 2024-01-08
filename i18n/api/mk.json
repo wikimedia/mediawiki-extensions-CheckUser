@@ -8,15 +8,15 @@
 	"apihelp-query+checkuser-summary": "Провери кои IP-адреси ги користи дадено корисничко име или пак кои кориснички имиња ги користи дадена IP-адреса.",
 	"apihelp-query+checkuser-param-request": "Тип на барање со CheckUser:",
 	"apihelp-query+checkuser-paramvalue-request-userips": "Дај IP-адреса на целен корисник.",
-	"apihelp-query+checkuser-paramvalue-request-edits": "Дај промени од целна IP-адреса или опсег.",
+	"apihelp-query+checkuser-paramvalue-request-actions": "Дај дејства извршени од целната IP-адреса или целниот опсег.",
 	"apihelp-query+checkuser-paramvalue-request-ipusers": "Дај корисници од целни IP-адреси или опсег.",
 	"apihelp-query+checkuser-param-target": "Корисничко име, IP-адреса или CIDR-опсег за проверка.",
 	"apihelp-query+checkuser-param-reason": "Причина за проверката.",
 	"apihelp-query+checkuser-param-limit": "Ограничување на редовите.",
 	"apihelp-query+checkuser-param-timecond": "Временско ограничување за корисничките податоци (како на пр. „-2 weeks“ или „2 weeks ago“).",
 	"apihelp-query+checkuser-param-xff": "Користи XFF-податоци наместо IP-адреса.",
-	"apihelp-query+checkuser-example-1": "Провери го [[User:Example]] по IP-адресите",
-	"apihelp-query+checkuser-example-2": "Провери ги уредувањата од 192.0.2.0/24",
+	"apihelp-query+checkuser-example-1": "Дај IP-адреси за [[User:Example]]",
+	"apihelp-query+checkuser-example-2": "Дај ги дејствата извршени од 192.0.2.0/24",
 	"apihelp-query+checkuserlog-summary": "Дај ставки од записникот на CheckUser.",
 	"apihelp-query+checkuserlog-param-user": "Корисничко име на проверувачот (CheckUser).",
 	"apihelp-query+checkuserlog-param-target": "Проверен корисник, IP-адреса или CIDR-опсег.",
@@ -36,5 +36,5 @@
 	"checkuser-api-useragent-clienthints-revision-user-mismatch": "Корисникот $1 не е автор на преработката $2",
 	"checkuser-api-useragent-clienthints-mappings-exist": "Веќе постојат зададени клиентски совети за $1 $2",
 	"checkuser-api-useragent-clienthints-called-too-late": "$1 $2 е престара за да дозволи советодавни податоци од запишувачкиот клиент",
-	"checkuser-api-useragent-clienthints-explanation": "Ги собираме податоците за корисничко-клиентски совети во поддршка на заедницата и за намалување на вандализмот и злоупотребата на Викимедиините проекти. Повеќе поединости ќе најдете на https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints."
+	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} ги собира податоците за корисничко-клиентски совети во поддршка на борбата со вандализмот и злоупотребата. Повеќе поединости ќе најдете на https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints."
 }

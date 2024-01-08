@@ -31,7 +31,6 @@
 	"checkuser-query": "Vurnayışanê peyênan pers kerê",
 	"checkuser-target": "Adresa IPy ya zi nameyê karberi:",
 	"checkuser-users": "Karberî bivîne",
-	"checkuser-edits": "Vurnayışan bıgê",
 	"checkuser-ips": "Adresê IPyî bivîne",
 	"checkuser-period": "Dom:",
 	"checkuser-week-1": "hefteyo verên",
@@ -78,7 +77,6 @@
 	"checkuser-investigate-preliminary-table-header-name": "Nameykarberi",
 	"checkuser-investigate-preliminary-table-header-wiki": "Wiki",
 	"checkuser-investigate-compare-table-cell-unregistered": "Bêqeydıni",
-	"checkuser-investigate-compare-table-cell-edits": "<b>$1 {{PLURAL:$1|vurnayış|vurnayışi}}</b>",
 	"checkuser-investigate-compare-table-header-username": "Namey karberi",
 	"checkuser-investigate-compare-table-header-activity": "Mabênê tarix",
 	"checkuser-investigate-compare-table-header-ip": "IP"

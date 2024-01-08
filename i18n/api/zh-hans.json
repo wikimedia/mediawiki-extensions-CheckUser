@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Anterdc99",
 			"CrownedWharf566",
 			"GuoPC",
 			"Liuxinyu970226",
@@ -13,15 +14,14 @@
 	"apihelp-query+checkuser-summary": "检查指定用户名使用过的IP地址或指定IP地址使用过的用户名。",
 	"apihelp-query+checkuser-param-request": "用户查核请求类型：",
 	"apihelp-query+checkuser-paramvalue-request-userips": "获取目标用户的IP地址。",
-	"apihelp-query+checkuser-paramvalue-request-edits": "获取目标IP地址或网段的更改。",
 	"apihelp-query+checkuser-paramvalue-request-ipusers": "获取目标IP地址或网段的用户。",
 	"apihelp-query+checkuser-param-target": "要查核的用户名、IP地址或CIDR地址段。",
 	"apihelp-query+checkuser-param-reason": "查核原因。",
 	"apihelp-query+checkuser-param-limit": "限定行数。",
 	"apihelp-query+checkuser-param-timecond": "用户数据的限定（例如“-2 weeks”或“2 weeks ago”）。",
 	"apihelp-query+checkuser-param-xff": "使用XFF数据代替IP地址。",
-	"apihelp-query+checkuser-example-1": "查核[[User:Example]]的IP地址",
-	"apihelp-query+checkuser-example-2": "查核来自192.0.2.0/24的编辑",
+	"apihelp-query+checkuser-example-1": "获取[[User:Example]]的IP地址",
+	"apihelp-query+checkuser-example-2": "获取192.0.2.0/24执行的操作",
 	"apihelp-query+checkuserlog-summary": "获取用户查核日志中的记录。",
 	"apihelp-query+checkuserlog-param-user": "用户查核员的用户名。",
 	"apihelp-query+checkuserlog-param-target": "已查核的用户、IP地址或CIDR地址段。",
