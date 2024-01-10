@@ -12,7 +12,7 @@
 	"apihelp-query+checkuser-param-limit": "Lìmiti di ringhi.",
 	"apihelp-query+checkuser-param-timecond": "Lìmiti di tempu pî dati di l’utenti (comu \"2 weeks\").",
 	"apihelp-query+checkuser-param-xff": "Adòpira lu datu XFF mmeci dû nnirizzu IP.",
-	"apihelp-query+checkuser-example-1": "Cuntrolla li nnirizzi IP di [[User:Example]]",
+	"apihelp-query+checkuser-example-1": "Utteni li nnirizzi IP di [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Cuntrolla li canciamenti ca vèninu di 192.0.2.0/24",
 	"apihelp-query+checkuserlog-param-user": "Nomu utenti dû cuntrulluri.",
 	"apihelp-query+checkuserlog-param-target": "Utenti, nnirizzu IP, o ntirvallu CIDR cuntrullatu.",
