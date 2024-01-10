@@ -35,7 +35,7 @@ use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\User\User;
 use MediaWiki\WikiMap\WikiMap;
 use Wikimedia\Rdbms\FakeResultWrapper;
-use Wikimedia\Rdbms\IDatabase;
+use Wikimedia\Rdbms\IReadableDatabase;
 
 /**
  * @ingroup Pager
@@ -262,11 +262,11 @@ class PreliminaryCheckPager extends TablePager {
 	}
 
 	/**
-	 * @return IDatabase|null
+	 * @return IReadableDatabase|null
 	 */
-	protected function getCentralReplicaDB(): ?IDatabase {
+	protected function getCentralReplicaDB(): ?IReadableDatabase {
 		if ( class_exists( CentralAuthDatabaseManager::class ) ) {
-			return CentralAuthServices::getDatabaseManager()->getCentralDB( DB_REPLICA );
+			return CentralAuthServices::getDatabaseManager()->getCentralReplicaDB();
 		}
 		return null;
 	}
