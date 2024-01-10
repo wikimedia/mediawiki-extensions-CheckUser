@@ -31,7 +31,7 @@ function createTable( data, showCounts ) {
 		const userElement = document.createElement( 'a' );
 		userElement.setAttribute(
 			'href',
-			'/wiki/Special:Contributions/' + mw.util.escapeIdForLink( user )
+			mw.util.getUrl( 'Special:Contributions/' + user )
 		);
 		userElement.textContent = user;
 		td.appendChild( userElement );
@@ -49,7 +49,7 @@ function createTable( data, showCounts ) {
 					const ipElement = document.createElement( 'a' );
 					ipElement.setAttribute(
 						'href',
-						'/wiki/Special:Contributions/' + mw.util.escapeIdForLink( ipText )
+						mw.util.getUrl( 'Special:Contributions/' + ipText )
 					);
 					ipElement.textContent = ipText;
 					ip.appendChild( ipElement );
