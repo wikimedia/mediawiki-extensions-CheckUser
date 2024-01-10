@@ -20,7 +20,7 @@
 	"checkuser-contribs-log": "ตรวจสอบผู้ใช้",
 	"group-checkuser": "ผู้ตรวจสอบผู้ใช้",
 	"group-checkuser-member": "{{GENDER:$1|ตรวจสอบผู้ใช้}}",
-	"right-checkuser": "ตรวจสอบหมายเลขไอพีของผู้ใช้และข้อมูลอื่นๆ",
+	"right-checkuser": "ตรวจสอบหมายเลขไอพีของผู้ใช้และข้อมูลอื่น ๆ",
 	"right-checkuser-log": "ดูรายการบันทึกการตรวจสอบผู้ใช้",
 	"action-checkuser": "ตรวจสอบเลขที่อยู่ไอพีและสารสนเทศอื่นของผู้ใช้",
 	"action-checkuser-log": "ดูรายการบันทึกการตรวจสอบผู้ใช้",

@@ -3,11 +3,12 @@
 		"authors": [
 			"Amdf",
 			"Botuzhaleny-sodamo",
-			"Tupikovs"
+			"Tupikovs",
+			"Rueter"
 		]
 	},
 	"checkuser-reason": "Тувталось:",
-	"checkuser-showlog": "Невтемс ланганзо тешкстамотнень",
+	"checkuser-showlog": "Ванны журналонть",
 	"checkuser-target": "IP-адресэсь эли совицясь:",
 	"checkuser-period": "Зярс моли:",
 	"checkuser-week-1": "меельсе тарго",
@@ -16,6 +17,6 @@
 	"checkuser-all": "весе",
 	"checkuser-blocked": "Саймес саезь",
 	"checkuser-locked": "Сёлгозь",
-	"checkuser-search": "Вешнемс",
+	"checkuser-search": "Вешнемс совицятнеде журналонть эйстэ",
 	"checkuser-search-submit": "Вешнемс"
 }
