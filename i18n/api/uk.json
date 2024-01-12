@@ -3,6 +3,7 @@
 		"authors": [
 			"Alex Khimich",
 			"Base",
+			"Mykola7",
 			"Piramidion",
 			"Ата"
 		]
@@ -16,8 +17,8 @@
 	"apihelp-query+checkuser-param-limit": "Обмеження рядків.",
 	"apihelp-query+checkuser-param-timecond": "Обмеження часу для даних користувача (як то \"-2 weeks\" чи \"2 weeks ago\").",
 	"apihelp-query+checkuser-param-xff": "Використовуйте XFF-дані замість IP-адреси.",
-	"apihelp-query+checkuser-example-1": "Перевірити IP-адреси для [[User:Example]]",
-	"apihelp-query+checkuser-example-2": "Перевірити редагування з 192.0.2.0/24",
+	"apihelp-query+checkuser-example-1": "Отримати IP-адреси для [[User:Example]]",
+	"apihelp-query+checkuser-example-2": "Отримати дії виконані 192.0.2.0/24",
 	"apihelp-query+checkuserlog-summary": "Отримати записи з журналу перевірки користувачів.",
 	"apihelp-query+checkuserlog-param-user": "Ім'я користувача перевіряльника користувачів.",
 	"apihelp-query+checkuserlog-param-target": "Перевірений користувач, IP-адреса чи CIDR-діапазон.",
