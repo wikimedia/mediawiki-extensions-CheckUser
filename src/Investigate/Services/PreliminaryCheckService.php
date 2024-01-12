@@ -154,8 +154,6 @@ class PreliminaryCheckService {
 	 * @return array
 	 */
 	protected function getAdditionalLocalData( $row, string $wikiId ): array {
-		$dbr = $this->dbProvider->getReplicaDatabase( $wikiId );
-
 		if ( $wikiId === $this->localWikiId ) {
 			$userIdentity = new UserIdentityValue( (int)$row->user_id, $row->user_name );
 		} else {
