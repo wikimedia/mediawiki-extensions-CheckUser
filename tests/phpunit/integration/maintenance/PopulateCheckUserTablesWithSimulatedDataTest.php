@@ -222,9 +222,6 @@ class PopulateCheckUserTablesWithSimulatedDataTest extends MaintenanceBaseTestCa
 
 	/** @dataProvider provideLogActions */
 	public function testSimulateLogAction( $type, $action ) {
-		// Can be removed once T342428 is solved, as that task will stop the log entry for the creation
-		// of the test page.
-		$this->truncateTables( [ 'logging', 'cu_log_event', 'cu_changes' ] );
 		$mockObject = $this->getMockedMaintenance();
 		$testUser = $this->getTestUser()->getUserIdentity();
 		$mockObject->simulateLogAction( $type, $action, $testUser );

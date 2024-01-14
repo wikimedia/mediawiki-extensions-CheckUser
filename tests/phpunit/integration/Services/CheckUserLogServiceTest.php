@@ -19,12 +19,6 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 
-	protected function setUp(): void {
-		parent::setUp();
-
-		$this->truncateTable( 'cu_log' );
-	}
-
 	protected function setUpObject(): CheckUserLogService {
 		return $this->getServiceContainer()->get( 'CheckUserLogService' );
 	}
