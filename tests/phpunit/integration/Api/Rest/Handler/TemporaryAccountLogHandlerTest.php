@@ -212,7 +212,5 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 		foreach ( $testData as $row ) {
 			$this->db->insert( 'cu_log_event', $row + $commonData );
 		}
-
-		$this->tablesUsed[] = 'cu_log_event';
 	}
 }

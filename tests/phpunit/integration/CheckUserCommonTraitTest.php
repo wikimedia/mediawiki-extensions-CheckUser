@@ -15,8 +15,7 @@ trait CheckUserCommonTraitTest {
 	/**
 	 * A function used to insert a RecentChange into the correct table when testing.
 	 * Called by the individual tests themselves. This method requires database support, which can be enabled
-	 * with "@group Database", or by listing the tables under testing in $this->tablesUsed, or by returning
-	 * true from needsDB().
+	 * with "@group Database", or by returning true from needsDB().
 	 *
 	 * @param array $rcAttribs The attribs for the RecentChange object
 	 * @param array $fields The fields to select from the DB when using assertSelect()
@@ -28,7 +27,7 @@ trait CheckUserCommonTraitTest {
 	): RecentChange {
 		if ( !$this->needsDB() ) {
 			throw new LogicException( 'When testing with logs, the test cases\'s needsDB()' .
-				' method should return true. Use @group Database or $this->tablesUsed.' );
+				' method should return true. Use @group Database.' );
 		}
 		$rc = new RecentChange;
 		$rc->setAttribs( $rcAttribs );
@@ -43,17 +42,14 @@ trait CheckUserCommonTraitTest {
 
 	/**
 	 * Creates a log entry for testing. This method requires database support, which can be enabled
-	 * with "@group Database", or by listing the tables under testing in $this->tablesUsed, or by returning
-	 * true from needsDB().
-	 *
-	 * When calling this method, you should ensure that the "logging" table is in $this->tablesUsed.
+	 * with "@group Database", or by returning true from needsDB().
 	 *
 	 * @return int The ID for the created log entry
 	 */
 	public function newLogEntry(): int {
 		if ( !$this->needsDB() ) {
 			throw new LogicException( 'When testing with logs, the test cases\'s needsDB()' .
-				' method should return true. Use @group Database or $this->tablesUsed.' );
+				' method should return true. Use @group Database.' );
 		}
 		$logEntry = new ManualLogEntry( 'phpunit', 'test' );
 		$logEntry->setPerformer( $this->getTestUser()->getUserIdentity() );
@@ -65,8 +61,7 @@ trait CheckUserCommonTraitTest {
 	/**
 	 * Asserts that a table has the expected number of rows matching
 	 * the given conditions. This method requires database support, which can be enabled
-	 * with "@group Database", or by listing the tables under testing in $this->tablesUsed, or by returning
-	 * true from needsDB().
+	 * with "@group Database", or by returning true from needsDB().
 	 *
 	 * @param int $expectedRowCount The expected row count
 	 * @param string $table The table to select from
@@ -80,7 +75,7 @@ trait CheckUserCommonTraitTest {
 	) {
 		if ( !$this->needsDB() ) {
 			throw new LogicException( 'When testing with logs, the test cases\'s needsDB()' .
-				' method should return true. Use @group Database or $this->tablesUsed.' );
+				' method should return true. Use @group Database.' );
 		}
 		$this->assertSame(
 			$expectedRowCount,

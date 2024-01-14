@@ -22,14 +22,6 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tablesUsed = array_merge(
-			$this->tablesUsed,
-			[
-				'cu_log',
-				'comment',
-			]
-		);
-
 		$this->truncateTable( 'cu_log' );
 	}
 

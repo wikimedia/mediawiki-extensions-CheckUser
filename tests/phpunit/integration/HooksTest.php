@@ -30,22 +30,6 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	use CheckUserCommonTraitTest;
 	use MockAuthorityTrait;
 
-	public function setUp(): void {
-		parent::setUp();
-
-		$this->tablesUsed = [
-			'actor',
-			'cu_changes',
-			'cu_private_event',
-			'cu_log_event',
-			'user',
-			'logging',
-			'ipblocks',
-			'ipblocks_restrictions',
-			'recentchanges'
-		];
-	}
-
 	/**
 	 * @return TestingAccessWrapper
 	 */

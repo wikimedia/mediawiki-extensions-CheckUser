@@ -19,16 +19,6 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerTestBase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tablesUsed = array_merge(
-			$this->tablesUsed,
-			[
-				'cu_changes',
-				'cu_log_event',
-				'cu_private_event',
-				'cu_log',
-			]
-		);
-
 		$this->checkSubtype = SpecialCheckUser::SUBTYPE_GET_IPS;
 		$this->defaultUserIdentity = $this->getTestUser()->getUserIdentity();
 		$this->defaultCheckType = 'userips';

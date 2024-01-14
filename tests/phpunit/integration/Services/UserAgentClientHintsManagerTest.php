@@ -24,21 +24,6 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 	use CheckUserCommonTraitTest;
 	use CheckUserClientHintsCommonTraitTest;
 
-	protected function setUp(): void {
-		parent::setUp();
-
-		$this->tablesUsed = array_merge(
-			$this->tablesUsed,
-			[
-				'cu_useragent_clienthints',
-				'cu_useragent_clienthints_map',
-				'logging',
-				'cu_private_event',
-				'cu_changes',
-			]
-		);
-	}
-
 	/**
 	 * Tests that the correct number of rows are inserted
 	 * by ::insertClientHintValues and ::insertMappingRows.

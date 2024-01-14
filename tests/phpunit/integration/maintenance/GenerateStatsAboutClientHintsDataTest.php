@@ -18,16 +18,6 @@ use MediaWiki\WikiMap\WikiMap;
 class GenerateStatsAboutClientHintsDataTest extends MaintenanceBaseTestCase {
 	use CheckUserClientHintsCommonTraitTest;
 
-	/** @inheritDoc */
-	public function setUp(): void {
-		parent::setUp();
-
-		$this->tablesUsed = [
-			'cu_useragent_clienthints',
-			'cu_useragent_clienthints_map',
-		];
-	}
-
 	protected function getMaintenanceClass() {
 		return GenerateStatsAboutClientHintsData::class;
 	}

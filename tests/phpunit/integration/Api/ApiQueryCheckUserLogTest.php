@@ -21,19 +21,6 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class ApiQueryCheckUserLogTest extends ApiTestCase {
 
-	protected function setUp(): void {
-		parent::setUp();
-
-		$this->tablesUsed = array_merge(
-			$this->tablesUsed,
-			[
-				'cu_log',
-				'comment',
-				'actor'
-			]
-		);
-	}
-
 	private const INITIAL_API_PARAMS = [
 		'action' => 'query',
 		'list' => 'checkuserlog',

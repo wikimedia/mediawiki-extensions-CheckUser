@@ -16,15 +16,6 @@ class PopulateCulCommentTest extends MaintenanceBaseTestCase {
 
 	use CheckUserCommonTraitTest;
 
-	public function setUp(): void {
-		parent::setUp();
-
-		$this->tablesUsed = [
-			'cu_log',
-			'comment'
-		];
-	}
-
 	/** @inheritDoc */
 	protected function getMaintenanceClass() {
 		return PopulateCulComment::class;

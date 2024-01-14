@@ -17,18 +17,6 @@ use MediaWikiIntegrationTestCase;
 class UserAgentClientHintsLookupTest extends MediaWikiIntegrationTestCase {
 	use CheckUserClientHintsCommonTraitTest;
 
-	protected function setUp(): void {
-		parent::setUp();
-
-		$this->tablesUsed = array_merge(
-			$this->tablesUsed,
-			[
-				'cu_useragent_clienthints',
-				'cu_useragent_clienthints_map',
-			]
-		);
-	}
-
 	/**
 	 * Tests that ::getClientHintsByReferenceIds finds
 	 * and returns the appropriate ClientHintsData.

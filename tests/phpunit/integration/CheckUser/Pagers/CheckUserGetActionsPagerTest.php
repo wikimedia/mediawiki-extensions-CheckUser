@@ -29,14 +29,6 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tablesUsed = array_merge(
-			$this->tablesUsed,
-			[
-				'cu_changes',
-				'cu_log',
-			]
-		);
-
 		$this->checkSubtype = SpecialCheckUser::SUBTYPE_GET_ACTIONS;
 		$this->defaultUserIdentity = UserIdentityValue::newAnonymous( '127.0.0.1' );
 		$this->defaultCheckType = 'ipedits';

@@ -20,19 +20,6 @@ class PopulateCheckUserTableTest extends MaintenanceBaseTestCase {
 	use CheckUserCommonTraitTest;
 
 	/** @inheritDoc */
-	public function setUp(): void {
-		parent::setUp();
-
-		$this->tablesUsed = [
-			'cu_changes',
-			'cu_private_event',
-			'cu_log_event',
-			'recentchanges',
-			'updatelog'
-		];
-	}
-
-	/** @inheritDoc */
 	protected function getMaintenanceClass() {
 		return PopulateCheckUserTable::class;
 	}

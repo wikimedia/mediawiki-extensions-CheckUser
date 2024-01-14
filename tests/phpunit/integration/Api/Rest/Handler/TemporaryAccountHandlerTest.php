@@ -420,7 +420,5 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				->row( $row + $commonData )
 				->execute();
 		}
-
-		$this->tablesUsed[] = 'cu_changes';
 	}
 }

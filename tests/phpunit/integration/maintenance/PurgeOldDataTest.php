@@ -16,19 +16,6 @@ class PurgeOldDataTest extends MaintenanceBaseTestCase {
 
 	use CheckUserCommonTraitTest;
 
-	public function setUp(): void {
-		parent::setUp();
-
-		$this->tablesUsed = [
-			'cu_changes',
-			'cu_private_event',
-			'cu_log_event',
-			'recentchanges',
-			'logging',
-			'page',
-		];
-	}
-
 	/** @inheritDoc */
 	protected function getMaintenanceClass() {
 		return PurgeOldData::class;

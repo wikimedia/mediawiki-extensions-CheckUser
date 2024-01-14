@@ -30,27 +30,6 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 
 	use MockAuthorityTrait;
 
-	protected function setUp(): void {
-		parent::setUp();
-
-		$this->tablesUsed = array_merge(
-			$this->tablesUsed,
-			[
-				'page',
-				'revision',
-				'ip_changes',
-				'text',
-				'archive',
-				'recentchanges',
-				'logging',
-				'page_props',
-				'cu_changes',
-				'cu_log_event',
-				'cu_private_event',
-			]
-		);
-	}
-
 	/** @return TestingAccessWrapper */
 	protected function setUpObject() {
 		$object = $this->getServiceContainer()->getSpecialPageFactory()->getPage( 'CheckUser' );
@@ -213,7 +192,6 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testDoMassUserBlockInternal() {
-		$this->tablesUsed[] = 'ipblocks';
 		$blockParams = [
 			'reason' => 'Test reason',
 			'email' => true,

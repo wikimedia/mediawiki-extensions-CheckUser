@@ -23,24 +23,6 @@ class PopulateCheckUserTablesWithSimulatedDataTest extends MaintenanceBaseTestCa
 	use CheckUserCommonTraitTest;
 
 	/** @inheritDoc */
-	public function setUp(): void {
-		parent::setUp();
-
-		$this->tablesUsed = [
-			'cu_changes',
-			'cu_private_event',
-			'cu_log_event',
-			'cu_useragent_clienthints',
-			'cu_useragent_clienthints_map',
-			'recentchanges',
-			'page',
-			'logging',
-			'user',
-			'actor',
-		];
-	}
-
-	/** @inheritDoc */
 	protected function getMaintenanceClass() {
 		return PopulateCheckUserTablesWithSimulatedData::class;
 	}

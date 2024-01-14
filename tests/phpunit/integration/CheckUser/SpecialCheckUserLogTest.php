@@ -14,18 +14,6 @@ use MediaWikiIntegrationTestCase;
  */
 class SpecialCheckUserLogTest extends MediaWikiIntegrationTestCase {
 
-	protected function setUp(): void {
-		parent::setUp();
-
-		$this->tablesUsed = array_merge(
-			$this->tablesUsed,
-			[
-				'cu_log',
-				'actor',
-			]
-		);
-	}
-
 	/**
 	 * @dataProvider provideRequiredGroupAccess
 	 */

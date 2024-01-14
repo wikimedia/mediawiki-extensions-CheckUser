@@ -203,8 +203,5 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 				->row( $row + $commonData )
 				->execute();
 		}
-
-		$this->tablesUsed[] = 'cu_changes';
-		$this->tablesUsed[] = 'actor';
 	}
 }

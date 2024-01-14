@@ -25,23 +25,6 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tablesUsed = array_merge(
-			$this->tablesUsed,
-			[
-				'page',
-				'actor',
-				'revision',
-				'ip_changes',
-				'text',
-				'archive',
-				'recentchanges',
-				'logging',
-				'page_props',
-				'cu_changes',
-				'cu_log',
-			]
-		);
-
 		$this->setMwGlobals( [
 			'wgCheckUserCIDRLimit' => [
 				'IPv4' => 16,
@@ -103,7 +86,6 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideUserWasBlocked */
 	public function testUserWasBlocked( $block ) {
-		$this->tablesUsed[] = 'ipblocks';
 		$testUser = $this->getTestUser()->getUser();
 		if ( $block ) {
 			$userAuthority = $this->mockRegisteredUltimateAuthority();
