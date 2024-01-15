@@ -42,6 +42,7 @@
 	"action-checkuser-temporary-account-log": "عرض سجل الوصول إلى عناوين IP المؤقتة للحساب",
 	"grouppage-checkuser": "{{ns:project}}:تدقيق مستخدم",
 	"grouppage-checkuser-temporary-account-viewer": "{{ns: project}}: عارض IP للحساب المؤقت",
+	"checkuser-clienthints-name-architecture": "المعمارية",
 	"checkuser-clienthints-name-mobile": "جوال",
 	"checkuser-clienthints-name-model": "نموذج",
 	"checkuser-clienthints-name-platform": "المنصة",
