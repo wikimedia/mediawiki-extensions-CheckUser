@@ -3,7 +3,8 @@
 		"authors": [
 			"Amdf",
 			"Botuzhaleny-sodamo",
-			"Tupikovs"
+			"Tupikovs",
+			"Rueter"
 		]
 	},
 	"checkuser-reason": "Тувталось:",
@@ -16,7 +17,7 @@
 	"checkuser-all": "весе",
 	"checkuser-blocked": "Саймес саезь",
 	"checkuser-locked": "Сёлгозь",
-	"checkuser-search": "Вешнемс",
+	"checkuser-search": "Вешнемс совицятнеде журналонть эйстэ",
 	"checkuser-search-submit": "Вешнемс",
 	"checkuser-search-initiator": "ушодксонь теиця"
 }
