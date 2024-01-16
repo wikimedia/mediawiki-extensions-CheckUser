@@ -69,7 +69,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 			$this->dieWithError( 'apierror-checkuser-missingsummary', 'missingdata' );
 		}
 
-		$reason = $this->msg( 'checkuser-reason-api', $reason )->inContentLanguage()->text();
+		$reason = $this->msg( 'checkuser-reason-api', $reason )->inContentLanguage()->escaped();
 		// absolute time
 		$timeCutoff = strtotime( $timecond );
 		if ( !$timeCutoff || $timeCutoff < 0 || $timeCutoff > time() ) {

@@ -167,14 +167,14 @@ class LogPager extends RangeChronologicalPager {
 			}
 			$user .= $this->msg( 'word-separator' )->escaped()
 				. Html::rawElement( 'span', [ 'classes' => 'mw-usertoollinks' ],
-					$this->msg( 'parentheses' )->params( $this->getLinkRenderer()->makeLink(
+					$this->msg( 'parentheses' )->rawParams( $this->getLinkRenderer()->makeLink(
 						SpecialPage::getTitleFor( 'CheckUserLog' ),
 						$this->msg( 'checkuser-log-checks-by' )->text(),
 						[],
 						[
 							'cuInitiator' => $row->cul_user_text,
 						]
-					) )->text()
+					) )->escaped()
 				);
 		}
 
@@ -209,25 +209,25 @@ class LogPager extends RangeChronologicalPager {
 		// checkuser-log-entry-userips, checkuser-log-entry-ipedits,
 		// checkuser-log-entry-ipusers, checkuser-log-entry-ipedits-xff
 		// checkuser-log-entry-ipusers-xff, checkuser-log-entry-useredits
-		$rowContent = $this->msg(
-			'checkuser-log-entry-' . $row->cul_type,
-			$user,
-			$target,
-			$this->generateTimestampLink(
-				$lang->userTimeAndDate(
-					wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser
+		$rowContent = $this->msg( 'checkuser-log-entry-' . $row->cul_type )
+			->rawParams(
+				$user,
+				$target,
+				$this->generateTimestampLink(
+					$lang->userTimeAndDate(
+						wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser
+					),
+					$row
 				),
-				$row
-			),
-			$this->generateTimestampLink(
-				$lang->userDate( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser ),
-				$row
-			),
-			$this->generateTimestampLink(
-				$lang->userTime( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser ),
-				$row
-			)
-		)->text();
+				$this->generateTimestampLink(
+					$lang->userDate( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser ),
+					$row
+				),
+				$this->generateTimestampLink(
+					$lang->userTime( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser ),
+					$row
+				)
+			)->parse();
 		$rowContent .= Linker::commentBlock( $row->cul_reason );
 
 		$attribs = [
