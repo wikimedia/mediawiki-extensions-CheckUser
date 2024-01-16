@@ -58,6 +58,7 @@
 	"checkuser-query": "Переглянути останні зміни",
 	"checkuser-target": "IP-адреса або ім'я користувача:",
 	"checkuser-users": "Отримати користувачів",
+	"checkuser-actions": "Отримати дії",
 	"checkuser-ips": "Отримати IP-адреси",
 	"checkuser-period": "Тривалість:",
 	"checkuser-week-1": "останній тиждень",
