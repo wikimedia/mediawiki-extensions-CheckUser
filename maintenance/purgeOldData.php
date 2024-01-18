@@ -57,6 +57,12 @@ class PurgeOldData extends Maintenance {
 			"Purged $count rows and $mappingRowsCount client hint mapping rows purged.\n"
 		);
 
+		if ( $this->getConfig()->get( 'CheckUserPurgeOldClientHintsData' ) ) {
+			$userAgentClientHintsManager = MediaWikiServices::getInstance()->get( 'UserAgentClientHintsManager' );
+			$orphanedMappingRowsDeleted = $userAgentClientHintsManager->deleteOrphanedMapRows();
+			$this->output( "Purged $orphanedMappingRowsDeleted orphaned client hint mapping rows.\n" );
+		}
+
 		if ( $PutIPinRC ) {
 			$this->output( "Purging data from recentchanges..." );
 			$count = $this->prune( 'recentchanges', 'rc_timestamp', $RCMaxAge, null );
@@ -130,7 +136,6 @@ class PurgeOldData extends Maintenance {
 		$mappingRowsDeleted = 0;
 		if ( $shouldDeleteAssociatedClientData ) {
 			$mappingRowsDeleted = $userAgentClientHintsManager->deleteMappingRows( $clientHintReferenceIds );
-			$mappingRowsDeleted += $userAgentClientHintsManager->deleteOrphanedMapRows();
 		}
 
 		return [ $deletedCount, $mappingRowsDeleted ];
