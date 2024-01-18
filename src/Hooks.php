@@ -485,6 +485,7 @@ class Hooks implements
 				[
 					'cupe_namespace'  => NS_USER,
 					'cupe_log_action' => 'password-reset-email-sent',
+					'cupe_title'      => $accountName,
 					'cupe_params'     => LogEntryBase::makeParamBlob( [ '4::receiver' => $accountName ] )
 				],
 				__METHOD__,
@@ -494,6 +495,7 @@ class Hooks implements
 		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
 			$row = [
 				'cuc_namespace'  => NS_USER,
+				'cuc_title'      => $accountName,
 				'cuc_actiontext' => wfMessage(
 					'checkuser-reset-action',
 					$accountName
@@ -545,7 +547,10 @@ class Hooks implements
 		$cuPrivateRow = [];
 		$eventTablesMigrationStage = MediaWikiServices::getInstance()->getMainConfig()
 			->get( 'CheckUserEventTablesMigrationStage' );
+		// Define the title as the userpage of the user who sent the email. The user
+		// who receives the email is private information, so cannot be used.
 		$cuPrivateRow['cupe_namespace'] = $cuChangesRow['cuc_namespace'] = NS_USER;
+		$cuPrivateRow['cupe_title'] = $cuChangesRow['cuc_title'] = $userFrom->getName();
 		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
 			$cuPrivateRow['cupe_log_action'] = 'email-sent';
 			$cuPrivateRow['cupe_params'] = LogEntryBase::makeParamBlob( [ '4::hash' => $hash ] );
@@ -599,6 +604,7 @@ class Hooks implements
 			self::insertIntoCuPrivateEventTable(
 				[
 					'cupe_namespace'  => NS_USER,
+					'cupe_title'      => $user->getName(),
 					'cupe_log_action' => $autocreated ? 'autocreate-account' : 'create-account'
 				],
 				__METHOD__,
@@ -608,6 +614,7 @@ class Hooks implements
 		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
 			$row = [
 				'cuc_namespace'  => NS_USER,
+				'cuc_title'     => $user->getName(),
 				'cuc_actiontext' => wfMessage(
 					$autocreated ? 'checkuser-autocreate-action' : 'checkuser-create-action'
 				)->inContentLanguage()->text(),

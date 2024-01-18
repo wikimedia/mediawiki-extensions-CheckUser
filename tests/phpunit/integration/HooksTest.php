@@ -645,6 +645,8 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 				'The row was not inserted or was inserted with the wrong data',
 				[
 					'cupe_actor' => $performer->getActorId(),
+					'cupe_namespace' => NS_USER,
+					'cupe_title' => $account->getName(),
 					'cupe_params' . $this->db->buildLike(
 						$this->db->anyString(),
 						'"4::receiver"',
@@ -661,6 +663,8 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 				'The row was not inserted or was inserted with the wrong data',
 				[
 					'cuc_actor' => $performer->getActorId(),
+					'cuc_namespace' => NS_USER,
+					'cuc_title' => $account->getName(),
 					'cuc_actiontext' . $this->db->buildLike(
 						$this->db->anyString(),
 						'[[User:', $account->getName(), '|', $account->getName(), ']]',
@@ -692,6 +696,8 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 				'The row was not inserted or was inserted with the wrong data',
 				[
 					'cupe_actor'  => $user->getActorId(),
+					'cupe_namespace' => NS_USER,
+					'cupe_title' => $user->getName(),
 					'cupe_log_action' => $autocreated ? 'autocreate-account' : 'create-account'
 				]
 			);
@@ -701,7 +707,9 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 				1, 'cu_changes', 'cuc_id',
 				'The row was not inserted or was inserted with the wrong data',
 				[
+					'cuc_actor'  => $user->getActorId(),
 					'cuc_namespace'  => NS_USER,
+					'cuc_title' => $user->getName(),
 					'cuc_actiontext' => wfMessage(
 						$autocreated ? 'checkuser-autocreate-action' : 'checkuser-create-action'
 					)->inContentLanguage()->text(),
@@ -801,8 +809,8 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 			new MailAddress( 'test@test.com', $userTo->getName() ),
 			new MailAddress( 'testing@test.com', $userFrom->getName() ),
 			$eventTableMigrationStage,
-			[ 'cuc_actor' => $userFrom->getActorId() ],
-			[ 'cupe_actor' => $userFrom->getActorId() ]
+			[ 'cuc_actor' => $userFrom->getActorId(), 'cuc_title' => $userFrom->getName() ],
+			[ 'cupe_actor' => $userFrom->getActorId(), 'cupe_title' => $userFrom->getName() ]
 		);
 	}
 
