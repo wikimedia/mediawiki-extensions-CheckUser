@@ -203,7 +203,8 @@
 				"UserOptionsLookup",
 				"UserNameUtils",
 				"DBLoadBalancerFactory",
-				"ActorStore"
+				"ActorStore",
+				"BlockManager"
 			]
 		},
 		{
@@ -217,7 +218,9 @@
 				"UserOptionsLookup",
 				"UserNameUtils",
 				"DBLoadBalancerFactory",
-				"ActorStore"
+				"ActorStore",
+				"BlockManager",
+				"RevisionStore"
 			]
 		},
 		{
@@ -231,7 +234,8 @@
 				"UserOptionsLookup",
 				"UserNameUtils",
 				"DBLoadBalancerFactory",
-				"ActorStore"
+				"ActorStore",
+				"BlockManager"
 			]
 		},
 		{
