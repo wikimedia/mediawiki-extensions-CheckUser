@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Dreamy Jazz",
+			"Killy95",
 			"Kwisha",
 			"Lloffiwr",
 			"Stephenwanjau",
@@ -22,6 +23,7 @@
 	"checkuser-showlog": "Onyesha kumbukumbu",
 	"checkuser-target": "Anwani ya IP au jina la mtumiaji:",
 	"checkuser-users": "Leta watumiaji",
+	"checkuser-actions": "Pata hatua",
 	"checkuser-ips": "Leta anwani za IP",
 	"checkuser-period": "Muda:",
 	"checkuser-week-1": "wiki iliyopita",
