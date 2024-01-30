@@ -563,6 +563,9 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	 * @return string
 	 */
 	protected function getIndexName( string $table ): string {
+		// So that a code search can find existing usages:
+		// cuc_actor_ip_time, cule_actor_ip_time, cupe_actor_ip_time, cuc_xff_hex_time, cuc_ip_hex_time,
+		// cule_xff_hex_time, cule_ip_hex_time, cupe_xff_hex_time, cupe_ip_hex_time
 		if ( $this->xfor === null ) {
 			return self::RESULT_TABLE_TO_PREFIX[$table] . 'actor_ip_time';
 		} else {
