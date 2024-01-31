@@ -488,7 +488,9 @@
 	"GroupPermissions": {
 		"checkuser": {
 			"checkuser": true,
-			"checkuser-log": true
+			"checkuser-log": true,
+			"checkuser-temporary-account": true,
+			"checkuser-temporary-account-log": true
 		}
 	},
 	"PrivilegedGroups": [
