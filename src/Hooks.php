@@ -176,7 +176,7 @@ class Hooks implements
 			// BC: check if log_type and log_action exists
 			// If not, then $rc_comment is the actiontext and comment
 			if ( isset( $attribs['rc_log_type'] ) && $attribs['rc_type'] == RC_LOG ) {
-				$pm = MediaWikiServices::getInstance()->getPermissionManager();
+				$pm = $services->getPermissionManager();
 				$target = Title::makeTitle( $attribs['rc_namespace'], $attribs['rc_title'] );
 				$context = RequestContext::newExtraneousContext( $target );
 
@@ -528,12 +528,11 @@ class Hooks implements
 	public function onEmailUser( &$to, &$from, &$subject, &$text, &$error ) {
 		global $wgSecretKey, $wgCUPublicKey;
 
-		$services = MediaWikiServices::getInstance();
-
 		if ( !$wgSecretKey || $from->name == $to->name ) {
 			return;
 		}
 
+		$services = MediaWikiServices::getInstance();
 		if ( $services->getReadOnlyMode()->isReadOnly() ) {
 			return;
 		}
@@ -545,7 +544,7 @@ class Hooks implements
 
 		$cuChangesRow = [];
 		$cuPrivateRow = [];
-		$eventTablesMigrationStage = MediaWikiServices::getInstance()->getMainConfig()
+		$eventTablesMigrationStage = $services->getMainConfig()
 			->get( 'CheckUserEventTablesMigrationStage' );
 		// Define the title as the userpage of the user who sent the email. The user
 		// who receives the email is private information, so cannot be used.
@@ -714,7 +713,7 @@ class Hooks implements
 
 		$target = "[[User:$userName|$userName]]";
 
-		$eventTablesMigrationStage = MediaWikiServices::getInstance()->getMainConfig()
+		$eventTablesMigrationStage = $services->getMainConfig()
 			->get( 'CheckUserEventTablesMigrationStage' );
 		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
 			self::insertIntoCuPrivateEventTable(
