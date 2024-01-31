@@ -14,7 +14,7 @@ abstract class CheckUserPagerUnitTestBase extends MediaWikiUnitTestCase {
 	/**
 	 * Gets the name of the Pager class currently under test.
 	 *
-	 * @return string The pager class name
+	 * @return class-string<AbstractCheckUserPager> The pager class name
 	 */
 	abstract protected function getPagerClass(): string;
 
@@ -30,12 +30,8 @@ abstract class CheckUserPagerUnitTestBase extends MediaWikiUnitTestCase {
 			->method( $methodToMock )
 			->willReturn( $tableSpecificQueryInfo );
 		// Expect the other methods that return table-specific query info to not be called.
-		foreach ( $methodsToMock as $method ) {
-			if ( $method !== $methodToMock ) {
-				$object->expects( $this->never() )
-					->method( $method );
-			}
-		}
+		$object->expects( $this->never() )->method( $this->anythingBut( $methodToMock ) );
+		/** @var AbstractCheckUserPager $object */
 		$object->mDb = new AddQuoterMock();
 		$object = TestingAccessWrapper::newFromObject( $object );
 		$object->target = $target;
