@@ -216,6 +216,7 @@
 	"checkuser-investigate-compare-table-button-contribs-label": "Внесок",
 	"checkuser-investigate-compare-table-button-filter-label": "Фільтрувати з результатів",
 	"checkuser-investigate-compare-table-cell-unregistered": "Незареєстровані",
+	"checkuser-investigate-compare-table-cell-actions": "<b>[$1 {{PLURAL:$1|дія|дії}}]</b>",
 	"checkuser-investigate-compare-table-cell-other-actions": "<i>(~$1 від усіх користувачів)</i>",
 	"checkuser-investigate-compare-table-header-username": "Ім'я користувача",
 	"checkuser-investigate-compare-table-header-activity": "Діапазон дат",
