@@ -540,9 +540,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 		// Unset any existing Client Hints data.
 		$clientHintHeadersToUnset = array_filter(
 			array_keys( $this->mainRequest->getAllHeaders() ),
-			static function ( $headerName ) {
-				return substr( $headerName, 0, 9 ) === 'SEC-CH-UA';
-			}
+			static fn ( $headerName ) => str_starts_with( $headerName, 'SEC-CH-UA' )
 		);
 		foreach ( $clientHintHeadersToUnset as $clientHintHeader ) {
 			$this->mainRequest->setHeaders( [ $clientHintHeader => false ] );

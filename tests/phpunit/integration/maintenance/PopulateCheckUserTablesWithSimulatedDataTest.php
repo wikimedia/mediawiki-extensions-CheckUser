@@ -148,9 +148,7 @@ class PopulateCheckUserTablesWithSimulatedDataTest extends MaintenanceBaseTestCa
 				0,
 				array_filter(
 					array_keys( array_filter( $mockObject->mainRequest->getAllHeaders() ) ),
-					static function ( $headerName ) {
-						return substr( $headerName, 0, 9 ) === 'SEC-CH-UA';
-					}
+					static fn ( $headerName ) => str_starts_with( $headerName, 'SEC-CH-UA' )
 				),
 				'Client Hints headers were set for the request when the client does not support Client Hints.'
 			);
@@ -176,9 +174,7 @@ class PopulateCheckUserTablesWithSimulatedDataTest extends MaintenanceBaseTestCa
 				),
 				array_filter(
 					array_keys( array_filter( $mockObject->mainRequest->getAllHeaders() ) ),
-					static function ( $headerName ) {
-						return substr( $headerName, 0, 9 ) === 'SEC-CH-UA';
-					}
+					static fn ( $headerName ) => str_starts_with( $headerName, 'SEC-CH-UA' )
 				),
 				false,
 				false,
