@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Maintenance;
 use Maintenance;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
@@ -27,13 +28,11 @@ class PurgeOldData extends Maintenance {
 
 	public function execute() {
 		$config = $this->getConfig();
-		$CUDMaxAge = $config->get( 'CUDMaxAge' );
-		$RCMaxAge = $config->get( 'RCMaxAge' );
-		$PutIPinRC = $config->get( 'PutIPinRC' );
+		$cudMaxAge = $config->get( 'CUDMaxAge' );
 
 		$this->output( "Purging data from cu_changes..." );
 		[ $count, $mappingRowsCount ] = $this->prune(
-			'cu_changes', 'cuc_timestamp', $CUDMaxAge, UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES
+			'cu_changes', 'cuc_timestamp', $cudMaxAge, UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES
 		);
 		$this->output(
 			"Purged $count rows and $mappingRowsCount client hint mapping rows purged.\n"
@@ -41,7 +40,7 @@ class PurgeOldData extends Maintenance {
 
 		$this->output( "Purging data from cu_private_event..." );
 		[ $count, $mappingRowsCount ] = $this->prune(
-			'cu_private_event', 'cupe_timestamp', $CUDMaxAge,
+			'cu_private_event', 'cupe_timestamp', $cudMaxAge,
 			UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT
 		);
 		$this->output(
@@ -50,22 +49,23 @@ class PurgeOldData extends Maintenance {
 
 		$this->output( "Purging data from cu_log_event..." );
 		[ $count, $mappingRowsCount ] = $this->prune(
-			'cu_log_event', 'cule_timestamp', $CUDMaxAge,
+			'cu_log_event', 'cule_timestamp', $cudMaxAge,
 			UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT
 		);
 		$this->output(
 			"Purged $count rows and $mappingRowsCount client hint mapping rows purged.\n"
 		);
 
-		if ( $this->getConfig()->get( 'CheckUserPurgeOldClientHintsData' ) ) {
+		if ( $config->get( 'CheckUserPurgeOldClientHintsData' ) ) {
 			$userAgentClientHintsManager = MediaWikiServices::getInstance()->get( 'UserAgentClientHintsManager' );
 			$orphanedMappingRowsDeleted = $userAgentClientHintsManager->deleteOrphanedMapRows();
 			$this->output( "Purged $orphanedMappingRowsDeleted orphaned client hint mapping rows.\n" );
 		}
 
-		if ( $PutIPinRC ) {
+		if ( $config->get( MainConfigNames::PutIPinRC ) ) {
 			$this->output( "Purging data from recentchanges..." );
-			$count = $this->prune( 'recentchanges', 'rc_timestamp', $RCMaxAge, null );
+			$rcMaxAge = $config->get( MainConfigNames::RCMaxAge );
+			$count = $this->prune( 'recentchanges', 'rc_timestamp', $rcMaxAge, null );
 			$this->output( "Purged " . $count[0] . " rows.\n" );
 		}
 
