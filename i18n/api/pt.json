@@ -5,7 +5,9 @@
 		]
 	},
 	"apihelp-query+checkuser-summary": "Verificar que endereços IP são usados por determinado nome de utilizador ou que nomes de utilizador são usados por um determinado endereço IP.",
-	"apihelp-query+checkuser-param-request": "Tipo do pedido de verificação de utilizadores:\n;userips:Obter endereço IP do utilizador alvo.\n;edits:Obter alterações do endereço IP ou gama IP alvo.\n;ipusers:Obter utilizadores do endereço IP ou gama IP alvo.",
+	"apihelp-query+checkuser-param-request": "Tipo do pedido de verificação de utilizadores:",
+	"apihelp-query+checkuser-paramvalue-request-userips": "Obter endereço IP do utilizador alvo.",
+	"apihelp-query+checkuser-paramvalue-request-ipusers": "Obter utilizadores do endereço ou gama IP alvo.",
 	"apihelp-query+checkuser-param-target": "Nome de utilizador, endereço IP, ou gama CIDR a verificar",
 	"apihelp-query+checkuser-param-reason": "Motivo da verificação.",
 	"apihelp-query+checkuser-param-limit": "Limite de linhas.",
@@ -25,6 +27,12 @@
 	"apierror-checkuser-missingsummary": "Tem de definir um motivo para a verificação.",
 	"apierror-checkuser-timelimit": "Tem de usar um limite temporal correto (como \"-2 weeks\" ou \"2 weeks ago\").",
 	"apierror-checkuser-invalidmode": "Modo de pedido inválido",
-	"checkuser-api-help-param-direction": "A direção da enumeração:\n;newer:Listar o mais antigo primeiro. Nota: $1from tem de estar antes de $1to.\n;older:Listar o mais recente primeiro (padrão). Nota: $1from tem de estar depois de $1to.",
-	"checkuser-api-useragent-clienthints-revision-user-mismatch": "O utilizador $1 não é autor da revisão $2"
+	"apierror-checkuser-nosuchuser": "Não existe nenhum utilizador com este nome",
+	"checkuser-api-help-param-direction": "A direção da enumeração:",
+	"checkuser-api-help-paramvalue-direction-newer": "Listar o mais antigo primeiro. Nota: $1from tem de estar antes de $1to.",
+	"checkuser-api-help-paramvalue-direction-older": "Listar o mais recente primeiro (padrão). Nota: $1from tem de estar depois de $1to.",
+	"checkuser-api-useragent-clienthints-revision-user-mismatch": "O utilizador $1 não é autor da revisão $2",
+	"checkuser-api-useragent-clienthints-mappings-exist": "Já existem mapeamentos das dicas sobre o cliente para o identificador $2 de tipo $1",
+	"checkuser-api-useragent-clienthints-called-too-late": "O identificador $2 de tipo $1 é demasiado antigo para permitir gravar dados de dicas sobre o cliente",
+	"checkuser-api-useragent-clienthints-explanation": "A wiki {{SITENAME}} recolhe dados de dicas sobre o cliente do agente do utilizador para auxiliar na moderação de vandalismo e de comportamentos abusivos. Para mais informações, consultar https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints."
 }
