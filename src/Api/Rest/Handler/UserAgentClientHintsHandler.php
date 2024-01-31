@@ -7,8 +7,10 @@ use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Config\Config;
 use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\SimpleHandler;
+use MediaWiki\Rest\TokenAwareHandlerTrait;
 use MediaWiki\Rest\Validator\JsonBodyValidator;
 use MediaWiki\Rest\Validator\UnsupportedContentTypeBodyValidator;
+use MediaWiki\Rest\Validator\Validator;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use TypeError;
@@ -26,6 +28,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  * in cu_log_event and cu_private_event.
  */
 class UserAgentClientHintsHandler extends SimpleHandler {
+	use TokenAwareHandlerTrait;
 
 	private Config $config;
 	private RevisionStore $revisionStore;
@@ -42,6 +45,16 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 		$this->config = $config;
 		$this->revisionStore = $revisionStore;
 		$this->userAgentClientHintsManager = $userAgentClientHintsManager;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function validate( Validator $restValidator ): void {
+		parent::validate( $restValidator );
+		// Allow anonymous token needs to be true as logged out users can make requests to
+		// this endpoint via the ext.checkUser.clientHints ResourceLoader module.
+		$this->validateToken( true );
 	}
 
 	public function run() {
@@ -206,7 +219,11 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 				ParamValidator::PARAM_TYPE => 'string',
 			]
 		];
-		$expectedJsonStructure = array_merge( $lowEntropyClientHints, $highEntropyClientHints );
+		$expectedJsonStructure = array_merge(
+			$lowEntropyClientHints,
+			$highEntropyClientHints,
+			$this->getTokenParamDefinition()
+		);
 		return new JsonBodyValidator( $expectedJsonStructure );
 	}
 
@@ -229,5 +246,4 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 			]
 		];
 	}
-
 }
