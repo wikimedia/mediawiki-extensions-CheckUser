@@ -18,7 +18,7 @@
 	"apihelp-query+checkuser-param-limit": "Limite de lignes.",
 	"apihelp-query+checkuser-param-timecond": "Limite de temps des données de l’utilisateur (comme « -2 weeks » ou « 2 weeks ago »).",
 	"apihelp-query+checkuser-param-xff": "Utiliser les données du mandataire XFF au lieu de l’adresse IP.",
-	"apihelp-query+checkuser-example-1": "Vérifier les adresses IP pour [[User:Example]]",
+	"apihelp-query+checkuser-example-1": "Obtenir les adresses IP pour [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Vérifier les modifications pour 192.0.2.0/24",
 	"apihelp-query+checkuserlog-summary": "Obtenir les entrées du journal de vérification des utilisateurs.",
 	"apihelp-query+checkuserlog-param-user": "Nom d’utilisateur du Vérificateur d’utilisateurs.",
