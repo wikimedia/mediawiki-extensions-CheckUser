@@ -67,11 +67,17 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 		if (
 			!$this->permissionManager->userHasRight(
 				$this->getAuthority()->getUser(),
-				'checkuser-temporary-account'
-			) ||
-			!$this->userOptionsLookup->getOption(
-				$this->getAuthority()->getUser(),
-				'checkuser-temporary-account-enable'
+				'checkuser-temporary-account-no-preference'
+			) &&
+			(
+				!$this->permissionManager->userHasRight(
+					$this->getAuthority()->getUser(),
+					'checkuser-temporary-account'
+				) ||
+				!$this->userOptionsLookup->getOption(
+					$this->getAuthority()->getUser(),
+					'checkuser-temporary-account-enable'
+				)
 			)
 		) {
 			throw new LocalizedHttpException(

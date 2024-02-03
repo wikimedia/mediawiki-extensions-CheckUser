@@ -42,9 +42,10 @@ class Preferences implements GetPreferencesHook {
 			'type' => 'api',
 		];
 
-		if ( $this->permissionManager->userHasRight( $user, 'checkuser-temporary-account' ) ) {
-			// TODO: Users with the 'checkuser' right who haven't set a preference
-			// should have the option checked by default. See T327061
+		if (
+			$this->permissionManager->userHasRight( $user, 'checkuser-temporary-account' ) &&
+			!$this->permissionManager->userHasRight( $user, 'checkuser-temporary-account-no-preference' )
+		) {
 			$preferences['checkuser-temporary-account-enable'] = [
 				'type' => 'toggle',
 				'label-message' => 'checkuser-tempaccount-enable-preference',

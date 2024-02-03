@@ -222,8 +222,17 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testExecutePermissionErrorsNoPreference() {
+		$permissionManager = $this->createMock( PermissionManager::class );
+		$permissionManager->method( 'userHasRight' )
+			->willReturnCallback( static function ( $user, $right ) {
+				// Grant the user any right other than 'checkuser-temporary-account-no-preference',
+				// so that the preference check is made (as that right allows the user to skip
+				// the preference check).
+				return $right !== 'checkuser-temporary-account-no-preference';
+			} );
 		$handler = $this->getTemporaryAccountHandler( [
-			'userOptionsLookup' => MediaWikiServices::getInstance()->getUserOptionsLookup()
+			'userOptionsLookup' => MediaWikiServices::getInstance()->getUserOptionsLookup(),
+			'permissionManager' => $permissionManager,
 		] );
 
 		$user = $this->getTestUser()->getUser();
