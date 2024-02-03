@@ -3,7 +3,6 @@
 namespace MediaWiki\CheckUser\Maintenance;
 
 use LoggedUpdateMaintenance;
-use MediaWiki\MediaWikiServices;
 
 $IP = getenv( 'MW_INSTALL_PATH' );
 if ( $IP === false ) {
@@ -35,9 +34,8 @@ class FixTrailingSpacesInLogs extends LoggedUpdateMaintenance {
 	 * @inheritDoc
 	 */
 	protected function doDBUpdates() {
-		$lbFactory = MediaWikiServices::getInstance()->getDBLoadBalancerFactory();
-		$dbr = $lbFactory->getReplicaDatabase( false, 'vslow' );
-		$dbw = $lbFactory->getPrimaryDatabase();
+		$dbr = $this->getReplicaDB();
+		$dbw = $this->getPrimaryDB();
 		$batchSize = $this->getBatchSize();
 
 		$maxId = $dbr->newSelectQueryBuilder()
@@ -59,7 +57,7 @@ class FixTrailingSpacesInLogs extends LoggedUpdateMaintenance {
 				],
 				__METHOD__
 			);
-			$lbFactory->waitForReplication();
+			$this->waitForReplication();
 
 			$this->output( "Processed $batchSize rows out of $maxId.\n" );
 			$prevId = $curId;

@@ -88,7 +88,6 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 		);
 
 		$services = MediaWikiServices::getInstance();
-		$lbFactory = $services->getDBLoadBalancerFactory();
 		$commentStore = $services->getCommentStore();
 		$rcQuery = RecentChange::getQueryInfo();
 
@@ -192,8 +191,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 			}
 			$blockStart += $this->mBatchSize - 1;
 			$blockEnd += $this->mBatchSize - 1;
-			$lbFactory->waitForReplication( [ 'ifWritesSince' => 5 ] );
-			$lbFactory->autoReconfigure();
+			$this->waitForReplication();
 		}
 
 		$this->output( "...cu_changes table has been populated.\n" );
