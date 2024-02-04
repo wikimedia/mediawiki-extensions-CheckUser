@@ -25,7 +25,6 @@ use MediaWiki\Linker\Linker;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\SpecialPageFactory;
-use MediaWiki\User\ActorMigration;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserFactory;
@@ -76,7 +75,6 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	 * @param IConnectionProvider $dbProvider
 	 * @param SpecialPageFactory $specialPageFactory
 	 * @param UserIdentityLookup $userIdentityLookup
-	 * @param ActorMigration $actorMigration
 	 * @param UserFactory $userFactory
 	 * @param CheckUserLogService $checkUserLogService
 	 * @param UserEditTracker $userEditTracker
@@ -100,7 +98,6 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		IConnectionProvider $dbProvider,
 		SpecialPageFactory $specialPageFactory,
 		UserIdentityLookup $userIdentityLookup,
-		ActorMigration $actorMigration,
 		UserFactory $userFactory,
 		CheckUserLogService $checkUserLogService,
 		UserEditTracker $userEditTracker,
@@ -113,8 +110,8 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	) {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager,
 			$userGroupManager, $centralIdLookup, $dbProvider, $specialPageFactory,
-			$userIdentityLookup, $actorMigration, $checkUserLogService, $userFactory,
-			$context, $linkRenderer, $limit );
+			$userIdentityLookup, $checkUserLogService, $userFactory, $context,
+			$linkRenderer, $limit );
 		$this->checkType = SpecialCheckUser::SUBTYPE_GET_USERS;
 		$this->xfor = $xfor;
 		$this->canPerformBlocks = $permissionManager->userHasRight( $this->getUser(), 'block' )

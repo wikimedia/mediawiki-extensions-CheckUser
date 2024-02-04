@@ -32,7 +32,6 @@ use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Title\Title;
-use MediaWiki\User\ActorMigration;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\UserEditTracker;
 use MediaWiki\User\UserFactory;
@@ -94,7 +93,6 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 	 * @param IConnectionProvider $dbProvider
 	 * @param SpecialPageFactory $specialPageFactory
 	 * @param UserIdentityLookup $userIdentityLookup
-	 * @param ActorMigration $actorMigration
 	 * @param UserFactory $userFactory
 	 * @param RevisionStore $revisionStore
 	 * @param ArchivedRevisionLookup $archivedRevisionLookup
@@ -122,7 +120,6 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		IConnectionProvider $dbProvider,
 		SpecialPageFactory $specialPageFactory,
 		UserIdentityLookup $userIdentityLookup,
-		ActorMigration $actorMigration,
 		UserFactory $userFactory,
 		RevisionStore $revisionStore,
 		ArchivedRevisionLookup $archivedRevisionLookup,
@@ -140,8 +137,8 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 	) {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager,
 			$userGroupManager, $centralIdLookup, $dbProvider, $specialPageFactory,
-			$userIdentityLookup, $actorMigration, $checkUserLogService, $userFactory,
-			$context, $linkRenderer, $limit );
+			$userIdentityLookup, $checkUserLogService, $userFactory, $context,
+			$linkRenderer, $limit );
 		$this->checkType = SpecialCheckUser::SUBTYPE_GET_ACTIONS;
 		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
 		$this->xfor = $xfor;

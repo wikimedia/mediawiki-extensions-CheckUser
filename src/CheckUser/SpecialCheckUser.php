@@ -28,7 +28,6 @@ use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Status\Status;
 use MediaWiki\Title\Title;
-use MediaWiki\User\ActorMigration;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\CentralId\CentralIdLookupFactory;
 use MediaWiki\User\UserEditTracker;
@@ -75,7 +74,6 @@ class SpecialCheckUser extends SpecialPage {
 	private UserIdentityLookup $userIdentityLookup;
 	private TokenQueryManager $tokenQueryManager;
 	private IConnectionProvider $dbProvider;
-	private ActorMigration $actorMigration;
 	private UserFactory $userFactory;
 	private RevisionStore $revisionStore;
 	private ArchivedRevisionLookup $archivedRevisionLookup;
@@ -101,7 +99,6 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param UserIdentityLookup $userIdentityLookup
 	 * @param TokenQueryManager $tokenQueryManager
 	 * @param IConnectionProvider $dbProvider
-	 * @param ActorMigration $actorMigration
 	 * @param UserFactory $userFactory
 	 * @param RevisionStore $revisionStore
 	 * @param ArchivedRevisionLookup $archivedRevisionLookup
@@ -127,7 +124,6 @@ class SpecialCheckUser extends SpecialPage {
 		UserIdentityLookup $userIdentityLookup,
 		TokenQueryManager $tokenQueryManager,
 		IConnectionProvider $dbProvider,
-		ActorMigration $actorMigration,
 		UserFactory $userFactory,
 		RevisionStore $revisionStore,
 		ArchivedRevisionLookup $archivedRevisionLookup,
@@ -154,7 +150,6 @@ class SpecialCheckUser extends SpecialPage {
 		$this->userIdentityLookup = $userIdentityLookup;
 		$this->tokenQueryManager = $tokenQueryManager;
 		$this->dbProvider = $dbProvider;
-		$this->actorMigration = $actorMigration;
 		$this->userFactory = $userFactory;
 		$this->revisionStore = $revisionStore;
 		$this->archivedRevisionLookup = $archivedRevisionLookup;
@@ -745,7 +740,6 @@ class SpecialCheckUser extends SpecialPage {
 					$this->dbProvider,
 					$this->getSpecialPageFactory(),
 					$this->userIdentityLookup,
-					$this->actorMigration,
 					$this->checkUserLogService,
 					$this->userFactory
 				);
@@ -763,7 +757,6 @@ class SpecialCheckUser extends SpecialPage {
 					$this->dbProvider,
 					$this->getSpecialPageFactory(),
 					$this->userIdentityLookup,
-					$this->actorMigration,
 					$this->userFactory,
 					$this->checkUserLogService,
 					$this->userEditTracker,
@@ -784,7 +777,6 @@ class SpecialCheckUser extends SpecialPage {
 					$this->dbProvider,
 					$this->getSpecialPageFactory(),
 					$this->userIdentityLookup,
-					$this->actorMigration,
 					$this->userFactory,
 					$this->revisionStore,
 					$this->archivedRevisionLookup,

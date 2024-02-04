@@ -516,7 +516,6 @@
 				"UserIdentityLookup",
 				"CheckUserTokenQueryManager",
 				"DBLoadBalancerFactory",
-				"ActorMigration",
 				"UserFactory",
 				"RevisionStore",
 				"ArchivedRevisionLookup",
