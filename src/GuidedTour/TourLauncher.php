@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\GuidedTour;
 
 use ExtensionRegistry;
 use HtmlArmor;
+use MediaWiki\CheckUser\Investigate\SpecialInvestigate;
 use MediaWiki\Extension\GuidedTour\GuidedTourLauncher;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Linker\LinkTarget;
@@ -41,7 +42,10 @@ class TourLauncher {
 	}
 
 	/**
-	 * @param string $tourName
+	 * Creates a link which can be used to reset the visited status of a tour and
+	 * cause the next page load to show the tour.
+	 *
+	 * @param string $tourName One of SpecialInvestigate::TOUR_*
 	 * @param LinkTarget $target
 	 * @param string|HtmlArmor|null $text
 	 * @param array $extraAttribs
@@ -59,13 +63,21 @@ class TourLauncher {
 			return '';
 		}
 
+		if ( !isset( $extraAttribs['class'] ) ) {
+			$extraAttribs['class'] = [];
+		} elseif ( !is_array( $extraAttribs['class'] ) ) {
+			$extraAttribs['class'] = [ $extraAttribs['class'] ];
+		}
+		$extraAttribs['class'][] = 'ext-checkuser-investigate-reset-guided-tour';
+		if ( $tourName === SpecialInvestigate::TOUR_INVESTIGATE_FORM ) {
+			$extraAttribs['class'][] = 'ext-checkuser-investigate-reset-form-guided-tour';
+		}
+
 		return $this->linkRenderer->makeLink(
 			$target,
 			$text,
 			$extraAttribs,
-			array_merge( $query, [
-				'tour' => $tourName,
-			] )
+			$query
 		);
 	}
 }
