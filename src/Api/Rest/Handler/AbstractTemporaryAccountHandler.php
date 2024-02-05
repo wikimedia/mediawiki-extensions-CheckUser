@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Api\Rest\Handler;
 
 use JobQueueGroup;
 use JobSpecification;
+use MediaWiki\Block\BlockManager;
 use MediaWiki\Config\Config;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Rest\LocalizedHttpException;
@@ -25,6 +26,7 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 	protected UserNameUtils $userNameUtils;
 	protected IConnectionProvider $dbProvider;
 	protected ActorStore $actorStore;
+	protected BlockManager $blockManager;
 
 	/**
 	 * @param Config $config
@@ -34,6 +36,7 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 	 * @param UserNameUtils $userNameUtils
 	 * @param IConnectionProvider $dbProvider
 	 * @param ActorStore $actorStore
+	 * @param BlockManager $blockManager
 	 */
 	public function __construct(
 		Config $config,
@@ -42,7 +45,8 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 		UserOptionsLookup $userOptionsLookup,
 		UserNameUtils $userNameUtils,
 		IConnectionProvider $dbProvider,
-		ActorStore $actorStore
+		ActorStore $actorStore,
+		BlockManager $blockManager
 	) {
 		$this->config = $config;
 		$this->jobQueueGroup = $jobQueueGroup;
@@ -51,6 +55,7 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 		$this->userNameUtils = $userNameUtils;
 		$this->dbProvider = $dbProvider;
 		$this->actorStore = $actorStore;
+		$this->blockManager = $blockManager;
 	}
 
 	/**
@@ -96,11 +101,36 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 
 		$dbr = $this->dbProvider->getReplicaDatabase();
 		$actorId = $this->actorStore->findActorIdByName( $name, $dbr );
-		if ( $actorId === null ) {
+		$userIdentity = $this->actorStore->getUserIdentityByName( $name );
+		if ( $actorId === null || $userIdentity === null ) {
 			throw new LocalizedHttpException(
 				new MessageValue( 'rest-nonexistent-user', [ $name ] ),
 				404
 			);
+		}
+
+		$blockOnTempAccount = $this->blockManager->getBlock( $userIdentity, null );
+		if (
+			$blockOnTempAccount &&
+			$blockOnTempAccount->getHideName() &&
+			!$this->permissionManager->userHasRight( $this->getAuthority()->getUser(), 'viewsuppressed' )
+		) {
+			if ( $this->permissionManager->userHasRight( $this->getAuthority()->getUser(), 'hideuser' ) ) {
+				// The user knows that this user exists, because they have the 'hideuser' right. Instead of pretending
+				// the user does not exist, we instead should inform the user that they don't have the
+				// permission to view this information.
+				throw new LocalizedHttpException(
+					new MessageValue( 'checkuser-rest-access-denied' ),
+					403
+				);
+			} else {
+				// Pretend the username does not exist if the temporary account is hidden and the user does not have the
+				// rights to see suppressed information or blocks with 'hideuser' set.
+				throw new LocalizedHttpException(
+					new MessageValue( 'rest-nonexistent-user', [ $name ] ),
+					404
+				);
+			}
 		}
 
 		$data = $this->getData( $actorId, $dbr );

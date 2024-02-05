@@ -2,11 +2,15 @@
 
 namespace MediaWiki\CheckUser\Api\Rest\Handler;
 
+use DatabaseLogEntry;
+use LogEventsList;
+use LogPage;
 use MediaWiki\Rest\LocalizedHttpException;
 use Wikimedia\Message\DataMessageValue;
 use Wikimedia\Message\MessageValue;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\Rdbms\IDatabase;
+use Wikimedia\Rdbms\IResultWrapper;
 
 class TemporaryAccountLogHandler extends AbstractTemporaryAccountHandler {
 	/**
@@ -38,6 +42,15 @@ class TemporaryAccountLogHandler extends AbstractTemporaryAccountHandler {
 				]
 			);
 		}
+
+		$ids = $this->filterOutHiddenLogs( $ids );
+
+		if ( !count( $ids ) ) {
+			// If all logs were filtered out, return a results list with no IPs
+			// which is what happens when there is no CU data for the log events.
+			return [ 'ips' => [] ];
+		}
+
 		$conds = [
 			'cule_actor' => $actorId,
 			'cule_log_id' => $ids,
@@ -63,6 +76,38 @@ class TemporaryAccountLogHandler extends AbstractTemporaryAccountHandler {
 		}
 
 		return [ 'ips' => $ips ];
+	}
+
+	/**
+	 * Filter out log IDs where the authority does not have permissions to view the performer of the log.
+	 *
+	 * @param int[] $ids
+	 * @return int[]
+	 */
+	protected function filterOutHiddenLogs( array $ids ): array {
+		// Look up the logs from the DB with IDs in $ids
+		$logs = $this->performLogsLookup( $ids );
+
+		$filteredIds = [];
+		foreach ( $logs as $row ) {
+			// Only include the logs where the authority has permissions to view the performer.
+			if ( LogEventsList::userCanBitfield(
+				$row->log_deleted,
+				LogPage::DELETED_USER,
+				$this->getAuthority()
+			) ) {
+				$filteredIds[] = $row->log_id;
+			}
+		}
+
+		return $filteredIds;
+	}
+
+	protected function performLogsLookup( array $ids ): IResultWrapper {
+		return DatabaseLogEntry::newSelectQueryBuilder( $this->dbProvider->getReplicaDatabase() )
+			->where( [ 'log_id' => $ids ] )
+			->caller( __METHOD__ )
+			->fetchResultSet();
 	}
 
 	/**

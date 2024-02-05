@@ -3,7 +3,9 @@
 namespace MediaWiki\CheckUser\Tests\Integration\Api\Rest\Handler;
 
 use JobQueueGroup;
+use MediaWiki\Block\AbstractBlock;
 use MediaWiki\Block\Block;
+use MediaWiki\Block\BlockManager;
 use MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountHandler;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Permissions\Authority;
@@ -52,6 +54,8 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		$actorStore = $this->createMock( ActorStore::class );
 		$actorStore->method( 'findActorIdByName' )
 			->willReturn( 1234 );
+		$actorStore->method( 'getUserIdentityByName' )
+			->willReturn( new UserIdentityValue( 1234, '*Unregistered 1' ) );
 
 		return new TemporaryAccountHandler( ...array_values( array_merge(
 			[
@@ -62,6 +66,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'userNameUtils' => $userNameUtils,
 				'dbProvider' => MediaWikiServices::getInstance()->getDBLoadBalancerFactory(),
 				'actorStore' => $actorStore,
+				'blockManager' => $this->getServiceContainer()->getBlockManager(),
 			],
 			$options
 		) ) );
@@ -352,6 +357,65 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			[],
 			$authority
 		);
+	}
+
+	/** @dataProvider provideExecutePermissionErrorsSuppressedUser */
+	public function testExecutePermissionErrorsSuppressedUser(
+		$authorityHasHideUserRight,
+		$expectedMessageKey,
+		$expectedHttpStatusCode
+	) {
+		$mockBlock = $this->createMock( AbstractBlock::class );
+		$mockBlock->method( 'getHideName' )
+			->willReturn( true );
+		$mockBlockManager = $this->createMock( BlockManager::class );
+		$mockBlockManager->method( 'getBlock' )
+			->willReturn( $mockBlock );
+		$mockPermissionManager = $this->createMock( PermissionManager::class );
+		$mockPermissionManager->method( 'userHasRight' )
+			->willReturnCallback( static function ( $_, $permission ) use ( $authorityHasHideUserRight ) {
+				if ( $permission === 'viewsuppressed' ) {
+					return false;
+				} elseif ( $permission === 'hideuser' ) {
+					return $authorityHasHideUserRight;
+				}
+				return true;
+			} );
+		$handler = $this->getTemporaryAccountHandler( [
+			'blockManager' => $mockBlockManager,
+			'permissionManager' => $mockPermissionManager,
+		] );
+
+		$authority = $this->createMock( Authority::class );
+		$authority->method( 'isNamed' )
+			->willReturn( true );
+
+		$this->expectExceptionObject(
+			new LocalizedHttpException(
+				new MessageValue(
+					$expectedMessageKey
+				),
+				$expectedHttpStatusCode
+			)
+		);
+
+		// Can't use executeHandlerAndGetHttpException, since it doesn't take an Authority
+		$this->executeHandler(
+			$handler,
+			$this->getRequestData( [ 'name' => '*Unregistered 1' ] ),
+			[],
+			[],
+			[],
+			[],
+			$authority
+		);
+	}
+
+	public static function provideExecutePermissionErrorsSuppressedUser() {
+		return [
+			'Authority has the "hideuser" right' => [ true, 'checkuser-rest-access-denied', 403 ],
+			'Authority does not have the "hideuser" right' => [ false, 'rest-nonexistent-user', 404 ],
+		];
 	}
 
 	public function addDBData() {

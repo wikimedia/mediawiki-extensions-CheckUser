@@ -3,18 +3,25 @@
 namespace MediaWiki\CheckUser\Tests\Integration\Api\Rest\Handler;
 
 use JobQueueGroup;
+use LogPage;
+use ManualLogEntry;
 use MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountLogHandler;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Rest\RequestData;
 use MediaWiki\Tests\Rest\Handler\HandlerTestTrait;
+use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
+use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserNameUtils;
 use MediaWikiIntegrationTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Wikimedia\IPUtils;
+use Wikimedia\Rdbms\FakeResultWrapper;
+use Wikimedia\TestingAccessWrapper;
 
 /**
  * @group CheckUser
@@ -23,6 +30,8 @@ use Wikimedia\IPUtils;
  */
 class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 
+	use TempUserTestTrait;
+	use MockAuthorityTrait;
 	use HandlerTestTrait;
 
 	/**
@@ -30,9 +39,9 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 	 * They can be overridden via $options.
 	 *
 	 * @param array $options
-	 * @return TemporaryAccountLogHandler
+	 * @return TemporaryAccountLogHandler|MockObject
 	 */
-	private function getTemporaryAccountLogHandler( array $options = [] ): TemporaryAccountLogHandler {
+	private function getTemporaryAccountLogHandler( array $options = [] ) {
 		$permissionManager = $this->createMock( PermissionManager::class );
 		$permissionManager->method( 'userHasRight' )
 			->willReturn( true );
@@ -48,19 +57,27 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 		$actorStore = $this->createMock( ActorStore::class );
 		$actorStore->method( 'findActorIdByName' )
 			->willReturn( 1234 );
+		$actorStore->method( 'getUserIdentityByName' )
+			->willReturn( new UserIdentityValue( 1234, '*Unregistered 1' ) );
 
-		return new TemporaryAccountLogHandler( ...array_values( array_merge(
-			[
-				'config' => MediaWikiServices::getInstance()->getMainConfig(),
-				'jobQueueGroup' => $this->createMock( JobQueueGroup::class ),
-				'permissionManager' => $permissionManager,
-				'userOptionsLookup' => $userOptionsLookup,
-				'userNameUtils' => $userNameUtils,
-				'dbProvider' => MediaWikiServices::getInstance()->getDBLoadBalancerFactory(),
-				'actorStore' => $actorStore,
-			],
-			$options
-		) ) );
+		// Mock ::performLogsLookup to avoid DB lookups when these tests do not create entries
+		// in the logging table.
+		return $this->getMockBuilder( TemporaryAccountLogHandler::class )
+			->onlyMethods( [ 'performLogsLookup' ] )
+			->setConstructorArgs( array_values( array_merge(
+				[
+					'config' => MediaWikiServices::getInstance()->getMainConfig(),
+					'jobQueueGroup' => $this->createMock( JobQueueGroup::class ),
+					'permissionManager' => $permissionManager,
+					'userOptionsLookup' => $userOptionsLookup,
+					'userNameUtils' => $userNameUtils,
+					'dbProvider' => MediaWikiServices::getInstance()->getDBLoadBalancerFactory(),
+					'actorStore' => $actorStore,
+					'blockManager' => $this->getServiceContainer()->getBlockManager(),
+				],
+				$options
+			) ) )
+			->getMock();
 	}
 
 	/**
@@ -94,8 +111,18 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 	 */
 	public function testExecute( $expected, $options ) {
 		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', SCHEMA_COMPAT_NEW );
+		$temporaryAccountLogHandler = $this->getTemporaryAccountLogHandler();
+		$temporaryAccountLogHandler->method( 'performLogsLookup' )
+			->willReturnCallback( static function ( $ids ) {
+				// Only return log entries for the log IDs that are in the input array and are defined log IDs in
+				// the test data. These rows also have log_deleted as 0. Other values for log_deleted are tested in
+				// other tests.
+				return new FakeResultWrapper( array_values( array_map( static function ( $id ) {
+					return [ 'log_id' => $id, 'log_deleted' => 0 ];
+				}, array_intersect( $ids, [ 10, 100, 1000 ] ) ) ) );
+			} );
 		$data = $this->executeHandlerAndGetBodyData(
-			$this->getTemporaryAccountLogHandler(),
+			$temporaryAccountLogHandler,
 			$this->getRequestData( $options ),
 			[],
 			[],
@@ -106,6 +133,7 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayEquals(
 			$expected,
 			$data['ips'],
+			true,
 			true
 		);
 	}
@@ -161,6 +189,45 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
+	public function testWhenLogPerformerIsSuppressed() {
+		$this->enableAutoCreateTempUser();
+		$this->getServiceContainer()->getTempUserCreator()->create( '*Unregistered 1' );
+		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', SCHEMA_COMPAT_NEW );
+		// Set up a mock actor store that gets the real actor ID for the test temp user.
+		$actorStore = $this->createMock( ActorStore::class );
+		$actorStore->method( 'findActorIdByName' )
+			->willReturn( $this->getServiceContainer()->getActorStore()
+				->findActorId( new UserIdentityValue( 1234, '*Unregistered 1' ), $this->getDb() )
+			);
+		$actorStore->method( 'getUserIdentityByName' )
+			->willReturn( new UserIdentityValue( 1234, '*Unregistered 1' ) );
+		$temporaryAccountLogHandler = $this->getTemporaryAccountLogHandler( [
+			'actorStore' => $actorStore,
+		] );
+		$temporaryAccountLogHandler->method( 'performLogsLookup' )
+			->willReturnCallback( static function ( $ids ) {
+				// Only return log entries for the log IDs that are in the input array and are defined log IDs in
+				// the test data. These rows also have log_deleted as 0. Other values for log_deleted are tested in
+				// other tests.
+				return new FakeResultWrapper( array_map( static function ( $id ) {
+					return [ 'log_id' => $id, 'log_deleted' => LogPage::DELETED_RESTRICTED | LogPage::DELETED_USER ];
+				}, array_intersect( $ids, [ 10, 100, 1000 ] ) ) );
+			} );
+		$data = $this->executeHandlerAndGetBodyData(
+			$temporaryAccountLogHandler,
+			$this->getRequestData( [
+				'name' => '*Unregistered 1',
+				'ids' => 10,
+			] ),
+			[],
+			[],
+			[],
+			[],
+			$this->mockRegisteredAuthorityWithPermissions( [ 'checkuser-temporary-account' ] )
+		);
+		$this->assertArrayEquals( [], $data['ips'] );
+	}
+
 	public function testErrorOnWrongMigrationStage() {
 		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', SCHEMA_COMPAT_OLD );
 		$this->expectExceptionCode( 404 );
@@ -176,6 +243,39 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 			[],
 			$this->getAuthorityForSuccess()
 		);
+	}
+
+	public function testPerformLogsLookup() {
+		// Tests ::performLogsLookup, which is mocked in other tests to avoid
+		// having to create log entries for every test.
+		$firstLogId = $this->createLogEntry()->insert();
+		$secondLogId = $this->createLogEntry()->insert();
+		$logIdsForTest = [ $firstLogId, $secondLogId ];
+		$temporaryAccountLogHandler = $this->getMockBuilder( TemporaryAccountLogHandler::class )
+			->disableOriginalConstructor()
+			->getMock();
+		$temporaryAccountLogHandler = TestingAccessWrapper::newFromObject( $temporaryAccountLogHandler );
+		$temporaryAccountLogHandler->dbProvider = $this->getServiceContainer()->getConnectionProvider();
+		$actualRows = $temporaryAccountLogHandler->performLogsLookup( $logIdsForTest );
+		foreach ( $actualRows as $index => $row ) {
+			$this->assertSame(
+				(int)$row->log_id,
+				$logIdsForTest[$index],
+				"Log ID for row $index is not as expected"
+			);
+		}
+	}
+
+	private function createLogEntry(): ManualLogEntry {
+		$logEntry = new ManualLogEntry( 'move', 'move' );
+		$logEntry->setPerformer( new UserIdentityValue( 1234, '*Unregistered 1' ) );
+		$logEntry->setDeleted( LogPage::DELETED_USER | LogPage::DELETED_RESTRICTED );
+		$logEntry->setTarget( $this->getExistingTestPage() );
+		$logEntry->setParameters( [
+			'4::target' => wfRandomString(),
+			'5::noredir' => '0'
+		] );
+		return $logEntry;
 	}
 
 	public function addDBData() {
