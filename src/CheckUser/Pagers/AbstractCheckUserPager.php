@@ -25,7 +25,6 @@ use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Title\Title;
 use MediaWiki\Title\TitleValue;
-use MediaWiki\User\ActorMigration;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserGroupManager;
@@ -94,7 +93,6 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	private TokenQueryManager $tokenQueryManager;
 	private SpecialPageFactory $specialPageFactory;
 	private UserIdentityLookup $userIdentityLookup;
-	private ActorMigration $actorMigration;
 	private CheckUserLogService $checkUserLogService;
 	protected TemplateParser $templateParser;
 	protected UserFactory $userFactory;
@@ -109,7 +107,6 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	 * @param IConnectionProvider $dbProvider
 	 * @param SpecialPageFactory $specialPageFactory
 	 * @param UserIdentityLookup $userIdentityLookup
-	 * @param ActorMigration $actorMigration
 	 * @param CheckUserLogService $checkUserLogService
 	 * @param UserFactory $userFactory
 	 * @param IContextSource|null $context
@@ -126,7 +123,6 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		IConnectionProvider $dbProvider,
 		SpecialPageFactory $specialPageFactory,
 		UserIdentityLookup $userIdentityLookup,
-		ActorMigration $actorMigration,
 		CheckUserLogService $checkUserLogService,
 		UserFactory $userFactory,
 		IContextSource $context = null,
@@ -172,7 +168,6 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		$this->tokenQueryManager = $tokenQueryManager;
 		$this->specialPageFactory = $specialPageFactory;
 		$this->userIdentityLookup = $userIdentityLookup;
-		$this->actorMigration = $actorMigration;
 		$this->checkUserLogService = $checkUserLogService;
 		$this->userFactory = $userFactory;
 
@@ -334,28 +329,23 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 			// target is a user or an IP. If the target is a XFF then skip this.
 			$user = $this->userIdentityLookup->getUserIdentityByName( $this->target->getName() );
 
-			$lastEdit = false;
-
-			$revWhere = $this->actorMigration->getWhere( $this->mDb, 'rev_user', $user );
-			foreach ( $revWhere['orconds'] as $cond ) {
-				$lastEdit = max( $lastEdit, $this->mDb->newSelectQueryBuilder()
-					->tables( [ 'revision' ] + $revWhere['tables'] )
-					->field( 'rev_timestamp' )
-					->conds( $cond )
+			$lastEdit = max(
+				$this->mDb->newSelectQueryBuilder()
+					->select( 'rev_timestamp' )
+					->from( 'revision' )
+					->where( [ 'actor_name' => $this->target->getName() ] )
+					->join( 'actor', null, 'actor_id = rev_actor' )
 					->orderBy( 'rev_timestamp', SelectQueryBuilder::SORT_DESC )
-					->joinConds( $revWhere['joins'] )
+					->caller( __METHOD__ )
+					->fetchField(),
+				$this->mDb->newSelectQueryBuilder()
+					->table( 'logging' )
+					->field( 'log_timestamp' )
+					->orderBy( 'log_timestamp', SelectQueryBuilder::SORT_DESC )
+					->join( 'actor', null, 'actor_id=log_actor' )
+					->where( [ 'actor_name' => $this->target->getName() ] )
 					->caller( __METHOD__ )
 					->fetchField()
-				);
-			}
-			$lastEdit = max( $lastEdit, $this->mDb->newSelectQueryBuilder()
-				->table( 'logging' )
-				->field( 'log_timestamp' )
-				->orderBy( 'log_timestamp', SelectQueryBuilder::SORT_DESC )
-				->join( 'actor', null, 'actor_id=log_actor' )
-				->where( [ 'actor_name' => $this->target->getName() ] )
-				->caller( __METHOD__ )
-				->fetchField()
 			);
 
 			if ( $lastEdit ) {
