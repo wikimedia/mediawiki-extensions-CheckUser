@@ -1,3 +1,5 @@
+var { performFullRevealRequest } = require( './rest.js' );
+
 var $blockTargetWidget = $( '#mw-bi-target' );
 var blockTargetWidget, lastUserRequest, lastIpRequest;
 
@@ -50,11 +52,7 @@ function onTargetChange( blockTarget ) {
 			revealButton.once( 'click', function () {
 				$container.empty();
 
-				lastIpRequest = $.get(
-					mw.config.get( 'wgScriptPath' ) +
-					'/rest.php/checkuser/v0/temporaryaccount/' + blockTarget
-				);
-				lastIpRequest.then( function ( response ) {
+				performFullRevealRequest( blockTarget, [], [] ).then( function ( response ) {
 					$container.empty()
 						.append( new OO.ui.LabelWidget( {
 							label: response.ips.length ?
