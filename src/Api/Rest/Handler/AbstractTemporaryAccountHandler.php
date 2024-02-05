@@ -10,6 +10,10 @@ use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\Response;
 use MediaWiki\Rest\SimpleHandler;
+use MediaWiki\Rest\TokenAwareHandlerTrait;
+use MediaWiki\Rest\Validator\JsonBodyValidator;
+use MediaWiki\Rest\Validator\UnsupportedContentTypeBodyValidator;
+use MediaWiki\Rest\Validator\Validator;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\UserNameUtils;
@@ -19,6 +23,9 @@ use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
 
 abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
+
+	use TokenAwareHandlerTrait;
+
 	protected Config $config;
 	protected JobQueueGroup $jobQueueGroup;
 	protected PermissionManager $permissionManager;
@@ -178,5 +185,20 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 				ParamValidator::PARAM_REQUIRED => true,
 			],
 		];
+	}
+
+	/** @inheritDoc */
+	public function getBodyValidator( $contentType ) {
+		if ( $contentType !== 'application/json' ) {
+			return new UnsupportedContentTypeBodyValidator( $contentType );
+		}
+
+		return new JsonBodyValidator( $this->getTokenParamDefinition() );
+	}
+
+	/** @inheritDoc */
+	public function validate( Validator $restValidator ) {
+		parent::validate( $restValidator );
+		$this->validateToken();
 	}
 }

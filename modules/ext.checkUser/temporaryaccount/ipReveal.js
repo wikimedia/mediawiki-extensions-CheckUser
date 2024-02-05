@@ -1,4 +1,5 @@
 var ipRevealUtils = require( './ipRevealUtils.js' );
+var { performRevealRequest } = require( './rest.js' );
 
 function makeButton( target, revIds, logIds ) {
 	var button = new OO.ui.ButtonWidget( {
@@ -18,12 +19,7 @@ function makeButton( target, revIds, logIds ) {
 
 	button.$element.on( 'revealIp', function () {
 		button.$element.off( 'revealIp' );
-		$.get(
-			mw.config.get( 'wgScriptPath' ) +
-			'/rest.php/checkuser/v0/temporaryaccount/' +
-			target +
-			buildQuery( revIds, logIds )
-		).then( function ( response ) {
+		performRevealRequest( target, revIds, logIds ).then( function ( response ) {
 			var ip = response.ips[ ( revIds.targetId || logIds.targetId ) || 0 ];
 			if ( !ipRevealUtils.getRevealedStatus( target ) ) {
 				ipRevealUtils.setRevealedStatus( target );
@@ -43,21 +39,6 @@ function makeButton( target, revIds, logIds ) {
 	} );
 
 	return button.$element;
-}
-
-function buildQuery( revIds, logIds ) {
-	var urlParams = '';
-	var queryStringParams = new URLSearchParams();
-
-	if ( revIds && revIds.allIds && revIds.allIds.length ) {
-		urlParams += '/revisions/' + revIds.allIds.join( '|' );
-	} else if ( logIds && logIds.allIds && logIds.allIds.length ) {
-		urlParams += '/logs/' + logIds.allIds.join( '|' );
-	} else {
-		queryStringParams.set( 'limit', 1 );
-	}
-
-	return urlParams + '?' + queryStringParams.toString();
 }
 
 /**

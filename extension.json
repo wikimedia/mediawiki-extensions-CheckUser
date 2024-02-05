@@ -194,7 +194,7 @@
 	"RestRoutes": [
 		{
 			"path": "/checkuser/v0/temporaryaccount/{name}",
-			"method": "GET",
+			"method": "POST",
 			"class": "MediaWiki\\CheckUser\\Api\\Rest\\Handler\\TemporaryAccountHandler",
 			"services": [
 				"MainConfig",
@@ -209,7 +209,7 @@
 		},
 		{
 			"path": "/checkuser/v0/temporaryaccount/{name}/revisions/{ids}",
-			"method": "GET",
+			"method": "POST",
 			"class": "MediaWiki\\CheckUser\\Api\\Rest\\Handler\\TemporaryAccountRevisionHandler",
 			"services": [
 				"MainConfig",
@@ -225,7 +225,7 @@
 		},
 		{
 			"path": "/checkuser/v0/temporaryaccount/{name}/logs/{ids}",
-			"method": "GET",
+			"method": "POST",
 			"class": "MediaWiki\\CheckUser\\Api\\Rest\\Handler\\TemporaryAccountLogHandler",
 			"services": [
 				"MainConfig",
@@ -369,6 +369,7 @@
 				"temporaryaccount/ipReveal.js",
 				"temporaryaccount/initOnLoad.js",
 				"temporaryaccount/initOnHook.js",
+				"temporaryaccount/rest.js",
 				"temporaryaccount/SpecialBlock.js",
 				"temporaryaccount/SpecialContributions.js",
 				{
