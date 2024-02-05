@@ -150,7 +150,7 @@
 	"logentry-checkuser-private-event-login-success": "Pomyślnie {{GENDER:$2|zalogowano}} do {{GRAMMAR:D.lp|{{SITENAME}}}} jako $4",
 	"logentry-checkuser-private-event-login-failure": "{{GENDER:$2|Nie udało się}} zalogować się do {{GRAMMAR:D.lp|{{SITENAME}}}} jako $4",
 	"logentry-checkuser-private-event-login-failure-with-good-password": "{{GENDER:$2|Nie udało się}} zalogować do {{GRAMMAR:D.lp|{{SITENAME}}}} jako $4 mimo posiadania poprawnego hasła",
-	"logentry-checkuser-private-event-user-logout": "Pomyślnie {{GENDER:$1|wylogowano}} za pomocą API lub {{#special:Logout}}",
+	"logentry-checkuser-private-event-user-logout": "Pomyślnie {{GENDER:$2|wylogowano}} za pomocą API lub {{#special:Logout}}",
 	"logentry-checkuser-private-event-password-reset-email-sent": "{{GENDER:$2|Wysłano}} e-mail umożliwiający zresetowanie hasła do {{GENDER:$5|użytkownika|użytkowniczki|użytkownika(-czki)}} $4",
 	"logentry-checkuser-private-event-email-sent": "{{GENDER:$2|Wysłano}} e-mail do użytkownika „$4”",
 	"logentry-checkuser-private-event-autocreate-account": "został utworzony automatycznie",
