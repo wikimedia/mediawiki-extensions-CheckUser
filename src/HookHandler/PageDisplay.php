@@ -47,10 +47,13 @@ class PageDisplay implements BeforePageDisplayHook {
 		$user = $out->getUser();
 
 		if (
-			!$this->permissionManager->userHasRight( $user, 'checkuser-temporary-account' )
-			|| !$this->userOptionsLookup->getOption(
-				$user,
-				'checkuser-temporary-account-enable'
+			!$this->permissionManager->userHasRight( $user, 'checkuser-temporary-account-no-preference' ) &&
+			(
+				!$this->permissionManager->userHasRight( $user, 'checkuser-temporary-account' )
+				|| !$this->userOptionsLookup->getOption(
+					$user,
+					'checkuser-temporary-account-enable'
+				)
 			)
 		) {
 			return;

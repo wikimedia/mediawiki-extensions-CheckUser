@@ -493,7 +493,7 @@
 		"checkuser": {
 			"checkuser": true,
 			"checkuser-log": true,
-			"checkuser-temporary-account": true,
+			"checkuser-temporary-account-no-preference": true,
 			"checkuser-temporary-account-log": true
 		}
 	},
@@ -504,6 +504,7 @@
 		"checkuser",
 		"checkuser-log",
 		"checkuser-temporary-account",
+		"checkuser-temporary-account-no-preference",
 		"checkuser-temporary-account-log"
 	],
 	"SpecialPages": {

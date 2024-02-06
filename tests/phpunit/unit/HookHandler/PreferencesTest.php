@@ -38,8 +38,16 @@ class PreferencesTest extends MediaWikiUnitTestCase {
 		$prefs = [];
 
 		$permissionManager = $this->createMock( PermissionManager::class );
-		$permissionManager->method( 'UserHasRight' )
-			->willReturn( $options['hasRight'] );
+		$permissionManager->method( 'userHasRight' )
+			->willReturnCallback( static function ( $user, $right ) use ( $options ) {
+				if ( $right === 'checkuser-temporary-account' ) {
+					return $options['hasRight'];
+				}
+				if ( $right === 'checkuser-temporary-account-no-preference' ) {
+					return $options['hasNoPreferenceRight'];
+				}
+				return true;
+			} );
 
 		$loggerFactory = $this->createMock( TemporaryAccountLoggerFactory::class );
 
@@ -60,12 +68,21 @@ class PreferencesTest extends MediaWikiUnitTestCase {
 				[
 					'expected' => true,
 					'hasRight' => true,
+					'hasNoPreferenceRight' => false,
+				],
+			],
+			'User has no-preference right' => [
+				[
+					'expected' => false,
+					'hasRight' => false,
+					'hasNoPreferenceRight' => true,
 				],
 			],
 			'User does not have right' => [
 				[
 					'expected' => false,
 					'hasRight' => false,
+					'hasNoPreferenceRight' => false,
 				],
 			],
 		];
