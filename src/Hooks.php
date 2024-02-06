@@ -654,15 +654,10 @@ class Hooks implements
 
 		if (
 			$wgCheckUserLogSuccessfulBotLogins !== true &&
-			$ret->status === AuthenticationResponse::PASS
+			$ret->status === AuthenticationResponse::PASS &&
+			$user->isBot()
 		) {
-			$userGroups = $services
-				->getUserGroupManager()
-				->getUserGroups( $user );
-
-			if ( in_array( 'bot', $userGroups ) ) {
-				return;
-			}
+			return;
 		}
 
 		$userName = $user->getName();
