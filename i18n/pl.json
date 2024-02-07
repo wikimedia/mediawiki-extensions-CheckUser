@@ -227,6 +227,7 @@
 	"checkuser-investigate-compare-table-button-contribs-label": "Wkład",
 	"checkuser-investigate-compare-table-button-filter-label": "Filtruj z wyników",
 	"checkuser-investigate-compare-table-cell-unregistered": "Niezarejestrowany",
+	"checkuser-investigate-compare-table-cell-actions": "<b>[$1 {{PLURAL:$1|akcja|akcje|akcji}}]</b>",
 	"checkuser-investigate-compare-table-cell-other-actions": "<i>(~$1 od wszystkich użytkowników)</i>",
 	"checkuser-investigate-compare-table-header-username": "Nazwa użytkownika",
 	"checkuser-investigate-compare-table-header-activity": "Zakres dat",
