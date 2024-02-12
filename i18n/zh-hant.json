@@ -24,7 +24,8 @@
 			"一個正常人",
 			"星海",
 			"列维劳德",
-			"捍粵者"
+			"捍粵者",
+			"SunAfterRain"
 		]
 	},
 	"checkuser-summary": "本工具會從最近更改中取得使用者使用過的 IP 位址，可使用 XFF 標頭資訊來取得同一客戶端 IP 位址下的使用者和編輯，即在 IP 位址後方加上 \"/xff\"。 本工具支援 IPv4 (CIDR $1-32) 與 IPv6 (CIDR $2-128)。 考量到效率問題，本工具只允許查詢最近 $3 筆編輯。 請確認你的操作符合政策規範。",
@@ -167,8 +168,8 @@
 	"checkuser-investigate-preliminary-table-header-groups": "群組",
 	"checkuser-investigate-preliminary-table-header-name": "使用者名稱",
 	"checkuser-investigate-preliminary-table-header-registration": "日期已附上",
-	"checkuser-investigate-preliminary-table-header-wiki": "Wiki",
-	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "找不到 Wiki",
+	"checkuser-investigate-preliminary-table-header-wiki": "wiki",
+	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "找不到 wiki",
 	"checkuser-investigate-filters-legend": "篩選",
 	"checkuser-investigate-filters-exclude-targets-label": "隱藏以下使用者或 IP",
 	"checkuser-investigate-timeline-notice-no-results": "沒有結果：沒有在過去 90 天來自這些使用者或 IP 的記錄活動",
