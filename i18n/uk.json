@@ -99,11 +99,11 @@
 	"checkuser-ipeditcount": "~$1 від усіх користувачів",
 	"checkuser-showmain": "Перейти до {{#special:CheckUser}}",
 	"checkuser-show-investigate": "Перемкнути на {{#special:Investigate}}",
-	"checkuser-log-entry-userips": "$3, $1 отримав IP-адреси для $2",
+	"checkuser-log-entry-userips": "$3, $1 {{GENDER:$1|отримав|отримала}} IP-адреси для $2",
 	"checkuser-log-entry-ipedits": "$3, $1 отримав редагування для <bdi>$2</bdi>",
-	"checkuser-log-entry-ipusers": "$3, $1 отримав користувачів для <bdi>$2</bdi>",
+	"checkuser-log-entry-ipusers": "$3, $1 {{GENDER:$1|отримав|отримала}} користувачів для <bdi>$2</bdi>",
 	"checkuser-log-entry-ipedits-xff": "$3, $1 отримав редагування для XFF <bdi>$2</bdi>",
-	"checkuser-log-entry-ipusers-xff": "$3, $1 отримав користувачів для XFF <bdi>$2</bdi>",
+	"checkuser-log-entry-ipusers-xff": "$3, $1 {{GENDER:$1|отримав|отримала}} користувачів для XFF <bdi>$2</bdi>",
 	"checkuser-log-entry-useredits": "$3, $1 отримав редагування для $2",
 	"checkuser-log-entry-investigate": "$3, $1 переглянув інформацію для $2",
 	"checkuser-autocreate-action": "створений автоматично",
@@ -209,5 +209,6 @@
 	"checkuser-investigate-tour-block-title": "Хочете заблокувати?",
 	"checkuser-investigate-tour-block-desc": "Дозволяє Вам обрати користувачів, що Ви б хотіли заблокувати та переводить Вас до форми блокування для обрання необхідного блоку.",
 	"checkuser-investigate-tour-copywikitext-title": "Хочете скопіювати дані?",
-	"checkuser-investigate-tour-copywikitext-desc": "Скопіюйте таблицю порівняння одним кліком й використайте на CU-вікі. Зауважте, однак, що Ви копіюєте лише те, що видно, а не всі сторінки розслідування."
+	"checkuser-investigate-tour-copywikitext-desc": "Скопіюйте таблицю порівняння одним кліком й використайте на CU-вікі. Зауважте, однак, що Ви копіюєте лише те, що видно, а не всі сторінки розслідування.",
+	"prefs-checkuser-tempaccount": "Розкриття IP-адрес тимчасових облікових записів"
 }
