@@ -2,12 +2,13 @@
 
 namespace MediaWiki\CheckUser\Services;
 
-use Exception;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use FormatJson;
+use MediaWiki\Config\ConfigException;
 use MediaWiki\Session\Session;
 use MediaWiki\Utils\MWTimestamp;
+use RuntimeException;
 
 class TokenManager {
 	/** @var string */
@@ -25,7 +26,7 @@ class TokenManager {
 		string $secret
 	) {
 		if ( $secret === '' ) {
-			throw new Exception(
+			throw new ConfigException(
 				'CheckUser Token Manager requires $wgSecretKey to be set.'
 			);
 		}
@@ -110,7 +111,7 @@ class TokenManager {
 		);
 
 		if ( $decrypted === false ) {
-			throw new Exception( 'Decryption Failed' );
+			throw new RuntimeException( 'Decryption Failed' );
 		}
 
 		return FormatJson::parse( $decrypted, FormatJson::FORCE_ASSOC )->getValue();
@@ -143,7 +144,7 @@ class TokenManager {
 			} elseif ( in_array( 'aes-256-cbc', $methods, true ) ) {
 				$this->cipherMethod = 'aes-256-cbc';
 			} else {
-				throw new Exception( 'No valid cipher method found with openssl_get_cipher_methods()' );
+				throw new ConfigException( 'No valid cipher method found with openssl_get_cipher_methods()' );
 			}
 		}
 

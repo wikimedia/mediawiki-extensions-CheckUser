@@ -6,7 +6,7 @@ use ApiBase;
 use ApiQuery;
 use ApiQueryBase;
 use ApiResult;
-use Exception;
+use LogicException;
 use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CommentStore\CommentStore;
@@ -215,7 +215,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 							if ( !$revRecord ) {
 								// This shouldn't happen, CheckUser points to a revision
 								// that isn't in revision nor archive table?
-								throw new Exception(
+								throw new LogicException(
 									"Couldn't fetch revision cu_changes table links to " .
 										"(cuc_this_oldid {$row->cuc_this_oldid})"
 								);

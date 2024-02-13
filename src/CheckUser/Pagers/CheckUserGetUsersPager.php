@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
-use Exception;
 use ExtensionRegistry;
 use IContextSource;
 use LogicException;
@@ -17,6 +16,7 @@ use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\Config\ConfigException;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Html\Html;
@@ -221,7 +221,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 				'Special:CentralAuth'
 			);
 			if ( $centralCAUrl === false ) {
-				throw new Exception(
+				throw new ConfigException(
 					"Could not retrieve URL for CentralAuth: $this->centralAuthToollink"
 				);
 			}
@@ -249,7 +249,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 				$gbUserGroups = CentralAuthUser::getInstance( $this->getUser() )->getGlobalGroups();
 				// Link to GB via WikiMap since CA require it
 				if ( $centralGBUrl === false ) {
-					throw new Exception(
+					throw new ConfigException(
 						'Could not retrieve URL for global blocking toollink'
 					);
 				}
@@ -594,7 +594,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			if ( $checkUserCAMultiLock !== false ) {
 				if ( !ExtensionRegistry::getInstance()->isLoaded( 'CentralAuth' ) ) {
 					// $wgCheckUserCAMultiLock shouldn't be enabled if CA is not loaded
-					throw new Exception( '$wgCheckUserCAMultiLock requires CentralAuth extension.' );
+					throw new ConfigException( '$wgCheckUserCAMultiLock requires CentralAuth extension.' );
 				}
 
 				$caUserGroups = CentralAuthUser::getInstance( $this->getUser() )->getGlobalGroups();
@@ -608,7 +608,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 						'Special:MultiLock'
 					);
 					if ( $centralMLUrl === false ) {
-						throw new Exception(
+						throw new ConfigException(
 							"Could not retrieve URL for {$checkUserCAMultiLock['centralDB']}"
 						);
 					}
