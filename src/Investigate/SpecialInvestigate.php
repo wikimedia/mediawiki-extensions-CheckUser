@@ -67,16 +67,10 @@ class SpecialInvestigate extends FormSpecialPage {
 	private const MAX_TARGETS = 10;
 
 	/** @var string */
-	private const TOUR_INVESTIGATE = 'checkuserinvestigate';
+	public const TOUR_INVESTIGATE = 'checkuserinvestigate';
 
 	/** @var string */
-	private const TOUR_INVESTIGATE_FORM = 'checkuserinvestigateform';
-
-	/** @var string[] */
-	private const TOURS = [
-		self::TOUR_INVESTIGATE,
-		self::TOUR_INVESTIGATE_FORM,
-	];
+	public const TOUR_INVESTIGATE_FORM = 'checkuserinvestigateform';
 
 	/**
 	 * @param LinkRenderer $linkRenderer
@@ -153,11 +147,6 @@ class SpecialInvestigate extends FormSpecialPage {
 		// If the form submission results in a redirect, there is no need to
 		// generate content for the page.
 		if ( $this->getOutput()->getRedirect() !== '' ) {
-			return;
-		}
-
-		// The tour is being explicitly launched by the user, reset their preferences.
-		if ( $this->reLaunchTour() ) {
 			return;
 		}
 
@@ -896,56 +885,6 @@ class SpecialInvestigate extends FormSpecialPage {
 	 */
 	private function getDuration(): string {
 		return $this->durationManager->getFromRequest( $this->getRequest() );
-	}
-
-	/**
-	 * Relaunch Tour Intercept
-	 *
-	 * Intercepts a request and relaunches the tour by updating the user preferences and setting
-	 * a redirect.
-	 *
-	 * @return bool If the tour is being relaunched and a redirect was set.
-	 */
-	public function reLaunchTour(): bool {
-		if ( $this->getRequest()->getMethod() !== 'GET' ) {
-			return false;
-		}
-
-		if ( !in_array( $this->getRequest()->getVal( 'tour' ), self::TOURS, true ) ) {
-			return false;
-		}
-
-		$user = $this->getUser();
-
-		$options = [];
-		switch ( $this->getRequest()->getVal( 'tour' ) ) {
-			case self::TOUR_INVESTIGATE_FORM:
-				$options = [
-					Preferences::INVESTIGATE_FORM_TOUR_SEEN,
-					Preferences::INVESTIGATE_TOUR_SEEN,
-				];
-				break;
-			case self::TOUR_INVESTIGATE:
-				$options = [
-					Preferences::INVESTIGATE_TOUR_SEEN,
-				];
-				break;
-		}
-
-		foreach ( $options as $option ) {
-			$this->userOptionsManager->setOption( $user, $option, null );
-		}
-
-		$this->userOptionsManager->saveOptions( $user );
-
-		$parts = wfParseUrl( $this->getRequest()->getFullRequestURL() );
-		$query = wfCgiToArray( $parts['query'] ?? '' );
-		$query['tour'] = null;
-		$parts['query'] = wfArrayToCgi( $query );
-
-		$this->getOutput()->redirect( wfAssembleUrl( $parts ) );
-
-		return true;
 	}
 
 	/**

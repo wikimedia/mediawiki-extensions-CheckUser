@@ -361,6 +361,7 @@
 				"investigateblock/investigateblock.js",
 				"investigate/init.js",
 				"investigate/InvestigateMenuSelectWidget.js",
+				"investigate/resetGuidedTour.js",
 				"investigate/tables.js",
 				"investigate/copy.js",
 				"investigate/blockform.js",
