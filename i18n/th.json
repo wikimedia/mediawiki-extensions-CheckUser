@@ -19,7 +19,7 @@
 	"checkuser-contribs": "ตรวจสอบหมายเลขไอพีของผู้ใช้",
 	"checkuser-contribs-log": "ตรวจสอบผู้ใช้",
 	"group-checkuser": "ผู้ตรวจสอบผู้ใช้",
-	"group-checkuser-member": "{{GENDER:$1|ตรวจสอบผู้ใช้}}",
+	"group-checkuser-member": "{{GENDER:$1|ผู้ตรวจสอบผู้ใช้}}",
 	"right-checkuser": "ตรวจสอบหมายเลขไอพีของผู้ใช้และข้อมูลอื่น ๆ",
 	"right-checkuser-log": "ดูรายการบันทึกการตรวจสอบผู้ใช้",
 	"action-checkuser": "ตรวจสอบเลขที่อยู่ไอพีและสารสนเทศอื่นของผู้ใช้",
@@ -28,7 +28,7 @@
 	"checkuser-clienthints-name-mobile": "อุปกรณ์เคลื่อนที่",
 	"checkuser-reason": "เหตุผล:",
 	"checkuser-reason-api": "API: $1",
-	"checkuser-showlog": "สลับไปยังรายการบันทึกการตรวจสอบผู้ใช้",
+	"checkuser-showlog": "ปูมตรวจสอบ",
 	"checkuser-query": "แบบสอบถามการเปลี่ยนแปลงล่าสุด",
 	"checkuser-target": "หมายเลขไอพีหรือชื่อผู้ใช้:",
 	"checkuser-users": "รับชื่อผู้ใช้",
@@ -51,6 +51,8 @@
 	"checkuser-investigate-this-user": "สืบสวนผู้ใช้คนนี้",
 	"checkuser-recent-checks": "ตรวจสอบผู้ใช้นี้",
 	"checkuser-log-checks-by": "ตรวจสอบโดย",
+	"checkuser-log-link-text": "ปูม",
+	"checkuser-logs-link-text": "ปูม",
 	"checkuser-blocked": "ถูกบล็อก",
 	"checkuser-gblocked": "ถูกบล็อกทั่วโลก",
 	"checkuser-locked": "ถูกล็อก",
@@ -181,5 +183,10 @@
 	"checkuser-investigate-tour-filterip-title": "จำกัดการสืบสวนของคุณหรือไม่",
 	"checkuser-investigate-tour-block-title": "ต้องการบล็อกหรือไม่",
 	"checkuser-investigate-tour-copywikitext-title": "ต้องการคัดลอกข้อมูลหรือไม่",
-	"checkuser-tempaccount-reveal-ip-button-label": "แสดงไอพี"
+	"checkuser-tempaccount-reveal-ip-button-label": "แสดงไอพี",
+	"checkuser-tempaccount-reveal-ip-missing": "ไม่พร้อมใช้งาน",
+	"checkuser-tempaccount-reveal-ip-error": "เกิดข้อผิดพลาด",
+	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|ปิดใช้งาน}}",
+	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|เปิดใช้งาน}}",
+	"log-action-filter-checkuser-temporary-account": "ประเภทของการกระทำ:"
 }

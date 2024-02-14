@@ -110,7 +110,7 @@
 	"checkuser-autocreate-action": "স্বয়ংক্রিয়ভাবে তৈরি হয়েছিলো",
 	"checkuser-create-action": "তৈরি করা হয়েছে",
 	"checkuser-email-action": "ব্যবহারকারী \"$1\" কে একটি ইমেইল পাঠিয়েছে",
-	"checkuser-reset-action": "ব্যবহারকারী \"$1\"-এর পাসওয়ার্ড পুনঃস্থাপন হয়েছে",
+	"checkuser-reset-action": "{{GENDER:$1|ব্যবহারকারী}} [[User:$1|$1]]-এর জন্য একটি পাসওয়ার্ড পুনঃস্থাপনের ইমেইল পাঠানো হয়েছে",
 	"checkuser-token-fail": "সেশন ব্যর্থতা। অনুগ্রহপূর্বক আবার চেষ্টা করুন।",
 	"checkuser-login-failure": "$1 হিসেবে {{SITENAME}}-এ প্রবেশ করতে ব্যর্থ",
 	"checkuser-login-success": "$1 হিসেবে {{SITENAME}}-এ সফলভাবে প্রবেশ করেছেন",

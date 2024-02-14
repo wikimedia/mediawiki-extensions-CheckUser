@@ -29,7 +29,8 @@
 			"Wladek92",
 			"Wyz",
 			"Yasten",
-			"Zetud"
+			"Zetud",
+			"Framawiki"
 		]
 	},
 	"checkuser-summary": "Cet outil parcourt la liste des changements récents à la recherche des adresses IP employées par un utilisateur ou affiche toutes les données utilisateur d’une adresse IP.\nLes comptes et les modifications effectuées par une adresse IP cliente peuvent être récupérés via les entêtes d’un mandataire XFF en suffixant l’adresse IP avec « /xff ». Les adresses IPv4 (CIDR /$1 à /32) et IPv6 (CIDR /$2 à /128) sont prises en charge.\nAu plus $3 modifications seront renvoyées, pour des questions de performance.\nVeuillez utiliser cet outil conformément à sa politique d’utilisation.",
@@ -93,8 +94,8 @@
 	"checkuser-check-this-user": "Vérifier cet utilisateur",
 	"checkuser-investigate-this-user": "Enquêter sur cet utilisateur",
 	"checkuser-recent-checks": "Vérifications pour cette cible",
-	"checkuser-log-checks-by": "vérifications par",
-	"checkuser-log-checks-on": "vérifications du",
+	"checkuser-log-checks-by": "ses vérifications",
+	"checkuser-log-checks-on": "vérifications passées",
 	"checkuser-log-link-text": "log",
 	"checkuser-logs-link-text": "logs",
 	"checkuser-blocked": "Bloqué(e)",
