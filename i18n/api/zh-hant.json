@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Anterdc99",
 			"Cwlin0416",
 			"Kly",
 			"LNDDYL",
@@ -38,5 +39,5 @@
 	"checkuser-api-help-paramvalue-direction-older": "最新的優先（預設）。注意：$1from應晚於$1to。",
 	"checkuser-api-useragent-clienthints-revision-user-mismatch": "使用者$1不是修訂：$2的作者",
 	"checkuser-api-useragent-clienthints-mappings-exist": "已存在對於$1 $2的客戶端提示對應",
-	"checkuser-api-useragent-clienthints-explanation": "我們收集使用者代理客戶端提示資料，以支援社群來減少維基媒體計劃上的破壞和濫用。有關更多詳細內容，請參閱 https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints。"
+	"checkuser-api-useragent-clienthints-explanation": "我們收集使用者代理客戶端提示資料，以支援社群來減少維基媒體計劃上的破壞和濫用。有關更多詳細內容，請參閱 https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints<nowiki/>。"
 }

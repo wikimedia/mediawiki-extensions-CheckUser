@@ -32,5 +32,7 @@
 	"checkuser-search": "Leita",
 	"checkuser-search-submit": "Leita",
 	"checkuser-log-search-target": "Markmið:",
-	"checkuser-reset-action": "endurstilla lykilorð fyrir notandann $1"
+	"checkuser-create-action": "var búið til",
+	"checkuser-reset-action": "endurstilla lykilorð fyrir notandann $1",
+	"logentry-checkuser-private-event-create-account": "var búið til"
 }
