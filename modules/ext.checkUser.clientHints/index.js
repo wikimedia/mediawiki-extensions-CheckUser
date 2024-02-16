@@ -29,12 +29,17 @@
 		function postClientHintData( clientHintData, retryOnTokenMismatch ) {
 			var restApi = new mw.Rest();
 			var api = new mw.Api();
-			return api.getToken( 'csrf' ).then( function ( token ) {
+			var deferred = $.Deferred();
+			api.getToken( 'csrf' ).then( function ( token ) {
 				clientHintData.token = token;
-				return restApi.post(
+				restApi.post(
 					'/checkuser/v0/useragent-clienthints/revision/' + mw.config.get( 'wgCurRevisionId' ),
 					clientHintData
-				).fail( function ( _err, errObject ) {
+				).then(
+					function ( data ) {
+						deferred.resolve( data );
+					}
+				).fail( function ( err, errObject ) {
 					mw.log.error( errObject );
 					var errMessage = errObject.exception;
 					if (
@@ -53,11 +58,20 @@
 					) {
 						// The CSRF token has expired. Retry the POST with a new token.
 						api.badToken( 'csrf' );
-						return postClientHintData( clientHintData, false );
+						postClientHintData( clientHintData, false ).then(
+							function ( data ) {
+								deferred.resolve( data );
+							},
+							function ( secondRequestErr, secondRequestErrObject ) {
+								deferred.reject( secondRequestErr, secondRequestErrObject );
+							}
+						);
+					} else {
+						mw.errorLogger.logError( new Error( errMessage ), 'error.checkuser' );
+						deferred.reject( err, errObject );
 					}
-					mw.errorLogger.logError( new Error( errMessage ), 'error.checkuser' );
 				} );
-			} ).fail( function ( _err, errObject ) {
+			} ).fail( function ( err, errObject ) {
 				mw.log.error( errObject );
 				var errMessage = errObject.exception;
 				if ( errObject.xhr &&
@@ -66,7 +80,9 @@
 					errMessage = errObject.xhr.responseJSON.messageTranslations.en;
 				}
 				mw.errorLogger.logError( new Error( errMessage ), 'error.checkuser' );
+				deferred.reject( err, errObject );
 			} );
+			return deferred.promise();
 		}
 
 		/**
