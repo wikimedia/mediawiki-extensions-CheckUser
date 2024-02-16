@@ -37,24 +37,42 @@ function performFullRevealRequest( target, revIds, logIds, retryOnTokenMismatch 
 function performRevealRequestInternal( target, revIds, logIds, limit, retryOnTokenMismatch ) {
 	var restApi = new mw.Rest();
 	var api = new mw.Api();
-	return api.getToken( 'csrf' ).then( function ( token ) {
-		return restApi.post(
+	var deferred = $.Deferred();
+	api.getToken( 'csrf' ).then( function ( token ) {
+		restApi.post(
 			'/checkuser/v0/temporaryaccount/' + target + buildQuery( revIds, logIds, limit ),
 			{ token: token }
-		).fail( function ( _err, errObject ) {
-			if (
-				retryOnTokenMismatch &&
-				errObject.xhr &&
-				errObject.xhr.responseJSON &&
-				errObject.xhr.responseJSON.errorKey &&
-				errObject.xhr.responseJSON.errorKey === 'rest-badtoken'
-			) {
-				// The CSRF token has expired. Retry the POST with a new token.
-				api.badToken( 'csrf' );
-				return performRevealRequestInternal( target, revIds, logIds, limit, false );
+		).then(
+			function ( data ) {
+				deferred.resolve( data );
+			},
+			function ( err, errObject ) {
+				if (
+					retryOnTokenMismatch &&
+					errObject.xhr &&
+					errObject.xhr.responseJSON &&
+					errObject.xhr.responseJSON.errorKey &&
+					errObject.xhr.responseJSON.errorKey === 'rest-badtoken'
+				) {
+					// The CSRF token has expired. Retry the POST with a new token.
+					api.badToken( 'csrf' );
+					performRevealRequestInternal( target, revIds, logIds, limit, false ).then(
+						function ( data ) {
+							deferred.resolve( data );
+						},
+						function ( secondRequestErr, secondRequestErrObject ) {
+							deferred.reject( secondRequestErr, secondRequestErrObject );
+						}
+					);
+				} else {
+					deferred.reject( err, errObject );
+				}
 			}
-		} );
+		);
+	} ).fail( function ( err, errObject ) {
+		deferred.reject( err, errObject );
 	} );
+	return deferred.promise();
 }
 
 /**
