@@ -368,7 +368,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 			->parseAsBlock();
 
 		$out = $this->getOutput();
-		$out->setPageTitle( $this->msg( 'blockipsuccesssub' ) );
+		$out->setPageTitleMsg( $this->msg( 'blockipsuccesssub' ) );
 		$out->addHtml( $blockedMessage );
 
 		if ( $this->noticesFailed ) {
