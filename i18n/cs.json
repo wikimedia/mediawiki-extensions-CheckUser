@@ -121,6 +121,7 @@
 	"checkuser-investigateblock-notice-replace": "Nahradit stránku",
 	"checkuser-investigateblock-failure": "Žádní uživatelé nebyli zablokováni. Abyste přepsali existující zablokování, zaškrtněte „{{int:checkuser-investigateblock-reblock-label}}“. Zablokování nebude přepsáno, pokud je nový blok stejný jako ten existující.",
 	"checkuser-investigateblock-success": "{{PLURAL:$2|Uživatel|Uživatelé}} $1 {{PLURAL:$2|je nyní zablokován|jsou nyní zablokováni}}.",
+	"checkuser-investigateblock-notices-failed": "Některá upozornění nebylo možné přidat na uživatelské nebo diskusní stránky uživatelů.",
 	"checkuser-investigate": "Vyšetřit",
 	"checkuser-investigate-subtitle-block-button-label": "Zablokovat",
 	"checkuser-investigate-subtitle-cancel-button-label": "Storno",
@@ -155,6 +156,7 @@
 	"checkuser-investigate-compare-copy-button-label-hide": "Skrýt wikitext",
 	"checkuser-investigate-compare-toollinks-ipcheck": "Kontrola proxy",
 	"checkuser-investigate-compare-copy-message-label": "Chcete zkopírovat výsledky jako wikitext tabulku?",
+	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Zobrazit všechny IP adresy tohoto uživatele",
 	"checkuser-investigate-compare-table-button-checks-label": "Kontroly",
 	"checkuser-investigate-compare-table-button-contribs-label": "Příspěvky",
 	"checkuser-investigate-compare-table-cell-unregistered": "Neregistrovaný",
@@ -165,6 +167,7 @@
 	"checkuser-investigate-subtitle-link-restart-tour": "Restartovat průvodce",
 	"checkuser-investigate-tour-targets-title": "Zkontrolovat více uživatelů/IP adres?",
 	"checkuser-investigate-tour-addusertargets-title": "Potřebujete více kontextu?",
+	"checkuser-investigate-tour-filterip-title": "Zpřesnit své vyšetřování?",
 	"checkuser-investigate-tour-block-title": "Chcete je zablokovat?",
 	"checkuser-investigate-tour-copywikitext-title": "Chcete si data zkopírovat?"
 }
