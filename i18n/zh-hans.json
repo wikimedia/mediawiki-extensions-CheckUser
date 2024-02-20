@@ -41,7 +41,8 @@
 			"U.T.",
 			"Lakejason0",
 			"LowensteinYang",
-			"Vikarna"
+			"Vikarna",
+			"Anterdc99"
 		]
 	},
 	"checkuser-summary": "本工具会从最近更改中获取某个用户使用过的IP地址，或者显示某个IP地址下的编辑/用户。\n可在IP地址后方附加“/xff”以使用XFF头信息来获取同一客户端IP地址下的用户和编辑。支持IPv4（CIDR $1-32）和IPv6（CIDR $2-128）。\n由于性能问题，本工具最多返回$3笔最近编辑信息。\n请确保您的操作符合方针。",
@@ -76,7 +77,7 @@
 	"checkuser-all": "所有",
 	"checkuser-cidr-label": "检查指定IP列表的共同区段",
 	"checkuser-cidr-res": "通用CIDR：",
-	"checkuser-cidr-affected-ips": "受影响的 IP 地址：",
+	"checkuser-cidr-affected-ips": "受影响的IP地址：",
 	"checkuser-cidr-too-small": "范围过大",
 	"checkuser-range-outside-limit": "$1的范围超出了允许的范围。",
 	"checkuser-empty": "日志里没有项目。",
@@ -106,6 +107,7 @@
 	"checkuser-block-failure": "'''没有用户被封禁。'''",
 	"checkuser-block-limit": "选中用户数量过多。",
 	"checkuser-block-noreason": "您必须解释此次封禁的原因。",
+	"checkuser-block-reason-dropdown": "* 常见封禁原因\n** 滥用多个傀儡账户\n** 添加垃圾链接\n** 破坏行为",
 	"checkuser-centralauth-multilock": "多重锁定选定账户",
 	"checkuser-centralauth-multilock-list": "使用链接多重锁定所选账号：",
 	"checkuser-centralauth-multilock-list-item": "链接$1",

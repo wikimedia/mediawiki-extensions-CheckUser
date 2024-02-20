@@ -5,7 +5,8 @@
 			"Snævar",
 			"Spacebirdy",
 			"Sveinn í Felli",
-			"පසිඳු කාවින්ද"
+			"පසිඳු කාවින්ද",
+			"Stefán Örvar Sigmundsson"
 		]
 	},
 	"checkuser-desc": "Veitir notendum réttindi til að athuga vistföng notenda og aðrar notendaupplýsingar.",
@@ -32,5 +33,7 @@
 	"checkuser-search": "Leita",
 	"checkuser-search-submit": "Leita",
 	"checkuser-log-search-target": "Markmið:",
+	"checkuser-autocreate-action": "var sjálfkrafa búinn til",
+	"checkuser-create-action": "var búið til",
 	"checkuser-reset-action": "endurstilla lykilorð fyrir notandann $1"
 }
