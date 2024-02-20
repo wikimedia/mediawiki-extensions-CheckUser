@@ -33,5 +33,8 @@
 	"checkuser-api-help-param-direction": "Hvilken retning det skal listes opp:",
 	"checkuser-api-help-paramvalue-direction-newer": "List opp de eldste først. Merk: $1from må være før $1to.",
 	"checkuser-api-help-paramvalue-direction-older": "List opp de nyeste først (standard). Merk: $1from må være senere enn $1to.",
-	"checkuser-api-useragent-clienthints-revision-user-mismatch": "Brukeren $1 er ikke opphavspersonen til sideversjon $2"
+	"checkuser-api-useragent-clienthints-revision-user-mismatch": "Brukeren $1 er ikke opphavspersonen til sideversjon $2",
+	"checkuser-api-useragent-clienthints-mappings-exist": "Det finnes allerede mappinger for klienthint for $1 $2",
+	"checkuser-api-useragent-clienthints-called-too-late": "$1 $2 er for gammel til å registrere klienthintdata",
+	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} samler inn klienthintdata om brukeragent for å hjelpe til med å begrense hærverk og misbruk. Se https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints for flere detaljer."
 }

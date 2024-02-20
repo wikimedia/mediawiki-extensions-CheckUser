@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Actualisateur",
+			"Ajeje Brazorf",
 			"ChrisPtDe",
 			"Cigaryno",
 			"DavidL",
@@ -73,6 +74,7 @@
 	"checkuser-query": "Recherche des modifications récentes",
 	"checkuser-target": "Adresse IP ou nom d’utilisateur :",
 	"checkuser-users": "Obtenir les utilisateurs",
+	"checkuser-actions": "Obtenir les actions",
 	"checkuser-ips": "Obtenir les adresses IP",
 	"checkuser-period": "Durée :",
 	"checkuser-week-1": "la semaine dernière",
