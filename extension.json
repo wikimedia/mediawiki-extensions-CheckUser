@@ -279,6 +279,12 @@
 		"RenameUserSQLHandler": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\RenameUserSQLHandler"
 		},
+		"SpecialPageInitList": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\SpecialPageInitListHandler",
+			"services": [
+				"MainConfig"
+			]
+		},
 		"RLRegisterModules": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\RLRegisterModulesHandler"
 		},
@@ -306,6 +312,7 @@
 		"ResourceLoaderRegisterModules": "RLRegisterModules",
 		"SaveUserOptions": "preferences",
 		"SpecialPageBeforeExecute": "clienthints",
+		"SpecialPage_initList": "SpecialPageInitList",
 		"User::mailPasswordInternal": "Hooks",
 		"UserLogoutComplete": "Hooks",
 		"UserMergeAccountFields": "UserMerge",
@@ -418,6 +425,9 @@
 				"checkuser-investigate-compare-table-button-filter-label",
 				"checkuser-investigate-subtitle-cancel-button-label",
 				"checkuser-investigate-subtitle-continue-button-label",
+				"checkuser-ip-contributions",
+				"checkuser-ip-contributions-target-label",
+				"checkuser-ip-contributions-target-error-no-ip",
 				"checkuser-tempaccount-no-ip-results",
 				"checkuser-tempaccount-reveal-ip-button-label",
 				"checkuser-tempaccount-reveal-ip-missing",
