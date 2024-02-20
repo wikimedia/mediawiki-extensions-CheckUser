@@ -159,13 +159,6 @@ class TimelinePager extends ReverseChronologicalPager {
 
 	/**
 	 * @inheritDoc
-	 */
-	public function getEmptyBody() {
-		return Html::rawElement( 'p', [], $this->msg( 'checkuser-investigate-timeline-empty' )->text() );
-	}
-
-	/**
-	 * @inheritDoc
 	 *
 	 * Conceal the offset which may reveal private data.
 	 */
