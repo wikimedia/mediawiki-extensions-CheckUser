@@ -32,6 +32,7 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 
 	/** @return TestingAccessWrapper */
 	protected function setUpObject() {
+		RequestContext::getMain()->setUser( $this->getTestUser( 'checkuser' )->getUser() );
 		$object = $this->getServiceContainer()->getSpecialPageFactory()->getPage( 'CheckUser' );
 		$testingWrapper = TestingAccessWrapper::newFromObject( $object );
 		$testingWrapper->opts = new FormOptions();
@@ -212,8 +213,8 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 	public function commonTestDoMassUserBlockInternal(
 		$users, $blockParams, $useTag, $tag, $useTalkTag, $talkTag, $expectedTaggedUsers, $expectedBlockedUsers
 	) {
-		RequestContext::getMain()->setUser( $this->getTestSysop()->getUser() );
 		$object = $this->setUpObject();
+		RequestContext::getMain()->setUser( $this->getTestUser( [ 'checkuser', 'sysop' ] )->getUser() );
 		$massBlockResult = $object->doMassUserBlockInternal(
 			$users, $blockParams, $useTag, $tag, $useTalkTag, $talkTag
 		);
