@@ -7,7 +7,8 @@
 			"U.T.",
 			"WhitePhosphorus",
 			"Xzonn",
-			"Yfdyh000"
+			"Yfdyh000",
+			"Anterdc99"
 		]
 	},
 	"apihelp-query+checkuser-summary": "检查指定用户名使用过的IP地址或指定IP地址使用过的用户名。",
@@ -34,8 +35,12 @@
 	"apierror-checkuser-missingsummary": "您必须定义查核原因。",
 	"apierror-checkuser-timelimit": "您需要使用正确的时间限制（例如“-2 weeks”或“2 weeks ago”）。",
 	"apierror-checkuser-invalidmode": "无效的请求模式",
+	"apierror-checkuser-nosuchuser": "没有此用户名所对应的用户",
 	"checkuser-api-help-param-direction": "列举的方向：",
 	"checkuser-api-help-paramvalue-direction-newer": "最早的优先。注意：$1from应早于$1to。",
 	"checkuser-api-help-paramvalue-direction-older": "最新的优先（默认）。注意：$1from应晚于$1to。",
-	"checkuser-api-useragent-clienthints-revision-user-mismatch": "用户$1不是修订版本$2的作者"
+	"checkuser-api-useragent-clienthints-revision-user-mismatch": "用户$1不是修订版本$2的作者",
+	"checkuser-api-useragent-clienthints-mappings-exist": "已存在对$1$2的客户端提示映射",
+	"checkuser-api-useragent-clienthints-called-too-late": "$1$2太旧而无法记录客户端提示数据",
+	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}}收集user-agent客户端提示数据以协助遏制破坏和滥用行为。详情请参阅<nowiki/>https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints<nowiki/>。"
 }

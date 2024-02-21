@@ -6,7 +6,9 @@
 		]
 	},
 	"apihelp-query+checkuser-summary": "Sjekk hvilke IP-adresser som brukes av et gitt brukernavn eller hvilke brukernavn som brukes av ei gitt IP-adresse.",
-	"apihelp-query+checkuser-param-request": "Type IP-kontrollforespørsel:\n;userips:Hent IP-adresse for målbrukeren.\n;edits:Hent endringer fra mål-IP-en.\n;ipusers:Hent brukere fra mål-IP-en.",
+	"apihelp-query+checkuser-param-request": "Type IP-kontrollforespørsel:",
+	"apihelp-query+checkuser-paramvalue-request-userips": "Hent IP-adresse for målbrukeren.",
+	"apihelp-query+checkuser-paramvalue-request-ipusers": "Hent brukere fra mål-IP-en eller -intervallet.",
 	"apihelp-query+checkuser-param-target": "Brukernavn, IP-adresse eller CIDR-område å sjekke.",
 	"apihelp-query+checkuser-param-reason": "Årsak for kontrollen.",
 	"apihelp-query+checkuser-param-limit": "Begrensning av rader.",
@@ -27,6 +29,11 @@
 	"apierror-checkuser-timelimit": "Du må bruke en korrekt tidsgrense (som «-2 weeks» eller «2 weeks ago»).",
 	"apierror-checkuser-invalidmode": "Ugyldig forespørselsmodus",
 	"apierror-checkuser-nosuchuser": "Ingen slik bruker for dette brukernavnet",
-	"checkuser-api-help-param-direction": "Hvilken retning det skal listes opp:\n;never:List opp de eldste først. Merk: $1from må være før $1to.\n;older:List opp de nyeste først (standard). Merk: $1from må være senere enn $1to.",
-	"checkuser-api-useragent-clienthints-revision-user-mismatch": "Brukeren $1 er ikke opphavspersonen til sideversjon $2"
+	"checkuser-api-help-param-direction": "Hvilken retning det skal listes opp:",
+	"checkuser-api-help-paramvalue-direction-newer": "List opp de eldste først. Merk: $1from må være før $1to.",
+	"checkuser-api-help-paramvalue-direction-older": "List opp de nyeste først (standard). Merk: $1from må være senere enn $1to.",
+	"checkuser-api-useragent-clienthints-revision-user-mismatch": "Brukeren $1 er ikke opphavspersonen til sideversjon $2",
+	"checkuser-api-useragent-clienthints-mappings-exist": "Det finnes allerede mappinger for klienthint for $1 $2",
+	"checkuser-api-useragent-clienthints-called-too-late": "$1 $2 er for gammel til å registrere klienthintdata",
+	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} samler inn klienthintdata om brukeragent for å hjelpe til med å begrense hærverk og misbruk. Se https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints for flere detaljer."
 }
