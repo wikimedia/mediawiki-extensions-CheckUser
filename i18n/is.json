@@ -9,7 +9,7 @@
 			"පසිඳු කාවින්ද"
 		]
 	},
-	"checkuser-desc": "Veitir notendum með viðeigandi leyfi möguleika á að athuga IP-staðföng notenda og aðrar upplýsingar",
+	"checkuser-desc": "Veitir notendum með viðeigandi heimild möguleika á að athuga IP-staðföng notenda og aðrar upplýsingar",
 	"checkuser": "Athugandi",
 	"group-checkuser": "Athugendur",
 	"group-checkuser-member": "{{GENDER:$1|athugandi}}",
