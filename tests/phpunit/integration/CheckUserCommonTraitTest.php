@@ -8,8 +8,8 @@ use MediaWiki\CheckUser\Hooks;
 use RecentChange;
 
 /**
- * Can only be used in classes that extend MediaWikiIntegrationTestCase
- * and are in the Database group.
+ * All methods except ::getDefaultRecentChangeAttribs require the test class to be a
+ * database integration test class.
  */
 trait CheckUserCommonTraitTest {
 	/**

@@ -14,6 +14,7 @@ use MediaWiki\Auth\Hook\LocalUserCreatedHook;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\Block\Hook\PerformRetroactiveAutoblockHook;
 use MediaWiki\CheckUser\Hook\HookRunner;
+use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Hook\EmailUserHook;
@@ -31,7 +32,6 @@ use MediaWiki\User\UserRigorOptions;
 use MessageSpecifier;
 use RecentChange;
 use RequestContext;
-use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\ScopedCallback;
 
@@ -44,28 +44,6 @@ class Hooks implements
 	UserLogoutCompleteHook,
 	User__mailPasswordInternalHook
 {
-
-	/**
-	 * The maximum number of bytes that fit in CheckUser's text fields
-	 * (cuc_agent,cuc_actiontext,cuc_xff)
-	 */
-	public const TEXT_FIELD_LENGTH = 255;
-
-	/**
-	 * Get user agent for the current request
-	 *
-	 * @return string
-	 */
-	private static function getAgent(): string {
-		$agent = RequestContext::getMain()->getRequest()->getHeader( 'User-Agent' );
-		if ( $agent === false ) {
-			// no agent was present, store as an empty string (otherwise, it would
-			// end up stored as a zero due to boolean casting done by the DB layer).
-			$agent = '';
-		}
-		return MediaWikiServices::getInstance()->getContentLanguage()
-			->truncateForDatabase( $agent, self::TEXT_FIELD_LENGTH );
-	}
 
 	/**
 	 * Hook function for RecentChange_save
@@ -251,47 +229,9 @@ class Hooks implements
 		UserIdentity $user,
 		?RecentChange $rc = null
 	) {
-		$services = MediaWikiServices::getInstance();
-		$request = RequestContext::getMain()->getRequest();
-		$dbw = $services->getDBLoadBalancerFactory()->getPrimaryDatabase();
-
-		$ip = $request->getIP();
-		$xff = $request->getHeader( 'X-Forwarded-For' );
-
-		$row = [
-			'cule_log_id' => $logEntry->getId()
-		];
-
-		// Provide the ip, xff and row to code that hooks onto this so that they can modify the row before
-		//  it's inserted. The ip and xff are provided separately so that the caller doesn't have to set
-		//  the hex versions of the IP and XFF and can therefore leave that to this function.
-		( new HookRunner( $services->getHookContainer() ) )
-			->onCheckUserInsertLogEventRow( $ip, $xff, $row, $user, $logEntry->getId(), $rc );
-		/** @var CheckUserUtilityService $checkUserUtilityService */
-		$checkUserUtilityService = $services->get( 'CheckUserUtilityService' );
-		[ $xff_ip, $isSquidOnly, $xff ] = $checkUserUtilityService->getClientIPfromXFF( $xff );
-
-		$row = array_merge( [
-			'cule_actor'     => $services->getActorStore()->acquireActorId( $user, $dbw ),
-			'cule_timestamp' => $dbw->timestamp( $logEntry->getTimestamp() ),
-			'cule_ip'        => IPUtils::sanitizeIP( $ip ),
-			'cule_ip_hex'    => $ip ? IPUtils::toHex( $ip ) : null,
-			'cule_xff'       => !$isSquidOnly ? $xff : '',
-			'cule_xff_hex'   => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
-			'cule_agent'     => self::getAgent(),
-		], $row );
-
-		$contLang = $services->getContentLanguage();
-
-		// (T199323) Truncate text fields prior to database insertion
-		// Attempting to insert too long text will cause an error in MariaDB/MySQL strict mode
-		$row['cule_xff'] = $contLang->truncateForDatabase( $row['cule_xff'], self::TEXT_FIELD_LENGTH );
-
-		$dbw->newInsertQueryBuilder()
-			->insertInto( 'cu_log_event' )
-			->row( $row )
-			->caller( $method )
-			->execute();
+		/** @var CheckUserInsert $checkUserInsert */
+		$checkUserInsert = MediaWikiServices::getInstance()->get( 'CheckUserInsert' );
+		$checkUserInsert->insertIntoCuLogEventTable( $logEntry, $method, $user, $rc );
 	}
 
 	/**
@@ -317,65 +257,9 @@ class Hooks implements
 		UserIdentity $user,
 		?RecentChange $rc = null
 	) {
-		$services = MediaWikiServices::getInstance();
-
-		$dbw = $services->getDBLoadBalancerFactory()->getPrimaryDatabase();
-
-		$request = RequestContext::getMain()->getRequest();
-
-		$ip = $request->getIP();
-		$xff = $request->getHeader( 'X-Forwarded-For' );
-
-		// Provide the ip, xff and row to code that hooks onto this so that they can modify the row before
-		//  it's inserted. The ip and xff are provided separately so that the caller doesn't have to set
-		//  the hex versions of the IP and XFF and can therefore leave that to this function.
-		( new HookRunner( $services->getHookContainer() ) )
-			->onCheckUserInsertPrivateEventRow( $ip, $xff, $row, $user, $rc );
-		/** @var CheckUserUtilityService $checkUserUtilityService */
-		$checkUserUtilityService = $services->get( 'CheckUserUtilityService' );
-		[ $xff_ip, $isSquidOnly, $xff ] = $checkUserUtilityService->getClientIPfromXFF( $xff );
-
-		$row = array_merge(
-			[
-				'cupe_namespace'  => 0,
-				'cupe_title'      => '',
-				'cupe_log_type'   => 'checkuser-private-event',
-				'cupe_log_action' => '',
-				'cupe_params'     => LogEntryBase::makeParamBlob( [] ),
-				'cupe_page'       => 0,
-				'cupe_actor'      => $services->getActorStore()->acquireActorId( $user, $dbw ),
-				'cupe_timestamp'  => $dbw->timestamp( wfTimestampNow() ),
-				'cupe_ip'         => IPUtils::sanitizeIP( $ip ),
-				'cupe_ip_hex'     => $ip ? IPUtils::toHex( $ip ) : null,
-				'cupe_xff'        => !$isSquidOnly ? $xff : '',
-				'cupe_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
-				'cupe_agent'      => self::getAgent(),
-			],
-			$row
-		);
-
-		$contLang = $services->getContentLanguage();
-
-		// (T199323) Truncate text fields prior to database insertion
-		// Attempting to insert too long text will cause an error in MariaDB/MySQL strict mode
-		$row['cupe_xff'] = $contLang->truncateForDatabase( $row['cupe_xff'], self::TEXT_FIELD_LENGTH );
-
-		if ( !isset( $row['cupe_comment_id'] ) ) {
-			$row += $services->getCommentStore()->insert(
-				$dbw,
-				'cupe_comment',
-				$row['cupe_comment'] ?? ''
-			);
-		}
-
-		// Remove any defined cupe_comment as this is not a valid column name.
-		unset( $row['cupe_comment'] );
-
-		$dbw->newInsertQueryBuilder()
-			->insertInto( 'cu_private_event' )
-			->row( $row )
-			->caller( $method )
-			->execute();
+		/** @var CheckUserInsert $checkUserInsert */
+		$checkUserInsert = MediaWikiServices::getInstance()->get( 'CheckUserInsert' );
+		$checkUserInsert->insertIntoCuPrivateEventTable( $row, $method, $user, $rc );
 	}
 
 	/**
@@ -397,75 +281,9 @@ class Hooks implements
 		UserIdentity $user,
 		?RecentChange $rc = null
 	) {
-		$services = MediaWikiServices::getInstance();
-
-		$dbw = $services->getDBLoadBalancerFactory()->getPrimaryDatabase();
-
-		$request = RequestContext::getMain()->getRequest();
-
-		$ip = $request->getIP();
-		$xff = $request->getHeader( 'X-Forwarded-For' );
-		// Provide the ip, xff and row to code that hooks onto this so that they can modify the row before
-		//  it's inserted. The ip and xff are provided separately so that the caller doesn't have to set
-		//  the hex versions of the IP and XFF and can therefore leave that to this function.
-		( new HookRunner( $services->getHookContainer() ) )
-			->onCheckUserInsertChangesRow( $ip, $xff, $row, $user, $rc );
-		/** @var CheckUserUtilityService $checkUserUtilityService */
-		$checkUserUtilityService = $services->get( 'CheckUserUtilityService' );
-		[ $xff_ip, $isSquidOnly, $xff ] = $checkUserUtilityService->getClientIPfromXFF( $xff );
-
-		$row = array_merge(
-			[
-				'cuc_page_id'    => 0,
-				'cuc_namespace'  => 0,
-				'cuc_minor'      => 0,
-				'cuc_title'      => '',
-				'cuc_actiontext' => '',
-				'cuc_comment'    => '',
-				'cuc_this_oldid' => 0,
-				'cuc_last_oldid' => 0,
-				'cuc_type'       => RC_LOG,
-				'cuc_timestamp'  => $dbw->timestamp( wfTimestampNow() ),
-				'cuc_ip'         => IPUtils::sanitizeIP( $ip ),
-				'cuc_ip_hex'     => $ip ? IPUtils::toHex( $ip ) : null,
-				'cuc_xff'        => !$isSquidOnly ? $xff : '',
-				'cuc_xff_hex'    => ( $xff_ip && !$isSquidOnly ) ? IPUtils::toHex( $xff_ip ) : null,
-				'cuc_agent'      => self::getAgent(),
-			],
-			$row
-		);
-
-		$contLang = $services->getContentLanguage();
-
-		// (T199323) Truncate text fields prior to database insertion
-		// Attempting to insert too long text will cause an error in MariaDB/MySQL strict mode
-		$row['cuc_actiontext'] = $contLang->truncateForDatabase(
-			$row['cuc_actiontext'],
-			self::TEXT_FIELD_LENGTH
-		);
-		$row['cuc_xff'] = $contLang->truncateForDatabase( $row['cuc_xff'], self::TEXT_FIELD_LENGTH );
-
-		if ( !isset( $row['cuc_actor'] ) ) {
-			$row['cuc_actor'] = $services->getActorStore()->acquireActorId(
-				$user,
-				$dbw
-			);
-		}
-
-		if ( !isset( $row['cuc_comment_id'] ) ) {
-			$row += $services->getCommentStore()->insert(
-				$dbw,
-				'cuc_comment',
-				$row['cuc_comment']
-			);
-		}
-		unset( $row['cuc_comment'] );
-
-		$dbw->newInsertQueryBuilder()
-			->insertInto( 'cu_changes' )
-			->row( $row )
-			->caller( $method )
-			->execute();
+		/** @var CheckUserInsert $checkUserInsert */
+		$checkUserInsert = MediaWikiServices::getInstance()->get( 'CheckUserInsert' );
+		$checkUserInsert->insertIntoCuChangesTable( $row, $method, $user, $rc );
 	}
 
 	/**
