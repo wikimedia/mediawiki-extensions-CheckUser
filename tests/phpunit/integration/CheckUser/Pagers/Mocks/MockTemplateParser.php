@@ -1,10 +1,10 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests;
+namespace MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers\Mocks;
 
 use MediaWiki\Html\TemplateParser;
 
-class TemplateParserMockTest extends TemplateParser {
+class MockTemplateParser extends TemplateParser {
 
 	/**
 	 * @var array|null the parameters provided on the last call to processTemplate.

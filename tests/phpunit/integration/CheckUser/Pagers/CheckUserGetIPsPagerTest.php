@@ -3,7 +3,7 @@
 namespace MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers;
 
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
-use MediaWiki\CheckUser\Tests\TemplateParserMockTest;
+use MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers\Mocks\MockTemplateParser;
 use Wikimedia\IPUtils;
 
 /**
@@ -33,7 +33,7 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerTestBase {
 	 */
 	public function testFormatRow( $row, $expectedTemplateParams ) {
 		$object = $this->setUpObject();
-		$object->templateParser = new TemplateParserMockTest();
+		$object->templateParser = new MockTemplateParser();
 		$row = array_merge( $this->getDefaultRowFieldValues(), $row );
 		$object->formatRow( (object)$row );
 		$this->assertNotNull(

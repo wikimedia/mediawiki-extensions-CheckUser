@@ -8,7 +8,7 @@ use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
-use MediaWiki\CheckUser\Tests\TemplateParserMockTest;
+use MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers\Mocks\MockTemplateParser;
 use MediaWiki\User\UserIdentityValue;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -36,7 +36,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 		$userSets, $userText, $clientHintsLookupResults, $displayClientHints, $expectedTemplateParams
 	) {
 		$objectUnderTest = $this->setUpObject();
-		$objectUnderTest->templateParser = new TemplateParserMockTest();
+		$objectUnderTest->templateParser = new MockTemplateParser();
 		$objectUnderTest->userSets = $userSets;
 		$objectUnderTest->clientHintsLookupResults = $clientHintsLookupResults;
 		$objectUnderTest->displayClientHints = $displayClientHints;
@@ -158,7 +158,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 		$objectUnderTest = $this->setUpObject();
 		$objectUnderTest->canPerformBlocks = $canPerformBlocks;
 		$timestamp = ConvertibleTimestamp::now();
-		$objectUnderTest->templateParser = new TemplateParserMockTest();
+		$objectUnderTest->templateParser = new MockTemplateParser();
 		$objectUnderTest->userSets = [
 			'first' => [ '127.0.0.1' => $timestamp ],
 			'last' => [ '127.0.0.1' => $timestamp ],

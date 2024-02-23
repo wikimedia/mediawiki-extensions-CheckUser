@@ -9,7 +9,7 @@ use ManualLogEntry;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\ClientHints\ClientHintsBatchFormatterResults;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
-use MediaWiki\CheckUser\Tests\TemplateParserMockTest;
+use MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers\Mocks\MockTemplateParser;
 use MediaWiki\Linker\Linker;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Title\Title;
@@ -79,7 +79,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 			'wgCheckUserDisplayClientHints' => $displayClientHints,
 		] );
 		$object = $this->setUpObject();
-		$object->templateParser = new TemplateParserMockTest();
+		$object->templateParser = new MockTemplateParser();
 		$row = array_merge( $this->getDefaultRowFieldValues(), $row );
 		$object->flagCache = $flagCache;
 		$object->usernameVisibility = $usernameVisibility;
