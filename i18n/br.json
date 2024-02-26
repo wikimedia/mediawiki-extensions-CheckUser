@@ -4,7 +4,9 @@
 			"Fohanno",
 			"Fulup",
 			"Huñvreüs",
-			"Y-M D"
+			"Y-M D",
+			"Adriendelucca",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Furchal a ra an ostilh-mañ ar c'hemmoù diwezhañ a-benn klask ar chomlec'h IP implijet gant un implijer bennak, diskouez a ra holl degasadennoù ur chomlec'h IP (ha pa vefe bet enrollet), pe roll ar c'hontoù implijet gant ur chomlec'h IP. Gallout a ra ar c'hontoù hag ar c'hemmoù bezañ kavet gant un IP XFF mard echu gant \"/xff\". Posupl eo implijout ar protokoloù IPv4 (CIDR $1-32) hag IPv6 (CIDR $2-128).\nNe vo kaset en-dro nemet $3 kemm da vuiañ evit abegoù nerzh ar servijer.\nGrit gant an ostilh-mañ en ur zoujañ d'ar garta implijout.",
@@ -57,7 +59,7 @@
 	"checkuser-noreason": "Ret eo deoc'h reizhabegiñ an enklask-mañ.",
 	"checkuser-too-many": "Re a zisoc'hoù (hervez istimadur ar reked), strishait ar CIDR mar plij.\nSetu an IPoù implijet ($1 d'ar muiañ, urzhiet dre ar chomlec'h) :",
 	"checkuser-user-nonexistent": "N'eus ket eus an implijer merket",
-	"checkuser-search": "Klask",
+	"checkuser-search": "Klask en enmontoù marilh gwiriañ implijerien",
 	"checkuser-search-submit": "Klask",
 	"checkuser-search-initiator": "deraouer",
 	"checkuser-search-target": "pal",

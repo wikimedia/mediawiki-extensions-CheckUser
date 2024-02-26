@@ -9,7 +9,7 @@
 			"Stefán Örvar Sigmundsson"
 		]
 	},
-	"checkuser-desc": "Veitir notendum réttindi til að athuga vistföng notenda og aðrar notendaupplýsingar.",
+	"checkuser-desc": "Veitir notendum með viðeigandi heimild möguleika á að athuga IP-staðföng notenda og aðrar upplýsingar",
 	"checkuser": "Athugandi",
 	"group-checkuser": "Athugendur",
 	"group-checkuser-member": "{{GENDER:$1|athugandi}}",
@@ -34,6 +34,7 @@
 	"checkuser-search-submit": "Leita",
 	"checkuser-search-target": "markmið",
 	"checkuser-log-search-target": "Markmið:",
+	"checkuser-autocreate-action": "var sjálfkrafa búinn til",
 	"checkuser-create-action": "var búið til",
 	"checkuser-reset-action": "endurstilla lykilorð fyrir notandann $1"
 }
