@@ -129,7 +129,7 @@
 	"checkuser-helper-copy-success": "Copiada",
 	"checkuser-helper-copy-failed": "Não foi possível copiar",
 	"checkuser-helper-user": "Usuário",
-	"checkuser-helper-ips": "IP(s)",
+	"checkuser-helper-ips": "IPs",
 	"checkuser-helper-uas": "Agente(s) do Utilizador",
 	"logentry-checkuser-private-event-autocreate-account": "foi automaticamente criada",
 	"logentry-checkuser-private-event-create-account": "foi criada",
