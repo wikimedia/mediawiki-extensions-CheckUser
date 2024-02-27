@@ -604,6 +604,9 @@ class Hooks implements
 				[
 					'cupe_namespace'  => NS_USER,
 					'cupe_title'      => $user->getName(),
+					// The following messages are generated here:
+					// * logentry-checkuser-private-event-autocreate-account
+					// * logentry-checkuser-private-event-create-account
 					'cupe_log_action' => $autocreated ? 'autocreate-account' : 'create-account'
 				],
 				__METHOD__,
@@ -763,6 +766,8 @@ class Hooks implements
 				[
 					'cupe_namespace'  => NS_USER,
 					'cupe_title'      => $oldName,
+					// The following messages are generated here:
+					// * logentry-checkuser-private-event-user-logout
 					'cupe_log_action' => 'user-logout',
 				],
 				__METHOD__,
