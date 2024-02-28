@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers;
 
+use MediaWiki\Context\RequestContext;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\User\UserIdentityValue;
@@ -61,6 +62,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 	 * @return TestingAccessWrapper
 	 */
 	protected function setUpObject( $params = [] ) {
+		RequestContext::getMain()->setUser( $this->getTestUser( 'checkuser' )->getUser() );
 		$object = new DeAbstractedCheckUserPagerTest(
 			...$this->setUpObjectArguments( $params )
 		);

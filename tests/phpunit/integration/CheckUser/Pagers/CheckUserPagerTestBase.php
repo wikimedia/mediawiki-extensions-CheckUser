@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers;
 
+use MediaWiki\Context\RequestContext;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\User\UserIdentity;
 use MediaWikiIntegrationTestCase;
@@ -36,6 +37,7 @@ abstract class CheckUserPagerTestBase extends MediaWikiIntegrationTestCase {
 	 * @return TestingAccessWrapper
 	 */
 	protected function setUpObject( ?UserIdentity $userIdentity = null, ?string $checkType = null ) {
+		RequestContext::getMain()->setUser( $this->getTestUser( 'checkuser' )->getUser() );
 		$opts = new FormOptions();
 		$opts->add( 'reason', '' );
 		$opts->add( 'period', 0 );
