@@ -192,10 +192,14 @@ class CheckUserLogPager extends RangeChronologicalPager {
 
 		$lang = $this->getLanguage();
 		$contextUser = $this->getUser();
-		// Give grep a chance to find the usages:
-		// checkuser-log-entry-userips, checkuser-log-entry-ipactions,
-		// checkuser-log-entry-ipusers, checkuser-log-entry-ipactions-xff
-		// checkuser-log-entry-ipusers-xff, checkuser-log-entry-useractions
+		// The following messages are generated here:
+		// * checkuser-log-entry-userips
+		// * checkuser-log-entry-ipactions
+		// * checkuser-log-entry-ipusers
+		// * checkuser-log-entry-ipactions-xff
+		// * checkuser-log-entry-ipusers-xff
+		// * checkuser-log-entry-useractions
+		// * checkuser-log-entry-investigate
 		$cul_type = [
 			'ipedits' => 'ipactions',
 			'ipedits-xff' => 'ipactions-xff',

@@ -445,6 +445,10 @@ class SpecialInvestigate extends FormSpecialPage {
 	 * @return Message
 	 */
 	private function getTabMessage( string $tab ): Message {
+		// The following messages are generated here:
+		// * checkuser-investigate-tab-preliminary-check
+		// * checkuser-investigate-tab-compare
+		// * checkuser-investigate-tab-timeline
 		return $this->msg( 'checkuser-investigate-tab-' . $tab );
 	}
 

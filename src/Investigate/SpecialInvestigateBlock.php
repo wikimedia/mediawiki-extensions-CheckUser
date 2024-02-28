@@ -112,6 +112,8 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 			'input' => [
 				'autocomplete' => false,
 			],
+			// The following message key is generated:
+			// * checkuser-investigateblock-target
 			'section' => 'target',
 			'default' => '',
 		];
@@ -142,6 +144,8 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 			'type' => 'check',
 			'label-message' => 'checkuser-investigateblock-reblock-label',
 			'default' => false,
+			// The following message key is generated:
+			// * checkuser-investigateblock-actions
 			'section' => 'actions',
 		];
 
@@ -150,6 +154,8 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 			'maxlength' => 150,
 			'required' => true,
 			'autocomplete' => false,
+			// The following message key is generated:
+			// * checkuser-investigateblock-reason
 			'section' => 'reason',
 		];
 
@@ -163,6 +169,8 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 				'checkuser-investigateblock-notice-replace' => 'text',
 				'checkuser-investigateblock-notice-append' => 'appendtext',
 			],
+			// The following message key is generated:
+			// * checkuser-investigateblock-options
 			'section' => 'options',
 		];
 		$pageNoticeText = [

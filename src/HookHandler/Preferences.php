@@ -49,6 +49,8 @@ class Preferences implements GetPreferencesHook {
 			$preferences['checkuser-temporary-account-enable'] = [
 				'type' => 'toggle',
 				'label-message' => 'checkuser-tempaccount-enable-preference',
+				// The following message is generated here:
+				// * prefs-checkuser-tempaccount
 				'section' => 'personal/checkuser-tempaccount',
 			];
 		}
