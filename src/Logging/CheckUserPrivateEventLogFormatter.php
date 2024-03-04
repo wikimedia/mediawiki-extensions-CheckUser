@@ -54,15 +54,15 @@ class CheckUserPrivateEventLogFormatter extends LogFormatter {
 				) );
 				$params[4] = '';
 			} else {
-				// Phan isn't happy unless $this->makeUserLink result is immediately wrapped in Message::rawParam
-				$params[3] = Message::rawParam( $this->makeUserLink( $user ) );
+				$link = $this->makeUserLink( $user );
 				if ( $user->isHidden() ) {
-					$params[3]['raw'] = Html::rawElement(
+					$link = Html::rawElement(
 						'span',
 						[ 'class' => [ 'mw-history-suppressed', 'history-deleted' ] ],
-						$params[3]['raw']
+						$link
 					);
 				}
+				$params[3] = Message::rawParam( $link );
 				$params[4] = $accountName;
 			}
 		} elseif ( $this->entry->getSubtype() == 'email-sent' ) {
