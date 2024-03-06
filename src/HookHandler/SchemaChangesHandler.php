@@ -303,6 +303,7 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook {
 			'cupe_actor',
 			"$base/$dbType/patch-cu_private_event-modify-cupe_actor-nullable.sql"
 		);
+		$updater->addExtensionTable( 'cu_useragent', "$base/$dbType/cu_useragent.sql" );
 
 		if ( !$isCUInstalled ) {
 			// First time so populate cu_changes with recentchanges data.

@@ -77,6 +77,14 @@ CREATE TABLE /*_*/cu_private_event (
 ) /*$wgDBTableOptions*/;
 
 
+CREATE TABLE /*_*/cu_useragent (
+  cuua_id BIGINT UNSIGNED AUTO_INCREMENT NOT NULL,
+  cuua_text VARBINARY(255) NOT NULL,
+  INDEX cuua_text (cuua_text),
+  PRIMARY KEY(cuua_id)
+) /*$wgDBTableOptions*/;
+
+
 CREATE TABLE /*_*/cu_useragent_clienthints (
   uach_id INT UNSIGNED AUTO_INCREMENT NOT NULL,
   uach_name VARCHAR(32) NOT NULL,

@@ -89,6 +89,15 @@ CREATE INDEX cupe_actor_ip_time ON cu_private_event (
 );
 
 
+CREATE TABLE cu_useragent (
+  cuua_id BIGSERIAL NOT NULL,
+  cuua_text TEXT NOT NULL,
+  PRIMARY KEY(cuua_id)
+);
+
+CREATE INDEX cuua_text ON cu_useragent (cuua_text);
+
+
 CREATE TABLE cu_useragent_clienthints (
   uach_id SERIAL NOT NULL,
   uach_name VARCHAR(32) NOT NULL,
