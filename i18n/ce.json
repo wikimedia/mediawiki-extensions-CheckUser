@@ -3,7 +3,8 @@
 		"authors": [
 			"Dreamy Jazz",
 			"Sasan700",
-			"Умар"
+			"Умар",
+			"Исмаил Садуев"
 		]
 	},
 	"checkuser-desc": "Йиш хуьлуьйту IP-адресаш хьажа а, декъашхойн кхин тӀе хаам а хьажа а",
@@ -36,7 +37,7 @@
 	"checkuser-month": "тӀаьххьара 30 де",
 	"checkuser-all": "массо",
 	"checkuser-cidr-res": "Йукъара CIDR:",
-	"checkuser-nomatch": "ХӀума цакарина",
+	"checkuser-nomatch": "Хӏумма а ца карийна",
 	"checkuser-nomatch-edits": "Цакарий.\nТӀаьхьара нисдар дина $1 $2.",
 	"checkuser-check": "Хьажа",
 	"checkuser-check-this-user": "ХӀара декъашхо талла",
