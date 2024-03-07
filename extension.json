@@ -603,7 +603,8 @@
 		"MediaWiki\\CheckUser\\Maintenance\\PopulateCulComment": "maintenance/populateCulComment.php",
 		"MediaWiki\\CheckUser\\Maintenance\\MoveLogEntriesFromCuChanges": "maintenance/moveLogEntriesFromCuChanges.php",
 		"MediaWiki\\CheckUser\\Maintenance\\PopulateCheckUserTablesWithSimulatedData": "maintenance/populateCheckUserTablesWithSimulatedData.php",
-		"MediaWiki\\CheckUser\\Maintenance\\GenerateStatsAboutClientHintsData": "maintenance/generateStatsAboutClientHintsData.php"
+		"MediaWiki\\CheckUser\\Maintenance\\GenerateStatsAboutClientHintsData": "maintenance/generateStatsAboutClientHintsData.php",
+		"MediaWiki\\CheckUser\\Maintenance\\FixTrailingSpacesInLogs": "maintenance/fixTrailingSpacesInLogs.php"
 	},
 	"ServiceWiringFiles": [
 		"src/ServiceWiring.php"

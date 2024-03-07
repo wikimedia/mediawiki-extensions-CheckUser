@@ -115,8 +115,9 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 					'cuc_private'
 				] )
 				->table( 'cu_changes' )
-				->conds( "cuc_id BETWEEN $blockStart AND $blockEnd" )
 				->where( [
+					$dbw->expr( 'cuc_id', '>=', $blockStart ),
+					$dbw->expr( 'cuc_id', '<=', $blockEnd ),
 					'cuc_type' => RC_LOG,
 					'cuc_only_for_read_old' => 0
 				] )

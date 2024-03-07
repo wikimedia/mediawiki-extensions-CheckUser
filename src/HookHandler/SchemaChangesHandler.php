@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
+use MediaWiki\CheckUser\Maintenance\FixTrailingSpacesInLogs;
 use MediaWiki\CheckUser\Maintenance\MoveLogEntriesFromCuChanges;
 use MediaWiki\CheckUser\Maintenance\PopulateCheckUserTable;
 use MediaWiki\CheckUser\Maintenance\PopulateCucActor;
@@ -294,6 +295,7 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook {
 				"$base/$dbType/patch-cu_changes-modify-cuc_id-bigint.sql"
 			);
 		}
+		$updater->addPostDatabaseUpdateMaintenance( FixTrailingSpacesInLogs::class );
 
 		if ( !$isCUInstalled ) {
 			// First time so populate cu_changes with recentchanges data.

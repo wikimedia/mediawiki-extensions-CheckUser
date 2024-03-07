@@ -121,7 +121,8 @@ class PopulateCulComment extends LoggedUpdateMaintenance {
 				->table( 'cu_log' )
 				->conds( [
 					'cul_reason_id' => [ 0, null ],
-					"cul_id BETWEEN $prevId AND $curId"
+					$dbr->expr( 'cul_id', '>=', $prevId ),
+					$dbr->expr( 'cul_id', '<=', $curId ),
 				] )
 				->caller( __METHOD__ )
 				->fetchResultSet();
@@ -137,17 +138,15 @@ class PopulateCulComment extends LoggedUpdateMaintenance {
 					continue;
 				}
 
-				$dbw->update(
-					'cu_log',
-					[
+				$dbw->newUpdateQueryBuilder()
+					->update( 'cu_log' )
+					->set( [
 						'cul_reason_id' => $culReasonId,
-						'cul_reason_plaintext_id' => $culReasonPlaintextId
-					],
-					[
-						'cul_id' => $row->cul_id
-					],
-					__METHOD__
-				);
+						'cul_reason_plaintext_id' => $culReasonPlaintextId,
+					] )
+					->where( [ 'cul_id' => $row->cul_id ] )
+					->caller( __METHOD__ )
+					->execute();
 			}
 
 			$this->waitForReplication();

@@ -41,7 +41,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 	 * @inheritDoc
 	 */
 	protected function doDBUpdates() {
-		$db = $this->getDB( DB_PRIMARY );
+		$db = $this->getPrimaryDB();
 
 		// Check if the table is empty
 		$rcRows = $db->newSelectQueryBuilder()
@@ -56,16 +56,15 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 		$cutoff = $this->getOption( 'cutoff' );
 		if ( $cutoff ) {
 			// Something leftover... clear old entries to minimize dupes
-			$cutoff = wfTimestamp( TS_MW, $cutoff );
-			$encCutoff = $db->addQuotes( $db->timestamp( $cutoff ) );
-			$db->delete(
-				'cu_changes',
-				[ "cuc_timestamp < $encCutoff" ],
-				__METHOD__
-			);
-			$cutoffCond = "AND rc_timestamp < $encCutoff";
+			$cutoff = $db->timestamp( $cutoff );
+			$db->newDeleteQueryBuilder()
+				->deleteFrom( 'cu_changes' )
+				->where( $db->expr( 'cuc_timestamp', '<', $cutoff ) )
+				->caller( __METHOD__ )
+				->execute();
+			$cutoffCond = $db->expr( 'rc_timestamp', '<', $cutoff );
 		} else {
-			$cutoffCond = "";
+			$cutoffCond = null;
 		}
 
 		$start = (int)$db->newSelectQueryBuilder()
@@ -93,14 +92,19 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 
 		while ( $blockStart <= $end ) {
 			$this->output( "...migrating rc_id from $blockStart to $blockEnd\n" );
-			$cond = "rc_id BETWEEN $blockStart AND $blockEnd $cutoffCond";
-			$res = $db->newSelectQueryBuilder()
+			$queryBuilder = $db->newSelectQueryBuilder()
 				->fields( $rcQuery['fields'] )
 				->tables( $rcQuery['tables'] )
 				->joinConds( $rcQuery['joins'] )
-				->conds( $cond )
-				->caller( __METHOD__ )
-				->fetchResultSet();
+				->conds( [
+					$db->expr( 'rc_id', '>=', $blockStart ),
+					$db->expr( 'rc_id', '<=', $blockEnd ),
+				] )
+				->caller( __METHOD__ );
+			if ( $cutoffCond ) {
+				$queryBuilder->andWhere( $cutoffCond );
+			}
+			$res = $queryBuilder->fetchResultSet();
 			$cuChangesBatch = [];
 			$cuPrivateEventBatch = [];
 			$cuLogEventBatch = [];

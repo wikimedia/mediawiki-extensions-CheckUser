@@ -88,7 +88,8 @@ class PopulateCulActor extends LoggedUpdateMaintenance {
 				->table( 'cu_log' )
 				->conds( [
 					'cul_actor' => 0,
-					"cul_id BETWEEN $prevId AND $curId"
+					$dbr->expr( 'cul_id', '>=', $prevId ),
+					$dbr->expr( 'cul_id', '<=', $curId ),
 				] )
 				->caller( __METHOD__ )
 				->fetchResultSet();
@@ -102,16 +103,12 @@ class PopulateCulActor extends LoggedUpdateMaintenance {
 					continue;
 				}
 
-				$dbw->update(
-					'cu_log',
-					[
-						'cul_actor' => $actor
-					],
-					[
-						'cul_id' => $row->cul_id
-					],
-					__METHOD__
-				);
+				$dbw->newUpdateQueryBuilder()
+					->update( 'cu_log' )
+					->set( [ 'cul_actor' => $actor ] )
+					->where( [ 'cul_id' => $row->cul_id ] )
+					->caller( __METHOD__ )
+					->execute();
 			}
 
 			$this->waitForReplication();
