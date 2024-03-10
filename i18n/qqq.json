@@ -55,6 +55,8 @@
 	"right-checkuser-temporary-account": "{{doc-right|checkuser-temporary-account}}",
 	"right-checkuser-temporary-account-no-preference": "{{doc-right|checkuser-temporary-account-no-preference}}",
 	"right-checkuser-temporary-account-log": "{{doc-right|checkuser-temporary-account-log}}",
+	"grant-checkuser": "{{doc-grant|checkuser}}",
+	"grant-checkuser-temporary-account": "{{doc-grant|checkuser-temporary-account}}",
 	"action-checkuser": "{{doc-action|checkuser}}",
 	"action-checkuser-log": "{{doc-action|checkuser-log}}",
 	"action-checkuser-temporary-account": "{{doc-action|checkuser-temporary-account}}",

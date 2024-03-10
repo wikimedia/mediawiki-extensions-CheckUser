@@ -504,6 +504,25 @@
 			"checkuser-temporary-account-log": true
 		}
 	},
+	"GrantPermissions": {
+		"checkuser": {
+			"checkuser": true,
+			"checkuser-log": true
+		},
+		"checkuser-temporary-account": {
+			"checkuser-temporary-account": true,
+			"checkuser-temporary-account-no-preference": true,
+			"checkuser-temporary-account-log": true
+		}
+	},
+	"GrantPermissionGroups": {
+		"checkuser": "administration",
+		"checkuser-temporary-account": "administration"
+	},
+	"GrantRiskGroups": {
+		"checkuser": "security",
+		"checkuser-temporary-account": "low"
+	},
 	"PrivilegedGroups": [
 		"checkuser"
 	],
