@@ -3,6 +3,7 @@
 		"authors": [
 			"Element303",
 			"Gomoko",
+			"MacOS Weed",
 			"McDutchie",
 			"Thibaut120094",
 			"Verdy p",
@@ -19,7 +20,7 @@
 	"apihelp-query+checkuser-param-timecond": "Limite de temps des données de l’utilisateur (comme « -2 weeks » ou « 2 weeks ago »).",
 	"apihelp-query+checkuser-param-xff": "Utiliser les données du mandataire XFF au lieu de l’adresse IP.",
 	"apihelp-query+checkuser-example-1": "Obtenir les adresses IP pour [[User:Example]]",
-	"apihelp-query+checkuser-example-2": "Vérifier les modifications pour 192.0.2.0/24",
+	"apihelp-query+checkuser-example-2": "Voir les actions réalisées par 192.0.2.0/24",
 	"apihelp-query+checkuserlog-summary": "Obtenir les entrées du journal de vérification des utilisateurs.",
 	"apihelp-query+checkuserlog-param-user": "Nom d’utilisateur du Vérificateur d’utilisateurs.",
 	"apihelp-query+checkuserlog-param-target": "Utilisateur, adresse IP ou plage CIDR vérifié.",

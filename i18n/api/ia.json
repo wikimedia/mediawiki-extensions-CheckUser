@@ -7,6 +7,7 @@
 	"apihelp-query+checkuser-summary": "Verificar qual nomines de usator usa un adresse IP date o qual adresses IP usa un nomine de usator date.",
 	"apihelp-query+checkuser-param-request": "Typo de demanda CheckUser:",
 	"apihelp-query+checkuser-paramvalue-request-userips": "Obtener le adresse IP del usator.",
+	"apihelp-query+checkuser-paramvalue-request-actions": "Obtener actiones effectuate per le adresse o intervallo IP fornite.",
 	"apihelp-query+checkuser-paramvalue-request-ipusers": "Obtener le usatores del adresse o intervallo IP.",
 	"apihelp-query+checkuser-param-target": "Le nomine de usator, adresse IP o intervallo CIDR a verificar.",
 	"apihelp-query+checkuser-param-reason": "Motivo pro verificar.",
