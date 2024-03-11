@@ -243,7 +243,7 @@
 			{
 				"name": "cupe_actor",
 				"type": "bigint",
-				"options": { "notnull": true, "unsigned": true, "default": 0 }
+				"options": { "notnull": false, "unsigned": true, "default": 0 }
 			},
 			{
 				"name": "cupe_log_type",

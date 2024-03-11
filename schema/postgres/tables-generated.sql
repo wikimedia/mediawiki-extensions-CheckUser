@@ -62,7 +62,7 @@ CREATE TABLE cu_private_event (
   cupe_id BIGSERIAL NOT NULL,
   cupe_namespace INT DEFAULT 0 NOT NULL,
   cupe_title TEXT DEFAULT '' NOT NULL,
-  cupe_actor BIGINT DEFAULT 0 NOT NULL,
+  cupe_actor BIGINT DEFAULT 0,
   cupe_log_type TEXT DEFAULT '' NOT NULL,
   cupe_log_action TEXT DEFAULT '' NOT NULL,
   cupe_params TEXT NOT NULL,
