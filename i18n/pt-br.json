@@ -46,6 +46,7 @@
 	"right-checkuser": "Verificar os endereços de IP e outras informações dos usuários",
 	"right-checkuser-log": "Ver os registros das verificações",
 	"right-checkuser-temporary-account": "Ver endereços IP usados por contas temporárias",
+	"grant-checkuser": "Acessar dados checkuser",
 	"action-checkuser": "verificar os endereços IP do usuário e outras informações",
 	"action-checkuser-log": "ver os registros das verificações",
 	"action-checkuser-temporary-account": "ver endereços IP usados por contas temporárias",

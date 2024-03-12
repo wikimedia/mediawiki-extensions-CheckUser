@@ -29,6 +29,7 @@
 	"group-checkuser-member": "{{GENDER:$1|χρήστης ελέγχου|χρήστρια ελέγχου}}",
 	"right-checkuser": "Έλεγχος IP διεύθυνσης και άλλων πληροφοριών χρήστη",
 	"right-checkuser-log": "Δείτε τις καταγραφές ελέγχων",
+	"grant-checkuser": "Πρόσβαση σε δεδομένα διευθύνσεων IP χρηστών (checkuser)",
 	"action-checkuser": "ελέγξτε διευθύνσεις IP των χρηστών καθώς και άλλες πληροφορίες",
 	"action-checkuser-log": "δείτε το αρχείο καταγραφής χρήστη",
 	"grouppage-checkuser": "{{ns:project}}:Ελεγκτής",

@@ -22,6 +22,7 @@
 	"group-checkuser-member": "comprobar {{GENDER:$1|usuariu|usuaria}}",
 	"right-checkuser": "Comprueba les direiciones IP d'un usuariu entre otres coses",
 	"right-checkuser-log": "Ver el rexistru de comprobación d'usuarios",
+	"grant-checkuser": "Accesu a datos de comprobación d'usuarios",
 	"action-checkuser": "comprueba les direiciones IP d'un usuariu y otra información",
 	"action-checkuser-log": "ver el rexistru de comprobación d'usuarios",
 	"grouppage-checkuser": "{{ns:project}}:Comprobador d'usuariu",

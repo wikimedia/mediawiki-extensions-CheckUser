@@ -32,6 +32,7 @@
 	"group-checkuser-member": "{{GENDER:$1|pemeriksa}}",
 	"right-checkuser": "Periksa alamat IP pengguna dan informasi lainnya",
 	"right-checkuser-log": "Lihat log pemeriksa",
+	"grant-checkuser": "Mengakses data pemeriksa",
 	"action-checkuser": "periksa alamat IP pengguna dan informasi lainnya",
 	"action-checkuser-log": "lihat log pemeriksa",
 	"grouppage-checkuser": "{{ns:project}}:Pemeriksa",

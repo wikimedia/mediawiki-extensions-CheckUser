@@ -51,6 +51,7 @@
 	"group-checkuser-member": "{{GENDER:$1|利用者調査者}}",
 	"right-checkuser": "利用者のIPアドレスやその他の情報を調査",
 	"right-checkuser-log": "利用者調査の記録を閲覧",
+	"grant-checkuser": "チェックユーザー・データへのアクセス",
 	"action-checkuser": "利用者のIPアドレスとその他の情報の調査",
 	"action-checkuser-log": "利用者調査の記録の閲覧",
 	"grouppage-checkuser": "{{ns:project}}:利用者調査者",

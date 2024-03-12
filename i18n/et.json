@@ -18,6 +18,7 @@
 	"right-checkuser-log": "Vaadata kasutajakontrolli logi",
 	"right-checkuser-temporary-account-no-preference": "Vaadata ilma eelistust kontrollimata IP-aadresse, mida on kasutanud ajutised kontod",
 	"right-checkuser-temporary-account-log": "Vaadata logi selle kohta, kes on ajutiste kontode IP-aadresse pärinud",
+	"grant-checkuser": "Juurdepääs kasutajakontrolli andmetele",
 	"action-checkuser": "kontrollida kasutaja IP-aadresse ja muid andmeid",
 	"action-checkuser-log": "vaadata kasutajakontrolli logi",
 	"action-checkuser-temporary-account-no-preference": "vaadata IP-aadresse, mida on kasutanud ajutised kontod,",

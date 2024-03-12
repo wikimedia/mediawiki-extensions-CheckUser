@@ -43,6 +43,7 @@
 	"right-checkuser-log": "檢視使用者檢查日誌",
 	"right-checkuser-temporary-account": "檢視臨時帳號使用的 IP 位址",
 	"right-checkuser-temporary-account-log": "檢視臨時帳號使用 IP 位址的日誌",
+	"grant-checkuser": "存取使用者查核資料",
 	"action-checkuser": "檢查使用者的 IP 位址與其他資訊",
 	"action-checkuser-log": "檢視使用者檢查日誌",
 	"action-checkuser-temporary-account": "檢視臨時帳號使用的 IP 位址",

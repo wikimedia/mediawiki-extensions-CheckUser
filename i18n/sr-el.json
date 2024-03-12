@@ -21,6 +21,7 @@
 	"right-checkuser": "proveravanje korisničkih IP adresa i drugih informacija",
 	"right-checkuser-log": "pregled dnevnika provere korisnika",
 	"right-checkuser-temporary-account": "pregled IP adresa privremenih naloga",
+	"grant-checkuser": "pristup podacima čekjuzera",
 	"action-checkuser": "proveravate korisničke IP adrese i druge informacije",
 	"action-checkuser-log": "pregledate dnevnike provere korisnika",
 	"action-checkuser-temporary-account": "pregledate IP adresa privremenih naloga",

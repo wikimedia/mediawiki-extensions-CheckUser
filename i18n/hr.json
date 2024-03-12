@@ -23,6 +23,7 @@
 	"group-checkuser-member": "{{GENDER:$1|provjeritelj|provjeriteljica}}",
 	"right-checkuser": "Provjeravanje IP adrese suradnika i drugih informacija",
 	"right-checkuser-log": "Gledanje evidencije provjere suradnika",
+	"grant-checkuser": "Pristup podatcima o provjeri suradnika",
 	"action-checkuser": "provjeri suradničke IP adrese i druge podatake",
 	"action-checkuser-log": "vidi evidenciju provjeravanja",
 	"grouppage-checkuser": "{{ns:project}}:Provjeritelji",

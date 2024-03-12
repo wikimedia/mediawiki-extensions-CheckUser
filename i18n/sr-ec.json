@@ -33,6 +33,7 @@
 	"right-checkuser-log": "преглед дневника провере корисника",
 	"right-checkuser-temporary-account": "преглед IP адреса привремених налога",
 	"right-checkuser-temporary-account-log": "преглед дневника прегледача IP адреса привремених налога",
+	"grant-checkuser": "приступ подацима чекјузера",
 	"action-checkuser": "проверавате корисничке IP адресе и друге информације",
 	"action-checkuser-log": "прегледате дневнике провере корисника",
 	"action-checkuser-temporary-account": "прегледате IP адреса привремених налога",

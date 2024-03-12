@@ -52,6 +52,7 @@
 	"right-checkuser-temporary-account": "Voir les adresses IP utilisées par les comptes temporaires",
 	"right-checkuser-temporary-account-no-preference": "Afficher les adresses IP utilisées par les comptes temporaires sans avoir besoin de vérifier la préférence",
 	"right-checkuser-temporary-account-log": "Afficher le journal d’accès aux adresses IP des comptes temporaires",
+	"grant-checkuser": "Accéder aux données de vérification de l’utilisateur",
 	"action-checkuser": "vérifier les adresses IP des utilisateurs et d’autres informations",
 	"action-checkuser-log": "visualiser le journal des vérifications d’utilisateurs",
 	"action-checkuser-temporary-account": "voir les adresses IP utilisées par les comptes temporaires",

@@ -61,6 +61,7 @@
 	"right-checkuser-temporary-account": "查看临时账号使用的IP地址",
 	"right-checkuser-temporary-account-no-preference": "查看临时账号使用的IP地址，无需检查参数设置",
 	"right-checkuser-temporary-account-log": "查看临时账户使用IP地址的日志",
+	"grant-checkuser": "访问用户查核数据",
 	"action-checkuser": "查核用户的IP地址和其他信息",
 	"action-checkuser-log": "查看用户查核日志",
 	"action-checkuser-temporary-account": "查看临时账号使用的IP地址",

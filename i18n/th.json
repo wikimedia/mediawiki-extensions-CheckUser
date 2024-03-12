@@ -8,6 +8,7 @@
 			"Horus",
 			"Mopza",
 			"Octahedron80",
+			"Patsagorn Y.",
 			"RidJasper",
 			"Woraponboonkerd"
 		]
@@ -22,6 +23,7 @@
 	"group-checkuser-member": "{{GENDER:$1|ผู้ตรวจสอบผู้ใช้}}",
 	"right-checkuser": "ตรวจสอบหมายเลขไอพีของผู้ใช้และข้อมูลอื่น ๆ",
 	"right-checkuser-log": "ดูรายการบันทึกการตรวจสอบผู้ใช้",
+	"grant-checkuser": "เข้าถึงข้อมูลผู้ตรวจสอบผู้ใช้",
 	"action-checkuser": "ตรวจสอบเลขที่อยู่ไอพีและสารสนเทศอื่นของผู้ใช้",
 	"action-checkuser-log": "ดูรายการบันทึกการตรวจสอบผู้ใช้",
 	"grouppage-checkuser": "{{ns:project}}:ผู้ตรวจสอบผู้ใช้",

@@ -16,6 +16,7 @@
 	"group-checkuser-member": "{{GENDER:$1|utende verificatore}}",
 	"right-checkuser": "Condrolle le 'nderizze IP de le utinde e otre 'mbormazziune",
 	"right-checkuser-log": "Vide l'archivije de le checkuser",
+	"grant-checkuser": "Accede a le date checkuser",
 	"action-checkuser": "Condrolle le 'nderizze IP de le utinde e otre 'mbormazziune",
 	"action-checkuser-log": "Vide 'u registre de le checkuser",
 	"grouppage-checkuser": "{{ns:project}}:Utende ca verifiche",

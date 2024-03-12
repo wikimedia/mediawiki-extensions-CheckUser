@@ -9,6 +9,7 @@
 	"checkuser": "Kontrolero di adresi IP",
 	"group-checkuser": "Kontroleri dil uzeri",
 	"group-checkuser-member": "{{GENDER:$1|kontrolero di IP-adresi}}",
+	"grant-checkuser": "Acesar informi por verifikar uzeri",
 	"grouppage-checkuser": "{{ns:project}}:Kontrolero di IP-adresi",
 	"checkuser-reason": "Motivo:",
 	"checkuser-showlog": "Montrez la registro 'CheckUser'",

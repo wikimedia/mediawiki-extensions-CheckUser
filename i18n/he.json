@@ -29,6 +29,7 @@
 	"right-checkuser-temporary-account": "הצגת כתובות IP שמשמשות חשבונות זמניים",
 	"right-checkuser-temporary-account-no-preference": "הצגת כתובות IP שמשמשות חשבונות זמניים ללא צורך לבדוק את ההעדפה",
 	"right-checkuser-temporary-account-log": "הצגת יומן הגישה לכתובות IP זמניות של חשבון",
+	"grant-checkuser": "גישה לנתונים על בדיקת משתמשים (checkuser)",
 	"action-checkuser": "למצוא כתובות IP ומידע נוסף של משתמשים",
 	"action-checkuser-log": "לצפות ביומן הבדיקות",
 	"action-checkuser-temporary-account": "להציג כתובות IP שמשמשות חשבונות זמניים",

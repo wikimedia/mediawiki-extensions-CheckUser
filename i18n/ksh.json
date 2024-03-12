@@ -15,6 +15,7 @@
 	"group-checkuser-member": "{{GENDER:$1|Metmaacher-Övverpröhfer}}",
 	"right-checkuser": "<i lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"Internet Protocol\">IP</i>-Adräße un ier Bezösch zo de aanjemäldte Metmaacher övverpröhfe, un de Metmaacher ier Dahte aanlohre",
 	"right-checkuser-log": "En et Logbohch fum Övverpröfe fun <i lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"Internet Protocol\">IP</i>-Adräße un ier Bezösch zo de aanjemeldte Metmaacher lohre, un esu wigger",
+	"grant-checkuser": "Op de Dahte för et Metmaacher_Pröhve zohjriefe",
 	"action-checkuser": "<i lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"Internet Protocol\">IP</i>-Adräße un ander Dahte aanlore",
 	"action-checkuser-log": "et Logbohch vum Metmaacher-Övverpröhfe belohre",
 	"grouppage-checkuser": "{{ns:project}}:Metmaacher-Övverpröhfer",

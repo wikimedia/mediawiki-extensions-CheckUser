@@ -18,6 +18,7 @@
 	"group-checkuser-member": "{{GENDER:$1|ഉപയോക്തൃ പരിശോധകൻ|ഉപയോക്തൃ പരിശോധക}}",
 	"right-checkuser": "ചെക്ക് യൂസറിന്റെ ഐ.പി. വിലാസവും മറ്റു വിവരങ്ങളും",
 	"right-checkuser-log": "ചെക്ക്‌‌യൂസർ രേഖ കാണുക",
+	"grant-checkuser": "ചെക്ക്‌യൂസർ ഡേറ്റ എടുക്കുക",
 	"action-checkuser": "ചെക്ക് യൂസറിന്റെ ഐ.പി. വിലാസവും മറ്റു വിവരങ്ങളും",
 	"action-checkuser-log": "ചെക്ക്‌‌യൂസർ രേഖ കാണുക",
 	"grouppage-checkuser": "{{ns:project}}:ചെക്ക് യൂസർ",

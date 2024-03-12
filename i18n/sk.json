@@ -20,6 +20,7 @@
 	"group-checkuser-member": "{{GENDER:$1|revízor|revízorka|revízor}}",
 	"right-checkuser": "Skontrolovať IP adresy a iné informácie používateľov",
 	"right-checkuser-log": "Zobraziť záznam kontrol používateľov",
+	"grant-checkuser": "Pristupovať k údajom kontroly používateľov",
 	"action-checkuser": "kontrolovať IP adresu a dalšie údaje používateľa",
 	"action-checkuser-log": "zobraziť záznam kontrol používateľov",
 	"grouppage-checkuser": "{{ns:project}}:Revízia používateľa",

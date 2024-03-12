@@ -20,6 +20,7 @@
 	"group-checkuser-member": "{{GENDER:$1}}kiểm định viên",
 	"right-checkuser": "Kiểm tra địa chỉ IP và các thông tin khác của thành viên",
 	"right-checkuser-log": "Xem nhật trình CheckUser",
+	"grant-checkuser": "Truy cập dữ liệu kiểm định viên",
 	"action-checkuser": "kiểm tra địa chỉ IP và các thông tin khác của thành viên",
 	"action-checkuser-log": "xem nhật trình CheckUser",
 	"grouppage-checkuser": "{{ns:project}}:Kiểm định viên",

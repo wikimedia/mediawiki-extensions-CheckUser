@@ -27,6 +27,7 @@
 	"right-checkuser-temporary-account": "Zobrazování IP adres používaných dočasnými účty",
 	"right-checkuser-temporary-account-no-preference": "Zobrazování IP adres používaných dočasnými účty bez nutnosti povolit přístup v nastavení",
 	"right-checkuser-temporary-account-log": "Prohlížení protokolu přístupů k IP adresám dočasných účtů",
+	"grant-checkuser": "Přístup k údajům kontroly uživatele",
 	"action-checkuser": "kontrolovat uživatelovy IP adresy a další údaje",
 	"action-checkuser-log": "prohlížet protokolovací záznamy revize uživatelů",
 	"action-checkuser-temporary-account": "zobrazit IP adresy používané dočasnými účty",

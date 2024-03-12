@@ -26,6 +26,7 @@
 	"group-checkuser-member": "{{GENDER:$1|tjekbruger}}",
 	"right-checkuser": "Tjekke en brugers IP-adresser og andre oplysninger",
 	"right-checkuser-log": "Se tjekbrugerloggen",
+	"grant-checkuser": "Adgang til checkuserdata",
 	"action-checkuser": "tjekke brugeres IP-adresser og andre oplysninger",
 	"action-checkuser-log": "se tjekbrugerloggen",
 	"grouppage-checkuser": "{{ns:project}}:Tjekbruger",

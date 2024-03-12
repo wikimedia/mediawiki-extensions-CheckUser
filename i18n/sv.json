@@ -34,6 +34,7 @@
 	"right-checkuser": "Kontrollera användares IP-adresser och annan information",
 	"right-checkuser-log": "Visa loggen för användarkontroller",
 	"right-checkuser-temporary-account": "Visa IP-adresser som används av tillfälliga konton",
+	"grant-checkuser": "Tillgång till IP-kontrolldata",
 	"action-checkuser": "kontrollera användarens IP-adresser och annan information",
 	"action-checkuser-log": "visa loggen för användarkontroll",
 	"action-checkuser-temporary-account": "visa IP-adresser som används av tillfälliga konton",

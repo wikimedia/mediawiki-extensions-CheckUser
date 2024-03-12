@@ -18,6 +18,7 @@
 	"group-checkuser-member": "{{GENDER:$1|Archwiliwr defnyddwyr}}",
 	"right-checkuser": "Archwilio cyfeiriadau IP defnyddwyr a gwybodaeth arall amdanynt",
 	"right-checkuser-log": "Gweld y log archwilio defnyddwyr",
+	"grant-checkuser": "Gweld data checkuser",
 	"action-checkuser": "archwilio cyfeiriadau IP defnyddwyr a gweld gwybodaeth arall",
 	"action-checkuser-log": "gweld y log archwilio defnyddwyr",
 	"grouppage-checkuser": "{{ns:project}}:Archwilio defnyddwyr",

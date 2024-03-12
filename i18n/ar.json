@@ -36,6 +36,7 @@
 	"right-checkuser-log": "رؤية سجل تدقيق المستخدم",
 	"right-checkuser-temporary-account": "عرض عناوين بروتوكول الإنترنت التي تستخدمها الحسابات المؤقتة",
 	"right-checkuser-temporary-account-log": "عرض سجل الوصول إلى عناوين IP المؤقتة للحساب",
+	"grant-checkuser": "الوصول لبيانات تدقيق المستخدم",
 	"action-checkuser": "افحص عناوين بروتوكول المستخدم والمعلومات الأخرى",
 	"action-checkuser-log": "عرض سجل تدقيق المستخدم",
 	"action-checkuser-temporary-account": "عرض عناوين بروتوكول الإنترنت التي تستخدمها الحسابات المؤقتة",

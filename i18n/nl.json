@@ -35,6 +35,7 @@
 	"right-checkuser-log": "Het Logboek controleren gebruikers bekijken",
 	"right-checkuser-temporary-account": "IP-adressen bekijken die worden gebruikt door tijdelijke accounts",
 	"right-checkuser-temporary-account-log": "Het logboek inzage IP-adressen tijdelijke accounts bekijken",
+	"grant-checkuser": "Toegang tot gebruikerscontrolegegevens",
 	"action-checkuser": "IP-adressen en andere gegevens van gebruikers te bekijken",
 	"action-checkuser-log": "het Logboek controleren gebruikers te bekijken",
 	"action-checkuser-temporary-account": "IP-adressen te bekijken die worden gebruikt door tijdelijke accounts",

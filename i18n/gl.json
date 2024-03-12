@@ -22,6 +22,7 @@
 	"group-checkuser-member": "{{GENDER:$1|verificador|verificadora}} de usuarios",
 	"right-checkuser": "Comprobar os enderezos IP dos usuarios e outra información",
 	"right-checkuser-log": "Ver o rexistro de verificadores de usuarios",
+	"grant-checkuser": "Acceder ós datos de verificador de usuarios",
 	"action-checkuser": "comprobar os enderezos IP dos usuarios e outra información",
 	"action-checkuser-log": "ver o rexistro de verificadores de usuarios",
 	"grouppage-checkuser": "{{ns:project}}:Verificadores de usuarios",

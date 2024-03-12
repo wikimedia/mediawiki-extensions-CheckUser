@@ -16,6 +16,7 @@
 	"group-checkuser-member": "{{GENDER:$1|декъашхойн тӀе хьожург}}",
 	"right-checkuser": "декъашхойн IP-адресашка а, кхин хаамашка а хьажар",
 	"right-checkuser-log": "декъашхойн зеран тептаре хьажар",
+	"grant-checkuser": "Декъашхошка хьажа таро йу",
 	"action-checkuser": "декъашхойн IP-адресашка а, кхин хаамашка а хьажар",
 	"action-checkuser-log": "декъашхойн зеран тептаре хьажар",
 	"grouppage-checkuser": "{{ns:project}}:Декъашхой таллар",

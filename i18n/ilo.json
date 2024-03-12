@@ -15,6 +15,7 @@
 	"group-checkuser-member": "{{GENDER:$1|kitaen ti agar-aramat}}",
 	"right-checkuser": "Kitaen dagiti adres ti IP ti agar-aramat ken sabsabali a pakaammo.",
 	"right-checkuser-log": "Kitaen ti listaan ti panagkita ti agar-aramat",
+	"grant-checkuser": "Serrekan ti datos ti agkitkita nga agararamat",
 	"action-checkuser": "kitaen dagiti adres ti IP ti agar-aramat ken sabsabali a pakaammo",
 	"action-checkuser-log": "kitaen ti listaan ti panagkita ti agar-aramat",
 	"grouppage-checkuser": "{{ns:project}}:Kitaen ti agar-aramat",

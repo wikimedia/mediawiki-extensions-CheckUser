@@ -17,6 +17,7 @@
 	"group-checkuser-member": "{{GENDER:$1|controlor}}",
 	"right-checkuser": "Contròla l'adrëssa IP ëd l'utent e àutre anformassion",
 	"right-checkuser-log": "Varda ël registr dël controlor",
+	"grant-checkuser": "Acede ai dàit ëd verificator",
 	"action-checkuser": "controlé l'adrëssa IP ëd l'utent e d'àutre anformassion",
 	"action-checkuser-log": "varda ël registr dël controlor",
 	"grouppage-checkuser": "{{ns:project}}:Contròl dj'utent",

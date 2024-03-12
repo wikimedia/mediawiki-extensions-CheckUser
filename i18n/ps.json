@@ -11,6 +11,7 @@
 	"checkuser": "کره کتونکی کارن",
 	"group-checkuser": "کره کتونکي کارنان",
 	"group-checkuser-member": "{{GENDER:$1|کره کتونکی کارن}}",
+	"grant-checkuser": "د کارن ډاټا کتنې لاسرسی",
 	"grouppage-checkuser": "{{ns:project}}:کره کتونکي کارنان",
 	"checkuser-reason": "سبب:",
 	"checkuser-showlog": "يادښت کتل",

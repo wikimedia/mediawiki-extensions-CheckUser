@@ -4,6 +4,7 @@
 			"Narazeni"
 		]
 	},
+	"grant-checkuser": "მახვარებუეფიშ გინოჯინეფიშ მუნაჩემეფშა მიშულა",
 	"checkuser-autocreate-action": "ავტომატურო გიჭყჷ",
 	"checkuser-login-success": "წუმოძინელო გენშართით {{SITENAME}}-შა მუჭოთ $1",
 	"checkuser-investigate-preliminary-table-cell-blocked": "ბლოკირი რე",

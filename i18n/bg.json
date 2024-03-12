@@ -24,6 +24,7 @@
 	"group-checkuser-member": "{{GENDER:$1|проверяващ}}",
 	"right-checkuser": "Проверяване на потребителски IP адреси и друга информация",
 	"right-checkuser-log": "Преглеждане на дневника с проверки на потребители",
+	"grant-checkuser": "Достъп до данните на проверяващ",
 	"action-checkuser": "проверяване на потребителски IP адреси и друга информация",
 	"action-checkuser-log": "преглед на дневника на проверяващите",
 	"grouppage-checkuser": "{{ns:project}}:Проверяващи",

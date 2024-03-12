@@ -18,6 +18,7 @@
 	"group-checkuser-member": "{{GENDER:$1|Benotzer Kontroller|Benotzer Kontrollerin}}",
 	"right-checkuser": "Iwwerpréif de Benotzer hir IP-Adressen an aner Informatiounen",
 	"right-checkuser-log": "D'Lëscht vun den ''checkuser''-Ufroe weisen",
+	"grant-checkuser": "Zougang op Checkuser-Donnéeën",
 	"action-checkuser": "IP-Adressen an aner Informatioune vu Benotzer iwwerpréiwen",
 	"action-checkuser-log": "Checkuser-Logbuch weisen",
 	"grouppage-checkuser": "{{ns:project}}:Benotzer-Kontroller",

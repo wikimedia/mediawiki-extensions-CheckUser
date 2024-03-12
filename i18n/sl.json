@@ -23,6 +23,7 @@
 	"right-checkuser-log": "Dostop do dnevnika preverjanj uporabnikov",
 	"right-checkuser-temporary-account": "Ogledovanje IP-naslovov, ki jih uporabljajo začasni računi",
 	"right-checkuser-temporary-account-log": "Ogled dnevnika dostopa do IP-naslovov začasnih računov",
+	"grant-checkuser": "Dostop do podatkov preverjanja uporabnikov",
 	"action-checkuser": "preverjati uporabnikovih IP-naslovov in drugih podatkov",
 	"action-checkuser-log": "dostopati do dnevnika preverjanj uporabnikov",
 	"action-checkuser-temporary-account": "ogled IP-naslovov, ki jih uporabljajo začasni računi",

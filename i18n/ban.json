@@ -4,6 +4,7 @@
 			"Chinamoonroll"
 		]
 	},
+	"grant-checkuser": "Ngaksés data panuréksa",
 	"checkuser-create-action": "sampun kakardi",
 	"checkuser-reset-action": "kirim jumu kruna sandi antuk {{GENDER:$1|sang anganggé}} [[User:$1|$1]]"
 }
