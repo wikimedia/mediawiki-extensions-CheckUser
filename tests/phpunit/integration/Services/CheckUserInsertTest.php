@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
+use CannotCreateActorException;
 use DatabaseLogEntry;
 use Language;
 use LogEntryBase;
@@ -9,6 +10,8 @@ use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
+use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -20,6 +23,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 
 	use CheckUserCommonTraitTest;
+	use TempUserTestTrait;
 
 	private function setUpObject(): CheckUserInsert {
 		return MediaWikiServices::getInstance()->get( 'CheckUserInsert' );
@@ -138,7 +142,8 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getCommentStore(),
 			$this->getServiceContainer()->getHookContainer(),
 			$this->getServiceContainer()->getConnectionProvider(),
-			$mockContentLanguage
+			$mockContentLanguage,
+			$this->getServiceContainer()->getTempUserConfig()
 		);
 		if ( $table === 'cu_changes' ) {
 			$this->testInsertIntoCuChangesTable(
@@ -228,12 +233,19 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/** @dataProvider provideCheckUserResultTables */
-	public function testActorColumnInInsertMethods( $table ) {
-		$user = $this->getTestUser();
+	public function testActorColumnInInsertMethods( $table, $user = null, $expectedActorId = 0 ) {
+		$user ??= $this->getTestUser()->getUserIdentity();
+		// 0 is used to indicate that no specific actor ID was provided for the test, and so this
+		// method should acquire one. 0 is used as it is not a valid actor ID (while null can be the value
+		// of cupe_actor in specific circumstances).
+		if ( $expectedActorId === 0 ) {
+			$expectedActorId = $this->getServiceContainer()->getActorStore()
+				->acquireActorId( $user, $this->getDb() );
+		}
 		if ( $table === 'cu_changes' ) {
-			$this->setUpObject()->insertIntoCuChangesTable( [], __METHOD__, $user->getUserIdentity() );
+			$this->setUpObject()->insertIntoCuChangesTable( [], __METHOD__, $user );
 		} elseif ( $table === 'cu_private_event' ) {
-			$this->setUpObject()->insertIntoCuPrivateEventTable( [], __METHOD__, $user->getUserIdentity() );
+			$this->setUpObject()->insertIntoCuPrivateEventTable( [], __METHOD__, $user );
 		} elseif ( $table === 'cu_log_event' ) {
 			$logId = $this->newLogEntry();
 			// Delete any entries that were created by ::newLogEntry.
@@ -241,7 +253,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 				'cu_log_event',
 			] );
 			$logEntry = DatabaseLogEntry::newFromId( $logId, $this->getDb() );
-			$this->setUpObject()->insertIntoCuLogEventTable( $logEntry, __METHOD__, $user->getUserIdentity() );
+			$this->setUpObject()->insertIntoCuLogEventTable( $logEntry, __METHOD__, $user );
 		} else {
 			$this->fail( 'Unexpected table.' );
 		}
@@ -249,16 +261,59 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			$table,
 			[ CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$table] . 'actor' ],
 			'',
-			[ [ $user->getUser()->getActorId() ] ]
+			[ [ $expectedActorId ] ]
 		);
 	}
 
 	public static function provideCheckUserResultTables() {
 		return [
 			'cu_changes' => [ 'cu_changes' ],
-			'cu_private_event' => [ 'cu_private_event' ],
 			'cu_log_event' => [ 'cu_log_event' ],
 		];
+	}
+
+	/** @dataProvider provideCheckUserResultTablesWhichHaveANotNullActorColumn */
+	public function testActorColumnForIPAddressWithExistingActorId( $table ) {
+		// Tests that if an IP address already has an actor ID when temporary accounts are enabled the actor ID is
+		// used instead of using NULL or throwing an exception.
+		$ip = UserIdentityValue::newAnonymous( '1.2.3.4' );
+		// Acquire the pre-existing actor ID for the IP address.
+		$this->disableAutoCreateTempUser();
+		$this->getServiceContainer()->getActorStore()->acquireActorId( $ip, $this->getDb() );
+		// Enable temporary accounts and then perform the insert.
+		$this->enableAutoCreateTempUser();
+		$this->testActorColumnInInsertMethods(
+			$table,
+			$ip,
+			$this->getServiceContainer()->getActorStore()->findActorId( $ip, $this->getDb() )
+		);
+	}
+
+	public static function provideCheckUserResultTablesWhichHaveANotNullActorColumn() {
+		return [
+			'cu_changes' => [ 'cu_changes' ],
+			'cu_log_event' => [ 'cu_log_event' ],
+		];
+	}
+
+	public function testActorColumnForIPAddressForCuPrivateEventInsert() {
+		// Tests that the value of cupe_actor is NULL when temporary accounts are enabled
+		// and the performer is an IP address.
+		$ip = UserIdentityValue::newAnonymous( '1.2.3.4' );
+		// Enable temporary accounts and then perform the insert.
+		$this->enableAutoCreateTempUser();
+		$this->testActorColumnInInsertMethods( 'cu_private_event', $ip, null );
+	}
+
+	/** @dataProvider provideCheckUserResultTablesWhichHaveANotNullActorColumn */
+	public function testActorColumnForIPAddressWithoutExistingActorId( $table ) {
+		$this->expectException( CannotCreateActorException::class );
+		// Tests that if an IP address doesn't have an actor ID but we are inserting to cu_private_event, then the actor
+		// ID is set to NULL.
+		$ip = UserIdentityValue::newAnonymous( '1.2.3.4' );
+		// Enable temporary accounts and then perform the insert.
+		$this->enableAutoCreateTempUser();
+		$this->testActorColumnInInsertMethods( $table, $ip, null );
 	}
 
 	public function testInsertIntoCuLogEventTableLogId() {

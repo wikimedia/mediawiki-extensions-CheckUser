@@ -167,7 +167,8 @@ return [
 			$services->getCommentStore(),
 			$services->getHookContainer(),
 			$services->getDBLoadBalancerFactory(),
-			$services->getContentLanguage()
+			$services->getContentLanguage(),
+			$services->getTempUserConfig()
 		);
 	},
 	'CheckUserTemporaryAccountLoggerFactory' => static function (
