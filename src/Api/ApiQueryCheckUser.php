@@ -19,6 +19,7 @@ use Wikimedia\IPUtils;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\ParamValidator\TypeDef\EnumDef;
 use Wikimedia\ParamValidator\TypeDef\IntegerDef;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * CheckUser API Query Module
@@ -77,8 +78,8 @@ class ApiQueryCheckUser extends ApiQueryBase {
 
 		$reason = $this->msg( 'checkuser-reason-api', $reason )->inContentLanguage()->escaped();
 		// absolute time
-		$timeCutoff = strtotime( $timecond );
-		if ( !$timeCutoff || $timeCutoff < 0 || $timeCutoff > time() ) {
+		$timeCutoff = strtotime( $timecond, ConvertibleTimestamp::time() );
+		if ( !$timeCutoff || $timeCutoff < 0 || $timeCutoff > ConvertibleTimestamp::time() ) {
 			$this->dieWithError( 'apierror-checkuser-timelimit', 'invalidtime' );
 		}
 
