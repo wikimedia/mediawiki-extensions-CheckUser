@@ -25,6 +25,7 @@
 	"right-checkuser-temporary-account-no-preference": "Гледање на IP-адреси користени од привремени сметки без потреба да се штиклира поставка",
 	"right-checkuser-temporary-account-log": "Преглед на дневникот на пристапи на IP-адреси на привремени сметки",
 	"grant-checkuser": "Пристап до податоци од проверка на корисници",
+	"grant-checkuser-temporary-account": "Пристап до проверувачки податоци за привремени сметки",
 	"action-checkuser": "проверување на корисничка IP-адреса и други информации",
 	"action-checkuser-log": "гледање дневник на проверување на корисник",
 	"action-checkuser-temporary-account": "гледање на IP-адреси користени од привремени сметки",
