@@ -20,7 +20,7 @@ use MediaWiki\User\UserNameUtils;
 use Wikimedia\Message\MessageValue;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\Rdbms\IConnectionProvider;
-use Wikimedia\Rdbms\IDatabase;
+use Wikimedia\Rdbms\IReadableDatabase;
 
 abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 
@@ -169,10 +169,10 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 
 	/**
 	 * @param int $actorId
-	 * @param IDatabase $dbr
+	 * @param IReadableDatabase $dbr
 	 * @return array IP addresses used by the temporary account
 	 */
-	abstract protected function getData( int $actorId, IDatabase $dbr ): array;
+	abstract protected function getData( int $actorId, IReadableDatabase $dbr ): array;
 
 	/**
 	 * @inheritDoc

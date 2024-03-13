@@ -9,14 +9,14 @@ use MediaWiki\Rest\LocalizedHttpException;
 use Wikimedia\Message\DataMessageValue;
 use Wikimedia\Message\MessageValue;
 use Wikimedia\ParamValidator\ParamValidator;
-use Wikimedia\Rdbms\IDatabase;
+use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\Rdbms\IResultWrapper;
 
 class TemporaryAccountLogHandler extends AbstractTemporaryAccountHandler {
 	/**
 	 * @inheritDoc
 	 */
-	protected function getData( int $actorId, IDatabase $dbr ): array {
+	protected function getData( int $actorId, IReadableDatabase $dbr ): array {
 		if (
 			!( $this->config->get( 'CheckUserEventTablesMigrationStage' ) &
 				SCHEMA_COMPAT_READ_NEW )
@@ -56,8 +56,7 @@ class TemporaryAccountLogHandler extends AbstractTemporaryAccountHandler {
 			'cule_log_id' => $ids,
 		];
 
-		$rows = $this->dbProvider->getReplicaDatabase()
-			->newSelectQueryBuilder()
+		$rows = $dbr->newSelectQueryBuilder()
 			// T327906: 'cule_actor' and 'cule_timestamp' are selected
 			// only to satisfy Postgres requirement where all ORDER BY
 			// fields must be present in SELECT list.

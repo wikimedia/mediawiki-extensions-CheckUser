@@ -4,16 +4,15 @@ namespace MediaWiki\CheckUser\Api\Rest\Handler;
 
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\ParamValidator\TypeDef\IntegerDef;
-use Wikimedia\Rdbms\IDatabase;
+use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 
 class TemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 	/**
 	 * @inheritDoc
 	 */
-	protected function getData( int $actorId, IDatabase $dbr ): array {
-		$result = $this->dbProvider->getReplicaDatabase()
-			->newSelectQueryBuilder()
+	protected function getData( int $actorId, IReadableDatabase $dbr ): array {
+		$result = $dbr->newSelectQueryBuilder()
 			->select( [ 'cuc_ip' ] )
 			->from( 'cu_changes' )
 			->where( [

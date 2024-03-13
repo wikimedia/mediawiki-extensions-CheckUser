@@ -15,7 +15,7 @@ use MediaWiki\User\UserNameUtils;
 use Wikimedia\Message\DataMessageValue;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\Rdbms\IConnectionProvider;
-use Wikimedia\Rdbms\IDatabase;
+use Wikimedia\Rdbms\IReadableDatabase;
 
 class TemporaryAccountRevisionHandler extends AbstractTemporaryAccountHandler {
 
@@ -42,7 +42,7 @@ class TemporaryAccountRevisionHandler extends AbstractTemporaryAccountHandler {
 	/**
 	 * @inheritDoc
 	 */
-	protected function getData( int $actorId, IDatabase $dbr ): array {
+	protected function getData( int $actorId, IReadableDatabase $dbr ): array {
 		$ids = $this->getValidatedParams()['ids'];
 		if ( !count( $ids ) ) {
 			throw new LocalizedHttpException(
@@ -72,8 +72,7 @@ class TemporaryAccountRevisionHandler extends AbstractTemporaryAccountHandler {
 			'cuc_this_oldid' => $ids,
 		];
 
-		$rows = $this->dbProvider->getReplicaDatabase()
-			->newSelectQueryBuilder()
+		$rows = $dbr->newSelectQueryBuilder()
 			// T327906: 'cuc_actor' and 'cuc_timestamp' are selected
 			// only to satisfy Postgres requirement where all ORDER BY
 			// fields must be present in SELECT list.
