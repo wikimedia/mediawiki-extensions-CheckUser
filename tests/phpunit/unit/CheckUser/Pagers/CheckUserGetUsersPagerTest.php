@@ -234,7 +234,8 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 					# All other values should be arrays
 					'conds' => [],
 					'options' => [],
-					'join_conds' => [],
+					// The actor table should be joined using a LEFT JOIN
+					'join_conds' => [ 'actor_cupe_actor' => [ 'LEFT JOIN', 'actor_cupe_actor.actor_id=cupe_actor' ] ],
 				]
 			],
 			'Client Hints enabled' => [
@@ -353,6 +354,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 					[
 						'user_text' => 'Test',
 						'user' => 1,
+						'actor' => 1,
 						'ip' => '127.0.0.1',
 						'xff' => null,
 						'agent' => 'Testing user agent',
@@ -378,6 +380,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 					[
 						'user_text' => 'Test',
 						'user' => 1,
+						'actor' => 1,
 						'ip' => '127.0.0.1',
 						'xff' => '125.6.5.4',
 						'agent' => 'Testing user agent',
@@ -388,6 +391,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 					[
 						'user_text' => 'Testing',
 						'user' => 2,
+						'actor' => 2,
 						'ip' => '127.0.0.2',
 						'xff' => null,
 						'agent' => 'Testing user agent',
@@ -398,6 +402,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 					[
 						'user_text' => 'Test',
 						'user' => 1,
+						'actor' => 1,
 						'ip' => '127.0.0.2',
 						'xff' => null,
 						'agent' => 'Testing user agent1234',
@@ -408,6 +413,19 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 					[
 						'user_text' => 'Test',
 						'user' => 1,
+						'actor' => 1,
+						'ip' => '127.0.0.1',
+						'xff' => null,
+						'agent' => 'Testing user agent',
+						'timestamp' => $smallestFakeTimestamp,
+						'client_hints_reference_id' => 456,
+						'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT,
+					],
+					// A row with the actor ID column as null
+					[
+						'user_text' => null,
+						'user' => null,
+						'actor' => null,
 						'ip' => '127.0.0.1',
 						'xff' => null,
 						'agent' => 'Testing user agent',
@@ -425,21 +443,29 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 					UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT => [ 456 ],
 				] ),
 				[
-					'first' => [ 'Test' => $smallestFakeTimestamp, 'Testing' => $middleFakeTimestamp ],
-					'last' => [ 'Test' => $largestFakeTimestamp, 'Testing' => $middleFakeTimestamp ],
-					'edits' => [ 'Test' => 3, 'Testing' => 1 ],
-					'ids' => [ 'Test' => 1, 'Testing' => 2 ],
+					'first' => [
+						'Test' => $smallestFakeTimestamp,
+						'Testing' => $middleFakeTimestamp,
+						'127.0.0.1' => $smallestFakeTimestamp,
+					],
+					'last' => [
+						'Test' => $largestFakeTimestamp,
+						'Testing' => $middleFakeTimestamp,
+						'127.0.0.1' => $smallestFakeTimestamp,
+					],
+					'edits' => [ 'Test' => 3, 'Testing' => 1, '127.0.0.1' => 1 ],
+					'ids' => [ 'Test' => 1, 'Testing' => 2, '127.0.0.1' => 0 ],
 					'infosets' => [
 						'Test' => [
 							[ '127.0.0.1', '125.6.5.4' ], [ '127.0.0.2', null ], [ '127.0.0.1', null ]
 						],
-						'Testing' => [
-							[ '127.0.0.2', null ]
-						],
+						'Testing' => [ [ '127.0.0.2', null ] ],
+						'127.0.0.1' => [ [ '127.0.0.1', null ] ],
 					],
 					'agentsets' => [
 						'Test' => [ 'Testing user agent', 'Testing user agent1234' ],
-						'Testing' => [ 'Testing user agent' ]
+						'Testing' => [ 'Testing user agent' ],
+						'127.0.0.1' => [ 'Testing user agent' ],
 					],
 					'clienthints' => [
 						'Test' => new ClientHintsReferenceIds( [
@@ -449,6 +475,9 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 						] ),
 						'Testing' => new ClientHintsReferenceIds( [
 							UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => [ 123 ],
+						] ),
+						'127.0.0.1' => new ClientHintsReferenceIds( [
+							UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT => [ 456 ],
 						] ),
 					]
 				]
