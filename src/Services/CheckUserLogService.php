@@ -9,7 +9,7 @@ use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\Parser\Sanitizer;
 use MediaWiki\Title\Title;
 use MediaWiki\User\ActorStore;
-use MediaWiki\User\User;
+use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use Psr\Log\LoggerInterface;
 use Wikimedia\IPUtils;
@@ -57,7 +57,7 @@ class CheckUserLogService {
 	/**
 	 * Adds a log entry to the CheckUserLog.
 	 *
-	 * @param User $user
+	 * @param UserIdentity $user
 	 * @param string $logType
 	 * @param string $targetType
 	 * @param string $target
@@ -66,7 +66,7 @@ class CheckUserLogService {
 	 * @return void
 	 */
 	public function addLogEntry(
-		User $user, string $logType, string $targetType, string $target, string $reason, int $targetID = 0
+		UserIdentity $user, string $logType, string $targetType, string $target, string $reason, int $targetID = 0
 	) {
 		if ( $targetType == 'ip' ) {
 			[ $rangeStart, $rangeEnd ] = IPUtils::parseRange( $target );
