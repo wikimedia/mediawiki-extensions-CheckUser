@@ -5,7 +5,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\Api;
 use ApiMain;
 use ApiQuery;
 use ApiTestCase;
-use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
+use MediaWiki\CheckUser\Api\ApiQueryCheckUserLog;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Permissions\Authority;
@@ -44,19 +44,17 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 	}
 
 	/**
-	 * @param string $action
 	 * @param string $moduleName
 	 * @return TestingAccessWrapper
 	 */
-	public function setUpObject( string $action = '', string $moduleName = '' ) {
+	public function setUpObject( string $moduleName = '' ) {
 		$services = $this->getServiceContainer();
 		$main = new ApiMain( $this->apiContext, true );
 		/** @var ApiQuery $query */
 		$query = $main->getModuleManager()->getModule( 'query' );
-		return TestingAccessWrapper::newFromObject( new ApiQueryCheckUser(
-			$query, $moduleName, $services->getUserIdentityLookup(),
-			$services->getRevisionLookup(), $services->getArchivedRevisionLookup(),
-			$services->get( 'CheckUserLogService' ), $services->getCommentStore()
+		return TestingAccessWrapper::newFromObject( new ApiQueryCheckUserLog(
+			$query, $moduleName, $services->getCommentStore(), $services->get( 'CheckUserLogService' ),
+			$services->getUserFactory()
 		) );
 	}
 
