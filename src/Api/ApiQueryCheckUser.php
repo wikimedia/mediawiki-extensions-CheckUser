@@ -105,15 +105,15 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					);
 				}
 
-				$this->addFields( [ 'cuc_timestamp', 'cuc_ip', 'cuc_xff' ] );
+				$this->addFields( [ 'timestamp' => 'cuc_timestamp', 'ip' => 'cuc_ip' ] );
 				$this->addWhereFld( 'actor_user', $user_id );
 				$res = $this->select( __METHOD__ );
 				$result = $this->getResult();
 
 				$ips = [];
 				foreach ( $res as $row ) {
-					$timestamp = wfTimestamp( TS_ISO_8601, $row->cuc_timestamp );
-					$ip = strval( $row->cuc_ip );
+					$timestamp = ConvertibleTimestamp::convert( TS_ISO_8601, $row->timestamp );
+					$ip = strval( $row->ip );
 
 					if ( !isset( $ips[$ip] ) ) {
 						$ips[$ip] = [
@@ -177,10 +177,18 @@ class ApiQueryCheckUser extends ApiQueryBase {
 
 				$this->addTables( $commentQuery['tables'] );
 				$this->addFields( [
-					'cuc_namespace', 'cuc_title', 'cuc_actiontext', 'cuc_this_oldid',
-					'cuc_minor', 'cuc_timestamp', 'cuc_ip', 'cuc_xff', 'cuc_agent', 'cuc_type',
-					'cuc_user' => 'actor_cuc_user.actor_user',
-					'cuc_user_text' => 'actor_cuc_user.actor_name',
+					'namespace' => 'cuc_namespace',
+					'title' => 'cuc_title',
+					'actiontext' => 'cuc_actiontext',
+					'timestamp' => 'cuc_timestamp',
+					'minor' => 'cuc_minor',
+					'type' => 'cuc_type',
+					'this_oldid' => 'cuc_this_oldid',
+					'ip' => 'cuc_ip',
+					'xff' => 'cuc_xff',
+					'agent' => 'cuc_agent',
+					'user' => 'actor_cuc_user.actor_user',
+					'user_text' => 'actor_cuc_user.actor_name',
 				] + $commentQuery['fields'] );
 				$this->addJoinConds( $commentQuery['joins'] );
 
@@ -190,35 +198,35 @@ class ApiQueryCheckUser extends ApiQueryBase {
 				$edits = [];
 				foreach ( $res as $row ) {
 					$edit = [
-						'timestamp' => wfTimestamp( TS_ISO_8601, $row->cuc_timestamp ),
-						'ns'        => intval( $row->cuc_namespace ),
-						'title'     => $row->cuc_title,
-						'user'      => $row->cuc_user_text,
-						'ip'        => $row->cuc_ip,
-						'agent'     => $row->cuc_agent,
+						'timestamp' => ConvertibleTimestamp::convert( TS_ISO_8601, $row->timestamp ),
+						'ns'        => intval( $row->namespace ),
+						'title'     => $row->title,
+						'user'      => $row->user_text,
+						'ip'        => $row->ip,
+						'agent'     => $row->agent,
 					];
 
 					$comment = $this->commentStore->getComment( 'cuc_comment', $row )->text;
 
-					if ( $row->cuc_actiontext ) {
-						$edit['summary'] = $row->cuc_actiontext;
+					if ( $row->actiontext ) {
+						$edit['summary'] = $row->actiontext;
 					} elseif ( $comment ) {
 						$edit['summary'] = $comment;
-						if ( $row->cuc_this_oldid != 0 &&
-							( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW )
+						if ( $row->this_oldid != 0 &&
+							( $row->type == RC_EDIT || $row->type == RC_NEW )
 						) {
 							$revRecord = $this->revisionLookup
-								->getRevisionById( $row->cuc_this_oldid );
+								->getRevisionById( $row->this_oldid );
 							if ( !$revRecord ) {
 								$revRecord = $this->archivedRevisionLookup
-									->getArchivedRevisionRecord( null, $row->cuc_this_oldid );
+									->getArchivedRevisionRecord( null, $row->this_oldid );
 							}
 							if ( !$revRecord ) {
 								// This shouldn't happen, CheckUser points to a revision
 								// that isn't in revision nor archive table?
 								throw new LogicException(
 									"Couldn't fetch revision cu_changes table links to " .
-										"(cuc_this_oldid {$row->cuc_this_oldid})"
+										"(cuc_this_oldid {$row->this_oldid})"
 								);
 							}
 							if ( !RevisionRecord::userCanBitfield(
@@ -237,11 +245,11 @@ class ApiQueryCheckUser extends ApiQueryBase {
 							}
 						}
 					}
-					if ( $row->cuc_minor ) {
+					if ( $row->minor ) {
 						$edit['minor'] = 'm';
 					}
-					if ( $row->cuc_xff ) {
-						$edit['xff'] = $row->cuc_xff;
+					if ( $row->xff ) {
+						$edit['xff'] = $row->xff;
 					}
 					$edits[] = $edit;
 				}
@@ -266,27 +274,31 @@ class ApiQueryCheckUser extends ApiQueryBase {
 					$this->dieWithError( 'apierror-badip', 'invalidip' );
 				}
 
-				$this->addFields( [ 'cuc_timestamp', 'cuc_ip', 'cuc_agent',
-					'cuc_user_text' => 'actor_cuc_user.actor_name' ] );
+				$this->addFields( [
+					'timestamp' => 'cuc_timestamp',
+					'ip' => 'cuc_ip',
+					'agent' => 'cuc_agent',
+					'user_text' => 'actor_cuc_user.actor_name'
+				] );
 
 				$res = $this->select( __METHOD__ );
 				$result = $this->getResult();
 
 				$users = [];
 				foreach ( $res as $row ) {
-					$user = $row->cuc_user_text;
-					$ip = $row->cuc_ip;
-					$agent = $row->cuc_agent;
+					$user = $row->user_text;
+					$ip = $row->ip;
+					$agent = $row->agent;
 
 					if ( !isset( $users[$user] ) ) {
 						$users[$user] = [
-							'end' => wfTimestamp( TS_ISO_8601, $row->cuc_timestamp ),
+							'end' => ConvertibleTimestamp::convert( TS_ISO_8601, $row->timestamp ),
 							'editcount' => 1,
 							'ips' => [ $ip ],
 							'agents' => [ $agent ]
 						];
 					} else {
-						$users[$user]['start'] = wfTimestamp( TS_ISO_8601, $row->cuc_timestamp );
+						$users[$user]['start'] = ConvertibleTimestamp::convert( TS_ISO_8601, $row->timestamp );
 						$users[$user]['editcount']++;
 						if ( !in_array( $ip, $users[$user]['ips'] ) ) {
 							$users[$user]['ips'][] = $ip;
