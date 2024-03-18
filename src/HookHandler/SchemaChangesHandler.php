@@ -296,6 +296,13 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook {
 			);
 		}
 		$updater->addPostDatabaseUpdateMaintenance( FixTrailingSpacesInLogs::class );
+		// If any columns are added or removed from cu_private_event in the future, then make sure to only apply this
+		// patch if the later schema change has not yet been applied. Otherwise wikis using SQLite will have a DB error.
+		$updater->modifyExtensionField(
+			'cu_private_event',
+			'cupe_actor',
+			"$base/$dbType/patch-cu_private_event-modify-cupe_actor-nullable.sql"
+		);
 
 		if ( !$isCUInstalled ) {
 			// First time so populate cu_changes with recentchanges data.

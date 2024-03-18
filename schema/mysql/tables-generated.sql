@@ -54,7 +54,7 @@ CREATE TABLE /*_*/cu_private_event (
   cupe_id BIGINT UNSIGNED AUTO_INCREMENT NOT NULL,
   cupe_namespace INT DEFAULT 0 NOT NULL,
   cupe_title VARBINARY(255) DEFAULT '' NOT NULL,
-  cupe_actor BIGINT UNSIGNED DEFAULT 0 NOT NULL,
+  cupe_actor BIGINT UNSIGNED DEFAULT 0,
   cupe_log_type VARBINARY(32) DEFAULT '' NOT NULL,
   cupe_log_action VARBINARY(32) DEFAULT '' NOT NULL,
   cupe_params BLOB NOT NULL,

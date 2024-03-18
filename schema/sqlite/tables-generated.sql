@@ -60,7 +60,7 @@ CREATE TABLE /*_*/cu_private_event (
   cupe_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   cupe_namespace INTEGER DEFAULT 0 NOT NULL,
   cupe_title BLOB DEFAULT '' NOT NULL,
-  cupe_actor BIGINT UNSIGNED DEFAULT 0 NOT NULL,
+  cupe_actor BIGINT UNSIGNED DEFAULT 0,
   cupe_log_type BLOB DEFAULT '' NOT NULL,
   cupe_log_action BLOB DEFAULT '' NOT NULL,
   cupe_params BLOB NOT NULL,
