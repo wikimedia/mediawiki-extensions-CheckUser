@@ -376,6 +376,11 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		$referenceIdsForLookup = new ClientHintsReferenceIds();
 
 		foreach ( $result as $row ) {
+			// Use the IP as the user_text if the actor ID is NULL and the IP is not NULL (T353953).
+			if ( $row->actor === null && $row->ip ) {
+				$row->user_text = $row->ip;
+			}
+
 			if ( !array_key_exists( $row->user_text, $this->userSets['edits'] ) ) {
 				$this->userSets['last'][$row->user_text] = $row->timestamp;
 				$this->userSets['edits'][$row->user_text] = 0;
@@ -457,6 +462,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 				'ip' => 'cuc_ip',
 				'agent' => 'cuc_agent',
 				'xff' => 'cuc_xff',
+				'actor' => 'cuc_actor',
 				'user' => 'actor_cuc_actor.actor_user',
 				'user_text' => 'actor_cuc_actor.actor_name',
 			],
@@ -490,6 +496,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 				'ip' => 'cule_ip',
 				'agent' => 'cule_agent',
 				'xff' => 'cule_xff',
+				'actor' => 'cule_actor',
 				'user' => 'actor_cule_actor.actor_user',
 				'user_text' => 'actor_cule_actor.actor_name',
 			],
@@ -518,12 +525,13 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 				'ip' => 'cupe_ip',
 				'agent' => 'cupe_agent',
 				'xff' => 'cupe_xff',
+				'actor' => 'cupe_actor',
 				'user' => 'actor_cupe_actor.actor_user',
 				'user_text' => 'actor_cupe_actor.actor_name',
 			],
 			'tables' => [ 'cu_private_event', 'actor_cupe_actor' => 'actor' ],
 			'conds' => [],
-			'join_conds' => [ 'actor_cupe_actor' => [ 'JOIN', 'actor_cupe_actor.actor_id=cupe_actor' ] ],
+			'join_conds' => [ 'actor_cupe_actor' => [ 'LEFT JOIN', 'actor_cupe_actor.actor_id=cupe_actor' ] ],
 			'options' => [],
 		];
 		// When displaying Client Hints data, add the reference type and reference ID to each row.

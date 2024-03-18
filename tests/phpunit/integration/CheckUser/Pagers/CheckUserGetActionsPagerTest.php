@@ -15,6 +15,7 @@ use MediaWiki\MediaWikiServices;
 use MediaWiki\Title\Title;
 use MediaWiki\User\UserIdentityValue;
 use Wikimedia\IPUtils;
+use Wikimedia\Rdbms\FakeResultWrapper;
 
 /**
  * Test class for CheckUserGetActionsPager class
@@ -310,7 +311,36 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 				SCHEMA_COMPAT_NEW,
 				false
 			],
+			'Row for IP address when temporary accounts are enabled' => [
+				[ 'user_text' => null, 'user' => null, 'actor' => null, 'ip' => '127.0.0.1' ],
+				[ '127.0.0.1' => 'test-flag' ],
+				[ 0 => true ],
+				[],
+				null,
+				[ 'flags' => 'test-flag' ],
+				SCHEMA_COMPAT_NEW,
+				false
+			],
 		];
+	}
+
+	public function testPreprocessResultsForIPRowWithTemporaryAccountsEnabled() {
+		// Tests that ::preprocessResults correctly sets the flagCache for rows where the actor ID is null.
+		$object = $this->setUpObject();
+		$row = array_merge( $this->getDefaultRowFieldValues(), [
+			'user_text' => null,
+			'user' => null,
+			'actor' => null,
+			'ip' => '127.0.0.1',
+			'client_hints_reference_id' => 1,
+			'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
+		] );
+		$object->preprocessResults( new FakeResultWrapper( [ $row ] ) );
+		$this->assertArrayHasKey(
+			'127.0.0.1',
+			$object->flagCache,
+			'::preprocessResults did not correctly set flagCache.'
+		);
 	}
 
 	/** @inheritDoc */
@@ -320,7 +350,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 			'title' => '',
 			'user' => 0,
 			'user_text' => '127.0.0.1',
-			'actor' => 0,
+			'actor' => 1,
 			'actiontext' => '',
 			'minor' => 0,
 			'page_id' => 0,

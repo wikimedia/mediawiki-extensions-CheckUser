@@ -168,6 +168,10 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		// Show date
 		$templateParams['timestamp'] =
 			$this->getLanguage()->userTime( wfTimestamp( TS_MW, $row->timestamp ), $this->getUser() );
+		// Use the IP as the $user_text if the actor ID is NULL and the IP is not NULL (T353953).
+		if ( $row->actor === null && $row->ip ) {
+			$row->user_text = $row->ip;
+		}
 		// Normalise user text if IP for clarity and compatibility with ipLink below
 		$user_text = $row->user_text;
 		'@phan-var string $user_text';
@@ -489,6 +493,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 				'ip' => 'cuc_ip',
 				'xff' => 'cuc_xff',
 				'agent' => 'cuc_agent',
+				'actor' => 'cuc_actor',
 				'user' => 'actor_user',
 				'user_text' => 'actor_name',
 				// Needed for rows with cuc_type as RC_LOG.
@@ -532,6 +537,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 				'xff' => 'cule_xff',
 				'xff_hex' => 'cule_xff_hex',
 				'agent' => 'cule_agent',
+				'actor' => 'cule_actor',
 				'user' => 'actor_user',
 				'user_text' => 'actor_name',
 				'comment_text',
@@ -577,6 +583,9 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 
 	/** @inheritDoc */
 	protected function getQueryInfoForCuPrivateEvent(): array {
+		// We only need a JOIN if the target of the check is a username. For an IP we need a LEFT JOIN as
+		// the cupe_actor column may be NULL for rows we want to select.
+		$joinType = $this->xfor === null ? 'JOIN' : 'LEFT JOIN';
 		$commentQuery = $this->commentStore->getJoin( 'cupe_comment' );
 		$queryInfo = [
 			'fields' => [
@@ -589,6 +598,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 				'xff' => 'cupe_xff',
 				'xff_hex' => 'cupe_xff_hex',
 				'agent' => 'cupe_agent',
+				'actor' => 'cupe_actor',
 				'user' => 'actor_user',
 				'user_text' => 'actor_name',
 				'comment_text',
@@ -602,7 +612,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 			'tables' => [ 'cu_private_event', 'actor_cupe_actor' => 'actor' ] + $commentQuery['tables'],
 			'conds' => [],
 			'join_conds' => [
-				'actor_cupe_actor' => [ 'JOIN', 'actor_cupe_actor.actor_id=cupe_actor' ]
+				'actor_cupe_actor' => [ $joinType, 'actor_cupe_actor.actor_id=cupe_actor' ]
 			] + $commentQuery['joins'],
 			'options' => [],
 		];
@@ -644,6 +654,10 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		$missingRevisions = [];
 		$referenceIds = new ClientHintsReferenceIds();
 		foreach ( $result as $row ) {
+			// Use the IP as the user_text if the actor ID is NULL and the IP is not NULL (T353953).
+			if ( $row->actor === null && $row->ip ) {
+				$row->user_text = $row->ip;
+			}
 			if ( $this->displayClientHints ) {
 				$referenceIds->addReferenceIds( $row->client_hints_reference_id, $row->client_hints_reference_type );
 			}
