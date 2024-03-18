@@ -307,13 +307,8 @@ class CheckUserInsert {
 		$dbw = $this->connectionProvider->getPrimaryDatabase();
 		if ( IPUtils::isIPAddress( $user->getName() ) && $this->tempUserConfig->isEnabled() ) {
 			if ( $table === CheckUserQueryInterface::PRIVATE_LOG_EVENT_TABLE ) {
-				// If we are inserting into cu_private_event, the performer is an IP address, temporary accounts
-				// are enabled, and the IP does not already have an actor ID, then we should return NULL to avoid trying
-				// to acquire an actor ID (which will cause an exception).
 				return null;
 			}
-			// If the table isn't cu_private_event, then try to find an existing actor ID for the IP address (to support
-			// the use case of importing revisions with IP addresses as the performer).
 			$actorId = $this->actorStore->findActorId( $user, $dbw );
 			if ( $actorId !== null ) {
 				return $actorId;

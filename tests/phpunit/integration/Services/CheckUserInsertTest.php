@@ -307,13 +307,13 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideCheckUserResultTablesWhichHaveANotNullActorColumn */
 	public function testActorColumnForIPAddressWithoutExistingActorId( $table ) {
+		// Tests that if an IP address doesn't have an actor ID and we are not inserting to cu_private_event,
+		// then we get a CannotCreateActorException.
 		$this->expectException( CannotCreateActorException::class );
-		// Tests that if an IP address doesn't have an actor ID but we are inserting to cu_private_event, then the actor
-		// ID is set to NULL.
 		$ip = UserIdentityValue::newAnonymous( '1.2.3.4' );
 		// Enable temporary accounts and then perform the insert.
 		$this->enableAutoCreateTempUser();
-		$this->testActorColumnInInsertMethods( $table, $ip, null );
+		$this->testActorColumnInInsertMethods( $table, $ip );
 	}
 
 	public function testInsertIntoCuLogEventTableLogId() {
