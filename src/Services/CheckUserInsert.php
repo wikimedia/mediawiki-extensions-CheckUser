@@ -5,10 +5,12 @@ namespace MediaWiki\CheckUser\Services;
 use DatabaseLogEntry;
 use Language;
 use LogEntryBase;
+use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\User\ActorStore;
+use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserIdentity;
 use RecentChange;
 use RequestContext;
@@ -31,6 +33,7 @@ class CheckUserInsert {
 	private HookRunner $hookRunner;
 	private IConnectionProvider $connectionProvider;
 	private Language $contentLanguage;
+	private TempUserConfig $tempUserConfig;
 
 	/**
 	 * The maximum number of bytes that fit in CheckUser's text fields,
@@ -44,7 +47,8 @@ class CheckUserInsert {
 		CommentStore $commentStore,
 		HookContainer $hookContainer,
 		IConnectionProvider $connectionProvider,
-		Language $contentLanguage
+		Language $contentLanguage,
+		TempUserConfig $tempUserConfig
 	) {
 		$this->actorStore = $actorStore;
 		$this->checkUserUtilityService = $checkUserUtilityService;
@@ -52,6 +56,7 @@ class CheckUserInsert {
 		$this->hookRunner = new HookRunner( $hookContainer );
 		$this->connectionProvider = $connectionProvider;
 		$this->contentLanguage = $contentLanguage;
+		$this->tempUserConfig = $tempUserConfig;
 	}
 
 	/**
@@ -92,7 +97,7 @@ class CheckUserInsert {
 
 		$dbw = $this->connectionProvider->getPrimaryDatabase();
 		$row = array_merge( [
-			'cule_actor'     => $this->actorStore->acquireActorId( $user, $dbw ),
+			'cule_actor'     => $this->acquireActorId( $user, CheckUserQueryInterface::LOG_EVENT_TABLE ),
 			'cule_timestamp' => $dbw->timestamp( $logEntry->getTimestamp() ),
 			'cule_ip'        => IPUtils::sanitizeIP( $ip ),
 			'cule_ip_hex'    => $ip ? IPUtils::toHex( $ip ) : null,
@@ -155,7 +160,7 @@ class CheckUserInsert {
 				'cupe_log_action' => '',
 				'cupe_params'     => LogEntryBase::makeParamBlob( [] ),
 				'cupe_page'       => 0,
-				'cupe_actor'      => $this->actorStore->acquireActorId( $user, $dbw ),
+				'cupe_actor'      => $this->acquireActorId( $user, CheckUserQueryInterface::PRIVATE_LOG_EVENT_TABLE ),
 				'cupe_timestamp'  => $dbw->timestamp( wfTimestampNow() ),
 				'cupe_ip'         => IPUtils::sanitizeIP( $ip ),
 				'cupe_ip_hex'     => $ip ? IPUtils::toHex( $ip ) : null,
@@ -226,6 +231,7 @@ class CheckUserInsert {
 				'cuc_title'      => '',
 				'cuc_actiontext' => '',
 				'cuc_comment'    => '',
+				'cuc_actor'      => $this->acquireActorId( $user, CheckUserQueryInterface::CHANGES_TABLE ),
 				'cuc_this_oldid' => 0,
 				'cuc_last_oldid' => 0,
 				'cuc_type'       => RC_LOG,
@@ -246,13 +252,6 @@ class CheckUserInsert {
 			self::TEXT_FIELD_LENGTH
 		);
 		$row['cuc_xff'] = $this->contentLanguage->truncateForDatabase( $row['cuc_xff'], self::TEXT_FIELD_LENGTH );
-
-		if ( !isset( $row['cuc_actor'] ) ) {
-			$row['cuc_actor'] = $this->actorStore->acquireActorId(
-				$user,
-				$dbw
-			);
-		}
 
 		if ( !isset( $row['cuc_comment_id'] ) ) {
 			$row += $this->commentStore->insert(
@@ -284,5 +283,42 @@ class CheckUserInsert {
 			return '';
 		}
 		return $this->contentLanguage->truncateForDatabase( $agent, self::TEXT_FIELD_LENGTH );
+	}
+
+	/**
+	 * Generates an integer for insertion into cuc_actor, cule_actor, or cupe_actor.
+	 *
+	 * This integer will be an actor ID for the $user unless all the following are true:
+	 * * The $user is an IP address
+	 * * $wgAutoCreateTempUser['enabled'] is true
+	 * * The $table is 'cu_private_event'
+	 *
+	 * In all of the above are true, this method will return null as when the first two are true, trying to create an
+	 * actor ID will cause a CannotCreateActorException exception to be thrown.
+	 *
+	 * If the first two are true but the last is not, then the code will try to find an existing actor ID for the IP
+	 * address (to allow imports) and if this fails then will throw a CannotCreateActorException.
+	 *
+	 * @param UserIdentity $user
+	 * @param string $table The table that the actor ID will be inserted into.
+	 * @return ?int The value to insert into the actor column (can be null if the table is cu_private_event).
+	 */
+	private function acquireActorId( UserIdentity $user, string $table ): ?int {
+		$dbw = $this->connectionProvider->getPrimaryDatabase();
+		if ( IPUtils::isIPAddress( $user->getName() ) && $this->tempUserConfig->isEnabled() ) {
+			if ( $table === CheckUserQueryInterface::PRIVATE_LOG_EVENT_TABLE ) {
+				// If we are inserting into cu_private_event, the performer is an IP address, temporary accounts
+				// are enabled, and the IP does not already have an actor ID, then we should return NULL to avoid trying
+				// to acquire an actor ID (which will cause an exception).
+				return null;
+			}
+			// If the table isn't cu_private_event, then try to find an existing actor ID for the IP address (to support
+			// the use case of importing revisions with IP addresses as the performer).
+			$actorId = $this->actorStore->findActorId( $user, $dbw );
+			if ( $actorId !== null ) {
+				return $actorId;
+			}
+		}
+		return $this->actorStore->acquireActorId( $user, $dbw );
 	}
 }
