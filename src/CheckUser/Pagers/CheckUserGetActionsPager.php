@@ -554,7 +554,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 			'conds' => [],
 			'join_conds' => [
 				'logging_cule_log_id' => [ 'JOIN', 'logging_cule_log_id.log_id=cule_log_id' ],
-				'actor_log_actor' => [ 'JOIN', 'actor_log_actor.actor_id=log_actor' ],
+				'actor_log_actor' => [ 'JOIN', 'actor_log_actor.actor_id=cule_actor' ],
 			] + $commentQuery['joins'],
 			'options' => [],
 		];
