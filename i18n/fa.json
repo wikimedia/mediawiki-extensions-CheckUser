@@ -34,6 +34,7 @@
 	"right-checkuser-log": "مشاهدهٔ سیاههٔ بازرسی کاربر",
 	"right-checkuser-temporary-account-no-preference": "مشاهدهٔ نشانی‌های آی‌پی مورد استفادهٔ حساب‌های موقت بدون نیاز به بررسی ترجیحات",
 	"grant-checkuser": "دسترسی به اطلاعات بازرسی کاربر",
+	"grant-checkuser-temporary-account": "دسترسی به داده‌های بازرسی برای حساب‌های موقت",
 	"action-checkuser": "بازرسی نشانی‌های آی‌پی و دیگر اطلاعات کاربر",
 	"action-checkuser-log": "نمایش سیاههٔ بازرسی کاربر",
 	"action-checkuser-temporary-account-no-preference": "مشاهدهٔ نشانی‌های آی‌پی مورد استفادهٔ حساب‌های موقت",

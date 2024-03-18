@@ -21,6 +21,7 @@
 	"right-checkuser-temporary-account-no-preference": "Vider le adresses IP usate per contos temporari sin besonio de activar le respective option del preferentias",
 	"right-checkuser-temporary-account-log": "Vider le registro de accesso a adresses IP de contos temporari",
 	"grant-checkuser": "Acceder al datos checkuser",
+	"grant-checkuser-temporary-account": "Acceder al datos de verification de usator pro contos temporari",
 	"action-checkuser": "verificar le adresses IP e altere informationes del usator",
 	"action-checkuser-log": "vider le registro de verification de usatores",
 	"action-checkuser-temporary-account": "vider le adresses IP usate per contos temporari",
