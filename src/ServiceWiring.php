@@ -14,6 +14,7 @@ use MediaWiki\CheckUser\Investigate\Utilities\EventLogger;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
+use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CheckUser\Services\CheckUserUtilityService;
 use MediaWiki\CheckUser\Services\TokenManager;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
@@ -156,6 +157,17 @@ return [
 		return new CheckUserUtilityService(
 			$services->getProxyLookup(),
 			$services->getMainConfig()->get( 'UsePrivateIPs' )
+		);
+	},
+	'CheckUserLookupUtils' => static function (
+		MediaWikiServices $services
+	): CheckUserLookupUtils {
+		return new CheckUserLookupUtils(
+			new ServiceOptions(
+				CheckUserLookupUtils::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig()
+			),
+			$services->getDBLoadBalancerFactory()
 		);
 	},
 	'CheckUserInsert' => static function (
