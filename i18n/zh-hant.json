@@ -25,7 +25,8 @@
 			"列维劳德",
 			"捍粵者",
 			"星海",
-			"SunAfterRain"
+			"SunAfterRain",
+			"Arielyurusova"
 		]
 	},
 	"checkuser-summary": "本工具會從最近更改中取得使用者使用過的 IP 位址，可使用 XFF 標頭資訊來取得同一客戶端 IP 位址下的使用者和編輯，即在 IP 位址後方加上 \"/xff\"。 本工具支援 IPv4 (CIDR $1-32) 與 IPv6 (CIDR $2-128)。 考量到效率問題，本工具只允許查詢最近 $3 筆編輯。 請確認你的操作符合政策規範。",
@@ -49,6 +50,12 @@
 	"action-checkuser-temporary-account-log": "檢視臨時帳號使用 IP 位址的日誌",
 	"grouppage-checkuser": "{{ns:project}}:使用者查核員",
 	"grouppage-checkuser-temporary-account-viewer": "{{ns:project}}:臨時帳號 IP 檢視者",
+	"checkuser-clienthints-name-architecture": "建築",
+	"checkuser-clienthints-name-bitness": "位數",
+	"checkuser-clienthints-name-form-factor": "構成因素",
+	"checkuser-clienthints-name-brand": "品牌",
+	"checkuser-clienthints-name-mobile": "行動裝置",
+	"checkuser-clienthints-name-model": "模型",
 	"checkuser-clienthints-name-platform": "平台",
 	"checkuser-clienthints-name-platform-version": "平台版本",
 	"checkuser-clienthints-value-yes": "是",

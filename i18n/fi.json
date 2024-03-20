@@ -39,6 +39,7 @@
 	"action-checkuser-log": "katsoa osoitepaljastuslokia",
 	"action-checkuser-temporary-account": "tarkastella väliaikaisten tunnusten käyttämiä IP-osoitteita",
 	"grouppage-checkuser": "{{ns:project}}:Osoitepaljastin",
+	"checkuser-clienthints-value-yes": "Kyllä",
 	"checkuser-reason": "Syy:",
 	"checkuser-reason-api": "API: $1",
 	"checkuser-showlog": "Näytä osoitepaljastinloki",
