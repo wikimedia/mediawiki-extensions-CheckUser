@@ -69,37 +69,6 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 		);
 	}
 
-	/** @dataProvider provideGetIndexName */
-	public function testGetIndexName( $table, $xfor, $expectedIndexValue ) {
-		$objectUnderTest = $this->getMockBuilder( DeAbstractedCheckUserPagerTest::class )
-			->disableOriginalConstructor()
-			->getMock();
-		$objectUnderTest = TestingAccessWrapper::newFromObject( $objectUnderTest );
-		$objectUnderTest->xfor = $xfor;
-		$this->assertSame(
-			$expectedIndexValue,
-			$objectUnderTest->getIndexName( $table ),
-			'Index name is not as expected.'
-		);
-	}
-
-	public static function provideGetIndexName() {
-		return [
-			'cu_changes with null xfor' => [
-				CheckUserQueryInterface::CHANGES_TABLE, null, 'cuc_actor_ip_time'
-			],
-			'cu_private_event with null xfor' => [
-				CheckUserQueryInterface::PRIVATE_LOG_EVENT_TABLE, null, 'cupe_actor_ip_time'
-			],
-			'cu_log_event with false xfor' => [
-				CheckUserQueryInterface::LOG_EVENT_TABLE, false, 'cule_ip_hex_time'
-			],
-			'cu_private_event with true xfor' => [
-				CheckUserQueryInterface::PRIVATE_LOG_EVENT_TABLE, true, 'cupe_xff_hex_time'
-			],
-		];
-	}
-
 	/** @dataProvider provideGetIpHexColumn */
 	public function testGetIpHexColumn( $xfor, $table, $expectedReturnValue ) {
 		$objectUnderTest = $this->getMockBuilder( DeAbstractedCheckUserPagerTest::class )

@@ -13,6 +13,7 @@ use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\CheckUser\CheckUser\Widgets\CIDRCalculator;
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
+use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CheckUser\Services\CheckUserUtilityService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsFormatter;
@@ -87,6 +88,7 @@ class SpecialCheckUser extends SpecialPage {
 	private CommentStore $commentStore;
 	private UserAgentClientHintsLookup $clientHintsLookup;
 	private UserAgentClientHintsFormatter $clientHintsFormatter;
+	private CheckUserLookupUtils $checkUserLookupUtils;
 
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory
@@ -112,6 +114,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param CommentStore $commentStore
 	 * @param UserAgentClientHintsLookup $clientHintsLookup
 	 * @param UserAgentClientHintsFormatter $clientHintsFormatter
+	 * @param CheckUserLookupUtils $checkUserLookupUtils
 	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
@@ -136,7 +139,8 @@ class SpecialCheckUser extends SpecialPage {
 		CheckUserUtilityService $checkUserUtilityService,
 		CommentStore $commentStore,
 		UserAgentClientHintsLookup $clientHintsLookup,
-		UserAgentClientHintsFormatter $clientHintsFormatter
+		UserAgentClientHintsFormatter $clientHintsFormatter,
+		CheckUserLookupUtils $checkUserLookupUtils
 	) {
 		parent::__construct( 'CheckUser', 'checkuser' );
 
@@ -163,6 +167,7 @@ class SpecialCheckUser extends SpecialPage {
 		$this->commentStore = $commentStore;
 		$this->clientHintsLookup = $clientHintsLookup;
 		$this->clientHintsFormatter = $clientHintsFormatter;
+		$this->checkUserLookupUtils = $checkUserLookupUtils;
 	}
 
 	public function doesWrites() {
@@ -741,7 +746,8 @@ class SpecialCheckUser extends SpecialPage {
 					$this->getSpecialPageFactory(),
 					$this->userIdentityLookup,
 					$this->checkUserLogService,
-					$this->userFactory
+					$this->userFactory,
+					$this->checkUserLookupUtils
 				);
 			case self::SUBTYPE_GET_USERS:
 				return new CheckUserGetUsersPager(
@@ -759,6 +765,7 @@ class SpecialCheckUser extends SpecialPage {
 					$this->userIdentityLookup,
 					$this->userFactory,
 					$this->checkUserLogService,
+					$this->checkUserLookupUtils,
 					$this->userEditTracker,
 					$this->checkUserUtilityService,
 					$this->clientHintsLookup,
@@ -778,6 +785,7 @@ class SpecialCheckUser extends SpecialPage {
 					$this->getSpecialPageFactory(),
 					$this->userIdentityLookup,
 					$this->userFactory,
+					$this->checkUserLookupUtils,
 					$this->revisionStore,
 					$this->archivedRevisionLookup,
 					$this->checkUserLogService,

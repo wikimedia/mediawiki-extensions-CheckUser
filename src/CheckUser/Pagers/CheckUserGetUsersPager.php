@@ -11,6 +11,7 @@ use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
 use MediaWiki\CheckUser\ClientHints\ClientHintsLookupResults;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
+use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CheckUser\Services\CheckUserUtilityService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsFormatter;
@@ -77,6 +78,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	 * @param UserIdentityLookup $userIdentityLookup
 	 * @param UserFactory $userFactory
 	 * @param CheckUserLogService $checkUserLogService
+	 * @param CheckUserLookupUtils $checkUserLookupUtils
 	 * @param UserEditTracker $userEditTracker
 	 * @param CheckUserUtilityService $checkUserUtilityService
 	 * @param UserAgentClientHintsLookup $clientHintsLookup
@@ -100,6 +102,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		UserIdentityLookup $userIdentityLookup,
 		UserFactory $userFactory,
 		CheckUserLogService $checkUserLogService,
+		CheckUserLookupUtils $checkUserLookupUtils,
 		UserEditTracker $userEditTracker,
 		CheckUserUtilityService $checkUserUtilityService,
 		UserAgentClientHintsLookup $clientHintsLookup,
@@ -110,8 +113,8 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	) {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager,
 			$userGroupManager, $centralIdLookup, $dbProvider, $specialPageFactory,
-			$userIdentityLookup, $checkUserLogService, $userFactory, $context,
-			$linkRenderer, $limit );
+			$userIdentityLookup, $checkUserLogService, $userFactory, $checkUserLookupUtils,
+			$context, $linkRenderer, $limit );
 		$this->checkType = SpecialCheckUser::SUBTYPE_GET_USERS;
 		$this->xfor = $xfor;
 		$this->canPerformBlocks = $permissionManager->userHasRight( $this->getUser(), 'block' )
@@ -445,7 +448,9 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		}
 
 		// Apply index and IP WHERE conditions.
-		$queryInfo['options']['USE INDEX'] = [ $table => $this->getIndexName( $table ) ];
+		$queryInfo['options']['USE INDEX'] = [
+			$table => $this->checkUserLookupUtils->getIndexName( $this->xfor, $table )
+		];
 		$ipConds = self::getIpConds( $this->mDb, $this->target->getName(), $this->xfor, $table );
 		if ( $ipConds ) {
 			$queryInfo['conds'] = array_merge( $queryInfo['conds'], $ipConds );

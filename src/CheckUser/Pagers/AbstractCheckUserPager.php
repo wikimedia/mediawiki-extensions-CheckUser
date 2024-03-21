@@ -12,6 +12,7 @@ use MediaWiki\CheckUser\CheckUser\CheckUserPagerNavigationBuilder;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
+use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlocking;
 use MediaWiki\Extension\TorBlock\TorExitNodes;
@@ -96,6 +97,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	private CheckUserLogService $checkUserLogService;
 	protected TemplateParser $templateParser;
 	protected UserFactory $userFactory;
+	protected CheckUserLookupUtils $checkUserLookupUtils;
 
 	/**
 	 * @param FormOptions $opts
@@ -109,6 +111,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	 * @param UserIdentityLookup $userIdentityLookup
 	 * @param CheckUserLogService $checkUserLogService
 	 * @param UserFactory $userFactory
+	 * @param CheckUserLookupUtils $checkUserLookupUtils
 	 * @param IContextSource|null $context
 	 * @param LinkRenderer|null $linkRenderer
 	 * @param ?int $limit
@@ -125,6 +128,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		UserIdentityLookup $userIdentityLookup,
 		CheckUserLogService $checkUserLogService,
 		UserFactory $userFactory,
+		CheckUserLookupUtils $checkUserLookupUtils,
 		IContextSource $context = null,
 		LinkRenderer $linkRenderer = null,
 		?int $limit = null
@@ -170,6 +174,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		$this->userIdentityLookup = $userIdentityLookup;
 		$this->checkUserLogService = $checkUserLogService;
 		$this->userFactory = $userFactory;
+		$this->checkUserLookupUtils = $checkUserLookupUtils;
 
 		$this->templateParser = new TemplateParser( __DIR__ . '/../../../templates' );
 
@@ -537,31 +542,6 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	private static function getIpHexColumn( bool $xfor, string $table ): string {
 		$type = $xfor ? 'xff' : 'ip';
 		return self::RESULT_TABLE_TO_PREFIX[$table] . $type . '_hex';
-	}
-
-	/**
-	 * Gets the name for the index for a given table.
-	 *
-	 * note: When SCHEMA_COMPAT_READ_NEW is set, the query will not use an index
-	 * on the values of `cuc_only_for_read_old`.
-	 * That shouldn't result in a significant performance drop, and this is a
-	 * temporary situation until the temporary column is removed after the
-	 * migration is complete.
-	 *
-	 * @param string $table The table this index should apply to (list of valid options
-	 *   in self::RESULT_TABLES).
-	 * @return string
-	 */
-	protected function getIndexName( string $table ): string {
-		// So that a code search can find existing usages:
-		// cuc_actor_ip_time, cule_actor_ip_time, cupe_actor_ip_time, cuc_xff_hex_time, cuc_ip_hex_time,
-		// cule_xff_hex_time, cule_ip_hex_time, cupe_xff_hex_time, cupe_ip_hex_time
-		if ( $this->xfor === null ) {
-			return self::RESULT_TABLE_TO_PREFIX[$table] . 'actor_ip_time';
-		} else {
-			$type = $this->xfor ? 'xff' : 'ip';
-			return self::RESULT_TABLE_TO_PREFIX[$table] . $type . '_hex_time';
-		}
 	}
 
 	/** @inheritDoc */

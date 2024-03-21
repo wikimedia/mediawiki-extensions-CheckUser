@@ -14,6 +14,7 @@ use MediaWiki\CheckUser\ClientHints\ClientHintsBatchFormatterResults;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
+use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CheckUser\Services\CheckUserUtilityService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsFormatter;
@@ -94,6 +95,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 	 * @param SpecialPageFactory $specialPageFactory
 	 * @param UserIdentityLookup $userIdentityLookup
 	 * @param UserFactory $userFactory
+	 * @param CheckUserLookupUtils $checkUserLookupUtils
 	 * @param RevisionStore $revisionStore
 	 * @param ArchivedRevisionLookup $archivedRevisionLookup
 	 * @param CheckUserLogService $checkUserLogService
@@ -121,6 +123,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		SpecialPageFactory $specialPageFactory,
 		UserIdentityLookup $userIdentityLookup,
 		UserFactory $userFactory,
+		CheckUserLookupUtils $checkUserLookupUtils,
 		RevisionStore $revisionStore,
 		ArchivedRevisionLookup $archivedRevisionLookup,
 		CheckUserLogService $checkUserLogService,
@@ -137,8 +140,8 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 	) {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager,
 			$userGroupManager, $centralIdLookup, $dbProvider, $specialPageFactory,
-			$userIdentityLookup, $checkUserLogService, $userFactory, $context,
-			$linkRenderer, $limit );
+			$userIdentityLookup, $checkUserLogService, $userFactory, $checkUserLookupUtils,
+			$context, $linkRenderer, $limit );
 		$this->checkType = SpecialCheckUser::SUBTYPE_GET_ACTIONS;
 		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
 		$this->xfor = $xfor;
@@ -463,7 +466,9 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 			$queryInfo = $this->getQueryInfoForCuPrivateEvent();
 		}
 
-		$queryInfo['options']['USE INDEX'] = [ $table => $this->getIndexName( $table ) ];
+		$queryInfo['options']['USE INDEX'] = [
+			$table => $this->checkUserLookupUtils->getIndexName( $this->xfor, $table )
+		];
 
 		if ( $this->xfor === null ) {
 			$queryInfo['conds']['actor_user'] = $this->target->getId();

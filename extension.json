@@ -559,7 +559,8 @@
 				"CheckUserUtilityService",
 				"CommentStore",
 				"UserAgentClientHintsLookup",
-				"UserAgentClientHintsFormatter"
+				"UserAgentClientHintsFormatter",
+				"CheckUserLookupUtils"
 			]
 		},
 		"CheckUserLog": {
