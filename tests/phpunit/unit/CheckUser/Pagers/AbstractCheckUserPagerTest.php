@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit\CheckUser\Pagers;
 
-use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers\DeAbstractedCheckUserPagerTest;
 use MediaWiki\Config\HashConfig;
@@ -11,7 +10,6 @@ use MediaWiki\Pager\IndexPager;
 use MediaWiki\Tests\Unit\Libs\Rdbms\AddQuoterMock;
 use MediaWikiUnitTestCase;
 use Message;
-use RequestContext;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\Rdbms\IResultWrapper;
@@ -67,37 +65,6 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 			$object->getTimeRangeString( '1653047635', '1653077137' ),
 			'Return value of AbstractCheckUserPager::getTimeRangeString was not as expected.'
 		);
-	}
-
-	/** @dataProvider provideGetIpHexColumn */
-	public function testGetIpHexColumn( $xfor, $table, $expectedReturnValue ) {
-		$objectUnderTest = $this->getMockBuilder( DeAbstractedCheckUserPagerTest::class )
-			->disableOriginalConstructor()
-			->getMock();
-		$objectUnderTest = TestingAccessWrapper::newFromObject( $objectUnderTest );
-		$objectUnderTest->xfor = $xfor;
-		$this->assertSame(
-			$expectedReturnValue,
-			$objectUnderTest->getIpHexColumn( $xfor, $table ),
-			'Call to ::getIpHexColumn did not return the correct value.'
-		);
-	}
-
-	public static function provideGetIpHexColumn() {
-		return [
-			'Table as cu_changes with xfor as false' => [
-				false, CheckUserQueryInterface::CHANGES_TABLE, 'cuc_ip_hex'
-			],
-			'Table as cu_changes with xfor as true' => [
-				true, CheckUserQueryInterface::CHANGES_TABLE, 'cuc_xff_hex'
-			],
-			'Table as cu_log_event with xfor as true' => [
-				true, CheckUserQueryInterface::LOG_EVENT_TABLE, 'cule_xff_hex'
-			],
-			'Table as cu_private_event with xfor as false' => [
-				false, CheckUserQueryInterface::PRIVATE_LOG_EVENT_TABLE, 'cupe_ip_hex'
-			],
-		];
 	}
 
 	/** @dataProvider provideGetTimestampField */
@@ -184,125 +151,6 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 			$object->getCheckUserHelperFieldset(),
 			'The fieldset should not be shown if there are no results.'
 		);
-	}
-
-	/** @dataProvider provideGetIpConds */
-	public function testGetIpConds( $target, $table, $xfor, $expected ) {
-		# Mock config on main request context.
-		RequestContext::getMain()->setConfig(
-			new HashConfig( [ 'CheckUserCIDRLimit' => [
-				'IPv4' => 16,
-				'IPv6' => 19,
-			] ] )
-		);
-		$quoterMock = new AddQuoterMock();
-		$this->assertEquals(
-			$expected,
-			AbstractCheckUserPager::getIpConds( $quoterMock, $target, $xfor, $table )
-		);
-	}
-
-	public static function provideGetIpConds() {
-		return [
-			'Single IPv4 address for cu_changes and non-XFF' => [
-				'212.35.31.121',
-				CheckUserQueryInterface::CHANGES_TABLE,
-				false,
-				[ 'cuc_ip_hex' => 'D4231F79' ],
-			],
-			'Single IPv4 address for cu_private_event and XFF' => [
-				'212.35.31.121',
-				CheckUserQueryInterface::PRIVATE_LOG_EVENT_TABLE,
-				true,
-				[ 'cupe_xff_hex' => 'D4231F79' ],
-			],
-			'Single IPv4 address for cu_log_event and non-XFF' => [
-				'212.35.31.121',
-				CheckUserQueryInterface::LOG_EVENT_TABLE,
-				false,
-				[ 'cule_ip_hex' => 'D4231F79' ],
-			],
-			'Single IPv4 address notated as a /32' => [
-				'212.35.31.121/32',
-				CheckUserQueryInterface::CHANGES_TABLE,
-				false,
-				[ 0 => 'cuc_ip_hex BETWEEN \'D4231F79\' AND \'D4231F79\'' ],
-			],
-			'Single IPv6 address' => [
-				'::e:f:2001',
-				CheckUserQueryInterface::CHANGES_TABLE,
-				false,
-				[ 'cuc_ip_hex' => 'v6-00000000000000000000000E000F2001' ],
-			],
-			'IPv6 /96 range for cu_changes and non-XFF' => [
-				'::e:f:2001/96',
-				CheckUserQueryInterface::CHANGES_TABLE,
-				false,
-				[ 0 => 'cuc_ip_hex BETWEEN \'v6-00000000000000000000000E00000000\'' .
-					' AND \'v6-00000000000000000000000EFFFFFFFF\'' ],
-			],
-			'IPv6 /96 range for cu_private_event and XFF' => [
-				'::e:f:2001/96',
-				CheckUserQueryInterface::PRIVATE_LOG_EVENT_TABLE,
-				true,
-				[ 0 => 'cupe_xff_hex BETWEEN \'v6-00000000000000000000000E00000000\'' .
-					' AND \'v6-00000000000000000000000EFFFFFFFF\'' ],
-			],
-			'Invalid IP address' => [
-				'abcedf',
-				CheckUserQueryInterface::CHANGES_TABLE,
-				false,
-				false
-			]
-		];
-	}
-
-	public function testGetIpCondsLowerThanLimit() {
-		$this->testGetIpConds(
-			"0.17.184.5/15",
-			CheckUserQueryInterface::CHANGES_TABLE,
-			false,
-			false
-		);
-		$this->testGetIpConds(
-			"2000::/18",
-			CheckUserQueryInterface::PRIVATE_LOG_EVENT_TABLE,
-			true,
-			false
-		);
-	}
-
-	/** @dataProvider provideIsValidRange */
-	public function testIsValidRange( $target, $expected ) {
-		# Mock config on main request context.
-		RequestContext::getMain()->setConfig(
-			new HashConfig( [ 'CheckUserCIDRLimit' => [
-				'IPv4' => 16,
-				'IPv6' => 19,
-			] ] )
-		);
-		$this->assertSame(
-			$expected,
-			AbstractCheckUserPager::isValidRange( $target )
-		);
-	}
-
-	/**
-	 * Test cases for AbstractCheckUserPager::isValid
-	 */
-	public static function provideIsValidRange() {
-		return [
-			'Single IPv4 address' => [ '212.35.31.121', true ],
-			'Single IPv4 address notated as a /32' => [ '212.35.31.121/32', true ],
-			'Single IPv6 address' => [ '::e:f:2001', true ],
-			'IPv6 /96 range' => [ '::e:f:2001/96', true ],
-			'Invalid IP address' => [ 'abcedf', false ]
-		];
-	}
-
-	public function testIsValidRangeLowerThanLimit() {
-		$this->testIsValidRange( "0.17.184.5/15", false );
-		$this->testIsValidRange( "2000::/18", false );
 	}
 
 	/** @dataProvider provideBuildQueryInfo */

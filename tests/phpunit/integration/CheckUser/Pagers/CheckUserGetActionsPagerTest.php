@@ -346,6 +346,14 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 	/** @dataProvider provideGetQueryInfo */
 	public function testGetQueryInfo( $target, $xfor, $table, $expectedQueryInfo ) {
 		$this->overrideConfigValue( 'CheckUserCIDRLimit', [ 'IPv4' => 16, 'IPv6' => 19 ] );
+		if ( IPUtils::isIPAddress( $target->getName() ) ) {
+			// Add the IExpression for the IP target as a string to the expected query info for comparison.
+			// This is done for IP targets as we cannot add the SQL representation of the IExpression result
+			// in the static data provider because it does not have access to the service container.
+			$expectedQueryInfo['conds'][] = $this->getServiceContainer()->get( 'CheckUserLookupUtils' )
+				->getIPTargetExpr( $target, $xfor, $table )
+				->toSql( $this->getDb() );
+		}
 		$this->commonTestGetQueryInfo( $target, $xfor, $table, $expectedQueryInfo );
 	}
 
@@ -362,7 +370,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 				// added by ::getQueryInfo and not the info added by the table specific methods).
 				[
 					'tables' => [ 'cu_changes' ],
-					'conds' => [ 'cuc_ip_hex' => IPUtils::toHex( '127.0.0.1' ), 'cuc_only_for_read_old' => 0 ],
+					'conds' => [ 'cuc_only_for_read_old' => 0 ],
 					'options' => [ 'USE INDEX' => [ 'cu_changes' => 'cuc_ip_hex_time' ] ],
 					// Verify that fields and join_conds set as arrays, but we are not testing their values.
 					'fields' => [], 'join_conds' => [],
@@ -372,7 +380,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 				UserIdentityValue::newAnonymous( '127.0.0.1' ), false, 'cu_log_event',
 				[
 					'tables' => [ 'cu_log_event' ],
-					'conds' => [ 'cule_ip_hex' => IPUtils::toHex( '127.0.0.1' ) ],
+					'conds' => [],
 					'options' => [ 'USE INDEX' => [ 'cu_log_event' => 'cule_ip_hex_time' ] ],
 					'fields' => [], 'join_conds' => [],
 				]
@@ -381,7 +389,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 				UserIdentityValue::newAnonymous( '127.0.0.1' ), false, 'cu_private_event',
 				[
 					'tables' => [ 'cu_private_event' ],
-					'conds' => [ 'cupe_ip_hex' => IPUtils::toHex( '127.0.0.1' ) ],
+					'conds' => [],
 					'options' => [ 'USE INDEX' => [ 'cu_private_event' => 'cupe_ip_hex_time' ] ],
 					'fields' => [], 'join_conds' => [],
 				]
@@ -390,7 +398,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 				UserIdentityValue::newAnonymous( '127.0.0.1' ), true, 'cu_private_event',
 				[
 					'tables' => [ 'cu_private_event' ],
-					'conds' => [ 'cupe_xff_hex' => IPUtils::toHex( '127.0.0.1' ) ],
+					'conds' => [],
 					'options' => [ 'USE INDEX' => [ 'cu_private_event' => 'cupe_xff_hex_time' ] ],
 					'fields' => [], 'join_conds' => [],
 				]

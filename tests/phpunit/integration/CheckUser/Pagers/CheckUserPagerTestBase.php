@@ -6,6 +6,7 @@ use MediaWiki\Context\RequestContext;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\User\UserIdentity;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\Rdbms\IExpression;
 use Wikimedia\TestingAccessWrapper;
 
 abstract class CheckUserPagerTestBase extends MediaWikiIntegrationTestCase {
@@ -30,9 +31,16 @@ abstract class CheckUserPagerTestBase extends MediaWikiIntegrationTestCase {
 		$object = $this->setUpObject();
 		$object->target = $target;
 		$object->xfor = $xfor;
+		$actualQueryInfo = $object->getQueryInfo( $table );
+		// Convert any IExpression objects to SQL so that they can be compared as strings.
+		foreach ( $actualQueryInfo['conds'] as $key => $value ) {
+			if ( $value instanceof IExpression ) {
+				$actualQueryInfo['conds'][$key] = $value->toSql( $this->getDb() );
+			}
+		}
 		$this->assertArraySubmapSame(
 			$expectedQueryInfo,
-			$object->getQueryInfo( $table ),
+			$actualQueryInfo,
 			'::getQueryInfo did not return the expected result.'
 		);
 	}

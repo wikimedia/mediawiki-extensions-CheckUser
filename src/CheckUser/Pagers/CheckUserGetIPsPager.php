@@ -173,20 +173,21 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 	 * Return the number of actions performed by all users
 	 * and the current target on a given IP or IP range.
 	 *
-	 * @param string $ip_or_range The IP or IP range to get the counts from.
+	 * @param string $ipOrRange The IP or IP range to get the counts from.
 	 * @param string $table The table to get these results from (valid tables in self::RESULT_TABLES).
 	 * @return array<string, integer>|null
 	 */
-	protected function getCountForIPActionsPerTable( string $ip_or_range, string $table ): ?array {
-		$conds = self::getIpConds( $this->mDb, $ip_or_range, false, $table );
-		if ( !$conds ) {
+	protected function getCountForIPActionsPerTable( string $ipOrRange, string $table ): ?array {
+		// Get the IExpression which allows selecting results for the IP or IP range.
+		$expr = $this->checkUserLookupUtils->getIPTargetExpr( $ipOrRange, false, $table );
+		if ( $expr === null ) {
+			// Return null if no target conditions could be generated.
 			return null;
 		}
 		// We are only using startOffset for the period feature.
 		if ( $this->startOffset ) {
-			$conds[] = $this->mDb->buildComparison(
-				'>=', [ $this->getTimestampField( $table ) => $this->startOffset ]
-			);
+			$expr = $this->mDb->expr( $this->getTimestampField( $table ), '>=', $this->startOffset )
+				->andExpr( $expr );
 		}
 
 		// If the $table is cu_changes and event table migration
@@ -194,13 +195,14 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 		// cuc_only_for_read_old equal to 0 to prevent duplicate
 		// rows appearing.
 		if ( $this->eventTableReadNew && $table === self::CHANGES_TABLE ) {
-			$conds['cuc_only_for_read_old'] = 0;
+			$expr = $this->mDb->expr( 'cuc_only_for_read_old', '=', 0 )
+				->andExpr( $expr );
 		}
 
 		// Get counts for this IP / IP range
 		$query = $this->mDb->newSelectQueryBuilder()
 			->table( $table )
-			->conds( $conds )
+			->conds( $expr )
 			->caller( __METHOD__ );
 		$ipEdits = $query->estimateRowCount();
 		// If small enough, get a more accurate count
@@ -209,7 +211,8 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 		}
 
 		// Get counts for the target on this IP / IP range
-		$conds['actor_user'] = $this->target->getId();
+		$expr = $this->mDb->expr( 'actor_user', '=', $this->target->getId() )
+			->andExpr( $expr );
 		$query = $this->mDb->newSelectQueryBuilder()
 			->table( $table )
 			->join(
@@ -217,7 +220,7 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 				"{$table}_actor",
 				"{$table}_actor.actor_id = {$this::RESULT_TABLE_TO_PREFIX[$table]}actor"
 			)
-			->conds( $conds )
+			->conds( $expr )
 			->caller( __METHOD__ );
 		$userOnIpEdits = $query->estimateRowCount();
 		// If small enough, get a more accurate count

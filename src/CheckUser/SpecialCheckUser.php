@@ -353,7 +353,7 @@ class SpecialCheckUser extends SpecialPage {
 			} elseif ( $checkType == self::SUBTYPE_GET_ACTIONS ) {
 				if ( $isIP && $userIdentity ) {
 					// Target is a IP or range
-					if ( !AbstractCheckUserPager::isValidRange( $userIdentity->getName() ) ) {
+					if ( !$this->checkUserLookupUtils->isValidIPOrRange( $userIdentity->getName() ) ) {
 						$out->addWikiMsg( 'checkuser-range-outside-limit', $userIdentity->getName() );
 					} else {
 						$logType = $xfor ? 'ipedits-xff' : 'ipedits';
@@ -381,7 +381,7 @@ class SpecialCheckUser extends SpecialPage {
 			} elseif ( $checkType == self::SUBTYPE_GET_USERS ) {
 				if ( !$isIP || !$userIdentity ) {
 					$out->addWikiMsg( 'badipaddress' );
-				} elseif ( !AbstractCheckUserPager::isValidRange( $userIdentity->getName() ) ) {
+				} elseif ( !$this->checkUserLookupUtils->isValidIPOrRange( $userIdentity->getName() ) ) {
 					$out->addWikiMsg( 'checkuser-range-outside-limit', $userIdentity->getName() );
 				} else {
 					$logType = $xfor ? 'ipusers-xff' : 'ipusers';

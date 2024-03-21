@@ -451,9 +451,9 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		$queryInfo['options']['USE INDEX'] = [
 			$table => $this->checkUserLookupUtils->getIndexName( $this->xfor, $table )
 		];
-		$ipConds = self::getIpConds( $this->mDb, $this->target->getName(), $this->xfor, $table );
-		if ( $ipConds ) {
-			$queryInfo['conds'] = array_merge( $queryInfo['conds'], $ipConds );
+		$ipExpr = $this->checkUserLookupUtils->getIPTargetExpr( $this->target->getName(), $this->xfor, $table );
+		if ( $ipExpr !== null ) {
+			$queryInfo['conds'][] = $ipExpr;
 		}
 
 		return $queryInfo;
