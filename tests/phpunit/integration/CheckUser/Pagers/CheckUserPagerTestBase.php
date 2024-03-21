@@ -26,6 +26,17 @@ abstract class CheckUserPagerTestBase extends MediaWikiIntegrationTestCase {
 	 */
 	abstract protected function getDefaultRowFieldValues(): array;
 
+	protected function commonTestGetQueryInfo( $target, $xfor, $table, $expectedQueryInfo ) {
+		$object = $this->setUpObject();
+		$object->target = $target;
+		$object->xfor = $xfor;
+		$this->assertArraySubmapSame(
+			$expectedQueryInfo,
+			$object->getQueryInfo( $table ),
+			'::getQueryInfo did not return the expected result.'
+		);
+	}
+
 	/**
 	 * Set up the object for the pager that is being tested
 	 * wrapped in a TestingAccessWrapper so that the tests

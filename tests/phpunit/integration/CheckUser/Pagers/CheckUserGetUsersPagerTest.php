@@ -10,6 +10,7 @@ use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
 use MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers\Mocks\MockTemplateParser;
 use MediaWiki\User\UserIdentityValue;
+use Wikimedia\IPUtils;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
@@ -205,6 +206,61 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 		return [
 			'Can perform blocks' => [ true ],
 			'Cannot perform blocks' => [ false ],
+		];
+	}
+
+	/** @dataProvider provideGetQueryInfo */
+	public function testGetQueryInfo( $xfor, $table, $expectedQueryInfo ) {
+		$this->overrideConfigValue( 'CheckUserCIDRLimit', [ 'IPv4' => 16, 'IPv6' => 19 ] );
+		$this->commonTestGetQueryInfo(
+			UserIdentityValue::newAnonymous( '127.0.0.1' ), $xfor, $table, $expectedQueryInfo
+		);
+	}
+
+	public static function provideGetQueryInfo() {
+		return [
+			'cu_changes table' => [
+				// The xfor property of the object (false for normal IP address or true for XFF IP)
+				false,
+				// The $table argument to ::getQueryInfo
+				'cu_changes',
+				// The expected query info returned by ::getQueryInfo (we are only interested in testing the query info
+				// added by ::getQueryInfo and not the info added by the table specific methods).
+				[
+					'tables' => [ 'cu_changes' ],
+					'conds' => [ 'cuc_only_for_read_old' => 0, 'cuc_ip_hex' => IPUtils::toHex( '127.0.0.1' ) ],
+					'options' => [ 'USE INDEX' => [ 'cu_changes' => 'cuc_ip_hex_time' ] ],
+					// Verify that fields and join_conds set as arrays, but we are not testing their values.
+					'fields' => [], 'join_conds' => [],
+				]
+			],
+			'cu_log_event table' => [
+				false, 'cu_log_event',
+				[
+					'tables' => [ 'cu_log_event' ],
+					'conds' => [ 'cule_ip_hex' => IPUtils::toHex( '127.0.0.1' ) ],
+					'options' => [ 'USE INDEX' => [ 'cu_log_event' => 'cule_ip_hex_time' ] ],
+					'fields' => [], 'join_conds' => [],
+				]
+			],
+			'cu_private_event table' => [
+				false, 'cu_private_event',
+				[
+					'tables' => [ 'cu_private_event' ],
+					'conds' => [ 'cupe_ip_hex' => IPUtils::toHex( '127.0.0.1' ) ],
+					'options' => [ 'USE INDEX' => [ 'cu_private_event' => 'cupe_ip_hex_time' ] ],
+					'fields' => [], 'join_conds' => [],
+				]
+			],
+			'cu_changes table with XFF IP' => [
+				true, 'cu_changes',
+				[
+					'tables' => [ 'cu_changes' ],
+					'conds' => [ 'cuc_only_for_read_old' => 0, 'cuc_xff_hex' => IPUtils::toHex( '127.0.0.1' ) ],
+					'options' => [ 'USE INDEX' => [ 'cu_changes' => 'cuc_xff_hex_time' ] ],
+					'fields' => [], 'join_conds' => [],
+				]
+			],
 		];
 	}
 

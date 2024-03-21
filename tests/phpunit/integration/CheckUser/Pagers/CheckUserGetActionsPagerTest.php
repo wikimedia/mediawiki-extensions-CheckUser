@@ -343,6 +343,70 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 		);
 	}
 
+	/** @dataProvider provideGetQueryInfo */
+	public function testGetQueryInfo( $target, $xfor, $table, $expectedQueryInfo ) {
+		$this->overrideConfigValue( 'CheckUserCIDRLimit', [ 'IPv4' => 16, 'IPv6' => 19 ] );
+		$this->commonTestGetQueryInfo( $target, $xfor, $table, $expectedQueryInfo );
+	}
+
+	public static function provideGetQueryInfo() {
+		return [
+			'cu_changes table for IP address' => [
+				// The target of the check
+				UserIdentityValue::newAnonymous( '127.0.0.1' ),
+				// The xfor property of the object (false for normal IP address, true for XFF IP, null for user target)
+				false,
+				// The $table argument to ::getQueryInfo
+				'cu_changes',
+				// The expected query info returned by ::getQueryInfo (we are only interested in testing the query info
+				// added by ::getQueryInfo and not the info added by the table specific methods).
+				[
+					'tables' => [ 'cu_changes' ],
+					'conds' => [ 'cuc_ip_hex' => IPUtils::toHex( '127.0.0.1' ), 'cuc_only_for_read_old' => 0 ],
+					'options' => [ 'USE INDEX' => [ 'cu_changes' => 'cuc_ip_hex_time' ] ],
+					// Verify that fields and join_conds set as arrays, but we are not testing their values.
+					'fields' => [], 'join_conds' => [],
+				]
+			],
+			'cu_log_event table for IP address' => [
+				UserIdentityValue::newAnonymous( '127.0.0.1' ), false, 'cu_log_event',
+				[
+					'tables' => [ 'cu_log_event' ],
+					'conds' => [ 'cule_ip_hex' => IPUtils::toHex( '127.0.0.1' ) ],
+					'options' => [ 'USE INDEX' => [ 'cu_log_event' => 'cule_ip_hex_time' ] ],
+					'fields' => [], 'join_conds' => [],
+				]
+			],
+			'cu_private_event table for IP address' => [
+				UserIdentityValue::newAnonymous( '127.0.0.1' ), false, 'cu_private_event',
+				[
+					'tables' => [ 'cu_private_event' ],
+					'conds' => [ 'cupe_ip_hex' => IPUtils::toHex( '127.0.0.1' ) ],
+					'options' => [ 'USE INDEX' => [ 'cu_private_event' => 'cupe_ip_hex_time' ] ],
+					'fields' => [], 'join_conds' => [],
+				]
+			],
+			'cu_private_event table for XFF IP address' => [
+				UserIdentityValue::newAnonymous( '127.0.0.1' ), true, 'cu_private_event',
+				[
+					'tables' => [ 'cu_private_event' ],
+					'conds' => [ 'cupe_xff_hex' => IPUtils::toHex( '127.0.0.1' ) ],
+					'options' => [ 'USE INDEX' => [ 'cu_private_event' => 'cupe_xff_hex_time' ] ],
+					'fields' => [], 'join_conds' => [],
+				]
+			],
+			'cu_log_event table for user target' => [
+				UserIdentityValue::newRegistered( 1, 'Testing' ), null, 'cu_log_event',
+				[
+					'tables' => [ 'cu_log_event' ],
+					'conds' => [ 'actor_user' => 1 ],
+					'options' => [ 'USE INDEX' => [ 'cu_log_event' => 'cule_actor_ip_time' ] ],
+					'fields' => [], 'join_conds' => [],
+				]
+			],
+		];
+	}
+
 	/** @inheritDoc */
 	public function getDefaultRowFieldValues(): array {
 		$fieldValues = [
