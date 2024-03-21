@@ -673,10 +673,14 @@ class Hooks implements
 			->caller( __METHOD__ )
 			->fetchResultSet();
 
+		$databaseBlockStore = $services
+			->getDatabaseBlockStoreFactory()
+			->getDatabaseBlockStore( $block->getWikiId() );
+
 		# Iterate through IPs used (this is just one or zero for now)
 		foreach ( $res as $row ) {
 			if ( $row->cuc_ip ) {
-				$id = $block->doAutoblock( $row->cuc_ip );
+				$id = $databaseBlockStore->doAutoblock( $block, $row->cuc_ip );
 				if ( $id ) {
 					$blockIds[] = $id;
 				}
