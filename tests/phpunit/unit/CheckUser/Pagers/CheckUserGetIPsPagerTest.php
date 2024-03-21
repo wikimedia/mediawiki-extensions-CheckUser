@@ -3,7 +3,6 @@
 namespace MediaWiki\CheckUser\Tests\Unit\CheckUser\Pagers;
 
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager;
-use MediaWiki\User\UserIdentityValue;
 use Wikimedia\IPUtils;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
@@ -20,68 +19,6 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerUnitTestBase {
 	/** @inheritDoc */
 	protected function getPagerClass(): string {
 		return CheckUserGetIPsPager::class;
-	}
-
-	/** @dataProvider provideGetQueryInfo */
-	public function testGetQueryInfo( $table, $tableSpecificQueryInfo, $expectedQueryInfo ) {
-		$this->commonTestGetQueryInfo(
-			UserIdentityValue::newRegistered( 1, 'Testing' ), null,
-			$table, $tableSpecificQueryInfo, $expectedQueryInfo
-		);
-	}
-
-	public static function provideGetQueryInfo() {
-		return [
-			'cu_changes table' => [
-				'cu_changes', [
-					'tables' => [ 'cu_changes' ],
-					'conds' => [ 'cuc_only_for_read_old' => 0 ],
-					'fields' => [], 'options' => [], 'join_conds' => [],
-				],
-				[
-					'tables' => [ 'cu_changes' ],
-					'conds' => [ 'actor_user' => 1, 'cuc_only_for_read_old' => 0 ],
-					'fields' => [],
-					'options' => [
-						'USE INDEX' => [ 'cu_changes' => 'cuc_actor_ip_time' ],
-						'GROUP BY' => [ 'ip', 'ip_hex' ]
-					],
-					'join_conds' => [],
-				]
-			],
-			'cu_log_event table' => [
-				'cu_log_event', [
-					'tables' => [ 'cu_log_event' ], 'conds' => [],
-					'fields' => [], 'options' => [], 'join_conds' => [],
-				],
-				[
-					'tables' => [ 'cu_log_event' ],
-					'conds' => [ 'actor_user' => 1 ],
-					'fields' => [],
-					'options' => [
-						'USE INDEX' => [ 'cu_log_event' => 'cule_actor_ip_time' ],
-						'GROUP BY' => [ 'ip', 'ip_hex' ]
-					],
-					'join_conds' => [],
-				]
-			],
-			'cu_private_event table' => [
-				'cu_private_event', [
-					'tables' => [ 'cu_private_event' ], 'conds' => [],
-					'fields' => [], 'options' => [], 'join_conds' => [],
-				],
-				[
-					'tables' => [ 'cu_private_event' ],
-					'conds' => [ 'actor_user' => 1 ],
-					'fields' => [],
-					'options' => [
-						'USE INDEX' => [ 'cu_private_event' => 'cupe_actor_ip_time' ],
-						'GROUP BY' => [ 'ip', 'ip_hex' ]
-					],
-					'join_conds' => [],
-				]
-			],
-		];
 	}
 
 	/** @dataProvider provideGetQueryInfoForCuChanges */

@@ -7,10 +7,6 @@ use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
-use MediaWiki\Config\HashConfig;
-use MediaWiki\User\UserIdentityValue;
-use RequestContext;
-use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
@@ -57,67 +53,6 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 			->getMock();
 		$this->expectException( LogicException::class );
 		$object->getQueryInfo( null );
-	}
-
-	/** @dataProvider provideGetQueryInfo */
-	public function testGetQueryInfo( $table, $tableSpecificQueryInfo, $expectedQueryInfo ) {
-		// Mock config on main request context for ::getIpConds which is static
-		// and gets the config from the main request.
-		RequestContext::getMain()->setConfig(
-			new HashConfig( [ 'CheckUserCIDRLimit' => [
-				'IPv4' => 16,
-				'IPv6' => 19,
-			] ] )
-		);
-		$this->commonTestGetQueryInfo(
-			UserIdentityValue::newAnonymous( '127.0.0.1' ), false,
-			$table, $tableSpecificQueryInfo, $expectedQueryInfo
-		);
-	}
-
-	public static function provideGetQueryInfo() {
-		return [
-			'cu_changes table' => [
-				'cu_changes', [
-					'tables' => [ 'cu_changes' ],
-					'conds' => [ 'cuc_only_for_read_old' => 0 ],
-					'fields' => [], 'options' => [], 'join_conds' => [],
-				],
-				[
-					'tables' => [ 'cu_changes' ],
-					'conds' => [ 'cuc_ip_hex' => IPUtils::toHex( '127.0.0.1' ), 'cuc_only_for_read_old' => 0 ],
-					'fields' => [],
-					'options' => [ 'USE INDEX' => [ 'cu_changes' => 'cuc_ip_hex_time' ] ],
-					'join_conds' => [],
-				]
-			],
-			'cu_log_event table' => [
-				'cu_log_event', [
-					'tables' => [ 'cu_log_event' ], 'conds' => [],
-					'fields' => [], 'options' => [], 'join_conds' => [],
-				],
-				[
-					'tables' => [ 'cu_log_event' ],
-					'conds' => [ 'cule_ip_hex' => IPUtils::toHex( '127.0.0.1' ) ],
-					'fields' => [],
-					'options' => [ 'USE INDEX' => [ 'cu_log_event' => 'cule_ip_hex_time' ] ],
-					'join_conds' => [],
-				]
-			],
-			'cu_private_event table' => [
-				'cu_private_event', [
-					'tables' => [ 'cu_private_event' ], 'conds' => [],
-					'fields' => [], 'options' => [], 'join_conds' => [],
-				],
-				[
-					'tables' => [ 'cu_private_event' ],
-					'conds' => [ 'cupe_ip_hex' => IPUtils::toHex( '127.0.0.1' ) ],
-					'fields' => [],
-					'options' => [ 'USE INDEX' => [ 'cu_private_event' => 'cupe_ip_hex_time' ] ],
-					'join_conds' => [],
-				]
-			],
-		];
 	}
 
 	/** @dataProvider provideGetQueryInfoForCuChanges */
