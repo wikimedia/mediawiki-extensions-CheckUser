@@ -28,6 +28,7 @@
 	"right-checkuser-temporary-account-no-preference": "Vise IP-adresser som brukes av midlertidige kontoer uten å måtte huke av for det i innstillingene",
 	"right-checkuser-temporary-account-log": "Vise loggen over tilganger til midlertidige kontoers IP-adresser",
 	"grant-checkuser": "Få tilgang til IP-kontrolldata",
+	"grant-checkuser-temporary-account": "Få tilgang til IP-sjekkdata for midlertidige kontoer",
 	"action-checkuser": "sjekke brukeres IP-adresser og annen informasjon",
 	"action-checkuser-log": "se IP-kontrolloggen",
 	"action-checkuser-temporary-account": "vise IP-adresser brukt av midlertidige kontoer",
