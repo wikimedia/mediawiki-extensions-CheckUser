@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Api\CheckUser;
 
+use InvalidArgumentException;
 use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
 use MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserAbstractResponse;
 use MediaWiki\Context\RequestContext;
@@ -101,5 +102,26 @@ class ApiQueryCheckUserAbstractResponseTest extends MediaWikiIntegrationTestCase
 				[ 'reason' => 'test', 'timecond' => 'invalid', 'limit' => 1, 'target' => 'Test' ],
 			],
 		];
+	}
+
+	public function testGetQueryBuilderForTableOnInvalidTable() {
+		$this->expectException( InvalidArgumentException::class );
+		$mockApiQueryCheckUser = $this->createMock( ApiQueryCheckUser::class );
+		$mockApiQueryCheckUser->method( 'extractRequestParams' )
+			->willReturn( [
+				'request' => 'actions', 'target' => 'Test', 'reason' => '', 'timecond' => '-3 months', 'limit' => '50'
+			] );
+		$objectUnderTest = $this->getMockBuilder( ApiQueryCheckUserAbstractResponse::class )
+			->setConstructorArgs( [
+				$mockApiQueryCheckUser,
+				$this->getServiceContainer()->getConnectionProvider(),
+				$this->getServiceContainer()->getMainConfig(),
+				RequestContext::getMain(),
+				$this->getServiceContainer()->get( 'CheckUserLogService' ),
+				$this->getServiceContainer()->getUserNameUtils(),
+				$this->getServiceContainer()->get( 'CheckUserLookupUtils' )
+			] )->getMockForAbstractClass();
+		$objectUnderTest = TestingAccessWrapper::newFromObject( $objectUnderTest );
+		$objectUnderTest->getQueryBuilderForTable( 'invalid_table' );
 	}
 }
