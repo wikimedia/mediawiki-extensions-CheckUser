@@ -2,7 +2,10 @@
 
 namespace MediaWiki\CheckUser\Api\CheckUser;
 
+use LogFormatter;
 use LogicException;
+use LogPage;
+use ManualLogEntry;
 use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
@@ -11,11 +14,15 @@ use MediaWiki\Config\Config;
 use MediaWiki\Revision\ArchivedRevisionLookup;
 use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
+use MediaWiki\Title\Title;
 use MediaWiki\User\UserFactory;
+use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
+use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserNameUtils;
 use MessageLocalizer;
 use stdClass;
+use Wikimedia\AtEase\AtEase;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
@@ -97,7 +104,7 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 				'agent'     => $row->agent,
 			];
 
-			$summary = $this->getSummary( $row );
+			$summary = $this->getSummary( $row, new UserIdentityValue( $row->user ?? 0, $row->user_text ) );
 			if ( $summary !== null ) {
 				$action['summary'] = $summary;
 			}
@@ -163,18 +170,55 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 	}
 
 	/**
-	 * Gets the summary text associated with the given $row.
+	 * Gets the summary text associated with the given $row. This is a combination of the actiontext
+	 * and any comment left.
 	 *
 	 * @param stdClass $row The database row
-	 * @return ?string The summary text, or null if there is no summary text.
+	 * @param UserIdentity $user The user who is the performer for this row.
+	 * @return ?string The comment and action text combined together into a plaintext string, or null if there is no
+	 *   comment or action text.
 	 */
-	private function getSummary( stdClass $row ): ?string {
-		$comment = $this->commentStore->getComment( 'cuc_comment', $row )->text;
-
-		if ( $row->actiontext ) {
-			return $row->actiontext;
-		} elseif ( $comment ) {
-			return $comment;
+	private function getSummary( stdClass $row, UserIdentity $user ): ?string {
+		if ( $this->eventTableReadNew && $row->type == RC_LOG && isset( $row->log_type ) && $row->log_type ) {
+			// Log action text taken from the LogFormatter for the entry being displayed.
+			$logEntry = new ManualLogEntry( $row->log_type, $row->log_action );
+			if ( $row->log_params !== null ) {
+				// Suppress E_NOTICE from PHP's unserialize if the log parameters are legacy parameters.
+				// This is similar to DatabaseLogEntry::getParameters.
+				AtEase::suppressWarnings();
+				$parsedLogParams = ManualLogEntry::extractParams( $row->log_params );
+				AtEase::restoreWarnings();
+				if ( $parsedLogParams === false ) {
+					// Use the LogPage::extractParams method to extract the log parameters as they are probably
+					// legacy parameters.
+					$parsedLogParams = LogPage::extractParams( $row->log_params );
+					$logEntry->setLegacy( true );
+				}
+				$logEntry->setParameters( $parsedLogParams );
+			}
+			$logEntry->setPerformer( $user );
+			if ( $row->title ) {
+				$logEntry->setTarget( Title::makeTitle( $row->namespace, $row->title ) );
+			} elseif ( $row->page ) {
+				$logEntry->setTarget( Title::newFromID( $row->page ) );
+			}
+			$logEntry->setTimestamp( $row->timestamp );
+			$logEntry->setDeleted( $row->log_deleted );
+			$logFormatter = LogFormatter::newFromEntry( $logEntry );
+			$logFormatter->setAudience( LogFormatter::FOR_THIS_USER );
+			$actionText = $logFormatter->getPlainActionText();
+		} else {
+			$actionText = $row->actiontext ?? '';
+		}
+		// Add the comment if there is one
+		$comment = $this->commentStore->getComment( 'comment', $row )->text;
+		if ( $comment !== '' && $actionText !== '' ) {
+			// If there is both an actiontext and a comment, we need to make it clear that the comment
+			// is separate from the actiontext. We do this by adding parentheses around the comment.
+			return $actionText . ' ' . $this->messageLocalizer->msg( 'parentheses', $comment )->text();
+		} elseif ( $comment !== '' || $actionText !== '' ) {
+			// One of these will be empty, so we can just concatenate them together to return one of them.
+			return $actionText . $comment;
 		} else {
 			return null;
 		}
