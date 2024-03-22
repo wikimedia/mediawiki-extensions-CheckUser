@@ -12,6 +12,7 @@ use MediaWiki\CheckUser\Investigate\Services\TimelineService;
 use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
 use MediaWiki\CheckUser\Investigate\Utilities\EventLogger;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
+use MediaWiki\CheckUser\Services\ApiQueryCheckUserResponseFactory;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
@@ -221,6 +222,23 @@ return [
 				UserAgentClientHintsFormatter::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
 			)
+		);
+	},
+	'ApiQueryCheckUserResponseFactory' => static function (
+		MediaWikiServices $services
+	): ApiQueryCheckUserResponseFactory {
+		return new ApiQueryCheckUserResponseFactory(
+			$services->getDBLoadBalancerFactory(),
+			$services->getMainConfig(),
+			RequestContext::getMain(),
+			$services->get( 'CheckUserLogService' ),
+			$services->getUserNameUtils(),
+			$services->get( 'CheckUserLookupUtils' ),
+			$services->getUserIdentityLookup(),
+			$services->getCommentStore(),
+			$services->getRevisionStore(),
+			$services->getArchivedRevisionLookup(),
+			$services->getUserFactory()
 		);
 	},
 ];
