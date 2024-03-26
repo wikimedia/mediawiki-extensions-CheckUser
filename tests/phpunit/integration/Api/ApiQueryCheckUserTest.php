@@ -129,14 +129,27 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		];
 	}
 
-	public function testMissingRequiredReason() {
+	public function testMissingReasonWhenReasonRequired() {
 		// enable required reason
 		$this->setMwGlobals( 'wgCheckUserForceSummary', true );
-		$this->setExpectedApiException( 'apierror-checkuser-missingsummary', 'missingdata' );
+		$this->expectApiErrorCode( 'missingparam' );
 		$this->doCheckUserApiRequest(
 			[
 				'curequest' => 'actions',
 				'cutarget' => $this->getTestUser()->getUserIdentity()->getName()
+			]
+		);
+	}
+
+	public function testEmptyReasonWhenReasonRequired() {
+		// enable required reason
+		$this->setMwGlobals( 'wgCheckUserForceSummary', true );
+		$this->expectApiErrorCode( 'missingdata' );
+		$this->doCheckUserApiRequest(
+			[
+				'curequest' => 'actions',
+				'cutarget' => $this->getTestUser()->getUserIdentity()->getName(),
+				'cureason' => "\n",
 			]
 		);
 	}
@@ -319,6 +332,21 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 			'userips' => [ 'userips' ],
 			'actions' => [ 'actions' ],
 		];
+	}
+
+	/** @dataProvider provideCuRequestTypesThatAcceptAUsernameTarget */
+	public function testInvalidUsername( $requestType ) {
+		$this->expectApiErrorCode( 'baduser' );
+		$this->doCheckUserApiRequest(
+			[ 'curequest' => $requestType, 'cutarget' => '#', 'cutimecond' => '-3 months' ]
+		);
+	}
+
+	public function testActionsForOverRangeIPTarget() {
+		$this->expectApiErrorCode( 'invalidip' );
+		$this->doCheckUserApiRequest(
+			[ 'curequest' => 'actions', 'cutarget' => '1.2.3.4/2', 'cutimecond' => '-3 months' ]
+		);
 	}
 
 	public function testIpUsersForInvalidIP() {
