@@ -507,6 +507,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	public static function getIpConds(
 		DbQuoter $quoter, string $target, bool $xfor = false, string $table = self::CHANGES_TABLE
 	) {
+		wfDeprecated( __METHOD__, '1.42' );
 		$expr = MediaWikiServices::getInstance()->get( 'CheckUserLookupUtils' )
 			->getIPTargetExpr( $target, $xfor, $table );
 		if ( $expr === null ) {
