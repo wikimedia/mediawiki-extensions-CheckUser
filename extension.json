@@ -270,6 +270,17 @@
 		"SchemaChanges": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\SchemaChangesHandler"
 		},
+		"Contributions": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\ContributionsHandler",
+			"services": [
+				"MainConfig",
+				"PermissionManager",
+				"DBLoadBalancerFactory",
+				"TempUserConfig",
+				"UserOptionsLookup",
+				"CheckUserLookupUtils"
+			]
+		},
 		"ToolLinks": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\ToolLinksHandler",
 			"services": [
@@ -301,6 +312,7 @@
 	},
 	"Hooks": {
 		"AuthManagerLoginAuthenticateAudit": "Hooks",
+		"ContribsPager::getQueryInfo": "Contributions",
 		"BeforePageDisplay": [
 			"clienthints",
 			"pageDisplay"
