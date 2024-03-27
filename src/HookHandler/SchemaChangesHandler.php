@@ -309,6 +309,11 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook {
 			'cuc_agent_id',
 			"$base/$dbType/patch-cu_changes-add-cuc_agent_id.sql"
 		);
+		$updater->addExtensionField(
+			'cu_log_event',
+			'cule_agent_id',
+			"$base/$dbType/patch-cu_log_event-add-cule_agent_id.sql"
+		);
 
 		if ( !$isCUInstalled ) {
 			// First time so populate cu_changes with recentchanges data.

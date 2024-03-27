@@ -41,6 +41,7 @@ CREATE TABLE /*_*/cu_log_event (
   cule_xff VARBINARY(255) DEFAULT '',
   cule_xff_hex VARCHAR(255) DEFAULT NULL,
   cule_agent VARBINARY(255) DEFAULT NULL,
+  cule_agent_id BIGINT UNSIGNED DEFAULT 0 NOT NULL,
   INDEX cule_ip_hex_time (cule_ip_hex, cule_timestamp),
   INDEX cule_xff_hex_time (cule_xff_hex, cule_timestamp),
   INDEX cule_timestamp (cule_timestamp),

@@ -45,6 +45,7 @@ CREATE TABLE cu_log_event (
   cule_xff TEXT DEFAULT '',
   cule_xff_hex VARCHAR(255) DEFAULT NULL,
   cule_agent TEXT DEFAULT NULL,
+  cule_agent_id BIGINT DEFAULT 0 NOT NULL,
   PRIMARY KEY(cule_id)
 );
 
