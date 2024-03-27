@@ -14,7 +14,7 @@
 	"apihelp-query+checkuser-param-limit": "Ограничение количества строк.",
 	"apihelp-query+checkuser-param-timecond": "Ограничение по времени для данных об участнике (например, «-2 weeks» или «2 weeks ago»).",
 	"apihelp-query+checkuser-param-xff": "Использовать XFF-данные вместо IP-адреса.",
-	"apihelp-query+checkuser-example-1": "Проверить IP-адреса [[User:Example]]",
+	"apihelp-query+checkuser-example-1": "Получить IP-адреса [[User:Example]]",
 	"apihelp-query+checkuser-example-2": "Проверить правки с 192.0.2.0/24",
 	"apihelp-query+checkuserlog-summary": "Получить записи из журнала проверки участников.",
 	"apihelp-query+checkuserlog-param-user": "Имя пользователя чекюзера.",
