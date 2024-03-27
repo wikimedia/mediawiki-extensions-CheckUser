@@ -11,7 +11,6 @@ use MediaWiki\Auth\AuthManager;
 use MediaWiki\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\CheckUser\Hooks as CheckUserHooks;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
-use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Title\Title;
@@ -147,7 +146,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			$this->fatalError( 'Number of anon users making edits should not exceed the number of IPs used.' );
 		}
 
-		if ( !$this->getConfig()->get( MainConfigNames::AutoCreateTempUser )['enabled'] ) {
+		if ( !$this->getServiceContainer()->getTempUserConfig()->isEnabled() ) {
 			// Only add temporary users if temporary user creation is enabled.
 			$numTemp = 0;
 		}
