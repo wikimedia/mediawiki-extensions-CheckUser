@@ -20,6 +20,7 @@ CREATE TABLE /*_*/cu_changes (
   cuc_xff BLOB DEFAULT '',
   cuc_xff_hex VARCHAR(255) DEFAULT NULL,
   cuc_agent BLOB DEFAULT NULL,
+  cuc_agent_id BIGINT UNSIGNED DEFAULT 0 NOT NULL,
   cuc_private BLOB DEFAULT NULL,
   cuc_only_for_read_old SMALLINT DEFAULT 0 NOT NULL
 );
