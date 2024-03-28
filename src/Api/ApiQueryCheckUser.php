@@ -10,6 +10,7 @@ use LogicException;
 use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CommentStore\CommentStore;
+use MediaWiki\ParamValidator\TypeDef\UserDef;
 use MediaWiki\Revision\ArchivedRevisionLookup;
 use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
@@ -72,7 +73,10 @@ class ApiQueryCheckUser extends ApiQueryBase {
 
 		$this->checkUserRightsAny( 'checkuser' );
 
-		if ( $this->getConfig()->get( 'CheckUserForceSummary' ) && $reason === null ) {
+		// Remove whitespace from the beginning and end of the reason. This also prevents the user from providing a
+		// reason that is only whitespace (and therefore is not a valid reason) when wgCheckUserForceSummary is true.
+		$reason = trim( $reason );
+		if ( $this->getConfig()->get( 'CheckUserForceSummary' ) && $reason === '' ) {
 			$this->dieWithError( 'apierror-checkuser-missingsummary', 'missingdata' );
 		}
 
@@ -361,8 +365,13 @@ class ApiQueryCheckUser extends ApiQueryBase {
 			],
 			'target'   => [
 				ParamValidator::PARAM_REQUIRED => true,
+				ParamValidator::PARAM_TYPE => 'user',
+				UserDef::PARAM_ALLOWED_USER_TYPES => [ 'name', 'ip', 'temp', 'cidr' ],
 			],
-			'reason'   => null,
+			'reason'   => [
+				ParamValidator::PARAM_DEFAULT => '',
+				ParamValidator::PARAM_REQUIRED => $this->getConfig()->get( 'CheckUserForceSummary' )
+			],
 			'limit'    => [
 				ParamValidator::PARAM_DEFAULT => 500,
 				ParamValidator::PARAM_TYPE => 'limit',
