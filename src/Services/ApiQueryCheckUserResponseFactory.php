@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Services;
 
 use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
 use MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserAbstractResponse;
+use MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserActionsResponse;
 use MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserIpUsersResponse;
 use MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserUserIpsResponse;
 use MediaWiki\CommentStore\CommentStore;
@@ -73,6 +74,30 @@ class ApiQueryCheckUserResponseFactory {
 					$this->userNameUtils,
 					$this->checkUserLookupUtils,
 					$this->userIdentityLookup,
+				);
+			case 'edits':
+				$module->addDeprecation(
+					[
+						'apiwarn-deprecation-withreplacement', 'curequest=edits', 'curequest=actions'
+					],
+					'curequest=edits'
+				);
+			// fall-through to 'actions' for now, eventually delete this entire case statement once 'edits' is
+			// removed after hard-deprecation.
+			case 'actions':
+				return new ApiQueryCheckUserActionsResponse(
+					$module,
+					$this->dbProvider,
+					$this->config,
+					$this->messageLocalizer,
+					$this->checkUserLogService,
+					$this->userNameUtils,
+					$this->checkUserLookupUtils,
+					$this->userIdentityLookup,
+					$this->commentStore,
+					$this->revisionStore,
+					$this->archivedRevisionLookup,
+					$this->userFactory
 				);
 			case 'ipusers':
 				return new ApiQueryCheckUserIpUsersResponse(
