@@ -4,6 +4,8 @@ namespace MediaWiki\CheckUser\Services;
 
 use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
 use MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserAbstractResponse;
+use MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserIpUsersResponse;
+use MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserUserIpsResponse;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Config\Config;
 use MediaWiki\Revision\ArchivedRevisionLookup;
@@ -60,8 +62,28 @@ class ApiQueryCheckUserResponseFactory {
 	 */
 	public function newFromRequest( ApiQueryCheckUser $module ): ApiQueryCheckUserAbstractResponse {
 		// No items for the factory method exist yet, but will be added later.
-		// @phan-suppress-next-line PhanNoopSwitchCases
 		switch ( $module->extractRequestParams()['request'] ) {
+			case 'userips':
+				return new ApiQueryCheckUserUserIpsResponse(
+					$module,
+					$this->dbProvider,
+					$this->config,
+					$this->messageLocalizer,
+					$this->checkUserLogService,
+					$this->userNameUtils,
+					$this->checkUserLookupUtils,
+					$this->userIdentityLookup,
+				);
+			case 'ipusers':
+				return new ApiQueryCheckUserIpUsersResponse(
+					$module,
+					$this->dbProvider,
+					$this->config,
+					$this->messageLocalizer,
+					$this->checkUserLogService,
+					$this->userNameUtils,
+					$this->checkUserLookupUtils
+				);
 			default:
 				$module->dieWithError( 'apierror-checkuser-invalidmode', 'invalidmode' );
 		}
