@@ -63,6 +63,9 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 
 	public function __construct() {
 		parent::__construct();
+		$this->addDescription( 'If you use --num-temp with this script, set ' .
+			'$wgTempAccountNameAcquisitionThrottle to null to avoid rate limiting on ' .
+			'temporary account name acquisitions' );
 		$this->addOption(
 			'num-users',
 			'How many users should be created and used for the simulated actions. ' .
@@ -233,7 +236,9 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 
 			$this->setNewRandomFakeTime();
 			$lowerLimit = time() - ConvertibleTimestamp::time();
-			$user = $services->getTempUserCreator()->create()->getUser();
+			$user = $services->getTempUserCreator()->create(
+				null, $this->mainRequest
+			)->getUser();
 			// Creating a temporary user creates a log event.
 			$actionsLeft--;
 			$this->output( "Processing temporary user with username {$user->getName()}.\n" );
