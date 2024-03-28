@@ -12,6 +12,7 @@ use MediaWiki\Context\RequestContext;
 use MediaWiki\HookContainer\HookRunner;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Session\SessionManager;
+use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\Title\Title;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
@@ -25,8 +26,15 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  * @group Database
  *
  * @covers \MediaWiki\CheckUser\Api\ApiQueryCheckUser
+ * @covers \MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserAbstractResponse
+ * @covers \MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserActionsResponse
+ * @covers \MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserIpUsersResponse
+ * @covers \MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserUserIpsResponse
+ * @covers \MediaWiki\CheckUser\Services\ApiQueryCheckUserResponseFactory
  */
 class ApiQueryCheckUserTest extends ApiTestCase {
+
+	use TempUserTestTrait;
 
 	private const INITIAL_API_PARAMS = [
 		'action' => 'query',
@@ -90,19 +98,16 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 	}
 
 	/**
-	 * @param string $action
 	 * @param string $moduleName
 	 * @return TestingAccessWrapper
 	 */
-	public function setUpObject( string $action = '', string $moduleName = '' ) {
+	public function setUpObject( string $moduleName = '' ) {
 		$services = $this->getServiceContainer();
 		$main = new ApiMain( $this->apiContext, true );
 		/** @var ApiQuery $query */
 		$query = $main->getModuleManager()->getModule( 'query' );
 		return TestingAccessWrapper::newFromObject( new ApiQueryCheckUser(
-			$query, $moduleName, $services->getUserIdentityLookup(),
-			$services->getRevisionLookup(), $services->getArchivedRevisionLookup(),
-			$services->get( 'CheckUserLogService' ), $services->getCommentStore()
+			$query, $moduleName, $services->get( 'ApiQueryCheckUserResponseFactory' )
 		) );
 	}
 
@@ -200,7 +205,10 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		];
 	}
 
-	/** @dataProvider provideExpectedApiResponses */
+	/**
+	 * @dataProvider provideExpectedApiResponses
+	 * @dataProvider provideExpectedApiResponsesOnlyForReadNew
+	 */
 	public function testResponseFromApi(
 		$requestType, $expectedRequestTypeInResponse, $target, $timeCond, $xff, $expectedData
 	) {
@@ -319,6 +327,52 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		];
 	}
 
+	public static function provideExpectedApiResponsesOnlyForReadNew() {
+		// These tests cases would fail if wgCheckUserEventTablesMigrationStage is set to read old.
+		// This is because the events cannot be written to cu_changes as they have an IP address
+		// performer and were inserted when temporary accounts were enabled.
+		// Once wgCheckUserEventTablesMigrationStage is removed, this can be combined with
+		// ::provideExpectedApiResponses
+		return [
+			'actions on 1.2.3.5 (IP performer when temporary accounts are enabled)' => [
+				'actions',
+				'edits',
+				'1.2.3.5',
+				'-3 months',
+				null,
+				[
+					[
+						'timestamp' => '2023-04-05T06:07:13Z',
+						'ns' => 2,
+						'title' => 'CheckUserAPITestUser1',
+						'user' => '1.2.3.5',
+						'ip' => '1.2.3.5',
+						'agent' => 'user-agent-for-password-reset',
+						'summary' => wfMessage(
+							'logentry-checkuser-private-event-password-reset-email-sent',
+							[ '', '', '', 'CheckUserAPITestUser1' ]
+						)->text(),
+					],
+				]
+			],
+		];
+	}
+
+	/** @dataProvider provideExpectedApiResponses */
+	public function testResponseFromApiWhenReadingOld(
+		$requestType, $expectedRequestTypeInResponse, $target, $timeCond, $xff, $expectedData
+	) {
+		// Tests that when wgCheckUserEventTablesMigrationStage is set to read old, the API response does not differ to
+		// the response expected when reading new.
+		$this->setMwGlobals(
+			'wgCheckUserEventTablesMigrationStage',
+			SCHEMA_COMPAT_READ_OLD | SCHEMA_COMPAT_WRITE_BOTH
+		);
+		$this->testResponseFromApi(
+			$requestType, $expectedRequestTypeInResponse, $target, $timeCond, $xff, $expectedData
+		);
+	}
+
 	/** @dataProvider provideCuRequestTypesThatAcceptAUsernameTarget */
 	public function testApiForNonExistentUserAsTarget( $requestType ) {
 		$this->expectApiErrorCode( 'nosuchuser' );
@@ -354,6 +408,16 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		$this->doCheckUserApiRequest(
 			[ 'curequest' => 'ipusers', 'cutarget' => 'Username', 'cutimecond' => '-3 months' ]
 		);
+	}
+
+	public function testEditsCausesDeprecationWarning() {
+		$response = $this->doCheckUserApiRequest(
+			[ 'curequest' => 'edits', 'cutarget' => '127.0.0.1', 'cutimecond' => '-3 months' ]
+		);
+		$this->assertArrayHasKey( 'warnings', $response[0] );
+		$this->assertArrayHasKey( 'checkuser', $response[0]['warnings'] );
+		$this->assertArrayHasKey( 'warnings', $response[0]['warnings']['checkuser'] );
+		$this->assertStringContainsString( 'curequest=actions', $response[0]['warnings']['checkuser']['warnings'] );
 	}
 
 	public function testIsWriteMode() {
@@ -482,10 +546,28 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		$injectHtml = '';
 		$hookRunner->onUserLogoutComplete(
 			$this->getServiceContainer()->getUserFactory()
-				->newFromUserIdentity( UserIdentityValue::newAnonymous( '127.0.0.1' ) ),
+				->newFromUserIdentity( UserIdentityValue::newAnonymous( '1.2.3.4' ) ),
 			$injectHtml,
 			$firstTestUser->getName()
 		);
+
+		// Simulate a password reset request for the first user on a new IP with no XFF when temporary accounts
+		// are enabled (to set setting cupe_actor to NULL).
+		ConvertibleTimestamp::setFakeTime( '20230405060713' );
+		RequestContext::getMain()->getRequest()->setIP( '1.2.3.5' );
+		RequestContext::getMain()->getRequest()->setHeader( 'X-Forwarded-For', '' );
+		RequestContext::getMain()->getRequest()->setHeader( 'User-Agent', 'user-agent-for-password-reset' );
+		$this->enableAutoCreateTempUser();
+		// We cannot write private log events to cu_changes when temporary accounts are enabled if the performer
+		// is an IP address.
+		$this->overrideConfigValue( 'CheckUserEventTablesMigrationStage', SCHEMA_COMPAT_NEW );
+		$hookRunner->onUser__mailPasswordInternal(
+			$this->getServiceContainer()->getUserFactory()
+				->newFromUserIdentity( UserIdentityValue::newAnonymous( '1.2.3.5' ) ),
+			'1.2.3.5',
+			$firstTestUser
+		);
+
 		// Reset the fake time to avoid any issues with other test classes. A fake time will be set before each
 		// test in ::setUp.
 		ConvertibleTimestamp::setFakeTime( false );
