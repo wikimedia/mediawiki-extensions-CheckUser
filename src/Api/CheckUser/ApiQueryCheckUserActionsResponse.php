@@ -266,7 +266,7 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 
 	/** @inheritDoc */
 	protected function getPartialQueryBuilderForCuLogEvent(): SelectQueryBuilder {
-		if ( $this->dbr->getType() == 'postgres' ) {
+		if ( $this->dbr->getType() === 'postgres' ) {
 			// On postgres the cuc_type type is a smallint.
 			$typeValue = 'CAST(' . RC_LOG . ' AS smallint)';
 		} else {
@@ -292,7 +292,7 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 
 	/** @inheritDoc */
 	protected function getPartialQueryBuilderForCuPrivateEvent(): SelectQueryBuilder {
-		if ( $this->dbr->getType() == 'postgres' ) {
+		if ( $this->dbr->getType() === 'postgres' ) {
 			// On postgres the cuc_type type is a smallint.
 			$typeValue = 'CAST(' . RC_LOG . ' AS smallint)';
 		} else {
