@@ -398,6 +398,22 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		}
 	}
 
+	public function testGetExamplesMessages() {
+		// Test that all the items in ::getExamplesMessages have keys which is a string and values which are valid
+		// message keys.
+		$examplesMessages = $this->setUpObject()->getExamplesMessages();
+		foreach ( $examplesMessages as $query => $messageKey ) {
+			$this->assertIsString(
+				$query,
+				'The URL query string was not as expected.'
+			);
+			$this->assertTrue(
+				wfMessage( $messageKey )->exists(),
+				"The message key $messageKey does not exist."
+			);
+		}
+	}
+
 	private function createLogEntry( UserIdentity $performer, Title $page ) {
 		$logEntry = new ManualLogEntry( 'phpunit', 'test' );
 		$logEntry->setPerformer( $performer );
