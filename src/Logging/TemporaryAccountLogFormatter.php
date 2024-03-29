@@ -2,12 +2,24 @@
 
 namespace MediaWiki\CheckUser\Logging;
 
+use LogEntry;
 use LogFormatter;
 use MediaWiki\Linker\Linker;
-use MediaWiki\MediaWikiServices;
+use MediaWiki\User\UserFactory;
 use Message;
 
 class TemporaryAccountLogFormatter extends LogFormatter {
+
+	private UserFactory $userFactory;
+
+	public function __construct(
+		LogEntry $entry,
+		UserFactory $userFactory
+	) {
+		parent::__construct( $entry );
+		$this->userFactory = $userFactory;
+	}
+
 	/**
 	 * @inheritDoc
 	 */
@@ -24,9 +36,8 @@ class TemporaryAccountLogFormatter extends LogFormatter {
 			// Replace temporary user page link with contributions page link.
 			// Don't use LogFormatter::makeUserLink, because that adds tools links.
 			$tempUserName = $this->entry->getTarget()->getText();
-			$userFactory = MediaWikiServices::getInstance()->getUserFactory();
 			$params[2] = Message::rawParam(
-				Linker::userLink( 0, $userFactory->newUnsavedTempUser( $tempUserName ) )
+				Linker::userLink( 0, $this->userFactory->newUnsavedTempUser( $tempUserName ) )
 			);
 		}
 

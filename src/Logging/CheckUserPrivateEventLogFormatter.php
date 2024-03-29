@@ -3,9 +3,10 @@
 namespace MediaWiki\CheckUser\Logging;
 
 use InvalidArgumentException;
+use LogEntry;
 use LogFormatter;
 use MediaWiki\Html\Html;
-use MediaWiki\MediaWikiServices;
+use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserRigorOptions;
 use Message;
 
@@ -16,6 +17,17 @@ use Message;
  * Supports the log types checkuser-private-event/*
  */
 class CheckUserPrivateEventLogFormatter extends LogFormatter {
+
+	private UserFactory $userFactory;
+
+	public function __construct(
+		LogEntry $entry,
+		UserFactory $userFactory
+	) {
+		parent::__construct( $entry );
+		$this->userFactory = $userFactory;
+	}
+
 	/**
 	 * @inheritDoc
 	 */
@@ -38,9 +50,8 @@ class CheckUserPrivateEventLogFormatter extends LogFormatter {
 			} else {
 				$accountName = $this->entry->getParameters()['4::target'];
 			}
-			$userFactory = MediaWikiServices::getInstance()->getUserFactory();
 			// User can be non-existent or invalid in the case of failed login attempts.
-			$user = $userFactory->newFromName( $accountName, UserRigorOptions::RIGOR_NONE );
+			$user = $this->userFactory->newFromName( $accountName, UserRigorOptions::RIGOR_NONE );
 			if ( !$user ) {
 				throw new InvalidArgumentException( "The account name $accountName is not valid." );
 			}
@@ -105,9 +116,8 @@ class CheckUserPrivateEventLogFormatter extends LogFormatter {
 			} else {
 				$accountName = $entryParametersForReturn['4::target'];
 			}
-			$userFactory = MediaWikiServices::getInstance()->getUserFactory();
 			// User can be non-existent or invalid in the case of failed login attempts.
-			$user = $userFactory->newFromName( $accountName, UserRigorOptions::RIGOR_NONE );
+			$user = $this->userFactory->newFromName( $accountName, UserRigorOptions::RIGOR_NONE );
 			if ( !$user ) {
 				throw new InvalidArgumentException( "The account name $accountName is not valid." );
 			}

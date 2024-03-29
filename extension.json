@@ -583,8 +583,18 @@
 		"checkuser-temporary-account": "checkuser-temporary-account-log-header"
 	},
 	"LogActionsHandlers": {
-		"checkuser-temporary-account/*": "MediaWiki\\CheckUser\\Logging\\TemporaryAccountLogFormatter",
-		"checkuser-private-event/*": "MediaWiki\\CheckUser\\Logging\\CheckUserPrivateEventLogFormatter"
+		"checkuser-temporary-account/*": {
+			"class": "MediaWiki\\CheckUser\\Logging\\TemporaryAccountLogFormatter",
+			"services": [
+				"UserFactory"
+			]
+		},
+		"checkuser-private-event/*": {
+			"class": "MediaWiki\\CheckUser\\Logging\\CheckUserPrivateEventLogFormatter",
+			"services": [
+				"UserFactory"
+			]
+		}
 	},
 	"LogRestrictions": {
 		"checkuser-temporary-account": "checkuser-temporary-account-log",
