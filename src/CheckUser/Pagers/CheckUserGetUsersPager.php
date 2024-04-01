@@ -182,117 +182,135 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	 */
 	public function formatUserRow( string $user_text ): string {
 		$templateParams = [];
-		$templateParams['canPerformBlocks'] = $this->canPerformBlocks;
 
 		$userIsIP = IPUtils::isIPAddress( $user_text );
-		$formattedUserText = $userIsIP ? IPUtils::prettifyIP( $user_text ) ?? $user_text : $user_text;
 
-		$templateParams['userText'] = $formattedUserText;
 		// Load user object
-		$user = new UserIdentityValue( $this->userSets['ids'][$user_text], $formattedUserText );
-		$userNonExistent = !IPUtils::isIPAddress( $user ) && !$user->isRegistered();
-		if ( $userNonExistent ) {
-			$templateParams['userLinkClass'] = 'mw-checkuser-nonexistent-user';
-		}
-		$templateParams['userLink'] = Linker::userLink( $user->getId(), $user, $user );
-		$templateParams['userToolLinks'] = Linker::userToolLinksRedContribs(
-			$user->getId(),
-			$user,
-			$this->userEditTracker->getUserEditCount( $user ),
-			// don't render parentheses in HTML markup (CSS will provide)
-			false
+		$user = new UserIdentityValue(
+			$this->userSets['ids'][$user_text],
+			$userIsIP ? IPUtils::prettifyIP( $user_text ) ?? $user_text : $user_text
 		);
-		if ( $userIsIP ) {
-			$templateParams['userLinks'] = $this->msg( 'checkuser-userlinks-ip', $user )->parse();
-		} elseif ( !$userNonExistent ) {
-			if ( $this->msg( 'checkuser-userlinks' )->exists() ) {
-				$templateParams['userLinks'] =
-					$this->msg( 'checkuser-userlinks', htmlspecialchars( $user ) )->parse();
-			}
-		}
-		// Add global user tools links
-		// Add CentralAuth link for real registered users
-		if ( $this->centralAuthToollink !== false
-			&& !$userIsIP
-			&& !$userNonExistent
-		) {
-			// Get CentralAuth SpecialPage name in UserLang from the first Alias name
-			$spca = $this->aliases['CentralAuth'][0];
-			$calinkAlias = str_replace( '_', ' ', $spca );
-			$centralCAUrl = WikiMap::getForeignURL(
-				$this->centralAuthToollink,
-				'Special:CentralAuth'
+		$hidden = $this->userFactory->newFromUserIdentity( $user )->isHidden()
+			&& !$this->getAuthority()->isAllowed( 'hideuser' );
+		if ( $hidden ) {
+			// User is hidden from the current authority, so the current authority cannot block this user either.
+			// As such, the checkbox (used for blocking the user) should not be shown.
+			$templateParams['canPerformBlocks'] = false;
+			$templateParams['userText'] = '';
+			$templateParams['userLink'] = Html::element(
+				'span',
+				[ 'class' => 'history-deleted' ],
+				$this->msg( 'rev-deleted-user' )->text()
 			);
-			if ( $centralCAUrl === false ) {
-				throw new ConfigException(
-					"Could not retrieve URL for CentralAuth: $this->centralAuthToollink"
+		} else {
+			$templateParams['canPerformBlocks'] = $this->canPerformBlocks;
+			$templateParams['userText'] = $user->getName();
+			$userNonExistent = !IPUtils::isIPAddress( $user ) && !$user->isRegistered();
+			if ( $userNonExistent ) {
+				$templateParams['userLinkClass'] = 'mw-checkuser-nonexistent-user';
+			}
+			$templateParams['userLink'] = Linker::userLink( $user->getId(), $user, $user );
+			$templateParams['userToolLinks'] = Linker::userToolLinksRedContribs(
+				$user->getId(),
+				$user,
+				$this->userEditTracker->getUserEditCount( $user ),
+				// don't render parentheses in HTML markup (CSS will provide)
+				false
+			);
+			if ( $userIsIP ) {
+				$templateParams['userLinks'] = $this->msg( 'checkuser-userlinks-ip', $user )->parse();
+			} elseif ( !$userNonExistent ) {
+				if ( $this->msg( 'checkuser-userlinks' )->exists() ) {
+					$templateParams['userLinks'] =
+						$this->msg( 'checkuser-userlinks', htmlspecialchars( $user ) )->parse();
+				}
+			}
+			// Add global user tools links
+			// Add CentralAuth link for real registered users
+			if ( $this->centralAuthToollink !== false
+				&& !$userIsIP
+				&& !$userNonExistent
+			) {
+				// Get CentralAuth SpecialPage name in UserLang from the first Alias name
+				$spca = $this->aliases['CentralAuth'][0];
+				$calinkAlias = str_replace( '_', ' ', $spca );
+				$centralCAUrl = WikiMap::getForeignURL(
+					$this->centralAuthToollink,
+					'Special:CentralAuth'
 				);
-			}
-			$linkCA = Html::element( 'a',
-				[
-					'href' => $centralCAUrl . "/" . $user,
-					'title' => $this->msg( 'centralauth' )->text(),
-				],
-				$calinkAlias
-			);
-			$templateParams['centralAuthLink'] = $this->msg( 'parentheses' )->rawParams( $linkCA )->escaped();
-		}
-		// Add GlobalBlocking link to CentralWiki
-		if ( $this->globalBlockingToollink !== false
-			&& IPUtils::isIPAddress( $user )
-		) {
-			// Get GlobalBlock SpecialPage name in UserLang from the first Alias name
-			$centralGBUrl = WikiMap::getForeignURL(
-				$this->globalBlockingToollink['centralDB'],
-				'Special:GlobalBlock'
-			);
-			$spgb = $this->aliases['GlobalBlock'][0];
-			$gblinkAlias = str_replace( '_', ' ', $spgb );
-			if ( ExtensionRegistry::getInstance()->isLoaded( 'CentralAuth' ) ) {
-				$gbUserGroups = CentralAuthUser::getInstance( $this->getUser() )->getGlobalGroups();
-				// Link to GB via WikiMap since CA require it
-				if ( $centralGBUrl === false ) {
+				if ( $centralCAUrl === false ) {
 					throw new ConfigException(
-						'Could not retrieve URL for global blocking toollink'
+						"Could not retrieve URL for CentralAuth: $this->centralAuthToollink"
 					);
 				}
-				$linkGB = Html::element( 'a',
+				$linkCA = Html::element( 'a',
 					[
-						'href' => $centralGBUrl . "/" . $user,
-						'title' => $this->msg( 'globalblocking-block-submit' )->text(),
+						'href' => $centralCAUrl . "/" . $user,
+						'title' => $this->msg( 'centralauth' )->text(),
 					],
-					$gblinkAlias
+					$calinkAlias
 				);
-			} elseif ( $centralGBUrl !== false ) {
-				// Case wikimap configured without CentralAuth extension
-				// Get effective Local user groups since there is a wikimap but there is no CA
-				$gbUserGroups = $this->userGroupManager->getUserEffectiveGroups( $this->getUser() );
-				$linkGB = Html::element( 'a',
-					[
-						'href' => $centralGBUrl . "/" . $user,
-						'title' => $this->msg( 'globalblocking-block-submit' )->text(),
-					],
-					$gblinkAlias
+				$templateParams['centralAuthLink'] = $this->msg( 'parentheses' )->rawParams( $linkCA )->escaped();
+			}
+			// Add GlobalBlocking link to CentralWiki
+			if ( $this->globalBlockingToollink !== false
+				&& IPUtils::isIPAddress( $user )
+			) {
+				// Get GlobalBlock SpecialPage name in UserLang from the first Alias name
+				$centralGBUrl = WikiMap::getForeignURL(
+					$this->globalBlockingToollink['centralDB'],
+					'Special:GlobalBlock'
 				);
-			} else {
-				// Load local user group instead
-				$gbUserGroups = [ '' ];
-				$gbtitle = $this->getPageTitle( 'GlobalBlock' );
-				$linkGB = $this->getLinkRenderer()->makeKnownLink(
-					$gbtitle,
-					$gblinkAlias,
-					[ 'title' => $this->msg( 'globalblocking-block-submit' ) ]
-				);
-				$gbUserCanDo = $this->permissionManager->userHasRight( $this->getUser(), 'globalblock' );
-				if ( $gbUserCanDo ) {
-					$this->globalBlockingToollink['groups'] = $gbUserGroups;
+				$spgb = $this->aliases['GlobalBlock'][0];
+				$gblinkAlias = str_replace( '_', ' ', $spgb );
+				if ( ExtensionRegistry::getInstance()->isLoaded( 'CentralAuth' ) ) {
+					$gbUserGroups = CentralAuthUser::getInstance( $this->getUser() )->getGlobalGroups();
+					// Link to GB via WikiMap since CA require it
+					if ( $centralGBUrl === false ) {
+						throw new ConfigException(
+							'Could not retrieve URL for global blocking toollink'
+						);
+					}
+					$linkGB = Html::element( 'a',
+						[
+							'href' => $centralGBUrl . "/" . $user,
+							'title' => $this->msg( 'globalblocking-block-submit' )->text(),
+						],
+						$gblinkAlias
+					);
+				} elseif ( $centralGBUrl !== false ) {
+					// Case wikimap configured without CentralAuth extension
+					// Get effective Local user groups since there is a wikimap but there is no CA
+					$gbUserGroups = $this->userGroupManager->getUserEffectiveGroups( $this->getUser() );
+					$linkGB = Html::element( 'a',
+						[
+							'href' => $centralGBUrl . "/" . $user,
+							'title' => $this->msg( 'globalblocking-block-submit' )->text(),
+						],
+						$gblinkAlias
+					);
+				} else {
+					// Load local user group instead
+					$gbUserGroups = [ '' ];
+					$gbtitle = $this->getPageTitle( 'GlobalBlock' );
+					$linkGB = $this->getLinkRenderer()->makeKnownLink(
+						$gbtitle,
+						$gblinkAlias,
+						[ 'title' => $this->msg( 'globalblocking-block-submit' ) ]
+					);
+					$gbUserCanDo = $this->permissionManager->userHasRight( $this->getUser(), 'globalblock' );
+					if ( $gbUserCanDo ) {
+						$this->globalBlockingToollink['groups'] = $gbUserGroups;
+					}
+				}
+				// Only load the script for users in the configured global(local) group(s) or
+				// for local user with globalblock permission if there is no WikiMap
+				if ( count( array_intersect( $this->globalBlockingToollink['groups'], $gbUserGroups ) ) ) {
+					$templateParams['globalBlockLink'] .= $this->msg( 'parentheses' )->rawParams( $linkGB )->escaped();
 				}
 			}
-			// Only load the script for users in the configured global(local) group(s) or
-			// for local user with globalblock permission if there is no WikiMap
-			if ( count( array_intersect( $this->globalBlockingToollink['groups'], $gbUserGroups ) ) ) {
-				$templateParams['globalBlockLink'] .= $this->msg( 'parentheses' )->rawParams( $linkGB )->escaped();
-			}
+			// Check if this user or IP is blocked. If so, give a link to the block log...
+			$templateParams['flags'] = $this->userBlockFlags( $userIsIP ? $user : '', $user );
 		}
 		// Show edit time range
 		$templateParams['timeRange'] = $this->getTimeRangeString(
@@ -301,8 +319,6 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		);
 		// Total edit count
 		$templateParams['editCount'] = $this->userSets['edits'][$user_text];
-		// Check if this user or IP is blocked. If so, give a link to the block log...
-		$templateParams['flags'] = $this->userBlockFlags( $userIsIP ? $user : '', $user );
 		// List out each IP/XFF combo for this username
 		$templateParams['infoSets'] = [];
 		for ( $i = ( count( $this->userSets['infosets'][$user_text] ) - 1 ); $i >= 0; $i-- ) {
