@@ -6,7 +6,7 @@ use ApiMain;
 use ApiQuery;
 use ApiTestCase;
 use HashConfig;
-use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
+use MediaWiki\CheckUser\Api\ApiQueryCheckUserLog;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Permissions\Authority;
@@ -67,10 +67,9 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 		$main = new ApiMain( $this->apiContext, true );
 		/** @var ApiQuery $query */
 		$query = $main->getModuleManager()->getModule( 'query' );
-		return TestingAccessWrapper::newFromObject( new ApiQueryCheckUser(
-			$query, $moduleName, $services->getUserIdentityLookup(),
-			$services->getRevisionLookup(), $services->getArchivedRevisionLookup(),
-			$services->get( 'CheckUserLogService' ), $services->getCommentStore()
+		return TestingAccessWrapper::newFromObject( new ApiQueryCheckUserLog(
+			$query, $moduleName, $services->getCommentStore(),
+			$services->get( 'CheckUserLogService' ), $services->getUserFactory()
 		) );
 	}
 

@@ -14,7 +14,9 @@ use MediaWiki\Revision\ArchivedRevisionLookup;
 use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Title\Title;
+use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityLookup;
+use MediaWiki\User\UserIdentityValue;
 use Wikimedia\IPUtils;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\ParamValidator\TypeDef\IntegerDef;
@@ -29,6 +31,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 	private ArchivedRevisionLookup $archivedRevisionLookup;
 	private CheckUserLogService $checkUserLogService;
 	private CommentStore $commentStore;
+	private UserFactory $userFactory;
 
 	/**
 	 * @param ApiQuery $query
@@ -38,6 +41,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 	 * @param ArchivedRevisionLookup $archivedRevisionLookup
 	 * @param CheckUserLogService $checkUserLogService
 	 * @param CommentStore $commentStore
+	 * @param UserFactory $userFactory
 	 */
 	public function __construct(
 		$query,
@@ -46,7 +50,8 @@ class ApiQueryCheckUser extends ApiQueryBase {
 		RevisionLookup $revisionLookup,
 		ArchivedRevisionLookup $archivedRevisionLookup,
 		CheckUserLogService $checkUserLogService,
-		CommentStore $commentStore
+		CommentStore $commentStore,
+		UserFactory $userFactory
 	) {
 		parent::__construct( $query, $moduleName, 'cu' );
 		$this->userIdentityLookup = $userIdentityLookup;
@@ -54,6 +59,7 @@ class ApiQueryCheckUser extends ApiQueryBase {
 		$this->archivedRevisionLookup = $archivedRevisionLookup;
 		$this->checkUserLogService = $checkUserLogService;
 		$this->commentStore = $commentStore;
+		$this->userFactory = $userFactory;
 	}
 
 	public function execute() {
@@ -188,6 +194,30 @@ class ApiQueryCheckUser extends ApiQueryBase {
 						'agent'     => $row->cuc_agent,
 					];
 
+					$user = $this->userFactory->newFromUserIdentity(
+						new UserIdentityValue( $row->cuc_user ?? 0, $row->cuc_user_text )
+					);
+
+					// If the 'user' key is a username which the current authority cannot see, then replace it with the
+					// 'rev-deleted-user' message.
+					if ( $user->isHidden() && !$this->getUser()->isAllowed( 'hideuser' ) ) {
+						$edit['user'] = $this->msg( 'rev-deleted-user' )->text();
+					}
+
+					// If the title is a user page and the username in this user page link is hidden
+					// from the current authority, then replace the title with the 'rev-deleted-user' message.
+					$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
+					if ( $title->getNamespace() === NS_USER ) {
+						$titleUser = $this->userFactory->newFromName( $title->getBaseText() );
+						if (
+							$titleUser &&
+							$titleUser->isHidden() &&
+							!$this->getUser()->isAllowed( 'hideuser' )
+						) {
+							$edit['title'] = $this->msg( 'rev-deleted-user' )->text();
+						}
+					}
+
 					$comment = $this->commentStore->getComment( 'cuc_comment', $row )->text;
 
 					if ( $row->cuc_actiontext ) {
@@ -289,6 +319,14 @@ class ApiQueryCheckUser extends ApiQueryBase {
 
 				$resultUsers = [];
 				foreach ( $users as $userName => $userData ) {
+					// Hide the user name if it is hidden from the current authority.
+					$user = $this->userFactory->newFromName( $userName );
+					if ( $user !== null && $user->isHidden() && !$this->getUser()->isAllowed( 'hideuser' ) ) {
+						// If the username is hidden from the current user, then hide the username in the
+						// results using the 'rev-deleted-user' message.
+						$userName = $this->msg( 'rev-deleted-user' )->text();
+					}
+
 					$userData['name'] = $userName;
 					ApiResult::setIndexedTagName( $userData['ips'], 'ip' );
 					ApiResult::setIndexedTagName( $userData['agents'], 'agent' );

@@ -173,7 +173,8 @@
 				"RevisionLookup",
 				"ArchivedRevisionLookup",
 				"CheckUserLogService",
-				"CommentStore"
+				"CommentStore",
+				"UserFactory"
 			]
 		},
 		"checkuserlog": {
