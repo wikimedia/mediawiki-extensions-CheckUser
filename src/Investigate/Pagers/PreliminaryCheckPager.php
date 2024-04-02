@@ -30,6 +30,7 @@ use MediaWiki\Extension\CentralAuth\CentralAuthDatabaseManager;
 use MediaWiki\Extension\CentralAuth\CentralAuthServices;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\User\User;
+use MediaWiki\User\UserFactory;
 use MediaWiki\WikiMap\WikiMap;
 use NamespaceInfo;
 use SpecialPage;
@@ -45,6 +46,7 @@ class PreliminaryCheckPager extends TablePager {
 	private ExtensionRegistry $extensionRegistry;
 	private TokenQueryManager $tokenQueryManager;
 	private PreliminaryCheckService $preliminaryCheckService;
+	private UserFactory $userFactory;
 
 	/** @var array Data loaded from the token provided in the request. */
 	protected $tokenData;
@@ -59,6 +61,7 @@ class PreliminaryCheckPager extends TablePager {
 	 * @param TokenQueryManager $tokenQueryManager
 	 * @param ExtensionRegistry $extensionRegistry
 	 * @param PreliminaryCheckService $preliminaryCheckService
+	 * @param UserFactory $userFactory
 	 */
 	public function __construct(
 		IContextSource $context,
@@ -66,7 +69,8 @@ class PreliminaryCheckPager extends TablePager {
 		NamespaceInfo $namespaceInfo,
 		TokenQueryManager $tokenQueryManager,
 		ExtensionRegistry $extensionRegistry,
-		PreliminaryCheckService $preliminaryCheckService
+		PreliminaryCheckService $preliminaryCheckService,
+		UserFactory $userFactory
 	) {
 		// This must be done before getIndexField is called by the TablePager constructor
 		$this->extensionRegistry = $extensionRegistry;
@@ -79,6 +83,7 @@ class PreliminaryCheckPager extends TablePager {
 		$this->namespaceInfo = $namespaceInfo;
 		$this->preliminaryCheckService = $preliminaryCheckService;
 		$this->tokenQueryManager = $tokenQueryManager;
+		$this->userFactory = $userFactory;
 
 		$this->tokenData = $tokenQueryManager->getDataFromRequest( $context->getRequest() );
 		$this->mOffset = $this->tokenData['offset'] ?? '';
@@ -135,15 +140,25 @@ class PreliminaryCheckPager extends TablePager {
 		$language = $this->getLanguage();
 		$row = $this->mCurrentRow;
 
+		$user = $this->userFactory->newFromName( $row->name );
+		$userIsHidden = $user !== null && $user->isHidden() && !$this->getAuthority()->isAllowed( 'hideuser' );
+
 		$formatted = '';
 		switch ( $name ) {
 			case 'name':
-				$formatted = htmlspecialchars( $value );
+				// Hide the username if it is hidden from the current authority.
+				if ( $userIsHidden ) {
+					$formatted = $this->msg( 'rev-deleted-user' )->text();
+				} else {
+					$formatted = htmlspecialchars( $value );
+				}
 				break;
 			case 'registration':
-				$formatted = htmlspecialchars(
-					$language->userTimeAndDate( $value, $this->getUser() )
-				);
+				if ( !$userIsHidden ) {
+					$formatted = htmlspecialchars(
+						$language->userTimeAndDate( $value, $this->getUser() )
+					);
+				}
 				break;
 			case 'wiki':
 				$wiki = WikiMap::getWiki( $row->wiki );
@@ -162,6 +177,9 @@ class PreliminaryCheckPager extends TablePager {
 				}
 				break;
 			case 'editcount':
+				if ( $userIsHidden ) {
+					return '';
+				}
 				$wiki = WikiMap::getWiki( $row->wiki );
 				if ( $wiki ) {
 					$formatted = Html::rawElement(
@@ -187,13 +205,17 @@ class PreliminaryCheckPager extends TablePager {
 				}
 				break;
 			case 'blocked':
-				$formatted = $this->msg( $value ?
-					'checkuser-investigate-preliminary-table-cell-blocked' :
-					'checkuser-investigate-preliminary-table-cell-unblocked'
-				)->parse();
+				if ( !$userIsHidden ) {
+					$formatted = $this->msg( $value ?
+						'checkuser-investigate-preliminary-table-cell-blocked' :
+						'checkuser-investigate-preliminary-table-cell-unblocked'
+					)->parse();
+				}
 				break;
 			case 'groups':
-				$formatted = htmlspecialchars( implode( ', ', $value ) );
+				if ( !$userIsHidden ) {
+					$formatted = htmlspecialchars( implode( ', ', $value ) );
+				}
 				break;
 		}
 

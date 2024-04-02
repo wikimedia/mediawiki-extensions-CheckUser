@@ -44,6 +44,7 @@ class SpecialPageInitListHandler implements SpecialPage_initListHook {
 					'PermissionManager',
 					'CheckUserLogService',
 					'UserIdentityLookup',
+					'UserFactory',
 				],
 			];
 

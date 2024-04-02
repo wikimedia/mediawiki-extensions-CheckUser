@@ -81,7 +81,8 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 			$services->get( 'LinkRenderer' ),
 			$tokenQueryManager,
 			$durationManager,
-			$compareService
+			$compareService,
+			$services->getUserFactory()
 		);
 		$pager->doQuery();
 

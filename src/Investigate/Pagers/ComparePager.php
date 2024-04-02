@@ -30,6 +30,7 @@ use MediaWiki\CheckUser\Investigate\Services\CompareService;
 use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\User\UserFactory;
 use TablePager;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
@@ -37,6 +38,7 @@ use Wikimedia\Rdbms\FakeResultWrapper;
 class ComparePager extends TablePager {
 	private CompareService $compareService;
 	private TokenQueryManager $tokenQueryManager;
+	private UserFactory $userFactory;
 
 	/** @var array */
 	private $fieldNames;
@@ -77,17 +79,20 @@ class ComparePager extends TablePager {
 	 * @param TokenQueryManager $tokenQueryManager
 	 * @param DurationManager $durationManager
 	 * @param CompareService $compareService
+	 * @param UserFactory $userFactory
 	 */
 	public function __construct(
 		IContextSource $context,
 		LinkRenderer $linkRenderer,
 		TokenQueryManager $tokenQueryManager,
 		DurationManager $durationManager,
-		CompareService $compareService
+		CompareService $compareService,
+		UserFactory $userFactory
 	) {
 		parent::__construct( $context, $linkRenderer );
 		$this->compareService = $compareService;
 		$this->tokenQueryManager = $tokenQueryManager;
+		$this->userFactory = $userFactory;
 
 		$tokenData = $tokenQueryManager->getDataFromRequest( $context->getRequest() );
 		$this->mOffset = $tokenData['offset'] ?? '';
@@ -150,9 +155,17 @@ class ComparePager extends TablePager {
 				$attributes['data-all-edits'] = $this->ipTotalEdits[$ipHex];
 				break;
 			case 'cuc_user_text':
+				// Hide the username if it is hidden from the current authority.
+				$user = $this->userFactory->newFromName( $value );
+				$userIsHidden = $user !== null && $user->isHidden() && !$this->getAuthority()->isAllowed( 'hideuser' );
+				if ( $userIsHidden ) {
+					$value = $this->msg( 'rev-deleted-user' )->text();
+				}
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-interactive';
 				if ( !IPUtils::isIpAddress( $value ) ) {
-					$attributes['class'] .= ' ext-checkuser-compare-table-cell-user-target';
+					if ( !$userIsHidden ) {
+						$attributes['class'] .= ' ext-checkuser-compare-table-cell-user-target';
+					}
 					if ( in_array( $value, $this->filteredTargets ) ) {
 						$attributes['class'] .= ' ext-checkuser-compare-table-cell-target';
 					}
@@ -198,6 +211,11 @@ class ComparePager extends TablePager {
 
 		switch ( $name ) {
 			case 'cuc_user_text':
+				// Hide the username if it is hidden from the current authority.
+				$user = $this->userFactory->newFromName( $value );
+				if ( $user !== null && $user->isHidden() && !$this->getAuthority()->isAllowed( 'hideuser' ) ) {
+					return $this->msg( 'rev-deleted-user' )->text();
+				}
 				if ( IPUtils::isValid( $value ) ) {
 					$formatted = $this->msg( 'checkuser-investigate-compare-table-cell-unregistered' );
 				} else {
