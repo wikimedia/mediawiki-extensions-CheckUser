@@ -86,6 +86,14 @@ CREATE INDEX cupe_actor_ip_time ON /*_*/cu_private_event (
 );
 
 
+CREATE TABLE /*_*/cu_useragent (
+  cuua_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  cuua_text BLOB NOT NULL
+);
+
+CREATE INDEX cuua_text ON /*_*/cu_useragent (cuua_text);
+
+
 CREATE TABLE /*_*/cu_useragent_clienthints (
   uach_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   uach_name VARCHAR(32) NOT NULL,
