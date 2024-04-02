@@ -16,7 +16,9 @@
 			"MehranVB",
 			"Mjbmr",
 			"Reza1615",
-			"ZxxZxxZ"
+			"ZxxZxxZ",
+			"Dreamy Jazz",
+			"Mardetanha"
 		]
 	},
 	"checkuser-summary": "این ابزار تغییرات اخیر را برای به دست آوردن نشانی‌های آی‌پی استفاده شده توسط یک کاربر و یا تعیین ویرایش‌ها و اطلاعات کاربری مرتبط با یک نشانی آی‌پی جستجو می‌کند.\nکاربرها و ویرایش‌های مرتبط با یک نشانی آی‌پی را می‌توان با توجه به اطلاعات سرآیند اکس‌اف‌اف (با افزودن «‏‎/xff» به انتهای نشانی آی‌پی) پیدا کرد.\nهر دو پروتکل IPv4 (معادل CIDR $1-32) و IPv6 (معادل CIDR $2-128) توسط این ابزار پشتیبانی می‌شوند.\nبنا به دلایل عملکردی، بیش از ۵۰۰۰ ویرایش بازگردانده نمی‌شود.\nاز این ابزار طبق سیاست‌ها استفاده کنید.",
@@ -115,7 +117,7 @@
 	"checkuser-investigateblock-notice-prepend": "افزودن به بالای صفحه",
 	"checkuser-investigateblock-notice-replace": "جایگزین کردن متن صفحه",
 	"checkuser-investigateblock-failure": "دسترسی هیچ کاربری قطع نشد. برای رونویسی قطع دسترسی‌های موجود، گزینهٔ «{{int:checkuser-investigateblock-reblock-label}}» را انتخاب کنید. اگر قطع دسترسی جدید و قبلی یکسان باشند، مورد قدیمی رونویسی نخواهد شد.",
-	"checkuser-investigateblock-success": "دسترسی {{PLURAL:$2|حساب|حساب‌های}} $1 همینک {{PLURAL:$2|بسته‌است}}",
+	"checkuser-investigateblock-success": "دسترسی {{PLURAL:$2|حساب|حساب‌های}} $1 همینک {{PLURAL:$2|بسته است}}",
 	"checkuser-investigateblock-notices-failed": "برخی آگاه‌سازی‌ها را نشد به صفحهٔ کاربر یا صفحهٔ بحث کاربر افزود.",
 	"checkuser-investigate": "وارسی",
 	"checkuser-investigate-page-subtitle": "وارسی‌های فعلی برای $1",
