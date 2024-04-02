@@ -596,8 +596,8 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 				[ 'bot' ]
 			]
 		];
-		foreach ( $testCases as $name => $testCase ) {
-			foreach ( $eventTableMigrationStageValues as $additionalName => $eventTableMigrationStageValue ) {
+		foreach ( $eventTableMigrationStageValues as $additionalName => $eventTableMigrationStageValue ) {
+			foreach ( $testCases as $name => $testCase ) {
 				$testCase[] = $eventTableMigrationStageValue[0];
 				yield $name . ' ' . $additionalName => $testCase;
 			}
@@ -658,8 +658,8 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 				false,
 			],
 		];
-		foreach ( $testCases as $name => $testCase ) {
-			foreach ( $eventTableMigrationStageValues as $additionalName => $eventTableMigrationStageValue ) {
+		foreach ( $eventTableMigrationStageValues as $additionalName => $eventTableMigrationStageValue ) {
+			foreach ( $testCases as $name => $testCase ) {
 				$testCase[] = $eventTableMigrationStageValue[0];
 				yield $name . ' ' . $additionalName => $testCase;
 			}
@@ -770,8 +770,8 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 				false
 			]
 		];
-		foreach ( $testCases as $name => $testCase ) {
-			foreach ( $eventTableMigrationStageValues as $additionalName => $eventTableMigrationStageValue ) {
+		foreach ( $eventTableMigrationStageValues as $additionalName => $eventTableMigrationStageValue ) {
+			foreach ( $testCases as $name => $testCase ) {
 				$testCase[] = $eventTableMigrationStageValue[0];
 				yield $name . ' ' . $additionalName => $testCase;
 			}
