@@ -101,6 +101,7 @@ class Hooks implements
 					'CheckUserHookRunner',
 					'PermissionManager',
 					'CheckUserLogService',
+					'UserFactory',
 				],
 			];
 

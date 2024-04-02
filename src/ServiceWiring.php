@@ -96,7 +96,8 @@ return [
 			$services->getNamespaceInfo(),
 			\ExtensionRegistry::getInstance(),
 			$services->get( 'CheckUserTokenQueryManager' ),
-			$services->get( 'CheckUserPreliminaryCheckService' )
+			$services->get( 'CheckUserPreliminaryCheckService' ),
+			$services->getUserFactory()
 		);
 	},
 	'CheckUserComparePagerFactory' => static function ( MediaWikiServices $services ): ComparePagerFactory {
@@ -104,7 +105,8 @@ return [
 			$services->getLinkRenderer(),
 			$services->get( 'CheckUserTokenQueryManager' ),
 			$services->get( 'CheckUserDurationManager' ),
-			$services->get( 'CheckUserCompareService' )
+			$services->get( 'CheckUserCompareService' ),
+			$services->getUserFactory()
 		);
 	},
 	'CheckUserTimelineRowFormatterFactory' => static function (

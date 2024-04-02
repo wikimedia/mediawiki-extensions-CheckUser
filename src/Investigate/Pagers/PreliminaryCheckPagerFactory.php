@@ -7,6 +7,7 @@ use IContextSource;
 use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
 use MediaWiki\CheckUser\TokenQueryManager;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\User\UserFactory;
 use NamespaceInfo;
 
 class PreliminaryCheckPagerFactory implements PagerFactory {
@@ -25,25 +26,31 @@ class PreliminaryCheckPagerFactory implements PagerFactory {
 	/** @var PreliminaryCheckService */
 	private $preliminaryCheck;
 
+	/** @var UserFactory */
+	private $userFactory;
+
 	/**
 	 * @param LinkRenderer $linkRenderer
 	 * @param NamespaceInfo $namespaceInfo
 	 * @param ExtensionRegistry $extensionRegistry
 	 * @param TokenQueryManager $tokenQueryManager
 	 * @param PreliminaryCheckService $preliminaryCheck
+	 * @param UserFactory $userFactory
 	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		NamespaceInfo $namespaceInfo,
 		ExtensionRegistry $extensionRegistry,
 		TokenQueryManager $tokenQueryManager,
-		PreliminaryCheckService $preliminaryCheck
+		PreliminaryCheckService $preliminaryCheck,
+		UserFactory $userFactory
 	) {
 		$this->linkRenderer = $linkRenderer;
 		$this->namespaceInfo = $namespaceInfo;
 		$this->extensionRegistry = $extensionRegistry;
 		$this->tokenQueryManager = $tokenQueryManager;
 		$this->preliminaryCheck = $preliminaryCheck;
+		$this->userFactory = $userFactory;
 	}
 
 	/**
@@ -56,7 +63,8 @@ class PreliminaryCheckPagerFactory implements PagerFactory {
 			$this->namespaceInfo,
 			$this->tokenQueryManager,
 			$this->extensionRegistry,
-			$this->preliminaryCheck
+			$this->preliminaryCheck,
+			$this->userFactory
 		);
 	}
 }
