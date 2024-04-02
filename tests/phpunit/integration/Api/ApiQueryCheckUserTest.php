@@ -393,6 +393,72 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		);
 	}
 
+	public function testActionsForHiddenUser() {
+		// Block CheckUserAPITestUser1 with 'hideuser' enabled.
+		$blockStatus = $this->getServiceContainer()->getBlockUserFactory()
+			->newBlockUser(
+				$this->getServiceContainer()->getUserIdentityLookup()->getUserIdentityByName( 'CheckUserAPITestUser1' ),
+				$this->getTestUser( [ 'sysop', 'suppress' ] )->getUser(),
+				'infinity',
+				'block to hide the test user',
+				[ 'isHideUser' => true ]
+			)->placeBlock();
+		$this->assertStatusGood( $blockStatus );
+		// Perform an 'actions' request and verify that the hidden user is not shown in the response.
+		$this->testResponseFromApi(
+			'actions', 'edits', '127.2.3.4', '-3 months', true,
+			[
+				[
+					'timestamp' => '2023-04-05T06:07:12Z',
+					'ns' => 2,
+					'title' => wfMessage( 'rev-deleted-user' )->text(),
+					'user' => wfMessage( 'rev-deleted-user' )->text(),
+					'ip' => '1.2.3.4',
+					'agent' => 'user-agent-for-logout',
+					'summary' => wfMessage( 'checkuser-logout' )->text(),
+					'xff' => '127.2.3.4',
+				],
+				[
+					'timestamp' => '2023-04-05T06:07:11Z',
+					'ns' => 0,
+					'title' => 'CheckUserTestPage',
+					'user' => wfMessage( 'rev-deleted-user' )->text(),
+					'ip' => '1.2.3.4',
+					'agent' => 'user-agent-for-edits',
+					'summary' => 'Test1233',
+					'xff' => '127.2.3.4',
+				],
+			]
+		);
+	}
+
+	public function testIpUsersForHiddenUser() {
+		// Block CheckUserAPITestUser1 with 'hideuser' enabled.
+		$blockStatus = $this->getServiceContainer()->getBlockUserFactory()
+			->newBlockUser(
+				$this->getServiceContainer()->getUserIdentityLookup()->getUserIdentityByName( 'CheckUserAPITestUser1' ),
+				$this->getTestUser( [ 'sysop', 'suppress' ] )->getUser(),
+				'infinity',
+				'block to hide the test user',
+				[ 'isHideUser' => true ]
+			)->placeBlock();
+		$this->assertStatusGood( $blockStatus );
+		// Perform an 'ipusers' request and verify that the hidden user is not shown in the response.
+		$this->testResponseFromApi(
+			'ipusers', 'ipusers', '127.2.3.4', '-3 months', true,
+			[
+				[
+					'name' => wfMessage( 'rev-deleted-user' )->text(),
+					'end' => '2023-04-05T06:07:12Z',
+					'editcount' => 2,
+					'agents' => [ 'user-agent-for-logout', 'user-agent-for-edits' ],
+					'ips' => [ '1.2.3.4' ],
+					'start' => '2023-04-05T06:07:11Z'
+				],
+			]
+		);
+	}
+
 	/** @dataProvider provideCuRequestTypesThatAcceptAUsernameTarget */
 	public function testApiForNonExistentUserAsTarget( $requestType ) {
 		$this->expectApiErrorCode( 'nosuchuser' );

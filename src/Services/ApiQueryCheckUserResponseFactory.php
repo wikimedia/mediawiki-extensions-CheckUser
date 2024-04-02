@@ -107,7 +107,8 @@ class ApiQueryCheckUserResponseFactory {
 					$this->messageLocalizer,
 					$this->checkUserLogService,
 					$this->userNameUtils,
-					$this->checkUserLookupUtils
+					$this->checkUserLookupUtils,
+					$this->userFactory
 				);
 			default:
 				$module->dieWithError( 'apierror-checkuser-invalidmode', 'invalidmode' );
