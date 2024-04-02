@@ -8,9 +8,13 @@ use ApiQueryTokens;
 use ApiTestCase;
 use ManualLogEntry;
 use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
+use MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserAbstractResponse;
+use MediaWiki\CheckUser\Services\ApiQueryCheckUserResponseFactory;
+use MediaWiki\CommentStore\CommentStoreComment;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\HookContainer\HookRunner;
 use MediaWiki\Permissions\Authority;
+use MediaWiki\Revision\SlotRecord;
 use MediaWiki\Session\SessionManager;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\Title\Title;
@@ -19,6 +23,7 @@ use MediaWiki\User\UserIdentityValue;
 use TestUser;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
+use WikitextContent;
 
 /**
  * @group API
@@ -324,6 +329,21 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 					],
 				]
 			],
+			'actions check on CheckUserAPITestUser2' => [
+				'actions', 'edits', 'CheckUserAPITestUser2', '2023-04-05T06:07:09Z', true,
+				[
+					[
+						'timestamp' => '2023-04-05T06:07:10Z',
+						'ns' => 0,
+						'title' => 'CheckUserTestPage',
+						'user' => 'CheckUserAPITestUser2',
+						'ip' => '127.0.0.2',
+						'agent' => 'user-agent-for-edits',
+						'summary' => 'Test1232',
+						'minor' => 'm',
+					],
+				]
+			],
 		];
 	}
 
@@ -478,6 +498,29 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		}
 	}
 
+	public function testExecuteOnUnrecognisedRequestTypeFromRequestFactory() {
+		$this->expectApiErrorCode( 'invalidmode' );
+		// Create a mock response object to return when the request factory is called
+		// which returns an unrecognised request type from ::getRequestType.
+		$mockResponse = $this->getMockBuilder( ApiQueryCheckUserAbstractResponse::class )
+			->disableOriginalConstructor()
+			->getMockForAbstractClass();
+		$mockResponse->method( 'getRequestType' )
+			->willReturn( 'unrecognised' );
+		// Mock the ApiQueryCheckUserResponseFactory to return $mockResponse from ::newFromRequest
+		$mockResponseFactory = $this->getMockBuilder( ApiQueryCheckUserResponseFactory::class )
+			->disableOriginalConstructor()
+			->getMock();
+		$mockResponseFactory->method( 'newFromRequest' )
+			->willReturn( $mockResponse );
+		// Install this mock ApiQueryCheckUserResponseFactory into the service container
+		$this->setService( 'ApiQueryCheckUserResponseFactory', $mockResponseFactory );
+		// Execute the API request
+		$this->doCheckUserApiRequest(
+			[ 'curequest' => 'actions', 'cutarget' => 'Test', 'cutimecond' => '-3 months', 'limit' => '50' ]
+		);
+	}
+
 	private function createLogEntry( UserIdentity $performer, Title $page ) {
 		$logEntry = new ManualLogEntry( 'phpunit', 'test' );
 		$logEntry->setPerformer( $performer );
@@ -519,13 +562,14 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 			$firstTestUser
 		);
 		ConvertibleTimestamp::setFakeTime( '20230405060710' );
-		$this->editPage(
-			Title::newFromDBkey( 'CheckUserTestPage' ),
-			'Testing1232',
-			'Test1232',
-			NS_MAIN,
-			$secondTestUser
-		);
+		// Make the second edit a minor edit to test that the API can handle this.
+		$page = $this->getServiceContainer()->getWikiPageFactory()
+			->newFromTitle( Title::newFromDBkey( 'CheckUserTestPage' ) );
+		$updater = $page->newPageUpdater( $secondTestUser )
+			->setContent( SlotRecord::MAIN, new WikitextContent( 'Testing1232' ) )
+			->setFlags( EDIT_MINOR );
+		$updater->saveRevision( CommentStoreComment::newUnsavedComment( 'Test1232' ) );
+		$this->assertTrue( $updater->wasRevisionCreated() );
 
 		// Insert one edit with a different IP and a defined XFF header
 		RequestContext::getMain()->getRequest()->setIP( '1.2.3.4' );

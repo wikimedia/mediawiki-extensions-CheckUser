@@ -11,6 +11,8 @@ use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
 use MediaWiki\CheckUser\Services\ApiQueryCheckUserResponseFactory;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\Rdbms\IReadableDatabase;
+use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\TestingAccessWrapper;
 
 /**
@@ -18,12 +20,8 @@ use Wikimedia\TestingAccessWrapper;
  * @group Database
  */
 class ApiQueryCheckUserActionsResponseTest extends MediaWikiIntegrationTestCase {
-	/** @dataProvider provideFormatRowLogNotFromCuChangesWhenReadingNewWithLogParameters */
-	public function testGetSummaryForLogEntry( $logParametersAsArray, $logParametersAsBlob ) {
-		$moveLogEntry = new ManualLogEntry( 'move', 'move' );
-		$moveLogEntry->setPerformer( UserIdentityValue::newAnonymous( '127.0.0.1' ) );
-		$moveLogEntry->setTarget( $this->getExistingTestPage() );
-		$moveLogEntry->setParameters( $logParametersAsArray );
+
+	private function getObjectUnderTest(): TestingAccessWrapper {
 		$mockApiQueryCheckUser = $this->createMock( ApiQueryCheckUser::class );
 		$mockApiQueryCheckUser->method( 'extractRequestParams' )
 			->willReturn( [
@@ -31,10 +29,18 @@ class ApiQueryCheckUserActionsResponseTest extends MediaWikiIntegrationTestCase 
 			] );
 		/** @var ApiQueryCheckUserResponseFactory $responseFactory */
 		$responseFactory = $this->getServiceContainer()->get( 'ApiQueryCheckUserResponseFactory' );
-		$objectUnderTest = TestingAccessWrapper::newFromObject( $responseFactory->newFromRequest(
+		return TestingAccessWrapper::newFromObject( $responseFactory->newFromRequest(
 			$mockApiQueryCheckUser
 		) );
-		$actualSummaryText = $objectUnderTest->getSummary(
+	}
+
+	/** @dataProvider provideFormatRowLogNotFromCuChangesWhenReadingNewWithLogParameters */
+	public function testGetSummaryForLogEntry( $logParametersAsArray, $logParametersAsBlob ) {
+		$moveLogEntry = new ManualLogEntry( 'move', 'move' );
+		$moveLogEntry->setPerformer( UserIdentityValue::newAnonymous( '127.0.0.1' ) );
+		$moveLogEntry->setTarget( $this->getExistingTestPage() );
+		$moveLogEntry->setParameters( $logParametersAsArray );
+		$actualSummaryText = $this->getObjectUnderTest()->getSummary(
 			(object)[
 				'log_type' => $moveLogEntry->getType(),
 				'log_action' => $moveLogEntry->getSubtype(),
@@ -71,6 +77,56 @@ class ApiQueryCheckUserActionsResponseTest extends MediaWikiIntegrationTestCase 
 				[ '4::target' => 'Testing', '5::noredir' => '0' ],
 				LogEntryBase::makeParamBlob( [ '4::target' => 'Testing', '5::noredir' => '0' ] ),
 			]
+		];
+	}
+
+	public function testGetSummaryForNoCommentOrActionText() {
+		$actualSummaryText = $this->getObjectUnderTest()->getSummary(
+			(object)[
+				'user_text' => '127.0.0.1',
+				'user' => 0,
+				'title' => null,
+				'page' => 0,
+				'type' => RC_EDIT,
+				'timestamp' => $this->getDb()->timestamp( '20230405060708' ),
+				'comment_text' => '',
+				'comment_data' => FormatJson::encode( [] ),
+			],
+			UserIdentityValue::newAnonymous( '127.0.0.1' )
+		);
+		$this->assertNull(
+			$actualSummaryText,
+			'The summary text returned by ::getSummary was not as expected.'
+		);
+	}
+
+	/** @dataProvider providePartialQueryBuilderMethodsThatCastTypeColumn */
+	public function testGetPartialQueryBuildersForPostgres( $partialQueryBuilderMethod ) {
+		// Tests that the cast of RC_LOG to smallint is performed when the DB is postgres.
+		// Mock that the $mockDbr returns 'postgres' as the result of IReadableDatabase::getType
+		$mockDbr = $this->createMock( IReadableDatabase::class );
+		$mockDbr->method( 'getType' )
+			->willReturn( 'postgres' );
+		// Make $mockDbr::newSelectQueryBuilder perform exactly the same thing
+		// as in a real database, but instead using the $mockDbr.
+		$mockDbr->method( 'newSelectQueryBuilder' )
+			->willReturn( new SelectQueryBuilder( $mockDbr ) );
+		// Get the object under test and set the mock database as the dbr object property.
+		/** @var SelectQueryBuilder $partialQueryBuilder */
+		$objectUnderTest = $this->getObjectUnderTest();
+		$objectUnderTest->dbr = $mockDbr;
+		$partialQueryBuilder = $objectUnderTest->$partialQueryBuilderMethod();
+		$this->assertSame(
+			'CAST(' . RC_LOG . ' AS smallint)',
+			$partialQueryBuilder->getQueryInfo()['fields']['type'],
+			'The select query builder returned by ::' . $partialQueryBuilderMethod . ' was not as expected.'
+		);
+	}
+
+	public static function providePartialQueryBuilderMethodsThatCastTypeColumn() {
+		return [
+			'::getPartialQueryBuilderForCuLogEvent' => [ 'getPartialQueryBuilderForCuLogEvent' ],
+			'::getPartialQueryBuilderForCuPrivateEvent' => [ 'getPartialQueryBuilderForCuPrivateEvent' ],
 		];
 	}
 }
