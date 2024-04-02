@@ -94,7 +94,8 @@
 				"UserIdentityLookup",
 				"RevisionLookup",
 				"CheckUserLogService",
-				"CommentStore"
+				"CommentStore",
+				"UserFactory"
 			]
 		},
 		"checkuserlog": {
