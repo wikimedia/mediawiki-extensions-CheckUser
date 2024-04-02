@@ -11,7 +11,9 @@ use MediaWiki\CheckUser\CheckUserLogService;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
+use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityLookup;
+use MediaWiki\User\UserIdentityValue;
 use Title;
 use Wikimedia\IPUtils;
 use Wikimedia\ParamValidator\ParamValidator;
@@ -31,24 +33,30 @@ class ApiQueryCheckUser extends ApiQueryBase {
 	/** @var CheckUserLogService */
 	private $checkUserLogService;
 
+	/** @var UserFactory */
+	private $userFactory;
+
 	/**
 	 * @param ApiQuery $query
 	 * @param string $moduleName
 	 * @param UserIdentityLookup $userIdentityLookup
 	 * @param RevisionLookup $revisionLookup
 	 * @param CheckUserLogService $checkUserLogService
+	 * @param UserFactory $userFactory
 	 */
 	public function __construct(
 		$query,
 		$moduleName,
 		UserIdentityLookup $userIdentityLookup,
 		RevisionLookup $revisionLookup,
-		CheckUserLogService $checkUserLogService
+		CheckUserLogService $checkUserLogService,
+		UserFactory $userFactory
 	) {
 		parent::__construct( $query, $moduleName, 'cu' );
 		$this->userIdentityLookup = $userIdentityLookup;
 		$this->revisionLookup = $revisionLookup;
 		$this->checkUserLogService = $checkUserLogService;
+		$this->userFactory = $userFactory;
 	}
 
 	public function execute() {
@@ -176,6 +184,30 @@ class ApiQueryCheckUser extends ApiQueryBase {
 						'agent'     => $row->cuc_agent,
 					];
 
+					$user = $this->userFactory->newFromUserIdentity(
+						new UserIdentityValue( $row->cuc_user ?? 0, $row->cuc_user_text )
+					);
+
+					// If the 'user' key is a username which the current authority cannot see, then replace it with the
+					// 'rev-deleted-user' message.
+					if ( $user->isHidden() && !$this->getUser()->isAllowed( 'hideuser' ) ) {
+						$edit['user'] = $this->msg( 'rev-deleted-user' )->text();
+					}
+
+					// If the title is a user page and the username in this user page link is hidden
+					// from the current authority, then replace the title with the 'rev-deleted-user' message.
+					$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
+					if ( $title->getNamespace() === NS_USER ) {
+						$titleUser = $this->userFactory->newFromName( $title->getBaseText() );
+						if (
+							$titleUser &&
+							$titleUser->isHidden() &&
+							!$this->getUser()->isAllowed( 'hideuser' )
+						) {
+							$edit['title'] = $this->msg( 'rev-deleted-user' )->text();
+						}
+					}
+
 					if ( $row->cuc_actiontext ) {
 						$edit['summary'] = $row->cuc_actiontext;
 					} elseif ( $row->cuc_comment ) {
@@ -288,6 +320,14 @@ class ApiQueryCheckUser extends ApiQueryBase {
 
 				$resultUsers = [];
 				foreach ( $users as $userName => $userData ) {
+					// Hide the user name if it is hidden from the current authority.
+					$user = $this->userFactory->newFromName( $userName );
+					if ( $user !== null && $user->isHidden() && !$this->getUser()->isAllowed( 'hideuser' ) ) {
+						// If the username is hidden from the current user, then hide the username in the
+						// results using the 'rev-deleted-user' message.
+						$userName = $this->msg( 'rev-deleted-user' )->text();
+					}
+
 					$userData['name'] = $userName;
 					ApiResult::setIndexedTagName( $userData['ips'], 'ip' );
 					ApiResult::setIndexedTagName( $userData['agents'], 'agent' );
