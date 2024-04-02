@@ -324,6 +324,12 @@
 				"options": { "notnull": false, "length": 255 }
 			},
 			{
+				"name": "cupe_agent_id",
+				"comment": "Foreign key to cu_useragent table on the cuua_id field. Represents the user agent string used for this log event.",
+				"type": "bigint",
+				"options": { "notnull": true, "unsigned": true, "default": 0 }
+			},
+			{
 				"name": "cupe_private",
 				"comment": "Private Data",
 				"type": "blob",
