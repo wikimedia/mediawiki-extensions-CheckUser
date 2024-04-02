@@ -216,6 +216,11 @@ class TimelineRowFormatter {
 			return '';
 		}
 
+		// Hide the title link if the title for a user page of a user which the current user cannot see.
+		if ( $title->getNamespace() === NS_USER && $this->isUserHidden( $title->getText() ) ) {
+			return '';
+		}
+
 		return $this->linkRenderer->makeLink(
 			$title,
 			null,
@@ -237,6 +242,12 @@ class TimelineRowFormatter {
 		if ( !$title ) {
 			return '';
 		}
+
+		// Hide the 'logs' link if the title is a user page of a user which the current user cannot see.
+		if ( $title->getNamespace() === NS_USER && $this->isUserHidden( $title->getText() ) ) {
+			return '';
+		}
+
 		return $this->msg( 'parentheses' )
 			->rawParams(
 				$this->linkRenderer->makeKnownLink(
@@ -260,6 +271,11 @@ class TimelineRowFormatter {
 		$title = TitleValue::tryNew( (int)$row->cuc_namespace, $row->cuc_title );
 
 		if ( !$title ) {
+			return '';
+		}
+
+		// Hide the diff link if the title for a user page of a user which the current user cannot see.
+		if ( $title->getNamespace() === NS_USER && $this->isUserHidden( $title->getText() ) ) {
 			return '';
 		}
 
@@ -290,6 +306,11 @@ class TimelineRowFormatter {
 		$title = TitleValue::tryNew( (int)$row->cuc_namespace, $row->cuc_title );
 
 		if ( !$title ) {
+			return '';
+		}
+
+		// Hide the history link if the title for a user page of a user which the current user cannot see.
+		if ( $title->getNamespace() === NS_USER && $this->isUserHidden( $title->getText() ) ) {
 			return '';
 		}
 
@@ -354,18 +375,28 @@ class TimelineRowFormatter {
 	private function getUserLinks( \stdClass $row, ?RevisionRecord $revRecord ): string {
 		// Note: this is incomplete. It should match the checks
 		// in SpecialCheckUser when displaying the same info
-		if ( $row->cuc_this_oldid != 0 &&
+		$userIsHidden = $this->isUserHidden( $row->cuc_user_text );
+		$userHiddenClass = '';
+		if ( $userIsHidden ) {
+			$userHiddenClass = 'history-deleted mw-history-suppressed';
+		}
+		if (
+			!$userIsHidden &&
+			$row->cuc_this_oldid != 0 &&
 			( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW ) &&
-			$revRecord instanceof RevisionRecord &&
-			!RevisionRecord::userCanBitfield(
+			$revRecord instanceof RevisionRecord
+		) {
+			$userIsHidden = !RevisionRecord::userCanBitfield(
 				$revRecord->getVisibility(),
 				RevisionRecord::DELETED_USER,
 				$this->user
-			)
-		) {
+			);
+			$userHiddenClass = Linker::getRevisionDeletedClass( $revRecord );
+		}
+		if ( $userIsHidden ) {
 			return Html::element(
 				'span',
-				[ 'class' => Linker::getRevisionDeletedClass( $revRecord ) ],
+				[ 'class' => $userHiddenClass ],
 				$this->msg( 'rev-deleted-user' )->text()
 			);
 		} else {
@@ -409,5 +440,16 @@ class TimelineRowFormatter {
 	 */
 	private function msg( string $key, array $params = [] ): Message {
 		return new Message( $key, $params, $this->language );
+	}
+
+	/**
+	 * Should a given username should be hidden from the current user.
+	 *
+	 * @param string $username
+	 * @return bool
+	 */
+	private function isUserHidden( string $username ): bool {
+		$user = $this->userFactory->newFromName( $username );
+		return $user !== null && $user->isHidden() && !$this->user->isAllowed( 'hideuser' );
 	}
 }

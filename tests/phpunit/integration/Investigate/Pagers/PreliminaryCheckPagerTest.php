@@ -40,7 +40,8 @@ class PreliminaryCheckPagerTest extends MediaWikiIntegrationTestCase {
 			$services->getNamespaceInfo(),
 			$tokenQueryManager,
 			$registry,
-			$preliminaryCheckService
+			$preliminaryCheckService,
+			$this->getServiceContainer()->getUserFactory()
 		);
 
 		$result = $pager->getQueryInfo();
@@ -64,7 +65,8 @@ class PreliminaryCheckPagerTest extends MediaWikiIntegrationTestCase {
 			$services->getNamespaceInfo(),
 			$services->get( 'CheckUserTokenQueryManager' ),
 			$this->createMock( ExtensionRegistry::class ),
-			$this->createMock( PreliminaryCheckService::class )
+			$this->createMock( PreliminaryCheckService::class ),
+			$services->getUserFactory()
 		);
 		$this->assertEquals( 'user_name', $pager->getIndexfield() );
 	}
@@ -77,7 +79,8 @@ class PreliminaryCheckPagerTest extends MediaWikiIntegrationTestCase {
 				$services->getNamespaceInfo(),
 				$services->get( 'CheckUserTokenQueryManager' ),
 				$this->createMock( ExtensionRegistry::class ),
-				$this->createMock( PreliminaryCheckService::class )
+				$this->createMock( PreliminaryCheckService::class ),
+				$services->getUserFactory()
 			 ] )
 			->onlyMethods( [ 'isGlobalCheck' ] )
 			->getMock();
