@@ -84,7 +84,7 @@
 	"checkuser-massblock": "Blokker valgte brukere",
 	"checkuser-massblock-text": "Valgte kontoer vil blokkeres på ubestemt tid, med autoblokkering slått på og kontooppretting slått av.\nIP-adresser vil blokkeres i én uke for anonyme brukere, med kontooppretting slått av.",
 	"checkuser-blockemail": "Blokker valgte brukere fra å sende e-post",
-	"checkuser-blocktalk": "Forhindre valgte brukere fra å redigere deres egen diskusjonsside mens han/hun er blokkert",
+	"checkuser-blocktalk": "Forhindre valgte brukere fra å redigere deres egen diskusjonsside mens hen er blokkert",
 	"checkuser-blocktag": "Erstatt brukersider med:",
 	"checkuser-blocktag-talk": "Erstatt diskusjonssider med:",
 	"checkuser-reblock": "Overstyr eksisterende blokkeringer",
