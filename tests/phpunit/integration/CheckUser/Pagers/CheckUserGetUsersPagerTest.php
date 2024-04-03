@@ -10,6 +10,7 @@ use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
 use MediaWiki\CheckUser\Tests\TemplateParserMockTest;
 use MediaWiki\User\UserIdentityValue;
+use RequestContext;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
@@ -150,6 +151,85 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerCommonTest {
 					'agentsList' => [ 'Testing useragent2', 'Testing user agent' ]
 				]
 			],
+		];
+	}
+
+	/** @dataProvider provideFormatUserRowWithUsernameHidden */
+	public function testFormatUserRowWithUsernameHidden( $authorityCanSeeUser ) {
+		// Get a test user and then block it with 'hideuser' enabled.
+		$hiddenUser = $this->getMutableTestUser()->getUser();
+		$blockingUser = $this->getTestUser( [ 'sysop', 'suppress' ] )->getUser();
+		$blockStatus = $this->getServiceContainer()->getBlockUserFactory()
+			->newBlockUser(
+				$hiddenUser, $blockingUser, 'infinity',
+				'block to hide the test user', [ 'isHideUser' => true ]
+			)->placeBlock();
+		$this->assertStatusGood( $blockStatus );
+
+		$smallestFakeTimestamp = ConvertibleTimestamp::convert(
+			TS_MW,
+			ConvertibleTimestamp::time() - 1600
+		);
+		$largestFakeTimestamp = ConvertibleTimestamp::now();
+		$objectUnderTest = $this->setUpObject();
+
+		// Set the user who is viewing the row in the results.
+		$viewUserGroups = [ 'checkuser' ];
+		if ( $authorityCanSeeUser ) {
+			$viewUserGroups[] = 'suppress';
+		}
+		RequestContext::getMain()->setUser( $this->getTestUser( $viewUserGroups )->getUser() );
+
+		$objectUnderTest->templateParser = new TemplateParserMockTest();
+		$objectUnderTest->userSets = [
+			'first' => [ $hiddenUser->getName() => $smallestFakeTimestamp ],
+			'last' => [ $hiddenUser->getName() => $largestFakeTimestamp ],
+			'edits' => [ $hiddenUser->getName() => 123 ],
+			'ids' => [ $hiddenUser->getName() => $hiddenUser->getId() ],
+			'infosets' => [ $hiddenUser->getName() => [ [ '127.0.0.1', null ], [ '127.0.0.1', '124.5.6.7' ] ] ],
+			'agentsets' => [ $hiddenUser->getName() => [ 'Testing user agent', 'Testing useragent2' ] ],
+			'clienthints' => [ $hiddenUser->getName() => new ClientHintsReferenceIds( [
+				UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => [ 1 ],
+			] ) ],
+		];
+		$objectUnderTest->clientHintsLookupResults = new ClientHintsLookupResults( [], [] );
+		$objectUnderTest->displayClientHints = true;
+		$objectUnderTest->formatUserRow( $hiddenUser->getName() );
+		$this->assertNotNull(
+			$objectUnderTest->templateParser->lastCalledWith,
+			'The template parser was not called by ::formatUserRow.'
+		);
+		$this->assertSame(
+			'GetUsersLine',
+			$objectUnderTest->templateParser->lastCalledWith[0],
+			'::formatUserRow did not call the correct mustache file.'
+		);
+		$expectedTemplateParams = [
+			'userText' => $authorityCanSeeUser ? $hiddenUser->getName() : '',
+			'editCount' => 123,
+			'agentsList' => [ 'Testing useragent2', 'Testing user agent' ],
+			'clientHintsList' => []
+		];
+		$this->assertArrayEquals(
+			$expectedTemplateParams,
+			array_filter(
+				$objectUnderTest->templateParser->lastCalledWith[1],
+				static function ( $key ) use ( $expectedTemplateParams ) {
+					return array_key_exists( $key, $expectedTemplateParams );
+				},
+				ARRAY_FILTER_USE_KEY
+			),
+			false,
+			true,
+			'The template parameters do not match the expected template parameters. If changes have been ' .
+			'made to the template parameters make sure you update the tests.'
+		);
+	}
+
+	public static function provideFormatUserRowWithUsernameHidden() {
+		return [
+			'Authority can see hidden user' => [ true ],
+			'Authority cannot see hidden user' => [ false ],
 		];
 	}
 
