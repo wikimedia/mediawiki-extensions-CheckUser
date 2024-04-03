@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
 use HtmlArmor;
 use IContextSource;
+use LogEventsList;
 use LogFormatter;
 use LogicException;
 use LogPage;
@@ -166,8 +167,6 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 	 */
 	public function formatRow( $row ): string {
 		$templateParams = [];
-		// Create diff/hist/page links
-		$templateParams['links'] = $this->getLinksFromRow( $row );
 		// Show date
 		$templateParams['timestamp'] =
 			$this->getLanguage()->userTime( wfTimestamp( TS_MW, $row->timestamp ), $this->getUser() );
@@ -189,6 +188,9 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 			$hidden = $this->userFactory->newFromUserIdentity( $user )->isHidden()
 				&& !$this->getAuthority()->isAllowed( 'hideuser' );
 		}
+		// Create diff/hist/page links
+		$templateParams['links'] = $this->getLinksFromRow( $row, $user );
+		$templateParams['showLinks'] = $templateParams['links'] !== '';
 		if ( $hidden ) {
 			$templateParams['userLink'] = Html::element(
 				'span',
@@ -299,16 +301,17 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 
 	/**
 	 * @param stdClass $row
+	 * @param UserIdentity $performer The user that performed the action represented by this row.
 	 * @return string diff, hist and page other links related to the change
 	 */
-	protected function getLinksFromRow( stdClass $row ): string {
+	protected function getLinksFromRow( stdClass $row, UserIdentity $performer ): string {
 		$links = [];
 		// Log items
 		// Due to T315224 triple equals for type does not work for sqlite.
 		if ( $row->type == RC_LOG ) {
 			$title = Title::makeTitle( $row->namespace, $row->title );
 			$links['log'] = '';
-			if ( $this->eventTableReadNew && isset( $row->log_id ) ) {
+			if ( $this->eventTableReadNew && isset( $row->log_id ) && $row->log_id ) {
 				$links['log'] = Html::rawElement( 'span', [],
 					$this->getLinkRenderer()->makeKnownLink(
 						SpecialPage::getTitleFor( 'Log' ),
@@ -316,21 +319,49 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 						[],
 						[ 'logid' => $row->log_id ]
 					)
-				) . ' ';
+				);
 			}
-			$links['log'] .= Html::rawElement( 'span', [],
+			// Hide the 'logs' link if the page is a username and the current authority does not have permission to see
+			// the username in question (T361479).
+			$hidden = false;
+			if ( $title->getNamespace() === NS_USER ) {
+				$user = $this->userFactory->newFromName( $title->getBaseText() );
+				if ( isset( $row->log_deleted ) && $performer->getName() === $title->getText() ) {
+					// If the username of the performer is the same as the title, we can also check whether the
+					// performer of the log entry is hidden.
+					$hidden = !LogEventsList::userCanBitfield(
+						$row->log_deleted,
+						LogPage::DELETED_USER,
+						$this->getContext()->getAuthority()
+					);
+				}
+				if ( $user !== null && !$hidden ) {
+					// If LogEventsList::userCanBitfield said the log entry isn't hidden, then also check if the user
+					// is hidden in general (via a block with 'hideuser' set).
+					// LogEventsList::userCanBitfield can return false while this is true for events from
+					// cu_private_event, as log_deleted is always 0 for those rows (as they cannot be revision deleted).
+					$hidden = $user->isHidden() && !$this->getAuthority()->isAllowed( 'hideuser' );
+				}
+			}
+			if ( !$hidden ) {
+				$links['log'] .= Html::rawElement( 'span', [],
 					$this->getLinkRenderer()->makeKnownLink(
-					SpecialPage::getTitleFor( 'Log' ),
-					new HtmlArmor( $this->message['checkuser-logs-link-text'] ),
-					[],
-					[ 'page' => $title->getPrefixedText() ]
-				)
-			);
-			$links['log'] = Html::rawElement(
-				'span',
-				[ 'class' => 'mw-changeslist-links' ],
-				$links['log']
-			);
+						SpecialPage::getTitleFor( 'Log' ),
+						new HtmlArmor( $this->message['checkuser-logs-link-text'] ),
+						[],
+						[ 'page' => $title->getPrefixedText() ]
+					)
+				);
+			}
+			// Only add the log related links if we have any to add. There may be none for cu_private_event rows when
+			// the username listed as the title is blocked with 'hideuser' enabled.
+			if ( $links['log'] !== '' ) {
+				$links['log'] = Html::rawElement(
+					'span',
+					[ 'class' => 'mw-changeslist-links' ],
+					$links['log']
+				);
+			}
 		} else {
 			$title = Title::makeTitle( $row->namespace, $row->title );
 			// New pages
