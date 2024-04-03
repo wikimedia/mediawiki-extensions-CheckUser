@@ -235,6 +235,43 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 		];
 	}
 
+	public function testFormatRowWhenTitleIsHiddenUser() {
+		// Get a user which has been blocked with the 'hideuser' enabled.
+		$hiddenUser = $this->getTestUser()->getUser();
+		$blockStatus = $this->getServiceContainer()->getBlockUserFactory()
+			->newBlockUser(
+				$hiddenUser,
+				$this->getTestUser( [ 'suppress', 'sysop' ] )->getAuthority(),
+				'infinity',
+				'block to hide the test user',
+				[ 'isHideUser' => true ]
+			)->placeBlock();
+		$this->assertStatusGood( $blockStatus );
+		// Test that when the title is the username of a hidden user, the 'logs' link is not set (as this uses the
+		// the title for the row).
+		$this->testFormatRow(
+			[
+				'log_type' => 'test',
+				'log_action' => 'phpunit',
+				'log_deleted' => 0,
+				'namespace' => NS_USER,
+				'title' => $hiddenUser->getUserPage()->getText(),
+				'user_text' => $hiddenUser->getName(),
+				'user' => $hiddenUser->getId(),
+				'log_params' => LogEntryBase::makeParamBlob( [] ),
+				'client_hints_reference_id' => 1,
+				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
+			],
+			[ $hiddenUser->getName() => '' ],
+			[ $hiddenUser->getId() => true ],
+			[],
+			new ClientHintsBatchFormatterResults( [], [] ),
+			[ 'showLinks' => false ],
+			SCHEMA_COMPAT_NEW,
+			true,
+		);
+	}
+
 	public static function provideFormatRow() {
 		// @todo test the rest of the template parameters.
 		return [
