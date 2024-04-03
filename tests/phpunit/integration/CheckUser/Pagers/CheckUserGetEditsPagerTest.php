@@ -125,7 +125,34 @@ class CheckUserGetEditsPagerTest extends CheckUserPagerCommonTest {
 		);
 	}
 
-	public function provideFormatRow() {
+	public function testFormatRowWhenTitleIsHiddenUser() {
+		// Get a user which has been blocked with the 'hideuser' enabled.
+		$hiddenUser = $this->getTestUser()->getUser();
+		$blockStatus = $this->getServiceContainer()->getBlockUserFactory()
+			->newBlockUser(
+				$hiddenUser,
+				$this->getTestUser( [ 'suppress', 'sysop' ] )->getAuthority(),
+				'infinity',
+				'block to hide the test user',
+				[ 'isHideUser' => true ]
+			)->placeBlock();
+		$this->assertStatusGood( $blockStatus );
+		// Test that when the title is the username of a hidden user, the 'logs' link is not set (as this uses the
+		// the title for the row).
+		$this->testFormatRow(
+			[
+				'cuc_actiontext' => 'test',
+				'cuc_namespace' => NS_USER,
+				'cuc_title' => $hiddenUser->getUserPage()->getText(),
+				'cuc_user_text' => $hiddenUser->getName(),
+				'cuc_user' => $hiddenUser->getId(),
+			],
+			[ $hiddenUser->getName() => '' ],
+			[ 'showLinks' => false ]
+		);
+	}
+
+	public static function provideFormatRow() {
 		// @todo test the rest of the template parameters.
 		return [
 			'Test agent' => [

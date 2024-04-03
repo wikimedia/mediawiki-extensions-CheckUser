@@ -142,8 +142,6 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 	 */
 	public function formatRow( $row ): string {
 		$templateParams = [];
-		// Create diff/hist/page links
-		$templateParams['links'] = $this->getLinksFromRow( $row );
 		// Show date
 		$templateParams['timestamp'] =
 			$this->getLanguage()->userTime( wfTimestamp( TS_MW, $row->cuc_timestamp ), $this->getUser() );
@@ -155,6 +153,9 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 			$hidden = $this->userFactory->newFromUserIdentity( $user )->isHidden()
 				&& !$this->getAuthority()->isAllowed( 'hideuser' );
 		}
+		// Create diff/hist/page links
+		$templateParams['links'] = $this->getLinksFromRow( $row, $user );
+		$templateParams['showLinks'] = $templateParams['links'] !== '';
 		if ( $hidden ) {
 			$templateParams['userLink'] = Html::element(
 				'span',
@@ -213,24 +214,38 @@ class CheckUserGetEditsPager extends AbstractCheckUserPager {
 
 	/**
 	 * @param stdClass $row
+	 * @param UserIdentity $performer The user that performed the action represented by this row.
 	 * @return string diff, hist and page other links related to the change
 	 */
-	protected function getLinksFromRow( stdClass $row ): string {
+	protected function getLinksFromRow( stdClass $row, UserIdentity $performer ): string {
 		$links = [];
 		// Log items
 		// Due to T315224 triple equals for cuc_type does not work for sqlite.
 		if ( $row->cuc_type == RC_LOG ) {
+			// Hide the 'logs' link if the page is a username and the current authority does not have permission to see
+			// the username in question (T361479).
+			$hidden = false;
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
-			$links['log'] = Html::rawElement(
-				'span',
-				[ 'class' => 'mw-changeslist-links' ],
-				$this->getLinkRenderer()->makeKnownLink(
-					SpecialPage::getTitleFor( 'Log' ),
-					new HtmlArmor( $this->message['log'] ),
-					[],
-					[ 'page' => $title->getPrefixedText() ]
-				)
-			);
+			if ( $title->getNamespace() === NS_USER ) {
+				$user = $this->userFactory->newFromName( $title->getBaseText() );
+				if ( $user !== null ) {
+					$hidden = $user->isHidden() && !$this->getAuthority()->isAllowed( 'hideuser' );
+				}
+			}
+			if ( !$hidden ) {
+				$links['log'] = Html::rawElement(
+					'span',
+					[ 'class' => 'mw-changeslist-links' ],
+					$this->getLinkRenderer()->makeKnownLink(
+						SpecialPage::getTitleFor( 'Log' ),
+						new HtmlArmor( $this->message['log'] ),
+						[],
+						[ 'page' => $title->getPrefixedText() ]
+					)
+				);
+			} else {
+				$links['log'] = '';
+			}
 		} else {
 			$title = Title::makeTitle( $row->cuc_namespace, $row->cuc_title );
 			// New pages
