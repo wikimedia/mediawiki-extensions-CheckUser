@@ -7,7 +7,10 @@ use Language;
 use MediaWiki\CheckUser\GuidedTour\TourLauncher;
 use MediaWiki\CheckUser\Hook\CheckUserSubtitleLinksHook;
 use MediaWiki\CheckUser\HookHandler\Preferences;
+use MediaWiki\CheckUser\Investigate\Pagers\ComparePager;
 use MediaWiki\CheckUser\Investigate\Pagers\PagerFactory;
+use MediaWiki\CheckUser\Investigate\Pagers\PreliminaryCheckPager;
+use MediaWiki\CheckUser\Investigate\Pagers\TimelinePager;
 use MediaWiki\CheckUser\Investigate\Pagers\TimelinePagerFactory;
 use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
 use MediaWiki\CheckUser\Investigate\Utilities\EventLogger;
@@ -19,6 +22,7 @@ use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\FormSpecialPage;
 use MediaWiki\Status\Status;
 use MediaWiki\User\Options\UserOptionsManager;
+use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityLookup;
 use Message;
 use OOUI\ButtonGroupWidget;
@@ -50,6 +54,7 @@ class SpecialInvestigate extends FormSpecialPage {
 	private PermissionManager $permissionManager;
 	private CheckUserLogService $checkUserLogService;
 	private UserIdentityLookup $userIdentityLookup;
+	private UserFactory $userFactory;
 
 	/** @var IndexLayout|null */
 	private $layout;
@@ -87,6 +92,7 @@ class SpecialInvestigate extends FormSpecialPage {
 	 * @param PermissionManager $permissionManager
 	 * @param CheckUserLogService $checkUserLogService
 	 * @param UserIdentityLookup $userIdentityLookup
+	 * @param UserFactory $userFactory
 	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
@@ -102,7 +108,8 @@ class SpecialInvestigate extends FormSpecialPage {
 		CheckUserSubtitleLinksHook $subtitleLinksHookRunner,
 		PermissionManager $permissionManager,
 		CheckUserLogService $checkUserLogService,
-		UserIdentityLookup $userIdentityLookup
+		UserIdentityLookup $userIdentityLookup,
+		UserFactory $userFactory
 	) {
 		parent::__construct( 'Investigate', 'checkuser' );
 		$this->setLinkRenderer( $linkRenderer );
@@ -119,6 +126,7 @@ class SpecialInvestigate extends FormSpecialPage {
 		$this->permissionManager = $permissionManager;
 		$this->checkUserLogService = $checkUserLogService;
 		$this->userIdentityLookup = $userIdentityLookup;
+		$this->userFactory = $userFactory;
 	}
 
 	/**
@@ -297,6 +305,7 @@ class SpecialInvestigate extends FormSpecialPage {
 
 		switch ( $par ) {
 			case $this->getTabParam( 'preliminary-check' ):
+				/** @var PreliminaryCheckPager $pager */
 				$pager = $this->preliminaryCheckPagerFactory->createPager( $this->getContext() );
 				$hasIpTargets = (bool)array_filter(
 					$this->getTokenData()['targets'] ?? [],
@@ -335,12 +344,24 @@ class SpecialInvestigate extends FormSpecialPage {
 				break;
 
 			case $this->getTabParam( 'compare' ):
+				/** @var ComparePager $pager */
 				$pager = $this->comparePagerFactory->createPager( $this->getContext() );
 				$numRows = $pager->getNumRows();
 
 				if ( $numRows ) {
 					$targetsOverLimit = $pager->getTargetsOverLimit();
 					if ( $targetsOverLimit ) {
+						// Hide target usernames which the current authority cannot see.
+						foreach ( $targetsOverLimit as &$target ) {
+							$user = $this->userFactory->newFromName( $target );
+							if (
+								$user !== null &&
+								$user->isHidden() &&
+								!$this->getUser()->isAllowed( 'hideuser' )
+							) {
+								$target = $this->msg( 'rev-deleted-user' )->text();
+							}
+						}
 						$message = $this->msg(
 							'checkuser-investigate-compare-notice-exceeded-limit',
 							$this->getLanguage()->commaList( $targetsOverLimit )
@@ -376,6 +397,7 @@ class SpecialInvestigate extends FormSpecialPage {
 				break;
 
 			case $this->getTabParam( 'timeline' ):
+				/** @var TimelinePager $pager */
 				$pager = $this->timelinePagerFactory->createPager( $this->getContext() );
 				$numRows = $pager->getNumRows();
 
