@@ -104,7 +104,30 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 				'agent'     => $row->agent,
 			];
 
-			$summary = $this->getSummary( $row, new UserIdentityValue( $row->user ?? 0, $row->user_text ) );
+			$user = $this->userFactory->newFromUserIdentity(
+				new UserIdentityValue( $row->user ?? 0, $row->user_text )
+			);
+			// If the 'user' key is a username which the current authority cannot see, then replace it with the
+			// 'rev-deleted-user' message.
+			if ( $user->isHidden() && !$this->module->getUser()->isAllowed( 'hideuser' ) ) {
+				$action['user'] = $this->messageLocalizer->msg( 'rev-deleted-user' )->text();
+			}
+
+			// If the title is a user page and the username in this user page link is hidden from the current authority,
+			// then replace the title with the 'rev-deleted-user' message.
+			$title = Title::makeTitle( $row->namespace, $row->title );
+			if ( $title->getNamespace() === NS_USER ) {
+				$titleUser = $this->userFactory->newFromName( $title->getBaseText() );
+				if (
+					$titleUser &&
+					$titleUser->isHidden() &&
+					!$this->module->getUser()->isAllowed( 'hideuser' )
+				) {
+					$action['title'] = $this->messageLocalizer->msg( 'rev-deleted-user' )->text();
+				}
+			}
+
+			$summary = $this->getSummary( $row, $user );
 			if ( $summary !== null ) {
 				$action['summary'] = $summary;
 			}

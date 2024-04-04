@@ -3,11 +3,40 @@
 namespace MediaWiki\CheckUser\Api\CheckUser;
 
 use ApiResult;
+use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
+use MediaWiki\CheckUser\Services\CheckUserLogService;
+use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
+use MediaWiki\Config\Config;
+use MediaWiki\User\UserFactory;
+use MediaWiki\User\UserNameUtils;
+use MessageLocalizer;
+use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 class ApiQueryCheckUserIpUsersResponse extends ApiQueryCheckUserAbstractResponse {
+
+	private UserFactory $userFactory;
+	private MessageLocalizer $messageLocalizer;
+
+	public function __construct(
+		ApiQueryCheckUser $module,
+		IConnectionProvider $dbProvider,
+		Config $config,
+		MessageLocalizer $messageLocalizer,
+		CheckUserLogService $checkUserLogService,
+		UserNameUtils $userNameUtils,
+		CheckUserLookupUtils $checkUserLookupUtils,
+		UserFactory $userFactory
+	) {
+		parent::__construct(
+			$module, $dbProvider, $config, $messageLocalizer, $checkUserLogService,
+			$userNameUtils, $checkUserLookupUtils
+		);
+		$this->userFactory = $userFactory;
+		$this->messageLocalizer = $messageLocalizer;
+	}
 
 	/** @inheritDoc */
 	public function getRequestType(): string {
@@ -45,6 +74,14 @@ class ApiQueryCheckUserIpUsersResponse extends ApiQueryCheckUserAbstractResponse
 
 		$resultUsers = [];
 		foreach ( $users as $userName => $userData ) {
+			// Hide the user name if it is hidden from the current authority.
+			$user = $this->userFactory->newFromName( $userName );
+			if ( $user !== null && $user->isHidden() && !$this->module->getUser()->isAllowed( 'hideuser' ) ) {
+				// If the username is hidden from the current user, then hide the username in the results using the
+				// 'rev-deleted-user' message.
+				$userName = $this->messageLocalizer->msg( 'rev-deleted-user' )->text();
+			}
+
 			$userData['name'] = $userName;
 			ApiResult::setIndexedTagName( $userData['ips'], 'ip' );
 			ApiResult::setIndexedTagName( $userData['agents'], 'agent' );
