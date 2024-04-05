@@ -2,7 +2,10 @@
 
 namespace MediaWiki\CheckUser\Api\CheckUser;
 
+use LogEventsList;
 use LogFormatter;
+use LogPage;
+use ManualLogEntry;
 use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
@@ -11,7 +14,6 @@ use MediaWiki\Config\Config;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Title\Title;
 use MediaWiki\User\UserFactory;
-use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserNameUtils;
@@ -93,9 +95,32 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 			$user = $this->userFactory->newFromUserIdentity(
 				new UserIdentityValue( $row->user ?? 0, $row->user_text )
 			);
+
+			// Get either the RevisionRecord or DatabaseLogEntry associated with this row.
+			$revRecord = null;
+			$logEntry = null;
+			if ( ( $row->type == RC_EDIT || $row->type == RC_NEW ) && $row->this_oldid != 0 ) {
+				$revRecord = $this->checkUserLookupUtils->getRevisionRecordFromRow( $row );
+			} elseif ( $row->type == RC_LOG && $this->eventTableReadNew ) {
+				$logEntry = $this->checkUserLookupUtils->getManualLogEntryFromRow( $row, $user );
+			}
+
 			// If the 'user' key is a username which the current authority cannot see, then replace it with the
 			// 'rev-deleted-user' message.
-			if ( $user->isHidden() && !$this->module->getUser()->isAllowed( 'hideuser' ) ) {
+			$userIsHidden = $user->isHidden() && !$this->module->getUser()->isAllowed( 'hideuser' );
+			if ( $revRecord !== null && !$userIsHidden ) {
+				$userIsHidden = !$revRecord->userCan( RevisionRecord::DELETED_USER, $this->module->getAuthority() );
+			} elseif ( $logEntry !== null && !$userIsHidden ) {
+				// Specifically using LogEventsList::userCanBitfield here instead of ::userCan because we still want
+				// to show the username if the authority cannot see logs from this log type but the user is otherwise
+				// visible.
+				$userIsHidden = !LogEventsList::userCanBitfield(
+					$row->log_deleted,
+					LogPage::DELETED_USER,
+					$this->module->getAuthority()
+				);
+			}
+			if ( $userIsHidden ) {
 				$action['user'] = $this->messageLocalizer->msg( 'rev-deleted-user' )->text();
 			}
 
@@ -113,33 +138,11 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 				}
 			}
 
-			$summary = $this->getSummary( $row, $user );
+			$summary = $this->getSummary( $row, $revRecord, $logEntry );
 			if ( $summary !== null ) {
 				$action['summary'] = $summary;
 			}
 
-			if ( ( $row->type == RC_EDIT || $row->type == RC_NEW ) && $row->this_oldid != 0 ) {
-				$revRecord = $this->checkUserLookupUtils->getRevisionRecordFromRow( $row );
-				if ( $revRecord !== null ) {
-					$requestUser = $this->userFactory->newFromUserIdentity( $this->module->getUser() );
-					if ( !RevisionRecord::userCanBitfield(
-						$revRecord->getVisibility(),
-						RevisionRecord::DELETED_COMMENT,
-						$requestUser
-					) ) {
-						// If the comment cannot be viewed by the user, then blank it. We would not be removing any
-						// action text because revisions do not have an action text.
-						$action['summary'] = $this->messageLocalizer->msg( 'rev-deleted-comment' )->text();
-					}
-					if ( !RevisionRecord::userCanBitfield(
-						$revRecord->getVisibility(),
-						RevisionRecord::DELETED_USER,
-						$requestUser
-					) ) {
-						$action['user'] = $this->messageLocalizer->msg( 'rev-deleted-user' )->text();
-					}
-				}
-			}
 			if ( ( $row->type == RC_EDIT || $row->type == RC_NEW ) && $row->minor ) {
 				$action['minor'] = 'm';
 			}
@@ -169,26 +172,41 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 	}
 
 	/**
-	 * Gets the summary text associated with the given $row. This is a combination of the actiontext
-	 * and any comment left.
+	 * Gets the summary text associated with the given $row. This is a combination of the actiontext and any comment
+	 * left for the action.
+	 *
+	 * This will also appropriately hide the action text and any set comment if the current authority cannot see them.
 	 *
 	 * @param stdClass $row The database row
-	 * @param UserIdentity $user The user who is the performer for this row.
+	 * @param RevisionRecord|null $revRecord The RevisionRecord associated with this row, if it exists.
+	 * @param ManualLogEntry|null $logEntry The ManualLogEntry associated with this row, if it exists.
 	 * @return ?string The comment and action text combined together into a plaintext string, or null if there is no
 	 *   comment or action text.
 	 */
-	private function getSummary( stdClass $row, UserIdentity $user ): ?string {
-		if ( $this->eventTableReadNew && $row->type == RC_LOG && isset( $row->log_type ) && $row->log_type ) {
+	private function getSummary( stdClass $row, ?RevisionRecord $revRecord, ?ManualLogEntry $logEntry ): ?string {
+		// Generate the action text if possible, or fetch it from the actiontext column if reading old.
+		if ( $logEntry !== null ) {
 			// Log action text taken from the LogFormatter for the entry being displayed.
-			$logEntry = $this->checkUserLookupUtils->getManualLogEntryFromRow( $row, $user );
 			$logFormatter = LogFormatter::newFromEntry( $logEntry );
 			$logFormatter->setAudience( LogFormatter::FOR_THIS_USER );
 			$actionText = $logFormatter->getPlainActionText();
 		} else {
 			$actionText = $row->actiontext ?? '';
 		}
-		// Add the comment if there is one
-		$comment = $this->commentStore->getComment( 'comment', $row )->text;
+
+		// Get the comment if there is one and only show it if the current authority can see it.
+		$commentVisible = true;
+		if ( $revRecord !== null ) {
+			$commentVisible = $revRecord->userCan( RevisionRecord::DELETED_COMMENT, $this->module->getAuthority() );
+		} elseif ( $logEntry !== null ) {
+			$commentVisible = LogEventsList::userCan( $row, LogPage::DELETED_COMMENT, $this->module->getAuthority() );
+		}
+		if ( $commentVisible ) {
+			$comment = $this->commentStore->getComment( 'comment', $row )->text;
+		} else {
+			$comment = '';
+		}
+
 		if ( $comment !== '' && $actionText !== '' ) {
 			// If there is both an actiontext and a comment, we need to make it clear that the comment
 			// is separate from the actiontext. We do this by adding parentheses around the comment.
