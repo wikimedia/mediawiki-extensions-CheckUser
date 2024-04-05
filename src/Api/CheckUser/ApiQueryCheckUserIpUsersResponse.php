@@ -53,6 +53,11 @@ class ApiQueryCheckUserIpUsersResponse extends ApiQueryCheckUserAbstractResponse
 			$ip = $row->ip;
 			$agent = $row->agent;
 
+			// Use the IP as the $row->user_text if the actor ID is NULL and the IP is not NULL (T353953).
+			if ( $row->actor === null && $ip ) {
+				$user = $ip;
+			}
+
 			if ( !isset( $users[$user] ) ) {
 				$users[$user] = [
 					'end' => ConvertibleTimestamp::convert( TS_ISO_8601, $row->timestamp ),

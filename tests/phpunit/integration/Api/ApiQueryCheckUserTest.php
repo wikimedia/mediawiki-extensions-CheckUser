@@ -375,6 +375,22 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 					],
 				]
 			],
+			'ipusers on 1.2.3.5 (IP performer when temporary accounts are enabled)' => [
+				'ipusers',
+				'ipusers',
+				'1.2.3.5',
+				'-3 months',
+				null,
+				[
+					[
+						'end' => '2023-04-05T06:07:13Z',
+						'editcount' => 1,
+						'ips' => [ '1.2.3.5' ],
+						'agents' => [ 'user-agent-for-password-reset' ],
+						'name' => '1.2.3.5',
+					],
+				]
+			],
 		];
 	}
 
