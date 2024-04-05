@@ -3,14 +3,11 @@
 namespace MediaWiki\CheckUser\Api\CheckUser;
 
 use LogFormatter;
-use LogicException;
 use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Config\Config;
-use MediaWiki\Revision\ArchivedRevisionLookup;
-use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Title\Title;
 use MediaWiki\User\UserFactory;
@@ -31,8 +28,6 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 	private MessageLocalizer $messageLocalizer;
 	private UserIdentityLookup $userIdentityLookup;
 	private CommentStore $commentStore;
-	private RevisionLookup $revisionLookup;
-	private ArchivedRevisionLookup $archivedRevisionLookup;
 	private UserFactory $userFactory;
 
 	/**
@@ -45,8 +40,6 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 	 * @param CheckUserLookupUtils $checkUserLookupUtils
 	 * @param UserIdentityLookup $userIdentityLookup
 	 * @param CommentStore $commentStore
-	 * @param RevisionLookup $revisionLookup
-	 * @param ArchivedRevisionLookup $archivedRevisionLookup
 	 * @param UserFactory $userFactory
 	 *
 	 * @internal Use CheckUserApiResponseFactory::newFromRequest() instead
@@ -61,8 +54,6 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 		CheckUserLookupUtils $checkUserLookupUtils,
 		UserIdentityLookup $userIdentityLookup,
 		CommentStore $commentStore,
-		RevisionLookup $revisionLookup,
-		ArchivedRevisionLookup $archivedRevisionLookup,
 		UserFactory $userFactory
 	) {
 		parent::__construct(
@@ -72,8 +63,6 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 		$this->messageLocalizer = $messageLocalizer;
 		$this->userIdentityLookup = $userIdentityLookup;
 		$this->commentStore = $commentStore;
-		$this->revisionLookup = $revisionLookup;
-		$this->archivedRevisionLookup = $archivedRevisionLookup;
 		$this->userFactory = $userFactory;
 	}
 
@@ -130,35 +119,25 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 			}
 
 			if ( ( $row->type == RC_EDIT || $row->type == RC_NEW ) && $row->this_oldid != 0 ) {
-				$revRecord = $this->revisionLookup
-					->getRevisionById( $row->this_oldid );
-				if ( !$revRecord ) {
-					$revRecord = $this->archivedRevisionLookup
-						->getArchivedRevisionRecord( null, $row->this_oldid );
-				}
-				if ( !$revRecord ) {
-					// This shouldn't happen, CheckUser points to a revision that isn't in revision nor archive table?
-					throw new LogicException(
-						"Couldn't fetch revision cu_changes table links to " .
-						"(cuc_this_oldid $row->this_oldid)"
-					);
-				}
-				$requestUser = $this->userFactory->newFromUserIdentity( $this->module->getUser() );
-				if ( !RevisionRecord::userCanBitfield(
-					$revRecord->getVisibility(),
-					RevisionRecord::DELETED_COMMENT,
-					$requestUser
-				) ) {
-					// If the comment cannot be viewed by the user, then blank it. We would not be removing any
-					// action text because revisions do not have an action text.
-					$action['summary'] = $this->messageLocalizer->msg( 'rev-deleted-comment' )->text();
-				}
-				if ( !RevisionRecord::userCanBitfield(
-					$revRecord->getVisibility(),
-					RevisionRecord::DELETED_USER,
-					$requestUser
-				) ) {
-					$action['user'] = $this->messageLocalizer->msg( 'rev-deleted-user' )->text();
+				$revRecord = $this->checkUserLookupUtils->getRevisionRecordFromRow( $row );
+				if ( $revRecord !== null ) {
+					$requestUser = $this->userFactory->newFromUserIdentity( $this->module->getUser() );
+					if ( !RevisionRecord::userCanBitfield(
+						$revRecord->getVisibility(),
+						RevisionRecord::DELETED_COMMENT,
+						$requestUser
+					) ) {
+						// If the comment cannot be viewed by the user, then blank it. We would not be removing any
+						// action text because revisions do not have an action text.
+						$action['summary'] = $this->messageLocalizer->msg( 'rev-deleted-comment' )->text();
+					}
+					if ( !RevisionRecord::userCanBitfield(
+						$revRecord->getVisibility(),
+						RevisionRecord::DELETED_USER,
+						$requestUser
+					) ) {
+						$action['user'] = $this->messageLocalizer->msg( 'rev-deleted-user' )->text();
+					}
 				}
 			}
 			if ( ( $row->type == RC_EDIT || $row->type == RC_NEW ) && $row->minor ) {

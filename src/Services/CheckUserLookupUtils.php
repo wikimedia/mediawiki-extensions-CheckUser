@@ -7,8 +7,13 @@ use LogPage;
 use ManualLogEntry;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\Revision\ArchivedRevisionLookup;
+use MediaWiki\Revision\RevisionLookup;
+use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Title\Title;
 use MediaWiki\User\UserIdentity;
+use Psr\Log\LoggerInterface;
+use RuntimeException;
 use stdClass;
 use Wikimedia\AtEase\AtEase;
 use Wikimedia\IPUtils;
@@ -22,11 +27,23 @@ class CheckUserLookupUtils {
 
 	private ServiceOptions $options;
 	private IReadableDatabase $dbr;
+	private RevisionLookup $revisionLookup;
+	private ArchivedRevisionLookup $archivedRevisionLookup;
+	private LoggerInterface $logger;
 
-	public function __construct( ServiceOptions $options, IConnectionProvider $dbProvider ) {
+	public function __construct(
+		ServiceOptions $options,
+		IConnectionProvider $dbProvider,
+		RevisionLookup $revisionLookup,
+		ArchivedRevisionLookup $archivedRevisionLookup,
+		LoggerInterface $logger
+	) {
 		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 		$this->options = $options;
 		$this->dbr = $dbProvider->getReplicaDatabase();
+		$this->revisionLookup = $revisionLookup;
+		$this->archivedRevisionLookup = $archivedRevisionLookup;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -167,5 +184,27 @@ class CheckUserLookupUtils {
 		$logEntry->setTimestamp( $row->timestamp );
 		$logEntry->setDeleted( $row->log_deleted );
 		return $logEntry;
+	}
+
+	/**
+	 * Get a RevisionRecord instance for the given row from cu_changes table. This should not be called for rows from
+	 * the cu_log_event or cu_private_event tables.
+	 *
+	 * @param stdClass $row
+	 * @return ?RevisionRecord null if no revision is found, otherwise the RevisionRecord.
+	 */
+	public function getRevisionRecordFromRow( stdClass $row ): ?RevisionRecord {
+		$revRecord = $this->revisionLookup->getRevisionById( $row->this_oldid );
+		if ( !$revRecord ) {
+			$revRecord = $this->archivedRevisionLookup->getArchivedRevisionRecord( null, $row->this_oldid );
+		}
+		if ( $revRecord === null ) {
+			// This shouldn't happen, CheckUser points to a revision that isn't in revision nor archive table?
+			$this->logger->warning(
+				"Couldn't fetch revision with this_oldid as {old_id}",
+				[ 'old_id' => $row->this_oldid, 'exception' => new RuntimeException ]
+			);
+		}
+		return $revRecord;
 	}
 }

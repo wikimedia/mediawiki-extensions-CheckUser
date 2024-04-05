@@ -170,7 +170,10 @@ return [
 				CheckUserLookupUtils::CONSTRUCTOR_OPTIONS,
 				$services->getMainConfig()
 			),
-			$services->getDBLoadBalancerFactory()
+			$services->getDBLoadBalancerFactory(),
+			$services->getRevisionStore(),
+			$services->getArchivedRevisionLookup(),
+			LoggerFactory::getInstance( 'CheckUser' )
 		);
 	},
 	'CheckUserInsert' => static function (

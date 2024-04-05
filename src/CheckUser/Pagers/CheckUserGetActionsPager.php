@@ -27,9 +27,7 @@ use MediaWiki\Html\Html;
 use MediaWiki\Linker\Linker;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Logger\LoggerFactory;
-use MediaWiki\Revision\ArchivedRevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
-use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Title\Title;
@@ -61,7 +59,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 	/** @var array A map of revision IDs to the formatted comment associated with that revision. */
 	protected array $formattedRevisionComments = [];
 
-	/** @var array A map where usernames are keys and whether they are hidden are values. */
+	/** @var array A map of revision IDs to whether the user is hidden. */
 	protected array $usernameVisibility = [];
 
 	/**
@@ -71,8 +69,6 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 
 	private LoggerInterface $logger;
 	private LinkBatchFactory $linkBatchFactory;
-	private RevisionStore $revisionStore;
-	private ArchivedRevisionLookup $archivedRevisionLookup;
 	private CommentFormatter $commentFormatter;
 	private UserEditTracker $userEditTracker;
 	private HookRunner $hookRunner;
@@ -95,8 +91,6 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 	 * @param UserIdentityLookup $userIdentityLookup
 	 * @param UserFactory $userFactory
 	 * @param CheckUserLookupUtils $checkUserLookupUtils
-	 * @param RevisionStore $revisionStore
-	 * @param ArchivedRevisionLookup $archivedRevisionLookup
 	 * @param CheckUserLogService $checkUserLogService
 	 * @param CommentFormatter $commentFormatter
 	 * @param UserEditTracker $userEditTracker
@@ -123,8 +117,6 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		UserIdentityLookup $userIdentityLookup,
 		UserFactory $userFactory,
 		CheckUserLookupUtils $checkUserLookupUtils,
-		RevisionStore $revisionStore,
-		ArchivedRevisionLookup $archivedRevisionLookup,
 		CheckUserLogService $checkUserLogService,
 		CommentFormatter $commentFormatter,
 		UserEditTracker $userEditTracker,
@@ -145,8 +137,6 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
 		$this->xfor = $xfor;
 		$this->linkBatchFactory = $linkBatchFactory;
-		$this->archivedRevisionLookup = $archivedRevisionLookup;
-		$this->revisionStore = $revisionStore;
 		$this->commentFormatter = $commentFormatter;
 		$this->userEditTracker = $userEditTracker;
 		$this->hookRunner = $hookRunner;
@@ -181,7 +171,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		// Userlinks
 		$user = new UserIdentityValue( $row->user ?? 0, $user_text );
 		if ( $row->type == RC_EDIT || $row->type == RC_NEW ) {
-			$hidden = !$this->usernameVisibility[$row->this_oldid];
+			$hidden = !( $this->usernameVisibility[$row->this_oldid] ?? true );
 		} else {
 			$hidden = $this->userFactory->newFromUserIdentity( $user )->isHidden()
 				&& !$this->getAuthority()->isAllowed( 'hideuser' );
@@ -212,7 +202,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		$templateParams['actionText'] = $this->getActionText( $row, $user );
 		// Comment
 		if ( $row->type == RC_EDIT || $row->type == RC_NEW ) {
-			$templateParams['comment'] = $this->formattedRevisionComments[$row->this_oldid];
+			$templateParams['comment'] = $this->formattedRevisionComments[$row->this_oldid] ?? '';
 		} else {
 			$comment = $this->commentStore->getComment( 'comment', $row );
 			$templateParams['comment'] = $this->commentFormatter->formatBlock( $comment->text );
@@ -663,7 +653,6 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		$lb = $this->linkBatchFactory->newLinkBatch();
 		$lb->setCaller( __METHOD__ );
 		$revisions = [];
-		$missingRevisions = [];
 		$referenceIds = new ClientHintsReferenceIds();
 		foreach ( $result as $row ) {
 			// Use the IP as the user_text if the actor ID is NULL and the IP is not NULL (T353953).
@@ -693,20 +682,8 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 				( $row->type == RC_EDIT || $row->type == RC_NEW ) &&
 				!array_key_exists( $row->this_oldid, $revisions )
 			) {
-				$revRecord = $this->revisionStore->getRevisionById( $row->this_oldid );
-				if ( !$revRecord ) {
-					// Assume revision is deleted
-					$revRecord = $this->archivedRevisionLookup->getArchivedRevisionRecord( null, $row->this_oldid );
-				}
-				if ( !$revRecord ) {
-					// This shouldn't happen, CheckUser points to a revision
-					// that isn't in revision nor archive table?
-					$this->logger->warning(
-						"Couldn't fetch revision cu_changes table links to (this_oldid $row->this_oldid)"
-					);
-					// Show the comment in this case as the empty string to indicate that it's missing.
-					$missingRevisions[$row->this_oldid] = '';
-				} else {
+				$revRecord = $this->checkUserLookupUtils->getRevisionRecordFromRow( $row );
+				if ( $revRecord !== null ) {
 					$revisions[$row->this_oldid] = $revRecord;
 
 					$this->usernameVisibility[$row->this_oldid] = RevisionRecord::userCanBitfield(
@@ -718,16 +695,13 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 			}
 		}
 		// Batch format revision comments
-		$this->formattedRevisionComments = array_replace(
-			$missingRevisions,
-			$this->commentFormatter->createRevisionBatch()
-				->revisions( $revisions )
-				->authority( $this->getAuthority() )
-				->samePage( false )
-				->useParentheses( false )
-				->indexById()
-				->execute()
-		);
+		$this->formattedRevisionComments = $this->commentFormatter->createRevisionBatch()
+			->revisions( $revisions )
+			->authority( $this->getAuthority() )
+			->samePage( false )
+			->useParentheses( false )
+			->indexById()
+			->execute();
 		$lb->execute();
 		// Lookup the Client Hints data objects from the DB
 		// and then batch format the ClientHintsData objects

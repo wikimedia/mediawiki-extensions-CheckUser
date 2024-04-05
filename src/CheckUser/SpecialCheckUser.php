@@ -24,8 +24,6 @@ use MediaWiki\Html\FormOptions;
 use MediaWiki\Html\Html;
 use MediaWiki\Page\WikiPageFactory;
 use MediaWiki\Permissions\PermissionManager;
-use MediaWiki\Revision\ArchivedRevisionLookup;
-use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Status\Status;
 use MediaWiki\Title\Title;
@@ -76,8 +74,6 @@ class SpecialCheckUser extends SpecialPage {
 	private TokenQueryManager $tokenQueryManager;
 	private IConnectionProvider $dbProvider;
 	private UserFactory $userFactory;
-	private RevisionStore $revisionStore;
-	private ArchivedRevisionLookup $archivedRevisionLookup;
 	private CheckUserLogService $checkUserLogService;
 	private CommentFormatter $commentFormatter;
 	private UserEditTracker $userEditTracker;
@@ -102,8 +98,6 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param TokenQueryManager $tokenQueryManager
 	 * @param IConnectionProvider $dbProvider
 	 * @param UserFactory $userFactory
-	 * @param RevisionStore $revisionStore
-	 * @param ArchivedRevisionLookup $archivedRevisionLookup
 	 * @param CheckUserLogService $checkUserLogService
 	 * @param CommentFormatter $commentFormatter
 	 * @param UserEditTracker $userEditTracker
@@ -128,8 +122,6 @@ class SpecialCheckUser extends SpecialPage {
 		TokenQueryManager $tokenQueryManager,
 		IConnectionProvider $dbProvider,
 		UserFactory $userFactory,
-		RevisionStore $revisionStore,
-		ArchivedRevisionLookup $archivedRevisionLookup,
 		CheckUserLogService $checkUserLogService,
 		CommentFormatter $commentFormatter,
 		UserEditTracker $userEditTracker,
@@ -155,8 +147,6 @@ class SpecialCheckUser extends SpecialPage {
 		$this->tokenQueryManager = $tokenQueryManager;
 		$this->dbProvider = $dbProvider;
 		$this->userFactory = $userFactory;
-		$this->revisionStore = $revisionStore;
-		$this->archivedRevisionLookup = $archivedRevisionLookup;
 		$this->checkUserLogService = $checkUserLogService;
 		$this->commentFormatter = $commentFormatter;
 		$this->userEditTracker = $userEditTracker;
@@ -786,8 +776,6 @@ class SpecialCheckUser extends SpecialPage {
 					$this->userIdentityLookup,
 					$this->userFactory,
 					$this->checkUserLookupUtils,
-					$this->revisionStore,
-					$this->archivedRevisionLookup,
 					$this->checkUserLogService,
 					$this->commentFormatter,
 					$this->userEditTracker,

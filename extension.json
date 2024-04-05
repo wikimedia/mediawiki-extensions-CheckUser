@@ -544,8 +544,6 @@
 				"CheckUserTokenQueryManager",
 				"DBLoadBalancerFactory",
 				"UserFactory",
-				"RevisionStore",
-				"ArchivedRevisionLookup",
 				"CheckUserLogService",
 				"CommentFormatter",
 				"UserEditTracker",
