@@ -2,8 +2,15 @@
 
 namespace MediaWiki\CheckUser\Services;
 
+use LogicException;
+use LogPage;
+use ManualLogEntry;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\Title\Title;
+use MediaWiki\User\UserIdentity;
+use stdClass;
+use Wikimedia\AtEase\AtEase;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
@@ -109,5 +116,56 @@ class CheckUserLookupUtils {
 			$type = $xfor ? 'xff' : 'ip';
 			return CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$table] . $type . '_hex_time';
 		}
+	}
+
+	/**
+	 * Get a ManualLogEntry instance for the given row from either cu_log_event or
+	 * cu_private_event table. The column names are expected to not include the table prefix and the row should include
+	 * the following columns for this method to work:
+	 * - log_type
+	 * - log_action
+	 * - log_params
+	 * - log_deleted
+	 * - title (or page/page_id)
+	 * - namespace (not needed if title is not defined but page/page_id is)
+	 * - timestamp
+	 *
+	 * Do not call this method for rows from cu_changes.
+	 *
+	 * @param stdClass $row The database row
+	 * @param UserIdentity $user The user who is the performer for this row.
+	 * @return ManualLogEntry Which can be used via the LogFormatter to generate action text.
+	 */
+	public function getManualLogEntryFromRow( stdClass $row, UserIdentity $user ): ManualLogEntry {
+		$logEntry = new ManualLogEntry( $row->log_type, $row->log_action );
+		if ( $row->log_params !== null ) {
+			// Suppress E_NOTICE from PHP's unserialize if the log parameters are legacy parameters.
+			// This is similar to DatabaseLogEntry::getParameters.
+			AtEase::suppressWarnings();
+			$parsedLogParams = ManualLogEntry::extractParams( $row->log_params );
+			AtEase::restoreWarnings();
+			if ( $parsedLogParams === false ) {
+				// Use the LogPage::extractParams method to extract the log parameters as they are probably
+				// legacy parameters.
+				$parsedLogParams = LogPage::extractParams( $row->log_params );
+				$logEntry->setLegacy( true );
+			}
+			$logEntry->setParameters( $parsedLogParams );
+		}
+		$logEntry->setPerformer( $user );
+		if ( isset( $row->title ) && $row->title ) {
+			$logEntry->setTarget( Title::makeTitle( $row->namespace, $row->title ) );
+		} elseif (
+			// page_id is the column name for Special:CheckUser. page is the column name for the CheckUser API.
+			( isset( $row->page ) && $row->page ) ||
+			( isset( $row->page_id ) && $row->page_id )
+		) {
+			$logEntry->setTarget( Title::newFromID( $row->page ) );
+		} else {
+			throw new LogicException( 'Either title and namespace, or page must be set in the row.' );
+		}
+		$logEntry->setTimestamp( $row->timestamp );
+		$logEntry->setDeleted( $row->log_deleted );
+		return $logEntry;
 	}
 }

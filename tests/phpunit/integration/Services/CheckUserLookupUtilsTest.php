@@ -2,8 +2,12 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
+use LogEntryBase;
+use LogicException;
+use LogPage;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
+use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\TestingAccessWrapper;
 
@@ -145,5 +149,118 @@ class CheckUserLookupUtilsTest extends MediaWikiIntegrationTestCase {
 				false, CheckUserQueryInterface::PRIVATE_LOG_EVENT_TABLE, 'cupe_ip_hex',
 			],
 		];
+	}
+
+	/** @dataProvider provideGetManualLogEntryFromRow */
+	public function testGetManualLogEntryFromRow( \stdClass $row, $user, $expectedParameters ) {
+		/** @var CheckUserLookupUtils $checkUserLookupUtils */
+		$checkUserLookupUtils = $this->getServiceContainer()->get( 'CheckUserLookupUtils' );
+		$actualLogEntry = $checkUserLookupUtils->getManualLogEntryFromRow( $row, $user );
+		$this->assertSame(
+			$row->log_deleted,
+			$actualLogEntry->getDeleted(),
+			'ManualLogEntry::getDeleted did not return the expected value.'
+		);
+		$this->assertSame(
+			$row->log_type . '/' . $row->log_action,
+			$actualLogEntry->getFullType(),
+			'ManualLogEntry::getFullType did not return the expected value.'
+		);
+		$this->assertSame(
+			$row->timestamp,
+			$actualLogEntry->getTimestamp(),
+			'ManualLogEntry::getTimestamp did not return the expected timestamp.'
+		);
+		$this->assertSame(
+			$user,
+			$actualLogEntry->getPerformerIdentity(),
+			'ManualLogEntry::getPerformerIdentity did not return the expected UserIdentity.'
+		);
+		$actualTarget = $actualLogEntry->getTarget();
+		$this->assertSame(
+			$row->namespace,
+			$actualTarget->getNamespace(),
+			'ManualLogEntry::getTarget did not return the expected Title.'
+		);
+		$this->assertSame(
+			$row->title,
+			$actualTarget->getDBkey(),
+			'ManualLogEntry::getTarget did not return the expected Title.'
+		);
+		$this->assertSame(
+			$expectedParameters,
+			$actualLogEntry->getParameters(),
+			'ManualLogEntry::getParameters did not return the expected parameters.'
+		);
+	}
+
+	public static function provideGetManualLogEntryFromRow() {
+		return [
+			'Row with legacy parameters' => [
+				(object)[
+					'log_type' => 'type',
+					'log_action' => 'action',
+					'log_params' => LogPage::makeParamBlob( [ '4::target' => 'Testing', '5::noredir' => '0' ] ),
+					'log_deleted' => 0,
+					'title' => 'title',
+					'namespace' => 0,
+					'timestamp' => '20210101000000',
+				],
+				UserIdentityValue::newRegistered( 1, 'User' ),
+				[ 'Testing', '0' ],
+			],
+			'Row with non-legacy parameters' => [
+				(object)[
+					'log_type' => 'type',
+					'log_action' => 'action',
+					'log_params' => LogEntryBase::makeParamBlob( [ '4::target' => 'Testing', '5::noredir' => '0' ] ),
+					'log_deleted' => 0,
+					'timestamp' => '20220101000000',
+					'title' => 'title',
+					'namespace' => 0,
+				],
+				UserIdentityValue::newRegistered( 1, 'User' ),
+				[ '4::target' => 'Testing', '5::noredir' => '0' ],
+			],
+		];
+	}
+
+	public function testGetManualLogEntryFromRowWithNoTitleOrPage() {
+		$this->expectException( LogicException::class );
+		/** @var CheckUserLookupUtils $checkUserLookupUtils */
+		$checkUserLookupUtils = $this->getServiceContainer()->get( 'CheckUserLookupUtils' );
+		$checkUserLookupUtils->getManualLogEntryFromRow(
+			(object)[
+				'log_type' => 'type',
+				'log_action' => 'action',
+				'log_params' => LogEntryBase::makeParamBlob( [ '4::target' => 'Testing', '5::noredir' => '0' ] ),
+				'log_deleted' => 0,
+				'timestamp' => '20220101000000',
+			],
+			UserIdentityValue::newRegistered( 1, 'User' )
+		);
+	}
+
+	public function testGetManualLogEntryFromRowWithPage() {
+		// Create a testing page so that we can get a valid page ID
+		$insertPageResult = $this->insertPage( 'Testing', 'Testing', 0 );
+		/** @var CheckUserLookupUtils $checkUserLookupUtils */
+		$checkUserLookupUtils = $this->getServiceContainer()->get( 'CheckUserLookupUtils' );
+		$actualLogEntry = $checkUserLookupUtils->getManualLogEntryFromRow(
+			(object)[
+				'log_type' => 'type',
+				'log_action' => 'action',
+				'log_params' => LogEntryBase::makeParamBlob( [ '4::target' => 'Testing', '5::noredir' => '0' ] ),
+				'log_deleted' => 0,
+				'timestamp' => '20220101000000',
+				'page' => $insertPageResult['id'],
+			],
+			UserIdentityValue::newRegistered( 1, 'User' )
+		);
+		$this->assertSame(
+			$insertPageResult['id'],
+			$actualLogEntry->getTarget()->getArticleID(),
+			'ManualLogEntry::getTarget did not return the expected Title.'
+		);
 	}
 }
