@@ -117,6 +117,8 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 		$this->assertArrayEquals(
 			[
+				'1.2.3.7',
+				'1.2.3.6',
 				'1.2.3.5',
 				'1.2.3.4',
 				'1.2.3.3',
@@ -128,9 +130,28 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
+	public function testExecuteForReadOld() {
+		$this->overrideConfigValue( 'CheckUserMaximumRowCount', 5000 );
+		$this->overrideConfigValue( 'CheckUserEventTablesMigrationStage', SCHEMA_COMPAT_READ_OLD );
+		$data = $this->executeHandlerAndGetBodyData(
+			$this->getTemporaryAccountHandler(),
+			$this->getRequestData(),
+			[], [], [], [],
+			$this->getAuthorityForSuccess()
+		);
+		$this->assertArrayEquals(
+			[
+				'5.4.3.2', '1.2.3.5', '1.2.3.4',
+				'1.2.3.3', '1.2.3.2', '1.2.3.1',
+			],
+			$data['ips'],
+			true
+		);
+	}
+
 	public function testExecuteLimit() {
 		$this->overrideConfigValue( 'CheckUserMaximumRowCount', 5000 );
-		$requestData = $this->getRequestData( [ 'limit' => 2 ] );
+		$requestData = $this->getRequestData( [ 'limit' => 3 ] );
 		$data = $this->executeHandlerAndGetBodyData(
 			$this->getTemporaryAccountHandler(),
 			$requestData,
@@ -141,16 +162,19 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			$this->getAuthorityForSuccess()
 		);
 		$this->assertCount(
-			2,
+			3,
 			$data['ips'],
 			'Resulting number of IP addresses is not as expected'
 		);
 		$this->assertArrayEquals(
 			[
+				'1.2.3.7',
+				'1.2.3.6',
 				'1.2.3.5',
-				'1.2.3.4',
 			],
 			$data['ips'],
+			true,
+			false,
 			'Resulting IP addresses are not as expected'
 		);
 	}
@@ -167,7 +191,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			$this->getAuthorityForSuccess()
 		);
 		$this->assertArrayEquals(
-			[ '1.2.3.5' ],
+			[ '1.2.3.7' ],
 			$data['ips']
 		);
 	}
@@ -198,7 +222,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 
 		// Can't use executeHandlerAndGetHttpException, since it doesn't take an Authority
-		$response = $this->executeHandler(
+		$this->executeHandler(
 			$handler,
 			$this->getRequestData(),
 			[],
@@ -258,7 +282,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 
 		// Can't use executeHandlerAndGetHttpException, since it doesn't take an Authority
-		$response = $this->executeHandler(
+		$this->executeHandler(
 			$handler,
 			$this->getRequestData(),
 			[],
@@ -286,7 +310,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 
 		// Can't use executeHandlerAndGetHttpException, since it doesn't take an Authority
-		$response = $this->executeHandler(
+		$this->executeHandler(
 			$this->getTemporaryAccountHandler(),
 			$this->getRequestData(),
 			[],
@@ -319,7 +343,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 
 		// Can't use executeHandlerAndGetHttpException, since it doesn't take an Authority
-		$response = $this->executeHandler(
+		$this->executeHandler(
 			$handler,
 			$this->getRequestData( [ 'name' => $name ] ),
 			[],
@@ -357,7 +381,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 
 		// Can't use executeHandlerAndGetHttpException, since it doesn't take an Authority
-		$response = $this->executeHandler(
+		$this->executeHandler(
 			$handler,
 			$this->getRequestData( [ 'name' => '*Unregistered 9999' ] ),
 			[],
@@ -427,7 +451,8 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	public function addDBData() {
+	public function addDBDataOnce() {
+		// Add test data for cu_changes
 		$testData = [
 			[
 				'cuc_actor'      => 1234,
@@ -435,6 +460,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.1' ),
 				'cuc_this_oldid' => 1,
 				'cuc_timestamp'  => $this->db->timestamp( '20200101000000' ),
+				'cuc_only_for_read_old' => 0,
 			],
 			[
 				'cuc_actor'      => 1234,
@@ -442,6 +468,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.2' ),
 				'cuc_this_oldid' => 10,
 				'cuc_timestamp'  => $this->db->timestamp( '20200102000000' ),
+				'cuc_only_for_read_old' => 0,
 			],
 			[
 				'cuc_actor'      => 1234,
@@ -449,6 +476,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.3' ),
 				'cuc_this_oldid' => 100,
 				'cuc_timestamp'  => $this->db->timestamp( '20200103000000' ),
+				'cuc_only_for_read_old' => 0,
 			],
 			[
 				'cuc_actor'      => 1234,
@@ -456,6 +484,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cuc_this_oldid' => 1000,
 				'cuc_timestamp'  => $this->db->timestamp( '20200104000000' ),
+				'cuc_only_for_read_old' => 0,
 			],
 			[
 				'cuc_actor'      => 1234,
@@ -463,6 +492,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
 				'cuc_this_oldid' => 10000,
 				'cuc_timestamp'  => $this->db->timestamp( '20210105000000' ),
+				'cuc_only_for_read_old' => 0,
 			],
 			[
 				'cuc_actor'      => 1234,
@@ -470,6 +500,15 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
 				'cuc_this_oldid' => 100000,
 				'cuc_timestamp'  => $this->db->timestamp( '20220101000000' ),
+				'cuc_only_for_read_old' => 0,
+			],
+			[
+				'cuc_actor'      => 1234,
+				'cuc_ip'         => '5.4.3.2',
+				'cuc_ip_hex'     => IPUtils::toHex( '5.4.3.2' ),
+				'cuc_this_oldid' => 12343,
+				'cuc_timestamp'  => $this->db->timestamp( '20220111000000' ),
+				'cuc_only_for_read_old' => 1,
 			],
 		];
 
@@ -490,6 +529,69 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		foreach ( $testData as $row ) {
 			$this->db->newInsertQueryBuilder()
 				->insertInto( 'cu_changes' )
+				->row( $row + $commonData )
+				->execute();
+		}
+
+		// Add test data for cu_log_event
+		$testData = [
+			[
+				'cule_actor'      => 1234,
+				'cule_ip'         => '1.2.3.4',
+				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
+				'cule_log_id'     => 1,
+				'cule_timestamp'  => $this->db->timestamp( '20200104000000' ),
+			],
+			[
+				'cule_actor'      => 1234,
+				'cule_ip'         => '1.2.3.5',
+				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
+				'cule_log_id'     => 2,
+				'cule_timestamp'  => $this->db->timestamp( '20220101000000' ),
+			],
+			[
+				'cule_actor'      => 1234,
+				'cule_ip'         => '1.2.3.6',
+				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.6' ),
+				'cule_log_id'     => 3,
+				'cule_timestamp'  => $this->db->timestamp( '20220109000000' ),
+			],
+		];
+
+		$commonData = [
+			'cule_xff'     => 0,
+			'cule_xff_hex' => null,
+			'cule_agent'   => 'foo user agent',
+		];
+
+		foreach ( $testData as $row ) {
+			$this->db->newInsertQueryBuilder()
+				->insertInto( 'cu_log_event' )
+				->row( $row + $commonData )
+				->execute();
+		}
+
+		// Add test data for cu_private_event
+		$testData = [
+			[
+				'cupe_actor'      => 1234,
+				'cupe_ip'         => '1.2.3.7',
+				'cupe_ip_hex'     => IPUtils::toHex( '1.2.3.7' ),
+				'cupe_timestamp'  => $this->db->timestamp( '20220110000000' ),
+			],
+		];
+
+		$commonData = [
+			'cupe_agent'   => 'foo user agent',
+			'cupe_xff'     => 0,
+			'cupe_xff_hex' => null,
+			'cupe_params'  => '',
+			'cupe_private' => '',
+		];
+
+		foreach ( $testData as $row ) {
+			$this->db->newInsertQueryBuilder()
+				->insertInto( 'cu_private_event' )
 				->row( $row + $commonData )
 				->execute();
 		}
