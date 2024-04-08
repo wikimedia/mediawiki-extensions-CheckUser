@@ -8,7 +8,6 @@ use LogEventsList;
 use LogFormatter;
 use LogicException;
 use LogPage;
-use ManualLogEntry;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\ClientHints\ClientHintsBatchFormatterResults;
@@ -43,7 +42,6 @@ use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
 use Psr\Log\LoggerInterface;
 use stdClass;
-use Wikimedia\AtEase\AtEase;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 
@@ -267,29 +265,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 	private function getActionText( stdClass $row, UserIdentity $user ): string {
 		if ( $this->eventTableReadNew && $row->type == RC_LOG && isset( $row->log_type ) && $row->log_type ) {
 			// Log action text taken from the LogFormatter for the entry being displayed.
-			$logEntry = new ManualLogEntry( $row->log_type, $row->log_action );
-			if ( $row->log_params !== null ) {
-				// Suppress E_NOTICE from PHP's unserialize if the log parameters are legacy parameters.
-				// This is similar to DatabaseLogEntry::getParameters.
-				AtEase::suppressWarnings();
-				$parsedLogParams = ManualLogEntry::extractParams( $row->log_params );
-				AtEase::restoreWarnings();
-				if ( $parsedLogParams === false ) {
-					// Use the LogPage::extractParams method to extract the log parameters as they are probably
-					// legacy parameters.
-					$parsedLogParams = LogPage::extractParams( $row->log_params );
-					$logEntry->setLegacy( true );
-				}
-				$logEntry->setParameters( $parsedLogParams );
-			}
-			$logEntry->setPerformer( $user );
-			if ( $row->title ) {
-				$logEntry->setTarget( Title::makeTitle( $row->namespace, $row->title ) );
-			} elseif ( $row->page_id ) {
-				$logEntry->setTarget( Title::newFromID( $row->page_id ) );
-			}
-			$logEntry->setTimestamp( $row->timestamp );
-			$logEntry->setDeleted( $row->log_deleted );
+			$logEntry = $this->checkUserLookupUtils->getManualLogEntryFromRow( $row, $user );
 			$logFormatter = LogFormatter::newFromEntry( $logEntry );
 			$logFormatter->setAudience( LogFormatter::FOR_THIS_USER );
 			return $logFormatter->getActionText();
