@@ -95,8 +95,6 @@ class ApiQueryCheckUserResponseFactory {
 					$this->checkUserLookupUtils,
 					$this->userIdentityLookup,
 					$this->commentStore,
-					$this->revisionStore,
-					$this->archivedRevisionLookup,
 					$this->userFactory
 				);
 			case 'ipusers':

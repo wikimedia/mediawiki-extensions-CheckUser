@@ -7,8 +7,11 @@ use LogicException;
 use LogPage;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
+use MediaWiki\Revision\RevisionArchiveRecord;
+use MediaWiki\Title\Title;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
+use Psr\Log\LoggerInterface;
 use Wikimedia\TestingAccessWrapper;
 
 /**
@@ -261,6 +264,59 @@ class CheckUserLookupUtilsTest extends MediaWikiIntegrationTestCase {
 			$insertPageResult['id'],
 			$actualLogEntry->getTarget()->getArticleID(),
 			'ManualLogEntry::getTarget did not return the expected Title.'
+		);
+	}
+
+	public function testGetRevisionRecordFromRowOnMissingRevisionId() {
+		$checkUserLookupUtils = $this->getServiceContainer()->get( 'CheckUserLookupUtils' );
+		// Install a mock LoggerInterface that expects a call to ::warning
+		$mockLogger = $this->createMock( LoggerInterface::class );
+		$mockLogger->expects( $this->atLeastOnce() )
+			->method( 'warning' );
+		$checkUserLookupUtils = TestingAccessWrapper::newFromObject( $checkUserLookupUtils );
+		$checkUserLookupUtils->logger = $mockLogger;
+		// Call the method under test
+		$this->assertNull(
+			$checkUserLookupUtils->getRevisionRecordFromRow( (object)[ 'this_oldid' => 12345 ] ),
+			'The value returned by ::getRevisionRecordFromRow was not as expected.'
+		);
+	}
+
+	public function testGetRevisionRecordForDeletedRevision() {
+		$title = Title::newFromText( 'Testing' );
+		// Create a page and get the revision ID associated with the edit that created the page.
+		$editStatus = $this->editPage( $title, 'Testing', 0 );
+		$this->assertStatusGood( $editStatus );
+		$revId = $editStatus->getNewRevision()->getId();
+		// Delete the page we just created.
+		$this->deletePage( $this->getServiceContainer()->getWikiPageFactory()->newFromTitle( $title ) );
+
+		// Attempt to get the RevisionRecord for the deleted revision.
+		/** @var CheckUserLookupUtils $checkUserLookupUtils */
+		$checkUserLookupUtils = $this->getServiceContainer()->get( 'CheckUserLookupUtils' );
+		$actualRevisionRecord = $checkUserLookupUtils->getRevisionRecordFromRow( (object)[ 'this_oldid' => $revId ] );
+		$this->assertSame(
+			$revId,
+			$actualRevisionRecord->getId(),
+			'The RevisionRecord returned by ::getRevisionRecordFromRow does not have the expected revision ID.'
+		);
+		$this->assertInstanceOf( RevisionArchiveRecord::class, $actualRevisionRecord );
+	}
+
+	public function testGetRevisionRecordForRevision() {
+		$title = Title::newFromText( 'Testing' );
+		// Create a page and get the revision ID associated with the edit that created the page.
+		$editStatus = $this->editPage( $title, 'Testing', 0 );
+		$this->assertStatusGood( $editStatus );
+		$revId = $editStatus->getNewRevision()->getId();
+
+		/** @var CheckUserLookupUtils $checkUserLookupUtils */
+		$checkUserLookupUtils = $this->getServiceContainer()->get( 'CheckUserLookupUtils' );
+		$actualRevisionRecord = $checkUserLookupUtils->getRevisionRecordFromRow( (object)[ 'this_oldid' => $revId ] );
+		$this->assertSame(
+			$revId,
+			$actualRevisionRecord->getId(),
+			'The RevisionRecord returned by ::getRevisionRecordFromRow does not have the expected revision ID.'
 		);
 	}
 }
