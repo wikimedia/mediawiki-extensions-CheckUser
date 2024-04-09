@@ -40,22 +40,25 @@ class ApiQueryCheckUserActionsResponseTest extends MediaWikiIntegrationTestCase 
 		$moveLogEntry->setPerformer( UserIdentityValue::newAnonymous( '127.0.0.1' ) );
 		$moveLogEntry->setTarget( $this->getExistingTestPage() );
 		$moveLogEntry->setParameters( $logParametersAsArray );
+		$testingRow = (object)[
+			'log_type' => $moveLogEntry->getType(),
+			'log_action' => $moveLogEntry->getSubtype(),
+			'log_deleted' => 0,
+			'user_text' => $moveLogEntry->getPerformerIdentity()->getName(),
+			'user' => $moveLogEntry->getPerformerIdentity()->getId(),
+			'title' => null,
+			'page' => $moveLogEntry->getTarget()->getArticleID(),
+			'log_params' => $logParametersAsBlob,
+			'type' => RC_LOG,
+			'timestamp' => $this->getDb()->timestamp( '20230405060708' ),
+			'comment_text' => 'test',
+			'comment_data' => FormatJson::encode( [] ),
+		];
 		$actualSummaryText = $this->getObjectUnderTest()->getSummary(
-			(object)[
-				'log_type' => $moveLogEntry->getType(),
-				'log_action' => $moveLogEntry->getSubtype(),
-				'log_deleted' => 0,
-				'user_text' => $moveLogEntry->getPerformerIdentity()->getName(),
-				'user' => $moveLogEntry->getPerformerIdentity()->getId(),
-				'title' => null,
-				'page' => $moveLogEntry->getTarget()->getArticleID(),
-				'log_params' => $logParametersAsBlob,
-				'type' => RC_LOG,
-				'timestamp' => $this->getDb()->timestamp( '20230405060708' ),
-				'comment_text' => 'test',
-				'comment_data' => FormatJson::encode( [] ),
-			],
-			UserIdentityValue::newAnonymous( '127.0.0.1' )
+			$testingRow,
+			null,
+			$this->getServiceContainer()->get( 'CheckUserLookupUtils' )
+				->getManualLogEntryFromRow( $testingRow, $moveLogEntry->getPerformerIdentity() )
 		);
 		$this->assertSame(
 			// The expected summary text is the action text from the move log entry, followed by the the comment text
@@ -92,9 +95,43 @@ class ApiQueryCheckUserActionsResponseTest extends MediaWikiIntegrationTestCase 
 				'comment_text' => '',
 				'comment_data' => FormatJson::encode( [] ),
 			],
-			UserIdentityValue::newAnonymous( '127.0.0.1' )
+			null,
+			null
 		);
 		$this->assertNull(
+			$actualSummaryText,
+			'The summary text returned by ::getSummary was not as expected.'
+		);
+	}
+
+	public function testGetSummaryForHiddenCommentUserAndActionText() {
+		$moveLogEntry = new ManualLogEntry( 'move', 'move' );
+		$moveLogEntry->setPerformer( UserIdentityValue::newAnonymous( '127.0.0.1' ) );
+		$moveLogEntry->setTarget( $this->getExistingTestPage() );
+		$moveLogEntry->setDeleted( LogPage::DELETED_COMMENT | LogPage::DELETED_ACTION | LogPage::DELETED_USER );
+		$moveLogEntry->setParameters( [] );
+		$testingRow = (object)[
+			'log_type' => $moveLogEntry->getType(),
+			'log_action' => $moveLogEntry->getSubtype(),
+			'log_deleted' => $moveLogEntry->getDeleted(),
+			'user_text' => $moveLogEntry->getPerformerIdentity()->getName(),
+			'user' => $moveLogEntry->getPerformerIdentity()->getId(),
+			'title' => null,
+			'page' => $moveLogEntry->getTarget()->getArticleID(),
+			'log_params' => LogEntryBase::makeParamBlob( [] ),
+			'type' => RC_LOG,
+			'timestamp' => $this->getDb()->timestamp( '20230405060708' ),
+			'comment_text' => 'test',
+			'comment_data' => FormatJson::encode( [] ),
+		];
+		$actualSummaryText = $this->getObjectUnderTest()->getSummary(
+			$testingRow,
+			null,
+			$this->getServiceContainer()->get( 'CheckUserLookupUtils' )
+				->getManualLogEntryFromRow( $testingRow, $moveLogEntry->getPerformerIdentity() )
+		);
+		$this->assertSame(
+			LogFormatter::newFromEntry( $moveLogEntry )->getPlainActionText(),
 			$actualSummaryText,
 			'The summary text returned by ::getSummary was not as expected.'
 		);
