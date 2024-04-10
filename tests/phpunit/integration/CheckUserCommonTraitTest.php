@@ -13,6 +13,28 @@ use RecentChange;
  */
 trait CheckUserCommonTraitTest {
 	/**
+	 * Converts any timestamp in the expected row values to the correct format for the current database type.
+	 *
+	 * @param array $fields
+	 * @param array $expectedRow
+	 * @return array
+	 */
+	public function convertTimestampInExpectedRowToDbFormat( array $fields, array $expectedRow ): array {
+		if ( !$this->needsDB() ) {
+			throw new LogicException(
+				'When testing with timestamps in DB formats, the test cases\'s ' .
+				'needsDB() method should return true. Use @group Database.'
+			);
+		}
+		foreach ( $fields as $index => $field ) {
+			if ( in_array( $field, [ 'cuc_timestamp', 'cule_timestamp', 'cupe_timestamp' ] ) ) {
+				$expectedRow[$index] = $this->getDb()->timestamp( $expectedRow[$index] );
+			}
+		}
+		return $expectedRow;
+	}
+
+	/**
 	 * A function used to insert a RecentChange into the correct table when testing.
 	 * Called by the individual tests themselves. This method requires database support, which can be enabled
 	 * with "@group Database", or by returning true from needsDB().
@@ -31,12 +53,8 @@ trait CheckUserCommonTraitTest {
 		}
 		$rc = new RecentChange;
 		$rc->setAttribs( $rcAttribs );
+		$this->convertTimestampInExpectedRowToDbFormat( $fields, $expectedRow );
 		( new Hooks() )->updateCheckUserData( $rc );
-		foreach ( $fields as $index => $field ) {
-			if ( in_array( $field, [ 'cuc_timestamp', 'cule_timestamp', 'cupe_timestamp' ] ) ) {
-				$expectedRow[$index] = $this->getDb()->timestamp( $expectedRow[$index] );
-			}
-		}
 		return $rc;
 	}
 

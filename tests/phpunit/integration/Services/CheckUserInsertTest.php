@@ -36,6 +36,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		ConvertibleTimestamp::setFakeTime( '20240506070809' );
 		$checkUserInsert ??= $this->setUpObject();
 		$checkUserInsert->insertIntoCuChangesTable( $row, __METHOD__, $this->getTestUser()->getUserIdentity() );
+		$expectedRow = $this->convertTimestampInExpectedRowToDbFormat( $fields, $expectedRow );
 		$this->assertSelect(
 			'cu_changes',
 			$fields,
@@ -68,6 +69,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		$checkUserInsert->insertIntoCuPrivateEventTable(
 			$row, __METHOD__, $this->getTestUser()->getUserIdentity()
 		);
+		$expectedRow = $this->convertTimestampInExpectedRowToDbFormat( $fields, $expectedRow );
 		$this->assertSelect(
 			'cu_private_event',
 			$fields,
@@ -107,6 +109,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		$checkUserInsert->insertIntoCuLogEventTable(
 			$logEntry, __METHOD__, $this->getTestUser()->getUserIdentity()
 		);
+		$expectedRow = $this->convertTimestampInExpectedRowToDbFormat( $fields, $expectedRow );
 		$this->assertSelect(
 			'cu_log_event',
 			$fields,

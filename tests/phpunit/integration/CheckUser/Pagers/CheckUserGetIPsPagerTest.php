@@ -174,7 +174,7 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerTestBase {
 	public function testGetCountForIPActionsPerTableWithStartOffset() {
 		$this->overrideConfigValue( 'CheckUserCIDRLimit', [ 'IPv4' => 16, 'IPv6' => 19 ] );
 		$object = $this->setUpObject();
-		$object->startOffset = '20230405060709';
+		$object->startOffset = $this->getDb()->timestamp( '20230405060709' );
 		$object->target = $this->getServiceContainer()->getUserIdentityLookup()
 			->getUserIdentityByName( 'CheckUserGetIPsPagerTestUser' );
 		// The 'total' would be 2 if the startOffset value was not used in the query.
