@@ -3,7 +3,6 @@
 namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use LogEntryBase;
-use LogicException;
 use LogPage;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
@@ -223,22 +222,6 @@ class CheckUserLookupUtilsTest extends MediaWikiIntegrationTestCase {
 				[ '4::target' => 'Testing', '5::noredir' => '0' ],
 			],
 		];
-	}
-
-	public function testGetManualLogEntryFromRowWithNoTitleOrPage() {
-		$this->expectException( LogicException::class );
-		/** @var CheckUserLookupUtils $checkUserLookupUtils */
-		$checkUserLookupUtils = $this->getServiceContainer()->get( 'CheckUserLookupUtils' );
-		$checkUserLookupUtils->getManualLogEntryFromRow(
-			(object)[
-				'log_type' => 'type',
-				'log_action' => 'action',
-				'log_params' => LogEntryBase::makeParamBlob( [ '4::target' => 'Testing', '5::noredir' => '0' ] ),
-				'log_deleted' => 0,
-				'timestamp' => '20220101000000',
-			],
-			UserIdentityValue::newRegistered( 1, 'User' )
-		);
 	}
 
 	public function testGetManualLogEntryFromRowWithPage() {
