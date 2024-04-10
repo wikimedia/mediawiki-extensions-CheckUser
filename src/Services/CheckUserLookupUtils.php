@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser\Services;
 
-use LogicException;
 use LogPage;
 use ManualLogEntry;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
@@ -178,8 +177,6 @@ class CheckUserLookupUtils {
 			( isset( $row->page_id ) && $row->page_id )
 		) {
 			$logEntry->setTarget( Title::newFromID( $row->page ) );
-		} else {
-			throw new LogicException( 'Either title and namespace, or page must be set in the row.' );
 		}
 		$logEntry->setTimestamp( $row->timestamp );
 		$logEntry->setDeleted( $row->log_deleted );

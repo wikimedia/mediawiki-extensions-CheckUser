@@ -101,7 +101,7 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 			$logEntry = null;
 			if ( ( $row->type == RC_EDIT || $row->type == RC_NEW ) && $row->this_oldid != 0 ) {
 				$revRecord = $this->checkUserLookupUtils->getRevisionRecordFromRow( $row );
-			} elseif ( $row->type == RC_LOG && $this->eventTableReadNew ) {
+			} elseif ( $row->type == RC_LOG && $this->eventTableReadNew && $row->log_type ) {
 				$logEntry = $this->checkUserLookupUtils->getManualLogEntryFromRow( $row, $user );
 			}
 
