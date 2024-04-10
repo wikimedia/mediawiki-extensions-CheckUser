@@ -4,10 +4,11 @@ namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use Firebase\JWT\JWT;
 use MediaWiki\CheckUser\Services\TokenManager;
+use MediaWiki\Config\ConfigException;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Session\SessionManager;
-use MediaWiki\Utils\MWTimestamp;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * Test class for TokenManager class
@@ -21,13 +22,13 @@ class TokenManagerTest extends MediaWikiIntegrationTestCase {
 
 	public function setUp(): void {
 		parent::setUp();
-		MWTimestamp::setFakeTime( 0 );
+		ConvertibleTimestamp::setFakeTime( 0 );
 		JWT::$timestamp = 60;
 	}
 
 	public function tearDown(): void {
 		parent::tearDown();
-		MWTimestamp::setFakeTime( null );
+		ConvertibleTimestamp::setFakeTime( null );
 		JWT::$timestamp = null;
 	}
 
@@ -66,5 +67,24 @@ class TokenManagerTest extends MediaWikiIntegrationTestCase {
 		$tokenManager = new TokenManager( 'abcdef' );
 		$encoded = $tokenManager->encode( SessionManager::singleton()->getEmptySession(), [] );
 		$tokenManager->decode( SessionManager::singleton()->getEmptySession(), $encoded );
+	}
+
+	public function testDecodeExpiredToken() {
+		$this->expectExceptionMessage( 'Expired token' );
+
+		$tokenManager = new TokenManager( 'abcdef' );
+		$targets = [ 'Example', '10.0.0.0/8' ];
+		$request = new FauxRequest( [], false, [ 'CheckUserTokenKey' => base64_encode( 'test' ) ] );
+
+		$encoded = $tokenManager->encode( $request->getSession(), [ 'targets' => $targets ] );
+
+		// Simulate that the token has expired by setting the $timestamp
+		JWT::$timestamp = 96401;
+		$tokenManager->decode( $request->getSession(), $encoded );
+	}
+
+	public function testConstructorWithNoSecret() {
+		$this->expectException( ConfigException::class );
+		new TokenManager( '' );
 	}
 }
