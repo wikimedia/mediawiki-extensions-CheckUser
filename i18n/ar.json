@@ -116,6 +116,7 @@
 	"checkuser-log-search-reason": "السبب:",
 	"checkuser-log-search-reason-help": "تصفية إدخالات السجل التي لها هذا السبب.",
 	"checkuser-ipeditcount": "~$1 من كل المستخدمين",
+	"checkuser-ipeditcount-64": "~$1 من كل المستخدمين في نطاق /64",
 	"checkuser-showmain": "التبديل إلى {{#special: CheckUser}}",
 	"checkuser-show-investigate": "التبديل إلى {{#special: Investigate}}",
 	"checkuser-log-entry-userips": "$3، $1 حصل على عناوين البروتوكولات ل$2",
