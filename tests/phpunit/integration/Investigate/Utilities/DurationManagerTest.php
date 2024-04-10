@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration;
+namespace MediaWiki\CheckUser\Tests\Integration\Investigate\Utilities;
 
 use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
 use MediaWiki\Request\FauxRequest;
@@ -32,14 +32,19 @@ class DurationManagerTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( $valid ? $duration : '', $durationManager->getFromRequest( $request ) );
 	}
 
-	/**
-	 * @dataProvider provideDuration
-	 */
-	public function testIsValid( string $duration, string $timestamp ): void {
-		$valid = ( $timestamp !== '' );
+	/** @dataProvider provideIsValid */
+	public function testIsValid( string $duration, bool $expected ): void {
 		$durationManager = new DurationManager();
 
-		$this->assertSame( $valid, $durationManager->isValid( $duration ) );
+		$this->assertSame( $expected, $durationManager->isValid( $duration ) );
+	}
+
+	public static function provideIsValid() {
+		return [
+			'Valid duration' => [ 'P1W', true ],
+			'Invalid duration' => [ 'fail!', false ],
+			'Empty duration' => [ '', true ],
+		];
 	}
 
 	/**
