@@ -18,6 +18,7 @@ use Wikimedia\Rdbms\SelectQueryBuilder;
  *
  * @group CheckUser
  * @covers \MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService
+ * @covers \MediaWiki\CheckUser\Investigate\Services\ChangeService
  */
 class PreliminaryCheckServiceTest extends MediaWikiIntegrationTestCase {
 

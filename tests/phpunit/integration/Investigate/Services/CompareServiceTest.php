@@ -22,6 +22,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  * @group CheckUser
  * @group Database
  * @covers \MediaWiki\CheckUser\Investigate\Services\CompareService
+ * @covers \MediaWiki\CheckUser\Investigate\Services\ChangeService
  */
 class CompareServiceTest extends MediaWikiIntegrationTestCase {
 

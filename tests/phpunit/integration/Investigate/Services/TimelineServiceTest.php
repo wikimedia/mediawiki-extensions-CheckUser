@@ -13,6 +13,7 @@ use Wikimedia\Rdbms\Platform\SQLPlatform;
 /**
  * @group CheckUser
  * @covers \MediaWiki\CheckUser\Investigate\Services\TimelineService
+ * @covers \MediaWiki\CheckUser\Investigate\Services\ChangeService
  */
 class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 
@@ -115,7 +116,15 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 					'targets' => [],
 					'conds' => [ '0' ],
 				],
-			]
+			],
+			'Empty targets' => [
+				[],
+				'',
+				[
+					'targets' => [],
+					'conds' => [ '0' ],
+				],
+			],
 		];
 	}
 }
