@@ -286,6 +286,9 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cule_log_id' => 10,
 				'cule_timestamp'  => $this->db->timestamp( '20200101000000' ),
+				'cule_agent'      => 'foo user agent',
+				'cule_xff'        => 0,
+				'cule_xff_hex'    => null,
 			],
 			[
 				'cule_actor'      => 1234,
@@ -293,6 +296,9 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
 				'cule_log_id' => 100,
 				'cule_timestamp'  => $this->db->timestamp( '20210101000000' ),
+				'cule_agent'      => 'foo user agent',
+				'cule_xff'        => 0,
+				'cule_xff_hex'    => null,
 			],
 			[
 				'cule_actor'      => 1234,
@@ -300,17 +306,16 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
 				'cule_log_id' => 1000,
 				'cule_timestamp'  => $this->db->timestamp( '20220101000000' ),
+				'cule_agent'      => 'foo user agent',
+				'cule_xff'        => 0,
+				'cule_xff_hex'    => null,
 			],
 		];
 
-		$commonData = [
-			'cule_agent'      => 'foo user agent',
-			'cule_xff'        => 0,
-			'cule_xff_hex'    => null,
-		];
-
-		foreach ( $testData as $row ) {
-			$this->db->insert( 'cu_log_event', $row + $commonData );
-		}
+		$this->db->newInsertQueryBuilder()
+			->insertInto( 'cu_log_event' )
+			->rows( $testData )
+			->caller( __METHOD__ )
+			->execute();
 	}
 }
