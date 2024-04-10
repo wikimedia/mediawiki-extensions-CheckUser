@@ -8,6 +8,7 @@ use LogEventsList;
 use LogFormatter;
 use LogicException;
 use LogPage;
+use ManualLogEntry;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\ClientHints\ClientHintsBatchFormatterResults;
@@ -168,18 +169,36 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		if ( IPUtils::isIPAddress( $user_text ) ) {
 			$user_text = IPUtils::prettifyIP( $user_text ) ?? $user_text;
 		}
-		// Userlinks
 		$user = new UserIdentityValue( $row->user ?? 0, $user_text );
+		// Get a ManualLogEntry instance if the row is a log entry
+		$logEntry = null;
+		if ( $row->type == RC_LOG && $this->eventTableReadNew && $row->log_type ) {
+			$logEntry = $this->checkUserLookupUtils->getManualLogEntryFromRow( $row, $user );
+		}
+		// Userlinks
+		$userIsHidden = false;
 		if ( $row->type == RC_EDIT || $row->type == RC_NEW ) {
-			$hidden = !( $this->usernameVisibility[$row->this_oldid] ?? true );
-		} else {
-			$hidden = $this->userFactory->newFromUserIdentity( $user )->isHidden()
+			$userIsHidden = !( $this->usernameVisibility[$row->this_oldid] ?? true );
+		} elseif ( $logEntry !== null ) {
+			// Specifically using LogEventsList::userCanBitfield here instead of ::userCan because we still want
+			// to show the username if the authority cannot see logs from this log type but the user is otherwise
+			// visible.
+			$userIsHidden = !LogEventsList::userCanBitfield(
+				$row->log_deleted,
+				LogPage::DELETED_USER,
+				$this->getAuthority()
+			);
+		}
+		if ( !$userIsHidden ) {
+			// If the user was not hidden for the specific edit or log, check if the user is hidden in general via
+			// a block with 'hideuser' enabled.
+			$userIsHidden = $this->userFactory->newFromUserIdentity( $user )->isHidden()
 				&& !$this->getAuthority()->isAllowed( 'hideuser' );
 		}
 		// Create diff/hist/page links
-		$templateParams['links'] = $this->getLinksFromRow( $row, $user );
+		$templateParams['links'] = $this->getLinksFromRow( $row, $user, $logEntry );
 		$templateParams['showLinks'] = $templateParams['links'] !== '';
-		if ( $hidden ) {
+		if ( $userIsHidden ) {
 			$templateParams['userLink'] = Html::element(
 				'span',
 				[ 'class' => 'history-deleted' ],
@@ -199,13 +218,22 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 			// Add any block information
 			$templateParams['flags'] = $this->flagCache[$row->user_text];
 		}
-		$templateParams['actionText'] = $this->getActionText( $row, $user );
+		$templateParams['actionText'] = $this->getActionText( $row, $logEntry );
 		// Comment
 		if ( $row->type == RC_EDIT || $row->type == RC_NEW ) {
 			$templateParams['comment'] = $this->formattedRevisionComments[$row->this_oldid] ?? '';
 		} else {
-			$comment = $this->commentStore->getComment( 'comment', $row );
-			$templateParams['comment'] = $this->commentFormatter->formatBlock( $comment->text );
+			// If we have a log entry, then check if the comment is hidden in the log entry. Otherwise, we should be
+			// okay to display it (because the checks for the comment being hidden for an edit is done in the lines
+			// above).
+			$commentVisible = $logEntry === null ||
+				LogEventsList::userCan( $row, LogPage::DELETED_COMMENT, $this->getAuthority() );
+			if ( $commentVisible ) {
+				$comment = $this->commentStore->getComment( 'comment', $row )->text;
+			} else {
+				$comment = '';
+			}
+			$templateParams['comment'] = $this->commentFormatter->formatBlock( $comment );
 		}
 		// IP
 		$ip = IPUtils::prettifyIP( $row->ip ) ?? $row->ip ?? '';
@@ -249,13 +277,12 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 	 * Gets the actiontext associated with the given $row.
 	 *
 	 * @param stdClass $row The database row
-	 * @param UserIdentity $user The user who is the performer for this row.
+	 * @param ManualLogEntry|null $logEntry The log entry associated with this row, otherwise null.
 	 * @return string The actiontext
 	 */
-	private function getActionText( stdClass $row, UserIdentity $user ): string {
-		if ( $this->eventTableReadNew && $row->type == RC_LOG && isset( $row->log_type ) && $row->log_type ) {
+	private function getActionText( stdClass $row, ?ManualLogEntry $logEntry ): string {
+		if ( $logEntry !== null ) {
 			// Log action text taken from the LogFormatter for the entry being displayed.
-			$logEntry = $this->checkUserLookupUtils->getManualLogEntryFromRow( $row, $user );
 			$logFormatter = LogFormatter::newFromEntry( $logEntry );
 			$logFormatter->setAudience( LogFormatter::FOR_THIS_USER );
 			return $logFormatter->getActionText();
@@ -268,9 +295,10 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 	/**
 	 * @param stdClass $row
 	 * @param UserIdentity $performer The user that performed the action represented by this row.
+	 * @param ?ManualLogEntry $logEntry The log entry associated with this row, otherwise null.
 	 * @return string diff, hist and page other links related to the change
 	 */
-	protected function getLinksFromRow( stdClass $row, UserIdentity $performer ): string {
+	protected function getLinksFromRow( stdClass $row, UserIdentity $performer, ?ManualLogEntry $logEntry ): string {
 		$links = [];
 		// Log items
 		// Due to T315224 triple equals for type does not work for sqlite.
@@ -292,11 +320,11 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 			$hidden = false;
 			if ( $title->getNamespace() === NS_USER ) {
 				$user = $this->userFactory->newFromName( $title->getBaseText() );
-				if ( isset( $row->log_deleted ) && $performer->getName() === $title->getText() ) {
+				if ( $logEntry !== null && $performer->getName() === $title->getText() ) {
 					// If the username of the performer is the same as the title, we can also check whether the
 					// performer of the log entry is hidden.
 					$hidden = !LogEventsList::userCanBitfield(
-						$row->log_deleted,
+						$logEntry->getDeleted(),
 						LogPage::DELETED_USER,
 						$this->getContext()->getAuthority()
 					);
