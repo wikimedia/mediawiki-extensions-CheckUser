@@ -41,6 +41,7 @@
 	"right-checkuser-temporary-account-no-preference": "Sprawdzanie adresów IP kont tymczasowych bez konieczności sprawdzania preferencji",
 	"right-checkuser-temporary-account-log": "Przeglądanie rejestru dostępu do adresów IP kont tymczasowych",
 	"grant-checkuser": "Dostęp do danych checkusera",
+	"grant-checkuser-temporary-account": "Dostęp do danych checkuser dla kont tymczasowych",
 	"action-checkuser": "sprawdzania adresów IP użytkowników i innych informacji",
 	"action-checkuser-log": "przeglądania rejestru checkuser",
 	"action-checkuser-temporary-account": "przeglądania adresów IP używanych przez konta tymczasowe",
