@@ -6,7 +6,7 @@ use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
 use MediaWiki\User\ActorStore;
 use MediaWikiUnitTestCase;
-use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\TestingAccessWrapper;
@@ -21,7 +21,7 @@ class TemporaryAccountLoggerFactoryTest extends MediaWikiUnitTestCase {
 		$dbProvider->method( 'getReplicaDatabase' )->willReturn( $this->createMock( IDatabase::class ) );
 		return new TemporaryAccountLoggerFactory(
 			$this->createMock( ActorStore::class ),
-			$this->createMock( LoggerInterface::class ),
+			new NullLogger(),
 			$dbProvider
 		);
 	}

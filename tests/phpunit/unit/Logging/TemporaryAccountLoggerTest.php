@@ -9,7 +9,7 @@ use MediaWiki\Title\Title;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiUnitTestCase;
-use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 
@@ -43,7 +43,7 @@ class TemporaryAccountLoggerTest extends MediaWikiUnitTestCase {
 		$logger = $this->getMockBuilder( TemporaryAccountLogger::class )
 			->setConstructorArgs( [
 				$this->createMock( ActorStore::class ),
-				$this->createMock( LoggerInterface::class ),
+				new NullLogger(),
 				$database,
 				24 * 60 * 60,
 			] )
@@ -156,7 +156,7 @@ class TemporaryAccountLoggerTest extends MediaWikiUnitTestCase {
 		$logger = $this->getMockBuilder( TemporaryAccountLogger::class )
 			->setConstructorArgs( [
 				$actorStore,
-				$this->createMock( LoggerInterface::class ),
+				new NullLogger(),
 				$database,
 				24 * 60 * 60,
 			] )
