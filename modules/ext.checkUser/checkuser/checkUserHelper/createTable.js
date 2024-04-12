@@ -14,7 +14,7 @@
  * This function fires the 'wikipage.content' hook on the summary table after the
  * rows have been added.
  *
- * @param {Object.<string, {ip: {}, ua: {}, sorted: {ip: string[], ua: string[]}}>} data
+ * @param {Object.<string, {ip: {}, ua: {}, sorted: {ip: string[], ua: string[]}, linkUserPage: boolean}>} data
  *   The result of generateData
  * @param {boolean} showCounts Whether to show the number of times each IP and
  *    User-Agent is used for a particular user.
@@ -28,11 +28,18 @@ function createTable( data, showCounts ) {
 	for ( user in data ) {
 		const tr = tbl.insertRow();
 		let td = tr.insertCell();
-		const userElement = document.createElement( 'a' );
-		userElement.setAttribute(
-			'href',
-			mw.util.getUrl( 'Special:Contributions/' + user )
-		);
+		let userElement;
+		// Only link the username to the user page if it was linked in the results.
+		// No link can be used if the username is hidden.
+		if ( data[ user ].linkUserPage ) {
+			userElement = document.createElement( 'a' );
+			userElement.setAttribute(
+				'href',
+				mw.util.getUrl( 'Special:Contributions/' + user )
+			);
+		} else {
+			userElement = document.createElement( 'span' );
+		}
 		userElement.textContent = user;
 		td.appendChild( userElement );
 		const ips = document.createElement( 'ul' );

@@ -28,7 +28,8 @@
 						"Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Mobile Safari/537.36"
 					],
 					"uach": []
-				}
+				},
+				"linkUserPage": true
 			}
 		},
 		"showCounts": true,
@@ -58,7 +59,8 @@
 						"Mozilla/5.0 (iPhone13,2; U; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/15E148 Safari/602.1"
 					],
 					"uach": []
-				}
+				},
+				"linkUserPage": true
 			},
 			"CheckUserSimulated-f917787ef9bc5d73d7bf8a08b81a7c36": {
 				"ip": {
@@ -90,7 +92,8 @@
 						"Brand: Chromium 115.0.5790.171, Brand: Google Chrome 115.0.5790.171, Brand: Not/A)Brand 99.0.0.0, Platform: Windows 15.0.0, Mobile: No",
 						"Platform: Windows, Brand: Chromium 114, Brand: Google Chrome 114, Brand: Not/A)Brand 99, Mobile: No"
 					]
-				}
+				},
+				"linkUserPage": true
 			},
 			"FD12:3456:7893:81A7:F9D1:78F8:6396:D27E": {
 				"ip": {
@@ -131,7 +134,8 @@
 						"Model: SM-G965U, Brand: Chromium 115.0.5790.171, Brand: Google Chrome 115.0.5790.171, Brand: Not/A)Brand 99.0.0.0, Platform: Android 10.0.0, Mobile: Yes",
 						"Platform: Windows, Brand: Chromium 114, Brand: Google Chrome 114, Brand: Not/A)Brand 99, Mobile: No"
 					]
-				}
+				},
+				"linkUserPage": true
 			},
 			"FD12:3456:7888:90DE:A51F:D679:57AA:D671": {
 				"ip": {
@@ -163,7 +167,8 @@
 						"Brand: Chromium 112.0.5615.165, Brand: Not_A Brand 24.0.0.0, Brand: Opera GX 98.0.4759.82, Platform: Windows 15.0.0, Mobile: No",
 						"Model: SM-G965U, Brand: Chromium 115.0.5790.171, Brand: Google Chrome 115.0.5790.171, Brand: Not/A)Brand 99.0.0.0, Platform: Android 10.0.0, Mobile: Yes"
 					]
-				}
+				},
+				"linkUserPage": true
 			},
 			"*Unregistered 293": {
 				"ip": {
@@ -185,7 +190,8 @@
 						"Mozilla/5.0 (iPhone13,2; U; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/15E148 Safari/602.1"
 					],
 					"uach": []
-				}
+				},
+				"linkUserPage": true
 			}
 		},
 		"showCounts": false,
@@ -219,7 +225,8 @@
 					"uach": [
 						"Platform: Windows, Brand: Chromium 114, Brand: Google Chrome 114, Brand: Not/A)Brand 99, Mobile: No"
 					]
-				}
+				},
+				"linkUserPage": true
 			},
 			"127.0.0.62": {
 				"ip": {
@@ -261,7 +268,8 @@
 						"Brand: Chromium 115.0.5790.171, Brand: Google Chrome 115.0.5790.171, Brand: Not/A)Brand 99.0.0.0, Platform version: 15.0.0, Mobile: No",
 						"Brand: Chromium 115.0.5790.171, Brand: Google Chrome 115.0.5790.171, Brand: Not/A)Brand 99.0.0.0, Platform: Windows 15.0.0, Mobile: No"
 					]
-				}
+				},
+				"linkUserPage": true
 			},
 			"*Unregistered 291": {
 				"ip": {
@@ -289,7 +297,8 @@
 						"Platform: Fake platform name, Brand: Chromium-test 114, Brand: Not/A.Brand 99",
 						"Platform: Fake platform name, Brand: Chromium-test 114, Brand: Not/A)Brand 99"
 					]
-				}
+				},
+				"linkUserPage": true
 			},
 			"CheckUserSimulated-49791cd9e0e3b34dc1afa23b05610f81": {
 				"ip": {
@@ -325,7 +334,8 @@
 					"uach": [
 						"Platform: Windows, Brand: Chromium 114, Brand: Google Chrome 114, Brand: Not/A)Brand 99, Mobile: No"
 					]
-				}
+				},
+				"linkUserPage": true
 			},
 			"127.0.0.16": {
 				"ip": {
@@ -376,7 +386,8 @@
 						"Model: SM-G965U, Brand: Chromium 115.0.5790.171, Brand: Google Chrome 115.0.5790.171, Brand: Not/A)Brand 99.0.0.0, Platform: Android 10.0.0, Mobile: Yes",
 						"Brand: Chromium 112.0.5615.165, Brand: Not_A Brand 24.0.0.0, Brand: Opera GX 98.0.4759.82, Platform: Windows 15.0.0, Mobile: No"
 					]
-				}
+				},
+				"linkUserPage": true
 			},
 			"*Unregistered 286": {
 				"ip": {
@@ -406,7 +417,8 @@
 						"Brand: Chromium 112.0.5615.165, Brand: Not_A Brand 24.0.0.0, Brand: Opera GX 98.0.4759.82, Platform: Windows 15.0.0, Mobile: No",
 						"Platform: Windows, Brand: Chromium 114, Brand: Google Chrome 114, Brand: Not/A)Brand 99, Mobile: No"
 					]
-				}
+				},
+				"linkUserPage": true
 			}
 		},
 		"showCounts": true,
