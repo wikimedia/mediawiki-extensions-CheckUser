@@ -107,7 +107,8 @@ class GenerateStatsAboutClientHintsDataTest extends MaintenanceBaseTestCase {
 		// One invalid map row
 		$this->db->newInsertQueryBuilder()
 			->insertInto( 'cu_useragent_clienthints_map' )
-			->rows( [ [ 'uachm_uach_id' => 1234, 'uachm_reference_id' => 1, 'uachm_reference_type' => 0 ] ] )
+			->row( [ 'uachm_uach_id' => 1234, 'uachm_reference_id' => 1, 'uachm_reference_type' => 0 ] )
+			->caller( __METHOD__ )
 			->execute();
 	}
 }
