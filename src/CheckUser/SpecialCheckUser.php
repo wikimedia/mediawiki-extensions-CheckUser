@@ -241,30 +241,28 @@ class SpecialCheckUser extends SpecialPage {
 
 		$out = $this->getOutput();
 		$links = [];
-		if ( $this->getConfig()->get( 'CheckUserEnableSpecialInvestigate' ) ) {
-			$out->enableOOUI();
-			$out->addModuleStyles( 'oojs-ui.styles.icons-interactions' );
-			$icon = new IconWidget( [ 'icon' => 'lightbulb' ] );
-			$investigateLink = $this->getLinkRenderer()->makeKnownLink(
-				SpecialPage::getTitleFor( 'Investigate' ),
-				$this->msg( 'checkuser-link-investigate-label' )->text()
-			);
-			$out->setIndicators( [ 'investigate-link' => $icon . $investigateLink ] );
-			$query = [];
-			if ( $user !== '' ) {
-				$query['targets'] = $user;
-			}
-			$links[] = Html::rawElement(
-				'span',
-				[],
-				$this->getLinkRenderer()->makeKnownLink(
-					SpecialPage::getTitleFor( 'Investigate' ),
-					$this->msg( $user ? 'checkuser-investigate-this-user' : 'checkuser-show-investigate' )->text(),
-					[],
-					$query
-				)
-			);
+		$out->enableOOUI();
+		$out->addModuleStyles( 'oojs-ui.styles.icons-interactions' );
+		$icon = new IconWidget( [ 'icon' => 'lightbulb' ] );
+		$investigateLink = $this->getLinkRenderer()->makeKnownLink(
+			SpecialPage::getTitleFor( 'Investigate' ),
+			$this->msg( 'checkuser-link-investigate-label' )->text()
+		);
+		$out->setIndicators( [ 'investigate-link' => $icon . $investigateLink ] );
+		$query = [];
+		if ( $user !== '' ) {
+			$query['targets'] = $user;
 		}
+		$links[] = Html::rawElement(
+			'span',
+			[],
+			$this->getLinkRenderer()->makeKnownLink(
+				SpecialPage::getTitleFor( 'Investigate' ),
+				$this->msg( $user ? 'checkuser-investigate-this-user' : 'checkuser-show-investigate' )->text(),
+				[],
+				$query
+			)
+		);
 		if ( $this->permissionManager->userHasRight( $this->getUser(), 'checkuser-log' ) ) {
 			$links[] = Html::rawElement(
 				'span',
