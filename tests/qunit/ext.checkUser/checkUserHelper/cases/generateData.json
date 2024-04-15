@@ -13,7 +13,8 @@
 				"clientHints": "Platform: Windows, Brand: Chromium 114, Brand: Google Chrome 114, Brand: Not/A)Brand 99, Mobile: No",
 				"IP": "127.0.0.1",
 				"XFF": "",
-				"XFFTrusted": false
+				"XFFTrusted": false,
+				"linkUserPage": true
 			}
 		],
 		"expectedData": {
@@ -33,7 +34,8 @@
 				"ua": {
 					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36": 1
 				},
-				"uach": {}
+				"uach": {},
+				"linkUserPage": true
 			}
 		},
 		"expectedDataWhenClientHintsEnabled": {
@@ -61,10 +63,75 @@
 				},
 				"uach": {
 					"Platform: Windows, Brand: Chromium 114, Brand: Google Chrome 114, Brand: Not/A)Brand 99, Mobile: No": 1
-				}
+				},
+				"linkUserPage": true
 			}
 		},
 		"msg": "One result in the results list"
+	},
+	{
+		"items": [
+			{
+				"userLink": "(username removed)",
+				"userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+				"clientHints": "Platform: Windows, Brand: Chromium 114, Brand: Google Chrome 114, Brand: Not/A)Brand 99, Mobile: No",
+				"IP": "127.0.0.1",
+				"XFF": "",
+				"XFFTrusted": false,
+				"linkUserPage": false
+			}
+		],
+		"expectedData": {
+			"(username removed)": {
+				"ip": {
+					"127.0.0.1": {
+						"": {
+							"false": 1
+						}
+					}
+				},
+				"sorted": {
+					"ip": [ "127.0.0.1" ],
+					"ua": [ "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" ],
+					"uach": []
+				},
+				"ua": {
+					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36": 1
+				},
+				"uach": {},
+				"linkUserPage": false
+			}
+		},
+		"expectedDataWhenClientHintsEnabled": {
+			"(username removed)": {
+				"ip": {
+					"127.0.0.1": {
+						"": {
+							"false": 1
+						}
+					}
+				},
+				"sorted": {
+					"ip": [
+						"127.0.0.1"
+					],
+					"ua": [
+						"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
+					],
+					"uach": [
+						"Platform: Windows, Brand: Chromium 114, Brand: Google Chrome 114, Brand: Not/A)Brand 99, Mobile: No"
+					]
+				},
+				"ua": {
+					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36": 1
+				},
+				"uach": {
+					"Platform: Windows, Brand: Chromium 114, Brand: Google Chrome 114, Brand: Not/A)Brand 99, Mobile: No": 1
+				},
+				"linkUserPage": false
+			}
+		},
+		"msg": "One result in the results list for a hidden user"
 	},
 	{
 		"items": [
@@ -74,7 +141,8 @@
 				"clientHints": "",
 				"IP": "FD12:3456:788B:2397:9396:9C89:FF9C:DEF6",
 				"XFF": "fd12:3456:780d:9dc:62d:6a63:292d:175c",
-				"XFFTrusted": false
+				"XFFTrusted": false,
+				"linkUserPage": true
 			},
 			{
 				"userLink": " *Unregistered 289 ",
@@ -82,7 +150,8 @@
 				"clientHints": "Another client hints",
 				"IP": "FD12:3456:788B:2397:9396:9C89:FF9C:DEF6",
 				"XFF": "fd12:3456:780d:9dc:62d:6a63:292d:175c",
-				"XFFTrusted": false
+				"XFFTrusted": false,
+				"linkUserPage": true
 			},
 			{
 				"userLink": "FD12:3456:7893:81A7:F9D1:78F8:6396:D27E",
@@ -90,7 +159,8 @@
 				"clientHints": "Brand: Chromium 112.0.5615.165, Brand: Not_A Brand 24.0.0.0, Brand: Opera GX 98.0.4759.82, Platform: Windows 15.0.0, Mobile: No",
 				"IP": "FD12:3456:7893:81A7:F9D1:78F8:6396:D27E",
 				"XFF": "",
-				"XFFTrusted": false
+				"XFFTrusted": false,
+				"linkUserPage": true
 			},
 			{
 				"userLink": "CheckUserSimulated-f917787ef9bc5d73d7bf8a08b81a7c36",
@@ -98,7 +168,8 @@
 				"clientHints": "",
 				"IP": "FD12:3456:788B:2397:9396:9C89:FF9C:DEF6",
 				"XFF": "",
-				"XFFTrusted": false
+				"XFFTrusted": false,
+				"linkUserPage": true
 			},
 			{
 				"userLink": "CheckUserSimulated-f917787ef9bc5d73d7bf8a08b81a7c36",
@@ -106,7 +177,8 @@
 				"clientHints": "",
 				"IP": "FD12:3456:788B:2397:9396:9C89:FF9C:DEF6",
 				"XFF": "fd12:3456:7893:81a7:f9d1:78f8:6396:d27e, 127.0.0.62",
-				"XFFTrusted": false
+				"XFFTrusted": false,
+				"linkUserPage": true
 			},
 			{
 				"userLink": "CheckUserSimulated-f917787ef9bc5d73d7bf8a08b81a7c36",
@@ -114,7 +186,8 @@
 				"clientHints": "Brand: Chromium 115.0.5790.171, Brand: Google Chrome 115.0.5790.171, Brand: Not/A)Brand 99.0.0.0, Platform: Windows 15.0.0, Mobile: No",
 				"IP": "FD12:3456:788B:2397:9396:9C89:FF9C:DEF6",
 				"XFF": "fd12:3456:7893:81a7:f9d1:78f8:6396:d27e, 127.0.0.62",
-				"XFFTrusted": true
+				"XFFTrusted": true,
+				"linkUserPage": true
 			},
 			{
 				"userLink": "FD12:3456:7893:81A7:F9D1:78F8:6396:D27E",
@@ -122,7 +195,8 @@
 				"clientHints": "",
 				"IP": "FD12:3456:7893:81A7:F9D1:78F8:6396:D27E",
 				"XFF": "",
-				"XFFTrusted": false
+				"XFFTrusted": false,
+				"linkUserPage": true
 			},
 			{
 				"userLink": "CheckUserSimulated-f917787ef9bc5d73d7bf8a08b81a7c36",
@@ -130,7 +204,8 @@
 				"clientHints": "Brand: Chromium 115.0.5790.171, Brand: Google Chrome 115.0.5790.171, Brand: Not/A)Brand 99.0.0.0, Platform: Windows 15.0.0, Mobile: No",
 				"IP": "FD12:3456:788B:2397:9396:9C89:FF9C:DEF6",
 				"XFF": "fd12:3456:7893:81a7:f9d1:78f8:6396:d27e, 127.0.0.62",
-				"XFFTrusted": false
+				"XFFTrusted": false,
+				"linkUserPage": true
 			},
 			{
 				"userLink": "*Unregistered 289 ",
@@ -138,7 +213,8 @@
 				"clientHints": "",
 				"IP": "1.2.3.4",
 				"XFF": "",
-				"XFFTrusted": false
+				"XFFTrusted": false,
+				"linkUserPage": true
 			},
 			{
 				"userLink": "CheckUserSimulated-f917787ef9bc5d73d7bf8a08b81a7c36",
@@ -146,7 +222,8 @@
 				"clientHints": "Platform: Windows, Brand: Chromium 114, Brand: Google Chrome 114, Brand: Not/A)Brand 99, Mobile: No",
 				"IP": "FD12:3456:788B:2397:9396:9C89:FF9C:DEF6",
 				"XFF": "",
-				"XFFTrusted": false
+				"XFFTrusted": false,
+				"linkUserPage": true
 			},
 			{
 				"userLink": "FD12:3456:7893:81A7:F9D1:78F8:6396:D27E",
@@ -154,7 +231,8 @@
 				"clientHints": "",
 				"IP": "FD12:3456:7893:81A7:F9D1:78F8:6396:D27E",
 				"XFF": "127.0.0.195",
-				"XFFTrusted": false
+				"XFFTrusted": false,
+				"linkUserPage": true
 			},
 			{
 				"userLink": "FD12:3456:7893:81A7:F9D1:78F8:6396:D27E",
@@ -162,7 +240,8 @@
 				"clientHints": "",
 				"IP": "FD12:3456:7893:81A7:F9D1:78F8:6396:D27E",
 				"XFF": "",
-				"XFFTrusted": false
+				"XFFTrusted": false,
+				"linkUserPage": true
 			}
 		],
 		"expectedData": {
@@ -194,7 +273,8 @@
 						"Mozilla/5.0 (iPhone13,2; U; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/15E148 Safari/602.1"
 					],
 					"uach": []
-				}
+				},
+				"linkUserPage": true
 			},
 			"CheckUserSimulated-f917787ef9bc5d73d7bf8a08b81a7c36": {
 				"ip": {
@@ -224,7 +304,8 @@
 						"Mozilla/5.0 (iPhone13,2; U; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/15E148 Safari/602.1"
 					],
 					"uach": []
-				}
+				},
+				"linkUserPage": true
 			},
 			"FD12:3456:7893:81A7:F9D1:78F8:6396:D27E": {
 				"ip": {
@@ -253,7 +334,8 @@
 						"Mozilla/5.0 (iPhone13,2; U; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/15E148 Safari/602.1"
 					],
 					"uach": []
-				}
+				},
+				"linkUserPage": true
 			}
 		},
 		"expectedDataWhenClientHintsEnabled": {
@@ -289,7 +371,8 @@
 				},
 				"uach": {
 					"Another client hints": 1
-				}
+				},
+				"linkUserPage": true
 			},
 			"CheckUserSimulated-f917787ef9bc5d73d7bf8a08b81a7c36": {
 				"ip": {
@@ -325,7 +408,8 @@
 				"uach": {
 					"Brand: Chromium 115.0.5790.171, Brand: Google Chrome 115.0.5790.171, Brand: Not/A)Brand 99.0.0.0, Platform: Windows 15.0.0, Mobile: No": 2,
 					"Platform: Windows, Brand: Chromium 114, Brand: Google Chrome 114, Brand: Not/A)Brand 99, Mobile: No": 1
-				}
+				},
+				"linkUserPage": true
 			},
 			"FD12:3456:7893:81A7:F9D1:78F8:6396:D27E": {
 				"ip": {
@@ -358,7 +442,8 @@
 				},
 				"uach": {
 					"Brand: Chromium 112.0.5615.165, Brand: Not_A Brand 24.0.0.0, Brand: Opera GX 98.0.4759.82, Platform: Windows 15.0.0, Mobile: No": 1
-				}
+				},
+				"linkUserPage": true
 			}
 		},
 		"msg": "Multiple results from different users"

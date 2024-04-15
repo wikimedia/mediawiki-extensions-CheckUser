@@ -12,7 +12,15 @@ QUnit.test( 'Test that generateData returns the expected data', function ( asser
 			let html = '<div id="checkuserresults"><ul>';
 			caseItem.items.forEach( ( resultLine ) => {
 				html += '<li>';
-				html += '<span class="mw-checkuser-user-link">' + resultLine.userLink + '</span>';
+				html += '<span class="mw-checkuser-user-link">';
+				if ( resultLine.linkUserPage ) {
+					html += '<a href="">';
+				}
+				html += resultLine.userLink;
+				if ( resultLine.linkUserPage ) {
+					html += '</a>';
+				}
+				html += '</span>';
 				html += '<span class="mw-checkuser-agent">' + resultLine.userAgent + '</span>';
 				if ( clientHintsEnabled ) {
 					html += '<span class="mw-checkuser-client-hints">' + resultLine.clientHints + '</span>';

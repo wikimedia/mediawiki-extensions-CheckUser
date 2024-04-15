@@ -24,7 +24,12 @@ function generateData() {
 				return;
 			}
 			if ( !data[ user ] ) {
-				data[ user ] = { ip: {}, ua: {}, uach: {} };
+				data[ user ] = { ip: {}, ua: {}, uach: {}, linkUserPage: false };
+			}
+			// Only link the userpage in the summary table if it was linked in the results.
+			const linkUserPage = $( '.mw-checkuser-user-link', this ).has( 'a' ).length > 0;
+			if ( !data[ user ].linkUserPage && linkUserPage ) {
+				data[ user ].linkUserPage = true;
 			}
 			$( '.mw-checkuser-agent', this ).each( function () {
 				const uaText = $( this ).text().trim();
