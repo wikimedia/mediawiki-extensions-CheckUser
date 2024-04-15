@@ -67,10 +67,6 @@
 			"value": true,
 			"description": "Whether successful login attempts of accounts in the 'bot' user group should be logged in CheckUser logs (assuming wgCheckUserLogLogins is also true)"
 		},
-		"CheckUserEnableSpecialInvestigate": {
-			"value": true,
-			"description": "Enables Special:Investigate"
-		},
 		"CheckUserLogAdditionalRights": {
 			"value": [],
 			"description": "Additional rights to be used when adding CheckUser log entries"
@@ -294,12 +290,6 @@
 		"RenameUserSQLHandler": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\RenameUserSQLHandler"
 		},
-		"SpecialPageInitList": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\SpecialPageInitListHandler",
-			"services": [
-				"MainConfig"
-			]
-		},
 		"RLRegisterModules": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\RLRegisterModulesHandler"
 		},
@@ -328,7 +318,6 @@
 		"ResourceLoaderRegisterModules": "RLRegisterModules",
 		"SaveUserOptions": "preferences",
 		"SpecialPageBeforeExecute": "clienthints",
-		"SpecialPage_initList": "SpecialPageInitList",
 		"User::mailPasswordInternal": "Hooks",
 		"UserLogoutComplete": "Hooks",
 		"UserMergeAccountFields": "UserMerge",
@@ -580,6 +569,37 @@
 				"UserFactory",
 				"ActorStore",
 				"DBLoadBalancerFactory"
+			]
+		},
+		"Investigate": {
+			"class": "MediaWiki\\CheckUser\\Investigate\\SpecialInvestigate",
+			"services": [
+				"LinkRenderer",
+				"ContentLanguage",
+				"UserOptionsManager",
+				"CheckUserPreliminaryCheckPagerFactory",
+				"CheckUserComparePagerFactory",
+				"CheckUserTimelinePagerFactory",
+				"CheckUserTokenQueryManager",
+				"CheckUserDurationManager",
+				"CheckUserEventLogger",
+				"CheckUserGuidedTourLauncher",
+				"CheckUserHookRunner",
+				"PermissionManager",
+				"CheckUserLogService",
+				"UserIdentityLookup",
+				"UserFactory"
+			]
+		},
+		"InvestigateBlock": {
+			"class": "MediaWiki\\CheckUser\\Investigate\\SpecialInvestigateBlock",
+			"services": [
+				"BlockUserFactory",
+				"BlockPermissionCheckerFactory",
+				"PermissionManager",
+				"TitleFormatter",
+				"UserFactory",
+				"CheckUserEventLogger"
 			]
 		}
 	},
