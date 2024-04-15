@@ -124,6 +124,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 				'log_action' => $deleteLogEntry->getSubtype(),
 				'title' => $deleteLogEntry->getTarget()->getText(),
 				'log_deleted' => 0,
+				'type' => RC_LOG,
 				'user_text' => $deleteLogEntry->getPerformerIdentity()->getName(),
 				'user' => $deleteLogEntry->getPerformerIdentity()->getId(),
 				'client_hints_reference_id' => 1,
@@ -155,6 +156,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 				'log_action' => $deleteLogEntry->getSubtype(),
 				'title' => $deleteLogEntry->getTarget()->getText(),
 				'log_deleted' => LogPage::DELETED_ACTION,
+				'type' => RC_LOG,
 				'user_text' => $deleteLogEntry->getPerformerIdentity()->getName(),
 				'user' => $deleteLogEntry->getPerformerIdentity()->getId(),
 				'client_hints_reference_id' => 1,
@@ -216,6 +218,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 				'log_action' => $moveLogEntry->getSubtype(),
 				'log_deleted' => 0,
 				'title' => $moveLogEntry->getTarget()->getText(),
+				'type' => RC_LOG,
 				'user_text' => $moveLogEntry->getPerformerIdentity()->getName(),
 				'user' => $moveLogEntry->getPerformerIdentity()->getId(),
 				'log_params' => $logParametersAsBlob,
@@ -260,6 +263,45 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 		];
 	}
 
+	public function testFormatRowForLogWhenLogCommentDeleted() {
+		$moveLogEntry = new ManualLogEntry( 'move', 'move' );
+		$moveLogEntry->setPerformer( UserIdentityValue::newAnonymous( '127.0.0.1' ) );
+		$moveLogEntry->setTarget( Title::newFromText( 'Testing page' ) );
+		$moveLogEntry->setParameters( [
+			'4::target' => 'Testing',
+			'5::noredir' => '0'
+		] );
+		$this->testFormatRow(
+			[
+				'log_type' => $moveLogEntry->getType(),
+				'log_action' => $moveLogEntry->getSubtype(),
+				'log_deleted' => LogPage::DELETED_COMMENT,
+				'title' => $moveLogEntry->getTarget()->getText(),
+				'type' => RC_LOG,
+				'user_text' => $moveLogEntry->getPerformerIdentity()->getName(),
+				'user' => $moveLogEntry->getPerformerIdentity()->getId(),
+				'log_params' => LogEntryBase::makeParamBlob( [
+					'4::target' => 'Testing',
+					'5::noredir' => '0'
+				] ),
+				'comment_text' => 'test',
+				'client_hints_reference_id' => 1,
+				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
+			],
+			[ $moveLogEntry->getPerformerIdentity()->getName() => '' ],
+			[ $moveLogEntry->getPerformerIdentity()->getId() => true ],
+			[],
+			new ClientHintsBatchFormatterResults( [ 0 => [ 1 => 0 ] ], [ 0 => 'Test Client Hints data' ] ),
+			[
+				'actionText' => LogFormatter::newFromEntry( $moveLogEntry )->getActionText(),
+				'clientHints' => 'Test Client Hints data',
+				'comment' => '',
+			],
+			SCHEMA_COMPAT_NEW,
+			true,
+		);
+	}
+
 	public function testFormatRowWhenTitleIsHiddenUser() {
 		// Get a user which has been blocked with the 'hideuser' enabled.
 		$hiddenUser = $this->getTestUser()->getUser();
@@ -279,6 +321,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 				'log_type' => 'test',
 				'log_action' => 'phpunit',
 				'log_deleted' => 0,
+				'type' => RC_LOG,
 				'namespace' => NS_USER,
 				'title' => $hiddenUser->getUserPage()->getText(),
 				'user_text' => $hiddenUser->getName(),
@@ -465,7 +508,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 			'page_id' => 0,
 			'this_oldid' => 0,
 			'last_oldid' => 0,
-			'type' => RC_LOG,
+			'type' => RC_EDIT,
 			'timestamp' => $this->db->timestamp(),
 			'ip' => '127.0.0.1',
 			'xff' => '',

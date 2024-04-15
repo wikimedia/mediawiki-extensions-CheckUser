@@ -7,7 +7,6 @@ use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetActionsPager;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
-use MediaWiki\User\UserIdentityValue;
 use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\TestingAccessWrapper;
 
@@ -267,7 +266,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerUnitTestBase {
 		$objectUnderTest->eventTableReadNew = true;
 		$this->assertSame(
 			$expectedActionText,
-			$objectUnderTest->getActionText( (object)$row, UserIdentityValue::newAnonymous( '127.0.0.1' ) ),
+			$objectUnderTest->getActionText( (object)$row, null ),
 			'::getActionText did not return the correct actiontext.'
 		);
 	}
