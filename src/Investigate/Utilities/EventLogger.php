@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Investigate\Utilities;
 
 use ExtensionRegistry;
 use MediaWiki\Extension\EventLogging\EventLogging;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 class EventLogger {
 	private ExtensionRegistry $extensionRegistry;
@@ -43,6 +44,6 @@ class EventLogger {
 	 * @return int
 	 */
 	public function getTime(): int {
-		return (int)round( microtime( true ) * 1000 );
+		return (int)round( ConvertibleTimestamp::microtime() * 1000 );
 	}
 }
