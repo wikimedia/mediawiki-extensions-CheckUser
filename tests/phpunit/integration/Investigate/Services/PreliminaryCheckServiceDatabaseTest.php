@@ -13,6 +13,7 @@ use Wikimedia\TestingAccessWrapper;
  * @group CheckUser
  * @group Database
  * @covers \MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService
+ * @covers \MediaWiki\CheckUser\Investigate\Services\ChangeService
  */
 class PreliminaryCheckServiceDatabaseTest extends MediaWikiIntegrationTestCase {
 	use MockAuthorityTrait;
