@@ -3,10 +3,9 @@
 namespace MediaWiki\CheckUser\Investigate\Pagers;
 
 use Language;
+use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Linker\LinkRenderer;
-use MediaWiki\Revision\ArchivedRevisionLookup;
-use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Title\TitleFormatter;
 use MediaWiki\User\User;
@@ -14,8 +13,7 @@ use MediaWiki\User\UserFactory;
 
 class TimelineRowFormatterFactory {
 	private LinkRenderer $linkRenderer;
-	private RevisionStore $revisionStore;
-	private ArchivedRevisionLookup $archivedRevisionLookup;
+	private CheckUserLookupUtils $checkUserLookupUtils;
 	private TitleFormatter $titleFormatter;
 	private SpecialPageFactory $specialPageFactory;
 	private CommentFormatter $commentFormatter;
@@ -23,8 +21,7 @@ class TimelineRowFormatterFactory {
 
 	/**
 	 * @param LinkRenderer $linkRenderer
-	 * @param RevisionStore $revisionStore
-	 * @param ArchivedRevisionLookup $archivedRevisionLookup
+	 * @param CheckUserLookupUtils $checkUserLookupUtils
 	 * @param TitleFormatter $titleFormatter
 	 * @param SpecialPageFactory $specialPageFactory
 	 * @param CommentFormatter $commentFormatter
@@ -32,16 +29,14 @@ class TimelineRowFormatterFactory {
 	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
-		RevisionStore $revisionStore,
-		ArchivedRevisionLookup $archivedRevisionLookup,
+		CheckUserLookupUtils $checkUserLookupUtils,
 		TitleFormatter $titleFormatter,
 		SpecialPageFactory $specialPageFactory,
 		CommentFormatter $commentFormatter,
 		UserFactory $userFactory
 	) {
 		$this->linkRenderer = $linkRenderer;
-		$this->revisionStore = $revisionStore;
-		$this->archivedRevisionLookup = $archivedRevisionLookup;
+		$this->checkUserLookupUtils = $checkUserLookupUtils;
 		$this->titleFormatter = $titleFormatter;
 		$this->specialPageFactory = $specialPageFactory;
 		$this->commentFormatter = $commentFormatter;
@@ -58,8 +53,7 @@ class TimelineRowFormatterFactory {
 	public function createRowFormatter( User $user, Language $language ): TimelineRowFormatter {
 		return new TimelineRowFormatter(
 			$this->linkRenderer,
-			$this->revisionStore,
-			$this->archivedRevisionLookup,
+			$this->checkUserLookupUtils,
 			$this->titleFormatter,
 			$this->specialPageFactory,
 			$this->commentFormatter,
