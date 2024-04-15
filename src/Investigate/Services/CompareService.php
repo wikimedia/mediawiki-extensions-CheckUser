@@ -6,7 +6,6 @@ use LogicException;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\Rdbms\IConnectionProvider;
-use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Rdbms\Subquery;
 
@@ -91,7 +90,7 @@ class CompareService extends ChangeService {
 		}
 		$limit = (int)( $this->limit / count( $targets ) );
 
-		$sqlText = [];
+		$unionQueryBuilder = $dbr->newUnionQueryBuilder()->caller( __METHOD__ );
 		foreach ( $targets as $target ) {
 			$conds = $this->buildCondsForSingleTarget( $target, $excludeTargets, $start );
 			if ( $conds !== null ) {
@@ -113,11 +112,11 @@ class CompareService extends ChangeService {
 					$queryBuilder->orderBy( 'cuc_timestamp', SelectQueryBuilder::SORT_DESC )
 						->limit( $limit );
 				}
-				$sqlText[] = $queryBuilder->getSQL();
+				$unionQueryBuilder->add( $queryBuilder );
 			}
 		}
 
-		$derivedTable = $dbr->unionQueries( $sqlText, IDatabase::UNION_DISTINCT );
+		$derivedTable = $unionQueryBuilder->getSQL();
 
 		return [
 			'tables' => [ 'a' => new Subquery( $derivedTable ) ],
