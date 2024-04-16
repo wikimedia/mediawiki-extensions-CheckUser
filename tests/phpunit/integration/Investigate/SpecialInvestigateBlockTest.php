@@ -92,7 +92,8 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 				// Test with a single target user, with both notices being added.
 				'wpTargets' => $testTargetUser->getName(), 'wpUserPageNotice' => 1, 'wpTalkPageNotice' => 1,
 				'wpUserPageNoticeText' => 'Test user page text', 'wpTalkPageNoticeText' => 'Test talk page text',
-				'wpReason' => 'Test reason', 'wpEditToken' => $testPerformer->getEditToken(),
+				'wpReason' => 'other', 'wpReason-other' => 'Test reason',
+				'wpEditToken' => $testPerformer->getEditToken(),
 			],
 			true,
 			RequestContext::getMain()->getRequest()->getSession()
@@ -155,7 +156,8 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 				// The notices should not be added if the block fails to be applied.
 				'wpTargets' => "127.0.0.2\n1.2.3.4/24", 'wpUserPageNotice' => 1, 'wpTalkPageNotice' => 1,
 				'wpUserPageNoticeText' => 'Test user page text', 'wpTalkPageNoticeText' => 'Test talk page text',
-				'wpReason' => 'Test reason', 'wpEditToken' => $testPerformer->getEditToken(),
+				'wpReason' => 'other', 'wpReason-other' => 'Test reason',
+				'wpEditToken' => $testPerformer->getEditToken(),
 			],
 			true,
 			RequestContext::getMain()->getRequest()->getSession()
@@ -197,5 +199,29 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 				->exists(),
 			'The user talk page notice should not have been added as the user cannot create the page.'
 		);
+	}
+
+	public function testOnSubmitForIPTargetWithMissingReason() {
+		$testPerformer = $this->getUserForSuccess();
+		RequestContext::getMain()->setUser( $testPerformer );
+		$fauxRequest = new FauxRequest(
+			[
+				'wpTargets' => "127.0.0.2\n1.2.3.4/24",
+				// wpReason as 'other' is no text and leave the other field empty. This simulates no provided reason.
+				'wpReason' => 'other', 'wpReason-other' => '',
+				'wpEditToken' => $testPerformer->getEditToken(),
+			],
+			true,
+			RequestContext::getMain()->getRequest()->getSession()
+		);
+		// Assign the fake valid request to the main request context, as well as updating the session user
+		// so that the CSRF token is a valid token for the request user.
+		RequestContext::getMain()->setRequest( $fauxRequest );
+		RequestContext::getMain()->getRequest()->getSession()->setUser( $testPerformer );
+
+		// Execute the special page and get the HTML output.
+		[ $html ] = $this->executeSpecialPage( '', $fauxRequest, null, $testPerformer );
+		// Assert that the required field error is displayed on the page.
+		$this->assertStringContainsString( '(htmlform-required', $html );
 	}
 }
