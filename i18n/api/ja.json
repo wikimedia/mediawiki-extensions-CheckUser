@@ -5,7 +5,8 @@
 			"Otokoume",
 			"Shirayuki",
 			"W.CC",
-			"Yusuke1109"
+			"Yusuke1109",
+			"Waki285"
 		]
 	},
 	"apihelp-query+checkuser-description": "指定した利用者名の利用者が使用した IPアドレス や、指定した IPアドレス を使用した利用者名を調査します。",
@@ -22,6 +23,7 @@
 	"apihelp-query+checkuserlog-summary": "利用者調査の記録から項目を取得します。",
 	"apihelp-query+checkuserlog-param-user": "利用者調査の実行者の利用者名です。",
 	"apihelp-query+checkuserlog-param-target": "調査する対象の利用者、IP アドレス、CIDR範囲のいずれかです。",
+	"apihelp-query+checkuserlog-param-reason": "チェックの理由",
 	"apihelp-query+checkuserlog-param-limit": "行数の上限です。",
 	"apihelp-query+checkuserlog-param-from": "一覧の開始点となる日時",
 	"apihelp-query+checkuserlog-param-to": "一覧の終了点となる日時",

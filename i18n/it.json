@@ -21,7 +21,8 @@
 			"Sakretsu",
 			"Scompo",
 			"Selven",
-			"Stefano-c"
+			"Stefano-c",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Questo strumento analizza le modifiche recenti per recuperare gli indirizzi IP utilizzati da un utente o mostrare contributi e dati di un IP. Utenti e contributi di un client IP possono essere rintracciati attraverso gli header XFF aggiungendo all'IP il suffisso \"/xff\". Sono supportati IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128). Non saranno restituite più di $3 modifiche, per ragioni di prestazioni. Usa questo strumento in stretta conformità alle policy.",
@@ -54,6 +55,7 @@
 	"checkuser-all": "tutti gli edit",
 	"checkuser-cidr-label": "Trova l'intervallo comune e gli indirizzi interessati per una lista di IP",
 	"checkuser-cidr-res": "CIDR comune:",
+	"checkuser-cidr-affected-ips": "Indirizzi IP interessati:",
 	"checkuser-empty": "Il registro non contiene dati.",
 	"checkuser-nomatch": "Nessun risultato trovato.",
 	"checkuser-nomatch-edits": "Nessun risultato trovato.\nUltimo edit risalente alle $2 del $1.",
