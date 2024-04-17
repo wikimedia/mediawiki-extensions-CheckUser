@@ -36,7 +36,8 @@
 			"The Evil IP address",
 			"Umherirrender",
 			"Verdy p",
-			"Xiplus"
+			"Xiplus",
+			"Waki285"
 		]
 	},
 	"checkuser-summary": "{{CheckUserForm}}\nExplanation of CheckUser tool shown on [[Special:CheckUser]].\n\nParameters:\n* $1 - an integer that can change based on wiki configuration. default value: 16\n* $2 - an integer that can change based on wiki configuration. default value: 32\n* $3 - the maximum number of results returned as set in the wiki global CheckUserMaximumRowCount. default value: 5000",
@@ -46,13 +47,13 @@
 	"checkuser-contribs": "[[File:Special-Contributions with the CheckUser extension loaded (2023).png|thumb|Example usage of this link text]]This is a link anchor used in [[Special:Contributions]]/''name'' to link to [[Special:CheckUser]] with ''name'' pre-filled in the form. Displayed only when the user has the ''checkuser'' right.",
 	"checkuser-contribs-log": "[[File:Special-Contributions with the CheckUser extension loaded (2023).png|thumb|Example usage of this link text]]This is a link anchor used in [[Special:Contributions]]/''name'' to link to recent entries in the CheckUser log regarding the user. Displayed only when user viewing the page has the right to view the CheckUser log ('''checkuser-log''' permission).",
 	"checkuser-contribs-log-initiator": "[[File:Special-Contributions with the CheckUser extension loaded (2023).png|thumb|Example usage of this link text]]This is a link anchor used in [[Special:Contributions]]/''name'' to link to recent check users made by this user. Displayed only when user viewing the page has the right to view the CheckUser log ('''checkuser-log''' permission).",
-	"group-checkuser": "{{doc-group|checkuser}}\ncheck is a noun, not a verb here.\n\n{{Identical|Check user}}",
+	"group-checkuser": "{{doc-important|The translation of this message cannot be the same as {{msg-mw|group-suppress}} or {{msg-mw|wmf-group-patroller}}}}\n{{doc-group|checkuser}}\ncheck is a noun, not a verb here.\n\n{{Identical|Check user}}",
 	"group-checkuser-member": "{{doc-group|checkuser|member}}\n{{Identical|Check user}}",
 	"group-checkuser-temporary-account-viewer": "This can be rephrased as \"Viewers of IPs of temporary accounts\".\n\n{{doc-group|checkuser-temporary-account-viewer}}",
 	"group-checkuser-temporary-account-viewer-member": "This can be rephrased as \"Viewers of IPs of temporary accounts\".\n\n{{doc-group|checkuser-temporary-account-viewer|member}}",
 	"right-checkuser": "{{doc-right|checkuser}}",
 	"right-checkuser-log": "{{doc-right|checkuser-log}}",
-	"right-checkuser-temporary-account": "{{doc-right|checkuser-temporary-account}}",
+	"right-checkuser-temporary-account": "{{doc-right|checkuser-temporary-account}}\nThis user right is similar to {{msg-mw|right-checkuser-temporary-account-no-preference}}, but this right requires that a user checks a preference in [[Special:Preferences]] to use the tool.",
 	"right-checkuser-temporary-account-log": "{{doc-right|checkuser-temporary-account-log}}",
 	"action-checkuser": "{{doc-action|checkuser}}",
 	"action-checkuser-log": "{{doc-action|checkuser-log}}",

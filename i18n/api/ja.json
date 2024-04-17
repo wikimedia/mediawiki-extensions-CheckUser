@@ -5,11 +5,14 @@
 			"Otokoume",
 			"Shirayuki",
 			"W.CC",
-			"Yusuke1109"
+			"Yusuke1109",
+			"Waki285"
 		]
 	},
 	"apihelp-query+checkuser-summary": "指定した利用者名の利用者が使用した IPアドレス や、指定した IPアドレス を使用した利用者名を調査します。",
-	"apihelp-query+checkuser-param-request": "利用者調査リクエストの種類です:\n;userips:対象利用者の IPアドレス を取得します。\n;edits:対象 IPアドレス または IPアドレス 範囲による編集を取得します。\n;ipusers:対象 IPアドレス または IPアドレス 範囲を使用した利用者を取得します。",
+	"apihelp-query+checkuser-param-request": "利用者調査リクエストの種類:",
+	"apihelp-query+checkuser-paramvalue-request-userips": "対象利用者のIPアドレスを取得します。",
+	"apihelp-query+checkuser-paramvalue-request-ipusers": "対象IPアドレスまたは IPアドレス範囲を使用した利用者を取得します。",
 	"apihelp-query+checkuser-param-target": "調査する利用者名、IP アドレス、CIDR 範囲のいずれかです。",
 	"apihelp-query+checkuser-param-reason": "調査の理由です。",
 	"apihelp-query+checkuser-param-limit": "行数の上限です。",
@@ -20,6 +23,7 @@
 	"apihelp-query+checkuserlog-summary": "利用者調査の記録から項目を取得します。",
 	"apihelp-query+checkuserlog-param-user": "利用者調査の実行者の利用者名です。",
 	"apihelp-query+checkuserlog-param-target": "調査する対象の利用者、IP アドレス、CIDR範囲のいずれかです。",
+	"apihelp-query+checkuserlog-param-reason": "チェックの理由",
 	"apihelp-query+checkuserlog-param-limit": "行数の上限です。",
 	"apihelp-query+checkuserlog-param-from": "一覧の開始点となる日時",
 	"apihelp-query+checkuserlog-param-to": "一覧の終了点となる日時",

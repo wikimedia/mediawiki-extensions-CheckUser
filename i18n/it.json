@@ -55,6 +55,7 @@
 	"checkuser-all": "tutti gli edit",
 	"checkuser-cidr-label": "Trova l'intervallo comune e gli indirizzi interessati per una lista di IP",
 	"checkuser-cidr-res": "CIDR comune:",
+	"checkuser-cidr-affected-ips": "Indirizzi IP interessati:",
 	"checkuser-cidr-tool-links-checkuser": "Controlla questo intervallo",
 	"checkuser-cidr-tool-links-checkuserlog": "Controlli precedenti su questo intervallo",
 	"checkuser-cidr-tool-links-prefix": "Strumenti per questo intervallo:",
