@@ -130,21 +130,14 @@ class ComparePager extends TablePager {
 		switch ( $field ) {
 			case 'cuc_ip':
 				foreach ( $this->filteredTargets as $target ) {
-					if ( !IPUtils::isIPAddress( $target ) ) {
-						continue;
-					}
-
-					if ( IPUtils::isValidRange( $target ) && IPUtils::isInRange( $value, $target ) ) {
-						$attributes['class'] .= ' ext-checkuser-compare-table-cell-target';
-						break;
-					}
-
-					if ( IPUtils::toHex( $target ) === $row->cuc_ip_hex ) {
+					if ( IPUtils::isIPAddress( $target ) && IPUtils::isInRange( $value, $target ) ) {
+						// If the current cuc_ip is either in the range of a filtered target or is the filtered target,
+						// then mark the cell as a target.
 						$attributes['class'] .= ' ext-checkuser-compare-table-cell-target';
 						break;
 					}
 				}
-				$ipHex = IPUtils::toHex( $value );
+				$ipHex = $row->cuc_ip_hex;
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-interactive';
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-pinnable';
 				$attributes['class'] .= ' ext-checkuser-compare-table-cell-ip-target';
