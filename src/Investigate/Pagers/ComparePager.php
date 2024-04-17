@@ -217,7 +217,7 @@ class ComparePager extends TablePager {
 					return $this->msg( 'rev-deleted-user' )->text();
 				}
 				if ( IPUtils::isValid( $value ) ) {
-					$formatted = $this->msg( 'checkuser-investigate-compare-table-cell-unregistered' );
+					$formatted = $this->msg( 'checkuser-investigate-compare-table-cell-unregistered' )->text();
 				} else {
 					$formatted = Linker::userLink( $row->cuc_user ?? 0, $value );
 				}

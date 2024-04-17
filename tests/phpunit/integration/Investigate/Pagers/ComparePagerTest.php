@@ -7,7 +7,9 @@ use MediaWiki\CheckUser\Investigate\Pagers\ComparePager;
 use MediaWiki\CheckUser\Investigate\Services\CompareService;
 use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
+use MediaWiki\Linker\Linker;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
@@ -16,6 +18,7 @@ use MediaWikiIntegrationTestCase;
 use RequestContext;
 use TestAllServiceOptionsUsed;
 use Wikimedia\IPUtils;
+use Wikimedia\TestingAccessWrapper;
 
 /**
  * @group CheckUser
@@ -25,6 +28,215 @@ use Wikimedia\IPUtils;
 class ComparePagerTest extends MediaWikiIntegrationTestCase {
 	use TestAllServiceOptionsUsed;
 	use TempUserTestTrait;
+	use MockAuthorityTrait;
+
+	private static UserIdentity $hiddenUser;
+
+	private function getObjectUnderTest( array $overrides = [] ): ComparePager {
+		$services = $this->getServiceContainer();
+		return new ComparePager(
+			RequestContext::getMain(),
+			$overrides['linkRenderer'] ?? $services->getLinkRenderer(),
+			$overrides['tokenQueryManager'] ?? $services->get( 'CheckUserTokenQueryManager' ),
+			$overrides['durationManager'] ?? $services->get( 'CheckUserDurationManager' ),
+			$overrides['compareService'] ?? $services->get( 'CheckUserCompareService' ),
+			$overrides['userFactory'] ?? $services->getUserFactory()
+		);
+	}
+
+	/** @dataProvider provideFormatValue */
+	public function testFormatValue( array $row, $name, $expectedFormattedValue ) {
+		// Set the user language to qqx so that we can compare against the message keys and not the english version of
+		// the message key (which may change and then break the tests).
+		$this->setUserLang( 'qqx' );
+		$objectUnderTest = TestingAccessWrapper::newFromObject( $this->getObjectUnderTest() );
+		// Set the $row as an object to mCurrentRow for access by ::formatValue.
+		$objectUnderTest->mCurrentRow = (object)$row;
+		/** @var $objectUnderTest ComparePager */
+		$this->assertSame(
+			$expectedFormattedValue,
+			$objectUnderTest->formatValue( $name, $row[$name] ?? null ),
+			'::formatRow did not return the expected HTML'
+		);
+	}
+
+	public static function provideFormatValue() {
+		return [
+			'activity as $name' => [
+				// The row set as $this->mCurrentRow in the object under test, provided as an array
+				[ 'first_edit' => '20240405060708', 'last_edit' => '20240406060708' ],
+				// The $name argument to ::formatValue
+				'activity',
+				// The expected formatted value
+				'5 (april) 2024 - 6 (april) 2024'
+			],
+			'cuc_agent is not null' => [ [ 'cuc_agent' => 'test' ], 'cuc_agent', 'test' ],
+			'cuc_agent is null' => [ [ 'cuc_agent' => null ], 'cuc_agent', '' ],
+			'cuc_agent contains unescaped HTML' => [
+				[ 'cuc_agent' => '<b>test</b>' ], 'cuc_agent', '&lt;b&gt;test&lt;/b&gt;',
+			],
+			'cuc_ip is 1.2.3.4' => [
+				[ 'cuc_ip' => '1.2.3.4', 'cuc_ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_edits' => 1 ],
+				'cuc_ip',
+				'<span class="ext-checkuser-compare-table-cell-ip">1.2.3.4</span>' .
+				'<div>(checkuser-investigate-compare-table-cell-actions: 1) ' .
+				'<span>(checkuser-investigate-compare-table-cell-other-actions: 5)</span></div>',
+			],
+			'unrecognised name' => [ [], 'foo', '' ],
+			'cuc_user_text as 1.2.3.5' => [
+				[ 'cuc_user_text' => '1.2.3.5', 'cuc_user' => 0 ], 'cuc_user_text',
+				'(checkuser-investigate-compare-table-cell-unregistered)',
+			],
+		];
+	}
+
+	public function testFormatValueForHiddenUser() {
+		// Assign the rights to the main context authority, which will be used by the object under test.
+		RequestContext::getMain()->setAuthority( $this->mockRegisteredAuthorityWithoutPermissions( [ 'hideuser' ] ) );
+		$this->testFormatValue(
+			// The $hiddenUser static property may not be set when the data providers are called, so this needs to be
+			// accessed in a test method.
+			[ 'cuc_user_text' => self::$hiddenUser->getName(), 'cuc_user' => self::$hiddenUser->getId() ],
+			'cuc_user_text',
+			'(rev-deleted-user)'
+		);
+	}
+
+	public function testFormatValueForUser() {
+		// Assign the rights to the main context authority, which will be used by the object under test.
+		RequestContext::getMain()->setAuthority(
+			$this->mockRegisteredAuthorityWithPermissions( [ 'hideuser', 'checkuser' ] )
+		);
+		$this->testFormatValue(
+			[ 'cuc_user_text' => self::$hiddenUser->getName(), 'cuc_user' => self::$hiddenUser->getId() ],
+			'cuc_user_text',
+			// We cannot mock a static method, so we have to use the real method here.
+			// This also means this cannot be in a data provider.
+			Linker::userLink( self::$hiddenUser->getId(), self::$hiddenUser->getName() )
+		);
+	}
+
+	/** @dataProvider provideGetCellAttrs */
+	public function testGetCellAttrs(
+		array $row, array $filteredTargets, array $ipTotalEdits, $name, $expectedClasses, $otherExpectedAttributes
+	) {
+		// Set the user language to qqx so that we can compare against the message keys and not the english version of
+		// the message key (which may change and then break the tests).
+		$this->setUserLang( 'qqx' );
+		$objectUnderTest = TestingAccessWrapper::newFromObject( $this->getObjectUnderTest() );
+		// Set the $row, $filteredTargets, and $ipTotalEdits in the relevant properties of the object under test so that
+		// ::getCellAttrs can access them.
+		$objectUnderTest->mCurrentRow = (object)$row;
+		$objectUnderTest->filteredTargets = $filteredTargets;
+		$objectUnderTest->ipTotalEdits = $ipTotalEdits;
+		/** @var $objectUnderTest ComparePager */
+		$actualCellAttrs = $objectUnderTest->getCellAttrs( $name, $row[$name] ?? null );
+		foreach ( $expectedClasses as $class ) {
+			$this->assertStringContainsString(
+				$class,
+				$actualCellAttrs['class'],
+				"The class $class was not in the actual classes for the cell"
+			);
+		}
+		// Unset the 'class' so that we can test the other attributes using ::assertArrayEquals
+		unset( $actualCellAttrs['class'] );
+		// Add 'tabindex' as 0 to the expected attributes, as this is always added by ::getCellAttrs.
+		$otherExpectedAttributes['tabindex'] = 0;
+		$this->assertArrayEquals(
+			$otherExpectedAttributes,
+			$actualCellAttrs,
+			false,
+			true,
+			'::getCellAttrs did not return the expected attributes'
+		);
+	}
+
+	public static function provideGetCellAttrs() {
+		return [
+			'$name as cuc_ip when IP $value is inside a filtered target IP range' => [
+				// The row set as $this->mCurrentRow in the object under test, provided as an array
+				[ 'cuc_ip' => '1.2.3.4', 'cuc_ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_edits' => 1 ],
+				// The value of the filteredTargets property in the object under test (only used for cuc_ip and
+				// cuc_user_text $name values).
+				[ 'TestUser1', '1.2.3.0/24' ],
+				// The value of the ipTotalEdits property in the object under test (only used for cuc_ip $name values).
+				[ IPUtils::toHex( '1.2.3.4' ) => 2 ],
+				// The $name argument to ::getCellAttrs
+				'cuc_ip',
+				// The expected classes for the cell
+				[
+					'ext-checkuser-compare-table-cell-target', 'ext-checkuser-compare-table-cell-ip-target',
+					'ext-checkuser-investigate-table-cell-pinnable',
+					'ext-checkuser-investigate-table-cell-interactive',
+				],
+				// The expected attributes for the cell (minus the class, as this is tested above).
+				[
+					'data-field' => 'cuc_ip', 'data-value' => '1.2.3.4',
+					'data-sort-value' => IPUtils::toHex( '1.2.3.4' ), 'data-edits' => 1, 'data-all-edits' => 2,
+				],
+			],
+			'$name as cuc_ip when IP $value is a filtered target' => [
+				[ 'cuc_ip' => '1.2.3.4', 'cuc_ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_edits' => 1 ],
+				[ 'TestUser1', '1.2.3.4' ], [ IPUtils::toHex( '1.2.3.4' ) => 2 ], 'cuc_ip',
+				[
+					'ext-checkuser-compare-table-cell-target', 'ext-checkuser-compare-table-cell-ip-target',
+					'ext-checkuser-investigate-table-cell-pinnable',
+					'ext-checkuser-investigate-table-cell-interactive',
+				],
+				[
+					'data-field' => 'cuc_ip', 'data-value' => '1.2.3.4',
+					'data-sort-value' => IPUtils::toHex( '1.2.3.4' ), 'data-edits' => 1, 'data-all-edits' => 2,
+				],
+			],
+			'$name as cuc_ip when IP is not in filtered targets array' => [
+				[ 'cuc_ip' => '1.2.3.4', 'cuc_ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_edits' => 1 ],
+				[], [ IPUtils::toHex( '1.2.3.4' ) => 2 ], 'cuc_ip',
+				[
+					'ext-checkuser-compare-table-cell-ip-target', 'ext-checkuser-investigate-table-cell-pinnable',
+					'ext-checkuser-investigate-table-cell-interactive',
+				],
+				[
+					'data-field' => 'cuc_ip', 'data-value' => '1.2.3.4',
+					'data-sort-value' => IPUtils::toHex( '1.2.3.4' ), 'data-edits' => 1, 'data-all-edits' => 2,
+				],
+			],
+			'$name as cuc_user_text for IP address' => [
+				[ 'cuc_user_text' => '1.2.3.4' ], [], [], 'cuc_user_text',
+				[ 'ext-checkuser-investigate-table-cell-interactive' ],
+				[ 'data-sort-value' => '1.2.3.4' ],
+			],
+			'$name as cuc_user_text for unregistered user that is a target' => [
+				[ 'cuc_user_text' => 'TestUser1' ], [ 'TestUser1' ], [], 'cuc_user_text',
+				[ 'ext-checkuser-compare-table-cell-target', 'ext-checkuser-investigate-table-cell-interactive' ],
+				[ 'data-field' => 'cuc_user_text', 'data-value' => 'TestUser1', 'data-sort-value' => 'TestUser1' ],
+			],
+			'$name as activity' => [
+				[ 'first_edit' => '20240405060708', 'last_edit' => '20240406060708' ], [], [], 'activity',
+				[ 'ext-checkuser-compare-table-cell-activity' ], [ 'data-sort-value' => '2024040520240406' ],
+			],
+			'$name as cuc_agent' => [
+				[ 'cuc_agent' => 'test' ], [], [], 'cuc_agent',
+				[
+					'ext-checkuser-compare-table-cell-user-agent', 'ext-checkuser-investigate-table-cell-pinnable',
+					'ext-checkuser-investigate-table-cell-interactive',
+				],
+				[ 'data-field' => 'cuc_agent', 'data-value' => 'test', 'data-sort-value' => 'test' ],
+			],
+		];
+	}
+
+	public function testGetCellAttrsForHiddenUser() {
+		// Assign the rights to the main context authority, which will be used by the object under test.
+		RequestContext::getMain()->setAuthority( $this->mockRegisteredAuthorityWithoutPermissions( [ 'hideuser' ] ) );
+		$this->testGetCellAttrs(
+			[ 'cuc_user_text' => self::$hiddenUser->getName() ], [], [], 'cuc_user_text',
+			[ 'ext-checkuser-investigate-table-cell-interactive' ],
+			[
+				'data-field' => 'cuc_user_text',
+				'data-value' => '(rev-deleted-user)', 'data-sort-value' => '(rev-deleted-user)',
+			]
+		);
+	}
 
 	/**
 	 * @dataProvider provideDoQuery
@@ -78,14 +290,11 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 
 		$durationManager = $this->createMock( DurationManager::class );
 
-		$pager = new ComparePager(
-			RequestContext::getMain(),
-			$services->get( 'LinkRenderer' ),
-			$tokenQueryManager,
-			$durationManager,
-			$compareService,
-			$services->getUserFactory()
-		);
+		$pager = $this->getObjectUnderTest( [
+			'tokenQueryManager' => $tokenQueryManager,
+			'compareService' => $compareService,
+			'durationManager' => $durationManager,
+		] );
 		$pager->doQuery();
 
 		$this->assertSame( $expected, $pager->mResult->numRows() );
@@ -105,7 +314,7 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	public function addDBData() {
+	public function addDBDataOnce() {
 		// Automatic temp user creation cannot be enabled
 		// if actor IDs are being created for IPs.
 		$this->disableAutoCreateTempUser();
@@ -209,5 +418,16 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 				->row( $row + $commonData )
 				->execute();
 		}
+
+		// Get a test user and apply a 'hideuser' block to that test user
+		$hiddenUser = $this->getTestUser()->getUser();
+		// Place a 'hideuser' block on the test user to hide the user
+		$blockStatus = $this->getServiceContainer()->getBlockUserFactory()
+			->newBlockUser(
+				$hiddenUser, $this->getTestUser( [ 'sysop', 'suppress' ] )->getUser(),
+				'infinity', 'block to hide the test user', [ 'isHideUser' => true ]
+			)->placeBlock();
+		$this->assertStatusGood( $blockStatus );
+		self::$hiddenUser = $hiddenUser;
 	}
 }
