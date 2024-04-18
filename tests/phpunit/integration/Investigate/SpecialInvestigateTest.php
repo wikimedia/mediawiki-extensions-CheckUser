@@ -136,7 +136,8 @@ class SpecialInvestigateTest extends FormSpecialPageTestCase {
 		$this->assertStringContainsString( '(checkuser-investigate-indicator-logs', $html );
 		// Verify that the subtitle indicating the users being investigated is shown
 		$this->assertStringContainsString( '(checkuser-investigate-page-subtitle', $html );
-		$this->assertStringContainsString( '(checkuser-investigate-subtitle-block-button-label', $html );
+		$this->assertStringContainsString( '(checkuser-investigate-subtitle-block-accounts-button-label', $html );
+		$this->assertStringContainsString( '(checkuser-investigate-subtitle-block-ips-button-label', $html );
 		// Verify that the results container class is present along with the tab names
 		$this->assertStringContainsString( 'ext-checkuser-investigate-tabs-indexLayout', $html );
 		$this->assertStringContainsString( '(checkuser-investigate-tab-preliminary-check', $html );

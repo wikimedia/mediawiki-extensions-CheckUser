@@ -529,19 +529,30 @@ class SpecialInvestigate extends FormSpecialPage {
 				]
 			);
 			if ( $userCanBlock ) {
-				$blockButton = new ButtonWidget( [
+				$blockAccountsButton = new ButtonWidget( [
 					'infusable' => true,
-					'label' => $this->msg( 'checkuser-investigate-subtitle-block-button-label' )->text(),
+					'label' => $this->msg( 'checkuser-investigate-subtitle-block-accounts-button-label' )->text(),
 					'flags' => [ 'primary', 'progressive' ],
 					'classes' => [
 						'ext-checkuser-investigate-subtitle-block-button',
+						'ext-checkuser-investigate-subtitle-block-accounts-button',
+					],
+				] );
+				$blockIpsButton = new ButtonWidget( [
+					'infusable' => true,
+					'label' => $this->msg( 'checkuser-investigate-subtitle-block-ips-button-label' )->text(),
+					'flags' => [ 'primary', 'progressive' ],
+					'classes' => [
+						'ext-checkuser-investigate-subtitle-block-button',
+						'ext-checkuser-investigate-subtitle-block-ips-button',
 					],
 				] );
 				$items[] = new FieldLayout(
 					new Widget( [
 						'content' => new HorizontalLayout( [
 							'items' => [
-								$blockButton,
+								$blockAccountsButton,
+								$blockIpsButton,
 							]
 						] )
 					] ),

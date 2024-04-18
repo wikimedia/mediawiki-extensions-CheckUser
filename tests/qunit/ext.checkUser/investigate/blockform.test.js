@@ -15,19 +15,38 @@ function setUpDocumentForTest( targets ) {
 	// Create the barebones HTML structure added by SpecialInvestigate::addBlockForm
 	const node = document.createElement( 'div' );
 	node.className = 'ext-checkuser-investigate-subtitle-fieldset';
-	// Add the block button, including adding infusion data (which is hardcoded in the
+	// Add the accounts and ips block button, including adding infusion data (which is hardcoded in the
 	// test because there isn't an easier way to generate this in a QUnit context).
-	const $blockButton = new OO.ui.ButtonWidget( {
+	// First adds the accounts block button.
+	const $accountsBlockButton = new OO.ui.ButtonWidget( {
 		label: 'checkuser-investigate-subtitle-block-button-label',
-		classes: [ 'ext-checkuser-investigate-subtitle-block-button' ]
+		classes: [
+			'ext-checkuser-investigate-subtitle-block-button',
+			'ext-checkuser-investigate-subtitle-block-accounts-button'
+		]
 	} ).$element;
-	$blockButton.attr(
+	$accountsBlockButton.attr(
 		'data-ooui',
-		'{"_":"OO.ui.ButtonWidget","rel":["nofollow"],"label":"Block",' +
-		'"flags":["primary","progressive"],"classes":' +
-		'["ext-checkuser-investigate-subtitle-block-button"]}'
+		'{"_":"OO.ui.ButtonWidget","rel":["nofollow"],"label":"Block accounts","flags":' +
+		'["primary","progressive"],"classes":["ext-checkuser-investigate-subtitle-block-' +
+		'button","ext-checkuser-investigate-subtitle-block-accounts-button"]}'
 	);
-	node.appendChild( $blockButton[ 0 ] );
+	node.appendChild( $accountsBlockButton[ 0 ] );
+	// Next add the IPs block button
+	const $ipsBlockButton = new OO.ui.ButtonWidget( {
+		label: 'checkuser-investigate-subtitle-block-button-label',
+		classes: [
+			'ext-checkuser-investigate-subtitle-block-button',
+			'ext-checkuser-investigate-subtitle-block-ips-button'
+		]
+	} ).$element;
+	$ipsBlockButton.attr(
+		'data-ooui',
+		'{"_":"OO.ui.ButtonWidget","rel":["nofollow"],"label":"Block IPs","flags":' +
+		'["primary","progressive"],"classes":["ext-checkuser-investigate-subtitle-' +
+		'block-button","ext-checkuser-investigate-subtitle-block-ips-button"]}'
+	);
+	node.appendChild( $ipsBlockButton[ 0 ] );
 	// Add a placeholder widget which gets replaced with the targets widget.
 	const placeholderWidget = document.createElement( 'div' );
 	placeholderWidget.className = 'ext-checkuser-investigate-subtitle-placeholder-widget';
@@ -106,22 +125,10 @@ QUnit.test( 'Test visibility of block form elements on DOM load, after block cli
 	} );
 } );
 
-QUnit.test( 'Test clicking continue button', function ( assert ) {
-	// We need the test to wait a small amount of time for the click events to finish.
-	const done = assert.async();
-
-	// Set the HTML that is added by Special:Investigate.
-	const $actualHtmlElement = setUpDocumentForTest( [ 'Test', '1.3.4.5' ] );
-
-	// Call the function, specifying the QUnit fixture as the document root to avoid the form being kept
-	// in the DOM for other JavaScript tests.
-	// eslint-disable-next-line no-jquery/no-global-selector
-	const $qunitFixture = $( '#qunit-fixture' );
-	addBlockForm( $qunitFixture );
-
+function performBlockFormSubmitTest( assert, cssClass, $actualHtmlElement, $qunitFixture, expectedTargets, done ) {
 	// Listen for any submits of the hidden form and prevent them to avoid opening a new tab when running the tests.
 	// At the same time, if this event is triggered, then indicate that the test passed.
-	let formWasSubmitted = false;
+	let formWasSubmitted;
 	$( $qunitFixture ).on(
 		'submit',
 		'.ext-checkuser-investigate-hidden-block-form',
@@ -132,37 +139,93 @@ QUnit.test( 'Test clicking continue button', function ( assert ) {
 		}
 	);
 
-	// Click the continue button
-	$( '.ext-checkuser-investigate-subtitle-continue-button a', $actualHtmlElement )[ 0 ].click();
+	// Click the appropriate block button
+	$( cssClass + ' a', $actualHtmlElement )[ 0 ].click();
 	setTimeout( function () {
-		// Assert that the form element was correctly added
-		const $formElement = $( '.ext-checkuser-investigate-hidden-block-form', $qunitFixture );
-		assert.true(
-			!!$formElement.length,
-			'Form exists in the DOM after continue button was clicked'
-		);
-		assert.strictEqual(
-			$formElement.attr( 'action' ),
-			new mw.Title( 'Special:InvestigateBlock' ).getUrl(),
-			'Form sends data to Special:InvestigateBlock'
-		);
-		// Assert that the targets are as expected.
-		const $targetsInput = $formElement.find( 'input[name="wpTargets"]' );
-		assert.true(
-			!!$targetsInput.length,
-			'Targets input exists in the DOM after continue button was clicked'
-		);
-		assert.strictEqual(
-			$targetsInput.val(),
-			'Test\n1.3.4.5',
-			'Targets input value is set to the targets entered in the widget'
-		);
-		// Assert that the form was actually submitted.
-		assert.true(
-			formWasSubmitted,
-			'Form was submitted when continue button was clicked'
-		);
-		// QUnit tests are now done, so we can call done.
-		done();
+		// Click the continue button
+		$( '.ext-checkuser-investigate-subtitle-continue-button a', $actualHtmlElement )[ 0 ].click();
+		setTimeout( function () {
+			// Assert that the form element was correctly added
+			const $formElement = $( '.ext-checkuser-investigate-hidden-block-form', $qunitFixture );
+			assert.true(
+				!!$formElement.length,
+				'Form exists in the DOM after continue button was clicked'
+			);
+			assert.strictEqual(
+				$formElement.attr( 'action' ),
+				new mw.Title( 'Special:InvestigateBlock' ).getUrl(),
+				'Form sends data to Special:InvestigateBlock'
+			);
+			// Assert that the targets are as expected.
+			const $targetsInput = $formElement.find( 'input[name="wpTargets"]' );
+			assert.true(
+				!!$targetsInput.length,
+				'Targets input exists in the DOM after continue button was clicked'
+			);
+			assert.strictEqual(
+				$targetsInput.val(),
+				expectedTargets.join( '\n' ),
+				'Targets input value is set to the targets entered in the widget'
+			);
+			// Assert that the form was actually submitted.
+			assert.true(
+				formWasSubmitted,
+				'Form was submitted when continue button was clicked'
+			);
+			// Clean up the form element from the DOM to avoid affecting other tests.
+			$formElement.remove();
+			// QUnit tests are now done, so we can call done.
+			done();
+		} );
 	} );
+}
+
+// performBlockFormSubmitTest resolves the done async callback, but eslint doesn't detect this.
+// eslint-disable-next-line qunit/resolve-async
+QUnit.test( 'Test blocking accounts', function ( assert ) {
+	// We need the test to wait a small amount of time for the click events to finish.
+	const done = assert.async();
+
+	// Set the HTML that is added by Special:Investigate.
+	const $actualHtmlElement = setUpDocumentForTest( [ 'Test', '1.2.3.4', 'Test2', '4.5.6.0/24' ] );
+
+	// Call the function, specifying the QUnit fixture as the document root to avoid the form being kept
+	// in the DOM for other JavaScript tests.
+	// eslint-disable-next-line no-jquery/no-global-selector
+	const $qunitFixture = $( '#qunit-fixture' );
+	addBlockForm( $qunitFixture );
+
+	performBlockFormSubmitTest(
+		assert,
+		'.ext-checkuser-investigate-subtitle-block-accounts-button',
+		$actualHtmlElement,
+		$qunitFixture,
+		[ 'Test', 'Test2' ],
+		done
+	);
+} );
+
+// performBlockFormSubmitTest resolves the done async callback, but eslint doesn't detect this.
+// eslint-disable-next-line qunit/resolve-async
+QUnit.test( 'Test blocking IPs', function ( assert ) {
+	// We need the test to wait a small amount of time for the click events to finish.
+	const done = assert.async();
+
+	// Set the HTML that is added by Special:Investigate.
+	const $actualHtmlElement = setUpDocumentForTest( [ 'Test', '1.2.3.4', 'Test2', '4.5.6.0/24' ] );
+
+	// Call the function, specifying the QUnit fixture as the document root to avoid the form being kept
+	// in the DOM for other JavaScript tests.
+	// eslint-disable-next-line no-jquery/no-global-selector
+	const $qunitFixture = $( '#qunit-fixture' );
+	addBlockForm( $qunitFixture );
+
+	performBlockFormSubmitTest(
+		assert,
+		'.ext-checkuser-investigate-subtitle-block-ips-button',
+		$actualHtmlElement,
+		$qunitFixture,
+		[ '1.2.3.4', '4.5.6.0/24' ],
+		done
+	);
 } );
