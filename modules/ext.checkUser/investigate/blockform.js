@@ -1,4 +1,4 @@
-module.exports = function addBlockForm() {
+module.exports = function addBlockForm( documentRoot ) {
 	// Attributes used for pinnable highlighting
 	var blockButton = OO.ui.infuse( $( '.ext-checkuser-investigate-subtitle-block-button' ) ),
 		$placeholderWidget = $( '.ext-checkuser-investigate-subtitle-placeholder-widget' ),
@@ -13,7 +13,10 @@ module.exports = function addBlockForm() {
 			} ),
 			selected: targets.filter( function ( target ) {
 				return excludeTargets.indexOf( target ) === -1;
-			} )
+			} ),
+			classes: [
+				'ext-checkuser-investigate-subtitle-targets-widget'
+			]
 		} ),
 		continueButton = new OO.ui.ButtonWidget( {
 			label: mw.msg( 'checkuser-investigate-subtitle-continue-button-label' ),
@@ -55,7 +58,7 @@ module.exports = function addBlockForm() {
 			action: new mw.Title( 'Special:InvestigateBlock' ).getUrl(),
 			method: 'post',
 			target: '_blank'
-		} ).addClass( 'oo-ui-element-hidden' );
+		} ).addClass( [ 'oo-ui-element-hidden', 'ext-checkuser-investigate-hidden-block-form' ] );
 
 		params = {
 			wpTargets: targetsWidget.getValue().join( '\n' ),
@@ -69,6 +72,9 @@ module.exports = function addBlockForm() {
 			} ) );
 		}
 
-		$form.appendTo( 'body' ).trigger( 'submit' );
+		if ( !documentRoot ) {
+			documentRoot = 'body';
+		}
+		$form.appendTo( documentRoot ).trigger( 'submit' );
 	} );
 };
