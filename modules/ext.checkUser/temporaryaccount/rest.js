@@ -7,7 +7,7 @@
  * @param {Object} revIds
  * @param {Object} logIds
  * @param {boolean} retryOnTokenMismatch
- * @returns {Promise}
+ * @return {Promise}
  */
 function performRevealRequest( target, revIds, logIds, retryOnTokenMismatch ) {
 	if ( retryOnTokenMismatch === undefined ) {
@@ -24,7 +24,7 @@ function performRevealRequest( target, revIds, logIds, retryOnTokenMismatch ) {
  * @param {Object} revIds
  * @param {Object} logIds
  * @param {boolean} retryOnTokenMismatch
- * @returns {Promise}
+ * @return {Promise}
  */
 function performFullRevealRequest( target, revIds, logIds, retryOnTokenMismatch ) {
 	if ( retryOnTokenMismatch === undefined ) {
@@ -81,7 +81,7 @@ function performRevealRequestInternal( target, revIds, logIds, limit, retryOnTok
  * @param {Object} revIds
  * @param {Object} logIds
  * @param {number|false} limit
- * @returns {string}
+ * @return {string}
  */
 function buildQuery( revIds, logIds, limit ) {
 	var urlParams = '';
