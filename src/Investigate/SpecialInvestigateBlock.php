@@ -8,6 +8,7 @@ use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\Block\BlockUserFactory;
 use MediaWiki\CheckUser\Investigate\Utilities\EventLogger;
 use MediaWiki\Linker\Linker;
+use MediaWiki\MainConfigNames;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Request\DerivativeRequest;
 use MediaWiki\SpecialPage\FormSpecialPage;
@@ -131,7 +132,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 			];
 		}
 
-		if ( $this->getConfig()->get( 'BlockAllowsUTEdit' ) ) {
+		if ( $this->getConfig()->get( MainConfigNames::BlockAllowsUTEdit ) ) {
 			$fields['DisableUTEdit'] = [
 				'type' => 'check',
 				'label-message' => 'checkuser-investigateblock-usertalk-label',
