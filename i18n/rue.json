@@ -11,7 +11,7 @@
 	"checkuser": "Перевірити хоснователя",
 	"checkuserlog": "Лоґ перевіркы хоснователїв",
 	"checkuser-contribs": "перевірити IP адресы хоснователя",
-	"group-checkuser": "Ревізоры",
+	"group-checkuser": "Check users",
 	"group-checkuser-member": "{{GENDER:$1|ревізор|ревізорка|ревізор}}",
 	"right-checkuser": "Перевірка хосновательской IP адресы і далшых інформацій",
 	"right-checkuser-log": "Перегляд лоґу перевіркы хоснователїв",
