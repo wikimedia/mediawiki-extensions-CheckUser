@@ -52,25 +52,17 @@ module.exports = function addBlockForm( documentRoot ) {
 	cancelButton.on( 'click', toggleBlockFromButtons.bind( null, false ) );
 
 	continueButton.on( 'click', function () {
-		var $form, params, key;
-
-		$form = $( '<form>' ).attr( {
+		var $form = $( '<form>' ).attr( {
 			action: new mw.Title( 'Special:InvestigateBlock' ).getUrl(),
 			method: 'post',
 			target: '_blank'
 		} ).addClass( [ 'oo-ui-element-hidden', 'ext-checkuser-investigate-hidden-block-form' ] );
 
-		params = {
-			wpTargets: targetsWidget.getValue().join( '\n' ),
-			allowedTargets: targets
-		};
-		for ( key in params ) {
-			$form.append( $( '<input>' ).attr( {
-				type: 'hidden',
-				name: key,
-				value: params[ key ]
-			} ) );
-		}
+		$form.append( $( '<input>' ).attr( {
+			type: 'hidden',
+			name: 'wpTargets',
+			value: targetsWidget.getValue().join( '\n' )
+		} ) );
 
 		if ( !documentRoot ) {
 			documentRoot = 'body';
