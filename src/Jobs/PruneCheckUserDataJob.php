@@ -34,22 +34,22 @@ class PruneCheckUserDataJob extends Job {
 			return true;
 		}
 
-		$encCutoff = $dbw->addQuotes( $dbw->timestamp(
+		$cutoff = $dbw->timestamp(
 			ConvertibleTimestamp::time() - $services->getMainConfig()->get( 'CUDMaxAge' )
-		) );
+		);
 
 		$shouldDeleteAssociatedClientData = $services->getMainConfig()->get( 'CheckUserPurgeOldClientHintsData' );
 
 		$deleteOperation = static function (
 			$table, $idField, $timestampField, $clientHintMapTypeIdentifier
-		) use ( $dbw, $encCutoff, $fname, $shouldDeleteAssociatedClientData ) {
+		) use ( $dbw, $cutoff, $fname, $shouldDeleteAssociatedClientData ) {
 			$ids = [];
 			$referenceIds = [];
 			$clientHintReferenceField =
 				UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[$clientHintMapTypeIdentifier];
 			$idQueryBuilder = $dbw->newSelectQueryBuilder()
 				->table( $table )
-				->conds( [ "$timestampField < $encCutoff" ] )
+				->conds( $dbw->expr( $timestampField, '<', $cutoff ) )
 				->limit( 500 )
 				->caller( $fname );
 			if ( $shouldDeleteAssociatedClientData ) {

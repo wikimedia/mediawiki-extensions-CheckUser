@@ -10,6 +10,7 @@ use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiUnitTestCase;
 use Psr\Log\NullLogger;
+use Wikimedia\Rdbms\Expression;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 
@@ -105,9 +106,11 @@ class TemporaryAccountLoggerTest extends MediaWikiUnitTestCase {
 			->willReturn( $queryBuilder );
 
 		// We don't need to stub IDatabase::timestamp() since it is wrapped in
-		// a call to IDatabase::addQuotes().
-		$database->method( 'addQuotes' )
-			->willReturn( $timestamp );
+		// a call to IDatabase::expr().
+		$timestampExpr = $this->createMock( Expression::class );
+		$timestampExpr->method( 'toSql' )->willReturn( "log_timestamp > $timestamp" );
+		$database->method( 'expr' )
+			->willReturn( $timestampExpr );
 
 		$map = [
 				[
@@ -119,7 +122,7 @@ class TemporaryAccountLoggerTest extends MediaWikiUnitTestCase {
 						"log_actor" => 2,
 						"log_namespace" => 2,
 						"log_title" => $target,
-						0 => "log_timestamp > $timestamp",
+						$timestampExpr,
 					],
 					SelectQueryBuilder::class,
 					[],
@@ -135,7 +138,7 @@ class TemporaryAccountLoggerTest extends MediaWikiUnitTestCase {
 						"log_actor" => 2,
 						"log_namespace" => 2,
 						"log_title" => $target,
-						0 => "log_timestamp > $timestamp",
+						$timestampExpr,
 					],
 					SelectQueryBuilder::class,
 					[],

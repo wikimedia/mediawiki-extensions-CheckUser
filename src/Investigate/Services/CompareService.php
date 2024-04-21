@@ -54,7 +54,8 @@ class CompareService extends ChangeService {
 		string $ipHex,
 		string $excludeUser = null
 	): int {
-		$queryBuilder = $this->dbProvider->getReplicaDatabase()->newSelectQueryBuilder()
+		$dbr = $this->dbProvider->getReplicaDatabase();
+		$queryBuilder = $dbr->newSelectQueryBuilder()
 			->select( 'cuc_id' )
 			->from( 'cu_changes' )
 			->join( 'actor', null, 'actor_id=cuc_actor' )
@@ -67,7 +68,7 @@ class CompareService extends ChangeService {
 
 		if ( $excludeUser ) {
 			$queryBuilder->where(
-				'actor_name != ' . $this->dbQuoter->addQuotes( $excludeUser )
+				$dbr->expr( 'actor_name', '!=', $excludeUser )
 			);
 		}
 

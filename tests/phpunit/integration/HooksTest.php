@@ -20,6 +20,8 @@ use Message;
 use Psr\Log\LoggerInterface;
 use RecentChange;
 use RequestContext;
+use Wikimedia\Rdbms\IExpression;
+use Wikimedia\Rdbms\LikeValue;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -269,13 +271,13 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 					'cupe_actor' => $performer->getActorId(),
 					'cupe_namespace' => NS_USER,
 					'cupe_title' => $account->getName(),
-					'cupe_params' . $this->db->buildLike(
+					$this->db->expr( 'cupe_params', IExpression::LIKE, new LikeValue(
 						$this->db->anyString(),
 						'"4::receiver"',
 						$this->db->anyString(),
 						$account->getName(),
 						$this->db->anyString()
-					)
+					) )
 				]
 			);
 		}
@@ -287,11 +289,11 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 					'cuc_actor' => $performer->getActorId(),
 					'cuc_namespace' => NS_USER,
 					'cuc_title' => $account->getName(),
-					'cuc_actiontext' . $this->db->buildLike(
+					$this->db->expr( 'cuc_actiontext', IExpression::LIKE, new LikeValue(
 						$this->db->anyString(),
 						'[[User:', $account->getName(), '|', $account->getName(), ']]',
 						$this->db->anyString()
-					),
+					) ),
 					'cuc_only_for_read_old' => ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) ? 1 : 0
 				]
 			);
@@ -464,11 +466,11 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 				)->inContentLanguage()->text()
 			],
 			[
-				'cupe_params' . $this->db->buildLike(
+				$this->db->expr( 'cupe_params', IExpression::LIKE, new LikeValue(
 					$this->db->anyString(),
 					'4::hash',
 					$this->db->anyString()
-				)
+				) )
 			]
 		);
 	}
@@ -945,7 +947,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 			'wgCUDMaxAge' => $maxCUDataAge,
 			'wgCheckUserEventTablesMigrationStage' => SCHEMA_COMPAT_NEW
 		] );
-		$logEntryCutoff = $currentTime - $maxCUDataAge;
+		$logEntryCutoff = $this->getDb()->timestamp( $currentTime - $maxCUDataAge );
 		foreach ( $timestamps as $timestamp ) {
 			ConvertibleTimestamp::setFakeTime( $timestamp );
 			$expectedRow = [];
@@ -976,16 +978,15 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		$object->pruneIPData();
 		MediaWikiServices::getInstance()->getJobRunner()->run( [ 'type' => 'checkuserPruneCheckUserDataJob' ] );
 		// Check that all the old entries are gone
-		$logEntryCutoffForDBComparison = $this->getDb()->addQuotes( $this->getDb()->timestamp( $logEntryCutoff ) );
 		$this->assertRowCount( 0, 'cu_changes', 'cuc_id',
 			'cu_changes has stale entries after calling pruneIPData.',
-			[ "cuc_timestamp < $logEntryCutoffForDBComparison" ] );
+			[ $this->getDb()->expr( 'cuc_timestamp', '<', $logEntryCutoff ) ] );
 		$this->assertRowCount( 0, 'cu_private_event', 'cupe_id',
 			'cu_private_event has stale entries after calling pruneIPData.',
-			[ "cupe_timestamp < $logEntryCutoffForDBComparison" ] );
+			[ $this->getDb()->expr( 'cupe_timestamp ', '<', $logEntryCutoff ) ] );
 		$this->assertRowCount( 0, 'cu_log_event', 'cule_id',
 			'cu_log_event has stale entries after calling pruneIPData.',
-			[ "cule_timestamp < $logEntryCutoffForDBComparison" ] );
+			[ $this->getDb()->expr( 'cule_timestamp', '<', $logEntryCutoff ) ] );
 		// Assert that no still in date entries were removed
 		$this->assertRowCount( $afterCount, 'cu_changes', 'cuc_id',
 			'cu_changes is missing rows that were not stale after calling pruneIPData.' );

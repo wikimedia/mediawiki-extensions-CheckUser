@@ -145,7 +145,7 @@ class TemporaryAccountLogger {
 				'log_actor' => $actorId,
 				'log_namespace' => NS_USER,
 				'log_title' => $tempUser,
-				'log_timestamp > ' . $this->dbw->addQuotes( $this->dbw->timestamp( $timestampMinusDelay ) )
+				$this->dbw->expr( 'log_timestamp', '>', $this->dbw->timestamp( $timestampMinusDelay ) ),
 			] )
 			->fetchRow();
 

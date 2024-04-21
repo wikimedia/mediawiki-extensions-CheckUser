@@ -89,7 +89,7 @@ class PurgeOldData extends Maintenance {
 		$shouldDeleteAssociatedClientData = $this->getConfig()->get( 'CheckUserPurgeOldClientHintsData' );
 
 		$dbw = $this->getDB( DB_PRIMARY );
-		$expiredCond = "$ts_column < " . $dbw->addQuotes( $dbw->timestamp( ConvertibleTimestamp::time() - $maxAge ) );
+		$expiredCond = $dbw->expr( $ts_column, '<', $dbw->timestamp( ConvertibleTimestamp::time() - $maxAge ) );
 
 		$deletedCount = 0;
 		while ( true ) {
@@ -117,16 +117,19 @@ class PurgeOldData extends Maintenance {
 				break;
 			}
 			// Record the start and end timestamp for the set
-			$blockStart = $dbw->addQuotes( $res->fetchRow()[$ts_column] );
+			$blockStart = $res->fetchRow()[$ts_column];
 			$res->seek( $res->numRows() - 1 );
-			$blockEnd = $dbw->addQuotes( $res->fetchRow()[$ts_column] );
+			$blockEnd = $res->fetchRow()[$ts_column];
 			$res->free();
 
 			// Do the actual delete...
 			$this->beginTransaction( $dbw, __METHOD__ );
 			$dbw->newDeleteQueryBuilder()
 				->table( $table )
-				->where( "$ts_column BETWEEN $blockStart AND $blockEnd" )
+				->where( [
+					$dbw->expr( $ts_column, '>=', $blockStart ),
+					$dbw->expr( $ts_column, '<=', $blockEnd ),
+				] )
 				->caller( __METHOD__ )
 				->execute();
 			$deletedCount += $dbw->affectedRows();
