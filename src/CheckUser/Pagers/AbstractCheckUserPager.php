@@ -374,8 +374,6 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	 */
 	protected function userBlockFlags( string $ip, UserIdentity $user ): array {
 		$flags = [];
-		// Needed because User::isBlockedGlobally doesn't seem to have a non User:: method.
-		$userObj = $this->userFactory->newFromUserIdentity( $user );
 
 		$block = DatabaseBlock::newFromTarget( $user, $ip );
 		if ( $block instanceof DatabaseBlock ) {
@@ -426,7 +424,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		}
 		// Check for extra user rights...
 		if ( $user->getId() ) {
-			if ( $userObj->isLocked() ) {
+			if ( $this->userFactory->newFromUserIdentity( $user )->isLocked() ) {
 				$flags[] = Html::rawElement(
 					'strong',
 					[ 'class' => 'mw-changeslist-links' ],
