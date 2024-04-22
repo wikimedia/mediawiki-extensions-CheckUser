@@ -32,7 +32,14 @@
 			"W.CC",
 			"Whym",
 			"Yusuke1109",
-			"青子守歌"
+			"青子守歌",
+			"Anonymoususer12321",
+			"Dreamy Jazz",
+			"Kokage si",
+			"Salvare",
+			"Waki285",
+			"バレロン",
+			"背番号4のエース"
 		]
 	},
 	"checkuser-summary": "このツールは最近の更新をもとに、ある利用者が使用したIPアドレスの検索、または、あるIPアドレスからなされた編集および利用者名の表示を行います。\nIPアドレスと共に「/xff」オプションを指定すると、XFF (X-Forwarded-For) ヘッダーを通じてクライアントIPアドレスを取得し、そこからなされた編集および利用者名を検索できます。\nIPv4 ($1から32ビットのCIDR表記) と IPv6 ($2から128ビットのCIDR表記) に対応しています。\nパフォーマンス上の理由により、最大$3件の編集しか表示できません。\n方針に従って使用してください。",
@@ -67,6 +74,7 @@
 	"checkuser-cidr-res": "共通CIDR:",
 	"checkuser-cidr-affected-ips": "影響を受けるIPアドレス：",
 	"checkuser-cidr-too-small": "範囲が広すぎます",
+	"checkuser-range-outside-limit": "この範囲 $1 は許容範囲外です。",
 	"checkuser-empty": "記録内に項目がありません。",
 	"checkuser-nomatch": "該当するものはありません。",
 	"checkuser-nomatch-edits": "該当するものはありません。\n最終編集は $1 $2 です。",

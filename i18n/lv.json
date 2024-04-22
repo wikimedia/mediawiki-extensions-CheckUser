@@ -7,13 +7,14 @@
 			"Silraks",
 			"Xil",
 			"Yyy",
-			"Zuiks"
+			"Zuiks",
+			"Matma Rex"
 		]
 	},
 	"checkuser-desc": "Atļauj lietotājiem ar attiecīgām pilnvarām pārbaudīt lietotāja IP adresi un citu informāciju.",
 	"checkuser": "Pārbaudīt lietotāju",
 	"checkuser-contribs": "pārbaudīt dalībnieka IP adreses",
-	"group-checkuser": "Pārbaudītāji",
+	"group-checkuser": "Check users",
 	"group-checkuser-member": "{{GENDER:$1|pārbaudīt lietotāju}}",
 	"right-checkuser": "Pārbaudīt lietotāja IP adreses un citu informāciju",
 	"grouppage-checkuser": "{{ns:project}}:Dalībnieku pārbaudītāji",

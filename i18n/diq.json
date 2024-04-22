@@ -8,7 +8,8 @@
 			"Marmase",
 			"Mirzali",
 			"Orbot707",
-			"Xoser"
+			"Xoser",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Eno xacet vurnayışanê neweyan sken keno ke adresanê IPyan reyna biaro ke bımocno ra yew adresa IPya melumatê karberi ser.\nKarberan u vurnayışan ke yew IPyê karberi kerd a reyna yeno pê XFF u \"/xff\". IPv4 (CIDR $1-32) u IPv6 (CIDR $2-128) rê zi desteg beno.\n5000 zafêr vurnayışan sero netice nêdano, qet performans hêdi beno.\nEna politika ma sero kar bıke.",
@@ -17,13 +18,13 @@
 	"checkuserlog": "Cıkewtışê karberi qontrol ke",
 	"checkuser-contribs": "adresanê IPyê karberi kontrol ke",
 	"checkuser-contribs-log": "weynayışê peyênê karberi",
-	"group-checkuser": "Teftişkari",
-	"group-checkuser-member": "{{GENDER:$1|teftişkar}}",
+	"group-checkuser": "Karberê kontrolkeri",
+	"group-checkuser-member": "{{GENDER:$1|karbero kontrolker}}",
 	"right-checkuser": "Adresanê IPyê karberi û melumatê bini kontrol ke",
 	"right-checkuser-log": "Roceka Tetqiqwani bıvênên",
 	"action-checkuser": "adresanê IPyê karberi û melumatê bini kontrol ke",
 	"action-checkuser-log": "Rocekane Karber kontroli bıvin",
-	"grouppage-checkuser": "{{ns:project}}:Teftişkar",
+	"grouppage-checkuser": "{{ns:project}}:Karbero kontrolker",
 	"checkuser-reason": "Sebeb:",
 	"checkuser-reason-api": "API: $1",
 	"checkuser-showlog": "Qeydê asayışi weçinê",
