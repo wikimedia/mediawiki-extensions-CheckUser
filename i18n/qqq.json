@@ -51,7 +51,7 @@
 	"group-checkuser-member": "{{doc-group|checkuser|member}}\n{{Identical|Check user}}",
 	"right-checkuser": "{{doc-right|checkuser}}",
 	"right-checkuser-log": "{{doc-right|checkuser-log}}",
-	"right-checkuser-temporary-account": "{{doc-right|checkuser-temporary-account}}",
+	"right-checkuser-temporary-account": "{{doc-right|checkuser-temporary-account}}\nThis user right is similar to {{msg-mw|right-checkuser-temporary-account-no-preference}}, but this right requires that a user checks a preference in [[Special:Preferences]] to use the tool.",
 	"action-checkuser": "{{doc-action|checkuser}}",
 	"action-checkuser-log": "{{doc-action|checkuser-log}}",
 	"action-checkuser-temporary-account": "{{doc-action|checkuser-temporary-account}}",
