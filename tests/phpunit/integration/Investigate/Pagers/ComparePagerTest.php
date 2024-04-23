@@ -70,21 +70,21 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 				// The expected formatted value
 				'5 (april) 2024 - 6 (april) 2024'
 			],
-			'cuc_agent is not null' => [ [ 'cuc_agent' => 'test' ], 'cuc_agent', 'test' ],
-			'cuc_agent is null' => [ [ 'cuc_agent' => null ], 'cuc_agent', '' ],
-			'cuc_agent contains unescaped HTML' => [
-				[ 'cuc_agent' => '<b>test</b>' ], 'cuc_agent', '&lt;b&gt;test&lt;/b&gt;',
+			'user agent is not null' => [ [ 'agent' => 'test' ], 'agent', 'test' ],
+			'user agent is null' => [ [ 'agent' => null ], 'agent', '' ],
+			'user agent contains unescaped HTML' => [
+				[ 'agent' => '<b>test</b>' ], 'agent', '&lt;b&gt;test&lt;/b&gt;',
 			],
-			'cuc_ip is 1.2.3.4' => [
-				[ 'cuc_ip' => '1.2.3.4', 'cuc_ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_edits' => 1 ],
-				'cuc_ip',
+			'ip is 1.2.3.4' => [
+				[ 'ip' => '1.2.3.4', 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_edits' => 1 ],
+				'ip',
 				'<span class="ext-checkuser-compare-table-cell-ip">1.2.3.4</span>' .
 				'<div>(checkuser-investigate-compare-table-cell-actions: 1) ' .
 				'<span>(checkuser-investigate-compare-table-cell-other-actions: 5)</span></div>',
 			],
-			'unrecognised name' => [ [], 'foo', '' ],
-			'cuc_user_text as 1.2.3.5' => [
-				[ 'cuc_user_text' => '1.2.3.5', 'cuc_user' => 0 ], 'cuc_user_text',
+			'unrecognised $name' => [ [], 'foo', '' ],
+			'user_text as 1.2.3.5' => [
+				[ 'user_text' => '1.2.3.5', 'user' => 0 ], 'user_text',
 				'(checkuser-investigate-compare-table-cell-unregistered)',
 			],
 		];
@@ -96,8 +96,8 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 		$this->testFormatValue(
 			// The $hiddenUser static property may not be set when the data providers are called, so this needs to be
 			// accessed in a test method.
-			[ 'cuc_user_text' => self::$hiddenUser->getName(), 'cuc_user' => self::$hiddenUser->getId() ],
-			'cuc_user_text',
+			[ 'user_text' => self::$hiddenUser->getName(), 'user' => self::$hiddenUser->getId() ],
+			'user_text',
 			'(rev-deleted-user)'
 		);
 	}
@@ -108,8 +108,8 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 			$this->mockRegisteredAuthorityWithPermissions( [ 'hideuser', 'checkuser' ] )
 		);
 		$this->testFormatValue(
-			[ 'cuc_user_text' => self::$hiddenUser->getName(), 'cuc_user' => self::$hiddenUser->getId() ],
-			'cuc_user_text',
+			[ 'user_text' => self::$hiddenUser->getName(), 'user' => self::$hiddenUser->getId() ],
+			'user_text',
 			// We cannot mock a static method, so we have to use the real method here.
 			// This also means this cannot be in a data provider.
 			Linker::userLink( self::$hiddenUser->getId(), self::$hiddenUser->getName() )
@@ -153,16 +153,16 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 
 	public static function provideGetCellAttrs() {
 		return [
-			'$name as cuc_ip when IP $value is inside a filtered target IP range' => [
+			'$name as ip when IP $value is inside a filtered target IP range' => [
 				// The row set as $this->mCurrentRow in the object under test, provided as an array
-				[ 'cuc_ip' => '1.2.3.4', 'cuc_ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_edits' => 1 ],
-				// The value of the filteredTargets property in the object under test (only used for cuc_ip and
-				// cuc_user_text $name values).
+				[ 'ip' => '1.2.3.4', 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_edits' => 1 ],
+				// The value of the filteredTargets property in the object under test (only used for ip and
+				// user_text $name values).
 				[ 'TestUser1', '1.2.3.0/24' ],
-				// The value of the ipTotalEdits property in the object under test (only used for cuc_ip $name values).
+				// The value of the ipTotalEdits property in the object under test (only used for ip $name values).
 				[ IPUtils::toHex( '1.2.3.4' ) => 2 ],
 				// The $name argument to ::getCellAttrs
-				'cuc_ip',
+				'ip',
 				// The expected classes for the cell
 				[
 					'ext-checkuser-compare-table-cell-target', 'ext-checkuser-compare-table-cell-ip-target',
@@ -171,56 +171,56 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 				],
 				// The expected attributes for the cell (minus the class, as this is tested above).
 				[
-					'data-field' => 'cuc_ip', 'data-value' => '1.2.3.4',
+					'data-field' => 'ip', 'data-value' => '1.2.3.4',
 					'data-sort-value' => IPUtils::toHex( '1.2.3.4' ), 'data-edits' => 1, 'data-all-edits' => 2,
 				],
 			],
-			'$name as cuc_ip when IP $value is a filtered target' => [
-				[ 'cuc_ip' => '1.2.3.4', 'cuc_ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_edits' => 1 ],
-				[ 'TestUser1', '1.2.3.4' ], [ IPUtils::toHex( '1.2.3.4' ) => 2 ], 'cuc_ip',
+			'$name as ip when IP $value is a filtered target' => [
+				[ 'ip' => '1.2.3.4', 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_edits' => 1 ],
+				[ 'TestUser1', '1.2.3.4' ], [ IPUtils::toHex( '1.2.3.4' ) => 2 ], 'ip',
 				[
 					'ext-checkuser-compare-table-cell-target', 'ext-checkuser-compare-table-cell-ip-target',
 					'ext-checkuser-investigate-table-cell-pinnable',
 					'ext-checkuser-investigate-table-cell-interactive',
 				],
 				[
-					'data-field' => 'cuc_ip', 'data-value' => '1.2.3.4',
+					'data-field' => 'ip', 'data-value' => '1.2.3.4',
 					'data-sort-value' => IPUtils::toHex( '1.2.3.4' ), 'data-edits' => 1, 'data-all-edits' => 2,
 				],
 			],
-			'$name as cuc_ip when IP is not in filtered targets array' => [
-				[ 'cuc_ip' => '1.2.3.4', 'cuc_ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_edits' => 1 ],
-				[], [ IPUtils::toHex( '1.2.3.4' ) => 2 ], 'cuc_ip',
+			'$name as ip when IP is not in filtered targets array' => [
+				[ 'ip' => '1.2.3.4', 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_edits' => 1 ],
+				[], [ IPUtils::toHex( '1.2.3.4' ) => 2 ], 'ip',
 				[
 					'ext-checkuser-compare-table-cell-ip-target', 'ext-checkuser-investigate-table-cell-pinnable',
 					'ext-checkuser-investigate-table-cell-interactive',
 				],
 				[
-					'data-field' => 'cuc_ip', 'data-value' => '1.2.3.4',
+					'data-field' => 'ip', 'data-value' => '1.2.3.4',
 					'data-sort-value' => IPUtils::toHex( '1.2.3.4' ), 'data-edits' => 1, 'data-all-edits' => 2,
 				],
 			],
-			'$name as cuc_user_text for IP address' => [
-				[ 'cuc_user_text' => '1.2.3.4' ], [], [], 'cuc_user_text',
+			'$name as user_text for IP address' => [
+				[ 'user_text' => '1.2.3.4' ], [], [], 'user_text',
 				[ 'ext-checkuser-investigate-table-cell-interactive' ],
 				[ 'data-sort-value' => '1.2.3.4' ],
 			],
-			'$name as cuc_user_text for unregistered user that is a target' => [
-				[ 'cuc_user_text' => 'TestUser1' ], [ 'TestUser1' ], [], 'cuc_user_text',
+			'$name as user_text for unregistered user that is a target' => [
+				[ 'user_text' => 'TestUser1' ], [ 'TestUser1' ], [], 'user_text',
 				[ 'ext-checkuser-compare-table-cell-target', 'ext-checkuser-investigate-table-cell-interactive' ],
-				[ 'data-field' => 'cuc_user_text', 'data-value' => 'TestUser1', 'data-sort-value' => 'TestUser1' ],
+				[ 'data-field' => 'user_text', 'data-value' => 'TestUser1', 'data-sort-value' => 'TestUser1' ],
 			],
 			'$name as activity' => [
 				[ 'first_edit' => '20240405060708', 'last_edit' => '20240406060708' ], [], [], 'activity',
 				[ 'ext-checkuser-compare-table-cell-activity' ], [ 'data-sort-value' => '2024040520240406' ],
 			],
-			'$name as cuc_agent' => [
-				[ 'cuc_agent' => 'test' ], [], [], 'cuc_agent',
+			'$name as agent' => [
+				[ 'agent' => 'test' ], [], [], 'agent',
 				[
 					'ext-checkuser-compare-table-cell-user-agent', 'ext-checkuser-investigate-table-cell-pinnable',
 					'ext-checkuser-investigate-table-cell-interactive',
 				],
-				[ 'data-field' => 'cuc_agent', 'data-value' => 'test', 'data-sort-value' => 'test' ],
+				[ 'data-field' => 'agent', 'data-value' => 'test', 'data-sort-value' => 'test' ],
 			],
 		];
 	}
@@ -229,10 +229,10 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 		// Assign the rights to the main context authority, which will be used by the object under test.
 		RequestContext::getMain()->setAuthority( $this->mockRegisteredAuthorityWithoutPermissions( [ 'hideuser' ] ) );
 		$this->testGetCellAttrs(
-			[ 'cuc_user_text' => self::$hiddenUser->getName() ], [], [], 'cuc_user_text',
+			[ 'user_text' => self::$hiddenUser->getName() ], [], [], 'user_text',
 			[ 'ext-checkuser-investigate-table-cell-interactive' ],
 			[
-				'data-field' => 'cuc_user_text',
+				'data-field' => 'user_text',
 				'data-value' => '(rev-deleted-user)', 'data-sort-value' => '(rev-deleted-user)',
 			]
 		);
