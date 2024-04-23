@@ -9,6 +9,7 @@ use MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountLogHandler;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\Request\FauxRequest;
 use MediaWiki\Rest\RequestData;
 use MediaWiki\Tests\Rest\Handler\HandlerTestTrait;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
@@ -191,7 +192,7 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 
 	public function testWhenLogPerformerIsSuppressed() {
 		$this->enableAutoCreateTempUser();
-		$this->getServiceContainer()->getTempUserCreator()->create( '*Unregistered 1' );
+		$this->getServiceContainer()->getTempUserCreator()->create( '*Unregistered 1', new FauxRequest() );
 		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', SCHEMA_COMPAT_NEW );
 		// Set up a mock actor store that gets the real actor ID for the test temp user.
 		$actorStore = $this->createMock( ActorStore::class );
