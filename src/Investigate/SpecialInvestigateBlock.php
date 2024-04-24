@@ -151,7 +151,8 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 		];
 
 		$fields['Reason'] = [
-			'type' => 'text',
+			'type' => 'selectandother',
+			'options-message' => 'checkuser-block-reason-dropdown',
 			'maxlength' => 150,
 			'required' => true,
 			'autocomplete' => false,
@@ -236,6 +237,10 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 	public function onSubmit( array $data ) {
 		$this->blockedUsers = [];
 		$targets = explode( "\n", $data['Targets'] );
+		// Format of $data['Reason'] is an array with items as documented in
+		// HTMLSelectAndOtherField::loadDataFromRequest. The value in this should not be empty, as the field is marked
+		// as required and as such the validation will be done by HTMLForm.
+		$reason = $data['Reason'][0];
 
 		foreach ( $targets as $target ) {
 			$isIP = IPUtils::isIPAddress( $target );
@@ -253,7 +258,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 				$target,
 				$this->getUser(),
 				$expiry,
-				$data['Reason'],
+				$reason,
 				[
 					'isHardBlock' => !$isIP,
 					'isCreateAccountBlocked' => true,
@@ -271,7 +276,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 						$this->getTargetPage( NS_USER, $target ),
 						$data['UserPageNoticeText'],
 						$data['UserPageNoticePosition'],
-						$data['Reason']
+						$reason
 					);
 				}
 
@@ -280,7 +285,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 						$this->getTargetPage( NS_USER_TALK, $target ),
 						$data['TalkPageNoticeText'],
 						$data['TalkPageNoticePosition'],
-						$data['Reason']
+						$reason
 					);
 				}
 			}

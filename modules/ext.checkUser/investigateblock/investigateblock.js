@@ -4,7 +4,9 @@
 		userPageTextWidget,
 		talkPageWidget,
 		talkPagePositionWidget,
-		talkPageTextWidget;
+		talkPageTextWidget,
+		dropdownWidget,
+		otherReasonWidget;
 
 	function updateNoticeOptions() {
 		var isUserPageChecked = userPageWidget.isSelected(),
@@ -30,4 +32,31 @@
 
 		updateNoticeOptions();
 	}
+
+	/**
+	 * Update the 'required' attribute on the free-text field when the dropdown is changed.
+	 * If the value of the dropdown is 'other', the free-text field is required. Otherwise,
+	 * it is not required.
+	 */
+	function updateRequiredAttributeOnOtherField() {
+		var $otherReasonInputElement = $( 'input', otherReasonWidget.$element );
+		var $requiredIndicator = $( '.oo-ui-indicator-required', otherReasonWidget.$element );
+		if ( dropdownWidget.getValue() === 'other' ) {
+			// Set the required property for native browser validation and show the "required" OOUI indicator.
+			$otherReasonInputElement.attr( 'required', 'required' );
+			$requiredIndicator.show();
+		} else {
+			// Remove the required property and hide the "required" OOUI indicator.
+			$otherReasonInputElement.removeAttr( 'required' );
+			$requiredIndicator.hide();
+		}
+	}
+
+	var dropdownAndInputWidget = OO.ui.infuse( $( '#mw-input-wpReason' ) );
+	dropdownWidget = dropdownAndInputWidget.dropdowninput;
+	otherReasonWidget = dropdownAndInputWidget.textinput;
+
+	dropdownWidget.on( 'change', updateRequiredAttributeOnOtherField );
+
+	updateRequiredAttributeOnOtherField();
 }() );
