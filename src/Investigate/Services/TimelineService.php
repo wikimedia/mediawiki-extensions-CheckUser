@@ -76,9 +76,9 @@ class TimelineService extends ChangeService {
 		return [
 			'tables' => [ 'a' => new Subquery( $derivedTable ) ],
 			'fields' => [
-				'cuc_namespace', 'cuc_title', 'cuc_actiontext', 'cuc_timestamp', 'cuc_minor', 'cuc_page_id',
-				'cuc_type', 'cuc_this_oldid', 'cuc_last_oldid', 'cuc_ip', 'cuc_xff', 'cuc_agent', 'cuc_id',
-				'cuc_user', 'cuc_user_text', 'comment_text', 'comment_data',
+				'namespace', 'title', 'actiontext', 'timestamp', 'minor', 'page_id',
+				'type', 'this_oldid', 'last_oldid', 'ip', 'xff', 'agent', 'id',
+				'user', 'user_text', 'comment_text', 'comment_data',
 			],
 		];
 	}
@@ -105,10 +105,12 @@ class TimelineService extends ChangeService {
 		}
 		$queryBuilder = $dbr->newSelectQueryBuilder()
 			->select( [
-				'cuc_namespace', 'cuc_title', 'cuc_actiontext', 'cuc_timestamp', 'cuc_minor',
-				'cuc_page_id', 'cuc_type', 'cuc_this_oldid', 'cuc_last_oldid', 'cuc_ip',
-				'cuc_xff', 'cuc_agent', 'cuc_id', 'cuc_user' => 'cuc_user_actor.actor_user',
-				'cuc_user_text' => 'cuc_user_actor.actor_name', 'comment_text', 'comment_data',
+				'namespace' => 'cuc_namespace', 'title' => 'cuc_title', 'actiontext' => 'cuc_actiontext',
+				'timestamp' => 'cuc_timestamp', 'minor' => 'cuc_minor', 'page_id' => 'cuc_page_id',
+				'type' => 'cuc_type', 'this_oldid' => 'cuc_this_oldid', 'last_oldid' => 'cuc_last_oldid',
+				'ip' => 'cuc_ip', 'xff' => 'cuc_xff', 'agent' => 'cuc_agent', 'id' => 'cuc_id',
+				'user' => 'cuc_user_actor.actor_user', 'user_text' => 'cuc_user_actor.actor_name',
+				'comment_text', 'comment_data',
 			] )
 			->from( 'cu_changes' )
 			->useIndex( $index )
@@ -121,6 +123,7 @@ class TimelineService extends ChangeService {
 			) )
 			->caller( __METHOD__ );
 		if ( $dbr->unionSupportsOrderAndLimit() ) {
+			// TODO: T360712: Add cuc_id to the ORDER BY clause to ensure unique ordering.
 			$queryBuilder->orderBy( 'cuc_timestamp', SelectQueryBuilder::SORT_DESC )
 				->limit( $limit + 1 );
 		}

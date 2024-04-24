@@ -40,7 +40,7 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 	public static function provideGetFormattedRowItems() {
 		return [
 			'Edit performed by IPv4' => [
-				[ 'cuc_ip' => '127.0.0.1', 'cuc_agent' => 'Test' ],
+				[ 'ip' => '127.0.0.1', 'agent' => 'Test' ],
 				[
 					'links' => [
 						// No flags should be displayed if the action didn't create a page and wasn't marked as minor.
@@ -58,8 +58,8 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 			],
 			'Log performed by IPv6' => [
 				[
-					'cuc_ip' => '2001:DB8::1', 'cuc_actiontext' => 'test action text',
-					'cuc_agent' => 'Test', 'cuc_type' => RC_LOG,
+					'ip' => '2001:DB8::1', 'actiontext' => 'test action text',
+					'agent' => 'Test', 'type' => RC_LOG,
 				],
 				[
 					// All edit-specific links / flags should be empty for a log action.
@@ -75,15 +75,15 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 				],
 			],
 			'Edit with invalid title' => [
-				// cuc_title should be a string, but using 0 is a way to test invalid title.
-				[ 'cuc_title' => 0, 'cuc_namespace' => 0 ],
+				// title should be a string, but using 0 is a way to test invalid title.
+				[ 'title' => 0, 'namespace' => 0 ],
 				[ 'links' => [ 'historyLink' => '', 'diffLink' => '' ], 'info' => [ 'title' => '' ] ],
 			],
 			'Log with invalid title' => [
-				[ 'cuc_title' => 0, 'cuc_namespace' => 0, 'cuc_type' => RC_LOG ], [ 'links' => [ 'logLink' => '' ] ],
+				[ 'title' => 0, 'namespace' => 0, 'type' => RC_LOG ], [ 'links' => [ 'logLink' => '' ] ],
 			],
 			'Edit marked as a minor edit and created a page' => [
-				[ 'cuc_minor' => 1, 'cuc_type' => RC_NEW ],
+				[ 'minor' => 1, 'type' => RC_NEW ],
 				[ 'links' => [
 					'minorFlag' => '<span class="minor">(minoreditletter)</span>',
 					'newPageFlag' => '<span class="newpage">(newpageletter)</span>',
@@ -114,9 +114,9 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 		$row = array_merge(
 			$this->getDefaultsForTimelineRow(),
 			[
-				'cuc_namespace' => $testPage->getNamespace(), 'cuc_title' => $testPage->getText(),
-				'cuc_page_id' => $testPage->getArticleID(), 'cuc_this_oldid' => $testPage->getLatestRevID(),
-				'cuc_last_oldid' => 0, 'cuc_type' => $rowType,
+				'namespace' => $testPage->getNamespace(), 'title' => $testPage->getText(),
+				'page_id' => $testPage->getArticleID(), 'this_oldid' => $testPage->getLatestRevID(),
+				'last_oldid' => 0, 'type' => $rowType,
 			]
 		);
 		// Assert that the userLinks contain the rev-deleted-user message and not the username,
@@ -170,7 +170,7 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 		$this->assertStatusGood( $blockStatus );
 		// ::testGetFormattedRowItems uses a test user which cannot see users which are hidden.
 		$this->testGetFormattedRowItems(
-			[ 'cuc_title' => $hiddenUser->getName(), 'cuc_namespace' => NS_USER, 'cuc_type' => $rowType ],
+			[ 'title' => $hiddenUser->getName(), 'namespace' => NS_USER, 'type' => $rowType ],
 			[ 'links' => [ 'historyLink' => '', 'diffLink' => '', 'logLink' => '' ], 'info' => [ 'title' => '' ] ]
 		);
 	}
@@ -197,7 +197,7 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 		$objectUnderTest = $this->getObjectUnderTest();
 		$row = array_merge(
 			$this->getDefaultsForTimelineRow(),
-			[ 'cuc_user_text' => $hiddenUser->getName(), 'cuc_type' => RC_EDIT ]
+			[ 'user_text' => $hiddenUser->getName(), 'type' => RC_EDIT ]
 		);
 		// Assert that the userLinks contain the rev-deleted-user message and not the username,
 		// as the user is blocked with 'hideuser' and the current authority cannot see hidden users.
@@ -231,7 +231,7 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 		$objectUnderTest = $this->getObjectUnderTest();
 		$row = array_merge(
 			$this->getDefaultsForTimelineRow(),
-			[ 'cuc_user_text' => $testUser->getName(), 'cuc_type' => RC_EDIT, 'cuc_this_oldid' => $revId ]
+			[ 'user_text' => $testUser->getName(), 'type' => RC_EDIT, 'this_oldid' => $revId ]
 		);
 		$actualTimelineFormattedRowItems = $objectUnderTest->getFormattedRowItems( (object)$row );
 		$this->assertStringContainsString(
@@ -257,7 +257,7 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 		$objectUnderTest = $this->getObjectUnderTest();
 		$row = array_merge(
 			$this->getDefaultsForTimelineRow(),
-			[ 'cuc_user_text' => $testUser->getName(), 'cuc_user' => $testUser->getId(), 'cuc_type' => RC_EDIT ]
+			[ 'user_text' => $testUser->getName(), 'user' => $testUser->getId(), 'type' => RC_EDIT ]
 		);
 		$actualTimelineFormattedRowItems = $objectUnderTest->getFormattedRowItems( (object)$row );
 		$this->assertStringContainsString(
@@ -272,7 +272,7 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 		$objectUnderTest = $this->getObjectUnderTest();
 		$row = array_merge(
 			$this->getDefaultsForTimelineRow(),
-			[ 'cuc_user_text' => '127.0.0.1', 'cuc_type' => RC_EDIT ]
+			[ 'user_text' => '127.0.0.1', 'type' => RC_EDIT ]
 		);
 		$actualTimelineFormattedRowItems = $objectUnderTest->getFormattedRowItems( (object)$row );
 		$this->assertStringContainsString(
@@ -284,10 +284,10 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 
 	private function getDefaultsForTimelineRow() {
 		return [
-			'cuc_namespace' => 0, 'cuc_title' => 'Test', 'cuc_actiontext' => '', 'cuc_timestamp' => '20210405060708',
-			'cuc_minor' => 0, 'cuc_page_id' => 0, 'cuc_type' => RC_EDIT, 'cuc_this_oldid' => 0, 'cuc_last_oldid' => 0,
-			'cuc_ip' => '127.0.0.1', 'cuc_xff' => '', 'cuc_agent' => '', 'cuc_id' => 0, 'cuc_user' => 0,
-			'cuc_user_text' => '',
+			'namespace' => 0, 'title' => 'Test', 'actiontext' => '', 'timestamp' => '20210405060708',
+			'minor' => 0, 'page_id' => 0, 'type' => RC_EDIT, 'this_oldid' => 0, 'last_oldid' => 0,
+			'ip' => '127.0.0.1', 'xff' => '', 'agent' => '', 'id' => 0, 'user' => 0,
+			'user_text' => '',
 		];
 	}
 }

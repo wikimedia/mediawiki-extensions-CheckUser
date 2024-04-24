@@ -113,7 +113,7 @@ class TimelinePager extends ReverseChronologicalPager {
 	 * @inheritDoc
 	 */
 	public function getIndexField() {
-		return [ [ 'cuc_timestamp', 'cuc_id' ] ];
+		return [ [ 'timestamp', 'id' ] ];
 	}
 
 	/**
@@ -121,7 +121,7 @@ class TimelinePager extends ReverseChronologicalPager {
 	 */
 	public function formatRow( $row ) {
 		$line = '';
-		$dateHeader = $this->getLanguage()->userDate( wfTimestamp( TS_MW, $row->cuc_timestamp ), $this->getUser() );
+		$dateHeader = $this->getLanguage()->userDate( wfTimestamp( TS_MW, $row->timestamp ), $this->getUser() );
 		if ( $this->lastDateHeader === null ) {
 			$this->lastDateHeader = $dateHeader;
 			$line .= Html::element( 'h4', [], $dateHeader );

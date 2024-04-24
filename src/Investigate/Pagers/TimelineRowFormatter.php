@@ -80,13 +80,13 @@ class TimelineRowFormatter {
 	public function getFormattedRowItems( \stdClass $row ): array {
 		$revRecord = null;
 		if (
-			$row->cuc_this_oldid != 0 &&
-			( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW )
+			$row->this_oldid != 0 &&
+			( $row->type == RC_EDIT || $row->type == RC_NEW )
 		) {
-			$revRecord = $this->revisionStore->getRevisionById( $row->cuc_this_oldid );
+			$revRecord = $this->revisionStore->getRevisionById( $row->this_oldid );
 			if ( !$revRecord ) {
 				// Revision may have been deleted
-				$revRecord = $this->archivedRevisionLookup->getArchivedRevisionRecord( null, $row->cuc_this_oldid );
+				$revRecord = $this->archivedRevisionLookup->getArchivedRevisionRecord( null, $row->this_oldid );
 			}
 		}
 		return [
@@ -94,16 +94,16 @@ class TimelineRowFormatter {
 				'logLink' => $this->getLogLink( $row ),
 				'diffLink' => $this->getDiffLink( $row ),
 				'historyLink' => $this->getHistoryLink( $row ),
-				'newPageFlag' => $this->getNewPageFlag( (int)$row->cuc_type ),
-				'minorFlag' => $this->getMinorFlag( (bool)$row->cuc_minor ),
+				'newPageFlag' => $this->getNewPageFlag( (int)$row->type ),
+				'minorFlag' => $this->getMinorFlag( (bool)$row->minor ),
 			],
 			'info' => [
 				'title' => $this->getTitleLink( $row ),
-				'time' => $this->getTime( $row->cuc_timestamp ),
+				'time' => $this->getTime( $row->timestamp ),
 				'userLinks' => $this->getUserLinks( $row, $revRecord ),
-				'actionText' => $this->getActionText( $row->cuc_actiontext ),
-				'ipInfo' => $this->getIpInfo( $row->cuc_ip ),
-				'userAgent' => $this->getUserAgent( $row->cuc_agent ?? '' ),
+				'actionText' => $this->getActionText( $row->actiontext ),
+				'ipInfo' => $this->getIpInfo( $row->ip ),
+				'userAgent' => $this->getUserAgent( $row->agent ?? '' ),
 				'comment' => $this->getComment( $row, $revRecord ),
 			],
 		];
@@ -121,8 +121,8 @@ class TimelineRowFormatter {
 		$comment = '';
 
 		if (
-			$row->cuc_this_oldid != 0 &&
-			( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW )
+			$row->this_oldid != 0 &&
+			( $row->type == RC_EDIT || $row->type == RC_NEW )
 		) {
 			if (
 				$revRecord instanceof RevisionRecord &&
@@ -178,11 +178,11 @@ class TimelineRowFormatter {
 	 * @return string
 	 */
 	private function getTitleLink( \stdClass $row ): string {
-		if ( $row->cuc_type == RC_LOG ) {
+		if ( $row->type == RC_LOG ) {
 			return '';
 		}
 
-		$title = TitleValue::tryNew( (int)$row->cuc_namespace, $row->cuc_title );
+		$title = TitleValue::tryNew( (int)$row->namespace, $row->title );
 
 		if ( !$title ) {
 			return '';
@@ -205,11 +205,11 @@ class TimelineRowFormatter {
 	 * @return string
 	 */
 	private function getLogLink( \stdClass $row ): string {
-		if ( $row->cuc_type != RC_LOG ) {
+		if ( $row->type != RC_LOG ) {
 			return '';
 		}
 
-		$title = TitleValue::tryNew( (int)$row->cuc_namespace, $row->cuc_title );
+		$title = TitleValue::tryNew( (int)$row->namespace, $row->title );
 
 		if ( !$title ) {
 			return '';
@@ -236,11 +236,11 @@ class TimelineRowFormatter {
 	 * @return string
 	 */
 	private function getDiffLink( \stdClass $row ): string {
-		if ( $row->cuc_type == RC_NEW || $row->cuc_type == RC_LOG ) {
+		if ( $row->type == RC_NEW || $row->type == RC_LOG ) {
 			return '';
 		}
 
-		$title = TitleValue::tryNew( (int)$row->cuc_namespace, $row->cuc_title );
+		$title = TitleValue::tryNew( (int)$row->namespace, $row->title );
 
 		if ( !$title ) {
 			return '';
@@ -258,9 +258,9 @@ class TimelineRowFormatter {
 					new HtmlArmor( $this->message['diff'] ),
 					[],
 					[
-						'curid' => $row->cuc_page_id,
-						'diff' => $row->cuc_this_oldid,
-						'oldid' => $row->cuc_last_oldid
+						'curid' => $row->page_id,
+						'diff' => $row->this_oldid,
+						'oldid' => $row->last_oldid
 					]
 				)
 			)->escaped();
@@ -271,11 +271,11 @@ class TimelineRowFormatter {
 	 * @return string
 	 */
 	private function getHistoryLink( \stdClass $row ): string {
-		if ( $row->cuc_type == RC_NEW || $row->cuc_type == RC_LOG ) {
+		if ( $row->type == RC_NEW || $row->type == RC_LOG ) {
 			return '';
 		}
 
-		$title = TitleValue::tryNew( (int)$row->cuc_namespace, $row->cuc_title );
+		$title = TitleValue::tryNew( (int)$row->namespace, $row->title );
 
 		if ( !$title ) {
 			return '';
@@ -293,7 +293,7 @@ class TimelineRowFormatter {
 					new HtmlArmor( $this->message['hist'] ),
 					[],
 					[
-						'curid' => $row->cuc_page_id,
+						'curid' => $row->page_id,
 						'action' => 'history'
 					]
 				)
@@ -347,15 +347,15 @@ class TimelineRowFormatter {
 	private function getUserLinks( \stdClass $row, ?RevisionRecord $revRecord ): string {
 		// Note: this is incomplete. It should match the checks
 		// in SpecialCheckUser when displaying the same info
-		$userIsHidden = $this->isUserHidden( $row->cuc_user_text );
+		$userIsHidden = $this->isUserHidden( $row->user_text );
 		$userHiddenClass = '';
 		if ( $userIsHidden ) {
 			$userHiddenClass = 'history-deleted mw-history-suppressed';
 		}
 		if (
 			!$userIsHidden &&
-			$row->cuc_this_oldid != 0 &&
-			( $row->cuc_type == RC_EDIT || $row->cuc_type == RC_NEW ) &&
+			$row->this_oldid != 0 &&
+			( $row->type == RC_EDIT || $row->type == RC_NEW ) &&
 			$revRecord instanceof RevisionRecord
 		) {
 			$userIsHidden = !RevisionRecord::userCanBitfield(
@@ -372,12 +372,12 @@ class TimelineRowFormatter {
 				$this->msg( 'rev-deleted-user' )->text()
 			);
 		} else {
-			$userId = $row->cuc_user ?? 0;
+			$userId = $row->user ?? 0;
 			if ( $userId > 0 ) {
 				$user = $this->userFactory->newFromId( $userId );
 			} else {
 				// This is an IP
-				$user = $this->userFactory->newFromName( $row->cuc_user_text, UserRigorOptions::RIGOR_NONE );
+				$user = $this->userFactory->newFromName( $row->user_text, UserRigorOptions::RIGOR_NONE );
 			}
 
 			$links = Html::rawElement(
