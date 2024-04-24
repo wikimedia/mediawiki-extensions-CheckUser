@@ -21,7 +21,8 @@
 			"WaldiSt",
 			"Woytecr",
 			"Wpedzich",
-			"Zero"
+			"Zero",
+			"Nux"
 		]
 	},
 	"checkuser-summary": "Narzędzie pozwala na ustalenie adresów IP, z których\nkorzystał użytkownik lub pokazać edycje i nazwy użytkowników edytujących z zadanego adresu IP.\n\nDodając parametr „/xff” do adresu IP można odnaleźć użytkowników i edycje przeszukując zapisane nagłówki XFF (X-Forwarded-For).\n\nObsługiwane są zakresy adresów IPv4 (maska CIDR $1-32) i IPv6 (CIDR $2-128).\n\nNarzędzie ze względu na wydajność pokazuje maksymalnie {{formatnum:$3}} {{PLURAL:$3|edycję|edycje|edycji}}.\n\nPamiętaj o korzystaniu z narzędzia zgodnie z zasadami.",
@@ -247,7 +248,7 @@
 	"checkuser-investigate-tour-block-title": "Nałożyć blokadę?",
 	"checkuser-investigate-tour-block-desc": "Umożliwia ci wybranie użytkowników, których chcesz zablokować, a następnie zabiera cię do formularza blokowania, aby wybrać odpowiednią blokadę.",
 	"checkuser-investigate-tour-copywikitext-title": "Chcesz skopiować dane?",
-	"checkuser-investigate-tour-copywikitext-desc": "Skopiuj tabelę porównywania jednym kliknięciem i zamierz ją na CUWiki. Zauważ tylko, że kopiowane są tylko widoczne dane, nie wszystkie strony sprawdzania.",
+	"checkuser-investigate-tour-copywikitext-desc": "Skopiuj tabelę porównywania jednym kliknięciem i zamieść ją na CUWiki. Zauważ jednak, że kopiowane są tylko widoczne obecnie dane, a nie wszystkie strony sprawdzania.",
 	"prefs-checkuser-tempaccount": "Tymczasowe ujawnienie adresu IP konta",
 	"checkuser-tempaccount-enable-preference": "Włącz ujawnianie adresów IP dla kont tymczasowych",
 	"checkuser-tempaccount-no-ip-results": "Brak danych o IP dla tego tymczasowego użytkownika za {{PLURAL:$1|ostatni dzień|ostatnie $1 dni|ostatnich $1 dni}}.",
