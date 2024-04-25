@@ -68,10 +68,8 @@ return [
 	},
 	'CheckUserTimelineService' => static function ( MediaWikiServices $services ): TimelineService {
 		return new TimelineService(
-			$services->getDBLoadBalancerFactory()->getReplicaDatabase(),
-			$services->getDBLoadBalancerFactory()->getReplicaDatabase(),
-			$services->getUserIdentityLookup(),
-			$services->getCommentStore()
+			$services->getDBLoadBalancerFactory(),
+			$services->getUserIdentityLookup()
 		);
 	},
 	'CheckUserTokenManager' => static function ( MediaWikiServices $services ): TokenManager {
