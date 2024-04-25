@@ -2,16 +2,16 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Investigate\Services;
 
+use LogicException;
 use MediaWiki\CheckUser\Investigate\Services\TimelineService;
-use MediaWiki\Tests\Unit\Libs\Rdbms\AddQuoterMock;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\IPUtils;
-use Wikimedia\Rdbms\Platform\SQLPlatform;
 
 /**
  * @group CheckUser
+ * @group Database
  * @covers \MediaWiki\CheckUser\Investigate\Services\TimelineService
  */
 class TimelineServiceTest extends MediaWikiIntegrationTestCase {
@@ -33,27 +33,24 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 			);
 
 		$timelineService = new TimelineService(
-			new AddQuoterMock(),
-			new SQLPlatform( new AddQuoterMock() ),
-			$userIdentityLookup,
-			$this->getServiceContainer()->getCommentStore()
+			$this->getServiceContainer()->getDBLoadBalancerFactory(),
+			$userIdentityLookup
 		);
 
-		$q = $timelineService->getQueryInfo( $targets, [], $start );
+		$queryInfo = $timelineService->getQueryInfo( $targets, [], $start );
 
 		foreach ( $expected['targets'] as $target ) {
-			$this->assertStringContainsString( $target, $q['conds'][0] );
+			$this->assertStringContainsString( $target, $queryInfo['tables']['a'] );
 		}
 
 		foreach ( $expected['conds'] as $cond ) {
-			$this->assertStringContainsString( $cond, $q['conds'][0] );
+			$this->assertStringContainsString( $cond, $queryInfo['tables']['a'] );
 		}
 
 		if ( $start === '' ) {
-			$this->assertCount( 1, $q['conds'] );
+			$this->assertStringNotContainsString( 'cuc_timestamp >=', $queryInfo['tables']['a'] );
 		} else {
-			$this->assertCount( 2, $q['conds'] );
-			$this->assertStringContainsString( 'cuc_timestamp >=', $q['conds'][1] );
+			$this->assertStringContainsString( "cuc_timestamp >= '$start'", $queryInfo['tables']['a'] );
 		}
 	}
 
@@ -108,14 +105,19 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 					'conds' => [ 'actor_user', 'cuc_ip_hex' ],
 				],
 			],
-			'Invalid targets' => [
-				[ 'InvalidUser' ],
-				'',
-				[
-					'targets' => [],
-					'conds' => [ '0' ],
-				],
-			]
+		];
+	}
+
+	/** @dataProvider provideGetQueryInfoForInvalidTargets */
+	public function testGetQueryInfoForInvalidTargets( $targets ) {
+		$this->expectException( LogicException::class );
+		$this->getServiceContainer()->get( 'CheckUserTimelineService' )->getQueryInfo( $targets, [], '' );
+	}
+
+	public static function provideGetQueryInfoForInvalidTargets() {
+		return [
+			'Invalid targets' => [ [ 'InvalidUser' ] ],
+			'Empty targets' => [ [] ],
 		];
 	}
 }
