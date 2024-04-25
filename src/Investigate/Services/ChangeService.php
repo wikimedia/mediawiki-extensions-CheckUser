@@ -33,25 +33,21 @@ abstract class ChangeService {
 	 * target is passed in
 	 *
 	 * @param string[] $targets
-	 * @return string[]
+	 * @return ?string[]
 	 */
-	protected function buildTargetCondsMultiple( array $targets ): array {
+	protected function buildTargetCondsMultiple( array $targets ): ?array {
 		$condSet = array_map( function ( $target ) {
 			return $this->buildTargetConds( $target );
 		}, $targets );
 
 		if ( !$condSet ) {
-			return [
-				$this->dbQuoter->addQuotes( false )
-			];
+			return null;
 		}
 
 		$conds = array_merge_recursive( ...$condSet );
 
 		if ( !$conds ) {
-			return [
-				$this->dbQuoter->addQuotes( false )
-			];
+			return null;
 		}
 
 		return [
