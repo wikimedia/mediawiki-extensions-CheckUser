@@ -33,7 +33,8 @@
 			"Wladek92",
 			"Wyz",
 			"Yasten",
-			"Zetud"
+			"Zetud",
+			"Alien333"
 		]
 	},
 	"checkuser-summary": "Cet outil parcourt la liste des changements récents à la recherche des adresses IP employées par un utilisateur ou affiche toutes les données utilisateur d’une adresse IP.\nLes comptes et les modifications effectuées par une adresse IP cliente peuvent être récupérés via les entêtes d’un mandataire XFF en suffixant l’adresse IP avec « /xff ». Les adresses IPv4 (CIDR /$1 à /32) et IPv6 (CIDR /$2 à /128) sont prises en charge.\nAu plus $3 modifications seront renvoyées, pour des questions de performance.\nVeuillez utiliser cet outil conformément à sa politique d’utilisation.",
@@ -53,6 +54,7 @@
 	"right-checkuser-temporary-account-no-preference": "Afficher les adresses IP utilisées par les comptes temporaires sans avoir besoin de vérifier la préférence",
 	"right-checkuser-temporary-account-log": "Afficher le journal d’accès aux adresses IP des comptes temporaires",
 	"grant-checkuser": "Accéder aux données de vérification de l’utilisateur",
+	"grant-checkuser-temporary-account": "Accéder aux données de checkuser pour les comptes temporaires",
 	"action-checkuser": "vérifier les adresses IP des utilisateurs et d’autres informations",
 	"action-checkuser-log": "visualiser le journal des vérifications d’utilisateurs",
 	"action-checkuser-temporary-account": "voir les adresses IP utilisées par les comptes temporaires",
@@ -107,6 +109,7 @@
 	"checkuser-blocked": "Bloqué(e)",
 	"checkuser-gblocked": "Bloqué(e) globalement",
 	"checkuser-locked": "Verrouillé(e)",
+	"checkuser-torexitnode": "Nœud de sortie de Tor",
 	"checkuser-wasblocked": "Bloqué(e) précédemment",
 	"checkuser-localonly": "Non unifié(e)",
 	"checkuser-massblock": "Bloquer les utilisateurs sélectionnés",
@@ -162,6 +165,7 @@
 	"checkuser-helper-user": "Utilisateur",
 	"checkuser-helper-ips": "Adresses IP",
 	"checkuser-helper-uas": "Agents utilisateur",
+	"checkuser-helper-client-hints": "Indices client",
 	"checkuser-helper-xff-trusted": "Mandataire XFF (fiable) :",
 	"checkuser-helper-xff-untrusted": "Mandataire XFF (non fiable) :",
 	"logentry-checkuser-private-event-login-success": "{{GENDER:$2|Connexion}} réussie à {{SITENAME}} en tant que $4",
