@@ -159,7 +159,6 @@
 	"checkuser-investigateblock-notices-failed": "Alguns avisos não puderam ser adicionados às páginas do usuário ou às páginas de discussão do usuário.",
 	"checkuser-investigate": "Investigar",
 	"checkuser-investigate-page-subtitle": "Investigação atual para $1",
-	"checkuser-investigate-subtitle-block-button-label": "Bloquear",
 	"checkuser-investigate-subtitle-cancel-button-label": "Cancelar",
 	"checkuser-investigate-subtitle-continue-button-label": "Continuar",
 	"checkuser-investigate-indicator-new-investigation": "Nova investigação",

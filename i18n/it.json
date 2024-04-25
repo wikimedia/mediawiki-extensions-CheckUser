@@ -144,7 +144,6 @@
 	"checkuser-investigateblock-notices-failed": "Non è stato possibile aggiungere alcuni avvisi alle pagine utente o alle pagine di discussione utente.",
 	"checkuser-investigate": "Ricerca",
 	"checkuser-investigate-page-subtitle": "Ricerca corrente su $1",
-	"checkuser-investigate-subtitle-block-button-label": "Blocca",
 	"checkuser-investigate-subtitle-cancel-button-label": "Annulla",
 	"checkuser-investigate-subtitle-continue-button-label": "Continua",
 	"checkuser-investigate-indicator-new-investigation": "Nuova ricerca",

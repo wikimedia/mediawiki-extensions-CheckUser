@@ -144,7 +144,6 @@
 	"checkuser-investigateblock-notices-failed": "Некоторые уведомления не могли быть добавлены на страницы участников или страницы обсуждения участников.",
 	"checkuser-investigate": "Исследовать",
 	"checkuser-investigate-page-subtitle": "Текущее расследование за $1",
-	"checkuser-investigate-subtitle-block-button-label": "Заблокировать",
 	"checkuser-investigate-subtitle-cancel-button-label": "Отменить",
 	"checkuser-investigate-subtitle-continue-button-label": "Продолжить",
 	"checkuser-investigate-indicator-new-investigation": "Новое расследование",

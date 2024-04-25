@@ -113,7 +113,6 @@
 	"checkuser-investigateblock-success": "{{PLURAL:$2|Korisnik|Korisnici}} $1 {{PLURAL:$2|je sada blokiran|su sada blokirani}}.",
 	"checkuser-investigateblock-notices-failed": "Neke napomene nije bilo moguće dodati na korisničke stranice ili stranice za razgovor.",
 	"checkuser-investigate": "Ispitivanje",
-	"checkuser-investigate-subtitle-block-button-label": "Blokiraj",
 	"checkuser-investigate-subtitle-cancel-button-label": "Otkaži",
 	"checkuser-investigate-subtitle-continue-button-label": "Nastavi",
 	"checkuser-investigate-indicator-logs": "Evidencije",

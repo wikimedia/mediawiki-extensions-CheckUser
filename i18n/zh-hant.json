@@ -179,7 +179,6 @@
 	"checkuser-investigateblock-notices-failed": "一些通知可能無法添加到使用者頁面或是使用者的討論頁。",
 	"checkuser-investigate": "調查",
 	"checkuser-investigate-page-subtitle": "目前的$1調查",
-	"checkuser-investigate-subtitle-block-button-label": "封鎖",
 	"checkuser-investigate-subtitle-cancel-button-label": "取消",
 	"checkuser-investigate-subtitle-continue-button-label": "繼續",
 	"checkuser-investigate-indicator-new-investigation": "新調查",

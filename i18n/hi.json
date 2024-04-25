@@ -122,7 +122,6 @@
 	"checkuser-investigateblock-notices-failed": "कुछ सूचनाओं को सदस्य पृष्ठों या सदस्य वार्ता पृष्ठों पर जोड़ना न जा सका।",
 	"checkuser-investigate": "जाँचें",
 	"checkuser-investigate-page-subtitle": "$1 के लिए वर्तमान जाँच",
-	"checkuser-investigate-subtitle-block-button-label": "अवरोधित करें",
 	"checkuser-investigate-subtitle-cancel-button-label": "रद्द करें",
 	"checkuser-investigate-subtitle-continue-button-label": "जारी रखें",
 	"checkuser-investigate-indicator-new-investigation": "नई जाँच",

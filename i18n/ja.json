@@ -206,7 +206,6 @@
 	"checkuser-investigateblock-notices-failed": "利用者ページまたは利用者の会話ページに、一部の告知が追加できませんでした。",
 	"checkuser-investigate": "詳細調査",
 	"checkuser-investigate-page-subtitle": "$1 の詳細調査結果",
-	"checkuser-investigate-subtitle-block-button-label": "ブロック",
 	"checkuser-investigate-subtitle-cancel-button-label": "キャンセル",
 	"checkuser-investigate-subtitle-continue-button-label": "続行",
 	"checkuser-investigate-indicator-new-investigation": "別の利用者を詳細調査",

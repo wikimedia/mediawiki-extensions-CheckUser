@@ -177,7 +177,6 @@
 	"checkuser-investigateblock-notices-failed": "לא היה אפשר להוסיף הודעות מסוימות לדפי המשתמש או דפי שיחת המשתמש.",
 	"checkuser-investigate": "חקירה",
 	"checkuser-investigate-page-subtitle": "חקירה נוכחית עבור $1",
-	"checkuser-investigate-subtitle-block-button-label": "חסימה",
 	"checkuser-investigate-subtitle-cancel-button-label": "ביטול",
 	"checkuser-investigate-subtitle-continue-button-label": "להמשיך",
 	"checkuser-investigate-indicator-new-investigation": "חקירה חדשה",

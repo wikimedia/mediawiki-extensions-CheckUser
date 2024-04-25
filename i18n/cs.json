@@ -161,7 +161,6 @@
 	"checkuser-investigateblock-success": "{{PLURAL:$2|Uživatel|Uživatelé}} $1 {{PLURAL:$2|je nyní zablokován|jsou nyní zablokováni}}.",
 	"checkuser-investigateblock-notices-failed": "Některá upozornění nebylo možné přidat na uživatelské nebo diskusní stránky uživatelů.",
 	"checkuser-investigate": "Vyšetřit",
-	"checkuser-investigate-subtitle-block-button-label": "Zablokovat",
 	"checkuser-investigate-subtitle-cancel-button-label": "Storno",
 	"checkuser-investigate-subtitle-continue-button-label": "Pokračovat",
 	"checkuser-investigate-indicator-logs": "Protokolovací záznamy",

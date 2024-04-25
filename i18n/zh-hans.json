@@ -209,7 +209,6 @@
 	"checkuser-investigateblock-notices-failed": "某些通知无法添加到用户页或用户讨论页。",
 	"checkuser-investigate": "调查",
 	"checkuser-investigate-page-subtitle": "当前对$1的调查",
-	"checkuser-investigate-subtitle-block-button-label": "封禁",
 	"checkuser-investigate-subtitle-cancel-button-label": "取消",
 	"checkuser-investigate-subtitle-continue-button-label": "继续",
 	"checkuser-investigate-indicator-new-investigation": "新调查",

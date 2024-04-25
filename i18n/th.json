@@ -120,7 +120,6 @@
 	"checkuser-investigateblock-notices-failed": "บางป้ายประกาศไม่สามารถเพิ่มลงในหน้าผู้ใช้หรือหน้าคุยของผู้ใช้",
 	"checkuser-investigate": "สืบสวน",
 	"checkuser-investigate-page-subtitle": "ผลการสืบสวนปัจจุบันของ $1",
-	"checkuser-investigate-subtitle-block-button-label": "บล็อก",
 	"checkuser-investigate-subtitle-cancel-button-label": "ยกเลิก",
 	"checkuser-investigate-subtitle-continue-button-label": "ดำเนินการต่อ",
 	"checkuser-investigate-indicator-new-investigation": "การสืบสวนใหม่",

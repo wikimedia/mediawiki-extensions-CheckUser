@@ -157,7 +157,6 @@
 	"checkuser-investigateblock-notices-failed": "Bazı bildirimler kullanıcı sayfalarına veya kullanıcı mesaj sayfalarına eklenemedi.",
 	"checkuser-investigate": "İncele",
 	"checkuser-investigate-page-subtitle": "$1 için mevcut soruşturma",
-	"checkuser-investigate-subtitle-block-button-label": "Engelle",
 	"checkuser-investigate-subtitle-cancel-button-label": "İptal",
 	"checkuser-investigate-subtitle-continue-button-label": "Devam et",
 	"checkuser-investigate-indicator-new-investigation": "Yeni soruşturma",

@@ -148,7 +148,6 @@
 	"checkuser-investigateblock-notices-failed": "কিছু বিজ্ঞপ্তি ব্যবহারকারীর পাতাগুলি বা আলাপ পাতাগুলিতে যোগ করা যায়নি।",
 	"checkuser-investigate": "তদন্ত করুন",
 	"checkuser-investigate-page-subtitle": "$1-এর জন্য তদন্ত",
-	"checkuser-investigate-subtitle-block-button-label": "বাধা দিন",
 	"checkuser-investigate-subtitle-cancel-button-label": "বাতিল",
 	"checkuser-investigate-subtitle-continue-button-label": "অব্যাহত",
 	"checkuser-investigate-indicator-new-investigation": "নতুন তদন্ত",

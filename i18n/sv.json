@@ -155,7 +155,6 @@
 	"checkuser-investigateblock-notices-failed": "En del meddelanden kunde inte läggas till på användarsidorna eller användardiskussionssidorna.",
 	"checkuser-investigate": "Undersök",
 	"checkuser-investigate-page-subtitle": "Nuvarande undersökning för $1",
-	"checkuser-investigate-subtitle-block-button-label": "Blockera",
 	"checkuser-investigate-subtitle-cancel-button-label": "Avbryt",
 	"checkuser-investigate-subtitle-continue-button-label": "Fortsätt",
 	"checkuser-investigate-indicator-new-investigation": "Ny undersökning",
