@@ -172,6 +172,8 @@
 	"checkuser-investigateblock-notices-failed": "Некои напомени не можеа да се додадат кон корисничките или разговорните страници.",
 	"checkuser-investigate": "Иследи",
 	"checkuser-investigate-page-subtitle": "Тековно иследување на $1",
+	"checkuser-investigate-subtitle-block-accounts-button-label": "Блокирај сметки",
+	"checkuser-investigate-subtitle-block-ips-button-label": "Блокрај IP-а",
 	"checkuser-investigate-subtitle-cancel-button-label": "Откажи",
 	"checkuser-investigate-subtitle-continue-button-label": "Продолжи",
 	"checkuser-investigate-indicator-new-investigation": "Ново иследување",
