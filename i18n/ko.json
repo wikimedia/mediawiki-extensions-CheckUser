@@ -18,7 +18,8 @@
 			"Ykhwong",
 			"관인생략",
 			"렌즈",
-			"아라"
+			"아라",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "이 도구는 최근의 변경 사항을 검사하여 특정 사용자가 이용한 IP 주소를 검색하거나 특정 IP 주소에 대한 편집/사용자 정보를 보여줍니다.\n클라이언트 IP를 통한 사용자와 편집은 IP 주소 뒤에 \"/xff\"를 추가함으로써 XFF 헤더를 통해 조사할 수 있습니다. IPv4 (CIDR $1-32)와 IPv6 (CIDR $2-128)을 지원합니다.\n성능상의 이유로 최대 $3개의 편집만 반환됩니다.\n이 도구는 정책에 맞게 사용하십시오.",
@@ -86,6 +87,7 @@
 	"checkuser-search-initiator": "작업 수행자",
 	"checkuser-search-target": "대상",
 	"checkuser-log-search-target": "대상:",
+	"checkuser-log-search-initiator": "작업 수행자:",
 	"checkuser-log-search-type": "검색 종류:",
 	"checkuser-ipeditcount": "모든 사용자로부터 편집 $1개",
 	"checkuser-showmain": "사용자검사 기본 양식으로 돌아가기",
