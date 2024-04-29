@@ -171,6 +171,7 @@
 	"checkuser-investigateblock-notices-failed": "Нека обавештења нису додата на корисничку страницу или страницу за разговор.",
 	"checkuser-investigate": "Испитивање",
 	"checkuser-investigate-page-subtitle": "Текућа истрага $1",
+	"checkuser-investigate-subtitle-block-accounts-button-label": "Блокирај налоге",
 	"checkuser-investigate-subtitle-cancel-button-label": "Откажи",
 	"checkuser-investigate-subtitle-continue-button-label": "Настави",
 	"checkuser-investigate-indicator-new-investigation": "Нова истрага",
