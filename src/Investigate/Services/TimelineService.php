@@ -35,9 +35,10 @@ class TimelineService extends ChangeService {
 	 * @param string[] $targets The targets of the check
 	 * @param string[] $excludeTargets The targets to exclude from the check
 	 * @param string $start The start offset
+	 * @param int $limit The limit for the check
 	 * @return array
 	 */
-	public function getQueryInfo( array $targets, array $excludeTargets, string $start ): array {
+	public function getQueryInfo( array $targets, array $excludeTargets, string $start, int $limit ): array {
 		// Split the targets into users and IP addresses, so that two queries can be made (one for the users and one
 		// for the IPs) and then unioned together.
 		$ipTargets = array_filter( $targets, [ IPUtils::class, 'isIPAddress' ] );
@@ -49,12 +50,12 @@ class TimelineService extends ChangeService {
 		$userTargetsQuery = null;
 		if ( count( $ipTargets ) ) {
 			$ipTargetsQuery = $this->getSelectQueryBuilder(
-				$ipTargets, $excludeTargets, $start, 'cuc_ip_hex_time'
+				$ipTargets, $excludeTargets, $start, 'cuc_ip_hex_time', $limit
 			);
 		}
 		if ( count( $userTargets ) ) {
 			$userTargetsQuery = $this->getSelectQueryBuilder(
-				$userTargets, $excludeTargets, $start, 'cuc_actor_ip_time'
+				$userTargets, $excludeTargets, $start, 'cuc_actor_ip_time', $limit
 			);
 		}
 		if ( $ipTargetsQuery === null && $userTargetsQuery === null ) {
@@ -90,10 +91,11 @@ class TimelineService extends ChangeService {
 	 * @param string[] $excludeTargets See ::getQueryInfo
 	 * @param string $start See ::getQueryInfo
 	 * @param string $index The index to use as the FORCE INDEX index for the query
+	 * @param int $limit The limit that applies the overall query
 	 * @return ?SelectQueryBuilder
 	 */
 	private function getSelectQueryBuilder(
-		array $targets, array $excludeTargets, string $start, string $index
+		array $targets, array $excludeTargets, string $start, string $index, int $limit
 	): ?SelectQueryBuilder {
 		$dbr = $this->dbProvider->getReplicaDatabase();
 		$targetConds = $this->buildTargetCondsMultiple( $targets );
@@ -120,7 +122,7 @@ class TimelineService extends ChangeService {
 			->caller( __METHOD__ );
 		if ( $dbr->unionSupportsOrderAndLimit() ) {
 			$queryBuilder->orderBy( 'cuc_timestamp', SelectQueryBuilder::SORT_DESC )
-				->limit( 501 );
+				->limit( $limit + 1 );
 		}
 		return $queryBuilder;
 	}
