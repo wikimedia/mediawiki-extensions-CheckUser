@@ -3,9 +3,11 @@
 namespace MediaWiki\CheckUser\HookHandler;
 
 use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Preferences\Hook\GetPreferencesHook;
 use MediaWiki\User\UserIdentity;
+use MessageLocalizer;
 
 class Preferences implements GetPreferencesHook {
 
@@ -17,6 +19,7 @@ class Preferences implements GetPreferencesHook {
 
 	private PermissionManager $permissionManager;
 	private TemporaryAccountLoggerFactory $loggerFactory;
+	private MessageLocalizer $messageLocalizer;
 
 	/**
 	 * @param PermissionManager $permissionManager
@@ -28,6 +31,7 @@ class Preferences implements GetPreferencesHook {
 	) {
 		$this->permissionManager = $permissionManager;
 		$this->loggerFactory = $loggerFactory;
+		$this->messageLocalizer = RequestContext::getMain();
 	}
 
 	/**
@@ -46,11 +50,18 @@ class Preferences implements GetPreferencesHook {
 			$this->permissionManager->userHasRight( $user, 'checkuser-temporary-account' ) &&
 			!$this->permissionManager->userHasRight( $user, 'checkuser-temporary-account-no-preference' )
 		) {
+			$preferences['checkuser-temporary-account-enable-description'] = [
+				'type' => 'info',
+				'default' => $this->messageLocalizer->msg( 'checkuser-tempaccount-enable-preference-description' )
+					->parse(),
+				// The following message is generated here:
+				// * prefs-checkuser-tempaccount
+				'section' => 'personal/checkuser-tempaccount',
+				'raw' => true,
+			];
 			$preferences['checkuser-temporary-account-enable'] = [
 				'type' => 'toggle',
 				'label-message' => 'checkuser-tempaccount-enable-preference',
-				// The following message is generated here:
-				// * prefs-checkuser-tempaccount
 				'section' => 'personal/checkuser-tempaccount',
 			];
 		}

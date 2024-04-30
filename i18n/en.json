@@ -251,6 +251,7 @@
 	"checkuser-investigate-tour-copywikitext-title": "Want to copy the data?",
 	"checkuser-investigate-tour-copywikitext-desc": "Copy the compare table with one-click and take it to the CUWiki. Do note that you’re only copying what is visible and not all the pages of the investigation.",
 	"prefs-checkuser-tempaccount": "Temporary account IP reveal",
+	"checkuser-tempaccount-enable-preference-description": "When using this tool you should ensure that you do so within policy.",
 	"checkuser-tempaccount-enable-preference": "Enable revealing IP addresses for temporary accounts",
 	"checkuser-tempaccount-no-ip-results": "No IP data for this temporary user for the last $1 {{PLURAL:$1|day|days}}",
 	"checkuser-tempaccount-reveal-ip-button-label": "Show IP",
