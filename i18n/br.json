@@ -65,6 +65,8 @@
 	"checkuser-reset-action": "kaset ur postel adderaouekaat ger-tremen evit {{GENDER:$1|implijer|implijerez}} [[Implijer:$1|$1]]",
 	"logentry-checkuser-private-event-autocreate-account": "zo bet krouet ent emgefre",
 	"logentry-checkuser-private-event-create-account": "zo bet krouet",
+	"checkuser-investigate-subtitle-block-accounts-button-label": "Stankañ kontoù",
+	"checkuser-investigate-subtitle-block-ips-button-label": "Stankañ IPoù",
 	"checkuser-investigate-indicator-logs": "Marilhoù",
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "N'eo ket bet kavet ar wiki",
 	"checkuser-investigate-compare-notice-no-results": "N'eus disoc'h ebet : an implijerien pe IPoù-se n'o deus graet kemm ebet e-kerzh an 90 deiz diwezhañ.",
