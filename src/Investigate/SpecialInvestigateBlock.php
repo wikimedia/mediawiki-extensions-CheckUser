@@ -207,7 +207,44 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 		);
 		$fields['TalkPageNoticeText'] = $pageNoticeText;
 
+		$fields['Confirm'] = [
+			'type' => $this->showConfirmationCheckbox() ? 'check' : 'hidden',
+			'default' => '',
+			'label-message' => 'checkuser-investigateblock-confirm-blocks-label',
+			'cssclass' => 'ext-checkuser-investigateblock-block-confirm',
+		];
+
 		return $fields;
+	}
+
+	/**
+	 * Should the 'Confirm blocks' checkbox be shown?
+	 *
+	 * @return bool True if the form was submitted and the targets input has both IPs and users. Otherwise false.
+	 */
+	private function showConfirmationCheckbox(): bool {
+		// We cannot access HTMLForm->mWasSubmitted directly to work out if the form was submitted, as this has not
+		// been generated yet. However, we can approximate this by checking if the request was POSTed and if the
+		// wpEditToken is set.
+		return $this->getRequest()->wasPosted() &&
+			$this->getRequest()->getVal( 'wpEditToken' ) &&
+			$this->checkForIPsAndUsersInTargetsParam( $this->getRequest()->getText( 'wpTargets' ) );
+	}
+
+	/**
+	 * Returns whether the 'Targets' parameter contains both IPs and usernames.
+	 *
+	 * @param string $targets The value of the 'Targets' parameter, either from the request via ::getText or (if in
+	 *    ::onSubmit) from the data array.
+	 * @return bool True if the 'Targets' parameter contains both IPs and usernames, false otherwise.
+	 */
+	private function checkForIPsAndUsersInTargetsParam( string $targets ): bool {
+		// The 'usersmultiselect' field data is formatted by each username being seperated by a newline (\n).
+		$targets = explode( "\n", $targets );
+		// Get an array of booleans indicating whether each target is an IP address. If the array contains both true and
+		// false, then the 'Targets' parameter contains both IPs and usernames. Otherwise it does not.
+		$areTargetsIPs = array_map( [ IPUtils::class, 'isIPAddress' ], $targets );
+		return in_array( true, $areTargetsIPs, true ) && in_array( false, $areTargetsIPs, true );
 	}
 
 	/**
@@ -236,6 +273,20 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 	 */
 	public function onSubmit( array $data ) {
 		$this->blockedUsers = [];
+
+		// This might have been a hidden field or a checkbox, so interesting data can come from it. This handling is
+		// copied from SpecialBlock::processFormInternal.
+		$data['Confirm'] = !in_array( $data['Confirm'], [ '', '0', null, false ], true );
+
+		// If the targets are both IPs and usernames, we should warn the CheckUser before allowing them to proceed to
+		// avoid inadvertently violating any privacy policies.
+		if ( $this->checkForIPsAndUsersInTargetsParam( $data['Targets'] ) && !$data['Confirm'] ) {
+			return [
+				'checkuser-investigateblock-warning-ips-and-users-in-targets',
+				'checkuser-investigateblock-warning-confirmaction'
+			];
+		}
+
 		$targets = explode( "\n", $data['Targets'] );
 		// Format of $data['Reason'] is an array with items as documented in
 		// HTMLSelectAndOtherField::loadDataFromRequest. The value in this should not be empty, as the field is marked

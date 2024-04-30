@@ -80,6 +80,9 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 		$this->assertStringContainsString( '(checkuser-investigateblock-options', $html );
 		$this->assertStringContainsString( '(checkuser-investigateblock-notice-user-page-label', $html );
 		$this->assertStringContainsString( '(checkuser-investigateblock-notice-talk-page-label', $html );
+		// Assert that the 'Confirm blocks' checkbox is not shown (this should only be shown after the form is submitted
+		// and a warning is to be shown).
+		$this->assertStringNotContainsString( '(checkuser-investigateblock-confirm-blocks-label', $html );
 	}
 
 	public function testOnSubmitOneUserTargetWithNotices() {
@@ -171,6 +174,9 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 		[ $html ] = $this->executeSpecialPage( '', $fauxRequest, null, $testPerformer );
 		// Assert that the notices failed message is shown.
 		$this->assertStringContainsString( '(checkuser-investigateblock-notices-failed', $html );
+		// Assert that the 'Confirm blocks' checkbox is not shown (this should only be shown after the form is submitted
+		// and a warning is shown). In this case an error was shown instead of a warning.
+		$this->assertStringNotContainsString( '(checkuser-investigateblock-confirm-blocks-label', $html );
 
 		// Assert that both targets are blocked
 		// First check the IP address target
@@ -223,5 +229,101 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 		[ $html ] = $this->executeSpecialPage( '', $fauxRequest, null, $testPerformer );
 		// Assert that the required field error is displayed on the page.
 		$this->assertStringContainsString( '(htmlform-required', $html );
+	}
+
+	public function testOnSubmitForIPsAndUsersAsTargets() {
+		// Set-up the valid request and get a test user which has the necessary rights.
+		$testPerformer = $this->getUserForSuccess();
+		RequestContext::getMain()->setUser( $testPerformer );
+		$testTargetUser = $this->getTestUser()->getUser();
+		$fauxRequest = new FauxRequest(
+			[
+				// Test using two targets, one being a user and the other an IP.
+				'wpTargets' => $testTargetUser->getName() . "\n1.2.3.4",
+				'wpReason' => 'other', 'wpReason-other' => 'Test reason',
+				'wpEditToken' => $testPerformer->getEditToken(),
+			],
+			true,
+			RequestContext::getMain()->getRequest()->getSession()
+		);
+		// Assign the fake valid request to the main request context, as well as updating the session user
+		// so that the CSRF token is a valid token for the request user.
+		RequestContext::getMain()->setRequest( $fauxRequest );
+		RequestContext::getMain()->getRequest()->getSession()->setUser( $testPerformer );
+
+		// Execute the special page and get the HTML output.
+		[ $html ] = $this->executeSpecialPage( '', $fauxRequest, null, $testPerformer );
+		// Assert that the warning message is shown for blocking accounts and IPs in the same usage of the form.
+		$this->assertStringContainsString( '(checkuser-investigateblock-warning-ips-and-users-in-targets', $html );
+		$this->assertStringContainsString( '(checkuser-investigateblock-warning-confirmaction', $html );
+		// Assert that the 'Confirm blocks' checkbox is shown
+		$this->assertStringContainsString( '(checkuser-investigateblock-confirm-blocks-label', $html );
+
+		// Assert that no target got blocked
+		$block = $this->getServiceContainer()->getDatabaseBlockStore()->newFromTarget( $testTargetUser );
+		$this->assertNull(
+			$block,
+			'The target user was blocked by Special:InvestigateBlock when the form failed to submit.'
+		);
+		$block = $this->getServiceContainer()->getDatabaseBlockStore()->newFromTarget( '1.2.3.4' );
+		$this->assertNull(
+			$block,
+			'The target user was blocked by Special:InvestigateBlock when the form failed to submit.'
+		);
+	}
+
+	public function testOnSubmitForIPsAndUsersAsTargetsWithConfirmBlocksChecked() {
+		// Define wgBlockAllowsUTEdit and wgEnableUserEmail as true so we can test that the disable talk and
+		// disable email options work.
+		$this->overrideConfigValue( MainConfigNames::BlockAllowsUTEdit, true );
+		$this->overrideConfigValue( MainConfigNames::EnableUserEmail, true );
+		// Set a fake time so that we can validate the block expiry time for the IP target.
+		ConvertibleTimestamp::setFakeTime( '20210405060708' );
+		// Set-up the valid request and get a test user which has the necessary rights.
+		$testPerformer = $this->getUserForSuccess();
+		RequestContext::getMain()->setUser( $testPerformer );
+		$testTargetUser = $this->getTestUser()->getUser();
+		$fauxRequest = new FauxRequest(
+			[
+				// Test using two targets, one being a user and the other an IP. Also have the 'Confirm block' checkbox
+				// checked to ignore the warning.
+				'wpTargets' => $testTargetUser->getName() . "\n1.2.3.4", 'wpConfirm' => 1,
+				'wpReason' => 'other', 'wpReason-other' => 'Test reason',
+				'wpEditToken' => $testPerformer->getEditToken(),
+				// Also test disabling the talk page and email as part of the blocks.
+				'wpDisableUTEdit' => 1, 'wpDisableEmail' => 1,
+			],
+			true,
+			RequestContext::getMain()->getRequest()->getSession()
+		);
+		// Assign the fake valid request to the main request context, as well as updating the session user
+		// so that the CSRF token is a valid token for the request user.
+		RequestContext::getMain()->setRequest( $fauxRequest );
+		RequestContext::getMain()->getRequest()->getSession()->setUser( $testPerformer );
+
+		// Execute the special page and get the HTML output.
+		[ $html ] = $this->executeSpecialPage( '', $fauxRequest, null, $testPerformer );
+		// Assert that the success message is shown.
+		$this->assertStringContainsString( '(checkuser-investigateblock-success', $html );
+
+		// Assert that the user is blocked. Skipping testing the parameters for this block as they are tested in
+		// ::testOnSubmitOneUserTargetWithNotices.
+		$accountBlock = $this->getServiceContainer()->getDatabaseBlockStore()->newFromTarget( $testTargetUser );
+		$this->assertNotNull( $accountBlock, 'The target user was not blocked by Special:InvestigateBlock' );
+
+		// Assert that the IP is blocked, including checking the block parameters.
+		$ipBlock = $this->getServiceContainer()->getDatabaseBlockStore()->newFromTarget( '1.2.3.4' );
+		$this->assertNotNull( $ipBlock, 'The target IP was not blocked by Special:InvestigateBlock' );
+		// Assert that the block parameters are as expected
+		$this->assertSame( 'Test reason', $ipBlock->getReasonComment()->text, 'The reason was not as expected' );
+		$this->assertSame( $testPerformer->getId(), $ipBlock->getBy(), 'The blocking user was not as expected' );
+		$this->assertSame( '20210412060708', $ipBlock->getExpiry(), 'The block should have an expiry of 1 week' );
+		$this->assertTrue( $ipBlock->isCreateAccountBlocked(), 'The block should prevent account creation' );
+		$this->assertTrue( $ipBlock->isSitewide(), 'The block should be sitewide' );
+		$this->assertTrue( $ipBlock->isEmailBlocked(), 'The block should prevent email sending' );
+		$this->assertTrue(
+			$ipBlock->appliesToUsertalk(),
+			'The block should prevent edits to their own user talk page'
+		);
 	}
 }
