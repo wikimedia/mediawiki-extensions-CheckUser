@@ -20,7 +20,7 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * @dataProvider provideGetQueryInfo
 	 */
-	public function testGetQueryInfo( $targets, $start, $expected ) {
+	public function testGetQueryInfo( $targets, $start, $limit, $expected ) {
 		$user = $this->createMock( UserIdentity::class );
 		$user->method( 'getId' )
 			->willReturn( 11111 );
@@ -38,7 +38,7 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 			$userIdentityLookup
 		);
 
-		$queryInfo = $timelineService->getQueryInfo( $targets, [], $start );
+		$queryInfo = $timelineService->getQueryInfo( $targets, [], $start, $limit );
 
 		foreach ( $expected['targets'] as $target ) {
 			$this->assertStringContainsString( $target, $queryInfo['tables']['a'] );
@@ -53,6 +53,13 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 		} else {
 			$this->assertStringContainsString( "cuc_timestamp >= '$start'", $queryInfo['tables']['a'] );
 		}
+
+		// This assertion will fail on SQLite, as it does not support ORDER BY and LIMIT in UNION queries
+		// so only run the assertion if the DB supports this.
+		if ( $this->getDb()->unionSupportsOrderAndLimit() ) {
+			$actualLimit = $limit + 1;
+			$this->assertStringContainsString( "LIMIT $actualLimit", $queryInfo['tables']['a'] );
+		}
 	}
 
 	public static function provideGetQueryInfo() {
@@ -60,7 +67,7 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 		return [
 			'Valid username' => [
 				[ 'User1' ],
-				'',
+				'', 500,
 				[
 					'targets' => [ '11111' ],
 					'conds' => [ 'actor_user' ],
@@ -68,7 +75,7 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 			],
 			'Valid username, with start' => [
 				[ 'User1' ],
-				'111',
+				'111', 500,
 				[
 					'targets' => [ '11111' ],
 					'conds' => [ 'actor_user' ],
@@ -76,7 +83,7 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 			],
 			'Valid IP' => [
 				[ '1.2.3.4' ],
-				'',
+				'', 500,
 				[
 					'targets' => [ IPUtils::toHex( '1.2.3.4' ) ],
 					'conds' => [ 'cuc_ip_hex' ],
@@ -84,7 +91,7 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 			],
 			'Multiple valid targets' => [
 				[ '1.2.3.4', 'User1' ],
-				'',
+				'', 500,
 				[
 					'targets' => [ '11111', IPUtils::toHex( '1.2.3.4' ) ],
 					'conds' => [ 'cuc_ip_hex', 'actor_user' ],
@@ -92,7 +99,7 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 			],
 			'Valid IP range' => [
 				[ '127.0.0.1/24', 'User1' ],
-				'',
+				'', 500,
 				[
 					'targets' => [ '11111' ] + $range,
 					'conds' => [ 'cuc_ip_hex >=', 'cuc_ip_hex <=', 'actor_user' ],
@@ -100,7 +107,7 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 			],
 			'Some valid targets' => [
 				[ 'User1', 'InvalidUser', '1.1..23', '::1' ],
-				'',
+				'', 20,
 				[
 					'targets' => [ '11111', IPUtils::toHex( '::1' ) ],
 					'conds' => [ 'actor_user', 'cuc_ip_hex' ],
@@ -112,7 +119,7 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 	/** @dataProvider provideGetQueryInfoForInvalidTargets */
 	public function testGetQueryInfoForInvalidTargets( $targets ) {
 		$this->expectException( LogicException::class );
-		$this->getServiceContainer()->get( 'CheckUserTimelineService' )->getQueryInfo( $targets, [], '' );
+		$this->getServiceContainer()->get( 'CheckUserTimelineService' )->getQueryInfo( $targets, [], '', 500 );
 	}
 
 	public static function provideGetQueryInfoForInvalidTargets() {
