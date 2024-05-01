@@ -12,6 +12,7 @@ use MediaWiki\Linker\LinkRenderer;
 use ParserOutput;
 use Psr\Log\LoggerInterface;
 use ReverseChronologicalPager;
+use Wikimedia\Rdbms\FakeResultWrapper;
 
 class TimelinePager extends ReverseChronologicalPager {
 	private CheckUserFormatRowHook $formatRowHookRunner;
@@ -81,6 +82,19 @@ class TimelinePager extends ReverseChronologicalPager {
 			$this->excludeTargets
 		);
 		$this->start = $durationManager->getTimestampFromRequest( $context->getRequest() );
+	}
+
+	/**
+	 * @inheritDoc
+	 *
+	 * Handle special case where all targets are filtered.
+	 */
+	public function reallyDoQuery( $offset, $limit, $order ) {
+		// If there are no targets, there is no need to run the query and an empty result can be used.
+		if ( $this->filteredTargets === [] ) {
+			return new FakeResultWrapper( [] );
+		}
+		return parent::reallyDoQuery( $offset, $limit, $order );
 	}
 
 	/**
