@@ -280,7 +280,7 @@
 	"checkuser-investigate-tour-copywikitext-title": "Title of copywikitext step in investigate guided tour.",
 	"checkuser-investigate-tour-copywikitext-desc": "Description of copywikitext step in investigate guided tour.",
 	"prefs-checkuser-tempaccount": "Header of the checkuser temp account options on Special:Preferences\n\nThis option enables the revealing of IP addresses for temporary accounts.",
-	"checkuser-tempaccount-enable-preference": "Description of the feature that can be enabled on Special:Preferences",
+	"checkuser-tempaccount-enable-preference": "Description of the feature that can be enabled on Special:Preferences that is used for the label of the checkbox that enables the feature.",
 	"checkuser-tempaccount-no-ip-results": "Label that appears on Special:Block when no IP results are returned for a temporary user",
 	"checkuser-tempaccount-reveal-ip-button-label": "Label for a button that reveals the IP address of a temporary user. Displayed next to user links for temporary users on history, diff and special pages.",
 	"checkuser-tempaccount-reveal-ip-missing": "Text to display when revealing an IP for a temporary user, if the IP address can't be found. Displayed next to user links for temporary users on history, diff and special pages.",
