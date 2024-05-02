@@ -100,7 +100,8 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		$compareService = new CompareService(
 			$serviceOptions,
 			$dbProvider,
-			$userIdentityLookup
+			$userIdentityLookup,
+			$this->getServiceContainer()->get( 'CheckUserLookupUtils' )
 		);
 
 		$queryInfo = $compareService->getQueryInfo(
@@ -243,7 +244,8 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		$compareService = new CompareService(
 			$this->createMock( ServiceOptions::class ),
 			$dbProvider,
-			$this->createMock( UserIdentityLookup::class )
+			$this->createMock( UserIdentityLookup::class ),
+			$this->getServiceContainer()->get( 'CheckUserLookupUtils' )
 		);
 
 		$compareService->getQueryInfo( [], [], '' );

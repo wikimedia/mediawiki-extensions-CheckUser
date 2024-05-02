@@ -35,7 +35,8 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 
 		$timelineService = new TimelineService(
 			$this->getServiceContainer()->getConnectionProvider(),
-			$userIdentityLookup
+			$userIdentityLookup,
+			$this->getServiceContainer()->get( 'CheckUserLookupUtils' )
 		);
 
 		$queryInfo = $timelineService->getQueryInfo( $targets, [], $start, $limit );

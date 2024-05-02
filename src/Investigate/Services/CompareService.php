@@ -3,14 +3,15 @@
 namespace MediaWiki\CheckUser\Investigate\Services;
 
 use LogicException;
+use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\Rdbms\IConnectionProvider;
+use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Rdbms\Subquery;
 
 class CompareService extends ChangeService {
-	private IConnectionProvider $dbProvider;
 
 	/**
 	 * @internal For use by ServiceWiring
@@ -26,19 +27,16 @@ class CompareService extends ChangeService {
 	 * @param ServiceOptions $options
 	 * @param IConnectionProvider $dbProvider
 	 * @param UserIdentityLookup $userIdentityLookup
+	 * @param CheckUserLookupUtils $checkUserLookupUtils
 	 */
 	public function __construct(
 		ServiceOptions $options,
 		IConnectionProvider $dbProvider,
-		UserIdentityLookup $userIdentityLookup
+		UserIdentityLookup $userIdentityLookup,
+		CheckUserLookupUtils $checkUserLookupUtils
 	) {
-		parent::__construct(
-			$dbProvider->getReplicaDatabase(),
-			$dbProvider->getReplicaDatabase(),
-			$userIdentityLookup
-		);
+		parent::__construct( $dbProvider, $userIdentityLookup, $checkUserLookupUtils );
 
-		$this->dbProvider = $dbProvider;
 		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 		$this->limit = $options->get( 'CheckUserInvestigateMaximumRowCount' );
 	}
@@ -93,7 +91,7 @@ class CompareService extends ChangeService {
 
 		$unionQueryBuilder = $dbr->newUnionQueryBuilder()->caller( __METHOD__ );
 		foreach ( $targets as $target ) {
-			$conds = $this->buildCondsForSingleTarget( $target, $excludeTargets, $start );
+			$conds = $this->buildExprForSingleTarget( $target, $excludeTargets, $start );
 			if ( $conds !== null ) {
 				$queryBuilder = $dbr->newSelectQueryBuilder()
 					->select( [
@@ -145,7 +143,7 @@ class CompareService extends ChangeService {
 	}
 
 	/**
-	 * Get the query info for a single target.
+	 * Get the WHERE conditions for a single target in an IExpression object.
 	 *
 	 * For the main investigation, this is used in a subquery that contributes to a derived
 	 * table, used by getQueryInfo.
@@ -156,27 +154,34 @@ class CompareService extends ChangeService {
 	 * @param string $target
 	 * @param string[] $excludeTargets
 	 * @param string $start
-	 * @return array|null Return null for invalid target
+	 * @return IExpression|null Return null for invalid target
 	 */
-	private function buildCondsForSingleTarget(
+	private function buildExprForSingleTarget(
 		string $target,
 		array $excludeTargets,
 		string $start
-	): ?array {
-		$conds = $this->buildTargetConds( $target );
-		if ( $conds === [] ) {
+	): ?IExpression {
+		$targetExpr = $this->buildTargetExpr( $target );
+		if ( $targetExpr === null ) {
 			return null;
 		}
 
-		$conds = array_merge(
-			$conds,
-			$this->buildExcludeTargetsConds( $excludeTargets ),
-			$this->buildStartConds( $start )
-		);
+		$returnExpr = $this->dbProvider->getReplicaDatabase()
+			->expr( 'cuc_type', '=', [ RC_EDIT, RC_NEW, RC_LOG ] )
+			->andExpr( $targetExpr );
 
-		$conds['cuc_type'] = [ RC_EDIT, RC_NEW, RC_LOG ];
+		// Add the WHERE conditions to exclude the targets in the $excludeTargets array, if they can be generated.
+		$excludeTargetsExpr = $this->buildExcludeTargetsExpr( $excludeTargets );
+		if ( $excludeTargetsExpr !== null ) {
+			$returnExpr = $returnExpr->andExpr( $excludeTargetsExpr );
+		}
+		// Add the start timestamp WHERE conditions to the query, if they can be generated.
+		$startExpr = $this->buildStartExpr( $start );
+		if ( $startExpr !== null ) {
+			$returnExpr = $returnExpr->andExpr( $startExpr );
+		}
 
-		return $conds;
+		return $returnExpr;
 	}
 
 	/**
@@ -220,7 +225,7 @@ class CompareService extends ChangeService {
 		$offset = $this->getLimitPerTarget( $targets );
 
 		foreach ( $targets as $target ) {
-			$conds = $this->buildCondsForSingleTarget( $target, $excludeTargets, $start );
+			$conds = $this->buildExprForSingleTarget( $target, $excludeTargets, $start );
 			if ( $conds !== null ) {
 				$limitCheck = $dbr->newSelectQueryBuilder()
 					->select( 'cuc_id' )

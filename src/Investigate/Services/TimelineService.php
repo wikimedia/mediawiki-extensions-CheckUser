@@ -3,31 +3,11 @@
 namespace MediaWiki\CheckUser\Investigate\Services;
 
 use LogicException;
-use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\IPUtils;
-use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Rdbms\Subquery;
 
 class TimelineService extends ChangeService {
-	private IConnectionProvider $dbProvider;
-
-	/**
-	 * @param IConnectionProvider $dbProvider
-	 * @param UserIdentityLookup $userIdentityLookup
-	 */
-	public function __construct(
-		IConnectionProvider $dbProvider,
-		UserIdentityLookup $userIdentityLookup
-	) {
-		parent::__construct(
-			$dbProvider->getReplicaDatabase(),
-			$dbProvider->getReplicaDatabase(),
-			$userIdentityLookup
-		);
-
-		$this->dbProvider = $dbProvider;
-	}
 
 	/**
 	 * Get timeline query info
@@ -98,9 +78,9 @@ class TimelineService extends ChangeService {
 		array $targets, array $excludeTargets, string $start, string $index, int $limit
 	): ?SelectQueryBuilder {
 		$dbr = $this->dbProvider->getReplicaDatabase();
-		$targetConds = $this->buildTargetCondsMultiple( $targets );
+		$targetsExpr = $this->buildTargetExprMultiple( $targets );
 		// Don't run the query if no targets are valid.
-		if ( $targetConds === null ) {
+		if ( $targetsExpr === null ) {
 			return null;
 		}
 		$queryBuilder = $dbr->newSelectQueryBuilder()
@@ -116,12 +96,18 @@ class TimelineService extends ChangeService {
 			->useIndex( $index )
 			->join( 'actor', 'cuc_user_actor', 'cuc_user_actor.actor_id=cuc_actor' )
 			->join( 'comment', 'comment_cuc_comment', 'comment_cuc_comment.comment_id=cuc_comment_id' )
-			->where( array_merge(
-				$targetConds,
-				$this->buildExcludeTargetsConds( $excludeTargets ),
-				$this->buildStartConds( $start )
-			) )
+			->where( $targetsExpr )
 			->caller( __METHOD__ );
+		// Add the WHERE conditions to exclude the targets in the $excludeTargets array, if they can be generated.
+		$excludeTargetsExpr = $this->buildExcludeTargetsExpr( $excludeTargets );
+		if ( $excludeTargetsExpr !== null ) {
+			$queryBuilder->where( $excludeTargetsExpr );
+		}
+		// Add the start timestamp WHERE conditions to the query, if they can be generated.
+		$startExpr = $this->buildStartExpr( $start );
+		if ( $startExpr !== null ) {
+			$queryBuilder->where( $startExpr );
+		}
 		if ( $dbr->unionSupportsOrderAndLimit() ) {
 			// TODO: T360712: Add cuc_id to the ORDER BY clause to ensure unique ordering.
 			$queryBuilder->orderBy( 'cuc_timestamp', SelectQueryBuilder::SORT_DESC )
