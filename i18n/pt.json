@@ -179,6 +179,7 @@
 	"checkuser-investigateblock-failure": "Não foi bloqueado nenhum utilizador. Para contornar bloqueios existentes, consulte: \"{{int:checkuser-investigateblock-reblock-label}}\". Um bloqueio não será contornado se o bloqueio novo for igual ao bloqueio existente.",
 	"checkuser-investigateblock-success": "{{PLURAL:$2|O utilizador $1 está agora bloqueado|Os utilizadores  $1 estão agora bloqueados}}.",
 	"checkuser-investigateblock-notices-failed": "Alguns avisos não foram acrescentados às páginas dos utilizadores ou às páginas de discussão dos utilizadores.",
+	"checkuser-investigateblock-warning-confirmaction": "Se tem a certeza de que quer fazê-lo, marque o campo \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" ao fundo.",
 	"checkuser-investigate": "Investigar",
 	"checkuser-investigate-page-subtitle": "Investigação corrente sobre $1",
 	"checkuser-investigate-subtitle-cancel-button-label": "Cancelar",

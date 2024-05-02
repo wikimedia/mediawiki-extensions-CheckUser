@@ -97,6 +97,7 @@
 	"checkuser-investigateblock-notice-position-label": "Safle",
 	"checkuser-investigateblock-notice-text-label": "Cystrawen wici",
 	"checkuser-investigateblock-notice-replace": "Disodli tudalen",
+	"checkuser-investigateblock-warning-confirmaction": "Os ydych wir am wneud hyn, cliciwch ar y maes \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" ar y gwaelod.",
 	"checkuser-investigate": "Ymchwilio",
 	"checkuser-investigate-page-subtitle": "Ymchwiliad cyfredol am $1",
 	"checkuser-investigate-subtitle-cancel-button-label": "Canslo",

@@ -3,6 +3,7 @@
 		"authors": [
 			"Audun",
 			"Danmichaelo",
+			"Dreamy Jazz",
 			"EdoAug",
 			"Finnrind",
 			"Jon Harald Søby",
@@ -174,6 +175,7 @@
 	"checkuser-investigateblock-failure": "Ingen brukere ble blokkert. Huk av «{{int:checkuser-investigateblock-reblock-label}}» for å overstyre eksisterende blokkeringer. En blokkering blir ikke overstyrt hvis den nye blokkeringen er identisk med den eksisterende.",
 	"checkuser-investigateblock-success": "{{PLURAL:$2|Brukeren|Brukerne}} $1 er nå blokkert.",
 	"checkuser-investigateblock-notices-failed": "Noen beskjeder kunne ikke bli lagt til på brukersidene eller brukerdiskusjonssidene.",
+	"checkuser-investigateblock-warning-confirmaction": "Marker feltet «{{int:checkuser-investigateblock-confirm-blocks-label}}» nederst om du er sikker på at du virkelig vil gjøre det.",
 	"checkuser-investigate": "Undersøk",
 	"checkuser-investigate-page-subtitle": "Pågående undersøkelse for $1",
 	"checkuser-investigate-subtitle-block-accounts-button-label": "Blokker kontoer",

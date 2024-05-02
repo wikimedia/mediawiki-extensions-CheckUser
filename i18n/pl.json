@@ -257,6 +257,7 @@
 	"checkuser-investigate-tour-copywikitext-title": "Chcesz skopiować dane?",
 	"checkuser-investigate-tour-copywikitext-desc": "Skopiuj tabelę porównywania jednym kliknięciem i zamieść ją na CUWiki. Zauważ jednak, że kopiowane są tylko widoczne obecnie dane, a nie wszystkie strony sprawdzania.",
 	"prefs-checkuser-tempaccount": "Tymczasowe ujawnienie adresu IP konta",
+	"checkuser-tempaccount-enable-preference-description": "Używając tego narzędzia, upewnij się, że korzystasz z niego zgodnie z polityką.",
 	"checkuser-tempaccount-enable-preference": "Włącz ujawnianie adresów IP dla kont tymczasowych",
 	"checkuser-tempaccount-no-ip-results": "Brak danych o IP dla tego tymczasowego użytkownika za {{PLURAL:$1|ostatni dzień|ostatnie $1 dni|ostatnich $1 dni}}.",
 	"checkuser-tempaccount-reveal-ip-button-label": "Pokaż adres IP",
