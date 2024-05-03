@@ -5,8 +5,10 @@ namespace MediaWiki\CheckUser\Tests\Integration\Investigate\Pagers;
 use MediaWiki\CheckUser\Investigate\Pagers\TimelinePager;
 use MediaWiki\CheckUser\Investigate\Pagers\TimelineRowFormatter;
 use MediaWiki\CheckUser\Investigate\Services\TimelineService;
+use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Logger\LoggerFactory;
+use MediaWiki\Pager\IndexPager;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\TestingAccessWrapper;
 
@@ -17,18 +19,19 @@ use Wikimedia\TestingAccessWrapper;
  */
 class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 
-	private function getObjectUnderTest() {
+	private function getObjectUnderTest( array $overrides = [] ) {
 		return TestingAccessWrapper::newFromObject( new TimelinePager(
 			RequestContext::getMain(),
-			$this->getServiceContainer()->getLinkRenderer(),
-			$this->getServiceContainer()->get( 'CheckUserHookRunner' ),
-			$this->getServiceContainer()->get( 'CheckUserTokenQueryManager' ),
-			$this->getServiceContainer()->get( 'CheckUserDurationManager' ),
-			$this->getServiceContainer()->get( 'CheckUserTimelineService' ),
-			$this->getServiceContainer()->get( 'CheckUserTimelineRowFormatterFactory' )->createRowFormatter(
-				RequestContext::getMain()->getUser(), RequestContext::getMain()->getLanguage()
-			),
-			LoggerFactory::getInstance( 'CheckUser' )
+			$overrides['linkRenderer'] ?? $this->getServiceContainer()->getLinkRenderer(),
+			$overrides['hookRuner'] ?? $this->getServiceContainer()->get( 'CheckUserHookRunner' ),
+			$overrides['tokenQueryManager'] ?? $this->getServiceContainer()->get( 'CheckUserTokenQueryManager' ),
+			$overrides['durationManager'] ?? $this->getServiceContainer()->get( 'CheckUserDurationManager' ),
+			$overrides['timelineService'] ?? $this->getServiceContainer()->get( 'CheckUserTimelineService' ),
+			$overrides['timelineRowFormatterFactory'] ?? $this->getServiceContainer()
+				->get( 'CheckUserTimelineRowFormatterFactory' )->createRowFormatter(
+					RequestContext::getMain()->getUser(), RequestContext::getMain()->getLanguage()
+				),
+			$overrides['logger'] ?? LoggerFactory::getInstance( 'CheckUser' )
 		) );
 	}
 
@@ -106,5 +109,24 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 		$objectUnderTest = $this->getObjectUnderTest();
 		$objectUnderTest->timelineService = $mockTimelineService;
 		$objectUnderTest->getQueryInfo();
+	}
+
+	public function testReallyDoQueryOnAllExcludedTargets() {
+		$tokenQueryManager = $this->getMockBuilder( TokenQueryManager::class )
+			->disableOriginalConstructor()
+			->onlyMethods( [ 'getDataFromRequest' ] )
+			->getMock();
+		$tokenQueryManager->method( 'getDataFromRequest' )
+			->willReturn( [
+				'targets' => [ '1.2.3.4' ],
+				'exclude-targets' => [ '1.2.3.4' ],
+			] );
+
+		$pager = $this->getObjectUnderTest( [
+			'tokenQueryManager' => $tokenQueryManager,
+		] );
+		$actualResult = $pager->reallyDoQuery( '', 50, IndexPager::QUERY_ASCENDING );
+
+		$this->assertSame( 0, $actualResult->numRows() );
 	}
 }
