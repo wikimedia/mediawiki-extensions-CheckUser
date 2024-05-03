@@ -661,12 +661,11 @@ class Hooks implements
 		}
 
 		$res = $dbr->newSelectQueryBuilder()
-			->table( 'cu_changes' )
+			->select( 'cuc_ip' )
+			->from( 'cu_changes' )
 			->useIndex( 'cuc_actor_ip_time' )
-			->table( 'actor' )
-			->field( 'cuc_ip' )
-			->conds( [ 'actor_user' => $user->getId( $block->getWikiId() ) ] )
-			->joinConds( [ 'actor' => [ 'JOIN', 'actor_id=cuc_actor' ] ] )
+			->join( 'actor', null, 'actor_id=cuc_actor' )
+			->where( [ 'actor_user' => $user->getId( $block->getWikiId() ) ] )
 			// just the last IP used
 			->limit( 1 )
 			->orderBy( 'cuc_timestamp', SelectQueryBuilder::SORT_DESC )
