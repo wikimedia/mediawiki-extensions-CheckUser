@@ -1,10 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"Chinamoonroll"
+			"Chinamoonroll",
+			"Dreamy Jazz"
 		]
 	},
 	"grant-checkuser": "Ngaksés data panuréksa",
 	"checkuser-create-action": "sampun kakardi",
-	"checkuser-reset-action": "kirim jumu kruna sandi antuk {{GENDER:$1|sang anganggé}} [[User:$1|$1]]"
+	"checkuser-reset-action": "kirim jumu kruna sandi antuk {{GENDER:$1|sang anganggé}} [[User:$1|$1]]",
+	"checkuser-investigateblock-warning-confirmaction": "Pinaka ragané seken-seken jagi ngamargiang, turéksa kolom \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" ring wagian metén."
 }

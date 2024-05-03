@@ -76,5 +76,6 @@
 	"checkuser-reset-action": "[[User:$1|$1]]{{GENDER:$1|ҡатнашыусыһының}} серһүҙен алып ташланы",
 	"checkuser-token-fail": "Сеанс өҙөлдө. Зинһар, тағы бер тапҡыр ҡабатлап ҡарағыҙ.",
 	"logentry-checkuser-private-event-autocreate-account": "автоматик рәүештә булдырылған",
-	"logentry-checkuser-private-event-create-account": "булдырылған"
+	"logentry-checkuser-private-event-create-account": "булдырылған",
+	"checkuser-investigateblock-warning-confirmaction": "Быны ысынлап та башҡарырға теләһегеҙ, түбәндә тамға ҡуйығыҙ «{{int:checkuser-investigateblock-confirm-blocks-label}}»."
 }

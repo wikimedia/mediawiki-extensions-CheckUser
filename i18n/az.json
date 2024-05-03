@@ -250,6 +250,7 @@
 	"checkuser-investigate-tour-copywikitext-title": "Məlumatı kopyalamaq istəyirsiniz?",
 	"checkuser-investigate-tour-copywikitext-desc": "Müqayisə cədvəlini bir kliklə kopyalayın və CUWiki-yə aparın. Nəzərə alın ki, siz istintaqın bütün səhifələrini deyil, yalnız görünənləri kopyalayırsız.",
 	"prefs-checkuser-tempaccount": "Müvəqqəti hesabların IP ünvanına baxmaq",
+	"checkuser-tempaccount-enable-preference-description": "Bu alətdən istifadə edərkən, bunu siyasət çərçivəsində etdiyinizə əmin olmalısınız.",
 	"checkuser-tempaccount-enable-preference": "Müvəqqəti hesabların IP ünvanlarının görünməsini aktivləşdirin",
 	"checkuser-tempaccount-no-ip-results": "Son $1 {{PLURAL:$1|gün}} üçün bu müvəqqəti istifadəçinin IP datası yoxdur",
 	"checkuser-tempaccount-reveal-ip-button-label": "IP ünvanını göstər",

@@ -71,6 +71,7 @@
 	"checkuser-investigateblock-notice-text-label": "Викийоза",
 	"checkuser-investigateblock-notice-append": "АгӀонан тӀетоха",
 	"checkuser-investigateblock-notice-replace": "АгӀо хийца",
+	"checkuser-investigateblock-warning-confirmaction": "Нагахь шу тешна делахь, шуна боккъала дан лаьий за дан, дехар до, хӀоттайе лаха билгало «{{int:checkuser-investigateblock-confirm-blocks-label}}».",
 	"checkuser-investigate": "Талла",
 	"checkuser-investigate-subtitle-cancel-button-label": "Йухайаккха",
 	"checkuser-investigate-subtitle-continue-button-label": "Кхин дӀа",

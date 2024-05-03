@@ -64,5 +64,6 @@
 	"checkuser-email-action": "slanje e-mail korisniku \"$1\"",
 	"checkuser-reset-action": "poništi šifru za korisnika \"$1\"",
 	"logentry-checkuser-private-event-autocreate-account": "je automatski napravljen",
-	"logentry-checkuser-private-event-create-account": "je napravljen"
+	"logentry-checkuser-private-event-create-account": "je napravljen",
+	"checkuser-investigateblock-warning-confirmaction": "Ako ste sigurni da želite nastaviti, kliknite na \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" polje na dnu stranice."
 }

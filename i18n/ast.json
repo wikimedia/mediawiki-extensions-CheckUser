@@ -81,6 +81,7 @@
 	"checkuser-login-success": "Aniciu de sesión correutu en {{SITENAME}} como $1",
 	"logentry-checkuser-private-event-autocreate-account": "creóse automáticamente",
 	"logentry-checkuser-private-event-create-account": "creóse",
+	"checkuser-investigateblock-warning-confirmaction": "Si ta seguru de que quier facelo, por favor, marque'l campu «{{int:checkuser-investigateblock-confirm-blocks-label}}» al final.",
 	"checkuser-investigate": "Investigar",
 	"checkuser-investigate-legend": "Buscar nomes d'usuariu, direiciones IP o intervalos d'IP",
 	"checkuser-investigate-targets-label": "Nomes d'usuariu y direcciones IP",

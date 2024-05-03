@@ -65,6 +65,7 @@
 	"checkuser-reset-action": "kaset ur postel adderaouekaat ger-tremen evit {{GENDER:$1|implijer|implijerez}} [[Implijer:$1|$1]]",
 	"logentry-checkuser-private-event-autocreate-account": "zo bet krouet ent emgefre",
 	"logentry-checkuser-private-event-create-account": "zo bet krouet",
+	"checkuser-investigateblock-warning-confirmaction": "A'z oc'h sur e fell deoc'h ober an dra-se evit gwir, askit ar vaezienn \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" en traoñ.",
 	"checkuser-investigate-subtitle-block-accounts-button-label": "Stankañ kontoù",
 	"checkuser-investigate-subtitle-block-ips-button-label": "Stankañ IPoù",
 	"checkuser-investigate-indicator-logs": "Marilhoù",

@@ -113,6 +113,7 @@
 	"logentry-checkuser-private-event-create-account": "е създаден",
 	"checkuser-investigateblock-reason": "Причина",
 	"checkuser-investigateblock-notice-text-label": "Уикитекст",
+	"checkuser-investigateblock-warning-confirmaction": "Ако сте сигурни, че наистина искате да го направите, моля, проверете полето „{{int:checkuser-investigateblock-confirm-blocks-label}}“ по-долу",
 	"checkuser-investigate-duration-option-all": "Всички",
 	"checkuser-investigate-duration-option-1w": "Последната седмица",
 	"checkuser-investigate-duration-option-2w": "Последните 2 седмици",

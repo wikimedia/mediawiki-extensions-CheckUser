@@ -78,6 +78,7 @@
 	"logentry-checkuser-private-event-autocreate-account": "fou automàticament creat",
 	"logentry-checkuser-private-event-create-account": "va ser creat",
 	"checkuser-link-investigate-label": "Provi la nova eina CheckUser",
+	"checkuser-investigateblock-warning-confirmaction": "Si esteu segur que voleu fer-ho, marqueu el camp «{{int:checkuser-investigateblock-confirm-blocks-label}}» a la part inferior.",
 	"checkuser-investigate-tour-addusertargets-title": "Necessiteu més context?",
 	"checkuser-tempaccount-reveal-ip-button-label": "Mostra IP",
 	"checkuser-tempaccount-reveal-ip-missing": "no disponible"

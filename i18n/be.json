@@ -82,6 +82,7 @@
 	"checkuser-investigateblock-failure": "Ні адзін удзельнік не быў заблакаваны. Каб перавызначыць існыя блакаванні, праверце: «{{int:checkuser-investigateblock-reblock-label}}». Блакаванне не будзе перавызначана, калі новае блакаванне ідэнтычна існаму.",
 	"checkuser-investigateblock-success": "{{PLURAL:$2|Удзельнік|Удзельнікі}} $1 цяпер {{PLURAL:$2|заблакаваны|заблакаваныя}}.",
 	"checkuser-investigateblock-notices-failed": "Некаторыя апавяшчэнні не могуць быць дададзены да старонак удзельнікаў або старонак размоў удзельнікаў.",
+	"checkuser-investigateblock-warning-confirmaction": "Калі вы ўпэўнены, што сапраўды хочаце гэта зрабіць, калі ласка, адзначце поле \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" ніжэй.",
 	"checkuser-investigate": "Даследаваць",
 	"checkuser-investigate-page-subtitle": "Бягучае даследаванне за $1",
 	"checkuser-investigate-subtitle-cancel-button-label": "Адмена",

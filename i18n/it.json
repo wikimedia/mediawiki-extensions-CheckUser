@@ -139,6 +139,7 @@
 	"checkuser-investigateblock-notice-append": "Aggiungi alla pagina",
 	"checkuser-investigateblock-notice-prepend": "Aggiungi in testa alla pagina",
 	"checkuser-investigateblock-notice-replace": "Sostituisci pagina",
+	"checkuser-investigateblock-confirm-blocks-label": "Conferma i blocchi",
 	"checkuser-investigateblock-failure": "Nessun utente è stato bloccato. Per sostituire i blocchi esistenti, controlla \"{{int:checkuser-investigateblock-reblock-label}}\". Il blocco non verrà applicato se è identico a quello già esistente.",
 	"checkuser-investigateblock-success": "{{PLURAL:$2|L'utente|Gli utenti}} $1 adesso {{PLURAL:$2|è bloccato|sono bloccati}}.",
 	"checkuser-investigateblock-notices-failed": "Non è stato possibile aggiungere alcuni avvisi alle pagine utente o alle pagine di discussione utente.",
