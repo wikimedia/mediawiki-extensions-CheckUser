@@ -710,7 +710,14 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 
 			$results = array_merge(
 				$results,
-				iterator_to_array( $this->mDb->select( $tables, $fields, $conds, $fname, $options, $join_conds ) )
+				iterator_to_array( $this->mDb->newSelectQueryBuilder()
+					->tables( $tables )
+					->fields( $fields )
+					->conds( $conds )
+					->caller( $fname )
+					->options( $options )
+					->joinConds( $join_conds )
+					->fetchResultSet() )
 			);
 		}
 		$results = $this->groupResultsByIndexField( $results );

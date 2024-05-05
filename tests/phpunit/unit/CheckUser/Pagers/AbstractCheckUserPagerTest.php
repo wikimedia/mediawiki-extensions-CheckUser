@@ -14,6 +14,7 @@ use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\Rdbms\IResultWrapper;
 use Wikimedia\Rdbms\Platform\SQLPlatform;
+use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -349,6 +350,9 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 				->willReturn( [
 					$mockedQueryInfoForCuChanges, $mockedQueryInfoForCuLogEvent, $mockedQueryInfoForCuPrivateEvent
 				] );
+			$mockDb->method( 'newSelectQueryBuilder' )->willReturnCallback( static function () use ( $mockDb ) {
+				return new SelectQueryBuilder( $mockDb );
+			} );
 			$expectedSelects = [ 'cu_changes' => true, 'cu_log_event' => true, 'cu_private_event' => true ];
 			$mockDb->expects( $this->exactly( 3 ) )
 				->method( 'select' )
@@ -366,10 +370,13 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 			$object->expects( $this->once() )
 				->method( 'buildQueryInfo' )
 				->willReturn( [ $mockedQueryInfoForCuChanges ] );
-			$mockDb->expects( $this->once() )
-				->method( 'select' )
-				->with( ...$mockedQueryInfoForCuChanges )
+			$queryBuilder = $this->createMock( SelectQueryBuilder::class );
+			$queryBuilder->method( $this->logicalOr( 'tables', 'fields', 'conds', 'options', 'joinConds', 'caller' ) )
+				->willReturnSelf();
+			$queryBuilder->method( 'fetchResultSet' )
 				->willReturn( $fakeResults[CheckUserQueryInterface::CHANGES_TABLE] );
+			$mockDb->method( 'newSelectQueryBuilder' )
+				->willReturn( $queryBuilder );
 		}
 		$object->mDb = $mockDb;
 		$returnResults = $object->reallyDoQuery( '', $limit, $order );
