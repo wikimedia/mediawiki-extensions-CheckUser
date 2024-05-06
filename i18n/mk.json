@@ -243,6 +243,7 @@
 	"checkuser-investigate-tour-copywikitext-title": "Сакате да ги прекопирате податоците?",
 	"checkuser-investigate-tour-copywikitext-desc": "Прекопирајте ја споредбената табела со еден стисок и пренесете ја на CUWiki. Имајте на ум дека го копирате само она што е видливо, а не сите страници на иследувањето.",
 	"prefs-checkuser-tempaccount": "Откривање на IP-адреси за привремени сметки",
+	"checkuser-tempaccount-enable-preference-description": "Кога ја користите алаткава, должни сте тоа да го правите во склад со правилата.",
 	"checkuser-tempaccount-enable-preference": "Овозможи откривање на IP-адреси за привремени сметки",
 	"checkuser-tempaccount-no-ip-results": "Нема податоци за IP-адресата на овој привремен корисник од  {{PLURAL:$1|последниов ден|последниве $1 дена}}",
 	"checkuser-tempaccount-reveal-ip-button-label": "Прикажи IP",
