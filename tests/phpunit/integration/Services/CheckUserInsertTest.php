@@ -37,12 +37,10 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		$checkUserInsert ??= $this->setUpObject();
 		$checkUserInsert->insertIntoCuChangesTable( $row, __METHOD__, $this->getTestUser()->getUserIdentity() );
 		$expectedRow = $this->convertTimestampInExpectedRowToDbFormat( $fields, $expectedRow );
-		$this->assertSelect(
-			'cu_changes',
-			$fields,
-			'',
-			[ $expectedRow ]
-		);
+		$this->newSelectQueryBuilder()
+			->select( $fields )
+			->from( 'cu_changes' )
+			->assertRowValue( $expectedRow );
 	}
 
 	public static function provideInsertIntoCuChangesTable() {
@@ -70,12 +68,10 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			$row, __METHOD__, $this->getTestUser()->getUserIdentity()
 		);
 		$expectedRow = $this->convertTimestampInExpectedRowToDbFormat( $fields, $expectedRow );
-		$this->assertSelect(
-			'cu_private_event',
-			$fields,
-			'',
-			[ $expectedRow ]
-		);
+		$this->newSelectQueryBuilder()
+			->select( $fields )
+			->from( 'cu_private_event' )
+			->assertRowValue( $expectedRow );
 	}
 
 	public static function provideInsertIntoCuPrivateEventTable() {
@@ -110,12 +106,10 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			$logEntry, __METHOD__, $this->getTestUser()->getUserIdentity()
 		);
 		$expectedRow = $this->convertTimestampInExpectedRowToDbFormat( $fields, $expectedRow );
-		$this->assertSelect(
-			'cu_log_event',
-			$fields,
-			'',
-			[ $expectedRow ]
-		);
+		$this->newSelectQueryBuilder()
+			->select( $fields )
+			->from( 'cu_log_event' )
+			->assertRowValue( $expectedRow );
 	}
 
 	public static function provideInsertIntoCuLogEventTable() {
@@ -260,12 +254,10 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		} else {
 			$this->fail( 'Unexpected table.' );
 		}
-		$this->assertSelect(
-			$table,
-			[ CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$table] . 'actor' ],
-			'',
-			[ [ $expectedActorId ] ]
-		);
+		$this->newSelectQueryBuilder()
+			->select( CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$table] . 'actor' )
+			->from( $table )
+			->assertFieldValue( $expectedActorId );
 	}
 
 	public static function provideCheckUserResultTables() {
@@ -330,11 +322,9 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		$this->setUpObject()->insertIntoCuLogEventTable(
 			$logEntry, __METHOD__, $this->getTestUser()->getUserIdentity()
 		);
-		$this->assertSelect(
-			'cu_log_event',
-			[ 'cule_log_id' ],
-			'',
-			[ [ $logId ] ]
-		);
+		$this->newSelectQueryBuilder()
+			->select( 'cule_log_id' )
+			->from( 'cu_log_event' )
+			->assertFieldValue( $logId );
 	}
 }

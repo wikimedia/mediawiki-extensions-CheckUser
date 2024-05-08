@@ -47,12 +47,10 @@ class PopulateCulCommentTest extends MaintenanceBaseTestCase {
 		// Run the maintenance script
 		$this->createMaintenance()->doDBUpdates();
 		// Check that cul_reason is correct
-		$this->assertSelect(
-			'cu_log',
-			[ 'cul_reason' ],
-			[],
-			[ [ $reason ] ]
-		);
+		$this->newSelectQueryBuilder()
+			->select( 'cul_reason' )
+			->from( 'cu_log' )
+			->assertFieldValue( $reason );
 		// Get the ID to the comment table stored in cu_log
 		$row = $this->db->newSelectQueryBuilder()
 			->fields( [ 'cul_reason_id', 'cul_reason_plaintext_id' ] )

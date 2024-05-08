@@ -34,12 +34,10 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 			$this->getTestUser( 'checkuser' )->getUser(), $logType, $targetType, $target, $reason, $targetID
 		);
 		DeferredUpdates::doUpdates();
-		$this->assertSelect(
-			'cu_log',
-			$assertSelectFieldNames,
-			[],
-			[ $assertSelectFieldValues ]
-		);
+		$this->newSelectQueryBuilder()
+			->select( $assertSelectFieldNames )
+			->from( 'cu_log' )
+			->assertRowValue( $assertSelectFieldValues );
 	}
 
 	public function testPerformerIsIP() {
@@ -55,12 +53,12 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		$object = $this->setUpObject();
 		$object->addLogEntry( $user, 'ipusers', 'ip', '127.0.0.1', 'test', 0 );
 		DeferredUpdates::doUpdates();
-		$this->assertSelect(
-			'cu_log',
-			[ 'cul_actor' ],
-			[],
-			[ [ $this->getServiceContainer()->getActorStore()->acquireActorId( $user, $this->getDb() ) ] ]
-		);
+		$this->newSelectQueryBuilder()
+			->select( 'cul_actor' )
+			->from( 'cu_log' )
+			->assertFieldValue(
+				$this->getServiceContainer()->getActorStore()->acquireActorId( $user, $this->getDb() )
+			);
 	}
 
 	/** @dataProvider provideAddLogEntryIPs */
@@ -139,12 +137,10 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		$testUser = $this->getTestUser( 'checkuser' )->getUser();
 		$object->addLogEntry( $testUser, 'ipusers', 'ip', '127.0.0.1', '', 0 );
 		DeferredUpdates::doUpdates();
-		$this->assertSelect(
-			'cu_log',
-			[ 'cul_actor' ],
-			[],
-			[ [ $testUser->getActorId() ] ]
-		);
+		$this->newSelectQueryBuilder()
+			->select( 'cul_actor' )
+			->from( 'cu_log' )
+			->assertFieldValue( $testUser->getActorId() );
 	}
 
 	/** @dataProvider provideAddLogEntryReasonId */

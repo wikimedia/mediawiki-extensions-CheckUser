@@ -52,12 +52,10 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 	): void {
 		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $eventTableMigrationStage );
 		$this->commonTestsUpdateCheckUserData( $rcAttribs, $fields, $expectedRow );
-		$this->assertSelect(
-			$table,
-			$fields,
-			'',
-			[ $expectedRow ]
-		);
+		$this->newSelectQueryBuilder()
+			->select( $fields )
+			->from( $table )
+			->assertRowValue( $expectedRow );
 	}
 
 	/** @dataProvider provideUpdateCheckUserDataNoSave */
@@ -492,12 +490,10 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 				$expectedRow[$index] = $this->db->timestamp( $expectedRow[$index] );
 			}
 		}
-		$this->assertSelect(
-			$table,
-			$fields,
-			'',
-			[ $expectedRow ]
-		);
+		$this->newSelectQueryBuilder()
+			->select( $fields )
+			->from( $table )
+			->assertRowValue( $expectedRow );
 	}
 
 	private function doTestOnAuthManagerLoginAuthenticateAudit(
@@ -536,24 +532,18 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		$cuPrivateExpectedValues[] = LogEntryBase::makeParamBlob( [ '4::target' => $userName ] );
 		$cuPrivateExpectedValues[] = substr( $messageKey, strlen( 'checkuser-' ) );
 		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$this->assertSelect(
-				[ 'cu_private_event', 'actor' ],
-				$cuPrivateFields,
-				[],
-				[ $cuPrivateExpectedValues ],
-				[],
-				[ 'actor' => [ 'JOIN', 'actor_id=cupe_actor' ] ]
-			);
+			$this->newSelectQueryBuilder()
+				->select( $cuPrivateFields )
+				->from( 'cu_private_event' )
+				->join( 'actor', null, 'actor_id=cupe_actor' )
+				->assertRowValue( $cuPrivateExpectedValues );
 		}
 		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
-			$this->assertSelect(
-				[ 'cu_changes', 'actor' ],
-				$cuChangesFields,
-				[],
-				[ $cuChangesExpectedValues ],
-				[],
-				[ 'actor' => [ 'JOIN', 'actor_id=cuc_actor' ] ]
-			);
+			$this->newSelectQueryBuilder()
+				->select( $cuChangesFields )
+				->from( 'cu_changes' )
+				->join( 'actor', null, 'actor_id=cuc_actor' )
+				->assertRowValue( $cuChangesExpectedValues );
 		}
 	}
 
