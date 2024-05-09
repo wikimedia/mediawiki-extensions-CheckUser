@@ -200,6 +200,7 @@
 	"checkuser-investigateblock-notice-append": "Añadir al final de la página",
 	"checkuser-investigateblock-notice-prepend": "Añadir al inicio de la página",
 	"checkuser-investigateblock-notice-replace": "Reemplazar página",
+	"checkuser-investigateblock-confirm-blocks-label": "Confirmar bloqueos",
 	"checkuser-investigateblock-failure": "No se bloqueó a ningún usuario. Para hacer prevalecer este bloqueo sobre los ya existentes marca «{{int:checkuser-investigateblock-reblock-label}}». Si el bloqueo a imponer es idéntico a uno ya existente, aquel no se modificará.",
 	"checkuser-investigateblock-success": "{{PLURAL:$2|El usuario|Los usuarios}} $1 {{PLURAL:$2|ha|han}} sido {{PLURAL:$2|bloqueado|bloqueados}}.",
 	"checkuser-investigateblock-notices-failed": "Algunos avisos no han podido ser agregados a las páginas de usuario o sus páginas de discusión.",
