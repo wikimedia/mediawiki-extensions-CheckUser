@@ -14,7 +14,6 @@ use MediaWiki\User\UserIdentity;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use stdClass;
-use Wikimedia\AtEase\AtEase;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
@@ -157,9 +156,8 @@ class CheckUserLookupUtils {
 		if ( $row->log_params !== null ) {
 			// Suppress E_NOTICE from PHP's unserialize if the log parameters are legacy parameters.
 			// This is similar to DatabaseLogEntry::getParameters.
-			AtEase::suppressWarnings();
-			$parsedLogParams = ManualLogEntry::extractParams( $row->log_params );
-			AtEase::restoreWarnings();
+			// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
+			$parsedLogParams = @ManualLogEntry::extractParams( $row->log_params );
 			if ( $parsedLogParams === false ) {
 				// Use the LogPage::extractParams method to extract the log parameters as they are probably
 				// legacy parameters.

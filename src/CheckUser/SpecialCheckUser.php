@@ -41,7 +41,6 @@ use MediaWiki\User\UserRigorOptions;
 use Message;
 use OOUI\IconWidget;
 use UserBlockedError;
-use Wikimedia\AtEase\AtEase;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 use WikitextContent;
@@ -358,9 +357,8 @@ class SpecialCheckUser extends SpecialPage {
 						$out->addHTML( $this->msg( 'nosuchusershort', $user )->parseAsBlock() );
 					} else {
 						// Sorting might take some time
-						AtEase::suppressWarnings();
-						set_time_limit( 60 );
-						AtEase::restoreWarnings();
+						// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
+						@set_time_limit( 60 );
 
 						$pager = $this->getPager( self::SUBTYPE_GET_ACTIONS, $userIdentity, 'useredits' );
 						$out->addHTML( $pager->getBody() );
