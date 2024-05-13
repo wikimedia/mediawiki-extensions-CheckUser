@@ -97,19 +97,20 @@ class CompareService extends ChangeService {
 			if ( $conds !== null ) {
 				$queryBuilder = $dbr->newSelectQueryBuilder()
 					->select( [
-						'cuc_id',
-						'cuc_user' => 'cuc_user_actor.actor_user',
-						'cuc_user_text' => 'cuc_user_actor.actor_name',
-						'cuc_ip',
-						'cuc_ip_hex',
-						'cuc_agent',
-						'cuc_timestamp',
+						'id' => 'cuc_id',
+						'user' => 'cuc_user_actor.actor_user',
+						'user_text' => 'cuc_user_actor.actor_name',
+						'ip' => 'cuc_ip',
+						'ip_hex' => 'cuc_ip_hex',
+						'agent' => 'cuc_agent',
+						'timestamp' => 'cuc_timestamp',
 					] )
 					->from( 'cu_changes' )
 					->join( 'actor', 'cuc_user_actor', 'cuc_user_actor.actor_id=cuc_actor' )
 					->where( $conds )
 					->caller( __METHOD__ );
 				if ( $dbr->unionSupportsOrderAndLimit() ) {
+					// TODO: T360712: Add cuc_id to the ORDER BY clause to ensure unique ordering.
 					$queryBuilder->orderBy( 'cuc_timestamp', SelectQueryBuilder::SORT_DESC )
 						->limit( $limit );
 				}
@@ -122,22 +123,22 @@ class CompareService extends ChangeService {
 		return [
 			'tables' => [ 'a' => new Subquery( $derivedTable ) ],
 			'fields' => [
-				'cuc_user' => 'a.cuc_user',
-				'cuc_user_text' => 'a.cuc_user_text',
-				'cuc_ip' => 'a.cuc_ip',
-				'cuc_ip_hex' => 'a.cuc_ip_hex',
-				'cuc_agent' => 'a.cuc_agent',
-				'first_edit' => 'MIN(a.cuc_timestamp)',
-				'last_edit' => 'MAX(a.cuc_timestamp)',
+				'user' => 'a.user',
+				'user_text' => 'a.user_text',
+				'ip' => 'a.ip',
+				'ip_hex' => 'a.ip_hex',
+				'agent' => 'a.agent',
+				'first_edit' => 'MIN(a.timestamp)',
+				'last_edit' => 'MAX(a.timestamp)',
 				'total_edits' => 'count(*)',
 			],
 			'options' => [
 				'GROUP BY' => [
-					'cuc_user',
-					'cuc_user_text',
-					'cuc_ip',
-					'cuc_ip_hex',
-					'cuc_agent',
+					'user',
+					'user_text',
+					'ip',
+					'ip_hex',
+					'agent',
 				],
 			],
 		];

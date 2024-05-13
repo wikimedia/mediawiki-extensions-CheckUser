@@ -128,7 +128,7 @@ class ComparePager extends TablePager {
 
 		$row = $this->mCurrentRow;
 		switch ( $field ) {
-			case 'cuc_ip':
+			case 'ip':
 				foreach ( $this->filteredTargets as $target ) {
 					if ( IPUtils::isIPAddress( $target ) && IPUtils::isInRange( $value, $target ) ) {
 						// If the current cuc_ip is either in the range of a filtered target or is the filtered target,
@@ -137,7 +137,7 @@ class ComparePager extends TablePager {
 						break;
 					}
 				}
-				$ipHex = $row->cuc_ip_hex;
+				$ipHex = $row->ip_hex;
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-interactive';
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-pinnable';
 				$attributes['class'] .= ' ext-checkuser-compare-table-cell-ip-target';
@@ -147,7 +147,7 @@ class ComparePager extends TablePager {
 				$attributes['data-edits'] = $row->total_edits;
 				$attributes['data-all-edits'] = $this->ipTotalEdits[$ipHex];
 				break;
-			case 'cuc_user_text':
+			case 'user_text':
 				// Hide the username if it is hidden from the current authority.
 				$user = $this->userFactory->newFromName( $value );
 				$userIsHidden = $user !== null && $user->isHidden() && !$this->getAuthority()->isAllowed( 'hideuser' );
@@ -169,7 +169,7 @@ class ComparePager extends TablePager {
 				// as the sort value, since UI elements are added to the table cell.
 				$attributes['data-sort-value'] = $value;
 				break;
-			case 'cuc_agent':
+			case 'agent':
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-interactive';
 				$attributes['class'] .= ' ext-checkuser-investigate-table-cell-pinnable';
 				$attributes['class'] .= ' ext-checkuser-compare-table-cell-user-agent';
@@ -203,7 +203,7 @@ class ComparePager extends TablePager {
 		$row = $this->mCurrentRow;
 
 		switch ( $name ) {
-			case 'cuc_user_text':
+			case 'user_text':
 				// Hide the username if it is hidden from the current authority.
 				$user = $this->userFactory->newFromName( $value );
 				if ( $user !== null && $user->isHidden() && !$this->getAuthority()->isAllowed( 'hideuser' ) ) {
@@ -212,10 +212,10 @@ class ComparePager extends TablePager {
 				if ( IPUtils::isValid( $value ) ) {
 					$formatted = $this->msg( 'checkuser-investigate-compare-table-cell-unregistered' )->text();
 				} else {
-					$formatted = Linker::userLink( $row->cuc_user ?? 0, $value );
+					$formatted = Linker::userLink( $row->user ?? 0, $value );
 				}
 				break;
-			case 'cuc_ip':
+			case 'ip':
 				$formatted = Html::rawElement(
 					'span',
 					[ 'class' => "ext-checkuser-compare-table-cell-ip" ],
@@ -224,7 +224,7 @@ class ComparePager extends TablePager {
 
 				// get other edits
 				$otherEdits = '';
-				$ipHex = $row->cuc_ip_hex;
+				$ipHex = $row->ip_hex;
 				if ( !isset( $this->ipTotalEdits[$ipHex] ) ) {
 					$this->ipTotalEdits[$ipHex] = $this->compareService->getTotalEditsFromIp( $ipHex );
 				}
@@ -250,7 +250,7 @@ class ComparePager extends TablePager {
 				);
 
 				break;
-			case 'cuc_agent':
+			case 'agent':
 				$formatted = htmlspecialchars( $value ?? '' );
 				break;
 			case 'activity':
@@ -269,7 +269,7 @@ class ComparePager extends TablePager {
 	 * @inheritDoc
 	 */
 	public function getIndexField() {
-		return [ [ 'cuc_user_text', 'cuc_ip_hex', 'cuc_agent' ] ];
+		return [ [ 'user_text', 'ip_hex', 'agent' ] ];
 	}
 
 	/**
@@ -278,9 +278,9 @@ class ComparePager extends TablePager {
 	public function getFieldNames() {
 		if ( $this->fieldNames === null ) {
 			$this->fieldNames = [
-				'cuc_user_text' => 'checkuser-investigate-compare-table-header-username',
-				'cuc_ip' => 'checkuser-investigate-compare-table-header-ip',
-				'cuc_agent' => 'checkuser-investigate-compare-table-header-useragent',
+				'user_text' => 'checkuser-investigate-compare-table-header-username',
+				'ip' => 'checkuser-investigate-compare-table-header-ip',
+				'agent' => 'checkuser-investigate-compare-table-header-useragent',
 				'activity' => 'checkuser-investigate-compare-table-header-activity',
 			];
 			foreach ( $this->fieldNames as &$val ) {
