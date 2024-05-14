@@ -213,7 +213,7 @@ class SpecialInvestigateTest extends FormSpecialPageTestCase {
 		// Set wgCheckUserInvestigateMaximumRowCount to a very low value to cause the limit to be exceeded.
 		$this->overrideConfigValue( 'CheckUserInvestigateMaximumRowCount', 1 );
 		// Load the special page for the compare tab with a target that has rows in the CheckUser result tables.
-		$html = $this->commonTestViewCompareTab( '1.2.3.4' );
+		$html = $this->commonTestViewCompareTab( '127.0.0.1' );
 		// Verify that the exceeded limit notice is shown.
 		$this->assertStringContainsString( '(checkuser-investigate-compare-notice-exceeded-limit', $html );
 	}
