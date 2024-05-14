@@ -64,7 +64,7 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 		return [
 			'activity as $name' => [
 				// The row set as $this->mCurrentRow in the object under test, provided as an array
-				[ 'first_edit' => '20240405060708', 'last_edit' => '20240406060708' ],
+				[ 'first_action' => '20240405060708', 'last_action' => '20240406060708' ],
 				// The $name argument to ::formatValue
 				'activity',
 				// The expected formatted value
@@ -76,7 +76,7 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 				[ 'agent' => '<b>test</b>' ], 'agent', '&lt;b&gt;test&lt;/b&gt;',
 			],
 			'ip is 1.2.3.4' => [
-				[ 'ip' => '1.2.3.4', 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_edits' => 1 ],
+				[ 'ip' => '1.2.3.4', 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_actions' => 1 ],
 				'ip',
 				'<span class="ext-checkuser-compare-table-cell-ip">1.2.3.4</span>' .
 				'<div>(checkuser-investigate-compare-table-cell-actions: 1) ' .
@@ -118,17 +118,17 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideGetCellAttrs */
 	public function testGetCellAttrs(
-		array $row, array $filteredTargets, array $ipTotalEdits, $name, $expectedClasses, $otherExpectedAttributes
+		array $row, array $filteredTargets, array $ipTotalActions, $name, $expectedClasses, $otherExpectedAttributes
 	) {
 		// Set the user language to qqx so that we can compare against the message keys and not the english version of
 		// the message key (which may change and then break the tests).
 		$this->setUserLang( 'qqx' );
 		$objectUnderTest = TestingAccessWrapper::newFromObject( $this->getObjectUnderTest() );
-		// Set the $row, $filteredTargets, and $ipTotalEdits in the relevant properties of the object under test so that
-		// ::getCellAttrs can access them.
+		// Set the $row, $filteredTargets, and $ipTotalActions in the relevant properties of the object under test so
+		// that ::getCellAttrs can access them.
 		$objectUnderTest->mCurrentRow = (object)$row;
 		$objectUnderTest->filteredTargets = $filteredTargets;
-		$objectUnderTest->ipTotalEdits = $ipTotalEdits;
+		$objectUnderTest->ipTotalActions = $ipTotalActions;
 		/** @var $objectUnderTest ComparePager */
 		$actualCellAttrs = $objectUnderTest->getCellAttrs( $name, $row[$name] ?? null );
 		foreach ( $expectedClasses as $class ) {
@@ -155,11 +155,11 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 		return [
 			'$name as ip when IP $value is inside a filtered target IP range' => [
 				// The row set as $this->mCurrentRow in the object under test, provided as an array
-				[ 'ip' => '1.2.3.4', 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_edits' => 1 ],
+				[ 'ip' => '1.2.3.4', 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_actions' => 1 ],
 				// The value of the filteredTargets property in the object under test (only used for ip and
 				// user_text $name values).
 				[ 'TestUser1', '1.2.3.0/24' ],
-				// The value of the ipTotalEdits property in the object under test (only used for ip $name values).
+				// The value of the ipTotalActions property in the object under test (only used for ip $name values).
 				[ IPUtils::toHex( '1.2.3.4' ) => 2 ],
 				// The $name argument to ::getCellAttrs
 				'ip',
@@ -172,11 +172,11 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 				// The expected attributes for the cell (minus the class, as this is tested above).
 				[
 					'data-field' => 'ip', 'data-value' => '1.2.3.4',
-					'data-sort-value' => IPUtils::toHex( '1.2.3.4' ), 'data-edits' => 1, 'data-all-edits' => 2,
+					'data-sort-value' => IPUtils::toHex( '1.2.3.4' ), 'data-actions' => 1, 'data-all-actions' => 2,
 				],
 			],
 			'$name as ip when IP $value is a filtered target' => [
-				[ 'ip' => '1.2.3.4', 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_edits' => 1 ],
+				[ 'ip' => '1.2.3.4', 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_actions' => 1 ],
 				[ 'TestUser1', '1.2.3.4' ], [ IPUtils::toHex( '1.2.3.4' ) => 2 ], 'ip',
 				[
 					'ext-checkuser-compare-table-cell-target', 'ext-checkuser-compare-table-cell-ip-target',
@@ -185,11 +185,11 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 				],
 				[
 					'data-field' => 'ip', 'data-value' => '1.2.3.4',
-					'data-sort-value' => IPUtils::toHex( '1.2.3.4' ), 'data-edits' => 1, 'data-all-edits' => 2,
+					'data-sort-value' => IPUtils::toHex( '1.2.3.4' ), 'data-actions' => 1, 'data-all-actions' => 2,
 				],
 			],
 			'$name as ip when IP is not in filtered targets array' => [
-				[ 'ip' => '1.2.3.4', 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_edits' => 1 ],
+				[ 'ip' => '1.2.3.4', 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_actions' => 1 ],
 				[], [ IPUtils::toHex( '1.2.3.4' ) => 2 ], 'ip',
 				[
 					'ext-checkuser-compare-table-cell-ip-target', 'ext-checkuser-investigate-table-cell-pinnable',
@@ -197,7 +197,7 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 				],
 				[
 					'data-field' => 'ip', 'data-value' => '1.2.3.4',
-					'data-sort-value' => IPUtils::toHex( '1.2.3.4' ), 'data-edits' => 1, 'data-all-edits' => 2,
+					'data-sort-value' => IPUtils::toHex( '1.2.3.4' ), 'data-actions' => 1, 'data-all-actions' => 2,
 				],
 			],
 			'$name as user_text for IP address' => [
@@ -211,7 +211,7 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 				[ 'data-field' => 'user_text', 'data-value' => 'TestUser1', 'data-sort-value' => 'TestUser1' ],
 			],
 			'$name as activity' => [
-				[ 'first_edit' => '20240405060708', 'last_edit' => '20240406060708' ], [], [], 'activity',
+				[ 'first_action' => '20240405060708', 'last_action' => '20240406060708' ], [], [], 'activity',
 				[ 'ext-checkuser-compare-table-cell-activity' ], [ 'data-sort-value' => '2024040520240406' ],
 			],
 			'$name as agent' => [

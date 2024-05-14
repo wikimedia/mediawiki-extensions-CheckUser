@@ -252,31 +252,17 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @dataProvider provideTotalEditsFromIp
+	 * @dataProvider provideTotalActionsFromIP
 	 */
-	public function testGetTotalEditsFromIp( $data, $expected ) {
-		$result = $this->getCompareService()->getTotalEditsFromIp(
-			$data['ip'], $data['excludeUser'] ?? null
-		);
+	public function testGetTotalActionsFromIP( $data, $expected ) {
+		$result = $this->getCompareService()->getTotalActionsFromIP( $data['ip'] );
 
 		$this->assertEquals( $expected, $result );
 	}
 
-	public static function provideTotalEditsFromIp() {
+	public static function provideTotalActionsFromIP() {
 		return [
-			'IP address with multiple users' => [
-				[
-					'ip' => IPUtils::toHex( '1.2.3.5' )
-				],
-				3,
-			],
-			'IP address with multiple users, excluding a user' => [
-				[
-					'ip' => IPUtils::toHex( '1.2.3.4' ),
-					'excludeUser' => 'User1'
-				],
-				4,
-			],
+			'IP address with multiple users' => [ [ 'ip' => IPUtils::toHex( '1.2.3.5' ) ], 3 ],
 		];
 	}
 

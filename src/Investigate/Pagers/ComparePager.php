@@ -44,12 +44,12 @@ class ComparePager extends TablePager {
 	private $fieldNames;
 
 	/**
-	 * Holds a cache of iphex => edit-count to avoid
+	 * Holds a cache of iphex => action-count to avoid
 	 * recurring queries to the database for the same ip
 	 *
 	 * @var array
 	 */
-	private $ipTotalEdits;
+	private $ipTotalActions;
 
 	/**
 	 * Targets whose results should not be included in the investigation.
@@ -144,8 +144,8 @@ class ComparePager extends TablePager {
 				$attributes['data-field'] = $field;
 				$attributes['data-value'] = $value;
 				$attributes['data-sort-value'] = $ipHex;
-				$attributes['data-edits'] = $row->total_edits;
-				$attributes['data-all-edits'] = $this->ipTotalEdits[$ipHex];
+				$attributes['data-actions'] = $row->total_actions;
+				$attributes['data-all-actions'] = $this->ipTotalActions[$ipHex];
 				break;
 			case 'user_text':
 				// Hide the username if it is hidden from the current authority.
@@ -181,8 +181,8 @@ class ComparePager extends TablePager {
 				break;
 			case 'activity':
 				$attributes['class'] .= ' ext-checkuser-compare-table-cell-activity';
-				$start = new DateTime( $row->first_edit );
-				$end = new DateTime( $row->last_edit );
+				$start = new DateTime( $row->first_action );
+				$end = new DateTime( $row->last_action );
 				$attributes['data-sort-value'] = $start->format( 'Ymd' ) . $end->format( 'Ymd' );
 				break;
 		}
@@ -222,20 +222,20 @@ class ComparePager extends TablePager {
 					htmlspecialchars( $value )
 				);
 
-				// get other edits
-				$otherEdits = '';
+				// get other actions
+				$otherActions = '';
 				$ipHex = $row->ip_hex;
-				if ( !isset( $this->ipTotalEdits[$ipHex] ) ) {
-					$this->ipTotalEdits[$ipHex] = $this->compareService->getTotalEditsFromIp( $ipHex );
+				if ( !isset( $this->ipTotalActions[$ipHex] ) ) {
+					$this->ipTotalActions[$ipHex] = $this->compareService->getTotalActionsFromIP( $ipHex );
 				}
 
-				if ( $this->ipTotalEdits[$ipHex] ) {
-					$otherEdits = Html::rawElement(
+				if ( $this->ipTotalActions[$ipHex] ) {
+					$otherActions = Html::rawElement(
 						'span',
 						[],
 						$this->msg(
 							'checkuser-investigate-compare-table-cell-other-actions',
-							$this->ipTotalEdits[$ipHex]
+							$this->ipTotalActions[$ipHex]
 						)->parse()
 					);
 				}
@@ -245,8 +245,8 @@ class ComparePager extends TablePager {
 					[],
 					$this->msg(
 						'checkuser-investigate-compare-table-cell-actions',
-						$row->total_edits
-					)->parse() . ' ' . $otherEdits
+						$row->total_actions
+					)->parse() . ' ' . $otherActions
 				);
 
 				break;
@@ -254,9 +254,9 @@ class ComparePager extends TablePager {
 				$formatted = htmlspecialchars( $value ?? '' );
 				break;
 			case 'activity':
-				$firstEdit = $language->userDate( $row->first_edit, $this->getUser() );
-				$lastEdit = $language->userDate( $row->last_edit, $this->getUser() );
-				$formatted = htmlspecialchars( $firstEdit . ' - ' . $lastEdit );
+				$firstAction = $language->userDate( $row->first_action, $this->getUser() );
+				$lastAction = $language->userDate( $row->last_action, $this->getUser() );
+				$formatted = htmlspecialchars( $firstAction . ' - ' . $lastAction );
 				break;
 			default:
 				$formatted = '';

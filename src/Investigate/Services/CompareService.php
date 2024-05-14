@@ -6,6 +6,7 @@ use LogicException;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\UserIdentityLookup;
+use Wikimedia\Rdbms\AndExpressionGroup;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Rdbms\SelectQueryBuilder;
@@ -42,16 +43,12 @@ class CompareService extends ChangeService {
 	}
 
 	/**
-	 * Get edits made from an ip
+	 * Get the total number of actions made from an IP.
 	 *
 	 * @param string $ipHex
-	 * @param string|null $excludeUser
 	 * @return int
 	 */
-	public function getTotalEditsFromIp(
-		string $ipHex,
-		string $excludeUser = null
-	): int {
+	public function getTotalActionsFromIP( string $ipHex ): int {
 		$dbr = $this->dbProvider->getReplicaDatabase();
 		$queryBuilder = $dbr->newSelectQueryBuilder()
 			->select( 'cuc_id' )
@@ -59,16 +56,9 @@ class CompareService extends ChangeService {
 			->join( 'actor', null, 'actor_id=cuc_actor' )
 			->where( [
 				'cuc_ip_hex' => $ipHex,
-				'cuc_type' => [ RC_EDIT, RC_NEW ],
 			] )
 			->limit( $this->limit )
 			->caller( __METHOD__ );
-
-		if ( $excludeUser ) {
-			$queryBuilder->where(
-				$dbr->expr( 'actor_name', '!=', $excludeUser )
-			);
-		}
 
 		return $queryBuilder->fetchRowCount();
 	}
@@ -126,9 +116,9 @@ class CompareService extends ChangeService {
 				'ip' => 'a.ip',
 				'ip_hex' => 'a.ip_hex',
 				'agent' => 'a.agent',
-				'first_edit' => 'MIN(a.timestamp)',
-				'last_edit' => 'MAX(a.timestamp)',
-				'total_edits' => 'count(*)',
+				'first_action' => 'MIN(a.timestamp)',
+				'last_action' => 'MAX(a.timestamp)',
+				'total_actions' => 'count(*)',
 			],
 			'options' => [
 				'GROUP BY' => [
@@ -166,22 +156,21 @@ class CompareService extends ChangeService {
 			return null;
 		}
 
-		$returnExpr = $this->dbProvider->getReplicaDatabase()
-			->expr( 'cuc_type', '=', [ RC_EDIT, RC_NEW, RC_LOG ] )
-			->andExpr( $targetExpr );
+		$andExpressionGroup = new AndExpressionGroup();
+		$andExpressionGroup = $andExpressionGroup->andExpr( $targetExpr );
 
 		// Add the WHERE conditions to exclude the targets in the $excludeTargets array, if they can be generated.
 		$excludeTargetsExpr = $this->buildExcludeTargetsExpr( $excludeTargets );
 		if ( $excludeTargetsExpr !== null ) {
-			$returnExpr = $returnExpr->andExpr( $excludeTargetsExpr );
+			$andExpressionGroup = $andExpressionGroup->andExpr( $excludeTargetsExpr );
 		}
 		// Add the start timestamp WHERE conditions to the query, if they can be generated.
 		$startExpr = $this->buildStartExpr( $start );
 		if ( $startExpr !== null ) {
-			$returnExpr = $returnExpr->andExpr( $startExpr );
+			$andExpressionGroup = $andExpressionGroup->andExpr( $startExpr );
 		}
 
-		return $returnExpr;
+		return $andExpressionGroup;
 	}
 
 	/**
