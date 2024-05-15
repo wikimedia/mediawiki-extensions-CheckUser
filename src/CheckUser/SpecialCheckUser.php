@@ -743,7 +743,6 @@ class SpecialCheckUser extends SpecialPage {
 					$logType,
 					$this->tokenQueryManager,
 					$this->permissionManager,
-					$this->blockPermissionCheckerFactory,
 					$this->userGroupManager,
 					$this->centralIdLookup,
 					$this->dbProvider,

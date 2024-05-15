@@ -53,10 +53,13 @@ abstract class CheckUserPagerTestBase extends MediaWikiIntegrationTestCase {
 	 *
 	 * @param UserIdentity|null $userIdentity the target for the check
 	 * @param string|null $checkType the check type (e.g. ipedits).
+	 * @param string[] $groups the groups that the request context user should be in.
 	 * @return TestingAccessWrapper
 	 */
-	protected function setUpObject( ?UserIdentity $userIdentity = null, ?string $checkType = null ) {
-		RequestContext::getMain()->setUser( $this->getTestUser( 'checkuser' )->getUser() );
+	protected function setUpObject(
+		?UserIdentity $userIdentity = null, ?string $checkType = null, array $groups = [ 'checkuser' ]
+	) {
+		RequestContext::getMain()->setUser( $this->getTestUser( $groups )->getUser() );
 		$opts = new FormOptions();
 		$opts->add( 'reason', '' );
 		$opts->add( 'period', 0 );

@@ -12,6 +12,7 @@ use MediaWiki\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
 use MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers\Mocks\MockTemplateParser;
 use MediaWiki\Config\ConfigException;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\User\UserIdentityValue;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
@@ -381,5 +382,23 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 		$objectUnderTest->mResult = new FakeResultWrapper( [ [ 'test' ] ] );
 		// Assert that the block fieldset is not added
 		$this->assertStringNotContainsString( 'mw-checkuser-massblock', $objectUnderTest->getEndBody() );
+	}
+
+	public function testGetEndBodyWhenUserHasLocalBlockRights() {
+		$objectUnderTest = $this->setUpObject( null, null, [ 'checkuser', 'sysop' ] );
+		// Set the user language to qqx to find message keys in the HTML
+		$this->setUserLang( 'qqx' );
+		// We need to set a title for the RequestContext for HTMLForm.
+		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
+		// Add one fake result row to the mResult in the object under test.
+		$objectUnderTest->mResult = new FakeResultWrapper( [] );
+		$html = $objectUnderTest->getEndBody();
+		// Assert that the block fieldset is added
+		$this->assertStringContainsString( 'mw-checkuser-massblock', $html );
+		// Assert that the fieldset is as expected (contains description, title, and buttons).
+		$this->assertStringContainsString( '(checkuser-massblock-text', $html );
+		$this->assertStringContainsString( '(checkuser-massblock', $html );
+		$this->assertStringContainsString( '(checkuser-massblock-commit-accounts', $html );
+		$this->assertStringContainsString( '(checkuser-massblock-commit-ips', $html );
 	}
 }

@@ -5,7 +5,6 @@ namespace MediaWiki\CheckUser\CheckUser\Pagers;
 use ExtensionRegistry;
 use IContextSource;
 use LogicException;
-use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
 use MediaWiki\CheckUser\ClientHints\ClientHintsLookupResults;
@@ -62,7 +61,6 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 
 	private ClientHintsLookupResults $clientHintsLookupResults;
 
-	private BlockPermissionCheckerFactory $blockPermissionCheckerFactory;
 	private PermissionManager $permissionManager;
 	private UserEditTracker $userEditTracker;
 	private CheckUserUtilityService $checkUserUtilityService;
@@ -77,7 +75,6 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	 * @param string $logType
 	 * @param TokenQueryManager $tokenQueryManager
 	 * @param PermissionManager $permissionManager
-	 * @param BlockPermissionCheckerFactory $blockPermissionCheckerFactory
 	 * @param UserGroupManager $userGroupManager
 	 * @param CentralIdLookup $centralIdLookup
 	 * @param IConnectionProvider $dbProvider
@@ -101,7 +98,6 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		string $logType,
 		TokenQueryManager $tokenQueryManager,
 		PermissionManager $permissionManager,
-		BlockPermissionCheckerFactory $blockPermissionCheckerFactory,
 		UserGroupManager $userGroupManager,
 		CentralIdLookup $centralIdLookup,
 		IConnectionProvider $dbProvider,
@@ -131,7 +127,6 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		$this->globalBlockingToollink = ExtensionRegistry::getInstance()->isLoaded( 'GlobalBlocking' )
 			? $this->getConfig()->get( 'CheckUserGBtoollink' ) : false;
 		$this->aliases = $this->getLanguage()->getSpecialPageAliases();
-		$this->blockPermissionCheckerFactory = $blockPermissionCheckerFactory;
 		$this->permissionManager = $permissionManager;
 		$this->userEditTracker = $userEditTracker;
 		$this->checkUserUtilityService = $checkUserUtilityService;
@@ -581,18 +576,6 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		if ( $this->mResult->numRows() ) {
 			$s .= ( new ListToggle( $this->getOutput() ) )->getHTML();
 		}
-		if ( $this->canPerformBlocks ) {
-			$s .= Xml::openElement(
-				'form',
-				[
-					'action' => $this->getPageTitle()->getLocalURL( 'action=block' ),
-					'id' => 'checkuserblock',
-					'name' => 'checkuserblock',
-					'class' => 'mw-htmlform-ooui mw-htmlform',
-					'method' => 'post',
-				]
-			);
-		}
 
 		$divClasses = [ 'mw-checkuser-get-users-results' ];
 
@@ -669,103 +652,31 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		if ( $this->mResult->numRows() ) {
 			$s .= ( new ListToggle( $this->getOutput() ) )->getHTML();
 		}
-		// T314217 - cannot have forms inside of forms.
-		// $s .= $this->getNavigationBar();
+		$s .= $this->getNavigationBar();
 		if ( $this->shouldShowBlockFieldset() ) {
 			$fieldset = new HTMLFieldsetCheckUser( [], $this->getContext(), '' );
 			$fieldset->outerClass = 'mw-checkuser-massblock';
 			if ( $this->canPerformBlocks ) {
-				$fields = [
-					'usetag' => [
-						'type' => 'check',
-						'default' => false,
-						'label-message' => 'checkuser-blocktag',
-						'id' => 'usetag',
-						'name' => 'usetag',
-						'size' => 46,
+				$fieldset->addFields( [
+					'block-accounts-button' => [
+						'type' => 'submit',
+						'buttonlabel-message' => 'checkuser-massblock-commit-accounts',
+						'cssclass' => 'mw-checkuser-massblock-accounts-button mw-checkuser-massblock-button',
 					],
-					'tag' => [
-						'type' => 'text',
-						'id' => 'blocktag',
-						'name' => 'blocktag',
-						'minlength' => 3,
+					'block-ips-button' => [
+						'type' => 'submit',
+						'buttonlabel-message' => 'checkuser-massblock-commit-ips',
+						'cssclass' => 'mw-checkuser-massblock-ips-button mw-checkuser-massblock-button',
 					],
-					'talkusetag' => [
-						'type' => 'check',
-						'default' => false,
-						'label-message' => 'checkuser-blocktag-talk',
-						'id' => 'usettag',
-						'name' => 'usettag',
-					],
-					'talktag' => [
-						'type' => 'text',
-						'id' => 'talktag',
-						'name' => 'talktag',
-						'size' => 46,
-						'minlength' => 3,
-					],
-				];
-				if ( $this->getConfig()->get( 'BlockAllowsUTEdit' ) ) {
-					$fields['blocktalk'] = [
-						'type' => 'check',
-						'default' => false,
-						'label-message' => 'checkuser-blocktalk',
-						'id' => 'blocktalk',
-						'name' => 'blocktalk',
-					];
-				}
-				if (
-					$this->blockPermissionCheckerFactory
-						->newBlockPermissionChecker(
-							null,
-							$this->getUser()
-						)
-						->checkEmailPermissions()
-				) {
-					$fields['blockemail'] = [
-						'type' => 'check',
-						'default' => false,
-						'label-message' => 'checkuser-blockemail',
-						'id' => 'blockemail',
-						'name' => 'blockemail',
-					];
-				}
-				$fields += [
-					'reblock' => [
-						'type' => 'check',
-						'default' => false,
-						'label-message' => 'checkuser-reblock',
-						'id' => 'reblock',
-						'name' => 'reblock',
-					],
-					'reason' => [
-						'type' => 'selectandother',
-						'options-message' => 'checkuser-block-reason-dropdown',
-						'label-message' => 'checkuser-reason',
-						'size' => 46,
-						'maxlength' => 150,
-						'id' => 'blockreason',
-						'name' => 'blockreason',
-						'cssclass' => 'ext-checkuser-checkuserblock-block-reason'
-					],
-				];
-				$fieldset->addFields( $fields )
-					->setHeaderHtml( $this->msg( 'checkuser-massblock-text' )->escaped() )
-					->setSubmitTextMsg( 'checkuser-massblock-commit' )
-					->setSubmitId( 'checkuserblocksubmit' )
-					->setSubmitName( 'checkuserblock' );
+				] )->setHeaderHtml( $this->msg( 'checkuser-massblock-text' )->escaped() );
 			} else {
-				$fieldset->setHeaderHtml( $this->msg( 'checkuser-massblock-text-multi-lock-only' )->escaped() )
-					->suppressDefaultSubmit();
+				$fieldset->setHeaderHtml( $this->msg( 'checkuser-massblock-text-multi-lock-only' )->escaped() );
 			}
 
 			$s .= $fieldset->setWrapperLegendMsg( 'checkuser-massblock' )
+				->suppressDefaultSubmit()
 				->prepareForm()
 				->getHtml( false );
-
-			if ( $this->canPerformBlocks ) {
-				$s .= '</form>';
-			}
 		}
 
 		return $s;
