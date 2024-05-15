@@ -7,15 +7,10 @@ use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetIPsPager;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\Html\FormOptions;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Request\FauxRequest;
-use MediaWiki\Revision\SlotRecord;
-use MediaWiki\Status\Status;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
-use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 use MediaWiki\User\UserIdentityValue;
-use MediaWiki\User\UserRigorOptions;
 use RequestContext;
 use SpecialPageTestBase;
 use Wikimedia\TestingAccessWrapper;
@@ -161,146 +156,6 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 			'No user groups' => [ '', false ],
 			'checkuser right only' => [ 'checkuser', true ],
 		];
-	}
-
-	/** @dataProvider provideTagPage */
-	public function testTagPage( $tag, $summary, $pageExists ) {
-		$object = $this->setUpObject();
-		if ( $pageExists ) {
-			$page = $this->getExistingTestPage();
-		} else {
-			$page = $this->getNonexistingTestPage();
-		}
-		$tagPageResult = $object->tagPage( $page->getTitle(), $tag, $summary );
-		$page = $this->getExistingTestPage( $page->getTitle() );
-		$this->assertInstanceOf(
-			Status::class,
-			$tagPageResult,
-			'Result of ::tagPage should be a Status object.'
-		);
-		$this->assertStatusGood(
-			$tagPageResult,
-			'::tagPage should have returned a good Status.'
-		);
-		$this->assertTrue(
-			$page->exists(),
-			'Page should now exist as the page should have been tagged.'
-		);
-		$this->assertSame(
-			$page->getRevisionRecord()->getComment()->text,
-			$summary,
-			'The summary used to add the tag was not correct.'
-		);
-		$this->assertSame(
-			$page->getRevisionRecord()->getContentOrThrow( SlotRecord::MAIN )->getWikitextForTransclusion(),
-			$tag,
-			'Page was not tagged with the correct text.'
-		);
-	}
-
-	public static function provideTagPage() {
-		return [
-			'Tagging existing page' => [
-				'Test tag1234 {{testing}}', 'Summary [[test]]', true
-			],
-			'Tagging non-existing page' => [
-				'Testing {{test}}', 'Test summary1234', false
-			]
-		];
-	}
-
-	public function testDoMassUserBlockInternal() {
-		$blockParams = [
-			'reason' => 'Test reason',
-			'email' => true,
-			'talk' => false,
-			'reblock' => true,
-		];
-		$users = [
-			$this->getMutableTestUser()->getUserIdentity()->getName(),
-			$this->getMutableTestUser()->getUserIdentity()->getName(),
-			'1.2.3.4'
-		];
-		$this->commonTestDoMassUserBlockInternal(
-			$users, $blockParams, true, 'Test tag', true, 'Test talk tag',
-			$users, $users
-		);
-	}
-
-	public function commonTestDoMassUserBlockInternal(
-		$users, $blockParams, $useTag, $tag, $useTalkTag, $talkTag, $expectedTaggedUsers, $expectedBlockedUsers
-	) {
-		$object = $this->setUpObject();
-		RequestContext::getMain()->setUser( $this->getTestUser( [ 'checkuser', 'sysop' ] )->getUser() );
-		$massBlockResult = $object->doMassUserBlockInternal(
-			$users, $blockParams, $useTag, $tag, $useTalkTag, $talkTag
-		);
-
-		// Convert expected users into wikilinks to those users
-		// to match the output of ::doMassUserBlockInternal
-		$expectedTaggedUsersWikiTextFormat = array_map( static function ( $item ) {
-			return '[[User:' . $item . '|' . $item . ']]';
-		}, $expectedTaggedUsers );
-		$expectedBlockedUsersWikiTextFormat = array_map( static function ( $item ) {
-			return '[[User:' . $item . '|' . $item . ']]';
-		}, $expectedBlockedUsers );
-
-		// Check that the returned arrays are as expected.
-		$this->assertArrayEquals(
-			$expectedBlockedUsersWikiTextFormat,
-			$massBlockResult[0],
-			false,
-			false,
-			'::doMassUserBlockInternal did not return the expected users that were blocked.'
-		);
-		$this->assertArrayEquals(
-			$expectedTaggedUsersWikiTextFormat,
-			$massBlockResult[1],
-			false,
-			false,
-			'::doMassUserBlockInternal did not return the expected users that were tagged.'
-		);
-
-		// Check that users are actually blocked
-		foreach ( $expectedBlockedUsers as $user ) {
-			$this->assertNotNull(
-				MediaWikiServices::getInstance()->getUserFactory()
-					->newFromName( $user, UserRigorOptions::RIGOR_NONE )->getBlock(),
-				'User should be blocked as ::doMassUserBlockInternal said the user was blocked.'
-			);
-		}
-
-		// Check that the users were tagged
-		foreach ( $expectedTaggedUsers as $user ) {
-			if ( $useTag ) {
-				$userPage = $this->getServiceContainer()->getWikiPageFactory()
-					->newFromTitle( Title::newFromText( $user, NS_USER ) );
-				$this->assertTrue(
-					$userPage->exists(),
-					'User page should exist as it was tagged.'
-				);
-				$this->assertSame(
-					$userPage->getRevisionRecord()->getContentOrThrow( SlotRecord::MAIN )
-						->getWikitextForTransclusion(),
-					$tag,
-					'User page was not tagged correctly.'
-				);
-			}
-			if ( $useTalkTag ) {
-				$userTalkPage = $this->getServiceContainer()->getWikiPageFactory()
-					->newFromTitle( Title::newFromText( $user, NS_USER_TALK ) );
-				$this->assertTrue(
-					$userTalkPage->exists(),
-					'User talk page should exist as it was tagged.'
-				);
-				$this->assertSame(
-					$userTalkPage->getRevisionRecord()->getContentOrThrow( SlotRecord::MAIN )
-						->getWikitextForTransclusion(),
-					$talkTag,
-					'User talk page was not tagged correctly.'
-				);
-			}
-		}
 	}
 
 	public function testLoadSpecialPageBeforeFormSubmission() {

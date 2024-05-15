@@ -538,11 +538,8 @@
 			"class": "MediaWiki\\CheckUser\\CheckUser\\SpecialCheckUser",
 			"services": [
 				"LinkBatchFactory",
-				"BlockPermissionCheckerFactory",
-				"BlockUserFactory",
 				"UserGroupManager",
 				"CentralIdLookupFactory",
-				"WikiPageFactory",
 				"PermissionManager",
 				"UserIdentityLookup",
 				"CheckUserTokenQueryManager",

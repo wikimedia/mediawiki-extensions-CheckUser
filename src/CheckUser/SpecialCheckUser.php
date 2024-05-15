@@ -3,8 +3,6 @@
 namespace MediaWiki\CheckUser\CheckUser;
 
 use HTMLForm;
-use MediaWiki\Block\BlockPermissionCheckerFactory;
-use MediaWiki\Block\BlockUserFactory;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetActionsPager;
@@ -22,10 +20,8 @@ use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Html\Html;
-use MediaWiki\Page\WikiPageFactory;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\SpecialPage;
-use MediaWiki\Status\Status;
 use MediaWiki\Title\Title;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\CentralId\CentralIdLookupFactory;
@@ -37,13 +33,11 @@ use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserNamePrefixSearch;
 use MediaWiki\User\UserNameUtils;
-use MediaWiki\User\UserRigorOptions;
 use Message;
 use OOUI\IconWidget;
 use UserBlockedError;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
-use WikitextContent;
 
 class SpecialCheckUser extends SpecialPage {
 	/**
@@ -63,11 +57,8 @@ class SpecialCheckUser extends SpecialPage {
 	protected $opts;
 
 	private LinkBatchFactory $linkBatchFactory;
-	private BlockPermissionCheckerFactory $blockPermissionCheckerFactory;
-	private BlockUserFactory $blockUserFactory;
 	private UserGroupManager $userGroupManager;
 	private CentralIdLookup $centralIdLookup;
-	private WikiPageFactory $wikiPageFactory;
 	private PermissionManager $permissionManager;
 	private UserIdentityLookup $userIdentityLookup;
 	private TokenQueryManager $tokenQueryManager;
@@ -87,11 +78,8 @@ class SpecialCheckUser extends SpecialPage {
 
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory
-	 * @param BlockPermissionCheckerFactory $blockPermissionCheckerFactory
-	 * @param BlockUserFactory $blockUserFactory
 	 * @param UserGroupManager $userGroupManager
 	 * @param CentralIdLookupFactory $centralIdLookupFactory
-	 * @param WikiPageFactory $wikiPageFactory
 	 * @param PermissionManager $permissionManager
 	 * @param UserIdentityLookup $userIdentityLookup
 	 * @param TokenQueryManager $tokenQueryManager
@@ -111,11 +99,8 @@ class SpecialCheckUser extends SpecialPage {
 	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
-		BlockPermissionCheckerFactory $blockPermissionCheckerFactory,
-		BlockUserFactory $blockUserFactory,
 		UserGroupManager $userGroupManager,
 		CentralIdLookupFactory $centralIdLookupFactory,
-		WikiPageFactory $wikiPageFactory,
 		PermissionManager $permissionManager,
 		UserIdentityLookup $userIdentityLookup,
 		TokenQueryManager $tokenQueryManager,
@@ -136,11 +121,8 @@ class SpecialCheckUser extends SpecialPage {
 		parent::__construct( 'CheckUser', 'checkuser' );
 
 		$this->linkBatchFactory = $linkBatchFactory;
-		$this->blockPermissionCheckerFactory = $blockPermissionCheckerFactory;
-		$this->blockUserFactory = $blockUserFactory;
 		$this->userGroupManager = $userGroupManager;
 		$this->centralIdLookup = $centralIdLookupFactory->getLookup();
-		$this->wikiPageFactory = $wikiPageFactory;
 		$this->permissionManager = $permissionManager;
 		$this->userIdentityLookup = $userIdentityLookup;
 		$this->tokenQueryManager = $tokenQueryManager;
@@ -188,17 +170,6 @@ class SpecialCheckUser extends SpecialPage {
 		$opts->add( 'limit', 0 );
 		$opts->add( 'dir', '' );
 		$opts->add( 'token', '' );
-		$opts->add( 'action', '' );
-		$opts->add( 'users', [] );
-		$opts->add( 'blockreason', 'other' );
-		$opts->add( 'blockreason-other', '' );
-		$opts->add( 'blocktalk', false );
-		$opts->add( 'blockemail', false );
-		$opts->add( 'reblock', false );
-		$opts->add( 'usetag', false );
-		$opts->add( 'usettag', false );
-		$opts->add( 'blocktag', '' );
-		$opts->add( 'talktag', '' );
 		$opts->fetchValuesFromRequest( $request );
 
 		// If the client has provided a token, they are trying to paginate.
@@ -324,8 +295,6 @@ class SpecialCheckUser extends SpecialPage {
 			$checkType = $this->opts->getValue( 'checktype' );
 			if ( !$this->getUser()->matchEditToken( $request->getVal( 'wpEditToken' ) ) ) {
 				$out->wrapWikiMsg( '<div class="error">$1</div>', 'checkuser-token-fail' );
-			} elseif ( $this->opts->getValue( 'action' ) === 'block' ) {
-				$this->doMassUserBlock();
 			} elseif ( !$this->checkReason() ) {
 				$out->addWikiMsg( 'checkuser-noreason' );
 			} elseif ( $checkType == self::SUBTYPE_GET_IPS ) {
@@ -501,211 +470,6 @@ class SpecialCheckUser extends SpecialPage {
 	 */
 	protected function checkReason(): bool {
 		return ( !$this->getConfig()->get( 'CheckUserForceSummary' ) || strlen( $this->opts->getValue( 'reason' ) ) );
-	}
-
-	/**
-	 * Block a list of selected users
-	 * with options provided in the POST request.
-	 */
-	protected function doMassUserBlock() {
-		$users = $this->opts->getValue( 'users' );
-		$reason = $this->opts->getValue( 'blockreason-other' );
-		$reasonPrefix = $this->opts->getValue( 'blockreason' );
-
-		if ( $reasonPrefix !== '' && $reasonPrefix !== 'other' ) {
-			$reason = $reasonPrefix . $this->msg( 'colon-separator' )->inContentLanguage()->text() . $reason;
-		}
-		$blockParams = [
-			'reason' => $reason,
-			'email' => $this->opts->getValue( 'blockemail' ),
-			'talk' => $this->opts->getValue( 'blocktalk' ),
-			'reblock' => $this->opts->getValue( 'reblock' ),
-		];
-		$tag = $this->opts->getValue( 'usetag' ) ?
-			trim( $this->opts->getValue( 'blocktag' ) ) : '';
-		$talkTag = $this->opts->getValue( 'usettag' ) ?
-			trim( $this->opts->getValue( 'talktag' ) ) : '';
-		$usersCount = count( $users );
-
-		if (
-			!$usersCount
-			|| !$this->permissionManager->userHasRight( $this->getUser(), 'block' )
-			|| $this->getUser()->getBlock()
-		) {
-			$this->getOutput()->addWikiMsg( 'checkuser-block-failure' );
-			return;
-		}
-
-		if ( $usersCount > $this->getConfig()->get( 'CheckUserMaxBlocks' ) ) {
-			$this->getOutput()->addWikiMsg( 'checkuser-block-limit' );
-			return;
-		}
-
-		if ( !$blockParams['reason'] ) {
-			$this->getOutput()->addWikiMsg( 'checkuser-block-noreason' );
-			return;
-		}
-
-		[ $blockedUsers, $taggedUsers ] = $this->doMassUserBlockInternal(
-			$users,
-			$blockParams,
-			$this->opts->getValue( 'usetag' ),
-			$tag,
-			$this->opts->getValue( 'usettag' ),
-			$talkTag
-		);
-		$blockedCount = count( $blockedUsers );
-		$taggedCount = count( $taggedUsers );
-		$lang = $this->getLanguage();
-		if ( $blockedCount > 0 ) {
-			$this->getOutput()->addWikiMsg( 'checkuser-block-success',
-				$lang->listToText( $blockedUsers ),
-				$lang->formatNum( $blockedCount )
-			);
-		}
-		if ( $taggedCount > 0 ) {
-			$this->getOutput()->addWikiMsg( 'checkuser-block-success-tagged',
-				$lang->listToText( $taggedUsers ),
-				$lang->formatNum( $taggedCount )
-			);
-		}
-		if ( $blockedCount === 0 && $taggedCount === 0 ) {
-			$this->getOutput()->addWikiMsg( 'checkuser-block-failure' );
-		}
-	}
-
-	/**
-	 * Block a list of selected users
-	 *
-	 * @param string[] $users
-	 * @param array $blockParams
-	 * @param bool $useTag whether to perform the user page replacement
-	 * @param string $tag replace the user page with this content
-	 * @param bool $useTalkTag whether to perform the user talk page replacement
-	 * @param string $talkTag replace the user talk page this with content
-	 * @return string[][] List of html-safe usernames which were blocked at index 0 and tagged at index 1
-	 */
-	protected function doMassUserBlockInternal(
-		array $users,
-		array $blockParams,
-		bool $useTag = false,
-		string $tag = '',
-		bool $useTalkTag = false,
-		string $talkTag = ''
-	) {
-		$blockedUsers = [];
-		$taggedUsers = [];
-		foreach ( $users as $name ) {
-			$u = $this->userFactory->newFromName( $name, UserRigorOptions::RIGOR_NONE );
-			// Do some checks to make sure we can block this user first
-			if ( !$u ) {
-				// Invalid user
-				continue;
-			}
-			$isIP = IPUtils::isIPAddress( $u->getName() );
-			if ( !$u->getId() && !$isIP ) {
-				// Not a registered user or an IP
-				continue;
-			}
-
-			if (
-				!isset( $blockParams['email'] ) ||
-				$blockParams['email'] === false ||
-				$this->blockPermissionCheckerFactory
-					->newBlockPermissionChecker(
-						$u,
-						$this->getUser()
-					)
-					->checkEmailPermissions()
-			) {
-				$res = $this->blockUserFactory->newBlockUser(
-					$u,
-					$this->getAuthority(),
-					$isIP ? '1 week' : 'indefinite',
-					$blockParams['reason'],
-					[
-						'isCreateAccountBlocked' => true,
-						'isEmailBlocked' => $blockParams['email'] ?? false,
-						'isHardBlock' => !$isIP,
-						'isAutoblocking' => true,
-						'isUserTalkEditBlocked' => $blockParams['talk'] ?? false,
-					]
-				)->placeBlock( $blockParams['reblock'] );
-
-				if (
-					$res->isGood() ||
-					( $res->getStatusValue()->hasMessage( 'ipb_already_blocked' ) && $blockParams['reblock'] )
-				) {
-					// Mark as blocked and then attempt to tag if the block went through or
-					//  if reblock was enabled and there existed a block with the same parameters.
-					$userPage = $u->getUserPage();
-					$userText = "[[{$userPage->getPrefixedText()}|{$userPage->getText()}]]";
-
-					$blockedUsers[] = $userText;
-
-					if ( $useTag || $useTalkTag ) {
-						$userPageTagSuccess = true;
-						$userTalkPageTagSuccess = true;
-
-						// Tag user page and user talk page
-						if ( $useTag ) {
-							$userPageTagStatus = $this->tagPage(
-								$userPage,
-								$tag,
-								$blockParams['reason']
-							);
-							// Mark as a success if the edit went through or if the
-							//  content that was used is the same as what is already on
-							//  the page.
-							$userPageTagSuccess = $userPageTagStatus->isGood() ||
-								$userPageTagStatus->hasMessage( 'edit-no-change' );
-						}
-						if ( $useTalkTag ) {
-							$userTalkPageTagStatus = $this->tagPage(
-								$u->getTalkPage(),
-								$talkTag,
-								$blockParams['reason']
-							);
-							$userTalkPageTagSuccess = $userTalkPageTagStatus->isGood() ||
-								$userTalkPageTagStatus->hasMessage( 'edit-no-change' );
-						}
-						if ( $userPageTagSuccess && $userTalkPageTagSuccess ) {
-							// Only mark as tagged if all tags requested
-							//  for this user was successfully added
-							$taggedUsers[] = $userText;
-						}
-					}
-				}
-			}
-		}
-
-		return [ $blockedUsers, $taggedUsers ];
-	}
-
-	/**
-	 * Make an edit to the given page with the tag provided
-	 *
-	 * @param Title $title
-	 * @param string $tag
-	 * @param string $summary
-	 * @return Status the status of the edit to the $title
-	 */
-	protected function tagPage( Title $title, string $tag, string $summary ) {
-		// Check length to avoid mistakes
-		if ( strlen( $tag ) > 2 ) {
-			$page = $this->wikiPageFactory->newFromTitle( $title );
-			$flags = 0;
-			if ( $page->exists() ) {
-				$flags |= EDIT_MINOR;
-			}
-			return $page->doUserEditContent(
-				new WikitextContent( $tag ),
-				$this->getUser(),
-				$summary,
-				$flags
-			);
-		}
-		return Status::newFatal( 'checkuser-block-failure-tag-too-small' );
 	}
 
 	/**

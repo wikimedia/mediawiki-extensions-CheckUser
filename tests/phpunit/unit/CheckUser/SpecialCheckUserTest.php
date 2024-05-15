@@ -5,9 +5,7 @@ namespace MediaWiki\CheckUser\Tests\Unit\CheckUser;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\Config\Config;
 use MediaWiki\Html\FormOptions;
-use MediaWiki\Status\Status;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
-use MediaWiki\Title\Title;
 use MediaWikiUnitTestCase;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use ReflectionClass;
@@ -52,46 +50,6 @@ class SpecialCheckUserTest extends MediaWikiUnitTestCase {
 				?? $this->getMockValueForParam( $parameter );
 		}
 		return $params;
-	}
-
-	/** @dataProvider provideTagPageFailsForTooSmallTag */
-	public function testTagPageFailsForTooSmallTag( $tag ) {
-		$mockObject = $this->setUpObjectInTestingAccessWrapper();
-		$tagPageResult = $mockObject->tagPage( $this->createMock( Title::class ), $tag, 'test summary' );
-		$this->assertInstanceOf(
-			Status::class,
-			$tagPageResult,
-			'tagPage method should return a status'
-		);
-		$this->assertCount(
-			1,
-			$tagPageResult->getErrors(),
-			'One error status should have been returned if the tag is too small.'
-		);
-		$this->assertArrayHasKey(
-			'message',
-			$tagPageResult->getErrors()[0],
-			'::tagPage should return a status with a message.'
-		);
-		$this->assertSame(
-			'checkuser-block-failure-tag-too-small',
-			$tagPageResult->getErrors()[0]["message"],
-			'::tagPage should return an fatal status with message key indicating the tag was too small.'
-		);
-	}
-
-	public static function provideTagPageFailsForTooSmallTag() {
-		return [
-			'Tag of length 1' => [
-				'a'
-			],
-			'Tag of length 2' => [
-				'ab'
-			],
-			'Empty tag' => [
-				''
-			]
-		];
 	}
 
 	public function testDoesWrites() {
