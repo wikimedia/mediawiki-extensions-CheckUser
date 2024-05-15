@@ -12,7 +12,8 @@
 			"Wikitanvir",
 			"Zaheen",
 			"আজিজ",
-			"আফতাবুজ্জামান"
+			"আফতাবুজ্জামান",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "এই সরঞ্জামটি সাম্প্রতিক পরিবর্তনসমূহ বিশ্লেষণ করে একজন ব্যবহারকারীর ব্যবহৃত আইপিগুলি নিয়ে আসে কিংবা কোনো একটি আইপির জন্য সম্পাদনা/ব্যবহারকারী উপাত্ত প্রদর্শন করে।\nকোনো ক্লায়েন্ট আইপি-র জন্য ব্যবহারকারী ও সম্পাদনা XFF হেডারসমূহের সাহায্যে নিয়ে আসা যায়; এজন্য আইপির সাথে \"/xff\" যোগ করতে হয়। IPv4 (CIDR $1-32) এবং IPv6 (CIDR $2-128) এই সরঞ্জামে সমর্থিত।\nদক্ষতাজনিত কারণে $3টির বেশি সম্পাদনা নিয়ে আসা হবে না।\nনীতিমালা মেনে এটি ব্যবহার করুন।",
@@ -24,6 +25,8 @@
 	"checkuser-contribs-log-initiator": "ব্যবহারকারী কর্তৃক পরীক্ষণ",
 	"group-checkuser": "ব্যবহারকারী পরীক্ষক",
 	"group-checkuser-member": "{{GENDER:$1|ব্যবহারকারী পরীক্ষক}}",
+	"group-checkuser-temporary-account-viewer": "অস্থায়ী অ্যাকাউন্ট আইপি পরিদর্শনকারী",
+	"group-checkuser-temporary-account-viewer-member": "{{GENDER:$1|অস্থায়ী অ্যাকাউন্ট আইপি পরিদর্শনকারী}}",
 	"right-checkuser": "ব্যবহারকারীর আইপি ঠিকানা এবং অন্যান্য তথ্য যাচাই করুন",
 	"right-checkuser-log": "ব্যবহারকারী পরীক্ষণ লগ দেখুন",
 	"right-checkuser-temporary-account": "অস্থায়ী অ্যাকাউন্ট দ্বারা ব্যবহৃত আইপি ঠিকানাগুলি দেখা",
@@ -31,6 +34,8 @@
 	"action-checkuser-log": "ব্যবহারকারী পরীক্ষণ লগ দেখার",
 	"action-checkuser-temporary-account": "অস্থায়ী অ্যাকাউন্ট দ্বারা ব্যবহৃত আইপি ঠিকানা দেখার",
 	"grouppage-checkuser": "{{ns:project}}:ব্যবহারকারী পরীক্ষক",
+	"checkuser-clienthints-name-architecture": "আর্কিটেকচার",
+	"checkuser-clienthints-name-bitness": "বিটনেস",
 	"checkuser-clienthints-name-brand": "ব্র্যান্ড",
 	"checkuser-clienthints-name-mobile": "মোবাইল",
 	"checkuser-clienthints-name-model": "মডেল",
