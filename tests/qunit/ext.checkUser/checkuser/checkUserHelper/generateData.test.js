@@ -1,8 +1,8 @@
 'use strict';
 
-const generateData = require( '../../../../modules/ext.checkUser/checkuser/checkUserHelper/generateData.js' );
+const generateData = require( '../../../../../modules/ext.checkUser/checkuser/checkUserHelper/generateData.js' );
 
-QUnit.module( 'ext.checkUser.checkUserHelper.generateData', QUnit.newMwEnvironment() );
+QUnit.module( 'ext.checkUser.checkuser.checkUserHelper.generateData', QUnit.newMwEnvironment() );
 
 QUnit.test( 'Test that generateData returns the expected data', function ( assert ) {
 	const cases = require( './cases/generateData.json' );

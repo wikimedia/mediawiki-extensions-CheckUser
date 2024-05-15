@@ -1,8 +1,8 @@
 'use strict';
 
-const Utils = require( '../../../../modules/ext.checkUser/checkuser/checkUserHelper/utils.js' );
+const Utils = require( '../../../../../modules/ext.checkUser/checkuser/checkUserHelper/utils.js' );
 
-QUnit.module( 'ext.checkUser.checkUserHelper.utils' );
+QUnit.module( 'ext.checkUser.checkuser.checkUserHelper.utils' );
 
 QUnit.test( 'Test that calculateIPNumber returns the expected value', function ( assert ) {
 	const cases = require( './cases/calculateIPNumber.json' );
