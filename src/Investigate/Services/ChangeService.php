@@ -36,11 +36,13 @@ abstract class ChangeService implements CheckUserQueryInterface {
 	 * target is passed in
 	 *
 	 * @param string[] $targets
+	 * @param string $table The table the query is being performed on and must also be one of the tables listed in
+	 *    {@link CheckUserQueryInterface::RESULT_TABLES}
 	 * @return IExpression|null The conditions to be added to the query, or null if all the targets were invalid.
 	 */
-	protected function buildTargetExprMultiple( array $targets ): ?IExpression {
-		$targetExpressions = array_map( function ( $target ) {
-			return $this->buildTargetExpr( $target );
+	protected function buildTargetExprMultiple( array $targets, string $table = self::CHANGES_TABLE ): ?IExpression {
+		$targetExpressions = array_map( function ( $target ) use ( $table ) {
+			return $this->buildTargetExpr( $target, $table );
 		}, $targets );
 
 		// Remove any null values from the target expressions array.
@@ -65,11 +67,13 @@ abstract class ChangeService implements CheckUserQueryInterface {
 	 * target is passed in
 	 *
 	 * @param string $target
-	 * @return IExpression|null The conditions to be added to the query, or null if the target was invalid.
+	 * @param string $table The table the query is being performed on and must also be one of the tables listed in
+	 *   {@link CheckUserQueryInterface::RESULT_TABLES}
+	 * @return IExpression|null
 	 */
-	protected function buildTargetExpr( string $target ): ?IExpression {
+	protected function buildTargetExpr( string $target, string $table = self::CHANGES_TABLE ): ?IExpression {
 		if ( IPUtils::isIpAddress( $target ) ) {
-			return $this->checkUserLookupUtils->getIPTargetExpr( $target, false, self::CHANGES_TABLE );
+			return $this->checkUserLookupUtils->getIPTargetExpr( $target, false, $table );
 		} else {
 			// TODO: This may filter out invalid values, changing the number of
 			// targets. The per-target limit should change too (T246393).
@@ -89,9 +93,11 @@ abstract class ChangeService implements CheckUserQueryInterface {
 	 * Build conditions which can be used to exclude the given $targets from the results.
 	 *
 	 * @param string[] $targets The targets to be excluded
+	 * @param string $table The table the query is being performed on and must also be one of the tables listed in
+	 *    {@link CheckUserQueryInterface::RESULT_TABLES}
 	 * @return IExpression|null The conditions to be added to the query, or null if no conditions are necessary
 	 */
-	protected function buildExcludeTargetsExpr( array $targets ): ?IExpression {
+	protected function buildExcludeTargetsExpr( array $targets, string $table = self::CHANGES_TABLE ): ?IExpression {
 		$ipTargets = [];
 		$userTargets = [];
 
@@ -116,7 +122,9 @@ abstract class ChangeService implements CheckUserQueryInterface {
 
 		$expressionGroup = new AndExpressionGroup();
 		if ( count( $ipTargets ) > 0 ) {
-			$expressionGroup = $expressionGroup->and( 'cuc_ip_hex', '!=', $ipTargets );
+			$expressionGroup = $expressionGroup->and(
+				self::RESULT_TABLE_TO_PREFIX[$table] . 'ip_hex', '!=', $ipTargets
+			);
 		}
 		if ( count( $userTargets ) > 0 ) {
 			$excludeUserTargetsExpr = $this->dbProvider->getReplicaDatabase()
@@ -132,15 +140,18 @@ abstract class ChangeService implements CheckUserQueryInterface {
 	 * Build an IExpression for the start timestamp.
 	 *
 	 * @param string $start timestamp
+	 * @param string $table The table the query is being performed on and must also be one of the tables listed in
+	 *    {@link CheckUserQueryInterface::RESULT_TABLES}
 	 * @return ?IExpression the WHERE conditions to add to the query, or null if there are none to add.
 	 */
-	protected function buildStartExpr( string $start ): ?IExpression {
+	protected function buildStartExpr( string $start, string $table = self::CHANGES_TABLE ): ?IExpression {
 		if ( $start === '' ) {
 			// If the start is empty, then we do not have any conditions to add.
 			return null;
 		}
 
 		// TODO: T360712: Add cuc_id to the start conds to ensure unique ordering
-		return $this->dbProvider->getReplicaDatabase()->expr( 'cuc_timestamp', '>=', $start );
+		return $this->dbProvider->getReplicaDatabase()
+			->expr( self::RESULT_TABLE_TO_PREFIX[$table] . 'timestamp', '>=', $start );
 	}
 }
