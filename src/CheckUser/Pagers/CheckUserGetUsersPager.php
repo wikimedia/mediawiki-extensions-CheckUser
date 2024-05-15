@@ -42,6 +42,12 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	/** @var bool Whether the user performing this check has the block right. */
 	protected bool $canPerformBlocks;
 
+	/**
+	 * @var bool|null Lazy-loaded via ::shouldShowBlockFieldset. Whether the block fieldset
+	 *   (and checkboxes next to each result line) should be shown. Null if not yet determined.
+	 */
+	private ?bool $shouldShowBlockFieldset = null;
+
 	/** @var array[] */
 	protected $userSets;
 
@@ -62,6 +68,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	private CheckUserUtilityService $checkUserUtilityService;
 	private UserAgentClientHintsLookup $clientHintsLookup;
 	private UserAgentClientHintsFormatter $clientHintsFormatter;
+	private ExtensionRegistry $extensionRegistry;
 
 	/**
 	 * @param FormOptions $opts
@@ -130,6 +137,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		$this->checkUserUtilityService = $checkUserUtilityService;
 		$this->clientHintsLookup = $clientHintsLookup;
 		$this->clientHintsFormatter = $clientHintsFormatter;
+		$this->extensionRegistry = ExtensionRegistry::getInstance();
 	}
 
 	/**
@@ -195,7 +203,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		if ( $hidden ) {
 			// User is hidden from the current authority, so the current authority cannot block this user either.
 			// As such, the checkbox (used for blocking the user) should not be shown.
-			$templateParams['canPerformBlocks'] = false;
+			$templateParams['canPerformBlocksOrLocks'] = false;
 			$templateParams['userText'] = '';
 			$templateParams['userLink'] = Html::element(
 				'span',
@@ -203,7 +211,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 				$this->msg( 'rev-deleted-user' )->text()
 			);
 		} else {
-			$templateParams['canPerformBlocks'] = $this->canPerformBlocks;
+			$templateParams['canPerformBlocksOrLocks'] = $this->shouldShowBlockFieldset();
 			$templateParams['userText'] = $user->getName();
 			$userNonExistent = !IPUtils::isIPAddress( $user ) && !$user->isRegistered();
 			if ( $userNonExistent ) {
@@ -263,7 +271,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 				);
 				$spgb = $this->aliases['GlobalBlock'][0];
 				$gblinkAlias = str_replace( '_', ' ', $spgb );
-				if ( ExtensionRegistry::getInstance()->isLoaded( 'CentralAuth' ) ) {
+				if ( $this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
 					$gbUserGroups = CentralAuthUser::getInstance( $this->getUser() )->getGlobalGroups();
 					// Link to GB via WikiMap since CA require it
 					if ( $centralGBUrl === false ) {
@@ -608,115 +616,121 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		return $s;
 	}
 
+	/**
+	 * Should the block fieldset and checkboxes be shown to the user. Has non-trivial side-effects
+	 * (e.g. adding JS modules), but calling this method more than once does not repeat the side-effects.
+	 *
+	 * @return bool Whether the block fieldset should be added to the bottom of the results, and also whether the
+	 *   checkboxes next to each result line should be shown.
+	 */
+	private function shouldShowBlockFieldset(): bool {
+		// If this method has already been called, return the cached value.
+		if ( $this->shouldShowBlockFieldset !== null ) {
+			return $this->shouldShowBlockFieldset;
+		}
+		// Add links to the MultiLock tool if the user can use it.
+		$checkUserCAMultiLock = $this->getConfig()->get( 'CheckUserCAMultiLock' );
+		if ( $checkUserCAMultiLock !== false ) {
+			if ( !$this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
+				// $wgCheckUserCAMultiLock shouldn't be enabled if CA is not loaded
+				throw new ConfigException( '$wgCheckUserCAMultiLock requires CentralAuth extension.' );
+			}
+
+			$caUserGroups = CentralAuthUser::getInstance( $this->getUser() )->getGlobalGroups();
+			// Only load the script for users in the configured global group(s)
+			if ( count( array_intersect( $checkUserCAMultiLock['groups'], $caUserGroups ) ) ) {
+				$centralMLUrl = WikiMap::getForeignURL(
+					$checkUserCAMultiLock['centralDB'],
+					// Use canonical name instead of local name so that it works
+					// even if the local language is different from central wiki
+					'Special:MultiLock'
+				);
+				if ( $centralMLUrl === false ) {
+					throw new ConfigException(
+						"Could not retrieve URL for {$checkUserCAMultiLock['centralDB']}"
+					);
+				}
+				$this->getOutput()->addJsConfigVars( 'wgCUCAMultiLockCentral', $centralMLUrl );
+				$this->getOutput()->addModules( 'ext.checkUser' );
+				// Always show the block form if links to Special:MultiLock are going to be added to the page.
+				$this->shouldShowBlockFieldset = true;
+				return $this->shouldShowBlockFieldset;
+			}
+		}
+		// If the Special:MultiLock links are not being added, then only show the block form if the user can
+		// perform blocks on the local wiki.
+		$this->shouldShowBlockFieldset = $this->canPerformBlocks;
+		return $this->shouldShowBlockFieldset;
+	}
+
 	/** @inheritDoc */
 	protected function getEndBody(): string {
-		$fieldset = new HTMLFieldsetCheckUser( [], $this->getContext(), '' );
 		$s = '</ul></div>';
 		if ( $this->mResult->numRows() ) {
 			$s .= ( new ListToggle( $this->getOutput() ) )->getHTML();
 		}
 		// T314217 - cannot have forms inside of forms.
 		// $s .= $this->getNavigationBar();
-		if ( $this->canPerformBlocks ) {
-			$config = $this->getConfig();
-			$checkUserCAMultiLock = $config->get( 'CheckUserCAMultiLock' );
-			if ( $checkUserCAMultiLock !== false ) {
-				if ( !ExtensionRegistry::getInstance()->isLoaded( 'CentralAuth' ) ) {
-					// $wgCheckUserCAMultiLock shouldn't be enabled if CA is not loaded
-					throw new ConfigException( '$wgCheckUserCAMultiLock requires CentralAuth extension.' );
-				}
-
-				$caUserGroups = CentralAuthUser::getInstance( $this->getUser() )->getGlobalGroups();
-				// Only load the script for users in the configured global group(s)
-				if ( count( array_intersect( $checkUserCAMultiLock['groups'], $caUserGroups ) ) ) {
-					$out = $this->getOutput();
-					$centralMLUrl = WikiMap::getForeignURL(
-						$checkUserCAMultiLock['centralDB'],
-						// Use canonical name instead of local name so that it works
-						// even if the local language is different from central wiki
-						'Special:MultiLock'
-					);
-					if ( $centralMLUrl === false ) {
-						throw new ConfigException(
-							"Could not retrieve URL for {$checkUserCAMultiLock['centralDB']}"
-						);
-					}
-					$out->addJsConfigVars( 'wgCUCAMultiLockCentral', $centralMLUrl );
-					$out->addModules( 'ext.checkUser' );
-				}
-			}
-
-			$fields = [
-				'usetag' => [
-					'type' => 'check',
-					'default' => false,
-					'label-message' => 'checkuser-blocktag',
-					'id' => 'usetag',
-					'name' => 'usetag',
-					'size' => 46,
-				],
-				'tag' => [
-					'type' => 'text',
-					'id' => 'blocktag',
-					'name' => 'blocktag',
-					'minlength' => 3,
-				],
-				'talkusetag' => [
-					'type' => 'check',
-					'default' => false,
-					'label-message' => 'checkuser-blocktag-talk',
-					'id' => 'usettag',
-					'name' => 'usettag',
-				],
-				'talktag' => [
-					'type' => 'text',
-					'id' => 'talktag',
-					'name' => 'talktag',
-					'size' => 46,
-					'minlength' => 3,
-				],
-			];
-
-			$fieldset->addFields( $fields )
-				->setWrapperLegendMsg( 'checkuser-massblock' )
-				->setSubmitTextMsg( 'checkuser-massblock-commit' )
-				->setSubmitId( 'checkuserblocksubmit' )
-				->setSubmitName( 'checkuserblock' )
-				->setHeaderHtml( $this->msg( 'checkuser-massblock-text' )->escaped() );
-
-			if ( $config->get( 'BlockAllowsUTEdit' ) ) {
-				$fieldset->addFields( [
-					'blocktalk' => [
+		if ( $this->shouldShowBlockFieldset() ) {
+			$fieldset = new HTMLFieldsetCheckUser( [], $this->getContext(), '' );
+			$fieldset->outerClass = 'mw-checkuser-massblock';
+			if ( $this->canPerformBlocks ) {
+				$fields = [
+					'usetag' => [
+						'type' => 'check',
+						'default' => false,
+						'label-message' => 'checkuser-blocktag',
+						'id' => 'usetag',
+						'name' => 'usetag',
+						'size' => 46,
+					],
+					'tag' => [
+						'type' => 'text',
+						'id' => 'blocktag',
+						'name' => 'blocktag',
+						'minlength' => 3,
+					],
+					'talkusetag' => [
+						'type' => 'check',
+						'default' => false,
+						'label-message' => 'checkuser-blocktag-talk',
+						'id' => 'usettag',
+						'name' => 'usettag',
+					],
+					'talktag' => [
+						'type' => 'text',
+						'id' => 'talktag',
+						'name' => 'talktag',
+						'size' => 46,
+						'minlength' => 3,
+					],
+				];
+				if ( $this->getConfig()->get( 'BlockAllowsUTEdit' ) ) {
+					$fields['blocktalk'] = [
 						'type' => 'check',
 						'default' => false,
 						'label-message' => 'checkuser-blocktalk',
 						'id' => 'blocktalk',
 						'name' => 'blocktalk',
-					]
-				] );
-			}
-
-			if (
-				$this->blockPermissionCheckerFactory
-					->newBlockPermissionChecker(
-						null,
-						$this->getUser()
-					)
-					->checkEmailPermissions()
-			) {
-				$fieldset->addFields( [
-					'blockemail' => [
+					];
+				}
+				if (
+					$this->blockPermissionCheckerFactory
+						->newBlockPermissionChecker(
+							null,
+							$this->getUser()
+						)
+						->checkEmailPermissions()
+				) {
+					$fields['blockemail'] = [
 						'type' => 'check',
 						'default' => false,
 						'label-message' => 'checkuser-blockemail',
 						'id' => 'blockemail',
 						'name' => 'blockemail',
-					]
-				] );
-			}
-
-			$s .= $fieldset
-				->addFields( [
+					];
+				}
+				$fields += [
 					'reblock' => [
 						'type' => 'check',
 						'default' => false,
@@ -734,10 +748,24 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 						'name' => 'blockreason',
 						'cssclass' => 'ext-checkuser-checkuserblock-block-reason'
 					],
-				] )
+				];
+				$fieldset->addFields( $fields )
+					->setHeaderHtml( $this->msg( 'checkuser-massblock-text' )->escaped() )
+					->setSubmitTextMsg( 'checkuser-massblock-commit' )
+					->setSubmitId( 'checkuserblocksubmit' )
+					->setSubmitName( 'checkuserblock' );
+			} else {
+				$fieldset->setHeaderHtml( $this->msg( 'checkuser-massblock-text-multi-lock-only' )->escaped() )
+					->suppressDefaultSubmit();
+			}
+
+			$s .= $fieldset->setWrapperLegendMsg( 'checkuser-massblock' )
 				->prepareForm()
 				->getHtml( false );
-			$s .= '</form>';
+
+			if ( $this->canPerformBlocks ) {
+				$s .= '</form>';
+			}
 		}
 
 		return $s;
