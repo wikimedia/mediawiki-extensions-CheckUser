@@ -7,18 +7,18 @@ use MediaWiki\CheckUser\Investigate\Pagers\ComparePager;
 use MediaWiki\CheckUser\Investigate\Services\CompareService;
 use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
+use MediaWiki\CheckUser\Tests\Integration\Investigate\CompareTabTestDataTrait;
 use MediaWiki\Linker\Linker;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
-use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
-use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use RequestContext;
 use TestAllServiceOptionsUsed;
 use Wikimedia\IPUtils;
 use Wikimedia\TestingAccessWrapper;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * @group CheckUser
@@ -27,10 +27,15 @@ use Wikimedia\TestingAccessWrapper;
  */
 class ComparePagerTest extends MediaWikiIntegrationTestCase {
 	use TestAllServiceOptionsUsed;
-	use TempUserTestTrait;
+	use CompareTabTestDataTrait;
 	use MockAuthorityTrait;
 
 	private static UserIdentity $hiddenUser;
+
+	protected function setUp(): void {
+		// Pin time to avoid failure when next second starts - T317411
+		ConvertibleTimestamp::setFakeTime( '20220904094043' );
+	}
 
 	private function getObjectUnderTest( array $overrides = [] ): ComparePager {
 		$services = $this->getServiceContainer();
@@ -316,109 +321,7 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function addDBDataOnce() {
-		// Automatic temp user creation cannot be enabled
-		// if actor IDs are being created for IPs.
-		$this->disableAutoCreateTempUser();
-		$actorStore = $this->getServiceContainer()->getActorStore();
-
-		$testActorData = [
-			'User1' => [
-				'actor_id'   => 0,
-				'actor_user' => 11111,
-			],
-			'User2' => [
-				'actor_id'   => 0,
-				'actor_user' => 22222,
-			],
-			'1.2.3.4' => [
-				'actor_id'   => 0,
-				'actor_user' => 0,
-			],
-			'1.2.3.5' => [
-				'actor_id'   => 0,
-				'actor_user' => 0,
-			],
-		];
-
-		foreach ( $testActorData as $name => $actor ) {
-			$testActorData[$name]['actor_id'] = $actorStore->acquireActorId(
-				new UserIdentityValue( $actor['actor_user'], $name ),
-				$this->getDb()
-			);
-		}
-
-		$testData = [
-			[
-				'cuc_actor'      => $testActorData['1.2.3.4']['actor_id'],
-				'cuc_type'       => RC_NEW,
-				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'foo user agent',
-			], [
-				'cuc_actor'      => $testActorData['1.2.3.4']['actor_id'],
-				'cuc_type'       => RC_EDIT,
-				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'foo user agent',
-			], [
-				'cuc_actor'      => $testActorData['1.2.3.4']['actor_id'],
-				'cuc_type'       => RC_EDIT,
-				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'bar user agent',
-			], [
-				'cuc_actor'      => $testActorData['1.2.3.5']['actor_id'],
-				'cuc_type'       => RC_EDIT,
-				'cuc_ip'         => '1.2.3.5',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
-				'cuc_agent'      => 'bar user agent',
-			], [
-				'cuc_actor'      => $testActorData['1.2.3.5']['actor_id'],
-				'cuc_type'       => RC_EDIT,
-				'cuc_ip'         => '1.2.3.5',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
-				'cuc_agent'      => 'foo user agent',
-			], [
-				'cuc_actor'      => $testActorData['User1']['actor_id'],
-				'cuc_type'       => RC_EDIT,
-				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'foo user agent',
-			], [
-				'cuc_actor'      => $testActorData['User2']['actor_id'],
-				'cuc_type'       => RC_EDIT,
-				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'foo user agent',
-			], [
-				'cuc_actor'      => $testActorData['User1']['actor_id'],
-				'cuc_type'       => RC_EDIT,
-				'cuc_ip'         => '1.2.3.5',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
-				'cuc_agent'      => 'foo user agent',
-			],
-		];
-
-		$commonData = [
-			'cuc_namespace'  => NS_MAIN,
-			'cuc_title'      => 'Foo_Page',
-			'cuc_minor'      => 0,
-			'cuc_page_id'    => 1,
-			'cuc_timestamp'  => $this->db->timestamp(),
-			'cuc_xff'        => 0,
-			'cuc_xff_hex'    => null,
-			'cuc_actiontext' => '',
-			'cuc_comment_id' => 0,
-			'cuc_this_oldid' => 0,
-			'cuc_last_oldid' => 0,
-		];
-
-		foreach ( $testData as $row ) {
-			$this->db->newInsertQueryBuilder()
-				->insertInto( 'cu_changes' )
-				->row( $row + $commonData )
-				->execute();
-		}
+		$this->addTestingDataToDB();
 
 		// Get a test user and apply a 'hideuser' block to that test user
 		$hiddenUser = $this->getTestUser()->getUser();

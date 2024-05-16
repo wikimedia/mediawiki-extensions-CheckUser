@@ -3,13 +3,11 @@
 namespace MediaWiki\CheckUser\Tests\Integration\Investigate\Services;
 
 use MediaWiki\CheckUser\Investigate\Services\CompareService;
+use MediaWiki\CheckUser\Tests\Integration\Investigate\CompareTabTestDataTrait;
 use MediaWiki\Config\ServiceOptions;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Tests\Unit\Libs\Rdbms\AddQuoterMock;
-use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
-use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\Database;
@@ -26,22 +24,15 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class CompareServiceTest extends MediaWikiIntegrationTestCase {
 
-	use TempUserTestTrait;
+	use CompareTabTestDataTrait;
 
-	/** @var CompareService */
-	private $service;
+	protected function setUp(): void {
+		// Pin time to avoid failure when next second starts - T317411
+		ConvertibleTimestamp::setFakeTime( '20220904094043' );
+	}
 
-	/**
-	 * Lazy load CompareService
-	 *
-	 * @return CompareService
-	 */
 	private function getCompareService(): CompareService {
-		if ( !$this->service ) {
-			$this->service = MediaWikiServices::getInstance()->get( 'CheckUserCompareService' );
-		}
-
-		return $this->service;
+		return $this->getServiceContainer()->get( 'CheckUserCompareService' );
 	}
 
 	/**
@@ -318,112 +309,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	public function addDBData() {
-		// Need to create actor IDs for IPs, so disable auto creation
-		// of temporary users if enabled by default.
-		$this->disableAutoCreateTempUser();
-		$actorStore = $this->getServiceContainer()->getActorStore();
-
-		$testActorData = [
-			'User1' => [
-				'actor_id'   => 0,
-				'actor_user' => 11111,
-			],
-			'User2' => [
-				'actor_id'   => 0,
-				'actor_user' => 22222,
-			],
-			'1.2.3.4' => [
-				'actor_id'   => 0,
-				'actor_user' => 0,
-			],
-			'1.2.3.5' => [
-				'actor_id'   => 0,
-				'actor_user' => 0,
-			],
-		];
-
-		foreach ( $testActorData as $name => $actor ) {
-			$testActorData[$name]['actor_id'] = $actorStore->acquireActorId(
-				new UserIdentityValue( $actor['actor_user'], $name ),
-				$this->getDb()
-			);
-		}
-
-		$testData = [
-			[
-				'cuc_actor'      => $testActorData['1.2.3.4']['actor_id'],
-				'cuc_type'       => RC_NEW,
-				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'foo user agent',
-			], [
-				'cuc_actor'      => $testActorData['1.2.3.4']['actor_id'],
-				'cuc_type'       => RC_EDIT,
-				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'foo user agent',
-			], [
-				'cuc_actor'      => $testActorData['1.2.3.4']['actor_id'],
-				'cuc_type'       => RC_EDIT,
-				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'bar user agent',
-			], [
-				'cuc_actor'      => $testActorData['1.2.3.5']['actor_id'],
-				'cuc_type'       => RC_EDIT,
-				'cuc_ip'         => '1.2.3.5',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
-				'cuc_agent'      => 'bar user agent',
-			], [
-				'cuc_actor'      => $testActorData['1.2.3.5']['actor_id'],
-				'cuc_type'       => RC_EDIT,
-				'cuc_ip'         => '1.2.3.5',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
-				'cuc_agent'      => 'foo user agent',
-			], [
-				'cuc_actor'      => $testActorData['User1']['actor_id'],
-				'cuc_type'       => RC_EDIT,
-				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'foo user agent',
-			], [
-				'cuc_actor'      => $testActorData['User2']['actor_id'],
-				'cuc_type'       => RC_EDIT,
-				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'foo user agent',
-			], [
-				'cuc_actor'      => $testActorData['User1']['actor_id'],
-				'cuc_type'       => RC_EDIT,
-				'cuc_ip'         => '1.2.3.5',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
-				'cuc_agent'      => 'foo user agent',
-			],
-		];
-
-		// Pin time to avoid failure when next second starts - T317411
-		ConvertibleTimestamp::setFakeTime( '20220904094043' );
-
-		$commonData = [
-			'cuc_namespace'  => NS_MAIN,
-			'cuc_title'      => 'Foo_Page',
-			'cuc_minor'      => 0,
-			'cuc_page_id'    => 1,
-			'cuc_timestamp'  => $this->db->timestamp(),
-			'cuc_xff'        => 0,
-			'cuc_xff_hex'    => null,
-			'cuc_actiontext' => '',
-			'cuc_comment_id' => 0,
-			'cuc_this_oldid' => 0,
-			'cuc_last_oldid' => 0,
-		];
-
-		foreach ( $testData as $row ) {
-			$this->db->newInsertQueryBuilder()
-				->insertInto( 'cu_changes' )
-				->row( $row + $commonData )
-				->execute();
-		}
+	public function addDBDataOnce() {
+		$this->addTestingDataToDB();
 	}
 }
