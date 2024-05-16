@@ -8,14 +8,16 @@ use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Request\FauxRequest;
 use MediaWiki\Revision\SlotRecord;
 use MediaWiki\Status\Status;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Title\Title;
+use MediaWiki\User\User;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserRigorOptions;
-use MediaWikiIntegrationTestCase;
 use RequestContext;
+use SpecialPageTestBase;
 use Wikimedia\TestingAccessWrapper;
 
 /**
@@ -26,13 +28,28 @@ use Wikimedia\TestingAccessWrapper;
  *
  * @covers \MediaWiki\CheckUser\CheckUser\SpecialCheckUser
  */
-class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
+class SpecialCheckUserTest extends SpecialPageTestBase {
 
 	use MockAuthorityTrait;
 
+	protected function newSpecialPage() {
+		return $this->getServiceContainer()->getSpecialPageFactory()->getPage( 'CheckUser' );
+	}
+
+	/**
+	 * Gets a test user with the checkuser group and also assigns that user as the user for the main request context.
+	 *
+	 * @return User
+	 */
+	private function getTestCheckUser(): User {
+		$testCheckUser = $this->getTestUser( [ 'checkuser' ] )->getUser();
+		RequestContext::getMain()->setUser( $testCheckUser );
+		return $testCheckUser;
+	}
+
 	/** @return TestingAccessWrapper */
 	protected function setUpObject() {
-		RequestContext::getMain()->setUser( $this->getTestUser( 'checkuser' )->getUser() );
+		$this->getTestCheckUser();
 		$object = $this->getServiceContainer()->getSpecialPageFactory()->getPage( 'CheckUser' );
 		$testingWrapper = TestingAccessWrapper::newFromObject( $object );
 		$testingWrapper->opts = new FormOptions();
@@ -286,9 +303,26 @@ class SpecialCheckUserTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
-	public static function provideDoMassUserBlockInternal() {
-		return [
-			''
-		];
+	public function testLoadSpecialPageBeforeFormSubmission() {
+		// Execute the special page. We need the full HTML to verify the subtitle links.
+		[ $html ] = $this->executeSpecialPage( '', new FauxRequest(), null, $this->getTestCheckUser(), true );
+		// Assert that the "Try out Special:Investigate" link is present
+		$this->assertStringContainsString( '(checkuser-link-investigate-label', $html );
+		// Assert that the normal subtitle links are present (those without a specific target)
+		$this->assertStringContainsString( '(checkuser-show-investigate', $html );
+		$this->assertStringContainsString( '(checkuser-showlog', $html );
+		// Verify that the summary text is present
+		$this->assertStringContainsString( '(checkuser-summary', $html );
+		// Verify that the form fields that are expected are present.
+		$this->assertStringContainsString( '(checkuser-target', $html );
+		$this->assertStringContainsString( '(checkuser-period', $html );
+		$this->assertStringContainsString( '(checkuser-reason', $html );
+		$this->assertStringContainsString( '(checkuser-ips', $html );
+		$this->assertStringContainsString( '(checkuser-actions', $html );
+		$this->assertStringContainsString( '(checkuser-users', $html );
+		// Verify that the submit button is present
+		$this->assertStringContainsString( '(checkuser-check', $html );
+		// Verify that the CIDR calculator is present
+		$this->assertStringContainsString( '(checkuser-cidr-label', $html );
 	}
 }
