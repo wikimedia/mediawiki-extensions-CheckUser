@@ -12,6 +12,7 @@
 	"apihelp-query+checkuser-summary": "Controleer welke IP-adressen gebruikt worden door een opgegeven gebruikersnaam of welke gebruikersnamen worden gebruikt door een opgegeven IP-adres.",
 	"apihelp-query+checkuser-param-request": "Type CheckUser-verzoek:",
 	"apihelp-query+checkuser-paramvalue-request-userips": "Het IP-adres van de doelgebruiker ophalen.",
+	"apihelp-query+checkuser-paramvalue-request-actions": "Laat handelingen verrichten op doel-IP-adres of -bereik.",
 	"apihelp-query+checkuser-paramvalue-request-ipusers": "Gebruikers van het doel-IP-adres of -bereik opvragen.",
 	"apihelp-query+checkuser-param-target": "Gebruikersnaam, IP-adres, of te controleren CIDR-range.",
 	"apihelp-query+checkuser-param-reason": "Reden voor controleren.",
