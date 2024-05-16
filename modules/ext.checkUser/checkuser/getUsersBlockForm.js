@@ -2,7 +2,7 @@
  * Enhance Special:CheckUser's block form with a link to CentralAuth's
  * Special:MultiLock (if installed)
  */
-( function () {
+module.exports = function () {
 	var $userCheckboxes,
 		centralURL = mw.config.get( 'wgCUCAMultiLockCentral' );
 
@@ -88,4 +88,4 @@
 		}
 	} );
 
-}() );
+};
