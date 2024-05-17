@@ -45,9 +45,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideGetQueryInfo
 	 */
 	public function testGetQueryInfo( $options, $expected ) {
-		$serviceOptions = $this->createMock( ServiceOptions::class );
-		$serviceOptions->method( 'get' )
-			->willReturn( $options['limit'] );
+		$this->overrideConfigValue( 'CheckUserInvestigateMaximumRowCount', $options['limit'] );
 
 		$db = $this->getMockBuilder( Database::class )
 			->onlyMethods( [
@@ -89,7 +87,10 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 			);
 
 		$compareService = new CompareService(
-			$serviceOptions,
+			new ServiceOptions(
+				CompareService::CONSTRUCTOR_OPTIONS,
+				$this->getServiceContainer()->getMainConfig()
+			),
 			$dbProvider,
 			$userIdentityLookup,
 			$this->getServiceContainer()->get( 'CheckUserLookupUtils' )
@@ -222,24 +223,8 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 
 	public function testGetQueryInfoNoTargets() {
 		$this->expectException( \LogicException::class );
-		$db = $this->getMockBuilder( Database::class )
-			->disableOriginalConstructor()
-			->getMockForAbstractClass();
 
-		$dbProvider = $this->createMock( IConnectionProvider::class );
-		$dbProvider->method( 'getReplicaDatabase' )
-			->willReturn( $db );
-		$dbProvider->method( 'getPrimaryDatabase' )
-			->willReturn( $db );
-
-		$compareService = new CompareService(
-			$this->createMock( ServiceOptions::class ),
-			$dbProvider,
-			$this->createMock( UserIdentityLookup::class ),
-			$this->getServiceContainer()->get( 'CheckUserLookupUtils' )
-		);
-
-		$compareService->getQueryInfo( [], [], '' );
+		$this->getCompareService()->getQueryInfo( [], [], '' );
 	}
 
 	/**
