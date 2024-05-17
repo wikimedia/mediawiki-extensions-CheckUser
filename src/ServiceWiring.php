@@ -119,8 +119,7 @@ return [
 	): TimelineRowFormatterFactory {
 		return new TimelineRowFormatterFactory(
 			$services->getLinkRenderer(),
-			$services->getRevisionStore(),
-			$services->getArchivedRevisionLookup(),
+			$services->get( 'CheckUserLookupUtils' ),
 			$services->getTitleFormatter(),
 			$services->getSpecialPageFactory(),
 			$services->getCommentFormatter(),

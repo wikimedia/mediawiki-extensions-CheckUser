@@ -4,13 +4,12 @@ namespace MediaWiki\CheckUser\Investigate\Pagers;
 
 use HtmlArmor;
 use Language;
+use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\Linker;
 use MediaWiki\Linker\LinkRenderer;
-use MediaWiki\Revision\ArchivedRevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
-use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Title\TitleFormatter;
 use MediaWiki\Title\TitleValue;
@@ -22,8 +21,7 @@ use Wikimedia\IPUtils;
 
 class TimelineRowFormatter {
 	private LinkRenderer $linkRenderer;
-	private RevisionStore $revisionStore;
-	private ArchivedRevisionLookup $archivedRevisionLookup;
+	private CheckUserLookupUtils $checkUserLookupUtils;
 	private TitleFormatter $titleFormatter;
 	private SpecialPageFactory $specialPageFactory;
 	private UserFactory $userFactory;
@@ -37,8 +35,7 @@ class TimelineRowFormatter {
 
 	/**
 	 * @param LinkRenderer $linkRenderer
-	 * @param RevisionStore $revisionStore
-	 * @param ArchivedRevisionLookup $archivedRevisionLookup
+	 * @param CheckUserLookupUtils $checkUserLookupUtils
 	 * @param TitleFormatter $titleFormatter
 	 * @param SpecialPageFactory $specialPageFactory
 	 * @param CommentFormatter $commentFormatter
@@ -48,8 +45,7 @@ class TimelineRowFormatter {
 	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
-		RevisionStore $revisionStore,
-		ArchivedRevisionLookup $archivedRevisionLookup,
+		CheckUserLookupUtils $checkUserLookupUtils,
 		TitleFormatter $titleFormatter,
 		SpecialPageFactory $specialPageFactory,
 		CommentFormatter $commentFormatter,
@@ -58,8 +54,7 @@ class TimelineRowFormatter {
 		Language $language
 	) {
 		$this->linkRenderer = $linkRenderer;
-		$this->revisionStore = $revisionStore;
-		$this->archivedRevisionLookup = $archivedRevisionLookup;
+		$this->checkUserLookupUtils = $checkUserLookupUtils;
 		$this->titleFormatter = $titleFormatter;
 		$this->specialPageFactory = $specialPageFactory;
 		$this->commentFormatter = $commentFormatter;
@@ -83,11 +78,7 @@ class TimelineRowFormatter {
 			$row->this_oldid != 0 &&
 			( $row->type == RC_EDIT || $row->type == RC_NEW )
 		) {
-			$revRecord = $this->revisionStore->getRevisionById( $row->this_oldid );
-			if ( !$revRecord ) {
-				// Revision may have been deleted
-				$revRecord = $this->archivedRevisionLookup->getArchivedRevisionRecord( null, $row->this_oldid );
-			}
+			$revRecord = $this->checkUserLookupUtils->getRevisionRecordFromRow( $row );
 		}
 		return [
 			'links' => [
