@@ -1,8 +1,8 @@
 'use strict';
 
-const createTable = require( '../../../../modules/ext.checkUser/checkuser/checkUserHelper/createTable.js' );
+const createTable = require( '../../../../../modules/ext.checkUser/checkuser/checkUserHelper/createTable.js' );
 
-QUnit.module( 'ext.checkUser.checkUserHelper.createTable', QUnit.newMwEnvironment() );
+QUnit.module( 'ext.checkUser.checkuser.checkUserHelper.createTable', QUnit.newMwEnvironment() );
 
 QUnit.test( 'Test that createTable makes the expected table', function ( assert ) {
 	const cases = require( './cases/createTable.json' );
