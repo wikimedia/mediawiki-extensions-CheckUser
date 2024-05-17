@@ -126,5 +126,83 @@ trait CompareTabTestDataTrait {
 			->insertInto( 'cu_changes' )
 			->rows( $testDataForCuChanges )
 			->execute();
+
+		// Add testing data to cu_log_event
+		$testDataForCuLogEvent = [
+			[
+				'cule_actor'      => $testActorData['1.2.3.4']['actor_id'],
+				'cule_ip'         => '1.2.3.4',
+				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
+				'cule_agent'      => 'foo user agent',
+			], [
+				'cule_actor'      => $testActorData['1.2.3.4']['actor_id'],
+				'cule_ip'         => '1.2.3.4',
+				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
+				'cule_agent'      => 'bar user agent',
+			], [
+				'cule_actor'      => $testActorData['1.2.3.5']['actor_id'],
+				'cule_ip'         => '1.2.3.5',
+				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
+				'cule_agent'      => 'bar user agent',
+			], [
+				'cule_actor'      => $testActorData['User1']['actor_id'],
+				'cule_ip'         => '1.2.3.4',
+				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
+				'cule_agent'      => 'foo user agent',
+			],
+		];
+
+		$testDataForCuLogEvent = array_map( static function ( $row ) use ( $timestampForDb ) {
+			return array_merge( [
+				'cule_log_id'     => 0,
+				'cule_timestamp'  => $timestampForDb,
+				'cule_xff'        => 0,
+				'cule_xff_hex'    => null,
+			], $row );
+		}, $testDataForCuLogEvent );
+
+		$this->db->newInsertQueryBuilder()
+			->insertInto( 'cu_log_event' )
+			->rows( $testDataForCuLogEvent )
+			->execute();
+
+		// Add testing data to cu_private_event
+		$testDataForCuPrivateEvent = [
+			[
+				'cupe_actor'      => $testActorData['1.2.3.4']['actor_id'],
+				'cupe_ip'         => '1.2.3.4',
+				'cupe_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
+				'cupe_agent'      => 'foo user agent',
+			], [
+				'cupe_actor'      => $testActorData['User1']['actor_id'],
+				'cupe_ip'         => '1.2.3.4',
+				'cupe_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
+				'cupe_agent'      => 'foo user agent',
+			], [
+				'cupe_actor'      => $testActorData['User2']['actor_id'],
+				'cupe_ip'         => '1.2.3.4',
+				'cupe_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
+				'cupe_agent'      => 'foo user agent',
+			],
+		];
+
+		$testDataForCuPrivateEvent = array_map( static function ( $row ) use ( $timestampForDb ) {
+			return array_merge( [
+				'cupe_namespace'  => NS_MAIN,
+				'cupe_title'      => 'Foo_Page',
+				'cupe_timestamp'  => $timestampForDb,
+				'cupe_xff'        => 0,
+				'cupe_xff_hex'    => null,
+				'cupe_log_action' => 'foo',
+				'cupe_log_type'   => 'bar',
+				'cupe_params' => '',
+				'cupe_comment_id' => 0,
+			], $row );
+		}, $testDataForCuPrivateEvent );
+
+		$this->db->newInsertQueryBuilder()
+			->insertInto( 'cu_private_event' )
+			->rows( $testDataForCuPrivateEvent )
+			->execute();
 	}
 }
