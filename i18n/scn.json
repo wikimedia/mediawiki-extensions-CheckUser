@@ -5,7 +5,8 @@
 			"Melos",
 			"Pippinu",
 			"Santu",
-			"Sarvaturi"
+			"Sarvaturi",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Stu strummentu analizza li canciamenti fatti di picca p'arripigghiari li nnirizzi IP adupirati di n'utenti, o p'ammustrari li canciamenti e l'utenti assuciati a nu nnirizzu IP.\nAgghiuncennu ô nnirizzu IP lu suffissu \"/xff\" s'arrintràccianu l'utenti e li canciamenti ca vèninu d'un nnirizzu IP clienti tinennu cuntu dâ ntistazzioni XFF. Sunnu suppurtati l'IPv4 (CIDR $1-32) e l'IPv6 (CIDR $2-128).\nNun vèninu turnati chiossai di 5&nbsp;000 canciamenti, pi mutivi di pristazzioni.\nAdupirari stu strummentu rispittannu lu rigulamentu.",
@@ -37,9 +38,9 @@
 	"checkuser-all": "sempri",
 	"checkuser-cidr-label": "Attrova lu ntirvallu cumuni e li nnirizzi ntirissati partennu di na lista di nnirizzi IP",
 	"checkuser-cidr-res": "CIDR cumuni:",
-	"checkuser-empty": "Lu riggistru nun havi nudda vuci.",
-	"checkuser-nomatch": "Nuddu risurtatu attruvatu.",
-	"checkuser-nomatch-edits": "Nuddu risurtatu attruvatu.\nL'ùrtimu canciamentu fu fattu a li $2 di lu $1.",
+	"checkuser-empty": "Lu riggistru nun havi nuḍḍa vuci.",
+	"checkuser-nomatch": "Nuḍḍu risurtatu attruvatu.",
+	"checkuser-nomatch-edits": "Nuḍḍu risurtatu attruvatu.\nL’ùrtimu canciamentu fu fattu ê $2 dû $1.",
 	"checkuser-check": "Cuntrolla",
 	"checkuser-log-fail": "Nun fu pussìbbili agghiùnciri la vuci ô riggistru",
 	"checkuser-blocked": "Bluccatu",
@@ -53,7 +54,7 @@
 	"checkuser-blocktag-talk": "Scancia li pàggini di discussioni cu:",
 	"checkuser-massblock-commit": "Blocca a l'utenti scigghiuti",
 	"checkuser-block-success": "'''{{PLURAL:$2|L'utenti}} $1 ora {{PLURAL:$2|è bluccatu|sunnu bluccati}}.'''",
-	"checkuser-block-failure": "'''Nuddu utenti bluccatu.'''",
+	"checkuser-block-failure": "'''Nuḍḍu utenti bluccatu.'''",
 	"checkuser-block-limit": "Troppu assai utenti scigghiuti.",
 	"checkuser-block-noreason": "S'havi a dari nu mutivu pî blocchi.",
 	"checkuser-noreason": "S'havi a dari nu mutivu pi sta ntirrugazzioni.",
