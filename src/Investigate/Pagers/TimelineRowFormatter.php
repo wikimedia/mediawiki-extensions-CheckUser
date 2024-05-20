@@ -102,7 +102,7 @@ class TimelineRowFormatter {
 		$logEntry = null;
 		if ( ( $row->type == RC_EDIT || $row->type == RC_NEW ) && $row->this_oldid != 0 ) {
 			$revRecord = $this->checkUserLookupUtils->getRevisionRecordFromRow( $row );
-		} elseif ( $row->type == RC_LOG && isset( $row->log_type ) ) {
+		} elseif ( $row->type == RC_LOG && $row->log_type ) {
 			$logEntry = $this->checkUserLookupUtils->getManualLogEntryFromRow( $row, $user );
 		}
 
@@ -262,7 +262,7 @@ class TimelineRowFormatter {
 	 */
 	private function getLogLink( \stdClass $row ): string {
 		// Return no link if the row is not a log entry or if the log ID is not set.
-		if ( $row->type != RC_LOG || !isset( $row->log_id ) || !$row->log_id ) {
+		if ( $row->type != RC_LOG || !$row->log_id ) {
 			return '';
 		}
 
