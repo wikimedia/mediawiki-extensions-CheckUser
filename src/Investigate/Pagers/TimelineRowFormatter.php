@@ -392,8 +392,6 @@ class TimelineRowFormatter {
 	 * @return string
 	 */
 	private function getUserLinks( \stdClass $row, ?RevisionRecord $revRecord, ?ManualLogEntry $logEntry ): string {
-		// Note: this is incomplete. It should match the checks
-		// in SpecialCheckUser when displaying the same info
 		$userIsHidden = $this->isUserHidden( $row->user_text );
 		$userHiddenClass = '';
 		if ( $userIsHidden ) {
