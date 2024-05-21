@@ -78,7 +78,7 @@ class TimelineService extends ChangeService {
 			'fields' => [
 				'namespace', 'title', 'actiontext', 'timestamp', 'minor', 'page_id',
 				'type', 'this_oldid', 'last_oldid', 'ip', 'xff', 'agent', 'id',
-				'user', 'user_text', 'comment_text', 'comment_data',
+				'user', 'user_text', 'actor', 'comment_text', 'comment_data',
 			],
 		];
 	}
@@ -110,7 +110,7 @@ class TimelineService extends ChangeService {
 				'type' => 'cuc_type', 'this_oldid' => 'cuc_this_oldid', 'last_oldid' => 'cuc_last_oldid',
 				'ip' => 'cuc_ip', 'xff' => 'cuc_xff', 'agent' => 'cuc_agent', 'id' => 'cuc_id',
 				'user' => 'cuc_user_actor.actor_user', 'user_text' => 'cuc_user_actor.actor_name',
-				'comment_text', 'comment_data',
+				'actor' => 'cuc_actor', 'comment_text', 'comment_data',
 			] )
 			->from( 'cu_changes' )
 			->useIndex( $index )

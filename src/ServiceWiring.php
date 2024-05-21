@@ -128,7 +128,9 @@ return [
 			$services->getTitleFormatter(),
 			$services->getSpecialPageFactory(),
 			$services->getCommentFormatter(),
-			$services->getUserFactory()
+			$services->getUserFactory(),
+			$services->getCommentStore(),
+			$services->getLogFormatterFactory()
 		);
 	},
 	'CheckUserTimelinePagerFactory' => static function (

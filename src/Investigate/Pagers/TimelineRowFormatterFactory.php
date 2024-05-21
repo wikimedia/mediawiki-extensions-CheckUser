@@ -3,8 +3,10 @@
 namespace MediaWiki\CheckUser\Investigate\Pagers;
 
 use Language;
+use LogFormatterFactory;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CommentFormatter\CommentFormatter;
+use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Title\TitleFormatter;
@@ -18,6 +20,8 @@ class TimelineRowFormatterFactory {
 	private SpecialPageFactory $specialPageFactory;
 	private CommentFormatter $commentFormatter;
 	private UserFactory $userFactory;
+	private CommentStore $commentStore;
+	private LogFormatterFactory $logFormatterFactory;
 
 	/**
 	 * @param LinkRenderer $linkRenderer
@@ -26,6 +30,8 @@ class TimelineRowFormatterFactory {
 	 * @param SpecialPageFactory $specialPageFactory
 	 * @param CommentFormatter $commentFormatter
 	 * @param UserFactory $userFactory
+	 * @param CommentStore $commentStore
+	 * @param LogFormatterFactory $logFormatterFactory
 	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
@@ -33,7 +39,9 @@ class TimelineRowFormatterFactory {
 		TitleFormatter $titleFormatter,
 		SpecialPageFactory $specialPageFactory,
 		CommentFormatter $commentFormatter,
-		UserFactory $userFactory
+		UserFactory $userFactory,
+		CommentStore $commentStore,
+		LogFormatterFactory $logFormatterFactory
 	) {
 		$this->linkRenderer = $linkRenderer;
 		$this->checkUserLookupUtils = $checkUserLookupUtils;
@@ -41,6 +49,8 @@ class TimelineRowFormatterFactory {
 		$this->specialPageFactory = $specialPageFactory;
 		$this->commentFormatter = $commentFormatter;
 		$this->userFactory = $userFactory;
+		$this->commentStore = $commentStore;
+		$this->logFormatterFactory = $logFormatterFactory;
 	}
 
 	/**
@@ -58,6 +68,8 @@ class TimelineRowFormatterFactory {
 			$this->specialPageFactory,
 			$this->commentFormatter,
 			$this->userFactory,
+			$this->commentStore,
+			$this->logFormatterFactory,
 			$user,
 			$language
 		);

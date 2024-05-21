@@ -178,6 +178,7 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 					'user_text' => 'InvestigateTestUser1',
 					'comment_text' => 'Foo comment',
 					'comment_data' => null,
+					'actor' => '1',
 				] ],
 			],
 			'Offset set, limit 1, order DESC, InvestigateTestUser1 as target' => [
@@ -200,6 +201,7 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 					'user_text' => 'InvestigateTestUser1',
 					'comment_text' => 'Foo comment',
 					'comment_data' => null,
+					'actor' => '1',
 				] ],
 			],
 			'No rows for IP and invalid user target' => [
