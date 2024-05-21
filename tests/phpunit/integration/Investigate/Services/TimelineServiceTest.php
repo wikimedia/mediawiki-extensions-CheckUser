@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\Investigate\Services;
 
 use LogicException;
 use MediaWiki\CheckUser\Investigate\Services\TimelineService;
+use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWikiIntegrationTestCase;
@@ -34,6 +35,10 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 			);
 
 		$timelineService = new TimelineService(
+			new ServiceOptions(
+				TimelineService::CONSTRUCTOR_OPTIONS,
+				$this->getServiceContainer()->getMainConfig()
+			),
 			$this->getServiceContainer()->getConnectionProvider(),
 			$userIdentityLookup,
 			$this->getServiceContainer()->get( 'CheckUserLookupUtils' )

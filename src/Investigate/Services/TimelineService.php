@@ -3,11 +3,31 @@
 namespace MediaWiki\CheckUser\Investigate\Services;
 
 use LogicException;
+use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
+use MediaWiki\Config\ServiceOptions;
+use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\IPUtils;
+use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Rdbms\Subquery;
 
 class TimelineService extends ChangeService {
+
+	/**
+	 * @param ServiceOptions $options
+	 * @param IConnectionProvider $dbProvider
+	 * @param UserIdentityLookup $userIdentityLookup
+	 * @param CheckUserLookupUtils $checkUserLookupUtils
+	 */
+	public function __construct(
+		ServiceOptions $options,
+		IConnectionProvider $dbProvider,
+		UserIdentityLookup $userIdentityLookup,
+		CheckUserLookupUtils $checkUserLookupUtils
+	) {
+		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
+		parent::__construct( $options, $dbProvider, $userIdentityLookup, $checkUserLookupUtils );
+	}
 
 	/**
 	 * Get timeline query info
