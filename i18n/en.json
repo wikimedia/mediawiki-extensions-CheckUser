@@ -86,6 +86,7 @@
 	"checkuser-wasblocked": "Previously blocked",
 	"checkuser-localonly": "Not unified",
 	"checkuser-massblock": "Block selected users",
+	"checkuser-massblock-text-multi-lock-only": "You do not have the rights needed to block users on this wiki. You can still lock the selected accounts using the link(s) below.",
 	"checkuser-massblock-text": "Selected accounts will be blocked indefinitely, with autoblocking of IP addresses enabled and account creation disabled.\nIP addresses will be blocked for one week for anonymous users only and account creation will be disabled.",
 	"checkuser-blockemail": "Block selected users from sending email",
 	"checkuser-blocktalk": "Prevent selected users from editing their own talk page while blocked",

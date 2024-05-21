@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers;
 
+use ExtensionRegistry;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\ClientHints\ClientHintsLookupResults;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
@@ -9,8 +10,10 @@ use MediaWiki\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
 use MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers\Mocks\MockTemplateParser;
+use MediaWiki\Config\ConfigException;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\User\UserIdentityValue;
+use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
@@ -250,7 +253,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 		];
 		$objectUnderTest->displayClientHints = false;
 		$expectedTemplateParams = [
-			'canPerformBlocks' => $canPerformBlocks,
+			'canPerformBlocksOrLocks' => $canPerformBlocks,
 			'userText' => '127.0.0.1',
 			'editCount' => 1,
 			'agentsList' => [ 'Testing user agent' ]
@@ -356,5 +359,27 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 			'user' => 0,
 			'user_text' => '127.0.0.1',
 		];
+	}
+
+	public function testGetEndBodyThrowsIfCentralAuthMissingButCheckUserCAMultiLockSet() {
+		// Define $wgCheckUserCAMultiLockSet to anything other than false
+		$this->overrideConfigValue( 'CheckUserCAMultiLock', [] );
+		// Get the object under test and set the extensionRegistry to return false for 'CentralAuth'.
+		$objectUnderTest = $this->setUpObject();
+		$mockExtensionRegistry = $this->createMock( ExtensionRegistry::class );
+		$mockExtensionRegistry->method( 'isLoaded' )->with( 'CentralAuth' )->willReturn( false );
+		$objectUnderTest->extensionRegistry = $mockExtensionRegistry;
+		$objectUnderTest->mResult = new FakeResultWrapper( [] );
+		// Call ::shouldShowBlockFieldset and expect an exception.
+		$this->expectException( ConfigException::class );
+		$objectUnderTest->getEndBody();
+	}
+
+	public function testGetEndBodyWhenUserMissingBlockAndLockRights() {
+		$objectUnderTest = $this->setUpObject();
+		// Add one fake result row to the mResult in the object under test.
+		$objectUnderTest->mResult = new FakeResultWrapper( [ [ 'test' ] ] );
+		// Assert that the block fieldset is not added
+		$this->assertStringNotContainsString( 'mw-checkuser-massblock', $objectUnderTest->getEndBody() );
 	}
 }

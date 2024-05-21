@@ -12,7 +12,7 @@
 	}
 
 	// Initialize the link
-	var $checkUserBlockFieldset = $( '#checkuserblock fieldset' );
+	var $checkUserBlockFieldset = $( '.mw-checkuser-massblock fieldset' );
 	$checkUserBlockFieldset.append(
 		$( '<a>' ).attr( {
 			class: 'mw-checkuser-multilock-link',
