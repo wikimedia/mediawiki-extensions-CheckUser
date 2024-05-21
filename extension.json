@@ -340,7 +340,7 @@
 			"packageFiles": [
 				"dispatcher.js",
 				"cidr/cidr.js",
-				"checkuser/caMultiLock.js",
+				"checkuser/getUsersBlockForm.js",
 				"checkuser/checkUserHelper/init.js",
 				"checkuser/checkUserHelper/addCopyElement.js",
 				"checkuser/checkUserHelper/createTable.js",
@@ -453,6 +453,8 @@
 		"remoteExtPath": "CheckUser",
 		"packageFiles": [
 			"tests/qunit/index.js",
+			"tests/qunit/ext.checkUser/checkuser/getUsersBlockForm.test.js",
+			"modules/ext.checkUser/checkuser/getUsersBlockForm.js",
 			"tests/qunit/ext.checkUser/checkuser/checkUserHelper/utils.test.js",
 			"tests/qunit/ext.checkUser/checkuser/checkUserHelper/createTable.test.js",
 			"tests/qunit/ext.checkUser/checkuser/checkUserHelper/createTableText.test.js",

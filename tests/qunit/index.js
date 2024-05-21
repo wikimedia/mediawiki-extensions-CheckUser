@@ -3,6 +3,7 @@
 QUnit.dump.maxDepth = 999;
 
 // List all test files here.
+require( './ext.checkUser/checkuser/getUsersBlockForm.test.js' );
 require( './ext.checkUser/checkuser/checkUserHelper/utils.test.js' );
 require( './ext.checkUser/checkuser/checkUserHelper/createTableText.test.js' );
 require( './ext.checkUser/checkuser/checkUserHelper/createTable.test.js' );
