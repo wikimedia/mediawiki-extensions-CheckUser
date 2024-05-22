@@ -11,6 +11,7 @@ use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
 use MediaWiki\CheckUser\Investigate\Services\TimelineService;
 use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
 use MediaWiki\CheckUser\Investigate\Utilities\EventLogger;
+use MediaWiki\CheckUser\IPContributions\IPContributionsPagerFactory;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
 use MediaWiki\CheckUser\Services\ApiQueryCheckUserResponseFactory;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
@@ -137,6 +138,21 @@ return [
 			$services->get( 'CheckUserTimelineService' ),
 			$services->get( 'CheckUserTimelineRowFormatterFactory' ),
 			LoggerFactory::getInstance( 'CheckUser' )
+		);
+	},
+	'CheckUserIPContributionsPagerFactory' => static function (
+		MediaWikiServices $services
+	): IPContributionsPagerFactory {
+		return new IPContributionsPagerFactory(
+			$services->getLinkRenderer(),
+			$services->getLinkBatchFactory(),
+			$services->getHookContainer(),
+			$services->getRevisionStore(),
+			$services->getNamespaceInfo(),
+			$services->getCommentFormatter(),
+			$services->getUserFactory(),
+			$services->getTempUserConfig(),
+			$services->get( 'CheckUserLookupUtils' )
 		);
 	},
 	'CheckUserEventLogger' => static function (

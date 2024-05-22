@@ -36,6 +36,7 @@
 	var excludePages = [
 		'Investigate',
 		'InvestigateBlock',
+		'IPContributions',
 		'CheckUser',
 		'Contributions',
 		'Recentchanges',

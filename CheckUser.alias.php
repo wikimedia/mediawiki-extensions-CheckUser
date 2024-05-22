@@ -14,6 +14,7 @@ $specialPageAliases['en'] = [
 	'CheckUserLog' => [ 'CheckUserLog' ],
 	'Investigate' => [ 'Investigate' ],
 	'InvestigateBlock' => [ 'InvestigateBlock' ],
+	'IPContributions' => [ 'IPContributions' ],
 ];
 
 /** Arabic (العربية) */
