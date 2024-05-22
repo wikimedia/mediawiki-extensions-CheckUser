@@ -240,7 +240,7 @@
 	"prefs-checkuser-tempaccount": "Розкриття IP-адрес тимчасових облікових записів",
 	"checkuser-temporary-account-log-name": "Журнал перевірок тимчасових облікових записів",
 	"checkuser-temporary-account-log-header": "Це журнал таких записів:\n# Перегляду IP-адрес тимчасових облікових записів;\n# Зміни у рівнях доступу користувачів до перегляду IP-адрес тимчасових облікових записів.",
-	"logentry-checkuser-temporary-account-change-access": "$1 $4 собі доступ до перегляду IP-адрес тимчасових облікових записів",
+	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|собі}} доступ до перегляду IP-адрес тимчасових облікових записів",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|виключив|виключила}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|включив|включила}}",
 	"log-action-filter-checkuser-temporary-account": "Тип дії:",
