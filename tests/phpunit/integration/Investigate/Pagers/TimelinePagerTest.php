@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Investigate\Pagers;
 
+use ManualLogEntry;
 use MediaWiki\CheckUser\Investigate\Pagers\TimelinePager;
 use MediaWiki\CheckUser\Investigate\Pagers\TimelineRowFormatter;
 use MediaWiki\CheckUser\Investigate\Services\TimelineService;
@@ -10,13 +11,16 @@ use MediaWiki\Context\RequestContext;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Pager\IndexPager;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
+use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use TestUser;
 use Wikimedia\IPUtils;
 use Wikimedia\TestingAccessWrapper;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * @covers \MediaWiki\CheckUser\Investigate\Pagers\TimelinePager
+ * @covers \MediaWiki\CheckUser\Investigate\Services\TimelineService
  * @group CheckUser
  * @group Database
  */
@@ -161,47 +165,21 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 				[ 'InvestigateTestUser1' ],
 				// The expected rows returned by ::reallyDoQuery
 				[ (object)[
-					'timestamp' => '20230405060708',
-					'namespace' => '0',
-					'title' => 'Foo_Page',
-					'actiontext' => '',
-					'minor' => '0',
-					'page_id' => '1',
-					'type' => '1',
-					'this_oldid' => '0',
-					'last_oldid' => '0',
-					'ip' => '1.2.3.4',
-					'xff' => '0',
-					'agent' => 'foo user agent',
-					'id' => '1',
-					'user' => '1',
-					'user_text' => 'InvestigateTestUser1',
-					'comment_text' => 'Foo comment',
-					'comment_data' => null,
-					'actor' => '1',
+					'timestamp' => '20230405060708', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
+					'actiontext' => '', 'minor' => '0', 'page_id' => '1', 'type' => RC_NEW,
+					'this_oldid' => '0', 'last_oldid' => '0', 'ip' => '1.2.3.4', 'xff' => '0',
+					'agent' => 'foo user agent', 'id' => '1', 'user' => '1', 'user_text' => 'InvestigateTestUser1',
+					'comment_text' => 'Foo comment', 'comment_data' => null, 'actor' => '1',
 				] ],
 			],
 			'Offset set, limit 1, order DESC, InvestigateTestUser1 as target' => [
 				'20230405060710|1', 1, IndexPager::QUERY_DESCENDING, [ 'InvestigateTestUser1' ],
 				[ (object)[
-					'timestamp' => '20230405060708',
-					'namespace' => '0',
-					'title' => 'Foo_Page',
-					'actiontext' => '',
-					'minor' => '0',
-					'page_id' => '1',
-					'type' => '1',
-					'this_oldid' => '0',
-					'last_oldid' => '0',
-					'ip' => '1.2.3.4',
-					'xff' => '0',
-					'agent' => 'foo user agent',
-					'id' => '1',
-					'user' => '1',
-					'user_text' => 'InvestigateTestUser1',
-					'comment_text' => 'Foo comment',
-					'comment_data' => null,
-					'actor' => '1',
+					'timestamp' => '20230405060708', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
+					'actiontext' => '', 'minor' => '0', 'page_id' => '1', 'type' => RC_NEW,
+					'this_oldid' => '0', 'last_oldid' => '0', 'ip' => '1.2.3.4', 'xff' => '0',
+					'agent' => 'foo user agent', 'id' => '1', 'user' => '1', 'user_text' => 'InvestigateTestUser1',
+					'comment_text' => 'Foo comment', 'comment_data' => null, 'actor' => '1',
 				] ],
 			],
 			'No rows for IP and invalid user target' => [
@@ -212,63 +190,289 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function addDBDataOnce() {
-		// Create a test user for use below in creating testing cu_changes entries.
-		$testUser = ( new TestUser( 'InvestigateTestUser1' ) )->getUser();
+		// Get some test users
+		$testUser1 = ( new TestUser( 'InvestigateTestUser1' ) )->getUser();
+		$testUser2 = ( new TestUser( 'InvestigateTestUser2' ) )->getUser();
+		// Add some testing entries to the CheckUser result tables to test the Special:Investigate when results are
+		// displayed. More specific tests for the results are written for the pager and services classes.
+		$testPage = $this->getExistingTestPage( 'CheckUserTestPage' )->getTitle();
 		// Clear the cu_changes and cu_log_event tables to avoid log entries created by the test users being created
-		// affecting the tests.
+		// or the page being created affecting the tests.
 		$this->truncateTables( [ 'cu_changes', 'cu_log_event' ] );
 
 		// Automatic temp user creation cannot be enabled
 		// if actor IDs are being created for IPs.
 		$this->disableAutoCreateTempUser();
+		$actorStore = $this->getServiceContainer()->getActorStore();
+		$commentStore = $this->getServiceContainer()->getCommentStore();
 
-		$testData = [
+		$testActorData = [
+			'InvestigateTestUser1' => [
+				'actor_id'   => 0,
+				'actor_user' => $testUser1->getId(),
+			],
+			'InvestigateTestUser2' => [
+				'actor_id'   => 0,
+				'actor_user' => $testUser2->getId(),
+			],
+			'1.2.3.4' => [
+				'actor_id'   => 0,
+				'actor_user' => 0,
+			],
+			'1.2.3.5' => [
+				'actor_id'   => 0,
+				'actor_user' => 0,
+			],
+		];
+
+		foreach ( $testActorData as $name => $actor ) {
+			$testActorData[$name]['actor_id'] = $actorStore->acquireActorId(
+				new UserIdentityValue( $actor['actor_user'], $name ),
+				$this->getDb()
+			);
+		}
+
+		// Create several entries in the logging table, as queries performed by the TimelineService will JOIN to the
+		// logging table when reading rows from cu_log_event.
+		// Entry for the first log item.
+		ConvertibleTimestamp::setFakeTime( '20230405060716' );
+		$moveLogEntry = new ManualLogEntry( 'move', 'move' );
+		$moveLogEntry->setPerformer( UserIdentityValue::newAnonymous( '1.2.3.4' ) );
+		$moveLogEntry->setTarget( $testPage );
+		$moveLogEntry->setComment( 'Testingabc' );
+		$moveLogEntry->setParameters( [ '4::target' => 'Testing', '5::noredir' => '0' ] );
+		$moveLogEntryId = $moveLogEntry->insert( $this->getDb() );
+		// Entry for the second log item.
+		ConvertibleTimestamp::setFakeTime( '20230405060718' );
+		$secondLogEntry = new ManualLogEntry( 'foo', 'bar' );
+		$secondLogEntry->setPerformer( UserIdentityValue::newAnonymous( '1.2.3.5' ) );
+		$secondLogEntry->setTarget( $testPage );
+		$secondLogEntry->setComment( 'Testing' );
+		$secondLogEntryId = $secondLogEntry->insert();
+		// Entry for the last log item.
+		ConvertibleTimestamp::setFakeTime( '20230405060719' );
+		$deleteLogEntry = new ManualLogEntry( 'delete', 'delete' );
+		$deleteLogEntry->setPerformer( $testUser1 );
+		$deleteLogEntry->setTarget( $testPage );
+		$deleteLogEntry->setComment( 'Deleting page' );
+		$deleteLogEntryId = $deleteLogEntry->insert( $this->getDb() );
+		// Reset the fake time, as it we no longer need to set it for this method.
+		ConvertibleTimestamp::setFakeTime( false );
+
+		// Add testing data to cu_changes
+		$testDataForCuChanges = [
 			[
-				'cuc_actor'      => $testUser->getActorId(),
+				'cuc_actor'      => $testActorData['InvestigateTestUser1']['actor_id'],
 				'cuc_type'       => RC_NEW,
 				'cuc_ip'         => '1.2.3.4',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cuc_agent'      => 'foo user agent',
 				'cuc_timestamp'  => '20230405060708',
 			], [
-				'cuc_actor'      => $testUser->getActorId(),
+				'cuc_actor'      => $testActorData['InvestigateTestUser1']['actor_id'],
+				'cuc_type'       => RC_EDIT,
+				'cuc_ip'         => '1.2.3.4',
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
+				'cuc_agent'      => 'bar user agent',
+				'cuc_timestamp'  => '20230405060710',
+				'cuc_minor'      => 1,
+			], [
+				'cuc_actor'      => $testActorData['InvestigateTestUser1']['actor_id'],
 				'cuc_type'       => RC_EDIT,
 				'cuc_ip'         => '1.2.3.4',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cuc_agent'      => 'bar user agent',
 				'cuc_timestamp'  => '20230405060710',
 			], [
-				'cuc_actor'      => $testUser->getActorId(),
-				'cuc_type'       => RC_EDIT,
+				'cuc_actor'      => $testActorData['1.2.3.4']['actor_id'],
+				'cuc_type'       => RC_NEW,
 				'cuc_ip'         => '1.2.3.4',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
+				'cuc_agent'      => 'foo user agent',
+				'cuc_timestamp'  => '20230405060711',
+			], [
+				'cuc_actor'      => $testActorData['1.2.3.5']['actor_id'],
+				'cuc_type'       => RC_EDIT,
+				'cuc_ip'         => '1.2.3.5',
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
+				'cuc_agent'      => 'foo user agent',
+				'cuc_timestamp'  => '20230405060716',
+				'cuc_comment_id' => $commentStore->createComment( $this->getDb(), 'Bar comment' )->id,
+			],
+			// Entries also in cu_log_event that are marked only for use when reading old
+			[
+				'cuc_actor'      => $testActorData['1.2.3.4']['actor_id'],
+				'cuc_ip'         => '1.2.3.4',
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
+				'cuc_agent'      => 'foo user agent',
+				'cuc_timestamp'  => '20230405060716',
+				'cuc_actiontext' => 'action text for move log entry when reading old',
+				'cuc_comment_id' => $commentStore->createComment( $this->getDb(), $moveLogEntry->getComment() )->id,
+				'cuc_type'       => RC_LOG,
+				'cuc_only_for_read_old' => 1,
+			], [
+				'cuc_actor'      => $testActorData['1.2.3.5']['actor_id'],
+				'cuc_ip'         => '1.2.3.5',
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
 				'cuc_agent'      => 'bar user agent',
-				'cuc_timestamp'  => '20230405060710',
+				'cuc_timestamp'  => '20230405060718',
+				'cuc_actiontext' => 'action text for second log entry when reading old',
+				'cuc_comment_id' => $commentStore->createComment( $this->getDb(), $secondLogEntry->getComment() )->id,
+				'cuc_type'       => RC_LOG,
+				'cuc_only_for_read_old' => 1,
+			], [
+				'cuc_actor'      => $testActorData['InvestigateTestUser1']['actor_id'],
+				'cuc_ip'         => '1.2.3.4',
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
+				'cuc_agent'      => 'foo user agent',
+				'cuc_timestamp'  => '20230405060719',
+				'cuc_actiontext' => 'action text for delete log entry when reading old',
+				'cuc_comment_id' => $commentStore->createComment( $this->getDb(), $deleteLogEntry->getComment() )->id,
+				'cuc_type'       => RC_LOG,
+				'cuc_only_for_read_old' => 1,
+			],
+			// Entries also in cu_private_event that are marked only for use when reading old
+			[
+				'cuc_actor'      => $testActorData['1.2.3.4']['actor_id'],
+				'cuc_ip'         => '1.2.3.4',
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
+				'cuc_agent'      => 'foo user agent',
+				'cuc_timestamp'  => '20230405060720',
+				'cuc_comment_id' => $commentStore->createComment( $this->getDb(), '' )->id,
+				'cuc_type'       => RC_LOG,
+				'cuc_only_for_read_old' => 1,
+			], [
+				'cuc_actor'      => $testActorData['InvestigateTestUser1']['actor_id'],
+				'cuc_ip'         => '1.2.3.4',
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
+				'cuc_agent'      => 'foo user agent',
+				'cuc_timestamp'  => '20230405060721',
+				'cuc_namespace'  => NS_USER,
+				'cuc_title'      => 'InvestigateTestUser1',
+				'cuc_page_id'    => 0,
+				'cuc_comment_id' => $commentStore->createComment( $this->getDb(), '' )->id,
+				'cuc_type'       => RC_LOG,
+				'cuc_only_for_read_old' => 1,
+			], [
+				'cuc_actor'      => $testActorData['InvestigateTestUser2']['actor_id'],
+				'cuc_ip'         => '1.2.3.4',
+				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
+				'cuc_agent'      => 'foo user agent',
+				'cuc_timestamp'  => '20230405060620',
+				'cuc_comment_id' => $commentStore->createComment( $this->getDb(), 'Barfoo comment' )->id,
+				'cuc_type'       => RC_LOG,
+				'cuc_only_for_read_old' => 1,
 			],
 		];
 
-		$commonData = [
-			'cuc_namespace'  => NS_MAIN,
-			'cuc_title'      => 'Foo_Page',
-			'cuc_minor'      => 0,
-			'cuc_page_id'    => 1,
-			'cuc_xff'        => 0,
-			'cuc_xff_hex'    => null,
-			'cuc_actiontext' => '',
-			'cuc_comment_id' => $this->getServiceContainer()->getCommentStore()
-				->createComment( $this->getDb(), 'Foo comment' )->id,
-			'cuc_this_oldid' => 0,
-			'cuc_last_oldid' => 0,
-		];
-
-		foreach ( $testData as &$row ) {
+		$testDataForCuChanges = array_map( function ( $row ) use ( $testPage, $commentStore ) {
 			$row['cuc_timestamp'] = $this->db->timestamp( $row['cuc_timestamp'] );
-			$row += $commonData;
-		}
+			return array_merge( [
+				'cuc_namespace'  => $testPage->getNamespace(),
+				'cuc_title'      => $testPage->getText(),
+				'cuc_minor'      => 0,
+				'cuc_page_id'    => $testPage->getId(),
+				'cuc_xff'        => 0,
+				'cuc_xff_hex'    => null,
+				'cuc_actiontext' => '',
+				'cuc_comment_id' => $commentStore->createComment( $this->getDb(), 'Foo comment' )->id,
+				'cuc_this_oldid' => 0,
+				'cuc_last_oldid' => 0,
+				'cuc_only_for_read_old' => 0,
+				'cuc_type' => RC_EDIT,
+			], $row );
+		}, $testDataForCuChanges );
 
 		$this->db->newInsertQueryBuilder()
 			->insertInto( 'cu_changes' )
-			->rows( $testData )
+			->rows( $testDataForCuChanges )
+			->execute();
+
+		// Add testing data to cu_log_event
+		$testDataForCuLogEvent = [
+			[
+				'cule_actor'      => $testActorData['1.2.3.4']['actor_id'],
+				'cule_ip'         => '1.2.3.4',
+				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
+				'cule_agent'      => 'foo user agent',
+				'cule_timestamp'  => '20230405060716',
+				'cule_log_id'     => $moveLogEntryId,
+			], [
+				'cule_actor'      => $testActorData['1.2.3.5']['actor_id'],
+				'cule_ip'         => '1.2.3.5',
+				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
+				'cule_agent'      => 'bar user agent',
+				'cule_timestamp'  => '20230405060718',
+				'cule_log_id'     => $secondLogEntryId,
+			], [
+				'cule_actor'      => $testActorData['InvestigateTestUser1']['actor_id'],
+				'cule_ip'         => '1.2.3.4',
+				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
+				'cule_agent'      => 'foo user agent',
+				'cule_timestamp'  => '20230405060719',
+				'cule_log_id'     => $deleteLogEntryId,
+			],
+		];
+
+		$testDataForCuLogEvent = array_map( function ( $row ) {
+			$row['cule_timestamp'] = $this->db->timestamp( $row['cule_timestamp'] );
+			return array_merge( [
+				'cule_xff'        => 0,
+				'cule_xff_hex'    => null,
+			], $row );
+		}, $testDataForCuLogEvent );
+
+		$this->db->newInsertQueryBuilder()
+			->insertInto( 'cu_log_event' )
+			->rows( $testDataForCuLogEvent )
+			->execute();
+
+		// Add testing data to cu_private_event
+		$testDataForCuPrivateEvent = [
+			[
+				// Test handling of cupe_actor as null, which can occur when temporary accounts are enabled.
+				'cupe_actor'      => null,
+				'cupe_ip'         => '1.2.3.4',
+				'cupe_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
+				'cupe_agent'      => 'foo user agent',
+				'cupe_timestamp'  => '20230405060720',
+			], [
+				'cupe_actor'      => $testActorData['InvestigateTestUser1']['actor_id'],
+				'cupe_ip'         => '1.2.3.4',
+				'cupe_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
+				'cupe_agent'      => 'foo user agent',
+				'cupe_timestamp'  => '20230405060721',
+				'cupe_namespace'  => NS_USER,
+				'cupe_title'      => 'InvestigateTestUser1',
+				'cupe_page'       => 0,
+			], [
+				'cupe_actor'      => $testActorData['InvestigateTestUser2']['actor_id'],
+				'cupe_ip'         => '1.2.3.4',
+				'cupe_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
+				'cupe_agent'      => 'foo user agent',
+				'cupe_timestamp'  => '20230405060620',
+				'cupe_comment_id' => $commentStore->createComment( $this->getDb(), 'Barfoo comment' )->id,
+			],
+		];
+
+		$testDataForCuPrivateEvent = array_map( function ( $row ) use ( $testPage, $commentStore ) {
+			$row['cupe_timestamp'] = $this->db->timestamp( $row['cupe_timestamp'] );
+			return array_merge( [
+				'cupe_namespace'  => $testPage->getNamespace(),
+				'cupe_title'      => $testPage->getText(),
+				'cupe_page'       => $testPage->getId(),
+				'cupe_xff'        => 0,
+				'cupe_xff_hex'    => null,
+				'cupe_log_action' => 'foo',
+				'cupe_log_type'   => 'bar',
+				'cupe_params'     => '',
+				'cupe_comment_id' => $commentStore->createComment( $this->getDb(), '' )->id,
+			], $row );
+		}, $testDataForCuPrivateEvent );
+
+		$this->db->newInsertQueryBuilder()
+			->insertInto( 'cu_private_event' )
+			->rows( $testDataForCuPrivateEvent )
 			->execute();
 	}
 }
