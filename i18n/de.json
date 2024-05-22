@@ -97,6 +97,7 @@
 	"checkuser-wasblocked": "ehemals gesperrt",
 	"checkuser-localonly": "nicht zusammengeführt",
 	"checkuser-massblock": "Ausgewählte Benutzer sperren",
+	"checkuser-massblock-text-multi-lock-only": "Du verfügst nicht über die erforderlichen Rechte, um Benutzer in diesem Wiki zu sperren. Du kannst die ausgewählten Konten dennoch über die unten stehenden Links sperren.",
 	"checkuser-massblock-text": "Die ausgewählten Benutzerkonten werden dauerhaft gesperrt (Autoblock ist aktiv, die Anlage neuer Benutzerkonten wird unterbunden).\nIP-Adressen werden für eine Woche gesperrt (nur für unangemeldete Benutzer, die Anlage neuer Benutzerkonten wird unterbunden).",
 	"checkuser-blockemail": "Ausgewählte Benutzer daran hindern, E-Mails zu senden",
 	"checkuser-blocktalk": "Ausgewählte Benutzer während der Sperre vom Bearbeiten der eigenen Diskussionsseite abhalten.",
