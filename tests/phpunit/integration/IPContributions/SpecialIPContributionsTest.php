@@ -6,13 +6,14 @@ use ErrorPageError;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
-use MediaWiki\User\UserIdentity;
+use MediaWiki\User\User;
 use PermissionsError;
 use SpecialPageTestBase;
 use UserBlockedError;
 
 /**
  * @covers \MediaWiki\CheckUser\IPContributions\SpecialIPContributions
+ * @covers \MediaWiki\CheckUser\IPContributions\IPContributionsPager
  * @group CheckUser
  * @group Database
  */
@@ -20,9 +21,9 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 
 	use TempUserTestTrait;
 
-	private static UserIdentity $disallowedUser;
-	private static UserIdentity $checkuser;
-	private static UserIdentity $sysop;
+	private static User $disallowedUser;
+	private static User $checkuser;
+	private static User $sysop;
 
 	protected function newSpecialPage() {
 		return $this->getServiceContainer()->getSpecialPageFactory()->getPage( 'IPContributions' );
@@ -79,7 +80,6 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 
 	/**
 	 * @dataProvider provideTargets
-	 * @covers \MediaWiki\CheckUser\IPContributions\IPContributionsPager::getRevisionQuery
 	 */
 	public function testExecuteTarget( $target, $expectedCount ) {
 		[ $html ] = $this->executeSpecialPage(
@@ -136,7 +136,7 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 	}
 
 	public function testExecuteErrorBlock() {
-		$blockStatus = $this->getServiceContainer()->getBlockUserFactory()
+		$this->getServiceContainer()->getBlockUserFactory()
 			->newBlockUser(
 				self::$checkuser->getName(),
 				self::$sysop,
