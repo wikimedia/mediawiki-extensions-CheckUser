@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Investigate\Services;
 
+use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Investigate\Services\CompareService;
 use MediaWiki\CheckUser\Tests\Integration\Investigate\CompareTabTestDataTrait;
 use MediaWiki\Config\ServiceOptions;
@@ -46,6 +47,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 	 */
 	public function testGetQueryInfo( $options, $expected ) {
 		$this->overrideConfigValue( 'CheckUserInvestigateMaximumRowCount', $options['limit'] );
+		$this->overrideConfigValue( 'CheckUserEventTablesMigrationStage', $options['migrationStage'] );
 
 		$db = $this->getMockBuilder( Database::class )
 			->onlyMethods( [
@@ -112,11 +114,34 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 
 		$this->assertStringContainsString( 'LIMIT ' . $expected['limit'], $queryInfo['tables']['a'] );
 
-		[ 'start' => $start ] = $expected;
-		if ( $start === '' ) {
-			$this->assertStringNotContainsString( 'cuc_timestamp >=', $queryInfo['tables']['a'] );
+		$start = $expected['start'];
+		if ( $options['migrationStage'] & SCHEMA_COMPAT_READ_NEW ) {
+			foreach ( CheckUserQueryInterface::RESULT_TABLES as $table ) {
+				$this->assertStringContainsString( $table, $queryInfo['tables']['a'] );
+				$columnPrefix = CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$table];
+				if ( $start === '' ) {
+					$this->assertStringNotContainsString( $columnPrefix . 'timestamp >=', $queryInfo['tables']['a'] );
+				} else {
+					$this->assertStringContainsString(
+						$columnPrefix . "timestamp >= '$start'", $queryInfo['tables']['a']
+					);
+				}
+			}
+			$this->assertStringContainsString( 'cuc_only_for_read_old = 0', $queryInfo['tables']['a'] );
 		} else {
-			$this->assertStringContainsString( "cuc_timestamp >= '$start'", $queryInfo['tables']['a'] );
+			$this->assertStringContainsString( CheckUserQueryInterface::CHANGES_TABLE, $queryInfo['tables']['a'] );
+			$this->assertStringNotContainsString(
+				CheckUserQueryInterface::PRIVATE_LOG_EVENT_TABLE, $queryInfo['tables']['a']
+			);
+			$this->assertStringNotContainsString( CheckUserQueryInterface::LOG_EVENT_TABLE, $queryInfo['tables']['a'] );
+			if ( $start === '' ) {
+				$this->assertStringNotContainsString( 'cuc_timestamp >=', $queryInfo['tables']['a'] );
+			} else {
+				$this->assertStringContainsString( "cuc_timestamp >= '$start'", $queryInfo['tables']['a'] );
+				$this->assertStringNotContainsString( 'cule_timestamp', $queryInfo['tables']['a'] );
+				$this->assertStringNotContainsString( 'cupe_timestamp', $queryInfo['tables']['a'] );
+			}
+			$this->assertStringNotContainsString( 'cuc_only_for_read_old', $queryInfo['tables']['a'] );
 		}
 	}
 
@@ -127,12 +152,12 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 					'targets' => [ 'User1' ],
 					'excludeTargets' => [ '0:0:0:0:0:0:0:1' ],
 					'limit' => 100000,
-					'start' => ''
+					'start' => '', 'migrationStage' => SCHEMA_COMPAT_NEW,
 				],
 				[
 					'targets' => [ '11111' ],
 					'excludeTargets' => [ 'v6-00000000000000000000000000000001' ],
-					'limit' => '100000',
+					'limit' => '33334',
 					'start' => ''
 				],
 			],
@@ -141,12 +166,12 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 					'targets' => [ 'User1' ],
 					'excludeTargets' => [ '0:0:0:0:0:0:0:1' ],
 					'limit' => 10000,
-					'start' => '111'
+					'start' => '111', 'migrationStage' => SCHEMA_COMPAT_NEW,
 				],
 				[
 					'targets' => [ '11111' ],
 					'excludeTargets' => [ 'v6-00000000000000000000000000000001' ],
-					'limit' => '10000',
+					'limit' => '3334',
 					'start' => '111'
 				],
 			],
@@ -155,12 +180,12 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 					'targets' => [ '0:0:0:0:0:0:0:1' ],
 					'excludeTargets' => [ 'User1' ],
 					'limit' => 100000,
-					'start' => ''
+					'start' => '', 'migrationStage' => SCHEMA_COMPAT_NEW,
 				],
 				[
 					'targets' => [ 'v6-00000000000000000000000000000001' ],
 					'excludeTargets' => [ '11111' ],
-					'limit' => '100000',
+					'limit' => '33334',
 					'start' => ''
 				],
 			],
@@ -169,12 +194,12 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 					'targets' => [ 'User1', '1.2.3.4' ],
 					'excludeTargets' => [ 'User2', '1.2.3.5' ],
 					'limit' => 100,
-					'start' => ''
+					'start' => '', 'migrationStage' => SCHEMA_COMPAT_NEW,
 				],
 				[
 					'targets' => [ '11111', '01020304' ],
 					'excludeTargets' => [ '22222', '01020305' ],
-					'limit' => '50',
+					'limit' => '17',
 					'start' => ''
 				],
 			],
@@ -183,7 +208,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 					'targets' => [ '0:0:0:0:0:0:0:1', '1.2.3.4' ],
 					'excludeTargets' => [],
 					'limit' => 100000,
-					'start' => ''
+					'start' => '', 'migrationStage' => SCHEMA_COMPAT_NEW,
 				],
 				[
 					'targets' => [
@@ -191,7 +216,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 						'01020304'
 					],
 					'excludeTargets' => [],
-					'limit' => '50000',
+					'limit' => '16667',
 					'start' => ''
 				],
 			],
@@ -204,7 +229,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 					],
 					'excludeTargets' => [],
 					'limit' => 100000,
-					'start' => ''
+					'start' => '', 'migrationStage' => SCHEMA_COMPAT_NEW,
 				],
 				[
 					'targets' => [
@@ -214,9 +239,24 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 						'0102FFFF',
 					],
 					'excludeTargets' => [],
-					'limit' => '33333',
+					'limit' => '11112',
 					'start' => ''
 				],
+			],
+			'IP range outside of range limits with valid user target' => [
+				[
+					'targets' => [ 'User1', '1.2.3.4/1', ], 'excludeTargets' => [], 'limit' => 100000,
+					'start' => '', 'migrationStage' => SCHEMA_COMPAT_NEW,
+				],
+				[ 'targets' => [ '11111' ], 'excludeTargets' => [], 'limit' => 16667, 'start' => '' ],
+			],
+			'IP range outside of range limits with valid user target while reading old' => [
+				[
+					'targets' => [ 'User1', '1.2.3.4/1' ],
+					'excludeTargets' => [], 'limit' => 100000, 'start' => '',
+					'migrationStage' => SCHEMA_COMPAT_OLD,
+				],
+				[ 'targets' => [ '11111' ], 'excludeTargets' => [], 'limit' => 50000, 'start' => '' ],
 			],
 		];
 	}
@@ -230,7 +270,8 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * @dataProvider provideTotalActionsFromIP
 	 */
-	public function testGetTotalActionsFromIP( $data, $expected ) {
+	public function testGetTotalActionsFromIP( $data, $eventTableMigrationStage, $expected ) {
+		$this->overrideConfigValue( 'CheckUserEventTablesMigrationStage', $eventTableMigrationStage );
 		$result = $this->getCompareService()->getTotalActionsFromIP( $data['ip'] );
 
 		$this->assertEquals( $expected, $result );
@@ -238,7 +279,18 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 
 	public static function provideTotalActionsFromIP() {
 		return [
-			'IP address with multiple users' => [ [ 'ip' => IPUtils::toHex( '1.2.3.5' ) ], 3 ],
+			'IP address with multiple users when reading old' => [
+				[ 'ip' => IPUtils::toHex( '1.2.3.5' ) ], SCHEMA_COMPAT_OLD, 4,
+			],
+			'IP address with multiple users when reading new' => [
+				[ 'ip' => IPUtils::toHex( '1.2.3.5' ) ], SCHEMA_COMPAT_NEW, 4,
+			],
+			'IP address no users when reading new' => [
+				[ 'ip' => IPUtils::toHex( '8.7.6.5' ) ], SCHEMA_COMPAT_NEW, 0,
+			],
+			'IP address no users when reading old' => [
+				[ 'ip' => IPUtils::toHex( '8.7.6.5' ) ], SCHEMA_COMPAT_OLD, 0,
+			],
 		];
 	}
 
@@ -249,6 +301,7 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		if ( isset( $data['limit'] ) ) {
 			$this->overrideConfigValue( 'CheckUserInvestigateMaximumRowCount', $data['limit'] );
 		}
+		$this->overrideConfigValue( 'CheckUserEventTablesMigrationStage', $data['migrationStage'] );
 
 		$result = $this->getCompareService()->getTargetsOverLimit(
 			$data['targets'] ?? [],
@@ -266,13 +319,13 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 	public static function provideGetTargetsOverLimit() {
 		return [
 			'Empty targets array' => [
-				[],
+				[ 'migrationStage' => SCHEMA_COMPAT_NEW ],
 				[],
 			],
 			'Targets are all within limits' => [
 				[
 					'targets' => [ '1.2.3.4', 'User1', '1.2.3.5' ],
-					'limit' => 100,
+					'limit' => 100, 'migrationStage' => SCHEMA_COMPAT_NEW,
 				],
 				[],
 			],
@@ -280,14 +333,21 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 				[
 					'targets' => [ '1.2.3.4', 'User1', '1.2.3.5' ],
 					'excludeTargets' => [ '1.2.3.5' ],
-					'limit' => 4
+					'limit' => 10, 'migrationStage' => SCHEMA_COMPAT_NEW,
 				],
 				[ '1.2.3.4' ],
 			],
 			'Two targets are over limit' => [
 				[
 					'targets' => [ '1.2.3.4', '1.2.3.5' ],
-					'limit' => 1,
+					'limit' => 1, 'migrationStage' => SCHEMA_COMPAT_NEW,
+				],
+				[ '1.2.3.4', '1.2.3.5' ],
+			],
+			'Two targets are over limit when reading old' => [
+				[
+					'targets' => [ '1.2.3.4', '1.2.3.5' ],
+					'limit' => 1, 'migrationStage' => SCHEMA_COMPAT_OLD,
 				],
 				[ '1.2.3.4', '1.2.3.5' ],
 			],

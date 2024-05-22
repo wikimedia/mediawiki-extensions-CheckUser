@@ -148,6 +148,10 @@ class ComparePager extends TablePager {
 				$attributes['data-all-actions'] = $this->ipTotalActions[$ipHex];
 				break;
 			case 'user_text':
+				// Use the IP as the $row->user_text if the actor ID is NULL and the IP is not NULL (T353953).
+				if ( $row->actor === null && $row->ip ) {
+					$value = $row->ip;
+				}
 				// Hide the username if it is hidden from the current authority.
 				$user = $this->userFactory->newFromName( $value );
 				$userIsHidden = $user !== null && $user->isHidden() && !$this->getAuthority()->isAllowed( 'hideuser' );
@@ -204,6 +208,11 @@ class ComparePager extends TablePager {
 
 		switch ( $name ) {
 			case 'user_text':
+				// Use the IP as the $row->user_text if the actor ID is NULL and the IP is not NULL (T353953).
+				if ( $row->actor === null && $row->ip ) {
+					$value = $row->ip;
+				}
+				'@phan-var string $value';
 				// Hide the username if it is hidden from the current authority.
 				$user = $this->userFactory->newFromName( $value );
 				if ( $user !== null && $user->isHidden() && !$this->getAuthority()->isAllowed( 'hideuser' ) ) {

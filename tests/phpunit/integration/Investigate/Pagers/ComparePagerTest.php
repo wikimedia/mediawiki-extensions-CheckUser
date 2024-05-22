@@ -11,6 +11,7 @@ use MediaWiki\CheckUser\Tests\Integration\Investigate\CompareTabTestDataTrait;
 use MediaWiki\Linker\Linker;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
+use MediaWiki\User\User;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWikiIntegrationTestCase;
@@ -30,7 +31,7 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 	use CompareTabTestDataTrait;
 	use MockAuthorityTrait;
 
-	private static UserIdentity $hiddenUser;
+	private static User $hiddenUser;
 
 	protected function setUp(): void {
 		// Pin time to avoid failure when next second starts - T317411
@@ -50,7 +51,8 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/** @dataProvider provideFormatValue */
-	public function testFormatValue( array $row, $name, $expectedFormattedValue ) {
+	public function testFormatValue( array $row, $name, $eventTableMigrationStage, $expectedFormattedValue ) {
+		$this->overrideConfigValue( 'CheckUserEventTablesMigrationStage', $eventTableMigrationStage );
 		// Set the user language to qqx so that we can compare against the message keys and not the english version of
 		// the message key (which may change and then break the tests).
 		$this->setUserLang( 'qqx' );
@@ -72,25 +74,38 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 				[ 'first_action' => '20240405060708', 'last_action' => '20240406060708' ],
 				// The $name argument to ::formatValue
 				'activity',
+				// The value of wgCheckUserEventTablesMigrationStage
+				SCHEMA_COMPAT_OLD,
 				// The expected formatted value
 				'5 (april) 2024 - 6 (april) 2024'
 			],
-			'user agent is not null' => [ [ 'agent' => 'test' ], 'agent', 'test' ],
-			'user agent is null' => [ [ 'agent' => null ], 'agent', '' ],
+			'user agent is not null' => [ [ 'agent' => 'test' ], 'agent', SCHEMA_COMPAT_NEW, 'test' ],
+			'user agent is null' => [ [ 'agent' => null ], 'agent', SCHEMA_COMPAT_NEW, '' ],
 			'user agent contains unescaped HTML' => [
-				[ 'agent' => '<b>test</b>' ], 'agent', '&lt;b&gt;test&lt;/b&gt;',
+				[ 'agent' => '<b>test</b>' ], 'agent', SCHEMA_COMPAT_NEW, '&lt;b&gt;test&lt;/b&gt;',
 			],
 			'ip is 1.2.3.4' => [
 				[ 'ip' => '1.2.3.4', 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_actions' => 1 ],
-				'ip',
+				'ip', SCHEMA_COMPAT_NEW,
 				'<span class="ext-checkuser-compare-table-cell-ip">1.2.3.4</span>' .
 				'<div>(checkuser-investigate-compare-table-cell-actions: 1) ' .
-				'<span>(checkuser-investigate-compare-table-cell-other-actions: 5)</span></div>',
+				'<span>(checkuser-investigate-compare-table-cell-other-actions: 11)</span></div>',
 			],
-			'unrecognised $name' => [ [], 'foo', '' ],
+			'ip is 1.2.3.4 when reading old' => [
+				[ 'ip' => '1.2.3.4', 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_actions' => 1 ],
+				'ip', SCHEMA_COMPAT_OLD,
+				'<span class="ext-checkuser-compare-table-cell-ip">1.2.3.4</span>' .
+				'<div>(checkuser-investigate-compare-table-cell-actions: 1) ' .
+				'<span>(checkuser-investigate-compare-table-cell-other-actions: 11)</span></div>',
+			],
+			'unrecognised $name' => [ [], 'foo', SCHEMA_COMPAT_OLD, '' ],
 			'user_text as 1.2.3.5' => [
-				[ 'user_text' => '1.2.3.5', 'user' => 0 ], 'user_text',
+				[ 'user_text' => '1.2.3.5', 'user' => 0, 'actor' => 1 ], 'user_text', SCHEMA_COMPAT_OLD,
 				'(checkuser-investigate-compare-table-cell-unregistered)',
+			],
+			'user_text as null' => [
+				[ 'user_text' => null, 'user' => 0, 'actor' => null, 'ip' => '1.2.3.5' ], 'user_text',
+				SCHEMA_COMPAT_NEW, '(checkuser-investigate-compare-table-cell-unregistered)',
 			],
 		];
 	}
@@ -101,8 +116,12 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 		$this->testFormatValue(
 			// The $hiddenUser static property may not be set when the data providers are called, so this needs to be
 			// accessed in a test method.
-			[ 'user_text' => self::$hiddenUser->getName(), 'user' => self::$hiddenUser->getId() ],
-			'user_text',
+			[
+				'user_text' => self::$hiddenUser->getName(),
+				'user' => self::$hiddenUser->getId(),
+				'actor' => self::$hiddenUser->getActorId(),
+			],
+			'user_text', SCHEMA_COMPAT_NEW,
 			'(rev-deleted-user)'
 		);
 	}
@@ -113,8 +132,12 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 			$this->mockRegisteredAuthorityWithPermissions( [ 'hideuser', 'checkuser' ] )
 		);
 		$this->testFormatValue(
-			[ 'user_text' => self::$hiddenUser->getName(), 'user' => self::$hiddenUser->getId() ],
-			'user_text',
+			[
+				'user_text' => self::$hiddenUser->getName(),
+				'user' => self::$hiddenUser->getId(),
+				'actor' => self::$hiddenUser->getActorId(),
+			],
+			'user_text', SCHEMA_COMPAT_NEW,
 			// We cannot mock a static method, so we have to use the real method here.
 			// This also means this cannot be in a data provider.
 			Linker::userLink( self::$hiddenUser->getId(), self::$hiddenUser->getName() )
@@ -206,14 +229,19 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 				],
 			],
 			'$name as user_text for IP address' => [
-				[ 'user_text' => '1.2.3.4' ], [], [], 'user_text',
+				[ 'user_text' => '1.2.3.4', 'actor' => 1 ], [], [], 'user_text',
 				[ 'ext-checkuser-investigate-table-cell-interactive' ],
 				[ 'data-sort-value' => '1.2.3.4' ],
 			],
 			'$name as user_text for unregistered user that is a target' => [
-				[ 'user_text' => 'TestUser1' ], [ 'TestUser1' ], [], 'user_text',
+				[ 'user_text' => 'TestUser1', 'actor' => 1 ], [ 'TestUser1' ], [], 'user_text',
 				[ 'ext-checkuser-compare-table-cell-target', 'ext-checkuser-investigate-table-cell-interactive' ],
 				[ 'data-field' => 'user_text', 'data-value' => 'TestUser1', 'data-sort-value' => 'TestUser1' ],
+			],
+			'$name as user_text with $value as null' => [
+				[ 'user_text' => null, 'actor' => null, 'ip' => '1.2.3.5' ], [], [], 'user_text',
+				[ 'ext-checkuser-investigate-table-cell-interactive' ],
+				[ 'data-sort-value' => '1.2.3.5' ],
 			],
 			'$name as activity' => [
 				[ 'first_action' => '20240405060708', 'last_action' => '20240406060708' ], [], [], 'activity',
@@ -234,8 +262,8 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 		// Assign the rights to the main context authority, which will be used by the object under test.
 		RequestContext::getMain()->setAuthority( $this->mockRegisteredAuthorityWithoutPermissions( [ 'hideuser' ] ) );
 		$this->testGetCellAttrs(
-			[ 'user_text' => self::$hiddenUser->getName() ], [], [], 'user_text',
-			[ 'ext-checkuser-investigate-table-cell-interactive' ],
+			[ 'user_text' => self::$hiddenUser->getName(), 'actor' => self::$hiddenUser->getActorId() ],
+			[], [], 'user_text', [ 'ext-checkuser-investigate-table-cell-interactive' ],
 			[
 				'data-field' => 'user_text',
 				'data-value' => '(rev-deleted-user)', 'data-sort-value' => '(rev-deleted-user)',
