@@ -19,6 +19,7 @@ class CompareService extends ChangeService {
 	 */
 	public const CONSTRUCTOR_OPTIONS = [
 		'CheckUserInvestigateMaximumRowCount',
+		'CheckUserEventTablesMigrationStage',
 	];
 
 	/** @var int */
@@ -36,7 +37,7 @@ class CompareService extends ChangeService {
 		UserIdentityLookup $userIdentityLookup,
 		CheckUserLookupUtils $checkUserLookupUtils
 	) {
-		parent::__construct( $dbProvider, $userIdentityLookup, $checkUserLookupUtils );
+		parent::__construct( $options, $dbProvider, $userIdentityLookup, $checkUserLookupUtils );
 
 		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 		$this->limit = $options->get( 'CheckUserInvestigateMaximumRowCount' );

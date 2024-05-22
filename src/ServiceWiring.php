@@ -70,6 +70,10 @@ return [
 	},
 	'CheckUserTimelineService' => static function ( MediaWikiServices $services ): TimelineService {
 		return new TimelineService(
+			new ServiceOptions(
+				TimelineService::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig()
+			),
 			$services->getDBLoadBalancerFactory(),
 			$services->getUserIdentityLookup(),
 			$services->get( 'CheckUserLookupUtils' )
