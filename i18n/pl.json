@@ -101,6 +101,7 @@
 	"checkuser-wasblocked": "Poprzednie blokady",
 	"checkuser-localonly": "Nie posiada konta uniwersalnego",
 	"checkuser-massblock": "Blokowanie wybranych użytkowników",
+	"checkuser-massblock-text-multi-lock-only": "Nie posiadasz uprawnień wymaganych do blokowania użytkowników na tej wiki. Wciąż możesz zablokować wybrane konta, korzystając z linków poniżej.",
 	"checkuser-massblock-text": "Wybrane konta zostaną zablokowane na zawsze (z włączoną funkcją automatycznego blokowania adresów IP, spod których łączą się te konta oraz wyłączoną funkcją zapobiegania utworzenia konta).\nAdresy IP anonimowych użytkowników będą blokowane na 1 tydzień, możliwość utworzenia konta zostanie również zablokowana.",
 	"checkuser-blockemail": "Zablokuj wybranym użytkownikom możliwość wysyłania e‐maili",
 	"checkuser-blocktalk": "Zablokuj wybranym użytkownikom możliwość edytowania własnej strony dyskusji w czasie trwania blokady",

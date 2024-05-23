@@ -90,6 +90,7 @@
 	"checkuser-wasblocked": "Daha əvvəl bloklanıb",
 	"checkuser-localonly": "Birləşdirilməyib",
 	"checkuser-massblock": "Seçilmiş istifadəçiləri blokla",
+	"checkuser-massblock-text-multi-lock-only": "Bu vikidəki istifadəçiləri bloklamaq üçün lazım olan hüquqlarınız yoxdur. Siz hələ də aşağıdakı keçid(lər)dən istifadə edərək seçilmiş hesabları kilidləyə bilərsiniz.",
 	"checkuser-massblock-text": "Seçilən hesablar qeyri-müəyyən hallarda IP ünvanlarının autobloklanması və hesab yaratmağı dayandırmaqla birlikdə bloklanacaq. IP ünvanlar yalnız bir həftə anonim istifadəçilər üçün bloklanır və hesab yaratma işi dayandırılır.",
 	"checkuser-blockemail": "Seçilən istifadəçilərə e-poçt göndərmək bloku tətbiq etmək",
 	"checkuser-blocktalk": "Blokda olduqları müddətdə istifadəçilərin öz müzakirə səhifələrini redaktə etmələrinin qarşısını alın",

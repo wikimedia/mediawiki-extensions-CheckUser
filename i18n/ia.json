@@ -80,6 +80,7 @@
 	"checkuser-wasblocked": "Anteriormente blocate",
 	"checkuser-localonly": "Non unificate",
 	"checkuser-massblock": "Blocar usatores seligite",
+	"checkuser-massblock-text-multi-lock-only": "Tu non ha le derectos necessari pro blocar usatores sur iste wiki. Tu pote totevia serrar le contos seligite usante le ligamine(s) que appare infra.",
 	"checkuser-massblock-text": "Le contos seligite essera blocate infinitemente, con le blocada automatic activate e le creation de contos disactivate.\nLe adresses IP essera blocate durante 1 septimana pro usatores IP solmente e con le creation de contos disactivate.",
 	"checkuser-blockemail": "Blocar le invio de e-mail pro le usatores seligite",
 	"checkuser-blocktalk": "Impedir al usatores seligite de modificar le proprie pagina de discussion durante le blocada",
