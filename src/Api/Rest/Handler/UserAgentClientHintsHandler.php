@@ -8,8 +8,6 @@ use MediaWiki\Config\Config;
 use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\SimpleHandler;
 use MediaWiki\Rest\TokenAwareHandlerTrait;
-use MediaWiki\Rest\Validator\JsonBodyValidator;
-use MediaWiki\Rest\Validator\UnsupportedContentTypeBodyValidator;
 use MediaWiki\Rest\Validator\Validator;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
@@ -187,52 +185,6 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 		}
 	}
 
-	/** @inheritDoc */
-	public function getBodyValidator( $contentType ) {
-		if ( $contentType !== 'application/json' ) {
-			return new UnsupportedContentTypeBodyValidator( $contentType );
-		}
-
-		// These are always sent by the browser, so mark as required.
-		$lowEntropyClientHints = [
-			'brands' => [],
-			'mobile' => [
-				ParamValidator::PARAM_TYPE => 'bool',
-			],
-			'platform' => [
-				ParamValidator::PARAM_TYPE => 'string',
-			],
-		];
-
-		$highEntropyClientHints = [
-			'architecture' => [
-				ParamValidator::PARAM_TYPE => 'string'
-			],
-			'bitness' => [
-				ParamValidator::PARAM_TYPE => 'string'
-			],
-			'fullVersionList' => [],
-			'model' => [
-				ParamValidator::PARAM_TYPE => 'string',
-			],
-			'platformVersion' => [
-				ParamValidator::PARAM_TYPE => 'string',
-			],
-			// While this is deprecated and not requested by the JS code, some clients still send this value so we
-			// need to define it as an acceptable parameter (T350316) to prevent the valid request from otherwise
-			// failing.
-			'uaFullVersion' => [
-				ParamValidator::PARAM_TYPE => 'string',
-			],
-		];
-		$expectedJsonStructure = array_merge(
-			$lowEntropyClientHints,
-			$highEntropyClientHints,
-			$this->getTokenParamDefinition()
-		);
-		return new JsonBodyValidator( $expectedJsonStructure );
-	}
-
 	public function needsWriteAccess() {
 		return true;
 	}
@@ -249,7 +201,52 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 				self::PARAM_SOURCE => 'path',
 				ParamValidator::PARAM_TYPE => 'integer',
 				ParamValidator::PARAM_REQUIRED => true,
-			]
+			],
 		];
+	}
+
+	/** @inheritDoc */
+	public function getBodyParamSettings(): array {
+		return [
+			'brands' => [
+				self::PARAM_SOURCE => 'body',
+				ParamValidator::PARAM_TYPE => 'array'
+			],
+			'mobile' => [
+				self::PARAM_SOURCE => 'body',
+				ParamValidator::PARAM_TYPE => 'boolean',
+			],
+			'platform' => [
+				self::PARAM_SOURCE => 'body',
+				ParamValidator::PARAM_TYPE => 'string',
+			],
+			'architecture' => [
+				self::PARAM_SOURCE => 'body',
+				ParamValidator::PARAM_TYPE => 'string'
+			],
+			'bitness' => [
+				self::PARAM_SOURCE => 'body',
+				ParamValidator::PARAM_TYPE => 'string'
+			],
+			'fullVersionList' => [
+				self::PARAM_SOURCE => 'body',
+				ParamValidator::PARAM_TYPE => 'array'
+			],
+			'model' => [
+				self::PARAM_SOURCE => 'body',
+				ParamValidator::PARAM_TYPE => 'string',
+			],
+			'platformVersion' => [
+				self::PARAM_SOURCE => 'body',
+				ParamValidator::PARAM_TYPE => 'string',
+			],
+			// While this is deprecated and not requested by the JS code, some clients still send this value so we
+			// need to define it as an acceptable parameter (T350316) to prevent the valid request from otherwise
+			// failing.
+			'uaFullVersion' => [
+				self::PARAM_SOURCE => 'body',
+				ParamValidator::PARAM_TYPE => 'string',
+			],
+		] + $this->getTokenParamDefinition();
 	}
 }
