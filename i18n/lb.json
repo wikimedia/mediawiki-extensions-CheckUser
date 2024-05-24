@@ -156,6 +156,7 @@
 	"checkuser-investigate-tour-addusertargets-title": "Braucht Dir méi Kontext?",
 	"checkuser-investigate-tour-block-title": "Spären?",
 	"checkuser-investigate-tour-copywikitext-title": "Wëllt Dir d'Date kopéieren?",
+	"checkuser-ip-contributions-target-error-no-ip": "Keng gülteg IP-Adress",
 	"checkuser-tempaccount-reveal-ip-button-label": "IP weisen",
 	"checkuser-tempaccount-reveal-ip-missing": "net disponibel",
 	"checkuser-tempaccount-reveal-ip-error": "Feeler"

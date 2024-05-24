@@ -51,6 +51,8 @@
 	"checkuser-investigate-compare-table-header-activity": "تریخ حد",
 	"checkuser-investigate-compare-table-header-ip": "آئی پی",
 	"checkuser-investigate-compare-table-header-useragent": "یوزر ایجنٹ",
+	"checkuser-ip-contributions": "آئی پی ونگاراں",
+	"checkuser-ip-contributions-permission-error-title": "اجازت وچ خرابی",
 	"checkuser-tempaccount-reveal-ip-button-label": "آئی پی ݙکھاؤ",
 	"checkuser-tempaccount-reveal-ip-missing": "دستیاب کائنی",
 	"checkuser-tempaccount-reveal-ip-error": "خرابی",
