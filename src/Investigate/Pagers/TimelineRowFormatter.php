@@ -66,8 +66,8 @@ class TimelineRowFormatter {
 	}
 
 	/**
-	 * Format cu_changes record and display appropriate information
-	 * depending on user privileges
+	 * Format change, log event or private event record and display appropriate
+	 * information depending on user privileges
 	 *
 	 * @param \stdClass $row
 	 * @return string[][]
