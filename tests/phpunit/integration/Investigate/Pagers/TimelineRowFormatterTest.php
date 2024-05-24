@@ -2,9 +2,14 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Investigate\Pagers;
 
+use LogFormatter;
+use LogPage;
+use ManualLogEntry;
 use MediaWiki\CheckUser\Investigate\Pagers\TimelineRowFormatter;
 use MediaWiki\Revision\RevisionRecord;
+use MediaWiki\Title\Title;
 use MediaWiki\User\User;
+use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 
 /**
@@ -46,7 +51,7 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 						// No flags should be displayed if the action didn't create a page and wasn't marked as minor.
 						'minorFlag' => '', 'newPageFlag' => '',
 						// No log links if action is an edit. diffLinks, historyLinks etc. will be tested separately.
-						'logLink' => '',
+						'logsLink' => '', 'logLink' => '',
 					],
 					'info' => [
 						'userAgent' => 'Test',
@@ -80,8 +85,9 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 				[ 'links' => [ 'historyLink' => '', 'diffLink' => '' ], 'info' => [ 'title' => '' ] ],
 			],
 			'Log with invalid title' => [
-				[ 'title' => 0, 'namespace' => 0, 'type' => RC_LOG ], [ 'links' => [ 'logLink' => '' ] ],
+				[ 'title' => 0, 'namespace' => 0, 'type' => RC_LOG ], [ 'links' => [ 'logsLink' => '' ] ],
 			],
+			'Log with log ID of 0' => [ [ 'log_id' => 0, 'type' => RC_LOG ], [ 'links' => [ 'logLink' => '' ] ] ],
 			'Edit marked as a minor edit and created a page' => [
 				[ 'minor' => 1, 'type' => RC_NEW ],
 				[ 'links' => [
@@ -151,8 +157,8 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 			// Assertions that apply to RC_LOG types.
 			$this->assertStringContainsString(
 				wfUrlencode( $testPage->getText() ),
-				$actualTimelineFormattedRowItems['links']['logLink'],
-				'The logLink is not as expected in the links array.'
+				$actualTimelineFormattedRowItems['links']['logsLink'],
+				'The logsLink is not as expected in the links array.'
 			);
 		}
 	}
@@ -171,7 +177,7 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 		// ::testGetFormattedRowItems uses a test user which cannot see users which are hidden.
 		$this->testGetFormattedRowItems(
 			[ 'title' => $hiddenUser->getName(), 'namespace' => NS_USER, 'type' => $rowType ],
-			[ 'links' => [ 'historyLink' => '', 'diffLink' => '', 'logLink' => '' ], 'info' => [ 'title' => '' ] ]
+			[ 'links' => [ 'historyLink' => '', 'diffLink' => '', 'logsLink' => '' ], 'info' => [ 'title' => '' ] ]
 		);
 	}
 
@@ -197,7 +203,12 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 		$objectUnderTest = $this->getObjectUnderTest();
 		$row = array_merge(
 			$this->getDefaultsForTimelineRow(),
-			[ 'user_text' => $hiddenUser->getName(), 'type' => RC_EDIT ]
+			[
+				'user_text' => $hiddenUser->getName(),
+				'user' => $hiddenUser->getId(),
+				'actor' => $hiddenUser->getActorId(),
+				'type' => RC_EDIT
+			]
 		);
 		// Assert that the userLinks contain the rev-deleted-user message and not the username,
 		// as the user is blocked with 'hideuser' and the current authority cannot see hidden users.
@@ -231,7 +242,13 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 		$objectUnderTest = $this->getObjectUnderTest();
 		$row = array_merge(
 			$this->getDefaultsForTimelineRow(),
-			[ 'user_text' => $testUser->getName(), 'type' => RC_EDIT, 'this_oldid' => $revId ]
+			[
+				'user_text' => $testUser->getName(),
+				'user' => $testUser->getId(),
+				'actor' => $testUser->getActorId(),
+				'type' => RC_EDIT,
+				'this_oldid' => $revId
+			]
 		);
 		$actualTimelineFormattedRowItems = $objectUnderTest->getFormattedRowItems( (object)$row );
 		$this->assertStringContainsString(
@@ -282,12 +299,105 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
+	public function testGetUserLinksForIPOnNullActor() {
+		// Get the object under test
+		$objectUnderTest = $this->getObjectUnderTest();
+		$row = array_merge(
+			$this->getDefaultsForTimelineRow(),
+			[ 'user_text' => null, 'user' => null, 'actor' => null, 'ip' => '1.2.3.4', 'type' => RC_EDIT ]
+		);
+		$actualTimelineFormattedRowItems = $objectUnderTest->getFormattedRowItems( (object)$row );
+		$this->assertStringContainsString(
+			'1.2.3.4', $actualTimelineFormattedRowItems['info']['userLinks'],
+			'The userLinks should display the IP as the performer in the userLinks if the actor ID was null.'
+		);
+	}
+
+	public function testGetLogLink() {
+		// Get the object under test
+		$objectUnderTest = $this->getObjectUnderTest();
+		$row = array_merge(
+			$this->getDefaultsForTimelineRow(),
+			[ 'log_id' => 123, 'type' => RC_LOG ]
+		);
+		$actualTimelineFormattedRowItems = $objectUnderTest->getFormattedRowItems( (object)$row );
+		$actualLogLink = $actualTimelineFormattedRowItems['links']['logLink'];
+		$this->assertStringContainsString( '123', $actualLogLink, 'The log ID link should include the log ID' );
+		$this->assertStringContainsString(
+			'(checkuser-log-link-text', $actualLogLink, 'The link text was not as expected'
+		);
+	}
+
+	public function testLogEntryHidden() {
+		$deleteLogEntry = new ManualLogEntry( 'delete', 'delete' );
+		$deleteLogEntry->setPerformer( UserIdentityValue::newAnonymous( '127.0.0.1' ) );
+		$deleteLogEntry->setTarget( Title::newFromText( 'Testing page' ) );
+		// Use the maximum level of log_deleted so that we can test the hiding code all at once.
+		$deleteLogEntry->setDeleted(
+			LogPage::DELETED_USER | LogPage::DELETED_COMMENT | LogPage::DELETED_ACTION | LogPage::DELETED_RESTRICTED
+		);
+		$logFormatter = $this->getServiceContainer()->getLogFormatterFactory()->newFromEntry( $deleteLogEntry );
+		$logFormatter->setAudience( LogFormatter::FOR_THIS_USER );
+		// Get the object under test
+		$objectUnderTest = $this->getObjectUnderTest();
+		$row = array_merge(
+			$this->getDefaultsForTimelineRow(),
+			[
+				'log_deleted' => $deleteLogEntry->getDeleted(),
+				'log_type' => $deleteLogEntry->getType(),
+				'log_action' => $deleteLogEntry->getSubtype(),
+				'type' => RC_LOG,
+				'user_text' => $deleteLogEntry->getPerformerIdentity()->getName(),
+				'user' => $deleteLogEntry->getPerformerIdentity()->getId(),
+				'log_id' => 123,
+			]
+		);
+		$actualTimelineFormattedRowItems = $objectUnderTest->getFormattedRowItems( (object)$row );
+		// Test that the comment is hidden.
+		$this->assertStringContainsString(
+			'(rev-deleted-comment',
+			$actualTimelineFormattedRowItems['info']['comment'],
+			'The comment should be hidden, as the the authority cannot see it.'
+		);
+		// Test that the action text matches
+		$this->assertSame(
+			$logFormatter->getActionText(),
+			$actualTimelineFormattedRowItems['info']['actionText'],
+			'The action text was not as expected.'
+		);
+		// Test that no 'logs' link is added (as it the URL includes the title which is hidden)
+		$this->assertSame(
+			'',
+			$actualTimelineFormattedRowItems['links']['logsLink'],
+			'The logs link should not be displayed if the target page for the log is hidden.'
+		);
+		// Test that the user is hidden.
+		$this->assertStringContainsString(
+			'(rev-deleted-user',
+			$actualTimelineFormattedRowItems['info']['userLinks'],
+			'The userLinks should not display the performer of the log if it is hidden.'
+		);
+		$this->assertStringContainsString(
+			'history-deleted mw-history-suppressed',
+			$actualTimelineFormattedRowItems['info']['userLinks'],
+			'The expected CSS class for the userLinks was not added.'
+		);
+		// Test that the 'log' link is still added, as the log ID contains no hidden information and can therefore
+		// still be displayed
+		$actualLogLink = $actualTimelineFormattedRowItems['links']['logLink'];
+		$this->assertStringContainsString( '123', $actualLogLink );
+		$this->assertStringContainsString(
+			'(checkuser-log-link-text', $actualLogLink, 'The link text was not as expected'
+		);
+	}
+
 	private function getDefaultsForTimelineRow() {
 		return [
 			'namespace' => 0, 'title' => 'Test', 'actiontext' => '', 'timestamp' => '20210405060708',
 			'minor' => 0, 'page_id' => 0, 'type' => RC_EDIT, 'this_oldid' => 0, 'last_oldid' => 0,
 			'ip' => '127.0.0.1', 'xff' => '', 'agent' => '', 'id' => 0, 'user' => 0,
-			'user_text' => '',
+			'user_text' => '', 'comment_text' => '', 'comment_data' => null, 'actor' => null, 'log_type' => null,
+			'log_action' => null, 'log_params' => null, 'log_deleted' => null, 'log_id' => null,
 		];
 	}
 }
