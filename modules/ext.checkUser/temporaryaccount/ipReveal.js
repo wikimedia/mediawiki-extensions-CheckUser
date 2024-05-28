@@ -25,9 +25,19 @@ function makeButton( target, revIds, logIds ) {
 				ipRevealUtils.setRevealedStatus( target );
 			}
 			button.$element.replaceWith(
-				$( '<span>' )
-					.addClass( 'ext-checkuser-tempaccount-reveal-ip' )
-					.text( ip || mw.msg( 'checkuser-tempaccount-reveal-ip-missing' ) )
+				ip ?
+					$( '<span>' )
+						.addClass( 'ext-checkuser-tempaccount-reveal-ip' )
+						.append(
+							$( '<a>' )
+								.attr( 'href', mw.util.getUrl( 'Special:IPContributions/' + ip ) )
+								.addClass( 'ext-checkuser-tempaccount-reveal-ip-anchor' )
+								.text( ip )
+						) :
+					$( '<span>' )
+						.addClass( 'ext-checkuser-tempaccount-reveal-ip' )
+						.text( mw.msg( 'checkuser-tempaccount-reveal-ip-missing' ) )
+
 			);
 		} ).fail( function () {
 			button.$element.replaceWith(
