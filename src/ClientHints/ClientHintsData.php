@@ -86,6 +86,22 @@ class ClientHintsData implements JsonSerializable {
 	 * @throws TypeError on invalid data (such as platformVersion being an array).
 	 */
 	public static function newFromJsApi( array $data ): ClientHintsData {
+		// Handle clients sending uaFullVersion in their JS API request (T350316) by adding it to the
+		// fullVersionList if the fullVersionList is empty or not defined. If fullVersionList is defined,
+		// then the data is almost certainly duplicated in the already defined fullVersionList so ignore it.
+		if (
+			array_key_exists( 'uaFullVersion', $data ) &&
+			(
+				!array_key_exists( 'fullVersionList', $data ) ||
+				!is_array( $data['fullVersionList'] ) ||
+				!count( $data['fullVersionList'] )
+			)
+		) {
+			if ( !array_key_exists( 'fullVersionList', $data ) ) {
+				$data['fullVersionList'] = [];
+			}
+			$data['fullVersionList'][] = $data['uaFullVersion'];
+		}
 		return new self(
 			$data['architecture'] ?? null,
 			$data['bitness'] ?? null,

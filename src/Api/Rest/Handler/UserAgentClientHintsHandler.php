@@ -217,7 +217,13 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 			],
 			'platformVersion' => [
 				ParamValidator::PARAM_TYPE => 'string',
-			]
+			],
+			// While this is deprecated and not requested by the JS code, some clients still send this value so we
+			// need to define it as an acceptable parameter (T350316) to prevent the valid request from otherwise
+			// failing.
+			'uaFullVersion' => [
+				ParamValidator::PARAM_TYPE => 'string',
+			],
 		];
 		$expectedJsonStructure = array_merge(
 			$lowEntropyClientHints,

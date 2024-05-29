@@ -226,6 +226,38 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'woW64' => null,
 				]
 			],
+			'Client Hints data contains deprecated uaFullVersion' => [
+				[ 'uaFullVersion' => '1.2.3.4' ],
+				[
+					'fullVersionList' => [ '1.2.3.4' ],
+					'architecture' => null,
+					'bitness' => null,
+					'brands' => null,
+					'formFactor' => null,
+					'mobile' => null,
+					'model' => null,
+					'platform' => null,
+					'platformVersion' => null,
+					'userAgent' => null,
+					'woW64' => null,
+				],
+			],
+			'Client Hints data contains deprecated uaFullVersion and empty array fullVersionList' => [
+				[ 'uaFullVersion' => '1.2.3.4', 'fullVersionList' => [] ],
+				[
+					'fullVersionList' => [ '1.2.3.4' ],
+					'architecture' => null,
+					'bitness' => null,
+					'brands' => null,
+					'formFactor' => null,
+					'mobile' => null,
+					'model' => null,
+					'platform' => null,
+					'platformVersion' => null,
+					'userAgent' => null,
+					'woW64' => null,
+				],
+			],
 		];
 	}
 
