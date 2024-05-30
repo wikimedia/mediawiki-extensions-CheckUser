@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Bencemac",
+			"Dj",
 			"Wolf Rex"
 		]
 	},
@@ -12,7 +13,7 @@
 	"apihelp-query+checkuser-param-timecond": "Felhasználói adatok időlimitje (pl. „-2 weeks” vagy „2 weeks ago”).",
 	"apihelp-query+checkuser-param-xff": "XFF-adat használata IP-cím helyett.",
 	"apihelp-query+checkuser-example-1": "[[User:Example]] IP-címeinek ellenőrzése",
-	"apihelp-query+checkuser-example-2": "192.0.2.0/24 szerkesztéseinek ellenőrzése",
+	"apihelp-query+checkuser-example-2": "192.0.2.0/24 tevékenységeinek ellenőrzése",
 	"apihelp-query+checkuserlog-summary": "Bejegyzések lekérése az IP-ellenőri naplóból",
 	"apihelp-query+checkuserlog-param-user": "Az IP-ellenőr neve.",
 	"apihelp-query+checkuserlog-param-target": "Ellenőrzött felhasználó, IP-cím vagy CIDR tartomány.",
