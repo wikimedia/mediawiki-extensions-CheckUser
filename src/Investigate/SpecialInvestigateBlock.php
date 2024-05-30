@@ -7,6 +7,7 @@ use Exception;
 use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\Block\BlockUserFactory;
 use MediaWiki\CheckUser\Investigate\Utilities\EventLogger;
+use MediaWiki\HTMLForm\HTMLForm;
 use MediaWiki\Linker\Linker;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Permissions\PermissionManager;
@@ -17,6 +18,8 @@ use MediaWiki\Title\TitleValue;
 use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserNameUtils;
+use OOUI\FieldLayout;
+use OOUI\Widget;
 use PermissionsError;
 use Wikimedia\IPUtils;
 
@@ -103,6 +106,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 
 		$fields = [];
 
+		$maxBlocks = $this->getConfig()->get( 'CheckUserMaxBlocks' );
 		$fields['Targets'] = [
 			'type' => 'usersmultiselect',
 			'ipallowed' => true,
@@ -117,6 +121,32 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 			// * checkuser-investigateblock-target
 			'section' => 'target',
 			'default' => '',
+			'max' => $maxBlocks,
+			// Show a warning message to the user if the user loaded Special:InvestigateBlock via some kind of
+			// pre-filled link, and the number of users provided exceeds the limit. This warning is displayed
+			// elsewhere as an error if the form is submitted.
+			'filter-callback' => function ( $users, $_, ?HTMLForm $htmlForm ) use ( $maxBlocks ) {
+				if (
+					$users !== null && $htmlForm !== null &&
+					// If wpEditToken is set, then the user is attempting to submit the form and this will be
+					// shown as an error instead of a warning by HTMLForm.
+					!$this->getRequest()->getVal( 'wpEditToken' ) &&
+					count( explode( "\n", $users ) ) > $maxBlocks
+				) {
+					// Show a warning message if the number of users provided exceeds the limit.
+					$htmlForm->addHeaderHtml( new FieldLayout(
+						new Widget( [] ),
+						[
+							'classes' => [ 'mw-htmlform-ooui-header-warnings' ],
+							'warnings' => [
+								$this->msg( 'checkuser-investigateblock-warning-users-truncated', $maxBlocks )->parse()
+							],
+						]
+					) );
+				}
+
+				return $users;
+			},
 		];
 
 		if (

@@ -85,6 +85,19 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 		$this->assertStringNotContainsString( '(checkuser-investigateblock-confirm-blocks-label', $html );
 	}
 
+	public function testLoadWithTooManyPrefilledUsers() {
+		// Set the max blocks limit to a small number for testing, which we can reasonably exceed in the test.
+		$this->overrideConfigValue( 'CheckUserMaxBlocks', 3 );
+		// Set up a valid request that does not submit the form but pre-fills the form with too many users.
+		$fauxRequest = new FauxRequest( [ 'wpTargets' => "Test1\nTest2\nTest3\nTest4" ] );
+		// Assign the fake valid request to the main request context and the test user as the session user.
+		RequestContext::getMain()->setRequest( $fauxRequest );
+		// Execute the special page and get the HTML output.
+		[ $html ] = $this->executeSpecialPage( '', $fauxRequest, null, $this->getUserForSuccess() );
+		// Verify that a warning is shown indicating that the users list has been truncated.
+		$this->assertStringContainsString( '(checkuser-investigateblock-warning-users-truncated', $html );
+	}
+
 	public function testOnSubmitOneUserTargetWithNotices() {
 		// Set-up the valid request and get a test user which has the necessary rights.
 		$testPerformer = $this->getUserForSuccess();
