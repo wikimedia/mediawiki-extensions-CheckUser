@@ -9,9 +9,13 @@ use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Title\Title;
+use MediaWiki\User\Options\UserOptionsLookup;
+use MediaWiki\User\TempUser\TempUserConfig;
+use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityUtils;
 use RequestContext;
+use Wikimedia\IPUtils;
 
 class ToolLinksHandler implements ContributionsToolLinksHook, UserToolLinksEditHook {
 
@@ -20,6 +24,8 @@ class ToolLinksHandler implements ContributionsToolLinksHook, UserToolLinksEditH
 	private LinkRenderer $linkRenderer;
 	private UserIdentityLookup $userIdentityLookup;
 	private UserIdentityUtils $userIdentityUtils;
+	private UserOptionsLookup $userOptionsLookup;
+	private TempUserConfig $tempUserConfig;
 
 	/**
 	 * @param PermissionManager $permissionManager
@@ -27,19 +33,49 @@ class ToolLinksHandler implements ContributionsToolLinksHook, UserToolLinksEditH
 	 * @param LinkRenderer $linkRenderer
 	 * @param UserIdentityLookup $userIdentityLookup
 	 * @param UserIdentityUtils $userIdentityUtils
+	 * @param UserOptionsLookup $userOptionsLookup
+	 * @param TempUserConfig $tempUserConfig
 	 */
 	public function __construct(
 		PermissionManager $permissionManager,
 		SpecialPageFactory $specialPageFactory,
 		LinkRenderer $linkRenderer,
 		UserIdentityLookup $userIdentityLookup,
-		UserIdentityUtils $userIdentityUtils
+		UserIdentityUtils $userIdentityUtils,
+		UserOptionsLookup $userOptionsLookup,
+		TempUserConfig $tempUserConfig
 	) {
 		$this->permissionManager = $permissionManager;
 		$this->specialPageFactory = $specialPageFactory;
 		$this->linkRenderer = $linkRenderer;
 		$this->userIdentityLookup = $userIdentityLookup;
 		$this->userIdentityUtils = $userIdentityUtils;
+		$this->userOptionsLookup = $userOptionsLookup;
+		$this->tempUserConfig = $tempUserConfig;
+	}
+
+	/**
+	 * Determine whether a user is able to reveal IP, based on their rights
+	 * and preferences.
+	 *
+	 * @param UserIdentity $user
+	 * @return bool
+	 */
+	private function userCanRevealIP( UserIdentity $user ) {
+		return $this->permissionManager->userHasRight(
+				$user,
+				'checkuser-temporary-account-no-preference'
+			) ||
+			(
+				$this->permissionManager->userHasRight(
+					$user,
+					'checkuser-temporary-account'
+				) &&
+				$this->userOptionsLookup->getOption(
+					$user,
+					'checkuser-temporary-account-enable'
+				)
+			);
 	}
 
 	/**
@@ -57,6 +93,33 @@ class ToolLinksHandler implements ContributionsToolLinksHook, UserToolLinksEditH
 	) {
 		$user = $sp->getUser();
 		$linkRenderer = $sp->getLinkRenderer();
+
+		if (
+			$this->tempUserConfig->isEnabled() &&
+			IPUtils::isIPAddress( $nt->getText() )
+		) {
+			if ( $sp->getName() === 'Contributions' && $this->userCanRevealIP( $user ) ) {
+				// Check if the target is an IP address or range
+				$messageKey = IPUtils::isValid( $nt->getText() ) ?
+					'checkuser-contribs-special-ip-contributions-ip' :
+					'checkuser-contribs-special-ip-contributions-range';
+				$links['ip-contributions'] = $linkRenderer->makeKnownLink(
+					SpecialPage::getTitleFor( 'IPContributions', $nt->getText() ),
+					$sp->msg( $messageKey )->text(),
+					[ 'class' => 'mw-contributions-link-check-user-ip-contributions' ],
+				);
+			} elseif ( $sp->getName() === 'IPContributions' ) {
+				// Check if the target is an IP address or range
+				$messageKey = IPUtils::isValid( $nt->getText() ) ?
+					'checkuser-contribs-special-contributions-ip' :
+					'checkuser-contribs-special-contributions-range';
+				$links['contributions'] = $linkRenderer->makeKnownLink(
+					SpecialPage::getTitleFor( 'Contributions', $nt->getText() ),
+					$sp->msg( $messageKey )->text(),
+					[ 'class' => 'mw-contributions-link-check-user-contributions' ],
+				);
+			}
+		}
 
 		if ( $this->permissionManager->userHasRight( $user, 'checkuser' ) ) {
 			$links['checkuser'] = $linkRenderer->makeKnownLink(

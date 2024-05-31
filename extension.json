@@ -273,7 +273,9 @@
 				"SpecialPageFactory",
 				"LinkRenderer",
 				"UserIdentityLookup",
-				"UserIdentityUtils"
+				"UserIdentityUtils",
+				"UserOptionsLookup",
+				"TempUserConfig"
 			]
 		},
 		"RenameUserSQLHandler": {
