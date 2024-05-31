@@ -147,6 +147,7 @@ class TemporaryAccountLogger {
 				'log_title' => $tempUser,
 				$this->dbw->expr( 'log_timestamp', '>', $this->dbw->timestamp( $timestampMinusDelay ) ),
 			] )
+			->caller( __METHOD__ )
 			->fetchRow();
 
 		if ( !$logline ) {
