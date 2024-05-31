@@ -170,7 +170,7 @@
 	"checkuser-investigateblock-notices-failed": "Some notices could not be added to the user pages or user talk pages.",
 	"checkuser-investigateblock-warning-ips-and-users-in-targets": "You are about to block both accounts and IPs with the same reason at the same time after using CheckUser data. This may violate the privacy policy for the site. Are you sure you want to do this?",
 	"checkuser-investigateblock-warning-confirmaction": "If you are sure you really want to do it, please check the \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" field at the bottom.",
-	"checkuser-investigateblock-warning-users-truncated": "The number of users to be blocked exceeds the limit of $1. Only the first $1 users have been included in the users field.",
+	"checkuser-investigateblock-warning-users-truncated": "The number of users to be blocked exceeds the limit of $1. Only the first {{PLURAL:$1|user has|$1 users have}} been included in the users field.",
 	"checkuser-investigate": "Investigate",
 	"checkuser-investigate-page-subtitle": "Current investigation for $1",
 	"checkuser-investigate-subtitle-block-accounts-button-label": "Block accounts",
