@@ -5,7 +5,6 @@
 			"Siebrand"
 		]
 	},
-	"checkuser-block-noreason": "Je moet een reden opgeven voor de blokkades.",
 	"checkuser-noreason": "Je moet een reden opgeven voor deze zoekopdracht.",
 	"checkuser-rest-access-denied": "Je hebt geen rechten om de handeling uit te voeren",
 	"checkuser-rest-access-denied-blocked-user": "Je mag de handeling niet uitvoeren omdat je account is geblokkeerd"

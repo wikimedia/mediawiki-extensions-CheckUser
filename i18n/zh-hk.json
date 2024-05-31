@@ -18,8 +18,6 @@
 	"grouppage-checkuser": "{{ns:project}}:用戶查核員",
 	"checkuser-target": "IP位址或用戶名：",
 	"checkuser-users": "查詢用戶",
-	"checkuser-block-success": "'''用戶$1已查封。'''",
-	"checkuser-block-failure": "'''沒有用戶被禁封。'''",
 	"checkuser-ipeditcount": "~於全部用戶中 $1",
 	"checkuser-reset-action": "為用戶「$1」重設密碼"
 }
