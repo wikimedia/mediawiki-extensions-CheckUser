@@ -284,6 +284,8 @@
 	"checkuser-ip-contributions-permission-error-description": "Contents of an error page shown if a user cannot access Special:IPContributions because they need to accept an agreement in their preferences",
 	"checkuser-ip-contributions-target-label": "Label for a field in the [[Special:IPContributions]] form",
 	"checkuser-ip-contributions-target-error-no-ip": "Text to display when the [[Special:IPContributions]] form is submitted with a target that is not an IP address",
+	"checkuser-ip-contributions-tab-label-contributions": "Label for a tab on [[Special:IPContributions]]",
+	"checkuser-ip-contributions-tab-label-archive-contributions": "Label for a tab on [[Special:IPContributions]]",
 	"prefs-checkuser-tempaccount": "Header of the checkuser temp account options on Special:Preferences\n\nThis option enables the revealing of IP addresses for temporary accounts.",
 	"checkuser-tempaccount-enable-preference-description": "Text that is shown above the checkbox to enable the temporary account IP viewing feature. This is shown on Special:Preferences if the user has the necessary user right.",
 	"checkuser-tempaccount-enable-preference": "Description of the feature that can be enabled on Special:Preferences that is used for the label of the checkbox that enables the feature.",

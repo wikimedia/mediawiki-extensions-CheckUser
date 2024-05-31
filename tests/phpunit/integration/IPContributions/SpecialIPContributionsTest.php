@@ -7,6 +7,7 @@ use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
+use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 use PermissionsError;
 use SpecialPageTestBase;
@@ -26,6 +27,7 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 	private static User $disallowedUser;
 	private static User $checkuser;
 	private static User $sysop;
+	private static User $checkuserAndSysop;
 
 	protected function newSpecialPage() {
 		return $this->getServiceContainer()->getSpecialPageFactory()->getPage( 'IPContributions' );
@@ -53,6 +55,7 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 		self::$disallowedUser = static::getTestUser()->getUser();
 		self::$checkuser = static::getTestUser( [ 'checkuser' ] )->getUser();
 		self::$sysop = static::getTestSysop()->getUser();
+		self::$checkuserAndSysop = static::getTestUser( [ 'checkuser', 'sysop' ] )->getUser();
 
 		$temp1 = $this->getServiceContainer()
 			->getTempUserCreator()
@@ -72,6 +75,13 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 		$this->editPage(
 			'Test page', 'Test Content 3', 'test', NS_MAIN, $temp2
 		);
+
+		$this->editPage(
+			'Test page for deletion', 'Test Content', 'test', NS_MAIN, $temp1
+		);
+		$title = Title::newFromText( 'Test page for deletion' );
+		$page = $this->getServiceContainer()->getWikiPageFactory()->newFromTitle( $title );
+		$this->deletePage( $page );
 
 		// Temp user edits again from a different IP
 		RequestContext::getMain()->getRequest()->setIP( '127.0.0.2' );
@@ -130,6 +140,17 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 		];
 	}
 
+	public function testExecuteArchive() {
+		[ $html ] = $this->executeSpecialPage(
+			'127.0.0.1',
+			new FauxRequest( [ 'isArchive' => '1' ] ),
+			null,
+			self::$checkuserAndSysop
+		);
+
+		$this->assertSame( 1, substr_count( $html, 'data-mw-revid' ) );
+	}
+
 	public function testExecuteErrorPreference() {
 		$this->expectException( ErrorPageError::class );
 
@@ -141,7 +162,7 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 		);
 	}
 
-	public function testExecuteErrorPermission() {
+	public function testExecuteErrorRevealIpPermission() {
 		$this->expectException( PermissionsError::class );
 
 		$this->executeSpecialPage(
@@ -149,6 +170,17 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 			null,
 			null,
 			self::$disallowedUser
+		);
+	}
+
+	public function testExecuteErrorArchivePermission() {
+		$this->expectException( PermissionsError::class );
+
+		$this->executeSpecialPage(
+			'',
+			new FauxRequest( [ 'isArchive' => '1' ] ),
+			null,
+			self::$checkuser
 		);
 	}
 
