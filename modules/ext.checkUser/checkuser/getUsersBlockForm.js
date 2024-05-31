@@ -16,6 +16,12 @@ module.exports = function ( documentRoot ) {
 		selectedIPs = [],
 		centralURL = mw.config.get( 'wgCUCAMultiLockCentral' );
 
+	if ( !centralURL && ( !$blockAccountsButton || !$blockIPsButton ) ) {
+		// If no central URL is set and the block buttons are missing, then return early as we are likely not
+		// on the Special:CheckUser 'Get users' page or the user does not have the rights to lock or block.
+		return;
+	}
+
 	if ( centralURL ) {
 		// Initialize the link to Special:MultiLock.
 		$checkUserBlockFieldset.append(
@@ -134,6 +140,12 @@ module.exports = function ( documentRoot ) {
 			documentRoot = 'body';
 		}
 		$form.appendTo( documentRoot ).trigger( 'submit' );
+	}
+
+	if ( !$blockAccountsButton || !$blockIPsButton ) {
+		// If the block buttons are not present, then the user does not have the rights to block but does have the
+		// rights to lock. As such, don't try to interact with the non-existing block buttons and return early.
+		return;
 	}
 
 	// If the 'Block accounts' or 'Block IPs' button is pressed, then open the block form in
