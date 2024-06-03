@@ -91,7 +91,7 @@
 	"checkuser-localonly": "Not unified",
 	"checkuser-massblock": "Block selected users",
 	"checkuser-massblock-text-multi-lock-only": "You do not have the rights needed to block users on this wiki. You can still lock the selected accounts using the link(s) below.",
-	"checkuser-massblock-text": "The accounts and IPs selected above can be blocked by pressing the buttons in this form, where these accounts or IPs will be prefilled in the {{#special:InvestigateBlock}} form.",
+	"checkuser-massblock-text": "Use the checkboxes in the results above to select accounts and IPs you wish to block. Then you can use the buttons below, which will open the {{#special:InvestigateBlock}} form with the targets input prefilled.",
 	"checkuser-massblock-commit-accounts": "Block selected accounts",
 	"checkuser-massblock-commit-ips": "Block selected IPs",
 	"checkuser-block-reason-dropdown": "* Common block reasons\n** Abusing multiple accounts\n** Spamming links to external sites\n** Vandalism",
