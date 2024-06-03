@@ -15,15 +15,16 @@ if ( $IP === false ) {
 require_once "$IP/maintenance/Maintenance.php";
 
 /**
- * Populate the cu_changes table needed for CheckUser queries with
+ * Populate the CheckUser result tables needed for CheckUser queries with
  * data from recent changes.
+ *
  * This is automatically run during first installation within update.php
  * but --force parameter should be set if you want to manually run thereafter.
  */
 class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 	public function __construct() {
 		parent::__construct();
-		$this->addDescription( 'Populate `cu_changes` table with entries from recentchanges' );
+		$this->addDescription( 'Populate CheckUser result tables with entries from recentchanges' );
 		$this->addOption( 'cutoff', 'Cut-off time for rc_timestamp' );
 		$this->setBatchSize( 100 );
 

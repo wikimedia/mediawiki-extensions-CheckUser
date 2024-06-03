@@ -321,7 +321,7 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook {
 		);
 
 		if ( !$isCUInstalled ) {
-			// First time so populate cu_changes with recentchanges data.
+			// First time so populate the CheckUser result tables with recentchanges data.
 			// Note: We cannot completely rely on updatelog here for old entries
 			// as populateCheckUserTable.php doesn't check for duplicates
 			$updater->addPostDatabaseUpdateMaintenance( PopulateCheckUserTable::class );

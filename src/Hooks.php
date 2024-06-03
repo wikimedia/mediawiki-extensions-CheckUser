@@ -46,8 +46,10 @@ class Hooks implements
 {
 
 	/**
-	 * Hook function for RecentChange_save
-	 * Saves user data into the cu_changes table
+	 * Hook function for RecentChange_save. Saves data about the RecentChange object, along with private user data
+	 * (such as their IP address and user agent string) from the main request, in the CheckUser result tables
+	 * so that it can be queried by a CheckUser if they run a check.
+	 *
 	 * Note that other extensions (like AbuseFilter) may call this function directly
 	 * if they want to send data to CU without creating a recentchanges entry
 	 * @param RecentChange $rc

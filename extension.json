@@ -73,11 +73,11 @@
 		},
 		"CheckUserMaximumRowCount": {
 			"value": 5000,
-			"description": "Maximum number of rows in cu_changes to be used in any query"
+			"description": "Maximum number of rows to be displayed in Special:CheckUser per page of results"
 		},
 		"CheckUserInvestigateMaximumRowCount": {
 			"value": 25000,
-			"description": "Maximum number of rows in cu_changes to be grouped in the Compare table query"
+			"description": "Maximum number of rows from the CheckUser result tables to be grouped in the Compare table query"
 		},
 		"CheckUserTemporaryAccountMaxAge": {
 			"value": 86400,
