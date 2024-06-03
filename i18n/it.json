@@ -133,6 +133,7 @@
 	"checkuser-investigateblock-failure": "Nessun utente è stato bloccato. Per sostituire i blocchi esistenti, controlla \"{{int:checkuser-investigateblock-reblock-label}}\". Il blocco non verrà applicato se è identico a quello già esistente.",
 	"checkuser-investigateblock-success": "{{PLURAL:$2|L'utente|Gli utenti}} $1 adesso {{PLURAL:$2|è bloccato|sono bloccati}}.",
 	"checkuser-investigateblock-notices-failed": "Non è stato possibile aggiungere alcuni avvisi alle pagine utente o alle pagine di discussione utente.",
+	"checkuser-investigateblock-warning-confirmaction": "Se sei sicuro di volerlo fare davvero, controlla il campo \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" in basso.",
 	"checkuser-investigate": "Ricerca",
 	"checkuser-investigate-page-subtitle": "Ricerca corrente su $1",
 	"checkuser-investigate-subtitle-cancel-button-label": "Annulla",

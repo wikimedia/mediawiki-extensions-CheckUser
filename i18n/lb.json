@@ -100,6 +100,7 @@
 	"checkuser-investigateblock-notice-position-label": "Positioun",
 	"checkuser-investigateblock-notice-text-label": "Wikitext",
 	"checkuser-investigateblock-notice-replace": "Säit ersetzen",
+	"checkuser-investigateblock-warning-confirmaction": "Wann Dir sécher sidd datt Dir dat wierklech maache wëllt da markéiert wgl. d'\"{{int:checkuser-investigateblock-confirm-blocks-label}}\" hei drënner.",
 	"checkuser-investigate": "Ënnersichen",
 	"checkuser-investigate-page-subtitle": "Aktuell Ënnersichung fir $1",
 	"checkuser-investigate-subtitle-cancel-button-label": "Ofbriechen",

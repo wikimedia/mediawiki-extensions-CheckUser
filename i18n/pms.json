@@ -56,5 +56,6 @@
 	"checkuser-email-action": "a l'ha mandà un mëssagi ëd pòsta eletrònica a l'utent \"$1\"",
 	"checkuser-reset-action": "torna amposté la ciav për l'utent \"$1\"",
 	"logentry-checkuser-private-event-autocreate-account": "a l'é stàit creà automaticament",
-	"logentry-checkuser-private-event-create-account": "a l'é stàit creà"
+	"logentry-checkuser-private-event-create-account": "a l'é stàit creà",
+	"checkuser-investigateblock-warning-confirmaction": "S'a l'é sigur ëd vorèj pròpe felo, për piasì ch'a marca ël camp «{{int:checkuser-investigateblock-confirm-blocks-label}}» al fond."
 }

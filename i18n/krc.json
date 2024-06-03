@@ -1,11 +1,13 @@
 {
 	"@metadata": {
 		"authors": [
+			"Dreamy Jazz",
 			"Ernác",
 			"Iltever",
 			"Къарачайлы"
 		]
 	},
 	"group-checkuser": "Къошулуучуланы тинтиучюле",
-	"checkuser-reset-action": "[[User:$1|$1]] {{GENDER:$1|хайырланучугъа}} паролун къоратыр ючюн электрон мектуб джибер"
+	"checkuser-reset-action": "[[User:$1|$1]] {{GENDER:$1|хайырланучугъа}} паролун къоратыр ючюн электрон мектуб джибер",
+	"checkuser-investigateblock-warning-confirmaction": "Буну кертиден этерге излегенигизге ишексиз эсегиз, тилейбиз, эм тюбюндеги \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" тиекни белгилегиз."
 }

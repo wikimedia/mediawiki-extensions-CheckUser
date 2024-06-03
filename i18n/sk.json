@@ -65,5 +65,6 @@
 	"checkuser-email-action": "odoslal e-mail používateľovi „$1”",
 	"checkuser-reset-action": "požiadal o nové heslo pre používateľa „$1”",
 	"logentry-checkuser-private-event-autocreate-account": "bol automaticky vytvorený",
-	"logentry-checkuser-private-event-create-account": "bol vytvorený"
+	"logentry-checkuser-private-event-create-account": "bol vytvorený",
+	"checkuser-investigateblock-warning-confirmaction": "Ak ste si {{GENDER:|istý|istá|istí}}, že to chcete urobiť, zaškrtnite prepínač „{{int:checkuser-investigateblock-confirm-blocks-label}}“ nižšie."
 }

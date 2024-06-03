@@ -63,6 +63,7 @@
 	"logentry-checkuser-private-event-create-account": "fu criatu",
 	"checkuser-investigateblock-reason": "Mutivu",
 	"checkuser-investigateblock-notice-text-label": "Wikitestu",
+	"checkuser-investigateblock-warning-confirmaction": "Si sî pi daveru sicuru chi voi fari sta cosa, scegghi la caseḍḍa \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" ccà sutta.",
 	"checkuser-investigate-subtitle-cancel-button-label": "Annulla",
 	"checkuser-investigate-indicator-logs": "Riggistri",
 	"checkuser-investigate-targets-placeholder": "Nomu utentu o 1.1.1.1",

@@ -142,6 +142,7 @@
 	"checkuser-investigateblock-failure": "Inga användare blockerades. För att åsidosätta befintliga blockeringar, markera: \"{{int:checkuser-investigateblock-reblock-label}}\". En blockering kommer inte åsidosättas om den nya blockeringen är identisk med den befintliga blockeringen.",
 	"checkuser-investigateblock-success": "{{PLURAL:$2|Användaren|Användarna}} $1 är nu {{PLURAL:$2|blockerad|blockerade}}.",
 	"checkuser-investigateblock-notices-failed": "En del meddelanden kunde inte läggas till på användarsidorna eller användardiskussionssidorna.",
+	"checkuser-investigateblock-warning-confirmaction": "Markera fältet \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" längst ned om du är säker på att du verkligen vill göra det.",
 	"checkuser-investigate": "Undersök",
 	"checkuser-investigate-page-subtitle": "Nuvarande undersökning för $1",
 	"checkuser-investigate-subtitle-cancel-button-label": "Avbryt",

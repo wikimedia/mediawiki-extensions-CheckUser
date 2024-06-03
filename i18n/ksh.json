@@ -60,5 +60,6 @@
 	"logentry-checkuser-private-event-autocreate-account": "wohd automattesch aanjelaat",
 	"logentry-checkuser-private-event-create-account": "wood aanjelaat",
 	"group-checkuser.css": "/* Dat CSS heh aan dä Stell wirrek nur op de Metmaacher-Övverpröhfer */",
-	"group-checkuser.js": "/* Dat JavaSkrep heh aan dä Stell wirrek nur op de Metmaacher-Övverpröhfer */"
+	"group-checkuser.js": "/* Dat JavaSkrep heh aan dä Stell wirrek nur op de Metmaacher-Övverpröhfer */",
+	"checkuser-investigateblock-warning-confirmaction": "Wann De sescher bes, dat De dat donn wells, donn e Krüzje nävve <em>{{int:checkuser-investigateblock-confirm-blocks-label}}</em> maache."
 }

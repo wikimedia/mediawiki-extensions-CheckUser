@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Dbc334",
+			"Dreamy Jazz",
 			"Eleassar",
 			"Janezdrilc",
 			"MrJaroslavik",
@@ -155,6 +156,7 @@
 	"checkuser-investigateblock-failure": "Noben uporabnik ni bil blokiran. Če želite preglasiti obstoječa blokiranja, označite: »{{int:checkuser-investigateblock-reblock-label}}«. Blokiranje ne bo preglašeno, če je novo blokiranje enako obstoječemu.",
 	"checkuser-investigateblock-success": "Zdaj {{PLURAL:$2|je blokiran|sta blokirana|so blokirani|je blokiranih}} $1 {{PLURAL:$2|uporabnik|uporabnika|uporabniki|uporabnikov}}.",
 	"checkuser-investigateblock-notices-failed": "Nekaterih obvestil ni bilo mogoče dodati na uporabniške strani ali uporabniške pogovorne strani.",
+	"checkuser-investigateblock-warning-confirmaction": "Če to res želite storiti, označite polje »{{int:checkuser-investigateblock-confirm-blocks-label}}« na dnu.",
 	"checkuser-investigate": "Preišči",
 	"checkuser-investigate-page-subtitle": "Trenutna preiskava za $1",
 	"checkuser-investigate-subtitle-cancel-button-label": "Prekliči",

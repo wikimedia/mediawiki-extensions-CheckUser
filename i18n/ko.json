@@ -126,6 +126,7 @@
 	"checkuser-investigateblock-notice-prepend": "문서 앞에 덧붙이기",
 	"checkuser-investigateblock-notice-replace": "페이지 바꾸기",
 	"checkuser-investigateblock-failure": "아무도 차단되지 않았습니다. 기존의 차단을 무시하고 다시 차단하려면 \"{{int:checkuser-investigateblock-reblock-label}}\"에 체크하십시오. 새로운 차단이 기존 차단과 동일한 경우에는 기존의 차단이 유지됩니다.",
+	"checkuser-investigateblock-warning-confirmaction": "그것을 정말로 하기 원한다면 아래에 있는 \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" 부분에 체크하세요",
 	"checkuser-investigate": "조사하기",
 	"checkuser-investigate-subtitle-cancel-button-label": "취소",
 	"checkuser-investigate-subtitle-continue-button-label": "계속",

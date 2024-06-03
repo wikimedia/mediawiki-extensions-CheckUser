@@ -192,6 +192,7 @@
 	"checkuser-investigateblock-failure": "ブロックされませんでした。既存のブロックを上書きするには、\"{{int:checkuser-investigateblock-reblock-label}}\" をチェックしてください。新しいブロックが既存のブロックと同じである場合には、上書きされません。",
 	"checkuser-investigateblock-success": "{{PLURAL:$2|利用者}} $1 はブロック{{PLURAL:$2|されました}}。",
 	"checkuser-investigateblock-notices-failed": "利用者ページまたは利用者の会話ページに、一部の告知が追加できませんでした。",
+	"checkuser-investigateblock-warning-confirmaction": "本当に実行する場合は、下の「{{int:checkuser-investigateblock-confirm-blocks-label}}」欄にチェックを入れてください。",
 	"checkuser-investigate": "詳細調査",
 	"checkuser-investigate-page-subtitle": "$1 の詳細調査結果",
 	"checkuser-investigate-subtitle-cancel-button-label": "キャンセル",

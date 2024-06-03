@@ -42,5 +42,6 @@
 	"checkuser-email-action": "«$1» деген қатысушыға электронды хат жіберу",
 	"logentry-checkuser-private-event-autocreate-account": "аутоматты түрде басталды",
 	"logentry-checkuser-private-event-create-account": "басталды",
+	"checkuser-investigateblock-warning-confirmaction": "Егер сіз шынымен оны істеуді қаласаңыз, төмендегі жолақтан «{{int:checkuser-investigateblock-confirm-blocks-label}}» дегенді белгілеңіз.",
 	"checkuser-investigate-compare-copy-button-label-hide": "Уикимәтінді жасыру"
 }
