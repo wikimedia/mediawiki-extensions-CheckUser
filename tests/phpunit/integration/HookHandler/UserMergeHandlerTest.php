@@ -21,13 +21,13 @@ class UserMergeHandlerTest extends MediaWikiIntegrationTestCase {
 	public function testOnUserMergeAccountFields() {
 		// @todo Test that the array items of $updateFields are as expected?
 		$updateFields = [];
-		$expectedCount = 3;
+		$expectedCount = 5;
 		$objectUnderTest = new UserMergeHandler();
 		$objectUnderTest->onUserMergeAccountFields( $updateFields );
 		$this->assertCount(
 			$expectedCount,
 			$updateFields,
-			'3 updates were added'
+			'The expected number of updates were not added to $updateFields by ::onUserMergeAccountFields.'
 		);
 	}
 }
