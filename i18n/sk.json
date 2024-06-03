@@ -6,7 +6,8 @@
 			"Martin Kozák",
 			"Sudo77(new)",
 			"Teslaton",
-			"Vlad5250"
+			"Vlad5250",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Tento nástroj kontroluje Posledné úpravy, aby získal IP adresy, ktoré používateľ použil alebo zobrazil úpravy/používateľské dáta IP adresy.\nPoužívateľov a úpravy je možné získať prostredníctvom hlavičiek XFF pridaním „/xff“ k IP adrese. Sú podporované IPv4 (CIDR $1-32) a IPv6 (CIDR $2-128).\nZ dôvodov výkonnosti nebude vrátených viac ako 5 000 úprav. Túto funkciu využívajte len v súlade s platnou politikou.",
@@ -15,7 +16,7 @@
 	"checkuserlog": "Záznam kontroly používateľov",
 	"checkuser-contribs": "skontrolovať IP používateľa",
 	"checkuser-contribs-log": "nedávne kontroly používateľa",
-	"group-checkuser": "Revízori",
+	"group-checkuser": "Check users",
 	"group-checkuser-member": "{{GENDER:$1|revízor|revízorka|revízor}}",
 	"right-checkuser": "Skontrolovať IP adresy a iné informácie používateľov",
 	"right-checkuser-log": "Zobraziť záznam kontrol používateľov",
