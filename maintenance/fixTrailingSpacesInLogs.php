@@ -36,11 +36,19 @@ class FixTrailingSpacesInLogs extends LoggedUpdateMaintenance {
 		$dbw = $this->getPrimaryDB();
 		$batchSize = $this->getBatchSize();
 
+		$this->output( "Removing trailing spaces from cu_log entries...\n" );
+
 		$maxId = $dbr->newSelectQueryBuilder()
 			->field( 'MAX(cul_id)' )
 			->table( 'cu_log' )
 			->caller( __METHOD__ )
 			->fetchField();
+
+		if ( !$maxId ) {
+			$this->output( "cu_log is empty; nothing to process.\n" );
+			return true;
+		}
+
 		$prevId = 0;
 		$curId = $batchSize;
 		do {
