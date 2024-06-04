@@ -20,6 +20,8 @@ class FixTrailingSpacesInLogsTest extends MaintenanceBaseTestCase {
 	}
 
 	public function testExecute() {
+		// Set up the testing data.
+		$this->addDBDataWhenRowsExist();
 		// Call the method under test
 		/** @var TestingAccessWrapper $objectUnderTest */
 		$objectUnderTest = $this->maintenance;
@@ -40,7 +42,16 @@ class FixTrailingSpacesInLogsTest extends MaintenanceBaseTestCase {
 		);
 	}
 
-	public function addDBData() {
+	public function testExecuteWhenNoRowsExist() {
+		// Run the maintenance script
+		$this->assertTrue( $this->maintenance->execute() );
+		// Verify that the script outputted that there was nothing to process
+		$this->expectOutputString(
+			"Removing trailing spaces from cu_log entries...\ncu_log is empty; nothing to process.\n"
+		);
+	}
+
+	public function addDBDataWhenRowsExist() {
 		// Add a few testing entries to the cu_log table
 		/** @var CheckUserLogService $checkUserLogService */
 		$checkUserLogService = $this->getServiceContainer()->get( 'CheckUserLogService' );
