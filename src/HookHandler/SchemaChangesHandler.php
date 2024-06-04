@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
+use MediaWiki\CheckUser\Maintenance\DeleteReadOldRowsInCuChanges;
 use MediaWiki\CheckUser\Maintenance\FixTrailingSpacesInLogs;
 use MediaWiki\CheckUser\Maintenance\MoveLogEntriesFromCuChanges;
 use MediaWiki\CheckUser\Maintenance\PopulateCheckUserTable;
@@ -17,6 +18,7 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook {
 	 * @inheritDoc
 	 */
 	public function onLoadExtensionSchemaUpdates( $updater ) {
+		global $wgCheckUserEventTablesMigrationStage;
 		$base = __DIR__ . '/../../schema';
 		$maintenanceDb = $updater->getDB();
 		$dbType = $maintenanceDb->getType();
@@ -276,7 +278,18 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook {
 		// 1.41
 		$updater->addExtensionTable( 'cu_useragent_clienthints', "$base/$dbType/cu_useragent_clienthints.sql" );
 		$updater->addExtensionTable( 'cu_useragent_clienthints_map', "$base/$dbType/cu_useragent_clienthints_map.sql" );
-		$updater->addPostDatabaseUpdateMaintenance( MoveLogEntriesFromCuChanges::class );
+		// Must be run before deleteReadOldEntriesInCuChanges.php is run or the cuc_only_for_read_old column is
+		// removed, as the script needs the column to be present and needs to be allowed to set the value of the
+		// column to 1.
+		// Until wgCheckUserEventTablesMigrationStage is removed, we cannot run this script in install.php because
+		// we need config to be loaded before it is loaded by install.php. Once wgCheckUserEventTablesMigrationStage
+		// is removed, it should be safe to run this script in install.php.
+		if ( isset( $wgCheckUserEventTablesMigrationStage ) ) {
+			$updater->addExtensionUpdate( [
+				'runMaintenance',
+				MoveLogEntriesFromCuChanges::class,
+			] );
+		}
 
 		// 1.42
 		$updater->addExtensionField(
@@ -315,6 +328,9 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook {
 			'cupe_agent_id',
 			"$base/$dbType/patch-cu_private_event-add-cupe_agent_id.sql"
 		);
+
+		// 1.43
+		$updater->addPostDatabaseUpdateMaintenance( DeleteReadOldRowsInCuChanges::class );
 
 		if ( !$isCUInstalled ) {
 			// First time so populate the CheckUser result tables with recentchanges data.
