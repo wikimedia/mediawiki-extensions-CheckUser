@@ -102,7 +102,7 @@
 	"checkuser-localonly": "nicht zusammengeführt",
 	"checkuser-massblock": "Ausgewählte Benutzer sperren",
 	"checkuser-massblock-text-multi-lock-only": "Du verfügst nicht über die erforderlichen Rechte, um Benutzer in diesem Wiki zu sperren. Du kannst die ausgewählten Konten dennoch über die unten stehenden Links sperren.",
-	"checkuser-massblock-text": "Die oben ausgewählten Konten und IP-Adressen können durch Drücken der Schaltflächen in diesem Formular gesperrt werden. Diese Konten oder IP-Adressen werden dann im Formular {{#special:InvestigateBlock}} vorab ausgefüllt.",
+	"checkuser-massblock-text": "{{#FORMAL:Verwende|Verwenden Sie}} die Kontrollkästchen in den obigen Ergebnissen, um Konten und IPs auszuwählen, die {{#FORMAL:du sperren möchtest|Sie sperren möchten}}. Anschließend {{#FORMAL:kannst du|können Sie}} die Schaltflächen unten verwenden, wodurch das Formular {{#special:InvestigateBlock}} mit den vorab ausgefüllten Zieleingaben geöffnet wird.",
 	"checkuser-massblock-commit-accounts": "Ausgewählte Benutzerkonten sperren",
 	"checkuser-massblock-commit-ips": "Ausgewählte IP-Adressen sperren",
 	"checkuser-block-reason-dropdown": "*Häufige Sperrgründe\n** Missbrauch mehrerer Konten\n** Linkspam zu externen Seiten\n** Vandalismus",

@@ -81,7 +81,7 @@
 	"checkuser-wasblocked": "Bloccato precedentemente",
 	"checkuser-localonly": "Non unificato",
 	"checkuser-massblock": "Blocca utenti selezionati",
-	"checkuser-massblock-text": "Gli utenti selezionati saranno bloccati infinito con blocco automatico attivato e registrazione disattivata.\nGli indirizzi IP saranno bloccati per una settimana solo per gli utenti anonimi e con la registrazione disattivata.",
+	"checkuser-massblock-text": "Utilizza le caselle di controllo nei risultati sopra per selezionare le utenze e gli IP che vuoi bloccare. Quindi puoi utilizzare i pulsanti qui sotto, che apriranno il modulo {{#special:InvestigateBlock}} con gli obiettivi precompilati.",
 	"checkuser-block-reason-dropdown": "* Motivi di blocco comuni\n** Abuso di utenze multiple\n** Spam di collegamenti a siti esterni\n** Vandalismo",
 	"checkuser-centralauth-multilock": "Blocco multiplo degli utenti selezionati",
 	"checkuser-centralauth-multilock-list-item": "Collegamento $1",
