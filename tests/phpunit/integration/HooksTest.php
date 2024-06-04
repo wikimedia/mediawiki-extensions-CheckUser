@@ -100,7 +100,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 				SCHEMA_COMPAT_OLD,
 				'cu_changes',
 				[ 'cuc_title', 'cuc_timestamp', 'cuc_namespace' ],
-				[ 'Log', $attribs['rc_timestamp'], NS_SPECIAL ]
+				[ 'Log', $this->db->timestamp( $attribs['rc_timestamp'] ), NS_SPECIAL ]
 			],
 			'Log for special title with no log ID for write new' => [
 				array_merge( $attribs, [
@@ -112,7 +112,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 				SCHEMA_COMPAT_NEW,
 				'cu_private_event',
 				[ 'cupe_title', 'cupe_timestamp', 'cupe_namespace' ],
-				[ 'Log', $attribs['rc_timestamp'], NS_SPECIAL ]
+				[ 'Log', $this->db->timestamp( $attribs['rc_timestamp'] ), NS_SPECIAL ]
 			]
 		];
 		foreach ( $testCases as $testCase => $values ) {
@@ -159,6 +159,11 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
 			$fields[] = 'cule_log_id';
 			$expectedRow[] = $logId;
+		}
+		// Pass the expected timestamp through IReadableTimestamp::timestamp to ensure it is in the right format
+		// for the current DB type (T366590).
+		if ( array_key_exists( 'cule_timestamp', $expectedRow ) ) {
+			$expectedRow['cule_timestamp'] = $this->db->timestamp( $expectedRow['cule_timestamp'] );
 		}
 		$this->updateCheckUserData( $rcAttribs, $eventTableMigrationStage, $table, $fields, $expectedRow );
 	}
