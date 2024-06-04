@@ -188,6 +188,9 @@ class SpecialInvestigateTest extends FormSpecialPageTestCase {
 	}
 
 	public function testViewCompareTabWithResultsThatExceedLimitWithHiddenUser() {
+		// No support for LIMIT and ORDER BY in a UNION query in SQLite, so this test is skipped for SQLite as there
+		// will never be a situation where the limit could be exceeded.
+		$this->markTestSkippedIfDbType( 'sqlite' );
 		// Set wgCheckUserInvestigateMaximumRowCount to a very low value to cause the limit to be exceeded.
 		$this->overrideConfigValue( 'CheckUserInvestigateMaximumRowCount', 1 );
 		// Block InvestigateTestUser1 with 'hideuser' enabled.
@@ -210,6 +213,9 @@ class SpecialInvestigateTest extends FormSpecialPageTestCase {
 	}
 
 	public function testViewCompareTabWithResultsThatExceedLimit() {
+		// No support for LIMIT and ORDER BY in a UNION query in SQLite, so this test is skipped for SQLite as there
+		// will never be a situation where the limit could be exceeded.
+		$this->markTestSkippedIfDbType( 'sqlite' );
 		// Set wgCheckUserInvestigateMaximumRowCount to a very low value to cause the limit to be exceeded.
 		$this->overrideConfigValue( 'CheckUserInvestigateMaximumRowCount', 1 );
 		// Load the special page for the compare tab with a target that has rows in the CheckUser result tables.
