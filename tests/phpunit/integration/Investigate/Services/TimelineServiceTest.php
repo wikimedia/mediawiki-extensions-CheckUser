@@ -70,6 +70,9 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 			$this->assertStringContainsString( $cond, $queryInfo['tables']['a'] );
 		}
 
+		if ( $start !== '' ) {
+			$start = $this->getDb()->timestamp( $start );
+		}
 		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
 			foreach ( CheckUserQueryInterface::RESULT_TABLES as $table ) {
 				$this->assertStringContainsString( $table, $queryInfo['tables']['a'] );

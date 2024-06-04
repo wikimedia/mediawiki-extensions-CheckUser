@@ -162,8 +162,9 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		}
 		// Pass the expected timestamp through IReadableTimestamp::timestamp to ensure it is in the right format
 		// for the current DB type (T366590).
-		if ( array_key_exists( 'cule_timestamp', $expectedRow ) ) {
-			$expectedRow['cule_timestamp'] = $this->db->timestamp( $expectedRow['cule_timestamp'] );
+		if ( array_key_exists( 'cule_timestamp', $fields ) ) {
+			$keyForTimestamp = array_search( 'cule_timestamp', $fields );
+			$expectedRow[$keyForTimestamp] = $this->db->timestamp( $expectedRow[$keyForTimestamp] );
 		}
 		$this->updateCheckUserData( $rcAttribs, $eventTableMigrationStage, $table, $fields, $expectedRow );
 	}
@@ -188,7 +189,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 			] );
 		$table = 'cu_private_event';
 		$fields = [ 'cupe_timestamp' ];
-		$expectedRow = [ $attribs['rc_timestamp'] ];
+		$expectedRow = [ $this->getDb()->timestamp( $attribs['rc_timestamp'] ) ];
 		ConvertibleTimestamp::setFakeTime( $attribs['rc_timestamp'] );
 		$attribs['rc_logid'] = -1;
 		$this->updateCheckUserData( $attribs, SCHEMA_COMPAT_WRITE_NEW, $table, $fields, $expectedRow );
