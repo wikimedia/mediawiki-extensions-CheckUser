@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\Maintenance;
 use MediaWiki\CheckUser\Maintenance\PopulateCulComment;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
+use Wikimedia\Rdbms\IMaintainableDatabase;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
@@ -93,24 +94,16 @@ class PopulateCulCommentTest extends MaintenanceBaseTestCase {
 		];
 	}
 
-	public function addDBDataOnce() {
-		// Create cul_reason on the test DB.
-		//  This is broken for postgres so no cul_reason
-		//  is added for that DB type.
-		if ( $this->getDb()->getType() === 'sqlite' ) {
-			$this->getDb()->query(
-				"ALTER TABLE   " .
-				$this->getDb()->tableName( 'cu_log' ) .
-				" ADD  cul_reason BLOB DEFAULT '' NOT NULL;",
-				__METHOD__
-			);
-		} elseif ( $this->getDb()->getType() !== 'postgres' ) {
-			$this->getDb()->query(
-				"ALTER TABLE   " .
-				$this->getDb()->tableName( 'cu_log' ) .
-				" ADD  cul_reason VARBINARY(255) DEFAULT '' NOT NULL;",
-				__METHOD__
-			);
-		}
+	protected function getSchemaOverrides( IMaintainableDatabase $db ) {
+		// Create the cul_reason column in cu_log using the SQL patch file associated with the current
+		// DB type.
+		return [
+			'scripts' => [
+				__DIR__ . '/patches/' . $db->getType() . '/patch-cu_log-add-cul_reason.sql',
+			],
+			'drop' => [],
+			'create' => [],
+			'alter' => [ 'cu_log' ],
+		];
 	}
 }
