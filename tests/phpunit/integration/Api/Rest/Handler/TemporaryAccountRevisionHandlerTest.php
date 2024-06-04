@@ -7,12 +7,15 @@ use MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountRevisionHandler;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\RequestData;
+use MediaWiki\Rest\Validator\Validator;
 use MediaWiki\Revision\ArchiveSelectQueryBuilder;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionSelectQueryBuilder;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\Tests\Rest\Handler\HandlerTestTrait;
+use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\UserIdentityValue;
@@ -32,6 +35,7 @@ use Wikimedia\Rdbms\IReadableDatabase;
 class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 
 	use HandlerTestTrait;
+	use MockServiceDependenciesTrait;
 
 	/**
 	 * By default, services are mocked for a successful Response.
@@ -225,6 +229,19 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 				],
 			],
 		];
+	}
+
+	public function testFailsWithoutValidToken() {
+		$handler = $this->newServiceInstance( TemporaryAccountRevisionHandler::class, [] );
+		$validator = $this->createMock( Validator::class );
+		$this->expectException( LocalizedHttpException::class );
+		$request = new RequestData();
+		$config = [
+			'path' => '/foo'
+		];
+		$this->initHandler( $handler, $request, $config, [], null, $this->getSession( false ) );
+		// Invoking the method to be tested
+		$this->validateHandler( $handler );
 	}
 
 	public function testErrorOnMissingRevisionIds() {
