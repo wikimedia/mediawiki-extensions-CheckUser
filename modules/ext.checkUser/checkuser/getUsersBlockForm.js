@@ -6,6 +6,7 @@
  * the rights to use that special page.
  *
  * @param {string} documentRoot The root element to append hidden forms to. Defaults to 'body'.
+ * @returns {boolean} Returns false if the function returned early, otherwise true.
  */
 module.exports = function ( documentRoot ) {
 	var $userCheckboxes = $( '#checkuserresults li [type=checkbox]' ),
@@ -16,10 +17,10 @@ module.exports = function ( documentRoot ) {
 		selectedIPs = [],
 		centralURL = mw.config.get( 'wgCUCAMultiLockCentral' );
 
-	if ( !centralURL && ( !$blockAccountsButton || !$blockIPsButton ) ) {
+	if ( !centralURL && ( !$blockAccountsButton.length || !$blockIPsButton.length ) ) {
 		// If no central URL is set and the block buttons are missing, then return early as we are likely not
 		// on the Special:CheckUser 'Get users' page or the user does not have the rights to lock or block.
-		return;
+		return false;
 	}
 
 	if ( centralURL ) {
@@ -142,10 +143,10 @@ module.exports = function ( documentRoot ) {
 		$form.appendTo( documentRoot ).trigger( 'submit' );
 	}
 
-	if ( !$blockAccountsButton || !$blockIPsButton ) {
+	if ( !$blockAccountsButton.length || !$blockIPsButton.length ) {
 		// If the block buttons are not present, then the user does not have the rights to block but does have the
 		// rights to lock. As such, don't try to interact with the non-existing block buttons and return early.
-		return;
+		return false;
 	}
 
 	// If the 'Block accounts' or 'Block IPs' button is pressed, then open the block form in
@@ -156,4 +157,6 @@ module.exports = function ( documentRoot ) {
 	$blockIPsButton[ 0 ].addEventListener( 'click', function () {
 		openSpecialInvestigateBlockPage( selectedIPs );
 	} );
+
+	return true;
 };
