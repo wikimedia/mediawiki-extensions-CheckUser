@@ -166,7 +166,7 @@ abstract class ChangeService implements CheckUserQueryInterface {
 		}
 
 		// TODO: T360712: Add cuc_id to the start conds to ensure unique ordering
-		return $this->dbProvider->getReplicaDatabase()
-			->expr( self::RESULT_TABLE_TO_PREFIX[$table] . 'timestamp', '>=', $start );
+		$dbr = $this->dbProvider->getReplicaDatabase();
+		return $dbr->expr( self::RESULT_TABLE_TO_PREFIX[$table] . 'timestamp', '>=', $dbr->timestamp( $start ) );
 	}
 }

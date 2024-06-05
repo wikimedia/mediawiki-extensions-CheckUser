@@ -115,6 +115,9 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		$this->assertStringContainsString( 'LIMIT ' . $expected['limit'], $queryInfo['tables']['a'] );
 
 		$start = $expected['start'];
+		if ( $start !== '' ) {
+			$start = $this->getDb()->timestamp( $start );
+		}
 		if ( $options['migrationStage'] & SCHEMA_COMPAT_READ_NEW ) {
 			foreach ( CheckUserQueryInterface::RESULT_TABLES as $table ) {
 				$this->assertStringContainsString( $table, $queryInfo['tables']['a'] );
@@ -166,13 +169,13 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 					'targets' => [ 'User1' ],
 					'excludeTargets' => [ '0:0:0:0:0:0:0:1' ],
 					'limit' => 10000,
-					'start' => '111', 'migrationStage' => SCHEMA_COMPAT_NEW,
+					'start' => '20230405060708', 'migrationStage' => SCHEMA_COMPAT_NEW,
 				],
 				[
 					'targets' => [ '11111' ],
 					'excludeTargets' => [ 'v6-00000000000000000000000000000001' ],
 					'limit' => '3334',
-					'start' => '111'
+					'start' => '20230405060708'
 				],
 			],
 			'Single valid IP, excluded username' => [
