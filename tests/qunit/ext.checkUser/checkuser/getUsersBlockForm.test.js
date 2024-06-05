@@ -132,7 +132,7 @@ QUnit.test( 'Test blocking accounts', function ( assert ) {
 	// form being kept in the DOM for other JavaScript tests.
 	// eslint-disable-next-line no-jquery/no-global-selector
 	const $qunitFixture = $( '#qunit-fixture' );
-	getUsersBlockForm( $qunitFixture );
+	assert.strictEqual( getUsersBlockForm( $qunitFixture ), true );
 
 	performBlockFormSubmitTest(
 		assert,
@@ -156,7 +156,7 @@ QUnit.test( 'Test blocking IPs', function ( assert ) {
 	// form being kept in the DOM for other JavaScript tests.
 	// eslint-disable-next-line no-jquery/no-global-selector
 	const $qunitFixture = $( '#qunit-fixture' );
-	getUsersBlockForm( $qunitFixture );
+	assert.strictEqual( getUsersBlockForm( $qunitFixture ), true );
 
 	performBlockFormSubmitTest(
 		assert,
@@ -177,7 +177,7 @@ QUnit.test( 'Test MultiLock link', function ( assert ) {
 	// Call the function, specifying the QUnit fixture as the document root.
 	// eslint-disable-next-line no-jquery/no-global-selector
 	const $qunitFixture = $( '#qunit-fixture' );
-	getUsersBlockForm( $qunitFixture );
+	assert.strictEqual( getUsersBlockForm( $qunitFixture ), true );
 
 	// Assert that the MultiLock URL is as expected
 	const $linkElement = $( '.mw-checkuser-multilock-link', $qunitFixture );
@@ -195,4 +195,30 @@ QUnit.test( 'Test MultiLock link', function ( assert ) {
 		'(checkuser-centralauth-multilock)',
 		'Link text for MultiLock link is correctly set'
 	);
+} );
+
+QUnit.test( 'Test load without block buttons or MultiLock URL', function ( assert ) {
+	// eslint-disable-next-line no-jquery/no-global-selector
+	const $qunitFixture = $( '#qunit-fixture' );
+
+	// Call the function and expect it to return false.
+	assert.strictEqual( getUsersBlockForm( $qunitFixture ), false );
+} );
+
+QUnit.test( 'Test load without block buttons, but MultiLock URL defined', function ( assert ) {
+	// Set wgCUCAMultiLockCentral to a URL. It must be set for the test to work.
+	mw.config.set( 'wgCUCAMultiLockCentral', 'https://example.com/wiki/Special:MultiLock' );
+
+	// Set the HTML that is added by Special:CheckUser.
+	setUpDocumentForTest( { Test: true, '1.2.3.4': true, Test2: false, '4.5.6.0/24': false } );
+
+	// eslint-disable-next-line no-jquery/no-global-selector
+	const $qunitFixture = $( '#qunit-fixture' );
+
+	// Remove the block buttons for the test.
+	$( '.mw-checkuser-massblock-accounts-button', $qunitFixture ).remove();
+	$( '.mw-checkuser-massblock-ips-button', $qunitFixture ).remove();
+
+	// Call the function and expect it to return false.
+	assert.strictEqual( getUsersBlockForm( $qunitFixture ), false );
 } );
