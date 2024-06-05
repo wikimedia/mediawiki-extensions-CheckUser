@@ -85,7 +85,7 @@
 	"checkuser-localonly": "Non unificate",
 	"checkuser-massblock": "Blocar usatores seligite",
 	"checkuser-massblock-text-multi-lock-only": "Tu non ha le derectos necessari pro blocar usatores sur iste wiki. Tu pote totevia serrar le contos seligite usante le ligamine(s) que appare infra.",
-	"checkuser-massblock-text": "Le contos e adresses IP seligite supra pote esser blocate con le buttones in iste formulario, ubi iste contos o adresses IP essera pre-plenate in le formulario {{#special:InvestigateBlock}}.",
+	"checkuser-massblock-text": "Marca le quadratos in le resultatos supra pro seliger le contos e adresses IP que tu vole blocar. Alora tu pote usar le buttones infra, le quales aperira le formulario {{#special:InvestigateBlock}} con le objectivos ja pre-plenate.",
 	"checkuser-massblock-commit-accounts": "Blocar le contos seligite",
 	"checkuser-massblock-commit-ips": "Blocar le adresses IP seligite",
 	"checkuser-block-reason-dropdown": "*Motivos frequente pro blocar\n**Abuso de contos  multiple\n** Ligamines ''spam'' verso sitos externe\n** Vandalismo",
