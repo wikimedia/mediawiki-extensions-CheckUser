@@ -1,7 +1,7 @@
 var ipReveal = require( './ipReveal.js' );
 var ipRevealUtils = require( './ipRevealUtils.js' );
 
-mw.hook( 'wikipage.content' ).add( function ( $content ) {
+mw.hook( 'wikipage.content' ).add( ( $content ) => {
 	ipReveal.addButton( $content );
 } );
 
@@ -15,6 +15,6 @@ $( '.mw-tempuserlink' ).each( function () {
 		recentUsers.push( target );
 	}
 } );
-recentUsers.forEach( function ( user ) {
+recentUsers.forEach( ( user ) => {
 	$( document ).trigger( 'userRevealed', user );
 } );

@@ -87,15 +87,11 @@ class LoginAsCheckUser {
 						} else {
 							return reject( new Error( 'Unable to assign checkuser group' ) );
 						}
-					} ).catch( ( err ) => {
-						return reject( err );
-					} );
+					} ).catch( ( err ) => reject( err ) );
 				} else {
 					return reject( new Error( 'Could not get userrights token' ) );
 				}
-			} ).catch( ( err ) => {
-				return reject( err );
-			} );
+			} ).catch( ( err ) => reject( err ) );
 		} );
 	}
 }

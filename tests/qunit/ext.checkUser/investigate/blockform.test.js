@@ -56,7 +56,7 @@ function setUpDocumentForTest( targets ) {
 	return $( node );
 }
 
-QUnit.test( 'Test visibility of block form elements on DOM load, after block click, and after cancel click', function ( assert ) {
+QUnit.test( 'Test visibility of block form elements on DOM load, after block click, and after cancel click', ( assert ) => {
 	// We need the test to wait a small amount of time for the click events to finish.
 	const done = assert.async();
 
@@ -68,7 +68,7 @@ QUnit.test( 'Test visibility of block form elements on DOM load, after block cli
 
 	// Assert the state when the DOM is loaded first.
 	const cases = require( './cases/blockFormWidgetVisibility.json' );
-	cases.forEach( function ( caseItem ) {
+	cases.forEach( ( caseItem ) => {
 		const $elementForCase = $actualHtmlElement.find( caseItem.cssClass );
 		assert.true(
 			!!$elementForCase.length,
@@ -84,9 +84,9 @@ QUnit.test( 'Test visibility of block form elements on DOM load, after block cli
 
 	// Click the block button
 	$( '.ext-checkuser-investigate-subtitle-block-button a', $actualHtmlElement )[ 0 ].click();
-	setTimeout( function () {
+	setTimeout( () => {
 		// Assert the state after the block button is clicked.
-		cases.forEach( function ( caseItem ) {
+		cases.forEach( ( caseItem ) => {
 			const $elementForCase = $actualHtmlElement.find( caseItem.cssClass );
 			assert.true(
 				!!$elementForCase.length,
@@ -103,9 +103,9 @@ QUnit.test( 'Test visibility of block form elements on DOM load, after block cli
 		// Click the cancel button
 		$( '.ext-checkuser-investigate-subtitle-cancel-button a', $actualHtmlElement )[ 0 ].click();
 
-		setTimeout( function () {
+		setTimeout( () => {
 			// Assert the state after the cancel button is clicked.
-			cases.forEach( function ( caseItem ) {
+			cases.forEach( ( caseItem ) => {
 				const $elementForCase = $actualHtmlElement.find( caseItem.cssClass );
 				assert.true(
 					!!$elementForCase.length,
@@ -132,7 +132,7 @@ function performBlockFormSubmitTest( assert, cssClass, $actualHtmlElement, $quni
 	$( $qunitFixture ).on(
 		'submit',
 		'.ext-checkuser-investigate-hidden-block-form',
-		function ( event ) {
+		( event ) => {
 			event.preventDefault();
 			formWasSubmitted = true;
 			return false;
@@ -141,10 +141,10 @@ function performBlockFormSubmitTest( assert, cssClass, $actualHtmlElement, $quni
 
 	// Click the appropriate block button
 	$( cssClass + ' a', $actualHtmlElement )[ 0 ].click();
-	setTimeout( function () {
+	setTimeout( () => {
 		// Click the continue button
 		$( '.ext-checkuser-investigate-subtitle-continue-button a', $actualHtmlElement )[ 0 ].click();
-		setTimeout( function () {
+		setTimeout( () => {
 			// Assert that the form element was correctly added
 			const $formElement = $( '.ext-checkuser-investigate-hidden-block-form', $qunitFixture );
 			assert.true(
@@ -182,7 +182,7 @@ function performBlockFormSubmitTest( assert, cssClass, $actualHtmlElement, $quni
 
 // performBlockFormSubmitTest resolves the done async callback, but eslint doesn't detect this.
 // eslint-disable-next-line qunit/resolve-async
-QUnit.test( 'Test blocking accounts', function ( assert ) {
+QUnit.test( 'Test blocking accounts', ( assert ) => {
 	// We need the test to wait a small amount of time for the click events to finish.
 	const done = assert.async();
 
@@ -207,7 +207,7 @@ QUnit.test( 'Test blocking accounts', function ( assert ) {
 
 // performBlockFormSubmitTest resolves the done async callback, but eslint doesn't detect this.
 // eslint-disable-next-line qunit/resolve-async
-QUnit.test( 'Test blocking IPs', function ( assert ) {
+QUnit.test( 'Test blocking IPs', ( assert ) => {
 	// We need the test to wait a small amount of time for the click events to finish.
 	const done = assert.async();
 

@@ -78,11 +78,11 @@ function generateData() {
 		currentPosition = endPosition;
 		if ( currentPosition < $checkUserResults.length ) {
 			return new Promise(
-				function ( resolve ) {
+				( resolve ) => {
 					// Wait a bit to prevent UI freeze.
-					setTimeout( function () {
+					setTimeout( () => {
 						processRows( data, currentPosition )
-							.then( function ( dataFromChild ) {
+							.then( ( dataFromChild ) => {
 								resolve( dataFromChild );
 							} );
 					}, 10 );

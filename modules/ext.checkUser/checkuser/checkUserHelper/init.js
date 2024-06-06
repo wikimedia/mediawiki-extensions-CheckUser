@@ -33,11 +33,11 @@ function init() {
 	$panelLayout.html( tbl );
 	// eslint-disable-next-line no-jquery/no-class-state
 	const tooManyResults = $( '.oo-ui-fieldsetLayout', $checkUserHelperFieldset ).hasClass( 'mw-collapsed' );
-	mw.loader.using( 'mediawiki.widgets', function () {
+	mw.loader.using( 'mediawiki.widgets', () => {
 		if ( !tooManyResults ) {
 			generateAndDisplayData();
 		} else {
-			$checkUserHelperFieldset.one( 'afterExpand.mw-collapsible', function () {
+			$checkUserHelperFieldset.one( 'afterExpand.mw-collapsible', () => {
 				generateAndDisplayData();
 			} );
 		}

@@ -26,15 +26,11 @@ function calculateIPNumber( ip ) {
 	return ip.indexOf( '.' ) > -1 ?
 		Number(
 			ip.split( '.' ).map(
-				function ( num ) {
-					return ( '000' + num ).slice( -3 );
-				}
+				( num ) => ( '000' + num ).slice( -3 )
 			).join( '' )
 		) : Number(
 			'0x' + ip.split( ':' ).map(
-				function ( num ) {
-					return ( '0000' + num ).slice( -4 );
-				}
+				( num ) => ( '0000' + num ).slice( -4 )
 			).join( '' )
 		);
 }

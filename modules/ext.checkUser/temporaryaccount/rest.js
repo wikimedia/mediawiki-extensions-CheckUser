@@ -38,15 +38,15 @@ function performRevealRequestInternal( target, revIds, logIds, limit, retryOnTok
 	var restApi = new mw.Rest();
 	var api = new mw.Api();
 	var deferred = $.Deferred();
-	api.getToken( 'csrf' ).then( function ( token ) {
+	api.getToken( 'csrf' ).then( ( token ) => {
 		restApi.post(
 			'/checkuser/v0/temporaryaccount/' + target + buildQuery( revIds, logIds, limit ),
 			{ token: token }
 		).then(
-			function ( data ) {
+			( data ) => {
 				deferred.resolve( data );
 			},
-			function ( err, errObject ) {
+			( err, errObject ) => {
 				if (
 					retryOnTokenMismatch &&
 					errObject.xhr &&
@@ -57,10 +57,10 @@ function performRevealRequestInternal( target, revIds, logIds, limit, retryOnTok
 					// The CSRF token has expired. Retry the POST with a new token.
 					api.badToken( 'csrf' );
 					performRevealRequestInternal( target, revIds, logIds, limit, false ).then(
-						function ( data ) {
+						( data ) => {
 							deferred.resolve( data );
 						},
-						function ( secondRequestErr, secondRequestErrObject ) {
+						( secondRequestErr, secondRequestErrObject ) => {
 							deferred.reject( secondRequestErr, secondRequestErrObject );
 						}
 					);
@@ -69,7 +69,7 @@ function performRevealRequestInternal( target, revIds, logIds, limit, retryOnTok
 				}
 			}
 		);
-	} ).fail( function ( err, errObject ) {
+	} ).fail( ( err, errObject ) => {
 		deferred.reject( err, errObject );
 	} );
 	return deferred.promise();

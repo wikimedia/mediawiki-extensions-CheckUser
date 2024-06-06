@@ -75,7 +75,7 @@ function performBlockFormSubmitTest( assert, cssClass, $qunitFixture, expectedTa
 	$( $qunitFixture ).on(
 		'submit',
 		'.ext-checkuser-hidden-block-form',
-		function ( event ) {
+		( event ) => {
 			event.preventDefault();
 			formWasSubmitted = true;
 			return false;
@@ -84,7 +84,7 @@ function performBlockFormSubmitTest( assert, cssClass, $qunitFixture, expectedTa
 
 	// Click the appropriate block button
 	$( cssClass + ' button', $qunitFixture )[ 0 ].click();
-	setTimeout( function () {
+	setTimeout( () => {
 		// Assert that the form element was correctly added
 		const $formElement = $( '.ext-checkuser-hidden-block-form', $qunitFixture );
 		assert.true(
@@ -121,7 +121,7 @@ function performBlockFormSubmitTest( assert, cssClass, $qunitFixture, expectedTa
 
 // performBlockFormSubmitTest resolves the done async callback, but eslint doesn't detect this.
 // eslint-disable-next-line qunit/resolve-async
-QUnit.test( 'Test blocking accounts', function ( assert ) {
+QUnit.test( 'Test blocking accounts', ( assert ) => {
 	// We need the test to wait a small amount of time for the click events to finish.
 	const done = assert.async();
 
@@ -145,7 +145,7 @@ QUnit.test( 'Test blocking accounts', function ( assert ) {
 
 // performBlockFormSubmitTest resolves the done async callback, but eslint doesn't detect this.
 // eslint-disable-next-line qunit/resolve-async
-QUnit.test( 'Test blocking IPs', function ( assert ) {
+QUnit.test( 'Test blocking IPs', ( assert ) => {
 	// We need the test to wait a small amount of time for the click events to finish.
 	const done = assert.async();
 
@@ -167,7 +167,7 @@ QUnit.test( 'Test blocking IPs', function ( assert ) {
 	);
 } );
 
-QUnit.test( 'Test MultiLock link', function ( assert ) {
+QUnit.test( 'Test MultiLock link', ( assert ) => {
 	// Set wgCUCAMultiLockCentral to a URL. It must be set for the test to work.
 	mw.config.set( 'wgCUCAMultiLockCentral', 'https://example.com/wiki/Special:MultiLock' );
 
@@ -197,7 +197,7 @@ QUnit.test( 'Test MultiLock link', function ( assert ) {
 	);
 } );
 
-QUnit.test( 'Test load without block buttons or MultiLock URL', function ( assert ) {
+QUnit.test( 'Test load without block buttons or MultiLock URL', ( assert ) => {
 	// eslint-disable-next-line no-jquery/no-global-selector
 	const $qunitFixture = $( '#qunit-fixture' );
 
@@ -205,7 +205,7 @@ QUnit.test( 'Test load without block buttons or MultiLock URL', function ( asser
 	assert.strictEqual( getUsersBlockForm( $qunitFixture ), false );
 } );
 
-QUnit.test( 'Test load without block buttons, but MultiLock URL defined', function ( assert ) {
+QUnit.test( 'Test load without block buttons, but MultiLock URL defined', ( assert ) => {
 	// Set wgCUCAMultiLockCentral to a URL. It must be set for the test to work.
 	mw.config.set( 'wgCUCAMultiLockCentral', 'https://example.com/wiki/Special:MultiLock' );
 

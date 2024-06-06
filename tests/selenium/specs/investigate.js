@@ -4,9 +4,9 @@ const assert = require( 'assert' ),
 	LoginAsCheckUser = require( '../checkuserlogin' ),
 	InvestigatePage = require( '../pageobjects/investigate.page' );
 
-describe( 'Investigate', function () {
+describe( 'Investigate', () => {
 	describe( 'Without CheckUser user group', () => {
-		it( 'Should display permission error to logged-out user', async function () {
+		it( 'Should display permission error to logged-out user', async () => {
 			await InvestigatePage.open();
 
 			assert( await InvestigatePage.hasPermissionErrors.isExisting() );
@@ -17,13 +17,13 @@ describe( 'Investigate', function () {
 			await LoginAsCheckUser.loginAsCheckUser();
 			await InvestigatePage.open();
 		} );
-		it( 'Should show targets input', async function () {
+		it( 'Should show targets input', async () => {
 			assert( await InvestigatePage.targetsInput.isExisting() );
 		} );
-		it( 'Should show duration selector', async function () {
+		it( 'Should show duration selector', async () => {
 			assert( await InvestigatePage.durationSelector.isExisting() );
 		} );
-		it( 'Should show reason field', async function () {
+		it( 'Should show reason field', async () => {
 			assert( await InvestigatePage.reasonInput.isExisting() );
 		} );
 	} );

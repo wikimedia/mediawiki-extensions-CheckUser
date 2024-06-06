@@ -4,9 +4,9 @@ const assert = require( 'assert' ),
 	LoginAsCheckUser = require( '../checkuserlogin' ),
 	CheckUserLogPage = require( '../pageobjects/checkuserlog.page' );
 
-describe( 'CheckUserLog', function () {
+describe( 'CheckUserLog', () => {
 	describe( 'Without CheckUser user group', () => {
-		it( 'Should display permission error to logged-out user', async function () {
+		it( 'Should display permission error to logged-out user', async () => {
 			await CheckUserLogPage.open();
 
 			assert( await CheckUserLogPage.hasPermissionErrors.isExisting() );
@@ -18,22 +18,22 @@ describe( 'CheckUserLog', function () {
 			await CheckUserLogPage.open();
 		} );
 		describe( 'Verify checkuser can interact with the CheckUser log', () => {
-			it( 'Should show target input', async function () {
+			it( 'Should show target input', async () => {
 				assert( await CheckUserLogPage.targetInput.isExisting() );
 			} );
-			it( 'Should show initiator input', async function () {
+			it( 'Should show initiator input', async () => {
 				assert( await CheckUserLogPage.initiatorInput.isExisting() );
 			} );
-			it( 'Should show start date selector', async function () {
+			it( 'Should show start date selector', async () => {
 				assert( await CheckUserLogPage.startDateSelector.isExisting() );
 			} );
-			it( 'Should show end date selector', async function () {
+			it( 'Should show end date selector', async () => {
 				assert( await CheckUserLogPage.endDateSelector.isExisting() );
 			} );
-			it( 'Should show search button', async function () {
+			it( 'Should show search button', async () => {
 				assert( await CheckUserLogPage.search.isExisting() );
 			} );
-			it( 'Should be able to use the filters to search', async function () {
+			it( 'Should be able to use the filters to search', async () => {
 				// @todo check if the filters had any effect?
 				await CheckUserLogPage.initiatorInput.setValue( process.env.MEDIAWIKI_USER );
 				await CheckUserLogPage.initiatorInput.click();

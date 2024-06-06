@@ -10,7 +10,7 @@ $userLinks.each( function () {
 } );
 $userLinks.each( function () {
 	var revId = ipReveal.getRevisionId( $( this ) );
-	$( this ).find( '.mw-diff-bytes' ).after( function () {
+	$( this ).find( '.mw-diff-bytes' ).after( () => {
 		var ids = {
 			targetId: revId,
 			allIds: revIds
@@ -19,10 +19,8 @@ $userLinks.each( function () {
 	} );
 } );
 
-$( document ).on( 'userRevealed', function () {
-	var $relevantUserLinks = $userLinks.map( function ( _i, el ) {
-		return $( el ).find( '.ext-checkuser-tempaccount-reveal-ip-button' );
-	} );
+$( document ).on( 'userRevealed', () => {
+	var $relevantUserLinks = $userLinks.map( ( _i, el ) => $( el ).find( '.ext-checkuser-tempaccount-reveal-ip-button' ) );
 
 	// Synthetically trigger a reveal event
 	$relevantUserLinks.each( function () {

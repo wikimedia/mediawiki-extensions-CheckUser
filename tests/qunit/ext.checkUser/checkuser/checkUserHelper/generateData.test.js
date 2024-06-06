@@ -4,10 +4,10 @@ const generateData = require( '../../../../../modules/ext.checkUser/checkuser/ch
 
 QUnit.module( 'ext.checkUser.checkuser.checkUserHelper.generateData', QUnit.newMwEnvironment() );
 
-QUnit.test( 'Test that generateData returns the expected data', function ( assert ) {
+QUnit.test( 'Test that generateData returns the expected data', ( assert ) => {
 	const cases = require( './cases/generateData.json' );
 
-	cases.forEach( function ( caseItem ) {
+	cases.forEach( ( caseItem ) => {
 		function performTest( clientHintsEnabled, expectedData, msg ) {
 			let html = '<div id="checkuserresults"><ul>';
 			caseItem.items.forEach( ( resultLine ) => {

@@ -7,7 +7,7 @@ var blockTargetWidget, lastUserRequest, lastIpRequest;
 // so check for block target widget; if it exists, the form is present
 if ( $blockTargetWidget.length ) {
 	blockTargetWidget = OO.ui.infuse( $blockTargetWidget );
-	blockTargetWidget.on( 'change', function ( blockTarget ) {
+	blockTargetWidget.on( 'change', ( blockTarget ) => {
 		if ( lastUserRequest ) {
 			lastUserRequest.abort();
 		}
@@ -39,7 +39,7 @@ function onTargetChange( blockTarget ) {
 		list: 'users',
 		ususers: blockTargetWidget.getValue()
 	} );
-	lastUserRequest.done( function ( data ) {
+	lastUserRequest.done( ( data ) => {
 		if ( data.query.users[ 0 ].userid ) {
 			var revealButton = createButton(
 				mw.msg( 'checkuser-tempaccount-reveal-ip-button-label' )
@@ -49,10 +49,10 @@ function onTargetChange( blockTarget ) {
 				.append( revealButton.$element );
 			$( '#mw-htmlform-target' ).after( $container );
 
-			revealButton.once( 'click', function () {
+			revealButton.once( 'click', () => {
 				$container.empty();
 
-				performFullRevealRequest( blockTarget, [], [] ).then( function ( response ) {
+				performFullRevealRequest( blockTarget, [], [] ).then( ( response ) => {
 					$container.empty()
 						.append( new OO.ui.LabelWidget( {
 							label: response.ips.length ?
@@ -66,7 +66,7 @@ function onTargetChange( blockTarget ) {
 									Math.round( mw.config.get( 'wgCUDMaxAge' ) / 86400 )
 								).text()
 						} ).$element );
-				} ).fail( function () {
+				} ).fail( () => {
 					$container.empty()
 						.addClass( 'ext-checkuser-tempaccount-reveal-ip' )
 						.append( new OO.ui.LabelWidget( {

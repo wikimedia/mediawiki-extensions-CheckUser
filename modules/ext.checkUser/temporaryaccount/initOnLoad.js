@@ -13,6 +13,6 @@ $( '.mw-tempuserlink' ).each( function () {
 		recentUsers.push( target );
 	}
 } );
-recentUsers.forEach( function ( user ) {
+recentUsers.forEach( ( user ) => {
 	$( document ).trigger( 'userRevealed', user );
 } );

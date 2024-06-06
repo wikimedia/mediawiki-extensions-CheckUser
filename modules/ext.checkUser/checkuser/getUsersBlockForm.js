@@ -6,7 +6,7 @@
  * the rights to use that special page.
  *
  * @param {string} documentRoot The root element to append hidden forms to. Defaults to 'body'.
- * @returns {boolean} Returns false if the function returned early, otherwise true.
+ * @return {boolean} Returns false if the function returned early, otherwise true.
  */
 module.exports = function ( documentRoot ) {
 	var $userCheckboxes = $( '#checkuserresults li [type=checkbox]' ),

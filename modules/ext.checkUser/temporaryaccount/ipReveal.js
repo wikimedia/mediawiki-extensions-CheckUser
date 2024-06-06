@@ -11,15 +11,15 @@ function makeButton( target, revIds, logIds ) {
 		],
 		classes: [ 'ext-checkuser-tempaccount-reveal-ip-button' ]
 	} );
-	button.once( 'click', function () {
+	button.once( 'click', () => {
 		button.$element.trigger( 'revealIp' );
 		button.$element.off( 'revealIp' );
 		$( document ).trigger( 'userRevealed', [ target ] );
 	} );
 
-	button.$element.on( 'revealIp', function () {
+	button.$element.on( 'revealIp', () => {
 		button.$element.off( 'revealIp' );
-		performRevealRequest( target, revIds, logIds ).then( function ( response ) {
+		performRevealRequest( target, revIds, logIds ).then( ( response ) => {
 			var ip = response.ips[ ( revIds.targetId || logIds.targetId ) || 0 ];
 			if ( !ipRevealUtils.getRevealedStatus( target ) ) {
 				ipRevealUtils.setRevealedStatus( target );
@@ -39,7 +39,7 @@ function makeButton( target, revIds, logIds ) {
 						.text( mw.msg( 'checkuser-tempaccount-reveal-ip-missing' ) )
 
 			);
-		} ).fail( function () {
+		} ).fail( () => {
 			button.$element.replaceWith(
 				$( '<span>' )
 					.addClass( 'ext-checkuser-tempaccount-reveal-ip' )
@@ -105,16 +105,14 @@ function getIdsForTarget( $element, target, allIds, getId ) {
  * @param {jQuery} $element
  */
 function enableMultiReveal( $element ) {
-	$element.on( 'userRevealed', function ( _e, userLookup ) {
+	$element.on( 'userRevealed', ( _e, userLookup ) => {
 		// Find all temp user links that share the username
 		var $userLinks = $( '.mw-tempuserlink' ).filter( function () {
 			return $( this ).text() === userLookup;
 		} );
 
 		// Convert the user links into pointers to the IP reveal button
-		$userLinks = $userLinks.map( function ( _i, el ) {
-			return $( el ).next( '.ext-checkuser-tempaccount-reveal-ip-button' );
-		} );
+		$userLinks = $userLinks.map( ( _i, el ) => $( el ).next( '.ext-checkuser-tempaccount-reveal-ip-button' ) );
 
 		// Synthetically trigger a reveal event
 		$userLinks.each( function () {

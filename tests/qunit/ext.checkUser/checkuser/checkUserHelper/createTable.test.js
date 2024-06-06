@@ -4,12 +4,12 @@ const createTable = require( '../../../../../modules/ext.checkUser/checkuser/che
 
 QUnit.module( 'ext.checkUser.checkuser.checkUserHelper.createTable', QUnit.newMwEnvironment() );
 
-QUnit.test( 'Test that createTable makes the expected table', function ( assert ) {
+QUnit.test( 'Test that createTable makes the expected table', ( assert ) => {
 	const cases = require( './cases/createTable.json' );
 	// eslint-disable-next-line no-jquery/no-global-selector
 	const $qunitFixture = $( '#qunit-fixture' );
 
-	cases.forEach( function ( caseItem ) {
+	cases.forEach( ( caseItem ) => {
 		function performTest( expectedHtml, msg ) {
 			const node = document.createElement( 'table' );
 			node.className = 'mw-checkuser-helper-table';

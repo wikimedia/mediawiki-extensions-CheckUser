@@ -4,10 +4,10 @@ const Utils = require( '../../../../../modules/ext.checkUser/checkuser/checkUser
 
 QUnit.module( 'ext.checkUser.checkuser.checkUserHelper.utils' );
 
-QUnit.test( 'Test that calculateIPNumber returns the expected value', function ( assert ) {
+QUnit.test( 'Test that calculateIPNumber returns the expected value', ( assert ) => {
 	const cases = require( './cases/calculateIPNumber.json' );
 
-	cases.forEach( function ( caseItem ) {
+	cases.forEach( ( caseItem ) => {
 		assert.strictEqual(
 			Utils.calculateIPNumber( caseItem.IP ),
 			caseItem.expectedIPNumber,
@@ -16,10 +16,10 @@ QUnit.test( 'Test that calculateIPNumber returns the expected value', function (
 	} );
 } );
 
-QUnit.test( 'Test that compareIPs returns the expected value', function ( assert ) {
+QUnit.test( 'Test that compareIPs returns the expected value', ( assert ) => {
 	const cases = require( './cases/compareIPs.json' );
 
-	cases.forEach( function ( caseItem ) {
+	cases.forEach( ( caseItem ) => {
 		assert.strictEqual(
 			Utils.compareIPs( caseItem.IP1, caseItem.IP2 ),
 			caseItem.expectedReturnValue,

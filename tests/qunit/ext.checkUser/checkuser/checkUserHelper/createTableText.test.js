@@ -4,10 +4,10 @@ const createTableText = require( '../../../../../modules/ext.checkUser/checkuser
 
 QUnit.module( 'ext.checkUser.checkuser.checkUserHelper.createTableText' );
 
-QUnit.test( 'Test that createTableText returns the expected wikitext', function ( assert ) {
+QUnit.test( 'Test that createTableText returns the expected wikitext', ( assert ) => {
 	const cases = require( './cases/createTableText.json' );
 
-	cases.forEach( function ( caseItem ) {
+	cases.forEach( ( caseItem ) => {
 		mw.config.set( 'wgCheckUserDisplayClientHints', false );
 		assert.strictEqual(
 			createTableText( caseItem.data, caseItem.showCounts ),
