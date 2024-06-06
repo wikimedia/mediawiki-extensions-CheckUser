@@ -16,7 +16,7 @@
 	"checkuserlog": "Záznam kontroly používateľov",
 	"checkuser-contribs": "skontrolovať IP používateľa",
 	"checkuser-contribs-log": "nedávne kontroly používateľa",
-	"group-checkuser": "Revízori",
+	"group-checkuser": "Check users",
 	"group-checkuser-member": "{{GENDER:$1|revízor|revízorka|revízor}}",
 	"right-checkuser": "Skontrolovať IP adresy a iné informácie používateľov",
 	"right-checkuser-log": "Zobraziť záznam kontrol používateľov",

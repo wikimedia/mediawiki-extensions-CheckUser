@@ -25,7 +25,7 @@
 	"checkuserlog": "Αρχείο καταγραφής ελεγχών",
 	"checkuser-contribs": "έλεγχος των IP χρηστών",
 	"checkuser-contribs-log": "έλεγχοι χρήστη",
-	"group-checkuser": "Ελεγκτές",
+	"group-checkuser": "Check users",
 	"group-checkuser-member": "{{GENDER:$1|χρήστης ελέγχου|χρήστρια ελέγχου}}",
 	"right-checkuser": "Έλεγχος IP διεύθυνσης και άλλων πληροφοριών χρήστη",
 	"right-checkuser-log": "Δείτε τις καταγραφές ελέγχων",
