@@ -151,10 +151,10 @@ module.exports = function ( documentRoot ) {
 
 	// If the 'Block accounts' or 'Block IPs' button is pressed, then open the block form in
 	// a new tab for the user.
-	$blockAccountsButton[ 0 ].addEventListener( 'click', function () {
+	$blockAccountsButton.find( 'button' )[ 0 ].addEventListener( 'click', function () {
 		openSpecialInvestigateBlockPage( selectedAccounts );
 	} );
-	$blockIPsButton[ 0 ].addEventListener( 'click', function () {
+	$blockIPsButton.find( 'button' )[ 0 ].addEventListener( 'click', function () {
 		openSpecialInvestigateBlockPage( selectedIPs );
 	} );
 
