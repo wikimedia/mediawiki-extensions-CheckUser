@@ -284,7 +284,7 @@
 		"SpecialPageInitList": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\SpecialPageInitListHandler",
 			"services": [
-				"MainConfig"
+				"TempUserConfig"
 			]
 		},
 		"RLRegisterModules": {
