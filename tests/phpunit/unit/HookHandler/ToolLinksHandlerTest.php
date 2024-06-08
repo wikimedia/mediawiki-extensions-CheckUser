@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Tests\Unit\HookHandler;
 
 use MediaWiki\CheckUser\HookHandler\ToolLinksHandler;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\SpecialPage\SpecialPageFactory;
@@ -11,7 +12,6 @@ use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiUnitTestCase;
-use RequestContext;
 
 /**
  * @group CheckUser

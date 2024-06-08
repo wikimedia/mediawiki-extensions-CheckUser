@@ -3,7 +3,6 @@
 namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
 use HtmlArmor;
-use IContextSource;
 use LogEventsList;
 use LogFormatter;
 use LogicException;
@@ -23,6 +22,7 @@ use MediaWiki\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
+use MediaWiki\Context\IContextSource;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\Linker;

@@ -2,7 +2,7 @@
 
 namespace MediaWiki\CheckUser\Investigate\Pagers;
 
-use IContextSource;
+use MediaWiki\Context\IContextSource;
 
 interface PagerFactory {
 	/**

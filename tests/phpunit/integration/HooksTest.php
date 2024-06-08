@@ -9,17 +9,17 @@ use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\Hooks;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Message\Message;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\User;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
-use Message;
 use Psr\Log\LoggerInterface;
 use RecentChange;
-use RequestContext;
 use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Rdbms\LikeValue;
 use Wikimedia\TestingAccessWrapper;
@@ -419,7 +419,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		$text = 'Test text';
 		$error = false;
 		( new Hooks() )->onEmailUser( $to, $from, $subject, $text, $error );
-		\DeferredUpdates::doUpdates();
+		DeferredUpdates::doUpdates();
 		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
 			$this->assertRowCount(
 				1, 'cu_private_event', '*',

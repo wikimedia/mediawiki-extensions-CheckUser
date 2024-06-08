@@ -6,9 +6,9 @@ use InvalidArgumentException;
 use LogEntry;
 use LogFormatter;
 use MediaWiki\Html\Html;
+use MediaWiki\Message\Message;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserRigorOptions;
-use Message;
 
 /**
  * LogFormatter for the rows stored in cu_private_event that are

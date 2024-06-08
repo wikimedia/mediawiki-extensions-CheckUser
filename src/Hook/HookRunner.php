@@ -2,8 +2,8 @@
 
 namespace MediaWiki\CheckUser\Hook;
 
-use IContextSource;
 use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
+use MediaWiki\Context\IContextSource;
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\User\UserIdentity;
 use RecentChange;

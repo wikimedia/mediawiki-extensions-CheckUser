@@ -4,8 +4,8 @@ namespace MediaWiki\CheckUser\Services;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-use FormatJson;
 use MediaWiki\Config\ConfigException;
+use MediaWiki\Json\FormatJson;
 use MediaWiki\Session\Session;
 use MediaWiki\Utils\MWTimestamp;
 use RuntimeException;

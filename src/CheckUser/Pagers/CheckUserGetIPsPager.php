@@ -3,13 +3,13 @@
 namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
 use ExtensionRegistry;
-use IContextSource;
 use LogicException;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
+use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\TorBlock\TorExitNodes;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Html\Html;

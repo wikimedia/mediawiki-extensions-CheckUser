@@ -2,13 +2,13 @@
 
 namespace MediaWiki\CheckUser\CheckUser\Widgets;
 
-use CollapsibleFieldsetLayout;
+use MediaWiki\HTMLForm\CollapsibleFieldsetLayout;
+use MediaWiki\HTMLForm\OOUIHTMLForm;
 use OOUI\Element;
 use OOUI\FieldsetLayout;
 use OOUI\HtmlSnippet;
 use OOUI\PanelLayout;
 use OOUI\Widget;
-use OOUIHTMLForm;
 
 class HTMLFieldsetCheckUser extends OOUIHTMLForm {
 

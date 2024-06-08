@@ -4,9 +4,9 @@ namespace MediaWiki\CheckUser\Test\Integration\Logging;
 
 use LogFormatter;
 use LogFormatterTestCase;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
-use RequestContext;
 
 /**
  * @group CheckUser

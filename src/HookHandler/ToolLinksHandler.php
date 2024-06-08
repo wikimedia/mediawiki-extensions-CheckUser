@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
+use MediaWiki\Context\RequestContext;
 use MediaWiki\Hook\ContributionsToolLinksHook;
 use MediaWiki\Hook\UserToolLinksEditHook;
 use MediaWiki\Linker\LinkRenderer;
@@ -14,7 +15,6 @@ use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityUtils;
-use RequestContext;
 use Wikimedia\IPUtils;
 
 class ToolLinksHandler implements ContributionsToolLinksHook, UserToolLinksEditHook {

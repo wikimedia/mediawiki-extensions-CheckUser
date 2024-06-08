@@ -2,7 +2,7 @@
 
 namespace MediaWiki\CheckUser\CheckUser\Widgets;
 
-use CollapsibleFieldsetLayout;
+use MediaWiki\HTMLForm\CollapsibleFieldsetLayout;
 use MediaWiki\Output\OutputPage;
 use OOUI\Element;
 use OOUI\FieldsetLayout;

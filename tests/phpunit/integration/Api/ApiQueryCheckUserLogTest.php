@@ -4,11 +4,12 @@ namespace MediaWiki\CheckUser\Tests\Integration\Api;
 
 use ApiMain;
 use ApiQuery;
-use ApiTestCase;
 use MediaWiki\CheckUser\Api\ApiQueryCheckUserLog;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
+use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Permissions\Authority;
+use MediaWiki\Tests\Api\ApiTestCase;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -132,7 +133,7 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 		$checkUserLogService->addLogEntry(
 			$this->getTestSysop()->getUser(), $logType, $targetType, $target, $reason, $targetID, $timestamp
 		);
-		\DeferredUpdates::doUpdates();
+		DeferredUpdates::doUpdates();
 		$result = $this->doCheckUserLogApiRequest( [
 			'culreason' => $reasonToSearchFor
 		] )[0]['query']['checkuserlog']['entries'];
@@ -179,7 +180,7 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 		$checkUserLogService->addLogEntry(
 			$this->getTestSysop()->getUser(), $logType, $targetType, $target, $reason, $targetID
 		);
-		\DeferredUpdates::doUpdates();
+		DeferredUpdates::doUpdates();
 		$result = $this->doCheckUserLogApiRequest()[0]['query']['checkuserlog']['entries'];
 		$this->assertCount( 1, $result, 'Should only be one CheckUserLog entry returned.' );
 		$this->assertArrayEquals(
@@ -211,7 +212,7 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 		$checkUserLogService->addLogEntry(
 			$this->getTestSysop()->getUser(), 'userips', 'user', $target, 'test', $targetID
 		);
-		\DeferredUpdates::doUpdates();
+		DeferredUpdates::doUpdates();
 		$result = $this->doCheckUserLogApiRequest( [
 			'cultarget' => $target
 		] )[0]['query']['checkuserlog']['entries'];
@@ -230,7 +231,7 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 		$checkUserLogService->addLogEntry(
 			$this->getTestSysop()->getUser(), 'ipusers', 'ip', $target, 'test'
 		);
-		\DeferredUpdates::doUpdates();
+		DeferredUpdates::doUpdates();
 		$result = $this->doCheckUserLogApiRequest( [
 			'cultarget' => $target
 		] )[0]['query']['checkuserlog']['entries'];

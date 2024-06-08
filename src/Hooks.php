@@ -15,6 +15,7 @@ use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\Block\Hook\PerformRetroactiveAutoblockHook;
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Hook\EmailUserHook;
@@ -31,7 +32,6 @@ use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserRigorOptions;
 use MessageSpecifier;
 use RecentChange;
-use RequestContext;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\ScopedCallback;
 

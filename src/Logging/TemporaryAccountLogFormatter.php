@@ -5,8 +5,8 @@ namespace MediaWiki\CheckUser\Logging;
 use LogEntry;
 use LogFormatter;
 use MediaWiki\Linker\Linker;
+use MediaWiki\Message\Message;
 use MediaWiki\User\UserFactory;
-use Message;
 
 class TemporaryAccountLogFormatter extends LogFormatter {
 

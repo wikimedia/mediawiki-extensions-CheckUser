@@ -2,10 +2,10 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit\Services;
 
-use FauxRequest;
 use Language;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Request\FauxRequest;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
 use MediaWikiUnitTestCase;
 use Wikimedia\TestingAccessWrapper;

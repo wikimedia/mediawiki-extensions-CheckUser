@@ -2,7 +2,7 @@
 
 namespace MediaWiki\CheckUser\Hook;
 
-use IContextSource;
+use MediaWiki\Context\IContextSource;
 use stdClass;
 
 interface CheckUserFormatRowHook {

@@ -3,7 +3,7 @@
 namespace MediaWiki\CheckUser\HookHandler;
 
 use MediaWiki\Config\Config;
-use MediaWiki\Hook\BeforePageDisplayHook;
+use MediaWiki\Output\Hook\BeforePageDisplayHook;
 use MediaWiki\SpecialPage\Hook\SpecialPageBeforeExecuteHook;
 
 /**

@@ -3,7 +3,6 @@
 namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
 use ExtensionRegistry;
-use IContextSource;
 use LogicException;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
@@ -17,6 +16,7 @@ use MediaWiki\CheckUser\Services\UserAgentClientHintsFormatter;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Config\ConfigException;
+use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Html\Html;
@@ -33,9 +33,9 @@ use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\WikiMap\WikiMap;
+use MediaWiki\Xml\Xml;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
-use Xml;
 
 class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	/** @var bool Whether the user performing this check has the block right. */

@@ -3,9 +3,9 @@
 namespace MediaWiki\CheckUser\Investigate\Pagers;
 
 use ExtensionRegistry;
-use IContextSource;
 use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
+use MediaWiki\Context\IContextSource;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\User\UserFactory;

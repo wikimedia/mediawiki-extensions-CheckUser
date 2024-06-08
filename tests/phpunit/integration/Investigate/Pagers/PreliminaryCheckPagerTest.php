@@ -7,10 +7,10 @@ use MediaWiki\Block\DatabaseBlockStoreFactory;
 use MediaWiki\CheckUser\Investigate\Pagers\PreliminaryCheckPager;
 use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\User\UserGroupManagerFactory;
 use MediaWikiIntegrationTestCase;
-use RequestContext;
 use Wikimedia\Rdbms\ILBFactory;
 
 /**

@@ -2,11 +2,11 @@
 
 namespace MediaWiki\CheckUser\Investigate\Pagers;
 
-use IContextSource;
 use MediaWiki\CheckUser\Hook\CheckUserFormatRowHook;
 use MediaWiki\CheckUser\Investigate\Services\TimelineService;
 use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
+use MediaWiki\Context\IContextSource;
 use MediaWiki\Linker\LinkRenderer;
 use Psr\Log\LoggerInterface;
 

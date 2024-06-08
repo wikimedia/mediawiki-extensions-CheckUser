@@ -22,9 +22,9 @@
 namespace MediaWiki\CheckUser\Investigate\Pagers;
 
 use ExtensionRegistry;
-use IContextSource;
 use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
+use MediaWiki\Context\IContextSource;
 use MediaWiki\Extension\CentralAuth\CentralAuthDatabaseManager;
 use MediaWiki\Extension\CentralAuth\CentralAuthServices;
 use MediaWiki\Html\Html;

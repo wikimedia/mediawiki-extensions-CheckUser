@@ -4,9 +4,9 @@ namespace MediaWiki\CheckUser\Tests\Unit;
 
 use MediaWiki\CheckUser\ToolLinksMessages;
 use MediaWiki\Config\HashConfig;
+use MediaWiki\Message\Message;
 use MediaWiki\ResourceLoader\Context;
 use MediaWikiUnitTestCase;
-use Message;
 
 /**
  * @author DannyS712

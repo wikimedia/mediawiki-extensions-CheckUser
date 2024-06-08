@@ -2,13 +2,13 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Api\CheckUser;
 
-use FormatJson;
 use LogEntryBase;
 use LogFormatter;
 use LogPage;
 use ManualLogEntry;
 use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
 use MediaWiki\CheckUser\Services\ApiQueryCheckUserResponseFactory;
+use MediaWiki\Json\FormatJson;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\Rdbms\IReadableDatabase;

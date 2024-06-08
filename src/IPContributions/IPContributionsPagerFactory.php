@@ -2,10 +2,10 @@
 
 namespace MediaWiki\CheckUser\IPContributions;
 
-use IContextSource;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CommentFormatter\CommentFormatter;
+use MediaWiki\Context\IContextSource;
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Revision\RevisionStore;

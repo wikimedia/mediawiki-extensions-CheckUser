@@ -6,11 +6,11 @@ use MediaWiki\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\CheckUser\Hooks;
 use MediaWiki\CheckUser\Maintenance\PopulateCheckUserTablesWithSimulatedData;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use MediaWiki\User\User;
-use RequestContext;
 use Wikimedia\TestingAccessWrapper;
 
 /**
