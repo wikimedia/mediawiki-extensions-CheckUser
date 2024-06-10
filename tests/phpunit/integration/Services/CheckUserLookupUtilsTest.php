@@ -227,7 +227,10 @@ class CheckUserLookupUtilsTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	public function testGetManualLogEntryFromRowWithPage() {
+	/**
+	 * @dataProvider providePageIdField
+	 */
+	public function testGetManualLogEntryFromRowWithPage( $pageIdField ) {
 		// Create a testing page so that we can get a valid page ID
 		$insertPageResult = $this->insertPage( 'Testing', 'Testing', 0 );
 		/** @var CheckUserLookupUtils $checkUserLookupUtils */
@@ -239,7 +242,7 @@ class CheckUserLookupUtilsTest extends MediaWikiIntegrationTestCase {
 				'log_params' => LogEntryBase::makeParamBlob( [ '4::target' => 'Testing', '5::noredir' => '0' ] ),
 				'log_deleted' => 0,
 				'timestamp' => '20220101000000',
-				'page' => $insertPageResult['id'],
+				$pageIdField => $insertPageResult['id'],
 			],
 			UserIdentityValue::newRegistered( 1, 'User' )
 		);
@@ -248,6 +251,13 @@ class CheckUserLookupUtilsTest extends MediaWikiIntegrationTestCase {
 			$actualLogEntry->getTarget()->getArticleID(),
 			'ManualLogEntry::getTarget did not return the expected Title.'
 		);
+	}
+
+	public function providePageIdField() {
+		return [
+			[ 'page' ],
+			[ 'page_id' ],
+		];
 	}
 
 	public function testGetRevisionRecordFromRowOnMissingRevisionId() {
