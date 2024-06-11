@@ -204,6 +204,7 @@
 	"checkuser-investigate-tour-block-desc": "Позволяет Вам выбрать участников, которых вы хотите заблокировать, а затем перейдёт к форме блокировки, чтобы выбрать соответствующую блокировку.",
 	"checkuser-investigate-tour-copywikitext-title": "Хотите скопировать данные?",
 	"checkuser-investigate-tour-copywikitext-desc": "Скопируйте таблицу сравнения одним щелчком и отнесите её в CUWiki. Обратите внимание, что Вы копируете только то, что видимо, а не все страницы расследования.",
+	"checkuser-ip-contributions-permission-error-title": "Ошибка прав доступа",
 	"checkuser-tempaccount-reveal-ip-error": "ошибка",
 	"checkuser-tempaccount-specialblock-ips": "Это временный пользователь, использующий следующие {{PLURAL:$1| IP|IP-адреса}}: $2"
 }
