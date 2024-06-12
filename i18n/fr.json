@@ -115,6 +115,7 @@
 	"checkuser-localonly": "Non unifié(e)",
 	"checkuser-massblock": "Bloquer les utilisateurs sélectionnés",
 	"checkuser-massblock-text": "Utilisez les cases à cocher dans les résultats ci-dessus pour sélectionner les comptes et les adresses IP que vous souhaitez bloquer. Ensuite, vous pouvez utiliser les boutons ci-dessous, qui ouvriront le formulaire {{#special:InvestigateBlock}} avec les cibles préremplies.",
+	"checkuser-massblock-commit-accounts": "Bloquer les comptes sélectionnés",
 	"checkuser-massblock-commit-ips": "Bloquer les IP sélectionnées",
 	"checkuser-block-reason-dropdown": "* Raisons courantes de blocage :\n** Comptes multiples abusifs ;\n** Pollupostage de liens multiples vers des sites externes ;\n** Vandalisme.",
 	"checkuser-centralauth-multilock": "Verrouiller de multiples comptes sélectionnés",
