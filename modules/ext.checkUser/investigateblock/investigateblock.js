@@ -5,8 +5,8 @@
 		talkPageWidget,
 		talkPagePositionWidget,
 		talkPageTextWidget,
-		dropdownWidget,
-		otherReasonWidget;
+		dropdownWidget = null,
+		otherReasonWidget = null;
 
 	function updateNoticeOptions() {
 		const isUserPageChecked = userPageWidget.isSelected(),

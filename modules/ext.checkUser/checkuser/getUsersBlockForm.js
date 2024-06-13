@@ -9,13 +9,13 @@
  * @return {boolean} Returns false if the function returned early, otherwise true.
  */
 module.exports = function ( documentRoot ) {
-	let $userCheckboxes = $( '#checkuserresults li [type=checkbox]' ),
+	const $userCheckboxes = $( '#checkuserresults li [type=checkbox]' ),
 		$checkUserBlockFieldset = $( '.mw-checkuser-massblock fieldset' ),
 		$blockAccountsButton = $( '.mw-checkuser-massblock-accounts-button', $checkUserBlockFieldset ),
 		$blockIPsButton = $( '.mw-checkuser-massblock-ips-button', $checkUserBlockFieldset ),
-		selectedAccounts = [],
-		selectedIPs = [],
 		centralURL = mw.config.get( 'wgCUCAMultiLockCentral' );
+	let selectedAccounts = [],
+		selectedIPs = [];
 
 	if ( !centralURL && ( !$blockAccountsButton.length || !$blockIPsButton.length ) ) {
 		// If no central URL is set and the block buttons are missing, then return early as we are likely not
