@@ -1,7 +1,7 @@
-var { performFullRevealRequest } = require( './rest.js' );
+const { performFullRevealRequest } = require( './rest.js' );
 
-var $blockTargetWidget = $( '#mw-bi-target' );
-var blockTargetWidget, lastUserRequest, lastIpRequest;
+const $blockTargetWidget = $( '#mw-bi-target' );
+let blockTargetWidget, lastUserRequest, lastIpRequest;
 
 // This code is also loaded on the "block succeeded" page where there is no form,
 // so check for block target widget; if it exists, the form is present
@@ -33,7 +33,7 @@ function onTargetChange( blockTarget ) {
 	if ( !mw.util.isTemporaryUser( blockTarget ) ) {
 		return;
 	}
-	var api = new mw.Api();
+	const api = new mw.Api();
 	lastUserRequest = api.get( {
 		action: 'query',
 		list: 'users',
@@ -41,10 +41,10 @@ function onTargetChange( blockTarget ) {
 	} );
 	lastUserRequest.done( ( data ) => {
 		if ( data.query.users[ 0 ].userid ) {
-			var revealButton = createButton(
+			const revealButton = createButton(
 				mw.msg( 'checkuser-tempaccount-reveal-ip-button-label' )
 			);
-			var $container = $( '<div>' )
+			const $container = $( '<div>' )
 				.addClass( 'ext-checkuser-tempaccount-specialblock-ips' )
 				.append( revealButton.$element );
 			$( '#mw-htmlform-target' ).after( $container );

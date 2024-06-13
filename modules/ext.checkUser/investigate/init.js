@@ -1,5 +1,5 @@
 ( function () {
-	var addBlockForm = require( './blockform.js' ),
+	const addBlockForm = require( './blockform.js' ),
 		setupTables = require( './tables.js' ),
 		addCopyFeature = require( './copy.js' ),
 		setUpResetGuidedTourLinks = require( './resetGuidedTour.js' );

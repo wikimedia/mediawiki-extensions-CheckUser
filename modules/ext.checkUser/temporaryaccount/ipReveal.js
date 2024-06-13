@@ -1,8 +1,8 @@
-var ipRevealUtils = require( './ipRevealUtils.js' );
-var { performRevealRequest } = require( './rest.js' );
+const ipRevealUtils = require( './ipRevealUtils.js' );
+const { performRevealRequest } = require( './rest.js' );
 
 function makeButton( target, revIds, logIds ) {
-	var button = new OO.ui.ButtonWidget( {
+	const button = new OO.ui.ButtonWidget( {
 		label: mw.msg( 'checkuser-tempaccount-reveal-ip-button-label' ),
 		framed: false,
 		quiet: true,
@@ -20,7 +20,7 @@ function makeButton( target, revIds, logIds ) {
 	button.$element.on( 'revealIp', () => {
 		button.$element.off( 'revealIp' );
 		performRevealRequest( target, revIds, logIds ).then( ( response ) => {
-			var ip = response.ips[ ( revIds.targetId || logIds.targetId ) || 0 ];
+			const ip = response.ips[ ( revIds.targetId || logIds.targetId ) || 0 ];
 			if ( !ipRevealUtils.getRevealedStatus( target ) ) {
 				ipRevealUtils.setRevealedStatus( target );
 			}
@@ -58,9 +58,9 @@ function makeButton( target, revIds, logIds ) {
  * @param {jQuery} $content
  */
 function addButton( $content ) {
-	var allRevIds = {};
-	var allLogIds = {};
-	var $userLinks = $content.find( '.mw-tempuserlink' );
+	const allRevIds = {};
+	const allLogIds = {};
+	const $userLinks = $content.find( '.mw-tempuserlink' );
 
 	$userLinks.each( function () {
 		getAllIds( $( this ), allRevIds, getRevisionId );
@@ -68,17 +68,17 @@ function addButton( $content ) {
 	} );
 
 	$userLinks.after( function () {
-		var target = $( this ).text();
-		var revIds = getIdsForTarget( $( this ), target, allRevIds, getRevisionId );
-		var logIds = getIdsForTarget( $( this ), target, allLogIds, getLogId );
+		const target = $( this ).text();
+		const revIds = getIdsForTarget( $( this ), target, allRevIds, getRevisionId );
+		const logIds = getIdsForTarget( $( this ), target, allLogIds, getLogId );
 		return makeButton( target, revIds, logIds );
 	} );
 }
 
 function getAllIds( $element, allIds, getId ) {
-	var id = getId( $element );
+	const id = getId( $element );
 	if ( id ) {
-		var target = $element.text();
+		const target = $element.text();
 		if ( !allIds[ target ] ) {
 			allIds[ target ] = [];
 		}
@@ -87,8 +87,8 @@ function getAllIds( $element, allIds, getId ) {
 }
 
 function getIdsForTarget( $element, target, allIds, getId ) {
-	var id = getId( $element );
-	var ids;
+	const id = getId( $element );
+	let ids;
 	if ( id ) {
 		ids = allIds[ target ];
 	}
@@ -107,7 +107,7 @@ function getIdsForTarget( $element, target, allIds, getId ) {
 function enableMultiReveal( $element ) {
 	$element.on( 'userRevealed', ( _e, userLookup ) => {
 		// Find all temp user links that share the username
-		var $userLinks = $( '.mw-tempuserlink' ).filter( function () {
+		let $userLinks = $( '.mw-tempuserlink' ).filter( function () {
 			return $( this ).text() === userLookup;
 		} );
 

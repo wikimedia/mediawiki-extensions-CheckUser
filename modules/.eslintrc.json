@@ -1,13 +1,17 @@
 {
 	"root": true,
 	"extends": [
-		"wikimedia/client-es5",
+		"wikimedia/client",
 		"wikimedia/jquery",
 		"wikimedia/mediawiki"
 	],
+	"parserOptions": {
+		"sourceType": "commonjs"
+	},
 	"rules": {
 		"no-jquery/no-global-selector": "off",
-		"no-implicit-globals": "off"
+		"no-var": "warn",
+		"prefer-const": "warn"
 	},
 	"settings": {
 		"polyfills": [

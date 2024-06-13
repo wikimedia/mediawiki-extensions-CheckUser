@@ -9,7 +9,7 @@
  * @return {boolean} Returns false if the function returned early, otherwise true.
  */
 module.exports = function ( documentRoot ) {
-	var $userCheckboxes = $( '#checkuserresults li [type=checkbox]' ),
+	let $userCheckboxes = $( '#checkuserresults li [type=checkbox]' ),
 		$checkUserBlockFieldset = $( '.mw-checkuser-massblock fieldset' ),
 		$blockAccountsButton = $( '.mw-checkuser-massblock-accounts-button', $checkUserBlockFieldset ),
 		$blockIPsButton = $( '.mw-checkuser-massblock-ips-button', $checkUserBlockFieldset ),
@@ -41,7 +41,7 @@ module.exports = function ( documentRoot ) {
 		// Clear the list of selected IPs and accounts, and then fill these lists from the state of the checkboxes.
 		selectedAccounts = [];
 		selectedIPs = [];
-		$userCheckboxes.serializeArray().forEach( function ( obj ) {
+		$userCheckboxes.serializeArray().forEach( ( obj ) => {
 			if ( obj.name && obj.name === 'users[]' ) {
 				// Only registered accounts (not IPs) can be locked
 				if ( !mw.util.isIPAddress( obj.value, true ) ) {
@@ -56,17 +56,17 @@ module.exports = function ( documentRoot ) {
 			return;
 		}
 
-		var urls = [];
+		const urls = [];
 		$( '.mw-checkuser-multilock-link, .mw-checkuser-multilock-link-header, .mw-checkuser-multilock-link-list' ).remove();
 		// Split the names up into batches of username length of a
 		// maximum of 2,000 including the centralURL + other parts
 		// of the GET parameters
-		var i = 0;
+		let i = 0;
 		while ( i < selectedAccounts.length ) {
-			var url = centralURL + '?wpTarget=';
-			var firstUsername = true;
+			let url = centralURL + '?wpTarget=';
+			let firstUsername = true;
 			while ( i < selectedAccounts.length ) {
-				var urlComponent = selectedAccounts[ i ];
+				let urlComponent = selectedAccounts[ i ];
 				if ( !firstUsername ) {
 					urlComponent = '\n' + urlComponent;
 				} else {
@@ -89,10 +89,10 @@ module.exports = function ( documentRoot ) {
 					class: 'mw-checkuser-multilock-link-header'
 				} ).text( mw.msg( 'checkuser-centralauth-multilock-list' ) )
 			);
-			var links = '';
-			urls.forEach( function ( urlToAdd, index ) {
-				var $li = $( '<li>' );
-				var $a = $( '<a>' ).attr( 'class', 'mw-checkuser-multilock-link' );
+			let links = '';
+			urls.forEach( ( urlToAdd, index ) => {
+				const $li = $( '<li>' );
+				const $a = $( '<a>' ).attr( 'class', 'mw-checkuser-multilock-link' );
 				$a.attr( 'href', urlToAdd )
 					.text( mw.msg( 'checkuser-centralauth-multilock-list-item', index + 1 ) );
 				$li.append( $a );
@@ -112,7 +112,7 @@ module.exports = function ( documentRoot ) {
 	}
 
 	// Change the URL of the link when a checkbox's state is changed
-	$userCheckboxes.on( 'change', function () {
+	$userCheckboxes.on( 'change', () => {
 		handleCheckboxesChange();
 	} );
 
@@ -125,7 +125,7 @@ module.exports = function ( documentRoot ) {
 	 * @param {string[]} targets
 	 */
 	function openSpecialInvestigateBlockPage( targets ) {
-		var $form = $( '<form>' ).attr( {
+		const $form = $( '<form>' ).attr( {
 			action: new mw.Title( 'Special:InvestigateBlock' ).getUrl(),
 			method: 'post',
 			target: '_blank'
@@ -151,10 +151,10 @@ module.exports = function ( documentRoot ) {
 
 	// If the 'Block accounts' or 'Block IPs' button is pressed, then open the block form in
 	// a new tab for the user.
-	$blockAccountsButton.find( 'button' )[ 0 ].addEventListener( 'click', function () {
+	$blockAccountsButton.find( 'button' )[ 0 ].addEventListener( 'click', () => {
 		openSpecialInvestigateBlockPage( selectedAccounts );
 	} );
-	$blockIPsButton.find( 'button' )[ 0 ].addEventListener( 'click', function () {
+	$blockIPsButton.find( 'button' )[ 0 ].addEventListener( 'click', () => {
 		openSpecialInvestigateBlockPage( selectedIPs );
 	} );
 

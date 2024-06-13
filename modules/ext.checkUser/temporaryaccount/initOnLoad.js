@@ -1,14 +1,14 @@
-var ipReveal = require( './ipReveal.js' );
-var ipRevealUtils = require( './ipRevealUtils.js' );
+const ipReveal = require( './ipReveal.js' );
+const ipRevealUtils = require( './ipRevealUtils.js' );
 
 ipReveal.addButton( $( '#bodyContent' ) );
 
 ipReveal.enableMultiReveal( $( document ) );
 
 // Check which users have been revealed recently
-var recentUsers = [];
+const recentUsers = [];
 $( '.mw-tempuserlink' ).each( function () {
-	var target = $( this ).text();
+	const target = $( this ).text();
 	if ( ipRevealUtils.getRevealedStatus( target ) && recentUsers.indexOf( target ) < 0 ) {
 		recentUsers.push( target );
 	}

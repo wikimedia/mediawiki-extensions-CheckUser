@@ -1,6 +1,6 @@
 module.exports = function addBlockForm( documentRoot ) {
 	// Attributes used for pinnable highlighting
-	var accountsBlockButton = OO.ui.infuse( $( '.ext-checkuser-investigate-subtitle-block-accounts-button' ) ),
+	const accountsBlockButton = OO.ui.infuse( $( '.ext-checkuser-investigate-subtitle-block-accounts-button' ) ),
 		ipsBlockButton = OO.ui.infuse( $( '.ext-checkuser-investigate-subtitle-block-ips-button' ) ),
 		$placeholderWidget = $( '.ext-checkuser-investigate-subtitle-placeholder-widget' ),
 		targets = mw.config.get( 'wgCheckUserInvestigateTargets' ),
@@ -39,36 +39,26 @@ module.exports = function addBlockForm( documentRoot ) {
 		// Clear the existing menu items, so we can add either account or IP targets based on the mode.
 		targetsWidget.menu.clearItems();
 		// Generate the list of selected and unselected options based on the mode.
-		var selectedOptions = [];
-		var unselectedOptions = [];
+		let selectedOptions = [];
+		let unselectedOptions = [];
 		if ( mode === 'accounts' ) {
 			// If the mode is 'accounts', we want to pre-select all account targets in the check and add as an option
 			// all excluded targets which are accounts.
-			selectedOptions = targets.filter( function ( target ) {
-				return excludeTargets.indexOf( target ) === -1 && mw.util.isIPAddress( target, true ) === false;
-			} );
-			unselectedOptions = excludeTargets.filter( function ( target ) {
-				return mw.util.isIPAddress( target, true ) === false;
-			} );
+			selectedOptions = targets.filter( ( target ) => excludeTargets.indexOf( target ) === -1 && mw.util.isIPAddress( target, true ) === false );
+			unselectedOptions = excludeTargets.filter( ( target ) => mw.util.isIPAddress( target, true ) === false );
 		} else if ( mode === 'ips' ) {
 			// If the mode is 'ips', we want to pre-select all IP targets in the check and add as unselected options
 			// all excluded targets which are IPs.
-			selectedOptions = targets.filter( function ( target ) {
-				return excludeTargets.indexOf( target ) === -1 && mw.util.isIPAddress( target, true );
-			} );
-			unselectedOptions = excludeTargets.filter( function ( target ) {
-				return mw.util.isIPAddress( target, true );
-			} );
+			selectedOptions = targets.filter( ( target ) => excludeTargets.indexOf( target ) === -1 && mw.util.isIPAddress( target, true ) );
+			unselectedOptions = excludeTargets.filter( ( target ) => mw.util.isIPAddress( target, true ) );
 		}
 		// Initially add all options (selected and unselected) to the widget as unselected options. This needs to
 		// happen first, as ::setValue will only allow selecting options which are listed as options in the widget
 		// unless allowArbitrary is set to true (which we do not want).
-		targetsWidget.addOptions( unselectedOptions.concat( selectedOptions ).map( function ( target ) {
-			return {
-				data: target,
-				label: target
-			};
-		} ) );
+		targetsWidget.addOptions( unselectedOptions.concat( selectedOptions ).map( ( target ) => ( {
+			data: target,
+			label: target
+		} ) ) );
 		// Mark as selected all the options in the selectedOptions array.
 		targetsWidget.setValue( selectedOptions );
 	}
@@ -84,8 +74,8 @@ module.exports = function addBlockForm( documentRoot ) {
 	ipsBlockButton.on( 'click', toggleBlockFromButtons.bind( null, true, 'ips' ) );
 	cancelButton.on( 'click', toggleBlockFromButtons.bind( null, false ) );
 
-	continueButton.on( 'click', function () {
-		var $form = $( '<form>' ).attr( {
+	continueButton.on( 'click', () => {
+		const $form = $( '<form>' ).attr( {
 			action: new mw.Title( 'Special:InvestigateBlock' ).getUrl(),
 			method: 'post',
 			target: '_blank'

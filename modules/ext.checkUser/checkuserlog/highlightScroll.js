@@ -4,7 +4,7 @@
  * If the page includes at least one entry that is highlighted, scroll to the first one.
  */
 ( function () {
-	var $highlightEntry = $( '.mw-checkuser-log-highlight-entry' ).first();
+	const $highlightEntry = $( '.mw-checkuser-log-highlight-entry' ).first();
 	if (
 		$highlightEntry.length > 0 &&
 		$highlightEntry.offset().top > $( window ).height()

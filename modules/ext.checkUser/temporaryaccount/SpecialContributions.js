@@ -1,17 +1,17 @@
-var ipRevealUtils = require( './ipRevealUtils.js' );
-var ipReveal = require( './ipReveal.js' );
-var target = mw.config.get( 'wgRelevantUserName' );
-var revIds = [];
+const ipRevealUtils = require( './ipRevealUtils.js' );
+const ipReveal = require( './ipReveal.js' );
+const target = mw.config.get( 'wgRelevantUserName' );
+const revIds = [];
 
-var $userLinks = $( '#bodyContent' ).find( '.mw-contributions-list [data-mw-revid]' );
+const $userLinks = $( '#bodyContent' ).find( '.mw-contributions-list [data-mw-revid]' );
 $userLinks.each( function () {
-	var revId = ipReveal.getRevisionId( $( this ) );
+	const revId = ipReveal.getRevisionId( $( this ) );
 	revIds.push( revId );
 } );
 $userLinks.each( function () {
-	var revId = ipReveal.getRevisionId( $( this ) );
+	const revId = ipReveal.getRevisionId( $( this ) );
 	$( this ).find( '.mw-diff-bytes' ).after( () => {
-		var ids = {
+		const ids = {
 			targetId: revId,
 			allIds: revIds
 		};
@@ -20,7 +20,7 @@ $userLinks.each( function () {
 } );
 
 $( document ).on( 'userRevealed', () => {
-	var $relevantUserLinks = $userLinks.map( ( _i, el ) => $( el ).find( '.ext-checkuser-tempaccount-reveal-ip-button' ) );
+	const $relevantUserLinks = $userLinks.map( ( _i, el ) => $( el ).find( '.ext-checkuser-tempaccount-reveal-ip-button' ) );
 
 	// Synthetically trigger a reveal event
 	$relevantUserLinks.each( function () {
