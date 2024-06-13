@@ -1,6 +1,6 @@
 /* -- (c) Aaron Schulz 2009 */
 ( function () {
-	var showResults = function ( size, cidr, $form, hasCheckUserRight, hasCheckUserLogRight ) {
+	const showResults = function ( size, cidr, $form, hasCheckUserRight, hasCheckUserLogRight ) {
 		if ( cidr.toString() === '!' ) {
 			cidr = mw.message( 'checkuser-cidr-too-small' ).text();
 		}
@@ -31,19 +31,19 @@
 	 * @return {string[]}
 	 */
 	function getIPList( $form ) {
-		var $iplist = $( '.mw-checkuser-cidr-iplist textarea', $form );
+		const $iplist = $( '.mw-checkuser-cidr-iplist textarea', $form );
 		if ( !$iplist ) {
 			// No IP list, so return empty array
 			return [];
 		}
-		var text = $iplist.val();
-		var delimiters = [ '\n', '\t', ',', ' - ', '-', ' ', ';' ];
-		for ( var i in delimiters ) {
+		const text = $iplist.val();
+		const delimiters = [ '\n', '\t', ',', ' - ', '-', ' ', ';' ];
+		for ( const i in delimiters ) {
 			// If the delimiter is present in the IPs list, use it
 			// to split into a list of IPs.
 			if ( text.indexOf( delimiters[ i ] ) !== -1 ) {
-				var ips = text.split( delimiters[ i ] );
-				for ( var j in ips ) {
+				const ips = text.split( delimiters[ i ] );
+				for ( const j in ips ) {
 					// Trim to remove excess whitespace.
 					ips[ j ] = ips[ j ].trim();
 				}
@@ -67,28 +67,28 @@
 			return; // no JS form
 		}
 		$form.removeClass( 'mw-checkuser-cidr-calculator-hidden' );
-		var ips = getIPList( $form );
+		const ips = getIPList( $form );
 		if ( ips.length === 0 ) {
 			return;
 		}
-		var binPrefix = 0;
-		var prefixCidr = 0;
-		var prefix = '';
-		var foundV4 = false;
-		var foundV6 = false;
-		var ipCount;
-		var blocs;
+		let binPrefix = 0;
+		let prefixCidr = 0;
+		let prefix = '';
+		let foundV4 = false;
+		let foundV6 = false;
+		let ipCount;
+		let blocs;
 		// Go through each IP in the list, get its binary form, and
 		// track the largest binary prefix among them...
-		for ( var i = 0; i < ips.length; i++ ) {
+		for ( let i = 0; i < ips.length; i++ ) {
 			// ...in the spirit of mediawiki.special.block.js, call this "addy"
-			var addy = ips[ i ];
+			const addy = ips[ i ];
 			// Match the first IP in each list (ignore other garbage)
-			var ipV4 = mw.util.isIPv4Address( addy, true );
-			var ipV6 = mw.util.isIPv6Address( addy, true );
-			var ipCidr = addy.split( '/' );
+			const ipV4 = mw.util.isIPv4Address( addy, true );
+			const ipV6 = mw.util.isIPv6Address( addy, true );
+			const ipCidr = addy.split( '/' );
 			// Binary form
-			var bin = '';
+			let bin = '';
 			var x = 0, z = 0, start = 0, end = 0, ip, cidr, bloc, binBlock;
 			// Convert the IP to binary form: IPv4
 			if ( ipV4 ) {
@@ -163,11 +163,11 @@
 				ip = ipCidr[ 0 ];
 				cidr = ipCidr[ 1 ]; // CIDR if it exists, or undefined
 				// Expand out "::"s
-				var abbrevs = ip.match( /::/g );
+				const abbrevs = ip.match( /::/g );
 				if ( abbrevs && abbrevs.length > 0 ) {
-					var colons = ip.match( /:/g );
-					var needed = 7 - ( colons.length - 2 ); // 2 from "::"
-					var insert = '';
+					const colons = ip.match( /:/g );
+					let needed = 7 - ( colons.length - 2 ); // 2 from "::"
+					let insert = '';
 					while ( needed > 1 ) {
 						insert += ':0';
 						needed--;
@@ -183,7 +183,7 @@
 				blocs = ip.split( ':' );
 				for ( x = 0; x <= 7; x++ ) {
 					bloc = blocs[ x ] ? blocs[ x ] : '0';
-					var intBlock = parseInt( bloc, 16 ); // convert hex -> int
+					const intBlock = parseInt( bloc, 16 ); // convert hex -> int
 					binBlock = intBlock.toString( 2 ); // concat bin with binary form of bloc
 					while ( binBlock.length < 16 ) {
 						binBlock = '0' + binBlock; // pad out as needed
@@ -239,7 +239,7 @@
 		}
 		// Update form
 		if ( prefix !== '' ) {
-			var full = prefix;
+			let full = prefix;
 			if ( prefixCidr !== false ) {
 				full += '/' + prefixCidr;
 			}
@@ -250,15 +250,15 @@
 
 	}
 
-	$( function () {
-		mw.user.getRights( function ( rights ) {
-			var hasCheckUserRight = rights.indexOf( 'checkuser' ) !== -1;
-			var hasCheckUserLogRight = rights.indexOf( 'checkuser-log' ) !== -1;
-			$( '.mw-checkuser-cidrform' ).each( function ( index, form ) {
+	$( () => {
+		mw.user.getRights( ( rights ) => {
+			const hasCheckUserRight = rights.indexOf( 'checkuser' ) !== -1;
+			const hasCheckUserLogRight = rights.indexOf( 'checkuser-log' ) !== -1;
+			$( '.mw-checkuser-cidrform' ).each( ( index, form ) => {
 				updateCIDRresult( $( form ), hasCheckUserRight, hasCheckUserLogRight );
 			} );
 			$( '.mw-checkuser-cidr-iplist textarea' ).on( 'keyup click', function () {
-				var $form = $( this ).closest( '.mw-checkuser-cidrform' );
+				const $form = $( this ).closest( '.mw-checkuser-cidrform' );
 				updateCIDRresult( $form, hasCheckUserRight, hasCheckUserLogRight );
 			} );
 		} );

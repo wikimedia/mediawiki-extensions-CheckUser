@@ -2,7 +2,7 @@
  * Special:Invesitgate form guided tour
  */
 ( function ( gt ) {
-	var tour;
+	let tour;
 
 	if ( mw.config.get( 'wgCanonicalSpecialPageName' ) !== 'Investigate' ) {
 		return;

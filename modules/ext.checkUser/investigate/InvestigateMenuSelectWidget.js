@@ -7,7 +7,7 @@
  * @param {Object} [config] Configuration options
  */
 
-var InvestigateMenuSelectWidget = function ( config ) {
+const InvestigateMenuSelectWidget = function ( config ) {
 	// Parent constructor
 	InvestigateMenuSelectWidget.super.call( this, config );
 };
@@ -21,7 +21,7 @@ OO.inheritClass( InvestigateMenuSelectWidget, OO.ui.MenuSelectWidget );
  */
 InvestigateMenuSelectWidget.prototype.onDocumentMouseUp = function ( e ) {
 	if ( !this.selecting ) {
-		var item = this.findTargetItem( e );
+		const item = this.findTargetItem( e );
 		if ( item && item.isSelectable() ) {
 			this.selecting = item;
 		}
@@ -36,7 +36,7 @@ InvestigateMenuSelectWidget.prototype.onDocumentMouseUp = function ( e ) {
  * @inheritdoc
  */
 InvestigateMenuSelectWidget.prototype.onDocumentKeyDown = function ( e ) {
-	var selected = this.findSelectedItems(),
+	const selected = this.findSelectedItems(),
 		currentItem = this.findHighlightedItem() || (
 			Array.isArray( selected ) ? selected[ 0 ] : selected
 		);

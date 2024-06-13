@@ -7,7 +7,7 @@
 	 *   false otherwise.
 	 */
 	function init( navigatorData ) {
-		var hasHighEntropyValuesMethod = navigatorData.userAgentData &&
+		const hasHighEntropyValuesMethod = navigatorData.userAgentData &&
 			navigatorData.userAgentData.getHighEntropyValues;
 		if ( !hasHighEntropyValuesMethod ) {
 			// The browser doesn't support navigator.userAgentData.getHighEntropyValues. Used
@@ -15,7 +15,7 @@
 			return false;
 		}
 
-		var wgCheckUserClientHintsHeadersJsApi = mw.config.get( 'wgCheckUserClientHintsHeadersJsApi' );
+		const wgCheckUserClientHintsHeadersJsApi = mw.config.get( 'wgCheckUserClientHintsHeadersJsApi' );
 
 		/**
 		 * POST an object with user-agent client hint data to a CheckUser REST endpoint.
@@ -27,21 +27,21 @@
 		 * @return {jQuery.Promise} A promise that resolves after the POST is complete.
 		 */
 		function postClientHintData( clientHintData, retryOnTokenMismatch ) {
-			var restApi = new mw.Rest();
-			var api = new mw.Api();
-			var deferred = $.Deferred();
-			api.getToken( 'csrf' ).then( function ( token ) {
+			const restApi = new mw.Rest();
+			const api = new mw.Api();
+			const deferred = $.Deferred();
+			api.getToken( 'csrf' ).then( ( token ) => {
 				clientHintData.token = token;
 				restApi.post(
 					'/checkuser/v0/useragent-clienthints/revision/' + mw.config.get( 'wgCurRevisionId' ),
 					clientHintData
 				).then(
-					function ( data ) {
+					( data ) => {
 						deferred.resolve( data );
 					}
-				).fail( function ( err, errObject ) {
+				).fail( ( err, errObject ) => {
 					mw.log.error( errObject );
-					var errMessage = errObject.exception;
+					let errMessage = errObject.exception;
 					if (
 						errObject.xhr &&
 						errObject.xhr.responseJSON &&
@@ -59,10 +59,10 @@
 						// The CSRF token has expired. Retry the POST with a new token.
 						api.badToken( 'csrf' );
 						postClientHintData( clientHintData, false ).then(
-							function ( data ) {
+							( data ) => {
 								deferred.resolve( data );
 							},
-							function ( secondRequestErr, secondRequestErrObject ) {
+							( secondRequestErr, secondRequestErrObject ) => {
 								deferred.reject( secondRequestErr, secondRequestErrObject );
 							}
 						);
@@ -71,9 +71,9 @@
 						deferred.reject( err, errObject );
 					}
 				} );
-			} ).fail( function ( err, errObject ) {
+			} ).fail( ( err, errObject ) => {
 				mw.log.error( errObject );
-				var errMessage = errObject.exception;
+				let errMessage = errObject.exception;
 				if ( errObject.xhr &&
 				errObject.xhr.responseJSON &&
 				errObject.xhr.responseJSON.messageTranslations ) {
@@ -91,13 +91,11 @@
 		 * Note that CheckUser only adds this code to article page views if
 		 * CheckUserClientHintsEnabled is set to true.
 		 */
-		mw.hook( 'postEdit' ).add( function () {
+		mw.hook( 'postEdit' ).add( () => {
 			try {
 				navigatorData.userAgentData.getHighEntropyValues(
 					wgCheckUserClientHintsHeadersJsApi
-				).then( function ( userAgentHighEntropyValues ) {
-					return postClientHintData( userAgentHighEntropyValues, true );
-				} );
+				).then( ( userAgentHighEntropyValues ) => postClientHintData( userAgentHighEntropyValues, true ) );
 			} catch ( err ) {
 				// Handle NotAllowedError, if the browser throws it.
 				mw.log.error( err );

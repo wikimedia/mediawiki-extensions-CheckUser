@@ -1,5 +1,5 @@
 ( function () {
-	var userPageWidget,
+	let userPageWidget,
 		userPagePositionWidget,
 		userPageTextWidget,
 		talkPageWidget,
@@ -9,7 +9,7 @@
 		otherReasonWidget;
 
 	function updateNoticeOptions() {
-		var isUserPageChecked = userPageWidget.isSelected(),
+		const isUserPageChecked = userPageWidget.isSelected(),
 			isTalkPageChecked = talkPageWidget.isSelected();
 
 		userPagePositionWidget.setDisabled( !isUserPageChecked );
@@ -39,8 +39,8 @@
 	 * it is not required.
 	 */
 	function updateRequiredAttributeOnOtherField() {
-		var $otherReasonInputElement = $( 'input', otherReasonWidget.$element );
-		var $requiredIndicator = $( '.oo-ui-indicator-required', otherReasonWidget.$element );
+		const $otherReasonInputElement = $( 'input', otherReasonWidget.$element );
+		const $requiredIndicator = $( '.oo-ui-indicator-required', otherReasonWidget.$element );
 		if ( dropdownWidget.getValue() === 'other' ) {
 			// Set the required property for native browser validation and show the "required" OOUI indicator.
 			$otherReasonInputElement.attr( 'required', 'required' );
@@ -52,7 +52,7 @@
 		}
 	}
 
-	var dropdownAndInputWidget = OO.ui.infuse( $( '#mw-input-wpReason' ) );
+	const dropdownAndInputWidget = OO.ui.infuse( $( '#mw-input-wpReason' ) );
 	dropdownWidget = dropdownAndInputWidget.dropdowninput;
 	otherReasonWidget = dropdownAndInputWidget.textinput;
 

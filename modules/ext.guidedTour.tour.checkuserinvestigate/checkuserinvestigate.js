@@ -10,9 +10,9 @@
 		return;
 	}
 
-	var canBlock = mw.config.get( 'wgCheckUserInvestigateCanBlock' );
+	const canBlock = mw.config.get( 'wgCheckUserInvestigateCanBlock' );
 
-	var tour = new gt.TourBuilder( {
+	const tour = new gt.TourBuilder( {
 		name: 'checkuserinvestigate',
 		shouldLog: true,
 		isSinglePage: false
@@ -39,7 +39,7 @@
 		.next( 'addusertargets' );
 
 	function handleIpTargetOnShow() {
-		var $cell = $( '.ext-checkuser-compare-table-cell-ip-target' ).first();
+		const $cell = $( '.ext-checkuser-compare-table-cell-ip-target' ).first();
 
 		$cell.trigger( 'mouseover' );
 		$cell.addClass( 'ext-checkuser-investigate-active' );

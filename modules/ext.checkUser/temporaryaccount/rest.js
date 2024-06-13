@@ -35,9 +35,9 @@ function performFullRevealRequest( target, revIds, logIds, retryOnTokenMismatch 
 }
 
 function performRevealRequestInternal( target, revIds, logIds, limit, retryOnTokenMismatch ) {
-	var restApi = new mw.Rest();
-	var api = new mw.Api();
-	var deferred = $.Deferred();
+	const restApi = new mw.Rest();
+	const api = new mw.Api();
+	const deferred = $.Deferred();
 	api.getToken( 'csrf' ).then( ( token ) => {
 		restApi.post(
 			'/checkuser/v0/temporaryaccount/' + target + buildQuery( revIds, logIds, limit ),
@@ -84,8 +84,8 @@ function performRevealRequestInternal( target, revIds, logIds, limit, retryOnTok
  * @return {string}
  */
 function buildQuery( revIds, logIds, limit ) {
-	var urlParams = '';
-	var queryStringParams = new URLSearchParams();
+	let urlParams = '';
+	const queryStringParams = new URLSearchParams();
 
 	if ( revIds && revIds.allIds && revIds.allIds.length ) {
 		urlParams += '/revisions/' + revIds.allIds.join( '|' );

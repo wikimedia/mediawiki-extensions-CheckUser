@@ -3,7 +3,7 @@
  * This feature is available for wikis that have Parsoid/RESTBase.
  */
 module.exports = function addCopyFeature() {
-	var copyTextLayout, messageWidget, wikitextButton,
+	let copyTextLayout, messageWidget, wikitextButton,
 		hidden = true,
 		requested = false;
 
@@ -21,8 +21,8 @@ module.exports = function addCopyFeature() {
 			$table.find( '[class]' ).addBack( '[class]' ).removeAttr( 'class' );
 			$table.addClass( 'mw-datatable' );
 
-			$table.find( 'tr, td' ).each( function ( i, element ) {
-				Object.keys( element.dataset ).forEach( function ( key ) {
+			$table.find( 'tr, td' ).each( ( i, element ) => {
+				Object.keys( element.dataset ).forEach( ( key ) => {
 					element.removeAttribute( 'data-' + key );
 				} );
 			} );
@@ -41,9 +41,9 @@ module.exports = function addCopyFeature() {
 
 		if ( !requested ) {
 			copyTextLayout.textInput.pushPending();
-			var restApi = new mw.Rest();
-			var html = getSanitizedHtml( $( '.ext-checkuser-investigate-table-compare' ) );
-			restApi.post( '/v1/transform/html/to/wikitext/', { html: html } ).then( function ( data ) {
+			const restApi = new mw.Rest();
+			const html = getSanitizedHtml( $( '.ext-checkuser-investigate-table-compare' ) );
+			restApi.post( '/v1/transform/html/to/wikitext/', { html: html } ).then( ( data ) => {
 				copyTextLayout.textInput.popPending();
 				copyTextLayout.textInput.setValue( data );
 			} );

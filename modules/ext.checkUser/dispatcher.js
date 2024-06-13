@@ -33,7 +33,7 @@
 
 	// Include resources for all but a few specific special pages
 	// and for non-special pages that load this module
-	var excludePages = [
+	const excludePages = [
 		'Investigate',
 		'InvestigateBlock',
 		'IPContributions',
