@@ -174,7 +174,7 @@ class CheckUserLookupUtils {
 			( isset( $row->page ) && $row->page ) ||
 			( isset( $row->page_id ) && $row->page_id )
 		) {
-			$logEntry->setTarget( Title::newFromID( $row->page ) );
+			$logEntry->setTarget( Title::newFromID( $row->page ?? $row->page_id ) );
 		}
 		$logEntry->setTimestamp( $row->timestamp );
 		$logEntry->setDeleted( $row->log_deleted );
