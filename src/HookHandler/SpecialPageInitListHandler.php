@@ -25,7 +25,7 @@ class SpecialPageInitListHandler implements SpecialPage_initListHook {
 
 	/** @inheritDoc */
 	public function onSpecialPage_initList( &$list ) {
-		if ( $this->tempUserConfig->isEnabled() ) {
+		if ( $this->tempUserConfig->isKnown() ) {
 			$list['IPContributions'] = [
 				'class' => SpecialIPContributions::class,
 				'services' => [
