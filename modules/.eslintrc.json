@@ -9,9 +9,7 @@
 		"sourceType": "commonjs"
 	},
 	"rules": {
-		"no-jquery/no-global-selector": "off",
-		"no-var": "warn",
-		"prefer-const": "warn"
+		"no-jquery/no-global-selector": "off"
 	},
 	"settings": {
 		"polyfills": [

@@ -89,7 +89,7 @@
 			const ipCidr = addy.split( '/' );
 			// Binary form
 			let bin = '';
-			var x = 0, z = 0, start = 0, end = 0, ip, cidr, bloc, binBlock;
+			let x = 0, z = 0, start = 0, end = 0, ip, cidr, bloc, binBlock;
 			// Convert the IP to binary form: IPv4
 			if ( ipV4 ) {
 				foundV4 = true;

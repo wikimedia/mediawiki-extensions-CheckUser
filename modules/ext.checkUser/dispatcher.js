@@ -7,12 +7,13 @@
 		case 'InvestigateBlock':
 			require( './investigateblock/investigateblock.js' );
 			break;
-		case 'CheckUser':
+		case 'CheckUser': {
 			require( './cidr/cidr.js' );
 			require( './checkuser/getUsersBlockForm.js' )();
-			var CheckUserHelper = require( './checkuser/checkUserHelper/init.js' );
+			const CheckUserHelper = require( './checkuser/checkUserHelper/init.js' );
 			CheckUserHelper.init();
 			break;
+		}
 		case 'CheckUserLog':
 			require( './checkuserlog/highlightScroll.js' );
 			break;

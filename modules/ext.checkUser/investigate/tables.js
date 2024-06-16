@@ -25,13 +25,12 @@ module.exports = function setupTables() {
 	}
 
 	function updateMatchingElements( $target, value, classSuffix ) {
-		let $matches,
-			dataField = $target.data( 'field' ),
+		const dataField = $target.data( 'field' ),
 			dataValue = $target.data( 'value' ),
 			cellClass = 'ext-checkuser-investigate-table-cell-' + classSuffix,
 			rowClass = 'ext-checkuser-investigate-table-row-' + classSuffix;
 
-		$matches = $( 'td[data-field="' + dataField + '"][data-value="' + dataValue + '"]' );
+		const $matches = $( 'td[data-field="' + dataField + '"][data-value="' + dataValue + '"]' );
 		// The following messages can be passed here:
 		// * ext-checkuser-investigate-table-cell-hover-data-match
 		// * ext-checkuser-investigate-table-cell-pinned-data-match
@@ -89,11 +88,11 @@ module.exports = function setupTables() {
 
 	function appendButtons( $tableCell, buttonTypes ) {
 		// eslint-disable-next-line no-jquery/no-class-state
-		let isTarget = $tableCell.hasClass( 'ext-checkuser-compare-table-cell-target' ),
+		const isTarget = $tableCell.hasClass( 'ext-checkuser-compare-table-cell-target' ),
 			$optionsContainer = $( '<div>' ).addClass( 'ext-checkuser-investigate-table-options-container' ),
 			key = getDataKey( $tableCell ),
-			options = [],
-			selectWidget,
+			options = [];
+		let selectWidget,
 			contribsOptionWidget,
 			checksOptionWidget,
 			toggleButton,
@@ -185,10 +184,9 @@ module.exports = function setupTables() {
 			message = mw.msg( 'checkuser-investigate-compare-toollinks', $tableCell.data( 'value' ) );
 			$links = $( '<div>' ).html( message ).find( 'a' );
 			$links.each( ( i, $link ) => {
-				let optionWidget,
-					label = $link.text,
+				const label = $link.text,
 					href = $link.getAttribute( 'href' );
-				optionWidget = new OO.ui.MenuOptionWidget( {
+				const optionWidget = new OO.ui.MenuOptionWidget( {
 					icon: 'globe',
 					label: label,
 					data: {

@@ -2,8 +2,6 @@
  * Special:Invesitgate form guided tour
  */
 ( function ( gt ) {
-	let tour;
-
 	if ( mw.config.get( 'wgCanonicalSpecialPageName' ) !== 'Investigate' ) {
 		return;
 	}
@@ -12,7 +10,7 @@
 		return;
 	}
 
-	tour = new gt.TourBuilder( {
+	const tour = new gt.TourBuilder( {
 		name: 'checkuserinvestigateform',
 		shouldLog: true,
 		isSinglePage: false

@@ -3,7 +3,8 @@
  * This feature is available for wikis that have Parsoid/RESTBase.
  */
 module.exports = function addCopyFeature() {
-	let copyTextLayout, messageWidget, wikitextButton,
+	let copyTextLayout = null,
+		wikitextButton = null,
 		hidden = true,
 		requested = false;
 
@@ -52,7 +53,7 @@ module.exports = function addCopyFeature() {
 		requested = true;
 	}
 
-	messageWidget = new OO.ui.MessageWidget( {
+	const messageWidget = new OO.ui.MessageWidget( {
 		type: 'notice',
 		label: mw.msg( 'checkuser-investigate-compare-copy-message-label' ),
 		classes: [ 'ext-checkuser-investigate-copy-message' ]
