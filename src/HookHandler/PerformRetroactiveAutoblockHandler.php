@@ -41,6 +41,13 @@ class PerformRetroactiveAutoblockHandler implements PerformRetroactiveAutoblockH
 	 * @return bool
 	 */
 	public function onPerformRetroactiveAutoblock( $block, &$blockIds ) {
+		// If the maximum number of IPs to autoblock is 0, then defer to core or another extension to perform the
+		// autoblocks.
+		$maximumIPsToAutoblock = $this->config->get( 'CheckUserMaximumIPsToAutoblock' );
+		if ( !$maximumIPsToAutoblock ) {
+			return true;
+		}
+
 		// Check that the user is registered. If the user is not registered, then an autoblock does not make sense
 		// (because it would have the same target as the existing $block). In this case return true in case that core
 		// or another extension can handle this situation.
@@ -67,9 +74,7 @@ class PerformRetroactiveAutoblockHandler implements PerformRetroactiveAutoblockH
 				->useIndex( $tablePrefix . 'actor_ip_time' )
 				->join( 'actor', null, 'actor_id=' . $tablePrefix . 'actor' )
 				->where( [ 'actor_user' => $user->getId( $block->getWikiId() ) ] )
-				// While this code supports multiple IPs, the current implementation only uses one IP.
-				// T367763 is the feature request to support autoblocking multiple IPs via config.
-				->limit( 1 )
+				->limit( $maximumIPsToAutoblock )
 				->groupBy( 'ip' )
 				->orderBy( $tablePrefix . 'timestamp', SelectQueryBuilder::SORT_DESC )
 				->caller( __METHOD__ );
@@ -93,9 +98,9 @@ class PerformRetroactiveAutoblockHandler implements PerformRetroactiveAutoblockH
 			}
 		}
 
-		// Sort the IPs by their last usage timestamp, and then truncate the list to the specified limit (for now 1).
+		// Sort the IPs by their last usage timestamp, and then truncate the list to a length of $maximumIPsToAutoblock.
 		arsort( $lastUsedIPs );
-		$lastUsedIPs = array_slice( array_flip( $lastUsedIPs ), 0, 1 );
+		$lastUsedIPs = array_slice( array_flip( $lastUsedIPs ), 0, $maximumIPsToAutoblock );
 
 		// Iterate through the list of IPs to autoblock and actually perform the autoblocks.
 		$databaseBlockStore = $this->databaseBlockStoreFactory->getDatabaseBlockStore( $block->getWikiId() );

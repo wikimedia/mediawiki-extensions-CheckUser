@@ -165,6 +165,10 @@
 		"CheckUserDeveloperMode": {
 			"value": false,
 			"description": "If set to 'true', then CheckUser will be know it is in development mode. Do not enable this on any wikis other than local development wikis. This will allow use of code that is only intended for local development wikis, such as the populateCheckUserTablesWithSimulatedData.php maintenance script which inserts automated testing edits and actions to the wiki."
+		},
+		"CheckUserMaximumIPsToAutoblock": {
+			"value": 1,
+			"description": "The maximum number of IPs to retroactively autoblock when a block is created that is set to autoblock. The actual number of IPs blocked will be smaller if the CheckUser data for this user has less than this number of IPs. If this number is greater, then the IPs blocked are those which were used last."
 		}
 	},
 	"APIListModules": {

@@ -10,6 +10,7 @@ use MediaWiki\Context\RequestContext;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWikiIntegrationTestCase;
 use RecentChange;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * @group CheckUser
@@ -24,12 +25,16 @@ class PerformRetroactiveAutoblockHandlerTest extends MediaWikiIntegrationTestCas
 	/**
 	 * @dataProvider provideOnPerformRetroactiveAutoblock
 	 */
-	public function testOnPerformRetroactiveAutoblock( array $tablesWithData, bool $shouldAutoblock ) {
+	public function testOnPerformRetroactiveAutoblock(
+		array $tablesWithData, int $maximumIPsToAutoblockConfigValue, array $expectedAutoBlockTargets
+	) {
+		$this->overrideConfigValue( 'CheckUserMaximumIPsToAutoblock', $maximumIPsToAutoblockConfigValue );
 		$target = $this->getMutableTestUser()->getUserIdentity();
-		// Set the request IP, which is the IP that should be autoblocked if an autoblock is applied.
-		RequestContext::getMain()->getRequest()->setIP( '127.0.0.2' );
 		// Insert the specified test data
 		if ( in_array( self::CHANGES_TABLE, $tablesWithData ) ) {
+			ConvertibleTimestamp::setFakeTime( '20210101000000' );
+			// Set the request IP, which is the IP that should be autoblocked if an autoblock is applied.
+			RequestContext::getMain()->getRequest()->setIP( '127.0.0.2' );
 			// Insert a testing edit into cu_changes
 			$rc = new RecentChange;
 			$rc->setAttribs( array_merge(
@@ -39,6 +44,9 @@ class PerformRetroactiveAutoblockHandlerTest extends MediaWikiIntegrationTestCas
 			( new Hooks() )->updateCheckUserData( $rc );
 		}
 		if ( in_array( self::PRIVATE_LOG_EVENT_TABLE, $tablesWithData ) ) {
+			ConvertibleTimestamp::setFakeTime( '20210101000001' );
+			// Set the request IP, which is the IP that should be autoblocked if an autoblock is applied.
+			RequestContext::getMain()->getRequest()->setIP( '127.0.0.4' );
 			// Insert a RecentChanges event for a log entry that has no associated log ID (and therefore gets saved to
 			// cu_private_event).
 			$rc = new RecentChange;
@@ -52,6 +60,9 @@ class PerformRetroactiveAutoblockHandlerTest extends MediaWikiIntegrationTestCas
 			( new Hooks() )->updateCheckUserData( $rc );
 		}
 		if ( in_array( self::LOG_EVENT_TABLE, $tablesWithData ) ) {
+			ConvertibleTimestamp::setFakeTime( '20210101000002' );
+			// Set the request IP, which is the IP that should be autoblocked if an autoblock is applied.
+			RequestContext::getMain()->getRequest()->setIP( '127.0.0.2' );
 			// Insert a RecentChanges event for a log entry that has a associated log ID (and therefore causes an
 			// insert into cu_log_event).
 			$logId = $this->newLogEntry();
@@ -65,6 +76,7 @@ class PerformRetroactiveAutoblockHandlerTest extends MediaWikiIntegrationTestCas
 			) );
 			( new Hooks() )->updateCheckUserData( $rc );
 		}
+		ConvertibleTimestamp::setFakeTime( '20210102000000' );
 		// Block the target with autoblocking enabled. This should call the method under test.
 		// We cannot call the hook handler directly, as the method will not work unless 'enableAutoblock'
 		// is set. Setting 'enableAutoblock' causes the method under test to be called. Therefore,
@@ -77,32 +89,52 @@ class PerformRetroactiveAutoblockHandlerTest extends MediaWikiIntegrationTestCas
 		$this->assertIsArray( $blockResult, 'The block on the target could not be performed' );
 		// Get a block associated with the IP 127.0.0.2, if any exists.
 		$blockManager = $this->getServiceContainer()->getBlockManager();
-		$ipBlock = $blockManager->getIpBlock( '127.0.0.2', false );
-		if ( $shouldAutoblock ) {
-			$this->assertNotNull( $ipBlock, 'One autoblock should have been placed on the IP.' );
-			$this->assertCount( 1, $blockResult['autoIds'], 'One autoblock should have been placed' );
-			$this->assertSame( $ipBlock->getId(), $blockResult['autoIds'][0], 'The autoblock ID was not as expected' );
+		if ( count( $expectedAutoBlockTargets ) ) {
+			$this->assertSameSize(
+				$expectedAutoBlockTargets, $blockResult['autoIds'],
+				'The number of autoblocks placed was not as expected'
+			);
+			foreach ( $expectedAutoBlockTargets as $expectedAutoBlockTarget ) {
+				$ipBlock = $blockManager->getIpBlock( $expectedAutoBlockTarget, false );
+				$this->assertNotNull(
+					$ipBlock, "An autoblock should have been placed on the IP $expectedAutoBlockTarget."
+				);
+				$this->assertContains(
+					$ipBlock->getId(), $blockResult['autoIds'], 'The autoblock ID was not as expected'
+				);
+			}
 		} else {
-			$this->assertNull( $ipBlock, 'No autoblock should have been placed on the IP.' );
+			foreach ( [ '127.0.0.4', '127.0.0.2' ] as $autoBlockTarget ) {
+				$ipBlock = $blockManager->getIpBlock( $autoBlockTarget, false );
+				$this->assertNull( $ipBlock, 'No autoblock should have been placed on an IP.' );
+			}
 			$this->assertCount( 0, $blockResult['autoIds'], 'No autoblocks should have been placed.' );
 		}
 	}
 
 	public static function provideOnPerformRetroactiveAutoblock() {
 		return [
-			'Account as the target of the block and CheckUser data exists for the account' => [
+			'Account as the target of the block, CheckUser data exists for the account, and config set to 2' => [
 				// Which CheckUser result tables have data for the target of the block
 				[ self::CHANGES_TABLE, self::LOG_EVENT_TABLE, self::PRIVATE_LOG_EVENT_TABLE ],
-				// Whether an autoblock should be performed.
-				true,
+				// The value of wgCheckUserMaximumIPsToAutoblock
+				2,
+				// The IPs that should be autoblocked
+				[ '127.0.0.2', '127.0.0.4' ],
+			],
+			'Account as the target of the block, CheckUser data exists for the account, and config set to 1' => [
+				[ self::CHANGES_TABLE, self::LOG_EVENT_TABLE, self::PRIVATE_LOG_EVENT_TABLE ], 1, [ '127.0.0.2' ],
 			],
 			'Account as the target of the block and target has only log related CheckUser data' => [
-				[ self::LOG_EVENT_TABLE ], true,
+				[ self::LOG_EVENT_TABLE ], 2, [ '127.0.0.2' ],
+			],
+			'Account as the target of the block and target has only private log related CheckUser data' => [
+				[ self::PRIVATE_LOG_EVENT_TABLE ], 2, [ '127.0.0.4' ],
 			],
 			'Account as the target of the block and target has only edit related CheckUser data' => [
-				[ self::CHANGES_TABLE ], true,
+				[ self::CHANGES_TABLE ], 3, [ '127.0.0.2' ],
 			],
-			'Account as the target of the block and target has no CheckUser data' => [ [], false ],
+			'Account as the target of the block, target has no CheckUser data, and config set to 1' => [ [], 1, [] ],
 		];
 	}
 }
