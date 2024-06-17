@@ -95,7 +95,7 @@
 	"checkuser-localonly": "Birləşdirilməyib",
 	"checkuser-massblock": "Seçilmiş istifadəçiləri blokla",
 	"checkuser-massblock-text-multi-lock-only": "Bu vikidəki istifadəçiləri bloklamaq üçün lazım olan hüquqlarınız yoxdur. Siz hələ də aşağıdakı keçid(lər)dən istifadə edərək seçilmiş hesabları kilidləyə bilərsiniz.",
-	"checkuser-massblock-text": "Yuxarıda seçilmiş hesablar və IP-lər bu formada düymələrə klikləməklə bloklana bilər, burada bu hesablar və ya IP-lər {{#special:InvestigateBlock}} formasında əvvəlcədən doldurulacaq.",
+	"checkuser-massblock-text": "Blok etmək istədiyiniz hesabları və IP-ləri seçmək üçün yuxarıdakı nəticələrdəki xanalardan istifadə edin. Daha sonra aşağıdakı düymələrdən istifadə edə bilərsiniz ki, bu da əvvəlcədən doldurulmuş məlumatlar ilə {{#special:InvestigateBlock}} formasını açacaq.",
 	"checkuser-massblock-commit-accounts": "Seçilmiş hesabları blokla",
 	"checkuser-massblock-commit-ips": "Seçilmiş IP-ləri blokla",
 	"checkuser-block-reason-dropdown": "* Əsas blok səbəbləri\n** Çoxsaylı hesablardan sui-istifadə\n** Xarici sayt keçidlərini spamlamaq\n** Vandalizm",

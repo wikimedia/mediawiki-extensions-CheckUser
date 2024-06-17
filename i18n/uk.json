@@ -159,6 +159,8 @@
 	"checkuser-investigateblock-notices-failed": "Деякі сповіщення не вдалося додати на сторінки користувачів чи сторінки обговорення користувачів.",
 	"checkuser-investigate": "Розслідування",
 	"checkuser-investigate-page-subtitle": "Поточне розслідування для $1",
+	"checkuser-investigate-subtitle-block-accounts-button-label": "Заблокувати облікові записи",
+	"checkuser-investigate-subtitle-block-ips-button-label": "Заблокувати IP-адреси",
 	"checkuser-investigate-subtitle-cancel-button-label": "Скасувати",
 	"checkuser-investigate-subtitle-continue-button-label": "Продовжити",
 	"checkuser-investigate-indicator-new-investigation": "Нове розслідування",
