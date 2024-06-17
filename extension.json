@@ -662,7 +662,8 @@
 		"MediaWiki\\CheckUser\\Maintenance\\MoveLogEntriesFromCuChanges": "maintenance/moveLogEntriesFromCuChanges.php",
 		"MediaWiki\\CheckUser\\Maintenance\\PopulateCheckUserTablesWithSimulatedData": "maintenance/populateCheckUserTablesWithSimulatedData.php",
 		"MediaWiki\\CheckUser\\Maintenance\\GenerateStatsAboutClientHintsData": "maintenance/generateStatsAboutClientHintsData.php",
-		"MediaWiki\\CheckUser\\Maintenance\\FixTrailingSpacesInLogs": "maintenance/fixTrailingSpacesInLogs.php"
+		"MediaWiki\\CheckUser\\Maintenance\\FixTrailingSpacesInLogs": "maintenance/fixTrailingSpacesInLogs.php",
+		"MediaWiki\\CheckUser\\Maintenance\\DeleteReadOldRowsInCuChanges": "maintenance/deleteReadOldRowsInCuChanges.php"
 	},
 	"ServiceWiringFiles": [
 		"src/ServiceWiring.php"
