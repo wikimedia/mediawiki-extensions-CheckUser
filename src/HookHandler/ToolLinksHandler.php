@@ -95,7 +95,7 @@ class ToolLinksHandler implements ContributionsToolLinksHook, UserToolLinksEditH
 		$linkRenderer = $sp->getLinkRenderer();
 
 		if (
-			$this->tempUserConfig->isEnabled() &&
+			$this->tempUserConfig->isKnown() &&
 			IPUtils::isIPAddress( $nt->getText() )
 		) {
 			if ( $sp->getName() === 'Contributions' && $this->userCanRevealIP( $user ) ) {
