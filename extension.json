@@ -263,6 +263,14 @@
 				"UserOptionsLookup"
 			]
 		},
+		"RetroactiveAutoBlock": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\PerformRetroactiveAutoblockHandler",
+			"services": [
+				"DBLoadBalancerFactory",
+				"DatabaseBlockStoreFactory",
+				"MainConfig"
+			]
+		},
 		"SchemaChanges": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\SchemaChangesHandler"
 		},
@@ -308,7 +316,7 @@
 		"GetPreferences": "preferences",
 		"LoadExtensionSchemaUpdates": "SchemaChanges",
 		"LocalUserCreated": "Hooks",
-		"PerformRetroactiveAutoblock": "Hooks",
+		"PerformRetroactiveAutoblock": "RetroactiveAutoBlock",
 		"RecentChange_save": "Hooks",
 		"RenameUserSQL": "RenameUserSQLHandler",
 		"ResourceLoaderRegisterModules": "RLRegisterModules",
