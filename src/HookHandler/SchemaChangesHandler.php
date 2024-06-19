@@ -185,12 +185,10 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook {
 		$updater->addExtensionUpdate( [
 			'runMaintenance',
 			PopulateCulActor::class,
-			'extensions/CheckUser/maintenance/populateCulActor.php'
 		] );
 		$updater->addExtensionUpdate( [
 			'runMaintenance',
 			PopulateCulComment::class,
-			'extensions/CheckUser/maintenance/populateCulComment.php'
 		] );
 		if ( $dbType === 'postgres' ) {
 			# For wikis which ran update.php after pulling the master branch of CheckUser between
@@ -209,12 +207,10 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook {
 		$updater->addExtensionUpdate( [
 			'runMaintenance',
 			PopulateCucActor::class,
-			'extensions/CheckUser/maintenance/populateCucActor.php'
 		] );
 		$updater->addExtensionUpdate( [
 			'runMaintenance',
 			PopulateCucComment::class,
-			'extensions/CheckUser/maintenance/populateCucComment.php'
 		] );
 
 		// 1.40
