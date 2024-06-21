@@ -96,6 +96,9 @@ class PerformRetroactiveAutoblockHandlerTest extends MediaWikiIntegrationTestCas
 				// Whether an autoblock should be performed.
 				true,
 			],
+			'Account as the target of the block and target has only log related CheckUser data' => [
+				[ self::LOG_EVENT_TABLE ], true,
+			],
 			'Account as the target of the block and target has only edit related CheckUser data' => [
 				[ self::CHANGES_TABLE ], true,
 			],
