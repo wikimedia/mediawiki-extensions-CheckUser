@@ -6,7 +6,6 @@ use LogEntryBase;
 use MailAddress;
 use MediaWiki\Auth\AuthenticationRequest;
 use MediaWiki\Auth\AuthenticationResponse;
-use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\Hooks;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Context\RequestContext;
@@ -838,100 +837,6 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 			$html,
 			'Nonexisting test user1234567'
 		);
-	}
-
-	/**
-	 * @dataProvider provideOnPerformRetroactiveAutoblock
-	 * @todo test that the $blockIds variable is correct after calling the hook
-	 */
-	public function testOnPerformRetroactiveAutoblock( bool $isIP, bool $hasCUChangesRow, bool $shouldAutoblock ) {
-		if ( $isIP ) {
-			// Need to create actor IDs for IPs, so disable auto creation
-			// of temporary users if enabled by default.
-			$this->disableAutoCreateTempUser();
-			$target = UserIdentityValue::newAnonymous( '127.0.0.1' );
-			// Need to create an actor ID for the IP in case it makes no edits as part of the test.
-			$this->getServiceContainer()->getActorStore()->createNewActor( $target, $this->db );
-		} else {
-			$target = $this->getTestUser()->getUserIdentity();
-		}
-		$this->setTemporaryHook(
-			'CheckUserInsertChangesRow',
-			static function ( string &$ip, string &$xff, array &$row ) {
-				$ip = '127.0.0.2';
-			}
-		);
-		if ( $hasCUChangesRow ) {
-			$rc = new RecentChange();
-			$rc->setAttribs(
-				array_merge( self::getDefaultRecentChangeAttribs(), [
-					'rc_user' => $target->getId(),
-					'rc_user_text' => $target->getName()
-				] )
-			);
-			$rc->setExtra( [
-				'pageStatus' => 'changed'
-			] );
-			$rc->save();
-		}
-		$userAuthority = $this->mockRegisteredUltimateAuthority();
-		$this->getServiceContainer()->getBlockUserFactory()->newBlockUser(
-			$target,
-			$userAuthority,
-			'1 week'
-		)->placeBlock();
-		$block = DatabaseBlock::newFromTarget( $target->getName() );
-		$result = ( new Hooks() )->onPerformRetroactiveAutoblock( $block, $blockIds );
-		$blockManager = $this->getServiceContainer()->getBlockManager();
-		$ipBlock = $blockManager->getIpBlock( '127.0.0.2', false );
-		if ( $shouldAutoblock ) {
-			$this->assertNotNull(
-				$ipBlock,
-				'One autoblock should have been placed on the IP.'
-			);
-			$this->assertFalse(
-				$result,
-				'The hook applied autoblocks so it should have returned false to stop further execution.'
-			);
-		} else {
-			$this->assertNull(
-				$ipBlock,
-				'No autoblock should have been placed on the IP.'
-			);
-			if ( $isIP ) {
-				$this->assertTrue(
-					$result,
-					'The hook shouldn\'t have applied autoblocks so it should not stop execution of further hooks.'
-				);
-			} else {
-				$this->assertFalse(
-					$result,
-					'The hook should have attempted to autoblock, found no IPs to block and returned false.'
-				);
-			}
-		}
-	}
-
-	/**
-	 * Returns an array of arrays with each second
-	 * level array containing boolean values to
-	 * represent test conditions as follows:
-	 * * The first is whether the target of the block
-	 *    that was previously applied is an IP.
-	 * * The second is whether the the target of the
-	 *    block will have made any actions to store
-	 *    an entry in cu_changes before the retroactive
-	 *    autoblock.
-	 * * The third is whether the hook should apply a
-	 *    retroactive autoblock to the IP used.
-	 */
-	public static function provideOnPerformRetroactiveAutoblock() {
-		return [
-			[ true, false, false ],
-			[ true, true, false ],
-			[ false, false, false ],
-			[ false, true, true ],
-		];
 	}
 
 	/**

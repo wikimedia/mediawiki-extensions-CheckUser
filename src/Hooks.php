@@ -11,8 +11,6 @@ use MailAddress;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Auth\Hook\AuthManagerLoginAuthenticateAuditHook;
 use MediaWiki\Auth\Hook\LocalUserCreatedHook;
-use MediaWiki\Block\DatabaseBlock;
-use MediaWiki\Block\Hook\PerformRetroactiveAutoblockHook;
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Context\RequestContext;
@@ -32,14 +30,12 @@ use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserRigorOptions;
 use MessageSpecifier;
 use RecentChange;
-use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\ScopedCallback;
 
 class Hooks implements
 	AuthManagerLoginAuthenticateAuditHook,
 	EmailUserHook,
 	LocalUserCreatedHook,
-	PerformRetroactiveAutoblockHook,
 	RecentChange_saveHook,
 	UserLogoutCompleteHook,
 	User__mailPasswordInternalHook
@@ -638,58 +634,6 @@ class Hooks implements
 				null
 			)
 		);
-	}
-
-	/**
-	 * Retroactively autoblocks the last IP used by the user (if it is a user)
-	 * blocked by this block.
-	 *
-	 * @param DatabaseBlock $block
-	 * @param int[] &$blockIds
-	 * @return bool
-	 */
-	public function onPerformRetroactiveAutoblock( $block, &$blockIds ) {
-		$services = MediaWikiServices::getInstance();
-
-		$dbr = $services->getDBLoadBalancerFactory()->getReplicaDatabase( $block->getWikiId() );
-
-		$userIdentityLookup = $services
-			->getActorStoreFactory()
-			->getUserIdentityLookup( $block->getWikiId() );
-		$user = $userIdentityLookup->getUserIdentityByName( $block->getTargetName() );
-		if ( !$user->isRegistered() ) {
-			// user in an IP?
-			return true;
-		}
-
-		$res = $dbr->newSelectQueryBuilder()
-			->select( 'cuc_ip' )
-			->from( 'cu_changes' )
-			->useIndex( 'cuc_actor_ip_time' )
-			->join( 'actor', null, 'actor_id=cuc_actor' )
-			->where( [ 'actor_user' => $user->getId( $block->getWikiId() ) ] )
-			// just the last IP used
-			->limit( 1 )
-			->orderBy( 'cuc_timestamp', SelectQueryBuilder::SORT_DESC )
-			->caller( __METHOD__ )
-			->fetchResultSet();
-
-		$databaseBlockStore = $services
-			->getDatabaseBlockStoreFactory()
-			->getDatabaseBlockStore( $block->getWikiId() );
-
-		# Iterate through IPs used (this is just one or zero for now)
-		foreach ( $res as $row ) {
-			if ( $row->cuc_ip ) {
-				$id = $databaseBlockStore->doAutoblock( $block, $row->cuc_ip );
-				if ( $id ) {
-					$blockIds[] = $id;
-				}
-			}
-		}
-
-		// autoblock handled
-		return false;
 	}
 
 	/**
