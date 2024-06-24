@@ -121,7 +121,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		$testUser = $this->getTestUser()->getUserIdentity();
 		$this->commonTestAddLogEntry(
 			'ipusers', 'user', $testUser->getName(), 'testing', $testUser->getId(),
-			[ 'cul_timestamp' ], [ $this->db->timestamp( $timestamp ) ]
+			[ 'cul_timestamp' ], [ $this->getDb()->timestamp( $timestamp ) ]
 		);
 	}
 
@@ -151,7 +151,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		DeferredUpdates::doUpdates();
 		$commentQuery = $this->getServiceContainer()->getCommentStore()->getJoin( 'cul_reason' );
 		$commentQuery['tables'][] = 'cu_log';
-		$row = $this->db->newSelectQueryBuilder()
+		$row = $this->getDb()->newSelectQueryBuilder()
 			->fields( $commentQuery['fields'] )
 			->tables( $commentQuery['tables'] )
 			->joinConds( $commentQuery['joins'] )
@@ -164,7 +164,7 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 
 		$commentQuery = $this->getServiceContainer()->getCommentStore()->getJoin( 'cul_reason_plaintext' );
 		$commentQuery['tables'][] = 'cu_log';
-		$row = $this->db->newSelectQueryBuilder()
+		$row = $this->getDb()->newSelectQueryBuilder()
 			->fields( $commentQuery['fields'] )
 			->tables( $commentQuery['tables'] )
 			->joinConds( $commentQuery['joins'] )
@@ -247,16 +247,16 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		switch ( $type ) {
 			case 'ip':
 				return [
-					'cul_target_hex = ' . $this->db->addQuotes( $start ) . ' OR ' .
-					'(cul_range_end >= ' . $this->db->addQuotes( $start ) . ' AND ' .
-					'cul_range_start <= ' . $this->db->addQuotes( $start ) . ')'
+					'cul_target_hex = ' . $this->getDb()->addQuotes( $start ) . ' OR ' .
+					'(cul_range_end >= ' . $this->getDb()->addQuotes( $start ) . ' AND ' .
+					'cul_range_start <= ' . $this->getDb()->addQuotes( $start ) . ')'
 				];
 			case 'range':
 				return [
-					'(cul_target_hex >= ' . $this->db->addQuotes( $start ) . ' AND ' .
-					'cul_target_hex <= ' . $this->db->addQuotes( $end ) . ') OR ' .
-					'(cul_range_end >= ' . $this->db->addQuotes( $start ) . ' AND ' .
-					'cul_range_start <= ' . $this->db->addQuotes( $end ) . ')'
+					'(cul_target_hex >= ' . $this->getDb()->addQuotes( $start ) . ' AND ' .
+					'cul_target_hex <= ' . $this->getDb()->addQuotes( $end ) . ') OR ' .
+					'(cul_range_end >= ' . $this->getDb()->addQuotes( $start ) . ' AND ' .
+					'cul_range_start <= ' . $this->getDb()->addQuotes( $end ) . ')'
 				];
 			case 'user':
 				if ( $id === null ) {

@@ -59,7 +59,7 @@ class DeleteReadOldRowsInCuChangesTest extends MaintenanceBaseTestCase {
 
 	/** @dataProvider provideSchemaValuesWhichResultInNoDelete */
 	public function testNoDeleteWhenWrongSchemaStage( $schemaStage ) {
-		if ( !$this->db->fieldExists( 'cu_changes', 'cuc_only_for_read_old' ) ) {
+		if ( !$this->getDb()->fieldExists( 'cu_changes', 'cuc_only_for_read_old' ) ) {
 			// If the cuc_only_for_read_old column does not exist, then we cannot run the test so skip it.
 			$this->markTestSkipped( 'This test requires the cuc_only_for_read_old column in the cu_changes table.' );
 		}
@@ -103,7 +103,7 @@ class DeleteReadOldRowsInCuChangesTest extends MaintenanceBaseTestCase {
 
 	/** @dataProvider provideRowCountsAndBatchSize */
 	public function testExecute( $numberOfReadOldRows, $numberOfNormalRows, $batchSize ) {
-		if ( !$this->db->fieldExists( 'cu_changes', 'cuc_only_for_read_old' ) ) {
+		if ( !$this->getDb()->fieldExists( 'cu_changes', 'cuc_only_for_read_old' ) ) {
 			// If the cuc_only_for_read_old column does not exist, then we cannot run the test so skip it.
 			$this->markTestSkipped( 'This test requires the cuc_only_for_read_old column in the cu_changes table.' );
 		}

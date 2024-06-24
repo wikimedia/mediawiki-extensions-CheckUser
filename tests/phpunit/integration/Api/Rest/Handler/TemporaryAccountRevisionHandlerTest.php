@@ -336,21 +336,21 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 				'cuc_ip'         => '1.2.3.4',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cuc_this_oldid' => 10,
-				'cuc_timestamp'  => $this->db->timestamp( '20200101000000' ),
+				'cuc_timestamp'  => $this->getDb()->timestamp( '20200101000000' ),
 			],
 			[
 				'cuc_actor'      => 1234,
 				'cuc_ip'         => '1.2.3.5',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
 				'cuc_this_oldid' => 100,
-				'cuc_timestamp'  => $this->db->timestamp( '20210101000000' ),
+				'cuc_timestamp'  => $this->getDb()->timestamp( '20210101000000' ),
 			],
 			[
 				'cuc_actor'      => 1234,
 				'cuc_ip'         => '1.2.3.5',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
 				'cuc_this_oldid' => 1000,
-				'cuc_timestamp'  => $this->db->timestamp( '20220101000000' ),
+				'cuc_timestamp'  => $this->getDb()->timestamp( '20220101000000' ),
 			],
 		];
 
@@ -369,7 +369,7 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 		];
 
 		foreach ( $testData as $row ) {
-			$this->db->newInsertQueryBuilder()
+			$this->getDb()->newInsertQueryBuilder()
 				->insertInto( 'cu_changes' )
 				->row( $row + $commonData )
 				->execute();

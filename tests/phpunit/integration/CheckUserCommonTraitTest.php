@@ -97,7 +97,7 @@ trait CheckUserCommonTraitTest {
 		}
 		$this->assertSame(
 			$expectedRowCount,
-			$this->db->newSelectQueryBuilder()
+			$this->getDb()->newSelectQueryBuilder()
 				->field( $idField )
 				->table( $table )
 				->where( $where )

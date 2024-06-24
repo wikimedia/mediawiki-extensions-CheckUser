@@ -200,7 +200,7 @@ class SpecialCheckUserLogTest extends SpecialPageTestBase {
 		// Set the cuReasonSearch parameter to a reason used in one of the added logs with some wikitext that should be
 		// ignored when searching for the reason.
 		$request = new FauxRequest();
-		$request->setVal( 'highlight', $this->db->timestamp( '20240504030206' ) );
+		$request->setVal( 'highlight', $this->getDb()->timestamp( '20240504030206' ) );
 		// Execute the special page.
 		[ $html ] = $this->executeSpecialPage( '', $request, null, $this->getTestCheckUser(), true );
 		// Verify that one log entry has the highlight class

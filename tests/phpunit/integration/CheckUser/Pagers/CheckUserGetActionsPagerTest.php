@@ -509,7 +509,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 			'this_oldid' => 0,
 			'last_oldid' => 0,
 			'type' => RC_EDIT,
-			'timestamp' => $this->db->timestamp(),
+			'timestamp' => $this->getDb()->timestamp(),
 			'ip' => '127.0.0.1',
 			'xff' => '',
 			'agent' => '',

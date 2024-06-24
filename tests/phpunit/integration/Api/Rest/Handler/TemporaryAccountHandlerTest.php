@@ -459,7 +459,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cuc_ip'         => '1.2.3.1',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.1' ),
 				'cuc_this_oldid' => 1,
-				'cuc_timestamp'  => $this->db->timestamp( '20200101000000' ),
+				'cuc_timestamp'  => $this->getDb()->timestamp( '20200101000000' ),
 				'cuc_only_for_read_old' => 0,
 			],
 			[
@@ -467,7 +467,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cuc_ip'         => '1.2.3.2',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.2' ),
 				'cuc_this_oldid' => 10,
-				'cuc_timestamp'  => $this->db->timestamp( '20200102000000' ),
+				'cuc_timestamp'  => $this->getDb()->timestamp( '20200102000000' ),
 				'cuc_only_for_read_old' => 0,
 			],
 			[
@@ -475,7 +475,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cuc_ip'         => '1.2.3.3',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.3' ),
 				'cuc_this_oldid' => 100,
-				'cuc_timestamp'  => $this->db->timestamp( '20200103000000' ),
+				'cuc_timestamp'  => $this->getDb()->timestamp( '20200103000000' ),
 				'cuc_only_for_read_old' => 0,
 			],
 			[
@@ -483,7 +483,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cuc_ip'         => '1.2.3.4',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cuc_this_oldid' => 1000,
-				'cuc_timestamp'  => $this->db->timestamp( '20200104000000' ),
+				'cuc_timestamp'  => $this->getDb()->timestamp( '20200104000000' ),
 				'cuc_only_for_read_old' => 0,
 			],
 			[
@@ -491,7 +491,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cuc_ip'         => '1.2.3.5',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
 				'cuc_this_oldid' => 10000,
-				'cuc_timestamp'  => $this->db->timestamp( '20210105000000' ),
+				'cuc_timestamp'  => $this->getDb()->timestamp( '20210105000000' ),
 				'cuc_only_for_read_old' => 0,
 			],
 			[
@@ -499,7 +499,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cuc_ip'         => '1.2.3.5',
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
 				'cuc_this_oldid' => 100000,
-				'cuc_timestamp'  => $this->db->timestamp( '20220101000000' ),
+				'cuc_timestamp'  => $this->getDb()->timestamp( '20220101000000' ),
 				'cuc_only_for_read_old' => 0,
 			],
 			[
@@ -507,7 +507,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cuc_ip'         => '5.4.3.2',
 				'cuc_ip_hex'     => IPUtils::toHex( '5.4.3.2' ),
 				'cuc_this_oldid' => 12343,
-				'cuc_timestamp'  => $this->db->timestamp( '20220111000000' ),
+				'cuc_timestamp'  => $this->getDb()->timestamp( '20220111000000' ),
 				'cuc_only_for_read_old' => 1,
 			],
 		];
@@ -527,7 +527,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		];
 
 		foreach ( $testData as $row ) {
-			$this->db->newInsertQueryBuilder()
+			$this->getDb()->newInsertQueryBuilder()
 				->insertInto( 'cu_changes' )
 				->row( $row + $commonData )
 				->execute();
@@ -540,21 +540,21 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cule_ip'         => '1.2.3.4',
 				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cule_log_id'     => 1,
-				'cule_timestamp'  => $this->db->timestamp( '20200104000000' ),
+				'cule_timestamp'  => $this->getDb()->timestamp( '20200104000000' ),
 			],
 			[
 				'cule_actor'      => 1234,
 				'cule_ip'         => '1.2.3.5',
 				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
 				'cule_log_id'     => 2,
-				'cule_timestamp'  => $this->db->timestamp( '20220101000000' ),
+				'cule_timestamp'  => $this->getDb()->timestamp( '20220101000000' ),
 			],
 			[
 				'cule_actor'      => 1234,
 				'cule_ip'         => '1.2.3.6',
 				'cule_ip_hex'     => IPUtils::toHex( '1.2.3.6' ),
 				'cule_log_id'     => 3,
-				'cule_timestamp'  => $this->db->timestamp( '20220109000000' ),
+				'cule_timestamp'  => $this->getDb()->timestamp( '20220109000000' ),
 			],
 		];
 
@@ -565,7 +565,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		];
 
 		foreach ( $testData as $row ) {
-			$this->db->newInsertQueryBuilder()
+			$this->getDb()->newInsertQueryBuilder()
 				->insertInto( 'cu_log_event' )
 				->row( $row + $commonData )
 				->execute();
@@ -577,7 +577,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cupe_actor'      => 1234,
 				'cupe_ip'         => '1.2.3.7',
 				'cupe_ip_hex'     => IPUtils::toHex( '1.2.3.7' ),
-				'cupe_timestamp'  => $this->db->timestamp( '20220110000000' ),
+				'cupe_timestamp'  => $this->getDb()->timestamp( '20220110000000' ),
 			],
 		];
 
@@ -590,7 +590,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		];
 
 		foreach ( $testData as $row ) {
-			$this->db->newInsertQueryBuilder()
+			$this->getDb()->newInsertQueryBuilder()
 				->insertInto( 'cu_private_event' )
 				->row( $row + $commonData )
 				->execute();
