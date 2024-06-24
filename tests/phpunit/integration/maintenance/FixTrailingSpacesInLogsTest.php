@@ -36,7 +36,7 @@ class FixTrailingSpacesInLogsTest extends MaintenanceBaseTestCase {
 				->where( $this->getDb()->expr(
 					'cul_target_text',
 					IExpression::LIKE,
-					new LikeValue( $this->db->anyString(), ' ' )
+					new LikeValue( $this->getDb()->anyString(), ' ' )
 				) )
 				->fetchField()
 		);

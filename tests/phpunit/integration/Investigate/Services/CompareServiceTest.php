@@ -309,10 +309,10 @@ class CompareServiceTest extends MediaWikiIntegrationTestCase {
 		$result = $this->getCompareService()->getTargetsOverLimit(
 			$data['targets'] ?? [],
 			$data['excludeTargets'] ?? [],
-			$this->db->timestamp()
+			$this->getDb()->timestamp()
 		);
 
-		if ( $this->db->unionSupportsOrderAndLimit() ) {
+		if ( $this->getDb()->unionSupportsOrderAndLimit() ) {
 			$this->assertEquals( $expected, $result );
 		} else {
 			$this->assertArrayEquals( [], $result );

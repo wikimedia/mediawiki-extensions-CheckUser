@@ -99,7 +99,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 				SCHEMA_COMPAT_OLD,
 				'cu_changes',
 				[ 'cuc_title', 'cuc_timestamp', 'cuc_namespace' ],
-				[ 'Log', $this->db->timestamp( $attribs['rc_timestamp'] ), NS_SPECIAL ]
+				[ 'Log', $this->getDb()->timestamp( $attribs['rc_timestamp'] ), NS_SPECIAL ]
 			],
 			'Log for special title with no log ID for write new' => [
 				array_merge( $attribs, [
@@ -111,7 +111,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 				SCHEMA_COMPAT_NEW,
 				'cu_private_event',
 				[ 'cupe_title', 'cupe_timestamp', 'cupe_namespace' ],
-				[ 'Log', $this->db->timestamp( $attribs['rc_timestamp'] ), NS_SPECIAL ]
+				[ 'Log', $this->getDb()->timestamp( $attribs['rc_timestamp'] ), NS_SPECIAL ]
 			]
 		];
 		foreach ( $testCases as $testCase => $values ) {
@@ -163,7 +163,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		// for the current DB type (T366590).
 		if ( array_key_exists( 'cule_timestamp', $fields ) ) {
 			$keyForTimestamp = array_search( 'cule_timestamp', $fields );
-			$expectedRow[$keyForTimestamp] = $this->db->timestamp( $expectedRow[$keyForTimestamp] );
+			$expectedRow[$keyForTimestamp] = $this->getDb()->timestamp( $expectedRow[$keyForTimestamp] );
 		}
 		$this->updateCheckUserData( $rcAttribs, $eventTableMigrationStage, $table, $fields, $expectedRow );
 	}
@@ -274,12 +274,12 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 					'cupe_actor' => $performer->getActorId(),
 					'cupe_namespace' => NS_USER,
 					'cupe_title' => $account->getName(),
-					$this->db->expr( 'cupe_params', IExpression::LIKE, new LikeValue(
-						$this->db->anyString(),
+					$this->getDb()->expr( 'cupe_params', IExpression::LIKE, new LikeValue(
+						$this->getDb()->anyString(),
 						'"4::receiver"',
-						$this->db->anyString(),
+						$this->getDb()->anyString(),
 						$account->getName(),
-						$this->db->anyString()
+						$this->getDb()->anyString()
 					) )
 				]
 			);
@@ -292,10 +292,10 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 					'cuc_actor' => $performer->getActorId(),
 					'cuc_namespace' => NS_USER,
 					'cuc_title' => $account->getName(),
-					$this->db->expr( 'cuc_actiontext', IExpression::LIKE, new LikeValue(
-						$this->db->anyString(),
+					$this->getDb()->expr( 'cuc_actiontext', IExpression::LIKE, new LikeValue(
+						$this->getDb()->anyString(),
 						'[[User:', $account->getName(), '|', $account->getName(), ']]',
-						$this->db->anyString()
+						$this->getDb()->anyString()
 					) ),
 					'cuc_only_for_read_old' => ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) ? 1 : 0
 				]
@@ -469,10 +469,10 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 				)->inContentLanguage()->text()
 			],
 			[
-				$this->db->expr( 'cupe_params', IExpression::LIKE, new LikeValue(
-					$this->db->anyString(),
+				$this->getDb()->expr( 'cupe_params', IExpression::LIKE, new LikeValue(
+					$this->getDb()->anyString(),
 					'4::hash',
-					$this->db->anyString()
+					$this->getDb()->anyString()
 				) )
 			]
 		);
@@ -492,7 +492,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		( new Hooks() )->onRecentChange_save( $rc );
 		foreach ( $fields as $index => $field ) {
 			if ( in_array( $field, [ 'cuc_timestamp', 'cule_timestamp', 'cupe_timestamp' ] ) ) {
-				$expectedRow[$index] = $this->db->timestamp( $expectedRow[$index] );
+				$expectedRow[$index] = $this->getDb()->timestamp( $expectedRow[$index] );
 			}
 		}
 		$this->newSelectQueryBuilder()

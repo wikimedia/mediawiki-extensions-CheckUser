@@ -20,7 +20,7 @@ trait CompareTabTestDataTrait {
 	public function addTestingDataToDB(): void {
 		// Pin time to avoid failure when next second starts - T317411
 		ConvertibleTimestamp::setFakeTime( '20220904094043' );
-		$timestampForDb = $this->db->timestamp();
+		$timestampForDb = $this->getDb()->timestamp();
 
 		// Automatic temp user creation cannot be enabled
 		// if actor IDs are being created for IPs.
@@ -175,7 +175,7 @@ trait CompareTabTestDataTrait {
 			], $row );
 		}, $testDataForCuChanges );
 
-		$this->db->newInsertQueryBuilder()
+		$this->getDb()->newInsertQueryBuilder()
 			->insertInto( 'cu_changes' )
 			->rows( $testDataForCuChanges )
 			->execute();
@@ -214,7 +214,7 @@ trait CompareTabTestDataTrait {
 			], $row );
 		}, $testDataForCuLogEvent );
 
-		$this->db->newInsertQueryBuilder()
+		$this->getDb()->newInsertQueryBuilder()
 			->insertInto( 'cu_log_event' )
 			->rows( $testDataForCuLogEvent )
 			->execute();
@@ -253,7 +253,7 @@ trait CompareTabTestDataTrait {
 			], $row );
 		}, $testDataForCuPrivateEvent );
 
-		$this->db->newInsertQueryBuilder()
+		$this->getDb()->newInsertQueryBuilder()
 			->insertInto( 'cu_private_event' )
 			->rows( $testDataForCuPrivateEvent )
 			->execute();

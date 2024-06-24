@@ -102,8 +102,8 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerTestBase {
 			'ip' => '127.0.0.1',
 			'ip_hex' => IPUtils::toHex( '127.0.0.1' ),
 			'count' => 1,
-			'first' => $this->db->timestamp(),
-			'last' => $this->db->timestamp(),
+			'first' => $this->getDb()->timestamp(),
+			'last' => $this->getDb()->timestamp(),
 		];
 	}
 

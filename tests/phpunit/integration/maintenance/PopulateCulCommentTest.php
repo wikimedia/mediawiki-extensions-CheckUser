@@ -23,7 +23,7 @@ class PopulateCulCommentTest extends MaintenanceBaseTestCase {
 
 	/** @dataProvider provideAddLogEntryReasonId */
 	public function testDoDBUpdatesSingleRow( $reason, $plaintextReason ) {
-		if ( $this->db->getType() === 'postgres' ) {
+		if ( $this->getDb()->getType() === 'postgres' ) {
 			// The test is unable to add the column to the database
 			//  as the maintenance script even after adding the column
 			//  is unable to see it exists.
@@ -31,10 +31,10 @@ class PopulateCulCommentTest extends MaintenanceBaseTestCase {
 		}
 		$testTarget = $this->getTestUser()->getUserIdentity();
 		// Create a test cu_log entry with a cul_reason value.
-		$this->db->newInsertQueryBuilder()
+		$this->getDb()->newInsertQueryBuilder()
 			->insertInto( 'cu_log' )
 			->row( [
-				'cul_timestamp' => $this->db->timestamp( ConvertibleTimestamp::time() ),
+				'cul_timestamp' => $this->getDb()->timestamp( ConvertibleTimestamp::time() ),
 				'cul_actor' => $this->getTestSysop()->getUser()->getActorId(),
 				'cul_type' => 'user',
 				'cul_target_id' => $testTarget->getId(),
@@ -52,7 +52,7 @@ class PopulateCulCommentTest extends MaintenanceBaseTestCase {
 			->from( 'cu_log' )
 			->assertFieldValue( $reason );
 		// Get the ID to the comment table stored in cu_log
-		$row = $this->db->newSelectQueryBuilder()
+		$row = $this->getDb()->newSelectQueryBuilder()
 			->fields( [ 'cul_reason_id', 'cul_reason_plaintext_id' ] )
 			->table( 'cu_log' )
 			->fetchRow();
@@ -60,7 +60,7 @@ class PopulateCulCommentTest extends MaintenanceBaseTestCase {
 		//  expected reason.
 		$this->assertSame(
 			$reason,
-			$this->db->newSelectQueryBuilder()
+			$this->getDb()->newSelectQueryBuilder()
 				->field( 'comment_text' )
 				->table( 'comment' )
 				->where( [ 'comment_id' => $row->cul_reason_id ] )
@@ -69,7 +69,7 @@ class PopulateCulCommentTest extends MaintenanceBaseTestCase {
 		);
 		$this->assertSame(
 			$plaintextReason,
-			$this->db->newSelectQueryBuilder()
+			$this->getDb()->newSelectQueryBuilder()
 				->field( 'comment_text' )
 				->table( 'comment' )
 				->where( [ 'comment_id' => $row->cul_reason_plaintext_id ] )
@@ -97,17 +97,17 @@ class PopulateCulCommentTest extends MaintenanceBaseTestCase {
 		// Create cul_reason on the test DB.
 		//  This is broken for postgres so no cul_reason
 		//  is added for that DB type.
-		if ( $this->db->getType() === 'sqlite' ) {
-			$this->db->query(
+		if ( $this->getDb()->getType() === 'sqlite' ) {
+			$this->getDb()->query(
 				"ALTER TABLE   " .
-				$this->db->tableName( 'cu_log' ) .
+				$this->getDb()->tableName( 'cu_log' ) .
 				" ADD  cul_reason BLOB DEFAULT '' NOT NULL;",
 				__METHOD__
 			);
-		} elseif ( $this->db->getType() !== 'postgres' ) {
-			$this->db->query(
+		} elseif ( $this->getDb()->getType() !== 'postgres' ) {
+			$this->getDb()->query(
 				"ALTER TABLE   " .
-				$this->db->tableName( 'cu_log' ) .
+				$this->getDb()->tableName( 'cu_log' ) .
 				" ADD  cul_reason VARBINARY(255) DEFAULT '' NOT NULL;",
 				__METHOD__
 			);

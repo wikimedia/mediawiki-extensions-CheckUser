@@ -513,7 +513,7 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 		];
 
 		$testDataForCuChanges = array_map( function ( $row ) use ( $testPage, $commentStore ) {
-			$row['cuc_timestamp'] = $this->db->timestamp( $row['cuc_timestamp'] );
+			$row['cuc_timestamp'] = $this->getDb()->timestamp( $row['cuc_timestamp'] );
 			return array_merge( [
 				'cuc_namespace'  => $testPage->getNamespace(),
 				'cuc_title'      => $testPage->getText(),
@@ -530,7 +530,7 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 			], $row );
 		}, $testDataForCuChanges );
 
-		$this->db->newInsertQueryBuilder()
+		$this->getDb()->newInsertQueryBuilder()
 			->insertInto( 'cu_changes' )
 			->rows( $testDataForCuChanges )
 			->execute();
@@ -562,14 +562,14 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 		];
 
 		$testDataForCuLogEvent = array_map( function ( $row ) {
-			$row['cule_timestamp'] = $this->db->timestamp( $row['cule_timestamp'] );
+			$row['cule_timestamp'] = $this->getDb()->timestamp( $row['cule_timestamp'] );
 			return array_merge( [
 				'cule_xff'        => 0,
 				'cule_xff_hex'    => null,
 			], $row );
 		}, $testDataForCuLogEvent );
 
-		$this->db->newInsertQueryBuilder()
+		$this->getDb()->newInsertQueryBuilder()
 			->insertInto( 'cu_log_event' )
 			->rows( $testDataForCuLogEvent )
 			->execute();
@@ -603,7 +603,7 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 		];
 
 		$testDataForCuPrivateEvent = array_map( function ( $row ) use ( $testPage, $commentStore ) {
-			$row['cupe_timestamp'] = $this->db->timestamp( $row['cupe_timestamp'] );
+			$row['cupe_timestamp'] = $this->getDb()->timestamp( $row['cupe_timestamp'] );
 			return array_merge( [
 				'cupe_namespace'  => $testPage->getNamespace(),
 				'cupe_title'      => $testPage->getText(),
@@ -617,7 +617,7 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 			], $row );
 		}, $testDataForCuPrivateEvent );
 
-		$this->db->newInsertQueryBuilder()
+		$this->getDb()->newInsertQueryBuilder()
 			->insertInto( 'cu_private_event' )
 			->rows( $testDataForCuPrivateEvent )
 			->execute();
