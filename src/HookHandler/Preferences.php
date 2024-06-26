@@ -58,6 +58,10 @@ class Preferences implements GetPreferencesHook {
 				// * prefs-checkuser-tempaccount
 				'section' => 'personal/checkuser-tempaccount',
 				'raw' => true,
+				// Forces the info text to be shown on Special:GlobalPreferences, as 'info' preference types are
+				// excluded by default. This needs to be shown as it contains important information about
+				// what checking the checkbox below this text means.
+				'canglobal' => true,
 			];
 			$preferences['checkuser-temporary-account-enable'] = [
 				'type' => 'toggle',
