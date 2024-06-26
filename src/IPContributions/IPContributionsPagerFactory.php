@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\IPContributions;
 
 use InvalidArgumentException;
+use JobQueueGroup;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CommentFormatter\CommentFormatter;
@@ -25,6 +26,7 @@ class IPContributionsPagerFactory {
 	private UserFactory $userFactory;
 	private TempUserConfig $tempUserConfig;
 	private CheckUserLookupUtils $lookupUtils;
+	private JobQueueGroup $jobQueueGroup;
 
 	/**
 	 * @param LinkRenderer $linkRenderer
@@ -36,6 +38,7 @@ class IPContributionsPagerFactory {
 	 * @param UserFactory $userFactory
 	 * @param TempUserConfig $tempUserConfig
 	 * @param CheckUserLookupUtils $lookupUtils
+	 * @param JobQueueGroup $jobQueueGroup
 	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
@@ -46,7 +49,8 @@ class IPContributionsPagerFactory {
 		CommentFormatter $commentFormatter,
 		UserFactory $userFactory,
 		TempUserConfig $tempUserConfig,
-		CheckUserLookupUtils $lookupUtils
+		CheckUserLookupUtils $lookupUtils,
+		JobQueueGroup $jobQueueGroup
 	) {
 		$this->linkRenderer = $linkRenderer;
 		$this->linkBatchFactory = $linkBatchFactory;
@@ -57,6 +61,7 @@ class IPContributionsPagerFactory {
 		$this->userFactory = $userFactory;
 		$this->tempUserConfig = $tempUserConfig;
 		$this->lookupUtils = $lookupUtils;
+		$this->jobQueueGroup = $jobQueueGroup;
 	}
 
 	/**
@@ -84,6 +89,7 @@ class IPContributionsPagerFactory {
 			$this->userFactory,
 			$this->tempUserConfig,
 			$this->lookupUtils,
+			$this->jobQueueGroup,
 			$context,
 			$options,
 			$target

@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Api\Rest\Handler;
 use JobQueueGroup;
 use JobSpecification;
 use MediaWiki\Block\BlockManager;
+use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\Config\Config;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Rest\LocalizedHttpException;
@@ -151,8 +152,9 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 				'checkuserLogTemporaryAccountAccess',
 				[
 					'performer' => $this->getAuthority()->getUser()->getName(),
-					'tempUser' => $this->urlEncodeTitle( $name ),
+					'target' => $this->urlEncodeTitle( $name ),
 					'timestamp' => (int)wfTimestamp(),
+					'type' => TemporaryAccountLogger::ACTION_VIEW_IPS,
 				],
 				[],
 				null

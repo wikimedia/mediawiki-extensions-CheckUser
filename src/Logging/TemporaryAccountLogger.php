@@ -9,6 +9,7 @@ use MediaWiki\User\UserIdentity;
 use Psr\Log\LoggerInterface;
 use Wikimedia\Assert\Assert;
 use Wikimedia\Assert\ParameterAssertionException;
+use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\DBError;
 use Wikimedia\Rdbms\IDatabase;
 
@@ -16,6 +17,7 @@ use Wikimedia\Rdbms\IDatabase;
  * Defines the API for the component responsible for logging the following interactions:
  *
  * - A user views IP addresses for a temporary account
+ * - A user views temporary accounts on a given IP address or range
  * - A user enables temporary account IP viewing
  * - A user disables temporary account IP viewing
  *
@@ -29,6 +31,9 @@ class TemporaryAccountLogger {
 	 * @var string
 	 */
 	public const ACTION_VIEW_IPS = 'view-ips';
+
+	/** @var string Represents a user viewing the temporary accounts on a specific IP address */
+	public const ACTION_VIEW_TEMPORARY_ACCOUNTS_ON_IP = 'view-temporary-accounts-on-ip';
 
 	/**
 	 * Represents a user enabling or disabling their own access to view IPs
@@ -81,6 +86,19 @@ class TemporaryAccountLogger {
 	}
 
 	/**
+	 * Logs the user (the performer) viewing temporary accounts on a given IP address or range.
+	 *
+	 * @param UserIdentity $performer
+	 * @param string $ip IP address or range
+	 * @param int $timestamp
+	 */
+	public function logViewTemporaryAccountsOnIP( UserIdentity $performer, string $ip, int $timestamp ): void {
+		$this->debouncedLog(
+			$performer, IPUtils::prettifyIP( $ip ), self::ACTION_VIEW_TEMPORARY_ACCOUNTS_ON_IP, $timestamp
+		);
+	}
+
+	/**
 	 * Logs the user (the performer) viewing IP addresses for a temporary account.
 	 *
 	 * @param UserIdentity $performer
@@ -117,14 +135,14 @@ class TemporaryAccountLogger {
 
 	/**
 	 * @param UserIdentity $performer
-	 * @param string $tempUser
+	 * @param string $target
 	 * @param string $action
 	 * @param int $timestamp
 	 * @param array|null $params
 	 */
 	private function debouncedLog(
 		UserIdentity $performer,
-		string $tempUser,
+		string $target,
 		string $action,
 		int $timestamp,
 		?array $params = []
@@ -132,7 +150,7 @@ class TemporaryAccountLogger {
 		$timestampMinusDelay = $timestamp - $this->delay;
 		$actorId = $this->actorStore->findActorId( $performer, $this->dbw );
 		if ( !$actorId ) {
-			$this->log( $performer, $tempUser, $action, $params );
+			$this->log( $performer, $target, $action, $params, $timestamp );
 			return;
 		}
 
@@ -144,34 +162,34 @@ class TemporaryAccountLogger {
 				'log_action' => $action,
 				'log_actor' => $actorId,
 				'log_namespace' => NS_USER,
-				'log_title' => $tempUser,
+				'log_title' => $target,
 				$this->dbw->expr( 'log_timestamp', '>', $this->dbw->timestamp( $timestampMinusDelay ) ),
 			] )
 			->caller( __METHOD__ )
 			->fetchRow();
 
 		if ( !$logline ) {
-			$this->log( $performer, $tempUser, $action, $params, $timestamp );
+			$this->log( $performer, $target, $action, $params, $timestamp );
 		}
 	}
 
 	/**
 	 * @param UserIdentity $performer
-	 * @param string $tempUser
+	 * @param string $target
 	 * @param string $action
 	 * @param array $params
 	 * @param int|null $timestamp
 	 */
 	private function log(
 		UserIdentity $performer,
-		string $tempUser,
+		string $target,
 		string $action,
 		array $params,
 		?int $timestamp = null
 	): void {
 		$logEntry = $this->createManualLogEntry( $action );
 		$logEntry->setPerformer( $performer );
-		$logEntry->setTarget( Title::makeTitle( NS_USER, $tempUser ) );
+		$logEntry->setTarget( Title::makeTitle( NS_USER, $target ) );
 		$logEntry->setParameters( $params );
 
 		if ( $timestamp ) {

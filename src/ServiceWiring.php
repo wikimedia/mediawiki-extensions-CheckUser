@@ -160,7 +160,8 @@ return [
 			$services->getCommentFormatter(),
 			$services->getUserFactory(),
 			$services->getTempUserConfig(),
-			$services->get( 'CheckUserLookupUtils' )
+			$services->get( 'CheckUserLookupUtils' ),
+			$services->getJobQueueGroup()
 		);
 	},
 	'CheckUserEventLogger' => static function (

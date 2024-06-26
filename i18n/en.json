@@ -265,7 +265,8 @@
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|disabled}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|enabled}}",
 	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2|viewed}} IP addresses for $3",
+	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 {{GENDER:$2|viewed}} temporary accounts on $3",
 	"log-action-filter-checkuser-temporary-account": "Type of action:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Change access",
-	"log-action-filter-checkuser-temporary-account-view-ips": "View IPs"
+	"log-action-filter-checkuser-temporary-account-view-ips": "Access temporary account IP data"
 }

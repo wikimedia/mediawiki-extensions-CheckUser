@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Tests\Integration\IPContributions;
 
 use ErrorPageError;
+use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
@@ -10,6 +11,7 @@ use MediaWiki\User\User;
 use PermissionsError;
 use SpecialPageTestBase;
 use UserBlockedError;
+use Wikimedia\IPUtils;
 
 /**
  * @covers \MediaWiki\CheckUser\IPContributions\SpecialIPContributions
@@ -97,6 +99,21 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 			// Use occurrences of data attribute in to determine how many rows,
 			// to test pager.
 			$this->assertSame( $expectedCount, substr_count( $html, 'data-mw-revid' ) );
+			$this->runJobs();
+			// Test that a log entry was inserted for the viewing of this target.
+			$this->assertSame(
+				1,
+				$this->getDb()->newSelectQueryBuilder()
+					->from( 'logging' )
+					->where( [
+						'log_type' => TemporaryAccountLogger::LOG_TYPE,
+						'log_action' => TemporaryAccountLogger::ACTION_VIEW_TEMPORARY_ACCOUNTS_ON_IP,
+						'log_actor' => self::$checkuser->getActorId(),
+						'log_namespace' => NS_USER,
+						'log_title' => IPUtils::prettifyIP( IPUtils::sanitizeRange( $target ) ),
+					] )
+					->fetchRowCount()
+			);
 		} else {
 			$this->assertStringNotContainsString( 'mw-pager-body', $html );
 		}

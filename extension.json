@@ -646,7 +646,8 @@
 				"change-access"
 			],
 			"view-ips": [
-				"view-ips"
+				"view-ips",
+				"view-temporary-accounts-on-ip"
 			]
 		}
 	},

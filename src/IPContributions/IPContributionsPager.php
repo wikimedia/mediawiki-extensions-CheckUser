@@ -2,8 +2,11 @@
 
 namespace MediaWiki\CheckUser\IPContributions;
 
+use JobQueueGroup;
+use JobSpecification;
 use LogicException;
 use MediaWiki\Cache\LinkBatchFactory;
+use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Context\IContextSource;
@@ -21,6 +24,7 @@ use Wikimedia\Rdbms\SelectQueryBuilder;
 class IPContributionsPager extends ContributionsPager {
 	private TempUserConfig $tempUserConfig;
 	private CheckUserLookupUtils $checkUserLookupUtils;
+	private JobQueueGroup $jobQueueGroup;
 
 	/**
 	 * @param LinkRenderer $linkRenderer
@@ -32,6 +36,7 @@ class IPContributionsPager extends ContributionsPager {
 	 * @param UserFactory $userFactory
 	 * @param TempUserConfig $tempUserConfig
 	 * @param CheckUserLookupUtils $checkUserLookupUtils
+	 * @param JobQueueGroup $jobQueueGroup
 	 * @param IContextSource $context
 	 * @param array $options
 	 * @param ?UserIdentity $target IP address for temporary user contributions lookup
@@ -46,6 +51,7 @@ class IPContributionsPager extends ContributionsPager {
 		UserFactory $userFactory,
 		TempUserConfig $tempUserConfig,
 		CheckUserLookupUtils $checkUserLookupUtils,
+		JobQueueGroup $jobQueueGroup,
 		IContextSource $context,
 		array $options,
 		?UserIdentity $target = null
@@ -64,6 +70,26 @@ class IPContributionsPager extends ContributionsPager {
 		);
 		$this->tempUserConfig = $tempUserConfig;
 		$this->checkUserLookupUtils = $checkUserLookupUtils;
+		$this->jobQueueGroup = $jobQueueGroup;
+	}
+
+	public function doQuery() {
+		parent::doQuery();
+		// Log that the user has viewed the temporary accounts editing on the target IP or IP range, as if we reach
+		// here query has been made for a valid target and if there are rows to display they will be displayed.
+		$this->jobQueueGroup->push(
+			new JobSpecification(
+				'checkuserLogTemporaryAccountAccess',
+				[
+					'performer' => $this->getUser()->getName(),
+					'target' => $this->target,
+					'timestamp' => (int)wfTimestamp(),
+					'type' => TemporaryAccountLogger::ACTION_VIEW_TEMPORARY_ACCOUNTS_ON_IP,
+				],
+				[],
+				null
+			)
+		);
 	}
 
 	/**
