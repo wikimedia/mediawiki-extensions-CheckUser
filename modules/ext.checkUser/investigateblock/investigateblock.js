@@ -52,11 +52,14 @@
 		}
 	}
 
-	const dropdownAndInputWidget = OO.ui.infuse( $( '#mw-input-wpReason' ) );
-	dropdownWidget = dropdownAndInputWidget.dropdowninput;
-	otherReasonWidget = dropdownAndInputWidget.textinput;
+	const $dropdownAndInput = $( '#mw-input-wpReason' );
+	if ( $dropdownAndInput.length > 0 ) {
+		const dropdownAndInputWidget = OO.ui.infuse( $dropdownAndInput );
+		dropdownWidget = dropdownAndInputWidget.dropdowninput;
+		otherReasonWidget = dropdownAndInputWidget.textinput;
 
-	dropdownWidget.on( 'change', updateRequiredAttributeOnOtherField );
+		dropdownWidget.on( 'change', updateRequiredAttributeOnOtherField );
 
-	updateRequiredAttributeOnOtherField();
+		updateRequiredAttributeOnOtherField();
+	}
 }() );
