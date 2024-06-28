@@ -128,7 +128,7 @@
 	"checkuser-localonly": "未整合",
 	"checkuser-massblock": "封禁选中用户",
 	"checkuser-massblock-text-multi-lock-only": "您在此wiki上没有相应的权限封禁用户，但仍然可以使用下列链接锁定选中的账号。",
-	"checkuser-massblock-text": "按下此表单中的按钮就可以封禁所选择的账号和IP，这些账号或IP将预先填写在{{#special:InvestigateBlock}}表单中。",
+	"checkuser-massblock-text": "使用上面结果中的复选框选择您想要封禁的账号和IP。然后您可以使用下面的按钮来打开 {{#special:InvestigateBlock}}表单，其中已预先填写目标输入。",
 	"checkuser-massblock-commit-accounts": "封禁所选账号",
 	"checkuser-massblock-commit-ips": "封禁选中的IP",
 	"checkuser-block-reason-dropdown": "* 常见封禁原因\n** 滥用多个傀儡账户\n** 添加垃圾链接\n** 破坏行为",
