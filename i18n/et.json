@@ -51,7 +51,7 @@
 	"checkuser-wasblocked": "Varem blokeeritud",
 	"checkuser-localonly": "Ei ole globaalset kontot",
 	"checkuser-massblock": "Blokeeri valitud kasutajad",
-	"checkuser-massblock-text": "Eespool valitud kontod ja IP-aadressid saab blokeerida, vajutades selle vormi nuppe. Need kontod või IP-aadressid on vormis {{#special:InvestigateBlock}} eeltäidetud.",
+	"checkuser-massblock-text": "Kasuta ülaltoodud tulemustes märkeruute, et valida kontod ja IP-aadressid, mille soovid blokeerida. Seejärel saad kasutada alljärgnevaid nuppe, mis avavad uuritavatega eeltäidetud vormi {{#special:InvestigateBlock}}.",
 	"checkuser-noreason": "Päringu jaoks peab põhjuse andma.",
 	"checkuser-search": "Kasutajakontrolli logi sissekannete otsimine",
 	"checkuser-search-submit": "Otsi",
