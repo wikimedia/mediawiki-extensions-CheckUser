@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\IPContributions;
 
+use InvalidArgumentException;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CommentFormatter\CommentFormatter;
@@ -61,7 +62,7 @@ class IPContributionsPagerFactory {
 	/**
 	 * @param IContextSource $context
 	 * @param array $options
-	 * @param UserIdentity $target
+	 * @param UserIdentity $target IP address for temporary user contributions lookup
 	 * @return IPContributionsPager
 	 */
 	public function createPager(
@@ -69,6 +70,10 @@ class IPContributionsPagerFactory {
 		array $options,
 		UserIdentity $target
 	): IPContributionsPager {
+		$username = $target->getName();
+		if ( !$this->lookupUtils->isValidIPOrRange( $username ) ) {
+			throw new InvalidArgumentException( "Invalid target: $username" );
+		}
 		return new IPContributionsPager(
 			$this->linkRenderer,
 			$this->linkBatchFactory,

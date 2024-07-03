@@ -2,8 +2,10 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\IPContributions;
 
+use InvalidArgumentException;
 use MediaWiki\CheckUser\IPContributions\IPContributionsPager;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 
 /**
@@ -17,8 +19,22 @@ class IPContributionsPagerFactoryTest extends MediaWikiIntegrationTestCase {
 		$this->assertInstanceOf(
 			IPContributionsPager::class,
 			$this->getServiceContainer()->get( 'CheckUserIPContributionsPagerFactory' )
-				->createPager( RequestContext::getMain(), [], $this->getTestUser()->getUser() ),
+				->createPager(
+					RequestContext::getMain(),
+					[],
+					new UserIdentityValue( 0, '127.0.0.1' )
+				),
 			'CheckUserIPContributionsPagerFactory::createPager should create an IPContributionsPager instance'
 		);
+	}
+
+	public function testCreatePagerInvalidTarget() {
+		$this->expectException( InvalidArgumentException::class );
+		$this->getServiceContainer()->get( 'CheckUserIPContributionsPagerFactory' )
+			->createPager(
+				RequestContext::getMain(),
+				[],
+				$this->getTestUser()->getUser()
+			);
 	}
 }
