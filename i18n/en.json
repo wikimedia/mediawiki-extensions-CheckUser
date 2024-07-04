@@ -260,7 +260,7 @@
 	"checkuser-tempaccount-reveal-ip-error": "error",
 	"checkuser-tempaccount-specialblock-ips": "This is a temporary user using the following {{PLURAL:$1|IP|IPs}}: $2",
 	"checkuser-temporary-account-log-name": "Checkuser temporary account log",
-	"checkuser-temporary-account-log-header": "This is a log of:\n# Views of the IP addresses used by temporary accounts; and\n# Changes to user access levels for viewing IP addresses used by temporary accounts.",
+	"checkuser-temporary-account-log-header": "This is a log of:\n# Viewing IP addresses used by a temporary account\n# Viewing temporary accounts associated with an IP address or IP address range\n# Changing user access levels for viewing IP addresses used by temporary accounts",
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|his|her|their}} own access to view IP addresses of temporary accounts",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|disabled}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|enabled}}",
