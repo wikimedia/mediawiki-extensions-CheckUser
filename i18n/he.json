@@ -262,7 +262,8 @@
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|כיבה|כיבתה}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|הפעיל|הפעילה}}",
 	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2|צפה|צפתה}} בכתובות IP עבור $3",
+	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 {{GENDER:$2|צפה|צפתה}} החשבונות זמניים בדף $3",
 	"log-action-filter-checkuser-temporary-account": "סוג הפעולה:",
 	"log-action-filter-checkuser-temporary-account-change-access": "שינוי גישה",
-	"log-action-filter-checkuser-temporary-account-view-ips": "הצגת כתובות IP"
+	"log-action-filter-checkuser-temporary-account-view-ips": "גישה לנתוני IP של חשבונות זמניים"
 }
