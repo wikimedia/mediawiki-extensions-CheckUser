@@ -3,19 +3,15 @@
 namespace MediaWiki\CheckUser;
 
 use DatabaseLogEntry;
-use ExtensionRegistry;
 use JobSpecification;
 use LogEntryBase;
 use LogFormatter;
 use MailAddress;
-use MediaWiki\Auth\AuthenticationResponse;
-use MediaWiki\Auth\Hook\AuthManagerLoginAuthenticateAuditHook;
 use MediaWiki\Auth\Hook\LocalUserCreatedHook;
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
-use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Hook\EmailUserHook;
 use MediaWiki\Hook\RecentChange_saveHook;
 use MediaWiki\Logger\LoggerFactory;
@@ -26,13 +22,11 @@ use MediaWiki\User\Hook\User__mailPasswordInternalHook;
 use MediaWiki\User\User;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
-use MediaWiki\User\UserRigorOptions;
 use MessageSpecifier;
 use RecentChange;
 use Wikimedia\ScopedCallback;
 
 class Hooks implements
-	AuthManagerLoginAuthenticateAuditHook,
 	EmailUserHook,
 	LocalUserCreatedHook,
 	RecentChange_saveHook,
@@ -442,116 +436,6 @@ class Hooks implements
 				$row,
 				__METHOD__,
 				$user
-			);
-		}
-	}
-
-	/**
-	 * @param AuthenticationResponse $ret
-	 * @param User|null $user
-	 * @param string|null $username
-	 * @param string[] $extraData
-	 */
-	public function onAuthManagerLoginAuthenticateAudit( $ret, $user, $username, $extraData ) {
-		global $wgCheckUserLogLogins, $wgCheckUserLogSuccessfulBotLogins;
-
-		if ( !$wgCheckUserLogLogins ) {
-			return;
-		}
-
-		$services = MediaWikiServices::getInstance();
-
-		if ( !$user && $username !== null ) {
-			$user = $services->getUserFactory()->newFromName( $username, UserRigorOptions::RIGOR_USABLE );
-		}
-
-		if ( !$user ) {
-			return;
-		}
-
-		if (
-			$wgCheckUserLogSuccessfulBotLogins !== true &&
-			$ret->status === AuthenticationResponse::PASS &&
-			$user->isBot()
-		) {
-			return;
-		}
-
-		$userName = $user->getName();
-
-		if ( $ret->status === AuthenticationResponse::FAIL ) {
-			// The login attempt failed so use the IP as the performer
-			//  and checkuser-login-failure as the message.
-			$msg = 'checkuser-login-failure';
-			$performer = UserIdentityValue::newAnonymous(
-				RequestContext::getMain()->getRequest()->getIP()
-			);
-
-			if (
-				$ret->failReasons &&
-				ExtensionRegistry::getInstance()->isLoaded( 'CentralAuth' ) &&
-				in_array( CentralAuthUser::AUTHENTICATE_GOOD_PASSWORD, $ret->failReasons )
-			) {
-				// If the password was correct, then say so in the shown message.
-				$msg = 'checkuser-login-failure-with-good-password';
-
-				if (
-					in_array( CentralAuthUser::AUTHENTICATE_LOCKED, $ret->failReasons ) &&
-					array_diff(
-						$ret->failReasons,
-						[ CentralAuthUser::AUTHENTICATE_LOCKED, CentralAuthUser::AUTHENTICATE_GOOD_PASSWORD ]
-					) === [] &&
-					$user->isRegistered()
-				) {
-					// If
-					//  * The user is locked
-					//  * The password is correct
-					//  * The user exists locally on this wiki
-					//  * Nothing else caused the request to fail
-					// then we can assume that if the account was not locked this login attempt
-					// would have been successful. Therefore, mark the user as the performer
-					// to indicate this information to the CheckUser and so it shows up when
-					// checking the locked account.
-					$performer = $user;
-				}
-			}
-		} elseif ( $ret->status === AuthenticationResponse::PASS ) {
-			$msg = 'checkuser-login-success';
-			$performer = $user;
-		} else {
-			// Abstain, Redirect, etc.
-			return;
-		}
-
-		$target = "[[User:$userName|$userName]]";
-
-		$eventTablesMigrationStage = $services->getMainConfig()
-			->get( 'CheckUserEventTablesMigrationStage' );
-		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			self::insertIntoCuPrivateEventTable(
-				[
-					'cupe_namespace'  => NS_USER,
-					'cupe_title'      => $userName,
-					'cupe_log_action' => substr( $msg, strlen( 'checkuser-' ) ),
-					'cupe_params'     => LogEntryBase::makeParamBlob( [ '4::target' => $userName ] ),
-				],
-				__METHOD__,
-				$performer
-			);
-		}
-		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
-			$row = [
-				'cuc_namespace'  => NS_USER,
-				'cuc_title'      => $userName,
-				'cuc_actiontext' => wfMessage( $msg )->params( $target )->inContentLanguage()->text(),
-			];
-			if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-				$row['cuc_only_for_read_old'] = 1;
-			}
-			self::insertIntoCuChangesTable(
-				$row,
-				__METHOD__,
-				$performer
 			);
 		}
 	}

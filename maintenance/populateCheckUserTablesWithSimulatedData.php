@@ -171,7 +171,8 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 		$this->privateEventsHandler = new CheckUserPrivateEventsHandler(
 			$this->getServiceContainer()->get( 'CheckUserInsert' ),
 			$this->getConfig(),
-			$this->getServiceContainer()->getUserIdentityLookup()
+			$this->getServiceContainer()->getUserIdentityLookup(),
+			$this->getServiceContainer()->getUserFactory()
 		);
 		$services = MediaWikiServices::getInstance();
 		$userForEmails = $this->createRegisteredUser();
@@ -609,7 +610,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			} else {
 				$failReasons[] = "bad password";
 			}
-			$this->hooks->onAuthManagerLoginAuthenticateAudit(
+			$this->privateEventsHandler->onAuthManagerLoginAuthenticateAudit(
 				AuthenticationResponse::newFail( wfMessage( 'test' ), $failReasons ),
 				$actorAsUserObject,
 				$actor->getName(),
@@ -621,7 +622,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 		}
 		if ( $actor->isRegistered() ) {
 			// Simulate a login.
-			$this->hooks->onAuthManagerLoginAuthenticateAudit(
+			$this->privateEventsHandler->onAuthManagerLoginAuthenticateAudit(
 				AuthenticationResponse::newPass( $actor->getName() ),
 				$actorAsUserObject,
 				$actor->getName(),
