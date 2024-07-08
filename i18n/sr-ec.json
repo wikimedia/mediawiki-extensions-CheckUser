@@ -205,6 +205,8 @@
 	"checkuser-investigate-compare-table-header-useragent": "Кориснички агент",
 	"checkuser-investigate-tour-targets-title": "Провера више корисника и IP адреса?",
 	"checkuser-investigate-tour-block-title": "Блокирање?",
+	"checkuser-ip-contributions-tab-label-contributions": "Доприноси",
+	"checkuser-ip-contributions-tab-label-archive-contributions": "Избрисани доприноси",
 	"prefs-checkuser-tempaccount": "Прикажи IP адресе привремених налога",
 	"checkuser-tempaccount-enable-preference": "Приказује IP адресе привремених налога",
 	"checkuser-tempaccount-reveal-ip-button-label": "Прикажи IP",
@@ -216,7 +218,8 @@
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|онемогућио|онемогућила}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|омогућио|омогућила}}",
 	"logentry-checkuser-temporary-account-view-ips": "$1 је {{GENDER:$2|видео|видела}} IP адресу за $3",
+	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 је {{GENDER:$2|погледао|погледала}} привремене налоге на $3",
 	"log-action-filter-checkuser-temporary-account": "Врста радње:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Промени приступ",
-	"log-action-filter-checkuser-temporary-account-view-ips": "Види IP адресе"
+	"log-action-filter-checkuser-temporary-account-view-ips": "Приступи IP подацима привременог налога"
 }

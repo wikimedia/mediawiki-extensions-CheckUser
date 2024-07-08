@@ -128,6 +128,8 @@
 	"checkuser-investigate-tour-addusertargets-title": "Angen mwy o gyd-destun?",
 	"checkuser-investigate-tour-block-title": "Eisiau blocio?",
 	"checkuser-investigate-tour-copywikitext-title": "Eisiau copïo'r data?",
+	"checkuser-ip-contributions-tab-label-contributions": "Cyfraniadau",
+	"checkuser-ip-contributions-tab-label-archive-contributions": "Cyfraniadau wedi'u dileu",
 	"checkuser-tempaccount-reveal-ip-button-label": "Dangos IP",
 	"checkuser-tempaccount-reveal-ip-missing": "ddim ar gael"
 }

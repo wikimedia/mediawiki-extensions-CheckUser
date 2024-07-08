@@ -89,7 +89,7 @@
 	"checkuser-localonly": "Необединета",
 	"checkuser-massblock": "Блокирај ги избраните корисници",
 	"checkuser-massblock-text-multi-lock-only": "Ги немате потребните права за блокирање корисници на ова вики. Сепак ќе можете да ги заклучите избраните сметки користејќи ја врската/те подолу.",
-	"checkuser-massblock-text": "Избраните сметки и IP-адреси можат да се блокираат стискајќи на копчињата во овој образец, каде овие сметки или IP-адреси ќе бидат претходно пополнети во образецот {{#special:InvestigateBlock}}.",
+	"checkuser-massblock-text": "Послужете се со штикларниците во гореприкажаниот исход за да изберете сметки и IP-адреси кои сакате да ги блокирате. Потоа можете да се послужите со копчињата подолу, со што ќе го отворите образецот {{#special:InvestigateBlock}} со претходно пополнети полиња за цели.",
 	"checkuser-massblock-commit-accounts": "Блокирај избрани сметки",
 	"checkuser-massblock-commit-ips": "Блокирај избрани IP-адреси",
 	"checkuser-block-reason-dropdown": "*Чести причини за блокирање\n**Злоупотреба на повеќе сметки\n** Ставање спам до надворешни страници\n** Вандализам",
@@ -243,6 +243,8 @@
 	"checkuser-ip-contributions-permission-error-description": "За да гледате придонеси од привремена сметка со IP-адреса, прифатете го договорот во [[Special:Preferences|вашите нагодувања]].",
 	"checkuser-ip-contributions-target-label": "IP-адреса или опсег",
 	"checkuser-ip-contributions-target-error-no-ip": "Не е важечка IP-адреса",
+	"checkuser-ip-contributions-tab-label-contributions": "Придонеси",
+	"checkuser-ip-contributions-tab-label-archive-contributions": "Избришани придонеси",
 	"prefs-checkuser-tempaccount": "Откривање на IP-адреси за привремени сметки",
 	"checkuser-tempaccount-enable-preference-description": "Кога ја користите алаткава, должни сте тоа да го правите во склад со правилата.",
 	"checkuser-tempaccount-enable-preference": "Овозможи откривање на IP-адреси за привремени сметки",
@@ -252,12 +254,13 @@
 	"checkuser-tempaccount-reveal-ip-error": "грешка",
 	"checkuser-tempaccount-specialblock-ips": "Ова е привремен корисник кој {{PLURAL:$1|ја користи следнава IP-адреса|ги користи следниве IP-адреси}}: $2",
 	"checkuser-temporary-account-log-name": "Дневник на привремени сметки",
-	"checkuser-temporary-account-log-header": "Ова е дневник на:\n# Посети на IP-адресите користени од привремени сметки; и\n# Промени во нивата на кориснички пристап за преглед на IP-адреси користени од привремени сметки.",
+	"checkuser-temporary-account-log-header": "Ова е дневник на:\n# Прегледи на IP-адресите користени од привремена сметка\n# Прегледи на привремени сметки поврзани со IP-адреса или адресен опсег\n# Промени во нивата на кориснички пристап за преглед на IP-адреси користени од привремени сметки",
 	"logentry-checkuser-temporary-account-change-access": "$1 го $4 {{GENDER:$2|неговиот|нејзиниот|неговата}} пристап до преглед на IP-адреси на привремени сметки",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|оневозможи}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|овозможи}}",
 	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2|погледа}} IP-адреси за $3",
+	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 {{GENDER:$2|прегледа}} привремени сметки на $3",
 	"log-action-filter-checkuser-temporary-account": "Вид дејство:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Смени пристап",
-	"log-action-filter-checkuser-temporary-account-view-ips": "Погл. IP-адреси"
+	"log-action-filter-checkuser-temporary-account-view-ips": "Погл. IP-податоци на привремени сметки"
 }

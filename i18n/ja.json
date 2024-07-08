@@ -62,8 +62,8 @@
 	"right-checkuser-temporary-account": "一時アカウントで使用されているIPアドレスを閲覧",
 	"right-checkuser-temporary-account-no-preference": "個人設定を確認せずに、臨時アカウントで使用されているIPアドレスを閲覧",
 	"right-checkuser-temporary-account-log": "一時的なアカウントのIPアドレスへのアクセスの記録を閲覧",
-	"grant-checkuser": "チェックユーザー・データへのアクセス",
-	"grant-checkuser-temporary-account": "一時アカウントのチェックユーザー・データへのアクセス",
+	"grant-checkuser": "利用者調査データへのアクセス",
+	"grant-checkuser-temporary-account": "一時アカウントの利用者調査データへのアクセス",
 	"action-checkuser": "利用者のIPアドレスとその他の情報の調査",
 	"action-checkuser-log": "利用者調査の記録の閲覧",
 	"action-checkuser-temporary-account": "臨時アカウントで使用されているIPアドレスの閲覧",
@@ -110,7 +110,7 @@
 	"checkuser-toollink-check": "チェック",
 	"checkuser-check-this-user": "この利用者を調査",
 	"checkuser-investigate-this-user": "この利用者を調査する",
-	"checkuser-recent-checks": "この対象に対するチェック",
+	"checkuser-recent-checks": "この対象に対する調査記録",
 	"checkuser-log-checks-by": "調査記録",
 	"checkuser-log-checks-on": "被調査記録",
 	"checkuser-log-link-text": "記録",
@@ -293,5 +293,5 @@
 	"logentry-checkuser-temporary-account-view-ips": "$1 が $3 のIPアドレスを{{GENDER:$2|閲覧しました}}",
 	"log-action-filter-checkuser-temporary-account": "操作の種類:",
 	"log-action-filter-checkuser-temporary-account-change-access": "アクセスを変更",
-	"log-action-filter-checkuser-temporary-account-view-ips": "IPを閲覧"
+	"log-action-filter-checkuser-temporary-account-view-ips": "臨時アカウントのIPデータにアクセス"
 }

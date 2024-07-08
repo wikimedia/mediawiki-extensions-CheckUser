@@ -225,6 +225,8 @@
 	"checkuser-investigate-tour-block-desc": "Omogoča vam, da izberete uporabnike, ki jih želite blokirati, nato pa vas popelje do obrazca za blokiranje, da izberete ustrezno blokiranje.",
 	"checkuser-investigate-tour-copywikitext-title": "Želite kopirati podatke?",
 	"checkuser-investigate-tour-copywikitext-desc": "Kopirajte primerjalno tabelo z enim klikom in jo prenesite v CUWiki. Upoštevajte, da kopirate samo tisto, kar je vidno, in ne vseh strani preiskave.",
+	"checkuser-ip-contributions-tab-label-contributions": "Prispevki",
+	"checkuser-ip-contributions-tab-label-archive-contributions": "Izbrisani prispevki",
 	"prefs-checkuser-tempaccount": "Razkritje IP-naslova začasnega računa",
 	"checkuser-tempaccount-enable-preference": "Omogoči razkritje IP-naslovov začasnih računov",
 	"checkuser-tempaccount-no-ip-results": "Za tega začasnega uporabnika v {{PLURAL:$1|zadnjem dnevu|zadnjih $1 dneh}} ni podatkov IP",
@@ -233,12 +235,13 @@
 	"checkuser-tempaccount-reveal-ip-error": "napaka",
 	"checkuser-tempaccount-specialblock-ips": "To je začasen uporabnik, ki uporablja naslednje {{PLURAL:$1|IP|IP-je}}: $2",
 	"checkuser-temporary-account-log-name": "Dnevnik začasnih računov CheckUser",
-	"checkuser-temporary-account-log-header": "To je dnevnik:\n# ogledov IP-naslovov, ki jih uporabljajo začasni računi; in\n# sprememb ravni uporabniškega dostopa za ogled IP-naslovov, ki jih uporabljajo začasni računi.",
+	"checkuser-temporary-account-log-header": "To je dnevnik:\n# ogledov IP-naslovov, ki jih uporablja začasni račun; \n# ogledov začasnihv računov, povezanih z IP-naslovom ali razponom IP-naslovov; in\n# sprememb ravni uporabniškega dostopa za ogled IP-naslovov, ki jih uporabljajo začasni računi.",
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|svoj}} lastni dostop za ogled IP-naslovov začasnih računov",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|je onemogočil|je onemogočila|je onemogočil_a}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|je omogočil|je omogočila|je omogočil_a}}",
 	"logentry-checkuser-temporary-account-view-ips": "$1 si je {{GENDER:$2|ogledal|ogledala|ogledal_a}} IP-naslove za $3",
+	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 si je {{GENDER:$2|ogledal|ogledala|ogledal_a}} začasne račune v projektu $3",
 	"log-action-filter-checkuser-temporary-account": "Vrsta dejanja:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Sprememba dostopa",
-	"log-action-filter-checkuser-temporary-account-view-ips": "Ogled IP-jev"
+	"log-action-filter-checkuser-temporary-account-view-ips": "Dostop do začasnih podatkov IP-računa"
 }

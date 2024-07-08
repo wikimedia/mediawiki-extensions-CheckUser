@@ -195,6 +195,8 @@
 	"checkuser-investigate-subtitle-link-restart-tour": "ট্যুর পুনরাম্ভ করুন",
 	"checkuser-investigate-tour-targets-title": "একাধিক ব্যবহারকারী ও আইপি পরীক্ষা করছেন?",
 	"checkuser-investigate-tour-block-title": "বাধা দিতে চান?",
+	"checkuser-ip-contributions-tab-label-contributions": "অবদান",
+	"checkuser-ip-contributions-tab-label-archive-contributions": "অপসারিত অবদান",
 	"checkuser-tempaccount-reveal-ip-button-label": "আইপি দেখান",
 	"checkuser-tempaccount-reveal-ip-missing": "অনুপলব্ধ",
 	"checkuser-tempaccount-reveal-ip-error": "ত্রুটি",

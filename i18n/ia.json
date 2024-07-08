@@ -239,6 +239,8 @@
 	"checkuser-ip-contributions-permission-error-description": "Pro examinar le contributiones de conto temporari pro un adresse IP, per favor accepta le accordo in [[Special:Preferences|tu preferentias]].",
 	"checkuser-ip-contributions-target-label": "Adresse o intervallo IP",
 	"checkuser-ip-contributions-target-error-no-ip": "Non es un adresse IP valide",
+	"checkuser-ip-contributions-tab-label-contributions": "Contributiones",
+	"checkuser-ip-contributions-tab-label-archive-contributions": "Contributiones delite",
 	"prefs-checkuser-tempaccount": "Revelar adresses IP de contos temporari",
 	"checkuser-tempaccount-enable-preference-description": "Quando tu usa iste instrumento, tu debe assecurar te de facer lo in modo conforme al politica.",
 	"checkuser-tempaccount-enable-preference": "Activar le revelation del adresses IP de contos temporari",
@@ -248,12 +250,13 @@
 	"checkuser-tempaccount-reveal-ip-error": "error",
 	"checkuser-tempaccount-specialblock-ips": "Isto es un usator temporari qui usa le sequente adresse{{PLURAL:$1||s}} IP: $2",
 	"checkuser-temporary-account-log-name": "Registro de contos temporari Checkuser",
-	"checkuser-temporary-account-log-header": "Isto es un registro de:\n# Consultas del adresses IP usate per contos temporari; e\n# Cambiamentos de nivellos de accesso de usatores pro consultar adresses IP usate per contos temporari.",
+	"checkuser-temporary-account-log-header": "Isto es un registro de:\n# Consultas de adresses IP usate per un conto temporari\n# Consultas de contos temporari associate a un adresse IP o intervallo de adresses IP\n# Cambiamentos de nivellos de accesso de usatores pro consultar adresses IP usate per contos temporari",
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|su}} proprie accesso pro vider le adresses IP de contos temporari",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|ha disactivate}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|ha activate}}",
 	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2|ha consultate}} le adresses IP pro $3",
+	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 {{GENDER:$2|ha examinate}} le contos temporari sur $3",
 	"log-action-filter-checkuser-temporary-account": "Typo de action:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Cambiar accesso",
-	"log-action-filter-checkuser-temporary-account-view-ips": "Vider IPs"
+	"log-action-filter-checkuser-temporary-account-view-ips": "Acceder al datos de adresse IP de contos temporari"
 }
