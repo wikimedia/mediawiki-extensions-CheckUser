@@ -10,10 +10,12 @@ use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\HookContainer\HookContainer;
+use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Request\WebRequest;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserIdentity;
+use MediaWiki\User\UserIdentityValue;
 use RecentChange;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -57,6 +59,118 @@ class CheckUserInsert {
 		$this->connectionProvider = $connectionProvider;
 		$this->contentLanguage = $contentLanguage;
 		$this->tempUserConfig = $tempUserConfig;
+	}
+
+	/**
+	 * Hook function for RecentChange_save. Saves data about the RecentChange object, along with private user data
+	 * (such as their IP address and user agent string) from the main request, in the CheckUser result tables
+	 * so that it can be queried by a CheckUser if they run a check.
+	 *
+	 * Note that other extensions (like AbuseFilter) may call this function directly
+	 * if they want to send data to CU without creating a recentchanges entry.
+	 *
+	 * @param RecentChange $rc
+	 */
+	public function updateCheckUserData( RecentChange $rc ) {
+		// RC_CATEGORIZE recent changes are generally triggered by other edits, so there is no reason to store
+		// checkuser data about them (T125209).
+		if ( $rc->getAttribute( 'rc_type' ) == RC_CATEGORIZE ) {
+			return;
+		}
+
+		// RC_EXTERNAL recent changes are not triggered by actions on the local wiki, so there is no reason to store
+		// checkuser data about them (T125664).
+		if ( $rc->getAttribute( 'rc_type' ) == RC_EXTERNAL ) {
+			return;
+		}
+
+		$attribs = $rc->getAttributes();
+		$dbw = $this->connectionProvider->getPrimaryDatabase();
+
+		if ( $rc->getAttribute( 'rc_type' ) == RC_LOG ) {
+			// Write to either cu_log_event or cu_private_event if this is a log event
+			$logId = $rc->getAttribute( 'rc_logid' );
+			$logEntry = null;
+			if ( $logId != 0 ) {
+				$logEntry = DatabaseLogEntry::newFromId( $logId, $dbw );
+				if ( $logEntry === null ) {
+					LoggerFactory::getInstance( 'CheckUser' )->warning(
+						'RecentChange with id {rc_id} has non-existing rc_logid {rc_logid}',
+						[
+							'rc_id' => $rc->getAttribute( 'rc_id' ),
+							'rc_logid' => $rc->getAttribute( 'rc_logid' ),
+							'exception' => new \RuntimeException()
+						]
+					);
+				}
+			}
+			// In some rare cases the LogEntry for this rc_logid may not exist even if
+			// rc_logid is not zero (T343983). If this occurs, consider rc_logid to be zero
+			// and therefore save the entry in cu_private_event
+			if ( $logEntry === null ) {
+				$rcRow = [
+					'cupe_namespace'  => $attribs['rc_namespace'],
+					'cupe_title'      => $attribs['rc_title'],
+					'cupe_log_type'   => $attribs['rc_log_type'],
+					'cupe_log_action' => $attribs['rc_log_action'],
+					'cupe_params'     => $attribs['rc_params'],
+					'cupe_timestamp'  => $dbw->timestamp( $attribs['rc_timestamp'] ),
+				];
+
+				// If rc_comment_id is set, then use it. Instead, get the comment id by a lookup
+				if ( isset( $attribs['rc_comment_id'] ) ) {
+					$rcRow['cupe_comment_id'] = $attribs['rc_comment_id'];
+				} else {
+					$rcRow['cupe_comment_id'] = $this->commentStore
+						->createComment( $dbw, $attribs['rc_comment'], $attribs['rc_comment_data'] )->id;
+				}
+
+				// On PG, MW unsets cur_id due to schema incompatibilities. So it may not be set!
+				if ( isset( $attribs['rc_cur_id'] ) ) {
+					$rcRow['cupe_page'] = $attribs['rc_cur_id'];
+				}
+
+				$this->insertIntoCuPrivateEventTable(
+					$rcRow,
+					__METHOD__,
+					$rc->getPerformerIdentity(),
+					$rc
+				);
+			} else {
+				$this->insertIntoCuLogEventTable(
+					$logEntry,
+					__METHOD__,
+					$rc->getPerformerIdentity(),
+					$rc
+				);
+			}
+		} else {
+			// Log to cu_changes if this isn't a log entry.
+			$rcRow = [
+				'cuc_namespace'  => $attribs['rc_namespace'],
+				'cuc_title'      => $attribs['rc_title'],
+				'cuc_minor'      => $attribs['rc_minor'],
+				'cuc_comment'    => $rc->getAttribute( 'rc_comment' ),
+				'cuc_this_oldid' => $attribs['rc_this_oldid'],
+				'cuc_last_oldid' => $attribs['rc_last_oldid'],
+				'cuc_type'       => $attribs['rc_type'],
+				'cuc_timestamp'  => $dbw->timestamp( $attribs['rc_timestamp'] ),
+			];
+
+			// On PG, MW unsets cur_id due to schema incompatibilities. So it may not be set!
+			if ( isset( $attribs['rc_cur_id'] ) ) {
+				$rcRow['cuc_page_id'] = $attribs['rc_cur_id'];
+			}
+
+			$this->hookRunner->onCheckUserInsertForRecentChange( $rc, $rcRow );
+
+			$this->insertIntoCuChangesTable(
+				$rcRow,
+				__METHOD__,
+				new UserIdentityValue( $attribs['rc_user'], $attribs['rc_user_text'] ),
+				$rc
+			);
+		}
 	}
 
 	/**
