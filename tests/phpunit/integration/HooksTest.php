@@ -10,8 +10,6 @@ use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Psr\Log\LoggerInterface;
 use RecentChange;
-use Wikimedia\Rdbms\IExpression;
-use Wikimedia\Rdbms\LikeValue;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -249,49 +247,6 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 				[ SCHEMA_COMPAT_OLD | SCHEMA_COMPAT_WRITE_NEW ],
 			'With event table migration set to new' => [ SCHEMA_COMPAT_NEW ]
 		];
-	}
-
-	/** @dataProvider provideEventMigrationStageValues */
-	public function testonUser__mailPasswordInternal( int $eventTableMigrationStage ) {
-		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $eventTableMigrationStage );
-		$performer = $this->getTestUser()->getUser();
-		$account = $this->getTestSysop()->getUser();
-		( new Hooks() )->onUser__mailPasswordInternal( $performer, 'IGNORED', $account );
-		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$this->assertRowCount(
-				1, 'cu_private_event', 'cupe_id',
-				'The row was not inserted or was inserted with the wrong data',
-				[
-					'cupe_actor' => $performer->getActorId(),
-					'cupe_namespace' => NS_USER,
-					'cupe_title' => $account->getName(),
-					$this->getDb()->expr( 'cupe_params', IExpression::LIKE, new LikeValue(
-						$this->getDb()->anyString(),
-						'"4::receiver"',
-						$this->getDb()->anyString(),
-						$account->getName(),
-						$this->getDb()->anyString()
-					) )
-				]
-			);
-		}
-		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
-			$this->assertRowCount(
-				1, 'cu_changes', 'cuc_id',
-				'The row was not inserted or was inserted with the wrong data',
-				[
-					'cuc_actor' => $performer->getActorId(),
-					'cuc_namespace' => NS_USER,
-					'cuc_title' => $account->getName(),
-					$this->getDb()->expr( 'cuc_actiontext', IExpression::LIKE, new LikeValue(
-						$this->getDb()->anyString(),
-						'[[User:', $account->getName(), '|', $account->getName(), ']]',
-						$this->getDb()->anyString()
-					) ),
-					'cuc_only_for_read_old' => ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) ? 1 : 0
-				]
-			);
-		}
 	}
 
 	/** @dataProvider provideOnLocalUserCreated */
