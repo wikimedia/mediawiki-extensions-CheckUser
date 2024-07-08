@@ -3,7 +3,7 @@
 namespace MediaWiki\CheckUser\Tests\Integration\Maintenance;
 
 use MediaWiki\CheckUser\ClientHints\ClientHintsData;
-use MediaWiki\CheckUser\Hooks;
+use MediaWiki\CheckUser\HookHandler\RecentChangeSaveHandler;
 use MediaWiki\CheckUser\Maintenance\PopulateCheckUserTablesWithSimulatedData;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\Context\RequestContext;
@@ -54,7 +54,11 @@ class PopulateCheckUserTablesWithSimulatedDataTest extends MaintenanceBaseTestCa
 		}
 		$mockObject->mainRequest = new FauxRequest();
 		RequestContext::getMain()->setRequest( $mockObject->mainRequest );
-		$mockObject->hooks = new Hooks();
+		$mockObject->recentChangeSaveHandler = new RecentChangeSaveHandler(
+			$this->getServiceContainer()->get( 'CheckUserInsert' ),
+			$this->getServiceContainer()->getJobQueueGroup(),
+			$this->getServiceContainer()->getConnectionProvider()
+		);
 		return $mockObject;
 	}
 

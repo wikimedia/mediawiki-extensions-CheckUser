@@ -10,7 +10,7 @@ use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Auth\AuthManager;
 use MediaWiki\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
-use MediaWiki\CheckUser\Hooks as CheckUserHooks;
+use MediaWiki\CheckUser\HookHandler\RecentChangeSaveHandler;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\MediaWikiServices;
@@ -48,7 +48,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 	/** @var array<string,?ClientHintsData> */
 	private array $userAgentsToClientHintsMap;
 
-	private CheckUserHooks $hooks;
+	private RecentChangeSaveHandler $recentChangeSaveHandler;
 	private CheckUserPrivateEventsHandler $privateEventsHandler;
 
 	private User $userToEmailAndSendPasswordResetsFor;
@@ -167,13 +167,17 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 		}
 
 		// Start code that can assume it is safe to perform un-reversible testing actions.
-		$this->hooks = new CheckUserHooks();
 		$this->privateEventsHandler = new CheckUserPrivateEventsHandler(
 			$this->getServiceContainer()->get( 'CheckUserInsert' ),
 			$this->getConfig(),
 			$this->getServiceContainer()->getUserIdentityLookup(),
 			$this->getServiceContainer()->getUserFactory(),
 			$this->getServiceContainer()->getReadOnlyMode()
+		);
+		$this->recentChangeSaveHandler = new RecentChangeSaveHandler(
+			$this->getServiceContainer()->get( 'CheckUserInsert' ),
+			$this->getServiceContainer()->getJobQueueGroup(),
+			$this->getServiceContainer()->getConnectionProvider()
 		);
 		$services = MediaWikiServices::getInstance();
 		$userForEmails = $this->createRegisteredUser();
@@ -745,7 +749,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			] );
 		}
 		$id = $logEntry->insert();
-		$this->hooks->onRecentChange_save( $logEntry->getRecentChange( $id ) );
+		$this->recentChangeSaveHandler->onRecentChange_save( $logEntry->getRecentChange( $id ) );
 	}
 
 	/**

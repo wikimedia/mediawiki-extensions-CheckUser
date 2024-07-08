@@ -1,91 +1,45 @@
 <?php
 
-namespace MediaWiki\CheckUser\Tests\Integration;
+namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
-use MediaWiki\CheckUser\Hooks;
+use MediaWiki\CheckUser\HookHandler\RecentChangeSaveHandler;
+use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\MediaWikiServices;
-use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
-use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use RecentChange;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
- * @group CheckUser
+ * @covers \MediaWiki\CheckUser\HookHandler\RecentChangeSaveHandler
  * @group Database
- * @covers \MediaWiki\CheckUser\Hooks
+ * @group CheckUser
  */
-class HooksTest extends MediaWikiIntegrationTestCase {
+class RecentChangeSaveHandlerTest extends MediaWikiIntegrationTestCase {
 
 	use CheckUserCommonTraitTest;
-	use MockAuthorityTrait;
 	use TempUserTestTrait;
 
-	/**
-	 * @return TestingAccessWrapper
-	 */
-	protected function setUpObject(): TestingAccessWrapper {
-		return TestingAccessWrapper::newFromClass( Hooks::class );
-	}
-
-	public function testProvideUpdateCheckUserData() {
-		// From RecentChangeTest.php's provideAttribs but modified
-		$attribs = self::getDefaultRecentChangeAttribs();
-		$testUser = new UserIdentityValue( 1337, 'YeaaaahTests' );
-		$actorId = $this->getServiceContainer()->getActorStore()->acquireActorId(
-			$testUser,
-			$this->getDb()
+	private function getObjectUnderTest(): RecentChangeSaveHandler {
+		return new RecentChangeSaveHandler(
+			$this->getServiceContainer()->get( 'CheckUserInsert' ),
+			$this->getServiceContainer()->getJobQueueGroup(),
+			$this->getServiceContainer()->getConnectionProvider()
 		);
-		$testCases = [
-			'registered user' => [
-				array_merge( $attribs, [
-					'rc_type' => RC_EDIT,
-					'rc_user' => $testUser->getId(),
-					'rc_user_text' => $testUser->getName(),
-				] ),
-				'cu_changes',
-				[ 'cuc_actor', 'cuc_type' ],
-				[ $actorId, RC_EDIT ],
-			],
-			'Log for special title with no log ID' => [
-				array_merge( $attribs, [
-					'rc_namespace' => NS_SPECIAL,
-					'rc_title' => 'Log',
-					'rc_type' => RC_LOG,
-					'rc_log_type' => ''
-				] ),
-				'cu_private_event',
-				[ 'cupe_title', 'cupe_timestamp', 'cupe_namespace' ],
-				[ 'Log', $this->getDb()->timestamp( $attribs['rc_timestamp'] ), NS_SPECIAL ],
-			]
-		];
-		foreach ( $testCases as $values ) {
-			$this->onRecentChangeSave(
-				$values[0],
-				$values[1],
-				$values[2],
-				$values[3]
-			);
-			$this->truncateTables( [
-				'cu_changes',
-				'cu_private_event',
-				'cu_log_event',
-				'recentchanges'
-			] );
-		}
 	}
 
-	private function onRecentChangeSave(
-		array $rcAttribs,
-		string $table,
-		array $fields,
-		array $expectedRow
-	): void {
+	/**
+	 * Tests that the onRecentChange_save method actually causes an insert to the CheckUser data tables.
+	 * More detailed testing is done through unit tests.
+	 *
+	 * @dataProvider provideOnRecentChangeSave
+	 */
+	public function testOnRecentChangeSave( $rcAttribs, $table, $fields, $expectedRow ) {
+		$this->disableAutoCreateTempUser();
 		$rc = new RecentChange;
 		$rc->setAttribs( $rcAttribs );
-		( new Hooks() )->onRecentChange_save( $rc );
+		$this->getObjectUnderTest()->onRecentChange_save( $rc );
 		foreach ( $fields as $index => $field ) {
 			if ( in_array( $field, [ 'cuc_timestamp', 'cule_timestamp', 'cupe_timestamp' ] ) ) {
 				$expectedRow[$index] = $this->getDb()->timestamp( $expectedRow[$index] );
@@ -97,15 +51,39 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 			->assertRowValue( $expectedRow );
 	}
 
+	public static function provideOnRecentChangeSave() {
+		$defaultRcAttribs = self::getDefaultRecentChangeAttribs();
+		return [
+			'Edit action' => [
+				array_merge( $defaultRcAttribs, [
+					'rc_type' => RC_EDIT,
+					'rc_user' => 0,
+					'rc_user_text' => '127.0.0.1',
+				] ),
+				'cu_changes',
+				[ 'cuc_type' ],
+				[ RC_EDIT ],
+			],
+			'Log for special title with no log ID' => [
+				array_merge( $defaultRcAttribs, [
+					'rc_namespace' => NS_SPECIAL,
+					'rc_title' => 'Log',
+					'rc_type' => RC_LOG,
+					'rc_log_type' => ''
+				] ),
+				'cu_private_event',
+				[ 'cupe_title', 'cupe_namespace' ],
+				[ 'Log', NS_SPECIAL ],
+			]
+		];
+	}
+
 	/**
 	 * @dataProvider providePruneIPDataData
 	 * @covers \MediaWiki\CheckUser\Jobs\PruneCheckUserDataJob
 	 */
 	public function testPruneIPDataData( int $currentTime, int $maxCUDataAge, array $timestamps, int $afterCount ) {
-		$this->setMwGlobals( [
-			'wgCUDMaxAge' => $maxCUDataAge,
-			'wgCheckUserEventTablesMigrationStage' => SCHEMA_COMPAT_NEW
-		] );
+		$this->overrideConfigValue( 'CUDMaxAge', $maxCUDataAge );
 		$logEntryCutoff = $this->getDb()->timestamp( $currentTime - $maxCUDataAge );
 		foreach ( $timestamps as $timestamp ) {
 			ConvertibleTimestamp::setFakeTime( $timestamp );
@@ -133,7 +111,7 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		$this->assertRowCount( count( $timestamps ), 'cu_log_event', 'cule_id',
 			'cu_log_event was not set up correctly for the test.' );
 		ConvertibleTimestamp::setFakeTime( $currentTime );
-		$object = TestingAccessWrapper::newFromObject( ( new Hooks() ) );
+		$object = TestingAccessWrapper::newFromObject( $this->getObjectUnderTest() );
 		$object->pruneIPData();
 		MediaWikiServices::getInstance()->getJobRunner()->run( [ 'type' => 'checkuserPruneCheckUserDataJob' ] );
 		// Check that all the old entries are gone

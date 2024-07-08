@@ -309,11 +309,16 @@
 				"TempUserConfig"
 			]
 		},
+		"RecentChangeSaveHandler": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\RecentChangeSaveHandler",
+			"services": [
+				"CheckUserInsert",
+				"JobQueueGroup",
+				"DBLoadBalancerFactory"
+			]
+		},
 		"RLRegisterModules": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\RLRegisterModulesHandler"
-		},
-		"Hooks": {
-			"class": "MediaWiki\\CheckUser\\Hooks"
 		},
 		"UserMerge": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\UserMergeHandler"
@@ -331,7 +336,7 @@
 		"LoadExtensionSchemaUpdates": "SchemaChanges",
 		"LocalUserCreated": "CheckUserPrivateEvents",
 		"PerformRetroactiveAutoblock": "RetroactiveAutoBlock",
-		"RecentChange_save": "Hooks",
+		"RecentChange_save": "RecentChangeSaveHandler",
 		"RenameUserSQL": "RenameUserSQLHandler",
 		"ResourceLoaderRegisterModules": "RLRegisterModules",
 		"SaveUserOptions": "preferences",
