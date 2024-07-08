@@ -172,7 +172,8 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			$this->getServiceContainer()->get( 'CheckUserInsert' ),
 			$this->getConfig(),
 			$this->getServiceContainer()->getUserIdentityLookup(),
-			$this->getServiceContainer()->getUserFactory()
+			$this->getServiceContainer()->getUserFactory(),
+			$this->getServiceContainer()->getReadOnlyMode()
 		);
 		$services = MediaWikiServices::getInstance();
 		$userForEmails = $this->createRegisteredUser();
@@ -677,7 +678,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			$subject = 'Test';
 			$text = wfRandomString();
 			$error = [];
-			$this->hooks->onEmailUser( $to, $from, $subject, $text, $error );
+			$this->privateEventsHandler->onEmailUser( $to, $from, $subject, $text, $error );
 			if ( !$this->incrementAndCheck( $actionsPerformed, $actionsLeft ) ) {
 				return $actionsPerformed;
 			}

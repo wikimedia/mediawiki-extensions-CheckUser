@@ -273,7 +273,8 @@
 				"CheckUserInsert",
 				"MainConfig",
 				"UserIdentityLookup",
-				"UserFactory"
+				"UserFactory",
+				"ReadOnlyMode"
 			]
 		},
 		"RetroactiveAutoBlock": {
@@ -325,7 +326,7 @@
 			"pageDisplay"
 		],
 		"ContributionsToolLinks": "ToolLinks",
-		"EmailUser": "Hooks",
+		"EmailUser": "CheckUserPrivateEvents",
 		"GetPreferences": "preferences",
 		"LoadExtensionSchemaUpdates": "SchemaChanges",
 		"LocalUserCreated": "Hooks",

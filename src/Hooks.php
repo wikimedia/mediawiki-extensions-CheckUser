@@ -6,28 +6,22 @@ use DatabaseLogEntry;
 use JobSpecification;
 use LogEntryBase;
 use LogFormatter;
-use MailAddress;
 use MediaWiki\Auth\Hook\LocalUserCreatedHook;
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Context\RequestContext;
-use MediaWiki\Deferred\DeferredUpdates;
-use MediaWiki\Hook\EmailUserHook;
 use MediaWiki\Hook\RecentChange_saveHook;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
-use MediaWiki\Status\Status;
 use MediaWiki\Title\Title;
 use MediaWiki\User\Hook\User__mailPasswordInternalHook;
 use MediaWiki\User\User;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
-use MessageSpecifier;
 use RecentChange;
 use Wikimedia\ScopedCallback;
 
 class Hooks implements
-	EmailUserHook,
 	LocalUserCreatedHook,
 	RecentChange_saveHook,
 	User__mailPasswordInternalHook
@@ -318,83 +312,6 @@ class Hooks implements
 				$user
 			);
 		}
-	}
-
-	/**
-	 * Hook function to store email data.
-	 *
-	 * Saves user data into the cu_changes table.
-	 * Uses a deferred update to save the data, because emails can be sent from code paths
-	 * that don't open master connections.
-	 *
-	 * @param MailAddress &$to
-	 * @param MailAddress &$from
-	 * @param string &$subject
-	 * @param string &$text
-	 * @param bool|Status|MessageSpecifier|array &$error
-	 */
-	public function onEmailUser( &$to, &$from, &$subject, &$text, &$error ) {
-		global $wgSecretKey, $wgCUPublicKey;
-
-		if ( !$wgSecretKey || $from->name == $to->name ) {
-			return;
-		}
-
-		$services = MediaWikiServices::getInstance();
-		if ( $services->getReadOnlyMode()->isReadOnly() ) {
-			return;
-		}
-
-		$userFrom = $services->getUserFactory()->newFromName( $from->name );
-		'@phan-var User $userFrom';
-		$userTo = $services->getUserFactory()->newFromName( $to->name );
-		$hash = md5( $userTo->getEmail() . $userTo->getId() . $wgSecretKey );
-
-		$cuChangesRow = [];
-		$cuPrivateRow = [];
-		$eventTablesMigrationStage = $services->getMainConfig()
-			->get( 'CheckUserEventTablesMigrationStage' );
-		// Define the title as the userpage of the user who sent the email. The user
-		// who receives the email is private information, so cannot be used.
-		$cuPrivateRow['cupe_namespace'] = $cuChangesRow['cuc_namespace'] = NS_USER;
-		$cuPrivateRow['cupe_title'] = $cuChangesRow['cuc_title'] = $userFrom->getName();
-		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$cuPrivateRow['cupe_log_action'] = 'email-sent';
-			$cuPrivateRow['cupe_params'] = LogEntryBase::makeParamBlob( [ '4::hash' => $hash ] );
-		}
-		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
-			if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-				$cuChangesRow['cuc_only_for_read_old'] = 1;
-			}
-			$cuChangesRow['cuc_actiontext'] = wfMessage( 'checkuser-email-action', $hash )
-				->inContentLanguage()->text();
-		}
-		if ( trim( $wgCUPublicKey ) != '' ) {
-			$privateData = $userTo->getEmail() . ":" . $userTo->getId();
-			$encryptedData = new EncryptedData( $privateData, $wgCUPublicKey );
-			$cuPrivateRow['cupe_private'] = $cuChangesRow['cuc_private'] = serialize( $encryptedData );
-		}
-		$fname = __METHOD__;
-		DeferredUpdates::addCallableUpdate(
-			static function () use (
-				$cuPrivateRow, $cuChangesRow, $userFrom, $fname, $eventTablesMigrationStage
-			) {
-				if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-					self::insertIntoCuPrivateEventTable(
-						$cuPrivateRow,
-						$fname,
-						$userFrom
-					);
-				}
-				if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
-					self::insertIntoCuChangesTable(
-						$cuChangesRow,
-						$fname,
-						$userFrom
-					);
-				}
-			}
-		);
 	}
 
 	/**

@@ -3,17 +3,22 @@
 namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
 use LogEntryBase;
+use MailAddress;
 use MediaWiki\Auth\AuthenticationRequest;
 use MediaWiki\Auth\AuthenticationResponse;
+use MediaWiki\CheckUser\EncryptedData;
 use MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Message\Message;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\Rdbms\IExpression;
+use Wikimedia\Rdbms\LikeValue;
 
 /**
  * @covers \MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler
@@ -30,7 +35,8 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->get( 'CheckUserInsert' ),
 			$this->getServiceContainer()->getMainConfig(),
 			$this->getServiceContainer()->getUserIdentityLookup(),
-			$this->getServiceContainer()->getUserFactory()
+			$this->getServiceContainer()->getUserFactory(),
+			$this->getServiceContainer()->getReadOnlyMode()
 		);
 	}
 
@@ -228,5 +234,105 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 				AuthenticationResponse::PASS, true, [ 'bot' ], true, false,
 			],
 		];
+	}
+
+	/** @dataProvider provideOnEmailUserInvalidUsernames */
+	public function testOnEmailUserForInvalidUsername( $toUsername, $fromUsername ) {
+		$this->expectNoCheckUserInsertCalls();
+		// Call the method under test
+		$to = new MailAddress( 'test@test.com', $toUsername );
+		$from = new MailAddress( 'testing@test.com', $fromUsername );
+		$subject = 'Test';
+		$text = 'Test';
+		$error = false;
+		$this->getObjectUnderTest()->onEmailUser( $to, $from, $subject, $text, $error );
+		// Run DeferredUpdates as the private event is created in a DeferredUpdate.
+		DeferredUpdates::doUpdates();
+	}
+
+	public static function provideOnEmailUserInvalidUsernames() {
+		return [
+			'Invalid from username' => [ 'ValidToUsername', 'Template:InvalidFromUsername#test' ],
+			'Invalid to username' => [ 'Template:InvalidToUsername#test', 'ValidToUsername' ],
+		];
+	}
+
+	private function commonOnEmailUser( MailAddress $to, MailAddress $from, array $cuPrivateWhere ) {
+		// Call the method under test with the provided arguments and some mock arguments that are unused.
+		$subject = 'Test subject';
+		$text = 'Test text';
+		$error = false;
+		$this->getObjectUnderTest()->onEmailUser( $to, $from, $subject, $text, $error );
+		// Run DeferredUpdates as the private event is created in a DeferredUpdate.
+		DeferredUpdates::doUpdates();
+		// Assert that the row was inserted with the correct data.
+		$this->assertRowCount(
+			1, 'cu_private_event', '*',
+			'A row was not inserted with the correct data',
+			array_merge( $cuPrivateWhere, [ 'cupe_namespace' => NS_USER ] )
+		);
+	}
+
+	public function testOnEmailUserFrom() {
+		// Verify that the user who sent the email is marked as the performer and their userpage is the title
+		// associated with the event.
+		$userTo = $this->getTestUser()->getUserIdentity();
+		$userFrom = $this->getTestSysop()->getUser();
+		$this->commonOnEmailUser(
+			new MailAddress( 'test@test.com', $userTo->getName() ),
+			new MailAddress( 'testing@test.com', $userFrom->getName() ),
+			[ 'cupe_actor' => $userFrom->getActorId(), 'cupe_title' => $userFrom->getName() ]
+		);
+	}
+
+	/** @covers \MediaWiki\CheckUser\EncryptedData */
+	public function testOnEmailWithCUPublicKeyDefined() {
+		// Generate a private/public key-pair to use in the test. This is needed to allow checking that the encrypted
+		// data that is stored in the database can be decrypted and the decrypted data is correct.
+		$privateKey = openssl_pkey_new( [
+			'digest_alg' => 'rc4', 'private_key_bits' => 1024, 'private_key_type' => OPENSSL_KEYTYPE_RSA,
+		] );
+		$this->overrideConfigValue( 'CUPublicKey', openssl_pkey_get_details( $privateKey )['key'] );
+		// Run the method under test.
+		$userTo = $this->getTestUser()->getUser();
+		$userFrom = $this->getTestSysop()->getUserIdentity();
+		$this->commonOnEmailUser(
+			new MailAddress( 'test@test.com', $userTo->getName() ),
+			new MailAddress( 'testing@test.com', $userFrom->getName() ),
+			[]
+		);
+		// Load the EncryptedData object from the database.
+		$encryptedData = unserialize(
+			$this->newSelectQueryBuilder()
+				->select( 'cupe_private' )
+				->from( 'cu_private_event' )
+				->caller( __METHOD__ )
+				->fetchField()
+		);
+		$this->assertInstanceOf( EncryptedData::class, $encryptedData );
+		// Check that the plaintext data remains the same after an encryption and decryption cycle.
+		// This also checks that the plaintext data being encrypted by the method under test is as expected.
+		$this->assertSame(
+			$userTo->getEmail() . ':' . $userTo->getId(),
+			$encryptedData->getPlaintext( $privateKey ),
+			'The encrypted data for a user email event could not be decrypted or was incorrect.'
+		);
+	}
+
+	public function testOnEmailUserLogParams() {
+		// Verify that the log params for the email event contains a hash.
+		$userTo = $this->getTestUser()->getUser();
+		$userFrom = $this->getTestSysop()->getUserIdentity();
+		$this->commonOnEmailUser(
+			new MailAddress( 'test@test.com', $userTo->getName() ),
+			new MailAddress( 'testing@test.com', $userFrom->getName() ),
+			[
+				$this->getDb()->expr( 'cupe_params', IExpression::LIKE, new LikeValue(
+					$this->getDb()->anyString(),
+					'4::hash',
+					$this->getDb()->anyString()
+				) )
+			]
+		);
 	}
 }
