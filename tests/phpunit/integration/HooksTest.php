@@ -238,67 +238,6 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	public static function provideEventMigrationStageValues() {
-		return [
-			'With event table migration set to old' => [ SCHEMA_COMPAT_OLD ],
-			'With event table migration set to write old and new, read new' =>
-				[ SCHEMA_COMPAT_NEW | SCHEMA_COMPAT_WRITE_OLD ],
-			'With event table migration set to write old and new, read old' =>
-				[ SCHEMA_COMPAT_OLD | SCHEMA_COMPAT_WRITE_NEW ],
-			'With event table migration set to new' => [ SCHEMA_COMPAT_NEW ]
-		];
-	}
-
-	/** @dataProvider provideOnLocalUserCreated */
-	public function testOnLocalUserCreatedReadOld( bool $autocreated ) {
-		$this->testOnLocalUserCreated( $autocreated, SCHEMA_COMPAT_OLD );
-	}
-
-	/** @dataProvider provideOnLocalUserCreated */
-	public function testOnLocalUserCreatedReadNew( bool $autocreated ) {
-		$this->testOnLocalUserCreated( $autocreated, SCHEMA_COMPAT_NEW );
-	}
-
-	private function testOnLocalUserCreated( bool $autocreated, int $eventTableMigrationStage ) {
-		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $eventTableMigrationStage );
-		$user = $this->getTestUser()->getUser();
-		( new Hooks() )->onLocalUserCreated( $user, $autocreated );
-		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$this->assertRowCount(
-				1, 'cu_private_event', 'cupe_id',
-				'The row was not inserted or was inserted with the wrong data',
-				[
-					'cupe_actor'  => $user->getActorId(),
-					'cupe_namespace' => NS_USER,
-					'cupe_title' => $user->getName(),
-					'cupe_log_action' => $autocreated ? 'autocreate-account' : 'create-account'
-				]
-			);
-		}
-		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
-			$this->assertRowCount(
-				1, 'cu_changes', 'cuc_id',
-				'The row was not inserted or was inserted with the wrong data',
-				[
-					'cuc_actor'  => $user->getActorId(),
-					'cuc_namespace'  => NS_USER,
-					'cuc_title' => $user->getName(),
-					'cuc_actiontext' => wfMessage(
-						$autocreated ? 'checkuser-autocreate-action' : 'checkuser-create-action'
-					)->inContentLanguage()->text(),
-					'cuc_only_for_read_old' => ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) ? 1 : 0
-				]
-			);
-		}
-	}
-
-	public static function provideOnLocalUserCreated() {
-		return [
-			[ true ],
-			[ false ]
-		];
-	}
-
 	private function onRecentChangeSave(
 		array $rcAttribs,
 		int $eventTableMigrationStage,

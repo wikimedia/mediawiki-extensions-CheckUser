@@ -6,6 +6,7 @@ use ExtensionRegistry;
 use LogEntryBase;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Auth\Hook\AuthManagerLoginAuthenticateAuditHook;
+use MediaWiki\Auth\Hook\LocalUserCreatedHook;
 use MediaWiki\CheckUser\EncryptedData;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Config\Config;
@@ -15,6 +16,7 @@ use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Hook\EmailUserHook;
 use MediaWiki\Hook\UserLogoutCompleteHook;
 use MediaWiki\User\Hook\User__mailPasswordInternalHook;
+use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
@@ -27,6 +29,7 @@ use ReadOnlyMode;
 class CheckUserPrivateEventsHandler implements
 	EmailUserHook,
 	AuthManagerLoginAuthenticateAuditHook,
+	LocalUserCreatedHook,
 	UserLogoutCompleteHook,
 	User__mailPasswordInternalHook
 {
@@ -49,6 +52,28 @@ class CheckUserPrivateEventsHandler implements
 		$this->userIdentityLookup = $userIdentityLookup;
 		$this->userFactory = $userFactory;
 		$this->readOnlyMode = $readOnlyMode;
+	}
+
+	/**
+	 * Hook function to store registration and autocreation data
+	 * Saves user data into the cu_changes table
+	 *
+	 * @param User $user
+	 * @param bool $autocreated
+	 */
+	public function onLocalUserCreated( $user, $autocreated ) {
+		$this->checkUserInsert->insertIntoCuPrivateEventTable(
+			[
+				'cupe_namespace'  => NS_USER,
+				'cupe_title'      => $user->getName(),
+				// The following messages are generated here:
+				// * logentry-checkuser-private-event-autocreate-account
+				// * logentry-checkuser-private-event-create-account
+				'cupe_log_action' => $autocreated ? 'autocreate-account' : 'create-account'
+			],
+			__METHOD__,
+			$user
+		);
 	}
 
 	/**
