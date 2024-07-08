@@ -21,7 +21,6 @@ use MediaWiki\Html\FormOptions;
 use MediaWiki\Html\Html;
 use MediaWiki\Html\TemplateParser;
 use MediaWiki\Linker\LinkRenderer;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Navigation\PagerNavigationBuilder;
 use MediaWiki\Pager\RangeChronologicalPager;
 use MediaWiki\SpecialPage\SpecialPage;
@@ -36,7 +35,6 @@ use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\Utils\MWTimestamp;
 use stdClass;
-use Wikimedia\Rdbms\Database\DbQuoter;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IResultWrapper;
@@ -479,39 +477,6 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 			->useIndex( 'log_page_time' )
 			->caller( __METHOD__ )
 			->fetchField();
-	}
-
-	/**
-	 * @param string $target an IP address or CIDR range
-	 * @return bool
-	 * @deprecated Since 1.42. Use CheckUserLookupUtils::isValidIPOrRange instead.
-	 */
-	public static function isValidRange( string $target ): bool {
-		wfDeprecated( __METHOD__, '1.42' );
-		return MediaWikiServices::getInstance()->get( 'CheckUserLookupUtils' )->isValidIPOrRange( $target );
-	}
-
-	/**
-	 * Get the WHERE conditions for an IP address / range, optionally as a XFF.
-	 *
-	 * @param DbQuoter $quoter A DB quoter, which can be a IReadableDatabase instance if convenient.
-	 * @param string $target an IP address or CIDR range
-	 * @param bool $xfor True if searching on XFF IPs by IP address / range
-	 * @param string $table The table which will be used in the query these WHERE conditions
-	 * are used (array of valid options in self::RESULT_TABLES).
-	 * @return array|false array for valid conditions, false if invalid
-	 * @deprecated Since 1.42. Use CheckUserLookupUtils::getIpConds instead.
-	 */
-	public static function getIpConds(
-		DbQuoter $quoter, string $target, bool $xfor = false, string $table = self::CHANGES_TABLE
-	) {
-		wfDeprecated( __METHOD__, '1.42' );
-		$expr = MediaWikiServices::getInstance()->get( 'CheckUserLookupUtils' )
-			->getIPTargetExpr( $target, $xfor, $table );
-		if ( $expr === null ) {
-			return false;
-		}
-		return [ $expr ];
 	}
 
 	/** @inheritDoc */
