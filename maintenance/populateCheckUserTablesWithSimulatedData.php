@@ -9,6 +9,7 @@ use ManualLogEntry;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Auth\AuthManager;
 use MediaWiki\CheckUser\ClientHints\ClientHintsData;
+use MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
 use MediaWiki\CheckUser\Hooks as CheckUserHooks;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Context\RequestContext;
@@ -48,6 +49,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 	private array $userAgentsToClientHintsMap;
 
 	private CheckUserHooks $hooks;
+	private CheckUserPrivateEventsHandler $privateEventsHandler;
 
 	private User $userToEmailAndSendPasswordResetsFor;
 
@@ -166,6 +168,11 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 
 		// Start code that can assume it is safe to perform un-reversible testing actions.
 		$this->hooks = new CheckUserHooks();
+		$this->privateEventsHandler = new CheckUserPrivateEventsHandler(
+			$this->getServiceContainer()->get( 'CheckUserInsert' ),
+			$this->getConfig(),
+			$this->getServiceContainer()->getUserIdentityLookup()
+		);
 		$services = MediaWikiServices::getInstance();
 		$userForEmails = $this->createRegisteredUser();
 		if ( $userForEmails === null ) {
@@ -693,7 +700,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 				UserRigorOptions::RIGOR_NONE
 			);
 			if ( $anonUser ) {
-				$this->hooks->onUserLogoutComplete( $anonUser, $html, $actor->getName() );
+				$this->privateEventsHandler->onUserLogoutComplete( $anonUser, $html, $actor->getName() );
 			}
 			$this->incrementAndCheck( $actionsPerformed, $actionsLeft );
 		}

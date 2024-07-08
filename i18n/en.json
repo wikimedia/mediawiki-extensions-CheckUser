@@ -129,7 +129,6 @@
 	"checkuser-login-failure": "Failed to log in to {{SITENAME}} as $1",
 	"checkuser-login-failure-with-good-password": "Failed to log in to {{SITENAME}} as $1 but had the correct password",
 	"checkuser-login-success": "Successfully logged in to {{SITENAME}} as $1",
-	"checkuser-logout": "Successfully {{GENDER:$1|logged out}} using the API or {{#special:logout}}",
 	"checkuser-helper-label": "See results in a table",
 	"checkuser-helper-copy-success": "Copied",
 	"checkuser-helper-copy-failed": "Could not copy",

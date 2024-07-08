@@ -314,7 +314,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 						'user' => 'CheckUserAPITestUser1',
 						'ip' => '1.2.3.4',
 						'agent' => 'user-agent-for-logout',
-						'summary' => wfMessage( 'checkuser-logout' )->text(),
+						'summary' => wfMessage( 'logentry-checkuser-private-event-user-logout' )->text(),
 						'xff' => '127.2.3.4',
 					],
 					[
@@ -394,21 +394,6 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		];
 	}
 
-	/** @dataProvider provideExpectedApiResponses */
-	public function testResponseFromApiWhenReadingOld(
-		$requestType, $expectedRequestTypeInResponse, $target, $timeCond, $xff, $expectedData
-	) {
-		// Tests that when wgCheckUserEventTablesMigrationStage is set to read old, the API response does not differ to
-		// the response expected when reading new.
-		$this->setMwGlobals(
-			'wgCheckUserEventTablesMigrationStage',
-			SCHEMA_COMPAT_READ_OLD | SCHEMA_COMPAT_WRITE_BOTH
-		);
-		$this->testResponseFromApi(
-			$requestType, $expectedRequestTypeInResponse, $target, $timeCond, $xff, $expectedData
-		);
-	}
-
 	public function testActionsForHiddenUser() {
 		// Block CheckUserAPITestUser1 with 'hideuser' enabled.
 		$blockStatus = $this->getServiceContainer()->getBlockUserFactory()
@@ -431,7 +416,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 					'user' => wfMessage( 'rev-deleted-user' )->text(),
 					'ip' => '1.2.3.4',
 					'agent' => 'user-agent-for-logout',
-					'summary' => wfMessage( 'checkuser-logout' )->text(),
+					'summary' => wfMessage( 'logentry-checkuser-private-event-user-logout' )->text(),
 					'xff' => '127.2.3.4',
 				],
 				[
@@ -613,8 +598,6 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 	}
 
 	public function addDBDataOnce() {
-		// Write both new and old so that the tests which test the behaviour when reading old can be tested.
-		$this->overrideConfigValue( 'CheckUserEventTablesMigrationStage', SCHEMA_COMPAT_WRITE_BOTH );
 		$this->overrideConfigValue( 'CheckUserLogLogins', true );
 		// Add some testing entries to the CheckUser result tables to test the API
 		// Get two testing users with pre-defined usernames and a test page with a pre-defined name
@@ -686,9 +669,6 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		RequestContext::getMain()->getRequest()->setHeader( 'X-Forwarded-For', '' );
 		RequestContext::getMain()->getRequest()->setHeader( 'User-Agent', 'user-agent-for-password-reset' );
 		$this->enableAutoCreateTempUser();
-		// We cannot write private log events to cu_changes when temporary accounts are enabled if the performer
-		// is an IP address.
-		$this->overrideConfigValue( 'CheckUserEventTablesMigrationStage', SCHEMA_COMPAT_NEW );
 		$hookRunner->onUser__mailPasswordInternal(
 			$this->getServiceContainer()->getUserFactory()
 				->newFromUserIdentity( UserIdentityValue::newAnonymous( '1.2.3.5' ) ),
