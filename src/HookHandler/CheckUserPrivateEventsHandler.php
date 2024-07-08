@@ -15,6 +15,7 @@ use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Hook\EmailUserHook;
 use MediaWiki\Hook\UserLogoutCompleteHook;
+use MediaWiki\MainConfigNames;
 use MediaWiki\User\Hook\User__mailPasswordInternalHook;
 use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
@@ -62,6 +63,13 @@ class CheckUserPrivateEventsHandler implements
 	 * @param bool $autocreated
 	 */
 	public function onLocalUserCreated( $user, $autocreated ) {
+		// Don't add a private event if the user was not autocreated and $wgNewUserLog is true
+		// as a log event will passed to CheckUser through RecentChanges (and therefore this
+		// will be a duplicate).
+		if ( !$autocreated && $this->config->get( MainConfigNames::NewUserLog ) ) {
+			return;
+		}
+
 		$this->checkUserInsert->insertIntoCuPrivateEventTable(
 			[
 				'cupe_namespace'  => NS_USER,

@@ -9,6 +9,7 @@ use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Config\Config;
 use MediaWiki\Config\HashConfig;
 use MediaWiki\Deferred\DeferredUpdates;
+use MediaWiki\MainConfigNames;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWikiUnitTestCase;
@@ -97,5 +98,12 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiUnitTestCase {
 		$handler->onEmailUser( $to, $from, $subject, $text, $error );
 		// Run DeferredUpdates as the private event is created in a DeferredUpdate.
 		DeferredUpdates::doUpdates();
+	}
+
+	public function testOnLocalUserCreatedWhenNotAutocreatedAndNewUserLogEnabled() {
+		$handler = $this->getObjectUnderTestForNoCheckUserInsertCalls( [
+			'config' => new HashConfig( [ MainConfigNames::NewUserLog => true ] ),
+		] );
+		$handler->onLocalUserCreated( $this->createMock( User::class ), false );
 	}
 }
