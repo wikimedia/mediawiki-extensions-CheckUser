@@ -57,38 +57,7 @@ class DeleteReadOldRowsInCuChangesTest extends MaintenanceBaseTestCase {
 			->execute();
 	}
 
-	/** @dataProvider provideSchemaValuesWhichResultInNoDelete */
-	public function testNoDeleteWhenWrongSchemaStage( $schemaStage ) {
-		if ( !$this->getDb()->fieldExists( 'cu_changes', 'cuc_only_for_read_old' ) ) {
-			// If the cuc_only_for_read_old column does not exist, then we cannot run the test so skip it.
-			$this->markTestSkipped( 'This test requires the cuc_only_for_read_old column in the cu_changes table.' );
-		}
-		$this->overrideConfigValue( 'CheckUserEventTablesMigrationStage', $schemaStage );
-		// Set up cu_changes with a read old row and normal row.
-		$this->addReadOldRows( 1 );
-		$this->addNormalRows( 1 );
-		// Run the script
-		$this->assertFalse(
-			$this->maintenance->execute(),
-			'::execute should have returned false so it can be run again as it failed.'
-		);
-		// Test cu_changes was untouched
-		$this->assertRowCount(
-			2, 'cu_changes', 'cuc_id',
-			'Rows were deleted in cu_changes, even though the script should not have run.'
-		);
-	}
-
-	public static function provideSchemaValuesWhichResultInNoDelete() {
-		return [
-			'Read and write old' => [ SCHEMA_COMPAT_OLD ],
-			'Read and write old, read new' => [ SCHEMA_COMPAT_OLD | SCHEMA_COMPAT_READ_NEW ],
-			'Write both, read new' => [ SCHEMA_COMPAT_WRITE_BOTH | SCHEMA_COMPAT_READ_NEW ],
-		];
-	}
-
 	public function testNoDeleteIfCuChangesEmpty() {
-		$this->overrideConfigValue( 'CheckUserEventTablesMigrationStage', SCHEMA_COMPAT_NEW );
 		// Run the script
 		$this->assertTrue(
 			$this->maintenance->execute(),
@@ -107,7 +76,6 @@ class DeleteReadOldRowsInCuChangesTest extends MaintenanceBaseTestCase {
 			// If the cuc_only_for_read_old column does not exist, then we cannot run the test so skip it.
 			$this->markTestSkipped( 'This test requires the cuc_only_for_read_old column in the cu_changes table.' );
 		}
-		$this->overrideConfigValue( 'CheckUserEventTablesMigrationStage', SCHEMA_COMPAT_NEW );
 		// Set up cu_changes
 		$this->addReadOldRows( $numberOfReadOldRows );
 		$this->addNormalRows( $numberOfNormalRows );

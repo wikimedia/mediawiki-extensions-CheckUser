@@ -3,8 +3,12 @@
 namespace MediaWiki\CheckUser\Tests\Integration\Maintenance;
 
 use MediaWiki\CheckUser\Maintenance\MoveLogEntriesFromCuChanges;
+use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\MediaWikiServices;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
+use MediaWiki\User\UserIdentityValue;
+use Wikimedia\Rdbms\IMaintainableDatabase;
 use Wikimedia\TestingAccessWrapper;
 
 /**
@@ -50,34 +54,7 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 		);
 	}
 
-	/** @dataProvider provideSchemaNoMoveValues */
-	public function testNoMoveWhenWrongSchemaStage( $schemaStage, $cuChangesRowCount, $cuPrivateEventCount ) {
-		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $schemaStage );
-		// Set up cu_changes
-		$expectedRow = [];
-		$this->commonTestsUpdateCheckUserData(
-			array_merge( self::getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_LOG, 'rc_log_type' => '' ] ),
-			[],
-			$expectedRow
-		);
-		// Run the script
-		$this->assertFalse(
-			$this->maintenance->execute(),
-			'execute() should have returned false so it can be run again as it failed.'
-		);
-		// Test cu_changes was untouched
-		$this->commonTestNoMove( $cuChangesRowCount, $cuPrivateEventCount );
-	}
-
-	public static function provideSchemaNoMoveValues() {
-		return [
-			'Read and write old' => [ SCHEMA_COMPAT_OLD, 1, 0 ],
-			'Read and write old, read new' => [ SCHEMA_COMPAT_OLD | SCHEMA_COMPAT_READ_NEW, 1, 0 ],
-		];
-	}
-
 	public function testNoMoveIfCuChangesEmpty() {
-		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', SCHEMA_COMPAT_NEW );
 		// Run the script
 		$this->assertTrue(
 			$this->maintenance->execute(),
@@ -88,27 +65,43 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 	}
 
 	/** @dataProvider provideBatchSize */
-	public function testBatchSize( $numberOfRows, $batchSize, $firstSchemaStage = SCHEMA_COMPAT_OLD ) {
-		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $firstSchemaStage );
+	public function testBatchSize( $numberOfRows, $batchSize ) {
+		// TODO: Update this to be able to handle inserting testing data into cu_changes for old log entries,
+		// including using the SQL patches?
 		// Set up cu_changes
 		$expectedRow = [];
 		for ( $i = 0; $i < $numberOfRows / 2; $i++ ) {
+			// Insert rows for edits, which do not need moving.
 			$this->commonTestsUpdateCheckUserData(
 				array_merge( self::getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_EDIT ] ),
 				[],
 				$expectedRow
 			);
-			$this->commonTestsUpdateCheckUserData(
-				array_merge( self::getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_LOG, 'rc_log_type' => '' ] ),
-				[],
-				$expectedRow
+			// Insert rows for log entries, which need moving.
+			$attribs = self::getDefaultRecentChangeAttribs();
+			$rcRow = [
+				'cuc_namespace'  => $attribs['rc_namespace'],
+				'cuc_title'      => $attribs['rc_title'],
+				'cuc_minor'      => $attribs['rc_minor'],
+				'cuc_actiontext' => 'test action text',
+				'cuc_comment'    => 'test comment',
+				'cuc_this_oldid' => $attribs['rc_this_oldid'],
+				'cuc_last_oldid' => $attribs['rc_last_oldid'],
+				'cuc_type'       => RC_LOG,
+				'cuc_page_id'    => $attribs['rc_cur_id'],
+				'cuc_timestamp'  => $this->getDb()->timestamp( $attribs['rc_timestamp'] ),
+			];
+
+			/** @var CheckUserInsert $checkUserInsert */
+			$checkUserInsert = MediaWikiServices::getInstance()->get( 'CheckUserInsert' );
+			$checkUserInsert->insertIntoCuChangesTable(
+				$rcRow, __METHOD__, new UserIdentityValue( $attribs['rc_user'], $attribs['rc_user_text'] )
 			);
 		}
 		$this->assertRowCount(
 			$numberOfRows, 'cu_changes', 'cuc_id',
 			'Database not set up correctly for the test'
 		);
-		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', SCHEMA_COMPAT_NEW );
 		// Run the script
 		/** @var TestingAccessWrapper $maintenance */
 		// Make a copy to prevent syntax error warnings for accessing protected method setBatchSize.
@@ -136,10 +129,17 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 		];
 	}
 
-	/** @dataProvider provideBatchSize */
-	public function testMoveAfterInsertionOnWriteBoth( $numberOfRows, $batchSize ) {
-		$this->testBatchSize(
-			$numberOfRows, $batchSize, SCHEMA_COMPAT_WRITE_BOTH
-		);
+	protected function getSchemaOverrides( IMaintainableDatabase $db ) {
+		// Add the cuc_only_for_read_old column to cu_changes if it does not exist.
+		if ( $db->fieldExists( 'cu_changes', 'cuc_only_for_read_old' ) ) {
+			// Nothing to do if the cuc_only_for_read_old column already exists.
+			return [];
+		}
+		// Create the cuc_only_for_read_old column in cu_changes using the SQL patch file associated with the current
+		// DB type.
+		return [
+			'scripts' => [ __DIR__ . '/patches/' . $db->getType() . '/patch-cu_changes-add-cuc_only_for_read_old.sql' ],
+			'alter' => [ 'cu_changes' ],
+		];
 	}
 }

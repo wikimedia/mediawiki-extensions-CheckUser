@@ -40,16 +40,6 @@ class DeleteReadOldRowsInCuChanges extends LoggedUpdateMaintenance {
 	protected function doDBUpdates() {
 		$dbw = $this->getDB( DB_PRIMARY );
 
-		// Only allow the script to run if the wiki is only reading and writing new. If the wiki is (also) writing old,
-		// then running this script now would cause rows that are only for reading old to not be deleted by update.php
-		// in the future.
-		$eventTableMigrationStage = $this->getServiceContainer()->getMainConfig()
-			->get( 'CheckUserEventTablesMigrationStage' );
-		if ( $eventTableMigrationStage !== SCHEMA_COMPAT_NEW ) {
-			$this->output( "Event table migration config must be set to only read and write new.\n" );
-			return false;
-		}
-
 		// Check if the table is empty, and if it is then there is nothing to delete (so return early).
 		$cuChangesRows = $dbw->newSelectQueryBuilder()
 			->table( 'cu_changes' )

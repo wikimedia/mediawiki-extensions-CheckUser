@@ -48,10 +48,8 @@ class PopulateCheckUserTableTest extends MaintenanceBaseTestCase {
 	 * @dataProvider provideTestPopulation
 	 */
 	public function testPopulation(
-		$numberOfRows, $expectedCuChangesCount, $expectedCuChangesReadOldRowsCount,
-		$expectedCuLogEventCount, $eventTableMigrationStage
+		$numberOfRows, $expectedCuChangesCount, $expectedCuChangesReadOldRowsCount, $expectedCuLogEventCount
 	) {
-		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $eventTableMigrationStage );
 		// Set up recentchanges table
 		for ( $i = 0; $i < $numberOfRows / 2; $i++ ) {
 			$this->editPage( Title::newFromDBkey( 'CheckUserTestPage' ), 'Testing123' . $i );
@@ -95,44 +93,17 @@ class PopulateCheckUserTableTest extends MaintenanceBaseTestCase {
 			$expectedCuChangesCount, 'cu_changes', 'cuc_id',
 			'Incorrect number of entries in cu_changes after population.'
 		);
-		if (
-			( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) &&
-			( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW )
-		) {
-			$this->assertRowCount(
-				$expectedCuChangesReadOldRowsCount, 'cu_changes', 'cuc_id',
-				'Entries in cu_changes that are logs should have cuc_only_for_read_old set to 1.',
-				[ 'cuc_only_for_read_old' => 1 ]
-			);
-		}
-		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$this->assertRowCount(
-				1, 'cu_private_event', 'cupe_id',
-				'Population script should add one entry to cu_private_event which occurs when the rc_logid ' .
-				'is invalid.'
-			);
-		} else {
-			$this->assertRowCount(
-				0, 'cu_private_event', 'cupe_id',
-				'Population script should not add any entry to cu_private_event when reading old.'
-			);
-		}
+		$this->assertRowCount(
+			1, 'cu_private_event', 'cupe_id',
+			'Population script should add one entry to cu_private_event which occurs when the rc_logid ' .
+			'is invalid.'
+		);
 	}
 
 	public static function provideTestPopulation() {
 		return [
-			'recentchanges row count 4 with SCHEMA_COMPAT_WRITE_OLD' => [
-				// 5 for cu_changes count is because the test adds a log event with a invalid log ID on top of the
-				// 4 requested recentchanges rows.
-				4, 5, null, 0, SCHEMA_COMPAT_WRITE_OLD
-			],
-			'recentchanges row count 4 with SCHEMA_COMPAT_WRITE_BOTH' => [
-				// 5 for cu_changes count is because the test adds a log event with a invalid log ID on top of the
-				// 4 requested recentchanges rows.
-				4, 5, 3, 2, SCHEMA_COMPAT_WRITE_BOTH
-			],
-			'recentchanges row count 4 with SCHEMA_COMPAT_WRITE_NEW' => [
-				4, 2, null, 2, SCHEMA_COMPAT_WRITE_NEW
+			'recentchanges row count 4' => [
+				4, 2, null, 2
 			],
 		];
 	}

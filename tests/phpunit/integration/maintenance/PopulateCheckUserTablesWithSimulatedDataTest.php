@@ -227,22 +227,12 @@ class PopulateCheckUserTablesWithSimulatedDataTest extends MaintenanceBaseTestCa
 			'*',
 			'Should be one log event in the logging table.'
 		);
-		if ( $mockObject->getConfig()->get( 'CheckUserEventTablesMigrationStage' ) & SCHEMA_COMPAT_WRITE_NEW ) {
-			$this->assertRowCount(
-				1,
-				'cu_log_event',
-				'*',
-				'There should one log event in cu_log_event.'
-			);
-		}
-		if ( $mockObject->getConfig()->get( 'CheckUserEventTablesMigrationStage' ) & SCHEMA_COMPAT_WRITE_OLD ) {
-			$this->assertRowCount(
-				1,
-				'cu_changes',
-				'*',
-				'There should one log event in cu_log_event.'
-			);
-		}
+		$this->assertRowCount(
+			1,
+			'cu_log_event',
+			'*',
+			'There should one log event in cu_log_event.'
+		);
 	}
 
 	public static function provideLogActions() {

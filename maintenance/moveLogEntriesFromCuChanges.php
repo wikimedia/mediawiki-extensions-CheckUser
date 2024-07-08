@@ -42,13 +42,6 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 	protected function doDBUpdates() {
 		$dbw = $this->getDB( DB_PRIMARY );
 
-		$eventTableMigrationStage = $this->getServiceContainer()->getMainConfig()
-			->get( 'CheckUserEventTablesMigrationStage' );
-		if ( !( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) ) {
-			$this->output( "Event table migration config must be set to write new." );
-			return false;
-		}
-
 		// Check if the table is empty
 		$cuChangesRows = $dbw->newSelectQueryBuilder()
 			->table( 'cu_changes' )

@@ -110,13 +110,8 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 			$cuPrivateEventBatch = [];
 			$cuLogEventBatch = [];
 			foreach ( $res as $row ) {
-				$eventTablesMigrationStage = $services->getMainConfig()
-					->get( 'CheckUserEventTablesMigrationStage' );
 				$comment = $commentStore->getComment( 'rc_comment', $row );
-				if (
-					$row->rc_type == RC_LOG &&
-					( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW )
-				) {
+				if ( $row->rc_type == RC_LOG ) {
 					$logEntry = null;
 					if ( $row->rc_logid != 0 ) {
 						$logEntry = DatabaseLogEntry::newFromId( $row->rc_logid, $db );
@@ -144,11 +139,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 							'cule_ip_hex' => IPUtils::toHex( $row->rc_ip ),
 						];
 					}
-				}
-				if (
-					$row->rc_type != RC_LOG ||
-					( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_OLD )
-				) {
+				} else {
 					$cuChangesRow = [
 						'cuc_timestamp' => $row->rc_timestamp,
 						'cuc_namespace' => $row->rc_namespace,
@@ -162,14 +153,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 						'cuc_type' => $row->rc_type,
 						'cuc_ip' => $row->rc_ip,
 						'cuc_ip_hex' => IPUtils::toHex( $row->rc_ip ),
-						'cuc_only_for_read_old' => 0,
 					];
-					if (
-						$row->rc_type == RC_LOG &&
-						( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW )
-					) {
-						$cuChangesRow['cuc_only_for_read_old'] = 1;
-					}
 					$cuChangesBatch[] = $cuChangesRow;
 				}
 			}

@@ -26,10 +26,7 @@ class PurgeOldDataTest extends MaintenanceBaseTestCase {
 	 * @todo test for pruning of recent changes
 	 */
 	public function testExecute( $currentTime, $maxCUDataAge, $timestamps, $afterCount ) {
-		$this->setMwGlobals( [
-			'wgCUDMaxAge' => $maxCUDataAge,
-			'wgCheckUserEventTablesMigrationStage' => SCHEMA_COMPAT_NEW
-		] );
+		$this->overrideConfigValue( 'CUDMaxAge', $maxCUDataAge );
 		$logEntryCutoff = $this->getDb()->timestamp( $currentTime - $maxCUDataAge );
 		foreach ( $timestamps as $timestamp ) {
 			ConvertibleTimestamp::setFakeTime( $timestamp );
