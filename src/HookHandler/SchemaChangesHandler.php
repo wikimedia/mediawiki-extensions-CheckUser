@@ -18,7 +18,6 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook {
 	 * @inheritDoc
 	 */
 	public function onLoadExtensionSchemaUpdates( $updater ) {
-		global $wgCheckUserEventTablesMigrationStage;
 		$base = __DIR__ . '/../../schema';
 		$maintenanceDb = $updater->getDB();
 		$dbType = $maintenanceDb->getType();
@@ -281,15 +280,10 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook {
 		// Must be run before deleteReadOldEntriesInCuChanges.php is run or the cuc_only_for_read_old column is
 		// removed, as the script needs the column to be present and needs to be allowed to set the value of the
 		// column to 1.
-		// Until wgCheckUserEventTablesMigrationStage is removed, we cannot run this script in install.php because
-		// we need config to be loaded before it is loaded by install.php. Once wgCheckUserEventTablesMigrationStage
-		// is removed, it should be safe to run this script in install.php.
-		if ( isset( $wgCheckUserEventTablesMigrationStage ) ) {
-			$updater->addExtensionUpdate( [
-				'runMaintenance',
-				MoveLogEntriesFromCuChanges::class,
-			] );
-		}
+		$updater->addExtensionUpdate( [
+			'runMaintenance',
+			MoveLogEntriesFromCuChanges::class,
+		] );
 
 		// 1.42
 		$updater->addExtensionField(
