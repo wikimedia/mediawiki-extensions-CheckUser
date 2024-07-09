@@ -10,3 +10,4 @@ require( './ext.checkUser/checkuser/checkUserHelper/createTable.test.js' );
 require( './ext.checkUser/checkuser/checkUserHelper/generateData.test.js' );
 require( './ext.checkUser.clientHints/index.test.js' );
 require( './ext.checkUser/investigate/blockform.test.js' );
+require( './ext.checkUser/temporaryaccount/ipRevealUtils.test.js' );

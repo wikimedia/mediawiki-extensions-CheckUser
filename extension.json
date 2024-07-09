@@ -498,12 +498,15 @@
 			"modules/ext.checkUser.clientHints/index.js",
 			"tests/qunit/ext.checkUser/investigate/blockform.test.js",
 			"modules/ext.checkUser/investigate/blockform.js",
-			"tests/qunit/ext.checkUser/investigate/cases/blockFormWidgetVisibility.json"
+			"tests/qunit/ext.checkUser/investigate/cases/blockFormWidgetVisibility.json",
+			"tests/qunit/ext.checkUser/temporaryaccount/ipRevealUtils.test.js",
+			"modules/ext.checkUser/temporaryaccount/ipRevealUtils.js"
 		],
 		"dependencies": [
 			"mediawiki.qunit-testrunner",
 			"mediawiki.base",
 			"mediawiki.router",
+			"mediawiki.storage",
 			"mediawiki.widgets",
 			"ext.checkUser",
 			"ext.checkUser.clientHints",
