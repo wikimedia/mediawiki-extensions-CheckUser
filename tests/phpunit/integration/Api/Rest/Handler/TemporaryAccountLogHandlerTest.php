@@ -111,7 +111,6 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideExecute
 	 */
 	public function testExecute( $expected, $options ) {
-		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', SCHEMA_COMPAT_NEW );
 		$temporaryAccountLogHandler = $this->getTemporaryAccountLogHandler();
 		$temporaryAccountLogHandler->method( 'performLogsLookup' )
 			->willReturnCallback( static function ( $ids ) {
@@ -174,7 +173,6 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testErrorOnMissingLogIds() {
-		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', SCHEMA_COMPAT_NEW );
 		$this->expectExceptionCode( 400 );
 		$this->expectExceptionMessage( 'paramvalidator-missingparam' );
 		$this->executeHandlerAndGetBodyData(
@@ -193,7 +191,6 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 	public function testWhenLogPerformerIsSuppressed() {
 		$this->enableAutoCreateTempUser();
 		$this->getServiceContainer()->getTempUserCreator()->create( '*Unregistered 1', new FauxRequest() );
-		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', SCHEMA_COMPAT_NEW );
 		// Set up a mock actor store that gets the real actor ID for the test temp user.
 		$actorStore = $this->createMock( ActorStore::class );
 		$actorStore->method( 'findActorIdByName' )
@@ -227,23 +224,6 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 			$this->mockRegisteredAuthorityWithPermissions( [ 'checkuser-temporary-account' ] )
 		);
 		$this->assertArrayEquals( [], $data['ips'] );
-	}
-
-	public function testErrorOnWrongMigrationStage() {
-		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', SCHEMA_COMPAT_OLD );
-		$this->expectExceptionCode( 404 );
-		$this->expectExceptionMessage( 'rest-no-match' );
-		$this->executeHandlerAndGetBodyData(
-			$this->getTemporaryAccountLogHandler(),
-			$this->getRequestData( [
-				'ids' => []
-			] ),
-			[],
-			[],
-			[],
-			[],
-			$this->getAuthorityForSuccess()
-		);
 	}
 
 	public function testPerformLogsLookup() {

@@ -13,16 +13,10 @@ class TemporaryAccountHandler extends AbstractTemporaryAccountHandler implements
 	 * @inheritDoc
 	 */
 	protected function getData( int $actorId, IReadableDatabase $dbr ): array {
-		$resultTables = self::RESULT_TABLES;
-		$eventTableReadNew = $this->config->get( 'CheckUserEventTablesMigrationStage' ) & SCHEMA_COMPAT_READ_NEW;
-		if ( !$eventTableReadNew ) {
-			// Only read rows from cu_changes if wgCheckUserEventTablesMigrationStage is set to read old.
-			$resultTables = [ self::CHANGES_TABLE ];
-		}
 		// The limit is the smaller of the user-provided limit parameter and the maximum row count.
 		$limit = min( $this->getValidatedParams()['limit'], $this->config->get( 'CheckUserMaximumRowCount' ) );
 		$resultRows = [];
-		foreach ( $resultTables as $table ) {
+		foreach ( self::RESULT_TABLES as $table ) {
 			$prefix = self::RESULT_TABLE_TO_PREFIX[$table];
 			$queryBuilder = $dbr->newSelectQueryBuilder()
 				->select( [ 'ip' => "{$prefix}ip", 'timestamp' => 'MAX(' . $prefix . 'timestamp)' ] )
@@ -32,11 +26,6 @@ class TemporaryAccountHandler extends AbstractTemporaryAccountHandler implements
 				->orderBy( 'timestamp', SelectQueryBuilder::SORT_DESC )
 				->limit( $limit )
 				->caller( __METHOD__ );
-			if ( $table === self::CHANGES_TABLE && $eventTableReadNew ) {
-				// Exclude rows which are only for read old, and will therefore be in cu_log_event or cu_private_event.
-				// These should only be excluded when reading new for event table migration.
-				$queryBuilder->andWhere( [ "cuc_only_for_read_old" => 0 ] );
-			}
 			$resultRows = array_merge( $resultRows, iterator_to_array( $queryBuilder->fetchResultSet() ) );
 		}
 		// Order the results by the timestamp column descending.
