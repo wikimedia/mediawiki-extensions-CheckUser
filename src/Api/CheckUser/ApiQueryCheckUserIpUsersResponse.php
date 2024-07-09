@@ -126,11 +126,6 @@ class ApiQueryCheckUserIpUsersResponse extends ApiQueryCheckUserAbstractResponse
 			->from( 'cu_changes' )
 			->join( 'actor', null, 'actor_id=cuc_actor' )
 			->where( $this->dbr->expr( 'cuc_timestamp', '>', $this->timeCutoff ) );
-		// When reading new, only select results from cu_changes that are
-		// for read new (defined as those with cuc_only_for_read_old set to 0).
-		if ( $this->eventTableReadNew ) {
-			$queryBuilder->andWhere( [ 'cuc_only_for_read_old' => 0 ] );
-		}
 		return $queryBuilder;
 	}
 

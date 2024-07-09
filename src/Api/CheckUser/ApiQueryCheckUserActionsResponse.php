@@ -101,7 +101,7 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 			$logEntry = null;
 			if ( ( $row->type == RC_EDIT || $row->type == RC_NEW ) && $row->this_oldid != 0 ) {
 				$revRecord = $this->checkUserLookupUtils->getRevisionRecordFromRow( $row );
-			} elseif ( $row->type == RC_LOG && $this->eventTableReadNew && $row->log_type ) {
+			} elseif ( $row->type == RC_LOG && $row->log_type ) {
 				$logEntry = $this->checkUserLookupUtils->getManualLogEntryFromRow( $row, $user );
 			}
 
@@ -184,14 +184,14 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 	 *   comment or action text.
 	 */
 	private function getSummary( stdClass $row, ?RevisionRecord $revRecord, ?ManualLogEntry $logEntry ): ?string {
-		// Generate the action text if possible, or fetch it from the actiontext column if reading old.
+		// Generate the action text if possible.
 		if ( $logEntry !== null ) {
 			// Log action text taken from the LogFormatter for the entry being displayed.
 			$logFormatter = LogFormatter::newFromEntry( $logEntry );
 			$logFormatter->setAudience( LogFormatter::FOR_THIS_USER );
 			$actionText = $logFormatter->getPlainActionText();
 		} else {
-			$actionText = $row->actiontext ?? '';
+			$actionText = '';
 		}
 
 		// Get the comment if there is one and only show it if the current authority can see it.
@@ -241,7 +241,7 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 		$queryBuilder = $this->dbr->newSelectQueryBuilder()
 			->select( [
 				'namespace' => 'cuc_namespace', 'title' => 'cuc_title',
-				'page' => 'cuc_page_id', 'actiontext' => 'cuc_actiontext', 'timestamp' => 'cuc_timestamp',
+				'page' => 'cuc_page_id', 'timestamp' => 'cuc_timestamp',
 				'minor' => 'cuc_minor', 'type' => 'cuc_type', 'this_oldid' => 'cuc_this_oldid',
 				'ip' => 'cuc_ip', 'xff' => 'cuc_xff', 'agent' => 'cuc_agent',
 				'user' => 'actor_user', 'user_text' => 'actor_name', 'actor' => 'cuc_actor',
@@ -251,11 +251,6 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 			->join( 'actor', null, 'actor_id=cuc_actor' )
 			->join( 'comment', null, 'comment_id=cuc_comment_id' )
 			->where( $this->dbr->expr( 'cuc_timestamp', '>', $this->timeCutoff ) );
-		// When reading new, only select results from cu_changes that are
-		// for read new (defined as those with cuc_only_for_read_old set to 0).
-		if ( $this->eventTableReadNew ) {
-			$queryBuilder->andWhere( [ 'cuc_only_for_read_old' => 0 ] );
-		}
 		return $queryBuilder;
 	}
 
