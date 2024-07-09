@@ -12,7 +12,7 @@ $( '.mw-tempuserlink' ).each( function () {
 
 	// Trigger a lookup for one of each revealed user
 	if ( ipRevealUtils.getRevealedStatus( target ) && recentUsers.indexOf( target ) < 0 ) {
-		$( this ).siblings( '.ext-checkuser-tempaccount-reveal-ip-button' ).trigger( 'revealIp' );
+		$( this ).next( '.ext-checkuser-tempaccount-reveal-ip-button' ).trigger( 'revealIp' );
 		recentUsers.push( target );
 	}
 } );
