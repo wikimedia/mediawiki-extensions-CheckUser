@@ -119,7 +119,7 @@ class TimelineRowFormatter {
 				'title' => $this->getTitleLink( $row ),
 				'time' => $this->getTime( $row->timestamp ),
 				'userLinks' => $this->getUserLinks( $row, $revRecord, $logEntry ),
-				'actionText' => $this->getActionText( $row, $logEntry ),
+				'actionText' => $this->getActionText( $logEntry ),
 				'ipInfo' => $this->getIpInfo( $row->ip ),
 				'userAgent' => $this->getUserAgent( $row->agent ?? '' ),
 				'comment' => $this->getComment( $row, $revRecord, $logEntry ),
@@ -172,20 +172,20 @@ class TimelineRowFormatter {
 	}
 
 	/**
-	 * @param \stdClass $row
 	 * @param ManualLogEntry|null $logEntry
 	 * @return string
 	 */
-	private function getActionText( \stdClass $row, ?ManualLogEntry $logEntry ): string {
-		if ( $logEntry !== null ) {
-			// Log action text taken from the LogFormatter for the entry being displayed.
-			$logFormatter = $this->logFormatterFactory->newFromEntry( $logEntry );
-			$logFormatter->setAudience( LogFormatter::FOR_THIS_USER );
-			return $logFormatter->getActionText();
-		} else {
-			// Action text, hackish ...
-			return $this->commentFormatter->format( $row->actiontext ?? '' );
+	private function getActionText( ?ManualLogEntry $logEntry ): string {
+		// If there is no associated ManualLogEntry, then this is not a log event and by extension there is no action
+		// text.
+		if ( $logEntry === null ) {
+			return '';
 		}
+
+		// Log action text taken from the LogFormatter for the entry being displayed.
+		$logFormatter = $this->logFormatterFactory->newFromEntry( $logEntry );
+		$logFormatter->setAudience( LogFormatter::FOR_THIS_USER );
+		return $logFormatter->getActionText();
 	}
 
 	/**

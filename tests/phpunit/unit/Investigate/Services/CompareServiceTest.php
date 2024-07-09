@@ -25,10 +25,7 @@ class CompareServiceTest extends MediaWikiUnitTestCase {
 		$compareService = new CompareService(
 			new ServiceOptions(
 				CompareService::CONSTRUCTOR_OPTIONS,
-				[
-					'CheckUserEventTablesMigrationStage' => SCHEMA_COMPAT_OLD,
-					'CheckUserInvestigateMaximumRowCount' => 1000,
-				]
+				[ 'CheckUserInvestigateMaximumRowCount' => 1000 ]
 			),
 			$mockConnectionProvider,
 			$this->createMock( UserIdentityLookup::class ),

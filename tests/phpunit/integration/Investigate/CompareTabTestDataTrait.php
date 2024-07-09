@@ -104,58 +104,6 @@ trait CompareTabTestDataTrait {
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
 				'cuc_agent'      => 'foo user agent',
 			],
-			// Log data that will be added to cu_log_event and cu_private_event, but is also here to allow testing
-			// reading data when reading old.
-			[
-				'cuc_actor'      => $testActorData['1.2.3.4']['actor_id'],
-				'cuc_type'       => RC_LOG,
-				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'foo user agent',
-				'cuc_only_for_read_old' => 1,
-			], [
-				'cuc_actor'      => $testActorData['1.2.3.4']['actor_id'],
-				'cuc_type'       => RC_LOG,
-				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'bar user agent',
-				'cuc_only_for_read_old' => 1,
-			], [
-				'cuc_actor'      => $testActorData['1.2.3.5']['actor_id'],
-				'cuc_type'       => RC_LOG,
-				'cuc_ip'         => '1.2.3.5',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
-				'cuc_agent'      => 'bar user agent',
-				'cuc_only_for_read_old' => 1,
-			], [
-				'cuc_actor'      => $testActorData['User1']['actor_id'],
-				'cuc_type'       => RC_LOG,
-				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'foo user agent',
-				'cuc_only_for_read_old' => 1,
-			], [
-				'cuc_actor'      => $testActorData['1.2.3.4']['actor_id'],
-				'cuc_type'       => RC_LOG,
-				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'foo user agent',
-				'cuc_only_for_read_old' => 1,
-			], [
-				'cuc_actor'      => $testActorData['User1']['actor_id'],
-				'cuc_type'       => RC_LOG,
-				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'foo user agent',
-				'cuc_only_for_read_old' => 1,
-			], [
-				'cuc_actor'      => $testActorData['User2']['actor_id'],
-				'cuc_type'       => RC_LOG,
-				'cuc_ip'         => '1.2.3.5',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'foo user agent',
-				'cuc_only_for_read_old' => 1,
-			],
 		];
 
 		$testDataForCuChanges = array_map( static function ( $row ) use ( $timestampForDb ) {
@@ -167,11 +115,9 @@ trait CompareTabTestDataTrait {
 				'cuc_timestamp'  => $timestampForDb,
 				'cuc_xff'        => 0,
 				'cuc_xff_hex'    => null,
-				'cuc_actiontext' => '',
 				'cuc_comment_id' => 0,
 				'cuc_this_oldid' => 0,
 				'cuc_last_oldid' => 0,
-				'cuc_only_for_read_old' => 0,
 			], $row );
 		}, $testDataForCuChanges );
 

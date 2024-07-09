@@ -3,31 +3,11 @@
 namespace MediaWiki\CheckUser\Investigate\Services;
 
 use LogicException;
-use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
-use MediaWiki\Config\ServiceOptions;
-use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\IPUtils;
-use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Rdbms\Subquery;
 
 class TimelineService extends ChangeService {
-
-	/**
-	 * @param ServiceOptions $options
-	 * @param IConnectionProvider $dbProvider
-	 * @param UserIdentityLookup $userIdentityLookup
-	 * @param CheckUserLookupUtils $checkUserLookupUtils
-	 */
-	public function __construct(
-		ServiceOptions $options,
-		IConnectionProvider $dbProvider,
-		UserIdentityLookup $userIdentityLookup,
-		CheckUserLookupUtils $checkUserLookupUtils
-	) {
-		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
-		parent::__construct( $options, $dbProvider, $userIdentityLookup, $checkUserLookupUtils );
-	}
 
 	/**
 	 * Get timeline query info
@@ -47,14 +27,9 @@ class TimelineService extends ChangeService {
 		$dbr = $this->dbProvider->getReplicaDatabase();
 		$unionQueryBuilder = $dbr->newUnionQueryBuilder()->caller( __METHOD__ );
 
-		// Select data from all three tables when reading new, and only cu_changes when reading old.
-		$resultTables = self::RESULT_TABLES;
-		if ( !$this->eventTableReadNew ) {
-			$resultTables = [ self::CHANGES_TABLE ];
-		}
 		// Keep a track of whether a valid SELECT query has been added to the UNION builder.
 		$hasValidQuery = false;
-		foreach ( $resultTables as $table ) {
+		foreach ( self::RESULT_TABLES as $table ) {
 			// Generate the queries to be combined in a UNION. If there are no valid targets for the query, then the
 			// query will not be run.
 			if ( count( $ipTargets ) ) {
@@ -87,7 +62,7 @@ class TimelineService extends ChangeService {
 			'tables' => [ 'a' => new Subquery( $derivedTable ) ],
 			'fields' => [
 				'namespace', 'title', 'timestamp', 'page_id', 'ip', 'xff', 'agent', 'id', 'user', 'user_text', 'actor',
-				'comment_text', 'comment_data', 'type', 'actiontext', 'this_oldid', 'last_oldid', 'minor',
+				'comment_text', 'comment_data', 'type', 'this_oldid', 'last_oldid', 'minor',
 				'log_type', 'log_action', 'log_params', 'log_deleted', 'log_id',
 			],
 		];
@@ -172,8 +147,7 @@ class TimelineService extends ChangeService {
 		];
 		// Fields only specific to cu_changes
 		$fields += [
-			'actiontext' => 'cuc_actiontext', 'this_oldid' => 'cuc_this_oldid', 'last_oldid' => 'cuc_last_oldid',
-			'minor' => 'cuc_minor',
+			'this_oldid' => 'cuc_this_oldid', 'last_oldid' => 'cuc_last_oldid', 'minor' => 'cuc_minor',
 		];
 		// Fields relevant to cu_log_event and cu_private_event
 		$fields += $this->markUnusedFieldsAsNull( [ 'log_type', 'log_action', 'log_params' ] );
@@ -190,11 +164,6 @@ class TimelineService extends ChangeService {
 		if ( $dbr->unionSupportsOrderAndLimit() ) {
 			// TODO: T360712: Add cuc_id to the ORDER BY clause to ensure unique ordering.
 			$queryBuilder->orderBy( 'cuc_timestamp', SelectQueryBuilder::SORT_DESC );
-		}
-		// When reading new, only select results from cu_changes that are
-		// for read new (defined as those with cuc_only_for_read_old set to 0).
-		if ( $this->eventTableReadNew ) {
-			$queryBuilder->andWhere( [ 'cuc_only_for_read_old' => 0 ] );
 		}
 		return $queryBuilder;
 	}
@@ -224,7 +193,6 @@ class TimelineService extends ChangeService {
 			'comment_text', 'comment_data', 'type' => $this->castValueToType( (string)RC_LOG, 'smallint' ),
 		];
 		// Fields only specific to cu_changes
-		$fields += $this->markUnusedFieldsAsNull( [ 'actiontext' ] );
 		$fields += $this->markUnusedFieldsAsNull( [ 'this_oldid', 'last_oldid' ], 'int' );
 		$fields += $this->markUnusedFieldsAsNull( [ 'minor' ], 'smallint' );
 		// Fields relevant to cu_log_event and cu_private_event
@@ -276,7 +244,6 @@ class TimelineService extends ChangeService {
 			'comment_text', 'comment_data', 'type' => $this->castValueToType( (string)RC_LOG, 'smallint' ),
 		];
 		// Fields only specific to cu_changes
-		$fields += $this->markUnusedFieldsAsNull( [ 'actiontext' ] );
 		$fields += $this->markUnusedFieldsAsNull( [ 'this_oldid', 'last_oldid' ], 'int' );
 		$fields += $this->markUnusedFieldsAsNull( [ 'minor' ], 'smallint' );
 		// Fields relevant to cu_log_event and cu_private_event

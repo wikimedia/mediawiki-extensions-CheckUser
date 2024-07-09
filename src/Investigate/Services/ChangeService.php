@@ -4,7 +4,6 @@ namespace MediaWiki\CheckUser\Investigate\Services;
 
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
-use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\AndExpressionGroup;
@@ -14,24 +13,16 @@ use Wikimedia\Rdbms\OrExpressionGroup;
 
 abstract class ChangeService implements CheckUserQueryInterface {
 
-	public const CONSTRUCTOR_OPTIONS = [
-		'CheckUserEventTablesMigrationStage',
-	];
-
 	protected IConnectionProvider $dbProvider;
 	protected CheckUserLookupUtils $checkUserLookupUtils;
 	private UserIdentityLookup $userIdentityLookup;
 
-	protected bool $eventTableReadNew;
-
 	/**
-	 * @param ServiceOptions $options
 	 * @param IConnectionProvider $dbProvider
 	 * @param UserIdentityLookup $userIdentityLookup
 	 * @param CheckUserLookupUtils $checkUserLookupUtils
 	 */
 	public function __construct(
-		ServiceOptions $options,
 		IConnectionProvider $dbProvider,
 		UserIdentityLookup $userIdentityLookup,
 		CheckUserLookupUtils $checkUserLookupUtils
@@ -39,11 +30,6 @@ abstract class ChangeService implements CheckUserQueryInterface {
 		$this->dbProvider = $dbProvider;
 		$this->userIdentityLookup = $userIdentityLookup;
 		$this->checkUserLookupUtils = $checkUserLookupUtils;
-		// Calling $options::assertRequiredOptions is not necessary here, as it should be called by
-		// classes which extend this class.
-		$this->eventTableReadNew = boolval(
-			$options->get( 'CheckUserEventTablesMigrationStage' ) & SCHEMA_COMPAT_READ_NEW
-		);
 	}
 
 	/**
