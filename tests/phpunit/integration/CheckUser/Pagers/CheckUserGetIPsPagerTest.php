@@ -135,7 +135,7 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerTestBase {
 				// added by ::getQueryInfo and not the info added by the table specific methods).
 				[
 					'tables' => [ 'cu_changes' ],
-					'conds' => [ 'actor_user' => 1, 'cuc_only_for_read_old' => 0 ],
+					'conds' => [ 'actor_user' => 1 ],
 					'options' => [
 						'USE INDEX' => [ 'cu_changes' => 'cuc_actor_ip_time' ],
 						'GROUP BY' => [ 'ip', 'ip_hex' ]

@@ -314,7 +314,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 				// added by ::getQueryInfo and not the info added by the table specific methods).
 				[
 					'tables' => [ 'cu_changes' ],
-					'conds' => [ 'cuc_only_for_read_old' => 0 ],
+					'conds' => [],
 					'options' => [ 'USE INDEX' => [ 'cu_changes' => 'cuc_ip_hex_time' ] ],
 					// Verify that fields and join_conds set as arrays, but we are not testing their values.
 					'fields' => [], 'join_conds' => [],
@@ -342,7 +342,7 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 				true, 'cu_changes',
 				[
 					'tables' => [ 'cu_changes' ],
-					'conds' => [ 'cuc_only_for_read_old' => 0 ],
+					'conds' => [],
 					'options' => [ 'USE INDEX' => [ 'cu_changes' => 'cuc_xff_hex_time' ] ],
 					'fields' => [], 'join_conds' => [],
 				]

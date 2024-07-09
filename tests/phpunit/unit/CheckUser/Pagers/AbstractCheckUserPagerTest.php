@@ -4,7 +4,6 @@ namespace MediaWiki\CheckUser\Tests\Unit\CheckUser\Pagers;
 
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers\DeAbstractedCheckUserPagerTest;
-use MediaWiki\Config\HashConfig;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Message\Message;
 use MediaWiki\Pager\IndexPager;
@@ -156,27 +155,15 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 
 	/** @dataProvider provideBuildQueryInfo */
 	public function testBuildQueryInfo(
-		$offset, $limit, $order, $startOffset, $endOffset,
-		$includeOffset, $eventTablesMigrationStage, $mockedQueryInfo,
-		$partialExpectedArray
+		$offset, $limit, $order, $startOffset, $endOffset, $includeOffset, $mockedQueryInfo, $partialExpectedArray
 	) {
 		$object = $this->getMockBuilder( DeAbstractedCheckUserPagerTest::class )
 			->disableOriginalConstructor()
-			->onlyMethods( [ 'getConfig', 'getQueryInfo' ] )
+			->onlyMethods( [ 'getQueryInfo' ] )
 			->getMock();
-		# Mock the config as this is a unit test.
-		$object->method( 'getConfig' )
-			->willReturn( new HashConfig( [ 'CheckUserEventTablesMigrationStage' => $eventTablesMigrationStage ] ) );
-		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
-			# Mock ::getQueryInfo to return the query info for each three queries in turn.
-			$object->method( 'getQueryInfo' )
-				->willReturnCallback( static fn ( $table ) => $mockedQueryInfo[$table] );
-		} else {
-			# Mock ::getQueryInfo to return the query info only for cu_changes.
-			$object->method( 'getQueryInfo' )
-				->with( CheckUserQueryInterface::CHANGES_TABLE )
-				->willReturn( $mockedQueryInfo[CheckUserQueryInterface::CHANGES_TABLE] );
-		}
+		// Mock ::getQueryInfo to return the query info for each three queries in turn.
+		$object->method( 'getQueryInfo' )
+			->willReturnCallback( static fn ( $table ) => $mockedQueryInfo[$table] );
 		$object->setIncludeOffset( $includeOffset );
 		$object->mDb = new SQLPlatform( new AddQuoterMock() );
 		$object = TestingAccessWrapper::newFromObject( $object );
@@ -188,19 +175,11 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 		$object->mExtraSortFields = [];
 		# Call the method under test.
 		$queryInfo = $object->buildQueryInfo( $offset, $limit, $order );
-		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
-			$this->assertCount(
-				3,
-				$queryInfo,
-				'::buildQueryInfo should have returned query info for three queries.'
-			);
-		} else {
-			$this->assertCount(
-				1,
-				$queryInfo,
-				'::buildQueryInfo should have returned query info for one query.'
-			);
-		}
+		$this->assertCount(
+			3,
+			$queryInfo,
+			'::buildQueryInfo should have returned query info for three queries.'
+		);
 		foreach ( $queryInfo as $table => $queryInfoForTable ) {
 			$this->assertArrayContains(
 				$partialExpectedArray[$table],
@@ -212,59 +191,8 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 
 	public static function provideBuildQueryInfo() {
 		return [
-			'No offset, limit 500, order DESC while reading old' => [
-				'', 500, IndexPager::QUERY_DESCENDING, '', '',
-				false, SCHEMA_COMPAT_READ_OLD,
-				[ CheckUserQueryInterface::CHANGES_TABLE => [
-					'tables' => [ 'cu_changes' ],
-					'fields' => [ 'timestamp', 'alias' => 'test' ],
-					'conds' => [ 'cond' => 'test' ],
-					'options' => [],
-					'join_conds' => []
-				] ],
-				[ CheckUserQueryInterface::CHANGES_TABLE => [
-					# tables
-					0 => [ 'cu_changes' ],
-					# fields
-					1 => [ 'timestamp', 'alias' => 'test' ],
-					# where conds
-					2 => [ 'cond' => 'test' ],
-					# options
-					4 => [ 'LIMIT' => 500, 'ORDER BY' => [ 'timestamp DESC' ] ],
-					# join_conds
-					5 => [],
-				] ]
-			],
-			'Start and end offset, limit 3, order DESC while reading old' => [
-				'', 3, IndexPager::QUERY_DESCENDING, 'test_start_offset', 'test_end_offset',
-				false, SCHEMA_COMPAT_READ_OLD,
-				[ CheckUserQueryInterface::CHANGES_TABLE => [
-					'tables' => [ 'cu_changes' ],
-					'fields' => [ 'timestamp', 'alias' => 'test' ],
-					'conds' => [ 'cond' => 'test' ],
-					'options' => [],
-					'join_conds' => []
-				] ],
-				[ CheckUserQueryInterface::CHANGES_TABLE => [
-					# tables
-					0 => [ 'cu_changes' ],
-					# fields
-					1 => [ 'timestamp', 'alias' => 'test' ],
-					# where conds
-					2 => [
-						'cond' => 'test',
-						"cuc_timestamp < 'test_end_offset'",
-						"cuc_timestamp >= 'test_start_offset'"
-					],
-					# options
-					4 => [ 'LIMIT' => 3, 'ORDER BY' => [ 'timestamp DESC' ] ],
-					# join_conds
-					5 => [],
-				] ]
-			],
 			'Offset, limit 20, order ASC, include offset while reading new' => [
-				'test_offset', 20, IndexPager::QUERY_ASCENDING, '', '',
-				true, SCHEMA_COMPAT_READ_NEW,
+				'test_offset', 20, IndexPager::QUERY_ASCENDING, '', '', true,
 				[
 					CheckUserQueryInterface::CHANGES_TABLE => [
 						'tables' => [ 'cu_changes' ],
@@ -290,39 +218,39 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 				],
 				[
 					CheckUserQueryInterface::CHANGES_TABLE => [
-						# tables
+						// tables
 						0 => [ 'cu_changes' ],
-						# fields
+						// fields
 						1 => [ 'timestamp', 'alias' => 'test' ],
-						# where conds
+						// where conds
 						2 => [ 'cond' => 'test', "cuc_timestamp >= 'test_offset'" ],
-						# options
+						// options
 						4 => [ 'LIMIT' => 20, 'ORDER BY' => [ 'timestamp' ] ],
-						# join_conds
+						// join_conds
 						5 => [],
 					],
 					CheckUserQueryInterface::LOG_EVENT_TABLE => [
-						# tables
+						// tables
 						0 => [ 'cu_log_event' ],
-						# fields
+						// fields
 						1 => [ 'timestamp', 'alias' => 'test2' ],
-						# where conds
+						// where conds
 						2 => [ 'cond' => 'test2', "cule_timestamp >= 'test_offset'" ],
-						# options
+						// options
 						4 => [ 'LIMIT' => 20, 'ORDER BY' => [ 'timestamp' ] ],
-						# join_conds
+						// join_conds
 						5 => [ 'logging' => 'test' ],
 					],
 					CheckUserQueryInterface::PRIVATE_LOG_EVENT_TABLE => [
-						# tables
+						// tables
 						0 => [ 'cu_private_event' ],
-						# fields
+						// fields
 						1 => [ 'timestamp', 'alias' => 'test3' ],
-						# where conds
+						// where conds
 						2 => [ 'cond' => 'test3', "cupe_timestamp >= 'test_offset'" ],
-						# options
+						// options
 						4 => [ 'LIMIT' => 20, 'ORDER BY' => [ 'timestamp' ] ],
-						# join_conds
+						// join_conds
 						5 => [],
 					],
 				]
@@ -331,9 +259,7 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 	}
 
 	/** @dataProvider provideReallyDoQuery */
-	public function testReallyDoQuery(
-		$limit, $order, $eventTableMigrationStage, $fakeResults, $expectedReturnResults
-	) {
+	public function testReallyDoQuery( $limit, $order, $fakeResults, $expectedReturnResults ) {
 		$object = $this->getMockBuilder( DeAbstractedCheckUserPagerTest::class )
 			->disableOriginalConstructor()
 			->onlyMethods( [ 'buildQueryInfo' ] )
@@ -344,40 +270,27 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 		$mockedQueryInfoForCuChanges = [ [ 'cu_changes' ], [ 'timestamp' ], [], 'fname', [], [] ];
 		$mockedQueryInfoForCuLogEvent = [ [ 'cu_log_event' ], [ 'timestamp' ], [], 'fname', [], [] ];
 		$mockedQueryInfoForCuPrivateEvent = [ [ 'cu_private_event' ], [ 'timestamp' ], [], 'fname', [], [] ];
-		if ( $eventTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
-			$object->expects( $this->once() )
-				->method( 'buildQueryInfo' )
-				->willReturn( [
-					$mockedQueryInfoForCuChanges, $mockedQueryInfoForCuLogEvent, $mockedQueryInfoForCuPrivateEvent
-				] );
-			$mockDb->method( 'newSelectQueryBuilder' )->willReturnCallback( static function () use ( $mockDb ) {
-				return new SelectQueryBuilder( $mockDb );
+		$object->expects( $this->once() )
+			->method( 'buildQueryInfo' )
+			->willReturn( [
+				$mockedQueryInfoForCuChanges, $mockedQueryInfoForCuLogEvent, $mockedQueryInfoForCuPrivateEvent
+			] );
+		$mockDb->method( 'newSelectQueryBuilder' )->willReturnCallback( static function () use ( $mockDb ) {
+			return new SelectQueryBuilder( $mockDb );
+		} );
+		$expectedSelects = [ 'cu_changes' => true, 'cu_log_event' => true, 'cu_private_event' => true ];
+		$mockDb->expects( $this->exactly( 3 ) )
+			->method( 'select' )
+			->willReturnCallback( function ( $tables, $vars, $_, $fname ) use ( &$expectedSelects, $fakeResults ) {
+				$this->assertIsArray( $tables );
+				$this->assertCount( 1, $tables );
+				$table = $tables[0];
+				$this->assertArrayHasKey( $table, $expectedSelects );
+				unset( $expectedSelects[$table] );
+				$this->assertSame( [ 'timestamp' ], $vars );
+				$this->assertSame( 'fname', $fname );
+				return $fakeResults[$table];
 			} );
-			$expectedSelects = [ 'cu_changes' => true, 'cu_log_event' => true, 'cu_private_event' => true ];
-			$mockDb->expects( $this->exactly( 3 ) )
-				->method( 'select' )
-				->willReturnCallback( function ( $tables, $vars, $_, $fname ) use ( &$expectedSelects, $fakeResults ) {
-					$this->assertIsArray( $tables );
-					$this->assertCount( 1, $tables );
-					$table = $tables[0];
-					$this->assertArrayHasKey( $table, $expectedSelects );
-					unset( $expectedSelects[$table] );
-					$this->assertSame( [ 'timestamp' ], $vars );
-					$this->assertSame( 'fname', $fname );
-					return $fakeResults[$table];
-				} );
-		} else {
-			$object->expects( $this->once() )
-				->method( 'buildQueryInfo' )
-				->willReturn( [ $mockedQueryInfoForCuChanges ] );
-			$queryBuilder = $this->createMock( SelectQueryBuilder::class );
-			$queryBuilder->method( $this->logicalOr( 'tables', 'fields', 'conds', 'options', 'joinConds', 'caller' ) )
-				->willReturnSelf();
-			$queryBuilder->method( 'fetchResultSet' )
-				->willReturn( $fakeResults[CheckUserQueryInterface::CHANGES_TABLE] );
-			$mockDb->method( 'newSelectQueryBuilder' )
-				->willReturn( $queryBuilder );
-		}
 		$object->mDb = $mockDb;
 		$returnResults = $object->reallyDoQuery( '', $limit, $order );
 		$this->assertSame(
@@ -434,28 +347,15 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 		$fakeResultsOrderAsc = array_values( $fakeResultsOrderAsc );
 		# Start test cases
 		return [
-			'Limit 500, order DESC while reading old' => [
-				500, IndexPager::QUERY_DESCENDING, SCHEMA_COMPAT_READ_OLD,
-				$fakeResultsPerTable, $fakeResultsOrderDescForReadOld
+			'Limit 500, order ASC' => [
+				500, IndexPager::QUERY_ASCENDING, $fakeResultsPerTable, $fakeResultsOrderAsc
 			],
-			'Limit 500, order ASC while reading new' => [
-				500, IndexPager::QUERY_ASCENDING, SCHEMA_COMPAT_READ_NEW,
-				$fakeResultsPerTable, $fakeResultsOrderAsc
-			],
-			'Limit 10, order DESC while reading old' => [
-				10, IndexPager::QUERY_DESCENDING, SCHEMA_COMPAT_READ_OLD,
-				$fakeResultsPerTable, array_slice( $fakeResultsOrderDescForReadOld, 0, 10 )
-			],
-			'Limit 10, order DESC while reading new' => [
-				10, IndexPager::QUERY_DESCENDING, SCHEMA_COMPAT_READ_NEW,
+			'Limit 10, order DESC' => [
+				10, IndexPager::QUERY_DESCENDING,
 				$fakeResultsPerTable, array_slice( $fakeResultsOrderDesc, 0, 10 )
 			],
-			'Limit 5, order ASC while reading old' => [
-				5, IndexPager::QUERY_ASCENDING, SCHEMA_COMPAT_READ_OLD,
-				$fakeResultsPerTable, array_slice( $fakeResultsOrderAscForReadOld, 0, 5 )
-			],
-			'Limit 10, order ASC while reading new' => [
-				10, IndexPager::QUERY_ASCENDING, SCHEMA_COMPAT_READ_NEW,
+			'Limit 10, order ASC' => [
+				10, IndexPager::QUERY_ASCENDING,
 				$fakeResultsPerTable, array_slice( $fakeResultsOrderAsc, 0, 10 )
 			],
 		];

@@ -56,35 +56,18 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 	}
 
 	/** @dataProvider provideGetQueryInfoForCuChanges */
-	public function testGetQueryInfoForCuChanges( $eventTableMigrationStage, $displayClientHints, $expectedQueryInfo ) {
+	public function testGetQueryInfoForCuChanges( $displayClientHints, $expectedQueryInfo ) {
 		$this->commonGetQueryInfoForTableSpecificMethod(
 			'getQueryInfoForCuChanges',
-			[
-				'eventTableReadNew' => boolval( $eventTableMigrationStage & SCHEMA_COMPAT_READ_NEW ),
-				'displayClientHints' => $displayClientHints
-			],
+			[ 'displayClientHints' => $displayClientHints ],
 			$expectedQueryInfo
 		);
 	}
 
 	public static function provideGetQueryInfoForCuChanges() {
 		return [
-			'Returns expected keys to arrays and includes cu_changes in tables while reading new' => [
-				SCHEMA_COMPAT_READ_NEW, false, [
-					// Fields should be an array
-					'fields' => [],
-					// Assert at least cu_changes in the table list
-					'tables' => [ 'cu_changes' ],
-					// When reading new, do not include rows from cu_changes
-					// that were marked as only being for read old.
-					'conds' => [ 'cuc_only_for_read_old' => 0 ],
-					// Should be all of these as arrays
-					'options' => [],
-					'join_conds' => [],
-				]
-			],
-			'Returns expected keys to arrays and includes cu_changes in tables while reading old' => [
-				SCHEMA_COMPAT_READ_OLD, false, [
+			'Returns expected keys to arrays and includes cu_changes in tables' => [
+				false, [
 					// Fields should be an array
 					'fields' => [],
 					// Assert at least cu_changes in the table list
@@ -96,7 +79,6 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 				]
 			],
 			'Client Hints enabled' => [
-				SCHEMA_COMPAT_READ_OLD,
 				true,
 				[
 					'fields' => [

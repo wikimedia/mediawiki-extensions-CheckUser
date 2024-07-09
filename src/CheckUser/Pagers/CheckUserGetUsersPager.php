@@ -495,11 +495,6 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			'join_conds' => [ 'actor_cuc_actor' => [ 'JOIN', 'actor_cuc_actor.actor_id=cuc_actor' ] ],
 			'options' => [],
 		];
-		// When reading new, only select results from cu_changes that are
-		// for read new (defined as those with cuc_only_for_read_old set to 0).
-		if ( $this->eventTableReadNew ) {
-			$queryInfo['conds']['cuc_only_for_read_old'] = 0;
-		}
 		// When displaying Client Hints data, add the reference type and reference ID to each row.
 		if ( $this->displayClientHints ) {
 			$queryInfo['fields']['client_hints_reference_id'] =
