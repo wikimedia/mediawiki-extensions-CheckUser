@@ -1,6 +1,20 @@
 const ipRevealUtils = require( './ipRevealUtils.js' );
 const { performRevealRequest } = require( './rest.js' );
 
+/**
+ * Make a button for revealing IP addresses and add a handler for the 'ipReveal'
+ * event. The handler will perform an API lookup and replace the button with some
+ * resulting information.
+ *
+ * @param {string} target
+ * @param {Object} revIds Object used to perform the API request, containing:
+ *  - targetId: revision ID for the passed-in element
+ *  - allIds: array of all revision IDs for the passed-in target
+ * @param {Object} logIds Object used to perform the API request, containing:
+ *  - targetId: log ID for the passed-in element
+ *  - allIds: array of all log IDs for the passed-in target
+ * @return {jQuery}
+ */
 function makeButton( target, revIds, logIds ) {
 	const button = new OO.ui.ButtonWidget( {
 		label: mw.msg( 'checkuser-tempaccount-reveal-ip-button-label' ),
@@ -52,7 +66,7 @@ function makeButton( target, revIds, logIds ) {
 }
 
 /**
- * Add a button to a "typical" page. This functionality is here because
+ * Add buttons to a "typical" page. This functionality is here because
  * it is shared between initOnLoad and initOnHook.
  *
  * @param {jQuery} $content
@@ -63,8 +77,8 @@ function addButton( $content ) {
 	const $userLinks = $content.find( '.mw-tempuserlink' );
 
 	$userLinks.each( function () {
-		getAllIds( $( this ), allRevIds, getRevisionId );
-		getAllIds( $( this ), allLogIds, getLogId );
+		addToAllIds( $( this ), allRevIds, getRevisionId );
+		addToAllIds( $( this ), allLogIds, getLogId );
 	} );
 
 	$userLinks.after( function () {
@@ -75,7 +89,16 @@ function addButton( $content ) {
 	} );
 }
 
-function getAllIds( $element, allIds, getId ) {
+/**
+ * Add the log or revision ID for a certain element to a map of each target on the page
+ * to all the IDs on the page that are relevant to that target.
+ *
+ * @param {jQuery} $element A user link
+ * @param {Object.<string, number[]>} allIds Map to be populated
+ * @param {function(jQuery):number|undefined} getId Callback that gets the ID associated
+ *  with the $element (which may be undefined).
+ */
+function addToAllIds( $element, allIds, getId ) {
 	const id = getId( $element );
 	if ( id ) {
 		const target = $element.text();
@@ -86,6 +109,19 @@ function getAllIds( $element, allIds, getId ) {
 	}
 }
 
+/**
+ * Get IDs of a certain type (e.g. revision, log) for a certain target user.
+ *
+ * @param {jQuery} $element
+ * @param {string} target
+ * @param {Object.<string, number[]>} allIds Map of all targets to their relevant IDs of
+ *  one type (revision or log)
+ * @param {function(jQuery):number|undefined} getId Callback that gets the ID associated
+ *  with the $element (which may be undefined).
+ * @return {Object} Object used to perform the API request, containing:
+ *  - targetId: ID for the passed-in element
+ *  - allIds: array of all IDs of one type for the passed-in target
+ */
 function getIdsForTarget( $element, target, allIds, getId ) {
 	const id = getId( $element );
 	let ids;
@@ -131,6 +167,12 @@ function getRevisionId( $element ) {
 	return $element.closest( '[data-mw-revid]' ).data( 'mw-revid' );
 }
 
+/**
+ * Get log ID from the surrounding mw-changeslist-line list item.
+ *
+ * @param {jQuery} $element
+ * @return {number|undefined}
+ */
 function getLogId( $element ) {
 	// Check if CheckUserEventTablesMigrationStage contains SCHEMA_COMPAT_READ_NEW
 	// eslint-disable-next-line no-bitwise
