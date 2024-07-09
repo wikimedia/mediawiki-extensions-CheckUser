@@ -50,11 +50,11 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 				[],
 				[
 					'cuc_ip', 'cuc_ip_hex', 'cuc_xff', 'cuc_xff_hex', 'cuc_page_id',
-					'cuc_namespace', 'cuc_minor', 'cuc_title', 'cuc_actiontext',
+					'cuc_namespace', 'cuc_minor', 'cuc_title',
 					'cuc_this_oldid', 'cuc_last_oldid', 'cuc_type', 'cuc_agent',
 					'cuc_timestamp'
 				],
-				[ '127.0.0.1', '7F000001', '', null, 0, NS_MAIN, 0, '', '', 0, 0, RC_LOG, '', '20240506070809' ]
+				[ '127.0.0.1', '7F000001', '', null, 0, NS_MAIN, 0, '', 0, 0, RC_LOG, '', '20240506070809' ]
 			],
 		];
 	}
@@ -174,7 +174,6 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 
 	public static function provideFieldsThatAreTruncated() {
 		return [
-			'cu_changes action text column' => [ 'cu_changes', 'cuc_actiontext' ],
 			'cu_changes XFF column' => [ 'cu_changes', 'cuc_xff' ],
 			'cu_private_event XFF column' => [ 'cu_private_event', 'cupe_xff' ],
 			'cu_log_event XFF column' => [ 'cu_log_event', 'cule_xff' ],

@@ -343,7 +343,6 @@ class CheckUserInsert {
 				'cuc_namespace'  => 0,
 				'cuc_minor'      => 0,
 				'cuc_title'      => '',
-				'cuc_actiontext' => '',
 				'cuc_comment'    => '',
 				'cuc_actor'      => $this->acquireActorId( $user, CheckUserQueryInterface::CHANGES_TABLE ),
 				'cuc_this_oldid' => 0,
@@ -361,10 +360,6 @@ class CheckUserInsert {
 
 		// (T199323) Truncate text fields prior to database insertion
 		// Attempting to insert too long text will cause an error in MariaDB/MySQL strict mode
-		$row['cuc_actiontext'] = $this->contentLanguage->truncateForDatabase(
-			$row['cuc_actiontext'],
-			self::TEXT_FIELD_LENGTH
-		);
 		$row['cuc_xff'] = $this->contentLanguage->truncateForDatabase( $row['cuc_xff'], self::TEXT_FIELD_LENGTH );
 
 		if ( !isset( $row['cuc_comment_id'] ) ) {
