@@ -59,16 +59,11 @@ class PerformRetroactiveAutoblockHandler implements PerformRetroactiveAutoblockH
 		// Get the last used IPs for the user that is the target of this block. These IPs will come from all three
 		// result tables if event table migration is set to read new.
 		$dbr = $this->dbProvider->getReplicaDatabase( $block->getWikiId() );
-		$resultTables = [ self::CHANGES_TABLE ];
-		$eventTablesReadNew = $this->config->get( 'CheckUserEventTablesMigrationStage' ) & SCHEMA_COMPAT_READ_NEW;
-		if ( $eventTablesReadNew ) {
-			$resultTables = self::RESULT_TABLES;
-		}
 
 		$lastUsedIPs = [];
-		foreach ( $resultTables as $table ) {
+		foreach ( self::RESULT_TABLES as $table ) {
 			$tablePrefix = self::RESULT_TABLE_TO_PREFIX[$table];
-			$queryBuilder = $dbr->newSelectQueryBuilder()
+			$res = $dbr->newSelectQueryBuilder()
 				->select( [ 'ip' => $tablePrefix . 'ip', 'timestamp' => 'MAX(' . $tablePrefix . 'timestamp)' ] )
 				->from( $table )
 				->useIndex( $tablePrefix . 'actor_ip_time' )
@@ -77,13 +72,8 @@ class PerformRetroactiveAutoblockHandler implements PerformRetroactiveAutoblockH
 				->limit( $maximumIPsToAutoblock )
 				->groupBy( 'ip' )
 				->orderBy( $tablePrefix . 'timestamp', SelectQueryBuilder::SORT_DESC )
-				->caller( __METHOD__ );
-
-			if ( $table === self::CHANGES_TABLE && $eventTablesReadNew ) {
-				$queryBuilder->andWhere( [ 'cuc_only_for_read_old' => 0 ] );
-			}
-
-			$res = $queryBuilder->fetchResultSet();
+				->caller( __METHOD__ )
+				->fetchResultSet();
 
 			// Use the results of the query to fill an array of IPs and their last usage timestamp.
 			// This will be truncated later to meet the specified limit.
