@@ -500,7 +500,11 @@
 			"modules/ext.checkUser/investigate/blockform.js",
 			"tests/qunit/ext.checkUser/investigate/cases/blockFormWidgetVisibility.json",
 			"tests/qunit/ext.checkUser/temporaryaccount/ipRevealUtils.test.js",
-			"modules/ext.checkUser/temporaryaccount/ipRevealUtils.js"
+			"modules/ext.checkUser/temporaryaccount/ipRevealUtils.js",
+			"tests/qunit/ext.checkUser/temporaryaccount/ipReveal.test.js",
+			"tests/qunit/ext.checkUser/temporaryaccount/utils.js",
+			"modules/ext.checkUser/temporaryaccount/ipReveal.js",
+			"modules/ext.checkUser/temporaryaccount/rest.js"
 		],
 		"dependencies": [
 			"mediawiki.qunit-testrunner",
