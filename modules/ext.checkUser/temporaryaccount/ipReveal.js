@@ -2,6 +2,42 @@ const ipRevealUtils = require( './ipRevealUtils.js' );
 const { performRevealRequest } = require( './rest.js' );
 
 /**
+ * Replace a button with an IP address, or a message indicating that the IP address
+ * was not found.
+ *
+ * @param {jQuery} $element The button element
+ * @param {string|false} ip IP address, or false if the IP is unavaiable
+ * @param {boolean} success The IP lookup was successful. Indicates how to interpret
+ *  a value of `false` for the IP address. If the lookup was successful but the IP,
+ *  then the IP address is legitimately missing, likely because it has been purged.
+ */
+function replaceButton( $element, ip, success ) {
+	if ( success ) {
+		$element.replaceWith(
+			ip ?
+				$( '<span>' )
+					.addClass( 'ext-checkuser-tempaccount-reveal-ip' )
+					.append(
+						$( '<a>' )
+							.attr( 'href', mw.util.getUrl( 'Special:IPContributions/' + ip ) )
+							.addClass( 'ext-checkuser-tempaccount-reveal-ip-anchor' )
+							.text( ip )
+					) :
+				$( '<span>' )
+					.addClass( 'ext-checkuser-tempaccount-reveal-ip' )
+					.text( mw.msg( 'checkuser-tempaccount-reveal-ip-missing' ) )
+
+		);
+	} else {
+		$element.replaceWith(
+			$( '<span>' )
+				.addClass( 'ext-checkuser-tempaccount-reveal-ip' )
+				.text( mw.msg( 'checkuser-tempaccount-reveal-ip-error' ) )
+		);
+	}
+}
+
+/**
  * Make a button for revealing IP addresses and add a handler for the 'ipReveal'
  * event. The handler will perform an API lookup and replace the button with some
  * resulting information.
@@ -28,7 +64,6 @@ function makeButton( target, revIds, logIds ) {
 	button.once( 'click', () => {
 		button.$element.trigger( 'revealIp' );
 		button.$element.off( 'revealIp' );
-		$( document ).trigger( 'userRevealed', [ target ] );
 	} );
 
 	button.$element.on( 'revealIp', () => {
@@ -38,27 +73,10 @@ function makeButton( target, revIds, logIds ) {
 			if ( !ipRevealUtils.getRevealedStatus( target ) ) {
 				ipRevealUtils.setRevealedStatus( target );
 			}
-			button.$element.replaceWith(
-				ip ?
-					$( '<span>' )
-						.addClass( 'ext-checkuser-tempaccount-reveal-ip' )
-						.append(
-							$( '<a>' )
-								.attr( 'href', mw.util.getUrl( 'Special:IPContributions/' + ip ) )
-								.addClass( 'ext-checkuser-tempaccount-reveal-ip-anchor' )
-								.text( ip )
-						) :
-					$( '<span>' )
-						.addClass( 'ext-checkuser-tempaccount-reveal-ip' )
-						.text( mw.msg( 'checkuser-tempaccount-reveal-ip-missing' ) )
-
-			);
+			replaceButton( button.$element, ip, true );
+			$( document ).trigger( 'userRevealed', [ target, response.ips ] );
 		} ).fail( () => {
-			button.$element.replaceWith(
-				$( '<span>' )
-					.addClass( 'ext-checkuser-tempaccount-reveal-ip' )
-					.text( mw.msg( 'checkuser-tempaccount-reveal-ip-error' ) )
-			);
+			replaceButton( button.$element, false, false );
 		} );
 	} );
 
@@ -141,7 +159,7 @@ function getIdsForTarget( $element, target, allIds, getId ) {
  * @param {jQuery} $element
  */
 function enableMultiReveal( $element ) {
-	$element.on( 'userRevealed', ( _e, userLookup ) => {
+	$element.on( 'userRevealed', ( _e, userLookup, ips ) => {
 		// Find all temp user links that share the username
 		let $userLinks = $( '.mw-tempuserlink' ).filter( function () {
 			return $( this ).text() === userLookup;
@@ -152,7 +170,10 @@ function enableMultiReveal( $element ) {
 
 		// Synthetically trigger a reveal event
 		$userLinks.each( function () {
-			$( this ).trigger( 'revealIp' );
+			const ip = ips ?
+				ips[ ( getRevisionId( $( this ) ) || getLogId( $( this ) ) ) || 0 ] :
+				false;
+			replaceButton( $( this ), ip, true );
 		} );
 	} );
 }
