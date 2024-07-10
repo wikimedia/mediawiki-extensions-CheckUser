@@ -42,7 +42,7 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * Re-define the CheckUserInsert service to expect no calls to any of it's methods.
+	 * Re-define the CheckUserInsert service to expect no calls to any of its methods.
 	 * This is done to assert that no inserts to the database occur instead of having
 	 * to assert a row count of zero.
 	 *
