@@ -272,7 +272,8 @@
 			"services": [
 				"CheckUserInsert",
 				"MainConfig",
-				"UserIdentityLookup"
+				"UserIdentityLookup",
+				"UserFactory"
 			]
 		},
 		"RetroactiveAutoBlock": {
@@ -318,7 +319,7 @@
 		}
 	},
 	"Hooks": {
-		"AuthManagerLoginAuthenticateAudit": "Hooks",
+		"AuthManagerLoginAuthenticateAudit": "CheckUserPrivateEvents",
 		"BeforePageDisplay": [
 			"clienthints",
 			"pageDisplay"

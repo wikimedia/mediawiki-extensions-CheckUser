@@ -2,9 +2,17 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
+use LogEntryBase;
+use MediaWiki\Auth\AuthenticationRequest;
+use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Context\RequestContext;
+use MediaWiki\MediaWikiServices;
+use MediaWiki\Message\Message;
+use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
+use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
 
 /**
@@ -15,12 +23,14 @@ use MediaWikiIntegrationTestCase;
 class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 
 	use CheckUserCommonTraitTest;
+	use TempUserTestTrait;
 
 	private function getObjectUnderTest(): CheckUserPrivateEventsHandler {
 		return new CheckUserPrivateEventsHandler(
 			$this->getServiceContainer()->get( 'CheckUserInsert' ),
 			$this->getServiceContainer()->getMainConfig(),
-			$this->getServiceContainer()->getUserIdentityLookup()
+			$this->getServiceContainer()->getUserIdentityLookup(),
+			$this->getServiceContainer()->getUserFactory()
 		);
 	}
 
@@ -61,5 +71,162 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			$html,
 			'Nonexisting test user1234567'
 		);
+	}
+
+	private function doTestOnAuthManagerLoginAuthenticateAudit(
+		AuthenticationResponse $authResp, User $userObj,
+		string $userName, bool $isAnonPerformer, string $expectedLogAction
+	): void {
+		if ( $isAnonPerformer ) {
+			$this->disableAutoCreateTempUser();
+		}
+		$this->getObjectUnderTest()->onAuthManagerLoginAuthenticateAudit( $authResp, $userObj, $userName, [] );
+		$expectedValues = [ NS_USER, $userName ];
+		if ( $isAnonPerformer ) {
+			$expectedValues[] = 0;
+			$expectedValues[] = RequestContext::getMain()->getRequest()->getIP();
+		} else {
+			$expectedValues[] = $userObj->getId();
+			$expectedValues[] = $userName;
+		}
+		$expectedValues[] = LogEntryBase::makeParamBlob( [ '4::target' => $userName ] );
+		$expectedValues[] = $expectedLogAction;
+		$this->newSelectQueryBuilder()
+			->select( [ 'cupe_namespace', 'cupe_title', 'actor_user', 'actor_name', 'cupe_params', 'cupe_log_action' ] )
+			->from( 'cu_private_event' )
+			->join( 'actor', null, 'actor_id=cupe_actor' )
+			->assertRowValue( $expectedValues );
+	}
+
+	/** @dataProvider provideOnAuthManagerLoginAuthenticateAudit */
+	public function testOnAuthManagerLoginAuthenticateAudit(
+		string $authStatus, string $expectedLogAction, bool $isAnonPerformer, array $userGroups
+	) {
+		$this->setMwGlobals( [
+			'wgCheckUserLogLogins' => true,
+			'wgCheckUserLogSuccessfulBotLogins' => true,
+		] );
+		$userObj = $this->getTestUser( $userGroups )->getUser();
+		$userName = $userObj->getName();
+		$authResp = $this->getMockAuthenticationResponseForStatus( $authStatus, $userName );
+
+		$this->doTestOnAuthManagerLoginAuthenticateAudit(
+			$authResp, $userObj, $userName, $isAnonPerformer, $expectedLogAction
+		);
+	}
+
+	public static function provideOnAuthManagerLoginAuthenticateAudit() {
+		return [
+			'successful login' => [ AuthenticationResponse::PASS, 'login-success', false, [] ],
+			'failed login' => [ AuthenticationResponse::FAIL, 'login-failure', true, [] ],
+			'successful bot login' => [ AuthenticationResponse::PASS, 'login-success', false, [ 'bot' ] ],
+		];
+	}
+
+	/** @dataProvider provideOnAuthManagerLoginAuthenticateAuditWithCentralAuthInstalled */
+	public function testOnAuthManagerLoginAuthenticateAuditWithCentralAuthInstalled(
+		array $authFailReasons, bool $existingUser, string $expectedLogAction, bool $isAnonPerformer
+	) {
+		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
+		$authResp = AuthenticationResponse::newFail(
+			$this->createMock( Message::class ),
+			$authFailReasons
+		);
+
+		$this->setMwGlobals( [
+			'wgCheckUserLogLogins' => true,
+			'wgCheckUserLogSuccessfulBotLogins' => true,
+		] );
+		$userObj = $existingUser
+			? $this->getTestUser()->getUser()
+			: MediaWikiServices::getInstance()->getUserFactory()->newFromName( wfRandomString() );
+		$userName = $userObj->getName();
+
+		$this->doTestOnAuthManagerLoginAuthenticateAudit(
+			$authResp, $userObj, $userName, $isAnonPerformer, $expectedLogAction
+		);
+	}
+
+	public static function provideOnAuthManagerLoginAuthenticateAuditWithCentralAuthInstalled() {
+		return [
+			'failed login with correct password' => [
+				// This is CentralAuthUser::AUTHENTICATE_GOOD_PASSWORD, but cannot be referenced
+				//  directly due to T321864
+				[ "good password" ],
+				true,
+				'login-failure-with-good-password',
+				true,
+			],
+			'failed login with the correct password but locked and no local account' => [
+				// This is CentralAuthUser::AUTHENTICATE_GOOD_PASSWORD and CentralAuthUser::AUTHENTICATE_LOCKED,
+				//  respectively but cannot be referenced directly due to T321864
+				[ "good password", "locked" ],
+				false,
+				'login-failure-with-good-password',
+				true,
+			],
+			'failed login with correct password but locked' => [
+				// This is CentralAuthUser::AUTHENTICATE_GOOD_PASSWORD and CentralAuthUser::AUTHENTICATE_LOCKED,
+				//  respectively but cannot be referenced directly due to T321864
+				[ "good password", "locked" ],
+				true,
+				'login-failure-with-good-password',
+				false,
+			],
+		];
+	}
+
+	private function getMockAuthenticationResponseForStatus( $status, $user = 'test' ) {
+		$req = $this->getMockForAbstractClass( AuthenticationRequest::class );
+		switch ( $status ) {
+			case AuthenticationResponse::PASS:
+				return AuthenticationResponse::newPass( $user );
+			case AuthenticationResponse::FAIL:
+				return AuthenticationResponse::newFail( $this->createMock( Message::class ) );
+			case AuthenticationResponse::ABSTAIN:
+				return AuthenticationResponse::newAbstain();
+			case AuthenticationResponse::REDIRECT:
+				return AuthenticationResponse::newRedirect( [ $req ], '' );
+			case AuthenticationResponse::RESTART:
+				return AuthenticationResponse::newRestart( $this->createMock( Message::class ) );
+			case AuthenticationResponse::UI:
+				return AuthenticationResponse::newUI( [ $req ], $this->createMock( Message::class ) );
+			default:
+				$this->fail( 'No AuthenticationResponse mock was defined for the status ' . $status );
+		}
+	}
+
+	/** @dataProvider provideOnAuthManagerLoginAuthenticateAuditNoSave */
+	public function testOnAuthManagerLoginAuthenticateAuditNoSave(
+		string $status, bool $validUser, array $userGroups, bool $logLogins, bool $logBots
+	) {
+		$this->expectNoCheckUserInsertCalls();
+		$this->setMwGlobals( [
+			'wgCheckUserLogLogins' => $logLogins,
+			'wgCheckUserLogSuccessfulBotLogins' => $logBots,
+		] );
+		if ( $validUser ) {
+			$userObj = $this->getTestUser( $userGroups )->getUser();
+			$userName = $userObj->getName();
+		} else {
+			$userObj = null;
+			$userName = '';
+		}
+		$ret = $this->getMockAuthenticationResponseForStatus( $status, $userName );
+		$this->getObjectUnderTest()->onAuthManagerLoginAuthenticateAudit( $ret, $userObj, $userName, [] );
+	}
+
+	public static function provideOnAuthManagerLoginAuthenticateAuditNoSave() {
+		return [
+			'invalid user' => [ AuthenticationResponse::PASS, false, [], true, true ],
+			'Abstain authentication response' => [ AuthenticationResponse::ABSTAIN, true, [], true, true ],
+			'Redirect authentication response' => [ AuthenticationResponse::REDIRECT, true, [], true, true ],
+			'UI authentication response' => [ AuthenticationResponse::UI, true, [], true, true ],
+			'Restart authentication response' => [ AuthenticationResponse::RESTART, true, [], true, true ],
+			'LogLogins set to false' => [ AuthenticationResponse::PASS, true, [], false, true ],
+			'Successful authentication for bot account with wgCheckUserLogSuccessfulBotLogins set to false' => [
+				AuthenticationResponse::PASS, true, [ 'bot' ], true, false,
+			],
+		];
 	}
 }
