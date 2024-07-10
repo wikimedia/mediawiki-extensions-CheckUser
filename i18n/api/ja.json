@@ -30,5 +30,7 @@
 	"apihelp-query+checkuserlog-example-1": "[[User:Example]] の調査を表示",
 	"apihelp-query+checkuserlog-example-2": "192.0.2.0/24 の 2011-10-15T23:00:00Z 以降の調査を表示",
 	"apierror-checkuser-missingsummary": "調査理由を明確にする必要があります。",
-	"apierror-checkuser-timelimit": "正しい期間を設定してください（例: \"-2 weeks\" または \"2 weeks ago\"）"
+	"apierror-checkuser-timelimit": "正しい期間を設定してください（例: \"-2 weeks\" または \"2 weeks ago\"）",
+	"apierror-checkuser-invalidmode": "無効なリクエストモード",
+	"apierror-checkuser-nosuchuser": "この利用者名に該当する利用者はいません"
 }
