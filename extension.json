@@ -342,11 +342,6 @@
 		"UserMergeAccountFields": "UserMerge",
 		"UserToolLinksEdit": "ToolLinks"
 	},
-	"DeprecatedHooks": {
-		"CheckUserInsertForRecentChange": {
-			"deprecatedVersion": "1.40"
-		}
-	},
 	"MessagesDirs": {
 		"CheckUser": [
 			"i18n",

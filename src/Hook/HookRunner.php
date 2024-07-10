@@ -15,7 +15,6 @@ class HookRunner implements
 	CheckUserInsertChangesRowHook,
 	CheckUserInsertLogEventRowHook,
 	CheckUserInsertPrivateEventRowHook,
-	CheckUserInsertForRecentChangeHook,
 	SpecialCheckUserGetLinksFromRowHook
 {
 
@@ -78,14 +77,6 @@ class HookRunner implements
 		$this->container->run(
 			'CheckUserInsertPrivateEventRow',
 			[ &$ip, &$xff, &$row, $user, $rc ]
-		);
-	}
-
-	/** @inheritDoc */
-	public function onCheckUserInsertForRecentChange( RecentChange $rc, array &$rcRow ) {
-		$this->container->run(
-			'CheckUserInsertForRecentChange',
-			[ $rc, &$rcRow ]
 		);
 	}
 
