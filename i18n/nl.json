@@ -262,12 +262,12 @@
 	"checkuser-tempaccount-reveal-ip-error": "fout",
 	"checkuser-tempaccount-specialblock-ips": "Dit is een tijdelijke gebruiker die {{PLURAL:$1|het|de}} volgende IP-adres{{PLURAL:$1||sen}} gebruikt: $2",
 	"checkuser-temporary-account-log-name": "Logboek inzage tijdelijke accounts",
-	"checkuser-temporary-account-log-header": "Dit is een logboek van:\n# Inzage van de IP-adressen die door tijdelijke accounts worden gebruikt; en\n# Wijzigingen in gebruikerstoegangsniveaus voor het inzien van IP-adressen die door tijdelijke accounts worden gebruikt.",
+	"checkuser-temporary-account-log-header": "Dit is een logboek van:\n# Inzage van de IP-adressen die door een tijdelijke account worden gebruikt\n# Inzage van de tijdelijke accounts die met een IP-adres of IP-adresbereik verband houden\n# Wijzigingen van gebruikerstoegangsniveaus voor het inzien van IP-adressen die door tijdelijke accounts worden gebruikt",
 	"logentry-checkuser-temporary-account-change-access": "$1 heeft {{GENDER:$2|zijn|haar|diens}} eigen toegang voor inzage IP-adressen tijdelijke accounts $4",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|gedeactiveerd}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|geactiveerd}}",
 	"logentry-checkuser-temporary-account-view-ips": "$1 heeft de IP-adressen voor $3 {{GENDER:$2|ingezien}}",
 	"log-action-filter-checkuser-temporary-account": "Soort handeling:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Toegang wijzigen",
-	"log-action-filter-checkuser-temporary-account-view-ips": "IP-adressen bekijken"
+	"log-action-filter-checkuser-temporary-account-view-ips": "Gegevens IP-adressen tijdelijk account inzien"
 }
