@@ -267,6 +267,14 @@
 				"UserOptionsLookup"
 			]
 		},
+		"CheckUserPrivateEvents": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\CheckUserPrivateEventsHandler",
+			"services": [
+				"CheckUserInsert",
+				"MainConfig",
+				"UserIdentityLookup"
+			]
+		},
 		"RetroactiveAutoBlock": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\PerformRetroactiveAutoblockHandler",
 			"services": [
@@ -328,7 +336,7 @@
 		"SpecialPageBeforeExecute": "clienthints",
 		"SpecialPage_initList": "SpecialPageInitList",
 		"User::mailPasswordInternal": "Hooks",
-		"UserLogoutComplete": "Hooks",
+		"UserLogoutComplete": "CheckUserPrivateEvents",
 		"UserMergeAccountFields": "UserMerge",
 		"UserToolLinksEdit": "ToolLinks"
 	},

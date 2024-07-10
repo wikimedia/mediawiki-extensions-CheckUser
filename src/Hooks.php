@@ -18,7 +18,6 @@ use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Hook\EmailUserHook;
 use MediaWiki\Hook\RecentChange_saveHook;
-use MediaWiki\Hook\UserLogoutCompleteHook;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Status\Status;
@@ -37,7 +36,6 @@ class Hooks implements
 	EmailUserHook,
 	LocalUserCreatedHook,
 	RecentChange_saveHook,
-	UserLogoutCompleteHook,
 	User__mailPasswordInternalHook
 {
 
@@ -546,50 +544,6 @@ class Hooks implements
 				'cuc_namespace'  => NS_USER,
 				'cuc_title'      => $userName,
 				'cuc_actiontext' => wfMessage( $msg )->params( $target )->inContentLanguage()->text(),
-			];
-			if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-				$row['cuc_only_for_read_old'] = 1;
-			}
-			self::insertIntoCuChangesTable(
-				$row,
-				__METHOD__,
-				$performer
-			);
-		}
-	}
-
-	/** @inheritDoc */
-	public function onUserLogoutComplete( $user, &$inject_html, $oldName ) {
-		$services = MediaWikiServices::getInstance();
-		if ( !$services->getMainConfig()->get( 'CheckUserLogLogins' ) ) {
-			# Treat the log logins config as also applying to logging logouts.
-			return;
-		}
-
-		$performer = $services->getUserIdentityLookup()->getUserIdentityByName( $oldName );
-		if ( $performer === null ) {
-			return;
-		}
-
-		$eventTablesMigrationStage = $services->getMainConfig()->get( 'CheckUserEventTablesMigrationStage' );
-		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			self::insertIntoCuPrivateEventTable(
-				[
-					'cupe_namespace'  => NS_USER,
-					'cupe_title'      => $oldName,
-					// The following messages are generated here:
-					// * logentry-checkuser-private-event-user-logout
-					'cupe_log_action' => 'user-logout',
-				],
-				__METHOD__,
-				$performer
-			);
-		}
-		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
-			$row = [
-				'cuc_namespace'  => NS_USER,
-				'cuc_title'      => $oldName,
-				'cuc_actiontext' => wfMessage( 'checkuser-logout', $oldName )->inContentLanguage()->text(),
 			];
 			if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
 				$row['cuc_only_for_read_old'] = 1;
