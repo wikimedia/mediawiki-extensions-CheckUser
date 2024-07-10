@@ -128,10 +128,11 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 	public function testReasonFilter(
 		$logType, $targetType, $target, $reason, $targetID, $timestamp, $reasonToSearchFor, $shouldSeeEntry
 	) {
+		ConvertibleTimestamp::setFakeTime( $timestamp );
 		/** @var CheckUserLogService $checkUserLogService */
 		$checkUserLogService = $this->getServiceContainer()->get( 'CheckUserLogService' );
 		$checkUserLogService->addLogEntry(
-			$this->getTestSysop()->getUser(), $logType, $targetType, $target, $reason, $targetID, $timestamp
+			$this->getTestSysop()->getUser(), $logType, $targetType, $target, $reason, $targetID
 		);
 		DeferredUpdates::doUpdates();
 		$result = $this->doCheckUserLogApiRequest( [
@@ -159,14 +160,8 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 	public static function provideExampleLogEntryDataForReasonFilterTest() {
 		$tests = [];
 		foreach ( self::provideExampleLogEntryData() as $name => $values ) {
-			$tests[$name . ' with matching reason and log reason migration set to read old'] =
-				array_merge( $values, [ $values[3], true, SCHEMA_COMPAT_OLD ] );
-			$tests[$name . ' with matching reason and log reason migration set to read new'] =
-				array_merge( $values, [ $values[3], true, SCHEMA_COMPAT_NEW ] );
-			$tests[$name . ' with non-matching reason and log reason migration set to read old'] =
-				array_merge( $values, [ 'Nonexisting reason12345', false, SCHEMA_COMPAT_OLD ] );
-			$tests[$name . ' with non-matching reason and log reason migration set to read new'] =
-				array_merge( $values, [ 'Nonexisting reason12345', false, SCHEMA_COMPAT_NEW ] );
+			$tests[$name . ' with matching reason'] = array_merge( $values, [ $values[3], true ] );
+			$tests[$name . ' with non-matching reason'] = array_merge( $values, [ 'Nonexisting reason12345', false ] );
 		}
 		return $tests;
 	}
