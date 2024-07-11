@@ -119,8 +119,6 @@
 	"checkuser-log-entry-ipusers-xff": "$3, $1 got users for XFF <bdi>$2</bdi>",
 	"checkuser-log-entry-useractions": "$3, $1 got actions performed by $2",
 	"checkuser-log-entry-investigate": "$3, $1 looked up information for $2",
-	"checkuser-autocreate-action": "was automatically created",
-	"checkuser-create-action": "was created",
 	"checkuser-userlinks-ip": "(<span class=\"plainlinks\">[https://www.robtex.com/ip-lookup/$1 WHOIS/RDNS]</span>)",
 	"checkuser-toollinks": "<span class=\"plainlinks\">[[https://www.robtex.com/ip-lookup/$1 WHOIS/RDNS] ·\n[https://www.ip2location.com/$1 Geolocate]]</span>",
 	"checkuser-token-fail": "Session failure. Please try again.",

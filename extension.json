@@ -329,7 +329,7 @@
 		"EmailUser": "CheckUserPrivateEvents",
 		"GetPreferences": "preferences",
 		"LoadExtensionSchemaUpdates": "SchemaChanges",
-		"LocalUserCreated": "Hooks",
+		"LocalUserCreated": "CheckUserPrivateEvents",
 		"PerformRetroactiveAutoblock": "RetroactiveAutoBlock",
 		"RecentChange_save": "Hooks",
 		"RenameUserSQL": "RenameUserSQLHandler",

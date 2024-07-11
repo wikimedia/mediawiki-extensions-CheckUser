@@ -12,6 +12,7 @@ use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
+use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Message\Message;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
@@ -356,5 +357,31 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 				) )
 			]
 		);
+	}
+
+	/** @dataProvider provideOnLocalUserCreated */
+	public function testOnLocalUserCreated( bool $autocreated ) {
+		// Set wgNewUserLog to false to ensure that the private event is added when $autocreated is false.
+		// The behaviour when wgNewUserLog is true is tested elsewhere.
+		$this->overrideConfigValue( MainConfigNames::NewUserLog, false );
+		$user = $this->getTestUser()->getUser();
+		$this->getObjectUnderTest()->onLocalUserCreated( $user, $autocreated );
+		$this->assertRowCount(
+			1, 'cu_private_event', 'cupe_id',
+			'The row was not inserted or was inserted with the wrong data',
+			[
+				'cupe_actor'  => $user->getActorId(),
+				'cupe_namespace' => NS_USER,
+				'cupe_title' => $user->getName(),
+				'cupe_log_action' => $autocreated ? 'autocreate-account' : 'create-account'
+			]
+		);
+	}
+
+	public static function provideOnLocalUserCreated() {
+		return [
+			'New user was autocreated' => [ true ],
+			'New user was not autocreated' => [ false ]
+		];
 	}
 }

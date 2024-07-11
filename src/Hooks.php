@@ -5,7 +5,6 @@ namespace MediaWiki\CheckUser;
 use DatabaseLogEntry;
 use JobSpecification;
 use LogFormatter;
-use MediaWiki\Auth\Hook\LocalUserCreatedHook;
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Context\RequestContext;
@@ -13,16 +12,12 @@ use MediaWiki\Hook\RecentChange_saveHook;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Title\Title;
-use MediaWiki\User\User;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use RecentChange;
 use Wikimedia\ScopedCallback;
 
-class Hooks implements
-	LocalUserCreatedHook,
-	RecentChange_saveHook
-{
+class Hooks implements RecentChange_saveHook {
 
 	/**
 	 * Hook function for RecentChange_save. Saves data about the RecentChange object, along with private user data
@@ -265,49 +260,6 @@ class Hooks implements
 		/** @var CheckUserInsert $checkUserInsert */
 		$checkUserInsert = MediaWikiServices::getInstance()->get( 'CheckUserInsert' );
 		$checkUserInsert->insertIntoCuChangesTable( $row, $method, $user, $rc );
-	}
-
-	/**
-	 * Hook function to store registration and autocreation data
-	 * Saves user data into the cu_changes table
-	 *
-	 * @param User $user
-	 * @param bool $autocreated
-	 */
-	public function onLocalUserCreated( $user, $autocreated ) {
-		$eventTablesMigrationStage = MediaWikiServices::getInstance()->getMainConfig()
-			->get( 'CheckUserEventTablesMigrationStage' );
-		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			self::insertIntoCuPrivateEventTable(
-				[
-					'cupe_namespace'  => NS_USER,
-					'cupe_title'      => $user->getName(),
-					// The following messages are generated here:
-					// * logentry-checkuser-private-event-autocreate-account
-					// * logentry-checkuser-private-event-create-account
-					'cupe_log_action' => $autocreated ? 'autocreate-account' : 'create-account'
-				],
-				__METHOD__,
-				$user
-			);
-		}
-		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
-			$row = [
-				'cuc_namespace'  => NS_USER,
-				'cuc_title'     => $user->getName(),
-				'cuc_actiontext' => wfMessage(
-					$autocreated ? 'checkuser-autocreate-action' : 'checkuser-create-action'
-				)->inContentLanguage()->text(),
-			];
-			if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-				$row['cuc_only_for_read_old'] = 1;
-			}
-			self::insertIntoCuChangesTable(
-				$row,
-				__METHOD__,
-				$user
-			);
-		}
 	}
 
 	/**
