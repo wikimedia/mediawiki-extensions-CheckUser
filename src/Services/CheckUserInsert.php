@@ -162,8 +162,6 @@ class CheckUserInsert {
 				$rcRow['cuc_page_id'] = $attribs['rc_cur_id'];
 			}
 
-			$this->hookRunner->onCheckUserInsertForRecentChange( $rc, $rcRow );
-
 			$this->insertIntoCuChangesTable(
 				$rcRow,
 				__METHOD__,
