@@ -80,8 +80,6 @@
 	"checkuser-email-action": "ส่งอีเมลหาผู้ใช้ \"$1\"",
 	"checkuser-reset-action": "ส่งอีเมลตั้งรหัสผ่านใหม่ให้กับผู้ใช้ [[User:$1|$1]]",
 	"checkuser-token-fail": "เซสชันล้มเหลว โปรดลองอีกครั้ง",
-	"checkuser-login-failure": "ไม่สามารถเข้าสู่ระบบ {{SITENAME}} ในชื่อ $1 ได้",
-	"checkuser-login-success": "เข้าสู่ระบบ {{SITENAME}} ในชื่อ $1 สำเร็จแล้ว",
 	"checkuser-helper-copy-success": "คัดลอกแล้ว",
 	"checkuser-helper-copy-failed": "ไม่สามารถคัดลอกได้",
 	"checkuser-helper-user": "ผู้ใช้",

@@ -70,8 +70,6 @@
 	"checkuser-autocreate-action": "loodud automaatselt",
 	"checkuser-create-action": "loodud",
 	"checkuser-email-action": "e-kiri kasutajale \"$1\" saadetud",
-	"checkuser-login-success": "Logis vikis {{SITENAME}} edukalt sisse kasutajana $1",
-	"checkuser-logout": "{{GENDER:$1|Logis}} edukalt välja API kaudu või leheküljel {{#special:logout}}",
 	"logentry-checkuser-private-event-autocreate-account": "loodud automaatselt",
 	"logentry-checkuser-private-event-create-account": "loodud",
 	"checkuser-investigate-legend": "Kasutajanimede, IP-aadresside või IP-vahemike otsimine",

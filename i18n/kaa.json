@@ -13,7 +13,6 @@
 	"checkuser-month": "sońǵı 30 kúnde",
 	"checkuser-all": "hámme",
 	"checkuser-centralauth-multilock-list-item": "Silteme $1",
-	"checkuser-login-failure-with-good-password": "{{SITENAME}} saytına $1 retinde kirip bolmadı, lekin parol tuwrı edi",
 	"checkuser-helper-user": "Paydalanıwshı",
 	"checkuser-investigate-subtitle-cancel-button-label": "Biykar etiw",
 	"checkuser-investigate-preliminary-table-header-registration": "Tirkelgen waqıt"

@@ -65,8 +65,6 @@
 	"checkuser-email-action": "mannate 'na mail a l'utende \"$1\"",
 	"checkuser-reset-action": "azzere 'a password pe l'utende \"$1\"",
 	"checkuser-token-fail": "Sessione fallite. Pruève arrete.",
-	"checkuser-login-failure": "Non g'è trasute jndr'à {{SITENAME}} cumme $1",
-	"checkuser-login-success": "E' trasute jndr'à {{SITENAME}} cumme $1",
 	"logentry-checkuser-private-event-autocreate-account": "ha state ccrejete automaticamende",
 	"logentry-checkuser-private-event-create-account": "ha state ccrejate",
 	"checkuser-link-investigate-label": "Pruève 'u strumende nuève CheckUser",

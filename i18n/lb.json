@@ -78,8 +78,6 @@
 	"checkuser-email-action": "dem Benotzer \"$1\" eng E-Mail geschéckt",
 	"checkuser-reset-action": "en E-mail fir d'Passwuert {{GENDER:$1|vum Benotzer|vun der Benotzerin}} [[User:$1|$1]] zréckzesetze schécken",
 	"checkuser-token-fail": "Sessiouns-Feeler.Probéiert wgl. nach eng Kéier.",
-	"checkuser-login-failure": "Konnt sech net alogge op {{SITENAME}} als $1",
-	"checkuser-login-success": "Op {{SITENAME}} ageloggt als $1",
 	"checkuser-helper-copy-success": "Kopéiert",
 	"checkuser-helper-copy-failed": "Konnt net kopéiert ginn",
 	"checkuser-helper-user": "Benotzer",

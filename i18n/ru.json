@@ -108,8 +108,6 @@
 	"checkuser-email-action": "отправил письмо участнику «$1»",
 	"checkuser-reset-action": "сбросил пароль для {{GENDER:$1|участника|участницы}} [[User:$1|$1]]",
 	"checkuser-token-fail": "Сеанс прерван. Пожалуйста, попробуйте ещё раз.",
-	"checkuser-login-failure": "Не удалось войти в {{SITENAME}} в качестве $1",
-	"checkuser-login-success": "Успешно вошёл в систему {{SITENAME}} как $1",
 	"checkuser-helper-copy-success": "Скопировано",
 	"checkuser-helper-user": "Участник",
 	"checkuser-helper-ips": "IP-адреса",

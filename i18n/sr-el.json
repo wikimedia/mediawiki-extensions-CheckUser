@@ -78,8 +78,6 @@
 	"checkuser-email-action": "imejl je poslat korisniku „$1”",
 	"checkuser-reset-action": "poslat imejl za resetovanje lozinke {{GENDER:$1|korisnika|korisnice}} [[User:$1|$1]]",
 	"checkuser-token-fail": "Sesija je otkazana. Pokušajte ponovo.",
-	"checkuser-login-failure": "Prijavljivanje na projekat kao $1 nije uspelo",
-	"checkuser-login-success": "Uspešto prijavljivanje na projekat kao $1",
 	"checkuser-helper-label": "Vidi rezultate u tabeli",
 	"checkuser-helper-copy-success": "Kopirano",
 	"checkuser-helper-copy-failed": "Nije kopirano",

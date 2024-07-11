@@ -68,8 +68,6 @@
 	"checkuser-email-action": "envioulle un correo electrónico ao usuario \"$1\"",
 	"checkuser-reset-action": "envioulle un novo contrasinal ao usuario \"$1\"",
 	"checkuser-token-fail": "Fallo na sesión. Probe de novo.",
-	"checkuser-login-failure": "Non se puido acceder a {{SITENAME}} como $1",
-	"checkuser-login-success": "Acceso con éxito a {{SITENAME}} como $1",
 	"logentry-checkuser-private-event-autocreate-account": "foi creada automaticamente",
 	"logentry-checkuser-private-event-create-account": "foi creada",
 	"group-checkuser.css": "/* O CSS que se coloque aquí afectará soamente aos verificadores de usuarios */",

@@ -68,8 +68,6 @@
 	"checkuser-email-action": "unvió un corréu electrónicu a \"$1\"",
 	"checkuser-reset-action": "reestableció la contraseña del usuariu $1",
 	"checkuser-token-fail": "Fallu de la sesión. Vuelvi a intentalo.",
-	"checkuser-login-failure": "Falló l'aniciu de sesión en {{SITENAME}} como $1",
-	"checkuser-login-success": "Aniciu de sesión correutu en {{SITENAME}} como $1",
 	"logentry-checkuser-private-event-autocreate-account": "creóse automáticamente",
 	"logentry-checkuser-private-event-create-account": "creóse",
 	"checkuser-investigateblock-warning-confirmaction": "Si ta seguru de que quier facelo, por favor, marque'l campu «{{int:checkuser-investigateblock-confirm-blocks-label}}» al final.",

@@ -62,8 +62,6 @@
 	"checkuser-email-action": "haet get pós gestuurdj aan \"$1\"",
 	"checkuser-reset-action": "vóng wachwaord veur \"$1\"",
 	"checkuser-token-fail": "Sessie mislök. Perbeer 't oppernuuj.",
-	"checkuser-login-failure": "Kós zich neet aanmelde bie {{SITENAME}} es $1",
-	"checkuser-login-success": "Succesvol aangemeld bie {{SITENAME}} es $1",
 	"logentry-checkuser-private-event-autocreate-account": "is autematisch aangemaak",
 	"logentry-checkuser-private-event-create-account": "is aangemaak",
 	"checkuser-investigateblock-warning-confirmaction": "Wèts se zeker det se dit wils doon? Sillekteer den 't silleksjevekske \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" hie-ónger."

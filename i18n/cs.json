@@ -109,8 +109,6 @@
 	"checkuser-email-action": "odeslal e-mail uživateli „$1“",
 	"checkuser-reset-action": "poslal e-mail s novým heslem pro {{GENDER:$1|uživatele|uživatelku}} [[User:$1|$1]]",
 	"checkuser-token-fail": "Chyba relace. Zkuste to prosím znovu.",
-	"checkuser-login-failure": "Neúspěšný pokus o přihlášení do {{grammar:2sg|{{SITENAME}}}} jako $1",
-	"checkuser-login-success": "Úspěšné přihlášení do {{grammar:2sg|{{SITENAME}}}} jako $1",
 	"checkuser-helper-label": "Zobrazit výsledky v tabulce",
 	"checkuser-helper-copy-success": "Zkopírováno",
 	"checkuser-helper-copy-failed": "Nepodařilo se zkopírovat",

@@ -18,6 +18,7 @@
 			"McDutchie",
 			"Rachmat.Wahidi",
 			"Rachmat04",
+			"Rebeccayoga",
 			"Rex",
 			"Veracious"
 		]
@@ -82,8 +83,6 @@
 	"checkuser-email-action": "mengirimkan surel ke \"$1\"",
 	"checkuser-reset-action": "Reset kata sandi pengguna \"$1\"",
 	"checkuser-token-fail": "Kegagalan sesi. Silakan coba kembali.",
-	"checkuser-login-failure": "Gagal masuk ke {{SITENAME}} sebagai $1",
-	"checkuser-login-success": "Berhasil masuk ke {{SITENAME}} sebagai $1",
 	"logentry-checkuser-private-event-autocreate-account": "dibuat secara otomatis",
 	"logentry-checkuser-private-event-create-account": "dibuat",
 	"group-checkuser.css": "/* CSS yang ditempatkan di sini hanya akan mempengaruhi checkuser */",
@@ -172,5 +171,6 @@
 	"checkuser-investigate-tour-block-title": "Ingin memblokir?",
 	"checkuser-investigate-tour-block-desc": "Memungkinkan Anda memilih pengguna yang ingin Anda blokir dan kemudian membawa Anda ke formulir pemblokiran untuk memilih jenis pemblokiran yang sesuai.",
 	"checkuser-investigate-tour-copywikitext-title": "Ingin menyalin data?",
-	"checkuser-investigate-tour-copywikitext-desc": "Salin tabel perbandingan dengan sekali klik dan bawa ke CUWiki. Perhatikan bahwa Anda hanya menyalin apa yang terlihat dan tidak semua halaman investigasi."
+	"checkuser-investigate-tour-copywikitext-desc": "Salin tabel perbandingan dengan sekali klik dan bawa ke CUWiki. Perhatikan bahwa Anda hanya menyalin apa yang terlihat dan tidak semua halaman investigasi.",
+	"checkuser-ip-contributions-tab-label-contributions": "Kontribusi"
 }

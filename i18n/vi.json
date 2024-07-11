@@ -67,8 +67,6 @@
 	"checkuser-email-action": "gửi thư điện tử cho người dùng “$1”",
 	"checkuser-reset-action": "đã gửi thư điện tử đặt lại mật khẩu cho người dùng [[User:$1|$1]]",
 	"checkuser-token-fail": "Phiên làm việc bị thất bại. Xin hãy thử lại.",
-	"checkuser-login-failure": "Thất bại khi đăng nhập vào {{SITENAME}} như $1",
-	"checkuser-login-success": "Đăng nhập thành công vào {{SITENAME}} như $1",
 	"logentry-checkuser-private-event-autocreate-account": "được tạo ra tự động",
 	"logentry-checkuser-private-event-create-account": "được tạo ra",
 	"group-checkuser.css": "/* Mã CSS tại đây sẽ chỉ ảnh hưởng đến các kiểm tra viên */",

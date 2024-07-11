@@ -107,8 +107,6 @@
 	"checkuser-email-action": "ha inviato una e-mail a \"$1\"",
 	"checkuser-reset-action": "ha inviato una email per la reimpostazione della password per {{GENDER:$1|l'utente}} [[User:$1|$1]]",
 	"checkuser-token-fail": "Errore di sessione. Riprova ancora.",
-	"checkuser-login-failure": "Errore nell'effettuare l'accesso su {{SITENAME}} come $1",
-	"checkuser-login-success": "Accesso effettuato su {{SITENAME}} come $1",
 	"checkuser-helper-label": "Visualizza risultati in una tabella",
 	"checkuser-helper-ips": "IP",
 	"logentry-checkuser-private-event-autocreate-account": "è stato creato automaticamente",

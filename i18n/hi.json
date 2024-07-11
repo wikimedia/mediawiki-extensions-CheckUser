@@ -85,8 +85,6 @@
 	"checkuser-email-action": "सदस्य \"$1\" को ईमेल भेजा गया",
 	"checkuser-reset-action": "सदस्य $1 का पासवर्ड रीसेट करें",
 	"checkuser-token-fail": "सत्र विफ़ल हुआ। कृपया पुनः प्रयास करें।",
-	"checkuser-login-failure": "{{SITENAME}} पर $1 के रूप में लॉग-इन न किया जा सका",
-	"checkuser-login-success": "{{SITENAME}} पर $1 के रूप में सफलतापूर्वक लॉग-इन किया गया",
 	"checkuser-helper-user": "सदस्य",
 	"logentry-checkuser-private-event-autocreate-account": "स्वचालित रूप से निर्मित",
 	"logentry-checkuser-private-event-create-account": "निर्मित",

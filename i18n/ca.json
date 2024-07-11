@@ -67,7 +67,6 @@
 	"checkuser-create-action": "va ser creat",
 	"checkuser-email-action": "S'ha enviat un missatge de correu electrònic a {{GENDER:$1|l'usuari|la usuària}} $1",
 	"checkuser-reset-action": "reinicia la contrasenya de l'usuari «$1»",
-	"checkuser-logout": "S'ha tancat la sessió correctament mitjançant l'API o {{#special:logout}}",
 	"logentry-checkuser-private-event-autocreate-account": "fou automàticament creat",
 	"logentry-checkuser-private-event-create-account": "va ser creat",
 	"checkuser-link-investigate-label": "Provi la nova eina CheckUser",

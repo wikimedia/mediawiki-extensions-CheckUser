@@ -97,8 +97,6 @@
 	"checkuser-email-action": "e-mailt küldött „$1” szerkesztőnek",
 	"checkuser-reset-action": "jelszóemlékeztetőt kért „$1” nevében",
 	"checkuser-token-fail": "Munkamenethiba. Kérlek próbáld újra.",
-	"checkuser-login-failure": "Nem sikerült belépned a(z) {{SITENAME}} oldalra mint $1",
-	"checkuser-login-success": "Sikeresen beléptél a(z) {{SITENAME}} oldalra mint $1",
 	"checkuser-helper-copy-success": "Másolva!",
 	"checkuser-helper-copy-failed": "A másolás nem sikerült",
 	"checkuser-helper-user": "Felhasználó",
