@@ -195,11 +195,7 @@ function getRevisionId( $element ) {
  * @return {number|undefined}
  */
 function getLogId( $element ) {
-	// Check if CheckUserEventTablesMigrationStage contains SCHEMA_COMPAT_READ_NEW
-	// eslint-disable-next-line no-bitwise
-	if ( mw.config.get( 'wgCheckUserEventTablesMigrationStage' ) & 0x200 ) {
-		return $element.closest( '[data-mw-logid]' ).data( 'mw-logid' );
-	}
+	return $element.closest( '[data-mw-logid]' ).data( 'mw-logid' );
 }
 
 module.exports = {

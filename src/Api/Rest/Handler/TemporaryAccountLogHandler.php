@@ -7,7 +7,6 @@ use LogEventsList;
 use LogPage;
 use MediaWiki\Rest\LocalizedHttpException;
 use Wikimedia\Message\DataMessageValue;
-use Wikimedia\Message\MessageValue;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\Rdbms\IResultWrapper;
@@ -17,16 +16,6 @@ class TemporaryAccountLogHandler extends AbstractTemporaryAccountHandler {
 	 * @inheritDoc
 	 */
 	protected function getData( int $actorId, IReadableDatabase $dbr ): array {
-		if (
-			!( $this->config->get( 'CheckUserEventTablesMigrationStage' ) &
-				SCHEMA_COMPAT_READ_NEW )
-		) {
-			// Pretend the route doesn't exist
-			throw new LocalizedHttpException(
-				new MessageValue( 'rest-no-match' ), 404
-			);
-		}
-
 		$ids = $this->getValidatedParams()['ids'];
 		if ( !count( $ids ) ) {
 			throw new LocalizedHttpException(

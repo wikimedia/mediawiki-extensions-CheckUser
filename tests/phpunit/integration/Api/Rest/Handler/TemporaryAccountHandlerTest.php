@@ -130,25 +130,6 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function testExecuteForReadOld() {
-		$this->overrideConfigValue( 'CheckUserMaximumRowCount', 5000 );
-		$this->overrideConfigValue( 'CheckUserEventTablesMigrationStage', SCHEMA_COMPAT_READ_OLD );
-		$data = $this->executeHandlerAndGetBodyData(
-			$this->getTemporaryAccountHandler(),
-			$this->getRequestData(),
-			[], [], [], [],
-			$this->getAuthorityForSuccess()
-		);
-		$this->assertArrayEquals(
-			[
-				'5.4.3.2', '1.2.3.5', '1.2.3.4',
-				'1.2.3.3', '1.2.3.2', '1.2.3.1',
-			],
-			$data['ips'],
-			true
-		);
-	}
-
 	public function testExecuteLimit() {
 		$this->overrideConfigValue( 'CheckUserMaximumRowCount', 5000 );
 		$requestData = $this->getRequestData( [ 'limit' => 3 ] );
@@ -460,7 +441,6 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.1' ),
 				'cuc_this_oldid' => 1,
 				'cuc_timestamp'  => $this->getDb()->timestamp( '20200101000000' ),
-				'cuc_only_for_read_old' => 0,
 			],
 			[
 				'cuc_actor'      => 1234,
@@ -468,7 +448,6 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.2' ),
 				'cuc_this_oldid' => 10,
 				'cuc_timestamp'  => $this->getDb()->timestamp( '20200102000000' ),
-				'cuc_only_for_read_old' => 0,
 			],
 			[
 				'cuc_actor'      => 1234,
@@ -476,7 +455,6 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.3' ),
 				'cuc_this_oldid' => 100,
 				'cuc_timestamp'  => $this->getDb()->timestamp( '20200103000000' ),
-				'cuc_only_for_read_old' => 0,
 			],
 			[
 				'cuc_actor'      => 1234,
@@ -484,7 +462,6 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
 				'cuc_this_oldid' => 1000,
 				'cuc_timestamp'  => $this->getDb()->timestamp( '20200104000000' ),
-				'cuc_only_for_read_old' => 0,
 			],
 			[
 				'cuc_actor'      => 1234,
@@ -492,7 +469,6 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
 				'cuc_this_oldid' => 10000,
 				'cuc_timestamp'  => $this->getDb()->timestamp( '20210105000000' ),
-				'cuc_only_for_read_old' => 0,
 			],
 			[
 				'cuc_actor'      => 1234,
@@ -500,15 +476,6 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
 				'cuc_this_oldid' => 100000,
 				'cuc_timestamp'  => $this->getDb()->timestamp( '20220101000000' ),
-				'cuc_only_for_read_old' => 0,
-			],
-			[
-				'cuc_actor'      => 1234,
-				'cuc_ip'         => '5.4.3.2',
-				'cuc_ip_hex'     => IPUtils::toHex( '5.4.3.2' ),
-				'cuc_this_oldid' => 12343,
-				'cuc_timestamp'  => $this->getDb()->timestamp( '20220111000000' ),
-				'cuc_only_for_read_old' => 1,
 			],
 		];
 
@@ -521,7 +488,6 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			'cuc_page_id'    => 1,
 			'cuc_xff'        => 0,
 			'cuc_xff_hex'    => null,
-			'cuc_actiontext' => '',
 			'cuc_comment_id' => 0,
 			'cuc_last_oldid' => 0,
 		];
