@@ -7,10 +7,8 @@ use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\IPUtils;
-use Wikimedia\Rdbms\AndExpressionGroup;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
-use Wikimedia\Rdbms\OrExpressionGroup;
 
 abstract class ChangeService implements CheckUserQueryInterface {
 
@@ -69,12 +67,7 @@ abstract class ChangeService implements CheckUserQueryInterface {
 			return null;
 		}
 
-		// Combine the target IExpressions using OR.
-		$orExpressionGroup = new OrExpressionGroup();
-		foreach ( $targetExpressions as $targetExpr ) {
-			$orExpressionGroup = $orExpressionGroup->orExpr( $targetExpr );
-		}
-		return $orExpressionGroup;
+		return $this->dbProvider->getReplicaDatabase()->orExpr( $targetExpressions );
 	}
 
 	/**
@@ -135,20 +128,20 @@ abstract class ChangeService implements CheckUserQueryInterface {
 			return null;
 		}
 
-		$expressionGroup = new AndExpressionGroup();
+		$dbr = $this->dbProvider->getReplicaDatabase();
+		$expressions = [];
 		if ( count( $ipTargets ) > 0 ) {
-			$expressionGroup = $expressionGroup->and(
+			$expressions[] = $dbr->expr(
 				self::RESULT_TABLE_TO_PREFIX[$table] . 'ip_hex', '!=', $ipTargets
 			);
 		}
 		if ( count( $userTargets ) > 0 ) {
-			$excludeUserTargetsExpr = $this->dbProvider->getReplicaDatabase()
+			$expressions[] = $dbr
 				->expr( 'actor_user', '!=', $userTargets )
 				->or( 'actor_user', '=', null );
-			$expressionGroup = $expressionGroup->andExpr( $excludeUserTargetsExpr );
 		}
 
-		return $expressionGroup;
+		return $dbr->andExpr( $expressions );
 	}
 
 	/**
