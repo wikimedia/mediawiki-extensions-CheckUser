@@ -8,7 +8,6 @@ use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
-use Psr\Log\LoggerInterface;
 use RecentChange;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
@@ -31,33 +30,6 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 		return TestingAccessWrapper::newFromClass( Hooks::class );
 	}
 
-	private function updateCheckUserData(
-		array $rcAttribs,
-		int $eventTableMigrationStage,
-		string $table,
-		array $fields,
-		array &$expectedRow
-	): void {
-		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $eventTableMigrationStage );
-		$this->commonTestsUpdateCheckUserData( $rcAttribs, $fields, $expectedRow );
-		$this->newSelectQueryBuilder()
-			->select( $fields )
-			->from( $table )
-			->assertRowValue( $expectedRow );
-	}
-
-	/** @dataProvider provideUpdateCheckUserDataNoSave */
-	public function testUpdateCheckUserDataNoSave( array $rcAttribs ) {
-		$expectedRow = [];
-		$this->commonTestsUpdateCheckUserData( $rcAttribs, [], $expectedRow );
-		$this->assertRowCount( 0, 'cu_changes', 'cuc_id',
-			'A row was inserted to cu_changes when it should not have been.' );
-		$this->assertRowCount( 0, 'cu_private_event', 'cupe_id',
-			'A row was inserted to cu_private_event when it should not have been.' );
-		$this->assertRowCount( 0, 'cu_log_event', 'cule_id',
-			'A row was inserted to cu_log_event when it should not have been.' );
-	}
-
 	public function testProvideUpdateCheckUserData() {
 		// From RecentChangeTest.php's provideAttribs but modified
 		$attribs = self::getDefaultRecentChangeAttribs();
@@ -73,56 +45,28 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 					'rc_user' => $testUser->getId(),
 					'rc_user_text' => $testUser->getName(),
 				] ),
-				SCHEMA_COMPAT_NEW,
 				'cu_changes',
 				[ 'cuc_actor', 'cuc_type' ],
-				[ $actorId, RC_EDIT ]
+				[ $actorId, RC_EDIT ],
 			],
-			'Log for special title with no log ID for write old' => [
+			'Log for special title with no log ID' => [
 				array_merge( $attribs, [
 					'rc_namespace' => NS_SPECIAL,
 					'rc_title' => 'Log',
 					'rc_type' => RC_LOG,
 					'rc_log_type' => ''
 				] ),
-				SCHEMA_COMPAT_OLD,
-				'cu_changes',
-				[ 'cuc_title', 'cuc_timestamp', 'cuc_namespace' ],
-				[ 'Log', $this->getDb()->timestamp( $attribs['rc_timestamp'] ), NS_SPECIAL ]
-			],
-			'Log for special title with no log ID for write new' => [
-				array_merge( $attribs, [
-					'rc_namespace' => NS_SPECIAL,
-					'rc_title' => 'Log',
-					'rc_type' => RC_LOG,
-					'rc_log_type' => ''
-				] ),
-				SCHEMA_COMPAT_NEW,
 				'cu_private_event',
 				[ 'cupe_title', 'cupe_timestamp', 'cupe_namespace' ],
-				[ 'Log', $this->getDb()->timestamp( $attribs['rc_timestamp'] ), NS_SPECIAL ]
+				[ 'Log', $this->getDb()->timestamp( $attribs['rc_timestamp'] ), NS_SPECIAL ],
 			]
 		];
-		foreach ( $testCases as $testCase => $values ) {
+		foreach ( $testCases as $values ) {
 			$this->onRecentChangeSave(
 				$values[0],
 				$values[1],
 				$values[2],
-				$values[3],
-				$values[4]
-			);
-			$this->truncateTables( [
-				'cu_changes',
-				'cu_private_event',
-				'cu_log_event',
-				'recentchanges'
-			] );
-			$this->updateCheckUserData(
-				$values[0],
-				$values[1],
-				$values[2],
-				$values[3],
-				$values[4]
+				$values[3]
 			);
 			$this->truncateTables( [
 				'cu_changes',
@@ -131,122 +75,14 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 				'recentchanges'
 			] );
 		}
-	}
-
-	/** @dataProvider provideUpdateCheckUserDataLogEvent */
-	public function testUpdateCheckUserDataLogEvent(
-		array $rcAttribs, int $eventTableMigrationStage, string $table, array $fields, array $expectedRow
-	) {
-		ConvertibleTimestamp::setFakeTime( $rcAttribs['rc_timestamp'] );
-		$logId = $this->newLogEntry();
-		// Delete any entries that were created by ::newLogEntry.
-		$this->truncateTables( [
-			'cu_log_event',
-		] );
-		$rcAttribs['rc_logid'] = $logId;
-		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$fields[] = 'cule_log_id';
-			$expectedRow[] = $logId;
-		}
-		// Pass the expected timestamp through IReadableTimestamp::timestamp to ensure it is in the right format
-		// for the current DB type (T366590).
-		if ( array_key_exists( 'cule_timestamp', $fields ) ) {
-			$keyForTimestamp = array_search( 'cule_timestamp', $fields );
-			$expectedRow[$keyForTimestamp] = $this->getDb()->timestamp( $expectedRow[$keyForTimestamp] );
-		}
-		$this->updateCheckUserData( $rcAttribs, $eventTableMigrationStage, $table, $fields, $expectedRow );
-	}
-
-	public function testUpdateCheckUserDataWhenLogEntryIsMissingT343983() {
-		$expectsWarningLogger = $this->getMockBuilder( LoggerInterface::class )->getMock();
-		$expectsWarningLogger->expects( $this->once() )
-			->method( 'warning' )
-			->willReturnCallback( function ( $message, $context ) {
-				$this->assertSame( -1, $context['rc_logid'] );
-				$this->assertArrayHasKey( 'exception', $context );
-			} );
-		$this->setLogger( 'CheckUser', $expectsWarningLogger );
-
-		$attribs = array_merge(
-			self::getDefaultRecentChangeAttribs(),
-			[
-				'rc_namespace' => NS_SPECIAL,
-				'rc_title' => 'Log',
-				'rc_type' => RC_LOG,
-				'rc_log_type' => ''
-			] );
-		$table = 'cu_private_event';
-		$fields = [ 'cupe_timestamp' ];
-		$expectedRow = [ $this->getDb()->timestamp( $attribs['rc_timestamp'] ) ];
-		ConvertibleTimestamp::setFakeTime( $attribs['rc_timestamp'] );
-		$attribs['rc_logid'] = -1;
-		$this->updateCheckUserData( $attribs, SCHEMA_COMPAT_WRITE_NEW, $table, $fields, $expectedRow );
-	}
-
-	public static function provideUpdateCheckUserDataLogEvent() {
-		// From RecentChangeTest.php's provideAttribs but modified
-		$attribs = self::getDefaultRecentChangeAttribs();
-
-		yield 'Log with log ID with write old' => [
-			array_merge( $attribs, [
-				'rc_namespace' => NS_SPECIAL,
-				'rc_title' => 'Log',
-				'rc_type' => RC_LOG,
-				'rc_log_type' => ''
-			] ),
-			SCHEMA_COMPAT_OLD,
-			'cu_changes',
-			[ 'cuc_timestamp' ],
-			[ $attribs['rc_timestamp'] ]
-		];
-
-		yield 'Log with log ID with write new' => [
-			array_merge( $attribs, [
-				'rc_namespace' => NS_SPECIAL,
-				'rc_title' => 'Log',
-				'rc_type' => RC_LOG,
-				'rc_log_type' => ''
-			] ),
-			SCHEMA_COMPAT_NEW,
-			'cu_log_event',
-			[ 'cule_timestamp' ],
-			[ $attribs['rc_timestamp'] ]
-		];
-	}
-
-	public static function provideUpdateCheckUserDataNoSave() {
-		// From RecentChangeTest.php's provideAttribs but modified
-		$attribs = self::getDefaultRecentChangeAttribs();
-		yield 'external user' => [
-			array_merge( $attribs, [
-				'rc_type' => RC_EXTERNAL,
-				'rc_user' => 0,
-				'rc_user_text' => 'm>External User',
-			] ),
-			[ 'cuc_ip' ],
-			[]
-		];
-
-		yield 'categorize' => [
-			array_merge( $attribs, [
-				'rc_namespace' => NS_MAIN,
-				'rc_title' => '',
-				'rc_type' => RC_CATEGORIZE,
-			] ),
-			[ 'cuc_ip' ],
-			[]
-		];
 	}
 
 	private function onRecentChangeSave(
 		array $rcAttribs,
-		int $eventTableMigrationStage,
 		string $table,
 		array $fields,
 		array $expectedRow
 	): void {
-		// @todo test that maybePruneIPData() is called?
-		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $eventTableMigrationStage );
 		$rc = new RecentChange;
 		$rc->setAttribs( $rcAttribs );
 		( new Hooks() )->onRecentChange_save( $rc );
