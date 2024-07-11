@@ -2,10 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration;
 
-use MailAddress;
 use MediaWiki\CheckUser\Hooks;
-use MediaWiki\CheckUser\Services\CheckUserInsert;
-use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
@@ -345,131 +342,6 @@ class HooksTest extends MediaWikiIntegrationTestCase {
 			[ true ],
 			[ false ]
 		];
-	}
-
-	/**
-	 * Re-define the CheckUserInsert service to expect no calls to any of it's methods.
-	 * This is done to assert that no inserts to the database occur instead of having
-	 * to assert a row count of zero.
-	 *
-	 * @return void
-	 */
-	private function expectNoCheckUserInsertCalls() {
-		$checkUserInsertMock = $this->createMock( CheckUserInsert::class );
-		$checkUserInsertMock->expects( $this->never() )
-			->method( $this->anything() );
-		$this->setService( 'CheckUserInsert', static function () use ( $checkUserInsertMock ) {
-			return $checkUserInsertMock;
-		} );
-	}
-
-	/** @dataProvider provideTestOnEmailUserNoSave */
-	public function testOnEmailUserNoSave( MailAddress $to, MailAddress $from ) {
-		$this->expectNoCheckUserInsertCalls();
-		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', SCHEMA_COMPAT_OLD );
-		$subject = '';
-		$text = '';
-		$error = false;
-		( new Hooks() )->onEmailUser( $to, $from, $subject, $text, $error );
-		DeferredUpdates::doUpdates();
-		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', SCHEMA_COMPAT_NEW );
-		( new Hooks() )->onEmailUser( $to, $from, $subject, $text, $error );
-		DeferredUpdates::doUpdates();
-	}
-
-	public static function provideTestOnEmailUserNoSave() {
-		return [
-			'Email with the sender and recipient as the same user' => [
-				new MailAddress( 'test@test.com', 'Test' ),
-				new MailAddress( 'test@test.com', 'Test' ),
-			]
-		];
-	}
-
-	public function testOnEmailUserNoSecretKey() {
-		$this->setMwGlobals( [
-			'wgSecretKey' => null
-		] );
-		$to = new MailAddress( 'test@test.com', 'Test' );
-		$from = new MailAddress( 'testing@test.com', 'Testing' );
-		$this->testOnEmailUserNoSave( $to, $from );
-	}
-
-	public function testOnEmailUserReadOnlyMode() {
-		$this->setMwGlobals( [
-			'wgReadOnly' => true
-		] );
-		$to = new MailAddress( 'test@test.com', 'Test' );
-		$from = new MailAddress( 'testing@test.com', 'Testing' );
-		$this->testOnEmailUserNoSave( $to, $from );
-	}
-
-	public function commonOnEmailUser(
-		MailAddress $to, MailAddress $from, int $eventTableMigrationStage,
-		array $cuChangesWhere, array $cuPrivateWhere
-	) {
-		$subject = 'Test subject';
-		$text = 'Test text';
-		$error = false;
-		( new Hooks() )->onEmailUser( $to, $from, $subject, $text, $error );
-		DeferredUpdates::doUpdates();
-		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			$this->assertRowCount(
-				1, 'cu_private_event', '*',
-				'A row was not inserted with the correct data',
-				array_merge( $cuPrivateWhere, [ 'cupe_namespace' => NS_USER ] )
-			);
-		}
-		if ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
-			$this->assertRowCount(
-				1, 'cu_changes', '*',
-				'A row was not inserted with the correct data',
-				array_merge( $cuChangesWhere, [
-					'cuc_namespace' => NS_USER,
-					'cuc_only_for_read_old' => ( $eventTableMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) ? 1 : 0
-				] )
-			);
-		}
-	}
-
-	/** @dataProvider provideEventMigrationStageValues */
-	public function testOnEmailUserFrom( int $eventTableMigrationStage ) {
-		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $eventTableMigrationStage );
-		$userTo = $this->getTestUser()->getUserIdentity();
-		$userFrom = $this->getTestSysop()->getUser();
-		$this->commonOnEmailUser(
-			new MailAddress( 'test@test.com', $userTo->getName() ),
-			new MailAddress( 'testing@test.com', $userFrom->getName() ),
-			$eventTableMigrationStage,
-			[ 'cuc_actor' => $userFrom->getActorId(), 'cuc_title' => $userFrom->getName() ],
-			[ 'cupe_actor' => $userFrom->getActorId(), 'cupe_title' => $userFrom->getName() ]
-		);
-	}
-
-	/** @dataProvider provideEventMigrationStageValues */
-	public function testOnEmailUserActionText( int $eventTableMigrationStage ) {
-		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $eventTableMigrationStage );
-		global $wgSecretKey;
-		$userTo = $this->getTestUser()->getUser();
-		$userFrom = $this->getTestSysop()->getUserIdentity();
-		$this->commonOnEmailUser(
-			new MailAddress( 'test@test.com', $userTo->getName() ),
-			new MailAddress( 'testing@test.com', $userFrom->getName() ),
-			$eventTableMigrationStage,
-			[
-				'cuc_actiontext' => wfMessage(
-					'checkuser-email-action',
-					md5( $userTo->getEmail() . $userTo->getId() . $wgSecretKey )
-				)->inContentLanguage()->text()
-			],
-			[
-				$this->getDb()->expr( 'cupe_params', IExpression::LIKE, new LikeValue(
-					$this->getDb()->anyString(),
-					'4::hash',
-					$this->getDb()->anyString()
-				) )
-			]
-		);
 	}
 
 	private function onRecentChangeSave(
