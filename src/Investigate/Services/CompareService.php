@@ -7,7 +7,6 @@ use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\UserIdentityLookup;
 use Wikimedia\IPUtils;
-use Wikimedia\Rdbms\AndExpressionGroup;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Rdbms\SelectQueryBuilder;
@@ -297,8 +296,7 @@ class CompareService extends ChangeService {
 			return null;
 		}
 
-		$andExpressionGroup = new AndExpressionGroup();
-		$andExpressionGroup = $andExpressionGroup->andExpr( $targetExpr );
+		$andExpressionGroup = $this->dbProvider->getReplicaDatabase()->andExpr( [ $targetExpr ] );
 
 		// Add the WHERE conditions to exclude the targets in the $excludeTargets array, if they can be generated.
 		$excludeTargetsExpr = $this->buildExcludeTargetsExpr( $excludeTargets, $table );
