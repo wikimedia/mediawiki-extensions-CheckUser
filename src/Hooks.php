@@ -4,7 +4,6 @@ namespace MediaWiki\CheckUser;
 
 use DatabaseLogEntry;
 use JobSpecification;
-use LogEntryBase;
 use LogFormatter;
 use MediaWiki\Auth\Hook\LocalUserCreatedHook;
 use MediaWiki\CheckUser\Hook\HookRunner;
@@ -14,7 +13,6 @@ use MediaWiki\Hook\RecentChange_saveHook;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Title\Title;
-use MediaWiki\User\Hook\User__mailPasswordInternalHook;
 use MediaWiki\User\User;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
@@ -23,8 +21,7 @@ use Wikimedia\ScopedCallback;
 
 class Hooks implements
 	LocalUserCreatedHook,
-	RecentChange_saveHook,
-	User__mailPasswordInternalHook
+	RecentChange_saveHook
 {
 
 	/**
@@ -268,50 +265,6 @@ class Hooks implements
 		/** @var CheckUserInsert $checkUserInsert */
 		$checkUserInsert = MediaWikiServices::getInstance()->get( 'CheckUserInsert' );
 		$checkUserInsert->insertIntoCuChangesTable( $row, $method, $user, $rc );
-	}
-
-	/**
-	 * Hook function to store password reset
-	 * Saves user data into the cu_changes table
-	 *
-	 * @param User $user Sender
-	 * @param string $ip
-	 * @param User $account Receiver
-	 */
-	public function onUser__mailPasswordInternal( $user, $ip, $account ) {
-		$accountName = $account->getName();
-		$eventTablesMigrationStage = MediaWikiServices::getInstance()->getMainConfig()
-			->get( 'CheckUserEventTablesMigrationStage' );
-		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-			self::insertIntoCuPrivateEventTable(
-				[
-					'cupe_namespace'  => NS_USER,
-					'cupe_log_action' => 'password-reset-email-sent',
-					'cupe_title'      => $accountName,
-					'cupe_params'     => LogEntryBase::makeParamBlob( [ '4::receiver' => $accountName ] )
-				],
-				__METHOD__,
-				$user
-			);
-		}
-		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_OLD ) {
-			$row = [
-				'cuc_namespace'  => NS_USER,
-				'cuc_title'      => $accountName,
-				'cuc_actiontext' => wfMessage(
-					'checkuser-reset-action',
-					$accountName
-				)->inContentLanguage()->text(),
-			];
-			if ( $eventTablesMigrationStage & SCHEMA_COMPAT_WRITE_NEW ) {
-				$row['cuc_only_for_read_old'] = 1;
-			}
-			self::insertIntoCuChangesTable(
-				$row,
-				__METHOD__,
-				$user
-			);
-		}
 	}
 
 	/**

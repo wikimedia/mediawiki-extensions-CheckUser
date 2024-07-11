@@ -121,7 +121,6 @@
 	"checkuser-log-entry-investigate": "$3, $1 looked up information for $2",
 	"checkuser-autocreate-action": "was automatically created",
 	"checkuser-create-action": "was created",
-	"checkuser-reset-action": "sent a password reset email for {{GENDER:$1|user}} [[User:$1|$1]]",
 	"checkuser-userlinks-ip": "(<span class=\"plainlinks\">[https://www.robtex.com/ip-lookup/$1 WHOIS/RDNS]</span>)",
 	"checkuser-toollinks": "<span class=\"plainlinks\">[[https://www.robtex.com/ip-lookup/$1 WHOIS/RDNS] ·\n[https://www.ip2location.com/$1 Geolocate]]</span>",
 	"checkuser-token-fail": "Session failure. Please try again.",

@@ -685,7 +685,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 		}
 		// Send password reset 10% of the time.
 		if ( $this->getRandomFloat() < 0.1 ) {
-			$this->hooks->onUser__mailPasswordInternal(
+			$this->privateEventsHandler->onUser__mailPasswordInternal(
 				$actorAsUserObject,
 				RequestContext::getMain()->getRequest()->getIP(),
 				$this->userToEmailAndSendPasswordResetsFor

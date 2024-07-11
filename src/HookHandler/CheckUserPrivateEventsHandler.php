@@ -14,6 +14,7 @@ use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Hook\EmailUserHook;
 use MediaWiki\Hook\UserLogoutCompleteHook;
+use MediaWiki\User\Hook\User__mailPasswordInternalHook;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
@@ -26,7 +27,8 @@ use ReadOnlyMode;
 class CheckUserPrivateEventsHandler implements
 	EmailUserHook,
 	AuthManagerLoginAuthenticateAuditHook,
-	UserLogoutCompleteHook
+	UserLogoutCompleteHook,
+	User__mailPasswordInternalHook
 {
 
 	private CheckUserInsert $checkUserInsert;
@@ -47,6 +49,28 @@ class CheckUserPrivateEventsHandler implements
 		$this->userIdentityLookup = $userIdentityLookup;
 		$this->userFactory = $userFactory;
 		$this->readOnlyMode = $readOnlyMode;
+	}
+
+	/**
+	 * Create a private checkuser event when a temporary password has been generated and emailed for a user.
+	 *
+	 * This does not indicate the password was successfully reset as
+	 * all that is needed to trigger this is the username and email for
+	 * an account.
+	 *
+	 * @inheritDoc
+	 */
+	public function onUser__mailPasswordInternal( $user, $ip, $account ): void {
+		$this->checkUserInsert->insertIntoCuPrivateEventTable(
+			[
+				'cupe_namespace'  => NS_USER,
+				'cupe_log_action' => 'password-reset-email-sent',
+				'cupe_title'      => $account->getName(),
+				'cupe_params'     => LogEntryBase::makeParamBlob( [ '4::receiver' => $account->getName() ] )
+			],
+			__METHOD__,
+			$user
+		);
 	}
 
 	/**

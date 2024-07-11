@@ -337,7 +337,7 @@
 		"SaveUserOptions": "preferences",
 		"SpecialPageBeforeExecute": "clienthints",
 		"SpecialPage_initList": "SpecialPageInitList",
-		"User::mailPasswordInternal": "Hooks",
+		"User::mailPasswordInternal": "CheckUserPrivateEvents",
 		"UserLogoutComplete": "CheckUserPrivateEvents",
 		"UserMergeAccountFields": "UserMerge",
 		"UserToolLinksEdit": "ToolLinks"

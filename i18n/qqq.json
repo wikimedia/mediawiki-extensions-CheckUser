@@ -154,7 +154,6 @@
 	"checkuser-log-entry-investigate": "{{CheckUserLogForm}}\nThis is an entry in the checkuser log when a checkuser investigates a target using [[Special:Investigate]].\n\nParameters:\n* $1 - name of checkuser\n* $2 - name of target\n* $3 - a formatted timestamp of the event\n* $4 - a formatted date of the event\n* $5 - a formatted time of the event\n\n{{Related|Checkuser-log}}",
 	"checkuser-autocreate-action": "Details that a user was automatically created by CentralAuth. Shown in the [[Special:CheckUser]] {{msg-mw|checkuser-actions}} results and [[Special:Investigate]] timeline.",
 	"checkuser-create-action": "Indicates creation of the user. Shown in the [[Special:CheckUser]] {{msg-mw|checkuser-actions}} results and [[Special:Investigate]] timeline.",
-	"checkuser-reset-action": "Logged text when a user sends a password reset email for a user. Shown in the [[Special:CheckUser]] {{msg-mw|checkuser-actions}} results and [[Special:Investigate]] timeline. Parameters:\n* $1 - the username for which the password reset email was sent. Can be used for GENDER.",
 	"checkuser-userlinks-ip": "{{notranslate}}\nLinks shown next to an IP address in a CheckUser result entry. $1 - IP address\n\nSee also:\n*{{msg-mw|Signature}}\n*{{msg-mw|Checkuser-userlinks}}",
 	"checkuser-toollinks": "{{notranslate}}\nParameters:\n* $1 - IP address",
 	"checkuser-token-fail": "Error message shown on [[Special:CheckUser]] when the CSRF token does not match the current session.",

@@ -335,4 +335,26 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			]
 		);
 	}
+
+	public function testOnUser__mailPasswordInternal() {
+		$performer = $this->getTestUser()->getUser();
+		$account = $this->getTestSysop()->getUser();
+		$this->getObjectUnderTest()->onUser__mailPasswordInternal( $performer, 'IGNORED', $account );
+		$this->assertRowCount(
+			1, 'cu_private_event', 'cupe_id',
+			'The row was not inserted or was inserted with the wrong data',
+			[
+				'cupe_actor' => $performer->getActorId(),
+				'cupe_namespace' => NS_USER,
+				'cupe_title' => $account->getName(),
+				$this->getDb()->expr( 'cupe_params', IExpression::LIKE, new LikeValue(
+					$this->getDb()->anyString(),
+					'"4::receiver"',
+					$this->getDb()->anyString(),
+					$account->getName(),
+					$this->getDb()->anyString()
+				) )
+			]
+		);
+	}
 }

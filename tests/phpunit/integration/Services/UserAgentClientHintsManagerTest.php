@@ -4,7 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use ManualLogEntry;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
-use MediaWiki\CheckUser\Hooks;
+use MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
@@ -283,7 +283,13 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 			'wgCUDMaxAge' => 100,
 		] );
 		// Add a password reset event twice
-		$hooks = new Hooks();
+		$hooks = new CheckUserPrivateEventsHandler(
+			$this->getServiceContainer()->get( 'CheckUserInsert' ),
+			$this->getServiceContainer()->getMainConfig(),
+			$this->getServiceContainer()->getUserIdentityLookup(),
+			$this->getServiceContainer()->getUserFactory(),
+			$this->getServiceContainer()->getReadOnlyMode()
+		);
 		$hooks->onUser__mailPasswordInternal(
 			$this->getTestUser()->getUser(), '1.2.3.4', $this->getTestSysop()->getUser()
 		);
