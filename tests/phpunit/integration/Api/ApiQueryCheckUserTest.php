@@ -210,10 +210,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider provideExpectedApiResponses
-	 * @dataProvider provideExpectedApiResponsesOnlyForReadNew
-	 */
+	/** @dataProvider provideExpectedApiResponses */
 	public function testResponseFromApi(
 		$requestType, $expectedRequestTypeInResponse, $target, $timeCond, $xff, $expectedData
 	) {
@@ -344,16 +341,6 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 					],
 				]
 			],
-		];
-	}
-
-	public static function provideExpectedApiResponsesOnlyForReadNew() {
-		// These tests cases would fail if wgCheckUserEventTablesMigrationStage is set to read old.
-		// This is because the events cannot be written to cu_changes as they have an IP address
-		// performer and were inserted when temporary accounts were enabled.
-		// Once wgCheckUserEventTablesMigrationStage is removed, this can be combined with
-		// ::provideExpectedApiResponses
-		return [
 			'actions on 1.2.3.5 (IP performer when temporary accounts are enabled)' => [
 				'actions',
 				'edits',

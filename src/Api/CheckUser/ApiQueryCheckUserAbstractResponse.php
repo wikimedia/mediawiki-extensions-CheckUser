@@ -36,9 +36,6 @@ abstract class ApiQueryCheckUserAbstractResponse implements CheckUserQueryInterf
 	/** @var string The cut-off timestamp in a format acceptable to the database */
 	protected string $timeCutoff;
 
-	/** @var bool Whether to read from the new event tables */
-	protected bool $eventTableReadNew;
-
 	protected IReadableDatabase $dbr;
 	protected Config $config;
 	protected CheckUserLogService $checkUserLogService;
@@ -115,9 +112,6 @@ abstract class ApiQueryCheckUserAbstractResponse implements CheckUserQueryInterf
 		$this->reason = $reason;
 		$this->timeCutoff = $this->dbr->timestamp( $timeCutoff );
 		$this->limit = $requestParams['limit'];
-		$this->eventTableReadNew = boolval(
-			$this->config->get( 'CheckUserEventTablesMigrationStage' ) & SCHEMA_COMPAT_READ_NEW
-		);
 	}
 
 	/**
@@ -145,12 +139,7 @@ abstract class ApiQueryCheckUserAbstractResponse implements CheckUserQueryInterf
 	protected function performQuery( string $fname ) {
 		// Run the SQL queries to select results from the result tables and merge the results into one array.
 		$results = [];
-		$resultTables = self::RESULT_TABLES;
-		if ( !$this->eventTableReadNew ) {
-			// Only read rows from cu_changes if wgCheckUserEventTablesMigrationStage is set to read old.
-			$resultTables = [ self::CHANGES_TABLE ];
-		}
-		foreach ( $resultTables as $table ) {
+		foreach ( self::RESULT_TABLES as $table ) {
 			$results = array_merge(
 				$results,
 				iterator_to_array(
