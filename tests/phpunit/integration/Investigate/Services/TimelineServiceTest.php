@@ -95,13 +95,6 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 					'conds' => [ 'actor_user' ],
 				],
 			],
-			'Valid username while reading old' => [
-				[ 'User1' ], [], '', 500,
-				[
-					'targets' => [ '11111' ],
-					'conds' => [ 'actor_user' ],
-				],
-			],
 			'Valid username, with start' => [
 				[ 'User1' ], [], '111', 500,
 				[
