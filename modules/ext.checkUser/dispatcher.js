@@ -18,7 +18,7 @@
 			require( './checkuserlog/highlightScroll.js' );
 			break;
 		case 'Block':
-			require( './temporaryaccount/SpecialBlock.js' );
+			require( './temporaryaccount/SpecialBlock.js' ).onLoad();
 			break;
 		case 'Recentchanges':
 		case 'Watchlist':

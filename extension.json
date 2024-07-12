@@ -516,14 +516,18 @@
 			"modules/ext.checkUser/temporaryaccount/initOnLoad.js",
 			"tests/qunit/ext.checkUser/temporaryaccount/initOnHook.test.js",
 			"modules/ext.checkUser/temporaryaccount/initOnHook.js",
-			"tests/qunit/ext.checkUser/temporaryaccount/rest.test.js"
+			"tests/qunit/ext.checkUser/temporaryaccount/rest.test.js",
+			"tests/qunit/ext.checkUser/temporaryaccount/SpecialBlock.test.js",
+			"modules/ext.checkUser/temporaryaccount/SpecialBlock.js"
 		],
 		"dependencies": [
 			"mediawiki.qunit-testrunner",
 			"mediawiki.base",
 			"mediawiki.router",
 			"mediawiki.storage",
+			"mediawiki.util",
 			"mediawiki.widgets",
+			"mediawiki.widgets.UserInputWidget",
 			"ext.checkUser",
 			"ext.checkUser.clientHints",
 			"sinonjs"
