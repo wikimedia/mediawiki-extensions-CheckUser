@@ -130,11 +130,6 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 	}
 
 	protected function getSchemaOverrides( IMaintainableDatabase $db ) {
-		// Add the cuc_only_for_read_old column to cu_changes if it does not exist.
-		if ( $db->fieldExists( 'cu_changes', 'cuc_only_for_read_old' ) ) {
-			// Nothing to do if the cuc_only_for_read_old column already exists.
-			return [];
-		}
 		// Create the cuc_only_for_read_old column in cu_changes using the SQL patch file associated with the current
 		// DB type.
 		return [

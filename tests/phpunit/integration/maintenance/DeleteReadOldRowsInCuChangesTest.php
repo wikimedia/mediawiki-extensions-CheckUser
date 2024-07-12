@@ -72,10 +72,6 @@ class DeleteReadOldRowsInCuChangesTest extends MaintenanceBaseTestCase {
 
 	/** @dataProvider provideRowCountsAndBatchSize */
 	public function testExecute( $numberOfReadOldRows, $numberOfNormalRows, $batchSize ) {
-		if ( !$this->getDb()->fieldExists( 'cu_changes', 'cuc_only_for_read_old' ) ) {
-			// If the cuc_only_for_read_old column does not exist, then we cannot run the test so skip it.
-			$this->markTestSkipped( 'This test requires the cuc_only_for_read_old column in the cu_changes table.' );
-		}
 		// Set up cu_changes
 		$this->addReadOldRows( $numberOfReadOldRows );
 		$this->addNormalRows( $numberOfNormalRows );
@@ -104,11 +100,6 @@ class DeleteReadOldRowsInCuChangesTest extends MaintenanceBaseTestCase {
 	}
 
 	protected function getSchemaOverrides( IMaintainableDatabase $db ) {
-		// Add the cuc_only_for_read_old column to cu_changes if it does not exist.
-		if ( $db->fieldExists( 'cu_changes', 'cuc_only_for_read_old' ) ) {
-			// Nothing to do if the cuc_only_for_read_old column already exists.
-			return [];
-		}
 		// Create the cuc_only_for_read_old column in cu_changes using the SQL patch file associated with the current
 		// DB type.
 		return [

@@ -111,11 +111,6 @@
 				"comment": "Private Data",
 				"type": "blob",
 				"options": { "notnull": false, "length": 16777215 }
-			},
-			{
-				"name": "cuc_only_for_read_old",
-				"type": "mwtinyint",
-				"options": { "notnull": true, "length": 1, "default": 0 }
 			}
 		],
 		"indexes": [

@@ -22,7 +22,6 @@ CREATE TABLE /*_*/cu_changes (
   cuc_agent VARBINARY(255) DEFAULT NULL,
   cuc_agent_id BIGINT UNSIGNED DEFAULT 0 NOT NULL,
   cuc_private MEDIUMBLOB DEFAULT NULL,
-  cuc_only_for_read_old TINYINT(1) DEFAULT 0 NOT NULL,
   INDEX cuc_ip_hex_time (cuc_ip_hex, cuc_timestamp),
   INDEX cuc_xff_hex_time (cuc_xff_hex, cuc_timestamp),
   INDEX cuc_timestamp (cuc_timestamp),
