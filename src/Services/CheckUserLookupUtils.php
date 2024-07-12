@@ -110,12 +110,6 @@ class CheckUserLookupUtils {
 	/**
 	 * Gets the name for the index for a given table.
 	 *
-	 * note: When SCHEMA_COMPAT_READ_NEW is set, the query will not use an index
-	 * on the values of `cuc_only_for_read_old`.
-	 * That shouldn't result in a significant performance drop, and this is a
-	 * temporary situation until the temporary column is removed after the
-	 * migration is complete.
-	 *
 	 * @param bool|null $xfor Whether the IPs being searched through are XFF IPs. Null if the target is a username.
 	 * @param string $table The table this index should apply to (list of valid options
 	 *   in CheckUserQueryInterface::RESULT_TABLES).
