@@ -191,7 +191,7 @@ class AbstractCheckUserPagerTest extends MediaWikiUnitTestCase {
 
 	public static function provideBuildQueryInfo() {
 		return [
-			'Offset, limit 20, order ASC, include offset while reading new' => [
+			'Offset, limit 20, order ASC, include offset' => [
 				'test_offset', 20, IndexPager::QUERY_ASCENDING, '', '', true,
 				[
 					CheckUserQueryInterface::CHANGES_TABLE => [
