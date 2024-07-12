@@ -47,10 +47,6 @@
 	"checkuser-search-submit": "Rechèrchiér",
 	"checkuser-ipeditcount": "~$1 per tôs los usanciérs",
 	"checkuser-showmain": "Tornar u formulèro principâl du contrôlo d’usanciér",
-	"checkuser-autocreate-action": "at étâ fêt ôtomaticament",
-	"checkuser-create-action": "at étâ fêt",
-	"checkuser-email-action": "at mandâ un mèssâjo a l’usanciér « $1 »",
-	"checkuser-reset-action": "tôrne inicialisar lo contresegno por l’usanciér « $1 »",
 	"logentry-checkuser-private-event-autocreate-account": "at étâ fêt ôtomaticament",
 	"logentry-checkuser-private-event-create-account": "at étâ fêt"
 }

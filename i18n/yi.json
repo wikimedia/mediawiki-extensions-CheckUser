@@ -33,9 +33,6 @@
 	"checkuser-search": "זוכן קאנטראל־באניצער־לאגבוך פרטים",
 	"checkuser-search-submit": "זוכן",
 	"checkuser-ipeditcount": "~$1 פון אלע באניצער",
-	"checkuser-create-action": "איז געווארן געשאפן",
-	"checkuser-email-action": "געשיקט א בליצבריוו צו באניצער \"$1\"",
-	"checkuser-reset-action": "צוריקשטעלן פאסווארט פאר באניצער \"$1\"",
 	"logentry-checkuser-private-event-create-account": "איז געווארן געשאפן",
 	"checkuser-investigate-subtitle-cancel-button-label": "אַנולירן"
 }

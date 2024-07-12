@@ -46,10 +46,6 @@
 	"checkuser-search-submit": "ගවේෂණය",
 	"checkuser-ipeditcount": "~$1 සියලුම පරිශිලකයන්ගෙන්",
 	"checkuser-showmain": "පරිශීලකපිරික්සුම් ප්‍රධාන ෆෝරමය වෙත නැවත යන්න",
-	"checkuser-autocreate-action": "ස්වයංක්‍රීය ලෙස තැනිණි",
-	"checkuser-create-action": "තනන ලදී",
-	"checkuser-email-action": " \"$1\" පරිශීලක වෙත විද්‍යුත්-ගැපෑලක් යැවිණි",
-	"checkuser-reset-action": "පරිශිලක \"$1\" සඳහා මුරපදය යලි සකසන්න",
 	"logentry-checkuser-private-event-autocreate-account": "ස්වයංක්‍රීය ලෙස තැනිණි",
 	"logentry-checkuser-private-event-create-account": "තනන ලදී"
 }

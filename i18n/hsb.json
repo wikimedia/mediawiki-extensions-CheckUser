@@ -48,10 +48,6 @@
 	"checkuser-search-submit": "Pytać",
 	"checkuser-ipeditcount": "~$1 wot wšěch wužiwarjow",
 	"checkuser-showmain": "K hłownemu formularej CheckUser",
-	"checkuser-autocreate-action": "bu awtomatisce załožene",
-	"checkuser-create-action": "bu wutworjeny",
-	"checkuser-email-action": "pósła e-mejlku na wužiwarja \"$1\"",
-	"checkuser-reset-action": "hesło za wužiwarja \"$1\" wobnowić",
 	"logentry-checkuser-private-event-autocreate-account": "bu awtomatisce załožene",
 	"logentry-checkuser-private-event-create-account": "bu wutworjeny"
 }

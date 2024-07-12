@@ -37,8 +37,6 @@
 	"checkuser-search": "Ҷустуҷӯ",
 	"checkuser-search-submit": "Ҷустуҷӯ",
 	"checkuser-showmain": "Бозгашт ба форми аслии бозрасии корбар",
-	"checkuser-autocreate-action": "ба таври худкор эҷод шуда буд",
-	"checkuser-email-action": "почтаи электронӣ ба корбар \"$1\" фиристода шуд",
 	"logentry-checkuser-private-event-autocreate-account": "ба таври худкор эҷод шуда буд",
 	"checkuser-investigate-reason-label": "Сабаб"
 }

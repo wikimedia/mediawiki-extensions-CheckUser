@@ -32,10 +32,6 @@
 	"checkuser-search-submit": "پلټل",
 	"checkuser-log-search-target": "موخه:",
 	"checkuser-ipeditcount": "~$1 د ټولو کارنانو نه",
-	"checkuser-autocreate-action": "په خپلکاره توگه جوړ شو",
-	"checkuser-create-action": "جوړ شو",
-	"checkuser-email-action": "د \"$1\" کارن ته يو برېښليک ولېږل شو",
-	"checkuser-reset-action": "د \"$1\" کارن د پټنوم بيا پرځای کول",
 	"logentry-checkuser-private-event-autocreate-account": "په خپلکاره توگه جوړ شو",
 	"logentry-checkuser-private-event-create-account": "جوړ شو"
 }

@@ -50,10 +50,6 @@
 	"checkuser-search-submit": "Suech",
 	"checkuser-ipeditcount": "~$1 vu allene Benutzer",
 	"checkuser-showmain": "Zum CheckUser-Hauptformular wächsle",
-	"checkuser-autocreate-action": "isch automatisch aagleit wore",
-	"checkuser-create-action": "isch erstellt worde",
-	"checkuser-email-action": "het e E-Mail an „$1“ gschickt",
-	"checkuser-reset-action": "Aaforderig vun eme neije Passwort fir „Benutzer:$1“",
 	"logentry-checkuser-private-event-autocreate-account": "isch automatisch aagleit wore",
 	"logentry-checkuser-private-event-create-account": "isch erstellt worde"
 }

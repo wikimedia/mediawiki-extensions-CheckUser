@@ -50,10 +50,6 @@
 	"checkuser-search-submit": "Hanapa baya",
 	"checkuser-ipeditcount": "~$1 gikan sa gabos na mga paragamit",
 	"checkuser-showmain": "Magbalyo sa Rikisahon-an-Paragamit sa pangenot na porma",
-	"checkuser-autocreate-action": "an awtomatikong pinagmukna",
-	"checkuser-create-action": "an pinagmukna",
-	"checkuser-email-action": "magpadara nin e-surat pasiring sa paragamit na si \"$1\"",
-	"checkuser-reset-action": "baguhon an pasa-taramon para sa paragamit na si \"$1\"",
 	"logentry-checkuser-private-event-autocreate-account": "an awtomatikong pinagmukna",
 	"logentry-checkuser-private-event-create-account": "an pinagmukna"
 }

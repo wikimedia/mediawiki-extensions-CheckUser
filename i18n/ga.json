@@ -34,8 +34,5 @@
 	"checkuser-search": "Cuardaigh",
 	"checkuser-search-submit": "Cuardaigh",
 	"checkuser-ipeditcount": "~$1 as na n-úsáideoir go léir",
-	"checkuser-autocreate-action": "a chruthú go huathoibríoch",
-	"checkuser-email-action": "a chur riomhphoist do úsáideoir \"$1\"",
-	"checkuser-reset-action": "a athshocrú pásfhocal le úsáideoir \"$1\"",
 	"logentry-checkuser-private-event-autocreate-account": "a chruthú go huathoibríoch"
 }

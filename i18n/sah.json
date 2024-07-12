@@ -44,10 +44,6 @@
 	"checkuser-search-submit": "Буларга",
 	"checkuser-ipeditcount": "~$1 бары кыттааччылартан",
 	"checkuser-showmain": "Кытааччылары бэрэбиэркэлээһин сүрүн сирэйигэр төнүн",
-	"checkuser-autocreate-action": "аптамаатынан оҥоһуллубут",
-	"checkuser-create-action": "оҥоһуллубут",
-	"checkuser-email-action": "\"$1\" кыттаачыга сурук ыыппыт",
-	"checkuser-reset-action": "\"$1\" кыттааччы аһарык тылын бырахпыт",
 	"logentry-checkuser-private-event-autocreate-account": "аптамаатынан оҥоһуллубут",
 	"logentry-checkuser-private-event-create-account": "оҥоһуллубут"
 }

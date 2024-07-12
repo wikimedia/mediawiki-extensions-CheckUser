@@ -53,10 +53,6 @@
 	"checkuser-showmain": "सदस्यतपासच्या मुख्य अर्जाकडे परत जा",
 	"checkuser-log-entry-userips": "$3,$1ने $2साठी अंकपत्ते मिळविले",
 	"checkuser-log-entry-ipusers": "$3,$1ने <bdi>$2</bdi>साठी सदस्य मिळविले",
-	"checkuser-autocreate-action": "आपोआप निर्माण केल्या गेले",
-	"checkuser-create-action": "निर्माण केल्या गेले",
-	"checkuser-email-action": "\"$1\"ला विपत्र पाठविले",
-	"checkuser-reset-action": "सदस्य $1चा परवलीचा शब्द पुनर्स्थापित करा",
 	"checkuser-token-fail": "सत्र अयशस्वी.कृपया पुन्हा प्रयत्न करा.",
 	"logentry-checkuser-private-event-autocreate-account": "आपोआप निर्माण केल्या गेले",
 	"logentry-checkuser-private-event-create-account": "निर्माण केल्या गेले"

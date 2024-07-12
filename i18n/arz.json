@@ -44,9 +44,6 @@
 	"checkuser-search-submit": "تدوير",
 	"checkuser-ipeditcount": "~$1 من كل اليوزرز",
 	"checkuser-showmain": "ارجع للاستمارة الرئيسية بتاعة تشييك اليوزرز",
-	"checkuser-autocreate-action": "ابتدا اوتوماتيكى",
-	"checkuser-email-action": "ابعت ايميل لليوزر \"$1\"",
-	"checkuser-reset-action": "اضبط من تانى الباسورد بتاعة اليوزر \"$1\"",
 	"logentry-checkuser-private-event-autocreate-account": "ابتدا اوتوماتيكى",
 	"logentry-checkuser-private-event-create-account": "أنشأ"
 }

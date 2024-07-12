@@ -40,8 +40,5 @@
 	"checkuser-search-submit": "Suk",
 	"checkuser-ipeditcount": "~$1 de gebans valik",
 	"checkuser-showmain": "Geikön lü cifafomet",
-	"checkuser-autocreate-action": "pejafon itjäfidiko",
-	"checkuser-email-action": "äsedon penedi leäktronik gebane: „$1“",
-	"checkuser-reset-action": "votükön letavödi gebana: „$1“",
 	"logentry-checkuser-private-event-autocreate-account": "pejafon itjäfidiko"
 }

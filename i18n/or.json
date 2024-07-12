@@ -49,10 +49,6 @@
 	"checkuser-search-submit": "ଖୋଜନ୍ତୁ",
 	"checkuser-ipeditcount": "ସବୁ ବ୍ୟବହରକାରୀଙ୍କ ଠାରୁ ~$1",
 	"checkuser-showmain": "CheckUser ମୂଳ ଆବେଦନ ପତ୍ରକୁ ଫେରିଯାନ୍ତୁ",
-	"checkuser-autocreate-action": "ଆପେଆପେ ଗଢ଼ାହୋଇଥିଲା",
-	"checkuser-create-action": "ଗଢ଼ାଗଲା",
-	"checkuser-email-action": "\"$1\"ଙ୍କୁ ଇମେଲଟିଏ ପଠାଗଲା",
-	"checkuser-reset-action": "\"$1\"ଙ୍କ ପାଇଁ ପାସୱାର୍ଡ଼ ଆଉଥରେ ଖଞ୍ଜିବେ",
 	"logentry-checkuser-private-event-autocreate-account": "ଆପେଆପେ ଗଢ଼ାହୋଇଥିଲା",
 	"logentry-checkuser-private-event-create-account": "ଗଢ଼ାଗଲା"
 }

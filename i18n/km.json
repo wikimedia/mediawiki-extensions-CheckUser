@@ -47,10 +47,6 @@
 	"checkuser-search-submit": "ស្វែងរក",
 	"checkuser-ipeditcount": "~$1 ពីគ្រប់អ្នកប្រើប្រាស់ទាំងអស់",
 	"checkuser-showmain": "ត្រឡប់ទៅកាន់បែបបទដើមនៃការត្រួតពិនិត្យអ្នកប្រើប្រាស់",
-	"checkuser-autocreate-action": "ត្រូវបានបង្កើតដោយស្វ័យប្រវត្តិ",
-	"checkuser-create-action": "បានបង្កើត",
-	"checkuser-email-action": "បានផ្ញើអ៊ីមែលទៅកាន់អ្នកប្រើប្រាស់ \"$1\"",
-	"checkuser-reset-action": "កំណត់ឡើងវិញនូវពាក្យសម្ងាត់របស់អ្នកប្រើប្រាស់\"$1\"",
 	"logentry-checkuser-private-event-autocreate-account": "ត្រូវបានបង្កើតដោយស្វ័យប្រវត្តិ",
 	"logentry-checkuser-private-event-create-account": "បានបង្កើត"
 }

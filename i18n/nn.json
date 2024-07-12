@@ -52,10 +52,6 @@
 	"checkuser-ipeditcount": "~$1 frå alle brukarar",
 	"checkuser-time-range": "$1–$2",
 	"checkuser-showmain": "Byt til hovudskjemaet for CheckUser",
-	"checkuser-autocreate-action": "vart automatisk oppretta",
-	"checkuser-create-action": "vart oppretta",
-	"checkuser-email-action": "sende e-post til brukaren «$1»",
-	"checkuser-reset-action": "nullstilte passord for «$1»",
 	"logentry-checkuser-private-event-autocreate-account": "vart automatisk oppretta",
 	"logentry-checkuser-private-event-create-account": "vart oppretta"
 }

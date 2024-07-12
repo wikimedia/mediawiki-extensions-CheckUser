@@ -46,10 +46,6 @@
 	"checkuser-search-submit": "Глядати",
 	"checkuser-ipeditcount": "асі $1 од вшыткых хоснователїв",
 	"checkuser-showmain": "Перекапчати на на головный формуларь Перевіркы хоснователя",
-	"checkuser-autocreate-action": "створеный автоматічно",
-	"checkuser-create-action": "створено",
-	"checkuser-email-action": "послав ел. пошту хоснователёві „$1“",
-	"checkuser-reset-action": "пожадав о нове гесло про хоснователя $1",
 	"logentry-checkuser-private-event-autocreate-account": "створеный автоматічно",
 	"logentry-checkuser-private-event-create-account": "створено"
 }

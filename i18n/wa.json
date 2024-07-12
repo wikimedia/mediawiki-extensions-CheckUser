@@ -48,10 +48,6 @@
 	"checkuser-search-submit": "Cweri",
 	"checkuser-ipeditcount": "~$1 tot contant tos les uzeus",
 	"checkuser-showmain": "Rivni al formulrece do verifiaedje des uzeus",
-	"checkuser-autocreate-action": "ahivé otomaticmint",
-	"checkuser-create-action": "ahivé",
-	"checkuser-email-action": "evoya-st èn emile a «$1»",
-	"checkuser-reset-action": "ridmanda on novea scret po «$1»",
 	"logentry-checkuser-private-event-autocreate-account": "ahivé otomaticmint",
 	"logentry-checkuser-private-event-create-account": "ahivé"
 }

@@ -48,9 +48,6 @@
 	"checkuser-noreason": "நீங்கள் இவ்வினவலுக்கு ஒரு காரணத்தைக் கட்டாயம் வழங்க வேண்டும்.",
 	"checkuser-search": "தேடுக",
 	"checkuser-search-submit": "தேடு",
-	"checkuser-autocreate-action": "தானகவே உருவாக்கப்பட்டது",
-	"checkuser-create-action": "உருவாக்கப்பட்டது",
-	"checkuser-email-action": "\"$1\" பயனருக்கு ஒரு மின்னஞ்சல் அனுப்பப்பட்டது",
 	"logentry-checkuser-private-event-autocreate-account": "தானகவே உருவாக்கப்பட்டது",
 	"logentry-checkuser-private-event-create-account": "உருவாக்கப்பட்டது"
 }

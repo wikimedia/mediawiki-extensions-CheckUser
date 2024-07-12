@@ -53,8 +53,6 @@
 	"checkuser-log-search-target": "Мэта:",
 	"checkuser-ipeditcount": "~$1 ад усіх удзельнікаў",
 	"checkuser-showmain": "Пераключыцца на {{#special:CheckUser}}",
-	"checkuser-autocreate-action": "быў створаны аўтаматычна",
-	"checkuser-create-action": "быў створаны",
 	"logentry-checkuser-private-event-autocreate-account": "быў створаны аўтаматычна",
 	"logentry-checkuser-private-event-create-account": "быў створаны",
 	"checkuser-link-investigate-label": "Паспрабуйце {{#special:investigate}}",

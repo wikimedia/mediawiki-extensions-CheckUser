@@ -48,10 +48,6 @@
 	"checkuser-search-submit": "Pytaś",
 	"checkuser-ipeditcount": "~$1 ze wšych wužywarjow",
 	"checkuser-showmain": "Ku głownemu formularoju CheckUser",
-	"checkuser-autocreate-action": "jo se awtomatiski załožyło",
-	"checkuser-create-action": "jo se napórał",
-	"checkuser-email-action": "jo e-mail na wužywarja \"$1\" pósłał",
-	"checkuser-reset-action": "gronidło za wužywarja \"$1\" wótnowiś",
 	"logentry-checkuser-private-event-autocreate-account": "jo se awtomatiski załožyło",
 	"logentry-checkuser-private-event-create-account": "jo se napórał"
 }

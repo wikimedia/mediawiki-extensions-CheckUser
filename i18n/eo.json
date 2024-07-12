@@ -49,9 +49,5 @@
 	"checkuser-search": "Serĉi",
 	"checkuser-search-submit": "Serĉi",
 	"checkuser-ipeditcount": "~$1 de ĉiuj uzantoj",
-	"checkuser-showmain": "Reiri al ĉefa kamparo por CheckUser",
-	"checkuser-autocreate-action": "estis aŭtomate kreita",
-	"checkuser-create-action": "estis kreita",
-	"checkuser-email-action": "sendis retpoŝton al uzanto \"$1\"",
-	"checkuser-reset-action": "restarigis pasvorton por uzanto \"$1\""
+	"checkuser-showmain": "Reiri al ĉefa kamparo por CheckUser"
 }

@@ -37,9 +37,6 @@
 	"checkuser-search": "Tafuta",
 	"checkuser-search-submit": "Tafuta",
 	"checkuser-ipeditcount": "~$1 kutoka kwa watumiaji wote",
-	"checkuser-create-action": "iliumbwa",
-	"checkuser-email-action": "alituma barua pepe kwa mtumiaji \"$1\"",
-	"checkuser-reset-action": "seti upya nywila ya \"$1\"",
 	"logentry-checkuser-private-event-create-account": "iliumbwa",
 	"checkuser-tempaccount-reveal-ip-missing": "haipatikani"
 }

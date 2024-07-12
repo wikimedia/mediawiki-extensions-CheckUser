@@ -34,8 +34,5 @@
 	"checkuser-massblock": "Select karaa gais sadasya ke block karo",
 	"checkuser-search": "Khojo",
 	"checkuser-search-submit": "Khojo",
-	"checkuser-create-action": "banae dewa gais rahaa",
-	"checkuser-email-action": "Sadasya \"$1\" ke lage email bheja gais",
-	"checkuser-reset-action": "Sadasya \"$1\" ke password ke reset karo",
 	"logentry-checkuser-private-event-create-account": "banae dewa gais rahaa"
 }

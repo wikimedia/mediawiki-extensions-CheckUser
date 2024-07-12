@@ -43,9 +43,6 @@
 	"checkuser-search": "ताकी",
 	"checkuser-search-submit": "ताकू",
 	"checkuser-ipeditcount": "~$1 सभ प्रयोक्ता सs",
-	"checkuser-autocreate-action": "स्वचालित रूप से निर्माण करल गेल",
-	"checkuser-create-action": "निर्माण करल गेल",
-	"checkuser-email-action": "प्रयोक्ता \"$1\" के ई-पत्र भेजल गेल",
 	"logentry-checkuser-private-event-autocreate-account": "स्वचालित रूप से निर्माण करल गेल",
 	"logentry-checkuser-private-event-create-account": "निर्माण करल गेल"
 }
