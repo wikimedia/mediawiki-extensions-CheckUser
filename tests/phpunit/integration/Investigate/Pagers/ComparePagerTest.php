@@ -51,8 +51,7 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/** @dataProvider provideFormatValue */
-	public function testFormatValue( array $row, $name, $eventTableMigrationStage, $expectedFormattedValue ) {
-		$this->overrideConfigValue( 'CheckUserEventTablesMigrationStage', $eventTableMigrationStage );
+	public function testFormatValue( array $row, $name, $expectedFormattedValue ) {
 		// Set the user language to qqx so that we can compare against the message keys and not the english version of
 		// the message key (which may change and then break the tests).
 		$this->setUserLang( 'qqx' );
@@ -74,38 +73,28 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 				[ 'first_action' => '20240405060708', 'last_action' => '20240406060708' ],
 				// The $name argument to ::formatValue
 				'activity',
-				// The value of wgCheckUserEventTablesMigrationStage
-				SCHEMA_COMPAT_OLD,
 				// The expected formatted value
 				'5 (april) 2024 - 6 (april) 2024'
 			],
-			'user agent is not null' => [ [ 'agent' => 'test' ], 'agent', SCHEMA_COMPAT_NEW, 'test' ],
-			'user agent is null' => [ [ 'agent' => null ], 'agent', SCHEMA_COMPAT_NEW, '' ],
+			'user agent is not null' => [ [ 'agent' => 'test' ], 'agent', 'test' ],
+			'user agent is null' => [ [ 'agent' => null ], 'agent', '' ],
 			'user agent contains unescaped HTML' => [
-				[ 'agent' => '<b>test</b>' ], 'agent', SCHEMA_COMPAT_NEW, '&lt;b&gt;test&lt;/b&gt;',
+				[ 'agent' => '<b>test</b>' ], 'agent', '&lt;b&gt;test&lt;/b&gt;',
 			],
 			'ip is 1.2.3.4' => [
-				[ 'ip' => '1.2.3.4', 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_actions' => 1 ],
-				'ip', SCHEMA_COMPAT_NEW,
+				[ 'ip' => '1.2.3.4', 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_actions' => 1 ], 'ip',
 				'<span class="ext-checkuser-compare-table-cell-ip">1.2.3.4</span>' .
 				'<div>(checkuser-investigate-compare-table-cell-actions: 1) ' .
 				'<span>(checkuser-investigate-compare-table-cell-other-actions: 11)</span></div>',
 			],
-			'ip is 1.2.3.4 when reading old' => [
-				[ 'ip' => '1.2.3.4', 'ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'total_actions' => 1 ],
-				'ip', SCHEMA_COMPAT_OLD,
-				'<span class="ext-checkuser-compare-table-cell-ip">1.2.3.4</span>' .
-				'<div>(checkuser-investigate-compare-table-cell-actions: 1) ' .
-				'<span>(checkuser-investigate-compare-table-cell-other-actions: 11)</span></div>',
-			],
-			'unrecognised $name' => [ [], 'foo', SCHEMA_COMPAT_OLD, '' ],
+			'unrecognised $name' => [ [], 'foo', '' ],
 			'user_text as 1.2.3.5' => [
-				[ 'user_text' => '1.2.3.5', 'user' => 0, 'actor' => 1 ], 'user_text', SCHEMA_COMPAT_OLD,
+				[ 'user_text' => '1.2.3.5', 'user' => 0, 'actor' => 1 ], 'user_text',
 				'(checkuser-investigate-compare-table-cell-unregistered)',
 			],
 			'user_text as null' => [
 				[ 'user_text' => null, 'user' => 0, 'actor' => null, 'ip' => '1.2.3.5' ], 'user_text',
-				SCHEMA_COMPAT_NEW, '(checkuser-investigate-compare-table-cell-unregistered)',
+				'(checkuser-investigate-compare-table-cell-unregistered)',
 			],
 		];
 	}
@@ -121,8 +110,7 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 				'user' => self::$hiddenUser->getId(),
 				'actor' => self::$hiddenUser->getActorId(),
 			],
-			'user_text', SCHEMA_COMPAT_NEW,
-			'(rev-deleted-user)'
+			'user_text', '(rev-deleted-user)'
 		);
 	}
 
@@ -137,7 +125,7 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 				'user' => self::$hiddenUser->getId(),
 				'actor' => self::$hiddenUser->getActorId(),
 			],
-			'user_text', SCHEMA_COMPAT_NEW,
+			'user_text',
 			// We cannot mock a static method, so we have to use the real method here.
 			// This also means this cannot be in a data provider.
 			Linker::userLink( self::$hiddenUser->getId(), self::$hiddenUser->getName() )

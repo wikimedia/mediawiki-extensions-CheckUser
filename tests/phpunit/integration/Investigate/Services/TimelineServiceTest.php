@@ -5,7 +5,6 @@ namespace MediaWiki\CheckUser\Tests\Integration\Investigate\Services;
 use LogicException;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Investigate\Services\TimelineService;
-use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWikiIntegrationTestCase;
@@ -25,10 +24,7 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * @dataProvider provideGetQueryInfo
 	 */
-	public function testGetQueryInfo(
-		$targets, $excludeTargets, $start, $limit, $eventTablesMigrationStage, $expected
-	) {
-		$this->overrideConfigValue( 'CheckUserEventTablesMigrationStage', $eventTablesMigrationStage );
+	public function testGetQueryInfo( $targets, $excludeTargets, $start, $limit, $expected ) {
 		$user1 = $this->createMock( UserIdentity::class );
 		$user1->method( 'getId' )
 			->willReturn( 11111 );
@@ -47,10 +43,6 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 			);
 
 		$timelineService = new TimelineService(
-			new ServiceOptions(
-				TimelineService::CONSTRUCTOR_OPTIONS,
-				$this->getServiceContainer()->getMainConfig()
-			),
 			$this->getServiceContainer()->getConnectionProvider(),
 			$userIdentityLookup,
 			$this->getServiceContainer()->get( 'CheckUserLookupUtils' )
@@ -73,33 +65,16 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 		if ( $start !== '' ) {
 			$start = $this->getDb()->timestamp( $start );
 		}
-		if ( $eventTablesMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
-			foreach ( CheckUserQueryInterface::RESULT_TABLES as $table ) {
-				$this->assertStringContainsString( $table, $queryInfo['tables']['a'] );
-				$columnPrefix = CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$table];
-				if ( $start === '' ) {
-					$this->assertStringNotContainsString( $columnPrefix . 'timestamp >=', $queryInfo['tables']['a'] );
-				} else {
-					$this->assertStringContainsString(
-						$columnPrefix . "timestamp >= '$start'", $queryInfo['tables']['a']
-					);
-				}
-			}
-			$this->assertStringContainsString( 'cuc_only_for_read_old = 0', $queryInfo['tables']['a'] );
-		} else {
-			$this->assertStringContainsString( CheckUserQueryInterface::CHANGES_TABLE, $queryInfo['tables']['a'] );
-			$this->assertStringNotContainsString(
-				CheckUserQueryInterface::PRIVATE_LOG_EVENT_TABLE, $queryInfo['tables']['a']
-			);
-			$this->assertStringNotContainsString( CheckUserQueryInterface::LOG_EVENT_TABLE, $queryInfo['tables']['a'] );
+		foreach ( CheckUserQueryInterface::RESULT_TABLES as $table ) {
+			$this->assertStringContainsString( $table, $queryInfo['tables']['a'] );
+			$columnPrefix = CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$table];
 			if ( $start === '' ) {
-				$this->assertStringNotContainsString( 'cuc_timestamp >=', $queryInfo['tables']['a'] );
+				$this->assertStringNotContainsString( $columnPrefix . 'timestamp >=', $queryInfo['tables']['a'] );
 			} else {
-				$this->assertStringContainsString( "cuc_timestamp >= '$start'", $queryInfo['tables']['a'] );
-				$this->assertStringNotContainsString( 'cule_timestamp', $queryInfo['tables']['a'] );
-				$this->assertStringNotContainsString( 'cupe_timestamp', $queryInfo['tables']['a'] );
+				$this->assertStringContainsString(
+					$columnPrefix . "timestamp >= '$start'", $queryInfo['tables']['a']
+				);
 			}
-			$this->assertStringNotContainsString( 'cuc_only_for_read_old', $queryInfo['tables']['a'] );
 		}
 
 		// This assertion will fail on SQLite, as it does not support ORDER BY and LIMIT in UNION queries
@@ -114,48 +89,42 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 		$range = IPUtils::parseRange( '127.0.0.1/24' );
 		return [
 			'Valid username' => [
-				[ 'User1' ], [],
-				'', 500, SCHEMA_COMPAT_NEW,
+				[ 'User1' ], [], '', 500,
 				[
 					'targets' => [ '11111' ],
 					'conds' => [ 'actor_user' ],
 				],
 			],
 			'Valid username while reading old' => [
-				[ 'User1' ], [],
-				'', 500, SCHEMA_COMPAT_OLD,
+				[ 'User1' ], [], '', 500,
 				[
 					'targets' => [ '11111' ],
 					'conds' => [ 'actor_user' ],
 				],
 			],
 			'Valid username, with start' => [
-				[ 'User1' ], [],
-				'111', 500, SCHEMA_COMPAT_NEW,
+				[ 'User1' ], [], '111', 500,
 				[
 					'targets' => [ '11111' ],
 					'conds' => [ 'actor_user' ],
 				],
 			],
 			'Valid IP' => [
-				[ '1.2.3.4' ], [],
-				'', 500, SCHEMA_COMPAT_NEW,
+				[ '1.2.3.4' ], [], '', 500,
 				[
 					'targets' => [ IPUtils::toHex( '1.2.3.4' ) ],
 					'conds' => [ 'cuc_ip_hex' ],
 				],
 			],
 			'Multiple valid targets' => [
-				[ '1.2.3.4', 'User1' ], [],
-				'', 500, SCHEMA_COMPAT_NEW,
+				[ '1.2.3.4', 'User1' ], [], '', 500,
 				[
 					'targets' => [ '11111', IPUtils::toHex( '1.2.3.4' ) ],
 					'conds' => [ 'cuc_ip_hex', 'actor_user' ],
 				],
 			],
 			'Multiple valid targets with some excluded' => [
-				[ '1.2.3.4', 'User1' ], [ 'User2' ],
-				'', 500, SCHEMA_COMPAT_NEW,
+				[ '1.2.3.4', 'User1' ], [ 'User2' ], '', 500,
 				[
 					'targets' => [ '11111', IPUtils::toHex( '1.2.3.4' ) ],
 					'excludedTargets' => [ '22222' ],
@@ -163,16 +132,14 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 				],
 			],
 			'Valid IP range' => [
-				[ '127.0.0.1/24', 'User1' ], [],
-				'', 500, SCHEMA_COMPAT_NEW,
+				[ '127.0.0.1/24', 'User1' ], [], '', 500,
 				[
 					'targets' => [ '11111' ] + $range,
 					'conds' => [ 'cuc_ip_hex >=', 'cuc_ip_hex <=', 'actor_user' ],
 				],
 			],
 			'Some valid targets' => [
-				[ 'User1', 'InvalidUser', '1.1..23', '::1' ], [],
-				'', 20, SCHEMA_COMPAT_NEW,
+				[ 'User1', 'InvalidUser', '1.1..23', '::1' ], [], '', 20,
 				[
 					'targets' => [ '11111', IPUtils::toHex( '::1' ) ],
 					'conds' => [ 'actor_user', 'cuc_ip_hex' ],
@@ -203,10 +170,6 @@ class TimelineServiceTest extends MediaWikiIntegrationTestCase {
 		$mockConnectionProvider->method( 'getReplicaDatabase' )->willReturn( $mockDbr );
 		// Get the object under test while using the mock IConnectionProvider that returns a mock DB type.
 		$timelineService = new TimelineService(
-			new ServiceOptions(
-				TimelineService::CONSTRUCTOR_OPTIONS,
-				$this->getServiceContainer()->getMainConfig()
-			),
 			$mockConnectionProvider,
 			$this->getServiceContainer()->getUserIdentityLookup(),
 			$this->getServiceContainer()->get( 'CheckUserLookupUtils' )

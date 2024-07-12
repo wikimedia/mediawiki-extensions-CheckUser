@@ -19,7 +19,6 @@ class CompareService extends ChangeService {
 	 */
 	public const CONSTRUCTOR_OPTIONS = [
 		'CheckUserInvestigateMaximumRowCount',
-		'CheckUserEventTablesMigrationStage',
 	];
 
 	private int $limit;
@@ -36,7 +35,7 @@ class CompareService extends ChangeService {
 		UserIdentityLookup $userIdentityLookup,
 		CheckUserLookupUtils $checkUserLookupUtils
 	) {
-		parent::__construct( $options, $dbProvider, $userIdentityLookup, $checkUserLookupUtils );
+		parent::__construct( $dbProvider, $userIdentityLookup, $checkUserLookupUtils );
 
 		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 		$this->limit = $options->get( 'CheckUserInvestigateMaximumRowCount' );
@@ -51,28 +50,16 @@ class CompareService extends ChangeService {
 	public function getTotalActionsFromIP( string $ipHex ): int {
 		$dbr = $this->dbProvider->getReplicaDatabase();
 
-		// Select data from all three tables when reading new, and only cu_changes when reading old.
-		$resultTables = self::RESULT_TABLES;
-		if ( !$this->eventTableReadNew ) {
-			$resultTables = [ self::CHANGES_TABLE ];
-		}
-
 		$totalCount = 0;
-		foreach ( $resultTables as $table ) {
+		foreach ( self::RESULT_TABLES as $table ) {
 			$tablePrefix = self::RESULT_TABLE_TO_PREFIX[$table];
-			$queryBuilder = $dbr->newSelectQueryBuilder()
+			$totalCount += $dbr->newSelectQueryBuilder()
 				->select( $tablePrefix . 'id' )
 				->from( $table )
 				->where( [ $tablePrefix . 'ip_hex' => $ipHex ] )
 				->limit( $this->limit )
-				->caller( __METHOD__ );
-
-			if ( $table === self::CHANGES_TABLE && $this->eventTableReadNew ) {
-				// When reading new, exclude rows that are only for use when reading old.
-				$queryBuilder->andWhere( [ 'cuc_only_for_read_old' => 0 ] );
-			}
-
-			$totalCount += $queryBuilder->fetchRowCount();
+				->caller( __METHOD__ )
+				->fetchRowCount();
 		}
 		return $totalCount;
 	}
@@ -93,15 +80,9 @@ class CompareService extends ChangeService {
 		}
 		$limit = $this->getLimitPerQuery( $targets );
 
-		// Select data from all three tables when reading new, and only cu_changes when reading old.
-		$resultTables = self::RESULT_TABLES;
-		if ( !$this->eventTableReadNew ) {
-			$resultTables = [ self::CHANGES_TABLE ];
-		}
-
 		$unionQueryBuilder = $dbr->newUnionQueryBuilder()->caller( __METHOD__ );
 		foreach ( $targets as $target ) {
-			foreach ( $resultTables as $table ) {
+			foreach ( self::RESULT_TABLES as $table ) {
 				if ( $table === self::CHANGES_TABLE ) {
 					$queryBuilder = $this->getPartialQueryBuilderForCuChanges( $target, $excludeTargets, $start );
 				} elseif ( $table === self::LOG_EVENT_TABLE ) {
@@ -183,11 +164,6 @@ class CompareService extends ChangeService {
 		if ( $dbr->unionSupportsOrderAndLimit() ) {
 			// TODO: T360712: Add cuc_id to the ORDER BY clause to ensure unique ordering.
 			$queryBuilder->orderBy( 'cuc_timestamp', SelectQueryBuilder::SORT_DESC );
-		}
-		// When reading new, only select results from cu_changes that are
-		// for read new (defined as those with cuc_only_for_read_old set to 0).
-		if ( $this->eventTableReadNew ) {
-			$queryBuilder->andWhere( [ 'cuc_only_for_read_old' => 0 ] );
 		}
 		return $queryBuilder;
 	}
@@ -322,11 +298,7 @@ class CompareService extends ChangeService {
 	 * @return int
 	 */
 	private function getLimitPerQuery( array $targets ) {
-		$divisor = count( $targets );
-		if ( $this->eventTableReadNew ) {
-			$divisor *= 3;
-		}
-		return ceil( $this->limit / $divisor );
+		return ceil( $this->limit / ( count( $targets ) * 3 ) );
 	}
 
 	/**
@@ -357,14 +329,8 @@ class CompareService extends ChangeService {
 		$targetsOverLimit = [];
 		$offset = $this->getLimitPerQuery( $targets );
 
-		// Select data from all three tables when reading new, and only cu_changes when reading old.
-		$resultTables = self::RESULT_TABLES;
-		if ( !$this->eventTableReadNew ) {
-			$resultTables = [ self::CHANGES_TABLE ];
-		}
-
 		foreach ( $targets as $target ) {
-			foreach ( $resultTables as $table ) {
+			foreach ( self::RESULT_TABLES as $table ) {
 				$targetExpr = $this->buildExprForSingleTarget( $target, $excludeTargets, $start, $table );
 				if ( $targetExpr !== null ) {
 					$tablePrefix = self::RESULT_TABLE_TO_PREFIX[$table];
@@ -375,11 +341,6 @@ class CompareService extends ChangeService {
 						->offset( $offset )
 						->limit( 1 )
 						->caller( __METHOD__ );
-					if ( $table === self::CHANGES_TABLE && $this->eventTableReadNew ) {
-						// When reading new, exclude rows from the cu_changes query that are only for use
-						// when reading old.
-						$limitCheck->andWhere( [ 'cuc_only_for_read_old' => 0 ] );
-					}
 					if ( $table === self::PRIVATE_LOG_EVENT_TABLE && IPUtils::isIPAddress( $target ) ) {
 						// A LEFT JOIN is required because cupe_actor can be NULL if the performer was an IP address
 						// and temporary accounts were enabled.

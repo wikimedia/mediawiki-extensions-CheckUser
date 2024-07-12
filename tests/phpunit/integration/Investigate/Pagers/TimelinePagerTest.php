@@ -140,10 +140,7 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/** @dataProvider provideReallyDoQuery */
-	public function testReallyDoQuery(
-		$offset, $limit, $order, $filteredTargets, $eventTablesMigrationStage, $expectedRows
-	) {
-		$this->overrideConfigValue( 'CheckUserEventTablesMigrationStage', $eventTablesMigrationStage );
+	public function testReallyDoQuery( $offset, $limit, $order, $filteredTargets, $expectedRows ) {
 		$objectUnderTest = $this->getObjectUnderTest();
 		$objectUnderTest->filteredTargets = $filteredTargets;
 		// Pass the expected timestamp through IReadableTimestamp::timestamp to ensure it is in the right format
@@ -163,7 +160,7 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 
 	public static function provideReallyDoQuery() {
 		return [
-			'Offset unset, limit 1, order ASC, InvestigateTestUser1 as target when reading old' => [
+			'Offset unset, limit 1, order ASC, InvestigateTestUser1 as target' => [
 				// The $offset argument to ::reallyDoQuery
 				null,
 				// The $limit argument to ::reallyDoQuery
@@ -172,12 +169,10 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 				IndexPager::QUERY_ASCENDING,
 				// The value of the $filteredTargets property
 				[ 'InvestigateTestUser1' ],
-				// The value of wgCheckUserEventTablesMigrationStage
-				SCHEMA_COMPAT_OLD,
 				// The expected rows returned by ::reallyDoQuery
 				[ (object)[
 					'timestamp' => '20230405060708', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
-					'actiontext' => '', 'minor' => '0', 'page_id' => '1', 'type' => RC_NEW,
+					'minor' => '0', 'page_id' => '1', 'type' => RC_NEW,
 					'this_oldid' => '0', 'last_oldid' => '0', 'ip' => '1.2.3.4', 'xff' => '0',
 					'agent' => 'foo user agent', 'id' => '1', 'user' => '1', 'user_text' => 'InvestigateTestUser1',
 					'comment_text' => 'Foo comment', 'comment_data' => null, 'actor' => '1',
@@ -185,23 +180,11 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 					'log_id' => null,
 				] ],
 			],
-			'Offset set, limit 1, order DESC, InvestigateTestUser1 as target when reading old' => [
-				'20230405060710|1', 1, IndexPager::QUERY_DESCENDING, [ 'InvestigateTestUser1' ], SCHEMA_COMPAT_OLD,
+			'Offset set, limit 1, order DESC, InvestigateTestUser1 as target' => [
+				'20230405060710|1', 1, IndexPager::QUERY_DESCENDING, [ 'InvestigateTestUser1' ],
 				[ (object)[
 					'timestamp' => '20230405060708', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
-					'actiontext' => '', 'minor' => '0', 'page_id' => '1', 'type' => RC_NEW,
-					'this_oldid' => '0', 'last_oldid' => '0', 'ip' => '1.2.3.4', 'xff' => '0',
-					'agent' => 'foo user agent', 'id' => '1', 'user' => '1', 'user_text' => 'InvestigateTestUser1',
-					'comment_text' => 'Foo comment', 'comment_data' => null, 'actor' => '1',
-					'log_type' => null, 'log_action' => null, 'log_params' => null, 'log_deleted' => null,
-					'log_id' => null,
-				] ],
-			],
-			'Offset set, limit 1, order DESC, InvestigateTestUser1 as target when reading new' => [
-				'20230405060710|1', 1, IndexPager::QUERY_DESCENDING, [ 'InvestigateTestUser1' ], SCHEMA_COMPAT_NEW,
-				[ (object)[
-					'timestamp' => '20230405060708', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
-					'actiontext' => '', 'minor' => '0', 'page_id' => '1', 'type' => RC_NEW,
+					'minor' => '0', 'page_id' => '1', 'type' => RC_NEW,
 					'this_oldid' => '0', 'last_oldid' => '0', 'ip' => '1.2.3.4', 'xff' => '0',
 					'agent' => 'foo user agent', 'id' => '1', 'user' => '1', 'user_text' => 'InvestigateTestUser1',
 					'comment_text' => 'Foo comment', 'comment_data' => null, 'actor' => '1',
@@ -210,33 +193,11 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 				] ],
 			],
 			// Testing entries from cu_private_event, including the row where cupe_actor is null
-			'Limit 2, order DESC, 1.2.3.4 as target when reading old' => [
-				null, 2, IndexPager::QUERY_DESCENDING, [ '1.2.3.4' ], SCHEMA_COMPAT_OLD, [
+			'Limit 2, order DESC, 1.2.3.4 as target' => [
+				null, 2, IndexPager::QUERY_DESCENDING, [ '1.2.3.4' ], [
 					(object)[
 						'timestamp' => '20230405060721', 'namespace' => NS_USER, 'title' => 'InvestigateTestUser1',
-						'actiontext' => '', 'minor' => '0', 'page_id' => '0', 'type' => RC_LOG,
-						'this_oldid' => '0', 'last_oldid' => '0', 'ip' => '1.2.3.4', 'xff' => '0',
-						'agent' => 'foo user agent', 'id' => '10', 'user' => '1', 'user_text' => 'InvestigateTestUser1',
-						'comment_text' => '', 'comment_data' => null, 'actor' => '1',
-						'log_type' => null, 'log_action' => null, 'log_params' => null, 'log_deleted' => null,
-						'log_id' => null,
-					],
-					(object)[
-						'timestamp' => '20230405060720', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
-						'actiontext' => '', 'minor' => '0', 'page_id' => '1', 'type' => RC_LOG,
-						'this_oldid' => '0', 'last_oldid' => '0', 'ip' => '1.2.3.4', 'xff' => '0',
-						'agent' => 'foo user agent', 'id' => '9', 'user' => null, 'user_text' => '1.2.3.4',
-						'comment_text' => '', 'comment_data' => null, 'actor' => '4',
-						'log_type' => null, 'log_action' => null, 'log_params' => null, 'log_deleted' => null,
-						'log_id' => null,
-					],
-				]
-			],
-			'Limit 2, order DESC, 1.2.3.4 as target when reading new' => [
-				null, 2, IndexPager::QUERY_DESCENDING, [ '1.2.3.4' ], SCHEMA_COMPAT_NEW, [
-					(object)[
-						'timestamp' => '20230405060721', 'namespace' => NS_USER, 'title' => 'InvestigateTestUser1',
-						'actiontext' => null, 'minor' => null, 'page_id' => 0, 'type' => RC_LOG,
+						'minor' => null, 'page_id' => 0, 'type' => RC_LOG,
 						'this_oldid' => null, 'last_oldid' => null, 'ip' => '1.2.3.4', 'xff' => '0',
 						'agent' => 'foo user agent', 'id' => '2', 'user' => '1', 'user_text' => 'InvestigateTestUser1',
 						'comment_text' => '', 'comment_data' => null, 'actor' => '1',
@@ -245,7 +206,7 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 					],
 					(object)[
 						'timestamp' => '20230405060720', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
-						'actiontext' => null, 'minor' => null, 'page_id' => 1, 'type' => RC_LOG,
+						'minor' => null, 'page_id' => 1, 'type' => RC_LOG,
 						'this_oldid' => null, 'last_oldid' => null, 'ip' => '1.2.3.4', 'xff' => '0',
 						'agent' => 'foo user agent', 'id' => '1', 'user' => null, 'user_text' => null,
 						'comment_text' => '', 'comment_data' => null, 'actor' => null,
@@ -255,24 +216,11 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 				]
 			],
 			// Testing limit where the number of rows is less than the specified limit
-			'Limit 100, order DESC, InvestigateTestUser2 as target when reading old' => [
-				null, 100, IndexPager::QUERY_DESCENDING, [ 'InvestigateTestUser2' ], SCHEMA_COMPAT_OLD, [
+			'Limit 100, order DESC, InvestigateTestUser2 as target' => [
+				null, 100, IndexPager::QUERY_DESCENDING, [ 'InvestigateTestUser2' ], [
 					(object)[
 						'timestamp' => '20230405060620', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
-						'actiontext' => '', 'minor' => '0', 'page_id' => '1', 'type' => RC_LOG,
-						'this_oldid' => '0', 'last_oldid' => '0', 'ip' => '1.2.3.4', 'xff' => '0',
-						'agent' => 'foo user agent', 'id' => '11', 'user' => '2', 'user_text' => 'InvestigateTestUser2',
-						'comment_text' => 'Barfoo comment', 'comment_data' => null, 'actor' => '2',
-						'log_type' => null, 'log_action' => null, 'log_params' => null, 'log_deleted' => null,
-						'log_id' => null,
-					],
-				],
-			],
-			'Limit 100, order DESC, InvestigateTestUser2 as target when reading new' => [
-				null, 100, IndexPager::QUERY_DESCENDING, [ 'InvestigateTestUser2' ], SCHEMA_COMPAT_NEW, [
-					(object)[
-						'timestamp' => '20230405060620', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
-						'actiontext' => null, 'minor' => null, 'page_id' => '1', 'type' => RC_LOG,
+						'minor' => null, 'page_id' => '1', 'type' => RC_LOG,
 						'this_oldid' => null, 'last_oldid' => null, 'ip' => '1.2.3.4', 'xff' => '0',
 						'agent' => 'foo user agent', 'id' => '3', 'user' => '2', 'user_text' => 'InvestigateTestUser2',
 						'comment_text' => 'Barfoo comment', 'comment_data' => null, 'actor' => '2',
@@ -282,33 +230,11 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 				],
 			],
 			// Testing rows in cu_log_event and cu_changes
-			'Offset set, Limit 2, order DESC, 1.2.3.5 as target when reading old' => [
-				'20230405060719|10', 2, IndexPager::QUERY_DESCENDING, [ '1.2.3.5' ], SCHEMA_COMPAT_OLD, [
+			'Offset set, Limit 2, order DESC, 1.2.3.5 as target' => [
+				'20230405060719|10', 2, IndexPager::QUERY_DESCENDING, [ '1.2.3.5' ], [
 					(object)[
 						'timestamp' => '20230405060718', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
-						'actiontext' => 'action text for second log entry when reading old', 'minor' => '0',
-						'page_id' => '1', 'type' => RC_LOG, 'this_oldid' => '0', 'last_oldid' => '0',
-						'ip' => '1.2.3.5', 'xff' => '0', 'agent' => 'bar user agent', 'id' => '7', 'user' => null,
-						'user_text' => '1.2.3.5', 'comment_text' => 'Testing', 'comment_data' => null, 'actor' => '5',
-						'log_type' => null, 'log_action' => null, 'log_params' => null, 'log_deleted' => null,
-						'log_id' => null,
-					],
-					(object)[
-						'timestamp' => '20230405060716', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
-						'actiontext' => '', 'minor' => '0', 'page_id' => '1', 'type' => RC_EDIT,
-						'this_oldid' => '0', 'last_oldid' => '0', 'ip' => '1.2.3.5', 'xff' => '0',
-						'agent' => 'foo user agent', 'id' => '5', 'user' => null, 'user_text' => '1.2.3.5',
-						'comment_text' => 'Bar comment', 'comment_data' => null, 'actor' => '5',
-						'log_type' => null, 'log_action' => null, 'log_params' => null, 'log_deleted' => null,
-						'log_id' => null,
-					],
-				],
-			],
-			'Offset set, Limit 2, order DESC, 1.2.3.5 as target when reading new' => [
-				'20230405060719|10', 2, IndexPager::QUERY_DESCENDING, [ '1.2.3.5' ], SCHEMA_COMPAT_NEW, [
-					(object)[
-						'timestamp' => '20230405060718', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
-						'actiontext' => null, 'minor' => null, 'page_id' => '1', 'type' => RC_LOG,
+						'minor' => null, 'page_id' => '1', 'type' => RC_LOG,
 						'this_oldid' => null, 'last_oldid' => null, 'ip' => '1.2.3.5', 'xff' => '0',
 						'agent' => 'bar user agent', 'id' => '2', 'user' => null, 'user_text' => '1.2.3.5',
 						'comment_text' => 'Testing', 'comment_data' => null, 'actor' => 5,
@@ -317,7 +243,7 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 					],
 					(object)[
 						'timestamp' => '20230405060716', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
-						'actiontext' => '', 'minor' => '0', 'page_id' => '1', 'type' => RC_EDIT,
+						'minor' => '0', 'page_id' => '1', 'type' => RC_EDIT,
 						'this_oldid' => '0', 'last_oldid' => '0', 'ip' => '1.2.3.5', 'xff' => '0',
 						'agent' => 'foo user agent', 'id' => '5', 'user' => null, 'user_text' => '1.2.3.5',
 						'comment_text' => 'Bar comment', 'comment_data' => null, 'actor' => '5',
@@ -326,13 +252,10 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 					],
 				],
 			],
-			'No rows for IP and invalid user target when reading old' => [
-				null, 10, IndexPager::QUERY_ASCENDING, [ '8.9.6.5', 'InvalidUser1' ], SCHEMA_COMPAT_OLD, [],
+			'No rows for IP and invalid user target' => [
+				null, 10, IndexPager::QUERY_ASCENDING, [ '8.9.6.5', 'InvalidUser1' ], [],
 			],
-			'No rows for IP and invalid user target when reading new' => [
-				null, 10, IndexPager::QUERY_ASCENDING, [ '8.9.6.5', 'InvalidUser1' ], SCHEMA_COMPAT_NEW, [],
-			],
-			'All targets filtered out' => [ null, 10, IndexPager::QUERY_ASCENDING, [], SCHEMA_COMPAT_OLD, [] ],
+			'All targets filtered out' => [ null, 10, IndexPager::QUERY_ASCENDING, [], [] ],
 		];
 	}
 
@@ -446,70 +369,6 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 				'cuc_timestamp'  => '20230405060716',
 				'cuc_comment_id' => $commentStore->createComment( $this->getDb(), 'Bar comment' )->id,
 			],
-			// Entries also in cu_log_event that are marked only for use when reading old
-			[
-				'cuc_actor'      => $testActorData['1.2.3.4']['actor_id'],
-				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'foo user agent',
-				'cuc_timestamp'  => '20230405060716',
-				'cuc_actiontext' => 'action text for move log entry when reading old',
-				'cuc_comment_id' => $commentStore->createComment( $this->getDb(), $moveLogEntry->getComment() )->id,
-				'cuc_type'       => RC_LOG,
-				'cuc_only_for_read_old' => 1,
-			], [
-				'cuc_actor'      => $testActorData['1.2.3.5']['actor_id'],
-				'cuc_ip'         => '1.2.3.5',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.5' ),
-				'cuc_agent'      => 'bar user agent',
-				'cuc_timestamp'  => '20230405060718',
-				'cuc_actiontext' => 'action text for second log entry when reading old',
-				'cuc_comment_id' => $commentStore->createComment( $this->getDb(), $secondLogEntry->getComment() )->id,
-				'cuc_type'       => RC_LOG,
-				'cuc_only_for_read_old' => 1,
-			], [
-				'cuc_actor'      => $testActorData['InvestigateTestUser1']['actor_id'],
-				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'foo user agent',
-				'cuc_timestamp'  => '20230405060719',
-				'cuc_actiontext' => 'action text for delete log entry when reading old',
-				'cuc_comment_id' => $commentStore->createComment( $this->getDb(), $deleteLogEntry->getComment() )->id,
-				'cuc_type'       => RC_LOG,
-				'cuc_only_for_read_old' => 1,
-			],
-			// Entries also in cu_private_event that are marked only for use when reading old
-			[
-				'cuc_actor'      => $testActorData['1.2.3.4']['actor_id'],
-				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'foo user agent',
-				'cuc_timestamp'  => '20230405060720',
-				'cuc_comment_id' => $commentStore->createComment( $this->getDb(), '' )->id,
-				'cuc_type'       => RC_LOG,
-				'cuc_only_for_read_old' => 1,
-			], [
-				'cuc_actor'      => $testActorData['InvestigateTestUser1']['actor_id'],
-				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'foo user agent',
-				'cuc_timestamp'  => '20230405060721',
-				'cuc_namespace'  => NS_USER,
-				'cuc_title'      => 'InvestigateTestUser1',
-				'cuc_page_id'    => 0,
-				'cuc_comment_id' => $commentStore->createComment( $this->getDb(), '' )->id,
-				'cuc_type'       => RC_LOG,
-				'cuc_only_for_read_old' => 1,
-			], [
-				'cuc_actor'      => $testActorData['InvestigateTestUser2']['actor_id'],
-				'cuc_ip'         => '1.2.3.4',
-				'cuc_ip_hex'     => IPUtils::toHex( '1.2.3.4' ),
-				'cuc_agent'      => 'foo user agent',
-				'cuc_timestamp'  => '20230405060620',
-				'cuc_comment_id' => $commentStore->createComment( $this->getDb(), 'Barfoo comment' )->id,
-				'cuc_type'       => RC_LOG,
-				'cuc_only_for_read_old' => 1,
-			],
 		];
 
 		$testDataForCuChanges = array_map( function ( $row ) use ( $testPage, $commentStore ) {
@@ -521,11 +380,9 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 				'cuc_page_id'    => $testPage->getId(),
 				'cuc_xff'        => 0,
 				'cuc_xff_hex'    => null,
-				'cuc_actiontext' => '',
 				'cuc_comment_id' => $commentStore->createComment( $this->getDb(), 'Foo comment' )->id,
 				'cuc_this_oldid' => 0,
 				'cuc_last_oldid' => 0,
-				'cuc_only_for_read_old' => 0,
 				'cuc_type' => RC_EDIT,
 			], $row );
 		}, $testDataForCuChanges );

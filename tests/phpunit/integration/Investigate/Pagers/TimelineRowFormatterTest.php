@@ -2,10 +2,12 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Investigate\Pagers;
 
+use LogEntryBase;
 use LogFormatter;
 use LogPage;
 use ManualLogEntry;
 use MediaWiki\CheckUser\Investigate\Pagers\TimelineRowFormatter;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
@@ -32,6 +34,7 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideGetFormattedRowItems */
 	public function testGetFormattedRowItems( $row, $expectedArraySubmap ) {
+		RequestContext::getMain()->setUser( $this->getTestUser( [ 'checkuser' ] )->getUser() );
 		// Tests a subset of the items in the array returned by ::getFormattedRowItems
 		$objectUnderTest = $this->getObjectUnderTest();
 		$row = array_merge( $this->getDefaultsForTimelineRow(), $row );
@@ -63,7 +66,10 @@ class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 			],
 			'Log performed by IPv6' => [
 				[
-					'ip' => '2001:DB8::1', 'actiontext' => 'test action text',
+					'ip' => '2001:DB8::1', 'log_action' => 'migrated-cu_changes-log-event',
+					'log_type' => 'checkuser-private-event',
+					'log_params' => LogEntryBase::makeParamBlob( [ '4::actiontext' => 'test action text' ] ),
+					'log_deleted' => 0,
 					'agent' => 'Test', 'type' => RC_LOG,
 				],
 				[
