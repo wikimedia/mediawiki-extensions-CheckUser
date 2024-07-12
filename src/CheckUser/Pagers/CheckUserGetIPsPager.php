@@ -143,13 +143,9 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 	 */
 	protected function getCountForIPActions( string $ip_or_range ) {
 		$count = false;
-		$tables = self::RESULT_TABLES;
-		if ( !$this->eventTableReadNew ) {
-			$tables = [ self::CHANGES_TABLE ];
-		}
 		$countsPerTable = [];
 		// Get the total count and counts by this user.
-		foreach ( $tables as $table ) {
+		foreach ( self::RESULT_TABLES as $table ) {
 			$countsPerTable[$table] = $this->getCountForIPActionsPerTable( $ip_or_range, $table );
 		}
 		// Display the count if at least one of the counts for a table has more actions
@@ -187,15 +183,6 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 		// We are only using startOffset for the period feature.
 		if ( $this->startOffset ) {
 			$expr = $this->mDb->expr( $this->getTimestampField( $table ), '>=', $this->startOffset )
-				->andExpr( $expr );
-		}
-
-		// If the $table is cu_changes and event table migration
-		// is set to read new, then only include rows that have
-		// cuc_only_for_read_old equal to 0 to prevent duplicate
-		// rows appearing.
-		if ( $this->eventTableReadNew && $table === self::CHANGES_TABLE ) {
-			$expr = $this->mDb->expr( 'cuc_only_for_read_old', '=', 0 )
 				->andExpr( $expr );
 		}
 
@@ -318,11 +305,6 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 			'join_conds' => [ 'actor_cuc_actor' => [ 'JOIN', 'actor_cuc_actor.actor_id=cuc_actor' ] ],
 			'options' => [],
 		];
-		// When reading new, only select results from cu_changes that are
-		// for read new (defined as those with cuc_only_for_read_old set to 0).
-		if ( $this->eventTableReadNew ) {
-			$queryInfo['conds']['cuc_only_for_read_old'] = 0;
-		}
 		return $queryInfo;
 	}
 

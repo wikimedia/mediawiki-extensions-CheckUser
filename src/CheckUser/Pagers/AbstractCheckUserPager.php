@@ -75,9 +75,6 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 
 	protected UserIdentity $target;
 
-	/** @var bool Should Special:CheckUser read from the new event tables. */
-	protected bool $eventTableReadNew;
-
 	/** @var bool Should Special:CheckUser display Client Hints data. */
 	protected bool $displayClientHints;
 
@@ -160,9 +157,6 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 
 		$this->mLimitsShown = array_map( 'ceil', $this->mLimitsShown );
 		$this->mLimitsShown = array_unique( $this->mLimitsShown );
-		$this->eventTableReadNew = boolval(
-			$this->getConfig()->get( 'CheckUserEventTablesMigrationStage' ) & SCHEMA_COMPAT_READ_NEW
-		);
 		$this->displayClientHints = $this->getConfig()->get( 'CheckUserDisplayClientHints' );
 
 		$this->userGroupManager = $userGroupManager;
@@ -723,12 +717,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		// Copied, with modification, from IndexPager::buildQueryInfo
 		$fname = __METHOD__ . ' (' . $this->getSqlComment() . ')';
 		$queryInfo = [];
-		// Select data from all three tables when reading new, and only cu_changes when reading old.
-		$resultTables = self::RESULT_TABLES;
-		if ( $this->getConfig()->get( 'CheckUserEventTablesMigrationStage' ) & SCHEMA_COMPAT_READ_OLD ) {
-			$resultTables = [ self::CHANGES_TABLE ];
-		}
-		foreach ( $resultTables as $table ) {
+		foreach ( self::RESULT_TABLES as $table ) {
 			$info = $this->getQueryInfo( $table );
 			$tables = $info['tables'];
 			$fields = $info['fields'];

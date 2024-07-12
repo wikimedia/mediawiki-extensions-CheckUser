@@ -204,28 +204,4 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 			]
 		];
 	}
-
-	/** @dataProvider provideEventMigrationStageValues */
-	public function testEventTableReadNewValue( int $eventTableMigrationStage, bool $expectedValue ) {
-		$this->setMwGlobals( 'wgCheckUserEventTablesMigrationStage', $eventTableMigrationStage );
-		$object = $this->setUpObject();
-		$this->assertSame(
-			$expectedValue,
-			$object->eventTableReadNew,
-			'Event table read new boolean is set incorrectly.'
-		);
-	}
-
-	public static function provideEventMigrationStageValues() {
-		return [
-			'With event table migration set to old' => [ SCHEMA_COMPAT_OLD, false ],
-			'With event table migration set to new' => [ SCHEMA_COMPAT_NEW, true ],
-			'With event table migration set to old and write new' => [
-				SCHEMA_COMPAT_OLD | SCHEMA_COMPAT_WRITE_NEW, false
-			],
-			'With event table migration set to new and write old' => [
-				SCHEMA_COMPAT_NEW | SCHEMA_COMPAT_WRITE_OLD, true
-			],
-		];
-	}
 }

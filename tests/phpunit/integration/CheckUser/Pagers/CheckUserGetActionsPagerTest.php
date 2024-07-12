@@ -11,7 +11,6 @@ use MediaWiki\CheckUser\ClientHints\ClientHintsBatchFormatterResults;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers\Mocks\MockTemplateParser;
 use MediaWiki\Linker\Linker;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Title\Title;
 use MediaWiki\User\UserIdentityValue;
 use Wikimedia\IPUtils;
@@ -71,14 +70,10 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 	 * @dataProvider provideFormatRow
 	 */
 	public function testFormatRow(
-		$row, $flagCache, $usernameVisibility, $formattedRevisionComments,
-		$formattedClientHintsData, $expectedTemplateParams,
-		$eventTablesMigrationStage, $displayClientHints
+		$row, $flagCache, $usernameVisibility, $formattedRevisionComments, $formattedClientHintsData,
+		$expectedTemplateParams, $displayClientHints
 	) {
-		$this->setMwGlobals( [
-			'wgCheckUserEventTablesMigrationStage' => $eventTablesMigrationStage,
-			'wgCheckUserDisplayClientHints' => $displayClientHints,
-		] );
+		$this->overrideConfigValue( 'CheckUserDisplayClientHints', $displayClientHints );
 		$object = $this->setUpObject();
 		$object->templateParser = new MockTemplateParser();
 		$row = array_merge( $this->getDefaultRowFieldValues(), $row );
@@ -114,7 +109,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 		);
 	}
 
-	public function testFormatRowLogNotFromCuChangesWhenReadingNew() {
+	public function testFormatRowForLog() {
 		$deleteLogEntry = new ManualLogEntry( 'delete', 'delete' );
 		$deleteLogEntry->setPerformer( UserIdentityValue::newAnonymous( '127.0.0.1' ) );
 		$deleteLogEntry->setTarget( Title::newFromText( 'Testing page' ) );
@@ -129,6 +124,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 				'user' => $deleteLogEntry->getPerformerIdentity()->getId(),
 				'client_hints_reference_id' => 1,
 				'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
+				'agent' => 'Test',
 			],
 			[ $deleteLogEntry->getPerformerIdentity()->getName() => '' ],
 			[ $deleteLogEntry->getPerformerIdentity()->getId() => true ],
@@ -136,14 +132,13 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 			new ClientHintsBatchFormatterResults( [ 0 => [ 1 => 0 ] ], [ 0 => 'Test Client Hints data' ] ),
 			[
 				'actionText' => LogFormatter::newFromEntry( $deleteLogEntry )->getActionText(),
-				'clientHints' => 'Test Client Hints data',
+				'clientHints' => 'Test Client Hints data', 'userAgent' => 'Test',
 			],
-			SCHEMA_COMPAT_NEW,
 			true,
 		);
 	}
 
-	public function testFormatRowLogNotFromCuChangesWhenReadingNewWithDeletedActionText() {
+	public function testFormatRowForLogWithDeletedActionText() {
 		$deleteLogEntry = new ManualLogEntry( 'delete', 'delete' );
 		$deleteLogEntry->setPerformer( UserIdentityValue::newAnonymous( '127.0.0.1' ) );
 		$deleteLogEntry->setTarget( Title::newFromText( 'Testing page' ) );
@@ -166,10 +161,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 			[ $deleteLogEntry->getPerformerIdentity()->getId() => true ],
 			[],
 			new ClientHintsBatchFormatterResults( [], [] ),
-			[
-				'actionText' => $logFormatter->getActionText()
-			],
-			SCHEMA_COMPAT_NEW,
+			[ 'actionText' => $logFormatter->getActionText() ],
 			false,
 		);
 	}
@@ -199,13 +191,12 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 					]
 				)
 			],
-			SCHEMA_COMPAT_NEW,
 			false,
 		);
 	}
 
-	/** @dataProvider provideFormatRowLogNotFromCuChangesWhenReadingNewWithLogParameters */
-	public function testFormatRowLogNotFromCuChangesWhenReadingNewWithLogParameters(
+	/** @dataProvider provideFormatRowForLogWithLogParameters */
+	public function testFormatRowForLogWithLogParameters(
 		$logParametersAsArray, $logParametersAsBlob
 	) {
 		$moveLogEntry = new ManualLogEntry( 'move', 'move' );
@@ -233,12 +224,11 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 				'actionText' => LogFormatter::newFromEntry( $moveLogEntry )->getActionText(),
 				'clientHints' => 'Test Client Hints data',
 			],
-			SCHEMA_COMPAT_NEW,
 			true,
 		);
 	}
 
-	public static function provideFormatRowLogNotFromCuChangesWhenReadingNewWithLogParameters() {
+	public static function provideFormatRowForLogWithLogParameters() {
 		return [
 			'Legacy log parameters' => [
 				[
@@ -297,7 +287,6 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 				'clientHints' => 'Test Client Hints data',
 				'comment' => '',
 			],
-			SCHEMA_COMPAT_NEW,
 			true,
 		);
 	}
@@ -335,7 +324,6 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 			[],
 			new ClientHintsBatchFormatterResults( [], [] ),
 			[ 'showLinks' => false ],
-			SCHEMA_COMPAT_NEW,
 			true,
 		);
 	}
@@ -343,11 +331,11 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 	public static function provideFormatRow() {
 		// @todo test the rest of the template parameters.
 		return [
-			'Test user agent on log when reading old' => [
+			'Test non-existent user has appropriate CSS class' => [
 				// $row as an array
-				[ 'agent' => 'Testing', 'actiontext' => 'Test' ],
+				[ 'user' => 0, 'user_text' => 'Non existent user 1234' ],
 				// The $object->flagCache
-				[ '127.0.0.1' => '' ],
+				[ 'Non existent user 1234' => '' ],
 				// The $object->usernameVisibility
 				[ 0 => true ],
 				// The $object->formattedRevisionComments
@@ -355,40 +343,17 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 				// The $object->formattedClientHintsData
 				null,
 				// The expected template parameters
-				[ 'userAgent' => 'Testing', 'actionText' => 'Test' ],
-				// Event table migration stage
-				SCHEMA_COMPAT_OLD,
+				[ 'userLinkClass' => 'mw-checkuser-nonexistent-user' ],
 				// Whether Client Hints are enabled
 				false
 			],
-			'Test user agent on log from cu_changes when reading new' => [
-				[ 'agent' => 'Testing', 'actiontext' => 'Test' ],
-				[ '127.0.0.1' => '' ],
-				[ 0 => true ],
-				[],
-				null,
-				[ 'userAgent' => 'Testing', 'actionText' => 'Test' ],
-				SCHEMA_COMPAT_NEW,
-				false
-			],
-			'Test non-existent user has appropriate CSS class when reading old' => [
-				[ 'user' => 0, 'user_text' => 'Non existent user 1234' ],
-				[ 'Non existent user 1234' => '' ],
-				[ 0 => true ],
-				[],
-				null,
-				[ 'userLinkClass' => 'mw-checkuser-nonexistent-user' ],
-				SCHEMA_COMPAT_OLD,
-				false
-			],
-			'Testing using a user that is hidden who made an edit and reading new' => [
+			'Testing using a user that is hidden who made an edit' => [
 				[ 'user' => 10, 'user_text' => 'User1234', 'type' => RC_EDIT ],
 				[],
 				[ 0 => false ],
 				[ 0 => 'Test' ],
 				null,
 				[ 'comment' => 'Test' ],
-				SCHEMA_COMPAT_NEW,
 				false
 			],
 			'Row for IP address when temporary accounts are enabled' => [
@@ -398,7 +363,6 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 				[],
 				null,
 				[ 'flags' => 'test-flag' ],
-				SCHEMA_COMPAT_NEW,
 				false
 			],
 		];
@@ -450,7 +414,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 				// added by ::getQueryInfo and not the info added by the table specific methods).
 				[
 					'tables' => [ 'cu_changes' ],
-					'conds' => [ 'cuc_only_for_read_old' => 0 ],
+					'conds' => [],
 					'options' => [ 'USE INDEX' => [ 'cu_changes' => 'cuc_ip_hex_time' ] ],
 					// Verify that fields and join_conds set as arrays, but we are not testing their values.
 					'fields' => [], 'join_conds' => [],
@@ -497,7 +461,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 
 	/** @inheritDoc */
 	public function getDefaultRowFieldValues(): array {
-		$fieldValues = [
+		return [
 			'namespace' => 0,
 			'title' => '',
 			'user' => 0,
@@ -517,21 +481,10 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 			'comment_text' => '',
 			'comment_data' => null,
 			'comment_cid' => 0,
+			'log_id' => 0,
+			'log_type' => '',
+			'log_action' => '',
+			'log_params' => null,
 		];
-		$eventTableMigrationStage = MediaWikiServices::getInstance()->getMainConfig()
-			->get( 'CheckUserEventTablesMigrationStage' );
-		if ( $eventTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) {
-			$fieldValues = array_merge( $fieldValues, [
-				'comment_id' => 0,
-				'comment_text' => '',
-				'comment_data' => null,
-				'comment_cid' => 0,
-				'log_id' => 0,
-				'log_type' => '',
-				'log_action' => '',
-				'log_params' => null,
-			] );
-		}
-		return $fieldValues;
 	}
 }

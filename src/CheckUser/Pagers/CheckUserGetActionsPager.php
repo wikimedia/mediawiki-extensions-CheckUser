@@ -172,7 +172,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		$user = new UserIdentityValue( $row->user ?? 0, $user_text );
 		// Get a ManualLogEntry instance if the row is a log entry
 		$logEntry = null;
-		if ( $row->type == RC_LOG && $this->eventTableReadNew && $row->log_type ) {
+		if ( $row->type == RC_LOG && $row->log_type ) {
 			$logEntry = $this->checkUserLookupUtils->getManualLogEntryFromRow( $row, $user );
 		}
 		// Userlinks
@@ -218,14 +218,13 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 			// Add any block information
 			$templateParams['flags'] = $this->flagCache[$row->user_text];
 		}
-		$templateParams['actionText'] = $this->getActionText( $row, $logEntry );
+		$templateParams['actionText'] = $this->getActionText( $logEntry );
 		// Comment
 		if ( $row->type == RC_EDIT || $row->type == RC_NEW ) {
 			$templateParams['comment'] = $this->formattedRevisionComments[$row->this_oldid] ?? '';
 		} else {
-			// If we have a log entry, then check if the comment is hidden in the log entry. Otherwise, we should be
-			// okay to display it (because the checks for the comment being hidden for an edit is done in the lines
-			// above).
+			// If this is a log entry, then check if the comment is hidden in the log entry. Otherwise, we should be
+			// okay to display it.
 			$commentVisible = $logEntry === null ||
 				LogEventsList::userCan( $row, LogPage::DELETED_COMMENT, $this->getAuthority() );
 			if ( $commentVisible ) {
@@ -276,20 +275,20 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 	/**
 	 * Gets the actiontext associated with the given $row.
 	 *
-	 * @param stdClass $row The database row
 	 * @param ManualLogEntry|null $logEntry The log entry associated with this row, otherwise null.
 	 * @return string The actiontext
 	 */
-	private function getActionText( stdClass $row, ?ManualLogEntry $logEntry ): string {
-		if ( $logEntry !== null ) {
-			// Log action text taken from the LogFormatter for the entry being displayed.
-			$logFormatter = LogFormatter::newFromEntry( $logEntry );
-			$logFormatter->setAudience( LogFormatter::FOR_THIS_USER );
-			return $logFormatter->getActionText();
-		} else {
-			// Action text, hackish ...
-			return $this->commentFormatter->format( $row->actiontext ?? '' );
+	private function getActionText( ?ManualLogEntry $logEntry ): string {
+		// If there is no associated ManualLogEntry, then this is not a log event and by extension there is no action
+		// text.
+		if ( $logEntry === null ) {
+			return '';
 		}
+
+		// Log action text taken from the LogFormatter for the entry being displayed.
+		$logFormatter = LogFormatter::newFromEntry( $logEntry );
+		$logFormatter->setAudience( LogFormatter::FOR_THIS_USER );
+		return $logFormatter->getActionText();
 	}
 
 	/**
@@ -305,7 +304,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		if ( $row->type == RC_LOG ) {
 			$title = Title::makeTitle( $row->namespace, $row->title );
 			$links['log'] = '';
-			if ( $this->eventTableReadNew && isset( $row->log_id ) && $row->log_id ) {
+			if ( isset( $row->log_id ) && $row->log_id ) {
 				$links['log'] = Html::rawElement( 'span', [],
 					$this->getLinkRenderer()->makeKnownLink(
 						SpecialPage::getTitleFor( 'Log' ),
@@ -513,7 +512,6 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 			'fields' => [
 				'namespace' => 'cuc_namespace',
 				'title' => 'cuc_title',
-				'actiontext' => 'cuc_actiontext',
 				'timestamp' => 'cuc_timestamp',
 				'minor' => 'cuc_minor',
 				'page_id' => 'cuc_page_id',
@@ -526,7 +524,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 				'actor' => 'cuc_actor',
 				'user' => 'actor_user',
 				'user_text' => 'actor_name',
-				// Needed for rows with cuc_type as RC_LOG.
+				// Needed for rows with cuc_type other than RC_NEW or RC_EDIT (such as RC_FLOW if Flow is installed).
 				'comment_text',
 				'comment_data',
 			],
@@ -537,11 +535,6 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 			] + $commentQuery['joins'],
 			'options' => [],
 		];
-		// When reading new, only select results from cu_changes that are
-		// for read new (defined as those with cuc_only_for_read_old set to 0).
-		if ( $this->eventTableReadNew ) {
-			$queryInfo['conds']['cuc_only_for_read_old'] = 0;
-		}
 		// When displaying Client Hints data, add the reference type and reference ID to each row.
 		if ( $this->displayClientHints ) {
 			$queryInfo['fields']['client_hints_reference_id'] =

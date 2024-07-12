@@ -22,39 +22,17 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerUnitTestBase {
 	}
 
 	/** @dataProvider provideGetQueryInfoForCuChanges */
-	public function testGetQueryInfoForCuChanges( $eventTableMigrationStage, $expectedQueryInfo ) {
+	public function testGetQueryInfoForCuChanges( $expectedQueryInfo ) {
 		$this->commonGetQueryInfoForTableSpecificMethod(
 			'getQueryInfoForCuChanges',
-			[ 'eventTableReadNew' => boolval( $eventTableMigrationStage & SCHEMA_COMPAT_READ_NEW ) ],
+			[],
 			$expectedQueryInfo
 		);
 	}
 
 	public static function provideGetQueryInfoForCuChanges() {
 		return [
-			'Returns expected keys to arrays and includes cu_changes in tables while reading new' => [
-				SCHEMA_COMPAT_READ_NEW,
-				[
-					// Fields should be an array
-					'fields' => [
-						'ip' => 'cuc_ip',
-						'ip_hex' => 'cuc_ip_hex',
-						'count' => 'COUNT(*)',
-						'first' => 'MIN(cuc_timestamp)',
-						'last' => 'MAX(cuc_timestamp)',
-					],
-					// Assert at least cu_changes in the table list
-					'tables' => [ 'cu_changes' ],
-					// When reading new, do not include rows from cu_changes
-					// that were marked as only being for read old.
-					'conds' => [ 'cuc_only_for_read_old' => 0 ],
-					// Should be all of these as arrays
-					'options' => [],
-					'join_conds' => [],
-				]
-			],
-			'Returns expected keys to arrays and includes cu_changes in tables while reading old' => [
-				SCHEMA_COMPAT_READ_OLD,
+			'Returns expected keys to arrays and includes cu_changes in tables' => [
 				[
 					// Fields should be an array
 					'fields' => [
@@ -68,6 +46,7 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerUnitTestBase {
 					'tables' => [ 'cu_changes' ],
 					// Should be all of these as arrays
 					'conds' => [],
+					// Should be all of these as arrays
 					'options' => [],
 					'join_conds' => [],
 				]
@@ -153,31 +132,20 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerUnitTestBase {
 
 	/** @dataProvider provideGetCountForIPActions */
 	public function testGetCountForIPActions(
-		$cuChangesCount, $cuLogEventCount, $cuPrivateEventCount,
-		$expectedReturnValue, $eventTableMigrationStage
+		$cuChangesCount, $cuLogEventCount, $cuPrivateEventCount, $expectedReturnValue
 	) {
 		$object = $this->getMockBuilder( CheckUserGetIPsPager::class )
 			->disableOriginalConstructor()
 			->onlyMethods( [ 'getCountForIPActionsPerTable' ] )
 			->getMock();
-		if ( $eventTableMigrationStage & SCHEMA_COMPAT_READ_OLD ) {
-			$tables = [ 'cu_changes' ];
-			$returnMap = [
-				[ '127.0.0.1', 'cu_changes', $cuChangesCount ]
-			];
-		} else {
-			$tables = [ 'cu_changes', 'cu_log_event', 'cu_private_event' ];
-			$returnMap = [
+		$object->expects( $this->exactly( 3 ) )
+			->method( 'getCountForIPActionsPerTable' )
+			->willReturnMap( [
 				[ '127.0.0.1', 'cu_changes', $cuChangesCount ],
 				[ '127.0.0.1', 'cu_log_event', $cuLogEventCount ],
 				[ '127.0.0.1', 'cu_private_event', $cuPrivateEventCount ],
-			];
-		}
-		$object->expects( $this->exactly( count( $tables ) ) )
-			->method( 'getCountForIPActionsPerTable' )
-			->willReturnMap( $returnMap );
+			] );
 		$object = TestingAccessWrapper::newFromObject( $object );
-		$object->eventTableReadNew = boolval( $eventTableMigrationStage & SCHEMA_COMPAT_READ_NEW );
 		$this->assertSame(
 			$expectedReturnValue,
 			$object->getCountForIPActions( '127.0.0.1' ),
@@ -187,32 +155,17 @@ class CheckUserGetIPsPagerTest extends CheckUserPagerUnitTestBase {
 
 	public static function provideGetCountForIPActions() {
 		return [
-			'All ::getCountForIPActionsPerTable counts as null when reading new' => [
-				null, null, null, false, SCHEMA_COMPAT_READ_NEW
-			],
-			'cu_changes ::getCountForIPActionsPerTable count as null when reading old' => [
-				null, [ 'total' => 2, 'by_this_target' => 1 ], [ 'total' => 2, 'by_this_target' => 1 ], false,
-				SCHEMA_COMPAT_READ_OLD
-			],
-			'All ::getCountForIPActionsPerTable counts as array when reading new' => [
+			'All ::getCountForIPActionsPerTable counts as null' => [ null, null, null, false ],
+			'All ::getCountForIPActionsPerTable counts as array' => [
 				[ 'total' => 1, 'by_this_target' => 0 ], [ 'total' => 2, 'by_this_target' => 1 ],
-				[ 'total' => 3, 'by_this_target' => 2 ], 6, SCHEMA_COMPAT_READ_NEW
+				[ 'total' => 3, 'by_this_target' => 2 ], 6,
 			],
-			'All but one ::getCountForIPActionsPerTable counts as array when reading new' => [
+			'All but one ::getCountForIPActionsPerTable counts as array' => [
 				[ 'total' => 1, 'by_this_target' => 0 ], null, [ 'total' => 3, 'by_this_target' => 1 ], 4,
-				SCHEMA_COMPAT_READ_NEW
 			],
-			'cu_changes ::getCountForIPActionsPerTable count as array when reading old' => [
-				[ 'total' => 4, 'by_this_target' => 2 ], [ 'total' => 5, 'by_this_target' => 1 ], false,
-				4, SCHEMA_COMPAT_READ_OLD
-			],
-			'All ::getCountForIPActionsPerTable counts as array when reading new, total not higher' => [
+			'All ::getCountForIPActionsPerTable counts as array, total not higher' => [
 				[ 'total' => 1, 'by_this_target' => 1 ], [ 'total' => 2, 'by_this_target' => 2 ],
-				[ 'total' => 3, 'by_this_target' => 3 ], false, SCHEMA_COMPAT_READ_NEW
-			],
-			'cu_changes ::getCountForIPActionsPerTable count as array when reading old, total not higher' => [
-				[ 'total' => 4, 'by_this_target' => 4 ], [ 'total' => 5, 'by_this_target' => 5 ], false,
-				false, SCHEMA_COMPAT_READ_OLD
+				[ 'total' => 3, 'by_this_target' => 3 ], false,
 			],
 		];
 	}

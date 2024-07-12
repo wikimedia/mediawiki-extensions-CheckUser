@@ -5,7 +5,6 @@ namespace MediaWiki\CheckUser\Tests\Unit\CheckUser\Pagers;
 use Language;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetActionsPager;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
-use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
 use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\TestingAccessWrapper;
@@ -55,11 +54,10 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerUnitTestBase {
 	}
 
 	/** @dataProvider provideGetQueryInfoForCuChanges */
-	public function testGetQueryInfoForCuChanges( $eventTableMigrationStage, $displayClientHints, $expectedQueryInfo ) {
+	public function testGetQueryInfoForCuChanges( $displayClientHints, $expectedQueryInfo ) {
 		$this->commonGetQueryInfoForTableSpecificMethod(
 			'getQueryInfoForCuChanges',
 			[
-				'eventTableReadNew' => boolval( $eventTableMigrationStage & SCHEMA_COMPAT_READ_NEW ),
 				'commentStore' => new CommentStore( $this->createMock( Language::class ) ),
 				'displayClientHints' => $displayClientHints
 			],
@@ -69,48 +67,30 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerUnitTestBase {
 
 	public static function provideGetQueryInfoForCuChanges() {
 		return [
-			'Returns expected keys to arrays and includes cu_changes in tables while reading new' => [
-				SCHEMA_COMPAT_READ_NEW,
+			'Returns expected keys to arrays and includes cu_changes in tables' => [
 				false,
 				[
-					# Fields should be an array
+					// Fields should be an array
 					'fields' => [],
-					# Assert at least cu_changes in the table list
+					// Assert at least cu_changes in the table list
 					'tables' => [ 'cu_changes' ],
-					# When reading new, do not include rows from cu_changes
-					# that were marked as only being for read old.
-					'conds' => [ 'cuc_only_for_read_old' => 0 ],
-					# Should be all of these as arrays
-					'options' => [],
-					'join_conds' => [],
-				]
-			],
-			'Returns expected keys to arrays and includes cu_changes in tables while reading old' => [
-				SCHEMA_COMPAT_READ_OLD,
-				false,
-				[
-					# Fields should be an array
-					'fields' => [],
-					# Assert at least cu_changes in the table list
-					'tables' => [ 'cu_changes' ],
-					# Should be all of these as arrays
+					// Should be all of these as arrays
 					'conds' => [],
 					'options' => [],
 					'join_conds' => [],
 				]
 			],
 			'When displaying client hints' => [
-				SCHEMA_COMPAT_NEW,
 				true,
 				[
-					# Fields should be an array with Client Hints fields set.
+					// Fields should be an array with Client Hints fields set.
 					'fields' => [
 						'client_hints_reference_id' => 'cuc_this_oldid',
 						'client_hints_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES,
 					],
-					# Tables array should have at least cu_log_event
+					// Tables array should have at least cu_log_event
 					'tables' => [ 'cu_changes' ],
-					'conds' => [ 'cuc_only_for_read_old' => 0 ],
+					'conds' => [],
 					'options' => [],
 					'join_conds' => [],
 				]
@@ -252,49 +232,16 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerUnitTestBase {
 		];
 	}
 
-	/** @dataProvider provideGetActionTextForReadOld */
-	public function testGetActionTextForReadOld( $row, $expectedActionText ) {
-		$commentFormatterMock = $this->createMock( CommentFormatter::class );
-		$commentFormatterMock->method( 'format' )
-			->willReturnArgument( 0 );
+	public function testGetActionTextForNonLogEvent() {
 		$objectUnderTest = $this->getMockBuilder( CheckUserGetActionsPager::class )
 			->onlyMethods( [] )
 			->disableOriginalConstructor()
 			->getMock();
 		$objectUnderTest = TestingAccessWrapper::newFromObject( $objectUnderTest );
-		$objectUnderTest->commentFormatter = $commentFormatterMock;
-		$objectUnderTest->eventTableReadNew = true;
 		$this->assertSame(
-			$expectedActionText,
-			$objectUnderTest->getActionText( (object)$row, null ),
+			'',
+			$objectUnderTest->getActionText( null ),
 			'::getActionText did not return the correct actiontext.'
 		);
-	}
-
-	public static function provideGetActionTextForReadOld() {
-		return [
-			'Action text as null' => [
-				[
-					'actiontext' => null,
-					'type' => RC_LOG,
-				],
-				''
-			],
-			'Action text as empty string' => [
-				[
-					'actiontext' => '',
-					'type' => RC_LOG,
-					'log_type' => null,
-				],
-				''
-			],
-			'Action text as a non-empty string' => [
-				[
-					'actiontext' => 'testing',
-					'type' => RC_LOG,
-				],
-				'testing'
-			],
-		];
 	}
 }
