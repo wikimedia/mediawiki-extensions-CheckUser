@@ -131,7 +131,8 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 			[],
 			new ClientHintsBatchFormatterResults( [ 0 => [ 1 => 0 ] ], [ 0 => 'Test Client Hints data' ] ),
 			[
-				'actionText' => LogFormatter::newFromEntry( $deleteLogEntry )->getActionText(),
+				'actionText' => $this->getServiceContainer()->getLogFormatterFactory()
+					->newFromEntry( $deleteLogEntry )->getActionText(),
 				'clientHints' => 'Test Client Hints data', 'userAgent' => 'Test',
 			],
 			true,
@@ -143,7 +144,7 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 		$deleteLogEntry->setPerformer( UserIdentityValue::newAnonymous( '127.0.0.1' ) );
 		$deleteLogEntry->setTarget( Title::newFromText( 'Testing page' ) );
 		$deleteLogEntry->setDeleted( LogPage::DELETED_ACTION );
-		$logFormatter = LogFormatter::newFromEntry( $deleteLogEntry );
+		$logFormatter = $this->getServiceContainer()->getLogFormatterFactory()->newFromEntry( $deleteLogEntry );
 		$logFormatter->setAudience( LogFormatter::FOR_THIS_USER );
 		$this->testFormatRow(
 			[
@@ -221,7 +222,8 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 			[],
 			new ClientHintsBatchFormatterResults( [ 0 => [ 1 => 0 ] ], [ 0 => 'Test Client Hints data' ] ),
 			[
-				'actionText' => LogFormatter::newFromEntry( $moveLogEntry )->getActionText(),
+				'actionText' => $this->getServiceContainer()->getLogFormatterFactory()
+					->newFromEntry( $moveLogEntry )->getActionText(),
 				'clientHints' => 'Test Client Hints data',
 			],
 			true,
@@ -283,7 +285,8 @@ class CheckUserGetActionsPagerTest extends CheckUserPagerTestBase {
 			[],
 			new ClientHintsBatchFormatterResults( [ 0 => [ 1 => 0 ] ], [ 0 => 'Test Client Hints data' ] ),
 			[
-				'actionText' => LogFormatter::newFromEntry( $moveLogEntry )->getActionText(),
+				'actionText' => $this->getServiceContainer()->getLogFormatterFactory()
+					->newFromEntry( $moveLogEntry )->getActionText(),
 				'clientHints' => 'Test Client Hints data',
 				'comment' => '',
 			],

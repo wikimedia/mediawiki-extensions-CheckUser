@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\CheckUser\Pagers;
 use HtmlArmor;
 use LogEventsList;
 use LogFormatter;
+use LogFormatterFactory;
 use LogicException;
 use LogPage;
 use ManualLogEntry;
@@ -77,6 +78,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 	private CommentStore $commentStore;
 	private UserAgentClientHintsLookup $clientHintsLookup;
 	private UserAgentClientHintsFormatter $clientHintsFormatter;
+	private LogFormatterFactory $logFormatterFactory;
 
 	/**
 	 * @param FormOptions $opts
@@ -100,6 +102,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 	 * @param CommentStore $commentStore
 	 * @param UserAgentClientHintsLookup $clientHintsLookup
 	 * @param UserAgentClientHintsFormatter $clientHintsFormatter
+	 * @param LogFormatterFactory $logFormatterFactory
 	 * @param IContextSource|null $context
 	 * @param LinkRenderer|null $linkRenderer
 	 * @param ?int $limit
@@ -126,6 +129,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		CommentStore $commentStore,
 		UserAgentClientHintsLookup $clientHintsLookup,
 		UserAgentClientHintsFormatter $clientHintsFormatter,
+		LogFormatterFactory $logFormatterFactory,
 		IContextSource $context = null,
 		LinkRenderer $linkRenderer = null,
 		?int $limit = null
@@ -145,6 +149,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		$this->commentStore = $commentStore;
 		$this->clientHintsLookup = $clientHintsLookup;
 		$this->clientHintsFormatter = $clientHintsFormatter;
+		$this->logFormatterFactory = $logFormatterFactory;
 		$this->preCacheMessages();
 		$this->mGroupByDate = true;
 	}
@@ -286,7 +291,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		}
 
 		// Log action text taken from the LogFormatter for the entry being displayed.
-		$logFormatter = LogFormatter::newFromEntry( $logEntry );
+		$logFormatter = $this->logFormatterFactory->newFromEntry( $logEntry );
 		$logFormatter->setAudience( LogFormatter::FOR_THIS_USER );
 		return $logFormatter->getActionText();
 	}

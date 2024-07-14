@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser\Test\Integration\Logging;
 
-use LogFormatter;
 use LogFormatterTestCase;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\MainConfigNames;
@@ -217,7 +216,7 @@ class CheckUserPrivateEventLogFormatterTest extends LogFormatterTestCase {
 			],
 			false
 		);
-		$formatter = LogFormatter::newFromRow( $row );
+		$formatter = $this->getServiceContainer()->getLogFormatterFactory()->newFromRow( $row );
 		$formatter->context->setAuthority( $logViewUser );
 		$this->assertEquals(
 			"Successfully logged in to $wikiName as $expectedName",

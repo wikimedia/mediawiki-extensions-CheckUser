@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Services;
 
+use LogFormatterFactory;
 use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
 use MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserAbstractResponse;
 use MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserActionsResponse;
@@ -30,6 +31,7 @@ class ApiQueryCheckUserResponseFactory {
 	private RevisionStore $revisionStore;
 	private ArchivedRevisionLookup $archivedRevisionLookup;
 	private UserFactory $userFactory;
+	private LogFormatterFactory $logFormatterFactory;
 
 	public function __construct(
 		IConnectionProvider $dbProvider,
@@ -42,7 +44,8 @@ class ApiQueryCheckUserResponseFactory {
 		CommentStore $commentStore,
 		RevisionStore $revisionStore,
 		ArchivedRevisionLookup $archivedRevisionLookup,
-		UserFactory $userFactory
+		UserFactory $userFactory,
+		LogFormatterFactory $logFormatterFactory
 	) {
 		$this->dbProvider = $dbProvider;
 		$this->config = $config;
@@ -55,6 +58,7 @@ class ApiQueryCheckUserResponseFactory {
 		$this->revisionStore = $revisionStore;
 		$this->archivedRevisionLookup = $archivedRevisionLookup;
 		$this->userFactory = $userFactory;
+		$this->logFormatterFactory = $logFormatterFactory;
 	}
 
 	/**
@@ -95,7 +99,8 @@ class ApiQueryCheckUserResponseFactory {
 					$this->checkUserLookupUtils,
 					$this->userIdentityLookup,
 					$this->commentStore,
-					$this->userFactory
+					$this->userFactory,
+					$this->logFormatterFactory
 				);
 			case 'ipusers':
 				return new ApiQueryCheckUserIpUsersResponse(

@@ -3,7 +3,6 @@
 namespace MediaWiki\CheckUser\Tests\Integration\Api\CheckUser;
 
 use LogEntryBase;
-use LogFormatter;
 use LogPage;
 use ManualLogEntry;
 use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
@@ -63,8 +62,8 @@ class ApiQueryCheckUserActionsResponseTest extends MediaWikiIntegrationTestCase 
 		$this->assertSame(
 			// The expected summary text is the action text from the move log entry, followed by the the comment text
 			// in parantheses.
-			LogFormatter::newFromEntry( $moveLogEntry )->getPlainActionText() .
-				' ' . wfMessage( 'parentheses', 'test' ),
+			$this->getServiceContainer()->getLogFormatterFactory()
+				->newFromEntry( $moveLogEntry )->getPlainActionText() . ' ' . wfMessage( 'parentheses', 'test' ),
 			$actualSummaryText,
 			'The summary text returned by ::getSummary was not as expected'
 		);
@@ -131,7 +130,7 @@ class ApiQueryCheckUserActionsResponseTest extends MediaWikiIntegrationTestCase 
 				->getManualLogEntryFromRow( $testingRow, $moveLogEntry->getPerformerIdentity() )
 		);
 		$this->assertSame(
-			LogFormatter::newFromEntry( $moveLogEntry )->getPlainActionText(),
+			$this->getServiceContainer()->getLogFormatterFactory()->newFromEntry( $moveLogEntry )->getPlainActionText(),
 			$actualSummaryText,
 			'The summary text returned by ::getSummary was not as expected.'
 		);

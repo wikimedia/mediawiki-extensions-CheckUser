@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\CheckUser;
 
+use LogFormatterFactory;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetActionsPager;
@@ -75,6 +76,7 @@ class SpecialCheckUser extends SpecialPage {
 	private UserAgentClientHintsLookup $clientHintsLookup;
 	private UserAgentClientHintsFormatter $clientHintsFormatter;
 	private CheckUserLookupUtils $checkUserLookupUtils;
+	private LogFormatterFactory $logFormatterFactory;
 
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory
@@ -96,6 +98,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param UserAgentClientHintsLookup $clientHintsLookup
 	 * @param UserAgentClientHintsFormatter $clientHintsFormatter
 	 * @param CheckUserLookupUtils $checkUserLookupUtils
+	 * @param LogFormatterFactory $logFormatterFactory
 	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
@@ -116,7 +119,8 @@ class SpecialCheckUser extends SpecialPage {
 		CommentStore $commentStore,
 		UserAgentClientHintsLookup $clientHintsLookup,
 		UserAgentClientHintsFormatter $clientHintsFormatter,
-		CheckUserLookupUtils $checkUserLookupUtils
+		CheckUserLookupUtils $checkUserLookupUtils,
+		LogFormatterFactory $logFormatterFactory
 	) {
 		parent::__construct( 'CheckUser', 'checkuser' );
 
@@ -139,6 +143,7 @@ class SpecialCheckUser extends SpecialPage {
 		$this->clientHintsLookup = $clientHintsLookup;
 		$this->clientHintsFormatter = $clientHintsFormatter;
 		$this->checkUserLookupUtils = $checkUserLookupUtils;
+		$this->logFormatterFactory = $logFormatterFactory;
 	}
 
 	public function doesWrites() {
@@ -542,7 +547,8 @@ class SpecialCheckUser extends SpecialPage {
 					$this->checkUserUtilityService,
 					$this->commentStore,
 					$this->clientHintsLookup,
-					$this->clientHintsFormatter
+					$this->clientHintsFormatter,
+					$this->logFormatterFactory
 				);
 			default:
 				return null;
