@@ -58,21 +58,18 @@ class SpecialCheckUserTest extends SpecialPageTestBase {
 		$object->opts->add( 'reason', '' );
 		$object->opts->add( 'period', 0 );
 		if ( $checkType === SpecialCheckUser::SUBTYPE_GET_IPS ) {
-			$this->assertTrue(
-				$object->getPager( $checkType, $userIdentity, 'untested', $xfor )
-				instanceof CheckUserGetIPsPager,
+			$this->assertInstanceOf( CheckUserGetIPsPager::class,
+				$object->getPager( $checkType, $userIdentity, 'untested', $xfor ),
 				'The Get IPs checktype should return the Get IPs pager.'
 			);
 		} elseif ( $checkType === SpecialCheckUser::SUBTYPE_GET_ACTIONS ) {
-			$this->assertTrue(
-				$object->getPager( $checkType, $userIdentity, 'untested', $xfor )
-				instanceof CheckUserGetActionsPager,
+			$this->assertInstanceOf( CheckUserGetActionsPager::class,
+				$object->getPager( $checkType, $userIdentity, 'untested', $xfor ),
 				'The Get actions checktype should return the Get actions pager.'
 			);
 		} elseif ( $checkType === SpecialCheckUser::SUBTYPE_GET_USERS ) {
-			$this->assertTrue(
-				$object->getPager( $checkType, $userIdentity, 'untested', $xfor )
-				instanceof CheckUserGetUsersPager,
+			$this->assertInstanceOf( CheckUserGetUsersPager::class,
+				$object->getPager( $checkType, $userIdentity, 'untested', $xfor ),
 				'The Get users checktype should return the Get users pager.'
 			);
 		} else {
