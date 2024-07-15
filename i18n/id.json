@@ -15,6 +15,7 @@
 			"IvanLanin",
 			"Iwan Novirion",
 			"Kenrick95",
+			"Leapofod",
 			"McDutchie",
 			"Rachmat.Wahidi",
 			"Rachmat04",
@@ -168,5 +169,6 @@
 	"checkuser-investigate-tour-block-desc": "Memungkinkan Anda memilih pengguna yang ingin Anda blokir dan kemudian membawa Anda ke formulir pemblokiran untuk memilih jenis pemblokiran yang sesuai.",
 	"checkuser-investigate-tour-copywikitext-title": "Ingin menyalin data?",
 	"checkuser-investigate-tour-copywikitext-desc": "Salin tabel perbandingan dengan sekali klik dan bawa ke CUWiki. Perhatikan bahwa Anda hanya menyalin apa yang terlihat dan tidak semua halaman investigasi.",
-	"checkuser-ip-contributions-tab-label-contributions": "Kontribusi"
+	"checkuser-ip-contributions-tab-label-contributions": "Kontribusi",
+	"checkuser-ip-contributions-tab-label-archive-contributions": "Kontribusi yang dihapus"
 }

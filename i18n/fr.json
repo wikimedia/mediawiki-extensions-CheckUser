@@ -46,7 +46,7 @@
 	"checkuser-contribs-log": "vérifications d’utilisateurs",
 	"checkuser-contribs-log-initiator": "vérifications effectuées par cet utilisateur",
 	"group-checkuser": "Vérificateurs d’utilisateurs",
-	"group-checkuser-member": "vérificat{{GENDER:$1|eur|rice}} d’utilisateur",
+	"group-checkuser-member": "vérificat{{GENDER:$1|eur|rice}} d’utilisateurs",
 	"group-checkuser-temporary-account-viewer": "Visualisateurs des adresses IP des comptes temporaires",
 	"group-checkuser-temporary-account-viewer-member": "Visualisat{{GENDER:$1|eur|rice}} des adresses IP des comptes temporaires",
 	"right-checkuser": "Vérifier les adresses IP et autres informations d’un utilisateur",

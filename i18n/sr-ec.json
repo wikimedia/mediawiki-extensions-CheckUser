@@ -198,6 +198,8 @@
 	"checkuser-investigate-compare-table-header-useragent": "Кориснички агент",
 	"checkuser-investigate-tour-targets-title": "Провера више корисника и IP адреса?",
 	"checkuser-investigate-tour-block-title": "Блокирање?",
+	"checkuser-ip-contributions": "Претрага IP доприноса",
+	"checkuser-ip-contributions-target-error-no-ip": "Унесите валидну IP адресу или опсег",
 	"checkuser-ip-contributions-tab-label-contributions": "Доприноси",
 	"checkuser-ip-contributions-tab-label-archive-contributions": "Избрисани доприноси",
 	"prefs-checkuser-tempaccount": "Прикажи IP адресе привремених налога",
