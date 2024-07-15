@@ -5,7 +5,8 @@
 			"Otokoume",
 			"Shirayuki",
 			"W.CC",
-			"Yusuke1109"
+			"Yusuke1109",
+			"Waki285"
 		]
 	},
 	"apihelp-query+checkuser-description": "指定した利用者名の利用者が使用した IPアドレス や、指定した IPアドレス を使用した利用者名を調査します。",
@@ -28,5 +29,6 @@
 	"apihelp-query+checkuserlog-example-1": "[[User:Example]] の調査を表示",
 	"apihelp-query+checkuserlog-example-2": "192.0.2.0/24 の 2011-10-15T23:00:00Z 以降の調査を表示",
 	"apierror-checkuser-missingsummary": "調査理由を明確にする必要があります。",
-	"apierror-checkuser-timelimit": "正しい期間を設定してください（例: \"-2 weeks\" または \"2 weeks ago\"）"
+	"apierror-checkuser-timelimit": "正しい期間を設定してください（例: \"-2 weeks\" または \"2 weeks ago\"）",
+	"apierror-checkuser-invalidmode": "無効なリクエストモード"
 }
