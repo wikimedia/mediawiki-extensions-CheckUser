@@ -1,5 +1,5 @@
 const ipRevealUtils = require( './ipRevealUtils.js' );
-const { performRevealRequest } = require( './rest.js' );
+const { performRevealRequest, isRevisionLookup, isLogLookup } = require( './rest.js' );
 
 /**
  * Replace a button with an IP address, or a message indicating that the IP address
@@ -68,13 +68,19 @@ function makeButton( target, revIds, logIds ) {
 
 	button.$element.on( 'revealIp', () => {
 		button.$element.off( 'revealIp' );
+
 		performRevealRequest( target, revIds, logIds ).then( ( response ) => {
 			const ip = response.ips[ ( revIds.targetId || logIds.targetId ) || 0 ];
 			if ( !ipRevealUtils.getRevealedStatus( target ) ) {
 				ipRevealUtils.setRevealedStatus( target );
 			}
 			replaceButton( button.$element, ip, true );
-			$( document ).trigger( 'userRevealed', [ target, response.ips ] );
+			$( document ).trigger( 'userRevealed', [
+				target,
+				response.ips,
+				isRevisionLookup( revIds ),
+				isLogLookup( logIds )
+			] );
 		} ).fail( () => {
 			replaceButton( button.$element, false, false );
 		} );
@@ -159,23 +165,62 @@ function getIdsForTarget( $element, target, allIds, getId ) {
  * @param {jQuery} $element
  */
 function enableMultiReveal( $element ) {
-	$element.on( 'userRevealed', ( _e, userLookup, ips ) => {
-		// Find all temp user links that share the username
-		let $userLinks = $( '.mw-tempuserlink' ).filter( function () {
-			return $( this ).text() === userLookup;
-		} );
+	$element.on(
+		'userRevealed',
+		/**
+		 * @param {Event} _e
+		 * @param {string} userLookup
+		 * @param {ips} ips An array of IPs from most recent to oldest, or a map of revision
+		 *  or log IDs to the IP address used while making the edit or performing the action.
+		 * @param {boolean} isRev The map keys are revision IDs
+		 * @param {boolean} isLog The map keys are log IDs
+		 */
+		( _e, userLookup, ips, isRev, isLog ) => {
+			// Find all temp user links that share the username
+			const $userLinks = $( '.mw-tempuserlink' ).filter( function () {
+				return $( this ).text() === userLookup;
+			} );
 
-		// Convert the user links into pointers to the IP reveal button
-		$userLinks = $userLinks.map( ( _i, el ) => $( el ).next( '.ext-checkuser-tempaccount-reveal-ip-button' ) );
+			// Convert the user links into pointers to the IP reveal button
+			let $userButtons = $userLinks.map( ( _i, el ) => $( el ).next( '.ext-checkuser-tempaccount-reveal-ip-button' ) );
+			$userButtons = $userButtons.filter( function () {
+				return $( this ).length > 0;
+			} );
 
-		// Synthetically trigger a reveal event
-		$userLinks.each( function () {
-			const ip = ips ?
-				ips[ ( getRevisionId( $( this ) ) || getLogId( $( this ) ) ) || 0 ] :
-				false;
-			replaceButton( $( this ), ip, true );
-		} );
-	} );
+			// The lookup may have returned a map of IDs to IPs or an array of IPs. If it
+			// returned an array, but subsequent buttons have IDs, they will need to do
+			// another lookup to get the map. Needed for grouped recent changes: T369662
+			const ipsIsRevMap = !Array.isArray( ips ) && isRev;
+			const ipsIsLogMap = !Array.isArray( ips ) && isLog;
+			let $triggerNext;
+
+			$userButtons.each( function () {
+				if ( !ips ) {
+					replaceButton( $( this ), false, true );
+				} else {
+					const revId = getRevisionId( $( this ) );
+					const logId = getLogId( $( this ) );
+					if ( ipsIsRevMap && revId ) {
+						replaceButton( $( this ), ips[ revId ], true );
+					} else if ( ipsIsLogMap && logId ) {
+						replaceButton( $( this ), ips[ logId ], true );
+					} else if ( !ipsIsRevMap && !ipsIsLogMap && !revId && !logId ) {
+						replaceButton( $( this ), ips[ 0 ], true );
+					} else {
+						// There is a mismatch, so trigger a new lookup for this button.
+						// Each time revealIp is triggered, an API request is performed,
+						// so only trigger it for one button at a time, and allow those
+						// results to be shared to avoid extra lookups.
+						$triggerNext = $( this );
+					}
+				}
+			} );
+
+			if ( $triggerNext ) {
+				$triggerNext.trigger( 'revealIp' );
+			}
+		}
+	);
 }
 
 /**

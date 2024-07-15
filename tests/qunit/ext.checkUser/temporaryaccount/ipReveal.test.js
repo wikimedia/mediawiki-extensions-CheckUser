@@ -90,9 +90,10 @@ QUnit.test( 'Test enableMultiReveal', ( assert ) => {
 	} );
 	// Enable multi reveal on the QUnit fixture.
 	ipReveal.enableMultiReveal( $qunitFixture );
+
 	// Fire the userRevealed event with the ~1 temporary account username
 	// and the IP addresses for the revisions.
-	$qunitFixture.trigger( 'userRevealed', [ '~1', { 1: '127.0.0.1', 2: '127.0.0.2', 3: '127.0.0.3' } ] );
+	$qunitFixture.trigger( 'userRevealed', [ '~1', { 1: '127.0.0.1', 2: '127.0.0.2', 3: '127.0.0.3' }, true, false ] );
 	// Check that the IP addresses were added to the buttons for the revisions
 	// with the ~1 temporary account username.
 	assert.strictEqual(
@@ -112,6 +113,97 @@ QUnit.test( 'Test enableMultiReveal', ( assert ) => {
 		'(checkuser-tempaccount-reveal-ip-button-label)',
 		'IP reveal button for revId 3 before multi reveal'
 	);
+} );
+
+QUnit.test( 'Test enableMultiReveal with grouped recent changes', ( assert ) => {
+	const done = assert.async();
+	server.respond( ( request ) => {
+		if ( request.url.includes( 'revisions' ) || request.url.includes( 'logs' ) ) {
+			request.respond( 200, { 'Content-Type': 'application/json' }, '{"ips":{"1":"127.0.0.1"}}' );
+		} else {
+			request.respond( 200, { 'Content-Type': 'application/json' }, '{"ips":["127.0.0.3"]}' );
+		}
+	} );
+	// eslint-disable-next-line no-jquery/no-global-selector
+	const $qunitFixture = $( '#qunit-fixture' );
+	// Add a revision line and a line with no ID for the same user, mimicking grouped recent changes
+	const lines = [
+		{
+			$element: $( '<div>' ).attr( 'data-mw-revid', 1 ),
+			revIds: { targetId: 1, allIds: [ 1 ] },
+			logIds: {}
+		},
+		{
+			$element: $( '<div>' ).attr( 'data-mw-logid', 1 ),
+			revIds: {},
+			logIds: { targetId: 1, allIds: [ 1 ] }
+		},
+		{
+			$element: $( '<div>' ).addClass( 'no-id' ),
+			revIds: {},
+			logIds: {}
+		}
+	];
+	lines.forEach( ( line ) => {
+		const username = '~1';
+		$qunitFixture.append( line.$element );
+		// Add the temporary account username link
+		line.$element.append( $( '<a>' ).addClass( 'mw-tempuserlink' ).text( username ) );
+		// Add the Show IP button manually for the temporary account username link.
+		line.$element.append( ipReveal.makeButton(
+			username,
+			line.revIds,
+			line.logIds
+		) );
+	} );
+	// Enable multi reveal on the QUnit fixture.
+	ipReveal.enableMultiReveal( $qunitFixture );
+
+	$( '.no-id .ext-checkuser-tempaccount-reveal-ip-button a', $qunitFixture )[ 0 ].click();
+
+	waitUntilElementDisappears( '.no-id .ext-checkuser-tempaccount-reveal-ip-button' ).then( () => {
+		// Verify that the button has gone and was replaced with the IP
+		assert.strictEqual(
+			$( '.no-id .ext-checkuser-tempaccount-reveal-ip-button', $qunitFixture ).length,
+			0,
+			'Button removed after click'
+		);
+		assert.strictEqual(
+			$( '.no-id .ext-checkuser-tempaccount-reveal-ip', $qunitFixture ).text(),
+			'127.0.0.3',
+			'Text of element that replaced button'
+		);
+
+		waitUntilElementDisappears( '[data-mw-revid="1"] .ext-checkuser-tempaccount-reveal-ip-button' ).then( () => {
+			// Verify that the button has gone and was replaced with the IP
+			assert.strictEqual(
+				$( '[data-mw-revid="1"] .ext-checkuser-tempaccount-reveal-ip-button', $qunitFixture ).length,
+				0,
+				'Button removed after click'
+			);
+			assert.strictEqual(
+				$( '[data-mw-revid="1"] .ext-checkuser-tempaccount-reveal-ip', $qunitFixture ).text(),
+				'127.0.0.1',
+				'Text of element that replaced button'
+			);
+
+			waitUntilElementDisappears( '[data-mw-logid="1"] .ext-checkuser-tempaccount-reveal-ip-button' ).then( () => {
+				// Verify that the button has gone and was replaced with the IP
+				assert.strictEqual(
+					$( '[data-mw-logid="1"] .ext-checkuser-tempaccount-reveal-ip-button', $qunitFixture ).length,
+					0,
+					'Button removed after click'
+				);
+				assert.strictEqual(
+					$( '[data-mw-logid="1"] .ext-checkuser-tempaccount-reveal-ip', $qunitFixture ).text(),
+					'127.0.0.1',
+					'Text of element that replaced button'
+				);
+
+				done();
+			} );
+		} );
+	} );
 } );
 
 QUnit.test( 'Test addButton adds temporary account IP reveal buttons', ( assert ) => {

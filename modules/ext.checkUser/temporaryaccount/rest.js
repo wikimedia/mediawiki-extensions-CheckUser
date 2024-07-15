@@ -87,9 +87,9 @@ function buildQuery( revIds, logIds, limit ) {
 	let urlParams = '';
 	const queryStringParams = new URLSearchParams();
 
-	if ( revIds && revIds.allIds && revIds.allIds.length ) {
+	if ( isRevisionLookup( revIds ) ) {
 		urlParams += '/revisions/' + revIds.allIds.join( '|' );
-	} else if ( logIds && logIds.allIds && logIds.allIds.length ) {
+	} else if ( isLogLookup( logIds ) ) {
 		urlParams += '/logs/' + logIds.allIds.join( '|' );
 	} else if ( limit ) {
 		queryStringParams.set( 'limit', String( limit ) );
@@ -102,7 +102,27 @@ function buildQuery( revIds, logIds, limit ) {
 	return urlParams + '?' + queryStringParams.toString();
 }
 
+/**
+ * Determine whether to look up IPs for revision IDs.
+ *
+ * @return {boolean} There are revision IDs
+ */
+function isRevisionLookup( revIds ) {
+	return !!( revIds && revIds.allIds && revIds.allIds.length );
+}
+
+/**
+ * Determine whether to look up IPs for log IDs.
+ *
+ * @return {boolean} There are log IDs
+ */
+function isLogLookup( logIds ) {
+	return !!( logIds && logIds.allIds && logIds.allIds.length );
+}
+
 module.exports = {
 	performRevealRequest: performRevealRequest,
-	performFullRevealRequest: performFullRevealRequest
+	performFullRevealRequest: performFullRevealRequest,
+	isRevisionLookup: isRevisionLookup,
+	isLogLookup: isLogLookup
 };
