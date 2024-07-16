@@ -7,7 +7,6 @@ CREATE TABLE cu_changes (
   cuc_namespace INT DEFAULT 0 NOT NULL,
   cuc_title TEXT DEFAULT '' NOT NULL,
   cuc_actor BIGINT NOT NULL,
-  cuc_actiontext TEXT DEFAULT '' NOT NULL,
   cuc_comment_id BIGINT NOT NULL,
   cuc_minor SMALLINT DEFAULT 0 NOT NULL,
   cuc_page_id INT DEFAULT 0 NOT NULL,

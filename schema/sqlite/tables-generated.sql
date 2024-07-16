@@ -7,7 +7,6 @@ CREATE TABLE /*_*/cu_changes (
   cuc_namespace INTEGER DEFAULT 0 NOT NULL,
   cuc_title BLOB DEFAULT '' NOT NULL,
   cuc_actor BIGINT UNSIGNED NOT NULL,
-  cuc_actiontext BLOB DEFAULT '' NOT NULL,
   cuc_comment_id BIGINT UNSIGNED NOT NULL,
   cuc_minor SMALLINT DEFAULT 0 NOT NULL,
   cuc_page_id INTEGER UNSIGNED DEFAULT 0 NOT NULL,

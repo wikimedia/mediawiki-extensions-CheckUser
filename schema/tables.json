@@ -25,12 +25,6 @@
 				"options": { "notnull": true, "unsigned": true }
 			},
 			{
-				"name": "cuc_actiontext",
-				"comment": "Edit summary",
-				"type": "binary",
-				"options": { "notnull": true, "length": 255, "default": "" }
-			},
-			{
 				"name": "cuc_comment_id",
 				"type": "bigint",
 				"options": { "notnull": true, "unsigned": true }
