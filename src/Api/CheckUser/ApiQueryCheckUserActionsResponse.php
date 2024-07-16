@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Api\CheckUser;
 
 use LogEventsList;
 use LogFormatter;
+use LogFormatterFactory;
 use LogPage;
 use ManualLogEntry;
 use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
@@ -31,6 +32,7 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 	private UserIdentityLookup $userIdentityLookup;
 	private CommentStore $commentStore;
 	private UserFactory $userFactory;
+	private LogFormatterFactory $logFormatterFactory;
 
 	/**
 	 * @param ApiQueryCheckUser $module
@@ -43,6 +45,7 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 	 * @param UserIdentityLookup $userIdentityLookup
 	 * @param CommentStore $commentStore
 	 * @param UserFactory $userFactory
+	 * @param LogFormatterFactory $logFormatterFactory
 	 *
 	 * @internal Use CheckUserApiResponseFactory::newFromRequest() instead
 	 */
@@ -56,7 +59,8 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 		CheckUserLookupUtils $checkUserLookupUtils,
 		UserIdentityLookup $userIdentityLookup,
 		CommentStore $commentStore,
-		UserFactory $userFactory
+		UserFactory $userFactory,
+		LogFormatterFactory $logFormatterFactory
 	) {
 		parent::__construct(
 			$module, $dbProvider, $config, $messageLocalizer,
@@ -66,6 +70,7 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 		$this->userIdentityLookup = $userIdentityLookup;
 		$this->commentStore = $commentStore;
 		$this->userFactory = $userFactory;
+		$this->logFormatterFactory = $logFormatterFactory;
 	}
 
 	/** @inheritDoc */
@@ -187,7 +192,7 @@ class ApiQueryCheckUserActionsResponse extends ApiQueryCheckUserAbstractResponse
 		// Generate the action text if possible.
 		if ( $logEntry !== null ) {
 			// Log action text taken from the LogFormatter for the entry being displayed.
-			$logFormatter = LogFormatter::newFromEntry( $logEntry );
+			$logFormatter = $this->logFormatterFactory->newFromEntry( $logEntry );
 			$logFormatter->setAudience( LogFormatter::FOR_THIS_USER );
 			$actionText = $logFormatter->getPlainActionText();
 		} else {

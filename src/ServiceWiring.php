@@ -263,7 +263,8 @@ return [
 			$services->getCommentStore(),
 			$services->getRevisionStore(),
 			$services->getArchivedRevisionLookup(),
-			$services->getUserFactory()
+			$services->getUserFactory(),
+			$services->getLogFormatterFactory()
 		);
 	},
 ];
