@@ -145,9 +145,11 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook {
 			$updater->addExtensionUpdate(
 				[ 'changeField', 'cu_changes', 'cuc_xff_hex', 'VARCHAR(255)', '' ]
 			);
-			$updater->addExtensionUpdate(
-				[ 'changeField', 'cu_changes', 'cuc_private', 'TEXT', '' ]
-			);
+			if ( $maintenanceDb->fieldExists( 'cu_changes', 'cuc_private' ) ) {
+				$updater->addExtensionUpdate(
+					[ 'changeField', 'cu_changes', 'cuc_private', 'TEXT', '' ]
+				);
+			}
 			$updater->addExtensionIndex( 'cu_log', 'cu_log_pkey', "$base/$dbType/patch-cu_log-pk.sql" );
 			$updater->addExtensionUpdate(
 				[ 'changeNullableField', 'cu_log', 'cul_timestamp', 'NOT NULL', true ]
@@ -355,6 +357,11 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook {
 			'cu_changes',
 			'cuc_actiontext',
 			"$base/$dbType/patch-cu_changes-drop-cuc_actiontext.sql"
+		);
+		$updater->dropExtensionField(
+			'cu_changes',
+			'cuc_private',
+			"$base/$dbType/patch-cu_changes-drop-cuc_private.sql"
 		);
 
 		if ( !$isCUInstalled ) {

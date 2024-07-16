@@ -130,13 +130,14 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 	}
 
 	protected function getSchemaOverrides( IMaintainableDatabase $db ) {
-		// Create the now removed columns (cuc_only_for_read_old and cuc_actiontext) in cu_changes necessary for
-		// the script to run.
+		// Create the now removed columns (cuc_only_for_read_old, cuc_actiontext, and cuc_private) in cu_changes
+		// necessary for the script to run.
 		$sqlPatchesDir = __DIR__ . '/patches/' . $db->getType();
 		return [
 			'scripts' => [
 				$sqlPatchesDir . '/patch-cu_changes-add-cuc_only_for_read_old.sql',
 				$sqlPatchesDir . '/patch-cu_changes-add-cuc_actiontext.sql',
+				$sqlPatchesDir . '/patch-cu_changes-add-cuc_private.sql',
 			],
 			'alter' => [ 'cu_changes' ],
 		];
