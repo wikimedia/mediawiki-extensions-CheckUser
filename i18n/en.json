@@ -245,6 +245,8 @@
 	"checkuser-ip-contributions-target-error-no-ip": "Enter a valid IP address or IP range",
 	"checkuser-ip-contributions-tab-label-contributions": "Contributions",
 	"checkuser-ip-contributions-tab-label-archive-contributions": "Deleted contributions",
+	"checkuser-ip-contributions-search-form-wrapper": "Search for IP contributions",
+	"checkuser-ip-contributions-results-title": "Temporary user IP contributions for $1",
 	"prefs-checkuser-tempaccount": "Temporary account IP reveal",
 	"checkuser-tempaccount-enable-preference-description": "When using this tool you should ensure that you do so within policy.",
 	"checkuser-tempaccount-enable-preference": "Enable revealing IP addresses for temporary accounts",

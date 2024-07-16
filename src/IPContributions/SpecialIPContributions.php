@@ -206,6 +206,20 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 	}
 
 	/**
+	 * @inheritDoc
+	 */
+	protected function getFormWrapperLegendMessageKey() {
+		return 'checkuser-ip-contributions-search-form-wrapper';
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function getResultsPageTitleMessageKey() {
+		return 'checkuser-ip-contributions-results-title';
+	}
+
+	/**
 	 * Returns the OOUI Index Layout and adds the module dependencies for OOUI.
 	 *
 	 * @return IndexLayout
