@@ -197,7 +197,7 @@
 	"checkuser-investigate-tour-copywikitext-desc": "Ricopia la tabella di confronto con un clic e portala sul CUWiki. Nota che stai copiando solo ciò che è visibile e non tutte le pagine della ricerca.",
 	"checkuser-ip-contributions-permission-error-title": "Permessi non sufficienti",
 	"checkuser-ip-contributions-target-label": "Indirizzo IP o intervallo",
-	"checkuser-ip-contributions-target-error-no-ip": "Non è un indirizzo IP valido",
+	"checkuser-ip-contributions-target-error-no-ip": "Inserisci un indirizzo IP o un intervallo di IP valido",
 	"checkuser-tempaccount-no-ip-results": "Nessun dato IP per questo utente temporaneo per {{PLURAL:$1|l'ultimo giorno|gli ultimi $1 giorni}}",
 	"checkuser-tempaccount-reveal-ip-button-label": "Mostra IP",
 	"checkuser-tempaccount-reveal-ip-missing": "non disponibile",

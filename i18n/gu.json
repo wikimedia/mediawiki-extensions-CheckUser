@@ -14,5 +14,6 @@
 	"checkuser-search-submit": "શોધો",
 	"checkuser-investigate-reason-label": "કારણ",
 	"checkuser-investigate-preliminary-table-header-name": "સભ્યનામ",
-	"checkuser-investigate-compare-table-header-username": "સભ્યનામ"
+	"checkuser-investigate-compare-table-header-username": "સભ્યનામ",
+	"checkuser-ip-contributions-tab-label-contributions": "યોગદાનો"
 }
