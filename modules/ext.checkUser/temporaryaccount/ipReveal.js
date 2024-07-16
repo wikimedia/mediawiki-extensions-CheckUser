@@ -202,5 +202,6 @@ module.exports = {
 	makeButton: makeButton,
 	addButton: addButton,
 	enableMultiReveal: enableMultiReveal,
-	getRevisionId: getRevisionId
+	getRevisionId: getRevisionId,
+	getLogId: getLogId
 };
