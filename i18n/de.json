@@ -248,6 +248,8 @@
 	"checkuser-ip-contributions-target-error-no-ip": "Eine gültige IP-Adresse oder einen IP-Bereich eingeben",
 	"checkuser-ip-contributions-tab-label-contributions": "Beiträge",
 	"checkuser-ip-contributions-tab-label-archive-contributions": "Gelöschte Beiträge",
+	"checkuser-ip-contributions-search-form-wrapper": "Suche nach IP-Beiträgen",
+	"checkuser-ip-contributions-results-title": "Temporäre Benutzer-IP-Beiträge für $1",
 	"prefs-checkuser-tempaccount": "Anzeige der IP-Adressen für temporäre Konten",
 	"checkuser-tempaccount-enable-preference-description": "Stelle bei der Verwendung dieses Tools sicher, dass du die Richtlinien einhältst.",
 	"checkuser-tempaccount-enable-preference": "IP-Adressen für temporäre Konten anzeigen",
