@@ -22,7 +22,7 @@
 			break;
 		case 'Recentchanges':
 		case 'Watchlist':
-			require( './temporaryaccount/initOnHook.js' );
+			require( './temporaryaccount/initOnHook.js' )();
 			break;
 		case 'Contributions':
 			if ( mw.config.get( 'wgRelevantUserName' ) &&
