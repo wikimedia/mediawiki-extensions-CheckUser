@@ -155,16 +155,20 @@ class CheckUserLogService {
 			switch ( count( $result ) ) {
 				case 1:
 					return [
-						'cul_target_hex = ' . $dbr->addQuotes( $result[0] ) . ' OR ' .
-						'(cul_range_end >= ' . $dbr->addQuotes( $result[0] ) . ' AND ' .
-						'cul_range_start <= ' . $dbr->addQuotes( $result[0] ) . ')'
+						$dbr->expr( 'cul_target_hex', '=', $result[0] )
+							->orExpr(
+								$dbr->expr( 'cul_range_end', '>=', $result[0] )
+									->and( 'cul_range_start', '<=', $result[0] )
+							)
 					];
 				case 2:
 					return [
-						'(cul_target_hex >= ' . $dbr->addQuotes( $result[0] ) . ' AND ' .
-						'cul_target_hex <= ' . $dbr->addQuotes( $result[1] ) . ') OR ' .
-						'(cul_range_end >= ' . $dbr->addQuotes( $result[0] ) . ' AND ' .
-						'cul_range_start <= ' . $dbr->addQuotes( $result[1] ) . ')'
+						$dbr->orExpr( [
+							$dbr->expr( 'cul_target_hex', '>=', $result[0] )
+								->and( 'cul_target_hex', '<=', $result[1] ),
+							$dbr->expr( 'cul_range_end', '>=', $result[0] )
+								->and( 'cul_range_start', '<=', $result[1] ),
+						] )
 					];
 				default:
 					throw new LogicException(

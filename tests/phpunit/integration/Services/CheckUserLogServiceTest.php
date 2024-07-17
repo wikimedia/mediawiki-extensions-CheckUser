@@ -4,10 +4,12 @@ namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\Deferred\DeferredUpdates;
+use MediaWiki\Tests\Unit\Libs\Rdbms\AddQuoterMock;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
@@ -205,9 +207,15 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		$object = $this->setUpObject();
 		$testUser = $this->getTestUser()->getUser();
 		$this->assertTrue( $testUser->getUser()->isRegistered() );
+		$actualResult = $object->getTargetSearchConds( $testUser->getName() );
+		foreach ( $actualResult as &$result ) {
+			if ( $result instanceof IExpression ) {
+				$result = $result->toSql( new AddQuoterMock() );
+			}
+		}
 		$this->assertArrayEquals(
 			$this->getExpectedGetTargetSearchConds( 'user', $testUser->getId() ),
-			$object->getTargetSearchConds( $testUser->getName() ),
+			$actualResult,
 			false,
 			true,
 			'For an existing user the valid search cond should be returned.'
@@ -217,9 +225,15 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 	/** @dataProvider provideGetTargetSearchCondsIP */
 	public function testGetTargetSearchCondsIP( $target, $type, $start, $end ) {
 		$object = $this->setUpObject();
+		$actualResult = $object->getTargetSearchConds( $target );
+		foreach ( $actualResult as &$result ) {
+			if ( $result instanceof IExpression ) {
+				$result = $result->toSql( new AddQuoterMock() );
+			}
+		}
 		$this->assertArrayEquals(
 			$this->getExpectedGetTargetSearchConds( $type, null, $start, $end ),
-			$object->getTargetSearchConds( $target ),
+			$actualResult,
 			false,
 			true,
 			'Valid IP addresses should have associated search conditions.'
@@ -247,16 +261,16 @@ class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 		switch ( $type ) {
 			case 'ip':
 				return [
-					'cul_target_hex = ' . $this->getDb()->addQuotes( $start ) . ' OR ' .
-					'(cul_range_end >= ' . $this->getDb()->addQuotes( $start ) . ' AND ' .
-					'cul_range_start <= ' . $this->getDb()->addQuotes( $start ) . ')'
+					"(cul_target_hex = '$start' OR " .
+					"(cul_range_end >= '$start' AND " .
+					"cul_range_start <= '$start'))"
 				];
 			case 'range':
 				return [
-					'(cul_target_hex >= ' . $this->getDb()->addQuotes( $start ) . ' AND ' .
-					'cul_target_hex <= ' . $this->getDb()->addQuotes( $end ) . ') OR ' .
-					'(cul_range_end >= ' . $this->getDb()->addQuotes( $start ) . ' AND ' .
-					'cul_range_start <= ' . $this->getDb()->addQuotes( $end ) . ')'
+					"((cul_target_hex >= '$start' AND " .
+					"cul_target_hex <= '$end') OR " .
+					"(cul_range_end >= '$start' AND " .
+					"cul_range_start <= '$end'))"
 				];
 			case 'user':
 				if ( $id === null ) {
