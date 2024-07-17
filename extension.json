@@ -506,6 +506,8 @@
 			"tests/qunit/ext.checkUser/investigate/blockform.test.js",
 			"modules/ext.checkUser/investigate/blockform.js",
 			"tests/qunit/ext.checkUser/investigate/cases/blockFormWidgetVisibility.json",
+			"tests/qunit/ext.checkUser/temporaryaccount/SpecialContributions.test.js",
+			"modules/ext.checkUser/temporaryaccount/SpecialContributions.js",
 			"tests/qunit/ext.checkUser/temporaryaccount/ipRevealUtils.test.js",
 			"modules/ext.checkUser/temporaryaccount/ipRevealUtils.js",
 			"tests/qunit/ext.checkUser/temporaryaccount/ipReveal.test.js",

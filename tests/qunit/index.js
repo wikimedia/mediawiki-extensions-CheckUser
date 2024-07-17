@@ -16,3 +16,4 @@ require( './ext.checkUser/temporaryaccount/initOnLoad.test.js' );
 require( './ext.checkUser/temporaryaccount/initOnHook.test.js' );
 require( './ext.checkUser/temporaryaccount/rest.test.js' );
 require( './ext.checkUser/temporaryaccount/SpecialBlock.test.js' );
+require( './ext.checkUser/temporaryaccount/SpecialContributions.test.js' );
