@@ -47,6 +47,6 @@
 		!mw.config.get( 'wgCanonicalSpecialPageName' ) ||
 		excludePages.indexOf( mw.config.get( 'wgCanonicalSpecialPageName' ) ) === -1
 	) {
-		require( './temporaryaccount/initOnLoad.js' );
+		require( './temporaryaccount/initOnLoad.js' )();
 	}
 }() );
