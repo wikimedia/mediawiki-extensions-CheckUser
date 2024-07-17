@@ -515,7 +515,8 @@
 			"tests/qunit/ext.checkUser/temporaryaccount/initOnLoad.test.js",
 			"modules/ext.checkUser/temporaryaccount/initOnLoad.js",
 			"tests/qunit/ext.checkUser/temporaryaccount/initOnHook.test.js",
-			"modules/ext.checkUser/temporaryaccount/initOnHook.js"
+			"modules/ext.checkUser/temporaryaccount/initOnHook.js",
+			"tests/qunit/ext.checkUser/temporaryaccount/rest.test.js"
 		],
 		"dependencies": [
 			"mediawiki.qunit-testrunner",

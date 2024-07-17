@@ -14,3 +14,4 @@ require( './ext.checkUser/temporaryaccount/ipRevealUtils.test.js' );
 require( './ext.checkUser/temporaryaccount/ipReveal.test.js' );
 require( './ext.checkUser/temporaryaccount/initOnLoad.test.js' );
 require( './ext.checkUser/temporaryaccount/initOnHook.test.js' );
+require( './ext.checkUser/temporaryaccount/rest.test.js' );
