@@ -17,7 +17,7 @@ use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IReadableDatabase;
 
-class TemporaryAccountRevisionHandler extends AbstractTemporaryAccountHandler {
+class TemporaryAccountRevisionHandler extends AbstractTemporaryAccountNameHandler {
 
 	private RevisionStore $revisionStore;
 
@@ -42,7 +42,7 @@ class TemporaryAccountRevisionHandler extends AbstractTemporaryAccountHandler {
 	/**
 	 * @inheritDoc
 	 */
-	protected function getData( int $actorId, IReadableDatabase $dbr ): array {
+	protected function getData( $actorId, IReadableDatabase $dbr ): array {
 		$ids = $this->getValidatedParams()['ids'];
 		if ( !count( $ids ) ) {
 			throw new LocalizedHttpException(

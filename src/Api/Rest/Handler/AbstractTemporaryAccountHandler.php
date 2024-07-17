@@ -5,7 +5,6 @@ namespace MediaWiki\CheckUser\Api\Rest\Handler;
 use JobQueueGroup;
 use JobSpecification;
 use MediaWiki\Block\BlockManager;
-use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\Config\Config;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Rest\LocalizedHttpException;
@@ -17,7 +16,6 @@ use MediaWiki\User\ActorStore;
 use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\UserNameUtils;
 use Wikimedia\Message\MessageValue;
-use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IReadableDatabase;
 
@@ -65,9 +63,9 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Check if the performer has the right to use this API, and throw if not.
 	 */
-	public function run( string $name ): Response {
+	protected function checkPermissions() {
 		if ( !$this->getAuthority()->isNamed() ) {
 			throw new LocalizedHttpException(
 				new MessageValue( 'checkuser-rest-access-denied' ),
@@ -103,58 +101,24 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 				403
 			);
 		}
+	}
 
-		if ( !$this->userNameUtils->isTemp( $name ) ) {
-			throw new LocalizedHttpException(
-				new MessageValue( 'rest-invalid-user', [ $name ] ),
-				404
-			);
-		}
+	/**
+	 * @inheritDoc
+	 */
+	public function run( $identifier ): Response {
+		$this->checkPermissions();
 
-		$dbr = $this->dbProvider->getReplicaDatabase();
-		$actorId = $this->actorStore->findActorIdByName( $name, $dbr );
-		$userIdentity = $this->actorStore->getUserIdentityByName( $name );
-		if ( $actorId === null || $userIdentity === null ) {
-			throw new LocalizedHttpException(
-				new MessageValue( 'rest-nonexistent-user', [ $name ] ),
-				404
-			);
-		}
-
-		$blockOnTempAccount = $this->blockManager->getBlock( $userIdentity, null );
-		if (
-			$blockOnTempAccount &&
-			$blockOnTempAccount->getHideName() &&
-			!$this->permissionManager->userHasRight( $this->getAuthority()->getUser(), 'viewsuppressed' )
-		) {
-			if ( $this->permissionManager->userHasRight( $this->getAuthority()->getUser(), 'hideuser' ) ) {
-				// The user knows that this user exists, because they have the 'hideuser' right. Instead of pretending
-				// the user does not exist, we instead should inform the user that they don't have the
-				// permission to view this information.
-				throw new LocalizedHttpException(
-					new MessageValue( 'checkuser-rest-access-denied' ),
-					403
-				);
-			} else {
-				// Pretend the username does not exist if the temporary account is hidden and the user does not have the
-				// rights to see suppressed information or blocks with 'hideuser' set.
-				throw new LocalizedHttpException(
-					new MessageValue( 'rest-nonexistent-user', [ $name ] ),
-					404
-				);
-			}
-		}
-
-		$data = $this->getData( $actorId, $dbr );
+		$results = $this->getResults( $identifier );
 
 		$this->jobQueueGroup->push(
 			new JobSpecification(
 				'checkuserLogTemporaryAccountAccess',
 				[
 					'performer' => $this->getAuthority()->getUser()->getName(),
-					'target' => $this->urlEncodeTitle( $name ),
+					'target' => $this->urlEncodeTitle( $identifier ),
 					'timestamp' => (int)wfTimestamp(),
-					'type' => TemporaryAccountLogger::ACTION_VIEW_IPS,
+					'type' => $this->getLogType(),
 				],
 				[],
 				null
@@ -162,30 +126,28 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 		);
 
 		$maxAge = $this->config->get( 'CheckUserTemporaryAccountMaxAge' );
-		$response = $this->getResponseFactory()->createJson( $data );
+		$response = $this->getResponseFactory()->createJson( $results );
 		$response->setHeader( 'Cache-Control', "private, max-age=$maxAge" );
 		return $response;
 	}
 
 	/**
-	 * @param int $actorId
-	 * @param IReadableDatabase $dbr
-	 * @return array IP addresses used by the temporary account
+	 * @param string $identifier
+	 * @return array associated IP addresses or temporary accounts
 	 */
-	abstract protected function getData( int $actorId, IReadableDatabase $dbr ): array;
+	abstract protected function getResults( $identifier ): array;
 
 	/**
-	 * @inheritDoc
+	 * @param int|string $identifier
+	 * @param IReadableDatabase $dbr
+	 * @return array associated IP addresses or temporary accounts
 	 */
-	public function getParamSettings() {
-		return [
-			'name' => [
-				self::PARAM_SOURCE => 'path',
-				ParamValidator::PARAM_TYPE => 'string',
-				ParamValidator::PARAM_REQUIRED => true,
-			],
-		];
-	}
+	abstract protected function getData( $identifier, IReadableDatabase $dbr ): array;
+
+	/**
+	 * @return string log type to record
+	 */
+	abstract protected function getLogType(): string;
 
 	public function getBodyParamSettings(): array {
 		return $this->getTokenParamDefinition();
