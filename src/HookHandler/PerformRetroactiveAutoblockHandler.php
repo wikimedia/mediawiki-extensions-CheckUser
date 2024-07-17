@@ -71,7 +71,7 @@ class PerformRetroactiveAutoblockHandler implements PerformRetroactiveAutoblockH
 				->where( [ 'actor_user' => $user->getId( $block->getWikiId() ) ] )
 				->limit( $maximumIPsToAutoblock )
 				->groupBy( 'ip' )
-				->orderBy( $tablePrefix . 'timestamp', SelectQueryBuilder::SORT_DESC )
+				->orderBy( 'timestamp', SelectQueryBuilder::SORT_DESC )
 				->caller( __METHOD__ )
 				->fetchResultSet();
 
