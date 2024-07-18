@@ -41,7 +41,8 @@
 		'CheckUser',
 		'Contributions',
 		'Recentchanges',
-		'Watchlist'
+		'Watchlist',
+		'Log'
 	];
 	if (
 		!mw.config.get( 'wgCanonicalSpecialPageName' ) ||
