@@ -11,11 +11,11 @@ use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\Rdbms\IResultWrapper;
 
-class TemporaryAccountLogHandler extends AbstractTemporaryAccountHandler {
+class TemporaryAccountLogHandler extends AbstractTemporaryAccountNameHandler {
 	/**
 	 * @inheritDoc
 	 */
-	protected function getData( int $actorId, IReadableDatabase $dbr ): array {
+	protected function getData( $actorId, IReadableDatabase $dbr ): array {
 		$ids = $this->getValidatedParams()['ids'];
 		if ( !count( $ids ) ) {
 			throw new LocalizedHttpException(

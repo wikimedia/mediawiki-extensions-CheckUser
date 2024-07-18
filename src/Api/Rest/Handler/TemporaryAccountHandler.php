@@ -8,11 +8,11 @@ use Wikimedia\ParamValidator\TypeDef\IntegerDef;
 use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 
-class TemporaryAccountHandler extends AbstractTemporaryAccountHandler implements CheckUserQueryInterface {
+class TemporaryAccountHandler extends AbstractTemporaryAccountNameHandler implements CheckUserQueryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	protected function getData( int $actorId, IReadableDatabase $dbr ): array {
+	protected function getData( $actorId, IReadableDatabase $dbr ): array {
 		// The limit is the smaller of the user-provided limit parameter and the maximum row count.
 		$limit = min( $this->getValidatedParams()['limit'], $this->config->get( 'CheckUserMaximumRowCount' ) );
 		$resultRows = [];
