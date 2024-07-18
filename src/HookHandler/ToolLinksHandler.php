@@ -2,11 +2,13 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
+use ExtensionRegistry;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Hook\ContributionsToolLinksHook;
 use MediaWiki\Hook\SpecialContributionsBeforeMainOutputHook;
 use MediaWiki\Hook\UserToolLinksEditHook;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\MediaWikiServices;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\SpecialPage\SpecialPageFactory;
@@ -16,6 +18,7 @@ use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityUtils;
+use MobileContext;
 use OOUI\ButtonGroupWidget;
 use OOUI\ButtonWidget;
 use Wikimedia\IPUtils;
@@ -86,6 +89,19 @@ class ToolLinksHandler implements
 	}
 
 	/**
+	 * @return bool Whether the user is in mobile view. This will always be false if MobileFrontend is not loaded.
+	 */
+	private function isMobile(): bool {
+		$isMobile = false;
+		if ( ExtensionRegistry::getInstance()->isLoaded( 'MobileFrontend' ) ) {
+			/** @var MobileContext $mobFrontContext */
+			$mobFrontContext = MediaWikiServices::getInstance()->getService( 'MobileFrontend.Context' );
+			$isMobile = $mobFrontContext->shouldDisplayMobileView();
+		}
+		return $isMobile;
+	}
+
+	/**
 	 * Determine whether a user is able to see archived contributions.
 	 *
 	 * @param UserIdentity $user
@@ -130,10 +146,17 @@ class ToolLinksHandler implements
 			$user->getName()
 		)->getLinkURL();
 
+		// Generate the button text for the IPContributions link. If the user should be in mobile mode (as
+		// defined by MobileFrontend), then append '-mobile' to the message key to get a shortened version.
+		$ipContributionsButtonMessageKey = 'checkuser-ip-contributions-special-ip-contributions-button';
+		if ( $this->isMobile() ) {
+			$ipContributionsButtonMessageKey .= '-mobile';
+		}
+
 		$buttons = new ButtonGroupWidget( [
 			'items' => [
 				new ButtonWidget( [
-					'label' => $sp->msg( 'checkuser-ip-contributions-special-ip-contributions-button' )->text(),
+					'label' => $sp->msg( $ipContributionsButtonMessageKey )->text(),
 					'href' => $ipContributionsUrl,
 					'active' => $sp->getName() === 'IPContributions',
 				] ),
