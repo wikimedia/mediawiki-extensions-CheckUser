@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\HookHandler;
 
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Hook\ContributionsToolLinksHook;
+use MediaWiki\Hook\SpecialContributionsBeforeMainOutputHook;
 use MediaWiki\Hook\UserToolLinksEditHook;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Permissions\PermissionManager;
@@ -15,9 +16,15 @@ use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityUtils;
+use OOUI\ButtonGroupWidget;
+use OOUI\ButtonWidget;
 use Wikimedia\IPUtils;
 
-class ToolLinksHandler implements ContributionsToolLinksHook, UserToolLinksEditHook {
+class ToolLinksHandler implements
+	SpecialContributionsBeforeMainOutputHook,
+	ContributionsToolLinksHook,
+	UserToolLinksEditHook
+{
 
 	private PermissionManager $permissionManager;
 	private SpecialPageFactory $specialPageFactory;
@@ -78,6 +85,41 @@ class ToolLinksHandler implements ContributionsToolLinksHook, UserToolLinksEditH
 			);
 	}
 
+	/** @inheritDoc */
+	public function onSpecialContributionsBeforeMainOutput( $id, $user, $sp ) {
+		if (
+			$sp->getName() !== 'Contributions' &&
+			$sp->getName() !== 'IPContributions'
+		) {
+			return;
+		}
+
+		if (
+			!$this->tempUserConfig->isKnown() ||
+			!IPUtils::isIPAddress( $user->getName() ) ||
+			!$this->userCanRevealIP( $sp->getUser() )
+		) {
+			return;
+		}
+
+		$buttons = new ButtonGroupWidget( [
+			'items' => [
+				new ButtonWidget( [
+					'label' => $sp->msg( 'checkuser-ip-contributions-special-ip-contributions-button' )->text(),
+					'href' => SpecialPage::getTitleFor( 'IPContributions', $user->getName() )->getLinkURL(),
+					'active' => $sp->getName() === 'IPContributions',
+				] ),
+				new ButtonWidget( [
+					'label' => $sp->msg( 'checkuser-ip-contributions-special-contributions-button' )->text(),
+					'href' => SpecialPage::getTitleFor( 'Contributions', $user->getName() )->getLinkURL(),
+					'active' => $sp->getName() === 'Contributions',
+				] )
+			],
+		] );
+
+		$sp->getOutput()->addSubtitle( $buttons );
+	}
+
 	/**
 	 * Add a link to Special:CheckUser and Special:CheckUserLog
 	 * on Special:Contributions/<username> for
@@ -93,33 +135,6 @@ class ToolLinksHandler implements ContributionsToolLinksHook, UserToolLinksEditH
 	) {
 		$user = $sp->getUser();
 		$linkRenderer = $sp->getLinkRenderer();
-
-		if (
-			$this->tempUserConfig->isKnown() &&
-			IPUtils::isIPAddress( $nt->getText() )
-		) {
-			if ( $sp->getName() === 'Contributions' && $this->userCanRevealIP( $user ) ) {
-				// Check if the target is an IP address or range
-				$messageKey = IPUtils::isValid( $nt->getText() ) ?
-					'checkuser-contribs-special-ip-contributions-ip' :
-					'checkuser-contribs-special-ip-contributions-range';
-				$links['ip-contributions'] = $linkRenderer->makeKnownLink(
-					SpecialPage::getTitleFor( 'IPContributions', $nt->getText() ),
-					$sp->msg( $messageKey )->text(),
-					[ 'class' => 'mw-contributions-link-check-user-ip-contributions' ],
-				);
-			} elseif ( $sp->getName() === 'IPContributions' ) {
-				// Check if the target is an IP address or range
-				$messageKey = IPUtils::isValid( $nt->getText() ) ?
-					'checkuser-contribs-special-contributions-ip' :
-					'checkuser-contribs-special-contributions-range';
-				$links['contributions'] = $linkRenderer->makeKnownLink(
-					SpecialPage::getTitleFor( 'Contributions', $nt->getText() ),
-					$sp->msg( $messageKey )->text(),
-					[ 'class' => 'mw-contributions-link-check-user-contributions' ],
-				);
-			}
-		}
 
 		if ( $this->permissionManager->userHasRight( $user, 'checkuser' ) ) {
 			$links['checkuser'] = $linkRenderer->makeKnownLink(

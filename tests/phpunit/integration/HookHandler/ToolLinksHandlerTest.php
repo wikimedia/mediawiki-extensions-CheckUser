@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 use MediaWiki\CheckUser\HookHandler\ToolLinksHandler;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\Output\OutputPage;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
@@ -82,16 +83,16 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @dataProvider provideOnContributionsToolLinksIPContributionsLink
+	 * @dataProvider provideOnSpecialContributionsBeforeMainOutput
 	 */
-	public function testOnContributionsToolLinksIPContributionsLink(
+	public function testOnSpecialContributionsBeforeMainOutput(
 		bool $tempAccountsEnabled,
 		bool $hasNoPreferenceRight,
 		bool $hasBasicRight,
 		bool $hasPreference,
 		string $specialPageName,
 		string $target,
-		array $expected
+		bool $expectAddButtons
 	) {
 		if ( $tempAccountsEnabled ) {
 			$this->enableAutoCreateTempUser();
@@ -101,13 +102,22 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$user = $this->createMock( User::class );
 
+		$mockOutputPage = $this->createMock( OutputPage::class );
+		if ( $expectAddButtons ) {
+			$mockOutputPage->expects( $this->once() )->method( 'addSubtitle' );
+		} else {
+			$mockOutputPage->expects( $this->never() )->method( 'addSubtitle' );
+		}
+
 		$mockSpecialPage = $this->getMockBuilder( SpecialPage::class )
-			->onlyMethods( [ 'getUser', 'getName' ] )
+			->onlyMethods( [ 'getUser', 'getName', 'getOutput' ] )
 			->getMock();
 		$mockSpecialPage->method( 'getUser' )
 			->willReturn( $user );
 		$mockSpecialPage->method( 'getName' )
 			->willReturn( $specialPageName );
+		$mockSpecialPage->method( 'getOutput' )
+			->willReturn( $mockOutputPage );
 
 		$mockPermissionManager = $this->createMock( PermissionManager::class );
 		$mockPermissionManager->method( 'userHasRight' )
@@ -133,20 +143,11 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			$services->getTempUserConfig()
 		);
 
-		$mockUserPageTitle = $this->createMock( Title::class );
-		$mockUserPageTitle->method( 'getText' )
+		$mockUser = $this->createMock( User::class );
+		$mockUser->method( 'getName' )
 			->willReturn( $target );
 
-		$links = [];
-		$hookHandler->onContributionsToolLinks( 1, $mockUserPageTitle, $links, $mockSpecialPage );
-
-		$this->assertArrayEquals(
-			$expected,
-			array_keys( $links ),
-			false,
-			true,
-			'The links were not correctly added by ToolLinksHandler::onContributionsToolLinks.'
-		);
+		$hookHandler->onSpecialContributionsBeforeMainOutput( 1, $mockUser, $mockSpecialPage );
 	}
 
 	/**
@@ -154,7 +155,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 	 * and Special:IPContributions. Since Special:Contributions is publicly
 	 * visible, rights are thoroughly tested from Special:Contributions.
 	 */
-	public function provideOnContributionsToolLinksIPContributionsLink() {
+	public function provideOnSpecialContributionsBeforeMainOutput() {
 		return [
 			'Not an IP target' => [
 				'tempAccountsEnabled' => true,
@@ -163,7 +164,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 				'preference' => true,
 				'specialPageName' => 'Contributions',
 				'target' => 'TestUser',
-				'expected' => [],
+				'expectAddButtons' => false,
 			],
 			'Temp accounts disabled' => [
 				'tempAccountsEnabled' => false,
@@ -172,7 +173,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 				'preference' => true,
 				'specialPageName' => 'Contributions',
 				'target' => '1.2.3.4',
-				'expected' => [],
+				'expectAddButtons' => false,
 			],
 			'Has no-preference right' => [
 				'tempAccountsEnabled' => true,
@@ -181,7 +182,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 				'preference' => false,
 				'specialPageName' => 'Contributions',
 				'target' => '1.2.3.4',
-				'expected' => [ 'ip-contributions' ],
+				'expectAddButtons' => true,
 			],
 			'Has basic right with preference' => [
 				'tempAccountsEnabled' => true,
@@ -190,7 +191,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 				'preference' => true,
 				'specialPageName' => 'Contributions',
 				'target' => '1.2.3.4',
-				'expected' => [ 'ip-contributions' ],
+				'expectAddButtons' => true,
 			],
 			'Has basic right without preference' => [
 				'tempAccountsEnabled' => true,
@@ -199,7 +200,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 				'preference' => false,
 				'specialPageName' => 'Contributions',
 				'target' => '1.2.3.4',
-				'expected' => [],
+				'expectAddButtons' => false,
 			],
 			'On Special:IPContributions with rights' => [
 				'tempAccountsEnabled' => true,
@@ -208,86 +209,16 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 				'preference' => true,
 				'specialPageName' => 'IPContributions',
 				'target' => '1.2.3.4',
-				'expected' => [ 'contributions' ],
+				'expectAddButtons' => true,
 			],
-		];
-	}
-
-	/**
-	 * @dataProvider provideOnContributionsToolLinksIPContributionsMessage
-	 */
-	public function testOnContributionsToolLinksIPContributionsMessage(
-		string $specialPageName,
-		string $target,
-		string $expectedLinkKey,
-		string $expectedMessageKey
-	) {
-		$this->setUserLang( 'qqx' );
-		$this->enableAutoCreateTempUser();
-
-		$mockSpecialPage = $this->getMockBuilder( SpecialPage::class )
-			->onlyMethods( [ 'getUser', 'getName' ] )
-			->getMock();
-		$mockSpecialPage->method( 'getUser' )
-			->willReturn( $this->createMock( User::class ) );
-		$mockSpecialPage->method( 'getName' )
-			->willReturn( $specialPageName );
-
-		$mockPermissionManager = $this->createMock( PermissionManager::class );
-		$mockPermissionManager->method( 'userHasRight' )
-			->willReturn( true );
-
-		$services = $this->getServiceContainer();
-		$hookHandler = new ToolLinksHandler(
-			$mockPermissionManager,
-			$services->getSpecialPageFactory(),
-			$services->getLinkRenderer(),
-			$this->createMock( UserIdentityLookup::class ),
-			$services->getUserIdentityUtils(),
-			$this->createMock( UserOptionsLookup::class ),
-			$services->getTempUserConfig()
-		);
-
-		$mockUserPageTitle = $this->createMock( Title::class );
-		$mockUserPageTitle->method( 'getText' )
-			->willReturn( $target );
-
-		$links = [];
-		$hookHandler->onContributionsToolLinks( 1, $mockUserPageTitle, $links, $mockSpecialPage );
-
-		$this->assertArrayHasKey( $expectedLinkKey, $links );
-		$this->assertStringContainsString(
-			$expectedMessageKey,
-			$links[$expectedLinkKey],
-			'The messages were not correctly added by ToolLinksHandler::onContributionsToolLinks.'
-		);
-	}
-
-	public function provideOnContributionsToolLinksIPContributionsMessage() {
-		return [
-			'On Special:Contributions, IP target' => [
-				'Contributions',
-				'1.2.3.4',
-				'ip-contributions',
-				'checkuser-contribs-special-ip-contributions-ip',
-			],
-			'On Special:Contributions, IP range target' => [
-				'Contributions',
-				'1.2.3.4/24',
-				'ip-contributions',
-				'checkuser-contribs-special-ip-contributions-range',
-			],
-			'On Special:IPContributions, IP target' => [
-				'IPContributions',
-				'1.2.3.4',
-				'contributions',
-				'checkuser-contribs-special-contributions-ip',
-			],
-			'On Special:IPContributions, IP range target' => [
-				'IPContributions',
-				'1.2.3.4/24',
-				'contributions',
-				'checkuser-contribs-special-contributions-range',
+			'On an unrelated page' => [
+				'tempAccountsEnabled' => true,
+				'noPreferenceRight' => true,
+				'basicRight' => true,
+				'preference' => true,
+				'specialPageName' => 'Log',
+				'target' => '1.2.3.4',
+				'expectAddButtons' => false,
 			],
 		];
 	}

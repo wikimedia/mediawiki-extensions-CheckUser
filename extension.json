@@ -336,6 +336,7 @@
 		"RenameUserSQL": "RenameUserSQLHandler",
 		"ResourceLoaderRegisterModules": "RLRegisterModules",
 		"SaveUserOptions": "preferences",
+		"SpecialContributionsBeforeMainOutput": "ToolLinks",
 		"SpecialPageBeforeExecute": "clienthints",
 		"SpecialPage_initList": "SpecialPageInitList",
 		"User::mailPasswordInternal": "CheckUserPrivateEvents",
