@@ -12,8 +12,10 @@ use MediaWiki\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
 use MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers\Mocks\MockTemplateParser;
 use MediaWiki\Config\ConfigException;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\User\UserIdentityValue;
+use MediaWiki\WikiMap\WikiMap;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -290,6 +292,64 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 			'Can perform blocks' => [ true ],
 			'Cannot perform blocks' => [ false ],
 		];
+	}
+
+	public function testFormatUserRowWhenGlobalBlockingLinkPresent() {
+		$this->markTestSkippedIfExtensionNotLoaded( 'GlobalBlocking' );
+
+		$this->overrideConfigValue(
+			'CheckUserGBtoollink',
+			[ 'centralDB' => WikiMap::getCurrentWikiId(), 'groups' => [ 'steward' ] ]
+		);
+		$objectUnderTest = $this->setUpObject();
+
+		// Set the user who is viewing the row to have the rights to globally block (i.e. steward group).
+		$testUser = $this->getTestUser( [ 'checkuser', 'steward' ] )->getUser();
+		RequestContext::getMain()->setUser( $testUser );
+		if ( ExtensionRegistry::getInstance()->isLoaded( 'CentralAuth' ) ) {
+			// If CentralAuth is loaded, we need to also set the CentralUser to have the steward group globally
+			// for the test to work.
+			$centralAuthUser = CentralAuthUser::getInstanceByName( $testUser->getName() );
+			$centralAuthUser->addToGlobalGroup( 'steward' );
+		}
+		$this->setUserLang( 'qqx' );
+
+		$testUser = $this->getTestUser()->getUserIdentity();
+		$objectUnderTest->templateParser = new MockTemplateParser();
+		$objectUnderTest->userSets = [
+			'first' => [ $testUser->getName() => "20240405060708" ],
+			'last' => [ $testUser->getName() => "20240405060709" ],
+			'edits' => [ $testUser->getName() => 123 ],
+			'ids' => [ $testUser->getName() => $testUser->getId() ],
+			'infosets' => [ $testUser->getName() => [ [ '127.0.0.1', null ] ] ],
+			'agentsets' => [ $testUser->getName() => [ 'Testing user agent' ] ],
+			'clienthints' => [ $testUser->getName() => new ClientHintsReferenceIds( [
+				UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => [ 1 ],
+			] ) ],
+		];
+		$objectUnderTest->clientHintsLookupResults = new ClientHintsLookupResults( [], [] );
+		$objectUnderTest->displayClientHints = true;
+		$objectUnderTest->formatUserRow( $testUser->getName() );
+		// Expect that a globalBlockLink template parameter has been added and that is contains the expected link.
+		$this->assertNotNull(
+			$objectUnderTest->templateParser->lastCalledWith,
+			'The template parser was not called by ::formatUserRow.'
+		);
+		$this->assertArrayHasKey(
+			'globalBlockLink',
+			$objectUnderTest->templateParser->lastCalledWith[1],
+			'The global block link was not added to the template parameters.'
+		);
+		$this->assertStringContainsString(
+			'(globalblocking-block-submit',
+			$objectUnderTest->templateParser->lastCalledWith[1]['globalBlockLink'],
+			'The global block link does not contain the expected link title property'
+		);
+		$this->assertStringContainsString(
+			'Special:GlobalBlock',
+			$objectUnderTest->templateParser->lastCalledWith[1]['globalBlockLink'],
+			'The global blocking special page was not present inside the global block link'
+		);
 	}
 
 	/** @dataProvider provideGetQueryInfo */
