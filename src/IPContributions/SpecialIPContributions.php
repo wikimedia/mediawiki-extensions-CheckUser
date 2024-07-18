@@ -13,8 +13,11 @@ use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserNamePrefixSearch;
 use MediaWiki\User\UserNameUtils;
+use OOUI\HtmlSnippet;
+use OOUI\MessageWidget;
 use PermissionsError;
 use UserBlockedError;
+use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 
 /**
@@ -161,6 +164,22 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 		$this->opts['isArchive'] = $isArchive;
 
 		parent::execute( $par );
+
+		$target = $this->opts['target'] ?? null;
+		if (
+			$target &&
+			!$this->lookupUtils->isValidIPOrRange( $target ) &&
+			!IPUtils::isIPAddress( $target )
+		) {
+			$this->getOutput()->setSubtitle(
+				new MessageWidget( [
+					'type' => 'error',
+					'label' => new HtmlSnippet(
+						$this->msg( 'checkuser-ip-contributions-target-error-no-ip-banner', $target )->parse()
+					)
+				] )
+			);
+		}
 	}
 
 	/**
