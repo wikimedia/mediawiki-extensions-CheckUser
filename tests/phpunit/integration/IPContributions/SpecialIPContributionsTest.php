@@ -141,6 +141,19 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 		];
 	}
 
+	public function testExecuteNotIP() {
+		[ $html ] = $this->executeSpecialPage(
+			'Test123',
+			null,
+			'qqx',
+			self::$checkuser,
+			true
+		);
+
+		$this->assertSame( 0, substr_count( $html, 'data-mw-revid' ) );
+		$this->assertStringContainsString( 'checkuser-ip-contributions-target-error-no-ip-banner', $html );
+	}
+
 	public function testExecuteArchive() {
 		[ $html ] = $this->executeSpecialPage(
 			'127.0.0.1',

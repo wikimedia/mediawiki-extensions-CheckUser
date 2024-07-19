@@ -239,6 +239,7 @@
 	"checkuser-ip-contributions-permission-error-description": "To view temporary account contributions for an IP, please accept the agreement in [[Special:Preferences|your preferences]].",
 	"checkuser-ip-contributions-target-label": "IP address or range",
 	"checkuser-ip-contributions-target-error-no-ip": "Enter a valid IP address or IP range",
+	"checkuser-ip-contributions-target-error-no-ip-banner": "Your search could not be completed. Please enter a valid IP address or IP range. [[Special:Contributions/$1|Or search by username]].",
 	"checkuser-ip-contributions-tab-label-contributions": "Contributions",
 	"checkuser-ip-contributions-tab-label-archive-contributions": "Deleted contributions",
 	"checkuser-ip-contributions-search-form-wrapper": "Search for IP contributions",
