@@ -247,6 +247,7 @@
 	"checkuser-ip-contributions-deleted-contributions-link": "deleted user contributions",
 	"checkuser-ip-contributions-contributions-link": "contributions",
 	"checkuser-ip-contributions-special-ip-contributions-button": "Temporary user IP edits",
+	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "Temp user IP edits",
 	"checkuser-ip-contributions-special-contributions-button": "Legacy IP edits",
 	"prefs-checkuser-tempaccount": "Temporary account IP reveal",
 	"checkuser-tempaccount-enable-preference-description": "When using this tool you should ensure that you do so within policy.",

@@ -17,6 +17,7 @@ use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityUtils;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
+use MobileContext;
 
 /**
  * @group CheckUser
@@ -375,6 +376,63 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 				'expectedMessageKey' => null,
 			],
 		];
+	}
+
+	public function testOnSpecialContributionsBeforeMainOutputForMobileView() {
+		$this->markTestSkippedIfExtensionNotLoaded( 'MobileFrontend' );
+		// Set mobile view to be enabled by using the query string.
+		RequestContext::getMain()->getRequest()->setVal( 'useformat', 'mobile' );
+		$this->setUserLang( 'qqx' );
+		// Reset the MobileContext instance to reset the cached value of whether the user is in mobile view.
+		MobileContext::resetInstanceForTesting();
+		// Enable OOUI as this is needed for the test.
+		RequestContext::getMain()->getOutput()->enableOOUI();
+		// Call the method under test
+		$user = $this->createMock( User::class );
+
+		$mockOutputPage = $this->createMock( OutputPage::class );
+		$mockOutputPage->expects( $this->once() )
+			->method( 'addSubtitle' )
+			->willReturnCallback( function ( $text ) {
+				$this->assertStringContainsString(
+					'checkuser-ip-contributions-special-ip-contributions-button-mobile',
+					$text,
+					'The mobile view subtitle was not added'
+				);
+			} );
+
+		$mockSpecialPage = $this->getMockBuilder( SpecialPage::class )
+			->onlyMethods( [ 'getUser', 'getName', 'getOutput' ] )
+			->getMock();
+		$mockSpecialPage->method( 'getUser' )
+			->willReturn( $user );
+		$mockSpecialPage->method( 'getName' )
+			->willReturn( 'IPContributions' );
+		$mockSpecialPage->method( 'getOutput' )
+			->willReturn( $mockOutputPage );
+
+		$mockPermissionManager = $this->createMock( PermissionManager::class );
+		$mockPermissionManager->method( 'userHasRight' )
+			->willReturnMap( [ [ $user, 'checkuser-temporary-account-no-preference', true ] ] );
+
+		$services = $this->getServiceContainer();
+		$hookHandler = new ToolLinksHandler(
+			$mockPermissionManager,
+			$services->getSpecialPageFactory(),
+			$services->getLinkRenderer(),
+			$services->getUserIdentityLookup(),
+			$services->getUserIdentityUtils(),
+			$services->getUserOptionsLookup(),
+			$services->getTempUserConfig()
+		);
+
+		$mockUser = $this->createMock( User::class );
+		$mockUser->method( 'getName' )
+			->willReturn( '1.2.3.4' );
+
+		$hookHandler->onSpecialContributionsBeforeMainOutput( 1, $mockUser, $mockSpecialPage );
+		// Reset the MobileContext instance after the test to avoid causing issues with other tests.
+		MobileContext::resetInstanceForTesting();
 	}
 
 	private function commonTestOnContributionsToolLinks(
