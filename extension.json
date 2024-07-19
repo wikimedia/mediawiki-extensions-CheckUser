@@ -53,7 +53,7 @@
 		},
 		"CheckUserGBtoollink": {
 			"value": false,
-			"description": "Whether to add links for globally blocking accounts shown in Special:CheckUser results"
+			"description": "Configuration for adding links for globally blocking accounts shown in Special:CheckUser results. Array with keys 'centralDB' for the ID of the wiki where global blocks are made, and 'groups' for the groups that can make global blocks there. False if links should not be added."
 		},
 		"CheckUserCollapseCheckUserHelperByDefault": {
 			"value": 2500,
