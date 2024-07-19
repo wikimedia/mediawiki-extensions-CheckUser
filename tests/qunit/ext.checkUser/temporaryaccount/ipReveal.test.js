@@ -1,7 +1,7 @@
 'use strict';
 
 const ipReveal = require( '../../../../modules/ext.checkUser/temporaryaccount/ipReveal.js' );
-const waitUntilElementDisappears = require( './utils.js' );
+const { waitUntilElementDisappears } = require( './utils.js' );
 
 let server;
 
@@ -10,6 +10,9 @@ QUnit.module( 'ext.checkUser.temporaryaccount.ipReveal', QUnit.newMwEnvironment(
 		this.server = this.sandbox.useFakeServer();
 		this.server.respondImmediately = true;
 		server = this.server;
+	},
+	afterEach: function () {
+		server.restore();
 	},
 	config: {
 		// Prevent initOnLoad.js from running automatically and then

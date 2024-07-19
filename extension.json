@@ -511,7 +511,9 @@
 			"tests/qunit/ext.checkUser/temporaryaccount/ipReveal.test.js",
 			"tests/qunit/ext.checkUser/temporaryaccount/utils.js",
 			"modules/ext.checkUser/temporaryaccount/ipReveal.js",
-			"modules/ext.checkUser/temporaryaccount/rest.js"
+			"modules/ext.checkUser/temporaryaccount/rest.js",
+			"tests/qunit/ext.checkUser/temporaryaccount/initOnLoad.test.js",
+			"modules/ext.checkUser/temporaryaccount/initOnLoad.js"
 		],
 		"dependencies": [
 			"mediawiki.qunit-testrunner",

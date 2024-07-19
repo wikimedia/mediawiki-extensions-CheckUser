@@ -12,3 +12,4 @@ require( './ext.checkUser.clientHints/index.test.js' );
 require( './ext.checkUser/investigate/blockform.test.js' );
 require( './ext.checkUser/temporaryaccount/ipRevealUtils.test.js' );
 require( './ext.checkUser/temporaryaccount/ipReveal.test.js' );
+require( './ext.checkUser/temporaryaccount/initOnLoad.test.js' );
