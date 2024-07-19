@@ -85,8 +85,19 @@ class ToolLinksHandler implements
 			);
 	}
 
+	/**
+	 * Determine whether a user is able to see archived contributions.
+	 *
+	 * @param UserIdentity $user
+	 * @return bool
+	 */
+	private function userCanSeeDeleted( UserIdentity $user ) {
+		return $this->permissionManager->userHasRight( $user, 'deletedhistory' );
+	}
+
 	/** @inheritDoc */
 	public function onSpecialContributionsBeforeMainOutput( $id, $user, $sp ) {
+		// TODO: Handle Special:DeletedContributions here after T370438.
 		if (
 			$sp->getName() !== 'Contributions' &&
 			$sp->getName() !== 'IPContributions'
@@ -102,16 +113,33 @@ class ToolLinksHandler implements
 			return;
 		}
 
+		$isArchive = $sp->getRequest()->getBool( 'isArchive' );
+		if ( $isArchive && !$this->userCanSeeDeleted( $sp->getUser() ) ) {
+			return;
+		}
+
+		// Pages showing archived contributions should link to each other.
+		$ipContributionsUrl = SpecialPage::getTitleFor(
+			'IPContributions',
+			$user->getName()
+		)->getLinkURL(
+			[ 'isArchive' => $isArchive ]
+		);
+		$contributionsUrl = SpecialPage::getTitleFor(
+			$isArchive ? 'DeletedContributions' : 'Contributions',
+			$user->getName()
+		)->getLinkURL();
+
 		$buttons = new ButtonGroupWidget( [
 			'items' => [
 				new ButtonWidget( [
 					'label' => $sp->msg( 'checkuser-ip-contributions-special-ip-contributions-button' )->text(),
-					'href' => SpecialPage::getTitleFor( 'IPContributions', $user->getName() )->getLinkURL(),
+					'href' => $ipContributionsUrl,
 					'active' => $sp->getName() === 'IPContributions',
 				] ),
 				new ButtonWidget( [
 					'label' => $sp->msg( 'checkuser-ip-contributions-special-contributions-button' )->text(),
-					'href' => SpecialPage::getTitleFor( 'Contributions', $user->getName() )->getLinkURL(),
+					'href' => $contributionsUrl,
 					'active' => $sp->getName() === 'Contributions',
 				] )
 			],
@@ -135,6 +163,24 @@ class ToolLinksHandler implements
 	) {
 		$user = $sp->getUser();
 		$linkRenderer = $sp->getLinkRenderer();
+
+		if ( $sp->getName() === 'IPContributions' && $this->userCanRevealIP( $user ) ) {
+			if ( $sp->getRequest()->getBool( 'isArchive' ) ) {
+				// Use the same key to ensure the link is added in the same position
+				$links['deletedcontribs'] = $linkRenderer->makeKnownLink(
+					SpecialPage::getTitleFor( 'IPContributions', $nt->getText() ),
+					$sp->msg( 'checkuser-ip-contributions-contributions-link' )->text(),
+					[ 'class' => 'mw-contributions-link-check-user-ip-contributions' ],
+				);
+			} elseif ( $this->userCanSeeDeleted( $user ) ) {
+				$links['deletedcontribs'] = $linkRenderer->makeKnownLink(
+					SpecialPage::getTitleFor( 'IPContributions', $nt->getText() ),
+					$sp->msg( 'checkuser-ip-contributions-deleted-contributions-link' )->text(),
+					[ 'class' => 'mw-contributions-link-check-user-ip-contributions' ],
+					[ 'isArchive' => true ]
+				);
+			}
+		}
 
 		if ( $this->permissionManager->userHasRight( $user, 'checkuser' ) ) {
 			$links['checkuser'] = $linkRenderer->makeKnownLink(

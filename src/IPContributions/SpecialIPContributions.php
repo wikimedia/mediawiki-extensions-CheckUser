@@ -12,9 +12,6 @@ use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserNamePrefixSearch;
 use MediaWiki\User\UserNameUtils;
-use OOUI\IndexLayout;
-use OOUI\TabOptionWidget;
-use OOUI\Tag;
 use PermissionsError;
 use UserBlockedError;
 use Wikimedia\IPUtils;
@@ -26,7 +23,6 @@ use Wikimedia\Rdbms\IConnectionProvider;
 class SpecialIPContributions extends ContributionsSpecialPage {
 	private IPContributionsPagerFactory $pagerFactory;
 	private ?IPContributionsPager $pager = null;
-	private ?IndexLayout $layout = null;
 
 	/**
 	 * @param PermissionManager $permissionManager
@@ -159,12 +155,6 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 		// in the correct mode.
 		$this->opts['isArchive'] = $isArchive;
 
-		// Tabs are only needed is the user is able to view archived revisions.
-		if ( $canSeeDeletedHistory ) {
-			$this->addTabs( (string)$par );
-		}
-
-		$this->getOutput()->addHTML( $this->getLayout() );
 		parent::execute( $par );
 	}
 
@@ -216,77 +206,8 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 	 * @inheritDoc
 	 */
 	protected function getResultsPageTitleMessageKey() {
-		return 'checkuser-ip-contributions-results-title';
+		return $this->opts['isArchive'] ?
+			'checkuser-ip-contributions-archive-results-title' :
+			'checkuser-ip-contributions-results-title';
 	}
-
-	/**
-	 * Returns the OOUI Index Layout and adds the module dependencies for OOUI.
-	 *
-	 * @return IndexLayout
-	 */
-	private function getLayout(): IndexLayout {
-		if ( $this->layout === null ) {
-			$this->getOutput()->enableOOUI();
-			$this->getOutput()->addModuleStyles( [
-				'oojs-ui-widgets.styles',
-			] );
-
-			$this->layout = new IndexLayout( [
-				'framed' => false,
-				'expanded' => false,
-				'classes' => [ 'ext-checkuser-ip-contributions-tabs-indexLayout' ],
-			] );
-		}
-
-		return $this->layout;
-	}
-
-	/**
-	 * Add tabs to the layout. Provide the current tab so that tab can be highlighted.
-	 *
-	 * @param string $par
-	 */
-	private function addTabs( string $par ) {
-		$config = $this->getLayout()->getConfig( $config );
-
-		/* @var TabSelectWidget $tabSelectWidget */
-		$tabSelectWidget = $config['tabSelectWidget'];
-		$target = $par ?: $this->getRequest()->getVal( 'target' );
-
-		$tabs = array_map( function ( $tab ) use ( $target ) {
-			return new TabOptionWidget( [
-				'label' => $this->msg( $tab['label'] )->text(),
-				'labelElement' => ( new Tag( 'a' ) )->setAttributes( [
-					'href' => $this->getPageTitle()->getLocalURL( [
-						'isArchive' => $tab['isArchive'],
-						'target' => $target
-					] ),
-				] ),
-				'selected' => ( $tab['isArchive'] === $this->opts['isArchive'] ),
-			] );
-		}, $this->getTabsArray() );
-
-		$tabSelectWidget->addItems( $tabs );
-	}
-
-	/**
-	 * Get an array that specifies the label and behaviour of each tab
-	 *
-	 * @return array[] where each entry has the keys:
-	 *   - label: A message key for the tab label
-	 *   - isArchive: Whether the tab is for fetching archived revisions
-	 */
-	private function getTabsArray() {
-		return [
-			[
-				'label' => 'checkuser-ip-contributions-tab-label-contributions',
-				'isArchive' => false,
-			],
-			[
-				'label' => 'checkuser-ip-contributions-tab-label-archive-contributions',
-				'isArchive' => true,
-			],
-		];
-	}
-
 }

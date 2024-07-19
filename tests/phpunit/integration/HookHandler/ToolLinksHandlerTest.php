@@ -7,6 +7,7 @@ use MediaWiki\Context\RequestContext;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Output\OutputPage;
 use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\Request\FauxRequest;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\Title\Title;
@@ -219,6 +220,159 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 				'specialPageName' => 'Log',
 				'target' => '1.2.3.4',
 				'expectAddButtons' => false,
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider provideOnSpecialContributionsBeforeMainOutputArchive
+	 */
+	public function testOnSpecialContributionsBeforeMainOutputArchive(
+		bool $canSeeDeleted,
+		bool $expectAddButtons
+	) {
+		$mockPerformingUser = $this->createMock( User::class );
+
+		$mockOutputPage = $this->createMock( OutputPage::class );
+		if ( $expectAddButtons ) {
+			$mockOutputPage->expects( $this->once() )->method( 'addSubtitle' );
+		} else {
+			$mockOutputPage->expects( $this->never() )->method( 'addSubtitle' );
+		}
+
+		$request = new FauxRequest( [ 'isArchive' => true ] );
+
+		$mockSpecialPage = $this->getMockBuilder( SpecialPage::class )
+			->onlyMethods( [ 'getUser', 'getName', 'getOutput', 'getRequest' ] )
+			->getMock();
+		$mockSpecialPage->method( 'getUser' )
+			->willReturn( $mockPerformingUser );
+		$mockSpecialPage->method( 'getName' )
+			->willReturn( 'IPContributions' );
+		$mockSpecialPage->method( 'getOutput' )
+			->willReturn( $mockOutputPage );
+		$mockSpecialPage->method( 'getRequest' )
+			->willReturn( $request );
+
+		$mockPermissionManager = $this->createMock( PermissionManager::class );
+		$mockPermissionManager->method( 'userHasRight' )
+			->willReturnMap( [
+				[ $mockPerformingUser, 'checkuser-temporary-account-no-preference', true ],
+				[ $mockPerformingUser, 'deletedhistory', $canSeeDeleted ]
+			] );
+
+		$services = $this->getServiceContainer();
+		$hookHandler = new ToolLinksHandler(
+			$mockPermissionManager,
+			$services->getSpecialPageFactory(),
+			$services->getLinkRenderer(),
+			$services->getUserIdentityLookup(),
+			$services->getUserIdentityUtils(),
+			$services->getUserOptionsLookup(),
+			$services->getTempUserConfig()
+		);
+
+		$mockTarget = $this->createMock( User::class );
+		$mockTarget->method( 'getName' )
+			->willReturn( '1.2.3.4' );
+
+		$hookHandler->onSpecialContributionsBeforeMainOutput( 1, $mockTarget, $mockSpecialPage );
+	}
+
+	public function provideOnSpecialContributionsBeforeMainOutputArchive() {
+		return [
+			'Can see archived contributions' => [
+				'canSeeDeleted' => true,
+				'expectAddButtons' => true,
+			],
+			'Can not see archived contributions' => [
+				'canSeeDeleted' => false,
+				'expectAddButtons' => false,
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider provideOnContributionsToolLinksIPContributionsMessage
+	 */
+	public function testOnContributionsToolLinksIPContributionsMessage(
+		bool $isArchive,
+		bool $canSeeDeleted,
+		?string $expectedLinkKey,
+		?string $expectedMessageKey
+	) {
+		$this->setUserLang( 'qqx' );
+		$this->enableAutoCreateTempUser();
+
+		$request = new FauxRequest( [ 'isArchive' => $isArchive ] );
+
+		$mockSpecialPage = $this->getMockBuilder( SpecialPage::class )
+			->onlyMethods( [ 'getUser', 'getName', 'getRequest' ] )
+			->getMock();
+		$mockSpecialPage->method( 'getUser' )
+			->willReturn( $this->createMock( User::class ) );
+		$mockSpecialPage->method( 'getName' )
+			->willReturn( 'IPContributions' );
+		$mockSpecialPage->method( 'getRequest' )
+			->willReturn( $request );
+
+		$mockPermissionManager = $this->createMock( PermissionManager::class );
+		$mockPermissionManager->method( 'userHasRight' )
+			->willReturn( $canSeeDeleted );
+
+		$services = $this->getServiceContainer();
+		$hookHandler = new ToolLinksHandler(
+			$mockPermissionManager,
+			$services->getSpecialPageFactory(),
+			$services->getLinkRenderer(),
+			$this->createMock( UserIdentityLookup::class ),
+			$services->getUserIdentityUtils(),
+			$this->createMock( UserOptionsLookup::class ),
+			$services->getTempUserConfig()
+		);
+
+		$mockUserPageTitle = $this->createMock( Title::class );
+		$mockUserPageTitle->method( 'getText' )
+			->willReturn( '1.2.3.4' );
+
+		$links = [];
+		$hookHandler->onContributionsToolLinks( 1, $mockUserPageTitle, $links, $mockSpecialPage );
+
+		if ( $expectedLinkKey ) {
+			$this->assertArrayHasKey( $expectedLinkKey, $links );
+		} else {
+			$this->assertArrayNotHasKey( 'contributions', $links );
+			$this->assertArrayNotHasKey( 'deletedcontribs', $links );
+		}
+
+		if ( $expectedMessageKey ) {
+			$this->assertStringContainsString(
+				$expectedMessageKey,
+				$links[$expectedLinkKey],
+				'The messages were not correctly added by ToolLinksHandler::onContributionsToolLinks.'
+			);
+		}
+	}
+
+	public function provideOnContributionsToolLinksIPContributionsMessage() {
+		return [
+			'Archive mode' => [
+				'isArchive' => true,
+				'canSeeDeleted' => true,
+				'expectedLinkKey' => 'deletedcontribs',
+				'expectedMessageKey' => 'checkuser-ip-contributions-contributions-link',
+			],
+			'Normal mode, user can see archived revisions' => [
+				'isArchive' => false,
+				'canSeeDeleted' => true,
+				'expectedLinkKey' => 'deletedcontribs',
+				'expectedMessageKey' => 'checkuser-ip-contributions-deleted-contributions-link',
+			],
+			'Normal mode, user cannot see archived revisions' => [
+				'isArchive' => false,
+				'canSeeDeleted' => false,
+				'expectedLinkKey' => null,
+				'expectedMessageKey' => null,
 			],
 		];
 	}
