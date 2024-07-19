@@ -65,6 +65,16 @@ class CheckUserLookupUtils {
 	}
 
 	/**
+	 * Utility for getting the CIDR limits, e.g. for error messages. Avoids the need to pass the config to
+	 * the caller.
+	 *
+	 * @return int[]
+	 */
+	public function getRangeLimit() {
+		return $this->options->get( 'CheckUserCIDRLimit' );
+	}
+
+	/**
 	 * Get the WHERE conditions as an IExpression object which can be used to filter results for provided an
 	 * IP address / range and optionally for the XFF IP.
 	 *

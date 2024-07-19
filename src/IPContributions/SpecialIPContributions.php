@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\IPContributions;
 
 use ErrorPageError;
 use MediaWiki\Block\DatabaseBlockStore;
+use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\ContributionsSpecialPage;
 use MediaWiki\Title\NamespaceInfo;
@@ -14,13 +15,13 @@ use MediaWiki\User\UserNamePrefixSearch;
 use MediaWiki\User\UserNameUtils;
 use PermissionsError;
 use UserBlockedError;
-use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 
 /**
  * @ingroup SpecialPage
  */
 class SpecialIPContributions extends ContributionsSpecialPage {
+	private CheckUserLookupUtils $lookupUtils;
 	private IPContributionsPagerFactory $pagerFactory;
 	private ?IPContributionsPager $pager = null;
 
@@ -34,6 +35,7 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 	 * @param UserFactory $userFactory
 	 * @param UserIdentityLookup $userIdentityLookup
 	 * @param DatabaseBlockStore $blockStore
+	 * @param CheckUserLookupUtils $lookupUtils
 	 * @param IPContributionsPagerFactory $pagerFactory
 	 */
 	public function __construct(
@@ -46,6 +48,7 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 		UserFactory $userFactory,
 		UserIdentityLookup $userIdentityLookup,
 		DatabaseBlockStore $blockStore,
+		CheckUserLookupUtils $lookupUtils,
 		IPContributionsPagerFactory $pagerFactory
 	) {
 		parent::__construct(
@@ -60,6 +63,7 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 			$blockStore,
 			'IPContributions'
 		);
+		$this->lookupUtils = $lookupUtils;
 		$this->pagerFactory = $pagerFactory;
 	}
 
@@ -84,13 +88,14 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 			'autofocus' => $target === '',
 			'section' => 'contribs-top',
 			'validation-callback' => function ( $target ) {
-				if ( !IPUtils::isIPAddress( $target ) ) {
+				if ( !$this->lookupUtils->isValidIPOrRange( $target ) ) {
 					return $this->msg( 'checkuser-ip-contributions-target-error-no-ip' );
 				}
 				return true;
 			},
 			'ipallowed' => true,
 			'iprange' => true,
+			'iprangelimits' => $this->lookupUtils->getRangeLimit(),
 			'required' => true,
 		];
 	}

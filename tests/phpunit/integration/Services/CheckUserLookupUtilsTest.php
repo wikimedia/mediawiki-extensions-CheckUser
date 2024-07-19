@@ -106,6 +106,13 @@ class CheckUserLookupUtilsTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
+	public function testGetRangeLimit() {
+		$limit = [ 'IPv4' => 16, 'IPv6' => 19 ];
+		$this->overrideConfigValue( 'CheckUserCIDRLimit', $limit );
+		$checkUserLookupUtils = $this->getServiceContainer()->get( 'CheckUserLookupUtils' );
+		$this->assertArrayEquals( $limit, $checkUserLookupUtils->getRangeLimit() );
+	}
+
 	/** @dataProvider provideGetIndexName */
 	public function testGetIndexName( $table, $xfor, $expectedIndexValue ) {
 		/** @var CheckUserLookupUtils $checkUserLookupUtils */

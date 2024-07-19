@@ -134,6 +134,7 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 			'Empty target' => [ '', 0 ],
 			'Valid IP' => [ '127.0.0.1', 2 ],
 			'Valid range' => [ '127.0.0.1/24', 3 ],
+			'Range too wide' => [ '127.0.0.1/1', 0 ],
 			'Temp user' => [ '~2024-1', 0 ],
 			'Named user' => [ 'FullyRegistered', 0 ],
 			'Nonexistent user' => [ 'Nonexistent', 0 ],
