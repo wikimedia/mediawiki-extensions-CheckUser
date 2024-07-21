@@ -49,9 +49,15 @@ function replaceButton( $element, ip, success ) {
  * @param {Object} logIds Object used to perform the API request, containing:
  *  - targetId: log ID for the passed-in element
  *  - allIds: array of all log IDs for the passed-in target
+ * @param {string|*} documentRoot A Document or selector to use as the context
+ *  for firing the 'userRevealed' event, handled by buttons within that context.
  * @return {jQuery}
  */
-function makeButton( target, revIds, logIds ) {
+function makeButton( target, revIds, logIds, documentRoot ) {
+	if ( !documentRoot ) {
+		documentRoot = document;
+	}
+
 	const button = new OO.ui.ButtonWidget( {
 		label: mw.msg( 'checkuser-tempaccount-reveal-ip-button-label' ),
 		framed: false,
@@ -75,7 +81,7 @@ function makeButton( target, revIds, logIds ) {
 				ipRevealUtils.setRevealedStatus( target );
 			}
 			replaceButton( button.$element, ip, true );
-			$( document ).trigger( 'userRevealed', [
+			$( documentRoot ).trigger( 'userRevealed', [
 				target,
 				response.ips,
 				isRevisionLookup( revIds ),
@@ -246,6 +252,7 @@ function getLogId( $element ) {
 module.exports = {
 	makeButton: makeButton,
 	addButton: addButton,
+	replaceButton: replaceButton,
 	enableMultiReveal: enableMultiReveal,
 	getRevisionId: getRevisionId,
 	getLogId: getLogId
