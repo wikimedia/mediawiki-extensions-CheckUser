@@ -256,9 +256,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 				$templateParams['centralAuthLink'] = $this->msg( 'parentheses' )->rawParams( $linkCA )->escaped();
 			}
 			// Add GlobalBlocking link to CentralWiki
-			if ( $this->globalBlockingToollink !== false
-				&& IPUtils::isIPAddress( $user )
-			) {
+			if ( $this->globalBlockingToollink !== false ) {
 				// Get GlobalBlock SpecialPage name in UserLang from the first Alias name
 				$centralGBUrl = WikiMap::getForeignURL(
 					$this->globalBlockingToollink['centralDB'],
@@ -267,40 +265,18 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 				$spgb = $this->aliases['GlobalBlock'][0];
 				$gblinkAlias = str_replace( '_', ' ', $spgb );
 				if ( $this->extensionRegistry->isLoaded( 'CentralAuth' ) ) {
+					// If CentralAuth is installed, we can ue the global groups of the CentralUser.
 					$gbUserGroups = CentralAuthUser::getInstance( $this->getUser() )->getGlobalGroups();
-					// Link to GB via WikiMap since CA require it
-					if ( $centralGBUrl === false ) {
-						throw new ConfigException(
-							'Could not retrieve URL for global blocking toollink'
-						);
-					}
-					$linkGB = Html::element( 'a',
-						[
-							'href' => $centralGBUrl . "/" . $user,
-							'title' => $this->msg( 'globalblocking-block-submit' )->text(),
-						],
-						$gblinkAlias
-					);
 				} elseif ( $centralGBUrl !== false ) {
 					// Case wikimap configured without CentralAuth extension
 					// Get effective Local user groups since there is a wikimap but there is no CA
 					$gbUserGroups = $this->userGroupManager->getUserEffectiveGroups( $this->getUser() );
-					$linkGB = Html::element( 'a',
-						[
-							'href' => $centralGBUrl . "/" . $user,
-							'title' => $this->msg( 'globalblocking-block-submit' )->text(),
-						],
-						$gblinkAlias
-					);
 				} else {
-					// Load local user group instead
+					// If CentralAuth is not installed and also if the central Special:GlobalBlock page failed to be
+					// generated, then check that the user has the globalblock right locally instead of the user group
+					// check.
 					$gbUserGroups = [ '' ];
-					$gbtitle = $this->getPageTitle( 'GlobalBlock' );
-					$linkGB = $this->getLinkRenderer()->makeKnownLink(
-						$gbtitle,
-						$gblinkAlias,
-						[ 'title' => $this->msg( 'globalblocking-block-submit' ) ]
-					);
+
 					$gbUserCanDo = $this->permissionManager->userHasRight( $this->getUser(), 'globalblock' );
 					if ( $gbUserCanDo ) {
 						$this->globalBlockingToollink['groups'] = $gbUserGroups;
@@ -309,7 +285,25 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 				// Only load the script for users in the configured global(local) group(s) or
 				// for local user with globalblock permission if there is no WikiMap
 				if ( count( array_intersect( $this->globalBlockingToollink['groups'], $gbUserGroups ) ) ) {
-					$templateParams['globalBlockLink'] .= $this->msg( 'parentheses' )->rawParams( $linkGB )->escaped();
+					if ( $centralGBUrl !== false ) {
+						$linkGB = Html::element( 'a',
+							[
+								'href' => $centralGBUrl . "/" . $user,
+								'title' => $this->msg( 'globalblocking-block-submit-new' )->text(),
+							],
+							$gblinkAlias
+						);
+					} else {
+						// If we could not generate the URL for Special:GlobalBlock on the central wiki, we should be
+						// able to use the local Special:GlobalBlock page as a backup.
+						$gbtitle = $this->getPageTitle( 'GlobalBlock' );
+						$linkGB = $this->getLinkRenderer()->makeKnownLink(
+							$gbtitle,
+							$gblinkAlias,
+							[ 'title' => $this->msg( 'globalblocking-block-submit-new' ) ]
+						);
+					}
+					$templateParams['globalBlockLink'] = $this->msg( 'parentheses' )->rawParams( $linkGB )->escaped();
 				}
 			}
 			// Check if this user or IP is blocked. If so, give a link to the block log...
