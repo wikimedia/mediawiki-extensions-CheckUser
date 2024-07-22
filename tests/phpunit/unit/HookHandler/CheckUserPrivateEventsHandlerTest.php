@@ -100,10 +100,21 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiUnitTestCase {
 		DeferredUpdates::doUpdates();
 	}
 
-	public function testOnLocalUserCreatedWhenNotAutocreatedAndNewUserLogEnabled() {
+	/** @dataProvider provideOnLocalUserCreatedWhenNotSavedToPreventDuplicateEvent */
+	public function testOnLocalUserCreatedWhenNotSavedToPreventDuplicateEvent( $logRestrictionsConfig ) {
 		$handler = $this->getObjectUnderTestForNoCheckUserInsertCalls( [
-			'config' => new HashConfig( [ MainConfigNames::NewUserLog => true ] ),
+			'config' => new HashConfig( [
+				MainConfigNames::NewUserLog => true,
+				MainConfigNames::LogRestrictions => $logRestrictionsConfig,
+			] ),
 		] );
 		$handler->onLocalUserCreated( $this->createMock( User::class ), false );
+	}
+
+	public static function provideOnLocalUserCreatedWhenNotSavedToPreventDuplicateEvent() {
+		return [
+			'wgLogRestrictions is empty' => [ [] ],
+			'wgLogRestrictions contains a "newusers" key with value of "*"' => [ [ 'newusers' => '*' ] ],
+		];
 	}
 }

@@ -384,4 +384,22 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			'New user was not autocreated' => [ false ]
 		];
 	}
+
+	public function testOnLocalUserCreatedWhenNewUsersLogRestricted() {
+		// Set wgNewUserLog to true but restrict the newusers log to users with the 'suppressionlog' right
+		$this->overrideConfigValue( MainConfigNames::NewUserLog, true );
+		$this->overrideConfigValue( MainConfigNames::LogRestrictions, [ 'newusers' => 'suppressionlog' ] );
+		$user = $this->getTestUser()->getUser();
+		$this->getObjectUnderTest()->onLocalUserCreated( $user, false );
+		$this->assertRowCount(
+			1, 'cu_private_event', 'cupe_id',
+			'The row was not inserted or was inserted with the wrong data',
+			[
+				'cupe_actor'  => $user->getActorId(),
+				'cupe_namespace' => NS_USER,
+				'cupe_title' => $user->getName(),
+				'cupe_log_action' => 'create-account'
+			]
+		);
+	}
 }
