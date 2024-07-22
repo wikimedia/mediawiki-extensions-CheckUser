@@ -144,6 +144,7 @@
 	"checkuser-ip-contributions-target-error-no-ip": "Keng gülteg IP-Adress",
 	"checkuser-ip-contributions-tab-label-contributions": "Kontributiounen",
 	"checkuser-ip-contributions-tab-label-archive-contributions": "Geläscht Kontributiounen",
+	"checkuser-ip-contributions-contributions-link": "Kontributiounen",
 	"checkuser-tempaccount-reveal-ip-button-label": "IP weisen",
 	"checkuser-tempaccount-reveal-ip-missing": "net disponibel",
 	"checkuser-tempaccount-reveal-ip-error": "Feeler"

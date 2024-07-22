@@ -53,6 +53,7 @@
 	"right-checkuser": "Проверка IP-адресов и другой информации участников",
 	"right-checkuser-log": "Просмотр журнала проверок участников",
 	"grant-checkuser": "Доступ к данным проверок участников",
+	"grant-checkuser-temporary-account": "Доступ к данным проверок временных учётных записей",
 	"action-checkuser": "проверка IP-адресов и другой информации участников",
 	"action-checkuser-log": "просмотр журнала проверок участников",
 	"grouppage-checkuser": "{{ns:project}}:Проверка участников",
@@ -198,6 +199,7 @@
 	"checkuser-ip-contributions-permission-error-title": "Ошибка прав доступа",
 	"checkuser-ip-contributions-tab-label-contributions": "Вклад",
 	"checkuser-ip-contributions-tab-label-archive-contributions": "Удаленные вклады",
+	"checkuser-ip-contributions-contributions-link": "вклад",
 	"checkuser-tempaccount-reveal-ip-error": "ошибка",
 	"checkuser-tempaccount-specialblock-ips": "Это временный пользователь, использующий следующие {{PLURAL:$1| IP|IP-адреса}}: $2"
 }

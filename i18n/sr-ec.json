@@ -202,6 +202,7 @@
 	"checkuser-ip-contributions-target-error-no-ip": "Унесите валидну IP адресу или опсег",
 	"checkuser-ip-contributions-tab-label-contributions": "Доприноси",
 	"checkuser-ip-contributions-tab-label-archive-contributions": "Избрисани доприноси",
+	"checkuser-ip-contributions-special-contributions-button": "Пређашње IP измене",
 	"prefs-checkuser-tempaccount": "Прикажи IP адресе привремених налога",
 	"checkuser-tempaccount-enable-preference": "Приказује IP адресе привремених налога",
 	"checkuser-tempaccount-reveal-ip-button-label": "Прикажи IP",
