@@ -30,7 +30,12 @@
 			"Zetud",
 			"Framawiki",
 			"Obscaeris",
-			"VIGNERON"
+			"VIGNERON",
+			"Ajeje Brazorf",
+			"Alien333",
+			"Dreamy Jazz",
+			"MacOS Weed",
+			"SleaY"
 		]
 	},
 	"checkuser-summary": "Cet outil parcourt la liste des changements récents à la recherche des adresses IP employées par un utilisateur ou affiche toutes les données utilisateur d’une adresse IP.\nLes comptes et les modifications effectuées par une adresse IP cliente peuvent être récupérés via les entêtes d’un mandataire XFF en suffixant l’adresse IP avec « /xff ». Les adresses IPv4 (CIDR /$1 à /32) et IPv6 (CIDR /$2 à /128) sont prises en charge.\nAu plus $3 modifications seront renvoyées, pour des questions de performance.\nVeuillez utiliser cet outil conformément à sa politique d’utilisation.",
@@ -41,7 +46,7 @@
 	"checkuser-contribs-log": "vérifications récentes d’utilisateurs",
 	"checkuser-contribs-log-initiator": "vérifications d’utilisateurs effectuées par cet utilisateur",
 	"group-checkuser": "Vérificateurs d’utilisateurs",
-	"group-checkuser-member": "vérificat{{GENDER:$1|eur|rice}} d’utilisateur",
+	"group-checkuser-member": "vérificat{{GENDER:$1|eur|rice}} d’utilisateurs",
 	"right-checkuser": "Vérifier les adresses IP et autres informations d’un utilisateur",
 	"right-checkuser-log": "Visualiser le journal des vérifications d’utilisateurs",
 	"action-checkuser": "vérifier les adresses IP des utilisateurs et d’autres informations",
