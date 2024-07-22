@@ -27,6 +27,10 @@ function checkRecentlyRevealedUsers( documentRoot ) {
  *   to use as context
  */
 module.exports = function ( documentRoot ) {
+	if ( !documentRoot ) {
+		documentRoot = document;
+	}
+
 	mw.hook( 'wikipage.content' ).add( ( $content ) => {
 		ipReveal.addButton( $content );
 		checkRecentlyRevealedUsers( documentRoot );
