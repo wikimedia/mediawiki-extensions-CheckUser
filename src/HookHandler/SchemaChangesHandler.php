@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
+use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Maintenance\DeleteReadOldRowsInCuChanges;
 use MediaWiki\CheckUser\Maintenance\FixTrailingSpacesInLogs;
 use MediaWiki\CheckUser\Maintenance\MoveLogEntriesFromCuChanges;
@@ -12,7 +13,7 @@ use MediaWiki\CheckUser\Maintenance\PopulateCulActor;
 use MediaWiki\CheckUser\Maintenance\PopulateCulComment;
 use MediaWiki\Installer\Hook\LoadExtensionSchemaUpdatesHook;
 
-class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook {
+class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQueryInterface {
 	/**
 	 * @codeCoverageIgnore This is tested by installing or updating MediaWiki
 	 * @inheritDoc
@@ -24,6 +25,12 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook {
 		$isCUInstalled = $updater->tableExists( 'cu_changes' );
 
 		$updater->addExtensionTable( 'cu_changes', "$base/$dbType/tables-generated.sql" );
+
+		// Added 1.43, but will need to remain here forever as it creates the table which is not in tables-generated.sql
+		$updater->addExtensionUpdateOnVirtualDomain( [
+			self::VIRTUAL_GLOBAL_DB_DOMAIN, 'addTable', 'cuci_wiki_map',
+			"$base/$dbType/cuci_wiki_map.sql", true,
+		] );
 
 		if ( $dbType === 'mysql' ) {
 			// 1.35
