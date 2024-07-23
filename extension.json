@@ -200,6 +200,23 @@
 			]
 		},
 		{
+			"path": "/checkuser/v0/temporaryaccount/ip/{ip}",
+			"method": "POST",
+			"class": "MediaWiki\\CheckUser\\Api\\Rest\\Handler\\TemporaryAccountIPHandler",
+			"services": [
+				"MainConfig",
+				"JobQueueGroup",
+				"PermissionManager",
+				"UserOptionsLookup",
+				"UserNameUtils",
+				"DBLoadBalancerFactory",
+				"ActorStore",
+				"BlockManager",
+				"TempUserConfig",
+				"UserFactory"
+			]
+		},
+		{
 			"path": "/checkuser/v0/temporaryaccount/{name}/revisions/{ids}",
 			"method": "POST",
 			"class": "MediaWiki\\CheckUser\\Api\\Rest\\Handler\\TemporaryAccountRevisionHandler",
