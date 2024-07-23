@@ -69,8 +69,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		Authority $performer = null, $tokenType = 'csrf', $paramPrefix = null
 	) {
 		// From ApiTestCase::doApiRequest() but modified
-		global $wgRequest;
-		$session = $wgRequest->getSessionArray();
+		$session = RequestContext::getMain()->getRequest()->getSessionArray();
 		$sessionObj = SessionManager::singleton()->getEmptySession();
 
 		if ( $session !== null ) {
@@ -597,8 +596,9 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		$this->truncateTables( [ 'cu_changes', 'cu_log_event' ] );
 
 		// Insert two testing log entries with each performed where one is performed by each test user
-		RequestContext::getMain()->getRequest()->setIP( '127.0.0.1' );
-		RequestContext::getMain()->getRequest()->setHeader( 'User-Agent', 'user-agent-for-logs' );
+		$request = RequestContext::getMain()->getRequest();
+		$request->setIP( '127.0.0.1' );
+		$request->setHeader( 'User-Agent', 'user-agent-for-logs' );
 		ConvertibleTimestamp::setFakeTime( '20230405060707' );
 		$this->createLogEntry( $firstTestUser, $testPage );
 		ConvertibleTimestamp::setFakeTime( '20230405060708' );
@@ -606,8 +606,8 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 
 		// Insert two testing edits to cu_changes with a IP as 127.0.0.2 and have one performed by each test user
 		ConvertibleTimestamp::setFakeTime( '20230405060709' );
-		RequestContext::getMain()->getRequest()->setHeader( 'User-Agent', 'user-agent-for-edits' );
-		RequestContext::getMain()->getRequest()->setIP( '127.0.0.2' );
+		$request->setHeader( 'User-Agent', 'user-agent-for-edits' );
+		$request->setIP( '127.0.0.2' );
 		$this->editPage(
 			Title::newFromDBkey( 'CheckUserTestPage' ),
 			'Testing1231',
@@ -626,8 +626,8 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		$this->assertTrue( $updater->wasRevisionCreated() );
 
 		// Insert one edit with a different IP and a defined XFF header
-		RequestContext::getMain()->getRequest()->setIP( '1.2.3.4' );
-		RequestContext::getMain()->getRequest()->setHeader( 'X-Forwarded-For', '127.2.3.4' );
+		$request->setIP( '1.2.3.4' );
+		$request->setHeader( 'X-Forwarded-For', '127.2.3.4' );
 		ConvertibleTimestamp::setFakeTime( '20230405060711' );
 		$this->editPage(
 			Title::newFromDBkey( 'CheckUserTestPage' ),
@@ -640,7 +640,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		// Simulate a logout event for the first user
 		$hookRunner = new HookRunner( $this->getServiceContainer()->getHookContainer() );
 		ConvertibleTimestamp::setFakeTime( '20230405060712' );
-		RequestContext::getMain()->getRequest()->setHeader( 'User-Agent', 'user-agent-for-logout' );
+		$request->setHeader( 'User-Agent', 'user-agent-for-logout' );
 		$injectHtml = '';
 		$hookRunner->onUserLogoutComplete(
 			$this->getServiceContainer()->getUserFactory()
@@ -652,9 +652,9 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		// Simulate a password reset request for the first user on a new IP with no XFF when temporary accounts
 		// are enabled (to set setting cupe_actor to NULL).
 		ConvertibleTimestamp::setFakeTime( '20230405060713' );
-		RequestContext::getMain()->getRequest()->setIP( '1.2.3.5' );
-		RequestContext::getMain()->getRequest()->setHeader( 'X-Forwarded-For', '' );
-		RequestContext::getMain()->getRequest()->setHeader( 'User-Agent', 'user-agent-for-password-reset' );
+		$request->setIP( '1.2.3.5' );
+		$request->setHeader( 'X-Forwarded-For', '' );
+		$request->setHeader( 'User-Agent', 'user-agent-for-password-reset' );
 		$this->enableAutoCreateTempUser();
 		$hookRunner->onUser__mailPasswordInternal(
 			$this->getServiceContainer()->getUserFactory()
