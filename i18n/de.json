@@ -18,6 +18,7 @@
 			"Raimond Spekking",
 			"Tiin",
 			"Tobi 406",
+			"TomatoCake",
 			"Umherirrender"
 		]
 	},
@@ -249,10 +250,10 @@
 	"checkuser-ip-contributions-results-title": "Temporäre Benutzer-IP-Beiträge für $1",
 	"checkuser-ip-contributions-archive-results-title": "Gelöschte temporäre Benutzer-IP-Beiträge für $1",
 	"checkuser-ip-contributions-deleted-contributions-link": "gelöschte Benutzerbeiträge",
-	"checkuser-ip-contributions-contributions-link": "Benutzerbeiträge",
+	"checkuser-ip-contributions-contributions-link": "Beiträge",
 	"checkuser-ip-contributions-special-ip-contributions-button": "Temporäre Benutzer-IP-Bearbeitungen",
 	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "Temporäre Benutzer-IP-Bearbeitungen",
-	"checkuser-ip-contributions-special-contributions-button": "Ältere IP-Bearbeitungen",
+	"checkuser-ip-contributions-special-contributions-button": "Veraltete IP-Bearbeitungen",
 	"prefs-checkuser-tempaccount": "Anzeige der IP-Adressen für temporäre Konten",
 	"checkuser-tempaccount-enable-preference-description": "Stelle bei der Verwendung dieses Tools sicher, dass du die Richtlinien einhältst.",
 	"checkuser-tempaccount-enable-preference": "IP-Adressen für temporäre Konten anzeigen",
