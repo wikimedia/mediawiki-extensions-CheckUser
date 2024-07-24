@@ -44,7 +44,6 @@ QUnit.test( 'Test getRevisionId', ( assert ) => {
 } );
 
 QUnit.test( 'Test getLogId', ( assert ) => {
-	mw.config.set( 'wgCheckUserEventTablesMigrationStage', 0x200 );
 	// Create an element with a child that has the data-mw-logid attribute.
 	const elementWithRevId = document.createElement( 'div' );
 	const childWithRevId = document.createElement( 'span' );
