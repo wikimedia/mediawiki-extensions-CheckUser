@@ -26,11 +26,9 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->setMwGlobals( [
-			'wgCheckUserCIDRLimit' => [
-				'IPv4' => 16,
-				'IPv6' => 19,
-			]
+		$this->overrideConfigValue( 'CheckUserCIDRLimit', [
+			'IPv4' => 16,
+			'IPv6' => 19,
 		] );
 	}
 
@@ -137,7 +135,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideTestFormOptionsLimitValue */
 	public function testFormOptionsLimitValue( $formSubmittedLimit, $maximumLimit, $expectedLimit ) {
-		$this->setMwGlobals( 'wgCheckUserMaximumRowCount', $maximumLimit );
+		$this->overrideConfigValue( 'CheckUserMaximumRowCount', $maximumLimit );
 		$object = $this->setUpObject( [ 'limit' => $formSubmittedLimit ] );
 		$this->assertSame(
 			$expectedLimit,
@@ -158,7 +156,7 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 	public function testGetCheckUserHelperFieldset(
 		$collapseByDefaultConfigValue, $shouldBeByDefaultCollapsed, $resultRowCount
 	) {
-		$this->setMwGlobals( 'wgCheckUserCollapseCheckUserHelperByDefault', $collapseByDefaultConfigValue );
+		$this->overrideConfigValue( 'CheckUserCollapseCheckUserHelperByDefault', $collapseByDefaultConfigValue );
 		$object = $this->setUpObject();
 		$object->mResult = $this->createMock( IResultWrapper::class );
 		$object->mResult->method( 'numRows' )->willReturn( $resultRowCount );

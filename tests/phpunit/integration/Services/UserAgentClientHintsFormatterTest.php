@@ -19,8 +19,8 @@ class UserAgentClientHintsFormatterTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideFormatClientHintsDataObject */
 	public function testFormatClientHintsDataObject( $clientHintsData, $expectedFormattedString ) {
-		$this->setMwGlobals( [
-			'wgCheckUserClientHintsForDisplay' => [
+		$this->overrideConfigValues( [
+			'CheckUserClientHintsForDisplay' => [
 				"model",
 				"fullVersionList",
 				"platformVersion",

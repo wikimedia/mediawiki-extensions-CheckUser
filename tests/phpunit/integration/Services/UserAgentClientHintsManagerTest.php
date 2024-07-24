@@ -160,9 +160,7 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 
 	public function testDeleteOrphanedMapRowsForRevisions() {
 		// Set a fake expiry age.
-		$this->setMwGlobals( [
-			'wgCUDMaxAge' => 100,
-		] );
+		$this->overrideConfigValue( 'CUDMaxAge', 100 );
 		// Set a fake time to prevent problems if the test runs slow
 		ConvertibleTimestamp::setFakeTime( ConvertibleTimestamp::now() );
 		// Create mock RevisionRecord objects for the two entries with revision IDs 70 and 75.
@@ -220,9 +218,7 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 
 	public function testDeleteOrphanedMapRowsForCuLogEventRows() {
 		// Set a fake expiry age.
-		$this->setMwGlobals( [
-			'wgCUDMaxAge' => 100,
-		] );
+		$this->overrideConfigValue( 'CUDMaxAge', 100 );
 		// Set a fake time to prevent problems if the test runs slow
 		ConvertibleTimestamp::setFakeTime( ConvertibleTimestamp::now() );
 		// Create the first log entry to be old enough for the map rows associated
@@ -279,9 +275,7 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 
 	public function testDeleteOrphanedMapRowsForCuPrivateEventRows() {
 		// Record login events and set a fake expiry age.
-		$this->setMwGlobals( [
-			'wgCUDMaxAge' => 100,
-		] );
+		$this->overrideConfigValue( 'CUDMaxAge', 100 );
 		// Add a password reset event twice
 		$hooks = new CheckUserPrivateEventsHandler(
 			$this->getServiceContainer()->get( 'CheckUserInsert' ),

@@ -109,9 +109,9 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 	public function testOnAuthManagerLoginAuthenticateAudit(
 		string $authStatus, string $expectedLogAction, bool $isAnonPerformer, array $userGroups
 	) {
-		$this->setMwGlobals( [
-			'wgCheckUserLogLogins' => true,
-			'wgCheckUserLogSuccessfulBotLogins' => true,
+		$this->overrideConfigValues( [
+			'CheckUserLogLogins' => true,
+			'CheckUserLogSuccessfulBotLogins' => true,
 		] );
 		$userObj = $this->getTestUser( $userGroups )->getUser();
 		$userName = $userObj->getName();
@@ -140,9 +140,9 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			$authFailReasons
 		);
 
-		$this->setMwGlobals( [
-			'wgCheckUserLogLogins' => true,
-			'wgCheckUserLogSuccessfulBotLogins' => true,
+		$this->overrideConfigValues( [
+			'CheckUserLogLogins' => true,
+			'CheckUserLogSuccessfulBotLogins' => true,
 		] );
 		$userObj = $existingUser
 			? $this->getTestUser()->getUser()
@@ -208,9 +208,9 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 		string $status, bool $validUser, array $userGroups, bool $logLogins, bool $logBots
 	) {
 		$this->expectNoCheckUserInsertCalls();
-		$this->setMwGlobals( [
-			'wgCheckUserLogLogins' => $logLogins,
-			'wgCheckUserLogSuccessfulBotLogins' => $logBots,
+		$this->overrideConfigValues( [
+			'CheckUserLogLogins' => $logLogins,
+			'CheckUserLogSuccessfulBotLogins' => $logBots,
 		] );
 		if ( $validUser ) {
 			$userObj = $this->getTestUser( $userGroups )->getUser();

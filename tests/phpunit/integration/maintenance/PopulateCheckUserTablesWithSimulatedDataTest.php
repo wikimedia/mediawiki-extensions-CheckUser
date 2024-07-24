@@ -282,7 +282,7 @@ class PopulateCheckUserTablesWithSimulatedDataTest extends MaintenanceBaseTestCa
 	}
 
 	public function testExecuteFailsWhenDevelopmentModeIsOff() {
-		$this->setMwGlobals( 'wgCheckUserDeveloperMode', false );
+		$this->overrideConfigValue( 'CheckUserDeveloperMode', false );
 		$objectUnderTest = $this->createPartialMock( $this->getMaintenanceClass(), [ 'fatalError' ] );
 		$objectUnderTest->expects( $this->once() )
 			->method( 'fatalError' )

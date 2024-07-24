@@ -140,7 +140,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 
 	public function testMissingReasonWhenReasonRequired() {
 		// enable required reason
-		$this->setMwGlobals( 'wgCheckUserForceSummary', true );
+		$this->overrideConfigValue( 'CheckUserForceSummary', true );
 		$this->expectApiErrorCode( 'missingparam' );
 		$this->doCheckUserApiRequest(
 			[
@@ -152,7 +152,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 
 	public function testEmptyReasonWhenReasonRequired() {
 		// enable required reason
-		$this->setMwGlobals( 'wgCheckUserForceSummary', true );
+		$this->overrideConfigValue( 'CheckUserForceSummary', true );
 		$this->expectApiErrorCode( 'missingdata' );
 		$this->doCheckUserApiRequest(
 			[
