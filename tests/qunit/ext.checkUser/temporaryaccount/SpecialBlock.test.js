@@ -10,6 +10,12 @@ QUnit.module( 'ext.checkUser.temporaryaccount.SpecialBlock', QUnit.newMwEnvironm
 		this.server = this.sandbox.useFakeServer();
 		this.server.respondImmediately = true;
 		server = this.server;
+		// simulate setting wgAutoCreateTempUser to { enabled: true, matchPattern: '~$1' }
+		// (setting it in mw.config has no effect, so we need to overwrite mw.util.isTemporaryUser())
+		this.realIsTemporaryUser = mw.util.isTemporaryUser;
+		mw.util.isTemporaryUser = function ( username ) {
+			return username.startsWith( '~' );
+		};
 	},
 	afterEach: function () {
 		server.restore();
@@ -19,12 +25,12 @@ QUnit.module( 'ext.checkUser.temporaryaccount.SpecialBlock', QUnit.newMwEnvironm
 		if ( $blockTargetWidget.length ) {
 			$blockTargetWidget.off( 'change' );
 		}
+		mw.util.isTemporaryUser = this.realIsTemporaryUser;
 	},
 	config: {
 		// Prevent dispatcher.js calling the code we are testing. We will call it
 		// manually when we need to.
 		wgCanonicalSpecialPageName: 'CheckUser',
-		wgAutoCreateTempUser: { enabled: true, matchPattern: '~$1' },
 		// Set max age as the default (3 months)
 		wgCUDMaxAge: 7776000
 	}
