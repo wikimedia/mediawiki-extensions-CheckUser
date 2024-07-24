@@ -351,6 +351,11 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook {
 			'cuc_only_for_read_old',
 			"$base/$dbType/patch-cu_changes-drop-cuc_only_for_read_old.sql"
 		);
+		$updater->dropExtensionField(
+			'cu_changes',
+			'cuc_actiontext',
+			"$base/$dbType/patch-cu_changes-drop-cuc_actiontext.sql"
+		);
 
 		if ( !$isCUInstalled ) {
 			// First time so populate the CheckUser result tables with recentchanges data.
