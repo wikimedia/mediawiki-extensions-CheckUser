@@ -232,6 +232,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		bool $canSeeDeleted,
 		bool $expectAddButtons
 	) {
+		$this->enableAutoCreateTempUser();
 		$mockPerformingUser = $this->createMock( User::class );
 
 		$mockOutputPage = $this->createMock( OutputPage::class );
@@ -380,6 +381,8 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 
 	public function testOnSpecialContributionsBeforeMainOutputForMobileView() {
 		$this->markTestSkippedIfExtensionNotLoaded( 'MobileFrontend' );
+		// This test requires temporary accounts.
+		$this->enableAutoCreateTempUser();
 		// Set mobile view to be enabled by using the query string.
 		RequestContext::getMain()->getRequest()->setVal( 'useformat', 'mobile' );
 		$this->setUserLang( 'qqx' );
