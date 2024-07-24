@@ -27,7 +27,13 @@
 		case 'Contributions':
 			if ( mw.config.get( 'wgRelevantUserName' ) &&
 				mw.util.isTemporaryUser( mw.config.get( 'wgRelevantUserName' ) ) ) {
-				require( './temporaryaccount/SpecialContributions.js' )();
+				require( './temporaryaccount/SpecialContributions.js' )( document, 'Contributions' );
+			}
+			break;
+		case 'DeletedContributions':
+			if ( mw.config.get( 'wgRelevantUserName' ) &&
+				mw.util.isTemporaryUser( mw.config.get( 'wgRelevantUserName' ) ) ) {
+				require( './temporaryaccount/SpecialContributions.js' )( document, 'DeletedContributions' );
 			}
 			break;
 	}

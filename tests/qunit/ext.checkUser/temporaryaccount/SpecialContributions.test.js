@@ -42,7 +42,7 @@ QUnit.test( 'Test for an empty Special:Contributions page for temp account', ( a
 	// eslint-disable-next-line no-jquery/no-global-selector
 	const $qunitFixture = $( '#qunit-fixture' );
 	// Call the method under test.
-	specialContributions( $qunitFixture );
+	specialContributions( $qunitFixture, 'Contributions' );
 	assert.strictEqual(
 		$( '.ext-checkuser-tempaccount-reveal-ip-button', $qunitFixture ).length,
 		0,
@@ -53,9 +53,11 @@ QUnit.test( 'Test for an empty Special:Contributions page for temp account', ( a
 /**
  * Adds revision lines to the QUnit test fixture for testing.
  *
+ * @param {string} pageTitle Either 'Contributions' or 'DeletedContributions'.
+ *   Determines what element to append on the revision line.
  * @return {jQuery[]} The jQuery objects for the revision lines that were added.
  */
-function addRevisionLinesForTest() {
+function addRevisionLinesForTest( pageTitle ) {
 	// eslint-disable-next-line no-jquery/no-global-selector
 	const $qunitFixture = $( '#qunit-fixture' );
 	const $contributionsList = $( '.mw-contributions-list', $qunitFixture );
@@ -63,8 +65,13 @@ function addRevisionLinesForTest() {
 	const revisionLineElements = [];
 	revisionLines.forEach( ( revId ) => {
 		const $revisionLine = $( '<div>' ).attr( 'data-mw-revid', revId );
-		// Add the .mw-diff-bytes element to the revision line
-		$revisionLine.append( $( '<span>' ).addClass( 'mw-diff-bytes' ) );
+		if ( pageTitle === 'Contributions' ) {
+			// Add the .mw-diff-bytes element to the revision line
+			$revisionLine.append( $( '<span>' ).addClass( 'mw-diff-bytes' ) );
+		} else if ( pageTitle === 'DeletedContributions' ) {
+			// Add the .mw-deletedcontribs-tools element to the revision line
+			$revisionLine.append( $( '<span>' ).addClass( 'mw-deletedcontribs-tools' ) );
+		}
 		$contributionsList.append( $revisionLine );
 		revisionLineElements.push( $revisionLine );
 	} );
@@ -75,11 +82,11 @@ QUnit.test( 'Test for a Special:Contributions page for unrevealed temp account',
 	mw.storage.remove( 'mw-checkuser-temp-~1' );
 	setUpDocumentForTest( '~1' );
 	// Add the testing revision lines
-	const revisionLines = addRevisionLinesForTest();
+	const revisionLines = addRevisionLinesForTest( 'Contributions' );
 	// Call the method under test.
 	// eslint-disable-next-line no-jquery/no-global-selector
 	const $qunitFixture = $( '#qunit-fixture' );
-	specialContributions( $qunitFixture );
+	specialContributions( $qunitFixture, 'Contributions' );
 	revisionLines.forEach( ( $element ) => {
 		assert.strictEqual(
 			// eslint-disable-next-line no-jquery/no-class-state
@@ -104,13 +111,13 @@ QUnit.test( 'Test for a Special:Contributions page for revealed temp account', (
 	} );
 	setUpDocumentForTest( '~1' );
 	// Add the testing revision lines
-	const revisionLines = addRevisionLinesForTest();
+	const revisionLines = addRevisionLinesForTest( 'Contributions' );
 	// Set that the temporary account has been revealed recently.
 	ipRevealUtils.setRevealedStatus( '~1' );
 	// Call the method under test.
 	// eslint-disable-next-line no-jquery/no-global-selector
 	const $qunitFixture = $( '#qunit-fixture' );
-	specialContributions( $qunitFixture );
+	specialContributions( $qunitFixture, 'Contributions' );
 	// Wait until all the IPs have been revealed.
 	const done = assert.async();
 	waitUntilElementCount( '.ext-checkuser-tempaccount-reveal-ip', revisionLines.length ).then( () => {
@@ -132,5 +139,28 @@ QUnit.test( 'Test for a Special:Contributions page for revealed temp account', (
 		// Remove the cookie after the test to avoid breaking other tests.
 		mw.storage.remove( 'mw-checkuser-temp-~1' );
 		done();
+	} );
+} );
+
+/*
+ * This is the same test as for Special:Contributions, to ensure that the button loads on
+ * Special:DeletedContributions too.
+ */
+QUnit.test( 'Test for a Special:DeletedContributions page for unrevealed temp account', ( assert ) => {
+	mw.storage.remove( 'mw-checkuser-temp-~1' );
+	setUpDocumentForTest( '~1' );
+	// Add the testing revision lines
+	const revisionLines = addRevisionLinesForTest( 'DeletedContributions' );
+	// Call the method under test.
+	// eslint-disable-next-line no-jquery/no-global-selector
+	const $qunitFixture = $( '#qunit-fixture' );
+	specialContributions( $qunitFixture, 'DeletedContributions' );
+	revisionLines.forEach( ( $element ) => {
+		assert.strictEqual(
+			// eslint-disable-next-line no-jquery/no-class-state
+			$element.find( '.mw-deletedcontribs-tools' ).next().next().hasClass( 'ext-checkuser-tempaccount-reveal-ip-button' ),
+			true,
+			'IP reveal button after added bytes in revision line'
+		);
 	} );
 } );

@@ -6,10 +6,22 @@ const ipReveal = require( './ipReveal.js' );
  *
  * @param {string|*} documentRoot A Document or selector to use as the root of the
  *   search for elements
+ * @param {string} pageTitle Declare what page this is being run on.
+ *   This is for compatibility across Special:Contributions and Special:DeletedContributions,
+ *   as they have different guaranteed existing elements.
  */
-module.exports = function ( documentRoot ) {
+module.exports = function ( documentRoot, pageTitle ) {
 	if ( !documentRoot ) {
 		documentRoot = document;
+	}
+
+	// Define the class name of the element that the "Show IP" button should be appended after.
+	// This can't point to the element yet as it'll be the child of a container revision line.
+	let revAppendAfter;
+	if ( pageTitle === 'Contributions' ) {
+		revAppendAfter = '.mw-diff-bytes';
+	} else if ( pageTitle === 'DeletedContributions' ) {
+		revAppendAfter = '.mw-deletedcontribs-tools';
 	}
 
 	const target = mw.config.get( 'wgRelevantUserName' );
@@ -22,7 +34,7 @@ module.exports = function ( documentRoot ) {
 	} );
 	$userLinks.each( function () {
 		const revId = ipReveal.getRevisionId( $( this ) );
-		$( this ).find( '.mw-diff-bytes' ).after( () => {
+		$( this ).find( revAppendAfter ).after( () => {
 			const ids = {
 				targetId: revId,
 				allIds: revIds
