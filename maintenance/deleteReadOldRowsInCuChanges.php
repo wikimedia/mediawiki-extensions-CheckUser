@@ -53,6 +53,13 @@ class DeleteReadOldRowsInCuChanges extends LoggedUpdateMaintenance {
 			return true;
 		}
 
+		// If the cuc_only_for_read_old column does not exist in cu_changes, then there are no read old rows to delete
+		// This should be the case on an install on MW version 1.43 or later.
+		if ( !$dbw->fieldExists( 'cu_changes', 'cuc_only_for_read_old' ) ) {
+			$this->output( "cu_changes cannot hold entries only for use when reading old; nothing to delete.\n" );
+			return true;
+		}
+
 		// If the batch size is 1, then the script will break. As such, we should increase the batch size to 2.
 		if ( $this->getBatchSize() === 1 ) {
 			$this->output( "Batch size is 1, which will cause the script to break. Increasing batch size to 2.\n" );

@@ -258,21 +258,37 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook {
 			'cuc_user',
 			"$base/$dbType/patch-cu_changes-drop-cuc_user.sql"
 		);
-		$updater->addExtensionField(
-			'cu_changes',
-			'cuc_only_for_read_old',
-			"$base/$dbType/patch-cu_changes-add-cuc_only_for_read_old.sql"
-		);
+		// Skip adding the cuc_only_for_read_old column if:
+		// * This is an install of CheckUser MW 1.43 or later (and therefore no migration is necesary)
+		// * The column has been in the table before (checked by seeing if the cuc_agent_id column exists
+		//   in the cu_changes, and if it does then this update has been run before therefore it should be
+		//   skipped).
+		if ( $isCUInstalled && !$maintenanceDb->fieldExists( 'cu_changes', 'cuc_agent_id' ) ) {
+			$updater->addExtensionField(
+				'cu_changes',
+				'cuc_only_for_read_old',
+				"$base/$dbType/patch-cu_changes-add-cuc_only_for_read_old.sql"
+			);
+		}
 		$updater->dropExtensionField(
 			'cu_changes',
 			'cuc_comment',
 			"$base/$dbType/patch-cu_changes-drop-cuc_comment.sql"
 		);
-		$updater->modifyExtensionField(
-			'cu_changes',
-			'cuc_actor',
-			"$base/$dbType/patch-cu_changes-drop-defaults.sql"
-		);
+		// Only run this for SQLite if cuc_only_for_read_old exists, as modifyExtensionField does not take into
+		// account that SQLite patches that use temporary tables. If the cuc_only_for_read_old field does not exist
+		// this SQL would fail, however, cuc_only_for_read_old not existing also means this change has
+		// been previously applied.
+		if (
+			$dbType !== 'sqlite' ||
+			$maintenanceDb->fieldExists( 'cu_changes', 'cuc_only_for_read_old' )
+		) {
+			$updater->modifyExtensionField(
+				'cu_changes',
+				'cuc_actor',
+				"$base/$dbType/patch-cu_changes-drop-defaults.sql"
+			);
+		}
 
 		// 1.41
 		$updater->addExtensionTable( 'cu_useragent_clienthints', "$base/$dbType/cu_useragent_clienthints.sql" );
@@ -324,7 +340,17 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook {
 		);
 
 		// 1.43
-		$updater->addPostDatabaseUpdateMaintenance( DeleteReadOldRowsInCuChanges::class );
+		// Must be run before the removal of the cuc_only_for_read_old column, as the script needs the column to be
+		// present to delete the rows where the column value is 1.
+		$updater->addExtensionUpdate( [
+			'runMaintenance',
+			DeleteReadOldRowsInCuChanges::class,
+		] );
+		$updater->dropExtensionField(
+			'cu_changes',
+			'cuc_only_for_read_old',
+			"$base/$dbType/patch-cu_changes-drop-cuc_only_for_read_old.sql"
+		);
 
 		if ( !$isCUInstalled ) {
 			// First time so populate the CheckUser result tables with recentchanges data.
