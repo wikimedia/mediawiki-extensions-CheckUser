@@ -11,7 +11,7 @@ use MediaWiki\Context\RequestContext;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\User\UserGroupManagerFactory;
 use MediaWikiIntegrationTestCase;
-use Wikimedia\Rdbms\ILBFactory;
+use Wikimedia\Rdbms\IConnectionProvider;
 
 /**
  * @group CheckUser
@@ -30,7 +30,7 @@ class PreliminaryCheckPagerTest extends MediaWikiIntegrationTestCase {
 		] );
 
 		$preliminaryCheckService = new PreliminaryCheckService(
-			$this->createMock( ILBFactory::class ),
+			$this->createMock( IConnectionProvider::class ),
 			$registry,
 			$this->createNoOpMock( UserGroupManagerFactory::class ),
 			$this->createNoOpMock( DatabaseBlockStoreFactory::class ),
