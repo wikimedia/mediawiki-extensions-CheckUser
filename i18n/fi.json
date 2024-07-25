@@ -21,7 +21,8 @@
 			"Valtlai",
 			"Valtlait",
 			"Varusmies",
-			"ZeiP"
+			"ZeiP",
+			"Samoasambia"
 		]
 	},
 	"checkuser-summary": "Tämän työkalun avulla voidaan tutkia tuoreet muutokset ja paljastaa käyttäjien IP-osoitteet tai noutaa IP-osoitteiden muokkaukset ja käyttäjätiedot.\nKäyttäjät ja muokkaukset voidaan hakea myös uudelleenohjausosoitteen (X-Forwarded-For) takaa käyttämällä IP-osoitteen perässä <tt>/xff</tt> -merkintää. Työkalu tukee sekä IPv4 (CIDR $1–32) ja IPv6 (CIDR $2–128) -standardeja.\nEnintään $3 muokkausta palautetaan suorituskykyyn liittyvien syiden vuoksi.\nKäytä tätä käytäntöjen mukaisesti.",
@@ -36,6 +37,7 @@
 	"right-checkuser": "Tarkastaa käyttäjän IP-osoitteita ja muita tietoja",
 	"right-checkuser-log": "Katsoa osoitepaljastusten lokia",
 	"grant-checkuser": "Päästä käsiksi osoitepaljastintietoihin",
+	"grant-checkuser-temporary-account": "Päästä käsiksi väliaikaisten tunnusten osoitepaljastintietoihin",
 	"action-checkuser": "tarkastaa käyttäjän IP-osoitteita ja muita tietoja",
 	"action-checkuser-log": "katsoa osoitepaljastuslokia",
 	"action-checkuser-temporary-account": "tarkastella väliaikaisten tunnusten käyttämiä IP-osoitteita",
