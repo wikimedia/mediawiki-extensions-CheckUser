@@ -36,6 +36,19 @@
 				require( './temporaryaccount/SpecialContributions.js' )( document, 'DeletedContributions' );
 			}
 			break;
+		case 'IPContributions': {
+			// wgRelevantUserName is `null` if a range is the target so check the variable passed from
+			// SpecialIPContributions instead.
+			const ipRangeTarget = mw.config.get( 'wgIPRangeTarget' );
+
+			// Only trigger if the target is an IP range. A single IP target doesn't need IP reveal buttons.
+			if ( ipRangeTarget &&
+				mw.util.isIPAddress( ipRangeTarget, true ) &&
+				!mw.util.isIPAddress( ipRangeTarget ) ) {
+				require( './temporaryaccount/initOnLoad.js' )();
+			}
+			break;
+		}
 	}
 
 	// Include resources for all but a few specific special pages

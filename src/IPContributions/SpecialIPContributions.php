@@ -179,6 +179,8 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 					)
 				] )
 			);
+		} else {
+			$this->getOutput()->addJsConfigVars( 'wgIPRangeTarget', $target );
 		}
 	}
 
