@@ -35,6 +35,10 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 			self::VIRTUAL_GLOBAL_DB_DOMAIN, 'addTable', 'cuci_temp_edit',
 			"$base/$dbType/cuci_temp_edit.sql", true,
 		] );
+		$updater->addExtensionUpdateOnVirtualDomain( [
+			self::VIRTUAL_GLOBAL_DB_DOMAIN, 'addTable', 'cuci_user',
+			"$base/$dbType/cuci_user.sql", true,
+		] );
 
 		if ( $dbType === 'mysql' ) {
 			// 1.35
