@@ -18,6 +18,7 @@
 	"right-checkuser": "декъашхойн IP-адресашка а, кхин хаамашка а хьажар",
 	"right-checkuser-log": "декъашхойн зеран журнале хьажар",
 	"grant-checkuser": "Декъашхошка хьажа таро йу",
+	"grant-checkuser-temporary-account": "Ханна лерина аккаунтан талларан хаамашна тӀекхачар",
 	"action-checkuser": "декъашхойн IP-адресашка а, кхин хаамашка а хьажар",
 	"action-checkuser-log": "декъашхойн зеран журнале хьажар",
 	"grouppage-checkuser": "{{ns:project}}:Декъашхой таллар",
@@ -53,6 +54,7 @@
 	"checkuser-blocked": "Блоктоьхна",
 	"checkuser-gblocked": "Глобалан блоктоьхна",
 	"checkuser-locked": "Блоктоьхна",
+	"checkuser-torexitnode": "Tor арайаларан узел",
 	"checkuser-wasblocked": "Блоктоьхна йара",
 	"checkuser-localonly": "Глобалан йац",
 	"checkuser-massblock": "Хаьржинчу декъашхошна блоктоха",
@@ -80,6 +82,8 @@
 	"checkuser-helper-client-hints": "Клиентана хьехам",
 	"logentry-checkuser-private-event-autocreate-account": "авто кхоьллина",
 	"logentry-checkuser-private-event-create-account": "кхоьллина",
+	"checkuser-rest-access-denied": "Хьан бакъо йац и ардамаш кхочушбан.",
+	"checkuser-rest-access-denied-blocked-user": "Хьан бакъо йац ардам кхочушдан, хӀунда аьлча хьан аккаунт блоктоьхна йу",
 	"checkuser-link-investigate-label": "{{#special:investigate}} хьажа",
 	"checkuser-investigateblock": "Блоктоьхна декъашхой",
 	"checkuser-investigateblock-target": "Декъашхойн цӀерш йа IP-адресаш",
@@ -149,6 +153,7 @@
 	"checkuser-investigate-compare-table-button-contribs-label": "Къинхьегам",
 	"checkuser-investigate-compare-table-button-filter-label": "ЖамӀашца фильтрйан",
 	"checkuser-investigate-compare-table-cell-unregistered": "ДӀабазбаланзарш",
+	"checkuser-investigate-compare-table-cell-actions": "<b>[$1 {{PLURAL:$1|ардам}}]</b>",
 	"checkuser-investigate-compare-table-cell-other-actions": "<i>(~$1 массо а декъашхошкара)</i>",
 	"checkuser-investigate-compare-table-header-username": "Декъашхочун цӀе",
 	"checkuser-investigate-compare-table-header-activity": "Терахьийн диапазон",
@@ -173,5 +178,7 @@
 	"checkuser-ip-contributions-contributions-link": "къинхьегам",
 	"checkuser-tempaccount-reveal-ip-error": "гӀалат",
 	"checkuser-tempaccount-specialblock-ips": "ХӀара ханна декъашхо ву(йу), рогӀера {{PLURAL:$1|IP|IP адресаш}} лелош: $2.",
-	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|инженер}}"
+	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|дӀайайина}}",
+	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|инженер}}",
+	"log-action-filter-checkuser-temporary-account": "Ардаман тайпа:"
 }

@@ -190,6 +190,7 @@
 	"checkuser-investigate-tour-block-title": "বাধা দিতে চান?",
 	"checkuser-ip-contributions-tab-label-contributions": "অবদান",
 	"checkuser-ip-contributions-tab-label-archive-contributions": "অপসারিত অবদান",
+	"checkuser-ip-contributions-contributions-link": "অবদান",
 	"checkuser-tempaccount-reveal-ip-button-label": "আইপি দেখান",
 	"checkuser-tempaccount-reveal-ip-missing": "অনুপলব্ধ",
 	"checkuser-tempaccount-reveal-ip-error": "ত্রুটি",
