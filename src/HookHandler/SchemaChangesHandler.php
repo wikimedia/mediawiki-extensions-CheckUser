@@ -26,10 +26,14 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 
 		$updater->addExtensionTable( 'cu_changes', "$base/$dbType/tables-generated.sql" );
 
-		// Added 1.43, but will need to remain here forever as it creates the table which is not in tables-generated.sql
+		// Added 1.43, but will need to remain here forever as it creates tables which are not in tables-generated.sql
 		$updater->addExtensionUpdateOnVirtualDomain( [
 			self::VIRTUAL_GLOBAL_DB_DOMAIN, 'addTable', 'cuci_wiki_map',
 			"$base/$dbType/cuci_wiki_map.sql", true,
+		] );
+		$updater->addExtensionUpdateOnVirtualDomain( [
+			self::VIRTUAL_GLOBAL_DB_DOMAIN, 'addTable', 'cuci_temp_edit',
+			"$base/$dbType/cuci_temp_edit.sql", true,
 		] );
 
 		if ( $dbType === 'mysql' ) {
