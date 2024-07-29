@@ -4,7 +4,7 @@ namespace MediaWiki\CheckUser;
 
 /**
  * An interface that provides several constants that are used
- * by code that reads from the CheckUser tables.
+ * by code that reads from and/or writes to the CheckUser tables.
  */
 interface CheckUserQueryInterface {
 
@@ -30,4 +30,7 @@ interface CheckUserQueryInterface {
 		self::LOG_EVENT_TABLE => 'cule_',
 		self::PRIVATE_LOG_EVENT_TABLE => 'cupe_',
 	];
+
+	/** @var string The virtual database domain for the central index tables */
+	public const VIRTUAL_GLOBAL_DB_DOMAIN = 'virtual-checkuser-global';
 }
