@@ -82,6 +82,8 @@
 	"checkuser-helper-user": "Декъашхо",
 	"logentry-checkuser-private-event-autocreate-account": "авто кхоьллина",
 	"logentry-checkuser-private-event-create-account": "кхоьллина",
+	"checkuser-rest-access-denied": "Хьан бакъо йац и ардамаш кхочушбан.",
+	"checkuser-rest-access-denied-blocked-user": "Хьан бакъо йац ардам кхочушдан, хӀунда аьлча хьан аккаунт блоктоьхна йу",
 	"checkuser-link-investigate-label": "{{#special:investigate}} хьажа",
 	"checkuser-investigateblock": "Блоктоьхна декъашхой",
 	"checkuser-investigateblock-target": "Декъашхойн цӀерш йа IP-адресаш",
@@ -169,5 +171,7 @@
 	"checkuser-investigate-tour-copywikitext-desc": "Цкъа тӀетаӀорца дустаран таблица копийина, CUWiki чу схьайаийта. Тидам бе, ахьа гуш дерг бен копеш ца йо, талламийн йерриг агӀонаш йац.",
 	"checkuser-tempaccount-reveal-ip-error": "гӀалат",
 	"checkuser-tempaccount-specialblock-ips": "ХӀара ханна декъашхо ву(йу), рогӀера {{PLURAL:$1|IP|IP адресаш}} лелош: $2.",
-	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|инженер}}"
+	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|дӀайайина}}",
+	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|инженер}}",
+	"log-action-filter-checkuser-temporary-account": "Ардаман тайпа:"
 }
