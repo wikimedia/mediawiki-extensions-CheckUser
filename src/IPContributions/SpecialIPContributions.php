@@ -138,7 +138,7 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 			}
 		}
 
-		$isArchive = $this->getRequest()->getBool( 'isArchive' );
+		$isArchive = $this->isArchive();
 		$canSeeDeletedHistory = $this->permissionManager->userHasRight(
 			$this->getAuthority()->getUser(),
 			'deletedhistory'
@@ -182,6 +182,13 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 		} else {
 			$this->getOutput()->addJsConfigVars( 'wgIPRangeTarget', $target );
 		}
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function isArchive() {
+		return $this->getRequest()->getBool( 'isArchive' );
 	}
 
 	/**
