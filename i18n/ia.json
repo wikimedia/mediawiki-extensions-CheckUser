@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Karmwiki",
 			"McDutchie"
 		]
 	},
@@ -229,6 +230,7 @@
 	"checkuser-ip-contributions-target-error-no-ip": "Non es un adresse IP valide",
 	"checkuser-ip-contributions-tab-label-contributions": "Contributiones",
 	"checkuser-ip-contributions-tab-label-archive-contributions": "Contributiones delite",
+	"checkuser-ip-contributions-contributions-link": "contributiones",
 	"prefs-checkuser-tempaccount": "Revelar adresses IP de contos temporari",
 	"checkuser-tempaccount-enable-preference-description": "Quando tu usa iste instrumento, tu debe assecurar te de facer lo in modo conforme al politica.",
 	"checkuser-tempaccount-enable-preference": "Activar le revelation del adresses IP de contos temporari",
