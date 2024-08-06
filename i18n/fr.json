@@ -262,6 +262,8 @@
 	"checkuser-ip-contributions-results-title": "Les contributions IP temporaires des utilisateurs supprimées pour $1",
 	"checkuser-ip-contributions-archive-results-title": "Les contributions IP temporaires des utilisateurs supprimées pour $1",
 	"checkuser-ip-contributions-deleted-contributions-link": "Contributions supprimées",
+	"checkuser-ip-contributions-contributions-link": "contributions",
+	"checkuser-ip-contributions-special-ip-contributions-button": "Modifications temporaires de l'adresse IP de l'utilisateur",
 	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "Modifications de l' IP de l' utilisateur temporaire",
 	"checkuser-ip-contributions-special-contributions-button": "Modifications IP par héritage",
 	"prefs-checkuser-tempaccount": "Révélation de l’adresse IP des comptes temporaires",
