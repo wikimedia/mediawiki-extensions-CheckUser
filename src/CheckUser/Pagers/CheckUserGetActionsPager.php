@@ -40,6 +40,7 @@ use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
+use MediaWiki\User\UserOptionsLookup;
 use Psr\Log\LoggerInterface;
 use stdClass;
 use Wikimedia\IPUtils;
@@ -103,6 +104,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 	 * @param UserAgentClientHintsLookup $clientHintsLookup
 	 * @param UserAgentClientHintsFormatter $clientHintsFormatter
 	 * @param LogFormatterFactory $logFormatterFactory
+	 * @param UserOptionsLookup $userOptionsLookup
 	 * @param IContextSource|null $context
 	 * @param LinkRenderer|null $linkRenderer
 	 * @param ?int $limit
@@ -130,6 +132,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		UserAgentClientHintsLookup $clientHintsLookup,
 		UserAgentClientHintsFormatter $clientHintsFormatter,
 		LogFormatterFactory $logFormatterFactory,
+		UserOptionsLookup $userOptionsLookup,
 		IContextSource $context = null,
 		LinkRenderer $linkRenderer = null,
 		?int $limit = null
@@ -137,7 +140,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager,
 			$userGroupManager, $centralIdLookup, $dbProvider, $specialPageFactory,
 			$userIdentityLookup, $checkUserLogService, $userFactory, $checkUserLookupUtils,
-			$context, $linkRenderer, $limit );
+			$userOptionsLookup, $context, $linkRenderer, $limit );
 		$this->checkType = SpecialCheckUser::SUBTYPE_GET_ACTIONS;
 		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
 		$this->xfor = $xfor;

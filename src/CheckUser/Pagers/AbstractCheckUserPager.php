@@ -10,6 +10,7 @@ use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\CheckUser\CheckUserPagerNavigationBuilder;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
+use MediaWiki\CheckUser\HookHandler\Preferences;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
@@ -33,6 +34,7 @@ use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserGroupMembership;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
+use MediaWiki\User\UserOptionsLookup;
 use MediaWiki\Utils\MWTimestamp;
 use stdClass;
 use Wikimedia\Rdbms\FakeResultWrapper;
@@ -93,6 +95,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	protected TemplateParser $templateParser;
 	protected UserFactory $userFactory;
 	protected CheckUserLookupUtils $checkUserLookupUtils;
+	private UserOptionsLookup $userOptionsLookup;
 
 	/**
 	 * @param FormOptions $opts
@@ -107,6 +110,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	 * @param CheckUserLogService $checkUserLogService
 	 * @param UserFactory $userFactory
 	 * @param CheckUserLookupUtils $checkUserLookupUtils
+	 * @param UserOptionsLookup $userOptionsLookup
 	 * @param IContextSource|null $context
 	 * @param LinkRenderer|null $linkRenderer
 	 * @param ?int $limit
@@ -124,6 +128,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		CheckUserLogService $checkUserLogService,
 		UserFactory $userFactory,
 		CheckUserLookupUtils $checkUserLookupUtils,
+		UserOptionsLookup $userOptionsLookup,
 		IContextSource $context = null,
 		LinkRenderer $linkRenderer = null,
 		?int $limit = null
@@ -167,6 +172,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		$this->checkUserLogService = $checkUserLogService;
 		$this->userFactory = $userFactory;
 		$this->checkUserLookupUtils = $checkUserLookupUtils;
+		$this->userOptionsLookup = $userOptionsLookup;
 
 		$this->templateParser = new TemplateParser( __DIR__ . '/../../../templates' );
 
@@ -552,9 +558,21 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		if ( !$this->mResult->numRows() ) {
 			return null;
 		}
-		$collapseByDefault = $this->getConfig()->get( 'CheckUserCollapseCheckUserHelperByDefault' );
-		if ( is_int( $collapseByDefault ) ) {
+		$collapseByDefault = $this->userOptionsLookup
+			->getOption( $this->getUser(), 'checkuser-helper-table-collapse-by-default' );
+		if ( is_numeric( $collapseByDefault ) ) {
 			$collapseByDefault = $this->mResult->numRows() > $collapseByDefault;
+		} elseif ( $collapseByDefault === Preferences::CHECKUSER_HELPER_ALWAYS_COLLAPSE_BY_DEFAULT ) {
+			$collapseByDefault = true;
+		} elseif ( $collapseByDefault === Preferences::CHECKUSER_HELPER_NEVER_COLLAPSE_BY_DEFAULT ) {
+			$collapseByDefault = false;
+		} else {
+			// For Preferences::CHECKUSER_HELPER_USE_CONFIG_TO_COLLAPSE_BY_DEFAULT or any other value,
+			// use the value from the site config.
+			$collapseByDefault = $this->getConfig()->get( 'CheckUserCollapseCheckUserHelperByDefault' );
+			if ( is_int( $collapseByDefault ) ) {
+				$collapseByDefault = $this->mResult->numRows() > $collapseByDefault;
+			}
 		}
 		$fieldset = new HTMLFieldsetCheckUser( [], $this->getContext() );
 		$fieldset->outerClass = 'mw-checkuser-helper-fieldset';
