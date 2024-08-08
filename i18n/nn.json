@@ -53,5 +53,6 @@
 	"checkuser-time-range": "$1–$2",
 	"checkuser-showmain": "Byt til hovudskjemaet for CheckUser",
 	"logentry-checkuser-private-event-autocreate-account": "vart automatisk oppretta",
-	"logentry-checkuser-private-event-create-account": "vart oppretta"
+	"logentry-checkuser-private-event-create-account": "vart oppretta",
+	"checkuser-investigate-preliminary-table-header-editcount": "Endringar"
 }
