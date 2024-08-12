@@ -4,7 +4,8 @@
 			"Gunnernett",
 			"Harald Khan",
 			"Jon Harald Søby",
-			"Njardarlogar"
+			"Njardarlogar",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Dette verktøyet går gjennom siste endringar for å henta IP-ane som er nytta av ein brukar, eller syner endrings- eller brukarinformasjon for ein IP.\n\nBrukarar og endringar frå ein klient-IP kan verta henta gjennom XFF ved å leggja til «/xff» bak IP-en. IPv4 (CIDR $1-32) og IPv6 (CIDR $2-128) er støtta.\n\nAv yteårsaker vert høgst 5000 endringar viste.\nNytt dette verktøyet i samsvar med retningsliner.",
@@ -67,5 +68,6 @@
 	"checkuser-autocreate-action": "vart automatisk oppretta",
 	"checkuser-create-action": "vart oppretta",
 	"checkuser-email-action": "sende e-post til brukaren «$1»",
-	"checkuser-reset-action": "nullstilte passord for «$1»"
+	"checkuser-reset-action": "nullstilte passord for «$1»",
+	"checkuser-investigate-preliminary-table-header-editcount": "Endringar"
 }
