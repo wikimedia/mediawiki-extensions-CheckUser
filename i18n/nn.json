@@ -65,5 +65,6 @@
 	"checkuser-email-action": "sende e-post til brukaren «$1»",
 	"checkuser-reset-action": "nullstilte passord for «$1»",
 	"logentry-checkuser-private-event-autocreate-account": "vart automatisk oppretta",
-	"logentry-checkuser-private-event-create-account": "vart oppretta"
+	"logentry-checkuser-private-event-create-account": "vart oppretta",
+	"checkuser-investigate-preliminary-table-header-editcount": "Endringar"
 }
