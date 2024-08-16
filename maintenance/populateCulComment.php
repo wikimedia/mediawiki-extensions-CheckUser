@@ -22,7 +22,6 @@ namespace MediaWiki\CheckUser\Maintenance;
 
 use LoggedUpdateMaintenance;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
-use MediaWiki\MediaWikiServices;
 use Psr\Log\NullLogger;
 use Wikimedia\Services\NoSuchServiceException;
 
@@ -63,7 +62,7 @@ class PopulateCulComment extends LoggedUpdateMaintenance {
 	 * @inheritDoc
 	 */
 	protected function doDBUpdates() {
-		$services = MediaWikiServices::getInstance();
+		$services = $this->getServiceContainer();
 		$commentStore = $services->getCommentStore();
 		try {
 			/** @var CheckUserLogService $checkUserLogService */

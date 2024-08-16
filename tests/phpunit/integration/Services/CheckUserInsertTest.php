@@ -9,7 +9,6 @@ use LogEntryBase;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
@@ -27,7 +26,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 	use TempUserTestTrait;
 
 	private function setUpObject(): CheckUserInsert {
-		return MediaWikiServices::getInstance()->get( 'CheckUserInsert' );
+		return $this->getServiceContainer()->get( 'CheckUserInsert' );
 	}
 
 	/** @dataProvider provideInsertIntoCuChangesTable */

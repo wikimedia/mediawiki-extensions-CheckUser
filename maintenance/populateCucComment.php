@@ -21,7 +21,6 @@
 namespace MediaWiki\CheckUser\Maintenance;
 
 use LoggedUpdateMaintenance;
-use MediaWiki\MediaWikiServices;
 
 $IP = getenv( 'MW_INSTALL_PATH' );
 if ( $IP === false ) {
@@ -60,7 +59,7 @@ class PopulateCucComment extends LoggedUpdateMaintenance {
 	 * @inheritDoc
 	 */
 	protected function doDBUpdates() {
-		$services = MediaWikiServices::getInstance();
+		$services = $this->getServiceContainer();
 		$commentStore = $services->getCommentStore();
 		$mainLb = $services->getDBLoadBalancerFactory()->getMainLB();
 		$dbr = $mainLb->getConnection( DB_REPLICA, 'vslow' );

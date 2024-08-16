@@ -7,7 +7,6 @@ use MediaWiki\CheckUser\HookHandler\RecentChangeSaveHandler;
 use MediaWiki\CheckUser\Maintenance\PopulateCheckUserTablesWithSimulatedData;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\Context\RequestContext;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use MediaWiki\User\User;
@@ -262,7 +261,7 @@ class PopulateCheckUserTablesWithSimulatedDataTest extends MaintenanceBaseTestCa
 			$revisionId,
 			'Revision ID should not be null.'
 		);
-		$revisionRecord = MediaWikiServices::getInstance()->getRevisionStore()->getRevisionById( $revisionId );
+		$revisionRecord = $this->getServiceContainer()->getRevisionStore()->getRevisionById( $revisionId );
 		$this->assertTrue(
 			$revisionRecord->getUser()->equals( $testUser ),
 			'Revision was not saved using the correct user.'

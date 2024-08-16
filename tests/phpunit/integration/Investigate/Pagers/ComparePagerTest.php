@@ -10,7 +10,6 @@ use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\CheckUser\Tests\Integration\Investigate\CompareTabTestDataTrait;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Linker\Linker;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\User\User;
 use MediaWiki\User\UserIdentity;
@@ -263,7 +262,7 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideDoQuery
 	 */
 	public function testDoQuery( $targets, $excludeTargets, $expected ) {
-		$services = MediaWikiServices::getInstance();
+		$services = $this->getServiceContainer();
 
 		$tokenQueryManager = $this->getMockBuilder( TokenQueryManager::class )
 			->disableOriginalConstructor()

@@ -4,7 +4,6 @@ namespace MediaWiki\CheckUser\Maintenance;
 
 use DatabaseLogEntry;
 use LoggedUpdateMaintenance;
-use MediaWiki\MediaWikiServices;
 use RecentChange;
 use Wikimedia\IPUtils;
 
@@ -87,7 +86,7 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 			"Starting population of cu_changes with recentchanges rc_id from $start to $end.\n"
 		);
 
-		$services = MediaWikiServices::getInstance();
+		$services = $this->getServiceContainer();
 		$commentStore = $services->getCommentStore();
 		$rcQuery = RecentChange::getQueryInfo();
 

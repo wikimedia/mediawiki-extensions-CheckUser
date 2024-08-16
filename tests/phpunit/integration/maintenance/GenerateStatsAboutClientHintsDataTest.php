@@ -5,7 +5,6 @@ namespace MediaWiki\CheckUser\Tests\Integration\Maintenance;
 use MediaWiki\CheckUser\Maintenance\GenerateStatsAboutClientHintsData;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use MediaWiki\WikiMap\WikiMap;
 
@@ -72,7 +71,7 @@ class GenerateStatsAboutClientHintsDataTest extends MaintenanceBaseTestCase {
 
 	public function addDBData() {
 		/** @var UserAgentClientHintsManager $services */
-		$services = MediaWikiServices::getInstance()->get( 'UserAgentClientHintsManager' );
+		$services = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );
 		$exampleClientHintsData = $this->getExampleClientHintsDataObjectFromJsApi();
 		// Insert Client Hints data for reference IDs 1 to 5 (inclusive) using the standard example Client Hints data
 		for ( $i = 1; $i < 6; $i++ ) {

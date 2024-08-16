@@ -4,7 +4,6 @@ namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
 use MediaWiki\CheckUser\HookHandler\RecentChangeSaveHandler;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWikiIntegrationTestCase;
 use RecentChange;
@@ -113,7 +112,7 @@ class RecentChangeSaveHandlerTest extends MediaWikiIntegrationTestCase {
 		ConvertibleTimestamp::setFakeTime( $currentTime );
 		$object = TestingAccessWrapper::newFromObject( $this->getObjectUnderTest() );
 		$object->pruneIPData();
-		MediaWikiServices::getInstance()->getJobRunner()->run( [ 'type' => 'checkuserPruneCheckUserDataJob' ] );
+		$this->getServiceContainer()->getJobRunner()->run( [ 'type' => 'checkuserPruneCheckUserDataJob' ] );
 		// Check that all the old entries are gone
 		$this->assertRowCount( 0, 'cu_changes', 'cuc_id',
 			'cu_changes has stale entries after calling pruneIPData.',

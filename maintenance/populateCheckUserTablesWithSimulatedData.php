@@ -13,7 +13,6 @@ use MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
 use MediaWiki\CheckUser\HookHandler\RecentChangeSaveHandler;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Context\RequestContext;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
@@ -151,7 +150,8 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			$this->fatalError( 'Number of anon users making edits should not exceed the number of IPs used.' );
 		}
 
-		if ( !$this->getServiceContainer()->getTempUserConfig()->isEnabled() ) {
+		$services = $this->getServiceContainer();
+		if ( !$services->getTempUserConfig()->isEnabled() ) {
 			// Only add temporary users if temporary user creation is enabled.
 			$numTemp = 0;
 		}
@@ -168,18 +168,17 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 
 		// Start code that can assume it is safe to perform un-reversible testing actions.
 		$this->privateEventsHandler = new CheckUserPrivateEventsHandler(
-			$this->getServiceContainer()->get( 'CheckUserInsert' ),
+			$services->get( 'CheckUserInsert' ),
 			$this->getConfig(),
-			$this->getServiceContainer()->getUserIdentityLookup(),
-			$this->getServiceContainer()->getUserFactory(),
-			$this->getServiceContainer()->getReadOnlyMode()
+			$services->getUserIdentityLookup(),
+			$services->getUserFactory(),
+			$services->getReadOnlyMode()
 		);
 		$this->recentChangeSaveHandler = new RecentChangeSaveHandler(
-			$this->getServiceContainer()->get( 'CheckUserInsert' ),
-			$this->getServiceContainer()->getJobQueueGroup(),
-			$this->getServiceContainer()->getConnectionProvider()
+			$services->get( 'CheckUserInsert' ),
+			$services->getJobQueueGroup(),
+			$services->getConnectionProvider()
 		);
-		$services = MediaWikiServices::getInstance();
 		$userForEmails = $this->createRegisteredUser();
 		if ( $userForEmails === null ) {
 			$this->fatalError(
@@ -333,7 +332,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 	 * @return ?User A user that has just been created or null if this failed.
 	 */
 	private function createRegisteredUser(): ?User {
-		$services = MediaWikiServices::getInstance();
+		$services = $this->getServiceContainer();
 		// Find a username that doesn't exist.
 		$attemptsMade = 0;
 		do {
@@ -597,7 +596,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			// Assign a new user agent and client hints combo 30% of the time
 			$this->getNewUserAgentAndAssociatedClientHints();
 		}
-		$services = MediaWikiServices::getInstance();
+		$services = $this->getServiceContainer();
 		/** @var UserAgentClientHintsManager $userAgentClientHintsManager */
 		$userAgentClientHintsManager = $services->getService( 'UserAgentClientHintsManager' );
 		$actorAsUserObject = $services->getUserFactory()->newFromUserIdentity( $actor );

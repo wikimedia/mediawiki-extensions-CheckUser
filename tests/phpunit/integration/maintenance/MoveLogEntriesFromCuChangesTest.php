@@ -5,7 +5,6 @@ namespace MediaWiki\CheckUser\Tests\Integration\Maintenance;
 use MediaWiki\CheckUser\Maintenance\MoveLogEntriesFromCuChanges;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use MediaWiki\User\UserIdentityValue;
 use Wikimedia\Rdbms\IMaintainableDatabase;
@@ -93,7 +92,7 @@ class MoveLogEntriesFromCuChangesTest extends MaintenanceBaseTestCase {
 			];
 
 			/** @var CheckUserInsert $checkUserInsert */
-			$checkUserInsert = MediaWikiServices::getInstance()->get( 'CheckUserInsert' );
+			$checkUserInsert = $this->getServiceContainer()->get( 'CheckUserInsert' );
 			$checkUserInsert->insertIntoCuChangesTable(
 				$rcRow, __METHOD__, new UserIdentityValue( $attribs['rc_user'], $attribs['rc_user_text'] )
 			);

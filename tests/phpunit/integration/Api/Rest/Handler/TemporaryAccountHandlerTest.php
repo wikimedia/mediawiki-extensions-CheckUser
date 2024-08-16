@@ -7,7 +7,6 @@ use MediaWiki\Block\AbstractBlock;
 use MediaWiki\Block\Block;
 use MediaWiki\Block\BlockManager;
 use MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountHandler;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Rest\LocalizedHttpException;
@@ -60,12 +59,12 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 
 		return new TemporaryAccountHandler( ...array_values( array_merge(
 			[
-				'config' => MediaWikiServices::getInstance()->getMainConfig(),
+				'config' => $this->getServiceContainer()->getMainConfig(),
 				'jobQueueGroup' => $this->createMock( JobQueueGroup::class ),
 				'permissionManager' => $permissionManager,
 				'userOptionsLookup' => $userOptionsLookup,
 				'userNameUtils' => $userNameUtils,
-				'dbProvider' => MediaWikiServices::getInstance()->getDBLoadBalancerFactory(),
+				'dbProvider' => $this->getServiceContainer()->getDBLoadBalancerFactory(),
 				'actorStore' => $actorStore,
 				'blockManager' => $this->getServiceContainer()->getBlockManager(),
 			],
@@ -183,7 +182,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 	 */
 	public function testExecutePermissionErrorsNoRight( bool $named, array $expected ) {
 		$handler = $this->getTemporaryAccountHandler( [
-			'permissionManager' => MediaWikiServices::getInstance()->getPermissionManager()
+			'permissionManager' => $this->getServiceContainer()->getPermissionManager()
 		] );
 
 		$user = $this->getTestUser()->getUser();
@@ -242,7 +241,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				return $right !== 'checkuser-temporary-account-no-preference';
 			} );
 		$handler = $this->getTemporaryAccountHandler( [
-			'userOptionsLookup' => MediaWikiServices::getInstance()->getUserOptionsLookup(),
+			'userOptionsLookup' => $this->getServiceContainer()->getUserOptionsLookup(),
 			'permissionManager' => $permissionManager,
 		] );
 
@@ -308,7 +307,7 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 	 */
 	public function testExecutePermissionErrorsBadName( $name ) {
 		$handler = $this->getTemporaryAccountHandler( [
-			'userNameUtils' => MediaWikiServices::getInstance()->getUserNameUtils()
+			'userNameUtils' => $this->getServiceContainer()->getUserNameUtils()
 		] );
 
 		$authority = $this->createMock( Authority::class );

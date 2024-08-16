@@ -7,7 +7,6 @@ use ApiQuery;
 use MediaWiki\CheckUser\Api\ApiQueryCheckUserLog;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\Deferred\DeferredUpdates;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Tests\Api\ApiTestCase;
 use Wikimedia\TestingAccessWrapper;
@@ -171,7 +170,7 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 		ConvertibleTimestamp::setFakeTime( $timestamp );
 		// Set up by the DB by inserting data.
 		/** @var CheckUserLogService $checkUserLogService */
-		$checkUserLogService = MediaWikiServices::getInstance()->get( 'CheckUserLogService' );
+		$checkUserLogService = $this->getServiceContainer()->get( 'CheckUserLogService' );
 		$checkUserLogService->addLogEntry(
 			$this->getTestSysop()->getUser(), $logType, $targetType, $target, $reason, $targetID
 		);

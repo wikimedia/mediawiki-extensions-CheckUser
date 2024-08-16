@@ -6,7 +6,6 @@ use Maintenance;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\MainConfigNames;
-use MediaWiki\MediaWikiServices;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -57,7 +56,7 @@ class PurgeOldData extends Maintenance {
 		);
 
 		if ( $config->get( 'CheckUserPurgeOldClientHintsData' ) ) {
-			$userAgentClientHintsManager = MediaWikiServices::getInstance()->get( 'UserAgentClientHintsManager' );
+			$userAgentClientHintsManager = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );
 			$orphanedMappingRowsDeleted = $userAgentClientHintsManager->deleteOrphanedMapRows();
 			$this->output( "Purged $orphanedMappingRowsDeleted orphaned client hint mapping rows.\n" );
 		}
@@ -83,7 +82,7 @@ class PurgeOldData extends Maintenance {
 	 */
 	protected function prune( string $table, string $ts_column, int $maxAge, ?int $clientHintMappingId ) {
 		/** @var UserAgentClientHintsManager $userAgentClientHintsManager */
-		$userAgentClientHintsManager = MediaWikiServices::getInstance()->get( 'UserAgentClientHintsManager' );
+		$userAgentClientHintsManager = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );
 		$referenceColumn = $userAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[$clientHintMappingId] ?? null;
 		$clientHintReferenceIds = new ClientHintsReferenceIds();
 		$shouldDeleteAssociatedClientData = $this->getConfig()->get( 'CheckUserPurgeOldClientHintsData' );

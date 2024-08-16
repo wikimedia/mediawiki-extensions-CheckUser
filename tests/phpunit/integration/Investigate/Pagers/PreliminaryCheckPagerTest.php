@@ -8,7 +8,6 @@ use MediaWiki\CheckUser\Investigate\Pagers\PreliminaryCheckPager;
 use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Context\RequestContext;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\User\UserGroupManagerFactory;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -37,7 +36,7 @@ class PreliminaryCheckPagerTest extends MediaWikiIntegrationTestCase {
 			'testwiki'
 		);
 
-		$services = MediaWikiServices::getInstance();
+		$services = $this->getServiceContainer();
 		$pager = new PreliminaryCheckPager( RequestContext::getMain(),
 			$services->getLinkRenderer(),
 			$services->getNamespaceInfo(),
@@ -61,7 +60,7 @@ class PreliminaryCheckPagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testGetIndexFieldLocal() {
-		$services = MediaWikiServices::getInstance();
+		$services = $this->getServiceContainer();
 		$pager = new PreliminaryCheckPager(
 			RequestContext::getMain(),
 			$services->getLinkRenderer(),
@@ -75,7 +74,7 @@ class PreliminaryCheckPagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testGetIndexFieldGlobal() {
-		$services = MediaWikiServices::getInstance();
+		$services = $this->getServiceContainer();
 		$pager = $this->getMockBuilder( PreliminaryCheckPager::class )
 			->setConstructorArgs( [ RequestContext::getMain(),
 				$services->getLinkRenderer(),

@@ -6,7 +6,6 @@ use JobQueueGroup;
 use LogPage;
 use ManualLogEntry;
 use MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountLogHandler;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Request\FauxRequest;
@@ -67,12 +66,12 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 			->onlyMethods( [ 'performLogsLookup' ] )
 			->setConstructorArgs( array_values( array_merge(
 				[
-					'config' => MediaWikiServices::getInstance()->getMainConfig(),
+					'config' => $this->getServiceContainer()->getMainConfig(),
 					'jobQueueGroup' => $this->createMock( JobQueueGroup::class ),
 					'permissionManager' => $permissionManager,
 					'userOptionsLookup' => $userOptionsLookup,
 					'userNameUtils' => $userNameUtils,
-					'dbProvider' => MediaWikiServices::getInstance()->getDBLoadBalancerFactory(),
+					'dbProvider' => $this->getServiceContainer()->getDBLoadBalancerFactory(),
 					'actorStore' => $actorStore,
 					'blockManager' => $this->getServiceContainer()->getBlockManager(),
 				],

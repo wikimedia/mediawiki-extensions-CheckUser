@@ -13,7 +13,6 @@ use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\MainConfigNames;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Message\Message;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\User;
@@ -146,7 +145,7 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 		] );
 		$userObj = $existingUser
 			? $this->getTestUser()->getUser()
-			: MediaWikiServices::getInstance()->getUserFactory()->newFromName( wfRandomString() );
+			: $this->getServiceContainer()->getUserFactory()->newFromName( wfRandomString() );
 		$userName = $userObj->getName();
 
 		$this->doTestOnAuthManagerLoginAuthenticateAudit(
