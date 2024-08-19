@@ -426,7 +426,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		} else {
 			$this->logger->warning(
 				__METHOD__ . ': Expected array from SpecialCheckUserGetLinksFromRow $links param,'
-				. ' but received ' . gettype( $links )
+				. ' but received ' . get_debug_type( $links )
 			);
 			return '';
 		}
