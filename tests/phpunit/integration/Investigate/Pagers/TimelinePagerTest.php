@@ -149,9 +149,15 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 			$row->timestamp = $this->getDb()->timestamp( $row->timestamp );
 			return $row;
 		}, $expectedRows );
+		$actualRows = iterator_to_array( $objectUnderTest->reallyDoQuery( $offset, $limit, $order ) );
+		// T372421: Ignore log_id, because the value may be influenced by other extensions.
+		$actualRows = array_map( static function ( $row ) {
+			unset( $row->log_id );
+			return $row;
+		}, $actualRows );
 		$this->assertArrayEquals(
 			$expectedRows,
-			iterator_to_array( $objectUnderTest->reallyDoQuery( $offset, $limit, $order ) ),
+			$actualRows,
 			true,
 			false,
 			'::reallyDoQuery did not return the expected rows'
@@ -177,7 +183,6 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 					'agent' => 'foo user agent', 'id' => '1', 'user' => '1', 'user_text' => 'InvestigateTestUser1',
 					'comment_text' => 'Foo comment', 'comment_data' => null, 'actor' => '1',
 					'log_type' => null, 'log_action' => null, 'log_params' => null, 'log_deleted' => null,
-					'log_id' => null,
 				] ],
 			],
 			'Offset set, limit 1, order DESC, InvestigateTestUser1 as target' => [
@@ -189,7 +194,6 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 					'agent' => 'foo user agent', 'id' => '1', 'user' => '1', 'user_text' => 'InvestigateTestUser1',
 					'comment_text' => 'Foo comment', 'comment_data' => null, 'actor' => '1',
 					'log_type' => null, 'log_action' => null, 'log_params' => null, 'log_deleted' => null,
-					'log_id' => null,
 				] ],
 			],
 			// Testing entries from cu_private_event, including the row where cupe_actor is null
@@ -202,7 +206,6 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 						'agent' => 'foo user agent', 'id' => '2', 'user' => '1', 'user_text' => 'InvestigateTestUser1',
 						'comment_text' => '', 'comment_data' => null, 'actor' => '1',
 						'log_type' => 'bar', 'log_action' => 'foo', 'log_params' => '', 'log_deleted' => 0,
-						'log_id' => null,
 					],
 					(object)[
 						'timestamp' => '20230405060720', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
@@ -211,7 +214,6 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 						'agent' => 'foo user agent', 'id' => '1', 'user' => null, 'user_text' => null,
 						'comment_text' => '', 'comment_data' => null, 'actor' => null,
 						'log_type' => 'bar', 'log_action' => 'foo', 'log_params' => '', 'log_deleted' => 0,
-						'log_id' => null,
 					],
 				]
 			],
@@ -225,7 +227,6 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 						'agent' => 'foo user agent', 'id' => '3', 'user' => '2', 'user_text' => 'InvestigateTestUser2',
 						'comment_text' => 'Barfoo comment', 'comment_data' => null, 'actor' => '2',
 						'log_type' => 'bar', 'log_action' => 'foo', 'log_params' => '', 'log_deleted' => 0,
-						'log_id' => null,
 					],
 				],
 			],
@@ -237,9 +238,8 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 						'minor' => null, 'page_id' => '1', 'type' => RC_LOG,
 						'this_oldid' => null, 'last_oldid' => null, 'ip' => '1.2.3.5', 'xff' => '0',
 						'agent' => 'bar user agent', 'id' => '2', 'user' => null, 'user_text' => '1.2.3.5',
-						'comment_text' => 'Testing', 'comment_data' => null, 'actor' => 5,
+						'comment_text' => 'Testing', 'comment_data' => null, 'actor' => '5',
 						'log_type' => 'foo', 'log_action' => 'bar', 'log_params' => 'a:0:{}', 'log_deleted' => 0,
-						'log_id' => 3,
 					],
 					(object)[
 						'timestamp' => '20230405060716', 'namespace' => NS_MAIN, 'title' => 'CheckUserTestPage',
@@ -248,7 +248,6 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 						'agent' => 'foo user agent', 'id' => '5', 'user' => null, 'user_text' => '1.2.3.5',
 						'comment_text' => 'Bar comment', 'comment_data' => null, 'actor' => '5',
 						'log_type' => null, 'log_action' => null, 'log_params' => null, 'log_deleted' => null,
-						'log_id' => null,
 					],
 				],
 			],
