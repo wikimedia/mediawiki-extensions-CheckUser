@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Afalau"
+			"Afalau",
+			"Ceirios"
 		]
 	},
 	"apihelp-query+checkuser-summary": "Gwirio pa gyfeiriadau IP sy'n cael eu defnyddio gan enw defnyddiwr penodol, neu pa enwau defnyddiwr sy'n cael eu defnyddio gan gyfeiriad IP penodol.",
