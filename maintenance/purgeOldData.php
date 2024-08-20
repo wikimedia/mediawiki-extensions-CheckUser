@@ -55,11 +55,9 @@ class PurgeOldData extends Maintenance {
 			"Purged $count rows and $mappingRowsCount client hint mapping rows purged.\n"
 		);
 
-		if ( $config->get( 'CheckUserPurgeOldClientHintsData' ) ) {
-			$userAgentClientHintsManager = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );
-			$orphanedMappingRowsDeleted = $userAgentClientHintsManager->deleteOrphanedMapRows();
-			$this->output( "Purged $orphanedMappingRowsDeleted orphaned client hint mapping rows.\n" );
-		}
+		$userAgentClientHintsManager = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );
+		$orphanedMappingRowsDeleted = $userAgentClientHintsManager->deleteOrphanedMapRows();
+		$this->output( "Purged $orphanedMappingRowsDeleted orphaned client hint mapping rows.\n" );
 
 		if ( $config->get( MainConfigNames::PutIPinRC ) ) {
 			$this->output( "Purging data from recentchanges..." );
@@ -85,7 +83,6 @@ class PurgeOldData extends Maintenance {
 		$userAgentClientHintsManager = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );
 		$referenceColumn = $userAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[$clientHintMappingId] ?? null;
 		$clientHintReferenceIds = new ClientHintsReferenceIds();
-		$shouldDeleteAssociatedClientData = $this->getConfig()->get( 'CheckUserPurgeOldClientHintsData' );
 
 		$dbw = $this->getDB( DB_PRIMARY );
 		$expiredCond = $dbw->expr( $ts_column, '<', $dbw->timestamp( ConvertibleTimestamp::time() - $maxAge ) );
@@ -99,7 +96,7 @@ class PurgeOldData extends Maintenance {
 				->orderBy( $ts_column, SelectQueryBuilder::SORT_ASC )
 				->limit( $this->mBatchSize )
 				->caller( __METHOD__ );
-			if ( $shouldDeleteAssociatedClientData && $clientHintMappingId !== null ) {
+			if ( $clientHintMappingId !== null ) {
 				$res = $queryBuilder->fields( [
 					$ts_column,
 					$referenceColumn
@@ -135,10 +132,7 @@ class PurgeOldData extends Maintenance {
 			$this->commitTransaction( $dbw, __METHOD__ );
 		}
 
-		$mappingRowsDeleted = 0;
-		if ( $shouldDeleteAssociatedClientData ) {
-			$mappingRowsDeleted = $userAgentClientHintsManager->deleteMappingRows( $clientHintReferenceIds );
-		}
+		$mappingRowsDeleted = $userAgentClientHintsManager->deleteMappingRows( $clientHintReferenceIds );
 
 		return [ $deletedCount, $mappingRowsDeleted ];
 	}
