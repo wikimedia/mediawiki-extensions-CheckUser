@@ -723,6 +723,9 @@
 	"AutoloadNamespaces": {
 		"MediaWiki\\CheckUser\\": "src/"
 	},
+	"TestAutoloadClasses": {
+		"MediaWiki\\CheckUser\\Tests\\Integration\\Maintenance\\Mocks\\SemiMockedCheckUserDataPurger": "tests/phpunit/integration/maintenance/mocks/SemiMockedCheckUserDataPurger.php"
+	},
 	"TestAutoloadNamespaces": {
 		"MediaWiki\\CheckUser\\Tests\\": "tests/phpunit/",
 		"MediaWiki\\CheckUser\\Tests\\Unit\\": "tests/phpunit/unit",
