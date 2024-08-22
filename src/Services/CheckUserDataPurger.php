@@ -15,6 +15,17 @@ use Wikimedia\Rdbms\IDatabase;
 class CheckUserDataPurger implements CheckUserQueryInterface {
 
 	/**
+	 * Gets the key for the lock to be acquired before code tries to purge CheckUser data.
+	 * Used to ensure that jobs and the purge maintenance script do not attempt to purge at the same time.
+	 *
+	 * @param string $domainID The result of {@link IDatabase::getDomainID} for the DB handle being used to purge
+	 * @return string The lock key
+	 */
+	public static function getPurgeLockKey( string $domainID ): string {
+		return "$domainID:PruneCheckUserData";
+	}
+
+	/**
 	 * Purge rows from the given local CheckUser result table.
 	 *
 	 * @param IDatabase $dbw A primary database connection for the database we are purging rows from. This is provided

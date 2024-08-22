@@ -32,10 +32,19 @@ class PurgeOldData extends Maintenance implements CheckUserQueryInterface {
 		$cudMaxAge = $config->get( 'CUDMaxAge' );
 		$cutoff = $this->getPrimaryDB()->timestamp( ConvertibleTimestamp::time() - $cudMaxAge );
 
-		foreach ( self::RESULT_TABLES as $table ) {
-			$this->output( "Purging data from $table..." );
-			[ $count, $mappingRowsCount ] = $this->prune( $table, $cutoff );
-			$this->output( "Purged $count rows and $mappingRowsCount client hint mapping rows.\n" );
+		// Get an exclusive lock to purge the expired CheckUser data, so that no job attempts to do this while
+		// we are doing it here.
+		$key = CheckUserDataPurger::getPurgeLockKey( $this->getPrimaryDB()->getDomainID() );
+		// Set the timeout at 60s, in case any job that has the lock is slow to run.
+		$scopedLock = $this->getPrimaryDB()->getScopedLockAndFlush( $key, __METHOD__, 60 );
+		if ( $scopedLock ) {
+			foreach ( self::RESULT_TABLES as $table ) {
+				$this->output( "Purging data from $table..." );
+				[ $count, $mappingRowsCount ] = $this->prune( $table, $cutoff );
+				$this->output( "Purged $count rows and $mappingRowsCount client hint mapping rows.\n" );
+			}
+		} else {
+			$this->error( "Unable to acquire a lock to do the purging of CheckUser data. Skipping this." );
 		}
 
 		$userAgentClientHintsManager = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );

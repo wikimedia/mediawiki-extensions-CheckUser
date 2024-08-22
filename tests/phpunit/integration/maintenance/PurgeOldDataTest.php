@@ -11,6 +11,7 @@ use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use PurgeRecentChanges;
 use Wikimedia\Rdbms\IDatabase;
+use Wikimedia\ScopedCallback;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -43,6 +44,44 @@ class PurgeOldDataTest extends MaintenanceBaseTestCase {
 	}
 
 	/**
+	 * Installs a mock IDatabase instance to the maintenance script that will be returned on calls to
+	 * ::getPrimaryDB
+	 *
+	 * @param bool $shouldReturnScopedLock Whether IDatabase::getScopedLockAndFlush should return a ScopedCallback (
+	 *   otherwise it returns null).
+	 */
+	private function installMockDatabase( bool $shouldReturnScopedLock ) {
+		// Mock ::getScopedLockAndFlush to return null, to simulate that we were unable to acquire a lock.
+		$mockDatabase = $this->createMock( IDatabase::class );
+		$mockDatabase->method( 'getScopedLockAndFlush' )
+			->willReturn( $shouldReturnScopedLock ? $this->createMock( ScopedCallback::class ) : null );
+		// Mock ::timestamp to use the real behaviour.
+		$mockDatabase->method( 'timestamp' )
+			->willReturnCallback( static function ( $ts ) {
+				$t = new ConvertibleTimestamp( $ts );
+				return $t->getTimestamp( TS_MW );
+			} );
+		$mockDatabase->method( 'getDomainID' )
+			->willReturn( 'enwiki' );
+		$this->maintenance->method( 'getPrimaryDB' )
+			->willReturn( $mockDatabase );
+	}
+
+	public function testExecuteWhenUnableToAcquireLock() {
+		$this->installMockDatabase( false );
+		// Expect that UserAgentClientHintsManager::deleteOrphanedMapRows are called (as this can be run even if
+		// no lock is acquired).
+		$mockUserAgentClientHintsManager = $this->createMock( UserAgentClientHintsManager::class );
+		$mockUserAgentClientHintsManager->method( 'deleteOrphanedMapRows' )
+			->willReturn( 123 );
+		$mockUserAgentClientHintsManager->expects( $this->never() )
+			->method( 'deleteMappingRows' );
+		$this->setService( 'UserAgentClientHintsManager', $mockUserAgentClientHintsManager );
+		$this->maintenance->execute();
+		$this->expectOutputRegex( "/Unable to acquire a lock to do the purging of CheckUser data./" );
+	}
+
+	/**
 	 * @param bool $shouldPurgeRecentChanges Whether the maintenance script should purge data from recentchanges
 	 * @return string The expected output regex
 	 */
@@ -63,21 +102,12 @@ class PurgeOldDataTest extends MaintenanceBaseTestCase {
 
 	/** @dataProvider provideExecute */
 	public function testExecute( $config, $shouldPurgeRecentChanges ) {
+		$this->installMockDatabase( true );
 		// Expect that the PurgeRecentChanges script is run if $shouldPurgeRecentChanges is true.
 		$this->overrideConfigValues( $config );
 		$this->maintenance->expects( $this->exactly( (int)$shouldPurgeRecentChanges ) )
 			->method( 'runChild' )
 			->with( PurgeRecentChanges::class );
-		// Mock ::getPrimaryDB so that the maintenance script can use ::timestamp without having to
-		// be a Database test.
-		$mockDatabase = $this->createMock( IDatabase::class );
-		$mockDatabase->method( 'timestamp' )
-			->willReturnCallback( static function ( $ts ) {
-				$t = new ConvertibleTimestamp( $ts );
-				return $t->getTimestamp( TS_MW );
-			} );
-		$this->maintenance->method( 'getPrimaryDB' )
-			->willReturn( $mockDatabase );
 		// Expect that UserAgentClientHintsManager::deleteOrphanedMapRows and ::deleteMappingRows are called,
 		// and give them fake return values.
 		$mockUserAgentClientHintsManager = $this->createMock( UserAgentClientHintsManager::class );

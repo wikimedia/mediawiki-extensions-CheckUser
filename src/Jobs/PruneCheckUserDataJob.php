@@ -30,7 +30,7 @@ class PruneCheckUserDataJob extends Job implements CheckUserQueryInterface {
 		$dbw = $lb->getMaintenanceConnectionRef( ILoadBalancer::DB_PRIMARY, $this->params['domainID'] );
 
 		// per-wiki
-		$key = "{$this->params['domainID']}:PruneCheckUserData";
+		$key = CheckUserDataPurger::getPurgeLockKey( $this->params['domainID'] );
 		$scopedLock = $dbw->getScopedLockAndFlush( $key, $fname, 1 );
 		if ( !$scopedLock ) {
 			return true;
