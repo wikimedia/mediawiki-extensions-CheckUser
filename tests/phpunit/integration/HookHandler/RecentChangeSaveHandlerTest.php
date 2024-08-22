@@ -80,6 +80,7 @@ class RecentChangeSaveHandlerTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * @dataProvider providePruneIPDataData
 	 * @covers \MediaWiki\CheckUser\Jobs\PruneCheckUserDataJob
+	 * @covers \MediaWiki\CheckUser\Services\CheckUserDataPurger
 	 */
 	public function testPruneIPDataData( int $currentTime, int $maxCUDataAge, array $timestamps, int $afterCount ) {
 		$this->overrideConfigValue( 'CUDMaxAge', $maxCUDataAge );
