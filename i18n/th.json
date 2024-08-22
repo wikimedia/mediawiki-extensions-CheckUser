@@ -26,7 +26,7 @@
 	"grant-checkuser": "เข้าถึงข้อมูลผู้ตรวจสอบผู้ใช้",
 	"action-checkuser": "ตรวจสอบเลขที่อยู่ไอพีและสารสนเทศอื่นของผู้ใช้",
 	"action-checkuser-log": "ดูรายการบันทึกการตรวจสอบผู้ใช้",
-	"grouppage-checkuser": "{{ns:project}}:ผู้ตรวจสอบผู้ใช้",
+	"grouppage-checkuser": "{{ns:project}}:การตรวจสอบผู้ใช้",
 	"checkuser-clienthints-name-mobile": "อุปกรณ์เคลื่อนที่",
 	"checkuser-reason": "เหตุผล:",
 	"checkuser-reason-api": "API: $1",
