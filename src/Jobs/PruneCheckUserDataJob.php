@@ -38,32 +38,31 @@ class PruneCheckUserDataJob extends Job {
 			ConvertibleTimestamp::time() - $services->getMainConfig()->get( 'CUDMaxAge' )
 		);
 
-		$shouldDeleteAssociatedClientData = $services->getMainConfig()->get( 'CheckUserPurgeOldClientHintsData' );
-
 		$deleteOperation = static function (
 			$table, $idField, $timestampField, $clientHintMapTypeIdentifier
-		) use ( $dbw, $cutoff, $fname, $shouldDeleteAssociatedClientData ) {
-			$ids = [];
-			$referenceIds = [];
+		) use ( $dbw, $cutoff, $fname ) {
+			// Get at most 500 rows to purge from the given $table, selecting the row ID and associated Client Hints
+			// data reference ID
 			$clientHintReferenceField =
 				UserAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[$clientHintMapTypeIdentifier];
 			$idQueryBuilder = $dbw->newSelectQueryBuilder()
+				->field( $idField )
 				->table( $table )
 				->conds( $dbw->expr( $timestampField, '<', $cutoff ) )
 				->limit( 500 )
 				->caller( $fname );
-			if ( $shouldDeleteAssociatedClientData ) {
-				$result = $idQueryBuilder->fields( [ $idField, $clientHintReferenceField ] )
-					->fetchResultSet();
-				foreach ( $result as $row ) {
-					$ids[] = $row->$idField;
-					$referenceIds[] = $row->$clientHintReferenceField;
-				}
-			} else {
-				$ids = $idQueryBuilder
-					->field( $idField )
-					->fetchFieldValues();
+			if ( $clientHintReferenceField !== $idField ) {
+				$idQueryBuilder->field( $clientHintReferenceField );
 			}
+			$result = $idQueryBuilder->fetchResultSet();
+			// Group the row IDs and Client Hints data reference IDs into two arrays
+			$ids = [];
+			$referenceIds = [];
+			foreach ( $result as $row ) {
+				$ids[] = $row->$idField;
+				$referenceIds[] = $row->$clientHintReferenceField;
+			}
+			// Perform the purging of the rows with IDs in $ids
 			if ( $ids ) {
 				$dbw->newDeleteQueryBuilder()
 					->table( $table )
@@ -71,6 +70,8 @@ class PruneCheckUserDataJob extends Job {
 					->caller( $fname )
 					->execute();
 			}
+			// Return the Client Hints reference IDs for the now deleted rows for purging by
+			// UserAgentClientHintsManager::deleteMappingRows
 			return $referenceIds;
 		};
 
@@ -100,11 +101,9 @@ class PruneCheckUserDataJob extends Job {
 			UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT
 		);
 
-		if ( $shouldDeleteAssociatedClientData ) {
-			/** @var UserAgentClientHintsManager $userAgentClientHintsManager */
-			$userAgentClientHintsManager = $services->get( 'UserAgentClientHintsManager' );
-			$userAgentClientHintsManager->deleteMappingRows( $deletedReferenceIds );
-		}
+		/** @var UserAgentClientHintsManager $userAgentClientHintsManager */
+		$userAgentClientHintsManager = $services->get( 'UserAgentClientHintsManager' );
+		$userAgentClientHintsManager->deleteMappingRows( $deletedReferenceIds );
 
 		return true;
 	}
