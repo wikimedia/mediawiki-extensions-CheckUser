@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Maintenance;
 use Maintenance;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
+use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
 use MediaWiki\CheckUser\Services\CheckUserDataPurger;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\MainConfigNames;
@@ -34,15 +35,30 @@ class PurgeOldData extends Maintenance implements CheckUserQueryInterface {
 
 		// Get an exclusive lock to purge the expired CheckUser data, so that no job attempts to do this while
 		// we are doing it here.
-		$key = CheckUserDataPurger::getPurgeLockKey( $this->getPrimaryDB()->getDomainID() );
+		$domainId = $this->getPrimaryDB()->getDomainID();
+		$key = CheckUserDataPurger::getPurgeLockKey( $domainId );
 		// Set the timeout at 60s, in case any job that has the lock is slow to run.
 		$scopedLock = $this->getPrimaryDB()->getScopedLockAndFlush( $key, __METHOD__, 60 );
 		if ( $scopedLock ) {
+			// Purge expired rows from each local CheckUser result table
 			foreach ( self::RESULT_TABLES as $table ) {
 				$this->output( "Purging data from $table..." );
 				[ $count, $mappingRowsCount ] = $this->prune( $table, $cutoff );
 				$this->output( "Purged $count rows and $mappingRowsCount client hint mapping rows.\n" );
 			}
+
+			// Purge expired rows from the central index tables where the rows are associated with this wiki
+			/** @var CheckUserCentralIndexManager $checkUserCentralIndexManager */
+			$checkUserCentralIndexManager = $this->getServiceContainer()->get( 'CheckUserCentralIndexManager' );
+			$centralRowsPurged = 0;
+			do {
+				$rowsPurgedInThisBatch = $checkUserCentralIndexManager->purgeExpiredRows(
+					$cutoff, $domainId, $this->mBatchSize
+				);
+				$centralRowsPurged += $rowsPurgedInThisBatch;
+				$this->waitForReplication();
+			} while ( $rowsPurgedInThisBatch !== 0 );
+			$this->output( "Purged $centralRowsPurged central index rows.\n" );
 		} else {
 			$this->error( "Unable to acquire a lock to do the purging of CheckUser data. Skipping this." );
 		}

@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
 use MediaWiki\CheckUser\HookHandler\RecentChangeSaveHandler;
+use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWikiIntegrationTestCase;
@@ -83,6 +84,13 @@ class RecentChangeSaveHandlerTest extends MediaWikiIntegrationTestCase {
 	 * @covers \MediaWiki\CheckUser\Services\CheckUserDataPurger
 	 */
 	public function testPruneIPDataData( int $currentTime, int $maxCUDataAge, array $timestamps, int $afterCount ) {
+		// Check that PruneCheckUserDataJob::run will call CheckUserCentralIndexManager::purgeExpiredRows
+		$mockCheckUserCentralIndexManager = $this->createMock( CheckUserCentralIndexManager::class );
+		$mockCheckUserCentralIndexManager->expects( $this->once() )
+			->method( 'purgeExpiredRows' )
+			->willReturn( 12 );
+		$this->setService( 'CheckUserCentralIndexManager', $mockCheckUserCentralIndexManager );
+		// Set wgCUDMaxAge to ensure that any changes to the default does not affect this test.
 		$this->overrideConfigValue( 'CUDMaxAge', $maxCUDataAge );
 		$logEntryCutoff = $this->getDb()->timestamp( $currentTime - $maxCUDataAge );
 		foreach ( $timestamps as $timestamp ) {
