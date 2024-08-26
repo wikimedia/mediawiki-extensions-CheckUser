@@ -8,12 +8,13 @@ use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\CheckUser\Services\CheckUserDataPurger;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\MediaWikiServices;
-use Wikimedia\Rdbms\ILoadBalancer;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
- * Prune data from the three CheckUser tables (cu_changes, cu_log_event and cu_private_event)
- * using a job to avoid doing this post send.
+ * Prune CheckUser data from the CheckUser result tables (cu_changes, cu_log_event and cu_private_event), as well
+ * as the associated Client Hints data.
+ *
+ * This is done via a job to avoid expensive deletes on post-send.
  */
 class PruneCheckUserDataJob extends Job implements CheckUserQueryInterface {
 	/** @inheritDoc */
@@ -24,18 +25,19 @@ class PruneCheckUserDataJob extends Job implements CheckUserQueryInterface {
 	/** @return bool */
 	public function run() {
 		$services = MediaWikiServices::getInstance();
-		$fname = __METHOD__;
 
-		$lb = $services->getDBLoadBalancer();
-		$dbw = $lb->getMaintenanceConnectionRef( ILoadBalancer::DB_PRIMARY, $this->params['domainID'] );
+		$dbw = $services->getConnectionProvider()->getPrimaryDatabase( $this->params['domainID'] );
 
-		// per-wiki
+		// Get an exclusive lock to purge data from the CheckUser tables. This is done to avoid multiple jobs and/or
+		// the purgeOldData.php maintenance script attempting to purge at the same time.
 		$key = CheckUserDataPurger::getPurgeLockKey( $this->params['domainID'] );
-		$scopedLock = $dbw->getScopedLockAndFlush( $key, $fname, 1 );
+		$scopedLock = $dbw->getScopedLockAndFlush( $key, __METHOD__, 1 );
 		if ( !$scopedLock ) {
 			return true;
 		}
 
+		// Generate a cutoff timestamp from the wgCUDMaxAge configuration setting. Generating a fixed cutoff now
+		// ensures that the cutoff remains the same throughout the job.
 		$cutoff = $dbw->timestamp(
 			ConvertibleTimestamp::time() - $services->getMainConfig()->get( 'CUDMaxAge' )
 		);
@@ -45,12 +47,12 @@ class PruneCheckUserDataJob extends Job implements CheckUserQueryInterface {
 		/** @var CheckUserDataPurger $checkUserDataPurger */
 		$checkUserDataPurger = $services->get( 'CheckUserDataPurger' );
 
+		// Purge rows from each local CheckUser table that have an associated timestamp before the cutoff.
 		foreach ( self::RESULT_TABLES as $table ) {
-			$checkUserDataPurger->purgeDataFromLocalTable(
-				$dbw, $table, $cutoff, $deletedReferenceIds, __METHOD__
-			);
+			$checkUserDataPurger->purgeDataFromLocalTable( $dbw, $table, $cutoff, $deletedReferenceIds, __METHOD__ );
 		}
 
+		// Delete the Client Hints mapping rows associated with the rows purged in the above for loop.
 		/** @var UserAgentClientHintsManager $userAgentClientHintsManager */
 		$userAgentClientHintsManager = $services->get( 'UserAgentClientHintsManager' );
 		$userAgentClientHintsManager->deleteMappingRows( $deletedReferenceIds );
