@@ -696,7 +696,13 @@
 	},
 	"JobClasses": {
 		"checkuserLogTemporaryAccountAccess": "\\MediaWiki\\CheckUser\\Jobs\\LogTemporaryAccountAccessJob",
-		"checkuserPruneCheckUserDataJob": "\\MediaWiki\\CheckUser\\Jobs\\PruneCheckUserDataJob"
+		"checkuserPruneCheckUserDataJob": "\\MediaWiki\\CheckUser\\Jobs\\PruneCheckUserDataJob",
+		"checkuserUpdateUserCentralIndexJob": {
+			"class": "MediaWiki\\CheckUser\\Jobs\\UpdateUserCentralIndexJob",
+			"services": [
+				"ConnectionProvider"
+			]
+		}
 	},
 	"AutoloadClasses": {
 		"MediaWiki\\CheckUser\\Hook\\CheckUserInsertChangesRow": "src/Hook/CheckUserInsertChangesRowHook.php",

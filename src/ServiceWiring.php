@@ -218,7 +218,10 @@ return [
 		MediaWikiServices $services
 	) {
 		return new CheckUserCentralIndexManager(
-			$services->getDBLoadBalancerFactory()
+			$services->getDBLoadBalancerFactory(),
+			$services->getCentralIdLookup(),
+			$services->getJobQueueGroup(),
+			LoggerFactory::getInstance( 'CheckUser' )
 		);
 	},
 	'CheckUserTemporaryAccountLoggerFactory' => static function (

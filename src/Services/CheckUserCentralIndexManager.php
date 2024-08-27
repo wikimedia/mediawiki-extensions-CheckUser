@@ -2,7 +2,14 @@
 
 namespace MediaWiki\CheckUser\Services;
 
+use IDBAccessObject;
+use Job;
+use JobQueueGroup;
+use JobSpecification;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
+use MediaWiki\User\CentralId\CentralIdLookup;
+use MediaWiki\User\UserIdentity;
+use Psr\Log\LoggerInterface;
 use Wikimedia\Rdbms\ILoadBalancer;
 use Wikimedia\Rdbms\LBFactory;
 
@@ -11,12 +18,90 @@ use Wikimedia\Rdbms\LBFactory;
  */
 class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 	private LBFactory $lbFactory;
+	private CentralIdLookup $centralIdLookup;
+	private JobQueueGroup $jobQueueGroup;
+	private LoggerInterface $logger;
 
 	/**
 	 * @param LBFactory $lbFactory
+	 * @param CentralIdLookup $centralIdLookup
+	 * @param JobQueueGroup $jobQueueGroup
+	 * @param LoggerInterface $logger
 	 */
-	public function __construct( LBFactory $lbFactory ) {
+	public function __construct(
+		LBFactory $lbFactory,
+		CentralIdLookup $centralIdLookup,
+		JobQueueGroup $jobQueueGroup,
+		LoggerInterface $logger
+	) {
 		$this->lbFactory = $lbFactory;
+		$this->centralIdLookup = $centralIdLookup;
+		$this->jobQueueGroup = $jobQueueGroup;
+		$this->logger = $logger;
+	}
+
+	/**
+	 * Records that an CheckUser logged action (defined as an action that caused an insert to a local CheckUser
+	 * result table) has occurred for a given wiki.
+	 *
+	 * If this is called in code that is producing a web response, then this should be queued for execution
+	 * via a DeferredUpdate to be run on POST_SEND so to not block the HTTP response.
+	 *
+	 * @param UserIdentity $performer The performer of the action that was logged to a local CheckUser result table
+	 * @param string $domainID The domain ID for the wiki where the action was performed
+	 * @param string $timestamp When the action was performed, as a TS_MW timestamp
+	 * @return void
+	 */
+	public function recordActionInCentralIndexes( UserIdentity $performer, string $domainID, string $timestamp ) {
+		// Don't record data when the user does not exist locally or is an IP address, as for the user central index
+		// we need a central ID and for the temp edit index the performer has to be a temporary account.
+		if ( !$performer->isRegistered() ) {
+			return;
+		}
+
+		// Get the cuci_wiki_map ID for this domain, to be used in inserting data to the central indexes.
+		$wikiMapId = $this->getWikiMapIdForDomainId( $domainID );
+
+		// Update the cuci_user central index for this cuci_wiki_map ID and central ID combination.
+		$this->recordActionInUserCentralIndex( $performer, $wikiMapId, $timestamp );
+	}
+
+	/**
+	 * Records a CheckUser logged action into the cuci_user table for a given wiki and central ID.
+	 *
+	 * @param UserIdentity $performer The performer of the action that was logged to a local CheckUser result table
+	 * @param int $wikiMapId The ciwm_id for the wiki where the action was performed
+	 * @param string $timestamp When the action was performed, as a TS_MW timestamp
+	 * @return void
+	 */
+	private function recordActionInUserCentralIndex( UserIdentity $performer, int $wikiMapId, string $timestamp ) {
+		// Get the central ID associated with the $performer, trying primary if we cannot find the ID on a replica DB.
+		// We may need to try the primary DB when we are recording a account creation action in the index.
+		$centralId = $this->centralIdLookup->centralIdFromLocalUser( $performer, CentralIdLookup::AUDIENCE_RAW );
+
+		if ( !$centralId ) {
+			$centralId = $this->centralIdLookup->centralIdFromLocalUser(
+				$performer, CentralIdLookup::AUDIENCE_RAW, IDBAccessObject::READ_LATEST
+			);
+		}
+
+		if ( !$centralId ) {
+			// We cannot record the action in the cuci_user table if we do not have a central ID for the performer.
+			$this->logger->error(
+				"Unable to find central ID for local user {username} when recording action in cuci_user table.",
+				[ 'username' => $performer->getName() ]
+			);
+			return;
+		}
+
+		// Queue a job to update the cuci_user table. Using a newRootJobParams call ensures that if multiple jobs
+		// are submitted at once, we only end up running the newest job.
+		$jobParams = [ 'centralID' => $centralId, 'wikiMapID' => $wikiMapId, 'timestamp' => $timestamp ];
+		$jobParams += Job::newRootJobParams( "updateUserCentralIndex:$wikiMapId:$centralId" );
+		// Modify the 'rootJobTimestamp' to be the timestamp we are submitting, as this will ensure that the
+		// newest timestamp will be processed out of a bunch of duplicate jobs.
+		$jobParams['rootJobTimestamp'] = $timestamp;
+		$this->jobQueueGroup->push( new JobSpecification( 'checkuserUpdateUserCentralIndexJob', $jobParams ) );
 	}
 
 	/**

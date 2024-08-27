@@ -4,7 +4,11 @@ namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
+use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MainConfigNames;
+use MediaWiki\User\CentralId\CentralIdLookup;
+use MediaWiki\User\UserIdentity;
+use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\IPUtils;
 
@@ -18,8 +22,26 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 	private static int $enwikiMapId;
 	private static int $dewikiMapId;
 
-	private function getObjectUnderTest(): CheckUserCentralIndexManager {
-		return $this->getServiceContainer()->get( 'CheckUserCentralIndexManager' );
+	protected function setUp(): void {
+		parent::setUp();
+		// We don't want to test specifically the CentralAuth implementation of the CentralIdLookup. As such, force it
+		// to be the local provider.
+		$this->overrideConfigValue( MainConfigNames::CentralIdLookupProvider, 'local' );
+	}
+
+	private function getConstructorArguments(): array {
+		return [
+			'lbFactory' => $this->getServiceContainer()->getDBLoadBalancerFactory(),
+			'centralIdLookup' => $this->getServiceContainer()->getCentralIdLookup(),
+			'jobQueueGroup' => $this->getServiceContainer()->getJobQueueGroup(),
+			'logger' => LoggerFactory::getInstance( 'CheckUser' ),
+		];
+	}
+
+	private function getObjectUnderTest( $overrides = [] ): CheckUserCentralIndexManager {
+		return new CheckUserCentralIndexManager(
+			...array_values( array_merge( $this->getConstructorArguments(), $overrides ) )
+		);
 	}
 
 	public function addDBData() {
@@ -179,5 +201,52 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 				[ CheckUserQueryInterface::VIRTUAL_GLOBAL_DB_DOMAIN => [ 'db' => false ] ],
 			],
 		];
+	}
+
+	/** @dataProvider provideRecordActionInCentralIndexes */
+	public function testRecordActionInCentralIndexes(
+		UserIdentity $performer, $timestamp, $expectedCuciUserTableCount
+	) {
+		$this->getObjectUnderTest()->recordActionInCentralIndexes( $performer, 'enwiki', $timestamp );
+		// Run jobs as the inserts to cuci_user are made using a job.
+		$this->runJobs( [ 'minJobs' => 0 ] );
+		// The call to the method under test should result in the specified number of rows in cuci_user
+		$this->assertSame( $expectedCuciUserTableCount, $this->getRowCountForTable( 'cuci_user' ) );
+	}
+
+	public static function provideRecordActionInCentralIndexes() {
+		return [
+			'IP address performer' => [
+				UserIdentityValue::newAnonymous( '1.2.3.4' ), '20230405060708', 0,
+			],
+			'Non-existing username' => [
+				UserIdentityValue::newAnonymous( 'NonExistentUser1234' ), '20240506070809', 0,
+			],
+		];
+	}
+
+	public function testRecordActionInCentralIndexesForMissingCentralId() {
+		$testUser = $this->getTestUser()->getUserIdentity();
+		// Mock that the CentralIdLookup service will return no central ID for our test user
+		$this->setService( 'CentralIdLookup', function () use ( $testUser ) {
+			$mockCentralIdLookup = $this->createMock( CentralIdLookup::class );
+			$mockCentralIdLookup->method( 'centralIdFromLocalUser' )
+				->willReturnCallback( function ( $providedUser ) use ( $testUser ) {
+					$this->assertTrue( $testUser->equals( $providedUser ) );
+					return 0;
+				} );
+			return $mockCentralIdLookup;
+		} );
+		$this->testRecordActionInCentralIndexes( $testUser, '20240506070809', 0 );
+	}
+
+	/**
+	 * @covers \MediaWiki\CheckUser\Jobs\UpdateUserCentralIndexJob
+	 */
+	public function testRecordActionInCentralIndexesForSuccessfulUserIndexInsert() {
+		$performer = $this->getTestUser()->getUserIdentity();
+		$this->testRecordActionInCentralIndexes(
+			$performer, '20240506070809', 1
+		);
 	}
 }
