@@ -208,7 +208,8 @@ return [
 			$services->getHookContainer(),
 			$services->getDBLoadBalancerFactory(),
 			$services->getContentLanguage(),
-			$services->getTempUserConfig()
+			$services->getTempUserConfig(),
+			$services->get( 'CheckUserCentralIndexManager' )
 		);
 	},
 	'CheckUserDataPurger' => static function () {

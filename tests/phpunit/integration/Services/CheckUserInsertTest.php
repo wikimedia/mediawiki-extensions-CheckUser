@@ -7,6 +7,7 @@ use DatabaseLogEntry;
 use Language;
 use LogEntryBase;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
+use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
@@ -29,13 +30,39 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		return $this->getServiceContainer()->get( 'CheckUserInsert' );
 	}
 
+	private function installMockCheckUserIndexManagerThatExpectsCall(
+		$expectedUserIdentity, $expectedTimestamp
+	) {
+		// Check that a call to CheckUserCentralIndexManager::recordActionInCentralIndexes is made
+		$mockCheckUserCentralIndexManager = $this->createMock( CheckUserCentralIndexManager::class );
+		$mockCheckUserCentralIndexManager->expects( $this->once() )
+			->method( 'recordActionInCentralIndexes' )
+			->willReturnCallback( function ( $performer, $ip, $domainID, $timestamp ) use (
+				$expectedUserIdentity, $expectedTimestamp
+			) {
+				// Check that the parameters are as expected for the call to this method
+				$this->assertTrue( $expectedUserIdentity->equals( $performer ) );
+				$this->assertSame( $this->getDb()->getDomainID(), $domainID );
+				$this->assertSame( $expectedTimestamp, $timestamp );
+			} );
+		$this->setService( 'CheckUserCentralIndexManager', $mockCheckUserCentralIndexManager );
+	}
+
 	/** @dataProvider provideInsertIntoCuChangesTable */
 	public function testInsertIntoCuChangesTable(
 		array $row, array $fields, array $expectedRow, $checkUserInsert = null
 	) {
 		ConvertibleTimestamp::setFakeTime( '20240506070809' );
+		$performer = $this->getTestUser()->getUserIdentity();
+		// Only mock the service if we don't already have an instance of CheckUserInsert. Mocking at this stage
+		// will not do anything for the test if an instance already exists.
+		if ( $checkUserInsert === null ) {
+			$this->installMockCheckUserIndexManagerThatExpectsCall(
+				$performer, $row['cuc_timestamp'] ?? '20240506070809'
+			);
+		}
 		$checkUserInsert ??= $this->setUpObject();
-		$checkUserInsert->insertIntoCuChangesTable( $row, __METHOD__, $this->getTestUser()->getUserIdentity() );
+		$checkUserInsert->insertIntoCuChangesTable( $row, __METHOD__, $performer );
 		$expectedRow = $this->convertTimestampInExpectedRowToDbFormat( $fields, $expectedRow );
 		$this->newSelectQueryBuilder()
 			->select( $fields )
@@ -63,9 +90,17 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		array $row, array $fields, array $expectedRow, $checkUserInsert = null
 	) {
 		ConvertibleTimestamp::setFakeTime( '20240506070809' );
+		$performer = $this->getTestUser()->getUserIdentity();
+		// Only mock the service if we don't already have an instance of CheckUserInsert. Mocking at this stage
+		// will not do anything for the test if an instance already exists.
+		if ( $checkUserInsert === null ) {
+			$this->installMockCheckUserIndexManagerThatExpectsCall(
+				$performer, $row['cupe_timestamp'] ?? '20240506070809'
+			);
+		}
 		$checkUserInsert ??= $this->setUpObject();
 		$checkUserInsert->insertIntoCuPrivateEventTable(
-			$row, __METHOD__, $this->getTestUser()->getUserIdentity()
+			$row, __METHOD__, $performer
 		);
 		$expectedRow = $this->convertTimestampInExpectedRowToDbFormat( $fields, $expectedRow );
 		$this->newSelectQueryBuilder()
@@ -100,6 +135,13 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			'cu_log_event',
 		] );
 		$logEntry = DatabaseLogEntry::newFromId( $logId, $this->getDb() );
+		// Only mock the service if we don't already have an instance of CheckUserInsert. Mocking at this stage
+		// will not do anything for the test if an instance already exists.
+		if ( $checkUserInsert === null ) {
+			$this->installMockCheckUserIndexManagerThatExpectsCall(
+				$logEntry->getPerformerIdentity(), $logEntry->getTimestamp()
+			);
+		}
 
 		$checkUserInsert ??= $this->setUpObject();
 		$checkUserInsert->insertIntoCuLogEventTable(
@@ -140,7 +182,8 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getHookContainer(),
 			$this->getServiceContainer()->getConnectionProvider(),
 			$mockContentLanguage,
-			$this->getServiceContainer()->getTempUserConfig()
+			$this->getServiceContainer()->getTempUserConfig(),
+			$this->getServiceContainer()->get( 'CheckUserCentralIndexManager' )
 		);
 		if ( $table === 'cu_changes' ) {
 			$this->testInsertIntoCuChangesTable(

@@ -9,6 +9,7 @@ use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Request\WebRequest;
@@ -36,6 +37,7 @@ class CheckUserInsert {
 	private IConnectionProvider $connectionProvider;
 	private Language $contentLanguage;
 	private TempUserConfig $tempUserConfig;
+	private CheckUserCentralIndexManager $checkUserCentralIndexManager;
 
 	/**
 	 * The maximum number of bytes that fit in CheckUser's text fields,
@@ -50,7 +52,8 @@ class CheckUserInsert {
 		HookContainer $hookContainer,
 		IConnectionProvider $connectionProvider,
 		Language $contentLanguage,
-		TempUserConfig $tempUserConfig
+		TempUserConfig $tempUserConfig,
+		CheckUserCentralIndexManager $checkUserCentralIndexManager
 	) {
 		$this->actorStore = $actorStore;
 		$this->checkUserUtilityService = $checkUserUtilityService;
@@ -59,6 +62,7 @@ class CheckUserInsert {
 		$this->connectionProvider = $connectionProvider;
 		$this->contentLanguage = $contentLanguage;
 		$this->tempUserConfig = $tempUserConfig;
+		$this->checkUserCentralIndexManager = $checkUserCentralIndexManager;
 	}
 
 	/**
@@ -172,6 +176,26 @@ class CheckUserInsert {
 	}
 
 	/**
+	 * Performs a call to CheckUserCentralIndexManager::recordActionInCentralIndexes inside a DeferredUpdate that
+	 * is run on POST_SEND.
+	 *
+	 * @param UserIdentity $performer
+	 * @param string $ip
+	 * @param string $domainID
+	 * @param string $timestamp
+	 * @see CheckUserCentralIndexManager::recordActionInCentralIndexes for documentation on the parameters
+	 */
+	private function recordActionInCentralTablesOnDeferredUpdate(
+		UserIdentity $performer, string $ip, string $domainID, string $timestamp
+	) {
+		DeferredUpdates::addCallableUpdate( function () use ( $performer, $ip, $domainID, $timestamp ) {
+			$this->checkUserCentralIndexManager->recordActionInCentralIndexes(
+				$performer, $ip, $domainID, $timestamp
+			);
+		} );
+	}
+
+	/**
 	 * Inserts a row into cu_log_event based on provided log ID and performer.
 	 *
 	 * The $user parameter is used to fill the column values about the performer of the log action.
@@ -227,6 +251,9 @@ class CheckUserInsert {
 			->row( $row )
 			->caller( $method )
 			->execute();
+
+		// Update the central index for this newly inserted row.
+		$this->recordActionInCentralTablesOnDeferredUpdate( $user, $ip, $dbw->getDomainID(), $row['cule_timestamp'] );
 	}
 
 	/**
@@ -303,6 +330,9 @@ class CheckUserInsert {
 			->row( $row )
 			->caller( $method )
 			->execute();
+
+		// Update the central index for this newly inserted row.
+		$this->recordActionInCentralTablesOnDeferredUpdate( $user, $ip, $dbw->getDomainID(), $row['cupe_timestamp'] );
 	}
 
 	/**
@@ -374,6 +404,9 @@ class CheckUserInsert {
 			->row( $row )
 			->caller( $method )
 			->execute();
+
+		// Update the central index for this newly inserted row.
+		$this->recordActionInCentralTablesOnDeferredUpdate( $user, $ip, $dbw->getDomainID(), $row['cuc_timestamp'] );
 	}
 
 	/**
