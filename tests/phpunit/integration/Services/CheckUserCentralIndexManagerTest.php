@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
+use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MainConfigNames;
 use MediaWiki\User\CentralId\CentralIdLookup;
@@ -31,8 +32,13 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 
 	private function getConstructorArguments(): array {
 		return [
+			'options' => new ServiceOptions(
+				CheckUserCentralIndexManager::CONSTRUCTOR_OPTIONS,
+				$this->getServiceContainer()->getMainConfig()
+			),
 			'lbFactory' => $this->getServiceContainer()->getDBLoadBalancerFactory(),
 			'centralIdLookup' => $this->getServiceContainer()->getCentralIdLookup(),
+			'userGroupManager' => $this->getServiceContainer()->getUserGroupManager(),
 			'jobQueueGroup' => $this->getServiceContainer()->getJobQueueGroup(),
 			'logger' => LoggerFactory::getInstance( 'CheckUser' ),
 		];
@@ -205,9 +211,9 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideRecordActionInCentralIndexes */
 	public function testRecordActionInCentralIndexes(
-		UserIdentity $performer, $timestamp, $expectedCuciUserTableCount
+		UserIdentity $performer, $ip, $timestamp, $expectedCuciUserTableCount
 	) {
-		$this->getObjectUnderTest()->recordActionInCentralIndexes( $performer, 'enwiki', $timestamp );
+		$this->getObjectUnderTest()->recordActionInCentralIndexes( $performer, $ip, 'enwiki', $timestamp );
 		// Run jobs as the inserts to cuci_user are made using a job.
 		$this->runJobs( [ 'minJobs' => 0 ] );
 		// The call to the method under test should result in the specified number of rows in cuci_user
@@ -217,11 +223,33 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 	public static function provideRecordActionInCentralIndexes() {
 		return [
 			'IP address performer' => [
-				UserIdentityValue::newAnonymous( '1.2.3.4' ), '20230405060708', 0,
+				UserIdentityValue::newAnonymous( '1.2.3.4' ), '1.2.3.4', '20230405060708', 0,
 			],
 			'Non-existing username' => [
-				UserIdentityValue::newAnonymous( 'NonExistentUser1234' ), '20240506070809', 0,
+				UserIdentityValue::newAnonymous( 'NonExistentUser1234' ), '5.6.7.8', '20240506070809', 0,
 			],
+		];
+	}
+
+	public function testRecordActionInCentralIndexesForExcludedUserGroup() {
+		// Get a user with the bot group and also set users in the bot group to be excluded from the central user index
+		$this->overrideConfigValue( 'CheckUserCentralIndexGroupsToExclude', [ 'bot' ] );
+		$testUser = $this->getTestUser( [ 'bot' ] )->getUserIdentity();
+		$this->testRecordActionInCentralIndexes( $testUser, '1.2.3.4', '20230405060708', 0 );
+	}
+
+	/** @dataProvider provideExcludedIPAddresses */
+	public function testRecordActionInCentralIndexesForExcludedIP( $excludedIPRangesConfig, $ip ) {
+		$this->overrideConfigValue( 'CheckUserCentralIndexRangesToExclude', $excludedIPRangesConfig );
+		$testUser = $this->getTestUser()->getUserIdentity();
+		$this->testRecordActionInCentralIndexes( $testUser, $ip, '20240506070809', 0 );
+	}
+
+	public static function provideExcludedIPAddresses() {
+		return [
+			'IP being used is in an excluded range' => [ [ '1.2.3.4/24' ], '1.2.3.45' ],
+			'IP being used is an excluded IP' => [ [ '1.2.3.4' ], '1.2.3.4' ],
+			'IP is excluded but config includes invalid IP range' => [ [ '1.2.567', '1.2.3.4' ], '1.2.3.4' ],
 		];
 	}
 
@@ -237,7 +265,81 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 				} );
 			return $mockCentralIdLookup;
 		} );
-		$this->testRecordActionInCentralIndexes( $testUser, '20240506070809', 0 );
+		$this->testRecordActionInCentralIndexes( $testUser, '1.2.3.4', '20240506070809', 0 );
+	}
+
+	private function commonRecordActionInCentralIndexes(
+		$performer, $lastTimestamp, $timestamp, $shouldPassMtRandCheck
+	) {
+		// Insert a pre-existing entry with the $lastTimestamp as the timestamp
+		$this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'cuci_user' )
+			->row( [
+				'ciu_timestamp' => $this->getDb()->timestamp( $lastTimestamp ),
+				'ciu_ciwm_id' => self::$enwikiMapId,
+				'ciu_central_id' => $performer->getId(),
+			] )
+			->caller( __METHOD__ )
+			->execute();
+		$objectUnderTest = $this->getObjectUnderTest();
+		// Set mt_rand to use a specific seed that will return 0 on the first call
+		mt_srand( $shouldPassMtRandCheck ? 6 : 0 );
+		// Call the method under test.
+		$objectUnderTest->recordActionInCentralIndexes(
+			$performer, '1.2.3.4', 'enwiki', $timestamp
+		);
+		// Run jobs as the inserts to cuci_user are made using a job, so if we don't run the jobs the test will
+		// fail to catch if the code is actually not doing as expected.
+		$this->runJobs( [ 'minJobs' => 0 ] );
+	}
+
+	/** @dataProvider provideRecordActionInCentralIndexesOnTooRecentUpdate */
+	public function testRecordActionInCentralIndexesOnTooRecentUpdate(
+		$lastTimestamp, $timestamp, $shouldPassMtRandCheck
+	) {
+		$performer = $this->getTestUser()->getUserIdentity();
+		$this->commonRecordActionInCentralIndexes( $performer, $lastTimestamp, $timestamp, $shouldPassMtRandCheck );
+		// Check that the entry in cuci_user still uses the $lastTimestamp value
+		$this->newSelectQueryBuilder()
+			->select( 'ciu_timestamp' )
+			->from( 'cuci_user' )
+			->where( [
+				'ciu_ciwm_id' => self::$enwikiMapId,
+				'ciu_central_id' => $performer->getId(),
+			] )
+			->caller( __METHOD__ )
+			->assertFieldValue( $this->getDb()->timestamp( $lastTimestamp ) );
+	}
+
+	public static function provideRecordActionInCentralIndexesOnTooRecentUpdate() {
+		return [
+			'New timestamp less than a minute ago' => [ '20230405060708', '20230405060745', true ],
+			'New timestamp less than an hour ago and random chance not in favour' => [
+				'20230405060708', '20230405064545', false,
+			],
+		];
+	}
+
+	/** @dataProvider provideRecordActionInCentralIndexesOnSuccessfulMtRandMatch */
+	public function testRecordActionInCentralIndexesOnSuccessfulMtRandMatch( $lastTimestamp, $timestamp ) {
+		$performer = $this->getTestUser()->getUserIdentity();
+		$this->commonRecordActionInCentralIndexes( $performer, $lastTimestamp, $timestamp, true );
+		// Check that the entry in cuci_user has been updated
+		$this->newSelectQueryBuilder()
+			->select( 'ciu_timestamp' )
+			->from( 'cuci_user' )
+			->where( [
+				'ciu_ciwm_id' => self::$enwikiMapId,
+				'ciu_central_id' => $performer->getId(),
+			] )
+			->caller( __METHOD__ )
+			->assertFieldValue( $this->getDb()->timestamp( $timestamp ) );
+	}
+
+	public static function provideRecordActionInCentralIndexesOnSuccessfulMtRandMatch() {
+		return [
+			'Passes mt_rand check' => [ '20230405060708', '20230405064545' ],
+		];
 	}
 
 	/**
@@ -246,7 +348,7 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 	public function testRecordActionInCentralIndexesForSuccessfulUserIndexInsert() {
 		$performer = $this->getTestUser()->getUserIdentity();
 		$this->testRecordActionInCentralIndexes(
-			$performer, '20240506070809', 1
+			$performer, '1.2.3.4', '20240506070809', 1
 		);
 	}
 }

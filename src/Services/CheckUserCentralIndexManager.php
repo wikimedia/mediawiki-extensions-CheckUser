@@ -7,35 +7,53 @@ use Job;
 use JobQueueGroup;
 use JobSpecification;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
+use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\CentralId\CentralIdLookup;
+use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentity;
 use Psr\Log\LoggerInterface;
+use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\ILoadBalancer;
 use Wikimedia\Rdbms\LBFactory;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * Service to insert and delete rows in the CheckUser central index tables
  */
 class CheckUserCentralIndexManager implements CheckUserQueryInterface {
+
+	public const CONSTRUCTOR_OPTIONS = [
+		'CheckUserCentralIndexGroupsToExclude',
+		'CheckUserCentralIndexRangesToExclude',
+	];
+
+	private ServiceOptions $options;
 	private LBFactory $lbFactory;
 	private CentralIdLookup $centralIdLookup;
+	private UserGroupManager $userGroupManager;
 	private JobQueueGroup $jobQueueGroup;
 	private LoggerInterface $logger;
 
 	/**
+	 * @param ServiceOptions $options
 	 * @param LBFactory $lbFactory
 	 * @param CentralIdLookup $centralIdLookup
+	 * @param UserGroupManager $userGroupManager
 	 * @param JobQueueGroup $jobQueueGroup
 	 * @param LoggerInterface $logger
 	 */
 	public function __construct(
+		ServiceOptions $options,
 		LBFactory $lbFactory,
 		CentralIdLookup $centralIdLookup,
+		UserGroupManager $userGroupManager,
 		JobQueueGroup $jobQueueGroup,
 		LoggerInterface $logger
 	) {
+		$this->options = $options;
 		$this->lbFactory = $lbFactory;
 		$this->centralIdLookup = $centralIdLookup;
+		$this->userGroupManager = $userGroupManager;
 		$this->jobQueueGroup = $jobQueueGroup;
 		$this->logger = $logger;
 	}
@@ -48,11 +66,14 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 	 * via a DeferredUpdate to be run on POST_SEND so to not block the HTTP response.
 	 *
 	 * @param UserIdentity $performer The performer of the action that was logged to a local CheckUser result table
+	 * @param string|null $ip The IP address used to perform the action
 	 * @param string $domainID The domain ID for the wiki where the action was performed
 	 * @param string $timestamp When the action was performed, as a TS_MW timestamp
 	 * @return void
 	 */
-	public function recordActionInCentralIndexes( UserIdentity $performer, string $domainID, string $timestamp ) {
+	public function recordActionInCentralIndexes(
+		UserIdentity $performer, ?string $ip, string $domainID, string $timestamp
+	) {
 		// Don't record data when the user does not exist locally or is an IP address, as for the user central index
 		// we need a central ID and for the temp edit index the performer has to be a temporary account.
 		if ( !$performer->isRegistered() ) {
@@ -63,18 +84,43 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 		$wikiMapId = $this->getWikiMapIdForDomainId( $domainID );
 
 		// Update the cuci_user central index for this cuci_wiki_map ID and central ID combination.
-		$this->recordActionInUserCentralIndex( $performer, $wikiMapId, $timestamp );
+		$this->recordActionInUserCentralIndex( $performer, $ip, $wikiMapId, $timestamp );
 	}
 
 	/**
 	 * Records a CheckUser logged action into the cuci_user table for a given wiki and central ID.
 	 *
 	 * @param UserIdentity $performer The performer of the action that was logged to a local CheckUser result table
+	 * @param string|null $ip The IP address used to perform the action
 	 * @param int $wikiMapId The ciwm_id for the wiki where the action was performed
 	 * @param string $timestamp When the action was performed, as a TS_MW timestamp
 	 * @return void
 	 */
-	private function recordActionInUserCentralIndex( UserIdentity $performer, int $wikiMapId, string $timestamp ) {
+	private function recordActionInUserCentralIndex(
+		UserIdentity $performer, ?string $ip, int $wikiMapId, string $timestamp
+	) {
+		// Don't record actions by users in any of the configured groups that are marked as excluded.
+		if ( count( array_intersect(
+			$this->userGroupManager->getUserGroups( $performer ),
+			$this->options->get( 'CheckUserCentralIndexGroupsToExclude' )
+		) ) ) {
+			return;
+		}
+
+		// Don't record the action if the IP address used to make it is in the excluded ranges list.
+		if ( $ip !== null ) {
+			foreach ( $this->options->get( 'CheckUserCentralIndexRangesToExclude' ) as $rangeOrIP ) {
+				// Skip the $rangeOrIP if it is not recognised as valid.
+				if ( !IPUtils::isIPAddress( $rangeOrIP ) ) {
+					continue;
+				}
+
+				if ( IPUtils::isInRange( $ip, $rangeOrIP ) ) {
+					return;
+				}
+			}
+		}
+
 		// Get the central ID associated with the $performer, trying primary if we cannot find the ID on a replica DB.
 		// We may need to try the primary DB when we are recording a account creation action in the index.
 		$centralId = $this->centralIdLookup->centralIdFromLocalUser( $performer, CentralIdLookup::AUDIENCE_RAW );
@@ -91,6 +137,29 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 				"Unable to find central ID for local user {username} when recording action in cuci_user table.",
 				[ 'username' => $performer->getName() ]
 			);
+			return;
+		}
+
+		// Get the last ciu_timestamp for this $performer, if any exists.
+		$dbr = $this->lbFactory->getReplicaDatabase( self::VIRTUAL_GLOBAL_DB_DOMAIN );
+		$lastTimestamp = $dbr->newSelectQueryBuilder()
+			->select( 'ciu_timestamp' )
+			->from( 'cuci_user' )
+			->where( [ 'ciu_ciwm_id' => $wikiMapId, 'ciu_central_id' => $centralId ] )
+			->caller( __METHOD__ )
+			->fetchField();
+		$lastTimestamp = $lastTimestamp ? ConvertibleTimestamp::convert( TS_UNIX, $lastTimestamp ) : 0;
+
+		// No need to update the index if the last timestamp is after our $timestamp or within a minute of our
+		// $timestamp.
+		$oneMinuteAgo = (int)ConvertibleTimestamp::convert( TS_UNIX, $timestamp ) - 60;
+		if ( $oneMinuteAgo < $lastTimestamp ) {
+			return;
+		}
+
+		// If the last timestamp was less than an hour ago, only update the timestamp 1 out of 10 times.
+		$oneHourAgo = (int)ConvertibleTimestamp::convert( TS_UNIX, $timestamp ) - ( 60 * 60 );
+		if ( $oneHourAgo < $lastTimestamp && mt_rand( 0, 9 ) !== 0 ) {
 			return;
 		}
 

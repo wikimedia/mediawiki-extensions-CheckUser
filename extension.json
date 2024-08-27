@@ -161,6 +161,14 @@
 		"CheckUserMaximumIPsToAutoblock": {
 			"value": 1,
 			"description": "The maximum number of IPs to retroactively autoblock when a block is created that is set to autoblock. The actual number of IPs blocked will be smaller if the CheckUser data for this user has less than this number of IPs. If this number is greater, then the IPs blocked are those which were used last."
+		},
+		"CheckUserCentralIndexGroupsToExclude": {
+			"value": [ "bot" ],
+			"description": "Users in any of these user groups will not have their actions stored in the central index tables. Used to reduce the rate at which rows are updated for users which are expected to make frequent updates (such as bots) and often do not need review from the CheckUser tools."
+		},
+		"CheckUserCentralIndexRangesToExclude": {
+			"value": [],
+			"description": "Exclude actions from being recorded in the central user index if they are within the ranges or are using an IP specified in this config. This is ignored for writes to the cuci_temp_edit table. Used to reduce the rate at which rows are updated for users which are expected to make frequent updates."
 		}
 	},
 	"APIListModules": {

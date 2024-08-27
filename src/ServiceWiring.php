@@ -218,8 +218,13 @@ return [
 		MediaWikiServices $services
 	) {
 		return new CheckUserCentralIndexManager(
+			new ServiceOptions(
+				CheckUserCentralIndexManager::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig()
+			),
 			$services->getDBLoadBalancerFactory(),
 			$services->getCentralIdLookup(),
+			$services->getUserGroupManager(),
 			$services->getJobQueueGroup(),
 			LoggerFactory::getInstance( 'CheckUser' )
 		);
