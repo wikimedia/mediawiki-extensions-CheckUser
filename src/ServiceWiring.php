@@ -218,7 +218,7 @@ return [
 		MediaWikiServices $services
 	) {
 		return new CheckUserCentralIndexManager(
-			$services->getConnectionProvider()
+			$services->getDBLoadBalancerFactory()
 		);
 	},
 	'CheckUserTemporaryAccountLoggerFactory' => static function (
