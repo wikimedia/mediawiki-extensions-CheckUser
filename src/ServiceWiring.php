@@ -13,6 +13,7 @@ use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
 use MediaWiki\CheckUser\Investigate\Utilities\EventLogger;
 use MediaWiki\CheckUser\IPContributions\IPContributionsPagerFactory;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
+use MediaWiki\CheckUser\Services\AccountCreationDetailsLookup;
 use MediaWiki\CheckUser\Services\ApiQueryCheckUserResponseFactory;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
@@ -265,6 +266,13 @@ return [
 			$services->getArchivedRevisionLookup(),
 			$services->getUserFactory(),
 			$services->getLogFormatterFactory()
+		);
+	},
+	'AccountCreationDetailsLookup' => static function (
+		MediaWikiServices $services
+	): AccountCreationDetailsLookup {
+		return new AccountCreationDetailsLookup(
+			LoggerFactory::getInstance( 'CheckUser' )
 		);
 	},
 ];
