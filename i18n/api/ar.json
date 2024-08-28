@@ -6,11 +6,15 @@
 			"Meno25",
 			"أيوب",
 			"ديفيد",
-			"علاء"
+			"علاء",
+			"LaMagiaaa",
+			"Mohammed Qays"
 		]
 	},
 	"apihelp-query+checkuser-summary": "تحقق من عناوين الأيبي التي يستخدمها اسم مستخدم معين، أو من أسماء المستخدمين التي يستخدمها عنوان أيبي محدد.",
 	"apihelp-query+checkuser-param-request": "نوع طلب تدقيق المستخدم:",
+	"apihelp-query+checkuser-paramvalue-request-userips": "احصل على عنوان الآيبي للمستخدم المستهدف.",
+	"apihelp-query+checkuser-paramvalue-request-ipusers": "احصل على المستخدمين من عنوان الآيبي المستهدف أو النطاق.",
 	"apihelp-query+checkuser-param-target": "اسم المستخدم أو عنوان أيبي أو نطاق CIDR للتحقق.",
 	"apihelp-query+checkuser-param-reason": "السبب للتحقق.",
 	"apihelp-query+checkuser-param-limit": "حد الصفوف",
