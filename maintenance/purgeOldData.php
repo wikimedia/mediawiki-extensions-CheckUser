@@ -3,10 +3,12 @@
 namespace MediaWiki\CheckUser\Maintenance;
 
 use Maintenance;
+use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
+use MediaWiki\CheckUser\Services\CheckUserDataPurger;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\MainConfigNames;
-use Wikimedia\Rdbms\SelectQueryBuilder;
+use PurgeRecentChanges;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 if ( getenv( 'MW_INSTALL_PATH' ) ) {
@@ -16,7 +18,7 @@ if ( getenv( 'MW_INSTALL_PATH' ) ) {
 }
 require_once "$IP/maintenance/Maintenance.php";
 
-class PurgeOldData extends Maintenance {
+class PurgeOldData extends Maintenance implements CheckUserQueryInterface {
 	public function __construct() {
 		parent::__construct();
 		$this->addDescription( 'Purge expired rows in CheckUser and RecentChanges' );
@@ -28,32 +30,13 @@ class PurgeOldData extends Maintenance {
 	public function execute() {
 		$config = $this->getConfig();
 		$cudMaxAge = $config->get( 'CUDMaxAge' );
+		$cutoff = $this->getPrimaryDB()->timestamp( ConvertibleTimestamp::time() - $cudMaxAge );
 
-		$this->output( "Purging data from cu_changes..." );
-		[ $count, $mappingRowsCount ] = $this->prune(
-			'cu_changes', 'cuc_timestamp', $cudMaxAge, UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES
-		);
-		$this->output(
-			"Purged $count rows and $mappingRowsCount client hint mapping rows purged.\n"
-		);
-
-		$this->output( "Purging data from cu_private_event..." );
-		[ $count, $mappingRowsCount ] = $this->prune(
-			'cu_private_event', 'cupe_timestamp', $cudMaxAge,
-			UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT
-		);
-		$this->output(
-			"Purged $count rows and $mappingRowsCount client hint mapping rows purged.\n"
-		);
-
-		$this->output( "Purging data from cu_log_event..." );
-		[ $count, $mappingRowsCount ] = $this->prune(
-			'cu_log_event', 'cule_timestamp', $cudMaxAge,
-			UserAgentClientHintsManager::IDENTIFIER_CU_LOG_EVENT
-		);
-		$this->output(
-			"Purged $count rows and $mappingRowsCount client hint mapping rows purged.\n"
-		);
+		foreach ( self::RESULT_TABLES as $table ) {
+			$this->output( "Purging data from $table..." );
+			[ $count, $mappingRowsCount ] = $this->prune( $table, $cutoff );
+			$this->output( "Purged $count rows and $mappingRowsCount client hint mapping rows.\n" );
+		}
 
 		$userAgentClientHintsManager = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );
 		$orphanedMappingRowsDeleted = $userAgentClientHintsManager->deleteOrphanedMapRows();
@@ -61,77 +44,36 @@ class PurgeOldData extends Maintenance {
 
 		if ( $config->get( MainConfigNames::PutIPinRC ) ) {
 			$this->output( "Purging data from recentchanges..." );
-			$rcMaxAge = $config->get( MainConfigNames::RCMaxAge );
-			$count = $this->prune( 'recentchanges', 'rc_timestamp', $rcMaxAge, null );
-			$this->output( "Purged " . $count[0] . " rows.\n" );
+			$this->runChild( PurgeRecentChanges::class );
 		}
 
 		$this->output( "Done.\n" );
 	}
 
 	/**
-	 * @param string $table
-	 * @param string $ts_column
-	 * @param int $maxAge
-	 * @param int|null $clientHintMappingId The mapping ID associated with this table for cu_useragent_clienthints_map
+	 * Prunes data from the given CheckUser result table
 	 *
+	 * @param string $table
+	 * @param string $cutoff
 	 * @return int[] An array of two integers: The first being the rows deleted in $table and
 	 *  the second in cu_useragent_clienthints_map.
 	 */
-	protected function prune( string $table, string $ts_column, int $maxAge, ?int $clientHintMappingId ) {
-		/** @var UserAgentClientHintsManager $userAgentClientHintsManager */
-		$userAgentClientHintsManager = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );
-		$referenceColumn = $userAgentClientHintsManager::IDENTIFIER_TO_COLUMN_NAME_MAP[$clientHintMappingId] ?? null;
+	protected function prune( string $table, string $cutoff ) {
+		/** @var CheckUserDataPurger $checkUserDataPurger */
+		$checkUserDataPurger = $this->getServiceContainer()->get( 'CheckUserDataPurger' );
 		$clientHintReferenceIds = new ClientHintsReferenceIds();
 
-		$dbw = $this->getDB( DB_PRIMARY );
-		$expiredCond = $dbw->expr( $ts_column, '<', $dbw->timestamp( ConvertibleTimestamp::time() - $maxAge ) );
-
 		$deletedCount = 0;
-		while ( true ) {
-			// Get the first $this->mBatchSize (or less) items
-			$queryBuilder = $dbw->newSelectQueryBuilder()
-				->table( $table )
-				->conds( $expiredCond )
-				->orderBy( $ts_column, SelectQueryBuilder::SORT_ASC )
-				->limit( $this->mBatchSize )
-				->caller( __METHOD__ );
-			if ( $clientHintMappingId !== null ) {
-				$res = $queryBuilder->fields( [
-					$ts_column,
-					$referenceColumn
-				] )->fetchResultSet();
-				foreach ( $res as $row ) {
-					$clientHintReferenceIds->addReferenceIds( $row->$referenceColumn, $clientHintMappingId );
-				}
-				$res->seek( 0 );
-			} else {
-				$res = $queryBuilder->field( $ts_column )->fetchResultSet();
-			}
-			if ( !$res->numRows() ) {
-				// all cleared
-				break;
-			}
-			// Record the start and end timestamp for the set
-			$blockStart = $res->fetchRow()[$ts_column];
-			$res->seek( $res->numRows() - 1 );
-			$blockEnd = $res->fetchRow()[$ts_column];
-			$res->free();
+		do {
+			$rowsPurgedInThisBatch = $checkUserDataPurger->purgeDataFromLocalTable(
+				$this->getPrimaryDB(), $table, $cutoff, $clientHintReferenceIds, __METHOD__, $this->mBatchSize
+			);
+			$deletedCount += $rowsPurgedInThisBatch;
+			$this->waitForReplication();
+		} while ( $rowsPurgedInThisBatch !== 0 );
 
-			// Do the actual delete...
-			$this->beginTransaction( $dbw, __METHOD__ );
-			$dbw->newDeleteQueryBuilder()
-				->table( $table )
-				->where( [
-					$dbw->expr( $ts_column, '>=', $blockStart ),
-					$dbw->expr( $ts_column, '<=', $blockEnd ),
-				] )
-				->caller( __METHOD__ )
-				->execute();
-			$deletedCount += $dbw->affectedRows();
-			$this->commitTransaction( $dbw, __METHOD__ );
-		}
-
+		/** @var UserAgentClientHintsManager $userAgentClientHintsManager */
+		$userAgentClientHintsManager = $this->getServiceContainer()->get( 'UserAgentClientHintsManager' );
 		$mappingRowsDeleted = $userAgentClientHintsManager->deleteMappingRows( $clientHintReferenceIds );
 
 		return [ $deletedCount, $mappingRowsDeleted ];
