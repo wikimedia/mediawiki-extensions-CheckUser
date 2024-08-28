@@ -9,6 +9,7 @@ use JobSpecification;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\CentralId\CentralIdLookup;
+use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentity;
 use Psr\Log\LoggerInterface;
@@ -32,6 +33,7 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 	private CentralIdLookup $centralIdLookup;
 	private UserGroupManager $userGroupManager;
 	private JobQueueGroup $jobQueueGroup;
+	private TempUserConfig $tempUserConfig;
 	private LoggerInterface $logger;
 
 	/**
@@ -40,6 +42,7 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 	 * @param CentralIdLookup $centralIdLookup
 	 * @param UserGroupManager $userGroupManager
 	 * @param JobQueueGroup $jobQueueGroup
+	 * @param TempUserConfig $tempUserConfig
 	 * @param LoggerInterface $logger
 	 */
 	public function __construct(
@@ -48,6 +51,7 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 		CentralIdLookup $centralIdLookup,
 		UserGroupManager $userGroupManager,
 		JobQueueGroup $jobQueueGroup,
+		TempUserConfig $tempUserConfig,
 		LoggerInterface $logger
 	) {
 		$this->options = $options;
@@ -55,6 +59,7 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 		$this->centralIdLookup = $centralIdLookup;
 		$this->userGroupManager = $userGroupManager;
 		$this->jobQueueGroup = $jobQueueGroup;
+		$this->tempUserConfig = $tempUserConfig;
 		$this->logger = $logger;
 	}
 
@@ -69,10 +74,11 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 	 * @param string|null $ip The IP address used to perform the action
 	 * @param string $domainID The domain ID for the wiki where the action was performed
 	 * @param string $timestamp When the action was performed, as a TS_MW timestamp
+	 * @param bool $hasRevisionId Whether the given action has a revision ID (i.e. is an edit)
 	 * @return void
 	 */
 	public function recordActionInCentralIndexes(
-		UserIdentity $performer, ?string $ip, string $domainID, string $timestamp
+		UserIdentity $performer, ?string $ip, string $domainID, string $timestamp, bool $hasRevisionId
 	) {
 		// Don't record data when the user does not exist locally or is an IP address, as for the user central index
 		// we need a central ID and for the temp edit index the performer has to be a temporary account.
@@ -83,8 +89,56 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 		// Get the cuci_wiki_map ID for this domain, to be used in inserting data to the central indexes.
 		$wikiMapId = $this->getWikiMapIdForDomainId( $domainID );
 
+		// Update the cuci_temp_edit central index for this cuci_wiki_map ID and IP combination.
+		$this->recordActionInTempEditCentralIndex( $performer, $ip, $wikiMapId, $timestamp, $hasRevisionId );
+
 		// Update the cuci_user central index for this cuci_wiki_map ID and central ID combination.
 		$this->recordActionInUserCentralIndex( $performer, $ip, $wikiMapId, $timestamp );
+	}
+
+	private function recordActionInTempEditCentralIndex(
+		UserIdentity $performer, ?string $ip, int $wikiMapId, string $timestamp, bool $hasRevisionId
+	) {
+		// We only record edits performed by temporary accounts in this index, so return early if the performer
+		// is not a temporary account or if the action does not have a revision ID (i.e. not an edit). We also
+		// cannot store a row if we have no IP address.
+		if ( !$hasRevisionId || !$this->tempUserConfig->isTempName( $performer->getName() ) || $ip === null ) {
+			return;
+		}
+
+		$ipAsHex = IPUtils::toHex( $ip );
+
+		// Get the last cite_timestamp for this $performer, if any exists.
+		$dbr = $this->lbFactory->getReplicaDatabase( self::VIRTUAL_GLOBAL_DB_DOMAIN );
+		$lastTimestamp = $dbr->newSelectQueryBuilder()
+			->select( 'cite_timestamp' )
+			->from( 'cuci_temp_edit' )
+			->where( [ 'cite_ciwm_id' => $wikiMapId, 'cite_ip_hex' => $ipAsHex ] )
+			->caller( __METHOD__ )
+			->fetchField();
+		$lastTimestamp = $lastTimestamp ? ConvertibleTimestamp::convert( TS_UNIX, $lastTimestamp ) : 0;
+
+		// No need to update the index if the last timestamp is after our $timestamp or within a minute of our
+		// $timestamp.
+		$oneMinuteAgo = (int)ConvertibleTimestamp::convert( TS_UNIX, $timestamp ) - 60;
+		if ( $oneMinuteAgo < $lastTimestamp ) {
+			return;
+		}
+
+		// Either insert a cuci_temp_edit row or update it if one already exists, setting the timestamp provided.
+		$dbw = $this->lbFactory->getPrimaryDatabase( self::VIRTUAL_GLOBAL_DB_DOMAIN );
+		$dbw->newInsertQueryBuilder()
+			->insertInto( 'cuci_temp_edit' )
+			->row( [
+				'cite_timestamp' => $dbw->timestamp( $timestamp ),
+				'cite_ciwm_id' => $wikiMapId,
+				'cite_ip_hex' => $ipAsHex,
+			] )
+			->onDuplicateKeyUpdate()
+			->uniqueIndexFields( [ 'cite_ciwm_id', 'cite_ip_hex' ] )
+			->set( [ 'cite_timestamp' => $dbw->timestamp( $timestamp ) ] )
+			->caller( __METHOD__ )
+			->execute();
 	}
 
 	/**

@@ -7,6 +7,8 @@ use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MainConfigNames;
+use MediaWiki\Request\FauxRequest;
+use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
@@ -19,6 +21,8 @@ use Wikimedia\IPUtils;
  * @covers \MediaWiki\CheckUser\Services\CheckUserCentralIndexManager
  */
 class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
+
+	use TempUserTestTrait;
 
 	private static int $enwikiMapId;
 	private static int $dewikiMapId;
@@ -40,6 +44,7 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 			'centralIdLookup' => $this->getServiceContainer()->getCentralIdLookup(),
 			'userGroupManager' => $this->getServiceContainer()->getUserGroupManager(),
 			'jobQueueGroup' => $this->getServiceContainer()->getJobQueueGroup(),
+			'tempUserConfig' => $this->getServiceContainer()->getTempUserConfig(),
 			'logger' => LoggerFactory::getInstance( 'CheckUser' ),
 		];
 	}
@@ -128,6 +133,17 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 			->fetchField();
 	}
 
+	private function getTestTemporaryUser(): UserIdentity {
+		$this->enableAutoCreateTempUser();
+		$performer = $this->getServiceContainer()->getTempUserCreator()
+			->create( null, new FauxRequest() )->getUser();
+		// We need to run jobs and then truncate the cuci_user table, because entries are written when a temporary
+		// user is created.
+		$this->runJobs( [ 'minJobs' => 0 ] );
+		$this->truncateTables( [ 'cuci_user' ] );
+		return $performer;
+	}
+
 	/** @dataProvider providePurgeExpiredRows */
 	public function testPurgeExpiredRows(
 		$domain, $maxRowsToPurge, $expectedReturnValue, $expectedTimestampsInTempEditTable,
@@ -211,22 +227,26 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideRecordActionInCentralIndexes */
 	public function testRecordActionInCentralIndexes(
-		UserIdentity $performer, $ip, $timestamp, $expectedCuciUserTableCount
+		UserIdentity $performer, $ip, $timestamp, $hasRevisionId, $expectedCuciUserTableCount,
+		$expectedCuciTempEditTableCount
 	) {
-		$this->getObjectUnderTest()->recordActionInCentralIndexes( $performer, $ip, 'enwiki', $timestamp );
+		$this->getObjectUnderTest()->recordActionInCentralIndexes(
+			$performer, $ip, 'enwiki', $timestamp, $hasRevisionId
+		);
 		// Run jobs as the inserts to cuci_user are made using a job.
 		$this->runJobs( [ 'minJobs' => 0 ] );
 		// The call to the method under test should result in the specified number of rows in cuci_user
 		$this->assertSame( $expectedCuciUserTableCount, $this->getRowCountForTable( 'cuci_user' ) );
+		$this->assertSame( $expectedCuciTempEditTableCount, $this->getRowCountForTable( 'cuci_temp_edit' ) );
 	}
 
 	public static function provideRecordActionInCentralIndexes() {
 		return [
 			'IP address performer' => [
-				UserIdentityValue::newAnonymous( '1.2.3.4' ), '1.2.3.4', '20230405060708', 0,
+				UserIdentityValue::newAnonymous( '1.2.3.4' ), '1.2.3.4', true, '20230405060708', 0, 0,
 			],
 			'Non-existing username' => [
-				UserIdentityValue::newAnonymous( 'NonExistentUser1234' ), '5.6.7.8', '20240506070809', 0,
+				UserIdentityValue::newAnonymous( 'NonExistentUser1234' ), false, '5.6.7.8', '20240506070809', 0, 0,
 			],
 		];
 	}
@@ -235,14 +255,14 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 		// Get a user with the bot group and also set users in the bot group to be excluded from the central user index
 		$this->overrideConfigValue( 'CheckUserCentralIndexGroupsToExclude', [ 'bot' ] );
 		$testUser = $this->getTestUser( [ 'bot' ] )->getUserIdentity();
-		$this->testRecordActionInCentralIndexes( $testUser, '1.2.3.4', '20230405060708', 0 );
+		$this->testRecordActionInCentralIndexes( $testUser, '1.2.3.4', '20230405060708', false, 0, 0 );
 	}
 
 	/** @dataProvider provideExcludedIPAddresses */
 	public function testRecordActionInCentralIndexesForExcludedIP( $excludedIPRangesConfig, $ip ) {
 		$this->overrideConfigValue( 'CheckUserCentralIndexRangesToExclude', $excludedIPRangesConfig );
 		$testUser = $this->getTestUser()->getUserIdentity();
-		$this->testRecordActionInCentralIndexes( $testUser, $ip, '20240506070809', 0 );
+		$this->testRecordActionInCentralIndexes( $testUser, $ip, '20240506070809', false, 0, 0 );
 	}
 
 	public static function provideExcludedIPAddresses() {
@@ -265,13 +285,14 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 				} );
 			return $mockCentralIdLookup;
 		} );
-		$this->testRecordActionInCentralIndexes( $testUser, '1.2.3.4', '20240506070809', 0 );
+		$this->testRecordActionInCentralIndexes( $testUser, '1.2.3.4', '20240506070809', false, 0, 0 );
 	}
 
 	private function commonRecordActionInCentralIndexes(
 		$performer, $lastTimestamp, $timestamp, $shouldPassMtRandCheck
 	) {
-		// Insert a pre-existing entry with the $lastTimestamp as the timestamp
+		// Insert a pre-existing entry with the $lastTimestamp as the timestamp (and cuci_temp_edit if the performer
+		// is a temporary account)
 		$this->getDb()->newInsertQueryBuilder()
 			->insertInto( 'cuci_user' )
 			->row( [
@@ -281,12 +302,23 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 			] )
 			->caller( __METHOD__ )
 			->execute();
+		if ( $this->getServiceContainer()->getUserNameUtils()->isTemp( $performer->getName() ) ) {
+			$this->getDb()->newInsertQueryBuilder()
+				->insertInto( 'cuci_temp_edit' )
+				->row( [
+					'cite_timestamp' => $this->getDb()->timestamp( $lastTimestamp ),
+					'cite_ciwm_id' => self::$enwikiMapId,
+					'cite_ip_hex' => IPUtils::toHex( '1.2.3.4' ),
+				] )
+				->caller( __METHOD__ )
+				->execute();
+		}
 		$objectUnderTest = $this->getObjectUnderTest();
 		// Set mt_rand to use a specific seed that will return 0 on the first call
 		mt_srand( $shouldPassMtRandCheck ? 6 : 0 );
 		// Call the method under test.
 		$objectUnderTest->recordActionInCentralIndexes(
-			$performer, '1.2.3.4', 'enwiki', $timestamp
+			$performer, '1.2.3.4', 'enwiki', $timestamp, true
 		);
 		// Run jobs as the inserts to cuci_user are made using a job, so if we don't run the jobs the test will
 		// fail to catch if the code is actually not doing as expected.
@@ -295,9 +327,11 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideRecordActionInCentralIndexesOnTooRecentUpdate */
 	public function testRecordActionInCentralIndexesOnTooRecentUpdate(
-		$lastTimestamp, $timestamp, $shouldPassMtRandCheck
+		$lastTimestamp, $timestamp, $expectedCuciUserTimestamp, $expectedCuciTempEditTimestamp, $shouldPassMtRandCheck
 	) {
-		$performer = $this->getTestUser()->getUserIdentity();
+		// Use a temporary account as the performer, so that the cuci_temp_edit table can be populated as well as
+		// cuci_user.
+		$performer = $this->getTestTemporaryUser();
 		$this->commonRecordActionInCentralIndexes( $performer, $lastTimestamp, $timestamp, $shouldPassMtRandCheck );
 		// Check that the entry in cuci_user still uses the $lastTimestamp value
 		$this->newSelectQueryBuilder()
@@ -308,14 +342,41 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 				'ciu_central_id' => $performer->getId(),
 			] )
 			->caller( __METHOD__ )
-			->assertFieldValue( $this->getDb()->timestamp( $lastTimestamp ) );
+			->assertFieldValue( $this->getDb()->timestamp( $expectedCuciUserTimestamp ) );
+		// Check that the entry in cuci_temp_edit is as expected
+		$this->newSelectQueryBuilder()
+			->select( 'cite_timestamp' )
+			->from( 'cuci_temp_edit' )
+			->where( [
+				'cite_ciwm_id' => self::$enwikiMapId,
+				'cite_ip_hex' => IPUtils::toHex( '1.2.3.4' ),
+			] )
+			->caller( __METHOD__ )
+			->assertFieldValue( $this->getDb()->timestamp( $expectedCuciTempEditTimestamp ) );
 	}
 
 	public static function provideRecordActionInCentralIndexesOnTooRecentUpdate() {
 		return [
-			'New timestamp less than a minute ago' => [ '20230405060708', '20230405060745', true ],
+			'New timestamp before timestamp already in DB' => [
+				'lastTimestamp' => '20230405060745',
+				'timestamp' => '20230405060708',
+				'expectedCuciUserTimestamp' => '20230405060745',
+				'expectedCuciTempEditTimestamp' => '20230405060745',
+				'shouldPassMtRandCheck' => true,
+			],
+			'New timestamp less than a minute ago' => [
+				'lastTimestamp' => '20230405060708',
+				'timestamp' => '20230405060745',
+				'expectedCuciUserTimestamp' => '20230405060708',
+				'expectedCuciTempEditTimestamp' => '20230405060708',
+				'shouldPassMtRandCheck' => true,
+			],
 			'New timestamp less than an hour ago and random chance not in favour' => [
-				'20230405060708', '20230405064545', false,
+				'lastTimestamp' => '20230405060708',
+				'timestamp' => '20230405064545',
+				'expectedCuciUserTimestamp' => '20230405060708',
+				'expectedCuciTempEditTimestamp' => '20230405064545',
+				'shouldPassMtRandCheck' => false,
 			],
 		];
 	}
@@ -348,7 +409,14 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 	public function testRecordActionInCentralIndexesForSuccessfulUserIndexInsert() {
 		$performer = $this->getTestUser()->getUserIdentity();
 		$this->testRecordActionInCentralIndexes(
-			$performer, '1.2.3.4', '20240506070809', 1
+			$performer, '1.2.3.4', '20240506070809', true, 1, 0
+		);
+	}
+
+	public function testRecordActionInCentralIndexesForSuccessfulTempEditInsert() {
+		$performer = $this->getTestTemporaryUser();
+		$this->testRecordActionInCentralIndexes(
+			$performer, '1.2.3.4', '20240506070809', true, 1, 1
 		);
 	}
 }

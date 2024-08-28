@@ -183,14 +183,15 @@ class CheckUserInsert {
 	 * @param string $ip
 	 * @param string $domainID
 	 * @param string $timestamp
+	 * @param bool $hasRevisionId
 	 * @see CheckUserCentralIndexManager::recordActionInCentralIndexes for documentation on the parameters
 	 */
 	private function recordActionInCentralTablesOnDeferredUpdate(
-		UserIdentity $performer, string $ip, string $domainID, string $timestamp
+		UserIdentity $performer, string $ip, string $domainID, string $timestamp, bool $hasRevisionId
 	) {
-		DeferredUpdates::addCallableUpdate( function () use ( $performer, $ip, $domainID, $timestamp ) {
+		DeferredUpdates::addCallableUpdate( function () use ( $performer, $ip, $domainID, $timestamp, $hasRevisionId ) {
 			$this->checkUserCentralIndexManager->recordActionInCentralIndexes(
-				$performer, $ip, $domainID, $timestamp
+				$performer, $ip, $domainID, $timestamp, $hasRevisionId
 			);
 		} );
 	}
@@ -253,7 +254,9 @@ class CheckUserInsert {
 			->execute();
 
 		// Update the central index for this newly inserted row.
-		$this->recordActionInCentralTablesOnDeferredUpdate( $user, $ip, $dbw->getDomainID(), $row['cule_timestamp'] );
+		$this->recordActionInCentralTablesOnDeferredUpdate(
+			$user, $ip, $dbw->getDomainID(), $row['cule_timestamp'], false
+		);
 	}
 
 	/**
@@ -332,7 +335,9 @@ class CheckUserInsert {
 			->execute();
 
 		// Update the central index for this newly inserted row.
-		$this->recordActionInCentralTablesOnDeferredUpdate( $user, $ip, $dbw->getDomainID(), $row['cupe_timestamp'] );
+		$this->recordActionInCentralTablesOnDeferredUpdate(
+			$user, $ip, $dbw->getDomainID(), $row['cupe_timestamp'], false
+		);
 	}
 
 	/**
@@ -406,7 +411,9 @@ class CheckUserInsert {
 			->execute();
 
 		// Update the central index for this newly inserted row.
-		$this->recordActionInCentralTablesOnDeferredUpdate( $user, $ip, $dbw->getDomainID(), $row['cuc_timestamp'] );
+		$this->recordActionInCentralTablesOnDeferredUpdate(
+			$user, $ip, $dbw->getDomainID(), $row['cuc_timestamp'], $row['cuc_this_oldid'] !== 0
+		);
 	}
 
 	/**

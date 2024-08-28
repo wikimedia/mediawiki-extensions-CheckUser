@@ -31,19 +31,20 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 	}
 
 	private function installMockCheckUserIndexManagerThatExpectsCall(
-		$expectedUserIdentity, $expectedTimestamp
+		$expectedUserIdentity, $expectedTimestamp, $expectedHasRevisionId
 	) {
 		// Check that a call to CheckUserCentralIndexManager::recordActionInCentralIndexes is made
 		$mockCheckUserCentralIndexManager = $this->createMock( CheckUserCentralIndexManager::class );
 		$mockCheckUserCentralIndexManager->expects( $this->once() )
 			->method( 'recordActionInCentralIndexes' )
-			->willReturnCallback( function ( $performer, $ip, $domainID, $timestamp ) use (
-				$expectedUserIdentity, $expectedTimestamp
+			->willReturnCallback( function ( $performer, $ip, $domainID, $timestamp, $hasRevisionId ) use (
+				$expectedUserIdentity, $expectedTimestamp, $expectedHasRevisionId
 			) {
 				// Check that the parameters are as expected for the call to this method
 				$this->assertTrue( $expectedUserIdentity->equals( $performer ) );
 				$this->assertSame( $this->getDb()->getDomainID(), $domainID );
 				$this->assertSame( $expectedTimestamp, $timestamp );
+				$this->assertSame( $expectedHasRevisionId, $hasRevisionId );
 			} );
 		$this->setService( 'CheckUserCentralIndexManager', $mockCheckUserCentralIndexManager );
 	}
@@ -57,8 +58,9 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		// Only mock the service if we don't already have an instance of CheckUserInsert. Mocking at this stage
 		// will not do anything for the test if an instance already exists.
 		if ( $checkUserInsert === null ) {
+			$expectedHasRevisionId = ( $row['cuc_this_oldid'] ?? 0 ) !== 0;
 			$this->installMockCheckUserIndexManagerThatExpectsCall(
-				$performer, $row['cuc_timestamp'] ?? '20240506070809'
+				$performer, $row['cuc_timestamp'] ?? '20240506070809', $expectedHasRevisionId
 			);
 		}
 		$checkUserInsert ??= $this->setUpObject();
@@ -95,7 +97,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		// will not do anything for the test if an instance already exists.
 		if ( $checkUserInsert === null ) {
 			$this->installMockCheckUserIndexManagerThatExpectsCall(
-				$performer, $row['cupe_timestamp'] ?? '20240506070809'
+				$performer, $row['cupe_timestamp'] ?? '20240506070809', false
 			);
 		}
 		$checkUserInsert ??= $this->setUpObject();
@@ -139,7 +141,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		// will not do anything for the test if an instance already exists.
 		if ( $checkUserInsert === null ) {
 			$this->installMockCheckUserIndexManagerThatExpectsCall(
-				$logEntry->getPerformerIdentity(), $logEntry->getTimestamp()
+				$logEntry->getPerformerIdentity(), $logEntry->getTimestamp(), false
 			);
 		}
 

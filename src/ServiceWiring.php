@@ -227,6 +227,7 @@ return [
 			$services->getCentralIdLookup(),
 			$services->getUserGroupManager(),
 			$services->getJobQueueGroup(),
+			$services->getTempUserConfig(),
 			LoggerFactory::getInstance( 'CheckUser' )
 		);
 	},
