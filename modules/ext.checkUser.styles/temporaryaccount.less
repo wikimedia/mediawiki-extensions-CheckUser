@@ -41,3 +41,17 @@ span.ext-checkuser-tempaccount-reveal-ip-button,
 .ext-checkuser-tempaccount-reveal-ip {
 	font-style: normal;
 }
+
+@media print {
+	// Need high specificity to override OOUI button defaults.
+	.oo-ui-buttonElement.ext-checkuser-tempaccount-reveal-ip-button {
+		&&::before {
+			content: ' ';
+			white-space: pre;
+		}
+
+		> .oo-ui-buttonElement-button {
+			display: none;
+		}
+	}
+}
