@@ -11,6 +11,7 @@ use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserNameUtils;
+use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Rdbms\IReadableDatabase;
@@ -59,8 +60,12 @@ class TemporaryAccountIPHandler extends AbstractTemporaryAccountIPHandler {
 	 * @inheritDoc
 	 */
 	protected function getData( $ip, IReadableDatabase $dbr ): array {
+		// Normalize the IP into the same format tha cuc_ip uses
+		$ip = IPUtils::sanitizeIP( $ip );
+
 		// The limit is the smaller of the user-provided limit parameter and the maximum row count.
 		$limit = min( $this->getValidatedParams()['limit'], $this->config->get( 'CheckUserMaximumRowCount' ) );
+
 		// T327906: 'cuc_timestamp' is selected to satisfy a Postgres requirement
 		// where all ORDER BY fields must be present in SELECT list.
 		$rows = $dbr->newSelectQueryBuilder()
