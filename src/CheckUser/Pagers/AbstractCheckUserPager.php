@@ -5,7 +5,6 @@ namespace MediaWiki\CheckUser\CheckUser\Pagers;
 use ExtensionRegistry;
 use HtmlArmor;
 use LogicException;
-use MediaWiki\Block\AbstractBlock;
 use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\CheckUser\CheckUserPagerNavigationBuilder;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
@@ -15,12 +14,13 @@ use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Context\RequestContext;
-use MediaWiki\Extension\GlobalBlocking\GlobalBlocking;
+use MediaWiki\Extension\GlobalBlocking\GlobalBlockingServices;
 use MediaWiki\Extension\TorBlock\TorExitNodes;
 use MediaWiki\Html\FormOptions;
 use MediaWiki\Html\Html;
 use MediaWiki\Html\TemplateParser;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\MediaWikiServices;
 use MediaWiki\Navigation\PagerNavigationBuilder;
 use MediaWiki\Pager\RangeChronologicalPager;
 use MediaWiki\SpecialPage\SpecialPage;
@@ -367,28 +367,33 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	protected function userBlockFlags( string $ip, UserIdentity $user ): array {
 		$flags = [];
 
+		// Generate the block flag. Only one will be displayed, with the order of priority being local block, then
+		// global block, then tor exit node block, and finally the account having been previously blocked.
 		$block = DatabaseBlock::newFromTarget( $user, $ip );
 		if ( $block instanceof DatabaseBlock ) {
 			// Locally blocked
 			$flags[] = $this->getBlockFlag( $block );
-		} elseif (
-			$ip == $user->getName() &&
-			ExtensionRegistry::getInstance()->isLoaded( 'GlobalBlocking' ) &&
-			GlobalBlocking::getUserBlock(
-				$this->userFactory->newFromUserIdentity( $user ),
-				$ip
-			) instanceof AbstractBlock
-		) {
-			// Globally blocked IP
-			$flags[] = '<strong>(' . $this->msg( 'checkuser-gblocked' )->escaped() . ')</strong>';
-		} elseif (
+		} elseif ( ExtensionRegistry::getInstance()->isLoaded( 'GlobalBlocking' ) ) {
+			$globalBlockLookup = GlobalBlockingServices::wrap( MediaWikiServices::getInstance() )
+				->getGlobalBlockLookup();
+			$globalBlock = $globalBlockLookup->getGlobalBlockingBlock(
+				$ip ?: null, $this->centralIdLookup->centralIdFromLocalUser( $user )
+			);
+			if ( $globalBlock !== null ) {
+				// Globally blocked IP or user
+				$flags[] = '<strong>(' . $this->msg( 'checkuser-gblocked' )->escaped() . ')</strong>';
+			}
+		}
+
+		if (
+			!count( $flags ) &&
 			$ip == $user->getName() &&
 			ExtensionRegistry::getInstance()->isLoaded( 'TorBlock' ) &&
 			TorExitNodes::isExitNode( $ip )
 		) {
 			// Tor exit node
 			$flags[] = Html::rawElement( 'strong', [], '(' . $this->msg( 'checkuser-torexitnode' )->escaped() . ')' );
-		} elseif ( $this->userWasBlocked( $user->getName() ) ) {
+		} elseif ( !count( $flags ) && $this->userWasBlocked( $user->getName() ) ) {
 			// Previously blocked
 			$blocklog = $this->getLinkRenderer()->makeKnownLink(
 				SpecialPage::getTitleFor( 'Log' ),
