@@ -2,115 +2,105 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Maintenance;
 
+use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Maintenance\PurgeOldData;
-use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\CheckUser\Tests\Integration\Maintenance\Mocks\SemiMockedCheckUserDataPurger;
+use MediaWiki\MainConfigNames;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
+use PurgeRecentChanges;
+use Wikimedia\Rdbms\IDatabase;
+use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * @group CheckUser
- * @group Database
  * @covers \MediaWiki\CheckUser\Maintenance\PurgeOldData
  */
 class PurgeOldDataTest extends MaintenanceBaseTestCase {
 
-	use CheckUserCommonTraitTest;
+	/** @var MockObject|\Maintenance */
+	protected $maintenance;
 
 	/** @inheritDoc */
 	protected function getMaintenanceClass() {
 		return PurgeOldData::class;
 	}
 
-	/**
-	 * @dataProvider providePruneIPDataData
-	 * @todo test for pruning of recent changes
-	 */
-	public function testExecute( $currentTime, $maxCUDataAge, $timestamps, $afterCount ) {
-		$this->overrideConfigValue( 'CUDMaxAge', $maxCUDataAge );
-		$logEntryCutoff = $this->getDb()->timestamp( $currentTime - $maxCUDataAge );
-		foreach ( $timestamps as $timestamp ) {
-			ConvertibleTimestamp::setFakeTime( $timestamp );
-			$expectedRow = [];
-			// Insertion into cu_changes
-			$this->commonTestsUpdateCheckUserData( self::getDefaultRecentChangeAttribs(), [], $expectedRow );
-			// Insertion into cu_private_event
-			$this->commonTestsUpdateCheckUserData(
-				array_merge( self::getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_LOG, 'rc_log_type' => '' ] ),
-				[],
-				$expectedRow
-			);
-			// Insertion into cu_log_event
-			$logId = $this->newLogEntry();
-			$this->commonTestsUpdateCheckUserData(
-				array_merge( self::getDefaultRecentChangeAttribs(), [ 'rc_type' => RC_LOG, 'rc_logid' => $logId ] ),
-				[],
-				$expectedRow
-			);
-		}
-		$this->assertRowCount( count( $timestamps ), 'cu_changes', 'cuc_id',
-			'cu_changes was not set up correctly for the test.' );
-		$this->assertRowCount( count( $timestamps ), 'cu_private_event', 'cupe_id',
-			'cu_private_event was not set up correctly for the test.' );
-		$this->assertRowCount( count( $timestamps ), 'cu_log_event', 'cule_id',
-			'cu_log_event was not set up correctly for the test.' );
-		ConvertibleTimestamp::setFakeTime( $currentTime );
-		( new PurgeOldData() )->execute();
-		// Check that all the old entries are gone
-		$this->assertRowCount( 0, 'cu_changes', 'cuc_id',
-			'cu_changes has stale entries after calling pruneIPData.',
-			[ $this->getDb()->expr( 'cuc_timestamp', '<', $logEntryCutoff ) ] );
-		$this->assertRowCount( 0, 'cu_private_event', 'cupe_id',
-			'cu_private_event has stale entries after calling pruneIPData.',
-			[ $this->getDb()->expr( 'cupe_timestamp', '<', $logEntryCutoff ) ] );
-		$this->assertRowCount( 0, 'cu_log_event', 'cule_id',
-			'cu_log_event has stale entries after calling pruneIPData.',
-			[ $this->getDb()->expr( 'cule_timestamp', '<', $logEntryCutoff ) ] );
-		// Assert that no still in date entries were removed
-		$this->assertRowCount( $afterCount, 'cu_changes', 'cuc_id',
-			'cu_changes is missing rows that were not stale after calling pruneIPData.' );
-		$this->assertRowCount( $afterCount, 'cu_private_event', 'cupe_id',
-			'cu_private_event is missing rows that were not stale after calling pruneIPData.' );
-		$this->assertRowCount( $afterCount, 'cu_log_event', 'cule_id',
-			'cu_log_event is missing rows that were not stale after calling pruneIPData.' );
+	protected function setUp(): void {
+		parent::setUp();
+		// Fix the current time and CUDMaxAge so that we can assert against pre-defined timestamp values
+		ConvertibleTimestamp::setFakeTime( '20230405060708' );
+		$this->overrideConfigValue( 'CUDMaxAge', 30 );
 	}
 
-	public static function providePruneIPDataData() {
-		$currentTime = time();
-		$defaultMaxAge = 7776000;
+	protected function createMaintenance() {
+		$obj = $this->getMockBuilder( $this->getMaintenanceClass() )
+			->onlyMethods( [ 'runChild', 'getPrimaryDB' ] )
+			->getMock();
+		return TestingAccessWrapper::newFromObject( $obj );
+	}
+
+	/**
+	 * @param bool $shouldPurgeRecentChanges Whether the maintenance script should purge data from recentchanges
+	 * @return string The expected output regex
+	 */
+	private function generateExpectedOutputRegex( bool $shouldPurgeRecentChanges ): string {
+		$expectedOutputRegex = '/';
+		foreach ( CheckUserQueryInterface::RESULT_TABLES as $table ) {
+			$expectedOutputRegex .= "Purging data from $table.*Purged " .
+				SemiMockedCheckUserDataPurger::MOCKED_PURGED_ROW_COUNTS_PER_TABLE[$table] .
+				" rows and 2 client hint mapping rows.\n";
+		}
+		$expectedOutputRegex .= "Purged 123 orphaned client hint mapping rows.\n";
+		if ( $shouldPurgeRecentChanges ) {
+			$expectedOutputRegex .= "Purging data from recentchanges[\s\S]*";
+		}
+		$expectedOutputRegex .= 'Done/';
+		return $expectedOutputRegex;
+	}
+
+	/** @dataProvider provideExecute */
+	public function testExecute( $config, $shouldPurgeRecentChanges ) {
+		// Expect that the PurgeRecentChanges script is run if $shouldPurgeRecentChanges is true.
+		$this->overrideConfigValues( $config );
+		$this->maintenance->expects( $this->exactly( (int)$shouldPurgeRecentChanges ) )
+			->method( 'runChild' )
+			->with( PurgeRecentChanges::class );
+		// Mock ::getPrimaryDB so that the maintenance script can use ::timestamp without having to
+		// be a Database test.
+		$mockDatabase = $this->createMock( IDatabase::class );
+		$mockDatabase->method( 'timestamp' )
+			->willReturnCallback( static function ( $ts ) {
+				$t = new ConvertibleTimestamp( $ts );
+				return $t->getTimestamp( TS_MW );
+			} );
+		$this->maintenance->method( 'getPrimaryDB' )
+			->willReturn( $mockDatabase );
+		// Expect that UserAgentClientHintsManager::deleteOrphanedMapRows and ::deleteMappingRows are called,
+		// and give them fake return values.
+		$mockUserAgentClientHintsManager = $this->createMock( UserAgentClientHintsManager::class );
+		$mockUserAgentClientHintsManager->method( 'deleteOrphanedMapRows' )
+			->willReturn( 123 );
+		$mockUserAgentClientHintsManager->expects( $this->exactly( 3 ) )
+			->method( 'deleteMappingRows' )
+			->willReturn( 2 );
+		$this->setService( 'UserAgentClientHintsManager', $mockUserAgentClientHintsManager );
+		// Install the mock CheckUserDataPurger service that will assert for us.
+		$mockCheckUserDataPurger = new SemiMockedCheckUserDataPurger();
+		$this->setService( 'CheckUserDataPurger', $mockCheckUserDataPurger );
+		// Run the maintenance script
+		$this->maintenance->execute();
+		// Verify the output of the maintenance script is as expected
+		$this->expectOutputRegex( $this->generateExpectedOutputRegex( $shouldPurgeRecentChanges ) );
+		$mockCheckUserDataPurger->checkThatExpectedCallsHaveBeenMade();
+	}
+
+	public static function provideExecute() {
 		return [
-			'No entries to prune' => [
-				$currentTime,
-				$defaultMaxAge,
-				[
-					$currentTime - 2,
-					$currentTime - $defaultMaxAge + 100,
-					$currentTime,
-					$currentTime + 10
-				],
-				4
-			],
-			'Two entries to prune with two to be left' => [
-				$currentTime,
-				$defaultMaxAge,
-				[
-					$currentTime - $defaultMaxAge - 20000,
-					$currentTime - $defaultMaxAge - 100,
-					$currentTime,
-					$currentTime + 10
-				],
-				2
-			],
-			'Four entries to prune with no left' => [
-				$currentTime,
-				$defaultMaxAge,
-				[
-					$currentTime - $defaultMaxAge - 20000,
-					$currentTime - $defaultMaxAge - 100,
-					$currentTime - $defaultMaxAge - 1,
-					$currentTime - $defaultMaxAge - 100000
-				],
-				0
-			]
+			'wgPutIPinRC is false' => [ [ MainConfigNames::PutIPinRC => false ], false ],
+			'wgPutIPinRC is true' => [ [ MainConfigNames::PutIPinRC => true ], true ],
 		];
 	}
 }
