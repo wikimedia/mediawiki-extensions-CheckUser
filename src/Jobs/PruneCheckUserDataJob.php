@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Jobs;
 use Job;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
+use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
 use MediaWiki\CheckUser\Services\CheckUserDataPurger;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\MediaWikiServices;
@@ -56,6 +57,11 @@ class PruneCheckUserDataJob extends Job implements CheckUserQueryInterface {
 		/** @var UserAgentClientHintsManager $userAgentClientHintsManager */
 		$userAgentClientHintsManager = $services->get( 'UserAgentClientHintsManager' );
 		$userAgentClientHintsManager->deleteMappingRows( $deletedReferenceIds );
+
+		// Purge expired rows from the central index tables where the rows are associated with this wiki
+		/** @var CheckUserCentralIndexManager $checkUserCentralIndexManager */
+		$checkUserCentralIndexManager = $services->get( 'CheckUserCentralIndexManager' );
+		$checkUserCentralIndexManager->purgeExpiredRows( $cutoff, $this->params['domainID'] );
 
 		return true;
 	}
