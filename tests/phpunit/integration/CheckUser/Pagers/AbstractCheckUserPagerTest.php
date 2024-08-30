@@ -3,7 +3,9 @@
 namespace MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers;
 
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\GlobalBlocking\GlobalBlockingServices;
 use MediaWiki\Html\FormOptions;
+use MediaWiki\MainConfigNames;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
@@ -117,6 +119,41 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 			wfMessage( 'checkuser-nomatch' )->parseAsBlock() . "\n",
 			$object->getEmptyBody(),
 			'The checkuser-nomatch message should have been returned.'
+		);
+	}
+
+	public function testUserBlockFlagsForGloballyBlockedIP() {
+		$this->markTestSkippedIfExtensionNotLoaded( 'GlobalBlocking' );
+		$object = $this->setUpObject();
+		$ip = '1.2.3.4';
+		$user = UserIdentityValue::newAnonymous( $ip );
+		// Globally block the IP
+		GlobalBlockingServices::wrap( $this->getServiceContainer() )->getGlobalBlockManager()->block(
+			$ip, 'test', '1 week', $this->getTestUser( [ 'steward' ] )->getUserIdentity()
+		);
+		$this->assertSame(
+			[ '<strong>(' . wfMessage( 'checkuser-gblocked' )->escaped() . ')</strong>' ],
+			$object->userBlockFlags( $ip, $user ),
+			'The checkuser-gblocked flag should have been returned as the IP is globally blocked.'
+		);
+	}
+
+	public function testUserBlockFlagsForGloballyBlockedUser() {
+		// We don't want to test specifically the CentralAuth implementation of the CentralIdLookup. As such, force it
+		// to be the local provider.
+		$this->overrideConfigValue( MainConfigNames::CentralIdLookupProvider, 'local' );
+		$this->markTestSkippedIfExtensionNotLoaded( 'GlobalBlocking' );
+		$object = $this->setUpObject();
+		$ip = '1.2.3.4';
+		$user = $this->getMutableTestUser()->getUserIdentity();
+		// Globally block the test user
+		GlobalBlockingServices::wrap( $this->getServiceContainer() )->getGlobalBlockManager()->block(
+			$user->getName(), 'test', '1 week', $this->getTestUser( [ 'steward' ] )->getUserIdentity()
+		);
+		$this->assertContains(
+			'<strong>(' . wfMessage( 'checkuser-gblocked' )->escaped() . ')</strong>',
+			$object->userBlockFlags( $ip, $user ),
+			'The checkuser-gblocked flag should have been returned as the IP is globally blocked.'
 		);
 	}
 
