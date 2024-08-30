@@ -243,4 +243,16 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 			'checkuser-ip-contributions-archive-results-title' :
 			'checkuser-ip-contributions-results-title';
 	}
+
+	/** @inheritDoc */
+	protected function contributionsSub( $userObj, $targetName ) {
+		$contributionsSub = parent::contributionsSub( $userObj, $targetName );
+
+		// Add subtitle text describing that the data shown is limited to wgCUDMaxAge seconds ago
+		$contributionsSub .= $this->msg( 'checkuser-ip-contributions-subtitle' )
+			->durationParams( $this->getConfig()->get( 'CUDMaxAge' ) )
+			->parse();
+
+		return $contributionsSub;
+	}
 }

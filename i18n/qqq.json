@@ -270,6 +270,7 @@
 	"checkuser-ip-contributions": "{{doc-special|IPContributions}}",
 	"checkuser-ip-contributions-permission-error-title": "Title of an error page shown if a user cannot access Special:IPContributions because they need to accept an agreement in their preferences",
 	"checkuser-ip-contributions-permission-error-description": "Contents of an error page shown if a user cannot access Special:IPContributions because they need to accept an agreement in their preferences",
+	"checkuser-ip-contributions-subtitle": "Subtitle shown on Special:IPContributions that indicates the maximum age for any revisions shown on the page.\n\nParameters:\n* $1 - A formatted representation of the maximum age that revisions can be to be shown on the page.",
 	"checkuser-ip-contributions-target-label": "Label for a field in the [[Special:IPContributions]] form",
 	"checkuser-ip-contributions-target-error-no-ip": "Text to display when the [[Special:IPContributions]] form is submitted with a target that is not an IP address",
 	"checkuser-ip-contributions-target-error-no-ip-banner": "Text to display in an error banner when the [[Special:IPContributions]] form is submitted with a target that is not a valid IP address",
