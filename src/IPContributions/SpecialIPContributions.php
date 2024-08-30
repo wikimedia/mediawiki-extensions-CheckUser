@@ -10,6 +10,7 @@ use MediaWiki\SpecialPage\ContributionsSpecialPage;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\UserFactory;
+use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserNamePrefixSearch;
 use MediaWiki\User\UserNameUtils;
@@ -238,7 +239,7 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 	/**
 	 * @inheritDoc
 	 */
-	protected function getResultsPageTitleMessageKey() {
+	protected function getResultsPageTitleMessageKey( UserIdentity $target = null ) {
 		return $this->opts['isArchive'] ?
 			'checkuser-ip-contributions-archive-results-title' :
 			'checkuser-ip-contributions-results-title';
