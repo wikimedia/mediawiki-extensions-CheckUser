@@ -195,4 +195,45 @@ class TemporaryAccountLoggerTest extends MediaWikiUnitTestCase {
 			(int)wfTimestamp()
 		);
 	}
+
+	/**
+	 * @dataProvider provideLogViewDebounced
+	 */
+	public function testLogFromExternal( bool $isDebounced ) {
+		$name = 'Foo';
+		$performer = new UserIdentityValue( 1, $name );
+		$expectedTarget = Title::makeTitle( NS_USER, $name );
+
+		$database = $this->createMock( IDatabase::class );
+
+		$logger = $this->getMockBuilder( TemporaryAccountLogger::class )
+			->setConstructorArgs( [
+				$this->createMock( ActorStore::class ),
+				new NullLogger(),
+				$database,
+				24 * 60 * 60,
+			] )
+			->onlyMethods( [ 'createManualLogEntry' ] )
+			->getMock();
+
+		$logEntry = $this->createMock( ManualLogEntry::class );
+		$logEntry->expects( $this->once() )
+			->method( 'setPerformer' )
+			->with( $performer );
+
+		$logEntry->expects( $this->once() )
+			->method( 'setTarget' )
+			->with( $expectedTarget );
+
+		$logEntry->expects( $this->once() )
+			->method( 'insert' )
+			->with( $database );
+
+		$logger->expects( $this->once() )
+			->method( 'createManualLogEntry' )
+			->with( 'test' )
+			->willReturn( $logEntry );
+
+		$logger->logFromExternal( $performer, 'Foo', 'test', [], $isDebounced, 0 );
+	}
 }
