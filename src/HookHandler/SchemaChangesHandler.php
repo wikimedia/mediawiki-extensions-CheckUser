@@ -6,6 +6,7 @@ use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Maintenance\DeleteReadOldRowsInCuChanges;
 use MediaWiki\CheckUser\Maintenance\FixTrailingSpacesInLogs;
 use MediaWiki\CheckUser\Maintenance\MoveLogEntriesFromCuChanges;
+use MediaWiki\CheckUser\Maintenance\PopulateCentralCheckUserIndexTables;
 use MediaWiki\CheckUser\Maintenance\PopulateCheckUserTable;
 use MediaWiki\CheckUser\Maintenance\PopulateCucActor;
 use MediaWiki\CheckUser\Maintenance\PopulateCucComment;
@@ -378,6 +379,11 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 			'cuc_private',
 			"$base/$dbType/patch-cu_changes-drop-cuc_private.sql"
 		);
+		if ( $isCUInstalled ) {
+			// We only need to run this maintenance script if CU is already installed, because otherwise the script
+			// will be run for us by the populateCheckUserTable.php script (after it's populated the tables).
+			$updater->addPostDatabaseUpdateMaintenance( PopulateCentralCheckUserIndexTables::class );
+		}
 
 		if ( !$isCUInstalled ) {
 			// First time so populate the CheckUser result tables with recentchanges data.
