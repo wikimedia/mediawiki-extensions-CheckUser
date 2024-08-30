@@ -239,7 +239,7 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 	/**
 	 * @inheritDoc
 	 */
-	protected function getResultsPageTitleMessageKey( UserIdentity $target = null ) {
+	protected function getResultsPageTitleMessageKey( UserIdentity $target ) {
 		return $this->opts['isArchive'] ?
 			'checkuser-ip-contributions-archive-results-title' :
 			'checkuser-ip-contributions-results-title';
