@@ -171,6 +171,7 @@
 	"checkuser-investigate-tour-block-desc": "आप उन सदस्यों को चुन सकते हैं जिन्हें आप अवरोधित करना चाहते हैं, और आपको उचित अवरोध चुनने के लिए अवरोध के फ़ॉर्म पर ले जाया जाएगा।",
 	"checkuser-investigate-tour-copywikitext-title": "डेटा की प्रतिलिपि बनाना चाहते हैं?",
 	"checkuser-investigate-tour-copywikitext-desc": "एक ही क्लिक से तुलना टेबल की प्रतिलिपि बनाएँ और उसे CUWiki पर ले जाएँ। याद रहे कि आप सिर्फ उसी सामग्री की प्रतिलिपि बनाएँगे जो आपको वर्तमान में दिख रहा होगा, न कि जाँच के सभी पृष्ठों की।",
+	"checkuser-ip-contributions-subtitle": "पिछले $1 के परिणाम दिखा रहे हैं।",
 	"checkuser-ip-contributions-tab-label-contributions": "योगदान",
 	"checkuser-tempaccount-reveal-ip-error": "त्रुटि"
 }

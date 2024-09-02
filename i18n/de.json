@@ -241,6 +241,7 @@
 	"checkuser-ip-contributions": "Suche nach IP-Beiträgen",
 	"checkuser-ip-contributions-permission-error-title": "Berechtigungsfehler",
 	"checkuser-ip-contributions-permission-error-description": "Um temporäre Kontobeiträge für eine IP anzuzeigen, akzeptiere bitte die Vereinbarung in [[Special:Preferences|deine Einstellungen]].",
+	"checkuser-ip-contributions-subtitle": "Es werden Ergebnisse der letzten $1 angezeigt.",
 	"checkuser-ip-contributions-target-label": "IP-Adresse oder Adressenbereich",
 	"checkuser-ip-contributions-target-error-no-ip": "Eine gültige IP-Adresse oder einen IP-Bereich eingeben",
 	"checkuser-ip-contributions-target-error-no-ip-banner": "Deine Suche konnte nicht abgeschlossen werden. Bitte gib eine gültige IP-Adresse oder einen IP-Bereich ein. [[Special:Contributions/$1|Oder suche nach Benutzernamen]].",

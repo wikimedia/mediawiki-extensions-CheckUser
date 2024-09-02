@@ -235,6 +235,7 @@
 	"checkuser-ip-contributions": "חיפוש תרומות IP",
 	"checkuser-ip-contributions-permission-error-title": "שגיאת הרשאה",
 	"checkuser-ip-contributions-permission-error-description": "כדי לצפות בתרומות חשבון חולף עבור כתובת IP, נא לקבל את ההסכם ב[[Special:Preferences|העדפות שלך]].",
+	"checkuser-ip-contributions-subtitle": "הצגת תוצאות מהזמן האחרון: $1.",
 	"checkuser-ip-contributions-target-label": "כתובת IP או טווח",
 	"checkuser-ip-contributions-target-error-no-ip": "נא להזין כתובת IP תקינה או טווח IP תקין",
 	"checkuser-ip-contributions-target-error-no-ip-banner": "לא היה ניתן להשלים את החיפוש שלך. נא להזין כתוב IP תקינה או טווח IP תקין. [[Special:Contributions/$1|אפשר גם לחפש לפי שם משתמש]].",
