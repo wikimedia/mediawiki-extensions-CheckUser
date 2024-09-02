@@ -78,6 +78,9 @@ class PurgeOldDataTest extends MaintenanceBaseTestCase {
 		$mockUserAgentClientHintsManager->expects( $this->never() )
 			->method( 'deleteMappingRows' );
 		$this->setService( 'UserAgentClientHintsManager', $mockUserAgentClientHintsManager );
+		$this->maintenance->method( 'runChild' )
+			->with( PurgeRecentChanges::class )
+			->willReturn( $this->createMock( PurgeRecentChanges::class ) );
 		$this->maintenance->execute();
 		$this->expectOutputRegex( "/Unable to acquire a lock to do the purging of CheckUser data./" );
 	}
@@ -109,7 +112,8 @@ class PurgeOldDataTest extends MaintenanceBaseTestCase {
 		$this->overrideConfigValues( $config );
 		$this->maintenance->expects( $this->exactly( (int)$shouldPurgeRecentChanges ) )
 			->method( 'runChild' )
-			->with( PurgeRecentChanges::class );
+			->with( PurgeRecentChanges::class )
+			->willReturn( $this->createMock( PurgeRecentChanges::class ) );
 		// Expect that UserAgentClientHintsManager::deleteOrphanedMapRows and ::deleteMappingRows are called,
 		// and give them fake return values.
 		$mockUserAgentClientHintsManager = $this->createMock( UserAgentClientHintsManager::class );

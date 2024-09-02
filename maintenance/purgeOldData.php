@@ -69,7 +69,8 @@ class PurgeOldData extends Maintenance implements CheckUserQueryInterface {
 
 		if ( $config->get( MainConfigNames::PutIPinRC ) ) {
 			$this->output( "Purging data from recentchanges..." );
-			$this->runChild( PurgeRecentChanges::class );
+			$purgeRecentChanges = $this->runChild( PurgeRecentChanges::class );
+			$purgeRecentChanges->execute();
 		}
 
 		$this->output( "Done.\n" );
