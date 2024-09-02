@@ -249,9 +249,10 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 	protected function contributionsSub( $userObj, $targetName ) {
 		$contributionsSub = parent::contributionsSub( $userObj, $targetName );
 
-		// Add subtitle text describing that the data shown is limited to wgCUDMaxAge seconds ago
+		// Add subtitle text describing that the data shown is limited to wgCUDMaxAge seconds ago. The count should
+		// be in days, as this makes it easier to translate the message.
 		$contributionsSub .= $this->msg( 'checkuser-ip-contributions-subtitle' )
-			->durationParams( $this->getConfig()->get( 'CUDMaxAge' ) )
+			->numParams( round( $this->getConfig()->get( 'CUDMaxAge' ) / 86400 ) )
 			->parse();
 
 		return $contributionsSub;
