@@ -54,9 +54,9 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 
 	private ?ClientHintsData $currentClientHintsData;
 
-	private array $ipv4Ranges;
+	private array $ipv4Ranges = [];
 
-	private array $ipv6Ranges;
+	private array $ipv6Ranges = [];
 
 	private array $ipsToUse;
 
@@ -70,30 +70,38 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 		$this->addOption(
 			'num-users',
 			'How many users should be created and used for the simulated actions. ' .
-			'The number of actions performed will roughly be split equally between the users. Default is 10.'
+			'The number of actions performed will roughly be split equally between the users. Default is 10.',
+			false,
+			true
 		);
 		$this->addOption(
 			'num-anon',
 			'How many IPs should be used for the simulated actions. ' .
-			'The number of actions performed will roughly be split equally between the IPs. Default is 5.'
+			'The number of actions performed will roughly be split equally between the IPs. Default is 5.',
+			false,
+			true
 		);
 		$this->addOption(
 			'num-temp',
 			'How many temporary accounts should be used for the simulated actions. ' .
 			'The number of actions performed will roughly be split equally between the temporary accounts.' .
-			'This is ignored if temporary account creation is disabled. If not ignored, the default is 10.'
+			'This is ignored if temporary account creation is disabled. If not ignored, the default is 10.',
+			false,
+			true
 		);
 		$this->addOption(
 			'num-used-ips',
 			'How many IPs to select from the ranges in ranges-for-ips. Must not be smaller than num-anon. ' .
 			'These IPs will be used for anon edits, temporary account and user actions. These will also be used ' .
-			'in the XFF header (if set) for actions. Default is 5.'
+			'in the XFF header (if set) for actions. Default is 5.',
+			false,
+			true
 		);
 		$this->addOption(
 			'ranges-for-ips',
 			'What ranges should the IPs be selected from. Default is one IPv4 and IPv6 range inside ' .
 			'ranges defined as internal.',
-			false, false, false, true
+			false, true, false, true
 		);
 		$this->addArg(
 			'count',
@@ -306,6 +314,7 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 		if ( ( !$argument || !intval( $argument ) ) && $argument !== '0' ) {
 			$this->fatalError( "$name must be an integer" );
 		}
+
 		return intval( $argument );
 	}
 
@@ -447,14 +456,21 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 	}
 
 	/**
-	 * Generate a randomly chosen IPv4 or IPv6
-	 * address that sits within the allowed
-	 * ranges. A IPv4 address is returned 50%
-	 * of the time on average.
+	 * Generate a randomly chosen IPv4 or IPv6 address that sits within the allowed ranges.
+	 * If the set of allowed ranges contain both IPv4 and IPv6 ranges, an IPv4 address is returned
+	 * 50% of the time on average.
 	 *
 	 * @return string
 	 */
 	private function generateNewIp(): string {
+		if ( count( $this->ipv4Ranges ) === 0 ) {
+			return $this->generateNewIPv6();
+		}
+
+		if ( count( $this->ipv6Ranges ) === 0 ) {
+			return $this->generateNewIPv4();
+		}
+
 		if ( $this->getRandomFloat() < 0.5 ) {
 			return $this->generateNewIPv4();
 		} else {
