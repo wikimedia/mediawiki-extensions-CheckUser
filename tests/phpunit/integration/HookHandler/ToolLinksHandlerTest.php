@@ -229,6 +229,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideOnSpecialContributionsBeforeMainOutputArchive
 	 */
 	public function testOnSpecialContributionsBeforeMainOutputArchive(
+		string $specialPageName,
 		bool $canSeeDeleted,
 		bool $expectAddButtons
 	) {
@@ -250,7 +251,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		$mockSpecialPage->method( 'getUser' )
 			->willReturn( $mockPerformingUser );
 		$mockSpecialPage->method( 'getName' )
-			->willReturn( 'IPContributions' );
+			->willReturn( $specialPageName );
 		$mockSpecialPage->method( 'getOutput' )
 			->willReturn( $mockOutputPage );
 		$mockSpecialPage->method( 'getRequest' )
@@ -283,11 +284,23 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 
 	public function provideOnSpecialContributionsBeforeMainOutputArchive() {
 		return [
-			'Can see archived contributions' => [
+			'Can see archived contributions on Special:IPContributions' => [
+				'specialPageName' => 'IPContributions',
 				'canSeeDeleted' => true,
 				'expectAddButtons' => true,
 			],
-			'Can not see archived contributions' => [
+			'Can not see archived contributions on Special:IPContributions' => [
+				'specialPageName' => 'IPContributions',
+				'canSeeDeleted' => false,
+				'expectAddButtons' => false,
+			],
+			'Can see archived contributions on Special:DeletedContributions' => [
+				'specialPageName' => 'DeletedContributions',
+				'canSeeDeleted' => true,
+				'expectAddButtons' => true,
+			],
+			'Can not see archived contributions on Special:DeletedContributions' => [
+				'specialPageName' => 'DeletedContributions',
 				'canSeeDeleted' => false,
 				'expectAddButtons' => false,
 			],

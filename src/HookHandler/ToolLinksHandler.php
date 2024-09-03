@@ -113,11 +113,7 @@ class ToolLinksHandler implements
 
 	/** @inheritDoc */
 	public function onSpecialContributionsBeforeMainOutput( $id, $user, $sp ) {
-		// TODO: Handle Special:DeletedContributions here after T370438.
-		if (
-			$sp->getName() !== 'Contributions' &&
-			$sp->getName() !== 'IPContributions'
-		) {
+		if ( !in_array( $sp->getName(), [ 'Contributions', 'IPContributions', 'DeletedContributions' ] ) ) {
 			return;
 		}
 
@@ -129,7 +125,8 @@ class ToolLinksHandler implements
 			return;
 		}
 
-		$isArchive = $sp->getRequest()->getBool( 'isArchive' );
+		$isArchive = $sp->getRequest()->getBool( 'isArchive' ) ||
+			$sp->getName() === 'DeletedContributions';
 		if ( $isArchive && !$this->userCanSeeDeleted( $sp->getUser() ) ) {
 			return;
 		}
@@ -163,7 +160,7 @@ class ToolLinksHandler implements
 				new ButtonWidget( [
 					'label' => $sp->msg( 'checkuser-ip-contributions-special-contributions-button' )->text(),
 					'href' => $contributionsUrl,
-					'active' => $sp->getName() === 'Contributions',
+					'active' => in_array( $sp->getName(), [ 'Contributions', 'DeletedContributions' ] ),
 				] )
 			],
 		] );
