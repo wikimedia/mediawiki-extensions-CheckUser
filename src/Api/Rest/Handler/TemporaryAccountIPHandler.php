@@ -50,7 +50,7 @@ class TemporaryAccountIPHandler extends AbstractTemporaryAccountIPHandler {
 	) {
 		parent::__construct(
 			$config, $jobQueueGroup, $permissionManager, $userOptionsLookup, $userNameUtils, $dbProvider, $actorStore,
-			$blockManager
+			$blockManager, $tempUserConfig
 		);
 		$this->tempUserConfig = $tempUserConfig;
 		$this->userFactory = $userFactory;

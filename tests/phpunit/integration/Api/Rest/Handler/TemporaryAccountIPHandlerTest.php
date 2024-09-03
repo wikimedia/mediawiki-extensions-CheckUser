@@ -211,6 +211,21 @@ class TemporaryAccountIPHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
+	public function testWhenTemporaryAccountsNotKnown() {
+		$this->disableAutoCreateTempUser();
+		$this->expectExceptionObject( new LocalizedHttpException( new MessageValue( 'rest-no-match' ), 404 ) );
+
+		$this->executeHandlerAndGetBodyData(
+			$this->getTemporaryAccountIPHandler(),
+			$this->getRequestData( [ 'ip' => '1.2.3.4' ] ),
+			[],
+			[],
+			[],
+			[],
+			$this->getAuthority()
+		);
+	}
+
 	public function addDBData() {
 		$CUTestData = [
 			[
