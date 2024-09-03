@@ -71,6 +71,10 @@ class CheckUserLogPager extends RangeChronologicalPager {
 			$endTimestamp = $opts['end'] . ' 23:59:59';
 		}
 		$this->getDateRangeCond( $startTimestamp, $endTimestamp );
+
+		// T373858: Limit the number of results to 500 (the maximum shown limit) due to the page being slow to load.
+		// TODO: Remove this once improvements to the page loading speed have been made.
+		$this->mLimit = min( 500, $this->mLimit );
 	}
 
 	/**
