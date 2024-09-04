@@ -199,7 +199,7 @@
 	"checkuser-investigate-tour-targets-title": "Провера више корисника и IP адреса?",
 	"checkuser-investigate-tour-block-title": "Блокирање?",
 	"checkuser-ip-contributions": "Претрага IP доприноса",
-	"checkuser-ip-contributions-subtitle": "Приказивање резултате од последњих $1.",
+	"checkuser-ip-contributions-subtitle": "Приказивање резултате од претходних $1 {{PLURAL:$1|дан|дана}}.",
 	"checkuser-ip-contributions-target-error-no-ip": "Унесите валидну IP адресу или опсег",
 	"checkuser-ip-contributions-tab-label-contributions": "Доприноси",
 	"checkuser-ip-contributions-tab-label-archive-contributions": "Избрисани доприноси",
