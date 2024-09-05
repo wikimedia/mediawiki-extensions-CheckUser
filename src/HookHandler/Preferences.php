@@ -2,7 +2,9 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
+use Language;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
+use MediaWiki\Config\Config;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Preferences\Hook\GetPreferencesHook;
@@ -17,21 +19,39 @@ class Preferences implements GetPreferencesHook {
 	/** @var string */
 	public const INVESTIGATE_FORM_TOUR_SEEN = 'checkuser-investigate-form-tour-seen';
 
+	/** @var string Preference value used to indicate that the CheckUser helper table should collapse on load */
+	public const CHECKUSER_HELPER_ALWAYS_COLLAPSE_BY_DEFAULT = 'always';
+
+	/** @var string Preference value used to indicate that the CheckUser helper table should never collapse on load */
+	public const CHECKUSER_HELPER_NEVER_COLLAPSE_BY_DEFAULT = 'never';
+
+	/**
+	 * @var string Preference value used to indicate that the site configuration value should be used to determine
+	 *   if to collapse the CheckUser helper table on load
+	 */
+	public const CHECKUSER_HELPER_USE_CONFIG_TO_COLLAPSE_BY_DEFAULT = 'config';
+
 	private PermissionManager $permissionManager;
 	private TemporaryAccountLoggerFactory $loggerFactory;
+	private Language $language;
 	private MessageLocalizer $messageLocalizer;
+	private Config $config;
 
 	/**
 	 * @param PermissionManager $permissionManager
 	 * @param TemporaryAccountLoggerFactory $loggerFactory
+	 * @param Config $config
 	 */
 	public function __construct(
 		PermissionManager $permissionManager,
-		TemporaryAccountLoggerFactory $loggerFactory
+		TemporaryAccountLoggerFactory $loggerFactory,
+		Config $config
 	) {
 		$this->permissionManager = $permissionManager;
 		$this->loggerFactory = $loggerFactory;
+		$this->config = $config;
 		$this->messageLocalizer = RequestContext::getMain();
+		$this->language = RequestContext::getMain()->getLanguage();
 	}
 
 	/**
@@ -68,6 +88,57 @@ class Preferences implements GetPreferencesHook {
 				'label-message' => 'checkuser-tempaccount-enable-preference',
 				'section' => 'personal/checkuser-tempaccount',
 			];
+		}
+
+		if ( $this->permissionManager->userHasRight( $user, 'checkuser' ) ) {
+			$collapseByDefaultSiteConfig = $this->config->get( 'CheckUserCollapseCheckUserHelperByDefault' );
+
+			$defaultPreferenceMessage = $this->messageLocalizer
+				->msg( 'checkuser-helper-table-collapse-by-default-preference-default' );
+			$alwaysPreferenceMessage = $this->messageLocalizer
+				->msg( 'checkuser-helper-table-collapse-by-default-preference-always' )->escaped();
+			$neverPreferenceMessage = $this->messageLocalizer
+				->msg( 'checkuser-helper-table-collapse-by-default-preference-never' )->escaped();
+			if ( is_int( $collapseByDefaultSiteConfig ) ) {
+				$defaultPreferenceMessage->numParams( $collapseByDefaultSiteConfig );
+			} elseif ( $collapseByDefaultSiteConfig ) {
+				$defaultPreferenceMessage->rawParams( $alwaysPreferenceMessage );
+			} else {
+				$defaultPreferenceMessage->rawParams( $neverPreferenceMessage );
+			}
+			$defaultPreferenceMessage = $defaultPreferenceMessage->escaped();
+
+			$preferences['checkuser-helper-table-collapse-by-default'] = [
+				'type' => 'limitselect',
+				'label-message' => 'checkuser-helper-table-collapse-by-default-preference',
+				'options' => [
+					$defaultPreferenceMessage => self::CHECKUSER_HELPER_USE_CONFIG_TO_COLLAPSE_BY_DEFAULT,
+					$alwaysPreferenceMessage => self::CHECKUSER_HELPER_ALWAYS_COLLAPSE_BY_DEFAULT,
+					$neverPreferenceMessage => self::CHECKUSER_HELPER_NEVER_COLLAPSE_BY_DEFAULT,
+				],
+				// The following message is generated here:
+				// * prefs-checkuser
+				'section' => 'rc/checkuser',
+			];
+
+			// Generate options for the list which are the same as the options for the number of results per page in
+			// Special:CheckUser (see AbstractCheckUserPager::__construct).
+			$maximumRowCount = $this->config->get( 'CheckUserMaximumRowCount' );
+			$rowCountOptions = [
+				$maximumRowCount / 25,
+				$maximumRowCount / 10,
+				$maximumRowCount / 5,
+				$maximumRowCount / 2,
+				$maximumRowCount,
+			];
+			$rowCountOptions = array_map( 'ceil', $rowCountOptions );
+			$rowCountOptions = array_unique( $rowCountOptions );
+			$rowCountOptions = array_map( 'intval', $rowCountOptions );
+
+			foreach ( $rowCountOptions as $option ) {
+				$preferences['checkuser-helper-table-collapse-by-default']
+					['options'][$this->language->formatNum( $option )] = $option;
+			}
 		}
 	}
 

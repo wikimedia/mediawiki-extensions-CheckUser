@@ -32,6 +32,7 @@ use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
+use MediaWiki\User\UserOptionsLookup;
 use MediaWiki\WikiMap\WikiMap;
 use MediaWiki\Xml\Xml;
 use Wikimedia\IPUtils;
@@ -87,6 +88,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	 * @param CheckUserUtilityService $checkUserUtilityService
 	 * @param UserAgentClientHintsLookup $clientHintsLookup
 	 * @param UserAgentClientHintsFormatter $clientHintsFormatter
+	 * @param UserOptionsLookup $userOptionsLookup
 	 * @param IContextSource|null $context
 	 * @param LinkRenderer|null $linkRenderer
 	 * @param ?int $limit
@@ -110,6 +112,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		CheckUserUtilityService $checkUserUtilityService,
 		UserAgentClientHintsLookup $clientHintsLookup,
 		UserAgentClientHintsFormatter $clientHintsFormatter,
+		UserOptionsLookup $userOptionsLookup,
 		IContextSource $context = null,
 		LinkRenderer $linkRenderer = null,
 		?int $limit = null
@@ -117,7 +120,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager,
 			$userGroupManager, $centralIdLookup, $dbProvider, $specialPageFactory,
 			$userIdentityLookup, $checkUserLogService, $userFactory, $checkUserLookupUtils,
-			$context, $linkRenderer, $limit );
+			$userOptionsLookup, $context, $linkRenderer, $limit );
 		$this->checkType = SpecialCheckUser::SUBTYPE_GET_USERS;
 		$this->xfor = $xfor;
 		$this->canPerformBlocks = $permissionManager->userHasRight( $this->getUser(), 'block' )

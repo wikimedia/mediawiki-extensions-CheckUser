@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers;
 
+use MediaWiki\CheckUser\HookHandler\Preferences;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlockingServices;
 use MediaWiki\Html\FormOptions;
@@ -54,7 +55,8 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 			$services->getUserIdentityLookup(),
 			$services->getService( 'CheckUserLogService' ),
 			$services->getUserFactory(),
-			$services->get( 'CheckUserLookupUtils' )
+			$services->get( 'CheckUserLookupUtils' ),
+			$services->getUserOptionsLookup()
 		];
 	}
 
@@ -191,10 +193,17 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 
 	/** @dataProvider provideGetCheckUserHelperFieldset */
 	public function testGetCheckUserHelperFieldset(
-		$collapseByDefaultConfigValue, $shouldBeByDefaultCollapsed, $resultRowCount
+		$collapseByDefaultConfigValue, $userPreferenceValue, $shouldBeByDefaultCollapsed, $resultRowCount
 	) {
 		$this->overrideConfigValue( 'CheckUserCollapseCheckUserHelperByDefault', $collapseByDefaultConfigValue );
 		$object = $this->setUpObject();
+		$userOptionsManager = $this->getServiceContainer()->getUserOptionsManager();
+		$userOptionsManager->setOption(
+			RequestContext::getMain()->getUser(),
+			'checkuser-helper-table-collapse-by-default',
+			$userPreferenceValue
+		);
+		$userOptionsManager->saveOptions( RequestContext::getMain()->getUser() );
 		$object->mResult = $this->createMock( IResultWrapper::class );
 		$object->mResult->method( 'numRows' )->willReturn( $resultRowCount );
 		$fieldset = TestingAccessWrapper::newFromObject( $object->getCheckUserHelperFieldset() );
@@ -226,17 +235,32 @@ class AbstractCheckUserPagerTest extends MediaWikiIntegrationTestCase {
 	public static function provideGetCheckUserHelperFieldset() {
 		return [
 			'wgCheckUserCollapseCheckUserHelperByDefault set to true' => [
-				true, true, 1
+				// The value of wgCheckUserCollapseCheckUserHelperByDefault
+				true,
+				// The value for the user's "checkuser-helper-table-collapse-by-default" preference
+				Preferences::CHECKUSER_HELPER_USE_CONFIG_TO_COLLAPSE_BY_DEFAULT,
+				// Whether the summary table should be collapsed by default
+				true,
+				// The number of results in the mResult object
+				1,
 			],
 			'wgCheckUserCollapseCheckUserHelperByDefault set to false' => [
-				false, false, 2
+				false, Preferences::CHECKUSER_HELPER_USE_CONFIG_TO_COLLAPSE_BY_DEFAULT, false, 2,
 			],
 			'wgCheckUserCollapseCheckUserHelperByDefault set to an integer less than the row count' => [
-				3, true, 5
+				3, Preferences::CHECKUSER_HELPER_USE_CONFIG_TO_COLLAPSE_BY_DEFAULT, true, 5,
 			],
 			'wgCheckUserCollapseCheckUserHelperByDefault set to an integer greater than the row count' => [
-				10, false, 3
-			]
+				10, Preferences::CHECKUSER_HELPER_USE_CONFIG_TO_COLLAPSE_BY_DEFAULT, false, 3,
+			],
+			'User preference set to always' => [
+				false, Preferences::CHECKUSER_HELPER_ALWAYS_COLLAPSE_BY_DEFAULT, true, 1,
+			],
+			'User preference set to never' => [
+				true, Preferences::CHECKUSER_HELPER_NEVER_COLLAPSE_BY_DEFAULT, false, 2,
+			],
+			'User preference set to integer less than row count' => [ false, 3, true, 5 ],
+			'User preference set to integer more than row count' => [ true, 10, false, 3 ],
 		];
 	}
 }

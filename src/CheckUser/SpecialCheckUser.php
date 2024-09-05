@@ -35,6 +35,7 @@ use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserNamePrefixSearch;
 use MediaWiki\User\UserNameUtils;
+use MediaWiki\User\UserOptionsLookup;
 use OOUI\IconWidget;
 use UserBlockedError;
 use Wikimedia\IPUtils;
@@ -77,6 +78,7 @@ class SpecialCheckUser extends SpecialPage {
 	private UserAgentClientHintsFormatter $clientHintsFormatter;
 	private CheckUserLookupUtils $checkUserLookupUtils;
 	private LogFormatterFactory $logFormatterFactory;
+	private UserOptionsLookup $userOptionsLookup;
 
 	/**
 	 * @param LinkBatchFactory $linkBatchFactory
@@ -99,6 +101,7 @@ class SpecialCheckUser extends SpecialPage {
 	 * @param UserAgentClientHintsFormatter $clientHintsFormatter
 	 * @param CheckUserLookupUtils $checkUserLookupUtils
 	 * @param LogFormatterFactory $logFormatterFactory
+	 * @param UserOptionsLookup $userOptionsLookup
 	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
@@ -120,7 +123,8 @@ class SpecialCheckUser extends SpecialPage {
 		UserAgentClientHintsLookup $clientHintsLookup,
 		UserAgentClientHintsFormatter $clientHintsFormatter,
 		CheckUserLookupUtils $checkUserLookupUtils,
-		LogFormatterFactory $logFormatterFactory
+		LogFormatterFactory $logFormatterFactory,
+		UserOptionsLookup $userOptionsLookup
 	) {
 		parent::__construct( 'CheckUser', 'checkuser' );
 
@@ -144,6 +148,7 @@ class SpecialCheckUser extends SpecialPage {
 		$this->clientHintsFormatter = $clientHintsFormatter;
 		$this->checkUserLookupUtils = $checkUserLookupUtils;
 		$this->logFormatterFactory = $logFormatterFactory;
+		$this->userOptionsLookup = $userOptionsLookup;
 	}
 
 	public function doesWrites() {
@@ -502,7 +507,8 @@ class SpecialCheckUser extends SpecialPage {
 					$this->userIdentityLookup,
 					$this->checkUserLogService,
 					$this->userFactory,
-					$this->checkUserLookupUtils
+					$this->checkUserLookupUtils,
+					$this->userOptionsLookup
 				);
 			case self::SUBTYPE_GET_USERS:
 				return new CheckUserGetUsersPager(
@@ -523,7 +529,8 @@ class SpecialCheckUser extends SpecialPage {
 					$this->userEditTracker,
 					$this->checkUserUtilityService,
 					$this->clientHintsLookup,
-					$this->clientHintsFormatter
+					$this->clientHintsFormatter,
+					$this->userOptionsLookup
 				);
 			case self::SUBTYPE_GET_ACTIONS:
 				return new CheckUserGetActionsPager(
@@ -548,7 +555,8 @@ class SpecialCheckUser extends SpecialPage {
 					$this->commentStore,
 					$this->clientHintsLookup,
 					$this->clientHintsFormatter,
-					$this->logFormatterFactory
+					$this->logFormatterFactory,
+					$this->userOptionsLookup
 				);
 			default:
 				return null;

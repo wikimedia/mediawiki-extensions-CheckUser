@@ -265,7 +265,8 @@
 			"class": "MediaWiki\\CheckUser\\HookHandler\\Preferences",
 			"services": [
 				"PermissionManager",
-				"CheckUserTemporaryAccountLoggerFactory"
+				"CheckUserTemporaryAccountLoggerFactory",
+				"MainConfig"
 			]
 		},
 		"pageDisplay": {
@@ -608,7 +609,8 @@
 				"UserAgentClientHintsLookup",
 				"UserAgentClientHintsFormatter",
 				"CheckUserLookupUtils",
-				"LogFormatterFactory"
+				"LogFormatterFactory",
+				"UserOptionsLookup"
 			]
 		},
 		"CheckUserLog": {

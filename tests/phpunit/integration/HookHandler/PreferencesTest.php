@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
 use MediaWiki\CheckUser\HookHandler\Preferences;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\User\User;
 
@@ -29,6 +30,9 @@ class PreferencesTest extends \MediaWikiIntegrationTestCase {
 				if ( $right === 'checkuser-temporary-account-no-preference' ) {
 					return $options['hasNoPreferenceRight'];
 				}
+				if ( $right === 'checkuser' ) {
+					return false;
+				}
 				return true;
 			} );
 
@@ -36,7 +40,8 @@ class PreferencesTest extends \MediaWikiIntegrationTestCase {
 
 		( new Preferences(
 			$permissionManager,
-			$loggerFactory
+			$loggerFactory,
+			$this->getServiceContainer()->getMainConfig()
 		) )->onGetPreferences( $user, $prefs );
 
 		$this->assertSame(
@@ -75,4 +80,63 @@ class PreferencesTest extends \MediaWikiIntegrationTestCase {
 		];
 	}
 
+	/** @dataProvider provideOnGetPreferencesForCheckUserRight */
+	public function testGetOnPreferencesForCheckUserRight( $siteConfigValue, $expectedSiteConfigValue ) {
+		$this->overrideConfigValue( 'CheckUserCollapseCheckUserHelperByDefault', $siteConfigValue );
+		$user = $this->createMock( User::class );
+		$prefs = [];
+
+		$permissionManager = $this->createMock( PermissionManager::class );
+		$permissionManager->method( 'userHasRight' )
+			->willReturnCallback( static function ( $user, $right ) {
+				return $right === 'checkuser';
+			} );
+
+		$loggerFactory = $this->createMock( TemporaryAccountLoggerFactory::class );
+
+		$this->setUserLang( 'qqx' );
+		( new Preferences(
+			$permissionManager,
+			$loggerFactory,
+			$this->getServiceContainer()->getMainConfig()
+		) )->onGetPreferences( $user, $prefs );
+
+		$this->assertArrayHasKey( 'checkuser-helper-table-collapse-by-default', $prefs );
+		$actualOptions = $prefs['checkuser-helper-table-collapse-by-default']['options'];
+		// Check that the site config option looks correct.
+		$actualSiteConfigLabel = array_search(
+			Preferences::CHECKUSER_HELPER_USE_CONFIG_TO_COLLAPSE_BY_DEFAULT, $actualOptions
+		);
+		$this->assertSame(
+			"(checkuser-helper-table-collapse-by-default-preference-default: $expectedSiteConfigValue)",
+			$actualSiteConfigLabel
+		);
+		// Now check the other options than the site config option
+		unset( $actualOptions[$actualSiteConfigLabel] );
+		$expectedOptions = [
+			'(checkuser-helper-table-collapse-by-default-preference-never)' =>
+				Preferences::CHECKUSER_HELPER_NEVER_COLLAPSE_BY_DEFAULT,
+			'(checkuser-helper-table-collapse-by-default-preference-always)' =>
+				Preferences::CHECKUSER_HELPER_ALWAYS_COLLAPSE_BY_DEFAULT,
+		];
+		$expectedNumberOptions = [ 200, 500, 1000, 2500, 5000 ];
+		$language = RequestContext::getMain()->getLanguage();
+		foreach ( $expectedNumberOptions as $numberOption ) {
+			$expectedOptions[$language->formatNum( $numberOption )] = $numberOption;
+		}
+		$this->assertArrayEquals(
+			$expectedOptions,
+			$actualOptions,
+			false,
+			true
+		);
+	}
+
+	public static function provideOnGetPreferencesForCheckUserRight() {
+		return [
+			'Site config set to false' => [ false, '(checkuser-helper-table-collapse-by-default-preference-never)' ],
+			'Site config set to true' => [ true, '(checkuser-helper-table-collapse-by-default-preference-always)' ],
+			'Site config set to 200' => [ 200, '200' ],
+		];
+	}
 }
