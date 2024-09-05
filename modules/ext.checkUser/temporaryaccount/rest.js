@@ -76,6 +76,97 @@ function performRevealRequestInternal( target, revIds, logIds, limit, retryOnTok
 }
 
 /**
+ * @typedef {Object} RevealRequest
+ * @property {string[]} revIds
+ * @property {string[]} logIds
+ * @property {boolean} lastUsedIp
+ */
+
+/** @typedef {Map<string, RevealRequest>} BatchRevealRequest */
+
+/** @type {Object<string, Promise>} */
+const requests = {};
+
+/**
+ * Reveal multiple IP addresses in a single request.
+ *
+ * @param {BatchRevealRequest} request
+ * @param {boolean} retryOnTokenMismatch
+ * @return {Promise}
+ */
+function performBatchRevealRequest( request, retryOnTokenMismatch ) {
+	if ( retryOnTokenMismatch === undefined ) {
+		// Default value for the argument is true.
+		retryOnTokenMismatch = true;
+	}
+
+	// De-duplicate requests using the same request parameters.
+	const serialized = JSON.stringify( request );
+	if ( Object.prototype.hasOwnProperty.call( requests, serialized ) ) {
+		return requests[ serialized ];
+	}
+
+	const requestPromise = performBatchRevealRequestInternal( request, retryOnTokenMismatch )
+		.then( ( response ) => {
+			delete requests[ serialized ];
+			return response;
+		} )
+		.catch( ( err ) => {
+			delete requests[ serialized ];
+			return err;
+		} );
+
+	requests[ serialized ] = requestPromise;
+
+	return requestPromise;
+}
+
+/**
+ * @param {BatchRevealRequest} request
+ * @param {boolean} retryOnTokenMismatch
+ * @return {Promise}
+ */
+function performBatchRevealRequestInternal( request, retryOnTokenMismatch ) {
+	const restApi = new mw.Rest();
+	const api = new mw.Api();
+	const deferred = $.Deferred();
+
+	api.getToken( 'csrf' ).then( ( token ) => {
+		restApi.post( '/checkuser/v0/batch-temporaryaccount', { token: token, users: request } ).then(
+			( data ) => {
+				deferred.resolve( data );
+			},
+			( err, errObject ) => {
+				if (
+					retryOnTokenMismatch &&
+					errObject.xhr &&
+					errObject.xhr.responseJSON &&
+					errObject.xhr.responseJSON.errorKey &&
+					errObject.xhr.responseJSON.errorKey === 'rest-badtoken'
+				) {
+					// The CSRF token has expired. Retry the POST with a new token.
+					api.badToken( 'csrf' );
+					performBatchRevealRequestInternal( request, false ).then(
+						( data ) => {
+							deferred.resolve( data );
+						},
+						( secondRequestErr, secondRequestErrObject ) => {
+							deferred.reject( secondRequestErr, secondRequestErrObject );
+						}
+					);
+				} else {
+					deferred.reject( err, errObject );
+				}
+			}
+		);
+	} ).fail( ( err, errObject ) => {
+		deferred.reject( err, errObject );
+	} );
+
+	return deferred.promise();
+}
+
+/**
  * Generate the query string and URL parameters for the REST API request.
  *
  * @param {Object} revIds
@@ -125,6 +216,7 @@ function isLogLookup( logIds ) {
 module.exports = {
 	performRevealRequest: performRevealRequest,
 	performFullRevealRequest: performFullRevealRequest,
+	performBatchRevealRequest: performBatchRevealRequest,
 	isRevisionLookup: isRevisionLookup,
 	isLogLookup: isLogLookup
 };

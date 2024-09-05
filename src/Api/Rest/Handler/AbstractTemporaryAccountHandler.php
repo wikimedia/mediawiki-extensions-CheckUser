@@ -89,6 +89,20 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 
 		$results = $this->getResults( $identifier );
 
+		$this->makeLog( $identifier );
+
+		$maxAge = $this->config->get( 'CheckUserTemporaryAccountMaxAge' );
+		$response = $this->getResponseFactory()->createJson( $results );
+		$response->setHeader( 'Cache-Control', "private, max-age=$maxAge" );
+		return $response;
+	}
+
+	/**
+	 * Enqueue a job to log the reveal that was performed.
+	 *
+	 * @param int|string $identifier
+	 */
+	public function makeLog( $identifier ) {
 		$this->jobQueueGroup->push(
 			LogTemporaryAccountAccessJob::newSpec(
 				$this->getAuthority()->getUser(),
@@ -96,11 +110,6 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 				$this->getLogType()
 			)
 		);
-
-		$maxAge = $this->config->get( 'CheckUserTemporaryAccountMaxAge' );
-		$response = $this->getResponseFactory()->createJson( $results );
-		$response->setHeader( 'Cache-Control', "private, max-age=$maxAge" );
-		return $response;
 	}
 
 	/**
@@ -110,7 +119,7 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 	abstract protected function getResults( $identifier ): array;
 
 	/**
-	 * @param int|string $identifier
+	 * @param int|string|array $identifier
 	 * @param IReadableDatabase $dbr
 	 * @return array associated IP addresses or temporary accounts
 	 */

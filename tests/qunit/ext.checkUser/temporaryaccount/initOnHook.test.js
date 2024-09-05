@@ -105,7 +105,10 @@ QUnit.test( 'Test initOnHook with recently revealed temp user links added after 
 	// because only revision related temporary account "Show IP" buttons should exist in
 	// the page.
 	server.respond( ( request ) => {
-		request.respond( 200, { 'Content-Type': 'application/json' }, '{"ips":{"1":"127.0.0.1","2":"127.0.0.1"}}' );
+		const response = request.url.endsWith( '/checkuser/v0/batch-temporaryaccount' ) ?
+			{ '~1': { revIps: { 1: '127.0.0.1', 2: '127.0.0.1' }, logIps: null, lastUsedIp: null } } :
+			{ ips: { 1: '127.0.0.1', 2: '127.0.0.1' } };
+		request.respond( 200, { 'Content-Type': 'application/json' }, JSON.stringify( response ) );
 	} );
 	// eslint-disable-next-line no-jquery/no-global-selector
 	const $qunitFixture = $( '#qunit-fixture' );
