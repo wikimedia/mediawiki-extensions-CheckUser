@@ -28,13 +28,20 @@ class UpdateUserCentralIndexJob extends Job implements CheckUserQueryInterface {
 	public function run(): bool {
 		$dbw = $this->dbProvider->getPrimaryDatabase( self::VIRTUAL_GLOBAL_DB_DOMAIN );
 
+		// Get an exclusive lock to update the cuci_user central index for this central ID and wiki map
+		// ID to avoid deadlocks. We cannot use ::forUpdate due to T374244
+		$key = "cuci-insert:" . $this->params['wikiMapID'] . ":" . $this->params['centralID'];
+		$scopedLock = $dbw->getScopedLockAndFlush( $key, __METHOD__, 5 );
+		if ( !$scopedLock ) {
+			return true;
+		}
+
 		// Return if the timestamp in the DB is after or equal to the timestamp specified in the job. This can
 		// occur if another update job ran before this one did.
 		$lastTimestamp = $dbw->newSelectQueryBuilder()
 			->select( 'ciu_timestamp' )
 			->from( 'cuci_user' )
 			->where( [ 'ciu_ciwm_id' => $this->params['wikiMapID'], 'ciu_central_id' => $this->params['centralID'] ] )
-			->forUpdate()
 			->caller( __METHOD__ )
 			->fetchField();
 
