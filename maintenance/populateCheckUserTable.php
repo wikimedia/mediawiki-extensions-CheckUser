@@ -183,6 +183,11 @@ class PopulateCheckUserTable extends LoggedUpdateMaintenance {
 		}
 
 		$this->output( "...cu_changes table has been populated.\n" );
+
+		// Run the population script for the central indexes now that the local CheckUser tables have been populated
+		$child = $this->createChild( PopulateCentralCheckUserIndexTables::class );
+		$child->execute();
+
 		return true;
 	}
 }
