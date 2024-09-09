@@ -176,7 +176,7 @@
 	"checkuser-investigateblock-warning-users-truncated": "Liczba użytkowników, którzy mają zostać zablokowani, przekracza limit: $1. Tylko {{PLURAL:$1|pierwszy użytkownik został uwzględniony|pierwsi $1 użytkownicy zostali uwzględnieni|pierwszych $1 użytkowników zostało uwzględnionych}} w polu z użytkownikami.",
 	"checkuser-investigate": "Sprawdź",
 	"checkuser-investigate-page-subtitle": "Obecnie sprawdzenie dla $1",
-	"checkuser-investigate-subtitle-block-accounts-button-label": "Zaklokuj konta",
+	"checkuser-investigate-subtitle-block-accounts-button-label": "Zablokuj konta",
 	"checkuser-investigate-subtitle-block-ips-button-label": "Zablokuj adresy IP",
 	"checkuser-investigate-subtitle-cancel-button-label": "Anuluj",
 	"checkuser-investigate-subtitle-continue-button-label": "Kontynuuj",

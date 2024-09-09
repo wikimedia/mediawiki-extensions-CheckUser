@@ -101,6 +101,7 @@
 	"checkuser-log-entry-ipusers-xff": "$3, $1 XFF <bdi>$2</bdi>-এর জন্য ব্যবহারকারীগুলি পেয়েছেন",
 	"checkuser-log-entry-investigate": "$3, $1, $2-এর জন্য তথ্য সন্ধান করেছেন",
 	"checkuser-token-fail": "সেশন ব্যর্থতা। অনুগ্রহপূর্বক আবার চেষ্টা করুন।",
+	"prefs-checkuser": "ব্যবহারকারী পরীক্ষক",
 	"checkuser-helper-label": "একটি ছকে ফলাফলগুলি দেখুন",
 	"checkuser-helper-copy-success": "অনুলিপি করা হয়েছে",
 	"checkuser-helper-copy-failed": "অনুলিপি করা যায়নি",
