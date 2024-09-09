@@ -26,6 +26,7 @@ use MediaWiki\Status\Status;
 use MediaWiki\User\Options\UserOptionsManager;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityLookup;
+use MediaWiki\Utils\UrlUtils;
 use OOUI\ButtonGroupWidget;
 use OOUI\ButtonWidget;
 use OOUI\Element;
@@ -55,6 +56,7 @@ class SpecialInvestigate extends FormSpecialPage {
 	private CheckUserLogService $checkUserLogService;
 	private UserIdentityLookup $userIdentityLookup;
 	private UserFactory $userFactory;
+	private UrlUtils $urlUtils;
 
 	/** @var IndexLayout|null */
 	private $layout;
@@ -93,6 +95,7 @@ class SpecialInvestigate extends FormSpecialPage {
 	 * @param CheckUserLogService $checkUserLogService
 	 * @param UserIdentityLookup $userIdentityLookup
 	 * @param UserFactory $userFactory
+	 * @param UrlUtils $urlUtils
 	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
@@ -109,7 +112,8 @@ class SpecialInvestigate extends FormSpecialPage {
 		PermissionManager $permissionManager,
 		CheckUserLogService $checkUserLogService,
 		UserIdentityLookup $userIdentityLookup,
-		UserFactory $userFactory
+		UserFactory $userFactory,
+		UrlUtils $urlUtils
 	) {
 		parent::__construct( 'Investigate', 'checkuser' );
 		$this->setLinkRenderer( $linkRenderer );
@@ -127,6 +131,7 @@ class SpecialInvestigate extends FormSpecialPage {
 		$this->checkUserLogService = $checkUserLogService;
 		$this->userIdentityLookup = $userIdentityLookup;
 		$this->userFactory = $userFactory;
+		$this->urlUtils = $urlUtils;
 	}
 
 	/**
@@ -873,13 +878,13 @@ class SpecialInvestigate extends FormSpecialPage {
 	 * @return string
 	 */
 	private function getRedirectUrl( array $update ): string {
-		$parts = wfParseURL( $this->getRequest()->getFullRequestURL() );
+		$parts = $this->urlUtils->parse( $this->getRequest()->getFullRequestURL() ) ?? [];
 		$query = wfCgiToArray( $parts['query'] ?? '' );
 		$data = array_filter( array_merge( $query, $update ), static function ( $value ) {
 			return $value !== null;
 		} );
 		$parts['query'] = wfArrayToCgi( $data );
-		return wfAssembleUrl( $parts );
+		return UrlUtils::assemble( $parts );
 	}
 
 	/**
