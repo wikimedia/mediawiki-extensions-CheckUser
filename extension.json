@@ -651,7 +651,8 @@
 				"PermissionManager",
 				"CheckUserLogService",
 				"UserIdentityLookup",
-				"UserFactory"
+				"UserFactory",
+				"UrlUtils"
 			]
 		},
 		"InvestigateBlock": {
