@@ -251,6 +251,12 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
+	public function testRecordActionInCentralIndexesWhenConfigDisablesCentralIndexWrites() {
+		$this->overrideConfigValue( 'CheckUserWriteToCentralIndex', false );
+		$performer = $this->getTestTemporaryUser();
+		$this->testRecordActionInCentralIndexes( $performer, '1.2.3.4', '20240506070809', true, 0, 0 );
+	}
+
 	public function testRecordActionInCentralIndexesForExcludedUserGroup() {
 		// Get a user with the bot group and also set users in the bot group to be excluded from the central user index
 		$this->overrideConfigValue( 'CheckUserCentralIndexGroupsToExclude', [ 'bot' ] );

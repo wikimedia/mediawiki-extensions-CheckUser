@@ -58,10 +58,12 @@ class PruneCheckUserDataJob extends Job implements CheckUserQueryInterface {
 		$userAgentClientHintsManager = $services->get( 'UserAgentClientHintsManager' );
 		$userAgentClientHintsManager->deleteMappingRows( $deletedReferenceIds );
 
-		// Purge expired rows from the central index tables where the rows are associated with this wiki
-		/** @var CheckUserCentralIndexManager $checkUserCentralIndexManager */
-		$checkUserCentralIndexManager = $services->get( 'CheckUserCentralIndexManager' );
-		$checkUserCentralIndexManager->purgeExpiredRows( $cutoff, $this->params['domainID'] );
+		if ( $services->getMainConfig()->get( 'CheckUserWriteToCentralIndex' ) ) {
+			// Purge expired rows from the central index tables where the rows are associated with this wiki
+			/** @var CheckUserCentralIndexManager $checkUserCentralIndexManager */
+			$checkUserCentralIndexManager = $services->get( 'CheckUserCentralIndexManager' );
+			$checkUserCentralIndexManager->purgeExpiredRows( $cutoff, $this->params['domainID'] );
+		}
 
 		return true;
 	}

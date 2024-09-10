@@ -169,6 +169,10 @@
 		"CheckUserCentralIndexRangesToExclude": {
 			"value": [],
 			"description": "Exclude actions from being recorded in the central user index if they are within the ranges or are using an IP specified in this config. This is ignored for writes to the cuci_temp_edit table. Used to reduce the rate at which rows are updated for users which are expected to make frequent updates."
+		},
+		"CheckUserWriteToCentralIndex": {
+			"value": true,
+			"description": "Whether to add entries to the central index for this local wiki. Useful in case a wiki is not part of a SUL system or is written to too often, so cannot be represented in a central table."
 		}
 	},
 	"APIListModules": {
