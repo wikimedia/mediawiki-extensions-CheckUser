@@ -26,6 +26,7 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 	public const CONSTRUCTOR_OPTIONS = [
 		'CheckUserCentralIndexGroupsToExclude',
 		'CheckUserCentralIndexRangesToExclude',
+		'CheckUserWriteToCentralIndex',
 	];
 
 	private ServiceOptions $options;
@@ -83,6 +84,12 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 		// Don't record data when the user does not exist locally or is an IP address, as for the user central index
 		// we need a central ID and for the temp edit index the performer has to be a temporary account.
 		if ( !$performer->isRegistered() ) {
+			return;
+		}
+
+		// Skip recording in central index if this wiki's actions are not included in the central index. This
+		// can occur for wikis that are not part of the wiki farms SUL system.
+		if ( !$this->options->get( 'CheckUserWriteToCentralIndex' ) ) {
 			return;
 		}
 
