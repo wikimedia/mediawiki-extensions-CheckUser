@@ -47,18 +47,20 @@ class PurgeOldData extends Maintenance implements CheckUserQueryInterface {
 				$this->output( "Purged $count rows and $mappingRowsCount client hint mapping rows.\n" );
 			}
 
-			// Purge expired rows from the central index tables where the rows are associated with this wiki
-			/** @var CheckUserCentralIndexManager $checkUserCentralIndexManager */
-			$checkUserCentralIndexManager = $this->getServiceContainer()->get( 'CheckUserCentralIndexManager' );
-			$centralRowsPurged = 0;
-			do {
-				$rowsPurgedInThisBatch = $checkUserCentralIndexManager->purgeExpiredRows(
-					$cutoff, $domainId, $this->mBatchSize
-				);
-				$centralRowsPurged += $rowsPurgedInThisBatch;
-				$this->waitForReplication();
-			} while ( $rowsPurgedInThisBatch !== 0 );
-			$this->output( "Purged $centralRowsPurged central index rows.\n" );
+			if ( $this->getConfig()->get( 'CheckUserWriteToCentralIndex' ) ) {
+				// Purge expired rows from the central index tables where the rows are associated with this wiki
+				/** @var CheckUserCentralIndexManager $checkUserCentralIndexManager */
+				$checkUserCentralIndexManager = $this->getServiceContainer()->get( 'CheckUserCentralIndexManager' );
+				$centralRowsPurged = 0;
+				do {
+					$rowsPurgedInThisBatch = $checkUserCentralIndexManager->purgeExpiredRows(
+						$cutoff, $domainId, $this->mBatchSize
+					);
+					$centralRowsPurged += $rowsPurgedInThisBatch;
+					$this->waitForReplication();
+				} while ( $rowsPurgedInThisBatch !== 0 );
+				$this->output( "Purged $centralRowsPurged central index rows.\n" );
+			}
 		} else {
 			$this->error( "Unable to acquire a lock to do the purging of CheckUser data. Skipping this." );
 		}

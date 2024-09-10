@@ -161,6 +161,10 @@
 		"CheckUserMaximumIPsToAutoblock": {
 			"value": 1,
 			"description": "The maximum number of IPs to retroactively autoblock when a block is created that is set to autoblock. The actual number of IPs blocked will be smaller if the CheckUser data for this user has less than this number of IPs. If this number is greater, then the IPs blocked are those which were used last."
+		},
+		"CheckUserWriteToCentralIndex": {
+			"value": true,
+			"description": "Whether to add entries to the central index for this local wiki. Useful in case a wiki is not part of a SUL system or is written to too often, so cannot be represented in a central table."
 		}
 	},
 	"APIListModules": {
