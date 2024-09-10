@@ -366,11 +366,12 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 			'cuc_last_oldid' => 0,
 		];
 
+		$queryBuilder = $this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'cu_changes' )
+			->caller( __METHOD__ );
 		foreach ( $testData as $row ) {
-			$this->getDb()->newInsertQueryBuilder()
-				->insertInto( 'cu_changes' )
-				->row( $row + $commonData )
-				->execute();
+			$queryBuilder->row( $row + $commonData );
 		}
+		$queryBuilder->execute();
 	}
 }

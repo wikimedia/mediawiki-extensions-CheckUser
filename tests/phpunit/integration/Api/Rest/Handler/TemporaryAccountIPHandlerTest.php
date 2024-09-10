@@ -283,12 +283,13 @@ class TemporaryAccountIPHandlerTest extends MediaWikiIntegrationTestCase {
 			'cuc_comment_id' => 0,
 			'cuc_last_oldid' => 0,
 		];
+		$queryBuilder = $this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'cu_changes' )
+			->caller( __METHOD__ );
 		foreach ( $CUTestData as $row ) {
-			$this->getDb()->newInsertQueryBuilder()
-				->insertInto( 'cu_changes' )
-				->row( $row + $CUCommonData )
-				->execute();
+			$queryBuilder->row( $row + $CUCommonData );
 		}
+		$queryBuilder->execute();
 
 		$actorTestData = [
 			[
@@ -317,11 +318,10 @@ class TemporaryAccountIPHandlerTest extends MediaWikiIntegrationTestCase {
 				'actor_name' => '~2024-30'
 			]
 		];
-		foreach ( $actorTestData as $row ) {
-			$this->getDb()->newInsertQueryBuilder()
-				->insertInto( 'actor' )
-				->row( $row )
-				->execute();
-		}
+		$this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'actor' )
+			->rows( $actorTestData )
+			->caller( __METHOD__ )
+			->execute();
 	}
 }

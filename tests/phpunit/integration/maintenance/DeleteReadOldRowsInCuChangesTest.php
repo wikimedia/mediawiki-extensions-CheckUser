@@ -23,10 +23,10 @@ class DeleteReadOldRowsInCuChangesTest extends MaintenanceBaseTestCase {
 		return DeleteReadOldRowsInCuChanges::class;
 	}
 
-	private function addReadOldRows( $count ) {
+	private function addRows( $numberOfReadOldRows, $numberOfNormalRows ) {
 		$rows = [];
 		$testUser = $this->getTestUser()->getUser();
-		for ( $i = 0; $i < $count; $i++ ) {
+		for ( $i = 0; $i < $numberOfReadOldRows; $i++ ) {
 			$rows[] = [
 				'cuc_actor' => $testUser->getActorId(), 'cuc_only_for_read_old' => 1, 'cuc_type' => RC_LOG,
 				'cuc_ip'  => '1.2.3.4', 'cuc_ip_hex' => IPUtils::toHex( '1.2.3.4' ),
@@ -34,16 +34,7 @@ class DeleteReadOldRowsInCuChangesTest extends MaintenanceBaseTestCase {
 			];
 		}
 
-		$this->getDb()->newInsertQueryBuilder()
-			->insertInto( 'cu_changes' )
-			->rows( $rows )
-			->execute();
-	}
-
-	private function addNormalRows( $count ) {
-		$rows = [];
-		$testUser = $this->getTestUser()->getUser();
-		for ( $i = 0; $i < $count; $i++ ) {
+		for ( $i = 0; $i < $numberOfNormalRows; $i++ ) {
 			$rows[] = [
 				'cuc_actor' => $testUser->getActorId(), 'cuc_only_for_read_old' => 0, 'cuc_type' => RC_EDIT,
 				'cuc_ip'  => '1.2.3.4', 'cuc_ip_hex' => IPUtils::toHex( '1.2.3.4' ),
@@ -73,8 +64,7 @@ class DeleteReadOldRowsInCuChangesTest extends MaintenanceBaseTestCase {
 	/** @dataProvider provideRowCountsAndBatchSize */
 	public function testExecute( $numberOfReadOldRows, $numberOfNormalRows, $batchSize ) {
 		// Set up cu_changes
-		$this->addReadOldRows( $numberOfReadOldRows );
-		$this->addNormalRows( $numberOfNormalRows );
+		$this->addRows( $numberOfReadOldRows, $numberOfNormalRows );
 		// Run the script
 		/** @var TestingAccessWrapper $maintenance */
 		// Make a copy to prevent syntax error warnings for accessing protected method setBatchSize.

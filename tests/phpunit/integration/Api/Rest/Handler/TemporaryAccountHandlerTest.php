@@ -492,12 +492,13 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			'cuc_last_oldid' => 0,
 		];
 
+		$queryBuilder = $this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'cu_changes' )
+			->caller( __METHOD__ );
 		foreach ( $testData as $row ) {
-			$this->getDb()->newInsertQueryBuilder()
-				->insertInto( 'cu_changes' )
-				->row( $row + $commonData )
-				->execute();
+			$queryBuilder->row( $row + $commonData );
 		}
+		$queryBuilder->execute();
 
 		// Add test data for cu_log_event
 		$testData = [
@@ -530,12 +531,13 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			'cule_agent'   => 'foo user agent',
 		];
 
+		$queryBuilder = $this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'cu_log_event' )
+			->caller( __METHOD__ );
 		foreach ( $testData as $row ) {
-			$this->getDb()->newInsertQueryBuilder()
-				->insertInto( 'cu_log_event' )
-				->row( $row + $commonData )
-				->execute();
+			$queryBuilder->row( $row + $commonData );
 		}
+		$queryBuilder->execute();
 
 		// Add test data for cu_private_event
 		$testData = [
@@ -555,11 +557,12 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			'cupe_private' => '',
 		];
 
+		$queryBuilder = $this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'cu_private_event' )
+			->caller( __METHOD__ );
 		foreach ( $testData as $row ) {
-			$this->getDb()->newInsertQueryBuilder()
-				->insertInto( 'cu_private_event' )
-				->row( $row + $commonData )
-				->execute();
+			$queryBuilder->row( $row + $commonData );
 		}
+		$queryBuilder->execute();
 	}
 }
