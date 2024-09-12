@@ -409,6 +409,23 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
+	public function testRecordActionInCentralIndexesWhenRandomChanceDebounceDisabled() {
+		$performer = $this->getTestUser()->getUserIdentity();
+		// Add timestamp that was more than a minute ago, but less than an hour ago
+		$this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'cuci_user' )
+			->row( [
+				'ciu_timestamp' => $this->getDb()->timestamp( '20240506070708' ),
+				'ciu_ciwm_id' => self::$enwikiMapId,
+				'ciu_central_id' => $performer->getId(),
+			] )
+			->caller( __METHOD__ )
+			->execute();
+		// Disable the random chance debouncing for writes to cuci_user
+		$this->overrideConfigValue( 'CheckUserCuciUserRandomChanceDebounceCutoff', false );
+		$this->testRecordActionInCentralIndexes( $performer, '1.2.3.4', '20240506070809', true, 1, 0 );
+	}
+
 	/**
 	 * @covers \MediaWiki\CheckUser\Jobs\UpdateUserCentralIndexJob
 	 */
