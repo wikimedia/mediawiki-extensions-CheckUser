@@ -67,10 +67,6 @@
 			"value": true,
 			"description": "Whether successful login attempts of accounts in the 'bot' user group should be logged in CheckUser logs (assuming wgCheckUserLogLogins is also true)"
 		},
-		"CheckUserLogAdditionalRights": {
-			"value": [],
-			"description": "Additional rights to be used when adding CheckUser log entries"
-		},
 		"CheckUserMaximumRowCount": {
 			"value": 5000,
 			"description": "Maximum number of rows to be displayed in Special:CheckUser per page of results"
