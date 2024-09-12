@@ -273,5 +273,7 @@
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 {{GENDER:$2|viewed}} temporary accounts on $3",
 	"log-action-filter-checkuser-temporary-account": "Type of action:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Change access",
-	"log-action-filter-checkuser-temporary-account-view-ips": "Access temporary account IP data"
+	"log-action-filter-checkuser-temporary-account-view-ips": "Access temporary account IP data",
+	"logentry-checkuser-temporary-account-abusefilter-change-access-enable": "$1 enabled {{GENDER:$2|his|her|their}} own access to view protected variables",
+	"logentry-checkuser-temporary-account-abusefilter-change-access-disable": "$1 disabled {{GENDER:$2|his|her|their}} own access to view protected variables"
 }

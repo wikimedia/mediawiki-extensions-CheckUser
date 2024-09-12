@@ -208,6 +208,37 @@ class TemporaryAccountLogger {
 	}
 
 	/**
+	 * Allow other extensions to write relevant logs to the temporary accounts log
+	 *
+	 * Sources:
+	 * - AbuseFilter
+	 *   + abusefilter-change-access-enable
+	 *   + abusefilter-change-access-disable
+	 */
+	public function logFromExternal(
+		UserIdentity $performer,
+		string $target,
+		string $action,
+		array $params = [],
+		bool $debounce = false,
+		?int $timestamp = null
+	) {
+		if ( !$timestamp ) {
+			$timestamp = (int)wfTimestamp();
+		}
+
+		if ( $debounce ) {
+			$this->debouncedLog(
+				$performer, $target, $action, $timestamp, $params
+			);
+		} else {
+			$this->log(
+				$performer, $target, $action, $params, $timestamp
+			);
+		}
+	}
+
+	/**
 	 * There is no `LogEntryFactory` (or `Logger::insert()` method) in MediaWiki Core to inject
 	 * via the constructor so use this method to isolate the creation of `LogEntry` objects during
 	 * testing.
