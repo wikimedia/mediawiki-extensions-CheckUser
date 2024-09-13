@@ -136,14 +136,18 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 			'Valid range' => [ '127.0.0.1/24', 3 ],
 			'Range too wide' => [ '127.0.0.1/1', 0 ],
 			'Temp user' => [ '~2024-1', 0 ],
-			'Named user' => [ 'FullyRegistered', 0 ],
 			'Nonexistent user' => [ 'Nonexistent', 0 ],
 		];
 	}
 
 	public function testExecuteNotIP() {
+		// Block our test user so that normally a block log extract would be shown on the special page
+		$this->getServiceContainer()->getBlockUserFactory()
+			->newBlockUser( self::$disallowedUser->getName(), self::$sysop, 'indefinite' )
+			->placeBlock();
+
 		[ $html ] = $this->executeSpecialPage(
-			'Test123',
+			self::$disallowedUser->getName(),
 			null,
 			'qqx',
 			self::$checkuser,
@@ -152,6 +156,9 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 
 		$this->assertSame( 0, substr_count( $html, 'data-mw-revid' ) );
 		$this->assertStringContainsString( 'checkuser-ip-contributions-target-error-no-ip-banner', $html );
+		$this->assertStringNotContainsString(
+			'sp-contributions-blocked', $html, 'No block log extract should be shown on an error page'
+		);
 	}
 
 	public function testExecuteArchive() {

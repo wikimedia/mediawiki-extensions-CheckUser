@@ -257,4 +257,10 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 
 		return $contributionsSub;
 	}
+
+	/** @inheritDoc */
+	protected function shouldShowBlockLogExtract( UserIdentity $target ): bool {
+		return parent::shouldShowBlockLogExtract( $target ) &&
+			$this->lookupUtils->isValidIPOrRange( $target->getName() );
+	}
 }
