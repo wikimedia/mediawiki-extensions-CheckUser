@@ -44,6 +44,7 @@ class EventLogger {
 	 * @return int
 	 */
 	public function getTime(): int {
-		return (int)round( ConvertibleTimestamp::microtime() * 1000 );
+		// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
+		return (int)round( @ConvertibleTimestamp::microtime() * 1000 );
 	}
 }
