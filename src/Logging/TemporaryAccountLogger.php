@@ -212,8 +212,8 @@ class TemporaryAccountLogger {
 	 *
 	 * Sources:
 	 * - AbuseFilter
-	 *   + abusefilter-change-access-enable
-	 *   + abusefilter-change-access-disable
+	 *   + af-change-access-enable
+	 *   + af-change-access-disable
 	 */
 	public function logFromExternal(
 		UserIdentity $performer,
