@@ -27,6 +27,7 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 		'CheckUserCentralIndexGroupsToExclude',
 		'CheckUserCentralIndexRangesToExclude',
 		'CheckUserWriteToCentralIndex',
+		'CheckUserCuciUserRandomChanceDebounceCutoff',
 	];
 
 	private ServiceOptions $options;
@@ -218,10 +219,14 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 			return;
 		}
 
-		// If the last timestamp was less than an hour ago, only update the timestamp 1 out of 10 times.
-		$oneHourAgo = (int)ConvertibleTimestamp::convert( TS_UNIX, $timestamp ) - ( 60 * 60 );
-		if ( $oneHourAgo < $lastTimestamp && mt_rand( 0, 9 ) !== 0 ) {
-			return;
+		// If the last timestamp was less wgCheckUserCentralIndexCuciUserRandomChanceDebounceCutoff seconds ago,
+		// only update the timestamp 1 out of 10 times.
+		$randomChanceCutoff = $this->options->get( 'CheckUserCuciUserRandomChanceDebounceCutoff' );
+		if ( $randomChanceCutoff ) {
+			$cutoff = (int)ConvertibleTimestamp::convert( TS_UNIX, $timestamp ) - (int)$randomChanceCutoff;
+			if ( $cutoff < $lastTimestamp && mt_rand( 0, 9 ) !== 0 ) {
+				return;
+			}
 		}
 
 		// Queue a job to update the cuci_user table. Using a newRootJobParams call ensures that if multiple jobs

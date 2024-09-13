@@ -169,6 +169,10 @@
 		"CheckUserWriteToCentralIndex": {
 			"value": true,
 			"description": "Whether to add entries to the central index for this local wiki. Useful in case a wiki is not part of a SUL system or is written to too often, so cannot be represented in a central table."
+		},
+		"CheckUserCuciUserRandomChanceDebounceCutoff": {
+			"value": 3600,
+			"description": "Used to control when the random chance to update the cuci_user table is applied. Set to false to disable the random chance of not writing. By default the random chance is applied when the last timestamp for this user and wiki was recorded less than an hour ago."
 		}
 	},
 	"APIListModules": {
