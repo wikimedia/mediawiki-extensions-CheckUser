@@ -278,5 +278,7 @@
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 {{GENDER:$2|hat}} temporäre Konten angesehen am $3",
 	"log-action-filter-checkuser-temporary-account": "Typ der Aktion:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Zugang ändern",
-	"log-action-filter-checkuser-temporary-account-view-ips": "Zugriff auf IP-Daten eines temporären Kontos"
+	"log-action-filter-checkuser-temporary-account-view-ips": "Zugriff auf IP-Daten eines temporären Kontos",
+	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 hat {{GENDER:$2|seinen|ihren|den}} eigenen Zugriff aktiviert, um geschützte Variablen anzuzeigen.",
+	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 hat {{GENDER:$2|seinen|ihren|den}} eigenen Zugriff zum Anzeigen geschützter Variablen deaktiviert"
 }

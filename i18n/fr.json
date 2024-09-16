@@ -145,6 +145,7 @@
 	"checkuser-log-entry-useractions": "$3, $1 a récupéré les actions effectuées par $2",
 	"checkuser-log-entry-investigate": "$3, $1 a recherché des informations sur $2",
 	"checkuser-token-fail": "Échec de la session. Veuillez essayer à nouveau.",
+	"prefs-checkuser": "Vérificateurs d’utilisateurs",
 	"checkuser-helper-label": "Voir les résultats dans un tableau",
 	"checkuser-helper-copy-success": "Copié",
 	"checkuser-helper-copy-failed": "Impossible de copier",

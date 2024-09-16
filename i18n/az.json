@@ -272,5 +272,7 @@
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 $3 üçün müvəqqəti hesablara {{GENDER:$2|baxdı}}",
 	"log-action-filter-checkuser-temporary-account": "Fəaliyyət növü:",
 	"log-action-filter-checkuser-temporary-account-change-access": "İcazəni dəyişdir",
-	"log-action-filter-checkuser-temporary-account-view-ips": "Müvəqqəti hesabın IP məlumatlarına baxmaq"
+	"log-action-filter-checkuser-temporary-account-view-ips": "Müvəqqəti hesabın IP məlumatlarına baxmaq",
+	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 mühafizəli dəyişənlərə baxa bilmək {{GENDER:$2|imkanını}} aktivləşdirdi.",
+	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 mühafizəli dəyişənlərə baxa bilmək {{GENDER:$2|imkanını}} söndürdü."
 }
