@@ -77,10 +77,10 @@ class PopulateCentralCheckUserIndexTablesTest extends MaintenanceBaseTestCase im
 		// testing.
 		$testUser1 = $this->getMutableTestUser()->getUserIdentity();
 		$testUser2 = $this->getMutableTestUser()->getUserIdentity();
-		$this->enableAutoCreateTempUser();
+		$this->enableAutoCreateTempUser( [ 'genPattern' => '~check-user-test-$1' ] );
 		$temporaryUser = $this->getServiceContainer()->getTempUserCreator()
 			->create( null, new FauxRequest() )->getUser();
-		$this->disableAutoCreateTempUser( [ 'known' => true ] );
+		$this->disableAutoCreateTempUser( [ 'known' => true, 'matchPattern' => '~check-user-test-$1' ] );
 		$botUser = $this->getTestUser( [ 'bot' ] )->getUserIdentity();
 		$anonUser = UserIdentityValue::newAnonymous( '4.3.2.1' );
 		// Run jobs and then truncate all CheckUser result tables as CheckUserInsert will have created rows for the
