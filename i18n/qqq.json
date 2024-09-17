@@ -307,6 +307,6 @@
 	"log-action-filter-checkuser-temporary-account": "{{doc-log-action-filter-type|checkuser-temporary-account}}\n{{related|Log-action-filter}}",
 	"log-action-filter-checkuser-temporary-account-change-access": "{{doc-log-action-filter-action|checkuser-temporary-account|change-access}}",
 	"log-action-filter-checkuser-temporary-account-view-ips": "{{doc-log-action-filter-action|checkuser-temporary-account|view-ips}}",
-	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 enabled {{GENDER:$2|his|her|their}} own access to view protected variables",
-	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 disabled {{GENDER:$2|his|her|their}} own access to view protected variables"
+	"logentry-checkuser-temporary-account-af-change-access-enable": "{{Logentry|[[Special:Log/checkuser-temporary-account]]}}",
+	"logentry-checkuser-temporary-account-af-change-access-disable": "{{Logentry|[[Special:Log/checkuser-temporary-account]]}}"
 }
