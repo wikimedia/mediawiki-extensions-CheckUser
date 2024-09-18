@@ -8,11 +8,14 @@ use JobQueueGroup;
 use JobSpecification;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\Extension\AbuseFilter\AbuseFilterServices;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentity;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\ILoadBalancer;
 use Wikimedia\Rdbms\LBFactory;
@@ -184,7 +187,7 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 		}
 
 		// Get the central ID associated with the $performer, trying primary if we cannot find the ID on a replica DB.
-		// We may need to try the primary DB when we are recording a account creation action in the index.
+		// We may need to try the primary DB when we are recording an account creation action in the index.
 		$centralId = $this->centralIdLookup->centralIdFromLocalUser( $performer, CentralIdLookup::AUDIENCE_RAW );
 
 		if ( !$centralId ) {
@@ -194,11 +197,24 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 		}
 
 		if ( !$centralId ) {
-			// We cannot record the action in the cuci_user table if we do not have a central ID for the performer.
-			$this->logger->error(
-				"Unable to find central ID for local user {username} when recording action in cuci_user table.",
-				[ 'username' => $performer->getName() ]
-			);
+			// If we have been unable to find a central ID for the user, we should usually log an error for this.
+			// The exception is when the user is the AbuseFilter system user as the account has a localised name
+			// and usually no central account (T375063).
+			$shouldLogError = true;
+			if ( ExtensionRegistry::getInstance()->isLoaded( 'Abuse Filter' ) ) {
+				$filterUser = AbuseFilterServices::getFilterUser();
+				$shouldLogError = !$filterUser->isSameUserAs( $performer );
+			}
+
+			if ( $shouldLogError ) {
+				$this->logger->error(
+					"Unable to find central ID for local user {username} when recording action in cuci_user table.",
+					[ 'username' => $performer->getName(), 'exception' => new RuntimeException ]
+				);
+			}
+
+			// We cannot record the action in the cuci_user table if we do not have a central ID for the performer,
+			// so return early.
 			return;
 		}
 
