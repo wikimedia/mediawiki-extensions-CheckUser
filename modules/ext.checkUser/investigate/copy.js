@@ -16,7 +16,7 @@ module.exports = function addCopyFeature() {
 			$table.find( '.mw-userlink' )
 				.attr( 'rel', 'mw:ExtLink' )
 				.attr( 'href', function () {
-					return new mw.Uri( $( this ).attr( 'href' ) ).toString();
+					return new URL( $( this ).attr( 'href' ), location.href ).toString();
 				} );
 
 			$table.find( '[class]' ).addBack( '[class]' ).removeAttr( 'class' );
