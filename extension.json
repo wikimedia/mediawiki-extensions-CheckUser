@@ -567,6 +567,9 @@
 			"checkuser-log": true,
 			"checkuser-temporary-account-no-preference": true,
 			"checkuser-temporary-account-log": true
+		},
+		"checkuser-temporary-account-viewer": {
+			"checkuser-temporary-account": true
 		}
 	},
 	"GrantPermissions": {
