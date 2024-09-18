@@ -192,7 +192,7 @@ module.exports = function setupTables() {
 					data: {
 						type: 'toolLinks',
 						href: href,
-						tool: new mw.Uri( href ).host
+						tool: new URL( href, location.href ).host
 					}
 				} );
 				setNewWindowIndicator( optionWidget );
