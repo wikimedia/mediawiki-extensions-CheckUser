@@ -58,6 +58,7 @@ class PopulateCentralCheckUserIndexTables extends LoggedUpdateMaintenance implem
 		$tableHasRows = (bool)$dbr->newSelectQueryBuilder()
 			->table( $table )
 			->limit( 1 )
+			->caller( __METHOD__ )
 			->fetchRowCount();
 
 		if ( !$tableHasRows ) {
@@ -82,6 +83,7 @@ class PopulateCentralCheckUserIndexTables extends LoggedUpdateMaintenance implem
 				->andWhere( $dbr->expr( "{$columnAlias}actor", '>', $lastActorId ) )
 				->orderBy( "{$columnAlias}actor", SelectQueryBuilder::SORT_ASC )
 				->limit( $this->mBatchSize )
+				->caller( __METHOD__ )
 				->fetchFieldValues();
 
 			$lastActorId = end( $batchOfActorIds );
@@ -123,7 +125,7 @@ class PopulateCentralCheckUserIndexTables extends LoggedUpdateMaintenance implem
 						$ipQueryBuilder->where( $dbr->expr( "{$columnAlias}ip", '>', $lastIp ) );
 					}
 
-					$batchOfIPs = $ipQueryBuilder->fetchFieldValues();
+					$batchOfIPs = $ipQueryBuilder->caller( __METHOD__ )->fetchFieldValues();
 
 					foreach ( $batchOfIPs as $ip ) {
 						// Using this combination of $ip and $performer, make calls to CheckUserCentralIndexManager
@@ -135,6 +137,7 @@ class PopulateCentralCheckUserIndexTables extends LoggedUpdateMaintenance implem
 							->from( $table )
 							->where( [ "{$columnAlias}actor" => $actorId, "{$columnAlias}ip" => $ip ] )
 							->limit( $this->mBatchSize )
+							->caller( __METHOD__ )
 							->fetchField();
 
 						// Record an entry in the central index tables with the last found timestamp
@@ -155,6 +158,7 @@ class PopulateCentralCheckUserIndexTables extends LoggedUpdateMaintenance implem
 									$dbr->expr( 'cuc_this_oldid', '!=', 0 ),
 								] )
 								->limit( $this->mBatchSize )
+								->caller( __METHOD__ )
 								->fetchField();
 
 							if ( $lastEditTimestamp ) {
