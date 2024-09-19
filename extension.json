@@ -720,6 +720,7 @@
 		}
 	},
 	"AutoloadClasses": {
+		"MediaWiki\\CheckUser\\CheckUserQueryInterface": "src/CheckUserQueryInterface.php",
 		"MediaWiki\\CheckUser\\Hook\\CheckUserInsertChangesRow": "src/Hook/CheckUserInsertChangesRowHook.php",
 		"MediaWiki\\CheckUser\\Hook\\CheckUserInsertChangesRowHook": "src/Hook/CheckUserInsertChangesRowHook.php",
 		"MediaWiki\\CheckUser\\Hook\\CheckUserInsertLogEventRow": "src/Hook/CheckUserInsertLogEventRowHook.php",
