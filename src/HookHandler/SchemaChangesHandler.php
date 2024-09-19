@@ -115,12 +115,12 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 			$updater->addExtensionUpdate(
 				[ 'changeField', 'cu_changes', 'cuc_namespace', 'INT', 'cuc_namespace::INT DEFAULT 0' ]
 			);
-			if ( $maintenanceDb->fieldExists( 'cu_log', 'cuc_user' ) ) {
+			if ( $maintenanceDb->fieldExists( 'cu_log', 'cuc_user', __METHOD__ ) ) {
 				$updater->addExtensionUpdate(
 					[ 'changeNullableField', 'cu_changes', 'cuc_user', 'NOT NULL', true ]
 				);
 			}
-			if ( $maintenanceDb->fieldExists( 'cu_log', 'cuc_user_text' ) ) {
+			if ( $maintenanceDb->fieldExists( 'cu_log', 'cuc_user_text', __METHOD__ ) ) {
 				$updater->addExtensionUpdate(
 					[ 'changeField', 'cu_changes', 'cuc_user_text', 'VARCHAR(255)', '' ]
 				);
@@ -161,7 +161,7 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 			$updater->addExtensionUpdate(
 				[ 'changeField', 'cu_changes', 'cuc_xff_hex', 'VARCHAR(255)', '' ]
 			);
-			if ( $maintenanceDb->fieldExists( 'cu_changes', 'cuc_private' ) ) {
+			if ( $maintenanceDb->fieldExists( 'cu_changes', 'cuc_private', __METHOD__ ) ) {
 				$updater->addExtensionUpdate(
 					[ 'changeField', 'cu_changes', 'cuc_private', 'TEXT', '' ]
 				);
@@ -170,7 +170,7 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 			$updater->addExtensionUpdate(
 				[ 'changeNullableField', 'cu_log', 'cul_timestamp', 'NOT NULL', true ]
 			);
-			if ( $maintenanceDb->fieldExists( 'cu_log', 'cul_user' ) ) {
+			if ( $maintenanceDb->fieldExists( 'cu_log', 'cul_user', __METHOD__ ) ) {
 				$updater->addExtensionUpdate(
 					[ 'changeNullableField', 'cu_log', 'cul_user', 'NOT NULL', true ]
 				);
@@ -248,7 +248,7 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 		);
 		if (
 			$dbType !== 'sqlite' ||
-			$maintenanceDb->fieldExists( 'cu_log', 'cul_reason' )
+			$maintenanceDb->fieldExists( 'cu_log', 'cul_reason', __METHOD__ )
 		) {
 			// Only run this for SQLite if cul_reason exists,
 			//  as modifyExtensionField does not take into account
@@ -281,7 +281,7 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 		// * The column has been in the table before (checked by seeing if the cuc_agent_id column exists
 		//   in the cu_changes, and if it does then this update has been run before therefore it should be
 		//   skipped).
-		if ( $isCUInstalled && !$maintenanceDb->fieldExists( 'cu_changes', 'cuc_agent_id' ) ) {
+		if ( $isCUInstalled && !$maintenanceDb->fieldExists( 'cu_changes', 'cuc_agent_id', __METHOD__ ) ) {
 			$updater->addExtensionField(
 				'cu_changes',
 				'cuc_only_for_read_old',
@@ -299,7 +299,7 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 		// been previously applied.
 		if (
 			$dbType !== 'sqlite' ||
-			$maintenanceDb->fieldExists( 'cu_changes', 'cuc_only_for_read_old' )
+			$maintenanceDb->fieldExists( 'cu_changes', 'cuc_only_for_read_old', __METHOD__ )
 		) {
 			$updater->modifyExtensionField(
 				'cu_changes',
