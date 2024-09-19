@@ -32,7 +32,7 @@ class AccountCreationDetailsLookup {
 			->select( [ 'cupe_ip_hex', 'cupe_agent' ] )
 			->from( 'cu_private_event' )
 			->join( 'actor', null, [ 'cupe_actor = actor_id' ] )
-			->where( $dbr->expr( 'cupe_log_action', '=', 'create-account' ) )
+			->where( $dbr->expr( 'cupe_log_action', '=', [ 'create-account', 'autocreate-account' ] ) )
 			->andWhere( $dbr->expr( 'actor_name', '=', $username ) )
 			->limit( 2 )
 			->caller( __METHOD__ )
