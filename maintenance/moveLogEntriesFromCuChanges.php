@@ -55,7 +55,7 @@ class MoveLogEntriesFromCuChanges extends LoggedUpdateMaintenance {
 		// If the cuc_only_for_read_old column does not exist in cu_changes, then there cannot be log entries in
 		// cu_changes as the event tables migration is already done. This should be the case on an install on MW
 		// version 1.43 or later.
-		if ( !$dbw->fieldExists( 'cu_changes', 'cuc_only_for_read_old' ) ) {
+		if ( !$dbw->fieldExists( 'cu_changes', 'cuc_only_for_read_old', __METHOD__ ) ) {
 			$this->output( "cu_changes cannot hold log entries; nothing to move.\n" );
 			return true;
 		}
