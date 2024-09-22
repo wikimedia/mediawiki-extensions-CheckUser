@@ -308,5 +308,6 @@
 	"log-action-filter-checkuser-temporary-account-change-access": "{{doc-log-action-filter-action|checkuser-temporary-account|change-access}}",
 	"log-action-filter-checkuser-temporary-account-view-ips": "{{doc-log-action-filter-action|checkuser-temporary-account|view-ips}}",
 	"logentry-checkuser-temporary-account-af-change-access-enable": "{{Logentry|[[Special:Log/checkuser-temporary-account]]}}",
-	"logentry-checkuser-temporary-account-af-change-access-disable": "{{Logentry|[[Special:Log/checkuser-temporary-account]]}}"
+	"logentry-checkuser-temporary-account-af-change-access-disable": "{{Logentry|[[Special:Log/checkuser-temporary-account]]}}",
+	"logentry-checkuser-temporary-account-af-view-protected-var-value": "{{Logentry|[[Special:Log/checkuser-temporary-account|view-ips]]}}"
 }

@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\Logging;
 
 use LogFormatterTestCase;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
+use MediaWiki\Extension\AbuseFilter\ProtectedVarsAccessLogger;
 
 /**
  * @group CheckUser
@@ -78,6 +79,18 @@ class TemporaryAccountLogFormatterTest extends LogFormatterTestCase {
 				],
 				'extra' => [
 					'text' => 'Sysop viewed temporary accounts on 1.2.3.0/24',
+					'api' => [],
+				],
+			],
+			'AbuseFilter external log - view protected variables' => [
+				'row' => [
+					'type' => 'checkuser-temporary-account',
+					'action' => 'af-' . ProtectedVarsAccessLogger::ACTION_VIEW_PROTECTED_VARIABLE_VALUE,
+					'user_text' => 'Sysop', 'title' => '1.2.3.0/24', 'namespace' => NS_USER,
+					'params' => [],
+				],
+				'extra' => [
+					'text' => 'Sysop viewed protected variables associated with 1.2.3.0/24',
 					'api' => [],
 				],
 			],
