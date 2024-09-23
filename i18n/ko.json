@@ -180,6 +180,8 @@
 	"checkuser-ip-contributions-permission-error-title": "권한 오류",
 	"checkuser-ip-contributions-target-label": "IP 주소 또는 대역",
 	"checkuser-ip-contributions-target-error-no-ip": "유효한 IP 주소가 아닙니다",
+	"prefs-checkuser-tempaccount": "임시 계정 IP 표시",
+	"checkuser-tempaccount-enable-preference": "임시 계정의 IP 주소 표시 활성화",
 	"checkuser-tempaccount-reveal-ip-button-label": "IP 표시",
 	"checkuser-tempaccount-reveal-ip-error": "오류",
 	"checkuser-tempaccount-specialblock-ips": "다음 {{PLURAL:$1|IP}}를 사용한 임시 사용자입니다: $2",
