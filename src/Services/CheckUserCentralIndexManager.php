@@ -328,35 +328,55 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 
 		// First purge rows from cuci_temp_edit
 		$dbw = $this->lbFactory->getPrimaryDatabase( self::VIRTUAL_GLOBAL_DB_DOMAIN );
-		$ipsToPurge = $dbw->newSelectQueryBuilder()
-			->forUpdate()
-			->select( 'cite_ip_hex' )
+		$ipRowsToPurge = $dbw->newSelectQueryBuilder()
+			->select( [ 'cite_ip_hex', 'cite_timestamp' ] )
 			->from( 'cuci_temp_edit' )
 			->where( [ 'cite_ciwm_id' => $wikiId, $dbw->expr( 'cite_timestamp', '<', $cutoff ) ] )
 			->limit( $maximumRowsToPurge )
 			->caller( __METHOD__ )
-			->fetchFieldValues();
-		if ( count( $ipsToPurge ) ) {
+			->fetchResultSet();
+
+		$ipsToPurgeConds = [];
+		foreach ( $ipRowsToPurge as $row ) {
+			$ipsToPurgeConds[] = $dbw->andExpr( [
+				'cite_ciwm_id' => $wikiId,
+				'cite_ip_hex' => $row->cite_ip_hex,
+				// Use the timestamp as a CAS check to prevent races with concurrent updates to these rows
+				'cite_timestamp' => $row->cite_timestamp
+			] );
+		}
+
+		if ( count( $ipsToPurgeConds ) ) {
 			$dbw->newDeleteQueryBuilder()
 				->deleteFrom( 'cuci_temp_edit' )
-				->where( [ 'cite_ciwm_id' => $wikiId, 'cite_ip_hex' => $ipsToPurge ] )
+				->where( $dbw->orExpr( $ipsToPurgeConds ) )
 				->caller( __METHOD__ )
 				->execute();
 		}
 
 		// Then purge rows from cuci_user
-		$centralIdsToPurge = $dbw->newSelectQueryBuilder()
-			->forUpdate()
-			->select( 'ciu_central_id' )
+		$centralIdsToPurgeRows = $dbw->newSelectQueryBuilder()
+			->select( [ 'ciu_central_id', 'ciu_timestamp' ] )
 			->from( 'cuci_user' )
 			->where( [ 'ciu_ciwm_id' => $wikiId, $dbw->expr( 'ciu_timestamp', '<', $cutoff ) ] )
 			->limit( $maximumRowsToPurge )
 			->caller( __METHOD__ )
-			->fetchFieldValues();
-		if ( count( $centralIdsToPurge ) ) {
+			->fetchResultSet();
+
+		$centralIdsToPurgeConds = [];
+		foreach ( $centralIdsToPurgeRows as $row ) {
+			$centralIdsToPurgeConds[] = $dbw->andExpr( [
+				'ciu_ciwm_id' => $wikiId,
+				'ciu_central_id' => $row->ciu_central_id,
+				// Use the timestamp as a CAS check to prevent races with concurrent updates to these rows
+				'ciu_timestamp' => $row->ciu_timestamp
+			] );
+		}
+
+		if ( count( $centralIdsToPurgeConds ) ) {
 			$dbw->newDeleteQueryBuilder()
 				->deleteFrom( 'cuci_user' )
-				->where( [ 'ciu_ciwm_id' => $wikiId, 'ciu_central_id' => $centralIdsToPurge ] )
+				->where( $dbw->orExpr( $centralIdsToPurgeConds ) )
 				->caller( __METHOD__ )
 				->execute();
 		}
@@ -364,6 +384,6 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 		// Return the sum of the rows found for purging. We do this, instead of ::affectedRows, because the
 		// aforementioned method does not work if a DELETE statement was not run (like in the case of
 		// 0 rows found for purging).
-		return count( $ipsToPurge ) + count( $centralIdsToPurge );
+		return count( $ipsToPurgeConds ) + count( $centralIdsToPurgeConds );
 	}
 }
