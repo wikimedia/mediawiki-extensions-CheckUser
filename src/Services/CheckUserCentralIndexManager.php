@@ -296,7 +296,7 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 	 * We need to purge rows per-wiki, as each wiki can have it's own value for the expiry of CU data.
 	 *
 	 * @param string $cutoff The timestamp used as a "cutoff", where rows which have a timestamp before the given
-	 *    cutoff are eligible to be purged from the database
+	 *    cutoff are eligible to be purged from the database. Should be in a form which the DB can recognise.
 	 * @param string $domain The DB name of the wiki that we are purging rows from
 	 * @param int $maximumRowsToPurge The maximum number of rows to purge from cuci_temp_edit and cuci_user
 	 * @return int The number of rows that were purged
