@@ -1,5 +1,6 @@
 <?php
 
+use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPagerFactory;
 use MediaWiki\CheckUser\GuidedTour\TourLauncher;
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CheckUser\Investigate\Pagers\ComparePagerFactory;
@@ -151,6 +152,22 @@ return [
 		MediaWikiServices $services
 	): IPContributionsPagerFactory {
 		return new IPContributionsPagerFactory(
+			$services->getLinkRenderer(),
+			$services->getLinkBatchFactory(),
+			$services->getHookContainer(),
+			$services->getRevisionStore(),
+			$services->getNamespaceInfo(),
+			$services->getCommentFormatter(),
+			$services->getUserFactory(),
+			$services->getTempUserConfig(),
+			$services->get( 'CheckUserLookupUtils' ),
+			$services->getJobQueueGroup()
+		);
+	},
+	'CheckUserGlobalContributionsPagerFactory' => static function (
+		MediaWikiServices $services
+	): GlobalContributionsPagerFactory {
+		return new GlobalContributionsPagerFactory(
 			$services->getLinkRenderer(),
 			$services->getLinkBatchFactory(),
 			$services->getHookContainer(),
