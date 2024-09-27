@@ -8,10 +8,9 @@ use JobQueueGroup;
 use JobSpecification;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Config\ServiceOptions;
-use MediaWiki\Extension\AbuseFilter\AbuseFilterServices;
-use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\TempUser\TempUserConfig;
+use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentity;
 use Psr\Log\LoggerInterface;
@@ -39,17 +38,9 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 	private UserGroupManager $userGroupManager;
 	private JobQueueGroup $jobQueueGroup;
 	private TempUserConfig $tempUserConfig;
+	private UserFactory $userFactory;
 	private LoggerInterface $logger;
 
-	/**
-	 * @param ServiceOptions $options
-	 * @param LBFactory $lbFactory
-	 * @param CentralIdLookup $centralIdLookup
-	 * @param UserGroupManager $userGroupManager
-	 * @param JobQueueGroup $jobQueueGroup
-	 * @param TempUserConfig $tempUserConfig
-	 * @param LoggerInterface $logger
-	 */
 	public function __construct(
 		ServiceOptions $options,
 		LBFactory $lbFactory,
@@ -57,6 +48,7 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 		UserGroupManager $userGroupManager,
 		JobQueueGroup $jobQueueGroup,
 		TempUserConfig $tempUserConfig,
+		UserFactory $userFactory,
 		LoggerInterface $logger
 	) {
 		$this->options = $options;
@@ -65,6 +57,7 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 		$this->userGroupManager = $userGroupManager;
 		$this->jobQueueGroup = $jobQueueGroup;
 		$this->tempUserConfig = $tempUserConfig;
+		$this->userFactory = $userFactory;
 		$this->logger = $logger;
 	}
 
@@ -198,13 +191,9 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 
 		if ( !$centralId ) {
 			// If we have been unable to find a central ID for the user, we should usually log an error for this.
-			// The exception is when the user is the AbuseFilter system user as the account has a localised name
-			// and usually no central account (T375063).
-			$shouldLogError = true;
-			if ( ExtensionRegistry::getInstance()->isLoaded( 'Abuse Filter' ) ) {
-				$filterUser = AbuseFilterServices::getFilterUser();
-				$shouldLogError = !$filterUser->isSameUserAs( $performer );
-			}
+			// The exception is when the user is a system user, as these are frequently not attached to a global
+			// account.
+			$shouldLogError = !$this->userFactory->newFromUserIdentity( $performer )->isSystemUser();
 
 			if ( $shouldLogError ) {
 				$this->logger->error(

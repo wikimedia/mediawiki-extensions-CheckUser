@@ -11,6 +11,7 @@ use MediaWiki\MainConfigNames;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\CentralId\CentralIdLookup;
+use MediaWiki\User\User;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
@@ -47,6 +48,7 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 			'userGroupManager' => $this->getServiceContainer()->getUserGroupManager(),
 			'jobQueueGroup' => $this->getServiceContainer()->getJobQueueGroup(),
 			'tempUserConfig' => $this->getServiceContainer()->getTempUserConfig(),
+			'userFactory' => $this->getServiceContainer()->getUserFactory(),
 			'logger' => LoggerFactory::getInstance( 'CheckUser' ),
 		];
 	}
@@ -313,6 +315,22 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 	public function testRecordActionInCentralIndexesForMissingCentralIdButPerformerAbuseFilterSystemUser() {
 		$this->markTestSkippedIfExtensionNotLoaded( 'Abuse Filter' );
 		$testUser = AbuseFilterServices::getFilterUser()->getUserIdentity();
+		$this->mockThatCentralIdLookupAlwaysReturnsZero( $testUser );
+		// Create a mock LoggerInterface that never expects a call. This is because the log should be skipped if the
+		// performer is the AbuseFilter system user (T375063).
+		$mockLoggerInterface = $this->createNoOpMock( LoggerInterface::class );
+		// Call the method under test
+		$this->getObjectUnderTest( [ 'logger' => $mockLoggerInterface ] )->recordActionInCentralIndexes(
+			$testUser, '1.2.3.4', 'enwiki', '20240506070809', false
+		);
+		// Run jobs as the inserts to cuci_user are made using a job.
+		$this->runJobs( [ 'minJobs' => 0 ] );
+		// Check that no rows were inserted, as there is no central ID
+		$this->assertSame( 0, $this->getRowCountForTable( 'cuci_user' ) );
+	}
+
+	public function testRecordActionInCentralIndexesForMissingCentralIdButPerformerSystemUser() {
+		$testUser = User::newSystemUser( User::MAINTENANCE_SCRIPT_USER, [ 'steal' => true ] );
 		$this->mockThatCentralIdLookupAlwaysReturnsZero( $testUser );
 		// Create a mock LoggerInterface that never expects a call. This is because the log should be skipped if the
 		// performer is the AbuseFilter system user (T375063).
