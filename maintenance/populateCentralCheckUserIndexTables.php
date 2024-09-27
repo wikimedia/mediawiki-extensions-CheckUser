@@ -13,13 +13,12 @@ if ( $IP === false ) {
 	$IP = __DIR__ . '/../../..';
 }
 require_once "$IP/maintenance/Maintenance.php";
-require_once "$IP/extensions/CheckUser/src/CheckUserQueryInterface.php";
 // @codeCoverageIgnoreEnd
 
 /**
  * Populates the cuci_user and cuci_temp_edit tables with data from the local CheckUser tables.
  */
-class PopulateCentralCheckUserIndexTables extends LoggedUpdateMaintenance implements CheckUserQueryInterface {
+class PopulateCentralCheckUserIndexTables extends LoggedUpdateMaintenance {
 
 	public function __construct() {
 		parent::__construct();
@@ -36,7 +35,7 @@ class PopulateCentralCheckUserIndexTables extends LoggedUpdateMaintenance implem
 
 	/** @inheritDoc */
 	protected function doDBUpdates() {
-		foreach ( self::RESULT_TABLES as $table ) {
+		foreach ( CheckUserQueryInterface::RESULT_TABLES as $table ) {
 			$this->populateCentralIndexTablesFromTable( $table );
 		}
 		return true;
@@ -53,7 +52,7 @@ class PopulateCentralCheckUserIndexTables extends LoggedUpdateMaintenance implem
 	private function populateCentralIndexTablesFromTable( string $table ) {
 		$dbr = $this->getReplicaDB();
 		// Possible values: cuc_, cule_, cupe_
-		$columnAlias = self::RESULT_TABLE_TO_PREFIX[$table];
+		$columnAlias = CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$table];
 
 		$tableHasRows = (bool)$dbr->newSelectQueryBuilder()
 			->table( $table )
@@ -148,7 +147,7 @@ class PopulateCentralCheckUserIndexTables extends LoggedUpdateMaintenance implem
 						// If the $table is cu_changes, then we should also call the method again while filtering
 						// for actions that have an associated revision ID. This is necessary as the cuci_temp_edit
 						// central index table only stores timestamps associated with edit actions.
-						if ( $table === self::CHANGES_TABLE ) {
+						if ( $table === CheckUserQueryInterface::CHANGES_TABLE ) {
 							$lastEditTimestamp = $dbr->newSelectQueryBuilder()
 								->select( 'MAX(cuc_timestamp)' )
 								->from( $table )
