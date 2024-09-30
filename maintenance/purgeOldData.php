@@ -19,7 +19,7 @@ if ( getenv( 'MW_INSTALL_PATH' ) ) {
 }
 require_once "$IP/maintenance/Maintenance.php";
 
-class PurgeOldData extends Maintenance implements CheckUserQueryInterface {
+class PurgeOldData extends Maintenance {
 	public function __construct() {
 		parent::__construct();
 		$this->addDescription( 'Purge expired rows in CheckUser and RecentChanges' );
@@ -41,7 +41,7 @@ class PurgeOldData extends Maintenance implements CheckUserQueryInterface {
 		$scopedLock = $this->getPrimaryDB()->getScopedLockAndFlush( $key, __METHOD__, 60 );
 		if ( $scopedLock ) {
 			// Purge expired rows from each local CheckUser result table
-			foreach ( self::RESULT_TABLES as $table ) {
+			foreach ( CheckUserQueryInterface::RESULT_TABLES as $table ) {
 				$this->output( "Purging data from $table..." );
 				[ $count, $mappingRowsCount ] = $this->prune( $table, $cutoff );
 				$this->output( "Purged $count rows and $mappingRowsCount client hint mapping rows.\n" );
