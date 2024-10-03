@@ -703,11 +703,14 @@
 	"ActionFilteredLogs": {
 		"checkuser-temporary-account": {
 			"change-access": [
-				"change-access"
+				"change-access",
+				"af-change-access-enable",
+				"af-change-access-disable"
 			],
 			"view-ips": [
 				"view-ips",
-				"view-temporary-accounts-on-ip"
+				"view-temporary-accounts-on-ip",
+				"af-view-protected-var-value"
 			]
 		}
 	},

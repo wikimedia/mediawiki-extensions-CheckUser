@@ -275,5 +275,6 @@
 	"log-action-filter-checkuser-temporary-account-change-access": "Change access",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Access temporary account IP data",
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 enabled {{GENDER:$2|his|her|their}} own access to view protected variables",
-	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 disabled {{GENDER:$2|his|her|their}} own access to view protected variables"
+	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 disabled {{GENDER:$2|his|her|their}} own access to view protected variables",
+	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 viewed protected variables associated with $3"
 }
