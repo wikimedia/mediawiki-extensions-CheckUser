@@ -88,24 +88,25 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 				// Add some testing cuci_temp_edit rows which are expired
 				[
 					'cite_ip_hex' => IPUtils::toHex( '1.2.3.4' ), 'cite_ciwm_id' => self::$enwikiMapId,
-					'cite_timestamp' => '20230405060708',
+					'cite_timestamp' => $this->getDb()->timestamp( '20230405060708' ),
 				],
 				[
-					'cite_ip_hex' => IPUtils::toHex( ':::' ), 'cite_ciwm_id' => self::$enwikiMapId,
-					'cite_timestamp' => '20230406060708',
+					'cite_ip_hex' => IPUtils::toHex( '2001:0db8:85a3:0000:0000:8a2e:0370:7334' ),
+					'cite_ciwm_id' => self::$enwikiMapId,
+					'cite_timestamp' => $this->getDb()->timestamp( '20230406060708' ),
 				],
 				[
 					'cite_ip_hex' => IPUtils::toHex( '1.2.3.6' ), 'cite_ciwm_id' => self::$dewikiMapId,
-					'cite_timestamp' => '20230407060708',
+					'cite_timestamp' => $this->getDb()->timestamp( '20230407060708' ),
 				],
 				// Add some testing cuci_temp_edit rows which are not expired
 				[
 					'cite_ip_hex' => IPUtils::toHex( '1.2.3.7' ), 'cite_ciwm_id' => self::$enwikiMapId,
-					'cite_timestamp' => '20240405060708',
+					'cite_timestamp' => $this->getDb()->timestamp( '20240405060708' ),
 				],
 				[
 					'cite_ip_hex' => IPUtils::toHex( '1.2.3.8' ), 'cite_ciwm_id' => self::$enwikiMapId,
-					'cite_timestamp' => '20240406060708',
+					'cite_timestamp' => $this->getDb()->timestamp( '20240406060708' ),
 				],
 			] )
 			->caller( __METHOD__ )
@@ -115,12 +116,27 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 			->insertInto( 'cuci_user' )
 			->rows( [
 				// Add some testing cuci_user rows which are expired
-				[ 'ciu_central_id' => 1, 'ciu_ciwm_id' => self::$enwikiMapId, 'ciu_timestamp' => '20230505060708' ],
-				[ 'ciu_central_id' => 2, 'ciu_ciwm_id' => self::$enwikiMapId, 'ciu_timestamp' => '20230506060708' ],
-				[ 'ciu_central_id' => 2, 'ciu_ciwm_id' => self::$dewikiMapId, 'ciu_timestamp' => '20230507060708' ],
+				[
+					'ciu_central_id' => 1, 'ciu_ciwm_id' => self::$enwikiMapId,
+					'ciu_timestamp' => $this->getDb()->timestamp( '20230505060708' ),
+				],
+				[
+					'ciu_central_id' => 2, 'ciu_ciwm_id' => self::$enwikiMapId,
+					'ciu_timestamp' => $this->getDb()->timestamp( '20230506060708' ),
+				],
+				[
+					'ciu_central_id' => 2, 'ciu_ciwm_id' => self::$dewikiMapId,
+					'ciu_timestamp' => $this->getDb()->timestamp( '20230507060708' ),
+				],
 				// Add some testing cuci_user rows which are not expired
-				[ 'ciu_central_id' => 4, 'ciu_ciwm_id' => self::$enwikiMapId, 'ciu_timestamp' => '20240505060708' ],
-				[ 'ciu_central_id' => 5, 'ciu_ciwm_id' => self::$enwikiMapId, 'ciu_timestamp' => '20240506060708' ],
+				[
+					'ciu_central_id' => 4, 'ciu_ciwm_id' => self::$enwikiMapId,
+					'ciu_timestamp' => $this->getDb()->timestamp( '20240505060708' ),
+				],
+				[
+					'ciu_central_id' => 5, 'ciu_ciwm_id' => self::$enwikiMapId,
+					'ciu_timestamp' => $this->getDb()->timestamp( '20240506060708' ),
+				],
 			] )
 			->caller( __METHOD__ )
 			->execute();
@@ -156,19 +172,31 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 		$this->addTestingDataForPurging();
 		$this->assertSame(
 			$expectedReturnValue,
-			$this->getObjectUnderTest()->purgeExpiredRows( '20231007060708', $domain, $maxRowsToPurge )
+			$this->getObjectUnderTest()->purgeExpiredRows(
+				$this->getDb()->timestamp( '20231007060708' ), $domain, $maxRowsToPurge
+			)
 		);
 		// Assert that the rows were correctly purged from the DB, and the other rows remain as is by looking for
 		// the timestamps (as each row has a unique timestamp in our test data).
 		$this->assertArrayEquals(
-			$expectedTimestampsInTempEditTable,
+			array_map(
+				function ( $timestamp ) {
+					return $this->getDb()->timestamp( $timestamp );
+				},
+				$expectedTimestampsInTempEditTable
+			),
 			$this->newSelectQueryBuilder()
 				->select( 'cite_timestamp' )
 				->from( 'cuci_temp_edit' )
 				->fetchFieldValues()
 		);
 		$this->assertArrayEquals(
-			$expectedTimestampsInUserTable,
+			array_map(
+				function ( $timestamp ) {
+					return $this->getDb()->timestamp( $timestamp );
+				},
+				$expectedTimestampsInUserTable
+			),
 			$this->newSelectQueryBuilder()
 				->select( 'ciu_timestamp' )
 				->from( 'cuci_user' )
