@@ -13,6 +13,7 @@ use PermissionsError;
 use SpecialPageTestBase;
 use UserBlockedError;
 use Wikimedia\IPUtils;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * @covers \MediaWiki\CheckUser\GlobalContributions\SpecialGlobalContributions
@@ -73,9 +74,13 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		$this->editPage(
 			'Test page', 'Test Content 2', 'test', NS_MAIN, $temp1
 		);
+
+		// Do one edit at a different time, to test the pagination
+		ConvertibleTimestamp::setFakeTime( '20000101000000' );
 		$this->editPage(
 			'Test page', 'Test Content 3', 'test', NS_MAIN, $temp2
 		);
+		ConvertibleTimestamp::setFakeTime( false );
 
 		$this->editPage(
 			'Test page for deletion', 'Test Content', 'test', NS_MAIN, $temp1
@@ -135,11 +140,29 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		return [
 			'Empty target' => [ '', 0 ],
 			'Valid IP' => [ '127.0.0.1', 2 ],
+			'Valid IP without contributions' => [ '127.0.0.5', 0 ],
 			'Valid range' => [ '127.0.0.1/24', 3 ],
 			'Range too wide' => [ '127.0.0.1/1', 0 ],
 			'Temp user' => [ '~2024-1', 0 ],
 			'Nonexistent user' => [ 'Nonexistent', 0 ],
 		];
+	}
+
+	public function testExecuteTargetReverse() {
+		[ $html ] = $this->executeSpecialPage(
+			'127.0.0.1/24',
+			new FauxRequest( [ 'dir' => 'prev' ] ),
+			null,
+			self::$checkuser
+		);
+
+		// Target field should be populated
+		$this->assertStringContainsString( '127.0.0.1/24', $html );
+
+		$this->assertStringContainsString( 'mw-pager-body', $html );
+		// Use occurrences of data attribute in to determine how many rows,
+		// to test pager.
+		$this->assertSame( 3, substr_count( $html, 'data-mw-revid' ) );
 	}
 
 	public function testExecuteErrorPreference() {

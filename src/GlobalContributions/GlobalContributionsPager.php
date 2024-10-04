@@ -19,6 +19,8 @@ use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
+use Wikimedia\Rdbms\FakeResultWrapper;
+use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 
@@ -34,7 +36,13 @@ use Wikimedia\Rdbms\SelectQueryBuilder;
 class GlobalContributionsPager extends ContributionsPager implements CheckUserQueryInterface {
 	private TempUserConfig $tempUserConfig;
 	private CheckUserLookupUtils $checkUserLookupUtils;
+	private IConnectionProvider $dbProvider;
 	private JobQueueGroup $jobQueueGroup;
+
+	/**
+	 * @var int Number of revisions to return per wiki
+	 */
+	public const REVISION_COUNT_LIMIT = 20;
 
 	/**
 	 * @param LinkRenderer $linkRenderer
@@ -46,6 +54,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	 * @param UserFactory $userFactory
 	 * @param TempUserConfig $tempUserConfig
 	 * @param CheckUserLookupUtils $checkUserLookupUtils
+	 * @param IConnectionProvider $dbProvider
 	 * @param JobQueueGroup $jobQueueGroup
 	 * @param IContextSource $context
 	 * @param array $options
@@ -61,6 +70,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		UserFactory $userFactory,
 		TempUserConfig $tempUserConfig,
 		CheckUserLookupUtils $checkUserLookupUtils,
+		IConnectionProvider $dbProvider,
 		JobQueueGroup $jobQueueGroup,
 		IContextSource $context,
 		array $options,
@@ -80,7 +90,44 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		);
 		$this->tempUserConfig = $tempUserConfig;
 		$this->checkUserLookupUtils = $checkUserLookupUtils;
+		$this->dbProvider = $dbProvider;
 		$this->jobQueueGroup = $jobQueueGroup;
+	}
+
+	/**
+	 * Query the central index tables to find wikis that have recently been edited
+	 * from by temporary accounts using the target IP.
+	 *
+	 * @return array
+	 */
+	private function fetchWikisToQuery() {
+		$targetIPConditions = $this->checkUserLookupUtils->getIPTargetExprForColumn(
+			$this->target,
+			'cite_ip_hex'
+		);
+		if ( $targetIPConditions === null ) {
+			throw new LogicException( "Attempted IP contributions lookup with non-IP target: $this->target" );
+		}
+
+		$cuciDb = $this->dbProvider->getReplicaDatabase( self::VIRTUAL_GLOBAL_DB_DOMAIN );
+		$cuciActiveWikisQueryBuilder = new SelectQueryBuilder( $cuciDb );
+		$cuciActiveWikisQueryBuilder
+			->select( 'cite_ciwm_id' )
+			->from( 'cuci_temp_edit' )
+			->distinct()
+			->where( $targetIPConditions );
+		$cuciWikiIds = $cuciActiveWikisQueryBuilder->fetchFieldValues();
+		if ( !$cuciWikiIds ) {
+			return [];
+		}
+
+		$cuciWikiIdsQueryBuilder = new SelectQueryBuilder( $cuciDb );
+		$cuciWikiIdsQueryBuilder
+			->select( 'ciwm_wiki' )
+			->from( 'cuci_wiki_map' )
+			->where( [ 'ciwm_id' => $cuciWikiIds ] );
+
+		return $cuciWikiIdsQueryBuilder->fetchFieldValues();
 	}
 
 	public function doQuery() {
@@ -96,6 +143,57 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				TemporaryAccountLogger::ACTION_VIEW_TEMPORARY_ACCOUNTS_ON_IP_GLOBAL,
 			)
 		);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function reallyDoQuery( $offset, $limit, $order ) {
+		$wikisToQuery = $this->fetchWikisToQuery();
+		$results = [];
+
+		// Use a limit for each wiki (specified in T356292), rather than the page limit.
+		[ $tables, $fields, $conds, $fname, $options, $join_conds ] =
+			$this->buildQueryInfo( $offset, self::REVISION_COUNT_LIMIT, $order );
+
+		foreach ( $wikisToQuery as $wikiId ) {
+			$dbr = $this->dbProvider->getReplicaDatabase( $wikiId );
+			$resultSet = ( new SelectQueryBuilder( $dbr ) )
+				->rawTables( $tables )
+				->fields( $fields )
+				->conds( $conds )
+				->caller( $fname )
+				->options( $options )
+				->joinConds( $join_conds )
+				->fetchResultSet();
+
+			$resultsAsArray = iterator_to_array( $resultSet );
+			foreach ( $resultsAsArray as $row ) {
+				$row->sourcewiki = $wikiId;
+			}
+
+			$results = array_merge(
+				$results,
+				$resultsAsArray
+			);
+		}
+
+		// Sort the entire results set by timestamp, then apply the limit.
+		usort( $results, static function ( $a, $b ) use ( $order ) {
+			$aTimestamp = $a->rev_timestamp;
+			$bTimestamp = $b->rev_timestamp;
+
+			if ( $aTimestamp == $bTimestamp ) {
+				return 0;
+			}
+			if ( $order === self::QUERY_DESCENDING ) {
+				return ( $aTimestamp > $bTimestamp ) ? -1 : 1;
+			} else {
+				return ( $aTimestamp < $bTimestamp ) ? -1 : 1;
+			}
+		} );
+
+		return new FakeResultWrapper( array_slice( $results, 0, $limit ) );
 	}
 
 	/**
@@ -155,6 +253,9 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	}
 
 	/**
+	 * @todo This is not a unique field, so results with identical timestamps could go
+	 *  missing between pages.
+	 *
 	 * @inheritDoc
 	 */
 	public function getIndexField() {

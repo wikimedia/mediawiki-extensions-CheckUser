@@ -16,6 +16,7 @@ use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
 use Wikimedia\Assert\Assert;
 use Wikimedia\Assert\ParameterAssertionException;
+use Wikimedia\Rdbms\IConnectionProvider;
 
 class GlobalContributionsPagerFactory {
 	private LinkRenderer $linkRenderer;
@@ -27,6 +28,7 @@ class GlobalContributionsPagerFactory {
 	private UserFactory $userFactory;
 	private TempUserConfig $tempUserConfig;
 	private CheckUserLookupUtils $lookupUtils;
+	private IConnectionProvider $dbProvider;
 	private JobQueueGroup $jobQueueGroup;
 
 	/**
@@ -39,6 +41,7 @@ class GlobalContributionsPagerFactory {
 	 * @param UserFactory $userFactory
 	 * @param TempUserConfig $tempUserConfig
 	 * @param CheckUserLookupUtils $lookupUtils
+	 * @param IConnectionProvider $dbProvider
 	 * @param JobQueueGroup $jobQueueGroup
 	 */
 	public function __construct(
@@ -51,6 +54,7 @@ class GlobalContributionsPagerFactory {
 		UserFactory $userFactory,
 		TempUserConfig $tempUserConfig,
 		CheckUserLookupUtils $lookupUtils,
+		IConnectionProvider $dbProvider,
 		JobQueueGroup $jobQueueGroup
 	) {
 		$this->linkRenderer = $linkRenderer;
@@ -62,6 +66,7 @@ class GlobalContributionsPagerFactory {
 		$this->userFactory = $userFactory;
 		$this->tempUserConfig = $tempUserConfig;
 		$this->lookupUtils = $lookupUtils;
+		$this->dbProvider = $dbProvider;
 		$this->jobQueueGroup = $jobQueueGroup;
 	}
 
@@ -90,6 +95,7 @@ class GlobalContributionsPagerFactory {
 			$this->userFactory,
 			$this->tempUserConfig,
 			$this->lookupUtils,
+			$this->dbProvider,
 			$this->jobQueueGroup,
 			$context,
 			$options,

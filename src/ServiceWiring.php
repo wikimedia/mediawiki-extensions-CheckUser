@@ -177,6 +177,7 @@ return [
 			$services->getUserFactory(),
 			$services->getTempUserConfig(),
 			$services->get( 'CheckUserLookupUtils' ),
+			$services->getDBLoadBalancerFactory(),
 			$services->getJobQueueGroup()
 		);
 	},

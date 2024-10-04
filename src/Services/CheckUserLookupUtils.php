@@ -86,7 +86,19 @@ class CheckUserLookupUtils {
 	 */
 	public function getIPTargetExpr( string $target, bool $xfor, string $table ): ?IExpression {
 		$columnName = $this->getIpHexColumn( $xfor, $table );
+		return $this->getIPTargetExprForColumn( $target, $columnName );
+	}
 
+	/**
+	 * Get the WHERE conditions as an IExpression object which can be used to filter results for provided an
+	 * IP address / range, given a database column name.
+	 *
+	 * @param string $target an IP address or CIDR range
+	 * @param string $columnName The column which will be used in the query these WHERE conditions
+	 * are used (must be a database column holding an IP address).
+	 * @return IExpression|null IExpression for valid conditions, null if invalid
+	 */
+	public function getIPTargetExprForColumn( string $target, string $columnName ): ?IExpression {
 		if ( !$this->isValidIPOrRange( $target ) ) {
 			// Return null if the target is not a valid IP address or range
 			return null;
