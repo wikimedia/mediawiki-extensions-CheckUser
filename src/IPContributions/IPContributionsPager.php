@@ -3,9 +3,9 @@
 namespace MediaWiki\CheckUser\IPContributions;
 
 use JobQueueGroup;
-use JobSpecification;
 use LogicException;
 use MediaWiki\Cache\LinkBatchFactory;
+use MediaWiki\CheckUser\Jobs\LogTemporaryAccountAccessJob;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CommentFormatter\CommentFormatter;
@@ -90,16 +90,10 @@ class IPContributionsPager extends ContributionsPager {
 		// Log that the user has viewed the temporary accounts editing on the target IP or IP range, as if we reach
 		// here query has been made for a valid target and if there are rows to display they will be displayed.
 		$this->jobQueueGroup->push(
-			new JobSpecification(
-				'checkuserLogTemporaryAccountAccess',
-				[
-					'performer' => $this->getUser()->getName(),
-					'target' => $this->target,
-					'timestamp' => (int)wfTimestamp(),
-					'type' => TemporaryAccountLogger::ACTION_VIEW_TEMPORARY_ACCOUNTS_ON_IP,
-				],
-				[],
-				null
+			LogTemporaryAccountAccessJob::newSpec(
+				$this->getAuthority()->getUser(),
+				$this->target,
+				TemporaryAccountLogger::ACTION_VIEW_TEMPORARY_ACCOUNTS_ON_IP,
 			)
 		);
 	}

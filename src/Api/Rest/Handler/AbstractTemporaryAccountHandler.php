@@ -3,8 +3,8 @@
 namespace MediaWiki\CheckUser\Api\Rest\Handler;
 
 use JobQueueGroup;
-use JobSpecification;
 use MediaWiki\Block\BlockManager;
+use MediaWiki\CheckUser\Jobs\LogTemporaryAccountAccessJob;
 use MediaWiki\Config\Config;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Rest\LocalizedHttpException;
@@ -112,16 +112,10 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 		$results = $this->getResults( $identifier );
 
 		$this->jobQueueGroup->push(
-			new JobSpecification(
-				'checkuserLogTemporaryAccountAccess',
-				[
-					'performer' => $this->getAuthority()->getUser()->getName(),
-					'target' => $this->urlEncodeTitle( $identifier ),
-					'timestamp' => (int)wfTimestamp(),
-					'type' => $this->getLogType(),
-				],
-				[],
-				null
+			LogTemporaryAccountAccessJob::newSpec(
+				$this->getAuthority()->getUser(),
+				$this->urlEncodeTitle( $identifier ),
+				$this->getLogType()
 			)
 		);
 
