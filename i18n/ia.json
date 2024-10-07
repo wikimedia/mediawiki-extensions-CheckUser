@@ -264,5 +264,6 @@
 	"log-action-filter-checkuser-temporary-account-change-access": "Cambiar accesso",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Acceder al datos de adresse IP de contos temporari",
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 ha activate {{GENDER:$2|su}} proprie accesso pro inspectar variabiles protegite",
-	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 ha disactivate {{GENDER:$2|su}} proprie accesso pro inspectar variabiles protegite"
+	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 ha disactivate {{GENDER:$2|su}} proprie accesso pro inspectar variabiles protegite",
+	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|ha vidite}} le variabiles protegite associate a $3"
 }

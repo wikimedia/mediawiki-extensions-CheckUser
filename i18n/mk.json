@@ -267,5 +267,6 @@
 	"log-action-filter-checkuser-temporary-account-change-access": "Смени пристап",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Погл. IP-податоци на привремени сметки",
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 го овозможи {{GENDER:$2|својот|својот|својот}} пристап до гледање на заштитени променливи",
-	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 го оневозможи {{GENDER:$2|својот|својот|својот}} пристап до гледање на заштитени променливи"
+	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 го оневозможи {{GENDER:$2|својот|својот|својот}} пристап до гледање на заштитени променливи",
+	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 ги погледа заштитените променливи поврзани со $3"
 }

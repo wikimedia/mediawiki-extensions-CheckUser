@@ -205,5 +205,6 @@
 	"checkuser-tempaccount-reveal-ip-error": "errore",
 	"checkuser-tempaccount-specialblock-ips": "Questa è un'utenza temporanea che utilizza {{PLURAL:$1|il seguente|i seguenti}} IP: $2",
 	"log-action-filter-checkuser-temporary-account": "Tipo di azione:",
-	"log-action-filter-checkuser-temporary-account-change-access": "Modifica accesso"
+	"log-action-filter-checkuser-temporary-account-change-access": "Modifica accesso",
+	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 ha visualizzato variabili protette associate a $3"
 }

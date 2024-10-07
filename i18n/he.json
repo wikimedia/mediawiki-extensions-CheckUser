@@ -273,5 +273,6 @@
 	"log-action-filter-checkuser-temporary-account-change-access": "שינוי גישה",
 	"log-action-filter-checkuser-temporary-account-view-ips": "גישה לנתוני IP של חשבונות חולפים",
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 {{GENDER:$2|הפעיל לעצמו|הפעילה לעצמה}} את הגישה לצפייה במשתנים מוגנים",
-	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 {{GENDER:$2|כיבה לעצמו|כיבתה לעצמה}} את הגישה לצפייה במשתנים מוגנים"
+	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 {{GENDER:$2|כיבה לעצמו|כיבתה לעצמה}} את הגישה לצפייה במשתנים מוגנים",
+	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|צפה|צפתה}} במשתנים מוגנים שמשויכים לדף $3"
 }

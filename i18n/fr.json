@@ -21,6 +21,7 @@
 			"IAlex",
 			"Lbayle",
 			"MacOS Weed",
+			"Mahabarata",
 			"McDutchie",
 			"Méthodes Bulebe Hangi",
 			"Obscaeris",
@@ -284,5 +285,6 @@
 	"logentry-checkuser-temporary-account-view-ips": "$1{{GENDER:$2|}} a visualisé les adresses IP pour $3",
 	"log-action-filter-checkuser-temporary-account": "Type d’action :",
 	"log-action-filter-checkuser-temporary-account-change-access": "Modifier l’accès",
-	"log-action-filter-checkuser-temporary-account-view-ips": "Voir les adresses IP"
+	"log-action-filter-checkuser-temporary-account-view-ips": "Voir les adresses IP",
+	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 a vu des variables protégées associées à $3"
 }
