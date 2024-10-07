@@ -2,9 +2,12 @@
 
 namespace MediaWiki\CheckUser\Jobs;
 
+use IJobSpecification;
 use Job;
+use JobSpecification;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\User\UserIdentity;
 
 /**
  * Log when a user views the IP addresses of a temporary account or the user views the temporary accounts
@@ -12,10 +15,43 @@ use MediaWiki\MediaWikiServices;
  */
 class LogTemporaryAccountAccessJob extends Job {
 	/**
+	 * The type of this job, as registered in wgJobTypeConf.
+	 */
+	public const TYPE = 'checkuserLogTemporaryAccountAccess';
+
+	/**
 	 * @inheritDoc
 	 */
 	public function __construct( $title, $params ) {
-		parent::__construct( 'checkuserLogTemporaryAccountAccess', $params );
+		parent::__construct( self::TYPE, $params );
+	}
+
+	/**
+	 * Create a new job specification for logging access to temporary account data.
+	 *
+	 * @param UserIdentity $performer The user that accessed the data.
+	 * @param string $target Name of the temporary account or IP address that was looked up.
+	 * @param string $type The type of data access that was performed
+	 * (one of the TemporaryAccountLogger::ACTION_VIEW_* constants).
+	 *
+	 * @return IJobSpecification
+	 */
+	public static function newSpec(
+		UserIdentity $performer,
+		string $target,
+		string $type
+	): IJobSpecification {
+		return new JobSpecification(
+			self::TYPE,
+			[
+				'performer' => $performer->getName(),
+				'target' => $target,
+				'timestamp' => (int)wfTimestamp(),
+				'type' => $type,
+			],
+			[],
+			null
+		);
 	}
 
 	/**
