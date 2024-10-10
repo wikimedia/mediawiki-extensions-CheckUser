@@ -57,6 +57,7 @@
 		'Investigate',
 		'InvestigateBlock',
 		'IPContributions',
+		'GlobalContributions',
 		'CheckUser',
 		'Contributions',
 		'Recentchanges',
