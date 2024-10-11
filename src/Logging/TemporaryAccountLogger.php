@@ -35,6 +35,9 @@ class TemporaryAccountLogger {
 	/** @var string Represents a user viewing the temporary accounts on a specific IP address */
 	public const ACTION_VIEW_TEMPORARY_ACCOUNTS_ON_IP = 'view-temporary-accounts-on-ip';
 
+	/** @var string Represents a user globally viewing the temporary accounts on a specific IP address */
+	public const ACTION_VIEW_TEMPORARY_ACCOUNTS_ON_IP_GLOBAL = 'view-temp-accounts-on-ip-global';
+
 	/**
 	 * Represents a user enabling or disabling their own access to view IPs
 	 *
@@ -87,14 +90,22 @@ class TemporaryAccountLogger {
 
 	/**
 	 * Logs the user (the performer) viewing temporary accounts on a given IP address or range.
+	 * This action can be performed locally or globally.
 	 *
 	 * @param UserIdentity $performer
 	 * @param string $ip IP address or range
 	 * @param int $timestamp
 	 */
-	public function logViewTemporaryAccountsOnIP( UserIdentity $performer, string $ip, int $timestamp ): void {
+	public function logViewTemporaryAccountsOnIP(
+		UserIdentity $performer,
+		string $ip,
+		int $timestamp,
+		bool $global = false
+	): void {
+		$action = $global ?
+			self::ACTION_VIEW_TEMPORARY_ACCOUNTS_ON_IP_GLOBAL : self::ACTION_VIEW_TEMPORARY_ACCOUNTS_ON_IP;
 		$this->debouncedLog(
-			$performer, IPUtils::prettifyIP( $ip ), self::ACTION_VIEW_TEMPORARY_ACCOUNTS_ON_IP, $timestamp
+			$performer, IPUtils::prettifyIP( $ip ), $action, $timestamp
 		);
 	}
 

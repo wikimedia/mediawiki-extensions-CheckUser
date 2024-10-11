@@ -6,6 +6,8 @@ use JobQueueGroup;
 use LogicException;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
+use MediaWiki\CheckUser\Jobs\LogTemporaryAccountAccessJob;
+use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Context\IContextSource;
@@ -83,9 +85,17 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 
 	public function doQuery() {
 		parent::doQuery();
-		// TODO:  See T376796
-		// Log that the user has viewed the global contributions for an IP, as if we reach
-		// here query has been made for a valid target and if there are rows to display they will be displayed.
+
+		// If we reach here query has been made for a valid target
+		// and if there are rows to display they will be displayed.
+		// Log that the user has globally viewed the temporary accounts editing on the target IP or IP range.
+		$this->jobQueueGroup->push(
+			LogTemporaryAccountAccessJob::newSpec(
+				$this->getAuthority()->getUser(),
+				$this->target,
+				TemporaryAccountLogger::ACTION_VIEW_TEMPORARY_ACCOUNTS_ON_IP_GLOBAL,
+			)
+		);
 	}
 
 	/**
