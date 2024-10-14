@@ -110,24 +110,15 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		}
 
 		$cuciDb = $this->dbProvider->getReplicaDatabase( self::VIRTUAL_GLOBAL_DB_DOMAIN );
-		$cuciActiveWikisQueryBuilder = new SelectQueryBuilder( $cuciDb );
-		$cuciActiveWikisQueryBuilder
-			->select( 'cite_ciwm_id' )
+		$queryBuilder = new SelectQueryBuilder( $cuciDb );
+		$queryBuilder
+			->select( 'ciwm_wiki' )
 			->from( 'cuci_temp_edit' )
 			->distinct()
-			->where( $targetIPConditions );
-		$cuciWikiIds = $cuciActiveWikisQueryBuilder->fetchFieldValues();
-		if ( !$cuciWikiIds ) {
-			return [];
-		}
-
-		$cuciWikiIdsQueryBuilder = new SelectQueryBuilder( $cuciDb );
-		$cuciWikiIdsQueryBuilder
-			->select( 'ciwm_wiki' )
-			->from( 'cuci_wiki_map' )
-			->where( [ 'ciwm_id' => $cuciWikiIds ] );
-
-		return $cuciWikiIdsQueryBuilder->fetchFieldValues();
+			->where( $targetIPConditions )
+			->join( 'cuci_wiki_map', null, 'cite_ciwm_id = ciwm_id' )
+			->caller( __METHOD__ );
+		return $queryBuilder->fetchFieldValues();
 	}
 
 	public function doQuery() {
@@ -158,7 +149,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 
 		foreach ( $wikisToQuery as $wikiId ) {
 			$dbr = $this->dbProvider->getReplicaDatabase( $wikiId );
-			$resultSet = ( new SelectQueryBuilder( $dbr ) )
+			$resultSet = $dbr->newSelectQueryBuilder()
 				->rawTables( $tables )
 				->fields( $fields )
 				->conds( $conds )
