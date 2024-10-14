@@ -75,7 +75,7 @@ class CheckUserLookupUtils {
 	}
 
 	/**
-	 * Get the WHERE conditions as an IExpression object which can be used to filter results for provided an
+	 * Get the WHERE conditions as an IExpression object which can be used to filter results for a provided
 	 * IP address / range and optionally for the XFF IP.
 	 *
 	 * @param string $target an IP address or CIDR range
@@ -90,12 +90,12 @@ class CheckUserLookupUtils {
 	}
 
 	/**
-	 * Get the WHERE conditions as an IExpression object which can be used to filter results for provided an
+	 * Get the WHERE conditions as an IExpression object which can be used to filter results for a provided
 	 * IP address / range, given a database column name.
 	 *
 	 * @param string $target an IP address or CIDR range
 	 * @param string $columnName The column which will be used in the query these WHERE conditions
-	 * are used (must be a database column holding an IP address).
+	 * are used (must be a database column holding an IP address in hex format).
 	 * @return IExpression|null IExpression for valid conditions, null if invalid
 	 */
 	public function getIPTargetExprForColumn( string $target, string $columnName ): ?IExpression {
