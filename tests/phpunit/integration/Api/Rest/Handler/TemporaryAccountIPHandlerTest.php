@@ -47,6 +47,7 @@ class TemporaryAccountIPHandlerTest extends MediaWikiIntegrationTestCase {
 		$permissionManager = $this->createMock( PermissionManager::class );
 		$permissionManager->method( 'userHasRight' )
 			->willReturn( true );
+		$this->setService( 'PermissionManager', $permissionManager );
 
 		$users = [
 			'~2024-1' => [ 'isHidden' => false ],
@@ -64,6 +65,7 @@ class TemporaryAccountIPHandlerTest extends MediaWikiIntegrationTestCase {
 				[ '~2024-3', UserFactory::RIGOR_VALID, $this->createActor( $users[ '~2024-3' ] ) ],
 				[ '~2024-30', UserFactory::RIGOR_VALID, $this->createActor( $users[ '~2024-30' ] ) ],
 			] );
+		$this->setService( 'UserFactory', $userFactory );
 
 		return new TemporaryAccountIPHandler( ...array_values( array_merge(
 			[
@@ -76,7 +78,9 @@ class TemporaryAccountIPHandlerTest extends MediaWikiIntegrationTestCase {
 				'actorStore' => $this->getServiceContainer()->getActorStore(),
 				'blockManager' => $this->getServiceContainer()->getBlockManager(),
 				'tempUserConfig' => $this->getServiceContainer()->getTempUserConfig(),
-				'userFactory' => $userFactory
+				'checkUserTemporaryAccountsByIPLookup' => $this->getServiceContainer()->get(
+					'CheckUserTemporaryAccountsByIPLookup'
+				)
 			],
 			$options
 		) ) );
@@ -100,6 +104,7 @@ class TemporaryAccountIPHandlerTest extends MediaWikiIntegrationTestCase {
 	 */
 	private function getAuthority( bool $canViewHidden = true ): Authority {
 		$user = $this->createMock( UserIdentityValue::class );
+		$user->method( 'getName' )->willReturn( 'Test user' );
 
 		$authority = $this->createMock( Authority::class );
 		$authority->method( 'getUser' )
