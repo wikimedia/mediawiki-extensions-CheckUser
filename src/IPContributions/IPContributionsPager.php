@@ -19,7 +19,6 @@ use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
 use Wikimedia\Rdbms\IExpression;
-use Wikimedia\Rdbms\SelectQueryBuilder;
 
 class IPContributionsPager extends ContributionsPager {
 	private TempUserConfig $tempUserConfig;
@@ -102,7 +101,7 @@ class IPContributionsPager extends ContributionsPager {
 	 * @inheritDoc
 	 */
 	protected function getRevisionQuery() {
-		$queryBuilder = new SelectQueryBuilder( $this->getDatabase() );
+		$queryBuilder = $this->getDatabase()->newSelectQueryBuilder();
 
 		if ( $this->isArchive ) {
 			$queryBuilder

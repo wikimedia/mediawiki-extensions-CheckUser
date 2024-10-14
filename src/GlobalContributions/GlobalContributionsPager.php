@@ -22,7 +22,6 @@ use MediaWiki\User\UserIdentity;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
-use Wikimedia\Rdbms\SelectQueryBuilder;
 
 /**
  * Query for all edits from an IP, revealing what temporary accounts
@@ -110,8 +109,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		}
 
 		$cuciDb = $this->dbProvider->getReplicaDatabase( self::VIRTUAL_GLOBAL_DB_DOMAIN );
-		$queryBuilder = new SelectQueryBuilder( $cuciDb );
-		$queryBuilder
+		$queryBuilder = $cuciDb->newSelectQueryBuilder()
 			->select( 'ciwm_wiki' )
 			->from( 'cuci_temp_edit' )
 			->distinct()
@@ -191,7 +189,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	 * @inheritDoc
 	 */
 	protected function getRevisionQuery() {
-		$queryBuilder = new SelectQueryBuilder( $this->getDatabase() );
+		$queryBuilder = $this->getDatabase()->newSelectQueryBuilder();
 
 		$queryBuilder
 			->select( [
