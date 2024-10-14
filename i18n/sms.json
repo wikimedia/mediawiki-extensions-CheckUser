@@ -18,7 +18,7 @@
 	"checkuser-investigate-targets-placeholder": "Õõʹnninõmm leʹbe 1.1.1.1",
 	"checkuser-investigate-duration-label": "Pââʹjj",
 	"checkuser-investigate-reason-label": "Mäinn",
-	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|muuttâs|muttâz|muttsed}}",
+	"checkuser-investigate-preliminary-table-cell-edits": "{{PLURAL:$1|$1 muttsed|1=õhtt muuttâs|2=$1 muttâz|3=$1 muttâz|4=$1 muttâz|5=$1 muttâz|6=$1 muttâz}}",
 	"checkuser-investigate-preliminary-table-header-editcount": "Muttâz",
 	"checkuser-investigate-preliminary-table-header-name": "Õõʹnninõmm",
 	"checkuser-investigate-preliminary-table-cell-wiki-nowiki": "Wiki ij käunnʼjam",

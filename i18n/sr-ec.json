@@ -173,5 +173,6 @@
 	"checkuser-investigate-compare-table-header-activity": "Временски опсег",
 	"checkuser-investigate-compare-table-header-useragent": "Кориснички агент",
 	"checkuser-investigate-tour-targets-title": "Провера више корисника и IP адреса?",
+	"checkuser-investigate-tour-addusertargets-title": "Још контекста?",
 	"checkuser-investigate-tour-block-title": "Блокирање?"
 }
