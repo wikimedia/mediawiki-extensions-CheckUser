@@ -248,6 +248,15 @@
 	"checkuser-ip-contributions-special-ip-contributions-button": "IP-уредувања од привремени корисници",
 	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "IP-уредувања од привремени корисници",
 	"checkuser-ip-contributions-special-contributions-button": "Стари IP-уредувања",
+	"checkuser-global-contributions": "Пребарај глобални придонеси",
+	"checkuser-global-contributions-permission-error-title": "Грешка со дозволата",
+	"checkuser-global-contributions-permission-error-description": "За да ги видите глобалните придонеси, прифатете ја согласноста во [[Special:GlobalPreferences|вашите глобални нагодувања]].",
+	"checkuser-global-contributions-subtitle": "Прикажувам исходни ставки од {{PLURAL:$1|последниот ден|последните $1 дена}}.",
+	"checkuser-global-contributions-target-label": "IP-адреса или опсег",
+	"checkuser-global-contributions-target-error-no-ip": "Внесете важечка IP-адреса или IP-опсег",
+	"checkuser-global-contributions-target-error-no-ip-banner": "Не можев да го исполнам вашето барање. Внесете важечка IP-адреса или IP-опсег.",
+	"checkuser-global-contributions-search-form-wrapper": "Пребарај глобални придонеси",
+	"checkuser-global-contributions-results-title": "Глобални кориснички придонеси на $1",
 	"prefs-checkuser-tempaccount": "Откривање на IP-адреси за привремени сметки",
 	"checkuser-tempaccount-enable-preference-description": "Кога ја користите алаткава, должни сте тоа да го правите во склад со правилата.",
 	"checkuser-tempaccount-enable-preference": "Овозможи откривање на IP-адреси за привремени сметки",
@@ -263,10 +272,11 @@
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|овозможи}}",
 	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2|погледа}} IP-адреси за $3",
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 {{GENDER:$2|прегледа}} привремени сметки на $3",
+	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 глобално {{GENDER:$2|прегледа}} привремени сметки на $3",
 	"log-action-filter-checkuser-temporary-account": "Вид дејство:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Смени пристап",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Погл. IP-податоци на привремени сметки",
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 го овозможи {{GENDER:$2|својот|својот|својот}} пристап до гледање на заштитени променливи",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 го оневозможи {{GENDER:$2|својот|својот|својот}} пристап до гледање на заштитени променливи",
-	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 ги погледа заштитените променливи поврзани со $3"
+	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 ги {{GENDER:$2|погледа}} заштитените променливи поврзани со $3"
 }

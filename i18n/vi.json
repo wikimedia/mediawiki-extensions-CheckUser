@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Băng Tỏa",
 			"Dreamy Jazz",
 			"Leducthn",
 			"Minh Nguyen",
@@ -147,5 +148,6 @@
 	"checkuser-investigate-tour-block-title": "Bạn muốn chặn?",
 	"checkuser-investigate-tour-block-desc": "Cho phép bạn chọn người dùng mà bạn muốn chặn và sau đó đưa bạn đến biểu mẫu khối để chọn khối thích hợp.",
 	"checkuser-investigate-tour-copywikitext-title": "Bạn muốn sao chép dữ liệu?",
-	"checkuser-investigate-tour-copywikitext-desc": "Sao chép bảng so sánh bằng một cú nhấp chuột và đưa nó vào CUWiki. Xin lưu ý rằng bạn chỉ sao chép những gì có thể nhìn thấy và không phải tất cả các trang điều tra."
+	"checkuser-investigate-tour-copywikitext-desc": "Sao chép bảng so sánh bằng một cú nhấp chuột và đưa nó vào CUWiki. Xin lưu ý rằng bạn chỉ sao chép những gì có thể nhìn thấy và không phải tất cả các trang điều tra.",
+	"checkuser-global-contributions-target-label": "Địa chỉ hoặc dải IP"
 }

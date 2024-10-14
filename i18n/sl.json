@@ -233,6 +233,7 @@
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|je omogočil|je omogočila|je omogočil_a}}",
 	"logentry-checkuser-temporary-account-view-ips": "$1 si je {{GENDER:$2|ogledal|ogledala|ogledal_a}} IP-naslove za $3",
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 si je {{GENDER:$2|ogledal|ogledala|ogledal_a}} začasne račune v projektu $3",
+	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 si je {{GENDER:$2|ogledal|ogledala|ogledal_a}} začasne račune v projektu $3",
 	"log-action-filter-checkuser-temporary-account": "Vrsta dejanja:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Sprememba dostopa",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Dostop do začasnih podatkov IP-računa",
