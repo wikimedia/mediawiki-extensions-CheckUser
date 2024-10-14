@@ -4,25 +4,22 @@ namespace MediaWiki\CheckUser\Api\Rest\Handler;
 
 use JobQueueGroup;
 use MediaWiki\Block\BlockManager;
+use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountsByIPLookup;
 use MediaWiki\Config\Config;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\TempUser\TempUserConfig;
-use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserNameUtils;
-use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
-use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Rdbms\IReadableDatabase;
-use Wikimedia\Rdbms\SelectQueryBuilder;
 
 /**
  * Given an IP, return every known temporary account that has edited from it
  */
 class TemporaryAccountIPHandler extends AbstractTemporaryAccountIPHandler {
-	private TempUserConfig $tempUserConfig;
-	private UserFactory $userFactory;
+
+	private CheckUserTemporaryAccountsByIPLookup $checkUserTemporaryAccountsByIPLookup;
 
 	/**
 	 * @param Config $config
@@ -34,7 +31,6 @@ class TemporaryAccountIPHandler extends AbstractTemporaryAccountIPHandler {
 	 * @param ActorStore $actorStore
 	 * @param BlockManager $blockManager
 	 * @param TempUserConfig $tempUserConfig
-	 * @param UserFactory $userFactory
 	 */
 	public function __construct(
 		Config $config,
@@ -46,50 +42,28 @@ class TemporaryAccountIPHandler extends AbstractTemporaryAccountIPHandler {
 		ActorStore $actorStore,
 		BlockManager $blockManager,
 		TempUserConfig $tempUserConfig,
-		UserFactory $userFactory
+		CheckUserTemporaryAccountsByIPLookup $checkUserTemporaryAccountsByIPLookup
 	) {
 		parent::__construct(
 			$config, $jobQueueGroup, $permissionManager, $userOptionsLookup, $userNameUtils, $dbProvider, $actorStore,
 			$blockManager, $tempUserConfig
 		);
-		$this->tempUserConfig = $tempUserConfig;
-		$this->userFactory = $userFactory;
+		$this->checkUserTemporaryAccountsByIPLookup = $checkUserTemporaryAccountsByIPLookup;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	protected function getData( $ip, IReadableDatabase $dbr ): array {
-		// Normalize the IP into the same format tha cuc_ip uses
-		$ip = IPUtils::sanitizeIP( $ip );
-
-		// The limit is the smaller of the user-provided limit parameter and the maximum row count.
-		$limit = min( $this->getValidatedParams()['limit'], $this->config->get( 'CheckUserMaximumRowCount' ) );
-
-		// T327906: 'cuc_timestamp' is selected to satisfy a Postgres requirement
-		// where all ORDER BY fields must be present in SELECT list.
-		$rows = $dbr->newSelectQueryBuilder()
-			->fields( [ 'actor_name', 'timestamp' => 'MAX(cuc_timestamp)' ] )
-			->table( 'cu_changes' )
-			->join( 'actor', null, 'actor_id=cuc_actor' )
-			->where( [ 'cuc_ip' => $ip ] )
-			->where( $this->tempUserConfig->getMatchCondition( $dbr, 'actor_name', IExpression::LIKE ) )
-			->groupBy( 'actor_name' )
-			->orderBy( 'timestamp', SelectQueryBuilder::SORT_DESC )
-			->limit( $limit )
-			->caller( __METHOD__ )
-			->fetchResultSet();
-
-		$accounts = [];
-		$canSeeHidden = $this->getAuthority()->isAllowed( 'hideuser' );
-		foreach ( $rows as $row ) {
-			$account = $row->actor_name;
-
-			// Don't return hidden accounts to authorities who cannot view them
-			if ( $canSeeHidden || !$this->userFactory->newFromName( $account )->isHidden() ) {
-				$accounts[] = $account;
-			}
+		$status = $this->checkUserTemporaryAccountsByIPLookup->get(
+			$ip,
+			$this->getAuthority(),
+			false,
+			$this->getValidatedParams()['limit']
+		);
+		if ( $status->isGood() ) {
+			return $status->getValue();
 		}
-		return $accounts;
+		return [];
 	}
 }

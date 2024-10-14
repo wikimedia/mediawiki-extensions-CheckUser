@@ -21,6 +21,7 @@ use MediaWiki\CheckUser\Services\CheckUserDataPurger;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
+use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountsByIPLookup;
 use MediaWiki\CheckUser\Services\CheckUserUtilityService;
 use MediaWiki\CheckUser\Services\TokenManager;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
@@ -316,5 +317,21 @@ return [
 			LoggerFactory::getInstance( 'CheckUser' )
 		);
 	},
+	'CheckUserTemporaryAccountsByIPLookup' => static function (
+		MediaWikiServices $services
+	): CheckUserTemporaryAccountsByIPLookup {
+		return new CheckUserTemporaryAccountsByIPLookup(
+			new ServiceOptions(
+				CheckUserTemporaryAccountsByIPLookup::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig()
+			),
+			$services->getDBLoadBalancerFactory(),
+			$services->getJobQueueGroup(),
+			$services->getTempUserConfig(),
+			$services->getUserFactory(),
+			$services->getPermissionManager(),
+			$services->getUserOptionsLookup()
+		);
+	}
 ];
 // @codeCoverageIgnoreEnd
