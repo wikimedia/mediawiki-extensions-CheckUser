@@ -3,11 +3,13 @@
 namespace MediaWiki\CheckUser\HookHandler;
 
 use MediaWiki\Config\Config;
+use MediaWiki\Hook\BeforeInitializeHook;
 use MediaWiki\Output\Hook\BeforePageDisplayHook;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\User\Options\UserOptionsLookup;
+use MediaWiki\WikiMap\WikiMap;
 
-class PageDisplay implements BeforePageDisplayHook {
+class PageDisplay implements BeforePageDisplayHook, BeforeInitializeHook {
 	private Config $config;
 	private PermissionManager $permissionManager;
 	protected UserOptionsLookup $userOptionsLookup;
@@ -78,4 +80,25 @@ class PageDisplay implements BeforePageDisplayHook {
 		] );
 	}
 
+	/** @inheritDoc */
+	public function onBeforeInitialize( $title, $unused, $output, $user, $request, $mediaWikiEntryPoint ) {
+		// Is there a central wiki defined for the Special:GlobalContributions feature?
+		// If so, redirect the user there, preserving the query parameters.
+		$globalContributionsCentralWikiId = $this->config->get( 'CheckUserGlobalContributionsCentralWikiId' );
+		if ( $globalContributionsCentralWikiId &&
+			$output->getTitle()->isSpecial( 'GlobalContributions' ) &&
+			$globalContributionsCentralWikiId !== WikiMap::getCurrentWikiId() ) {
+			$url = WikiMap::getForeignURL(
+				$globalContributionsCentralWikiId,
+				'Special:GlobalContributions',
+			);
+			$queryValues = $output->getRequest()->getQueryValuesOnly();
+			// Don't duplicate the title, as we have this already from ::getForeignURL above
+			if ( isset( $queryValues['title'] ) ) {
+				unset( $queryValues['title'] );
+			}
+			$url = wfAppendQuery( $url, $queryValues );
+			$output->redirect( $url );
+		}
+	}
 }

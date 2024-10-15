@@ -43,6 +43,10 @@
 			"value": false,
 			"description": "Whether to force checkusers into giving a reason for each check they do through Special:CheckUser."
 		},
+		"CheckUserGlobalContributionsCentralWikiId": {
+			"value": false,
+			"description": "The wiki ID to use when redirecting users to [[Special:GlobalContributions]] on a central wiki. If set to false, no redirect occurs."
+		},
 		"CheckUserCAMultiLock": {
 			"value": false,
 			"description": "Whether to add a link to Special:MultiLock by CentralAuth to the Special:CheckUser's mass block form. This requires CentralAuth extension to be installed on the wiki. To enable this, set this to an array with a central wiki's database name and an array with the name(s) of the global group(s) to add the link for. Example: [ 'centralDB' => 'metawiki', 'groups' => [ 'steward' ] ]"
@@ -352,6 +356,7 @@
 			"clienthints",
 			"pageDisplay"
 		],
+		"BeforeInitialize": "pageDisplay",
 		"ContributionsToolLinks": "ToolLinks",
 		"EmailUser": "CheckUserPrivateEvents",
 		"GetPreferences": "preferences",
