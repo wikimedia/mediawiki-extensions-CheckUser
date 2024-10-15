@@ -197,9 +197,11 @@
 	"checkuser-investigate-tour-copywikitext-title": "Хотите скопировать данные?",
 	"checkuser-investigate-tour-copywikitext-desc": "Скопируйте таблицу сравнения одним щелчком и отнесите её в CUWiki. Обратите внимание, что Вы копируете только то, что видимо, а не все страницы расследования.",
 	"checkuser-ip-contributions-permission-error-title": "Ошибка прав доступа",
+	"checkuser-ip-contributions-target-label": "IP-адрес или диапазон:",
 	"checkuser-ip-contributions-tab-label-contributions": "Вклад",
 	"checkuser-ip-contributions-tab-label-archive-contributions": "Удаленные вклады",
 	"checkuser-ip-contributions-contributions-link": "вклад",
+	"checkuser-global-contributions-target-label": "IP-адрес или диапазон:",
 	"checkuser-tempaccount-reveal-ip-error": "ошибка",
 	"checkuser-tempaccount-specialblock-ips": "Это временный пользователь, использующий следующие {{PLURAL:$1| IP|IP-адреса}}: $2"
 }
