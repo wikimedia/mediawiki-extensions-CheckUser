@@ -329,6 +329,14 @@
 		"RenameUserSQLHandler": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\RenameUserSQLHandler"
 		},
+		"GlobalBlockingHandler": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\GlobalBlockingHandler",
+			"services": [
+				"ConnectionProvider",
+				"CentralIdLookup",
+				"ActorStoreFactory"
+			]
+		},
 		"SpecialPageInitList": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\SpecialPageInitListHandler",
 			"services": [
@@ -360,6 +368,7 @@
 		"ContributionsToolLinks": "ToolLinks",
 		"EmailUser": "CheckUserPrivateEvents",
 		"GetPreferences": "preferences",
+		"GlobalBlockingGetRetroactiveAutoblockIPs": "GlobalBlockingHandler",
 		"LoadExtensionSchemaUpdates": "SchemaChanges",
 		"LocalUserCreated": "CheckUserPrivateEvents",
 		"PerformRetroactiveAutoblock": "RetroactiveAutoBlock",
