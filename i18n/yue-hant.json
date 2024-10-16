@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Winston Sung"
+			"Winston Sung",
+			"H78c67c"
 		]
 	},
 	"checkuser-summary": "呢個工具會響最近更改度掃瞄對一位用戶用過嘅IP地址，或者係睇一個IP嘅用戶資料同埋佢嘅編輯記錄。\n\t響用戶同埋用戶端IP嘅編輯係可幾經由XFF頭，加上 \"/xff\" 就可以拎到。呢個工具係支援 IPv4 (CIDR $1-32) 同埋 IPv6 (CIDR $2-128)。\n\t由於為咗效能方面嘅原因，將唔會顯示多過5000次嘅編輯。請跟源政策去用呢個工具。",
@@ -11,6 +12,9 @@
 	"group-checkuser": "稽查員",
 	"group-checkuser-member": "{{GENDER:$1|用戶稽查員}}",
 	"right-checkuser": "核對用戶嘅IP地址同埋其它嘅資料",
+	"action-checkuser-log": "睇用戶稽查記錄",
+	"action-checkuser-temporary-account": "睇臨時戶口用過嘅IP地址",
+	"action-checkuser-temporary-account-log": "睇臨時戶口IP地址嘅存取記錄",
 	"grouppage-checkuser": "{{ns:project}}:稽查員",
 	"checkuser-reason": "原因:",
 	"checkuser-showlog": "顯示日誌",
@@ -23,8 +27,10 @@
 	"checkuser-nomatch": "搵唔到符合嘅資訊。",
 	"checkuser-check": "检查",
 	"checkuser-blocked": "已經封鎖",
-	"checkuser-search": "搵",
+	"checkuser-search": "搵用戶稽查記錄",
 	"checkuser-search-submit": "搵",
 	"checkuser-ipeditcount": "~響全部用戶度搵到$1",
-	"checkuser-showmain": "轉去稽查用戶主要表格"
+	"checkuser-showmain": "轉去{{#special:CheckUser}}",
+	"checkuser-show-investigate": "轉去{{#special:Investigate}}",
+	"checkuser-tempaccount-reveal-ip-button-label": "顯示IP"
 }
