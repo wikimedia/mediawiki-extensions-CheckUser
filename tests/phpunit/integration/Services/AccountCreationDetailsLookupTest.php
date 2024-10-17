@@ -3,9 +3,9 @@ namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
 use MediaWiki\CheckUser\Services\AccountCreationDetailsLookup;
+use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\MainConfigNames;
-use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWikiIntegrationTestCase;
 use Psr\Log\NullLogger;
 
@@ -15,7 +15,7 @@ use Psr\Log\NullLogger;
  */
 class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 
-	use TempUserTestTrait;
+	use CheckUserTempUserTestTrait;
 
 	private function getCheckUserPrivateEventsHandler() {
 		return new CheckUserPrivateEventsHandler(
@@ -49,11 +49,11 @@ class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testGetIPAndUserAgentFromDBForPublicLogAndTemporaryAccount() {
-		$this->enableAutoCreateTempUser( [ 'genPattern' => '~check-user-test-$1' ] );
+		$this->enableAutoCreateTempUser();
 		RequestContext::getMain()->getRequest()->setHeader( 'User-Agent', 'Fake User Agent' );
 		$user = $this->getServiceContainer()->getTempUserCreator()
 			->create( null, RequestContext::getMain()->getRequest() )->getUser();
-		$this->disableAutoCreateTempUser( [ 'known' => true, 'matchPattern' => '~check-user-test-$1' ] );
+		$this->disableAutoCreateTempUser();
 
 		$lookup = new AccountCreationDetailsLookup( new NullLogger() );
 

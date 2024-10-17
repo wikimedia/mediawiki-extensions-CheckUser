@@ -9,8 +9,8 @@ use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Language\Language;
-use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Psr\Log\LoggerInterface;
@@ -24,7 +24,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
 class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 
 	use CheckUserCommonTraitTest;
-	use TempUserTestTrait;
+	use CheckUserTempUserTestTrait;
 
 	private function setUpObject(): CheckUserInsert {
 		return $this->getServiceContainer()->get( 'CheckUserInsert' );

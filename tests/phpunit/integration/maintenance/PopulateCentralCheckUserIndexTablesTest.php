@@ -5,10 +5,10 @@ namespace MediaWiki\CheckUser\Tests\Integration\Maintenance;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Maintenance\PopulateCentralCheckUserIndexTables;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
-use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use Wikimedia\IPUtils;
@@ -20,7 +20,7 @@ use Wikimedia\IPUtils;
  */
 class PopulateCentralCheckUserIndexTablesTest extends MaintenanceBaseTestCase implements CheckUserQueryInterface {
 
-	use TempUserTestTrait;
+	use CheckUserTempUserTestTrait;
 	use CheckUserCommonTraitTest;
 
 	protected function setUp(): void {
@@ -77,10 +77,10 @@ class PopulateCentralCheckUserIndexTablesTest extends MaintenanceBaseTestCase im
 		// testing.
 		$testUser1 = $this->getMutableTestUser()->getUserIdentity();
 		$testUser2 = $this->getMutableTestUser()->getUserIdentity();
-		$this->enableAutoCreateTempUser( [ 'genPattern' => '~check-user-test-$1' ] );
+		$this->enableAutoCreateTempUser();
 		$temporaryUser = $this->getServiceContainer()->getTempUserCreator()
 			->create( null, new FauxRequest() )->getUser();
-		$this->disableAutoCreateTempUser( [ 'known' => true, 'matchPattern' => '~check-user-test-$1' ] );
+		$this->disableAutoCreateTempUser();
 		$botUser = $this->getTestUser( [ 'bot' ] )->getUserIdentity();
 		$anonUser = UserIdentityValue::newAnonymous( '4.3.2.1' );
 		// Run jobs and then truncate all CheckUser result tables as CheckUserInsert will have created rows for the

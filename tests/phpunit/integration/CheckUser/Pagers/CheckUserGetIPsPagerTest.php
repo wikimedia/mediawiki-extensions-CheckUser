@@ -4,8 +4,8 @@ namespace MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers;
 
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers\Mocks\MockTemplateParser;
+use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
-use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\UserIdentityValue;
 use TestUser;
 use Wikimedia\IPUtils;
@@ -21,7 +21,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class CheckUserGetIPsPagerTest extends CheckUserPagerTestBase {
 
-	use TempUserTestTrait;
+	use CheckUserTempUserTestTrait;
 
 	protected function setUp(): void {
 		parent::setUp();

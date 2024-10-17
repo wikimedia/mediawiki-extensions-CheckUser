@@ -2,14 +2,14 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Investigate;
 
-use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
+use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\User\UserIdentityValue;
 use Wikimedia\IPUtils;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 trait CompareTabTestDataTrait {
 
-	use TempUserTestTrait;
+	use CheckUserTempUserTestTrait;
 
 	/**
 	 * Adds testing data to the DB for tests that cover the Compare tab. This is used to de-duplicate the code that
