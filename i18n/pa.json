@@ -4,5 +4,7 @@
 			"Cabal"
 		]
 	},
-	"checkuser-helper-user": "ਵਰਤੋਂਕਾਰ"
+	"checkuser-query": "ਹਾਲ ਹੀ ਵਿੱਚ ਹੋਈਆਂ ਤਬਦੀਲੀਆਂ ਬਾਰੇ ਪੁੱਛਗਿੱਛ",
+	"checkuser-helper-user": "ਵਰਤੋਂਕਾਰ",
+	"checkuser-investigate-tab-preliminary-check": "ਖਾਤਾ ਜਾਣਕਾਰੀ"
 }
