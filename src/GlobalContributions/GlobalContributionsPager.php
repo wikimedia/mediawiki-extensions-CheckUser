@@ -2,6 +2,8 @@
 
 namespace MediaWiki\CheckUser\GlobalContributions;
 
+use ChangesList;
+use HtmlArmor;
 use JobQueueGroup;
 use LogicException;
 use MediaWiki\Cache\LinkBatchFactory;
@@ -12,13 +14,17 @@ use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\HookContainer\HookContainer;
+use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Pager\ContributionsPager;
+use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\Title\NamespaceInfo;
+use MediaWiki\Title\Title;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
+use MediaWiki\WikiMap\WikiMap;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
@@ -249,5 +255,304 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	 */
 	public function getIndexField() {
 		return 'cuc_timestamp';
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function populateAttributes( $row, &$attributes ) {
+		if ( !$this->isFromExternalWiki( $row ) ) {
+			parent::populateAttributes( $row, $attributes );
+		}
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function formatArticleLink( $row ) {
+		if ( !$this->isFromExternalWiki( $row ) ) {
+			return parent::formatArticleLink( $row );
+		}
+
+		if ( !$this->currentPage ) {
+			return '';
+		}
+
+		$dir = $this->getLanguage()->getDir();
+		$link = $this->getLinkRenderer()->makeExternalLink(
+			WikiMap::getForeignURL(
+				$row->sourcewiki,
+				$row->{$this->pageTitleField}
+			),
+			// The page is only used for its title and namespace,
+			// so this is safe.
+			$this->currentPage->getPrefixedText(),
+			$this->currentPage,
+			'',
+			[ 'class' => 'mw-contributions-title' ],
+		);
+		return Html::rawElement( 'bdi', [ 'dir' => $dir ], $link );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function formatDiffHistLinks( $row ) {
+		if ( !$this->isFromExternalWiki( $row ) ) {
+			return parent::formatDiffHistLinks( $row );
+		}
+
+		if ( !$this->currentPage ) {
+			return '';
+		}
+
+		// Format the diff link. Don't check whether the user can see
+		// the revisions, since this would require a cross-wiki permission
+		// check. The user may see a permission error when clicking the
+		// link instead.
+		if ( $row->{$this->revisionParentIdField} != 0 ) {
+			$difftext = $this->getLinkRenderer()->makeExternalLink(
+				wfAppendQuery(
+					WikiMap::getForeignURL(
+						$row->sourcewiki,
+						$row->{$this->pageTitleField}
+					),
+					[
+						'diff' => 'prev',
+						'oldid' => $row->{$this->revisionIdField},
+					]
+				),
+				new HtmlArmor( $this->messages['diff'] ),
+				// The page is only used for its title and namespace,
+				// so this is safe.
+				$this->currentPage,
+				'',
+				[ 'class' => 'mw-changeslist-diff' ]
+			);
+		} else {
+			$difftext = $this->messages['diff'];
+		}
+
+		$histlink = $this->getLinkRenderer()->makeExternalLink(
+			wfAppendQuery(
+				WikiMap::getForeignURL(
+					$row->sourcewiki,
+					$row->{$this->pageTitleField}
+				),
+				[ 'action' => 'history' ]
+			),
+			new HtmlArmor( $this->messages['hist'] ),
+			// The page is only used for its title and namespace,
+			// so this is safe.
+			$this->currentPage,
+			'',
+			[ 'class' => 'mw-changeslist-history' ]
+		);
+
+		return Html::rawElement( 'span',
+			[ 'class' => 'mw-changeslist-links' ],
+			// The spans are needed to ensure the dividing '|' elements are not
+			// themselves styled as links.
+			Html::rawElement( 'span', [], $difftext ) . ' ' .
+			// Space needed for separating two words.
+			Html::rawElement( 'span', [], $histlink )
+		);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function formatDateLink( $row ) {
+		if ( !$this->isFromExternalWiki( $row ) ) {
+			return parent::formatDateLink( $row );
+		}
+
+		if ( !$this->currentPage ) {
+			return '';
+		}
+
+		// Re-implemented from ChangesList::revDateLink so we can inject
+		// a foreign URL here instead of a local one. Don't check whether the
+		// user can see the revisions, since this would require a cross-wiki
+		// permission check. The user may see a permission error when clicking
+		// the link instead.
+		$ts = $row->{$this->revisionTimestampField};
+		$date = $this->getLanguage()->userTimeAndDate( $ts, $this->getAuthority()->getUser() );
+		$dateLink = $this->getLinkRenderer()->makeExternalLink(
+			wfAppendQuery(
+				WikiMap::getForeignURL(
+					$row->sourcewiki,
+					$row->{$this->pageTitleField}
+				),
+				[ 'oldid' => $row->{$this->revisionIdField} ]
+			),
+			$date,
+			$this->currentPage,
+			'',
+			[ 'class' => 'mw-changeslist-date' ]
+		);
+		return Html::rawElement( 'bdi', [ 'dir' => $this->getLanguage()->getDir() ], $dateLink );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function formatTopMarkText( $row, &$classes ) {
+		if ( !$this->isFromExternalWiki( $row ) ) {
+			return parent::formatTopMarkText( $row, $classes );
+		}
+
+		// PagerTools are omitted here because they require cross-wiki
+		// permission checks.
+		$topmarktext = '';
+		if ( $row->{$this->revisionIdField} === $row->page_latest ) {
+			$topmarktext .= '<span class="mw-uctop">' . $this->messages['uctop'] . '</span>';
+			$classes[] = 'mw-contributions-current';
+		}
+		return $topmarktext;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function formatComment( $row ) {
+		// Don't show comments for external revisions, since determining
+		// their visibility involves cross-wiki permission checks.
+		if ( !$this->isFromExternalWiki( $row ) ) {
+			return parent::formatComment( $row );
+		}
+
+		return '';
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function formatUserLink( $row ) {
+		if ( !$this->isFromExternalWiki( $row ) ) {
+			return parent::formatUserLink( $row );
+		}
+
+		$dir = $this->getLanguage()->getDir();
+
+		if ( $this->revisionUserIsDeleted( $row ) ) {
+			$userPageLink = $this->msg( 'empty-username' )->parse();
+			$userTalkLink = $this->msg( 'empty-username' )->parse();
+		} else {
+			$userTitle = Title::makeTitle( NS_USER, $row->{$this->userNameField} );
+			$userTalkTitle = Title::makeTitle( NS_USER_TALK, $row->{$this->userNameField} );
+
+			$classes = 'mw-userlink mw-extuserlink';
+			// Note that this checks the local temp user config, and assumes that
+			// the external wiki has compatible temp user config.
+			if ( $this->tempUserConfig->isTempName( $userTitle->getText() ) ) {
+				$classes .= ' mw-tempuserlink';
+			}
+
+			$userPageLink = $this->getLinkRenderer()->makeExternalLink(
+				WikiMap::getForeignURL(
+					$row->sourcewiki,
+					$userTitle->getPrefixedText()
+				),
+				$row->{$this->userNameField},
+				$userTitle,
+				'',
+				[ 'class' => $classes ]
+			);
+
+			$userTalkLink = $this->getLinkRenderer()->makeExternalLink(
+				WikiMap::getForeignURL(
+					$row->sourcewiki,
+					$userTalkTitle->getPrefixedText()
+				),
+				$this->msg( 'talkpagelinktext' ),
+				$userTalkTitle,
+				'',
+				[ 'class' => 'mw-usertoollinks-talk' ]
+			);
+		}
+
+		return ' <span class="mw-changeslist-separator"></span> '
+			. Html::rawElement( 'bdi', [ 'dir' => $dir ], $userPageLink ) . ' '
+			. $this->msg( 'parentheses' )->rawParams( $userTalkLink )->escaped() . ' ';
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function formatFlags( $row ) {
+		if ( !$this->isFromExternalWiki( $row ) ) {
+			return parent::formatFlags( $row );
+		}
+
+		// This is similar to ContributionsPager::formatFlags, but uses the
+		// row since the RevisionRecord is not available for external rows.
+		$flags = [];
+		if ( $row->{$this->revisionParentIdField} == 0 ) {
+			$flags[] = ChangesList::flag( 'newpage' );
+		}
+
+		if ( $row->{$this->revisionMinorField} ) {
+			$flags[] = ChangesList::flag( 'minor' );
+		}
+		return $flags;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function formatVisibilityLink( $row ) {
+		// Don't show visibility links if the row is for an external wiki, since
+		// determining their usability involves cross-wiki permission checks.
+		if ( !$this->isFromExternalWiki( $row ) ) {
+			return parent::formatVisibilityLink( $row );
+		}
+
+		return '';
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function formatTags( $row, &$classes ) {
+		// Note that for an external tag that is not translated on this wiki,
+		// the raw tag name will be displayed. This is because external tags
+		// are not supported by ChangeTags::formatSummaryRow.
+		return parent::formatTags( $row, $classes );
+	}
+
+	/**
+	 * Check whether the revision author is deleted. This re-implements
+	 * RevisionRecord::isDeleted, since the RevisionRecord is not
+	 * available for external rows.
+	 *
+	 * @param mixed $row
+	 * @return bool
+	 */
+	public function revisionUserIsDeleted( $row ) {
+		return ( $row->{$this->revisionDeletedField} & RevisionRecord::DELETED_USER ) ==
+			RevisionRecord::DELETED_USER;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function tryCreatingRevisionRecord( $row, $title = null ) {
+		if ( $this->isFromExternalWiki( $row ) ) {
+			// RevisionRecord doesn't fully support external revision rows.
+			return null;
+		}
+		return parent::tryCreatingRevisionRecord( $row, $title );
+	}
+
+	/**
+	 * Bool representing whether or not the revision comes from an external wiki
+	 *
+	 * @param mixed $row
+	 * @return bool
+	 */
+	protected function isFromExternalWiki( $row ) {
+		return isset( $row->sourcewiki ) &&
+			!WikiMap::isCurrentWikiDbDomain( $row->sourcewiki );
 	}
 }

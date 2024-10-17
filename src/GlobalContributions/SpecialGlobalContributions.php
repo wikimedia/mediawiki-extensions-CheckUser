@@ -174,7 +174,7 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 				'nsInvert' => $this->opts['nsInvert'],
 				'associated' => $this->opts['associated'],
 				'tagInvert' => $this->opts['tagInvert'],
-				'isGlobal' => true,
+				'revisionsOnly' => true,
 			];
 
 			$this->pager = $this->pagerFactory->createPager(
