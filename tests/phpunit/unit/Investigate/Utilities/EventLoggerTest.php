@@ -2,8 +2,8 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit\Investigate\Utilities;
 
-use ExtensionRegistry;
 use MediaWiki\CheckUser\Investigate\Utilities\EventLogger;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWikiUnitTestCase;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 

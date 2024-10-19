@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
-use ExtensionRegistry;
 use LogEntryBase;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Auth\Hook\AuthManagerLoginAuthenticateAuditHook;
@@ -16,13 +15,14 @@ use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Hook\EmailUserHook;
 use MediaWiki\Hook\UserLogoutCompleteHook;
 use MediaWiki\MainConfigNames;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\User\Hook\User__mailPasswordInternalHook;
 use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserRigorOptions;
-use ReadOnlyMode;
+use Wikimedia\Rdbms\ReadOnlyMode;
 
 /**
  * Hooks into several hook handlers to create private checkuser events when certain actions occur.

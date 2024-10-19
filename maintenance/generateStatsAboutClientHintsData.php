@@ -2,8 +2,8 @@
 
 namespace MediaWiki\CheckUser\Maintenance;
 
-use Maintenance;
 use MediaWiki\Json\FormatJson;
+use MediaWiki\Maintenance\Maintenance;
 use MediaWiki\WikiMap\WikiMap;
 
 $IP = getenv( 'MW_INSTALL_PATH' );

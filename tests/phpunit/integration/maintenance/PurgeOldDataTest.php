@@ -8,6 +8,7 @@ use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CheckUser\Tests\Integration\Maintenance\Mocks\SemiMockedCheckUserDataPurger;
 use MediaWiki\MainConfigNames;
+use MediaWiki\Maintenance\Maintenance;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use PurgeRecentChanges;
@@ -22,7 +23,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class PurgeOldDataTest extends MaintenanceBaseTestCase {
 
-	/** @var MockObject|\Maintenance */
+	/** @var MockObject|Maintenance */
 	protected $maintenance;
 
 	/** @inheritDoc */

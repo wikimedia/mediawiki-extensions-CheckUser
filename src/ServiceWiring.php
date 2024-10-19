@@ -33,6 +33,7 @@ use MediaWiki\Context\DerivativeContext;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\WikiMap\WikiMap;
 
 // PHP unit does not understand code coverage for this file
@@ -107,7 +108,7 @@ return [
 		return new PreliminaryCheckPagerFactory(
 			$services->getLinkRenderer(),
 			$services->getNamespaceInfo(),
-			\ExtensionRegistry::getInstance(),
+			ExtensionRegistry::getInstance(),
 			$services->get( 'CheckUserTokenQueryManager' ),
 			$services->get( 'CheckUserPreliminaryCheckService' ),
 			$services->getUserFactory()
@@ -186,7 +187,7 @@ return [
 		 MediaWikiServices $services
 	): EventLogger {
 		return new EventLogger(
-			\ExtensionRegistry::getInstance()
+			ExtensionRegistry::getInstance()
 		);
 	},
 	'CheckUserHookRunner' => static function (

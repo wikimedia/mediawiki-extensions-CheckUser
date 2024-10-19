@@ -2,12 +2,12 @@
 
 namespace MediaWiki\CheckUser\Tests;
 
-use ExtensionRegistry;
 use MediaWiki\Block\DatabaseBlockStoreFactory;
 use MediaWiki\CheckUser\Investigate\Pagers\PreliminaryCheckPager;
 use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\User\UserGroupManagerFactory;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\Rdbms\IConnectionProvider;

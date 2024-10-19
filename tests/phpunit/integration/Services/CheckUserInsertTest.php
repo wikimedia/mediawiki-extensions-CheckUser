@@ -4,12 +4,12 @@ namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use CannotCreateActorException;
 use DatabaseLogEntry;
-use Language;
 use LogEntryBase;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Language\Language;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;

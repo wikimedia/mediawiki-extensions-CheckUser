@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers;
 
-use ExtensionRegistry;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\ClientHints\ClientHintsLookupResults;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
@@ -13,6 +12,7 @@ use MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers\Mocks\MockTemplatePar
 use MediaWiki\Config\ConfigException;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\WikiMap\WikiMap;

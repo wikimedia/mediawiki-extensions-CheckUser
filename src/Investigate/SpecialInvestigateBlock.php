@@ -2,8 +2,8 @@
 
 namespace MediaWiki\CheckUser\Investigate;
 
-use ApiMain;
 use Exception;
+use MediaWiki\Api\ApiMain;
 use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\Block\BlockUserFactory;
 use MediaWiki\CheckUser\Investigate\Utilities\EventLogger;

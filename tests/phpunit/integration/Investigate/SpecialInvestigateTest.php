@@ -3,12 +3,12 @@
 namespace MediaWiki\CheckUser\Tests\Integration\Investigate;
 
 use CentralAuthTestUser;
-use ExtensionRegistry;
 use MediaWiki\CheckUser\Investigate\Pagers\PreliminaryCheckPagerFactory;
 use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\HookContainer\HookRunner;
 use MediaWiki\MainConfigNames;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Request\FauxResponse;
 use MediaWiki\Request\WebRequest;

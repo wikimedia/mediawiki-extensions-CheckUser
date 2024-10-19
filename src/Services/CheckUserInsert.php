@@ -3,7 +3,6 @@
 namespace MediaWiki\CheckUser\Services;
 
 use DatabaseLogEntry;
-use Language;
 use LogEntryBase;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Hook\HookRunner;
@@ -11,6 +10,7 @@ use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\HookContainer\HookContainer;
+use MediaWiki\Language\Language;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Request\WebRequest;
 use MediaWiki\User\ActorStore;

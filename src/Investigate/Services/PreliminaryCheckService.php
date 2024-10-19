@@ -2,8 +2,8 @@
 
 namespace MediaWiki\CheckUser\Investigate\Services;
 
-use ExtensionRegistry;
 use MediaWiki\Block\DatabaseBlockStoreFactory;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\User\User;
 use MediaWiki\User\UserGroupManagerFactory;
 use MediaWiki\User\UserIdentityValue;

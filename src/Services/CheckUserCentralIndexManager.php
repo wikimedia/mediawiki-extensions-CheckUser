@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser\Services;
 
-use IDBAccessObject;
 use Job;
 use JobQueueGroup;
 use JobSpecification;
@@ -16,6 +15,7 @@ use MediaWiki\User\UserIdentity;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Wikimedia\IPUtils;
+use Wikimedia\Rdbms\IDBAccessObject;
 use Wikimedia\Rdbms\ILoadBalancer;
 use Wikimedia\Rdbms\LBFactory;
 use Wikimedia\Timestamp\ConvertibleTimestamp;

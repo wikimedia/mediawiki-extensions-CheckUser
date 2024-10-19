@@ -2,14 +2,15 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Api;
 
-use ApiMain;
-use ApiQuery;
-use ApiQueryTokens;
 use ManualLogEntry;
+use MediaWiki\Api\ApiMain;
+use MediaWiki\Api\ApiQuery;
+use MediaWiki\Api\ApiQueryTokens;
 use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
 use MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserAbstractResponse;
 use MediaWiki\CheckUser\Services\ApiQueryCheckUserResponseFactory;
 use MediaWiki\CommentStore\CommentStoreComment;
+use MediaWiki\Content\WikitextContent;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\HookContainer\HookRunner;
 use MediaWiki\Permissions\Authority;
@@ -23,7 +24,6 @@ use MediaWiki\User\UserIdentityValue;
 use TestUser;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
-use WikitextContent;
 
 /**
  * @group API

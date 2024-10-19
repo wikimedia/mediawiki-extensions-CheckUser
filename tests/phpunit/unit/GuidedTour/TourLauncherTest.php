@@ -2,11 +2,11 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit\GuidedTour;
 
-use ExtensionRegistry;
 use MediaWiki\CheckUser\GuidedTour\TourLauncher;
 use MediaWiki\CheckUser\Investigate\SpecialInvestigate;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Linker\LinkTarget;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
 use MediaWikiUnitTestCase;
 

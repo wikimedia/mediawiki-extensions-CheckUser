@@ -3,7 +3,7 @@
 namespace MediaWiki\CheckUser\Maintenance;
 
 use DatabaseLogEntry;
-use LoggedUpdateMaintenance;
+use MediaWiki\Maintenance\LoggedUpdateMaintenance;
 use RecentChange;
 use Wikimedia\IPUtils;
 

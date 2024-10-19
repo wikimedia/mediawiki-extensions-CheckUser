@@ -3,7 +3,6 @@
 namespace MediaWiki\CheckUser\Investigate\Pagers;
 
 use HtmlArmor;
-use Language;
 use LogEventsList;
 use LogFormatter;
 use LogFormatterFactory;
@@ -13,6 +12,7 @@ use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Html\Html;
+use MediaWiki\Language\Language;
 use MediaWiki\Linker\Linker;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Message\Message;

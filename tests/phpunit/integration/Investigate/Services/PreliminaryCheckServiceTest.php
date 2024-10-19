@@ -2,9 +2,9 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Investigate\Services;
 
-use ExtensionRegistry;
 use MediaWiki\Block\DatabaseBlockStoreFactory;
 use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserGroupManagerFactory;
 use MediaWikiIntegrationTestCase;

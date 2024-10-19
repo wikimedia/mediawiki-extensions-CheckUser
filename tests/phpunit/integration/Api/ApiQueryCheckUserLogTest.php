@@ -2,8 +2,9 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Api;
 
-use ApiMain;
-use ApiQuery;
+use MediaWiki\Api\ApiMain;
+use MediaWiki\Api\ApiQuery;
+use MediaWiki\Api\ApiUsageException;
 use MediaWiki\CheckUser\Api\ApiQueryCheckUserLog;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\Deferred\DeferredUpdates;
@@ -34,7 +35,7 @@ class ApiQueryCheckUserLogTest extends ApiTestCase {
 	 * @param array|null $session
 	 * @param Authority|null $performer
 	 * @return array
-	 * @throws \ApiUsageException
+	 * @throws ApiUsageException
 	 */
 	public function doCheckUserLogApiRequest( array $params = [], array $session = null, Authority $performer = null ) {
 		if ( $performer === null ) {

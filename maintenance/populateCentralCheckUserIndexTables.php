@@ -2,9 +2,9 @@
 
 namespace MediaWiki\CheckUser\Maintenance;
 
-use LoggedUpdateMaintenance;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
+use MediaWiki\Maintenance\LoggedUpdateMaintenance;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 
 // @codeCoverageIgnoreStart

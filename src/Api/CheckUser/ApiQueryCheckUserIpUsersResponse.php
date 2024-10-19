@@ -2,7 +2,7 @@
 
 namespace MediaWiki\CheckUser\Api\CheckUser;
 
-use ApiResult;
+use MediaWiki\Api\ApiResult;
 use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;

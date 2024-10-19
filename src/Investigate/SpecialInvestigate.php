@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser\Investigate;
 
-use Language;
 use MediaWiki\CheckUser\GuidedTour\TourLauncher;
 use MediaWiki\CheckUser\Hook\CheckUserSubtitleLinksHook;
 use MediaWiki\CheckUser\HookHandler\Preferences;
@@ -17,6 +16,7 @@ use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Html\Html;
 use MediaWiki\HTMLForm\HTMLForm;
+use MediaWiki\Language\Language;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Message\Message;
 use MediaWiki\Parser\ParserOutput;

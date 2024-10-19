@@ -20,8 +20,8 @@
 
 namespace MediaWiki\CheckUser\Maintenance;
 
-use LoggedUpdateMaintenance;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
+use MediaWiki\Maintenance\LoggedUpdateMaintenance;
 use Psr\Log\NullLogger;
 use Wikimedia\Services\NoSuchServiceException;
 

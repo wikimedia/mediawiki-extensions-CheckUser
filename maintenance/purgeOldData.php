@@ -2,13 +2,13 @@
 
 namespace MediaWiki\CheckUser\Maintenance;
 
-use Maintenance;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
 use MediaWiki\CheckUser\Services\CheckUserDataPurger;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\MainConfigNames;
+use MediaWiki\Maintenance\Maintenance;
 use PurgeRecentChanges;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 

@@ -21,7 +21,6 @@
 
 namespace MediaWiki\CheckUser\Investigate\Pagers;
 
-use ExtensionRegistry;
 use MediaWiki\CheckUser\Investigate\Services\PreliminaryCheckService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\Context\IContextSource;
@@ -30,6 +29,7 @@ use MediaWiki\Extension\CentralAuth\CentralAuthServices;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Pager\TablePager;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\User\User;
