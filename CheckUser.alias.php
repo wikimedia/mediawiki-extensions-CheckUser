@@ -56,6 +56,10 @@ $specialPageAliases['ba'] = [
 $specialPageAliases['bn'] = [
 	'CheckUser' => [ 'ব্যবহারকারী_পরীক্ষণ' ],
 	'CheckUserLog' => [ 'ব্যবহারকারী_পরীক্ষণের_লগ' ],
+	'GlobalContributions' => [ 'বৈশ্বিক_অবদান' ],
+	'Investigate' => [ 'তদন্ত' ],
+	'InvestigateBlock' => [ 'তদন্ত_বাধাদান' ],
+	'IPContributions' => [ 'আইপির_অবদান', 'আইপি_অবদান' ],
 ];
 
 /** Bulgarian (български) */
