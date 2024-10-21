@@ -4,5 +4,7 @@
 			"Cabal"
 		]
 	},
+	"checkuser-query": "ਹਾਲ ਹੀ ਵਿੱਚ ਹੋਈਆਂ ਤਬਦੀਲੀਆਂ ਬਾਰੇ ਪੁੱਛਗਿੱਛ",
+	"checkuser-investigateblock": "ਵਰਤੋਂਕਾਰਾਂ 'ਤੇ ਪਾਬੰਦੀ ਲਾਓ",
 	"checkuser-investigate-tab-preliminary-check": "ਖਾਤਾ ਜਾਣਕਾਰੀ"
 }
