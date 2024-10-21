@@ -163,6 +163,9 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		// Use occurrences of data attribute in to determine how many rows,
 		// to test pager.
 		$this->assertSame( 3, substr_count( $html, 'data-mw-revid' ) );
+
+		// Assert the source wiki from the template is present
+		$this->assertStringContainsString( 'external mw-changeslist-sourcewiki', $html );
 	}
 
 	public function testExecuteErrorPreference() {
