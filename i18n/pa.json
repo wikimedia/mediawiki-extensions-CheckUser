@@ -12,5 +12,6 @@
 	"checkuser-global-contributions-permission-error-title": "ਮਨਜ਼ੂਰੀ ਦੀ ਗਲਤੀ",
 	"checkuser-global-contributions-subtitle": "ਪਿਛਲੇ $1 ਤੋਂ ਨਤੀਜੇ ਦਿਖਾ ਰਿਹਾ ਹੈ {{PLURAL:$1|ਦਿਨ}}।",
 	"checkuser-global-contributions-search-form-wrapper": "ਵਿਸ਼ਵ ਪੱਧਰੀ ਯੋਗਦਾਨਾਂ ਦੀ ਖੋਜ",
-	"checkuser-global-contributions-results-title": "$1 ਲਈ ਵਿਸ਼ਵ ਪੱਧਰੀ ਵਰਤੋਂਕਾਰ ਯੋਗਦਾਨ"
+	"checkuser-global-contributions-results-title": "$1 ਲਈ ਵਿਸ਼ਵ ਪੱਧਰੀ ਵਰਤੋਂਕਾਰ ਯੋਗਦਾਨ",
+	"log-action-filter-checkuser-temporary-account-change-access": "ਪਹੁੰਚ ਬਦਲੋ"
 }

@@ -282,7 +282,11 @@
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|geactiveerd}}",
 	"logentry-checkuser-temporary-account-view-ips": "$1 heeft de IP-adressen voor $3 {{GENDER:$2|ingezien}}",
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 {{GENDER:$2|heeft}} tijdelijke accounts op $3 bekeken",
+	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 {{GENDER:$2|heeft}} globaal de tijdelijke accounts op $3 bekeken",
 	"log-action-filter-checkuser-temporary-account": "Soort handeling:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Toegang wijzigen",
-	"log-action-filter-checkuser-temporary-account-view-ips": "Gegevens IP-adressen tijdelijk account inzien"
+	"log-action-filter-checkuser-temporary-account-view-ips": "Gegevens IP-adressen tijdelijk account inzien",
+	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 heeft {{GENDER:$2|zijn|haar|de}} eigen toegang tot het bekijken van beveiligde variabelen ingeschakeld",
+	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 heeft {{GENDER:$2|zijn|haar|de}} eigen toegang tot het bekijken van beveiligde variabelen uitgeschakeld",
+	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|heeft}} de met $3 geassocieerde beveiligde variabelen bekeken"
 }
