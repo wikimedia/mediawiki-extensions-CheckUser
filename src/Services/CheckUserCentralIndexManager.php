@@ -6,6 +6,7 @@ use Job;
 use JobQueueGroup;
 use JobSpecification;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
+use MediaWiki\CheckUser\Jobs\UpdateUserCentralIndexJob;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\TempUser\TempUserConfig;
@@ -241,7 +242,7 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 		// Modify the 'rootJobTimestamp' to be the timestamp we are submitting, as this will ensure that the
 		// newest timestamp will be processed out of a bunch of duplicate jobs.
 		$jobParams['rootJobTimestamp'] = $timestamp;
-		$this->jobQueueGroup->push( new JobSpecification( 'checkuserUpdateUserCentralIndexJob', $jobParams ) );
+		$this->jobQueueGroup->push( new JobSpecification( UpdateUserCentralIndexJob::TYPE, $jobParams ) );
 	}
 
 	/**

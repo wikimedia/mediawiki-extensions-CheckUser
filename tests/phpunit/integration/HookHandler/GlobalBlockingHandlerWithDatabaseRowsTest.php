@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 use ManualLogEntry;
 use MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
 use MediaWiki\CheckUser\HookHandler\GlobalBlockingHandler;
+use MediaWiki\CheckUser\Jobs\UpdateUserCentralIndexJob;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
@@ -148,7 +149,7 @@ class GlobalBlockingHandlerWithDatabaseRowsTest extends MediaWikiIntegrationTest
 		ConvertibleTimestamp::setFakeTime( '20230506070809' );
 		// Run jobs to cause inserts to the cuci_user and cuci_wiki_map tables
 		DeferredUpdates::doUpdates();
-		$this->runJobs();
+		$this->runJobs( [], [ 'type' => UpdateUserCentralIndexJob::TYPE ] );
 		self::$user = $user;
 		ConvertibleTimestamp::setFakeTime( false );
 	}

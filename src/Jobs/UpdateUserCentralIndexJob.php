@@ -15,12 +15,16 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  * main request / post-send.
  */
 class UpdateUserCentralIndexJob extends Job implements CheckUserQueryInterface {
+	/**
+	 * The type of this job, as registered in wgJobTypeConf.
+	 */
+	public const TYPE = 'checkuserUpdateUserCentralIndexJob';
 
 	private IConnectionProvider $dbProvider;
 
 	/** @inheritDoc */
 	public function __construct( ?Title $title, array $params, IConnectionProvider $dbProvider ) {
-		parent::__construct( 'checkuserUpdateUserCentralIndexJob', $params );
+		parent::__construct( self::TYPE, $params );
 		$this->dbProvider = $dbProvider;
 	}
 
