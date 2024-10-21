@@ -15,6 +15,7 @@ use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\Html\Html;
+use MediaWiki\Html\TemplateParser;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Pager\ContributionsPager;
 use MediaWiki\Revision\RevisionRecord;
@@ -97,6 +98,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		$this->checkUserLookupUtils = $checkUserLookupUtils;
 		$this->dbProvider = $dbProvider;
 		$this->jobQueueGroup = $jobQueueGroup;
+		$this->templateParser = new TemplateParser( __DIR__ . '/../../templates' );
 	}
 
 	/**
@@ -519,6 +521,43 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		// the raw tag name will be displayed. This is because external tags
 		// are not supported by ChangeTags::formatSummaryRow.
 		return parent::formatTags( $row, $classes );
+	}
+
+	/**
+	 * Format a link to the source wiki.
+	 *
+	 * @param mixed $row
+	 * @return string
+	 */
+	protected function formatSourceWiki( $row ) {
+		$link = $this->getLinkRenderer()->makeExternalLink(
+			WikiMap::getForeignURL(
+				$row->sourcewiki,
+				''
+			),
+			WikiMap::getWikiName( $row->sourcewiki ),
+			Title::newMainPage(),
+			'',
+			[ 'class' => 'mw-changeslist-sourcewiki' ],
+		);
+		return $link . ' <span class="mw-changeslist-separator"></span> ';
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getTemplateParams( $row, $classes ) {
+		$templateParams = parent::getTemplateParams( $row, $classes );
+		$sourceWiki = $this->formatSourceWiki( $row );
+		$templateParams['sourceWiki'] = $sourceWiki;
+		return $templateParams;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getProcessedTemplate( $templateParams ) {
+		return $this->templateParser->processTemplate( 'SpecialGlobalContributionsLine', $templateParams );
 	}
 
 	/**
