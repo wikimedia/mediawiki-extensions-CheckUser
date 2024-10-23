@@ -180,6 +180,10 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			}
 		}
 
+		if ( !( count( $activeWikis ) === count( $wikisToQuery ) ) ) {
+			$this->getOutput()->addWikiMsg( 'checkuser-global-contributions-ip-reveal-permissions-error' );
+		}
+
 		return $wikisToQuery;
 	}
 

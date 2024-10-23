@@ -298,6 +298,7 @@
 	"checkuser-global-contributions-target-error-no-ip-banner": "Text to display in an error banner when the [[Special:GlobalContributions]] form is submitted with a target that is not a valid IP address",
 	"checkuser-global-contributions-search-form-wrapper": "Legend for the search form on [[Special:GlobalContributions]]",
 	"checkuser-global-contributions-results-title": "Title of the search results page on [[Special:GlobalContributions]]\n\nParameters:\n* $1 - IP address that was searched for",
+	"checkuser-global-contributions-ip-reveal-permissions-error": "Error message shown when some results are missing from wikis where the user does not have the right to view IP addresses of temporary users",
 	"prefs-checkuser-tempaccount": "Header of the checkuser temp account options on Special:Preferences\n\nThis option enables the revealing of IP addresses for temporary accounts.",
 	"checkuser-tempaccount-enable-preference-description": "Text that is shown above the checkbox to enable the temporary account IP viewing feature. This is shown on Special:Preferences if the user has the necessary user right.",
 	"checkuser-tempaccount-enable-preference": "Description of the feature that can be enabled on Special:Preferences that is used for the label of the checkbox that enables the feature.",
