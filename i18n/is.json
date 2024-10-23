@@ -37,5 +37,12 @@
 	"checkuser-create-action": "var búið til",
 	"checkuser-reset-action": "endurstilla lykilorð fyrir notandann $1",
 	"logentry-checkuser-private-event-autocreate-account": "var sjálfkrafa búin til",
-	"logentry-checkuser-private-event-create-account": "var búið til"
+	"logentry-checkuser-private-event-create-account": "var búið til",
+	"prefs-checkuser-tempaccount": "Sýna vistföng tímabundra aðganga",
+	"checkuser-tempaccount-enable-preference": "Virkja að sýna vistföng fyrir tímabundna aðganga",
+	"checkuser-tempaccount-no-ip-results": "Engar vistfangs upplýsingar fyrir þennan tímabundna aðgang {{PLURAL:$1|síðasta $1 dag|síðustu $1 daga}}",
+	"checkuser-tempaccount-reveal-ip-button-label": "Sýna vistfang",
+	"checkuser-tempaccount-reveal-ip-missing": "óáfáanlegt",
+	"checkuser-tempaccount-reveal-ip-error": "villa",
+	"checkuser-tempaccount-specialblock-ips": "Þetta er tímabundinn aðgangur sem notar eftirfarandi {{PLURAL:$1|vistfang|vistföng}}: $2"
 }

@@ -6,5 +6,7 @@
 	},
 	"checkuser-query": "ਹਾਲ ਹੀ ਵਿੱਚ ਹੋਈਆਂ ਤਬਦੀਲੀਆਂ ਬਾਰੇ ਪੁੱਛਗਿੱਛ",
 	"checkuser-helper-user": "ਵਰਤੋਂਕਾਰ",
-	"checkuser-investigate-tab-preliminary-check": "ਖਾਤਾ ਜਾਣਕਾਰੀ"
+	"checkuser-investigateblock": "ਵਰਤੋਂਕਾਰਾਂ 'ਤੇ ਪਾਬੰਦੀ ਲਾਓ",
+	"checkuser-investigate-tab-preliminary-check": "ਖਾਤਾ ਜਾਣਕਾਰੀ",
+	"log-action-filter-checkuser-temporary-account-change-access": "ਪਹੁੰਚ ਬਦਲੋ"
 }
