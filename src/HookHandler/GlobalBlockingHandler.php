@@ -8,6 +8,7 @@ use MediaWiki\Extension\GlobalBlocking\Hooks\GlobalBlockingGetRetroactiveAutoblo
 use MediaWiki\User\ActorStoreFactory;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\UserIdentity;
+use MediaWiki\User\UserIdentityValue;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\SelectQueryBuilder;
@@ -143,11 +144,13 @@ class GlobalBlockingHandler implements GlobalBlockingGetRetroactiveAutoblockIPsH
 			$columnPrefix = self::RESULT_TABLE_TO_PREFIX[$table];
 			// Get $limit IP addresses in descending order of their last use by this target from each CheckUser
 			// result table.
+			$wikiIDForGetIdCall = $this->dbProvider->getReplicaDatabase()->getDomainID() === $wikiID ?
+				UserIdentityValue::LOCAL : $wikiID;
 			$ipsSubQuery = $localDbr->newSelectQueryBuilder()
 				->select( [ 'ip' => $columnPrefix . 'ip', 'timestamp' => "MAX({$columnPrefix}timestamp)" ] )
 				->from( $table )
 				->join( 'actor', null, "actor_id = {$columnPrefix}actor" )
-				->where( [ 'actor_user' => $localUser->getId() ] )
+				->where( [ 'actor_user' => $localUser->getId( $wikiIDForGetIdCall ) ] )
 				->groupBy( $columnPrefix . 'ip' )
 				->orderBy( 'timestamp', SelectQueryBuilder::SORT_DESC );
 
