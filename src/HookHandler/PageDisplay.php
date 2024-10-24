@@ -90,7 +90,7 @@ class PageDisplay implements BeforePageDisplayHook, BeforeInitializeHook {
 			$globalContributionsCentralWikiId !== WikiMap::getCurrentWikiId() ) {
 			$url = WikiMap::getForeignURL(
 				$globalContributionsCentralWikiId,
-				'Special:GlobalContributions',
+				$title->getPrefixedText(),
 			);
 			$queryValues = $output->getRequest()->getQueryValuesOnly();
 			// Don't duplicate the title, as we have this already from ::getForeignURL above
