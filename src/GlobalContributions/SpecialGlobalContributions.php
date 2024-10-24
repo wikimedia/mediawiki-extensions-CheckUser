@@ -3,8 +3,8 @@
 namespace MediaWiki\CheckUser\GlobalContributions;
 
 use ErrorPageError;
+use GlobalPreferences\GlobalPreferencesFactory;
 use MediaWiki\Block\DatabaseBlockStore;
-use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\SpecialPage\ContributionsSpecialPage;
@@ -29,8 +29,8 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 
 	use ContributionsRangeTrait;
 
+	private GlobalPreferencesFactory $globalPreferencesFactory;
 	private GlobalContributionsPagerFactory $pagerFactory;
-	private CheckUserPermissionManager $checkUserPermissionsManager;
 
 	private ?GlobalContributionsPager $pager = null;
 
@@ -44,8 +44,8 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 		UserFactory $userFactory,
 		UserIdentityLookup $userIdentityLookup,
 		DatabaseBlockStore $blockStore,
-		GlobalContributionsPagerFactory $pagerFactory,
-		CheckUserPermissionManager $checkUserPermissionsManager
+		GlobalPreferencesFactory $globalPreferencesFactory,
+		GlobalContributionsPagerFactory $pagerFactory
 	) {
 		parent::__construct(
 			$permissionManager,
@@ -59,8 +59,8 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 			$blockStore,
 			'GlobalContributions'
 		);
+		$this->globalPreferencesFactory = $globalPreferencesFactory;
 		$this->pagerFactory = $pagerFactory;
-		$this->checkUserPermissionsManager = $checkUserPermissionsManager;
 	}
 
 	/**
@@ -107,29 +107,50 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 	 * @inheritDoc
 	 */
 	public function execute( $par ) {
-		// These checks are the same as in AbstractTemporaryAccountHandler.
-		$permStatus = $this->checkUserPermissionsManager->canAccessTemporaryAccountIPAddresses(
-			$this->getAuthority()
-		);
-		if ( !$permStatus->isGood() ) {
-			if ( $permStatus->hasMessage( 'checkuser-tempaccount-reveal-ip-permission-error-description' ) ) {
+		// We don't use the CheckUserPermissionManager here, because we would need to check all of
+		// these conditions again to know whether the global preference is needed and accepted.
+		if (
+			!$this->permissionManager->userHasRight(
+				$this->getAuthority()->getUser(),
+				'checkuser-temporary-account-no-preference'
+			)
+		) {
+			// The user must have the 'checkuser-temporary-account' right.
+			if (
+				!$this->permissionManager->userHasRight(
+					$this->getAuthority()->getUser(),
+					'checkuser-temporary-account'
+				)
+			) {
+				throw new PermissionsError( 'checkuser-temporary-account' );
+			}
+
+			// The user must also have enabled the global preference.
+			$globalPreferences = $this->globalPreferencesFactory->getGlobalPreferencesValues(
+				$this->getAuthority()->getUser(),
+				// Load from the database, not the cache, since we're using it for access.
+				true
+			);
+			if (
+				!$globalPreferences ||
+				!isset( $globalPreferences['checkuser-temporary-account-enable'] ) ||
+				!$globalPreferences['checkuser-temporary-account-enable']
+			) {
 				throw new ErrorPageError(
 					$this->msg( 'checkuser-global-contributions-permission-error-title' ),
 					$this->msg( 'checkuser-global-contributions-permission-error-description' )
 				);
 			}
+		}
 
-			$block = $permStatus->getBlock();
-			if ( $block ) {
-				throw new UserBlockedError(
-					$block,
-					$this->getAuthority()->getUser(),
-					$this->getLanguage(),
-					$this->getRequest()->getIP()
-				);
-			}
-
-			throw new PermissionsError( $permStatus->getPermission() );
+		$block = $this->getAuthority()->getBlock();
+		if ( $block ) {
+			throw new UserBlockedError(
+				$block,
+				$this->getAuthority()->getUser(),
+				$this->getLanguage(),
+				$this->getRequest()->getIP()
+			);
 		}
 
 		parent::execute( $par );
