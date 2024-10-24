@@ -233,7 +233,7 @@
 	"checkuser-investigate-tour-block-desc": "Giver dig mulighed for at vælge de brugere, du vil blokere, og derefter fører dig til blokeringsformularen for at vælge den relevante blok.",
 	"checkuser-investigate-tour-copywikitext-title": "Vil du kopiere dataene?",
 	"checkuser-investigate-tour-copywikitext-desc": "Kopier sammenligningstabellen med et enkelt klik og tag den til CUWiki. Bemærk, at du kun kopierer det synlige og ikke alle siderne i undersøgelsen.",
-	"prefs-checkuser-tempaccount": "Midlertidig konto IP afsløre",
+	"prefs-checkuser-tempaccount": "Vise IP-adresser for midlertidig konto",
 	"checkuser-tempaccount-enable-preference": "Aktiver afsløring af IP-adresser for midlertidige konti",
 	"checkuser-tempaccount-no-ip-results": "Ingen IP-data for denne midlertidige bruger for de sidste $1 {{PLURAL:$1|dag|dage}}",
 	"checkuser-tempaccount-reveal-ip-button-label": "Vis IP",
