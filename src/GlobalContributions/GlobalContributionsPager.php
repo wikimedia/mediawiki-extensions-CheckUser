@@ -546,7 +546,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	/**
 	 * @inheritDoc
 	 */
-	public function getTemplateParams( $row, $classes ) {
+	public function getTemplateParams( $row, &$classes ) {
 		$templateParams = parent::getTemplateParams( $row, $classes );
 		$sourceWiki = $this->formatSourceWiki( $row );
 		$templateParams['sourceWiki'] = $sourceWiki;
