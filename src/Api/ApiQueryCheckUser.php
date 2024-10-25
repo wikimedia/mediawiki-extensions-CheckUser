@@ -18,12 +18,11 @@ class ApiQueryCheckUser extends ApiQueryBase {
 
 	private ApiQueryCheckUserResponseFactory $responseFactory;
 
-	/**
-	 * @param ApiQuery $query
-	 * @param string $moduleName
-	 * @param ApiQueryCheckUserResponseFactory $responseFactory
-	 */
-	public function __construct( $query, $moduleName, ApiQueryCheckUserResponseFactory $responseFactory ) {
+	public function __construct(
+		ApiQuery $query,
+		string $moduleName,
+		ApiQueryCheckUserResponseFactory $responseFactory
+	) {
 		parent::__construct( $query, $moduleName, 'cu' );
 		$this->responseFactory = $responseFactory;
 	}
