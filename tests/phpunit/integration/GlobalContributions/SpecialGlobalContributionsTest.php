@@ -142,7 +142,6 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 			'Valid IP' => [ '127.0.0.1', 2 ],
 			'Valid IP without contributions' => [ '127.0.0.5', 0 ],
 			'Valid range' => [ '127.0.0.1/24', 3 ],
-			'Range too wide' => [ '127.0.0.1/1', 0 ],
 			'Temp user' => [ '~2024-1', 0 ],
 			'Nonexistent user' => [ 'Nonexistent', 0 ],
 		];
@@ -166,6 +165,18 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 
 		// Assert the source wiki from the template is present
 		$this->assertStringContainsString( 'external mw-changeslist-sourcewiki', $html );
+	}
+
+	public function testExecuteWideRange() {
+		[ $html ] = $this->executeSpecialPage(
+			'127.0.0.1/1',
+			null,
+			null,
+			self::$checkuser
+		);
+
+		$this->assertStringNotContainsString( 'mw-pager-body', $html );
+		$this->assertStringContainsString( 'sp-contributions-outofrange', $html );
 	}
 
 	public function testExecuteErrorPreference() {
