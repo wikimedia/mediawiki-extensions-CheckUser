@@ -20,15 +20,9 @@ class ApiQueryCheckUserLog extends ApiQueryBase {
 	private CheckUserLogService $checkUserLogService;
 	private UserFactory $userFactory;
 
-	/**
-	 * @param ApiQuery $query
-	 * @param string $moduleName
-	 * @param CommentStore $commentStore
-	 * @param CheckUserLogService $checkUserLogService
-	 * @param UserFactory $userFactory
-	 */
 	public function __construct(
-		$query, $moduleName,
+		ApiQuery $query,
+		string $moduleName,
 		CommentStore $commentStore,
 		CheckUserLogService $checkUserLogService,
 		UserFactory $userFactory
