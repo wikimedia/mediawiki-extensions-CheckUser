@@ -467,7 +467,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			$userPageLink = $this->getLinkRenderer()->makeExternalLink(
 				$this->getForeignURL(
 					$row->sourcewiki,
-					$userTitle->getPrefixedText()
+					'Special:Contributions/' . $row->{$this->userNameField}
 				),
 				$row->{$this->userNameField},
 				$userTitle,

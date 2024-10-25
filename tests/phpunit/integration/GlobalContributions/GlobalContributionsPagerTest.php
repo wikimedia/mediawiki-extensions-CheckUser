@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\GlobalContributions;
 
+use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPager;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Title\Title;
 use MediaWiki\User\UserIdentityValue;
@@ -163,14 +164,39 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			'rev_user_text' => '~2024-123',
 			'rev_deleted' => $userIsDeleted ? '4' : '8'
 		] );
-		$pager = $this->getWrappedPager( '127.0.0.1', $row->page_title );
+
+		$services = $this->getServiceContainer();
+		$pager = $this->getMockBuilder( GlobalContributionsPager::class )
+			->onlyMethods( [ 'getForeignUrl' ] )
+			->setConstructorArgs( [
+				$services->getLinkRenderer(),
+				$services->getLinkBatchFactory(),
+				$services->getHookContainer(),
+				$services->getRevisionStore(),
+				$services->getNamespaceInfo(),
+				$services->getCommentFormatter(),
+				$services->getUserFactory(),
+				$services->getTempUserConfig(),
+				$services->get( 'CheckUserLookupUtils' ),
+				$services->getDBLoadBalancerFactory(),
+				$services->getJobQueueGroup(),
+				RequestContext::getMain(),
+				[ 'revisionsOnly' => true ],
+				new UserIdentityValue( 0, '127.0.0.1' )
+			] )
+			->getMock();
+		$pager->expects( $this->any() )
+			->method( 'getForeignUrl' )
+			->willReturnArgument( 1 );
+		$pager = TestingAccessWrapper::newFromObject( $pager );
+		$pager->currentPage = Title::makeTitle( 0, $row->page_title );
 
 		$formatted = $pager->formatUserLink( $row );
 		if ( $userIsDeleted ) {
 			$this->assertStringContainsString( 'empty-username', $formatted );
 			$this->assertStringNotContainsString( '~2024-123', $formatted );
 		} else {
-			$this->assertStringContainsString( '~2024-123', $formatted );
+			$this->assertStringContainsString( 'Special:Contributions/~2024-123', $formatted );
 			$this->assertStringNotContainsString( 'empty-username', $formatted );
 		}
 	}
