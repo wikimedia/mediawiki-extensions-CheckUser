@@ -42,7 +42,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				'CheckUserGlobalContributionsCentralWikiId' => false,
 			] ),
 			$this->createMock( PermissionManager::class ),
-			$this->createMock( UserOptionsLookup::class )
+			$this->createMock( UserOptionsLookup::class ),
 		);
 		$output = $this->createMock( OutputPage::class );
 		$request = new FauxRequest();
@@ -63,15 +63,18 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				'CheckUserGlobalContributionsCentralWikiId' => 'metawiki',
 			] ),
 			$this->createMock( PermissionManager::class ),
-			$this->createMock( UserOptionsLookup::class )
+			$this->createMock( UserOptionsLookup::class ),
 		);
 		$title = SpecialPage::getTitleFor( 'GlobalContributions' );
+
 		$output = $this->createMock( OutputPage::class );
 		$output->method( 'getTitle' )->willReturn( $title );
 		$request = new FauxRequest( [ 'target' => '127.0.0.1', 'title' => 'Special:GlobalContributions' ] );
 		$output->method( 'getRequest' )->willReturn( $request );
+
 		$output->expects( $this->once() )->method( 'redirect' )
 			->with( 'https://meta.example.org/wiki/Special:GlobalContributions?target=127.0.0.1' );
+
 		$pageDisplayHook->onBeforeInitialize(
 			$title,
 			null,

@@ -14,11 +14,6 @@ class PageDisplay implements BeforePageDisplayHook, BeforeInitializeHook {
 	private PermissionManager $permissionManager;
 	protected UserOptionsLookup $userOptionsLookup;
 
-	/**
-	 * @param Config $config
-	 * @param PermissionManager $permissionManager
-	 * @param UserOptionsLookup $userOptionsLookup
-	 */
 	public function __construct(
 		Config $config,
 		PermissionManager $permissionManager,
@@ -88,9 +83,20 @@ class PageDisplay implements BeforePageDisplayHook, BeforeInitializeHook {
 		if ( $globalContributionsCentralWikiId &&
 			$output->getTitle()->isSpecial( 'GlobalContributions' ) &&
 			$globalContributionsCentralWikiId !== WikiMap::getCurrentWikiId() ) {
+			// Note: Use the canonical (English) name for the namespace and page
+			// since non-English aliases would likely not be recognized by the central wiki.
+			$page = "Special:GlobalContributions";
+			$slashPos = strpos( $title->getText(), '/' );
+			if ( $slashPos !== false ) {
+				$page .= substr(
+					$title->getText(),
+					$slashPos
+				);
+			}
+
 			$url = WikiMap::getForeignURL(
 				$globalContributionsCentralWikiId,
-				$title->getPrefixedText(),
+				$page,
 			);
 			$queryValues = $output->getRequest()->getQueryValuesOnly();
 			// Don't duplicate the title, as we have this already from ::getForeignURL above
