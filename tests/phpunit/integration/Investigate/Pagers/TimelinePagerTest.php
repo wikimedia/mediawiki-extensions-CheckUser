@@ -7,10 +7,10 @@ use MediaWiki\CheckUser\Investigate\Pagers\TimelinePager;
 use MediaWiki\CheckUser\Investigate\Pagers\TimelineRowFormatter;
 use MediaWiki\CheckUser\Investigate\Services\TimelineService;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
+use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Pager\IndexPager;
-use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use TestUser;
@@ -26,7 +26,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 
-	use TempUserTestTrait;
+	use CheckUserTempUserTestTrait;
 
 	private function getObjectUnderTest( array $overrides = [] ) {
 		return TestingAccessWrapper::newFromObject( new TimelinePager(

@@ -10,11 +10,11 @@ use MediaWiki\CheckUser\EncryptedData;
 use MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Message\Message;
-use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\Rdbms\IExpression;
@@ -28,7 +28,7 @@ use Wikimedia\Rdbms\LikeValue;
 class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 
 	use CheckUserCommonTraitTest;
-	use TempUserTestTrait;
+	use CheckUserTempUserTestTrait;
 
 	private function getObjectUnderTest(): CheckUserPrivateEventsHandler {
 		return new CheckUserPrivateEventsHandler(

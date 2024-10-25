@@ -3,9 +3,9 @@
 namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use MediaWiki\CheckUser\Services\CheckUserLogService;
+use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\Tests\Unit\Libs\Rdbms\AddQuoterMock;
-use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
@@ -22,7 +22,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class CheckUserLogServiceTest extends MediaWikiIntegrationTestCase {
 
-	use TempUserTestTrait;
+	use CheckUserTempUserTestTrait;
 
 	protected function setUpObject(): CheckUserLogService {
 		return $this->getServiceContainer()->get( 'CheckUserLogService' );

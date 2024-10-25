@@ -4,13 +4,13 @@ namespace MediaWiki\CheckUser\Tests\Integration\Api\Rest\Handler;
 
 use JobQueueGroup;
 use MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountIPHandler;
+use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\RequestData;
 use MediaWiki\Tests\Rest\Handler\HandlerTestTrait;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
-use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityValue;
@@ -29,7 +29,7 @@ class TemporaryAccountIPHandlerTest extends MediaWikiIntegrationTestCase {
 
 	use HandlerTestTrait;
 	use MockServiceDependenciesTrait;
-	use TempUserTestTrait;
+	use CheckUserTempUserTestTrait;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -50,20 +50,40 @@ class TemporaryAccountIPHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->setService( 'PermissionManager', $permissionManager );
 
 		$users = [
-			'~2024-1' => [ 'isHidden' => false ],
-			'~2024-2' => [ 'isHidden' => false ],
-			'~2024-20' => [ 'isHidden' => false ],
-			'~2024-3' => [ 'isHidden' => false ],
-			'~2024-30' => [ 'isHidden' => true ],
+			'~check-user-test-2024-1' => [ 'isHidden' => false ],
+			'~check-user-test-2024-2' => [ 'isHidden' => false ],
+			'~check-user-test-2024-20' => [ 'isHidden' => false ],
+			'~check-user-test-2024-3' => [ 'isHidden' => false ],
+			'~check-user-test-2024-30' => [ 'isHidden' => true ],
 		];
 		$userFactory = $this->createMock( UserFactory::class );
 		$userFactory->method( 'newFromName' )
 			->willReturnMap( [
-				[ '~2024-1', UserFactory::RIGOR_VALID, $this->createActor( $users[ '~2024-1' ] ) ],
-				[ '~2024-2', UserFactory::RIGOR_VALID, $this->createActor( $users[ '~2024-2' ] ) ],
-				[ '~2024-20', UserFactory::RIGOR_VALID, $this->createActor( $users[ '~2024-20' ] ) ],
-				[ '~2024-3', UserFactory::RIGOR_VALID, $this->createActor( $users[ '~2024-3' ] ) ],
-				[ '~2024-30', UserFactory::RIGOR_VALID, $this->createActor( $users[ '~2024-30' ] ) ],
+				[
+					'~check-user-test-2024-1',
+					UserFactory::RIGOR_VALID,
+					$this->createActor( $users[ '~check-user-test-2024-1' ] )
+				],
+				[
+					'~check-user-test-2024-2',
+					UserFactory::RIGOR_VALID,
+					$this->createActor( $users[ '~check-user-test-2024-2' ] )
+				],
+				[
+					'~check-user-test-2024-20',
+					UserFactory::RIGOR_VALID,
+					$this->createActor( $users[ '~check-user-test-2024-20' ] )
+				],
+				[
+					'~check-user-test-2024-3',
+					UserFactory::RIGOR_VALID,
+					$this->createActor( $users[ '~check-user-test-2024-3' ] )
+				],
+				[
+					'~check-user-test-2024-30',
+					UserFactory::RIGOR_VALID,
+					$this->createActor( $users[ '~check-user-test-2024-30' ] )
+				],
 			] );
 		$this->setService( 'UserFactory', $userFactory );
 
@@ -157,7 +177,7 @@ class TemporaryAccountIPHandlerTest extends MediaWikiIntegrationTestCase {
 			],
 			'One temporary account' => [
 				[
-					'~2024-1',
+					'~check-user-test-2024-1',
 				],
 				[
 					'ip' => '1.2.3.1',
@@ -165,8 +185,8 @@ class TemporaryAccountIPHandlerTest extends MediaWikiIntegrationTestCase {
 			],
 			'Two temporary accounts' => [
 				[
-					'~2024-20',
-					'~2024-2',
+					'~check-user-test-2024-20',
+					'~check-user-test-2024-2',
 				],
 				[
 					'ip' => '1.2.3.2',
@@ -174,8 +194,8 @@ class TemporaryAccountIPHandlerTest extends MediaWikiIntegrationTestCase {
 			],
 			'Hidden temporary account with view permission' => [
 				[
-					'~2024-30',
-					'~2024-3',
+					'~check-user-test-2024-30',
+					'~check-user-test-2024-3',
 				],
 				[
 					'ip' => '1.2.3.3',
@@ -183,7 +203,7 @@ class TemporaryAccountIPHandlerTest extends MediaWikiIntegrationTestCase {
 			],
 			'Hidden temporary account without view permission' => [
 				[
-					'~2024-3',
+					'~check-user-test-2024-3',
 				],
 				[
 					'ip' => '1.2.3.3',
@@ -217,7 +237,7 @@ class TemporaryAccountIPHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testWhenTemporaryAccountsNotKnown() {
-		$this->disableAutoCreateTempUser();
+		$this->disableAutoCreateTempUser( [ 'known' => false ] );
 		$this->expectExceptionObject( new LocalizedHttpException( new MessageValue( 'rest-no-match' ), 404 ) );
 
 		$this->executeHandlerAndGetBodyData(
@@ -300,27 +320,27 @@ class TemporaryAccountIPHandlerTest extends MediaWikiIntegrationTestCase {
 			[
 				'actor_id' => 1,
 				'actor_user' => 1,
-				'actor_name' => '~2024-1'
+				'actor_name' => '~check-user-test-2024-1'
 			],
 			[
 				'actor_id' => 2,
 				'actor_user' => 2,
-				'actor_name' => '~2024-2'
+				'actor_name' => '~check-user-test-2024-2'
 			],
 			[
 				'actor_id' => 20,
 				'actor_user' => 20,
-				'actor_name' => '~2024-20'
+				'actor_name' => '~check-user-test-2024-20'
 			],
 			[
 				'actor_id' => 3,
 				'actor_user' => 3,
-				'actor_name' => '~2024-3'
+				'actor_name' => '~check-user-test-2024-3'
 			],
 			[
 				'actor_id' => 30,
 				'actor_user' => 30,
-				'actor_name' => '~2024-30'
+				'actor_name' => '~check-user-test-2024-30'
 			]
 		];
 		$this->getDb()->newInsertQueryBuilder()

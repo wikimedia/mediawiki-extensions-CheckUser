@@ -3,13 +3,13 @@
 namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
 use MediaWiki\CheckUser\HookHandler\ToolLinksHandler;
+use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Output\OutputPage;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\SpecialPage\SpecialPage;
-use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\Title\Title;
 use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\User;
@@ -25,7 +25,7 @@ use MobileContext;
  * @covers \MediaWiki\CheckUser\HookHandler\ToolLinksHandler
  */
 class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
-	use TempUserTestTrait;
+	use CheckUserTempUserTestTrait;
 
 	/** @dataProvider provideOnUserToolLinksEditForValidSpecialPage */
 	public function testOnUserToolLinksEditForValidSpecialPage( string $requestTitle, array $expectedItems ) {
@@ -99,7 +99,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		if ( $tempAccountsEnabled ) {
 			$this->enableAutoCreateTempUser();
 		} else {
-			$this->disableAutoCreateTempUser();
+			$this->disableAutoCreateTempUser( [ 'known' => false ] );
 		}
 
 		$user = $this->createMock( User::class );
