@@ -260,6 +260,19 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	}
 
 	/**
+	 * Wrapper method for testing. See documentation for WikiMap::getForeignURL.
+	 *
+	 * @param string $wikiID
+	 * @param string $page
+	 * @param string|null $fragmentId
+	 *
+	 * @return string|false
+	 */
+	protected function getForeignURL( $wikiID, $page, $fragmentId = null ) {
+		return WikiMap::getForeignURL( $wikiID, $page, $fragmentId );
+	}
+
+	/**
 	 * @inheritDoc
 	 */
 	protected function populateAttributes( $row, &$attributes ) {
@@ -282,7 +295,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 
 		$dir = $this->getLanguage()->getDir();
 		$link = $this->getLinkRenderer()->makeExternalLink(
-			WikiMap::getForeignURL(
+			$this->getForeignURL(
 				$row->sourcewiki,
 				$row->{$this->pageTitleField}
 			),
@@ -315,7 +328,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		if ( $row->{$this->revisionParentIdField} != 0 ) {
 			$difftext = $this->getLinkRenderer()->makeExternalLink(
 				wfAppendQuery(
-					WikiMap::getForeignURL(
+					$this->getForeignURL(
 						$row->sourcewiki,
 						$row->{$this->pageTitleField}
 					),
@@ -337,7 +350,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 
 		$histlink = $this->getLinkRenderer()->makeExternalLink(
 			wfAppendQuery(
-				WikiMap::getForeignURL(
+				$this->getForeignURL(
 					$row->sourcewiki,
 					$row->{$this->pageTitleField}
 				),
@@ -382,7 +395,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		$date = $this->getLanguage()->userTimeAndDate( $ts, $this->getAuthority()->getUser() );
 		$dateLink = $this->getLinkRenderer()->makeExternalLink(
 			wfAppendQuery(
-				WikiMap::getForeignURL(
+				$this->getForeignURL(
 					$row->sourcewiki,
 					$row->{$this->pageTitleField}
 				),
@@ -452,7 +465,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			}
 
 			$userPageLink = $this->getLinkRenderer()->makeExternalLink(
-				WikiMap::getForeignURL(
+				$this->getForeignURL(
 					$row->sourcewiki,
 					$userTitle->getPrefixedText()
 				),
@@ -463,7 +476,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			);
 
 			$userTalkLink = $this->getLinkRenderer()->makeExternalLink(
-				WikiMap::getForeignURL(
+				$this->getForeignURL(
 					$row->sourcewiki,
 					$userTalkTitle->getPrefixedText()
 				),
@@ -531,7 +544,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	 */
 	protected function formatSourceWiki( $row ) {
 		$link = $this->getLinkRenderer()->makeExternalLink(
-			WikiMap::getForeignURL(
+			$this->getForeignURL(
 				$row->sourcewiki,
 				''
 			),
