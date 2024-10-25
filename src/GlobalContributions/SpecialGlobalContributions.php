@@ -166,6 +166,13 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 	/**
 	 * @inheritDoc
 	 */
+	protected function modifyFields( &$fields ) {
+		$fields['namespace']['include'] = $this->namespaceInfo->getCommonNamespaces();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function getPager( $target ) {
 		if ( $this->pager === null ) {
 			$options = [
