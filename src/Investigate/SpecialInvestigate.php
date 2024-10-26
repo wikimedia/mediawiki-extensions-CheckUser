@@ -792,7 +792,7 @@ class SpecialInvestigate extends FormSpecialPage {
 
 		$token = $this->getUpdatedToken( $update );
 
-		if ( isset( $this->par ) && $this->par !== '' ) {
+		if ( $this->par !== null && $this->par !== '' ) {
 			// Redirect to the same subpage with an updated token.
 			$url = $this->getRedirectUrl( [
 				'token' => $token,
