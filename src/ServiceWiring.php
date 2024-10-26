@@ -1,5 +1,6 @@
 <?php
 
+use MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPagerFactory;
 use MediaWiki\CheckUser\GuidedTour\TourLauncher;
 use MediaWiki\CheckUser\Hook\HookRunner;
@@ -179,8 +180,21 @@ return [
 			$services->getUserFactory(),
 			$services->getTempUserConfig(),
 			$services->get( 'CheckUserLookupUtils' ),
+			$services->get( 'CheckUserApiRequestAggregator' ),
 			$services->getDBLoadBalancerFactory(),
 			$services->getJobQueueGroup()
+		);
+	},
+	'CheckUserApiRequestAggregator' => static function (
+		 MediaWikiServices $services
+	): CheckUserApiRequestAggregator {
+		$config = $services->getMainConfig();
+		return new CheckUserApiRequestAggregator(
+			$services->getHttpRequestFactory(),
+			$services->getCentralIdLookup(),
+			$services->getExtensionRegistry(),
+			$services->getSiteLookup(),
+			LoggerFactory::getInstance( 'CheckUser' )
 		);
 	},
 	'CheckUserEventLogger' => static function (
