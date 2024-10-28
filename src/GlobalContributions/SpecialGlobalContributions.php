@@ -139,11 +139,7 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 		parent::execute( $par );
 
 		$target = $this->opts['target'] ?? null;
-		if (
-			$target &&
-			!$this->lookupUtils->isValidIPOrRange( $target ) &&
-			!IPUtils::isIPAddress( $target )
-		) {
+		if ( $target && !IPUtils::isIPAddress( $target ) ) {
 			$this->getOutput()->setSubtitle(
 				new MessageWidget( [
 					'type' => 'error',
@@ -152,6 +148,11 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 					)
 				] )
 			);
+		} elseif ( $target && !$this->lookupUtils->isValidIPOrRange( $target ) ) {
+			// Valid range, but outside CIDR limit.
+			$limits = $this->getConfig()->get( 'CheckUserCIDRLimit' );
+			$limit = $limits[ IPUtils::isIPv4( $target ) ? 'IPv4' : 'IPv6' ];
+			$this->getOutput()->addWikiMsg( 'sp-contributions-outofrange', $limit );
 		} else {
 			$this->getOutput()->addJsConfigVars( 'wgIPRangeTarget', $target );
 		}
