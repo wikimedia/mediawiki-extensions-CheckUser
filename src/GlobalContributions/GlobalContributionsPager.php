@@ -286,9 +286,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				$row->sourcewiki,
 				$row->{$this->pageTitleField}
 			),
-			// The page is only used for its title and namespace,
-			// so this is safe.
-			$this->currentPage->getPrefixedText(),
+			$this->currentPage->getText(),
 			$this->currentPage,
 			'',
 			[ 'class' => 'mw-contributions-title' ],
