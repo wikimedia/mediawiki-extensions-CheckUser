@@ -59,8 +59,8 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 		UserFactory $userFactory,
 		CheckUserLookupUtils $checkUserLookupUtils,
 		UserOptionsLookup $userOptionsLookup,
-		IContextSource $context = null,
-		LinkRenderer $linkRenderer = null,
+		?IContextSource $context = null,
+		?LinkRenderer $linkRenderer = null,
 		?int $limit = null
 	) {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager, $userGroupManager, $centralIdLookup,

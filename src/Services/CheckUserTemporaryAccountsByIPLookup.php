@@ -75,7 +75,7 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 	 * @return StatusValue A good status will have a list of account names or empty list if none were found;
 	 *  a bad status will have the relevant permission error encountered
 	 */
-	public function get( string $ip, Authority $authority, bool $shouldLog = true, int $limit = null ): StatusValue {
+	public function get( string $ip, Authority $authority, bool $shouldLog = true, ?int $limit = null ): StatusValue {
 		// TODO: Use a trait for permissions, to avoid duplication with
 		// AbstractTemporaryAccountHandler::checkPermissions
 		$status = $this->checkPermissions( $authority );

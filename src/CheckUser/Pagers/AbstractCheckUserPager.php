@@ -129,8 +129,8 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		UserFactory $userFactory,
 		CheckUserLookupUtils $checkUserLookupUtils,
 		UserOptionsLookup $userOptionsLookup,
-		IContextSource $context = null,
-		LinkRenderer $linkRenderer = null,
+		?IContextSource $context = null,
+		?LinkRenderer $linkRenderer = null,
 		?int $limit = null
 	) {
 		$this->opts = $opts;

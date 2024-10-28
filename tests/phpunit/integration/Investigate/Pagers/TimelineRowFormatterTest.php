@@ -21,7 +21,7 @@ use MediaWikiIntegrationTestCase;
  */
 class TimelineRowFormatterTest extends MediaWikiIntegrationTestCase {
 
-	private function getObjectUnderTest( User $user = null ): TimelineRowFormatter {
+	private function getObjectUnderTest( ?User $user = null ): TimelineRowFormatter {
 		// Generate a testing user if no user was defined
 		$user ??= $this->getTestUser()->getUser();
 		return $this->getServiceContainer()->get( 'CheckUserTimelineRowFormatterFactory' )
