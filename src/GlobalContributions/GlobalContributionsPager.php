@@ -155,10 +155,21 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 
 		foreach ( $wikisToQuery as $wikiId ) {
 			$dbr = $this->dbProvider->getReplicaDatabase( $wikiId );
+			$wikiConds = $conds;
+			if ( !WikiMap::isCurrentWikiDbDomain( $wikiId ) ) {
+				// Filter out results with hidden authors from external wikis, until we can check external
+				// permissions (T378156).
+				$wikiConds[] = $dbr->bitAnd(
+					$this->revisionDeletedField, RevisionRecord::DELETED_USER
+				) . ' = 0';
+				$wikiConds[] = $dbr->bitAnd(
+					$this->revisionDeletedField, RevisionRecord::SUPPRESSED_USER
+				) . ' != ' . RevisionRecord::SUPPRESSED_USER;
+			}
 			$resultSet = $dbr->newSelectQueryBuilder()
 				->rawTables( $tables )
 				->fields( $fields )
-				->conds( $conds )
+				->conds( $wikiConds )
 				->caller( $fname )
 				->options( $options )
 				->joinConds( $join_conds )
