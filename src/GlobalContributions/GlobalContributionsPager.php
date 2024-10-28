@@ -310,9 +310,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				$row->sourcewiki,
 				'Special:PermanentLink/' . $row->rev_id
 			),
-			// The page is only used for its title and namespace,
-			// so this is safe.
-			$this->currentPage->getPrefixedText(),
+			$this->currentPage->getText(),
 			$this->currentPage,
 			'',
 			[ 'class' => 'mw-contributions-title' ],
