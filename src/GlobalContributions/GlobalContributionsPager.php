@@ -308,7 +308,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		$link = $this->getLinkRenderer()->makeExternalLink(
 			$this->getForeignURL(
 				$row->sourcewiki,
-				'Special:PermanentLink/' . $row->rev_id
+				'Special:Redirect/page/' . $row->rev_page
 			),
 			$this->currentPage->getText(),
 			$this->currentPage,
