@@ -113,8 +113,8 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		UserAgentClientHintsLookup $clientHintsLookup,
 		UserAgentClientHintsFormatter $clientHintsFormatter,
 		UserOptionsLookup $userOptionsLookup,
-		IContextSource $context = null,
-		LinkRenderer $linkRenderer = null,
+		?IContextSource $context = null,
+		?LinkRenderer $linkRenderer = null,
 		?int $limit = null
 	) {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager,

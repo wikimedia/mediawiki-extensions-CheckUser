@@ -65,8 +65,8 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 	 * @inheritDoc
 	 */
 	public function doApiRequestWithToken(
-		array $params, array $session = null,
-		Authority $performer = null, $tokenType = 'csrf', $paramPrefix = null
+		array $params, ?array $session = null,
+		?Authority $performer = null, $tokenType = 'csrf', $paramPrefix = null
 	) {
 		// From ApiTestCase::doApiRequest() but modified
 		$session = RequestContext::getMain()->getRequest()->getSessionArray();
@@ -97,7 +97,7 @@ class ApiQueryCheckUserTest extends ApiTestCase {
 		return parent::doApiRequestWithToken( $params, $session, $performer, null, $paramPrefix );
 	}
 
-	public function doCheckUserApiRequest( array $params = [], array $session = null, Authority $performer = null ) {
+	public function doCheckUserApiRequest( array $params = [], ?array $session = null, ?Authority $performer = null ) {
 		return $this->doApiRequestWithToken( self::INITIAL_API_PARAMS + $params, $session, $performer );
 	}
 
