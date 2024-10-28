@@ -4,12 +4,12 @@ namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
+use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Extension\AbuseFilter\AbuseFilterServices;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Request\FauxRequest;
-use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\User;
 use MediaWiki\User\UserIdentity;
@@ -25,7 +25,7 @@ use Wikimedia\IPUtils;
  */
 class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 
-	use TempUserTestTrait;
+	use CheckUserTempUserTestTrait;
 
 	private static int $enwikiMapId;
 	private static int $dewikiMapId;
