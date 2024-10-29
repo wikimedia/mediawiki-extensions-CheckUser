@@ -140,7 +140,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				'action' => 'query',
 				'prop' => 'info',
 				'intestactions' => 'checkuser-temporary-account|checkuser-temporary-account-no-preference' .
-					'|deletedhistory|suppressrevision|viewsuppressed',
+					'|deletedtext|deletedhistory|suppressrevision|viewsuppressed',
 				// We need to check against a title, but it doesn't actually matter if the title exists
 				'titles' => 'Test Title',
 				// Using `full` level checks blocks as well
@@ -393,11 +393,10 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			return '';
 		}
 
-		// Format the diff link. Don't check whether the user can see
-		// the revisions, since this would require a cross-wiki permission
-		// check. The user may see a permission error when clicking the
-		// link instead.
-		if ( $row->{$this->revisionParentIdField} != 0 ) {
+		if (
+			$row->{$this->revisionParentIdField} != 0 &&
+			$this->userCanSeeExternalRevision( $row )
+		) {
 			$difftext = $this->getLinkRenderer()->makeExternalLink(
 				wfAppendQuery(
 					$this->getForeignURL(
@@ -459,26 +458,46 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		}
 
 		// Re-implemented from ChangesList::revDateLink so we can inject
-		// a foreign URL here instead of a local one. Don't check whether the
-		// user can see the revisions, since this would require a cross-wiki
-		// permission check. The user may see a permission error when clicking
-		// the link instead.
+		// a foreign URL here instead of a local one.
 		$ts = $row->{$this->revisionTimestampField};
+		$time = $this->getLanguage()->userTime( $ts, $this->getAuthority()->getUser() );
 		$date = $this->getLanguage()->userTimeAndDate( $ts, $this->getAuthority()->getUser() );
-		$dateLink = $this->getLinkRenderer()->makeExternalLink(
-			wfAppendQuery(
-				$this->getForeignURL(
-					$row->sourcewiki,
-					$row->{$this->pageTitleField}
+		$class = 'mw-changeslist-date';
+		if ( $this->userCanSeeExternalRevision( $row ) ) {
+			$dateLink = $this->getLinkRenderer()->makeExternalLink(
+				wfAppendQuery(
+					$this->getForeignURL(
+						$row->sourcewiki,
+						$row->{$this->pageTitleField}
+					),
+					[ 'oldid' => $row->{$this->revisionIdField} ]
 				),
-				[ 'oldid' => $row->{$this->revisionIdField} ]
-			),
-			$date,
-			$this->currentPage,
-			'',
-			[ 'class' => 'mw-changeslist-date' ]
-		);
-		return Html::rawElement( 'bdi', [ 'dir' => $this->getLanguage()->getDir() ], $dateLink );
+				$date,
+				$this->currentPage,
+				'',
+				[ 'class' => $class ]
+			);
+			$dateLink = Html::rawElement( 'bdi', [ 'dir' => $this->getLanguage()->getDir() ], $dateLink );
+		} else {
+			$dateLink = htmlspecialchars( $date );
+		}
+
+		if ( $this->externalRevisionIsDeleted( $row ) ) {
+			// Logic from Linker::getRevisionDeletedClass
+			$class .= ' history-deleted';
+			if ( (bool)( $row->{$this->revisionDeletedField} & RevisionRecord::DELETED_RESTRICTED ) ) {
+				$class .= ' mw-history-suppressed';
+			}
+			$dateLink = Html::rawElement(
+				'span',
+				[ 'class' => $class ],
+				$dateLink
+			);
+		}
+
+		return Html::element( 'span', [
+			'class' => 'mw-changeslist-time'
+		], $time ) . $dateLink;
 	}
 
 	/**
@@ -692,5 +711,24 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		return isset( $this->permissions[$wikiId] ) &&
 			isset( $this->permissions[$wikiId][$right] ) &&
 			count( $this->permissions[$wikiId][$right] ) === 0;
+	}
+
+	/**
+	 * @param mixed $row
+	 * @return bool
+	 */
+	private function externalRevisionIsDeleted( $row ) {
+		return (bool)( $row->{$this->revisionDeletedField} & RevisionRecord::DELETED_TEXT );
+	}
+
+	/**
+	 * @param mixed $row
+	 * @return bool
+	 */
+	private function userCanSeeExternalRevision( $row ) {
+		if ( !$this->externalRevisionIsDeleted( $row ) ) {
+			return true;
+		}
+		return $this->userHasExternalPermission( 'deletedtext', $row->sourcewiki );
 	}
 }
