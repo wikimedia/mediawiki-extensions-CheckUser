@@ -6,13 +6,13 @@ use JobQueueGroup;
 use LogPage;
 use ManualLogEntry;
 use MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountLogHandler;
+use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Rest\RequestData;
 use MediaWiki\Tests\Rest\Handler\HandlerTestTrait;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
-use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\UserIdentityValue;
@@ -30,7 +30,7 @@ use Wikimedia\TestingAccessWrapper;
  */
 class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 
-	use TempUserTestTrait;
+	use CheckUserTempUserTestTrait;
 	use MockAuthorityTrait;
 	use HandlerTestTrait;
 

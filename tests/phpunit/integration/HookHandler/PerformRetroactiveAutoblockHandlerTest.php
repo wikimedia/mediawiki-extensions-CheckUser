@@ -6,8 +6,8 @@ use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Hooks;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
-use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWikiIntegrationTestCase;
 use RecentChange;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
@@ -19,7 +19,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class PerformRetroactiveAutoblockHandlerTest extends MediaWikiIntegrationTestCase implements CheckUserQueryInterface {
 
-	use TempUserTestTrait;
+	use CheckUserTempUserTestTrait;
 	use CheckUserCommonTraitTest;
 
 	/**

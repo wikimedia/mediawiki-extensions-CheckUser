@@ -4,9 +4,9 @@ namespace MediaWiki\CheckUser\Tests\Integration\GlobalContributions;
 
 use ErrorPageError;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
+use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Request\FauxRequest;
-use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 use PermissionsError;
@@ -24,7 +24,7 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 
-	use TempUserTestTrait;
+	use CheckUserTempUserTestTrait;
 
 	private static User $disallowedUser;
 	private static User $checkuser;
@@ -61,10 +61,10 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 
 		$temp1 = $this->getServiceContainer()
 			->getTempUserCreator()
-			->create( '~2024-01', new FauxRequest() )->getUser();
+			->create( '~check-user-test-2024-01', new FauxRequest() )->getUser();
 		$temp2 = $this->getServiceContainer()
 			->getTempUserCreator()
-			->create( '~2024-02', new FauxRequest() )->getUser();
+			->create( '~check-user-test-2024-02', new FauxRequest() )->getUser();
 
 		// Named user and 2 temp users edit from the first IP
 		RequestContext::getMain()->getRequest()->setIP( '127.0.0.1' );
@@ -142,7 +142,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 			'Valid IP' => [ '127.0.0.1', 2 ],
 			'Valid IP without contributions' => [ '127.0.0.5', 0 ],
 			'Valid range' => [ '127.0.0.1/24', 3 ],
-			'Temp user' => [ '~2024-1', 0 ],
+			'Temp user' => [ '~check-user-test-2024-1', 0 ],
 			'Nonexistent user' => [ 'Nonexistent', 0 ],
 		];
 	}
