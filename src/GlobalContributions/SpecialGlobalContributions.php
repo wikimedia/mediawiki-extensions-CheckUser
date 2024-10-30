@@ -89,6 +89,8 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 				}
 				return true;
 			},
+			'excludenamed' => true,
+			'excludetemp' => true,
 			'ipallowed' => true,
 			'iprange' => true,
 			'iprangelimits' => $this->lookupUtils->getRangeLimit(),
