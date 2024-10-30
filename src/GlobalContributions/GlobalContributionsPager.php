@@ -466,12 +466,8 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			$userTitle = Title::makeTitle( NS_USER, $row->{$this->userNameField} );
 			$userTalkTitle = Title::makeTitle( NS_USER_TALK, $row->{$this->userNameField} );
 
-			$classes = 'mw-userlink mw-extuserlink';
-			// Note that this checks the local temp user config, and assumes that
-			// the external wiki has compatible temp user config.
-			if ( $this->tempUserConfig->isTempName( $userTitle->getText() ) ) {
-				$classes .= ' mw-tempuserlink';
-			}
+			// All contributions are from temporary users
+			$classes = 'mw-userlink mw-extuserlink mw-tempuserlink';
 
 			$userPageLink = $this->getLinkRenderer()->makeExternalLink(
 				$this->getForeignURL(
