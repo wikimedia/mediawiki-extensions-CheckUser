@@ -27,7 +27,7 @@
 	"checkuser": "사용자 검사",
 	"checkuserlog": "사용자 검사 기록",
 	"checkuser-contribs": "사용자 IP를 확인",
-	"checkuser-contribs-log": "최근 사용자 검사",
+	"checkuser-contribs-log": "사용자 검사",
 	"group-checkuser": "검사관",
 	"group-checkuser-member": "{{GENDER:$1|검사관}}",
 	"group-checkuser-temporary-account-viewer": "임시 계정 IP 뷰어",

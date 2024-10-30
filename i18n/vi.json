@@ -7,7 +7,8 @@
 			"NguyenHung",
 			"Nguyenphutrong2",
 			"Nguyễn Mạnh An",
-			"Vinhtantran"
+			"Vinhtantran",
+			"Băng Tỏa"
 		]
 	},
 	"checkuser-summary": "Công cụ này sẽ quét các thay đổi gần đây để lấy ra các IP được một thành viên sử dụng hoặc hiển thị dữ liệu sửa đổi/tài khoản của một IP. Các tài khoản và sửa đổi của một IP có thể được trích ra từ tiêu đề XFF bằng cách thêm vào IP “/xff”. IPv4 (CIDR $1-32) và IPv6 (CIDR $2-128) đều được hỗ trợ. Không quá 5000 sửa đổi sẽ được trả về vì lý do hiệu suất. Hãy dùng công cụ này theo đúng quy định.",

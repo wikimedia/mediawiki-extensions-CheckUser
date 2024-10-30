@@ -4,7 +4,8 @@
 			"Afalau",
 			"Dreamy Jazz",
 			"Lloffiwr",
-			"Robin Owain"
+			"Robin Owain",
+			"Ceirios"
 		]
 	},
 	"checkuser-summary": "Mae'r teclyn hwn yn sganio newidiadau diweddar i nôl cyfeiriadau IP a ddefnyddir gan ddefnyddiwr, neu i ddangos data golygu/defnyddiwr am gyfeiriad IP penodol.\nGellid nôl defnyddwyr a golygiadau gan gyfeiriad IP cleient trwy bennynau XFF wrth bennu'r cyfeiriad IP gydag \"/xff\". Cefnogir IPv4 (CIDR $1-32) a IPv6 (CIDR $2-128).\nNi ellir nôl mwy na $3 o olygiadau am resymau perfformiad.\nDefnyddiwch hwn yn unol â'n polisi.",

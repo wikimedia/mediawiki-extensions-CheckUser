@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Bencemac",
-			"Wolf Rex"
+			"Wolf Rex",
+			"Dj"
 		]
 	},
 	"apihelp-query+checkuser-summary": "A megadott felhasználónév által használt IP-címek vagy egy megadott IP-cím által használt felhasználónevek ellenőrzése.",

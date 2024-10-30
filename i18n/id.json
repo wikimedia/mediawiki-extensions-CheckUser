@@ -19,7 +19,9 @@
 			"Rachmat.Wahidi",
 			"Rachmat04",
 			"Rex",
-			"Veracious"
+			"Veracious",
+			"Leapofod",
+			"Rebeccayoga"
 		]
 	},
 	"checkuser-summary": "Peralatan ini memindai perubahan terbaru untuk mengetahui IP seorang pengguna atau menampilkan data suntingan/pengguna untuk suatu IP.\nPengguna dan suntingan suatu IP dapat diketahui melalui kepala XFF dengan menambahkan \"/xff\" pada IP tersebut. Alat ini mendukung baik IPv4 (CIDR $1-32) maupun IPv6 (CIDR $2-128).\nKarena alasan kinerja, maksimum hanya 5000 suntingan yang dapat diambil.\nHarap gunakan peralatan ini sesuai dengan kebijakan yang ada.",

@@ -19,7 +19,8 @@
 			"Sayginer",
 			"Suelnur",
 			"Vito Genovese",
-			"Ömer Berkay"
+			"Ömer Berkay",
+			"Evrifaessa"
 		]
 	},
 	"checkuser-summary": "Bu araç bir kullanıcı tarafından kullanılan IP'leri almak için son değişiklikleri tarar ya da bir IP için değişiklik/kullanıcı verisini gösterir.\nAlıcı IP'deki kullanıcı ve değişiklikler, IP'ye \"/xff\" eklenmesiyle XFF başlıklarıyla alınabilir. IPv4 (CIDR $1-32) ve IPv6 (CIDR $2-128) desteklenmektedir.\nPerformans nedenleriyle $3 düzenlemeden fazla geri almayacaktır.",

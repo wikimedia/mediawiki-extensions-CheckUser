@@ -5,16 +5,13 @@
 			"Liangent"
 		]
 	},
-	"checkuser-summary": "In abzor taƣjiroti oxirro baroi ba dast ovardani nişonahoi internetī IP  istifoda şuda tavassuti jak korbar jo ta'jini viroişhoi ancom şuda tariqi jak nişonai internetī IP, çustuçū mekunad.\nKorbaron va viroişhoi jak nişonai internetiji IP-ro metavon bo tavaççūh ba ittiloot sar ojand tariqi XFF bo afzudan nişonai internetī IP bo \"/xff\" pajdo kard. Har du protokol IPv4 (CIDR $1-32) va IPv6 (CIDR $2-128) tavassuti in abzor puştibonī meşavand.\nNa beş az 5000 viroiş bo dalelhoi zudkorī bargardonida xohand şud. Bo muvofiqi sijosat va qoidaho inro istoda kuned.",
 	"checkuser-desc": "Ba korbaron ixtijoroti lozimiro baroi barrasiji nişonahoi internetī IP korbaron va ittilooti digar, içozat medihad",
 	"checkuser": "Bozrasiji korbar",
 	"checkuserlog": "BozrasiKorbar guzoriş",
 	"group-checkuser": "Bozrasiji korbaron",
-	"group-checkuser-member": "Bozrasiji korbar",
 	"right-checkuser": "Barrasi kardani nişonai IP va digar ittilooti korbar",
 	"grouppage-checkuser": "{{ns:project}}:Bozrasiji korbar",
 	"checkuser-reason": "Sabab:",
-	"checkuser-showlog": "Namoişi guzoriş",
 	"checkuser-query": "Çustuçūi taƣjiroti oxir",
 	"checkuser-users": "Fehrist kardani korbaron",
 	"checkuser-edits": "Namoişi viroişhoi marbut ba in nişonai IP",
@@ -36,9 +33,7 @@
 	"checkuser-blocktag": "Çojguzin kardani sahifahoi korbaron bo:",
 	"checkuser-blocktag-talk": "Çojguzin kardani sahifahoi bahs bo:",
 	"checkuser-block-limit": "Te'dodi beş az şumorai korbaron intixob şudaand.",
-	"checkuser-search": "Çustuçū",
 	"checkuser-search-submit": "Çustuçū",
-	"checkuser-showmain": "Bozgaşt ba formi asliji bozrasiji korbar",
 	"checkuser-autocreate-action": "ba tavri xudkor eçod şuda bud",
 	"checkuser-email-action": "poctai elektronī ba korbar \"$1\" firistoda şud",
 	"logentry-checkuser-private-event-autocreate-account": "ba tavri xudkor eçod şuda bud"
