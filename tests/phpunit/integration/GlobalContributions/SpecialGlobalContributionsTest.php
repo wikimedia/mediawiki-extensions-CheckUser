@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\GlobalContributions;
 use ErrorPageError;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\MainConfigNames;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\Title\Title;
@@ -165,6 +166,29 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 
 		// Assert the source wiki from the template is present
 		$this->assertStringContainsString( 'external mw-changeslist-sourcewiki', $html );
+	}
+
+	public function testNamespaceRestriction() {
+		// Add unique namespaces to the wiki
+		$this->overrideConfigValue( MainConfigNames::ExtraNamespaces, [
+			3000 => 'Foo',
+			3001 => 'Foo_talk'
+		] );
+
+		// Assert that the namespace exists on-wiki
+		$this->assertContains(
+			"Foo_talk",
+			$this->getServiceContainer()->getNamespaceInfo()->getCanonicalNamespaces()
+		);
+
+		// Assert that the namespace is not an available filter
+		[ $html ] = $this->executeSpecialPage(
+			'',
+			null,
+			null,
+			self::$checkuser
+		);
+		$this->assertStringNotContainsString( 'Foo talk', $html );
 	}
 
 	public function testExecuteWideRange() {
