@@ -8,7 +8,8 @@
 			"Jon Harald Søby",
 			"Laaknor",
 			"McDutchie",
-			"Nghtwlkr"
+			"Nghtwlkr",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Dette verktøyet går gjennom siste endringer for å hente IP-ene som er brukt av en bruker, eller viser redigerings- eller brukerinformasjonen for en IP.\n\nBrukere og redigeringer kan hentes med en XFF-IP ved å legge til «/xff» bak IP-en. IPv4 (CIDR $1-32) og IPv6 (CIDR $2-128) støttes.\n\nAv ytelsesgrunner vises maksimalt $3 {{PLURAL:$3|redigering|redigeringer}}. Bruk dette verktøyet i samsvar med retningslinjene.",
