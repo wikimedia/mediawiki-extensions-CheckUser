@@ -78,6 +78,11 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 		return true;
 	}
 
+	/** @inheritDoc */
+	public function isIncludable() {
+		return false;
+	}
+
 	/**
 	 * @inheritDoc
 	 */
