@@ -134,10 +134,21 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 			'Empty target' => [ '', 0 ],
 			'Valid IP' => [ '127.0.0.1', 2 ],
 			'Valid range' => [ '127.0.0.1/24', 3 ],
-			'Range too wide' => [ '127.0.0.1/1', 0 ],
 			'Temp user' => [ '~check-user-test-2024-1', 0 ],
 			'Nonexistent user' => [ 'Nonexistent', 0 ],
 		];
+	}
+
+	public function testExecuteWideRange() {
+		[ $html ] = $this->executeSpecialPage(
+			'127.0.0.1/1',
+			null,
+			null,
+			self::$checkuser
+		);
+
+		$this->assertStringNotContainsString( 'mw-pager-body', $html );
+		$this->assertStringContainsString( 'sp-contributions-outofrange', $html );
 	}
 
 	public function testExecuteNotIP() {
