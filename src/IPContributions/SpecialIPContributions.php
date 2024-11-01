@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\IPContributions;
 use ErrorPageError;
 use MediaWiki\Block\DatabaseBlockStore;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
+use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\ContributionsSpecialPage;
 use MediaWiki\Title\NamespaceInfo;
@@ -28,20 +29,8 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 	private CheckUserLookupUtils $lookupUtils;
 	private IPContributionsPagerFactory $pagerFactory;
 	private ?IPContributionsPager $pager = null;
+	private CheckUserPermissionManager $checkUserPermissionManager;
 
-	/**
-	 * @param PermissionManager $permissionManager
-	 * @param IConnectionProvider $dbProvider
-	 * @param NamespaceInfo $namespaceInfo
-	 * @param UserNameUtils $userNameUtils
-	 * @param UserNamePrefixSearch $userNamePrefixSearch
-	 * @param UserOptionsLookup $userOptionsLookup
-	 * @param UserFactory $userFactory
-	 * @param UserIdentityLookup $userIdentityLookup
-	 * @param DatabaseBlockStore $blockStore
-	 * @param CheckUserLookupUtils $lookupUtils
-	 * @param IPContributionsPagerFactory $pagerFactory
-	 */
 	public function __construct(
 		PermissionManager $permissionManager,
 		IConnectionProvider $dbProvider,
@@ -53,7 +42,8 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 		UserIdentityLookup $userIdentityLookup,
 		DatabaseBlockStore $blockStore,
 		CheckUserLookupUtils $lookupUtils,
-		IPContributionsPagerFactory $pagerFactory
+		IPContributionsPagerFactory $pagerFactory,
+		CheckUserPermissionManager $checkUserPermissionManager
 	) {
 		parent::__construct(
 			$permissionManager,
@@ -69,6 +59,7 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 		);
 		$this->lookupUtils = $lookupUtils;
 		$this->pagerFactory = $pagerFactory;
+		$this->checkUserPermissionManager = $checkUserPermissionManager;
 	}
 
 	/**
@@ -114,34 +105,28 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 	 */
 	public function execute( $par ) {
 		// These checks are the same as in AbstractTemporaryAccountHandler.
-		if (
-			!$this->permissionManager->userHasRight(
-				$this->getAuthority()->getUser(),
-				'checkuser-temporary-account-no-preference'
-			)
-		) {
-			// The user must have the 'checkuser-temporary-account' right.
-			if (
-				!$this->permissionManager->userHasRight(
-					$this->getAuthority()->getUser(),
-					'checkuser-temporary-account'
-				)
-			) {
-				throw new PermissionsError( 'checkuser-temporary-account' );
-			}
-
-			// The user must also have enabled the preference.
-			if (
-				!$this->userOptionsLookup->getOption(
-					$this->getAuthority()->getUser(),
-					'checkuser-temporary-account-enable'
-				)
-			) {
+		$permStatus = $this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses(
+			$this->getAuthority()
+		);
+		if ( !$permStatus->isGood() ) {
+			if ( $permStatus->hasMessage( 'checkuser-tempaccount-reveal-ip-permission-error-description' ) ) {
 				throw new ErrorPageError(
 					$this->msg( 'checkuser-ip-contributions-permission-error-title' ),
 					$this->msg( 'checkuser-ip-contributions-permission-error-description' )
 				);
 			}
+
+			$block = $permStatus->getBlock();
+			if ( $block ) {
+				throw new UserBlockedError(
+					$block,
+					$this->getAuthority()->getUser(),
+					$this->getLanguage(),
+					$this->getRequest()->getIP()
+				);
+			}
+
+			throw new PermissionsError( $permStatus->getPermission() );
 		}
 
 		$isArchive = $this->isArchive();
@@ -152,16 +137,6 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 
 		if ( $isArchive && !$canSeeDeletedHistory ) {
 			throw new PermissionsError( 'deletedhistory' );
-		}
-
-		$block = $this->getAuthority()->getBlock();
-		if ( $block ) {
-			throw new UserBlockedError(
-				$block,
-				$this->getAuthority()->getUser(),
-				$this->getLanguage(),
-				$this->getRequest()->getIP()
-			);
 		}
 
 		// Add to the $opts array now, so that parent::getForm() can add this as a

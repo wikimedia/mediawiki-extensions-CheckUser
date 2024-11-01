@@ -41,6 +41,7 @@ class SpecialPageInitListHandler implements SpecialPage_initListHook {
 					'DatabaseBlockStore',
 					'CheckUserLookupUtils',
 					'CheckUserIPContributionsPagerFactory',
+					'CheckUserPermissionManager',
 				],
 			];
 			$list['GlobalContributions'] = [
@@ -56,7 +57,8 @@ class SpecialPageInitListHandler implements SpecialPage_initListHook {
 					"UserIdentityLookup",
 					"DatabaseBlockStore",
 					"CheckUserLookupUtils",
-					"CheckUserGlobalContributionsPagerFactory"
+					"CheckUserGlobalContributionsPagerFactory",
+					"CheckUserPermissionManager",
 				],
 			];
 		}

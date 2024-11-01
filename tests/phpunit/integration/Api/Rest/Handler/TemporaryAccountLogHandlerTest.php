@@ -6,6 +6,8 @@ use JobQueueGroup;
 use LogPage;
 use ManualLogEntry;
 use MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountLogHandler;
+use MediaWiki\CheckUser\CheckUserPermissionStatus;
+use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Permissions\PermissionManager;
@@ -14,7 +16,6 @@ use MediaWiki\Rest\RequestData;
 use MediaWiki\Tests\Rest\Handler\HandlerTestTrait;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\User\ActorStore;
-use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserNameUtils;
 use MediaWikiIntegrationTestCase;
@@ -46,10 +47,6 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 		$permissionManager->method( 'userHasRight' )
 			->willReturn( true );
 
-		$userOptionsLookup = $this->createMock( UserOptionsLookup::class );
-		$userOptionsLookup->method( 'getOption' )
-			->willReturn( true );
-
 		$userNameUtils = $this->createMock( UserNameUtils::class );
 		$userNameUtils->method( 'isTemp' )
 			->willReturn( true );
@@ -60,6 +57,10 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 		$actorStore->method( 'getUserIdentityByName' )
 			->willReturn( new UserIdentityValue( 1234, '*Unregistered 1' ) );
 
+		$checkUserPermissionManager = $this->createMock( CheckUserPermissionManager::class );
+		$checkUserPermissionManager->method( 'canAccessTemporaryAccountIPAddresses' )
+			->willReturn( CheckUserPermissionStatus::newGood() );
+
 		// Mock ::performLogsLookup to avoid DB lookups when these tests do not create entries
 		// in the logging table.
 		return $this->getMockBuilder( TemporaryAccountLogHandler::class )
@@ -69,11 +70,11 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 					'config' => $this->getServiceContainer()->getMainConfig(),
 					'jobQueueGroup' => $this->createMock( JobQueueGroup::class ),
 					'permissionManager' => $permissionManager,
-					'userOptionsLookup' => $userOptionsLookup,
 					'userNameUtils' => $userNameUtils,
 					'dbProvider' => $this->getServiceContainer()->getDBLoadBalancerFactory(),
 					'actorStore' => $actorStore,
 					'blockManager' => $this->getServiceContainer()->getBlockManager(),
+					'checkUserPermissionManager' => $checkUserPermissionManager,
 				],
 				$options
 			) ) )

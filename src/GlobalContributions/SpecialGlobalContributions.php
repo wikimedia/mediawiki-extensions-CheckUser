@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\GlobalContributions;
 use ErrorPageError;
 use MediaWiki\Block\DatabaseBlockStore;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
+use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\ContributionsSpecialPage;
 use MediaWiki\Title\NamespaceInfo;
@@ -27,6 +28,8 @@ use Wikimedia\Rdbms\IConnectionProvider;
 class SpecialGlobalContributions extends ContributionsSpecialPage {
 	private CheckUserLookupUtils $lookupUtils;
 	private GlobalContributionsPagerFactory $pagerFactory;
+	private CheckUserPermissionManager $checkUserPermissionsManager;
+
 	private ?GlobalContributionsPager $pager = null;
 
 	public function __construct(
@@ -40,7 +43,8 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 		UserIdentityLookup $userIdentityLookup,
 		DatabaseBlockStore $blockStore,
 		CheckUserLookupUtils $lookupUtils,
-		GlobalContributionsPagerFactory $pagerFactory
+		GlobalContributionsPagerFactory $pagerFactory,
+		CheckUserPermissionManager $checkUserPermissionsManager
 	) {
 		parent::__construct(
 			$permissionManager,
@@ -56,6 +60,7 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 		);
 		$this->lookupUtils = $lookupUtils;
 		$this->pagerFactory = $pagerFactory;
+		$this->checkUserPermissionsManager = $checkUserPermissionsManager;
 	}
 
 	/**
@@ -103,44 +108,28 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 	 */
 	public function execute( $par ) {
 		// These checks are the same as in AbstractTemporaryAccountHandler.
-		if (
-			!$this->permissionManager->userHasRight(
-				$this->getAuthority()->getUser(),
-				'checkuser-temporary-account-no-preference'
-			)
-		) {
-			// The user must have the 'checkuser-temporary-account' right.
-			if (
-				!$this->permissionManager->userHasRight(
-					$this->getAuthority()->getUser(),
-					'checkuser-temporary-account'
-				)
-			) {
-				throw new PermissionsError( 'checkuser-temporary-account' );
-			}
-
-			// The user must also have enabled the preference.
-			if (
-				!$this->userOptionsLookup->getOption(
-					$this->getAuthority()->getUser(),
-					'checkuser-temporary-account-enable'
-				)
-			) {
+		$permStatus = $this->checkUserPermissionsManager->canAccessTemporaryAccountIPAddresses(
+			$this->getAuthority()
+		);
+		if ( !$permStatus->isGood() ) {
+			if ( $permStatus->hasMessage( 'checkuser-tempaccount-reveal-ip-permission-error-description' ) ) {
 				throw new ErrorPageError(
 					$this->msg( 'checkuser-global-contributions-permission-error-title' ),
 					$this->msg( 'checkuser-global-contributions-permission-error-description' )
 				);
 			}
-		}
 
-		$block = $this->getAuthority()->getBlock();
-		if ( $block ) {
-			throw new UserBlockedError(
-				$block,
-				$this->getAuthority()->getUser(),
-				$this->getLanguage(),
-				$this->getRequest()->getIP()
-			);
+			$block = $permStatus->getBlock();
+			if ( $block ) {
+				throw new UserBlockedError(
+					$block,
+					$this->getAuthority()->getUser(),
+					$this->getLanguage(),
+					$this->getRequest()->getIP()
+				);
+			}
+
+			throw new PermissionsError( $permStatus->getPermission() );
 		}
 
 		parent::execute( $par );

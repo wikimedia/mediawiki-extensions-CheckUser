@@ -4,6 +4,8 @@ namespace MediaWiki\CheckUser\Tests\Integration\Api\Rest\Handler;
 
 use JobQueueGroup;
 use MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountRevisionHandler;
+use MediaWiki\CheckUser\CheckUserPermissionStatus;
+use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Rest\LocalizedHttpException;
@@ -16,7 +18,6 @@ use MediaWiki\Revision\RevisionStore;
 use MediaWiki\Tests\Rest\Handler\HandlerTestTrait;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
 use MediaWiki\User\ActorStore;
-use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserNameUtils;
 use MediaWikiIntegrationTestCase;
@@ -48,10 +49,6 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 		$permissionManager->method( 'userHasRight' )
 			->willReturn( true );
 
-		$userOptionsLookup = $this->createMock( UserOptionsLookup::class );
-		$userOptionsLookup->method( 'getOption' )
-			->willReturn( true );
-
 		$userNameUtils = $this->createMock( UserNameUtils::class );
 		$userNameUtils->method( 'isTemp' )
 			->willReturn( true );
@@ -78,17 +75,21 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 				return StatusValue::newGood( $revisions );
 			} );
 
+		$checkUserPermissionManager = $this->createMock( CheckUserPermissionManager::class );
+		$checkUserPermissionManager->method( 'canAccessTemporaryAccountIPAddresses' )
+			->willReturn( CheckUserPermissionStatus::newGood() );
+
 		return new TemporaryAccountRevisionHandler( ...array_values( array_merge(
 			[
 				'config' => $this->getServiceContainer()->getMainConfig(),
 				'jobQueueGroup' => $this->createMock( JobQueueGroup::class ),
 				'permissionManager' => $permissionManager,
-				'userOptionsLookup' => $userOptionsLookup,
 				'userNameUtils' => $userNameUtils,
 				'dbProvider' => $this->getServiceContainer()->getDBLoadBalancerFactory(),
 				'actorStore' => $actorStore,
 				'blockManager' => $this->getServiceContainer()->getBlockManager(),
 				'revisionStore' => $mockRevisionStore,
+				'checkUserPermissionManager' => $checkUserPermissionManager,
 			],
 			$options
 		) ) );

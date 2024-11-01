@@ -4,13 +4,13 @@ namespace MediaWiki\CheckUser\Api\Rest\Handler;
 
 use JobQueueGroup;
 use MediaWiki\Block\BlockManager;
+use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Config\Config;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\User\ActorStore;
-use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\UserNameUtils;
 use Wikimedia\Message\DataMessageValue;
 use Wikimedia\ParamValidator\ParamValidator;
@@ -25,16 +25,16 @@ class TemporaryAccountRevisionHandler extends AbstractTemporaryAccountNameHandle
 		Config $config,
 		JobQueueGroup $jobQueueGroup,
 		PermissionManager $permissionManager,
-		UserOptionsLookup $userOptionsLookup,
 		UserNameUtils $userNameUtils,
 		IConnectionProvider $dbProvider,
 		ActorStore $actorStore,
 		BlockManager $blockManager,
-		RevisionStore $revisionStore
+		RevisionStore $revisionStore,
+		CheckUserPermissionManager $checkUserPermissionsManager
 	) {
 		parent::__construct(
-			$config, $jobQueueGroup, $permissionManager, $userOptionsLookup, $userNameUtils, $dbProvider, $actorStore,
-			$blockManager
+			$config, $jobQueueGroup, $permissionManager, $userNameUtils, $dbProvider, $actorStore,
+			$blockManager, $checkUserPermissionsManager
 		);
 		$this->revisionStore = $revisionStore;
 	}

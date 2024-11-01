@@ -7,13 +7,14 @@ use MediaWiki\Block\AbstractBlock;
 use MediaWiki\Block\Block;
 use MediaWiki\Block\BlockManager;
 use MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountHandler;
+use MediaWiki\CheckUser\CheckUserPermissionStatus;
+use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\RequestData;
 use MediaWiki\Tests\Rest\Handler\HandlerTestTrait;
 use MediaWiki\User\ActorStore;
-use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserNameUtils;
 use MediaWikiIntegrationTestCase;
@@ -43,10 +44,6 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		$permissionManager->method( 'userHasRight' )
 			->willReturn( true );
 
-		$userOptionsLookup = $this->createMock( UserOptionsLookup::class );
-		$userOptionsLookup->method( 'getOption' )
-			->willReturn( true );
-
 		$userNameUtils = $this->createMock( UserNameUtils::class );
 		$userNameUtils->method( 'isTemp' )
 			->willReturn( true );
@@ -57,16 +54,20 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		$actorStore->method( 'getUserIdentityByName' )
 			->willReturn( new UserIdentityValue( 1234, '*Unregistered 1' ) );
 
+		$checkUserPermissionManager = $this->createMock( CheckUserPermissionManager::class );
+		$checkUserPermissionManager->method( 'canAccessTemporaryAccountIPAddresses' )
+			->willReturn( CheckUserPermissionStatus::newGood() );
+
 		return new TemporaryAccountHandler( ...array_values( array_merge(
 			[
 				'config' => $this->getServiceContainer()->getMainConfig(),
 				'jobQueueGroup' => $this->createMock( JobQueueGroup::class ),
 				'permissionManager' => $permissionManager,
-				'userOptionsLookup' => $userOptionsLookup,
 				'userNameUtils' => $userNameUtils,
 				'dbProvider' => $this->getServiceContainer()->getDBLoadBalancerFactory(),
 				'actorStore' => $actorStore,
 				'blockManager' => $this->getServiceContainer()->getBlockManager(),
+				'checkUserPermissionManager' => $checkUserPermissionManager
 			],
 			$options
 		) ) );
@@ -182,7 +183,8 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 	 */
 	public function testExecutePermissionErrorsNoRight( bool $named, array $expected ) {
 		$handler = $this->getTemporaryAccountHandler( [
-			'permissionManager' => $this->getServiceContainer()->getPermissionManager()
+			'permissionManager' => $this->getServiceContainer()->getPermissionManager(),
+			'checkUserPermissionManager' => $this->getServiceContainer()->getService( 'CheckUserPermissionManager' )
 		] );
 
 		$user = $this->getTestUser()->getUser();
@@ -232,17 +234,9 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testExecutePermissionErrorsNoPreference() {
-		$permissionManager = $this->createMock( PermissionManager::class );
-		$permissionManager->method( 'userHasRight' )
-			->willReturnCallback( static function ( $user, $right ) {
-				// Grant the user any right other than 'checkuser-temporary-account-no-preference',
-				// so that the preference check is made (as that right allows the user to skip
-				// the preference check).
-				return $right !== 'checkuser-temporary-account-no-preference';
-			} );
 		$handler = $this->getTemporaryAccountHandler( [
 			'userOptionsLookup' => $this->getServiceContainer()->getUserOptionsLookup(),
-			'permissionManager' => $permissionManager,
+			'checkUserPermissionManager' => $this->getServiceContainer()->getService( 'CheckUserPermissionManager' )
 		] );
 
 		$user = $this->getTestUser()->getUser();
@@ -252,6 +246,13 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			->willReturn( true );
 		$authority->method( 'getUser' )
 			->willReturn( $user );
+		$authority->method( 'isAllowed' )
+			->willReturnCallback( static function ( $right ) {
+				// Grant the user any right other than 'checkuser-temporary-account-no-preference',
+				// so that the preference check is made (as that right allows the user to skip
+				// the preference check).
+				return $right !== 'checkuser-temporary-account-no-preference';
+			} );
 
 		$this->expectExceptionObject(
 			new LocalizedHttpException(
@@ -280,6 +281,8 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			->willReturn( true );
 		$authority->method( 'getBlock' )
 			->willReturn( $this->createMock( Block::class ) );
+		$authority->method( 'isAllowed' )
+			->willReturn( true );
 
 		$this->expectExceptionObject(
 			new LocalizedHttpException(
@@ -291,8 +294,11 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 
 		// Can't use executeHandlerAndGetHttpException, since it doesn't take an Authority
+		$handler = $this->getTemporaryAccountHandler( [
+			'checkUserPermissionManager' => $this->getServiceContainer()->getService( 'CheckUserPermissionManager' )
+		] );
 		$this->executeHandler(
-			$this->getTemporaryAccountHandler(),
+			$handler,
 			$this->getRequestData(),
 			[],
 			[],

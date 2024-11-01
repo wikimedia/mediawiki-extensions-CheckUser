@@ -4,6 +4,8 @@ namespace MediaWiki\CheckUser\Tests\Integration\Api\Rest\Handler;
 
 use JobQueueGroup;
 use MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountIPHandler;
+use MediaWiki\CheckUser\CheckUserPermissionStatus;
+use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Permissions\PermissionManager;
@@ -87,12 +89,15 @@ class TemporaryAccountIPHandlerTest extends MediaWikiIntegrationTestCase {
 			] );
 		$this->setService( 'UserFactory', $userFactory );
 
+		$checkUserPermissionManager = $this->createMock( CheckUserPermissionManager::class );
+		$checkUserPermissionManager->method( 'canAccessTemporaryAccountIPAddresses' )
+			->willReturn( CheckUserPermissionStatus::newGood() );
+
 		return new TemporaryAccountIPHandler( ...array_values( array_merge(
 			[
 				'config' => $this->getServiceContainer()->getMainConfig(),
 				'jobQueueGroup' => $this->createMock( JobQueueGroup::class ),
 				'permissionManager' => $permissionManager,
-				'userOptionsLookup' => $this->getServiceContainer()->getUserOptionsLookup(),
 				'userNameUtils' => $this->getServiceContainer()->getUserNameUtils(),
 				'dbProvider' => $this->getServiceContainer()->getDBLoadBalancerFactory(),
 				'actorStore' => $this->getServiceContainer()->getActorStore(),
@@ -100,7 +105,8 @@ class TemporaryAccountIPHandlerTest extends MediaWikiIntegrationTestCase {
 				'tempUserConfig' => $this->getServiceContainer()->getTempUserConfig(),
 				'checkUserTemporaryAccountsByIPLookup' => $this->getServiceContainer()->get(
 					'CheckUserTemporaryAccountsByIPLookup'
-				)
+				),
+				'checkUserPermissionManager' => $checkUserPermissionManager
 			],
 			$options
 		) ) );
