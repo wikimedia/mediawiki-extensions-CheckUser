@@ -7,6 +7,7 @@ use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\MainConfigNames;
+use MediaWiki\MediaWikiServices;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
@@ -189,6 +190,21 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 			self::$checkuser
 		);
 		$this->assertStringNotContainsString( 'Foo talk', $html );
+	}
+
+	public function testDefinedTagFilters() {
+		// Assert that every software defined tag is an available filter
+		[ $html ] = $this->executeSpecialPage(
+			'',
+			null,
+			null,
+			self::$checkuser
+		);
+		$softwareDefinedTags = MediaWikiServices::getInstance()
+			->getChangeTagsStore()->getSoftwareTags( true );
+		foreach ( $softwareDefinedTags as $tag ) {
+			$this->assertStringContainsString( 'value=\'' . $tag . '\'', $html );
+		}
 	}
 
 	public function testExecuteWideRange() {

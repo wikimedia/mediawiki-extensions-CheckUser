@@ -159,6 +159,12 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 	 */
 	protected function modifyFields( &$fields ) {
 		$fields['namespace']['include'] = $this->namespaceInfo->getCommonNamespaces();
+
+		// Some of these tags may be disabled on external wikis via `$wgSoftwareTags`
+		// but any tag returned here is guaranteed to be consistent on any wiki it
+		// is enabled on
+		$fields['tagfilter']['useAllTags'] = false;
+		$fields['tagfilter']['activeOnly'] = false;
 	}
 
 	/**
