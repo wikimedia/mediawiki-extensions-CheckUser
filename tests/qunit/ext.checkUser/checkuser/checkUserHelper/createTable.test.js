@@ -17,12 +17,10 @@ QUnit.test( 'Test that createTable makes the expected table', ( assert ) => {
 			createTable( caseItem.data, caseItem.showCounts );
 			let $actualHtmlElement = $( node );
 			if ( $actualHtmlElement.find( 'tbody' ).length ) {
-				$actualHtmlElement = $actualHtmlElement.find( 'tbody' )[ 0 ];
+				$actualHtmlElement = $actualHtmlElement.find( 'tbody' );
 			}
-			let actualHtml = $actualHtmlElement.innerHTML;
-			if ( actualHtml === undefined ) {
-				actualHtml = '';
-			}
+			const actualHtml = $actualHtmlElement.html();
+
 			assert.strictEqual(
 				actualHtml,
 				expectedHtml,
