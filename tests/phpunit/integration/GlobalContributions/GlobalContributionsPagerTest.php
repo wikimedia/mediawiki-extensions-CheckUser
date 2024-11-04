@@ -178,6 +178,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				$services->getUserFactory(),
 				$services->getTempUserConfig(),
 				$services->get( 'CheckUserLookupUtils' ),
+				$services->get( 'CheckUserApiRequestAggregator' ),
 				$services->getDBLoadBalancerFactory(),
 				$services->getJobQueueGroup(),
 				RequestContext::getMain(),

@@ -28,6 +28,7 @@ class GlobalContributionsPagerFactory {
 	private UserFactory $userFactory;
 	private TempUserConfig $tempUserConfig;
 	private CheckUserLookupUtils $lookupUtils;
+	private CheckUserApiRequestAggregator $apiRequestAggregator;
 	private IConnectionProvider $dbProvider;
 	private JobQueueGroup $jobQueueGroup;
 
@@ -41,6 +42,7 @@ class GlobalContributionsPagerFactory {
 	 * @param UserFactory $userFactory
 	 * @param TempUserConfig $tempUserConfig
 	 * @param CheckUserLookupUtils $lookupUtils
+	 * @param CheckUserApiRequestAggregator $apiRequestAggregator
 	 * @param IConnectionProvider $dbProvider
 	 * @param JobQueueGroup $jobQueueGroup
 	 */
@@ -54,6 +56,7 @@ class GlobalContributionsPagerFactory {
 		UserFactory $userFactory,
 		TempUserConfig $tempUserConfig,
 		CheckUserLookupUtils $lookupUtils,
+		CheckUserApiRequestAggregator $apiRequestAggregator,
 		IConnectionProvider $dbProvider,
 		JobQueueGroup $jobQueueGroup
 	) {
@@ -66,6 +69,7 @@ class GlobalContributionsPagerFactory {
 		$this->userFactory = $userFactory;
 		$this->tempUserConfig = $tempUserConfig;
 		$this->lookupUtils = $lookupUtils;
+		$this->apiRequestAggregator = $apiRequestAggregator;
 		$this->dbProvider = $dbProvider;
 		$this->jobQueueGroup = $jobQueueGroup;
 	}
@@ -95,6 +99,7 @@ class GlobalContributionsPagerFactory {
 			$this->userFactory,
 			$this->tempUserConfig,
 			$this->lookupUtils,
+			$this->apiRequestAggregator,
 			$this->dbProvider,
 			$this->jobQueueGroup,
 			$context,

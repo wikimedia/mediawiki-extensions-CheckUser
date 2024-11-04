@@ -42,6 +42,7 @@ use Wikimedia\Rdbms\IExpression;
 class GlobalContributionsPager extends ContributionsPager implements CheckUserQueryInterface {
 	private TempUserConfig $tempUserConfig;
 	private CheckUserLookupUtils $checkUserLookupUtils;
+	private CheckUserApiRequestAggregator $apiRequestAggregator;
 	private IConnectionProvider $dbProvider;
 	private JobQueueGroup $jobQueueGroup;
 
@@ -60,6 +61,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	 * @param UserFactory $userFactory
 	 * @param TempUserConfig $tempUserConfig
 	 * @param CheckUserLookupUtils $checkUserLookupUtils
+	 * @param CheckUserApiRequestAggregator $apiRequestAggregator
 	 * @param IConnectionProvider $dbProvider
 	 * @param JobQueueGroup $jobQueueGroup
 	 * @param IContextSource $context
@@ -76,6 +78,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		UserFactory $userFactory,
 		TempUserConfig $tempUserConfig,
 		CheckUserLookupUtils $checkUserLookupUtils,
+		CheckUserApiRequestAggregator $apiRequestAggregator,
 		IConnectionProvider $dbProvider,
 		JobQueueGroup $jobQueueGroup,
 		IContextSource $context,
@@ -96,6 +99,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		);
 		$this->tempUserConfig = $tempUserConfig;
 		$this->checkUserLookupUtils = $checkUserLookupUtils;
+		$this->apiRequestAggregator = $apiRequestAggregator;
 		$this->dbProvider = $dbProvider;
 		$this->jobQueueGroup = $jobQueueGroup;
 		$this->templateParser = new TemplateParser( __DIR__ . '/../../templates' );
