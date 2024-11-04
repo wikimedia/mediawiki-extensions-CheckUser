@@ -121,14 +121,61 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		}
 
 		$cuciDb = $this->dbProvider->getReplicaDatabase( self::VIRTUAL_GLOBAL_DB_DOMAIN );
-		$queryBuilder = $cuciDb->newSelectQueryBuilder()
+		$activeWikis = $cuciDb->newSelectQueryBuilder()
 			->select( 'ciwm_wiki' )
 			->from( 'cuci_temp_edit' )
 			->distinct()
 			->where( $targetIPConditions )
 			->join( 'cuci_wiki_map', null, 'cite_ciwm_id = ciwm_id' )
-			->caller( __METHOD__ );
-		return $queryBuilder->fetchFieldValues();
+			->caller( __METHOD__ )
+			->fetchFieldValues();
+
+		$permissions = $this->apiRequestAggregator->execute(
+			$this->getUser(),
+			[
+				'action' => 'query',
+				'prop' => 'info',
+				'intestactions' => 'checkuser-temporary-account|checkuser-temporary-account-no-preference',
+				// We need to check against a title, but it doesn't actually matter if the title exists
+				'titles' => 'Test Title',
+				// Using `full` level checks blocks as well
+				'intestactionsdetail' => 'full',
+				'format' => 'json',
+			],
+			array_filter( $activeWikis, static function ( $wikiId ) {
+				return !WikiMap::isCurrentWikiDbDomain( $wikiId );
+			} ),
+			$this->getRequest(),
+			CheckUserApiRequestAggregator::AUTHENTICATE_CENTRAL_AUTH
+		);
+
+		$wikisToQuery = [];
+		foreach ( $activeWikis as $wikiId ) {
+			if ( WikiMap::isCurrentWikiDbDomain( $wikiId ) ) {
+				// No need to check permissions, since SpecialGlobalContributions has already
+				// confirmed that the user has IP reveal rights on the local wiki.
+				$wikisToQuery[] = $wikiId;
+				continue;
+			}
+
+			if ( !isset( $permissions[$wikiId]['query']['pages'][0]['actions'] ) ) {
+				// The API lookup failed, so assume the user does not have IP reveal rights.
+				continue;
+			}
+
+			$localPermissions = $permissions[$wikiId]['query']['pages'][0]['actions'];
+
+			if (
+				count( $localPermissions['checkuser-temporary-account-no-preference'] ) === 0 ||
+				// No need to check the global preference, since SpecialGlobalContribuitons has already
+				// confirmed they have enabled the global preference.
+				count( $localPermissions['checkuser-temporary-account'] ) === 0
+			) {
+				$wikisToQuery[] = $wikiId;
+			}
+		}
+
+		return $wikisToQuery;
 	}
 
 	public function doQuery() {

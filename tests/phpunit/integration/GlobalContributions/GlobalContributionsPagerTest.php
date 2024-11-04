@@ -2,11 +2,16 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\GlobalContributions;
 
+use MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPager;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Title\Title;
 use MediaWiki\User\UserIdentityValue;
+use MediaWiki\WikiMap\WikiMap;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\Rdbms\IConnectionProvider;
+use Wikimedia\Rdbms\IReadableDatabase;
+use Wikimedia\Rdbms\SelectQueryBuilder;
 use Wikimedia\TestingAccessWrapper;
 
 /**
@@ -262,5 +267,92 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 
 	public function provideFormatTags() {
 		return [ [ true ], [ false ] ];
+	}
+
+	/**
+	 * @dataProvider provideExternalWikiPermissions
+	 */
+	public function testExternalWikiPermissions( $permissions, $expectedCount ) {
+		$localWiki = WikiMap::getCurrentWikiId();
+		$externalWiki = 'otherwiki';
+
+		// Mock fetching the recently active wikis
+		$queryBuilder = $this->createMock( SelectQueryBuilder::class );
+		$queryBuilder->method( $this->logicalOr( 'select', 'from', 'distinct', 'where', 'join', 'caller' ) )
+			->willReturnSelf();
+		$queryBuilder->method( 'fetchFieldValues' )
+			->willReturn( [ $localWiki, $externalWiki ] );
+
+		$database = $this->createMock( IReadableDatabase::class );
+		$database->method( 'newSelectQueryBuilder' )
+			->willreturn( $queryBuilder );
+
+		$dbProvider = $this->createMock( IConnectionProvider::class );
+		$dbProvider->method( 'getReplicaDatabase' )
+			->willReturn( $database );
+
+		// Mock making the permission API call
+		$apiRequestAggregator = $this->createMock( CheckUserApiRequestAggregator::class );
+		$apiRequestAggregator->method( 'execute' )
+			->willReturn( [
+				$externalWiki => [
+					'query' => [
+						'pages' => [
+							[
+								'actions' => $permissions,
+							],
+						],
+					],
+				],
+			] );
+
+		$services = $this->getServiceContainer();
+		$pager = new GlobalContributionsPager(
+			$services->getLinkRenderer(),
+			$services->getLinkBatchFactory(),
+			$services->getHookContainer(),
+			$services->getRevisionStore(),
+			$services->getNamespaceInfo(),
+			$services->getCommentFormatter(),
+			$services->getUserFactory(),
+			$services->getTempUserConfig(),
+			$services->get( 'CheckUserLookupUtils' ),
+			$apiRequestAggregator,
+			$dbProvider,
+			$services->getJobQueueGroup(),
+			RequestContext::getMain(),
+			[ 'revisionsOnly' => true ],
+			new UserIdentityValue( 0, '127.0.0.1' )
+		);
+		$pager = TestingAccessWrapper::newFromObject( $pager );
+		$wikis = $pager->fetchWikisToQuery();
+
+		$this->assertCount( $expectedCount, $wikis );
+	}
+
+	public function provideExternalWikiPermissions() {
+		return [
+			'Can always reveal IP at external wiki' => [
+				'actions' => [
+					'checkuser-temporary-account' => [ 'error' ],
+					'checkuser-temporary-account-no-preference' => [],
+				],
+				2,
+			],
+			'Can reveal IP at external wiki with preference' => [
+				'actions' => [
+					'checkuser-temporary-account' => [],
+					'checkuser-temporary-account-no-preference' => [ 'error' ],
+				],
+				2,
+			],
+			'Can not reveal IP at external wiki' => [
+				'actions' => [
+					'checkuser-temporary-account' => [ 'error' ],
+					'checkuser-temporary-account-no-preference' => [ 'error' ],
+				],
+				1,
+			]
+		];
 	}
 }
