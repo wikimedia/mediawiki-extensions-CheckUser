@@ -2,7 +2,13 @@
 
 const createTable = require( '../../../../../modules/ext.checkUser/checkuser/checkUserHelper/createTable.js' );
 
-QUnit.module( 'ext.checkUser.checkuser.checkUserHelper.createTable', QUnit.newMwEnvironment() );
+QUnit.module( 'ext.checkUser.checkuser.checkUserHelper.createTable', QUnit.newMwEnvironment( {
+	beforeEach: function () {
+		mw.config.set( {
+			wgArticlePath: '/index.php?title=$1'
+		} );
+	}
+} ) );
 
 QUnit.test( 'Test that createTable makes the expected table', ( assert ) => {
 	const cases = require( './cases/createTable.json' );
