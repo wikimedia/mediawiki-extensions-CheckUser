@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Joachim Mos",
-			"Slomox"
+			"Slomox",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Dit Warktüüch dörsöcht de lesten Ännern na de IP-Adressen, de en Bruker bruukt hett, oder na de Ännern un Brukernaams, de vun en bestimmte IP maakt/bruukt worrn sünd.\nBrukers un Ännern vun XFF-IPs ut köönt ankeken warrn, wenn „/xff“ achter de IP toschreven warrt. IPv4 (CIDR $1-32) un IPv6 (CIDR $2-128) warrt all beid ünnerstütt.\nDe Maximaltall vun trüchlevert Ännern is 5000.\nDit Warktüüch dröff blot na de Regeln mit de Richtlienen bruukt warrn.",

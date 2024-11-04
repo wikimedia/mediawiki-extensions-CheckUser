@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Siebrand"
+			"Siebrand",
+			"McDutchie"
 		]
 	},
 	"checkuser-block-noreason": "Je moet een reden opgeven voor de blokkades.",

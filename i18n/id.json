@@ -17,7 +17,11 @@
 			"Rachmat04",
 			"Rex",
 			"Veracious",
-			"DARMAS BUDI SANTOSO"
+			"DARMAS BUDI SANTOSO",
+			"Agam Riyandana",
+			"Dreamy Jazz",
+			"Leapofod",
+			"Rebeccayoga"
 		]
 	},
 	"checkuser-summary": "Peralatan ini memindai perubahan terbaru untuk mengetahui IP seorang pengguna atau menampilkan data suntingan/pengguna untuk suatu IP.\nPengguna dan suntingan suatu IP dapat diketahui melalui kepala XFF dengan menambahkan \"/xff\" pada IP tersebut. Alat ini mendukung baik IPv4 (CIDR $1-32) maupun IPv6 (CIDR $2-128).\nKarena alasan kinerja, maksimum hanya 5000 suntingan yang dapat diambil.\nHarap gunakan peralatan ini sesuai dengan kebijakan yang ada.",
@@ -49,7 +53,6 @@
 	"checkuser-all": "semua",
 	"checkuser-cidr-label": "Mencari jangkauan umum dan alamat yang dipengaruhi dari sebuah daftar IP",
 	"checkuser-cidr-res": "CIDR umum:",
-	"checkuser-range-outside-limit": "The range $1 is outside the allowed limits.",
 	"checkuser-empty": "Log kosong.",
 	"checkuser-nomatch": "Tidak ditemukan data yang cocok.",
 	"checkuser-nomatch-edits": "Tidak ditemukan hasil sesuai kriteria yang diberikan.\nSuntingan terakhir dilakukan pada $1 $2.",

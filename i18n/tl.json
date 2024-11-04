@@ -3,7 +3,8 @@
 		"authors": [
 			"AnakngAraw",
 			"Jojit fb",
-			"Sky Harbor"
+			"Sky Harbor",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Nagmamasid ng kamakailang mga pagbabago ang kasangkapang ito upang makuhang muli ang ginamit na mga IP ng tagagamit o ipakita ang dato ng pagbabago/tagagamit para sa isang IP.\nAng mga tagagamit at mga pagbabagong ginawa ng isang IP ng kliyente ay maaaring kuhaning muli sa pamamagitan ng paggamit ng mga paulong XFF sa pamamagitan ng pagkakabit ng \"/xff\" sa IP.\nSinusuportahan ang IPv4 (CIDR $1-32) at ang IPv6 (CIDR $2-128).\nWalang mas mataas sa 5000 mga pagbabago ang ibabalik dahil sa mga kadahilanang pangpagsasagawa.\nGamitin ito ayon sa patakaran.",

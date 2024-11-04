@@ -3,7 +3,8 @@
 		"authors": [
 			"Borichèt",
 			"Bèrto 'd Sèra",
-			"Dragonòt"
+			"Dragonòt",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "St'utiss-sì as passa j'ùltime modìfiche për tiré sù j'adrësse IP dovra da n'utent ò pura mostré lòn ch'as fa da n'adrëssa IP e che dat utent ch'a l'abia associà.\n\tJ'utent ch'a deuvro n'adrëssa IP e le modìfiche faite d'ambelelì as peulo tiresse sù ën dovrand j'antestassion XFF, për felo tache-ie dapress l'adrëssa e \"/xff\". A marcia tant con la forma IPv4 (CIDR $1-32) che con cola IPv6 (CIDR $2-128).\n\tPër na question ëd caria ëd travaj a tira nen sù pì che 5000 modìfiche. A va dovrà conforma ai deuit për ël process ëd contròl.",

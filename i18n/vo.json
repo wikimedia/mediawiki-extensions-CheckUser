@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Malafaya",
-			"Smeira"
+			"Smeira",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Stum at vestigon votükamis brefabüik ad dagetön ladetis-IP fa geban semik pagebölis, ud ad jonön redakama- u gebananünis tefü ladet-IP semik.\nGebans e redakams se dona-IP kanons pagetön de tiäds: XFF medä läükoy eli „/xff“ ladete-IP. Els IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128) kanons pagebön.\nRedakams no plu 5000 pejonons sekü kods kaenavik. Gebolös stumi at bai nomem.",

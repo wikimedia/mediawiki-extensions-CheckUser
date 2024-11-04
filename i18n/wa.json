@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Reptilien.19831209BE1",
-			"Srtxg"
+			"Srtxg",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Ciste usteye ci rwaite les dierins candjmints po trover les adresses IP eployeyes pa èn uzeu ou mostrer les dnêyes des candjmints/uzeus po ene adresse IP dnêye.\nLes uzeus et candjmints fwaits a pårti d' ene adresse IP polèt esse cwerous après viè les tiestires XFF tot radjoutant «/xff» al fén d' l' adresse IP.\nIPv4 (CIDR /$1 a /32) et IPv6 (CIDR /$2 a /128) sont ambedeus sopoirtés.\nPo des råjhons di performance i gn årè nén d' pus di 5000 responses di rtournêyes.\nEployîz ciste usteye tot shuvant les rîles.",

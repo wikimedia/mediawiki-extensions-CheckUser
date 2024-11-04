@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Michawiki"
+			"Michawiki",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Toś ten rěd skanujo aktualne změny, aby wótwołał IP-adresy wužywarja abo pokazał změny/wužywarske daty za IP-adresu.\nWužywarje a změny IP-adresy daju se pśez głowowe smužki XFF wótwołaś, z tym až \"/xff\" pśidawa se IP-adresy. IPv4 (CIDR $1-32) a IPv6 (CIDR $2-128) se pódpěratej.\nZ pśicynow wugbałosći wróśijo se nic wěcej ako 5000 změnow. Wužyj CheckUser pó zasadach priwatnosći.",

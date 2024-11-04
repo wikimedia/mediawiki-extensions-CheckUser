@@ -3,7 +3,8 @@
 		"authors": [
 			"Candalua",
 			"Conky77",
-			"Fierodelveneto"
+			"Fierodelveneto",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Sto strumento qua l'analiza le modifiche reçenti par recuperar i indirizi IP doparà da un utente o mostrar contributi e dati de un IP. Utenti e contributi de un client IP i se pol rintraciar atraverso i header XFF, zontàndoghe a l'IP el suffisso \"/xff\". Xe suportà IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128). No sarà restituìe piassè de 5.000 modifiche, par ragioni de prestazioni. Dòpara sto strumento in streta conformità a le policy.",

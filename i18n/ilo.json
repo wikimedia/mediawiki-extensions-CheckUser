@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Lam-ang"
+			"Lam-ang",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Daytoy a ramit ket agiskan kadagiti kaudian a balbaliw tapno agala kadagiti adres ti IP nga inus-usar ti agar-aramat wenno agiparang ti inurnos/datos ti agar-aramat para iti maysa nga adres ti IP.\nDagiti agar-aramat ken dagiti inurnos babaen ti kliente ti adres ti IP ket maala babaen dagiti paulo ti XFF babaen ti panagala ti adres ti IP nga agraman iti \"/xff\". Nasuportaran ti IPv4 (CIDR $1-32) ken IPv6 (CIDR $2-128) .\n\nUsaren daytoy babaen ti annuroten.",

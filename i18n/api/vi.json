@@ -1,7 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
-			"Minh Nguyen"
+			"Minh Nguyen",
+			"NguyenHung",
+			"Pisceskaze",
+			"SongNgu.xyz"
 		]
 	},
 	"apihelp-query+checkuser-description": "Kiểm tra địa chỉ IP nào được sử dụng bởi một tên người dùng nào đó hoặc tên người dùng nào được sử dụng bởi một địa chỉ IP nào đó.",

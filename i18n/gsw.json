@@ -4,7 +4,8 @@
 			"Als-Chlämens",
 			"Als-Holder",
 			"Ankry",
-			"Chaduvari"
+			"Chaduvari",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Des Wärchzyyg dursuecht di letschten Änderige go d IP-Adrässe vun eme Benutzers bzw. d Bearbeitige/Benutzernäme fir e IP-Adräss usefinde. Benutzer un Bearbeitige vun ere IP-Adräss chenne au noch Informatione us dr XFF-Header abgfrogt wäre. Doderzue muess dr IP-Adräss e „/xff“ aaghänkt wäre. IPv4 (CIDR $1-32) un IPv6 (CIDR $2-128) wäre unterstitzt.\nUs Performance-Grind wäre hegschtens 5000 Bearbeitige usgee. Nimm CheckUser usschließli in Ibereinstimmig mit dr Dateschutzrichtlinie.",

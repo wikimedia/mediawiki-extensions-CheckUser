@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Purodha"
+			"Purodha",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Met däm Werkzüch he kam_mer de <i lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"Internet Protocol\">IP</i>-Adräße fun Metmaacher fenge, di en de {{lcfirst:{{int:Recentchanges}}}} schtonn, un mer kann de Metmaacher iehr Dahte un Änderonge fenge för en beschtemmpte <i lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"Internet Protocol\">IP</i>-Adräß.\n\nMetmaacher un ier Änderong för en <i lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"Internet Protocol\">IP</i>-Adräß uss ener <i lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"X-Forwarded-For\">XFF</i>-Kopp_Reih wähde jezeich, wam_mer aan di <i lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"Internet Protocol\">IP</i>-Adräß en „<code lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"X-Forwarded-For\">/xff</code>“ aanhängk. \n\nDobei wäde <i lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"et Internet Protocol en dä Väsjohn 4\">IPv4</i> (<i lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"Classless Inter-Domain Routing\">CIDR</i>-Berätt $1-32) un <i lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"et Internet Protocol en dä Väsjohn 6\">IPv6</i> (<i lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"Classless Inter-Domain Routing\">CIDR</i>-Berätt $2-128) ongerschtöz. Leßte jon beß 5000 Änderonge, öm der ẞööver nit zoh doll ze beschäfteje.\n\nDonn op de Räjelle för dat Werrkzüsch obach jävve, un donn et nit bruche, wann De dat nit darrefs.",

@@ -5,7 +5,8 @@
 			"Milicevic01",
 			"Жељко Тодоровић",
 			"Михајло Анђелковић",
-			"Сербијана"
+			"Сербијана",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Ova alatka vrši pregled skorašnjih izmena i pronalazi korisničke IP adrese ili prikazuje podatke o korisniku/izmenama pojedine IP adrese.\nKorisnici i izmene IP adrese klijenta mogu se dobaviti preko XFF zaglavlja dodavanjem oznake <code>/xff</code> iza IP adrese. Formati IPv4 (CIDR $1-32) i IPv6 (CIDR $2-128) su podržani.\nZbog performansi, neće biti vraćeno više od $3 izmena.\nKoristite alatku u skladu s pravilima.",

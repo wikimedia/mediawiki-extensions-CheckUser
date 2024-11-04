@@ -1,15 +1,14 @@
 {
 	"@metadata": {
 		"authors": [
-			"Liangent"
+			"Liangent",
+			"Dreamy Jazz"
 		]
 	},
-	"checkuser-summary": "In abzor taƣjiroti oxirro baroi ba dast ovardani nişonahoi internetī IP  istifoda şuda tavassuti jak korbar jo ta'jini viroişhoi ancom şuda tariqi jak nişonai internetī IP, çustuçū mekunad.\nKorbaron va viroişhoi jak nişonai internetiji IP-ro metavon bo tavaççūh ba ittiloot sar ojand tariqi XFF bo afzudan nişonai internetī IP bo \"/xff\" pajdo kard. Har du protokol IPv4 (CIDR $1-32) va IPv6 (CIDR $2-128) tavassuti in abzor puştibonī meşavand.\nNa beş az 5000 viroiş bo dalelhoi zudkorī bargardonida xohand şud. Bo muvofiqi sijosat va qoidaho inro istoda kuned.",
 	"checkuser-desc": "Ba korbaron ixtijoroti lozimiro baroi barrasiji nişonahoi internetī IP korbaron va ittilooti digar, içozat medihad",
 	"checkuser": "Bozrasiji korbar",
 	"checkuserlog": "BozrasiKorbar guzoriş",
 	"group-checkuser": "Bozrasiji korbaron",
-	"group-checkuser-member": "Bozrasiji korbar",
 	"right-checkuser": "Barrasi kardani nişonai IP va digar ittilooti korbar",
 	"grouppage-checkuser": "{{ns:project}}:Bozrasiji korbar",
 	"checkuser-reason": "Sabab:",
@@ -37,7 +36,6 @@
 	"checkuser-blocktag-talk": "Çojguzin kardani sahifahoi bahs bo:",
 	"checkuser-block-limit": "Te'dodi beş az şumorai korbaron intixob şudaand.",
 	"checkuser-user-nonexistent": "Korbari mavridi nazar vuçud nadorad.",
-	"checkuser-search": "Çustuçū",
 	"checkuser-search-submit": "Çustuçū",
 	"checkuser-search-initiator": "oƣozgar",
 	"checkuser-search-target": "hadaf",

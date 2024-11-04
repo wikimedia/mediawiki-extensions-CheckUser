@@ -3,7 +3,8 @@
 		"authors": [
 			"Chrisportelli",
 			"ToniSant",
-			"පසිඳු කාවින්ද"
+			"පසිඳු කාවින්ද",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Din l-għodda tanalizza t-tibdil riċenti sabiex tikseb l-indirizzi IP użati minn utent jew turi modifiki u informazzjoni ta' indirizz IP. Utenti u modifiki minn indirizz IP ta' klijent jista' jinkiseb permezz ta' ''headers'' XFF billi iżżid is-suff \"/xff\" mal-IP. IPv4 (CIDR $1-32) and IPv6 (CIDR $2-128) huma sostnuti. Mhux iktar minn 5,000 modifika se jiġu ritornati lura għal raġunijiet ta' prestazzjoni. Uża din l-għodda skont il-politika.",

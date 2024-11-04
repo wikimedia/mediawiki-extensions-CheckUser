@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Joetaras",
-			"Reder"
+			"Reder",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "'Stù strumènde condrolle le cangiaminde recende pe' recuperà le 'nderizze IP ausate da 'nu utinde o pe' mostrà le date cangiaminde/utinde dape' 'nu inderizze IP.\nLe utinde e le cangiaminde pòtene essere recuperate da 'nu inderizze IP d'u client ausanne l'indestazione XFF sckaffanne a le 'nderizze IP \"/xff\". IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128) sonde supportate.\nNo cchiù de 5,000 cangiaminde honne a essere restituite pe' motive de prestazione.\nAuse quiste d'accorde c'a polìteche.",

@@ -3,7 +3,8 @@
 		"authors": [
 			"Brazal.dang",
 			"Filipinayzd",
-			"Geopoet"
+			"Geopoet",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Ining kasangkapan minahingopya kan dae pa sana nahahaloy na mga kaliwatan tanganing huguton an mga estada kan IP na pinaggamit nin sarong paragamit o ipahiling an niliwat/paragamit na datos para sa sarong estada kan IP.\nAn mga paragamit asin mga niliwat nin sarong estada kan IP nin kliyente mapupuwedeng mahuhugot sa paagi kan XFF na mga kapamayuhanan sa pagdudugang kan estada kan IP nin \"/xff\". An IPv4(CIDR $1-32) asin IPv6(CIDR $2-128) an suportado.\nDae masobra sa 5,000 na mga pagliwat an ipagbabalik nin huli sa mga rason nin paggigibo.\nGamita ini na uyon sa palisiya.",

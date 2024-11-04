@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"ChrisPtDe"
+			"ChrisPtDe",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Ceti outil parcôrt los dèrriérs changements a la rechèrche de les adrèces IP empleyês per un usanciér, montre tôs los changements d’una adrèce IP (méma encartâ), ou ben liste los comptos utilisâs per una adrèce IP.\nLos comptos et los changements fêts per una adrèce IP clianta d’un sèrvor mandatèro (''proxy'') aprovâ pôvont étre rècupèrâs avouéc les en-tétes XFF en apondent l’adrèce IP avouéc « /xff ». Les adrèces IPv4 (CIDR /$1 a /32) et IPv6 (CIDR /§2 a /128) sont recognues.\nLo nombro de changements montrâblos est limitâ a {{formatnum:5000}} por des quèstions de pèrformence.\nLo volyéd utilisar dedens les limites de la chârta d’usâjo.",

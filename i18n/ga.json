@@ -4,7 +4,8 @@
 			"Alison",
 			"Ankry",
 			"Chaduvari",
-			"Tameamseo"
+			"Tameamseo",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Scanann an uirlis seo na athruithe is déanaí chun na seolaidh IP úsáideoira a fháil ná taispeáin na sonraí eagarthóireachta/úsáideoira don seoladh IP.\nIs féidir úsáideoirí agus eagarthóireachta mar IP cliant a fháil le ceanntáisc XFF mar an IP a iarcheangail le \"/xff\". IPv4 (CIDR $1-32) agus IPv6 (CIDR $2-128) atá tacaíocht.\nLe fáth feidhmiúcháin, ní féidir níos mó ná 5000 eagarthóireachta a thabhairt ar ais ar an am cheana. Déan úsáid de réir polsaí.",

@@ -4,7 +4,8 @@
 			"Les Meloures",
 			"Robby",
 			"Soued031",
-			"Volvox"
+			"Volvox",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Dës Funktioun scannt déi rezent Ännerunge fir d'IP-Adressen, déi vun engem Benotzer benotzt goufen, ze fannen, respektiv d'Ännerunge pro Benotzer fir eng IP.\nBenotzer an Ännerunge vun enger IP-Adress kënnen och iwwer den XFF header gesicht ginn andeems hanner d'IP-Adress \"/xff\" hannendrugehaange gëtt. IPv4 (CIDR $1-32) an IPv6 (CIDR $2-128) ginn ënnerstëtzt.\nNet méi wéi $3 Ännerunge ginn aus Performancegrënn zréckgeschéckt.\nBenotzt dës Funktioun am Aklang mat den Direktiven.",

@@ -3,7 +3,8 @@
 		"authors": [
 			"Matthias",
 			"Ooswesthoesbes",
-			"Pahles"
+			"Pahles",
+			"Dreamy Jazz"
 		]
 	},
 	"checkuser-summary": "Dit hölpmiddel bekiek recènte verangeringe óm IP-adresse die 'ne gebroeker haet gebroek te achterhaole of toeantj de bewèrkings- en gebroekersgegaeves veur 'n IP-adres.\nGebroekers en bewèrkinge van 'n IP-adres van 'ne cliënt kinne achterhaoldj waere via XFF-headers door \"/xff\" achter 't IP-adres toe te voege. IPv4 (CIDR $1-32) en IPv6 (CIDR $2-128) waere óngersteundj.\nÓm prestatiereej waere neet mieë es 5.000 bewèrkinge getoeantj. Gebroek dit hölpmiddel volges 't vasgesteldje beleid.",
