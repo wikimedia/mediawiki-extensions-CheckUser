@@ -290,6 +290,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideExternalWikiPermissions
 	 */
 	public function testExternalWikiPermissions( $permissions, $expectedCount ) {
+		$this->setUserLang( 'qqx' );
 		$localWiki = WikiMap::getCurrentWikiId();
 		$externalWiki = 'otherwiki';
 
@@ -347,6 +348,13 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$this->assertCount( $expectedCount, $wikis );
 		$this->assertArrayHasKey( $externalWiki, $pager->permissions );
 		$this->assertSame( array_keys( $permissions ), array_keys( $pager->permissions[$externalWiki] ) );
+
+		if ( $expectedCount < 2 ) {
+			$this->assertStringContainsString(
+				'checkuser-global-contributions-ip-reveal-permissions-error',
+				$pager->getOutput()->getHtml()
+			);
+		}
 	}
 
 	public function provideExternalWikiPermissions() {

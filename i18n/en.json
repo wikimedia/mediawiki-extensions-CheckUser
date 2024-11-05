@@ -265,6 +265,7 @@
 	"checkuser-global-contributions-target-error-no-ip-banner": "Your search could not be completed. Please enter a valid IP address or IP range.",
 	"checkuser-global-contributions-search-form-wrapper": "Search for global contributions",
 	"checkuser-global-contributions-results-title": "Global user contributions for $1",
+	"checkuser-global-contributions-ip-reveal-permissions-error": "These results may be incomplete because you do not have the right to view IP addresses used by temporary accounts at every wiki.",
 	"prefs-checkuser-tempaccount": "Temporary account IP reveal",
 	"checkuser-tempaccount-enable-preference-description": "When using this tool you should ensure that you do so within policy.",
 	"checkuser-tempaccount-enable-preference": "Enable revealing IP addresses for temporary accounts",
