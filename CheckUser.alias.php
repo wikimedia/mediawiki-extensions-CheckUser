@@ -265,8 +265,10 @@ $specialPageAliases['km'] = [
 $specialPageAliases['ko'] = [
 	'CheckUser' => [ '사용자검사', '사용자확인' ],
 	'CheckUserLog' => [ '사용자검사기록', '사용자확인기록' ],
+	'GlobalContributions' => [ '전역기여' ],
 	'Investigate' => [ '조사' ],
 	'InvestigateBlock' => [ '조사차단' ],
+	'IPContributions' => [ 'IP기여' ],
 ];
 
 /** Colognian (Ripoarisch) */
