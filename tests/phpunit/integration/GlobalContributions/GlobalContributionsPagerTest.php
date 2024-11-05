@@ -87,12 +87,13 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * @dataProvider provideFormatDiffHistLinks
 	 */
-	public function testFormatDiffHistLinks( $isNewPage ) {
+	public function testFormatDiffHistLinks( $isNewPage, $isHidden, $expectDiffLink ) {
 		$this->setUserLang( 'qqx' );
 		$row = $this->getRow( [
 			'sourcewiki' => 'otherwiki',
 			'rev_parent_id' => $isNewPage ? '0' : '1',
 			'rev_id' => '2',
+			'rev_deleted' => $isHidden ? '1' : '0'
 		] );
 		$pager = $this->getWrappedPager( '127.0.0.1', $row->page_title );
 
@@ -100,28 +101,44 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$this->assertStringContainsString( 'external', $formatted );
 		$this->assertStringContainsString( 'diff', $formatted );
 		$this->assertStringContainsString( 'action=history', $formatted );
-		if ( $isNewPage ) {
-			$this->assertStringNotContainsString( 'oldid=2', $formatted );
-		} else {
+		if ( $expectDiffLink ) {
 			$this->assertStringContainsString( 'oldid=2', $formatted );
+		} else {
+			$this->assertStringNotContainsString( 'oldid=2', $formatted );
 		}
 	}
 
 	public function provideFormatDiffHistLinks() {
-		return [ [ true ], [ false ] ];
+		return [
+			'No diff link for a new page' => [ true, false, false ],
+			'No diff link for not a new page, hidden from user' => [ false, true, false ],
+			'Diff link for not a new page, visible to user' => [ false, false, true ],
+		];
 	}
 
-	public function testFormatDateLink() {
+	/**
+	 * @dataProvider provideFormatDateLink
+	 */
+	public function testFormatDateLink( $isHidden ) {
 		$this->setUserLang( 'qqx' );
 		$row = $this->getRow( [
 			'sourcewiki' => 'otherwiki',
-			'rev_timestamp' => '20240101000000'
+			'rev_timestamp' => '20240101000000',
+			'rev_deleted' => $isHidden ? '1' : '0'
 		] );
 		$pager = $this->getWrappedPager( '127.0.0.1', $row->page_title );
 
 		$formatted = $pager->formatDateLink( $row );
-		$this->assertStringContainsString( 'external', $formatted );
 		$this->assertStringContainsString( '2024', $formatted );
+		if ( $isHidden ) {
+			$this->assertStringNotContainsString( 'external', $formatted );
+		} else {
+			$this->assertStringContainsString( 'external', $formatted );
+		}
+	}
+
+	public function provideFormatDateLink() {
+		return [ [ true ], [ false ] ];
 	}
 
 	/**
