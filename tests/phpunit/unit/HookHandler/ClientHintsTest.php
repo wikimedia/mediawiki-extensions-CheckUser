@@ -82,6 +82,53 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		);
 	}
 
+	public function testClientHintsSpecialPageRequestedWhenConfigSpecifiesHeaderString() {
+		$mockRequest = new FauxRequest();
+		$special = $this->createMock( SpecialPage::class );
+		$special->method( 'getName' )
+			->willReturn( 'Foo' );
+		$special->method( 'getRequest' )
+			->willReturn( $mockRequest );
+		$hookHandler = new ClientHints(
+			new HashConfig( [
+				'CheckUserClientHintsEnabled' => true,
+				'CheckUserClientHintsSpecialPages' => [ 'Foo' => 'header' ],
+				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
+				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
+			] )
+		);
+		$hookHandler->onSpecialPageBeforeExecute( $special, null );
+		$this->assertSame(
+			implode( ', ', array_keys( $this->getDefaultClientHintHeaders() ) ),
+			$mockRequest->response()->getHeader( 'ACCEPT-CH' )
+		);
+	}
+
+	public function testClientHintsSpecialPageRequestedWhenConfigSpecifiesJsAPI() {
+		$mockRequest = new FauxRequest();
+		$special = $this->createMock( SpecialPage::class );
+		$special->method( 'getName' )
+			->willReturn( 'Foo' );
+		$special->method( 'getRequest' )
+			->willReturn( $mockRequest );
+		// Expect that the ext.checkUser.clientHints module gets added to the special page if requested.
+		$outputPage = $this->createMock( OutputPage::class );
+		$outputPage->expects( $this->once() )->method( 'addModules' )
+			->with( 'ext.checkUser.clientHints' );
+		$special->method( 'getOutput' )
+			->willReturn( $outputPage );
+		$hookHandler = new ClientHints(
+			new HashConfig( [
+				'CheckUserClientHintsEnabled' => true,
+				'CheckUserClientHintsSpecialPages' => [ 'Foo' => 'js' ],
+				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
+				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
+			] )
+		);
+		$hookHandler->onSpecialPageBeforeExecute( $special, null );
+		$this->assertSame( '', $mockRequest->response()->getHeader( 'ACCEPT-CH' ) );
+	}
+
 	public function testClientHintsBeforePageDisplayDisabled() {
 		$hookHandler = new ClientHints(
 			new HashConfig( [

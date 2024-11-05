@@ -92,14 +92,14 @@
 			"description": "The amount of time in seconds that a user has to submit a request to /checkuser/v0/useragent-clienthints/{type}/{id} to store client hints data."
 		},
 		"CheckUserClientHintsSpecialPages": {
-			"value": [
-				"CreateAccount",
-				"Emailuser",
-				"PasswordReset",
-				"Userlogin",
-				"Userlogout"
-			],
-			"description": "List of SpecialPages where CheckUser will set client hints headers in the response header. Note that the special pages are case sensitive, and do not always match their appearance in the URL, e.g. 'UserLogin' is known in the Special page system as 'Userlogin'."
+			"value": {
+				"CreateAccount": "header",
+				"Emailuser": "header",
+				"PasswordReset": "header",
+				"Userlogin": "js",
+				"Userlogout": "header"
+			},
+			"description": "List of SpecialPages where CheckUser will collect Client Hints data. Keys are the special pages and values are the method that the data is collected ('js' is using the API and 'header' is using the HTTP headers). Note that the special pages are case sensitive, and do not always match their appearance in the URL, e.g. 'UserLogin' is known in the Special page system as 'Userlogin'."
 		},
 		"CheckUserClientHintsHeaders": {
 			"value": {

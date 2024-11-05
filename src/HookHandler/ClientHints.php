@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\HookHandler;
 
 use MediaWiki\Config\Config;
 use MediaWiki\Output\Hook\BeforePageDisplayHook;
+use MediaWiki\Output\OutputPage;
 use MediaWiki\SpecialPage\Hook\SpecialPageBeforeExecuteHook;
 
 /**
@@ -27,17 +28,28 @@ class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook
 		}
 
 		$request = $special->getRequest();
-		if ( $request->wasPosted() ) {
-			// It's too late to ask for client hints when a user is POST'ing a form.
-			if ( $this->config->get( 'CheckUserClientHintsUnsetHeaderWhenPossible' ) ) {
-				$request->response()->header( $this->getEmptyClientHintsHeaderString() );
+
+		$specialPagesList = $this->config->get( 'CheckUserClientHintsSpecialPages' );
+
+		$headerSent = false;
+		if ( in_array( $special->getName(), $specialPagesList ) && !$request->wasPosted() ) {
+			// If the special page name is a value in the config, then this is the old format and we should
+			// consider it as collecting the data via the header.
+			$request->response()->header( $this->getClientHintsHeaderString() );
+			$headerSent = true;
+		} elseif ( array_key_exists( $special->getName(), $specialPagesList ) ) {
+			// If the special page name is a key in the config, then the value is the method which the data is
+			// collected.
+			$type = $specialPagesList[$special->getName()];
+			if ( $type === 'js' ) {
+				$this->addJsClientHintsModule( $special->getOutput() );
+			} elseif ( !$request->wasPosted() ) {
+				$request->response()->header( $this->getClientHintsHeaderString() );
+				$headerSent = true;
 			}
-			return;
 		}
 
-		if ( in_array( $special->getName(), $this->config->get( 'CheckUserClientHintsSpecialPages' ) ) ) {
-			$request->response()->header( $this->getClientHintsHeaderString() );
-		} elseif ( $this->config->get( 'CheckUserClientHintsUnsetHeaderWhenPossible' ) ) {
+		if ( $this->config->get( 'CheckUserClientHintsUnsetHeaderWhenPossible' ) && !$headerSent ) {
 			$request->response()->header( $this->getEmptyClientHintsHeaderString() );
 		}
 	}
@@ -52,6 +64,21 @@ class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook
 			return;
 		}
 
+		$this->addJsClientHintsModule( $out );
+
+		if ( $this->config->get( 'CheckUserClientHintsUnsetHeaderWhenPossible' ) ) {
+			$request = $out->getRequest();
+			$request->response()->header( $this->getEmptyClientHintsHeaderString() );
+		}
+	}
+
+	/**
+	 * Add the JS Client Hints module to the given OutputPage instance.
+	 *
+	 * @param OutputPage $out
+	 * @return void
+	 */
+	private function addJsClientHintsModule( OutputPage $out ): void {
 		$out->addJsConfigVars( [
 			// Roundabout way to ensure we have a list of values like "architecture", "bitness"
 			// etc for use with the client-side JS API. Make sure we get 1) just the values
@@ -61,11 +88,6 @@ class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook
 			) ) ),
 		] );
 		$out->addModules( 'ext.checkUser.clientHints' );
-
-		if ( $this->config->get( 'CheckUserClientHintsUnsetHeaderWhenPossible' ) ) {
-			$request = $out->getRequest();
-			$request->response()->header( $this->getEmptyClientHintsHeaderString() );
-		}
 	}
 
 	/**

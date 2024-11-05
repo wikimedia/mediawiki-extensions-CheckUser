@@ -235,7 +235,7 @@ class CheckUserPrivateEventsHandler implements
 			return;
 		}
 
-		$this->checkUserInsert->insertIntoCuPrivateEventTable(
+		$insertedId = $this->checkUserInsert->insertIntoCuPrivateEventTable(
 			[
 				'cupe_namespace'  => NS_USER,
 				'cupe_title'      => $user->getName(),
@@ -245,6 +245,15 @@ class CheckUserPrivateEventsHandler implements
 			__METHOD__,
 			$performer
 		);
+
+		// If the login attempt was not successful, then ask the client to send us Client Hints data on the
+		// Special:UserLogin page indicating the failed login.
+		// TODO: Implement this for successful logins (T345818)
+		if ( $ret->status === AuthenticationResponse::FAIL && $this->config->get( 'CheckUserClientHintsEnabled' ) ) {
+			RequestContext::getMain()->getOutput()->addJsConfigVars(
+				'wgCheckUserClientHintsPrivateEventId', $insertedId
+			);
+		}
 	}
 
 	/**

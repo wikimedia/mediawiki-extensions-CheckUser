@@ -101,10 +101,13 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			);
 		}
 		$checkUserInsert ??= $this->setUpObject();
-		$checkUserInsert->insertIntoCuPrivateEventTable(
+		$returnedId = $checkUserInsert->insertIntoCuPrivateEventTable(
 			$row, __METHOD__, $performer
 		);
 		$expectedRow = $this->convertTimestampInExpectedRowToDbFormat( $fields, $expectedRow );
+		// Check that the ID is the ID that was returned by the method under test.
+		$fields[] = 'cupe_id';
+		$expectedRow[] = $returnedId;
 		$this->newSelectQueryBuilder()
 			->select( $fields )
 			->from( 'cu_private_event' )
