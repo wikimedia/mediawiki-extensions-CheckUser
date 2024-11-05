@@ -45,6 +45,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	private CheckUserApiRequestAggregator $apiRequestAggregator;
 	private IConnectionProvider $dbProvider;
 	private JobQueueGroup $jobQueueGroup;
+	private array $permissions = [];
 
 	/**
 	 * @var int Number of revisions to return per wiki
@@ -109,6 +110,9 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	 * Query the central index tables to find wikis that have recently been edited
 	 * from by temporary accounts using the target IP.
 	 *
+	 * Also set $permissions property, which holds information about external wiki
+	 * permissions.
+	 *
 	 * @return array
 	 */
 	private function fetchWikisToQuery() {
@@ -135,7 +139,8 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			[
 				'action' => 'query',
 				'prop' => 'info',
-				'intestactions' => 'checkuser-temporary-account|checkuser-temporary-account-no-preference',
+				'intestactions' => 'checkuser-temporary-account|checkuser-temporary-account-no-preference' .
+					'|deletedhistory|suppressrevision|viewsuppressed',
 				// We need to check against a title, but it doesn't actually matter if the title exists
 				'titles' => 'Test Title',
 				// Using `full` level checks blocks as well
@@ -163,13 +168,13 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				continue;
 			}
 
-			$localPermissions = $permissions[$wikiId]['query']['pages'][0]['actions'];
+			$this->permissions[$wikiId] = $permissions[$wikiId]['query']['pages'][0]['actions'];
 
 			if (
-				count( $localPermissions['checkuser-temporary-account-no-preference'] ) === 0 ||
+				$this->userHasExternalPermission( 'checkuser-temporary-account-no-preference', $wikiId ) ||
 				// No need to check the global preference, since SpecialGlobalContribuitons has already
 				// confirmed they have enabled the global preference.
-				count( $localPermissions['checkuser-temporary-account'] ) === 0
+				$this->userHasExternalPermission( 'checkuser-temporary-account', $wikiId )
 			) {
 				$wikisToQuery[] = $wikiId;
 			}
@@ -208,14 +213,21 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			$dbr = $this->dbProvider->getReplicaDatabase( $wikiId );
 			$wikiConds = $conds;
 			if ( !WikiMap::isCurrentWikiDbDomain( $wikiId ) ) {
-				// Filter out results with hidden authors from external wikis, until we can check external
-				// permissions (T378156).
-				$wikiConds[] = $dbr->bitAnd(
-					$this->revisionDeletedField, RevisionRecord::DELETED_USER
-				) . ' = 0';
-				$wikiConds[] = $dbr->bitAnd(
-					$this->revisionDeletedField, RevisionRecord::SUPPRESSED_USER
-				) . ' != ' . RevisionRecord::SUPPRESSED_USER;
+				// Filter out results with hidden authors from external wikis, if the user shouldn't see
+				// them. These filters are added for the local query in ContributionsPager::getQueryInfo.
+				if ( !$this->userHasExternalPermission( 'deletedhistory', $wikiId ) ) {
+					$wikiConds[] = $dbr->bitAnd(
+						$this->revisionDeletedField, RevisionRecord::DELETED_USER
+					) . ' = 0';
+				}
+				if (
+					!$this->userHasExternalPermission( 'suppressrevision', $wikiId ) &&
+					!$this->userHasExternalPermission( 'viewsuppressed', $wikiId )
+				) {
+					$wikiConds[] = $dbr->bitAnd(
+						$this->revisionDeletedField, RevisionRecord::SUPPRESSED_USER
+					) . ' != ' . RevisionRecord::SUPPRESSED_USER;
+				}
 			}
 			$resultSet = $dbr->newSelectQueryBuilder()
 				->rawTables( $tables )
@@ -662,5 +674,19 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	protected function isFromExternalWiki( $row ) {
 		return isset( $row->sourcewiki ) &&
 			!WikiMap::isCurrentWikiDbDomain( $row->sourcewiki );
+	}
+
+	/**
+	 * Check for errors, which includes permission errors if they don't have the right
+	 * and also block errors if they are blocked.
+	 *
+	 * @param string $right
+	 * @param string $wikiId
+	 * @return bool The user has the permission on the wiki
+	 */
+	private function userHasExternalPermission( $right, $wikiId ) {
+		return isset( $this->permissions[$wikiId] ) &&
+			isset( $this->permissions[$wikiId][$right] ) &&
+			count( $this->permissions[$wikiId][$right] ) === 0;
 	}
 }

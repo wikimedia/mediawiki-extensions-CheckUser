@@ -328,6 +328,8 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$wikis = $pager->fetchWikisToQuery();
 
 		$this->assertCount( $expectedCount, $wikis );
+		$this->assertArrayHasKey( $externalWiki, $pager->permissions );
+		$this->assertSame( array_keys( $permissions ), array_keys( $pager->permissions[$externalWiki] ) );
 	}
 
 	public function provideExternalWikiPermissions() {
