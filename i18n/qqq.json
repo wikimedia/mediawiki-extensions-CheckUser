@@ -306,6 +306,7 @@
 	"checkuser-tempaccount-reveal-ip-button-label": "Label for a button that reveals the IP address of a temporary user. Displayed next to user links for temporary users on history, diff and special pages.",
 	"checkuser-tempaccount-reveal-ip-missing": "Text to display when revealing an IP for a temporary user, if the IP address can't be found. Displayed next to user links for temporary users on history, diff and special pages.",
 	"checkuser-tempaccount-reveal-ip-error": "Text to display when revealing an IP for a temporary user, if the there is an error with building request URL or the user does not have access. Displayed next to user links for temporary users on history, diff and special pages.",
+	"checkuser-tempaccount-reveal-ip-permission-error-description": "Contents of an error page shown when revealing an IP for a temporary user without having accepted the necessary agreement via preferences",
 	"checkuser-tempaccount-specialblock-ips": "Text displayed if target is a temporary user on [[Special:Block]]",
 	"checkuser-temporary-account-log-name": "{{doc-logpage}}\n\nThe page name of [[Special:Log/checkuser-temporary-account]]. Appears in the drop down menu of the [[Special:Log]] page and subpages.",
 	"checkuser-temporary-account-log-header": "Appears on top of [[Special:Log/checkuser-temporary-account]].",

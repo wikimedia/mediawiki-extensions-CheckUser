@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Api\Rest\Handler;
 use JobQueueGroup;
 use MediaWiki\Block\BlockManager;
 use MediaWiki\CheckUser\Jobs\LogTemporaryAccountAccessJob;
+use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Config\Config;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Rest\LocalizedHttpException;
@@ -13,7 +14,6 @@ use MediaWiki\Rest\SimpleHandler;
 use MediaWiki\Rest\TokenAwareHandlerTrait;
 use MediaWiki\Rest\Validator\Validator;
 use MediaWiki\User\ActorStore;
-use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\UserNameUtils;
 use Wikimedia\Message\MessageValue;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -26,40 +26,30 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 	protected Config $config;
 	protected JobQueueGroup $jobQueueGroup;
 	protected PermissionManager $permissionManager;
-	protected UserOptionsLookup $userOptionsLookup;
 	protected UserNameUtils $userNameUtils;
 	protected IConnectionProvider $dbProvider;
 	protected ActorStore $actorStore;
 	protected BlockManager $blockManager;
+	private CheckUserPermissionManager $checkUserPermissionsManager;
 
-	/**
-	 * @param Config $config
-	 * @param JobQueueGroup $jobQueueGroup
-	 * @param PermissionManager $permissionManager
-	 * @param UserOptionsLookup $userOptionsLookup
-	 * @param UserNameUtils $userNameUtils
-	 * @param IConnectionProvider $dbProvider
-	 * @param ActorStore $actorStore
-	 * @param BlockManager $blockManager
-	 */
 	public function __construct(
 		Config $config,
 		JobQueueGroup $jobQueueGroup,
 		PermissionManager $permissionManager,
-		UserOptionsLookup $userOptionsLookup,
 		UserNameUtils $userNameUtils,
 		IConnectionProvider $dbProvider,
 		ActorStore $actorStore,
-		BlockManager $blockManager
+		BlockManager $blockManager,
+		CheckUserPermissionManager $checkUserPermissionsManager
 	) {
 		$this->config = $config;
 		$this->jobQueueGroup = $jobQueueGroup;
 		$this->permissionManager = $permissionManager;
-		$this->userOptionsLookup = $userOptionsLookup;
 		$this->userNameUtils = $userNameUtils;
 		$this->dbProvider = $dbProvider;
 		$this->actorStore = $actorStore;
 		$this->blockManager = $blockManager;
+		$this->checkUserPermissionsManager = $checkUserPermissionsManager;
 	}
 
 	/**
@@ -73,31 +63,19 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 			);
 		}
 
-		if (
-			!$this->permissionManager->userHasRight(
-				$this->getAuthority()->getUser(),
-				'checkuser-temporary-account-no-preference'
-			) &&
-			(
-				!$this->permissionManager->userHasRight(
-					$this->getAuthority()->getUser(),
-					'checkuser-temporary-account'
-				) ||
-				!$this->userOptionsLookup->getOption(
-					$this->getAuthority()->getUser(),
-					'checkuser-temporary-account-enable'
-				)
-			)
-		) {
+		$permStatus = $this->checkUserPermissionsManager->canAccessTemporaryAccountIPAddresses(
+			$this->getAuthority()
+		);
+		if ( !$permStatus->isGood() ) {
+			if ( $permStatus->getBlock() ) {
+				throw new LocalizedHttpException(
+					new MessageValue( 'checkuser-rest-access-denied-blocked-user' ),
+					403
+				);
+			}
+
 			throw new LocalizedHttpException(
 				new MessageValue( 'checkuser-rest-access-denied' ),
-				403
-			);
-		}
-
-		if ( $this->getAuthority()->getBlock() ) {
-			throw new LocalizedHttpException(
-				new MessageValue( 'checkuser-rest-access-denied-blocked-user' ),
 				403
 			);
 		}

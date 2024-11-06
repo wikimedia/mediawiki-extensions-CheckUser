@@ -22,6 +22,7 @@ use MediaWiki\CheckUser\Services\CheckUserDataPurger;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
+use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountsByIPLookup;
 use MediaWiki\CheckUser\Services\CheckUserUtilityService;
 use MediaWiki\CheckUser\Services\TokenManager;
@@ -347,6 +348,9 @@ return [
 			$services->getPermissionManager(),
 			$services->getUserOptionsLookup()
 		);
-	}
+	},
+	'CheckUserPermissionManager' => static function ( MediaWikiServices $services ): CheckUserPermissionManager {
+		return new CheckUserPermissionManager( $services->getUserOptionsLookup() );
+	},
 ];
 // @codeCoverageIgnoreEnd

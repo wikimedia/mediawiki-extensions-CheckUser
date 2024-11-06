@@ -5,11 +5,11 @@ namespace MediaWiki\CheckUser\Api\Rest\Handler;
 use JobQueueGroup;
 use MediaWiki\Block\BlockManager;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
+use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Config\Config;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\User\ActorStore;
-use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserNameUtils;
 use Wikimedia\IPUtils;
@@ -29,16 +29,16 @@ abstract class AbstractTemporaryAccountIPHandler extends AbstractTemporaryAccoun
 		Config $config,
 		JobQueueGroup $jobQueueGroup,
 		PermissionManager $permissionManager,
-		UserOptionsLookup $userOptionsLookup,
 		UserNameUtils $userNameUtils,
 		IConnectionProvider $dbProvider,
 		ActorStore $actorStore,
 		BlockManager $blockManager,
-		TempUserConfig $tempUserConfig
+		TempUserConfig $tempUserConfig,
+		CheckUserPermissionManager $checkUserPermissionsManager
 	) {
 		parent::__construct(
-			$config, $jobQueueGroup, $permissionManager, $userOptionsLookup, $userNameUtils, $dbProvider, $actorStore,
-			$blockManager
+			$config, $jobQueueGroup, $permissionManager, $userNameUtils, $dbProvider, $actorStore,
+			$blockManager, $checkUserPermissionsManager
 		);
 		$this->tempUserConfig = $tempUserConfig;
 	}

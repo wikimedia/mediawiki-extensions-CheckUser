@@ -204,11 +204,11 @@
 				"MainConfig",
 				"JobQueueGroup",
 				"PermissionManager",
-				"UserOptionsLookup",
 				"UserNameUtils",
 				"DBLoadBalancerFactory",
 				"ActorStore",
-				"BlockManager"
+				"BlockManager",
+				"CheckUserPermissionManager"
 			]
 		},
 		{
@@ -219,13 +219,13 @@
 				"MainConfig",
 				"JobQueueGroup",
 				"PermissionManager",
-				"UserOptionsLookup",
 				"UserNameUtils",
 				"DBLoadBalancerFactory",
 				"ActorStore",
 				"BlockManager",
 				"TempUserConfig",
-				"CheckUserTemporaryAccountsByIPLookup"
+				"CheckUserTemporaryAccountsByIPLookup",
+				"CheckUserPermissionManager"
 			]
 		},
 		{
@@ -236,12 +236,12 @@
 				"MainConfig",
 				"JobQueueGroup",
 				"PermissionManager",
-				"UserOptionsLookup",
 				"UserNameUtils",
 				"DBLoadBalancerFactory",
 				"ActorStore",
 				"BlockManager",
-				"RevisionStore"
+				"RevisionStore",
+				"CheckUserPermissionManager"
 			]
 		},
 		{
@@ -252,11 +252,11 @@
 				"MainConfig",
 				"JobQueueGroup",
 				"PermissionManager",
-				"UserOptionsLookup",
 				"UserNameUtils",
 				"DBLoadBalancerFactory",
 				"ActorStore",
-				"BlockManager"
+				"BlockManager",
+				"CheckUserPermissionManager"
 			]
 		},
 		{
