@@ -11,9 +11,12 @@ use MediaWiki\Rest\TokenAwareHandlerTrait;
 use MediaWiki\Rest\Validator\Validator;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
+use MediaWiki\User\ActorStore;
+use MediaWiki\User\UserIdentityValue;
 use TypeError;
 use Wikimedia\Message\MessageValue;
 use Wikimedia\ParamValidator\ParamValidator;
+use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
@@ -31,18 +34,21 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 	private Config $config;
 	private RevisionStore $revisionStore;
 	private UserAgentClientHintsManager $userAgentClientHintsManager;
+	private IConnectionProvider $dbProvider;
+	private ActorStore $actorStore;
 
-	/**
-	 * @param Config $config
-	 * @param RevisionStore $revisionStore
-	 * @param UserAgentClientHintsManager $userAgentClientHintsManager
-	 */
 	public function __construct(
-		Config $config, RevisionStore $revisionStore, UserAgentClientHintsManager $userAgentClientHintsManager
+		Config $config,
+		RevisionStore $revisionStore,
+		UserAgentClientHintsManager $userAgentClientHintsManager,
+		IConnectionProvider $dbProvider,
+		ActorStore $actorStore
 	) {
 		$this->config = $config;
 		$this->revisionStore = $revisionStore;
 		$this->userAgentClientHintsManager = $userAgentClientHintsManager;
+		$this->dbProvider = $dbProvider;
+		$this->actorStore = $actorStore;
 	}
 
 	/**
@@ -93,6 +99,8 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 		$identifier = $this->getValidatedParams()['id'];
 		if ( $type === 'revision' ) {
 			$this->performValidationForRevision( $identifier );
+		} elseif ( $type === 'privatelog' ) {
+			$this->performValidationForPrivateLog( $identifier );
 		} else {
 			// If the type is not supported, pretend the route doesn't exist.
 			throw new LocalizedHttpException(
@@ -109,12 +117,11 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 			);
 		}
 
-		$response = $this->getResponseFactory()->createJson( [
-			"value" => $this->getResponseFactory()->formatMessage(
+		return $this->getResponseFactory()->createJson( [
+			'value' => $this->getResponseFactory()->formatMessage(
 				new MessageValue( 'checkuser-api-useragent-clienthints-explanation' )
 			)
 		] );
-		return $response;
 	}
 
 	/**
@@ -145,6 +152,53 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 				new MessageValue(
 					'checkuser-api-useragent-clienthints-revision-user-mismatch',
 					[ $user->getId(), $revisionId ]
+				),
+				401
+			);
+		}
+	}
+
+	/**
+	 * Check whether Client Hints data can be stored for the private log event ID.
+	 * This method checks that the revision with this private log event ID exists,
+	 * was not made over wgCheckUserClientHintsRestApiMaxTimeLag seconds ago, and
+	 * that the user making the request performed the private log.
+	 *
+	 * @param int $privateLogId The private log ID
+	 * @return void
+	 * @throws LocalizedHttpException If the checks fail, this exception will be raised.
+	 */
+	private function performValidationForPrivateLog( int $privateLogId ) {
+		// Fetch details about the private event with ID $privateLogId
+		$dbr = $this->dbProvider->getReplicaDatabase();
+		$privateEventRow = $dbr->newSelectQueryBuilder()
+			->select( [ 'cupe_timestamp', 'cupe_actor', 'cupe_ip' ] )
+			->from( 'cu_private_event' )
+			->where( [ 'cupe_id' => $privateLogId ] )
+			->caller( __METHOD__ )
+			->fetchRow();
+		if ( $privateEventRow === false ) {
+			throw new LocalizedHttpException(
+				new MessageValue(
+					'checkuser-api-useragent-clienthints-nonexistent-id', [ 'privatelog', $privateLogId ]
+				),
+				404
+			);
+		}
+		$this->performTimestampValidation( $privateEventRow->cupe_timestamp, 'privatelog', $privateLogId );
+		// Check the performer of the action is the same as the user submitting this REST API request
+		if ( $privateEventRow->cupe_actor === null && $privateEventRow->cupe_ip ) {
+			// Use the IP as the user_text if the actor ID is NULL and the IP is not NULL (T353953).
+			$performingUser = new UserIdentityValue( 0, $privateEventRow->cupe_ip );
+		} else {
+			$performingUser = $this->actorStore->getActorById( $privateEventRow->cupe_actor, $dbr );
+		}
+		$user = $this->getAuthority()->getUser();
+		if ( !$performingUser->equals( $user ) ) {
+			throw new LocalizedHttpException(
+				new MessageValue(
+					'checkuser-api-useragent-clienthints-revision-user-mismatch',
+					[ $user->getId(), $privateLogId ]
 				),
 				401
 			);
