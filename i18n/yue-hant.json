@@ -36,6 +36,9 @@
 	"checkuser-ip-contributions-results-title": "$1嘅臨時用戶IP貢獻",
 	"checkuser-ip-contributions-special-ip-contributions-button": "臨時用戶IP修改",
 	"checkuser-ip-contributions-special-contributions-button": "舊式IP修改",
+	"prefs-checkuser-tempaccount": "揭露臨時戶口IP",
+	"checkuser-tempaccount-enable-preference-description": "用呢個工具嘅時候，你要確保你符合政策規定。",
+	"checkuser-tempaccount-enable-preference": "開着臨時戶口IP揭露",
 	"checkuser-tempaccount-reveal-ip-button-label": "顯示IP",
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 {{GENDER:$2|睇咗}} $3 嘅臨時戶口",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|睇咗}} 同 $3 相關嘅受保護變數"

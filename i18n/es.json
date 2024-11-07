@@ -6,6 +6,7 @@
 			"AlimanRuna",
 			"Armando-Martin",
 			"Canaan9801",
+			"Codename Noreste",
 			"Crazymadlover",
 			"DannyS712",
 			"Dferg",
@@ -259,6 +260,7 @@
 	"checkuser-tempaccount-reveal-ip-button-label": "Mostrar dirección IP",
 	"checkuser-tempaccount-reveal-ip-missing": "no disponible",
 	"checkuser-tempaccount-reveal-ip-error": "error",
+	"checkuser-tempaccount-reveal-ip-permission-error-description": "Para ver las direcciones IP de cuentas temporales, acepte el acuerdo en [[Special:Preferences|sus preferencias]].",
 	"checkuser-tempaccount-specialblock-ips": "Esta es una cuenta de usuario temporal que usa {{PLURAL:$1|la siguiente dirección IP|las siguientes direcciones IP}}: $2",
 	"checkuser-temporary-account-log-name": "Registro de comprobación de cuentas temporales",
 	"checkuser-temporary-account-log-header": "Este es un registro de las siguientes operaciones:\n# Acceso a las direcciones IP utilizadas por las cuentas temporales.\n# Cambios en los niveles de acceso de los usuarios para ver las direcciones IP utilizadas por las cuentas temporales.",
@@ -268,5 +270,5 @@
 	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2|vió}} direcciones IP por $3",
 	"log-action-filter-checkuser-temporary-account": "Tipo de acción:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Cambios en el acceso",
-	"log-action-filter-checkuser-temporary-account-view-ips": "Ver direcciones IP"
+	"log-action-filter-checkuser-temporary-account-view-ips": "Acceder a los datos de IP de cuentas temporales"
 }

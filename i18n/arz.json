@@ -17,7 +17,7 @@
 	"right-checkuser-log": "اعرض السجل بتاع تشييك اليوزر",
 	"grouppage-checkuser": "{{ns:project}}:تشييك اليوزر",
 	"checkuser-reason": "السبب:",
-	"checkuser-showlog": "عرض السجل",
+	"checkuser-showlog": "سجل التحقق",
 	"checkuser-query": "دور على احدث التغييرات",
 	"checkuser-target": "اى بى او يوزر:",
 	"checkuser-users": "هات اليوزرز",
@@ -39,11 +39,11 @@
 	"checkuser-wasblocked": "اتمنع قبل كدا",
 	"checkuser-localonly": "مش متوحد",
 	"checkuser-massblock": "امنع اليوزرز اللى اخترتهم.",
-	"checkuser-massblock-text": "الحسابات اللى انت اختارتها ح يتمنعو على طول،مش ح يقدرو يفتحو حسابات و ح يتمنعو اوتوماتيكى.\nعناوين الاى بى ح تتمنع لمدة اسبوع واحد بالنسبة للى بيستعملو الاى بى و مش ح يقدرو يفتحو حسابات.",
+	"checkuser-massblock-text": "استخدم مربعات الاختيار في النتائج أعلاه لتحديد الحسابات وعناوين البروتوكول التي ترغب في منعها. يمكنك بعدها استخدام الأزرار أدناه، والتي ستفتح نموذج {{#special:InvestigateBlock}} مع إدخال الأهداف مسبقًا.",
 	"checkuser-search": "تدوير",
 	"checkuser-search-submit": "تدوير",
 	"checkuser-ipeditcount": "~$1 من كل اليوزرز",
-	"checkuser-showmain": "ارجع للاستمارة الرئيسية بتاعة تشييك اليوزرز",
+	"checkuser-showmain": "التبديل إلى {{#special:CheckUser}}",
 	"logentry-checkuser-private-event-autocreate-account": "ابتدا اوتوماتيكى",
 	"logentry-checkuser-private-event-create-account": "أنشأ"
 }
