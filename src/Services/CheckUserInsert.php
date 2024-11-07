@@ -274,6 +274,7 @@ class CheckUserInsert {
 	 * @param UserIdentity $user the user associated with the event
 	 * @param ?RecentChange $rc If triggered by a RecentChange, then this is the associated
 	 *  RecentChange object. Null if not triggered by a RecentChange.
+	 * @return int The ID of the newly created row in the cu_private_event table
 	 * @internal Only for use by the CheckUser extension
 	 */
 	public function insertIntoCuPrivateEventTable(
@@ -281,7 +282,7 @@ class CheckUserInsert {
 		string $method,
 		UserIdentity $user,
 		?RecentChange $rc = null
-	): void {
+	): int {
 		$request = RequestContext::getMain()->getRequest();
 
 		$ip = $request->getIP();
@@ -333,11 +334,14 @@ class CheckUserInsert {
 			->row( $row )
 			->caller( $method )
 			->execute();
+		$insertedId = $dbw->insertId();
 
 		// Update the central index for this newly inserted row.
 		$this->recordActionInCentralTablesOnDeferredUpdate(
 			$user, $ip, $dbw->getDomainID(), $row['cupe_timestamp'], false
 		);
+
+		return $insertedId;
 	}
 
 	/**

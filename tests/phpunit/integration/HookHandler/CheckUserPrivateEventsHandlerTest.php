@@ -102,6 +102,21 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			->from( 'cu_private_event' )
 			->join( 'actor', null, 'actor_id=cupe_actor' )
 			->assertRowValue( $expectedValues );
+		// If the response was that authentication failed, then expect that wgCheckUserClientHintsPrivateEventId is
+		// added as a JS variable
+		$jsConfigVars = RequestContext::getMain()->getOutput()->getJsConfigVars();
+		if ( $authResp->status === AuthenticationResponse::FAIL ) {
+			$this->assertArrayHasKey( 'wgCheckUserClientHintsPrivateEventId', $jsConfigVars );
+			$this->assertSame(
+				(int)$this->newSelectQueryBuilder()
+					->select( 'cupe_id' )
+					->from( 'cu_private_event' )
+					->fetchField(),
+				$jsConfigVars['wgCheckUserClientHintsPrivateEventId']
+			);
+		} else {
+			$this->assertArrayNotHasKey( 'wgCheckUserClientHintsPrivateEventId', $jsConfigVars );
+		}
 	}
 
 	/** @dataProvider provideOnAuthManagerLoginAuthenticateAudit */

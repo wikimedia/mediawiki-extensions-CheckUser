@@ -22,18 +22,22 @@
 		 *
 		 * @param {Object} clientHintData Data structured returned by
 		 *  navigator.userAgentData.getHighEntropyValues()
+		 * @param {int} identifier The ID associated with the event
+		 * @param {string} type The type of event (e.g. 'revision').
 		 * @param {boolean} retryOnTokenMismatch Whether to retry the POST if the CSRF token is a
 		 *  mismatch. A mismatch can happen if the token has expired.
 		 * @return {jQuery.Promise} A promise that resolves after the POST is complete.
 		 */
-		function postClientHintData( clientHintData, retryOnTokenMismatch ) {
+		function postClientHintData(
+			clientHintData, identifier, type, retryOnTokenMismatch
+		) {
 			const restApi = new mw.Rest();
 			const api = new mw.Api();
 			const deferred = $.Deferred();
 			api.getToken( 'csrf' ).then( ( token ) => {
 				clientHintData.token = token;
 				restApi.post(
-					'/checkuser/v0/useragent-clienthints/revision/' + mw.config.get( 'wgCurRevisionId' ),
+					'/checkuser/v0/useragent-clienthints/' + type + '/' + identifier,
 					clientHintData
 				).then(
 					( data ) => {
@@ -58,7 +62,7 @@
 					) {
 						// The CSRF token has expired. Retry the POST with a new token.
 						api.badToken( 'csrf' );
-						postClientHintData( clientHintData, false ).then(
+						postClientHintData( clientHintData, identifier, type, false ).then(
 							( data ) => {
 								deferred.resolve( data );
 							},
@@ -86,21 +90,39 @@
 		}
 
 		/**
+		 * Collect and POST Client Hints data for a given event.
+		 *
+		 * @param {int} identifier The ID associated with the event
+		 * @param {string} type The type of event (e.g. 'revision').
+		 */
+		function collectAndSendClientHintsData( identifier, type ) {
+			try {
+				navigatorData.userAgentData.getHighEntropyValues(
+					wgCheckUserClientHintsHeadersJsApi
+				).then( ( userAgentHighEntropyValues ) => {
+					postClientHintData( userAgentHighEntropyValues, identifier, type, true );
+				} );
+			} catch ( err ) {
+				// Handle NotAllowedError, if the browser throws it.
+				mw.log.error( err );
+				mw.errorLogger.logError( new Error( err ), 'error.checkuser' );
+			}
+		}
+
+		// Collect and send Client Hints data if the user has just performed a CheckUser private event.
+		const privateEventId = mw.config.get( 'wgCheckUserClientHintsPrivateEventId' );
+		if ( privateEventId ) {
+			collectAndSendClientHintsData( privateEventId, 'privatelog' );
+		}
+
+		/**
 		 * Respond to postEdit hook, fired by MediaWiki core, VisualEditor and DiscussionTools.
 		 *
 		 * Note that CheckUser only adds this code to article page views if
 		 * CheckUserClientHintsEnabled is set to true.
 		 */
 		mw.hook( 'postEdit' ).add( () => {
-			try {
-				navigatorData.userAgentData.getHighEntropyValues(
-					wgCheckUserClientHintsHeadersJsApi
-				).then( ( userAgentHighEntropyValues ) => postClientHintData( userAgentHighEntropyValues, true ) );
-			} catch ( err ) {
-				// Handle NotAllowedError, if the browser throws it.
-				mw.log.error( err );
-				mw.errorLogger.logError( new Error( err ), 'error.checkuser' );
-			}
+			collectAndSendClientHintsData( mw.config.get( 'wgCurRevisionId' ), 'revision' );
 		} );
 		return true;
 	}
