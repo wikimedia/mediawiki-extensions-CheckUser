@@ -266,7 +266,9 @@
 			"services": [
 				"MainConfig",
 				"RevisionStore",
-				"UserAgentClientHintsManager"
+				"UserAgentClientHintsManager",
+				"ConnectionProvider",
+				"ActorStore"
 			]
 		}
 	],

@@ -27,6 +27,7 @@ class UserAgentClientHintsManager {
 
 	public const SUPPORTED_TYPES = [
 		'revision',
+		'privatelog',
 	];
 
 	/**
@@ -82,8 +83,8 @@ class UserAgentClientHintsManager {
 	 * @param ClientHintsData $clientHintsData
 	 * @param int $referenceId An ID to use in `uachm_reference_id` column in the
 	 *   cu_useragent_clienthints_map table
-	 * @param string $type The type of event this data is associated with. Valid values are:
-	 *  - revision
+	 * @param string $type The type of event this data is associated with. Valid values are the values in
+	 *   {@link UserAgentClientHintsManager::SUPPORTED_TYPES}.
 	 * @param bool $usePrimary If true, use the primary DB for SELECT queries.
 	 * @return StatusValue
 	 */
