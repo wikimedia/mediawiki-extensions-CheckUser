@@ -55,9 +55,9 @@ class CheckUserLookupUtils {
 		$CIDRLimit = $this->options->get( 'CheckUserCIDRLimit' );
 		if ( IPUtils::isValidRange( $target ) ) {
 			[ $ip, $range ] = explode( '/', $target, 2 );
-			return !(
-				( IPUtils::isIPv4( $ip ) && $range < $CIDRLimit['IPv4'] ) ||
-				( IPUtils::isIPv6( $ip ) && $range < $CIDRLimit['IPv6'] )
+			return (
+				( IPUtils::isIPv4( $ip ) && $range >= $CIDRLimit['IPv4'] ) ||
+				( IPUtils::isIPv6( $ip ) && $range >= $CIDRLimit['IPv6'] )
 			);
 		}
 
