@@ -41,7 +41,7 @@
 	"action-checkuser-temporary-account-no-preference": "se IP-adresser, der bruges af midlertidige konti",
 	"action-checkuser-temporary-account-log": "se loggen over adgang til midlertidige konto-IP-adresser",
 	"grouppage-checkuser": "{{ns:project}}:Tjekbruger",
-	"grouppage-checkuser-temporary-account-viewer": "{{ns:project}}: Midlertidig konto-IP-fremviser",
+	"grouppage-checkuser-temporary-account-viewer": "{{ns:project}}:Brugere, der kan se midlertidige kontoers IP-adresser",
 	"checkuser-clienthints-name-architecture": "Arkitektur",
 	"checkuser-clienthints-name-mobile": "Mobil",
 	"checkuser-clienthints-name-model": "Model",

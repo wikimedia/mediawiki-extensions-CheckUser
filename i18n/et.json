@@ -103,5 +103,7 @@
 	"checkuser-investigate-compare-table-header-activity": "Ajavahemik",
 	"checkuser-investigate-compare-table-header-ip": "IP-aadress",
 	"checkuser-investigate-compare-table-header-useragent": "Kasutajaagent",
+	"prefs-checkuser-tempaccount": "Ajutiste kontode IP-aadresside vaatamine",
+	"checkuser-tempaccount-enable-preference": "Luba ajutiste kontode IP-aadresside vaatamine",
 	"checkuser-tempaccount-reveal-ip-button-label": "Näita IP-aadressi"
 }
