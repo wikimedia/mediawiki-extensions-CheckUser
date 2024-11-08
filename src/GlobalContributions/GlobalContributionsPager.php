@@ -371,13 +371,24 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			return '';
 		}
 
+		// If the namespace ID is not one of the common namespaces that are the same
+		// across all wikis, do not display the namespace.
+		$namespaceIsKnown = in_array(
+			$row->{$this->pageNamespaceField},
+			$this->namespaceInfo->getCommonNamespaces()
+		);
+
+		$linkText = $namespaceIsKnown ?
+			$this->currentPage->getPrefixedText() :
+			$this->currentPage->getText();
+
 		$dir = $this->getLanguage()->getDir();
 		$link = $this->getLinkRenderer()->makeExternalLink(
 			$this->getForeignURL(
 				$row->sourcewiki,
 				'Special:Redirect/page/' . $row->rev_page
 			),
-			$this->currentPage->getText(),
+			$linkText,
 			$this->currentPage,
 			'',
 			[ 'class' => 'mw-contributions-title' ],

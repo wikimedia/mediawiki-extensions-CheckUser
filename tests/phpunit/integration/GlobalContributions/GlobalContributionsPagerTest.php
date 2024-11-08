@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\GlobalContributions;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPager;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\Title\Title;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\WikiMap\WikiMap;
@@ -29,9 +30,9 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			);
 	}
 
-	private function getWrappedPager( $userName, $pageTitle ) {
+	private function getWrappedPager( $userName, $pageTitle, $pageNamespace = 0 ) {
 		$pager = TestingAccessWrapper::newFromObject( $this->getPager( $userName ) );
-		$pager->currentPage = Title::makeTitle( 0, $pageTitle );
+		$pager->currentPage = Title::makeTitle( $pageNamespace, $pageTitle );
 		return $pager;
 	}
 
@@ -74,14 +75,45 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$this->assertStringNotContainsString( 'data-mw-revid', $formatted );
 	}
 
-	public function testFormatArticleLink() {
+	/**
+	 * @dataProvider provideFormatArticleLink
+	 */
+	public function testFormatArticleLink( $namespace, $expectShowNamespace ) {
 		$this->setUserLang( 'qqx' );
-		$row = $this->getRow( [ 'sourcewiki' => 'otherwiki' ] );
-		$pager = $this->getWrappedPager( '127.0.0.1', $row->page_title );
+		$row = $this->getRow( [
+			'sourcewiki' => 'otherwiki',
+			'page_namespace' => $namespace,
+		] );
+		$pager = $this->getWrappedPager( '127.0.0.1', $row->page_title, $row->page_namespace );
 
 		$formatted = $pager->formatArticleLink( $row );
 		$this->assertStringContainsString( 'external', $formatted );
 		$this->assertStringContainsString( $row->page_title, $formatted );
+
+		if ( $expectShowNamespace ) {
+			$this->assertStringContainsString(
+				NamespaceInfo::CANONICAL_NAMES[$namespace],
+				$formatted
+			);
+		} else {
+			$this->assertStringContainsString(
+				'>' . $row->page_title,
+				$formatted
+			);
+		}
+	}
+
+	public function provideFormatArticleLink() {
+		return [
+			'Known external namespace is shown' => [
+				'namespace' => NS_TALK,
+				'expectShowNamespace' => true
+			],
+			'Unknown external namespace is not shown' => [
+				'namespace' => 1000,
+				'expectShowNamespace' => false
+			],
+		];
 	}
 
 	/**
