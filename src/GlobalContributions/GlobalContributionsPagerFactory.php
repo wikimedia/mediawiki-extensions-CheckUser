@@ -6,10 +6,12 @@ use JobQueueGroup;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CommentFormatter\CommentFormatter;
+use MediaWiki\Config\Config;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Revision\RevisionStore;
+use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserFactory;
@@ -19,6 +21,9 @@ use Wikimedia\Assert\ParameterAssertionException;
 use Wikimedia\Rdbms\IConnectionProvider;
 
 class GlobalContributionsPagerFactory {
+
+	use ContributionsRangeTrait;
+
 	private LinkRenderer $linkRenderer;
 	private LinkBatchFactory $linkBatchFactory;
 	private HookContainer $hookContainer;
@@ -27,6 +32,7 @@ class GlobalContributionsPagerFactory {
 	private CommentFormatter $commentFormatter;
 	private UserFactory $userFactory;
 	private TempUserConfig $tempUserConfig;
+	private Config $config;
 	private CheckUserLookupUtils $lookupUtils;
 	private CheckUserApiRequestAggregator $apiRequestAggregator;
 	private IConnectionProvider $dbProvider;
@@ -41,6 +47,7 @@ class GlobalContributionsPagerFactory {
 	 * @param CommentFormatter $commentFormatter
 	 * @param UserFactory $userFactory
 	 * @param TempUserConfig $tempUserConfig
+	 * @param Config $config
 	 * @param CheckUserLookupUtils $lookupUtils
 	 * @param CheckUserApiRequestAggregator $apiRequestAggregator
 	 * @param IConnectionProvider $dbProvider
@@ -55,6 +62,7 @@ class GlobalContributionsPagerFactory {
 		CommentFormatter $commentFormatter,
 		UserFactory $userFactory,
 		TempUserConfig $tempUserConfig,
+		Config $config,
 		CheckUserLookupUtils $lookupUtils,
 		CheckUserApiRequestAggregator $apiRequestAggregator,
 		IConnectionProvider $dbProvider,
@@ -68,6 +76,7 @@ class GlobalContributionsPagerFactory {
 		$this->commentFormatter = $commentFormatter;
 		$this->userFactory = $userFactory;
 		$this->tempUserConfig = $tempUserConfig;
+		$this->config = $config;
 		$this->lookupUtils = $lookupUtils;
 		$this->apiRequestAggregator = $apiRequestAggregator;
 		$this->dbProvider = $dbProvider;
@@ -87,7 +96,11 @@ class GlobalContributionsPagerFactory {
 		UserIdentity $target
 	): GlobalContributionsPager {
 		$username = $target->getName();
-		Assert::parameter( $this->lookupUtils->isValidIPOrRange( $username ), 'username', 'target is invalid' );
+		Assert::parameter(
+			$this->isValidIPOrQueryableRange( $username, $this->config ),
+			'username',
+			'target is invalid'
+		);
 
 		return new GlobalContributionsPager(
 			$this->linkRenderer,

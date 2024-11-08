@@ -7,16 +7,21 @@ use JobQueueGroup;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CommentFormatter\CommentFormatter;
+use MediaWiki\Config\Config;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Revision\RevisionStore;
+use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
 
 class IPContributionsPagerFactory {
+
+	use ContributionsRangeTrait;
+
 	private LinkRenderer $linkRenderer;
 	private LinkBatchFactory $linkBatchFactory;
 	private HookContainer $hookContainer;
@@ -25,6 +30,7 @@ class IPContributionsPagerFactory {
 	private CommentFormatter $commentFormatter;
 	private UserFactory $userFactory;
 	private TempUserConfig $tempUserConfig;
+	private Config $config;
 	private CheckUserLookupUtils $lookupUtils;
 	private JobQueueGroup $jobQueueGroup;
 
@@ -37,6 +43,7 @@ class IPContributionsPagerFactory {
 	 * @param CommentFormatter $commentFormatter
 	 * @param UserFactory $userFactory
 	 * @param TempUserConfig $tempUserConfig
+	 * @param Config $config
 	 * @param CheckUserLookupUtils $lookupUtils
 	 * @param JobQueueGroup $jobQueueGroup
 	 */
@@ -49,6 +56,7 @@ class IPContributionsPagerFactory {
 		CommentFormatter $commentFormatter,
 		UserFactory $userFactory,
 		TempUserConfig $tempUserConfig,
+		Config $config,
 		CheckUserLookupUtils $lookupUtils,
 		JobQueueGroup $jobQueueGroup
 	) {
@@ -60,6 +68,7 @@ class IPContributionsPagerFactory {
 		$this->commentFormatter = $commentFormatter;
 		$this->userFactory = $userFactory;
 		$this->tempUserConfig = $tempUserConfig;
+		$this->config = $config;
 		$this->lookupUtils = $lookupUtils;
 		$this->jobQueueGroup = $jobQueueGroup;
 	}
@@ -76,7 +85,7 @@ class IPContributionsPagerFactory {
 		UserIdentity $target
 	): IPContributionsPager {
 		$username = $target->getName();
-		if ( !$this->lookupUtils->isValidIPOrRange( $username ) ) {
+		if ( !$this->isValidIPOrQueryableRange( $username, $this->config ) ) {
 			throw new InvalidArgumentException( "Invalid target: $username" );
 		}
 		return new IPContributionsPager(

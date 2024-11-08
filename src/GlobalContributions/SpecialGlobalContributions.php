@@ -4,9 +4,9 @@ namespace MediaWiki\CheckUser\GlobalContributions;
 
 use ErrorPageError;
 use MediaWiki\Block\DatabaseBlockStore;
-use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\SpecialPage\ContributionsSpecialPage;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\User\Options\UserOptionsLookup;
@@ -26,7 +26,9 @@ use Wikimedia\Rdbms\IConnectionProvider;
  * @ingroup SpecialPage
  */
 class SpecialGlobalContributions extends ContributionsSpecialPage {
-	private CheckUserLookupUtils $lookupUtils;
+
+	use ContributionsRangeTrait;
+
 	private GlobalContributionsPagerFactory $pagerFactory;
 	private CheckUserPermissionManager $checkUserPermissionsManager;
 
@@ -42,7 +44,6 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 		UserFactory $userFactory,
 		UserIdentityLookup $userIdentityLookup,
 		DatabaseBlockStore $blockStore,
-		CheckUserLookupUtils $lookupUtils,
 		GlobalContributionsPagerFactory $pagerFactory,
 		CheckUserPermissionManager $checkUserPermissionsManager
 	) {
@@ -58,7 +59,6 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 			$blockStore,
 			'GlobalContributions'
 		);
-		$this->lookupUtils = $lookupUtils;
 		$this->pagerFactory = $pagerFactory;
 		$this->checkUserPermissionsManager = $checkUserPermissionsManager;
 	}
@@ -89,7 +89,7 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 			'autofocus' => $target === '',
 			'section' => 'contribs-top',
 			'validation-callback' => function ( $target ) {
-				if ( !$this->lookupUtils->isValidIPOrRange( $target ) ) {
+				if ( !$this->isValidIPOrQueryableRange( $target, $this->getConfig() ) ) {
 					return $this->msg( 'checkuser-global-contributions-target-error-no-ip' );
 				}
 				return true;
@@ -98,7 +98,7 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 			'excludetemp' => true,
 			'ipallowed' => true,
 			'iprange' => true,
-			'iprangelimits' => $this->lookupUtils->getRangeLimit(),
+			'iprangelimits' => $this->getQueryableRangeLimit( $this->getConfig() ),
 			'required' => true,
 		];
 	}
@@ -144,9 +144,9 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 					)
 				] )
 			);
-		} elseif ( $target && !$this->lookupUtils->isValidIPOrRange( $target ) ) {
+		} elseif ( $target && !$this->isValidIPOrQueryableRange( $target, $this->getConfig() ) ) {
 			// Valid range, but outside CIDR limit.
-			$limits = $this->getConfig()->get( 'CheckUserCIDRLimit' );
+			$limits = $this->getQueryableRangeLimit( $this->getConfig() );
 			$limit = $limits[ IPUtils::isIPv4( $target ) ? 'IPv4' : 'IPv6' ];
 			$this->getOutput()->addWikiMsg( 'sp-contributions-outofrange', $limit );
 		} else {
@@ -228,6 +228,6 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 	/** @inheritDoc */
 	public function shouldShowBlockLogExtract( UserIdentity $target ): bool {
 		return parent::shouldShowBlockLogExtract( $target ) &&
-			$this->lookupUtils->isValidIPOrRange( $target->getName() );
+			$this->isValidIPOrQueryableRange( $target->getName(), $this->getConfig() );
 	}
 }

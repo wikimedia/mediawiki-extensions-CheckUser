@@ -164,6 +164,7 @@ return [
 			$services->getCommentFormatter(),
 			$services->getUserFactory(),
 			$services->getTempUserConfig(),
+			$services->getMainConfig(),
 			$services->get( 'CheckUserLookupUtils' ),
 			$services->getJobQueueGroup()
 		);
@@ -180,6 +181,7 @@ return [
 			$services->getCommentFormatter(),
 			$services->getUserFactory(),
 			$services->getTempUserConfig(),
+			$services->getMainConfig(),
 			$services->get( 'CheckUserLookupUtils' ),
 			$services->get( 'CheckUserApiRequestAggregator' ),
 			$services->getDBLoadBalancerFactory(),
