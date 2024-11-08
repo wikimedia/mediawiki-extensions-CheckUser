@@ -39,5 +39,6 @@
 	"checkuser-api-useragent-clienthints-revision-user-mismatch": "Benutzer $1 ist nicht der Autor der Version $2",
 	"checkuser-api-useragent-clienthints-mappings-exist": "Client-Hinweiszuordnungen sind bereits für $1 $2 vorhanden",
 	"checkuser-api-useragent-clienthints-called-too-late": "$1 $2 ist zu alt, um die Aufzeichnung von Client-Hinweisdaten zu ermöglichen",
+	"checkuser-api-useragent-clienthints-nonexistent-id": "Die $1 ID $2 existiert nicht",
 	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} sammelt Daten über die „User-Agent Client Hints“ zur Unterstützung bei der Moderation von Vandalismus und Missbrauch. Weitere Details findest du unter https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints."
 }

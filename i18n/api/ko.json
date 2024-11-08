@@ -27,5 +27,6 @@
 	"apihelp-query+checkuserlog-example-2": "192.0.2.0/24에 대한 2011-10-15T23:00:00Z 이후의 검사 보기",
 	"apierror-checkuser-missingsummary": "검사 이유를 지정해야 합니다.",
 	"apierror-checkuser-timelimit": "올바른 시간 형식(\"-2 weeks\" 혹은 \"2 weeks ago\"과 같이)으로 사용하셔야 합니다.",
-	"apierror-checkuser-invalidmode": "잘못된 요청 모드"
+	"apierror-checkuser-invalidmode": "잘못된 요청 모드",
+	"checkuser-api-useragent-clienthints-nonexistent-id": "$1의 $2 ID가 존재하지 않습니다"
 }
