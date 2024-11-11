@@ -53,17 +53,14 @@
 
 	// Include resources for all but a few specific special pages
 	// and for non-special pages that load this module
-	const excludePages = [
-		'Investigate',
-		'InvestigateBlock',
+	let excludePages = [
 		'IPContributions',
 		'GlobalContributions',
-		'CheckUser',
 		'Contributions',
 		'Recentchanges',
-		'Watchlist',
-		'Log'
+		'Watchlist'
 	];
+	excludePages = excludePages.concat( mw.config.get( 'wgCheckUserSpecialPagesWithoutIPRevealButtons', [] ) );
 	if (
 		!mw.config.get( 'wgCanonicalSpecialPageName' ) ||
 		excludePages.indexOf( mw.config.get( 'wgCanonicalSpecialPageName' ) ) === -1

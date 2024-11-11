@@ -177,6 +177,16 @@
 		"CheckUserCuciUserRandomChanceDebounceCutoff": {
 			"value": 3600,
 			"description": "Used to control when the random chance to update the cuci_user table is applied. Set to false to disable the random chance of not writing. By default the random chance is applied when the last timestamp for this user and wiki was recorded less than an hour ago."
+		},
+		"CheckUserSpecialPagesWithoutIPRevealButtons": {
+			"value": [
+				"Investigate",
+				"InvestigateBlock",
+				"CheckUser",
+				"Log",
+				"BlockList"
+			],
+			"description": "Used to hide the 'Show IP' buttons for temporary accounts on special pages where they are not useful. For example, Special:BlockList where a temporary account will only be the target of a block and therefore no IP will be present for that block. Note that the special pages are case sensitive, and do not always match their appearance in the URL, e.g. 'ListUsers' is known in the Special page system as 'Listusers'. Some special pages are hard-coded to be included as they load custom scripts to add the buttons."
 		}
 	},
 	"APIListModules": {
