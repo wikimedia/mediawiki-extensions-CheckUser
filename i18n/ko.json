@@ -27,7 +27,7 @@
 	"checkuser": "사용자 검사",
 	"checkuserlog": "사용자 검사 기록",
 	"checkuser-contribs": "사용자 IP를 확인",
-	"checkuser-contribs-log": "최근 사용자 검사",
+	"checkuser-contribs-log": "사용자 검사",
 	"group-checkuser": "검사관",
 	"group-checkuser-member": "{{GENDER:$1|검사관}}",
 	"group-checkuser-temporary-account-viewer": "임시 계정 IP 뷰어",
@@ -176,10 +176,10 @@
 	"checkuser-investigate-tour-filterip-title": "조사 범위를 더 좁힐까요?",
 	"checkuser-investigate-tour-block-title": "차단을 원하십니까?",
 	"checkuser-investigate-tour-copywikitext-title": "데이터를 복사하시겠습니까?",
-	"checkuser-ip-contributions": "IP 기여",
+	"checkuser-ip-contributions": "IP 기여 검색",
 	"checkuser-ip-contributions-permission-error-title": "권한 오류",
 	"checkuser-ip-contributions-target-label": "IP 주소 또는 대역:",
-	"checkuser-ip-contributions-target-error-no-ip": "유효한 IP 주소가 아닙니다",
+	"checkuser-ip-contributions-target-error-no-ip": "유효한 IP 주소 또는 IP 대역을 입력하십시오",
 	"checkuser-global-contributions": "전역 기여 검색",
 	"checkuser-global-contributions-permission-error-title": "권한 오류",
 	"checkuser-global-contributions-target-label": "IP 주소 또는 대역:",
@@ -192,5 +192,5 @@
 	"checkuser-tempaccount-reveal-ip-error": "오류",
 	"checkuser-tempaccount-specialblock-ips": "다음 {{PLURAL:$1|IP}}를 사용한 임시 사용자입니다: $2",
 	"log-action-filter-checkuser-temporary-account": "조치 유형:",
-	"log-action-filter-checkuser-temporary-account-view-ips": "IP 보기"
+	"log-action-filter-checkuser-temporary-account-view-ips": "임시 계정 IP 데이터 접근"
 }

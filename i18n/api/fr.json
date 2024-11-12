@@ -7,12 +7,14 @@
 			"McDutchie",
 			"Thibaut120094",
 			"Verdy p",
-			"Wladek92"
+			"Wladek92",
+			"Mahabarata"
 		]
 	},
 	"apihelp-query+checkuser-summary": "Vérifier quelles adresses IP sont utilisées pour un nom d’utilisateur donné ou quels noms d’utilisateur sont utilisés pour une adresse IP donnée.",
 	"apihelp-query+checkuser-param-request": "Type de demande CheckUser :",
 	"apihelp-query+checkuser-paramvalue-request-userips": "Obtenir l'adresse IP de l’utilisateur cible.",
+	"apihelp-query+checkuser-paramvalue-request-actions": "Obtenez les actions effectuées par les/l'adresse(s) IP cible(s).",
 	"apihelp-query+checkuser-paramvalue-request-ipusers": "Obtenir les utilisateurs depuis l’adresse ou la plage IP.",
 	"apihelp-query+checkuser-param-target": "Nom d’utilisateur, adresse IP ou plage CIDR à vérifier.",
 	"apihelp-query+checkuser-param-reason": "Motif de vérification.",

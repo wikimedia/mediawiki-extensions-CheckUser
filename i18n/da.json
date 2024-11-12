@@ -41,7 +41,7 @@
 	"action-checkuser-temporary-account-no-preference": "se IP-adresser, der bruges af midlertidige konti",
 	"action-checkuser-temporary-account-log": "se loggen over adgang til midlertidige konto-IP-adresser",
 	"grouppage-checkuser": "{{ns:project}}:Tjekbruger",
-	"grouppage-checkuser-temporary-account-viewer": "{{ns:project}}: Midlertidig konto-IP-fremviser",
+	"grouppage-checkuser-temporary-account-viewer": "{{ns:project}}:Brugere, der kan se midlertidige kontoers IP-adresser",
 	"checkuser-clienthints-name-architecture": "Arkitektur",
 	"checkuser-clienthints-name-mobile": "Mobil",
 	"checkuser-clienthints-name-model": "Model",
@@ -277,7 +277,7 @@
 	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 globalt {{GENDER:$2|set}} midlertidige konti på $3",
 	"log-action-filter-checkuser-temporary-account": "Handlingstype:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Ændre adgang",
-	"log-action-filter-checkuser-temporary-account-view-ips": "Få adgang til midlertidige konto-IP-data",
+	"log-action-filter-checkuser-temporary-account-view-ips": "Adgang til IP-data til midlertidig konto",
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 aktiverede {{GENDER:$2|hans|hendes|deres}} egen adgang til at se beskyttede variabler",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 deaktiveret {{GENDER:$2|hans|hendes|deres}} egen adgang til at se beskyttede variabler",
 	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|set}} beskyttede variabler forbundet med $3"
