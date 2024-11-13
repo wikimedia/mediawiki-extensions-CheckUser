@@ -2,64 +2,49 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
+use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Config\Config;
 use MediaWiki\Hook\BeforeInitializeHook;
 use MediaWiki\Output\Hook\BeforePageDisplayHook;
-use MediaWiki\Permissions\PermissionManager;
-use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\WikiMap\WikiMap;
 
 class PageDisplay implements BeforePageDisplayHook, BeforeInitializeHook {
 	private Config $config;
-	private PermissionManager $permissionManager;
-	protected UserOptionsLookup $userOptionsLookup;
+	private CheckUserPermissionManager $checkUserPermissionManager;
 
 	public function __construct(
 		Config $config,
-		PermissionManager $permissionManager,
-		UserOptionsLookup $userOptionsLookup
+		CheckUserPermissionManager $checkUserPermissionManager
 	) {
 		$this->config = $config;
-		$this->permissionManager = $permissionManager;
-		$this->userOptionsLookup = $userOptionsLookup;
+		$this->checkUserPermissionManager = $checkUserPermissionManager;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function onBeforePageDisplay( $out, $skin ): void {
+		// Exclude loading the JS module on pages which do not use it.
 		$action = $out->getRequest()->getVal( 'action' );
 		if (
 			$action !== 'history' &&
 			$action !== 'info' &&
 			$out->getRequest()->getRawVal( 'diff' ) === null &&
 			$out->getRequest()->getRawVal( 'oldid' ) === null &&
-			!( $out->getTitle() &&
-				( $out->getTitle()->isSpecialPage() )
-			)
+			!( $out->getTitle() && $out->getTitle()->isSpecialPage() )
 		) {
 			return;
 		}
 
-		$user = $out->getUser();
-
-		if (
-			!$this->permissionManager->userHasRight( $user, 'checkuser-temporary-account-no-preference' ) &&
-			(
-				!$this->permissionManager->userHasRight( $user, 'checkuser-temporary-account' )
-				|| !$this->userOptionsLookup->getOption(
-					$user,
-					'checkuser-temporary-account-enable'
-				)
-			)
-		) {
+		// Exclude the JS code for temporary account IP reveal if the user does not have permission to use it.
+		$permStatus = $this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses(
+			$out->getAuthority()
+		);
+		if ( !$permStatus->isGood() ) {
 			return;
 		}
 
-		// If the user is blocked
-		if ( $user->getBlock() ) {
-			return;
-		}
+		// All checks passed, so add the JS code needed for temporary account IP reveal.
 
 		// Config needed for a js-added message on Special:Block
 		if ( $out->getTitle()->isSpecial( 'Block' ) ) {
