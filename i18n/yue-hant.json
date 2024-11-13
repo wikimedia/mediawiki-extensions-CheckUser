@@ -32,5 +32,7 @@
 	"checkuser-ipeditcount": "~響全部用戶度搵到$1",
 	"checkuser-showmain": "轉去{{#special:CheckUser}}",
 	"checkuser-show-investigate": "轉去{{#special:Investigate}}",
+	"prefs-checkuser-tempaccount": "揭露臨時戶口IP",
+	"checkuser-tempaccount-enable-preference": "開着臨時戶口IP揭露",
 	"checkuser-tempaccount-reveal-ip-button-label": "顯示IP"
 }
