@@ -2,6 +2,9 @@
 namespace MediaWiki\CheckUser\Tests\Unit\Services;
 
 use MediaWiki\CheckUser\Services\AccountCreationDetailsLookup;
+use MediaWiki\Config\HashConfig;
+use MediaWiki\Config\ServiceOptions;
+use MediaWiki\MainConfigNames;
 use MediaWikiUnitTestCase;
 use Psr\Log\NullLogger;
 use Wikimedia\Rdbms\FakeResultWrapper;
@@ -19,7 +22,11 @@ class AccountCreationDetailsLookupTest extends MediaWikiUnitTestCase {
 		// unclear if these methods of getMockBuilder will be around too long, see
 		// https://github.com/sebastianbergmann/phpunit/issues/5252
 		$lookup = $this->getMockBuilder( AccountCreationDetailsLookup::class )
-			->setConstructorArgs( [ new NullLogger() ] )
+			->setConstructorArgs( [ new NullLogger(),
+				new ServiceOptions(
+					AccountCreationDetailsLookup::CONSTRUCTOR_OPTIONS,
+					new HashConfig( [ MainConfigNames::NewUserLog => true ] )
+				) ] )
 			->onlyMethods( [ 'getIPAndUserAgentFromDB' ] )
 			->getMock();
 

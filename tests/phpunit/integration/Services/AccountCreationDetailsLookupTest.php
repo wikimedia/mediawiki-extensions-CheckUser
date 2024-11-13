@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\Services;
 use MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
 use MediaWiki\CheckUser\Services\AccountCreationDetailsLookup;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
+use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\MainConfigNames;
 use MediaWikiIntegrationTestCase;
@@ -38,7 +39,12 @@ class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 		$privateEventHandler = $this->getCheckUserPrivateEventsHandler();
 		$privateEventHandler->onLocalUserCreated( $user, false );
 
-		$lookup = new AccountCreationDetailsLookup( new NullLogger() );
+		$lookup = new AccountCreationDetailsLookup( new NullLogger(),
+			new ServiceOptions(
+				AccountCreationDetailsLookup::CONSTRUCTOR_OPTIONS,
+				$this->getServiceContainer()->getMainConfig()
+			)
+		);
 
 		$results = $lookup->getIPAndUserAgentFromDB( $user->getName(), $this->getDb() );
 		$this->assertSame( 1, $results->numRows(), "Should have found one row and didn't" );
@@ -49,13 +55,20 @@ class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testGetIPAndUserAgentFromDBForPublicLogAndTemporaryAccount() {
+		$this->overrideConfigValue( MainConfigNames::NewUserLog, true );
+
 		$this->enableAutoCreateTempUser();
 		RequestContext::getMain()->getRequest()->setHeader( 'User-Agent', 'Fake User Agent' );
 		$user = $this->getServiceContainer()->getTempUserCreator()
 			->create( null, RequestContext::getMain()->getRequest() )->getUser();
 		$this->disableAutoCreateTempUser();
 
-		$lookup = new AccountCreationDetailsLookup( new NullLogger() );
+		$lookup = new AccountCreationDetailsLookup( new NullLogger(),
+			new ServiceOptions(
+				AccountCreationDetailsLookup::CONSTRUCTOR_OPTIONS,
+				$this->getServiceContainer()->getMainConfig()
+			)
+		);
 
 		$results = $lookup->getIPAndUserAgentFromDB( $user->getName(), $this->getDb() );
 		$this->assertSame( 1, $results->numRows(), "Should have found one row and didn't" );
