@@ -9,6 +9,7 @@ use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\CheckUser\EncryptedData;
 use MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
+use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
@@ -17,6 +18,7 @@ use MediaWiki\MainConfigNames;
 use MediaWiki\Message\Message;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
+use Psr\Log\LoggerInterface;
 use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Rdbms\LikeValue;
 
@@ -36,7 +38,8 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getMainConfig(),
 			$this->getServiceContainer()->getUserIdentityLookup(),
 			$this->getServiceContainer()->getUserFactory(),
-			$this->getServiceContainer()->getReadOnlyMode()
+			$this->getServiceContainer()->getReadOnlyMode(),
+			$this->getServiceContainer()->get( 'UserAgentClientHintsManager' )
 		);
 	}
 
@@ -81,11 +84,14 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 
 	private function doTestOnAuthManagerLoginAuthenticateAudit(
 		AuthenticationResponse $authResp, User $userObj,
-		string $userName, bool $isAnonPerformer, string $expectedLogAction
+		string $userName, bool $isAnonPerformer, string $expectedLogAction,
+		bool $shouldCollectClientHintsData = true
 	): void {
 		if ( $isAnonPerformer ) {
 			$this->disableAutoCreateTempUser();
 		}
+		// Set a Client Hints header that we will check is stored if the authentication is a success.
+		RequestContext::getMain()->getRequest()->setHeader( 'Sec-CH-UA-Bitness', '"32"' );
 		$this->getObjectUnderTest()->onAuthManagerLoginAuthenticateAudit( $authResp, $userObj, $userName, [] );
 		$expectedValues = [ NS_USER, $userName ];
 		if ( $isAnonPerformer ) {
@@ -101,21 +107,51 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			->select( [ 'cupe_namespace', 'cupe_title', 'actor_user', 'actor_name', 'cupe_params', 'cupe_log_action' ] )
 			->from( 'cu_private_event' )
 			->join( 'actor', null, 'actor_id=cupe_actor' )
+			->caller( __METHOD__ )
 			->assertRowValue( $expectedValues );
-		// If the response was that authentication failed, then expect that wgCheckUserClientHintsPrivateEventId is
-		// added as a JS variable
+		$actualEventId = (int)$this->newSelectQueryBuilder()
+			->select( 'cupe_id' )
+			->from( 'cu_private_event' )
+			->caller( __METHOD__ )
+			->fetchField();
 		$jsConfigVars = RequestContext::getMain()->getOutput()->getJsConfigVars();
 		if ( $authResp->status === AuthenticationResponse::FAIL ) {
-			$this->assertArrayHasKey( 'wgCheckUserClientHintsPrivateEventId', $jsConfigVars );
-			$this->assertSame(
-				(int)$this->newSelectQueryBuilder()
-					->select( 'cupe_id' )
-					->from( 'cu_private_event' )
-					->fetchField(),
-				$jsConfigVars['wgCheckUserClientHintsPrivateEventId']
-			);
+			// If the response was that authentication failed, then expect that wgCheckUserClientHintsPrivateEventId is
+			// added as a JS variable
+			if ( $shouldCollectClientHintsData ) {
+				$this->assertArrayHasKey( 'wgCheckUserClientHintsPrivateEventId', $jsConfigVars );
+				$this->assertSame(
+					$actualEventId,
+					$jsConfigVars['wgCheckUserClientHintsPrivateEventId']
+				);
+			} else {
+				$this->assertArrayNotHasKey( 'wgCheckUserClientHintsPrivateEventId', $jsConfigVars );
+			}
+			// Check that the method using headers was not used for failed login attempts, as we are using the API.
+			$this->newSelectQueryBuilder()
+				->select( '1' )
+				->from( 'cu_useragent_clienthints_map' )
+				->caller( __METHOD__ )
+				->assertEmptyResult();
 		} else {
+			// If the authentication succeeded, then expect that Client Hints data is read from the HTTP headers.
 			$this->assertArrayNotHasKey( 'wgCheckUserClientHintsPrivateEventId', $jsConfigVars );
+			if ( $shouldCollectClientHintsData ) {
+				$this->newSelectQueryBuilder()
+					->select( [ 'uachm_reference_id', 'uachm_reference_type', 'uach_name', 'uach_value' ] )
+					->from( 'cu_useragent_clienthints_map' )
+					->join( 'cu_useragent_clienthints', null, [ 'uachm_uach_id = uach_id' ] )
+					->caller( __METHOD__ )
+					->assertRowValue( [
+						$actualEventId, UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT, 'bitness', '32',
+					] );
+			} else {
+				$this->newSelectQueryBuilder()
+					->select( '1' )
+					->from( 'cu_useragent_clienthints_map' )
+					->caller( __METHOD__ )
+					->assertEmptyResult();
+			}
 		}
 	}
 
@@ -195,6 +231,51 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 				false,
 			],
 		];
+	}
+
+	public function testOnAuthManagerLoginAuthenticateAuditForFailedLoginButClientHintsDisabled() {
+		$this->overrideConfigValues( [
+			'CheckUserLogLogins' => true,
+			'CheckUserClientHintsEnabled' => false,
+		] );
+		$userObj = $this->getTestUser()->getUser();
+		$userName = $userObj->getName();
+		$authResp = $this->getMockAuthenticationResponseForStatus( AuthenticationResponse::PASS, $userName );
+
+		$this->doTestOnAuthManagerLoginAuthenticateAudit(
+			$authResp, $userObj, $userName, false, 'login-success', false
+		);
+	}
+
+	public function testOnAuthManagerLoginAuthenticateAuditForSuccessfulLoginButInvalidClientHintsHeaders() {
+		$this->overrideConfigValues( [
+			'CheckUserLogLogins' => true,
+		] );
+		$userObj = $this->getTestUser()->getUser();
+		$userName = $userObj->getName();
+		$authResp = $this->getMockAuthenticationResponseForStatus( AuthenticationResponse::PASS, $userName );
+
+		// Add an invalid Client Hints header, and then expect that a warning is created because of this along with
+		// no Client Hints data being saved for the event.
+		RequestContext::getMain()->getRequest()->setHeader( 'Sec-CH-UA-Full-Version-List', '?0' );
+		$mockLogger = $this->createMock( LoggerInterface::class );
+		$mockLogger->expects( $this->once() )
+			->method( 'warning' )
+			->willReturnCallback( function ( $message, $context ) {
+				$actualEventId = (int)$this->newSelectQueryBuilder()
+					->select( 'cupe_id' )
+					->from( 'cu_private_event' )
+					->fetchField();
+				$this->assertArrayEquals(
+					[ $actualEventId, [ 'Sec-CH-UA-Full-Version-List' => '?0', 'Sec-CH-UA-Bitness' => '"32"' ] ],
+					$context
+				);
+			} );
+		$this->setLogger( 'CheckUser', $mockLogger );
+
+		$this->doTestOnAuthManagerLoginAuthenticateAudit(
+			$authResp, $userObj, $userName, false, 'login-success', false
+		);
 	}
 
 	private function getMockAuthenticationResponseForStatus( $status, $user = 'test' ) {

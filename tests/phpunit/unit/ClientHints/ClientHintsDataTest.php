@@ -4,7 +4,9 @@ namespace MediaWiki\CheckUser\Tests\Unit\ClientHints;
 
 use MediaWiki\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\CheckUser\Tests\CheckUserClientHintsCommonTraitTest;
+use MediaWiki\Request\WebRequest;
 use MediaWikiUnitTestCase;
+use TypeError;
 
 /**
  * @group CheckUser
@@ -109,7 +111,6 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 				'model' => "",
 				'platform' => "Windows",
 				'platformVersion' => "15.0.0",
-				'userAgent' => null,
 				'woW64' => null,
 			],
 		];
@@ -130,7 +131,6 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'model' => null,
 					'platform' => null,
 					'platformVersion' => null,
-					'userAgent' => null,
 					'woW64' => null,
 				]
 			],
@@ -172,7 +172,6 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'model' => "",
 					'platform' => "Windows",
 					'platformVersion' => "15.0.0",
-					'userAgent' => null,
 					'woW64' => null,
 				]
 			],
@@ -222,7 +221,6 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'model' => "",
 					'platform' => "Windows",
 					'platformVersion' => "15.0.0",
-					'userAgent' => null,
 					'woW64' => null,
 				]
 			],
@@ -238,7 +236,6 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'model' => null,
 					'platform' => null,
 					'platformVersion' => null,
-					'userAgent' => null,
 					'woW64' => null,
 				],
 			],
@@ -254,11 +251,157 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 					'model' => null,
 					'platform' => null,
 					'platformVersion' => null,
-					'userAgent' => null,
 					'woW64' => null,
 				],
 			],
 		];
+	}
+
+	/** @dataProvider provideNewFromRequestHeaders */
+	public function testNewFromRequestHeaders( $requestHeaders, $expectedJsonArray ) {
+		$request = $this->createMock( WebRequest::class );
+		$request->method( 'getHeader' )
+			->willReturnCallback( static function ( $headerName ) use ( $requestHeaders ) {
+				return $requestHeaders[strtoupper( $headerName )] ?? false;
+			} );
+		$objectToTest = ClientHintsData::newFromRequestHeaders( $request );
+		$this->assertArrayEquals(
+			$expectedJsonArray,
+			$objectToTest->jsonSerialize(),
+			false,
+			true,
+			"Data stored by ClientHintsData class not as expected."
+		);
+	}
+
+	public static function provideNewFromRequestHeaders() {
+		return [
+			'No client hint data' => [
+				[],
+				[
+					'architecture' => null,
+					'bitness' => null,
+					'brands' => null,
+					'formFactor' => null,
+					'fullVersionList' => null,
+					'mobile' => null,
+					'model' => null,
+					'platform' => null,
+					'platformVersion' => null,
+					'woW64' => null,
+				]
+			],
+			'Example Windows device using Chrome' => [
+				[
+					'SEC-CH-UA' => '"Chromium";v="114", "Google Chrome";v="114", "Not.A/Brand";v="8"',
+					'SEC-CH-UA-ARCH' => '"x86"',
+					'SEC-CH-UA-BITNESS' => '"64"',
+					'SEC-CH-UA-FULL-VERSION-LIST' =>
+						'"Chromium";v="114.0.5735.199", "Google Chrome";v="114.0.5735.199", "Not.A/Brand";v="8.0.0.0"',
+					'SEC-CH-UA-MOBILE' => '?0',
+					'SEC-CH-UA-MODEL' => '""',
+					'SEC-CH-UA-PLATFORM' => '"Windows"',
+					'SEC-CH-UA-PLATFORM-VERSION' => '"15.0.0"',
+					'SEC-CH-UA-WOW64' => '?0',
+				],
+				[
+					'architecture' => 'x86',
+					'bitness' => '64',
+					'brands' => [
+						[
+							"brand" => "Chromium",
+							"version" => "114"
+						],
+						[
+							"version" => "114",
+							"brand" => "Google Chrome"
+						],
+						[
+							"brand" => "Not.A/Brand",
+							"version" => "8"
+						],
+					],
+					'formFactor' => null,
+					'fullVersionList' => [
+						[
+							"brand" => "Chromium",
+							"version" => "114.0.5735.199"
+						],
+						[
+							"brand" => "Google Chrome",
+							"version" => "114.0.5735.199"
+						],
+						[
+							"brand" => "Not.A/Brand",
+							"version" => "8.0.0.0"
+						],
+					],
+					'mobile' => false,
+					'model' => "",
+					'platform' => "Windows",
+					'platformVersion' => "15.0.0",
+					'woW64' => false,
+				]
+			],
+			'Example Android device using Chrome' => [
+				[
+					'SEC-CH-UA' => '"Chromium";v="114", "Google Chrome";v="114", "Not.A/Brand";v="99"',
+					'SEC-CH-UA-ARCH' => '""',
+					'SEC-CH-UA-BITNESS' => '"64"',
+					'SEC-CH-UA-FULL-VERSION-LIST' =>
+						'"Chromium";v="114.0.5735.199", "Google Chrome";v="114.0.5735.199", "Not.A/Brand";v="99.0.0.0"',
+					'SEC-CH-UA-MOBILE' => '?1',
+					'SEC-CH-UA-MODEL' => '"SM-G955U"',
+					'SEC-CH-UA-PLATFORM' => '"Android"',
+					'SEC-CH-UA-PLATFORM-VERSION' => '"8.0.0"',
+					'SEC-CH-UA-WOW64' => '?0',
+				],
+				[
+					'architecture' => '',
+					'bitness' => '64',
+					'brands' => [
+						[
+							"brand" => "Chromium",
+							"version" => "114"
+						],
+						[
+							"version" => "114",
+							"brand" => "Google Chrome"
+						],
+						[
+							"brand" => "Not.A/Brand",
+							"version" => "99"
+						],
+					],
+					'formFactor' => null,
+					'fullVersionList' => [
+						[
+							"brand" => "Chromium",
+							"version" => "114.0.5735.199"
+						],
+						[
+							"brand" => "Google Chrome",
+							"version" => "114.0.5735.199"
+						],
+						[
+							"brand" => "Not.A/Brand",
+							"version" => "99.0.0.0"
+						],
+					],
+					'mobile' => true,
+					'model' => "SM-G955U",
+					'platform' => "Android",
+					'platformVersion' => "8.0.0",
+					'woW64' => false,
+				]
+			],
+		];
+	}
+
+	public function testNewFromRequestHeadersOnInvalidFullVersionListHeader() {
+		$this->expectException( TypeError::class );
+		$this->expectExceptionMessage( "Invalid header Sec-CH-UA-Full-Version-List" );
+		$this->testNewFromRequestHeaders( [ 'SEC-CH-UA-FULL-VERSION-LIST' => '"abc"' ], [] );
 	}
 
 	/** @dataProvider provideToDatabaseRows */

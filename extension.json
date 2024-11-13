@@ -96,17 +96,16 @@
 				"CreateAccount": "header",
 				"Emailuser": "header",
 				"PasswordReset": "header",
-				"Userlogin": "js",
+				"Userlogin": [ "js", "header" ],
 				"Userlogout": "header"
 			},
 			"description": "List of SpecialPages where CheckUser will collect Client Hints data. Keys are the special pages and values are the method that the data is collected ('js' is using the API and 'header' is using the HTTP headers). Note that the special pages are case sensitive, and do not always match their appearance in the URL, e.g. 'UserLogin' is known in the Special page system as 'Userlogin'."
 		},
 		"CheckUserClientHintsHeaders": {
 			"value": {
-				"Sec-CH-UA": "",
+				"Sec-CH-UA": "brands",
 				"Sec-CH-UA-Arch": "architecture",
 				"Sec-CH-UA-Bitness": "bitness",
-				"": "brands",
 				"Sec-CH-UA-Form-Factor": "",
 				"Sec-CH-UA-Full-Version-List": "fullVersionList",
 				"Sec-CH-UA-Mobile": "mobile",
@@ -314,7 +313,8 @@
 				"MainConfig",
 				"UserIdentityLookup",
 				"UserFactory",
-				"ReadOnlyMode"
+				"ReadOnlyMode",
+				"UserAgentClientHintsManager"
 			]
 		},
 		"RetroactiveAutoBlock": {

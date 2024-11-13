@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\ClientHints;
 use JsonSerializable;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Logger\LoggerFactory;
+use MediaWiki\Request\WebRequest;
 use TypeError;
 
 /**
@@ -12,7 +13,7 @@ use TypeError;
  */
 class ClientHintsData implements JsonSerializable {
 	public const HEADER_TO_CLIENT_HINTS_DATA_PROPERTY_NAME = [
-		"Sec-CH-UA" => "userAgent",
+		"Sec-CH-UA" => "brands",
 		"Sec-CH-UA-Arch" => "architecture",
 		"Sec-CH-UA-Bitness" => "bitness",
 		"Sec-CH-UA-Form-Factor" => "formFactor",
@@ -33,7 +34,6 @@ class ClientHintsData implements JsonSerializable {
 	private ?string $model;
 	private ?string $platform;
 	private ?string $platformVersion;
-	private ?string $userAgent;
 	private ?bool $woW64;
 
 	/**
@@ -46,7 +46,6 @@ class ClientHintsData implements JsonSerializable {
 	 * @param string|null $model
 	 * @param string|null $platform
 	 * @param string|null $platformVersion
-	 * @param string|null $userAgent
 	 * @param bool|null $woW64
 	 */
 	public function __construct(
@@ -59,7 +58,6 @@ class ClientHintsData implements JsonSerializable {
 		?string $model,
 		?string $platform,
 		?string $platformVersion,
-		?string $userAgent,
 		?bool $woW64
 	) {
 		$this->architecture = $architecture;
@@ -71,7 +69,6 @@ class ClientHintsData implements JsonSerializable {
 		$this->model = $model;
 		$this->platform = $platform;
 		$this->platformVersion = $platformVersion;
-		$this->userAgent = $userAgent;
 		$this->woW64 = $woW64;
 	}
 
@@ -112,8 +109,70 @@ class ClientHintsData implements JsonSerializable {
 			$data['model'] ?? null,
 			$data['platform'] ?? null,
 			$data['platformVersion'] ?? null,
-			null,
 			null
+		);
+	}
+
+	/**
+	 * Get a {@link ClientHintsData} object with values fetched from the Client Hints HTTP headers
+	 * in the provided $request.
+	 *
+	 * @param WebRequest $request
+	 * @return ClientHintsData
+	 * @throws TypeError on invalid data in the Client Hints headers
+	 */
+	public static function newFromRequestHeaders( WebRequest $request ): ClientHintsData {
+		$data = [];
+		foreach ( self::HEADER_TO_CLIENT_HINTS_DATA_PROPERTY_NAME as $header => $propertyName ) {
+			$headerValue = $request->getHeader( $header );
+			if ( !$headerValue ) {
+				$headerValue = null;
+			}
+			if ( $headerValue === '?0' ) {
+				// Represents the boolean false per
+				// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-UA-Mobile
+				$headerValue = false;
+			} elseif ( $headerValue === '?1' ) {
+				// Represents the boolean true per
+				// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-UA-Mobile
+				$headerValue = true;
+			} elseif ( $headerValue && in_array( $propertyName, [ 'brands', 'fullVersionList' ] ) ) {
+				// See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-UA for the format of the
+				// value for these headers. This expands the string into an array of brands with the brand name
+				// and version number separated.
+				$headerValue = explode( ',', $headerValue );
+				$headerValue = array_map( static function ( $value ) use ( $header ) {
+					$explodedValue = explode( ';v=', $value );
+					if ( count( $explodedValue ) > 1 ) {
+						$brandName = $explodedValue[0];
+						$versionNumber = $explodedValue[1];
+						return [
+							'brand' => trim( $brandName, " \n\r\t\v\0\"" ),
+							'version' => trim( $versionNumber, " \n\r\t\v\0\"" ),
+						];
+					} else {
+						// The format does not match the HTTP header, so don't store anything as it's likely fake
+						// data.
+						throw new TypeError( "Invalid header $header" );
+					}
+				}, $headerValue );
+			} elseif ( $headerValue ) {
+				// The header value needs to be trimmed, along with removing the quotation marks that wrap the value.
+				$headerValue = trim( $headerValue, " \n\r\t\v\0\"" );
+			}
+			$data[$propertyName] = $headerValue;
+		}
+		return new self(
+			$data['architecture'],
+			$data['bitness'],
+			$data['brands'],
+			$data['formFactor'],
+			$data['fullVersionList'],
+			$data['mobile'],
+			$data['model'],
+			$data['platform'],
+			$data['platformVersion'],
+			$data['woW64']
 		);
 	}
 
@@ -168,7 +227,6 @@ class ClientHintsData implements JsonSerializable {
 			$data['model'] ?? null,
 			$data['platform'] ?? null,
 			$data['platformVersion'] ?? null,
-			$data['userAgent'] ?? null,
 			$data['woW64'] ?? null
 		);
 	}
@@ -256,7 +314,6 @@ class ClientHintsData implements JsonSerializable {
 			'model' => $this->model,
 			'platform' => $this->platform,
 			'platformVersion' => $this->platformVersion,
-			'userAgent' => $this->userAgent,
 			'woW64' => $this->woW64,
 		];
 	}

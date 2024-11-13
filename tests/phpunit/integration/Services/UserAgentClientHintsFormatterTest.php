@@ -73,7 +73,6 @@ class UserAgentClientHintsFormatterTest extends MediaWikiIntegrationTestCase {
 					"",
 					"Windows",
 					"15.0.0",
-					null,
 					false
 				),
 				'Brand: Not.A/Brand 99.0.0.0, Brand: Google Chrome 115.0.5790.171, Brand: Chromium 115.0.5790.171, ' .
@@ -98,7 +97,6 @@ class UserAgentClientHintsFormatterTest extends MediaWikiIntegrationTestCase {
 					"SM-G965U",
 					"Android",
 					"10.0.0",
-					'',
 					false
 				),
 				'Model: SM-G965U, Brand: Not/A)Brand 99.0.0.0, Brand: Google Chrome 115.0.5790.171, Brand: ' .

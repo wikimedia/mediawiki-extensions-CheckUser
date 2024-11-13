@@ -23,7 +23,8 @@ class AccountCreationDetailsLookupTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getMainConfig(),
 			$this->getServiceContainer()->getUserIdentityLookup(),
 			$this->getServiceContainer()->getUserFactory(),
-			$this->getServiceContainer()->getReadOnlyMode()
+			$this->getServiceContainer()->getReadOnlyMode(),
+			$this->getServiceContainer()->get( 'UserAgentClientHintsManager' )
 		);
 	}
 

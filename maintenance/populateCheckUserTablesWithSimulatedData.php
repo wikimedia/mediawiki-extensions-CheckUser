@@ -180,7 +180,8 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			$this->getConfig(),
 			$services->getUserIdentityLookup(),
 			$services->getUserFactory(),
-			$services->getReadOnlyMode()
+			$services->getReadOnlyMode(),
+			$services->get( 'UserAgentClientHintsManager' )
 		);
 		$this->recentChangeSaveHandler = new RecentChangeSaveHandler(
 			$services->get( 'CheckUserInsert' ),
@@ -889,7 +890,6 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			"SM-G965U",
 			"Android",
 			"10.0.0",
-			'"Not/A)Brand";v="99", "Google Chrome";v="115", "Chromium";v="115"',
 			false
 		);
 		$this->userAgentsToClientHintsMap[
@@ -913,7 +913,6 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			"",
 			"Windows",
 			"15.0.0",
-			'"Chromium";v="112", "Not_A Brand";v="24", "Opera GX";v="98"',
 			false
 		);
 		$this->userAgentsToClientHintsMap[
@@ -937,7 +936,6 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			"",
 			"Windows",
 			"15.0.0",
-			'"Not/A)Brand";v="99", "Google Chrome";v="115", "Chromium";v="115"',
 			false
 		);
 		$this->userAgentsToClientHintsMap[
@@ -957,7 +955,6 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			"",
 			"Windows",
 			null,
-			'"Not/A)Brand";v="99", "Google Chrome";v="115", "Chromium";v="115"',
 			null
 		);
 	}
