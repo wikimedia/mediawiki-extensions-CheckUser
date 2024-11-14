@@ -1,15 +1,14 @@
 'use strict';
 
-const assert = require( 'assert' ),
-	LoginAsCheckUser = require( '../checkuserlogin' ),
-	CheckUserLogPage = require( '../pageobjects/checkuserlog.page' );
+const LoginAsCheckUser = require( '../checkuserlogin' );
+const CheckUserLogPage = require( '../pageobjects/checkuserlog.page' );
 
 describe( 'CheckUserLog', () => {
 	describe( 'Without CheckUser user group', () => {
 		it( 'Should display permission error to logged-out user', async () => {
 			await CheckUserLogPage.open();
 
-			assert( await CheckUserLogPage.hasPermissionErrors.isExisting() );
+			await expect( await CheckUserLogPage.hasPermissionErrors ).toExist();
 		} );
 	} );
 	describe( 'With CheckUser user group', () => {
@@ -19,26 +18,26 @@ describe( 'CheckUserLog', () => {
 		} );
 		describe( 'Verify checkuser can interact with the CheckUser log', () => {
 			it( 'Should show target input', async () => {
-				assert( await CheckUserLogPage.targetInput.isExisting() );
+				await expect( await CheckUserLogPage.targetInput ).toExist();
 			} );
 			it( 'Should show initiator input', async () => {
-				assert( await CheckUserLogPage.initiatorInput.isExisting() );
+				await expect( await CheckUserLogPage.initiatorInput ).toExist();
 			} );
 			it( 'Should show start date selector', async () => {
-				assert( await CheckUserLogPage.startDateSelector.isExisting() );
+				await expect( await CheckUserLogPage.startDateSelector ).toExist();
 			} );
 			it( 'Should show end date selector', async () => {
-				assert( await CheckUserLogPage.endDateSelector.isExisting() );
+				await expect( await CheckUserLogPage.endDateSelector ).toExist();
 			} );
 			it( 'Should show search button', async () => {
-				assert( await CheckUserLogPage.search.isExisting() );
+				await expect( await CheckUserLogPage.search ).toExist();
 			} );
 			it( 'Should be able to use the filters to search', async () => {
 				// @todo check if the filters had any effect?
 				await CheckUserLogPage.initiatorInput.setValue( process.env.MEDIAWIKI_USER );
 				await CheckUserLogPage.initiatorInput.click();
 				// Initiator input will be missing if the request failed.
-				assert( await CheckUserLogPage.initiatorInput.isExisting() );
+				await expect( await CheckUserLogPage.initiatorInput ).toExist();
 			} );
 		} );
 	} );
