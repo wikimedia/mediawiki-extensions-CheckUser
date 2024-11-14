@@ -98,5 +98,6 @@
 	"checkuser-investigate-compare-table-cell-unregistered": "Neregistrirani",
 	"checkuser-investigate-compare-table-header-username": "Suradničko ime",
 	"checkuser-investigate-tour-addusertargets-title": "Potrebnost širega konteksta?",
-	"checkuser-investigate-tour-filterip-title": "Sužavanje Vaše istrage?"
+	"checkuser-investigate-tour-filterip-title": "Sužavanje Vaše istrage?",
+	"prefs-checkuser-tempaccount": "Otkrivanje internetske adrese privremenih računa"
 }
