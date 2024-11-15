@@ -94,7 +94,7 @@
 		"CheckUserClientHintsSpecialPages": {
 			"value": {
 				"CreateAccount": "header",
-				"Emailuser": "header",
+				"Emailuser": "js",
 				"PasswordReset": "header",
 				"Userlogin": [ "js", "header" ],
 				"Userlogout": "header"

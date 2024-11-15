@@ -12,7 +12,6 @@ use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Config\Config;
 use MediaWiki\Context\RequestContext;
-use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Hook\EmailUserHook;
 use MediaWiki\Hook\UserLogoutCompleteHook;
@@ -170,10 +169,13 @@ class CheckUserPrivateEventsHandler implements
 			$encryptedData = new EncryptedData( $privateData, $this->config->get( 'CUPublicKey' ) );
 			$cuPrivateRow['cupe_private'] = serialize( $encryptedData );
 		}
-		$fname = __METHOD__;
-		DeferredUpdates::addCallableUpdate( function () use ( $cuPrivateRow, $fname, $userFrom ) {
-			$this->checkUserInsert->insertIntoCuPrivateEventTable( $cuPrivateRow, $fname, $userFrom );
-		} );
+		$insertedId = $this->checkUserInsert->insertIntoCuPrivateEventTable( $cuPrivateRow, __METHOD__, $userFrom );
+
+		if ( $this->config->get( 'CheckUserClientHintsEnabled' ) ) {
+			RequestContext::getMain()->getOutput()->addJsConfigVars(
+				'wgCheckUserClientHintsPrivateEventId', $insertedId
+			);
+		}
 	}
 
 	/**

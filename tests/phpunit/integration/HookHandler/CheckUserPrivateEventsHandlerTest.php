@@ -353,20 +353,34 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
-	private function commonOnEmailUser( MailAddress $to, MailAddress $from, array $cuPrivateWhere ) {
+	private function commonOnEmailUser(
+		MailAddress $to, MailAddress $from, array $cuPrivateWhere, bool $shouldCollectClientHintsData = true
+	) {
 		// Call the method under test with the provided arguments and some mock arguments that are unused.
 		$subject = 'Test subject';
 		$text = 'Test text';
 		$error = false;
 		$this->getObjectUnderTest()->onEmailUser( $to, $from, $subject, $text, $error );
-		// Run DeferredUpdates as the private event is created in a DeferredUpdate.
-		DeferredUpdates::doUpdates();
 		// Assert that the row was inserted with the correct data.
-		$this->assertRowCount(
-			1, 'cu_private_event', '*',
-			'A row was not inserted with the correct data',
-			array_merge( $cuPrivateWhere, [ 'cupe_namespace' => NS_USER ] )
-		);
+		$actualPrivateEventIds = $this->newSelectQueryBuilder()
+			->select( 'cupe_id' )
+			->from( 'cu_private_event' )
+			->where( array_merge( $cuPrivateWhere, [ 'cupe_namespace' => NS_USER ] ) )
+			->caller( __METHOD__ )
+			->fetchFieldValues();
+		$this->assertCount( 1, $actualPrivateEventIds );
+		// Check that the inserted cu_private_event ID is added to the JS config variables if Client Hints data is
+		// being collected.
+		$jsConfigVars = RequestContext::getMain()->getOutput()->getJsConfigVars();
+		if ( $shouldCollectClientHintsData ) {
+			$this->assertArrayHasKey( 'wgCheckUserClientHintsPrivateEventId', $jsConfigVars );
+			$this->assertSame(
+				(int)$actualPrivateEventIds[0],
+				$jsConfigVars['wgCheckUserClientHintsPrivateEventId']
+			);
+		} else {
+			$this->assertArrayNotHasKey( 'wgCheckUserClientHintsPrivateEventId', $jsConfigVars );
+		}
 	}
 
 	public function testOnEmailUserFrom() {
@@ -416,6 +430,8 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testOnEmailUserLogParams() {
+		// Also use this test to check that Client Hints are only attempted to be collected if the feature is enabled.
+		$this->overrideConfigValue( 'CheckUserClientHintsEnabled', false );
 		// Verify that the log params for the email event contains a hash.
 		$userTo = $this->getTestUser()->getUser();
 		$userFrom = $this->getTestSysop()->getUserIdentity();
@@ -428,7 +444,8 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 					'4::hash',
 					$this->getDb()->anyString()
 				) )
-			]
+			],
+			false
 		);
 	}
 
