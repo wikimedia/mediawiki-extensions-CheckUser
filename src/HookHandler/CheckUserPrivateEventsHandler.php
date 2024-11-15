@@ -110,7 +110,7 @@ class CheckUserPrivateEventsHandler implements
 	 * @inheritDoc
 	 */
 	public function onUser__mailPasswordInternal( $user, $ip, $account ): void {
-		$this->checkUserInsert->insertIntoCuPrivateEventTable(
+		$insertedId = $this->checkUserInsert->insertIntoCuPrivateEventTable(
 			[
 				'cupe_namespace'  => NS_USER,
 				'cupe_log_action' => 'password-reset-email-sent',
@@ -120,6 +120,12 @@ class CheckUserPrivateEventsHandler implements
 			__METHOD__,
 			$user
 		);
+
+		if ( $this->config->get( 'CheckUserClientHintsEnabled' ) ) {
+			RequestContext::getMain()->getOutput()->addJsConfigVars(
+				'wgCheckUserClientHintsPrivateEventId', $insertedId
+			);
+		}
 	}
 
 	/**

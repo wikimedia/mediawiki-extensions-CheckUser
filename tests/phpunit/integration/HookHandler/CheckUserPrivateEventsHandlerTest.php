@@ -469,6 +469,18 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 				) )
 			]
 		);
+		// Add wgCheckUserClientHintsPrivateEventId so that Client Hints data is sent
+		$actualEventId = (int)$this->newSelectQueryBuilder()
+			->select( 'cupe_id' )
+			->from( 'cu_private_event' )
+			->caller( __METHOD__ )
+			->fetchField();
+		$jsConfigVars = RequestContext::getMain()->getOutput()->getJsConfigVars();
+		$this->assertArrayHasKey( 'wgCheckUserClientHintsPrivateEventId', $jsConfigVars );
+		$this->assertSame(
+			$actualEventId,
+			$jsConfigVars['wgCheckUserClientHintsPrivateEventId']
+		);
 	}
 
 	/** @dataProvider provideOnLocalUserCreated */

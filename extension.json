@@ -95,7 +95,7 @@
 			"value": {
 				"CreateAccount": "header",
 				"Emailuser": "js",
-				"PasswordReset": "header",
+				"PasswordReset": "js",
 				"Userlogin": [ "js", "header" ],
 				"Userlogout": "header"
 			},
