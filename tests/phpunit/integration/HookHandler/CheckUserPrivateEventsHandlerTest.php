@@ -267,7 +267,11 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 					->from( 'cu_private_event' )
 					->fetchField();
 				$this->assertArrayEquals(
-					[ $actualEventId, [ 'Sec-CH-UA-Full-Version-List' => '?0', 'Sec-CH-UA-Bitness' => '"32"' ] ],
+					[
+						$actualEventId,
+						[ 'Sec-CH-UA-Full-Version-List' => '?0', 'Sec-CH-UA-Bitness' => '"32"' ],
+						'privatelog'
+					],
 					$context
 				);
 			} );

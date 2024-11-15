@@ -6,7 +6,7 @@ use LogEntryBase;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Auth\Hook\AuthManagerLoginAuthenticateAuditHook;
 use MediaWiki\Auth\Hook\LocalUserCreatedHook;
-use MediaWiki\CheckUser\ClientHints\ClientHintsData;
+use MediaWiki\CheckUser\ClientHints\UserAgentClientHintsManagerHelperTrait;
 use MediaWiki\CheckUser\EncryptedData;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
@@ -18,7 +18,6 @@ use MediaWiki\Hook\UserLogoutCompleteHook;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Registration\ExtensionRegistry;
-use MediaWiki\Request\WebRequest;
 use MediaWiki\User\Hook\User__mailPasswordInternalHook;
 use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
@@ -26,7 +25,6 @@ use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserRigorOptions;
 use Psr\Log\LoggerInterface;
-use TypeError;
 use Wikimedia\Rdbms\ReadOnlyMode;
 
 /**
@@ -39,6 +37,8 @@ class CheckUserPrivateEventsHandler implements
 	UserLogoutCompleteHook,
 	User__mailPasswordInternalHook
 {
+
+	use UserAgentClientHintsManagerHelperTrait;
 
 	private CheckUserInsert $checkUserInsert;
 	private Config $config;
@@ -280,37 +280,7 @@ class CheckUserPrivateEventsHandler implements
 			// If the login attempt was a success, then we cannot use the API to collect the data due to redirects
 			// that are performed as part of the login process. Instead, we should settle with the data sent to us
 			// via the headers.
-			$this->storeClientHintsDataFromHeaders( $insertedId, $context->getRequest() );
-		}
-	}
-
-	/**
-	 * Stores Client Hints data from the HTTP headers in the given $request and associate it with the
-	 * given $privateEventId.
-	 *
-	 * @param int $privateEventId
-	 * @param WebRequest $request
-	 * @return void
-	 */
-	private function storeClientHintsDataFromHeaders( int $privateEventId, WebRequest $request ) {
-		try {
-			$clientHintsData = ClientHintsData::newFromRequestHeaders( $request );
-			$this->userAgentClientHintsManager->insertClientHintValues(
-				$clientHintsData, $privateEventId, 'privatelog'
-			);
-		} catch ( TypeError $e ) {
-			$clientHintsHeaders = [];
-			foreach ( array_keys( ClientHintsData::HEADER_TO_CLIENT_HINTS_DATA_PROPERTY_NAME ) as $header ) {
-				$headerValue = $request->getHeader( $header );
-				if ( $headerValue !== false ) {
-					$clientHintsHeaders[$header] = $headerValue;
-				}
-			}
-			$this->logger->warning(
-				'Invalid data present in Client Hints headers when storing Client Hints data for private event ID ' .
-				'{eventid}. Not storing this data. Client Hints headers: {headers}',
-				[ $privateEventId, $clientHintsHeaders ]
-			);
+			$this->storeClientHintsDataFromHeaders( $insertedId, 'privatelog', $context->getRequest() );
 		}
 	}
 
@@ -342,7 +312,11 @@ class CheckUserPrivateEventsHandler implements
 			$performer
 		);
 		if ( $this->config->get( 'CheckUserClientHintsEnabled' ) ) {
-			$this->storeClientHintsDataFromHeaders( $insertedId, RequestContext::getMain()->getRequest() );
+			$this->storeClientHintsDataFromHeaders(
+				$insertedId,
+				'privatelog',
+				RequestContext::getMain()->getRequest()
+			);
 		}
 	}
 }

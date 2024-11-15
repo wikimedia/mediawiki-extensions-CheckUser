@@ -5,8 +5,10 @@ namespace MediaWiki\CheckUser\Services;
 use DatabaseLogEntry;
 use LogEntryBase;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
+use MediaWiki\CheckUser\ClientHints\UserAgentClientHintsManagerHelperTrait;
 use MediaWiki\CheckUser\Hook\HookRunner;
 use MediaWiki\CommentStore\CommentStore;
+use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\HookContainer\HookContainer;
@@ -17,6 +19,7 @@ use MediaWiki\User\ActorStore;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
+use Psr\Log\LoggerInterface;
 use RecentChange;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -30,6 +33,12 @@ use Wikimedia\Rdbms\IConnectionProvider;
  */
 class CheckUserInsert {
 
+	use UserAgentClientHintsManagerHelperTrait;
+
+	public const CONSTRUCTOR_OPTIONS = [
+		'CheckUserClientHintsEnabled',
+	];
+
 	private ActorStore $actorStore;
 	private CheckUserUtilityService $checkUserUtilityService;
 	private CommentStore $commentStore;
@@ -38,6 +47,9 @@ class CheckUserInsert {
 	private Language $contentLanguage;
 	private TempUserConfig $tempUserConfig;
 	private CheckUserCentralIndexManager $checkUserCentralIndexManager;
+	private UserAgentClientHintsManager $userAgentClientHintsManager;
+	private ServiceOptions $options;
+	private LoggerInterface $logger;
 
 	/**
 	 * The maximum number of bytes that fit in CheckUser's text fields,
@@ -46,6 +58,7 @@ class CheckUserInsert {
 	public const TEXT_FIELD_LENGTH = 255;
 
 	public function __construct(
+		ServiceOptions $options,
 		ActorStore $actorStore,
 		CheckUserUtilityService $checkUserUtilityService,
 		CommentStore $commentStore,
@@ -53,8 +66,12 @@ class CheckUserInsert {
 		IConnectionProvider $connectionProvider,
 		Language $contentLanguage,
 		TempUserConfig $tempUserConfig,
-		CheckUserCentralIndexManager $checkUserCentralIndexManager
+		CheckUserCentralIndexManager $checkUserCentralIndexManager,
+		UserAgentClientHintsManager $userAgentClientHintsManager,
+		LoggerInterface $logger
 	) {
+		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
+		$this->options = $options;
 		$this->actorStore = $actorStore;
 		$this->checkUserUtilityService = $checkUserUtilityService;
 		$this->commentStore = $commentStore;
@@ -63,6 +80,8 @@ class CheckUserInsert {
 		$this->contentLanguage = $contentLanguage;
 		$this->tempUserConfig = $tempUserConfig;
 		$this->checkUserCentralIndexManager = $checkUserCentralIndexManager;
+		$this->userAgentClientHintsManager = $userAgentClientHintsManager;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -147,6 +166,18 @@ class CheckUserInsert {
 					$rc->getPerformerIdentity(),
 					$rc
 				);
+				if ( $this->options->get( 'CheckUserClientHintsEnabled' ) &&
+					$rc->getAttribute( 'rc_log_type' ) === 'newusers' &&
+					// Match create/create2/byemail log actions, but not account
+					// autocreation, as we won't have high entropy client hints data
+					// available for those.
+					$rc->getAttribute( 'rc_log_action' ) !== 'autocreate' ) {
+					$this->storeClientHintsDataFromHeaders(
+						$logId,
+						'log',
+						RequestContext::getMain()->getRequest()
+					);
+				}
 			}
 		} else {
 			// Log to cu_changes if this isn't a log entry.

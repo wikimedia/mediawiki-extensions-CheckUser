@@ -5,12 +5,16 @@ namespace MediaWiki\CheckUser\Tests\Integration\Services;
 use CannotCreateActorException;
 use DatabaseLogEntry;
 use LogEntryBase;
+use ManualLogEntry;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
+use MediaWiki\Config\ServiceOptions;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\Language\Language;
+use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Psr\Log\LoggerInterface;
@@ -181,6 +185,10 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 				}
 			);
 		$objectUnderTest = new CheckUserInsert(
+			new ServiceOptions(
+				CheckUserInsert::CONSTRUCTOR_OPTIONS,
+				$this->getServiceContainer()->getMainConfig()
+			),
 			$this->getServiceContainer()->getActorStore(),
 			$this->getServiceContainer()->get( 'CheckUserUtilityService' ),
 			$this->getServiceContainer()->getCommentStore(),
@@ -188,7 +196,9 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getConnectionProvider(),
 			$mockContentLanguage,
 			$this->getServiceContainer()->getTempUserConfig(),
-			$this->getServiceContainer()->get( 'CheckUserCentralIndexManager' )
+			$this->getServiceContainer()->get( 'CheckUserCentralIndexManager' ),
+			$this->getServiceContainer()->get( 'UserAgentClientHintsManager' ),
+			LoggerFactory::getInstance( 'CheckUser' )
 		);
 		if ( $table === 'cu_changes' ) {
 			$this->testInsertIntoCuChangesTable(
@@ -473,6 +483,55 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			$expectedRow[$keyForTimestamp] = $this->getDb()->timestamp( $expectedRow[$keyForTimestamp] );
 		}
 		$this->updateCheckUserData( $rcAttribs, $table, $fields, $expectedRow );
+	}
+
+	/**
+	 * @dataProvider provideLogEntriesForClientHintsSavedWithAccountCreationLogEvent
+	 */
+	public function testClientHintsSavedWithAccountCreationLogEvent(
+		ManualLogEntry $logEntry, bool $expectedToHaveResults
+	) {
+		RequestContext::getMain()->getRequest()->setHeader( 'Sec-Ch-Ua', ';v=abc' );
+		$logEntry->setPerformer( $this->getTestUser()->getUserIdentity() );
+		$logEntry->setTarget( $this->getTestUser()->getUser()->getUserPage() );
+		$logId = $logEntry->insert();
+		$rcAttribs = $logEntry->getRecentChange( $logId )->getAttributes();
+		$expectedRow = [ $logId ];
+		$this->updateCheckUserData( $rcAttribs, 'cu_log_event', [ 'cule_log_id' ], $expectedRow );
+		$selectQuery = $this->newSelectQueryBuilder()
+			->select( 'uachm_reference_id' )
+			->from( 'cu_useragent_clienthints_map' )
+			->where( [
+				'uachm_reference_type' => 1,
+				'uachm_reference_id' => $logId,
+			] )
+			->caller( __METHOD__ );
+		if ( $expectedToHaveResults ) {
+			$selectQuery->assertFieldValue( $logId );
+		} else {
+			$selectQuery->assertEmptyResult();
+		}
+	}
+
+	public function provideLogEntriesForClientHintsSavedWithAccountCreationLogEvent(): array {
+		return [
+			'account creation as anon' => [
+				new ManualLogEntry( 'newusers', 'create' ),
+				true
+			],
+			'account creation via existing account' => [
+				new ManualLogEntry( 'newusers', 'create2' ),
+				true
+			],
+			'account creation via existing account, send credentials by email' => [
+				new ManualLogEntry( 'newusers', 'byemail' ),
+				true
+			],
+			'account autocreation' => [
+				new ManualLogEntry( 'newusers', 'autocreate' ),
+				false
+			]
+		];
 	}
 
 	public function testUpdateCheckUserDataWhenLogEntryIsMissingT343983() {

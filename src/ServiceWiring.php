@@ -240,6 +240,10 @@ return [
 		MediaWikiServices $services
 	): CheckUserInsert {
 		return new CheckUserInsert(
+			new ServiceOptions(
+				CheckUserInsert::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig()
+			),
 			$services->getActorStore(),
 			$services->get( 'CheckUserUtilityService' ),
 			$services->getCommentStore(),
@@ -247,7 +251,9 @@ return [
 			$services->getDBLoadBalancerFactory(),
 			$services->getContentLanguage(),
 			$services->getTempUserConfig(),
-			$services->get( 'CheckUserCentralIndexManager' )
+			$services->get( 'CheckUserCentralIndexManager' ),
+			$services->get( 'UserAgentClientHintsManager' ),
+			LoggerFactory::getInstance( 'CheckUser' )
 		);
 	},
 	'CheckUserDataPurger' => static function () {
