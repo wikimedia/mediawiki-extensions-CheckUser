@@ -5,11 +5,9 @@ namespace MediaWiki\CheckUser\GlobalContributions;
 use CentralAuthSessionProvider;
 use Exception;
 use LogicException;
-use MediaWiki\Api\ApiMain;
-use MediaWiki\Context\RequestContext;
+use MediaWiki\Extension\CentralAuth\CentralAuthServices;
 use MediaWiki\Http\HttpRequestFactory;
 use MediaWiki\Registration\ExtensionRegistry;
-use MediaWiki\Request\FauxRequest;
 use MediaWiki\Request\WebRequest;
 use MediaWiki\Session\SessionManager;
 use MediaWiki\Site\MediaWikiSite;
@@ -116,38 +114,16 @@ class CheckUserApiRequestAggregator {
 	}
 
 	/**
-	 * Returns CentralAuth token, or null on failure.
+	 * Returns CentralAuth token. Should only be called if ::canUseCentralAuth returns true.
 	 *
-	 * Protected function for mocking in tests.
-	 *
-	 * @return string|null
+	 * @return string
 	 */
-	protected function getCentralAuthToken() {
-		$context = new RequestContext;
-		$context->setRequest( new FauxRequest( [ 'action' => 'centralauthtoken' ] ) );
-		$context->setUser( $this->user );
-
-		$api = new ApiMain( $context );
-
-		try {
-			$api->execute();
-
-			return $api->getResult()->getResultData( [ 'centralauthtoken', 'centralauthtoken' ] );
-		} catch ( Exception $ex ) {
-			$this->logger->error(
-				'Exception when fetching CentralAuth token: wiki: {wiki}, userName: {userName}, ' .
-					'userId: {userId}, centralId: {centralId}, exception: {exception}',
-				[
-					'wiki' => WikiMap::getCurrentWikiId(),
-					'userName' => $this->user->getName(),
-					'userId' => $this->user->getId(),
-					'centralId' => $this->getCentralId(),
-					'exception' => $ex,
-				]
-			);
-
-			return null;
-		}
+	private function getCentralAuthToken() {
+		return CentralAuthServices::getApiTokenGenerator()->getToken(
+			$this->user,
+			SessionManager::getGlobalSession()->getId(),
+			WikiMap::getCurrentWikiId()
+		);
 	}
 
 	/**
