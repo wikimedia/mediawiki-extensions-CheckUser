@@ -282,7 +282,8 @@ class UserAgentClientHintsManagerTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getMainConfig(),
 			$this->getServiceContainer()->getUserIdentityLookup(),
 			$this->getServiceContainer()->getUserFactory(),
-			$this->getServiceContainer()->getReadOnlyMode()
+			$this->getServiceContainer()->getReadOnlyMode(),
+			$this->getServiceContainer()->get( 'UserAgentClientHintsManager' )
 		);
 		$hooks->onUser__mailPasswordInternal(
 			$this->getTestUser()->getUser(), '1.2.3.4', $this->getTestSysop()->getUser()

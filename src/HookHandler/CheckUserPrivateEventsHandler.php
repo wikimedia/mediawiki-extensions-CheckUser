@@ -6,22 +6,28 @@ use LogEntryBase;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Auth\Hook\AuthManagerLoginAuthenticateAuditHook;
 use MediaWiki\Auth\Hook\LocalUserCreatedHook;
+use MediaWiki\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\CheckUser\EncryptedData;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
+use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Config\Config;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Hook\EmailUserHook;
 use MediaWiki\Hook\UserLogoutCompleteHook;
+use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Registration\ExtensionRegistry;
+use MediaWiki\Request\WebRequest;
 use MediaWiki\User\Hook\User__mailPasswordInternalHook;
 use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserRigorOptions;
+use Psr\Log\LoggerInterface;
+use TypeError;
 use Wikimedia\Rdbms\ReadOnlyMode;
 
 /**
@@ -40,19 +46,24 @@ class CheckUserPrivateEventsHandler implements
 	private UserIdentityLookup $userIdentityLookup;
 	private UserFactory $userFactory;
 	private ReadOnlyMode $readOnlyMode;
+	private UserAgentClientHintsManager $userAgentClientHintsManager;
+	private LoggerInterface $logger;
 
 	public function __construct(
 		CheckUserInsert $checkUserInsert,
 		Config $config,
 		UserIdentityLookup $userIdentityLookup,
 		UserFactory $userFactory,
-		ReadOnlyMode $readOnlyMode
+		ReadOnlyMode $readOnlyMode,
+		UserAgentClientHintsManager $userAgentClientHintsManager
 	) {
 		$this->checkUserInsert = $checkUserInsert;
 		$this->config = $config;
 		$this->userIdentityLookup = $userIdentityLookup;
 		$this->userFactory = $userFactory;
 		$this->readOnlyMode = $readOnlyMode;
+		$this->userAgentClientHintsManager = $userAgentClientHintsManager;
+		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
 	}
 
 	/**
@@ -246,12 +257,51 @@ class CheckUserPrivateEventsHandler implements
 			$performer
 		);
 
-		// If the login attempt was not successful, then ask the client to send us Client Hints data on the
-		// Special:UserLogin page indicating the failed login.
-		// TODO: Implement this for successful logins (T345818)
-		if ( $ret->status === AuthenticationResponse::FAIL && $this->config->get( 'CheckUserClientHintsEnabled' ) ) {
-			RequestContext::getMain()->getOutput()->addJsConfigVars(
+		if ( !$this->config->get( 'CheckUserClientHintsEnabled' ) ) {
+			return;
+		}
+
+		$context = RequestContext::getMain();
+		if ( $ret->status === AuthenticationResponse::FAIL ) {
+			// If the login attempt was not successful, then ask for client hints data via the API on the next
+			// page load as we can collect it easily as the Special:UserLogin page is loaded to show the error.
+			$context->getOutput()->addJsConfigVars(
 				'wgCheckUserClientHintsPrivateEventId', $insertedId
+			);
+		} else {
+			// If the login attempt was a success, then we cannot use the API to collect the data due to redirects
+			// that are performed as part of the login process. Instead, we should settle with the data sent to us
+			// via the headers.
+			$this->storeClientHintsDataFromHeaders( $insertedId, $context->getRequest() );
+		}
+	}
+
+	/**
+	 * Stores Client Hints data from the HTTP headers in the given $request and associate it with the
+	 * given $privateEventId.
+	 *
+	 * @param int $privateEventId
+	 * @param WebRequest $request
+	 * @return void
+	 */
+	private function storeClientHintsDataFromHeaders( int $privateEventId, WebRequest $request ) {
+		try {
+			$clientHintsData = ClientHintsData::newFromRequestHeaders( $request );
+			$this->userAgentClientHintsManager->insertClientHintValues(
+				$clientHintsData, $privateEventId, 'privatelog'
+			);
+		} catch ( TypeError $e ) {
+			$clientHintsHeaders = [];
+			foreach ( array_keys( ClientHintsData::HEADER_TO_CLIENT_HINTS_DATA_PROPERTY_NAME ) as $header ) {
+				$headerValue = $request->getHeader( $header );
+				if ( $headerValue !== false ) {
+					$clientHintsHeaders[$header] = $headerValue;
+				}
+			}
+			$this->logger->warning(
+				'Invalid data present in Client Hints headers when storing Client Hints data for private event ID ' .
+				'{eventid}. Not storing this data. Client Hints headers: {headers}',
+				[ $privateEventId, $clientHintsHeaders ]
 			);
 		}
 	}

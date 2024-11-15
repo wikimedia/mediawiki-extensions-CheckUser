@@ -212,7 +212,6 @@ class PopulateCheckUserTablesWithSimulatedDataTest extends MaintenanceBaseTestCa
 						"SM-G965U",
 						"Android",
 						"10.0.0",
-						'"Not/A)Brand";v="99", "Google Chrome";v="115", "Chromium";v="115"',
 						false
 					)
 			] ],

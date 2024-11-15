@@ -32,7 +32,7 @@ class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook
 		$specialPagesList = $this->config->get( 'CheckUserClientHintsSpecialPages' );
 
 		$headerSent = false;
-		if ( in_array( $special->getName(), $specialPagesList ) && !$request->wasPosted() ) {
+		if ( in_array( $special->getName(), $specialPagesList ) ) {
 			// If the special page name is a value in the config, then this is the old format and we should
 			// consider it as collecting the data via the header.
 			$request->response()->header( $this->getClientHintsHeaderString() );
@@ -40,10 +40,14 @@ class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook
 		} elseif ( array_key_exists( $special->getName(), $specialPagesList ) ) {
 			// If the special page name is a key in the config, then the value is the method which the data is
 			// collected.
-			$type = $specialPagesList[$special->getName()];
-			if ( $type === 'js' ) {
+			$types = $specialPagesList[$special->getName()];
+			if ( !is_array( $types ) ) {
+				$types = [ $types ];
+			}
+			if ( in_array( 'js', $types ) ) {
 				$this->addJsClientHintsModule( $special->getOutput() );
-			} elseif ( !$request->wasPosted() ) {
+			}
+			if ( in_array( 'header', $types ) ) {
 				$request->response()->header( $this->getClientHintsHeaderString() );
 				$headerSent = true;
 			}

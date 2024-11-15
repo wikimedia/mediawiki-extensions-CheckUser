@@ -6,6 +6,7 @@ use MailAddress;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
+use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Config\Config;
 use MediaWiki\Config\HashConfig;
 use MediaWiki\Deferred\DeferredUpdates;
@@ -28,7 +29,8 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiUnitTestCase {
 			$overrides['config'] ?? $this->createMock( Config::class ),
 			$overrides['userIdentityLookup'] ?? $this->createMock( UserIdentityLookup::class ),
 			$overrides['userFactory'] ?? $this->createMock( UserFactory::class ),
-			$overrides['readOnlyMode'] ?? $this->createMock( ReadOnlyMode::class )
+			$overrides['readOnlyMode'] ?? $this->createMock( ReadOnlyMode::class ),
+			$overrides['userAgentClientHintsManager'] ?? $this->createMock( UserAgentClientHintsManager::class ),
 		);
 	}
 
