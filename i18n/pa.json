@@ -6,5 +6,6 @@
 	},
 	"checkuser-query": "ਹਾਲ ਹੀ ਵਿੱਚ ਹੋਈਆਂ ਤਬਦੀਲੀਆਂ ਬਾਰੇ ਪੁੱਛਗਿੱਛ",
 	"checkuser-investigateblock": "ਵਰਤੋਂਕਾਰਾਂ 'ਤੇ ਪਾਬੰਦੀ ਲਾਓ",
-	"checkuser-investigate-tab-preliminary-check": "ਖਾਤਾ ਜਾਣਕਾਰੀ"
+	"checkuser-investigate-tab-preliminary-check": "ਖਾਤਾ ਜਾਣਕਾਰੀ",
+	"checkuser-investigate-preliminary-table-header-editcount": "ਸੋਧ"
 }
