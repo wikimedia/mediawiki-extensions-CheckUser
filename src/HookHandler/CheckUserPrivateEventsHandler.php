@@ -330,10 +330,10 @@ class CheckUserPrivateEventsHandler implements
 			return;
 		}
 
-		$this->checkUserInsert->insertIntoCuPrivateEventTable(
+		$insertedId = $this->checkUserInsert->insertIntoCuPrivateEventTable(
 			[
-				'cupe_namespace'  => NS_USER,
-				'cupe_title'      => $oldName,
+				'cupe_namespace' => NS_USER,
+				'cupe_title' => $oldName,
 				// The following messages are generated here:
 				// * logentry-checkuser-private-event-user-logout
 				'cupe_log_action' => 'user-logout',
@@ -341,5 +341,8 @@ class CheckUserPrivateEventsHandler implements
 			__METHOD__,
 			$performer
 		);
+		if ( $this->config->get( 'CheckUserClientHintsEnabled' ) ) {
+			$this->storeClientHintsDataFromHeaders( $insertedId, RequestContext::getMain()->getRequest() );
+		}
 	}
 }
