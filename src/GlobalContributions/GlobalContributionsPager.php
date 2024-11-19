@@ -438,9 +438,12 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			wfAppendQuery(
 				$this->getForeignURL(
 					$row->sourcewiki,
-					$row->{$this->pageTitleField}
+					'',
 				),
-				[ 'action' => 'history' ]
+				[
+					'curid' => $row->rev_page,
+					'action' => 'history'
+				]
 			),
 			new HtmlArmor( $this->messages['hist'] ),
 			// The page is only used for its title and namespace,

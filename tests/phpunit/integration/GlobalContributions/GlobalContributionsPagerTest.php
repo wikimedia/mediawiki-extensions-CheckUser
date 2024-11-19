@@ -125,7 +125,8 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			'sourcewiki' => 'otherwiki',
 			'rev_parent_id' => $isNewPage ? '0' : '1',
 			'rev_id' => '2',
-			'rev_deleted' => $isHidden ? '1' : '0'
+			'rev_deleted' => $isHidden ? '1' : '0',
+			'rev_page' => '100',
 		] );
 		$pager = $this->getWrappedPager( '127.0.0.1', $row->page_title );
 
@@ -133,6 +134,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$this->assertStringContainsString( 'external', $formatted );
 		$this->assertStringContainsString( 'diff', $formatted );
 		$this->assertStringContainsString( 'action=history', $formatted );
+		$this->assertStringContainsString( 'curid=100', $formatted );
 		if ( $expectDiffLink ) {
 			$this->assertStringContainsString( 'oldid=2', $formatted );
 		} else {
