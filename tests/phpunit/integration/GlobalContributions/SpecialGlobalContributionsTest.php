@@ -214,6 +214,22 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		$this->assertStringContainsString( 'sp-contributions-outofrange', $html );
 	}
 
+	public function testExecuteUsername() {
+		[ $html ] = $this->executeSpecialPage(
+			'Nonexistent user',
+			null,
+			'qqx',
+			self::$checkuser
+		);
+
+		$this->assertStringNotContainsString( 'mw-pager-body', $html );
+		$this->assertStringNotContainsString(
+			'contributions-userdoesnotexist',
+			$html,
+			'No user does not exist error should show while usernames are not a supported input'
+		);
+	}
+
 	public function testExecutePreference() {
 		$globalPreferencesFactory = $this->createMock( GlobalPreferencesFactory::class );
 		$globalPreferencesFactory->method( 'getGlobalPreferencesValues' )
