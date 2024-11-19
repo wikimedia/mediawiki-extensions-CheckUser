@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\HookHandler;
 
 use MediaWiki\CheckUser\GlobalContributions\SpecialGlobalContributions;
 use MediaWiki\CheckUser\IPContributions\SpecialIPContributions;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\SpecialPage\Hook\SpecialPage_initListHook;
 use MediaWiki\User\TempUser\TempUserConfig;
 
@@ -19,9 +20,14 @@ use MediaWiki\User\TempUser\TempUserConfig;
 class SpecialPageInitListHandler implements SpecialPage_initListHook {
 
 	private TempUserConfig $tempUserConfig;
+	private ExtensionRegistry $extensionRegistry;
 
-	public function __construct( TempUserConfig $tempUserConfig ) {
+	public function __construct(
+		TempUserConfig $tempUserConfig,
+		ExtensionRegistry $extensionRegistry
+	) {
 		$this->tempUserConfig = $tempUserConfig;
+		$this->extensionRegistry = $extensionRegistry;
 	}
 
 	/** @inheritDoc */
@@ -43,22 +49,26 @@ class SpecialPageInitListHandler implements SpecialPage_initListHook {
 					'CheckUserPermissionManager',
 				],
 			];
-			$list['GlobalContributions'] = [
-				'class' => SpecialGlobalContributions::class,
-				'services' => [
-					'PermissionManager',
-					'ConnectionProvider',
-					'NamespaceInfo',
-					'UserNameUtils',
-					'UserNamePrefixSearch',
-					'UserOptionsLookup',
-					'UserFactory',
-					'UserIdentityLookup',
-					'DatabaseBlockStore',
-					'CheckUserGlobalContributionsPagerFactory',
-					'CheckUserPermissionManager',
-				],
-			];
+
+			// Use of Special:GlobalContributions depends on the user enabling IP reveal globally
+			if ( $this->extensionRegistry->isLoaded( 'GlobalPreferences' ) ) {
+				$list['GlobalContributions'] = [
+					'class' => SpecialGlobalContributions::class,
+					'services' => [
+						'PermissionManager',
+						'ConnectionProvider',
+						'NamespaceInfo',
+						'UserNameUtils',
+						'UserNamePrefixSearch',
+						'UserOptionsLookup',
+						'UserFactory',
+						'UserIdentityLookup',
+						'DatabaseBlockStore',
+						'PreferencesFactory',
+						'CheckUserGlobalContributionsPagerFactory',
+					],
+				];
+			}
 		}
 
 		return true;

@@ -354,7 +354,8 @@
 		"SpecialPageInitList": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\SpecialPageInitListHandler",
 			"services": [
-				"TempUserConfig"
+				"TempUserConfig",
+				"ExtensionRegistry"
 			]
 		},
 		"RecentChangeSaveHandler": {

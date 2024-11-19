@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Tests\Integration\GlobalContributions;
 
 use ErrorPageError;
+use GlobalPreferences\GlobalPreferencesFactory;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
@@ -37,8 +38,10 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 	}
 
 	protected function setup(): void {
-		$this->enableAutoCreateTempUser();
 		parent::setup();
+
+		$this->markTestSkippedIfExtensionNotLoaded( 'GlobalPreferences' );
+		$this->enableAutoCreateTempUser();
 	}
 
 	/**
@@ -57,7 +60,10 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		// of tables that can't be altered again in $dbDataOnceTables.
 		self::$disallowedUser = static::getTestUser()->getUser();
 		self::$checkuser = static::getTestUser( [ 'checkuser' ] )->getUser();
-		self::$sysop = static::getTestSysop()->getUser();
+		self::$sysop = static::getTestUser( [
+			'sysop',
+			'checkuser-temporary-account-viewer'
+		] )->getUser();
 		self::$checkuserAndSysop = static::getTestUser( [ 'checkuser', 'sysop' ] )->getUser();
 
 		$temp1 = $this->getServiceContainer()
@@ -208,8 +214,39 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		$this->assertStringContainsString( 'sp-contributions-outofrange', $html );
 	}
 
-	public function testExecuteErrorPreference() {
+	public function testExecutePreference() {
+		$globalPreferencesFactory = $this->createMock( GlobalPreferencesFactory::class );
+		$globalPreferencesFactory->method( 'getGlobalPreferencesValues' )
+			->willReturn( [ 'checkuser-temporary-account-enable' => true ] );
+		$this->setService( 'PreferencesFactory', $globalPreferencesFactory );
+
+		[ $html ] = $this->executeSpecialPage(
+			'127.0.0.1',
+			null,
+			null,
+			self::$sysop
+		);
+
+		// Target field should be populated
+		$this->assertStringContainsString( '127.0.0.1', $html );
+
+		$this->assertStringContainsString( 'mw-pager-body', $html );
+
+		// Use occurrences of data attribute in to determine how many rows,
+		// to test pager.
+		$this->assertSame( 2, substr_count( $html, 'data-mw-revid' ) );
+	}
+
+	/**
+	 * @dataProvider provideGlobalPreferences
+	 */
+	public function testExecuteErrorPreference( $preferences ) {
 		$this->expectException( ErrorPageError::class );
+
+		$globalPreferencesFactory = $this->createMock( GlobalPreferencesFactory::class );
+		$globalPreferencesFactory->method( 'getGlobalPreferencesValues' )
+			->willReturn( $preferences );
+		$this->setService( 'PreferencesFactory', $globalPreferencesFactory );
 
 		$this->executeSpecialPage(
 			'',
@@ -217,6 +254,14 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 			null,
 			self::$sysop
 		);
+	}
+
+	public function provideGlobalPreferences() {
+		return [
+			'Global preferences not found' => [ false ],
+			'Global preference not present' => [ [] ],
+			'Global preference set to disable' => [ [ 'checkuser-temporary-account-enable' => false ] ],
+		];
 	}
 
 	public function testExecuteErrorRevealIpPermission() {
