@@ -66,6 +66,7 @@ class SpecialPageInitListHandler implements SpecialPage_initListHook {
 						'DatabaseBlockStore',
 						'PreferencesFactory',
 						'CheckUserGlobalContributionsPagerFactory',
+						'CheckUserPermissionManager',
 					],
 				];
 			}

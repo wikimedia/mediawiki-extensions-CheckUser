@@ -5,11 +5,13 @@ namespace MediaWiki\CheckUser\GlobalContributions;
 use ErrorPageError;
 use GlobalPreferences\GlobalPreferencesFactory;
 use MediaWiki\Block\DatabaseBlockStore;
+use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\SpecialPage\ContributionsSpecialPage;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\User\Options\UserOptionsLookup;
+use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
@@ -31,6 +33,7 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 
 	private GlobalPreferencesFactory $globalPreferencesFactory;
 	private GlobalContributionsPagerFactory $pagerFactory;
+	private CheckUserPermissionManager $checkUserPermissionManager;
 
 	private ?GlobalContributionsPager $pager = null;
 
@@ -45,7 +48,8 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 		UserIdentityLookup $userIdentityLookup,
 		DatabaseBlockStore $blockStore,
 		GlobalPreferencesFactory $globalPreferencesFactory,
-		GlobalContributionsPagerFactory $pagerFactory
+		GlobalContributionsPagerFactory $pagerFactory,
+		CheckUserPermissionManager $checkUserPermissionManager
 	) {
 		parent::__construct(
 			$permissionManager,
@@ -61,16 +65,13 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 		);
 		$this->globalPreferencesFactory = $globalPreferencesFactory;
 		$this->pagerFactory = $pagerFactory;
+		$this->checkUserPermissionManager = $checkUserPermissionManager;
 	}
 
 	/**
 	 * @inheritDoc
+	 * @codeCoverageIgnore Merely declarative
 	 */
-	public function requiresUnblock() {
-		return true;
-	}
-
-	/** @inheritDoc */
 	public function isIncludable() {
 		return false;
 	}
@@ -101,6 +102,25 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 			'iprangelimits' => $this->getQueryableRangeLimit( $this->getConfig() ),
 			'required' => true,
 		];
+	}
+
+	/**
+	 * @inheritDoc
+	 * @codeCoverageIgnore Merely declarative
+	 */
+	public function isRestricted() {
+		return true;
+	}
+
+	/** @inheritDoc */
+	public function userCanExecute( User $user ) {
+		// Implemented so that Special:SpecialPages can hide Special:GlobalContributions if the user does not have the
+		// necessary rights, but still show it if the user just hasn't checked the preference or is blocked.
+		// The user is denied access for reasons other than rights in ::execute.
+		$permissionCheck = $this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses(
+			$this->getAuthority()
+		);
+		return $permissionCheck->getPermission() === null;
 	}
 
 	/**

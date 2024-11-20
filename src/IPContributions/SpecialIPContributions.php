@@ -9,6 +9,7 @@ use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\ContributionsSpecialPage;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\User\Options\UserOptionsLookup;
+use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
@@ -60,12 +61,8 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 
 	/**
 	 * @inheritDoc
+	 * @codeCoverageIgnore Merely declarative
 	 */
-	public function requiresUnblock() {
-		return true;
-	}
-
-	/** @inheritDoc */
 	public function isIncludable() {
 		return false;
 	}
@@ -94,6 +91,25 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 			'iprangelimits' => $this->getQueryableRangeLimit( $this->getConfig() ),
 			'required' => true,
 		];
+	}
+
+	/**
+	 * @inheritDoc
+	 * @codeCoverageIgnore Merely declarative
+	 */
+	public function isRestricted() {
+		return true;
+	}
+
+	/** @inheritDoc */
+	public function userCanExecute( User $user ) {
+		// Implemented so that Special:SpecialPages can hide Special:IPContributions if the user does not have the
+		// necessary rights, but still show it if the user just hasn't checked the preference or is blocked.
+		// The user is denied access for reasons other than rights in ::execute.
+		$permissionCheck = $this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses(
+			$this->getAuthority()
+		);
+		return $permissionCheck->getPermission() === null;
 	}
 
 	/**
