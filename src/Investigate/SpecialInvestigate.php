@@ -40,6 +40,7 @@ use OOUI\TabOptionWidget;
 use OOUI\Tag;
 use OOUI\Widget;
 use Wikimedia\IPUtils;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 class SpecialInvestigate extends FormSpecialPage {
 	private Language $contentLanguage;
@@ -306,7 +307,8 @@ class SpecialInvestigate extends FormSpecialPage {
 	 * @return self
 	 */
 	private function addTabContent( string $par ): self {
-		$startTime = $this->eventLogger->getTime();
+		$startTime = ConvertibleTimestamp::hrtime();
+		$durationMs = fn () => ( ConvertibleTimestamp::hrtime() - $startTime ) / 1e6;
 
 		switch ( $par ) {
 			case $this->getTabParam( 'preliminary-check' ):
@@ -343,7 +345,7 @@ class SpecialInvestigate extends FormSpecialPage {
 					'tab' => 'preliminary-check',
 					'resultsCount' => $pager->getNumRows(),
 					'resultsIncomplete' => false,
-					'queryTime' => $this->eventLogger->getTime() - $startTime,
+					'queryTime' => $durationMs(),
 				] );
 
 				break;
@@ -396,7 +398,7 @@ class SpecialInvestigate extends FormSpecialPage {
 					'tab' => 'compare',
 					'resultsCount' => $numRows,
 					'resultsIncomplete' => $numRows && $targetsOverLimit,
-					'queryTime' => $this->eventLogger->getTime() - $startTime,
+					'queryTime' => $durationMs(),
 				] );
 
 				break;
@@ -423,7 +425,7 @@ class SpecialInvestigate extends FormSpecialPage {
 					'tab' => 'timeline',
 					'resultsCount' => $pager->getNumRows(),
 					'resultsIncomplete' => false,
-					'queryTime' => $this->eventLogger->getTime() - $startTime,
+					'queryTime' => $durationMs(),
 				] );
 
 				break;
