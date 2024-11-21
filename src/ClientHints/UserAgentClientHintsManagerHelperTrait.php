@@ -2,6 +2,8 @@
 
 namespace MediaWiki\CheckUser\ClientHints;
 
+use JobQueueGroup;
+use MediaWiki\CheckUser\Jobs\StoreClientHintsDataJob;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Request\WebRequest;
 use Psr\Log\LoggerInterface;
@@ -15,6 +17,7 @@ use TypeError;
 trait UserAgentClientHintsManagerHelperTrait {
 
 	private UserAgentClientHintsManager $userAgentClientHintsManager;
+	private JobQueueGroup $jobQueueGroup;
 	private LoggerInterface $logger;
 
 	/**
@@ -29,9 +32,17 @@ trait UserAgentClientHintsManagerHelperTrait {
 	private function storeClientHintsDataFromHeaders( int $eventId, string $eventType, WebRequest $request ): void {
 		try {
 			$clientHintsData = ClientHintsData::newFromRequestHeaders( $request );
-			$this->userAgentClientHintsManager->insertClientHintValues(
-				$clientHintsData, $eventId, $eventType
-			);
+			if ( $request->getMethod() === 'GET' && !defined( 'MEDIAWIKI_JOB_RUNNER' ) ) {
+				if ( count( $clientHintsData->toDatabaseRows() ) ) {
+					$this->jobQueueGroup->push( StoreClientHintsDataJob::newSpec(
+						$clientHintsData, $eventId, $eventType
+					) );
+				}
+			} else {
+				$this->userAgentClientHintsManager->insertClientHintValues(
+					$clientHintsData, $eventId, $eventType
+				);
+			}
 		} catch ( TypeError $e ) {
 			$clientHintsHeaders = [];
 			foreach ( array_keys( ClientHintsData::HEADER_TO_CLIENT_HINTS_DATA_PROPERTY_NAME ) as $header ) {

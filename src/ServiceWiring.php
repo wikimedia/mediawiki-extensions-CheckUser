@@ -253,6 +253,7 @@ return [
 			$services->getTempUserConfig(),
 			$services->get( 'CheckUserCentralIndexManager' ),
 			$services->get( 'UserAgentClientHintsManager' ),
+			$services->getJobQueueGroup(),
 			LoggerFactory::getInstance( 'CheckUser' )
 		);
 	},

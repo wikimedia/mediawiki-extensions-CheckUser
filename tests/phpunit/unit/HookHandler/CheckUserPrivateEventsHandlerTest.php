@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit\HookHandler;
 
+use JobQueueGroup;
 use MailAddress;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
@@ -31,6 +32,7 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiUnitTestCase {
 			$overrides['userFactory'] ?? $this->createMock( UserFactory::class ),
 			$overrides['readOnlyMode'] ?? $this->createMock( ReadOnlyMode::class ),
 			$overrides['userAgentClientHintsManager'] ?? $this->createMock( UserAgentClientHintsManager::class ),
+			$overrides['jobQueueGroup'] ?? $this->createMock( JobQueueGroup::class ),
 		);
 	}
 

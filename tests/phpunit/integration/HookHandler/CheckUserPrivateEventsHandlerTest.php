@@ -8,6 +8,7 @@ use MediaWiki\Auth\AuthenticationRequest;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\CheckUser\EncryptedData;
 use MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
+use MediaWiki\CheckUser\Jobs\StoreClientHintsDataJob;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
@@ -16,11 +17,13 @@ use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Message\Message;
+use MediaWiki\Request\FauxRequest;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
 use Psr\Log\LoggerInterface;
 use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Rdbms\LikeValue;
+use Wikimedia\TestingAccessWrapper;
 
 /**
  * @covers \MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler
@@ -39,7 +42,8 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getUserIdentityLookup(),
 			$this->getServiceContainer()->getUserFactory(),
 			$this->getServiceContainer()->getReadOnlyMode(),
-			$this->getServiceContainer()->get( 'UserAgentClientHintsManager' )
+			$this->getServiceContainer()->get( 'UserAgentClientHintsManager' ),
+			$this->getServiceContainer()->getJobQueueGroup()
 		);
 	}
 
@@ -93,6 +97,7 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 		// Set a Client Hints header that we will check is stored if the authentication is a success.
 		RequestContext::getMain()->getRequest()->setHeader( 'Sec-CH-UA-Bitness', '"32"' );
 		$this->getObjectUnderTest()->onAuthManagerLoginAuthenticateAudit( $authResp, $userObj, $userName, [] );
+		$this->runJobs( [ 'minJobs' => 0 ], [ 'type' => StoreClientHintsDataJob::TYPE ] );
 		$expectedValues = [ NS_USER, $userName ];
 		if ( $isAnonPerformer ) {
 			$expectedValues[] = 0;
@@ -491,19 +496,30 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 	public function testOnLocalUserCreated( bool $autocreated ) {
 		// Set wgNewUserLog to false to ensure that the private event is added when $autocreated is false.
 		// The behaviour when wgNewUserLog is true is tested elsewhere.
+		RequestContext::getMain()->getRequest()->setHeader( 'Sec-CH-UA-Bitness', '"32"' );
 		$this->overrideConfigValue( MainConfigNames::NewUserLog, false );
 		$user = $this->getTestUser()->getUser();
 		$this->getObjectUnderTest()->onLocalUserCreated( $user, $autocreated );
-		$this->assertRowCount(
-			1, 'cu_private_event', 'cupe_id',
-			'The row was not inserted or was inserted with the wrong data',
-			[
+		$this->runJobs( [ 'minJobs' => 0 ], [ 'type' => StoreClientHintsDataJob::TYPE ] );
+		// Check that the row was inserted along with the Client Hints data.
+		$insertedPrivateEventId = $this->newSelectQueryBuilder()
+			->select( 'cupe_id' )
+			->from( 'cu_private_event' )
+			->where( [
 				'cupe_actor'  => $user->getActorId(),
 				'cupe_namespace' => NS_USER,
 				'cupe_title' => $user->getName(),
-				'cupe_log_action' => $autocreated ? 'autocreate-account' : 'create-account'
-			]
-		);
+				'cupe_log_action' => $autocreated ? 'autocreate-account' : 'create-account',
+			] )
+			->caller( __METHOD__ )
+			->fetchField();
+		$this->assertNotFalse( $insertedPrivateEventId );
+		$this->newSelectQueryBuilder()
+			->select( 'uachm_reference_id' )
+			->from( 'cu_useragent_clienthints_map' )
+			->where( [ 'uachm_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT ] )
+			->caller( __METHOD__ )
+			->assertFieldValue( $insertedPrivateEventId );
 	}
 
 	public static function provideOnLocalUserCreated() {
@@ -544,6 +560,7 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			$html,
 			$testUser->getName()
 		);
+		$this->runJobs( [ 'minJobs' => 0 ], [ 'type' => StoreClientHintsDataJob::TYPE ] );
 		$referenceID = $this->newSelectQueryBuilder()
 			->select( 'cupe_id' )
 			->from( 'cu_private_event' )
@@ -566,5 +583,29 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			->caller( __METHOD__ )
 			->fetchRowCount();
 		$this->assertSame( 1, $rowCount );
+	}
+
+	public function testStoreClientHintsDataFromHeadersForPostRequest() {
+		// Get a cu_private_event row ID for use in the test.
+		/** @var CheckUserInsert $checkUserInsert */
+		$checkUserInsert = $this->getServiceContainer()->get( 'CheckUserInsert' );
+		$insertedId = $checkUserInsert->insertIntoCuPrivateEventTable(
+			[], __METHOD__, $this->getTestUser()->getUser()
+		);
+		// Call the private method with a request that is a POST request
+		$fauxRequest = new FauxRequest( [], true );
+		$fauxRequest->setHeader( 'Sec-CH-UA-Bitness', '"32"' );
+		$objectUnderTest = $this->getObjectUnderTest();
+		$objectUnderTest = TestingAccessWrapper::newFromObject( $objectUnderTest );
+		$objectUnderTest->storeClientHintsDataFromHeaders(
+			$insertedId, 'privatelog', $fauxRequest
+		);
+		// Expect Client Hints data to exist without having to run jobs for this event
+		$this->newSelectQueryBuilder()
+			->select( 'uachm_reference_id' )
+			->from( 'cu_useragent_clienthints_map' )
+			->where( [ 'uachm_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT ] )
+			->caller( __METHOD__ )
+			->assertFieldValue( $insertedId );
 	}
 }

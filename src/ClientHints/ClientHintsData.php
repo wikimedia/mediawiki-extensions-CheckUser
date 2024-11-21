@@ -73,6 +73,28 @@ class ClientHintsData implements JsonSerializable {
 	}
 
 	/**
+	 * Given a string of JSON obtained by calling ClientHintsData::jsonSerialize, construct a ClientHintsData
+	 * object with the same data.
+	 *
+	 * @param array $data
+	 * @return ClientHintsData
+	 */
+	public static function newFromSerialisedJsonArray( array $data ): ClientHintsData {
+		return new self(
+			$data['architecture'],
+			$data['bitness'],
+			$data['brands'],
+			$data['formFactor'],
+			$data['fullVersionList'],
+			$data['mobile'],
+			$data['model'],
+			$data['platform'],
+			$data['platformVersion'],
+			$data['woW64']
+		);
+	}
+
+	/**
 	 * Given an array of data received from the client-side JavaScript API for obtaining
 	 * user agent client hints, construct a new ClientHintsData object.
 	 *

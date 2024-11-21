@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Services;
 
 use DatabaseLogEntry;
+use JobQueueGroup;
 use LogEntryBase;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\ClientHints\UserAgentClientHintsManagerHelperTrait;
@@ -48,6 +49,7 @@ class CheckUserInsert {
 	private TempUserConfig $tempUserConfig;
 	private CheckUserCentralIndexManager $checkUserCentralIndexManager;
 	private UserAgentClientHintsManager $userAgentClientHintsManager;
+	private JobQueueGroup $jobQueueGroup;
 	private ServiceOptions $options;
 	private LoggerInterface $logger;
 
@@ -68,6 +70,7 @@ class CheckUserInsert {
 		TempUserConfig $tempUserConfig,
 		CheckUserCentralIndexManager $checkUserCentralIndexManager,
 		UserAgentClientHintsManager $userAgentClientHintsManager,
+		JobQueueGroup $jobQueueGroup,
 		LoggerInterface $logger
 	) {
 		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
@@ -81,6 +84,7 @@ class CheckUserInsert {
 		$this->tempUserConfig = $tempUserConfig;
 		$this->checkUserCentralIndexManager = $checkUserCentralIndexManager;
 		$this->userAgentClientHintsManager = $userAgentClientHintsManager;
+		$this->jobQueueGroup = $jobQueueGroup;
 		$this->logger = $logger;
 	}
 
@@ -167,11 +171,7 @@ class CheckUserInsert {
 					$rc
 				);
 				if ( $this->options->get( 'CheckUserClientHintsEnabled' ) &&
-					$rc->getAttribute( 'rc_log_type' ) === 'newusers' &&
-					// Match create/create2/byemail log actions, but not account
-					// autocreation, as we won't have high entropy client hints data
-					// available for those.
-					$rc->getAttribute( 'rc_log_action' ) !== 'autocreate' ) {
+					$rc->getAttribute( 'rc_log_type' ) === 'newusers' ) {
 					$this->storeClientHintsDataFromHeaders(
 						$logId,
 						'log',

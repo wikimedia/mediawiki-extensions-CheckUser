@@ -314,7 +314,8 @@
 				"UserIdentityLookup",
 				"UserFactory",
 				"ReadOnlyMode",
-				"UserAgentClientHintsManager"
+				"UserAgentClientHintsManager",
+				"JobQueueGroup"
 			]
 		},
 		"RetroactiveAutoBlock": {
@@ -751,6 +752,13 @@
 			"services": [
 				"ConnectionProvider"
 			]
+		},
+		"checkuserStoreClientHintsDataJob": {
+			"class": "MediaWiki\\CheckUser\\Jobs\\StoreClientHintsDataJob",
+			"services": [
+				"UserAgentClientHintsManager"
+			],
+			"needsPage": false
 		}
 	},
 	"AutoloadClasses": {

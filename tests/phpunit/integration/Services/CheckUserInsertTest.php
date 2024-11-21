@@ -7,6 +7,7 @@ use DatabaseLogEntry;
 use LogEntryBase;
 use ManualLogEntry;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
+use MediaWiki\CheckUser\Jobs\StoreClientHintsDataJob;
 use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
@@ -198,6 +199,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getTempUserConfig(),
 			$this->getServiceContainer()->get( 'CheckUserCentralIndexManager' ),
 			$this->getServiceContainer()->get( 'UserAgentClientHintsManager' ),
+			$this->getServiceContainer()->getJobQueueGroup(),
 			LoggerFactory::getInstance( 'CheckUser' )
 		);
 		if ( $table === 'cu_changes' ) {
@@ -498,6 +500,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		$rcAttribs = $logEntry->getRecentChange( $logId )->getAttributes();
 		$expectedRow = [ $logId ];
 		$this->updateCheckUserData( $rcAttribs, 'cu_log_event', [ 'cule_log_id' ], $expectedRow );
+		$this->runJobs( [ 'minJobs' => 0 ], [ 'type' => StoreClientHintsDataJob::TYPE ] );
 		$selectQuery = $this->newSelectQueryBuilder()
 			->select( 'uachm_reference_id' )
 			->from( 'cu_useragent_clienthints_map' )
@@ -529,7 +532,7 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 			],
 			'account autocreation' => [
 				new ManualLogEntry( 'newusers', 'autocreate' ),
-				false
+				true
 			]
 		];
 	}

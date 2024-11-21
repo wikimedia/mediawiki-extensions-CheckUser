@@ -547,7 +547,7 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 		];
 	}
 
-	/** @dataProvider provideNewFromDatabaseRowsLoop */
+	/** @dataProvider provideClientHintsJsApiDataForLoop */
 	public function testNewFromDatabaseRowsLoop( $dataFromJsApi ) {
 		// Tests that a ClientHintsData object from the JS API is not
 		// corrupted by converting to database rows and then converting
@@ -558,7 +558,7 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 		$this->assertClientHintsDataObjectsEqual( $initialClientHintsData, $objectToTest, true );
 	}
 
-	public static function provideNewFromDatabaseRowsLoop() {
+	public static function provideClientHintsJsApiDataForLoop() {
 		$exampleJsApiData = self::getExampleJsApiData();
 		return [
 			'No client hint data' => [
@@ -571,5 +571,13 @@ class ClientHintsDataTest extends MediaWikiUnitTestCase {
 				$exampleJsApiData['Example Windows device using Chrome with duplicated data'],
 			],
 		];
+	}
+
+	/** @dataProvider provideClientHintsJsApiDataForLoop */
+	public function testJsonSerialiseLoop( $dataFromJsApi ) {
+		$initialClientHintsData = ClientHintsData::newFromJsApi( $dataFromJsApi );
+		$jsonSerialised = $initialClientHintsData->jsonSerialize();
+		$otherClientHintsData = ClientHintsData::newFromSerialisedJsonArray( $jsonSerialised );
+		$this->assertClientHintsDataObjectsEqual( $initialClientHintsData, $otherClientHintsData );
 	}
 }

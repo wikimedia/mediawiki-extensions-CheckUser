@@ -53,7 +53,8 @@ class GlobalBlockingHandlerWithDatabaseRowsTest extends MediaWikiIntegrationTest
 			$this->getServiceContainer()->getUserIdentityLookup(),
 			$this->getServiceContainer()->getUserFactory(),
 			$this->getServiceContainer()->getReadOnlyMode(),
-			$this->getServiceContainer()->get( 'UserAgentClientHintsManager' )
+			$this->getServiceContainer()->get( 'UserAgentClientHintsManager' ),
+			$this->getServiceContainer()->getJobQueueGroup()
 		);
 	}
 

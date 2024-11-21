@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
+use JobQueueGroup;
 use LogEntryBase;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Auth\Hook\AuthManagerLoginAuthenticateAuditHook;
@@ -46,6 +47,7 @@ class CheckUserPrivateEventsHandler implements
 	private UserFactory $userFactory;
 	private ReadOnlyMode $readOnlyMode;
 	private UserAgentClientHintsManager $userAgentClientHintsManager;
+	private JobQueueGroup $jobQueueGroup;
 	private LoggerInterface $logger;
 
 	public function __construct(
@@ -54,7 +56,8 @@ class CheckUserPrivateEventsHandler implements
 		UserIdentityLookup $userIdentityLookup,
 		UserFactory $userFactory,
 		ReadOnlyMode $readOnlyMode,
-		UserAgentClientHintsManager $userAgentClientHintsManager
+		UserAgentClientHintsManager $userAgentClientHintsManager,
+		JobQueueGroup $jobQueueGroup
 	) {
 		$this->checkUserInsert = $checkUserInsert;
 		$this->config = $config;
@@ -62,6 +65,7 @@ class CheckUserPrivateEventsHandler implements
 		$this->userFactory = $userFactory;
 		$this->readOnlyMode = $readOnlyMode;
 		$this->userAgentClientHintsManager = $userAgentClientHintsManager;
+		$this->jobQueueGroup = $jobQueueGroup;
 		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
 	}
 
@@ -86,7 +90,7 @@ class CheckUserPrivateEventsHandler implements
 			return;
 		}
 
-		$this->checkUserInsert->insertIntoCuPrivateEventTable(
+		$insertedId = $this->checkUserInsert->insertIntoCuPrivateEventTable(
 			[
 				'cupe_namespace'  => NS_USER,
 				'cupe_title'      => $user->getName(),
@@ -98,6 +102,12 @@ class CheckUserPrivateEventsHandler implements
 			__METHOD__,
 			$user
 		);
+
+		if ( $this->config->get( 'CheckUserClientHintsEnabled' ) ) {
+			$this->storeClientHintsDataFromHeaders(
+				$insertedId, 'privatelog', RequestContext::getMain()->getRequest()
+			);
+		}
 	}
 
 	/**
