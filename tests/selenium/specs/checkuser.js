@@ -1,15 +1,14 @@
 'use strict';
 
-const assert = require( 'assert' ),
-	LoginAsCheckUser = require( '../checkuserlogin' ),
-	CheckUserPage = require( '../pageobjects/checkuser.page' );
+const LoginAsCheckUser = require( '../checkuserlogin' );
+const CheckUserPage = require( '../pageobjects/checkuser.page' );
 
 describe( 'CheckUser', () => {
 	describe( 'Without CheckUser user group', () => {
 		it( 'Should display permission error to logged-out user', async () => {
 			await CheckUserPage.open();
 
-			assert( await CheckUserPage.hasPermissionErrors.isExisting() );
+			await expect( await CheckUserPage.hasPermissionErrors ).toExist();
 		} );
 	} );
 	describe( 'With CheckUser user group', () => {
@@ -19,26 +18,26 @@ describe( 'CheckUser', () => {
 		} );
 		describe( 'Verify checkuser can make checks:', () => {
 			it( 'Should show target input', async () => {
-				assert( await CheckUserPage.checkTarget.isExisting() );
+				await expect( await CheckUserPage.checkTarget ).toExist();
 			} );
 			it( 'Should show checkuser radios', async () => {
-				assert( await CheckUserPage.checkTypeRadios.isExisting() );
-				assert( await CheckUserPage.getIPsCheckTypeRadio.isExisting() );
-				assert( await CheckUserPage.getActionsCheckTypeRadio.isExisting() );
-				assert( await CheckUserPage.getUsersCheckTypeRadio.isExisting() );
+				await expect( await CheckUserPage.checkTypeRadios ).toExist();
+				await expect( await CheckUserPage.getIPsCheckTypeRadio ).toExist();
+				await expect( await CheckUserPage.getActionsCheckTypeRadio ).toExist();
+				await expect( await CheckUserPage.getUsersCheckTypeRadio ).toExist();
 			} );
 			it( 'Should show duration selector', async () => {
 				// Check the duration selector exists
-				assert( await CheckUserPage.durationSelector.isExisting() );
+				await expect( await CheckUserPage.durationSelector ).toExist();
 			} );
 			it( 'Should show check reason input', async () => {
-				assert( await CheckUserPage.checkReasonInput.isExisting() );
+				await expect( await CheckUserPage.checkReasonInput ).toExist();
 			} );
 			it( 'Should show submit button', async () => {
-				assert( await CheckUserPage.submit.isExisting() );
+				await expect( await CheckUserPage.submit ).toExist();
 			} );
 			it( 'Should show CIDR form before check is run', async () => {
-				assert( await CheckUserPage.cidrForm.isExisting() );
+				await expect( await CheckUserPage.cidrForm ).toExist();
 			} );
 			it( 'Should be able to run \'Get IPs\' check', async () => {
 				await CheckUserPage.open();
@@ -49,10 +48,10 @@ describe( 'CheckUser', () => {
 				browser.waitUntil( () => {
 					browser.execute( () => browser.document.readyState === 'complete' );
 				}, { timeout: 10 * 1000, timeoutMsg: 'Page failed to load in a reasonable time.' } );
-				assert( await CheckUserPage.getIPsResults.isExisting() );
+				await expect( await CheckUserPage.getIPsResults ).toExist();
 				// CheckUser helper should never be present on Get IPs
-				assert( !( await CheckUserPage.checkUserHelper.isExisting() ) );
-				assert( await CheckUserPage.cidrForm.isExisting() );
+				await expect( await CheckUserPage.checkUserHelper ).not.toExist();
+				await expect( await CheckUserPage.cidrForm ).toExist();
 			} );
 			it( 'Should be able to run \'Get actions\' check', async () => {
 				await CheckUserPage.open();
@@ -63,9 +62,9 @@ describe( 'CheckUser', () => {
 				browser.waitUntil( () => {
 					browser.execute( () => browser.document.readyState === 'complete' );
 				}, { timeout: 10 * 1000, timeoutMsg: 'Page failed to load in a reasonable time.' } );
-				assert( await CheckUserPage.getActionsResults.isExisting() );
-				assert( await CheckUserPage.checkUserHelper.isExisting() );
-				assert( await CheckUserPage.cidrForm.isExisting() );
+				await expect( await CheckUserPage.getActionsResults ).toExist();
+				await expect( await CheckUserPage.checkUserHelper ).toExist();
+				await expect( await CheckUserPage.cidrForm ).toExist();
 			} );
 			it( 'Should be able to run \'Get users\' check', async () => {
 				await CheckUserPage.open();
@@ -76,9 +75,9 @@ describe( 'CheckUser', () => {
 				browser.waitUntil( () => {
 					browser.execute( () => browser.document.readyState === 'complete' );
 				}, { timeout: 10 * 1000, timeoutMsg: 'Page failed to load in a reasonable time.' } );
-				assert( await CheckUserPage.getUsersResults.isExisting() );
-				assert( await CheckUserPage.checkUserHelper.isExisting() );
-				assert( await CheckUserPage.cidrForm.isExisting() );
+				await expect( await CheckUserPage.getUsersResults ).toExist();
+				await expect( await CheckUserPage.checkUserHelper ).toExist();
+				await expect( await CheckUserPage.cidrForm ).toExist();
 			} );
 		} );
 	} );
