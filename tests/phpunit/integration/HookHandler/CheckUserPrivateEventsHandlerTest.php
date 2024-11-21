@@ -526,4 +526,41 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			]
 		);
 	}
+
+	public function testClientHintsDataCollectedOnSpecialUserLogout() {
+		RequestContext::getMain()->getRequest()->setHeader( 'Sec-Ch-Ua', ';v=abc' );
+		$this->overrideConfigValues( [
+			'CheckUserLogLogins' => true,
+			'CheckUserClientHintsEnabled' => true,
+		] );
+		$testUser = $this->getTestUser()->getUser();
+		$ipUser = $this->getServiceContainer()->getUserFactory()->newAnonymous( '127.0.0.1' );
+		$this->getObjectUnderTest()->onUserLogoutComplete(
+			$ipUser,
+			$html,
+			$testUser->getName()
+		);
+		$referenceID = $this->newSelectQueryBuilder()
+			->select( 'cupe_id' )
+			->from( 'cu_private_event' )
+			->where( [
+				'cupe_actor' => $this->getServiceContainer()->getActorNormalization()->findActorId(
+					$testUser,
+					$this->getDb()
+				),
+				'cupe_log_action' => 'user-logout',
+			] )
+			->caller( __METHOD__ )
+			->fetchField();
+		$rowCount = $this->newSelectQueryBuilder()
+			->select( 'uachm_reference_id' )
+			->from( 'cu_useragent_clienthints_map' )
+			->where( [
+				'uachm_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT,
+				'uachm_reference_id' => $referenceID,
+			] )
+			->caller( __METHOD__ )
+			->fetchRowCount();
+		$this->assertSame( 1, $rowCount );
+	}
 }
