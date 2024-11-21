@@ -294,7 +294,8 @@ class SpecialInvestigate extends FormSpecialPage {
 	 */
 	private function addParserOutput( ParserOutput $parserOutput ): self {
 		$this->getOutput()->addParserOutputMetadata( $parserOutput );
-		$this->addHTML( $parserOutput->getText() );
+		$popts = $this->getOutput()->parserOptions();
+		$this->addHTML( $parserOutput->runOutputPipeline( $popts, [] )->getContentHolderText() );
 
 		return $this;
 	}
