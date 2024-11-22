@@ -45,9 +45,6 @@ describe( 'CheckUser', () => {
 				await CheckUserPage.checkTarget.setValue( process.env.MEDIAWIKI_USER );
 				await CheckUserPage.checkReasonInput.setValue( 'Selenium browser testing' );
 				await CheckUserPage.submit.click();
-				browser.waitUntil( () => {
-					browser.execute( () => browser.document.readyState === 'complete' );
-				}, { timeout: 10 * 1000, timeoutMsg: 'Page failed to load in a reasonable time.' } );
 				await expect( await CheckUserPage.getIPsResults ).toExist();
 				// CheckUser helper should never be present on Get IPs
 				await expect( await CheckUserPage.checkUserHelper ).not.toExist();
@@ -59,9 +56,6 @@ describe( 'CheckUser', () => {
 				await CheckUserPage.checkTarget.setValue( process.env.MEDIAWIKI_USER );
 				await CheckUserPage.checkReasonInput.setValue( 'Selenium browser testing' );
 				await CheckUserPage.submit.click();
-				browser.waitUntil( () => {
-					browser.execute( () => browser.document.readyState === 'complete' );
-				}, { timeout: 10 * 1000, timeoutMsg: 'Page failed to load in a reasonable time.' } );
 				await expect( await CheckUserPage.getActionsResults ).toExist();
 				await expect( await CheckUserPage.checkUserHelper ).toExist();
 				await expect( await CheckUserPage.cidrForm ).toExist();
@@ -72,9 +66,6 @@ describe( 'CheckUser', () => {
 				await CheckUserPage.checkTarget.setValue( '127.0.0.1' );
 				await CheckUserPage.checkReasonInput.setValue( 'Selenium browser testing' );
 				await CheckUserPage.submit.click();
-				browser.waitUntil( () => {
-					browser.execute( () => browser.document.readyState === 'complete' );
-				}, { timeout: 10 * 1000, timeoutMsg: 'Page failed to load in a reasonable time.' } );
 				await expect( await CheckUserPage.getUsersResults ).toExist();
 				await expect( await CheckUserPage.checkUserHelper ).toExist();
 				await expect( await CheckUserPage.cidrForm ).toExist();

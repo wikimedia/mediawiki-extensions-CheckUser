@@ -1,9 +1,11 @@
 'use strict';
 
-const assert = require( 'assert' ),
-	LoginAsCheckUser = require( '../checkuserlogin' ),
+const LoginAsCheckUser = require( '../checkuserlogin' ),
 	CheckUserPage = require( '../pageobjects/checkuser.page' ),
-	EditPage = require( '../pageobjects/edit.page' );
+	EditPage = require( '../pageobjects/edit.page' ),
+	CreateAccountPage = require( 'wdio-mediawiki/CreateAccountPage' ),
+	LogoutPage = require( '../pageobjects/logout.page' ),
+	Util = require( 'wdio-mediawiki/Util' );
 
 const supportedBrowsers = [ 'chrome', 'chromium', 'msedge' ];
 
@@ -11,15 +13,26 @@ function checkIfBrowserSupportsClientHints( browserName ) {
 	return supportedBrowsers.includes( browserName );
 }
 
+const createdAccountUsername = Util.getTestString( 'ClientHintsAccountCreationTest' );
+
 describe( 'Client Hints', () => {
 	before( async () => {
-		await LoginAsCheckUser.loginAsCheckUser();
 		// Skip the tests if we are using a browser which does not support client hints,
 		// because the tests need data to be sent to the API to e2e test.
 		if ( !checkIfBrowserSupportsClientHints( driver.requestedCapabilities.browserName ) ) {
 			return;
 		}
-		await EditPage.edit( 'Testing', 'testing1234', 'test-edit-to-test-client-hints' );
+		// Create an account for later use in the tests.
+		await CreateAccountPage.createAccount( createdAccountUsername, Util.getTestString() );
+		// Logout of this newly created account
+		await LogoutPage.logout();
+		// Then edit the page using a normal account
+		await LoginAsCheckUser.loginAsCheckUser();
+		await EditPage.edit(
+			Util.getTestString( 'CheckUserClientHintsCollectedOnEdit-' ),
+			'testing1234',
+			'test-edit-to-test-client-hints'
+		);
 	} );
 	it( 'Verify edit sends Client Hints data', async () => {
 		// Skip the tests if we are using a browser which does not support client hints,
@@ -29,17 +42,17 @@ describe( 'Client Hints', () => {
 		}
 		await CheckUserPage.open();
 		await CheckUserPage.getActionsCheckTypeRadio.click();
-		await CheckUserPage.checkTarget.setValue( process.env.MEDIAWIKI_USER );
+		const checkUserUsername = LoginAsCheckUser.getCheckUserAccountDetails().username;
+		await CheckUserPage.checkTarget.setValue( checkUserUsername );
 		await CheckUserPage.checkReasonInput.setValue( 'Selenium browser testing' );
 		await CheckUserPage.submit.click();
-		browser.waitUntil( () => {
-			browser.execute( () => browser.document.readyState === 'complete' );
-		}, { timeout: 10 * 1000, timeoutMsg: 'Page failed to load in a reasonable time.' } );
-		assert( await CheckUserPage.getActionsResults.isExisting() );
+		await expect( await CheckUserPage.getActionsResults ).toExist();
 		// Check that Client Hints data exists for the edit, by checking if the Client Hints
-		// element class is present for the edit.
-		const $relevantResultLine = $( 'li:contains(test-edit-to-test-client-hints)', CheckUserPage.getActionsResults );
-		assert( $relevantResultLine.find( 'mw-checkuser-client-hints' ).length !== 0 );
+		// element class is present for the edit and the span contains content.
+		const relevantResultLine = await CheckUserPage.getActionsResults.$( 'li*=test-edit-to-test-client-hints' );
+		await expect( relevantResultLine ).toExist();
+		const clientHints = await relevantResultLine.$( '.mw-checkuser-client-hints' ).getText();
+		await expect( clientHints ).not.toBeFalsy();
 	} );
 
 	it( 'stores client hints data on successful logins', async () => {
@@ -48,17 +61,17 @@ describe( 'Client Hints', () => {
 		}
 		await CheckUserPage.open();
 		await CheckUserPage.getActionsCheckTypeRadio.click();
-		await CheckUserPage.checkTarget.setValue( process.env.MEDIAWIKI_USER );
+		const checkUserUsername = LoginAsCheckUser.getCheckUserAccountDetails().username;
+		await CheckUserPage.checkTarget.setValue( checkUserUsername );
 		await CheckUserPage.checkReasonInput.setValue( 'Selenium browser testing' );
 		await CheckUserPage.submit.click();
-		browser.waitUntil( () => {
-			browser.execute( () => browser.document.readyState === 'complete' );
-		}, { timeout: 10 * 1000, timeoutMsg: 'Page failed to load in a reasonable time.' } );
-		assert( await CheckUserPage.getActionsResults.isExisting() );
+		await expect( await CheckUserPage.getActionsResults ).toExist();
 		// Check that Client Hints data exists for the login, by checking if the Client Hints
-		// element class is present for the log entry.
-		const $relevantResultLine = $( 'li:contains(Successfully logged in)', CheckUserPage.getActionsResults );
-		assert( $relevantResultLine.find( 'mw-checkuser-client-hints' ).length !== 0 );
+		// element class is present for the log entry and the span contains content.
+		const relevantResultLine = await CheckUserPage.getActionsResults.$( 'li*=Successfully logged in' );
+		await expect( relevantResultLine ).toExist();
+		const clientHints = await relevantResultLine.$( '.mw-checkuser-client-hints' ).getText();
+		await expect( clientHints ).not.toBeFalsy();
 	} );
 
 	it( 'stores client hints data on account creation', async () => {
@@ -67,20 +80,33 @@ describe( 'Client Hints', () => {
 		}
 		await CheckUserPage.open();
 		await CheckUserPage.getActionsCheckTypeRadio.click();
-		await CheckUserPage.checkTarget.setValue( process.env.MEDIAWIKI_USER );
+		await CheckUserPage.checkTarget.setValue( createdAccountUsername );
 		await CheckUserPage.checkReasonInput.setValue( 'Selenium browser testing' );
 		await CheckUserPage.submit.click();
-		browser.waitUntil( () => {
-			browser.execute( () => browser.document.readyState === 'complete' );
-		}, { timeout: 10 * 1000, timeoutMsg: 'Page failed to load in a reasonable time.' } );
-		assert( await CheckUserPage.getActionsResults.isExisting() );
+		await expect( await CheckUserPage.getActionsResults ).toExist();
 		// Check that Client Hints data exists for the login, by checking if the Client Hints
-		// element class is present for the log entry.
-		const checkUserUsername = LoginAsCheckUser.getCheckUserAccountDetails().username;
-		const $relevantResultLine = $(
-			`li:contains(User account ${ checkUserUsername } was created )`,
-			CheckUserPage.getActionsResults
-		);
-		assert( $relevantResultLine.find( 'mw-checkuser-client-hints' ).length !== 0 );
+		// element class is present for the log entry and the span contains content.
+		const relevantResultLine = await CheckUserPage.getActionsResults.$( `li*=${ createdAccountUsername } was created` );
+		await expect( relevantResultLine ).toExist();
+		const clientHints = await relevantResultLine.$( '.mw-checkuser-client-hints' ).getText();
+		await expect( clientHints ).not.toBeFalsy();
+	} );
+
+	it( 'stores client hints data on logout', async () => {
+		if ( !checkIfBrowserSupportsClientHints( driver.requestedCapabilities.browserName ) ) {
+			return;
+		}
+		await CheckUserPage.open();
+		await CheckUserPage.getActionsCheckTypeRadio.click();
+		await CheckUserPage.checkTarget.setValue( createdAccountUsername );
+		await CheckUserPage.checkReasonInput.setValue( 'Selenium browser testing' );
+		await CheckUserPage.submit.click();
+		await expect( await CheckUserPage.getActionsResults ).toExist();
+		// Check that Client Hints data exists for the logout, by checking if the Client Hints
+		// element class is present for the log entry and the span contains content.
+		const relevantResultLine = await CheckUserPage.getActionsResults.$( 'li*=Successfully logged out' );
+		await expect( relevantResultLine ).toExist();
+		const clientHints = await relevantResultLine.$( '.mw-checkuser-client-hints' ).getText();
+		await expect( clientHints ).not.toBeFalsy();
 	} );
 } );
