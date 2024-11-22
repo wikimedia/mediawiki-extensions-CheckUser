@@ -2,16 +2,12 @@
 
 namespace MediaWiki\CheckUser\GlobalContributions;
 
-use ErrorPageError;
-use GlobalPreferences\GlobalPreferencesFactory;
 use MediaWiki\Block\DatabaseBlockStore;
-use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\SpecialPage\ContributionsSpecialPage;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\User\Options\UserOptionsLookup;
-use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
@@ -19,8 +15,6 @@ use MediaWiki\User\UserNamePrefixSearch;
 use MediaWiki\User\UserNameUtils;
 use OOUI\HtmlSnippet;
 use OOUI\MessageWidget;
-use PermissionsError;
-use UserBlockedError;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 
@@ -31,9 +25,7 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 
 	use ContributionsRangeTrait;
 
-	private GlobalPreferencesFactory $globalPreferencesFactory;
 	private GlobalContributionsPagerFactory $pagerFactory;
-	private CheckUserPermissionManager $checkUserPermissionManager;
 
 	private ?GlobalContributionsPager $pager = null;
 
@@ -47,9 +39,7 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 		UserFactory $userFactory,
 		UserIdentityLookup $userIdentityLookup,
 		DatabaseBlockStore $blockStore,
-		GlobalPreferencesFactory $globalPreferencesFactory,
-		GlobalContributionsPagerFactory $pagerFactory,
-		CheckUserPermissionManager $checkUserPermissionManager
+		GlobalContributionsPagerFactory $pagerFactory
 	) {
 		parent::__construct(
 			$permissionManager,
@@ -63,9 +53,7 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 			$blockStore,
 			'GlobalContributions'
 		);
-		$this->globalPreferencesFactory = $globalPreferencesFactory;
 		$this->pagerFactory = $pagerFactory;
-		$this->checkUserPermissionManager = $checkUserPermissionManager;
 	}
 
 	/**
@@ -107,72 +95,9 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 
 	/**
 	 * @inheritDoc
-	 * @codeCoverageIgnore Merely declarative
-	 */
-	public function isRestricted() {
-		return true;
-	}
-
-	/** @inheritDoc */
-	public function userCanExecute( User $user ) {
-		// Implemented so that Special:SpecialPages can hide Special:GlobalContributions if the user does not have the
-		// necessary rights, but still show it if the user just hasn't checked the preference or is blocked.
-		// The user is denied access for reasons other than rights in ::execute.
-		$permissionCheck = $this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses(
-			$this->getAuthority()
-		);
-		return $permissionCheck->getPermission() === null;
-	}
-
-	/**
-	 * @inheritDoc
 	 */
 	public function execute( $par ) {
-		// We don't use the CheckUserPermissionManager here, because we would need to check all of
-		// these conditions again to know whether the global preference is needed and accepted.
-		if (
-			!$this->permissionManager->userHasRight(
-				$this->getAuthority()->getUser(),
-				'checkuser-temporary-account-no-preference'
-			)
-		) {
-			// The user must have the 'checkuser-temporary-account' right.
-			if (
-				!$this->permissionManager->userHasRight(
-					$this->getAuthority()->getUser(),
-					'checkuser-temporary-account'
-				)
-			) {
-				throw new PermissionsError( 'checkuser-temporary-account' );
-			}
-
-			// The user must also have enabled the global preference.
-			$globalPreferences = $this->globalPreferencesFactory->getGlobalPreferencesValues(
-				$this->getAuthority()->getUser(),
-				// Load from the database, not the cache, since we're using it for access.
-				true
-			);
-			if (
-				!$globalPreferences ||
-				!isset( $globalPreferences['checkuser-temporary-account-enable'] ) ||
-				!$globalPreferences['checkuser-temporary-account-enable']
-			) {
-				throw new ErrorPageError(
-					$this->msg( 'checkuser-global-contributions-permission-error-title' ),
-					$this->msg( 'checkuser-global-contributions-permission-error-description' )
-				);
-			}
-		}
-
-		$block = $this->getAuthority()->getBlock();
-		if ( $block ) {
-			throw new UserBlockedError(
-				$block,
-				$this->getAuthority()->getUser(),
-				$this->getLanguage(),
-				$this->getRequest()->getIP()
-			);
-		}
+		$this->requireLogin();
 
 		parent::execute( $par );
 

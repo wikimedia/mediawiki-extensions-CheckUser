@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\GlobalContributions;
 
 use ChangesList;
+use GlobalPreferences\GlobalPreferencesFactory;
 use HtmlArmor;
 use JobQueueGroup;
 use LogicException;
@@ -18,6 +19,7 @@ use MediaWiki\Html\Html;
 use MediaWiki\Html\TemplateParser;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Pager\ContributionsPager;
+use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\Title\NamespaceInfo;
@@ -26,6 +28,8 @@ use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\WikiMap\WikiMap;
+use OOUI\HtmlSnippet;
+use OOUI\MessageWidget;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
@@ -43,9 +47,13 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	private TempUserConfig $tempUserConfig;
 	private CheckUserLookupUtils $checkUserLookupUtils;
 	private CheckUserApiRequestAggregator $apiRequestAggregator;
+	private PermissionManager $permissionManager;
+	private GlobalPreferencesFactory $globalPreferencesFactory;
 	private IConnectionProvider $dbProvider;
 	private JobQueueGroup $jobQueueGroup;
 	private array $permissions = [];
+	private int $wikisWithPermissionsCount;
+	private string $needsToEnableGlobalPreferenceAtWiki;
 
 	/**
 	 * @var int Number of revisions to return per wiki
@@ -63,6 +71,8 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		TempUserConfig $tempUserConfig,
 		CheckUserLookupUtils $checkUserLookupUtils,
 		CheckUserApiRequestAggregator $apiRequestAggregator,
+		PermissionManager $permissionManager,
+		GlobalPreferencesFactory $globalPreferencesFactory,
 		IConnectionProvider $dbProvider,
 		JobQueueGroup $jobQueueGroup,
 		IContextSource $context,
@@ -84,17 +94,54 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		$this->tempUserConfig = $tempUserConfig;
 		$this->checkUserLookupUtils = $checkUserLookupUtils;
 		$this->apiRequestAggregator = $apiRequestAggregator;
+		$this->permissionManager = $permissionManager;
+		$this->globalPreferencesFactory = $globalPreferencesFactory;
 		$this->dbProvider = $dbProvider;
 		$this->jobQueueGroup = $jobQueueGroup;
 		$this->templateParser = new TemplateParser( __DIR__ . '/../../templates' );
 	}
 
 	/**
+	 * Fetch the permissions needed by this pager from a list of external wikis. Store them
+	 * in the $permissions property.
+	 *
+	 * @param string[] $wikiIds
+	 */
+	private function getExternalWikiPermissions( $wikiIds ) {
+		$permissions = $this->apiRequestAggregator->execute(
+			$this->getUser(),
+			[
+				'action' => 'query',
+				'prop' => 'info',
+				'intestactions' => 'checkuser-temporary-account|checkuser-temporary-account-no-preference' .
+					'|deletedtext|deletedhistory|suppressrevision|viewsuppressed',
+				// We need to check against a title, but it doesn't actually matter if the title exists
+				'titles' => 'Test Title',
+				// Using `full` level checks blocks as well
+				'intestactionsdetail' => 'full',
+				'format' => 'json',
+			],
+			$wikiIds,
+			$this->getRequest(),
+			CheckUserApiRequestAggregator::AUTHENTICATE_CENTRAL_AUTH
+		);
+		foreach ( $wikiIds as $wikiId ) {
+			if ( !isset( $permissions[$wikiId]['query']['pages'][0]['actions'] ) ) {
+				// The API lookup failed, so assume the user does not have IP reveal rights.
+				continue;
+			}
+			$this->permissions[$wikiId] = $permissions[$wikiId]['query']['pages'][0]['actions'];
+		}
+	}
+
+	/**
 	 * Query the central index tables to find wikis that have recently been edited
 	 * from by temporary accounts using the target IP.
 	 *
-	 * Also set $permissions property, which holds information about external wiki
-	 * permissions.
+	 * Also sets some properties:
+	 * - $permissions, which holds information about external wiki permissions
+	 * - $wikisWithPermissionsCount, the number of wikis where the user can reveal IPs
+	 * - $needsToEnableGlobalPreferenceAtWiki, the wiki to enable a global preference at
 	 *
 	 * @return array
 	 */
@@ -117,55 +164,55 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			->caller( __METHOD__ )
 			->fetchFieldValues();
 
-		$permissions = $this->apiRequestAggregator->execute(
-			$this->getUser(),
-			[
-				'action' => 'query',
-				'prop' => 'info',
-				'intestactions' => 'checkuser-temporary-account|checkuser-temporary-account-no-preference' .
-					'|deletedtext|deletedhistory|suppressrevision|viewsuppressed',
-				// We need to check against a title, but it doesn't actually matter if the title exists
-				'titles' => 'Test Title',
-				// Using `full` level checks blocks as well
-				'intestactionsdetail' => 'full',
-				'format' => 'json',
-			],
+		// Look up external permissions
+		$this->getExternalWikiPermissions(
 			array_filter( $activeWikis, static function ( $wikiId ) {
+				// No need to do an API call to the local wiki
 				return !WikiMap::isCurrentWikiDbDomain( $wikiId );
-			} ),
-			$this->getRequest(),
-			CheckUserApiRequestAggregator::AUTHENTICATE_CENTRAL_AUTH
+			} )
 		);
 
+		// Look up local permissions
+		$isBlocked = $this->getAuthority()->getBlock();
+		$canRevealIp = !$isBlocked && $this->permissionManager->userHasRight(
+			$this->getAuthority()->getUser(),
+			'checkuser-temporary-account'
+		);
+		$canRevealIpNoPreference = !$isBlocked && $this->permissionManager->userHasRight(
+			$this->getAuthority()->getUser(),
+			'checkuser-temporary-account-no-preference'
+		);
+
+		// Look up the global preference status
+		$globalPreferences = $this->globalPreferencesFactory->getGlobalPreferencesValues(
+			$this->getAuthority()->getUser(),
+			// Load from the database, not the cache, since we're using it for access.
+			true
+		);
+		$hasEnabledGlobalPreference = $globalPreferences &&
+			isset( $globalPreferences['checkuser-temporary-account-enable'] ) &&
+			$globalPreferences['checkuser-temporary-account-enable'];
+
 		$wikisToQuery = [];
+		$this->needsToEnableGlobalPreferenceAtWiki = '';
 		foreach ( $activeWikis as $wikiId ) {
-			if ( WikiMap::isCurrentWikiDbDomain( $wikiId ) ) {
-				// No need to check permissions, since SpecialGlobalContributions has already
-				// confirmed that the user has IP reveal rights on the local wiki.
-				$wikisToQuery[] = $wikiId;
-				continue;
-			}
-
-			if ( !isset( $permissions[$wikiId]['query']['pages'][0]['actions'] ) ) {
-				// The API lookup failed, so assume the user does not have IP reveal rights.
-				continue;
-			}
-
-			$this->permissions[$wikiId] = $permissions[$wikiId]['query']['pages'][0]['actions'];
-
 			if (
-				$this->userHasExternalPermission( 'checkuser-temporary-account-no-preference', $wikiId ) ||
-				// No need to check the global preference, since SpecialGlobalContribuitons has already
-				// confirmed they have enabled the global preference.
-				$this->userHasExternalPermission( 'checkuser-temporary-account', $wikiId )
+				( WikiMap::isCurrentWikiDbDomain( $wikiId ) && $canRevealIpNoPreference ) ||
+				$this->userHasExternalPermission( 'checkuser-temporary-account-no-preference', $wikiId )
 			) {
 				$wikisToQuery[] = $wikiId;
+			} elseif (
+				( WikiMap::isCurrentWikiDbDomain( $wikiId ) && $canRevealIp ) ||
+				$this->userHasExternalPermission( 'checkuser-temporary-account', $wikiId )
+			) {
+				if ( $hasEnabledGlobalPreference ) {
+					$wikisToQuery[] = $wikiId;
+				} else {
+					$this->needsToEnableGlobalPreferenceAtWiki = $wikiId;
+				}
 			}
 		}
-
-		if ( !( count( $activeWikis ) === count( $wikisToQuery ) ) ) {
-			$this->getOutput()->addWikiMsg( 'checkuser-global-contributions-ip-reveal-permissions-error' );
-		}
+		$this->wikisWithPermissionsCount = count( $wikisToQuery );
 
 		return $wikisToQuery;
 	}
@@ -340,6 +387,61 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		if ( !$this->isFromExternalWiki( $row ) ) {
 			parent::populateAttributes( $row, $attributes );
 		}
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function getStartBody() {
+		$startBody = parent::getStartBody();
+
+		if ( $this->needsToEnableGlobalPreferenceAtWiki && $this->getNumRows() > 0 ) {
+			$startBody .= new MessageWidget( [
+				'type' => 'info',
+				'label' => new HtmlSnippet(
+					$this->msg(
+						'checkuser-global-contributions-no-global-preference',
+						$this->getForeignURL(
+							$this->needsToEnableGlobalPreferenceAtWiki,
+							'Special:GlobalPreferences'
+						)
+					)->parse()
+				)
+			] );
+		}
+
+		return $startBody;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function getEmptyBody() {
+		if ( $this->needsToEnableGlobalPreferenceAtWiki ) {
+			return new MessageWidget( [
+				'type' => 'info',
+				'label' => new HtmlSnippet(
+					$this->msg(
+						'checkuser-global-contributions-no-results-no-global-preference',
+						$this->getForeignURL(
+							$this->needsToEnableGlobalPreferenceAtWiki,
+							'Special:GlobalPreferences'
+						)
+					)->parse()
+				)
+			] );
+		}
+
+		if ( $this->wikisWithPermissionsCount === 0 ) {
+			return new MessageWidget( [
+				'type' => 'info',
+				'label' => new HtmlSnippet(
+					$this->msg( 'checkuser-global-contributions-no-results-no-permissions' )->parse()
+				)
+			] );
+		}
+
+		return parent::getEmptyBody();
 	}
 
 	/**
@@ -699,6 +801,8 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	/**
 	 * Check for errors, which includes permission errors if they don't have the right
 	 * and also block errors if they are blocked.
+	 *
+	 * Must be called after ::getExternalWikiPermissions.
 	 *
 	 * @param string $right
 	 * @param string $wikiId

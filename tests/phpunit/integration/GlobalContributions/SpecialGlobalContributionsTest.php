@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\GlobalContributions;
 
-use ErrorPageError;
 use GlobalPreferences\GlobalPreferencesFactory;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
@@ -12,9 +11,7 @@ use MediaWiki\MediaWikiServices;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
-use PermissionsError;
 use SpecialPageTestBase;
-use UserBlockedError;
 use Wikimedia\IPUtils;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -40,6 +37,12 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 
 	protected function setup(): void {
 		parent::setup();
+
+		// Avoid holding onto stale service references
+		self::$disallowedUser->clearInstanceCache();
+		self::$checkuser->clearInstanceCache();
+		self::$sysop->clearInstanceCache();
+		self::$checkuserAndSysop->clearInstanceCache();
 
 		$this->markTestSkippedIfExtensionNotLoaded( 'GlobalPreferences' );
 		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
@@ -274,19 +277,20 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 	 * @dataProvider provideGlobalPreferences
 	 */
 	public function testExecuteErrorPreference( $preferences ) {
-		$this->expectException( ErrorPageError::class );
-
 		$globalPreferencesFactory = $this->createMock( GlobalPreferencesFactory::class );
 		$globalPreferencesFactory->method( 'getGlobalPreferencesValues' )
 			->willReturn( $preferences );
 		$this->setService( 'PreferencesFactory', $globalPreferencesFactory );
 
-		$this->executeSpecialPage(
-			'',
+		[ $html ] = $this->executeSpecialPage(
+			'127.0.0.1',
 			null,
 			null,
 			self::$sysop
 		);
+
+		$this->assertStringNotContainsString( 'mw-contributions-list', $html );
+		$this->assertStringContainsString( 'checkuser-global-contributions-no-results-no-global-preference', $html );
 	}
 
 	public function provideGlobalPreferences() {
@@ -298,14 +302,14 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 	}
 
 	public function testExecuteErrorRevealIpPermission() {
-		$this->expectException( PermissionsError::class );
-
-		$this->executeSpecialPage(
-			'',
+		[ $html ] = $this->executeSpecialPage(
+			'127.0.0.1',
 			null,
 			null,
 			self::$disallowedUser
 		);
+
+		$this->assertStringNotContainsString( 'mw-contributions-list', $html );
 	}
 
 	public function testExecuteErrorBlock() {
@@ -316,13 +320,14 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 				'infinity'
 			)
 			->placeBlock();
-		$this->expectException( UserBlockedError::class );
 
-		$this->executeSpecialPage(
-			'',
+		[ $html ] = $this->executeSpecialPage(
+			'127.0.0.1',
 			null,
 			null,
 			self::$checkuser
 		);
+
+		$this->assertStringNotContainsString( 'mw-contributions-list', $html );
 	}
 }

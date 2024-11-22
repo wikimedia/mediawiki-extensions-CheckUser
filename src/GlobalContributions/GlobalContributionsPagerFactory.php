@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\GlobalContributions;
 
+use GlobalPreferences\GlobalPreferencesFactory;
 use JobQueueGroup;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
@@ -10,6 +11,7 @@ use MediaWiki\Config\Config;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\Title\NamespaceInfo;
@@ -35,6 +37,8 @@ class GlobalContributionsPagerFactory {
 	private Config $config;
 	private CheckUserLookupUtils $lookupUtils;
 	private CheckUserApiRequestAggregator $apiRequestAggregator;
+	private PermissionManager $permissionManager;
+	private GlobalPreferencesFactory $globalPreferencesFactory;
 	private IConnectionProvider $dbProvider;
 	private JobQueueGroup $jobQueueGroup;
 
@@ -50,6 +54,8 @@ class GlobalContributionsPagerFactory {
 		Config $config,
 		CheckUserLookupUtils $lookupUtils,
 		CheckUserApiRequestAggregator $apiRequestAggregator,
+		PermissionManager $permissionManager,
+		GlobalPreferencesFactory $globalPreferencesFactory,
 		IConnectionProvider $dbProvider,
 		JobQueueGroup $jobQueueGroup
 	) {
@@ -64,6 +70,8 @@ class GlobalContributionsPagerFactory {
 		$this->config = $config;
 		$this->lookupUtils = $lookupUtils;
 		$this->apiRequestAggregator = $apiRequestAggregator;
+		$this->permissionManager = $permissionManager;
+		$this->globalPreferencesFactory = $globalPreferencesFactory;
 		$this->dbProvider = $dbProvider;
 		$this->jobQueueGroup = $jobQueueGroup;
 	}
@@ -98,6 +106,8 @@ class GlobalContributionsPagerFactory {
 			$this->tempUserConfig,
 			$this->lookupUtils,
 			$this->apiRequestAggregator,
+			$this->permissionManager,
+			$this->globalPreferencesFactory,
 			$this->dbProvider,
 			$this->jobQueueGroup,
 			$context,

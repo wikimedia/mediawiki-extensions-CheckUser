@@ -1,5 +1,6 @@
 <?php
 
+use GlobalPreferences\GlobalPreferencesFactory;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPagerFactory;
 use MediaWiki\CheckUser\GuidedTour\TourLauncher;
@@ -172,6 +173,12 @@ return [
 	'CheckUserGlobalContributionsPagerFactory' => static function (
 		MediaWikiServices $services
 	): GlobalContributionsPagerFactory {
+		$preferencesFactory = $services->getPreferencesFactory();
+		if ( !( $preferencesFactory instanceof GlobalPreferencesFactory ) ) {
+			throw new LogicException(
+				'Cannot instantiate GlobalContributionsPagerFactory without GlobalPreferences'
+			);
+		}
 		return new GlobalContributionsPagerFactory(
 			$services->getLinkRenderer(),
 			$services->getLinkBatchFactory(),
@@ -184,6 +191,8 @@ return [
 			$services->getMainConfig(),
 			$services->get( 'CheckUserLookupUtils' ),
 			$services->get( 'CheckUserApiRequestAggregator' ),
+			$services->getPermissionManager(),
+			$preferencesFactory,
 			$services->getDBLoadBalancerFactory(),
 			$services->getJobQueueGroup()
 		);

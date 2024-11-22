@@ -235,6 +235,8 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				$services->getTempUserConfig(),
 				$services->get( 'CheckUserLookupUtils' ),
 				$services->get( 'CheckUserApiRequestAggregator' ),
+				$services->getPermissionManager(),
+				$services->getPreferencesFactory(),
 				$services->getDBLoadBalancerFactory(),
 				$services->getJobQueueGroup(),
 				RequestContext::getMain(),
@@ -370,6 +372,8 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			$services->getTempUserConfig(),
 			$services->get( 'CheckUserLookupUtils' ),
 			$apiRequestAggregator,
+			$services->getPermissionManager(),
+			$services->getPreferencesFactory(),
 			$dbProvider,
 			$services->getJobQueueGroup(),
 			RequestContext::getMain(),
@@ -382,13 +386,6 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$this->assertCount( $expectedCount, $wikis );
 		$this->assertArrayHasKey( $externalWiki, $pager->permissions );
 		$this->assertSame( array_keys( $permissions ), array_keys( $pager->permissions[$externalWiki] ) );
-
-		if ( $expectedCount < 2 ) {
-			$this->assertStringContainsString(
-				'checkuser-global-contributions-ip-reveal-permissions-error',
-				$pager->getOutput()->getHtml()
-			);
-		}
 	}
 
 	public function provideExternalWikiPermissions() {
@@ -398,21 +395,21 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 					'checkuser-temporary-account' => [ 'error' ],
 					'checkuser-temporary-account-no-preference' => [],
 				],
-				2,
+				1,
 			],
 			'Can reveal IP at external wiki with preference' => [
 				'actions' => [
 					'checkuser-temporary-account' => [],
 					'checkuser-temporary-account-no-preference' => [ 'error' ],
 				],
-				2,
+				0,
 			],
 			'Can not reveal IP at external wiki' => [
 				'actions' => [
 					'checkuser-temporary-account' => [ 'error' ],
 					'checkuser-temporary-account-no-preference' => [ 'error' ],
 				],
-				1,
+				0,
 			]
 		];
 	}
