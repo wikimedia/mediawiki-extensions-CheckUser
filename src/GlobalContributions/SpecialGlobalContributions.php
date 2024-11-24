@@ -84,6 +84,7 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 			'type' => 'user',
 			'default' => str_replace( '_', ' ', $target ),
 			'label' => $this->msg( 'checkuser-global-contributions-target-label' )->text(),
+			'placeholder' => $this->msg( 'checkuser-global-contributions-target-placeholder' )->text(),
 			'name' => 'target',
 			'id' => 'mw-target-user-or-ip',
 			'size' => 40,
@@ -176,7 +177,13 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 		parent::execute( $par );
 
 		$target = $this->opts['target'] ?? null;
-		if ( $target && !IPUtils::isIPAddress( $target ) ) {
+
+		if ( $target === null ) {
+			$message = $this->msg( 'checkuser-global-contributions-summary' )
+				->numParams( $this->getMaxAgeForMessage() )
+				->parse();
+			$this->getOutput()->prependHTML( "<div class='mw-specialpage-summary'>\n$message\n</div>" );
+		} elseif ( !IPUtils::isIPAddress( $target ) ) {
 			$this->getOutput()->setSubtitle(
 				new MessageWidget( [
 					'type' => 'error',
@@ -185,7 +192,7 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 					)
 				] )
 			);
-		} elseif ( $target && !$this->isValidIPOrQueryableRange( $target, $this->getConfig() ) ) {
+		} elseif ( !$this->isValidIPOrQueryableRange( $target, $this->getConfig() ) ) {
 			// Valid range, but outside CIDR limit.
 			$limits = $this->getQueryableRangeLimit( $this->getConfig() );
 			$limit = $limits[ IPUtils::isIPv4( $target ) ? 'IPv4' : 'IPv6' ];
@@ -253,6 +260,13 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 		return 'checkuser-global-contributions-results-title';
 	}
 
+	/**
+	 * @return float The max age of contributions in days rounded to the nearest whole number
+	 */
+	private function getMaxAgeForMessage() {
+		return round( $this->getConfig()->get( 'CUDMaxAge' ) / 86400 );
+	}
+
 	/** @inheritDoc */
 	protected function contributionsSub( $userObj, $targetName ) {
 		// Suppress the output of this function if the target isn't an IP or range (ie. is a username)
@@ -276,7 +290,7 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 		// Add subtitle text describing that the data shown is limited to wgCUDMaxAge seconds ago. The count should
 		// be in days, as this makes it easier to translate the message.
 		$contributionsSub .= $this->msg( 'checkuser-global-contributions-subtitle' )
-			->numParams( round( $this->getConfig()->get( 'CUDMaxAge' ) / 86400 ) )
+			->numParams( $this->getMaxAgeForMessage() )
 			->parse();
 
 		return $contributionsSub;
