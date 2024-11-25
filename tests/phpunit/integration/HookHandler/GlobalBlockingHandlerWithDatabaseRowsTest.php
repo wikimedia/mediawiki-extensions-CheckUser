@@ -13,6 +13,7 @@ use MediaWiki\Extension\GlobalBlocking\GlobalBlock;
 use MediaWiki\MainConfigNames;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\User;
+use MediaWiki\WikiMap\WikiMap;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -58,8 +59,8 @@ class GlobalBlockingHandlerWithDatabaseRowsTest extends MediaWikiIntegrationTest
 
 	private function getMockGlobalBlockInstance(): GlobalBlock {
 		$globalBlock = $this->createMock( GlobalBlock::class );
-		$globalBlock->method( 'getTargetUserIdentity' )
-			->willReturn( self::$user );
+		$globalBlock->method( 'getTargetName' )
+			->willReturn( self::$user->getName() );
 		return $globalBlock;
 	}
 
@@ -75,11 +76,15 @@ class GlobalBlockingHandlerWithDatabaseRowsTest extends MediaWikiIntegrationTest
 	public function testRetroactiveAutoblockWhenLocalUserNotAttached() {
 		// Mock that the CentralIdLookup service never considers any users attached
 		$mockCentralIdLookup = $this->createMock( CentralIdLookup::class );
-		$mockCentralIdLookup->method( 'centralIdFromLocalUser' )
-			->with( self::$user, CentralIdLookup::AUDIENCE_RAW )
+		$mockCentralIdLookup->method( 'centralIdFromName' )
+			->with( self::$user->getName(), CentralIdLookup::AUDIENCE_RAW )
 			->willReturn( self::$user->getId() );
 		$mockCentralIdLookup->method( 'isAttached' )
-			->willReturn( false );
+			->willReturnCallback( function ( $user, $wikiID ) {
+				$this->assertSame( WikiMap::getCurrentWikiId(), $wikiID );
+				$this->assertTrue( self::$user->equals( $user ) );
+				return false;
+			} );
 		$this->setService( 'CentralIdLookup', $mockCentralIdLookup );
 		// Call the method under test
 		$globalBlock = $this->getMockGlobalBlockInstance();

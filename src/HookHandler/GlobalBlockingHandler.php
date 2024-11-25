@@ -7,7 +7,6 @@ use MediaWiki\Extension\GlobalBlocking\GlobalBlock;
 use MediaWiki\Extension\GlobalBlocking\Hooks\GlobalBlockingGetRetroactiveAutoblockIPsHook;
 use MediaWiki\User\ActorStoreFactory;
 use MediaWiki\User\CentralId\CentralIdLookup;
-use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -35,13 +34,15 @@ class GlobalBlockingHandler implements GlobalBlockingGetRetroactiveAutoblockIPsH
 		$centralIndexDbr = $this->dbProvider->getReplicaDatabase( self::VIRTUAL_GLOBAL_DB_DOMAIN );
 
 		// Get the target of the block, and if this is not set then return as we cannot then get IP addresses for it.
-		$target = $globalBlock->getTargetUserIdentity();
+		// Fetch the name and not UserIdentity, as ::getTargetName still returns a string if the user does not exist
+		// on the local wiki where the global block was performed.
+		$target = $globalBlock->getTargetName();
 		if ( !$target ) {
 			return true;
 		}
 
 		// Get the central ID for the target, and if this fails then return because we need a central ID for lookups.
-		$centralIdForTarget = $this->centralIdLookup->centralIdFromLocalUser( $target, CentralIdLookup::AUDIENCE_RAW );
+		$centralIdForTarget = $this->centralIdLookup->centralIdFromName( $target, CentralIdLookup::AUDIENCE_RAW );
 		if ( !$centralIdForTarget ) {
 			return true;
 		}
@@ -117,7 +118,7 @@ class GlobalBlockingHandler implements GlobalBlockingGetRetroactiveAutoblockIPsH
 	 * Fetch IP addresses used by the $target on the $wikiID and were last used between $upperBound and $lowerBound.
 	 *
 	 * @param string $wikiID The wiki ID for the local wiki
-	 * @param UserIdentity $target The target of the global block that is autoblocking
+	 * @param string $target The target of the global block that is autoblocking
 	 * @param int $limit The number of IPs which are requested
 	 * @param string|null $upperBound IP addresses selected should not have their last usage timestamp as after this
 	 *   timestamp.
@@ -128,15 +129,19 @@ class GlobalBlockingHandler implements GlobalBlockingGetRetroactiveAutoblockIPsH
 	 * @return void
 	 */
 	private function fetchIPAddressesFromLocalWiki(
-		string $wikiID, UserIdentity $target, int $limit, ?string $upperBound, ?string $lowerBound, array &$foundIps
+		string $wikiID, string $target, int $limit, ?string $upperBound, ?string $lowerBound, array &$foundIps
 	) {
 		$localDbr = $this->dbProvider->getReplicaDatabase( $wikiID );
 
 		// Try to get the local UserIdentity for the global block target. If it does not exist or is not attached,
 		// then return as we should not fetch IPs for this wiki.
 		$localUserIdentityLookup = $this->actorStoreFactory->getUserIdentityLookup( $wikiID );
-		$localUser = $localUserIdentityLookup->getUserIdentityByName( $target->getName() );
-		if ( !$localUser || !$localUser->isRegistered() || !$this->centralIdLookup->isAttached( $localUser ) ) {
+		$localUser = $localUserIdentityLookup->getUserIdentityByName( $target );
+		if (
+			!$localUser ||
+			!$localUser->isRegistered() ||
+			!$this->centralIdLookup->isAttached( $localUser, $wikiID )
+		) {
 			return;
 		}
 
