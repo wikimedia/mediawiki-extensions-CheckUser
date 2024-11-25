@@ -7,7 +7,7 @@ const LoginAsCheckUser = require( '../checkuserlogin' ),
 	LogoutPage = require( '../pageobjects/logout.page' ),
 	MWBot = require( 'mwbot' ),
 	Util = require( 'wdio-mediawiki/Util' ),
-	RunJobs = require( 'wdio-mediawiki/RunJobs' );
+	childProcess = require( 'child_process' );
 
 const supportedBrowsers = [ 'chrome', 'chromium', 'msedge' ];
 
@@ -18,8 +18,7 @@ function checkIfBrowserSupportsClientHints( browserName ) {
 let tempAccountUsername = '';
 const createdAccountUsername = Util.getTestString( 'ClientHintsAccountCreationTest' );
 
-// skip (T380750)
-describe.skip( 'Client Hints', () => {
+describe( 'Client Hints', () => {
 	before( async () => {
 		// Skip the tests if we are using a browser which does not support client hints,
 		// because the tests need data to be sent to the API to e2e test.
@@ -41,7 +40,7 @@ describe.skip( 'Client Hints', () => {
 		} );
 		await browser.waitUntil( async () => {
 			// Wait for the edit to be applied and the API to return that the edit
-			// has been made.This is needed for wikis which have a multi-DB setup
+			// has been made. This is needed for wikis which have a multi-DB setup
 			// and the edit may take a little bit to be replicated.
 			lastRevisionResponse = await bot.request( {
 				action: 'query',
@@ -55,13 +54,38 @@ describe.skip( 'Client Hints', () => {
 		tempAccountUsername = lastRevisionResponse.query.pages[ 0 ].revisions[ 0 ].user;
 		// Create an account for later use in the tests.
 		await CreateAccountPage.createAccount( createdAccountUsername, Util.getTestString() );
+		// Wait until the account has definitely been created before trying to logout
+		// from the account. Avoids these tests being flaky.
+		await browser.waitUntil(
+			async () => $( `h1*=${ createdAccountUsername }` ).isExisting(),
+			{ timeout: 10 * 1000, timeoutMsg: 'Account was not created', interval: 100 }
+		);
 		// Logout of this newly created account
 		await LogoutPage.logout();
+		// Wait until the user has been actually logged out before proceeding to the
+		// next step. Avoids these tests being flaky.
+		await browser.waitUntil(
+			async () => $( 'div*=You are now logged out' ).isExisting(),
+			{ timeout: 10 * 1000, timeoutMsg: 'User was not logged out', interval: 100 }
+		);
 		// Then edit the page using a normal account
 		await LoginAsCheckUser.loginAsCheckUser();
-		await EditPage.edit( 'Testing', 'testing1234', 'test-edit-to-test-client-hints' );
+		const namedAccountEditTitle = Util.getTestString( 'ClientHintsAccountEditTest' );
+		await EditPage.edit( namedAccountEditTitle, 'testing1234', 'test-edit-to-test-client-hints' );
+		// Wait for the postEdit hook to be run, so that we have time
+		// for Client Hints data to be posted to the API. The postEdit
+		// hook is run when the 'postedit' notification is shown.
+		await browser.waitUntil(
+			async () => $( '.mw-notification.postedit' ).isExisting(),
+			{ timeout: 10 * 1000, timeoutMsg: 'postEdit hook was not run in time', interval: 100 }
+		);
 		// Run jobs in case the Client Hints data is being inserted via a job.
-		await RunJobs.run();
+		// We can't use RunJobs from wdio-mediawiki, because we need to run the jobs
+		// synchronously to ensure that the Client Hints data jobs have all been run.
+		await childProcess.spawnSync(
+			'php',
+			[ 'maintenance/run.php', 'runJobs' ]
+		);
 	} );
 	it( 'Verify edit sends Client Hints data', async () => {
 		// Skip the tests if we are using a browser which does not support client hints,
