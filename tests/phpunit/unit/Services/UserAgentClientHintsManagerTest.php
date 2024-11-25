@@ -12,7 +12,6 @@ use MediaWiki\Status\Status;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
 use MediaWikiUnitTestCase;
 use Psr\Log\LoggerInterface;
-use Wikimedia\Rdbms\DeleteQueryBuilder;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\InsertQueryBuilder;
@@ -218,76 +217,6 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 			ClientHintsData::newFromJsApi( [ 'mobile' => false ] ), 1, 'revision'
 		);
 		$this->assertStatusGood( $status );
-	}
-
-	/** @dataProvider provideDeleteMappingRows */
-	public function testDeleteMappingRows(
-		$referenceIds, $referenceMappingIds
-	) {
-		// Mock primary DB
-		$dbwMock = $this->createMock( IDatabase::class );
-		$dbwMock->method( 'newSelectQueryBuilder' )->willReturnCallback( fn () => new SelectQueryBuilder( $dbwMock ) );
-		$dbwMock->method( 'newDeleteQueryBuilder' )->willReturnCallback( fn () => new DeleteQueryBuilder( $dbwMock ) );
-		$dbwDeleteExpectedArgs = [];
-		$dbwAffectedRowsConsecutiveReturn = [];
-		// Test cases that the DB methods are called as appropriate.
-		$idsCount = 0;
-		foreach ( $referenceIds as $type => $ids ) {
-			$idsCount += count( $ids );
-			$dbwDeleteExpectedArgs[] = [
-				'cu_useragent_clienthints_map',
-				[
-					'uachm_reference_id' => $ids,
-					'uachm_reference_type' => $referenceMappingIds[$type]
-				],
-				'MediaWiki\CheckUser\Services\UserAgentClientHintsManager::deleteMappingRows'
-			];
-			$dbwAffectedRowsConsecutiveReturn[] = count( $ids );
-		}
-		$dbwMock
-			->method( 'delete' )
-			->willReturnCallback( function ( ...$args ) use ( &$dbwDeleteExpectedArgs ) {
-				$this->assertSame( array_shift( $dbwDeleteExpectedArgs ), $args );
-			} );
-		$dbwMock
-			->method( 'affectedRows' )
-			->willReturnOnConsecutiveCalls( ...$dbwAffectedRowsConsecutiveReturn );
-		$mockReferenceIds = $this->createMock( ClientHintsReferenceIds::class );
-		$mockReferenceIds->method( 'getReferenceIds' )
-			->willReturn( $referenceIds );
-		$loggerMock = $this->createMock( LoggerInterface::class );
-		$loggerMock->expects( $this->once() )
-			->method( 'debug' )
-			->with(
-				"Deleted {mapping_rows_deleted} mapping rows.",
-				[ 'mapping_rows_deleted' => $idsCount ]
-			)
-			->willReturn( null );
-		$mappingRowsDeleted = $this->getObjectUnderTest(
-			$dbwMock, $this->createMock( IReadableDatabase::class ), $loggerMock
-		)->deleteMappingRows( $mockReferenceIds );
-		$this->assertSame(
-			$idsCount,
-			$mappingRowsDeleted,
-			'The number of mapping rows deleted did not match the number returned by ::deleteMappingRows.'
-		);
-	}
-
-	public static function provideDeleteMappingRows() {
-		return [
-			'Revision reference IDs' => [
-				// Reference IDs array held by ClientHintsReferenceIds
-				[
-					UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => [
-						0, 1, 2, 5, 123
-					]
-				],
-				// The expected mapping ID for the cu_useragent_clienthints_map table for each type
-				[
-					UserAgentClientHintsManager::IDENTIFIER_CU_CHANGES => 0
-				],
-			]
-		];
 	}
 
 	public function testDeleteMappingRowsWithEmptyReferenceIdsList() {

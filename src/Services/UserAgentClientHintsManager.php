@@ -7,6 +7,7 @@ use LogicException;
 use MediaWiki\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\MainConfigNames;
 use MediaWiki\Revision\RevisionLookup;
 use Psr\Log\LoggerInterface;
 use StatusValue;
@@ -23,6 +24,7 @@ class UserAgentClientHintsManager {
 
 	public const CONSTRUCTOR_OPTIONS = [
 		'CUDMaxAge',
+		MainConfigNames::UpdateRowsPerQuery,
 	];
 
 	public const SUPPORTED_TYPES = [
@@ -223,15 +225,39 @@ class UserAgentClientHintsManager {
 				continue;
 			}
 			// Delete the rows in cu_useragent_clienthints_map associated with these reference IDs
-			$this->dbw->newDeleteQueryBuilder()
-				->table( 'cu_useragent_clienthints_map' )
-				->where( [
-					'uachm_reference_id' => $referenceIds,
-					'uachm_reference_type' => $mapId
-				] )
-				->caller( __METHOD__ )
-				->execute();
-			$mappingRowsDeleted += $this->dbw->affectedRows();
+			do {
+				// Fetch a batch of rows to delete from the DB (the primary key is all rows in the table,
+				// so we need to fetch all of them).
+				$batchToDelete = $this->dbw->newSelectQueryBuilder()
+					->select( [ 'uachm_uach_id', 'uachm_reference_type', 'uachm_reference_id' ] )
+					->from( 'cu_useragent_clienthints_map' )
+					->where( [
+						'uachm_reference_id' => $referenceIds,
+						'uachm_reference_type' => $mapId,
+					] )
+					->limit( $this->options->get( MainConfigNames::UpdateRowsPerQuery ) )
+					->caller( __METHOD__ )
+					->fetchResultSet();
+				if ( !$batchToDelete->count() ) {
+					break;
+				}
+				// Construct a list of WHERE conditions which would delete all the rows for this batch.
+				$batchDeleteConds = [];
+				foreach ( $batchToDelete as $row ) {
+					$batchDeleteConds[] = $this->dbw->andExpr( [
+						'uachm_uach_id' => $row->uachm_uach_id,
+						'uachm_reference_type' => $row->uachm_reference_type,
+						'uachm_reference_id' => $row->uachm_reference_id,
+					] );
+				}
+				// Perform the deletion for this batch
+				$this->dbw->newDeleteQueryBuilder()
+					->deleteFrom( 'cu_useragent_clienthints_map' )
+					->where( $this->dbw->orExpr( $batchDeleteConds ) )
+					->caller( __METHOD__ )
+					->execute();
+				$mappingRowsDeleted += $this->dbw->affectedRows();
+			} while ( $batchToDelete->count() );
 		}
 		if ( !$mappingRowsDeleted ) {
 			$this->logger->info( "No mapping rows deleted." );
