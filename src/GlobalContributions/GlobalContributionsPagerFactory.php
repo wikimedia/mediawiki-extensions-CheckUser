@@ -38,21 +38,6 @@ class GlobalContributionsPagerFactory {
 	private IConnectionProvider $dbProvider;
 	private JobQueueGroup $jobQueueGroup;
 
-	/**
-	 * @param LinkRenderer $linkRenderer
-	 * @param LinkBatchFactory $linkBatchFactory
-	 * @param HookContainer $hookContainer
-	 * @param RevisionStore $revisionStore
-	 * @param NamespaceInfo $namespaceInfo
-	 * @param CommentFormatter $commentFormatter
-	 * @param UserFactory $userFactory
-	 * @param TempUserConfig $tempUserConfig
-	 * @param Config $config
-	 * @param CheckUserLookupUtils $lookupUtils
-	 * @param CheckUserApiRequestAggregator $apiRequestAggregator
-	 * @param IConnectionProvider $dbProvider
-	 * @param JobQueueGroup $jobQueueGroup
-	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		LinkBatchFactory $linkBatchFactory,

@@ -52,23 +52,6 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	 */
 	public const REVISION_COUNT_LIMIT = 20;
 
-	/**
-	 * @param LinkRenderer $linkRenderer
-	 * @param LinkBatchFactory $linkBatchFactory
-	 * @param HookContainer $hookContainer
-	 * @param RevisionStore $revisionStore
-	 * @param NamespaceInfo $namespaceInfo
-	 * @param CommentFormatter $commentFormatter
-	 * @param UserFactory $userFactory
-	 * @param TempUserConfig $tempUserConfig
-	 * @param CheckUserLookupUtils $checkUserLookupUtils
-	 * @param CheckUserApiRequestAggregator $apiRequestAggregator
-	 * @param IConnectionProvider $dbProvider
-	 * @param JobQueueGroup $jobQueueGroup
-	 * @param IContextSource $context
-	 * @param array $options
-	 * @param ?UserIdentity $target IP address for temporary user contributions lookup
-	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		LinkBatchFactory $linkBatchFactory,
