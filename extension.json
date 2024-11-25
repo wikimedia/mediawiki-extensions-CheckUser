@@ -64,7 +64,7 @@
 			"description": "Whether to have the CheckUserHelper shown on Special:CheckUser collapsed by default. Specify true to collapse by default, false to do the opposite and a number to collapse only when the number of rows returned exceeds this value."
 		},
 		"CheckUserLogLogins": {
-			"value": false,
+			"value": true,
 			"description": "Whether login attempts should be logged in CheckUser logs"
 		},
 		"CheckUserLogSuccessfulBotLogins": {
