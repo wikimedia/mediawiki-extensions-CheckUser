@@ -20,6 +20,10 @@ use Psr\Log\LoggerInterface;
 /**
  * Perform multiple API requests to external wikis. Much of this class is copied from ForeignWikiRequest
  * in the Echo extension.
+ *
+ * This is used by GlobalContributionsPager to look up permissions at external wikis, as decided in
+ * T356294#10272663. Looking this up via API calls is not ideal, since it can be slow, susceptible to
+ * failures, and difficult to test. However, there is no other way to look up permissions until T380867.
  */
 class CheckUserApiRequestAggregator {
 	private HttpRequestFactory $httpRequestFactory;
