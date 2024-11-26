@@ -12,9 +12,14 @@
 	"checkuser-nomatch-edits": "Eai bohtosat.\nMaŋemus rievdadus lei $1 diibmu $2.",
 	"checkuser-search-submit": "Oza",
 	"checkuser-helper-user": "Geavaheaddji",
+	"checkuser-investigateblock-target": "Geavaheaddjinamat ja IP-čujuhusat",
 	"checkuser-investigate-subtitle-cancel-button-label": "Gaskkalduhte",
 	"checkuser-investigate-subtitle-continue-button-label": "Joatkke",
 	"checkuser-investigate-tab-timeline": "Áigelinnjá",
+	"checkuser-investigate-targets-label": "Geavaheaddjinamat ja IP-čujuhusat:",
+	"checkuser-investigate-targets-placeholder": "Geavaheaddjinamma dahje 1.1.1.1",
+	"checkuser-investigate-preliminary-table-header-name": "Geavaheaddjinamma",
 	"checkuser-investigate-compare-copy-button-label": "Čájet wikiteavstta",
-	"checkuser-investigate-compare-copy-button-label-hide": "Čiega wikiteavstta"
+	"checkuser-investigate-compare-copy-button-label-hide": "Čiega wikiteavstta",
+	"checkuser-investigate-compare-table-header-username": "Geavaheaddjinamma"
 }
