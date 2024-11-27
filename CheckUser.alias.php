@@ -46,6 +46,16 @@ $specialPageAliases['av'] = [
 	'CheckUserLog' => [ 'Журнал_проверок_участников' ],
 ];
 
+/** Azerbaijani (Azərbaycanca) */
+$specialPageAliases['az'] = [
+	'CheckUser' => [ 'Təftiş' ],
+	'CheckUserLog' => [ 'TəftişçiJurnalı' ],
+	'GlobalContributions' => [ 'QlobalTöhfələr' ],
+	'Investigate' => [ 'Araşdır' ],
+	'InvestigateBlock' => [ 'AraşdırmaBloku' ],
+	'IPContributions' => [ 'IPTöhfələri' ],
+];
+
 /** Bashkir (башҡортса) */
 $specialPageAliases['ba'] = [
 	'CheckUser' => [ 'CheckUser' ],
