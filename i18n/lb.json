@@ -147,6 +147,7 @@
 	"checkuser-ip-contributions-tab-label-archive-contributions": "Geläscht Kontributiounen",
 	"checkuser-ip-contributions-contributions-link": "Kontributiounen",
 	"checkuser-global-contributions-target-label": "IP-Adress oder -Beräich:",
+	"checkuser-global-contributions-results-title": "Kontributioune fir $1",
 	"checkuser-tempaccount-reveal-ip-button-label": "IP weisen",
 	"checkuser-tempaccount-reveal-ip-missing": "net disponibel",
 	"checkuser-tempaccount-reveal-ip-error": "Feeler"
