@@ -124,5 +124,10 @@
 	"checkuser-investigate-duration-label": "Kesto",
 	"checkuser-investigate-compare-table-button-contribs-label": "Muokkaukset",
 	"prefs-checkuser-tempaccount": "Tilapäisten tunnusten IP-osoitteiden paljastaminen",
-	"checkuser-tempaccount-reveal-ip-error": "virhe"
+	"checkuser-tempaccount-enable-preference": "Ota käyttöön tilapäisten tunnusten IP-osoitteiden paljastaminen",
+	"checkuser-tempaccount-no-ip-results": "Tälle tilapäisellä käyttäjälle ei löydy IP-tietoja {{PLURAL:$1|viimeisen|viimeisten}} $1 päivän ajalta",
+	"checkuser-tempaccount-reveal-ip-button-label": "Näytä IP",
+	"checkuser-tempaccount-reveal-ip-missing": "ei saatavissa",
+	"checkuser-tempaccount-reveal-ip-error": "virhe",
+	"checkuser-tempaccount-specialblock-ips": "Tämä on tilapäinen käyttäjä, joka käyttää {{PLURAL:$1|seuraavaa IP-osoitetta|seuraavia IP-osoitteita}}: $2"
 }
