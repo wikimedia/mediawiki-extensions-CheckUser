@@ -565,7 +565,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	/** @inheritDoc */
 	protected function getStartBody(): string {
 		$s = $this->getCheckUserHelperFieldsetHTML() . $this->getNavigationBar();
-		if ( $this->mResult->numRows() ) {
+		if ( $this->shouldShowBlockFieldset() ) {
 			$s .= ( new ListToggle( $this->getOutput() ) )->getHTML();
 		}
 
@@ -602,6 +602,11 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		// If this method has already been called, return the cached value.
 		if ( $this->shouldShowBlockFieldset !== null ) {
 			return $this->shouldShowBlockFieldset;
+		}
+		// If there are no results, then there will be no IPs or users to block. Therefore, no need to show the
+		// block fieldset.
+		if ( !$this->getNumRows() ) {
+			return false;
 		}
 		// Add links to the MultiLock tool if the user can use it.
 		$checkUserCAMultiLock = $this->getConfig()->get( 'CheckUserCAMultiLock' );
@@ -641,7 +646,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	/** @inheritDoc */
 	protected function getEndBody(): string {
 		$s = '</ul></div>';
-		if ( $this->mResult->numRows() ) {
+		if ( $this->shouldShowBlockFieldset() ) {
 			$s .= ( new ListToggle( $this->getOutput() ) )->getHTML();
 		}
 		$s .= $this->getNavigationBar();
