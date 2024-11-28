@@ -34,7 +34,7 @@
 	"checkuser-contribs-log-initiator": "käyttäjän suorittamat tarkastukset",
 	"group-checkuser": "osoitepaljastimen käyttäjät",
 	"group-checkuser-member": "{{GENDER:$1|osoitepaljastimen käyttäjä}}",
-	"group-checkuser-temporary-account-viewer": "Tilapäisten tunnusten IP-osoitteiden tarkastajat",
+	"group-checkuser-temporary-account-viewer": "tilapäisten tunnusten IP-osoitteiden tarkastajat",
 	"group-checkuser-temporary-account-viewer-member": "{{GENDER:$1|tilapäisten tunnusten IP-osoitteiden tarkastaja}}",
 	"right-checkuser": "Tarkastaa käyttäjän IP-osoitteita ja muita tietoja",
 	"right-checkuser-log": "Katsoa osoitepaljastusten lokia",
