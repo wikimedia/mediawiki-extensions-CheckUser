@@ -339,7 +339,11 @@ return [
 		MediaWikiServices $services
 	): AccountCreationDetailsLookup {
 		return new AccountCreationDetailsLookup(
-			LoggerFactory::getInstance( 'CheckUser' )
+			LoggerFactory::getInstance( 'CheckUser' ),
+			new ServiceOptions(
+				AccountCreationDetailsLookup::CONSTRUCTOR_OPTIONS,
+				$services->getMainConfig()
+			)
 		);
 	},
 	'CheckUserTemporaryAccountsByIPLookup' => static function (
