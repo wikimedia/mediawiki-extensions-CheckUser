@@ -299,6 +299,12 @@
 				"MainConfig"
 			]
 		},
+		"GlobalPreferencesHandler": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\GlobalPreferencesHandler",
+			"services": [
+				"CheckUserTemporaryAccountLoggerFactory"
+			]
+		},
 		"pageDisplay": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\PageDisplay",
 			"services": [
@@ -386,6 +392,7 @@
 		"EmailUser": "CheckUserPrivateEvents",
 		"GetPreferences": "preferences",
 		"GlobalBlockingGetRetroactiveAutoblockIPs": "GlobalBlockingHandler",
+		"GlobalPreferencesSetGlobalPreferences": "GlobalPreferencesHandler",
 		"LoadExtensionSchemaUpdates": "SchemaChanges",
 		"LocalUserCreated": "CheckUserPrivateEvents",
 		"PerformRetroactiveAutoblock": "RetroactiveAutoBlock",
