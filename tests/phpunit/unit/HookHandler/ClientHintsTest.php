@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit\HookHandler;
 
+use MediaWiki\Api\ApiBase;
 use MediaWiki\Api\ApiLogout;
 use MediaWiki\Api\ApiQuery;
 use MediaWiki\CheckUser\HookHandler\ClientHints;
@@ -14,6 +15,7 @@ use MediaWiki\Request\WebResponse;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Title\Title;
 use MediaWikiUnitTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Skin;
 
 /**
@@ -241,11 +243,15 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$hookHandler->onBeforePageDisplay( $outputPage, $skin );
 	}
 
-	public function testApiGetAllowedParamsForApiLogout() {
-		$module = $this->createMock( ApiLogout::class );
+	/** @dataProvider provideApiGetAllowedParams */
+	public function testApiGetAllowedParamsForApiLogout(
+		$apiModuleClass, $clientHintsEnabled, $shouldAddClientHintsParam
+	) {
+		/** @var ApiBase|MockObject $module */
+		$module = $this->createMock( $apiModuleClass );
 		$hookHandler = new ClientHints(
 			new HashConfig( [
-				'CheckUserClientHintsEnabled' => true,
+				'CheckUserClientHintsEnabled' => $clientHintsEnabled,
 				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
 				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
@@ -253,27 +259,19 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		);
 		$params = [];
 		$hookHandler->onAPIGetAllowedParams( $module, $params, 0 );
-		$this->assertSame( 'checkuserclienthints', array_key_first( $params ) );
+		if ( $shouldAddClientHintsParam ) {
+			$this->assertSame( 'checkuserclienthints', array_key_first( $params ) );
+		} else {
+			$this->assertSame( [], $params );
+		}
+	}
 
-		// Again, but for some other module.
-		$params = [];
-		$module = $this->createMock( ApiQuery::class );
-		$hookHandler->onAPIGetAllowedParams( $module, $params, 0 );
-		$this->assertSame( [], $params );
-
-		// Again, but with global feature flag disabled
-		$module = $this->createMock( ApiLogout::class );
-		$hookHandler = new ClientHints(
-			new HashConfig( [
-				'CheckUserClientHintsEnabled' => false,
-				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
-				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
-				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
-			] )
-		);
-		$params = [];
-		$hookHandler->onAPIGetAllowedParams( $module, $params, 0 );
-		$this->assertSame( [], $params );
+	public static function provideApiGetAllowedParams() {
+		return [
+			'ApiLogout module with Client Hints enabled' => [ ApiLogout::class, true, true ],
+			'ApiLogout module without Client Hints enabled' => [ ApiLogout::class, false, false ],
+			'ApiQuery module' => [ ApiQuery::class, true, false ],
+		];
 	}
 
 	private function getDefaultClientHintHeaders(): array {
