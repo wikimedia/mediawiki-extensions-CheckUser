@@ -2,6 +2,8 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit\HookHandler;
 
+use MediaWiki\Api\ApiLogout;
+use MediaWiki\Api\ApiQuery;
 use MediaWiki\CheckUser\HookHandler\ClientHints;
 use MediaWiki\Config\HashConfig;
 use MediaWiki\Output\OutputPage;
@@ -105,13 +107,15 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 	}
 
 	public function testClientHintsSpecialPageRequestedWhenConfigSpecifiesJsAPI() {
+		// We load ext.checkUser.clientHints on all pages, regardless of whether
+		// CheckUserClientHintsSpecialPages says "js" or "header".
 		$mockRequest = new FauxRequest();
 		$special = $this->createMock( SpecialPage::class );
 		$special->method( 'getName' )
 			->willReturn( 'Foo' );
 		$special->method( 'getRequest' )
 			->willReturn( $mockRequest );
-		// Expect that the ext.checkUser.clientHints module gets added to the special page if requested.
+		// Expect that the ext.checkUser.clientHints module gets added to the special page
 		$outputPage = $this->createMock( OutputPage::class );
 		$outputPage->expects( $this->once() )->method( 'addModules' )
 			->with( 'ext.checkUser.clientHints' );
@@ -125,8 +129,14 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
 			] )
 		);
-		$hookHandler->onSpecialPageBeforeExecute( $special, null );
-		$this->assertSame( '', $mockRequest->response()->getHeader( 'ACCEPT-CH' ) );
+		$skinMock = $this->createMock( Skin::class );
+		$requestMock = $this->createMock( 'WebRequest' );
+		$webResponseMock = $this->createMock( WebResponse::class );
+		$webResponseMock->expects( $this->once() )->method( 'header' )
+			->with( 'Accept-CH: ' );
+		$requestMock->method( 'response' )->willReturn( $webResponseMock );
+		$outputPage->method( 'getRequest' )->willReturn( $requestMock );
+		$hookHandler->onBeforePageDisplay( $outputPage, $skinMock );
 	}
 
 	public function testClientHintsBeforePageDisplayDisabled() {
@@ -229,6 +239,41 @@ class ClientHintsTest extends MediaWikiUnitTestCase {
 		$outputPage->method( 'getRequest' )->willReturn( $requestMock );
 		$skin = $this->createMock( Skin::class );
 		$hookHandler->onBeforePageDisplay( $outputPage, $skin );
+	}
+
+	public function testApiGetAllowedParamsForApiLogout() {
+		$module = $this->createMock( ApiLogout::class );
+		$hookHandler = new ClientHints(
+			new HashConfig( [
+				'CheckUserClientHintsEnabled' => true,
+				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
+				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
+				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
+			] )
+		);
+		$params = [];
+		$hookHandler->onAPIGetAllowedParams( $module, $params, 0 );
+		$this->assertSame( 'checkuserclienthints', array_key_first( $params ) );
+
+		// Again, but for some other module.
+		$params = [];
+		$module = $this->createMock( ApiQuery::class );
+		$hookHandler->onAPIGetAllowedParams( $module, $params, 0 );
+		$this->assertSame( [], $params );
+
+		// Again, but with global feature flag disabled
+		$module = $this->createMock( ApiLogout::class );
+		$hookHandler = new ClientHints(
+			new HashConfig( [
+				'CheckUserClientHintsEnabled' => false,
+				'CheckUserClientHintsSpecialPages' => [ 'Bar' ],
+				'CheckUserClientHintsHeaders' => $this->getDefaultClientHintHeaders(),
+				'CheckUserClientHintsUnsetHeaderWhenPossible' => true,
+			] )
+		);
+		$params = [];
+		$hookHandler->onAPIGetAllowedParams( $module, $params, 0 );
+		$this->assertSame( [], $params );
 	}
 
 	private function getDefaultClientHintHeaders(): array {

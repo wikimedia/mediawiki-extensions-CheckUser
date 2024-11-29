@@ -2,15 +2,18 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
+use ApiLogout;
+use MediaWiki\Api\Hook\APIGetAllowedParamsHook;
 use MediaWiki\Config\Config;
 use MediaWiki\Output\Hook\BeforePageDisplayHook;
 use MediaWiki\Output\OutputPage;
 use MediaWiki\SpecialPage\Hook\SpecialPageBeforeExecuteHook;
+use Wikimedia\ParamValidator\ParamValidator;
 
 /**
  * HookHandler for entry points related to requesting User-Agent Client Hints data.
  */
-class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook {
+class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook, APIGetAllowedParamsHook {
 
 	private Config $config;
 
@@ -44,9 +47,6 @@ class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook
 			if ( !is_array( $types ) ) {
 				$types = [ $types ];
 			}
-			if ( in_array( 'js', $types ) ) {
-				$this->addJsClientHintsModule( $special->getOutput() );
-			}
 			if ( in_array( 'header', $types ) ) {
 				$request->response()->header( $this->getClientHintsHeaderString() );
 				$headerSent = true;
@@ -60,14 +60,13 @@ class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook
 
 	/** @inheritDoc */
 	public function onBeforePageDisplay( $out, $skin ): void {
-		// We handle special pages in BeforeSpecialPageBeforeExecute.
-		if ( $out->getTitle()->isSpecialPage() ||
-			// ClientHints is globally disabled
-			!$this->config->get( 'CheckUserClientHintsEnabled' )
-		) {
+		if ( !$this->config->get( 'CheckUserClientHintsEnabled' ) ) {
 			return;
 		}
 
+		// Add the module to all pages (all namespaces, and special pages).
+		// All pages are needed in order to handle logouts via the personal tools
+		// menu, which could happen from any page.
 		$this->addJsClientHintsModule( $out );
 
 		if ( $this->config->get( 'CheckUserClientHintsUnsetHeaderWhenPossible' ) ) {
@@ -92,6 +91,16 @@ class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook
 			) ) ),
 		] );
 		$out->addModules( 'ext.checkUser.clientHints' );
+	}
+
+	/** @inheritDoc */
+	public function onAPIGetAllowedParams( $module, &$params, $flags ) {
+		if ( $module instanceof ApiLogout && $this->config->get( 'CheckUserClientHintsEnabled' ) ) {
+			$params['checkuserclienthints'] = [
+				ParamValidator::PARAM_TYPE => 'string',
+				ParamValidator::PARAM_SENSITIVE => true,
+			];
+		}
 	}
 
 	/**

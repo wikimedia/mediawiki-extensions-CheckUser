@@ -35,7 +35,7 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 	use CheckUserCommonTraitTest;
 	use CheckUserTempUserTestTrait;
 
-	private function getObjectUnderTest(): CheckUserPrivateEventsHandler {
+	private function getObjectUnderTest( $entrypoint = null ): CheckUserPrivateEventsHandler {
 		return new CheckUserPrivateEventsHandler(
 			$this->getServiceContainer()->get( 'CheckUserInsert' ),
 			$this->getServiceContainer()->getMainConfig(),
@@ -43,7 +43,8 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getUserFactory(),
 			$this->getServiceContainer()->getReadOnlyMode(),
 			$this->getServiceContainer()->get( 'UserAgentClientHintsManager' ),
-			$this->getServiceContainer()->getJobQueueGroup()
+			$this->getServiceContainer()->getJobQueueGroup(),
+			$entrypoint
 		);
 	}
 
@@ -555,7 +556,7 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 		] );
 		$testUser = $this->getTestUser()->getUser();
 		$ipUser = $this->getServiceContainer()->getUserFactory()->newAnonymous( '127.0.0.1' );
-		$this->getObjectUnderTest()->onUserLogoutComplete(
+		$this->getObjectUnderTest( 'index' )->onUserLogoutComplete(
 			$ipUser,
 			$html,
 			$testUser->getName()
@@ -583,6 +584,119 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			->caller( __METHOD__ )
 			->fetchRowCount();
 		$this->assertSame( 1, $rowCount );
+	}
+
+	public function testClientHintsDataCollectedOnApiUserLogout() {
+		RequestContext::getMain()->getRequest()->setVal(
+			'checkuserclienthints', json_encode( [ 'architecture' => 'foo' ] )
+		);
+		$this->overrideConfigValues( [
+			'CheckUserLogLogins' => true,
+			'CheckUserClientHintsEnabled' => true,
+		] );
+		$testUser = $this->getTestUser()->getUser();
+		$ipUser = $this->getServiceContainer()->getUserFactory()->newAnonymous( '127.0.0.1' );
+		$this->getObjectUnderTest( 'api' )->onUserLogoutComplete(
+			$ipUser,
+			$html,
+			$testUser->getName()
+		);
+		$referenceID = $this->newSelectQueryBuilder()
+			->select( 'cupe_id' )
+			->from( 'cu_private_event' )
+			->where( [
+				'cupe_actor' => $this->getServiceContainer()->getActorNormalization()->findActorId(
+					$testUser,
+					$this->getDb()
+				),
+				'cupe_log_action' => 'user-logout',
+			] )
+			->caller( __METHOD__ )
+			->fetchField();
+		$this->newSelectQueryBuilder()
+			->select( 'COUNT(*)' )
+			->from( 'cu_useragent_clienthints_map' )
+			->where( [
+				'uachm_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT,
+				'uachm_reference_id' => $referenceID,
+			] )
+			->caller( __METHOD__ )
+			->assertFieldValue( 1 );
+	}
+
+	public function testClientHintsDataNotCollectedOnApiUserLogoutIfNotInPostRequest() {
+		RequestContext::getMain()->getRequest()->setHeader( 'Sec-Ch-Ua', ';v=abc' );
+		$this->overrideConfigValues( [
+			'CheckUserLogLogins' => true,
+			'CheckUserClientHintsEnabled' => true,
+		] );
+		$testUser = $this->getTestUser()->getUser();
+		$ipUser = $this->getServiceContainer()->getUserFactory()->newAnonymous( '127.0.0.1' );
+		$this->getObjectUnderTest( 'api' )->onUserLogoutComplete(
+			$ipUser,
+			$html,
+			$testUser->getName()
+		);
+		$this->runJobs( [ 'minJobs' => 0 ], [ 'type' => StoreClientHintsDataJob::TYPE ] );
+		$referenceID = $this->newSelectQueryBuilder()
+			->select( 'cupe_id' )
+			->from( 'cu_private_event' )
+			->where( [
+				'cupe_actor' => $this->getServiceContainer()->getActorNormalization()->findActorId(
+					$testUser,
+					$this->getDb()
+				),
+				'cupe_log_action' => 'user-logout',
+			] )
+			->caller( __METHOD__ )
+			->fetchField();
+		$this->newSelectQueryBuilder()
+			->select( 'uachm_reference_id' )
+			->from( 'cu_useragent_clienthints_map' )
+			->where( [
+				'uachm_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT,
+				'uachm_reference_id' => $referenceID,
+			] )
+			->caller( __METHOD__ )
+			->assertEmptyResult();
+	}
+
+	public function testClientHintsDataNotCollectedOnApiUserLogoutIfPostDataMalformed() {
+		RequestContext::getMain()->getRequest()->setVal( 'checkuserclienthints',
+			json_encode( [ 'platformVersion' => [ 'bar' ] ] )
+		);
+		$this->overrideConfigValues( [
+			'CheckUserLogLogins' => true,
+			'CheckUserClientHintsEnabled' => true,
+		] );
+		$testUser = $this->getTestUser()->getUser();
+		$ipUser = $this->getServiceContainer()->getUserFactory()->newAnonymous( '127.0.0.1' );
+		$this->getObjectUnderTest( 'api' )->onUserLogoutComplete(
+			$ipUser,
+			$html,
+			$testUser->getName()
+		);
+		$referenceID = $this->newSelectQueryBuilder()
+			->select( 'cupe_id' )
+			->from( 'cu_private_event' )
+			->where( [
+				'cupe_actor' => $this->getServiceContainer()->getActorNormalization()->findActorId(
+					$testUser,
+					$this->getDb()
+				),
+				'cupe_log_action' => 'user-logout',
+			] )
+			->caller( __METHOD__ )
+			->fetchField();
+		$this->newSelectQueryBuilder()
+			->select( 'uachm_reference_id' )
+			->from( 'cu_useragent_clienthints_map' )
+			->where( [
+				'uachm_reference_type' => UserAgentClientHintsManager::IDENTIFIER_CU_PRIVATE_EVENT,
+				'uachm_reference_id' => $referenceID,
+			] )
+			->caller( __METHOD__ )
+			->assertEmptyResult();
 	}
 
 	public function testStoreClientHintsDataFromHeadersForPostRequest() {

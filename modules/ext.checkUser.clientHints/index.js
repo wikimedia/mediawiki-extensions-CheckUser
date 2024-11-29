@@ -96,12 +96,21 @@
 		 * @param {string} type The type of event (e.g. 'revision').
 		 */
 		function collectAndSendClientHintsData( identifier, type ) {
+			return collectClientHintsData().then( ( userAgentHighEntropyValues ) => {
+				postClientHintData( userAgentHighEntropyValues, identifier, type, true );
+			} );
+		}
+
+		/**
+		 * Collect high entropy client hints data.
+		 *
+		 * @return {Promise<Object>}
+		 */
+		function collectClientHintsData() {
 			try {
-				navigatorData.userAgentData.getHighEntropyValues(
+				return navigatorData.userAgentData.getHighEntropyValues(
 					wgCheckUserClientHintsHeadersJsApi
-				).then( ( userAgentHighEntropyValues ) => {
-					postClientHintData( userAgentHighEntropyValues, identifier, type, true );
-				} );
+				);
 			} catch ( err ) {
 				// Handle NotAllowedError, if the browser throws it.
 				mw.log.error( err );
@@ -124,6 +133,20 @@
 		mw.hook( 'postEdit' ).add( () => {
 			collectAndSendClientHintsData( mw.config.get( 'wgCurRevisionId' ), 'revision' );
 		} );
+
+		/**
+		 * Respond to JS logout flow in core, and add high entropy client hint data to
+		 * the request to ApiLogout.
+		 */
+		mw.hook( 'extendLogout' ).add( ( data ) => {
+			// eslint-disable-next-line arrow-body-style
+			data.promise = data.promise.then( () => {
+				return collectClientHintsData().then( ( userAgentHighEntropyValues ) => {
+					data.params.checkuserclienthints = JSON.stringify( userAgentHighEntropyValues );
+				} );
+			} );
+		} );
+
 		return true;
 	}
 

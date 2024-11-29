@@ -7,13 +7,25 @@ class LogoutPage extends Page {
 		return $( 'button[type="submit"]' );
 	}
 
+	get personalToolsDropdown() {
+		return $( '#vector-user-links-dropdown' );
+	}
+
+	get logoutMenuItem() {
+		return $( '#pt-logout' );
+	}
+
 	open() {
 		super.openTitle( 'Special:UserLogout' );
 	}
 
-	async logout() {
+	/**
+	 * Logout via clicking the logout menu item in personal tools
+	 */
+	async logoutViaMenuItem() {
 		await this.open();
-		await this.submit.click();
+		await this.personalToolsDropdown.click();
+		await this.logoutMenuItem.click();
 	}
 }
 

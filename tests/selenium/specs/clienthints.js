@@ -61,7 +61,7 @@ describe( 'Client Hints', () => {
 			{ timeout: 10 * 1000, timeoutMsg: 'Account was not created', interval: 100 }
 		);
 		// Logout of this newly created account
-		await LogoutPage.logout();
+		await LogoutPage.logoutViaMenuItem();
 		// Wait until the user has been actually logged out before proceeding to the
 		// next step. Avoids these tests being flaky.
 		await browser.waitUntil(

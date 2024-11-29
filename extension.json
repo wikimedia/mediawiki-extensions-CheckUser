@@ -380,6 +380,7 @@
 			"clienthints",
 			"pageDisplay"
 		],
+		"APIGetAllowedParams": "clienthints",
 		"BeforeInitialize": "pageDisplay",
 		"ContributionsToolLinks": "ToolLinks",
 		"EmailUser": "CheckUserPrivateEvents",

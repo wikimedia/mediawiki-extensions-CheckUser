@@ -7,6 +7,7 @@ use LogEntryBase;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Auth\Hook\AuthManagerLoginAuthenticateAuditHook;
 use MediaWiki\Auth\Hook\LocalUserCreatedHook;
+use MediaWiki\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\CheckUser\ClientHints\UserAgentClientHintsManagerHelperTrait;
 use MediaWiki\CheckUser\EncryptedData;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
@@ -26,6 +27,7 @@ use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserRigorOptions;
 use Psr\Log\LoggerInterface;
+use TypeError;
 use Wikimedia\Rdbms\ReadOnlyMode;
 
 /**
@@ -50,6 +52,9 @@ class CheckUserPrivateEventsHandler implements
 	private JobQueueGroup $jobQueueGroup;
 	private LoggerInterface $logger;
 
+	/** @var string Used for tests. Falls back to MW_ENTRY_POINT */
+	private string $mediawikiEntryPoint;
+
 	public function __construct(
 		CheckUserInsert $checkUserInsert,
 		Config $config,
@@ -57,7 +62,8 @@ class CheckUserPrivateEventsHandler implements
 		UserFactory $userFactory,
 		ReadOnlyMode $readOnlyMode,
 		UserAgentClientHintsManager $userAgentClientHintsManager,
-		JobQueueGroup $jobQueueGroup
+		JobQueueGroup $jobQueueGroup,
+		?string $mediawikiEntryPoint = null
 	) {
 		$this->checkUserInsert = $checkUserInsert;
 		$this->config = $config;
@@ -67,6 +73,7 @@ class CheckUserPrivateEventsHandler implements
 		$this->userAgentClientHintsManager = $userAgentClientHintsManager;
 		$this->jobQueueGroup = $jobQueueGroup;
 		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
+		$this->mediawikiEntryPoint = $mediawikiEntryPoint ?? MW_ENTRY_POINT;
 	}
 
 	/**
@@ -322,11 +329,39 @@ class CheckUserPrivateEventsHandler implements
 			$performer
 		);
 		if ( $this->config->get( 'CheckUserClientHintsEnabled' ) ) {
-			$this->storeClientHintsDataFromHeaders(
-				$insertedId,
-				'privatelog',
-				RequestContext::getMain()->getRequest()
-			);
+			// 'index' entrypoint is if the user used the form submission
+			// on Special:UserLogout
+			if ( $this->mediawikiEntryPoint === 'index' ) {
+				$this->storeClientHintsDataFromHeaders(
+					$insertedId,
+					'privatelog',
+					RequestContext::getMain()->getRequest()
+				);
+			} elseif ( $this->mediawikiEntryPoint === 'api' ) {
+				// Otherwise, we are here via a call to ApiLogout, most
+				// likely from a user click to a logout link in the personal tools menu
+				try {
+					$values = RequestContext::getMain()->getRequest()->getValues();
+					$data = json_decode( $values['checkuserclienthints'] ?? '', true );
+					if ( !is_array( $data ) ) {
+						// The browser may not support Client Hints, no need to log anything here.
+						return;
+					}
+					// ::newFromJsApi with the $data may raise a TypeError, as we have no guarantees
+					// about the POST values here.
+					$clientHints = ClientHintsData::newFromJsApi( $data );
+					$this->userAgentClientHintsManager->insertClientHintValues(
+						$clientHints,
+						$insertedId,
+						'privatelog'
+					);
+				} catch ( TypeError $e ) {
+					$this->logger->info(
+						'Malformed client hint data supplied in JS API logout flow.',
+						[ 'exception' => $e ]
+					);
+				}
+			}
 		}
 	}
 }

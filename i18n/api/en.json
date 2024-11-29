@@ -39,5 +39,6 @@
 	"checkuser-api-useragent-clienthints-mappings-exist": "Client hint mappings already exist for $1 $2",
 	"checkuser-api-useragent-clienthints-called-too-late": "The $1 $2 is too old to allow recording client hints data",
 	"checkuser-api-useragent-clienthints-nonexistent-id": "The $1 ID $2 does not exist",
-	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} collects user-agent client hint data to assist in moderating vandalism and abuse. See https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints for more details."
+	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} collects user-agent client hint data to assist in moderating vandalism and abuse. See https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints for more details.",
+	"apihelp-logout-param-checkuserclienthints": "Client hints data supplied alongside requests to ApiLogout. For internal use only."
 }
