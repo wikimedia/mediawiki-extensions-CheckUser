@@ -28,5 +28,6 @@
 	"apierror-checkuser-missingsummary": "검사 이유를 지정해야 합니다.",
 	"apierror-checkuser-timelimit": "올바른 시간 형식(\"-2 weeks\" 혹은 \"2 weeks ago\"과 같이)으로 사용하셔야 합니다.",
 	"apierror-checkuser-invalidmode": "잘못된 요청 모드",
-	"checkuser-api-useragent-clienthints-nonexistent-id": "$1의 $2 ID가 존재하지 않습니다"
+	"checkuser-api-useragent-clienthints-nonexistent-id": "$1의 $2 ID가 존재하지 않습니다",
+	"apihelp-logout-param-checkuserclienthints": "클라이언트는 ApiLogout에 대한 요청과 함께 제공된 데이터를 힌트합니다. 전적으로 내부용입니다."
 }
