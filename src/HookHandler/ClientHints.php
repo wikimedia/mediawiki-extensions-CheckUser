@@ -2,7 +2,7 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
-use ApiLogout;
+use MediaWiki\Api\ApiLogout;
 use MediaWiki\Api\Hook\APIGetAllowedParamsHook;
 use MediaWiki\Config\Config;
 use MediaWiki\Output\Hook\BeforePageDisplayHook;
