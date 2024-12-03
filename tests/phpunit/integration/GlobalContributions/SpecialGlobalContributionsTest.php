@@ -119,7 +119,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		$this->assertStringContainsString( $target, $html );
 
 		if ( $expectedCount > 0 ) {
-			$this->assertStringContainsString( 'mw-pager-body', $html );
+			$this->assertStringContainsString( 'mw-contributions-list', $html );
 			// Use occurrences of data attribute in to determine how many rows,
 			// to test pager.
 			$this->assertSame( $expectedCount, substr_count( $html, 'data-mw-revid' ) );
@@ -140,7 +140,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 					->fetchRowCount()
 			);
 		} else {
-			$this->assertStringNotContainsString( 'mw-pager-body', $html );
+			$this->assertStringNotContainsString( 'mw-contributions-list', $html );
 		}
 	}
 
