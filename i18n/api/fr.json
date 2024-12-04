@@ -43,5 +43,6 @@
 	"checkuser-api-useragent-clienthints-mappings-exist": "Les conseils de correspondance du client existent déjà pour $1 $2",
 	"checkuser-api-useragent-clienthints-called-too-late": "Le $1 $2 est trop ancien pour permettre d’enregistrer les données de conseil client",
 	"checkuser-api-useragent-clienthints-nonexistent-id": "L'identifiant $2 pour le type $1 n'existe pas",
-	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} collecte des données d’information du user-agent du client pour aider à modérer le vandalisme et les abus. Voir https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints pour plus de détails."
+	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}} collecte des données d’information du user-agent du client pour aider à modérer le vandalisme et les abus. Voir https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints pour plus de détails.",
+	"apihelp-logout-param-checkuserclienthints": "Données de conseils client fournies avec les requêtes adressées à ApiLogout. Pour usage interne uniquement."
 }
