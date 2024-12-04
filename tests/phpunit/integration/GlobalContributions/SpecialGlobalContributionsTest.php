@@ -42,6 +42,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		parent::setup();
 
 		$this->markTestSkippedIfExtensionNotLoaded( 'GlobalPreferences' );
+		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
 		$this->enableAutoCreateTempUser();
 	}
 

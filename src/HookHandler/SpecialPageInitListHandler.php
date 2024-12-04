@@ -50,8 +50,13 @@ class SpecialPageInitListHandler implements SpecialPage_initListHook {
 				],
 			];
 
-			// Use of Special:GlobalContributions depends on the user enabling IP reveal globally
-			if ( $this->extensionRegistry->isLoaded( 'GlobalPreferences' ) ) {
+			// Use of Special:GlobalContributions depends on:
+			// - the user enabling IP reveal globally via GlobalPreferences
+			// - CentralAuth being enabled to support cross-wiki lookups
+			if (
+				$this->extensionRegistry->isLoaded( 'GlobalPreferences' ) &&
+				$this->extensionRegistry->isLoaded( 'CentralAuth' )
+			) {
 				$list['GlobalContributions'] = [
 					'class' => SpecialGlobalContributions::class,
 					'services' => [
