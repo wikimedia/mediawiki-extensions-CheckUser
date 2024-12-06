@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Tests\Integration\GlobalContributions;
 
 use GlobalPreferences\GlobalPreferencesFactory;
+use MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
@@ -329,5 +330,47 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		);
 
 		$this->assertStringNotContainsString( 'mw-contributions-list', $html );
+	}
+
+	public function testExternalApiLookupError() {
+		$globalPreferencesFactory = $this->createMock( GlobalPreferencesFactory::class );
+		$globalPreferencesFactory->method( 'getGlobalPreferencesValues' )
+			->willReturn( [ 'checkuser-temporary-account-enable' => true ] );
+		$this->setService( 'PreferencesFactory', $globalPreferencesFactory );
+
+		// Insert an external edit into cuci_temp_edit and cuci_wiki_map to stub out
+		// a failed API call to an external wiki
+		$this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'cuci_temp_edit' )
+			->row( [
+				// 127.0.0.1
+				'cite_ip_hex' => '7F000001',
+				'cite_ciwm_id' => 2,
+				'cite_timestamp' => $this->getDb()->timestamp(),
+			] )
+			->caller( __METHOD__ )
+			->execute();
+		$this->getDb()->newInsertQueryBuilder()
+			->insertInto( 'cuci_wiki_map' )
+			->row( [
+				'ciwm_id' => 2,
+				'ciwm_wiki' => 'otherwiki',
+			] )
+			->caller( __METHOD__ )
+			->execute();
+
+		// Mock the external API failure
+		$apiRequestAggregator = $this->createMock( CheckUserApiRequestAggregator::class );
+		$apiRequestAggregator->method( 'execute' )
+			->willReturn( [] );
+			$this->setService( 'CheckUserApiRequestAggregator', $apiRequestAggregator );
+
+		[ $html ] = $this->executeSpecialPage(
+			'127.0.0.1',
+			null,
+			null,
+			self::$sysop
+		);
+		$this->assertStringContainsString( 'checkuser-global-contributions-api-lookup-error', $html );
 	}
 }
