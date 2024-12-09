@@ -265,7 +265,6 @@
 	"checkuser-global-contributions-target-error-no-ip-banner": "לא היה אפשר להשלים את החיפוש שלך. נא להזין כתובת IP תקינה או טווח IP תקין.",
 	"checkuser-global-contributions-search-form-wrapper": "חיפוש תרומות גלובליות",
 	"checkuser-global-contributions-results-title": "תרומות גלובליות של $1",
-	"checkuser-global-contributions-ip-reveal-permissions-error": "התוצאות האלו עשויות להיות חלקיות מכיוון שאין לך הרשאה להציג כתובות IP שמשמשות חשבונות חולפים בכל ויקי.",
 	"prefs-checkuser-tempaccount": "חשיפת IP של חשבון חולף",
 	"checkuser-tempaccount-enable-preference-description": "בעת שימוש בכלי הזה, חובתך לוודא שזה נעשה זאת במסגרת המדיניות.",
 	"checkuser-tempaccount-enable-preference": "להפעיל חשיפת כתובות IP עבור חשבונות חולפים",

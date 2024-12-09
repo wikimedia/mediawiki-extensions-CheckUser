@@ -136,7 +136,6 @@
 	"checkuser-global-contributions-target-error-no-ip-banner": "Hakuasi ei voitu suorittaa. Anna kelvollinen IP-osoite tai IP-alue.",
 	"checkuser-global-contributions-search-form-wrapper": "Etsi muokkauksia järjestelmänlaajuisesti",
 	"checkuser-global-contributions-results-title": "Käyttäjän $1 järjestelmänlaajuiset muokkaukset",
-	"checkuser-global-contributions-ip-reveal-permissions-error": "Nämä tulokset voivat olla epätäydellisiä, koska sinulla ei ole oikeutta tarkastella tilapäisten tunnusten käyttämiä IP-osoitteita kaikissa wikeissä.",
 	"prefs-checkuser-tempaccount": "Tilapäisten tunnusten IP-osoitteiden paljastaminen",
 	"checkuser-tempaccount-enable-preference-description": "Käyttäessäsi tätä työkalua sinun tulee varmistaa, että käytät työkalua käytännön mukaisesti.",
 	"checkuser-tempaccount-enable-preference": "Ota käyttöön tilapäisten tunnusten IP-osoitteiden paljastaminen",

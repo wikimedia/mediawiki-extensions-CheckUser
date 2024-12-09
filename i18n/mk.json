@@ -259,7 +259,6 @@
 	"checkuser-global-contributions-target-error-no-ip-banner": "Не можев да го исполнам вашето барање. Внесете важечка IP-адреса или IP-опсег.",
 	"checkuser-global-contributions-search-form-wrapper": "Пребарај глобални придонеси",
 	"checkuser-global-contributions-results-title": "Глобални придонеси на $1",
-	"checkuser-global-contributions-ip-reveal-permissions-error": "Исходните ставки може да се нецелосни бидејќи го немате правото на гледање на IP-адреси на привремени сметки за секое вики.",
 	"prefs-checkuser-tempaccount": "Откривање на IP-адреси за привремени сметки",
 	"checkuser-tempaccount-enable-preference-description": "Кога ја користите алаткава, должни сте тоа да го правите во склад со правилата.",
 	"checkuser-tempaccount-enable-preference": "Овозможи откривање на IP-адреси за привремени сметки",

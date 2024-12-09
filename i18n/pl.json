@@ -269,7 +269,6 @@
 	"checkuser-global-contributions-target-error-no-ip-banner": "Nie udało się przeprowadzić wyszukiwania. Wprowadź prawidłowy adres bądź zakres adresów IP.",
 	"checkuser-global-contributions-search-form-wrapper": "Szukaj wkładu globalnego",
 	"checkuser-global-contributions-results-title": "Globalny wkład dla $1",
-	"checkuser-global-contributions-ip-reveal-permissions-error": "Wyniki mogą być niekompletne, gdyż nie posiadasz usprawnień do sprawdzania adresów IP wykorzystywanych przez konta tymczasowe na wszystkich wiki.",
 	"prefs-checkuser-tempaccount": "Ujawnienie adresów IP kont tymczasowych",
 	"checkuser-tempaccount-enable-preference-description": "Używając tego narzędzia, upewnij się, że korzystasz z niego zgodnie z polityką.",
 	"checkuser-tempaccount-enable-preference": "Włącz ujawnianie adresów IP dla kont tymczasowych",

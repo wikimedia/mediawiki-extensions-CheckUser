@@ -59,6 +59,5 @@
 	"checkuser-showmain": "Comută la formularul principal Verifică Utilizatorul",
 	"logentry-checkuser-private-event-autocreate-account": "a fost creat automat",
 	"logentry-checkuser-private-event-create-account": "a fost creat",
-	"checkuser-ip-contributions-subtitle": "Se afișează rezultate din {{PLURAL:$1|ultima zi|ultimele $1 zile|ultimele $1 de zile}}.",
-	"checkuser-global-contributions-ip-reveal-permissions-error": "Aceste rezultate pot fi incomplete deoarece nu aveți dreptul de a vizualiza adresele IP utilizate de conturile temporare la fiecare wiki."
+	"checkuser-ip-contributions-subtitle": "Se afișează rezultate din {{PLURAL:$1|ultima zi|ultimele $1 zile|ultimele $1 de zile}}."
 }

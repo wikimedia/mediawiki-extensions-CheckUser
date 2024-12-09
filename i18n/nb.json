@@ -262,7 +262,6 @@
 	"checkuser-global-contributions-target-error-no-ip-banner": "Søket ditt kunne ikke fullføres. Skriv inn ei gyldig IP-adresse eller -intervall.",
 	"checkuser-global-contributions-search-form-wrapper": "Søk etter globale bidrag",
 	"checkuser-global-contributions-results-title": "Globale brukerbidrag av $1",
-	"checkuser-global-contributions-ip-reveal-permissions-error": "Disse resultatene kan være ufullstendige fordi du ikke har rettigheten til å se IP-adresser brukt av midlertidige kontoer på enhver wiki.",
 	"prefs-checkuser-tempaccount": "Avsløring av midlertidige kontoers IP-adresse",
 	"checkuser-tempaccount-enable-preference-description": "Når du bruker dette verktøyet bør du sørge for at det skjer i samsvar med retningslinjene.",
 	"checkuser-tempaccount-enable-preference": "Aktiver avsløring av IP-adresser for midlertidige kontoer",
