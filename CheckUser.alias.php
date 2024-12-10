@@ -394,6 +394,16 @@ $specialPageAliases['pa'] = [
 	'CheckUserLog' => [ 'ਚੈੱਕ_ਵਰਤੋਂਕਾਰ_ਚਿੱਠਾ' ],
 ];
 
+/** Polish (polski) */
+$specialPageAliases['pl'] = [
+	'CheckUser' => [ 'Sprawdź_IP_użytkownika', 'CheckUser', 'CU' ],
+	'CheckUserLog' => [ 'Rejestr_sprawdzeń' ],
+	'GlobalContributions' => [ 'Wkład_globalny' ],
+	'Investigate' => [ 'Zbadaj_konta' ],
+	'InvestigateBlock' => [ 'Zablokuj_po_zbadaniu' ],
+	'IPContributions' => [ 'Wkład_IP' ],
+];
+
 /** Portuguese (português) */
 $specialPageAliases['pt'] = [
 	'CheckUser' => [ 'Verificar_usuário' ],
