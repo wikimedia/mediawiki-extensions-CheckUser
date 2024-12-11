@@ -174,7 +174,7 @@
 	"checkuser-investigateblock-warning-ips-and-users-in-targets": "Zamierzasz zablokować zarówno konta i adresy IP z tym samym powodem o tym samym czasie, korzystając z danych usługi CheckUser. Może to łamać politykę prywatności niniejszej strony. Czy na pewno chcesz kontynuować?",
 	"checkuser-investigateblock-warning-confirmaction": "Jeśli naprawdę chcesz to zrobić, zaznacz pole „{{int:checkuser-investigateblock-confirm-blocks-label}}” poniżej.",
 	"checkuser-investigateblock-warning-users-truncated": "Liczba użytkowników, którzy mają zostać zablokowani, przekracza limit: $1. Tylko {{PLURAL:$1|pierwszy użytkownik został uwzględniony|pierwsi $1 użytkownicy zostali uwzględnieni|pierwszych $1 użytkowników zostało uwzględnionych}} w polu z użytkownikami.",
-	"checkuser-investigate": "Sprawdź",
+	"checkuser-investigate": "Zbadaj konta",
 	"checkuser-investigate-page-subtitle": "Obecnie sprawdzenie dla $1",
 	"checkuser-investigate-subtitle-block-accounts-button-label": "Zablokuj konta",
 	"checkuser-investigate-subtitle-block-ips-button-label": "Zablokuj adresy IP",
