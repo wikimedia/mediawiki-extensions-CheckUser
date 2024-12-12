@@ -238,4 +238,13 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 			self::$checkuser
 		);
 	}
+
+	public function testUserCanExecute(): void {
+		$this->assertTrue(
+			$this->newSpecialPage()->userCanExecute( self::$checkuser )
+		);
+		$this->assertFalse(
+			$this->newSpecialPage()->userCanExecute( self::$disallowedUser )
+		);
+	}
 }
