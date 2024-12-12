@@ -47,6 +47,8 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 		$objectUnderTest->userSets = $userSets;
 		$objectUnderTest->clientHintsLookupResults = $clientHintsLookupResults;
 		$objectUnderTest->displayClientHints = $displayClientHints;
+		$objectUnderTest->mQueryDone = true;
+		$objectUnderTest->mResult = new FakeResultWrapper( [] );
 		$objectUnderTest->formatUserRow( $userText );
 		$this->assertNotNull(
 			$objectUnderTest->templateParser->lastCalledWith,
@@ -200,6 +202,10 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 		];
 		$objectUnderTest->clientHintsLookupResults = new ClientHintsLookupResults( [], [] );
 		$objectUnderTest->displayClientHints = true;
+		// Add a fake row to the mResult so that we can say at least one row is present. The data is read from
+		// userSets, so this row can be anything.
+		$objectUnderTest->mQueryDone = true;
+		$objectUnderTest->mResult = new FakeResultWrapper( [ [ 'test' ] ] );
 		$objectUnderTest->formatUserRow( $hiddenUser->getName() );
 		$this->assertNotNull(
 			$objectUnderTest->templateParser->lastCalledWith,
@@ -261,6 +267,10 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 			'editCount' => 1,
 			'agentsList' => [ 'Testing user agent' ]
 		];
+		// Add a fake row to the mResult so that we can say at least one row is present. The data is read from
+		// userSets, so this row can be anything.
+		$objectUnderTest->mQueryDone = true;
+		$objectUnderTest->mResult = new FakeResultWrapper( [ [ 'test' ] ] );
 		$objectUnderTest->formatUserRow( '127.0.0.1' );
 		$this->assertNotNull(
 			$objectUnderTest->templateParser->lastCalledWith,
@@ -329,6 +339,8 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 		];
 		$objectUnderTest->clientHintsLookupResults = new ClientHintsLookupResults( [], [] );
 		$objectUnderTest->displayClientHints = true;
+		$objectUnderTest->mQueryDone = true;
+		$objectUnderTest->mResult = new FakeResultWrapper( [] );
 		$objectUnderTest->formatUserRow( $testUser->getName() );
 		// Expect that a globalBlockLink template parameter has been added and that is contains the expected link.
 		$this->assertNotNull(
@@ -430,7 +442,8 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 		$mockExtensionRegistry = $this->createMock( ExtensionRegistry::class );
 		$mockExtensionRegistry->method( 'isLoaded' )->with( 'CentralAuth' )->willReturn( false );
 		$objectUnderTest->extensionRegistry = $mockExtensionRegistry;
-		$objectUnderTest->mResult = new FakeResultWrapper( [] );
+		$objectUnderTest->mQueryDone = true;
+		$objectUnderTest->mResult = new FakeResultWrapper( [ [ 'test' ] ] );
 		// Call ::shouldShowBlockFieldset and expect an exception.
 		$this->expectException( ConfigException::class );
 		$objectUnderTest->getEndBody();
@@ -439,9 +452,14 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 	public function testGetEndBodyWhenUserMissingBlockAndLockRights() {
 		$objectUnderTest = $this->setUpObject();
 		// Add one fake result row to the mResult in the object under test.
+		$objectUnderTest->mQueryDone = true;
 		$objectUnderTest->mResult = new FakeResultWrapper( [ [ 'test' ] ] );
-		// Assert that the block fieldset is not added
-		$this->assertStringNotContainsString( 'mw-checkuser-massblock', $objectUnderTest->getEndBody() );
+		// We need to set a title for the RequestContext for HTMLForm.
+		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
+		// Assert that both the block fieldset and list toggle are not added.
+		$html = $objectUnderTest->getEndBody();
+		$this->assertStringNotContainsString( 'mw-checkuser-massblock', $html );
+		$this->assertStringNotContainsString( 'mw-checkbox-toggle-controls', $html );
 	}
 
 	public function testGetEndBodyWhenUserHasLocalBlockRights() {
@@ -451,8 +469,11 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 		// We need to set a title for the RequestContext for HTMLForm.
 		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
 		// Add one fake result row to the mResult in the object under test.
-		$objectUnderTest->mResult = new FakeResultWrapper( [] );
+		$objectUnderTest->mQueryDone = true;
+		$objectUnderTest->mResult = new FakeResultWrapper( [ [ 'test' ] ] );
 		$html = $objectUnderTest->getEndBody();
+		// Assert that the list toggle is added
+		$this->assertStringContainsString( 'mw-checkbox-toggle-controls', $html );
 		// Assert that the block fieldset is added
 		$this->assertStringContainsString( 'mw-checkuser-massblock', $html );
 		// Assert that the fieldset is as expected (contains description, title, and buttons).
@@ -460,5 +481,46 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerTestBase {
 		$this->assertStringContainsString( '(checkuser-massblock', $html );
 		$this->assertStringContainsString( '(checkuser-massblock-commit-accounts', $html );
 		$this->assertStringContainsString( '(checkuser-massblock-commit-ips', $html );
+	}
+
+	public function testGetStartBodyWhenUserMissingBlockAndLockRights() {
+		$objectUnderTest = $this->setUpObject();
+		// Add one fake result row to the mResult in the object under test.
+		$objectUnderTest->mResult = new FakeResultWrapper( [ [ 'test' ] ] );
+		// We need to set a title for the RequestContext for HTMLForm.
+		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
+		// Assert that the list toggle is not added.
+		$html = $objectUnderTest->getStartBody();
+		$this->assertStringNotContainsString( 'mw-checkbox-toggle-controls', $html );
+		// Check that the class for the CheckUser results is added.
+		$this->assertStringContainsString( 'mw-checkuser-get-users-results', $html );
+	}
+
+	public function testGetStartBodyWhenNoResults() {
+		$objectUnderTest = $this->setUpObject( null, null, [ 'checkuser', 'sysop' ] );
+		// Simulate that no results are present
+		$objectUnderTest->mQueryDone = true;
+		$objectUnderTest->mResult = new FakeResultWrapper( [] );
+		// We need to set a title for the RequestContext for HTMLForm.
+		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
+		// Assert that the list toggle is not added.
+		$html = $objectUnderTest->getStartBody();
+		$this->assertStringNotContainsString( 'mw-checkbox-toggle-controls', $html );
+		// Check that the class for the CheckUser results is added.
+		$this->assertStringContainsString( 'mw-checkuser-get-users-results', $html );
+	}
+
+	public function testGetStartBodyWhenUserHasLocalBlockRights() {
+		$objectUnderTest = $this->setUpObject( null, null, [ 'checkuser', 'sysop' ] );
+		// We need to set a title for the RequestContext for HTMLForm.
+		RequestContext::getMain()->setTitle( SpecialPage::getTitleFor( 'CheckUser' ) );
+		// Add one fake result row to the mResult in the object under test.
+		$objectUnderTest->mQueryDone = true;
+		$objectUnderTest->mResult = new FakeResultWrapper( [ [ 'test' ] ] );
+		$html = $objectUnderTest->getStartBody();
+		// Assert that the list toggle is added.
+		$this->assertStringContainsString( 'mw-checkbox-toggle-controls', $html );
+		// Check that the class for the CheckUser results is added.
+		$this->assertStringContainsString( 'mw-checkuser-get-users-results', $html );
 	}
 }
