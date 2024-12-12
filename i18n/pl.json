@@ -187,7 +187,7 @@
 	"checkuser-investigateblock-failure": "Nie zablokowano żadnego użytkownika. Aby nadpisać istniejące blokady zaznacz pole: „{{int:checkuser-investigateblock-reblock-label}}”. Blokada nie zostanie nadpisana, jeśli jej nowe parametry pokrywają się z istniejącymi.",
 	"checkuser-investigateblock-success": "{{PLURAL:$2|Użytkownik|Użytkownicy}} $1 {{PLURAL:$2|jest|są}} obecnie {{PLURAL:$2|zablokowany|zablokowani}}.",
 	"checkuser-investigateblock-notices-failed": "Niektóre notki nie mogły zostać dodane do stron lub dyskusji użytkowników.",
-	"checkuser-investigate": "Sprawdź",
+	"checkuser-investigate": "Zbadaj konta",
 	"checkuser-investigate-page-subtitle": "Obecnie sprawdzenie dla $1",
 	"checkuser-investigate-subtitle-block-button-label": "Blokuj",
 	"checkuser-investigate-subtitle-cancel-button-label": "Anuluj",
