@@ -54,6 +54,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	private array $permissions = [];
 	private int $wikisWithPermissionsCount;
 	private string $needsToEnableGlobalPreferenceAtWiki;
+	private bool $externalApiLookupError = false;
 
 	/**
 	 * @var int Number of revisions to return per wiki
@@ -128,6 +129,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		foreach ( $wikiIds as $wikiId ) {
 			if ( !isset( $permissions[$wikiId]['query']['pages'][0]['actions'] ) ) {
 				// The API lookup failed, so assume the user does not have IP reveal rights.
+				$this->externalApiLookupError = true;
 				continue;
 			}
 			$this->permissions[$wikiId] = $permissions[$wikiId]['query']['pages'][0]['actions'];
@@ -406,6 +408,15 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 							'Special:GlobalPreferences'
 						)
 					)->parse()
+				)
+			] );
+		}
+
+		if ( $this->externalApiLookupError ) {
+			$startBody .= new MessageWidget( [
+				'type' => 'error',
+				'label' => new HtmlSnippet(
+					$this->msg( 'checkuser-global-contributions-api-lookup-error' )->parse()
 				)
 			] );
 		}

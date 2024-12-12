@@ -270,6 +270,7 @@
 	"checkuser-global-contributions-no-results-no-permissions": "<strong>No results matching the query.</strong> You may not have permission to view IP addresses used by temporary accounts.",
 	"checkuser-global-contributions-no-results-no-global-preference": "<strong>No results matching the query.</strong> These results may be incomplete because you need to accept the agreement in [$1 your global preferences].",
 	"checkuser-global-contributions-no-global-preference": "These results may be incomplete because you need to accept the agreement in [$1 your global preferences].",
+	"checkuser-global-contributions-api-lookup-error": "Error loading data from some wikis. These results are incomplete. <strong>It may help to try again.</strong>",
 	"prefs-checkuser-tempaccount": "Temporary account IP reveal",
 	"checkuser-tempaccount-enable-preference-description": "When using this tool you should ensure that you do so within policy.",
 	"checkuser-tempaccount-enable-preference": "Enable revealing IP addresses for temporary accounts",
