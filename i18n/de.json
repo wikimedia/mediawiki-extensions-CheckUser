@@ -275,6 +275,7 @@
 	"checkuser-global-contributions-no-results-no-permissions": "<strong>Keine Ergebnisse, die der Abfrage entsprechen.</strong> Möglicherweise bist du nicht berechtigt, die von temporären Konten verwendeten IP-Adressen anzuzeigen.",
 	"checkuser-global-contributions-no-results-no-global-preference": "<strong>Keine Ergebnisse, die der Abfrage entsprechen.</strong> Diese Ergebnisse können unvollständig sein, da du die Vereinbarung in [$1 deinen globalen Einstellungen] akzeptieren musst.",
 	"checkuser-global-contributions-no-global-preference": "Diese Ergebnisse sind möglicherweise unvollständig, da du die Vereinbarung in [$1 deinen globalen Einstellungen] akzeptieren musst.",
+	"checkuser-global-contributions-api-lookup-error": "Fehler beim Laden der Daten aus einigen Wikis. Diese Ergebnisse sind unvollständig. <strong>Es kann hilfreich sein, es noch einmal zu versuchen.</strong>",
 	"prefs-checkuser-tempaccount": "Anzeige der IP-Adressen für temporäre Konten",
 	"checkuser-tempaccount-enable-preference-description": "Stelle bei der Verwendung dieses Tools sicher, dass du die Richtlinien einhältst.",
 	"checkuser-tempaccount-enable-preference": "IP-Adressen für temporäre Konten anzeigen",
