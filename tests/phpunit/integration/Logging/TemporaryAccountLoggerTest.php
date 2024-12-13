@@ -69,4 +69,42 @@ class TemporaryAccountLoggerTest extends MediaWikiIntegrationTestCase {
 			'Viewed temporary accounts on IP range' => [ '1.2.3.0/24' ],
 		];
 	}
+
+	/**
+	 * @dataProvider provideTestLogAccessChanged
+	 */
+	public function testLogAccessChanged( $logMethod, $expectedAction ) {
+		$logger = $this->getServiceContainer()->get( 'CheckUserTemporaryAccountLoggerFactory' )->getLogger();
+		$logger->$logMethod( $this->getTestUser()->getUserIdentity() );
+
+		$row = $this->getDb()->newSelectQueryBuilder()
+			->select( 'log_params' )
+			->from( 'logging' )
+			->where( [ 'log_type' => 'checkuser-temporary-account' ] )
+			->caller( __METHOD__ )
+			->fetchRow();
+
+		$this->assertStringContainsString( $expectedAction, $row->log_params );
+	}
+
+	public static function provideTestLogAccessChanged() {
+		return [
+			'Local access enabled' => [
+				'logAccessEnabled',
+				TemporaryAccountLogger::ACTION_ACCESS_ENABLED
+			],
+			'Local access disabled' => [
+				'logAccessDisabled',
+				TemporaryAccountLogger::ACTION_ACCESS_DISABLED
+			],
+			'Global access enabled' => [
+				'logGlobalAccessEnabled',
+				TemporaryAccountLogger::ACTION_GLOBAL_ACCESS_ENABLED
+			],
+			'Global access disabled' => [
+				'logGlobalAccessDisabled',
+				TemporaryAccountLogger::ACTION_GLOBAL_ACCESS_DISABLED
+			],
+		];
+	}
 }

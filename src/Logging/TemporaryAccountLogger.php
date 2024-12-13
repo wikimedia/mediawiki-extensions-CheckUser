@@ -45,15 +45,10 @@ class TemporaryAccountLogger {
 	 */
 	public const ACTION_CHANGE_ACCESS = 'change-access';
 
-	/**
-	 * @var string
-	 */
 	public const ACTION_ACCESS_ENABLED = 'enable';
-
-	/**
-	 * @var string
-	 */
 	public const ACTION_ACCESS_DISABLED = 'disable';
+	public const ACTION_GLOBAL_ACCESS_ENABLED = 'enable-globally';
+	public const ACTION_GLOBAL_ACCESS_DISABLED = 'disable-globally';
 
 	/**
 	 * @var string
@@ -121,26 +116,51 @@ class TemporaryAccountLogger {
 	}
 
 	/**
-	 * Log when the user enables their own access
+	 * Log when the user enables their own access locally.
 	 *
 	 * @param UserIdentity $performer
 	 */
 	public function logAccessEnabled( UserIdentity $performer ): void {
-		$params = [
-			'4::changeType' => self::ACTION_ACCESS_ENABLED,
-		];
-		$this->log( $performer, $performer->getName(), self::ACTION_CHANGE_ACCESS, $params );
+		$this->logAccessChanged( $performer, self::ACTION_ACCESS_ENABLED );
 	}
 
 	/**
-	 * Log when the user disables their own access
+	 * Log when the user disables their own access locally.
 	 *
 	 * @param UserIdentity $performer
 	 */
 	public function logAccessDisabled( UserIdentity $performer ): void {
-		$params = [
-			'4::changeType' => self::ACTION_ACCESS_DISABLED,
-		];
+		$this->logAccessChanged( $performer, self::ACTION_ACCESS_DISABLED );
+	}
+
+	/**
+	 * Log when the user enables their own access globally.
+	 *
+	 * @param UserIdentity $performer
+	 */
+	public function logGlobalAccessEnabled( UserIdentity $performer ): void {
+		$this->logAccessChanged( $performer, self::ACTION_GLOBAL_ACCESS_ENABLED );
+	}
+
+	/**
+	 * Log when the user disables their own access globally.
+	 *
+	 * @param UserIdentity $performer
+	 */
+	public function logGlobalAccessDisabled( UserIdentity $performer ): void {
+		$this->logAccessChanged( $performer, self::ACTION_GLOBAL_ACCESS_DISABLED );
+	}
+
+	/**
+	 * @param UserIdentity $performer
+	 * @param string $action One of the following action constants from this class:
+	 * - ACTION_ACCESS_ENABLED
+	 * - ACTION_ACCESS_DISABLED
+	 * - ACTION_GLOBAL_ACCESS_ENABLED
+	 * - ACTION_GLOBAL_ACCESS_DISABLED
+	 */
+	private function logAccessChanged( UserIdentity $performer, string $action ) {
+		$params = [ '4::changeType' => $action ];
 		$this->log( $performer, $performer->getName(), self::ACTION_CHANGE_ACCESS, $params );
 	}
 

@@ -285,6 +285,8 @@
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|his|her|their}} own access to view IP addresses of temporary accounts",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|disabled}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|enabled}}",
+	"checkuser-temporary-account-change-access-level-disable-globally": "globally {{GENDER:$1|disabled}}",
+	"checkuser-temporary-account-change-access-level-enable-globally": "globally {{GENDER:$1|enabled}}",
 	"logentry-checkuser-temporary-account-view-ips": "$1 {{GENDER:$2|viewed}} IP addresses for $3",
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 {{GENDER:$2|viewed}} temporary accounts on $3",
 	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 globally {{GENDER:$2|viewed}} temporary accounts on $3",
