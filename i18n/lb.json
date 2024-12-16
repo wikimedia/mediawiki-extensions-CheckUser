@@ -150,5 +150,7 @@
 	"checkuser-global-contributions-results-title": "Kontributioune fir $1",
 	"checkuser-tempaccount-reveal-ip-button-label": "IP weisen",
 	"checkuser-tempaccount-reveal-ip-missing": "net disponibel",
-	"checkuser-tempaccount-reveal-ip-error": "Feeler"
+	"checkuser-tempaccount-reveal-ip-error": "Feeler",
+	"checkuser-temporary-account-change-access-level-disable-globally": "global {{GENDER:$1|desaktivéiert}}",
+	"checkuser-temporary-account-change-access-level-enable-globally": "global {{GENDER:$1|aktivéiert}}"
 }

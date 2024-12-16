@@ -290,6 +290,8 @@
 	"logentry-checkuser-temporary-account-change-access": "$1 $4 {{GENDER:$2|seinen|ihren}} eigenen Zugriff, um die IP-Adressen temporärer Konten anzuzeigen",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|deaktivierte}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|aktivierte}}",
+	"checkuser-temporary-account-change-access-level-disable-globally": "global {{GENDER:$1|deaktiviert}}",
+	"checkuser-temporary-account-change-access-level-enable-globally": "global {{GENDER:$1|aktiviert}}",
 	"logentry-checkuser-temporary-account-view-ips": "$1 hat IP-Adressen für $3 {{GENDER:$2|angesehen}}",
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "$1 {{GENDER:$2|hat}} temporäre Konten angesehen am $3",
 	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 hat globale temporäre Konten für $3 {{GENDER:$2|angesehen}}",

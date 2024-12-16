@@ -191,6 +191,8 @@
 	"checkuser-tempaccount-reveal-ip-button-label": "IP 표시",
 	"checkuser-tempaccount-reveal-ip-error": "오류",
 	"checkuser-tempaccount-specialblock-ips": "다음 {{PLURAL:$1|IP}}를 사용한 임시 사용자입니다: $2",
+	"checkuser-temporary-account-change-access-level-disable-globally": "전역적으로 {{GENDER:$1|비활성화됨}}",
+	"checkuser-temporary-account-change-access-level-enable-globally": "전역적으로 {{GENDER:$1|활성화됨}}",
 	"log-action-filter-checkuser-temporary-account": "조치 유형:",
 	"log-action-filter-checkuser-temporary-account-view-ips": "임시 계정 IP 데이터 접근"
 }
