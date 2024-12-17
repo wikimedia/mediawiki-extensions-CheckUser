@@ -203,5 +203,6 @@
 	"checkuser-ip-contributions-contributions-link": "вклад",
 	"checkuser-global-contributions-target-label": "IP-адрес или диапазон:",
 	"checkuser-tempaccount-reveal-ip-error": "ошибка",
-	"checkuser-tempaccount-specialblock-ips": "Это временный пользователь, использующий следующие {{PLURAL:$1| IP|IP-адреса}}: $2"
+	"checkuser-tempaccount-specialblock-ips": "Это временный пользователь, использующий следующие {{PLURAL:$1| IP|IP-адреса}}: $2",
+	"checkuser-temporary-account-change-access-level-disable-globally": "глобально {{GENDER:$1| отключен}}"
 }

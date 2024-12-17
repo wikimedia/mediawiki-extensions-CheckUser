@@ -35,6 +35,9 @@
 	"apierror-checkuser-missingsummary": "يجب عليك تحديد سبب لهذا التدقيق.",
 	"apierror-checkuser-timelimit": "تحتاج إلى استخدام الحد الزمني الصحيح (مثل \"-2 weeks\" أو \"2 weeks ago\").",
 	"apierror-checkuser-invalidmode": "وضع الطلب غير صالح",
+	"apierror-checkuser-nosuchuser": "لا يوجد مستخدم لهذا الاسم",
 	"checkuser-api-help-param-direction": "في أي اتجاه يتم الترقيم:",
-	"checkuser-api-useragent-clienthints-revision-user-mismatch": "المستخدم $1 ليس هو كاتب المراجعة $2"
+	"checkuser-api-help-paramvalue-direction-newer": "قم بإدراج الأقدم أولاً. ملاحظة: يجب أن يكون $1 من قبل $1 إلى.",
+	"checkuser-api-useragent-clienthints-revision-user-mismatch": "المستخدم $1 ليس هو كاتب المراجعة $2",
+	"apihelp-logout-param-checkuserclienthints": "بيانات تلميحات العميل المقدمة مع الطلبات المقدمة إلى ApiLogout. للاستخدام الداخلي فقط."
 }
