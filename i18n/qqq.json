@@ -176,6 +176,7 @@
 	"logentry-checkuser-private-event-migrated-cu_changes-log-event": "{{notranslate}}\n\n{{Logentry}}\nLog event for log events moved from <code>cu_changes</code> which have the plaintext action text in the wikis content language.\nParameters:\n* $4 - The plaintext <code>actiontext</code>.",
 	"group-checkuser.css": "{{doc-group|checkuser|css}}",
 	"group-checkuser.js": "{{doc-group|checkuser|js}}",
+	"checkuser-temporary-accounts-onboarding-dialog-stepper-label": "Text indicating the current step and the total number of steps in the temporary accounts onboarding dialog.\n\nParameters:\n* $1 - Formatted number of the current step the user is viewing.\n* $2 - Formatted number of the total number of steps in the dialog.",
 	"checkuser-rest-access-denied": "Error message that is shown by the REST API if a user attempts to perform an action they do not have permission to perform",
 	"checkuser-rest-access-denied-blocked-user": "Error message that is shown by the REST API if a user attempts to perform an action when blocked",
 	"checkuser-link-investigate-label": "{{doc-important|1=Do not translate the <code><nowiki>{{#special:investigate}}</nowiki></code> code.}}\nLabel for a link to [[Special:Investigate]] from [[Special:CheckUser]].",

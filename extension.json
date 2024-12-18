@@ -528,7 +528,8 @@
 				"investigate.less",
 				"investigateblock.less",
 				"temporaryaccount.less",
-				"cidr.less"
+				"cidr.less",
+				"temporaryaccountonboarding.less"
 			],
 			"skinStyles": {
 				"minerva": "temporaryaccount.minerva.less"

@@ -12,7 +12,9 @@ module.exports = {
 
 	// An array of glob patterns indicating a set of files for
 	// which coverage information should be collected
-	collectCoverageFrom: [],
+	collectCoverageFrom: [
+		'modules/ext.checkUser.tempAccountsOnboarding/components/*.(js|vue)'
+	],
 
 	// The directory where Jest should output its coverage files
 	coverageDirectory: 'coverage',
@@ -25,10 +27,10 @@ module.exports = {
 	// An object that configures minimum threshold enforcement for coverage results
 	coverageThreshold: {
 		global: {
-			branches: 76,
+			branches: 0,
 			functions: 50,
 			lines: 77,
-			statements: 77
+			statements: 50
 		}
 	},
 

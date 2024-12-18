@@ -143,6 +143,7 @@
 	"logentry-checkuser-private-event-migrated-cu_changes-log-event": "$4",
 	"group-checkuser.css": "/* CSS code placed here will affect checkusers only */",
 	"group-checkuser.js": "/* JavaScript code placed here will be loaded for checkusers only */",
+	"checkuser-temporary-accounts-onboarding-dialog-stepper-label": "$1 of $2",
 	"checkuser-rest-access-denied": "You do not have permission to perform the action",
 	"checkuser-rest-access-denied-blocked-user": "You do not have permission to perform the action because your account is blocked",
 	"checkuser-link-investigate-label": "Try out {{#special:investigate}}",
