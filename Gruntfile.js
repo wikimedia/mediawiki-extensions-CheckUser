@@ -21,7 +21,8 @@ module.exports = function ( grunt ) {
 			all: [
 				'**/*.{css,less}',
 				'!vendor/**',
-				'!node_modules/**'
+				'!node_modules/**',
+				'!coverage/**'
 			]
 		},
 		banana: conf.MessagesDirs

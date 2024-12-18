@@ -2,6 +2,7 @@
 /node_modules/
 /vendor/
 tests/selenium/log
+/coverage/
 
 # Editors
 *.kate-swp

@@ -1,0 +1,20 @@
+{
+	"root": true,
+	"extends": [
+		"wikimedia/jquery",
+		"wikimedia/client-es6",
+		"wikimedia/mediawiki"
+	],
+	"rules": {
+		"compat/compat": "off",
+		"es-x/no-async-functions": "off"
+	},
+	"env": {
+		"jest": true,
+		"node": true,
+		"browser": true
+	},
+	"parserOptions": {
+		"ecmaVersion": 2022
+	}
+}
