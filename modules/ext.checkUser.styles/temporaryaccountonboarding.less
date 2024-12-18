@@ -1,5 +1,7 @@
 @import ( reference ) 'mediawiki.skin.variables.less';
 
+// Modified copy of the styles in the OnboardingStepper.vue component in the
+// mediawiki/extensions/GrowthExperiments repository.
 .ext-checkuser-temp-account-onboarding-dialog-stepper {
 	display: flex;
 	font-size: @font-size-small;
@@ -26,5 +28,40 @@
 				background-color: @color-base;
 			}
 		}
+	}
+}
+
+// Modified copy of the styles from the MultiPane.vue component in
+// the mediawiki/extensions/GrowthExperiments repository.
+.ext-checkuser-temp-account-onboarding-dialog-MultiPane {
+	position: relative;
+	overflow: hidden hidden;
+
+	.ext-checkuser-temp-account-onboarding-right-enter-active,
+	.ext-checkuser-temp-account-onboarding-right-leave-active,
+	.ext-checkuser-temp-account-onboarding-left-enter-active,
+	.ext-checkuser-temp-account-onboarding-left-leave-active {
+		transition: all 500ms @animation-timing-function-base;
+	}
+
+	.ext-checkuser-temp-account-onboarding-right-enter-from {
+		transform: translateX( @size-full );
+	}
+
+	.ext-checkuser-temp-account-onboarding-right-leave-to {
+		transform: translateX( -@size-full );
+	}
+
+	.ext-checkuser-temp-account-onboarding-left-leave-to {
+		transform: translateX( @size-full );
+	}
+
+	.ext-checkuser-temp-account-onboarding-left-enter-from {
+		transform: translateX( -@size-full );
+	}
+
+	.ext-checkuser-temp-account-onboarding-right-leave-active,
+	.ext-checkuser-temp-account-onboarding-left-leave-active {
+		position: absolute;
 	}
 }
