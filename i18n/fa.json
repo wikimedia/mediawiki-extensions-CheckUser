@@ -198,5 +198,7 @@
 	"checkuser-investigate-tour-filterip-title": "محدود کردن وارسی؟",
 	"checkuser-investigate-tour-block-title": "می‌خواهید بسته شود؟",
 	"checkuser-investigate-tour-copywikitext-title": "کپی کردن داده‌ها؟",
+	"checkuser-temporary-account-change-access-level-disable-globally": "{{GENDER:$1|غیرفعال}} به‌صورت سراسری",
+	"checkuser-temporary-account-change-access-level-enable-globally": "{{GENDER:$1|فعال}} به‌صورت سراسری",
 	"logentry-checkuser-temporary-account-view-ips": "$1 نشانی‌های آی‌پی $3 را {{GENDER:$2|مشاهده کرد}}"
 }
