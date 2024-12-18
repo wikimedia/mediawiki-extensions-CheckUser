@@ -11,7 +11,11 @@ module.exports = function ( grunt ) {
 				cache: true,
 				fix: grunt.option( 'fix' )
 			},
-			all: '.'
+			all: [
+				'.',
+				'!vendor/**',
+				'!node_modules/**'
+			]
 		},
 		stylelint: {
 			all: [
