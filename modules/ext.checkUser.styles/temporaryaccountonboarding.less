@@ -1,5 +1,19 @@
 @import ( reference ) 'mediawiki.skin.variables.less';
 
+// Make the images appropriately tall in each step so that
+// they fully display.
+.ext-checkuser-temp-account-onboarding-dialog-image {
+	background-color: #f4f9ff;
+	height: 250px;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+// Make the new line characters appear in the content of a step.
+.ext-checkuser-temp-account-onboarding-dialog-content {
+	white-space: pre-wrap;
+}
+
 // Modified copy of the styles in the OnboardingStepper.vue component in the
 // mediawiki/extensions/GrowthExperiments repository.
 .ext-checkuser-temp-account-onboarding-dialog-stepper {
