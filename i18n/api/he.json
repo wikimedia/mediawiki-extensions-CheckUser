@@ -10,7 +10,7 @@
 	"apihelp-query+checkuser-paramvalue-request-userips": "לקבל את כתובות ה־IP של המשתמש המיועד.",
 	"apihelp-query+checkuser-paramvalue-request-actions": "קבלת הפעולות שנעשו לפי כתובת IP או טווח יעד.",
 	"apihelp-query+checkuser-paramvalue-request-ipusers": "לקבל את המשתמשים מכתובת ה־IP המיועדת או מהטווח המיועד.",
-	"apihelp-query+checkuser-param-target": "שם משתמש, כתובת IP, או טווח CIDR לבדיקה.",
+	"apihelp-query+checkuser-param-target": "שם משתמש, כתובת IP או טווח CIDR לבדיקה.",
 	"apihelp-query+checkuser-param-reason": "סיבה לבדיקה.",
 	"apihelp-query+checkuser-param-limit": "מגבלת שורות.",
 	"apihelp-query+checkuser-param-timecond": "מגבלת זמן של נתוני משתמש (כמו \"<span dir=\"ltr\">-2 weeks</span>\" או \"<span dir=\"ltr\">2 weeks ago</span>\").",

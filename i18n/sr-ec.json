@@ -225,7 +225,7 @@
 	"checkuser-tempaccount-reveal-ip-error": "грешка",
 	"checkuser-tempaccount-specialblock-ips": "Ово је привремени корисник који користи следеће {{PLURAL:$1|IP адресе}}: $2",
 	"checkuser-temporary-account-log-name": "IP адресе привремених налога",
-	"logentry-checkuser-temporary-account-change-access": "$1 је $4 {{GENDER:$2|његов|њен}} приступ IP адресама привремених налога",
+	"logentry-checkuser-temporary-account-change-access": "$1 је $4 {{GENDER:$2|себи}} приступ IP адресама привремених налога",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|онемогућио|онемогућила}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|омогућио|омогућила}}",
 	"logentry-checkuser-temporary-account-view-ips": "$1 је {{GENDER:$2|видео|видела}} IP адресу за $3",
