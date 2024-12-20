@@ -109,19 +109,27 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 		// necessary rights, but still show it if the user just hasn't checked the preference or is blocked.
 		// The user is denied access for reasons other than rights in ::execute.
 		$permissionCheck = $this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses(
-			$this->getAuthority()
+			$user
 		);
 		return $permissionCheck->getPermission() === null;
 	}
 
 	/**
 	 * @inheritDoc
+	 * @throws ErrorPageError
+	 * @throws UserBlockedError
 	 */
-	public function execute( $par ) {
+	public function checkPermissions(): void {
 		// These checks are the same as in AbstractTemporaryAccountHandler.
+		//
+		// Note we don't call parent::checkPermissions() here: The parent method
+		// would call userCanExecute(), which essentially does the same we do
+		// here but throwing a generic PermissionsError exception, while here we
+		// throw different exceptions depending on the cause of the error.
 		$permStatus = $this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses(
 			$this->getAuthority()
 		);
+
 		if ( !$permStatus->isGood() ) {
 			if ( $permStatus->hasMessage( 'checkuser-tempaccount-reveal-ip-permission-error-description' ) ) {
 				throw new ErrorPageError(
@@ -143,20 +151,24 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 			throw new PermissionsError( $permStatus->getPermission() );
 		}
 
-		$isArchive = $this->isArchive();
 		$canSeeDeletedHistory = $this->permissionManager->userHasRight(
 			$this->getAuthority()->getUser(),
 			'deletedhistory'
 		);
 
-		if ( $isArchive && !$canSeeDeletedHistory ) {
+		if ( $this->isArchive() && !$canSeeDeletedHistory ) {
 			throw new PermissionsError( 'deletedhistory' );
 		}
+	}
 
+	/**
+	 * @inheritDoc
+	 */
+	public function execute( $par ) {
 		// Add to the $opts array now, so that parent::getForm() can add this as a
 		// hidden field. This ensures the search form displayed on each tab submits
 		// in the correct mode.
-		$this->opts['isArchive'] = $isArchive;
+		$this->opts['isArchive'] = $this->isArchive();
 
 		parent::execute( $par );
 
