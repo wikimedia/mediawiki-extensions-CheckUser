@@ -8,7 +8,7 @@
 	"apihelp-query+checkuser-description": "בדיקה אילו כתובות IP משמשות שם משתמש מסוים או אילו שמות משתמש נמצאים בשימוש על־ידי כתובת IP מסוימת.",
 	"apihelp-query+checkuser-summary": "בדיקה אילו כתובות IP משמשות שם משתמש מסוים או אילו שמות משתמש משמשות כתובת IP מסוימת.",
 	"apihelp-query+checkuser-param-request": "סוגי בדיקת משתמש:\n;userips:קבלת כתובות IP של המשתמש המיועד.\n;edits:קבלת שינויים מכתובת ה־IP או מהטווח המיועדים.\n;ipusers:קבלת משתמשים מכתובת ה־IP או מהטווח המיועדים.",
-	"apihelp-query+checkuser-param-target": "שם משתמש, כתובת IP, או טווח CIDR לבדיקה.",
+	"apihelp-query+checkuser-param-target": "שם משתמש, כתובת IP או טווח CIDR לבדיקה.",
 	"apihelp-query+checkuser-param-reason": "סיבה לבדיקה.",
 	"apihelp-query+checkuser-param-limit": "מגבלת שורות.",
 	"apihelp-query+checkuser-param-timecond": "מגבלת זמן של נתוני משתמש (כמו \"<span dir=\"ltr\">-2 weeks</span>\" או \"<span dir=\"ltr\">2 weeks ago</span>\").",
