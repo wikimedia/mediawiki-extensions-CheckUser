@@ -4,6 +4,7 @@
 			"Cabal"
 		]
 	},
+	"group-checkuser": "ਵਰਤੋਂਕਾਰਾਂ ਦੀ ਜਾਂਚ ਕਰੋ",
 	"checkuser-query": "ਹਾਲ ਹੀ ਵਿੱਚ ਹੋਈਆਂ ਤਬਦੀਲੀਆਂ ਬਾਰੇ ਪੁੱਛਗਿੱਛ",
 	"checkuser-search-submit": "ਲੱਭੋ",
 	"checkuser-helper-user": "ਵਰਤੋਂਕਾਰ",
