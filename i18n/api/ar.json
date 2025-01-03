@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Alshamiri1",
+			"Cigaryno",
 			"Dr-Taher",
 			"LaMagiaaa",
 			"Meno25",
@@ -39,5 +40,6 @@
 	"checkuser-api-help-param-direction": "في أي اتجاه يتم الترقيم:",
 	"checkuser-api-help-paramvalue-direction-newer": "قم بإدراج الأقدم أولاً. ملاحظة: يجب أن يكون $1 من قبل $1 إلى.",
 	"checkuser-api-useragent-clienthints-revision-user-mismatch": "المستخدم $1 ليس هو كاتب المراجعة $2",
+	"checkuser-api-useragent-clienthints-nonexistent-id": "المعرف $1 ل$2 غير موجود",
 	"apihelp-logout-param-checkuserclienthints": "بيانات تلميحات العميل المقدمة مع الطلبات المقدمة إلى ApiLogout. للاستخدام الداخلي فقط."
 }
