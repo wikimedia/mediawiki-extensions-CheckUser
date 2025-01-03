@@ -5,7 +5,7 @@
 		"test": "npm run test:grunt && npm run test:unit",
 		"coverage": "npm run test:unit",
 		"test:grunt": "grunt test",
-		"test:unit": "jest --passWithNoTests",
+		"test:unit": "jest",
 		"lint:fix": "grunt fix",
 		"selenium-daily": "npm run selenium-test",
 		"selenium-test": "node tests/selenium/wrapper.js"

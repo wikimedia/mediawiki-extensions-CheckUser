@@ -8,9 +8,9 @@ const mockMediaWiki = require( '@wikimedia/mw-node-qunit/src/mockMediaWiki.js' )
 global.mw = mockMediaWiki();
 
 config.global.mocks = {
-	$i18n: ( str ) => ( {
-		text: () => str,
-		parse: () => str
+	$i18n: ( ...messageKeyAndParams ) => ( {
+		text: () => '(' + messageKeyAndParams.join( ', ' ) + ')',
+		parse: () => '(' + messageKeyAndParams.join( ', ' ) + ')'
 	} )
 };
 config.global.directives = {

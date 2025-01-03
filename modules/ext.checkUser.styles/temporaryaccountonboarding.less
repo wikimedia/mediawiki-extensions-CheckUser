@@ -1,0 +1,30 @@
+@import ( reference ) 'mediawiki.skin.variables.less';
+
+.ext-checkuser-temp-account-onboarding-dialog-stepper {
+	display: flex;
+	font-size: @font-size-small;
+	color: @color-subtle;
+	align-items: center;
+
+	&__label {
+		margin-inline-end: @spacing-50;
+	}
+
+	&__dots {
+		display: flex;
+		align-items: center;
+		height: @size-125;
+
+		&__dot {
+			background-color: @background-color-disabled;
+			border-radius: @border-radius-circle;
+			width: @size-50;
+			height: @size-50;
+			margin-inline-end: @spacing-50;
+
+			&--active {
+				background-color: @color-base;
+			}
+		}
+	}
+}
