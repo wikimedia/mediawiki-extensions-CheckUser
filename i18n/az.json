@@ -143,6 +143,7 @@
 	"logentry-checkuser-private-event-create-account": "yaradılıb",
 	"group-checkuser.css": "/* Burada yazılan CSS yalnız təftişçilərə təsir edir */",
 	"group-checkuser.js": "/* Burada yazılan JavaScript yalnız təftişçilər üçün yüklənəcək */",
+	"checkuser-temporary-accounts-onboarding-dialog-stepper-label": "$1/$2",
 	"checkuser-rest-access-denied": "Bu əməliyyatı yerinə yetirmək üçün icazəniz yoxdur",
 	"checkuser-rest-access-denied-blocked-user": "Hesabınız bloklandığı üçün əməliyyatı yerinə yetirmək icazəniz yoxdur",
 	"checkuser-link-investigate-label": "{{#special:investigate}} sınayın",

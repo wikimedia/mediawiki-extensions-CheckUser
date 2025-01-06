@@ -143,6 +143,7 @@
 	"logentry-checkuser-private-event-create-account": "נוצר",
 	"group-checkuser.css": "/* הסגנונות הנכתבים כאן ישפיעו על בודקים בלבד */",
 	"group-checkuser.js": "/* כל הסקריפטים הנכתבים כאן ייטענו עבור בודקים בלבד */",
+	"checkuser-temporary-accounts-onboarding-dialog-stepper-label": "$1 מתוך $2",
 	"checkuser-rest-access-denied": "אין לך הרשאה לבצע את הפעולה הזאת",
 	"checkuser-rest-access-denied-blocked-user": "אין לך הרשאה לבצע את הפעולה הזאת כי החשבון שלך חסום",
 	"checkuser-link-investigate-label": "לנסות את {{#special:investigate}}",

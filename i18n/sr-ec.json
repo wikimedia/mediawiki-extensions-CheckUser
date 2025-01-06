@@ -135,6 +135,7 @@
 	"logentry-checkuser-private-event-create-account": "отворен",
 	"group-checkuser.css": "/* CSS код постављен овде ће утицати само на чекјузере */",
 	"group-checkuser.js": "/* JS код постављен овде ће утицати само на чекјузере */",
+	"checkuser-temporary-accounts-onboarding-dialog-stepper-label": "$1 од $2",
 	"checkuser-rest-access-denied": "Немате дозволу да извршите ову радњу",
 	"checkuser-rest-access-denied-blocked-user": "Немате дозволу да извршите ову радњу зато што вам је налог блокиран",
 	"checkuser-link-investigate-label": "Пробајте {{#special:investigate}}",

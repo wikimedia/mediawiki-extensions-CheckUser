@@ -82,6 +82,7 @@
 	"checkuser-helper-xff-untrusted": "XFF (net vertrauenswierdeg)",
 	"logentry-checkuser-private-event-autocreate-account": "gouf automatesch ugeluecht",
 	"logentry-checkuser-private-event-create-account": "gouf ugeluecht",
+	"checkuser-temporary-accounts-onboarding-dialog-stepper-label": "$1 vu(n) $2",
 	"checkuser-link-investigate-label": "{{#special:investigate}} ausprobéieren",
 	"checkuser-investigateblock": "Benotzer spären",
 	"checkuser-investigateblock-target": "Benotzernimm an IP-Adressen",

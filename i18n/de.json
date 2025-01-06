@@ -150,6 +150,7 @@
 	"logentry-checkuser-private-event-email-sent": "hat eine E-Mail an Benutzer „$4“ {{GENDER:$2|gesendet}}",
 	"logentry-checkuser-private-event-autocreate-account": "wurde automatisch erstellt",
 	"logentry-checkuser-private-event-create-account": "wurde erstellt",
+	"checkuser-temporary-accounts-onboarding-dialog-stepper-label": "$1 von $2",
 	"checkuser-rest-access-denied": "Du hast keine Berechtigung, diese Aktion durchzuführen",
 	"checkuser-rest-access-denied-blocked-user": "Du hast keine Berechtigung, die Aktion auszuführen, da dein Konto gesperrt ist",
 	"checkuser-link-investigate-label": "{{#special:investigate}} ausprobieren",

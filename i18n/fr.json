@@ -172,6 +172,7 @@
 	"logentry-checkuser-private-event-create-account": "a été créé",
 	"group-checkuser.css": "/* Le code CSS placé ici n’affectera que les membres du groupe « Vérificateurs d’utilisateurs » */",
 	"group-checkuser.js": "/* Le code Javascript placé ici n’affectera que les membres du groupe « Vérificateurs d’utilisateurs » */",
+	"checkuser-temporary-accounts-onboarding-dialog-stepper-label": "$1 sur $2",
 	"checkuser-rest-access-denied": "Vous n’avez pas le droit d’effectuer cette action.",
 	"checkuser-rest-access-denied-blocked-user": "Vous n’avez pas le droit d’effectuer l’action demandée parce que votre compte est bloqué",
 	"checkuser-link-investigate-label": "Essayer le nouvel outil {{#special:investigate}}",
