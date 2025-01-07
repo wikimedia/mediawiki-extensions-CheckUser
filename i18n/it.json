@@ -107,6 +107,7 @@
 	"checkuser-helper-ips": "IP",
 	"logentry-checkuser-private-event-autocreate-account": "è stato creato automaticamente",
 	"logentry-checkuser-private-event-create-account": "è stato creato",
+	"checkuser-temporary-accounts-onboarding-dialog-stepper-label": "$1 di $2",
 	"checkuser-link-investigate-label": "Prova {{#special:investigate}}",
 	"checkuser-investigateblock": "Blocca utenti",
 	"checkuser-investigateblock-target": "Nomi utente o indirizzi IP",
