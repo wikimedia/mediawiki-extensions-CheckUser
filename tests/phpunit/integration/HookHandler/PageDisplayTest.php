@@ -13,7 +13,9 @@ use MediaWiki\Output\OutputPage;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
+use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\Title\Title;
+use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
 use Skin;
@@ -24,6 +26,7 @@ use Skin;
 class PageDisplayTest extends MediaWikiIntegrationTestCase {
 
 	use MockAuthorityTrait;
+	use TempUserTestTrait;
 
 	public function setUp(): void {
 		parent::setUp();
@@ -48,6 +51,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				'CheckUserGlobalContributionsCentralWikiId' => false,
 			] ),
 			$this->createMock( CheckUserPermissionManager::class ),
+			$this->createMock( TempUserConfig::class )
 		);
 		$output = $this->createMock( OutputPage::class );
 		$request = new FauxRequest();
@@ -68,6 +72,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				'CheckUserGlobalContributionsCentralWikiId' => 'metawiki',
 			] ),
 			$this->createMock( CheckUserPermissionManager::class ),
+			$this->createMock( TempUserConfig::class )
 		);
 		$title = SpecialPage::getTitleFor( 'GlobalContributions' );
 
@@ -89,10 +94,30 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function testOnBeforePageDisplayWhenLoadingArticle() {
+	public function testOnBeforePageDisplayWhenTemporaryAccountsNotKnown() {
+		$this->disableAutoCreateTempUser();
 		$pageDisplayHookHandler = new PageDisplay(
 			new HashConfig(),
 			$this->createMock( CheckUserPermissionManager::class ),
+			$this->getServiceContainer()->getTempUserConfig()
+		);
+
+		$output = RequestContext::getMain()->getOutput();
+		$pageDisplayHookHandler->onBeforePageDisplay( $output, $this->createMock( Skin::class ) );
+
+		// Check that the JS code was not added to the output, as it does nothing when temporary accounts are not
+		// known on the wiki.
+		$this->assertCount( 0, $output->getModules() );
+		$this->assertCount( 0, $output->getModuleStyles() );
+		$this->assertCount( 0, $output->getJsConfigVars() );
+	}
+
+	public function testOnBeforePageDisplayWhenLoadingArticle() {
+		$this->enableAutoCreateTempUser();
+		$pageDisplayHookHandler = new PageDisplay(
+			new HashConfig(),
+			$this->createMock( CheckUserPermissionManager::class ),
+			$this->getServiceContainer()->getTempUserConfig()
 		);
 
 		// Set up a IContextSource where the title is a mainspace article
@@ -112,6 +137,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testOnBeforePageDisplayWhenUserMissingPermissions() {
+		$this->enableAutoCreateTempUser();
 		// Set up a IContextSource where the title is the history page for an article
 		$context = new DerivativeContext( RequestContext::getMain() );
 		$context->setTitle( Title::newFromText( 'Test' ) );
@@ -124,6 +150,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		$pageDisplayHookHandler = new PageDisplay(
 			new HashConfig(),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
+			$this->getServiceContainer()->getTempUserConfig()
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -137,6 +164,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testOnBeforePageDisplayForInfoAction() {
+		$this->enableAutoCreateTempUser();
 		// Set up a IContextSource where the title is the info page for an article
 		$context = new DerivativeContext( RequestContext::getMain() );
 		$context->setTitle( Title::newFromText( 'Test' ) );
@@ -152,6 +180,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				'CheckUserSpecialPagesWithoutIPRevealButtons' => [ 'BlockList' ],
 			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
+			$this->getServiceContainer()->getTempUserConfig()
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -173,6 +202,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testOnBeforePageDisplayForSpecialBlock() {
+		$this->enableAutoCreateTempUser();
 		// Set up a IContextSource where the title is Special:Block
 		$context = new DerivativeContext( RequestContext::getMain() );
 		$context->setTitle( SpecialPage::getTitleFor( 'Block' ) );
@@ -188,6 +218,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				'CUDMaxAge' => 12345,
 			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
+			$this->getServiceContainer()->getTempUserConfig()
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(

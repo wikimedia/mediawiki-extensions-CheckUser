@@ -309,7 +309,8 @@
 			"class": "MediaWiki\\CheckUser\\HookHandler\\PageDisplay",
 			"services": [
 				"MainConfig",
-				"CheckUserPermissionManager"
+				"CheckUserPermissionManager",
+				"TempUserConfig"
 			]
 		},
 		"CheckUserPrivateEvents": {

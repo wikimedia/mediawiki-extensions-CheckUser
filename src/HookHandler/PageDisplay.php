@@ -6,24 +6,34 @@ use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Config\Config;
 use MediaWiki\Hook\BeforeInitializeHook;
 use MediaWiki\Output\Hook\BeforePageDisplayHook;
+use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\WikiMap\WikiMap;
 
 class PageDisplay implements BeforePageDisplayHook, BeforeInitializeHook {
 	private Config $config;
 	private CheckUserPermissionManager $checkUserPermissionManager;
+	private TempUserConfig $tempUserConfig;
 
 	public function __construct(
 		Config $config,
-		CheckUserPermissionManager $checkUserPermissionManager
+		CheckUserPermissionManager $checkUserPermissionManager,
+		TempUserConfig $tempUserConfig
 	) {
 		$this->config = $config;
 		$this->checkUserPermissionManager = $checkUserPermissionManager;
+		$this->tempUserConfig = $tempUserConfig;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function onBeforePageDisplay( $out, $skin ): void {
+		// There is no need for the JS modules for temporary account IP reveal
+		// if the wiki does not have temporary accounts enabled or known.
+		if ( !$this->tempUserConfig->isKnown() ) {
+			return;
+		}
+
 		// Exclude loading the JS module on pages which do not use it.
 		$action = $out->getRequest()->getVal( 'action' );
 		if (
