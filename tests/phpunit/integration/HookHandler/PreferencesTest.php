@@ -44,6 +44,14 @@ class PreferencesTest extends \MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getMainConfig()
 		) )->onGetPreferences( $user, $prefs );
 
+		// Always expect that the 'temporary accounts onboarding dialog seen' preference is added and that
+		// it is a hidden preference.
+		$this->assertArrayHasKey( 'checkuser-temporary-accounts-onboarding-dialog-seen', $prefs );
+		$this->assertArrayEquals(
+			[ 'type' => 'api' ],
+			$prefs['checkuser-temporary-accounts-onboarding-dialog-seen'],
+		);
+
 		$this->assertSame(
 			$options['expected'],
 			isset( $prefs['checkuser-temporary-account-enable'] )

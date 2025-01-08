@@ -7,21 +7,25 @@ use MediaWiki\Config\Config;
 use MediaWiki\Hook\BeforeInitializeHook;
 use MediaWiki\Output\Hook\BeforePageDisplayHook;
 use MediaWiki\User\TempUser\TempUserConfig;
+use MediaWiki\User\UserOptionsLookup;
 use MediaWiki\WikiMap\WikiMap;
 
 class PageDisplay implements BeforePageDisplayHook, BeforeInitializeHook {
 	private Config $config;
 	private CheckUserPermissionManager $checkUserPermissionManager;
+	private UserOptionsLookup $userOptionsLookup;
 	private TempUserConfig $tempUserConfig;
 
 	public function __construct(
 		Config $config,
 		CheckUserPermissionManager $checkUserPermissionManager,
-		TempUserConfig $tempUserConfig
+		TempUserConfig $tempUserConfig,
+		UserOptionsLookup $userOptionsLookup
 	) {
 		$this->config = $config;
 		$this->checkUserPermissionManager = $checkUserPermissionManager;
 		$this->tempUserConfig = $tempUserConfig;
+		$this->userOptionsLookup = $userOptionsLookup;
 	}
 
 	/**
@@ -57,10 +61,32 @@ class PageDisplay implements BeforePageDisplayHook, BeforeInitializeHook {
 		// All checks passed, so add the JS code needed for temporary account IP reveal.
 
 		// Config needed for a js-added message on Special:Block
-		if ( $out->getTitle()->isSpecial( 'Block' ) ) {
+		$title = $out->getTitle();
+		if ( $title->isSpecial( 'Block' ) ) {
 			$out->addJSConfigVars( [
 				'wgCUDMaxAge' => $this->config->get( 'CUDMaxAge' )
 			] );
+		}
+
+		// Show the temporary accounts onboarding dialog if the user has never seen the dialog before, and
+		// the user is viewing any of the history page, Special:Watchlist, or Special:RecentChanges.
+		if (
+			$this->config->get( 'CheckUserEnableTempAccountsOnboardingDialog' ) &&
+			(
+				$action === 'history' ||
+				$title->isSpecial( 'Watchlist' ) ||
+				$title->isSpecial( 'Recentchanges' )
+			)
+		) {
+			$userHasSeenDialog = $this->userOptionsLookup->getBoolOption(
+				$out->getUser(), Preferences::TEMPORARY_ACCOUNTS_ONBOARDING_DIALOG_SEEN
+			);
+			if ( !$userHasSeenDialog ) {
+				$out->addHtml( '<div id="ext-checkuser-tempaccountsonboarding-app"></div>' );
+				$out->addModules( 'ext.checkUser.tempAccountOnboarding' );
+				$out->addModuleStyles( 'ext.checkUser.styles' );
+				$out->addModuleStyles( 'ext.checkUser.images' );
+			}
 		}
 
 		$out->addModules( 'ext.checkUser' );

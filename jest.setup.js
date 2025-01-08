@@ -7,6 +7,11 @@ const mockMediaWiki = require( '@wikimedia/mw-node-qunit/src/mockMediaWiki.js' )
 // Mock Vue plugins in test suites
 global.mw = mockMediaWiki();
 
+global.mw.message = jest.fn( ( key ) => ( {
+	text: () => `(${ key })`,
+	parse: () => `(${ key })`
+} ) );
+
 config.global.mocks = {
 	$i18n: ( ...messageKeyAndParams ) => ( {
 		text: () => '(' + messageKeyAndParams.join( ', ' ) + ')',

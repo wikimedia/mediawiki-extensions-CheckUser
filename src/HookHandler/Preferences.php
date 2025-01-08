@@ -19,6 +19,12 @@ class Preferences implements GetPreferencesHook {
 	/** @var string */
 	public const INVESTIGATE_FORM_TOUR_SEEN = 'checkuser-investigate-form-tour-seen';
 
+	/**
+	 * @var string The name for the hidden preference used to note if a user has seen the
+	 *   Temporary Accounts onboarding dialog.
+	 */
+	public const TEMPORARY_ACCOUNTS_ONBOARDING_DIALOG_SEEN = 'checkuser-temporary-accounts-onboarding-dialog-seen';
+
 	/** @var string Preference value used to indicate that the CheckUser helper table should collapse on load */
 	public const CHECKUSER_HELPER_ALWAYS_COLLAPSE_BY_DEFAULT = 'always';
 
@@ -63,6 +69,10 @@ class Preferences implements GetPreferencesHook {
 		];
 
 		$preferences[self::INVESTIGATE_FORM_TOUR_SEEN] = [
+			'type' => 'api',
+		];
+
+		$preferences[self::TEMPORARY_ACCOUNTS_ONBOARDING_DIALOG_SEEN] = [
 			'type' => 'api',
 		];
 

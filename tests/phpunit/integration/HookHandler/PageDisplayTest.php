@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
 use MediaWiki\Actions\ActionEntryPoint;
 use MediaWiki\CheckUser\HookHandler\PageDisplay;
+use MediaWiki\CheckUser\HookHandler\Preferences;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Config\HashConfig;
 use MediaWiki\Config\SiteConfiguration;
@@ -15,8 +16,10 @@ use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\Title\Title;
+use MediaWiki\User\Options\StaticUserOptionsLookup;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\User;
+use MediaWiki\User\UserOptionsLookup;
 use MediaWikiIntegrationTestCase;
 use Skin;
 
@@ -51,7 +54,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				'CheckUserGlobalContributionsCentralWikiId' => false,
 			] ),
 			$this->createMock( CheckUserPermissionManager::class ),
-			$this->createMock( TempUserConfig::class )
+			$this->createMock( TempUserConfig::class ),
+			$this->createMock( UserOptionsLookup::class )
 		);
 		$output = $this->createMock( OutputPage::class );
 		$request = new FauxRequest();
@@ -72,7 +76,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				'CheckUserGlobalContributionsCentralWikiId' => 'metawiki',
 			] ),
 			$this->createMock( CheckUserPermissionManager::class ),
-			$this->createMock( TempUserConfig::class )
+			$this->createMock( TempUserConfig::class ),
+			$this->createMock( UserOptionsLookup::class )
 		);
 		$title = SpecialPage::getTitleFor( 'GlobalContributions' );
 
@@ -99,7 +104,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		$pageDisplayHookHandler = new PageDisplay(
 			new HashConfig(),
 			$this->createMock( CheckUserPermissionManager::class ),
-			$this->getServiceContainer()->getTempUserConfig()
+			$this->getServiceContainer()->getTempUserConfig(),
+			$this->createMock( UserOptionsLookup::class )
 		);
 
 		$output = RequestContext::getMain()->getOutput();
@@ -117,7 +123,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		$pageDisplayHookHandler = new PageDisplay(
 			new HashConfig(),
 			$this->createMock( CheckUserPermissionManager::class ),
-			$this->getServiceContainer()->getTempUserConfig()
+			$this->getServiceContainer()->getTempUserConfig(),
+			$this->createMock( UserOptionsLookup::class )
 		);
 
 		// Set up a IContextSource where the title is a mainspace article
@@ -150,7 +157,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		$pageDisplayHookHandler = new PageDisplay(
 			new HashConfig(),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
-			$this->getServiceContainer()->getTempUserConfig()
+			$this->getServiceContainer()->getTempUserConfig(),
+			$this->createMock( UserOptionsLookup::class )
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -178,9 +186,11 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			new HashConfig( [
 				'CheckUserTemporaryAccountMaxAge' => 1234,
 				'CheckUserSpecialPagesWithoutIPRevealButtons' => [ 'BlockList' ],
+				'CheckUserEnableTempAccountsOnboardingDialog' => true,
 			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
-			$this->getServiceContainer()->getTempUserConfig()
+			$this->getServiceContainer()->getTempUserConfig(),
+			$this->createMock( UserOptionsLookup::class )
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -216,9 +226,11 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				'CheckUserTemporaryAccountMaxAge' => 1234,
 				'CheckUserSpecialPagesWithoutIPRevealButtons' => [ 'BlockList' ],
 				'CUDMaxAge' => 12345,
+				'CheckUserEnableTempAccountsOnboardingDialog' => true,
 			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
-			$this->getServiceContainer()->getTempUserConfig()
+			$this->getServiceContainer()->getTempUserConfig(),
+			$this->createMock( UserOptionsLookup::class )
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -239,6 +251,113 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			false,
 			true
 		);
+	}
+
+	public function testOnBeforePageDisplayForSpecialWatchlistWhenOnboardingDialogDisabled() {
+		$this->enableAutoCreateTempUser();
+
+		// Set up a IContextSource where the title is Special:Watchlist
+		$context = new DerivativeContext( RequestContext::getMain() );
+		$context->setTitle( SpecialPage::getTitleFor( 'Watchlist' ) );
+		$testAuthority = $this->mockRegisteredUltimateAuthority();
+		$context->setAuthority( $testAuthority );
+		$output = $context->getOutput();
+		$output->setContext( $context );
+
+		$pageDisplayHookHandler = new PageDisplay(
+			new HashConfig( [
+				'CheckUserTemporaryAccountMaxAge' => 1234,
+				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
+				'CheckUserEnableTempAccountsOnboardingDialog' => false,
+			] ),
+			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
+			$this->getServiceContainer()->getTempUserConfig(),
+			$this->createNoOpMock( UserOptionsLookup::class )
+		);
+
+		$pageDisplayHookHandler->onBeforePageDisplay(
+			$output, $this->createMock( Skin::class )
+		);
+
+		// Check that the temporary accounts onboarding dialog modules are not added to the output if
+		// the dialog is disabled
+		$this->assertNotContains( 'ext.checkUser.tempAccountOnboarding', $output->getModules() );
+	}
+
+	public function testOnBeforePageDisplayForHistoryActionWhenUserHasSeenOnboardingDialog() {
+		$this->enableAutoCreateTempUser();
+
+		// Set up a IContextSource where the title is the history page for an article
+		$context = new DerivativeContext( RequestContext::getMain() );
+		$context->setTitle( Title::newFromText( 'Test' ) );
+		$context->getRequest()->setVal( 'action', 'history' );
+		$testAuthority = $this->mockRegisteredUltimateAuthority();
+		$context->setAuthority( $testAuthority );
+		$output = $context->getOutput();
+		$output->setContext( $context );
+
+		// Mock all users having seen the onboarding dialog, so that the dialog JS module should not be added to
+		// the output for anyone.
+		$this->setService( 'UserOptionsLookup', new StaticUserOptionsLookup(
+			[], [ Preferences::TEMPORARY_ACCOUNTS_ONBOARDING_DIALOG_SEEN => '1' ]
+		) );
+
+		$pageDisplayHookHandler = new PageDisplay(
+			new HashConfig( [
+				'CheckUserTemporaryAccountMaxAge' => 1234,
+				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
+				'CheckUserEnableTempAccountsOnboardingDialog' => true,
+			] ),
+			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
+			$this->getServiceContainer()->getTempUserConfig(),
+			$this->getServiceContainer()->getUserOptionsLookup()
+		);
+
+		$pageDisplayHookHandler->onBeforePageDisplay(
+			$output, $this->createMock( Skin::class )
+		);
+
+		// Check that the temporary accounts onboarding dialog modules are not added to the output if
+		// dialog has been seen before.
+		$this->assertNotContains( 'ext.checkUser.tempAccountOnboarding', $output->getModules() );
+	}
+
+	public function testOnBeforePageDisplayForSpecialRecentChangesWhenUserHasNotSeenOnboardingDialog() {
+		$this->enableAutoCreateTempUser();
+
+		// Set up a IContextSource where the title is Special:RecentChanges
+		$context = new DerivativeContext( RequestContext::getMain() );
+		$context->setTitle( SpecialPage::getTitleFor( 'Recentchanges' ) );
+		$testAuthority = $this->mockRegisteredUltimateAuthority();
+		$context->setAuthority( $testAuthority );
+		$output = $context->getOutput();
+		$output->setContext( $context );
+
+		// Mock all users having not seen the onboarding dialog, so that the module should be added if they
+		// have the necessary rights and are on the right page.
+		$this->setService( 'UserOptionsLookup', new StaticUserOptionsLookup(
+			[], [ Preferences::TEMPORARY_ACCOUNTS_ONBOARDING_DIALOG_SEEN => 0 ]
+		) );
+
+		$pageDisplayHookHandler = new PageDisplay(
+			new HashConfig( [
+				'CheckUserTemporaryAccountMaxAge' => 1234,
+				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
+				'CheckUserEnableTempAccountsOnboardingDialog' => true,
+			] ),
+			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
+			$this->getServiceContainer()->getTempUserConfig(),
+			$this->getServiceContainer()->getUserOptionsLookup()
+		);
+
+		$pageDisplayHookHandler->onBeforePageDisplay(
+			$output, $this->createMock( Skin::class )
+		);
+
+		// Check that the onboarding dialog has been added to the output if the user has not seen it before,
+		// is on one of the defined pages and has the rights to see it.
+		$this->assertContains( 'ext.checkUser.tempAccountOnboarding', $output->getModules() );
+		$this->assertArrayEquals( [ 'ext.checkUser.styles', 'ext.checkUser.images' ], $output->getModuleStyles() );
 	}
 
 }
