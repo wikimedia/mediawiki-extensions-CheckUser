@@ -15,8 +15,8 @@ class LogoutPage extends Page {
 		return $( '#pt-logout' );
 	}
 
-	open() {
-		super.openTitle( 'Special:UserLogout' );
+	async open() {
+		return super.openTitle( 'Special:UserLogout' );
 	}
 
 	/**
