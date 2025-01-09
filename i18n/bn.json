@@ -117,6 +117,7 @@
 	"logentry-checkuser-private-event-email-sent": "ব্যবহারকারী \"$4\" কে একটি ইমেইল {{GENDER:$2|পাঠিয়েছে}}",
 	"logentry-checkuser-private-event-autocreate-account": "স্বয়ংক্রিয়ভাবে তৈরি হয়েছিলো",
 	"logentry-checkuser-private-event-create-account": "তৈরি করা হয়েছে",
+	"checkuser-temporary-accounts-onboarding-dialog-stepper-label": "$2-এর $1",
 	"checkuser-rest-access-denied": "আপনার এই কর্মটি সঞ্চালন করার অনুমতি নেই",
 	"checkuser-rest-access-denied-blocked-user": "আপনার এই কর্মটি সঞ্চালন করার অনুমতি নেই কারণ আপনার অ্যাকাউন্টটি বাধাপ্রাপ্ত",
 	"checkuser-link-investigate-label": "{{#special:investigate}} ব্যবহার করে দেখুন",
