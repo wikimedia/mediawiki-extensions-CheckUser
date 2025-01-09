@@ -18,6 +18,7 @@
 const { ref } = require( 'vue' );
 const TempAccountsOnboardingDialog = require( './TempAccountsOnboardingDialog.vue' );
 const TempAccountsOnboardingIntroStep = require( './TempAccountsOnboardingIntroStep.vue' );
+const TempAccountsOnboardingIPInfoStep = require( './TempAccountsOnboardingIPInfoStep.vue' );
 
 // @vue/component
 module.exports = exports = {
@@ -30,15 +31,21 @@ module.exports = exports = {
 	},
 	components: {
 		TempAccountsOnboardingDialog,
-		TempAccountsOnboardingIntroStep
+		TempAccountsOnboardingIntroStep,
+		TempAccountsOnboardingIPInfoStep
 	},
 	setup() {
 		const dialogOpen = ref( true );
 
-		// Generate the steps to be shown in the onboarding dialog. This needs to be
-		// generated like this because we will later add steps that may not be shown
-		// depending on a JS config variable.
+		// Generate the steps to be shown in the onboarding dialog. We need to generate
+		// these steps programmatically as the IPInfo step will only be shown if
+		// IPInfo is installed.
 		const steps = [ { componentName: 'TempAccountsOnboardingIntroStep' } ];
+
+		if ( mw.config.get( 'wgCheckUserIPInfoExtensionLoaded' ) ) {
+			steps.push( { componentName: 'TempAccountsOnboardingIPInfoStep' } );
+		}
+
 		steps.forEach( ( step, index ) => {
 			step.name = 'step' + ( index + 1 );
 		} );

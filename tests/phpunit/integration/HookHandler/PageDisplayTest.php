@@ -11,6 +11,7 @@ use MediaWiki\Config\SiteConfiguration;
 use MediaWiki\Context\DerivativeContext;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Output\OutputPage;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
@@ -55,7 +56,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			] ),
 			$this->createMock( CheckUserPermissionManager::class ),
 			$this->createMock( TempUserConfig::class ),
-			$this->createMock( UserOptionsLookup::class )
+			$this->createMock( UserOptionsLookup::class ),
+			$this->getServiceContainer()->getExtensionRegistry()
 		);
 		$output = $this->createMock( OutputPage::class );
 		$request = new FauxRequest();
@@ -77,7 +79,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			] ),
 			$this->createMock( CheckUserPermissionManager::class ),
 			$this->createMock( TempUserConfig::class ),
-			$this->createMock( UserOptionsLookup::class )
+			$this->createMock( UserOptionsLookup::class ),
+			$this->getServiceContainer()->getExtensionRegistry()
 		);
 		$title = SpecialPage::getTitleFor( 'GlobalContributions' );
 
@@ -105,7 +108,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			new HashConfig(),
 			$this->createMock( CheckUserPermissionManager::class ),
 			$this->getServiceContainer()->getTempUserConfig(),
-			$this->createMock( UserOptionsLookup::class )
+			$this->createMock( UserOptionsLookup::class ),
+			$this->getServiceContainer()->getExtensionRegistry()
 		);
 
 		$output = RequestContext::getMain()->getOutput();
@@ -124,7 +128,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			new HashConfig(),
 			$this->createMock( CheckUserPermissionManager::class ),
 			$this->getServiceContainer()->getTempUserConfig(),
-			$this->createMock( UserOptionsLookup::class )
+			$this->createMock( UserOptionsLookup::class ),
+			$this->getServiceContainer()->getExtensionRegistry()
 		);
 
 		// Set up a IContextSource where the title is a mainspace article
@@ -158,7 +163,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			new HashConfig(),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->getTempUserConfig(),
-			$this->createMock( UserOptionsLookup::class )
+			$this->createMock( UserOptionsLookup::class ),
+			$this->getServiceContainer()->getExtensionRegistry()
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -190,7 +196,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->getTempUserConfig(),
-			$this->createMock( UserOptionsLookup::class )
+			$this->createMock( UserOptionsLookup::class ),
+			$this->getServiceContainer()->getExtensionRegistry()
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -230,7 +237,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->getTempUserConfig(),
-			$this->createMock( UserOptionsLookup::class )
+			$this->createMock( UserOptionsLookup::class ),
+			$this->getServiceContainer()->getExtensionRegistry()
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -272,7 +280,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->getTempUserConfig(),
-			$this->createNoOpMock( UserOptionsLookup::class )
+			$this->createNoOpMock( UserOptionsLookup::class ),
+			$this->getServiceContainer()->getExtensionRegistry()
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -310,7 +319,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->getTempUserConfig(),
-			$this->getServiceContainer()->getUserOptionsLookup()
+			$this->getServiceContainer()->getUserOptionsLookup(),
+			$this->getServiceContainer()->getExtensionRegistry()
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -322,7 +332,10 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		$this->assertNotContains( 'ext.checkUser.tempAccountOnboarding', $output->getModules() );
 	}
 
-	public function testOnBeforePageDisplayForSpecialRecentChangesWhenUserHasNotSeenOnboardingDialog() {
+	/** @dataProvider provideIPInfoLoadedStates */
+	public function testOnBeforePageDisplayForSpecialRecentChangesWhenUserHasNotSeenOnboardingDialog(
+		$isIPInfoLoaded
+	) {
 		$this->enableAutoCreateTempUser();
 
 		// Set up a IContextSource where the title is Special:RecentChanges
@@ -339,6 +352,11 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			[], [ Preferences::TEMPORARY_ACCOUNTS_ONBOARDING_DIALOG_SEEN => 0 ]
 		) );
 
+		$mockExtensionRegistry = $this->createMock( ExtensionRegistry::class );
+		$mockExtensionRegistry->method( 'isLoaded' )
+			->with( 'IPInfo' )
+			->willReturn( $isIPInfoLoaded );
+
 		$pageDisplayHookHandler = new PageDisplay(
 			new HashConfig( [
 				'CheckUserTemporaryAccountMaxAge' => 1234,
@@ -347,7 +365,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->getTempUserConfig(),
-			$this->getServiceContainer()->getUserOptionsLookup()
+			$this->getServiceContainer()->getUserOptionsLookup(),
+			$mockExtensionRegistry
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -358,6 +377,22 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		// is on one of the defined pages and has the rights to see it.
 		$this->assertContains( 'ext.checkUser.tempAccountOnboarding', $output->getModules() );
 		$this->assertArrayEquals( [ 'ext.checkUser.styles', 'ext.checkUser.images' ], $output->getModuleStyles() );
+		$this->assertArrayEquals(
+			[
+				'wgCheckUserIPInfoExtensionLoaded' => $isIPInfoLoaded,
+				'wgCheckUserTemporaryAccountMaxAge' => 1234,
+				'wgCheckUserSpecialPagesWithoutIPRevealButtons' => [],
+			],
+			$output->getJsConfigVars(),
+			false,
+			true
+		);
 	}
 
+	public static function provideIPInfoLoadedStates() {
+		return [
+			'IPInfo is loaded' => [ true ],
+			'IPInfo is not loaded' => [ true ],
+		];
+	}
 }

@@ -315,7 +315,8 @@
 				"MainConfig",
 				"CheckUserPermissionManager",
 				"TempUserConfig",
-				"UserOptionsLookup"
+				"UserOptionsLookup",
+				"ExtensionRegistry"
 			]
 		},
 		"CheckUserPrivateEvents": {
@@ -442,6 +443,7 @@
 				"components/TempAccountsOnboardingStep.vue",
 				"components/TempAccountsOnboardingStepper.vue",
 				"components/TempAccountsOnboardingIntroStep.vue",
+				"components/TempAccountsOnboardingIPInfoStep.vue",
 				"components/MultiPane.vue",
 				{
 					"name": "components/icons.json",
@@ -461,12 +463,19 @@
 				"checkuser-temporary-accounts-onboarding-dialog-close-label",
 				"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title",
 				"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-content",
-				"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-image-aria-label"
+				"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-image-aria-label",
+				"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-title",
+				"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-content",
+				"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-image-aria-label",
+				"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title",
+				"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-error",
+				"ipinfo-preference-use-agreement"
 			],
 			"dependencies": [
 				"vue",
 				"@wikimedia/codex",
 				"mediawiki.api",
+				"mediawiki.user",
 				"mediawiki.jqueryMsg"
 			]
 		},
@@ -480,6 +489,12 @@
 					"file": {
 						"ltr": "temp-accounts-onboarding-temp-accounts-ltr.svg",
 						"rtl": "temp-accounts-onboarding-temp-accounts-rtl.svg"
+					}
+				},
+				"temp-accounts-onboarding-ip-info": {
+					"file": {
+						"ltr": "temp-accounts-onboarding-ip-info-ltr.svg",
+						"rtl": "temp-accounts-onboarding-ip-info-rtl.svg"
 					}
 				}
 			}

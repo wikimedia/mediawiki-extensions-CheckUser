@@ -6,7 +6,8 @@ jest.mock( '../../../modules/ext.checkUser.tempAccountsOnboarding/components/ico
 } ), { virtual: true } );
 
 const TempAccountsOnboardingDialog = require( '../../../modules/ext.checkUser.tempAccountsOnboarding/components/TempAccountsOnboardingDialog.vue' ),
-	utils = require( '@vue/test-utils' );
+	utils = require( '@vue/test-utils' ),
+	{ mockApiSaveOption, waitFor } = require( '../utils.js' );
 
 const renderComponent = ( slots, props ) => {
 	const wrapper = utils.mount( TempAccountsOnboardingDialog, {
@@ -21,39 +22,6 @@ const renderComponent = ( slots, props ) => {
 	} );
 	return wrapper;
 };
-
-/**
- * Mocks mw.Api().saveOption() and returns a jest.fn()
- * that is used as the saveOption() method. This can
- * be used to expect that the saveOption() method is
- * called with the correct arguments.
- *
- * @return {jest.fn}
- */
-function mockApiSaveOption() {
-	const apiSaveOption = jest.fn();
-	apiSaveOption.mockResolvedValue( { options: 'success' } );
-	jest.spyOn( mw, 'Api' ).mockImplementation( () => ( {
-		saveOption: apiSaveOption
-	} ) );
-	return apiSaveOption;
-}
-
-/**
- * Waits for the return value of a given function to be true.
- * Will wait for a maximum of 1 second for the condition to be true.
- *
- * @param {Function} conditionCheck
- */
-async function waitFor( conditionCheck ) {
-	let tries = 0;
-	while ( !conditionCheck() && tries < 20 ) {
-		tries++;
-		await new Promise( ( resolve ) => {
-			setTimeout( () => resolve(), 50 );
-		} );
-	}
-}
 
 describe( 'Temporary Accounts dialog stepper component', () => {
 	beforeEach( () => {
@@ -215,7 +183,7 @@ describe( 'Temporary Accounts dialog stepper component', () => {
 	} );
 
 	it( 'Closes dialog if "Skip all" pressed and marks dialog as seen', async () => {
-		const mockSaveOption = mockApiSaveOption();
+		const mockSaveOption = mockApiSaveOption( true );
 		const wrapper = renderComponent(
 			{
 				step1: '<div class="step1">Test content for step 1</div>',
@@ -246,7 +214,7 @@ describe( 'Temporary Accounts dialog stepper component', () => {
 	} );
 
 	it( 'Closes dialog if "Close" button pressed and marks dialog as seen', async () => {
-		const mockSaveOption = mockApiSaveOption();
+		const mockSaveOption = mockApiSaveOption( true );
 		const wrapper = renderComponent(
 			{ step1: '<div class="step1">Test content for step 1</div>' },
 			{ totalSteps: 1 }
@@ -276,7 +244,7 @@ describe( 'Temporary Accounts dialog stepper component', () => {
 	} );
 
 	it( 'Closes dialog if Escape key is pressed and marks dialog as seen', async () => {
-		const mockSaveOption = mockApiSaveOption();
+		const mockSaveOption = mockApiSaveOption( true );
 		const wrapper = renderComponent(
 			{ step1: '<div class="step1">Test content for step 1</div>' },
 			{ totalSteps: 1 }

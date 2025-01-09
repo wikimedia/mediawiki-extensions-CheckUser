@@ -6,6 +6,7 @@ use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Config\Config;
 use MediaWiki\Hook\BeforeInitializeHook;
 use MediaWiki\Output\Hook\BeforePageDisplayHook;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserOptionsLookup;
 use MediaWiki\WikiMap\WikiMap;
@@ -15,17 +16,20 @@ class PageDisplay implements BeforePageDisplayHook, BeforeInitializeHook {
 	private CheckUserPermissionManager $checkUserPermissionManager;
 	private UserOptionsLookup $userOptionsLookup;
 	private TempUserConfig $tempUserConfig;
+	private ExtensionRegistry $extensionRegistry;
 
 	public function __construct(
 		Config $config,
 		CheckUserPermissionManager $checkUserPermissionManager,
 		TempUserConfig $tempUserConfig,
-		UserOptionsLookup $userOptionsLookup
+		UserOptionsLookup $userOptionsLookup,
+		ExtensionRegistry $extensionRegistry
 	) {
 		$this->config = $config;
 		$this->checkUserPermissionManager = $checkUserPermissionManager;
 		$this->tempUserConfig = $tempUserConfig;
 		$this->userOptionsLookup = $userOptionsLookup;
+		$this->extensionRegistry = $extensionRegistry;
 	}
 
 	/**
@@ -86,6 +90,9 @@ class PageDisplay implements BeforePageDisplayHook, BeforeInitializeHook {
 				$out->addModules( 'ext.checkUser.tempAccountOnboarding' );
 				$out->addModuleStyles( 'ext.checkUser.styles' );
 				$out->addModuleStyles( 'ext.checkUser.images' );
+				$out->addJsConfigVars( [
+					'wgCheckUserIPInfoExtensionLoaded' => $this->extensionRegistry->isLoaded( 'IPInfo' ),
+				] );
 			}
 		}
 
