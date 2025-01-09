@@ -18,7 +18,8 @@
 			"SaldırganSincap",
 			"ديفيد",
 			"علاء",
-			"محمد أحمد عبد الفتاح"
+			"محمد أحمد عبد الفتاح",
+			"Cigaryno"
 		]
 	},
 	"checkuser-summary": "* تفحص هذه الأداة أحدث التغييرات بهدف استرجاع عنوان البروتوكول المُستخدم بواسطة مستخدم ما أو بهدف إظهار تعديلات/بيانات عنوان البروتوكول.\n* المستخدمون والتعديلات التي تتم بواسطة عنوان بروتوكول العميل يمكن استرجاعها من خلال رؤوس XFF، وذلك عبر إلحاق \"/xff\" في نهاية عنوان البروتوكول. يدعم عناوين بروتوكولات الإصدار الرابع (CIDR $1-32) وبروتوكولات الإصدار السادس (CIDR $2-128).\n* لن تعرض الأداة أكثر من $3 تعديل لأسباب تتعلق بالأداء.\n* استخدم هذه الأداة وفقًا للسياسات.",
@@ -35,8 +36,10 @@
 	"right-checkuser": "افحص عناوين بروتوكول المستخدم والمعلومات الأخرى",
 	"right-checkuser-log": "رؤية سجل تدقيق المستخدم",
 	"right-checkuser-temporary-account": "عرض عناوين بروتوكول الإنترنت التي تستخدمها الحسابات المؤقتة",
+	"right-checkuser-temporary-account-no-preference": "عرض عناوين IP المستخدمة من قبل الحسابات المؤقتة دون الحاجة إلى التحقق من التفضيلات",
 	"right-checkuser-temporary-account-log": "عرض سجل الوصول إلى عناوين IP المؤقتة للحساب",
 	"grant-checkuser": "الوصول لبيانات تدقيق المستخدم",
+	"grant-checkuser-temporary-account": "الوصول إلى بيانات المستخدم للحسابات المؤقتة",
 	"action-checkuser": "افحص عناوين بروتوكول المستخدم والمعلومات الأخرى",
 	"action-checkuser-log": "عرض سجل تدقيق المستخدم",
 	"action-checkuser-temporary-account": "عرض عناوين بروتوكول الإنترنت التي تستخدمها الحسابات المؤقتة",
@@ -44,6 +47,8 @@
 	"grouppage-checkuser": "{{ns:project}}:تدقيق مستخدم",
 	"grouppage-checkuser-temporary-account-viewer": "{{ns:project}}:مشاهد الأيبي للحساب المؤقت",
 	"checkuser-clienthints-name-architecture": "المعمارية",
+	"checkuser-clienthints-name-form-factor": "عامل الشكل",
+	"checkuser-clienthints-name-brand": "العلامة التجارية",
 	"checkuser-clienthints-name-mobile": "جوال",
 	"checkuser-clienthints-name-model": "نموذج",
 	"checkuser-clienthints-name-platform": "المنصة",
