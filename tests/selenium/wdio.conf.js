@@ -1,6 +1,7 @@
 'use strict';
 
-const { config } = require( 'wdio-mediawiki/wdio-defaults.conf.js' );
+const { config } = require( 'wdio-mediawiki/wdio-defaults.conf.js' ),
+	LocalSettingsSetup = require( './LocalSettingsSetup' );
 
 exports.config = { ...config,
 	// Override, or add to, the setting from wdio-mediawiki.
@@ -8,5 +9,13 @@ exports.config = { ...config,
 	//
 	// Example:
 	// logLevel: 'info',
-	maxInstances: 4
+	maxInstances: 5,
+	async onPrepare() {
+		await LocalSettingsSetup.overrideLocalSettings();
+		await LocalSettingsSetup.restartPhpFpmService();
+	},
+	async onComplete() {
+		await LocalSettingsSetup.restoreLocalSettings();
+		await LocalSettingsSetup.restartPhpFpmService();
+	}
 };
