@@ -19,6 +19,7 @@ const { ref } = require( 'vue' );
 const TempAccountsOnboardingDialog = require( './TempAccountsOnboardingDialog.vue' );
 const TempAccountsOnboardingIntroStep = require( './TempAccountsOnboardingIntroStep.vue' );
 const TempAccountsOnboardingIPInfoStep = require( './TempAccountsOnboardingIPInfoStep.vue' );
+const TempAccountsOnboardingIPRevealStep = require( './TempAccountsOnboardingIPRevealStep.vue' );
 
 // @vue/component
 module.exports = exports = {
@@ -32,7 +33,8 @@ module.exports = exports = {
 	components: {
 		TempAccountsOnboardingDialog,
 		TempAccountsOnboardingIntroStep,
-		TempAccountsOnboardingIPInfoStep
+		TempAccountsOnboardingIPInfoStep,
+		TempAccountsOnboardingIPRevealStep
 	},
 	setup() {
 		const dialogOpen = ref( true );
@@ -45,6 +47,8 @@ module.exports = exports = {
 		if ( mw.config.get( 'wgCheckUserIPInfoExtensionLoaded' ) ) {
 			steps.push( { componentName: 'TempAccountsOnboardingIPInfoStep' } );
 		}
+
+		steps.push( { componentName: 'TempAccountsOnboardingIPRevealStep' } );
 
 		steps.forEach( ( step, index ) => {
 			step.name = 'step' + ( index + 1 );

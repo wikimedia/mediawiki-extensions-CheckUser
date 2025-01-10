@@ -444,6 +444,7 @@
 				"components/TempAccountsOnboardingStepper.vue",
 				"components/TempAccountsOnboardingIntroStep.vue",
 				"components/TempAccountsOnboardingIPInfoStep.vue",
+				"components/TempAccountsOnboardingIPRevealStep.vue",
 				"components/MultiPane.vue",
 				{
 					"name": "components/icons.json",
@@ -469,7 +470,10 @@
 				"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-image-aria-label",
 				"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title",
 				"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-error",
-				"ipinfo-preference-use-agreement"
+				"ipinfo-preference-use-agreement",
+				"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-title",
+				"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content",
+				"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-image-aria-label"
 			],
 			"dependencies": [
 				"vue",
@@ -495,6 +499,12 @@
 					"file": {
 						"ltr": "temp-accounts-onboarding-ip-info-ltr.svg",
 						"rtl": "temp-accounts-onboarding-ip-info-rtl.svg"
+					}
+				},
+				"temp-accounts-onboarding-ip-reveal": {
+					"file": {
+						"ltr": "temp-accounts-onboarding-ip-reveal-ltr.svg",
+						"rtl": "temp-accounts-onboarding-ip-reveal-rtl.svg"
 					}
 				}
 			}

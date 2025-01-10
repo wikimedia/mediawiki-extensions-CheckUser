@@ -6,7 +6,8 @@ jest.mock( '../../../modules/ext.checkUser.tempAccountsOnboarding/components/ico
 } ), { virtual: true } );
 
 const App = require( '../../../modules/ext.checkUser.tempAccountsOnboarding/components/App.vue' ),
-	utils = require( '@vue/test-utils' );
+	utils = require( '@vue/test-utils' ),
+	{ waitFor } = require( '../utils.js' );
 
 const renderComponent = () => utils.mount( App );
 
@@ -32,7 +33,7 @@ describe( 'Main app component', () => {
 		jest.restoreAllMocks();
 	} );
 
-	it( 'Renders correctly when IPInfo not installed', () => {
+	it( 'Renders correctly when IPInfo not installed', async () => {
 		mockJSConfig( false );
 
 		const wrapper = renderComponent();
@@ -48,23 +49,35 @@ describe( 'Main app component', () => {
 		);
 		expect( introStepImage.exists() ).toEqual( true );
 
-		// Expect that only one step exists, because IPInfo is not installed. This is done by
-		// checking for the "Close" navigation button added by the dialog component.
+		// Click the next button and wait for the DOM to be updated.
 		const footer = rootElement.find(
 			'.ext-checkuser-temp-account-onboarding-dialog__footer'
 		);
-		const closeButton = footer.find(
+		const nextButton = footer.find(
 			'.ext-checkuser-temp-account-onboarding-dialog__footer__navigation--next'
 		);
-		expect( closeButton.text() ).toEqual(
-			'(checkuser-temporary-accounts-onboarding-dialog-close-label)'
-		);
+		await nextButton.trigger( 'click' );
+		await waitFor( () => !wrapper.find(
+			'.ext-checkuser-image-temp-accounts-onboarding-temp-accounts'
+		).exists() );
 
-		// Double check this by checking that the 'steps' prop only has one step
-		expect( wrapper.vm.steps ).toHaveLength( 1 );
+		// Expect that the IP reveal step is the second step and not the IPInfo step,
+		// as the IPInfo step is removed if IPInfo is not installed.
+		const ipRevealStepImage = rootElement.find(
+			'.ext-checkuser-image-temp-accounts-onboarding-ip-reveal'
+		);
+		expect( ipRevealStepImage.exists() ).toEqual( true );
+		const ipInfoStepImage = rootElement.find(
+			'.ext-checkuser-image-temp-accounts-onboarding-ip-info'
+		);
+		expect( ipInfoStepImage.exists() ).toEqual( false );
+
+		// Double check this by checking that the 'steps' prop only has two steps
+		// (one for intro and the other for IP reveal)
+		expect( wrapper.vm.steps ).toHaveLength( 2 );
 	} );
 
-	it( 'Renders correctly when IPInfo installed', () => {
+	it( 'Renders correctly when IPInfo installed', async () => {
 		mockJSConfig( true );
 
 		const wrapper = renderComponent();
@@ -80,19 +93,37 @@ describe( 'Main app component', () => {
 		);
 		expect( introStepImage.exists() ).toEqual( true );
 
-		// Expect that another step exists by checking that the next button is shown.
+		// Click the next button and wait for the DOM to be updated.
 		const footer = rootElement.find(
 			'.ext-checkuser-temp-account-onboarding-dialog__footer'
 		);
 		const nextButton = footer.find(
 			'.ext-checkuser-temp-account-onboarding-dialog__footer__navigation--next'
 		);
-		expect( nextButton.exists() ).toEqual( true );
-		expect( nextButton.attributes() ).toHaveProperty(
-			'aria-label', '(checkuser-temporary-accounts-onboarding-dialog-next-label)'
-		);
+		await nextButton.trigger( 'click' );
+		await waitFor( () => !wrapper.find(
+			'.ext-checkuser-image-temp-accounts-onboarding-temp-accounts'
+		).exists() );
 
-		// Double check this by checking that the 'steps' prop has two steps.
-		expect( wrapper.vm.steps ).toHaveLength( 2 );
+		// Expect that the IPInfo step is the second step
+		const ipInfoStepImage = rootElement.find(
+			'.ext-checkuser-image-temp-accounts-onboarding-ip-info'
+		);
+		expect( ipInfoStepImage.exists() ).toEqual( true );
+
+		// Click the next button again and wait for the DOM to be updated.
+		await nextButton.trigger( 'click' );
+		await waitFor( () => !wrapper.find(
+			'.ext-checkuser-image-temp-accounts-onboarding-temp-accounts'
+		).exists() );
+
+		// Expect that the third step is the IP reveal step.
+		const ipRevealStepImage = rootElement.find(
+			'.ext-checkuser-image-temp-accounts-onboarding-ip-reveal'
+		);
+		expect( ipRevealStepImage.exists() ).toEqual( true );
+
+		// Double check this by checking that the 'steps' prop has three steps.
+		expect( wrapper.vm.steps ).toHaveLength( 3 );
 	} );
 } );
