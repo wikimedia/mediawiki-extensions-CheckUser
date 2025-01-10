@@ -252,7 +252,7 @@
 	"checkuser-ip-contributions-contributions-link": "bidrag",
 	"checkuser-ip-contributions-special-ip-contributions-button": "Redigeringer fra midlertidige kontoer",
 	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "Redigeringer fra midlertidige kontoer",
-	"checkuser-ip-contributions-special-contributions-button": "Redigeringer fra IP-er",
+	"checkuser-ip-contributions-special-contributions-button": "Gamle redigeringer fra IP-adressen",
 	"checkuser-global-contributions": "Søk etter globale bidrag",
 	"checkuser-global-contributions-permission-error-title": "Rettighetsfeil",
 	"checkuser-global-contributions-permission-error-description": "Godta avtalen i [[Special:GlobalPreferences|de globale innstillingene dine]] for å se globale bidrag.",
