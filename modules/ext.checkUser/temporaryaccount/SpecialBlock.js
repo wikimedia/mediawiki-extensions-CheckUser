@@ -67,19 +67,30 @@ function onTargetChange( blockTarget ) {
 
 			revealButton.once( 'click', () => {
 				performFullRevealRequest( blockTarget, [], [] ).then( ( response ) => {
-					$container.empty()
-						.append( new OO.ui.LabelWidget( {
-							label: response.ips.length ?
-								mw.message(
-									'checkuser-tempaccount-specialblock-ips',
-									response.ips.length,
-									mw.language.listToText( response.ips )
-								).text() :
-								mw.message(
-									'checkuser-tempaccount-no-ip-results',
-									Math.round( mw.config.get( 'wgCUDMaxAge' ) / 86400 )
-								).text()
-						} ).$element );
+					let message;
+					if ( response.ips.length ) {
+						// Wrap each IP in a link to Special:IPContributions
+						// to allow further investigation.
+						const ips = response.ips.map( ( ip ) => $( '<a>' )
+							.attr( 'href', new mw.Title( 'Special:IPContributions/' + ip ).getUrl() )
+							.text( ip )
+							.prop( 'outerHTML' )
+						);
+						message = mw.message(
+							'checkuser-tempaccount-specialblock-ips',
+							ips.length,
+							mw.language.listToText( ips )
+						).text();
+						message = new OO.ui.HtmlSnippet( message );
+					} else {
+						message = mw.message(
+							'checkuser-tempaccount-no-ip-results',
+							Math.round( mw.config.get( 'wgCUDMaxAge' ) / 86400 )
+						).text();
+					}
+					$container.empty().append( new OO.ui.LabelWidget( {
+						label: message
+					} ).$element );
 				} ).fail( () => {
 					$container.empty()
 						.addClass( 'ext-checkuser-tempaccount-reveal-ip' )
