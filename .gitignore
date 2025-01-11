@@ -27,3 +27,4 @@ sftp-config.json
 /.eslintcache
 ## vscode
 .vscode/
+/.stylelintcache
