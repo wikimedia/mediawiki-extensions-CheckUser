@@ -4,6 +4,9 @@
 			"Yupik"
 		]
 	},
+	"checkuser": "Čujuhusaid dárkkisteapmi",
+	"group-checkuser": "Čujuhusaid dárkkisteaddjit",
+	"right-checkuser": "Dárkkistit geavaheddjiid IP-čujuhusaid ja eará dieđuid",
 	"checkuser-reason": "Mäinn:",
 	"checkuser-query": "Ooʒʒ ođđsumus muttsid",
 	"checkuser-target": "IP-addrõs leʹbe õõʹnninõmm:",
