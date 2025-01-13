@@ -11,21 +11,37 @@ QUnit.module( 'ext.checkUser.temporaryaccount.SpecialBlock', QUnit.newMwEnvironm
 		this.server.respondImmediately = true;
 		server = this.server;
 		// simulate setting wgAutoCreateTempUser to { enabled: true, matchPattern: '~$1' }
-		// (setting it in mw.config has no effect, so we need to overwrite mw.util.isTemporaryUser())
+		// (setting it in mw.config has no effect, so we need to
+		// overwrite mw.util.isTemporaryUser())
 		this.realIsTemporaryUser = mw.util.isTemporaryUser;
 		mw.util.isTemporaryUser = function ( username ) {
 			return username.startsWith( '~' );
 		};
+		// Simulate mw.Title, but keep the real mw.Title so that we can undo our mock at the
+		// end of our tests.
+		this.realTitleClass = mw.Title;
+		class Title {
+			constructor( title ) {
+				this.title = title;
+			}
+
+			getUrl() {
+				return 'https://www.example.com/wiki/' + this.title;
+			}
+		}
+		mw.Title = Title;
 	},
 	afterEach: function () {
 		server.restore();
-		// Remove the 'change' listener for the block target widget to stop it causing problems in other tests.
+		// Remove the 'change' listener for the block target widget to stop it
+		// causing problems in other tests.
 		// eslint-disable-next-line no-jquery/no-global-selector
 		const $blockTargetWidget = $( '#mw-bi-target' );
 		if ( $blockTargetWidget.length ) {
 			$blockTargetWidget.off( 'change' );
 		}
 		mw.util.isTemporaryUser = this.realIsTemporaryUser;
+		mw.Title = this.realTitleClass;
 	},
 	config: {
 		// Prevent dispatcher.js calling the code we are testing. We will call it
@@ -158,14 +174,14 @@ QUnit.test( 'Test onLoad for a user which matches temporary account format but d
  *
  * @param {string} expectedText The expected text of the element that replaces the button
  * @param {Object} assert The QUnit assert object
+ * @param {*} done Method to call to indicate this method has completed assertions
  */
-function performOnLoadTestWhenButtonClicked( expectedText, assert ) {
-	const done = assert.async();
+async function performOnLoadTestWhenButtonClicked( expectedText, assert, done ) {
 	// Call the method under test
 	specialBlock.onLoad();
 	// eslint-disable-next-line no-jquery/no-global-selector
 	const $qunitFixture = $( '#qunit-fixture' );
-	waitUntilElementAppears( '.ext-checkuser-tempaccount-specialblock-ips' ).then( () => {
+	await waitUntilElementAppears( '.ext-checkuser-tempaccount-specialblock-ips' ).then( () => {
 		// Verify that the "Show IP" button is present.
 		assert.strictEqual(
 			$( '.ext-checkuser-tempaccount-specialblock-ips-link', $qunitFixture ).length,
@@ -174,28 +190,30 @@ function performOnLoadTestWhenButtonClicked( expectedText, assert ) {
 		);
 		// Click the button.
 		$( '.ext-checkuser-tempaccount-specialblock-ips-link a', $qunitFixture )[ 0 ].click();
-		waitUntilElementDisappears( '.ext-checkuser-tempaccount-specialblock-ips-link' ).then( () => {
-			setTimeout( () => {
-				// Verify that the button has gone and was replaced with the IP address.
-				assert.strictEqual(
-					$( '.ext-checkuser-tempaccount-specialblock-ips', $qunitFixture ).length,
-					1,
-					'Container still present after button click'
-				);
-				assert.strictEqual(
-					$( '.ext-checkuser-tempaccount-specialblock-ips', $qunitFixture ).text(),
-					expectedText,
-					'Text of element that replaced button'
-				);
-				done();
-			} );
-		} );
+		return waitUntilElementDisappears( '.ext-checkuser-tempaccount-specialblock-ips-link' )
+			.then( () => new Promise( ( resolve ) => {
+				setTimeout( () => {
+					// Verify that the button has gone and was replaced with the IP address.
+					assert.strictEqual(
+						$( '.ext-checkuser-tempaccount-specialblock-ips', $qunitFixture ).length,
+						1,
+						'Container still present after button click'
+					);
+					assert.strictEqual(
+						$( '.ext-checkuser-tempaccount-specialblock-ips', $qunitFixture ).text(),
+						expectedText,
+						'Text of element that replaced button'
+					);
+					done();
+					resolve();
+				} );
+			} ) );
 	} );
 }
 
-QUnit.test( 'Test onLoad for an existing temporary account with IP data', ( assert ) => {
+QUnit.test( 'Test onLoad for an existing temporary account with IP data', async ( assert ) => {
 	assert.timeout( 1000 );
-	const done = assert.async( 2 );
+	const done = assert.async( 4 );
 	// Add the target input with a username that matches the temporary account format,
 	// but does not exist.
 	addBlockInputToQUnitTextFixture( '~2024-1' );
@@ -221,14 +239,30 @@ QUnit.test( 'Test onLoad for an existing temporary account with IP data', ( asse
 			done();
 		}
 	} );
-	performOnLoadTestWhenButtonClicked(
-		'(checkuser-tempaccount-specialblock-ips: 2, 172.20.0.1(and)(word-separator)1.2.3.4)', assert
+	await performOnLoadTestWhenButtonClicked(
+		'(checkuser-tempaccount-specialblock-ips: 2, 172.20.0.1(and)(word-separator)1.2.3.4)',
+		assert, done
 	);
+	// Check that the IPs in the element that replaced the button are
+	// links to Special:IPContributions for the IP.
+	// eslint-disable-next-line no-jquery/no-global-selector
+	const $qunitFixture = $( '#qunit-fixture' );
+	const $container = $( '.ext-checkuser-tempaccount-specialblock-ips', $qunitFixture );
+	const $linkElements = $container.find( 'a' );
+	$linkElements.each( function () {
+		const ip = $( this ).text();
+		assert.strictEqual(
+			$( this ).attr( 'href' ),
+			'https://www.example.com/wiki/Special:IPContributions/' + ip,
+			'IP address in element which replaced button has correct URL'
+		);
+	} );
+	done();
 } );
 
 QUnit.test( 'Test onLoad for an existing temporary account without IP data', ( assert ) => {
 	assert.timeout( 1000 );
-	const done = assert.async( 2 );
+	const done = assert.async( 3 );
 	// Add the target input with a username that matches the temporary account format,
 	// but does not exist.
 	addBlockInputToQUnitTextFixture( '~2024-1' );
@@ -254,12 +288,14 @@ QUnit.test( 'Test onLoad for an existing temporary account without IP data', ( a
 			done();
 		}
 	} );
-	performOnLoadTestWhenButtonClicked( '(checkuser-tempaccount-no-ip-results: 90)', assert );
+	performOnLoadTestWhenButtonClicked(
+		'(checkuser-tempaccount-no-ip-results: 90)', assert, done
+	);
 } );
 
 QUnit.test( 'Test onLoad for an existing temporary account but IP data call fails', ( assert ) => {
 	assert.timeout( 1000 );
-	const done = assert.async( 2 );
+	const done = assert.async( 3 );
 	// Add the target input with a username that matches the temporary account format,
 	// but does not exist.
 	addBlockInputToQUnitTextFixture( '~2024-1' );
@@ -285,5 +321,7 @@ QUnit.test( 'Test onLoad for an existing temporary account but IP data call fail
 			done();
 		}
 	} );
-	performOnLoadTestWhenButtonClicked( '(checkuser-tempaccount-reveal-ip-error)', assert );
+	performOnLoadTestWhenButtonClicked(
+		'(checkuser-tempaccount-reveal-ip-error)', assert, done
+	);
 } );
