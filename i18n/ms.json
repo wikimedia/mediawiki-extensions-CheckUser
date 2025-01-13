@@ -4,6 +4,7 @@
 			"Anakmalaysia",
 			"Aviator",
 			"Dreamy Jazz",
+			"Hakimi97",
 			"Izzudin",
 			"Kurniasan",
 			"Tofeiku"
@@ -17,6 +18,8 @@
 	"checkuser-contribs-log": "semakan pengguna terkini",
 	"group-checkuser": "Pemeriksa",
 	"group-checkuser-member": "{{GENDER:$1|pemeriksa}}",
+	"group-checkuser-temporary-account-viewer": "Pemerhati IP akaun sementara",
+	"group-checkuser-temporary-account-viewer-member": "{{GENDER:$1|pemerhati IP akaun sementara}}",
 	"right-checkuser": "Memeriksa alamat IP dan maklumat-maklumat lain bagi pengguna",
 	"right-checkuser-log": "Melihat log pemeriksa",
 	"action-checkuser": "memeriksa alamat IP dan maklumat-maklumat lain",
