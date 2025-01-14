@@ -39,5 +39,9 @@
 	"apierror-checkuser-nosuchuser": "لا يوجد مستخدم لهذا الاسم",
 	"checkuser-api-help-param-direction": "في أي اتجاه يتم الترقيم:",
 	"checkuser-api-help-paramvalue-direction-newer": "قم بإدراج الأقدم أولاً. ملاحظة: يجب أن يكون $1 من قبل $1 إلى.",
-	"checkuser-api-useragent-clienthints-revision-user-mismatch": "المستخدم $1 ليس هو كاتب المراجعة $2"
+	"checkuser-api-help-paramvalue-direction-older": "قائمة الأحدث أولاً (افتراضي). ملاحظة: يجب أن يكون $1from أحدث من $1to.",
+	"checkuser-api-useragent-clienthints-revision-user-mismatch": "المستخدم $1 ليس هو كاتب المراجعة $2",
+	"checkuser-api-useragent-clienthints-mappings-exist": "توجد بالفعل تعيينات تلميحات العميل مقابل $1 $2",
+	"checkuser-api-useragent-clienthints-called-too-late": "إن $1 $2 قديم جدا بحيث لا يسمح بتسجيل بيانات تلميحات العميل",
+	"checkuser-api-useragent-clienthints-explanation": "يجمع موقع {{SITENAME}} بيانات تلميحات عميل وكيل المستخدم للمساعدة في إدارة التخريب والإساءة. راجع https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints لمزيد من التفاصيل."
 }
