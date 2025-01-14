@@ -12,13 +12,13 @@ module.exports = function ( documentRoot ) {
 		documentRoot = document;
 	}
 
-	ipReveal.addButton( $( '#bodyContent', documentRoot ) );
+	const $userLinks = ipReveal.addButton( $( '#bodyContent', documentRoot ) );
 
 	ipReveal.enableMultiReveal( $( documentRoot ) );
 
 	// Check which users have been revealed recently, and reveal them on load.
 	const recentUsers = [];
-	$( '.mw-tempuserlink', documentRoot ).each( function () {
+	$userLinks.each( function () {
 		const target = $( this ).text();
 
 		// Trigger a lookup for one of each revealed user
