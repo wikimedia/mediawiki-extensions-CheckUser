@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
+use DatabaseLogEntry;
 use JobQueueGroup;
 use LogEntryBase;
 use MediaWiki\Auth\AuthenticationResponse;
@@ -14,6 +15,7 @@ use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Config\Config;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Hook\EmailUserHook;
 use MediaWiki\Hook\UserLogoutCompleteHook;
@@ -28,7 +30,9 @@ use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserRigorOptions;
 use Psr\Log\LoggerInterface;
 use TypeError;
+use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\ReadOnlyMode;
+use Wikimedia\Rdbms\SelectQueryBuilder;
 
 /**
  * Hooks into several hook handlers to create private checkuser events when certain actions occur.
@@ -50,6 +54,7 @@ class CheckUserPrivateEventsHandler implements
 	private ReadOnlyMode $readOnlyMode;
 	private UserAgentClientHintsManager $userAgentClientHintsManager;
 	private JobQueueGroup $jobQueueGroup;
+	private IConnectionProvider $dbProvider;
 	private LoggerInterface $logger;
 
 	/** @var string Used for tests. Falls back to MW_ENTRY_POINT */
@@ -63,6 +68,7 @@ class CheckUserPrivateEventsHandler implements
 		ReadOnlyMode $readOnlyMode,
 		UserAgentClientHintsManager $userAgentClientHintsManager,
 		JobQueueGroup $jobQueueGroup,
+		IConnectionProvider $dbProvider,
 		?string $mediawikiEntryPoint = null
 	) {
 		$this->checkUserInsert = $checkUserInsert;
@@ -72,6 +78,7 @@ class CheckUserPrivateEventsHandler implements
 		$this->readOnlyMode = $readOnlyMode;
 		$this->userAgentClientHintsManager = $userAgentClientHintsManager;
 		$this->jobQueueGroup = $jobQueueGroup;
+		$this->dbProvider = $dbProvider;
 		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
 		$this->mediawikiEntryPoint = $mediawikiEntryPoint ?? MW_ENTRY_POINT;
 	}
@@ -86,17 +93,64 @@ class CheckUserPrivateEventsHandler implements
 	public function onLocalUserCreated( $user, $autocreated ) {
 		// Don't add a private event if there will be an associated event in Special:RecentChanges,
 		// otherwise this will be a duplicate.
-		// The duplication would occur if the user was autocreated, $wgNewUserLog is true,
+		// The duplication would occur if the user was not autocreated, $wgNewUserLog is true,
 		// and the 'newusers' log is not restricted.
 		$logRestrictions = $this->config->get( MainConfigNames::LogRestrictions );
-		if (
-			!$autocreated &&
-			$this->config->get( MainConfigNames::NewUserLog ) &&
-			!( array_key_exists( 'newusers', $logRestrictions ) && $logRestrictions['newusers'] !== '*' )
-		) {
+		$publicNewUserLogCreated = $this->config->get( MainConfigNames::NewUserLog ) &&
+			!( array_key_exists( 'newusers', $logRestrictions ) && $logRestrictions['newusers'] !== '*' );
+		if ( !$autocreated && $publicNewUserLogCreated ) {
 			return;
 		}
 
+		// If there is a log entry created in the logging table, we want to associate the event with this
+		// over creating a private event. This is so that temporary account auto-creation log events can
+		// have a "Show IP" button that works. It also represents a small benefit both in size of the DB
+		// and for the results shown in Special:CheckUser 'Get actions'.
+		if ( $publicNewUserLogCreated ) {
+			$method = __METHOD__;
+			DeferredUpdates::addCallableUpdate( function () use ( $user, $autocreated, $method ) {
+				// We need to lookup using the primary DB as the log entry will just have been created.
+				// This is inside a DeferredUpdate because the LocalUserCreated hook is ran before
+				// the log entry is created.
+				$relevantRow = DatabaseLogEntry::newSelectQueryBuilder( $this->dbProvider->getPrimaryDatabase() )
+					->where( [
+						'actor_user' => $user->getId(),
+						'log_type' => 'newusers',
+					] )
+					->orderBy( 'log_timestamp', SelectQueryBuilder::SORT_ASC )
+					->limit( 1 )
+					->caller( $method )
+					->fetchRow();
+				if ( $relevantRow ) {
+					$logEntry = DatabaseLogEntry::newFromRow( $relevantRow );
+					$this->insertLogEventForAccountCreation( $user, $logEntry );
+				} else {
+					// If no log is created that we can find, then we should default back to a cu_private_event table.
+					// Create a warning about this because a log entry should have been created because
+					// wgNewUserLog is true.
+					$this->logger->warning(
+						'Unable to find logging row for local account creation for {user} when logging ' .
+							'row as expected to exist',
+						[ 'user' => $user->getName() ]
+					);
+					$this->insertPrivateEventEntryForAccountCreation( $user, $autocreated );
+				}
+			}, DeferredUpdates::PRESEND );
+		} else {
+			// If no public log event is created, then create a cu_private_event row instead. We do this even
+			// if the log event is created because the user may not have the rights to see the log entry.
+			$this->insertPrivateEventEntryForAccountCreation( $user, $autocreated );
+		}
+	}
+
+	/**
+	 * Insert a row to the cu_private_event table for a local creation of an account.
+	 *
+	 * @param User $user The newly created user
+	 * @param bool $autocreated Whether this was an autocreation
+	 * @return void
+	 */
+	private function insertPrivateEventEntryForAccountCreation( User $user, bool $autocreated ): void {
 		$insertedId = $this->checkUserInsert->insertIntoCuPrivateEventTable(
 			[
 				'cupe_namespace'  => NS_USER,
@@ -113,6 +167,27 @@ class CheckUserPrivateEventsHandler implements
 		if ( $this->config->get( 'CheckUserClientHintsEnabled' ) ) {
 			$this->storeClientHintsDataFromHeaders(
 				$insertedId, 'privatelog', RequestContext::getMain()->getRequest()
+			);
+		}
+	}
+
+	/**
+	 * Insert a row to the cu_log_event table for a local creation of an account.
+	 *
+	 * @param User $user The newly created user
+	 * @param DatabaseLogEntry $logEntry The DatabaseLogEntry for the account creation
+	 * @return void
+	 */
+	private function insertLogEventForAccountCreation( User $user, DatabaseLogEntry $logEntry ): void {
+		$this->checkUserInsert->insertIntoCuLogEventTable(
+			$logEntry,
+			__METHOD__,
+			$user
+		);
+
+		if ( $this->config->get( 'CheckUserClientHintsEnabled' ) ) {
+			$this->storeClientHintsDataFromHeaders(
+				$logEntry->getId(), 'log', RequestContext::getMain()->getRequest()
 			);
 		}
 	}

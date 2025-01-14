@@ -23,6 +23,7 @@ use MediaWikiIntegrationTestCase;
 use Psr\Log\LoggerInterface;
 use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Rdbms\LikeValue;
+use Wikimedia\ScopedCallback;
 use Wikimedia\TestingAccessWrapper;
 
 /**
@@ -44,6 +45,7 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->getReadOnlyMode(),
 			$this->getServiceContainer()->get( 'UserAgentClientHintsManager' ),
 			$this->getServiceContainer()->getJobQueueGroup(),
+			$this->getServiceContainer()->getConnectionProvider(),
 			$entrypoint
 		);
 	}
@@ -546,6 +548,101 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 				'cupe_log_action' => 'create-account'
 			]
 		);
+	}
+
+	public function testOnLocalUserCreatedForAutocreationWhenPublicLogExists() {
+		// Make deferred updates be actually deferred
+		$scope = DeferredUpdates::preventOpportunisticUpdates();
+
+		// Set wgNewUserLog to true so that account auto-creations cause a log entry
+		$this->overrideConfigValue( MainConfigNames::NewUserLog, true );
+		$this->overrideConfigValue( MainConfigNames::LogRestrictions, [] );
+
+		// Create a temporary account which will cause an auto-creation log entry and also call the
+		// ::onLocalUserCreated method in CheckUser for us (which we are testing).
+		$user = $this->getServiceContainer()->getTempUserCreator()->create( null, new FauxRequest() )->getUser();
+		$accountCreationLogId = $this->newSelectQueryBuilder()
+			->select( 'log_id' )
+			->from( 'logging' )
+			->join( 'actor', null, 'actor_id=log_actor' )
+			->where( [ 'actor_user' => $user->getId(), 'log_type' => 'newusers', 'log_action' => 'autocreate' ] )
+			->caller( __METHOD__ )
+			->fetchField();
+		$this->assertNotFalse( $accountCreationLogId );
+
+		// Now perform the DeferredUpdates which should cause an insert to cu_log_event by the code we are testing.
+		ScopedCallback::consume( $scope );
+		DeferredUpdates::doUpdates();
+
+		$this->newSelectQueryBuilder()
+			->select( 'COUNT(*)' )
+			->from( 'cu_log_event' )
+			->join( 'actor', null, 'actor_id=cule_actor' )
+			->where( [ 'cule_log_id' => $accountCreationLogId, 'actor_user' => $user->getId() ] )
+			->caller( __METHOD__ )
+			->assertFieldValue( '1' );
+	}
+
+	public function testOnLocalUserCreatedForAutocreationWhenPublicLogMissing() {
+		// Make deferred updates be actually deferred
+		$scope = DeferredUpdates::preventOpportunisticUpdates();
+
+		// Set wgNewUserLog to true so that account auto-creations cause a log entry
+		$this->overrideConfigValue( MainConfigNames::NewUserLog, true );
+		$this->overrideConfigValue( MainConfigNames::LogRestrictions, [] );
+
+		// Create a temporary account which will cause an auto-creation log entry and then drop this log entry
+		// to simulate it not being created for some reason.
+		$user = $this->getServiceContainer()->getTempUserCreator()->create( null, new FauxRequest() )->getUser();
+		$this->getDb()->newDeleteQueryBuilder()
+			->deleteFrom( 'logging' )
+			->where( [ 'log_title' => $user->getName() ] )
+			->caller( __METHOD__ )
+			->execute();
+
+		// Check that the cu_private_event and cu_log_event tables are empty. This should be the case because
+		// the code we are testing should wait for DeferredUpdates to be run before inserting a CheckUser
+		// event.
+		$this->newSelectQueryBuilder()
+			->select( '1' )
+			->from( 'cu_log_event' )
+			->join( 'actor', null, 'actor_id=cule_actor' )
+			->where( [ 'actor_user' => $user->getId() ] )
+			->caller( __METHOD__ )
+			->assertEmptyResult();
+		$this->newSelectQueryBuilder()
+			->select( '1' )
+			->from( 'cu_private_event' )
+			->join( 'actor', null, 'actor_id=cupe_actor' )
+			->where( [ 'actor_user' => $user->getId() ] )
+			->caller( __METHOD__ )
+			->assertEmptyResult();
+
+		// Now perform the DeferredUpdates which should cause the CheckUser handler for the local user creation
+		// to be run.
+		ScopedCallback::consume( $scope );
+		DeferredUpdates::doUpdates();
+
+		// The local user created handler should find no log entry in the logging table, and so instead use the
+		// cu_private_event table for the account auto-creation event.
+		$this->newSelectQueryBuilder()
+			->select( '1' )
+			->from( 'cu_log_event' )
+			->join( 'actor', null, 'actor_id=cule_actor' )
+			->where( [ 'actor_user' => $user->getId() ] )
+			->caller( __METHOD__ )
+			->assertEmptyResult();
+		$this->newSelectQueryBuilder()
+			->select( 'COUNT(*)' )
+			->from( 'cu_private_event' )
+			->join( 'actor', null, 'actor_id=cupe_actor' )
+			->where( [
+				'actor_user' => $user->getId(),
+				'cupe_log_action' => 'autocreate-account',
+				'cupe_log_type' => 'checkuser-private-event'
+			] )
+			->caller( __METHOD__ )
+			->assertFieldValue( '1' );
 	}
 
 	public function testClientHintsDataCollectedOnSpecialUserLogout() {

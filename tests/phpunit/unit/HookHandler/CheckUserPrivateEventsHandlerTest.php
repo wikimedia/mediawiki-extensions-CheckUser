@@ -16,6 +16,7 @@ use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWikiUnitTestCase;
+use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\ReadOnlyMode;
 
 /**
@@ -33,6 +34,7 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiUnitTestCase {
 			$overrides['readOnlyMode'] ?? $this->createMock( ReadOnlyMode::class ),
 			$overrides['userAgentClientHintsManager'] ?? $this->createMock( UserAgentClientHintsManager::class ),
 			$overrides['jobQueueGroup'] ?? $this->createMock( JobQueueGroup::class ),
+			$overrides['dbProvider'] ?? $this->createMock( IConnectionProvider::class ),
 		);
 	}
 
