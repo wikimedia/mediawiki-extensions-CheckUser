@@ -236,7 +236,6 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 	}
 
 	public function testExecuteUsername() {
-		$this->markTestSkipped( 'T383617' );
 		[ $html ] = $this->executeSpecialPage(
 			'Nonexistent user',
 			null,
