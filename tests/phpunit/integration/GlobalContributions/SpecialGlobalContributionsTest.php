@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Tests\Integration\GlobalContributions;
 
 use GlobalPreferences\GlobalPreferencesFactory;
+use LogicException;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
@@ -10,6 +11,7 @@ use MediaWiki\Context\RequestContext;
 use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Request\FauxRequest;
+use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 use SpecialPageTestBase;
@@ -25,12 +27,18 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  */
 class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 
+	use ContributionsRangeTrait;
 	use CheckUserTempUserTestTrait;
 
 	private static User $disallowedUser;
 	private static User $checkuser;
 	private static User $sysop;
 	private static User $checkuserAndSysop;
+	private static User $suppressedUser;
+	private static User $suppressUser;
+	private static User $tempUser1;
+	private static User $tempUser2;
+	private static User $tempUser3;
 
 	protected function newSpecialPage() {
 		return $this->getServiceContainer()->getSpecialPageFactory()->getPage( 'GlobalContributions' );
@@ -44,10 +52,19 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		self::$checkuser->clearInstanceCache();
 		self::$sysop->clearInstanceCache();
 		self::$checkuserAndSysop->clearInstanceCache();
+		self::$suppressedUser->clearInstanceCache();
+		self::$suppressUser->clearInstanceCache();
+		self::$tempUser1->clearInstanceCache();
+		self::$tempUser2->clearInstanceCache();
+		self::$tempUser3->clearInstanceCache();
 
 		$this->markTestSkippedIfExtensionNotLoaded( 'GlobalPreferences' );
 		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
 		$this->enableAutoCreateTempUser();
+
+		// We don't want to test specifically the CentralAuth implementation of the CentralIdLookup. As such, force it
+		// to be the local provider.
+		$this->overrideConfigValue( MainConfigNames::CentralIdLookupProvider, 'local' );
 	}
 
 	/**
@@ -65,19 +82,23 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		// be altered when the edits are made, and added to the list
 		// of tables that can't be altered again in $dbDataOnceTables.
 		self::$disallowedUser = static::getTestUser()->getUser();
+		self::$suppressedUser = static::getTestUser()->getUser();
+		self::$suppressUser = static::getTestUser( [ 'suppress', 'sysop' ] )->getUser();
 		self::$checkuser = static::getTestUser( [ 'checkuser' ] )->getUser();
 		self::$sysop = static::getTestUser( [
 			'sysop',
 			'checkuser-temporary-account-viewer'
 		] )->getUser();
 		self::$checkuserAndSysop = static::getTestUser( [ 'checkuser', 'sysop' ] )->getUser();
-
-		$temp1 = $this->getServiceContainer()
+		self::$tempUser1 = $this->getServiceContainer()
 			->getTempUserCreator()
 			->create( '~check-user-test-2024-01', new FauxRequest() )->getUser();
-		$temp2 = $this->getServiceContainer()
+		self::$tempUser2 = $this->getServiceContainer()
 			->getTempUserCreator()
 			->create( '~check-user-test-2024-02', new FauxRequest() )->getUser();
+		self::$tempUser3 = $this->getServiceContainer()
+			->getTempUserCreator()
+			->create( '~check-user-test-2024-03', new FauxRequest() )->getUser();
 
 		// Named user and 2 temp users edit from the first IP
 		RequestContext::getMain()->getRequest()->setIP( '127.0.0.1' );
@@ -85,18 +106,18 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 			'Test page', 'Test Content 1', 'test', NS_MAIN, self::$sysop
 		);
 		$this->editPage(
-			'Test page', 'Test Content 2', 'test', NS_MAIN, $temp1
+			'Test page', 'Test Content 2', 'test', NS_MAIN, self::$tempUser1
 		);
 
 		// Do one edit at a different time, to test the pagination
 		ConvertibleTimestamp::setFakeTime( '20000101000000' );
 		$this->editPage(
-			'Test page', 'Test Content 3', 'test', NS_MAIN, $temp2
+			'Test page', 'Test Content 3', 'test', NS_MAIN, self::$tempUser2
 		);
 		ConvertibleTimestamp::setFakeTime( false );
 
 		$this->editPage(
-			'Test page for deletion', 'Test Content', 'test', NS_MAIN, $temp1
+			'Test page for deletion', 'Test Content', 'test', NS_MAIN, self::$tempUser1
 		);
 		$title = Title::newFromText( 'Test page for deletion' );
 		$page = $this->getServiceContainer()->getWikiPageFactory()->newFromTitle( $title );
@@ -105,7 +126,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		// Temp user edits again from a different IP
 		RequestContext::getMain()->getRequest()->setIP( '127.0.0.2' );
 		$this->editPage(
-			'Test page', 'Test Content 4', 'test', NS_MAIN, $temp1
+			'Test page', 'Test Content 4', 'test', NS_MAIN, self::$tempUser1
 		);
 	}
 
@@ -129,21 +150,38 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 			// to test pager.
 			$this->assertSame( $expectedCount, substr_count( $html, 'data-mw-revid' ) );
 
-			// Test that a log entry was inserted for the viewing of this target.
 			$this->runJobs();
-			$this->assertSame(
-				1,
-				$this->getDb()->newSelectQueryBuilder()
-					->from( 'logging' )
-					->where( [
-						'log_type' => TemporaryAccountLogger::LOG_TYPE,
-						'log_action' => TemporaryAccountLogger::ACTION_VIEW_TEMPORARY_ACCOUNTS_ON_IP_GLOBAL,
-						'log_actor' => self::$checkuser->getActorId(),
-						'log_namespace' => NS_USER,
-						'log_title' => IPUtils::prettifyIP( IPUtils::sanitizeRange( $target ) ),
-					] )
-					->fetchRowCount()
-			);
+			if ( $this->isValidIPOrQueryableRange( $target, $this->getServiceContainer()->getMainConfig() ) ) {
+				// Test that a log entry was inserted for the viewing of this target if it was an IP.
+				$this->assertSame(
+					 1,
+					$this->getDb()->newSelectQueryBuilder()
+						->from( 'logging' )
+						->where( [
+							'log_type' => TemporaryAccountLogger::LOG_TYPE,
+							'log_action' => TemporaryAccountLogger::ACTION_VIEW_TEMPORARY_ACCOUNTS_ON_IP_GLOBAL,
+							'log_actor' => self::$checkuser->getActorId(),
+							'log_namespace' => NS_USER,
+							'log_title' => IPUtils::prettifyIP( IPUtils::sanitizeRange( $target ) ),
+						] )
+						->fetchRowCount()
+				);
+			} else {
+				// Test that no log entry was inserted for viewing an account
+				$this->assertSame(
+					0,
+					$this->getDb()->newSelectQueryBuilder()
+						->from( 'logging' )
+						->where( [
+							'log_type' => TemporaryAccountLogger::LOG_TYPE,
+							'log_action' => TemporaryAccountLogger::ACTION_VIEW_TEMPORARY_ACCOUNTS_ON_IP_GLOBAL,
+							'log_actor' => self::$checkuser->getActorId(),
+							'log_namespace' => NS_USER,
+							'log_title' => $target,
+						] )
+						->fetchRowCount()
+				);
+			}
 		} else {
 			$this->assertStringNotContainsString( 'mw-contributions-list', $html );
 		}
@@ -155,7 +193,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 			'Valid IP' => [ '127.0.0.1', 2 ],
 			'Valid IP without contributions' => [ '127.0.0.5', 0 ],
 			'Valid range' => [ '127.0.0.1/24', 3 ],
-			'Temp user' => [ '~check-user-test-2024-1', 0 ],
+			'Temp user' => [ '~check-user-test-2024-01', 0 ],
 			'Nonexistent user' => [ 'Nonexistent', 0 ],
 		];
 	}
@@ -235,7 +273,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		$this->assertStringContainsString( 'sp-contributions-outofrange', $html );
 	}
 
-	public function testExecuteUsername() {
+	public function testExecuteNonexistentUsername() {
 		[ $html ] = $this->executeSpecialPage(
 			'Nonexistent user',
 			null,
@@ -243,11 +281,99 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 			self::$checkuser
 		);
 
-		$this->assertStringNotContainsString( 'mw-pager-body', $html );
-		$this->assertStringNotContainsString(
-			'contributions-userdoesnotexist',
+		$this->assertStringContainsString( 'mw-pager-body', $html );
+		$this->assertStringContainsString(
+			'checkuser-global-contributions-no-results-no-central-user',
 			$html,
-			'No user does not exist error should show while usernames are not a supported input'
+			'Show error when no central user found'
+		);
+	}
+
+	public function testExecuteUsername() {
+		// User to be suppressed edits from a unique IP to avoid conflicts with IP searches in other tests
+		RequestContext::getMain()->getRequest()->setIP( '128.0.0.1' );
+		$this->editPage(
+			'Test page 2', 'Test content from user to be suppressed', 'test', NS_MAIN, self::$suppressedUser
+		);
+		$this->runJobs();
+
+		// Assert that the user's contributions can be seen normally
+		[ $html ] = $this->executeSpecialPage(
+			self::$suppressedUser->getName(),
+			null,
+			'qqx',
+			self::$checkuser
+		);
+		$this->assertStringContainsString( 'mw-contributions-list', $html );
+		$this->assertSame( 1, substr_count( $html, 'data-mw-revid' ) );
+
+		// Suppress user
+		$status = $this->getServiceContainer()->getBlockUserFactory()
+			->newBlockUser(
+				self::$suppressedUser->getName(),
+				self::$suppressUser,
+				'infinity',
+				'test hideuser',
+				[
+					'isHideUser' => true
+				]
+			)->placeBlock();
+
+		// Assert a user without the 'hideuser' right can't see the suppressed user
+		// Since the test is using a local centralIdLookup, this is equivalent to being centrally suppressed
+		[ $html ] = $this->executeSpecialPage(
+			self::$suppressedUser->getName(),
+			null,
+			'qqx',
+			static::getTestUser()->getUser()
+		);
+		$this->assertStringContainsString( 'checkuser-global-contributions-no-results-no-central-user', $html );
+
+		// Assert a user with the 'hideuser' right can see the suppressed user
+		[ $html ] = $this->executeSpecialPage(
+			self::$suppressedUser->getName(),
+			null,
+			'qqx',
+			self::$suppressUser
+		);
+		$this->assertStringNotContainsString( 'contributions-userdoesnotexist', $html );
+		$this->assertSame( 1, substr_count( $html, 'data-mw-revid' ) );
+	}
+
+	public function testExecuteUsernameNoContributions() {
+		// Assert that the no-contributions state is shown for a registered user with no contributions
+		[ $html ] = $this->executeSpecialPage(
+			self::$tempUser3->getName(),
+			null,
+			'qqx',
+			self::$checkuser
+		);
+		$this->assertStringContainsString( 'checkuser-global-contributions-no-results-no-visible-contribs', $html );
+	}
+
+	public function testExecuteIPNoContributions() {
+		// Assert that the no-contributions state is not reached by IP targets with no contributions
+		// and that the expected permissions message is shown instead
+		[ $html ] = $this->executeSpecialPage(
+			'1.2.3.4',
+			null,
+			'qqx',
+			self::$checkuser
+		);
+		$this->assertStringNotContainsString( 'checkuser-global-contributions-no-results-no-visible-contribs', $html );
+		$this->assertStringContainsString( 'checkuser-global-contributions-no-results-no-permissions', $html );
+	}
+
+	public function testIPRangeLimitConflict() {
+		// Assert that an error is thrown if the range limit configurations are in conflict
+		$this->expectException( LogicException::class );
+		$this->overrideConfigValue( 'CheckUserCIDRLimit', [ 'IPv4' => 32, 'IPv6' => 32 ] );
+		$this->overrideConfigValue( MainConfigNames::RangeContributionsCIDRLimit, [ 'IPv4' => 8, 'IPv6' => 8 ] );
+		$this->executeSpecialPage(
+			'127.0.0.1/8',
+			null,
+			null,
+			self::$checkuser
 		);
 	}
 

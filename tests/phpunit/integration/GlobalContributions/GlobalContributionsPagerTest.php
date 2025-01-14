@@ -213,12 +213,12 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * @dataProvider provideFormatUserLink
 	 */
-	public function testFormatUserLink( $userIsDeleted ) {
+	public function testFormatAccountLink( $isDeleted, $username, $isTemp ) {
 		$this->setUserLang( 'qqx' );
 		$row = $this->getRow( [
 			'sourcewiki' => 'otherwiki',
-			'rev_user_text' => '~2024-123',
-			'rev_deleted' => $userIsDeleted ? '4' : '8'
+			'rev_user_text' => $username,
+			'rev_deleted' => $isDeleted ? '4' : '8'
 		] );
 
 		$services = $this->getServiceContainer();
@@ -234,6 +234,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				$services->getUserFactory(),
 				$services->getTempUserConfig(),
 				$services->get( 'CheckUserLookupUtils' ),
+				$services->get( 'CentralIdLookup' ),
 				$services->get( 'CheckUserApiRequestAggregator' ),
 				$services->getPermissionManager(),
 				$services->getPreferencesFactory(),
@@ -251,17 +252,32 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$pager->currentPage = Title::makeTitle( 0, $row->page_title );
 
 		$formatted = $pager->formatUserLink( $row );
-		if ( $userIsDeleted ) {
+		if ( $isDeleted ) {
 			$this->assertStringContainsString( 'empty-username', $formatted );
-			$this->assertStringNotContainsString( '~2024-123', $formatted );
+			$this->assertStringNotContainsString( $username, $formatted );
 		} else {
-			$this->assertStringContainsString( 'Special:Contributions/~2024-123', $formatted );
+			if ( $isTemp ) {
+				$this->assertStringContainsString( 'Special:Contributions/' . $username, $formatted );
+			} else {
+				$this->assertStringContainsString( 'User talk:' . $username, $formatted );
+			}
 			$this->assertStringNotContainsString( 'empty-username', $formatted );
 		}
 	}
 
+	/**
+	 * Parameters:
+	 *   - isDeleted (bool)
+	 *   - username (string)
+	 *   - isTemp (bool)
+	 */
 	public function provideFormatUserLink() {
-		return [ [ true ], [ false ] ];
+		return [
+			'Temp account, hidden' => [ true, '~2024-123', true ],
+			'Temp account, visible' => [ false, '~2024-123', true ],
+			'Registered account, hiiden' => [ true, 'UnregisteredUser1', false ],
+			'Registered account, visible' => [ false, 'UnregisteredUser1', false ],
+		];
 	}
 
 	/**
@@ -371,6 +387,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			$services->getUserFactory(),
 			$services->getTempUserConfig(),
 			$services->get( 'CheckUserLookupUtils' ),
+			$services->get( 'CentralIdLookup' ),
 			$apiRequestAggregator,
 			$services->getPermissionManager(),
 			$services->getPreferencesFactory(),

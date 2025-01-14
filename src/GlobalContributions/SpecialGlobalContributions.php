@@ -8,13 +8,12 @@ use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\SpecialPage\ContributionsSpecialPage;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\User\Options\UserOptionsLookup;
+use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityLookup;
 use MediaWiki\User\UserNamePrefixSearch;
 use MediaWiki\User\UserNameUtils;
-use OOUI\HtmlSnippet;
-use OOUI\MessageWidget;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 
@@ -78,14 +77,6 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 			'size' => 40,
 			'autofocus' => $target === '',
 			'section' => 'contribs-top',
-			'validation-callback' => function ( $target ) {
-				if ( !$this->isValidIPOrQueryableRange( $target, $this->getConfig() ) ) {
-					return $this->msg( 'checkuser-global-contributions-target-error-no-ip' );
-				}
-				return true;
-			},
-			'excludenamed' => true,
-			'excludetemp' => true,
 			'ipallowed' => true,
 			'iprange' => true,
 			'iprangelimits' => $this->getQueryableRangeLimit( $this->getConfig() ),
@@ -108,21 +99,15 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 				->numParams( $this->getMaxAgeForMessage() )
 				->parse();
 			$this->getOutput()->prependHTML( "<div class='mw-specialpage-summary'>\n$message\n</div>" );
-		} elseif ( !IPUtils::isIPAddress( $target ) ) {
-			$this->getOutput()->setSubtitle(
-				new MessageWidget( [
-					'type' => 'error',
-					'label' => new HtmlSnippet(
-						$this->msg( 'checkuser-global-contributions-target-error-no-ip-banner', $target )->parse()
-					)
-				] )
-			);
-		} elseif ( !$this->isValidIPOrQueryableRange( $target, $this->getConfig() ) ) {
+		} elseif (
+			IPUtils::isValidRange( $target ) &&
+			!$this->isQueryableRange( $target, $this->getConfig() )
+		) {
 			// Valid range, but outside CIDR limit.
 			$limits = $this->getQueryableRangeLimit( $this->getConfig() );
 			$limit = $limits[ IPUtils::isIPv4( $target ) ? 'IPv4' : 'IPv6' ];
 			$this->getOutput()->addWikiMsg( 'sp-contributions-outofrange', $limit );
-		} else {
+		} elseif ( $this->isQueryableRange( $target, $this->getConfig() ) ) {
 			$this->getOutput()->addJsConfigVars( 'wgIPRangeTarget', $target );
 		}
 	}
@@ -199,22 +184,6 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 	}
 
 	/** @inheritDoc */
-	protected function addContributionsSubWarning( $userObj ) {
-		// Suppress the output of this function if the target isn't an IP or range (ie. is a username)
-		// In those cases, parent::addContributionsSubWarning will generate an error stating that
-		// the user doesn't exist which will be displayed alongside Special:GC's invalid
-		// input error and showing the nonexistent username error suggests that a registered
-		// username would be valid, as usernames are currently not accepted for lookup. See T377002.
-		// TODO: Remove when usernames are supported in T375632.
-		if (
-			!$this->userNameUtils->isIP( $userObj->getName() ) &&
-			!IPUtils::isValidRange( $userObj->getName() )
-		) {
-			return;
-		}
-	}
-
-	/** @inheritDoc */
 	protected function contributionsSub( $userObj, $targetName ) {
 		$contributionsSub = parent::contributionsSub( $userObj, $targetName );
 
@@ -227,9 +196,31 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 		return $contributionsSub;
 	}
 
-	/** @inheritDoc */
-	public function shouldShowBlockLogExtract( UserIdentity $target ): bool {
-		return parent::shouldShowBlockLogExtract( $target ) &&
-			$this->isValidIPOrQueryableRange( $target->getName(), $this->getConfig() );
+	/**
+	 * Prevent the base ContributionsSpecialPage class from generating the unregistered user
+	 * message, as this is referring to the local user. Instead, GlobalContributionsPager will
+	 * check against the central (global) account and manage its own message visibility.
+	 *
+	 * @inheritDoc
+	 */
+	protected function addContributionsSubWarning( $userObj ) {
+	}
+
+	/**
+	 * Don't render the action links, as they refer to the local account instead of the global one
+	 *
+	 * @inheritDoc
+	 */
+	protected function shouldDisplayActionLinks( User $userObj ): bool {
+		return false;
+	}
+
+	/**
+	 * Don't show the account information, as it refers to the local account instead of the global one
+	 *
+	 * @inheritDoc
+	 */
+	protected function shouldDisplayAccountInformation( User $userObj ): bool {
+		return false;
 	}
 }

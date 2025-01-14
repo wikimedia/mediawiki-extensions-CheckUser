@@ -15,11 +15,10 @@ use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\Title\NamespaceInfo;
+use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
-use Wikimedia\Assert\Assert;
-use Wikimedia\Assert\ParameterAssertionException;
 use Wikimedia\Rdbms\IConnectionProvider;
 
 class GlobalContributionsPagerFactory {
@@ -36,6 +35,7 @@ class GlobalContributionsPagerFactory {
 	private TempUserConfig $tempUserConfig;
 	private Config $config;
 	private CheckUserLookupUtils $lookupUtils;
+	private CentralIdLookup $centralIdLookup;
 	private CheckUserApiRequestAggregator $apiRequestAggregator;
 	private PermissionManager $permissionManager;
 	private GlobalPreferencesFactory $globalPreferencesFactory;
@@ -53,6 +53,7 @@ class GlobalContributionsPagerFactory {
 		TempUserConfig $tempUserConfig,
 		Config $config,
 		CheckUserLookupUtils $lookupUtils,
+		CentralIdLookup $centralIdLookup,
 		CheckUserApiRequestAggregator $apiRequestAggregator,
 		PermissionManager $permissionManager,
 		GlobalPreferencesFactory $globalPreferencesFactory,
@@ -69,6 +70,7 @@ class GlobalContributionsPagerFactory {
 		$this->tempUserConfig = $tempUserConfig;
 		$this->config = $config;
 		$this->lookupUtils = $lookupUtils;
+		$this->centralIdLookup = $centralIdLookup;
 		$this->apiRequestAggregator = $apiRequestAggregator;
 		$this->permissionManager = $permissionManager;
 		$this->globalPreferencesFactory = $globalPreferencesFactory;
@@ -79,22 +81,14 @@ class GlobalContributionsPagerFactory {
 	/**
 	 * @param IContextSource $context
 	 * @param array $options
-	 * @param UserIdentity $target IP address for temporary user contributions lookup
+	 * @param UserIdentity $target IP address or username for user contributions lookup
 	 * @return GlobalContributionsPager
-	 * @throws ParameterAssertionException
 	 */
 	public function createPager(
 		IContextSource $context,
 		array $options,
 		UserIdentity $target
 	): GlobalContributionsPager {
-		$username = $target->getName();
-		Assert::parameter(
-			$this->isValidIPOrQueryableRange( $username, $this->config ),
-			'username',
-			'target is invalid'
-		);
-
 		return new GlobalContributionsPager(
 			$this->linkRenderer,
 			$this->linkBatchFactory,
@@ -105,6 +99,7 @@ class GlobalContributionsPagerFactory {
 			$this->userFactory,
 			$this->tempUserConfig,
 			$this->lookupUtils,
+			$this->centralIdLookup,
 			$this->apiRequestAggregator,
 			$this->permissionManager,
 			$this->globalPreferencesFactory,

@@ -22,8 +22,10 @@ use MediaWiki\Pager\ContributionsPager;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
+use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\Title\Title;
+use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
@@ -35,17 +37,21 @@ use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
 
 /**
- * Query for all edits from an IP, revealing what temporary accounts
- * are using that IP. This pager uses data from the CheckUser table,
- * as only CU should have knowledge of IP activity and therefore data
- * is limited to 90 days.
+ * Query for all edits from one of:
+ *  - an IP, revealing what temporary accounts are using that IP
+ *  - a username (temporary or registered), revealing all edits from the account
  *
- * This query is taken from Special:IPContributions and is temporary.
- * It will be replaced in T356292.
+ * This pager uses data from the CheckUser table as it can reveal IP activity
+ * which only CU should have knowledge of. Therefore, data is limited to 90 days.
+ *
  */
 class GlobalContributionsPager extends ContributionsPager implements CheckUserQueryInterface {
+
+	use ContributionsRangeTrait;
+
 	private TempUserConfig $tempUserConfig;
 	private CheckUserLookupUtils $checkUserLookupUtils;
+	private CentralIdLookup $centralIdLookup;
 	private CheckUserApiRequestAggregator $apiRequestAggregator;
 	private PermissionManager $permissionManager;
 	private GlobalPreferencesFactory $globalPreferencesFactory;
@@ -55,6 +61,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	private int $wikisWithPermissionsCount;
 	private string $needsToEnableGlobalPreferenceAtWiki;
 	private bool $externalApiLookupError = false;
+	private bool $centralUserExists = true;
 
 	/**
 	 * @var int Number of revisions to return per wiki
@@ -71,6 +78,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		UserFactory $userFactory,
 		TempUserConfig $tempUserConfig,
 		CheckUserLookupUtils $checkUserLookupUtils,
+		CentralIdLookup $centralIdLookup,
 		CheckUserApiRequestAggregator $apiRequestAggregator,
 		PermissionManager $permissionManager,
 		GlobalPreferencesFactory $globalPreferencesFactory,
@@ -94,6 +102,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		);
 		$this->tempUserConfig = $tempUserConfig;
 		$this->checkUserLookupUtils = $checkUserLookupUtils;
+		$this->centralIdLookup = $centralIdLookup;
 		$this->apiRequestAggregator = $apiRequestAggregator;
 		$this->permissionManager = $permissionManager;
 		$this->globalPreferencesFactory = $globalPreferencesFactory;
@@ -148,23 +157,49 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	 * @return array
 	 */
 	private function fetchWikisToQuery() {
-		$targetIPConditions = $this->checkUserLookupUtils->getIPTargetExprForColumn(
-			$this->target,
-			'cite_ip_hex'
-		);
-		if ( $targetIPConditions === null ) {
-			throw new LogicException( "Attempted IP contributions lookup with non-IP target: $this->target" );
-		}
-
+		$activeWikis = [];
 		$cuciDb = $this->dbProvider->getReplicaDatabase( self::VIRTUAL_GLOBAL_DB_DOMAIN );
-		$activeWikis = $cuciDb->newSelectQueryBuilder()
-			->select( 'ciwm_wiki' )
-			->from( 'cuci_temp_edit' )
-			->distinct()
-			->where( $targetIPConditions )
-			->join( 'cuci_wiki_map', null, 'cite_ciwm_id = ciwm_id' )
-			->caller( __METHOD__ )
-			->fetchFieldValues();
+
+		if ( $this->isValidIPOrQueryableRange( $this->target, $this->getConfig() ) ) {
+			$targetIPConditions = $this->checkUserLookupUtils->getIPTargetExprForColumn(
+				$this->target,
+				'cite_ip_hex'
+			);
+			if ( $targetIPConditions === null ) {
+				// Invalid IPs are treated as usernames so we should only ever reach
+				// this condition if the IP range is out of limits
+				throw new LogicException(
+					"Attempted IP range lookup with a range outside of the limit: $this->target\n
+					Check if your RangeContributionsCIDRLimit and CheckUserCIDRLimit configs are compatible."
+				);
+			}
+			$activeWikis = $cuciDb->newSelectQueryBuilder()
+				->select( 'ciwm_wiki' )
+				->from( 'cuci_temp_edit' )
+				->distinct()
+				->where( $targetIPConditions )
+				->join( 'cuci_wiki_map', null, 'cite_ciwm_id = ciwm_id' )
+				->caller( __METHOD__ )
+				->fetchFieldValues();
+		} else {
+			$centralId = $this->centralIdLookup->centralIdFromName( $this->target, $this->getAuthority() );
+			if ( !$centralId ) {
+				// No central user found or viewable, flag it and then return an empty array for active wikis
+				// which will eventually return an empty results set
+				$this->centralUserExists = false;
+				$this->needsToEnableGlobalPreferenceAtWiki = '';
+				$this->wikisWithPermissionsCount = 0;
+				return [];
+			}
+			$activeWikis = $cuciDb->newSelectQueryBuilder()
+				->select( 'ciwm_wiki' )
+				->from( 'cuci_user' )
+				->distinct()
+				->where( [ 'ciu_central_id' => $centralId ] )
+				->join( 'cuci_wiki_map', null, 'ciu_ciwm_id = ciwm_id' )
+				->caller( __METHOD__ )
+				->fetchFieldValues();
+		}
 
 		// Look up external permissions
 		$this->getExternalWikiPermissions(
@@ -197,23 +232,32 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 
 		$wikisToQuery = [];
 		$this->needsToEnableGlobalPreferenceAtWiki = '';
+
 		foreach ( $activeWikis as $wikiId ) {
-			if (
-				( WikiMap::isCurrentWikiDbDomain( $wikiId ) && $canRevealIpNoPreference ) ||
-				$this->userHasExternalPermission( 'checkuser-temporary-account-no-preference', $wikiId )
-			) {
-				$wikisToQuery[] = $wikiId;
-			} elseif (
-				( WikiMap::isCurrentWikiDbDomain( $wikiId ) && $canRevealIp ) ||
-				$this->userHasExternalPermission( 'checkuser-temporary-account', $wikiId )
-			) {
-				if ( $hasEnabledGlobalPreference ) {
+			// If an IP is being queried, check against the permissions obtained from the external wikis.
+			// Otherwise, a temporary account or registered account is being queried, which can be broadly
+			// accessed without restriction (revision/IP reveal restrictions will still apply).
+			if ( $this->isValidIPOrQueryableRange( $this->target, $this->getConfig() ) ) {
+				if (
+					( WikiMap::isCurrentWikiDbDomain( $wikiId ) && $canRevealIpNoPreference ) ||
+					$this->userHasExternalPermission( 'checkuser-temporary-account-no-preference', $wikiId )
+				) {
 					$wikisToQuery[] = $wikiId;
-				} else {
-					$this->needsToEnableGlobalPreferenceAtWiki = $wikiId;
+				} elseif (
+					( WikiMap::isCurrentWikiDbDomain( $wikiId ) && $canRevealIp ) ||
+					$this->userHasExternalPermission( 'checkuser-temporary-account', $wikiId )
+				) {
+					if ( $hasEnabledGlobalPreference ) {
+						$wikisToQuery[] = $wikiId;
+					} else {
+						$this->needsToEnableGlobalPreferenceAtWiki = $wikiId;
+					}
 				}
+			} else {
+				$wikisToQuery[] = $wikiId;
 			}
 		}
+
 		$this->wikisWithPermissionsCount = count( $wikisToQuery );
 
 		return $wikisToQuery;
@@ -222,16 +266,19 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	public function doQuery() {
 		parent::doQuery();
 
-		// If we reach here query has been made for a valid target
+		// If we reach here query has been made for a valid IP or range or a valid username
 		// and if there are rows to display they will be displayed.
-		// Log that the user has globally viewed the temporary accounts editing on the target IP or IP range.
-		$this->jobQueueGroup->push(
-			LogTemporaryAccountAccessJob::newSpec(
-				$this->getAuthority()->getUser(),
-				$this->target,
-				TemporaryAccountLogger::ACTION_VIEW_TEMPORARY_ACCOUNTS_ON_IP_GLOBAL,
-			)
-		);
+		// Check if the target is an IP or range and only if so, log that the user has globally
+		// viewed the temporary accounts editing on the target IP/range.
+		if ( $this->isValidIPOrQueryableRange( $this->target, $this->getConfig() ) ) {
+			$this->jobQueueGroup->push(
+				LogTemporaryAccountAccessJob::newSpec(
+					$this->getAuthority()->getUser(),
+					$this->target,
+					TemporaryAccountLogger::ACTION_VIEW_TEMPORARY_ACCOUNTS_ON_IP_GLOBAL,
+				)
+			);
+		}
 	}
 
 	/**
@@ -338,23 +385,30 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			->join( 'page', 'cu_changes_page', 'page_id=cuc_page_id' )
 			->join( 'comment', 'cu_changes_comment', 'comment_id=cuc_comment_id' );
 
-		$ipConditions = $this->checkUserLookupUtils->getIPTargetExpr(
-			$this->target,
-			false,
-			self::CHANGES_TABLE
-		);
-		if ( $ipConditions === null ) {
-			throw new LogicException( "Attempted IP contributions lookup with non-IP target: $this->target" );
+		if ( $this->isValidIPOrQueryableRange( $this->target, $this->getConfig() ) ) {
+			$ipConditions = $this->checkUserLookupUtils->getIPTargetExpr(
+				$this->target,
+				false,
+				self::CHANGES_TABLE
+			);
+			if ( $ipConditions === null ) {
+				// Invalid IPs are treated as usernames so we should only ever reach
+				// this condition if the IP range is out of limits
+				throw new LogicException(
+					"Attempted IP range lookup with a range outside of the limit: $this->target\n
+					Check if your RangeContributionsCIDRLimit and CheckUserCIDRLimit configs are compatible."
+				);
+			}
+			$tempUserConditions = $this->tempUserConfig->getMatchCondition(
+				$this->getDatabase(),
+				'actor_name',
+				IExpression::LIKE
+			);
+			$queryBuilder->where( $ipConditions );
+			$queryBuilder->where( $tempUserConditions );
+		} else {
+			$queryBuilder->where( [ 'actor_name' => $this->target ] );
 		}
-
-		$tempUserConditions = $this->tempUserConfig->getMatchCondition(
-			$this->getDatabase(),
-			'actor_name',
-			IExpression::LIKE
-		);
-
-		$queryBuilder->where( $ipConditions );
-		$queryBuilder->where( $tempUserConditions );
 
 		return $queryBuilder->getQueryInfo();
 	}
@@ -443,7 +497,24 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			] );
 		}
 
-		if ( $this->wikisWithPermissionsCount === 0 ) {
+		// Username or temporary account queried for and no central id for the user was found
+		if ( !$this->centralUserExists ) {
+			return new MessageWidget( [
+				'type' => 'warning',
+				'label' => new HtmlSnippet(
+					$this->msg(
+						'checkuser-global-contributions-no-results-no-central-user',
+						$this->target
+					)->parse()
+				)
+			] );
+		}
+
+		// An IP target was searched for and the user doesn't have view permissions
+		if (
+			$this->wikisWithPermissionsCount === 0 &&
+			$this->isValidIPOrQueryableRange( $this->target, $this->getConfig() )
+		) {
 			return new MessageWidget( [
 				'type' => 'info',
 				'label' => new HtmlSnippet(
@@ -452,7 +523,16 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			] );
 		}
 
-		return parent::getEmptyBody();
+		// No visible contributions for an existing user
+		return new MessageWidget( [
+			'type' => 'info',
+			'label' => new HtmlSnippet(
+				$this->msg(
+					'checkuser-global-contributions-no-results-no-visible-contribs',
+					$this->target
+				)->parse()
+			)
+		] );
 	}
 
 	/**
@@ -662,19 +742,36 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			$userTitle = Title::makeTitle( NS_USER, $row->{$this->userNameField} );
 			$userTalkTitle = Title::makeTitle( NS_USER_TALK, $row->{$this->userNameField} );
 
-			// All contributions are from temporary users
-			$classes = 'mw-userlink mw-extuserlink mw-tempuserlink';
+			$classes = 'mw-userlink mw-extuserlink';
 
-			$userPageLink = $this->getLinkRenderer()->makeExternalLink(
-				$this->getForeignURL(
-					$row->sourcewiki,
-					'Special:Contributions/' . $row->{$this->userNameField}
-				),
-				$row->{$this->userNameField},
-				$userTitle,
-				'',
-				[ 'class' => $classes ]
-			);
+			if ( $this->tempUserConfig->isTempName( $row->{$this->userNameField} ) ) {
+				// If the contribution is from a temporary user, add the appropriate class
+				// and link to their Special:Contributions page
+				$classes .= ' mw-tempuserlink';
+				$userPageLink = $this->getLinkRenderer()->makeExternalLink(
+					$this->getForeignURL(
+						$row->sourcewiki,
+						'Special:Contributions/' . $row->{$this->userNameField}
+					),
+					$row->{$this->userNameField},
+					$userTitle,
+					'',
+					[ 'class' => $classes ]
+				);
+			} else {
+				// Otherwise, the contribution is from a registered account
+				// and should link to their user page
+				$userPageLink = $this->getLinkRenderer()->makeExternalLink(
+					$this->getForeignURL(
+						$row->sourcewiki,
+						'User:' . $row->{$this->userNameField}
+					),
+					$row->{$this->userNameField},
+					$userTitle,
+					'',
+					[ 'class' => $classes ]
+				);
+			}
 
 			$userTalkLink = $this->getLinkRenderer()->makeExternalLink(
 				$this->getForeignURL(

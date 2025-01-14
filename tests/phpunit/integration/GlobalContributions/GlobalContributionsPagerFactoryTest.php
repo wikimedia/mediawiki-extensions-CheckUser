@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\GlobalContributions;
 
-use InvalidArgumentException;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPager;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\User\UserIdentityValue;
@@ -26,15 +25,5 @@ class GlobalContributionsPagerFactoryTest extends MediaWikiIntegrationTestCase {
 				),
 			'CheckUserGlobalContributionsPagerFactory::createPager should create a GlobalContributionsPager instance'
 		);
-	}
-
-	public function testCreatePagerInvalidTarget() {
-		$this->expectException( InvalidArgumentException::class );
-		$this->getServiceContainer()->get( 'CheckUserGlobalContributionsPagerFactory' )
-			->createPager(
-				RequestContext::getMain(),
-				[],
-				$this->getTestUser()->getUser()
-			);
 	}
 }

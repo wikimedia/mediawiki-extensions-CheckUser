@@ -190,6 +190,7 @@ return [
 			$services->getTempUserConfig(),
 			$services->getMainConfig(),
 			$services->get( 'CheckUserLookupUtils' ),
+			$services->getCentralIdLookup(),
 			$services->get( 'CheckUserApiRequestAggregator' ),
 			$services->getPermissionManager(),
 			$preferencesFactory,
