@@ -22,7 +22,7 @@
 		 *
 		 * @param {Object} clientHintData Data structured returned by
 		 *  navigator.userAgentData.getHighEntropyValues()
-		 * @param {int} identifier The ID associated with the event
+		 * @param {number} identifier The ID associated with the event
 		 * @param {string} type The type of event (e.g. 'revision').
 		 * @param {boolean} retryOnTokenMismatch Whether to retry the POST if the CSRF token is a
 		 *  mismatch. A mismatch can happen if the token has expired.
@@ -92,8 +92,9 @@
 		/**
 		 * Collect and POST Client Hints data for a given event.
 		 *
-		 * @param {int} identifier The ID associated with the event
+		 * @param {number} identifier The ID associated with the event
 		 * @param {string} type The type of event (e.g. 'revision').
+		 * @return {Promise<Object>}
 		 */
 		function collectAndSendClientHintsData( identifier, type ) {
 			return collectClientHintsData().then( ( userAgentHighEntropyValues ) => {
@@ -115,10 +116,12 @@
 				// Handle NotAllowedError, if the browser throws it.
 				mw.log.error( err );
 				mw.errorLogger.logError( new Error( err ), 'error.checkuser' );
+				return Promise.reject( err );
 			}
 		}
 
-		// Collect and send Client Hints data if the user has just performed a CheckUser private event.
+		// Collect and send Client Hints data if the user has just performed a
+		// CheckUser private event.
 		const privateEventId = mw.config.get( 'wgCheckUserClientHintsPrivateEventId' );
 		if ( privateEventId ) {
 			collectAndSendClientHintsData( privateEventId, 'privatelog' );

@@ -14,8 +14,12 @@
  * This function fires the 'wikipage.content' hook on the summary table after the
  * rows have been added.
  *
- * @param {Object.<string, {ip: {}, ua: {}, sorted: {ip: string[], ua: string[]}, linkUserPage: boolean}>} data
- *   The result of generateData
+ * @param {Object.<string, {
+ *          ip: {},
+ *          ua: {},
+ *          sorted: {ip: string[], ua: string[]},
+ *          linkUserPage: boolean
+ *        }>} data The result of generateData
  * @param {boolean} showCounts Whether to show the number of times each IP and
  *    User-Agent is used for a particular user.
  */

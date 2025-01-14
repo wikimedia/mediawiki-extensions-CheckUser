@@ -2,7 +2,7 @@
  * Gets the cookie key for a user.
  *
  * @param {string} user The username of the temporary account.
- * @returns {string}
+ * @return {string}
  */
 function getCookieKey( user ) {
 	return 'mw-checkuser-temp-' + user;
@@ -12,7 +12,7 @@ function getCookieKey( user ) {
  * Gets the revealed status of a user.
  *
  * @param {string} user The username of the temporary account to check.
- * @returns {null|true} The revealed status of the user (null if not revealed, true if revealed).
+ * @return {null|true} The revealed status of the user (null if not revealed, true if revealed).
  */
 function getRevealedStatus( user ) {
 	return mw.storage.get( getCookieKey( user ) );

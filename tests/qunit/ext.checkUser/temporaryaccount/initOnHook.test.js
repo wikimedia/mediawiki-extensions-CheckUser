@@ -45,7 +45,8 @@ QUnit.test( 'Test initOnHook when temporary account links added after load', ( a
 	const $qunitFixture = $( '#qunit-fixture' );
 	// Call initOnHook with the QUnit fixture as the document root
 	initOnHook( $qunitFixture );
-	// Now add the temporary account links to the page and fire wikipage.content on the newly added content.
+	// Now add the temporary account links to the page and fire wikipage.content
+	// on the newly added content.
 	const $revisionLine = $( '<div>' ).attr( 'data-mw-revid', 1 );
 	$qunitFixture.append( $revisionLine );
 	// Add the temporary account username link for the revision line
@@ -62,14 +63,16 @@ QUnit.test( 'Test initOnHook when temporary account links added after load', ( a
 } );
 
 /**
- * Sets up the document for a test where some temporary account user links are automatically revealed,
- * and then fires the "wikipage.content" hook on the newly added content.
+ * Sets up the document for a test where some temporary account user links are
+ * automatically revealed, and then fires the "wikipage.content" hook on the
+ * newly added content.
  *
  * @return {{
  * temporaryAccountUserLinksThatAreAutomaticallyRevealed: jQuery[],
  * temporaryAccountUserLinks: jQuery[]
- * }} The list of jQuery elements for the temporary account user links that were added to the document, split
- *    into two by those which are automatically revealed and those which are not.
+ * }} The list of jQuery elements for the temporary account user links that were
+ *    added to the document, split into two by those which are automatically revealed
+ *    and those which are not.
  */
 function setUpDocumentForTest() {
 	// eslint-disable-next-line no-jquery/no-global-selector

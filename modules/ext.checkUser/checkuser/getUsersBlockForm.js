@@ -18,8 +18,9 @@ module.exports = function ( documentRoot ) {
 		selectedIPs = [];
 
 	if ( !centralURL && ( !$blockAccountsButton.length || !$blockIPsButton.length ) ) {
-		// If no central URL is set and the block buttons are missing, then return early as we are likely not
-		// on the Special:CheckUser 'Get users' page or the user does not have the rights to lock or block.
+		// If no central URL is set and the block buttons are missing, then return early
+		// as we are likely not on the Special:CheckUser 'Get users' page or the user
+		// does not have the rights to lock or block.
 		return false;
 	}
 
@@ -38,7 +39,8 @@ module.exports = function ( documentRoot ) {
 	 * Special:MultiLock as well as updates the list of selected accounts and IPs.
 	 */
 	function handleCheckboxesChange() {
-		// Clear the list of selected IPs and accounts, and then fill these lists from the state of the checkboxes.
+		// Clear the list of selected IPs and accounts, and then fill these lists
+		// from the state of the checkboxes.
 		selectedAccounts = [];
 		selectedIPs = [];
 		$userCheckboxes.serializeArray().forEach( ( obj ) => {
@@ -144,8 +146,9 @@ module.exports = function ( documentRoot ) {
 	}
 
 	if ( !$blockAccountsButton.length || !$blockIPsButton.length ) {
-		// If the block buttons are not present, then the user does not have the rights to block but does have the
-		// rights to lock. As such, don't try to interact with the non-existing block buttons and return early.
+		// If the block buttons are not present, then the user does not have
+		// the rights to block but does have the rights to lock. As such, don't
+		// try to interact with the non-existing block buttons and return early.
 		return false;
 	}
 

@@ -42,7 +42,8 @@
 		const $otherReasonInputElement = $( 'input', otherReasonWidget.$element );
 		const $requiredIndicator = $( '.oo-ui-indicator-required', otherReasonWidget.$element );
 		if ( dropdownWidget.getValue() === 'other' ) {
-			// Set the required property for native browser validation and show the "required" OOUI indicator.
+			// Set the required property for native browser validation and
+			// show the "required" OOUI indicator.
 			$otherReasonInputElement.attr( 'required', 'required' );
 			$requiredIndicator.show();
 		} else {
