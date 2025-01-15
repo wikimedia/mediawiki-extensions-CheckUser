@@ -37,5 +37,4 @@ module.exports = function ( documentRoot ) {
 	} );
 
 	ipReveal.enableMultiReveal( $( documentRoot ) );
-	checkRecentlyRevealedUsers( documentRoot );
 };
