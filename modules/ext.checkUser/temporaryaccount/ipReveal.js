@@ -115,7 +115,9 @@ function addButton( $content ) {
 	// Get the log line temp user links which are inside log lines that are marked as being
 	// performed by a temporary account and support IP reveal.
 	const $logLinePerformerUserLinks = $content
-		.find( '.mw-logevent-loglines .ext-checkuser-log-line-supports-ip-reveal' )
+		.find( '.mw-changeslist-log, .mw-logevent-loglines, .mw-changeslist-log-entry' )
+		.find( '.ext-checkuser-log-line-supports-ip-reveal' )
+		.addBack( '.ext-checkuser-log-line-supports-ip-reveal' )
 		.map( function () {
 			return $( this ).find( '.mw-tempuserlink' ).first();
 		} );
