@@ -14,9 +14,6 @@ use Wikimedia\Rdbms\IReadableDatabase;
 class UserAgentClientHintsLookup {
 	private IReadableDatabase $dbr;
 
-	/**
-	 * @param IReadableDatabase $dbr
-	 */
 	public function __construct( IReadableDatabase $dbr ) {
 		$this->dbr = $dbr;
 	}

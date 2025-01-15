@@ -35,14 +35,6 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 
 	private bool $noticesFailed = false;
 
-	/**
-	 * @param BlockUserFactory $blockUserFactory
-	 * @param BlockPermissionCheckerFactory $blockPermissionCheckerFactory
-	 * @param PermissionManager $permissionManager
-	 * @param TitleFormatter $titleFormatter
-	 * @param UserFactory $userFactory
-	 * @param EventLogger $eventLogger
-	 */
 	public function __construct(
 		BlockUserFactory $blockUserFactory,
 		BlockPermissionCheckerFactory $blockPermissionCheckerFactory,

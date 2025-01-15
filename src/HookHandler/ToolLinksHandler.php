@@ -37,15 +37,6 @@ class ToolLinksHandler implements
 	private UserOptionsLookup $userOptionsLookup;
 	private TempUserConfig $tempUserConfig;
 
-	/**
-	 * @param PermissionManager $permissionManager
-	 * @param SpecialPageFactory $specialPageFactory
-	 * @param LinkRenderer $linkRenderer
-	 * @param UserIdentityLookup $userIdentityLookup
-	 * @param UserIdentityUtils $userIdentityUtils
-	 * @param UserOptionsLookup $userOptionsLookup
-	 * @param TempUserConfig $tempUserConfig
-	 */
 	public function __construct(
 		PermissionManager $permissionManager,
 		SpecialPageFactory $specialPageFactory,

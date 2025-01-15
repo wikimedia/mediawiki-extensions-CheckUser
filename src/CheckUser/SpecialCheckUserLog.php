@@ -35,16 +35,6 @@ class SpecialCheckUserLog extends SpecialPage {
 	private UserFactory $userFactory;
 	private ActorStore $actorStore;
 
-	/**
-	 * @param LinkBatchFactory $linkBatchFactory
-	 * @param PermissionManager $permissionManager
-	 * @param CommentStore $commentStore
-	 * @param CommentFormatter $commentFormatter
-	 * @param CheckUserLogService $checkUserLogService
-	 * @param UserFactory $userFactory
-	 * @param ActorStore $actorStore
-	 * @param LBFactory $lbFactory
-	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
 		PermissionManager $permissionManager,

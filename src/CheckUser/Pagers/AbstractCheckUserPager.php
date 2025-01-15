@@ -97,24 +97,6 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	protected CheckUserLookupUtils $checkUserLookupUtils;
 	private UserOptionsLookup $userOptionsLookup;
 
-	/**
-	 * @param FormOptions $opts
-	 * @param UserIdentity $target
-	 * @param string $logType
-	 * @param TokenQueryManager $tokenQueryManager
-	 * @param UserGroupManager $userGroupManager
-	 * @param CentralIdLookup $centralIdLookup
-	 * @param IConnectionProvider $dbProvider
-	 * @param SpecialPageFactory $specialPageFactory
-	 * @param UserIdentityLookup $userIdentityLookup
-	 * @param CheckUserLogService $checkUserLogService
-	 * @param UserFactory $userFactory
-	 * @param CheckUserLookupUtils $checkUserLookupUtils
-	 * @param UserOptionsLookup $userOptionsLookup
-	 * @param IContextSource|null $context
-	 * @param LinkRenderer|null $linkRenderer
-	 * @param ?int $limit
-	 */
 	public function __construct(
 		FormOptions $opts,
 		UserIdentity $target,

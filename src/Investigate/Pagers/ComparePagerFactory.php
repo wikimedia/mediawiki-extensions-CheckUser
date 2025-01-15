@@ -16,13 +16,6 @@ class ComparePagerFactory implements PagerFactory {
 	private CompareService $compare;
 	private UserFactory $userFactory;
 
-	/**
-	 * @param LinkRenderer $linkRenderer
-	 * @param TokenQueryManager $tokenQueryManager
-	 * @param DurationManager $durationManager
-	 * @param CompareService $compare
-	 * @param UserFactory $userFactory
-	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		TokenQueryManager $tokenQueryManager,

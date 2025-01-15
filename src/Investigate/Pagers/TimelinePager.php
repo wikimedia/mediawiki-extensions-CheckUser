@@ -47,16 +47,6 @@ class TimelinePager extends ReverseChronologicalPager {
 
 	private LoggerInterface $logger;
 
-	/**
-	 * @param IContextSource $context
-	 * @param LinkRenderer $linkRenderer
-	 * @param CheckUserFormatRowHook $formatRowHookRunner
-	 * @param TokenQueryManager $tokenQueryManager
-	 * @param DurationManager $durationManager
-	 * @param TimelineService $timelineService
-	 * @param TimelineRowFormatter $timelineRowFormatter
-	 * @param LoggerInterface $logger
-	 */
 	public function __construct(
 		IContextSource $context,
 		LinkRenderer $linkRenderer,

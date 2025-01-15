@@ -17,9 +17,6 @@ class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook
 
 	private Config $config;
 
-	/**
-	 * @param Config $config
-	 */
 	public function __construct( Config $config ) {
 		$this->config = $config;
 	}

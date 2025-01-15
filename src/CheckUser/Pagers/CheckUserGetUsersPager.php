@@ -69,30 +69,6 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	private UserAgentClientHintsFormatter $clientHintsFormatter;
 	private ExtensionRegistry $extensionRegistry;
 
-	/**
-	 * @param FormOptions $opts
-	 * @param UserIdentity $target
-	 * @param bool $xfor
-	 * @param string $logType
-	 * @param TokenQueryManager $tokenQueryManager
-	 * @param PermissionManager $permissionManager
-	 * @param UserGroupManager $userGroupManager
-	 * @param CentralIdLookup $centralIdLookup
-	 * @param IConnectionProvider $dbProvider
-	 * @param SpecialPageFactory $specialPageFactory
-	 * @param UserIdentityLookup $userIdentityLookup
-	 * @param UserFactory $userFactory
-	 * @param CheckUserLogService $checkUserLogService
-	 * @param CheckUserLookupUtils $checkUserLookupUtils
-	 * @param UserEditTracker $userEditTracker
-	 * @param CheckUserUtilityService $checkUserUtilityService
-	 * @param UserAgentClientHintsLookup $clientHintsLookup
-	 * @param UserAgentClientHintsFormatter $clientHintsFormatter
-	 * @param UserOptionsLookup $userOptionsLookup
-	 * @param IContextSource|null $context
-	 * @param LinkRenderer|null $linkRenderer
-	 * @param ?int $limit
-	 */
 	public function __construct(
 		FormOptions $opts,
 		UserIdentity $target,

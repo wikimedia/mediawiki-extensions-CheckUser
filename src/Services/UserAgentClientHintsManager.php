@@ -58,12 +58,6 @@ class UserAgentClientHintsManager {
 	private ServiceOptions $options;
 	private LoggerInterface $logger;
 
-	/**
-	 * @param IConnectionProvider $connectionProvider
-	 * @param RevisionLookup $revisionLookup
-	 * @param ServiceOptions $options
-	 * @param LoggerInterface $logger
-	 */
 	public function __construct(
 		IConnectionProvider $connectionProvider,
 		RevisionLookup $revisionLookup,

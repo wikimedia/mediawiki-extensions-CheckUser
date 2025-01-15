@@ -18,14 +18,6 @@ class PreliminaryCheckPagerFactory implements PagerFactory {
 	private PreliminaryCheckService $preliminaryCheck;
 	private UserFactory $userFactory;
 
-	/**
-	 * @param LinkRenderer $linkRenderer
-	 * @param NamespaceInfo $namespaceInfo
-	 * @param ExtensionRegistry $extensionRegistry
-	 * @param TokenQueryManager $tokenQueryManager
-	 * @param PreliminaryCheckService $preliminaryCheck
-	 * @param UserFactory $userFactory
-	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		NamespaceInfo $namespaceInfo,

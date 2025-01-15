@@ -15,11 +15,6 @@ abstract class ChangeService implements CheckUserQueryInterface {
 	protected CheckUserLookupUtils $checkUserLookupUtils;
 	private UserIdentityLookup $userIdentityLookup;
 
-	/**
-	 * @param IConnectionProvider $dbProvider
-	 * @param UserIdentityLookup $userIdentityLookup
-	 * @param CheckUserLookupUtils $checkUserLookupUtils
-	 */
 	public function __construct(
 		IConnectionProvider $dbProvider,
 		UserIdentityLookup $userIdentityLookup,

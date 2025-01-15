@@ -20,11 +20,6 @@ class TemporaryAccountLoggerFactory {
 	private LoggerInterface $logger;
 	private IDatabase $dbw;
 
-	/**
-	 * @param ActorStore $actorStore
-	 * @param LoggerInterface $logger
-	 * @param IConnectionProvider $dbProvider
-	 */
 	public function __construct(
 		ActorStore $actorStore,
 		LoggerInterface $logger,

@@ -23,16 +23,6 @@ class TimelineRowFormatterFactory {
 	private CommentStore $commentStore;
 	private LogFormatterFactory $logFormatterFactory;
 
-	/**
-	 * @param LinkRenderer $linkRenderer
-	 * @param CheckUserLookupUtils $checkUserLookupUtils
-	 * @param TitleFormatter $titleFormatter
-	 * @param SpecialPageFactory $specialPageFactory
-	 * @param CommentFormatter $commentFormatter
-	 * @param UserFactory $userFactory
-	 * @param CommentStore $commentStore
-	 * @param LogFormatterFactory $logFormatterFactory
-	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		CheckUserLookupUtils $checkUserLookupUtils,

@@ -17,11 +17,6 @@ class PerformRetroactiveAutoblockHandler implements PerformRetroactiveAutoblockH
 	private DatabaseBlockStoreFactory $databaseBlockStoreFactory;
 	private Config $config;
 
-	/**
-	 * @param IConnectionProvider $dbProvider
-	 * @param DatabaseBlockStoreFactory $databaseBlockStoreFactory
-	 * @param Config $config
-	 */
 	public function __construct(
 		IConnectionProvider $dbProvider,
 		DatabaseBlockStoreFactory $databaseBlockStoreFactory,

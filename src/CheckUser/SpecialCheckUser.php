@@ -80,29 +80,6 @@ class SpecialCheckUser extends SpecialPage {
 	private LogFormatterFactory $logFormatterFactory;
 	private UserOptionsLookup $userOptionsLookup;
 
-	/**
-	 * @param LinkBatchFactory $linkBatchFactory
-	 * @param UserGroupManager $userGroupManager
-	 * @param CentralIdLookupFactory $centralIdLookupFactory
-	 * @param PermissionManager $permissionManager
-	 * @param UserIdentityLookup $userIdentityLookup
-	 * @param TokenQueryManager $tokenQueryManager
-	 * @param IConnectionProvider $dbProvider
-	 * @param UserFactory $userFactory
-	 * @param CheckUserLogService $checkUserLogService
-	 * @param CommentFormatter $commentFormatter
-	 * @param UserEditTracker $userEditTracker
-	 * @param UserNamePrefixSearch $userNamePrefixSearch
-	 * @param UserNameUtils $userNameUtils
-	 * @param HookRunner $hookRunner
-	 * @param CheckUserUtilityService $checkUserUtilityService
-	 * @param CommentStore $commentStore
-	 * @param UserAgentClientHintsLookup $clientHintsLookup
-	 * @param UserAgentClientHintsFormatter $clientHintsFormatter
-	 * @param CheckUserLookupUtils $checkUserLookupUtils
-	 * @param LogFormatterFactory $logFormatterFactory
-	 * @param UserOptionsLookup $userOptionsLookup
-	 */
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
 		UserGroupManager $userGroupManager,

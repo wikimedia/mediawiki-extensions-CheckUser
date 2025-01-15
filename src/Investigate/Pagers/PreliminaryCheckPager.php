@@ -54,15 +54,6 @@ class PreliminaryCheckPager extends TablePager {
 	/** @var string[] Array of column name to translated table header message */
 	private $fieldNames;
 
-	/**
-	 * @param IContextSource $context
-	 * @param LinkRenderer $linkRenderer
-	 * @param NamespaceInfo $namespaceInfo
-	 * @param TokenQueryManager $tokenQueryManager
-	 * @param ExtensionRegistry $extensionRegistry
-	 * @param PreliminaryCheckService $preliminaryCheckService
-	 * @param UserFactory $userFactory
-	 */
 	public function __construct(
 		IContextSource $context,
 		LinkRenderer $linkRenderer,

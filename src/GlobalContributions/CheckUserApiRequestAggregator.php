@@ -39,13 +39,6 @@ class CheckUserApiRequestAggregator {
 	public const AUTHENTICATE_NONE = 0;
 	public const AUTHENTICATE_CENTRAL_AUTH = 1;
 
-	/**
-	 * @param HttpRequestFactory $httpRequestFactory
-	 * @param CentralIdLookup $centralIdLookup
-	 * @param ExtensionRegistry $extensionRegistry
-	 * @param SiteLookup $siteLookup
-	 * @param LoggerInterface $logger
-	 */
 	public function __construct(
 		HttpRequestFactory $httpRequestFactory,
 		CentralIdLookup $centralIdLookup,
