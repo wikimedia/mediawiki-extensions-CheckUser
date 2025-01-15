@@ -35,6 +35,7 @@ use OOUI\MessageWidget;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
+use Wikimedia\Rdbms\SelectQueryBuilder;
 
 /**
  * Query for all edits from one of:
@@ -157,7 +158,6 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	 * @return array
 	 */
 	private function fetchWikisToQuery() {
-		$activeWikis = [];
 		$cuciDb = $this->dbProvider->getReplicaDatabase( self::VIRTUAL_GLOBAL_DB_DOMAIN );
 
 		if ( $this->isValidIPOrQueryableRange( $this->target, $this->getConfig() ) ) {
@@ -179,6 +179,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				->distinct()
 				->where( $targetIPConditions )
 				->join( 'cuci_wiki_map', null, 'cite_ciwm_id = ciwm_id' )
+				->orderBy( 'cite_timestamp', SelectQueryBuilder::SORT_DESC )
 				->caller( __METHOD__ )
 				->fetchFieldValues();
 		} else {
@@ -197,6 +198,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				->distinct()
 				->where( [ 'ciu_central_id' => $centralId ] )
 				->join( 'cuci_wiki_map', null, 'ciu_ciwm_id = ciwm_id' )
+				->orderBy( 'ciu_timestamp', SelectQueryBuilder::SORT_DESC )
 				->caller( __METHOD__ )
 				->fetchFieldValues();
 		}
@@ -288,13 +290,23 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		$wikisToQuery = $this->fetchWikisToQuery();
 		$results = [];
 
-		// Use a limit for each wiki (specified in T356292), rather than the page limit.
-		[ $tables, $fields, $conds, $fname, $options, $join_conds ] =
-			$this->buildQueryInfo( $offset, self::REVISION_COUNT_LIMIT, $order );
+		if ( $offset ) {
+			$offsets = explode( '|', $offset );
+			$indexColumns = array_slice( (array)$this->mIndexField, 0, count( $offsets ) );
+			$offsetConds = array_combine( $indexColumns, $offsets );
+		} else {
+			$offsetConds = [];
+		}
+
+		// Compute a synthetic sequence number for each wiki 0 ... -N,
+		// where 0 is the most recently edited wiki and -N is the least recently edited wiki.
+		// This is useful for tie-breaking where two revisions between different wikis
+		// share the same timestamp.
+		$wikiSeqNo = 0;
 
 		foreach ( $wikisToQuery as $wikiId ) {
 			$dbr = $this->dbProvider->getReplicaDatabase( $wikiId );
-			$wikiConds = $conds;
+			$wikiConds = [];
 			if ( !WikiMap::isCurrentWikiDbDomain( $wikiId ) ) {
 				// Filter out results with hidden authors from external wikis, if the user shouldn't see
 				// them. These filters are added for the local query in ContributionsPager::getQueryInfo.
@@ -312,39 +324,86 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 					) . ' != ' . RevisionRecord::SUPPRESSED_USER;
 				}
 			}
+
 			$resultSet = $dbr->newSelectQueryBuilder()
-				->rawTables( $tables )
-				->fields( $fields )
-				->conds( $wikiConds )
-				->caller( $fname )
-				->options( $options )
-				->joinConds( $join_conds )
+				->caller( __METHOD__ )
+				->queryInfo( $this->getQueryInfo() )
+				->andWhere( $wikiConds )
+				->orderBy( [ 'cuc_timestamp', 'rev_id' ], SelectQueryBuilder::SORT_DESC )
+				// Use a limit for each wiki (specified in T356292), rather than the page limit.
+				->limit( self::REVISION_COUNT_LIMIT )
 				->fetchResultSet();
 
-			$resultsAsArray = iterator_to_array( $resultSet );
-			foreach ( $resultsAsArray as $row ) {
+			foreach ( $resultSet as $row ) {
 				$row->sourcewiki = $wikiId;
+				$row->wiki_seq_no = $wikiSeqNo;
+
+				if ( !$offsetConds ) {
+					$results[] = $row;
+					continue;
+				}
+
+				// Check whether this revision fits into the current pagination window.
+				foreach ( $offsetConds as $field => $pivotValue ) {
+					if ( $this->mIncludeOffset && $row->$field === $pivotValue ) {
+						$results[] = $row;
+						break;
+					}
+
+					if ( $order === self::QUERY_ASCENDING ) {
+						if ( $row->$field < $pivotValue ) {
+							break;
+						}
+
+						if ( $row->$field > $pivotValue ) {
+							$results[] = $row;
+							break;
+						}
+					}
+
+					if ( $order === self::QUERY_DESCENDING ) {
+						if ( $row->$field > $pivotValue ) {
+							break;
+						}
+
+						if ( $row->$field < $pivotValue ) {
+							$results[] = $row;
+							break;
+						}
+					}
+				}
 			}
 
-			$results = array_merge(
-				$results,
-				$resultsAsArray
-			);
+			$wikiSeqNo--;
 		}
 
-		// Sort the entire results set by timestamp, then apply the limit.
+		// Sort the entire results set by timestamp, wiki sequence number
+		// and finally revision ID as a tie-breaker, then apply the limit.
 		usort( $results, static function ( $a, $b ) use ( $order ) {
 			$aTimestamp = $a->rev_timestamp;
 			$bTimestamp = $b->rev_timestamp;
 
-			if ( $aTimestamp == $bTimestamp ) {
-				return 0;
+			if ( $aTimestamp !== $bTimestamp ) {
+				if ( $order === self::QUERY_DESCENDING ) {
+					return $bTimestamp <=> $aTimestamp;
+				}
+
+				return $aTimestamp <=> $bTimestamp;
 			}
+
+			if ( $a->wiki_seq_no !== $b->wiki_seq_no ) {
+				if ( $order === self::QUERY_DESCENDING ) {
+					return $b->wiki_seq_no <=> $a->wiki_seq_no;
+				}
+
+				return $a->wiki_seq_no <=> $b->wiki_seq_no;
+			}
+
 			if ( $order === self::QUERY_DESCENDING ) {
-				return ( $aTimestamp > $bTimestamp ) ? -1 : 1;
-			} else {
-				return ( $aTimestamp < $bTimestamp ) ? -1 : 1;
+				return $b->rev_id <=> $a->rev_id;
 			}
+
+			return $a->rev_id <=> $b->rev_id;
 		} );
 
 		return new FakeResultWrapper( array_slice( $results, 0, $limit ) );
@@ -378,6 +437,8 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				'page_is_new',
 				'page_namespace',
 				'page_title',
+				'cuc_timestamp',
+				'wiki_seq_no' => '1'
 			] )
 			->from( self::CHANGES_TABLE )
 			->join( 'actor', 'cu_changes_actor', 'actor_id=cuc_actor' )
@@ -414,13 +475,12 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	}
 
 	/**
-	 * @todo This is not a unique field, so results with identical timestamps could go
-	 *  missing between pages.
-	 *
 	 * @inheritDoc
 	 */
 	public function getIndexField() {
-		return 'cuc_timestamp';
+		return [
+			[ 'cuc_timestamp', 'wiki_seq_no', 'rev_id' ]
+		];
 	}
 
 	/**
