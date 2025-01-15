@@ -5,6 +5,8 @@ namespace MediaWiki\CheckUser\Tests\Integration\GlobalContributions;
 use GlobalPreferences\GlobalPreferencesFactory;
 use LogicException;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
+use MediaWiki\CheckUser\Jobs\LogTemporaryAccountAccessJob;
+use MediaWiki\CheckUser\Jobs\UpdateUserCentralIndexJob;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
@@ -128,6 +130,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		$this->editPage(
 			'Test page', 'Test Content 4', 'test', NS_MAIN, self::$tempUser1
 		);
+		$this->runJobs( [ 'minJobs' => 0 ], [ 'type' => UpdateUserCentralIndexJob::TYPE ] );
 	}
 
 	/**
@@ -150,7 +153,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 			// to test pager.
 			$this->assertSame( $expectedCount, substr_count( $html, 'data-mw-revid' ) );
 
-			$this->runJobs();
+			$this->runJobs( [ 'minJobs' => 0 ], [ 'type' => LogTemporaryAccountAccessJob::TYPE ] );
 			if ( $this->isValidIPOrQueryableRange( $target, $this->getServiceContainer()->getMainConfig() ) ) {
 				// Test that a log entry was inserted for the viewing of this target if it was an IP.
 				$this->assertSame(
@@ -295,7 +298,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		$this->editPage(
 			'Test page 2', 'Test content from user to be suppressed', 'test', NS_MAIN, self::$suppressedUser
 		);
-		$this->runJobs();
+		$this->runJobs( [ 'minJobs' => 0 ], [ 'type' => UpdateUserCentralIndexJob::TYPE ] );
 
 		// Assert that the user's contributions can be seen normally
 		[ $html ] = $this->executeSpecialPage(
@@ -318,6 +321,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 					'isHideUser' => true
 				]
 			)->placeBlock();
+		$this->assertStatusGood( $status );
 
 		// Assert a user without the 'hideuser' right can't see the suppressed user
 		// Since the test is using a local centralIdLookup, this is equivalent to being centrally suppressed
