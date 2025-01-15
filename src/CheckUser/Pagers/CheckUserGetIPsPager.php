@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
 use LogicException;
 use MediaWiki\Block\DatabaseBlock;
+use MediaWiki\Block\DatabaseBlockStore;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
@@ -41,13 +42,14 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 		UserFactory $userFactory,
 		CheckUserLookupUtils $checkUserLookupUtils,
 		UserOptionsLookup $userOptionsLookup,
+		DatabaseBlockStore $blockStore,
 		?IContextSource $context = null,
 		?LinkRenderer $linkRenderer = null,
 		?int $limit = null
 	) {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager, $userGroupManager, $centralIdLookup,
 			$dbProvider, $specialPageFactory, $userIdentityLookup, $checkUserLogService, $userFactory,
-			$checkUserLookupUtils, $userOptionsLookup, $context, $linkRenderer, $limit );
+			$checkUserLookupUtils, $userOptionsLookup, $blockStore, $context, $linkRenderer, $limit );
 		$this->checkType = SpecialCheckUser::SUBTYPE_GET_IPS;
 	}
 
@@ -106,7 +108,7 @@ class CheckUserGetIPsPager extends AbstractCheckUserPager {
 	 * @return string
 	 */
 	protected function getIPBlockInfo( string $ip ): string {
-		$block = DatabaseBlock::newFromTarget( null, $ip );
+		$block = $this->blockStore->newFromTarget( null, $ip );
 		if ( $block instanceof DatabaseBlock ) {
 			return $this->getBlockFlag( $block );
 		} elseif (

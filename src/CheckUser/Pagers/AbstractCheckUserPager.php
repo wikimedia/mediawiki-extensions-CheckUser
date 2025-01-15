@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\CheckUser\Pagers;
 use HtmlArmor;
 use LogicException;
 use MediaWiki\Block\DatabaseBlock;
+use MediaWiki\Block\DatabaseBlockStore;
 use MediaWiki\CheckUser\CheckUser\CheckUserPagerNavigationBuilder;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
@@ -96,6 +97,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 	protected UserFactory $userFactory;
 	protected CheckUserLookupUtils $checkUserLookupUtils;
 	private UserOptionsLookup $userOptionsLookup;
+	protected DatabaseBlockStore $blockStore;
 
 	public function __construct(
 		FormOptions $opts,
@@ -111,6 +113,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		UserFactory $userFactory,
 		CheckUserLookupUtils $checkUserLookupUtils,
 		UserOptionsLookup $userOptionsLookup,
+		DatabaseBlockStore $blockStore,
 		?IContextSource $context = null,
 		?LinkRenderer $linkRenderer = null,
 		?int $limit = null
@@ -155,6 +158,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 		$this->userFactory = $userFactory;
 		$this->checkUserLookupUtils = $checkUserLookupUtils;
 		$this->userOptionsLookup = $userOptionsLookup;
+		$this->blockStore = $blockStore;
 
 		$this->templateParser = new TemplateParser( __DIR__ . '/../../../templates' );
 
@@ -357,7 +361,7 @@ abstract class AbstractCheckUserPager extends RangeChronologicalPager implements
 
 		// Generate the block flag. Only one will be displayed, with the order of priority being local block, then
 		// global block, then tor exit node block, and finally the account having been previously blocked.
-		$block = DatabaseBlock::newFromTarget( $user, $ip );
+		$block = $this->blockStore->newFromTarget( $user, $ip );
 		if ( $block instanceof DatabaseBlock ) {
 			// Locally blocked
 			$flags[] = $this->getBlockFlag( $block );
