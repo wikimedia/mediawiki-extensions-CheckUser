@@ -105,6 +105,7 @@ function buildQuery( revIds, logIds, limit ) {
 /**
  * Determine whether to look up IPs for revision IDs.
  *
+ * @param {Object} revIds
  * @return {boolean} There are revision IDs
  */
 function isRevisionLookup( revIds ) {
@@ -114,6 +115,7 @@ function isRevisionLookup( revIds ) {
 /**
  * Determine whether to look up IPs for log IDs.
  *
+ * @param {Object} logIds
  * @return {boolean} There are log IDs
  */
 function isLogLookup( logIds ) {

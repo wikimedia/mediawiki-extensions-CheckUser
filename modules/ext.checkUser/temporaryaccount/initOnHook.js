@@ -4,7 +4,7 @@ const ipRevealUtils = require( './ipRevealUtils.js' );
 /**
  * Checks which users have been revealed recently, and reveals those users on load.
  *
- * @param {string|JQuery|*} documentRoot A DOM Element, Document, jQuery or selector
+ * @param {string|jQuery|*} documentRoot A DOM Element, Document, jQuery or selector
  *   to use as the root for searches.
  */
 function checkRecentlyRevealedUsers( documentRoot ) {
@@ -23,7 +23,7 @@ function checkRecentlyRevealedUsers( documentRoot ) {
 /**
  * Code to run when the page loads.
  *
- * @param {string|JQuery|*} documentRoot A DOM Element, Document, jQuery or selector
+ * @param {string|jQuery|*} documentRoot A DOM Element, Document, jQuery or selector
  *   to use as context
  */
 module.exports = function ( documentRoot ) {

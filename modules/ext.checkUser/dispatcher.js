@@ -37,11 +37,12 @@
 			}
 			break;
 		case 'IPContributions': {
-			// wgRelevantUserName is `null` if a range is the target so check the variable passed from
-			// SpecialIPContributions instead.
+			// wgRelevantUserName is `null` if a range is the target
+			// so check the variable passed from SpecialIPContributions instead.
 			const ipRangeTarget = mw.config.get( 'wgIPRangeTarget' );
 
-			// Only trigger if the target is an IP range. A single IP target doesn't need IP reveal buttons.
+			// Only trigger if the target is an IP range. A single IP target doesn't
+			// need IP reveal buttons.
 			if ( ipRangeTarget &&
 				mw.util.isIPAddress( ipRangeTarget, true ) &&
 				!mw.util.isIPAddress( ipRangeTarget ) ) {

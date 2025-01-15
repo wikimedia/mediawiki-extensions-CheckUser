@@ -25,7 +25,8 @@ module.exports = function addBlockForm( documentRoot ) {
 		} );
 
 	function toggleBlockFromButtons( showBlockForm, mode ) {
-		// Toggle the visibility status of the block form and associated buttons depending on showBlockForm.
+		// Toggle the visibility status of the block form and associated
+		// buttons depending on showBlockForm.
 		accountsBlockButton.toggle( !showBlockForm );
 		ipsBlockButton.toggle( !showBlockForm );
 		continueButton.toggle( showBlockForm );
@@ -36,25 +37,37 @@ module.exports = function addBlockForm( documentRoot ) {
 			// set the targets.
 			return;
 		}
-		// Clear the existing menu items, so we can add either account or IP targets based on the mode.
+		// Clear the existing menu items, so we can add either account or
+		// IP targets based on the mode.
 		targetsWidget.menu.clearItems();
 		// Generate the list of selected and unselected options based on the mode.
 		let selectedOptions = [];
 		let unselectedOptions = [];
 		if ( mode === 'accounts' ) {
-			// If the mode is 'accounts', we want to pre-select all account targets in the check and add as an option
-			// all excluded targets which are accounts.
-			selectedOptions = targets.filter( ( target ) => excludeTargets.indexOf( target ) === -1 && mw.util.isIPAddress( target, true ) === false );
-			unselectedOptions = excludeTargets.filter( ( target ) => mw.util.isIPAddress( target, true ) === false );
+			// If the mode is 'accounts', we want to pre-select all account targets
+			// in the check and add as an option all excluded targets which are accounts.
+			selectedOptions = targets.filter(
+				( target ) => excludeTargets.indexOf( target ) === -1 &&
+					mw.util.isIPAddress( target, true ) === false
+			);
+			unselectedOptions = excludeTargets.filter(
+				( target ) => mw.util.isIPAddress( target, true ) === false
+			);
 		} else if ( mode === 'ips' ) {
-			// If the mode is 'ips', we want to pre-select all IP targets in the check and add as unselected options
-			// all excluded targets which are IPs.
-			selectedOptions = targets.filter( ( target ) => excludeTargets.indexOf( target ) === -1 && mw.util.isIPAddress( target, true ) );
-			unselectedOptions = excludeTargets.filter( ( target ) => mw.util.isIPAddress( target, true ) );
+			// If the mode is 'ips', we want to pre-select all IP targets in the check
+			// and add as unselected options all excluded targets which are IPs.
+			selectedOptions = targets.filter(
+				( target ) => excludeTargets.indexOf( target ) === -1 &&
+					mw.util.isIPAddress( target, true )
+			);
+			unselectedOptions = excludeTargets.filter(
+				( target ) => mw.util.isIPAddress( target, true )
+			);
 		}
-		// Initially add all options (selected and unselected) to the widget as unselected options. This needs to
-		// happen first, as ::setValue will only allow selecting options which are listed as options in the widget
-		// unless allowArbitrary is set to true (which we do not want).
+		// Initially add all options (selected and unselected) to the widget as unselected
+		// options. This needs to happen first, as ::setValue will only allow selecting options
+		// which are listed as options in the widget unless allowArbitrary is set to true
+		// (which we do not want).
 		targetsWidget.addOptions( unselectedOptions.concat( selectedOptions ).map( ( target ) => ( {
 			data: target,
 			label: target

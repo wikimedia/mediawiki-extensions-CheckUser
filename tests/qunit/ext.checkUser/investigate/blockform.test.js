@@ -8,15 +8,17 @@ function setUpDocumentForTest( targets ) {
 	// eslint-disable-next-line no-jquery/no-global-selector
 	const $qunitFixture = $( '#qunit-fixture' );
 
-	// Set the javascript config used by blockform.js to get the targets and excluded targets in the current check.
+	// Set the javascript config used by blockform.js to get the targets and
+	// excluded targets in the current check.
 	mw.config.set( 'wgCheckUserInvestigateTargets', targets );
 	mw.config.set( 'wgCheckUserInvestigateExcludeTargets', [] );
 
 	// Create the barebones HTML structure added by SpecialInvestigate::addBlockForm
 	const node = document.createElement( 'div' );
 	node.className = 'ext-checkuser-investigate-subtitle-fieldset';
-	// Add the accounts and ips block button, including adding infusion data (which is hardcoded in the
-	// test because there isn't an easier way to generate this in a QUnit context).
+	// Add the accounts and ips block button, including adding infusion data (which is
+	// hardcoded in the test because there isn't an easier way to generate this
+	// in a QUnit context).
 	// First adds the accounts block button.
 	const $accountsBlockButton = new OO.ui.ButtonWidget( {
 		label: 'checkuser-investigate-subtitle-block-button-label',
@@ -125,8 +127,11 @@ QUnit.test( 'Test visibility of block form elements on DOM load, after block cli
 	} );
 } );
 
-function performBlockFormSubmitTest( assert, cssClass, $actualHtmlElement, $qunitFixture, expectedTargets, done ) {
-	// Listen for any submits of the hidden form and prevent them to avoid opening a new tab when running the tests.
+function performBlockFormSubmitTest(
+	assert, cssClass, $actualHtmlElement, $qunitFixture, expectedTargets, done
+) {
+	// Listen for any submits of the hidden form and prevent them to avoid opening
+	// a new tab when running the tests.
 	// At the same time, if this event is triggered, then indicate that the test passed.
 	let formWasSubmitted;
 	$( $qunitFixture ).on(
@@ -189,8 +194,8 @@ QUnit.test( 'Test blocking accounts', ( assert ) => {
 	// Set the HTML that is added by Special:Investigate.
 	const $actualHtmlElement = setUpDocumentForTest( [ 'Test', '1.2.3.4', 'Test2', '4.5.6.0/24' ] );
 
-	// Call the function, specifying the QUnit fixture as the document root to avoid the form being kept
-	// in the DOM for other JavaScript tests.
+	// Call the function, specifying the QUnit fixture as the document root
+	// to avoid the form being kept in the DOM for other JavaScript tests.
 	// eslint-disable-next-line no-jquery/no-global-selector
 	const $qunitFixture = $( '#qunit-fixture' );
 	addBlockForm( $qunitFixture );
@@ -214,8 +219,8 @@ QUnit.test( 'Test blocking IPs', ( assert ) => {
 	// Set the HTML that is added by Special:Investigate.
 	const $actualHtmlElement = setUpDocumentForTest( [ 'Test', '1.2.3.4', 'Test2', '4.5.6.0/24' ] );
 
-	// Call the function, specifying the QUnit fixture as the document root to avoid the form being kept
-	// in the DOM for other JavaScript tests.
+	// Call the function, specifying the QUnit fixture as the document root
+	// to avoid the form being kept in the DOM for other JavaScript tests.
 	// eslint-disable-next-line no-jquery/no-global-selector
 	const $qunitFixture = $( '#qunit-fixture' );
 	addBlockForm( $qunitFixture );
