@@ -297,8 +297,6 @@
 	"checkuser-global-contributions-subtitle": "Affichage des résultats d{{PLURAL:$1|u dernier jour|es $1  derniers jours}} pour tous les wikis où vous avez le droit de voir les adresses IP utilisées par les comptes temporaires.",
 	"checkuser-global-contributions-target-label": "Adresse ou plage IP :",
 	"checkuser-global-contributions-target-placeholder": "Entrez une adresse IP pour voir les contributions des comptes temporaires",
-	"checkuser-global-contributions-target-error-no-ip": "Entrez une adresse IP ou une plage IP valide",
-	"checkuser-global-contributions-target-error-no-ip-banner": "Votre recherche n'a pas pu être effectuée. Veuillez saisir une adresse IP ou une plage IP valide.",
 	"checkuser-global-contributions-search-form-wrapper": "Rechercher des contributions globales",
 	"checkuser-global-contributions-results-title": "Contributions globales pour $1",
 	"checkuser-global-contributions-no-results-no-permissions": "<strong>La requête n'a rien donné</strong>. Vous n'êtes peut-être pas autorisé à afficher les adresses IP utilisées par les comptes temporaires.",

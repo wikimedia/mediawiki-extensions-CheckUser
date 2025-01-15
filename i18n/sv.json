@@ -228,7 +228,6 @@
 	"checkuser-ip-contributions-contributions-link": "bidrag",
 	"checkuser-global-contributions-permission-error-title": "Behörighetsfel",
 	"checkuser-global-contributions-target-label": "IP-adress eller -intervall:",
-	"checkuser-global-contributions-target-error-no-ip": "Ange en giltig IP-adress eller IP-intervall",
 	"checkuser-global-contributions-search-form-wrapper": "Sök efter globala bidrag",
 	"checkuser-global-contributions-results-title": "Globala användarbidrag för $1",
 	"prefs-checkuser-tempaccount": "Visa IP-adress för temporärt konto",

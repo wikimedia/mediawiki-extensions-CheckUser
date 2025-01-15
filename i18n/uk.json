@@ -277,8 +277,6 @@
 	"checkuser-global-contributions-subtitle": "Показ результатів за {{PLURAL:$1|останній $1|останні $1 дні|останні $1 днів}}, для всіх вікі, де ви маєте право переглядати IP-адреси, що використовуються тимчасовими обліковими записами.",
 	"checkuser-global-contributions-target-label": "IP-адреса або діапазон:",
 	"checkuser-global-contributions-target-placeholder": "Введіть IP-адресу, щоб побачити внесок тимчасових облікових записів",
-	"checkuser-global-contributions-target-error-no-ip": "Введіть дійсну IP-адресу або діапазон IP-адрес",
-	"checkuser-global-contributions-target-error-no-ip-banner": "Не вдалося завершити пошук. Введіть дійсну IP-адресу або діапазон IP-адрес.",
 	"checkuser-global-contributions-search-form-wrapper": "Пошук глобального внеску",
 	"checkuser-global-contributions-results-title": "Глобальний внесок для $1",
 	"checkuser-global-contributions-no-results-no-permissions": "<strong>Немає результатів, що відповідають запиту.</strong> Ви можете не мати дозволу на перегляд IP-адрес, які використовуються тимчасовими обліковими записами.",

@@ -297,8 +297,6 @@
 	"checkuser-global-contributions-subtitle": "显示过去$1{{PLURAL:$1|天}}的结果。",
 	"checkuser-global-contributions-target-label": "IP地址或范围：",
 	"checkuser-global-contributions-target-placeholder": "输入IP地址查看临时账号的贡献",
-	"checkuser-global-contributions-target-error-no-ip": "请输入有效的IP地址或IP范围",
-	"checkuser-global-contributions-target-error-no-ip-banner": "您的搜索无法完成。请输入有效的IP地址或IP范围。",
 	"checkuser-global-contributions-search-form-wrapper": "搜索全域贡献",
 	"checkuser-global-contributions-results-title": "$1的全域贡献",
 	"prefs-checkuser-tempaccount": "临时账号IP显示",

@@ -292,8 +292,6 @@
 	"checkuser-global-contributions-subtitle": "一時アカウントによって使用されたIPアドレスを表示する権限を持つすべてのウィキについて、過去$1{{PLURAL:$1|日間}}の結果を表示しています。",
 	"checkuser-global-contributions-target-label": "IP アドレスまたは範囲:",
 	"checkuser-global-contributions-target-placeholder": "臨時アカウントによる寄付を確認するには、IP アドレスを入力",
-	"checkuser-global-contributions-target-error-no-ip": "有効なIPアドレスまたはIPアドレス範囲を入力してください",
-	"checkuser-global-contributions-target-error-no-ip-banner": "検索を完了できませんでした。有効な IP アドレスまたは IP 範囲を入力してください。",
 	"checkuser-global-contributions-search-form-wrapper": "グローバル投稿記録の検索",
 	"checkuser-global-contributions-results-title": "$1 のグローバル投稿記録",
 	"checkuser-global-contributions-no-results-no-permissions": "<strong>クエリに一致する結果がありませんでした。</strong>臨時アカウントの使用 IP アドレスを表示できない理由は権限を受けていないからかもしれません。",

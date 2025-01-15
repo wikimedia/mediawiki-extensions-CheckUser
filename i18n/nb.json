@@ -258,8 +258,6 @@
 	"checkuser-global-contributions-permission-error-description": "Godta avtalen i [[Special:GlobalPreferences|de globale innstillingene dine]] for å se globale bidrag.",
 	"checkuser-global-contributions-subtitle": "Viser resultater fra {{PLURAL:$1|det siste døgnet|de siste $1 dagene}}.",
 	"checkuser-global-contributions-target-label": "IP-adresse eller -intervall:",
-	"checkuser-global-contributions-target-error-no-ip": "Skriv inn ei gyldig IP-adresse eller IP-intervall",
-	"checkuser-global-contributions-target-error-no-ip-banner": "Søket ditt kunne ikke fullføres. Skriv inn ei gyldig IP-adresse eller -intervall.",
 	"checkuser-global-contributions-search-form-wrapper": "Søk etter globale bidrag",
 	"checkuser-global-contributions-results-title": "Globale brukerbidrag av $1",
 	"prefs-checkuser-tempaccount": "Avsløring av midlertidige kontoers IP-adresse",

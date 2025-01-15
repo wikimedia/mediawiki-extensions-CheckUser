@@ -246,7 +246,6 @@
 	"checkuser-global-contributions-subtitle": "در حال نمایش نتایج مربوط به $1 {{PLURAL:$1|روز}} گذشته، برای تمام ویکی‌هایی که در آن‌ها اجازهٔ مشاهدهٔ نشانی آی‌پی حساب‌های موقت را دارید.",
 	"checkuser-global-contributions-target-label": "نشانی یا بازهٔ آی‌پی:",
 	"checkuser-global-contributions-target-placeholder": "برای مشاهدهٔ مشارکت‌های حساب‌های موقت، یک نشانی آی‌پی را وارد کنید",
-	"checkuser-global-contributions-target-error-no-ip": "لطفاً یک نشانی یا بازهٔ آی‌پی معتبر وارد کنید",
 	"prefs-checkuser-tempaccount": "آشکارسازی آی‌پی حساب‌های موقت",
 	"checkuser-tempaccount-enable-preference": "فعال کردن قابلی آشکارسازی نشانی‌های آی‌پی مرتبط با حساب‌های موقت",
 	"checkuser-temporary-account-change-access-level-disable-globally": "{{GENDER:$1|غیرفعال}} به‌صورت سراسری",

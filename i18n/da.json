@@ -255,8 +255,6 @@
 	"checkuser-global-contributions-permission-error-description": "For at se globale bidrag skal du acceptere aftalen i [[Special:GlobalPreferences|dine globale præferencer]].",
 	"checkuser-global-contributions-subtitle": "Viser resultater fra de sidste $1 {{PLURAL:$1|dag|dage}}.",
 	"checkuser-global-contributions-target-label": "IP-adresse eller -interval:",
-	"checkuser-global-contributions-target-error-no-ip": "Indtast en gyldig IP-adresse eller IP-interval",
-	"checkuser-global-contributions-target-error-no-ip-banner": "Din søgning kunne ikke fuldføres. Indtast venligst en gyldig IP-adresse eller IP-interval.",
 	"checkuser-global-contributions-search-form-wrapper": "Søg efter globale bidrag",
 	"checkuser-global-contributions-results-title": "Globale brugerbidrag for $1",
 	"prefs-checkuser-tempaccount": "Vise IP-adresser for midlertidig konto",

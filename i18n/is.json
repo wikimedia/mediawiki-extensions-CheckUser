@@ -56,8 +56,6 @@
 	"checkuser-global-contributions-permission-error-description": "Til að skoða altæk framlög, vinsamlegast staðfestu samkomulagið í [[Special:GlobalPreferences|stillingunum þínum]].",
 	"checkuser-global-contributions-subtitle": "Sýni niðurstöður {{PLURAL:$1|síðasta $1 dag|síðustu $1 daga}}.",
 	"checkuser-global-contributions-target-label": "Vistfang eða röð vistfanga:",
-	"checkuser-global-contributions-target-error-no-ip": "Sláðu inn gilt vistfang eða röð vistfanga",
-	"checkuser-global-contributions-target-error-no-ip-banner": "Hætt var við leitina þína. Vinsamlegast skrifaðu gilt vistfang eða röð vistfanga.",
 	"checkuser-global-contributions-search-form-wrapper": "Leita eftir altækum framlögum",
 	"checkuser-global-contributions-results-title": "Altæk framlög notanda $1",
 	"prefs-checkuser-tempaccount": "Sýna vistföng tímabundra aðganga",

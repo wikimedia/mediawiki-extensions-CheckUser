@@ -255,8 +255,6 @@
 	"checkuser-global-contributions-subtitle": "Прикажувам исходни ставки од {{PLURAL:$1|изминатиов ден|изминатите $1 дена}} за сите викија на кои имате право да гледате IP-адреси користени од привремени сметки.",
 	"checkuser-global-contributions-target-label": "IP-адреса или опсег:",
 	"checkuser-global-contributions-target-placeholder": "Внесете IP-адреса за да ги видите придонесите од привремени сметки",
-	"checkuser-global-contributions-target-error-no-ip": "Внесете важечка IP-адреса или IP-опсег",
-	"checkuser-global-contributions-target-error-no-ip-banner": "Не можев да го исполнам вашето барање. Внесете важечка IP-адреса или IP-опсег.",
 	"checkuser-global-contributions-search-form-wrapper": "Пребарај глобални придонеси",
 	"checkuser-global-contributions-results-title": "Глобални придонеси на $1",
 	"checkuser-global-contributions-no-results-no-permissions": "<strong>Нема исходни ставки што одговараат на бараното.</strong> Немате дозвола да гледате IP-адреси што се користат од привремени сметки.",
