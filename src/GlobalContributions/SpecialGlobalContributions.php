@@ -190,8 +190,10 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 		// Add subtitle text describing that the data shown is limited to wgCUDMaxAge seconds ago. The count should
 		// be in days, as this makes it easier to translate the message.
 		$contributionsSub .= $this->msg( 'checkuser-global-contributions-subtitle' )
-			->numParams( $this->getMaxAgeForMessage() )
-			->parse();
+			->numParams(
+				$this->getMaxAgeForMessage(),
+				GlobalContributionsPager::REVISION_COUNT_LIMIT
+			)->parse();
 
 		return $contributionsSub;
 	}
