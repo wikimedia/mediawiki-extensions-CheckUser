@@ -100,23 +100,43 @@ function makeButton( target, revIds, logIds, documentRoot ) {
  * it is shared between initOnLoad and initOnHook.
  *
  * @param {jQuery} $content
+ * @return {jQuery} The temporary account user links which have had a "Show IP" button
+ *   added after them by this method
  */
 function addButton( $content ) {
 	const allRevIds = {};
 	const allLogIds = {};
-	const $userLinks = $content.find( '.mw-tempuserlink' );
+
+	// Get the "normal" temp user links which are those which are not inside a log entry line.
+	const $normalUserLinks = $content.find( '.mw-tempuserlink' ).filter( function () {
+		return $( this ).closest( '.mw-logevent-loglines, .mw-changeslist-log-entry, .mw-changeslist-log' ).length === 0;
+	} );
+
+	// Get the log line temp user links which are inside log lines that are marked as being
+	// performed by a temporary account and support IP reveal.
+	const $logLinePerformerUserLinks = $content
+		.find( '.mw-logevent-loglines .ext-checkuser-log-line-supports-ip-reveal' )
+		.map( function () {
+			return $( this ).find( '.mw-tempuserlink' ).first();
+		} );
+
+	const $userLinks = $normalUserLinks.add( $logLinePerformerUserLinks );
 
 	$userLinks.each( function () {
 		addToAllIds( $( this ), allRevIds, getRevisionId );
 		addToAllIds( $( this ), allLogIds, getLogId );
 	} );
 
-	$userLinks.after( function () {
+	$userLinks.each( function () {
 		const target = $( this ).text();
-		const revIds = getIdsForTarget( $( this ), target, allRevIds, getRevisionId );
-		const logIds = getIdsForTarget( $( this ), target, allLogIds, getLogId );
-		return makeButton( target, revIds, logIds );
+		$( this ).after( function () {
+			const revIds = getIdsForTarget( $( this ), target, allRevIds, getRevisionId );
+			const logIds = getIdsForTarget( $( this ), target, allLogIds, getLogId );
+			return makeButton( target, revIds, logIds );
+		} );
 	} );
+
+	return $userLinks;
 }
 
 /**

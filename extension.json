@@ -183,7 +183,6 @@
 				"InvestigateBlock",
 				"CheckUser",
 				"CheckUserLog",
-				"Log",
 				"Activeusers",
 				"Listusers",
 				"BlockList"
@@ -385,6 +384,14 @@
 		},
 		"UserMerge": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\UserMergeHandler"
+		},
+		"LogEventsListHandler": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\LogEventsListHandler",
+			"services": [
+				"UserNameUtils",
+				"MainConfig",
+				"CheckUserPermissionManager"
+			]
 		}
 	},
 	"Hooks": {
@@ -402,6 +409,7 @@
 		"GlobalPreferencesSetGlobalPreferences": "GlobalPreferencesHandler",
 		"LoadExtensionSchemaUpdates": "SchemaChanges",
 		"LocalUserCreated": "CheckUserPrivateEvents",
+		"LogEventsListLineEnding": "LogEventsListHandler",
 		"PerformRetroactiveAutoblock": "RetroactiveAutoBlock",
 		"RecentChange_save": "RecentChangeSaveHandler",
 		"RenameUserSQL": "RenameUserSQLHandler",
