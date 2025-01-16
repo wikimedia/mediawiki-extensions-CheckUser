@@ -746,7 +746,8 @@
 				"UserAgentClientHintsFormatter",
 				"CheckUserLookupUtils",
 				"LogFormatterFactory",
-				"UserOptionsLookup"
+				"UserOptionsLookup",
+				"DatabaseBlockStore"
 			]
 		},
 		"CheckUserLog": {

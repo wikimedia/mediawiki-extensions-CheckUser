@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\CheckUser;
 
 use LogFormatterFactory;
+use MediaWiki\Block\DatabaseBlockStore;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetActionsPager;
@@ -79,6 +80,7 @@ class SpecialCheckUser extends SpecialPage {
 	private CheckUserLookupUtils $checkUserLookupUtils;
 	private LogFormatterFactory $logFormatterFactory;
 	private UserOptionsLookup $userOptionsLookup;
+	private DatabaseBlockStore $blockStore;
 
 	public function __construct(
 		LinkBatchFactory $linkBatchFactory,
@@ -101,7 +103,8 @@ class SpecialCheckUser extends SpecialPage {
 		UserAgentClientHintsFormatter $clientHintsFormatter,
 		CheckUserLookupUtils $checkUserLookupUtils,
 		LogFormatterFactory $logFormatterFactory,
-		UserOptionsLookup $userOptionsLookup
+		UserOptionsLookup $userOptionsLookup,
+		DatabaseBlockStore $blockStore
 	) {
 		parent::__construct( 'CheckUser', 'checkuser' );
 
@@ -126,6 +129,7 @@ class SpecialCheckUser extends SpecialPage {
 		$this->checkUserLookupUtils = $checkUserLookupUtils;
 		$this->logFormatterFactory = $logFormatterFactory;
 		$this->userOptionsLookup = $userOptionsLookup;
+		$this->blockStore = $blockStore;
 	}
 
 	public function doesWrites() {
@@ -485,7 +489,8 @@ class SpecialCheckUser extends SpecialPage {
 					$this->checkUserLogService,
 					$this->userFactory,
 					$this->checkUserLookupUtils,
-					$this->userOptionsLookup
+					$this->userOptionsLookup,
+					$this->blockStore
 				);
 			case self::SUBTYPE_GET_USERS:
 				return new CheckUserGetUsersPager(
@@ -507,7 +512,8 @@ class SpecialCheckUser extends SpecialPage {
 					$this->checkUserUtilityService,
 					$this->clientHintsLookup,
 					$this->clientHintsFormatter,
-					$this->userOptionsLookup
+					$this->userOptionsLookup,
+					$this->blockStore
 				);
 			case self::SUBTYPE_GET_ACTIONS:
 				return new CheckUserGetActionsPager(
@@ -533,7 +539,8 @@ class SpecialCheckUser extends SpecialPage {
 					$this->clientHintsLookup,
 					$this->clientHintsFormatter,
 					$this->logFormatterFactory,
-					$this->userOptionsLookup
+					$this->userOptionsLookup,
+					$this->blockStore
 				);
 			default:
 				return null;

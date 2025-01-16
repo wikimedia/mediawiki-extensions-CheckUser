@@ -9,6 +9,7 @@ use LogFormatterFactory;
 use LogicException;
 use LogPage;
 use ManualLogEntry;
+use MediaWiki\Block\DatabaseBlockStore;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\ClientHints\ClientHintsBatchFormatterResults;
@@ -105,6 +106,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		UserAgentClientHintsFormatter $clientHintsFormatter,
 		LogFormatterFactory $logFormatterFactory,
 		UserOptionsLookup $userOptionsLookup,
+		DatabaseBlockStore $blockStore,
 		?IContextSource $context = null,
 		?LinkRenderer $linkRenderer = null,
 		?int $limit = null
@@ -112,7 +114,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 		parent::__construct( $opts, $target, $logType, $tokenQueryManager,
 			$userGroupManager, $centralIdLookup, $dbProvider, $specialPageFactory,
 			$userIdentityLookup, $checkUserLogService, $userFactory, $checkUserLookupUtils,
-			$userOptionsLookup, $context, $linkRenderer, $limit );
+			$userOptionsLookup, $blockStore, $context, $linkRenderer, $limit );
 		$this->checkType = SpecialCheckUser::SUBTYPE_GET_ACTIONS;
 		$this->logger = LoggerFactory::getInstance( 'CheckUser' );
 		$this->xfor = $xfor;
