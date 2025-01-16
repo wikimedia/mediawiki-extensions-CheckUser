@@ -195,6 +195,20 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 				GlobalContributionsPager::REVISION_COUNT_LIMIT
 			)->parse();
 
+		// Allow linking to relevant tools to surface more global contributions (T380562).
+		if ( IPUtils::isIPAddress( $userObj->getName() ) ) {
+			$toolsMsg = $this->msg( 'checkuser-global-contributions-anon-tools' );
+		} else {
+			$toolsMsg = $this->msg( 'checkuser-global-contributions-registered-user-tools' );
+		}
+
+		if ( $toolsMsg && !$toolsMsg->isDisabled() ) {
+			$contributionsSub .= $toolsMsg
+				->params( $userObj->getName() )
+				->numParams( $this->getMaxAgeForMessage() )
+				->parseAsBlock();
+		}
+
 		return $contributionsSub;
 	}
 
