@@ -276,7 +276,7 @@
 	"checkuser-global-contributions": "חיפוש תרומות גלובליות",
 	"checkuser-global-contributions-permission-error-title": "שגיאת הרשאה",
 	"checkuser-global-contributions-permission-error-description": "כדי לצפות בתרומות גלובליות, יש לקבל את ההסכם ב[[Special:GlobalPreferences|העדפות הגלובליות שלך]].",
-	"checkuser-global-contributions-subtitle": "הצגת תוצאות {{PLURAL:$1|מהיום האחרון|מהיומיים האחרונים|מ־$1 הימים האחרונים}} עבור כל אתרי הוויקי שיש לך בהם הרשאה לצפות בתרומות.",
+	"checkuser-global-contributions-subtitle": "הצגת תוצאות {{PLURAL:$1|מהיום האחרון|מהיומיים האחרונים|מ־$1 הימים האחרונים}} עבור כל אתרי הוויקי שיש לך בהם הרשאה לצפות בתרומות. מוגבל {{PLURAL:$2|לתוצאה אחת|לשתי תוצאות}} לוויקי.",
 	"checkuser-global-contributions-target-label": "שם משתמש, כתובת IP או טווח:",
 	"checkuser-global-contributions-target-placeholder": "שם משתמש, כתובת IP או טווח",
 	"checkuser-global-contributions-search-form-wrapper": "חיפוש תרומות גלובליות",

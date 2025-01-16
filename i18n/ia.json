@@ -267,7 +267,7 @@
 	"checkuser-global-contributions": "Cercar contributiones global",
 	"checkuser-global-contributions-permission-error-title": "Error de permission",
 	"checkuser-global-contributions-permission-error-description": "Pro vider contributiones global, per favor accepta le accordo in [[Special:GlobalPreferences|tu preferentias global]].",
-	"checkuser-global-contributions-subtitle": "Es presentate le resultatos del ultime $1 die{{PLURAL:$1||s}}, pro tote le wikis ubi tu ha le derecto de vider contributiones.",
+	"checkuser-global-contributions-subtitle": "Es presentate le resultatos del ultime $1 die{{PLURAL:$1||s}}, pro tote le wikis ubi tu ha le derecto de vider contributiones. Es limitate a $2 resultato{{PLURAL:$2||s}} per wiki.",
 	"checkuser-global-contributions-target-label": "Nomine de usator, adresse IP o intervallo IP:",
 	"checkuser-global-contributions-target-placeholder": "Nomine de usator, adresse IP o intervallo IP",
 	"checkuser-global-contributions-search-form-wrapper": "Cercar contributiones global",
