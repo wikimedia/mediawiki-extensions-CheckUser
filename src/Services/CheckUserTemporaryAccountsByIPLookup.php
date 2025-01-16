@@ -37,15 +37,6 @@ class CheckUserTemporaryAccountsByIPLookup implements CheckUserQueryInterface {
 	private UserOptionsLookup $userOptionsLookup;
 	private PermissionManager $permissionManager;
 
-	/**
-	 * @param ServiceOptions $serviceOptions
-	 * @param IConnectionProvider $connectionProvider
-	 * @param JobQueueGroup $jobQueueGroup
-	 * @param TempUserConfig $tempUserConfig
-	 * @param UserFactory $userFactory
-	 * @param PermissionManager $permissionManager
-	 * @param UserOptionsLookup $userOptionsLookup
-	 */
 	public function __construct(
 		ServiceOptions $serviceOptions,
 		IConnectionProvider $connectionProvider,

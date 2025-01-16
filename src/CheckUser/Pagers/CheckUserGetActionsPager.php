@@ -81,34 +81,6 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 	private UserAgentClientHintsFormatter $clientHintsFormatter;
 	private LogFormatterFactory $logFormatterFactory;
 
-	/**
-	 * @param FormOptions $opts
-	 * @param UserIdentity $target
-	 * @param bool|null $xfor
-	 * @param string $logType
-	 * @param TokenQueryManager $tokenQueryManager
-	 * @param UserGroupManager $userGroupManager
-	 * @param CentralIdLookup $centralIdLookup
-	 * @param LinkBatchFactory $linkBatchFactory
-	 * @param IConnectionProvider $dbProvider
-	 * @param SpecialPageFactory $specialPageFactory
-	 * @param UserIdentityLookup $userIdentityLookup
-	 * @param UserFactory $userFactory
-	 * @param CheckUserLookupUtils $checkUserLookupUtils
-	 * @param CheckUserLogService $checkUserLogService
-	 * @param CommentFormatter $commentFormatter
-	 * @param UserEditTracker $userEditTracker
-	 * @param HookRunner $hookRunner
-	 * @param CheckUserUtilityService $checkUserUtilityService
-	 * @param CommentStore $commentStore
-	 * @param UserAgentClientHintsLookup $clientHintsLookup
-	 * @param UserAgentClientHintsFormatter $clientHintsFormatter
-	 * @param LogFormatterFactory $logFormatterFactory
-	 * @param UserOptionsLookup $userOptionsLookup
-	 * @param IContextSource|null $context
-	 * @param LinkRenderer|null $linkRenderer
-	 * @param ?int $limit
-	 */
 	public function __construct(
 		FormOptions $opts,
 		UserIdentity $target,

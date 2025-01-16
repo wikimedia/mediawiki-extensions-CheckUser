@@ -80,24 +80,6 @@ class SpecialInvestigate extends FormSpecialPage {
 	/** @var string */
 	public const TOUR_INVESTIGATE_FORM = 'checkuserinvestigateform';
 
-	/**
-	 * @param LinkRenderer $linkRenderer
-	 * @param Language $contentLanguage
-	 * @param UserOptionsManager $userOptionsManager
-	 * @param PagerFactory $preliminaryCheckPagerFactory
-	 * @param PagerFactory $comparePagerFactory
-	 * @param PagerFactory $timelinePagerFactory
-	 * @param TokenQueryManager $tokenQueryManager
-	 * @param DurationManager $durationManager
-	 * @param EventLogger $eventLogger
-	 * @param TourLauncher $tourLauncher
-	 * @param CheckUserSubtitleLinksHook $subtitleLinksHookRunner
-	 * @param PermissionManager $permissionManager
-	 * @param CheckUserLogService $checkUserLogService
-	 * @param UserIdentityLookup $userIdentityLookup
-	 * @param UserFactory $userFactory
-	 * @param UrlUtils $urlUtils
-	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		Language $contentLanguage,

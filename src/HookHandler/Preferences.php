@@ -43,11 +43,6 @@ class Preferences implements GetPreferencesHook {
 	private MessageLocalizer $messageLocalizer;
 	private Config $config;
 
-	/**
-	 * @param PermissionManager $permissionManager
-	 * @param TemporaryAccountLoggerFactory $loggerFactory
-	 * @param Config $config
-	 */
 	public function __construct(
 		PermissionManager $permissionManager,
 		TemporaryAccountLoggerFactory $loggerFactory,

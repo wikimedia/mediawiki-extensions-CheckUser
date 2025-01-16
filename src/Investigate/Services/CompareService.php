@@ -23,12 +23,6 @@ class CompareService extends ChangeService {
 
 	private int $limit;
 
-	/**
-	 * @param ServiceOptions $options
-	 * @param IConnectionProvider $dbProvider
-	 * @param UserIdentityLookup $userIdentityLookup
-	 * @param CheckUserLookupUtils $checkUserLookupUtils
-	 */
 	public function __construct(
 		ServiceOptions $options,
 		IConnectionProvider $dbProvider,

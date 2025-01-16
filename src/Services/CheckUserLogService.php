@@ -30,14 +30,6 @@ class CheckUserLogService {
 	private ActorStore $actorStore;
 	private UserIdentityLookup $userIdentityLookup;
 
-	/**
-	 * @param IConnectionProvider $dbProvider
-	 * @param CommentStore $commentStore
-	 * @param CommentFormatter $commentFormatter
-	 * @param LoggerInterface $logger
-	 * @param ActorStore $actorStore
-	 * @param UserIdentityLookup $userIdentityLookup
-	 */
 	public function __construct(
 		IConnectionProvider $dbProvider,
 		CommentStore $commentStore,

@@ -20,13 +20,6 @@ class PreliminaryCheckService {
 	/** @var string */
 	private $localWikiId;
 
-	/**
-	 * @param IConnectionProvider $dbProvider
-	 * @param ExtensionRegistry $extensionRegistry
-	 * @param UserGroupManagerFactory $userGroupManagerFactory
-	 * @param DatabaseBlockStoreFactory $blockStoreFactory
-	 * @param string $localWikiId
-	 */
 	public function __construct(
 		IConnectionProvider $dbProvider,
 		ExtensionRegistry $extensionRegistry,

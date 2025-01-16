@@ -38,10 +38,6 @@ class UserAgentClientHintsFormatter {
 
 	private array $msgCache;
 
-	/**
-	 * @param MessageLocalizer $messageLocalizer
-	 * @param ServiceOptions $options
-	 */
 	public function __construct(
 		MessageLocalizer $messageLocalizer,
 		ServiceOptions $options

@@ -34,19 +34,6 @@ class IPContributionsPagerFactory {
 	private CheckUserLookupUtils $lookupUtils;
 	private JobQueueGroup $jobQueueGroup;
 
-	/**
-	 * @param LinkRenderer $linkRenderer
-	 * @param LinkBatchFactory $linkBatchFactory
-	 * @param HookContainer $hookContainer
-	 * @param RevisionStore $revisionStore
-	 * @param NamespaceInfo $namespaceInfo
-	 * @param CommentFormatter $commentFormatter
-	 * @param UserFactory $userFactory
-	 * @param TempUserConfig $tempUserConfig
-	 * @param Config $config
-	 * @param CheckUserLookupUtils $lookupUtils
-	 * @param JobQueueGroup $jobQueueGroup
-	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		LinkBatchFactory $linkBatchFactory,

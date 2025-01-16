@@ -21,14 +21,6 @@ class CheckUserPagerNavigationBuilder extends PagerNavigationBuilder {
 	/** @var FormOptions The submitted form data in a helper class. */
 	private FormOptions $opts;
 
-	/**
-	 * @param MessageLocalizer $messageLocalizer
-	 * @param TokenQueryManager $tokenQueryManager
-	 * @param CsrfTokenSet $csrfTokenSet
-	 * @param WebRequest $request
-	 * @param FormOptions $opts
-	 * @param UserIdentity $target
-	 */
 	public function __construct(
 		MessageLocalizer $messageLocalizer,
 		TokenQueryManager $tokenQueryManager,

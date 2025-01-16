@@ -42,18 +42,6 @@ class TimelineRowFormatter {
 
 	private User $user;
 
-	/**
-	 * @param LinkRenderer $linkRenderer
-	 * @param CheckUserLookupUtils $checkUserLookupUtils
-	 * @param TitleFormatter $titleFormatter
-	 * @param SpecialPageFactory $specialPageFactory
-	 * @param CommentFormatter $commentFormatter
-	 * @param UserFactory $userFactory
-	 * @param CommentStore $commentStore
-	 * @param LogFormatterFactory $logFormatterFactory
-	 * @param User $user
-	 * @param Language $language
-	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		CheckUserLookupUtils $checkUserLookupUtils,

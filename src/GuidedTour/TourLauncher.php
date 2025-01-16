@@ -13,10 +13,6 @@ class TourLauncher {
 	private ExtensionRegistry $extensionRegistry;
 	private LinkRenderer $linkRenderer;
 
-	/**
-	 * @param ExtensionRegistry $extensionRegistry
-	 * @param LinkRenderer $linkRenderer
-	 */
 	public function __construct(
 		ExtensionRegistry $extensionRegistry,
 		LinkRenderer $linkRenderer

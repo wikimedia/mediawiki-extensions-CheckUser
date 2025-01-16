@@ -7,9 +7,6 @@ use MediaWiki\Request\WebRequest;
 class TokenQueryManager {
 	public TokenManager $tokenManager;
 
-	/**
-	 * @param TokenManager $tokenManager
-	 */
 	public function __construct( TokenManager $tokenManager ) {
 		$this->tokenManager = $tokenManager;
 	}
