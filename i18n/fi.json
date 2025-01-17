@@ -242,7 +242,7 @@
 	"checkuser-global-contributions": "Etsi muokkauksia järjestelmänlaajuisesti",
 	"checkuser-global-contributions-permission-error-title": "Puutteelliset oikeudet",
 	"checkuser-global-contributions-permission-error-description": "Katsoaksesi muokkauksia järjestelmänlaajuisesti sinun tulee hyväksy sopimus [[Special:GlobalPreferences|järjestelmänlaajuisissa asetuksissa]].",
-	"checkuser-global-contributions-subtitle": "Näytetään tulokset viimeiseltä $1 {{PLURAL:$1| päivältä}} kaikista wikeistä, joissa sinulla on oikeus nähdä muokkauksia.",
+	"checkuser-global-contributions-subtitle": "Näytetään tulokset viimeiseltä $1 {{PLURAL:$1|päivältä}} kaikista wikeistä, joissa sinulla on oikeus nähdä muokkauksia. Rajoitettu $2 {{PLURAL:$2|tulokseen}} per wiki.",
 	"checkuser-global-contributions-target-label": "Käyttäjänimi, IP-osoite tai IP-alue:",
 	"checkuser-global-contributions-target-placeholder": "Käyttäjänimi, IP-osoite tai IP-alue",
 	"checkuser-global-contributions-search-form-wrapper": "Etsi muokkauksia järjestelmänlaajuisesti",

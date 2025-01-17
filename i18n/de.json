@@ -283,7 +283,7 @@
 	"checkuser-global-contributions": "Suche nach globalen Beiträgen",
 	"checkuser-global-contributions-permission-error-title": "Berechtigungsfehler",
 	"checkuser-global-contributions-permission-error-description": "Um globale Beiträge anzuzeigen, akzeptiere bitte die Vereinbarung in [[Special:GlobalPreferences|deine globalen Einstellungen]].",
-	"checkuser-global-contributions-subtitle": "Es werden Ergebnisse {{PLURAL:$1|des letzten Tages|der letzten $1 Tage}} angezeigt, für alle Wikis, in denen das das Recht hast, Beiträge zu sehen. Begrenzt auf $2 {{PLURAL:$2|Ergebnis|Ergebnisse}} pro Wiki.",
+	"checkuser-global-contributions-subtitle": "Es werden Ergebnisse {{PLURAL:$1|des letzten Tages|der letzten $1 Tage}} angezeigt, für alle Wikis, in denen du das Recht hast, Beiträge zu sehen. Begrenzt auf $2 {{PLURAL:$2|Ergebnis|Ergebnisse}} pro Wiki.",
 	"checkuser-global-contributions-target-label": "Benutzername, IP-Adresse oder Adressenbereich:",
 	"checkuser-global-contributions-target-placeholder": "Benutzername, IP-Adresse oder IP-Adressbereich",
 	"checkuser-global-contributions-search-form-wrapper": "Suche nach globalen Beiträgen",

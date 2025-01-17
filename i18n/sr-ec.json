@@ -237,7 +237,7 @@
 	"checkuser-global-contributions": "Претрага глобалних доприноса",
 	"checkuser-global-contributions-permission-error-title": "Грешка у дозволама",
 	"checkuser-global-contributions-permission-error-description": "Да видите глобалне доприносе, молимо прихватите уговор у [[Special:GlobalPreferences|Вашим глобалним подешавањима]].",
-	"checkuser-global-contributions-subtitle": "Приказивање резултата за претходних $1 {{PLURAL:$1|дан|дана}}, за све викије где имате право видети доприносе.",
+	"checkuser-global-contributions-subtitle": "Приказивање резултата за претходних $1 {{PLURAL:$1|дан|дана}}, за све викије где имате право видети доприносе. Највише $2 {{PLURAL:$2|резултата}} по викију.",
 	"checkuser-global-contributions-target-label": "Корисничко име, IP адреса или опсег:",
 	"checkuser-global-contributions-target-placeholder": "Корисничко име, IP адреса или опсег",
 	"checkuser-global-contributions-search-form-wrapper": "Претрага глобалних доприноса",
