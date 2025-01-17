@@ -276,6 +276,8 @@
 	"checkuser-ip-contributions-special-contributions-button": "Legacy IP edits",
 	"checkuser-global-contributions-summary": "Get edits made by a user across all wiki projects from the last $1 {{PLURAL:$1|day|days}}.",
 	"checkuser-global-contributions": "Search for global contributions",
+	"checkuser-global-contributions-anon-tools": "",
+	"checkuser-global-contributions-registered-user-tools": "",
 	"checkuser-global-contributions-permission-error-title": "Permission error",
 	"checkuser-global-contributions-permission-error-description": "To view global contributions, please accept the agreement in [[Special:GlobalPreferences|your global preferences]].",
 	"checkuser-global-contributions-subtitle": "Showing results from the last $1 {{PLURAL:$1|day|days}}, for all wikis where you have the right to view contributions. Limited to $2 {{PLURAL:$2|result|results}} per wiki.",
