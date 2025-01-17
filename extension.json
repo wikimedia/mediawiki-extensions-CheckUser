@@ -385,8 +385,8 @@
 		"UserMerge": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\UserMergeHandler"
 		},
-		"LogEventsListHandler": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\LogEventsListHandler",
+		"LogDisplayHandler": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\LogDisplayHandler",
 			"services": [
 				"UserNameUtils",
 				"MainConfig",
@@ -402,6 +402,7 @@
 		],
 		"APIGetAllowedParams": "clienthints",
 		"BeforeInitialize": "pageDisplay",
+		"ChangesListInsertLogEntry": "LogDisplayHandler",
 		"ContributionsToolLinks": "ToolLinks",
 		"EmailUser": "CheckUserPrivateEvents",
 		"GetPreferences": "preferences",
@@ -409,7 +410,7 @@
 		"GlobalPreferencesSetGlobalPreferences": "GlobalPreferencesHandler",
 		"LoadExtensionSchemaUpdates": "SchemaChanges",
 		"LocalUserCreated": "CheckUserPrivateEvents",
-		"LogEventsListLineEnding": "LogEventsListHandler",
+		"LogEventsListLineEnding": "LogDisplayHandler",
 		"PerformRetroactiveAutoblock": "RetroactiveAutoBlock",
 		"RecentChange_save": "RecentChangeSaveHandler",
 		"RenameUserSQL": "RenameUserSQLHandler",

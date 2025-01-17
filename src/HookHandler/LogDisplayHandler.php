@@ -2,12 +2,16 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
+use LogEntry;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Config\Config;
+use MediaWiki\Hook\ChangesListInsertLogEntryHook;
 use MediaWiki\Hook\LogEventsListLineEndingHook;
+use MediaWiki\Permissions\Authority;
+use MediaWiki\Title\Title;
 use MediaWiki\User\UserNameUtils;
 
-class LogEventsListHandler implements LogEventsListLineEndingHook {
+class LogDisplayHandler implements LogEventsListLineEndingHook, ChangesListInsertLogEntryHook {
 
 	private UserNameUtils $userNameUtils;
 	private Config $config;
@@ -24,7 +28,25 @@ class LogEventsListHandler implements LogEventsListLineEndingHook {
 	}
 
 	/** @inheritDoc */
+	public function onChangesListInsertLogEntry( $entry, $context, string &$html, array &$classes, array &$attribs ) {
+		$this->handleLogDisplayHook( $entry, $context->getTitle(), $context->getAuthority(), $classes );
+	}
+
+	/** @inheritDoc */
 	public function onLogEventsListLineEnding( $page, &$ret, $entry, &$classes, &$attribs ) {
+		$this->handleLogDisplayHook( $entry, $page->getTitle(), $page->getAuthority(), $classes );
+	}
+
+	/**
+	 * Handles hooks which are called just after the HTML line for a log entry is generated, so that
+	 * we can add the CSS class to indicate which log entries support IP reveal on the performer.
+	 *
+	 * @param LogEntry $entry The log entry this log line is associated with
+	 * @param Title|null $title The title of the page the user is viewing
+	 * @param Authority $authority The user viewing the $title
+	 * @param array &$classes CSS classes which may be added to by this method
+	 */
+	private function handleLogDisplayHook( LogEntry $entry, ?Title $title, Authority $authority, array &$classes ) {
 		// Only add the "Show IP" button next to log entries performed by temporary accounts.
 		if ( !$this->userNameUtils->isTemp( $entry->getPerformerIdentity()->getName() ) ) {
 			return;
@@ -34,19 +56,14 @@ class LogEventsListHandler implements LogEventsListLineEndingHook {
 		// We don't currently support non-special pages as the page output could be cached, which won't
 		// work as the cache is not per-user.
 		if (
-			!( $page->getTitle() && $page->getTitle()->isSpecialPage() ) ||
-			in_array(
-				$page->getTitle()->getDBkey(),
-				$this->config->get( 'CheckUserSpecialPagesWithoutIPRevealButtons' )
-			)
+			!( $title && $title->isSpecialPage() ) ||
+			in_array( $title->getDBkey(), $this->config->get( 'CheckUserSpecialPagesWithoutIPRevealButtons' ) )
 		) {
 			return;
 		}
 
 		// No need for the "Show IP" button if the user cannot use the button.
-		$permStatus = $this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses(
-			$page->getAuthority()
-		);
+		$permStatus = $this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses( $authority );
 		if ( !$permStatus->isGood() ) {
 			return;
 		}
