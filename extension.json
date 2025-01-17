@@ -327,7 +327,8 @@
 				"UserFactory",
 				"ReadOnlyMode",
 				"UserAgentClientHintsManager",
-				"JobQueueGroup"
+				"JobQueueGroup",
+				"ConnectionProvider"
 			]
 		},
 		"RetroactiveAutoBlock": {

@@ -182,7 +182,8 @@ class PopulateCheckUserTablesWithSimulatedData extends Maintenance {
 			$services->getUserFactory(),
 			$services->getReadOnlyMode(),
 			$services->get( 'UserAgentClientHintsManager' ),
-			$services->getJobQueueGroup()
+			$services->getJobQueueGroup(),
+			$services->getConnectionProvider()
 		);
 		$this->recentChangeSaveHandler = new RecentChangeSaveHandler(
 			$services->get( 'CheckUserInsert' ),
