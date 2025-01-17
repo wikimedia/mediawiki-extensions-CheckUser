@@ -136,12 +136,12 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		const ipInfoPreferenceCheckbox = ipInfoPreference.find( 'input[type="checkbox"]' );
 		expect( ipInfoPreferenceCheckbox.exists() ).toEqual( true );
 
-		// Check the preference and check that an API call is made to set the preference.
+		// Turn on the preference and check that an API call is made to set the preference.
 		ipInfoPreferenceCheckbox.setChecked();
 		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'ipinfo-use-agreement', 1 );
 
-		// Set the checked value of the checkbox back to unchecked to test the
-		// API being called to uncheck the preference.
+		// Turn off the preference (uncheck the checkbox) to test the API is being
+		// called to unset the preference.
 		ipInfoPreferenceCheckbox.setChecked( false );
 		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'ipinfo-use-agreement', 0 );
 	} );
@@ -162,7 +162,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		const ipInfoPreferenceCheckbox = ipInfoPreference.find( 'input[type="checkbox"]' );
 		expect( ipInfoPreferenceCheckbox.exists() ).toEqual( true );
 
-		// Check the preference, expect that to fail and wait for the error to appear.
+		// Turn on the preference, expect that to fail and wait for the error to appear.
 		ipInfoPreferenceCheckbox.setChecked();
 		await waitFor( () => ipInfoPreference.text().indexOf(
 			'(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-error'
@@ -183,7 +183,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 
 		const rootElement = commonTestRendersCorrectly();
 
-		// Check the preference, expect that to fail and wait for the error to appear.
+		// Turn on the preference, expect that to fail and wait for the error to appear.
 		const ipInfoPreference = rootElement.find(
 			'.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference'
 		);

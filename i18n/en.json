@@ -21,7 +21,7 @@
 	"right-checkuser": "Check users' IP addresses and other information",
 	"right-checkuser-log": "View the checkuser log",
 	"right-checkuser-temporary-account": "View IP addresses used by temporary accounts",
-	"right-checkuser-temporary-account-no-preference": "View IP addresses used by temporary accounts without needing to check the preference",
+	"right-checkuser-temporary-account-no-preference": "View IP addresses used by temporary accounts without needing to turn on the preference",
 	"right-checkuser-temporary-account-log": "View the log of access to temporary account IP addresses",
 	"grant-checkuser": "Access checkuser data",
 	"grant-checkuser-temporary-account": "Access checkuser data for temporary accounts",
