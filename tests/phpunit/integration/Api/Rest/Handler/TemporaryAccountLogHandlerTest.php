@@ -29,6 +29,7 @@ use Wikimedia\TestingAccessWrapper;
  * @group CheckUser
  * @group Database
  * @covers \MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountLogHandler
+ * @covers \MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountLogTrait
  */
 class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 

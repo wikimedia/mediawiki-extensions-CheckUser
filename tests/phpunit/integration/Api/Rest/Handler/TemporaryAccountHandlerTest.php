@@ -27,6 +27,7 @@ use Wikimedia\Message\MessageValue;
  * @covers \MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountHandler
  * @covers \MediaWiki\CheckUser\Api\Rest\Handler\AbstractTemporaryAccountHandler
  * @covers \MediaWiki\CheckUser\Api\Rest\Handler\AbstractTemporaryAccountNameHandler
+ * @covers \MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountNameTrait
  */
 class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 

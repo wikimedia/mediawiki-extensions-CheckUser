@@ -31,6 +31,7 @@ use Wikimedia\Rdbms\IReadableDatabase;
  * @group CheckUser
  * @group Database
  * @covers \MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountRevisionHandler
+ * @covers \MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountRevisionTrait
  */
 class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 
