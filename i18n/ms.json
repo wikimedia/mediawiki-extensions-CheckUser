@@ -6,7 +6,8 @@
 			"Izzudin",
 			"Kurniasan",
 			"Tofeiku",
-			"Dreamy Jazz"
+			"Dreamy Jazz",
+			"Hakimi97"
 		]
 	},
 	"checkuser-summary": "Alat ini mengimbas senarai perubahan terkini untuk mendapatkan senarai IP yang digunakan oleh seseorang pengguna atau memaparkan data sunting/pengguna bagi sesebuah IP. Pengguna dan suntingan oleh sesebuah IP boleh didapatkan melalui pengatas XFF dengan menambah \\\"/xff\\\" selepas IP tersebut. Kedua-dua format IPv4 (CIDR $1-32) dan IPv6 (CIDR $2-128) disokong. Atas sebab-sebab prestasi, pulangan dihadkan kepada 5000 buah suntingan sahaja. Sila patuhi dasar yang telah ditetapkan.",

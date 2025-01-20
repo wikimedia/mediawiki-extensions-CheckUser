@@ -8,7 +8,8 @@
 			"Martin Urbanec",
 			"Matěj Suchánek",
 			"Mormegil",
-			"Dreamy Jazz"
+			"Dreamy Jazz",
+			"Nesuprachy"
 		]
 	},
 	"checkuser-summary": "Tento nástroj zkoumá poslední změny a umožňuje získat IP adresy uživatelů nebo zobrazit editace a uživatele z dané IP adresy.\nUživatele a editace z klientské IP adresy lze získat z hlaviček XFF přidáním „/xff“ k IP. Je podporováno IPv4 (CIDR $1–32) a IPv6 (CIDR $2-128).\nZ výkonnostních důvodů lze zobrazit maximálně $3 editací. Používejte tento nástroj v souladu s pravidly.",
