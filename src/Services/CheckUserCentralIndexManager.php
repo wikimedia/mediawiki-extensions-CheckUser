@@ -17,8 +17,7 @@ use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IDBAccessObject;
-use Wikimedia\Rdbms\ILoadBalancer;
-use Wikimedia\Rdbms\LBFactory;
+use Wikimedia\Rdbms\ILBFactory;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
@@ -34,7 +33,7 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 	];
 
 	private ServiceOptions $options;
-	private LBFactory $lbFactory;
+	private ILBFactory $lbFactory;
 	private CentralIdLookup $centralIdLookup;
 	private UserGroupManager $userGroupManager;
 	private JobQueueGroup $jobQueueGroup;
@@ -44,7 +43,7 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 
 	public function __construct(
 		ServiceOptions $options,
-		LBFactory $lbFactory,
+		ILBFactory $lbFactory,
 		CentralIdLookup $centralIdLookup,
 		UserGroupManager $userGroupManager,
 		JobQueueGroup $jobQueueGroup,
@@ -268,10 +267,7 @@ class CheckUserCentralIndexManager implements CheckUserQueryInterface {
 		// We could not find the wiki ID on the replica, so now try to insert the domain ID on the primary to get
 		// an ID for this wiki. We need to do this using auto-commit mode, so that we can read the value from
 		// the primary DB if the insert fails.
-		$dbDomain = $this->lbFactory->getPrimaryDatabase( self::VIRTUAL_GLOBAL_DB_DOMAIN )->getDomainID();
-		$dbw = $this->lbFactory->getLoadBalancer( self::VIRTUAL_GLOBAL_DB_DOMAIN )->getConnection(
-			DB_PRIMARY, [], $dbDomain, ILoadBalancer::CONN_TRX_AUTOCOMMIT
-		);
+		$dbw = $this->lbFactory->getAutoCommitPrimaryConnection( self::VIRTUAL_GLOBAL_DB_DOMAIN );
 
 		// We could not find the wiki ID on the replica, so now try to insert the domain ID on the primary
 		// to get an ID for this wiki.
