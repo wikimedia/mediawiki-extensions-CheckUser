@@ -250,6 +250,7 @@
 	"checkuser-global-contributions-no-results-no-permissions": "<strong>Ei hakuaehtoja vastaavia tuloksia</strong>. Sinulla ei ehkä ole lupaa tarkastella tilapäisten tunnusten käyttämiä IP-osoitteita.",
 	"checkuser-global-contributions-no-results-no-global-preference": "<strong>Ei hakua vastaavia tuloksia</strong>. Nämä tulokset saattavat olla epätäydellisiä, koska sinun tulee hyväksyä sopimus [$1 järjestelmänlaajuisissa asetuksissasi].",
 	"checkuser-global-contributions-no-global-preference": "Nämä tulokset saattavat olla epätäydellisiä, koska sinun tulee hyväksyä sopimus [$1 järjestelmänlaajuisissa asetuksissasi].",
+	"checkuser-global-contributions-api-lookup-error": "Virhe ladattaessa tietoja joistakin wikeistä. Nämä tulokset ovat epätäydellisiä. <strong>Uudelleen yrittäminen saattaa auttaa.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Ei hakuehtoja vastaavia tuloksia</strong>. Käyttäjällä ”$1” ei ole näkyviä muokkauksia.",
 	"prefs-checkuser-tempaccount": "Tilapäisten tunnusten IP-osoitteiden paljastaminen",
 	"checkuser-tempaccount-enable-preference-description": "Käyttäessäsi tätä työkalua sinun tulee varmistaa, että käytät työkalua käytännön mukaisesti.",

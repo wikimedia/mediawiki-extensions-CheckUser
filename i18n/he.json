@@ -28,7 +28,7 @@
 	"right-checkuser": "מציאת כתובות IP ומידע נוסף של משתמשים",
 	"right-checkuser-log": "צפייה ביומן הבדיקות",
 	"right-checkuser-temporary-account": "הצגת כתובות IP שבשימוש חשבונות חולפים",
-	"right-checkuser-temporary-account-no-preference": "הצגת כתובות IP שבשימוש חשבונות חולפים ללא צורך לבדוק את ההעדפה",
+	"right-checkuser-temporary-account-no-preference": "הצגת כתובות IP שבשימוש חשבונות חולפים ללא צורך להפעיל את ההעדפה",
 	"right-checkuser-temporary-account-log": "הצגת יומן הגישה לכתובות IP זמניות של חשבון",
 	"grant-checkuser": "גישה לנתונים על בדיקת משתמשים (checkuser)",
 	"grant-checkuser-temporary-account": "גישה לנתוני בדיקת משתמש עבור חשבונות חולפים",

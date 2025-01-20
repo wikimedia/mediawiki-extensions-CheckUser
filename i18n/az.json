@@ -28,7 +28,7 @@
 	"right-checkuser": "İstifadəçinin IP ünvanını və digər məlumatı yoxlamaq",
 	"right-checkuser-log": "Təftişçi jurnalına baxmaq",
 	"right-checkuser-temporary-account": "Müvəqqəti hesablar tərəfindən istifadə olunan IP ünvanlarını görmək",
-	"right-checkuser-temporary-account-no-preference": "Müvəqqəti hesablar tərəfindən istifadə edilən IP ünvanlarına nizamlamaları yoxlamağa ehtiyac olmadan baxmaq",
+	"right-checkuser-temporary-account-no-preference": "Müvəqqəti hesablar tərəfindən istifadə edilən IP ünvanlarına nizamlamaları aktivləşdirmədən baxmaq",
 	"right-checkuser-temporary-account-log": "Müvəqqəti hesablar tərəfindən istifadə olunan IP ünvanlarının jurnalına baxmaq",
 	"grant-checkuser": "Təftişçi datasına giriş",
 	"grant-checkuser-temporary-account": "Müvəqqəti hesablar üçün təftişçi datalarına giriş",
