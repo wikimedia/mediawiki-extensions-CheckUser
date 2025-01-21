@@ -145,6 +145,9 @@ class CheckUserLogPager extends RangeChronologicalPager {
 				[ 'class' => 'history-deleted' ],
 				$this->msg( 'rev-deleted-user' )->text()
 			);
+
+			// userName is used for GENDER, force it to the default gender
+			$userName = '<HIDDEN>';
 		} else {
 			$user = Linker::userLink( $row->actor_user, $row->actor_name );
 			if ( $performerHidden ) {
@@ -167,6 +170,9 @@ class CheckUserLogPager extends RangeChronologicalPager {
 						]
 					) )->escaped()
 				);
+
+			// Plain user name for GENDER
+			$userName = $row->actor_name;
 		}
 
 		$targetHidden = $this->userFactory->newFromUserIdentity(
@@ -180,6 +186,9 @@ class CheckUserLogPager extends RangeChronologicalPager {
 				[ 'class' => 'history-deleted' ],
 				$this->msg( 'rev-deleted-user' )->text()
 			);
+
+			// targetName is used for GENDER, force it to the default gender
+			$targetName = '<HIDDEN>';
 		} else {
 			$target = Linker::userLink( $row->cul_target_id, $row->cul_target_text );
 			if ( $targetHidden ) {
@@ -192,6 +201,9 @@ class CheckUserLogPager extends RangeChronologicalPager {
 				);
 			}
 			$target .= Linker::userToolLinks( $row->cul_target_id, trim( $row->cul_target_text ) );
+
+			// Plain target name for GENDER
+			$targetName = $row->cul_target_text;
 		}
 
 		$lang = $this->getLanguage();
@@ -227,6 +239,9 @@ class CheckUserLogPager extends RangeChronologicalPager {
 					$lang->userTime( wfTimestamp( TS_MW, $row->cul_timestamp ), $contextUser ),
 					$row
 				)
+			)->params(
+				$userName,
+				$targetName
 			)->parse();
 		$rowContent .= $this->commentFormatter->formatBlock(
 			$this->commentStore->getComment( 'cul_reason', $row )->text
