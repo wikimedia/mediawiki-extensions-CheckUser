@@ -40,6 +40,12 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 	private static array $logIdsForPerformLogsLookupTest;
 	private static UserIdentity $tempUser;
 
+	protected function setUp(): void {
+		parent::setUp();
+
+		$this->enableAutoCreateTempUser();
+	}
+
 	/**
 	 * @param array $options Overrides for the services
 	 * @return array
