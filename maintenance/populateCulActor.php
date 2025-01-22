@@ -62,7 +62,7 @@ class PopulateCulActor extends LoggedUpdateMaintenance {
 		$services = MediaWikiServices::getInstance();
 		$actorStore = $services->getActorStore();
 		$dbr = $services->getDBLoadBalancerFactory()->getReplicaDatabase( false, 'vslow' );
-		$dbw = $services->getDBLoadBalancerFactory()->getPrimaryDatabase();
+		$dbw = $this->getDB( DB_PRIMARY );
 		$batchSize = $this->getBatchSize();
 
 		$prevId = 0;
@@ -75,6 +75,11 @@ class PopulateCulActor extends LoggedUpdateMaintenance {
 
 		if ( !$maxId ) {
 			$this->output( "The cu_log table seems to be empty.\n" );
+			return true;
+		}
+
+		if ( !$dbw->fieldExists( 'cu_log', 'cul_user', __METHOD__ ) ) {
+			$this->output( "The cul_user field does not exist which is needed for migration.\n" );
 			return true;
 		}
 
