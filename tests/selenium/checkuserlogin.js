@@ -1,8 +1,7 @@
 'use strict';
 
 const Api = require( 'wdio-mediawiki/Api' ),
-	LoginPage = require( 'wdio-mediawiki/LoginPage' ),
-	MWBot = require( 'mwbot' );
+	LoginPage = require( 'wdio-mediawiki/LoginPage' );
 
 class LoginAsCheckUser {
 	/**
@@ -48,70 +47,7 @@ class LoginAsCheckUser {
 			checkUserAccountDetails.username,
 			checkUserAccountDetails.password
 		);
-		await this.assignCheckUserGroup( adminBot, checkUserAccountDetails.username );
-	}
-
-	/**
-	 * Assigns the checkuser group to the given username.
-	 *
-	 * @param {MWBot} adminBot
-	 * @param {string} username
-	 */
-	async assignCheckUserGroup( adminBot, username ) {
-		return new Promise( ( resolve, reject ) => {
-			adminBot.request( {
-				action: 'query',
-				list: 'users',
-				usprop: 'groups',
-				ususers: username,
-				formatversion: 2
-			} ).then( ( userGroupsResponse ) => {
-				// Don't attempt to add the username to the group if the user already has the group.
-				if (
-					userGroupsResponse.query &&
-					userGroupsResponse.query.users &&
-					userGroupsResponse.query.users[ 0 ] &&
-					userGroupsResponse.query.users[ 0 ].groups &&
-					userGroupsResponse.query.users[ 0 ].groups.includes( 'checkuser' )
-				) {
-					resolve();
-				}
-
-				adminBot.request( {
-					action: 'query',
-					meta: 'tokens',
-					type: 'userrights'
-				} ).then( ( response ) => {
-					if (
-						response.query &&
-						response.query.tokens &&
-						response.query.tokens.userrightstoken
-					) {
-						adminBot.request( {
-							action: 'userrights',
-							user: username,
-							token: response.query.tokens.userrightstoken,
-							add: 'checkuser',
-							reason: 'Selenium testing'
-						} ).then( ( userRightsResponse ) => {
-							if (
-								userRightsResponse.userrights &&
-								userRightsResponse.userrights.user &&
-								userRightsResponse.userrights.added &&
-								userRightsResponse.userrights.added.length === 1 &&
-								userRightsResponse.userrights.added[ 0 ] === 'checkuser'
-							) {
-								return resolve();
-							} else {
-								return reject( new Error( 'Unable to assign checkuser group' ) );
-							}
-						} ).catch( ( err ) => reject( err ) );
-					} else {
-						return reject( new Error( 'Could not get userrights token' ) );
-					}
-				} ).catch( ( err ) => reject( err ) );
-			} ).catch( ( err ) => reject( err ) );
-		} );
+		await Api.addUserToGroup( adminBot, checkUserAccountDetails.username, 'checkuser' );
 	}
 }
 
