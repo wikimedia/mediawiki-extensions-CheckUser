@@ -545,6 +545,7 @@
 				"temporaryaccount/initOnLoad.js",
 				"temporaryaccount/initOnHook.js",
 				"temporaryaccount/rest.js",
+				"temporaryaccount/ShowIPButton.vue",
 				"temporaryaccount/SpecialBlock.js",
 				"temporaryaccount/SpecialContributions.js",
 				{

@@ -13,6 +13,15 @@ function onLoad() {
 	// This code is also loaded on the "block succeeded" page where there is no form,
 	// so check for block target widget; if it exists, the form is present
 	if ( $blockTargetWidget.length ) {
+		if ( mw.config.get( 'wgUseCodexSpecialBlock' ) ) {
+			mw.hook( 'codex.userlookup' ).add( ( components ) => {
+				// Codex and Vue are fully loaded at this point.
+				const ShowIPButton = require( './ShowIPButton.vue' );
+				components.value.push( ShowIPButton );
+			} );
+			return;
+		}
+
 		blockTargetWidget = OO.ui.infuse( $blockTargetWidget );
 		blockTargetWidget.on( 'change', ( blockTarget ) => {
 			if ( lastUserRequest ) {
