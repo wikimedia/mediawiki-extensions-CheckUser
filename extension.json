@@ -678,7 +678,8 @@
 			"modules/ext.checkUser/temporaryaccount/initOnHook.js",
 			"tests/qunit/ext.checkUser/temporaryaccount/rest.test.js",
 			"tests/qunit/ext.checkUser/temporaryaccount/SpecialBlock.test.js",
-			"modules/ext.checkUser/temporaryaccount/SpecialBlock.js"
+			"modules/ext.checkUser/temporaryaccount/SpecialBlock.js",
+			"modules/ext.checkUser/temporaryaccount/ShowIPButton.vue"
 		],
 		"dependencies": [
 			"mediawiki.qunit-testrunner",
@@ -690,7 +691,9 @@
 			"mediawiki.widgets.UserInputWidget",
 			"ext.checkUser",
 			"ext.checkUser.clientHints",
-			"sinonjs"
+			"sinonjs",
+			"vue",
+			"@wikimedia/codex"
 		]
 	},
 	"GroupPermissions": {

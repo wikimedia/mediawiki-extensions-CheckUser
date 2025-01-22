@@ -325,3 +325,24 @@ QUnit.test( 'Test onLoad for an existing temporary account but IP data call fail
 		'(checkuser-tempaccount-reveal-ip-error)', assert, done
 	);
 } );
+
+QUnit.test( 'Test onLoad when Codex Special:Block is enabled', ( assert ) => {
+	mw.config.set( 'wgUseCodexSpecialBlock', true );
+	// Add a mock block target input to simulate that the page is the block page.
+	const $blockTargetInput = $( '<div>' ).attr( 'id', 'mw-bi-target' );
+	// eslint-disable-next-line no-jquery/no-global-selector
+	const $qunitFixture = $( '#qunit-fixture' );
+	$qunitFixture.append( $blockTargetInput );
+	// Call the method under test
+	specialBlock.onLoad();
+	// Fire the 'codex.userlookup' hook with a mock Vue ref and then expect
+	// that the Show IP button is added to this mock Vue ref.
+	const customComponents = { value: [] };
+	mw.hook( 'codex.userlookup' ).fire( customComponents );
+	assert.strictEqual( customComponents.value.length, 1, 'Component was added' );
+	assert.strictEqual(
+		customComponents.value[ 0 ].name,
+		'ShowIPButton',
+		'Show IP button component was added'
+	);
+} );
