@@ -175,21 +175,45 @@ class ToolLinksHandler implements
 		$user = $sp->getUser();
 		$linkRenderer = $sp->getLinkRenderer();
 
-		if ( $sp->getName() === 'IPContributions' && $this->userCanRevealIP( $user ) ) {
-			if ( $sp->getRequest()->getBool( 'isArchive' ) ) {
-				// Use the same key to ensure the link is added in the same position
-				$links['deletedcontribs'] = $linkRenderer->makeKnownLink(
-					SpecialPage::getTitleFor( 'IPContributions', $nt->getText() ),
-					$sp->msg( 'checkuser-ip-contributions-contributions-link' )->text(),
-					[ 'class' => 'mw-contributions-link-check-user-ip-contributions' ],
+		if (
+			( $sp->getName() === 'IPContributions' && $this->userCanRevealIP( $user ) ) ||
+			$sp->getName() === 'Contributions' ||
+			$sp->getName() === 'DeletedContributions'
+		) {
+			$globalContributionsLink = $linkRenderer->makeKnownLink(
+				SpecialPage::getTitleFor( 'GlobalContributions', $nt->getText() ),
+				$sp->msg( 'checkuser-global-contributions-link' )->text(),
+				[ 'class' => 'mw-contributions-link-check-user-global-contributions' ],
+			);
+			if ( $sp->getName() === 'IPContributions' ) {
+				if ( $sp->getRequest()->getBool( 'isArchive' ) ) {
+					// Use the same key to ensure the link is added in the same position
+					$links['deletedcontribs'] = $linkRenderer->makeKnownLink(
+						SpecialPage::getTitleFor( 'IPContributions', $nt->getText() ),
+						$sp->msg( 'checkuser-ip-contributions-contributions-link' )->text(),
+						[ 'class' => 'mw-contributions-link-check-user-ip-contributions' ],
+					);
+				} elseif ( $this->userCanSeeDeleted( $user ) ) {
+					$links['deletedcontribs'] = $linkRenderer->makeKnownLink(
+						SpecialPage::getTitleFor( 'IPContributions', $nt->getText() ),
+						$sp->msg( 'checkuser-ip-contributions-deleted-contributions-link' )->text(),
+						[ 'class' => 'mw-contributions-link-check-user-ip-contributions' ],
+						[ 'isArchive' => true ]
+					);
+				}
+			}
+
+			$index = array_search( 'deletedcontribs', array_keys( $links ) );
+			if ( $index !== false ) {
+				// Insert the global contributions link after the 'deletedcontribs' key
+				$index += 1;
+				$links = array_merge(
+					array_slice( $links, 0, $index ),
+					[ 'global-contributions' => $globalContributionsLink ],
+					array_slice( $links, $index )
 				);
-			} elseif ( $this->userCanSeeDeleted( $user ) ) {
-				$links['deletedcontribs'] = $linkRenderer->makeKnownLink(
-					SpecialPage::getTitleFor( 'IPContributions', $nt->getText() ),
-					$sp->msg( 'checkuser-ip-contributions-deleted-contributions-link' )->text(),
-					[ 'class' => 'mw-contributions-link-check-user-ip-contributions' ],
-					[ 'isArchive' => true ]
-				);
+			} else {
+				$links['global-contributions'] = $globalContributionsLink;
 			}
 		}
 
