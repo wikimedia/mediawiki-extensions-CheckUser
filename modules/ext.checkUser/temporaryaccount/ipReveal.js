@@ -178,7 +178,7 @@ function getIdsForTarget( $element, target, allIds, getId ) {
 	const id = getId( $element );
 	let ids;
 	if ( id ) {
-		ids = allIds[ target ];
+		ids = [ ...new Set( allIds[ target ] ) ];
 	}
 	return {
 		targetId: id,
