@@ -275,6 +275,7 @@
 	"checkuser-ip-contributions-special-ip-contributions-button": "Temporary user IP edits",
 	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "Temp user IP edits",
 	"checkuser-ip-contributions-special-contributions-button": "Legacy IP edits",
+	"checkuser-global-contributions-link": "global contributions",
 	"checkuser-global-contributions-summary": "Get edits made by a user across all wiki projects from the last $1 {{PLURAL:$1|day|days}}.",
 	"checkuser-global-contributions": "Search for global contributions",
 	"checkuser-global-contributions-anon-tools": "",

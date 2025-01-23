@@ -392,6 +392,66 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
+	/**
+	 * @dataProvider provideOnContributionsToolLinksGlobalContributions
+	 */
+	public function testOnContributionsToolLinksGlobalContributions( string $pageName ) {
+		$this->enableAutoCreateTempUser();
+		$target = '1.2.3.4';
+
+		$mockSpecialPage = $this->getMockBuilder( SpecialPage::class )
+			->onlyMethods( [ 'getUser', 'getName', 'getRequest' ] )
+			->getMock();
+		$mockSpecialPage->method( 'getUser' )
+			->willReturn( $this->createMock( User::class ) );
+		$mockSpecialPage->method( 'getName' )
+			->willReturn( $pageName );
+		$mockSpecialPage->method( 'getRequest' )
+			->willReturn( new FauxRequest() );
+
+		$mockPermissionManager = $this->createMock( PermissionManager::class );
+		$mockPermissionManager->method( 'userHasRight' )
+			->willReturn( true );
+
+		$services = $this->getServiceContainer();
+		$hookHandler = new ToolLinksHandler(
+			$mockPermissionManager,
+			$services->getSpecialPageFactory(),
+			$services->getLinkRenderer(),
+			$this->createMock( UserIdentityLookup::class ),
+			$services->getUserIdentityUtils(),
+			$this->createMock( UserOptionsLookup::class ),
+			$services->getTempUserConfig()
+		);
+
+		$mockUserPageTitle = $this->createMock( Title::class );
+		$mockUserPageTitle->method( 'getText' )
+			->willReturn( $target );
+
+		$links = [];
+		$hookHandler->onContributionsToolLinks( 1, $mockUserPageTitle, $links, $mockSpecialPage );
+
+		$this->assertArrayHasKey(
+			'global-contributions',
+			$links,
+			'The global contributions link was not added by ToolLinksHandler::onContributionsToolLinks'
+		);
+
+		$this->assertStringContainsString(
+			$target,
+			$links['global-contributions'],
+			'The messages were not correctly added by ToolLinksHandler::onContributionsToolLinks.'
+		);
+	}
+
+	public function provideOnContributionsToolLinksGlobalContributions() {
+		return [
+			'Link is added to Special:Contributions' => [ 'Contributions' ],
+			'Link is added to Special:DeletedContributions' => [ 'DeletedContributions' ],
+			'Link is added to Special:IPContributions' => [ 'IPContributions' ],
+		];
+	}
+
 	public function testOnSpecialContributionsBeforeMainOutputForMobileView() {
 		$this->markTestSkippedIfExtensionNotLoaded( 'MobileFrontend' );
 		// This test requires temporary accounts.
