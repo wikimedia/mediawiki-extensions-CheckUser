@@ -60,6 +60,7 @@
 	"checkuser-showmain": "Mont da furmskrid pennañ ar gwiriañ implijerien",
 	"logentry-checkuser-private-event-autocreate-account": "zo bet krouet ent emgefre",
 	"logentry-checkuser-private-event-create-account": "zo bet krouet",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title": "Gweredekaat Titouroù IP",
 	"checkuser-investigateblock-warning-confirmaction": "A'z oc'h sur e fell deoc'h ober an dra-se evit gwir, askit ar vaezienn \"{{int:checkuser-investigateblock-confirm-blocks-label}}\" en traoñ.",
 	"checkuser-investigate-subtitle-block-accounts-button-label": "Stankañ kontoù",
 	"checkuser-investigate-subtitle-block-ips-button-label": "Stankañ IPoù",
@@ -72,5 +73,7 @@
 	"checkuser-tempaccount-enable-preference-description": "Pa rit gant ar benveg-mañ e rankit bezañ sur e rit hervez ar reolennoù.",
 	"checkuser-tempaccount-enable-preference": "Gweredekaat diskuliañ chomlec’hioù IP ar c’hontoù berrbad",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|diweredekaet}}",
-	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|gweredekaet}}"
+	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|gweredekaet}}",
+	"checkuser-temporary-account-change-access-level-enable-globally": "{{GENDER:$1|gweredekaet}} en un doare hollek",
+	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 {{GENDER:$2|en|he}} deus gweredekaet {{GENDER:$2|e|he}} aotre da welet ar variennoù gwarezet"
 }
