@@ -414,23 +414,31 @@ function revealRecentlyRevealedUsers( $userLinks ) {
 }
 
 /**
- * Get revision ID from the surrounding mw-changeslist-line list item.
+ * Get revision ID from the surrounding DOM. Look in ancestors, then siblings.
  *
  * @param {jQuery} $element
  * @return {number|undefined}
  */
 function getRevisionId( $element ) {
-	return $element.closest( '[data-mw-revid]' ).data( 'mw-revid' );
+	let id = $element.closest( '[data-mw-revid]' ).data( 'mw-revid' );
+	if ( id === undefined ) {
+		id = $element.siblings( '[data-mw-revid]' ).eq( 0 ).data( 'mw-revid' );
+	}
+	return id;
 }
 
 /**
- * Get log ID from the surrounding mw-changeslist-line list item.
+ * Get log ID from the surrounding DOM. Look in ancestors, then siblings.
  *
  * @param {jQuery} $element
  * @return {number|undefined}
  */
 function getLogId( $element ) {
-	return $element.closest( '[data-mw-logid]' ).data( 'mw-logid' );
+	let id = $element.closest( '[data-mw-logid]' ).data( 'mw-logid' );
+	if ( id === undefined ) {
+		id = $element.siblings( '[data-mw-logid]' ).eq( 0 ).data( 'mw-logid' );
+	}
+	return id;
 }
 
 module.exports = {
