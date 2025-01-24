@@ -1,24 +1,4 @@
 const ipReveal = require( './ipReveal.js' );
-const ipRevealUtils = require( './ipRevealUtils.js' );
-
-/**
- * Checks which users have been revealed recently, and reveals those users on load.
- *
- * @param {string|jQuery|*} documentRoot A DOM Element, Document, jQuery or selector
- *   to use as the root for searches.
- */
-function checkRecentlyRevealedUsers( documentRoot ) {
-	const recentUsers = [];
-	$( '.mw-tempuserlink', documentRoot ).each( function () {
-		const target = $( this ).text();
-
-		// Trigger a lookup for one of each revealed user
-		if ( ipRevealUtils.getRevealedStatus( target ) && recentUsers.indexOf( target ) < 0 ) {
-			$( this ).next( '.ext-checkuser-tempaccount-reveal-ip-button' ).trigger( 'revealIp' );
-			recentUsers.push( target );
-		}
-	} );
-}
 
 /**
  * Code to run when the page loads.
@@ -33,7 +13,7 @@ module.exports = function ( documentRoot ) {
 
 	mw.hook( 'wikipage.content' ).add( ( $content ) => {
 		ipReveal.addButton( $content );
-		checkRecentlyRevealedUsers( documentRoot );
+		ipReveal.revealRecentlyRevealedUsers( $( '.mw-tempuserlink', documentRoot ) );
 	} );
 
 	ipReveal.enableMultiReveal( $( documentRoot ) );

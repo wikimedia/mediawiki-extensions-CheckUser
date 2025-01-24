@@ -134,6 +134,14 @@ QUnit.test( 'Test initOnLoad when there are temporary account user links with on
 			request.respond( 200, { 'Content-Type': 'application/json' }, '{"ips":{"1":"127.0.0.2"}}' );
 		} else if ( request.url.includes( '/revisions/' ) ) {
 			request.respond( 200, { 'Content-Type': 'application/json' }, '{"ips":{"1":"127.0.0.1","2":"1.2.3.4"}}' );
+		} else if ( request.url.endsWith( '/checkuser/v0/batch-temporaryaccount' ) ) {
+			request.respond( 200, { 'Content-Type': 'application/json' }, JSON.stringify( {
+				'~1': {
+					revIps: { 1: '127.0.0.1', 2: '1.2.3.4' },
+					logIps: { 1: '127.0.0.2' },
+					lastUsedIp: null
+				}
+			} ) );
 		} else {
 			request.respond( 200, { 'Content-Type': 'application/json' }, '{"ips":[]}' );
 		}

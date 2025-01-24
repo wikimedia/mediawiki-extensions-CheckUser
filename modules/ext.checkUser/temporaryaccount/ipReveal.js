@@ -1,5 +1,5 @@
 const ipRevealUtils = require( './ipRevealUtils.js' );
-const { performRevealRequest, isRevisionLookup, isLogLookup } = require( './rest.js' );
+const { performRevealRequest, performBatchRevealRequest, isRevisionLookup, isLogLookup } = require( './rest.js' );
 
 /**
  * Replace a button with an IP address, or a message indicating that the IP address
@@ -67,20 +67,54 @@ function makeButton( target, revIds, logIds, documentRoot ) {
 		],
 		classes: [ 'ext-checkuser-tempaccount-reveal-ip-button' ]
 	} );
+
+	button.$element.data( 'target', target );
+	button.$element.data( 'revIds', revIds );
+	button.$element.data( 'logIds', logIds );
+
 	button.once( 'click', () => {
 		button.$element.trigger( 'revealIp' );
 		button.$element.off( 'revealIp' );
 	} );
 
-	button.$element.on( 'revealIp', () => {
+	button.$element.on( 'revealIp', ( _, ip, batchResponse ) => {
 		button.$element.off( 'revealIp' );
 
-		performRevealRequest( target, revIds, logIds ).then( ( response ) => {
-			const ip = response.ips[ ( revIds.targetId || logIds.targetId ) || 0 ];
+		if ( batchResponse ) {
 			if ( !ipRevealUtils.getRevealedStatus( target ) ) {
 				ipRevealUtils.setRevealedStatus( target );
 			}
 			replaceButton( button.$element, ip, true );
+
+			let ips = {};
+			if ( isRevisionLookup( revIds ) ) {
+				revIds.allIds.forEach( ( revId ) => {
+					ips[ revId ] = batchResponse[ target ].revIps[ revId ];
+				} );
+			} else if ( isLogLookup( logIds ) ) {
+				logIds.allIds.forEach( ( logId ) => {
+					ips[ logId ] = batchResponse[ target ].logIps[ logId ];
+				} );
+			} else {
+				ips = [ ip ];
+			}
+			$( documentRoot ).trigger( 'userRevealed', [
+				target,
+				ips,
+				isRevisionLookup( revIds ),
+				isLogLookup( logIds ),
+				batchResponse
+			] );
+
+			return;
+		}
+
+		performRevealRequest( target, revIds, logIds ).then( ( response ) => {
+			const targetIp = response.ips[ ( revIds.targetId || logIds.targetId ) || 0 ];
+			if ( !ipRevealUtils.getRevealedStatus( target ) ) {
+				ipRevealUtils.setRevealedStatus( target );
+			}
+			replaceButton( button.$element, targetIp, true );
 			$( documentRoot ).trigger( 'userRevealed', [
 				target,
 				response.ips,
@@ -187,8 +221,10 @@ function getIdsForTarget( $element, target, allIds, getId ) {
 }
 
 /**
- * Add enable multireveal for a "typical" page. This functionality is here
+ * Add enable multi-reveal for a "typical" page. This functionality is here
  * because it is shared between initOnLoad and initOnHook.
+ *
+ * "Multi-reveal" refers to replacing multiple lookup buttons for the same user with IPs.
  *
  * @param {jQuery} $element
  */
@@ -202,8 +238,9 @@ function enableMultiReveal( $element ) {
 		 *  or log IDs to the IP address used while making the edit or performing the action.
 		 * @param {boolean} isRev The map keys are revision IDs
 		 * @param {boolean} isLog The map keys are log IDs
+		 * @param {Object|undefined} batchResponse
 		 */
-		( _e, userLookup, ips, isRev, isLog ) => {
+		( _e, userLookup, ips, isRev, isLog, batchResponse ) => {
 			// Find all temp user links that share the username
 			const $userLinks = $( '.mw-tempuserlink' ).filter( function () {
 				return $( this ).text() === userLookup;
@@ -234,6 +271,24 @@ function enableMultiReveal( $element ) {
 						replaceButton( $( this ), ips[ logId ], true );
 					} else if ( !ipsIsRevMap && !ipsIsLogMap && !revId && !logId ) {
 						replaceButton( $( this ), ips[ 0 ], true );
+					} else if ( !ipsIsRevMap && revId && batchResponse ) {
+						// If the current button has a revId but the reveal
+						// didn't set ipsIsRevMap due to the reveal happening
+						// from another button without the revId, and we also
+						// have a batch response, we don't need to trigger a
+						// new lookup. The data we need should be in the batch
+						// response.
+						const ip = batchResponse[ userLookup ].revIps[ revId ];
+						replaceButton( $( this ), ip, true );
+					} else if ( !ipsIsLogMap && logId && batchResponse ) {
+						// If the current button has a logId but the reveal
+						// didn't set ipsIsLogMap due to the reveal happening
+						// from another button without the logId, and we also
+						// have a batch response, we don't need to trigger a
+						// new lookup. The data we need should be in the batch
+						// response.
+						const ip = batchResponse[ userLookup ].logIps[ logId ];
+						replaceButton( $( this ), ip, true );
 					} else {
 						// There is a mismatch, so trigger a new lookup for this button.
 						// Each time revealIp is triggered, an API request is performed,
@@ -249,6 +304,113 @@ function enableMultiReveal( $element ) {
 			}
 		}
 	);
+}
+
+/**
+ * Lookup IP addresses for multiple temporary users in a single REST API call
+ * and reveal the respective buttons per reveal request.
+ *
+ * "Batch reveal" refers to looking up IPs for multiple different temporary users.
+ * "Multi-reveal" refers to replacing multiple lookup buttons for the same user with the looked-up
+ * IP addresses.
+ *
+ * @param {Object} request Object used to perform the API request. Keys are temporary user
+ *  names and values are objects specifying which IP addresses to look up, containing:
+ *  - revIds: array of revision IDs
+ *  - logIds: array of log IDs
+ *  - lastUsedIp: boolean, whether to look up the most recently used IP
+ * @param {jQuery} $tempUserLinks the temp user links for the users whose IPs will be revealed
+ *  with the batch request
+ */
+function batchRevealIps( request, $tempUserLinks ) {
+	performBatchRevealRequest( request ).then( ( response ) => {
+		// Replace the lookup buttons with the IPs by triggering 'revealIp'.
+		$tempUserLinks.each( function () {
+			const target = $( this ).text();
+
+			// Skip buttons that got revealed by multi-reveal.
+			const $button = $( this ).next( '.ext-checkuser-tempaccount-reveal-ip-button' );
+			if ( !$button.get( 0 ) ) {
+				return;
+			}
+
+			if ( Object.prototype.hasOwnProperty.call( response, target ) ) {
+				const revId = $button.data( 'revIds' ).targetId;
+				const logId = $button.data( 'logIds' ).targetId;
+
+				let ip = null;
+				if ( revId && response[ target ].revIps !== null ) {
+					ip = response[ target ].revIps[ revId ];
+				} else if ( logId && response[ target ].logIps !== null ) {
+					ip = response[ target ].logIps[ logId ];
+				} else if ( response[ target ].lastUsedIp ) {
+					ip = response[ target ].lastUsedIp;
+				}
+
+				if ( ip !== null ) {
+					$button.trigger( 'revealIp', [ ip, response ] );
+				}
+			}
+		} );
+	} ).fail( () => {
+		$tempUserLinks.each( function () {
+			const target = $( this ).text();
+
+			if ( Object.prototype.hasOwnProperty.call( request, target ) ) {
+				const $button = $( this ).next( '.ext-checkuser-tempaccount-reveal-ip-button' );
+				replaceButton( $button, false, false );
+			}
+		} );
+	} );
+}
+
+/**
+ * Check which users have been revealed recently, and reveal those users on load.
+ *
+ * @param {jQuery} $userLinks the temp user links which may have their IP revealed
+ */
+function revealRecentlyRevealedUsers( $userLinks ) {
+	const request = {};
+	const recentUsers = [];
+
+	// Check which users have been revealed recently, and reveal them.
+	$userLinks.each( function () {
+		const target = $( this ).text();
+
+		if ( ipRevealUtils.getRevealedStatus( target ) ) {
+			const $button = $( this ).next( '.ext-checkuser-tempaccount-reveal-ip-button' );
+
+			if ( !Object.prototype.hasOwnProperty.call( request, target ) ) {
+				request[ target ] = { revIds: [], logIds: [], lastUsedIp: false };
+			}
+			if (
+				$button.data( 'revIds' ).allIds &&
+				request[ target ].revIds.length === 0
+			) {
+				request[ target ].revIds = request[ target ].revIds.concat(
+					$button.data( 'revIds' ).allIds.map( ( x ) => String( x ) )
+				);
+			}
+			if (
+				$button.data( 'logIds' ).allIds &&
+				request[ target ].logIds.length === 0
+			) {
+				request[ target ].logIds = request[ target ].logIds.concat(
+					$button.data( 'logIds' ).allIds.map( ( x ) => String( x ) )
+				);
+			}
+			if ( request[ target ].revIds.length === 0 && request[ target ].logIds.length === 0 ) {
+				request[ target ].lastUsedIp = true;
+			}
+
+			recentUsers.push( target );
+		}
+	} );
+
+	// Trigger a batch lookup for all revealed users.
+	if ( recentUsers.length > 0 ) {
+		batchRevealIps( request, $userLinks );
+	}
 }
 
 /**
@@ -276,6 +438,8 @@ module.exports = {
 	addButton: addButton,
 	replaceButton: replaceButton,
 	enableMultiReveal: enableMultiReveal,
+	revealRecentlyRevealedUsers: revealRecentlyRevealedUsers,
+	batchRevealIps: batchRevealIps,
 	getRevisionId: getRevisionId,
 	getLogId: getLogId
 };
