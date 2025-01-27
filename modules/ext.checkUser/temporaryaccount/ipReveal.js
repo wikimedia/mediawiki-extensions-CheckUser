@@ -260,7 +260,7 @@ function enableMultiReveal( $element ) {
 			let $triggerNext;
 
 			$userButtons.each( function () {
-				if ( !ips ) {
+				if ( !ips || ips.length === 0 ) {
 					replaceButton( $( this ), false, true );
 				} else {
 					const revId = getRevisionId( $( this ) );
