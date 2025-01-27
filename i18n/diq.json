@@ -58,6 +58,8 @@
 	"checkuser-showmain": "Peyd şori form de KarberKontroli",
 	"logentry-checkuser-private-event-autocreate-account": "otomatikî ra virziyo",
 	"logentry-checkuser-private-event-create-account": "Vıraziya",
+	"checkuser-temporary-accounts-onboarding-dialog-next-label": "Bahdoyên",
+	"checkuser-temporary-accounts-onboarding-dialog-close-label": "Kip ke",
 	"checkuser-investigate-reason-label": "Sebeb",
 	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|vurnayış|vurnayışi}}",
 	"checkuser-investigate-preliminary-table-header-blocked": "Weziyet",

@@ -272,6 +272,7 @@
 	"checkuser-ip-contributions-special-ip-contributions-button": "עריכות IP של חשבונות חולפים",
 	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "עריכות IP של חשבון חולף",
 	"checkuser-ip-contributions-special-contributions-button": "עריכות IP מהסוג הישן",
+	"checkuser-global-contributions-link": "תרומות גלובליות",
 	"checkuser-global-contributions-summary": "קבתל עריכות שנעשו על־ידי משתמש בכל מיזמי הוויקי במהלך {{PLURAL:$1|היום האחרון|היומיים האחרונים|$1 הימים האחרונים}}.",
 	"checkuser-global-contributions": "חיפוש תרומות גלובליות",
 	"checkuser-global-contributions-permission-error-title": "שגיאת הרשאה",

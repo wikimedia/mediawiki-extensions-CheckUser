@@ -33,5 +33,6 @@
 	"checkuser-log-search-target": "موخه:",
 	"checkuser-ipeditcount": "~$1 د ټولو کارنانو نه",
 	"logentry-checkuser-private-event-autocreate-account": "په خپلکاره توگه جوړ شو",
-	"logentry-checkuser-private-event-create-account": "جوړ شو"
+	"logentry-checkuser-private-event-create-account": "جوړ شو",
+	"checkuser-temporary-accounts-onboarding-dialog-close-label": "تړل"
 }

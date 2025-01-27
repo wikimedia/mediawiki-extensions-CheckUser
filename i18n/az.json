@@ -273,6 +273,7 @@
 	"checkuser-ip-contributions-special-ip-contributions-button": "Müvəqqəti istifadəçi IP redaktələri",
 	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "Müvəqqəti istifadəçi IP redaktələri",
 	"checkuser-ip-contributions-special-contributions-button": "Köhnə IP redaktələri",
+	"checkuser-global-contributions-link": "qlobal töhfələr",
 	"checkuser-global-contributions-summary": "Son $1 {{PLURAL:$1|gün}} ərzində bütün viki layihələrində istifadəçi tərəfindən edilən redaktələri göstər",
 	"checkuser-global-contributions": "Qlobal töhfələrdə axtar",
 	"checkuser-global-contributions-permission-error-title": "İcazə xətası",

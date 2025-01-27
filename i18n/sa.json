@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Ansumang",
+			"Naveen Sankar",
 			"NehalDaveND"
 		]
 	},
@@ -16,5 +17,6 @@
 	"checkuser-blocked": "अवरुद्धम्",
 	"checkuser-locked": "कीलितम्",
 	"checkuser-search": "अन्वेषणम्",
-	"checkuser-search-submit": "अन्वेषणम्"
+	"checkuser-search-submit": "अन्वेषणम्",
+	"checkuser-global-contributions-link": "वैश्विकानि योगदानानि"
 }

@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Saraiki"
+			"Saraiki",
+			"Umar Shahid"
 		]
 	},
 	"checkuser-clienthints-name-architecture": "ماہر فن تعمیر",
@@ -61,6 +62,7 @@
 	"checkuser-ip-contributions-tab-label-contributions": "ونگاراں",
 	"checkuser-ip-contributions-deleted-contributions-link": "ورتݨ آلے دے کم مٹا ݙتے ڳئے",
 	"checkuser-ip-contributions-contributions-link": "ونگاراں",
+	"checkuser-global-contributions-link": "عالمی شراکتاں",
 	"checkuser-tempaccount-reveal-ip-button-label": "آئی پی ݙکھاؤ",
 	"checkuser-tempaccount-reveal-ip-missing": "دستیاب کائنی",
 	"checkuser-tempaccount-reveal-ip-error": "خرابی",

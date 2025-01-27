@@ -283,6 +283,7 @@
 	"checkuser-ip-contributions-special-ip-contributions-button": "تعديلات IP المؤقتة للمستخدم",
 	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "تعديلات IP للمستخدم المؤقت",
 	"checkuser-ip-contributions-special-contributions-button": "تعديلات IP القديمة",
+	"checkuser-global-contributions-link": "مساهمات عالمية",
 	"checkuser-global-contributions-summary": "احصل على التعديلات التي أجراها المستخدم عبر جميع مشاريع الويكي من آخر $1 {{PLURAL:$1|يوم|أيام}}.",
 	"checkuser-global-contributions": "البحث عن المساهمات العالمية",
 	"checkuser-global-contributions-permission-error-title": "خطأ في الصلاحيات",

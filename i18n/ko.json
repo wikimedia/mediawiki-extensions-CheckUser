@@ -105,6 +105,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-previous-label": "이전",
 	"checkuser-temporary-accounts-onboarding-dialog-next-label": "다음",
 	"checkuser-temporary-accounts-onboarding-dialog-close-label": "닫기",
+	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "임시 계정은 무엇입니까?",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title": "IP 정보 활성화",
 	"checkuser-rest-access-denied": "이 작업을 수행할 권한이 없습니다",
 	"checkuser-rest-access-denied-blocked-user": "계정이 차단되어 있으므로 수행할 권한이 없습니다",
