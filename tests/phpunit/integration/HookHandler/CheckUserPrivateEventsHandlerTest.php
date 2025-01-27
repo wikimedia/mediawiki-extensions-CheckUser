@@ -409,6 +409,10 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 
 	/** @covers \MediaWiki\CheckUser\EncryptedData */
 	public function testOnEmailWithCUPublicKeyDefined() {
+		if ( !in_array( 'rc4', openssl_get_cipher_methods() ) ) {
+			$this->markTestSkipped( 'Storing encrypted email data requires the RC4 cipher' );
+		}
+
 		// Generate a private/public key-pair to use in the test. This is needed to allow checking that the encrypted
 		// data that is stored in the database can be decrypted and the decrypted data is correct.
 		$privateKey = openssl_pkey_new( [
