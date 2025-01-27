@@ -69,6 +69,7 @@ class SpecialPageInitListHandler implements SpecialPage_initListHook {
 						'UserFactory',
 						'UserIdentityLookup',
 						'DatabaseBlockStore',
+						'CentralIdLookup',
 						'CheckUserGlobalContributionsPagerFactory'
 					],
 				];

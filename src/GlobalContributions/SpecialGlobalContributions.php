@@ -6,7 +6,9 @@ use MediaWiki\Block\DatabaseBlockStore;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
 use MediaWiki\SpecialPage\ContributionsSpecialPage;
+use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Title\NamespaceInfo;
+use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
@@ -24,6 +26,7 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 
 	use ContributionsRangeTrait;
 
+	private CentralIdLookup $centralIdLookup;
 	private GlobalContributionsPagerFactory $pagerFactory;
 
 	private ?GlobalContributionsPager $pager = null;
@@ -38,6 +41,7 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 		UserFactory $userFactory,
 		UserIdentityLookup $userIdentityLookup,
 		DatabaseBlockStore $blockStore,
+		CentralIdLookup $centralIdLookup,
 		GlobalContributionsPagerFactory $pagerFactory
 	) {
 		parent::__construct(
@@ -52,6 +56,7 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 			$blockStore,
 			'GlobalContributions'
 		);
+		$this->centralIdLookup = $centralIdLookup;
 		$this->pagerFactory = $pagerFactory;
 	}
 
@@ -224,5 +229,22 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 	 */
 	protected function shouldDisplayAccountInformation( User $userObj ): bool {
 		return false;
+	}
+
+	/**
+	 * Replace the local user link with a link to the global user account
+	 *
+	 * @inheritDoc
+	 */
+	protected function getUserLink( User $userObj ): string {
+		$target = $userObj->getName();
+		if ( $this->centralIdLookup->centralIdFromName( $target, $this->getAuthority() ) ) {
+			return $this->getLinkRenderer()->makeLink(
+				SpecialPage::getTitleFor( 'CentralAuth', $target ),
+				$target
+			);
+		} else {
+			return $target;
+		}
 	}
 }
