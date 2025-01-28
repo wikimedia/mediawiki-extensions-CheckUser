@@ -72,5 +72,6 @@
 	"checkuser-tempaccount-enable-preference-description": "Pa rit gant ar benveg-mañ e rankit bezañ sur e rit hervez ar reolennoù.",
 	"checkuser-tempaccount-enable-preference": "Gweredekaat diskuliañ chomlec’hioù IP ar c’hontoù berrbad",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|diweredekaet}}",
-	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|gweredekaet}}"
+	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|gweredekaet}}",
+	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 {{GENDER:$2|en|he}} deus gweredekaet {{GENDER:$2|e|he}} aotre da welet ar variennoù gwarezet"
 }
