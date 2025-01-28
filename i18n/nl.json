@@ -277,6 +277,7 @@
 	"checkuser-ip-contributions-special-ip-contributions-button": "IP-bewerkingen tijdelijke gebruikers",
 	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "IP-bew. tijdelijke gebr.",
 	"checkuser-ip-contributions-special-contributions-button": "Oude IP-bewerkingen",
+	"checkuser-global-contributions-link": "globale bijdragen",
 	"checkuser-global-contributions-summary": "De bewerkingen van de laatste $1 {{PLURAL:$1|dag|dagen}} bekijken die een gebruiker heeft uitgevoerd op alle wikiprojecten.",
 	"checkuser-global-contributions": "Globale bijdragen zoeken",
 	"checkuser-global-contributions-permission-error-title": "Toestemmingsfout",
