@@ -180,11 +180,6 @@ class ToolLinksHandler implements
 			$sp->getName() === 'Contributions' ||
 			$sp->getName() === 'DeletedContributions'
 		) {
-			$globalContributionsLink = $linkRenderer->makeKnownLink(
-				SpecialPage::getTitleFor( 'GlobalContributions', $nt->getText() ),
-				$sp->msg( 'checkuser-global-contributions-link' )->text(),
-				[ 'class' => 'mw-contributions-link-check-user-global-contributions' ],
-			);
 			if ( $sp->getName() === 'IPContributions' ) {
 				if ( $sp->getRequest()->getBool( 'isArchive' ) ) {
 					// Use the same key to ensure the link is added in the same position
@@ -203,17 +198,24 @@ class ToolLinksHandler implements
 				}
 			}
 
-			$index = array_search( 'deletedcontribs', array_keys( $links ) );
-			if ( $index !== false ) {
-				// Insert the global contributions link after the 'deletedcontribs' key
-				$index += 1;
-				$links = array_merge(
-					array_slice( $links, 0, $index ),
-					[ 'global-contributions' => $globalContributionsLink ],
-					array_slice( $links, $index )
+			if ( $this->specialPageFactory->exists( 'GlobalContributions' ) ) {
+				$globalContributionsLink = $linkRenderer->makeKnownLink(
+					SpecialPage::getTitleFor( 'GlobalContributions', $nt->getText() ),
+					$sp->msg( 'checkuser-global-contributions-link' )->text(),
+					[ 'class' => 'mw-contributions-link-check-user-global-contributions' ],
 				);
-			} else {
-				$links['global-contributions'] = $globalContributionsLink;
+				$index = array_search( 'deletedcontribs', array_keys( $links ) );
+				if ( $index !== false ) {
+					// Insert the global contributions link after the 'deletedcontribs' key
+					$index += 1;
+					$links = array_merge(
+						array_slice( $links, 0, $index ),
+						[ 'global-contributions' => $globalContributionsLink ],
+						array_slice( $links, $index )
+					);
+				} else {
+					$links['global-contributions'] = $globalContributionsLink;
+				}
 			}
 		}
 

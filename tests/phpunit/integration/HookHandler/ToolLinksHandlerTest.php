@@ -10,6 +10,7 @@ use MediaWiki\Output\OutputPage;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\SpecialPage\SpecialPage;
+use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Title\Title;
 use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\User;
@@ -395,7 +396,11 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * @dataProvider provideOnContributionsToolLinksGlobalContributions
 	 */
-	public function testOnContributionsToolLinksGlobalContributions( string $pageName ) {
+	public function testOnContributionsToolLinksGlobalContributions(
+		string $pageName,
+		bool $globalContributionsExists,
+		bool $expectLink
+	) {
 		$this->enableAutoCreateTempUser();
 		$target = '1.2.3.4';
 
@@ -413,10 +418,14 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		$mockPermissionManager->method( 'userHasRight' )
 			->willReturn( true );
 
+		$mockSpecialPageFactory = $this->createMock( SpecialPageFactory::class );
+		$mockSpecialPageFactory->method( 'exists' )
+			->willReturn( $globalContributionsExists );
+
 		$services = $this->getServiceContainer();
 		$hookHandler = new ToolLinksHandler(
 			$mockPermissionManager,
-			$services->getSpecialPageFactory(),
+			$mockSpecialPageFactory,
 			$services->getLinkRenderer(),
 			$this->createMock( UserIdentityLookup::class ),
 			$services->getUserIdentityUtils(),
@@ -431,24 +440,34 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		$links = [];
 		$hookHandler->onContributionsToolLinks( 1, $mockUserPageTitle, $links, $mockSpecialPage );
 
-		$this->assertArrayHasKey(
-			'global-contributions',
-			$links,
-			'The global contributions link was not added by ToolLinksHandler::onContributionsToolLinks'
-		);
-
-		$this->assertStringContainsString(
-			$target,
-			$links['global-contributions'],
-			'The messages were not correctly added by ToolLinksHandler::onContributionsToolLinks.'
-		);
+		if ( $expectLink ) {
+			$this->assertArrayHasKey(
+				'global-contributions',
+				$links,
+				'The global contributions link was not added by ToolLinksHandler::onContributionsToolLinks'
+			);
+			$this->assertStringContainsString(
+				$target,
+				$links['global-contributions'],
+				'The messages were not correctly added by ToolLinksHandler::onContributionsToolLinks.'
+			);
+		} else {
+			$this->assertArrayNotHasKey(
+				'global-contributions',
+				$links,
+				'The global contributions link was added by ToolLinksHandler::onContributionsToolLinks'
+			);
+		}
 	}
 
 	public function provideOnContributionsToolLinksGlobalContributions() {
 		return [
-			'Link is added to Special:Contributions' => [ 'Contributions' ],
-			'Link is added to Special:DeletedContributions' => [ 'DeletedContributions' ],
-			'Link is added to Special:IPContributions' => [ 'IPContributions' ],
+			'Link is added to Special:Contributions' => [ 'Contributions', true, true ],
+			'Link is added to Special:DeletedContributions' => [ 'DeletedContributions', true, true ],
+			'Link is added to Special:IPContributions' => [ 'IPContributions', true, true ],
+			'Link is not added to Special:Contributions if GlobalContributions does not exist' => [
+				'Contributions', false, false
+			],
 		];
 	}
 
