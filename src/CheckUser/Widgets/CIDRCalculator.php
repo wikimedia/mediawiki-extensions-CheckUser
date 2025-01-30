@@ -47,7 +47,7 @@ class CIDRCalculator {
 		// Just in case the modules were not loaded
 		$out->addModules( [ 'ext.checkUser', 'ext.checkUser.styles' ] );
 		$this->mCollapsible = $config['collapsable'] ?? false;
-		$this->mWrapperLegend = $config['wrapperLegend'] ?? $out->msg( 'checkuser-cidr-label' )->escaped();
+		$this->mWrapperLegend = $config['wrapperLegend'] ?? $out->msg( 'checkuser-cidr-label' )->text();
 		$this->mWrapperAttributes = $config['wrapperAttributes'] ?? [];
 		$this->mCollapsed = $config['collapsed'] ?? false;
 	}
