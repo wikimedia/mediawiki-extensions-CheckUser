@@ -20,6 +20,7 @@ use MediaWiki\Message\Message;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
+use Profiler;
 use Psr\Log\LoggerInterface;
 use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Rdbms\LikeValue;
@@ -807,9 +808,12 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 		$insertedId = $checkUserInsert->insertIntoCuPrivateEventTable(
 			[], __METHOD__, $this->getTestUser()->getUser()
 		);
-		// Call the private method with a request that is a POST request
+		// Call the private method with a request that is a POST request and has transaction profiler set to be
+		// a POST request
 		$fauxRequest = new FauxRequest( [], true );
 		$fauxRequest->setHeader( 'Sec-CH-UA-Bitness', '"32"' );
+		$trxLimits = $this->getServiceContainer()->getMainConfig()->get( MainConfigNames::TrxProfilerLimits );
+		Profiler::instance()->getTransactionProfiler()->redefineExpectations( $trxLimits['POST'], __METHOD__ );
 		$objectUnderTest = $this->getObjectUnderTest();
 		$objectUnderTest = TestingAccessWrapper::newFromObject( $objectUnderTest );
 		$objectUnderTest->storeClientHintsDataFromHeaders(
