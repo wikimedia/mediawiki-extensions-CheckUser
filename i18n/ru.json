@@ -38,6 +38,7 @@
 			"Teretalexev",
 			"UniCollab",
 			"Vlad5250",
+			"WindEwriX",
 			"Александр Сигачёв",
 			"Ядерный Трамвай"
 		]
@@ -201,6 +202,7 @@
 	"checkuser-ip-contributions-tab-label-contributions": "Вклад",
 	"checkuser-ip-contributions-tab-label-archive-contributions": "Удаленные вклады",
 	"checkuser-ip-contributions-contributions-link": "вклад",
+	"checkuser-global-contributions-link": "глобальный вклад",
 	"checkuser-global-contributions-target-label": "IP-адрес или диапазон:",
 	"checkuser-tempaccount-reveal-ip-error": "ошибка",
 	"checkuser-tempaccount-specialblock-ips": "Это временный пользователь, использующий следующие {{PLURAL:$1| IP|IP-адреса}}: $2",
