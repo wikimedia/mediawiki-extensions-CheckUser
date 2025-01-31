@@ -291,7 +291,7 @@ class SpecialInvestigate extends FormSpecialPage {
 	 */
 	private function addTabContent( string $par ): self {
 		$startTime = ConvertibleTimestamp::hrtime();
-		$durationMs = fn () => ( ConvertibleTimestamp::hrtime() - $startTime ) / 1e6;
+		$durationMs = static fn () => ( ConvertibleTimestamp::hrtime() - $startTime ) / 1e6;
 
 		switch ( $par ) {
 			case $this->getTabParam( 'preliminary-check' ):

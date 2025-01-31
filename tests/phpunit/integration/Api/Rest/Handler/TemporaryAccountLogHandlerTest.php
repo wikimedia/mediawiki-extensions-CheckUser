@@ -156,7 +156,7 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 				[
 					'10' => '1.2.3.4',
 				],
-				fn () => [
+				static fn () => [
 					'name' => self::$tempUser->getName(),
 					'ids' => 10,
 				],
@@ -167,7 +167,7 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 					'100' => '1.2.3.5',
 					'1000' => '1.2.3.5',
 				],
-				fn () => [
+				static fn () => [
 					'name' => self::$tempUser->getName(),
 					'ids' => [ 1000, 10, 100 ],
 				],
@@ -176,7 +176,7 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 				[
 					'10' => '1.2.3.4',
 				],
-				fn () => [
+				static fn () => [
 					'name' => self::$tempUser->getName(),
 					'ids' => [ 9999, 10 ],
 				],

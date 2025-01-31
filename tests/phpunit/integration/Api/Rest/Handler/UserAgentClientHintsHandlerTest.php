@@ -109,8 +109,8 @@ class UserAgentClientHintsHandlerTest extends MediaWikiIntegrationTestCase {
 
 	public static function provideSuccessfulApiCallForPrivateLogEvent() {
 		return [
-			'cu_private_event ID 1' => [ 1, fn () => static::$firstEventPerformer ],
-			'cu_private_event ID 2' => [ 2, fn () => static::$secondEventPerformer ],
+			'cu_private_event ID 1' => [ 1, static fn () => static::$firstEventPerformer ],
+			'cu_private_event ID 2' => [ 2, static fn () => static::$secondEventPerformer ],
 		];
 	}
 
@@ -122,8 +122,8 @@ class UserAgentClientHintsHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 		// Run the code that successfully inserts data to the Client Hints data tables twice. The second call should
 		// result in a 400 error for data already existing.
-		$this->testSuccessfulApiCallForPrivateLogEvent( 1, fn () => static::$firstEventPerformer );
-		$this->testSuccessfulApiCallForPrivateLogEvent( 1, fn () => static::$firstEventPerformer );
+		$this->testSuccessfulApiCallForPrivateLogEvent( 1, static fn () => static::$firstEventPerformer );
+		$this->testSuccessfulApiCallForPrivateLogEvent( 1, static fn () => static::$firstEventPerformer );
 	}
 
 	public function addDBDataOnce() {

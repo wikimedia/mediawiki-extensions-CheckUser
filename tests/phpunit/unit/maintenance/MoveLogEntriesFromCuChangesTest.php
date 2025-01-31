@@ -27,7 +27,8 @@ class MoveLogEntriesFromCuChangesTest extends MediaWikiUnitTestCase {
 	public function testDoDBUpdatesWithNoRowsInCuChanges() {
 		// Mock the primary DB
 		$dbwMock = $this->createMock( IDatabase::class );
-		$dbwMock->method( 'newSelectQueryBuilder' )->willReturnCallback( fn () => new SelectQueryBuilder( $dbwMock ) );
+		$dbwMock->method( 'newSelectQueryBuilder' )
+			->willReturnCallback( static fn () => new SelectQueryBuilder( $dbwMock ) );
 		// Expect that a query for the number of rows in cu_changes is made.
 		$dbwMock->method( 'selectRowCount' )
 			->with(
