@@ -82,8 +82,28 @@ class TemporaryAccountLogFormatterTest extends LogFormatterTestCase {
 					'api' => [],
 				],
 			],
+		];
+	}
+
+	/**
+	 * @dataProvider provideLogDatabaseRows
+	 */
+	public function testLogDatabaseRows( $row, $extra ): void {
+		$this->setGroupPermissions( 'sysop', 'checkuser-temporary-account-log', true );
+		$this->doTestLogFormatter( $row, $extra, 'sysop' );
+	}
+
+	/** @dataProvider provideLogDatabaseRowsWhenAbuseFilterInstalled */
+	public function testLogDatabaseRowsWhenAbuseFilterInstalled( $rowCallback, $extra ): void {
+		$this->markTestSkippedIfExtensionNotLoaded( 'Abuse Filter' );
+		$this->setGroupPermissions( 'sysop', 'checkuser-temporary-account-log', true );
+		$this->doTestLogFormatter( $rowCallback(), $extra, 'sysop' );
+	}
+
+	public static function provideLogDatabaseRowsWhenAbuseFilterInstalled() {
+		return [
 			'AbuseFilter external log - view protected variables' => [
-				'row' => [
+				'rowCallback' => static fn () => [
 					'type' => 'checkuser-temporary-account',
 					'action' => 'af-' . ProtectedVarsAccessLogger::ACTION_VIEW_PROTECTED_VARIABLE_VALUE,
 					'user_text' => 'Sysop', 'title' => '1.2.3.0/24', 'namespace' => NS_USER,
@@ -95,13 +115,5 @@ class TemporaryAccountLogFormatterTest extends LogFormatterTestCase {
 				],
 			],
 		];
-	}
-
-	/**
-	 * @dataProvider provideLogDatabaseRows
-	 */
-	public function testLogDatabaseRows( $row, $extra ): void {
-		$this->setGroupPermissions( 'sysop', 'checkuser-temporary-account-log', true );
-		$this->doTestLogFormatter( $row, $extra, 'sysop' );
 	}
 }
