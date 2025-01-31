@@ -6,6 +6,7 @@ use JobQueueGroup;
 use MediaWiki\CheckUser\Jobs\StoreClientHintsDataJob;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Request\WebRequest;
+use Profiler;
 use Psr\Log\LoggerInterface;
 use TypeError;
 
@@ -32,7 +33,14 @@ trait UserAgentClientHintsManagerHelperTrait {
 	private function storeClientHintsDataFromHeaders( int $eventId, string $eventType, WebRequest $request ): void {
 		try {
 			$clientHintsData = ClientHintsData::newFromRequestHeaders( $request );
-			if ( $request->getMethod() === 'GET' && !defined( 'MEDIAWIKI_JOB_RUNNER' ) ) {
+
+			// Only perform writes on the main request if this is allowed by the TransactionProfiler.
+			// If no writes are allowed in the request, then insert the Client Hints data via a job.
+			$transactionProfiler = Profiler::instance()->getTransactionProfiler();
+			if (
+				$transactionProfiler->getExpectation( 'writes' ) == 0 ||
+				$transactionProfiler->getExpectation( 'masterConns' ) == 0
+			) {
 				if ( count( $clientHintsData->toDatabaseRows() ) ) {
 					$this->jobQueueGroup->push( StoreClientHintsDataJob::newSpec(
 						$clientHintsData, $eventId, $eventType

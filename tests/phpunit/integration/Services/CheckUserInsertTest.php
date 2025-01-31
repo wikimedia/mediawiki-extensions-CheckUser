@@ -16,8 +16,10 @@ use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Language\Language;
 use MediaWiki\Logger\LoggerFactory;
+use MediaWiki\MainConfigNames;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
+use Profiler;
 use Psr\Log\LoggerInterface;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
@@ -491,8 +493,16 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideLogEntriesForClientHintsSavedWithAccountCreationLogEvent
 	 */
 	public function testClientHintsSavedWithAccountCreationLogEvent(
-		ManualLogEntry $logEntry, bool $expectedToHaveResults
+		ManualLogEntry $logEntry, bool $requestWasPosted, bool $expectedToHaveResults
 	) {
+		// Simulate the TransactionProfiler expectations for either a GET or POST request
+		$trxLimits = $this->getServiceContainer()->getMainConfig()->get( MainConfigNames::TrxProfilerLimits );
+		$trxProfiler = Profiler::instance()->getTransactionProfiler();
+		if ( $requestWasPosted ) {
+			$trxProfiler->redefineExpectations( $trxLimits['POST'], __METHOD__ );
+		} else {
+			$trxProfiler->redefineExpectations( $trxLimits['GET'], __METHOD__ );
+		}
 		RequestContext::getMain()->getRequest()->setHeader( 'Sec-Ch-Ua', ';v=abc' );
 		$logEntry->setPerformer( $this->getTestUser()->getUserIdentity() );
 		$logEntry->setTarget( $this->getTestUser()->getUser()->getUserPage() );
@@ -519,21 +529,20 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 	public function provideLogEntriesForClientHintsSavedWithAccountCreationLogEvent(): array {
 		return [
 			'account creation as anon' => [
-				new ManualLogEntry( 'newusers', 'create' ),
-				true
+				new ManualLogEntry( 'newusers', 'create' ), true, true,
 			],
 			'account creation via existing account' => [
-				new ManualLogEntry( 'newusers', 'create2' ),
-				true
+				new ManualLogEntry( 'newusers', 'create2' ), true, true,
 			],
 			'account creation via existing account, send credentials by email' => [
-				new ManualLogEntry( 'newusers', 'byemail' ),
-				true
+				new ManualLogEntry( 'newusers', 'byemail' ), true, true
 			],
 			'account autocreation' => [
-				new ManualLogEntry( 'newusers', 'autocreate' ),
-				true
-			]
+				new ManualLogEntry( 'newusers', 'autocreate' ), true, true,
+			],
+			'account autocreation on GET request' => [
+				new ManualLogEntry( 'newusers', 'autocreate' ), false, true,
+			],
 		];
 	}
 
