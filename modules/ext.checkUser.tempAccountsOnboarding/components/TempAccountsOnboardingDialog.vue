@@ -1,9 +1,10 @@
 <template>
 	<cdx-dialog
-		v-model:open="wrappedOpen"
+		:open="dialogOpen"
 		class="ext-checkuser-temp-account-onboarding-dialog"
 		:title="$i18n( 'checkuser-temporary-accounts-onboarding-dialog-title' ).text()"
 		:hide-title="true"
+		@update:open="onUpdateOpen"
 	>
 		<!-- Dialog Header -->
 		<template #header>
@@ -25,7 +26,7 @@
 				<temp-accounts-onboarding-stepper
 					v-model:model-value="currentStep"
 					class="ext-checkuser-temp-account-onboarding-dialog__header__stepper"
-					:total-steps="totalSteps"
+					:total-steps="steps.length"
 				></temp-accounts-onboarding-stepper>
 			</div>
 		</template>
@@ -63,7 +64,7 @@
 						></cdx-icon>
 					</cdx-button>
 					<cdx-button
-						v-if="currentStep === totalSteps"
+						v-if="currentStep === steps.length"
 						weight="primary"
 						action="progressive"
 						class="
@@ -102,8 +103,8 @@
 
 <script>
 
-const { ref, computed, toRef, onUnmounted } = require( 'vue' );
-const { CdxDialog, CdxButton, CdxIcon, useModelWrapper, useComputedDirection } = require( '@wikimedia/codex' );
+const { ref, computed, watch } = require( 'vue' );
+const { CdxDialog, CdxButton, CdxIcon, useComputedDirection } = require( '@wikimedia/codex' );
 const { cdxIconNext, cdxIconPrevious } = require( './icons.json' );
 const TempAccountsOnboardingStepper = require( './TempAccountsOnboardingStepper.vue' );
 const TRANSITION_NAMES = {
@@ -126,27 +127,23 @@ module.exports = exports = {
 	},
 	props: {
 		/**
-		 * Whether the dialog is visible. Should be provided via a v-model:open
-		 * binding in the parent scope.
+		 * An array of the objects that describe each step for the dialog.
+		 * Each object should contain at least the step name. It may contain
+		 * a Vue ref to the component that is the step.
+		 *
+		 * @type {Array.<{name: string, ref: ref}>}
 		 */
-		/* eslint-disable-next-line vue/no-unused-properties */
-		open: {
-			type: Boolean,
-			default: false
-		},
-		/** The total number of steps */
-		totalSteps: {
-			type: Number,
+		steps: {
+			type: Object,
 			required: true
 		}
 	},
-	emits: [ 'update:open' ],
-	setup( props, { emit } ) {
-		const wrappedOpen = useModelWrapper( toRef( props, 'open' ), emit, 'update:open' );
+	setup( props ) {
+		const dialogOpen = ref( true );
 
 		// Work out the slot name based on the current step.
 		const currentStep = ref( 1 );
-		const currentSlotName = computed( () => `step${ currentStep.value }` );
+		const currentSlotName = computed( () => props.steps[ currentStep.value - 1 ].name );
 
 		// Work out whether the page is rtl or ltr. Needed to decide which
 		// direction the animation for the step transition should go.
@@ -166,12 +163,27 @@ module.exports = exports = {
 		);
 
 		/**
+		 * Returns whether the dialog should allow a user to navigate to another step.
+		 * Value is controlled by the current step.
+		 *
+		 * @return {boolean}
+		 */
+		function canMoveToAnotherStep() {
+			const currentStepRef = props.steps[ currentStep.value - 1 ].ref;
+			return !currentStepRef ||
+				currentStepRef.value === null ||
+				!( 'canMoveToAnotherStep' in currentStepRef.value ) ||
+				currentStepRef.value.canMoveToAnotherStep();
+		}
+
+		/**
 		 * Method used to navigate forward.
 		 *
-		 * Does nothing if the current step is the last defined step.
+		 * Does nothing if the current step is the last defined step,
+		 * or if the current step is preventing moving to another step.
 		 */
 		function navigateNext() {
-			if ( currentStep.value < props.totalSteps ) {
+			if ( currentStep.value < props.steps.length && canMoveToAnotherStep() ) {
 				currentNavigation.value = 'next';
 				currentStep.value++;
 			}
@@ -180,10 +192,11 @@ module.exports = exports = {
 		/**
 		 * Method used to navigate backwards.
 		 *
-		 * Does nothing if the current step is the first step.
+		 * Does nothing if the current step is the first step,
+		 * or if the current step is preventing moving to another step.
 		 */
 		function navigatePrev() {
-			if ( currentStep.value > 1 ) {
+			if ( currentStep.value > 1 && canMoveToAnotherStep() ) {
 				currentNavigation.value = 'prev';
 				currentStep.value--;
 			}
@@ -256,6 +269,30 @@ module.exports = exports = {
 		}
 
 		/**
+		 * Returns whether the dialog should ignore an attempt to close the dialog
+		 * on the first attempt to do so.
+		 *
+		 * Used to warn a user about unsaved changes in a dialog step.
+		 *
+		 * @return {boolean}
+		 */
+		function shouldWarnBeforeClosingDialog() {
+			const currentStepRef = props.steps[ currentStep.value - 1 ].ref;
+			return currentStepRef &&
+				currentStepRef.value !== null &&
+				'shouldWarnBeforeClosingDialog' in currentStepRef.value &&
+				currentStepRef.value.shouldWarnBeforeClosingDialog();
+		}
+
+		// Keep a track of whether we have warned the user when they attempted
+		// to close the dialog. If the step is moved, then we reset this as
+		// each step may have a different warning.
+		const warnedUserBeforeClosingDialog = ref( false );
+		watch( currentStep, () => {
+			warnedUserBeforeClosingDialog.value = false;
+		} );
+
+		/**
 		 * Handles a close of the dialog when the dialog should not be seen again.
 		 * The dialog is hidden for the user in future page loads via setting a
 		 * preference.
@@ -264,28 +301,32 @@ module.exports = exports = {
 		 * be displayed before closing the dialog.
 		 */
 		function onFinish() {
+			if ( shouldWarnBeforeClosingDialog() && !warnedUserBeforeClosingDialog.value ) {
+				warnedUserBeforeClosingDialog.value = true;
+				return;
+			}
 			const api = new mw.Api();
 			api.saveOption( 'checkuser-temporary-accounts-onboarding-dialog-seen', 1 );
-			emit( 'update:open', false );
+			dialogOpen.value = false;
 		}
 
 		/**
-		 * Handle keypresses when the dialog is open, such that when the escape key is pressed
-		 * the dialog is closed.
+		 * Handle an attempted change to the open status of the dialog
+		 * via an "Escape" button press or clicking outside the dialog.
 		 *
-		 * @param {KeyboardEvent} event The keypress event
+		 * Using this method means that the dialog will be shown to the
+		 * user again on a new page load. This is done to avoid the user
+		 * not seeing the dialog if they accidentally close it.
+		 *
+		 * @param {boolean} newVal The new open status of the dialog
 		 */
-		function handleKeypress( event ) {
-			if ( event.key === 'Escape' || event.key === 'Esc' ) {
-				onFinish();
+		function onUpdateOpen( newVal ) {
+			if ( shouldWarnBeforeClosingDialog() && !warnedUserBeforeClosingDialog.value ) {
+				warnedUserBeforeClosingDialog.value = true;
+				return;
 			}
+			dialogOpen.value = newVal;
 		}
-
-		window.addEventListener( 'keyup', handleKeypress, { once: true } );
-
-		onUnmounted( () => {
-			window.removeEventListener( 'keyup', handleKeypress );
-		} );
 
 		return {
 			cdxIconNext,
@@ -299,7 +340,8 @@ module.exports = exports = {
 			navigateNext,
 			navigatePrev,
 			onFinish,
-			wrappedOpen
+			dialogOpen,
+			onUpdateOpen
 		};
 	}
 };

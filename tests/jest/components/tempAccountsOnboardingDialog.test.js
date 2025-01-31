@@ -23,19 +23,10 @@ const TempAccountsOnboardingDialog = require( '../../../modules/ext.checkUser.te
 	{ nextTick } = require( 'vue' ),
 	{ mockApiSaveOption, waitFor } = require( '../utils.js' );
 
-const renderComponent = ( slots, props ) => {
-	const wrapper = utils.mount( TempAccountsOnboardingDialog, {
-		props: Object.assign( {}, {
-			open: true, totalSteps: 1,
-			'onUpdate:open': async ( newOpenState ) => {
-				await new Promise( process.nextTick );
-				wrapper.setProps( { open: newOpenState } );
-			}
-		}, props ),
-		slots: Object.assign( {}, slots )
-	} );
-	return wrapper;
-};
+const renderComponent = ( slots, props ) => utils.mount( TempAccountsOnboardingDialog, {
+	props: Object.assign( {}, { steps: [] }, props ),
+	slots: Object.assign( {}, slots )
+} );
 
 /**
  * Simulates a swipe to the right
@@ -80,15 +71,10 @@ describe( 'Temporary Accounts dialog component', () => {
 		jest.restoreAllMocks();
 	} );
 
-	it( 'Dialog hidden when open is false', () => {
-		const wrapper = renderComponent( {}, { open: false } );
-		const dialog = wrapper.find( '.ext-checkuser-temp-account-onboarding-dialog' );
-		expect( dialog.exists() ).toEqual( false );
-	} );
-
 	it( 'Renders correctly for a total of one step', () => {
 		const wrapper = renderComponent(
-			{ step1: '<div class="test-class">Test content for step 1</div>' }
+			{ step1: '<div class="test-class">Test content for step 1</div>' },
+			{ steps: [ { name: 'step1' } ] }
 		);
 		expect( wrapper.exists() ).toEqual( true );
 
@@ -147,7 +133,7 @@ describe( 'Temporary Accounts dialog component', () => {
 				step1: '<div class="step1">Test content for step 1</div>',
 				step2: '<div class="step2">Test content for step 2</div>'
 			},
-			{ totalSteps: 2 }
+			{ steps: [ { name: 'step1' }, { name: 'step2' } ] }
 		);
 		expect( wrapper.exists() ).toEqual( true );
 
@@ -198,7 +184,7 @@ describe( 'Temporary Accounts dialog component', () => {
 				step1: '<div class="step1">Test content for step 1</div>',
 				step2: '<div class="step2">Test content for step 2</div>'
 			},
-			{ totalSteps: 2 }
+			{ steps: [ { name: 'step1' }, { name: 'step2' } ] }
 		);
 		expect( wrapper.exists() ).toEqual( true );
 
@@ -230,13 +216,50 @@ describe( 'Temporary Accounts dialog component', () => {
 		expect( wrapper.find( '.step2' ).exists() ).toEqual( false );
 	} );
 
+	it( 'Prevents moving a step if canMoveToAnotherStep returns false', async () => {
+		const canMoveToAnotherStep = jest.fn();
+		canMoveToAnotherStep.mockReturnValue( false );
+		const fakeRefThatDisallowsStepMove = {
+			value: { canMoveToAnotherStep: canMoveToAnotherStep }
+		};
+		const wrapper = renderComponent(
+			{
+				step1: '<div class="step1">Test content for step 1</div>',
+				step2: '<div class="step2">Test content for step 2</div>'
+			},
+			{ steps: [ { name: 'step1', ref: fakeRefThatDisallowsStepMove }, { name: 'step2' } ] }
+		);
+		expect( wrapper.exists() ).toEqual( true );
+
+		// Click the next button to move to the second step.
+		const footer = wrapper.find(
+			'.ext-checkuser-temp-account-onboarding-dialog__footer'
+		);
+		const nextButton = footer.find(
+			'.ext-checkuser-temp-account-onboarding-dialog__footer__navigation--next'
+		);
+		expect( nextButton.exists() ).toEqual( true );
+		await nextButton.trigger( 'click' );
+
+		// Verify that the next button click was prevented
+		expect( canMoveToAnotherStep ).toHaveBeenCalled();
+		expect( wrapper.find( '.step1' ).exists() ).toEqual( true );
+		expect( wrapper.find( '.step2' ).exists() ).toEqual( false );
+
+		// Check that the previous button does not exist, as we did not move a step
+		const previousButton = footer.find(
+			'.ext-checkuser-temp-account-onboarding-dialog__footer__navigation--prev'
+		);
+		expect( previousButton.exists() ).toEqual( false );
+	} );
+
 	it( 'Dialog should move steps when user swipes left and right', async () => {
 		const wrapper = renderComponent(
 			{
 				step1: '<div class="step1">Test content for step 1</div>',
 				step2: '<div class="step2">Test content for step 2</div>'
 			},
-			{ totalSteps: 2 }
+			{ steps: [ { name: 'step1' }, { name: 'step2' } ] }
 		);
 		expect( wrapper.exists() ).toEqual( true );
 
@@ -268,7 +291,7 @@ describe( 'Temporary Accounts dialog component', () => {
 				step1: '<div class="step1">Test content for step 1</div>',
 				step2: '<div class="step2">Test content for step 2</div>'
 			},
-			{ totalSteps: 2 }
+			{ steps: [ { name: 'step1' }, { name: 'step2' } ] }
 		);
 		expect( wrapper.exists() ).toEqual( true );
 
@@ -300,7 +323,7 @@ describe( 'Temporary Accounts dialog component', () => {
 				step1: '<div class="step1">Test content for step 1</div>',
 				step2: '<div class="step2">Test content for step 2</div>'
 			},
-			{ totalSteps: 2 }
+			{ steps: [ { name: 'step1' }, { name: 'step2' } ] }
 		);
 		// Wait for the next tick as CdxDialog has some async code to finish first.
 		await nextTick();
@@ -317,11 +340,10 @@ describe( 'Temporary Accounts dialog component', () => {
 		);
 		expect( skipAllButton.exists() ).toEqual( true );
 		await skipAllButton.trigger( 'click' );
-		await waitFor( () => !wrapper.vm.open );
 
 		// Expect the dialog has been closed, and the preference has been set to
 		// indicate that the dialog been seen.
-		expect( wrapper.vm.open ).toEqual( false );
+		expect( wrapper.vm.dialogOpen ).toEqual( false );
 		expect( mockSaveOption ).toHaveBeenCalledWith(
 			'checkuser-temporary-accounts-onboarding-dialog-seen', 1
 		);
@@ -331,7 +353,7 @@ describe( 'Temporary Accounts dialog component', () => {
 		const mockSaveOption = mockApiSaveOption( true );
 		const wrapper = renderComponent(
 			{ step1: '<div class="step1">Test content for step 1</div>' },
-			{ totalSteps: 1 }
+			{ steps: [ { name: 'step1' } ] }
 		);
 		// Wait for the next tick as CdxDialog has some async code to finish first.
 		await nextTick();
@@ -350,37 +372,104 @@ describe( 'Temporary Accounts dialog component', () => {
 			'(checkuser-temporary-accounts-onboarding-dialog-close-label)'
 		);
 		await closeButton.trigger( 'click' );
-		await waitFor( () => !wrapper.vm.open );
 
 		// Expect the dialog has been closed, and the preference has been set to
 		// indicate that the dialog been seen.
-		expect( wrapper.vm.open ).toEqual( false );
+		expect( wrapper.vm.dialogOpen ).toEqual( false );
 		expect( mockSaveOption ).toHaveBeenCalledWith(
 			'checkuser-temporary-accounts-onboarding-dialog-seen', 1
 		);
 	} );
 
-	it( 'Closes dialog if Escape key is pressed and marks dialog as seen', async () => {
+	it( 'Prevents first close if shouldWarnBeforeClosingDialog returns false', async () => {
 		const mockSaveOption = mockApiSaveOption( true );
+		// Mock that the current step returns true from shouldWarnBeforeClosingDialog()
+		const shouldWarnBeforeClosingDialog = jest.fn();
+		shouldWarnBeforeClosingDialog.mockReturnValue( true );
+		const fakeRefThatDisallowsDialogClose = { value: {
+			shouldWarnBeforeClosingDialog: shouldWarnBeforeClosingDialog
+		} };
+
 		const wrapper = renderComponent(
 			{ step1: '<div class="step1">Test content for step 1</div>' },
-			{ totalSteps: 1 }
+			{ steps: [ { name: 'step1', ref: fakeRefThatDisallowsDialogClose } ] }
+		);
+		// Wait for the next tick as CdxDialog has some async code to finish first.
+		await nextTick();
+
+		expect( wrapper.exists() ).toEqual( true );
+		// Wait for the next tick as CdxDialog has some async code to finish first.
+		await nextTick();
+
+		// Click the "Skip all" button
+		const dialog = wrapper.find(
+			'.ext-checkuser-temp-account-onboarding-dialog'
+		);
+		const skipAllButton = dialog.find(
+			'.ext-checkuser-temp-account-onboarding-dialog__header__top__button'
+		);
+		expect( skipAllButton.text() ).toEqual(
+			'(checkuser-temporary-accounts-onboarding-dialog-skip-all)'
+		);
+		await skipAllButton.trigger( 'click' );
+
+		// Verify that the dialog is still open
+		expect( shouldWarnBeforeClosingDialog ).toHaveBeenCalled();
+		expect( dialog.exists() ).toEqual( true );
+		expect( dialog.find( '.step1' ).exists() ).toEqual( true );
+		expect( wrapper.vm.dialogOpen ).toEqual( true );
+
+		// Press "Skip all" again and verify that the dialog now closes
+		await skipAllButton.trigger( 'click' );
+		expect( wrapper.vm.dialogOpen ).toEqual( false );
+
+		// Verify that the close caused the dialog seen preference to have been set.
+		expect( mockSaveOption ).toHaveBeenCalledWith(
+			'checkuser-temporary-accounts-onboarding-dialog-seen', 1
+		);
+	} );
+
+	it( 'Closes dialog if Escape key is pressed', async () => {
+		const wrapper = renderComponent(
+			{ step1: '<div class="step1">Test content for step 1</div>' },
+			{ steps: [ { name: 'step1' } ] }
 		);
 		// Wait for the next tick as CdxDialog has some async code to finish first.
 		await nextTick();
 
 		expect( wrapper.exists() ).toEqual( true );
 
-		// Simulate an Escape keypress and wait for the open property to be updated.
-		const event = new KeyboardEvent( 'keyup', { key: 'Escape' } );
-		window.dispatchEvent( event );
-		await waitFor( () => !wrapper.vm.open );
+		// Simulate an Escape keypress and expect that this closes the dialog
+		await wrapper.find( '.ext-checkuser-temp-account-onboarding-dialog' ).trigger( 'keyup.escape' );
+		expect( wrapper.vm.dialogOpen ).toEqual( false );
+	} );
 
-		// Expect the dialog has been closed, and the preference has been set to
-		// indicate that the dialog been seen.
-		expect( wrapper.vm.open ).toEqual( false );
-		expect( mockSaveOption ).toHaveBeenCalledWith(
-			'checkuser-temporary-accounts-onboarding-dialog-seen', 1
+	it( 'Prevents first Escape key if shouldWarnBeforeClosingDialog returns false', async () => {
+		// Mock that the current step returns true from shouldWarnBeforeClosingDialog()
+		const shouldWarnBeforeClosingDialog = jest.fn();
+		shouldWarnBeforeClosingDialog.mockReturnValue( true );
+		const fakeRefThatDisallowsDialogClose = { value: {
+			shouldWarnBeforeClosingDialog: shouldWarnBeforeClosingDialog
+		} };
+
+		const wrapper = renderComponent(
+			{ step1: '<div class="step1">Test content for step 1</div>' },
+			{ steps: [ { name: 'step1', ref: fakeRefThatDisallowsDialogClose } ] }
 		);
+		// Wait for the next tick as CdxDialog has some async code to finish first.
+		await nextTick();
+
+		expect( wrapper.exists() ).toEqual( true );
+
+		// Simulate an Escape keypress and expect that this first press does nothing
+		await wrapper.find( '.ext-checkuser-temp-account-onboarding-dialog' )
+			.trigger( 'keyup.escape' );
+		expect( shouldWarnBeforeClosingDialog ).toHaveBeenCalled();
+		expect( wrapper.vm.dialogOpen ).toEqual( true );
+
+		// Press Escape again and expect that this time it hides the dialog
+		await wrapper.find( '.ext-checkuser-temp-account-onboarding-dialog' )
+			.trigger( 'keyup.escape' );
+		expect( wrapper.vm.dialogOpen ).toEqual( false );
 	} );
 } );

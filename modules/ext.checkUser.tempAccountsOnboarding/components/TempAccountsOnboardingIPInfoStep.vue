@@ -38,6 +38,16 @@
 						<span v-i18n-html="'ipinfo-preference-use-agreement'"></span>
 					</cdx-checkbox>
 				</cdx-field>
+				<cdx-field
+					class="ext-checkuser-temp-account-onboarding-dialog-ip-info-save-preference"
+				>
+					<cdx-button
+						action="progressive"
+						@click="onSavePreferenceButtonClick"
+					>
+						Save preference
+					</cdx-button>
+				</cdx-field>
 			</template>
 		</template>
 	</temp-accounts-onboarding-step>
@@ -46,7 +56,7 @@
 <script>
 
 const { computed, ref } = require( 'vue' );
-const { CdxCheckbox, CdxField } = require( '@wikimedia/codex' );
+const { CdxCheckbox, CdxButton, CdxField } = require( '@wikimedia/codex' );
 const TempAccountsOnboardingStep = require( './TempAccountsOnboardingStep.vue' );
 
 // @vue/component
@@ -61,26 +71,93 @@ module.exports = exports = {
 	components: {
 		TempAccountsOnboardingStep,
 		CdxCheckbox,
+		CdxButton,
 		CdxField
 	},
-	setup() {
+	setup( props, { expose } ) {
 		// Hide the IPInfo preference checkbox if the user has already checked the preference.
 		const initialIPInfoPreferenceValue = mw.user.options.get( 'ipinfo-use-agreement' ) !== '0' &&
 			mw.user.options.get( 'ipinfo-use-agreement' ) !== 0;
 		const shouldShowIPInfoPreference = !initialIPInfoPreferenceValue;
 
-		// Display an error underneath the checkbox if the update of the IPInfo
-		// preference fails to go through.
-		const lastOptionsUpdateError = ref( '' );
-		const checkboxFieldErrorState = computed( () => lastOptionsUpdateError.value ? 'error' : 'default' );
+		// Keep a track of variables needed to determine what message to show.
+		/**
+		 * False if no request has been made, empty string for successful request, and
+		 * string for an error.
+		 */
+		const lastOptionsUpdateError = ref( false );
+		const preferenceUpdateSuccessful = computed( () => lastOptionsUpdateError.value === '' );
+		const attemptedToMoveWithoutPressingSave = ref( false );
+
+		/**
+		 * What type of message to show to the user underneath the IPInfo preference checkbox:
+		 * * 'error' means that the preference failed to save after pressing the submit button
+		 * * 'success' means that the preference saved after pressing the submit button
+		 * * 'warning' means the user has attempted to leave this step without saving the
+		 *     preference value using the submit button
+		 * * 'default' means to display no text underneath the checkbox
+		 */
+		const checkboxFieldErrorState = computed( () => {
+			if ( lastOptionsUpdateError.value ) {
+				return 'error';
+			}
+			if ( preferenceUpdateSuccessful.value ) {
+				return 'success';
+			}
+			if ( attemptedToMoveWithoutPressingSave.value ) {
+				return 'warning';
+			}
+			return 'default';
+		} );
+
+		// Create the success, warning, and error messages for the user.
 		const checkboxFieldMessages = computed( () => ( {
 			error: mw.message(
 				'checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-error', lastOptionsUpdateError.value
-			).text()
+			).text(),
+			warning: mw.message( 'checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-warning' ).text(),
+			success: mw.message( 'checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success' ).text()
 		} ) );
 
+		// Keep a track of the value of the IPInfo preference on the client
+		// and also separately server, along with any mismatch in these values.
 		const ipInfoPreferenceValue = ref( initialIPInfoPreferenceValue );
-		const lastSuccessfulIPInfoPreferenceValueState = ref( initialIPInfoPreferenceValue );
+		const serverIPInfoPreferenceValue = ref( initialIPInfoPreferenceValue );
+		const preferenceCheckboxStateNotYetSaved = computed(
+			() => ipInfoPreferenceValue.value !== serverIPInfoPreferenceValue.value
+		);
+		const ipInfoPreferenceUpdateInProgress = ref( false );
+
+		/**
+		 * Handles a click of the "Save preference" button.
+		 */
+		function onSavePreferenceButtonClick() {
+			// Ignore duplicate clicks of the button to avoid race conditions
+			if ( ipInfoPreferenceUpdateInProgress.value ) {
+				return;
+			}
+
+			ipInfoPreferenceUpdateInProgress.value = true;
+			const newPreferenceValue = ipInfoPreferenceValue.value;
+			const api = new mw.Api();
+			api.saveOption( 'ipinfo-use-agreement', newPreferenceValue ? 1 : 0 ).then(
+				() => {
+					ipInfoPreferenceUpdateInProgress.value = false;
+					lastOptionsUpdateError.value = '';
+					serverIPInfoPreferenceValue.value = newPreferenceValue;
+				},
+				( error, result ) => {
+					ipInfoPreferenceUpdateInProgress.value = false;
+					// Display a user-friendly error message if we have it,
+					// otherwise use the error code.
+					if ( result && result.error && result.error.info ) {
+						lastOptionsUpdateError.value = result.error.info;
+					} else {
+						lastOptionsUpdateError.value = error;
+					}
+				}
+			);
+		}
 
 		/**
 		 * Handles when the IPInfo preference checkbox is checked or unchecked.
@@ -90,29 +167,8 @@ module.exports = exports = {
 		function onPreferenceChange( newValue ) {
 			// Set the ref value to indicate the new state
 			ipInfoPreferenceValue.value = newValue;
-
-			const api = new mw.Api();
-			api.saveOption( 'ipinfo-use-agreement', newValue ? 1 : 0 ).then(
-				() => {
-					lastOptionsUpdateError.value = '';
-					lastSuccessfulIPInfoPreferenceValueState.value = newValue;
-				},
-				( error, result ) => {
-					// Display a user-friendly error message if we have it,
-					// otherwise use the error code.
-					if ( result && result.error && result.error.info ) {
-						lastOptionsUpdateError.value = result.error.info;
-					} else {
-						lastOptionsUpdateError.value = error;
-					}
-
-					// Revert the state of the checkbox back to before the call.
-					// We can't use newValue here because a user may be pressing the
-					// checkbox more than once if the response is slow and so the last
-					// time we reach here it may not be for the last check of the checkbox.
-					ipInfoPreferenceValue.value = lastSuccessfulIPInfoPreferenceValueState.value;
-				}
-			);
+			lastOptionsUpdateError.value = false;
+			attemptedToMoveWithoutPressingSave.value = false;
 		}
 
 		// Parse the message as would be for content in a page, such that two newlines creates a new
@@ -121,12 +177,43 @@ module.exports = exports = {
 			'checkuser-temporary-accounts-onboarding-dialog-ip-info-step-content'
 		).parse().split( '\n\n' );
 
+		/**
+		 * Returns whether this step will allow dialog to navigate to another step.
+		 *
+		 * Used to warn the user if they have not saved the changes to the IPInfo
+		 * preference checkbox.
+		 *
+		 * @return {boolean}
+		 */
+		function canMoveToAnotherStep() {
+			const returnValue = !preferenceCheckboxStateNotYetSaved.value;
+			attemptedToMoveWithoutPressingSave.value = !returnValue;
+			return returnValue;
+		}
+
+		/**
+		 * Used to indicate if the user should be warned before they close the dialog,
+		 * so that they can be alerted if they have not saved the changes to the
+		 * IPInfo preference.
+		 *
+		 * @return {boolean}
+		 */
+		function shouldWarnBeforeClosingDialog() {
+			const returnValue = preferenceCheckboxStateNotYetSaved.value;
+			attemptedToMoveWithoutPressingSave.value = returnValue;
+			return returnValue;
+		}
+
+		// Expose method to check if we can move to another step so that the dialog
+		// can call it.
+		expose( { canMoveToAnotherStep, shouldWarnBeforeClosingDialog } );
 		return {
 			checkboxFieldErrorState,
 			checkboxFieldMessages,
 			shouldShowIPInfoPreference,
 			ipInfoPreferenceValue,
 			onPreferenceChange,
+			onSavePreferenceButtonClick,
 			paragraphs
 		};
 	}

@@ -1,14 +1,11 @@
 <template>
-	<temp-accounts-onboarding-dialog
-		v-model:open="dialogOpen"
-		:total-steps="steps.length"
-	>
+	<temp-accounts-onboarding-dialog :steps="steps">
 		<template
 			v-for="step in steps"
 			:key="step.name"
 			#[step.name]
 		>
-			<component :is="step.componentName"></component>
+			<component :is="step.componentName" :ref="step.ref"></component>
 		</template>
 	</temp-accounts-onboarding-dialog>
 </template>
@@ -37,8 +34,6 @@ module.exports = exports = {
 		TempAccountsOnboardingIPRevealStep
 	},
 	setup() {
-		const dialogOpen = ref( true );
-
 		// Generate the steps to be shown in the onboarding dialog. We need to generate
 		// these steps programmatically as the IPInfo step will only be shown if
 		// IPInfo is installed.
@@ -52,12 +47,10 @@ module.exports = exports = {
 
 		steps.forEach( ( step, index ) => {
 			step.name = 'step' + ( index + 1 );
+			step.ref = ref( null );
 		} );
 
-		return {
-			dialogOpen,
-			steps
-		};
+		return { steps };
 	}
 };
 </script>

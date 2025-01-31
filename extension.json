@@ -497,6 +497,8 @@
 				"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-image-aria-label",
 				"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title",
 				"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-error",
+				"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success",
+				"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-warning",
 				"ipinfo-preference-use-agreement",
 				"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-title",
 				"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content",
