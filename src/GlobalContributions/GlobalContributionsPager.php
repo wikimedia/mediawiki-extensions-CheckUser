@@ -89,6 +89,8 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		array $options,
 		?UserIdentity $target = null
 	) {
+		$options['runHooks'] = false;
+
 		parent::__construct(
 			$linkRenderer,
 			$linkBatchFactory,
