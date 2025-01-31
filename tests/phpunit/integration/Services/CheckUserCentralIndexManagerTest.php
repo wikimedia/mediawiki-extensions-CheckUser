@@ -234,15 +234,15 @@ class CheckUserCentralIndexManagerTest extends MediaWikiIntegrationTestCase {
 
 	public static function provideDomainIds() {
 		return [
-			'Pre-existing domain ID' => [ 'enwiki', fn () => static::$enwikiMapId ],
-			'New domain ID' => [ 'jawiki', fn () => 3 ],
+			'Pre-existing domain ID' => [ 'enwiki', static fn () => static::$enwikiMapId ],
+			'New domain ID' => [ 'jawiki', static fn () => 3 ],
 		];
 	}
 
 	/** @dataProvider provideVirtualDomainsMappingConfigValues */
 	public function testGetWikiMapIdOnDefinedVirtualDomainsMapping( $virtualDomainsMappingConfig ) {
 		$this->overrideConfigValue( MainConfigNames::VirtualDomainsMapping, $virtualDomainsMappingConfig );
-		$this->testGetWikiMapIdForDomainId( 'hiwiki', fn () => 3 );
+		$this->testGetWikiMapIdForDomainId( 'hiwiki', static fn () => 3 );
 	}
 
 	public static function provideVirtualDomainsMappingConfigValues() {

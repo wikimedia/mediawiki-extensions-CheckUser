@@ -86,7 +86,7 @@ class CheckUserPermissionManagerTest extends MediaWikiUnitTestCase {
 		$authority->method( 'getBlock' )
 			->willReturn( $block );
 		$authority->method( 'isAllowed' )
-			->willReturnCallback( fn ( string $permission ) => in_array( $permission, $permissions ) );
+			->willReturnCallback( static fn ( string $permission ) => in_array( $permission, $permissions ) );
 
 		$this->userOptionsLookup->method( 'getOption' )
 			->with( $authority->getUser(), 'checkuser-temporary-account-enable' )

@@ -631,7 +631,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$revId = count( $timestamps );
 
 		// Sort the timestamps in descending order, since the DB would sort the revisions in the same way.
-		usort( $timestamps, fn ( string $ts, string $other ): int => $other <=> $ts );
+		usort( $timestamps, static fn ( string $ts, string $other ): int => $other <=> $ts );
 
 		foreach ( $timestamps as $timestamp ) {
 			$rows[] = (object)[

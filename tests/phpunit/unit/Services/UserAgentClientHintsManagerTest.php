@@ -84,7 +84,8 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 	public function testInsertClientHintValuesReturnsFatalOnExistingMapping() {
 		// Mock replica DB
 		$dbrMock = $this->createMock( IReadableDatabase::class );
-		$dbrMock->method( 'newSelectQueryBuilder' )->willReturnCallback( fn () => new SelectQueryBuilder( $dbrMock ) );
+		$dbrMock->method( 'newSelectQueryBuilder' )
+			->willReturnCallback( static fn () => new SelectQueryBuilder( $dbrMock ) );
 		// One read should occur on the replica DB
 		$dbrMock->expects( $this->once() )
 			->method( 'selectRowCount' )
@@ -101,7 +102,8 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 			)->willReturn( 11 );
 		// Mock primary DB
 		$dbwMock = $this->createMock( IDatabase::class );
-		$dbwMock->method( 'newSelectQueryBuilder' )->willReturnCallback( fn () => new SelectQueryBuilder( $dbwMock ) );
+		$dbwMock->method( 'newSelectQueryBuilder' )
+			->willReturnCallback( static fn () => new SelectQueryBuilder( $dbwMock ) );
 		// Read should not occur on the primary DB.
 		$dbwMock->expects( $this->never() )->method( 'selectRowCount' );
 		$objectToTest = $this->getObjectUnderTest( $dbwMock, $dbrMock );
@@ -149,7 +151,8 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 	public function testNoInsertOfMapRowsOnMissingClientHintsDataRow() {
 		// Mock replica DB
 		$dbrMock = $this->createMock( IReadableDatabase::class );
-		$dbrMock->method( 'newSelectQueryBuilder' )->willReturnCallback( fn () => new SelectQueryBuilder( $dbrMock ) );
+		$dbrMock->method( 'newSelectQueryBuilder' )
+			->willReturnCallback( static fn () => new SelectQueryBuilder( $dbrMock ) );
 		$dbrMock->expects( $this->once() )
 			->method( 'selectField' )
 			->with(
@@ -184,7 +187,8 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 	public function testSuccessfulInsertMappingRows() {
 		// Mock replica DB
 		$dbrMock = $this->createMock( IReadableDatabase::class );
-		$dbrMock->method( 'newSelectQueryBuilder' )->willReturnCallback( fn () => new SelectQueryBuilder( $dbrMock ) );
+		$dbrMock->method( 'newSelectQueryBuilder' )
+			->willReturnCallback( static fn () => new SelectQueryBuilder( $dbrMock ) );
 		$dbrMock->expects( $this->once() )
 			->method( 'selectField' )
 			->with(
@@ -200,7 +204,8 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 			)->willReturn( 2 );
 		// Mock primary DB
 		$dbwMock = $this->createMock( IDatabase::class );
-		$dbwMock->method( 'newInsertQueryBuilder' )->willReturnCallback( fn () => new InsertQueryBuilder( $dbwMock ) );
+		$dbwMock->method( 'newInsertQueryBuilder' )
+			->willReturnCallback( static fn () => new InsertQueryBuilder( $dbwMock ) );
 		$dbwMock->expects( $this->once() )
 			->method( 'insert' )
 			->with(
