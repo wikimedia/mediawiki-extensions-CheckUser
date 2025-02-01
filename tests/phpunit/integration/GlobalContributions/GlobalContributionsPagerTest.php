@@ -24,6 +24,12 @@ use Wikimedia\TestingAccessWrapper;
  * @group Database
  */
 class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
+	public function setUp(): void {
+		parent::setUp();
+
+		$this->markTestSkippedIfExtensionNotLoaded( 'GlobalPreferences' );
+	}
+
 	private function getPager( $userName ) {
 		return $this->getServiceContainer()->get( 'CheckUserGlobalContributionsPagerFactory' )
 			->createPager(

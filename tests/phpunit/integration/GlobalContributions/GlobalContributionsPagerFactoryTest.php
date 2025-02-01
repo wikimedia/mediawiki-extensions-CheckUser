@@ -13,6 +13,12 @@ use MediaWikiIntegrationTestCase;
  * @group Database
  */
 class GlobalContributionsPagerFactoryTest extends MediaWikiIntegrationTestCase {
+	public function setUp(): void {
+		parent::setUp();
+
+		$this->markTestSkippedIfExtensionNotLoaded( 'GlobalPreferences' );
+	}
+
 	public function testCreatePager() {
 		// Tests that the factory creates a GlobalContributionsPager instance and does not throw an exception.
 		$this->assertInstanceOf(
