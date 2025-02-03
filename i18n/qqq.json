@@ -37,7 +37,9 @@
 			"Nguyenphutrong2",
 			"Minh Nguyen",
 			"Eleassar",
-			"Waki285"
+			"Waki285",
+			"Krinkle",
+			"Msz2001"
 		]
 	},
 	"checkuser-summary": "{{CheckUserForm}}\nExplanation of CheckUser tool shown on [[Special:CheckUser]].\n\nParameters:\n* $1 - an integer that can change based on wiki configuration. default value: 16\n* $2 - an integer that can change based on wiki configuration. default value: 32\n* $3 - the maximum number of results returned as set in the wiki global CheckUserMaximumRowCount. default value: 5000",
@@ -68,9 +70,9 @@
 	"checkuser-month": "{{CheckUserForm}}\nOption to filter for results from the last 30 days in the drop-down that is labelled by {{msg-mw|checkuser-period}} and shown on [[Special:CheckUser]].\n\nSee screenshot at '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]' or the image above for an example usage.",
 	"checkuser-month-2": "{{CheckUserForm}}\nOption to filter for results from the last 60 days in the drop-down that is labelled by {{msg-mw|checkuser-period}} and shown on [[Special:CheckUser]].\n\nSee screenshot at '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]' or the image above for an example usage.",
 	"checkuser-all": "{{CheckUserForm}}\nOption to not exclude any results based on their associated timestamp in the drop-down that is labelled by {{msg-mw|checkuser-period}} and shown on [[Special:CheckUser]].\n\nSee screenshot at '[[mw:Extension:CheckUser#Basic_interface|Basic CheckUser interface]]' or the image above for an example usage.\n{{Identical|All}}",
-	"checkuser-cidr-label": "[[File:Checkuser find common range form ooui (example).png|thumb|Form where string is used with sample data.]]Used as the fieldset label for the CIDR calculator shown in [[Special:CheckUser]]. For an explanation of CIDR see [[WikiPedia:CIDR]].",
-	"checkuser-cidr-res": "[[File:Checkuser find common range form ooui (example).png|thumb|Form where string is used with sample data.]]Label used for the disabled input that shows the result of the CIDR calculator. For an explanation of CIDR see [[WikiPedia:CIDR]].",
-	"checkuser-cidr-affected-ips": "[[File:Checkuser find common range form ooui (example).png|thumb|Form where string is used with sample data.]]The prefix text for the number of affected IP addresses in the CheckUser CIDR form. For an explanation of CIDR see [[WikiPedia:CIDR]].",
+	"checkuser-cidr-label": "[[File:Checkuser find common range form ooui (example).png|thumb|Form where string is used with sample data.]]Used as the fieldset label for the CIDR calculator shown in [[Special:CheckUser]]. For an explanation of CIDR see [[w:CIDR]].",
+	"checkuser-cidr-res": "[[File:Checkuser find common range form ooui (example).png|thumb|Form where string is used with sample data.]]Label used for the disabled input that shows the result of the CIDR calculator. For an explanation of CIDR see [[w:CIDR]].",
+	"checkuser-cidr-affected-ips": "[[File:Checkuser find common range form ooui (example).png|thumb|Form where string is used with sample data.]]The prefix text for the number of affected IP addresses in the CheckUser CIDR form. For an explanation of CIDR see [[w:CIDR]].",
 	"checkuser-cidr-too-small": "The error message shown in the CIDR tool shown on Special:CheckUser when the calculated CIDR is too large.",
 	"checkuser-range-outside-limit": "Used on Special:CheckUser if the range provided to run a check on is outside the allowed limit.",
 	"checkuser-empty": "Used in [[Special:CheckUserLog]], if the CheckUser log shows no results.",
