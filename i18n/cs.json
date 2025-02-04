@@ -191,6 +191,7 @@
 	"checkuser-investigate-tour-filterip-title": "Zpřesnit své vyšetřování?",
 	"checkuser-investigate-tour-block-title": "Chcete je zablokovat?",
 	"checkuser-investigate-tour-copywikitext-title": "Chcete si data zkopírovat?",
+	"checkuser-global-contributions-search-form-wrapper": "Hledání globálních příspěvků",
 	"checkuser-tempaccount-reveal-ip-button-label": "zobrazit IP",
 	"checkuser-tempaccount-reveal-ip-missing": "nedostupné",
 	"checkuser-tempaccount-reveal-ip-error": "chyba",
