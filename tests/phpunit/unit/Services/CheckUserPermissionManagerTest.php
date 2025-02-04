@@ -72,13 +72,14 @@ class CheckUserPermissionManagerTest extends MediaWikiUnitTestCase {
 	}
 
 	/**
-	 * @dataProvider provideCanAccessTemporaryAccountIPAddressesBlocked
+	 * @dataProvider provideCanAccessTemporaryAccountIPAddressesWhenBlocked
 	 */
-	public function testCanAccessTemporaryAccountIPAddressesBlocked(
-		array $permissions,
-		bool $acceptedAgreement
+	public function testCanAccessTemporaryAccountIPAddressesWhenBlocked(
+		bool $isSitewideBlock
 	): void {
 		$block = $this->createMock( Block::class );
+		$block->method( 'isSitewide' )
+			->willReturn( $isSitewideBlock );
 
 		$authority = $this->createMock( Authority::class );
 		$authority->method( 'getUser' )
@@ -86,27 +87,27 @@ class CheckUserPermissionManagerTest extends MediaWikiUnitTestCase {
 		$authority->method( 'getBlock' )
 			->willReturn( $block );
 		$authority->method( 'isAllowed' )
-			->willReturnCallback( static fn ( string $permission ) => in_array( $permission, $permissions ) );
+			->willReturn( true );
 
 		$this->userOptionsLookup->method( 'getOption' )
 			->with( $authority->getUser(), 'checkuser-temporary-account-enable' )
-			->willReturn( $acceptedAgreement ? '1' : '0' );
+			->willReturn( '1' );
 
 		$permStatus = $this->checkUserPermissionsManager->canAccessTemporaryAccountIPAddresses( $authority );
 
-		$this->assertStatusNotGood( $permStatus );
-		$this->assertSame( $block, $permStatus->getBlock() );
+		if ( $isSitewideBlock ) {
+			$this->assertStatusNotGood( $permStatus );
+			$this->assertSame( $block, $permStatus->getBlock() );
+		} else {
+			$this->assertStatusGood( $permStatus );
+			$this->assertNull( $permStatus->getBlock() );
+		}
 	}
 
-	public static function provideCanAccessTemporaryAccountIPAddressesBlocked(): iterable {
-		yield 'authorized to view data without accepting agreement' => [
-			[ 'checkuser-temporary-account-no-preference' ],
-			false,
-		];
-
-		yield 'authorized and agreement accepted' => [
-			[ 'checkuser-temporary-account' ],
-			true,
+	public static function provideCanAccessTemporaryAccountIPAddressesWhenBlocked() {
+		return [
+			'user is sitewide blocked' => [ true ],
+			'user is not sitewide blocked' => [ false ],
 		];
 	}
 }

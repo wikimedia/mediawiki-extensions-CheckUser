@@ -36,7 +36,7 @@ class CheckUserPermissionManager {
 		}
 
 		$block = $authority->getBlock();
-		if ( $block !== null ) {
+		if ( $block !== null && $block->isSitewide() ) {
 			return CheckUserPermissionStatus::newBlockedError( $block );
 		}
 

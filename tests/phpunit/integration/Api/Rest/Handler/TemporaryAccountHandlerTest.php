@@ -277,11 +277,15 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testExecutePermissionErrorsBlocked() {
+		$block = $this->createMock( Block::class );
+		$block->method( 'isSitewide' )
+			->willReturn( true );
+
 		$authority = $this->createMock( Authority::class );
 		$authority->method( 'isNamed' )
 			->willReturn( true );
 		$authority->method( 'getBlock' )
-			->willReturn( $this->createMock( Block::class ) );
+			->willReturn( $block );
 		$authority->method( 'isAllowed' )
 			->willReturn( true );
 
