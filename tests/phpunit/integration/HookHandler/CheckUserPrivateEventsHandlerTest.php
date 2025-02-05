@@ -24,7 +24,6 @@ use Profiler;
 use Psr\Log\LoggerInterface;
 use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Rdbms\LikeValue;
-use Wikimedia\ScopedCallback;
 use Wikimedia\TestingAccessWrapper;
 
 /**
@@ -556,15 +555,17 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testOnLocalUserCreatedForAutocreationWhenPublicLogExists() {
-		// Make deferred updates be actually deferred
-		$scope = DeferredUpdates::preventOpportunisticUpdates();
-
 		// Set wgNewUserLog to true so that account auto-creations cause a log entry
 		$this->overrideConfigValue( MainConfigNames::NewUserLog, true );
 		$this->overrideConfigValue( MainConfigNames::LogRestrictions, [] );
 
 		// Create a temporary account which will cause an auto-creation log entry and also call the
 		// ::onLocalUserCreated method in CheckUser for us (which we are testing).
+		// Wrap this in a transaction to simulate DBO_TRX, as our handler will be run in a pre-commit
+		// callback.
+		$dbw = $this->getDb();
+		$dbw->startAtomic( __METHOD__ );
+
 		$user = $this->getServiceContainer()->getTempUserCreator()->create( null, new FauxRequest() )->getUser();
 		$accountCreationLogId = $this->newSelectQueryBuilder()
 			->select( 'log_id' )
@@ -575,9 +576,7 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			->fetchField();
 		$this->assertNotFalse( $accountCreationLogId );
 
-		// Now perform the DeferredUpdates which should cause an insert to cu_log_event by the code we are testing.
-		ScopedCallback::consume( $scope );
-		DeferredUpdates::doUpdates();
+		$dbw->endAtomic( __METHOD__ );
 
 		$this->newSelectQueryBuilder()
 			->select( 'COUNT(*)' )
@@ -589,15 +588,17 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testOnLocalUserCreatedForAutocreationWhenPublicLogMissing() {
-		// Make deferred updates be actually deferred
-		$scope = DeferredUpdates::preventOpportunisticUpdates();
-
 		// Set wgNewUserLog to true so that account auto-creations cause a log entry
 		$this->overrideConfigValue( MainConfigNames::NewUserLog, true );
 		$this->overrideConfigValue( MainConfigNames::LogRestrictions, [] );
 
 		// Create a temporary account which will cause an auto-creation log entry and then drop this log entry
 		// to simulate it not being created for some reason.
+		// Wrap this in a transaction to simulate DBO_TRX, as our handler will be run in a pre-commit
+		// callback.
+		$dbw = $this->getDb();
+		$dbw->startAtomic( __METHOD__ );
+
 		$user = $this->getServiceContainer()->getTempUserCreator()->create( null, new FauxRequest() )->getUser();
 		$this->getDb()->newDeleteQueryBuilder()
 			->deleteFrom( 'logging' )
@@ -606,8 +607,8 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			->execute();
 
 		// Check that the cu_private_event and cu_log_event tables are empty. This should be the case because
-		// the code we are testing should wait for DeferredUpdates to be run before inserting a CheckUser
-		// event.
+		// the code we are testing is wrapped in a pre-commit callback and we still have a pending
+		// transaction.
 		$this->newSelectQueryBuilder()
 			->select( '1' )
 			->from( 'cu_log_event' )
@@ -623,10 +624,7 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			->caller( __METHOD__ )
 			->assertEmptyResult();
 
-		// Now perform the DeferredUpdates which should cause the CheckUser handler for the local user creation
-		// to be run.
-		ScopedCallback::consume( $scope );
-		DeferredUpdates::doUpdates();
+		$dbw->endAtomic( __METHOD__ );
 
 		// The local user created handler should find no log entry in the logging table, and so instead use the
 		// cu_private_event table for the account auto-creation event.

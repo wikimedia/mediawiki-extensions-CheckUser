@@ -212,19 +212,24 @@ class CheckUserInsert {
 	 *
 	 * @param UserIdentity $performer
 	 * @param string $ip
-	 * @param string $domainID
 	 * @param string $timestamp
 	 * @param bool $hasRevisionId
 	 * @see CheckUserCentralIndexManager::recordActionInCentralIndexes for documentation on the parameters
 	 */
 	private function recordActionInCentralTablesOnDeferredUpdate(
-		UserIdentity $performer, string $ip, string $domainID, string $timestamp, bool $hasRevisionId
+		UserIdentity $performer, string $ip, string $timestamp, bool $hasRevisionId
 	) {
-		DeferredUpdates::addCallableUpdate( function () use ( $performer, $ip, $domainID, $timestamp, $hasRevisionId ) {
-			$this->checkUserCentralIndexManager->recordActionInCentralIndexes(
+		$dbw = $this->connectionProvider->getPrimaryDatabase();
+		$domainID = $dbw->getDomainID();
+
+		DeferredUpdates::addCallableUpdate(
+			fn () => $this->checkUserCentralIndexManager->recordActionInCentralIndexes(
 				$performer, $ip, $domainID, $timestamp, $hasRevisionId
-			);
-		} );
+			),
+			DeferredUpdates::POSTSEND,
+			// Cancel this update if the main transaction round is rolled back (T385734).
+			$dbw
+		);
 	}
 
 	/**
@@ -286,7 +291,7 @@ class CheckUserInsert {
 
 		// Update the central index for this newly inserted row.
 		$this->recordActionInCentralTablesOnDeferredUpdate(
-			$user, $ip, $dbw->getDomainID(), $row['cule_timestamp'], false
+			$user, $ip, $row['cule_timestamp'], false
 		);
 	}
 
@@ -369,7 +374,7 @@ class CheckUserInsert {
 
 		// Update the central index for this newly inserted row.
 		$this->recordActionInCentralTablesOnDeferredUpdate(
-			$user, $ip, $dbw->getDomainID(), $row['cupe_timestamp'], false
+			$user, $ip, $row['cupe_timestamp'], false
 		);
 
 		return $insertedId;
@@ -447,7 +452,7 @@ class CheckUserInsert {
 
 		// Update the central index for this newly inserted row.
 		$this->recordActionInCentralTablesOnDeferredUpdate(
-			$user, $ip, $dbw->getDomainID(), $row['cuc_timestamp'], $row['cuc_this_oldid'] !== 0
+			$user, $ip, $row['cuc_timestamp'], $row['cuc_this_oldid'] !== 0
 		);
 	}
 

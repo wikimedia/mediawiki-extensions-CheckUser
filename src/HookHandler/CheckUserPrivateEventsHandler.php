@@ -15,7 +15,6 @@ use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Config\Config;
 use MediaWiki\Context\RequestContext;
-use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Hook\EmailUserHook;
 use MediaWiki\Hook\UserLogoutCompleteHook;
@@ -31,6 +30,7 @@ use MediaWiki\User\UserRigorOptions;
 use Psr\Log\LoggerInterface;
 use TypeError;
 use Wikimedia\Rdbms\IConnectionProvider;
+use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\ReadOnlyMode;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 
@@ -108,34 +108,41 @@ class CheckUserPrivateEventsHandler implements
 		// and for the results shown in Special:CheckUser 'Get actions'.
 		if ( $publicNewUserLogCreated ) {
 			$method = __METHOD__;
-			DeferredUpdates::addCallableUpdate( function () use ( $user, $autocreated, $method ) {
-				// We need to lookup using the primary DB as the log entry will just have been created.
-				// This is inside a DeferredUpdate because the LocalUserCreated hook is ran before
-				// the log entry is created.
-				$relevantRow = DatabaseLogEntry::newSelectQueryBuilder( $this->dbProvider->getPrimaryDatabase() )
-					->where( [
-						'actor_user' => $user->getId(),
-						'log_type' => 'newusers',
-					] )
-					->orderBy( 'log_timestamp', SelectQueryBuilder::SORT_ASC )
-					->limit( 1 )
-					->caller( $method )
-					->fetchRow();
-				if ( $relevantRow ) {
-					$logEntry = DatabaseLogEntry::newFromRow( $relevantRow );
-					$this->insertLogEventForAccountCreation( $user, $logEntry );
-				} else {
-					// If no log is created that we can find, then we should default back to a cu_private_event table.
-					// Create a warning about this because a log entry should have been created because
-					// wgNewUserLog is true.
-					$this->logger->warning(
-						'Unable to find logging row for local account creation for {user} when logging ' .
+
+			$dbw = $this->dbProvider->getPrimaryDatabase();
+
+			$dbw->onTransactionPreCommitOrIdle(
+				function ( IDatabase $dbw ) use ( $user, $autocreated, $method ): void {
+					// We need to lookup using the primary DB as the log entry will just have been created.
+					// This is inside a pre-commit callback because the LocalUserCreated hook is ran before
+					// the log entry is created.
+					$relevantRow = DatabaseLogEntry::newSelectQueryBuilder( $dbw )
+						->where( [
+							'actor_user' => $user->getId(),
+							'log_type' => 'newusers',
+						] )
+						->orderBy( 'log_timestamp', SelectQueryBuilder::SORT_ASC )
+						->limit( 1 )
+						->caller( $method )
+						->fetchRow();
+					if ( $relevantRow ) {
+						$logEntry = DatabaseLogEntry::newFromRow( $relevantRow );
+						$this->insertLogEventForAccountCreation( $user, $logEntry );
+					} else {
+						// If no log is created that we can find, then we should default back to the
+						// cu_private_event table.
+						// Create a warning about this because a log entry should have been created because
+						// wgNewUserLog is true.
+						$this->logger->warning(
+							'Unable to find logging row for local account creation for {user} when logging ' .
 							'row as expected to exist',
-						[ 'user' => $user->getName() ]
-					);
-					$this->insertPrivateEventEntryForAccountCreation( $user, $autocreated );
-				}
-			}, DeferredUpdates::PRESEND );
+							[ 'user' => $user->getName() ]
+						);
+						$this->insertPrivateEventEntryForAccountCreation( $user, $autocreated );
+					}
+				},
+				$method
+			);
 		} else {
 			// If no public log event is created, then create a cu_private_event row instead. We do this even
 			// if the log event is created because the user may not have the rights to see the log entry.
