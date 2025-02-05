@@ -21,6 +21,7 @@
 			"Rachmat04",
 			"Rebeccayoga",
 			"Rex",
+			"Sumbukompor",
 			"Veracious"
 		]
 	},
@@ -170,5 +171,6 @@
 	"checkuser-investigate-tour-copywikitext-title": "Ingin menyalin data?",
 	"checkuser-investigate-tour-copywikitext-desc": "Salin tabel perbandingan dengan sekali klik dan bawa ke CUWiki. Perhatikan bahwa Anda hanya menyalin apa yang terlihat dan tidak semua halaman investigasi.",
 	"checkuser-ip-contributions-tab-label-contributions": "Kontribusi",
-	"checkuser-ip-contributions-tab-label-archive-contributions": "Kontribusi yang dihapus"
+	"checkuser-ip-contributions-tab-label-archive-contributions": "Kontribusi yang dihapus",
+	"checkuser-global-contributions-link": "kontribusi global"
 }

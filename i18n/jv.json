@@ -53,5 +53,6 @@
 	"checkuser-ipeditcount": "~$1 saka kabèh naraguna",
 	"checkuser-showmain": "Salin ing blangko pokok CheckUser",
 	"logentry-checkuser-private-event-autocreate-account": "digawé sacara otomatis",
-	"logentry-checkuser-private-event-create-account": "digawé"
+	"logentry-checkuser-private-event-create-account": "digawé",
+	"checkuser-global-contributions-link": "pasumbang global"
 }
