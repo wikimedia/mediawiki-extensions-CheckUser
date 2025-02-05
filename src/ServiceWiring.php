@@ -373,7 +373,12 @@ return [
 		);
 	},
 	'CheckUserPermissionManager' => static function ( MediaWikiServices $services ): CheckUserPermissionManager {
-		return new CheckUserPermissionManager( $services->getUserOptionsLookup() );
+		return new CheckUserPermissionManager(
+			$services->getUserOptionsLookup(),
+			$services->getSpecialPageFactory(),
+			$services->getCentralIdLookup(),
+			$services->getUserFactory()
+		);
 	},
 ];
 // @codeCoverageIgnoreEnd

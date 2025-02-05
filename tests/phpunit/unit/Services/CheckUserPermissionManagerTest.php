@@ -6,8 +6,13 @@ use MediaWiki\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Permissions\SimpleAuthority;
+use MediaWiki\SpecialPage\SpecialPageFactory;
+use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\Options\UserOptionsLookup;
+use MediaWiki\User\User;
+use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentityValue;
+use MediaWiki\User\UserRigorOptions;
 use MediaWikiUnitTestCase;
 
 /**
@@ -16,14 +21,31 @@ use MediaWikiUnitTestCase;
 class CheckUserPermissionManagerTest extends MediaWikiUnitTestCase {
 	private UserOptionsLookup $userOptionsLookup;
 
+	private SpecialPageFactory $specialPageFactory;
+
+	private CentralIdLookup $centralIdLookup;
+
+	private UserFactory $userFactory;
+
+	private Authority $authority;
+
 	private CheckUserPermissionManager $checkUserPermissionsManager;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userOptionsLookup = $this->createMock( UserOptionsLookup::class );
+		$this->specialPageFactory = $this->createMock( SpecialPageFactory::class );
+		$this->centralIdLookup = $this->createMock( CentralIdLookup::class );
+		$this->userFactory = $this->createMock( UserFactory::class );
+		$this->authority = $this->createMock( Authority::class );
 
-		$this->checkUserPermissionsManager = new CheckUserPermissionManager( $this->userOptionsLookup );
+		$this->checkUserPermissionsManager = new CheckUserPermissionManager(
+			$this->userOptionsLookup,
+			$this->specialPageFactory,
+			$this->centralIdLookup,
+			$this->userFactory
+		);
 	}
 
 	/**
@@ -108,6 +130,190 @@ class CheckUserPermissionManagerTest extends MediaWikiUnitTestCase {
 		return [
 			'user is sitewide blocked' => [ true ],
 			'user is not sitewide blocked' => [ false ],
+		];
+	}
+
+	/**
+	 * @dataProvider canAccessGlobalContributionsForIPsDataProvider
+	 */
+	public function testCanAccessGlobalContributionsForIPAddress(
+		string $error,
+		bool $hasGlobalContributionsPage,
+		string $targetLiteral,
+		bool $authorityIsRegistered
+	): void {
+		$this->specialPageFactory
+			->method( 'exists' )
+			->with( 'GlobalContributions' )
+			->willReturn( $hasGlobalContributionsPage );
+
+		$this->authority
+			->method( 'isRegistered' )
+			->willReturn( $authorityIsRegistered );
+
+		// Identity and CentralAuth checks are not performed for IPs
+		$this->userFactory
+			->expects( $this->never() )
+			->method( 'newFromName' );
+		$this->centralIdLookup
+			->expects( $this->never() )
+			->method( 'centralIdFromLocalUser' );
+
+		$status = $this->checkUserPermissionsManager->canAccessUserGlobalContributions(
+			$this->authority,
+			$targetLiteral
+		);
+
+		if ( $error === '' ) {
+			$this->assertTrue( $status->isGood() );
+			$this->assertNull( $status->getValue() );
+		} else {
+			$this->assertFalse( $status->isGood() );
+			$this->assertEquals(
+				$error,
+				$status->getMessages()[0]->getKey()
+			);
+		}
+	}
+
+	public function canAccessGlobalContributionsForIPsDataProvider(): iterable {
+		return [
+			'When the GlobalContributions page does not exist' => [
+				'error' => 'nospecialpagetext',
+				'hasGlobalContributionsPage' => false,
+				'targetLiteral' => '1.2.3.4',
+				'authorityIsRegistered' => true,
+			],
+			'When the accessing authority is not registered' => [
+				'error' => 'exception-nologin-text',
+				'hasGlobalContributionsPage' => true,
+				'targetLiteral' => '1.2.3.4',
+				'authorityIsRegistered' => false,
+			],
+			'When all conditions are satisfied for an IPv4 address' => [
+				'error' => '',
+				'hasGlobalContributionsPage' => true,
+				'targetLiteral' => '1.2.3.4',
+				'authorityIsRegistered' => true,
+			],
+			'When all conditions are satisfied for an IPv6 address' => [
+				'error' => '',
+				'hasGlobalContributionsPage' => true,
+				'targetLiteral' => '2001:0000:130F:0000:0000:09C0:876A:130B',
+				'authorityIsRegistered' => true,
+			],
+			'When all conditions are satisfied for an IPv4 range' => [
+				'error' => '',
+				'hasGlobalContributionsPage' => true,
+				'targetLiteral' => '1.2.3.4/24',
+				'authorityIsRegistered' => true,
+			],
+			'When all conditions are satisfied for an IPv6 range' => [
+				'error' => '',
+				'hasGlobalContributionsPage' => true,
+				'targetLiteral' => '2001:db8:1234::/48',
+				'authorityIsRegistered' => true,
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider canAccessGlobalContributionsDataProvider
+	 */
+	public function testCanAccessGlobalContributions(
+		string $errorMessage,
+		bool $authorityIsRegistered,
+		bool $hasTargetIdentity,
+		bool $targetIdentityIsRegistered,
+		bool $centralAuthUserExists
+	): void {
+		$this->specialPageFactory
+			->method( 'exists' )
+			->with( 'GlobalContributions' )
+			->willReturn( true );
+
+		$this->authority
+			->method( 'isRegistered' )
+			->willReturn( $authorityIsRegistered );
+
+		if ( $hasTargetIdentity ) {
+			$targetIdentity = $this->createMock(
+				User::class
+			);
+
+			$targetIdentity
+				->method( 'isRegistered' )
+				->willReturn( $targetIdentityIsRegistered );
+
+			$this->userFactory
+				->method( 'newFromName' )
+				->with( 'Username', UserRigorOptions::RIGOR_NONE )
+				->willReturn( $targetIdentity );
+
+			$this->centralIdLookup
+				->method( 'centralIdFromLocalUser' )
+				->with( $targetIdentity, $this->authority )
+				->willReturn( $centralAuthUserExists ? 1 : 0 );
+		} else {
+			$this->userFactory
+				->expects( $this->once() )
+				->method( 'newFromName' )
+				->willReturn( null );
+
+			$this->centralIdLookup
+				->expects( $this->never() )
+				->method( 'centralIdFromLocalUser' );
+		}
+
+		$status = $this->checkUserPermissionsManager->canAccessUserGlobalContributions(
+			$this->authority,
+			'Username'
+		);
+
+		if ( $errorMessage === '' ) {
+			$this->assertTrue( $status->isGood() );
+			$this->assertNull( $status->getValue() );
+		} else {
+			$this->assertFalse( $status->isGood() );
+			$this->assertEquals(
+				$errorMessage,
+				$status->getMessages()[0]->getKey()
+			);
+		}
+	}
+
+	public function canAccessGlobalContributionsDataProvider(): iterable {
+		return [
+			'When all conditions are satisfied for a regular user' => [
+				'errorMessage' => '',
+				'authorityIsRegistered' => true,
+				'hasTargetIdentity' => true,
+				'targetIdentityIsRegistered' => true,
+				'centralAuthUserExists' => true
+			],
+			'When the target identity can\'t be retrieved' => [
+				// This happens, for example, when providing an invalid username
+				// to UserFactory::newFromName()
+				'errorMessage' => 'checkuser-target-nonexistent',
+				'authorityIsRegistered' => true,
+				'hasTargetIdentity' => false,
+				'targetIdentityIsRegistered' => false,
+				'centralAuthUserExists' => true
+			],
+			'When the user identity GC is requested for is not registered' => [
+				'errorMessage' => 'checkuser-global-contributions-no-results-no-central-user',
+				'authorityIsRegistered' => true,
+				'hasTargetIdentity' => true,
+				'targetIdentityIsRegistered' => false,
+				'centralAuthUserExists' => true
+			],
+			'When the CentralAuthUser does not exist' => [
+				'errorMessage' => 'checkuser-global-contributions-no-results-no-central-user',
+				'authorityIsRegistered' => true,
+				'hasTargetIdentity' => true,
+				'targetIdentityIsRegistered' => true,
+				'centralAuthUserExists' => false
+			],
 		];
 	}
 }

@@ -362,6 +362,7 @@
 		"ToolLinks": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\ToolLinksHandler",
 			"services": [
+				"CheckUserPermissionManager",
 				"PermissionManager",
 				"SpecialPageFactory",
 				"LinkRenderer",
