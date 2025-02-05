@@ -35,6 +35,7 @@
 	"action-checkuser-log": "ব্যবহারকারী পরীক্ষণ লগ দেখার",
 	"action-checkuser-temporary-account": "অস্থায়ী অ্যাকাউন্ট দ্বারা ব্যবহৃত আইপি ঠিকানা দেখার",
 	"grouppage-checkuser": "{{ns:project}}:ব্যবহারকারী পরীক্ষক",
+	"grouppage-checkuser-temporary-account-viewer": "{{ns:project}}:অস্থায়ী অ্যাকাউন্ট আইপি পরিদর্শনকারী",
 	"checkuser-clienthints-name-architecture": "আর্কিটেকচার",
 	"checkuser-clienthints-name-bitness": "বিটনেস",
 	"checkuser-clienthints-name-brand": "ব্র্যান্ড",
