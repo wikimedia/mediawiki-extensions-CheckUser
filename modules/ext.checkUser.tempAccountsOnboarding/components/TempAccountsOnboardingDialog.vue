@@ -31,14 +31,15 @@
 		</template>
 		<!-- Dialog Content -->
 		<div>
-			<multi-pane
-				ref="multiPaneRef"
-				v-model:current-step="currentStep"
-				:total-steps="totalSteps"
-				@update:current-step="( newVal ) => currentStep = newVal"
-			>
-				<slot :name="currentSlotName"></slot>
-			</multi-pane>
+			<div
+				ref="stepWrapperRef"
+				class="ext-checkuser-temp-account-onboarding-dialog-content"
+				@touchstart="onTouchStart"
+				@touchmove="onTouchMove">
+				<transition :name="computedTransitionName">
+					<slot :name="currentSlotName"></slot>
+				</transition>
+			</div>
 		</div>
 		<!-- Dialog Footer -->
 		<template #footer>
@@ -52,7 +53,7 @@
 						:aria-label="$i18n(
 							'checkuser-temporary-accounts-onboarding-dialog-previous-label'
 						).text()"
-						@click="onPrevClick"
+						@click="navigatePrev"
 					>
 						<cdx-icon
 							:icon="cdxIconPrevious"
@@ -84,7 +85,7 @@
 						class="
 							ext-checkuser-temp-account-onboarding-dialog__footer__navigation--next
 						"
-						@click="onNextClick"
+						@click="navigateNext"
 					>
 						<cdx-icon
 							:icon="cdxIconNext"
@@ -101,11 +102,14 @@
 
 <script>
 
-const { ref, computed, toRef, watch, onUnmounted } = require( 'vue' );
-const { CdxDialog, CdxButton, CdxIcon, useModelWrapper } = require( '@wikimedia/codex' );
+const { ref, computed, toRef, onUnmounted } = require( 'vue' );
+const { CdxDialog, CdxButton, CdxIcon, useModelWrapper, useComputedDirection } = require( '@wikimedia/codex' );
 const { cdxIconNext, cdxIconPrevious } = require( './icons.json' );
 const TempAccountsOnboardingStepper = require( './TempAccountsOnboardingStepper.vue' );
-const MultiPane = require( './MultiPane.vue' );
+const TRANSITION_NAMES = {
+	LEFT: 'ext-checkuser-temp-account-onboarding-left',
+	RIGHT: 'ext-checkuser-temp-account-onboarding-right'
+};
 
 /**
  * The Temporary Accounts onboarding dialog component. This defines the structure of the dialog and
@@ -118,7 +122,6 @@ module.exports = exports = {
 		CdxDialog,
 		CdxButton,
 		CdxIcon,
-		MultiPane,
 		TempAccountsOnboardingStepper
 	},
 	props: {
@@ -137,32 +140,128 @@ module.exports = exports = {
 			required: true
 		}
 	},
-	emits: [ 'update:open', 'update:currentStep' ],
+	emits: [ 'update:open' ],
 	setup( props, { emit } ) {
 		const wrappedOpen = useModelWrapper( toRef( props, 'open' ), emit, 'update:open' );
 
 		// Work out the slot name based on the current step.
 		const currentStep = ref( 1 );
 		const currentSlotName = computed( () => `step${ currentStep.value }` );
-		const multiPaneRef = ref( null );
 
-		// Emit the currentStep update to the parent element to cause updates.
-		watch( currentStep, () => {
-			emit( 'update:currentStep', currentStep.value );
-		} );
+		// Work out whether the page is rtl or ltr. Needed to decide which
+		// direction the animation for the step transition should go.
+		const stepWrapperRef = ref( null );
+		const computedDir = useComputedDirection( stepWrapperRef );
+		const isRtl = computed( () => computedDir.value === 'rtl' );
 
-		function onPrevClick() {
-			multiPaneRef.value.navigatePrev();
-		}
+		// Set up the variables needed to perform navigation and also
+		// the associated animations.
+		const initialX = ref( null );
+		const currentNavigation = ref( null );
+		const computedTransitionSet = computed( () => isRtl.value ?
+			{ next: TRANSITION_NAMES.LEFT, prev: TRANSITION_NAMES.RIGHT } :
+			{ next: TRANSITION_NAMES.RIGHT, prev: TRANSITION_NAMES.LEFT } );
+		const computedTransitionName = computed(
+			() => computedTransitionSet.value[ currentNavigation.value ]
+		);
 
-		function onNextClick() {
-			multiPaneRef.value.navigateNext();
+		/**
+		 * Method used to navigate forward.
+		 *
+		 * Does nothing if the current step is the last defined step.
+		 */
+		function navigateNext() {
+			if ( currentStep.value < props.totalSteps ) {
+				currentNavigation.value = 'next';
+				currentStep.value++;
+			}
 		}
 
 		/**
-		 * Handles a close of the dialog via any method. When doing this, it sets a
-		 * user preference to indicate that the dialog has been seen and should not be
-		 * shown again.
+		 * Method used to navigate backwards.
+		 *
+		 * Does nothing if the current step is the first step.
+		 */
+		function navigatePrev() {
+			if ( currentStep.value > 1 ) {
+				currentNavigation.value = 'prev';
+				currentStep.value--;
+			}
+		}
+
+		/**
+		 * Handles a user starting a touch on their screen.
+		 * Used to allow a user to navigate using a swipe of
+		 * their screen.
+		 *
+		 * @param {TouchEvent} e
+		 */
+		function onTouchStart( e ) {
+			const touchEvent = e.touches[ 0 ];
+			initialX.value = touchEvent.clientX;
+		}
+
+		/**
+		 * Return if the touch movement was a
+		 * swipe to the left of the screen.
+		 *
+		 * @param {Touch} touch
+		 * @return {boolean}
+		 */
+		const isSwipeToLeft = ( touch ) => {
+			const newX = touch.clientX;
+			return initialX.value > newX;
+		};
+
+		/**
+		 * Handles a user swiping to the right
+		 */
+		const onSwipeToRight = () => {
+			if ( isRtl.value === true ) {
+				navigateNext();
+			} else {
+				navigatePrev();
+			}
+		};
+
+		/**
+		 * Handles a user swiping to the left
+		 */
+		const onSwipeToLeft = () => {
+			if ( isRtl.value === true ) {
+				navigatePrev();
+			} else {
+				navigateNext();
+			}
+		};
+
+		/**
+		 * Handles a user finishing a touch where there was
+		 * a movement in a direction.
+		 * Used to allow a user to navigate using a swipe of
+		 * their screen.
+		 *
+		 * @param {TouchEvent} e
+		 */
+		function onTouchMove( e ) {
+			if ( !initialX.value ) {
+				return;
+			}
+			if ( isSwipeToLeft( e.touches[ 0 ] ) ) {
+				onSwipeToLeft();
+			} else {
+				onSwipeToRight();
+			}
+			initialX.value = null;
+		}
+
+		/**
+		 * Handles a close of the dialog when the dialog should not be seen again.
+		 * The dialog is hidden for the user in future page loads via setting a
+		 * preference.
+		 *
+		 * The close is prevented if the current step indicates that a warning should
+		 * be displayed before closing the dialog.
 		 */
 		function onFinish() {
 			const api = new mw.Api();
@@ -192,10 +291,13 @@ module.exports = exports = {
 			cdxIconNext,
 			cdxIconPrevious,
 			currentStep,
+			computedTransitionName,
 			currentSlotName,
-			multiPaneRef,
-			onNextClick,
-			onPrevClick,
+			onTouchStart,
+			onTouchMove,
+			stepWrapperRef,
+			navigateNext,
+			navigatePrev,
 			onFinish,
 			wrappedOpen
 		};

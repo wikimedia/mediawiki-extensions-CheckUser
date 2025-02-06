@@ -5,8 +5,22 @@ jest.mock( '../../../modules/ext.checkUser.tempAccountsOnboarding/components/ico
 	cdxIconPrevious: ''
 } ), { virtual: true } );
 
+// Mock the @wikimedia/codex useComputedDirection method to return a fake value.
+// We cannot easily set up the DOM to support this method as it would require
+// modifying the DOM created by Vue for the test.
+const useComputedDirectionMock = jest.fn();
+useComputedDirectionMock.mockReturnValue( { value: 'ltr' } );
+jest.mock( '@wikimedia/codex', () => {
+	const originalModule = jest.requireActual( '@wikimedia/codex' );
+
+	return Object.assign(
+		{ __esModule: true }, originalModule, { useComputedDirection: useComputedDirectionMock }
+	);
+} );
+
 const TempAccountsOnboardingDialog = require( '../../../modules/ext.checkUser.tempAccountsOnboarding/components/TempAccountsOnboardingDialog.vue' ),
 	utils = require( '@vue/test-utils' ),
+	{ nextTick } = require( 'vue' ),
 	{ mockApiSaveOption, waitFor } = require( '../utils.js' );
 
 const renderComponent = ( slots, props ) => {
@@ -23,7 +37,41 @@ const renderComponent = ( slots, props ) => {
 	return wrapper;
 };
 
-describe( 'Temporary Accounts dialog stepper component', () => {
+/**
+ * Simulates a swipe to the right
+ *
+ * @param {*} contentElement The element containing the step content
+ * @return {Promise}
+ */
+async function swipeToRight( contentElement ) {
+	// Start the touch
+	await contentElement.trigger( 'touchstart', {
+		touches: [ { clientX: 100 } ]
+	} );
+	// Then finish the touch simulating a move to the right.
+	await contentElement.trigger( 'touchmove', {
+		touches: [ { clientX: 150 } ]
+	} );
+}
+
+/**
+ * Simulates a swipe to the left
+ *
+ * @param {*} contentElement The element containing the step content
+ * @return {Promise}
+ */
+async function swipeToLeft( contentElement ) {
+	// Start the touch
+	await contentElement.trigger( 'touchstart', {
+		touches: [ { clientX: 100 } ]
+	} );
+	// Then finish the touch simulating a move to the left.
+	await contentElement.trigger( 'touchmove', {
+		touches: [ { clientX: 50 } ]
+	} );
+}
+
+describe( 'Temporary Accounts dialog component', () => {
 	beforeEach( () => {
 		jest.spyOn( mw.language, 'convertNumber' ).mockImplementation( ( number ) => number );
 	} );
@@ -182,6 +230,69 @@ describe( 'Temporary Accounts dialog stepper component', () => {
 		expect( wrapper.find( '.step2' ).exists() ).toEqual( false );
 	} );
 
+	it( 'Dialog should move steps when user swipes left and right', async () => {
+		const wrapper = renderComponent(
+			{
+				step1: '<div class="step1">Test content for step 1</div>',
+				step2: '<div class="step2">Test content for step 2</div>'
+			},
+			{ totalSteps: 2 }
+		);
+		expect( wrapper.exists() ).toEqual( true );
+
+		const contentElement = wrapper.find(
+			'.ext-checkuser-temp-account-onboarding-dialog-content'
+		);
+
+		// Swipe to the left to move to the next step
+		await swipeToLeft( contentElement );
+		await waitFor( () => !contentElement.find( '.step1' ).exists() );
+
+		// Verify that the swipe worked
+		expect( contentElement.find( '.step1' ).exists() ).toEqual( false );
+		expect( contentElement.find( '.step2' ).exists() ).toEqual( true );
+
+		// Swipe to the right to move to the previous step
+		await swipeToRight( contentElement );
+		await waitFor( () => !contentElement.find( '.step2' ).exists() );
+
+		// Verify that we are now back on the first step after swiping
+		expect( contentElement.find( '.step1' ).exists() ).toEqual( true );
+		expect( contentElement.find( '.step2' ).exists() ).toEqual( false );
+	} );
+
+	it( 'Dialog should move steps when user swipes left and right when in RTL', async () => {
+		useComputedDirectionMock.mockReturnValue( { value: 'rtl' } );
+		const wrapper = renderComponent(
+			{
+				step1: '<div class="step1">Test content for step 1</div>',
+				step2: '<div class="step2">Test content for step 2</div>'
+			},
+			{ totalSteps: 2 }
+		);
+		expect( wrapper.exists() ).toEqual( true );
+
+		const contentElement = wrapper.find(
+			'.ext-checkuser-temp-account-onboarding-dialog-content'
+		);
+
+		// Swipe to the right to move to the next step
+		await swipeToRight( contentElement );
+		await waitFor( () => !contentElement.find( '.step1' ).exists() );
+
+		// Verify that the swipe worked
+		expect( contentElement.find( '.step1' ).exists() ).toEqual( false );
+		expect( contentElement.find( '.step2' ).exists() ).toEqual( true );
+
+		// Swipe to the left to move to the previous step
+		await swipeToLeft( contentElement );
+		await waitFor( () => !contentElement.find( '.step2' ).exists() );
+
+		// Verify that we are now back on the first step after swiping
+		expect( contentElement.find( '.step1' ).exists() ).toEqual( true );
+		expect( contentElement.find( '.step2' ).exists() ).toEqual( false );
+	} );
+
 	it( 'Closes dialog if "Skip all" pressed and marks dialog as seen', async () => {
 		const mockSaveOption = mockApiSaveOption( true );
 		const wrapper = renderComponent(
@@ -191,6 +302,9 @@ describe( 'Temporary Accounts dialog stepper component', () => {
 			},
 			{ totalSteps: 2 }
 		);
+		// Wait for the next tick as CdxDialog has some async code to finish first.
+		await nextTick();
+
 		expect( wrapper.exists() ).toEqual( true );
 
 		// Click the "Skip all" button and wait for the open property to be updated.
@@ -219,6 +333,9 @@ describe( 'Temporary Accounts dialog stepper component', () => {
 			{ step1: '<div class="step1">Test content for step 1</div>' },
 			{ totalSteps: 1 }
 		);
+		// Wait for the next tick as CdxDialog has some async code to finish first.
+		await nextTick();
+
 		expect( wrapper.exists() ).toEqual( true );
 
 		// Click the "Close" button and wait for the open property to be updated.
@@ -249,6 +366,9 @@ describe( 'Temporary Accounts dialog stepper component', () => {
 			{ step1: '<div class="step1">Test content for step 1</div>' },
 			{ totalSteps: 1 }
 		);
+		// Wait for the next tick as CdxDialog has some async code to finish first.
+		await nextTick();
+
 		expect( wrapper.exists() ).toEqual( true );
 
 		// Simulate an Escape keypress and wait for the open property to be updated.
