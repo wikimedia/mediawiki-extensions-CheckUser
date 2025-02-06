@@ -401,7 +401,8 @@
 				"TempUserConfig",
 				"UserOptionsLookup",
 				"ExtensionRegistry",
-				"UserIdentityUtils"
+				"UserIdentityUtils",
+				"PreferencesFactory"
 			]
 		},
 		"CheckUserPrivateEvents": {
