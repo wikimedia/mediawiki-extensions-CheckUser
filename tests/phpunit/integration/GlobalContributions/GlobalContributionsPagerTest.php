@@ -6,6 +6,7 @@ use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPager;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\Title\Title;
 use MediaWiki\User\UserIdentityValue;
@@ -515,11 +516,17 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$apiRequestAggregator->method( 'execute' )
 			->willReturn( $permsByWiki );
 
+		// Since this pager calls out to other wikis, extension hooks should not be run
+		// because the extension may not be loaded on the external wiki (T385092).
+		$hookContainer = $this->createMock( HookContainer::class );
+		$hookContainer->expects( $this->never() )
+			->method( 'run' );
+
 		$services = $this->getServiceContainer();
 		$pager = new GlobalContributionsPager(
 			$services->getLinkRenderer(),
 			$services->getLinkBatchFactory(),
-			$services->getHookContainer(),
+			$hookContainer,
 			$services->getRevisionStore(),
 			$services->getNamespaceInfo(),
 			$services->getCommentFormatter(),
