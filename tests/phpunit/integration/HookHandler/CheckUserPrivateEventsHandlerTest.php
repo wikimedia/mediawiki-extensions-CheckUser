@@ -648,6 +648,44 @@ class CheckUserPrivateEventsHandlerTest extends MediaWikiIntegrationTestCase {
 			->assertFieldValue( '1' );
 	}
 
+	public function testOnLocalUserCreatedForAutocreationDoesNothingOnRollback(): void {
+		// Set wgNewUserLog to true so that account auto-creations cause a log entry
+		$this->overrideConfigValue( MainConfigNames::NewUserLog, true );
+		$this->overrideConfigValue( MainConfigNames::LogRestrictions, [] );
+
+		// Create a temporary account which will cause an auto-creation log entry and also call the
+		// ::onLocalUserCreated method in CheckUser for us (which we are testing).
+		// Wrap this in a transaction to simulate DBO_TRX, as our handler will be run in a pre-commit
+		// callback.
+		$dbw = $this->getDb();
+		$dbw->startAtomic( __METHOD__, $dbw::ATOMIC_CANCELABLE );
+
+		$user = $this->getServiceContainer()->getTempUserCreator()->create( null, new FauxRequest() )->getUser();
+		$accountCreationLogId = $this->newSelectQueryBuilder()
+			->select( 'log_id' )
+			->from( 'logging' )
+			->join( 'actor', null, 'actor_id=log_actor' )
+			->where( [ 'actor_user' => $user->getId(), 'log_type' => 'newusers', 'log_action' => 'autocreate' ] )
+			->caller( __METHOD__ )
+			->fetchField();
+		$this->assertNotFalse( $accountCreationLogId );
+
+		// Roll back the transaction, which should cancel our pending callback
+		// that would write the private event.
+		$dbw->cancelAtomic( __METHOD__ );
+
+		$this->newSelectQueryBuilder()
+			->select( '1' )
+			->from( 'cu_log_event' )
+			->caller( __METHOD__ )
+			->assertEmptyResult();
+		$this->newSelectQueryBuilder()
+			->select( '1' )
+			->from( 'cu_private_event' )
+			->caller( __METHOD__ )
+			->assertEmptyResult();
+	}
+
 	public function testClientHintsDataCollectedOnSpecialUserLogout() {
 		RequestContext::getMain()->getRequest()->setHeader( 'Sec-Ch-Ua', ';v=abc' );
 		$this->overrideConfigValues( [

@@ -14,6 +14,7 @@ use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\Language\Language;
 use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\MainConfigNames;
@@ -175,6 +176,51 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 		];
 	}
 
+	/**
+	 * @dataProvider provideCheckUserResultTables
+	 */
+	public function testCentralIndexesShouldNotBeUpdatedOnRollback( string $tableName ): void {
+		$this->setService(
+			'CheckUserCentralIndexManager',
+			$this->createNoOpMock( CheckUserCentralIndexManager::class )
+		);
+
+		$checkUserInsert = $this->setUpObject();
+		$performer = $this->getTestUser()->getUserIdentity();
+		$dbw = $this->getDb();
+
+		$dbw->startAtomic( __METHOD__, $dbw::ATOMIC_CANCELABLE );
+
+		if ( $tableName === 'cu_changes' ) {
+			$checkUserInsert->insertIntoCuChangesTable( [], __METHOD__, $performer );
+		} elseif ( $tableName === 'cu_private_event' ) {
+			$checkUserInsert->insertIntoCuPrivateEventTable( [], __METHOD__, $performer );
+		} elseif ( $tableName === 'cu_log_event' ) {
+			$logId = $this->newLogEntry();
+			$logEntry = DatabaseLogEntry::newFromId( $logId, $dbw );
+			$checkUserInsert->insertIntoCuLogEventTable( $logEntry, __METHOD__, $performer );
+		} else {
+			$this->fail( 'Unexpected table.' );
+		}
+
+		// Roll back the current transaction, which should cancel the deferred update
+		// that would update central indexes.
+		$dbw->cancelAtomic( __METHOD__ );
+
+		// Run deferred updates to verify we didn't try to update central indexes.
+		// This needs to be done explicitly since the update was scheduled in a transaction
+		// which disables opportunistic execution.
+		DeferredUpdates::doUpdates();
+
+		$pkField = CheckUserQueryInterface::RESULT_TABLE_TO_PREFIX[$tableName] . 'id';
+
+		$this->newSelectQueryBuilder()
+			->select( $pkField )
+			->from( $tableName )
+			->caller( __METHOD__ )
+			->assertEmptyResult();
+	}
+
 	/** @dataProvider provideFieldsThatAreTruncated */
 	public function testTruncationForInsertMethods( $table, string $field ) {
 		// Define a mock ContentLanguage service that mocks ::truncateForDatabase
@@ -322,10 +368,9 @@ class CheckUserInsertTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public static function provideCheckUserResultTables() {
-		return [
-			'cu_changes' => [ 'cu_changes' ],
-			'cu_log_event' => [ 'cu_log_event' ],
-		];
+		yield 'cu_changes table' => [ 'cu_changes' ];
+		yield 'cu_private_event table' => [ 'cu_private_event' ];
+		yield 'cu_log_event table' => [ 'cu_log_event' ];
 	}
 
 	/** @dataProvider provideCheckUserResultTablesWhichHaveANotNullActorColumn */
