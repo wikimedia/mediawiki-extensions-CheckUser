@@ -68,7 +68,56 @@ function commonTestRendersCorrectly() {
 		'(checkuser-temporary-accounts-onboarding-dialog-ip-info-step-content)'
 	);
 
-	return rootElement;
+	return { rootElement: rootElement, wrapper: wrapper };
+}
+
+/**
+ * Gets the IPInfo preference checkbox element
+ * after checking that it exists.
+ *
+ * @param {*} rootElement The root element for the IPInfo step
+ * @return {*} The IPInfo checkbox element
+ */
+function getIPInfoPreferenceCheckbox( rootElement ) {
+	const ipInfoPreference = rootElement.find(
+		'.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference'
+	);
+	expect( ipInfoPreference.exists() ).toEqual( true );
+	expect( ipInfoPreference.text() ).toContain(
+		'(ipinfo-preference-use-agreement)'
+	);
+	const ipInfoPreferenceCheckbox = ipInfoPreference.find( 'input[type="checkbox"]' );
+	expect( ipInfoPreferenceCheckbox.exists() ).toEqual( true );
+	return ipInfoPreferenceCheckbox;
+}
+
+/**
+ * Gets the IPInfo "Save preference" button
+ * after checking that it exists.
+ *
+ * @param {*} rootElement The root element for the IPInfo step
+ * @return {*} The IPInfo "Save preference" button
+ */
+function getIPInfoSavePreferenceButton( rootElement ) {
+	const ipInfoSavePreference = rootElement.find(
+		'.ext-checkuser-temp-account-onboarding-dialog-ip-info-save-preference'
+	);
+	expect( ipInfoSavePreference.exists() ).toEqual( true );
+	const ipInfoSavePreferenceButton = ipInfoSavePreference.find( 'button' );
+	expect( ipInfoSavePreferenceButton.exists() ).toEqual( true );
+	return ipInfoSavePreferenceButton;
+}
+
+/**
+ * Expect that the given element contains the given text, or if
+ * this is not the case then wait for this to be the case.
+ *
+ * @param {*} element The element that should contain the text
+ * @param {string} text The text to search for
+ */
+async function waitForAndExpectTextToExistInElement( element, text ) {
+	await waitFor( () => element.text().indexOf( text ) !== -1 );
+	expect( element.text() ).toContain( text );
 }
 
 describe( 'IPInfo step temporary accounts onboarding dialog', () => {
@@ -80,7 +129,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 	it( 'Renders correctly for when IPInfo preference was already checked', () => {
 		mockUserOptions( '1' );
 
-		const rootElement = commonTestRendersCorrectly();
+		const { rootElement } = commonTestRendersCorrectly();
 
 		// Expect that the IPInfo preference is not shown if the user has already checked it.
 		const ipInfoPreferenceSectionTitle = rootElement.find(
@@ -98,7 +147,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		// not have a different value for the preference.
 		mockUserOptions( 0 );
 
-		const rootElement = commonTestRendersCorrectly();
+		const { rootElement } = commonTestRendersCorrectly();
 
 		// Check that the preference exists in the step and verify the structure of the preference
 		// and it's title.
@@ -109,41 +158,119 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		expect( ipInfoPreferenceSectionTitle.text() ).toEqual(
 			'(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title)'
 		);
-		const ipInfoPreference = rootElement.find(
-			'.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference'
-		);
-		expect( ipInfoPreference.exists() ).toEqual( true );
-		expect( ipInfoPreference.text() ).toContain(
-			'(ipinfo-preference-use-agreement)'
-		);
-		const ipInfoPreferenceCheckbox = ipInfoPreference.find( 'input[type="checkbox"]' );
-		expect( ipInfoPreferenceCheckbox.exists() ).toEqual( true );
+		getIPInfoPreferenceCheckbox( rootElement );
+		getIPInfoSavePreferenceButton( rootElement );
 	} );
 
-	it( 'Updates IPInfo preference value if checkbox is checked', async () => {
+	it( 'Does nothing if IPInfo preference checkbox is checked but not saved', async () => {
+		mockUserOptions( '0' );
+		const apiSaveOptionMock = mockApiSaveOption( true );
+
+		const { rootElement } = commonTestRendersCorrectly();
+
+		const ipInfoPreferenceCheckbox = getIPInfoPreferenceCheckbox( rootElement );
+
+		// Check the preference, but check that no API call is made by doing that. The user
+		// would need to press "Save preference" to make the change
+		ipInfoPreferenceCheckbox.setChecked();
+		expect( apiSaveOptionMock ).toHaveBeenCalledTimes( 0 );
+	} );
+
+	it( 'Updates IPInfo preference value after checkbox and submit pressed', async () => {
 		// Test using the string with 0 in it, to test in case the user_properties table has the
 		// preference specifically marked as unchecked.
 		mockUserOptions( '0' );
 		const apiSaveOptionMock = mockApiSaveOption( true );
 
-		const rootElement = commonTestRendersCorrectly();
+		const { rootElement } = commonTestRendersCorrectly();
 
-		// Check that the preference exists in the step
+		const ipInfoPreferenceCheckbox = getIPInfoPreferenceCheckbox( rootElement );
+		const ipInfoSavePreferenceButton = getIPInfoSavePreferenceButton( rootElement );
 		const ipInfoPreference = rootElement.find(
 			'.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference'
 		);
-		expect( ipInfoPreference.exists() ).toEqual( true );
-		const ipInfoPreferenceCheckbox = ipInfoPreference.find( 'input[type="checkbox"]' );
-		expect( ipInfoPreferenceCheckbox.exists() ).toEqual( true );
 
-		// Turn on the preference and check that an API call is made to set the preference.
+		// Check the preference checkbox and then press the "Save preference" button
+		// and check that an API call is made to set the preference.
 		ipInfoPreferenceCheckbox.setChecked();
+		await ipInfoSavePreferenceButton.trigger( 'click' );
 		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'ipinfo-use-agreement', 1 );
 
-		// Turn off the preference (uncheck the checkbox) to test the API is being
-		// called to unset the preference.
+		// Expect that the preference checkbox has a success message shown to indicate the
+		// preference was updated successfully.
+		await waitForAndExpectTextToExistInElement(
+			ipInfoPreference, '(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success)'
+		);
+
+		// Uncheck the preference
 		ipInfoPreferenceCheckbox.setChecked( false );
+
+		// Check that the success message disappears when the preference is unchecked
+		await waitFor( () => ipInfoPreference.text().indexOf(
+			'(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success)'
+		) === -1 );
+		expect( ipInfoPreference.text() ).not.toContain(
+			'(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success)'
+		);
+
+		// Save the change to the preference and then check that this has caused
+		// the API to be called.
+		await ipInfoSavePreferenceButton.trigger( 'click' );
+
+		// Expect that the preference checkbox has a success message shown to indicate the
+		// preference was updated successfully.
+		await waitForAndExpectTextToExistInElement(
+			ipInfoPreference, '(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success)'
+		);
 		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'ipinfo-use-agreement', 0 );
+	} );
+
+	it( 'Prevents step move if IPInfo preference checked but not saved', async () => {
+		mockUserOptions( 0 );
+
+		const { rootElement, wrapper } = commonTestRendersCorrectly();
+
+		const ipInfoPreferenceCheckbox = getIPInfoPreferenceCheckbox( rootElement );
+		const ipInfoPreference = rootElement.find(
+			'.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference'
+		);
+
+		// Check the preference checkbox, but don't save the preference using the button
+		ipInfoPreferenceCheckbox.setChecked();
+
+		// Call the canMoveToAnotherStep() method and expect that it returns false, to
+		// indicate that moving to another step is not allowed yet.
+		expect( wrapper.vm.canMoveToAnotherStep() ).toEqual( false );
+
+		// Expect that the preference checkbox has a warning in the UI indicating to the
+		// user to save the preference before proceeding to the next step.
+		await waitForAndExpectTextToExistInElement(
+			ipInfoPreference, '(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-warning)'
+		);
+	} );
+
+	it( 'Prevents dialog close if IPInfo preference checked but not saved', async () => {
+		mockUserOptions( 0 );
+
+		const { rootElement, wrapper } = commonTestRendersCorrectly();
+
+		const ipInfoPreferenceCheckbox = getIPInfoPreferenceCheckbox( rootElement );
+		const ipInfoPreference = rootElement.find(
+			'.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference'
+		);
+
+		// Check the preference checkbox, but don't save the preference using the button
+		ipInfoPreferenceCheckbox.setChecked();
+
+		// Call the shouldWarnBeforeClosingDialog() method and expect that it returns true, to
+		// indicate that closing the dialog is not allowed at the moment.
+		expect( wrapper.vm.shouldWarnBeforeClosingDialog() ).toEqual( true );
+
+		// Expect that the preference checkbox has a warning in the UI indicating to the
+		// user to save the preference before closing the dialog
+		await waitForAndExpectTextToExistInElement(
+			ipInfoPreference, '(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-warning)'
+		);
 	} );
 
 	it( 'Displays error message if IPInfo preference check failed', async () => {
@@ -152,53 +279,67 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 			false, { error: { info: 'Wiki is in read only mode' } }
 		);
 
-		const rootElement = commonTestRendersCorrectly();
+		const { rootElement } = commonTestRendersCorrectly();
 
-		// Check that the preference exists in the step
+		const ipInfoPreferenceCheckbox = getIPInfoPreferenceCheckbox( rootElement );
+		const ipInfoSavePreferenceButton = getIPInfoSavePreferenceButton( rootElement );
 		const ipInfoPreference = rootElement.find(
 			'.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference'
 		);
-		expect( ipInfoPreference.exists() ).toEqual( true );
-		const ipInfoPreferenceCheckbox = ipInfoPreference.find( 'input[type="checkbox"]' );
-		expect( ipInfoPreferenceCheckbox.exists() ).toEqual( true );
 
-		// Turn on the preference, expect that to fail and wait for the error to appear.
+		// Turn on the preference and click the "Save preference" button
 		ipInfoPreferenceCheckbox.setChecked();
-		await waitFor( () => ipInfoPreference.text().indexOf(
-			'(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-error'
-		) !== -1 );
-		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'ipinfo-use-agreement', 1 );
+		ipInfoSavePreferenceButton.trigger( 'click' );
 
-		// Assert that an error message is displayed because the request failed,
-		// which should contain the reason for the request failure.
-		expect( ipInfoPreference.text() ).toContain(
+		// Expect that an error appears indicating the preference update failed.
+		await waitForAndExpectTextToExistInElement(
+			ipInfoPreference,
 			'(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-error' +
 				', Wiki is in read only mode)'
 		);
+		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'ipinfo-use-agreement', 1 );
 	} );
 
-	it( 'Displays error message if IPInfo preference check failed for no response', async () => {
+	it( 'Only submits one preference change on race condition', async () => {
 		mockUserOptions( '0' );
-		const apiSaveOptionMock = mockApiSaveOption( false, {}, 'http' );
+		// Mock the api.saveOption() method to only resolve when we want it to
+		// so that we can test race-condition handling.
+		const apiSaveOptionMock = jest.fn();
+		const promisesToResolve = [];
+		apiSaveOptionMock.mockReturnValue( new Promise( ( resolve ) => {
+			promisesToResolve.push( resolve );
+		} ) );
+		jest.spyOn( mw, 'Api' ).mockImplementation( () => ( {
+			saveOption: apiSaveOptionMock
+		} ) );
 
-		const rootElement = commonTestRendersCorrectly();
+		const { rootElement } = commonTestRendersCorrectly();
 
-		// Turn on the preference, expect that to fail and wait for the error to appear.
+		const ipInfoPreferenceCheckbox = getIPInfoPreferenceCheckbox( rootElement );
+		const ipInfoSavePreferenceButton = getIPInfoSavePreferenceButton( rootElement );
 		const ipInfoPreference = rootElement.find(
 			'.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference'
 		);
-		const ipInfoPreferenceCheckbox = ipInfoPreference.find( 'input[type="checkbox"]' );
-		ipInfoPreferenceCheckbox.setChecked();
-		await waitFor( () => ipInfoPreference.text().indexOf(
-			'(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-error'
-		) !== -1 );
-		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'ipinfo-use-agreement', 1 );
 
-		// Assert that an error message is displayed because the request
-		// failed and that the error code is used because no human friendly
-		// error was provided.
-		expect( ipInfoPreference.text() ).toContain(
-			'(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-error, http)'
+		// Turn on the preference and click the "Save preference" button a couple of times
+		ipInfoPreferenceCheckbox.setChecked();
+		ipInfoSavePreferenceButton.trigger( 'click' );
+		ipInfoSavePreferenceButton.trigger( 'click' );
+		ipInfoSavePreferenceButton.trigger( 'click' );
+		ipInfoSavePreferenceButton.trigger( 'click' );
+
+		// Expect that api.saveOption has only been called once, as the first call is still
+		// not been resolved.
+		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'ipinfo-use-agreement', 1 );
+		expect( promisesToResolve ).toHaveLength( 1 );
+
+		promisesToResolve.forEach( ( promiseResolver ) => {
+			promiseResolver( { options: 'success' } );
+		} );
+
+		// Now that the promise is resolved, expect it the success message to appear.
+		await waitForAndExpectTextToExistInElement(
+			ipInfoPreference, '(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success)'
 		);
 	} );
 } );
