@@ -473,7 +473,6 @@
 				"components/TempAccountsOnboardingIntroStep.vue",
 				"components/TempAccountsOnboardingIPInfoStep.vue",
 				"components/TempAccountsOnboardingIPRevealStep.vue",
-				"components/MultiPane.vue",
 				{
 					"name": "components/icons.json",
 					"callback": "MediaWiki\\ResourceLoader\\CodexModule::getIcons",
