@@ -24,7 +24,6 @@
 						'checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title'
 					).text() }}
 				</h6>
-				<!-- TODO: Use a selenium test to e2e test this once dialog is not hidden -->
 				<cdx-field
 					:is-fieldset="true"
 					class="ext-checkuser-temp-account-onboarding-dialog-ip-info-preference"
@@ -45,7 +44,9 @@
 						action="progressive"
 						@click="onSavePreferenceButtonClick"
 					>
-						Save preference
+						{{ $i18n(
+							'checkuser-temporary-accounts-onboarding-dialog-ip-info-save-preference'
+						).text() }}
 					</cdx-button>
 				</cdx-field>
 			</template>
