@@ -158,7 +158,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-image-aria-label": "Image showing the IPInfo tool in use to lookup information about a temporary account on a page, where the information icon has been clicked to show a popup.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title": "Enable IP Information",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-error": "Something went wrong. Please try again. The error message received was: $1",
-	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success": "Preference successfully updated",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success": "Preference updated",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-warning": "Please click \"Save preference\" before continuing",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-title": "Revealing an IP address",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content": "The IP Reveal feature allows admins, vandal fighters and experienced users to reveal the IP associated with a temporary account.\n\nUsers who meet the access requirements can enable IP Reveal in their [[Special:Preferences#mw-prefsection-personal-checkuser-tempaccount|preferences]]. Once enabled, the “Show IP” button will be displayed next to temporary accounts.",
