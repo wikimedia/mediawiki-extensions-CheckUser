@@ -64,6 +64,26 @@ class CheckUserPermissionManager {
 	}
 
 	/**
+	 * Check whether the given Authority is allowed to automatically reveal IP addresses for temporary
+	 * accounts.
+	 *
+	 * @param Authority $authority The user attempting to auto-reveal IP addresses for temporary accounts.
+	 * @return CheckUserPermissionStatus
+	 */
+	public function canAutoRevealIPAddresses( Authority $authority ): CheckUserPermissionStatus {
+		$revealIPStatus = $this->canAccessTemporaryAccountIPAddresses( $authority );
+		if ( !$revealIPStatus->isGood() ) {
+			return $revealIPStatus;
+		}
+
+		if ( !$authority->isAllowed( 'checkuser-temporary-account-auto-reveal' ) ) {
+			return CheckUserPermissionStatus::newPermissionError( 'checkuser-temporary-account-auto-reveal' );
+		}
+
+		return CheckUserPermissionStatus::newGood();
+	}
+
+	/**
 	 * Checks whether the given Authority is allowed to view the Global
 	 * Contributions page for a given user.
 	 *

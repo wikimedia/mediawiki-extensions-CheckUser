@@ -365,50 +365,57 @@ function batchRevealIps( request, $tempUserLinks ) {
 }
 
 /**
- * Check which users have been revealed recently, and reveal those users on load.
+ * Automatically reveal Ips for temporary users, where appropriate. This includes:
+ * - Users who have been revealed recently
+ * - All users if auto-reveal mode is on
  *
  * @param {jQuery} $userLinks the temp user links which may have their IP revealed
  */
-function revealRecentlyRevealedUsers( $userLinks ) {
+function automaticallyRevealUsers( $userLinks ) {
 	const request = {};
-	const recentUsers = [];
+	const usersToReveal = [];
+	let $userLinksToReveal;
 
-	// Check which users have been revealed recently, and reveal them.
-	$userLinks.each( function () {
+	if ( ipRevealUtils.getAutoRevealStatus() ) {
+		$userLinksToReveal = $userLinks;
+	} else {
+		$userLinksToReveal = $userLinks.filter( function () {
+			return ipRevealUtils.getRevealedStatus( $( this ).text() );
+		} );
+	}
+
+	$userLinksToReveal.each( function () {
 		const target = $( this ).text();
+		const $button = $( this ).next( '.ext-checkuser-tempaccount-reveal-ip-button' );
 
-		if ( ipRevealUtils.getRevealedStatus( target ) ) {
-			const $button = $( this ).next( '.ext-checkuser-tempaccount-reveal-ip-button' );
-
-			if ( !Object.prototype.hasOwnProperty.call( request, target ) ) {
-				request[ target ] = { revIds: [], logIds: [], lastUsedIp: false };
-			}
-			if (
-				$button.data( 'revIds' ).allIds &&
-				request[ target ].revIds.length === 0
-			) {
-				request[ target ].revIds = request[ target ].revIds.concat(
-					$button.data( 'revIds' ).allIds.map( ( x ) => String( x ) )
-				);
-			}
-			if (
-				$button.data( 'logIds' ).allIds &&
-				request[ target ].logIds.length === 0
-			) {
-				request[ target ].logIds = request[ target ].logIds.concat(
-					$button.data( 'logIds' ).allIds.map( ( x ) => String( x ) )
-				);
-			}
-			if ( request[ target ].revIds.length === 0 && request[ target ].logIds.length === 0 ) {
-				request[ target ].lastUsedIp = true;
-			}
-
-			recentUsers.push( target );
+		if ( !Object.prototype.hasOwnProperty.call( request, target ) ) {
+			request[ target ] = { revIds: [], logIds: [], lastUsedIp: false };
 		}
+		if (
+			$button.data( 'revIds' ).allIds &&
+			request[ target ].revIds.length === 0
+		) {
+			request[ target ].revIds = request[ target ].revIds.concat(
+				$button.data( 'revIds' ).allIds.map( ( x ) => String( x ) )
+			);
+		}
+		if (
+			$button.data( 'logIds' ).allIds &&
+			request[ target ].logIds.length === 0
+		) {
+			request[ target ].logIds = request[ target ].logIds.concat(
+				$button.data( 'logIds' ).allIds.map( ( x ) => String( x ) )
+			);
+		}
+		if ( request[ target ].revIds.length === 0 && request[ target ].logIds.length === 0 ) {
+			request[ target ].lastUsedIp = true;
+		}
+
+		usersToReveal.push( target );
 	} );
 
 	// Trigger a batch lookup for all revealed users.
-	if ( recentUsers.length > 0 ) {
+	if ( usersToReveal.length > 0 ) {
 		batchRevealIps( request, $userLinks );
 	}
 }
@@ -446,7 +453,7 @@ module.exports = {
 	addButton: addButton,
 	replaceButton: replaceButton,
 	enableMultiReveal: enableMultiReveal,
-	revealRecentlyRevealedUsers: revealRecentlyRevealedUsers,
+	automaticallyRevealUsers: automaticallyRevealUsers,
 	batchRevealIps: batchRevealIps,
 	getRevisionId: getRevisionId,
 	getLogId: getLogId

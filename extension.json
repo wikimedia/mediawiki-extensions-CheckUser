@@ -83,6 +83,10 @@
 			"value": 86400,
 			"description": "Number of seconds for which the temporary account API response is fresh"
 		},
+		"CheckUserTemporaryAccountAutoRevealTime": {
+			"value": 1800,
+			"description": "Number of seconds for which the temporary account auto-reveal status is on, by default"
+		},
 		"CheckUserClientHintsEnabled": {
 			"value": true,
 			"description": "General on/off switch for User-Agent Client Hints functionality. When set to true, CheckUser will request Client Hints headers specified in the CheckUserClientHintsHeaders config variable."
@@ -419,6 +423,7 @@
 		"SidebarLinksHandler": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\SidebarLinksHandler",
 			"services": [
+				"MainConfig",
 				"CheckUserPermissionManager"
 			]
 		},
@@ -583,6 +588,7 @@
 				"investigate/blockform.js",
 				"temporaryaccount/ipRevealUtils.js",
 				"temporaryaccount/ipReveal.js",
+				"temporaryaccount/autoReveal.js",
 				"temporaryaccount/initOnLoad.js",
 				"temporaryaccount/initOnHook.js",
 				"temporaryaccount/rest.js",
@@ -775,7 +781,8 @@
 		"checkuser-log",
 		"checkuser-temporary-account",
 		"checkuser-temporary-account-no-preference",
-		"checkuser-temporary-account-log"
+		"checkuser-temporary-account-log",
+		"checkuser-temporary-account-auto-reveal"
 	],
 	"SpecialPages": {
 		"CheckUser": {

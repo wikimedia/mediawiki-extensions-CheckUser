@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\HookHandler;
 
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\Config\Config;
 use MediaWiki\Hook\SidebarBeforeOutputHook;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\User\UserIdentity;
@@ -13,16 +14,26 @@ use Skin;
  */
 class SidebarLinksHandler implements SidebarBeforeOutputHook {
 	/**
-	 * Key used to identify the new link added to $sidebar['TOOLBOX'].
+	 * Keys used to identify the new links added to $sidebar['TOOLBOX'].
 	 */
-	private const TOOLBOX_KEY = 'global-contributions';
+	private const GLOBAL_CONTRIBUTIONS_KEY = 'global-contributions';
+	private const IP_AUTO_REVEAL_KEY = 'checkuser-ip-auto-reveal';
 
+	private Config $config;
 	private CheckUserPermissionManager $permissionManager;
 
 	public function __construct(
+		Config $config,
 		CheckUserPermissionManager $checkUserPermissionManager
 	) {
+		$this->config = $config;
 		$this->permissionManager = $checkUserPermissionManager;
+	}
+
+	/** @inheritDoc */
+	public function onSidebarBeforeOutput( $skin, &$sidebar ): void {
+		$this->addGlobalContributions( $skin, $sidebar );
+		$this->addIPAutoReveal( $skin, $sidebar );
 	}
 
 	/**
@@ -37,7 +48,7 @@ class SidebarLinksHandler implements SidebarBeforeOutputHook {
 	 *
 	 * @return void
 	 */
-	public function onSidebarBeforeOutput( $skin, &$sidebar ): void {
+	private function addGlobalContributions( $skin, &$sidebar ): void {
 		if ( !$this->shouldLinkToGlobalContributions( $skin ) ) {
 			return;
 		}
@@ -56,11 +67,11 @@ class SidebarLinksHandler implements SidebarBeforeOutputHook {
 			$index++;
 			$sidebar['TOOLBOX'] = array_merge(
 				array_slice( $sidebar['TOOLBOX'], 0, $index ),
-				[ self::TOOLBOX_KEY => $globalContributionsLink ],
+				[ self::GLOBAL_CONTRIBUTIONS_KEY => $globalContributionsLink ],
 				array_slice( $sidebar['TOOLBOX'], $index )
 			);
 		} else {
-			$sidebar['TOOLBOX'][ self::TOOLBOX_KEY ] = $globalContributionsLink;
+			$sidebar['TOOLBOX'][ self::GLOBAL_CONTRIBUTIONS_KEY ] = $globalContributionsLink;
 		}
 	}
 
@@ -85,5 +96,37 @@ class SidebarLinksHandler implements SidebarBeforeOutputHook {
 		);
 
 		return $gcAccess->isGood();
+	}
+
+	/**
+	 * Add tool to sidebar for managing IP auto-reveal status.
+	 *
+	 * @param Skin $skin Page skin, used to get info about the current page.
+	 * @param string[][][] &$sidebar Links being modified if conditions are met.
+	 *
+	 * @return void
+	 */
+	public function addIPAutoReveal( $skin, &$sidebar ): void {
+		$authority = $skin->getAuthority();
+		$autoRevealStatus = $this->permissionManager->canAutoRevealIPAddresses( $authority );
+
+		if ( !$autoRevealStatus->isGood() ) {
+			return;
+		}
+
+		$out = $skin->getOutput();
+
+		$out->addJSConfigVars( [
+			'wgCheckUserTemporaryAccountAutoRevealTime' =>
+				$this->config->get( 'CheckUserTemporaryAccountAutoRevealTime' )
+		] );
+
+		$out->addModules( 'ext.checkUser' );
+		$sidebar['TOOLBOX'][self::IP_AUTO_REVEAL_KEY] = [
+			'id' => 't-checkuser-ip-auto-reveal',
+			'text' => $skin->msg( 'checkuser-ip-auto-reveal-link-sidebar' )->text(),
+			'href' => '#',
+			'class' => 'checkuser-ip-auto-reveal',
+		];
 	}
 }

@@ -211,3 +211,66 @@ QUnit.test( 'Test initOnLoad when there are temporary account user links with on
 		done();
 	} );
 } );
+
+QUnit.test( 'Test initOnLoad when IP auto-reveal mode is toggled on and off', ( assert ) => {
+	// Prevent the test being very slow if the wait for condition fails.
+	assert.timeout( 1000 );
+	// Handle requests to the temporary account IP lookup APIs responding with
+	// mock data and a 200 HTTP status code.
+	server.respond( ( request ) => {
+		const response = request.url.endsWith( '/checkuser/v0/batch-temporaryaccount' ) ?
+			{
+				'~1': { revIps: { 1: '127.0.0.1', 2: '127.0.0.1' }, logIps: null, lastUsedIp: null },
+				'~2': { revIps: { 3: '127.0.0.1' }, logIps: null, lastUsedIp: null }
+			} : {};
+		request.respond( 200, { 'Content-Type': 'application/json' }, JSON.stringify( response ) );
+	} );
+	// Turn on IP auto-reveal mode.
+	const expiry = Date.now() + 3600000;
+	Utils.setAutoRevealStatus( expiry );
+	// Add some testing revision lines
+	const $bodyContent = $( '<div>' ).attr( 'id', 'bodyContent' );
+	const temporaryAccountUserLinks = [];
+	const revisionLines = { 1: '~1', 2: '~1', 3: '~2' };
+	Object.entries( revisionLines ).forEach( ( [ revId, username ] ) => {
+		const $revisionLine = $( '<div>' ).attr( 'data-mw-revid', revId );
+		$bodyContent.append( $revisionLine );
+		// Add the temporary account username link for the revision line
+		const $tempAccountUserLink = $( '<a>' ).addClass( 'mw-tempuserlink' ).text( username );
+		$revisionLine.append( $tempAccountUserLink );
+		temporaryAccountUserLinks.push( $tempAccountUserLink );
+	} );
+	// Append the $bodyContent to the QUnit test fixture.
+	// eslint-disable-next-line no-jquery/no-global-selector
+	const $qunitFixture = $( '#qunit-fixture' );
+	$qunitFixture.append( $bodyContent );
+	// Call initOnLoad with the QUnit fixture as the document root
+	initOnLoad( $qunitFixture );
+	// Wait until all the automatically revealed IP addresses have been revealed.
+	const done = assert.async();
+	waitUntilElementCount(
+		'.ext-checkuser-tempaccount-reveal-ip',
+		temporaryAccountUserLinks.length
+	).then( () => {
+		// Verify that the relevant IP is shown for the temporary account user links.
+		temporaryAccountUserLinks.forEach( ( $element ) => {
+			assert.strictEqual(
+				$element.next().text(),
+				'127.0.0.1',
+				'IP is after temporary account user link when IP auto-reveal mode is on'
+			);
+		} );
+		// Turn off IP auto-reveal mode and re-initialise.
+		mw.storage.remove( 'mw-checkuser-auto-reveal-temp' );
+		initOnLoad( $qunitFixture );
+		// Verify that the IPs are hidden and the Show IP button is displayed.
+		temporaryAccountUserLinks.forEach( ( $element ) => {
+			assert.strictEqual(
+				// eslint-disable-next-line no-jquery/no-class-state
+				$element.next().hasClass( 'ext-checkuser-tempaccount-reveal-ip-button' ), true,
+				'Show IP button is after temporary account user link when IP auto-reveal mode is off'
+			);
+		} );
+		done();
+	} );
+} );

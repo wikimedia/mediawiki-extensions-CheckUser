@@ -5,7 +5,9 @@ namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 use MediaWiki\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\CheckUser\HookHandler\SidebarLinksHandler;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\Config\Config;
 use MediaWiki\Message\Message;
+use MediaWiki\Output\OutputPage;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\User\UserIdentity;
 use MediaWikiIntegrationTestCase;
@@ -24,6 +26,9 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 	/** @var (Skin&MockObject) */
 	private Skin $skin;
 
+	/** @var (Config&MockObject) */
+	private Config $config;
+
 	/** @var (CheckUserPermissionManager&MockObject) */
 	private CheckUserPermissionManager $permissionManager;
 
@@ -40,6 +45,9 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$this->authority = $this->createMock( Authority::class );
 		$this->skin = $this->createMock( Skin::class );
+
+		$this->config = $this->createMock( Config::class );
+
 		$this->permissionStatus = $this->createMock(
 			CheckUserPermissionStatus::class
 		);
@@ -50,7 +58,10 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			UserIdentity::class
 		);
 
-		$this->sut = new SidebarLinksHandler( $this->permissionManager );
+		$this->sut = new SidebarLinksHandler(
+			$this->config,
+			$this->permissionManager
+		);
 	}
 
 	private function mockSkinMessages() {
@@ -62,7 +73,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
-	 * @dataProvider whenTheLinkShouldNotBeAddedDataProvider
+	 * @dataProvider whenGlobalContributionsLinkShouldNotBeAddedDataProvider
 	 */
 	public function testWhenTheLinkShouldNotBeAdded(
 		array $expected,
@@ -104,7 +115,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->assertEquals( $expected, $sidebar );
 	}
 
-	public function whenTheLinkShouldNotBeAddedDataProvider(): array {
+	public function whenGlobalContributionsLinkShouldNotBeAddedDataProvider(): array {
 		return [
 			// Cases when the link is not added
 			//
@@ -281,6 +292,83 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 				'hasRelevantUser' => true,
 				'hasAccess' => true,
 			]
+		];
+	}
+
+	/** @dataProvider provideIpAutoRevealLink */
+	public function testIpAutoRevealLink(
+		array $sidebar,
+		bool $canAutoReveal,
+		array $expected
+	): void {
+		$this->setUserLang( 'qqx' );
+
+		$this->permissionStatus
+			->method( 'isGood' )
+			->willReturn( $canAutoReveal );
+
+		$this->permissionManager
+			->method( 'canAutoRevealIPAddresses' )
+			->willReturn( $this->permissionStatus );
+
+		$this->skin
+			->method( 'getAuthority' )
+			->willReturn( $this->authority );
+		$this->skin
+			->method( 'getOutput' )
+			->willReturn( $this->createMock( OutputPage::class ) );
+		$this->mockSkinMessages();
+
+		$this->sut->onSidebarBeforeOutput( $this->skin, $sidebar );
+		$this->assertEquals( $expected, $sidebar );
+	}
+
+	public function provideIpAutoRevealLink() {
+		return [
+			'Not added if user cannot auto-reveal' => [
+				'sidebar' => [],
+				'canAutoReveal' => false,
+				'expected' => [],
+			],
+			'Added to existing sidebar toolbox' => [
+				'sidebar' => [
+					'TOOLBOX' => [
+						'contributions' => [
+							'id' => 't-contributions',
+							'text' => 'User contributions'
+						],
+					],
+				],
+				'canAutoReveal' => true,
+				'expected' => [
+					'TOOLBOX' => [
+						'contributions' => [
+							'id' => 't-contributions',
+							'text' => 'User contributions'
+						],
+						'checkuser-ip-auto-reveal' => [
+							'id' => 't-checkuser-ip-auto-reveal',
+							'text' => '(checkuser-ip-auto-reveal-link-sidebar)',
+							'href' => '#',
+							'class' => 'checkuser-ip-auto-reveal',
+						],
+					],
+				],
+			],
+			'Added to sidebar without existing toolbox' => [
+				'sidebar' => [],
+				'canAutoReveal' => true,
+				'expected' => [
+					'TOOLBOX' => [
+						'checkuser-ip-auto-reveal' => [
+							'id' => 't-checkuser-ip-auto-reveal',
+							'text' => '(checkuser-ip-auto-reveal-link-sidebar)',
+							'href' => '#',
+							'class' => 'checkuser-ip-auto-reveal',
+						],
+					],
+				],
+			],
 		];
 	}
 }
