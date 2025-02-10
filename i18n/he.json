@@ -157,6 +157,8 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-image-aria-label": "תמונה שמציגה את כלי מידה ה־IP שנמצא בשימוש כדי לחפש מידע על חשבון חולף בדף שנלחץ בו סמל המידע כדי להציג חלון קופץ.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title": "הפעלת מידע IP",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-error": "משהו השתבש. נא לנסות שוב. הודעת השגיאה שהתקבלה: $1",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success": "ההעדפה עודכנה בהצלחה",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-warning": "נא ללחוץ על \"שמירת ההעדפה\" לפני ההמשך",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-title": "חשיפת כתובת IP",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content": "אפשרות חשיפת ה־IP מאפשרת למפעילים, ללוחמים נגד השחתה ולמשתמשים מנוסים לחשוף את ה־IP המשויך לחשבון חולף.\n\nמשתמשים שעומדים בדרישות הגישה יכולים להפעיל את חשיפת ה־IP ב[[Special:Preferences#mw-prefsection-personal-checkuser-tempaccount|העדפות]] שלהם. לאחר ההפעלה, כפתור \"הצגת IP\" יוצג לצד חשבונות חולפים.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-image-aria-label": "תמונה שמציגה את הכלי לחשיפת IP לאחר שימוש שבו מוצגת כתובת ה־IP המשויכת לחשבון החולף. הלחצן שנלחץ כדי לראות זאת מסומן בטקסט \"הצגת IP\" ומוצג לצד שם המשתמש החולף של החשבון.",

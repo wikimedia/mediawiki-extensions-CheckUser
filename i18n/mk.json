@@ -151,6 +151,8 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-image-aria-label": "Слика на која е прикажана алатката IP-инфо во употреба за побарување на информации за привремена сметка на страница, каде информациската иконка е стисната за да се прикаже отскочник.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title": "Овозможи IP-информации",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-error": "Нешто не е во ред. Обидете се повторно. Ја добив грешката: $1",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success": "Поставката е успешно подновена",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-warning": "Стиснете на „Зачувај поставка“ пред да продолжите",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-title": "Откривање на IP-адреса",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content": "Функцијата за откривање на IP-адреси им овозможува на администраторите, филтрите за вандали и искусните корисинци да ја откријат IP-адресата на дадена привремена сметка.\n\nКорисниците кои ги задоволуваат условите за пристап можат да ја овозможат функцијата во нивните [[Special:Preferences#mw-prefsection-personal-checkuser-tempaccount|нагодувања]]. Штом е овозможена, до привремените сметки ќе се појави копче „Прикажи IP“.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-image-aria-label": "Слика на која е прикажана алатката за откривање на IP по нејзина, каде е прикажана IP-адресата на привремената сметка. Копчето на кое се стиска за да се прикаже ова е означено со „Прикажи IP“ и стои до корисничкото име на привремената сметка.",
