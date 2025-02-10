@@ -38,6 +38,8 @@
 	"checkuser-nomatch-edits": "Vasteid ei leitud.\nViimane redigeerimisaeg: $1, $2.",
 	"checkuser-check": "Kontrolli",
 	"checkuser-log-fail": "Logisissekande lisamine ei õnnestu.",
+	"checkuser-log-checks-by": "algatud kontrollid",
+	"checkuser-log-checks-on": "kontrollid",
 	"checkuser-blocked": "Blokeeritud",
 	"checkuser-gblocked": "Globaalselt blokeeritud",
 	"checkuser-locked": "Lukustatud",
