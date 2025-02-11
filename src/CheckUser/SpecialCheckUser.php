@@ -140,7 +140,7 @@ class SpecialCheckUser extends SpecialPage {
 	/** @inheritDoc */
 	public function execute( $subPage ) {
 		$this->setHeaders();
-		$this->addHelpLink( 'Extension:CheckUser' );
+		$this->addHelpLink( 'Help:Extension:CheckUser' );
 		$this->checkPermissions();
 		// Logging and blocking requires writing so stop from here if read-only mode
 		$this->checkReadOnly();
