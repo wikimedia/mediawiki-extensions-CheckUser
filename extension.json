@@ -382,6 +382,9 @@
 				"ActorStoreFactory"
 			]
 		},
+		"SpecialPageBeforeExecute": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\SpecialPageBeforeExecuteHandler"
+		},
 		"SpecialPageInitList": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\SpecialPageInitListHandler",
 			"services": [
@@ -420,7 +423,6 @@
 			"pageDisplay"
 		],
 		"APIGetAllowedParams": "clienthints",
-		"BeforeInitialize": "pageDisplay",
 		"ChangesListInsertLogEntry": "LogDisplayHandler",
 		"ContributionsToolLinks": "ToolLinks",
 		"EmailUser": "CheckUserPrivateEvents",
@@ -436,7 +438,10 @@
 		"ResourceLoaderRegisterModules": "RLRegisterModules",
 		"SaveUserOptions": "preferences",
 		"SpecialContributionsBeforeMainOutput": "ToolLinks",
-		"SpecialPageBeforeExecute": "clienthints",
+		"SpecialPageBeforeExecute": [
+			"clienthints",
+			"SpecialPageBeforeExecute"
+		],
 		"SpecialPage_initList": "SpecialPageInitList",
 		"User::mailPasswordInternal": "CheckUserPrivateEvents",
 		"UserLogoutComplete": "CheckUserPrivateEvents",
