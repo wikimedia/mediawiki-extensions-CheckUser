@@ -208,7 +208,7 @@
 	"checkuser-ip-contributions": "Etsi IP-muokkauksia",
 	"checkuser-ip-contributions-permission-error-title": "Puutteelliset oikeudet",
 	"checkuser-ip-contributions-permission-error-description": "Katsoaksesi IP-osoitteella tehtyjä tilapäisten tunnusten muokkauksia sinun tulee hyväksy sopimus [[Special:Preferences|asetuksissasi]].",
-	"checkuser-ip-contributions-subtitle": "Näytetään tulokset viimeiseltä $1 {{PLURAL:$1| päivältä}}.",
+	"checkuser-ip-contributions-subtitle": "Näytetään tulokset viimeisen $1 {{PLURAL:$1|päivän}} ajalta.",
 	"checkuser-ip-contributions-target-label": "IP-osoite tai -alue:",
 	"checkuser-ip-contributions-target-error-no-ip": "Anna kelvollinen IP-osoite tai IP-alue",
 	"checkuser-ip-contributions-target-error-no-ip-banner": "Hakuasi ei voitu suorittaa. Anna kelvollinen IP-osoite tai IP-alue. [[Special:Contributions/$1|Tai hae käyttäjänimellä]].",
