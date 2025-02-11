@@ -4,14 +4,12 @@ namespace MediaWiki\CheckUser\HookHandler;
 
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Config\Config;
-use MediaWiki\Hook\BeforeInitializeHook;
 use MediaWiki\Output\Hook\BeforePageDisplayHook;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserOptionsLookup;
-use MediaWiki\WikiMap\WikiMap;
 
-class PageDisplay implements BeforePageDisplayHook, BeforeInitializeHook {
+class PageDisplay implements BeforePageDisplayHook {
 	private Config $config;
 	private CheckUserPermissionManager $checkUserPermissionManager;
 	private UserOptionsLookup $userOptionsLookup;
@@ -103,38 +101,5 @@ class PageDisplay implements BeforePageDisplayHook, BeforeInitializeHook {
 			'wgCheckUserSpecialPagesWithoutIPRevealButtons' =>
 				$this->config->get( 'CheckUserSpecialPagesWithoutIPRevealButtons' ),
 		] );
-	}
-
-	/** @inheritDoc */
-	public function onBeforeInitialize( $title, $unused, $output, $user, $request, $mediaWikiEntryPoint ) {
-		// Is there a central wiki defined for the Special:GlobalContributions feature?
-		// If so, redirect the user there, preserving the query parameters.
-		$globalContributionsCentralWikiId = $this->config->get( 'CheckUserGlobalContributionsCentralWikiId' );
-		if ( $globalContributionsCentralWikiId &&
-			$output->getTitle()->isSpecial( 'GlobalContributions' ) &&
-			$globalContributionsCentralWikiId !== WikiMap::getCurrentWikiId() ) {
-			// Note: Use the canonical (English) name for the namespace and page
-			// since non-English aliases would likely not be recognized by the central wiki.
-			$page = "Special:GlobalContributions";
-			$slashPos = strpos( $title->getText(), '/' );
-			if ( $slashPos !== false ) {
-				$page .= substr(
-					$title->getText(),
-					$slashPos
-				);
-			}
-
-			$url = WikiMap::getForeignURL(
-				$globalContributionsCentralWikiId,
-				$page,
-			);
-			$queryValues = $output->getRequest()->getQueryValuesOnly();
-			// Don't duplicate the title, as we have this already from ::getForeignURL above
-			if ( isset( $queryValues['title'] ) ) {
-				unset( $queryValues['title'] );
-			}
-			$url = wfAppendQuery( $url, $queryValues );
-			$output->redirect( $url );
-		}
 	}
 }

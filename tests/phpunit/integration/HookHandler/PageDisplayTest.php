@@ -2,24 +2,18 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
-use MediaWiki\Actions\ActionEntryPoint;
 use MediaWiki\CheckUser\HookHandler\PageDisplay;
 use MediaWiki\CheckUser\HookHandler\Preferences;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Config\HashConfig;
-use MediaWiki\Config\SiteConfiguration;
 use MediaWiki\Context\DerivativeContext;
 use MediaWiki\Context\RequestContext;
-use MediaWiki\Output\OutputPage;
 use MediaWiki\Registration\ExtensionRegistry;
-use MediaWiki\Request\FauxRequest;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\Title\Title;
 use MediaWiki\User\Options\StaticUserOptionsLookup;
-use MediaWiki\User\TempUser\TempUserConfig;
-use MediaWiki\User\User;
 use MediaWiki\User\UserOptionsLookup;
 use MediaWikiIntegrationTestCase;
 use Skin;
@@ -31,76 +25,6 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 
 	use MockAuthorityTrait;
 	use TempUserTestTrait;
-
-	public function setUp(): void {
-		parent::setUp();
-		$conf = new SiteConfiguration();
-		$conf->settings = [
-			'wgServer' => [
-				'enwiki' => 'https://en.example.org',
-				'metawiki' => 'https://meta.example.org',
-			],
-			'wgArticlePath' => [
-				'enwiki' => '/wiki/$1',
-				'metawiki' => '/wiki/$1',
-			],
-		];
-		$conf->suffixes = [ 'wiki' ];
-		$this->setMwGlobals( 'wgConf', $conf );
-	}
-
-	public function testBeforeInitializeHookWithoutConfigSet() {
-		$pageDisplayHook = new PageDisplay(
-			new HashConfig( [
-				'CheckUserGlobalContributionsCentralWikiId' => false,
-			] ),
-			$this->createMock( CheckUserPermissionManager::class ),
-			$this->createMock( TempUserConfig::class ),
-			$this->createMock( UserOptionsLookup::class ),
-			$this->getServiceContainer()->getExtensionRegistry()
-		);
-		$output = $this->createMock( OutputPage::class );
-		$request = new FauxRequest();
-		$pageDisplayHook->onBeforeInitialize(
-			SpecialPage::getTitleFor( 'GlobalContributions' ),
-			null,
-			$output,
-			$this->createMock( User::class ),
-			$request,
-			$this->createMock( ActionEntryPoint::class )
-		);
-		$output->expects( $this->never() )->method( 'redirect' );
-	}
-
-	public function testBeforeInitializeHookWithConfigSet() {
-		$pageDisplayHook = new PageDisplay(
-			new HashConfig( [
-				'CheckUserGlobalContributionsCentralWikiId' => 'metawiki',
-			] ),
-			$this->createMock( CheckUserPermissionManager::class ),
-			$this->createMock( TempUserConfig::class ),
-			$this->createMock( UserOptionsLookup::class ),
-			$this->getServiceContainer()->getExtensionRegistry()
-		);
-		$title = SpecialPage::getTitleFor( 'GlobalContributions' );
-
-		$output = $this->createMock( OutputPage::class );
-		$output->method( 'getTitle' )->willReturn( $title );
-		$request = new FauxRequest( [ 'target' => '127.0.0.1', 'title' => 'Special:GlobalContributions' ] );
-		$output->method( 'getRequest' )->willReturn( $request );
-
-		$output->expects( $this->once() )->method( 'redirect' )
-			->with( 'https://meta.example.org/wiki/Special:GlobalContributions?target=127.0.0.1' );
-
-		$pageDisplayHook->onBeforeInitialize(
-			$title,
-			null,
-			$output,
-			$this->createMock( User::class ),
-			$request,
-			$this->createMock( ActionEntryPoint::class )
-		);
-	}
 
 	public function testOnBeforePageDisplayWhenTemporaryAccountsNotKnown() {
 		$this->disableAutoCreateTempUser();
