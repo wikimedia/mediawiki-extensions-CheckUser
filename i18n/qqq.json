@@ -313,6 +313,7 @@
 	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "Label for a button on [[Special:IPContributions]] and [[Special:Contributions]]\n\nSee also:\n* {{msg-mw|checkuser-ip-contributions-special-ip-contributions-button}} (used when the user is in desktop view)",
 	"checkuser-ip-contributions-special-contributions-button": "Label for a button on [[Special:IPContributions]] and [[Special:Contributions]]",
 	"checkuser-global-contributions-link": "Link anchor used on [[Special:Contributions]], [[Special:DeletedContributions]] and [[Special:IPContributions]] to see global contributions",
+	"checkuser-global-contributions-link-sidebar": "Link anchor used on the user pages' sidebar linking to Special:GlobalContributions. Text is similar to {{msg-mw|checkuser-global-contributions-link}}, with the difference being a capitalisation of the first character.",
 	"checkuser-global-contributions-summary": "Description of [[Special:GlobalContributions]] shown at the top of the page.\n\nParameters:\n* $1 - The maximum number of days old that revisions can be in the results.",
 	"checkuser-global-contributions": "{{doc-special|GlobalContributions}}",
 	"checkuser-global-contributions-anon-tools": "{{ignored}}",

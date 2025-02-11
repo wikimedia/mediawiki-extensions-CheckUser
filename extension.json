@@ -408,6 +408,12 @@
 		"UserMerge": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\UserMergeHandler"
 		},
+		"SidebarLinksHandler": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\SidebarLinksHandler",
+			"services": [
+				"CheckUserPermissionManager"
+			]
+		},
 		"LogDisplayHandler": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\LogDisplayHandler",
 			"services": [
@@ -438,6 +444,7 @@
 		"RenameUserSQL": "RenameUserSQLHandler",
 		"ResourceLoaderRegisterModules": "RLRegisterModules",
 		"SaveUserOptions": "preferences",
+		"SidebarBeforeOutput": "SidebarLinksHandler",
 		"SpecialContributionsBeforeMainOutput": "ToolLinks",
 		"SpecialPageBeforeExecute": [
 			"clienthints",
