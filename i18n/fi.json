@@ -141,6 +141,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title": "Ota IP-tiedot käyttöön",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-error": "Jotain meni pieleen. Yritä uudelleen. Virheilmoitus oli: $1",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success": "Asetukset päivitetty",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-warning": "Klikkaa ”Tallenna asetukset” ennen kuin jatkat",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-title": "IP-osoitteen paljastaminen",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content": "IP-paljastusominaisuuden avulla ylläpitäjät, vandalismin torjujat ja kokeneet käyttäjät voivat tarkastella tilapäisen tunnuksen käyttämiä IP-osoitteita.\n\nKäyttäjät, jotka täyttävät pääsyehdot voivat ottaa IP-paljastuksen käyttöön [[Special:Preferences#mw-prefsection-personal-checkuser-tempaccount|asetuksissaan]]. Kun ominaisuus on otettu käyttöön, ”Näytä IP” -painike näytetään tilapäisten tunnusten vieressä.",
 	"checkuser-rest-access-denied": "Sinulla ei ole oikeutta suorittaa toimintoa",

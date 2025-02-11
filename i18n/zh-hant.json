@@ -136,6 +136,7 @@
 	"checkuser-log-entry-useractions": "$3，{{GENDER:$6|$1}}取得由{{GENDER:$7|$2}}執行的操作",
 	"checkuser-log-entry-investigate": "$3，{{GENDER:$6|$1}}查找{{GENDER:$7|$2}}的資訊",
 	"checkuser-token-fail": "連線階段錯誤，請再試一次。",
+	"prefs-checkuser": "使用者查核",
 	"checkuser-helper-label": "查看表格結果",
 	"checkuser-helper-copy-success": "已複製",
 	"checkuser-helper-copy-failed": "無法複製",

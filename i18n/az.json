@@ -157,7 +157,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-image-aria-label": "Açılan pəncərəni göstərmək üçün məlumat ikonasına kliklədiyi səhifədə müvəqqəti hesab haqqında məlumat axtarmaq üçün istifadə edilən IPInfo alətini göstərən şəkil.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title": "IP məlumatını aktivləşdir",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-error": "Xəta baş verdi. Zəhmət olmasa, bir daha cəhd edin. Xəta: $1",
-	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success": "Parametr uğurla yeniləndi",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success": "Parametr yeniləndi",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-warning": "Davam etməzdən əvvəl \"Yadda saxla\" düyməsinə klikləyin",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-title": "IP ünvanının aşkarlanması",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content": "IP aşkar etmə xüsusiyyəti inzibatçıları, vandalizmlə mübarizə aparanlara və təcrübəli istifadəçilərə müvəqqəti hesabla əlaqəli IP-ni aşkar etməyə imkan verir.\n \nTələblərə cavab verən istifadəçilər öz [[Special:Preferences#mw-prefsection-personal-checkuser-tempaccount|nizamlamalarında]] IP Aşkar etmə alətini aktivləşdirə bilərlər. Aktivləşdirildikdən sonra müvəqqəti hesabların yanında \"IP-ni göstər\" düyməsi görünəcək.",

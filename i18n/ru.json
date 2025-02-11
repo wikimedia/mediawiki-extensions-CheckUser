@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Alexander Yukal",
+			"Cabadeck",
 			"Cat1987",
 			"Cryptocoryne",
 			"DCamer",
@@ -110,6 +111,8 @@
 	"checkuser-helper-client-hints": "Подсказки клиенту",
 	"logentry-checkuser-private-event-autocreate-account": "был создан автоматически",
 	"logentry-checkuser-private-event-create-account": "создан",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success": "Предпочтение успешно обновлено",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-warning": "Прежде чем продолжить, нажмите «Сохранить настройки».",
 	"checkuser-link-investigate-label": "Попробовать {{#special:investigate}}",
 	"checkuser-investigateblock": "Заблокированные участники",
 	"checkuser-investigateblock-target": "Имена участников или IP-адреса",

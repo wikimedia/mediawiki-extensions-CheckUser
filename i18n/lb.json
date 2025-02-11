@@ -89,6 +89,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-close-label": "Zoumaachen",
 	"checkuser-temporary-accounts-onboarding-dialog-temp-accounts-step-title": "Wat ass een temporäre Kont?",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title": "IP-Informatiounen aktivéieren",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success": "Astellung aktualiséiert",
 	"checkuser-link-investigate-label": "{{#special:investigate}} ausprobéieren",
 	"checkuser-investigateblock": "Benotzer spären",
 	"checkuser-investigateblock-target": "Benotzernimm an IP-Adressen",
