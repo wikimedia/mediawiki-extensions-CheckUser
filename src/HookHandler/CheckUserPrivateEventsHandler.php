@@ -30,7 +30,6 @@ use MediaWiki\User\UserRigorOptions;
 use Psr\Log\LoggerInterface;
 use TypeError;
 use Wikimedia\Rdbms\IConnectionProvider;
-use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\ReadOnlyMode;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 
@@ -112,7 +111,7 @@ class CheckUserPrivateEventsHandler implements
 			$dbw = $this->dbProvider->getPrimaryDatabase();
 
 			$dbw->onTransactionPreCommitOrIdle(
-				function ( IDatabase $dbw ) use ( $user, $autocreated, $method ): void {
+				function () use ( $dbw, $user, $autocreated, $method ): void {
 					// We need to lookup using the primary DB as the log entry will just have been created.
 					// This is inside a pre-commit callback because the LocalUserCreated hook is ran before
 					// the log entry is created.
