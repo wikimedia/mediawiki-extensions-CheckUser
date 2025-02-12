@@ -115,6 +115,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-previous-label": "Precedente",
 	"checkuser-temporary-accounts-onboarding-dialog-next-label": "Successivo",
 	"checkuser-temporary-accounts-onboarding-dialog-close-label": "Chiudi",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-save-preference": "Salva preferenza",
 	"checkuser-link-investigate-label": "Prova {{#special:investigate}}",
 	"checkuser-investigateblock": "Blocca utenti",
 	"checkuser-investigateblock-target": "Nomi utente o indirizzi IP",

@@ -166,6 +166,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-error": "Es ist ein Fehler aufgetreten. Bitte versuche es erneut. Die erhaltene Fehlermeldung lautete: $1",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success": "Einstellung aktualisiert",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-warning": "Klicke bitte vor dem Fortfahren auf „Einstellung speichern“",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-save-preference": "Einstellungen speichern",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-title": "Offenlegung einer IP-Adresse",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content": "Die IP Offenlegungs-Funktion ermöglicht es Administratoren, Vandalismusbekämpfern und erfahrenen Benutzern, die mit einem temporären Konto verknüpfte IP aufzudecken.\n\nBenutzer, die die Zugangsvoraussetzungen erfüllen, können IP Reveal in ihren [[Special:Preferences#mw-prefsection-personal-checkuser-tempaccount|Einstellungen]] aktivieren. Sobald diese Funktion aktiviert ist, wird die Schaltfläche „IP anzeigen“ neben den temporären Konten angezeigt.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-image-aria-label": "Abbildung, die das Tool zum Aufdecken der IP nach einer Verwendung zeigt, wobei die mit dem temporären Konto verbundene IP-Adresse angezeigt wird. Die Schaltfläche, die gedrückt wird, um dies zu sehen, ist mit dem Text „IP anzeigen“ beschriftet und wird neben dem Benutzernamen des temporären Kontos angezeigt.",
