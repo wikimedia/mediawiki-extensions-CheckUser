@@ -2,7 +2,9 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
+use MediaWiki\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\CheckUser\HookHandler\ToolLinksHandler;
+use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Linker\LinkRenderer;
@@ -54,6 +56,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		$items = [];
 		$services = $this->getServiceContainer();
 		( new ToolLinksHandler(
+			$this->createMock( CheckUserPermissionManager::class ),
 			$this->createMock( PermissionManager::class ),
 			$services->getSpecialPageFactory(),
 			$mockLinkRenderer,
@@ -137,6 +140,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$services = $this->getServiceContainer();
 		$hookHandler = new ToolLinksHandler(
+			$services->getService( 'CheckUserPermissionManager' ),
 			$mockPermissionManager,
 			$services->getSpecialPageFactory(),
 			$services->getLinkRenderer(),
@@ -267,6 +271,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$services = $this->getServiceContainer();
 		$hookHandler = new ToolLinksHandler(
+			$this->createMock( CheckUserPermissionManager::class ),
 			$mockPermissionManager,
 			$services->getSpecialPageFactory(),
 			$services->getLinkRenderer(),
@@ -322,11 +327,13 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$request = new FauxRequest( [ 'isArchive' => $isArchive ] );
 
+		$user = $this->createMock( User::class );
+
 		$mockSpecialPage = $this->getMockBuilder( SpecialPage::class )
-			->onlyMethods( [ 'getUser', 'getName', 'getRequest' ] )
+			->onlyMethods( [ 'getUser', 'getName', 'getRequest', 'getSkin' ] )
 			->getMock();
 		$mockSpecialPage->method( 'getUser' )
-			->willReturn( $this->createMock( User::class ) );
+			->willReturn( $user );
 		$mockSpecialPage->method( 'getName' )
 			->willReturn( 'IPContributions' );
 		$mockSpecialPage->method( 'getRequest' )
@@ -336,8 +343,20 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		$mockPermissionManager->method( 'userHasRight' )
 			->willReturn( $canSeeDeleted );
 
+		$cuPermissionStatus = $this->createMock( CheckUserPermissionStatus::class );
+		$cuPermissionStatus->method( 'isGood' )
+			->willReturn( false );
+
+		$mockCUPermissionManager = $this->createMock( CheckUserPermissionManager::class );
+		$mockCUPermissionManager
+			->expects( $canSeeDeleted ? $this->once() : $this->never() )
+			->method( 'canAccessUserGlobalContributions' )
+			->with( $user, '1.2.3.4' )
+			->willReturn( $cuPermissionStatus );
+
 		$services = $this->getServiceContainer();
 		$hookHandler = new ToolLinksHandler(
+			$mockCUPermissionManager,
 			$mockPermissionManager,
 			$services->getSpecialPageFactory(),
 			$services->getLinkRenderer(),
@@ -398,34 +417,46 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 	 */
 	public function testOnContributionsToolLinksGlobalContributions(
 		string $pageName,
-		bool $globalContributionsExists,
+		bool $accessIsAllowed,
 		bool $expectLink
 	) {
 		$this->enableAutoCreateTempUser();
 		$target = '1.2.3.4';
 
+		$user = $this->createMock( User::class );
+
 		$mockSpecialPage = $this->getMockBuilder( SpecialPage::class )
-			->onlyMethods( [ 'getUser', 'getName', 'getRequest' ] )
+			->onlyMethods( [ 'getUser', 'getName', 'getRequest', 'getSkin' ] )
 			->getMock();
 		$mockSpecialPage->method( 'getUser' )
-			->willReturn( $this->createMock( User::class ) );
+			->willReturn( $user );
 		$mockSpecialPage->method( 'getName' )
 			->willReturn( $pageName );
 		$mockSpecialPage->method( 'getRequest' )
 			->willReturn( new FauxRequest() );
 
-		$mockPermissionManager = $this->createMock( PermissionManager::class );
-		$mockPermissionManager->method( 'userHasRight' )
-			->willReturn( true );
+		$cuPermissionStatus = $this->createMock( CheckUserPermissionStatus::class );
+		$cuPermissionStatus
+			->method( 'isGood' )
+			->willReturn( $accessIsAllowed );
 
-		$mockSpecialPageFactory = $this->createMock( SpecialPageFactory::class );
-		$mockSpecialPageFactory->method( 'exists' )
-			->willReturn( $globalContributionsExists );
+		$mockCUPermissionManager = $this->createMock( CheckUserPermissionManager::class );
+		$mockCUPermissionManager
+			->expects( $this->once() )
+			->method( 'canAccessUserGlobalContributions' )
+			->with( $user, '1.2.3.4' )
+			->willReturn( $cuPermissionStatus );
+
+		$mockPermissionManager = $this->createMock( PermissionManager::class );
+		$mockPermissionManager
+			->method( 'userHasRight' )
+			->willReturn( true );
 
 		$services = $this->getServiceContainer();
 		$hookHandler = new ToolLinksHandler(
+			$mockCUPermissionManager,
 			$mockPermissionManager,
-			$mockSpecialPageFactory,
+			$this->createMock( SpecialPageFactory::class ),
 			$services->getLinkRenderer(),
 			$this->createMock( UserIdentityLookup::class ),
 			$services->getUserIdentityUtils(),
@@ -462,11 +493,25 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 
 	public function provideOnContributionsToolLinksGlobalContributions() {
 		return [
-			'Link is added to Special:Contributions' => [ 'Contributions', true, true ],
-			'Link is added to Special:DeletedContributions' => [ 'DeletedContributions', true, true ],
-			'Link is added to Special:IPContributions' => [ 'IPContributions', true, true ],
-			'Link is not added to Special:Contributions if GlobalContributions does not exist' => [
-				'Contributions', false, false
+			'Link is added on Special:GlobalContributions' => [
+				'pageName' => 'Contributions',
+				'accessIsAllowed' => true,
+				'expectLink' => true
+			],
+			'Link is added on Special:DeletedContributions' => [
+				'pageName' => 'DeletedContributions',
+				'accessIsAllowed' => true,
+				'expectLink' => true
+			],
+			'Link is added on Special:IPContributions' => [
+				'pageName' => 'IPContributions',
+				'accessIsAllowed' => true,
+				'expectLink' => true
+			],
+			'Link is not added on Special:Contributions if access is not allowed' => [
+				'pageName' => 'Contributions',
+				'accessIsAllowed' => false,
+				'expectLink' => false
 			],
 		];
 	}
@@ -512,6 +557,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$services = $this->getServiceContainer();
 		$hookHandler = new ToolLinksHandler(
+			$this->createMock( CheckUserPermissionManager::class ),
 			$mockPermissionManager,
 			$services->getSpecialPageFactory(),
 			$services->getLinkRenderer(),
@@ -544,6 +590,9 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			->willReturn( 'Other user' );
 		$mockSpecialPage->method( 'getUser' )
 			->willReturn( $mockPerformingUser );
+
+		$mockCUPermissionManager = $this->createMock( CheckUserPermissionManager::class );
+
 		// Mock the PermissionManager to avoid the database
 		$mockPermissionManager = $this->createMock( PermissionManager::class );
 		$mockPermissionManager->method( 'userHasRight' )
@@ -557,6 +606,7 @@ class ToolLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			->willReturn( new UserIdentityValue( 1, $userName ) );
 		$services = $this->getServiceContainer();
 		$hookHandler = new ToolLinksHandler(
+			$mockCUPermissionManager,
 			$mockPermissionManager,
 			$services->getSpecialPageFactory(),
 			$services->getLinkRenderer(),

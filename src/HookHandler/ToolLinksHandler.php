@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
+use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Hook\ContributionsToolLinksHook;
 use MediaWiki\Hook\SpecialContributionsBeforeMainOutputHook;
@@ -29,6 +30,7 @@ class ToolLinksHandler implements
 	UserToolLinksEditHook
 {
 
+	private CheckUserPermissionManager $cuPermissionManager;
 	private PermissionManager $permissionManager;
 	private SpecialPageFactory $specialPageFactory;
 	private LinkRenderer $linkRenderer;
@@ -38,6 +40,7 @@ class ToolLinksHandler implements
 	private TempUserConfig $tempUserConfig;
 
 	public function __construct(
+		CheckUserPermissionManager $cuPermissionManager,
 		PermissionManager $permissionManager,
 		SpecialPageFactory $specialPageFactory,
 		LinkRenderer $linkRenderer,
@@ -46,6 +49,7 @@ class ToolLinksHandler implements
 		UserOptionsLookup $userOptionsLookup,
 		TempUserConfig $tempUserConfig
 	) {
+		$this->cuPermissionManager = $cuPermissionManager;
 		$this->permissionManager = $permissionManager;
 		$this->specialPageFactory = $specialPageFactory;
 		$this->linkRenderer = $linkRenderer;
@@ -198,7 +202,12 @@ class ToolLinksHandler implements
 				}
 			}
 
-			if ( $this->specialPageFactory->exists( 'GlobalContributions' ) ) {
+			$gcAccess = $this->cuPermissionManager->canAccessUserGlobalContributions(
+				$user,
+				$nt->getText()
+			);
+
+			if ( $gcAccess->isGood() ) {
 				$globalContributionsLink = $linkRenderer->makeKnownLink(
 					SpecialPage::getTitleFor( 'GlobalContributions', $nt->getText() ),
 					$sp->msg( 'checkuser-global-contributions-link' )->text(),
