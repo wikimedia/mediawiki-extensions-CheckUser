@@ -150,6 +150,7 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-error": "Un problema ha occurrite. Per favor tenta lo de novo. Le message de error recipite es: $1",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success": "Preferentia actualisate",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-warning": "Per favor clicca sur “Salveguardar preferentia” ante de continuar",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-save-preference": "Confirmar preferentia",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-title": "Revelar un adresse IP",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content": "Le function Revelar IP permitte a administratores, combattentes de vandalismo e usatores experte revelar le adresse IP associate con un conto temporari.\n\nUsatores que satisface le requisitos de accesso pote activar Revelar IP in lor [[Special:Preferences#mw-prefsection-personal-checkuser-tempaccount|preferentias]]. Un vice activate, le button “Monstrar IP” apparera juxta contos temporari.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-image-aria-label": "Un imagine que monstra le instrumento de revelation de adresse IP post un uso, ubi le adresse IP associate con le conto temporari es monstrate. Le button premite pro vider isto es etiquettate con le texto ‘Monstrar IP’ e es situate juxta le nomine de usator del conto temporari.",
