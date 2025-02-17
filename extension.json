@@ -194,6 +194,9 @@
 			"description": "Used to control whether the Temporary Accounts onboarding dialog is shown. Used as a temporary configuration value to hide the dialog while it is still being developed."
 		}
 	},
+	"DefaultUserOptions": {
+		"checkuser-temporary-account-enable": false
+	},
 	"APIListModules": {
 		"checkuser": {
 			"class": "MediaWiki\\CheckUser\\Api\\ApiQueryCheckUser",
