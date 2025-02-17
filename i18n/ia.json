@@ -267,6 +267,7 @@
 	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "Modificationes IP de usatores temporari",
 	"checkuser-ip-contributions-special-contributions-button": "Modificationes IP ancian",
 	"checkuser-global-contributions-link": "contributiones global",
+	"checkuser-global-contributions-link-sidebar": "Contributiones global",
 	"checkuser-global-contributions-summary": "Obtener modificationes facite per un usator in tote le projectos wiki durante le ultime $1 die{{PLURAL:$1||s}}.",
 	"checkuser-global-contributions": "Cercar contributiones global",
 	"checkuser-global-contributions-permission-error-title": "Error de permission",

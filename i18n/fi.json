@@ -244,6 +244,7 @@
 	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "Tilapäiskäyttäjän IP-muokkaukset",
 	"checkuser-ip-contributions-special-contributions-button": "Vanhat IP-muokkaukset",
 	"checkuser-global-contributions-link": "järjestelmänlaajuiset muokkaukset",
+	"checkuser-global-contributions-link-sidebar": "Järjestelmänlaajuiset muokkaukset",
 	"checkuser-global-contributions-summary": "Hae käyttäjän tekemät muokkaukset kaikissa wikeissä {{PLURAL:$1|$1}} viimeisen päivän ajalta.",
 	"checkuser-global-contributions": "Etsi muokkauksia järjestelmänlaajuisesti",
 	"checkuser-global-contributions-permission-error-title": "Puutteelliset oikeudet",

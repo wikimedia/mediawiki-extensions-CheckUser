@@ -220,6 +220,7 @@
 	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "অস্থায়ী ব্যবহারকারী আইপি সম্পাদনা",
 	"checkuser-ip-contributions-special-contributions-button": "সাবেক আইপি সম্পাদনা",
 	"checkuser-global-contributions-link": "বৈশ্বিক অবদান",
+	"checkuser-global-contributions-link-sidebar": "বৈশ্বিক অবদান",
 	"checkuser-global-contributions": "বৈশ্বিক অবদানের জন্য অনুসন্ধান করুন",
 	"checkuser-global-contributions-permission-error-title": "অনুমতি ত্রুটি",
 	"checkuser-global-contributions-permission-error-description": "বৈশ্বিক অবদানগুলি দেখতে, অনুগ্রহ করে [[Special:GlobalPreferences|আপনার বৈশ্বিক পছন্দে]] চুক্তিটি গ্রহণ করুন।",

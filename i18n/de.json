@@ -283,6 +283,7 @@
 	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "Temporäre Benutzer-IP-Bearbeitungen",
 	"checkuser-ip-contributions-special-contributions-button": "Veraltete IP-Bearbeitungen",
 	"checkuser-global-contributions-link": "globale Beiträge",
+	"checkuser-global-contributions-link-sidebar": "Globale Beiträge",
 	"checkuser-global-contributions-summary": "Hole Änderungen, die ein Benutzer in allen Wiki-Projekten {{PLURAL:$1|am letzten Tag|der letzten $1 Tage}} vorgenommen hat.",
 	"checkuser-global-contributions": "Suche nach globalen Beiträgen",
 	"checkuser-global-contributions-permission-error-title": "Berechtigungsfehler",

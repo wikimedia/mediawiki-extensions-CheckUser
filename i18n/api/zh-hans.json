@@ -4,6 +4,7 @@
 			"Anterdc99",
 			"CrownedWharf566",
 			"GuoPC",
+			"Kichin",
 			"LittlePaw365",
 			"Liuxinyu970226",
 			"U.T.",
@@ -43,5 +44,7 @@
 	"checkuser-api-useragent-clienthints-revision-user-mismatch": "用户$1不是修订版本$2的作者",
 	"checkuser-api-useragent-clienthints-mappings-exist": "已存在对$1$2的客户端提示映射",
 	"checkuser-api-useragent-clienthints-called-too-late": "$1$2太旧而无法记录客户端提示数据",
-	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}}收集user-agent客户端提示数据以协助遏制破坏和滥用行为。详情请参阅<nowiki/>https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints<nowiki/>。"
+	"checkuser-api-useragent-clienthints-nonexistent-id": "$1 ID $2不存在",
+	"checkuser-api-useragent-clienthints-explanation": "{{SITENAME}}收集user-agent客户端提示数据以协助遏制破坏和滥用行为。详情请参阅<nowiki/>https://www.mediawiki.org/wiki/Extension:CheckUser/Client_Hints<nowiki/>。",
+	"apihelp-logout-param-checkuserclienthints": "客户端提示随 ApiLogout 请求提供的数据。仅供内部使用。"
 }

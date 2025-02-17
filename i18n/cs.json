@@ -193,6 +193,7 @@
 	"checkuser-investigate-tour-copywikitext-title": "Chcete si data zkopírovat?",
 	"checkuser-global-contributions-no-results-no-central-user": "<strong>Žádné výsledky odpovídající dotazu.</strong> Uživatel „$1“ není registrován.",
 	"checkuser-global-contributions-link": "globální příspěvky",
+	"checkuser-global-contributions-link-sidebar": "Globální příspěvky",
 	"checkuser-global-contributions-subtitle": "Zobrazeny výsledky z {{PLURAL:$1|posledního dne|posledních $1 dnů}} u všech wiki, kde máte právo zobrazovat příspěvky. Omezeno na $2 {{PLURAL:$2|výsledek|výsledky|výsledků}} z jedné wiki.",
 	"checkuser-global-contributions-target-label": "Uživatelské jméno, IP adresa nebo rozsah IP adres:",
 	"checkuser-global-contributions-target-placeholder": "Uživatelské jméno, IP adresa nebo rozsah IP adres",

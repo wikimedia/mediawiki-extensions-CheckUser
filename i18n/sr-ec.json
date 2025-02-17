@@ -239,6 +239,7 @@
 	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "Прив. корисник IP измене",
 	"checkuser-ip-contributions-special-contributions-button": "Пређашње IP измене",
 	"checkuser-global-contributions-link": "глобални доприноси",
+	"checkuser-global-contributions-link-sidebar": "Глобални доприноси",
 	"checkuser-global-contributions": "Претрага глобалних доприноса",
 	"checkuser-global-contributions-permission-error-title": "Грешка у дозволама",
 	"checkuser-global-contributions-permission-error-description": "Да видите глобалне доприносе, молимо прихватите уговор у [[Special:GlobalPreferences|Вашим глобалним подешавањима]].",

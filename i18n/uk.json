@@ -286,6 +286,7 @@
 	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "IP-ред. тимч. користувача",
 	"checkuser-ip-contributions-special-contributions-button": "Старі IP-редагування",
 	"checkuser-global-contributions-link": "глобальний внесок",
+	"checkuser-global-contributions-link-sidebar": "Глобальний внесок",
 	"checkuser-global-contributions-summary": "Отримайте редагування, внесені користувачем у всіх вікіпроєктах за {{PLURAL:$1|останній $1 день|останні $1 дні|останні $1 днів}}.",
 	"checkuser-global-contributions": "Пошук глобального внеску",
 	"checkuser-global-contributions-permission-error-title": "Помилка доступу",
