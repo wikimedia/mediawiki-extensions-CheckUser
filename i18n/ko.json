@@ -191,6 +191,7 @@
 	"checkuser-ip-contributions-target-error-no-ip": "유효한 IP 주소 또는 IP 대역을 입력하십시오",
 	"checkuser-global-contributions-no-results-no-central-user": "<strong>검색어와 일치하는 결과가 없습니다</strong> . \"$1\" 사용자는 등록되어 있지 않습니다.",
 	"checkuser-global-contributions-link": "전역 기여",
+	"checkuser-global-contributions-link-sidebar": "전역 기여",
 	"checkuser-global-contributions": "전역 기여 검색",
 	"checkuser-global-contributions-permission-error-title": "권한 오류",
 	"checkuser-global-contributions-subtitle": "보기 기여 권한이 있는 모든 위키에 대해 지난 $1{{PLURAL:$1|일}}의 결과를 표시합니다. 위키별 {{PLURAL:$2|결과}}는 $2개로 제한됩니다.",

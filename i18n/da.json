@@ -250,6 +250,7 @@
 	"checkuser-ip-contributions-special-ip-contributions-button": "Midlertidige bruger IP-redigeringer",
 	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "Midlertidig bruger IP-redigeringer",
 	"checkuser-ip-contributions-special-contributions-button": "Ældre IP-redigeringer",
+	"checkuser-global-contributions-link": "globale bidrag",
 	"checkuser-global-contributions": "Søg efter globale bidrag",
 	"checkuser-global-contributions-permission-error-title": "Rettighedsfejl",
 	"checkuser-global-contributions-permission-error-description": "For at se globale bidrag skal du acceptere aftalen i [[Special:GlobalPreferences|dine globale præferencer]].",
