@@ -37,6 +37,9 @@ class Preferences implements GetPreferencesHook {
 	 */
 	public const CHECKUSER_HELPER_USE_CONFIG_TO_COLLAPSE_BY_DEFAULT = 'config';
 
+	/** @var string User option indicating that a user opted-in to reveal IPs. */
+	public const ENABLE_IP_REVEAL = 'checkuser-temporary-account-enable';
+
 	private PermissionManager $permissionManager;
 	private TemporaryAccountLoggerFactory $loggerFactory;
 	private Language $language;
@@ -88,7 +91,7 @@ class Preferences implements GetPreferencesHook {
 				// what checking the checkbox below this text means.
 				'canglobal' => true,
 			];
-			$preferences['checkuser-temporary-account-enable'] = [
+			$preferences[self::ENABLE_IP_REVEAL] = [
 				'type' => 'toggle',
 				'label-message' => 'checkuser-tempaccount-enable-preference',
 				'section' => 'personal/checkuser-tempaccount',
@@ -153,12 +156,16 @@ class Preferences implements GetPreferencesHook {
 	 * @param array $originalOptions
 	 */
 	public function onSaveUserOptions( UserIdentity $user, array &$modifiedOptions, array $originalOptions ) {
-		$wasEnabled = !empty( $originalOptions['checkuser-temporary-account-enable'] );
+		$wasEnabled = !empty( $originalOptions[self::ENABLE_IP_REVEAL] );
 		$wasDisabled = !$wasEnabled;
 
-		$willEnable = !empty( $modifiedOptions['checkuser-temporary-account-enable'] );
-		$willDisable = isset( $modifiedOptions['checkuser-temporary-account-enable'] ) &&
-			!$modifiedOptions['checkuser-temporary-account-enable'];
+		// SpecialPreferences::submitReset() sets option values back to its defaults,
+		// which may be NULL instead of false. When that happens, directly using isset()
+		// against the array element returns false (the element is there, but it's NULL),
+		// therefore we need to explicitly check if key exists instead (T382010).
+		$isPresent = array_key_exists( self::ENABLE_IP_REVEAL, $modifiedOptions );
+		$willEnable = !empty( $modifiedOptions[self::ENABLE_IP_REVEAL] );
+		$willDisable = $isPresent && !$modifiedOptions[self::ENABLE_IP_REVEAL];
 
 		if (
 			( $wasDisabled && $willEnable ) ||
@@ -172,5 +179,4 @@ class Preferences implements GetPreferencesHook {
 			}
 		}
 	}
-
 }
