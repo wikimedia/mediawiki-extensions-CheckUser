@@ -104,6 +104,7 @@
 	"checkuser-log-search-target": "Kohde:",
 	"checkuser-log-search-initiator": "Alullepanija:",
 	"checkuser-log-search-reason": "Syy:",
+	"checkuser-log-search-reason-help": "Suodata lokitapahtumat, joissa on tämä syy.",
 	"checkuser-ipeditcount": "noin $1 muokkausta kaikilta käyttäjiltä",
 	"checkuser-showmain": "Siirry {{#special:CheckUser}}",
 	"checkuser-show-investigate": "Siirry sivulle {{#special:Investigate}}",
