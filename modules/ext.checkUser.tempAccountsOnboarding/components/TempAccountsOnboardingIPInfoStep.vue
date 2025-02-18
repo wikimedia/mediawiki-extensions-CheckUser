@@ -77,8 +77,13 @@ module.exports = exports = {
 	},
 	setup( props, { expose } ) {
 		// Hide the IPInfo preference checkbox if the user has already checked the preference.
-		const initialIPInfoPreferenceValue = mw.user.options.get( 'ipinfo-use-agreement' ) !== '0' &&
-			mw.user.options.get( 'ipinfo-use-agreement' ) !== 0;
+		let initialIPInfoPreferenceValue;
+		if ( mw.storage.session.get( 'mw-checkuser-ipinfo-preference-checked-status' ) ) {
+			initialIPInfoPreferenceValue = mw.storage.session.get( 'mw-checkuser-ipinfo-preference-checked-status' );
+		} else {
+			initialIPInfoPreferenceValue = mw.user.options.get( 'ipinfo-use-agreement' ) !== '0' &&
+				mw.user.options.get( 'ipinfo-use-agreement' ) !== 0;
+		}
 		const shouldShowIPInfoPreference = !initialIPInfoPreferenceValue;
 
 		// Keep a track of variables needed to determine what message to show.
@@ -146,6 +151,9 @@ module.exports = exports = {
 					ipInfoPreferenceUpdateInProgress.value = false;
 					lastOptionsUpdateError.value = '';
 					serverIPInfoPreferenceValue.value = newPreferenceValue;
+					mw.storage.session.set(
+						'mw-checkuser-ipinfo-preference-checked-status', newPreferenceValue ? 'checked' : ''
+					);
 				},
 				( error, result ) => {
 					ipInfoPreferenceUpdateInProgress.value = false;
