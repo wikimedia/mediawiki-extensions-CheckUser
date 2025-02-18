@@ -181,26 +181,23 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 			->method( 'getLogger' )
 			->willReturn( $logger );
 
-		if ( $logAccessEnabled || $logAccessDisabled ) {
+		if ( $logAccessEnabled ) {
 			$logger
 				->expects( $this->once() )
-				->method(
-					$logAccessEnabled ?
-						'logAccessEnabled' :
-						'logAccessDisabled'
-				)
+				->method( 'logAccessEnabled' )
 				->with( $this->user );
-			$logger
-				->expects( $this->never() )
-				->method(
-					$logAccessEnabled ?
-						'logAccessDisabled' :
-						'logAccessEnabled'
-				);
 		} else {
 			$logger
 				->expects( $this->never() )
 				->method( 'logAccessEnabled' );
+		}
+
+		if ( $logAccessDisabled ) {
+			$logger
+				->expects( $this->once() )
+				->method( 'logAccessDisabled' )
+				->with( $this->user );
+		} else {
 			$logger
 				->expects( $this->never() )
 				->method( 'logAccessDisabled' );
