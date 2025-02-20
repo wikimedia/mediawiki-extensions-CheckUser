@@ -48,7 +48,8 @@
 			"Key0121",
 			"Midleading",
 			"NekoCharm",
-			"WiiUf"
+			"WiiUf",
+			"Kichin"
 		]
 	},
 	"checkuser-summary": "本工具会从最近更改中获取某个用户使用过的IP地址，或者显示某个IP地址下的编辑/用户。\n可在IP地址后方附加“/xff”以使用XFF头信息来获取同一客户端IP地址下的用户和编辑。支持IPv4（CIDR $1-32）和IPv6（CIDR $2-128）。\n由于性能问题，本工具最多返回$3笔最近编辑信息。\n请确保您的操作符合方针。",
@@ -230,7 +231,7 @@
 	"checkuser-investigate-duration-label": "期限",
 	"checkuser-investigate-duration-option-all": "全部",
 	"checkuser-investigate-duration-option-1w": "上周",
-	"checkuser-investigate-duration-option-2w": "上两周",
+	"checkuser-investigate-duration-option-2w": "前两周",
 	"checkuser-investigate-duration-option-30d": "前30天",
 	"checkuser-investigate-reason-label": "原因",
 	"checkuser-investigate-preliminary-notice-ip-targets": "“账户信息”选项卡不包含有关IP的任何信息。有关这些详细信息，请参阅<span class=\"plainlinks\">[$1 IP和用户代理选项卡]</span>。",
