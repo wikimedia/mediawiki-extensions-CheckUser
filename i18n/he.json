@@ -292,7 +292,7 @@
 	"checkuser-global-contributions-api-lookup-error": "שגיאה בטעינת נתונים מכמה אתרי ויקי. התוצאות האלו אינן שלמות. <strong>אולי זה יעזור לנסות שוב.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>אין תוצאות תואמות לשאילתה.</strong> למשתמש \"$1\" אין תרומות שאפשר לצפות בהן.",
 	"prefs-checkuser-tempaccount": "חשיפת IP של חשבון חולף",
-	"checkuser-tempaccount-enable-preference-description": "בעת שימוש בכלי הזה, חובתך לוודא שזה נעשה זאת במסגרת המדיניות.",
+	"checkuser-tempaccount-enable-preference-description": "בעת שימוש בכלי הזה, חובתך לוודא שזה נעשה במסגרת המדיניות.",
 	"checkuser-tempaccount-enable-preference": "להפעיל חשיפת כתובות IP עבור חשבונות חולפים",
 	"checkuser-tempaccount-no-ip-results": "אין נתוני IP עבור החשבון החולף הזה {{PLURAL:$1|ליום האחרון|ליומיים האחרונים|למשך $1 הימים האחרונים}}",
 	"checkuser-tempaccount-reveal-ip-button-label": "הצגת IP",
