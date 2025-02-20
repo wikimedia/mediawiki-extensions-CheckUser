@@ -145,7 +145,8 @@ describe( 'Client Hints', () => {
 		await expect( clientHints ).not.toBeFalsy();
 	} );
 
-	it( 'stores client hints data on logout', async () => {
+	// Skipped due to test being flaky: T385449
+	it.skip( 'stores client hints data on logout', async () => {
 		if ( !checkIfBrowserSupportsClientHints( driver.requestedCapabilities.browserName ) ) {
 			return;
 		}
