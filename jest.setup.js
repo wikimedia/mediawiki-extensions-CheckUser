@@ -12,6 +12,13 @@ global.mw.message = jest.fn( ( ...messageKeyAndParams ) => ( {
 	parse: () => `(${ messageKeyAndParams.join( ', ' ) })`
 } ) );
 
+global.mw.storage = {
+	session: {
+		get: jest.fn(),
+		set: jest.fn()
+	}
+};
+
 config.global.mocks = {
 	$i18n: ( ...messageKeyAndParams ) => ( {
 		text: () => '(' + messageKeyAndParams.join( ', ' ) + ')',
