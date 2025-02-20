@@ -26,6 +26,8 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 
 	use ContributionsRangeTrait;
 
+	private const BASE_HELP_URL = 'https://www.mediawiki.org/wiki/Special:MyLanguage/Help:';
+
 	private CentralIdLookup $centralIdLookup;
 	private GlobalContributionsPagerFactory $pagerFactory;
 
@@ -96,6 +98,13 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 		$this->requireLogin();
 
 		parent::execute( $par );
+
+		// Setting $overrideBaseUrl=true is needed to prevent addHelpLink()
+		// from trying to encode the anchor character (#)
+		$this->addHelpLink(
+			self::BASE_HELP_URL . 'Extension:CheckUser#Special:GlobalContributions_usage',
+			true
+		);
 
 		$target = $this->opts['target'] ?? null;
 

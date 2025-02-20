@@ -2,6 +2,8 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\GlobalContributions;
 
+use DOMDocument;
+use DOMXPath;
 use GlobalPreferences\GlobalPreferencesFactory;
 use LogicException;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
@@ -502,5 +504,40 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 			self::$sysop
 		);
 		$this->assertStringContainsString( 'checkuser-global-contributions-api-lookup-error', $html );
+	}
+
+	public function testLinksToHelpPage(): void {
+		// Ensure that the globalcontributions-helppage message is disabled,
+		// so we can test the URL we provided without an override affecting it.
+		$this->overrideConfigValue( MainConfigNames::LanguageCode, 'en' );
+		$this->editPage(
+			Title::newFromText( 'globalcontributions-helppage', NS_MEDIAWIKI ),
+			'-'
+		);
+		$this->getServiceContainer()->getMessageCache()->enable();
+
+		// Load the special page using English, as using the qqx language means
+		// that the help message isn't disabled.
+		[ $html ] = $this->executeSpecialPage(
+			'127.0.0.1',
+			null,
+			'en',
+			self::$checkuser,
+			true
+		);
+
+		$doc = new DOMDocument();
+		$doc->loadHTML( $html, LIBXML_NOERROR );
+		$entries = ( new DOMXpath( $doc ) )->query(
+			'//div[@id="mw-indicator-mw-helplink"]/a[@class="mw-helplink"]'
+		);
+
+		// Check that the link points to the expected placeholder URL
+		$this->assertNotEmpty( $entries );
+		$this->assertEquals(
+			"https://www.mediawiki.org/wiki/Special:MyLanguage/" .
+				"Help:Extension:CheckUser#Special:GlobalContributions_usage",
+			$entries[ 0 ]->getAttribute( 'href' )
+		);
 	}
 }
