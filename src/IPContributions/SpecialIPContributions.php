@@ -26,6 +26,8 @@ use Wikimedia\Rdbms\IConnectionProvider;
  * @ingroup SpecialPage
  */
 class SpecialIPContributions extends ContributionsSpecialPage {
+	private const BASE_HELP_URL = 'https://www.mediawiki.org/wiki/Special:MyLanguage/Help:';
+
 	private IPContributionsPagerFactory $pagerFactory;
 	private ?IPContributionsPager $pager = null;
 	private CheckUserPermissionManager $checkUserPermissionManager;
@@ -171,6 +173,13 @@ class SpecialIPContributions extends ContributionsSpecialPage {
 		$this->opts['isArchive'] = $this->isArchive();
 
 		parent::execute( $par );
+
+		// Setting $overrideBaseUrl=true is needed to prevent addHelpLink()
+		// from trying to encode the anchor character (#)
+		$this->addHelpLink(
+			self::BASE_HELP_URL . 'Extension:CheckUser#Special:IPContributions_usage',
+			true
+		);
 
 		$target = $this->opts['target'] ?? null;
 		if ( $target && !IPUtils::isIPAddress( $target ) ) {

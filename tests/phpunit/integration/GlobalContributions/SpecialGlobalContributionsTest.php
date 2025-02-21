@@ -532,7 +532,6 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 			'//div[@id="mw-indicator-mw-helplink"]/a[@class="mw-helplink"]'
 		);
 
-		// Check that the link points to the expected placeholder URL
 		$this->assertNotEmpty( $entries );
 		$this->assertEquals(
 			"https://www.mediawiki.org/wiki/Special:MyLanguage/" .

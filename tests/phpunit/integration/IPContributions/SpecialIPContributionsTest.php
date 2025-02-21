@@ -2,10 +2,13 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\IPContributions;
 
+use DOMDocument;
+use DOMXPath;
 use ErrorPageError;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\MainConfigNames;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
@@ -245,6 +248,40 @@ class SpecialIPContributionsTest extends SpecialPageTestBase {
 		);
 		$this->assertFalse(
 			$this->newSpecialPage()->userCanExecute( self::$disallowedUser )
+		);
+	}
+
+	public function testLinksToHelpPage(): void {
+		// Ensure that the ipcontributions-helppage message is disabled,
+		// so we can test the URL we provided without an override affecting it.
+		$this->overrideConfigValue( MainConfigNames::LanguageCode, 'en' );
+		$this->editPage(
+			Title::newFromText( 'ipcontributions-helppage', NS_MEDIAWIKI ),
+			'-'
+		);
+		$this->getServiceContainer()->getMessageCache()->enable();
+
+		// Load the special page using English, as using the qqx language means
+		// that the help message isn't disabled.
+		[ $html ] = $this->executeSpecialPage(
+			'127.0.0.1',
+			null,
+			'en',
+			self::$checkuser,
+			true
+		);
+
+		$doc = new DOMDocument();
+		$doc->loadHTML( $html, LIBXML_NOERROR );
+		$entries = ( new DOMXpath( $doc ) )->query(
+			'//div[@id="mw-indicator-mw-helplink"]/a[@class="mw-helplink"]'
+		);
+
+		$this->assertNotEmpty( $entries );
+		$this->assertEquals(
+			"https://www.mediawiki.org/wiki/Special:MyLanguage/" .
+				"Help:Extension:CheckUser#Special:IPContributions_usage",
+			$entries[ 0 ]->getAttribute( 'href' )
 		);
 	}
 }
