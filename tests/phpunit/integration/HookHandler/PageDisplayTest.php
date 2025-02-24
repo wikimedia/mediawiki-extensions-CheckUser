@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
+use MediaWiki\Block\Block;
 use MediaWiki\CheckUser\HookHandler\PageDisplay;
 use MediaWiki\CheckUser\HookHandler\Preferences;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
@@ -14,6 +15,7 @@ use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\Title\Title;
 use MediaWiki\User\Options\StaticUserOptionsLookup;
+use MediaWiki\User\UserIdentityValue;
 use MediaWiki\User\UserOptionsLookup;
 use MediaWikiIntegrationTestCase;
 use Skin;
@@ -84,7 +86,9 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		$output->setContext( $context );
 
 		$pageDisplayHookHandler = new PageDisplay(
-			new HashConfig(),
+			new HashConfig( [
+				'CheckUserEnableTempAccountsOnboardingDialog' => true,
+			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->getTempUserConfig(),
 			$this->createMock( UserOptionsLookup::class ),
@@ -254,6 +258,91 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		// Check that the temporary accounts onboarding dialog modules are not added to the output if
 		// dialog has been seen before.
 		$this->assertNotContains( 'ext.checkUser.tempAccountOnboarding', $output->getModules() );
+	}
+
+	public function testOnBeforePageDisplayForSpecialWatchlistWhenUserIsSitewideBlocked() {
+		$this->enableAutoCreateTempUser();
+
+		// Set up a IContextSource where the title is Special:Watchlist and the authority is blocked.
+		$context = new DerivativeContext( RequestContext::getMain() );
+		$context->setTitle( SpecialPage::getTitleFor( 'Watchlist' ) );
+		$block = $this->createMock( Block::class );
+		$block->method( 'isSitewide' )
+			->willReturn( true );
+		$testAuthority = $this->mockUserAuthorityWithBlock(
+			new UserIdentityValue( 123, 'Test' ),
+			$block,
+			[ 'checkuser-temporary-account' ]
+		);
+		$context->setAuthority( $testAuthority );
+		$output = $context->getOutput();
+		$output->setContext( $context );
+
+		$this->setService( 'UserOptionsLookup', new StaticUserOptionsLookup(
+			[], [ Preferences::TEMPORARY_ACCOUNTS_ONBOARDING_DIALOG_SEEN => 0 ]
+		) );
+
+		$pageDisplayHookHandler = new PageDisplay(
+			new HashConfig( [
+				'CheckUserTemporaryAccountMaxAge' => 1234,
+				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
+				'CheckUserEnableTempAccountsOnboardingDialog' => true,
+			] ),
+			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
+			$this->getServiceContainer()->getTempUserConfig(),
+			$this->getServiceContainer()->getUserOptionsLookup(),
+			$this->getServiceContainer()->getExtensionRegistry()
+		);
+
+		$pageDisplayHookHandler->onBeforePageDisplay(
+			$output, $this->createMock( Skin::class )
+		);
+
+		// Check that the temporary accounts onboarding dialog modules are not added to the output if
+		// the authority is blocked.
+		$this->assertNotContains( 'ext.checkUser.tempAccountOnboarding', $output->getModules() );
+	}
+
+	public function testOnBeforePageDisplayForSpecialWatchlistWhenUserHasNotEnabledPreference() {
+		$this->enableAutoCreateTempUser();
+
+		// Set up a IContextSource where the title is Special:Watchlist
+		$context = new DerivativeContext( RequestContext::getMain() );
+		$context->setTitle( SpecialPage::getTitleFor( 'Watchlist' ) );
+		$testAuthority = $this->mockRegisteredAuthorityWithPermissions( [ 'checkuser-temporary-account' ] );
+		$context->setAuthority( $testAuthority );
+		$output = $context->getOutput();
+		$output->setContext( $context );
+
+		// Mock all users have not seen the dialog and not enabled the IP reveal preference
+		$this->setService( 'UserOptionsLookup', new StaticUserOptionsLookup(
+			[],
+			[
+				Preferences::TEMPORARY_ACCOUNTS_ONBOARDING_DIALOG_SEEN => 0,
+				Preferences::ENABLE_IP_REVEAL => 0,
+			]
+		) );
+
+		$pageDisplayHookHandler = new PageDisplay(
+			new HashConfig( [
+				'CheckUserTemporaryAccountMaxAge' => 1234,
+				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
+				'CheckUserEnableTempAccountsOnboardingDialog' => true,
+			] ),
+			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
+			$this->getServiceContainer()->getTempUserConfig(),
+			$this->getServiceContainer()->getUserOptionsLookup(),
+			$this->getServiceContainer()->getExtensionRegistry()
+		);
+
+		$pageDisplayHookHandler->onBeforePageDisplay(
+			$output, $this->createMock( Skin::class )
+		);
+
+		// Users who cannot see IP reveal only because they have not enabled the preference should be shown
+		// the onboarding dialog but not have IP reveal tools loaded.
+		$this->assertContains( 'ext.checkUser.tempAccountOnboarding', $output->getModules() );
+		$this->assertNotContains( 'ext.checkUser', $output->getModules() );
 	}
 
 	/** @dataProvider provideIPInfoLoadedStates */
