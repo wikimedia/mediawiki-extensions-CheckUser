@@ -167,7 +167,7 @@
 	"checkuser-investigate-compare-copy-button-label": "Näytä wikiteksti",
 	"checkuser-investigate-compare-copy-button-label-hide": "Piilota wikiteksti",
 	"checkuser-investigate-compare-copy-message-label": "Haluatko kopioida nämä tiedot wikitekstitaulukkona?",
-	"checkuser-investigate-compare-notice-exceeded-limit": "Teknisistä rajoituksista johtuen olemme saavuttaneet esitettävien tietueiden ylärajan. Seuraavien kohteiden haetut tiedot ovat epätäydellisiä: $1. Yritä käyttää vähemmän kohteita, pienempää aikarajausta tai kapeampia IP-alueita.",
+	"checkuser-investigate-compare-notice-exceeded-limit": "Teknisistä rajoituksista johtuen olemme saavuttaneet esitettävien tietueiden ylärajan. Seuraavien kohteiden haetut tiedot ovat puuttellisia: $1. Yritä käyttää vähemmän kohteita, pienempää aikarajausta tai kapeampia IP-alueita.",
 	"checkuser-investigate-compare-notice-no-results": "Ei tuloksia: nämä käyttäjät tai IP-osoitteet eivät ole tehneet muokkauksia viimeisen 90 päivän aikana",
 	"checkuser-investigate-compare-notice-no-results-filters": "Ei tuloksia näillä suodatusehdoilla. Kokeile poistaa joitakin suodattimia laajentaaksesi hakua.",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Näytä tämän käyttäjän kaikki IP:t",
