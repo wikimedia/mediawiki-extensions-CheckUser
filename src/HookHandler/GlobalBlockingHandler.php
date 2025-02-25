@@ -172,6 +172,7 @@ class GlobalBlockingHandler implements GlobalBlockingGetRetroactiveAutoblockIPsH
 			// for this table and wiki (because we have all the IPs needed).
 			$ipsFromTableResult = $ipsQuery
 				->limit( $limit )
+				->caller( __METHOD__ )
 				->fetchResultSet();
 
 			// Store the found IPs with the most recent use of the IP address in an array to process later.
