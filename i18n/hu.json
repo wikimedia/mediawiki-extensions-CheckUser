@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Bean49",
 			"Bencemac",
 			"Bináris",
 			"Csega",
@@ -132,5 +133,6 @@
 	"checkuser-investigate-compare-copy-button-label-hide": "Wikitext elrejtése",
 	"checkuser-investigate-compare-toollinks-ipcheck": "Proxy ellenőrzés",
 	"checkuser-investigate-compare-table-header-username": "Felhasználói név",
-	"checkuser-investigate-compare-table-header-ip": "IP"
+	"checkuser-investigate-compare-table-header-ip": "IP",
+	"checkuser-global-contributions-link-sidebar": "Összwiki szerkesztések"
 }
