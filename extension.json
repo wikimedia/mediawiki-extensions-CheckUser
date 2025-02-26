@@ -226,7 +226,8 @@
 				"DBLoadBalancerFactory",
 				"ActorStore",
 				"BlockManager",
-				"CheckUserPermissionManager"
+				"CheckUserPermissionManager",
+				"ReadOnlyMode"
 			]
 		},
 		{
@@ -243,7 +244,8 @@
 				"BlockManager",
 				"TempUserConfig",
 				"CheckUserTemporaryAccountsByIPLookup",
-				"CheckUserPermissionManager"
+				"CheckUserPermissionManager",
+				"ReadOnlyMode"
 			]
 		},
 		{
@@ -259,7 +261,8 @@
 				"ActorStore",
 				"BlockManager",
 				"RevisionStore",
-				"CheckUserPermissionManager"
+				"CheckUserPermissionManager",
+				"ReadOnlyMode"
 			]
 		},
 		{
@@ -274,7 +277,8 @@
 				"DBLoadBalancerFactory",
 				"ActorStore",
 				"BlockManager",
-				"CheckUserPermissionManager"
+				"CheckUserPermissionManager",
+				"ReadOnlyMode"
 			]
 		},
 		{
@@ -291,7 +295,8 @@
 				"ActorStore",
 				"BlockManager",
 				"RevisionStore",
-				"CheckUserPermissionManager"
+				"CheckUserPermissionManager",
+				"ReadOnlyMode"
 			]
 		},
 		{

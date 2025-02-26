@@ -91,6 +91,7 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 				'blockManager' => $this->getServiceContainer()->getBlockManager(),
 				'revisionStore' => $mockRevisionStore,
 				'checkUserPermissionManager' => $checkUserPermissionManager,
+				'readOnlyMode' => $this->getServiceContainer()->getReadOnlyMode(),
 			],
 			$options
 		) ) );

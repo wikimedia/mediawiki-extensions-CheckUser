@@ -17,6 +17,7 @@ use Wikimedia\Message\MessageValue;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\ParamValidator\TypeDef\IntegerDef;
 use Wikimedia\Rdbms\IConnectionProvider;
+use Wikimedia\Rdbms\ReadOnlyMode;
 
 /**
  * Handle IP validation for endpoints that take an IP as a parameter
@@ -34,11 +35,12 @@ abstract class AbstractTemporaryAccountIPHandler extends AbstractTemporaryAccoun
 		ActorStore $actorStore,
 		BlockManager $blockManager,
 		TempUserConfig $tempUserConfig,
-		CheckUserPermissionManager $checkUserPermissionsManager
+		CheckUserPermissionManager $checkUserPermissionsManager,
+		ReadOnlyMode $readOnlyMode
 	) {
 		parent::__construct(
 			$config, $jobQueueGroup, $permissionManager, $userNameUtils, $dbProvider, $actorStore,
-			$blockManager, $checkUserPermissionsManager
+			$blockManager, $checkUserPermissionsManager, $readOnlyMode
 		);
 		$this->tempUserConfig = $tempUserConfig;
 	}

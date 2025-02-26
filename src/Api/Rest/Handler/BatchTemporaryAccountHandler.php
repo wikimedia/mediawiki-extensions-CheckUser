@@ -18,6 +18,7 @@ use MediaWiki\User\UserNameUtils;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IReadableDatabase;
+use Wikimedia\Rdbms\ReadOnlyMode;
 
 class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 
@@ -37,11 +38,12 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 		ActorStore $actorStore,
 		BlockManager $blockManager,
 		RevisionStore $revisionStore,
-		CheckUserPermissionManager $checkUserPermissionsManager
+		CheckUserPermissionManager $checkUserPermissionsManager,
+		ReadOnlyMode $readOnlyMode
 	) {
 		parent::__construct(
 			$config, $jobQueueGroup, $permissionManager, $userNameUtils, $dbProvider, $actorStore,
-			$blockManager, $checkUserPermissionsManager
+			$blockManager, $checkUserPermissionsManager, $readOnlyMode
 		);
 		$this->revisionStore = $revisionStore;
 	}

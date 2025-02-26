@@ -20,6 +20,7 @@ use MediaWiki\User\UserNameUtils;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\IPUtils;
 use Wikimedia\Message\MessageValue;
+use Wikimedia\Rdbms\ReadOnlyMode;
 
 /**
  * @group CheckUser
@@ -68,7 +69,8 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'dbProvider' => $this->getServiceContainer()->getDBLoadBalancerFactory(),
 				'actorStore' => $actorStore,
 				'blockManager' => $this->getServiceContainer()->getBlockManager(),
-				'checkUserPermissionManager' => $checkUserPermissionManager
+				'checkUserPermissionManager' => $checkUserPermissionManager,
+				'readOnlyMode' => $this->getServiceContainer()->getReadOnlyMode(),
 			],
 			$options
 		) ) );
@@ -176,6 +178,27 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayEquals(
 			[ '1.2.3.7' ],
 			$data['ips']
+		);
+	}
+
+	public function testExecuteWhenSiteInReadOnlyMode() {
+		// Create a mock ReadOnlyMode service instance that says the site is in read only mode.
+		// This is done to avoid other unrelated code failing while read only mode is set.
+		$mockReadOnlyMode = $this->createMock( ReadOnlyMode::class );
+		$mockReadOnlyMode->method( 'getReason' )
+			->willReturn( 'Maintenance' );
+
+		$handler = $this->getTemporaryAccountHandler( [
+			'permissionManager' => $this->getServiceContainer()->getPermissionManager(),
+			'checkUserPermissionManager' => $this->getServiceContainer()->getService( 'CheckUserPermissionManager' ),
+			'readOnlyMode' => $mockReadOnlyMode,
+		] );
+
+		$this->expectExceptionObject(
+			new LocalizedHttpException( new MessageValue( 'readonlytext', [ 'Maintenance' ] ), 503 )
+		);
+		$this->executeHandler(
+			$handler, $this->getRequestData(), [], [], [], [], $this->mockRegisteredUltimateAuthority()
 		);
 	}
 
