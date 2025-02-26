@@ -36,7 +36,7 @@
 	"right-checkuser-temporary-account-log": "преглед дневника прегледача IP адреса привремених налога",
 	"action-checkuser": "проверавате корисничке IP адресе и друге информације",
 	"action-checkuser-log": "прегледате дневнике провере корисника",
-	"action-checkuser-temporary-account": "прегледате IP адреса привремених налога",
+	"action-checkuser-temporary-account": "видите IP адресе привремених налога",
 	"action-checkuser-temporary-account-log": "видите IP адресе привремених налога",
 	"grouppage-checkuser": "{{ns:project}}:Чекјузер",
 	"checkuser-clienthints-name-architecture": "Архитектура",
