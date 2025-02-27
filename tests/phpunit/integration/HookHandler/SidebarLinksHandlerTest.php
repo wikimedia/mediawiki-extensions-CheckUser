@@ -53,6 +53,14 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->sut = new SidebarLinksHandler( $this->permissionManager );
 	}
 
+	private function mockSkinMessages() {
+		$this->skin
+			->method( 'msg' )
+			->willReturnCallback( static function ( $key ): Message {
+				return new Message( $key );
+			} );
+	}
+
 	/**
 	 * @dataProvider whenTheLinkShouldNotBeAddedDataProvider
 	 */
@@ -62,22 +70,15 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		bool $hasRelevantUser,
 		bool $hasAccess
 	): void {
+		$this->setUserLang( 'qqx' );
+
 		$this->skin
 			->method( 'getRelevantUser' )
 			->willReturn( $hasRelevantUser ? $this->relevantUser : null );
 		$this->skin
 			->method( 'getAuthority' )
 			->willReturn( $this->authority );
-		$this->skin
-			->method( 'msg' )
-			->willReturnCallback( function ( $key ): Message {
-				$messageMock = $this->createMock( Message::class );
-				$messageMock
-					->method( 'text' )
-					->willReturn( $key );
-
-				return $messageMock;
-			} );
+		$this->mockSkinMessages();
 
 		if ( $hasRelevantUser ) {
 			$this->relevantUser
@@ -152,7 +153,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 					'TOOLBOX' => [
 						'global-contributions' => [
 							'id' => 't-global-contributions',
-							'text' => 'checkuser-global-contributions-link-sidebar',
+							'text' => '(checkuser-global-contributions-link-sidebar)',
 							'href' => '/wiki/Special:GlobalContributions/Relevant_User_name',
 						],
 					],
@@ -171,7 +172,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 						],
 						'global-contributions' => [
 							'id' => 't-global-contributions',
-							'text' => 'checkuser-global-contributions-link-sidebar',
+							'text' => '(checkuser-global-contributions-link-sidebar)',
 							'href' => '/wiki/Special:GlobalContributions/Relevant_User_name',
 						],
 						'whatlinkshere' => [
@@ -212,7 +213,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 						],
 						'global-contributions' => [
 							'id' => 't-global-contributions',
-							'text' => 'checkuser-global-contributions-link-sidebar',
+							'text' => '(checkuser-global-contributions-link-sidebar)',
 							'href' => '/wiki/Special:GlobalContributions/Relevant_User_name',
 						],
 						'something-else' => [
@@ -257,7 +258,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 						],
 						'global-contributions' => [
 							'id' => 't-global-contributions',
-							'text' => 'checkuser-global-contributions-link-sidebar',
+							'text' => '(checkuser-global-contributions-link-sidebar)',
 							'href' => '/wiki/Special:GlobalContributions/Relevant_User_name',
 						]
 					],
