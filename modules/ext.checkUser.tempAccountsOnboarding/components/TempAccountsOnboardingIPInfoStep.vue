@@ -195,7 +195,8 @@ module.exports = exports = {
 		 * @return {boolean}
 		 */
 		function canMoveToAnotherStep() {
-			const returnValue = !preferenceCheckboxStateNotYetSaved.value;
+			const returnValue = !preferenceCheckboxStateNotYetSaved.value ||
+				!!lastOptionsUpdateError.value;
 			attemptedToMoveWithoutPressingSave.value = !returnValue;
 			return returnValue;
 		}
@@ -208,7 +209,8 @@ module.exports = exports = {
 		 * @return {boolean}
 		 */
 		function shouldWarnBeforeClosingDialog() {
-			const returnValue = preferenceCheckboxStateNotYetSaved.value;
+			const returnValue = preferenceCheckboxStateNotYetSaved.value &&
+				!lastOptionsUpdateError.value;
 			attemptedToMoveWithoutPressingSave.value = returnValue;
 			return returnValue;
 		}

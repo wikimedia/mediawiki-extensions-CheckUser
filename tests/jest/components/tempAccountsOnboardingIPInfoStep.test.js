@@ -173,8 +173,8 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 
 		const { rootElement } = commonTestRendersCorrectly();
 
-		// Expect that the IPInfo preference is not shown if the user has checked it previously using
-		// the dialog
+		// Expect that the IPInfo preference is not shown if the user has
+		// checked it previously using the dialog
 		const ipInfoPreferenceSectionTitle = rootElement.find(
 			'.ext-checkuser-temp-account-onboarding-dialog-ip-info-preference-title'
 		);
@@ -228,7 +228,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		mockUserOptions( '0' );
 		const apiSaveOptionMock = mockApiSaveOption( true );
 
-		const { rootElement } = commonTestRendersCorrectly();
+		const { rootElement, wrapper } = commonTestRendersCorrectly();
 
 		const ipInfoPreferenceCheckbox = getIPInfoPreferenceCheckbox( rootElement );
 		const ipInfoSavePreferenceButton = getIPInfoSavePreferenceButton( rootElement );
@@ -247,6 +247,11 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		await waitForAndExpectTextToExistInElement(
 			ipInfoPreference, '(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success)'
 		);
+
+		// Check that if the preference saved, the user can move forward to another
+		// step and/or close the dialog.
+		expect( wrapper.vm.canMoveToAnotherStep() ).toEqual( true );
+		expect( wrapper.vm.shouldWarnBeforeClosingDialog() ).toEqual( false );
 
 		// Uncheck the preference
 		ipInfoPreferenceCheckbox.setChecked( false );
@@ -328,7 +333,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 			false, { error: { info: 'Wiki is in read only mode' } }
 		);
 
-		const { rootElement } = commonTestRendersCorrectly();
+		const { rootElement, wrapper } = commonTestRendersCorrectly();
 
 		const ipInfoPreferenceCheckbox = getIPInfoPreferenceCheckbox( rootElement );
 		const ipInfoSavePreferenceButton = getIPInfoSavePreferenceButton( rootElement );
@@ -347,6 +352,11 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 				', Wiki is in read only mode)'
 		);
 		expect( apiSaveOptionMock ).toHaveBeenLastCalledWith( 'ipinfo-use-agreement', 1 );
+
+		// Check that if the preference failed to save, the user can still move
+		// forward to another step and/or close the dialog.
+		expect( wrapper.vm.canMoveToAnotherStep() ).toEqual( true );
+		expect( wrapper.vm.shouldWarnBeforeClosingDialog() ).toEqual( false );
 	} );
 
 	it( 'Only submits one preference change on race condition', async () => {
