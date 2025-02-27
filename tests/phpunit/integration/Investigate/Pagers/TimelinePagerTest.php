@@ -40,6 +40,7 @@ class TimelinePagerTest extends MediaWikiIntegrationTestCase {
 				->get( 'CheckUserTimelineRowFormatterFactory' )->createRowFormatter(
 					RequestContext::getMain()->getUser(), RequestContext::getMain()->getLanguage()
 				),
+			$this->getServiceContainer()->getLinkBatchFactory(),
 			$overrides['logger'] ?? LoggerFactory::getInstance( 'CheckUser' )
 		) );
 	}

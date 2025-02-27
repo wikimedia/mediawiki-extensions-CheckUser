@@ -363,8 +363,8 @@ class CheckUserLogPager extends RangeChronologicalPager {
 			$lb->add( NS_USER, $row->actor_name );
 
 			if ( $row->cul_type == 'userips' || $row->cul_type == 'useredits' ) {
-				$lb->add( NS_USER, $row->cul_target_text );
-				$lb->add( NS_USER_TALK, $row->cul_target_text );
+				$targetUser = new UserIdentityValue( $row->cul_target_id, $row->cul_target_text );
+				$lb->addUser( $targetUser );
 			}
 		}
 		$lb->execute();

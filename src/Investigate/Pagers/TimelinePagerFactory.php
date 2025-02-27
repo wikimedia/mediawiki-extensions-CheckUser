@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Investigate\Pagers;
 
+use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\Hook\CheckUserFormatRowHook;
 use MediaWiki\CheckUser\Investigate\Services\TimelineService;
 use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
@@ -17,6 +18,7 @@ class TimelinePagerFactory implements PagerFactory {
 	private DurationManager $durationManager;
 	private TimelineService $service;
 	private TimelineRowFormatterFactory $rowFormatterFactory;
+	private LinkBatchFactory $linkBatchFactory;
 	private LoggerInterface $logger;
 
 	public function __construct(
@@ -26,6 +28,7 @@ class TimelinePagerFactory implements PagerFactory {
 		DurationManager $durationManager,
 		TimelineService $service,
 		TimelineRowFormatterFactory $rowFormatterFactory,
+		LinkBatchFactory $linkBatchFactory,
 		LoggerInterface $logger
 	) {
 		$this->linkRenderer = $linkRenderer;
@@ -34,6 +37,7 @@ class TimelinePagerFactory implements PagerFactory {
 		$this->durationManager = $durationManager;
 		$this->service = $service;
 		$this->rowFormatterFactory = $rowFormatterFactory;
+		$this->linkBatchFactory = $linkBatchFactory;
 		$this->logger = $logger;
 	}
 
@@ -53,6 +57,7 @@ class TimelinePagerFactory implements PagerFactory {
 			$this->durationManager,
 			$this->service,
 			$rowFormatter,
+			$this->linkBatchFactory,
 			$this->logger
 		 );
 	}

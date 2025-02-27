@@ -668,14 +668,15 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 			if ( $row->title !== '' ) {
 				$lb->add( $row->namespace, $row->title );
 			}
+
+			$user = new UserIdentityValue( $row->user ?? 0, $row->user_text );
+
 			if ( $this->xfor === null ) {
-				$userText = str_replace( ' ', '_', $row->user_text );
-				$lb->add( NS_USER, $userText );
-				$lb->add( NS_USER_TALK, $userText );
+				$lb->addUser( $user );
 			}
+
 			// Add the row to the flag cache
 			if ( !isset( $this->flagCache[$row->user_text] ) ) {
-				$user = new UserIdentityValue( $row->user ?? 0, $row->user_text );
 				$ip = IPUtils::isIPAddress( $row->user_text ) ? $row->user_text : '';
 				$flags = $this->userBlockFlags( $ip, $user );
 				$this->flagCache[$row->user_text] = $flags;

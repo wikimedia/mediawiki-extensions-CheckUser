@@ -23,6 +23,7 @@
 namespace MediaWiki\CheckUser\Investigate\Pagers;
 
 use DateTime;
+use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\Investigate\Services\CompareService;
 use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
@@ -32,6 +33,7 @@ use MediaWiki\Linker\Linker;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Pager\TablePager;
 use MediaWiki\User\UserFactory;
+use MediaWiki\User\UserIdentityValue;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\FakeResultWrapper;
 
@@ -39,6 +41,7 @@ class ComparePager extends TablePager {
 	private CompareService $compareService;
 	private TokenQueryManager $tokenQueryManager;
 	private UserFactory $userFactory;
+	private LinkBatchFactory $linkBatchFactory;
 
 	/** @var array */
 	private $fieldNames;
@@ -79,12 +82,14 @@ class ComparePager extends TablePager {
 		TokenQueryManager $tokenQueryManager,
 		DurationManager $durationManager,
 		CompareService $compareService,
-		UserFactory $userFactory
+		UserFactory $userFactory,
+		LinkBatchFactory $linkBatchFactory
 	) {
 		parent::__construct( $context, $linkRenderer );
 		$this->compareService = $compareService;
 		$this->tokenQueryManager = $tokenQueryManager;
 		$this->userFactory = $userFactory;
+		$this->linkBatchFactory = $linkBatchFactory;
 
 		$tokenData = $tokenQueryManager->getDataFromRequest( $context->getRequest() );
 		$this->mOffset = $tokenData['offset'] ?? '';
@@ -305,6 +310,20 @@ class ComparePager extends TablePager {
 		}
 
 		parent::doQuery();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function doBatchLookups() {
+		$lb = $this->linkBatchFactory->newLinkBatch();
+		$lb->setCaller( __METHOD__ );
+
+		foreach ( $this->mResult as $row ) {
+			$lb->addUser( new UserIdentityValue( $row->user ?? 0, $row->user_text ?? $row->ip ) );
+		}
+
+		$lb->execute();
 	}
 
 	/**

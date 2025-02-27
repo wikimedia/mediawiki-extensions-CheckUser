@@ -45,7 +45,8 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 			$overrides['tokenQueryManager'] ?? $services->get( 'CheckUserTokenQueryManager' ),
 			$overrides['durationManager'] ?? $services->get( 'CheckUserDurationManager' ),
 			$overrides['compareService'] ?? $services->get( 'CheckUserCompareService' ),
-			$overrides['userFactory'] ?? $services->getUserFactory()
+			$overrides['userFactory'] ?? $services->getUserFactory(),
+			$services->getLinkBatchFactory()
 		);
 	}
 
@@ -89,6 +90,10 @@ class ComparePagerTest extends MediaWikiIntegrationTestCase {
 			'unrecognised $name' => [ [], 'foo', '' ],
 			'user_text as 1.2.3.5' => [
 				[ 'user_text' => '1.2.3.5', 'user' => 0, 'actor' => 1 ], 'user_text',
+				'(checkuser-investigate-compare-table-cell-unregistered)',
+			],
+			'user_id is null' => [
+				[ 'user_text' => '1.2.3.5', 'user' => null, 'actor' => 1 ], 'user_text',
 				'(checkuser-investigate-compare-table-cell-unregistered)',
 			],
 			'user_text as null' => [

@@ -123,7 +123,8 @@ return [
 			$services->get( 'CheckUserTokenQueryManager' ),
 			$services->get( 'CheckUserDurationManager' ),
 			$services->get( 'CheckUserCompareService' ),
-			$services->getUserFactory()
+			$services->getUserFactory(),
+			$services->getLinkBatchFactory()
 		);
 	},
 	'CheckUserTimelineRowFormatterFactory' => static function (
@@ -150,6 +151,7 @@ return [
 			$services->get( 'CheckUserDurationManager' ),
 			$services->get( 'CheckUserTimelineService' ),
 			$services->get( 'CheckUserTimelineRowFormatterFactory' ),
+			$services->getLinkBatchFactory(),
 			LoggerFactory::getInstance( 'CheckUser' )
 		);
 	},

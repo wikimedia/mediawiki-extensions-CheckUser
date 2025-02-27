@@ -513,7 +513,8 @@ class SpecialCheckUser extends SpecialPage {
 					$this->clientHintsLookup,
 					$this->clientHintsFormatter,
 					$this->userOptionsLookup,
-					$this->blockStore
+					$this->blockStore,
+					$this->linkBatchFactory
 				);
 			case self::SUBTYPE_GET_ACTIONS:
 				return new CheckUserGetActionsPager(
