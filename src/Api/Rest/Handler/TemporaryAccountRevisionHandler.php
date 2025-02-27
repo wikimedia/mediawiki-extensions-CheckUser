@@ -15,6 +15,7 @@ use Wikimedia\Message\DataMessageValue;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IReadableDatabase;
+use Wikimedia\Rdbms\ReadOnlyMode;
 
 class TemporaryAccountRevisionHandler extends AbstractTemporaryAccountNameHandler {
 
@@ -31,11 +32,12 @@ class TemporaryAccountRevisionHandler extends AbstractTemporaryAccountNameHandle
 		ActorStore $actorStore,
 		BlockManager $blockManager,
 		RevisionStore $revisionStore,
-		CheckUserPermissionManager $checkUserPermissionsManager
+		CheckUserPermissionManager $checkUserPermissionsManager,
+		ReadOnlyMode $readOnlyMode
 	) {
 		parent::__construct(
 			$config, $jobQueueGroup, $permissionManager, $userNameUtils, $dbProvider, $actorStore,
-			$blockManager, $checkUserPermissionsManager
+			$blockManager, $checkUserPermissionsManager, $readOnlyMode
 		);
 		$this->revisionStore = $revisionStore;
 	}

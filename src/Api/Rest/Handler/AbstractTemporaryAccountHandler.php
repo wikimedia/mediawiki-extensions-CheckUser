@@ -18,6 +18,7 @@ use MediaWiki\User\UserNameUtils;
 use Wikimedia\Message\MessageValue;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IReadableDatabase;
+use Wikimedia\Rdbms\ReadOnlyMode;
 
 abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 
@@ -31,6 +32,7 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 	protected ActorStore $actorStore;
 	protected BlockManager $blockManager;
 	private CheckUserPermissionManager $checkUserPermissionsManager;
+	private ReadOnlyMode $readOnlyMode;
 
 	public function __construct(
 		Config $config,
@@ -40,7 +42,8 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 		IConnectionProvider $dbProvider,
 		ActorStore $actorStore,
 		BlockManager $blockManager,
-		CheckUserPermissionManager $checkUserPermissionsManager
+		CheckUserPermissionManager $checkUserPermissionsManager,
+		ReadOnlyMode $readOnlyMode
 	) {
 		$this->config = $config;
 		$this->jobQueueGroup = $jobQueueGroup;
@@ -50,6 +53,7 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 		$this->actorStore = $actorStore;
 		$this->blockManager = $blockManager;
 		$this->checkUserPermissionsManager = $checkUserPermissionsManager;
+		$this->readOnlyMode = $readOnlyMode;
 	}
 
 	/**
@@ -86,6 +90,14 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 	 */
 	public function run( $identifier ): Response {
 		$this->checkPermissions();
+
+		$readOnlyReason = $this->readOnlyMode->getReason();
+		if ( $readOnlyReason ) {
+			throw new LocalizedHttpException(
+				new MessageValue( 'readonlytext', [ $readOnlyReason ] ),
+				503
+			);
+		}
 
 		$results = $this->getResults( $identifier );
 

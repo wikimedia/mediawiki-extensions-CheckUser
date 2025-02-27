@@ -46,7 +46,8 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				$actorStore,
 				$services->getBlockManager(),
 				$services->getRevisionStore(),
-				$checkUserPermissionManager
+				$checkUserPermissionManager,
+				$services->getReadOnlyMode()
 			] )
 			->getMock();
 		$handler->method( 'getRevisionsIps' )

@@ -106,7 +106,8 @@ class TemporaryAccountIPHandlerTest extends MediaWikiIntegrationTestCase {
 				'checkUserTemporaryAccountsByIPLookup' => $this->getServiceContainer()->get(
 					'CheckUserTemporaryAccountsByIPLookup'
 				),
-				'checkUserPermissionManager' => $checkUserPermissionManager
+				'checkUserPermissionManager' => $checkUserPermissionManager,
+				'readOnlyMode' => $this->getServiceContainer()->getReadOnlyMode(),
 			],
 			$options
 		) ) );

@@ -13,6 +13,7 @@ use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserNameUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IReadableDatabase;
+use Wikimedia\Rdbms\ReadOnlyMode;
 
 /**
  * Given an IP, return every known temporary account that has edited from it
@@ -31,11 +32,12 @@ class TemporaryAccountIPHandler extends AbstractTemporaryAccountIPHandler {
 		BlockManager $blockManager,
 		TempUserConfig $tempUserConfig,
 		CheckUserTemporaryAccountsByIPLookup $checkUserTemporaryAccountsByIPLookup,
-		CheckUserPermissionManager $checkUserPermissionsManager
+		CheckUserPermissionManager $checkUserPermissionsManager,
+		ReadOnlyMode $readOnlyMode
 	) {
 		parent::__construct(
 			$config, $jobQueueGroup, $permissionManager, $userNameUtils, $dbProvider, $actorStore,
-			$blockManager, $tempUserConfig, $checkUserPermissionsManager
+			$blockManager, $tempUserConfig, $checkUserPermissionsManager, $readOnlyMode
 		);
 		$this->checkUserTemporaryAccountsByIPLookup = $checkUserTemporaryAccountsByIPLookup;
 	}
