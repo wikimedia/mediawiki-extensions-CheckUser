@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Investigate\Pagers;
 
+use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\Hook\CheckUserFormatRowHook;
 use MediaWiki\CheckUser\Investigate\Services\TimelineService;
 use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
@@ -11,6 +12,7 @@ use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Pager\ReverseChronologicalPager;
 use MediaWiki\Parser\ParserOutput;
+use MediaWiki\User\UserIdentityValue;
 use Psr\Log\LoggerInterface;
 use Wikimedia\Rdbms\FakeResultWrapper;
 
@@ -19,6 +21,7 @@ class TimelinePager extends ReverseChronologicalPager {
 	private TimelineService $timelineService;
 	private TimelineRowFormatter $timelineRowFormatter;
 	private TokenQueryManager $tokenQueryManager;
+	private LinkBatchFactory $linkBatchFactory;
 
 	/** @var string */
 	private $start;
@@ -55,6 +58,7 @@ class TimelinePager extends ReverseChronologicalPager {
 		DurationManager $durationManager,
 		TimelineService $timelineService,
 		TimelineRowFormatter $timelineRowFormatter,
+		LinkBatchFactory $linkBatchFactory,
 		LoggerInterface $logger
 	) {
 		parent::__construct( $context, $linkRenderer );
@@ -62,6 +66,7 @@ class TimelinePager extends ReverseChronologicalPager {
 		$this->timelineService = $timelineService;
 		$this->timelineRowFormatter = $timelineRowFormatter;
 		$this->tokenQueryManager = $tokenQueryManager;
+		$this->linkBatchFactory = $linkBatchFactory;
 		$this->logger = $logger;
 
 		$tokenData = $tokenQueryManager->getDataFromRequest( $context->getRequest() );
@@ -97,6 +102,18 @@ class TimelinePager extends ReverseChronologicalPager {
 			$this->start,
 			$this->mLimit
 		);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function doBatchLookups() {
+		$lb = $this->linkBatchFactory->newLinkBatch();
+		$lb->setCaller( __METHOD__ );
+
+		foreach ( $this->mResult as $row ) {
+			$lb->addUser( new UserIdentityValue( $row->user ?? 0, $row->user_text ?? $row->ip ) );
+		}
 	}
 
 	/**

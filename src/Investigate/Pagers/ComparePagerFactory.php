@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Investigate\Pagers;
 
+use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\Investigate\Services\CompareService;
 use MediaWiki\CheckUser\Investigate\Utilities\DurationManager;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
@@ -15,19 +16,22 @@ class ComparePagerFactory implements PagerFactory {
 	private DurationManager $durationManager;
 	private CompareService $compare;
 	private UserFactory $userFactory;
+	private LinkBatchFactory $linkBatchFactory;
 
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		TokenQueryManager $tokenQueryManager,
 		DurationManager $durationManager,
 		CompareService $compare,
-		UserFactory $userFactory
+		UserFactory $userFactory,
+		LinkBatchFactory $linkBatchFactory
 	) {
 		$this->linkRenderer = $linkRenderer;
 		$this->tokenQueryManager = $tokenQueryManager;
 		$this->durationManager = $durationManager;
 		$this->compare = $compare;
 		$this->userFactory = $userFactory;
+		$this->linkBatchFactory = $linkBatchFactory;
 	}
 
 	/**
@@ -40,7 +44,8 @@ class ComparePagerFactory implements PagerFactory {
 			$this->tokenQueryManager,
 			$this->durationManager,
 			$this->compare,
-			$this->userFactory
+			$this->userFactory,
+			$this->linkBatchFactory
 		);
 	}
 }

@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
 use LogicException;
 use MediaWiki\Block\DatabaseBlockStore;
+use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\CheckUser\Widgets\HTMLFieldsetCheckUser;
 use MediaWiki\CheckUser\ClientHints\ClientHintsLookupResults;
@@ -69,6 +70,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 	private UserAgentClientHintsLookup $clientHintsLookup;
 	private UserAgentClientHintsFormatter $clientHintsFormatter;
 	private ExtensionRegistry $extensionRegistry;
+	private LinkBatchFactory $linkBatchFactory;
 
 	public function __construct(
 		FormOptions $opts,
@@ -91,6 +93,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		UserAgentClientHintsFormatter $clientHintsFormatter,
 		UserOptionsLookup $userOptionsLookup,
 		DatabaseBlockStore $blockStore,
+		LinkBatchFactory $linkBatchFactory,
 		?IContextSource $context = null,
 		?LinkRenderer $linkRenderer = null,
 		?int $limit = null
@@ -114,6 +117,7 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		$this->clientHintsLookup = $clientHintsLookup;
 		$this->clientHintsFormatter = $clientHintsFormatter;
 		$this->extensionRegistry = ExtensionRegistry::getInstance();
+		$this->linkBatchFactory = $linkBatchFactory;
 	}
 
 	/**
@@ -372,6 +376,9 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 		];
 		$referenceIdsForLookup = new ClientHintsReferenceIds();
 
+		$batch = $this->linkBatchFactory->newLinkBatch();
+		$batch->setCaller( __METHOD__ );
+
 		foreach ( $result as $row ) {
 			// Use the IP as the user_text if the actor ID is NULL and the IP is not NULL (T353953).
 			if ( $row->actor === null && $row->ip ) {
@@ -379,6 +386,9 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 			}
 
 			if ( !array_key_exists( $row->user_text, $this->userSets['edits'] ) ) {
+				$user = new UserIdentityValue( $row->user ?? 0, $row->user_text );
+				$batch->addUser( $user );
+
 				$this->userSets['last'][$row->user_text] = $row->timestamp;
 				$this->userSets['edits'][$row->user_text] = 0;
 				$this->userSets['ids'][$row->user_text] = $row->user ?? 0;
@@ -414,6 +424,8 @@ class CheckUserGetUsersPager extends AbstractCheckUserPager {
 				}
 			}
 		}
+
+		$batch->execute();
 
 		// Lookup the Client Hints data objects from the DB
 		// and then batch format the ClientHintsData objects

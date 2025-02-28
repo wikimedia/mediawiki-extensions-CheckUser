@@ -3,10 +3,13 @@
 namespace MediaWiki\CheckUser\Tests\Unit\CheckUser\Pagers;
 
 use LogicException;
+use MediaWiki\Cache\LinkBatch;
+use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\Pagers\CheckUserGetUsersPager;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsLookup;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\User\UserIdentity;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
@@ -206,6 +209,24 @@ class CheckUserGetUsersPagerTest extends CheckUserPagerUnitTestBase {
 			$mockClientHintsLookup->expects( $this->never() )->method( 'getClientHintsByReferenceIds' );
 			$objectUnderTest->clientHintsLookup = $mockClientHintsLookup;
 		}
+
+		$linkBatch = $this->createMock( LinkBatch::class );
+
+		// Each unique user should be added to LinkBatch exactly once.
+		$uniqueUserCount = count( $expectedUserSets['edits'] );
+		$linkBatch->expects( $this->exactly( $uniqueUserCount ) )
+			->method( 'addUser' )
+			->willReturnCallback( function ( UserIdentity $user ) use ( $results ): void {
+				$row = $results->current();
+				$this->assertSame( $row->user_text, $user->getName() );
+				$this->assertSame( $row->user ?? 0, $user->getId() );
+			} );
+
+		$linkBatchFactory = $this->createMock( LinkBatchFactory::class );
+		$linkBatchFactory->method( 'newLinkBatch' )
+			->willReturn( $linkBatch );
+		$objectUnderTest->linkBatchFactory = $linkBatchFactory;
+
 		// Call the method under test.
 		$objectUnderTest->preprocessResults( $results );
 		// Assert that the userSets array contains the expected items.
