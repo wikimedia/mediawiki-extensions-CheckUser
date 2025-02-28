@@ -8,7 +8,9 @@ use MediaWiki\Output\Hook\BeforePageDisplayHook;
 use MediaWiki\Output\OutputPage;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\User\TempUser\TempUserConfig;
+use MediaWiki\User\UserIdentityUtils;
 use MediaWiki\User\UserOptionsLookup;
+use Skin;
 
 class PageDisplay implements BeforePageDisplayHook {
 	private Config $config;
@@ -16,25 +18,30 @@ class PageDisplay implements BeforePageDisplayHook {
 	private UserOptionsLookup $userOptionsLookup;
 	private TempUserConfig $tempUserConfig;
 	private ExtensionRegistry $extensionRegistry;
+	private UserIdentityUtils $userIdentityUtils;
 
 	public function __construct(
 		Config $config,
 		CheckUserPermissionManager $checkUserPermissionManager,
 		TempUserConfig $tempUserConfig,
 		UserOptionsLookup $userOptionsLookup,
-		ExtensionRegistry $extensionRegistry
+		ExtensionRegistry $extensionRegistry,
+		UserIdentityUtils $userIdentityUtils
 	) {
 		$this->config = $config;
 		$this->checkUserPermissionManager = $checkUserPermissionManager;
 		$this->tempUserConfig = $tempUserConfig;
 		$this->userOptionsLookup = $userOptionsLookup;
 		$this->extensionRegistry = $extensionRegistry;
+		$this->userIdentityUtils = $userIdentityUtils;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function onBeforePageDisplay( $out, $skin ): void {
+		$this->loadIPInfoGlobalContributionsLink( $out, $skin );
+
 		// There is no need for the JS modules for temporary account IP reveal
 		// if the wiki does not have temporary accounts enabled or known.
 		if ( !$this->tempUserConfig->isKnown() ) {
@@ -127,5 +134,51 @@ class PageDisplay implements BeforePageDisplayHook {
 				'wgCheckUserIPInfoExtensionLoaded' => $this->extensionRegistry->isLoaded( 'IPInfo' ),
 			] );
 		}
+	}
+
+	/**
+	 * If IPInfo is enabled and the user has access to Special:GlobalContributions,
+	 * enable the link to Special:GC on IPInfo's infobox widget on pages where it's loaded
+	 *
+	 * @param OutputPage $out
+	 * @param Skin $skin
+	 * @return void
+	 */
+	private function loadIPInfoGlobalContributionsLink( $out, $skin ): void {
+		if ( !$this->extensionRegistry->isLoaded( 'IPInfo' ) ) {
+			return;
+		}
+
+		// If no relevant user exists or is a registered account, return early since IPInfo only
+		// supports IPs and temporary accounts
+		$relevantUser = $skin->getRelevantUser();
+		if ( !$relevantUser || $this->userIdentityUtils->isNamed( $relevantUser ) ) {
+			return;
+		}
+
+		// If page isn't one of IPInfo's supported pages, return early
+		$title = $out->getTitle();
+		if (
+			!$title->isSpecial( 'Contributions' ) &&
+			!$title->isSpecial( 'DeletedContributions' ) &&
+			!$title->isSpecial( 'IPContributions' )
+		) {
+			return;
+		}
+
+		// If user cannot access Special:GlobalContributions, return early
+		if (
+			!$this->checkUserPermissionManager->canAccessUserGlobalContributions(
+				$out->getAuthority(),
+				$relevantUser->getName()
+			)->isGood()
+		) {
+			return;
+		}
+
+		// Relevant user is an IP or temporary account, page is one where IPInfo's infobox is
+		// expected to load, and accessing user has permission to view Special:GlobalContributions.
+		// Add module to load Special:GC link to IPInfo infobox.
+		$out->addModules( 'ext.checkUser.ipInfo.hooks' );
 	}
 }

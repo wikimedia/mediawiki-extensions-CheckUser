@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
 use MediaWiki\Block\Block;
+use MediaWiki\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\CheckUser\HookHandler\PageDisplay;
 use MediaWiki\CheckUser\HookHandler\Preferences;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
@@ -35,7 +36,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$this->createMock( CheckUserPermissionManager::class ),
 			$this->getServiceContainer()->getTempUserConfig(),
 			$this->createMock( UserOptionsLookup::class ),
-			$this->getServiceContainer()->getExtensionRegistry()
+			$this->getServiceContainer()->getExtensionRegistry(),
+			$this->getServiceContainer()->getUserIdentityUtils()
 		);
 
 		$output = RequestContext::getMain()->getOutput();
@@ -55,7 +57,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$this->createMock( CheckUserPermissionManager::class ),
 			$this->getServiceContainer()->getTempUserConfig(),
 			$this->createMock( UserOptionsLookup::class ),
-			$this->getServiceContainer()->getExtensionRegistry()
+			$this->getServiceContainer()->getExtensionRegistry(),
+			$this->getServiceContainer()->getUserIdentityUtils()
 		);
 
 		// Set up a IContextSource where the title is a mainspace article
@@ -92,7 +95,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->getTempUserConfig(),
 			$this->createMock( UserOptionsLookup::class ),
-			$this->getServiceContainer()->getExtensionRegistry()
+			$this->getServiceContainer()->getExtensionRegistry(),
+			$this->getServiceContainer()->getUserIdentityUtils()
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -125,7 +129,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->getTempUserConfig(),
 			$this->createMock( UserOptionsLookup::class ),
-			$this->getServiceContainer()->getExtensionRegistry()
+			$this->getServiceContainer()->getExtensionRegistry(),
+			$this->getServiceContainer()->getUserIdentityUtils()
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -166,7 +171,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->getTempUserConfig(),
 			$this->createMock( UserOptionsLookup::class ),
-			$this->getServiceContainer()->getExtensionRegistry()
+			$this->getServiceContainer()->getExtensionRegistry(),
+			$this->getServiceContainer()->getUserIdentityUtils()
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -209,7 +215,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->getTempUserConfig(),
 			$this->createNoOpMock( UserOptionsLookup::class ),
-			$this->getServiceContainer()->getExtensionRegistry()
+			$this->getServiceContainer()->getExtensionRegistry(),
+			$this->getServiceContainer()->getUserIdentityUtils()
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -248,7 +255,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->getTempUserConfig(),
 			$this->getServiceContainer()->getUserOptionsLookup(),
-			$this->getServiceContainer()->getExtensionRegistry()
+			$this->getServiceContainer()->getExtensionRegistry(),
+			$this->getServiceContainer()->getUserIdentityUtils()
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -291,7 +299,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->getTempUserConfig(),
 			$this->getServiceContainer()->getUserOptionsLookup(),
-			$this->getServiceContainer()->getExtensionRegistry()
+			$this->getServiceContainer()->getExtensionRegistry(),
+			$this->getServiceContainer()->getUserIdentityUtils()
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -332,7 +341,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->getTempUserConfig(),
 			$this->getServiceContainer()->getUserOptionsLookup(),
-			$this->getServiceContainer()->getExtensionRegistry()
+			$this->getServiceContainer()->getExtensionRegistry(),
+			$this->getServiceContainer()->getUserIdentityUtils()
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -379,7 +389,8 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->getTempUserConfig(),
 			$this->getServiceContainer()->getUserOptionsLookup(),
-			$mockExtensionRegistry
+			$mockExtensionRegistry,
+			$this->getServiceContainer()->getUserIdentityUtils()
 		);
 
 		$pageDisplayHookHandler->onBeforePageDisplay(
@@ -406,6 +417,108 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		return [
 			'IPInfo is loaded' => [ true ],
 			'IPInfo is not loaded' => [ true ],
+		];
+	}
+
+	/** @dataProvider provideOnBeforePageDisplayForIPInfoHookCases */
+	public function testOnBeforePageDisplayForIPInfoHook(
+		string $pageTitle,
+		UserIdentityValue $target,
+		bool $canViewSpecialGC,
+		bool $ipInfoLoaded,
+		bool $shouldLoadModule
+	) {
+		// Set up a IContextSource where the title is $pageTitle
+		$context = new DerivativeContext( RequestContext::getMain() );
+		$context->setTitle( SpecialPage::getTitleFor( $pageTitle ) );
+		$testAuthority = $this->mockRegisteredUltimateAuthority();
+		$context->setAuthority( $testAuthority );
+		$output = $context->getOutput();
+		$output->setContext( $context );
+
+		$skin = $this->createMock( Skin::class );
+		$skin->method( 'getRelevantUser' )
+			->willReturn( $target );
+
+		$cuPermissionManagerGCAccessCheck = $this->createMock( CheckUserPermissionStatus::class );
+		$cuPermissionManagerGCAccessCheck->method( 'isGood' )
+			->willReturn( $canViewSpecialGC );
+		$cuPermissionManager = $this->createMock( CheckUserPermissionManager::class );
+		$cuPermissionManager->method( 'canAccessUserGlobalContributions' )
+			->willReturn( $cuPermissionManagerGCAccessCheck );
+
+		$mockExtensionRegistry = $this->createMock( ExtensionRegistry::class );
+		$mockExtensionRegistry->method( 'isLoaded' )
+			->with( 'IPInfo' )
+			->willReturn( $ipInfoLoaded );
+
+		$pageDisplayHookHandler = new PageDisplay(
+			new HashConfig( [
+				'CheckUserEnableTempAccountsOnboardingDialog' => false,
+			] ),
+			$cuPermissionManager,
+			$this->getServiceContainer()->getTempUserConfig(),
+			$this->getServiceContainer()->getUserOptionsLookup(),
+			$mockExtensionRegistry,
+			$this->getServiceContainer()->getUserIdentityUtils()
+		);
+
+		$pageDisplayHookHandler->onBeforePageDisplay(
+			$output, $skin
+		);
+
+		// Assert that the module is loaded as necessary
+		if ( $shouldLoadModule ) {
+			$this->assertContains( 'ext.checkUser.ipInfo.hooks', $output->getModules() );
+		} else {
+			$this->assertNotContains( 'ext.checkUser.ipInfo.hooks', $output->getModules() );
+		}
+	}
+
+	/**
+	 * Parameters:
+	 * - Name of special page (string)
+	 * - Relevant user (UserIdentityValue)
+	 * - Whether the accessor can view Special:GC (bool)
+	 * - Whether the Special:GC link module is loaded or not (bool)
+	 */
+	public static function provideOnBeforePageDisplayForIPInfoHookCases() {
+		return [
+			'module should load on Special:Contributions with user' => [
+				'pageTitle' => 'Contributions',
+				'target' => UserIdentityValue::newAnonymous( '1.2.3.4' ),
+				'canViewSpecialGC' => true,
+				'ipInfoLoaded' => true,
+				'shouldLoadModule' => true,
+			],
+			'module shouldn\'t load on Special:Contributions with user' => [
+				'pageTitle' => 'Contributions',
+				'target' => UserIdentityValue::newRegistered( 1, 'Registered User' ),
+				'canViewSpecialGC' => true,
+				'ipInfoLoaded' => true,
+				'shouldLoadModule' => false,
+			],
+			'module shouldn\'t load on Special:RecentChanges' => [
+				'pageTitle' => 'Recentchanges',
+				'target' => UserIdentityValue::newAnonymous( '1.2.3.4' ),
+				'canViewSpecialGC' => true,
+				'ipInfoLoaded' => true,
+				'shouldLoadModule' => false,
+			],
+			'module shouldn\'t load if user has no view permissions for Special:GlobalContributions' => [
+				'pageTitle' => 'Contributions',
+				'target' => UserIdentityValue::newAnonymous( '1.2.3.4' ),
+				'canViewSpecialGC' => false,
+				'ipInfoLoaded' => true,
+				'shouldLoadModule' => false,
+			],
+			'module shouldn\'t load if IPInfo isn\t loaded' => [
+				'pageTitle' => 'Contributions',
+				'target' => UserIdentityValue::newAnonymous( '1.2.3.4' ),
+				'canViewSpecialGC' => true,
+				'ipInfoLoaded' => false,
+				'shouldLoadModule' => false,
+			],
 		];
 	}
 }

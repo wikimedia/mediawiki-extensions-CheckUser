@@ -340,7 +340,8 @@
 				"CheckUserPermissionManager",
 				"TempUserConfig",
 				"UserOptionsLookup",
-				"ExtensionRegistry"
+				"ExtensionRegistry",
+				"UserIdentityUtils"
 			]
 		},
 		"CheckUserPrivateEvents": {
@@ -411,7 +412,10 @@
 			]
 		},
 		"RLRegisterModules": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\RLRegisterModulesHandler"
+			"class": "MediaWiki\\CheckUser\\HookHandler\\RLRegisterModulesHandler",
+			"services": [
+				"ExtensionRegistry"
+			]
 		},
 		"UserMerge": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\UserMergeHandler"
@@ -720,7 +724,9 @@
 			"tests/qunit/ext.checkUser/temporaryaccount/rest.test.js",
 			"tests/qunit/ext.checkUser/temporaryaccount/SpecialBlock.test.js",
 			"modules/ext.checkUser/temporaryaccount/SpecialBlock.js",
-			"modules/ext.checkUser/temporaryaccount/ShowIPButton.vue"
+			"modules/ext.checkUser/temporaryaccount/ShowIPButton.vue",
+			"tests/qunit/ext.checkUser.ipInfo.hooks/ext.ipinfo.infobox.widget.test.js",
+			"modules/ext.checkUser.ipInfo.hooks/infobox.js"
 		],
 		"dependencies": [
 			"mediawiki.qunit-testrunner",

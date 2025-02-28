@@ -9,6 +9,7 @@ require( './ext.checkUser/checkuser/checkUserHelper/createTableText.test.js' );
 require( './ext.checkUser/checkuser/checkUserHelper/createTable.test.js' );
 require( './ext.checkUser/checkuser/checkUserHelper/generateData.test.js' );
 require( './ext.checkUser.clientHints/index.test.js' );
+require( './ext.checkUser.ipInfo.hooks/ext.ipinfo.infobox.widget.test.js' );
 require( './ext.checkUser/investigate/blockform.test.js' );
 require( './ext.checkUser/temporaryaccount/ipRevealUtils.test.js' );
 require( './ext.checkUser/temporaryaccount/ipReveal.test.js' );
