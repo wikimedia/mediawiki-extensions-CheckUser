@@ -130,8 +130,14 @@ class PageDisplay implements BeforePageDisplayHook {
 			$out->addModules( 'ext.checkUser.tempAccountOnboarding' );
 			$out->addModuleStyles( 'ext.checkUser.styles' );
 			$out->addModuleStyles( 'ext.checkUser.images' );
+
+			// Allow the dialog to hide the IPInfo step and/or IPInfo preference depending on the
+			// rights of the user and if IPInfo is installed.
+			$ipInfoLoaded = $this->extensionRegistry->isLoaded( 'IPInfo' );
 			$out->addJsConfigVars( [
-				'wgCheckUserIPInfoExtensionLoaded' => $this->extensionRegistry->isLoaded( 'IPInfo' ),
+				'wgCheckUserIPInfoExtensionLoaded' => $ipInfoLoaded,
+				'wgCheckUserUserHasIPInfoRight' => $ipInfoLoaded &&
+					$out->getAuthority()->isAllowed( 'ipinfo' ),
 			] );
 		}
 	}

@@ -355,16 +355,19 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		$this->assertNotContains( 'ext.checkUser', $output->getModules() );
 	}
 
-	/** @dataProvider provideIPInfoLoadedStates */
+	/** @dataProvider provideOnBeforePageDisplayForSpecialRecentChangesWhenUserHasNotSeenOnboardingDialog */
 	public function testOnBeforePageDisplayForSpecialRecentChangesWhenUserHasNotSeenOnboardingDialog(
-		$isIPInfoLoaded
+		$isIPInfoLoaded, $userHasIPInfoRight
 	) {
 		$this->enableAutoCreateTempUser();
 
-		// Set up a IContextSource where the title is Special:RecentChanges
+		// Set up a IContextSource where the title is Special:RecentChanges, and the Authority has all rights
+		// except IPInfo when $userHasIPInfoRight is false.
 		$context = new DerivativeContext( RequestContext::getMain() );
 		$context->setTitle( SpecialPage::getTitleFor( 'Recentchanges' ) );
-		$testAuthority = $this->mockRegisteredUltimateAuthority();
+		$testAuthority = $this->mockRegisteredAuthority( static function ( $permission ) use ( $userHasIPInfoRight ) {
+			return $userHasIPInfoRight || $permission !== 'ipinfo';
+		} );
 		$context->setAuthority( $testAuthority );
 		$output = $context->getOutput();
 		$output->setContext( $context );
@@ -404,6 +407,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayEquals(
 			[
 				'wgCheckUserIPInfoExtensionLoaded' => $isIPInfoLoaded,
+				'wgCheckUserUserHasIPInfoRight' => $isIPInfoLoaded && $userHasIPInfoRight,
 				'wgCheckUserTemporaryAccountMaxAge' => 1234,
 				'wgCheckUserSpecialPagesWithoutIPRevealButtons' => [],
 			],
@@ -413,10 +417,11 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public static function provideIPInfoLoadedStates() {
+	public static function provideOnBeforePageDisplayForSpecialRecentChangesWhenUserHasNotSeenOnboardingDialog() {
 		return [
-			'IPInfo is loaded' => [ true ],
-			'IPInfo is not loaded' => [ true ],
+			'IPInfo is loaded, user has ipinfo right' => [ true, true ],
+			'IPInfo is loaded, user is missing ipinfo right' => [ true, false ],
+			'IPInfo is not loaded' => [ false, true ],
 		];
 	}
 

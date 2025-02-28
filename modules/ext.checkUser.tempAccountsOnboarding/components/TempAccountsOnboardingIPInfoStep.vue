@@ -84,7 +84,8 @@ module.exports = exports = {
 			initialIPInfoPreferenceValue = mw.user.options.get( 'ipinfo-use-agreement' ) !== '0' &&
 				mw.user.options.get( 'ipinfo-use-agreement' ) !== 0;
 		}
-		const shouldShowIPInfoPreference = !initialIPInfoPreferenceValue;
+		const shouldShowIPInfoPreference = !initialIPInfoPreferenceValue &&
+			mw.config.get( 'wgCheckUserUserHasIPInfoRight' );
 
 		// Keep a track of variables needed to determine what message to show.
 		/**
