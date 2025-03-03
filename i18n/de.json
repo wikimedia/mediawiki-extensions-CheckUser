@@ -322,5 +322,6 @@
 	"log-action-filter-checkuser-temporary-account-view-ips": "Zugriff auf IP-Daten eines temporären Kontos",
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 hat {{GENDER:$2|seinen|ihren|den}} eigenen Zugriff aktiviert, um geschützte Variablen anzuzeigen.",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 hat {{GENDER:$2|seinen|ihren|den}} eigenen Zugriff zum Anzeigen geschützter Variablen deaktiviert",
-	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 hat geschützte Variablen {{GENDER:$2|angezeigt}}, die mit $3 verknüpft sind"
+	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 hat geschützte Variablen {{GENDER:$2|angezeigt}}, die mit $3 verknüpft sind",
+	"ext-ipinfo-global-contributions-url-text": "Globale Beiträge anzeigen"
 }

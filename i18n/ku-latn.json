@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Balyozxane",
 			"Bangin",
 			"Bikarhêner",
 			"George Animal"
@@ -19,5 +20,6 @@
 	"checkuser-investigate-duration-option-all": "Hemû",
 	"checkuser-investigate-duration-option-1w": "Hefteya dawî",
 	"checkuser-investigate-duration-option-2w": "2 heftiyên dawîn",
-	"checkuser-investigate-duration-option-30d": "30 rojên dawî"
+	"checkuser-investigate-duration-option-30d": "30 rojên dawî",
+	"checkuser-global-contributions-link-sidebar": "Beşdariyên global"
 }

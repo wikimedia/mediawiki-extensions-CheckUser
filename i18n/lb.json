@@ -173,5 +173,6 @@
 	"checkuser-tempaccount-reveal-ip-missing": "net disponibel",
 	"checkuser-tempaccount-reveal-ip-error": "Feeler",
 	"checkuser-temporary-account-change-access-level-disable-globally": "global {{GENDER:$1|desaktivéiert}}",
-	"checkuser-temporary-account-change-access-level-enable-globally": "global {{GENDER:$1|aktivéiert}}"
+	"checkuser-temporary-account-change-access-level-enable-globally": "global {{GENDER:$1|aktivéiert}}",
+	"ext-ipinfo-global-contributions-url-text": "Global Kontributioune weisen"
 }

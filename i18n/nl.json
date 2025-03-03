@@ -162,6 +162,9 @@
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-step-image-aria-label": "Afbeelding van de tool IP-Info die wordt gebruikt om informatie over een tijdelijk account op een pagina op te zoeken. Er is op het informatie-pictogram geklikt om een pop-up te openen.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-title": "IP-informatie inschakelen",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-error": "Er is iets misgegaan. Probeer het opnieuw. De ontvangen foutmelding was: $1",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success": "Voorkeur bijgewerkt",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-warning": "Klik op “Voorkeur opslaan” voordat u doorgaat",
+	"checkuser-temporary-accounts-onboarding-dialog-ip-info-save-preference": "Voorkeur opslaan",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-title": "Een IP-adres onthullen",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-content": "Met de functie IP Reveal kunnen beheerders, vandalenbestrijders en ervaren gebruikers het IP-adres onthullen dat is gekoppeld aan een tijdelijk account.\n\nGebruikers die voldoen aan de toegangsvereisten kunnen IP Reveal inschakelen in hun [[Special:Preferences#mw-prefsection-personal-checkuser-tempaccount|voorkeuren]]. Na het inschakelen verschijnt de knop “IP-adres weergeven” naast tijdelijke accounts.",
 	"checkuser-temporary-accounts-onboarding-dialog-ip-reveal-step-image-aria-label": "Afbeelding van de tool “IP Reveal” na gebruik, waarbij het IP-adres dat aan het tijdelijke account is gekoppeld, wordt weergegeven. De knop die wordt ingedrukt om dit te zien, is gelabeld met de tekst “IP-adres weergeven” en staat naast de gebruikersnaam van het tijdelijke account.",
@@ -278,6 +281,7 @@
 	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "IP-bew. tijdelijke gebr.",
 	"checkuser-ip-contributions-special-contributions-button": "Oude IP-bewerkingen",
 	"checkuser-global-contributions-link": "globale bijdragen",
+	"checkuser-global-contributions-link-sidebar": "Globale bijdragen",
 	"checkuser-global-contributions-summary": "De bewerkingen van de laatste $1 {{PLURAL:$1|dag|dagen}} bekijken die een gebruiker heeft uitgevoerd op alle wikiprojecten.",
 	"checkuser-global-contributions": "Globale bijdragen zoeken",
 	"checkuser-global-contributions-permission-error-title": "Toestemmingsfout",
@@ -316,5 +320,6 @@
 	"log-action-filter-checkuser-temporary-account-view-ips": "Gegevens IP-adressen tijdelijk account inzien",
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 heeft {{GENDER:$2|zijn|haar|de}} eigen toegang tot het bekijken van beveiligde variabelen ingeschakeld",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 heeft {{GENDER:$2|zijn|haar|de}} eigen toegang tot het bekijken van beveiligde variabelen uitgeschakeld",
-	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|heeft}} de met $3 geassocieerde beveiligde variabelen bekeken"
+	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|heeft}} de met $3 geassocieerde beveiligde variabelen bekeken",
+	"ext-ipinfo-global-contributions-url-text": "Globale bijdragen bekijken"
 }
