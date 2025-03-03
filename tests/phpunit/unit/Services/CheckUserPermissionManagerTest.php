@@ -94,6 +94,48 @@ class CheckUserPermissionManagerTest extends MediaWikiUnitTestCase {
 	}
 
 	/**
+	 * @dataProvider provideCanAutoRevealIPAddresses
+	 */
+	public function testCanAutoRevealIPAddresses(
+		array $rights,
+		CheckUserPermissionStatus $expectedStatus
+	): void {
+		$actor = new UserIdentityValue( 1, 'TestUser' );
+		$authority = new SimpleAuthority( $actor, $rights );
+		$autoRevealStatus = $this->checkUserPermissionsManager->canAutoRevealIPAddresses( $authority );
+
+		$this->assertEquals( $expectedStatus, $autoRevealStatus );
+	}
+
+	public static function provideCanAutoRevealIPAddresses(): iterable {
+		yield 'Has auto-reveal right but not IP reveal right' => [
+			'rights' => [
+				'checkuser-temporary-account-auto-reveal',
+			],
+			'expected' => CheckUserPermissionStatus::newPermissionError(
+				'checkuser-temporary-account'
+			),
+		];
+
+		yield 'Has IP reveal right but not auto-reveal right' => [
+			'rights' => [
+				'checkuser-temporary-account-no-preference',
+			],
+			'expected' => CheckUserPermissionStatus::newPermissionError(
+				'checkuser-temporary-account-auto-reveal'
+			),
+		];
+
+		yield 'Has IP reveal right and auto-reveal right' => [
+			'rights' => [
+				'checkuser-temporary-account-no-preference',
+				'checkuser-temporary-account-auto-reveal',
+			],
+			'expected' => CheckUserPermissionStatus::newGood(),
+		];
+	}
+
+	/**
 	 * @dataProvider provideCanAccessTemporaryAccountIPAddressesWhenBlocked
 	 */
 	public function testCanAccessTemporaryAccountIPAddressesWhenBlocked(

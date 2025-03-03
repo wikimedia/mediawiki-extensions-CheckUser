@@ -14,5 +14,5 @@ module.exports = function ( documentRoot ) {
 	ipReveal.enableMultiReveal( $( documentRoot ) );
 
 	const $userLinks = ipReveal.addButton( $( '#bodyContent', documentRoot ) );
-	ipReveal.revealRecentlyRevealedUsers( $userLinks );
+	ipReveal.automaticallyRevealUsers( $userLinks );
 };

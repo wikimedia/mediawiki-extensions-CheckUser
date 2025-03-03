@@ -56,7 +56,10 @@ module.exports = function ( documentRoot, pageTitle ) {
 	} );
 
 	// If the user has been revealed lately, trigger a lookup from the first button
-	if ( ipRevealUtils.getRevealedStatus( mw.config.get( 'wgRelevantUserName' ) ) ) {
+	if (
+		ipRevealUtils.getAutoRevealStatus() ||
+		ipRevealUtils.getRevealedStatus( mw.config.get( 'wgRelevantUserName' ) )
+	) {
 		$( '.ext-checkuser-tempaccount-reveal-ip-button' ).first().trigger( 'revealIp' );
 	}
 };

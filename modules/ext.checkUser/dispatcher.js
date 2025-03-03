@@ -68,4 +68,7 @@
 	) {
 		require( './temporaryaccount/initOnLoad.js' )();
 	}
+
+	// Include resources everywhere that ext.checkUser is loaded
+	require( './temporaryaccount/autoReveal.js' )();
 }() );

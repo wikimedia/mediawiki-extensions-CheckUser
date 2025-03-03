@@ -13,7 +13,7 @@ module.exports = function ( documentRoot ) {
 
 	mw.hook( 'wikipage.content' ).add( ( $content ) => {
 		ipReveal.addButton( $content );
-		ipReveal.revealRecentlyRevealedUsers( $( '.mw-tempuserlink', documentRoot ) );
+		ipReveal.automaticallyRevealUsers( $( '.mw-tempuserlink', documentRoot ) );
 	} );
 
 	ipReveal.enableMultiReveal( $( documentRoot ) );

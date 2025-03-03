@@ -23,3 +23,28 @@ QUnit.test( 'Test setRevealedStatus', ( assert ) => {
 	// Remove the cookie after the test to avoid breaking other tests.
 	mw.storage.remove( 'mw-checkuser-temp-abcdef' );
 } );
+
+QUnit.test( 'Test getAutoRevealStatus when no value set', ( assert ) => {
+	assert.strictEqual(
+		Utils.getAutoRevealStatus(),
+		null,
+		'getAutoRevealStatus return value when setAutoRevealStatus has not been called'
+	);
+} );
+
+QUnit.test( 'Test setAutoRevealStatus', ( assert ) => {
+	const expiry = Date.now() + 3600000;
+	Utils.setAutoRevealStatus( expiry );
+	assert.strictEqual(
+		Utils.getAutoRevealStatus(),
+		String( expiry ),
+		'getAutoRevealStatus return value after status was toggled on'
+	);
+
+	Utils.setAutoRevealStatus();
+	assert.strictEqual(
+		Utils.getAutoRevealStatus(),
+		null,
+		'getAutoRevealStatus return value after status was toggled off'
+	);
+} );
