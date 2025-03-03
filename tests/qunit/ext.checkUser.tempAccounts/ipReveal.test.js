@@ -1,11 +1,11 @@
 'use strict';
 
-const ipReveal = require( '../../../../modules/ext.checkUser/temporaryaccount/ipReveal.js' );
+const ipReveal = require( '../../../modules/ext.checkUser.tempAccounts/ipReveal.js' );
 const { waitUntilElementDisappears } = require( './utils.js' );
 
 let server;
 
-QUnit.module( 'ext.checkUser.temporaryaccount.ipReveal', QUnit.newMwEnvironment( {
+QUnit.module( 'ext.checkUser.tempAccounts.ipReveal', QUnit.newMwEnvironment( {
 	beforeEach: function () {
 		this.server = this.sandbox.useFakeServer();
 		this.server.respondImmediately = true;

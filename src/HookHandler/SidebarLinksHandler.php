@@ -121,7 +121,7 @@ class SidebarLinksHandler implements SidebarBeforeOutputHook {
 				$this->config->get( 'CheckUserTemporaryAccountAutoRevealTime' )
 		] );
 
-		$out->addModules( 'ext.checkUser' );
+		$out->addModules( 'ext.checkUser.tempAccounts' );
 		$sidebar['TOOLBOX'][self::IP_AUTO_REVEAL_KEY] = [
 			'id' => 't-checkuser-ip-auto-reveal',
 			'text' => $skin->msg( 'checkuser-ip-auto-reveal-link-sidebar' )->text(),

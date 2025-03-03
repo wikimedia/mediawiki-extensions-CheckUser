@@ -138,7 +138,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		);
 
 		// Check that the JS code was added to the output
-		$this->assertArrayEquals( [ 'ext.checkUser' ], $output->getModules() );
+		$this->assertArrayEquals( [ 'ext.checkUser.tempAccounts' ], $output->getModules() );
 		$this->assertArrayEquals( [ 'ext.checkUser.styles' ], $output->getModuleStyles() );
 		$this->assertArrayEquals(
 			[
@@ -181,7 +181,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 
 		// Check that the JS code was added to the output, including the extra JS config
 		// just for Special:Block.
-		$this->assertArrayEquals( [ 'ext.checkUser' ], $output->getModules() );
+		$this->assertArrayEquals( [ 'ext.checkUser.tempAccounts' ], $output->getModules() );
 		$this->assertArrayEquals( [ 'ext.checkUser.styles' ], $output->getModuleStyles() );
 		$this->assertArrayEquals(
 			[
@@ -352,7 +352,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		// Users who cannot see IP reveal only because they have not enabled the preference should be shown
 		// the onboarding dialog but not have IP reveal tools loaded.
 		$this->assertContains( 'ext.checkUser.tempAccountOnboarding', $output->getModules() );
-		$this->assertNotContains( 'ext.checkUser', $output->getModules() );
+		$this->assertNotContains( 'ext.checkUser.tempAccounts', $output->getModules() );
 	}
 
 	/** @dataProvider provideOnBeforePageDisplayForSpecialRecentChangesWhenUserHasNotSeenOnboardingDialog */

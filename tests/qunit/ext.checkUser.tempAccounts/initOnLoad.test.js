@@ -1,13 +1,13 @@
 'use strict';
 
-const initOnLoad = require( '../../../../modules/ext.checkUser/temporaryaccount/initOnLoad.js' );
+const initOnLoad = require( '../../../modules/ext.checkUser.tempAccounts/initOnLoad.js' );
 const { waitUntilElementCount } = require( './utils.js' );
-const Utils = require( '../../../../modules/ext.checkUser/temporaryaccount/ipRevealUtils.js' );
-const { getRevisionId, getLogId } = require( '../../../../modules/ext.checkUser/temporaryaccount/ipReveal.js' );
+const Utils = require( '../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js' );
+const { getRevisionId, getLogId } = require( '../../../modules/ext.checkUser.tempAccounts/ipReveal.js' );
 
 let server;
 
-QUnit.module( 'ext.checkUser.temporaryaccount.initOnLoad', QUnit.newMwEnvironment( {
+QUnit.module( 'ext.checkUser.tempAccounts.initOnLoad', QUnit.newMwEnvironment( {
 	beforeEach: function () {
 		this.server = this.sandbox.useFakeServer();
 		this.server.respondImmediately = true;

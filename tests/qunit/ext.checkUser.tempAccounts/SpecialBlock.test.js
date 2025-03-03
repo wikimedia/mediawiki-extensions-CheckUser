@@ -1,11 +1,11 @@
 'use strict';
 
-const specialBlock = require( '../../../../modules/ext.checkUser/temporaryaccount/SpecialBlock.js' );
+const specialBlock = require( '../../../modules/ext.checkUser.tempAccounts/SpecialBlock.js' );
 const { waitUntilElementDisappears, waitUntilElementAppears } = require( './utils.js' );
 
 let server;
 
-QUnit.module( 'ext.checkUser.temporaryaccount.SpecialBlock', QUnit.newMwEnvironment( {
+QUnit.module( 'ext.checkUser.tempAccounts.SpecialBlock', QUnit.newMwEnvironment( {
 	beforeEach: function () {
 		this.server = this.sandbox.useFakeServer();
 		this.server.respondImmediately = true;

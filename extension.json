@@ -547,6 +547,43 @@
 				"mediawiki.jqueryMsg"
 			]
 		},
+		"ext.checkUser.tempAccounts": {
+			"localBasePath": "modules/ext.checkUser.tempAccounts",
+			"remoteExtPath": "CheckUser/modules/ext.checkUser.tempAccounts",
+			"packageFiles": [
+				"dispatcher.js",
+				"ipRevealUtils.js",
+				"ipReveal.js",
+				"autoReveal.js",
+				"initOnLoad.js",
+				"initOnHook.js",
+				"rest.js",
+				"ShowIPButton.vue",
+				"SpecialBlock.js",
+				"SpecialContributions.js"
+			],
+			"messages": [
+				"checkuser-ip-contributions",
+				"checkuser-ip-contributions-target-label",
+				"checkuser-ip-contributions-target-error-no-ip",
+				"checkuser-tempaccount-no-ip-results",
+				"checkuser-tempaccount-reveal-ip-button-label",
+				"checkuser-tempaccount-reveal-ip-missing",
+				"checkuser-tempaccount-reveal-ip-error",
+				"checkuser-tempaccount-specialblock-ips"
+			],
+			"dependencies": [
+				"oojs-ui-core",
+				"oojs-ui-widgets",
+				"mediawiki.api",
+				"mediawiki.storage",
+				"mediawiki.Title",
+				"mediawiki.util",
+				"mediawiki.widgets",
+				"mediawiki.widgets.UserInputWidget",
+				"web2017-polyfills"
+			]
+		},
 		"ext.checkUser.images": {
 			"localBasePath": "images",
 			"remoteExtPath": "CheckUser/modules/ext.checkUser.images",
@@ -594,15 +631,6 @@
 				"investigate/tables.js",
 				"investigate/copy.js",
 				"investigate/blockform.js",
-				"temporaryaccount/ipRevealUtils.js",
-				"temporaryaccount/ipReveal.js",
-				"temporaryaccount/autoReveal.js",
-				"temporaryaccount/initOnLoad.js",
-				"temporaryaccount/initOnHook.js",
-				"temporaryaccount/rest.js",
-				"temporaryaccount/ShowIPButton.vue",
-				"temporaryaccount/SpecialBlock.js",
-				"temporaryaccount/SpecialContributions.js",
 				{
 					"name": "investigate/message.json",
 					"callback": "MediaWiki\\CheckUser\\ToolLinksMessages::getParsedMessage",
@@ -626,7 +654,6 @@
 				"mediawiki.user",
 				"mediawiki.util",
 				"mediawiki.widgets",
-				"mediawiki.widgets.UserInputWidget",
 				"web2017-polyfills"
 			],
 			"messages": [
@@ -657,15 +684,7 @@
 				"checkuser-investigate-compare-table-button-contribs-label",
 				"checkuser-investigate-compare-table-button-filter-label",
 				"checkuser-investigate-subtitle-cancel-button-label",
-				"checkuser-investigate-subtitle-continue-button-label",
-				"checkuser-ip-contributions",
-				"checkuser-ip-contributions-target-label",
-				"checkuser-ip-contributions-target-error-no-ip",
-				"checkuser-tempaccount-no-ip-results",
-				"checkuser-tempaccount-reveal-ip-button-label",
-				"checkuser-tempaccount-reveal-ip-missing",
-				"checkuser-tempaccount-reveal-ip-error",
-				"checkuser-tempaccount-specialblock-ips"
+				"checkuser-investigate-subtitle-continue-button-label"
 			]
 		},
 		"ext.checkUser.styles": {
@@ -719,22 +738,22 @@
 			"tests/qunit/ext.checkUser/investigate/blockform.test.js",
 			"modules/ext.checkUser/investigate/blockform.js",
 			"tests/qunit/ext.checkUser/investigate/cases/blockFormWidgetVisibility.json",
-			"tests/qunit/ext.checkUser/temporaryaccount/SpecialContributions.test.js",
-			"modules/ext.checkUser/temporaryaccount/SpecialContributions.js",
-			"tests/qunit/ext.checkUser/temporaryaccount/ipRevealUtils.test.js",
-			"modules/ext.checkUser/temporaryaccount/ipRevealUtils.js",
-			"tests/qunit/ext.checkUser/temporaryaccount/ipReveal.test.js",
-			"tests/qunit/ext.checkUser/temporaryaccount/utils.js",
-			"modules/ext.checkUser/temporaryaccount/ipReveal.js",
-			"modules/ext.checkUser/temporaryaccount/rest.js",
-			"tests/qunit/ext.checkUser/temporaryaccount/initOnLoad.test.js",
-			"modules/ext.checkUser/temporaryaccount/initOnLoad.js",
-			"tests/qunit/ext.checkUser/temporaryaccount/initOnHook.test.js",
-			"modules/ext.checkUser/temporaryaccount/initOnHook.js",
-			"tests/qunit/ext.checkUser/temporaryaccount/rest.test.js",
-			"tests/qunit/ext.checkUser/temporaryaccount/SpecialBlock.test.js",
-			"modules/ext.checkUser/temporaryaccount/SpecialBlock.js",
-			"modules/ext.checkUser/temporaryaccount/ShowIPButton.vue",
+			"tests/qunit/ext.checkUser.tempAccounts/SpecialContributions.test.js",
+			"modules/ext.checkUser.tempAccounts/SpecialContributions.js",
+			"tests/qunit/ext.checkUser.tempAccounts/ipRevealUtils.test.js",
+			"modules/ext.checkUser.tempAccounts/ipRevealUtils.js",
+			"tests/qunit/ext.checkUser.tempAccounts/ipReveal.test.js",
+			"tests/qunit/ext.checkUser.tempAccounts/utils.js",
+			"modules/ext.checkUser.tempAccounts/ipReveal.js",
+			"modules/ext.checkUser.tempAccounts/rest.js",
+			"tests/qunit/ext.checkUser.tempAccounts/initOnLoad.test.js",
+			"modules/ext.checkUser.tempAccounts/initOnLoad.js",
+			"tests/qunit/ext.checkUser.tempAccounts/initOnHook.test.js",
+			"modules/ext.checkUser.tempAccounts/initOnHook.js",
+			"tests/qunit/ext.checkUser.tempAccounts/rest.test.js",
+			"tests/qunit/ext.checkUser.tempAccounts/SpecialBlock.test.js",
+			"modules/ext.checkUser.tempAccounts/SpecialBlock.js",
+			"modules/ext.checkUser.tempAccounts/ShowIPButton.vue",
 			"tests/qunit/ext.checkUser.ipInfo.hooks/ext.ipinfo.infobox.widget.test.js",
 			"modules/ext.checkUser.ipInfo.hooks/infobox.js"
 		],

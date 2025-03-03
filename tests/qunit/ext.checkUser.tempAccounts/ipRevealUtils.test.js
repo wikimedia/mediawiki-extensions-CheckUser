@@ -1,8 +1,8 @@
 'use strict';
 
-const Utils = require( '../../../../modules/ext.checkUser/temporaryaccount/ipRevealUtils.js' );
+const Utils = require( '../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js' );
 
-QUnit.module( 'ext.checkUser.temporaryaccount.ipRevealUtils' );
+QUnit.module( 'ext.checkUser.tempAccounts.ipRevealUtils' );
 
 QUnit.test( 'Test getRevealedStatus when no value set', ( assert ) => {
 	assert.strictEqual(

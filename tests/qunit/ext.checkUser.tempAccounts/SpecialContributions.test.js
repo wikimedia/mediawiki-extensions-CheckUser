@@ -1,12 +1,12 @@
 'use strict';
 
-const specialContributions = require( '../../../../modules/ext.checkUser/temporaryaccount/SpecialContributions.js' ),
+const specialContributions = require( '../../../modules/ext.checkUser.tempAccounts/SpecialContributions.js' ),
 	{ waitUntilElementCount } = require( './utils.js' ),
-	ipRevealUtils = require( '../../../../modules/ext.checkUser/temporaryaccount/ipRevealUtils.js' );
+	ipRevealUtils = require( '../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js' );
 
 let server;
 
-QUnit.module( 'ext.checkUser.temporaryaccount.SpecialContributions', QUnit.newMwEnvironment( {
+QUnit.module( 'ext.checkUser.tempAccounts.SpecialContributions', QUnit.newMwEnvironment( {
 	beforeEach: function () {
 		this.server = this.sandbox.useFakeServer();
 		this.server.respondImmediately = true;

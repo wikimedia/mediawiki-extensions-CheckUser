@@ -1,10 +1,10 @@
 'use strict';
 
-const rest = require( '../../../../modules/ext.checkUser/temporaryaccount/rest.js' );
+const rest = require( '../../../modules/ext.checkUser.tempAccounts/rest.js' );
 
 let server;
 
-QUnit.module( 'ext.checkUser.temporaryaccount.rest', QUnit.newMwEnvironment( {
+QUnit.module( 'ext.checkUser.tempAccounts.rest', QUnit.newMwEnvironment( {
 	beforeEach: function () {
 		this.server = this.sandbox.useFakeServer();
 		this.server.respondImmediately = true;

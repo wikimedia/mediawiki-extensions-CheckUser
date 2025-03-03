@@ -9,11 +9,11 @@ global.mw.language.listToText = jest.fn().mockImplementation(
 	( list ) => list.join( ', ' )
 );
 jest.mock(
-	'../../../modules/ext.checkUser/temporaryaccount/rest.js',
+	'../../../modules/ext.checkUser.tempAccounts/rest.js',
 	() => ( { performFullRevealRequest: mockPerformFullRevealRequest } ),
 	{ virtual: true }
 );
-const ShowIPButton = require( '../../../modules/ext.checkUser/temporaryaccount/ShowIPButton.vue' );
+const ShowIPButton = require( '../../../modules/ext.checkUser.tempAccounts/ShowIPButton.vue' );
 
 const renderComponent = ( propsData ) => shallowMount( ShowIPButton, { propsData } );
 
