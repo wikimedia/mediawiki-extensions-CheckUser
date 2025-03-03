@@ -29,6 +29,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		parent::setUp();
 
 		$this->markTestSkippedIfExtensionNotLoaded( 'GlobalPreferences' );
+		$this->setUserLang( 'qqx' );
 	}
 
 	private function getPager( $userName ) {
@@ -75,7 +76,6 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testPopulateAttributes() {
-		$this->setUserLang( 'qqx' );
 		$pager = $this->getPager( '127.0.0.1' );
 		$row = $this->getRow( [ 'sourcewiki' => 'otherwiki' ] );
 
@@ -89,7 +89,6 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideFormatArticleLink
 	 */
 	public function testFormatArticleLink( $namespace, $expectShowNamespace ) {
-		$this->setUserLang( 'qqx' );
 		$row = $this->getRow( [
 			'sourcewiki' => 'otherwiki',
 			'page_namespace' => $namespace,
@@ -130,7 +129,6 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideFormatDiffHistLinks
 	 */
 	public function testFormatDiffHistLinks( $isNewPage, $isHidden, $expectDiffLink ) {
-		$this->setUserLang( 'qqx' );
 		$row = $this->getRow( [
 			'sourcewiki' => 'otherwiki',
 			'rev_parent_id' => $isNewPage ? '0' : '1',
@@ -164,7 +162,6 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideFormatDateLink
 	 */
 	public function testFormatDateLink( $isHidden ) {
-		$this->setUserLang( 'qqx' );
 		$row = $this->getRow( [
 			'sourcewiki' => 'otherwiki',
 			'rev_timestamp' => '20240101000000',
@@ -189,7 +186,6 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideFormatTopMarkText
 	 */
 	public function testFormatTopMarkText( $revisionIsLatest ) {
-		$this->setUserLang( 'qqx' );
 		$row = $this->getRow( [
 			'sourcewiki' => 'otherwiki',
 			'rev_id' => '2',
@@ -212,7 +208,6 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testFormatComment() {
-		$this->setUserLang( 'qqx' );
 		$row = $this->getRow( [ 'sourcewiki' => 'otherwiki' ] );
 		$pager = $this->getWrappedPager( '127.0.0.1', $row->page_title );
 
@@ -224,7 +219,6 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideFormatUserLink
 	 */
 	public function testFormatAccountLink( $isDeleted, $username, $isTemp ) {
-		$this->setUserLang( 'qqx' );
 		$row = $this->getRow( [
 			'sourcewiki' => 'otherwiki',
 			'rev_user_text' => $username,
@@ -294,7 +288,6 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideFormatFlags
 	 */
 	public function testFormatFlags( $hasFlags ) {
-		$this->setUserLang( 'qqx' );
 		$row = $this->getRow( [
 			'sourcewiki' => 'otherwiki',
 			'rev_minor_edit' => $hasFlags ? '1' : '0',
@@ -315,7 +308,6 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testFormatVisibilityLink() {
-		$this->setUserLang( 'qqx' );
 		$row = $this->getRow( [ 'sourcewiki' => 'otherwiki' ] );
 		$pager = $this->getWrappedPager( '127.0.0.1', $row->page_title );
 
@@ -327,7 +319,6 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideFormatTags
 	 */
 	public function testFormatTags( $hasTags ) {
-		$this->setUserLang( 'qqx' );
 		$row = $this->getRow( [
 			'sourcewiki' => 'otherwiki',
 			'ts_tags' => $hasTags ? 'sometag' : null
@@ -352,7 +343,6 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideExternalWikiPermissions
 	 */
 	public function testExternalWikiPermissions( $permissions, $expectedCount ) {
-		$this->setUserLang( 'qqx' );
 		$localWiki = WikiMap::getCurrentWikiId();
 		$externalWiki = 'otherwiki';
 
@@ -459,7 +449,6 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$expectedPrevQuery,
 		$expectedNextQuery
 	): void {
-		$this->setUserLang( 'qqx' );
 		$wikiIds = array_keys( $resultsByWiki );
 
 		// Mock fetching the recently active wikis
@@ -672,5 +661,77 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		}
 
 		return new FakeResultWrapper( $rows );
+	}
+
+	public function testBodyIsWrappedWithPlainlinksClass(): void {
+		$localWiki = WikiMap::getCurrentWikiId();
+		$externalWiki = 'otherwiki';
+
+		// Mock fetching the recently active wikis
+		$queryBuilder = $this->createMock( SelectQueryBuilder::class );
+		$queryBuilder
+			->method(
+				$this->logicalOr(
+					'select', 'from', 'distinct', 'where', 'andWhere',
+					'join', 'orderBy', 'limit', 'queryInfo', 'caller'
+				)
+			)->willReturnSelf();
+		$queryBuilder
+			->method( 'fetchFieldValues' )
+			->willReturn( [ $localWiki, $externalWiki ] );
+
+		$database = $this->createMock( IReadableDatabase::class );
+		$database
+			->method( 'newSelectQueryBuilder' )
+			->willreturn( $queryBuilder );
+
+		$dbProvider = $this->createMock( IConnectionProvider::class );
+		$dbProvider
+			->method( 'getReplicaDatabase' )
+			->willReturn( $database );
+
+		// Since this pager calls out to other wikis, extension hooks should not be run
+		// because the extension may not be loaded on the external wiki (T385092).
+		$hookContainer = $this->createMock( HookContainer::class );
+		$hookContainer
+			->expects( $this->never() )
+			->method( 'run' );
+
+		$services = $this->getServiceContainer();
+		$sut = new GlobalContributionsPager(
+			$services->getLinkRenderer(),
+			$services->getLinkBatchFactory(),
+			$hookContainer,
+			$services->getRevisionStore(),
+			$services->getNamespaceInfo(),
+			$services->getCommentFormatter(),
+			$services->getUserFactory(),
+			$services->getTempUserConfig(),
+			$services->get( 'CheckUserLookupUtils' ),
+			$services->get( 'CentralIdLookup' ),
+			$this->createMock( CheckUserApiRequestAggregator::class ),
+			$services->getPermissionManager(),
+			$services->getPreferencesFactory(),
+			$dbProvider,
+			$services->getJobQueueGroup(),
+			RequestContext::getMain(),
+			[ 'revisionsOnly' => true ],
+			new UserIdentityValue( 0, '127.0.0.1' )
+		);
+
+		$pager = TestingAccessWrapper::newFromObject( $sut );
+		$pager->currentPage = Title::makeTitle( 0, 'Test page' );
+		$pager->currentRevRecord = null;
+		$pager->needsToEnableGlobalPreferenceAtWiki = false;
+		$pager->externalApiLookupError = false;
+
+		$this->assertSame(
+			"<section class=\"mw-pager-body plainlinks\">\n",
+			$pager->getStartBody()
+		);
+		$this->assertSame(
+			"</section>\n",
+			$pager->getEndBody()
+		);
 	}
 }
