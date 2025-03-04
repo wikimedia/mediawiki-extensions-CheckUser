@@ -325,5 +325,6 @@
 	"log-action-filter-checkuser-temporary-account-view-ips": "Доступ до IP-даних тимчасового облікового запису",
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 {{GENDER:$2|увімкнув|увімкнула}} собі доступ до перегляду захищених змінних",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 {{GENDER:$2|вимкнув|вимкнула}} собі доступ до перегляду захищених змінних",
-	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|переглянув|переглянула}} захищені змінні, пов'язані з $3"
+	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|переглянув|переглянула}} захищені змінні, пов'язані з $3",
+	"ext-ipinfo-global-contributions-url-text": "Переглянути глобальний внесок"
 }

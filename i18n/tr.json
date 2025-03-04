@@ -203,6 +203,7 @@
 	"checkuser-investigate-tour-copywikitext-title": "Verileri kopyalamak ister misiniz?",
 	"checkuser-investigate-tour-copywikitext-desc": "Karşılaştırma tablosunu tek tıklamayla kopyalayın ve CUWiki'ye götürün. Soruşturmanın tüm sayfalarını değil, yalnızca görünür olanları kopyaladığınızı unutmayın.",
 	"checkuser-global-contributions-link": "küresel değişiklikler",
+	"checkuser-global-contributions-link-sidebar": "Küresel katkılar",
 	"prefs-checkuser-tempaccount": "Geçici hesap IP göstermesi",
 	"checkuser-tempaccount-enable-preference": "Geçici hesaplar için IP adreslerinin açıklanmasını etkinleştir",
 	"checkuser-tempaccount-no-ip-results": "Son $1 {{PLURAL:$1|gün}} için bu geçici kullanıcı için IP verisi yok",
