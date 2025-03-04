@@ -438,9 +438,13 @@
 				"MainConfig",
 				"CheckUserPermissionManager"
 			]
+		},
+		"AbuseFilterHandler": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\AbuseFilterHandler"
 		}
 	},
 	"Hooks": {
+		"AbuseFilterCustomProtectedVariables": "AbuseFilterHandler",
 		"AuthManagerLoginAuthenticateAudit": "CheckUserPrivateEvents",
 		"BeforePageDisplay": [
 			"clienthints",
