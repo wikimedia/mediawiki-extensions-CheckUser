@@ -758,6 +758,9 @@
 		},
 		"checkuser-temporary-account-viewer": {
 			"checkuser-temporary-account": true
+		},
+		"temporary-account-viewer": {
+			"checkuser-temporary-account": true
 		}
 	},
 	"GrantPermissions": {
