@@ -91,7 +91,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		self::$checkuser = static::getTestUser( [ 'checkuser' ] )->getUser();
 		self::$sysop = static::getTestUser( [
 			'sysop',
-			'checkuser-temporary-account-viewer'
+			'temporary-account-viewer'
 		] )->getUser();
 		self::$checkuserAndSysop = static::getTestUser( [ 'checkuser', 'sysop' ] )->getUser();
 		self::$tempUser1 = $this->getServiceContainer()
