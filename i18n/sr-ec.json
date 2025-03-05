@@ -30,6 +30,8 @@
 	"group-checkuser-member": "{{GENDER:$1|чекјузер}}",
 	"group-checkuser-temporary-account-viewer": "Прегледачи IP адреса привремених налога",
 	"group-checkuser-temporary-account-viewer-member": "{{GENDER:$1|прегледач IP адреса привремених налога}}",
+	"group-temporary-account-viewer": "Прегледачи IP адреса привремених налога",
+	"group-temporary-account-viewer-member": "{{GENDER:$1|прегледач IP адреса привремених налога}}",
 	"right-checkuser": "проверавање корисничких IP адреса и других информација",
 	"right-checkuser-log": "преглед дневника провере корисника",
 	"right-checkuser-temporary-account": "преглед IP адреса привремених налога",

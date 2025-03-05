@@ -5,6 +5,7 @@
 			"Aleator",
 			"AlimanRuna",
 			"Armando-Martin",
+			"Balunhnoh",
 			"Canaan9801",
 			"Codename Noreste",
 			"Crazymadlover",
@@ -255,7 +256,7 @@
 	"checkuser-investigate-tour-block-desc": "Te permite seleccionar a los usuarios que desees bloquear para posteriormente llevarte al formulario de bloqueo y efectuar el que te parezca más apropiado.",
 	"checkuser-investigate-tour-copywikitext-title": "¿Quieres copiar los datos?",
 	"checkuser-investigate-tour-copywikitext-desc": "Copia la tabla comparativa con un solo clic y llévala a la wiki privada. Ten en cuenta que solo podrás copiar lo que ahora mismo es visible y no todas las páginas de la investigación.",
-	"checkuser-global-contributions-link-sidebar": "Contribuciones globales",
+	"checkuser-global-contributions-link-sidebar": "Hej kolwal nanan b'ay titnajikoj",
 	"prefs-checkuser-tempaccount": "Ver direcciones IP de cuentas temporales",
 	"checkuser-tempaccount-enable-preference-description": "Cuando utilice esta herramienta, debe asegurarse de que lo haga dentro de la política.",
 	"checkuser-tempaccount-enable-preference": "Habilitar la revelación de direcciones IP para cuentas temporales",
@@ -274,5 +275,5 @@
 	"log-action-filter-checkuser-temporary-account": "Tipo de acción:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Cambios en el acceso",
 	"log-action-filter-checkuser-temporary-account-view-ips": "Acceder a los datos de IP de cuentas temporales",
-	"ext-ipinfo-global-contributions-url-text": "Ver contribuciones globales"
+	"ext-ipinfo-global-contributions-url-text": "Il hej kolwal nanantaj b'ay titnajikoj"
 }
