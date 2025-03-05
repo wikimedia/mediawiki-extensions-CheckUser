@@ -16,7 +16,8 @@ global.mw.storage = {
 	session: {
 		get: jest.fn(),
 		set: jest.fn()
-	}
+	},
+	set: jest.fn()
 };
 
 config.global.mocks = {

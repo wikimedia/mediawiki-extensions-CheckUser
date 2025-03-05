@@ -83,10 +83,6 @@
 			"value": 86400,
 			"description": "Number of seconds for which the temporary account API response is fresh"
 		},
-		"CheckUserTemporaryAccountAutoRevealTime": {
-			"value": 1800,
-			"description": "Number of seconds for which the temporary account auto-reveal status is on, by default"
-		},
 		"CheckUserClientHintsEnabled": {
 			"value": true,
 			"description": "General on/off switch for User-Agent Client Hints functionality. When set to true, CheckUser will request Client Hints headers specified in the CheckUserClientHintsHeaders config variable."
@@ -556,6 +552,8 @@
 			"remoteExtPath": "CheckUser/modules/ext.checkUser.tempAccounts",
 			"packageFiles": [
 				"dispatcher.js",
+				"components/IPAutoRevealOnDialog.vue",
+				"components/IPAutoRevealOffDialog.vue",
 				"ipRevealUtils.js",
 				"ipReveal.js",
 				"autoReveal.js",
@@ -574,7 +572,20 @@
 				"checkuser-tempaccount-reveal-ip-button-label",
 				"checkuser-tempaccount-reveal-ip-missing",
 				"checkuser-tempaccount-reveal-ip-error",
-				"checkuser-tempaccount-specialblock-ips"
+				"checkuser-tempaccount-specialblock-ips",
+				"checkuser-ip-auto-reveal-on-dialog-title",
+				"checkuser-ip-auto-reveal-on-dialog-text",
+				"checkuser-ip-auto-reveal-on-dialog-default-action",
+				"checkuser-ip-auto-reveal-on-dialog-primary-action",
+				"checkuser-ip-auto-reveal-on-dialog-select-label",
+				"checkuser-ip-auto-reveal-on-dialog-select-default",
+				"checkuser-ip-auto-reveal-on-dialog-select-duration-1800",
+				"checkuser-ip-auto-reveal-on-dialog-select-duration-3600",
+				"checkuser-ip-auto-reveal-off-dialog-title",
+				"checkuser-ip-auto-reveal-off-dialog-text-expiry",
+				"checkuser-ip-auto-reveal-off-dialog-text-info",
+				"checkuser-ip-auto-reveal-off-dialog-extend-action",
+				"checkuser-ip-auto-reveal-off-dialog-off-action"
 			],
 			"dependencies": [
 				"oojs-ui-core",
