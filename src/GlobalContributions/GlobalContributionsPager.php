@@ -511,7 +511,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	 * @inheritDoc
 	 */
 	protected function getStartBody() {
-		$startBody = parent::getStartBody();
+		$startBody = "<section class=\"mw-pager-body plainlinks\">\n";
 
 		if ( $this->needsToEnableGlobalPreferenceAtWiki && $this->getNumRows() > 0 ) {
 			$startBody .= new MessageWidget( [
@@ -538,6 +538,13 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		}
 
 		return $startBody;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function getEndBody() {
+		return "</section>\n";
 	}
 
 	/**
