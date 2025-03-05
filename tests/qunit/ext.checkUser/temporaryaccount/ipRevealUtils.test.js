@@ -33,8 +33,8 @@ QUnit.test( 'Test getAutoRevealStatus when no value set', ( assert ) => {
 } );
 
 QUnit.test( 'Test setAutoRevealStatus', ( assert ) => {
-	const expiry = Date.now() + 3600000;
-	Utils.setAutoRevealStatus( expiry );
+	const expiry = Math.floor( Date.now() / 1000 ) + 3600;
+	Utils.setAutoRevealStatus( 3600 );
 	assert.strictEqual(
 		Utils.getAutoRevealStatus(),
 		String( expiry ),
