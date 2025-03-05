@@ -203,7 +203,7 @@ class CheckUserApiRequestAggregator {
 				}
 			}
 
-			if ( !isset( $results[$wiki] ) ) {
+			if ( !isset( $results[$wiki]['query']['pages'][0]['actions'] ) ) {
 				$this->logger->error(
 					'Failed to fetch API response from {wiki}. Error: {error}',
 					[
