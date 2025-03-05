@@ -285,6 +285,11 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		}
 	}
 
+	/** @inheritDoc */
+	public function getTimestampField() {
+		return 'cuc_timestamp';
+	}
+
 	/**
 	 * @inheritDoc
 	 */
@@ -298,6 +303,16 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			$offsetConds = array_combine( $indexColumns, $offsets );
 		} else {
 			$offsetConds = [];
+		}
+
+		// Apply start and end timestamp limits. Code taken from
+		// RangeChronologicalPager::buildQueryInfo and ReverseChronologicalPager::buildQueryInfo
+		$timestampConds = [];
+		if ( $this->endOffset ) {
+			$timestampConds[] = $this->mDb->expr( $this->getTimestampField(), '<', $this->endOffset );
+		}
+		if ( $this->startOffset ) {
+			$timestampConds[] = $this->mDb->expr( $this->getTimestampField(), '>=', $this->startOffset );
 		}
 
 		// Compute a synthetic sequence number for each wiki 0 ... -N,
@@ -331,6 +346,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				->caller( __METHOD__ )
 				->queryInfo( $this->getQueryInfo() )
 				->andWhere( $wikiConds )
+				->andWhere( $timestampConds )
 				->orderBy( [ 'cuc_timestamp', 'rev_id' ], SelectQueryBuilder::SORT_DESC )
 				// Use a limit for each wiki (specified in T356292), rather than the page limit.
 				->limit( self::REVISION_COUNT_LIMIT )
@@ -589,6 +605,17 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				'label' => new HtmlSnippet(
 					$this->msg( 'checkuser-global-contributions-no-results-no-permissions' )->parse()
 				)
+			] );
+		}
+
+		// No results, but filters have been applied which may cause some results to be hidden for the target
+		// so show a message that suggests removing these filters.
+		if ( $this->hasAppliedFilters() ) {
+			return new MessageWidget( [
+				'type' => 'info',
+				'label' => new HtmlSnippet( $this->msg(
+					'checkuser-global-contributions-no-results-when-filters-applied'
+				)->parse() ),
 			] );
 		}
 

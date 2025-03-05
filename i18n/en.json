@@ -301,6 +301,7 @@
 	"checkuser-global-contributions-no-global-preference": "These results may be incomplete because you need to accept the agreement in [$1 your global preferences].",
 	"checkuser-global-contributions-api-lookup-error": "Error loading data from some wikis. These results are incomplete. <strong>It may help to try again.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>No results matching the query.</strong> User \"$1\" has no visible contributions.",
+	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>No results matching the query.</strong> You may find contributions if you change your search parameters.",
 	"checkuser-ip-auto-reveal-link-sidebar": "IP Auto-reveal",
 	"prefs-checkuser-tempaccount": "Temporary account IP reveal",
 	"checkuser-tempaccount-enable-preference-description": "When using this tool you should ensure that you do so within policy.",

@@ -85,6 +85,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		// The users must be created now because the actor table will
 		// be altered when the edits are made, and added to the list
 		// of tables that can't be altered again in $dbDataOnceTables.
+		ConvertibleTimestamp::setFakeTime( '20250303010203' );
 		self::$disallowedUser = static::getTestUser()->getUser();
 		self::$suppressedUser = static::getTestUser()->getUser();
 		self::$suppressUser = static::getTestUser( [ 'suppress', 'sysop' ] )->getUser();
@@ -105,6 +106,7 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 			->create( '~check-user-test-2024-03', new FauxRequest() )->getUser();
 
 		// Named user and 2 temp users edit from the first IP
+		ConvertibleTimestamp::setFakeTime( '20250304030203' );
 		RequestContext::getMain()->getRequest()->setIP( '127.0.0.1' );
 		$this->editPage(
 			'Test page', 'Test Content 1', 'test', NS_MAIN, self::$sysop
@@ -118,8 +120,8 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		$this->editPage(
 			'Test page', 'Test Content 3', 'test', NS_MAIN, self::$tempUser2
 		);
-		ConvertibleTimestamp::setFakeTime( false );
 
+		ConvertibleTimestamp::setFakeTime( '20250306030203' );
 		$this->editPage(
 			'Test page for deletion', 'Test Content', 'test', NS_MAIN, self::$tempUser1
 		);
@@ -218,6 +220,52 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		// Use occurrences of data attribute in to determine how many rows,
 		// to test pager.
 		$this->assertSame( 3, substr_count( $html, 'data-mw-revid' ) );
+
+		// Assert the source wiki from the template is present
+		$this->assertStringContainsString( 'external mw-changeslist-sourcewiki', $html );
+	}
+
+	public function testExecuteForIPWhenStartTimestampHidesSomeRevisions() {
+		[ $html ] = $this->executeSpecialPage(
+			'127.0.0.1/24',
+			new FauxRequest( [ 'start' => '2025-03-06' ] ),
+			null,
+			self::$checkuserAndSysop
+		);
+
+		// Target field should be populated
+		$this->assertStringContainsString( '127.0.0.1', $html );
+
+		$this->assertStringContainsString( 'mw-pager-body', $html );
+		// Use occurrences of data attribute to determine how many rows, which should be one
+		// as all but one row is excluded by the start timestamp filter.
+		$this->assertSame(
+			1, substr_count( $html, 'data-mw-revid' ),
+			"Unexpected number of result rows in $html"
+		);
+
+		// Assert the source wiki from the template is present
+		$this->assertStringContainsString( 'external mw-changeslist-sourcewiki', $html );
+	}
+
+	public function testExecuteForIPWhenEndTimestampHidesSomeRevisions() {
+		[ $html ] = $this->executeSpecialPage(
+			'127.0.0.1',
+			new FauxRequest( [ 'end' => '2023-03-06' ] ),
+			null,
+			self::$checkuser
+		);
+
+		// Target field should be populated
+		$this->assertStringContainsString( '127.0.0.1', $html );
+
+		$this->assertStringContainsString( 'mw-pager-body', $html );
+		// Use occurrences of data attribute to determine how many rows, which should be one
+		// as all but one row is excluded by the end timestamp filter.
+		$this->assertSame(
+			1, substr_count( $html, 'data-mw-revid' ),
+			"Unexpected number of result rows in $html"
+		);
 
 		// Assert the source wiki from the template is present
 		$this->assertStringContainsString( 'external mw-changeslist-sourcewiki', $html );
@@ -355,6 +403,37 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 			self::$checkuser
 		);
 		$this->assertStringContainsString( 'checkuser-global-contributions-no-results-no-visible-contribs', $html );
+	}
+
+	/** @dataProvider provideFiltersWhichProduceNoResults */
+	public function testExecuteUsernameNoContributionsWhenFiltersApplied( $filters ) {
+		// Set the query filters to the ones specified in the test case
+		$request = new FauxRequest();
+		foreach ( $filters as $name => $value ) {
+			$request->setVal( $name, $value );
+		}
+
+		// Run the special page and assert that no contributions are shown but information is shown that
+		// suggests widening the query.
+		[ $html ] = $this->executeSpecialPage(
+			self::$tempUser1->getName(),
+			$request,
+			'qqx',
+			self::$checkuser
+		);
+		$this->assertStringContainsString( 'checkuser-global-contributions-no-results-when-filters-applied', $html );
+	}
+
+	public static function provideFiltersWhichProduceNoResults() {
+		return [
+			'Start timestamp is set after the last contribution' => [ [ 'start' => '2026-02-01' ] ],
+			'End timestamp is set before the first contribution' => [ [ 'end' => '1999-01-01' ] ],
+			'Start and end timestamp are set to not show any contributions' => [
+				[ 'end' => '2025-03-05', 'start' => '2025-03-05' ]
+			],
+			'Namespace set to NS_TEMPLATE' => [ [ 'namespace' => NS_TEMPLATE ] ],
+			'Tag filter set to "mw-new-redirect"' => [ [ 'tagfilter' => 'mw-new-redirect' ] ],
+		];
 	}
 
 	public function testExecuteIPNoContributions() {
