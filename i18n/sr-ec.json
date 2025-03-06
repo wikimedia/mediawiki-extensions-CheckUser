@@ -44,6 +44,7 @@
 	"action-checkuser-temporary-account": "видите IP адресе привремених налога",
 	"action-checkuser-temporary-account-no-preference": "видите IP адресе привремених налога",
 	"action-checkuser-temporary-account-log": "видите IP адресе привремених налога",
+	"action-checkuser-temporary-account-auto-reveal": "аутоматски откријете IP адресе привремених налога",
 	"grouppage-checkuser": "{{ns:project}}:Чекјузер",
 	"checkuser-clienthints-name-architecture": "Архитектура",
 	"checkuser-clienthints-name-form-factor": "Уређај",
