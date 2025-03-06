@@ -2,6 +2,8 @@
 // Original source: https://github.com/Ladsgroup/CheckUserHelper
 'use strict';
 
+const buildUserElement = require( './buildUserElement.js' );
+
 /**
  * Adds table rows generated from the dictionary provided in the data parameter
  * to the summary table shown inside the collapse layout with the
@@ -18,7 +20,8 @@
  *          ip: {},
  *          ua: {},
  *          sorted: {ip: string[], ua: string[]},
- *          linkUserPage: boolean
+ *          linkUserPage: boolean,
+ *          classes: string
  *        }>} data The result of generateData
  * @param {boolean} showCounts Whether to show the number of times each IP and
  *    User-Agent is used for a particular user.
@@ -30,30 +33,20 @@ function createTable( data, showCounts ) {
 	}
 	let user;
 	for ( user in data ) {
+		const userData = data[ user ];
 		const tr = tbl.insertRow();
+
 		let td = tr.insertCell();
-		let userElement;
-		// Only link the username to the user page if it was linked in the results.
-		// No link can be used if the username is hidden.
-		if ( data[ user ].linkUserPage ) {
-			userElement = document.createElement( 'a' );
-			userElement.setAttribute(
-				'href',
-				mw.util.getUrl( 'Special:Contributions/' + user )
-			);
-		} else {
-			userElement = document.createElement( 'span' );
-		}
-		userElement.textContent = user;
-		td.appendChild( userElement );
+		td.appendChild( buildUserElement( user, userData ) );
+
 		const ips = document.createElement( 'ul' );
 		ips.className = 'mw-checkuser-helper-ips';
-		for ( let i = 0, len = data[ user ].sorted.ip.length; i < len; i++ ) {
-			const ipText = data[ user ].sorted.ip[ i ];
-			const xffs = Object.keys( data[ user ].ip[ ipText ] );
+		for ( let i = 0, len = userData.sorted.ip.length; i < len; i++ ) {
+			const ipText = userData.sorted.ip[ i ];
+			const xffs = Object.keys( userData.ip[ ipText ] );
 			for ( let j = 0, xffLen = xffs.length; j < xffLen; j++ ) {
 				const xffText = xffs[ j ];
-				const xffTypes = Object.keys( data[ user ].ip[ ipText ][ xffText ] );
+				const xffTypes = Object.keys( userData.ip[ ipText ][ xffText ] );
 				for ( let k = 0, xffTypesLen = xffTypes.length; k < xffTypesLen; k++ ) {
 					const xffTrusted = xffTypes[ k ];
 					const ip = document.createElement( 'li' );
@@ -82,7 +75,7 @@ function createTable( data, showCounts ) {
 						const counter = document.createElement( 'span' );
 						counter.className = 'mw-checkuser-helper-count';
 						counter.textContent =
-							data[ user ].ip[ ipText ][ xffText ][ xffTrusted ];
+							userData.ip[ ipText ][ xffText ][ xffTrusted ];
 						ip.appendChild( counter );
 					}
 					ips.appendChild( ip );
@@ -94,14 +87,14 @@ function createTable( data, showCounts ) {
 
 		const uas = document.createElement( 'ul' );
 		uas.className = 'mw-checkuser-helper-user-agents';
-		for ( let i = 0, len = data[ user ].sorted.ua.length; i < len; i++ ) {
-			const uaText = data[ user ].sorted.ua[ i ];
+		for ( let i = 0, len = userData.sorted.ua.length; i < len; i++ ) {
+			const uaText = userData.sorted.ua[ i ];
 			const ua = document.createElement( 'li' );
 			ua.textContent = uaText;
 			if ( showCounts ) {
 				const counter = document.createElement( 'span' );
 				counter.className = 'mw-checkuser-helper-count';
-				counter.textContent = data[ user ].ua[ uaText ];
+				counter.textContent = userData.ua[ uaText ];
 				ua.append( counter );
 			}
 			uas.appendChild( ua );
@@ -112,14 +105,14 @@ function createTable( data, showCounts ) {
 		if ( mw.config.get( 'wgCheckUserDisplayClientHints' ) ) {
 			const clientHints = document.createElement( 'ul' );
 			clientHints.className = 'mw-checkuser-helper-client-hints';
-			for ( let i = 0, len = data[ user ].sorted.uach.length; i < len; i++ ) {
-				const clientHintText = data[ user ].sorted.uach[ i ];
+			for ( let i = 0, len = userData.sorted.uach.length; i < len; i++ ) {
+				const clientHintText = userData.sorted.uach[ i ];
 				const clientHint = document.createElement( 'li' );
 				clientHint.textContent = clientHintText;
 				if ( showCounts ) {
 					const counter = document.createElement( 'span' );
 					counter.className = 'mw-checkuser-helper-count';
-					counter.textContent = data[ user ].uach[ clientHintText ];
+					counter.textContent = userData.uach[ clientHintText ];
 					clientHint.append( counter );
 				}
 				clientHints.appendChild( clientHint );

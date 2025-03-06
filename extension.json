@@ -619,6 +619,7 @@
 				"checkuser/getUsersBlockForm.js",
 				"checkuser/checkUserHelper/init.js",
 				"checkuser/checkUserHelper/addCopyElement.js",
+				"checkuser/checkUserHelper/buildUserElement.js",
 				"checkuser/checkUserHelper/createTable.js",
 				"checkuser/checkUserHelper/createTableText.js",
 				"checkuser/checkUserHelper/generateData.js",
@@ -684,7 +685,8 @@
 				"checkuser-investigate-compare-table-button-contribs-label",
 				"checkuser-investigate-compare-table-button-filter-label",
 				"checkuser-investigate-subtitle-cancel-button-label",
-				"checkuser-investigate-subtitle-continue-button-label"
+				"checkuser-investigate-subtitle-continue-button-label",
+				"tempuser-expired-link-tooltip"
 			]
 		},
 		"ext.checkUser.styles": {
@@ -719,15 +721,18 @@
 			"tests/qunit/ext.checkUser/checkuser/getUsersBlockForm.test.js",
 			"modules/ext.checkUser/checkuser/getUsersBlockForm.js",
 			"tests/qunit/ext.checkUser/checkuser/checkUserHelper/utils.test.js",
+			"tests/qunit/ext.checkUser/checkuser/checkUserHelper/buildUserElement.test.js",
 			"tests/qunit/ext.checkUser/checkuser/checkUserHelper/createTable.test.js",
 			"tests/qunit/ext.checkUser/checkuser/checkUserHelper/createTableText.test.js",
 			"tests/qunit/ext.checkUser/checkuser/checkUserHelper/generateData.test.js",
 			"modules/ext.checkUser/checkuser/checkUserHelper/init.js",
 			"modules/ext.checkUser/checkuser/checkUserHelper/addCopyElement.js",
+			"modules/ext.checkUser/checkuser/checkUserHelper/buildUserElement.js",
 			"modules/ext.checkUser/checkuser/checkUserHelper/createTable.js",
 			"modules/ext.checkUser/checkuser/checkUserHelper/createTableText.js",
 			"modules/ext.checkUser/checkuser/checkUserHelper/generateData.js",
 			"modules/ext.checkUser/checkuser/checkUserHelper/utils.js",
+			"tests/qunit/ext.checkUser/checkuser/checkUserHelper/cases/buildUserElement.json",
 			"tests/qunit/ext.checkUser/checkuser/checkUserHelper/cases/calculateIPNumber.json",
 			"tests/qunit/ext.checkUser/checkuser/checkUserHelper/cases/compareIPs.json",
 			"tests/qunit/ext.checkUser/checkuser/checkUserHelper/cases/createTable.json",

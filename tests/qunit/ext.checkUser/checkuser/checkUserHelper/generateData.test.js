@@ -12,10 +12,18 @@ QUnit.test( 'Test that generateData returns the expected data', ( assert ) => {
 			let html = '<div id="checkuserresults"><ul>';
 			caseItem.items.forEach( ( resultLine ) => {
 				html += '<li>';
-				html += '<span class="mw-checkuser-user-link">';
+				html += `<span data-username="${
+					resultLine.userLink }" class="mw-checkuser-user-link">`;
 				if ( resultLine.linkUserPage ) {
-					html += '<a href="">';
+					if ( resultLine.isExpired ) {
+						html += '<a href="" class="mw-userlink mw-tempuserlink mw-tempuserlink-expired">';
+					} else if ( resultLine.isTemp ) {
+						html += '<a href="" class="mw-userlink mw-tempuserlink">';
+					} else {
+						html += '<a href="" class="mw-userlink">';
+					}
 				}
+
 				html += resultLine.userLink;
 				if ( resultLine.linkUserPage ) {
 					html += '</a>';

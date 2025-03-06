@@ -2,7 +2,7 @@
 	{{#canPerformBlocksOrLocks}}
 		<input type="checkbox" name="users[]" value="{{userText}}"/>
 	{{/canPerformBlocksOrLocks}}
-	<span class="mw-checkuser-user-link{{#userLinkClass}} {{userLinkClass}}{{/userLinkClass}}">
+	<span data-username="{{{userText}}}" class="mw-checkuser-user-link{{#userLinkClass}} {{userLinkClass}}{{/userLinkClass}}">
 		{{{userLink}}}
 	</span>
 	{{{userToolLinks}}}
