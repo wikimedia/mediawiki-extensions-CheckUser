@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
-use MediaWiki\Block\DatabaseBlock;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Hooks;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
@@ -82,10 +81,13 @@ class PerformRetroactiveAutoblockHandlerTest extends MediaWikiIntegrationTestCas
 		// is set. Setting 'enableAutoblock' causes the method under test to be called. Therefore,
 		// calling the method under test directly would cause it to be run twice (which might cause unintended
 		// consequences).
-		$block = new DatabaseBlock( [ 'enableAutoblock' => true ] );
-		$block->setTarget( $target );
-		$block->setBlocker( $this->getTestSysop()->getUserIdentity() );
-		$blockResult = $this->getServiceContainer()->getDatabaseBlockStore()->insertBlock( $block );
+		$blockStore = $this->getServiceContainer()->getDatabaseBlockStore();
+		$block = $blockStore->newUnsaved( [
+			'targetUser' => $target,
+			'enableAutoblock' => true,
+			'by' => $this->getTestSysop()->getUserIdentity()
+		] );
+		$blockResult = $blockStore->insertBlock( $block );
 		$this->assertIsArray( $blockResult, 'The block on the target could not be performed' );
 		// Get a block associated with the IP 127.0.0.2, if any exists.
 		$blockManager = $this->getServiceContainer()->getBlockManager();

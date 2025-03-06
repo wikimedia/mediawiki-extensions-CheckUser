@@ -59,10 +59,24 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 		return $this->getMutableTestUser( [ 'checkuser', 'sysop' ] )->getUser();
 	}
 
-	public function testViewSpecialPageWithNoDataEntered() {
+	/**
+	 * Provide both values of the temporary feature flag $wgEnableMultiBlocks
+	 */
+	public static function provideMultiBlocksOption() {
+		return [
+			'single blocks' => [ false ],
+			'multiblocks' => [ true ]
+		];
+	}
+
+	/**
+	 * @dataProvider provideMultiBlocksOption
+	 */
+	public function testViewSpecialPageWithNoDataEntered( $multiBlocks ) {
 		// Define wgBlockAllowsUTEdit and wgEnableUserEmail as true to get all the fields that can be in the form.
 		$this->overrideConfigValue( MainConfigNames::BlockAllowsUTEdit, true );
 		$this->overrideConfigValue( MainConfigNames::EnableUserEmail, true );
+		$this->overrideConfigValue( MainConfigNames::EnableMultiBlocks, $multiBlocks );
 		// Execute the special page.
 		[ $html ] = $this->executeSpecialPage( '', new FauxRequest(), null, $this->getUserForSuccess() );
 		// Verify that the title is shown
@@ -73,7 +87,8 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 		$this->assertStringContainsString( '(checkuser-investigateblock-actions', $html );
 		$this->assertStringContainsString( '(checkuser-investigateblock-email-label', $html );
 		$this->assertStringContainsString( '(checkuser-investigateblock-usertalk-label', $html );
-		$this->assertStringContainsString( '(checkuser-investigateblock-reblock-label', $html );
+		$reblock = $multiBlocks ? 'newblock' : 'reblock';
+		$this->assertStringContainsString( "(checkuser-investigateblock-$reblock-label", $html );
 		// Verify that the 'Reason' section is shown
 		$this->assertStringContainsString( '(checkuser-investigateblock-reason', $html );
 		// Verify that the 'Options' section is shown
@@ -338,5 +353,40 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 			$ipBlock->appliesToUsertalk(),
 			'The block should prevent edits to their own user talk page'
 		);
+	}
+
+	/**
+	 * Submit the form when the user is already blocked, without the reblock option
+	 *
+	 * @dataProvider provideMultiBlocksOption
+	 */
+	public function testOnSubmitBlockFailure( $multiBlocks ) {
+		$this->overrideConfigValue( MainConfigNames::EnableMultiBlocks, $multiBlocks );
+		$testPerformer = $this->getUserForSuccess();
+		$targetUser = $this->getTestUser()->getUser();
+		$this->getServiceContainer()->getDatabaseBlockStore()
+			->insertBlockWithParams( [
+				'targetUser' => $targetUser,
+				'by' => $testPerformer
+			] );
+		$fauxRequest = new FauxRequest(
+			[
+				'wpTargets' => $targetUser->getName(),
+				'wpConfirm' => 1,
+				'wpReason' => 'other',
+				'wpReason-other' => 'Test reason',
+				'wpEditToken' => $testPerformer->getEditToken(),
+			],
+			true,
+			RequestContext::getMain()->getRequest()->getSession()
+		);
+		RequestContext::getMain()->setRequest( $fauxRequest );
+		RequestContext::getMain()->getRequest()->getSession()->setUser( $testPerformer );
+		[ $html ] = $this->executeSpecialPage( '', $fauxRequest, null, $testPerformer );
+		$expect = 'checkuser-investigateblock-failure';
+		if ( $multiBlocks ) {
+			$expect .= '-multi';
+		}
+		$this->assertStringContainsString( $expect, $html );
 	}
 }
