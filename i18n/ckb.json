@@ -44,5 +44,7 @@
 	"checkuser-investigate-duration-option-1w": "ھەفتەی پێشوو",
 	"checkuser-investigate-duration-option-2w": "کۆتا ٢ هەفتە",
 	"checkuser-investigate-duration-option-30d": "٣٠ ڕۆژ لەمەو پێش",
-	"checkuser-investigate-preliminary-table-header-blocked": "ڕەوش"
+	"checkuser-investigate-preliminary-table-header-blocked": "ڕەوش",
+	"checkuser-global-contributions-link": "بەشدارییە سەرانسەرییەکان",
+	"checkuser-global-contributions-link-sidebar": "بەشدارییە سەرانسەرییەکان"
 }

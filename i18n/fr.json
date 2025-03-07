@@ -55,6 +55,8 @@
 	"group-checkuser-member": "{{GENDER:$1|vérificateur|vérificatrice}} d’utilisateurs",
 	"group-checkuser-temporary-account-viewer": "Visualisateurs d'IP des comptes temporaires",
 	"group-checkuser-temporary-account-viewer-member": "{{GENDER:$1|Visualisateur|Visualisatrice}} d'IP des comptes temporaires",
+	"group-temporary-account-viewer": "Visualisateurs d'IP des comptes temporaires",
+	"group-temporary-account-viewer-member": "Visualisat{{GENDER:$1|eur|rice}} d'IP des comptes temporaires",
 	"right-checkuser": "Vérifier les adresses IP et autres informations d’un utilisateur",
 	"right-checkuser-log": "Visualiser le journal des vérifications d’utilisateurs",
 	"right-checkuser-temporary-account": "Voir les adresses IP utilisées par les comptes temporaires",
@@ -71,6 +73,7 @@
 	"action-checkuser-temporary-account-auto-reveal": "révéler automatiquement les adresses IP utilisées par les comptes temporaires",
 	"grouppage-checkuser": "{{ns:project}}:Vérificateurs d’utilisateurs",
 	"grouppage-checkuser-temporary-account-viewer": "{{ns:project}}:Visualisateurs d'IP des comptes temporaires",
+	"grouppage-temporary-account-viewer": "{{ns:project}}:Visualisateurs d'IP des comptes temporaires",
 	"checkuser-clienthints-name-architecture": "Architecture",
 	"checkuser-clienthints-name-bitness": "Taille d’adresse",
 	"checkuser-clienthints-name-form-factor": "Facteur de forme",
@@ -323,6 +326,9 @@
 	"checkuser-global-contributions-no-results-no-global-preference": "<strong>La requête n'a rien donné</strong>. Ceci vient peut-être du fait que vous devez accepter l'accord dans [$1 vos préférences globales].",
 	"checkuser-global-contributions-no-global-preference": "Ces résultats peuvent être incomplets car vous devez accepter l'accord dans [$1 vos préférences globales].",
 	"checkuser-global-contributions-api-lookup-error": "Erreur lors du chargement des données de certains wikis. Ces résultats sont incomplets. <strong>Il peut être utile de réessayer</strong>.",
+	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Aucun résultat ne correspond à la requête.</strong> L'utilisateur « $1 » n'a aucune contribution visible.",
+	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Aucun résultat ne correspond à votre recherche.</strong> Vous pouvez trouver des contributions en modifiant vos paramètres de recherche.",
+	"checkuser-ip-auto-reveal-link-sidebar": "Révélation automatique de l'adresse IP",
 	"prefs-checkuser-tempaccount": "Révélation de l’adresse IP des comptes temporaires",
 	"checkuser-tempaccount-enable-preference-description": "Lorsque vous utilisez cet outil, vous devez vous assurer de le faire dans le respect du règlement.",
 	"checkuser-tempaccount-enable-preference": "Activer la révélation des adresses IP pour les comptes temporaires",
@@ -347,5 +353,6 @@
 	"log-action-filter-checkuser-temporary-account-view-ips": "Accéder aux données IP du compte temporaire",
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 a activé {{GENDER:$2|son}} propre accès pour afficher les variables protégées",
 	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 a désactivé {{GENDER:$2|son}} propre accès pour afficher les variables protégées",
-	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 a {{GENDER:$2|vu}} des variables protégées associées à $3"
+	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 a {{GENDER:$2|vu}} des variables protégées associées à $3",
+	"ext-ipinfo-global-contributions-url-text": "Afficher les contributions globales"
 }

@@ -303,6 +303,7 @@
 	"checkuser-global-contributions-no-global-preference": "Diese Ergebnisse sind möglicherweise unvollständig, da du die Vereinbarung in [$1 deinen globalen Einstellungen] akzeptieren musst.",
 	"checkuser-global-contributions-api-lookup-error": "Fehler beim Laden der Daten aus einigen Wikis. Diese Ergebnisse sind unvollständig. <strong>Es kann hilfreich sein, es noch einmal zu versuchen.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Keine Ergebnisse, die der Abfrage entsprechen.</strong> Benutzer „$1“ hat keine sichtbaren Beiträge.",
+	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Keine Ergebnisse, die mit der Anfrage übereinstimmen.</strong> Du kannst Beiträge finden, wenn du deine Suchparameter änderst.",
 	"checkuser-ip-auto-reveal-link-sidebar": "IP-Auto-Anzeige",
 	"prefs-checkuser-tempaccount": "Anzeige der IP-Adressen für temporäre Konten",
 	"checkuser-tempaccount-enable-preference-description": "Stelle bei der Verwendung dieses Tools sicher, dass du die Richtlinien einhältst.",
