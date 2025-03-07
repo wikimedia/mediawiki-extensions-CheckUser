@@ -79,7 +79,8 @@ QUnit.test( 'Test enableMultiReveal', ( assert ) => {
 		$revisionLine.append( ipReveal.makeButton(
 			username,
 			{ targetId: revId, allIds: [ revId ] },
-			{}
+			{},
+			$qunitFixture
 		) );
 		assert.strictEqual(
 			$revisionLine.find( '.ext-checkuser-tempaccount-reveal-ip-button' ).text(),
@@ -152,7 +153,8 @@ QUnit.test( 'Test enableMultiReveal with grouped recent changes', ( assert ) => 
 		line.$element.append( ipReveal.makeButton(
 			username,
 			line.revIds,
-			line.logIds
+			line.logIds,
+			$qunitFixture
 		) );
 	} );
 	// Enable multi reveal on the QUnit fixture.
