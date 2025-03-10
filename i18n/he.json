@@ -296,6 +296,7 @@
 	"checkuser-global-contributions-no-global-preference": "ייתכן שהתוצאות האלו אינן שלמות מכיוון שעליך לאשר את ההסכם ב[$1 העדפות הגלובליות שלך].",
 	"checkuser-global-contributions-api-lookup-error": "שגיאה בטעינת נתונים מכמה אתרי ויקי. התוצאות האלו אינן שלמות. <strong>אולי זה יעזור לנסות שוב.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>אין תוצאות תואמות לשאילתה.</strong> למשתמש \"$1\" אין תרומות שאפשר לצפות בהן.",
+	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>אין תוצאות שתואמות לשאילתה.</strong> ייתכן {{GENDER:|שתמצא|שתמצאי}} תרומות אם תשנה את הפרמטרים של החיפוש שלך.",
 	"checkuser-ip-auto-reveal-link-sidebar": "חשיפה אוטומטית של כתובות IP",
 	"prefs-checkuser-tempaccount": "חשיפת IP של חשבון חולף",
 	"checkuser-tempaccount-enable-preference-description": "בעת שימוש בכלי הזה, חובתך לוודא שזה נעשה במסגרת המדיניות.",

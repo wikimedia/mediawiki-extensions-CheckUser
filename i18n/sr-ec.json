@@ -253,6 +253,7 @@
 	"checkuser-global-contributions-results-title": "Глобални доприноси за $1",
 	"checkuser-global-contributions-api-lookup-error": "Дошло је до грешке при учитавању података са неких викија. Резултати нису комплетни. <strong>Можете покушати поново.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Нема резултата за тражени термин.</strong> Корисник „$1” нема видљивих доприноса.",
+	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Нема резултата за дати упит.</strong> Можете пронаћи доприносе ако промените параметре претраге.",
 	"prefs-checkuser-tempaccount": "Приказ IP адреса привремених налога",
 	"checkuser-tempaccount-enable-preference-description": "Коришћење ове алатке подлеже одређеним правилима.",
 	"checkuser-tempaccount-enable-preference": "Прикажи IP адресе привремених налога",

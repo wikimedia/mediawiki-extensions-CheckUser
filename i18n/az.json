@@ -297,6 +297,7 @@
 	"checkuser-global-contributions-no-global-preference": "Bu nəticələr natamam ola bilər, çünki siz [$1 qlobal nizamlamalarınızda] razılaşmanı qəbul etməlisiniz.",
 	"checkuser-global-contributions-api-lookup-error": "Bəzi vikilərdən data yüklənərkən xəta baş verdi. Bu nəticələr natamamdır. <strong>Yenidən cəhd etmək işə yaraya bilər.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Sorğuya uyğun nəticə yoxdur.</strong> \"$1\" istifadəçisinin görünə bilən töhfələri yoxdur.",
+	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Sorğuya uyğun nəticə yoxdur.</strong> Axtarış parametrlərinizi dəyişdirsəniz, nəticə tapa bilərsiniz.",
 	"checkuser-ip-auto-reveal-link-sidebar": "IP-nin avtomatik göstərilməsi",
 	"prefs-checkuser-tempaccount": "Müvəqqəti hesabların IP ünvanına baxmaq",
 	"checkuser-tempaccount-enable-preference-description": "Bu alətdən istifadə edərkən, bunu siyasət çərçivəsində etdiyinizə əmin olmalısınız.",

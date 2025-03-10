@@ -69,6 +69,11 @@
 	"checkuser-link-investigate-label": "Provi la nova eina CheckUser",
 	"checkuser-investigateblock-warning-confirmaction": "Si esteu segur que voleu fer-ho, marqueu el camp «{{int:checkuser-investigateblock-confirm-blocks-label}}» a la part inferior.",
 	"checkuser-investigate-tour-addusertargets-title": "Necessiteu més context?",
+	"checkuser-global-contributions-link": "contribucions globals",
+	"checkuser-global-contributions-summary": "Obtén les edicions fetes per un usuari en tots els projectes wikii els darrers $1 {{PLURAL:$1|dia|dies}}.",
+	"checkuser-global-contributions": "Cerca a les contribucions globals",
+	"checkuser-global-contributions-subtitle": "Es mostren els resultats dels darrers $1 {{PLURAL:$1|dia|dies}}, per tots els wikis on teniu el dret de veure-hi les contribucions. Limitat a $2 {{PLURAL:$2|resultat|resultats}} per wiki.",
+	"checkuser-global-contributions-results-title": "Contributions globals per a $1",
 	"checkuser-tempaccount-reveal-ip-button-label": "Mostra IP",
 	"checkuser-tempaccount-reveal-ip-missing": "no disponible"
 }

@@ -30,5 +30,10 @@
 	"checkuser-investigate-subtitle-continue-button-label": "Durar",
 	"checkuser-investigate-tab-preliminary-check": "Informo pri la konto",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Montrez omna IP-adresi de ca uzero",
-	"checkuser-investigate-compare-table-button-add-user-targets-label": "Montrez omna uzeri en ca IP"
+	"checkuser-investigate-compare-table-button-add-user-targets-label": "Montrez omna uzeri en ca IP",
+	"checkuser-global-contributions-no-results-no-central-user": "<strong>Nula rezulto korespondis al inquesto</strong>. Uzero \"$1\" ne esis enrejistrita.",
+	"checkuser-global-contributions-no-results-no-permissions": "<strong>Nula rezulto korespondas al inquesto.</strong> Posible vu ne havas permiso pri vidar IP-adresi uzita da tempala konti.",
+	"checkuser-global-contributions-no-results-no-global-preference": "<strong>Nula rezulto korespondas al inquesto.</strong> Ca rezulti esas nekompleta posible pro ke vu mustas aceptar la konvenciono en [$1 vua globala preferaji].",
+	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Nula rezulto korespondis al inquesto.</strong> Uzero \"$1\" havas nula videbla kontributado.",
+	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Nula rezulto korespondas al inquesto.</strong> Vu povos trovar kontributadi se vu modifikos vua sercho-parametri."
 }

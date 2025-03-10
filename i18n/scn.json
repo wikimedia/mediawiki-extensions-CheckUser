@@ -3,6 +3,7 @@
 		"authors": [
 			"Ajeje Brazorf",
 			"Dreamy Jazz",
+			"GianAntonucci",
 			"Melos",
 			"Pippinu",
 			"Santu",
@@ -72,7 +73,7 @@
 	"checkuser-investigate-preliminary-table-cell-edits": "{{PLURAL:$1|canciamentu|canciamenti}}",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "Nun bluccatu",
 	"checkuser-investigate-preliminary-table-header-blocked": "Statu",
-	"checkuser-investigate-preliminary-table-header-editcount": "Canciamenti",
+	"checkuser-investigate-preliminary-table-header-editcount": "Canci",
 	"checkuser-investigate-preliminary-table-header-groups": "Gruppi",
 	"checkuser-investigate-preliminary-table-header-name": "Nomu utenti",
 	"checkuser-investigate-preliminary-table-header-wiki": "Wiki",

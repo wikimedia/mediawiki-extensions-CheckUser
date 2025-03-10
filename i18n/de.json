@@ -49,7 +49,7 @@
 	"action-checkuser-temporary-account": "Anzeigen von IP-Adressen, die von temporären Konten verwendet werden",
 	"action-checkuser-temporary-account-no-preference": "anzeigen von IP-Adressen, die von temporären Konten verwendet werden",
 	"action-checkuser-temporary-account-log": "das Protokoll des Zugriffs auf temporäre Konto-IP-Adressen anzuzeigen",
-	"action-checkuser-temporary-account-auto-reveal": "automatisch IP-Adressen, die von vorübergehenden Konten verwendet werden, anzuzeigen",
+	"action-checkuser-temporary-account-auto-reveal": "automatisch IP-Adressen, die von temporären Konten verwendet werden, anzuzeigen",
 	"grouppage-checkuser": "{{ns:project}}:CheckUser",
 	"grouppage-checkuser-temporary-account-viewer": "{{ns:project}}:IP-Betrachter temporärer Konten",
 	"grouppage-temporary-account-viewer": "{{ns:project}}:IP-Betrachter temporärer Konten",
