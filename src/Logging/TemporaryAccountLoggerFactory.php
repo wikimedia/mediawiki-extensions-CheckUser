@@ -5,7 +5,6 @@ namespace MediaWiki\CheckUser\Logging;
 use MediaWiki\User\ActorStore;
 use Psr\Log\LoggerInterface;
 use Wikimedia\Rdbms\IConnectionProvider;
-use Wikimedia\Rdbms\IDatabase;
 
 class TemporaryAccountLoggerFactory {
 
@@ -18,7 +17,7 @@ class TemporaryAccountLoggerFactory {
 
 	private ActorStore $actorStore;
 	private LoggerInterface $logger;
-	private IDatabase $dbw;
+	private IConnectionProvider $dbProvider;
 
 	public function __construct(
 		ActorStore $actorStore,
@@ -27,7 +26,7 @@ class TemporaryAccountLoggerFactory {
 	) {
 		$this->actorStore = $actorStore;
 		$this->logger = $logger;
-		$this->dbw = $dbProvider->getPrimaryDatabase();
+		$this->dbProvider = $dbProvider;
 	}
 
 	/**
@@ -40,7 +39,7 @@ class TemporaryAccountLoggerFactory {
 		return new TemporaryAccountLogger(
 			$this->actorStore,
 			$this->logger,
-			$this->dbw,
+			$this->dbProvider,
 			$delay
 		);
 	}

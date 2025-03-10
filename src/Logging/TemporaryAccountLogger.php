@@ -11,7 +11,7 @@ use Wikimedia\Assert\Assert;
 use Wikimedia\Assert\ParameterAssertionException;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\DBError;
-use Wikimedia\Rdbms\IDatabase;
+use Wikimedia\Rdbms\IConnectionProvider;
 
 /**
  * Defines the API for the component responsible for logging the following interactions:
@@ -57,14 +57,14 @@ class TemporaryAccountLogger {
 
 	private ActorStore $actorStore;
 	private LoggerInterface $logger;
-	private IDatabase $dbw;
+	private IConnectionProvider $dbProvider;
 
 	private int $delay;
 
 	/**
 	 * @param ActorStore $actorStore
 	 * @param LoggerInterface $logger
-	 * @param IDatabase $dbw
+	 * @param IConnectionProvider $dbProvider
 	 * @param int $delay The number of seconds after which a duplicate log entry can be
 	 *  created for a debounced log
 	 * @throws ParameterAssertionException
@@ -72,14 +72,14 @@ class TemporaryAccountLogger {
 	public function __construct(
 		ActorStore $actorStore,
 		LoggerInterface $logger,
-		IDatabase $dbw,
+		IConnectionProvider $dbProvider,
 		int $delay
 	) {
 		Assert::parameter( $delay > 0, 'delay', 'delay must be positive' );
 
 		$this->actorStore = $actorStore;
 		$this->logger = $logger;
-		$this->dbw = $dbw;
+		$this->dbProvider = $dbProvider;
 		$this->delay = $delay;
 	}
 
@@ -178,14 +178,15 @@ class TemporaryAccountLogger {
 		int $timestamp,
 		?array $params = []
 	): void {
+		$dbw = $this->dbProvider->getPrimaryDatabase();
 		$timestampMinusDelay = $timestamp - $this->delay;
-		$actorId = $this->actorStore->findActorId( $performer, $this->dbw );
+		$actorId = $this->actorStore->findActorId( $performer, $dbw );
 		if ( !$actorId ) {
 			$this->log( $performer, $target, $action, $params, $timestamp );
 			return;
 		}
 
-		$logline = $this->dbw->newSelectQueryBuilder()
+		$logline = $dbw->newSelectQueryBuilder()
 			->select( '*' )
 			->from( 'logging' )
 			->where( [
@@ -194,7 +195,7 @@ class TemporaryAccountLogger {
 				'log_actor' => $actorId,
 				'log_namespace' => NS_USER,
 				'log_title' => $target,
-				$this->dbw->expr( 'log_timestamp', '>', $this->dbw->timestamp( $timestampMinusDelay ) ),
+				$dbw->expr( 'log_timestamp', '>', $dbw->timestamp( $timestampMinusDelay ) ),
 			] )
 			->caller( __METHOD__ )
 			->fetchRow();
@@ -228,7 +229,7 @@ class TemporaryAccountLogger {
 		}
 
 		try {
-			$logEntry->insert( $this->dbw );
+			$logEntry->insert( $this->dbProvider->getPrimaryDatabase() );
 		} catch ( DBError $e ) {
 			$this->logger->critical(
 				'CheckUser temporary account log entry was not recorded. ' .

@@ -11,6 +11,7 @@ use MediaWiki\User\UserIdentityValue;
 use MediaWikiUnitTestCase;
 use Psr\Log\NullLogger;
 use Wikimedia\Rdbms\Expression;
+use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 
@@ -40,12 +41,15 @@ class TemporaryAccountLoggerTest extends MediaWikiUnitTestCase {
 		$expectedParams = [ '4::changeType' => $changeType ];
 
 		$database = $this->createMock( IDatabase::class );
+		$dbProvider = $this->createMock( IConnectionProvider::class );
+		$dbProvider->method( 'getPrimaryDatabase' )
+			->willReturn( $database );
 
 		$logger = $this->getMockBuilder( TemporaryAccountLogger::class )
 			->setConstructorArgs( [
 				$this->createMock( ActorStore::class ),
 				new NullLogger(),
-				$database,
+				$dbProvider,
 				24 * 60 * 60,
 			] )
 			->onlyMethods( [ 'createManualLogEntry' ] )
@@ -156,11 +160,15 @@ class TemporaryAccountLoggerTest extends MediaWikiUnitTestCase {
 				[ [ $performer, $database, $actorId ], ]
 			);
 
+		$dbProvider = $this->createMock( IConnectionProvider::class );
+		$dbProvider->method( 'getPrimaryDatabase' )
+			->willReturn( $database );
+
 		$logger = $this->getMockBuilder( TemporaryAccountLogger::class )
 			->setConstructorArgs( [
 				$actorStore,
 				new NullLogger(),
-				$database,
+				$dbProvider,
 				24 * 60 * 60,
 			] )
 			->onlyMethods( [ 'createManualLogEntry' ] )
@@ -206,11 +214,15 @@ class TemporaryAccountLoggerTest extends MediaWikiUnitTestCase {
 
 		$database = $this->createMock( IDatabase::class );
 
+		$dbProvider = $this->createMock( IConnectionProvider::class );
+		$dbProvider->method( 'getPrimaryDatabase' )
+			->willReturn( $database );
+
 		$logger = $this->getMockBuilder( TemporaryAccountLogger::class )
 			->setConstructorArgs( [
 				$this->createMock( ActorStore::class ),
 				new NullLogger(),
-				$database,
+				$dbProvider,
 				24 * 60 * 60,
 			] )
 			->onlyMethods( [ 'createManualLogEntry' ] )
