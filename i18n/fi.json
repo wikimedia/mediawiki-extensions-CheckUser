@@ -36,7 +36,7 @@
 	"group-checkuser": "osoitepaljastimen käyttäjät",
 	"group-checkuser-member": "{{GENDER:$1|osoitepaljastimen käyttäjä}}",
 	"right-checkuser": "Tarkastaa käyttäjän IP-osoitteita ja muita tietoja",
-	"right-checkuser-log": "Katso osoitepaljastuslokia",
+	"right-checkuser-log": "Katsoa osoitepaljastuslokia",
 	"action-checkuser": "tarkastaa käyttäjän IP-osoitteita ja muita tietoja",
 	"action-checkuser-log": "katsoa osoitepaljastuslokia",
 	"grouppage-checkuser": "{{ns:project}}:Osoitepaljastin",
