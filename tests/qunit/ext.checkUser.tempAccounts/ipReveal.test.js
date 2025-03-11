@@ -246,12 +246,19 @@ QUnit.test( 'Test addButton adds temporary account IP reveal buttons', ( assert 
 	);
 	// Call addButton on the QUnit fixture
 	ipReveal.addButton( $qunitFixture );
+	// Call again to ensure that the buttons can only be added once
+	ipReveal.addButton( $qunitFixture );
 	// Verify that the Show IP button was added for all temporary user links
 	temporaryAccountUserLinks.forEach( ( $element ) => {
 		assert.strictEqual(
 			// eslint-disable-next-line no-jquery/no-class-state
 			$element.next().hasClass( 'ext-checkuser-tempaccount-reveal-ip-button' ), true,
 			'IP reveal button is directly after temporary account user link after addButton call'
+		);
+		assert.strictEqual(
+			// eslint-disable-next-line no-jquery/no-class-state
+			$element.next().next().hasClass( 'ext-checkuser-tempaccount-reveal-ip-button' ), false,
+			'Only one IP reveal button is added after multiple addButton calls'
 		);
 	} );
 } );

@@ -165,6 +165,9 @@ function addButton( $content ) {
 
 	$userLinks.each( function () {
 		const target = $( this ).text();
+		if ( $( this ).next().is( '.ext-checkuser-tempaccount-reveal-ip-button' ) ) {
+			return;
+		}
 		$( this ).after( function () {
 			const revIds = getIdsForTarget( $( this ), target, allRevIds, getRevisionId );
 			const logIds = getIdsForTarget( $( this ), target, allLogIds, getLogId );
