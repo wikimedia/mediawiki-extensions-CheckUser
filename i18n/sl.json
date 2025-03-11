@@ -151,6 +151,8 @@
 	"checkuser-investigateblock-warning-confirmaction": "Če to res želite storiti, označite polje »{{int:checkuser-investigateblock-confirm-blocks-label}}« na dnu.",
 	"checkuser-investigate": "Preišči",
 	"checkuser-investigate-page-subtitle": "Trenutna preiskava za $1",
+	"checkuser-investigate-subtitle-block-accounts-button-label": "Blokiraj račune",
+	"checkuser-investigate-subtitle-block-ips-button-label": "Blokiraj IP-je",
 	"checkuser-investigate-subtitle-cancel-button-label": "Prekliči",
 	"checkuser-investigate-subtitle-continue-button-label": "Nadaljuj",
 	"checkuser-investigate-indicator-new-investigation": "Nova preiskava",
