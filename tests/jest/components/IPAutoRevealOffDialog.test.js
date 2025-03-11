@@ -83,10 +83,11 @@ describe( 'IP auto-reveal Off dialog', () => {
 		expect( mockSetAutoRevealStatus ).toHaveBeenLastCalledWith( expectedExpiryInSeconds );
 	} );
 
-	it( 'calls disableAutoReveal on off action click', async () => {
+	it( 'calls disableAutoReveal and shows notification on off action click', async () => {
 		await wrapper.findComponent( CdxDialog ).vm.$emit( 'primary' );
 
 		expect( mockDisableAutoReveal ).toHaveBeenCalled();
+		expect( mw.notify ).toHaveBeenCalled();
 		expect( wrapper.findComponent( CdxDialog ).props( 'open' ) ).toBe( false );
 	} );
 } );
