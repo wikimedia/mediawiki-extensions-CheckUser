@@ -18,6 +18,7 @@ use MediaWiki\User\UserNamePrefixSearch;
 use MediaWiki\User\UserNameUtils;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
+use Wikimedia\Stats\StatsFactory;
 
 /**
  * @ingroup SpecialPage
@@ -26,10 +27,17 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 
 	use ContributionsRangeTrait;
 
+	/**
+	 * Prometheus timing metric name tracking the execution time of Special:GlobalContributions.
+	 */
+	public const GLOBAL_CONTRIBUTIONS_EXECUTE_DURATION_METRIC_NAME =
+		'checkuser_globalcontributions_execute_duration_seconds';
+
 	private const BASE_HELP_URL = 'https://www.mediawiki.org/wiki/Special:MyLanguage/Help:';
 
 	private CentralIdLookup $centralIdLookup;
 	private GlobalContributionsPagerFactory $pagerFactory;
+	private StatsFactory $statsFactory;
 
 	private ?GlobalContributionsPager $pager = null;
 
@@ -44,7 +52,8 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 		UserIdentityLookup $userIdentityLookup,
 		DatabaseBlockStore $blockStore,
 		CentralIdLookup $centralIdLookup,
-		GlobalContributionsPagerFactory $pagerFactory
+		GlobalContributionsPagerFactory $pagerFactory,
+		StatsFactory $statsFactory
 	) {
 		parent::__construct(
 			$permissionManager,
@@ -60,6 +69,7 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 		);
 		$this->centralIdLookup = $centralIdLookup;
 		$this->pagerFactory = $pagerFactory;
+		$this->statsFactory = $statsFactory;
 	}
 
 	/**
@@ -97,6 +107,8 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 	public function execute( $par ) {
 		$this->requireLogin();
 
+		$start = hrtime( true );
+
 		parent::execute( $par );
 
 		// Setting $overrideBaseUrl=true is needed to prevent addHelpLink()
@@ -124,6 +136,11 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 		} elseif ( $this->isQueryableRange( $target, $this->getConfig() ) ) {
 			$this->getOutput()->addJsConfigVars( 'wgIPRangeTarget', $target );
 		}
+
+		$time = hrtime( true ) - $start;
+
+		$this->statsFactory->getTiming( self::GLOBAL_CONTRIBUTIONS_EXECUTE_DURATION_METRIC_NAME )
+			->observeNanoseconds( $time );
 	}
 
 	/**

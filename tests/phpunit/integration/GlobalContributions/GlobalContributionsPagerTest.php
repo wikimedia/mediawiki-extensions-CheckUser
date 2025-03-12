@@ -244,6 +244,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				$services->getPreferencesFactory(),
 				$services->getDBLoadBalancerFactory(),
 				$services->getJobQueueGroup(),
+				$services->getStatsFactory(),
 				RequestContext::getMain(),
 				[ 'revisionsOnly' => true ],
 				new UserIdentityValue( 0, '127.0.0.1' )
@@ -393,6 +394,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			$services->getPreferencesFactory(),
 			$dbProvider,
 			$services->getJobQueueGroup(),
+			$services->getStatsFactory(),
 			RequestContext::getMain(),
 			[ 'revisionsOnly' => true ],
 			new UserIdentityValue( 0, '127.0.0.1' )
@@ -528,6 +530,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			$services->getPreferencesFactory(),
 			$dbProvider,
 			$services->getJobQueueGroup(),
+			$services->getStatsFactory(),
 			RequestContext::getMain(),
 			[ 'revisionsOnly' => true ],
 			new UserIdentityValue( 0, '127.0.0.1' )
@@ -545,6 +548,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame( $expectedCount, $result->numRows() );
 		$this->assertSame( $expectedPrevQuery, $pagingQueries['prev'] );
 		$this->assertSame( $expectedNextQuery, $pagingQueries['next'] );
+		$this->assertApiLookupErrorCount( 0 );
 	}
 
 	public static function provideQueryData(): iterable {
@@ -714,6 +718,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			$services->getPreferencesFactory(),
 			$dbProvider,
 			$services->getJobQueueGroup(),
+			$services->getStatsFactory(),
 			RequestContext::getMain(),
 			[ 'revisionsOnly' => true ],
 			new UserIdentityValue( 0, '127.0.0.1' )
@@ -732,6 +737,99 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$this->assertSame(
 			"</section>\n",
 			$pager->getEndBody()
+		);
+	}
+
+	public function testShouldInstrumentForeignApiLookupErrors(): void {
+		// Mock fetching the recently active wikis
+		$checkUserQueryBuilder = $this->createMock( SelectQueryBuilder::class );
+		$checkUserQueryBuilder
+			->method( $this->logicalOr( 'select', 'from', 'distinct', 'where', 'join', 'caller', 'orderBy' ) )
+			->willReturnSelf();
+		$checkUserQueryBuilder->method( 'fetchFieldValues' )
+			->willReturn( [ 'testwiki' ] );
+
+		$checkUserDb = $this->createMock( IReadableDatabase::class );
+		$checkUserDb->method( 'newSelectQueryBuilder' )
+			->willReturn( $checkUserQueryBuilder );
+
+		$localQueryBuilder = $this->createMock( SelectQueryBuilder::class );
+		$localQueryBuilder->method( $this->logicalNot( $this->equalTo( 'fetchResultSet' ) ) )
+			->willReturnSelf();
+		$localQueryBuilder->method( 'fetchResultSet' )
+			->willReturn( new FakeResultWrapper( [] ) );
+
+		$localDb = $this->createMock( IReadableDatabase::class );
+		$localDb->method( 'newSelectQueryBuilder' )
+			->willReturn( $localQueryBuilder );
+
+		$dbProvider = $this->createMock( IConnectionProvider::class );
+		$dbProvider->method( 'getReplicaDatabase' )
+			->willReturnMap( [
+				[ CheckUserQueryInterface::VIRTUAL_GLOBAL_DB_DOMAIN, null, $checkUserDb ],
+				[ 'testwiki', null, $localDb ]
+			] );
+
+		// Mock a failed permission API call
+		$permsByWiki = [
+			'testwiki' => [
+				'error' => true,
+			],
+		];
+
+		$apiRequestAggregator = $this->createMock( CheckUserApiRequestAggregator::class );
+		$apiRequestAggregator->method( 'execute' )
+			->willReturn( $permsByWiki );
+
+		// Since this pager calls out to other wikis, extension hooks should not be run
+		// because the extension may not be loaded on the external wiki (T385092).
+		$hookContainer = $this->createNoOpMock( HookContainer::class );
+
+		$services = $this->getServiceContainer();
+		$pager = new GlobalContributionsPager(
+			$services->getLinkRenderer(),
+			$services->getLinkBatchFactory(),
+			$hookContainer,
+			$services->getRevisionStore(),
+			$services->getNamespaceInfo(),
+			$services->getCommentFormatter(),
+			$services->getUserFactory(),
+			$services->getTempUserConfig(),
+			$services->get( 'CheckUserLookupUtils' ),
+			$services->get( 'CentralIdLookup' ),
+			$apiRequestAggregator,
+			$services->getPermissionManager(),
+			$services->getPreferencesFactory(),
+			$dbProvider,
+			$services->getJobQueueGroup(),
+			$services->getStatsFactory(),
+			RequestContext::getMain(),
+			[ 'revisionsOnly' => true ],
+			new UserIdentityValue( 0, '127.0.0.1' )
+		);
+
+		$pager->doQuery();
+
+		$this->assertApiLookupErrorCount( 1 );
+	}
+
+	/**
+	 * Convenience function to assert that the API lookup error counter metric has a given count.
+	 *
+	 * @param int $expectedCount
+	 * @return void
+	 */
+	private function assertApiLookupErrorCount( int $expectedCount ): void {
+		$counter = $this->getServiceContainer()
+			->getStatsFactory()
+			->getCounter( GlobalContributionsPager::API_LOOKUP_ERROR_METRIC_NAME );
+
+		$sampleValues = array_map( static fn ( $sample ) => $sample->getValue(), $counter->getSamples() );
+
+		$this->assertSame( $expectedCount, $counter->getSampleCount() );
+		$this->assertSame(
+			(float)$expectedCount,
+			(float)array_sum( $sampleValues )
 		);
 	}
 }
