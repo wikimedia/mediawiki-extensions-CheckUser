@@ -3,6 +3,7 @@
 		"authors": [
 			"Băng Tỏa",
 			"Dreamy Jazz",
+			"Hide on Rosé",
 			"Leducthn",
 			"Minh Nguyen",
 			"NguyenHung",
@@ -19,6 +20,8 @@
 	"checkuser-contribs-log": "kiểm tra thành viên",
 	"group-checkuser": "Kiểm định viên",
 	"group-checkuser-member": "{{GENDER:$1}}kiểm định viên",
+	"group-checkuser-temporary-account-viewer": "Người được quyền xem IP của tài khoản tạm",
+	"group-checkuser-temporary-account-viewer-member": "{{GENDER:$1|người được quyền xem IP của tài khoản tạm}}",
 	"right-checkuser": "Kiểm tra địa chỉ IP và các thông tin khác của thành viên",
 	"right-checkuser-log": "Xem nhật trình CheckUser",
 	"grant-checkuser": "Truy cập dữ liệu kiểm định viên",
