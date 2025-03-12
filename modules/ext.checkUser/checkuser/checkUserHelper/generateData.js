@@ -19,18 +19,38 @@ function generateData() {
 			endPosition = $checkUserResults.length;
 		}
 		$checkUserResults.slice( currentPosition, endPosition ).each( function () {
-			const user = $( '.mw-checkuser-user-link', this ).text().trim();
+			let user = $( '.mw-checkuser-user-link', this ).data( 'username' );
 			if ( !user ) {
 				return;
 			}
+
+			user = user.trim();
 			if ( !data[ user ] ) {
-				data[ user ] = { ip: {}, ua: {}, uach: {}, linkUserPage: false };
+				data[ user ] = {
+					ip: {},
+					ua: {},
+					uach: {},
+					linkUserPage: false,
+					classes: null
+				};
 			}
 			// Only link the userpage in the summary table if it was linked in the results.
 			const linkUserPage = $( '.mw-checkuser-user-link', this ).has( 'a' ).length > 0;
 			if ( !data[ user ].linkUserPage && linkUserPage ) {
 				data[ user ].linkUserPage = true;
+
+				/* eslint-disable no-jquery/no-class-state */
+				const $mwUserLink = $( '.mw-checkuser-user-link .mw-userlink', this );
+				if ( $mwUserLink.hasClass( 'mw-tempuserlink-expired' ) ) {
+					data[ user ].classes = 'mw-userlink mw-tempuserlink mw-tempuserlink-expired';
+				} else if ( $mwUserLink.hasClass( 'mw-tempuserlink' ) ) {
+					data[ user ].classes = 'mw-userlink mw-tempuserlink';
+				} else {
+					data[ user ].classes = 'mw-userlink';
+				}
+				/* eslint-enable no-jquery/no-class-state */
 			}
+
 			$( '.mw-checkuser-agent', this ).each( function () {
 				const uaText = $( this ).text().trim();
 				if ( uaText !== '' ) {

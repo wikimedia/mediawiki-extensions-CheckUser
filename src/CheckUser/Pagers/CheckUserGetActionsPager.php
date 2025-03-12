@@ -177,10 +177,13 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 			$userIsHidden = $this->userFactory->newFromUserIdentity( $user )->isHidden()
 				&& !$this->getAuthority()->isAllowed( 'hideuser' );
 		}
+
 		// Create diff/hist/page links
 		$templateParams['links'] = $this->getLinksFromRow( $row, $user, $logEntry );
 		$templateParams['showLinks'] = $templateParams['links'] !== '';
+
 		if ( $userIsHidden ) {
+			$templateParams['userName'] = $this->msg( 'rev-deleted-user' )->text();
 			$templateParams['userLink'] = Html::element(
 				'span',
 				[ 'class' => 'history-deleted' ],
@@ -195,12 +198,15 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 				$user_text,
 				$this->userEditTracker->getUserEditCount( $user )
 			);
+			$templateParams['userName'] = $user_text;
 			$templateParams['userLink'] = $userLinks['userLink'];
 			$templateParams['userToolLinks'] = $userLinks['userToolLinks'];
 			// Add any block information
 			$templateParams['flags'] = $this->flagCache[$row->user_text];
 		}
+
 		$templateParams['actionText'] = $this->getActionText( $logEntry );
+
 		// Comment
 		if ( $row->type == RC_EDIT || $row->type == RC_NEW ) {
 			$templateParams['comment'] = $this->formattedRevisionComments[$row->this_oldid] ?? '';
@@ -216,6 +222,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 			}
 			$templateParams['comment'] = $this->commentFormatter->formatBlock( $comment );
 		}
+
 		// IP
 		$ip = IPUtils::prettifyIP( $row->ip ) ?? $row->ip ?? '';
 		$templateParams['ipLink'] = $this->getSelfLink( $ip,
@@ -224,6 +231,7 @@ class CheckUserGetActionsPager extends AbstractCheckUserPager {
 				'reason' => $this->opts->getValue( 'reason' )
 			]
 		);
+
 		// XFF
 		if ( $row->xff != null ) {
 			// Flag our trusted proxies
