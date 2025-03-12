@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Investigate;
 use Exception;
 use MediaWiki\Api\ApiMain;
 use MediaWiki\Block\BlockPermissionCheckerFactory;
+use MediaWiki\Block\BlockUser;
 use MediaWiki\Block\BlockUserFactory;
 use MediaWiki\CheckUser\Investigate\Utilities\EventLogger;
 use MediaWiki\HTMLForm\HTMLForm;
@@ -143,7 +144,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 
 		if (
 			$this->blockPermissionCheckerFactory
-				->newBlockPermissionChecker( null, $this->getUser() )
+				->newChecker( $this->getUser() )
 				->checkEmailPermissions()
 		) {
 			$fields['DisableEmail'] = [
@@ -163,14 +164,25 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 			];
 		}
 
-		$fields['Reblock'] = [
-			'type' => 'check',
-			'label-message' => 'checkuser-investigateblock-reblock-label',
-			'default' => false,
-			// The following message key is generated:
-			// * checkuser-investigateblock-actions
-			'section' => 'actions',
-		];
+		if ( $this->getConfig()->get( MainConfigNames::EnableMultiBlocks ) ) {
+			$fields['NewBlock'] = [
+				'type' => 'check',
+				'label-message' => 'checkuser-investigateblock-newblock-label',
+				'default' => false,
+				// The following message key is generated:
+				// * checkuser-investigateblock-actions
+				'section' => 'actions',
+			];
+		} else {
+			$fields['Reblock'] = [
+				'type' => 'check',
+				'label-message' => 'checkuser-investigateblock-reblock-label',
+				'default' => false,
+				// The following message key is generated:
+				// * checkuser-investigateblock-actions
+				'section' => 'actions',
+			];
+		}
 
 		$fields['Reason'] = [
 			'type' => 'selectandother',
@@ -315,6 +327,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 		// as required and as such the validation will be done by HTMLForm.
 		$reason = $data['Reason'][0];
 
+		$enableMulti = $this->getConfig()->get( MainConfigNames::EnableMultiBlocks );
 		foreach ( $targets as $target ) {
 			$isIP = IPUtils::isIPAddress( $target );
 
@@ -326,6 +339,14 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 			}
 
 			$expiry = $isIP ? '1 week' : 'indefinite';
+
+			if ( $enableMulti ) {
+				$conflictMode = $data['NewBlock']
+					? BlockUser::CONFLICT_NEW : BlockUser::CONFLICT_FAIL;
+			} else {
+				$conflictMode = $data['Reblock']
+					? BlockUser::CONFLICT_REBLOCK : BlockUser::CONFLICT_FAIL;
+			}
 
 			$status = $this->blockUserFactory->newBlockUser(
 				$target,
@@ -339,7 +360,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 					'isEmailBlocked' => $data['DisableEmail'] ?? false,
 					'isUserTalkEditBlocked' => $data['DisableUTEdit'] ?? false,
 				]
-			)->placeBlock( $data['Reblock'] );
+			)->placeBlock( $conflictMode );
 
 			if ( $status->isOK() ) {
 				$this->blockedUsers[] = $target;
@@ -373,7 +394,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 		] );
 
 		if ( $blockedUsersCount === 0 ) {
-			return [ 'checkuser-investigateblock-failure' ];
+			return [ 'checkuser-investigateblock-failure' . ( $enableMulti ? '-multi' : '' ) ];
 		}
 
 		return true;
