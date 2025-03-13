@@ -7,6 +7,7 @@ use DOMXPath;
 use GlobalPreferences\GlobalPreferencesFactory;
 use LogicException;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
+use MediaWiki\CheckUser\GlobalContributions\SpecialGlobalContributions;
 use MediaWiki\CheckUser\Jobs\LogTemporaryAccountAccessJob;
 use MediaWiki\CheckUser\Jobs\UpdateUserCentralIndexJob;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
@@ -192,6 +193,12 @@ class SpecialGlobalContributionsTest extends SpecialPageTestBase {
 		} else {
 			$this->assertStringNotContainsString( 'mw-contributions-list', $html );
 		}
+
+		$timer = $this->getServiceContainer()
+			->getStatsFactory()
+			->getTiming( SpecialGlobalContributions::GLOBAL_CONTRIBUTIONS_EXECUTE_DURATION_METRIC_NAME );
+
+		$this->assertSame( 1, $timer->getSampleCount() );
 	}
 
 	public function provideTargets() {

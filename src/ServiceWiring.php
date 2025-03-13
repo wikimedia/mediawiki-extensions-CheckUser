@@ -197,7 +197,8 @@ return [
 			$services->getPermissionManager(),
 			$preferencesFactory,
 			$services->getDBLoadBalancerFactory(),
-			$services->getJobQueueGroup()
+			$services->getJobQueueGroup(),
+			$services->getStatsFactory()
 		);
 	},
 	'CheckUserApiRequestAggregator' => static function (

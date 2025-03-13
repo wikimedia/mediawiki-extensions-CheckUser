@@ -36,6 +36,7 @@ use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IExpression;
 use Wikimedia\Rdbms\SelectQueryBuilder;
+use Wikimedia\Stats\StatsFactory;
 
 /**
  * Query for all edits from one of:
@@ -50,6 +51,11 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 
 	use ContributionsRangeTrait;
 
+	/**
+	 * Prometheus counter metric name for API lookup errors.
+	 */
+	public const API_LOOKUP_ERROR_METRIC_NAME = 'checkuser_globalcontributions_api_lookup_error';
+
 	private TempUserConfig $tempUserConfig;
 	private CheckUserLookupUtils $checkUserLookupUtils;
 	private CentralIdLookup $centralIdLookup;
@@ -58,6 +64,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	private GlobalPreferencesFactory $globalPreferencesFactory;
 	private IConnectionProvider $dbProvider;
 	private JobQueueGroup $jobQueueGroup;
+	private StatsFactory $statsFactory;
 	private array $permissions = [];
 	private int $wikisWithPermissionsCount;
 	private string $needsToEnableGlobalPreferenceAtWiki;
@@ -85,6 +92,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		GlobalPreferencesFactory $globalPreferencesFactory,
 		IConnectionProvider $dbProvider,
 		JobQueueGroup $jobQueueGroup,
+		StatsFactory $statsFactory,
 		IContextSource $context,
 		array $options,
 		?UserIdentity $target = null
@@ -112,6 +120,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		$this->dbProvider = $dbProvider;
 		$this->jobQueueGroup = $jobQueueGroup;
 		$this->templateParser = new TemplateParser( __DIR__ . '/../../templates' );
+		$this->statsFactory = $statsFactory;
 	}
 
 	/**
@@ -142,6 +151,10 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			if ( !isset( $permissions[$wikiId]['query']['pages'][0]['actions'] ) ) {
 				// The API lookup failed, so assume the user does not have IP reveal rights.
 				$this->externalApiLookupError = true;
+
+				$this->statsFactory->getCounter( self::API_LOOKUP_ERROR_METRIC_NAME )
+					->increment();
+
 				continue;
 			}
 			$this->permissions[$wikiId] = $permissions[$wikiId]['query']['pages'][0]['actions'];
