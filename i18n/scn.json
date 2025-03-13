@@ -6,7 +6,8 @@
 			"Melos",
 			"Pippinu",
 			"Santu",
-			"Sarvaturi"
+			"Sarvaturi",
+			"GianAntonucci"
 		]
 	},
 	"checkuser-summary": "Stu strummentu analizza li canciamenti fatti di picca p'arripigghiari li nnirizzi IP adupirati di n'utenti, o p'ammustrari li canciamenti e l'utenti assuciati a nu nnirizzu IP.\nAgghiuncennu ô nnirizzu IP lu suffissu \"/xff\" s'arrintràccianu l'utenti e li canciamenti ca vèninu d'un nnirizzu IP clienti tinennu cuntu dâ ntistazzioni XFF. Sunnu suppurtati l'IPv4 (CIDR $1-32) e l'IPv6 (CIDR $2-128).\nNun vèninu turnati chiossai di 5&nbsp;000 canciamenti, pi mutivi di pristazzioni.\nAdupirari stu strummentu rispittannu lu rigulamentu.",
@@ -82,7 +83,7 @@
 	"checkuser-investigate-preliminary-table-cell-edits": "{{PLURAL:$1|canciamentu|canciamenti}}",
 	"checkuser-investigate-preliminary-table-cell-unblocked": "Nun bluccatu",
 	"checkuser-investigate-preliminary-table-header-blocked": "Statu",
-	"checkuser-investigate-preliminary-table-header-editcount": "Canciamenti",
+	"checkuser-investigate-preliminary-table-header-editcount": "Canci",
 	"checkuser-investigate-preliminary-table-header-groups": "Gruppi",
 	"checkuser-investigate-preliminary-table-header-name": "Nomu utenti",
 	"checkuser-investigate-preliminary-table-header-wiki": "Wiki",
