@@ -440,11 +440,15 @@
 			]
 		},
 		"AbuseFilterHandler": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\AbuseFilterHandler"
+			"class": "MediaWiki\\CheckUser\\HookHandler\\AbuseFilterHandler",
+			"services": [
+				"CheckUserTemporaryAccountLoggerFactory"
+			]
 		}
 	},
 	"Hooks": {
 		"AbuseFilterCustomProtectedVariables": "AbuseFilterHandler",
+		"AbuseFilterLogProtectedVariableValueAccess": "AbuseFilterHandler",
 		"AuthManagerLoginAuthenticateAudit": "CheckUserPrivateEvents",
 		"BeforePageDisplay": [
 			"clienthints",
