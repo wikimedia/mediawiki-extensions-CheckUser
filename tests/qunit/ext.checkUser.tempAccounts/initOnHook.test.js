@@ -14,6 +14,10 @@ QUnit.module( 'ext.checkUser.tempAccounts.initOnHook', QUnit.newMwEnvironment( {
 	},
 	afterEach: function () {
 		server.restore();
+
+		// Disable auto-reveal after each test to avoid
+		// triggering auto-reveal for unrelated QUnit tests with temp account links (T388225).
+		Utils.setAutoRevealStatus( '' );
 	},
 	config: {
 		// Prevent initOnLoad.js from running automatically and then
