@@ -127,6 +127,7 @@
 	"checkuser-investigateblock-email-label": "Impedisci l'invio di email",
 	"checkuser-investigateblock-usertalk-label": "Impedisci di modificare la propria pagina di discussioni mentre è bloccato",
 	"checkuser-investigateblock-reblock-label": "Cambia blocco esistente",
+	"checkuser-investigateblock-newblock-label": "Aggiungi ai blocchi esistenti",
 	"checkuser-investigateblock-notice-user-page-label": "Lascia un avviso nella pagina utente",
 	"checkuser-investigateblock-notice-talk-page-label": "Lascia un avviso nella pagina di discussione utente",
 	"checkuser-investigateblock-notice-position-label": "Posizione",
