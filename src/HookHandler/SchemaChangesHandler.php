@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\HookHandler;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Maintenance\DeleteReadOldRowsInCuChanges;
 use MediaWiki\CheckUser\Maintenance\FixTrailingSpacesInLogs;
+use MediaWiki\CheckUser\Maintenance\MigrateTemporaryAccountIPViewerGroup;
 use MediaWiki\CheckUser\Maintenance\MoveLogEntriesFromCuChanges;
 use MediaWiki\CheckUser\Maintenance\PopulateCentralCheckUserIndexTables;
 use MediaWiki\CheckUser\Maintenance\PopulateCheckUserTable;
@@ -384,6 +385,9 @@ class SchemaChangesHandler implements LoadExtensionSchemaUpdatesHook, CheckUserQ
 			// will be run for us by the populateCheckUserTable.php script (after it's populated the tables).
 			$updater->addPostDatabaseUpdateMaintenance( PopulateCentralCheckUserIndexTables::class );
 		}
+
+		// 1.44
+		$updater->addPostDatabaseUpdateMaintenance( MigrateTemporaryAccountIPViewerGroup::class );
 
 		if ( !$isCUInstalled ) {
 			// First time so populate the CheckUser result tables with recentchanges data.
