@@ -300,7 +300,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 
 	/** @inheritDoc */
 	public function getTimestampField() {
-		return 'cuc_timestamp';
+		return 'rev_timestamp';
 	}
 
 	/**
@@ -360,7 +360,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				->queryInfo( $this->getQueryInfo() )
 				->andWhere( $wikiConds )
 				->andWhere( $timestampConds )
-				->orderBy( [ 'cuc_timestamp', 'rev_id' ], SelectQueryBuilder::SORT_DESC )
+				->orderBy( [ 'rev_timestamp', 'rev_id' ], SelectQueryBuilder::SORT_DESC )
 				// Use a limit for each wiki (specified in T356292), rather than the page limit.
 				->limit( self::REVISION_COUNT_LIMIT )
 				->fetchResultSet();
@@ -444,38 +444,15 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	 * @inheritDoc
 	 */
 	protected function getRevisionQuery() {
-		$queryBuilder = $this->getDatabase()->newSelectQueryBuilder();
-
-		$queryBuilder
-			->select( [
-				// The fields prefixed with rev_ must be named that way so that
-				// RevisionStore::isRevisionRow can recognize the row.
-				'rev_id',
-				'rev_page',
-				'rev_actor',
-				'rev_user' => 'cu_changes_actor.actor_user',
-				'rev_user_text' => 'cu_changes_actor.actor_name',
-				'rev_timestamp',
-				'rev_minor_edit',
-				'rev_deleted',
-				'rev_len',
-				'rev_parent_id',
-				'rev_sha1',
-				'rev_comment_text' => 'cu_changes_comment.comment_text',
-				'rev_comment_data' => 'cu_changes_comment.comment_data',
-				'rev_comment_cid' => 'cu_changes_comment.comment_id',
-				'page_latest',
+		$revQueryBuilder = $this->revisionStore->newSelectQueryBuilder( $this->getDatabase() )
+			->joinPage()
+			->joinComment()
+			->fields( [
 				'page_is_new',
-				'page_namespace',
-				'page_title',
-				'cuc_timestamp',
+				// Set our synthetic wiki sequence number field to an initial value.
+				// This will be overridden in reallyDoQuery().
 				'wiki_seq_no' => '1'
-			] )
-			->from( self::CHANGES_TABLE )
-			->join( 'actor', 'cu_changes_actor', 'actor_id=cuc_actor' )
-			->join( 'revision', 'cu_changes_revision', 'rev_id=cuc_this_oldid' )
-			->join( 'page', 'cu_changes_page', 'page_id=cuc_page_id' )
-			->join( 'comment', 'cu_changes_comment', 'comment_id=cuc_comment_id' );
+			] );
 
 		if ( $this->isValidIPOrQueryableRange( $this->target, $this->getConfig() ) ) {
 			$ipConditions = $this->checkUserLookupUtils->getIPTargetExpr(
@@ -496,13 +473,15 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				'actor_name',
 				IExpression::LIKE
 			);
-			$queryBuilder->where( $ipConditions );
-			$queryBuilder->where( $tempUserConditions );
+
+			$revQueryBuilder->join( self::CHANGES_TABLE, null, 'cuc_this_oldid=rev_id' )
+				->where( $ipConditions )
+				->andWhere( $tempUserConditions );
 		} else {
-			$queryBuilder->where( [ 'actor_name' => $this->target ] );
+			$revQueryBuilder->where( [ 'actor_name' => $this->target ] );
 		}
 
-		return $queryBuilder->getQueryInfo();
+		return $revQueryBuilder->getQueryInfo();
 	}
 
 	/**
@@ -510,7 +489,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	 */
 	public function getIndexField() {
 		return [
-			[ 'cuc_timestamp', 'wiki_seq_no', 'rev_id' ]
+			[ 'rev_timestamp', 'wiki_seq_no', 'rev_id' ]
 		];
 	}
 
