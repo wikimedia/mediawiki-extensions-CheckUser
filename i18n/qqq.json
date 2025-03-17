@@ -224,7 +224,7 @@
 	"checkuser-investigateblock-notice-replace": "{{InvestigateBlockForm}}\nLabel for an option in a select widget in the [[Special:InvestigateBlock]] form",
 	"checkuser-investigateblock-confirm-blocks-label": "{{InvestigateBlockForm}}\nLabel for a checkbox in the [[Special:InvestigateBlock]] form that confirms the user wants to proceed to block the selected users.\nThe same as {{msg-mw|ipb-confirm}} but this message is plural.",
 	"checkuser-investigateblock-failure": "Message shown after submitting the [[Special:InvestigateBlock]] form if no blocks were made",
-	"checkuser-investigateblock-failure-multi": "Message shown after submitting the [[Special:InvestigateBlock]] form if no blocks were made and multiblocks is enabled. Refers to {{msg-mw|checkuser-investigateblock-newblock-label}}.",
+	"checkuser-investigateblock-failure-multi": "Message shown after submitting the [[Special:InvestigateBlock]] form if no blocks were made and multiblocks is enabled. Refers to {{msg-mw|checkuser-investigateblock-newblock-label}}.\n\n'''Note:''' In this message, “check” means to tick (√) a checkbox (☑️).",
 	"checkuser-investigateblock-success": "Message shown after submitting the [[Special:InvestigateBlock]] form if blocks were made",
 	"checkuser-investigateblock-notices-failed": "Message shown after submitting the [[Special:InvestigateBlock]] form if blocks were made but notices were not added",
 	"checkuser-investigateblock-warning-ips-and-users-in-targets": "Warning message shown in [[Special:InvestigateBlock]] if both IPs and users are selected for blocking.\n\nSee also: {{msg-mw|checkuser-investigateblock-warning-confirmaction}}",

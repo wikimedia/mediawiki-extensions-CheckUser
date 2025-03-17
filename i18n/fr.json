@@ -209,7 +209,7 @@
 	"checkuser-investigateblock-email-label": "Empêcher l’envoi de courriel",
 	"checkuser-investigateblock-usertalk-label": "Empêcher l’utilisateur de modifier sa propre page de discussion lorsqu’il est bloqué",
 	"checkuser-investigateblock-reblock-label": "Outrepasser les blocages existants",
-	"checkuser-investigateblock-newblock-label": "Ajouter aux blocs existants",
+	"checkuser-investigateblock-newblock-label": "Ajouter aux blocages existants",
 	"checkuser-investigateblock-notice-user-page-label": "Laisser une alerte sur la page de l’utilisateur",
 	"checkuser-investigateblock-notice-talk-page-label": "Laisser une alerte sur la page de discussion de l’utilisateur",
 	"checkuser-investigateblock-notice-position-label": "Position",
