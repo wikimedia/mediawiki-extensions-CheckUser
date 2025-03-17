@@ -147,24 +147,23 @@ class CheckUserApiRequestAggregator {
 			return [];
 		}
 
-		$params = [
-			'format' => 'json',
-			'formatversion' => '2',
-			'errorformat' => 'bc',
-		];
-
-		if ( $this->authenticate === self::AUTHENTICATE_CENTRAL_AUTH ) {
-			$params['centralauthtoken'] = $this->getCentralAuthToken();
-		}
-
-		$this->params = $params + $this->params;
-
 		$reqs = [];
 		foreach ( $urls as $wiki => $url ) {
+			$params = [
+				'format' => 'json',
+				'formatversion' => '2',
+				'errorformat' => 'bc',
+			];
+
+			// Use a new CentralAuth token for each request since they are one-time use (T384717).
+			if ( $this->authenticate === self::AUTHENTICATE_CENTRAL_AUTH ) {
+				$params['centralauthtoken'] = $this->getCentralAuthToken();
+			}
+
 			$reqs[$wiki] = [
 				'method' => 'GET',
 				'url' => $url,
-				'query' => $this->params
+				'query' => $params + $this->params,
 			];
 
 			$reqs[$wiki]['headers'] = [

@@ -31,23 +31,40 @@ class CheckUserApiRequestAggregatorTest extends MediaWikiIntegrationTestCase {
 		$this->externalWiki = 'otherwiki';
 	}
 
-	private function getMockHttpRequestFactory() {
+	private function getMockHttpRequestFactory( int $authMode = CheckUserApiRequestAggregator::AUTHENTICATE_NONE ) {
 		$multiHttpClient = $this->createMock( MultiHttpClient::class );
 		$multiHttpClient->method( 'runMulti' )
-			->willReturn( [
-				$this->localWiki => [
-					'response' => [
-						'code' => 200,
-						'body' => '"local results"'
-					]
-				],
-				$this->externalWiki => [
-					'response' => [
-						'code' => 200,
-						'body' => '"external results"'
-					]
-				],
-			] );
+			->willReturnCallback( function ( array $reqs ) use ( $authMode ): array {
+				$authTokens = array_filter(
+					array_map( static fn ( $req ) => $req['query']['centralauthtoken'] ?? null, $reqs )
+				);
+
+				if ( $authMode === CheckUserApiRequestAggregator::AUTHENTICATE_CENTRAL_AUTH ) {
+					$this->assertSameSize( $reqs, $authTokens, 'All requests should have a CentralAuth token' );
+					$this->assertSame(
+						array_unique( $authTokens ),
+						$authTokens,
+						'All requests should have unique CentralAuth tokens'
+					);
+				} else {
+					$this->assertSame( [], $authTokens, 'No requests should have a CentralAuth token' );
+				}
+
+				return [
+					$this->localWiki => [
+						'response' => [
+							'code' => 200,
+							'body' => '"local results"'
+						]
+					],
+					$this->externalWiki => [
+						'response' => [
+							'code' => 200,
+							'body' => '"external results"'
+						]
+					],
+				];
+			} );
 
 		$httpRequestFactory = $this->createMock( HttpRequestFactory::class );
 		$httpRequestFactory->method( 'createMultiClient' )
@@ -109,7 +126,7 @@ class CheckUserApiRequestAggregatorTest extends MediaWikiIntegrationTestCase {
 		$wikis = [ $this->localWiki, $this->externalWiki ];
 
 		$apiRequestAggregator = new CheckUserApiRequestAggregator(
-			$this->getMockHttpRequestFactory(),
+			$this->getMockHttpRequestFactory( CheckUserApiRequestAggregator::AUTHENTICATE_CENTRAL_AUTH ),
 			$this->getServiceContainer()->getCentralIdLookup(),
 			$this->getServiceContainer()->getExtensionRegistry(),
 			$this->getMockSiteLookup(),
@@ -125,7 +142,6 @@ class CheckUserApiRequestAggregatorTest extends MediaWikiIntegrationTestCase {
 		);
 
 		$wrappedAggregator = TestingAccessWrapper::newFromObject( $apiRequestAggregator );
-		$this->assertArrayHasKey( 'centralauthtoken', $wrappedAggregator->params );
 
 		$this->assertArrayHasKey( $this->localWiki, $results );
 		$this->assertSame( 'local results', $results[$this->localWiki] );
