@@ -562,7 +562,12 @@
 				"rest.js",
 				"ShowIPButton.vue",
 				"SpecialBlock.js",
-				"SpecialContributions.js"
+				"SpecialContributions.js",
+				{
+					"name": "durations.json",
+					"callback": "MediaWiki\\CheckUser\\HookHandler\\DurationMessages::getTranslatedDurations",
+					"callbackParam": [ 1800, 3600 ]
+				}
 			],
 			"messages": [
 				"checkuser-ip-contributions",
@@ -579,8 +584,6 @@
 				"checkuser-ip-auto-reveal-on-dialog-primary-action",
 				"checkuser-ip-auto-reveal-on-dialog-select-label",
 				"checkuser-ip-auto-reveal-on-dialog-select-default",
-				"checkuser-ip-auto-reveal-on-dialog-select-duration-1800",
-				"checkuser-ip-auto-reveal-on-dialog-select-duration-3600",
 				"checkuser-ip-auto-reveal-off-dialog-title",
 				"checkuser-ip-auto-reveal-off-dialog-text-expiry",
 				"checkuser-ip-auto-reveal-off-dialog-text-info",

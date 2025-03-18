@@ -6,6 +6,18 @@ jest.mock( '../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js', () =>
 	setAutoRevealStatus: mockSetAutoRevealStatus
 } ) );
 
+// Mock dynamic package file
+jest.mock( '../../../modules/ext.checkUser.tempAccounts/durations.json', () => ( [
+	{
+		translation: '30 minutes',
+		seconds: 1800
+	},
+	{
+		translation: '1 hour',
+		seconds: 3600
+	}
+] ), { virtual: true } );
+
 const IPAutoRevealOnDialog = require( '../../../modules/ext.checkUser.tempAccounts/components/IPAutoRevealOnDialog.vue' );
 const utils = require( '@vue/test-utils' );
 const { CdxDialog, CdxSelect } = require( '@wikimedia/codex' );
