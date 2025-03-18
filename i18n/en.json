@@ -290,6 +290,7 @@
 	"checkuser-global-contributions-summary": "Get edits made by a user across all wiki projects from the last $1 {{PLURAL:$1|day|days}}.",
 	"checkuser-global-contributions": "Search for global contributions",
 	"checkuser-global-contributions-anon-tools": "",
+	"checkuser-global-contributions-ip-range-tools": "",
 	"checkuser-global-contributions-registered-user-tools": "",
 	"checkuser-global-contributions-permission-error-title": "Permission error",
 	"checkuser-global-contributions-permission-error-description": "To view global contributions, please accept the agreement in [[Special:GlobalPreferences|your global preferences]].",
