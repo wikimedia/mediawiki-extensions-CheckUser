@@ -5,6 +5,11 @@ const { waitUntilElementDisappears } = require( './utils.js' );
 
 let server;
 
+// Define user names that can be used in these tests, which are removed after each test run.
+const tempName1 = '~1';
+const tempName2 = '~2';
+const tempName3 = '~3';
+
 QUnit.module( 'ext.checkUser.tempAccounts.ipReveal', QUnit.newMwEnvironment( {
 	beforeEach: function () {
 		this.server = this.sandbox.useFakeServer();
@@ -13,6 +18,11 @@ QUnit.module( 'ext.checkUser.tempAccounts.ipReveal', QUnit.newMwEnvironment( {
 	},
 	afterEach: function () {
 		server.restore();
+
+		// Ensure no users are set to pre-revealed
+		mw.storage.remove( 'mw-checkuser-temp-' + tempName1 );
+		mw.storage.remove( 'mw-checkuser-temp-' + tempName2 );
+		mw.storage.remove( 'mw-checkuser-temp-' + tempName3 );
 	},
 	config: {
 		// Prevent initOnLoad.js from running automatically and then
@@ -69,7 +79,7 @@ QUnit.test( 'Test enableMultiReveal', ( assert ) => {
 	// eslint-disable-next-line no-jquery/no-global-selector
 	const $qunitFixture = $( '#qunit-fixture' );
 	// Add some testing revision lines to test the multi reveal functionality.
-	const revisionLines = { 1: '~1', 2: '~1', 3: '~2' };
+	const revisionLines = { 1: tempName1, 2: tempName1, 3: tempName2 };
 	Object.entries( revisionLines ).forEach( ( [ revId, username ] ) => {
 		const $revisionLine = $( '<div>' ).attr( 'data-mw-revid', revId );
 		$qunitFixture.append( $revisionLine );
@@ -93,7 +103,7 @@ QUnit.test( 'Test enableMultiReveal', ( assert ) => {
 
 	// Fire the userRevealed event with the ~1 temporary account username
 	// and the IP addresses for the revisions.
-	$qunitFixture.trigger( 'userRevealed', [ '~1', { 1: '127.0.0.1', 2: '127.0.0.2', 3: '127.0.0.3' }, true, false ] );
+	$qunitFixture.trigger( 'userRevealed', [ tempName1, { 1: '127.0.0.1', 2: '127.0.0.2', 3: '127.0.0.3' }, true, false ] );
 	// Check that the IP addresses were added to the buttons for the revisions
 	// with the ~1 temporary account username.
 	assert.strictEqual(
@@ -145,7 +155,7 @@ QUnit.test( 'Test enableMultiReveal with grouped recent changes', ( assert ) => 
 		}
 	];
 	lines.forEach( ( line ) => {
-		const username = '~1';
+		const username = tempName1;
 		$qunitFixture.append( line.$element );
 		// Add the temporary account username link
 		line.$element.append( $( '<a>' ).addClass( 'mw-tempuserlink' ).text( username ) );
@@ -212,7 +222,7 @@ QUnit.test( 'Test addButton adds temporary account IP reveal buttons', ( assert 
 	const $qunitFixture = $( '#qunit-fixture' );
 	const temporaryAccountUserLinks = [];
 	// Add some testing revision lines
-	const revisionLines = { 1: '~1', 2: '~1', 3: '~2' };
+	const revisionLines = { 1: tempName1, 2: tempName1, 3: tempName2 };
 	Object.entries( revisionLines ).forEach( ( [ revId, username ] ) => {
 		const $revisionLine = $( '<div>' ).attr( 'data-mw-revid', revId );
 		$qunitFixture.append( $revisionLine );
@@ -222,7 +232,7 @@ QUnit.test( 'Test addButton adds temporary account IP reveal buttons', ( assert 
 		temporaryAccountUserLinks.push( $tempAccountUserLink );
 	} );
 	// Add some testing log lines
-	const logLines = { 2: '~1', 5: '~2', 6: '~3' };
+	const logLines = { 2: tempName1, 5: tempName2, 6: tempName3 };
 	Object.entries( logLines ).forEach( ( [ logId, username ] ) => {
 		const $logLine = $( '<div>' ).attr( 'data-mw-logid', logId );
 		$qunitFixture.append( $logLine );
@@ -231,13 +241,10 @@ QUnit.test( 'Test addButton adds temporary account IP reveal buttons', ( assert 
 		$logLine.append( $tempAccountUserLink );
 		temporaryAccountUserLinks.push( $tempAccountUserLink );
 	} );
-	// Add some temporary account username links that are not associated with a revision or log
-	const linksWithoutIds = [ '~3', '~5' ];
-	linksWithoutIds.forEach( ( username ) => {
-		const $tempAccountUserLink = $( '<a>' ).addClass( 'mw-tempuserlink' ).text( username );
-		$qunitFixture.append( $tempAccountUserLink );
-		temporaryAccountUserLinks.push( $tempAccountUserLink );
-	} );
+	// Add a temporary account username that is not associated with a revision or log
+	const $tempAccountUserLink = $( '<a>' ).addClass( 'mw-tempuserlink' ).text( tempName3 );
+	$qunitFixture.append( $tempAccountUserLink );
+	temporaryAccountUserLinks.push( $tempAccountUserLink );
 	// Verify that before the call to ::addButton there are no Show IP buttons
 	assert.strictEqual(
 		$qunitFixture.find( '.ext-checkuser-tempaccount-reveal-ip-button' ).length,
@@ -265,7 +272,7 @@ QUnit.test( 'Test addButton adds temporary account IP reveal buttons', ( assert 
 
 QUnit.test( 'Test makeButton creates expected button', ( assert ) => {
 	// Call the method under test
-	const $button = ipReveal.makeButton( '~1', { targetId: 1, allIds: [ 1 ] }, {} );
+	const $button = ipReveal.makeButton( tempName1, { targetId: 1, allIds: [ 1 ] }, {} );
 	// Verify that the button has the expected button text and classes
 	assert.strictEqual(
 		$button.text(),
@@ -294,7 +301,7 @@ function performMakeButtonRequestTest( assert, responseCode, responseContent, ex
 		request.respond( responseCode, { 'Content-Type': 'application/json' }, responseContent );
 	} );
 	// Call the method under test to get a button
-	const $button = ipReveal.makeButton( '~1', { targetId: 1, allIds: [ 1 ] }, {} );
+	const $button = ipReveal.makeButton( tempName1, { targetId: 1, allIds: [ 1 ] }, {} );
 	// Add the button to the QUnit fixture
 	// eslint-disable-next-line no-jquery/no-global-selector
 	const $qunitFixture = $( '#qunit-fixture' );
