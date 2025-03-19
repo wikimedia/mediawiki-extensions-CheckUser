@@ -280,7 +280,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		return [
 			'Temp account, hidden' => [ true, '~2024-123', true ],
 			'Temp account, visible' => [ false, '~2024-123', true ],
-			'Registered account, hiiden' => [ true, 'UnregisteredUser1', false ],
+			'Registered account, hidden' => [ true, 'UnregisteredUser1', false ],
 			'Registered account, visible' => [ false, 'UnregisteredUser1', false ],
 		];
 	}
