@@ -161,6 +161,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	 */
 	private function fetchWikisToQuery() {
 		$cuciDb = $this->dbProvider->getReplicaDatabase( self::VIRTUAL_GLOBAL_DB_DOMAIN );
+		$this->needsToEnableGlobalPreferenceAtWiki = '';
 
 		if ( $this->isValidIPOrQueryableRange( $this->target, $this->getConfig() ) ) {
 			$targetIPConditions = $this->checkUserLookupUtils->getIPTargetExprForColumn(
@@ -184,17 +185,69 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				->orderBy( 'cite_timestamp', SelectQueryBuilder::SORT_DESC )
 				->caller( __METHOD__ )
 				->fetchFieldValues();
+
+			// Look up external permissions
+			$this->getExternalWikiPermissions(
+				array_filter( $activeWikis, static function ( $wikiId ) {
+					// No need to do an API call to the local wiki
+					return !WikiMap::isCurrentWikiDbDomain( $wikiId );
+				} )
+			);
+
+			// Look up local permissions
+			$isBlocked = $this->getAuthority()->getBlock();
+			$canRevealIp = !$isBlocked && $this->permissionManager->userHasRight(
+				$this->getAuthority()->getUser(),
+				'checkuser-temporary-account'
+			);
+			$canRevealIpNoPreference = !$isBlocked && $this->permissionManager->userHasRight(
+				$this->getAuthority()->getUser(),
+				'checkuser-temporary-account-no-preference'
+			);
+
+			// Look up the global preference status
+			$globalPreferences = $this->globalPreferencesFactory->getGlobalPreferencesValues(
+				$this->getAuthority()->getUser(),
+				// Load from the database, not the cache, since we're using it for access.
+				true
+			);
+			$hasEnabledGlobalPreference = $globalPreferences &&
+				isset( $globalPreferences['checkuser-temporary-account-enable'] ) &&
+				$globalPreferences['checkuser-temporary-account-enable'];
+
+			$wikisToQuery = [];
+			foreach ( $activeWikis as $wikiId ) {
+				// If an IP is being queried, check against the permissions obtained from the external wikis.
+				// Otherwise, a temporary account or registered account is being queried, which can be broadly
+				// accessed without restriction (revision/IP reveal restrictions will still apply).
+				if ( $this->isValidIPOrQueryableRange( $this->target, $this->getConfig() ) ) {
+					if (
+						( WikiMap::isCurrentWikiDbDomain( $wikiId ) && $canRevealIpNoPreference ) ||
+						$this->userHasExternalPermission( 'checkuser-temporary-account-no-preference', $wikiId )
+					) {
+						$wikisToQuery[] = $wikiId;
+					} elseif (
+						( WikiMap::isCurrentWikiDbDomain( $wikiId ) && $canRevealIp ) ||
+						$this->userHasExternalPermission( 'checkuser-temporary-account', $wikiId )
+					) {
+						if ( $hasEnabledGlobalPreference ) {
+							$wikisToQuery[] = $wikiId;
+						} else {
+							$this->needsToEnableGlobalPreferenceAtWiki = $wikiId;
+						}
+					}
+				}
+			}
 		} else {
 			$centralId = $this->centralIdLookup->centralIdFromName( $this->target, $this->getAuthority() );
 			if ( !$centralId ) {
 				// No central user found or viewable, flag it and then return an empty array for active wikis
 				// which will eventually return an empty results set
 				$this->centralUserExists = false;
-				$this->needsToEnableGlobalPreferenceAtWiki = '';
 				$this->wikisWithPermissionsCount = 0;
 				return [];
 			}
-			$activeWikis = $cuciDb->newSelectQueryBuilder()
+			$wikisToQuery = $cuciDb->newSelectQueryBuilder()
 				->select( 'ciwm_wiki' )
 				->from( 'cuci_user' )
 				->distinct()
@@ -203,63 +256,6 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				->orderBy( 'ciu_timestamp', SelectQueryBuilder::SORT_DESC )
 				->caller( __METHOD__ )
 				->fetchFieldValues();
-		}
-
-		// Look up external permissions
-		$this->getExternalWikiPermissions(
-			array_filter( $activeWikis, static function ( $wikiId ) {
-				// No need to do an API call to the local wiki
-				return !WikiMap::isCurrentWikiDbDomain( $wikiId );
-			} )
-		);
-
-		// Look up local permissions
-		$isBlocked = $this->getAuthority()->getBlock();
-		$canRevealIp = !$isBlocked && $this->permissionManager->userHasRight(
-			$this->getAuthority()->getUser(),
-			'checkuser-temporary-account'
-		);
-		$canRevealIpNoPreference = !$isBlocked && $this->permissionManager->userHasRight(
-			$this->getAuthority()->getUser(),
-			'checkuser-temporary-account-no-preference'
-		);
-
-		// Look up the global preference status
-		$globalPreferences = $this->globalPreferencesFactory->getGlobalPreferencesValues(
-			$this->getAuthority()->getUser(),
-			// Load from the database, not the cache, since we're using it for access.
-			true
-		);
-		$hasEnabledGlobalPreference = $globalPreferences &&
-			isset( $globalPreferences['checkuser-temporary-account-enable'] ) &&
-			$globalPreferences['checkuser-temporary-account-enable'];
-
-		$wikisToQuery = [];
-		$this->needsToEnableGlobalPreferenceAtWiki = '';
-
-		foreach ( $activeWikis as $wikiId ) {
-			// If an IP is being queried, check against the permissions obtained from the external wikis.
-			// Otherwise, a temporary account or registered account is being queried, which can be broadly
-			// accessed without restriction (revision/IP reveal restrictions will still apply).
-			if ( $this->isValidIPOrQueryableRange( $this->target, $this->getConfig() ) ) {
-				if (
-					( WikiMap::isCurrentWikiDbDomain( $wikiId ) && $canRevealIpNoPreference ) ||
-					$this->userHasExternalPermission( 'checkuser-temporary-account-no-preference', $wikiId )
-				) {
-					$wikisToQuery[] = $wikiId;
-				} elseif (
-					( WikiMap::isCurrentWikiDbDomain( $wikiId ) && $canRevealIp ) ||
-					$this->userHasExternalPermission( 'checkuser-temporary-account', $wikiId )
-				) {
-					if ( $hasEnabledGlobalPreference ) {
-						$wikisToQuery[] = $wikiId;
-					} else {
-						$this->needsToEnableGlobalPreferenceAtWiki = $wikiId;
-					}
-				}
-			} else {
-				$wikisToQuery[] = $wikiId;
-			}
 		}
 
 		$this->wikisWithPermissionsCount = count( $wikisToQuery );
@@ -327,6 +323,8 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			if ( !WikiMap::isCurrentWikiDbDomain( $wikiId ) ) {
 				// Filter out results with hidden authors from external wikis, if the user shouldn't see
 				// them. These filters are added for the local query in ContributionsPager::getQueryInfo.
+				// Since external permissions are not looked up if the target is a registered user,
+				// these will not be shown to anyone for a registered user target, until T389187.
 				if ( !$this->userHasExternalPermission( 'deletedhistory', $wikiId ) ) {
 					$wikiConds[] = $dbr->bitAnd(
 						$this->revisionDeletedField, RevisionRecord::DELETED_USER
