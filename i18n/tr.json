@@ -207,6 +207,7 @@
 	"checkuser-global-contributions-link-sidebar": "Küresel katkılar",
 	"checkuser-global-contributions-subtitle": "Katkıları görüntüleme hakkınız olan tüm vikiler için son $1 {{PLURAL:$1|gün|gün}}den sonuçlar gösteriliyor. Viki başına $2 {{PLURAL:$2|sonuç|sonuç}} ile sınırlıdır.",
 	"checkuser-global-contributions-target-label": "Kullanıcı adı, IP adresi veya aralığı:",
+	"checkuser-global-contributions-search-form-wrapper": "Küresel katkıları ara",
 	"checkuser-global-contributions-results-title": "$1 için küresel katkılar",
 	"prefs-checkuser-tempaccount": "Geçici hesap IP göstermesi",
 	"checkuser-tempaccount-enable-preference": "Geçici hesaplar için IP adreslerinin açıklanmasını etkinleştir",
