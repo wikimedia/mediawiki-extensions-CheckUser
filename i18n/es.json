@@ -70,6 +70,8 @@
 	"grouppage-checkuser": "{{ns:project}}:Comprobadores de usuarios",
 	"grouppage-checkuser-temporary-account-viewer": "{{ns:project}}:Visores de IP de cuentas temporales",
 	"checkuser-clienthints-name-architecture": "Arquitectura",
+	"checkuser-clienthints-name-bitness": "Número de bits",
+	"checkuser-clienthints-name-form-factor": "Factor de forma",
 	"checkuser-clienthints-name-brand": "Marca",
 	"checkuser-clienthints-name-mobile": "Móvil",
 	"checkuser-clienthints-name-model": "Modelo",

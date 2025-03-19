@@ -64,7 +64,7 @@
 	"checkuser-search": "Klask en enmontoù marilh gwiriañ implijerien",
 	"checkuser-search-submit": "Klask",
 	"checkuser-ipeditcount": "~$1 gant an holl implijerien",
-	"checkuser-showmain": "Mont da furmskrid pennañ ar gwiriañ implijerien",
+	"checkuser-showmain": "Mont da {{#special:CheckUser}}",
 	"checkuser-autocreate-action": "zo bet krouet ent emgefre",
 	"checkuser-create-action": "zo bet krouet",
 	"checkuser-email-action": "en deus kaset ur postel d'an implijer « $1 »",
