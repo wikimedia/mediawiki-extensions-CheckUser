@@ -227,7 +227,9 @@ class SpecialGlobalContributions extends ContributionsSpecialPage {
 			)->parse();
 
 		// Allow linking to relevant tools to surface more global contributions (T380562).
-		if ( IPUtils::isIPAddress( $userObj->getName() ) ) {
+		if ( IPUtils::isValidRange( $targetName ) ) {
+			$toolsMsg = $this->msg( 'checkuser-global-contributions-ip-range-tools' );
+		} elseif ( IPUtils::isIPAddress( $userObj->getName() ) ) {
 			$toolsMsg = $this->msg( 'checkuser-global-contributions-anon-tools' );
 		} else {
 			$toolsMsg = $this->msg( 'checkuser-global-contributions-registered-user-tools' );
