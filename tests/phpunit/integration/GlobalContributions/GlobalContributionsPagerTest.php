@@ -32,6 +32,31 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$this->setUserLang( 'qqx' );
 	}
 
+	private function getPagerWithOverrides( $overrides ) {
+		$services = $this->getServiceContainer();
+		return new GlobalContributionsPager(
+			$overrides['LinkRenderer'] ?? $services->getLinkRenderer(),
+			$overrides['LinkBatchFactory'] ?? $services->getLinkBatchFactory(),
+			$overrides['HookContainer'] ?? $services->getHookContainer(),
+			$overrides['RevisionStore'] ?? $services->getRevisionStore(),
+			$overrides['NamespaceInfo'] ?? $services->getNamespaceInfo(),
+			$overrides['CommentFormatter'] ?? $services->getCommentFormatter(),
+			$overrides['UserFactory'] ?? $services->getUserFactory(),
+			$overrides['TempUserConfig'] ?? $services->getTempUserConfig(),
+			$overrides['CheckUserLookupUtils'] ?? $services->get( 'CheckUserLookupUtils' ),
+			$overrides['CentralIdLookup'] ?? $services->get( 'CentralIdLookup' ),
+			$overrides['RequestAggregator'] ?? $services->get( 'CheckUserApiRequestAggregator' ),
+			$overrides['PermissionManager'] ?? $services->getPermissionManager(),
+			$overrides['PreferencesFactory'] ?? $services->getPreferencesFactory(),
+			$overrides['LoadBalancerFactory'] ?? $services->getConnectionProvider(),
+			$overrides['JobQueueGroup'] ?? $services->getJobQueueGroup(),
+			$overrides['StatsFactory'] ?? $services->getStatsFactory(),
+			$overrides['Context'] ?? RequestContext::getMain(),
+			$overrides['options'] ?? [ 'revisionsOnly' => true ],
+			new UserIdentityValue( 0, $overrides['UserName'] ?? '127.0.0.1' )
+		);
+	}
+
 	private function getPager( $userName ) {
 		return $this->getServiceContainer()->get( 'CheckUserGlobalContributionsPagerFactory' )
 			->createPager(
@@ -377,28 +402,10 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				],
 			] );
 
-		$services = $this->getServiceContainer();
-		$pager = new GlobalContributionsPager(
-			$services->getLinkRenderer(),
-			$services->getLinkBatchFactory(),
-			$services->getHookContainer(),
-			$services->getRevisionStore(),
-			$services->getNamespaceInfo(),
-			$services->getCommentFormatter(),
-			$services->getUserFactory(),
-			$services->getTempUserConfig(),
-			$services->get( 'CheckUserLookupUtils' ),
-			$services->get( 'CentralIdLookup' ),
-			$apiRequestAggregator,
-			$services->getPermissionManager(),
-			$services->getPreferencesFactory(),
-			$dbProvider,
-			$services->getJobQueueGroup(),
-			$services->getStatsFactory(),
-			RequestContext::getMain(),
-			[ 'revisionsOnly' => true ],
-			new UserIdentityValue( 0, '127.0.0.1' )
-		);
+		$pager = $this->getPagerWithOverrides( [
+			'RequestAggregator' => $apiRequestAggregator,
+			'LoadBalancerFactory' => $dbProvider,
+		] );
 		$pager = TestingAccessWrapper::newFromObject( $pager );
 		$wikis = $pager->fetchWikisToQuery();
 
@@ -513,29 +520,11 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$hookContainer->expects( $this->never() )
 			->method( 'run' );
 
-		$services = $this->getServiceContainer();
-		$pager = new GlobalContributionsPager(
-			$services->getLinkRenderer(),
-			$services->getLinkBatchFactory(),
-			$hookContainer,
-			$services->getRevisionStore(),
-			$services->getNamespaceInfo(),
-			$services->getCommentFormatter(),
-			$services->getUserFactory(),
-			$services->getTempUserConfig(),
-			$services->get( 'CheckUserLookupUtils' ),
-			$services->get( 'CentralIdLookup' ),
-			$apiRequestAggregator,
-			$services->getPermissionManager(),
-			$services->getPreferencesFactory(),
-			$dbProvider,
-			$services->getJobQueueGroup(),
-			$services->getStatsFactory(),
-			RequestContext::getMain(),
-			[ 'revisionsOnly' => true ],
-			new UserIdentityValue( 0, '127.0.0.1' )
-		);
-
+		$pager = $this->getPagerWithOverrides( [
+			'HookContainer' => $hookContainer,
+			'RequestAggregator' => $apiRequestAggregator,
+			'LoadBalancerFactory' => $dbProvider,
+		] );
 		$pager->mIsBackwards = ( $paginationParams['dir'] ?? '' ) === 'prev';
 		$pager->setLimit( $paginationParams['limit'] );
 		$pager->setOffset( $paginationParams['offset'] ?? '' );
@@ -701,30 +690,13 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			->expects( $this->never() )
 			->method( 'run' );
 
-		$services = $this->getServiceContainer();
-		$sut = new GlobalContributionsPager(
-			$services->getLinkRenderer(),
-			$services->getLinkBatchFactory(),
-			$hookContainer,
-			$services->getRevisionStore(),
-			$services->getNamespaceInfo(),
-			$services->getCommentFormatter(),
-			$services->getUserFactory(),
-			$services->getTempUserConfig(),
-			$services->get( 'CheckUserLookupUtils' ),
-			$services->get( 'CentralIdLookup' ),
-			$this->createMock( CheckUserApiRequestAggregator::class ),
-			$services->getPermissionManager(),
-			$services->getPreferencesFactory(),
-			$dbProvider,
-			$services->getJobQueueGroup(),
-			$services->getStatsFactory(),
-			RequestContext::getMain(),
-			[ 'revisionsOnly' => true ],
-			new UserIdentityValue( 0, '127.0.0.1' )
-		);
+		$pager = $this->getPagerWithOverrides( [
+			'HookContainer' => $hookContainer,
+			'RequestAggregator' => $this->createMock( CheckUserApiRequestAggregator::class ),
+			'LoadBalancerFactory' => $dbProvider,
+		] );
 
-		$pager = TestingAccessWrapper::newFromObject( $sut );
+		$pager = TestingAccessWrapper::newFromObject( $pager );
 		$pager->currentPage = Title::makeTitle( 0, 'Test page' );
 		$pager->currentRevRecord = null;
 		$pager->needsToEnableGlobalPreferenceAtWiki = false;
@@ -785,29 +757,11 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		// because the extension may not be loaded on the external wiki (T385092).
 		$hookContainer = $this->createNoOpMock( HookContainer::class );
 
-		$services = $this->getServiceContainer();
-		$pager = new GlobalContributionsPager(
-			$services->getLinkRenderer(),
-			$services->getLinkBatchFactory(),
-			$hookContainer,
-			$services->getRevisionStore(),
-			$services->getNamespaceInfo(),
-			$services->getCommentFormatter(),
-			$services->getUserFactory(),
-			$services->getTempUserConfig(),
-			$services->get( 'CheckUserLookupUtils' ),
-			$services->get( 'CentralIdLookup' ),
-			$apiRequestAggregator,
-			$services->getPermissionManager(),
-			$services->getPreferencesFactory(),
-			$dbProvider,
-			$services->getJobQueueGroup(),
-			$services->getStatsFactory(),
-			RequestContext::getMain(),
-			[ 'revisionsOnly' => true ],
-			new UserIdentityValue( 0, '127.0.0.1' )
-		);
-
+		$pager = $this->getPagerWithOverrides( [
+			'HookContainer' => $hookContainer,
+			'RequestAggregator' => $apiRequestAggregator,
+			'LoadBalancerFactory' => $dbProvider,
+		] );
 		$pager->doQuery();
 
 		$this->assertApiLookupErrorCount( 1 );
