@@ -9,6 +9,7 @@ use MediaWiki\Context\RequestContext;
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\Title\Title;
+use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\WikiMap\WikiMap;
 use MediaWikiIntegrationTestCase;
@@ -438,6 +439,46 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				0,
 			]
 		];
+	}
+
+	public function testExternalWikiPermissionsNotCheckedForUser() {
+		$localWiki = WikiMap::getCurrentWikiId();
+		$externalWiki = 'otherwiki';
+
+		// Mock fetching the recently active wikis
+		$queryBuilder = $this->createMock( SelectQueryBuilder::class );
+		$queryBuilder->method( $this->logicalOr( 'select', 'from', 'distinct', 'where', 'join', 'caller', 'orderBy' ) )
+			->willReturnSelf();
+		$queryBuilder->method( 'fetchFieldValues' )
+			->willReturn( [ $localWiki, $externalWiki ] );
+
+		$database = $this->createMock( IReadableDatabase::class );
+		$database->method( 'newSelectQueryBuilder' )
+			->willreturn( $queryBuilder );
+
+		$dbProvider = $this->createMock( IConnectionProvider::class );
+		$dbProvider->method( 'getReplicaDatabase' )
+			->willReturn( $database );
+
+		// Ensure the permission API call is not made
+		$apiRequestAggregator = $this->createNoOpMock( CheckUserApiRequestAggregator::class );
+
+		// Mock the central user exists
+		$centralIdLookup = $this->createMock( CentralIdLookup::class );
+		$centralIdLookup->method( 'centralIdFromName' )
+			->willReturn( 45678 );
+
+		$pager = $this->getPagerWithOverrides( [
+			'CentralIdLookup' => $centralIdLookup,
+			'RequestAggregator' => $apiRequestAggregator,
+			'LoadBalancerFactory' => $dbProvider,
+			'UserName' => 'SomeUser',
+		] );
+		$pager = TestingAccessWrapper::newFromObject( $pager );
+		$wikis = $pager->fetchWikisToQuery();
+
+		$this->assertCount( 2, $wikis );
+		$this->assertSame( [], $pager->permissions );
 	}
 
 	/**
