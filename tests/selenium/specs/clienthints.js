@@ -82,7 +82,7 @@ describe( 'Client Hints', () => {
 		// Run jobs in case the Client Hints data is being inserted via a job.
 		// We can't use RunJobs from wdio-mediawiki, because we need to run the jobs
 		// synchronously to ensure that the Client Hints data jobs have all been run.
-		await childProcess.spawnSync(
+		childProcess.spawnSync(
 			'php',
 			[ 'maintenance/run.php', 'runJobs' ]
 		);
