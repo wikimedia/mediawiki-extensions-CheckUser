@@ -115,7 +115,8 @@
 	}
 
 	.ext-checkuser-temp-account-onboarding-right-leave-to {
-		transform: translateX( -@size-full );
+		// Use `calc()` for negative calculation to not rely on Less, but standard CSS.
+		transform: translateX( calc( -1 * @size-full ) );
 	}
 
 	.ext-checkuser-temp-account-onboarding-left-leave-to {
@@ -123,7 +124,8 @@
 	}
 
 	.ext-checkuser-temp-account-onboarding-left-enter-from {
-		transform: translateX( -@size-full );
+		// Use `calc()` for negative calculation to not rely on Less, but standard CSS.
+		transform: translateX( calc( -1 * @size-full ) );
 	}
 
 	.ext-checkuser-temp-account-onboarding-right-leave-active,
