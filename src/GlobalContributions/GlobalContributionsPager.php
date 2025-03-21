@@ -871,9 +871,11 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			);
 		}
 
-		return ' <span class="mw-changeslist-separator"></span> '
-			. Html::rawElement( 'bdi', [ 'dir' => $dir ], $userPageLink ) . ' '
-			. $this->msg( 'parentheses' )->rawParams( $userTalkLink )->escaped() . ' ';
+		return ' <span class="mw-changeslist-separator"></span> ' .
+			Html::rawElement( 'bdi', [ 'dir' => $dir ], $userPageLink ) .
+			' <span class="mw-usertoollinks mw-changeslist-links">' .
+			"<span class=\"mw-usertoollinks-talk\">{$userTalkLink}</span>" .
+			'</span>';
 	}
 
 	/**

@@ -244,9 +244,15 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * @dataProvider provideFormatUserLink
 	 */
-	public function testFormatAccountLink( $isDeleted, $username, $isTemp ) {
+	public function testFormatAccountLink(
+		array $expectedStrings,
+		array $unexpectedStrings,
+		string $username,
+		bool $isDeleted
+	): void {
 		$row = $this->getRow( [
 			'sourcewiki' => 'otherwiki',
+			'rev_user' => 123,
 			'rev_user_text' => $username,
 			'rev_deleted' => $isDeleted ? '4' : '8'
 		] );
@@ -283,31 +289,63 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$pager->currentPage = Title::makeTitle( 0, $row->page_title );
 
 		$formatted = $pager->formatUserLink( $row );
-		if ( $isDeleted ) {
-			$this->assertStringContainsString( 'empty-username', $formatted );
-			$this->assertStringNotContainsString( $username, $formatted );
-		} else {
-			if ( $isTemp ) {
-				$this->assertStringContainsString( 'Special:Contributions/' . $username, $formatted );
-			} else {
-				$this->assertStringContainsString( 'User talk:' . $username, $formatted );
-			}
-			$this->assertStringNotContainsString( 'empty-username', $formatted );
+
+		foreach ( $expectedStrings as $value ) {
+			$this->assertStringContainsString( $value, $formatted );
+		}
+
+		foreach ( $unexpectedStrings as $value ) {
+			$this->assertStringNotContainsString( $value, $formatted );
 		}
 	}
 
-	/**
-	 * Parameters:
-	 *   - isDeleted (bool)
-	 *   - username (string)
-	 *   - isTemp (bool)
-	 */
 	public function provideFormatUserLink() {
 		return [
-			'Temp account, hidden' => [ true, '~2024-123', true ],
-			'Temp account, visible' => [ false, '~2024-123', true ],
-			'Registered account, hidden' => [ true, 'UnregisteredUser1', false ],
-			'Registered account, visible' => [ false, 'UnregisteredUser1', false ],
+			'Temp account, hidden' => [
+				'expectedStrings' => [ 'empty-username' ],
+				'unexpectedStrings' => [
+					'~2024-123',
+					'mw-userlink',
+					'mw-extuserlink',
+					'mw-tempuserlink',
+				],
+				'username' => '~2024-123',
+				'isDeleted' => true,
+			],
+			'Temp account, visible' => [
+				'expectedStrings' => [
+					'Special:Contributions/~2024-123',
+					'mw-userlink',
+					'mw-extuserlink',
+					'mw-tempuserlink'
+				],
+				'unexpectedStrings' => [],
+				'username' => '~2024-123',
+				'isDeleted' => false,
+			],
+			'Registered account, hidden' => [
+				'expectedStrings' => [ 'empty-username' ],
+				'unexpectedStrings' => [
+					'UnregisteredUser1',
+					'mw-userlink',
+					'mw-extuserlink',
+					'mw-tempuserlink'
+				],
+				'username' => 'UnregisteredUser1',
+				'isDeleted' => true,
+			],
+			'Registered account, visible' => [
+				'expectedStrings' => [
+					'User talk:UnregisteredUser1',
+					'mw-userlink',
+					'mw-extuserlink'
+				],
+				'unexpectedStrings' => [
+					'mw-tempuserlink'
+				],
+				'username' => 'UnregisteredUser1',
+				'isDeleted' => false,
+			],
 		];
 	}
 
