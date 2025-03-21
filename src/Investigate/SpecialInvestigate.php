@@ -19,6 +19,7 @@ use MediaWiki\HTMLForm\HTMLForm;
 use MediaWiki\Language\Language;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Message\Message;
+use MediaWiki\Parser\ParserOptions;
 use MediaWiki\Parser\ParserOutput;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\FormSpecialPage;
@@ -277,8 +278,9 @@ class SpecialInvestigate extends FormSpecialPage {
 	 */
 	private function addParserOutput( ParserOutput $parserOutput ): self {
 		$this->getOutput()->addParserOutputMetadata( $parserOutput );
-		$popts = $this->getOutput()->parserOptions();
-		$this->addHTML( $parserOutput->runOutputPipeline( $popts, [] )->getContentHolderText() );
+		$popts = ParserOptions::newFromContext( $this->getContext() );
+		$html = $parserOutput->runOutputPipeline( $popts, [] )->getContentHolderText();
+		$this->addHTML( $html );
 
 		return $this;
 	}
