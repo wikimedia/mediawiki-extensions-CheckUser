@@ -253,6 +253,8 @@
 	"checkuser-ip-contributions-special-ip-contributions-button": "Redigeringer fra midlertidige kontoer",
 	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "Redigeringer fra midlertidige kontoer",
 	"checkuser-ip-contributions-special-contributions-button": "Gamle redigeringer fra IP-adressen",
+	"checkuser-global-contributions-link": "globale bidrag",
+	"checkuser-global-contributions-link-sidebar": "Globale bidrag",
 	"checkuser-global-contributions": "Søk etter globale bidrag",
 	"checkuser-global-contributions-permission-error-title": "Rettighetsfeil",
 	"checkuser-global-contributions-permission-error-description": "Godta avtalen i [[Special:GlobalPreferences|de globale innstillingene dine]] for å se globale bidrag.",
@@ -278,5 +280,6 @@
 	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 {{GENDER:$2|viste}} midlertidige kontoer på $3 globalt",
 	"log-action-filter-checkuser-temporary-account": "Type handling:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Endre tilgang",
-	"log-action-filter-checkuser-temporary-account-view-ips": "Vis IP-er"
+	"log-action-filter-checkuser-temporary-account-view-ips": "Vis IP-er",
+	"ext-ipinfo-global-contributions-url-text": "Vis globale bidrag"
 }
