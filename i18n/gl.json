@@ -12,10 +12,10 @@
 			"Dreamy Jazz"
 		]
 	},
-	"checkuser-summary": "Esta ferramenta analiza os cambios para recuperar os enderezos IP utilizados por un usuario ou amosar as edicións ou os datos de usuario dun enderezo IP.\nOs usuarios e as edicións dun cliente IP poden recuperarse a través de cabeceiras XFF, engadindo o sufixo \"/xff\" ao enderezo IP. IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128) están soportados.\nNon se devolverán máis de 5.000 edicións por motivos de rendemento.\nUse isto de acordo coas políticas.",
+	"checkuser-summary": "Esta ferramenta analiza os cambios recentes para recuperar os enderezos IP utilizados por un usuario ou amosar as edicións ou os datos de usuario dun enderezo IP.\nOs usuarios e as edicións dun cliente IP poden recuperarse a través de cabeceiras XFF, engadindo o sufixo \"/xff\" ao enderezo IP. Admítense os protocolos IPv4 (CIDR $1-32) e IPv6 (CIDR $2-128).\nNon se devolverán máis de $3 edicións por motivos de rendemento.\nUtiliza isto de acordo coas normas.",
 	"checkuser-desc": "Garante que usuarios cos permisos apropiados poidan comprobar os enderezos IP dos usuarios e acceder a outra información",
-	"checkuser": "Verificador de usuarios",
-	"checkuserlog": "Rexistro de comprobacións de usuarios",
+	"checkuser": "Verificación de usuarios",
+	"checkuserlog": "Rexistro de verificación de usuarios",
 	"checkuser-contribs": "comprobar os enderezos IP do usuario",
 	"checkuser-contribs-log": "comprobacións recentes",
 	"group-checkuser": "Verificadores de usuarios",
@@ -28,7 +28,7 @@
 	"checkuser-reason": "Motivo:",
 	"checkuser-reason-api": "API: $1",
 	"checkuser-showlog": "Cambiar ó rexistro CheckUser",
-	"checkuser-query": "Examinar os cambios recentes",
+	"checkuser-query": "Consultar os cambios recentes",
 	"checkuser-target": "Enderezo IP ou nome de usuario:",
 	"checkuser-users": "Obter os usuarios",
 	"checkuser-edits": "Obter as edicións",
@@ -37,6 +37,7 @@
 	"checkuser-week-1": "última semana",
 	"checkuser-week-2": "últimas dúas semanas",
 	"checkuser-month": "últimos 30 días",
+	"checkuser-month-2": "últimos 60 días",
 	"checkuser-all": "todos",
 	"checkuser-cidr-label": "Atopar rangos comúns e enderezos afectados para unha lista de enderezos IP",
 	"checkuser-cidr-res": "CIDR común:",
@@ -90,5 +91,11 @@
 	"checkuser-login-failure": "Non se puido acceder a {{SITENAME}} como $1",
 	"checkuser-login-success": "Acceso con éxito a {{SITENAME}} como $1",
 	"group-checkuser.css": "/* O CSS que se coloque aquí afectará soamente aos verificadores de usuarios */",
-	"group-checkuser.js": "/* O JS que se coloque aquí afectará soamente aos verificadores de usuarios */"
+	"group-checkuser.js": "/* O JS que se coloque aquí afectará soamente aos verificadores de usuarios */",
+	"checkuser-investigate-duration-label": "Duración",
+	"checkuser-investigate-duration-option-all": "Todas",
+	"checkuser-investigate-duration-option-1w": "Última semana",
+	"checkuser-investigate-duration-option-2w": "Últimas 2 semanas",
+	"checkuser-investigate-duration-option-30d": "Últimos 30 días",
+	"checkuser-investigate-reason-label": "Motivo"
 }
