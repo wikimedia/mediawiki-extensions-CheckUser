@@ -46,7 +46,7 @@ class AbuseFilterHandler implements
 	}
 
 	/**
-	 * Whenever AbuseFilter logs access to protected variables, this should instead
+	 * Whenever AbuseFilter logs access to the user_unnamed_ip protected variable, this should instead
 	 * be logged to CheckUser in order to centralize IP view logs. Abort the hook
 	 * afterwards so that the event is not double-logged.
 	 *
@@ -60,6 +60,12 @@ class AbuseFilterHandler implements
 		int $timestamp,
 		array $params
 	) {
+		// Only divert logs for protected variable value access when the variables included the user_unnamed_ip
+		// variable.
+		if ( isset( $params['variables'] ) && !in_array( 'user_unnamed_ip', $params['variables'] ) ) {
+			return true;
+		}
+
 		// Use the AbuseFilter specific log action as a message key along
 		// with an indicator that it's being sourced from AbuseFilter so that
 		// it's clearer that this is an external log

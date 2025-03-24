@@ -112,15 +112,45 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 			->assertFieldValue( 0 );
 	}
 
+	public function testProtectedVarsLogGoesToAbuseFilterLogIfVariablesMissingUserUnnamedIp() {
+		$performer = $this->getTestSysop();
+		$protectedVarsAccessLogger = AbuseFilterServices::getAbuseLoggerFactory()->getProtectedVarsAccessLogger();
+		$protectedVarsAccessLogger->logViewProtectedVariableValue(
+			$performer->getUserIdentity(), '~2024-01', [ 'other_protected_var' ], (int)wfTimestamp()
+		);
+		DeferredUpdates::doUpdates();
+
+		// Assert that the log was created by AbuseFilter and did not go to CheckUser, as CheckUser is only interested
+		// in logs where the user viewed user_unnamed_ip.
+		$this->newSelectQueryBuilder()
+			->select( 'COUNT(*)' )
+			->from( 'logging' )
+			->where( [
+				'log_action' => 'af-view-protected-var-value',
+				'log_type' => TemporaryAccountLogger::LOG_TYPE,
+			] )
+			->assertFieldValue( 0 );
+
+		$this->newSelectQueryBuilder()
+			->select( 'COUNT(*)' )
+			->from( 'logging' )
+			->where( [
+				'log_action' => 'view-protected-var-value',
+				'log_type' => ProtectedVarsAccessLogger::LOG_TYPE,
+			] )
+			->assertFieldValue( 1 );
+	}
+
 	public function testProtectedVarsAccessDebouncedLogging() {
 		// Run the same action twice
 		$performer = $this->getTestSysop();
-		AbuseFilterServices::getAbuseLoggerFactory()
-			->getProtectedVarsAccessLogger()
-			->logViewProtectedVariableValue( $performer->getUserIdentity(), '~2024-01' );
-		AbuseFilterServices::getAbuseLoggerFactory()
-			->getProtectedVarsAccessLogger()
-			->logViewProtectedVariableValue( $performer->getUserIdentity(), '~2024-01' );
+		$protectedVarsAccessLogger = AbuseFilterServices::getAbuseLoggerFactory()->getProtectedVarsAccessLogger();
+		$protectedVarsAccessLogger->logViewProtectedVariableValue(
+			$performer->getUserIdentity(), '~2024-01', [ 'user_unnamed_ip' ]
+		);
+		$protectedVarsAccessLogger->logViewProtectedVariableValue(
+			$performer->getUserIdentity(), '~2024-01', [ 'user_unnamed_ip' ]
+		);
 		DeferredUpdates::doUpdates();
 
 		// Assert that the action only inserted once into CheckUsers' temp account logging table
