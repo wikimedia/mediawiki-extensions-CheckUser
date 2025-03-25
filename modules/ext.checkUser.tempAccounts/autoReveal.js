@@ -1,4 +1,4 @@
-const { getAutoRevealStatus, setAutoRevealStatus } = require( './ipRevealUtils.js' );
+const { getAutoRevealStatus } = require( './ipRevealUtils.js' );
 
 /**
  * Run code when the page loads.
@@ -14,13 +14,19 @@ module.exports = function ( documentRoot ) {
 	$( '.checkuser-ip-auto-reveal', documentRoot ).on(
 		'click',
 		() => {
-			// Toggle the status
-			if ( !getAutoRevealStatus() ) {
-				setAutoRevealStatus( mw.config.get( 'wgCheckUserTemporaryAccountAutoRevealTime' ) );
-			} else {
-				setAutoRevealStatus( '' );
-			}
-			// Refresh, so that IPs may be revealed (or hidden)
-			window.location.reload();
+			mw.loader.using( [ 'vue', '@wikimedia/codex' ] ).then( () => {
+				$( 'body' ).append(
+					$( '<div>' ).attr( { id: 'checkuser-ip-auto-reveal' } )
+				);
+
+				let App;
+				if ( getAutoRevealStatus() ) {
+					App = require( './components/IPAutoRevealOffDialog.vue' );
+				} else {
+					App = require( './components/IPAutoRevealOnDialog.vue' );
+				}
+				const Vue = require( 'vue' );
+				Vue.createMwApp( App ).mount( '#checkuser-ip-auto-reveal' );
+			} );
 		} );
 };

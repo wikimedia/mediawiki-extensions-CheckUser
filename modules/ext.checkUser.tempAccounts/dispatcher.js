@@ -53,6 +53,8 @@
 		require( './initOnLoad.js' )();
 	}
 
-	// Include resources everywhere that ext.checkUser.tempAccounts is loaded
-	require( './autoReveal.js' )();
+	// Include auto-reveal on every page, if user has the right to auto-reveal
+	if ( mw.config.get( 'wgCheckUserTemporaryAccountAutoRevealAllowed' ) ) {
+		require( './autoReveal.js' )();
+	}
 }() );

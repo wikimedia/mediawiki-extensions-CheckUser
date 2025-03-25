@@ -59,6 +59,9 @@ function getAutoRevealStatus() {
 /**
  * Update the auto-reveal status of a user to switch on, switch off, or extend expiry.
  *
+ * The value stored and the expiry are the same, except that the value is a string and
+ * the expiry is a number.
+ *
  * @param {string} relativeTimestamp Number of seconds the "on" mode should be enabled
  *  or empty string to turn it "off".
  */
@@ -68,12 +71,13 @@ function setAutoRevealStatus( relativeTimestamp ) {
 		return;
 	}
 
-	const absoluteTimestamp = Math.floor( Date.now() / 1000 ) + Number( relativeTimestamp );
+	const relativeExpiry = Number( relativeTimestamp );
+	const absoluteExpiry = String( Math.floor( Date.now() / 1000 ) + relativeExpiry );
 
 	mw.storage.set(
 		getAutoRevealStatusKey(),
-		absoluteTimestamp,
-		relativeTimestamp
+		absoluteExpiry,
+		relativeExpiry
 	);
 }
 

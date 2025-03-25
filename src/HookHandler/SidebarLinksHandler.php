@@ -117,8 +117,7 @@ class SidebarLinksHandler implements SidebarBeforeOutputHook {
 		$out = $skin->getOutput();
 
 		$out->addJSConfigVars( [
-			'wgCheckUserTemporaryAccountAutoRevealTime' =>
-				$this->config->get( 'CheckUserTemporaryAccountAutoRevealTime' )
+			'wgCheckUserTemporaryAccountAutoRevealAllowed' => true,
 		] );
 
 		$out->addModules( 'ext.checkUser.tempAccounts' );
