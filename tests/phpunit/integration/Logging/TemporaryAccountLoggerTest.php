@@ -4,6 +4,9 @@ namespace MediaWiki\CheckUser\Tests\Integration\Logging;
 
 use JobSpecification;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
+use MediaWiki\Logging\LogEntryBase;
+use MediaWiki\Request\FauxRequest;
+use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\IPUtils;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
@@ -15,6 +18,47 @@ use Wikimedia\Timestamp\ConvertibleTimestamp;
  * @group Database
  */
 class TemporaryAccountLoggerTest extends MediaWikiIntegrationTestCase {
+	use TempUserTestTrait;
+
+	public function testLogViewIPs() {
+		// Make temporary accounts generate with a space in their username to test that spaces don't cause issues
+		// with log-deduplication (T389854).
+		$this->enableAutoCreateTempUser( [ 'genPattern' => '~ $1' ] );
+
+		/** @var TemporaryAccountLogger $logger */
+		$logger = $this->getServiceContainer()->get( 'CheckUserTemporaryAccountLoggerFactory' )->getLogger();
+
+		// Call the method under test once
+		$performer = $this->getTestSysop()->getUser();
+		$tempUser = $this->getServiceContainer()->getTempUserCreator()->create( null, new FauxRequest() )->getUser();
+		$logger->logViewIPs(
+			$performer, $tempUser->getName(), ConvertibleTimestamp::convert( TS_UNIX, '20240405060709' )
+		);
+
+		// Check that the call to the method under test caused one log entry with the correct parameters
+		$this->newSelectQueryBuilder()
+			->select( 'COUNT(*)' )
+			->from( 'logging' )
+			->where( [
+				'log_timestamp' => $this->getDb()->timestamp( '20240405060709' ),
+				'log_actor' => $this->getServiceContainer()->getActorStore()
+					->findActorId( $performer, $this->getDb() ),
+				'log_title' => $tempUser->getUserPage()->getDBkey(),
+				'log_namespace' => NS_USER,
+			] )
+			->caller( __METHOD__ )
+			->assertFieldValue( 1 );
+
+		// Call the method under test again to check that the code properly debounces the log entry.
+		$logger->logViewIPs(
+			$performer, $tempUser->getName(), ConvertibleTimestamp::convert( TS_UNIX, '20240405060711' )
+		);
+		$this->newSelectQueryBuilder()
+			->select( '1' )
+			->from( 'logging' )
+			->where( [ 'log_timestamp' => $this->getDb()->timestamp( '20240405060711' ) ] )
+			->assertEmptyResult();
+	}
 
 	/** @dataProvider provideLogViewTemporaryAccountsOnIP */
 	public function testLogViewTemporaryAccountsOnIP( $targetIP ) {
@@ -74,17 +118,29 @@ class TemporaryAccountLoggerTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideTestLogAccessChanged
 	 */
 	public function testLogAccessChanged( $logMethod, $expectedAction ) {
+		$user = $this->getTestUser()->getUser();
 		$logger = $this->getServiceContainer()->get( 'CheckUserTemporaryAccountLoggerFactory' )->getLogger();
-		$logger->$logMethod( $this->getTestUser()->getUserIdentity() );
+		$logger->$logMethod( $user );
 
-		$row = $this->getDb()->newSelectQueryBuilder()
+		$result = $this->getDb()->newSelectQueryBuilder()
 			->select( 'log_params' )
 			->from( 'logging' )
-			->where( [ 'log_type' => 'checkuser-temporary-account' ] )
+			->where( [
+				'log_type' => 'checkuser-temporary-account',
+				'log_title' => $user->getUserPage()->getDBkey(),
+				'log_namespace' => NS_USER,
+			] )
 			->caller( __METHOD__ )
-			->fetchRow();
+			->fetchResultSet();
 
-		$this->assertStringContainsString( $expectedAction, $row->log_params );
+		$this->assertSame( 1, $result->numRows() );
+		$result->rewind();
+
+		$this->assertArrayEquals(
+			[ '4::changeType' => $expectedAction ],
+			LogEntryBase::extractParams( $result->fetchRow()['log_params'] ),
+			false, true
+		);
 	}
 
 	public static function provideTestLogAccessChanged() {

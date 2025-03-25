@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Unit\Logging;
 
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
+use MediaWiki\Title\TitleFactory;
 use MediaWiki\User\ActorStore;
 use MediaWikiUnitTestCase;
 use Psr\Log\NullLogger;
@@ -22,7 +23,8 @@ class TemporaryAccountLoggerFactoryTest extends MediaWikiUnitTestCase {
 		return new TemporaryAccountLoggerFactory(
 			$this->createMock( ActorStore::class ),
 			new NullLogger(),
-			$dbProvider
+			$dbProvider,
+			$this->createMock( TitleFactory::class )
 		);
 	}
 
