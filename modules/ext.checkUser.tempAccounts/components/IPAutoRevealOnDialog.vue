@@ -33,6 +33,9 @@ const { ref } = require( 'vue' );
 const { CdxDialog, CdxField, CdxSelect } = require( '@wikimedia/codex' );
 const { setAutoRevealStatus } = require( './../ipRevealUtils.js' );
 
+// The duration messages for the select were translated using PHP's Message::durationParams.
+const durations = require( './../durations.json' );
+
 // @vue/component
 module.exports = exports = {
 	name: 'IPAutoRevealOnDialog',
@@ -54,16 +57,10 @@ module.exports = exports = {
 			disabled: !selected.value
 		} );
 
-		const menuItems = [
-			{
-				label: mw.message( 'checkuser-ip-auto-reveal-on-dialog-select-duration-1800' ).text(),
-				value: '1800'
-			},
-			{
-				label: mw.message( 'checkuser-ip-auto-reveal-on-dialog-select-duration-3600' ).text(),
-				value: '3600'
-			}
-		];
+		const menuItems = durations.map( ( duration ) => ( {
+			label: duration.translation,
+			value: duration.seconds
+		} ) );
 
 		function onChange() {
 			primaryAction.value.disabled = !selected.value;
