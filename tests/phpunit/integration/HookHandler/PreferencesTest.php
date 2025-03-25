@@ -39,6 +39,7 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 			TemporaryAccountLoggerFactory::class
 		);
 
+		$this->setUserLang( 'qqx' );
 		$this->sut = new Preferences(
 			$this->permissionManager,
 			$this->loggerFactory,
@@ -122,7 +123,6 @@ class PreferencesTest extends MediaWikiIntegrationTestCase {
 				return $right === 'checkuser';
 			} );
 
-		$this->setUserLang( 'qqx' );
 		$this->sut->onGetPreferences( $this->user, $prefs );
 
 		$this->assertArrayHasKey( 'checkuser-helper-table-collapse-by-default', $prefs );
