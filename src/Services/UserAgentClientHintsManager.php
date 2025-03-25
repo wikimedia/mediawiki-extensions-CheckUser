@@ -113,20 +113,12 @@ class UserAgentClientHintsManager {
 			);
 		}
 
-		$rows = $this->excludeExistingClientHintData( $rows, $usePrimary );
-
-		if ( count( $rows ) ) {
-			$this->dbw->newInsertQueryBuilder()
-				->insertInto( 'cu_useragent_clienthints' )
-				->ignore()
-				->rows( $rows )
-				->caller( __METHOD__ )
-				->execute();
-			// We just inserted rows to cu_useragent_clienthints, so
-			// use the primary DB for subsequent SELECT queries.
+		$clientHintsMappings = $this->selectClientHintMappings( $rows, $usePrimary, true );
+		if ( $clientHintsMappings === false ) {
 			$usePrimary = true;
+			$clientHintsMappings = $this->selectClientHintMappings( $rows, $usePrimary, false );
 		}
-		return $this->insertMappingRows( $clientHintsData, $referenceId, $type, $usePrimary );
+		return $this->insertMappingRows( $clientHintsMappings, $referenceId, $type );
 	}
 
 	/**
@@ -154,43 +146,25 @@ class UserAgentClientHintsManager {
 	 *
 	 * This links a foreign ID (e.g. "revision 1234") with client hint data values stored in cu_useragent_clienthints.
 	 *
-	 * @param ClientHintsData $clientHintsData
+	 * @param int[] $clientHintMapping
 	 * @param int $foreignId
 	 * @param string $type
-	 * @param bool $usePrimary If true, use the primary DB for SELECT queries.
 	 * @return StatusValue
 	 * @see insertClientHintValues, which invokes this method.
 	 *
 	 */
 	private function insertMappingRows(
-		ClientHintsData $clientHintsData, int $foreignId, string $type, bool $usePrimary = false
+		array $clientHintMapping, int $foreignId, string $type
 	): StatusValue {
-		$rows = $clientHintsData->toDatabaseRows();
-		// We might need primary DB if the call is happening in the context of a server-side hook,
-		$db = $usePrimary ? $this->dbw : $this->dbr;
-
 		// TINYINT reference to cu_changes, cu_log_event or cu_private_event.
 		$idType = $this->getMapIdByType( $type );
 		$mapRows = [];
-		foreach ( $rows as $row ) {
-			$result = $db->newSelectQueryBuilder()
-				->table( 'cu_useragent_clienthints' )
-				->field( 'uach_id' )
-				->where( $row )
-				->caller( __METHOD__ )
-				->fetchField();
-			if ( $result !== false ) {
-				$mapRows[] = [
-					'uachm_uach_id' => (int)$result,
-					'uachm_reference_type' => $idType,
-					'uachm_reference_id' => $foreignId,
-				];
-			} else {
-				$this->logger->warning(
-					"Lookup failed for cu_useragent_clienthints row with name {name} and value {value}.",
-					[ $row['uach_name'], $row['uach_value'] ]
-				);
-			}
+		foreach ( $clientHintMapping as $clientHintId ) {
+			$mapRows[] = [
+				'uachm_uach_id' => $clientHintId,
+				'uachm_reference_type' => $idType,
+				'uachm_reference_id' => $foreignId,
+			];
 		}
 
 		if ( count( $mapRows ) ) {
@@ -385,31 +359,62 @@ class UserAgentClientHintsManager {
 	}
 
 	/**
-	 * Helper method to avoid duplicate INSERT for existing client hint values.
+	 * Helper method to find the id for client hint values.
+	 * Missing values are inserted to generate new ids on the database.
+	 * In that case the function needs to be recalled to select the new ids.
 	 *
-	 * E.g. if "architecture: arm" already exists as a name/value pair, exclude this from the set of rows to insert.
+	 * E.g. if "architecture: arm" does not exists as a name/value pair, insert it.
 	 *
 	 * @param array[] $rows An array of arrays, where each array contains a key/value pair:
 	 *  uach_name => "some name",
 	 *  uach_value => "some value"
 	 * @param bool $usePrimary If true, use the primary DB for SELECT queries.
-	 * @return array[] An array of arrays to insert to the cu_useragent_clienthints table, see the @param $rows
-	 *  documentation for the format.
+	 * @param bool $insertMissingData If true, insert missing data
+	 * @return int[]|false
 	 */
-	private function excludeExistingClientHintData( array $rows, bool $usePrimary = false ): array {
-		$rowsToInsert = [];
+	private function selectClientHintMappings( array $rows, bool $usePrimary, bool $insertMissingData ) {
 		$db = $usePrimary ? $this->dbw : $this->dbr;
+
+		$orExpr = [];
+		$rowsToInsert = [];
 		foreach ( $rows as $row ) {
-			$result = $db->newSelectQueryBuilder()
-				->table( 'cu_useragent_clienthints' )
-				->where( $row )
-				->caller( __METHOD__ )
-				->fetchRowCount();
-			if ( $result === 0 ) {
-				$rowsToInsert[] = $row;
+			$orExpr[] = $db->andExpr( $row );
+			$rowsToInsert[$row['uach_name'] . ':' . $row['uach_value']] = $row;
+		}
+
+		$dbRes = $db->newSelectQueryBuilder()
+			->select( [ 'uach_id', 'uach_name', 'uach_value' ] )
+			->from( 'cu_useragent_clienthints' )
+			->where( $db->orExpr( $orExpr ) )
+			->caller( __METHOD__ )
+			->fetchResultSet();
+
+		$clientHintMapping = [];
+		foreach ( $dbRes as $dbRow ) {
+			$clientHintMapping[] = (int)$dbRow->uach_id;
+			unset( $rowsToInsert[$dbRow->uach_name . ':' . $dbRow->uach_value] );
+		}
+
+		if ( count( $rowsToInsert ) ) {
+			if ( $insertMissingData ) {
+				$this->dbw->newInsertQueryBuilder()
+					->insertInto( 'cu_useragent_clienthints' )
+					->ignore()
+					->rows( array_values( $rowsToInsert ) )
+					->caller( __METHOD__ )
+					->execute();
+				// False indicates the data has to be re-read to find ids for new inserted data
+				return false;
+			}
+			foreach ( $rowsToInsert as $row ) {
+				$this->logger->warning(
+					"Lookup failed for cu_useragent_clienthints row with name {name} and value {value}.",
+					[ $row['uach_name'], $row['uach_value'] ]
+				);
 			}
 		}
-		return $rowsToInsert;
+
+		return $clientHintMapping;
 	}
 
 }
