@@ -11,7 +11,8 @@
 			"Toghrul Rahimli",
 			"Vago",
 			"Vesely35",
-			"Vugar 1981"
+			"Vugar 1981",
+			"Əkrəm"
 		]
 	},
 	"checkuser-summary": "Bu alət bir istifadəçi tərəfindən istifadə olunan IP ünvanlarını almaq və ya bir IP ünvan üçün redaktə/istifadəçi məlumatlarını göstərmək üçün son dəyişiklikləri yoxlayır. Bir müştəri IP ünvanı ilə istifadəçilər və redaktələr IP ünvana \"/xff\"  əlavə edərək XFF başlıqları əldə edə bilər. IPv4 (CIDR $1-32) və IPv6 (CIDR $2-128) ilə dəstəklənir. Performans səbəblərinə görə $3+ redaktə qaytarılmayacaq. Bunu siyasətə uyğun olaraq istifadə edin.",
@@ -208,7 +209,7 @@
 	"checkuser-investigate-compare-copy-button-label-hide": "Vikimətni gizlət",
 	"checkuser-investigate-compare-toollinks-whois": "WHOIS",
 	"checkuser-investigate-compare-toollinks-ipcheck": "Proksi yoxlanışı",
-	"checkuser-investigate-compare-copy-message-label": "Bu məlumatı Vikimətn cədvəli olaraq kopyalamaq istəyirsiniz?",
+	"checkuser-investigate-compare-copy-message-label": "Bu məlumatı Vikimətn cədvəli olaraq kopiyalamaq istəyirsiniz?",
 	"checkuser-investigate-compare-notice-exceeded-limit": "Texniki məhdudiyyətlər səbəbindən təqdim edilə bilən qeydlərin sayına çatdıq. Aşağıdakı hədəflər üçün göstərilmiş məlumatlar yarımçıqdır: $1. Zəhmət olmasa daha az hədəf, daha kiçik vaxt və ya daha dar IP aralığından istifadə etməyə çalışın.",
 	"checkuser-investigate-compare-notice-no-results": "Heç bir nəticə yoxdur: son 90 gündə bu istifadəçilərdən və ya IP-lərdən heç bir redaktə edilməyib",
 	"checkuser-investigate-compare-notice-no-results-filters": "Bu filtr meyarlarına uyğun heç bir nəticə yoxdur. Axtarışı genişləndirmək üçün bəzi filtrləri silməyə çalışın.",
@@ -236,7 +237,7 @@
 	"checkuser-investigate-tour-filterip-desc": "İstifadəçi adlarını, IP-ləri və ya istifadəçi agentlərini süzgəcdən keçirərək qarışıqlığı aradan qaldırın. Məlumatları geri istəyirsiniz? Filtrləri silmək üçün yuxarıdakı Filtrlər panelindən istifadə edin.",
 	"checkuser-investigate-tour-block-title": "Bloklamaq istəyirsiniz?",
 	"checkuser-investigate-tour-block-desc": "Bloklamaq istədiyiniz istifadəçiləri seçməyə imkan verir və sonra müvafiq bloku seçmək üçün sizi bloklama səhifəsinə aparır.",
-	"checkuser-investigate-tour-copywikitext-title": "Məlumatı kopyalamaq istəyirsiniz?",
+	"checkuser-investigate-tour-copywikitext-title": "Məlumatı kopiyalamaq istəyirsiniz?",
 	"checkuser-investigate-tour-copywikitext-desc": "Müqayisə cədvəlini bir kliklə kopyalayın və CUWiki-yə aparın. Nəzərə alın ki, siz istintaqın bütün səhifələrini deyil, yalnız görünənləri kopyalayırsız.",
 	"checkuser-ip-contributions": "IP töhfələrində axtar",
 	"checkuser-ip-contributions-permission-error-title": "İcazə xətası",
