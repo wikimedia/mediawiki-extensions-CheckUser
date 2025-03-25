@@ -68,13 +68,11 @@ class AbuseFilterHandler implements
 
 		// Use the AbuseFilter specific log action as a message key along
 		// with an indicator that it's being sourced from AbuseFilter so that
-		// it's clearer that this is an external log
+		// it's clearer that this is an external log.
+		// Possible values:
+		//  - af-view-protected-var-value
 		$action = 'af-' . $action;
 
-		// Possible values:
-		//  - af-change-access-enable
-		//  - af-change-access-disable
-		//  - af-view-protected-var-value
 		$logger = $this->loggerFactory->getLogger();
 		$logger->logFromExternal(
 			$performer,

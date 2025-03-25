@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
-use Generator;
 use MediaWiki\Block\Block;
 use MediaWiki\CheckUser\HookHandler\AbuseFilterHandler;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
@@ -55,61 +54,6 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 		$variables = [];
 		$this->getHookHandler()->onAbuseFilterCustomProtectedVariables( $variables );
 		$this->assertArrayEquals( [ 'user_unnamed_ip' ], $variables );
-	}
-
-	public function provideProtectedVarsLogTypes(): Generator {
-		yield 'enable access to protected vars values' => [
-			[
-				'logAction' => 'logAccessEnabled',
-				'params' => [],
-			],
-			[
-				'expectedCULogType' => 'af-change-access-enable',
-				'expectedAFLogType' => 'change-access-enable',
-			]
-		];
-
-		yield 'disable access to protected vars values' => [
-			[
-				'logAction' => 'logAccessDisabled',
-				'params' => []
-			],
-			[
-				'expectedCULogType' => 'af-change-access-disable',
-				'expectedAFLogType' => 'change-access-disable'
-			]
-		];
-	}
-
-	/**
-	 * @dataProvider provideProtectedVarsLogTypes
-	 */
-	public function testProtectedVarsAccessLogging( $options, $expected ) {
-		$performer = $this->getTestSysop();
-		$logAction = $options['logAction'];
-		AbuseFilterServices::getAbuseLoggerFactory()
-			->getProtectedVarsAccessLogger()
-			->$logAction( $performer->getUserIdentity(), ...$options['params'] );
-
-		// Assert that the action was inserted into CheckUsers' temp account logging table
-		$this->newSelectQueryBuilder()
-			->select( 'COUNT(*)' )
-			->from( 'logging' )
-			->where( [
-				'log_action' => $expected['expectedCULogType'],
-				'log_type' => TemporaryAccountLogger::LOG_TYPE,
-			] )
-			->assertFieldValue( 1 );
-
-		// and also that it wasn't inserted into abusefilter's protected vars logging table
-		$this->newSelectQueryBuilder()
-			->select( 'COUNT(*)' )
-			->from( 'logging' )
-			->where( [
-				'log_action' => $expected['expectedAFLogType'],
-				'log_type' => ProtectedVarsAccessLogger::LOG_TYPE,
-			] )
-			->assertFieldValue( 0 );
 	}
 
 	public function testProtectedVarsLogGoesToAbuseFilterLogIfVariablesMissingUserUnnamedIp() {
