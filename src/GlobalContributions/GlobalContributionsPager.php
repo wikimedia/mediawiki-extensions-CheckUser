@@ -66,6 +66,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	private CentralIdLookup $centralIdLookup;
 	private CheckUserApiRequestAggregator $apiRequestAggregator;
 	private CheckUserGlobalContributionsLookup $globalContributionsLookup;
+	private CommentFormatter $commentFormatter;
 	private PermissionManager $permissionManager;
 	private GlobalPreferencesFactory $globalPreferencesFactory;
 	private IConnectionProvider $dbProvider;
@@ -129,6 +130,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		$this->tempUserConfig = $tempUserConfig;
 		$this->checkUserLookupUtils = $checkUserLookupUtils;
 		$this->centralIdLookup = $centralIdLookup;
+		$this->commentFormatter = $commentFormatter;
 		$this->apiRequestAggregator = $apiRequestAggregator;
 		$this->globalContributionsLookup = $globalContributionsLookup;
 		$this->permissionManager = $permissionManager;
@@ -855,13 +857,36 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			return parent::formatComment( $row );
 		}
 
-		// Show a generic message instead of the actual comment for external
-		// revisions, since determining their visibility involves cross-wiki
-		// permission checks. Showing the message is needed to prevent breaking
-		// skins that expect to have the comment there (T388392).
+		// $this->currentRevRecord is null for external revisions, so permission
+		// checks should be based on data from $row instead.
+		//
+		// userCanSeeExternalHistory() checks if the comment is not deleted or,
+		// if it is, if the current user can see it in the source wiki.
+		if ( $this->userCanSeeExternalHistory( $row ) ) {
+			$user = $this->getAuthority();
+			$record = $this->isArchive ?
+				$this->revisionStore->newRevisionFromArchiveRow( $row ) :
+				$this->revisionStore->newRevisionFromRow( $row );
+
+			// Note $comment just serves to check that the comment is not empty.
+			//
+			// Permission checks in getComment() would apply to the local wiki
+			// instead of the source wiki; therefore, the comment is retrieved
+			// skipping (local) permission checks by using RAW as the target
+			// audience.
+			$comment = $record->getComment( RevisionRecord::RAW, $user );
+
+			if ( $comment !== null && $comment->text !== '' ) {
+				return $this->commentFormatter->formatRevision( $record, $user );
+			}
+
+			$defaultComment = $this->messages['changeslist-nocomment'];
+			return "<span class=\"comment mw-comment-none\">$defaultComment</span>";
+		}
+
 		return Html::element(
 			'span',
-			[ 'class' => 'comment mw-comment-none' ],
+			[ 'class' => 'comment' ],
 			$this->msg( 'checkuser-global-contributions-no-summary-available' )
 		);
 	}
@@ -1086,11 +1111,30 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	 * @param mixed $row
 	 * @return bool
 	 */
+	private function externalCommentIsDeleted( $row ) {
+		return (bool)( $row->{$this->revisionDeletedField} & RevisionRecord::DELETED_COMMENT );
+	}
+
+	/**
+	 * @param mixed $row
+	 * @return bool
+	 */
 	private function userCanSeeExternalRevision( $row ) {
 		if ( !$this->externalRevisionIsDeleted( $row ) ) {
 			return true;
 		}
 		return $this->userHasExternalPermission( 'deletedtext', $row->sourcewiki );
+	}
+
+	/**
+	 * @param mixed $row
+	 * @return bool
+	 */
+	private function userCanSeeExternalHistory( $row ) {
+		if ( !$this->externalCommentIsDeleted( $row ) ) {
+			return true;
+		}
+		return $this->userHasExternalPermission( 'deletedhistory', $row->sourcewiki );
 	}
 
 	/**
