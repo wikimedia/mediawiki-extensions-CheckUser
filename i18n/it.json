@@ -24,6 +24,7 @@
 			"Scompo",
 			"Selven",
 			"Stefano-c",
+			"Superpes15",
 			"Titore",
 			"Valepert"
 		]
@@ -210,7 +211,10 @@
 	"checkuser-ip-contributions-permission-error-title": "Permessi non sufficienti",
 	"checkuser-ip-contributions-target-label": "Indirizzo o intervallo IP:",
 	"checkuser-ip-contributions-target-error-no-ip": "Inserisci un indirizzo IP o un intervallo di IP valido",
+	"checkuser-ip-contributions-results-title": "Contributi dell'IP tramite utenza temporanea per $1",
+	"checkuser-ip-contributions-archive-results-title": "Contributi cancellati dell'IP tramite utenza temporanea per $1",
 	"checkuser-ip-contributions-special-ip-contributions-button": "Modifiche dell'utente temporaneo per l'IP",
+	"checkuser-ip-contributions-special-contributions-button": "Modifiche tramite IP classico",
 	"checkuser-global-contributions-link": "contributi globali",
 	"checkuser-global-contributions-summary": "Ottieni le modifiche apportate da un utente in tutti i progetti wiki negli ultimi $1 {{PLURAL:$1|giorno|giorni}}.",
 	"checkuser-global-contributions-target-label": "Nome utente, indirizzo IP o intervallo:",
