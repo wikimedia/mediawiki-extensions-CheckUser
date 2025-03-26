@@ -206,6 +206,7 @@ class PopulateCentralCheckUserIndexTablesTest extends MaintenanceBaseTestCase im
 	}
 
 	public function testPopulation() {
+		$this->overrideConfigValue( 'CheckUserCentralIndexGroupsToExclude', [ 'bot' ] );
 		$testUsers = $this->populateLocalCheckUserResultTablesForTest();
 		$this->maintenance->loadWithArgv( [ '--batch-size', 2 ] );
 		$this->maintenance->execute();
