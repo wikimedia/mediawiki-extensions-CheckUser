@@ -178,7 +178,7 @@
 	"checkuser-investigate-duration-option-1w": "Geçen hafta",
 	"checkuser-investigate-duration-option-2w": "Son 2 hafta",
 	"checkuser-investigate-duration-option-30d": "Son 30 gün",
-	"checkuser-investigate-reason-label": "Sebep",
+	"checkuser-investigate-reason-label": "Gerekçe",
 	"checkuser-investigate-preliminary-notice-ip-targets": "Hesap bilgileri sekmesi IP'ler hakkında herhangi bir bilgi içermez. Bu ayrıntılar için <span class=\"plainlinks\">[$1 IP'ler ve Kullanıcı aracıları sekmesine]</span> bakın.",
 	"checkuser-investigate-preliminary-table-cell-blocked": "Engellendi",
 	"checkuser-investigate-preliminary-table-cell-edits": "$1 {{PLURAL:$1|değişiklik}}",
