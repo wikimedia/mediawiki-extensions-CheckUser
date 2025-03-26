@@ -12,6 +12,7 @@ use MediaWiki\Status\Status;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
 use MediaWikiUnitTestCase;
 use Psr\Log\LoggerInterface;
+use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
 use Wikimedia\Rdbms\InsertQueryBuilder;
@@ -154,18 +155,18 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 		$dbrMock->method( 'newSelectQueryBuilder' )
 			->willReturnCallback( static fn () => new SelectQueryBuilder( $dbrMock ) );
 		$dbrMock->expects( $this->once() )
-			->method( 'selectField' )
+			->method( 'select' )
 			->with(
 				[ 'cu_useragent_clienthints' ],
-				'uach_id',
+				[ 'uach_id', 'uach_name', 'uach_value' ],
 				[
-					'uach_name' => 'mobile',
-					'uach_value' => false
+					// Condition is: [ 'uach_name' => 'mobile', 'uach_value' => false ]
+					$dbrMock->orExpr( [] )
 				],
-				'MediaWiki\CheckUser\Services\UserAgentClientHintsManager::insertMappingRows',
+				'MediaWiki\CheckUser\Services\UserAgentClientHintsManager::selectClientHintMappings',
 				[],
 				[]
-			)->willReturn( false );
+			)->willReturn( new FakeResultWrapper( [] ) );
 		// Mock primary DB - No writes should occur.
 		$dbwMock = $this->createMock( IDatabase::class );
 		// Mock logger
@@ -178,8 +179,11 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 			);
 		$objectToTest = $this->getObjectUnderTest( $dbwMock, $dbrMock, $logger );
 		$objectToTest = TestingAccessWrapper::newFromObject( $objectToTest );
+		$clientHintMappings = $objectToTest->selectClientHintMappings(
+			ClientHintsData::newFromJsApi( [ 'mobile' => false ] )->toDatabaseRows(), false, false
+		);
 		$status = $objectToTest->insertMappingRows(
-			ClientHintsData::newFromJsApi( [ 'mobile' => false ] ), 1, 'revision'
+			$clientHintMappings, 1, 'revision'
 		);
 		$this->assertStatusGood( $status );
 	}
@@ -190,18 +194,20 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 		$dbrMock->method( 'newSelectQueryBuilder' )
 			->willReturnCallback( static fn () => new SelectQueryBuilder( $dbrMock ) );
 		$dbrMock->expects( $this->once() )
-			->method( 'selectField' )
+			->method( 'select' )
 			->with(
 				[ 'cu_useragent_clienthints' ],
-				'uach_id',
+				[ 'uach_id', 'uach_name', 'uach_value' ],
 				[
-					'uach_name' => 'mobile',
-					'uach_value' => false
+					// Condition is: [ 'uach_name' => 'mobile', 'uach_value' => false ]
+					$dbrMock->orExpr( [] )
 				],
-				'MediaWiki\CheckUser\Services\UserAgentClientHintsManager::insertMappingRows',
+				'MediaWiki\CheckUser\Services\UserAgentClientHintsManager::selectClientHintMappings',
 				[],
 				[]
-			)->willReturn( 2 );
+			)->willReturn( new FakeResultWrapper( [
+				(object)[ 'uach_id' => 2, 'uach_name' => 'mobile', 'uach_value' => false ],
+			] ) );
 		// Mock primary DB
 		$dbwMock = $this->createMock( IDatabase::class );
 		$dbwMock->method( 'newInsertQueryBuilder' )
@@ -218,8 +224,11 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 			);
 		$objectToTest = $this->getObjectUnderTest( $dbwMock, $dbrMock );
 		$objectToTest = TestingAccessWrapper::newFromObject( $objectToTest );
+		$clientHintMappings = $objectToTest->selectClientHintMappings(
+			ClientHintsData::newFromJsApi( [ 'mobile' => false ] )->toDatabaseRows(), false, false
+		);
 		$status = $objectToTest->insertMappingRows(
-			ClientHintsData::newFromJsApi( [ 'mobile' => false ] ), 1, 'revision'
+			$clientHintMappings, 1, 'revision'
 		);
 		$this->assertStatusGood( $status );
 	}
