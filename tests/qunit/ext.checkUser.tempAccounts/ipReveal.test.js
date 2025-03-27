@@ -217,7 +217,7 @@ QUnit.test( 'Test enableMultiReveal with grouped recent changes', ( assert ) => 
 	} );
 } );
 
-QUnit.test( 'Test addButton adds temporary account IP reveal buttons', ( assert ) => {
+QUnit.test( 'Test addIpRevealButtons adds temporary account IP reveal buttons', ( assert ) => {
 	// eslint-disable-next-line no-jquery/no-global-selector
 	const $qunitFixture = $( '#qunit-fixture' );
 	const temporaryAccountUserLinks = [];
@@ -245,27 +245,27 @@ QUnit.test( 'Test addButton adds temporary account IP reveal buttons', ( assert 
 	const $tempAccountUserLink = $( '<a>' ).addClass( 'mw-tempuserlink' ).text( tempName3 );
 	$qunitFixture.append( $tempAccountUserLink );
 	temporaryAccountUserLinks.push( $tempAccountUserLink );
-	// Verify that before the call to ::addButton there are no Show IP buttons
+	// Verify that before the call to ::addIpRevealButtons there are no Show IP buttons
 	assert.strictEqual(
 		$qunitFixture.find( '.ext-checkuser-tempaccount-reveal-ip-button' ).length,
 		0,
-		'No IP reveal links before addButton call'
+		'No IP reveal links before addIpRevealButtons call'
 	);
-	// Call addButton on the QUnit fixture
-	ipReveal.addButton( $qunitFixture );
+	// Call addIpRevealButtons on the QUnit fixture
+	ipReveal.addIpRevealButtons( $qunitFixture );
 	// Call again to ensure that the buttons can only be added once
-	ipReveal.addButton( $qunitFixture );
+	ipReveal.addIpRevealButtons( $qunitFixture );
 	// Verify that the Show IP button was added for all temporary user links
 	temporaryAccountUserLinks.forEach( ( $element ) => {
 		assert.strictEqual(
 			// eslint-disable-next-line no-jquery/no-class-state
 			$element.next().hasClass( 'ext-checkuser-tempaccount-reveal-ip-button' ), true,
-			'IP reveal button is directly after temporary account user link after addButton call'
+			'IP reveal button is directly after temporary account user link after addIpRevealButtons call'
 		);
 		assert.strictEqual(
 			// eslint-disable-next-line no-jquery/no-class-state
 			$element.next().next().hasClass( 'ext-checkuser-tempaccount-reveal-ip-button' ), false,
-			'Only one IP reveal button is added after multiple addButton calls'
+			'Only one IP reveal button is added after multiple addIpRevealButtons calls'
 		);
 	} );
 } );

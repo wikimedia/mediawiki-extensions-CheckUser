@@ -2,7 +2,14 @@ const ipRevealUtils = require( './ipRevealUtils.js' );
 const ipReveal = require( './ipReveal.js' );
 
 /**
- * Run code when the page loads.
+ * Add IP reveal functionality to contributions pages that show contributions made by a single
+ * temporary user. There are no user links on these pages.
+ *
+ * This is similar to initOnLoad except with the following customizations:
+ * - Since there are no user links, add the buttons for revealing IPs to a specified place
+ *   within each revision line.
+ * - Use simpler, customized logic for enabling multi-reveal and automatically revealing users,
+ *   since the page does not have multiple users, and all buttons are related to revisions.
  *
  * @param {string|*} documentRoot A Document or selector to use as the root of the
  *   search for elements

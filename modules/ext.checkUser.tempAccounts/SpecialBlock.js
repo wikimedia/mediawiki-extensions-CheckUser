@@ -4,8 +4,13 @@ let blockTargetWidget, lastUserRequest, lastIpRequest;
 
 /**
  * Run code for use when the Special:Block page loads.
- * This is in a function to allow QUnit testing to call
- * the method directly.
+ *
+ * This adds a button to the page if the target is a temporary account, for revealing the
+ * IP addresses used by the temporary account. Note that, unlike other pages, there is only
+ * a single button, and the IP addresses are not automatically revealed without the user
+ * clicking the button.
+ *
+ * This is in a function to allow QUnit testing to call the method directly.
  */
 function onLoad() {
 	const $blockTargetWidget = $( '#mw-bi-target' );

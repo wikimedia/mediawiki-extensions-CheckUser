@@ -155,14 +155,14 @@ function getUserLinks( $content ) {
 }
 
 /**
- * Add buttons to a "typical" page. This functionality is here because
- * it is shared between initOnLoad and initOnHook.
+ * Add IP reveal buttons next to temporary user links on a page. See getUserLinks for which
+ * links are excluded.
  *
  * @param {jQuery} $content
  * @return {jQuery} The temporary account user links which have had a "Show IP" button
  *   added after them by this method
  */
-function addButton( $content ) {
+function addIpRevealButtons( $content ) {
 	const allRevIds = {};
 	const allLogIds = {};
 	const $userLinks = getUserLinks( $content );
@@ -233,8 +233,8 @@ function getIdsForTarget( $element, target, allIds, getId ) {
 }
 
 /**
- * Add enable multi-reveal for a "typical" page. This functionality is here
- * because it is shared between initOnLoad and initOnHook.
+ * Enable multi-reveal for a "typical" page, not including contributions pages, which are
+ * handled separately in SpecialContributions.js.
  *
  * "Multi-reveal" refers to replacing multiple lookup buttons for the same user with IPs.
  *
@@ -377,9 +377,11 @@ function batchRevealIps( request, $tempUserLinks ) {
 }
 
 /**
- * Automatically reveal Ips for temporary users, where appropriate. This includes:
+ * Automatically reveal IPs for temporary users, where appropriate. This includes:
  * - Users who have been revealed recently
  * - All users if auto-reveal mode is on
+ *
+ * Note that this uses the `batch-temporaryaccount` API endpoint.
  *
  * @param {jQuery} $userLinks the temp user links which may have their IP revealed
  */
@@ -462,7 +464,7 @@ function getLogId( $element ) {
 
 module.exports = {
 	makeButton: makeButton,
-	addButton: addButton,
+	addIpRevealButtons: addIpRevealButtons,
 	replaceButton: replaceButton,
 	enableMultiReveal: enableMultiReveal,
 	automaticallyRevealUsers: automaticallyRevealUsers,
