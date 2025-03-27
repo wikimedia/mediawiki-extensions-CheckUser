@@ -2,6 +2,7 @@
 
 const ipReveal = require( '../../../modules/ext.checkUser.tempAccounts/ipReveal.js' );
 const { waitUntilElementDisappears } = require( './utils.js' );
+const ipRevealUtils = require( '../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js' );
 
 let server;
 
@@ -18,6 +19,10 @@ QUnit.module( 'ext.checkUser.tempAccounts.ipReveal', QUnit.newMwEnvironment( {
 	},
 	afterEach: function () {
 		server.restore();
+
+		// Disable auto-reveal after each test to avoid
+		// triggering auto-reveal for unrelated QUnit tests with temp account links (T388225).
+		ipRevealUtils.setAutoRevealStatus( '' );
 
 		// Ensure no users are set to pre-revealed
 		mw.storage.remove( 'mw-checkuser-temp-' + tempName1 );
@@ -336,4 +341,86 @@ QUnit.test( 'Test makeButton on button click for successful request but no data'
 
 QUnit.test( 'Test makeButton on button click for successful request with data', ( assert ) => {
 	performMakeButtonRequestTest( assert, 200, '{"ips":{"1":"127.0.0.1"}}', '127.0.0.1' );
+} );
+
+QUnit.test( 'Test enableAutoReveal replaces buttons with IPs', ( assert ) => {
+	const done = assert.async();
+	server.respond( ( request ) => {
+		const response = {};
+		response[ tempName1 ] = { revIps: { 1: '127.0.0.1', 2: '127.0.0.1' }, logIps: null, lastUsedIp: null };
+		response[ tempName2 ] = { revIps: { 3: '127.0.0.1' }, logIps: null, lastUsedIp: null };
+		request.respond(
+			200,
+			{ 'Content-Type': 'application/json' },
+			JSON.stringify( response )
+		);
+	} );
+
+	// eslint-disable-next-line no-jquery/no-global-selector
+	const $qunitFixture = $( '#qunit-fixture' );
+
+	// Add some revision lines with temporary account links
+	const revisionLines = { 1: tempName1, 2: tempName1, 3: tempName2 };
+	Object.entries( revisionLines ).forEach( ( [ revId, username ] ) => {
+		const $revisionLine = $( '<div>' ).attr( 'data-mw-revid', revId );
+		$qunitFixture.append( $revisionLine );
+		const $tempAccountUserLink = $( '<a>' ).addClass( 'mw-tempuserlink' ).text( username );
+		$revisionLine.append( $tempAccountUserLink );
+		$revisionLine.append( ipReveal.makeButton(
+			username,
+			{ targetId: revId, allIds: [ revId ] },
+			{},
+			$qunitFixture
+		) );
+	} );
+
+	// Enable multi-reveal and switch on auto-reveal mode
+	ipReveal.enableMultiReveal( $qunitFixture );
+
+	// Check all IPs are revealed
+	ipReveal.enableAutoReveal( Date.now() + 3600000, $qunitFixture );
+	waitUntilElementDisappears( '.ext-checkuser-tempaccount-reveal-ip-button' ).then( () => {
+		assert.strictEqual(
+			$( '.ext-checkuser-tempaccount-reveal-ip-button', $qunitFixture ).length,
+			0,
+			'IP reveal buttons removed'
+		);
+		assert.strictEqual(
+			$( '.ext-checkuser-tempaccount-reveal-ip', $qunitFixture ).length,
+			3,
+			'Revealed IPs added'
+		);
+
+		done();
+	} );
+} );
+
+QUnit.test( 'Test disableAutoReveal replaces IPs with buttons', ( assert ) => {
+	// eslint-disable-next-line no-jquery/no-global-selector
+	const $qunitFixture = $( '#qunit-fixture' );
+
+	// Add some revision lines with revealed IPs
+	const revisionLines = { 1: tempName1, 2: tempName1, 3: tempName2 };
+	Object.entries( revisionLines ).forEach( ( [ revId, username ] ) => {
+		const $revisionLine = $( '<div>' ).attr( 'data-mw-revid', revId );
+		$qunitFixture.append( $revisionLine );
+		const $tempAccountUserLink = $( '<a>' ).addClass( 'mw-tempuserlink' ).text( username );
+		const $revealedIp = $( '<span>' ).addClass( 'ext-checkuser-tempaccount-reveal-ip' ).append(
+			$( '<a>' ).addClass( 'ext-checkuser-tempaccount-reveal-ip-anchor' )
+		);
+		$revisionLine.append( $tempAccountUserLink, $revealedIp );
+	} );
+
+	// Check that the IPs are replaced with buttons
+	ipReveal.disableAutoReveal( $qunitFixture );
+	assert.strictEqual(
+		$( '.ext-checkuser-tempaccount-reveal-ip', $qunitFixture ).length,
+		0,
+		'Revealed IPs removed'
+	);
+	assert.strictEqual(
+		$( '.ext-checkuser-tempaccount-reveal-ip-button', $qunitFixture ).length,
+		3,
+		'IP reveal buttons added'
+	);
 } );
