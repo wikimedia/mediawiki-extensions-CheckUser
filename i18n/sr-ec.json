@@ -254,6 +254,7 @@
 	"checkuser-global-contributions-api-lookup-error": "Дошло је до грешке при учитавању података са неких викија. Резултати нису комплетни. <strong>Можете покушати поново.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Нема резултата за тражени термин.</strong> Корисник „$1” нема видљивих доприноса.",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Нема резултата за дати упит.</strong> Можете пронаћи доприносе ако промените параметре претраге.",
+	"checkuser-ip-auto-reveal-on-dialog-title": "Аутоматско откривање IP адреса",
 	"checkuser-ip-auto-reveal-on-dialog-default-action": "Откажи",
 	"checkuser-ip-auto-reveal-on-dialog-primary-action": "Укључи",
 	"checkuser-ip-auto-reveal-on-dialog-select-label": "Трајање:",
