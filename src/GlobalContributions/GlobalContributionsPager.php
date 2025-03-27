@@ -1028,4 +1028,12 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		}
 		return $this->userHasExternalPermission( 'deletedtext', $row->sourcewiki );
 	}
+
+	/**
+	 * Whether any errors occurred while looking up external wiki permissions during the last query.
+	 * @return bool
+	 */
+	public function hasExternalApiLookupError(): bool {
+		return $this->externalApiLookupError;
+	}
 }

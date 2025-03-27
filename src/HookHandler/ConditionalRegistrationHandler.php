@@ -2,12 +2,15 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
+use MediaWiki\Api\Hook\ApiQuery__moduleManagerHook;
+use MediaWiki\CheckUser\Api\GlobalContributions\ApiQueryGlobalContributions;
 use MediaWiki\CheckUser\GlobalContributions\SpecialGlobalContributions;
 use MediaWiki\CheckUser\IPContributions\SpecialIPContributions;
 use MediaWiki\Config\Config;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\SpecialPage\Hook\SpecialPage_initListHook;
 use MediaWiki\User\TempUser\TempUserConfig;
+use MediaWiki\WikiMap\WikiMap;
 
 // The name of onSpecialPage_initList raises the following phpcs error. As the
 // name is defined in core, this is an unavoidable issue and therefore the check
@@ -16,9 +19,10 @@ use MediaWiki\User\TempUser\TempUserConfig;
 // phpcs:disable MediaWiki.NamingConventions.LowerCamelFunctionsName.FunctionName
 
 /**
- * Hook handler for the SpecialPage_initList hook
+ * Conditionally register special pages and API modules that have additional dependencies
+ * or require extra configuration.
  */
-class SpecialPageInitListHandler implements SpecialPage_initListHook {
+class ConditionalRegistrationHandler implements SpecialPage_initListHook, ApiQuery__moduleManagerHook {
 
 	private Config $config;
 	private TempUserConfig $tempUserConfig;
@@ -65,8 +69,7 @@ class SpecialPageInitListHandler implements SpecialPage_initListHook {
 				$this->tempUserConfig->isKnown() ||
 				$this->config->get( 'CheckUserGlobalContributionsCentralWikiId' )
 			) &&
-			$this->extensionRegistry->isLoaded( 'GlobalPreferences' ) &&
-			$this->extensionRegistry->isLoaded( 'CentralAuth' )
+			$this->areGlobalContributionsDependenciesMet()
 		) {
 			$list['GlobalContributions'] = [
 				'class' => SpecialGlobalContributions::class,
@@ -88,5 +91,33 @@ class SpecialPageInitListHandler implements SpecialPage_initListHook {
 		}
 
 		return true;
+	}
+
+	/** @inheritDoc */
+	public function onApiQuery__moduleManager( $moduleManager ) {
+		$wikiId = WikiMap::getCurrentWikiId();
+		// The GlobalContributions API should only be available on the central wiki
+		// and only if all extension dependencies are met.
+		if (
+			$wikiId === $this->config->get( 'CheckUserGlobalContributionsCentralWikiId' ) &&
+			$this->areGlobalContributionsDependenciesMet()
+		) {
+			$moduleManager->addModule( 'globalcontributions', 'list', [
+				'class' => ApiQueryGlobalContributions::class,
+				'services' => [
+					'CheckUserGlobalContributionsPagerFactory',
+					'UserNameUtils',
+				],
+			] );
+		}
+	}
+
+	/**
+	 * Are all extension dependencies of Special:GlobalContributions available?
+	 * @return bool
+	 */
+	private function areGlobalContributionsDependenciesMet(): bool {
+		return $this->extensionRegistry->isLoaded( 'GlobalPreferences' ) &&
+			$this->extensionRegistry->isLoaded( 'CentralAuth' );
 	}
 }
