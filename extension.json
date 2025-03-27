@@ -395,8 +395,8 @@
 		"SpecialPageBeforeExecute": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\SpecialPageBeforeExecuteHandler"
 		},
-		"SpecialPageInitList": {
-			"class": "MediaWiki\\CheckUser\\HookHandler\\SpecialPageInitListHandler",
+		"ConditionalRegistration": {
+			"class": "MediaWiki\\CheckUser\\HookHandler\\ConditionalRegistrationHandler",
 			"services": [
 				"MainConfig",
 				"TempUserConfig",
@@ -450,6 +450,7 @@
 			"clienthints",
 			"pageDisplay"
 		],
+		"ApiQuery::moduleManager": "ConditionalRegistration",
 		"APIGetAllowedParams": "clienthints",
 		"ChangesListInsertLogEntry": "LogDisplayHandler",
 		"ContributionsToolLinks": "ToolLinks",
@@ -471,7 +472,7 @@
 			"clienthints",
 			"SpecialPageBeforeExecute"
 		],
-		"SpecialPage_initList": "SpecialPageInitList",
+		"SpecialPage_initList": "ConditionalRegistration",
 		"User::mailPasswordInternal": "CheckUserPrivateEvents",
 		"UserLogoutComplete": "CheckUserPrivateEvents",
 		"UserMergeAccountFields": "UserMerge",

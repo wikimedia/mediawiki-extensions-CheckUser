@@ -2,20 +2,22 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
-use MediaWiki\CheckUser\HookHandler\SpecialPageInitListHandler;
+use MediaWiki\Api\ApiModuleManager;
+use MediaWiki\CheckUser\HookHandler\ConditionalRegistrationHandler;
 use MediaWiki\Config\Config;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\User\TempUser\TempUserConfig;
+use MediaWiki\WikiMap\WikiMap;
 use MediaWikiIntegrationTestCase;
 
 /**
- * @covers \MediaWiki\CheckUser\HookHandler\SpecialPageInitListHandler
+ * @covers \MediaWiki\CheckUser\HookHandler\ConditionalRegistrationHandler
  */
-class SpecialPageInitListHandlerTest extends MediaWikiIntegrationTestCase {
+class ConditionalRegistrationHandlerTest extends MediaWikiIntegrationTestCase {
 	private Config $config;
 	private TempUserConfig $tempUserConfig;
 	private ExtensionRegistry $extensionRegistry;
-	private SpecialPageInitListHandler $handler;
+	private ConditionalRegistrationHandler $handler;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -24,7 +26,7 @@ class SpecialPageInitListHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->tempUserConfig = $this->createMock( TempUserConfig::class );
 		$this->extensionRegistry = $this->createMock( ExtensionRegistry::class );
 
-		$this->handler = new SpecialPageInitListHandler(
+		$this->handler = new ConditionalRegistrationHandler(
 			$this->config,
 			$this->tempUserConfig,
 			$this->extensionRegistry
@@ -95,6 +97,44 @@ class SpecialPageInitListHandlerTest extends MediaWikiIntegrationTestCase {
 			'Page is not added when dependencies are not loaded' => [
 				false, true, 'somewiki', false,
 			],
+		];
+	}
+
+	/**
+	 * @dataProvider provideRegisterGlobalContributionsApi
+	 */
+	public function testRegisterGlobalContributionsApi(
+		bool $extensionsAreLoaded,
+		bool $isOnCentralWiki,
+		bool $expectLoaded
+	): void {
+		$this->extensionRegistry->method( 'isLoaded' )
+			->willReturn( $extensionsAreLoaded );
+		$this->config->method( 'get' )
+			->with( 'CheckUserGlobalContributionsCentralWikiId' )
+			->willReturn( $isOnCentralWiki ? WikiMap::getCurrentWikiId() : false );
+
+		if ( $expectLoaded ) {
+			$moduleManager = $this->createMock( ApiModuleManager::class );
+			$moduleManager->expects( $this->once() )
+				->method( 'addModule' )
+				->with( 'globalcontributions', 'list', $this->isType( 'array' ) );
+		} else {
+			$moduleManager = $this->createNoOpMock( ApiModuleManager::class );
+		}
+
+		$this->handler->onApiQuery__moduleManager( $moduleManager );
+	}
+
+	public function provideRegisterGlobalContributionsApi(): iterable {
+		yield 'module is added when dependencies are loaded and on central wiki' => [
+			true, true, true,
+		];
+		yield 'module is not added when dependencies are not loaded' => [
+			false, true, false,
+		];
+		yield 'module is not added when not on central wiki' => [
+			true, false, false,
 		];
 	}
 }
