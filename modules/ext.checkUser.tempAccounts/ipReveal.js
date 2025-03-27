@@ -148,7 +148,7 @@ function getUserLinks( $content ) {
 		.find( '.ext-checkuser-log-line-supports-ip-reveal' )
 		.addBack( '.ext-checkuser-log-line-supports-ip-reveal' )
 		.map( function () {
-			return $( this ).find( '.mw-tempuserlink' ).first();
+			return $( this ).find( '.mw-tempuserlink' ).first().get();
 		} );
 
 	return $normalUserLinks.add( $logLinePerformerUserLinks );
@@ -183,7 +183,7 @@ function addIpRevealButtons( $content ) {
 		} );
 	} );
 
-	return $( '.ext-checkuser-tempaccount-reveal-ip-button', $content );
+	return $userLinks.next( '.ext-checkuser-tempaccount-reveal-ip-button' );
 }
 
 /**
