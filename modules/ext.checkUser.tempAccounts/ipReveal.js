@@ -159,8 +159,7 @@ function getUserLinks( $content ) {
  * links are excluded.
  *
  * @param {jQuery} $content
- * @return {jQuery} The temporary account user links which have had a "Show IP" button
- *   added after them by this method
+ * @return {jQuery} The IP reveal buttons within $content
  */
 function addIpRevealButtons( $content ) {
 	const allRevIds = {};
@@ -184,7 +183,7 @@ function addIpRevealButtons( $content ) {
 		} );
 	} );
 
-	return $userLinks;
+	return $( '.ext-checkuser-tempaccount-reveal-ip-button', $content );
 }
 
 /**
@@ -331,17 +330,16 @@ function enableMultiReveal( $element ) {
  *  - revIds: array of revision IDs
  *  - logIds: array of log IDs
  *  - lastUsedIp: boolean, whether to look up the most recently used IP
- * @param {jQuery} $tempUserLinks the temp user links for the users whose IPs will be revealed
- *  with the batch request
+ * @param {jQuery} $ipRevealButtons The buttons to replace with IP addresses
  */
-function batchRevealIps( request, $tempUserLinks ) {
+function batchRevealIps( request, $ipRevealButtons ) {
 	performBatchRevealRequest( request ).then( ( response ) => {
 		// Replace the lookup buttons with the IPs by triggering 'revealIp'.
-		$tempUserLinks.each( function () {
-			const target = $( this ).text();
+		$ipRevealButtons.each( function () {
+			const target = $( this ).data( 'target' );
 
 			// Skip buttons that got revealed by multi-reveal.
-			const $button = $( this ).next( '.ext-checkuser-tempaccount-reveal-ip-button' );
+			const $button = $( this );
 			if ( !$button.get( 0 ) ) {
 				return;
 			}
@@ -365,12 +363,11 @@ function batchRevealIps( request, $tempUserLinks ) {
 			}
 		} );
 	} ).fail( () => {
-		$tempUserLinks.each( function () {
-			const target = $( this ).text();
+		$ipRevealButtons.each( function () {
+			const target = $( this ).data( 'target' );
 
 			if ( Object.prototype.hasOwnProperty.call( request, target ) ) {
-				const $button = $( this ).next( '.ext-checkuser-tempaccount-reveal-ip-button' );
-				replaceButton( $button, false, false );
+				replaceButton( $( this ), false, false );
 			}
 		} );
 	} );
@@ -383,24 +380,24 @@ function batchRevealIps( request, $tempUserLinks ) {
  *
  * Note that this uses the `batch-temporaryaccount` API endpoint.
  *
- * @param {jQuery} $userLinks the temp user links which may have their IP revealed
+ * @param {jQuery} $ipRevealButtons
  */
-function automaticallyRevealUsers( $userLinks ) {
+function automaticallyRevealUsers( $ipRevealButtons ) {
 	const request = {};
 	const usersToReveal = [];
-	let $userLinksToReveal;
+	let $buttonsToReveal;
 
 	if ( ipRevealUtils.getAutoRevealStatus() ) {
-		$userLinksToReveal = $userLinks;
+		$buttonsToReveal = $ipRevealButtons;
 	} else {
-		$userLinksToReveal = $userLinks.filter( function () {
-			return ipRevealUtils.getRevealedStatus( $( this ).text() );
+		$buttonsToReveal = $ipRevealButtons.filter( function () {
+			return ipRevealUtils.getRevealedStatus( $( this ).data( 'target' ) );
 		} );
 	}
 
-	$userLinksToReveal.each( function () {
-		const target = $( this ).text();
-		const $button = $( this ).next( '.ext-checkuser-tempaccount-reveal-ip-button' );
+	$buttonsToReveal.each( function () {
+		const target = $( this ).data( 'target' );
+		const $button = $( this );
 
 		if ( !Object.prototype.hasOwnProperty.call( request, target ) ) {
 			request[ target ] = { revIds: [], logIds: [], lastUsedIp: false };
@@ -430,7 +427,7 @@ function automaticallyRevealUsers( $userLinks ) {
 
 	// Trigger a batch lookup for all revealed users.
 	if ( usersToReveal.length > 0 ) {
-		batchRevealIps( request, $userLinks );
+		batchRevealIps( request, $buttonsToReveal );
 	}
 }
 

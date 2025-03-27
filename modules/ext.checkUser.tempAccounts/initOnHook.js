@@ -16,8 +16,8 @@ module.exports = function ( documentRoot ) {
 	}
 
 	mw.hook( 'wikipage.content' ).add( ( $content ) => {
-		const $userLinks = ipReveal.addIpRevealButtons( $content );
-		ipReveal.automaticallyRevealUsers( $userLinks );
+		const $ipRevealButtons = ipReveal.addIpRevealButtons( $content );
+		ipReveal.automaticallyRevealUsers( $ipRevealButtons );
 	} );
 
 	ipReveal.enableMultiReveal( $( documentRoot ) );
