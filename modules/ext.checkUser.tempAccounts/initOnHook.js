@@ -1,7 +1,11 @@
 const ipReveal = require( './ipReveal.js' );
 
 /**
- * Code to run when the page loads.
+ * Add IP reveal functionality to a page that automatically updates.
+ *
+ * This is very similar to initOnLoad, except:
+ * - Multi-reveal functionality is enabled once, on page load.
+ * - New buttons and new revealed IPs are potentially added each time the page updates.
  *
  * @param {string|jQuery|*} documentRoot A DOM Element, Document, jQuery or selector
  *   to use as context
@@ -12,8 +16,8 @@ module.exports = function ( documentRoot ) {
 	}
 
 	mw.hook( 'wikipage.content' ).add( ( $content ) => {
-		ipReveal.addButton( $content );
-		ipReveal.automaticallyRevealUsers( $( '.mw-tempuserlink', documentRoot ) );
+		const $userLinks = ipReveal.addIpRevealButtons( $content );
+		ipReveal.automaticallyRevealUsers( $userLinks );
 	} );
 
 	ipReveal.enableMultiReveal( $( documentRoot ) );
