@@ -63,6 +63,7 @@
 	"checkuser-recent-checks": "Senaste kontroller för denna användare",
 	"checkuser-log-fail": "Loggposten kunde inte läggas i loggfilen.",
 	"checkuser-log-checks-by": "kontroller av",
+	"checkuser-log-checks-on": "kontroller av",
 	"checkuser-blocked": "Blockerad",
 	"checkuser-gblocked": "Blockerad globalt",
 	"checkuser-locked": "Låst",

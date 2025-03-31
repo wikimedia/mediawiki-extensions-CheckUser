@@ -9,5 +9,6 @@
 	"checkuser-search-submit": "ਲੱਭੋ",
 	"checkuser-investigateblock": "ਵਰਤੋਂਕਾਰਾਂ 'ਤੇ ਪਾਬੰਦੀ ਲਾਓ",
 	"checkuser-investigate-tab-preliminary-check": "ਖਾਤਾ ਜਾਣਕਾਰੀ",
-	"checkuser-investigate-preliminary-table-header-editcount": "ਸੋਧ"
+	"checkuser-investigate-preliminary-table-header-editcount": "ਸੋਧ",
+	"checkuser-investigate-compare-table-button-contribs-label": "ਯੋਗਦਾਨ"
 }
