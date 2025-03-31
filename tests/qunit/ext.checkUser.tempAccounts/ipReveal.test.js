@@ -277,7 +277,11 @@ QUnit.test( 'Test addIpRevealButtons adds temporary account IP reveal buttons', 
 
 QUnit.test( 'Test makeButton creates expected button', ( assert ) => {
 	// Call the method under test
-	const $button = ipReveal.makeButton( tempName1, { targetId: 1, allIds: [ 1 ] }, {} );
+	const elements = ipReveal.makeButton( tempName1, { targetId: 1, allIds: [ 1 ] }, {} );
+	const [ $button ] = elements;
+
+	assert.strictEqual( elements.length, 1, 'Only the IP reveal button should be returned for non-blocked users' );
+
 	// Verify that the button has the expected button text and classes
 	assert.strictEqual(
 		$button.text(),
@@ -297,6 +301,30 @@ QUnit.test( 'Test makeButton creates expected button', ( assert ) => {
 			'Button has ' + className + ' class'
 		);
 	} );
+} );
+
+QUnit.test( 'Test makeButton creates expected button for blocked performer', ( assert ) => {
+	mw.config.set( 'wgCheckUserIsPerformerBlocked', true );
+	const elements = ipReveal.makeButton( tempName1, { targetId: 1, allIds: [ 1 ] }, {} );
+	const [ $button, $blockInfoWidget ] = elements;
+
+	assert.strictEqual(
+		elements.length,
+		2,
+		'Both an IP reveal button and a block details button should be returned for non-blocked users'
+	);
+
+	// Verify that the button has the expected button text and classes
+	assert.strictEqual(
+		$button.text(),
+		'(checkuser-tempaccount-reveal-ip-button-label)',
+		'Button text'
+	);
+	assert.strictEqual(
+		$blockInfoWidget.find( '[role=button]' ).attr( 'title' ),
+		'(checkuser-tempaccount-reveal-blocked-title)',
+		'Block info widget title'
+	);
 } );
 
 function performMakeButtonRequestTest( assert, responseCode, responseContent, expectedText ) {

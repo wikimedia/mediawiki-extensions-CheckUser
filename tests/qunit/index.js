@@ -19,3 +19,4 @@ require( './ext.checkUser.tempAccounts/initOnHook.test.js' );
 require( './ext.checkUser.tempAccounts/rest.test.js' );
 require( './ext.checkUser.tempAccounts/SpecialBlock.test.js' );
 require( './ext.checkUser.tempAccounts/SpecialContributions.test.js' );
+require( './ext.checkUser.tempAccounts/BlockDetailsPopupButtonWidget.test.js' );

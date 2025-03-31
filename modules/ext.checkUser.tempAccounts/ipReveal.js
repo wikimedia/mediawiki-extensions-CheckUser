@@ -1,3 +1,4 @@
+const BlockDetailsPopupButtonWidget = require( './BlockDetailsPopupButtonWidget.js' );
 const ipRevealUtils = require( './ipRevealUtils.js' );
 const { performRevealRequest, performBatchRevealRequest, isRevisionLookup, isLogLookup } = require( './rest.js' );
 
@@ -42,6 +43,9 @@ function replaceButton( $element, ip, success ) {
  * event. The handler will perform an API lookup and replace the button with some
  * resulting information.
  *
+ * If the current user is blocked, the result will include
+ * an additional info widget that surfaces block details.
+ *
  * @param {string} target
  * @param {Object} revIds Object used to perform the API request, containing:
  *  - targetId: revision ID for the passed-in element
@@ -51,12 +55,14 @@ function replaceButton( $element, ip, success ) {
  *  - allIds: array of all log IDs for the passed-in target
  * @param {string|*} documentRoot A Document or selector to use as the context
  *  for firing the 'userRevealed' event, handled by buttons within that context.
- * @return {jQuery}
+ * @return {jQuery[]}
  */
 function makeButton( target, revIds, logIds, documentRoot ) {
 	if ( !documentRoot ) {
 		documentRoot = document;
 	}
+
+	const isPerformerBlocked = mw.config.get( 'wgCheckUserIsPerformerBlocked' );
 
 	const button = new OO.ui.ButtonWidget( {
 		label: mw.msg( 'checkuser-tempaccount-reveal-ip-button-label' ),
@@ -65,7 +71,8 @@ function makeButton( target, revIds, logIds, documentRoot ) {
 		flags: [
 			'progressive'
 		],
-		classes: [ 'ext-checkuser-tempaccount-reveal-ip-button' ]
+		classes: [ 'ext-checkuser-tempaccount-reveal-ip-button' ],
+		disabled: isPerformerBlocked
 	} );
 
 	button.$element.data( 'target', target );
@@ -126,7 +133,14 @@ function makeButton( target, revIds, logIds, documentRoot ) {
 		} );
 	} );
 
-	return button.$element;
+	const elements = [ button.$element ];
+
+	if ( isPerformerBlocked ) {
+		const blockDetailsPopupButton = new BlockDetailsPopupButtonWidget();
+		elements.push( blockDetailsPopupButton.$element );
+	}
+
+	return elements;
 }
 
 /**
@@ -605,9 +619,8 @@ function enableIpRevealForContributionsPage( documentRoot, pageTitle ) {
 			};
 			return [
 				' ',
-				$( '<span>' ).addClass( 'mw-changeslist-separator' ),
-				makeButton( target, ids, undefined, documentRoot )
-			];
+				$( '<span>' ).addClass( 'mw-changeslist-separator' )
+			].concat( makeButton( target, ids, undefined, documentRoot ) );
 		} );
 	} );
 

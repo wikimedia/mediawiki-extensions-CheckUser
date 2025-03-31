@@ -565,6 +565,7 @@
 			"remoteExtPath": "CheckUser/modules/ext.checkUser.tempAccounts",
 			"packageFiles": [
 				"dispatcher.js",
+				"BlockDetailsPopupButtonWidget.js",
 				"components/IPAutoRevealOnDialog.vue",
 				"components/IPAutoRevealOffDialog.vue",
 				"ipRevealUtils.js",
@@ -591,6 +592,11 @@
 				"checkuser-tempaccount-reveal-ip-missing",
 				"checkuser-tempaccount-reveal-ip-error",
 				"checkuser-tempaccount-specialblock-ips",
+				"checkuser-tempaccount-reveal-blocked-header",
+				"checkuser-tempaccount-reveal-blocked-description",
+				"checkuser-tempaccount-reveal-blocked-title",
+				"checkuser-tempaccount-reveal-blocked-error",
+				"checkuser-tempaccount-reveal-blocked-missingblock",
 				"checkuser-ip-auto-reveal-notification-on",
 				"checkuser-ip-auto-reveal-notification-off",
 				"checkuser-ip-auto-reveal-on-dialog-title",
@@ -792,6 +798,8 @@
 			"tests/qunit/ext.checkUser.tempAccounts/SpecialBlock.test.js",
 			"modules/ext.checkUser.tempAccounts/SpecialBlock.js",
 			"modules/ext.checkUser.tempAccounts/ShowIPButton.vue",
+			"modules/ext.checkUser.tempAccounts/BlockDetailsPopupButtonWidget.js",
+			"tests/qunit/ext.checkUser.tempAccounts/BlockDetailsPopupButtonWidget.test.js",
 			"tests/qunit/ext.checkUser.ipInfo.hooks/ext.ipinfo.infobox.widget.test.js",
 			"modules/ext.checkUser.ipInfo.hooks/infobox.js"
 		],

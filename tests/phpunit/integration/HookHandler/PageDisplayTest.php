@@ -140,8 +140,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 		if (
 			$tempAccountsKnown &&
 			( $specialPageName || $actionName ) &&
-			$hasIpRevealPermission &&
-			!$isBlockedSitewide
+			$hasIpRevealPermission
 		) {
 			if ( $hasEnabledIpReveal ) {
 				$expectedModules[] = 'ext.checkUser.tempAccounts';
@@ -149,6 +148,7 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 				$expectedConfigVars += [
 					'wgCheckUserTemporaryAccountMaxAge' => 1234,
 					'wgCheckUserSpecialPagesWithoutIPRevealButtons' => [ 'BlockList' ],
+					'wgCheckUserIsPerformerBlocked' => $isBlockedSitewide,
 				];
 
 				if ( $specialPageName === 'Block' ) {
