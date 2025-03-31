@@ -43,11 +43,12 @@ describe( 'IP auto-reveal On dialog', () => {
 		expect( wrapper.findComponent( CdxDialog ).props( 'primaryAction' ).disabled ).toEqual( false );
 	} );
 
-	it( 'calls enableAutoReveal on submit', async () => {
+	it( 'calls enableAutoReveal and shows notification on submit', async () => {
 		await wrapper.findComponent( CdxSelect ).vm.$emit( 'update:selected', '3600' );
 		await wrapper.findComponent( CdxDialog ).vm.$emit( 'primary' );
 
 		expect( mockEnableAutoReveal ).toHaveBeenCalledWith( '3600' );
+		expect( mw.notify ).toHaveBeenCalled();
 		expect( wrapper.findComponent( CdxDialog ).props( 'open' ) ).toBe( false );
 	} );
 } );

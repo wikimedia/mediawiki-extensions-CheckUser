@@ -20,6 +20,8 @@ global.mw.storage = {
 	set: jest.fn()
 };
 
+global.mw.notify = jest.fn();
+
 config.global.mocks = {
 	$i18n: ( ...messageKeyAndParams ) => ( {
 		text: () => '(' + messageKeyAndParams.join( ', ' ) + ')',

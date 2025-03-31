@@ -579,6 +579,8 @@
 				"checkuser-tempaccount-reveal-ip-missing",
 				"checkuser-tempaccount-reveal-ip-error",
 				"checkuser-tempaccount-specialblock-ips",
+				"checkuser-ip-auto-reveal-notification-on",
+				"checkuser-ip-auto-reveal-notification-off",
 				"checkuser-ip-auto-reveal-on-dialog-title",
 				"checkuser-ip-auto-reveal-on-dialog-text",
 				"checkuser-ip-auto-reveal-on-dialog-default-action",

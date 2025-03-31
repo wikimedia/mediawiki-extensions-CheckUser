@@ -69,6 +69,11 @@ module.exports = exports = {
 		function onSubmit() {
 			enableAutoReveal( selected.value );
 			open.value = false;
+
+			mw.notify( mw.message( 'checkuser-ip-auto-reveal-notification-on' ), {
+				classes: [ 'ext-checkuser-ip-auto-reveal-notification-on' ],
+				type: 'success'
+			} );
 		}
 
 		return {

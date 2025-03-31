@@ -60,6 +60,11 @@ module.exports = exports = {
 		function onRemove() {
 			disableAutoReveal();
 			open.value = false;
+
+			mw.notify( mw.message( 'checkuser-ip-auto-reveal-notification-off' ), {
+				classes: [ 'ext-checkuser-ip-auto-reveal-notification-off' ],
+				type: 'success'
+			} );
 		}
 
 		return {
