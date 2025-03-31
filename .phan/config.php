@@ -11,6 +11,7 @@ $cfg['directory_list'] = array_merge(
 		'../../extensions/GuidedTour',
 		'../../extensions/GlobalBlocking',
 		'../../extensions/GlobalPreferences',
+		'../../extensions/GrowthExperiments',
 		'../../extensions/TorBlock',
 		'../../extensions/UserMerge'
 	]
@@ -25,6 +26,7 @@ $cfg['exclude_analysis_directory_list'] = array_merge(
 		'../../extensions/GuidedTour',
 		'../../extensions/GlobalBlocking',
 		'../../extensions/GlobalPreferences',
+		'../../extensions/GrowthExperiments',
 		'../../extensions/TorBlock',
 		'../../extensions/UserMerge'
 	]

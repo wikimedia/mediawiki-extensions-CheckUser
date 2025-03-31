@@ -1,6 +1,7 @@
 <?php
 
 use GlobalPreferences\GlobalPreferencesFactory;
+use GrowthExperiments\UserImpact\UserImpactLookup;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPagerFactory;
 use MediaWiki\CheckUser\GuidedTour\TourLauncher;
@@ -25,6 +26,7 @@ use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountsByIPLookup;
+use MediaWiki\CheckUser\Services\CheckUserUserInfoCardService;
 use MediaWiki\CheckUser\Services\CheckUserUtilityService;
 use MediaWiki\CheckUser\Services\TokenManager;
 use MediaWiki\CheckUser\Services\TokenQueryManager;
@@ -381,6 +383,19 @@ return [
 			$services->getSpecialPageFactory(),
 			$services->getCentralIdLookup(),
 			$services->getUserFactory()
+		);
+	},
+	'CheckUserUserInfoCardService' => static function (
+		MediaWikiServices $services
+	): CheckUserUserInfoCardService {
+		$userImpactLookup = $services->getService( 'GrowthExperimentsUserImpactLookup' );
+		if ( !( $userImpactLookup instanceof UserImpactLookup ) ) {
+			throw new LogicException(
+				'Cannot instantiate CheckUserUserInfoCardService without UserImpactLookup'
+			);
+		}
+		return new CheckUserUserInfoCardService(
+			$userImpactLookup
 		);
 	},
 ];
