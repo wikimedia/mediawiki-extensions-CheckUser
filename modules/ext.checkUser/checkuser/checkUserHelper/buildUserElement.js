@@ -38,7 +38,7 @@ function buildUserElement( userName, userData ) {
 		userElement.setAttribute( 'class', userData.classes );
 
 		const classes = userData.classes.split( ' ' );
-		if ( classes.indexOf( 'mw-tempuserlink-expired' ) !== -1 ) {
+		if ( classes.includes( 'mw-tempuserlink-expired' ) ) {
 			const tooltip = getTooltip();
 			userElement.innerHTML = userName;
 

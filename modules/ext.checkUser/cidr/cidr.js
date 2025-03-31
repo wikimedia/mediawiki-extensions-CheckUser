@@ -41,7 +41,7 @@
 		for ( const i in delimiters ) {
 			// If the delimiter is present in the IPs list, use it
 			// to split into a list of IPs.
-			if ( text.indexOf( delimiters[ i ] ) !== -1 ) {
+			if ( text.includes( delimiters[ i ] ) ) {
 				const ips = text.split( delimiters[ i ] );
 				for ( const j in ips ) {
 					// Trim to remove excess whitespace.
@@ -252,8 +252,8 @@
 
 	$( () => {
 		mw.user.getRights( ( rights ) => {
-			const hasCheckUserRight = rights.indexOf( 'checkuser' ) !== -1;
-			const hasCheckUserLogRight = rights.indexOf( 'checkuser-log' ) !== -1;
+			const hasCheckUserRight = rights.includes( 'checkuser' );
+			const hasCheckUserLogRight = rights.includes( 'checkuser-log' );
 			$( '.mw-checkuser-cidrform' ).each( ( index, form ) => {
 				updateCIDRresult( $( form ), hasCheckUserRight, hasCheckUserLogRight );
 			} );

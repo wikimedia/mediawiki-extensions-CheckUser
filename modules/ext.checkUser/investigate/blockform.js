@@ -47,7 +47,7 @@ module.exports = function addBlockForm( documentRoot ) {
 			// If the mode is 'accounts', we want to pre-select all account targets
 			// in the check and add as an option all excluded targets which are accounts.
 			selectedOptions = targets.filter(
-				( target ) => excludeTargets.indexOf( target ) === -1 &&
+				( target ) => !excludeTargets.includes( target ) &&
 					mw.util.isIPAddress( target, true ) === false
 			);
 			unselectedOptions = excludeTargets.filter(
@@ -57,7 +57,7 @@ module.exports = function addBlockForm( documentRoot ) {
 			// If the mode is 'ips', we want to pre-select all IP targets in the check
 			// and add as unselected options all excluded targets which are IPs.
 			selectedOptions = targets.filter(
-				( target ) => excludeTargets.indexOf( target ) === -1 &&
+				( target ) => !excludeTargets.includes( target ) &&
 					mw.util.isIPAddress( target, true )
 			);
 			unselectedOptions = excludeTargets.filter(
