@@ -21,6 +21,7 @@
 const { ref } = require( 'vue' );
 const { CdxDialog } = require( '@wikimedia/codex' );
 const { getAutoRevealStatus, setAutoRevealStatus } = require( './../ipRevealUtils.js' );
+const { disableAutoReveal } = require( './../ipReveal.js' );
 
 // @vue/component
 module.exports = exports = {
@@ -57,8 +58,8 @@ module.exports = exports = {
 		}
 
 		function onRemove() {
-			setAutoRevealStatus( '' );
-			window.location.reload();
+			disableAutoReveal();
+			open.value = false;
 		}
 
 		return {

@@ -162,9 +162,19 @@ function getUserLinks( $content ) {
  * @return {jQuery} The IP reveal buttons within $content
  */
 function addIpRevealButtons( $content ) {
+	const $userLinks = getUserLinks( $content );
+	return addButtonsToUserLinks( $userLinks );
+}
+
+/**
+ * Add buttons to a collection of user links.
+ *
+ * @param {jQuery} $userLinks
+ * @return {jQuery} The IP reveal buttons
+ */
+function addButtonsToUserLinks( $userLinks ) {
 	const allRevIds = {};
 	const allLogIds = {};
-	const $userLinks = getUserLinks( $content );
 
 	$userLinks.each( function () {
 		addToAllIds( $( this ), allRevIds, getRevisionId );
@@ -432,6 +442,95 @@ function automaticallyRevealUsers( $ipRevealButtons ) {
 }
 
 /**
+ * Enable auto-reveal mode, then show all the IPs on the page.
+ *
+ * @param {number} relativeExpiry
+ * @param {jQuery|undefined} $content
+ */
+function enableAutoReveal( relativeExpiry, $content ) {
+	$content = $content || $( document );
+	ipRevealUtils.setAutoRevealStatus( relativeExpiry );
+	showAllIps( $content );
+}
+
+/**
+ * Reveal IPs for all users inside $content who should be revealed. Similar to
+ * automaticallyRevealUsers, but takes the containing element, rather than the buttons.
+ *
+ * @param {jQuery} $content
+ */
+function showAllIps( $content ) {
+	$content = $content || $( document );
+
+	// Handle contributions pages with temp user targets separately, as they do not have user links
+	const pageTitle = mw.config.get( 'wgCanonicalSpecialPageName' );
+	const relevantUser = mw.config.get( 'wgRelevantUserName' );
+	if (
+		( pageTitle === 'Contributions' || pageTitle === 'DeletedContributions' ) &&
+		relevantUser && mw.util.isTemporaryUser( relevantUser )
+	) {
+		if ( ipRevealUtils.getRevealedStatus( relevantUser ) ) {
+			// The user was recently manually revealed, so there is nothing to do
+			return;
+		} else {
+			// Reveal the IPs
+			$( '.ext-checkuser-tempaccount-reveal-ip-button' ).first().trigger( 'revealIp' );
+			return;
+		}
+	}
+
+	// On all other pages, find all buttons and reveal all their users
+	const $ipRevealButtons = $content.find( '.ext-checkuser-tempaccount-reveal-ip-button' );
+	automaticallyRevealUsers( $ipRevealButtons );
+}
+
+/**
+ * Disable auto-reveal mode, then remove auto-revealed IPs from the page.
+ *
+ * @param {jQuery|undefined} $content
+ */
+function disableAutoReveal( $content ) {
+	$content = $content || $( document );
+	ipRevealUtils.setAutoRevealStatus( 0 );
+	hideAllIps( $content );
+}
+
+/**
+ * Remove all revealed IPs inside $content and replace them with "IP reveal" buttons.
+ *
+ * @param {jQuery} $content
+ */
+function hideAllIps( $content ) {
+	$content = $content || $( document );
+
+	// Handle contributions pages with temp user targets separately, as they do not have user links
+	const pageTitle = mw.config.get( 'wgCanonicalSpecialPageName' );
+	const relevantUser = mw.config.get( 'wgRelevantUserName' );
+	if (
+		( pageTitle === 'Contributions' || pageTitle === 'DeletedContributions' ) &&
+		relevantUser && mw.util.isTemporaryUser( relevantUser )
+	) {
+		if ( ipRevealUtils.getRevealedStatus( relevantUser ) ) {
+			// The user was recently manually revealed, so keep them revealed
+			return;
+		} else {
+			// Remove the revealed IPs and add the buttons again
+			$( '.ext-checkuser-tempaccount-reveal-ip' ).remove();
+			enableIpRevealForContributionsPage( $content, pageTitle );
+			return;
+		}
+	}
+
+	// On all other pages, replace IPs that are not pre-revealed with buttons
+	const $userLinks = getUserLinks( $content );
+	const $userLinksToHide = $userLinks.filter( function () {
+		return !ipRevealUtils.getRevealedStatus( $( this ).text() );
+	} );
+	$userLinksToHide.next( '.ext-checkuser-tempaccount-reveal-ip' ).remove();
+	addButtonsToUserLinks( $userLinksToHide );
+}
+
+/**
  * Get revision ID from the surrounding DOM. Look in ancestors, then siblings.
  *
  * @param {jQuery} $element
@@ -534,6 +633,8 @@ module.exports = {
 	addIpRevealButtons: addIpRevealButtons,
 	replaceButton: replaceButton,
 	enableMultiReveal: enableMultiReveal,
+	enableAutoReveal: enableAutoReveal,
+	disableAutoReveal: disableAutoReveal,
 	automaticallyRevealUsers: automaticallyRevealUsers,
 	batchRevealIps: batchRevealIps,
 	getRevisionId: getRevisionId,

@@ -1,9 +1,9 @@
 'use strict';
 
-// Mock utils methods to check they are called properly
-const mockSetAutoRevealStatus = jest.fn();
-jest.mock( '../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js', () => ( {
-	setAutoRevealStatus: mockSetAutoRevealStatus
+// Mock ipReveal methods to check they are called properly
+const mockEnableAutoReveal = jest.fn();
+jest.mock( '../../../modules/ext.checkUser.tempAccounts/ipReveal.js', () => ( {
+	enableAutoReveal: mockEnableAutoReveal
 } ) );
 
 // Mock dynamic package file
@@ -38,23 +38,16 @@ describe( 'IP auto-reveal On dialog', () => {
 	} );
 
 	it( 'enables the primary action button when a selection is made', async () => {
-		const select = wrapper.findComponent( CdxSelect );
-		await select.vm.$emit( 'update:selected', '1800' );
+		await wrapper.findComponent( CdxSelect ).vm.$emit( 'update:selected', '1800' );
 
 		expect( wrapper.findComponent( CdxDialog ).props( 'primaryAction' ).disabled ).toEqual( false );
 	} );
 
-	it( 'calls setAutoRevealStatus and reloads the page on submit', async () => {
-		global.window = Object.create( window );
-		Object.defineProperty( window, 'location', {
-			value: { reload: jest.fn() }
-		} );
-
-		const select = wrapper.findComponent( CdxSelect );
-		await select.vm.$emit( 'update:selected', '1800' );
+	it( 'calls enableAutoReveal on submit', async () => {
+		await wrapper.findComponent( CdxSelect ).vm.$emit( 'update:selected', '3600' );
 		await wrapper.findComponent( CdxDialog ).vm.$emit( 'primary' );
 
-		expect( mockSetAutoRevealStatus ).toHaveBeenCalledWith( '1800' );
-		expect( window.location.reload ).toHaveBeenCalled();
+		expect( mockEnableAutoReveal ).toHaveBeenCalledWith( '3600' );
+		expect( wrapper.findComponent( CdxDialog ).props( 'open' ) ).toBe( false );
 	} );
 } );

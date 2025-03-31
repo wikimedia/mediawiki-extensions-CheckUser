@@ -31,7 +31,7 @@
 <script>
 const { ref } = require( 'vue' );
 const { CdxDialog, CdxField, CdxSelect } = require( '@wikimedia/codex' );
-const { setAutoRevealStatus } = require( './../ipRevealUtils.js' );
+const { enableAutoReveal } = require( './../ipReveal.js' );
 
 // The duration messages for the select were translated using PHP's Message::durationParams.
 const durations = require( './../durations.json' );
@@ -67,8 +67,8 @@ module.exports = exports = {
 		}
 
 		function onSubmit() {
-			setAutoRevealStatus( selected.value );
-			window.location.reload();
+			enableAutoReveal( selected.value );
+			open.value = false;
 		}
 
 		return {

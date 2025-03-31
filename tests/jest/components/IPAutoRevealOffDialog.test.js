@@ -12,6 +12,12 @@ jest.mock( '../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js', () =>
 	setAutoRevealStatus: mockSetAutoRevealStatus
 } ) );
 
+// Mock ipReveal methods to check they are called properly
+const mockDisableAutoReveal = jest.fn();
+jest.mock( '../../../modules/ext.checkUser.tempAccounts/ipReveal.js', () => ( {
+	disableAutoReveal: mockDisableAutoReveal
+} ) );
+
 const IPAutoRevealOffDialog = require( '../../../modules/ext.checkUser.tempAccounts/components/IPAutoRevealOffDialog.vue' );
 const { nextTick } = require( 'vue' );
 const utils = require( '@vue/test-utils' );
@@ -77,15 +83,10 @@ describe( 'IP auto-reveal Off dialog', () => {
 		expect( mockSetAutoRevealStatus ).toHaveBeenLastCalledWith( expectedExpiryInSeconds );
 	} );
 
-	it( 'calls setAutoRevealStatus with empty string and reloads on primary action', async () => {
-		global.window = Object.create( window );
-		Object.defineProperty( window, 'location', {
-			value: { reload: jest.fn() }
-		} );
-
+	it( 'calls disableAutoReveal on off action click', async () => {
 		await wrapper.findComponent( CdxDialog ).vm.$emit( 'primary' );
 
-		expect( mockSetAutoRevealStatus ).toHaveBeenCalledWith( '' );
-		expect( window.location.reload ).toHaveBeenCalled();
+		expect( mockDisableAutoReveal ).toHaveBeenCalled();
+		expect( wrapper.findComponent( CdxDialog ).props( 'open' ) ).toBe( false );
 	} );
 } );
