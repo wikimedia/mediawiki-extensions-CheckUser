@@ -20,6 +20,11 @@ class CheckUserServiceWiringTest extends MediaWikiIntegrationTestCase {
 			$this->markTestSkippedIfExtensionNotLoaded( 'GlobalPreferences' );
 		}
 
+		// CheckUserUserInfoCardService has dependencies provided by the GrowthExperiments extension.
+		if ( $name === 'CheckUserUserInfoCardService' ) {
+			$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
+		}
+
 		$this->getServiceContainer()->get( $name );
 		$this->addToAssertionCount( 1 );
 	}
