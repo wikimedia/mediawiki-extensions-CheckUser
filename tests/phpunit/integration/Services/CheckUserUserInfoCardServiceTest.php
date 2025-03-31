@@ -13,6 +13,14 @@ use MediaWikiIntegrationTestCase;
  * @covers \MediaWiki\CheckUser\Services\CheckUserUserInfoCardService
  */
 class CheckUserUserInfoCardServiceTest extends MediaWikiIntegrationTestCase {
+
+	protected function setUp(): void {
+		parent::setUp();
+
+		// CheckUserUserInfoCardService has dependencies provided by the GrowthExperiments extension.
+		$this->markTestSkippedIfExtensionNotLoaded( 'GrowthExperiments' );
+	}
+
 	public function testExecute() {
 		$checkUserUserInfoCardService = new CheckUserUserInfoCardService(
 			MediaWikiServices::getInstance()->getService( 'GrowthExperimentsUserImpactLookup' )
