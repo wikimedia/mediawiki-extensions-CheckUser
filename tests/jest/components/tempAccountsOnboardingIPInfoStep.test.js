@@ -153,7 +153,7 @@ function getIPInfoSavePreferenceButton( rootElement ) {
  * @param {string} text The text to search for
  */
 async function waitForAndExpectTextToExistInElement( element, text ) {
-	await waitFor( () => element.text().indexOf( text ) !== -1 );
+	await waitFor( () => element.text().includes( text ) );
 	expect( element.text() ).toContain( text );
 }
 
@@ -295,9 +295,7 @@ describe( 'IPInfo step temporary accounts onboarding dialog', () => {
 		ipInfoPreferenceCheckbox.setChecked( false );
 
 		// Check that the success message disappears when the preference is unchecked
-		await waitFor( () => ipInfoPreference.text().indexOf(
-			'(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success)'
-		) === -1 );
+		await waitFor( () => !ipInfoPreference.text().includes( '(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success)' ) );
 		expect( ipInfoPreference.text() ).not.toContain(
 			'(checkuser-temporary-accounts-onboarding-dialog-ip-info-preference-success)'
 		);

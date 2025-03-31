@@ -23,7 +23,7 @@ function compareIPs( a, b ) {
  * @return {number}
  */
 function calculateIPNumber( ip ) {
-	return ip.indexOf( '.' ) > -1 ?
+	return ip.includes( '.' ) ?
 		Number(
 			ip.split( '.' ).map(
 				( num ) => ( '000' + num ).slice( -3 )

@@ -14,6 +14,7 @@
 	},
 	"rules": {
 		"compat/compat": "off",
-		"qunit/no-loose-assertions": "warn"
+		"qunit/no-loose-assertions": "warn",
+		"no-jquery/no-done-fail": "warn"
 	}
 }

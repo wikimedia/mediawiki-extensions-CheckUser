@@ -5,7 +5,7 @@ function addSpecialGlobalContributionsLink( $info, target, pageName ) {
 			mw.util.isIPAddress( target )
 		) ||
 		(
-			[ 'Contributions', 'DeletedContributions' ].indexOf( pageName ) > -1 &&
+			[ 'Contributions', 'DeletedContributions' ].includes( pageName ) &&
 			mw.util.isTemporaryUser( target )
 		)
 	) {

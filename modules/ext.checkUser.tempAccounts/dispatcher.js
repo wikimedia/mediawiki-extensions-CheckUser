@@ -48,7 +48,7 @@
 	excludePages = excludePages.concat( mw.config.get( 'wgCheckUserSpecialPagesWithoutIPRevealButtons', [] ) );
 	if (
 		!mw.config.get( 'wgCanonicalSpecialPageName' ) ||
-		excludePages.indexOf( mw.config.get( 'wgCanonicalSpecialPageName' ) ) === -1
+		!excludePages.includes( mw.config.get( 'wgCanonicalSpecialPageName' ) )
 	) {
 		require( './initOnLoad.js' )();
 	}
