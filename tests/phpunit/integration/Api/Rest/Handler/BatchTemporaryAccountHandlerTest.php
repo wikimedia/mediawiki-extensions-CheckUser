@@ -8,6 +8,7 @@ use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Rest\RequestData;
 use MediaWiki\Tests\Rest\Handler\HandlerTestTrait;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
+use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
@@ -21,8 +22,11 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 
 	use HandlerTestTrait;
 	use MockServiceDependenciesTrait;
+	use TempUserTestTrait;
 
 	public function testGetData() {
+		$this->enableAutoCreateTempUser();
+
 		$checkUserPermissionManager = $this->createMock( CheckUserPermissionManager::class );
 		$checkUserPermissionManager->method( 'canAccessTemporaryAccountIPAddresses' )
 			->willReturn( CheckUserPermissionStatus::newGood() );
