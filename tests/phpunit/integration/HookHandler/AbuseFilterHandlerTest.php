@@ -117,10 +117,10 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 		$performer = $this->getTestSysop();
 		AbuseFilterServices::getAbuseLoggerFactory()
 			->getProtectedVarsAccessLogger()
-			->logViewProtectedVariableValue( $performer->getUserIdentity(), '~2024-01', (int)wfTimestamp() );
+			->logViewProtectedVariableValue( $performer->getUserIdentity(), '~2024-01' );
 		AbuseFilterServices::getAbuseLoggerFactory()
 			->getProtectedVarsAccessLogger()
-			->logViewProtectedVariableValue( $performer->getUserIdentity(), '~2024-01', (int)wfTimestamp() );
+			->logViewProtectedVariableValue( $performer->getUserIdentity(), '~2024-01' );
 		DeferredUpdates::doUpdates();
 
 		// Assert that the action only inserted once into CheckUsers' temp account logging table
