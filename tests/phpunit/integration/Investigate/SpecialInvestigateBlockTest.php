@@ -98,7 +98,22 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 		$this->assertStringContainsString( '(checkuser-investigateblock-warning-users-truncated', $html );
 	}
 
+	/**
+	 * SocialProfile user pages do not use wikitext and therefore block attempts to edit them using the API,
+	 * so Special:InvestigateBlock does not work when SocialProfile is installed. We need to skip the tests
+	 * to avoid failures in CI.
+	 *
+	 * @todo Update Special:InvestigateBlock to not add tags when SocialProfile is installed?
+	 * @return void
+	 */
+	private function markTestSkippedIfSocialProfileExtensionInstalled() {
+		if ( !$this->getServiceContainer()->getExtensionRegistry()->isLoaded( 'SocialProfile' ) ) {
+			$this->markTestSkipped( "Extension SocialProfile cannot be installed when running this test (T390590)" );
+		}
+	}
+
 	public function testOnSubmitOneUserTargetWithNotices() {
+		$this->markTestSkippedIfSocialProfileExtensionInstalled();
 		// Set-up the valid request and get a test user which has the necessary rights.
 		$testPerformer = $this->getUserForSuccess();
 		RequestContext::getMain()->setUser( $testPerformer );
@@ -123,6 +138,7 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 		[ $html ] = $this->executeSpecialPage( '', $fauxRequest, null, $testPerformer );
 		// Assert that the success message is shown.
 		$this->assertStringContainsString( '(checkuser-investigateblock-success', $html );
+		$this->assertStringNotContainsString( '(checkuser-investigateblock-notices-failed', $html );
 
 		// Assert that the user is blocked
 		$block = $this->getServiceContainer()->getDatabaseBlockStore()->newFromTarget( $testTargetUser );
@@ -157,6 +173,7 @@ class SpecialInvestigateBlockTest extends FormSpecialPageTestCase {
 	}
 
 	public function testOnSubmitForIPTargetsWithFailedNotices() {
+		$this->markTestSkippedIfSocialProfileExtensionInstalled();
 		ConvertibleTimestamp::setFakeTime( '20210405060708' );
 		$testPerformer = $this->getUserForSuccess();
 		RequestContext::getMain()->setUser( $testPerformer );
