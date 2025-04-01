@@ -242,8 +242,7 @@ class UserAgentClientHintsManagerTest extends MediaWikiUnitTestCase {
 		$loggerMock = $this->createMock( LoggerInterface::class );
 		$loggerMock->expects( $this->once() )
 			->method( 'info' )
-			->with( "No mapping rows deleted." )
-			->willReturn( null );
+			->with( "No mapping rows deleted." );
 		$objectToTest = TestingAccessWrapper::newFromObject(
 			$this->newServiceInstance( UserAgentClientHintsManager::class, [ 'logger' => $loggerMock ] )
 		);
