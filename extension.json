@@ -438,13 +438,17 @@
 		"AbuseFilterHandler": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\AbuseFilterHandler",
 			"services": [
-				"CheckUserTemporaryAccountLoggerFactory"
+				"CheckUserTemporaryAccountLoggerFactory",
+				"CheckUserPermissionManager",
+				"TempUserConfig"
 			]
 		}
 	},
 	"Hooks": {
 		"AbuseFilterCustomProtectedVariables": "AbuseFilterHandler",
 		"AbuseFilterLogProtectedVariableValueAccess": "AbuseFilterHandler",
+		"AbuseFilterCanViewProtectedVariables": "AbuseFilterHandler",
+		"AbuseFilterCanViewProtectedVariableValues": "AbuseFilterHandler",
 		"AuthManagerLoginAuthenticateAudit": "CheckUserPrivateEvents",
 		"BeforePageDisplay": [
 			"clienthints",
