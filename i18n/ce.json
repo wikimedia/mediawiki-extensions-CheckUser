@@ -178,6 +178,8 @@
 	"checkuser-ip-contributions-tab-label-contributions": "Къинхьегам",
 	"checkuser-ip-contributions-tab-label-archive-contributions": "ДӀабаьхна къинхьегамаш",
 	"checkuser-ip-contributions-contributions-link": "къинхьегам",
+	"checkuser-global-contributions-link": "глобалан къинхьегам",
+	"checkuser-global-contributions-link-sidebar": "Глобалан къинхьегам",
 	"checkuser-tempaccount-reveal-ip-error": "гӀалат",
 	"checkuser-tempaccount-specialblock-ips": "ХӀара ханна декъашхо ву(йу), рогӀера {{PLURAL:$1|IP|IP адресаш}} лелош: $2.",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|дӀайайина}}",

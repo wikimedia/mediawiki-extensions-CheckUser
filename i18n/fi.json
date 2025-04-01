@@ -266,6 +266,8 @@
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Ei hakuehtoja vastaavia tuloksia</strong>. Käyttäjällä ”$1” ei ole näkyviä muokkauksia.",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Hakusi ei tuottanut tulosta.</strong> Hakuparametrien muuttaminen saattaa auttaa muokkausten löytämisessä.",
 	"checkuser-ip-auto-reveal-link-sidebar": "IP-autopaljastus",
+	"checkuser-ip-auto-reveal-notification-on": "<strong>IP-autopaljastus on päällä</strong>",
+	"checkuser-ip-auto-reveal-notification-off": "<strong>IP-autopaljastus on pois päältä</strong>",
 	"checkuser-ip-auto-reveal-on-dialog-title": "Kytke IP-autopaljastus päälle",
 	"checkuser-ip-auto-reveal-on-dialog-text": "Kytkemällä päälle tämän ominaisuuden paljastat kaikkien tilapäisten tunnusten IP-osoitteet rajoitetun ajan.",
 	"checkuser-ip-auto-reveal-on-dialog-default-action": "Peruuta",
