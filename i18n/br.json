@@ -68,10 +68,15 @@
 	"checkuser-investigate-compare-notice-no-results": "N'eus disoc'h ebet : an implijerien pe IPoù-se n'o deus graet kemm ebet e-kerzh an 90 deiz diwezhañ.",
 	"checkuser-investigate-compare-notice-no-results-filters": "Disoc'h ebet ne glot gant an dezverkoù silañ-mañ. Dilamit siloù zo evit ledanaat ar c'hlask.",
 	"checkuser-investigate-compare-table-button-add-ip-targets-label": "Diskouez holl IPoù an implijer-mañ",
+	"checkuser-global-contributions": "Klask degasadennoù hollek",
+	"checkuser-global-contributions-permission-error-title": "Fazi aotreoù",
+	"checkuser-global-contributions-permission-error-description": "Evit gwelet an degasadennoù hollek, asantit d’an emglev en [[Special:GlobalPreferences|ho penndibaboù hollek]].",
+	"checkuser-global-contributions-search-form-wrapper": "Klask degasadennoù hollek",
 	"prefs-checkuser-tempaccount": "Diskuliañ IP kont berrbad",
 	"checkuser-tempaccount-enable-preference-description": "Pa rit gant ar benveg-mañ e rankit bezañ sur e rit hervez ar reolennoù.",
 	"checkuser-tempaccount-enable-preference": "Gweredekaat diskuliañ chomlec’hioù IP ar c’hontoù berrbad",
 	"checkuser-temporary-account-change-access-level-disable": "{{GENDER:$1|diweredekaet}}",
 	"checkuser-temporary-account-change-access-level-enable": "{{GENDER:$1|gweredekaet}}",
+	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 {{GENDER:$2|en|he}} deus sellet ouzh kontoù berrbad war $3",
 	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 {{GENDER:$2|en|he}} deus gweredekaet {{GENDER:$2|e|he}} aotre da welet ar variennoù gwarezet"
 }

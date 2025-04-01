@@ -253,14 +253,14 @@
 	"checkuser-ip-contributions-special-ip-contributions-button": "Redigeringer fra midlertidige kontoer",
 	"checkuser-ip-contributions-special-ip-contributions-button-mobile": "Redigeringer fra midlertidige kontoer",
 	"checkuser-ip-contributions-special-contributions-button": "Gamle redigeringer fra IP-adressen",
-	"checkuser-global-contributions": "Søk etter globale bidrag",
+	"checkuser-global-contributions": "Søk etter bidrag globalt",
 	"checkuser-global-contributions-permission-error-title": "Rettighetsfeil",
-	"checkuser-global-contributions-permission-error-description": "Godta avtalen i [[Special:GlobalPreferences|de globale innstillingene dine]] for å se globale bidrag.",
+	"checkuser-global-contributions-permission-error-description": "Godta avtalen i [[Special:GlobalPreferences|de globale innstillingene dine]] for å se bidrag globalt.",
 	"checkuser-global-contributions-subtitle": "Viser resultater fra {{PLURAL:$1|det siste døgnet|de siste $1 dagene}}.",
 	"checkuser-global-contributions-target-label": "IP-adresse eller -intervall:",
 	"checkuser-global-contributions-target-error-no-ip": "Skriv inn ei gyldig IP-adresse eller IP-intervall",
 	"checkuser-global-contributions-target-error-no-ip-banner": "Søket ditt kunne ikke fullføres. Skriv inn ei gyldig IP-adresse eller -intervall.",
-	"checkuser-global-contributions-search-form-wrapper": "Søk etter globale bidrag",
+	"checkuser-global-contributions-search-form-wrapper": "Søk etter bidrag globalt",
 	"checkuser-global-contributions-results-title": "Globale brukerbidrag av $1",
 	"prefs-checkuser-tempaccount": "Avsløring av midlertidige kontoers IP-adresse",
 	"checkuser-tempaccount-enable-preference-description": "Når du bruker dette verktøyet bør du sørge for at det skjer i samsvar med retningslinjene.",
@@ -280,5 +280,8 @@
 	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "$1 {{GENDER:$2|viste}} midlertidige kontoer på $3 globalt",
 	"log-action-filter-checkuser-temporary-account": "Type handling:",
 	"log-action-filter-checkuser-temporary-account-change-access": "Endre tilgang",
-	"log-action-filter-checkuser-temporary-account-view-ips": "Vis IP-er"
+	"log-action-filter-checkuser-temporary-account-view-ips": "Få tilgang til IP-data for midlertidige kontoer",
+	"logentry-checkuser-temporary-account-af-change-access-enable": "$1 aktiverte {{GENDER:$2|sin}} egen tilgang til å se beskyttede variabler",
+	"logentry-checkuser-temporary-account-af-change-access-disable": "$1 deaktiverte {{GENDER:$2|sin}} egen tilgang til å se beskyttede variabler",
+	"logentry-checkuser-temporary-account-af-view-protected-var-value": "$1 {{GENDER:$2|viste}} beskyttede variabler knyttet til $3"
 }
