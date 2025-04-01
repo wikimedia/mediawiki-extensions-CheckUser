@@ -118,22 +118,19 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 			->assertFieldValue( 0 );
 	}
 
-	private function mockAllUsersHaveAcceptedPreferences() {
+	private function mockAllUsersHaveAcceptedIPRevealPreference() {
 		$this->setService(
 			'UserOptionsLookup',
-			new StaticUserOptionsLookup(
-				[], [ 'abusefilter-protected-vars-view-agreement' => 1, 'checkuser-temporary-account-enable' => 1 ]
-			)
+			new StaticUserOptionsLookup( [], [ 'checkuser-temporary-account-enable' => 1 ] )
 		);
 	}
 
 	public function testCanViewProtectedVariableValuesForIPWhenUserLacksRight() {
 		$this->enableAutoCreateTempUser();
-		$this->mockAllUsersHaveAcceptedPreferences();
 
 		// Get a mock test Authority that has the rights and preferences needed to see protected variables,
 		// but not the rights to see user_unnamed_ip.
-		$this->mockAllUsersHaveAcceptedPreferences();
+		$this->mockAllUsersHaveAcceptedIPRevealPreference();
 		$authority = $this->mockRegisteredAuthorityWithoutPermissions(
 			[ 'checkuser-temporary-account', 'checkuser-temporary-account-no-preference' ]
 		);
@@ -148,7 +145,7 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 
 	public function testCanViewProtectedVariablesForIPWhenUserLacksRight() {
 		$this->enableAutoCreateTempUser();
-		$this->mockAllUsersHaveAcceptedPreferences();
+		$this->mockAllUsersHaveAcceptedIPRevealPreference();
 		// Get a mock test Authority that has the rights and preferences needed to see protected variables,
 		// but not the rights to see user_unnamed_ip.
 		$authority = $this->mockRegisteredAuthorityWithoutPermissions(
@@ -166,7 +163,7 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 	/** @dataProvider provideWhenIPRevealRestrictionsNotApplied */
 	public function testCanViewProtectedVarsWhenIPRevealRestrictionsNotApplied( $temporaryAccountsKnown, $variables ) {
 		$this->disableAutoCreateTempUser( [ 'known' => $temporaryAccountsKnown ] );
-		$this->mockAllUsersHaveAcceptedPreferences();
+		$this->mockAllUsersHaveAcceptedIPRevealPreference();
 
 		// Test that the hook does not attempt to validate if the user can see Temp account IP addresses
 		// if the temporary accounts feature is not known.
