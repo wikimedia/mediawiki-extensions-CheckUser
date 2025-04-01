@@ -1,33 +1,48 @@
 ( function () {
-	let userPageWidget,
-		userPagePositionWidget,
-		userPageTextWidget,
+	let userPageWidget = null,
+		userPagePositionWidget = null,
+		userPageTextWidget = null,
 		talkPageWidget,
 		talkPagePositionWidget,
 		talkPageTextWidget,
 		dropdownWidget = null,
-		otherReasonWidget = null;
+		otherReasonWidget = null,
+		isUserPageChecked = false;
 
 	function updateNoticeOptions() {
-		const isUserPageChecked = userPageWidget.isSelected(),
-			isTalkPageChecked = talkPageWidget.isSelected();
+		const isTalkPageChecked = talkPageWidget.isSelected();
 
-		userPagePositionWidget.setDisabled( !isUserPageChecked );
-		userPageTextWidget.setDisabled( !isUserPageChecked );
+		// Check for element existence due to T390774
+		if ( userPagePositionWidget ) {
+			isUserPageChecked = userPageWidget.isSelected();
+			userPagePositionWidget.setDisabled( !isUserPageChecked );
+		}
+		if ( userPageTextWidget ) {
+			userPageTextWidget.setDisabled( !isUserPageChecked );
+		}
 
 		talkPagePositionWidget.setDisabled( !isTalkPageChecked );
 		talkPageTextWidget.setDisabled( !isTalkPageChecked );
 	}
 
 	if ( $( '#mw-htmlform-options' ).length > 0 ) {
-		userPageWidget = OO.ui.infuse( $( '#mw-input-wpUserPageNotice' ) );
-		userPagePositionWidget = OO.ui.infuse( $( '#mw-input-wpUserPageNoticePosition' ) );
-		userPageTextWidget = OO.ui.infuse( $( '#mw-input-wpUserPageNoticeText' ) );
+		// Check for element existence due to T390774
+		if ( $( '#mw-input-wpUserPageNotice' ).length > 0 ) {
+			userPageWidget = OO.ui.infuse( $( '#mw-input-wpUserPageNotice' ) );
+		}
+		if ( $( '#mw-input-wpUserPageNoticePosition' ).length > 0 ) {
+			userPagePositionWidget = OO.ui.infuse( $( '#mw-input-wpUserPageNoticePosition' ) );
+		}
+		if ( $( '#mw-input-wpUserPageNoticeText' ).length > 0 ) {
+			userPageTextWidget = OO.ui.infuse( $( '#mw-input-wpUserPageNoticeText' ) );
+		}
 		talkPageWidget = OO.ui.infuse( $( '#mw-input-wpTalkPageNotice' ) );
 		talkPagePositionWidget = OO.ui.infuse( $( '#mw-input-wpTalkPageNoticePosition' ) );
 		talkPageTextWidget = OO.ui.infuse( $( '#mw-input-wpTalkPageNoticeText' ) );
 
-		userPageWidget.on( 'change', updateNoticeOptions );
+		if ( userPageWidget ) {
+			userPageWidget.on( 'change', updateNoticeOptions );
+		}
 		talkPageWidget.on( 'change', updateNoticeOptions );
 
 		updateNoticeOptions();

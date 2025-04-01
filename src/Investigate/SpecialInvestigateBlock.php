@@ -213,17 +213,23 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 			'section' => 'options',
 		];
 
-		$fields['UserPageNotice'] = [
-			'type' => 'check',
-			'label-message' => 'checkuser-investigateblock-notice-user-page-label',
-			'default' => false,
-			'section' => 'options',
-		];
-		$fields['UserPageNoticePosition'] = array_merge(
-			$pageNoticePosition,
-			[ 'default' => 'prependtext' ]
-		);
-		$fields['UserPageNoticeText'] = $pageNoticeText;
+		// Check for SocialProfile being installed (T390774)
+		// Using the wAvatar class existence check as a proxy because as of
+		// early April 2025 SocialProfile lacks an extension.json entry point, which
+		// thus prevents using ExtensionRegistry to check if SP is installed
+		if ( !class_exists( 'wAvatar' ) ) {
+			$fields['UserPageNotice'] = [
+				'type' => 'check',
+				'label-message' => 'checkuser-investigateblock-notice-user-page-label',
+				'default' => false,
+				'section' => 'options',
+			];
+			$fields['UserPageNoticePosition'] = array_merge(
+				$pageNoticePosition,
+				[ 'default' => 'prependtext' ]
+			);
+			$fields['UserPageNoticeText'] = $pageNoticeText;
+		}
 
 		$fields['TalkPageNotice'] = [
 			'type' => 'check',
@@ -352,7 +358,8 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 			if ( $status->isOK() ) {
 				$this->blockedUsers[] = $target;
 
-				if ( $data['UserPageNotice'] ) {
+				// Check for SocialProfile being installed (T390774)
+				if ( $data['UserPageNotice'] && !class_exists( 'wAvatar' ) ) {
 					$this->addNoticeToPage(
 						$this->getTargetPage( NS_USER, $target ),
 						$data['UserPageNoticeText'],
