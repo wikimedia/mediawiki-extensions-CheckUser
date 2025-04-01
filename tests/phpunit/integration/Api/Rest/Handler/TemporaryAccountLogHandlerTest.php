@@ -18,7 +18,6 @@ use MediaWiki\Tests\Rest\Handler\HandlerTestTrait;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserIdentity;
-use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use Wikimedia\IPUtils;
@@ -98,17 +97,7 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 	 * @return Authority
 	 */
 	private function getAuthorityForSuccess(): Authority {
-		$user = $this->createMock( UserIdentityValue::class );
-
-		$authority = $this->createMock( Authority::class );
-		$authority->method( 'getUser' )
-			->willReturn( $options['user'] ?? $user );
-		$authority->method( 'isNamed' )
-			->willReturn( true );
-		$authority->method( 'getBlock' )
-			->willReturn( null );
-
-		return $authority;
+		return $this->getTestUser()->getAuthority();
 	}
 
 	private function getRequestData( array $options = [] ): RequestData {
