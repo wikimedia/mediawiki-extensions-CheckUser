@@ -66,6 +66,12 @@ QUnit.test( 'Test getAutoRevealStatus with expiry in the past', function ( asser
 				}
 			}
 		} ) );
+	apiMock.expects( 'postWithToken' )
+		.withArgs( 'csrf', {
+			action: 'globalpreferences',
+			optionname: autoRevealPreferenceName,
+			optionvalue: undefined
+		} );
 
 	return ipRevealUtils.getAutoRevealStatus().then( ( status ) => {
 		assert.strictEqual( status, false, 'Should return false when expiry is set to a past timestamp' );
