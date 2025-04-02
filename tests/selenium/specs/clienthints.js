@@ -145,7 +145,7 @@ describe( 'Client Hints', () => {
 		await expect( clientHints ).not.toBeFalsy();
 	} );
 
-	// Skipped due to test being flaky: T385449
+	// Skipped on 2025-02-20 in 1121412 because of T385449
 	it.skip( 'stores client hints data on logout', async () => {
 		if ( !checkIfBrowserSupportsClientHints( driver.requestedCapabilities.browserName ) ) {
 			return;
