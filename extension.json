@@ -289,7 +289,6 @@
 				"MainConfig",
 				"JobQueueGroup",
 				"PermissionManager",
-				"UserOptionsLookup",
 				"UserNameUtils",
 				"DBLoadBalancerFactory",
 				"ActorStore",

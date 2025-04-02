@@ -44,7 +44,6 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				$services->getMainConfig(),
 				$services->getJobQueueGroup(),
 				$services->getPermissionManager(),
-				$services->getUserOptionsLookup(),
 				$services->getUserNameUtils(),
 				$services->getConnectionProvider(),
 				$actorStore,

@@ -13,7 +13,6 @@ use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Rest\Response;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\User\ActorStore;
-use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\UserNameUtils;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -32,7 +31,6 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 		Config $config,
 		JobQueueGroup $jobQueueGroup,
 		PermissionManager $permissionManager,
-		UserOptionsLookup $userOptionsLookup,
 		UserNameUtils $userNameUtils,
 		IConnectionProvider $dbProvider,
 		ActorStore $actorStore,
