@@ -80,18 +80,20 @@ class TemporaryAccountRevisionHandlerTest extends MediaWikiIntegrationTestCase {
 		$checkUserPermissionManager->method( 'canAccessTemporaryAccountIPAddresses' )
 			->willReturn( CheckUserPermissionStatus::newGood() );
 
+		$services = $this->getServiceContainer();
 		return new TemporaryAccountRevisionHandler( ...array_values( array_merge(
 			[
-				'config' => $this->getServiceContainer()->getMainConfig(),
+				'config' => $services->getMainConfig(),
 				'jobQueueGroup' => $this->createMock( JobQueueGroup::class ),
 				'permissionManager' => $permissionManager,
+				'preferencesFactory' => $services->getPreferencesFactory(),
 				'userNameUtils' => $userNameUtils,
-				'dbProvider' => $this->getServiceContainer()->getDBLoadBalancerFactory(),
+				'dbProvider' => $services->getDBLoadBalancerFactory(),
 				'actorStore' => $actorStore,
-				'blockManager' => $this->getServiceContainer()->getBlockManager(),
+				'blockManager' => $services->getBlockManager(),
 				'revisionStore' => $mockRevisionStore,
 				'checkUserPermissionManager' => $checkUserPermissionManager,
-				'readOnlyMode' => $this->getServiceContainer()->getReadOnlyMode(),
+				'readOnlyMode' => $services->getReadOnlyMode(),
 			],
 			$options
 		) ) );

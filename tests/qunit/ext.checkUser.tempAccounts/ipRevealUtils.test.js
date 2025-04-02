@@ -1,12 +1,13 @@
 'use strict';
 
-const Utils = require( '../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js' );
+const ipRevealUtils = require( '../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js' );
+const autoRevealPreferenceName = 'checkuser-temporary-account-enable-auto-reveal';
 
-QUnit.module( 'ext.checkUser.tempAccounts.ipRevealUtils' );
+QUnit.module( 'ext.checkUser.tempAccounts.ipRevealUtils', QUnit.newMwEnvironment( {} ) );
 
 QUnit.test( 'Test getRevealedStatus when no value set', ( assert ) => {
 	assert.strictEqual(
-		Utils.getRevealedStatus( 'abcdef' ),
+		ipRevealUtils.getRevealedStatus( 'abcdef' ),
 		null,
 		'getRevealedStatus return value when setRevealedStatus has not been called'
 	);
@@ -14,9 +15,9 @@ QUnit.test( 'Test getRevealedStatus when no value set', ( assert ) => {
 
 QUnit.test( 'Test setRevealedStatus', ( assert ) => {
 	mw.config.set( 'wgCheckUserTemporaryAccountMaxAge', 1500 );
-	Utils.setRevealedStatus( 'abcdef' );
+	ipRevealUtils.setRevealedStatus( 'abcdef' );
 	assert.strictEqual(
-		Utils.getRevealedStatus( 'abcdef' ),
+		ipRevealUtils.getRevealedStatus( 'abcdef' ),
 		'true',
 		'getRevealedStatus return value after setRevealedStatus is called'
 	);
@@ -24,27 +25,122 @@ QUnit.test( 'Test setRevealedStatus', ( assert ) => {
 	mw.storage.remove( 'mw-checkuser-temp-abcdef' );
 } );
 
-QUnit.test( 'Test getAutoRevealStatus when no value set', ( assert ) => {
-	assert.strictEqual(
-		Utils.getAutoRevealStatus(),
-		null,
-		'getAutoRevealStatus return value when setAutoRevealStatus has not been called'
-	);
+QUnit.test( 'Test getAutoRevealStatus when no value set', function ( assert ) {
+	mw.config.set( 'wgCheckUserTemporaryAccountAutoRevealAllowed', true );
+	const apiMock = this.sandbox.mock( mw.Api.prototype );
+	apiMock.expects( 'get' )
+		.withArgs( {
+			action: 'query',
+			meta: 'globalpreferences',
+			gprprop: 'preferences'
+		} )
+		.returns( $.Deferred().resolve( {
+			query: {
+				globalpreferences: {
+					preferences: {}
+				}
+			}
+		} ) );
+
+	return ipRevealUtils.getAutoRevealStatus().then( ( status ) => {
+		assert.strictEqual( status, false, 'Should return false when preference is not set' );
+	} );
 } );
 
-QUnit.test( 'Test setAutoRevealStatus', ( assert ) => {
-	const expiry = Math.floor( Date.now() / 1000 ) + 3600;
-	Utils.setAutoRevealStatus( 3600 );
-	assert.strictEqual(
-		Utils.getAutoRevealStatus(),
-		String( expiry ),
-		'getAutoRevealStatus return value after status was toggled on'
-	);
+QUnit.test( 'Test getAutoRevealStatus with expiry in the past', function ( assert ) {
+	mw.config.set( 'wgCheckUserTemporaryAccountAutoRevealAllowed', true );
+	const pastTimestamp = Math.round( Date.now() / 1000 ) - 100;
+	const apiMock = this.sandbox.mock( mw.Api.prototype );
+	apiMock.expects( 'get' )
+		.withArgs( {
+			action: 'query',
+			meta: 'globalpreferences',
+			gprprop: 'preferences'
+		} )
+		.returns( $.Deferred().resolve( {
+			query: {
+				globalpreferences: {
+					preferences: {
+						[ autoRevealPreferenceName ]: pastTimestamp
+					}
+				}
+			}
+		} ) );
 
-	Utils.setAutoRevealStatus();
-	assert.strictEqual(
-		Utils.getAutoRevealStatus(),
-		null,
-		'getAutoRevealStatus return value after status was toggled off'
-	);
+	return ipRevealUtils.getAutoRevealStatus().then( ( status ) => {
+		assert.strictEqual( status, false, 'Should return false when expiry is set to a past timestamp' );
+	} );
+} );
+
+QUnit.test( 'Test getAutoRevealStatus with expiry in the future', function ( assert ) {
+	mw.config.set( 'wgCheckUserTemporaryAccountAutoRevealAllowed', true );
+	const futureTimestamp = Math.round( Date.now() / 1000 ) + 3600;
+	const apiMock = this.sandbox.mock( mw.Api.prototype );
+	apiMock.expects( 'get' )
+		.withArgs( {
+			action: 'query',
+			meta: 'globalpreferences',
+			gprprop: 'preferences'
+		} )
+		.returns( $.Deferred().resolve( {
+			query: {
+				globalpreferences: {
+					preferences: {
+						[ autoRevealPreferenceName ]: futureTimestamp
+					}
+				}
+			}
+		} ) );
+
+	return ipRevealUtils.getAutoRevealStatus().then( ( status ) => {
+		assert.strictEqual( status, futureTimestamp, 'Should return the expiry when it is set to a future timestamp' );
+	} );
+} );
+
+QUnit.test( 'Test getAutoRevealStatus with API failure', function ( assert ) {
+	mw.config.set( 'wgCheckUserTemporaryAccountAutoRevealAllowed', true );
+	const apiMock = this.sandbox.mock( mw.Api.prototype );
+	apiMock.expects( 'get' )
+		.withArgs( {
+			action: 'query',
+			meta: 'globalpreferences',
+			gprprop: 'preferences'
+		} )
+		.returns( $.Deferred().reject() );
+
+	return ipRevealUtils.getAutoRevealStatus().then( ( status ) => {
+		assert.strictEqual( status, false, 'Should return false when API request fails' );
+	} );
+} );
+
+QUnit.test( 'Test setAutoRevealStatus (enable)', function ( assert ) {
+	const relativeExpiry = 3600;
+	const expectedExpiry = Math.round( Date.now() / 1000 ) + relativeExpiry;
+	const apiMock = this.sandbox.mock( mw.Api.prototype );
+	apiMock.expects( 'postWithToken' )
+		.withArgs( 'csrf', {
+			action: 'globalpreferences',
+			optionname: autoRevealPreferenceName,
+			optionvalue: expectedExpiry
+		} )
+		.returns( $.Deferred().resolve() );
+
+	return ipRevealUtils.setAutoRevealStatus( relativeExpiry ).then( () => {
+		assert.true( true, 'setAutoRevealStatus should resolve successfully' );
+	} );
+} );
+
+QUnit.test( 'Test setAutoRevealStatus (disable)', function ( assert ) {
+	const apiMock = this.sandbox.mock( mw.Api.prototype );
+	apiMock.expects( 'postWithToken' )
+		.withArgs( 'csrf', {
+			action: 'globalpreferences',
+			optionname: autoRevealPreferenceName,
+			optionvalue: undefined
+		} )
+		.returns( $.Deferred().resolve() );
+
+	return ipRevealUtils.setAutoRevealStatus().then( () => {
+		assert.true( true, 'setAutoRevealStatus should resolve successfully when disabling' );
+	} );
 } );

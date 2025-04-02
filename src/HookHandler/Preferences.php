@@ -37,6 +37,9 @@ class Preferences implements GetPreferencesHook {
 	 */
 	public const CHECKUSER_HELPER_USE_CONFIG_TO_COLLAPSE_BY_DEFAULT = 'config';
 
+	/** @var string User option indicating that IP auto-reveal mode is enabled. */
+	public const ENABLE_IP_AUTO_REVEAL = 'checkuser-temporary-account-enable-auto-reveal';
+
 	/** @var string User option indicating that a user opted-in to reveal IPs. */
 	public const ENABLE_IP_REVEAL = 'checkuser-temporary-account-enable';
 
@@ -71,6 +74,10 @@ class Preferences implements GetPreferencesHook {
 		];
 
 		$preferences[self::TEMPORARY_ACCOUNTS_ONBOARDING_DIALOG_SEEN] = [
+			'type' => 'api',
+		];
+
+		$preferences[self::ENABLE_IP_AUTO_REVEAL] = [
 			'type' => 'api',
 		];
 

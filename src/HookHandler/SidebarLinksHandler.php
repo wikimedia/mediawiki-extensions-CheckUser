@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\HookHandler;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Config\Config;
 use MediaWiki\Hook\SidebarBeforeOutputHook;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Skin\Skin;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\User\UserIdentity;
@@ -21,13 +22,16 @@ class SidebarLinksHandler implements SidebarBeforeOutputHook {
 
 	private Config $config;
 	private CheckUserPermissionManager $permissionManager;
+	private ExtensionRegistry $extensionRegistry;
 
 	public function __construct(
 		Config $config,
-		CheckUserPermissionManager $checkUserPermissionManager
+		CheckUserPermissionManager $checkUserPermissionManager,
+		ExtensionRegistry $extensionRegistry
 	) {
 		$this->config = $config;
 		$this->permissionManager = $checkUserPermissionManager;
+		$this->extensionRegistry = $extensionRegistry;
 	}
 
 	/** @inheritDoc */
@@ -107,10 +111,7 @@ class SidebarLinksHandler implements SidebarBeforeOutputHook {
 	 * @return void
 	 */
 	private function addIPAutoReveal( Skin $skin, array &$sidebar ): void {
-		$authority = $skin->getAuthority();
-		$autoRevealStatus = $this->permissionManager->canAutoRevealIPAddresses( $authority );
-
-		if ( !$autoRevealStatus->isGood() ) {
+		if ( !$this->shouldAddIPAutoReveal( $skin ) ) {
 			return;
 		}
 
@@ -127,5 +128,24 @@ class SidebarLinksHandler implements SidebarBeforeOutputHook {
 			'href' => '#',
 			'class' => 'checkuser-ip-auto-reveal',
 		];
+	}
+
+	/**
+	 * Check if the user accessing the page can use auto-reveal IP addresses for temporary
+	 * accounts. Since IP auto-reveal is managed via a global preference, it is only
+	 * usable if GlobalPreferences is loaded.
+	 *
+	 * @param Skin $skin Object providing info about the current page & user.
+	 * @return bool
+	 */
+	private function shouldAddIPAutoReveal( Skin $skin ) {
+		if ( !$this->extensionRegistry->isLoaded( 'GlobalPreferences' ) ) {
+			return false;
+		}
+
+		$authority = $skin->getAuthority();
+		$autoRevealStatus = $this->permissionManager->canAutoRevealIPAddresses( $authority );
+
+		return $autoRevealStatus->isGood();
 	}
 }

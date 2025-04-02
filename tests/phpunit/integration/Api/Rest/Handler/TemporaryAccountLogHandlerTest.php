@@ -64,6 +64,7 @@ class TemporaryAccountLogHandlerTest extends MediaWikiIntegrationTestCase {
 				'config' => $services->getMainConfig(),
 				'jobQueueGroup' => $this->createMock( JobQueueGroup::class ),
 				'permissionManager' => $permissionManager,
+				'preferencesFactory' => $services->getPreferencesFactory(),
 				'userNameUtils' => $services->getUserNameUtils(),
 				'dbProvider' => $services->getConnectionProvider(),
 				'actorStore' => $services->getActorStore(),

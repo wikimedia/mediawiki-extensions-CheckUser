@@ -88,7 +88,7 @@ function makeButton( target, revIds, logIds, documentRoot ) {
 		button.$element.off( 'revealIp' );
 
 		if ( batchResponse ) {
-			if ( !ipRevealUtils.getRevealedStatus( target ) ) {
+			if ( !ipRevealUtils.getRevealedStatus( target ) && !batchResponse.autoReveal ) {
 				ipRevealUtils.setRevealedStatus( target );
 			}
 			replaceButton( button.$element, ip, true );
@@ -118,7 +118,7 @@ function makeButton( target, revIds, logIds, documentRoot ) {
 
 		performRevealRequest( target, revIds, logIds ).then( ( response ) => {
 			const targetIp = response.ips[ ( revIds.targetId || logIds.targetId ) || 0 ];
-			if ( !ipRevealUtils.getRevealedStatus( target ) ) {
+			if ( !ipRevealUtils.getRevealedStatus( target ) && !response.autoReveal ) {
 				ipRevealUtils.setRevealedStatus( target );
 			}
 			replaceButton( button.$element, targetIp, true );
@@ -398,20 +398,19 @@ function batchRevealIps( request, $ipRevealButtons ) {
 }
 
 /**
- * Automatically reveal IPs for temporary users, where appropriate. This includes:
- * - Users who have been revealed recently
- * - All users if auto-reveal mode is on
+ * Automatically reveal IPs for the given buttons.
  *
  * Note that this uses the `batch-temporaryaccount` API endpoint.
  *
  * @param {jQuery} $ipRevealButtons
+ * @param {boolean} autoRevealStatus Whether auto-reveal mode is on
  */
-function automaticallyRevealUsers( $ipRevealButtons ) {
+function automaticallyRevealUsersInternal( $ipRevealButtons, autoRevealStatus ) {
 	const request = {};
 	const usersToReveal = [];
 	let $buttonsToReveal;
 
-	if ( ipRevealUtils.getAutoRevealStatus() ) {
+	if ( autoRevealStatus ) {
 		$buttonsToReveal = $ipRevealButtons;
 	} else {
 		$buttonsToReveal = $ipRevealButtons.filter( function () {
@@ -456,6 +455,28 @@ function automaticallyRevealUsers( $ipRevealButtons ) {
 }
 
 /**
+ * Automatically reveal IPs for temporary users, where appropriate. This means:
+ * - Users who have been revealed less than `CheckUserTemporaryAccountMaxAge` seconds ago
+ * - All users if auto-reveal mode is on
+ *
+ * This is an outer wrapper for #automaticallyRevealUsersInternal, to accommodate a possible
+ * async look-up for the auto-reveal status.
+ *
+ * @param {jQuery} $ipRevealButtons
+ * @param {boolean|undefined} autoRevealStatus Whether auto-reveal mode is on. If not
+ *  given, it will be looked up.
+ */
+function automaticallyRevealUsers( $ipRevealButtons, autoRevealStatus ) {
+	if ( autoRevealStatus === undefined ) {
+		ipRevealUtils.getAutoRevealStatus().then( ( status ) => {
+			automaticallyRevealUsersInternal( $ipRevealButtons, status );
+		} );
+	} else {
+		automaticallyRevealUsersInternal( $ipRevealButtons, autoRevealStatus );
+	}
+}
+
+/**
  * Enable auto-reveal mode, then show all the IPs on the page.
  *
  * @param {number} relativeExpiry
@@ -463,8 +484,9 @@ function automaticallyRevealUsers( $ipRevealButtons ) {
  */
 function enableAutoReveal( relativeExpiry, $content ) {
 	$content = $content || $( document );
-	ipRevealUtils.setAutoRevealStatus( relativeExpiry );
-	showAllIps( $content );
+	ipRevealUtils.setAutoRevealStatus( relativeExpiry ).then( () => {
+		showAllIps( $content, true );
+	} );
 }
 
 /**
@@ -472,8 +494,9 @@ function enableAutoReveal( relativeExpiry, $content ) {
  * automaticallyRevealUsers, but takes the containing element, rather than the buttons.
  *
  * @param {jQuery} $content
+ * @param {boolean} autoRevealStatus Whether auto-reveal mode is on
  */
-function showAllIps( $content ) {
+function showAllIps( $content, autoRevealStatus ) {
 	$content = $content || $( document );
 
 	// Handle contributions pages with temp user targets separately, as they do not have user links
@@ -495,7 +518,7 @@ function showAllIps( $content ) {
 
 	// On all other pages, find all buttons and reveal all their users
 	const $ipRevealButtons = $content.find( '.ext-checkuser-tempaccount-reveal-ip-button' );
-	automaticallyRevealUsers( $ipRevealButtons );
+	automaticallyRevealUsers( $ipRevealButtons, autoRevealStatus );
 }
 
 /**
@@ -505,16 +528,17 @@ function showAllIps( $content ) {
  */
 function disableAutoReveal( $content ) {
 	$content = $content || $( document );
-	ipRevealUtils.setAutoRevealStatus( 0 );
-	hideAllIps( $content );
+	ipRevealUtils.setAutoRevealStatus();
+	hideAllIps( $content, false );
 }
 
 /**
  * Remove all revealed IPs inside $content and replace them with "IP reveal" buttons.
  *
  * @param {jQuery} $content
+ * @param {boolean} autoRevealStatus Whether auto-reveal mode is on
  */
-function hideAllIps( $content ) {
+function hideAllIps( $content, autoRevealStatus ) {
 	$content = $content || $( document );
 
 	// Handle contributions pages with temp user targets separately, as they do not have user links
@@ -530,7 +554,7 @@ function hideAllIps( $content ) {
 		} else {
 			// Remove the revealed IPs and add the buttons again
 			$( '.ext-checkuser-tempaccount-reveal-ip' ).remove();
-			enableIpRevealForContributionsPage( $content, pageTitle );
+			enableIpRevealForContributionsPage( $content, pageTitle, autoRevealStatus );
 			return;
 		}
 	}
@@ -573,6 +597,16 @@ function getLogId( $element ) {
 }
 
 /**
+ * Reveals the first button within $content. This may trigger further reveals, if multi-reveal
+ * is enabled.
+ *
+ * @param {jQuery} $content
+ */
+function revealFirstIp( $content ) {
+	$content.find( '.ext-checkuser-tempaccount-reveal-ip-button' ).first().trigger( 'revealIp' );
+}
+
+/**
  * Add IP reveal functionality to contributions pages that show contributions made by a single
  * temporary user. There are no user links on these pages.
  *
@@ -587,8 +621,10 @@ function getLogId( $element ) {
  * @param {string} pageTitle Declare what page this is being run on.
  *   This is for compatibility across Special:Contributions and Special:DeletedContributions,
  *   as they have different guaranteed existing elements.
+ * @param {boolean|undefined} autoRevealStatus Whether auto-reveal mode is on. If not
+ *  given, it will be looked up.
  */
-function enableIpRevealForContributionsPage( documentRoot, pageTitle ) {
+function enableIpRevealForContributionsPage( documentRoot, pageTitle, autoRevealStatus ) {
 	if ( !documentRoot ) {
 		documentRoot = document;
 	}
@@ -632,12 +668,17 @@ function enableIpRevealForContributionsPage( documentRoot, pageTitle ) {
 		} );
 	} );
 
-	// If the user has been revealed lately, trigger a lookup from the first button
-	if (
-		ipRevealUtils.getAutoRevealStatus() ||
-		ipRevealUtils.getRevealedStatus( mw.config.get( 'wgRelevantUserName' ) )
-	) {
-		$( '.ext-checkuser-tempaccount-reveal-ip-button' ).first().trigger( 'revealIp' );
+	if ( autoRevealStatus || ipRevealUtils.getRevealedStatus( mw.config.get( 'wgRelevantUserName' ) ) ) {
+		// If the user has been revealed lately or auto-reveal mode is on, trigger a lookup
+		// from the first button
+		revealFirstIp( $( documentRoot ) );
+	} else if ( autoRevealStatus === undefined ) {
+		// If auto-reveal status is unknown, look it up.
+		ipRevealUtils.getAutoRevealStatus().then( ( expiry ) => {
+			if ( expiry ) {
+				revealFirstIp( $( documentRoot ) );
+			}
+		} );
 	}
 }
 

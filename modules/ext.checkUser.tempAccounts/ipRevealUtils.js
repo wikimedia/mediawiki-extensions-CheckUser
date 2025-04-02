@@ -24,10 +24,6 @@ function getRevealedStatus( user ) {
  * @param {string} user The username of the temporary account that has had its IPs revealed.
  */
 function setRevealedStatus( user ) {
-	if ( getAutoRevealStatus() ) {
-		// Don't set auto-revealed users as pre-revealed, to avoid cluttering localStorage.
-		return;
-	}
 	if ( !getRevealedStatus( getRevealedStatusKey( user ) ) ) {
 		mw.storage.set(
 			getRevealedStatusKey( user ),
@@ -38,47 +34,70 @@ function setRevealedStatus( user ) {
 }
 
 /**
- * Gets the auto-reveal status key.
+ * Get the name of the auto-reveal status global preference.
  *
  * @return {string}
  */
-function getAutoRevealStatusKey() {
-	return 'mw-checkuser-auto-reveal-temp';
+function getAutoRevealStatusPreferenceName() {
+	return 'checkuser-temporary-account-enable-auto-reveal';
 }
 
 /**
- * Gets the auto-reveal status.
+ * Get the auto-reveal status from the global preference.
  *
- * @return {string|null|false} Timestamp when auto-reveal mode expires, if it is on. Otherwise
- *  null if expired or not set, or false if storage is not avaialble.
+ * @return {Promise}
  */
 function getAutoRevealStatus() {
-	return mw.storage.get( getAutoRevealStatusKey() );
+	const deferred = $.Deferred();
+	if ( mw.config.get( 'wgCheckUserTemporaryAccountAutoRevealAllowed' ) ) {
+		const api = new mw.Api();
+		api.get( {
+			action: 'query',
+			meta: 'globalpreferences',
+			gprprop: 'preferences'
+		} ).then( ( response ) => {
+			let preferences;
+			try {
+				preferences = response.query.globalpreferences.preferences;
+			} catch ( e ) {
+				preferences = {};
+			}
+			const autoRevealPreference = preferences[ getAutoRevealStatusPreferenceName() ] || 0;
+			const expiry = Number( autoRevealPreference );
+			deferred.resolve(
+				expiry > ( Date.now() / 1000 ) ? expiry : false
+			);
+		} ).fail( () => {
+			deferred.resolve( false );
+		} );
+	} else {
+		deferred.resolve( false );
+	}
+	return deferred.promise();
 }
 
 /**
  * Update the auto-reveal status of a user to switch on, switch off, or extend expiry.
  *
- * The value stored and the expiry are the same, except that the value is a string and
- * the expiry is a number.
+ * The value stored is the Unix timestamp of the expiry, in seconds. Auto-reveal is only supported
+ * if the GlobalPreferences extension is available, because the expiry is saved as a global
+ * preference so that the mode can be remembered across sites.
  *
- * @param {string} relativeTimestamp Number of seconds the "on" mode should be enabled
- *  or empty string to turn it "off".
+ * @param {number|undefined} relativeExpiry Number of seconds the "on" mode should be enabled,
+ *  or no argument to disable the mode.
+ * @return {Promise}
  */
-function setAutoRevealStatus( relativeTimestamp ) {
-	if ( !relativeTimestamp ) {
-		mw.storage.remove( getAutoRevealStatusKey() );
-		return;
-	}
+function setAutoRevealStatus( relativeExpiry ) {
+	const absoluteExpiry = relativeExpiry ?
+		Math.round( Date.now() / 1000 ) + relativeExpiry :
+		undefined;
 
-	const relativeExpiry = Number( relativeTimestamp );
-	const absoluteExpiry = String( Math.floor( Date.now() / 1000 ) + relativeExpiry );
-
-	mw.storage.set(
-		getAutoRevealStatusKey(),
-		absoluteExpiry,
-		relativeExpiry
-	);
+	const api = new mw.Api();
+	return api.postWithToken( 'csrf', {
+		action: 'globalpreferences',
+		optionname: getAutoRevealStatusPreferenceName(),
+		optionvalue: absoluteExpiry
+	} );
 }
 
 module.exports = {

@@ -7,6 +7,7 @@ use MediaWiki\Block\BlockManager;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Config\Config;
 use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\Preferences\PreferencesFactory;
 use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\User\ActorStore;
@@ -27,6 +28,7 @@ class TemporaryAccountRevisionHandler extends AbstractTemporaryAccountNameHandle
 		Config $config,
 		JobQueueGroup $jobQueueGroup,
 		PermissionManager $permissionManager,
+		PreferencesFactory $preferencesFactory,
 		UserNameUtils $userNameUtils,
 		IConnectionProvider $dbProvider,
 		ActorStore $actorStore,
@@ -36,8 +38,16 @@ class TemporaryAccountRevisionHandler extends AbstractTemporaryAccountNameHandle
 		ReadOnlyMode $readOnlyMode
 	) {
 		parent::__construct(
-			$config, $jobQueueGroup, $permissionManager, $userNameUtils, $dbProvider, $actorStore,
-			$blockManager, $checkUserPermissionsManager, $readOnlyMode
+			$config,
+			$jobQueueGroup,
+			$permissionManager,
+			$preferencesFactory,
+			$userNameUtils,
+			$dbProvider,
+			$actorStore,
+			$blockManager,
+			$checkUserPermissionsManager,
+			$readOnlyMode
 		);
 		$this->revisionStore = $revisionStore;
 	}

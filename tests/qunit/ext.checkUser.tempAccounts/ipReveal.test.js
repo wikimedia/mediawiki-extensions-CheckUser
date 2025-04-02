@@ -4,6 +4,7 @@ const ipReveal = require( '../../../modules/ext.checkUser.tempAccounts/ipReveal.
 const { makeTempUserLink, waitUntilElementDisappears } = require( './utils.js' );
 const ipRevealUtils = require( '../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js' );
 
+const originalGetAutoRevealStatus = ipRevealUtils.getAutoRevealStatus;
 let server;
 
 // Define user names that can be used in these tests, which are removed after each test run.
@@ -19,10 +20,7 @@ QUnit.module( 'ext.checkUser.tempAccounts.ipReveal', QUnit.newMwEnvironment( {
 	},
 	afterEach: function () {
 		server.restore();
-
-		// Disable auto-reveal after each test to avoid
-		// triggering auto-reveal for unrelated QUnit tests with temp account links (T388225).
-		ipRevealUtils.setAutoRevealStatus( '' );
+		ipRevealUtils.getAutoRevealStatus = originalGetAutoRevealStatus;
 
 		// Ensure no users are set to pre-revealed
 		mw.storage.remove( 'mw-checkuser-temp-' + tempName1 );
@@ -371,7 +369,7 @@ QUnit.test( 'Test makeButton on button click for successful request with data', 
 	performMakeButtonRequestTest( assert, 200, '{"ips":{"1":"127.0.0.1"}}', '127.0.0.1' );
 } );
 
-QUnit.test( 'Test enableAutoReveal replaces buttons with IPs', ( assert ) => {
+QUnit.test( 'Test enableAutoReveal replaces buttons with IPs', function ( assert ) {
 	const done = assert.async();
 	server.respond( ( request ) => {
 		const response = {};
@@ -402,11 +400,18 @@ QUnit.test( 'Test enableAutoReveal replaces buttons with IPs', ( assert ) => {
 		) );
 	} );
 
+	// Check that auto-reveal mode is switched on
+	const expiry = Math.round( Date.now() / 1000 ) + 3600;
+	const utilsMock = this.sandbox.mock( ipRevealUtils );
+	utilsMock.expects( 'setAutoRevealStatus' )
+		.once()
+		.withArgs( expiry )
+		.returns( $.Deferred().resolve() );
+
 	// Enable multi-reveal and switch on auto-reveal mode
-	ipReveal.enableMultiReveal( $qunitFixture );
+	ipReveal.enableAutoReveal( expiry, $qunitFixture );
 
 	// Check all IPs are revealed
-	ipReveal.enableAutoReveal( Date.now() + 3600000, $qunitFixture );
 	waitUntilElementDisappears( '.ext-checkuser-tempaccount-reveal-ip-button' ).then( () => {
 		assert.strictEqual(
 			$( '.ext-checkuser-tempaccount-reveal-ip-button', $qunitFixture ).length,
@@ -423,7 +428,7 @@ QUnit.test( 'Test enableAutoReveal replaces buttons with IPs', ( assert ) => {
 	} );
 } );
 
-QUnit.test( 'Test disableAutoReveal replaces IPs with buttons', ( assert ) => {
+QUnit.test( 'Test disableAutoReveal replaces IPs with buttons', function ( assert ) {
 	// eslint-disable-next-line no-jquery/no-global-selector
 	const $qunitFixture = $( '#qunit-fixture' );
 
@@ -438,6 +443,12 @@ QUnit.test( 'Test disableAutoReveal replaces IPs with buttons', ( assert ) => {
 		);
 		$revisionLine.append( $tempAccountUserLink, $revealedIp );
 	} );
+
+	// Check that auto-reveal mode is switched off
+	const utilsMock = this.sandbox.mock( ipRevealUtils );
+	utilsMock.expects( 'setAutoRevealStatus' )
+		.once()
+		.withArgs();
 
 	// Check that the IPs are replaced with buttons
 	ipReveal.disableAutoReveal( $qunitFixture );

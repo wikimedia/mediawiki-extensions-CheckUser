@@ -230,6 +230,7 @@
 				"MainConfig",
 				"JobQueueGroup",
 				"PermissionManager",
+				"PreferencesFactory",
 				"UserNameUtils",
 				"DBLoadBalancerFactory",
 				"ActorStore",
@@ -264,6 +265,7 @@
 				"MainConfig",
 				"JobQueueGroup",
 				"PermissionManager",
+				"PreferencesFactory",
 				"UserNameUtils",
 				"DBLoadBalancerFactory",
 				"ActorStore",
@@ -281,6 +283,7 @@
 				"MainConfig",
 				"JobQueueGroup",
 				"PermissionManager",
+				"PreferencesFactory",
 				"UserNameUtils",
 				"DBLoadBalancerFactory",
 				"ActorStore",
@@ -297,6 +300,7 @@
 				"MainConfig",
 				"JobQueueGroup",
 				"PermissionManager",
+				"PreferencesFactory",
 				"UserNameUtils",
 				"DBLoadBalancerFactory",
 				"ActorStore",
@@ -432,7 +436,8 @@
 			"class": "MediaWiki\\CheckUser\\HookHandler\\SidebarLinksHandler",
 			"services": [
 				"MainConfig",
-				"CheckUserPermissionManager"
+				"CheckUserPermissionManager",
+				"ExtensionRegistry"
 			]
 		},
 		"LogDisplayHandler": {

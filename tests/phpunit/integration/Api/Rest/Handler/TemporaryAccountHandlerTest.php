@@ -60,17 +60,19 @@ class TemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		$checkUserPermissionManager->method( 'canAccessTemporaryAccountIPAddresses' )
 			->willReturn( CheckUserPermissionStatus::newGood() );
 
+		$services = $this->getServiceContainer();
 		return new TemporaryAccountHandler( ...array_values( array_merge(
 			[
-				'config' => $this->getServiceContainer()->getMainConfig(),
+				'config' => $services->getMainConfig(),
 				'jobQueueGroup' => $this->createMock( JobQueueGroup::class ),
 				'permissionManager' => $permissionManager,
+				'preferencesFactory' => $services->getPreferencesFactory(),
 				'userNameUtils' => $userNameUtils,
-				'dbProvider' => $this->getServiceContainer()->getDBLoadBalancerFactory(),
+				'dbProvider' => $services->getDBLoadBalancerFactory(),
 				'actorStore' => $actorStore,
-				'blockManager' => $this->getServiceContainer()->getBlockManager(),
+				'blockManager' => $services->getBlockManager(),
 				'checkUserPermissionManager' => $checkUserPermissionManager,
-				'readOnlyMode' => $this->getServiceContainer()->getReadOnlyMode(),
+				'readOnlyMode' => $services->getReadOnlyMode(),
 			],
 			$options
 		) ) );
