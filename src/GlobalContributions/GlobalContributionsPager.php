@@ -802,13 +802,19 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	 * @inheritDoc
 	 */
 	protected function formatComment( $row ) {
-		// Don't show comments for external revisions, since determining
-		// their visibility involves cross-wiki permission checks.
 		if ( !$this->isFromExternalWiki( $row ) ) {
 			return parent::formatComment( $row );
 		}
 
-		return '';
+		// Show a generic message instead of the actual comment for external
+		// revisions, since determining their visibility involves cross-wiki
+		// permission checks. Showing the message is needed to prevent breaking
+		// skins that expect to have the comment there (T388392).
+		return Html::element(
+			'span',
+			[ 'class' => 'comment mw-comment-none' ],
+			$this->msg( 'checkuser-global-contributions-no-summary-available' )
+		);
 	}
 
 	/**

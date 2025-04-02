@@ -238,7 +238,13 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$pager = $this->getWrappedPager( '127.0.0.1', $row->page_title );
 
 		$formatted = $pager->formatComment( $row );
-		$this->assertSame( '', $formatted );
+		$this->assertSame(
+			sprintf(
+				'<span class="comment mw-comment-none">(%s)</span>',
+				'checkuser-global-contributions-no-summary-available'
+			),
+			$formatted
+		);
 	}
 
 	/**
