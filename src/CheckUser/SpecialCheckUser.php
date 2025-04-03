@@ -132,6 +132,7 @@ class SpecialCheckUser extends SpecialPage {
 		$this->blockStore = $blockStore;
 	}
 
+	/** @inheritDoc */
 	public function doesWrites() {
 		// logging
 		return true;

@@ -61,6 +61,7 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 		$this->validateToken( true );
 	}
 
+	/** @inheritDoc */
 	public function run() {
 		if ( !$this->config->get( 'CheckUserClientHintsEnabled' ) ) {
 			// Pretend the route doesn't exist if the feature flag is off.
@@ -239,6 +240,7 @@ class UserAgentClientHintsHandler extends SimpleHandler {
 		}
 	}
 
+	/** @inheritDoc */
 	public function needsWriteAccess() {
 		return true;
 	}
