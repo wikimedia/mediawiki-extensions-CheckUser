@@ -372,7 +372,7 @@ class SpecialInvestigateBlock extends FormSpecialPage {
 				$this->blockedUsers[] = $target;
 
 				// Check for SocialProfile being installed (T390774)
-				if ( $data['UserPageNotice'] && !class_exists( 'wAvatar' ) ) {
+				if ( !class_exists( 'wAvatar' ) && $data['UserPageNotice'] ) {
 					$this->addNoticeToPage(
 						$this->getTargetPage( NS_USER, $target ),
 						$data['UserPageNoticeText'],
