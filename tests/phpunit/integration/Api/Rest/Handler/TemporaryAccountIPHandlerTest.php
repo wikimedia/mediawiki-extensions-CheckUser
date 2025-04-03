@@ -13,9 +13,9 @@ use MediaWiki\Rest\LocalizedHttpException;
 use MediaWiki\Rest\RequestData;
 use MediaWiki\Tests\Rest\Handler\HandlerTestTrait;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
+use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
 use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;
-use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
 use Wikimedia\IPUtils;
 use Wikimedia\Message\MessageValue;
@@ -30,6 +30,7 @@ use Wikimedia\Message\MessageValue;
 class TemporaryAccountIPHandlerTest extends MediaWikiIntegrationTestCase {
 
 	use HandlerTestTrait;
+	use MockAuthorityTrait;
 	use MockServiceDependenciesTrait;
 	use CheckUserTempUserTestTrait;
 
@@ -130,20 +131,11 @@ class TemporaryAccountIPHandlerTest extends MediaWikiIntegrationTestCase {
 	 * @return Authority
 	 */
 	private function getAuthority( bool $canViewHidden = true ): Authority {
-		$user = $this->createMock( UserIdentityValue::class );
-		$user->method( 'getName' )->willReturn( 'Test user' );
-
-		$authority = $this->createMock( Authority::class );
-		$authority->method( 'getUser' )
-			->willReturn( $options['user'] ?? $user );
-		$authority->method( 'isNamed' )
-			->willReturn( true );
-		$authority->method( 'getBlock' )
-			->willReturn( null );
-		$authority->method( 'isAllowed' )
-			->willReturn( $canViewHidden );
-
-		return $authority;
+		if ( $canViewHidden ) {
+			return $this->mockRegisteredUltimateAuthority();
+		} else {
+			return $this->mockRegisteredNullAuthority();
+		}
 	}
 
 	private function getRequestData( array $options = [] ): RequestData {
