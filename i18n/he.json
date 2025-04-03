@@ -300,6 +300,8 @@
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>אין תוצאות תואמות לשאילתה.</strong> למשתמש \"$1\" אין תרומות שאפשר לצפות בהן.",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>אין תוצאות שתואמות לשאילתה.</strong> ייתכן {{GENDER:|שתמצא|שתמצאי}} תרומות אם תשנה את הפרמטרים של החיפוש שלך.",
 	"checkuser-ip-auto-reveal-link-sidebar": "חשיפה אוטומטית של כתובות IP",
+	"checkuser-ip-auto-reveal-notification-on": "<strong>חשיפה אוטומטית של IP מופעלת</strong>",
+	"checkuser-ip-auto-reveal-notification-off": "<strong>חשיפה אוטומטית של IP כבויה</strong>",
 	"checkuser-ip-auto-reveal-on-dialog-title": "הפעלת חשיפה אוטומטית של כתובת IP",
 	"checkuser-ip-auto-reveal-on-dialog-text": "אם האפשרות הזאת מופעלת, כתובות ה־IP של כל החשבונות החולפים ייחשפו לזמן מוגבל",
 	"checkuser-ip-auto-reveal-on-dialog-default-action": "ביטול",

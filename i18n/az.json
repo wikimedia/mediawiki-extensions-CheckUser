@@ -302,6 +302,8 @@
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Sorğuya uyğun nəticə yoxdur.</strong> \"$1\" istifadəçisinin görünə bilən töhfələri yoxdur.",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Sorğuya uyğun nəticə yoxdur.</strong> Axtarış parametrlərinizi dəyişdirsəniz, nəticə tapa bilərsiniz.",
 	"checkuser-ip-auto-reveal-link-sidebar": "IP-nin avtomatik göstərilməsi",
+	"checkuser-ip-auto-reveal-notification-on": "<strong>IP-nin avtomatik aşkarlanması aktivdir</strong>",
+	"checkuser-ip-auto-reveal-notification-off": "<strong>IP-nin avtomatik aşkarlanması deaktivdir</strong>",
 	"checkuser-ip-auto-reveal-on-dialog-title": "IP-nın avtomatik göstərilməsini aktivləşdir",
 	"checkuser-ip-auto-reveal-on-dialog-text": "Bu funksiyanın aktivləşdirilməsi avtomatik olaraq bütün müvəqqəti hesabın IP ünvanlarını məhdud bir müddət ərzində göstərəcək.",
 	"checkuser-ip-auto-reveal-on-dialog-default-action": "İmtina",
