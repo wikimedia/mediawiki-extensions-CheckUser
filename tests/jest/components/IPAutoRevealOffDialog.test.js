@@ -2,13 +2,10 @@
 
 // Mock utils methods to check they are called properly. Set up fake time now
 // and fake expiry time 1 hour later.
-const mockGetAutoRevealStatus = jest.fn();
 const mockNowInSeconds = 1741604813;
 const mockExpiryInSeconds = mockNowInSeconds + 3600;
-mockGetAutoRevealStatus.mockReturnValue( String( mockExpiryInSeconds ) );
 const mockSetAutoRevealStatus = jest.fn();
 jest.mock( '../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js', () => ( {
-	getAutoRevealStatus: mockGetAutoRevealStatus,
 	setAutoRevealStatus: mockSetAutoRevealStatus
 } ) );
 
@@ -23,34 +20,42 @@ const { nextTick } = require( 'vue' );
 const utils = require( '@vue/test-utils' );
 const { CdxDialog } = require( '@wikimedia/codex' );
 
-describe( 'IP auto-reveal Off dialog', () => {
-	let wrapper;
+const renderComponent = ( props ) => {
+	const defaultProps = { expiryTimestamp: String( mockExpiryInSeconds ) };
+	return utils.mount( IPAutoRevealOffDialog, {
+		props: Object.assign( {}, defaultProps, props )
+	} );
+};
 
+describe( 'IP auto-reveal Off dialog', () => {
 	beforeEach( () => {
 		jest.useFakeTimers();
 		jest.spyOn( Date, 'now' ).mockReturnValue( mockNowInSeconds * 1000 );
-		wrapper = utils.mount( IPAutoRevealOffDialog );
 	} );
 
 	afterEach( () => {
 		jest.useRealTimers();
 		jest.restoreAllMocks();
-
-		// In case a test overrides the mock expiry, restore it again
-		mockGetAutoRevealStatus.mockReturnValue( mockExpiryInSeconds );
 	} );
 
 	it( 'mounts correctly', () => {
+		const wrapper = renderComponent();
 		expect( wrapper.exists() ).toEqual( true );
 	} );
 
 	it( 'displays the expiry time correctly', async () => {
+		const wrapper = renderComponent();
+		await nextTick();
+
 		const expiryText = wrapper.find( 'p' ).html();
 		expect( expiryText ).toContain( 'checkuser-ip-auto-reveal-off-dialog-text-expiry' );
 		expect( expiryText ).toContain( '1:00:00' );
 	} );
 
 	it( 'updates the displayed time correctly', async () => {
+		const wrapper = renderComponent();
+		await nextTick();
+
 		const initialExpiryText = wrapper.find( 'p' ).html();
 		expect( initialExpiryText ).toContain( '1:00:00' );
 
@@ -62,6 +67,9 @@ describe( 'IP auto-reveal Off dialog', () => {
 	} );
 
 	it( 'calls setAutoRevealStatus with extended time on default action', async () => {
+		const wrapper = renderComponent();
+		await nextTick();
+
 		await wrapper.findComponent( CdxDialog ).vm.$emit( 'default' );
 
 		expect( mockSetAutoRevealStatus ).toHaveBeenCalled();
@@ -73,7 +81,9 @@ describe( 'IP auto-reveal Off dialog', () => {
 	} );
 
 	it( 'calls setAutoRevealStatus with extended time on default action after expiry', async () => {
-		mockGetAutoRevealStatus.mockReturnValue( null );
+		const wrapper = renderComponent( { expiryTimestamp: '' } );
+		await nextTick();
+
 		await wrapper.findComponent( CdxDialog ).vm.$emit( 'default' );
 
 		const expectedExpiryInSeconds = 600;
@@ -84,6 +94,9 @@ describe( 'IP auto-reveal Off dialog', () => {
 	} );
 
 	it( 'calls disableAutoReveal and shows notification on off action click', async () => {
+		const wrapper = renderComponent();
+		await nextTick();
+
 		await wrapper.findComponent( CdxDialog ).vm.$emit( 'primary' );
 
 		expect( mockDisableAutoReveal ).toHaveBeenCalled();

@@ -20,13 +20,14 @@ module.exports = function ( documentRoot ) {
 				);
 
 				let App;
-				if ( getAutoRevealStatus() ) {
+				const expiry = getAutoRevealStatus();
+				if ( expiry ) {
 					App = require( './components/IPAutoRevealOffDialog.vue' );
 				} else {
 					App = require( './components/IPAutoRevealOnDialog.vue' );
 				}
 				const Vue = require( 'vue' );
-				Vue.createMwApp( App ).mount( '#checkuser-ip-auto-reveal' );
+				Vue.createMwApp( App, { expiryTimestamp: expiry } ).mount( '#checkuser-ip-auto-reveal' );
 			} );
 		} );
 };

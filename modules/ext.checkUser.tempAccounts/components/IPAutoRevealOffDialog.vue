@@ -20,7 +20,7 @@
 <script>
 const { ref } = require( 'vue' );
 const { CdxDialog } = require( '@wikimedia/codex' );
-const { getAutoRevealStatus, setAutoRevealStatus } = require( './../ipRevealUtils.js' );
+const { setAutoRevealStatus } = require( './../ipRevealUtils.js' );
 const { disableAutoReveal } = require( './../ipReveal.js' );
 
 // @vue/component
@@ -29,7 +29,13 @@ module.exports = exports = {
 	components: {
 		CdxDialog
 	},
-	setup() {
+	props: {
+		expiryTimestamp: {
+			type: String,
+			required: true
+		}
+	},
+	setup( props ) {
 		const open = ref( true );
 
 		const defaultAction = {
@@ -41,7 +47,7 @@ module.exports = exports = {
 		} );
 
 		function onExtend() {
-			const currentExpiryInSeconds = Number( getAutoRevealStatus() );
+			const currentExpiryInSeconds = Number( props.expiryTimestamp );
 			const extendBySeconds = 10 * 60;
 
 			let newRelativeExpiryInSeconds;
@@ -75,8 +81,8 @@ module.exports = exports = {
 			onRemove
 		};
 	},
-	data() {
-		const expiryTime = new Date( Number( getAutoRevealStatus() ) * 1000 );
+	data( props ) {
+		const expiryTime = new Date( Number( props.expiryTimestamp ) * 1000 );
 		const secondsUntilExpiry = Math.round( ( expiryTime - Date.now() ) / 1000 );
 		return {
 			secondsUntilExpiry: secondsUntilExpiry,
