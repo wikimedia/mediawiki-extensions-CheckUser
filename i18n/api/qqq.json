@@ -29,6 +29,7 @@
 	"apihelp-query+checkuserlog-param-to": "{{doc-apihelp-param|query+checkuserlog|to}}",
 	"apihelp-query+checkuserlog-example-1": "{{doc-important|Do not translate \"User:Example\".}}\n{{doc-apihelp-example|query+checkuserlog}}",
 	"apihelp-query+checkuserlog-example-2": "{{doc-apihelp-example|query+checkuserlog}}",
+	"apihelp-query+checkuserformattedblockinfo-summary": "{{doc-apihelp-summary|query+checkuserformattedblockinfo}}",
 	"apihelp-query+globalcontributions-summary": "{{doc-apihelp-summary|query+globalcontributions}}",
 	"apihelp-query+globalcontributions-param-target": "{{doc-apihelp-param|query+globalcontributions|target}}",
 	"apihelp-query+globalcontributions-param-limit": "{{doc-apihelp-param|query+globalcontributions|limit}}",

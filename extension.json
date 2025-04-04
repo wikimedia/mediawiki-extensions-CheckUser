@@ -213,6 +213,14 @@
 			]
 		}
 	},
+	"APIMetaModules": {
+		"checkuserformattedblockinfo": {
+			"class": "MediaWiki\\CheckUser\\Api\\ApiQueryFormattedBlockInfo",
+			"services": [
+				"FormatterFactory"
+			]
+		}
+	},
 	"RestRoutes": [
 		{
 			"path": "/checkuser/v0/temporaryaccount/{name}",
