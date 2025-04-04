@@ -336,6 +336,7 @@
 	"checkuser-global-contributions-api-lookup-error": "Error message shown if any API call made to an external wiki fails.",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "Message shown when the user has searched for a target account that has no contributions they can see.\n\nParameters:\n* $1 - account username that was searched for",
 	"checkuser-global-contributions-no-results-when-filters-applied": "Message shown when the user has searched for a target and no results are displayed, but they have filters that would potentially hide some of the results (like a specified start and end date).",
+	"checkuser-global-contributions-no-summary-available": "Placeholder message shown in [[Special:GlobalContributions]] for contributions where the summary is not available",
 	"checkuser-ip-auto-reveal-link-sidebar": "Link text used for sidebar tool for managing IP auto-reveal mode.",
 	"checkuser-ip-auto-reveal-notification-on": "Text for a notification when IP auto-reveal mode is switched on",
 	"checkuser-ip-auto-reveal-notification-off": "Text for a notification when IP auto-reveal mode is switched off",
