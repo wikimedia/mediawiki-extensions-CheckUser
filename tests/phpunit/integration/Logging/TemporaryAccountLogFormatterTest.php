@@ -13,6 +13,7 @@ use MediaWiki\Extension\AbuseFilter\ProtectedVarsAccessLogger;
  */
 class TemporaryAccountLogFormatterTest extends LogFormatterTestCase {
 	public static function provideLogDatabaseRows(): array {
+		$expiry = 946684800;
 		return [
 			'Enable access' => [
 				'row' => [
@@ -43,6 +44,41 @@ class TemporaryAccountLogFormatterTest extends LogFormatterTestCase {
 					'text' => 'Sysop disabled their own access to view IP addresses of temporary accounts',
 					'api' => [
 						'changeType' => TemporaryAccountLogger::ACTION_ACCESS_DISABLED,
+					],
+				],
+			],
+			'Enable auto-reveal' => [
+				'row' => [
+					'type' => 'checkuser-temporary-account',
+					'action' => TemporaryAccountLogger::ACTION_CHANGE_AUTO_REVEAL,
+					'user_text' => 'Sysop', 'title' => 'Sysop', 'namespace' => NS_USER,
+					'params' => [
+						'4::changeType' => TemporaryAccountLogger::ACTION_AUTO_REVEAL_ENABLED,
+						'5::expiry' => $expiry,
+					],
+				],
+				'extra' => [
+					'text' => 'Sysop enabled automatically revealing IP addresses of temporary accounts ' .
+						'until 00:00, 1 January 2000',
+					'api' => [
+						'changeType' => TemporaryAccountLogger::ACTION_AUTO_REVEAL_ENABLED,
+						'expiry' => $expiry,
+					],
+				],
+			],
+			'Disable auto-reveal' => [
+				'row' => [
+					'type' => 'checkuser-temporary-account',
+					'action' => TemporaryAccountLogger::ACTION_CHANGE_AUTO_REVEAL,
+					'user_text' => 'Sysop', 'title' => 'Sysop', 'namespace' => NS_USER,
+					'params' => [
+						'4::changeType' => TemporaryAccountLogger::ACTION_AUTO_REVEAL_DISABLED,
+					],
+				],
+				'extra' => [
+					'text' => 'Sysop disabled automatically revealing IP addresses of temporary accounts',
+					'api' => [
+						'changeType' => TemporaryAccountLogger::ACTION_AUTO_REVEAL_DISABLED,
 					],
 				],
 			],

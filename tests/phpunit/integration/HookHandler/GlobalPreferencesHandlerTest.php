@@ -3,10 +3,12 @@
 namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
 use MediaWiki\CheckUser\HookHandler\GlobalPreferencesHandler;
+use MediaWiki\CheckUser\HookHandler\Preferences;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
 use MediaWiki\User\User;
 use MediaWikiIntegrationTestCase;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * @group CheckUser
@@ -28,7 +30,12 @@ class GlobalPreferencesHandlerTest extends MediaWikiIntegrationTestCase {
 		$user = $this->createMock( User::class );
 
 		$logger = $this->createMock( TemporaryAccountLogger::class );
-		foreach ( [ 'logGlobalAccessEnabled', 'logGlobalAccessDisabled' ] as $logMethod ) {
+		foreach ( [
+			'logGlobalAccessEnabled',
+			'logGlobalAccessDisabled',
+			'logAutoRevealAccessEnabled',
+			'logAutoRevealAccessDisabled',
+		] as $logMethod ) {
 			if ( $expectedLogMethod === $logMethod ) {
 				$logger->expects( $this->once() )
 					->method( $logMethod );
@@ -43,11 +50,19 @@ class GlobalPreferencesHandlerTest extends MediaWikiIntegrationTestCase {
 			->willReturn( $logger );
 
 		$this->setUserLang( 'qqx' );
+		ConvertibleTimestamp::setFakeTime( '20240405060709' );
 		( new GlobalPreferencesHandler( $loggerFactory ) )
 			->onGlobalPreferencesSetGlobalPreferences( $user, $oldPreferences, $newPreferences );
+
+		ConvertibleTimestamp::setFakeTime( false );
 	}
 
 	public static function providePreferences() {
+		ConvertibleTimestamp::setFakeTime( '20240405060709' );
+		$timeNow = ConvertibleTimestamp::time();
+		$futureTimestamp = $timeNow + 10000;
+		$pastTimestamp = $timeNow - 10000;
+		ConvertibleTimestamp::setFakeTime( false );
 		return [
 			'IP reveal not in preferences' => [ [], [], '' ],
 			'IP reveal made global preference but not enabled' => [
@@ -88,6 +103,36 @@ class GlobalPreferencesHandlerTest extends MediaWikiIntegrationTestCase {
 			'IP reveal global preference starts disabled and not changed' => [
 				[ 'checkuser-temporary-account-enable' => '0' ],
 				[ 'checkuser-temporary-account-enable' => '0' ],
+				''
+			],
+			'IP auto-reveal global preference starts enabled then disabled' => [
+				[ Preferences::ENABLE_IP_AUTO_REVEAL => $futureTimestamp ],
+				[ Preferences::ENABLE_IP_AUTO_REVEAL => 0 ],
+				'logAutoRevealAccessDisabled'
+			],
+			'IP reveal global preference starts enabled then expiry extended' => [
+				[ Preferences::ENABLE_IP_AUTO_REVEAL => $futureTimestamp ],
+				[ Preferences::ENABLE_IP_AUTO_REVEAL => $futureTimestamp + 600 ],
+				'logAutoRevealAccessEnabled'
+			],
+			'IP auto-reveal global preference starts disabled then enabled' => [
+				[ Preferences::ENABLE_IP_AUTO_REVEAL => 0 ],
+				[ Preferences::ENABLE_IP_AUTO_REVEAL => $futureTimestamp ],
+				'logAutoRevealAccessEnabled'
+			],
+			'IP auto-reveal global preference starts disabled (with a past timestamp) then enabled' => [
+				[ Preferences::ENABLE_IP_AUTO_REVEAL => $pastTimestamp ],
+				[ Preferences::ENABLE_IP_AUTO_REVEAL => $futureTimestamp ],
+				'logAutoRevealAccessEnabled'
+			],
+			'IP reveal global preference starts enabled and not changed' => [
+				[ Preferences::ENABLE_IP_AUTO_REVEAL => $futureTimestamp ],
+				[ Preferences::ENABLE_IP_AUTO_REVEAL => $futureTimestamp ],
+				''
+			],
+			'IP reveal global preference starts disabled and not changed' => [
+				[ Preferences::ENABLE_IP_AUTO_REVEAL => 0 ],
+				[ Preferences::ENABLE_IP_AUTO_REVEAL => 0 ],
 				''
 			],
 		];
