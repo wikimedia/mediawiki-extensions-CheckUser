@@ -2,9 +2,13 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Api\Rest\Handler;
 
+use GlobalPreferences\GlobalPreferencesFactory;
+use JobQueueGroup;
 use MediaWiki\CheckUser\Api\Rest\Handler\BatchTemporaryAccountHandler;
 use MediaWiki\CheckUser\CheckUserPermissionStatus;
+use MediaWiki\CheckUser\HookHandler\Preferences;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\Preferences\DefaultPreferencesFactory;
 use MediaWiki\Rest\RequestData;
 use MediaWiki\Tests\Rest\Handler\HandlerTestTrait;
 use MediaWiki\Tests\Unit\MockServiceDependenciesTrait;
@@ -12,6 +16,7 @@ use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;
+use Psr\Log\LoggerInterface;
 
 /**
  * @group CheckUser
@@ -24,7 +29,15 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 	use MockServiceDependenciesTrait;
 	use TempUserTestTrait;
 
-	public function testGetData() {
+	/**
+	 * @dataProvider provideExecute
+	 */
+	public function testExecute(
+		int $jobQueueGroupExpects,
+		int $loggerExpects,
+		bool $autoRevealAvailable,
+		bool $autoRevealEnabled
+	) {
 		$this->enableAutoCreateTempUser();
 
 		$checkUserPermissionManager = $this->createMock( CheckUserPermissionManager::class );
@@ -37,20 +50,48 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 		$actorStore->method( 'getUserIdentityByName' )
 			->willReturn( new UserIdentityValue( 12345, '~12345' ) );
 
+		if ( $autoRevealAvailable ) {
+			$preferencesFactory = $this->createMock( GlobalPreferencesFactory::class );
+			$preferencesFactory->method( 'getGlobalPreferencesValues' )
+				->willReturn(
+					$autoRevealEnabled ?
+					[ Preferences::ENABLE_IP_AUTO_REVEAL => time() + 10000 ] :
+					[]
+				);
+		} else {
+			$preferencesFactory = $this->createMock( DefaultPreferencesFactory::class );
+		}
+
+		$jobQueueGroup = $this->createMock( JobQueueGroup::class );
+		$jobQueueGroup->expects( $this->exactly( $jobQueueGroupExpects ) )
+			->method( 'push' );
+
+		$logger = $this->createMock( LoggerInterface::class );
+		$logger->expects( $this->exactly( $loggerExpects ) )
+			->method( 'info' )
+			->with(
+				'{username} viewed IP addresses for {target}',
+				$this->callback( static function ( $context ) {
+					return $context['target'] === '~12345';
+				} )
+			);
+		$this->setLogger( 'CheckUser', $logger );
+
 		$services = $this->getServiceContainer();
 		$handler = $this->getMockBuilder( BatchTemporaryAccountHandler::class )
 			->onlyMethods( [ 'getRevisionsIps', 'getLogIps', 'getActorIps' ] )
 			->setConstructorArgs( [
 				$services->getMainConfig(),
-				$services->getJobQueueGroup(),
+				$jobQueueGroup,
 				$services->getPermissionManager(),
-				$services->getPreferencesFactory(),
+				$preferencesFactory,
 				$services->getUserNameUtils(),
 				$services->getConnectionProvider(),
 				$actorStore,
 				$services->getBlockManager(),
 				$services->getRevisionStore(),
 				$checkUserPermissionManager,
+				$services->get( 'CheckUserTemporaryAccountLoggerFactory' ),
 				$services->getReadOnlyMode()
 			] )
 			->getMock();
@@ -82,13 +123,40 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 			$this->getTestUser()->getAuthority()
 		);
 
-		$this->assertSame( [
+		$expectedData = [
 			'~12345' => [
 				'revIps' => [ 1 => '1.2.3.4' ],
 				'logIps' => [ 1 => '5.6.7.8' ],
 				'lastUsedIp' => '9.8.7.6',
+			]
+		];
+		if ( $autoRevealAvailable ) {
+			$expectedData['autoReveal'] = $autoRevealEnabled;
+		}
+
+		$this->assertSame( $expectedData, $data );
+	}
+
+	public function provideExecute() {
+		return [
+			'The correct logger is called when auto-reveal is on' => [
+				'jobQueueGroupExpects' => 0,
+				'loggerExpects' => 1,
+				'autoRevealAvailable' => true,
+				'autoRevealEnabled' => true,
 			],
-			'autoReveal' => false,
-		], $data );
+			'The correct logger is called when auto-reveal is off' => [
+				'jobQueueGroupExpects' => 1,
+				'loggerExpects' => 0,
+				'autoRevealAvailable' => true,
+				'autoRevealEnabled' => false,
+			],
+			'The correct logger is called when auto-reveal is unavailable' => [
+				'jobQueueGroupExpects' => 1,
+				'loggerExpects' => 0,
+				'autoRevealAvailable' => false,
+				'autoRevealEnabled' => true,
+			],
+		];
 	}
 }

@@ -254,6 +254,7 @@
 				"ActorStore",
 				"BlockManager",
 				"CheckUserPermissionManager",
+				"CheckUserTemporaryAccountLoggerFactory",
 				"ReadOnlyMode"
 			]
 		},
@@ -290,6 +291,7 @@
 				"BlockManager",
 				"RevisionStore",
 				"CheckUserPermissionManager",
+				"CheckUserTemporaryAccountLoggerFactory",
 				"ReadOnlyMode"
 			]
 		},
@@ -307,6 +309,7 @@
 				"ActorStore",
 				"BlockManager",
 				"CheckUserPermissionManager",
+				"CheckUserTemporaryAccountLoggerFactory",
 				"ReadOnlyMode"
 			]
 		},
@@ -325,6 +328,7 @@
 				"BlockManager",
 				"RevisionStore",
 				"CheckUserPermissionManager",
+				"CheckUserTemporaryAccountLoggerFactory",
 				"ReadOnlyMode"
 			]
 		},

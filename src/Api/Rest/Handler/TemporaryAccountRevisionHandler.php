@@ -3,6 +3,7 @@
 namespace MediaWiki\CheckUser\Api\Rest\Handler;
 
 use MediaWiki\Block\BlockManager;
+use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Config\Config;
 use MediaWiki\JobQueue\JobQueueGroup;
@@ -35,6 +36,7 @@ class TemporaryAccountRevisionHandler extends AbstractTemporaryAccountNameHandle
 		BlockManager $blockManager,
 		RevisionStore $revisionStore,
 		CheckUserPermissionManager $checkUserPermissionsManager,
+		TemporaryAccountLoggerFactory $loggerFactory,
 		ReadOnlyMode $readOnlyMode
 	) {
 		parent::__construct(
@@ -47,6 +49,7 @@ class TemporaryAccountRevisionHandler extends AbstractTemporaryAccountNameHandle
 			$actorStore,
 			$blockManager,
 			$checkUserPermissionsManager,
+			$loggerFactory,
 			$readOnlyMode
 		);
 		$this->revisionStore = $revisionStore;

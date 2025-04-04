@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\Api\Rest\Handler;
 use MediaWiki\Block\BlockManager;
 use MediaWiki\CheckUser\Jobs\LogTemporaryAccountAccessJob;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
+use MediaWiki\CheckUser\Logging\TemporaryAccountLoggerFactory;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Config\Config;
 use MediaWiki\JobQueue\JobQueueGroup;
@@ -29,6 +30,7 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 
 	private PreferencesFactory $preferencesFactory;
 	private RevisionStore $revisionStore;
+	private TemporaryAccountLoggerFactory $loggerFactory;
 
 	public function __construct(
 		Config $config,
@@ -41,6 +43,7 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 		BlockManager $blockManager,
 		RevisionStore $revisionStore,
 		CheckUserPermissionManager $checkUserPermissionsManager,
+		TemporaryAccountLoggerFactory $loggerFactory,
 		ReadOnlyMode $readOnlyMode
 	) {
 		parent::__construct(
@@ -56,6 +59,7 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 		);
 		$this->preferencesFactory = $preferencesFactory;
 		$this->revisionStore = $revisionStore;
+		$this->loggerFactory = $loggerFactory;
 	}
 
 	/**
@@ -69,9 +73,22 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 	 * @inheritDoc
 	 */
 	public function makeLog( $identifier ) {
-		$body = $this->getValidatedBody();
+		$users = $this->getValidatedBody()['users'] ?? [];
 
-		foreach ( $body['users'] ?? [] as $username => $params ) {
+		if ( $this->isAutoRevealOn() ) {
+			$logger = $this->loggerFactory->getLogger();
+			$performerName = $this->getAuthority()->getUser()->getName();
+
+			foreach ( $users as $username => $params ) {
+				$logger->logViewIPsWithAutoReveal(
+					$performerName,
+					$username
+				);
+			}
+			return;
+		}
+
+		foreach ( $users as $username => $params ) {
 			$this->jobQueueGroup->push(
 				LogTemporaryAccountAccessJob::newSpec(
 					$this->getAuthority()->getUser(),

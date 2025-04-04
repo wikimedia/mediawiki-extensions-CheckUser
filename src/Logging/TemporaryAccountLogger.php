@@ -130,6 +130,24 @@ class TemporaryAccountLogger {
 	}
 
 	/**
+	 * Logs the user (the performer) viewing IP addresses for a temporary account, while
+	 * auto-reveal mode is enabled. These actions are logged temporarily rather than permanently,
+	 * to avoid flooding the on-wiki logs.
+	 *
+	 * @param string $username The name of the performer who viewed the IPs
+	 * @param string $tempUser
+	 */
+	public function logViewIPsWithAutoReveal( string $username, string $tempUser ): void {
+		$this->logger->info(
+			'{username} viewed IP addresses for {target}',
+			[
+				'username' => $username,
+				'target' => $tempUser,
+			]
+		);
+	}
+
+	/**
 	 * Log when the user enables their own access locally.
 	 *
 	 * @param UserIdentity $performer
