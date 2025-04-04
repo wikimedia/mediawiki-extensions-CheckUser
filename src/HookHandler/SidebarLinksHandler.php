@@ -48,7 +48,7 @@ class SidebarLinksHandler implements SidebarBeforeOutputHook {
 	 *
 	 * @return void
 	 */
-	private function addGlobalContributions( $skin, &$sidebar ): void {
+	private function addGlobalContributions( Skin $skin, array &$sidebar ): void {
 		if ( !$this->shouldLinkToGlobalContributions( $skin ) ) {
 			return;
 		}
@@ -106,7 +106,7 @@ class SidebarLinksHandler implements SidebarBeforeOutputHook {
 	 *
 	 * @return void
 	 */
-	public function addIPAutoReveal( $skin, &$sidebar ): void {
+	private function addIPAutoReveal( Skin $skin, array &$sidebar ): void {
 		$authority = $skin->getAuthority();
 		$autoRevealStatus = $this->permissionManager->canAutoRevealIPAddresses( $authority );
 
