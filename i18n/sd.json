@@ -7,11 +7,8 @@
 		]
 	},
 	"group-checkuser": "واپرائيندڙ چڪاسڪار",
-	"group-checkuser-temporary-account-viewer": "عارضي کاتن جون آئپي ڏسندڙ",
-	"group-checkuser-temporary-account-viewer-member": "{{GENDER:$1|عارضي کاتن جون آئپي ڏسندڙ}}",
 	"right-checkuser-temporary-account": "عارضي کاتن پاران استعمال ٿيندڙ آئپي پتا ڏسو",
 	"action-checkuser-temporary-account": "عارضي کاتن پاران استعمال ٿيندڙ آئپي پتا ڏسو",
-	"grouppage-checkuser-temporary-account-viewer": "{{ns:project}}: عارضي کاتن جون آئپي ڏسندڙ",
 	"checkuser-target": "آئپي پتو يا واپرائيندڙنانءُ:",
 	"checkuser-month": "گذريل 30 ڏينھن",
 	"checkuser-all": "سڀ",

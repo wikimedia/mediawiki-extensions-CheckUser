@@ -11,7 +11,6 @@
 	"checkuser-contribs-log": "حال ہی میں صارف کي",
 	"group-checkuser": "پڑتال کنندگان",
 	"group-checkuser-member": "{{GENDER:$1|پڑتال کنندہ}}",
-	"group-checkuser-temporary-account-viewer": "ناظرین آئی پی برائے عارضی کھاتہ",
 	"right-checkuser": "صارف کے آئی پی پتوں اور دیگر متعلقہ معلومات کی جانچ",
 	"right-checkuser-log": "نوشتہ صارف پڑتال کا مشاہدہ",
 	"action-checkuser-log": "نوشتۂ صارف پڑتال دیکھیں",

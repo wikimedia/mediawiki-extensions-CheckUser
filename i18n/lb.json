@@ -169,6 +169,7 @@
 	"checkuser-global-contributions-search-form-wrapper": "No globale Kontributioune sichen",
 	"checkuser-global-contributions-results-title": "Kontributioune fir $1",
 	"checkuser-global-contributions-api-lookup-error": "Feeler beim Luede vun den Donnéeë vu verschiddene Wikien. Dës Resultater sinn net komplett. <strong>Et kéint hëllefen et nach eng Kéier ze probéieren.</strong>",
+	"checkuser-global-contributions-no-summary-available": "Kee Resumé vun der Ännerung verfügbar",
 	"checkuser-ip-auto-reveal-on-dialog-default-action": "Ofbriechen",
 	"checkuser-ip-auto-reveal-on-dialog-select-label": "Dauer:",
 	"checkuser-ip-auto-reveal-on-dialog-select-default": "Wielt eng Optioun",

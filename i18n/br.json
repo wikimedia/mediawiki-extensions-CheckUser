@@ -17,7 +17,6 @@
 	"checkuser-contribs-log": "gwiriadennoù implijer",
 	"group-checkuser": "Gwirierien an implijerien",
 	"group-checkuser-member": "{{GENDER:$1|gwirier implijerien|gwirierez implijerien}}",
-	"group-checkuser-temporary-account-viewer": "Gwelerien IP kontoù berrbad",
 	"right-checkuser": "Gwiriañ chomlec'hioù IP ha titouroù all an implijer",
 	"right-checkuser-log": "Gwelet marilh gwiriekadurioù an implijerien",
 	"right-checkuser-temporary-account": "Gwelet ar chomlec'hioù IP implijet gant ar c'hontoù berrbad",
