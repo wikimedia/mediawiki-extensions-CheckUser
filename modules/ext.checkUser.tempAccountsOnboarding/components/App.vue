@@ -21,9 +21,6 @@ const TempAccountsOnboardingIPRevealStep = require( './TempAccountsOnboardingIPR
 // @vue/component
 module.exports = exports = {
 	name: 'App',
-	compatConfig: {
-		MODE: 3
-	},
 	compilerOptions: {
 		whitespace: 'condense'
 	},
