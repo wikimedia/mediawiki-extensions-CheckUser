@@ -53,7 +53,7 @@
 	"checkuser-cidr-label": "Cercar le gamma commun e le adresses IP afficite pro un lista de adresses IP",
 	"checkuser-cidr-res": "CIDR commun:",
 	"checkuser-cidr-affected-ips": "Adresses IP concernite:",
-	"checkuser-cidr-too-small": "Le gamma es troppo large",
+	"checkuser-cidr-too-small": "Le intervallo es troppo grande",
 	"checkuser-cidr-tool-links-checkuser": "Controlar iste intervallo",
 	"checkuser-cidr-tool-links-checkuserlog": "Previe controlos sur iste intervallos",
 	"checkuser-cidr-tool-links-prefix": "Instrumentos pro iste intervallo:",
