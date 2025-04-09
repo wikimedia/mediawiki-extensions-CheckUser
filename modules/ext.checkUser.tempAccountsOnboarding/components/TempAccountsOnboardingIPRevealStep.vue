@@ -29,9 +29,6 @@ const TempAccountsOnboardingStep = require( './TempAccountsOnboardingStep.vue' )
 // @vue/component
 module.exports = exports = {
 	name: 'TempAccountsOnboardingIPRevealStep',
-	compatConfig: {
-		MODE: 3
-	},
 	compilerOptions: {
 		whitespace: 'condense'
 	},

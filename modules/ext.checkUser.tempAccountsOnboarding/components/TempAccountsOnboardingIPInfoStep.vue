@@ -63,9 +63,6 @@ const TempAccountsOnboardingStep = require( './TempAccountsOnboardingStep.vue' )
 // @vue/component
 module.exports = exports = {
 	name: 'TempAccountsOnboardingIPInfoStep',
-	compatConfig: {
-		MODE: 3
-	},
 	compilerOptions: {
 		whitespace: 'condense'
 	},
