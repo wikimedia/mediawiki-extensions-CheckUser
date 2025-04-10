@@ -2,6 +2,7 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
+use ArrayUtils;
 use MediaWiki\Block\Block;
 use MediaWiki\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\CheckUser\HookHandler\PageDisplay;
@@ -17,7 +18,6 @@ use MediaWiki\Tests\User\TempUser\TempUserTestTrait;
 use MediaWiki\Title\Title;
 use MediaWiki\User\Options\StaticUserOptionsLookup;
 use MediaWiki\User\UserIdentityValue;
-use MediaWiki\User\UserOptionsLookup;
 use MediaWikiIntegrationTestCase;
 use Skin;
 
@@ -29,149 +29,100 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 	use MockAuthorityTrait;
 	use TempUserTestTrait;
 
-	public function testOnBeforePageDisplayWhenTemporaryAccountsNotKnown() {
-		$this->disableAutoCreateTempUser();
-		$pageDisplayHookHandler = new PageDisplay(
-			new HashConfig(),
-			$this->createMock( CheckUserPermissionManager::class ),
-			$this->getServiceContainer()->getTempUserConfig(),
-			$this->createMock( UserOptionsLookup::class ),
-			$this->getServiceContainer()->getExtensionRegistry(),
-			$this->getServiceContainer()->getUserIdentityUtils()
-		);
+	/**
+	 * @dataProvider provideOnBeforePageDisplayCases
+	 *
+	 * @param string|null $specialPageName The name of the special page being viewed,
+	 * or `null` if not a special page
+	 * @param string|null $actionName The action being performed, or `null` if no action should be set
+	 * @param bool $tempAccountsKnown Whether temporary accounts are known
+	 * @param bool $hasSeenOnboardingDialog Whether the user has seen the onboarding dialog
+	 * @param bool $hasEnabledIpReveal Whether the user has enabled the IP reveal preference
+	 * @param bool $hasIpRevealPermission Whether the user has the permission to reveal IPs
+	 * @param bool $hasIpInfoPermission Whether the user has the permission to access IP information
+	 * @param bool $isBlockedSitewide Whether the user is sitewide blocked
+	 * @param bool $isOnboardingDialogEnabled Whether the onboarding dialog is enabled in local configuration
+	 * @param bool $isIpInfoAvailable Whether the IPInfo extension is loaded
+	 */
+	public function testOnBeforePageDisplay(
+		?string $specialPageName,
+		?string $actionName,
+		bool $tempAccountsKnown,
+		bool $hasSeenOnboardingDialog,
+		bool $hasEnabledIpReveal,
+		bool $hasIpRevealPermission,
+		bool $hasIpInfoPermission,
+		bool $isBlockedSitewide,
+		bool $isOnboardingDialogEnabled,
+		bool $isIpInfoAvailable
+	): void {
+		if ( $tempAccountsKnown ) {
+			$this->enableAutoCreateTempUser();
+		} else {
+			$this->disableAutoCreateTempUser();
+		}
 
-		$output = RequestContext::getMain()->getOutput();
-		$pageDisplayHookHandler->onBeforePageDisplay( $output, $this->createMock( Skin::class ) );
-
-		// Check that the JS code was not added to the output, as it does nothing when temporary accounts are not
-		// known on the wiki.
-		$this->assertCount( 0, $output->getModules() );
-		$this->assertCount( 0, $output->getModuleStyles() );
-		$this->assertCount( 0, $output->getJsConfigVars() );
-	}
-
-	public function testOnBeforePageDisplayWhenLoadingArticle() {
-		$this->enableAutoCreateTempUser();
-		$pageDisplayHookHandler = new PageDisplay(
-			new HashConfig(),
-			$this->createMock( CheckUserPermissionManager::class ),
-			$this->getServiceContainer()->getTempUserConfig(),
-			$this->createMock( UserOptionsLookup::class ),
-			$this->getServiceContainer()->getExtensionRegistry(),
-			$this->getServiceContainer()->getUserIdentityUtils()
-		);
-
-		// Set up a IContextSource where the title is a mainspace article
 		$context = new DerivativeContext( RequestContext::getMain() );
-		$context->setTitle( Title::newFromText( 'Test' ) );
-		$output = $context->getOutput();
-		$output->setContext( $context );
 
-		$pageDisplayHookHandler->onBeforePageDisplay(
-			$output, $this->createMock( Skin::class )
-		);
+		// Set up either a special page or a main namespace article as the page being viewed.
+		if ( $specialPageName !== null ) {
+			$context->setTitle( SpecialPage::getTitleFor( $specialPageName ) );
+		} else {
+			$context->setTitle( Title::newFromText( 'Test' ) );
+			$context->getRequest()->setVal( 'action', $actionName );
+		}
 
-		// Check that the JS code was not added to the output
-		$this->assertCount( 0, $output->getModules() );
-		$this->assertCount( 0, $output->getModuleStyles() );
-		$this->assertCount( 0, $output->getJsConfigVars() );
-	}
+		$permissions = [];
 
-	public function testOnBeforePageDisplayWhenUserMissingPermissions() {
-		$this->enableAutoCreateTempUser();
-		// Set up a IContextSource where the title is the history page for an article
-		$context = new DerivativeContext( RequestContext::getMain() );
-		$context->setTitle( Title::newFromText( 'Test' ) );
-		$context->getRequest()->setVal( 'action', 'history' );
-		$testAuthority = $this->mockRegisteredNullAuthority();
+		if ( $hasIpRevealPermission ) {
+			$permissions[] = 'checkuser-temporary-account';
+		}
+
+		if ( $hasIpInfoPermission ) {
+			$permissions[] = 'ipinfo';
+		}
+
+		if ( $isBlockedSitewide ) {
+			$block = $this->createMock( Block::class );
+			$block->method( 'isSitewide' )
+				->willReturn( true );
+
+			$testAuthority = $this->mockUserAuthorityWithBlock(
+				new UserIdentityValue( 123, 'Test' ),
+				$block,
+				$permissions
+			);
+		} else {
+			$testAuthority = $this->mockRegisteredAuthorityWithPermissions( $permissions );
+		}
+
+		$this->setService( 'UserOptionsLookup', new StaticUserOptionsLookup(
+			[], [
+				Preferences::TEMPORARY_ACCOUNTS_ONBOARDING_DIALOG_SEEN => (int)$hasSeenOnboardingDialog,
+				Preferences::ENABLE_IP_REVEAL => (int)$hasEnabledIpReveal,
+			]
+		) );
+
 		$context->setAuthority( $testAuthority );
 		$output = $context->getOutput();
 		$output->setContext( $context );
 
-		$pageDisplayHookHandler = new PageDisplay(
-			new HashConfig( [
-				'CheckUserEnableTempAccountsOnboardingDialog' => true,
-			] ),
-			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
-			$this->getServiceContainer()->getTempUserConfig(),
-			$this->createMock( UserOptionsLookup::class ),
-			$this->getServiceContainer()->getExtensionRegistry(),
-			$this->getServiceContainer()->getUserIdentityUtils()
-		);
-
-		$pageDisplayHookHandler->onBeforePageDisplay(
-			$output, $this->createMock( Skin::class )
-		);
-
-		// Check that the JS code was not added to the output
-		$this->assertCount( 0, $output->getModules() );
-		$this->assertCount( 0, $output->getModuleStyles() );
-		$this->assertCount( 0, $output->getJsConfigVars() );
-	}
-
-	public function testOnBeforePageDisplayForInfoAction() {
-		$this->enableAutoCreateTempUser();
-		// Set up a IContextSource where the title is the info page for an article
-		$context = new DerivativeContext( RequestContext::getMain() );
-		$context->setTitle( Title::newFromText( 'Test' ) );
-		$context->getRequest()->setVal( 'action', 'info' );
-		$testAuthority = $this->mockRegisteredUltimateAuthority();
-		$context->setAuthority( $testAuthority );
-		$output = $context->getOutput();
-		$output->setContext( $context );
-
-		$pageDisplayHookHandler = new PageDisplay(
-			new HashConfig( [
-				'CheckUserTemporaryAccountMaxAge' => 1234,
-				'CheckUserSpecialPagesWithoutIPRevealButtons' => [ 'BlockList' ],
-				'CheckUserEnableTempAccountsOnboardingDialog' => true,
-			] ),
-			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
-			$this->getServiceContainer()->getTempUserConfig(),
-			$this->createMock( UserOptionsLookup::class ),
-			$this->getServiceContainer()->getExtensionRegistry(),
-			$this->getServiceContainer()->getUserIdentityUtils()
-		);
-
-		$pageDisplayHookHandler->onBeforePageDisplay(
-			$output, $this->createMock( Skin::class )
-		);
-
-		// Check that the JS code was added to the output
-		$this->assertArrayEquals( [ 'ext.checkUser.tempAccounts' ], $output->getModules() );
-		$this->assertArrayEquals( [ 'ext.checkUser.styles' ], $output->getModuleStyles() );
-		$this->assertArrayEquals(
-			[
-				'wgCheckUserTemporaryAccountMaxAge' => 1234,
-				'wgCheckUserSpecialPagesWithoutIPRevealButtons' => [ 'BlockList' ],
-			],
-			$output->getJsConfigVars(),
-			false,
-			true
-		);
-	}
-
-	public function testOnBeforePageDisplayForSpecialBlock() {
-		$this->enableAutoCreateTempUser();
-		// Set up a IContextSource where the title is Special:Block
-		$context = new DerivativeContext( RequestContext::getMain() );
-		$context->setTitle( SpecialPage::getTitleFor( 'Block' ) );
-		$testAuthority = $this->mockRegisteredUltimateAuthority();
-		$context->setAuthority( $testAuthority );
-		$output = $context->getOutput();
-		$output->setContext( $context );
+		$extensionRegistry = $this->createMock( ExtensionRegistry::class );
+		$extensionRegistry->method( 'isLoaded' )
+			->with( 'IPInfo' )
+			->willReturn( $isIpInfoAvailable );
 
 		$pageDisplayHookHandler = new PageDisplay(
 			new HashConfig( [
 				'CheckUserTemporaryAccountMaxAge' => 1234,
 				'CheckUserSpecialPagesWithoutIPRevealButtons' => [ 'BlockList' ],
 				'CUDMaxAge' => 12345,
-				'CheckUserEnableTempAccountsOnboardingDialog' => true,
+				'CheckUserEnableTempAccountsOnboardingDialog' => $isOnboardingDialogEnabled,
 			] ),
 			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
 			$this->getServiceContainer()->getTempUserConfig(),
-			$this->createMock( UserOptionsLookup::class ),
-			$this->getServiceContainer()->getExtensionRegistry(),
+			$this->getServiceContainer()->getUserOptionsLookup(),
+			$extensionRegistry,
 			$this->getServiceContainer()->getUserIdentityUtils()
 		);
 
@@ -179,250 +130,151 @@ class PageDisplayTest extends MediaWikiIntegrationTestCase {
 			$output, $this->createMock( Skin::class )
 		);
 
-		// Check that the JS code was added to the output, including the extra JS config
-		// just for Special:Block.
-		$this->assertArrayEquals( [ 'ext.checkUser.tempAccounts' ], $output->getModules() );
-		$this->assertArrayEquals( [ 'ext.checkUser.styles' ], $output->getModuleStyles() );
+		$expectedModules = [];
+		$expectedModuleStyles = [];
+		$expectedConfigVars = [];
+
+		// Temporary account-related configuration and modules should only be added to the output
+		// only on special pages and selected action pages, and only if temporary accounts
+		// are known on this wiki and the acting user has appropriate permissions.
+		if (
+			$tempAccountsKnown &&
+			( $specialPageName || $actionName ) &&
+			$hasIpRevealPermission &&
+			!$isBlockedSitewide
+		) {
+			if ( $hasEnabledIpReveal ) {
+				$expectedModules[] = 'ext.checkUser.tempAccounts';
+				$expectedModuleStyles[] = 'ext.checkUser.styles';
+				$expectedConfigVars += [
+					'wgCheckUserTemporaryAccountMaxAge' => 1234,
+					'wgCheckUserSpecialPagesWithoutIPRevealButtons' => [ 'BlockList' ],
+				];
+
+				if ( $specialPageName === 'Block' ) {
+					$expectedConfigVars['wgCUDMaxAge'] = 12345;
+				}
+			}
+
+			if (
+				$isOnboardingDialogEnabled &&
+				!$hasSeenOnboardingDialog &&
+				( $actionName === 'history' || $specialPageName === 'Watchlist' )
+			) {
+				$expectedConfigVars += [
+					'wgCheckUserIPInfoExtensionLoaded' => $isIpInfoAvailable,
+					'wgCheckUserUserHasIPInfoRight' => $isIpInfoAvailable && $hasIpInfoPermission
+				];
+				$expectedModules[] = 'ext.checkUser.tempAccountOnboarding';
+				$expectedModuleStyles[] = 'ext.checkUser.images';
+				$expectedModuleStyles[] = 'ext.checkUser.styles';
+			}
+		}
+
+		$this->assertArrayEquals( $expectedModules, $output->getModules() );
 		$this->assertArrayEquals(
-			[
-				'wgCUDMaxAge' => 12345,
-				'wgCheckUserTemporaryAccountMaxAge' => 1234,
-				'wgCheckUserSpecialPagesWithoutIPRevealButtons' => [ 'BlockList' ],
-			],
+			array_unique( $expectedModuleStyles ),
+			$output->getModuleStyles()
+		);
+		$this->assertArrayEquals(
+			$expectedConfigVars,
 			$output->getJsConfigVars(),
 			false,
 			true
 		);
 	}
 
-	public function testOnBeforePageDisplayForSpecialWatchlistWhenOnboardingDialogDisabled() {
-		$this->enableAutoCreateTempUser();
-
-		// Set up a IContextSource where the title is Special:Watchlist
-		$context = new DerivativeContext( RequestContext::getMain() );
-		$context->setTitle( SpecialPage::getTitleFor( 'Watchlist' ) );
-		$testAuthority = $this->mockRegisteredUltimateAuthority();
-		$context->setAuthority( $testAuthority );
-		$output = $context->getOutput();
-		$output->setContext( $context );
-
-		$pageDisplayHookHandler = new PageDisplay(
-			new HashConfig( [
-				'CheckUserTemporaryAccountMaxAge' => 1234,
-				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
-				'CheckUserEnableTempAccountsOnboardingDialog' => false,
-			] ),
-			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
-			$this->getServiceContainer()->getTempUserConfig(),
-			$this->createNoOpMock( UserOptionsLookup::class ),
-			$this->getServiceContainer()->getExtensionRegistry(),
-			$this->getServiceContainer()->getUserIdentityUtils()
+	public static function provideOnBeforePageDisplayCases(): iterable {
+		$testCases = ArrayUtils::cartesianProduct(
+			// special pages
+			[ 'Watchlist', 'Block', null ],
+			// actions
+			[ 'info', 'history', null ],
+			// whether temporary accounts are known
+			[ true, false ],
+			// whether the user has seen the onboarding dialog
+			[ true, false ],
+			// whether the user has enabled the IP reveal preference
+			[ true, false ],
+			// whether the user has the permission to reveal IPs
+			[ true, false ],
+			// whether the user has the permission to access IP information
+			[ true, false ],
+			// whether the user is sitewide blocked
+			[ true, false ],
+			// whether the onboarding dialog is enabled in local configuration
+			[ true, false ],
+			// whether the IPInfo extension is loaded
+			[ true, false ]
 		);
 
-		$pageDisplayHookHandler->onBeforePageDisplay(
-			$output, $this->createMock( Skin::class )
-		);
-
-		// Check that the temporary accounts onboarding dialog modules are not added to the output if
-		// the dialog is disabled
-		$this->assertNotContains( 'ext.checkUser.tempAccountOnboarding', $output->getModules() );
-	}
-
-	public function testOnBeforePageDisplayForHistoryActionWhenUserHasSeenOnboardingDialog() {
-		$this->enableAutoCreateTempUser();
-
-		// Set up a IContextSource where the title is the history page for an article
-		$context = new DerivativeContext( RequestContext::getMain() );
-		$context->setTitle( Title::newFromText( 'Test' ) );
-		$context->getRequest()->setVal( 'action', 'history' );
-		$testAuthority = $this->mockRegisteredUltimateAuthority();
-		$context->setAuthority( $testAuthority );
-		$output = $context->getOutput();
-		$output->setContext( $context );
-
-		// Mock all users having seen the onboarding dialog, so that the dialog JS module should not be added to
-		// the output for anyone.
-		$this->setService( 'UserOptionsLookup', new StaticUserOptionsLookup(
-			[], [ Preferences::TEMPORARY_ACCOUNTS_ONBOARDING_DIALOG_SEEN => '1' ]
-		) );
-
-		$pageDisplayHookHandler = new PageDisplay(
-			new HashConfig( [
-				'CheckUserTemporaryAccountMaxAge' => 1234,
-				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
-				'CheckUserEnableTempAccountsOnboardingDialog' => true,
-			] ),
-			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
-			$this->getServiceContainer()->getTempUserConfig(),
-			$this->getServiceContainer()->getUserOptionsLookup(),
-			$this->getServiceContainer()->getExtensionRegistry(),
-			$this->getServiceContainer()->getUserIdentityUtils()
-		);
-
-		$pageDisplayHookHandler->onBeforePageDisplay(
-			$output, $this->createMock( Skin::class )
-		);
-
-		// Check that the temporary accounts onboarding dialog modules are not added to the output if
-		// dialog has been seen before.
-		$this->assertNotContains( 'ext.checkUser.tempAccountOnboarding', $output->getModules() );
-	}
-
-	public function testOnBeforePageDisplayForSpecialWatchlistWhenUserIsSitewideBlocked() {
-		$this->enableAutoCreateTempUser();
-
-		// Set up a IContextSource where the title is Special:Watchlist and the authority is blocked.
-		$context = new DerivativeContext( RequestContext::getMain() );
-		$context->setTitle( SpecialPage::getTitleFor( 'Watchlist' ) );
-		$block = $this->createMock( Block::class );
-		$block->method( 'isSitewide' )
-			->willReturn( true );
-		$testAuthority = $this->mockUserAuthorityWithBlock(
-			new UserIdentityValue( 123, 'Test' ),
-			$block,
-			[ 'checkuser-temporary-account' ]
-		);
-		$context->setAuthority( $testAuthority );
-		$output = $context->getOutput();
-		$output->setContext( $context );
-
-		$this->setService( 'UserOptionsLookup', new StaticUserOptionsLookup(
-			[], [ Preferences::TEMPORARY_ACCOUNTS_ONBOARDING_DIALOG_SEEN => 0 ]
-		) );
-
-		$pageDisplayHookHandler = new PageDisplay(
-			new HashConfig( [
-				'CheckUserTemporaryAccountMaxAge' => 1234,
-				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
-				'CheckUserEnableTempAccountsOnboardingDialog' => true,
-			] ),
-			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
-			$this->getServiceContainer()->getTempUserConfig(),
-			$this->getServiceContainer()->getUserOptionsLookup(),
-			$this->getServiceContainer()->getExtensionRegistry(),
-			$this->getServiceContainer()->getUserIdentityUtils()
-		);
-
-		$pageDisplayHookHandler->onBeforePageDisplay(
-			$output, $this->createMock( Skin::class )
-		);
-
-		// Check that the temporary accounts onboarding dialog modules are not added to the output if
-		// the authority is blocked.
-		$this->assertNotContains( 'ext.checkUser.tempAccountOnboarding', $output->getModules() );
-	}
-
-	public function testOnBeforePageDisplayForSpecialWatchlistWhenUserHasNotEnabledPreference() {
-		$this->enableAutoCreateTempUser();
-
-		// Set up a IContextSource where the title is Special:Watchlist
-		$context = new DerivativeContext( RequestContext::getMain() );
-		$context->setTitle( SpecialPage::getTitleFor( 'Watchlist' ) );
-		$testAuthority = $this->mockRegisteredAuthorityWithPermissions( [ 'checkuser-temporary-account' ] );
-		$context->setAuthority( $testAuthority );
-		$output = $context->getOutput();
-		$output->setContext( $context );
-
-		// Mock all users have not seen the dialog and not enabled the IP reveal preference
-		$this->setService( 'UserOptionsLookup', new StaticUserOptionsLookup(
-			[],
+		foreach ( $testCases as $params ) {
 			[
-				Preferences::TEMPORARY_ACCOUNTS_ONBOARDING_DIALOG_SEEN => 0,
-				Preferences::ENABLE_IP_REVEAL => 0,
-			]
-		) );
+				$specialPageName,
+				$actionName,
+				$tempAccountsKnown,
+				$hasSeenOnboardingDialog,
+				$hasEnabledIpReveal,
+				$hasIpRevealPermission,
+				$hasIpInfoPermission,
+				$isBlockedSitewide,
+				$isOnboardingDialogEnabled,
+				$isIpInfoAvailable,
+			] = $params;
 
-		$pageDisplayHookHandler = new PageDisplay(
-			new HashConfig( [
-				'CheckUserTemporaryAccountMaxAge' => 1234,
-				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
-				'CheckUserEnableTempAccountsOnboardingDialog' => true,
-			] ),
-			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
-			$this->getServiceContainer()->getTempUserConfig(),
-			$this->getServiceContainer()->getUserOptionsLookup(),
-			$this->getServiceContainer()->getExtensionRegistry(),
-			$this->getServiceContainer()->getUserIdentityUtils()
-		);
+			// Special pages can't have actions.
+			if ( $specialPageName !== null && $actionName !== null ) {
+				continue;
+			}
 
-		$pageDisplayHookHandler->onBeforePageDisplay(
-			$output, $this->createMock( Skin::class )
-		);
+			// The presence of IPInfo and related permissions only influence config variables
+			// related to the onboarding dialog, so don't generate permutations involving them
+			// if we do not expect to show the dialog.
+			if ( $hasSeenOnboardingDialog || !$isOnboardingDialogEnabled ) {
+				if ( $isIpInfoAvailable || $hasIpInfoPermission ) {
+					continue;
+				}
+			}
 
-		// Users who cannot see IP reveal only because they have not enabled the preference should be shown
-		// the onboarding dialog but not have IP reveal tools loaded.
-		$this->assertContains( 'ext.checkUser.tempAccountOnboarding', $output->getModules() );
-		$this->assertNotContains( 'ext.checkUser.tempAccounts', $output->getModules() );
-	}
+			// Exclude permutations where features would be doubly disabled.
+			if ( !$isOnboardingDialogEnabled && $hasSeenOnboardingDialog ) {
+				continue;
+			}
 
-	/** @dataProvider provideOnBeforePageDisplayForSpecialRecentChangesWhenUserHasNotSeenOnboardingDialog */
-	public function testOnBeforePageDisplayForSpecialRecentChangesWhenUserHasNotSeenOnboardingDialog(
-		$isIPInfoLoaded, $userHasIPInfoRight
-	) {
-		$this->enableAutoCreateTempUser();
+			if ( $isBlockedSitewide && !$hasIpRevealPermission ) {
+				continue;
+			}
 
-		// Set up a IContextSource where the title is Special:RecentChanges, and the Authority has all rights
-		// except IPInfo when $userHasIPInfoRight is false.
-		$context = new DerivativeContext( RequestContext::getMain() );
-		$context->setTitle( SpecialPage::getTitleFor( 'Recentchanges' ) );
-		$testAuthority = $this->mockRegisteredAuthority( static function ( $permission ) use ( $userHasIPInfoRight ) {
-			return $userHasIPInfoRight || $permission !== 'ipinfo';
-		} );
-		$context->setAuthority( $testAuthority );
-		$output = $context->getOutput();
-		$output->setContext( $context );
+			if (
+				( !$tempAccountsKnown || ( $actionName === null && $specialPageName === null ) ) &&
+				(
+					$isBlockedSitewide ||
+					!$hasIpRevealPermission ||
+					$hasSeenOnboardingDialog ||
+					!$isOnboardingDialogEnabled
+				)
+			) {
+				continue;
+			}
 
-		// Mock all users having not seen the onboarding dialog, so that the module should be added if they
-		// have the necessary rights and are on the right page.
-		$this->setService( 'UserOptionsLookup', new StaticUserOptionsLookup(
-			[], [ Preferences::TEMPORARY_ACCOUNTS_ONBOARDING_DIALOG_SEEN => 0 ]
-		) );
+			$description = sprintf(
+				'%s%s temporary accounts %s, onboarding dialog %s, IP reveal %s, ' .
+				'%s IP reveal permission, %s IP info permission, %s, onboarding dialog %s, ' .
+				'IPInfo extension %s',
+				$specialPageName ? "Special:$specialPageName, " : '',
+				$actionName ? "action=$actionName," : '',
+				$tempAccountsKnown ? 'known' : 'not known',
+				$hasSeenOnboardingDialog ? 'seen' : 'not seen',
+				$hasEnabledIpReveal ? 'enabled' : 'disabled',
+				$hasIpRevealPermission ? 'with' : 'no',
+				$hasIpInfoPermission ? 'with' : 'no',
+				$isBlockedSitewide ? 'blocked sitewide' : 'not blocked',
+				$isOnboardingDialogEnabled ? 'enabled' : 'disabled',
+				$isIpInfoAvailable ? 'loaded' : 'not loaded'
+			);
 
-		$mockExtensionRegistry = $this->createMock( ExtensionRegistry::class );
-		$mockExtensionRegistry->method( 'isLoaded' )
-			->with( 'IPInfo' )
-			->willReturn( $isIPInfoLoaded );
-
-		$pageDisplayHookHandler = new PageDisplay(
-			new HashConfig( [
-				'CheckUserTemporaryAccountMaxAge' => 1234,
-				'CheckUserSpecialPagesWithoutIPRevealButtons' => [],
-				'CheckUserEnableTempAccountsOnboardingDialog' => true,
-			] ),
-			$this->getServiceContainer()->get( 'CheckUserPermissionManager' ),
-			$this->getServiceContainer()->getTempUserConfig(),
-			$this->getServiceContainer()->getUserOptionsLookup(),
-			$mockExtensionRegistry,
-			$this->getServiceContainer()->getUserIdentityUtils()
-		);
-
-		$pageDisplayHookHandler->onBeforePageDisplay(
-			$output, $this->createMock( Skin::class )
-		);
-
-		// Check that the onboarding dialog has been added to the output if the user has not seen it before,
-		// is on one of the defined pages and has the rights to see it.
-		$this->assertContains( 'ext.checkUser.tempAccountOnboarding', $output->getModules() );
-		$this->assertArrayEquals( [ 'ext.checkUser.styles', 'ext.checkUser.images' ], $output->getModuleStyles() );
-		$this->assertArrayEquals(
-			[
-				'wgCheckUserIPInfoExtensionLoaded' => $isIPInfoLoaded,
-				'wgCheckUserUserHasIPInfoRight' => $isIPInfoLoaded && $userHasIPInfoRight,
-				'wgCheckUserTemporaryAccountMaxAge' => 1234,
-				'wgCheckUserSpecialPagesWithoutIPRevealButtons' => [],
-			],
-			$output->getJsConfigVars(),
-			false,
-			true
-		);
-	}
-
-	public static function provideOnBeforePageDisplayForSpecialRecentChangesWhenUserHasNotSeenOnboardingDialog() {
-		return [
-			'IPInfo is loaded, user has ipinfo right' => [ true, true ],
-			'IPInfo is loaded, user is missing ipinfo right' => [ true, false ],
-			'IPInfo is not loaded' => [ false, true ],
-		];
+			yield $description => $params;
+		}
 	}
 
 	/** @dataProvider provideOnBeforePageDisplayForIPInfoHookCases */
