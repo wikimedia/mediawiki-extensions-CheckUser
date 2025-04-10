@@ -22,7 +22,8 @@
 			"Woytecr",
 			"Wpedzich",
 			"Zero",
-			"Nux"
+			"Nux",
+			"AramilFeraxa"
 		]
 	},
 	"checkuser-summary": "Narzędzie pozwala na ustalenie adresów IP, z których\nkorzystał użytkownik lub pokazać edycje i nazwy użytkowników edytujących z zadanego adresu IP.\n\nDodając parametr „/xff” do adresu IP można odnaleźć użytkowników i edycje przeszukując zapisane nagłówki XFF (X-Forwarded-For).\n\nObsługiwane są zakresy adresów IPv4 (maska CIDR $1-32) i IPv6 (CIDR $2-128).\n\nNarzędzie ze względu na wydajność pokazuje maksymalnie {{formatnum:$3}} {{PLURAL:$3|edycję|edycje|edycji}}.\n\nPamiętaj o korzystaniu z narzędzia zgodnie z zasadami.",
@@ -30,7 +31,7 @@
 	"checkuser": "Sprawdź IP użytkownika",
 	"checkuserlog": "Rejestr sprawdzeń CheckUser",
 	"checkuser-contribs": "sprawdź adresy IP",
-	"checkuser-contribs-log": "sprawdzenia użytkowników",
+	"checkuser-contribs-log": "sprawdzenia tego użytkownika",
 	"checkuser-contribs-log-initiator": "sprawdzenia wykonane przez tego użytkownika",
 	"group-checkuser": "Checkuserzy",
 	"group-checkuser-member": "{{GENDER:$1|checkuser|checkuserka}}",
