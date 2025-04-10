@@ -301,6 +301,7 @@
 	"checkuser-global-contributions-api-lookup-error": "Fout bij het laden van gegevens van sommige wiki’s. Deze resultaten zijn onvolledig. <strong>Het kan helpen om het opnieuw te proberen.</strong>",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Er zijn geen resultaten die overeenkomen met de zoekopdracht.</strong> De gebruiker “$1” heeft geen zichtbare bijdragen.",
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>De zoekopdracht heeft geen resultaten opgeleverd.</strong> Wellicht vindt u bijdragen als u uw zoekparameters wijzigt.",
+	"checkuser-global-contributions-no-summary-available": "Geen bewerkingsamenvatting beschikbaar",
 	"checkuser-ip-auto-reveal-link-sidebar": "IP-adres automatisch onthullen",
 	"checkuser-ip-auto-reveal-on-dialog-title": "IP-adressen automatisch onthullen",
 	"checkuser-ip-auto-reveal-on-dialog-text": "Door het inschakelen van deze functie worden alle IP-adressen van tijdelijke accounts gedurende een beperkte tijd automatisch weergegeven.",
