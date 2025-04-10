@@ -8,6 +8,7 @@ use MediaWiki\Config\Config;
 use MediaWiki\Output\Hook\BeforePageDisplayHook;
 use MediaWiki\Output\OutputPage;
 use MediaWiki\SpecialPage\Hook\SpecialPageBeforeExecuteHook;
+use MediaWiki\SpecialPage\SpecialPageFactory;
 use Wikimedia\ParamValidator\ParamValidator;
 
 /**
@@ -16,9 +17,11 @@ use Wikimedia\ParamValidator\ParamValidator;
 class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook, APIGetAllowedParamsHook {
 
 	private Config $config;
+	private SpecialPageFactory $specialPageFactory;
 
-	public function __construct( Config $config ) {
+	public function __construct( Config $config, SpecialPageFactory $specialPageFactory ) {
 		$this->config = $config;
+		$this->specialPageFactory = $specialPageFactory;
 	}
 
 	/** @inheritDoc */
@@ -65,6 +68,28 @@ class ClientHints implements SpecialPageBeforeExecuteHook, BeforePageDisplayHook
 		// All pages are needed in order to handle logouts via the personal tools
 		// menu, which could happen from any page.
 		$this->addJsClientHintsModule( $out );
+
+		$title = $out->getTitle();
+		if ( $title->isSpecialPage() ) {
+			$specialPage = $this->specialPageFactory->getPage( $title->getDBkey() );
+			if ( $specialPage ) {
+				$specialPagesList = $this->config->get( 'CheckUserClientHintsSpecialPages' );
+				if ( array_key_exists( $specialPage->getName(), $specialPagesList ) ) {
+					// If the special page name is a key in the config, then the value is the method which the data is
+					// collected.
+					$types = $specialPagesList[$specialPage->getName()];
+					if ( !is_array( $types ) ) {
+						$types = [ $types ];
+					}
+					if ( in_array( 'header', $types ) ) {
+						// If this is a special page in the list of special page that client hints
+						// knows about, then assume that the client hints server-side header handling
+						// has already been done in onSpecialPageBeforeExecute
+						return;
+					}
+				}
+			}
+		}
 
 		if ( $this->config->get( 'CheckUserClientHintsUnsetHeaderWhenPossible' ) ) {
 			$request = $out->getRequest();

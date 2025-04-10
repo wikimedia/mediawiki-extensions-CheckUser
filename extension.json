@@ -323,7 +323,8 @@
 		"clienthints": {
 			"class": "MediaWiki\\CheckUser\\HookHandler\\ClientHints",
 			"services": [
-				"MainConfig"
+				"MainConfig",
+				"SpecialPageFactory"
 			]
 		},
 		"preferences": {
