@@ -593,7 +593,9 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			return new MessageWidget( [
 				'type' => 'info',
 				'label' => new HtmlSnippet(
-					$this->msg( 'checkuser-global-contributions-no-results-no-permissions' )->parse()
+					$this->msg( 'checkuser-global-contributions-no-results-no-permissions' )
+						->params( $this->target )
+						->parse()
 				)
 			] );
 		}
