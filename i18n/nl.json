@@ -303,6 +303,8 @@
 	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>De zoekopdracht heeft geen resultaten opgeleverd.</strong> Wellicht vindt u bijdragen als u uw zoekparameters wijzigt.",
 	"checkuser-global-contributions-no-summary-available": "Geen bewerkingsamenvatting beschikbaar",
 	"checkuser-ip-auto-reveal-link-sidebar": "IP-adres automatisch onthullen",
+	"checkuser-ip-auto-reveal-notification-on": "<strong>Het automatisch onthullen van IP-adressen staat aan</strong>",
+	"checkuser-ip-auto-reveal-notification-off": "<strong>Het automatisch onthullen van IP-adressen staat uit</strong>",
 	"checkuser-ip-auto-reveal-on-dialog-title": "IP-adressen automatisch onthullen",
 	"checkuser-ip-auto-reveal-on-dialog-text": "Door het inschakelen van deze functie worden alle IP-adressen van tijdelijke accounts gedurende een beperkte tijd automatisch weergegeven.",
 	"checkuser-ip-auto-reveal-on-dialog-default-action": "Annuleren",
