@@ -16,7 +16,7 @@
  * @return {string} The wikitext for the table
  */
 function createTableText( data, showCounts ) {
-	let text = '{| class=wikitable sortable\n! ' + mw.message( 'checkuser-helper-user' ) +
+	let text = '{| class="wikitable sortable"\n! ' + mw.message( 'checkuser-helper-user' ) +
 		' !! ' + mw.message( 'checkuser-helper-ips' ) +
 		' !! ' + mw.message( 'checkuser-helper-uas' );
 
