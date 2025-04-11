@@ -634,15 +634,22 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		}
 
 		// If the namespace ID is not one of the common namespaces that are the same
-		// across all wikis, do not display the namespace.
+		// across all wikis then use that. In the other case then we should make the
+		// namespace be "Namespace<id>" where "id" is the number of the namespace
+		// to prevent these pages being seen as in the mainspace (which has no namespace prefix).
 		$namespaceIsKnown = in_array(
 			$row->{$this->pageNamespaceField},
 			$this->namespaceInfo->getCommonNamespaces()
 		);
 
-		$linkText = $namespaceIsKnown ?
-			$this->currentPage->getPrefixedText() :
-			$this->currentPage->getText();
+		if ( $namespaceIsKnown ) {
+			$linkText = $this->currentPage->getPrefixedText();
+		} else {
+			$linkText = $this->msg( 'checkuser-global-contributions-page-when-no-namespace-translation-available' )
+				->numParams( $row->page_namespace )
+				->params( $this->currentPage->getText() )
+				->text();
+		}
 
 		$dir = $this->getLanguage()->getDir();
 		$link = $this->getLinkRenderer()->makeExternalLink(
