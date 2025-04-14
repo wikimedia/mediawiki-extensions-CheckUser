@@ -36,7 +36,7 @@
 	"checkuser-cidr-label": "Cercar le gamma commun e le adresses IP afficite pro un lista de adresses IP",
 	"checkuser-cidr-res": "CIDR commun:",
 	"checkuser-cidr-affected-ips": "Adresses IP concernite:",
-	"checkuser-cidr-too-small": "Le gamma es troppo large",
+	"checkuser-cidr-too-small": "Le intervallo es troppo grande",
 	"checkuser-range-outside-limit": "Le gamma $1 es foras del limites permittite.",
 	"checkuser-empty": "Le registro non contine entratas.",
 	"checkuser-nomatch": "Nihil trovate.",
