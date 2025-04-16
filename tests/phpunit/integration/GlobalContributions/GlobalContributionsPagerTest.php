@@ -6,14 +6,19 @@ use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPager;
+use MediaWiki\Context\IContextSource;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\HookContainer\HookContainer;
+use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\Linker\UserLinkRenderer;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\Title\Title;
 use MediaWiki\User\CentralId\CentralIdLookup;
+use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use MediaWiki\WikiMap\WikiMap;
 use MediaWikiIntegrationTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IReadableDatabase;
@@ -27,17 +32,43 @@ use Wikimedia\TestingAccessWrapper;
  * @group Database
  */
 class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
+	private const TEMP_USERNAME = '~2024-123';
+
+	/**
+	 * This mock is used to prevent dealing with how
+	 * UserLinkRenderer handles caching and external users.
+	 *
+	 * @var (UserLinkRenderer&MockObject)
+	 */
+	private UserLinkRenderer $userLinkRenderer;
+
+	/**
+	 * @var (LinkRenderer&MockObject)
+	 */
+	private LinkRenderer $linkRenderer;
+
 	public function setUp(): void {
 		parent::setUp();
 
 		$this->markTestSkippedIfExtensionNotLoaded( 'GlobalPreferences' );
 		$this->setUserLang( 'qqx' );
+
+		$this->userLinkRenderer = $this->createMock( UserLinkRenderer::class );
+		$this->linkRenderer = $this->createMock( LinkRenderer::class );
+		$this->linkRenderer
+			->method( 'makeExternalLink' )
+			->willReturnCallback(
+				static fn ( $url ) => sprintf(
+					'https://external.wiki/%s',
+					str_replace( ' ', '_', $url )
+				)
+			);
 	}
 
 	private function getPagerWithOverrides( $overrides ) {
 		$services = $this->getServiceContainer();
 		return new GlobalContributionsPager(
-			$overrides['LinkRenderer'] ?? $services->getLinkRenderer(),
+			$this->linkRenderer,
 			$overrides['LinkBatchFactory'] ?? $services->getLinkBatchFactory(),
 			$overrides['HookContainer'] ?? $services->getHookContainer(),
 			$overrides['RevisionStore'] ?? $services->getRevisionStore(),
@@ -54,13 +85,14 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			$overrides['LoadBalancerFactory'] ?? $services->getConnectionProvider(),
 			$overrides['JobQueueGroup'] ?? $services->getJobQueueGroup(),
 			$overrides['StatsFactory'] ?? $services->getStatsFactory(),
+			$overrides['UserLinkRenderer'] ?? $this->userLinkRenderer,
 			$overrides['Context'] ?? RequestContext::getMain(),
 			$overrides['options'] ?? [ 'revisionsOnly' => true ],
 			new UserIdentityValue( 0, $overrides['UserName'] ?? '127.0.0.1' )
 		);
 	}
 
-	private function getPager( $userName ) {
+	private function getPager( $userName ): GlobalContributionsPager {
 		return $this->getServiceContainer()->get( 'CheckUserGlobalContributionsPagerFactory' )
 			->createPager(
 				RequestContext::getMain(),
@@ -69,7 +101,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			);
 	}
 
-	private function getWrappedPager( $userName, $pageTitle, $pageNamespace = 0 ) {
+	private function getWrappedPager( string $userName, $pageTitle, $pageNamespace = 0 ) {
 		$pager = TestingAccessWrapper::newFromObject( $this->getPager( $userName ) );
 		$pager->currentPage = Title::makeTitle( $pageNamespace, $pageTitle );
 		return $pager;
@@ -82,7 +114,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				'rev_page' => '1',
 				'rev_actor' => '1',
 				'rev_user' => '1',
-				'rev_user_text' => '~2024-123',
+				'rev_user_text' => self::TEMP_USERNAME,
 				'rev_timestamp' => '20240101000000',
 				'rev_minor_edit' => '0',
 				'rev_deleted' => '0',
@@ -104,8 +136,37 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testPopulateAttributes() {
-		$pager = $this->getPager( '127.0.0.1' );
 		$row = $this->getRow( [ 'sourcewiki' => 'otherwiki' ] );
+
+		// formatRow() calls getTemplateParams(), which calls formatUserLink(),
+		// which calls UserLinkRenderer's userLink(): We need to mock that to
+		// prevent it from calling WikiMap static methods that check if the user
+		// is external, since those calls can't be mocked and seeding the DB
+		// with data that would make WikiMap behave the way we need may make
+		// tests that also modify the sites table to fail.
+		$this->userLinkRenderer
+			->expects( $this->once() )
+			->method( 'userLink' )
+			->with(
+				$this->isInstanceOf( UserIdentityValue::class ),
+				RequestContext::getMain()
+			)->willReturnCallback(
+				function ( UserIdentityValue $user, IContextSource $context ) {
+					$this->assertEquals(
+						self::TEMP_USERNAME,
+						$user->getName()
+					);
+
+					return '<a href="https://example.com/User:username">username</a>';
+				}
+			);
+
+		// Get a pager that uses the mock in $this->userLinkRenderer. That's
+		// needed to avoid the calls the regular UserLinkRenderer does to
+		// WikiMap, since we can't mock static calls from a test.
+		$pager = $this->getPagerWithOverrides( [
+			'UserName' => '127.0.0.1',
+		] );
 
 		// We can't call populateAttributes directly because TestingAccessWrapper
 		// can't pass by reference: T287318
@@ -214,7 +275,29 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			'rev_id' => '2',
 			'page_latest' => $revisionIsLatest ? '2' : '3',
 		] );
-		$pager = $this->getPager( '127.0.0.1' );
+
+		// formatRow() calls getTemplateParams(), which calls formatUserLink(),
+		// which calls UserLinkRenderer's userLink(): We need to mock that to
+		// prevent it from calling WikiMap static methods that check if the user
+		// is external, since those calls can't be mocked and seeding the DB
+		// with data that would make WikiMap behave the way we need may make
+		// tests that also modify the sites table to fail.
+		$this->userLinkRenderer
+			->expects( $this->once() )
+			->method( 'userLink' )
+			->with(
+				$this->isInstanceOf( UserIdentityValue::class ),
+				RequestContext::getMain()
+			)->willReturn(
+				'<a href="http://example.com/User:username">username</a>'
+			);
+
+		// Get a pager that uses the mock in $this->userLinkRenderer. That's
+		// needed to avoid the calls the regular UserLinkRenderer does to
+		// WikiMap, since we can't mock static calls from a test.
+		$pager = $this->getPagerWithOverrides( [
+			'UserName' => '127.0.0.1',
+		] );
 
 		// We can't call formatTopMarkText directly because TestingAccessWrapper
 		// can't pass by reference: T287318
@@ -247,12 +330,16 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * @dataProvider provideFormatUserLink
 	 */
-	public function testFormatAccountLink(
+	public function testFormatUserLink(
 		array $expectedStrings,
 		array $unexpectedStrings,
 		string $username,
 		bool $isDeleted
 	): void {
+		// For external users, the pager relies on UserLinkRenderer to provide
+		// the links for external users and on LinkRenderer for talk links, so
+		// this test only checks that the result from those methods is included
+		// in the output.
 		$row = $this->getRow( [
 			'sourcewiki' => 'otherwiki',
 			'rev_user' => 123,
@@ -260,11 +347,37 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			'rev_deleted' => $isDeleted ? '4' : '8'
 		] );
 
+		$context = RequestContext::getMain();
+
+		$this->userLinkRenderer
+			->method( 'userLink' )
+			->willReturnCallback(
+				function (
+					UserIdentity $user,
+					IContextSource $linkContext
+				) use ( $username, $context, $row ) {
+					$this->assertEquals( $row->rev_user, $user->getId( 'otherwiki' ) );
+					$this->assertEquals( $row->rev_user_text, $user->getName() );
+					$this->assertEquals( $row->sourcewiki, $user->getWikiId() );
+					$this->assertSame( $context, $linkContext );
+
+					return sprintf(
+						'<a href="https://external.wiki/User:%1$s">%1$s</a>',
+						$username
+					);
+				}
+			);
+
+		$this->linkRenderer
+			->method( 'makeExternalLink' )
+			->with( 'User talk:' . $username )
+			->willReturn( 'http://external.wiki/User_talk:' . $username );
+
 		$services = $this->getServiceContainer();
 		$pager = $this->getMockBuilder( GlobalContributionsPager::class )
 			->onlyMethods( [ 'getForeignUrl' ] )
 			->setConstructorArgs( [
-				$services->getLinkRenderer(),
+				$this->linkRenderer,
 				$services->getLinkBatchFactory(),
 				$services->getHookContainer(),
 				$services->getRevisionStore(),
@@ -281,7 +394,8 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				$services->getDBLoadBalancerFactory(),
 				$services->getJobQueueGroup(),
 				$services->getStatsFactory(),
-				RequestContext::getMain(),
+				$this->userLinkRenderer,
+				$context,
 				[ 'revisionsOnly' => true ],
 				new UserIdentityValue( 0, '127.0.0.1' )
 			] )
@@ -305,48 +419,19 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 
 	public static function provideFormatUserLink() {
 		return [
-			'Temp account, hidden' => [
-				'expectedStrings' => [ 'empty-username' ],
-				'unexpectedStrings' => [
-					'~2024-123',
-					'mw-userlink',
-					'mw-extuserlink',
-					'mw-tempuserlink',
-				],
-				'username' => '~2024-123',
-				'isDeleted' => true,
-			],
-			'Temp account, visible' => [
-				'expectedStrings' => [
-					'Special:Contributions/~2024-123',
-					'mw-userlink',
-					'mw-extuserlink',
-					'mw-tempuserlink'
-				],
-				'unexpectedStrings' => [],
-				'username' => '~2024-123',
-				'isDeleted' => false,
-			],
 			'Registered account, hidden' => [
 				'expectedStrings' => [ 'empty-username' ],
 				'unexpectedStrings' => [
-					'UnregisteredUser1',
-					'mw-userlink',
-					'mw-extuserlink',
-					'mw-tempuserlink'
+					'UnregisteredUser1'
 				],
 				'username' => 'UnregisteredUser1',
 				'isDeleted' => true,
 			],
 			'Registered account, visible' => [
 				'expectedStrings' => [
-					'User talk:UnregisteredUser1',
-					'mw-userlink',
-					'mw-extuserlink'
+					'User_talk:UnregisteredUser1'
 				],
-				'unexpectedStrings' => [
-					'mw-tempuserlink'
-				],
+				'unexpectedStrings' => [],
 				'username' => 'UnregisteredUser1',
 				'isDeleted' => false,
 			],
@@ -392,7 +477,29 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			'sourcewiki' => 'otherwiki',
 			'ts_tags' => $hasTags ? 'sometag' : null
 		] );
-		$pager = $this->getPager( '127.0.0.1' );
+
+		// formatRow() calls getTemplateParams(), which calls formatUserLink(),
+		// which calls UserLinkRenderer's userLink(): We need to mock that to
+		// prevent it from calling WikiMap static methods that check if the user
+		// is external, since those calls can't be mocked and seeding the DB
+		// with data that would make WikiMap behave the way we need may make
+		// tests that also modify the sites table to fail.
+		$this->userLinkRenderer
+			->expects( $this->once() )
+			->method( 'userLink' )
+			->with(
+				$this->isInstanceOf( UserIdentityValue::class ),
+				RequestContext::getMain()
+			)->willReturn(
+				'<a href="http://example.com/User:username">username</a>'
+			);
+
+		// Get a pager that uses the mock in $this->userLinkRenderer. That's
+		// needed to avoid the calls the regular UserLinkRenderer does to
+		// WikiMap, since we can't mock static calls from a test.
+		$pager = $this->getPagerWithOverrides( [
+			'UserName' => '127.0.0.1',
+		] );
 
 		// We can't call formatTags directly because TestingAccessWrapper
 		// can't pass by reference: T287318
@@ -692,7 +799,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				'rev_page' => '1',
 				'rev_actor' => '1',
 				'rev_user' => '1',
-				'rev_user_text' => '~2024-123',
+				'rev_user_text' => self::TEMP_USERNAME,
 				'rev_timestamp' => $timestamp,
 				'rev_minor_edit' => '0',
 				'rev_deleted' => '0',

@@ -18,6 +18,7 @@ use MediaWiki\Html\Html;
 use MediaWiki\Html\TemplateParser;
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\Linker\UserLinkRenderer;
 use MediaWiki\Pager\ContributionsPager;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\RecentChanges\ChangesList;
@@ -30,6 +31,7 @@ use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserIdentity;
+use MediaWiki\User\UserIdentityValue;
 use MediaWiki\WikiMap\WikiMap;
 use OOUI\HtmlSnippet;
 use OOUI\MessageWidget;
@@ -68,6 +70,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	private IConnectionProvider $dbProvider;
 	private JobQueueGroup $jobQueueGroup;
 	private StatsFactory $statsFactory;
+	private UserLinkRenderer $userLinkRenderer;
 	private array $permissions = [];
 	private int $wikisWithPermissionsCount;
 	private string $needsToEnableGlobalPreferenceAtWiki;
@@ -97,6 +100,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		IConnectionProvider $dbProvider,
 		JobQueueGroup $jobQueueGroup,
 		StatsFactory $statsFactory,
+		UserLinkRenderer $userLinkRenderer,
 		IContextSource $context,
 		array $options,
 		?UserIdentity $target = null
@@ -126,6 +130,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		$this->jobQueueGroup = $jobQueueGroup;
 		$this->templateParser = new TemplateParser( __DIR__ . '/../../templates' );
 		$this->statsFactory = $statsFactory;
+		$this->userLinkRenderer = $userLinkRenderer;
 	}
 
 	/**
@@ -834,40 +839,18 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			$userPageLink = $this->msg( 'empty-username' )->parse();
 			$userTalkLink = $this->msg( 'empty-username' )->parse();
 		} else {
-			$userTitle = Title::makeTitle( NS_USER, $row->{$this->userNameField} );
-			$userTalkTitle = Title::makeTitle( NS_USER_TALK, $row->{$this->userNameField} );
+			$userName = $row->{$this->userNameField};
 
-			$classes = 'mw-userlink mw-extuserlink';
+			$userPageLink = $this->userLinkRenderer->userLink(
+				new UserIdentityValue(
+					$row->rev_user,
+					$userName,
+					$row->sourcewiki
+				),
+				$this->getContext()
+			);
 
-			if ( $this->tempUserConfig->isTempName( $row->{$this->userNameField} ) ) {
-				// If the contribution is from a temporary user, add the appropriate class
-				// and link to their Special:Contributions page
-				$classes .= ' mw-tempuserlink';
-				$userPageLink = $this->getLinkRenderer()->makeExternalLink(
-					$this->getForeignURL(
-						$row->sourcewiki,
-						'Special:Contributions/' . $row->{$this->userNameField}
-					),
-					$row->{$this->userNameField},
-					$userTitle,
-					'',
-					[ 'class' => $classes ]
-				);
-			} else {
-				// Otherwise, the contribution is from a registered account
-				// and should link to their user page
-				$userPageLink = $this->getLinkRenderer()->makeExternalLink(
-					$this->getForeignURL(
-						$row->sourcewiki,
-						'User:' . $row->{$this->userNameField}
-					),
-					$row->{$this->userNameField},
-					$userTitle,
-					'',
-					[ 'class' => $classes ]
-				);
-			}
-
+			$userTalkTitle = Title::makeTitle( NS_USER_TALK, $userName );
 			$userTalkLink = $this->getLinkRenderer()->makeExternalLink(
 				$this->getForeignURL(
 					$row->sourcewiki,

@@ -202,7 +202,8 @@ return [
 			$preferencesFactory,
 			$services->getDBLoadBalancerFactory(),
 			$services->getJobQueueGroup(),
-			$services->getStatsFactory()
+			$services->getStatsFactory(),
+			$services->getUserLinkRenderer()
 		);
 	},
 	'CheckUserApiRequestAggregator' => static function (

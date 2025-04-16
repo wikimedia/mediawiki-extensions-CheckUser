@@ -5,13 +5,37 @@ namespace MediaWiki\CheckUser\Tests\Integration\Logging;
 use LogFormatterTestCase;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\Extension\AbuseFilter\ProtectedVarsAccessLogger;
+use MediaWiki\User\UserIdentityLookup;
+use MediaWiki\User\UserIdentityValue;
 
 /**
  * @group CheckUser
+ * @group Database For checking if temp accounts are expired and style them as such
  *
  * @covers \MediaWiki\CheckUser\Logging\TemporaryAccountLogFormatter
  */
 class TemporaryAccountLogFormatterTest extends LogFormatterTestCase {
+	public function setUp(): void {
+		parent::setUp();
+
+		// Mock calls done by UserLinkRenderer
+		$userMock = $this->createMock( UserIdentityValue::class );
+		$userMock
+			->method( 'isRegistered' )
+			->willReturn( true );
+		$userMock
+			->method( 'getId' )
+			->willReturn( 123 );
+
+		$userIdentityLookup = $this->createMock( UserIdentityLookup::class );
+		$userIdentityLookup
+			->method( 'getUserIdentityByName' )
+			->with( '~2024-01' )
+			->willReturn( $userMock );
+
+		$this->setService( 'UserIdentityLookup', $userIdentityLookup );
+	}
+
 	public static function provideLogDatabaseRows(): array {
 		$expiry = 946684800;
 		return [

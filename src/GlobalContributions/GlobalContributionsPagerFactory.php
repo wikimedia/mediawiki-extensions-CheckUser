@@ -11,6 +11,7 @@ use MediaWiki\Context\IContextSource;
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\Linker\UserLinkRenderer;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;
@@ -44,6 +45,7 @@ class GlobalContributionsPagerFactory {
 	private IConnectionProvider $dbProvider;
 	private JobQueueGroup $jobQueueGroup;
 	private StatsFactory $statsFactory;
+	private UserLinkRenderer $userLinkRenderer;
 
 	public function __construct(
 		LinkRenderer $linkRenderer,
@@ -63,7 +65,8 @@ class GlobalContributionsPagerFactory {
 		GlobalPreferencesFactory $globalPreferencesFactory,
 		IConnectionProvider $dbProvider,
 		JobQueueGroup $jobQueueGroup,
-		StatsFactory $statsFactory
+		StatsFactory $statsFactory,
+		UserLinkRenderer $userLinkRenderer
 	) {
 		$this->linkRenderer = $linkRenderer;
 		$this->linkBatchFactory = $linkBatchFactory;
@@ -83,6 +86,7 @@ class GlobalContributionsPagerFactory {
 		$this->dbProvider = $dbProvider;
 		$this->jobQueueGroup = $jobQueueGroup;
 		$this->statsFactory = $statsFactory;
+		$this->userLinkRenderer = $userLinkRenderer;
 	}
 
 	/**
@@ -114,6 +118,7 @@ class GlobalContributionsPagerFactory {
 			$this->dbProvider,
 			$this->jobQueueGroup,
 			$this->statsFactory,
+			$this->userLinkRenderer,
 			$context,
 			$options,
 			$target
