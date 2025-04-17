@@ -255,7 +255,7 @@
 	"checkuser-investigate-tour-copywikitext-title": "Хочете скопіювати дані?",
 	"checkuser-investigate-tour-copywikitext-desc": "Скопіюйте таблицю порівняння одним кліком й використайте на CU-вікі. Зауважте, однак, що Ви копіюєте лише те, що видно, а не всі сторінки розслідування.",
 	"prefs-checkuser-tempaccount": "Розкриття IP-адрес тимчасових облікових записів",
-	"checkuser-tempaccount-enable-preference": "Увімкніть розкриття IP-адрес тимчасових облікових записів",
+	"checkuser-tempaccount-enable-preference": "Увімкнути розкриття IP-адрес тимчасових облікових записів",
 	"checkuser-tempaccount-no-ip-results": "Немає даних IP для цього тимчасового користувача за {{PLURAL:$1|останній $1 день|останні $1 дні|останні $1 днів}}",
 	"checkuser-tempaccount-reveal-ip-button-label": "Показати IP",
 	"checkuser-tempaccount-reveal-ip-missing": "недоступно",
