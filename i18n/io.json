@@ -35,5 +35,7 @@
 	"checkuser-global-contributions-no-results-no-permissions": "<strong>Nula rezulto korespondas al inquesto.</strong> Posible vu ne havas permiso pri vidar IP-adresi uzita da tempala konti.",
 	"checkuser-global-contributions-no-results-no-global-preference": "<strong>Nula rezulto korespondas al inquesto.</strong> Ca rezulti esas nekompleta posible pro ke vu mustas aceptar la konvenciono en [$1 vua globala preferaji].",
 	"checkuser-global-contributions-no-results-no-visible-contribs": "<strong>Nula rezulto korespondis al inquesto.</strong> Uzero \"$1\" havas nula videbla kontributado.",
-	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Nula rezulto korespondas al inquesto.</strong> Vu povos trovar kontributadi se vu modifikos vua sercho-parametri."
+	"checkuser-global-contributions-no-results-when-filters-applied": "<strong>Nula rezulto korespondas al inquesto.</strong> Vu povos trovar kontributadi se vu modifikos vua sercho-parametri.",
+	"prefs-checkuser-tempaccount": "Montrar IP-adresi de tempala konti",
+	"checkuser-tempaccount-enable-preference": "Kapabligar la montro di adresi IP por tempala konti"
 }
