@@ -362,12 +362,12 @@ class SpecialInvestigateTest extends FormSpecialPageTestCase {
 		$fauxRequest = new FauxRequest(
 			[
 				'targets' => "127.0.0.1\nInvestigateTestUser1", 'duration' => '',
-				'reason' => 'Test reason', 'wpEditToken' => $testCheckUser->getEditToken(),
+				'reason' => 'Test reason',
 			],
 			true,
 			RequestContext::getMain()->getRequest()->getSession()
 		);
-		RequestContext::getMain()->setRequest( $fauxRequest );
+
 		// The request URL is required to be set, as it is used by SpecialInvestigate::alterForm.
 		$fauxRequest->setRequestURL(
 			$this->getServiceContainer()->getMainConfig()->get( MainConfigNames::CanonicalServer ) .
