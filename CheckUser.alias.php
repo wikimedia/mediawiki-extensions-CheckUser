@@ -193,7 +193,10 @@ $specialPageAliases['gu'] = [
 $specialPageAliases['he'] = [
 	'CheckUser' => [ 'בדיקת_משתמש' ],
 	'CheckUserLog' => [ 'יומן_בדיקת_משתמשים' ],
+	'GlobalContributions' => [ 'תרומות_גלובליות' ],
 	'Investigate' => [ 'חקירה' ],
+	'InvestigateBlock' => [ 'חסימה_מרובה' ],
+	'IPContributions' => [ 'תרומות_IP' ],
 ];
 
 /** Hindi (हिन्दी) */
