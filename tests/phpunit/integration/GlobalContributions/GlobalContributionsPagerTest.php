@@ -114,10 +114,11 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * @dataProvider provideFormatArticleLink
 	 */
-	public function testFormatArticleLink( $namespace, $expectShowNamespace ) {
+	public function testFormatArticleLink( $namespace, $expectedPageLinkText ) {
 		$row = $this->getRow( [
 			'sourcewiki' => 'otherwiki',
 			'page_namespace' => $namespace,
+			'page_title' => 'Test',
 		] );
 		$pager = $this->getWrappedPager( '127.0.0.1', $row->page_title, $row->page_namespace );
 
@@ -125,28 +126,22 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$this->assertStringContainsString( 'external', $formatted );
 		$this->assertStringContainsString( $row->page_title, $formatted );
 
-		if ( $expectShowNamespace ) {
-			$this->assertStringContainsString(
-				NamespaceInfo::CANONICAL_NAMES[$namespace],
-				$formatted
-			);
-		} else {
-			$this->assertStringContainsString(
-				'>' . $row->page_title,
-				$formatted
-			);
-		}
+		$this->assertStringContainsString(
+			$expectedPageLinkText,
+			$formatted
+		);
 	}
 
 	public function provideFormatArticleLink() {
 		return [
 			'Known external namespace is shown' => [
 				'namespace' => NS_TALK,
-				'expectShowNamespace' => true
+				'expectedPageLinkText' => NamespaceInfo::CANONICAL_NAMES[NS_TALK] . ':Test',
 			],
 			'Unknown external namespace is not shown' => [
 				'namespace' => 1000,
-				'expectShowNamespace' => false
+				'expectedPageLinkText' =>
+					'(checkuser-global-contributions-page-when-no-namespace-translation-available: 1,000, Test)',
 			],
 		];
 	}
