@@ -1,6 +1,7 @@
 <?php
 namespace MediaWiki\CheckUser\Tests\Integration\Api;
 
+use MediaWiki\Block\Restriction\PageRestriction;
 use MediaWiki\Tests\Api\ApiTestCase;
 
 /**
@@ -34,7 +35,32 @@ class ApiQueryFormattedBlockInfoTest extends ApiTestCase {
 		$this->assertNull( $res['query']['checkuserformattedblockinfo']['details'] );
 	}
 
-	public function testShouldReturnBlockDetailsWhenPerformerBlocked(): void {
+	public function testShouldReturnBlockDetailsWhenPerformerBlockedPartially(): void {
+		$performer = $this->getTestUser()->getAuthority();
+
+		$status = $this->getServiceContainer()
+			->getBlockUserFactory()
+			->newBlockUser(
+				$performer,
+				$this->getTestSysop()->getAuthority(),
+				'infinity',
+				'',
+				[],
+				[ new PageRestriction( 0, $this->getExistingTestPage()->getId() ) ]
+			)
+			->placeBlock();
+
+		[ $res ] = $this->doApiRequest( [
+			'action' => 'query',
+			'meta' => 'checkuserformattedblockinfo',
+			'uselang' => 'qqx',
+		], null, false, $performer );
+
+		$this->assertStatusGood( $status );
+		$this->assertNull( $res['query']['checkuserformattedblockinfo']['details'] );
+	}
+
+	public function testShouldReturnBlockDetailsWhenPerformerBlockedSitewide(): void {
 		$performer = $this->getTestUser()->getAuthority();
 
 		$status = $this->getServiceContainer()

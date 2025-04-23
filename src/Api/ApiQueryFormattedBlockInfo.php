@@ -30,7 +30,7 @@ class ApiQueryFormattedBlockInfo extends ApiQueryBase {
 
 		$result = $this->getResult();
 
-		if ( $block !== null ) {
+		if ( $block !== null && $block->isSitewide() ) {
 			$msg = $this->formatterFactory->getBlockErrorFormatter( $this )
 				->getMessage( $block, $performer->getUser(), null, $this->getRequest()->getIP() );
 

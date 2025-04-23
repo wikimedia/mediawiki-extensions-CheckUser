@@ -28,5 +28,9 @@ module.exports = function ( documentRoot ) {
 	ipReveal.enableMultiReveal( $( documentRoot ) );
 
 	const $ipRevealButtons = ipReveal.addIpRevealButtons( $( '#bodyContent', documentRoot ) );
-	ipReveal.automaticallyRevealUsers( $ipRevealButtons );
+
+	// Avoid unnecessary requests for auto-reveal if the acting user is blocked (T345639).
+	if ( !mw.config.get( 'wgCheckUserIsPerformerBlocked' ) ) {
+		ipReveal.automaticallyRevealUsers( $ipRevealButtons );
+	}
 };

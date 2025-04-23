@@ -62,11 +62,14 @@ class PageDisplay implements BeforePageDisplayHook {
 
 		$this->addTemporaryAccountsOnboardingDialog( $out );
 
-		// Exclude the JS code for temporary account IP reveal if the user does not have permission to use it.
+		// Add IP reveal modules if the user has permission to use it.
+		// Note we also add the module if the user is blocked
+		// so that we can render the UI in a disabled state (T345639).
 		$permStatus = $this->checkUserPermissionManager->canAccessTemporaryAccountIPAddresses(
 			$out->getAuthority()
 		);
-		if ( !$permStatus->isGood() ) {
+
+		if ( !$permStatus->isGood() && !$permStatus->getBlock() ) {
 			return;
 		}
 
@@ -83,6 +86,7 @@ class PageDisplay implements BeforePageDisplayHook {
 		$out->addModules( 'ext.checkUser.tempAccounts' );
 		$out->addModuleStyles( 'ext.checkUser.styles' );
 		$out->addJSConfigVars( [
+			'wgCheckUserIsPerformerBlocked' => $permStatus->getBlock() !== null,
 			'wgCheckUserTemporaryAccountMaxAge' => $this->config->get( 'CheckUserTemporaryAccountMaxAge' ),
 			'wgCheckUserSpecialPagesWithoutIPRevealButtons' =>
 				$this->config->get( 'CheckUserSpecialPagesWithoutIPRevealButtons' ),
@@ -93,6 +97,7 @@ class PageDisplay implements BeforePageDisplayHook {
 	 * Show the temporary accounts onboarding dialog if the user has never seen the dialog before,
 	 * has permissions to reveal IPs (ignoring the preference check) and the user is
 	 * viewing any of the history page, Special:Watchlist, or Special:RecentChanges.
+	 * We show the dialog even if the acting user is blocked
 	 *
 	 * @return void
 	 */
@@ -114,11 +119,6 @@ class PageDisplay implements BeforePageDisplayHook {
 		if ( !$out->getAuthority()->isAllowedAny(
 			'checkuser-temporary-account-no-preference', 'checkuser-temporary-account'
 		) ) {
-			return;
-		}
-
-		$block = $out->getAuthority()->getBlock();
-		if ( $block !== null && $block->isSitewide() ) {
 			return;
 		}
 
