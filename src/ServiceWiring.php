@@ -225,7 +225,8 @@ return [
 			$services->getExtensionRegistry(),
 			$services->getCentralIdLookup(),
 			$services->get( 'CheckUserLookupUtils' ),
-			$services->getMainConfig()
+			$services->getMainConfig(),
+			$services->getRevisionStore()
 		);
 	},
 	'CheckUserEventLogger' => static function (
