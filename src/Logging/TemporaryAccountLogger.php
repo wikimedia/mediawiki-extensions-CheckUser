@@ -3,7 +3,7 @@
 namespace MediaWiki\CheckUser\Logging;
 
 use ManualLogEntry;
-use MediaWiki\Title\Title;
+use MediaWiki\Title\TitleFactory;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserIdentity;
 use Psr\Log\LoggerInterface;
@@ -58,6 +58,7 @@ class TemporaryAccountLogger {
 	private ActorStore $actorStore;
 	private LoggerInterface $logger;
 	private IConnectionProvider $dbProvider;
+	private TitleFactory $titleFactory;
 
 	private int $delay;
 
@@ -65,6 +66,7 @@ class TemporaryAccountLogger {
 	 * @param ActorStore $actorStore
 	 * @param LoggerInterface $logger
 	 * @param IConnectionProvider $dbProvider
+	 * @param TitleFactory $titleFactory
 	 * @param int $delay The number of seconds after which a duplicate log entry can be
 	 *  created for a debounced log
 	 * @throws ParameterAssertionException
@@ -73,6 +75,7 @@ class TemporaryAccountLogger {
 		ActorStore $actorStore,
 		LoggerInterface $logger,
 		IConnectionProvider $dbProvider,
+		TitleFactory $titleFactory,
 		int $delay
 	) {
 		Assert::parameter( $delay > 0, 'delay', 'delay must be positive' );
@@ -80,6 +83,7 @@ class TemporaryAccountLogger {
 		$this->actorStore = $actorStore;
 		$this->logger = $logger;
 		$this->dbProvider = $dbProvider;
+		$this->titleFactory = $titleFactory;
 		$this->delay = $delay;
 	}
 
@@ -186,15 +190,16 @@ class TemporaryAccountLogger {
 			return;
 		}
 
+		$targetAsTitle = $this->titleFactory->makeTitle( NS_USER, $target );
 		$logline = $dbw->newSelectQueryBuilder()
-			->select( '*' )
+			->select( '1' )
 			->from( 'logging' )
 			->where( [
 				'log_type' => self::LOG_TYPE,
 				'log_action' => $action,
 				'log_actor' => $actorId,
-				'log_namespace' => NS_USER,
-				'log_title' => $target,
+				'log_namespace' => $targetAsTitle->getNamespace(),
+				'log_title' => $targetAsTitle->getDBkey(),
 				$dbw->expr( 'log_timestamp', '>', $dbw->timestamp( $timestampMinusDelay ) ),
 			] )
 			->caller( __METHOD__ )
@@ -221,7 +226,7 @@ class TemporaryAccountLogger {
 	): void {
 		$logEntry = $this->createManualLogEntry( $action );
 		$logEntry->setPerformer( $performer );
-		$logEntry->setTarget( Title::makeTitle( NS_USER, $target ) );
+		$logEntry->setTarget( $this->titleFactory->makeTitle( NS_USER, $target ) );
 		$logEntry->setParameters( $params );
 
 		if ( $timestamp ) {

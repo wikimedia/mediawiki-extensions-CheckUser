@@ -311,7 +311,8 @@ return [
 		return new TemporaryAccountLoggerFactory(
 			$services->getActorStore(),
 			LoggerFactory::getInstance( 'CheckUser' ),
-			$services->getDBLoadBalancerFactory()
+			$services->getDBLoadBalancerFactory(),
+			$services->getTitleFactory()
 		);
 	},
 	'UserAgentClientHintsManager' => static function (
