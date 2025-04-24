@@ -7,10 +7,10 @@ use MediaWiki\Config\Config;
 use MediaWiki\Output\Hook\BeforePageDisplayHook;
 use MediaWiki\Output\OutputPage;
 use MediaWiki\Registration\ExtensionRegistry;
+use MediaWiki\Skin\Skin;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserIdentityUtils;
 use MediaWiki\User\UserOptionsLookup;
-use Skin;
 
 class PageDisplay implements BeforePageDisplayHook {
 	private Config $config;

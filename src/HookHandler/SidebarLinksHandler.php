@@ -5,9 +5,9 @@ namespace MediaWiki\CheckUser\HookHandler;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Config\Config;
 use MediaWiki\Hook\SidebarBeforeOutputHook;
+use MediaWiki\Skin\Skin;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\User\UserIdentity;
-use Skin;
 
 /**
  * Adds a link to users' GlobalContributions pages on user pages.
