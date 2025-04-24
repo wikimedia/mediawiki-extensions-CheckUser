@@ -118,7 +118,7 @@ abstract class AbstractTemporaryAccountHandler extends SimpleHandler {
 		$this->jobQueueGroup->push(
 			LogTemporaryAccountAccessJob::newSpec(
 				$this->getAuthority()->getUser(),
-				$this->urlEncodeTitle( $identifier ),
+				$identifier,
 				$this->getLogType()
 			)
 		);

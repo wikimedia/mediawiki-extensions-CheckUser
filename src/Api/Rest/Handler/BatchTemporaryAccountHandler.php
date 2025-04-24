@@ -63,7 +63,7 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 			$this->jobQueueGroup->push(
 				LogTemporaryAccountAccessJob::newSpec(
 					$this->getAuthority()->getUser(),
-					$this->urlEncodeTitle( $username ),
+					$username,
 					$this->getLogType()
 				)
 			);
