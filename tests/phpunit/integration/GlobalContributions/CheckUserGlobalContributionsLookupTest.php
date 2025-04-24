@@ -30,6 +30,11 @@ class CheckUserGlobalContributionsLookupTest extends MediaWikiIntegrationTestCas
 		$this->markTestSkippedIfExtensionNotLoaded( 'CentralAuth' );
 		$this->enableAutoCreateTempUser();
 
+		// Avoid holding onto stale service references
+		self::$tempUser1->clearInstanceCache();
+		self::$tempUser2->clearInstanceCache();
+		self::$tempUser3->clearInstanceCache();
+
 		// We don't want to test specifically the CentralAuth implementation of the CentralIdLookup. As such, force it
 		// to be the local provider.
 		$this->overrideConfigValue( MainConfigNames::CentralIdLookupProvider, 'local' );
