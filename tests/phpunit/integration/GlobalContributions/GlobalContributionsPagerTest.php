@@ -4,6 +4,7 @@ namespace MediaWiki\CheckUser\Tests\Integration\GlobalContributions;
 
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
+use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPager;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\HookContainer\HookContainer;
@@ -47,6 +48,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			$overrides['CheckUserLookupUtils'] ?? $services->get( 'CheckUserLookupUtils' ),
 			$overrides['CentralIdLookup'] ?? $services->get( 'CentralIdLookup' ),
 			$overrides['RequestAggregator'] ?? $services->get( 'CheckUserApiRequestAggregator' ),
+			$overrides['GlobalContributionsLookup'] ?? $services->get( 'CheckUserGlobalContributionsLookup' ),
 			$overrides['PermissionManager'] ?? $services->getPermissionManager(),
 			$overrides['PreferencesFactory'] ?? $services->getPreferencesFactory(),
 			$overrides['LoadBalancerFactory'] ?? $services->getConnectionProvider(),
@@ -273,6 +275,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 				$services->get( 'CheckUserLookupUtils' ),
 				$services->get( 'CentralIdLookup' ),
 				$services->get( 'CheckUserApiRequestAggregator' ),
+				$services->get( 'CheckUserGlobalContributionsLookup' ),
 				$services->getPermissionManager(),
 				$services->getPreferencesFactory(),
 				$services->getDBLoadBalancerFactory(),
@@ -413,21 +416,11 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$externalWiki = 'otherwiki';
 
 		// Mock fetching the recently active wikis
-		$queryBuilder = $this->createMock( SelectQueryBuilder::class );
-		$queryBuilder->method( $this->logicalOr( 'select', 'from', 'distinct', 'where', 'join', 'caller', 'orderBy' ) )
-			->willReturnSelf();
-		$queryBuilder->method( 'fetchFieldValues' )
+		$globalContributionsLookup = $this->createMock( CheckUserGlobalContributionsLookup::class );
+		$globalContributionsLookup->method( 'getActiveWikis' )
 			->willReturn( [ $localWiki, $externalWiki ] );
 
-		$database = $this->createMock( IReadableDatabase::class );
-		$database->method( 'newSelectQueryBuilder' )
-			->willreturn( $queryBuilder );
-
-		$dbProvider = $this->createMock( IConnectionProvider::class );
-		$dbProvider->method( 'getReplicaDatabase' )
-			->willReturn( $database );
-
-		// Mock making the permission API call
+			// Mock making the permission API call
 		$apiRequestAggregator = $this->createMock( CheckUserApiRequestAggregator::class );
 		$apiRequestAggregator->method( 'execute' )
 			->willReturn( [
@@ -444,7 +437,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 
 		$pager = $this->getPagerWithOverrides( [
 			'RequestAggregator' => $apiRequestAggregator,
-			'LoadBalancerFactory' => $dbProvider,
+			'GlobalContributionsLookup' => $globalContributionsLookup
 		] );
 		$pager = TestingAccessWrapper::newFromObject( $pager );
 		$wikis = $pager->fetchWikisToQuery();
@@ -485,19 +478,9 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$externalWiki = 'otherwiki';
 
 		// Mock fetching the recently active wikis
-		$queryBuilder = $this->createMock( SelectQueryBuilder::class );
-		$queryBuilder->method( $this->logicalOr( 'select', 'from', 'distinct', 'where', 'join', 'caller', 'orderBy' ) )
-			->willReturnSelf();
-		$queryBuilder->method( 'fetchFieldValues' )
+		$globalContributionsLookup = $this->createMock( CheckUserGlobalContributionsLookup::class );
+		$globalContributionsLookup->method( 'getActiveWikis' )
 			->willReturn( [ $localWiki, $externalWiki ] );
-
-		$database = $this->createMock( IReadableDatabase::class );
-		$database->method( 'newSelectQueryBuilder' )
-			->willreturn( $queryBuilder );
-
-		$dbProvider = $this->createMock( IConnectionProvider::class );
-		$dbProvider->method( 'getReplicaDatabase' )
-			->willReturn( $database );
 
 		// Ensure the permission API call is not made
 		$apiRequestAggregator = $this->createNoOpMock( CheckUserApiRequestAggregator::class );
@@ -510,7 +493,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$pager = $this->getPagerWithOverrides( [
 			'CentralIdLookup' => $centralIdLookup,
 			'RequestAggregator' => $apiRequestAggregator,
-			'LoadBalancerFactory' => $dbProvider,
+			'GlobalContributionsLookup' => $globalContributionsLookup,
 			'UserName' => 'SomeUser',
 		] );
 		$pager = TestingAccessWrapper::newFromObject( $pager );
@@ -541,17 +524,11 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		$wikiIds = array_keys( $resultsByWiki );
 
 		// Mock fetching the recently active wikis
-		$checkUserQueryBuilder = $this->createMock( SelectQueryBuilder::class );
-		$checkUserQueryBuilder
-			->method( $this->logicalOr( 'select', 'from', 'distinct', 'where', 'join', 'caller', 'orderBy' ) )
-			->willReturnSelf();
-		$checkUserQueryBuilder->method( 'fetchFieldValues' )
+		$globalContributionsLookup = $this->createMock( CheckUserGlobalContributionsLookup::class );
+		$globalContributionsLookup->method( 'getActiveWikis' )
 			->willReturn( $wikiIds );
 
 		$checkUserDb = $this->createMock( IReadableDatabase::class );
-		$checkUserDb->method( 'newSelectQueryBuilder' )
-			->willReturn( $checkUserQueryBuilder );
-
 		$dbMap = [
 			[ CheckUserQueryInterface::VIRTUAL_GLOBAL_DB_DOMAIN, null, $checkUserDb ],
 		];
@@ -604,6 +581,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			'HookContainer' => $hookContainer,
 			'RequestAggregator' => $apiRequestAggregator,
 			'LoadBalancerFactory' => $dbProvider,
+			'GlobalContributionsLookup' => $globalContributionsLookup,
 		] );
 		$pager->mIsBackwards = ( $paginationParams['dir'] ?? '' ) === 'prev';
 		$pager->setLimit( $paginationParams['limit'] );
@@ -794,16 +772,11 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 
 	public function testShouldInstrumentForeignApiLookupErrors(): void {
 		// Mock fetching the recently active wikis
-		$checkUserQueryBuilder = $this->createMock( SelectQueryBuilder::class );
-		$checkUserQueryBuilder
-			->method( $this->logicalOr( 'select', 'from', 'distinct', 'where', 'join', 'caller', 'orderBy' ) )
-			->willReturnSelf();
-		$checkUserQueryBuilder->method( 'fetchFieldValues' )
+		$globalContributionsLookup = $this->createMock( CheckUserGlobalContributionsLookup::class );
+		$globalContributionsLookup->method( 'getActiveWikis' )
 			->willReturn( [ 'testwiki' ] );
 
 		$checkUserDb = $this->createMock( IReadableDatabase::class );
-		$checkUserDb->method( 'newSelectQueryBuilder' )
-			->willReturn( $checkUserQueryBuilder );
 
 		$localQueryBuilder = $this->createMock( SelectQueryBuilder::class );
 		$localQueryBuilder->method( $this->logicalNot( $this->equalTo( 'fetchResultSet' ) ) )
@@ -841,6 +814,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			'HookContainer' => $hookContainer,
 			'RequestAggregator' => $apiRequestAggregator,
 			'LoadBalancerFactory' => $dbProvider,
+			'GlobalContributionsLookup' => $globalContributionsLookup,
 		] );
 		$pager->doQuery();
 

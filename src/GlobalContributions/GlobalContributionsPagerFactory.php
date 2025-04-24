@@ -38,6 +38,7 @@ class GlobalContributionsPagerFactory {
 	private CheckUserLookupUtils $lookupUtils;
 	private CentralIdLookup $centralIdLookup;
 	private CheckUserApiRequestAggregator $apiRequestAggregator;
+	private CheckUserGlobalContributionsLookup $globalContributionsLookup;
 	private PermissionManager $permissionManager;
 	private GlobalPreferencesFactory $globalPreferencesFactory;
 	private IConnectionProvider $dbProvider;
@@ -57,6 +58,7 @@ class GlobalContributionsPagerFactory {
 		CheckUserLookupUtils $lookupUtils,
 		CentralIdLookup $centralIdLookup,
 		CheckUserApiRequestAggregator $apiRequestAggregator,
+		CheckUserGlobalContributionsLookup $globalContributionsLookup,
 		PermissionManager $permissionManager,
 		GlobalPreferencesFactory $globalPreferencesFactory,
 		IConnectionProvider $dbProvider,
@@ -75,6 +77,7 @@ class GlobalContributionsPagerFactory {
 		$this->lookupUtils = $lookupUtils;
 		$this->centralIdLookup = $centralIdLookup;
 		$this->apiRequestAggregator = $apiRequestAggregator;
+		$this->globalContributionsLookup = $globalContributionsLookup;
 		$this->permissionManager = $permissionManager;
 		$this->globalPreferencesFactory = $globalPreferencesFactory;
 		$this->dbProvider = $dbProvider;
@@ -105,6 +108,7 @@ class GlobalContributionsPagerFactory {
 			$this->lookupUtils,
 			$this->centralIdLookup,
 			$this->apiRequestAggregator,
+			$this->globalContributionsLookup,
 			$this->permissionManager,
 			$this->globalPreferencesFactory,
 			$this->dbProvider,

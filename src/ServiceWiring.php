@@ -3,6 +3,7 @@
 use GlobalPreferences\GlobalPreferencesFactory;
 use GrowthExperiments\UserImpact\UserImpactLookup;
 use MediaWiki\CheckUser\GlobalContributions\CheckUserApiRequestAggregator;
+use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPagerFactory;
 use MediaWiki\CheckUser\GuidedTour\TourLauncher;
 use MediaWiki\CheckUser\Hook\HookRunner;
@@ -196,6 +197,7 @@ return [
 			$services->get( 'CheckUserLookupUtils' ),
 			$services->getCentralIdLookup(),
 			$services->get( 'CheckUserApiRequestAggregator' ),
+			$services->get( 'CheckUserGlobalContributionsLookup' ),
 			$services->getPermissionManager(),
 			$preferencesFactory,
 			$services->getDBLoadBalancerFactory(),
@@ -213,6 +215,17 @@ return [
 			$services->getExtensionRegistry(),
 			$services->getSiteLookup(),
 			LoggerFactory::getInstance( 'CheckUser' )
+		);
+	},
+	'CheckUserGlobalContributionsLookup' => static function (
+		MediaWikiServices $services
+	): CheckUserGlobalContributionsLookup {
+		return new CheckUserGlobalContributionsLookup(
+			$services->getDBLoadBalancerFactory(),
+			$services->getExtensionRegistry(),
+			$services->getCentralIdLookup(),
+			$services->get( 'CheckUserLookupUtils' ),
+			$services->getMainConfig()
 		);
 	},
 	'CheckUserEventLogger' => static function (

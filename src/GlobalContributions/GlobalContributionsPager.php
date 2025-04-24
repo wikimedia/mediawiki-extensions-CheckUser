@@ -5,6 +5,7 @@ namespace MediaWiki\CheckUser\GlobalContributions;
 use ChangesList;
 use GlobalPreferences\GlobalPreferencesFactory;
 use HtmlArmor;
+use InvalidArgumentException;
 use JobQueueGroup;
 use LogicException;
 use MediaWiki\Cache\LinkBatchFactory;
@@ -60,6 +61,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	private CheckUserLookupUtils $checkUserLookupUtils;
 	private CentralIdLookup $centralIdLookup;
 	private CheckUserApiRequestAggregator $apiRequestAggregator;
+	private CheckUserGlobalContributionsLookup $globalContributionsLookup;
 	private PermissionManager $permissionManager;
 	private GlobalPreferencesFactory $globalPreferencesFactory;
 	private IConnectionProvider $dbProvider;
@@ -88,6 +90,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		CheckUserLookupUtils $checkUserLookupUtils,
 		CentralIdLookup $centralIdLookup,
 		CheckUserApiRequestAggregator $apiRequestAggregator,
+		CheckUserGlobalContributionsLookup $globalContributionsLookup,
 		PermissionManager $permissionManager,
 		GlobalPreferencesFactory $globalPreferencesFactory,
 		IConnectionProvider $dbProvider,
@@ -115,6 +118,7 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		$this->checkUserLookupUtils = $checkUserLookupUtils;
 		$this->centralIdLookup = $centralIdLookup;
 		$this->apiRequestAggregator = $apiRequestAggregator;
+		$this->globalContributionsLookup = $globalContributionsLookup;
 		$this->permissionManager = $permissionManager;
 		$this->globalPreferencesFactory = $globalPreferencesFactory;
 		$this->dbProvider = $dbProvider;
@@ -177,27 +181,10 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 		$this->needsToEnableGlobalPreferenceAtWiki = '';
 
 		if ( $this->isValidIPOrQueryableRange( $this->target, $this->getConfig() ) ) {
-			$targetIPConditions = $this->checkUserLookupUtils->getIPTargetExprForColumn(
+			$activeWikis = $this->globalContributionsLookup->getActiveWikis(
 				$this->target,
-				'cite_ip_hex'
+				$this->getAuthority()
 			);
-			if ( $targetIPConditions === null ) {
-				// Invalid IPs are treated as usernames so we should only ever reach
-				// this condition if the IP range is out of limits
-				throw new LogicException(
-					"Attempted IP range lookup with a range outside of the limit: $this->target\n
-					Check if your RangeContributionsCIDRLimit and CheckUserCIDRLimit configs are compatible."
-				);
-			}
-			$activeWikis = $cuciDb->newSelectQueryBuilder()
-				->select( 'ciwm_wiki' )
-				->from( 'cuci_temp_edit' )
-				->distinct()
-				->where( $targetIPConditions )
-				->join( 'cuci_wiki_map', null, 'cite_ciwm_id = ciwm_id' )
-				->orderBy( 'cite_timestamp', SelectQueryBuilder::SORT_DESC )
-				->caller( __METHOD__ )
-				->fetchFieldValues();
 
 			// Look up external permissions
 			$this->getExternalWikiPermissions(
@@ -252,23 +239,18 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				}
 			}
 		} else {
-			$centralId = $this->centralIdLookup->centralIdFromName( $this->target, $this->getAuthority() );
-			if ( !$centralId ) {
+			try {
+				$wikisToQuery = $this->globalContributionsLookup->getActiveWikis(
+					$this->target,
+					$this->getAuthority()
+				);
+			} catch ( InvalidArgumentException $e ) {
 				// No central user found or viewable, flag it and then return an empty array for active wikis
 				// which will eventually return an empty results set
 				$this->centralUserExists = false;
 				$this->wikisWithPermissionsCount = 0;
 				return [];
 			}
-			$wikisToQuery = $cuciDb->newSelectQueryBuilder()
-				->select( 'ciwm_wiki' )
-				->from( 'cuci_user' )
-				->distinct()
-				->where( [ 'ciu_central_id' => $centralId ] )
-				->join( 'cuci_wiki_map', null, 'ciu_ciwm_id = ciwm_id' )
-				->orderBy( 'ciu_timestamp', SelectQueryBuilder::SORT_DESC )
-				->caller( __METHOD__ )
-				->fetchFieldValues();
 		}
 
 		$this->wikisWithPermissionsCount = count( $wikisToQuery );
