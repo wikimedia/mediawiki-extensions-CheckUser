@@ -196,7 +196,7 @@ function addButtonsToUserLinks( $userLinks ) {
 	} );
 
 	$userLinks.each( function () {
-		const target = $( this ).text();
+		const target = $( this ).attr( 'data-mw-target' );
 		if ( $( this ).next().is( '.ext-checkuser-tempaccount-reveal-ip-button' ) ) {
 			return;
 		}
@@ -222,7 +222,7 @@ function addButtonsToUserLinks( $userLinks ) {
 function addToAllIds( $element, allIds, getId ) {
 	const id = getId( $element );
 	if ( id ) {
-		const target = $element.text();
+		const target = $element.attr( 'data-mw-target' );
 		if ( !allIds[ target ] ) {
 			allIds[ target ] = [];
 		}
@@ -278,7 +278,7 @@ function enableMultiReveal( $element ) {
 		( _e, userLookup, ips, isRev, isLog, batchResponse ) => {
 			// Find all temp user links that share the username
 			const $userLinks = $( '.mw-tempuserlink' ).filter( function () {
-				return $( this ).text() === userLookup;
+				return $( this ).attr( 'data-mw-target' ) === userLookup;
 			} );
 
 			// Convert the user links into pointers to the IP reveal button
@@ -538,7 +538,7 @@ function hideAllIps( $content ) {
 	// On all other pages, replace IPs that are not pre-revealed with buttons
 	const $userLinks = getUserLinks( $content );
 	const $userLinksToHide = $userLinks.filter( function () {
-		return !ipRevealUtils.getRevealedStatus( $( this ).text() );
+		return !ipRevealUtils.getRevealedStatus( $( this ).attr( 'data-mw-target' ) );
 	} );
 	$userLinksToHide.next( '.ext-checkuser-tempaccount-reveal-ip' ).remove();
 	addButtonsToUserLinks( $userLinksToHide );

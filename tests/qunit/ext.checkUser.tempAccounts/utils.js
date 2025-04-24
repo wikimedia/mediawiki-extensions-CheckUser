@@ -8,7 +8,8 @@
 function makeTempUserLink( username ) {
 	return $( '<a>' )
 		.addClass( 'mw-tempuserlink' )
-		.text( username );
+		.text( username )
+		.attr( 'data-mw-target', username );
 }
 
 /**
