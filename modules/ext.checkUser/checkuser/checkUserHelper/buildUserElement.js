@@ -3,8 +3,6 @@
 
 'use strict';
 
-let tooltipIdSeed = 1;
-
 /**
  * @param {string} userName
  * @param {{
@@ -28,60 +26,54 @@ function buildUserElement( userName, userData ) {
 		return userElement;
 	}
 
+	const bdiElement = document.createElement( 'bdi' );
+	bdiElement.innerHTML = userName;
+
 	userElement = document.createElement( 'a' );
 	userElement.setAttribute(
 		'href',
 		mw.util.getUrl( 'Special:Contributions/' + userName )
 	);
+	userElement.appendChild( bdiElement );
 
 	if ( userData.classes ) {
 		userElement.setAttribute( 'class', userData.classes );
 
 		const classes = userData.classes.split( ' ' );
 		if ( classes.includes( 'mw-tempuserlink-expired' ) ) {
-			const tooltip = getTooltip();
-			userElement.innerHTML = userName;
-
-			userElement.setAttribute(
-				'aria-describedby',
-				tooltip.tooltipId
-			);
+			userElement.appendChild( getTooltip() );
+			userElement.setAttribute( 'aria-description', getTooltipMessage() );
 
 			const wrapper = document.createElement( 'span' );
 			wrapper.appendChild( userElement.cloneNode( true ) );
-			wrapper.appendChild( tooltip.element );
 
 			userElement = wrapper;
-		} else {
-			userElement.innerHTML = userName;
 		}
-	} else {
-		userElement.innerHTML = userName;
 	}
 
 	return userElement;
 }
 
 /**
- * @return {{tooltipId: string, element: HTMLDivElement}}
+ * @return HTMLSpanElement
  */
 function getTooltip() {
+	const tooltip = document.createElement( 'span' );
 
-	const tooltip = document.createElement( 'div' );
-	const tooltipId = 'mw-tempuserlink-expired-tooltip-' + tooltipIdSeed++;
-
-	tooltip.setAttribute( 'id', tooltipId );
-	tooltip.setAttribute( 'role', 'tooltip' );
 	tooltip.setAttribute( 'class',
 		'cdx-tooltip mw-tempuserlink-expired--tooltip'
 	);
 
-	tooltip.innerHTML = mw.message( 'tempuser-expired-link-tooltip' );
+	tooltip.innerHTML = getTooltipMessage();
 
-	return {
-		tooltipId: tooltipId,
-		element: tooltip
-	};
+	return tooltip;
+}
+
+/**
+ * @return string
+ */
+function getTooltipMessage() {
+	return mw.message( 'tempuser-expired-link-tooltip' ).text();
 }
 
 module.exports = buildUserElement;
