@@ -327,6 +327,7 @@
 	"checkuser-tempaccount-reveal-ip-missing": "unavailable",
 	"checkuser-tempaccount-reveal-ip-error": "error",
 	"checkuser-tempaccount-reveal-ip-permission-error-description": "To view IP addresses for temporary accounts, please accept the agreement in [[Special:Preferences|your preferences]].",
+	"checkuser-tempaccount-reveal-blocked-loading": "Loading block details",
 	"checkuser-tempaccount-reveal-blocked-title": "View block details",
 	"checkuser-tempaccount-reveal-blocked-missingblock": "You were prevented from revealing temporary account IP addresses due to a block affecting your account, which is no longer in place. Please reload the page.",
 	"checkuser-tempaccount-reveal-blocked-error": "There was an error fetching block details. Please reload the page and try again.",

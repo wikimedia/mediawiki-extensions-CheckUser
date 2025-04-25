@@ -572,6 +572,7 @@
 				"autoReveal.js",
 				"initOnLoad.js",
 				"initOnHook.js",
+				"api.js",
 				"rest.js",
 				"ShowIPButton.vue",
 				"SpecialBlock.js",
@@ -580,6 +581,13 @@
 					"name": "durations.json",
 					"callback": "MediaWiki\\CheckUser\\HookHandler\\DurationMessages::getTranslatedDurations",
 					"callbackParam": [ 1800, 3600 ]
+				},
+				{
+					"name": "icons.json",
+					"callback": "MediaWiki\\ResourceLoader\\CodexModule::getIcons",
+					"callbackParam": [
+						"cdxIconInfo"
+					]
 				}
 			],
 			"messages": [
@@ -594,6 +602,7 @@
 				"checkuser-tempaccount-reveal-blocked-header",
 				"checkuser-tempaccount-reveal-blocked-description",
 				"checkuser-tempaccount-reveal-blocked-title",
+				"checkuser-tempaccount-reveal-blocked-loading",
 				"checkuser-tempaccount-reveal-blocked-error",
 				"checkuser-tempaccount-reveal-blocked-missingblock",
 				"checkuser-ip-auto-reveal-notification-on",
@@ -797,10 +806,19 @@
 			"tests/qunit/ext.checkUser.tempAccounts/SpecialBlock.test.js",
 			"modules/ext.checkUser.tempAccounts/SpecialBlock.js",
 			"modules/ext.checkUser.tempAccounts/ShowIPButton.vue",
+			"modules/ext.checkUser.tempAccounts/api.js",
 			"modules/ext.checkUser.tempAccounts/BlockDetailsPopupButtonWidget.js",
 			"tests/qunit/ext.checkUser.tempAccounts/BlockDetailsPopupButtonWidget.test.js",
 			"tests/qunit/ext.checkUser.ipInfo.hooks/ext.ipinfo.infobox.widget.test.js",
-			"modules/ext.checkUser.ipInfo.hooks/infobox.js"
+			"modules/ext.checkUser.ipInfo.hooks/infobox.js",
+			{
+				"name": "modules/ext.checkUser.tempAccounts/icons.json",
+				"callback": "MediaWiki\\ResourceLoader\\CodexModule::getIcons",
+				"callbackParam": [
+					"cdxIconNext",
+					"cdxIconPrevious"
+				]
+			}
 		],
 		"dependencies": [
 			"mediawiki.qunit-testrunner",
