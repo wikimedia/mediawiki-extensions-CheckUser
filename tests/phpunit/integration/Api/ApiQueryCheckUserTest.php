@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Api;
 
-use ManualLogEntry;
 use MediaWiki\Api\ApiMain;
 use MediaWiki\Api\ApiQuery;
 use MediaWiki\Api\ApiQueryTokens;
@@ -14,6 +13,7 @@ use MediaWiki\CommentStore\CommentStoreComment;
 use MediaWiki\Content\WikitextContent;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\HookContainer\HookRunner;
+use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Revision\SlotRecord;
 use MediaWiki\Session\SessionManager;

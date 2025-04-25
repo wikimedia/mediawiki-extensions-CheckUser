@@ -2,10 +2,10 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Api\Rest\Handler;
 
-use JobQueueGroup;
 use MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountRevisionHandler;
 use MediaWiki\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Rest\LocalizedHttpException;

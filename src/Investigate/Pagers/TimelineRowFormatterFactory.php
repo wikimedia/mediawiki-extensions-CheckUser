@@ -2,12 +2,12 @@
 
 namespace MediaWiki\CheckUser\Investigate\Pagers;
 
-use LogFormatterFactory;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Language\Language;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\Logging\LogFormatterFactory;
 use MediaWiki\SpecialPage\SpecialPageFactory;
 use MediaWiki\Title\TitleFormatter;
 use MediaWiki\User\User;

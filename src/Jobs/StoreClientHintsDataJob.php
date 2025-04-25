@@ -2,11 +2,11 @@
 
 namespace MediaWiki\CheckUser\Jobs;
 
-use IJobSpecification;
-use Job;
-use JobSpecification;
 use MediaWiki\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\JobQueue\IJobSpecification;
+use MediaWiki\JobQueue\Job;
+use MediaWiki\JobQueue\JobSpecification;
 
 /**
  * Stores Client Hints data for a given reference ID and type.

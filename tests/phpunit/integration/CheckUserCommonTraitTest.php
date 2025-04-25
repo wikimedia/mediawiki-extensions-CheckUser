@@ -3,9 +3,9 @@
 namespace MediaWiki\CheckUser\Tests\Integration;
 
 use LogicException;
-use ManualLogEntry;
 use MediaWiki\CheckUser\Hooks;
-use RecentChange;
+use MediaWiki\Logging\ManualLogEntry;
+use MediaWiki\RecentChanges\RecentChange;
 
 /**
  * All methods except ::getDefaultRecentChangeAttribs require the test class to be a

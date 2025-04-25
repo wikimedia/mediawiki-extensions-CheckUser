@@ -2,8 +2,8 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Logging;
 
-use JobSpecification;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
+use MediaWiki\JobQueue\JobSpecification;
 use MediaWiki\Logging\LogEntryBase;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Tests\User\TempUser\TempUserTestTrait;

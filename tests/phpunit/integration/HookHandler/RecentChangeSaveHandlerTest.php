@@ -6,8 +6,8 @@ use MediaWiki\CheckUser\HookHandler\RecentChangeSaveHandler;
 use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
+use MediaWiki\RecentChanges\RecentChange;
 use MediaWikiIntegrationTestCase;
-use RecentChange;
 use Wikimedia\TestingAccessWrapper;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 

@@ -2,10 +2,10 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
-use LogEntryBase;
-use LogPage;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
+use MediaWiki\Logging\LogEntryBase;
+use MediaWiki\Logging\LogPage;
 use MediaWiki\Revision\RevisionArchiveRecord;
 use MediaWiki\Title\Title;
 use MediaWiki\User\UserIdentityValue;

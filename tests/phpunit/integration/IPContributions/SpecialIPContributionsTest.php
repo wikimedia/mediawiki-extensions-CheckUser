@@ -4,17 +4,17 @@ namespace MediaWiki\CheckUser\Tests\Integration\IPContributions;
 
 use DOMDocument;
 use DOMXPath;
-use ErrorPageError;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Exception\ErrorPageError;
+use MediaWiki\Exception\PermissionsError;
+use MediaWiki\Exception\UserBlockedError;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
-use PermissionsError;
 use SpecialPageTestBase;
-use UserBlockedError;
 use Wikimedia\IPUtils;
 
 /**

@@ -2,12 +2,12 @@
 
 namespace MediaWiki\CheckUser\Jobs;
 
-use Job;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
 use MediaWiki\CheckUser\Services\CheckUserDataPurger;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\JobQueue\Job;
 use MediaWiki\MediaWikiServices;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 

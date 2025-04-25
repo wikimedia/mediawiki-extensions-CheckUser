@@ -2,10 +2,10 @@
 
 namespace MediaWiki\CheckUser\Logging;
 
-use LogEntry;
-use LogFormatter;
 use MediaWiki\Extension\AbuseFilter\ProtectedVarsAccessLogger;
 use MediaWiki\Linker\Linker;
+use MediaWiki\Logging\LogEntry;
+use MediaWiki\Logging\LogFormatter;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Message\Message;
 use MediaWiki\User\UserFactory;

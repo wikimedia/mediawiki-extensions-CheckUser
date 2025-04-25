@@ -2,10 +2,10 @@
 
 namespace MediaWiki\CheckUser\Services;
 
-use LogPage;
-use ManualLogEntry;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\Logging\LogPage;
+use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Revision\ArchivedRevisionLookup;
 use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\Revision\RevisionRecord;

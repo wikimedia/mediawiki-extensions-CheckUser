@@ -5,8 +5,8 @@ namespace MediaWiki\CheckUser\Hook;
 use MediaWiki\CheckUser\CheckUser\Pagers\AbstractCheckUserPager;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\HookContainer\HookContainer;
+use MediaWiki\RecentChanges\RecentChange;
 use MediaWiki\User\UserIdentity;
-use RecentChange;
 use stdClass;
 
 class HookRunner implements

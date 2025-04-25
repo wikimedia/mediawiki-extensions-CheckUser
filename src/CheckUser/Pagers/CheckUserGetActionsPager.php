@@ -3,12 +3,7 @@
 namespace MediaWiki\CheckUser\CheckUser\Pagers;
 
 use HtmlArmor;
-use LogEventsList;
-use LogFormatter;
-use LogFormatterFactory;
 use LogicException;
-use LogPage;
-use ManualLogEntry;
 use MediaWiki\Block\DatabaseBlockStore;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
@@ -30,6 +25,11 @@ use MediaWiki\Html\Html;
 use MediaWiki\Linker\Linker;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Logger\LoggerFactory;
+use MediaWiki\Logging\LogEventsList;
+use MediaWiki\Logging\LogFormatter;
+use MediaWiki\Logging\LogFormatterFactory;
+use MediaWiki\Logging\LogPage;
+use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\SpecialPage\SpecialPageFactory;

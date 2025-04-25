@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit\HookHandler;
 
-use JobQueueGroup;
 use MailAddress;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
@@ -11,6 +10,7 @@ use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Config\Config;
 use MediaWiki\Config\HashConfig;
 use MediaWiki\Deferred\DeferredUpdates;
+use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\MainConfigNames;
 use MediaWiki\User\User;
 use MediaWiki\User\UserFactory;

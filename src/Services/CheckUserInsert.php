@@ -2,9 +2,6 @@
 
 namespace MediaWiki\CheckUser\Services;
 
-use DatabaseLogEntry;
-use JobQueueGroup;
-use LogEntryBase;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\ClientHints\UserAgentClientHintsManagerHelperTrait;
 use MediaWiki\CheckUser\Hook\HookRunner;
@@ -13,15 +10,18 @@ use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\HookContainer\HookContainer;
+use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Language\Language;
 use MediaWiki\Logger\LoggerFactory;
+use MediaWiki\Logging\DatabaseLogEntry;
+use MediaWiki\Logging\LogEntryBase;
+use MediaWiki\RecentChanges\RecentChange;
 use MediaWiki\Request\WebRequest;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use Psr\Log\LoggerInterface;
-use RecentChange;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 

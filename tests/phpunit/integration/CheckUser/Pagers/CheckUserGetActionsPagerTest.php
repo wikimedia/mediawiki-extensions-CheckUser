@@ -2,15 +2,15 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers;
 
-use LogEntryBase;
-use LogFormatter;
-use LogPage;
-use ManualLogEntry;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUser;
 use MediaWiki\CheckUser\ClientHints\ClientHintsBatchFormatterResults;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\CheckUser\Tests\Integration\CheckUser\Pagers\Mocks\MockTemplateParser;
 use MediaWiki\Linker\Linker;
+use MediaWiki\Logging\LogEntryBase;
+use MediaWiki\Logging\LogFormatter;
+use MediaWiki\Logging\LogPage;
+use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Title\Title;
 use MediaWiki\User\UserIdentityValue;
 use Wikimedia\IPUtils;

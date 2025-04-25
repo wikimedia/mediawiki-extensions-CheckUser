@@ -2,7 +2,7 @@
 
 namespace MediaWiki\CheckUser\Maintenance;
 
-use LogEntryBase;
+use MediaWiki\Logging\LogEntryBase;
 use MediaWiki\Maintenance\LoggedUpdateMaintenance;
 
 $IP = getenv( 'MW_INSTALL_PATH' );

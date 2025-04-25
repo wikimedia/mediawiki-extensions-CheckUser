@@ -2,7 +2,7 @@
 
 namespace MediaWiki\CheckUser\Logging;
 
-use ManualLogEntry;
+use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Title\TitleFactory;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\UserIdentity;

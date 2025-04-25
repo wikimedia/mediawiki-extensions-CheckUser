@@ -2,9 +2,9 @@
 
 namespace MediaWiki\CheckUser\Api\Rest\Handler;
 
-use DatabaseLogEntry;
-use LogEventsList;
-use LogPage;
+use MediaWiki\Logging\DatabaseLogEntry;
+use MediaWiki\Logging\LogEventsList;
+use MediaWiki\Logging\LogPage;
 use MediaWiki\Permissions\Authority;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IReadableDatabase;

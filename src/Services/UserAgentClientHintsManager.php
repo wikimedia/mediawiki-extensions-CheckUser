@@ -2,11 +2,11 @@
 
 namespace MediaWiki\CheckUser\Services;
 
-use DatabaseLogEntry;
 use LogicException;
 use MediaWiki\CheckUser\ClientHints\ClientHintsData;
 use MediaWiki\CheckUser\ClientHints\ClientHintsReferenceIds;
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\Logging\DatabaseLogEntry;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Revision\RevisionLookup;
 use Psr\Log\LoggerInterface;

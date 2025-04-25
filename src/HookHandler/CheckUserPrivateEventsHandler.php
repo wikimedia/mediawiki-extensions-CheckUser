@@ -2,9 +2,6 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
-use DatabaseLogEntry;
-use JobQueueGroup;
-use LogEntryBase;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Auth\Hook\AuthManagerLoginAuthenticateAuditHook;
 use MediaWiki\Auth\Hook\LocalUserCreatedHook;
@@ -18,7 +15,10 @@ use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\CentralAuth\User\CentralAuthUser;
 use MediaWiki\Hook\EmailUserHook;
 use MediaWiki\Hook\UserLogoutCompleteHook;
+use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Logger\LoggerFactory;
+use MediaWiki\Logging\DatabaseLogEntry;
+use MediaWiki\Logging\LogEntryBase;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\User\Hook\User__mailPasswordInternalHook;

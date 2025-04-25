@@ -7,8 +7,8 @@ use MediaWiki\CheckUser\Hooks;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\RecentChanges\RecentChange;
 use MediaWikiIntegrationTestCase;
-use RecentChange;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**

@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser\IPContributions;
 
-use JobQueueGroup;
 use LogicException;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\Jobs\LogTemporaryAccountAccessJob;
@@ -11,6 +10,7 @@ use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\HookContainer\HookContainer;
+use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Pager\ContributionsPager;
 use MediaWiki\Revision\RevisionStore;

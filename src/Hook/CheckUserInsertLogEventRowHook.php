@@ -2,8 +2,8 @@
 
 namespace MediaWiki\CheckUser\Hook;
 
+use MediaWiki\RecentChanges\RecentChange;
 use MediaWiki\User\UserIdentity;
-use RecentChange;
 
 interface CheckUserInsertLogEventRowHook {
 	/**

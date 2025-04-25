@@ -3,8 +3,8 @@
 namespace MediaWiki\CheckUser\Tests\Unit\Logging;
 
 use Generator;
-use ManualLogEntry;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
+use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Title\Title;
 use MediaWiki\Title\TitleFactory;
 use MediaWiki\User\ActorStore;

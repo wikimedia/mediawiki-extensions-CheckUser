@@ -2,12 +2,12 @@
 
 namespace MediaWiki\CheckUser\Services;
 
-use Job;
-use JobQueueGroup;
-use JobSpecification;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Jobs\UpdateUserCentralIndexJob;
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\JobQueue\Job;
+use MediaWiki\JobQueue\JobQueueGroup;
+use MediaWiki\JobQueue\JobSpecification;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserFactory;

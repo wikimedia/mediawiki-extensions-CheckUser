@@ -8,9 +8,9 @@ use MediaWiki\Output\Hook\BeforePageDisplayHook;
 use MediaWiki\Output\OutputPage;
 use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Skin\Skin;
+use MediaWiki\User\Options\UserOptionsLookup;
 use MediaWiki\User\TempUser\TempUserConfig;
 use MediaWiki\User\UserIdentityUtils;
-use MediaWiki\User\UserOptionsLookup;
 
 class PageDisplay implements BeforePageDisplayHook {
 	private Config $config;

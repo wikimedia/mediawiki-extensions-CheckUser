@@ -2,14 +2,14 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Api\Rest\Handler;
 
-use JobQueueGroup;
-use LogPage;
-use ManualLogEntry;
 use MediaWiki\CheckUser\Api\Rest\Handler\TemporaryAccountLogHandler;
 use MediaWiki\CheckUser\CheckUserPermissionStatus;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\JobQueue\JobQueueGroup;
+use MediaWiki\Logging\LogPage;
+use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Request\FauxRequest;

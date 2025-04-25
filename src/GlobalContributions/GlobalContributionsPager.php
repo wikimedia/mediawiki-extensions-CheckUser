@@ -2,11 +2,9 @@
 
 namespace MediaWiki\CheckUser\GlobalContributions;
 
-use ChangesList;
 use GlobalPreferences\GlobalPreferencesFactory;
 use HtmlArmor;
 use InvalidArgumentException;
-use JobQueueGroup;
 use LogicException;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
@@ -18,9 +16,11 @@ use MediaWiki\Context\IContextSource;
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\Html\Html;
 use MediaWiki\Html\TemplateParser;
+use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Pager\ContributionsPager;
 use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\RecentChanges\ChangesList;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\SpecialPage\ContributionsRangeTrait;

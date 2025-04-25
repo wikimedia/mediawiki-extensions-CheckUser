@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser\Services;
 
-use LogFormatterFactory;
 use MediaWiki\CheckUser\Api\ApiQueryCheckUser;
 use MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserAbstractResponse;
 use MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserActionsResponse;
@@ -10,6 +9,7 @@ use MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserIpUsersResponse;
 use MediaWiki\CheckUser\Api\CheckUser\ApiQueryCheckUserUserIpsResponse;
 use MediaWiki\CommentStore\CommentStore;
 use MediaWiki\Config\Config;
+use MediaWiki\Logging\LogFormatterFactory;
 use MediaWiki\Revision\ArchivedRevisionLookup;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\User\UserFactory;

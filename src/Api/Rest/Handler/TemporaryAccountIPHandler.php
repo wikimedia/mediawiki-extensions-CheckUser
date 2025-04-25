@@ -2,11 +2,11 @@
 
 namespace MediaWiki\CheckUser\Api\Rest\Handler;
 
-use JobQueueGroup;
 use MediaWiki\Block\BlockManager;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\CheckUser\Services\CheckUserTemporaryAccountsByIPLookup;
 use MediaWiki\Config\Config;
+use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\User\ActorStore;
 use MediaWiki\User\TempUser\TempUserConfig;

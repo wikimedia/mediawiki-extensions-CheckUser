@@ -2,10 +2,10 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
-use JobQueueGroup;
-use JobSpecification;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\Hook\RecentChange_saveHook;
+use MediaWiki\JobQueue\JobQueueGroup;
+use MediaWiki\JobQueue\JobSpecification;
 use Wikimedia\Rdbms\IConnectionProvider;
 
 class RecentChangeSaveHandler implements RecentChange_saveHook {

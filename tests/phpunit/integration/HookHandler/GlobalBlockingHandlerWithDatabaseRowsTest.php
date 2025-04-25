@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\HookHandler;
 
-use ManualLogEntry;
 use MediaWiki\CheckUser\HookHandler\CheckUserPrivateEventsHandler;
 use MediaWiki\CheckUser\HookHandler\GlobalBlockingHandler;
 use MediaWiki\CheckUser\Jobs\UpdateUserCentralIndexJob;
@@ -10,6 +9,7 @@ use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
 use MediaWiki\Extension\GlobalBlocking\GlobalBlock;
+use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\MainConfigNames;
 use MediaWiki\User\CentralId\CentralIdLookup;
 use MediaWiki\User\User;

@@ -3,9 +3,9 @@
 namespace MediaWiki\CheckUser\Logging;
 
 use InvalidArgumentException;
-use LogEntry;
-use LogFormatter;
 use MediaWiki\Html\Html;
+use MediaWiki\Logging\LogEntry;
+use MediaWiki\Logging\LogFormatter;
 use MediaWiki\Message\Message;
 use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserRigorOptions;

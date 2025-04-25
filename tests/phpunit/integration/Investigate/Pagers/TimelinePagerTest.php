@@ -2,7 +2,6 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Investigate\Pagers;
 
-use ManualLogEntry;
 use MediaWiki\CheckUser\Investigate\Pagers\TimelinePager;
 use MediaWiki\CheckUser\Investigate\Pagers\TimelineRowFormatter;
 use MediaWiki\CheckUser\Investigate\Services\TimelineService;
@@ -10,6 +9,7 @@ use MediaWiki\CheckUser\Services\TokenQueryManager;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Logger\LoggerFactory;
+use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Pager\IndexPager;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;

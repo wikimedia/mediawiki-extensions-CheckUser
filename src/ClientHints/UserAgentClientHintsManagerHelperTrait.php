@@ -2,9 +2,9 @@
 
 namespace MediaWiki\CheckUser\ClientHints;
 
-use JobQueueGroup;
 use MediaWiki\CheckUser\Jobs\StoreClientHintsDataJob;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
+use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Request\WebRequest;
 use Profiler;
 use Psr\Log\LoggerInterface;

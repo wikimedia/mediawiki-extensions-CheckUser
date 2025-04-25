@@ -2,12 +2,12 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Investigate\Pagers;
 
-use LogEntryBase;
-use LogFormatter;
-use LogPage;
-use ManualLogEntry;
 use MediaWiki\CheckUser\Investigate\Pagers\TimelineRowFormatter;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Logging\LogEntryBase;
+use MediaWiki\Logging\LogFormatter;
+use MediaWiki\Logging\LogPage;
+use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;

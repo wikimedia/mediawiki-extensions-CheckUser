@@ -3,12 +3,12 @@
 namespace MediaWiki\CheckUser\Tests\Integration\Investigate;
 
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Exception\PermissionsError;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Revision\SlotRecord;
 use MediaWiki\Tests\SpecialPage\FormSpecialPageTestCase;
 use MediaWiki\Tests\Unit\Permissions\MockAuthorityTrait;
-use PermissionsError;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**

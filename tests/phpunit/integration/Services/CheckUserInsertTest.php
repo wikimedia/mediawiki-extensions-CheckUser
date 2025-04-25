@@ -2,10 +2,6 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Services;
 
-use CannotCreateActorException;
-use DatabaseLogEntry;
-use LogEntryBase;
-use ManualLogEntry;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Jobs\StoreClientHintsDataJob;
 use MediaWiki\CheckUser\Services\CheckUserCentralIndexManager;
@@ -15,8 +11,12 @@ use MediaWiki\CheckUser\Tests\Integration\CheckUserTempUserTestTrait;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Deferred\DeferredUpdates;
+use MediaWiki\Exception\CannotCreateActorException;
 use MediaWiki\Language\Language;
 use MediaWiki\Logger\LoggerFactory;
+use MediaWiki\Logging\DatabaseLogEntry;
+use MediaWiki\Logging\LogEntryBase;
+use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\MainConfigNames;
 use MediaWiki\User\UserIdentityValue;
 use MediaWikiIntegrationTestCase;

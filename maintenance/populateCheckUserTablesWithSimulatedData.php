@@ -3,7 +3,6 @@
 namespace MediaWiki\CheckUser\Maintenance;
 
 use MailAddress;
-use ManualLogEntry;
 use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Auth\AuthManager;
 use MediaWiki\CheckUser\ClientHints\ClientHintsData;
@@ -12,6 +11,7 @@ use MediaWiki\CheckUser\HookHandler\RecentChangeSaveHandler;
 use MediaWiki\CheckUser\Services\UserAgentClientHintsManager;
 use MediaWiki\Content\ContentHandler;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Maintenance\Maintenance;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\Title\Title;

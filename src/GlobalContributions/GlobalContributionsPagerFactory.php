@@ -3,13 +3,13 @@
 namespace MediaWiki\CheckUser\GlobalContributions;
 
 use GlobalPreferences\GlobalPreferencesFactory;
-use JobQueueGroup;
 use MediaWiki\Cache\LinkBatchFactory;
 use MediaWiki\CheckUser\Services\CheckUserLookupUtils;
 use MediaWiki\CommentFormatter\CommentFormatter;
 use MediaWiki\Config\Config;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\HookContainer\HookContainer;
+use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Revision\RevisionStore;

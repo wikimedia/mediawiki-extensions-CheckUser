@@ -8,6 +8,7 @@ use MediaWiki\Block\BlockPermissionCheckerFactory;
 use MediaWiki\Block\BlockUser;
 use MediaWiki\Block\BlockUserFactory;
 use MediaWiki\CheckUser\Investigate\Utilities\EventLogger;
+use MediaWiki\Exception\PermissionsError;
 use MediaWiki\HTMLForm\HTMLForm;
 use MediaWiki\Linker\Linker;
 use MediaWiki\MainConfigNames;
@@ -21,7 +22,6 @@ use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserNameUtils;
 use OOUI\FieldLayout;
 use OOUI\Widget;
-use PermissionsError;
 use Wikimedia\IPUtils;
 
 class SpecialInvestigateBlock extends FormSpecialPage {

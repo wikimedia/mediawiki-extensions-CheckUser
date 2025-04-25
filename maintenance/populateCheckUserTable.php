@@ -2,9 +2,9 @@
 
 namespace MediaWiki\CheckUser\Maintenance;
 
-use DatabaseLogEntry;
+use MediaWiki\Logging\DatabaseLogEntry;
 use MediaWiki\Maintenance\LoggedUpdateMaintenance;
-use RecentChange;
+use MediaWiki\RecentChanges\RecentChange;
 use Wikimedia\IPUtils;
 
 $IP = getenv( 'MW_INSTALL_PATH' );

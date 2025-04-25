@@ -2,11 +2,11 @@
 
 namespace MediaWiki\CheckUser\HookHandler;
 
-use LogEntry;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
 use MediaWiki\Config\Config;
 use MediaWiki\Hook\ChangesListInsertLogEntryHook;
 use MediaWiki\Hook\LogEventsListLineEndingHook;
+use MediaWiki\Logging\LogEntry;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Title\Title;
 use MediaWiki\User\UserNameUtils;

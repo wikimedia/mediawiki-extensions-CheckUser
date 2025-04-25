@@ -2,8 +2,8 @@
 
 namespace MediaWiki\CheckUser\Jobs;
 
-use Job;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
+use MediaWiki\JobQueue\Job;
 use MediaWiki\Title\Title;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Timestamp\ConvertibleTimestamp;

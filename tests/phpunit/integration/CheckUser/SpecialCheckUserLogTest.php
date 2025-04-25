@@ -5,13 +5,13 @@ namespace MediaWiki\CheckUser\Tests\Integration\CheckUser;
 use MediaWiki\CheckUser\CheckUser\SpecialCheckUserLog;
 use MediaWiki\CheckUser\Services\CheckUserLogService;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\Exception\UserBlockedError;
 use MediaWiki\Request\FauxRequest;
 use MediaWiki\User\User;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserIdentityValue;
 use SpecialPageTestBase;
 use TestUser;
-use UserBlockedError;
 use Wikimedia\IPUtils;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 

@@ -2,11 +2,11 @@
 
 namespace MediaWiki\CheckUser\Services;
 
-use JobQueueGroup;
 use MediaWiki\CheckUser\CheckUserQueryInterface;
 use MediaWiki\CheckUser\Jobs\LogTemporaryAccountAccessJob;
 use MediaWiki\CheckUser\Logging\TemporaryAccountLogger;
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\User\Options\UserOptionsLookup;

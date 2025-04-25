@@ -4,7 +4,7 @@ namespace MediaWiki\CheckUser;
 
 use MediaWiki\CheckUser\Services\CheckUserInsert;
 use MediaWiki\MediaWikiServices;
-use RecentChange;
+use MediaWiki\RecentChanges\RecentChange;
 
 class Hooks {
 

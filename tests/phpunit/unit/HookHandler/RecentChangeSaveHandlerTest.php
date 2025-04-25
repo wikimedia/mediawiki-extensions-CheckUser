@@ -2,12 +2,12 @@
 
 namespace MediaWiki\CheckUser\Tests\Unit\HookHandler;
 
-use JobQueueGroup;
-use JobSpecification;
 use MediaWiki\CheckUser\HookHandler\RecentChangeSaveHandler;
 use MediaWiki\CheckUser\Services\CheckUserInsert;
+use MediaWiki\JobQueue\JobQueueGroup;
+use MediaWiki\JobQueue\JobSpecification;
+use MediaWiki\RecentChanges\RecentChange;
 use MediaWikiUnitTestCase;
-use RecentChange;
 use Wikimedia\Rdbms\IConnectionProvider;
 
 /**

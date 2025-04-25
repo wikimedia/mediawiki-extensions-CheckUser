@@ -2,9 +2,9 @@
 
 namespace MediaWiki\CheckUser\Tests\Integration\Maintenance;
 
-use ManualLogEntry;
 use MediaWiki\CheckUser\Maintenance\PopulateCheckUserTable;
 use MediaWiki\CheckUser\Tests\Integration\CheckUserCommonTraitTest;
+use MediaWiki\Logging\ManualLogEntry;
 use MediaWiki\Tests\Maintenance\MaintenanceBaseTestCase;
 use MediaWiki\Title\Title;
 use Wikimedia\TestingAccessWrapper;

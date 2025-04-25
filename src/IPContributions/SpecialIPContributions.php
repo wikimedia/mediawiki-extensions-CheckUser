@@ -2,9 +2,11 @@
 
 namespace MediaWiki\CheckUser\IPContributions;
 
-use ErrorPageError;
 use MediaWiki\Block\DatabaseBlockStore;
 use MediaWiki\CheckUser\Services\CheckUserPermissionManager;
+use MediaWiki\Exception\ErrorPageError;
+use MediaWiki\Exception\PermissionsError;
+use MediaWiki\Exception\UserBlockedError;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\ContributionsSpecialPage;
 use MediaWiki\Title\NamespaceInfo;
@@ -17,8 +19,6 @@ use MediaWiki\User\UserNamePrefixSearch;
 use MediaWiki\User\UserNameUtils;
 use OOUI\HtmlSnippet;
 use OOUI\MessageWidget;
-use PermissionsError;
-use UserBlockedError;
 use Wikimedia\IPUtils;
 use Wikimedia\Rdbms\IConnectionProvider;
 
