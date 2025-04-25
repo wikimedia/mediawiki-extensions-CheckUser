@@ -125,24 +125,6 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	public function testCanViewProtectedVariableValuesForIPWhenUserLacksRight() {
-		$this->enableAutoCreateTempUser();
-
-		// Get a mock test Authority that has the rights and preferences needed to see protected variables,
-		// but not the rights to see user_unnamed_ip.
-		$this->mockAllUsersHaveAcceptedIPRevealPreference();
-		$authority = $this->mockRegisteredAuthorityWithoutPermissions(
-			[ 'checkuser-temporary-account', 'checkuser-temporary-account-no-preference' ]
-		);
-
-		// Check that AbuseFilterPermissionManager::canViewProtectedVariableValues returns a fatal status with
-		// the checkuser-temporary-account permission specified.
-		$actualStatus = AbuseFilterServices::getPermissionManager()
-			->canViewProtectedVariableValues( $authority, [ 'user_unnamed_ip' ] );
-		$this->assertStatusNotGood( $actualStatus );
-		$this->assertSame( 'checkuser-temporary-account', $actualStatus->getPermission() );
-	}
-
 	public function testCanViewProtectedVariablesForIPWhenUserLacksRight() {
 		$this->enableAutoCreateTempUser();
 		$this->mockAllUsersHaveAcceptedIPRevealPreference();
@@ -173,10 +155,6 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 		$canViewProtectedVariablesStatus = AbuseFilterServices::getPermissionManager()
 			->canViewProtectedVariables( $this->mockRegisteredUltimateAuthority(), $variables );
 		$this->assertStatusGood( $canViewProtectedVariablesStatus );
-
-		$canViewProtectedVariableValuesStatus = AbuseFilterServices::getPermissionManager()
-			->canViewProtectedVariableValues( $this->mockRegisteredUltimateAuthority(), $variables );
-		$this->assertStatusGood( $canViewProtectedVariableValuesStatus );
 	}
 
 	public static function provideWhenIPRevealRestrictionsNotApplied() {
