@@ -1,6 +1,17 @@
 'use strict';
 
 /**
+ * Return a temporary user link with the correct class and text.
+ *
+ * @param {string} username The temporary user's name
+ */
+function makeTempUserLink( username ) {
+	return $( '<a>' )
+		.addClass( 'mw-tempuserlink' )
+		.text( username );
+}
+
+/**
  * Waits until the specified selector to no longer match any elements in the QUnit test fixture.
  *
  * @param {string} selector The JQuery selector to check
@@ -48,6 +59,7 @@ function waitUntilElementCount( selector, count ) {
 }
 
 module.exports = {
+	makeTempUserLink: makeTempUserLink,
 	waitUntilElementDisappears: waitUntilElementDisappears,
 	waitUntilElementAppears: waitUntilElementAppears,
 	waitUntilElementCount: waitUntilElementCount

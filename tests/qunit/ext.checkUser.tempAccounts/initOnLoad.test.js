@@ -1,7 +1,7 @@
 'use strict';
 
 const initOnLoad = require( '../../../modules/ext.checkUser.tempAccounts/initOnLoad.js' );
-const { waitUntilElementCount } = require( './utils.js' );
+const { makeTempUserLink, waitUntilElementCount } = require( './utils.js' );
 const Utils = require( '../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js' );
 const { getRevisionId, getLogId } = require( '../../../modules/ext.checkUser.tempAccounts/ipReveal.js' );
 
@@ -57,7 +57,7 @@ function setUpDocumentForTest() {
 		const $revisionLine = $( '<div>' ).attr( 'data-mw-revid', revId );
 		$bodyContent.append( $revisionLine );
 		// Add the temporary account username link for the revision line
-		const $tempAccountUserLink = $( '<a>' ).addClass( 'mw-tempuserlink' ).text( username );
+		const $tempAccountUserLink = makeTempUserLink( username );
 		$revisionLine.append( $tempAccountUserLink );
 		if ( Utils.getRevealedStatus( username ) ) {
 			temporaryAccountUserLinksThatAreAutomaticallyRevealed.push( $tempAccountUserLink );
@@ -75,9 +75,7 @@ function setUpDocumentForTest() {
 			.addClass( 'ext-checkuser-log-line-supports-ip-reveal' );
 		$logLinesContainer.append( $logLine );
 		// Add the temporary account username link for the performer of the log line
-		const $tempAccountPerformerLink = $( '<a>' )
-			.addClass( 'mw-tempuserlink' )
-			.text( username );
+		const $tempAccountPerformerLink = makeTempUserLink( username );
 		$logLine.append( $tempAccountPerformerLink );
 		if ( Utils.getRevealedStatus( username ) ) {
 			temporaryAccountUserLinksThatAreAutomaticallyRevealed.push(
@@ -88,9 +86,7 @@ function setUpDocumentForTest() {
 		}
 		// Add another temp account user link as the target, which should not have
 		// a button added next to it.
-		const $tempAccountTargetLink = $( '<a>' )
-			.addClass( 'mw-tempuserlink' )
-			.text( username );
+		const $tempAccountTargetLink = makeTempUserLink( username );
 		$logLine.append( $tempAccountPerformerLink );
 		temporaryAccountUserLinksWhichShouldHaveNoButton.push( $tempAccountTargetLink );
 	} );
@@ -102,14 +98,14 @@ function setUpDocumentForTest() {
 			.attr( 'data-mw-logid', logId );
 		$logLinesContainer.append( $logLine );
 		// Add the temporary account username link as the target of the log line
-		const $tempAccountUserLink = $( '<a>' ).addClass( 'mw-tempuserlink' ).text( username );
+		const $tempAccountUserLink = makeTempUserLink( username );
 		$logLine.append( $tempAccountUserLink );
 		temporaryAccountUserLinksWhichShouldHaveNoButton.push( $tempAccountUserLink );
 	} );
 	// Add some temporary account username links that are not associated with a revision or log
 	const linksWithoutIds = [ '~1', '~5' ];
 	linksWithoutIds.forEach( ( username ) => {
-		const $tempAccountUserLink = $( '<a>' ).addClass( 'mw-tempuserlink' ).text( username );
+		const $tempAccountUserLink = makeTempUserLink( username );
 		$bodyContent.append( $tempAccountUserLink );
 		if ( Utils.getRevealedStatus( username ) ) {
 			temporaryAccountUserLinksThatAreAutomaticallyRevealed.push( $tempAccountUserLink );
@@ -240,7 +236,7 @@ QUnit.test( 'Test initOnLoad when IP auto-reveal mode is toggled on and off', ( 
 		const $revisionLine = $( '<div>' ).attr( 'data-mw-revid', revId );
 		$bodyContent.append( $revisionLine );
 		// Add the temporary account username link for the revision line
-		const $tempAccountUserLink = $( '<a>' ).addClass( 'mw-tempuserlink' ).text( username );
+		const $tempAccountUserLink = makeTempUserLink( username );
 		$revisionLine.append( $tempAccountUserLink );
 		temporaryAccountUserLinks.push( $tempAccountUserLink );
 	} );

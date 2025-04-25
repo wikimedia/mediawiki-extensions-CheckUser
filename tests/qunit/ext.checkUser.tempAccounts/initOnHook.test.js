@@ -1,7 +1,7 @@
 'use strict';
 
 const initOnHook = require( '../../../modules/ext.checkUser.tempAccounts/initOnHook.js' );
-const { waitUntilElementCount } = require( './utils.js' );
+const { makeTempUserLink, waitUntilElementCount } = require( './utils.js' );
 const Utils = require( '../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js' );
 
 let server;
@@ -54,7 +54,7 @@ QUnit.test( 'Test initOnHook when temporary account links added after load', ( a
 	const $revisionLine = $( '<div>' ).attr( 'data-mw-revid', 1 );
 	$qunitFixture.append( $revisionLine );
 	// Add the temporary account username link for the revision line
-	const $tempAccountUserLink = $( '<a>' ).addClass( 'mw-tempuserlink' ).text( '~12' );
+	const $tempAccountUserLink = makeTempUserLink( '~12' );
 	$revisionLine.append( $tempAccountUserLink );
 	// Fire wikipage.content on the newly added content
 	mw.hook( 'wikipage.content' ).fire( $qunitFixture );
@@ -89,7 +89,7 @@ function setUpDocumentForTest() {
 		const $revisionLine = $( '<div>' ).attr( 'data-mw-revid', revId );
 		$qunitFixture.append( $revisionLine );
 		// Add the temporary account username link for the revision line
-		const $tempAccountUserLink = $( '<a>' ).addClass( 'mw-tempuserlink' ).text( username );
+		const $tempAccountUserLink = makeTempUserLink( username );
 		$revisionLine.append( $tempAccountUserLink );
 		if ( Utils.getRevealedStatus( username ) ) {
 			temporaryAccountUserLinksThatAreAutomaticallyRevealed.push( $tempAccountUserLink );
