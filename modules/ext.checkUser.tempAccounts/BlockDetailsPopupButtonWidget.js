@@ -1,3 +1,5 @@
+const { getFormattedBlockDetails } = require( './api.js' );
+
 /**
  * Widget to show a popup with block details for the current user.
  *
@@ -25,6 +27,8 @@ function BlockDetailsPopupButtonWidget() {
 		'ext-checkuser-blockDetailsPopupButtonWidget-loadingIndicator'
 	);
 
+	this.loadingIndicator.$element.attr( 'aria-label', mw.msg( 'checkuser-tempaccount-reveal-blocked-loading' ) );
+
 	this.popup.connect( this, { toggle: 'onVisibilityChanged' } );
 }
 OO.inheritClass( BlockDetailsPopupButtonWidget, OO.ui.PopupButtonWidget );
@@ -47,14 +51,7 @@ BlockDetailsPopupButtonWidget.prototype.onVisibilityChanged = function ( visible
 	}
 
 	if ( !BlockDetailsPopupButtonWidget.static.cachedBlockDetails ) {
-		const api = new mw.Api();
-
-		BlockDetailsPopupButtonWidget.static.cachedBlockDetails = api.get( {
-			action: 'query',
-			meta: 'checkuserformattedblockinfo',
-			format: 'json',
-			formatversion: '2'
-		} ).then(
+		BlockDetailsPopupButtonWidget.static.cachedBlockDetails = getFormattedBlockDetails().then(
 			( data ) => {
 				const blockInfo = data &&
 					data.query &&
