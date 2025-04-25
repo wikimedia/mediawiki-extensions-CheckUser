@@ -220,6 +220,7 @@
 	"checkuser-global-contributions-target-label": "Nome utente, indirizzo IP o intervallo:",
 	"checkuser-global-contributions-target-placeholder": "Nome utente, indirizzo IP o intervallo",
 	"checkuser-global-contributions-results-title": "Contributi globali di $1",
+	"checkuser-global-contributions-page-when-no-namespace-translation-available": "Namespace<$1>:$2",
 	"checkuser-tempaccount-no-ip-results": "Nessun dato IP per questo utente temporaneo per {{PLURAL:$1|l'ultimo giorno|gli ultimi $1 giorni}}",
 	"checkuser-tempaccount-reveal-ip-button-label": "Mostra IP",
 	"checkuser-tempaccount-reveal-ip-missing": "non disponibile",
