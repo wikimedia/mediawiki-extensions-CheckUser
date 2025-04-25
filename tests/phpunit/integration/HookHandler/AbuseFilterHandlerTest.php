@@ -206,25 +206,4 @@ class AbuseFilterHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->assertStatusNotGood( $actualStatus );
 		$this->assertSame( $block, $actualStatus->getBlock() );
 	}
-
-	public function testOnAbuseFilterCanViewProtectedVariableValuesWhenUserBlocked() {
-		$this->enableAutoCreateTempUser();
-
-		// Get an Authority which has all needed permissions to access IP reveal but is sitewide blocked.
-		$block = $this->createMock( Block::class );
-		$block->method( 'isSitewide' )
-			->willReturn( true );
-		$testAuthority = $this->mockUserAuthorityWithBlock(
-			$this->mockRegisteredUltimateAuthority()->getUser(), $block,
-			[ 'checkuser-temporary-account-no-preference' ]
-		);
-
-		$actualStatus = AbuseFilterPermissionStatus::newGood();
-		$this->getHookHandler()->onAbuseFilterCanViewProtectedVariableValues(
-			$testAuthority, [ 'user_unnamed_ip' ], $actualStatus
-		);
-
-		$this->assertStatusNotGood( $actualStatus );
-		$this->assertSame( $block, $actualStatus->getBlock() );
-	}
 }

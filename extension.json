@@ -456,7 +456,6 @@
 		"AbuseFilterCustomProtectedVariables": "AbuseFilterHandler",
 		"AbuseFilterLogProtectedVariableValueAccess": "AbuseFilterHandler",
 		"AbuseFilterCanViewProtectedVariables": "AbuseFilterHandler",
-		"AbuseFilterCanViewProtectedVariableValues": "AbuseFilterHandler",
 		"AuthManagerLoginAuthenticateAudit": "CheckUserPrivateEvents",
 		"BeforePageDisplay": [
 			"clienthints",
