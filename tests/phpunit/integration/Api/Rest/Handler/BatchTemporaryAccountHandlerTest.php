@@ -44,6 +44,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				$services->getMainConfig(),
 				$services->getJobQueueGroup(),
 				$services->getPermissionManager(),
+				$services->getPreferencesFactory(),
 				$services->getUserNameUtils(),
 				$services->getConnectionProvider(),
 				$actorStore,
@@ -87,6 +88,7 @@ class BatchTemporaryAccountHandlerTest extends MediaWikiIntegrationTestCase {
 				'logIps' => [ 1 => '5.6.7.8' ],
 				'lastUsedIp' => '9.8.7.6',
 			],
+			'autoReveal' => false,
 		], $data );
 	}
 }

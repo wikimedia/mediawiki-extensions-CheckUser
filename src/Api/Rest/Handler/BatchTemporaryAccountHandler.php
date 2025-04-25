@@ -10,6 +10,7 @@ use MediaWiki\Config\Config;
 use MediaWiki\JobQueue\JobQueueGroup;
 use MediaWiki\ParamValidator\TypeDef\ArrayDef;
 use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\Preferences\PreferencesFactory;
 use MediaWiki\Rest\Response;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\User\ActorStore;
@@ -24,13 +25,16 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 	use TemporaryAccountNameTrait;
 	use TemporaryAccountRevisionTrait;
 	use TemporaryAccountLogTrait;
+	use TemporaryAccountAutoRevealTrait;
 
+	private PreferencesFactory $preferencesFactory;
 	private RevisionStore $revisionStore;
 
 	public function __construct(
 		Config $config,
 		JobQueueGroup $jobQueueGroup,
 		PermissionManager $permissionManager,
+		PreferencesFactory $preferencesFactory,
 		UserNameUtils $userNameUtils,
 		IConnectionProvider $dbProvider,
 		ActorStore $actorStore,
@@ -40,9 +44,17 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 		ReadOnlyMode $readOnlyMode
 	) {
 		parent::__construct(
-			$config, $jobQueueGroup, $permissionManager, $userNameUtils, $dbProvider, $actorStore,
-			$blockManager, $checkUserPermissionsManager, $readOnlyMode
+			$config,
+			$jobQueueGroup,
+			$permissionManager,
+			$userNameUtils,
+			$dbProvider,
+			$actorStore,
+			$blockManager,
+			$checkUserPermissionsManager,
+			$readOnlyMode
 		);
+		$this->preferencesFactory = $preferencesFactory;
 		$this->revisionStore = $revisionStore;
 	}
 
@@ -87,6 +99,8 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 				$params['lastUsedIp'] ?? false,
 			], $dbr );
 		}
+
+		$this->addAutoRevealStatusToResults( $results );
 
 		return $results;
 	}
@@ -170,6 +184,13 @@ class BatchTemporaryAccountHandler extends AbstractTemporaryAccountHandler {
 	 */
 	protected function getRevisionStore(): RevisionStore {
 		return $this->revisionStore;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function getPreferencesFactory(): PreferencesFactory {
+		return $this->preferencesFactory;
 	}
 
 	/**

@@ -9,6 +9,7 @@ use MediaWiki\Config\Config;
 use MediaWiki\Message\Message;
 use MediaWiki\Output\OutputPage;
 use MediaWiki\Permissions\Authority;
+use MediaWiki\Registration\ExtensionRegistry;
 use MediaWiki\Skin\Skin;
 use MediaWiki\User\UserIdentity;
 use MediaWikiIntegrationTestCase;
@@ -35,6 +36,9 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 	/** @var (CheckUserPermissionStatus&MockObject) */
 	private CheckUserPermissionStatus $permissionStatus;
 
+	/** @var (ExtensionRegistry&MockObject) */
+	private ExtensionRegistry $extensionRegistry;
+
 	/** @var (UserIdentity&MockObject) */
 	private UserIdentity $relevantUser;
 
@@ -54,13 +58,17 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->permissionManager = $this->createMock(
 			CheckUserPermissionManager::class
 		);
+		$this->extensionRegistry = $this->createMock(
+			ExtensionRegistry::class
+		);
 		$this->relevantUser = $this->createMock(
 			UserIdentity::class
 		);
 
 		$this->sut = new SidebarLinksHandler(
 			$this->config,
-			$this->permissionManager
+			$this->permissionManager,
+			$this->extensionRegistry
 		);
 	}
 
@@ -299,6 +307,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 	public function testIpAutoRevealLink(
 		array $sidebar,
 		bool $canAutoReveal,
+		bool $globalPreferencesIsLoaded,
 		array $expected
 	): void {
 		$this->setUserLang( 'qqx' );
@@ -310,6 +319,10 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 		$this->permissionManager
 			->method( 'canAutoRevealIPAddresses' )
 			->willReturn( $this->permissionStatus );
+
+		$this->extensionRegistry
+			->method( 'isLoaded' )
+			->willReturn( $globalPreferencesIsLoaded );
 
 		$this->skin
 			->method( 'getAuthority' )
@@ -328,6 +341,13 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			'Not added if user cannot auto-reveal' => [
 				'sidebar' => [],
 				'canAutoReveal' => false,
+				'globalPreferencesIsLoaded' => true,
+				'expected' => [],
+			],
+			'Not added if GlobalPreferences is not loaded' => [
+				'sidebar' => [],
+				'canAutoReveal' => true,
+				'globalPreferencesIsLoaded' => false,
 				'expected' => [],
 			],
 			'Added to existing sidebar toolbox' => [
@@ -340,6 +360,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 					],
 				],
 				'canAutoReveal' => true,
+				'globalPreferencesIsLoaded' => true,
 				'expected' => [
 					'TOOLBOX' => [
 						'contributions' => [
@@ -358,6 +379,7 @@ class SidebarLinksHandlerTest extends MediaWikiIntegrationTestCase {
 			'Added to sidebar without existing toolbox' => [
 				'sidebar' => [],
 				'canAutoReveal' => true,
+				'globalPreferencesIsLoaded' => true,
 				'expected' => [
 					'TOOLBOX' => [
 						'checkuser-ip-auto-reveal' => [

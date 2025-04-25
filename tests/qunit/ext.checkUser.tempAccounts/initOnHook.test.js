@@ -4,6 +4,7 @@ const initOnHook = require( '../../../modules/ext.checkUser.tempAccounts/initOnH
 const { makeTempUserLink, waitUntilElementCount } = require( './utils.js' );
 const Utils = require( '../../../modules/ext.checkUser.tempAccounts/ipRevealUtils.js' );
 
+const originalSetAutoRevealStatus = Utils.setAutoRevealStatus;
 let server;
 
 QUnit.module( 'ext.checkUser.tempAccounts.initOnHook', QUnit.newMwEnvironment( {
@@ -14,10 +15,7 @@ QUnit.module( 'ext.checkUser.tempAccounts.initOnHook', QUnit.newMwEnvironment( {
 	},
 	afterEach: function () {
 		server.restore();
-
-		// Disable auto-reveal after each test to avoid
-		// triggering auto-reveal for unrelated QUnit tests with temp account links (T388225).
-		Utils.setAutoRevealStatus( '' );
+		Utils.setAutoRevealStatus = originalSetAutoRevealStatus;
 	},
 	config: {
 		// Prevent initOnLoad.js from running automatically and then
@@ -165,7 +163,8 @@ QUnit.test( 'Test initOnHook when IP auto-reveal mode is toggled on and off', ( 
 		const response = request.url.endsWith( '/checkuser/v0/batch-temporaryaccount' ) ?
 			{
 				'~1': { revIps: { 1: '127.0.0.1', 2: '127.0.0.1' }, logIps: null, lastUsedIp: null },
-				'~2': { revIps: { 3: '127.0.0.1' }, logIps: null, lastUsedIp: null }
+				'~2': { revIps: { 3: '127.0.0.1' }, logIps: null, lastUsedIp: null },
+				autoReveal: true
 			} : {};
 		request.respond( 200, { 'Content-Type': 'application/json' }, JSON.stringify( response ) );
 	} );
@@ -175,7 +174,9 @@ QUnit.test( 'Test initOnHook when IP auto-reveal mode is toggled on and off', ( 
 	initOnHook( $qunitFixture );
 	// Turn on IP auto-reveal mode.
 	const expiry = Date.now() + 3600000;
-	Utils.setAutoRevealStatus( expiry );
+	Utils.getAutoRevealStatus = function () {
+		return $.Deferred().resolve( expiry );
+	};
 	// Add the new content for the test.
 	const {
 		temporaryAccountUserLinks
@@ -195,7 +196,9 @@ QUnit.test( 'Test initOnHook when IP auto-reveal mode is toggled on and off', ( 
 			);
 		} );
 		// Turn off IP auto-reveal mode.
-		mw.storage.remove( 'mw-checkuser-auto-reveal-temp' );
+		Utils.getAutoRevealStatus = function () {
+			return $.Deferred().resolve( false );
+		};
 		initOnHook( $qunitFixture );
 		// Verify that the IPs are hidden and the Show IP button is displayed.
 		temporaryAccountUserLinks.forEach( ( $element ) => {

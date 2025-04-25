@@ -94,21 +94,22 @@ class TemporaryAccountIPHandlerTest extends MediaWikiIntegrationTestCase {
 		$checkUserPermissionManager->method( 'canAccessTemporaryAccountIPAddresses' )
 			->willReturn( CheckUserPermissionStatus::newGood() );
 
+		$services = $this->getServiceContainer();
 		return new TemporaryAccountIPHandler( ...array_values( array_merge(
 			[
-				'config' => $this->getServiceContainer()->getMainConfig(),
+				'config' => $services->getMainConfig(),
 				'jobQueueGroup' => $this->createMock( JobQueueGroup::class ),
 				'permissionManager' => $permissionManager,
-				'userNameUtils' => $this->getServiceContainer()->getUserNameUtils(),
-				'dbProvider' => $this->getServiceContainer()->getDBLoadBalancerFactory(),
-				'actorStore' => $this->getServiceContainer()->getActorStore(),
-				'blockManager' => $this->getServiceContainer()->getBlockManager(),
-				'tempUserConfig' => $this->getServiceContainer()->getTempUserConfig(),
-				'checkUserTemporaryAccountsByIPLookup' => $this->getServiceContainer()->get(
+				'userNameUtils' => $services->getUserNameUtils(),
+				'dbProvider' => $services->getDBLoadBalancerFactory(),
+				'actorStore' => $services->getActorStore(),
+				'blockManager' => $services->getBlockManager(),
+				'tempUserConfig' => $services->getTempUserConfig(),
+				'checkUserTemporaryAccountsByIPLookup' => $services->get(
 					'CheckUserTemporaryAccountsByIPLookup'
 				),
 				'checkUserPermissionManager' => $checkUserPermissionManager,
-				'readOnlyMode' => $this->getServiceContainer()->getReadOnlyMode(),
+				'readOnlyMode' => $services->getReadOnlyMode(),
 			],
 			$options
 		) ) );

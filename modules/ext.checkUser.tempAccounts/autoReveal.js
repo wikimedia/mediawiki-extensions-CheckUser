@@ -15,19 +15,19 @@ module.exports = function ( documentRoot ) {
 		'click',
 		() => {
 			mw.loader.using( [ 'vue', '@wikimedia/codex' ] ).then( () => {
-				$( 'body' ).append(
-					$( '<div>' ).attr( { id: 'checkuser-ip-auto-reveal' } )
-				);
-
-				let App;
-				const expiry = getAutoRevealStatus();
-				if ( expiry ) {
-					App = require( './components/IPAutoRevealOffDialog.vue' );
-				} else {
-					App = require( './components/IPAutoRevealOnDialog.vue' );
-				}
-				const Vue = require( 'vue' );
-				Vue.createMwApp( App, { expiryTimestamp: expiry } ).mount( '#checkuser-ip-auto-reveal' );
+				getAutoRevealStatus().then( ( expiry ) => {
+					$( 'body' ).append(
+						$( '<div>' ).attr( { id: 'checkuser-ip-auto-reveal' } )
+					);
+					let App;
+					if ( expiry ) {
+						App = require( './components/IPAutoRevealOffDialog.vue' );
+					} else {
+						App = require( './components/IPAutoRevealOnDialog.vue' );
+					}
+					const Vue = require( 'vue' );
+					Vue.createMwApp( App, { expiryTimestamp: expiry } ).mount( '#checkuser-ip-auto-reveal' );
+				} );
 			} );
 		} );
 };
