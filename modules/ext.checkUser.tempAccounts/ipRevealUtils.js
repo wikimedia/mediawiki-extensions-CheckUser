@@ -64,9 +64,13 @@ function getAutoRevealStatus() {
 			}
 			const autoRevealPreference = preferences[ getAutoRevealStatusPreferenceName() ] || 0;
 			const expiry = Number( autoRevealPreference );
-			deferred.resolve(
-				expiry > ( Date.now() / 1000 ) ? expiry : false
-			);
+			if ( expiry > ( Date.now() / 1000 ) ) {
+				deferred.resolve( expiry );
+			} else {
+				// The expiry time has passed, so remove the row from the database table
+				setAutoRevealStatus();
+				deferred.resolve( false );
+			}
 		} ).fail( () => {
 			deferred.resolve( false );
 		} );
