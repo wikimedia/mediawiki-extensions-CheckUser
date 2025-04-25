@@ -8,9 +8,12 @@ use MediaWiki\CheckUser\GlobalContributions\CheckUserGlobalContributionsLookup;
 use MediaWiki\CheckUser\GlobalContributions\GlobalContributionsPager;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Context\RequestContext;
+use MediaWiki\DAO\WikiAwareEntity;
 use MediaWiki\HookContainer\HookContainer;
+use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Linker\UserLinkRenderer;
+use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Title\NamespaceInfo;
 use MediaWiki\Title\Title;
 use MediaWiki\User\CentralId\CentralIdLookup;
@@ -334,18 +337,26 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 		array $expectedStrings,
 		array $unexpectedStrings,
 		string $username,
+		?string $sourcewiki,
+		bool $hasRevisionRecord,
 		bool $isDeleted
 	): void {
-		// For external users, the pager relies on UserLinkRenderer to provide
-		// the links for external users and on LinkRenderer for talk links, so
-		// this test only checks that the result from those methods is included
-		// in the output.
+		// The pager relies on UserLinkRenderer to provide for local and external users
+		// and on LinkRenderer for talk and contribution links, so this test only checks
+		// that the result from those methods is included in the output.
 		$row = $this->getRow( [
-			'sourcewiki' => 'otherwiki',
+			'sourcewiki' => $sourcewiki ?? WikiMap::getCurrentWikiId(),
 			'rev_user' => 123,
 			'rev_user_text' => $username,
 			'rev_deleted' => $isDeleted ? '4' : '8'
 		] );
+		if ( $hasRevisionRecord ) {
+			$mockRevRecord = $this->createMock( RevisionRecord::class );
+			$mockRevRecord->method( 'getUser' )
+				->willReturn( new UserIdentityValue( 123, $username ) );
+		} else {
+			$mockRevRecord = null;
+		}
 
 		$context = RequestContext::getMain();
 
@@ -356,22 +367,25 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 					UserIdentity $user,
 					IContextSource $linkContext
 				) use ( $username, $context, $row ) {
-					$this->assertEquals( $row->rev_user, $user->getId( 'otherwiki' ) );
+					$this->assertEquals( $row->rev_user, $user->getId( $user->getWikiId() ) );
 					$this->assertEquals( $row->rev_user_text, $user->getName() );
-					$this->assertEquals( $row->sourcewiki, $user->getWikiId() );
+
+					$actualSourceWiki = $user->getWikiId();
+					if ( $actualSourceWiki === WikiAwareEntity::LOCAL ) {
+						$actualSourceWiki = WikiMap::getCurrentWikiId();
+					}
+					$this->assertEquals( $row->sourcewiki, $actualSourceWiki );
+
 					$this->assertSame( $context, $linkContext );
 
-					return sprintf(
-						'<a href="https://external.wiki/User:%1$s">%1$s</a>',
-						$username
-					);
+					if ( $user->getWikiId() === WikiAwareEntity::LOCAL ) {
+						$domain = 'https://local.wiki';
+					} else {
+						$domain = 'https://external.wiki';
+					}
+					return Html::element( 'a', [ 'href' => $domain . '/User:' . $username ], $username );
 				}
 			);
-
-		$this->linkRenderer
-			->method( 'makeExternalLink' )
-			->with( 'User talk:' . $username )
-			->willReturn( 'http://external.wiki/User_talk:' . $username );
 
 		$services = $this->getServiceContainer();
 		$pager = $this->getMockBuilder( GlobalContributionsPager::class )
@@ -405,6 +419,7 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 			->willReturnArgument( 1 );
 		$pager = TestingAccessWrapper::newFromObject( $pager );
 		$pager->currentPage = Title::makeTitle( 0, $row->page_title );
+		$pager->currentRevRecord = $mockRevRecord;
 
 		$formatted = $pager->formatUserLink( $row );
 
@@ -419,20 +434,68 @@ class GlobalContributionsPagerTest extends MediaWikiIntegrationTestCase {
 
 	public static function provideFormatUserLink() {
 		return [
-			'Registered account, hidden' => [
+			'Registered account, external wiki, hidden' => [
 				'expectedStrings' => [ 'empty-username' ],
 				'unexpectedStrings' => [
-					'UnregisteredUser1'
+					'RegisteredUser1',
+					'https://local.wiki',
+					'https://external.wiki',
+					'Special:Contributions/RegisteredUser1',
 				],
-				'username' => 'UnregisteredUser1',
+				'username' => 'RegisteredUser1',
+				'sourcewiki' => 'otherwiki',
+				'hasRevisionRecord' => false,
 				'isDeleted' => true,
 			],
-			'Registered account, visible' => [
+			'Registered account, external wiki, visible' => [
 				'expectedStrings' => [
-					'User_talk:UnregisteredUser1'
+					'User_talk:RegisteredUser1',
+					'https://external.wiki',
+					'Special:Contributions/RegisteredUser1',
 				],
-				'unexpectedStrings' => [],
-				'username' => 'UnregisteredUser1',
+				'unexpectedStrings' => [ 'https://local.wiki' ],
+				'username' => 'RegisteredUser1',
+				'sourcewiki' => 'otherwiki',
+				'hasRevisionRecord' => false,
+				'isDeleted' => false,
+			],
+			'Registered account, local wiki, hidden' => [
+				'expectedStrings' => [ 'empty-username' ],
+				'unexpectedStrings' => [
+					'RegisteredUser1',
+					'https://local.wiki',
+					'https://external.wiki',
+					'Special:Contributions/RegisteredUser1',
+				],
+				'username' => 'RegisteredUser1',
+				// null is replaced with the local wiki ID
+				'sourcewiki' => null,
+				'hasRevisionRecord' => true,
+				'isDeleted' => true,
+			],
+			'Registered account, local wiki, visible' => [
+				'expectedStrings' => [
+					'User_talk:RegisteredUser1',
+					'Special:Contributions/RegisteredUser1',
+					'https://local.wiki',
+				],
+				'unexpectedStrings' => [ 'https://external.wiki' ],
+				'username' => 'RegisteredUser1',
+				'sourcewiki' => null,
+				'hasRevisionRecord' => true,
+				'isDeleted' => false,
+			],
+			'Registered account, local wiki, rev record is not found' => [
+				'expectedStrings' => [ 'empty-username' ],
+				'unexpectedStrings' => [
+					'RegisteredUser1',
+					'https://local.wiki',
+					'https://external.wiki',
+					'Special:Contributions/RegisteredUser1',
+				],
+				'username' => 'RegisteredUser1',
+				'sourcewiki' => null,
+				'hasRevisionRecord' => false,
 				'isDeleted' => false,
 			],
 		];

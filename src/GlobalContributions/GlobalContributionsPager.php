@@ -17,6 +17,7 @@ use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\Html\Html;
 use MediaWiki\Html\TemplateParser;
 use MediaWiki\JobQueue\JobQueueGroup;
+use MediaWiki\Linker\Linker;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Linker\UserLinkRenderer;
 use MediaWiki\Pager\ContributionsPager;
@@ -869,18 +870,23 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 	 * @inheritDoc
 	 */
 	protected function formatUserLink( $row ) {
-		if ( !$this->isFromExternalWiki( $row ) ) {
-			return parent::formatUserLink( $row );
+		if ( $this->isFromExternalWiki( $row ) ) {
+			$revUser = new UserIdentityValue( $row->rev_user, $row->{$this->userNameField}, $row->sourcewiki );
+		} else {
+			if ( !$this->currentRevRecord ) {
+				$revUser = null;
+			} else {
+				$revUser = $this->currentRevRecord->getUser();
+			}
 		}
 
 		$dir = $this->getLanguage()->getDir();
 
-		if ( $this->revisionUserIsDeleted( $row ) ) {
+		if ( $revUser === null || $this->revisionUserIsDeleted( $row ) ) {
 			// T379894 If the username is hidden, return early a message stating
 			// that the username is unavailable instead of falling through and
 			// end up show "no username available" twice (once for $userPageLink
 			// and once for $userTalkLink).
-			$dir = $this->getLanguage()->getDir();
 			return ' <span class="mw-changeslist-separator"></span> ' .
 				Html::rawElement(
 					'bdi',
@@ -889,19 +895,20 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 				);
 		}
 
-		$userName = $row->{$this->userNameField};
+		$userPageLink = $this->userLinkRenderer->userLink( $revUser, $this->getContext() );
 
-		$userPageLink = $this->userLinkRenderer->userLink(
-			new UserIdentityValue(
-				$row->rev_user,
-				$userName,
-				$row->sourcewiki
-			),
-			$this->getContext()
-		);
+		if ( !$this->isFromExternalWiki( $row ) ) {
+			return ' <span class="mw-changeslist-separator"></span> ' .
+				Html::rawElement( 'bdi', [ 'dir' => $dir ], $userPageLink ) .
+				Linker::userToolLinks( $revUser->getId(), $revUser->getName(), false, Linker::TOOL_LINKS_NOBLOCK );
+		}
 
-		$userTalkTitle = Title::makeTitle( NS_USER_TALK, $userName );
-		$userTalkLink = $this->getLinkRenderer()->makeExternalLink(
+		// The revision is on another wiki and the user can see the performer of the revision.
+		// Generate the user links that point to that other wiki instead of the local wiki.
+		$userTalkTitle = Title::makeTitle( NS_USER_TALK, $row->{$this->userNameField} );
+
+		$userToolLinks = [];
+		$userToolLinks[] = $this->getLinkRenderer()->makeExternalLink(
 			$this->getForeignURL(
 				$row->sourcewiki,
 				$userTalkTitle->getPrefixedText()
@@ -912,10 +919,26 @@ class GlobalContributionsPager extends ContributionsPager implements CheckUserQu
 			[ 'class' => 'mw-usertoollinks-talk' ]
 		);
 
+		$userToolLinks[] = $this->getLinkRenderer()->makeExternalLink(
+			$this->getForeignURL(
+				$row->sourcewiki,
+				Title::makeName( NS_SPECIAL, 'Contributions/' . $row->{$this->userNameField}, '', '', true )
+			),
+			$this->msg( 'contribslink' ),
+			$userTalkTitle,
+			'',
+			[ 'class' => 'mw-usertoollinks-contribs' ]
+		);
+
+		// Wrap each toollink in a span to be consistent with Linker::userToolLinks
+		$userToolLinks = array_map( static function ( $toolLink ) {
+			return Html::rawElement( 'span', [], $toolLink );
+		}, $userToolLinks );
+
 		return ' <span class="mw-changeslist-separator"></span> ' .
 			Html::rawElement( 'bdi', [ 'dir' => $dir ], $userPageLink ) .
 			' <span class="mw-usertoollinks mw-changeslist-links">' .
-			"<span class=\"mw-usertoollinks-talk\">{$userTalkLink}</span>" .
+			implode( $userToolLinks ) .
 			'</span>';
 	}
 
