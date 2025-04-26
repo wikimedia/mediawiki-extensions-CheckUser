@@ -163,4 +163,35 @@ class TemporaryAccountLoggerTest extends MediaWikiIntegrationTestCase {
 			],
 		];
 	}
+
+	public function testLogAutoRevealEnabled() {
+		ConvertibleTimestamp::setFakeTime( '20240405060709' );
+		$expiry = ConvertibleTimestamp::time() + 1800;
+		$logger = $this->getServiceContainer()->get( 'CheckUserTemporaryAccountLoggerFactory' )->getLogger();
+		$logger->logAutoRevealAccessEnabled( $this->getTestUser()->getUserIdentity(), $expiry );
+
+		$row = $this->getDb()->newSelectQueryBuilder()
+			->select( 'log_params' )
+			->from( 'logging' )
+			->where( [ 'log_type' => 'checkuser-temporary-account' ] )
+			->caller( __METHOD__ )
+			->fetchRow();
+
+		$this->assertStringContainsString( TemporaryAccountLogger::ACTION_AUTO_REVEAL_ENABLED, $row->log_params );
+		$this->assertStringContainsString( $expiry, $row->log_params );
+	}
+
+	public function testLogAutoRevealDisabled() {
+		$logger = $this->getServiceContainer()->get( 'CheckUserTemporaryAccountLoggerFactory' )->getLogger();
+		$logger->logAutoRevealAccessDisabled( $this->getTestUser()->getUserIdentity() );
+
+		$row = $this->getDb()->newSelectQueryBuilder()
+			->select( 'log_params' )
+			->from( 'logging' )
+			->where( [ 'log_type' => 'checkuser-temporary-account' ] )
+			->caller( __METHOD__ )
+			->fetchRow();
+
+		$this->assertStringContainsString( TemporaryAccountLogger::ACTION_AUTO_REVEAL_DISABLED, $row->log_params );
+	}
 }

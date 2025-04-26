@@ -34,6 +34,10 @@ class TemporaryAccountLogFormatter extends LogFormatter {
 			// - 'checkuser-temporary-account-change-access-level-enable'
 			// - 'checkuser-temporary-account-change-access-level-disable'
 			$params[3] = $this->msg( 'checkuser-temporary-account-change-access-level-' . $params[3], $params[1] );
+		} elseif ( $this->entry->getSubtype() === TemporaryAccountLogger::ACTION_CHANGE_AUTO_REVEAL ) {
+			if ( $params[3] === TemporaryAccountLogger::ACTION_AUTO_REVEAL_ENABLED ) {
+				$params[4] = Message::dateTimeParam( $params[4] );
+			}
 		} elseif ( $this->entry->getSubtype() === TemporaryAccountLogger::ACTION_VIEW_IPS ) {
 			// Replace temporary user page link with contributions page link.
 			// Don't use LogFormatter::makeUserLink, because that adds tools links.
@@ -65,5 +69,21 @@ class TemporaryAccountLogFormatter extends LogFormatter {
 		}
 
 		return $params;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function getMessageKey() {
+		if ( $this->entry->getSubtype() === TemporaryAccountLogger::ACTION_CHANGE_AUTO_REVEAL ) {
+			$params = $this->getMessageParameters();
+			if ( $params[3] === TemporaryAccountLogger::ACTION_AUTO_REVEAL_ENABLED ) {
+				return 'logentry-checkuser-temporary-account-enable-auto-reveal';
+			} elseif ( $params[3] === TemporaryAccountLogger::ACTION_AUTO_REVEAL_DISABLED ) {
+				return 'logentry-checkuser-temporary-account-disable-auto-reveal';
+			}
+		} else {
+			return parent::getMessageKey();
+		}
 	}
 }

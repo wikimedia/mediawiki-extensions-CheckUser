@@ -375,6 +375,8 @@
 	"checkuser-temporary-account-change-access-level-enable": "Used in {{msg-mw|logentry-checkuser-temporary-account-change-access}} to log that a user enabled access to view IP addresses of temporary accounts.\n\nParameters:\n* $1 - Name of the user, for use in GENDER",
 	"checkuser-temporary-account-change-access-level-disable-globally": "Used in {{msg-mw|logentry-checkuser-temporary-account-change-access}} to log that a user globally disabled access to view IP addresses of temporary accounts.\n\nParameters:\n* $1 - Name of the user, for use in GENDER",
 	"checkuser-temporary-account-change-access-level-enable-globally": "Used in {{msg-mw|logentry-checkuser-temporary-account-change-access}} to log that a user globally enabled access to view IP addresses of temporary accounts.\n\nParameters:\n* $1 - Name of the user, for use in GENDER",
+	"logentry-checkuser-temporary-account-disable-auto-reveal": "Used if a user disabled IP auto-reveal mode.\n\nParameters:\n* $1 - Name of the user",
+	"logentry-checkuser-temporary-account-enable-auto-reveal": "Used if a user enabled IP auto-reveal mode.\n\nParameters:\n* $1 - Name of the user\n* $5 - Date and time when the enabled mode expires",
 	"logentry-checkuser-temporary-account-view-ips": "{{Logentry|[[Special:Log/checkuser-temporary-account]]}}",
 	"logentry-checkuser-temporary-account-view-temporary-accounts-on-ip": "{{Logentry|[[Special:Log/checkuser-temporary-account]]}}",
 	"logentry-checkuser-temporary-account-view-temp-accounts-on-ip-global": "{{Logentry|[[Special:Log/checkuser-temporary-account]]}}",

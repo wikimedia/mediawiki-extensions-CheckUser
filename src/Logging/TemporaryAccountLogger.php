@@ -51,6 +51,16 @@ class TemporaryAccountLogger {
 	public const ACTION_GLOBAL_ACCESS_DISABLED = 'disable-globally';
 
 	/**
+	 * Represents a user enabling or disabling IP auto-reveal mode
+	 *
+	 * @var string
+	 */
+	public const ACTION_CHANGE_AUTO_REVEAL = 'change-auto-reveal';
+
+	public const ACTION_AUTO_REVEAL_ENABLED = 'enable-auto-reveal';
+	public const ACTION_AUTO_REVEAL_DISABLED = 'disable-auto-reveal';
+
+	/**
 	 * @var string
 	 */
 	public const LOG_TYPE = 'checkuser-temporary-account';
@@ -166,6 +176,38 @@ class TemporaryAccountLogger {
 	private function logAccessChanged( UserIdentity $performer, string $action ) {
 		$params = [ '4::changeType' => $action ];
 		$this->log( $performer, $performer->getName(), self::ACTION_CHANGE_ACCESS, $params );
+	}
+
+	/**
+	 * Log when the user enables IP auto-reveal.
+	 *
+	 * @param UserIdentity $performer
+	 * @param int $expiry
+	 */
+	public function logAutoRevealAccessEnabled( UserIdentity $performer, int $expiry ): void {
+		$params = [
+			'4::changeType' => self::ACTION_AUTO_REVEAL_ENABLED,
+			'5::expiry' => $expiry,
+		];
+		$this->logAutoRevealChanged( $performer, $params );
+	}
+
+	/**
+	 * Log when the user disables IP auto-reveal.
+	 *
+	 * @param UserIdentity $performer
+	 */
+	public function logAutoRevealAccessDisabled( UserIdentity $performer ): void {
+		$params = [ '4::changeType' => self::ACTION_AUTO_REVEAL_DISABLED ];
+		$this->logAutoRevealChanged( $performer, $params );
+	}
+
+	/**
+	 * @param UserIdentity $performer
+	 * @param array $params
+	 */
+	private function logAutoRevealChanged( UserIdentity $performer, array $params ) {
+		$this->log( $performer, $performer->getName(), self::ACTION_CHANGE_AUTO_REVEAL, $params );
 	}
 
 	/**
