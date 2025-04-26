@@ -71,7 +71,8 @@ QUnit.test( 'Test getAutoRevealStatus with expiry in the past', function ( asser
 			action: 'globalpreferences',
 			optionname: autoRevealPreferenceName,
 			optionvalue: undefined
-		} );
+		} )
+		.returns( $.Deferred().resolve() );
 
 	return ipRevealUtils.getAutoRevealStatus().then( ( status ) => {
 		assert.strictEqual( status, false, 'Should return false when expiry is set to a past timestamp' );

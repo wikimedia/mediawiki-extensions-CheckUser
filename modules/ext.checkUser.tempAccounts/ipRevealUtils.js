@@ -62,14 +62,22 @@ function getAutoRevealStatus() {
 			} catch ( e ) {
 				preferences = {};
 			}
+
+			if ( !Object.prototype.hasOwnProperty.call( preferences, getAutoRevealStatusPreferenceName() ) ) {
+				deferred.resolve( false );
+				return;
+			}
+
 			const autoRevealPreference = preferences[ getAutoRevealStatusPreferenceName() ] || 0;
 			const expiry = Number( autoRevealPreference );
 			if ( expiry > ( Date.now() / 1000 ) ) {
 				deferred.resolve( expiry );
 			} else {
 				// The expiry time has passed, so remove the row from the database table
-				setAutoRevealStatus();
-				deferred.resolve( false );
+				setAutoRevealStatus().then(
+					() => deferred.resolve( false ),
+					() => deferred.resolve( false )
+				);
 			}
 		} ).fail( () => {
 			deferred.resolve( false );
